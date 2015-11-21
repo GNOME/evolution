@@ -5,24 +5,25 @@
 # Tiago Antão <tiagoantao@bigfoot.com>, 2000.
 # Tiago S. <almosthumane@portugalmail.pt>
 # Pedro Albuquerque <palbuquerque73@gmail.com>, 2015.
-#
 #: ../shell/main.c:522
 msgid ""
 msgstr ""
 "Project-Id-Version: 3.12\n"
-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2015-11-14 05:50+0000\n"
-"PO-Revision-Date: 2015-11-14 07:19+0000\n"
-"Last-Translator: <>\n"
-"Language-Team: Português <palbuquerque73@gmail.com>\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=evolut"
+"ion&keywords=I18N+L10N&component=Miscellaneous\n"
+"POT-Creation-Date: 2015-11-21 05:50+0000\n"
+"PO-Revision-Date: 2015-11-21 08:50+0100\n"
+"Last-Translator: Pedro Albuquerque <palbuquerque73@gmail.com>\n"
+"Language-Team: Pedro Albuquerque\n"
 "Language: pt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Gtranslator 2.91.6\n"
+"X-Generator: Virtaal 0.7.1\n"
 "X-Language: pt_PT\n"
 "X-Source-Language: C\n"
+"X-Project-Style: gnome\n"
 
 #: ../addressbook/addressbook.error.xml.h:1
 msgid "This address book could not be opened."
@@ -107,7 +108,8 @@ msgstr ""
 "Isto irá remover definitivamente o livro de endereços &quot;{0}&quot; do "
 "servidor. Tem a certeza que deseja prosseguir?"
 
-#: ../addressbook/addressbook.error.xml.h:16 ../calendar/calendar.error.xml.h:65
+#: ../addressbook/addressbook.error.xml.h:16
+#: ../calendar/calendar.error.xml.h:65
 msgid "_Delete From Server"
 msgstr "_Eliminar do servidor"
 
@@ -195,7 +197,7 @@ msgstr ""
 #: ../addressbook/addressbook.error.xml.h:34
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.ui.h:8
 #: ../addressbook/gui/widgets/eab-contact-merging.c:723
-#: ../calendar/gui/e-comp-editor-page-general.c:1347
+#: ../calendar/gui/e-comp-editor-page-general.c:1357
 #: ../e-util/e-mail-signature-manager.c:327
 #: ../e-util/e-name-selector-dialog.c:995 ../e-util/filter.ui.h:16
 #: ../mail/e-mail-account-manager.c:718 ../mail/e-mail-label-manager.c:373
@@ -343,7 +345,7 @@ msgid "_Home Page:"
 msgstr "_Página pessoal:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:15
-#: ../calendar/gui/e-comp-editor-event.c:594
+#: ../calendar/gui/e-comp-editor-event.c:621
 #: ../modules/itip-formatter/itip-view.c:1905
 msgid "_Calendar:"
 msgstr "_Calendário:"
@@ -521,7 +523,7 @@ msgstr "Adicionar _X.509"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:54
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.ui.h:10
-#: ../calendar/gui/e-comp-editor-page-general.c:1363
+#: ../calendar/gui/e-comp-editor-page-general.c:1373
 #: ../e-util/e-attachment-view.c:475 ../e-util/e-filter-rule.c:225
 #: ../e-util/e-mail-signature-manager.c:367
 #: ../e-util/e-name-selector-dialog.c:999 ../e-util/filter.ui.h:18
@@ -547,13 +549,14 @@ msgstr "_Carregar X.509"
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:3507
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.ui.h:18
 #: ../addressbook/gui/widgets/eab-contact-merging.c:721
-#: ../calendar/calendar.error.xml.h:47 ../calendar/gui/e-comp-editor.c:2111
+#: ../calendar/calendar.error.xml.h:47 ../calendar/gui/e-comp-editor.c:2103
 #: ../composer/e-composer-actions.c:215 ../composer/e-composer-actions.c:355
-#: ../e-util/e-attachment-store.c:636
+#: ../e-util/e-attachment-store.c:641
 #: ../e-util/e-mail-signature-script-dialog.c:369 ../e-util/e-web-view.c:3261
 #: ../e-util/gal-view-instance-save-as-dialog.c:270
 #: ../shell/e-shell-content.c:660 ../shell/e-shell-utils.c:137
-#: ../smime/gui/certificate-manager.c:655 ../smime/gui/certificate-manager.c:732
+#: ../smime/gui/certificate-manager.c:655
+#: ../smime/gui/certificate-manager.c:732
 msgid "_Save"
 msgstr "_Gravar"
 
@@ -563,7 +566,7 @@ msgid "Certificates"
 msgstr "Certificados"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:59
-#: ../calendar/gui/e-comp-editor.c:2008 ../calendar/gui/e-comp-editor.c:2080
+#: ../calendar/gui/e-comp-editor.c:2000 ../calendar/gui/e-comp-editor.c:2072
 #: ../e-util/e-preferences-window.c:382 ../e-util/e-send-options.ui.h:41
 #: ../plugins/email-custom-header/org-gnome-email-custom-header.ui.h:2
 #: ../shell/e-shell.c:1215 ../shell/e-shell-window-actions.c:955
@@ -592,9 +595,9 @@ msgstr "Opções"
 #: ../addressbook/gui/widgets/e-addressbook-view.c:1365
 #: ../calendar/gui/e-cal-dialogs.c:689
 #: ../calendar/gui/e-comp-editor-page-recurrence.c:309
-#: ../composer/e-composer-actions.c:214 ../e-util/e-activity-bar.c:342
-#: ../e-util/e-attachment-dialog.c:311 ../e-util/e-attachment-store.c:491
-#: ../e-util/e-attachment-store.c:635 ../e-util/e-attachment-view.c:421
+#: ../composer/e-composer-actions.c:214 ../e-util/e-activity-bar.c:359
+#: ../e-util/e-attachment-dialog.c:311 ../e-util/e-attachment-store.c:496
+#: ../e-util/e-attachment-store.c:640 ../e-util/e-attachment-view.c:421
 #: ../e-util/e-categories-dialog.c:82 ../e-util/e-category-editor.c:138
 #: ../e-util/e-category-editor.c:208 ../e-util/e-charset-combo-box.c:101
 #: ../e-util/e-color-chooser-widget.c:127 ../e-util/e-filter-datespec.c:291
@@ -674,22 +677,22 @@ msgid "Show Certificates"
 msgstr "Mostrar certificados"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:262
-#: ../calendar/gui/e-comp-editor.c:2043 ../e-util/e-html-editor-actions.c:1111
+#: ../calendar/gui/e-comp-editor.c:2035 ../e-util/e-html-editor-actions.c:1111
 msgid "_Undo"
 msgstr "_Desfazer"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:264
-#: ../calendar/gui/e-comp-editor.c:2045 ../e-util/e-focus-tracker.c:122
+#: ../calendar/gui/e-comp-editor.c:2037 ../e-util/e-focus-tracker.c:122
 msgid "Undo"
 msgstr "Desfazer"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:269
-#: ../calendar/gui/e-comp-editor.c:2050 ../e-util/e-html-editor-actions.c:1097
+#: ../calendar/gui/e-comp-editor.c:2042 ../e-util/e-html-editor-actions.c:1097
 msgid "_Redo"
 msgstr "_Refazer"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:271
-#: ../calendar/gui/e-comp-editor.c:2052 ../e-util/e-focus-tracker.c:138
+#: ../calendar/gui/e-comp-editor.c:2044 ../e-util/e-focus-tracker.c:138
 msgid "Redo"
 msgstr "Refazer"
 
@@ -721,7 +724,8 @@ msgid "PGP keys"
 msgstr "Chaves PGP"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:3251
-#: ../smime/gui/certificate-manager.c:678 ../smime/gui/certificate-manager.c:967
+#: ../smime/gui/certificate-manager.c:678
+#: ../smime/gui/certificate-manager.c:967
 msgid "All files"
 msgstr "Todos os ficheiros"
 
@@ -735,7 +739,7 @@ msgstr "Abrir certificado X.509"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:3274
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:4322
-#: ../e-util/e-attachment-store.c:489 ../e-util/e-category-editor.c:146
+#: ../e-util/e-attachment-store.c:494 ../e-util/e-category-editor.c:146
 #: ../e-util/e-html-editor-actions.c:594 ../e-util/e-html-editor-actions.c:689
 #: ../e-util/e-image-chooser-dialog.c:174 ../plugins/face/face.c:298
 #: ../shell/e-shell-utils.c:73 ../smime/gui/certificate-manager.c:956
@@ -1456,7 +1460,7 @@ msgid "Are you sure you want to delete this contact (%s)?"
 msgstr "Tem a certeza que deseja eliminar este contacto (%s)?"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:1366
-#: ../calendar/gui/e-comp-editor.c:2001 ../e-util/e-focus-tracker.c:785
+#: ../calendar/gui/e-comp-editor.c:1993 ../e-util/e-focus-tracker.c:785
 #: ../e-util/evolution-source-viewer.c:805 ../mail/e-mail-account-manager.c:736
 #: ../modules/addressbook/e-book-shell-view-actions.c:1089
 #: ../modules/calendar/e-cal-shell-view-actions.c:1459
@@ -1986,9 +1990,9 @@ msgid "_Snooze"
 msgstr "_Adiar"
 
 #: ../calendar/alarm-notify/alarm-notify.ui.h:4
-#: ../calendar/gui/e-comp-editor-page-general.c:1355
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:2239
-#: ../calendar/gui/e-comp-editor.c:2066 ../e-util/e-html-editor-actions.c:1120
+#: ../calendar/gui/e-comp-editor-page-general.c:1365
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:2247
+#: ../calendar/gui/e-comp-editor.c:2058 ../e-util/e-html-editor-actions.c:1120
 #: ../e-util/e-mail-signature-manager.c:357 ../e-util/filter.ui.h:17
 #: ../mail/e-mail-account-manager.c:727 ../mail/e-mail-browser.c:173
 #: ../mail/e-mail-label-manager.c:382 ../mail/mail-config.ui.h:63
@@ -2570,7 +2574,6 @@ msgstr "Falha ao adicionar fuso horário a \"{0}\""
 
 #. The {0} is a calendar/memo list/task list name, which is useless here
 #: ../calendar/calendar.error.xml.h:93
-#| msgid "Could not save attachments"
 msgid "Failed to save attachments"
 msgstr "Falha ao gravar os anexos"
 
@@ -2864,7 +2867,7 @@ msgid "Category"
 msgstr "Categoria"
 
 #: ../calendar/gui/caltypes.xml.h:16 ../calendar/gui/memotypes.xml.h:14
-#: ../calendar/gui/tasktypes.xml.h:15 ../em-format/e-mail-formatter-print.c:53
+#: ../calendar/gui/tasktypes.xml.h:15 ../em-format/e-mail-formatter-print.c:51
 #: ../em-format/e-mail-formatter-print-headers.c:157
 #: ../mail/filtertypes.xml.in.h:47 ../mail/searchtypes.xml.in.h:49
 #: ../mail/vfoldertypes.xml.in.h:50
@@ -2884,7 +2887,7 @@ msgid "Do Not Exist"
 msgstr "Não existe"
 
 #: ../calendar/gui/caltypes.xml.h:19
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:2003
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:2011
 msgid "Recurrence"
 msgstr "Recorrência"
 
@@ -3432,7 +3435,7 @@ msgstr "Organizador: %s"
 
 #. To Translators: It will display "Location: PlaceOfTheMeeting"
 #: ../calendar/gui/e-calendar-view.c:1850
-#: ../calendar/gui/e-meeting-time-sel.c:2725 ../calendar/gui/print.c:3527
+#: ../calendar/gui/e-meeting-time-sel.c:2731 ../calendar/gui/print.c:3527
 #, c-format
 msgid "Location: %s"
 msgstr "Localização: %s"
@@ -3445,7 +3448,8 @@ msgstr "Hora: %s %s"
 
 #: ../calendar/gui/e-calendar-view.c:2269
 #: ../calendar/gui/e-calendar-view.c:2276
-#: ../calendar/gui/e-calendar-view.c:2283 ../calendar/gui/e-calendar-view.c:2286
+#: ../calendar/gui/e-calendar-view.c:2283
+#: ../calendar/gui/e-calendar-view.c:2286
 msgid "%d %b %Y"
 msgstr "%d %b %Y"
 
@@ -3477,7 +3481,8 @@ msgid "%a %d %b"
 msgstr "%a %d %b"
 
 #: ../calendar/gui/e-calendar-view.c:2303
-#: ../calendar/gui/e-calendar-view.c:2309 ../calendar/gui/e-calendar-view.c:2312
+#: ../calendar/gui/e-calendar-view.c:2309
+#: ../calendar/gui/e-calendar-view.c:2312
 msgid "%a %d %b %Y"
 msgstr "%a %d %b %Y"
 
@@ -3602,7 +3607,8 @@ msgstr "Requer ação"
 msgid "Status"
 msgstr "Estado"
 
-#: ../calendar/gui/e-cal-model-calendar.c:150 ../calendar/gui/e-task-table.c:582
+#: ../calendar/gui/e-cal-model-calendar.c:150
+#: ../calendar/gui/e-task-table.c:582
 msgid "Free"
 msgstr "Livre"
 
@@ -3816,176 +3822,200 @@ msgstr ""
 msgid "Event's time is in the past"
 msgstr "A hora do evento é no passado"
 
-#: ../calendar/gui/e-comp-editor-event.c:169
+#: ../calendar/gui/e-comp-editor-event.c:202
 msgid ""
 "Event cannot be edited, because the selected calendar could not be opened"
 msgstr ""
 "Impossível editar o evento pois o calendário selecionado não pôde ser aberto"
 
-#: ../calendar/gui/e-comp-editor-event.c:171
+#: ../calendar/gui/e-comp-editor-event.c:204
 msgid "Event cannot be edited, because the selected calendar is read only"
 msgstr ""
 "Impossível editar o evento pois o calendário selecionado é só de leitura"
 
-#: ../calendar/gui/e-comp-editor-event.c:313
-#: ../calendar/gui/e-comp-editor-task.c:349
+#: ../calendar/gui/e-comp-editor-event.c:206
+msgid "Event cannot be fully edited, because you are not the organizer"
+msgstr "Não é possível editar completamente o evento pois não é o organizador"
+
+#: ../calendar/gui/e-comp-editor-event.c:340
+#: ../calendar/gui/e-comp-editor-task.c:348
 msgid "Start date is not a valid date"
 msgstr "Data de início incorreta"
 
-#: ../calendar/gui/e-comp-editor-event.c:315
+#: ../calendar/gui/e-comp-editor-event.c:342
 msgid "Start time is not a valid time"
 msgstr "Hora de início incorreta"
 
-#: ../calendar/gui/e-comp-editor-event.c:319
-#: ../calendar/gui/e-comp-editor-event.c:335
+#: ../calendar/gui/e-comp-editor-event.c:346
+#: ../calendar/gui/e-comp-editor-event.c:362
 #: ../calendar/gui/e-comp-editor-page-attachments.c:211
-#: ../calendar/gui/e-comp-editor.c:347 ../mail/e-mail-reader-utils.c:650
+#: ../calendar/gui/e-comp-editor.c:339 ../mail/e-mail-reader-utils.c:650
 #: ../mail/mail-send-recv.c:486 ../mail/mail-send-recv.c:1285
 #: ../plugins/face/face.c:176 ../shell/e-shell.c:972 ../shell/e-shell.c:994
 #: ../smime/gui/certificate-manager.c:346
 msgid "Unknown error"
 msgstr "Erro desconhecido"
 
-#: ../calendar/gui/e-comp-editor-event.c:329
+#: ../calendar/gui/e-comp-editor-event.c:356
 msgid "End date is not a valid date"
 msgstr "O calendário anexo é inválido"
 
-#: ../calendar/gui/e-comp-editor-event.c:331
+#: ../calendar/gui/e-comp-editor-event.c:358
 msgid "End time is not a valid time"
 msgstr "O ficheiro escolhido não é um ficheiro local"
 
-#: ../calendar/gui/e-comp-editor-event.c:453
-#: ../calendar/gui/e-comp-editor-memo.c:58
-#: ../calendar/gui/e-comp-editor-task.c:407
+#: ../calendar/gui/e-comp-editor-event.c:480
+#: ../calendar/gui/e-comp-editor-memo.c:106
+#: ../calendar/gui/e-comp-editor-task.c:406
 msgid "_Categories"
 msgstr "_Categorias"
 
-#: ../calendar/gui/e-comp-editor-event.c:455
-#: ../calendar/gui/e-comp-editor-memo.c:60
-#: ../calendar/gui/e-comp-editor-task.c:409
+#: ../calendar/gui/e-comp-editor-event.c:482
+#: ../calendar/gui/e-comp-editor-memo.c:108
+#: ../calendar/gui/e-comp-editor-task.c:408
 msgid "Toggles whether to display categories"
 msgstr "Alterna se mostrar ou não as categorias"
 
-#: ../calendar/gui/e-comp-editor-event.c:461
+#: ../calendar/gui/e-comp-editor-event.c:488
 msgid "Time _Zone"
 msgstr "Fuso-_Horário"
 
-#: ../calendar/gui/e-comp-editor-event.c:463
+#: ../calendar/gui/e-comp-editor-event.c:490
 msgid "Toggles whether the time zone is displayed"
 msgstr "Alterna se o fuso horário é ou não mostrado"
 
-#: ../calendar/gui/e-comp-editor-event.c:469
+#: ../calendar/gui/e-comp-editor-event.c:496
 msgid "All _Day Event"
 msgstr "Evento de _Dia completo"
 
-#: ../calendar/gui/e-comp-editor-event.c:471
+#: ../calendar/gui/e-comp-editor-event.c:498
 msgid "Toggles whether to have All Day Event"
 msgstr "Alterna se tem ou não eventos de dia completo"
 
-#: ../calendar/gui/e-comp-editor-event.c:477
+#: ../calendar/gui/e-comp-editor-event.c:504
 msgid "Show Time as _Busy"
 msgstr "Mostrar horas como _Ocupado"
 
-#: ../calendar/gui/e-comp-editor-event.c:479
+#: ../calendar/gui/e-comp-editor-event.c:506
 msgid "Toggles whether to show time as busy"
 msgstr "Alterna se mostrar ou não o tempo como ocupado"
 
-#: ../calendar/gui/e-comp-editor-event.c:488
+#: ../calendar/gui/e-comp-editor-event.c:515
 msgid "Pu_blic"
 msgstr "Pú_Blico"
 
-#: ../calendar/gui/e-comp-editor-event.c:490
+#: ../calendar/gui/e-comp-editor-event.c:517
 msgid "Classify as public"
 msgstr "Classificar como público"
 
-#: ../calendar/gui/e-comp-editor-event.c:495
+#: ../calendar/gui/e-comp-editor-event.c:522
 msgid "_Private"
 msgstr "_Privado"
 
-#: ../calendar/gui/e-comp-editor-event.c:497
+#: ../calendar/gui/e-comp-editor-event.c:524
 msgid "Classify as private"
 msgstr "Classificar como privado"
 
-#: ../calendar/gui/e-comp-editor-event.c:502
+#: ../calendar/gui/e-comp-editor-event.c:529
 msgid "_Confidential"
 msgstr "_Confidencial"
 
-#: ../calendar/gui/e-comp-editor-event.c:504
+#: ../calendar/gui/e-comp-editor-event.c:531
 msgid "Classify as confidential"
 msgstr "Classificar como confidencial"
 
-#: ../calendar/gui/e-comp-editor-event.c:605
+#: ../calendar/gui/e-comp-editor-event.c:632
 msgctxt "ECompEditor"
 msgid "_Start time:"
 msgstr "Hora de _Início:"
 
-#: ../calendar/gui/e-comp-editor-event.c:609
+#: ../calendar/gui/e-comp-editor-event.c:637
 msgctxt "ECompEditor"
 msgid "_End time:"
 msgstr "_Hora de fim:"
 
-#: ../calendar/gui/e-comp-editor-event.c:617
+#: ../calendar/gui/e-comp-editor-event.c:647
 msgctxt "ECompEditor"
 msgid "All da_y event"
 msgstr "Evento de _Dia completo"
 
-#: ../calendar/gui/e-comp-editor-event.c:670
-#: ../calendar/gui/e-comp-editor-memo.c:144
-#: ../calendar/gui/e-comp-editor-task.c:530
+#: ../calendar/gui/e-comp-editor-event.c:700
+#: ../calendar/gui/e-comp-editor-memo.c:192
+#: ../calendar/gui/e-comp-editor-task.c:529
 msgctxt "ECompEditorPage"
 msgid "General"
 msgstr "Geral"
 
-#: ../calendar/gui/e-comp-editor-event.c:673
-#: ../calendar/gui/e-comp-editor-task.c:536
+#: ../calendar/gui/e-comp-editor-event.c:703
+#: ../calendar/gui/e-comp-editor-task.c:535
 msgctxt "ECompEditorPage"
 msgid "Reminders"
 msgstr "Lembretes"
 
-#: ../calendar/gui/e-comp-editor-event.c:676
+#: ../calendar/gui/e-comp-editor-event.c:706
 msgctxt "ECompEditorPage"
 msgid "Recurrence"
 msgstr "Recorrência"
 
-#: ../calendar/gui/e-comp-editor-event.c:679
-#: ../calendar/gui/e-comp-editor-memo.c:147
-#: ../calendar/gui/e-comp-editor-task.c:539
+#: ../calendar/gui/e-comp-editor-event.c:709
+#: ../calendar/gui/e-comp-editor-memo.c:195
+#: ../calendar/gui/e-comp-editor-task.c:538
 msgctxt "ECompEditorPage"
 msgid "Attachments"
 msgstr "Anexos"
 
-#: ../calendar/gui/e-comp-editor-event.c:689
+#: ../calendar/gui/e-comp-editor-event.c:719
 msgctxt "ECompEditorPage"
 msgid "Schedule"
 msgstr "Agenda"
 
-#: ../calendar/gui/e-comp-editor-event.c:718
+#: ../calendar/gui/e-comp-editor-event.c:748
 #, c-format
 msgid "Meeting - %s"
 msgstr "Reunião - %s"
 
-#: ../calendar/gui/e-comp-editor-event.c:719
+#: ../calendar/gui/e-comp-editor-event.c:749
 #, c-format
 msgid "Appointment - %s"
 msgstr "Compromisso - %s"
 
-#: ../calendar/gui/e-comp-editor-memo.c:120
-#: ../calendar/gui/e-comp-editor-task.c:469
+#: ../calendar/gui/e-comp-editor-memo.c:68
+#| msgid ""
+#| "Task cannot be edited, because the selected task list could not be opened"
+msgid ""
+"Memo cannot be edited, because the selected memo list could not be opened"
+msgstr ""
+"Impossível editar o memorando pois a lista de memorandos selecionada não "
+"pôde ser aberta"
+
+#: ../calendar/gui/e-comp-editor-memo.c:70
+msgid "Memo cannot be edited, because the selected memo list is read only"
+msgstr ""
+"Não é possível editar o memorando pois a lista de memorandos selecionada é "
+"só de leitura"
+
+#: ../calendar/gui/e-comp-editor-memo.c:72
+msgid "Memo cannot be fully edited, because you are not the organizer"
+msgstr ""
+"Não é possível editar completamente o memorando  pois não é o organizador"
+
+#: ../calendar/gui/e-comp-editor-memo.c:168
+#: ../calendar/gui/e-comp-editor-task.c:468
 msgid "_List:"
 msgstr "_Lista:"
 
-#: ../calendar/gui/e-comp-editor-memo.c:127
-#: ../calendar/gui/e-comp-editor-task.c:476
+#: ../calendar/gui/e-comp-editor-memo.c:175
+#: ../calendar/gui/e-comp-editor-task.c:475
 msgctxt "ECompEditor"
 msgid "Sta_rt date:"
 msgstr "_Data de início:"
 
-#: ../calendar/gui/e-comp-editor-memo.c:175
+#: ../calendar/gui/e-comp-editor-memo.c:223
 #, c-format
 msgid "Assigned Memo - %s"
 msgstr "Tarefa atribuída - %s"
 
-#: ../calendar/gui/e-comp-editor-memo.c:176
+#: ../calendar/gui/e-comp-editor-memo.c:224
 #, c-format
 msgid "Memo - %s"
 msgstr "Memorando - %s"
@@ -4013,7 +4043,7 @@ msgstr "Impossível carregar \"%s\""
 msgid "Could not load the attachment"
 msgstr "Impossível carregar o anexo"
 
-#: ../calendar/gui/e-comp-editor-page-attachments.c:399
+#: ../calendar/gui/e-comp-editor-page-attachments.c:413
 msgid ""
 "Some attachments are still being downloaded. Please wait until the download "
 "is finished."
@@ -4021,40 +4051,40 @@ msgstr ""
 "Estão a ser transferidos alguns anexos. Gravar a tarefa resultará na perca "
 "destes anexos."
 
-#: ../calendar/gui/e-comp-editor-page-attachments.c:426
+#: ../calendar/gui/e-comp-editor-page-attachments.c:440
 #, c-format
 msgid "Attachment '%s' cannot be found, remove it from the list, please"
 msgstr "O anexo \"%s\" não pôde ser encontrado, remova-o da lista por favor"
 
-#: ../calendar/gui/e-comp-editor-page-attachments.c:443
+#: ../calendar/gui/e-comp-editor-page-attachments.c:457
 #, c-format
 msgid "Attachment '%s' doesn't have valid URI, remove it from the list, please"
 msgstr "O anexo \"%s\" não tem um URI válido, remova-o da lista por favor"
 
-#: ../calendar/gui/e-comp-editor-page-attachments.c:604
+#: ../calendar/gui/e-comp-editor-page-attachments.c:618
 #: ../composer/e-composer-actions.c:327
 msgid "_Attachment..."
 msgstr "_Anexo..."
 
-#: ../calendar/gui/e-comp-editor-page-attachments.c:606
+#: ../calendar/gui/e-comp-editor-page-attachments.c:620
 #: ../composer/e-composer-actions.c:329 ../e-util/e-attachment-view.c:463
 msgid "Attach a file"
 msgstr "Anexar um ficheiro"
 
-#: ../calendar/gui/e-comp-editor-page-attachments.c:613
+#: ../calendar/gui/e-comp-editor-page-attachments.c:627
 msgid "_Attachments"
 msgstr "Anexos"
 
-#: ../calendar/gui/e-comp-editor-page-attachments.c:615
+#: ../calendar/gui/e-comp-editor-page-attachments.c:629
 msgid "Show attachments"
 msgstr "Mostrar anexos"
 
-#: ../calendar/gui/e-comp-editor-page-attachments.c:767
+#: ../calendar/gui/e-comp-editor-page-attachments.c:781
 #: ../e-util/e-attachment-bar.c:661 ../e-util/e-attachment-paned.c:735
 msgid "Icon View"
 msgstr "Vista Ícon"
 
-#: ../calendar/gui/e-comp-editor-page-attachments.c:769
+#: ../calendar/gui/e-comp-editor-page-attachments.c:783
 #: ../e-util/e-attachment-bar.c:663 ../e-util/e-attachment-paned.c:737
 msgid "List View"
 msgstr "Vista Lista"
@@ -4069,66 +4099,66 @@ msgstr "Impossível encontrar \"%s\" na lista de participantes"
 msgid "Not enough rights to delete attendee '%s'"
 msgstr "Sem direitos suficientes para eliminar o participante \"%s\""
 
-#: ../calendar/gui/e-comp-editor-page-general.c:349
+#: ../calendar/gui/e-comp-editor-page-general.c:350
 msgid "Failed to delete selected attendee"
 msgid_plural "Failed to delete selected attendees"
 msgstr[0] "Falha ao eliminar participante selecionado"
 msgstr[1] "Falha ao eliminar participantes selecionados"
 
-#: ../calendar/gui/e-comp-editor-page-general.c:581
+#: ../calendar/gui/e-comp-editor-page-general.c:583
 msgid "A_ttendees"
 msgstr "Par_Ticipantes"
 
-#: ../calendar/gui/e-comp-editor-page-general.c:583
+#: ../calendar/gui/e-comp-editor-page-general.c:585
 msgid "Toggles whether the Attendees are displayed"
 msgstr "Alterna se os participantes são ou não mostrados"
 
-#: ../calendar/gui/e-comp-editor-page-general.c:592
+#: ../calendar/gui/e-comp-editor-page-general.c:594
 msgid "R_ole Field"
 msgstr "Campo  _Papel"
 
-#: ../calendar/gui/e-comp-editor-page-general.c:594
+#: ../calendar/gui/e-comp-editor-page-general.c:596
 msgid "Toggles whether the Role field is displayed"
 msgstr "Alterna se o campo Papel é ou não mostrado"
 
-#: ../calendar/gui/e-comp-editor-page-general.c:600
+#: ../calendar/gui/e-comp-editor-page-general.c:602
 msgid "_RSVP"
 msgstr "_Responder SFF"
 
-#: ../calendar/gui/e-comp-editor-page-general.c:602
+#: ../calendar/gui/e-comp-editor-page-general.c:604
 msgid "Toggles whether the RSVP field is displayed"
 msgstr "Alterna se o campo Responder SFF é ou não mostrado"
 
-#: ../calendar/gui/e-comp-editor-page-general.c:608
+#: ../calendar/gui/e-comp-editor-page-general.c:610
 msgid "_Status Field"
 msgstr "Campo E_Stado"
 
-#: ../calendar/gui/e-comp-editor-page-general.c:610
+#: ../calendar/gui/e-comp-editor-page-general.c:612
 msgid "Toggles whether the Status field is displayed"
 msgstr "Alterna se o campo Estado é ou não mostrado"
 
-#: ../calendar/gui/e-comp-editor-page-general.c:616
+#: ../calendar/gui/e-comp-editor-page-general.c:618
 msgid "_Type Field"
 msgstr "Campo _Tipo"
 
-#: ../calendar/gui/e-comp-editor-page-general.c:618
+#: ../calendar/gui/e-comp-editor-page-general.c:620
 msgid "Toggles whether the Attendee Type is displayed"
 msgstr "Alterna se o Tipo de participante é ou não mostrado"
 
-#: ../calendar/gui/e-comp-editor-page-general.c:935
+#: ../calendar/gui/e-comp-editor-page-general.c:945
 msgid "An organizer is required."
 msgstr "É necessário um organizador."
 
-#: ../calendar/gui/e-comp-editor-page-general.c:945
-#: ../calendar/gui/e-comp-editor-page-general.c:1076
+#: ../calendar/gui/e-comp-editor-page-general.c:955
+#: ../calendar/gui/e-comp-editor-page-general.c:1086
 msgid "At least one attendee is required."
 msgstr "É necessário pelo menos um participante."
 
-#: ../calendar/gui/e-comp-editor-page-general.c:1199
+#: ../calendar/gui/e-comp-editor-page-general.c:1209
 msgid "Or_ganizer:"
 msgstr "Or_Ganizador:"
 
-#: ../calendar/gui/e-comp-editor-page-general.c:1278
+#: ../calendar/gui/e-comp-editor-page-general.c:1288
 msgctxt "ECompEditor"
 msgid "Atte_ndees..."
 msgstr "Participa_Ntes..."
@@ -4293,115 +4323,115 @@ msgid "occurrences"
 msgstr "ocorrências"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:1485
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:2015
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:1493
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:2023
 msgctxt "ECompEditorPageRecur"
 msgid "This appointment rec_urs"
 msgstr "Este compromisso _Repete-se"
 
 #. Translators: Entire string is for example:     'This task recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:1490
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:1498
 msgctxt "ECompEditorPageRecur"
 msgid "This task rec_urs"
 msgstr "Esta tarefa _Repete-se"
 
 #. Translators: Entire string is for example:     'This memo recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:1495
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:1503
 msgctxt "ECompEditorPageRecur"
 msgid "This memo rec_urs"
 msgstr "Este memorando _Repete-se"
 
 #. Translators: Entire string is for example:     'This component recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:1500
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:1508
 msgctxt "ECompEditorPageRecur"
 msgid "This component rec_urs"
 msgstr "Este compromisso _Repete-se"
 
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:1861
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:1869
 msgid "Recurrence exception date is invalid"
 msgstr "Data de recorrência é inválida"
 
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:1909
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:1917
 msgid "End time of the recurrence is before the start"
 msgstr "Hora de fim da recorrência é anterior ao início"
 
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:1952
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:1960
 msgid "R_ecurrence"
 msgstr "R_Ecorrência"
 
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:1954
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:1962
 msgid "Set or unset recurrence"
 msgstr "Definir ou não recorrência"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:2055
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:2063
 msgctxt "ECompEditorPageRecur"
 msgid "Every"
 msgstr "A cada"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:2090
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:2098
 msgctxt "ECompEditorPageRecur"
 msgid "day(s)"
 msgstr "dia(s)"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:2092
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:2100
 msgctxt "ECompEditorPageRecur"
 msgid "week(s)"
 msgstr "semana(s)"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:2094
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:2102
 msgctxt "ECompEditorPageRecur"
 msgid "month(s)"
 msgstr "mês(es)"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:2096
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:2104
 msgctxt "ECompEditorPageRecur"
 msgid "year(s)"
 msgstr "ano(s)"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:2125
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:2133
 msgctxt "ECompEditorPageRecur"
 msgid "for"
 msgstr "durante"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:2127
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:2135
 msgctxt "ECompEditorPageRecur"
 msgid "until"
 msgstr "até às"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:2129
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:2137
 msgctxt "ECompEditorPageRecur"
 msgid "forever"
 msgstr "para sempre"
 
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:2145
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:2153
 msgid "This appointment contains recurrences that Evolution cannot edit."
 msgstr "Este compromisso contém recorrências que o Evolution não pode editar."
 
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:2162
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:2170
 msgid "Exceptions"
 msgstr "Exceções"
 
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:2231
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:2239
 #: ../calendar/gui/e-comp-editor-page-reminders.c:1778
 #: ../mail/mail-config.ui.h:62
 msgid "A_dd"
 msgstr "A_Dicionar"
 
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:2247
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:2255
 #: ../calendar/gui/e-comp-editor-page-reminders.c:1786
 #: ../mail/mail-config.ui.h:64
 msgid "Re_move"
 msgstr "Re_Mover"
 
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:2255
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:2263
 msgid "Preview"
 msgstr "Antever"
 
@@ -4704,45 +4734,49 @@ msgctxt "ECompEditor"
 msgid "Show time as _busy"
 msgstr "Mostrar horas como _Ocupado"
 
-#: ../calendar/gui/e-comp-editor-task.c:72
+#: ../calendar/gui/e-comp-editor-task.c:75
 msgid "Task's start date is in the past"
 msgstr "A data de início da tarefa é no passado"
 
-#: ../calendar/gui/e-comp-editor-task.c:80
+#: ../calendar/gui/e-comp-editor-task.c:83
 msgid "Task's due date is in the past"
 msgstr "A data limite da tarefa é no passado"
 
-#: ../calendar/gui/e-comp-editor-task.c:303
+#: ../calendar/gui/e-comp-editor-task.c:308
 msgid ""
 "Task cannot be edited, because the selected task list could not be opened"
 msgstr ""
 "Impossível editar a tarefa pois a lista de tarefas selecionada não pôde ser "
 "aberta"
 
-#: ../calendar/gui/e-comp-editor-task.c:305
+#: ../calendar/gui/e-comp-editor-task.c:310
 msgid "Task cannot be edited, because the selected task list is read only"
 msgstr ""
 "Impossível editar a tarefa pois a lista de tarefas selecionada é só de "
 "leitura"
 
-#: ../calendar/gui/e-comp-editor-task.c:360
+#: ../calendar/gui/e-comp-editor-task.c:312
+msgid "Task cannot be fully edited, because you are not the organizer"
+msgstr "Não é possível editar completamente a tarefa pois não é o organizador"
+
+#: ../calendar/gui/e-comp-editor-task.c:359
 msgid "Due date is not a valid date"
 msgstr "Data de prazo é inválida"
 
-#: ../calendar/gui/e-comp-editor-task.c:371
+#: ../calendar/gui/e-comp-editor-task.c:370
 msgid "Completed date is not a valid date"
 msgstr "Data de conclusão não é válida"
 
-#: ../calendar/gui/e-comp-editor-task.c:382
+#: ../calendar/gui/e-comp-editor-task.c:381
 msgid "Completed date cannot be in the future"
 msgstr "Data de conclusão não pode ser no futuro"
 
-#: ../calendar/gui/e-comp-editor-task.c:567
+#: ../calendar/gui/e-comp-editor-task.c:566
 #, c-format
 msgid "Assigned Task - %s"
 msgstr "Tarefa atribuída - %s"
 
-#: ../calendar/gui/e-comp-editor-task.c:568
+#: ../calendar/gui/e-comp-editor-task.c:567
 #, c-format
 msgid "Task - %s"
 msgstr "Tarefa - %s"
@@ -4752,20 +4786,20 @@ msgstr "Tarefa - %s"
 msgid "attachment"
 msgstr "anexo"
 
-#: ../calendar/gui/e-comp-editor.c:617
+#: ../calendar/gui/e-comp-editor.c:609
 msgid "Sending notifications to attendees..."
 msgstr "A enviar atualizações aos participantes"
 
-#: ../calendar/gui/e-comp-editor.c:999
+#: ../calendar/gui/e-comp-editor.c:991
 msgid "Saving changes..."
 msgstr "A gravar alterações..."
 
-#: ../calendar/gui/e-comp-editor.c:1255
+#: ../calendar/gui/e-comp-editor.c:1247
 msgid "No Summary"
 msgstr "Sem resumo"
 
 #. == Button box ==
-#: ../calendar/gui/e-comp-editor.c:1980 ../composer/e-composer-actions.c:334
+#: ../calendar/gui/e-comp-editor.c:1972 ../composer/e-composer-actions.c:334
 #: ../e-util/e-html-editor-dialog.c:196 ../e-util/e-mail-signature-editor.c:295
 #: ../e-util/e-name-selector-dialog.c:551 ../e-util/e-preferences-window.c:391
 #: ../e-util/e-table-field-chooser-dialog.c:207 ../mail/e-mail-browser.c:129
@@ -4777,19 +4811,19 @@ msgstr "Sem resumo"
 msgid "_Close"
 msgstr "_Fechar"
 
-#: ../calendar/gui/e-comp-editor.c:1982
+#: ../calendar/gui/e-comp-editor.c:1974
 msgid "Close the current window"
 msgstr "Fechar a janela atual"
 
 #. copy menu item
-#: ../calendar/gui/e-comp-editor.c:1987 ../e-util/e-focus-tracker.c:775
+#: ../calendar/gui/e-comp-editor.c:1979 ../e-util/e-focus-tracker.c:775
 #: ../e-util/e-html-editor-actions.c:1076 ../e-util/e-text.c:2109
 #: ../e-util/e-web-view.c:377 ../mail/e-mail-browser.c:136
 #: ../mail/mail.error.xml.h:141 ../shell/e-shell-window-actions.c:799
 msgid "_Copy"
 msgstr "_Copiar"
 
-#: ../calendar/gui/e-comp-editor.c:1989 ../e-util/e-focus-tracker.c:175
+#: ../calendar/gui/e-comp-editor.c:1981 ../e-util/e-focus-tracker.c:175
 #: ../e-util/e-focus-tracker.c:231 ../e-util/e-focus-tracker.c:284
 #: ../e-util/e-focus-tracker.c:776 ../e-util/e-web-view.c:379
 #: ../e-util/e-web-view.c:1416 ../mail/e-mail-browser.c:138
@@ -4798,51 +4832,51 @@ msgid "Copy the selection"
 msgstr "Copiar a seleção"
 
 #. cut menu item
-#: ../calendar/gui/e-comp-editor.c:1994 ../e-util/e-focus-tracker.c:770
+#: ../calendar/gui/e-comp-editor.c:1986 ../e-util/e-focus-tracker.c:770
 #: ../e-util/e-html-editor-actions.c:1083 ../e-util/e-text.c:2095
 #: ../mail/e-mail-browser.c:143 ../shell/e-shell-window-actions.c:806
 msgid "Cu_t"
 msgstr "Cor_Tar"
 
-#: ../calendar/gui/e-comp-editor.c:1996 ../e-util/e-focus-tracker.c:168
+#: ../calendar/gui/e-comp-editor.c:1988 ../e-util/e-focus-tracker.c:168
 #: ../e-util/e-focus-tracker.c:224 ../e-util/e-focus-tracker.c:278
 #: ../e-util/e-focus-tracker.c:771 ../e-util/e-web-view.c:1410
 #: ../mail/e-mail-browser.c:145 ../shell/e-shell-window-actions.c:808
 msgid "Cut the selection"
 msgstr "Cortar a seleção"
 
-#: ../calendar/gui/e-comp-editor.c:2003 ../e-util/e-focus-tracker.c:189
+#: ../calendar/gui/e-comp-editor.c:1995 ../e-util/e-focus-tracker.c:189
 #: ../e-util/e-focus-tracker.c:245 ../e-util/e-focus-tracker.c:786
 #: ../shell/e-shell-window-actions.c:815
 msgid "Delete the selection"
 msgstr "Eliminar a seleção"
 
-#: ../calendar/gui/e-comp-editor.c:2010
+#: ../calendar/gui/e-comp-editor.c:2002
 msgid "View help"
 msgstr "Ver a ajuda"
 
 #. paste menu item
-#: ../calendar/gui/e-comp-editor.c:2015 ../e-util/e-focus-tracker.c:780
+#: ../calendar/gui/e-comp-editor.c:2007 ../e-util/e-focus-tracker.c:780
 #: ../e-util/e-html-editor-actions.c:1090 ../e-util/e-text.c:2121
 #: ../mail/e-mail-browser.c:150 ../shell/e-shell-window-actions.c:834
 msgid "_Paste"
 msgstr "_Colar"
 
-#: ../calendar/gui/e-comp-editor.c:2017 ../e-util/e-focus-tracker.c:182
+#: ../calendar/gui/e-comp-editor.c:2009 ../e-util/e-focus-tracker.c:182
 #: ../e-util/e-focus-tracker.c:238 ../e-util/e-focus-tracker.c:290
 #: ../e-util/e-focus-tracker.c:781 ../e-util/e-web-view.c:1422
 #: ../mail/e-mail-browser.c:152 ../shell/e-shell-window-actions.c:836
 msgid "Paste the clipboard"
 msgstr "Colar da área de transferência"
 
-#: ../calendar/gui/e-comp-editor.c:2022 ../composer/e-composer-actions.c:388
+#: ../calendar/gui/e-comp-editor.c:2014 ../composer/e-composer-actions.c:388
 #: ../mail/e-mail-reader.c:2287
 #: ../modules/addressbook/e-book-shell-view-actions.c:1231
 #: ../modules/addressbook/e-book-shell-view-actions.c:1245
 msgid "_Print..."
 msgstr "Im_Primir..."
 
-#: ../calendar/gui/e-comp-editor.c:2029 ../mail/e-mail-reader.c:2294
+#: ../calendar/gui/e-comp-editor.c:2021 ../mail/e-mail-reader.c:2294
 #: ../modules/addressbook/e-book-shell-view-actions.c:1238
 #: ../modules/calendar/e-cal-shell-view-actions.c:1671
 #: ../modules/calendar/e-memo-shell-view-actions.c:791
@@ -4850,52 +4884,52 @@ msgstr "Im_Primir..."
 msgid "Pre_view..."
 msgstr "Ante_Ver..."
 
-#: ../calendar/gui/e-comp-editor.c:2036 ../e-util/e-focus-tracker.c:790
+#: ../calendar/gui/e-comp-editor.c:2028 ../e-util/e-focus-tracker.c:790
 #: ../e-util/e-html-editor-actions.c:1104 ../e-util/e-web-view.c:387
 #: ../mail/e-mail-browser.c:157 ../shell/e-shell-window-actions.c:911
 msgid "Select _All"
 msgstr "Seleccion_Ar tudo"
 
-#: ../calendar/gui/e-comp-editor.c:2038 ../e-util/e-focus-tracker.c:196
+#: ../calendar/gui/e-comp-editor.c:2030 ../e-util/e-focus-tracker.c:196
 #: ../e-util/e-focus-tracker.c:252 ../e-util/e-focus-tracker.c:791
 #: ../mail/e-mail-browser.c:159 ../shell/e-shell-window-actions.c:913
 msgid "Select all text"
 msgstr "Selecionar todo o texto"
 
-#: ../calendar/gui/e-comp-editor.c:2059
+#: ../calendar/gui/e-comp-editor.c:2051
 msgid "_Classification"
 msgstr "_Classificação"
 
-#: ../calendar/gui/e-comp-editor.c:2073 ../e-util/e-html-editor-actions.c:1127
+#: ../calendar/gui/e-comp-editor.c:2065 ../e-util/e-html-editor-actions.c:1127
 #: ../e-util/e-mail-signature-editor.c:309 ../mail/e-mail-browser.c:166
 #: ../mail/e-mail-notes.c:917 ../shell/e-shell-window-actions.c:948
 msgid "_File"
 msgstr "_Ficheiro"
 
-#: ../calendar/gui/e-comp-editor.c:2087 ../e-util/e-html-editor-actions.c:1148
+#: ../calendar/gui/e-comp-editor.c:2079 ../e-util/e-html-editor-actions.c:1148
 msgid "_Insert"
 msgstr "_Inserir"
 
-#: ../calendar/gui/e-comp-editor.c:2094 ../composer/e-composer-actions.c:378
+#: ../calendar/gui/e-comp-editor.c:2086 ../composer/e-composer-actions.c:378
 msgid "_Options"
 msgstr "_Opções"
 
-#: ../calendar/gui/e-comp-editor.c:2101 ../e-util/e-html-editor-actions.c:1169
+#: ../calendar/gui/e-comp-editor.c:2093 ../e-util/e-html-editor-actions.c:1169
 #: ../mail/e-mail-browser.c:180 ../shell/e-shell-window-actions.c:991
 #: ../smime/gui/certificate-manager.c:1651 ../smime/gui/smime-ui.ui.h:5
 msgid "_View"
 msgstr "_Ver"
 
-#: ../calendar/gui/e-comp-editor.c:2113
+#: ../calendar/gui/e-comp-editor.c:2105
 msgid "Save current changes"
 msgstr "Gravar as alterações atuais"
 
-#: ../calendar/gui/e-comp-editor.c:2118 ../e-util/e-mail-signature-editor.c:304
+#: ../calendar/gui/e-comp-editor.c:2110 ../e-util/e-mail-signature-editor.c:304
 #: ../mail/e-mail-notes.c:912
 msgid "Save and Close"
 msgstr "Gravar e fechar"
 
-#: ../calendar/gui/e-comp-editor.c:2120
+#: ../calendar/gui/e-comp-editor.c:2112
 msgid "Save current changes and close editor"
 msgstr "Gravar as alterações atuais e fechar o editor"
 
@@ -5042,7 +5076,8 @@ msgstr "Participante                      "
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:4
 #: ../calendar/gui/e-memo-table.etspec.h:3
 #: ../calendar/gui/e-task-table.etspec.h:3
-#: ../e-util/e-attachment-tree-view.c:585 ../mail/e-mail-account-tree-view.c:157
+#: ../e-util/e-attachment-tree-view.c:585
+#: ../mail/e-mail-account-tree-view.c:157
 msgid "Type"
 msgstr "Tipo"
 
@@ -5089,55 +5124,55 @@ msgstr "Participa_Ntes..."
 msgid "O_ptions"
 msgstr "O_Pções"
 
-#: ../calendar/gui/e-meeting-time-sel.c:594
+#: ../calendar/gui/e-meeting-time-sel.c:595
 msgid "Show _only working hours"
 msgstr "Mostrar só as h_Oras úteis"
 
-#: ../calendar/gui/e-meeting-time-sel.c:607
+#: ../calendar/gui/e-meeting-time-sel.c:608
 msgid "Show _zoomed out"
 msgstr "Mostrar reduzida"
 
-#: ../calendar/gui/e-meeting-time-sel.c:625
+#: ../calendar/gui/e-meeting-time-sel.c:626
 msgid "_Update free/busy"
 msgstr "At_Ualizar livre/ocupado"
 
-#: ../calendar/gui/e-meeting-time-sel.c:642
+#: ../calendar/gui/e-meeting-time-sel.c:643
 msgid "_<<"
 msgstr "_<<"
 
-#: ../calendar/gui/e-meeting-time-sel.c:662
+#: ../calendar/gui/e-meeting-time-sel.c:663
 msgid "_Autopick"
 msgstr "_Autoseleção"
 
-#: ../calendar/gui/e-meeting-time-sel.c:679
+#: ../calendar/gui/e-meeting-time-sel.c:680
 msgid ">_>"
 msgstr ">_>"
 
-#: ../calendar/gui/e-meeting-time-sel.c:700
+#: ../calendar/gui/e-meeting-time-sel.c:702
 msgid "_All people and resources"
 msgstr "Todas _As pessoas e recursos"
 
-#: ../calendar/gui/e-meeting-time-sel.c:711
+#: ../calendar/gui/e-meeting-time-sel.c:713
 msgid "All _people and one resource"
 msgstr "Todas as _Pessoas e um recurso"
 
-#: ../calendar/gui/e-meeting-time-sel.c:722
+#: ../calendar/gui/e-meeting-time-sel.c:724
 msgid "_Required people"
 msgstr "Pessoas _Requeridas"
 
-#: ../calendar/gui/e-meeting-time-sel.c:732
+#: ../calendar/gui/e-meeting-time-sel.c:734
 msgid "Required people and _one resource"
 msgstr "Pessoas requeridas e _Um recurso"
 
-#: ../calendar/gui/e-meeting-time-sel.c:771
+#: ../calendar/gui/e-meeting-time-sel.c:773
 msgid "_Start time:"
 msgstr "Hora de _Início:"
 
-#: ../calendar/gui/e-meeting-time-sel.c:800
+#: ../calendar/gui/e-meeting-time-sel.c:802
 msgid "_End time:"
 msgstr "_Hora de fim:"
 
-#: ../calendar/gui/e-meeting-time-sel.c:2721
+#: ../calendar/gui/e-meeting-time-sel.c:2727
 #, c-format
 msgid ""
 "Summary: %s\n"
@@ -5146,7 +5181,7 @@ msgstr ""
 "Resumo: %s\n"
 "Localização: %s"
 
-#: ../calendar/gui/e-meeting-time-sel.c:2723 ../calendar/gui/print.c:3516
+#: ../calendar/gui/e-meeting-time-sel.c:2729 ../calendar/gui/print.c:3516
 #, c-format
 msgid "Summary: %s"
 msgstr "Resumo: %s"
@@ -7704,11 +7739,11 @@ msgstr ""
 "Impossível encriptar a mensagem a enviar: nenhum certificado de encriptação "
 "para esta conta"
 
-#: ../composer/e-msg-composer.c:1604 ../composer/e-msg-composer.c:2397
+#: ../composer/e-msg-composer.c:1588 ../composer/e-msg-composer.c:2385
 msgid "Compose Message"
 msgstr "Escrever uma mensagem"
 
-#: ../composer/e-msg-composer.c:4747
+#: ../composer/e-msg-composer.c:4735
 msgid "The composer contains a non-text message body, which cannot be edited."
 msgstr ""
 "O compositor contém um corpo de mensagem que não é texto, pelo que não pode "
@@ -7865,8 +7900,8 @@ msgid ""
 "clicking the Send/Receive button in Evolution's toolbar."
 msgstr ""
 "A mensagem será gravada na sua pasta Saída local pois o serviço de destino "
-"encontra-se indisponível. Poderá enviar a mensagem clicando no botão "
-"Enviar/Receber na barra de ferramentas do Evolution."
+"encontra-se indisponível. Poderá enviar a mensagem clicando no botão Enviar/"
+"Receber na barra de ferramentas do Evolution."
 
 #: ../composer/mail-composer.error.xml.h:34
 msgid "Are you sure you want to send the message?"
@@ -7929,7 +7964,8 @@ msgstr "Para gerir o seu email, contactos e agenda"
 #: ../data/evolution.desktop.in.in.h:5
 msgid "email;calendar;contact;addressbook;task;"
 msgstr ""
-"correio;email;mensagem;calendário;contacto;compromisso;livro;endereços;tarefa;"
+"correio;email;mensagem;calendário;contacto;compromisso;livro;endereços;"
+"tarefa;"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:1
 msgid "Enable address formatting"
@@ -8324,8 +8360,8 @@ msgstr "Número máximo de fusos horários recentemente utilizados a recordar"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:45
 msgid ""
-"Maximum number of recently used timezones to remember in a "
-"'day-second-zones' list"
+"Maximum number of recently used timezones to remember in a 'day-second-"
+"zones' list"
 msgstr ""
 "Número máximo de fusos horários recentemente utilizados a recordar numa "
 "lista 'day-second-zones'"
@@ -8754,8 +8790,8 @@ msgstr "Realçar tarefas atrasadas"
 msgid ""
 "Whether highlight overdue tasks with a special color (task-overdue-color)"
 msgstr ""
-"Se realçar ou não tarefas atrasadas com uma cor especial "
-"(\"task-overduecolor\")"
+"Se realçar ou não tarefas atrasadas com uma cor especial (\"task-overduecolor"
+"\")"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:131
 msgid "Overdue tasks color"
@@ -8873,13 +8909,13 @@ msgstr "(Obsoleta) Dias úteis"
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:156
 msgid ""
 "Days on which the start and end of work hours should be indicated. (This key "
-"was deprecated in version 3.10 and should no longer be used. Use the "
-"\"work-day-monday\", \"work-day-tuesday\", etc. keys instead.)"
+"was deprecated in version 3.10 and should no longer be used. Use the \"work-"
+"day-monday\", \"work-day-tuesday\", etc. keys instead.)"
 msgstr ""
 "Dias em que o início e o final das horas de trabalho deverão ser indicados. "
 "(Esta chave foi tornada obsoleta na versão 3.10 e não mais deverá ser "
-"utilizada. Utilize antes as chaves \"work-day-monday\", "
-"\"work-day-tuesday\", etc.)"
+"utilizada. Utilize antes as chaves \"work-day-monday\", \"work-day-tuesday"
+"\", etc.)"
 
 #: ../data/org.gnome.evolution.gschema.xml.in.h:1
 msgid "Previous Evolution version"
@@ -8887,13 +8923,13 @@ msgstr "Versão anterior do Evolution"
 
 #: ../data/org.gnome.evolution.gschema.xml.in.h:2
 msgid ""
-"The most recently used version of Evolution, expressed as "
-"\"major.minor.micro\". This is used for data and settings migration from "
-"older to newer versions."
+"The most recently used version of Evolution, expressed as \"major.minor.micro"
+"\". This is used for data and settings migration from older to newer "
+"versions."
 msgstr ""
-"A versão do Evolution mais recentemente utilizada, expressa como "
-"\"principal.menor.micro\". Isto é utilizado para a migração de dados e "
-"definições de versões mais antigas para mais recentes."
+"A versão do Evolution mais recentemente utilizada, expressa como \"principal."
+"menor.micro\". Isto é utilizado para a migração de dados e definições de "
+"versões mais antigas para mais recentes."
 
 #: ../data/org.gnome.evolution.gschema.xml.in.h:3
 msgid "List of disabled plugins"
@@ -9246,17 +9282,17 @@ msgid ""
 "Setting this option to TRUE will attempt to ignore such Reply-To: headers, "
 "so that Evolution will do as you ask it. If you use the private reply "
 "action, it will reply privately, while if you use the 'Reply to List' action "
-"it will do that. It works by comparing the Reply-To: header with a "
-"List-Post: header, if there is one."
+"it will do that. It works by comparing the Reply-To: header with a List-"
+"Post: header, if there is one."
 msgstr ""
 "Algumas listas de distribuição definem um cabeçalho Responder a: para "
 "induzir os utilizadores a responder para a lista, mesmo quando estes pedem "
 "ao Evolution para enviar uma resposta em privado. Definir esta opção como "
 "VERDADEIRA irá tentar ignorar tais cabeçalhos Responder a:, pelo que o "
 "Evolution fará o que lhe pedir. Se utilizar a ação de responder em privado, "
-"envia a mensagem em privado, se utilizar a ação 'Responder para a lista' "
-"fá-lo. Funciona comparando os cabeçalhos Responder a: com o cabeçalho "
-"Mensagem de lista:, se existir algum."
+"envia a mensagem em privado, se utilizar a ação 'Responder para a lista' fá-"
+"lo. Funciona comparando os cabeçalhos Responder a: com o cabeçalho Mensagem "
+"de lista:, se existir algum."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:55
 msgid "List of localized 'Re'"
@@ -9296,8 +9332,8 @@ msgstr ""
 msgid ""
 "Number of To and CC recipients to ask 'prompt-on-many-to-cc-recips' from"
 msgstr ""
-"Número de destinatários Para e CC para perguntar a "
-"'prompt-on-many-to-cc-recips'"
+"Número de destinatários Para e CC para perguntar a 'prompt-on-many-to-cc-"
+"recips'"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:62
 msgid ""
@@ -10507,8 +10543,8 @@ msgid ""
 "and \"notify-sound-use-theme\" keys are disregarded."
 msgstr ""
 "Se reproduzir ou não um som de qualquer tipo ao receber novas mensagens. Se "
-"\"falso\", as chaves \"notify-sound-beep\", \"notify-sound-file\", "
-"\"notify-sound-play-file\" e \"notify-sound-use-theme\" são ignoradas."
+"\"falso\", as chaves \"notify-sound-beep\", \"notify-sound-file\", \"notify-"
+"sound-play-file\" e \"notify-sound-use-theme\" são ignoradas."
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:11
 msgid "Whether to emit a beep."
@@ -10524,11 +10560,11 @@ msgstr "Ficheiro de som a ser reproduzido."
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:14
 msgid ""
-"Sound file to be played when new messages arrive, if "
-"\"notify-sound-play-file\" is \"true\"."
+"Sound file to be played when new messages arrive, if \"notify-sound-play-file"
+"\" is \"true\"."
 msgstr ""
-"Ficheiro de som a ser reproduzido ao receber novas mensagens, se "
-"\"notify-sound-play-file\" for \"verdadeiro\"."
+"Ficheiro de som a ser reproduzido ao receber novas mensagens, se \"notify-"
+"sound-play-file\" for \"verdadeiro\"."
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:15
 msgid "Whether to play a sound file."
@@ -10788,14 +10824,14 @@ msgstr "Mensagem RFC822"
 msgid "Format part as an RFC822 message"
 msgstr "Formatar parte como uma mensagem RFC822"
 
-#: ../em-format/e-mail-formatter-print.c:53
+#: ../em-format/e-mail-formatter-print.c:51
 #: ../e-util/gal-view-instance-save-as-dialog.c:94
 #: ../mail/e-mail-label-tree-view.c:98
 #: ../modules/plugin-manager/evolution-plugin-manager.c:66
 msgid "Name"
 msgstr "Nome"
 
-#: ../em-format/e-mail-formatter-print.c:53
+#: ../em-format/e-mail-formatter-print.c:51
 #: ../e-util/e-attachment-tree-view.c:573 ../mail/message-list.etspec.h:10
 msgid "Size"
 msgstr "Tamanho"
@@ -11149,7 +11185,8 @@ msgid "%s"
 msgstr "%s"
 
 #. Translators: This is a running activity whose percent complete is known.
-#: ../e-util/e-activity.c:275 ../modules/calendar/e-cal-base-shell-content.c:144
+#: ../e-util/e-activity.c:275
+#: ../modules/calendar/e-cal-base-shell-content.c:144
 #, c-format
 msgid "%s (%d%% complete)"
 msgstr "%s (%d%% terminada)"
@@ -11182,7 +11219,7 @@ msgstr "A operação foi cancelada"
 
 #. Translators: Default attachment filename.
 #: ../e-util/e-attachment.c:2333 ../e-util/e-attachment.c:3032
-#: ../e-util/e-attachment.c:3403 ../e-util/e-attachment-store.c:691
+#: ../e-util/e-attachment.c:3403 ../e-util/e-attachment-store.c:696
 msgid "attachment.dat"
 msgstr "anexo.dat"
 
@@ -11236,7 +11273,7 @@ msgstr "_Descrição:"
 msgid "MIME Type:"
 msgstr "Tipo MIME:"
 
-#: ../e-util/e-attachment-dialog.c:382 ../e-util/e-attachment-store.c:521
+#: ../e-util/e-attachment-dialog.c:382 ../e-util/e-attachment-store.c:526
 msgid "_Suggest automatic display of attachment"
 msgstr "_Sugerir a apresentação automática do anexo"
 
@@ -11248,11 +11285,13 @@ msgstr "Impossível definir como fundo"
 msgid "Set as _Background"
 msgstr "Definir como _Fundo"
 
-#: ../e-util/e-attachment-icon-view.c:168 ../e-util/e-attachment-tree-view.c:548
+#: ../e-util/e-attachment-icon-view.c:168
+#: ../e-util/e-attachment-tree-view.c:548
 msgid "Loading"
 msgstr "A carregar"
 
-#: ../e-util/e-attachment-icon-view.c:180 ../e-util/e-attachment-tree-view.c:560
+#: ../e-util/e-attachment-icon-view.c:180
+#: ../e-util/e-attachment-tree-view.c:560
 msgid "Saving"
 msgstr "A gravar"
 
@@ -11264,33 +11303,33 @@ msgstr "Ocultar a _Barra de anexos"
 msgid "Show Attachment _Bar"
 msgstr "Mostrar a _Barra de anexos"
 
-#: ../e-util/e-attachment-store.c:486
+#: ../e-util/e-attachment-store.c:491
 msgid "Add Attachment"
 msgstr "Adicionar anexo"
 
-#: ../e-util/e-attachment-store.c:493 ../e-util/e-attachment-store.c:495
+#: ../e-util/e-attachment-store.c:498 ../e-util/e-attachment-store.c:500
 msgid "A_ttach"
 msgstr "Ane_Xar"
 
-#: ../e-util/e-attachment-store.c:533
+#: ../e-util/e-attachment-store.c:538
 msgid "Archive selected directories using this format:"
 msgstr "Arquivar pastas selecionadas usando este formato:"
 
-#: ../e-util/e-attachment-store.c:626
+#: ../e-util/e-attachment-store.c:631
 msgid "Save Attachment"
 msgid_plural "Save Attachments"
 msgstr[0] "Gravar anexo"
 msgstr[1] "Gravar anexos"
 
-#: ../e-util/e-attachment-store.c:653
+#: ../e-util/e-attachment-store.c:658
 msgid "Do _not extract files from the attachment"
 msgstr "_Não extrair ficheiros do anexo"
 
-#: ../e-util/e-attachment-store.c:658
+#: ../e-util/e-attachment-store.c:663
 msgid "Save extracted files _only"
 msgstr "Gravar só ficheiros extraíd_Os"
 
-#: ../e-util/e-attachment-store.c:663
+#: ../e-util/e-attachment-store.c:668
 msgid "Save extracted files and the original _archive"
 msgstr "Gravar ficheiros extraídos e o _Arquivo original"
 
@@ -12246,7 +12285,8 @@ msgstr "I_Ncluir árvores:"
 msgid "A_dd Condition"
 msgstr "A_Dicionar condição"
 
-#: ../e-util/e-filter-rule.c:1256 ../e-util/filter.ui.h:1 ../mail/em-utils.c:165
+#: ../e-util/e-filter-rule.c:1256 ../e-util/filter.ui.h:1
+#: ../mail/em-utils.c:165
 msgid "Incoming"
 msgstr "Recebidas"
 
@@ -12484,7 +12524,8 @@ msgstr "_Lista numerada"
 msgid "_Alphabetical List"
 msgstr "Lista _Alfabética"
 
-#: ../e-util/e-html-editor-actions.c:1407 ../e-util/e-html-editor-actions.c:1445
+#: ../e-util/e-html-editor-actions.c:1407
+#: ../e-util/e-html-editor-actions.c:1445
 msgid "_Image..."
 msgstr "_Imagem..."
 
@@ -12493,7 +12534,8 @@ msgstr "_Imagem..."
 msgid "Insert Image"
 msgstr "Inserir imagem"
 
-#: ../e-util/e-html-editor-actions.c:1415 ../e-util/e-html-editor-actions.c:1452
+#: ../e-util/e-html-editor-actions.c:1415
+#: ../e-util/e-html-editor-actions.c:1452
 msgid "_Link..."
 msgstr "_Ligação..."
 
@@ -12502,7 +12544,8 @@ msgid "Insert Link"
 msgstr "Inserir ligação"
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
-#: ../e-util/e-html-editor-actions.c:1423 ../e-util/e-html-editor-actions.c:1467
+#: ../e-util/e-html-editor-actions.c:1423
+#: ../e-util/e-html-editor-actions.c:1467
 msgid "_Rule..."
 msgstr "_Régua..."
 
@@ -12511,7 +12554,8 @@ msgstr "_Régua..."
 msgid "Insert Rule"
 msgstr "Inserir régua"
 
-#: ../e-util/e-html-editor-actions.c:1431 ../e-util/e-html-editor-actions.c:1474
+#: ../e-util/e-html-editor-actions.c:1431
+#: ../e-util/e-html-editor-actions.c:1474
 msgid "_Table..."
 msgstr "_Tabela..."
 
@@ -12626,7 +12670,8 @@ msgstr "Coluna"
 msgid "Row"
 msgstr "Linha"
 
-#: ../e-util/e-html-editor-actions.c:1640 ../e-util/e-html-editor-actions.c:1725
+#: ../e-util/e-html-editor-actions.c:1640
+#: ../e-util/e-html-editor-actions.c:1725
 msgid "Table"
 msgstr "Tabela"
 
@@ -13123,7 +13168,8 @@ msgstr "_Dar a volta"
 msgid "_Skip"
 msgstr "_Saltar"
 
-#: ../e-util/e-html-editor-replace-dialog.c:273 ../e-util/e-system.error.xml.h:3
+#: ../e-util/e-html-editor-replace-dialog.c:273
+#: ../e-util/e-system.error.xml.h:3
 msgid "_Replace"
 msgstr "_Substituir"
 
@@ -13156,7 +13202,8 @@ msgid "Replace All"
 msgstr "Substituir tudo"
 
 #. Ignore
-#: ../e-util/e-html-editor-spell-check-dialog.c:573 ../mail/mail.error.xml.h:112
+#: ../e-util/e-html-editor-spell-check-dialog.c:573
+#: ../mail/mail.error.xml.h:112
 msgid "Ignore"
 msgstr "Ignorar"
 
@@ -13220,11 +13267,11 @@ msgstr "Ta_Manho:"
 msgid "Text Properties"
 msgstr "Propriedades do texto"
 
-#: ../e-util/e-html-editor-view.c:5996
+#: ../e-util/e-html-editor-view.c:6087
 msgid "Changed property"
 msgstr "Propriedade alterada"
 
-#: ../e-util/e-html-editor-view.c:5997
+#: ../e-util/e-html-editor-view.c:6088
 msgid "Whether editor changed"
 msgstr "Se o editor mudou"
 
@@ -14853,8 +14900,8 @@ msgstr "A filtrar as mensagens selecionadas"
 #, c-format
 msgid ""
 "Failed to filter selected messages. One reason can be that folder location "
-"set in one or more filters is invalid. Please check your filters in "
-"Edit->Message Filters.\n"
+"set in one or more filters is invalid. Please check your filters in Edit-"
+">Message Filters.\n"
 "Original error was: %s"
 msgstr ""
 "Falha ao filtrar as mensagens selecionadas. Um motivo pode ser o de que a "
@@ -14871,8 +14918,8 @@ msgstr "A obter as mensagens de \"%s\""
 #, c-format
 msgid ""
 "Failed to apply outgoing filters. One reason can be that folder location set "
-"in one or more filters is invalid. Please check your filters in "
-"Edit->Message Filters.\n"
+"in one or more filters is invalid. Please check your filters in Edit-"
+">Message Filters.\n"
 "Original error was: %s"
 msgstr ""
 "Falha ao aplicar os filtros de saída. Um motivo pode ser o de que a "
@@ -18759,8 +18806,8 @@ msgid ""
 msgstr ""
 "Nenhuma mensagem satisfaz os seus critérios de procura. Altere os critérios "
 "selecionando um novo filtro de mensagens da lista de seleção acima ou "
-"executando uma nova procura, seja limpando esta através do menu "
-"Procurar->Limpar, seja alterando a consulta anterior."
+"executando uma nova procura, seja limpando esta através do menu Procurar-"
+">Limpar, seja alterando a consulta anterior."
 
 #: ../mail/message-list.c:6099
 msgid "There are no messages in this folder."
@@ -23131,8 +23178,8 @@ msgid ""
 "\n"
 "Header: {1}"
 msgstr ""
-"O cabeçalho {0} desta mensagem está mal formado e não foi possível "
-"processá-lo.\n"
+"O cabeçalho {0} desta mensagem está mal formado e não foi possível processá-"
+"lo.\n"
 "\n"
 "Cabeçalho: {1}"
 
@@ -23281,8 +23328,8 @@ msgid_plural ""
 "You have selected %d mails to be converted to events. Do you really want to "
 "add them all?"
 msgstr[0] ""
-"Selecionou %d mensagem para ser convertida em evento. Deseja mesmo "
-"adicioná-la?"
+"Selecionou %d mensagem para ser convertida em evento. Deseja mesmo adicioná-"
+"la?"
 msgstr[1] ""
 "Selecionou %d mensagens para serem convertidas em eventos. Deseja mesmo "
 "adicioná-las todas?"
@@ -23296,8 +23343,8 @@ msgid_plural ""
 "You have selected %d mails to be converted to tasks. Do you really want to "
 "add them all?"
 msgstr[0] ""
-"Selecionou %d mensagem para ser convertida em tarefa. Deseja mesmo "
-"adicioná-la?"
+"Selecionou %d mensagem para ser convertida em tarefa. Deseja mesmo adicioná-"
+"la?"
 msgstr[1] ""
 "Selecionou %d mensagens para serem convertidas em tarefas. Deseja mesmo "
 "adicioná-las todas?"
@@ -24431,7 +24478,8 @@ msgstr "Impressão digital SHA1"
 msgid "MD5 Fingerprint"
 msgstr "Impressão digital MD5"
 
-#: ../smime/gui/certificate-manager.c:104 ../smime/gui/certificate-manager.c:124
+#: ../smime/gui/certificate-manager.c:104
+#: ../smime/gui/certificate-manager.c:124
 msgid "Email Address"
 msgstr "Endereço eletrónico"
 
@@ -24997,10 +25045,6 @@ msgstr "Com _Estado"
 #~ msgid "Print this event"
 #~ msgstr "Imprimir este evento"
 
-#~ msgid "Event cannot be fully edited, because you are not the organizer"
-#~ msgstr ""
-#~ "Não é possível editar completamente o evento pois não é o organizador"
-
 #~ msgid "This event has reminders"
 #~ msgstr "Este evento possui lembretes"
 
@@ -25051,15 +25095,6 @@ msgstr "Com _Estado"
 #~ msgid "Memo's start date is in the past"
 #~ msgstr "A data de início do memorando é no passado"
 
-#~ msgid "Memo cannot be edited, because the selected memo list is read only"
-#~ msgstr ""
-#~ "Não é possível editar o memorando pois a lista de memorandos selecionada "
-#~ "é só de leitura"
-
-#~ msgid "Memo cannot be fully edited, because you are not the organizer"
-#~ msgstr ""
-#~ "Não é possível editar completamente o memorando  pois não é o organizador"
-
 #~ msgid "Organi_zer:"
 #~ msgstr "Organi_Zador:"
 
@@ -25096,10 +25131,6 @@ msgstr "Com _Estado"
 #~ msgid "Print this task"
 #~ msgstr "Imprimir esta tarefa"
 
-#~ msgid "Task cannot be fully edited, because you are not the organizer"
-#~ msgstr ""
-#~ "Não é possível editar completamente a tarefa pois não é o organizador"
-
 #~ msgid ""
 #~ "Task cannot be edited, because the selected task list does not support "
 #~ "assigned tasks"
@@ -25133,15 +25164,15 @@ msgstr "Com _Estado"
 #~ "este seja enviado sem esses anexos pendentes "
 
 #~ msgid ""
-#~ "Determines whether to use the same fonts for both \"From\" and "
-#~ "\"Subject\" lines in the \"Messages\" column in vertical view"
+#~ "Determines whether to use the same fonts for both \"From\" and \"Subject"
+#~ "\" lines in the \"Messages\" column in vertical view"
 #~ msgstr ""
 #~ "Determina se utilizar ou não as mesmas letras para ambas as linhas \"De\" "
 #~ "e \"Assunto\" na coluna \"Mensagens\" na vista vertical"
 
 #~ msgid ""
-#~ "Determines whether to use the same fonts for both \"From\" and "
-#~ "\"Subject\" lines in the \"Messages\" column in vertical view."
+#~ "Determines whether to use the same fonts for both \"From\" and \"Subject"
+#~ "\" lines in the \"Messages\" column in vertical view."
 #~ msgstr ""
 #~ "Determina se utilizar ou não as mesmas letras para ambas as linhas \"De\" "
 #~ "e \"Assunto\" na coluna \"Mensagens\" na vista vertical."
@@ -25581,8 +25612,8 @@ msgstr "Com _Estado"
 #~ "Cannot find a corresponding account in the org.gnome.OnlineAccounts "
 #~ "service from which to obtain an authentication token."
 #~ msgstr ""
-#~ "Impossível encontrar uma conta correspondente no serviço "
-#~ "org.gnome.OnlineAccounts da qual obter o bloco de autenticação."
+#~ "Impossível encontrar uma conta correspondente no serviço org.gnome."
+#~ "OnlineAccounts da qual obter o bloco de autenticação."
 
 #~ msgid "OAuth"
 #~ msgstr "OAuth"
@@ -25984,8 +26015,8 @@ msgstr "Com _Estado"
 #~ "Specify any extra headers to fetch in addition to the predefined set of "
 #~ "headers selected above."
 #~ msgstr ""
-#~ "Especifique quaisquer cabeçalhos adicionais a obter além do conjunto "
-#~ "pré-definido de cabeçalhos selecionado acima."
+#~ "Especifique quaisquer cabeçalhos adicionais a obter além do conjunto pré-"
+#~ "definido de cabeçalhos selecionado acima."
 
 #~ msgid "A_ccept"
 #~ msgstr "A_ceitar"
@@ -26306,15 +26337,15 @@ msgstr "Com _Estado"
 #~ "The configuration version of Evolution, with major/minor/configuration "
 #~ "level (for example \"2.6.0\")."
 #~ msgstr ""
-#~ "A versão da configuração do Evolution, com o nível "
-#~ "principal/menor/configuração (por exemplo \"2.6.0\")."
+#~ "A versão da configuração do Evolution, com o nível principal/menor/"
+#~ "configuração (por exemplo \"2.6.0\")."
 
 #~ msgid "Last upgraded configuration version"
 #~ msgstr "Versão da última configuração atualizada"
 
 #~ msgid ""
-#~ "The last upgraded configuration version of Evolution, with "
-#~ "major/minor/configuration level (for example \"2.6.0\")."
+#~ "The last upgraded configuration version of Evolution, with major/minor/"
+#~ "configuration level (for example \"2.6.0\")."
 #~ msgstr ""
 #~ "A última versão atualizada da configuração do Evolution, com o nível "
 #~ "principal/menor/configuração (por exemplo \"2.6.0\")."
@@ -26350,8 +26381,8 @@ msgstr "Com _Estado"
 
 #~ msgid "Message-display style (\"normal\", \"full headers\", \"source\")"
 #~ msgstr ""
-#~ "Estilo de apresentação de mensagem (\"normal\", \"full headers\", "
-#~ "\"source\")"
+#~ "Estilo de apresentação de mensagem (\"normal\", \"full headers\", \"source"
+#~ "\")"
 
 #~ msgid "Play sound when new messages arrive."
 #~ msgstr "Reproduzir um som ao chegarem novas mensagens."
@@ -26587,9 +26618,9 @@ msgstr "Com _Estado"
 #~ msgid ""
 #~ "Initial maximize state of the \"Folder Subscriptions\" window. The value "
 #~ "updates when the user maximizes or unmaximizes the window. Note, this "
-#~ "particular value is not used by Evolution since the \"Folder "
-#~ "Subscriptions\" window cannot be maximized. This key exists only as an "
-#~ "implementation detail."
+#~ "particular value is not used by Evolution since the \"Folder Subscriptions"
+#~ "\" window cannot be maximized. This key exists only as an implementation "
+#~ "detail."
 #~ msgstr ""
 #~ "O estado inicial de maximização da janela \"Subscrições de Pastas\". O "
 #~ "valor é atualizado quando o utilizador maximiza ou restaura a janela. "
@@ -26620,12 +26651,12 @@ msgstr "Com _Estado"
 
 #~ msgid ""
 #~ "List of accounts known to the mail component of Evolution. The list "
-#~ "contains strings naming subdirectories relative to "
-#~ "/apps/evolution/mail/accounts."
+#~ "contains strings naming subdirectories relative to /apps/evolution/mail/"
+#~ "accounts."
 #~ msgstr ""
 #~ "Lista de contas reconhecidas pelo componente de email do Evolution. A "
-#~ "lista contém expressões que denominam subdiretórios relativos a "
-#~ "/apps/evolution/mail/accounts."
+#~ "lista contém expressões que denominam subdiretórios relativos a /apps/"
+#~ "evolution/mail/accounts."
 
 #~ msgid "List of accepted licenses"
 #~ msgstr "Lista de licenças aceites"
@@ -26739,9 +26770,9 @@ msgstr "Com _Estado"
 #~ msgid ""
 #~ "Initial maximize state of the \"Search Folder Editor\" window. The value "
 #~ "updates when the user maximizes or unmaximizes the window. Note, this "
-#~ "particular value is not used by Evolution since the \"Search Folder "
-#~ "Editor\" window cannot be maximized. This key exists only as an "
-#~ "implementation detail."
+#~ "particular value is not used by Evolution since the \"Search Folder Editor"
+#~ "\" window cannot be maximized. This key exists only as an implementation "
+#~ "detail."
 #~ msgstr ""
 #~ "O estado inicial de maximização da janela \"Editor de Pasta de Procura\". "
 #~ "O valor é atualizado quando o utilizador maximiza ou restaura a janela. "
@@ -27136,8 +27167,8 @@ msgstr "Com _Estado"
 #~ msgstr "Se esconder ou não as tarefas terminadas na vista de tarefas."
 
 #~ msgid ""
-#~ "Units for determining when to hide tasks, \"minutes\", \"hours\" or "
-#~ "\"days\"."
+#~ "Units for determining when to hide tasks, \"minutes\", \"hours\" or \"days"
+#~ "\"."
 #~ msgstr ""
 #~ "Unidades para determinar quando esconder tarefas, \"minutes\", \"hours\" "
 #~ "ou \"days\"."
@@ -27151,8 +27182,8 @@ msgstr "Com _Estado"
 
 #~ msgid "Background color of tasks that are overdue, in \"#rrggbb\" format."
 #~ msgstr ""
-#~ "Cor de fundo das tarefas cuja data limite já passou, no formato "
-#~ "\"#rrggbb\"."
+#~ "Cor de fundo das tarefas cuja data limite já passou, no formato \"#rrggbb"
+#~ "\"."
 
 #~ msgid ""
 #~ "Whether to ask for confirmation when deleting an appointment or task."
@@ -27185,8 +27216,8 @@ msgstr "Com _Estado"
 #~ "Units for a birthday or anniversary reminder, \"minutes\", \"hours\" or "
 #~ "\"days\"."
 #~ msgstr ""
-#~ "Unidades para um lembrete de data de nascimento ou aniversário, "
-#~ "\"minutes\", \"hours\" ou \"days\"."
+#~ "Unidades para um lembrete de data de nascimento ou aniversário, \"minutes"
+#~ "\", \"hours\" ou \"days\"."
 
 #~ msgid "Whether to show week numbers in various places in the Calendar."
 #~ msgstr ""
@@ -27572,12 +27603,11 @@ msgstr "Com _Estado"
 #~ msgstr "Porto da proxy HTTP"
 
 #~ msgid ""
-#~ "The port on the machine defined by "
-#~ "\"/apps/evolution/shell/network_config/http_host\" that you proxy through."
+#~ "The port on the machine defined by \"/apps/evolution/shell/network_config/"
+#~ "http_host\" that you proxy through."
 #~ msgstr ""
-#~ "O porto da máquina definida por "
-#~ "\"/apps/evolution/shell/network_config/http_host\" que é utilizada como "
-#~ "proxy."
+#~ "O porto da máquina definida por \"/apps/evolution/shell/network_config/"
+#~ "http_host\" que é utilizada como proxy."
 
 #~ msgid "HTTP proxy host name"
 #~ msgstr "Nome do servidor de proxy HTTP"
@@ -27589,13 +27619,11 @@ msgstr "Com _Estado"
 #~ msgstr "Porto da proxy de HTTP Seguro"
 
 #~ msgid ""
-#~ "The port on the machine defined by "
-#~ "\"/apps/evolution/shell/network_config/secure_host\" that you proxy "
-#~ "through."
+#~ "The port on the machine defined by \"/apps/evolution/shell/network_config/"
+#~ "secure_host\" that you proxy through."
 #~ msgstr ""
-#~ "O porto da máquina definida por "
-#~ "\"/apps/evolution/shell/network_config/secure_host\" que é utilizada como "
-#~ "proxy."
+#~ "O porto da máquina definida por \"/apps/evolution/shell/network_config/"
+#~ "secure_host\" que é utilizada como proxy."
 
 #~ msgid "Secure HTTP proxy host name"
 #~ msgstr "Nome do servidor de proxy de HTTP Seguro"
@@ -27607,13 +27635,11 @@ msgstr "Com _Estado"
 #~ msgstr "Porto da proxy SOCKS"
 
 #~ msgid ""
-#~ "The port on the machine defined by "
-#~ "\"/apps/evolution/shell/network_config/socks_host\" that you proxy "
-#~ "through."
+#~ "The port on the machine defined by \"/apps/evolution/shell/network_config/"
+#~ "socks_host\" that you proxy through."
 #~ msgstr ""
-#~ "O porto da máquina definida por "
-#~ "\"/apps/evolution/shell/network_config/socks_host\" que é utilizada como "
-#~ "proxy."
+#~ "O porto da máquina definida por \"/apps/evolution/shell/network_config/"
+#~ "socks_host\" que é utilizada como proxy."
 
 #~ msgid "SOCKS proxy host name"
 #~ msgstr "Nome do servidor de proxy SOCKS"
@@ -27635,16 +27661,14 @@ msgstr "Com _Estado"
 
 #~ msgid ""
 #~ "If true, then connections to the proxy server require authentication. The "
-#~ "username is retrieved from the "
-#~ "\"/apps/evolution/shell/network_config/authentication_user\" GConf key, "
-#~ "and the password is retrieved from either gnome-keyring or the "
-#~ "~/.gnome2_private/Evolution password file."
+#~ "username is retrieved from the \"/apps/evolution/shell/network_config/"
+#~ "authentication_user\" GConf key, and the password is retrieved from "
+#~ "either gnome-keyring or the ~/.gnome2_private/Evolution password file."
 #~ msgstr ""
 #~ "Se \"true\", as ligações ao servidor de proxy requerem autenticação. O "
-#~ "utilizador é obtido na chave GConf "
-#~ "\"/apps/evolution/shell/network_config/authentication_user\", e a senha é "
-#~ "obtida ou do gnome-keyring ou do ficheiro de senhas "
-#~ "~/.gnome2_private/Evolution."
+#~ "utilizador é obtido na chave GConf \"/apps/evolution/shell/network_config/"
+#~ "authentication_user\", e a senha é obtida ou do gnome-keyring ou do "
+#~ "ficheiro de senhas ~/.gnome2_private/Evolution."
 
 #~ msgid "HTTP proxy username"
 #~ msgstr "Utilizador da proxy HTTP"
