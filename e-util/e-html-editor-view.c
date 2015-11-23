@@ -5814,6 +5814,9 @@ html_editor_view_key_press_event (GtkWidget *widget,
 
 	view->priv->dont_save_history_in_body_input = FALSE;
 
+	view->priv->return_key_pressed = FALSE;
+	view->priv->space_key_pressed = FALSE;
+
 	if (event->keyval == GDK_KEY_Menu) {
 		gboolean event_handled;
 
