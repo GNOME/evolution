@@ -12366,6 +12366,7 @@ e_html_editor_view_insert_new_history_event (EHTMLEditorView *view,
 	if (view->priv->undo_redo_in_progress)
 		return;
 
+	d (printf ("\nINSERTING EVENT:\n"));
 	d (print_history_event (event));
 
 	remove_forward_redo_history_events_if_needed (view);
