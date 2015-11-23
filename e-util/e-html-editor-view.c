@@ -8162,7 +8162,7 @@ html_editor_view_insert_converted_html_into_selection (EHTMLEditorView *view,
 	g_free (inner_html);
 
 	has_selection = !e_html_editor_selection_is_collapsed (selection);
-	if (has_selection) {
+	if (has_selection && !view->priv->undo_redo_in_progress) {
 		WebKitDOMRange *range;
 
 		range = html_editor_view_get_dom_range (view);
