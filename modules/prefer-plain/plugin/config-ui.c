@@ -24,12 +24,6 @@
 
 GtkWidget *prefer_plain_page_factory (EPlugin *ep, EConfigHookItemFactoryData *hook_data);
 
-enum {
-	EPP_NORMAL,
-	EPP_PREFER,
-	EPP_TEXT
-};
-
 static GSettings *epp_settings = NULL;
 static gint epp_mode = -1;
 static gboolean epp_show_suppressed = TRUE;
@@ -48,6 +42,11 @@ static struct {
 	  N_("Show plain text part, if present, otherwise "
 	     "let Evolution choose the best part to show.") },
 
+	{ "prefer_source",
+	  N_("Show plain text if present, or HTML source"),
+	  N_("Show plain text part, if present, otherwise "
+	     "the HTML part source.") },
+
 	{ "only_plain",
 	  N_("Only ever show plain text"),
 	  N_("Always show plain text part and make attachments "
@@ -58,7 +57,7 @@ static void
 update_info_label (GtkWidget *info_label,
                    guint mode)
 {
-	gchar *str = g_strconcat ("<i>", _(epp_options[mode > 2 ? 0 : mode].description), "</i>", NULL);
+	gchar *str = g_strconcat ("<i>", _(epp_options[mode >= G_N_ELEMENTS (epp_options) ? 0 : mode].description), "</i>", NULL);
 
 	gtk_label_set_markup (GTK_LABEL (info_label), str);
 
@@ -70,7 +69,7 @@ epp_mode_changed (GtkComboBox *dropdown,
                   GtkWidget *info_label)
 {
 	epp_mode = gtk_combo_box_get_active (dropdown);
-	if (epp_mode > 2)
+	if (epp_mode >= G_N_ELEMENTS (epp_options))
 		epp_mode = 0;
 
 	g_settings_set_string (epp_settings, "mode", epp_options[epp_mode].key);
