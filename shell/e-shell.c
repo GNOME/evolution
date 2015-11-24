@@ -1228,7 +1228,8 @@ static void
 shell_sm_quit_cb (EShell *shell,
                   gpointer user_data)
 {
-	shell_prepare_for_quit (shell);
+	if (!shell->priv->ready_to_quit)
+		shell_prepare_for_quit (shell);
 }
 
 static void
