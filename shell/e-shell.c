@@ -2655,9 +2655,11 @@ e_shell_quit (EShell *shell,
 		goto remote;
 
 	/* Last Window reason can be used multiple times;
-	   this is to not ask for a forced quit. */
-	if (reason == E_SHELL_QUIT_LAST_WINDOW && shell->priv->preparing_for_quit != NULL)
+	   this is to ask for a forced quit before the timeout is reached. */
+	if (reason == E_SHELL_QUIT_LAST_WINDOW && shell->priv->preparing_for_quit != NULL) {
+		shell_prepare_for_quit (shell);
 		return TRUE;
+	}
 
 	if (!shell_request_quit (shell, reason))
 		return FALSE;
