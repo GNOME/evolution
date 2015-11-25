@@ -61,6 +61,7 @@ struct _EShellPrivate {
 	GHashTable *backends_by_name;
 	GHashTable *backends_by_scheme;
 
+	gboolean preparing_for_online;
 	gpointer preparing_for_line_change;  /* weak pointer */
 	gpointer preparing_for_quit;         /* weak pointer */
 
@@ -299,10 +300,12 @@ e_shell_set_online_cb (gpointer user_data)
 }
 
 static void
-shell_ready_for_offline (EShell *shell,
-                         EActivity *activity,
-                         gboolean is_last_ref)
+shell_ready_for_online_change (EShell *shell,
+			       EActivity *activity,
+			       gboolean is_last_ref)
 {
+	gboolean is_cancelled;
+
 	if (!is_last_ref)
 		return;
 
@@ -310,17 +313,38 @@ shell_ready_for_offline (EShell *shell,
 	 * a signal without triggering the toggle reference. */
 	g_object_ref (activity);
 
-	e_activity_set_state (activity, E_ACTIVITY_COMPLETED);
+	is_cancelled = e_activity_get_state (activity) == E_ACTIVITY_CANCELLED ||
+		g_cancellable_is_cancelled (e_activity_get_cancellable (activity));
+	e_activity_set_state (activity, is_cancelled ? E_ACTIVITY_CANCELLED : E_ACTIVITY_COMPLETED);
 
 	g_object_remove_toggle_ref (
 		G_OBJECT (activity), (GToggleNotify)
-		shell_ready_for_offline, shell);
+		shell_ready_for_online_change, shell);
 
 	/* Finalize the activity. */
 	g_object_unref (activity);
 
-	shell->priv->online = FALSE;
+	if (!is_cancelled)
+		shell->priv->online = shell->priv->preparing_for_online;
+
 	g_object_notify (G_OBJECT (shell), "online");
+}
+
+static void
+shell_cancel_ongoing_preparing_line_change (EShell *shell)
+{
+	EActivity *activity;
+
+	activity = g_object_ref (shell->priv->preparing_for_line_change);
+	shell->priv->preparing_for_line_change = NULL;
+
+	g_object_remove_toggle_ref (G_OBJECT (activity), (GToggleNotify) shell_ready_for_online_change, shell);
+
+	g_object_remove_weak_pointer (G_OBJECT (activity), &shell->priv->preparing_for_line_change);
+
+	e_activity_cancel (activity);
+
+	g_clear_object (&activity);
 }
 
 static void
@@ -328,9 +352,10 @@ shell_prepare_for_offline (EShell *shell)
 {
 	/* Are preparations already in progress? */
 	if (shell->priv->preparing_for_line_change != NULL)
-		return;
+		shell_cancel_ongoing_preparing_line_change (shell);
 
 	shell->priv->preparing_for_line_change = e_activity_new ();
+	shell->priv->preparing_for_online = FALSE;
 
 	e_activity_set_text (
 		shell->priv->preparing_for_line_change,
@@ -338,7 +363,7 @@ shell_prepare_for_offline (EShell *shell)
 
 	g_object_add_toggle_ref (
 		G_OBJECT (shell->priv->preparing_for_line_change),
-		(GToggleNotify) shell_ready_for_offline, shell);
+		(GToggleNotify) shell_ready_for_online_change, shell);
 
 	g_object_add_weak_pointer (
 		G_OBJECT (shell->priv->preparing_for_line_change),
@@ -352,38 +377,14 @@ shell_prepare_for_offline (EShell *shell)
 }
 
 static void
-shell_ready_for_online (EShell *shell,
-                        EActivity *activity,
-                        gboolean is_last_ref)
-{
-	if (!is_last_ref)
-		return;
-
-	/* Increment the reference count so we can safely emit
-	 * a signal without triggering the toggle reference. */
-	g_object_ref (activity);
-
-	e_activity_set_state (activity, E_ACTIVITY_COMPLETED);
-
-	g_object_remove_toggle_ref (
-		G_OBJECT (activity), (GToggleNotify)
-		shell_ready_for_online, shell);
-
-	/* Finalize the activity. */
-	g_object_unref (activity);
-
-	shell->priv->online = TRUE;
-	g_object_notify (G_OBJECT (shell), "online");
-}
-
-static void
 shell_prepare_for_online (EShell *shell)
 {
 	/* Are preparations already in progress? */
 	if (shell->priv->preparing_for_line_change != NULL)
-		return;
+		shell_cancel_ongoing_preparing_line_change (shell);
 
 	shell->priv->preparing_for_line_change = e_activity_new ();
+	shell->priv->preparing_for_online = TRUE;
 
 	e_activity_set_text (
 		shell->priv->preparing_for_line_change,
@@ -391,7 +392,7 @@ shell_prepare_for_online (EShell *shell)
 
 	g_object_add_toggle_ref (
 		G_OBJECT (shell->priv->preparing_for_line_change),
-		(GToggleNotify) shell_ready_for_online, shell);
+		(GToggleNotify) shell_ready_for_online_change, shell);
 
 	g_object_add_weak_pointer (
 		G_OBJECT (shell->priv->preparing_for_line_change),
@@ -2489,8 +2490,14 @@ e_shell_set_network_available (EShell *shell,
 
 	/* If we're being forced offline, perhaps due to a network outage,
 	 * reconnect automatically when the network becomes available. */
-	if (!network_available && shell->priv->online) {
+	if (!network_available && (shell->priv->online || shell->priv->preparing_for_line_change)) {
 		g_message ("Network disconnected.  Forced offline.");
+
+		if (shell->priv->set_online_timeout_id > 0) {
+			g_source_remove (shell->priv->set_online_timeout_id);
+			shell->priv->set_online_timeout_id = 0;
+		}
+
 		e_shell_set_online (shell, FALSE);
 		shell->priv->auto_reconnect = TRUE;
 	} else if (network_available && shell->priv->auto_reconnect) {
@@ -2562,7 +2569,7 @@ e_shell_set_online (EShell *shell,
 {
 	g_return_if_fail (E_IS_SHELL (shell));
 
-	if (online == shell->priv->online)
+	if (online == shell->priv->online && !shell->priv->preparing_for_line_change)
 		return;
 
 	if (online)
