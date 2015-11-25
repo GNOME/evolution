@@ -20,8 +20,8 @@ msgstr ""
 "Project-Id-Version: evolution.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2015-11-20 05:51+0000\n"
-"PO-Revision-Date: 2015-11-20 11:37+0100\n"
+"POT-Creation-Date: 2015-11-25 05:51+0000\n"
+"PO-Revision-Date: 2015-11-25 09:47+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
 "Language: es\n"
@@ -560,7 +560,7 @@ msgstr "_Cargar X.509"
 #: ../addressbook/gui/widgets/eab-contact-merging.c:721
 #: ../calendar/calendar.error.xml.h:47 ../calendar/gui/e-comp-editor.c:2103
 #: ../composer/e-composer-actions.c:215 ../composer/e-composer-actions.c:355
-#: ../e-util/e-attachment-store.c:636
+#: ../e-util/e-attachment-store.c:641
 #: ../e-util/e-mail-signature-script-dialog.c:369 ../e-util/e-web-view.c:3261
 #: ../e-util/gal-view-instance-save-as-dialog.c:270
 #: ../shell/e-shell-content.c:660 ../shell/e-shell-utils.c:137
@@ -605,8 +605,8 @@ msgstr "Opciones"
 #: ../calendar/gui/e-cal-dialogs.c:689
 #: ../calendar/gui/e-comp-editor-page-recurrence.c:309
 #: ../composer/e-composer-actions.c:214 ../e-util/e-activity-bar.c:359
-#: ../e-util/e-attachment-dialog.c:311 ../e-util/e-attachment-store.c:491
-#: ../e-util/e-attachment-store.c:635 ../e-util/e-attachment-view.c:421
+#: ../e-util/e-attachment-dialog.c:311 ../e-util/e-attachment-store.c:496
+#: ../e-util/e-attachment-store.c:640 ../e-util/e-attachment-view.c:421
 #: ../e-util/e-categories-dialog.c:82 ../e-util/e-category-editor.c:138
 #: ../e-util/e-category-editor.c:208 ../e-util/e-charset-combo-box.c:101
 #: ../e-util/e-color-chooser-widget.c:127 ../e-util/e-filter-datespec.c:291
@@ -748,7 +748,7 @@ msgstr "Abrir certificado X.509"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:3274
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:4322
-#: ../e-util/e-attachment-store.c:489 ../e-util/e-category-editor.c:146
+#: ../e-util/e-attachment-store.c:494 ../e-util/e-category-editor.c:146
 #: ../e-util/e-html-editor-actions.c:594 ../e-util/e-html-editor-actions.c:689
 #: ../e-util/e-image-chooser-dialog.c:174 ../plugins/face/face.c:298
 #: ../shell/e-shell-utils.c:73 ../smime/gui/certificate-manager.c:956
@@ -4793,7 +4793,7 @@ msgid "Task - %s"
 msgstr "Tarea: %s"
 
 #: ../calendar/gui/e-comp-editor.c:254
-#: ../modules/prefer-plain/e-mail-parser-prefer-plain.c:121
+#: ../modules/prefer-plain/e-mail-parser-prefer-plain.c:127
 msgid "attachment"
 msgstr "adjunto"
 
@@ -7751,11 +7751,11 @@ msgstr ""
 "No es posible cifrar el mensaje saliente: no hay establecido un certificado "
 "de cifrado para esta cuenta"
 
-#: ../composer/e-msg-composer.c:1604 ../composer/e-msg-composer.c:2401
+#: ../composer/e-msg-composer.c:1588 ../composer/e-msg-composer.c:2385
 msgid "Compose Message"
 msgstr "Redactar un mensaje"
 
-#: ../composer/e-msg-composer.c:4751
+#: ../composer/e-msg-composer.c:4735
 msgid "The composer contains a non-text message body, which cannot be edited."
 msgstr ""
 "El editor contiene un mensaje cuyo cuerpo no tiene texto, el cual no puede "
@@ -10650,14 +10650,20 @@ msgid "Mode to use when displaying mails"
 msgstr "Modo que usar al mostrar correos"
 
 #: ../data/org.gnome.evolution.plugin.prefer-plain.gschema.xml.in.h:2
+#| msgid ""
+#| "The mode to use for displaying mails. \"normal\" makes Evolution choose "
+#| "the best part to show, \"prefer_plain\" makes it use the text part, if "
+#| "present, and \"only_plain\" forces Evolution to only show plain text"
 msgid ""
 "The mode to use for displaying mails. \"normal\" makes Evolution choose the "
 "best part to show, \"prefer_plain\" makes it use the text part, if present, "
-"and \"only_plain\" forces Evolution to only show plain text"
+"\"prefer_source\" makes it use the text part, if present, otherwise shows "
+"HTML source, and \"only_plain\" forces Evolution to only show plain text"
 msgstr ""
 "El modo usado para mostrar mensajes. «normal» hace que Evolution elija la "
 "mejor parte que mostrar, «prefer_plain» hace que se use la parte de texto, "
-"si existe, y «only_plain» fuerza a Evolution a mostrar sólo la parte de "
+"si existe, «prefer_source» usa la parte de texto, si existe, o si no usa la "
+"fuente HTML y «only_plain» fuerza a Evolution a mostrar sólo la parte de "
 "texto plano."
 
 #: ../data/org.gnome.evolution.plugin.prefer-plain.gschema.xml.in.h:3
@@ -11279,7 +11285,7 @@ msgstr "Operación cancelada"
 
 #. Translators: Default attachment filename.
 #: ../e-util/e-attachment.c:2333 ../e-util/e-attachment.c:3032
-#: ../e-util/e-attachment.c:3403 ../e-util/e-attachment-store.c:691
+#: ../e-util/e-attachment.c:3403 ../e-util/e-attachment-store.c:696
 msgid "attachment.dat"
 msgstr "attachment.dat"
 
@@ -11333,7 +11339,7 @@ msgstr "_Descripción:"
 msgid "MIME Type:"
 msgstr "Tipo MIME:"
 
-#: ../e-util/e-attachment-dialog.c:382 ../e-util/e-attachment-store.c:521
+#: ../e-util/e-attachment-dialog.c:382 ../e-util/e-attachment-store.c:526
 msgid "_Suggest automatic display of attachment"
 msgstr "_Sugerir mostrar automáticamente el adjunto"
 
@@ -11363,33 +11369,33 @@ msgstr "Ocultar _barra de adjuntos"
 msgid "Show Attachment _Bar"
 msgstr "Mostrar _barra de adjuntos"
 
-#: ../e-util/e-attachment-store.c:486
+#: ../e-util/e-attachment-store.c:491
 msgid "Add Attachment"
 msgstr "Añadir adjunto"
 
-#: ../e-util/e-attachment-store.c:493 ../e-util/e-attachment-store.c:495
+#: ../e-util/e-attachment-store.c:498 ../e-util/e-attachment-store.c:500
 msgid "A_ttach"
 msgstr "_Adjuntar"
 
-#: ../e-util/e-attachment-store.c:533
+#: ../e-util/e-attachment-store.c:538
 msgid "Archive selected directories using this format:"
 msgstr "Archivar las carpetas seleccionadas usando este formato:"
 
-#: ../e-util/e-attachment-store.c:626
+#: ../e-util/e-attachment-store.c:631
 msgid "Save Attachment"
 msgid_plural "Save Attachments"
 msgstr[0] "Guarda el adjunto"
 msgstr[1] "Guardar los adjuntos"
 
-#: ../e-util/e-attachment-store.c:653
+#: ../e-util/e-attachment-store.c:658
 msgid "Do _not extract files from the attachment"
 msgstr "_No extraer los archivos de los adjuntos"
 
-#: ../e-util/e-attachment-store.c:658
+#: ../e-util/e-attachment-store.c:663
 msgid "Save extracted files _only"
 msgstr "Guardar _sólo los archivos extraídos"
 
-#: ../e-util/e-attachment-store.c:663
+#: ../e-util/e-attachment-store.c:668
 msgid "Save extracted files and the original _archive"
 msgstr "Guardar los archivos extraídos y el _archivador original"
 
@@ -13337,11 +13343,11 @@ msgstr "_Tamaño:"
 msgid "Text Properties"
 msgstr "Propiedades del texto"
 
-#: ../e-util/e-html-editor-view.c:5996
+#: ../e-util/e-html-editor-view.c:6110
 msgid "Changed property"
 msgstr "Propiedad cambiada"
 
-#: ../e-util/e-html-editor-view.c:5997
+#: ../e-util/e-html-editor-view.c:6111
 msgid "Whether editor changed"
 msgstr "Indica si cambió el editor"
 
@@ -22428,23 +22434,23 @@ msgstr "Mostrar versión HTML"
 msgid "Display HTML version of multipart/alternative message"
 msgstr "Mostrar la versión HTML del mensaje multiparte/alternativo"
 
-#: ../modules/prefer-plain/e-mail-parser-prefer-plain.c:78
-#: ../modules/prefer-plain/plugin/config-ui.c:43
+#: ../modules/prefer-plain/e-mail-parser-prefer-plain.c:79
+#: ../modules/prefer-plain/plugin/config-ui.c:37
 msgid "Show HTML if present"
 msgstr "Mostrar HTML si está presente"
 
-#: ../modules/prefer-plain/e-mail-parser-prefer-plain.c:79
-#: ../modules/prefer-plain/plugin/config-ui.c:44
+#: ../modules/prefer-plain/e-mail-parser-prefer-plain.c:80
+#: ../modules/prefer-plain/plugin/config-ui.c:38
 msgid "Let Evolution choose the best part to show."
 msgstr "Permitir que Evolution elija la mejor parte para mostrar."
 
-#: ../modules/prefer-plain/e-mail-parser-prefer-plain.c:82
-#: ../modules/prefer-plain/plugin/config-ui.c:47
+#: ../modules/prefer-plain/e-mail-parser-prefer-plain.c:83
+#: ../modules/prefer-plain/plugin/config-ui.c:41
 msgid "Show plain text if present"
 msgstr "Mostrar texto plano si está presente"
 
-#: ../modules/prefer-plain/e-mail-parser-prefer-plain.c:83
-#: ../modules/prefer-plain/plugin/config-ui.c:48
+#: ../modules/prefer-plain/e-mail-parser-prefer-plain.c:84
+#: ../modules/prefer-plain/plugin/config-ui.c:42
 msgid ""
 "Show plain text part, if present, otherwise let Evolution choose the best "
 "part to show."
@@ -22452,13 +22458,29 @@ msgstr ""
 "Mostrar la parte en texto plano si está presente, de otra forma dejar que "
 "Evolution elija la mejor parte para mostrar."
 
-#: ../modules/prefer-plain/e-mail-parser-prefer-plain.c:87
-#: ../modules/prefer-plain/plugin/config-ui.c:52
+#: ../modules/prefer-plain/e-mail-parser-prefer-plain.c:88
+#: ../modules/prefer-plain/plugin/config-ui.c:46
+#| msgid "Show plain text if present"
+msgid "Show plain text if present, or HTML source"
+msgstr "Mostrar texto plano si está presente, o la fuente HTML"
+
+#: ../modules/prefer-plain/e-mail-parser-prefer-plain.c:89
+#: ../modules/prefer-plain/plugin/config-ui.c:47
+#| msgid ""
+#| "Show plain text part, if present, otherwise let Evolution choose the best "
+#| "part to show."
+msgid "Show plain text part, if present, otherwise the HTML part source."
+msgstr ""
+"Mostrar la parte en texto plano si está presente, si no mostrar la parte de "
+"la fuente HTML."
+
+#: ../modules/prefer-plain/e-mail-parser-prefer-plain.c:93
+#: ../modules/prefer-plain/plugin/config-ui.c:51
 msgid "Only ever show plain text"
 msgstr "Sólo mostrar texto plano"
 
-#: ../modules/prefer-plain/e-mail-parser-prefer-plain.c:88
-#: ../modules/prefer-plain/plugin/config-ui.c:53
+#: ../modules/prefer-plain/e-mail-parser-prefer-plain.c:94
+#: ../modules/prefer-plain/plugin/config-ui.c:52
 msgid ""
 "Always show plain text part and make attachments from other parts, if "
 "requested."
@@ -22466,11 +22488,11 @@ msgstr ""
 "Mostrar siempre parte en texto plano y, si se solicita, crear adjuntos de "
 "otras partes."
 
-#: ../modules/prefer-plain/plugin/config-ui.c:104
+#: ../modules/prefer-plain/plugin/config-ui.c:103
 msgid "Show s_uppressed HTML parts as attachments"
 msgstr "Mostrar las partes HTML s_uprimidas como adjuntos"
 
-#: ../modules/prefer-plain/plugin/config-ui.c:126
+#: ../modules/prefer-plain/plugin/config-ui.c:125
 msgid "HTML _Mode"
 msgstr "_Modo HTML"
 
