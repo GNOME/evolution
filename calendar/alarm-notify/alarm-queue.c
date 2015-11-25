@@ -1833,6 +1833,34 @@ notify_open_appointments_cb (NotifyNotification *notification,
 	tray_icon_clicked_cb (NULL, &event, NULL);
 }
 
+/* Check if actions are supported by the notification daemon.
+ * This is really only for Ubuntu's Notify OSD, which does not
+ * support actions.  Pretty much all other implementations do. */
+static gboolean
+can_support_actions (void)
+{
+	static gboolean supports_actions = FALSE;
+	static gboolean have_checked = FALSE;
+
+	if (!have_checked) {
+		GList *caps = NULL;
+		GList *match;
+
+		have_checked = TRUE;
+
+		caps = notify_get_server_caps ();
+
+		match = g_list_find_custom (
+			caps, "actions", (GCompareFunc) strcmp);
+		supports_actions = (match != NULL);
+
+		g_list_foreach (caps, (GFunc) g_free, NULL);
+		g_list_free (caps);
+	}
+
+	return supports_actions;
+}
+
 static void
 popup_notification (time_t trigger,
                     CompQueuedAlarms *cqa,
@@ -1916,9 +1944,11 @@ popup_notification (time_t trigger,
 		qa->notify, "desktop-entry",
 		g_variant_new_string (PACKAGE));
 
-	notify_notification_add_action (
-		qa->notify, "open-appointments", _("Appointments"),
-		notify_open_appointments_cb, NULL, NULL);
+	if (can_support_actions ()) {
+		notify_notification_add_action (
+			qa->notify, "open-appointments", _("Appointments"),
+			notify_open_appointments_cb, NULL, NULL);
+	}
 
 	if (!notify_notification_show (qa->notify, &error))
 		g_warning ("Could not send notification to daemon: %s\n", error ? error->message : "Unknown error");
