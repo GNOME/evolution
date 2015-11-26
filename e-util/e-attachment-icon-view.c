@@ -197,12 +197,14 @@ attachment_icon_view_button_press_event (GtkWidget *widget,
 {
 	EAttachmentView *view = E_ATTACHMENT_VIEW (widget);
 
-	if (e_attachment_view_button_press_event (view, event))
-		return TRUE;
+	if (!e_attachment_view_button_press_event (view, event)) {
+		/* Chain up to parent's button_press_event() method. */
+		GTK_WIDGET_CLASS (e_attachment_icon_view_parent_class)->
+			button_press_event (widget, event);
+	}
 
-	/* Chain up to parent's button_press_event() method. */
-	return GTK_WIDGET_CLASS (e_attachment_icon_view_parent_class)->
-		button_press_event (widget, event);
+	/* Never propagate the event to the parent */
+	return TRUE;
 }
 
 static gboolean
@@ -211,12 +213,14 @@ attachment_icon_view_button_release_event (GtkWidget *widget,
 {
 	EAttachmentView *view = E_ATTACHMENT_VIEW (widget);
 
-	if (e_attachment_view_button_release_event (view, event))
-		return TRUE;
+	if (!e_attachment_view_button_release_event (view, event)) {
+		/* Chain up to parent's button_release_event() method. */
+		GTK_WIDGET_CLASS (e_attachment_icon_view_parent_class)->
+			button_release_event (widget, event);
+	}
 
-	/* Chain up to parent's button_release_event() method. */
-	return GTK_WIDGET_CLASS (e_attachment_icon_view_parent_class)->
-		button_release_event (widget, event);
+	/* Never propagate the event to the parent */
+	return TRUE;
 }
 
 static gboolean
@@ -225,12 +229,14 @@ attachment_icon_view_motion_notify_event (GtkWidget *widget,
 {
 	EAttachmentView *view = E_ATTACHMENT_VIEW (widget);
 
-	if (e_attachment_view_motion_notify_event (view, event))
-		return TRUE;
+	if (!e_attachment_view_motion_notify_event (view, event)) {
+		/* Chain up to parent's motion_notify_event() method. */
+		GTK_WIDGET_CLASS (e_attachment_icon_view_parent_class)->
+			motion_notify_event (widget, event);
+	}
 
-	/* Chain up to parent's motion_notify_event() method. */
-	return GTK_WIDGET_CLASS (e_attachment_icon_view_parent_class)->
-		motion_notify_event (widget, event);
+	/* Never propagate the event to the parent */
+	return TRUE;
 }
 
 static gboolean
