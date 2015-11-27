@@ -90,6 +90,8 @@ struct _EWebViewPrivate {
 	/* To workaround webkit bug:
 	 * https://bugs.webkit.org/show_bug.cgi?id=89553 */
 	EWebViewZoomHackState zoom_hack_state;
+
+	gboolean has_hover_link;
 };
 
 struct _AsyncContext {
@@ -560,6 +562,8 @@ web_view_mouse_target_changed_cb (EWebView *web_view,
 {
 	EWebViewClass *class;
 	const gchar *title, *uri;
+
+	web_view->priv->has_hover_link = uri && *uri;
 
 	/* XXX WebKitWebView does not provide a class method for
 	 *     this signal, so we do so we can override the default
@@ -1907,6 +1911,57 @@ web_view_initialize_web_context (void)
 }
 
 static void
+web_view_toplevel_event_after_cb (GtkWidget *widget,
+				  GdkEvent *event,
+				  EWebView *web_view)
+{
+	if (event && event->type == GDK_MOTION_NOTIFY && web_view->priv->has_hover_link) {
+		GdkEventMotion *motion_event = (GdkEventMotion *) event;
+
+		if (gdk_event_get_window (event) != gtk_widget_get_window (GTK_WIDGET (web_view))) {
+			GdkEventMotion fake_motion_event;
+			gboolean result = FALSE;
+
+			fake_motion_event = *motion_event;
+			fake_motion_event.x = -1.0;
+			fake_motion_event.y = -1.0;
+			fake_motion_event.window = gtk_widget_get_window (GTK_WIDGET (web_view));
+
+			/* Use a fake event instead of the call to unset the status message, because
+			   WebKit caches which link it stays on and doesn't emit the signal when still
+			   moving about the same link, thus this will unset the link also for the WebKit. */
+			g_signal_emit_by_name (web_view, "motion-notify-event", &fake_motion_event, &result);
+
+			web_view->priv->has_hover_link = FALSE;
+		}
+	}
+}
+
+static void
+web_view_map (GtkWidget *widget)
+{
+	GtkWidget *toplevel;
+
+	toplevel = gtk_widget_get_toplevel (widget);
+
+	g_signal_connect (toplevel, "event-after", G_CALLBACK (web_view_toplevel_event_after_cb), widget);
+
+	GTK_WIDGET_CLASS (e_web_view_parent_class)->map (widget);
+}
+
+static void
+web_view_unmap (GtkWidget *widget)
+{
+	GtkWidget *toplevel;
+
+	toplevel = gtk_widget_get_toplevel (widget);
+
+	g_signal_handlers_disconnect_by_func (toplevel, G_CALLBACK (web_view_toplevel_event_after_cb), widget);
+
+	GTK_WIDGET_CLASS (e_web_view_parent_class)->unmap (widget);
+}
+
+static void
 e_web_view_class_init (EWebViewClass *class)
 {
 	GObjectClass *object_class;
@@ -1927,6 +1982,8 @@ e_web_view_class_init (EWebViewClass *class)
 	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->scroll_event = web_view_scroll_event;
 	widget_class->drag_motion = web_view_drag_motion;
+	widget_class->map = web_view_map;
+	widget_class->unmap = web_view_unmap;
 
 	class->create_plugin_widget = web_view_create_plugin_widget;
 	class->hovering_over_link = web_view_hovering_over_link;
