@@ -5,22 +5,23 @@
 # Tiago Antão <tiagoantao@bigfoot.com>, 2000.
 # Tiago S. <almosthumane@portugalmail.pt>
 # Pedro Albuquerque <palbuquerque73@gmail.com>, 2015.
+#
 #: ../shell/main.c:522
 msgid ""
 msgstr ""
 "Project-Id-Version: 3.12\n"
-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=evolut"
-"ion&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2015-11-21 05:50+0000\n"
-"PO-Revision-Date: 2015-11-21 08:50+0100\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
+"product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
+"POT-Creation-Date: 2015-11-28 05:50+0000\n"
+"PO-Revision-Date: 2015-11-28 08:46+0000\n"
 "Last-Translator: Pedro Albuquerque <palbuquerque73@gmail.com>\n"
-"Language-Team: Pedro Albuquerque\n"
+"Language-Team: Português <palbuquerque73@gmail.com>\n"
 "Language: pt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Virtaal 0.7.1\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\\n\n"
+"X-Generator: Gtranslator 2.91.6\n"
 "X-Language: pt_PT\n"
 "X-Source-Language: C\n"
 "X-Project-Style: gnome\n"
@@ -91,8 +92,8 @@ msgstr "Eliminar o livro de endereços \"{0}\"?"
 msgid "This address book will be removed permanently."
 msgstr "Este livro de endereços será definitivamente removido."
 
-#: ../addressbook/addressbook.error.xml.h:13 ../calendar/calendar.error.xml.h:7
-#: ../mail/mail.error.xml.h:69
+#: ../addressbook/addressbook.error.xml.h:13
+#: ../calendar/calendar.error.xml.h:7 ../mail/mail.error.xml.h:69
 msgid "Do _Not Delete"
 msgstr "_Não eliminar"
 
@@ -552,7 +553,7 @@ msgstr "_Carregar X.509"
 #: ../calendar/calendar.error.xml.h:47 ../calendar/gui/e-comp-editor.c:2103
 #: ../composer/e-composer-actions.c:215 ../composer/e-composer-actions.c:355
 #: ../e-util/e-attachment-store.c:641
-#: ../e-util/e-mail-signature-script-dialog.c:369 ../e-util/e-web-view.c:3261
+#: ../e-util/e-mail-signature-script-dialog.c:369 ../e-util/e-web-view.c:3318
 #: ../e-util/gal-view-instance-save-as-dialog.c:270
 #: ../shell/e-shell-content.c:660 ../shell/e-shell-utils.c:137
 #: ../smime/gui/certificate-manager.c:655
@@ -569,7 +570,7 @@ msgstr "Certificados"
 #: ../calendar/gui/e-comp-editor.c:2000 ../calendar/gui/e-comp-editor.c:2072
 #: ../e-util/e-preferences-window.c:382 ../e-util/e-send-options.ui.h:41
 #: ../plugins/email-custom-header/org-gnome-email-custom-header.ui.h:2
-#: ../shell/e-shell.c:1215 ../shell/e-shell-window-actions.c:955
+#: ../shell/e-shell.c:1216 ../shell/e-shell-window-actions.c:955
 msgid "_Help"
 msgstr "A_Juda"
 
@@ -609,7 +610,7 @@ msgstr "Opções"
 #: ../e-util/e-send-options.ui.h:42 ../e-util/e-source-config-dialog.c:379
 #: ../e-util/e-source-selector-dialog.c:372 ../e-util/e-table-config.c:548
 #: ../e-util/e-table-config.ui.h:1 ../e-util/e-timezone-dialog.ui.h:2
-#: ../e-util/evolution-source-viewer.c:834 ../e-util/e-web-view.c:3260
+#: ../e-util/evolution-source-viewer.c:834 ../e-util/e-web-view.c:3317
 #: ../e-util/gal-view-instance-save-as-dialog.c:269
 #: ../mail/e-mail-config-window.c:330 ../mail/e-mail-label-dialog.c:196
 #: ../mail/e-mail-tag-editor.c:242 ../mail/em-folder-selector.c:317
@@ -1045,22 +1046,22 @@ msgid "Copy _Email Address"
 msgstr "Copiar endereço eletrónico"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:151
-#: ../e-util/e-web-view.c:338
+#: ../e-util/e-web-view.c:340
 msgid "Copy the email address to the clipboard"
 msgstr "Copiar o endereço eletrónico para a área de transferência"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:156
-#: ../e-util/e-web-view.c:350
+#: ../e-util/e-web-view.c:352
 msgid "_Send New Message To..."
 msgstr "_Enviar uma nova mensagem para..."
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:158
-#: ../e-util/e-web-view.c:352
+#: ../e-util/e-web-view.c:354
 msgid "Send a mail message to this address"
 msgstr "Enviar uma mensagem para este endereço"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:290
-#: ../e-util/e-web-view.c:1065
+#: ../e-util/e-web-view.c:1069
 #, c-format
 msgid "Click to mail %s"
 msgstr "Clicar para enviar mensagem a %s"
@@ -1461,7 +1462,8 @@ msgstr "Tem a certeza que deseja eliminar este contacto (%s)?"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:1366
 #: ../calendar/gui/e-comp-editor.c:1993 ../e-util/e-focus-tracker.c:785
-#: ../e-util/evolution-source-viewer.c:805 ../mail/e-mail-account-manager.c:736
+#: ../e-util/evolution-source-viewer.c:805
+#: ../mail/e-mail-account-manager.c:736
 #: ../modules/addressbook/e-book-shell-view-actions.c:1089
 #: ../modules/calendar/e-cal-shell-view-actions.c:1459
 #: ../modules/calendar/e-memo-shell-view-actions.c:658
@@ -1740,7 +1742,8 @@ msgstr ""
 #: ../addressbook/importers/evolution-vcard-importer.c:249
 #: ../calendar/importers/icalendar-importer.c:484
 #: ../calendar/importers/icalendar-importer.c:979
-#: ../calendar/importers/icalendar-importer.c:1018 ../shell/shell.error.xml.h:1
+#: ../calendar/importers/icalendar-importer.c:1018
+#: ../shell/shell.error.xml.h:1
 msgid "Importing..."
 msgstr "A importar..."
 
@@ -1977,7 +1980,7 @@ msgid "Start time"
 msgstr "Hora de início"
 
 #: ../calendar/alarm-notify/alarm-notify.ui.h:1
-#: ../calendar/alarm-notify/alarm-queue.c:1920
+#: ../calendar/alarm-notify/alarm-queue.c:1949
 msgid "Appointments"
 msgstr "Compromissos"
 
@@ -2013,8 +2016,8 @@ msgid "_Dismiss"
 msgstr "_Dispensar"
 
 #: ../calendar/alarm-notify/alarm-notify.ui.h:7
-#: ../calendar/alarm-notify/alarm-queue.c:1888
-#: ../calendar/alarm-notify/alarm-queue.c:1898
+#: ../calendar/alarm-notify/alarm-queue.c:1916
+#: ../calendar/alarm-notify/alarm-queue.c:1926
 #: ../modules/cal-config-weather/evolution-cal-config-weather.c:248
 #: ../modules/itip-formatter/itip-view.c:1514
 #: ../modules/itip-formatter/itip-view.c:1625
@@ -2050,7 +2053,7 @@ msgid "minutes"
 msgstr "minutos"
 
 #: ../calendar/alarm-notify/alarm-queue.c:1714
-#: ../calendar/alarm-notify/alarm-queue.c:1868
+#: ../calendar/alarm-notify/alarm-queue.c:1896
 msgid "No summary available."
 msgstr "Nenhum resumo disponível."
 
@@ -2064,8 +2067,8 @@ msgid "No location information available."
 msgstr "Nenhuma informação de local disponível."
 
 #: ../calendar/alarm-notify/alarm-queue.c:1738
-#: ../calendar/alarm-notify/alarm-queue.c:1859
-#: ../calendar/alarm-notify/alarm-queue.c:2210
+#: ../calendar/alarm-notify/alarm-queue.c:1887
+#: ../calendar/alarm-notify/alarm-queue.c:2240
 msgid "Evolution Reminders"
 msgstr "Lembretes do Evolution"
 
@@ -2076,21 +2079,21 @@ msgid_plural "You have %d reminders"
 msgstr[0] "Tem %d lembrete"
 msgstr[1] "Tem %d lembretes"
 
-#: ../calendar/alarm-notify/alarm-queue.c:2028
+#: ../calendar/alarm-notify/alarm-queue.c:2058
 msgid "Warning"
 msgstr "Aviso"
 
-#: ../calendar/alarm-notify/alarm-queue.c:2029 ../mail/mail-dialogs.ui.h:21
+#: ../calendar/alarm-notify/alarm-queue.c:2059 ../mail/mail-dialogs.ui.h:21
 #: ../modules/mailto-handler/evolution-mailto-handler.c:114
 msgid "_No"
 msgstr "_Não"
 
-#: ../calendar/alarm-notify/alarm-queue.c:2030
+#: ../calendar/alarm-notify/alarm-queue.c:2060
 #: ../modules/mailto-handler/evolution-mailto-handler.c:115
 msgid "_Yes"
 msgstr "_Sim"
 
-#: ../calendar/alarm-notify/alarm-queue.c:2034
+#: ../calendar/alarm-notify/alarm-queue.c:2064
 #, c-format
 msgid ""
 "An Evolution Calendar reminder is about to trigger. This reminder is "
@@ -2107,7 +2110,7 @@ msgstr ""
 "\n"
 "Tem a certeza que deseja executar esta aplicação?"
 
-#: ../calendar/alarm-notify/alarm-queue.c:2049
+#: ../calendar/alarm-notify/alarm-queue.c:2079
 msgid "Do not ask me about this program again."
 msgstr "Não perguntar novamente sobre esta aplicação."
 
@@ -2294,7 +2297,8 @@ msgstr "Efetuou alterações a esta reunião, mas ainda não as gravou."
 msgid "_Save Changes"
 msgstr "_Gravar as alterações"
 
-#: ../calendar/calendar.error.xml.h:31 ../composer/mail-composer.error.xml.h:13
+#: ../calendar/calendar.error.xml.h:31
+#: ../composer/mail-composer.error.xml.h:13
 msgid "_Discard Changes"
 msgstr "_Descartar as alterações"
 
@@ -2333,8 +2337,8 @@ msgstr ""
 "Serão enviados convites a todos os participantes e ser-lhes-á possível "
 "responder."
 
-#: ../calendar/calendar.error.xml.h:40 ../composer/mail-composer.error.xml.h:36
-#: ../mail/mail.error.xml.h:8
+#: ../calendar/calendar.error.xml.h:40
+#: ../composer/mail-composer.error.xml.h:36 ../mail/mail.error.xml.h:8
 #: ../plugins/attachment-reminder/org-gnome-attachment-reminder.error.xml.h:5
 msgid "_Send"
 msgstr "_Enviar"
@@ -2797,7 +2801,7 @@ msgstr "não contém"
 
 #: ../calendar/gui/caltypes.xml.h:4 ../calendar/gui/e-cal-list-view.etspec.h:4
 #: ../calendar/gui/memotypes.xml.h:4 ../calendar/gui/tasktypes.xml.h:4
-#: ../e-util/e-attachment-tree-view.c:527 ../e-util/e-table-config.ui.h:7
+#: ../e-util/e-attachment-tree-view.c:533 ../e-util/e-table-config.ui.h:7
 #: ../modules/plugin-manager/evolution-plugin-manager.c:68
 msgid "Description"
 msgstr "Descrição"
@@ -2837,8 +2841,8 @@ msgstr "Privado"
 
 #: ../calendar/gui/caltypes.xml.h:11 ../calendar/gui/e-cal-list-view.c:243
 #: ../calendar/gui/e-cal-model.c:316 ../calendar/gui/e-task-table.c:500
-#: ../calendar/gui/memotypes.xml.h:12 ../e-util/e-html-editor-page-dialog.c:117
-#: ../e-util/e-send-options.ui.h:7
+#: ../calendar/gui/memotypes.xml.h:12
+#: ../e-util/e-html-editor-page-dialog.c:117 ../e-util/e-send-options.ui.h:7
 msgid "Confidential"
 msgstr "Confidencial"
 
@@ -2853,8 +2857,8 @@ msgstr "Organizador"
 msgid "Attendee"
 msgstr "Participante"
 
-#: ../calendar/gui/caltypes.xml.h:14 ../calendar/gui/e-cal-list-view.etspec.h:5
-#: ../mail/message-list.etspec.h:14
+#: ../calendar/gui/caltypes.xml.h:14
+#: ../calendar/gui/e-cal-list-view.etspec.h:5 ../mail/message-list.etspec.h:14
 #: ../plugins/publish-calendar/publish-calendar.c:862
 #: ../plugins/publish-calendar/publish-calendar.ui.h:22
 #: ../plugins/save-calendar/csv-format.c:389
@@ -3179,7 +3183,8 @@ msgstr "Em curso"
 #: ../calendar/gui/e-meeting-store.c:204 ../calendar/gui/e-meeting-store.c:227
 #: ../calendar/gui/e-task-table.c:211 ../calendar/gui/e-task-table.c:226
 #: ../calendar/gui/e-task-table.c:609 ../calendar/gui/print.c:3579
-#: ../calendar/gui/tasktypes.xml.h:13 ../plugins/save-calendar/csv-format.c:379
+#: ../calendar/gui/tasktypes.xml.h:13
+#: ../plugins/save-calendar/csv-format.c:379
 msgid "Completed"
 msgstr "Terminada"
 
@@ -3569,25 +3574,29 @@ msgstr "Sim"
 msgid "No"
 msgstr "Não"
 
-#: ../calendar/gui/e-cal-model.c:3802 ../calendar/gui/e-meeting-list-view.c:220
+#: ../calendar/gui/e-cal-model.c:3802
+#: ../calendar/gui/e-meeting-list-view.c:220
 #: ../calendar/gui/e-meeting-store.c:196 ../calendar/gui/e-meeting-store.c:219
 #: ../modules/itip-formatter/itip-view.c:6206
 msgid "Accepted"
 msgstr "Aceite"
 
-#: ../calendar/gui/e-cal-model.c:3803 ../calendar/gui/e-meeting-list-view.c:221
+#: ../calendar/gui/e-cal-model.c:3803
+#: ../calendar/gui/e-meeting-list-view.c:221
 #: ../calendar/gui/e-meeting-store.c:198 ../calendar/gui/e-meeting-store.c:221
 #: ../modules/itip-formatter/itip-view.c:6212
 msgid "Declined"
 msgstr "Recusada"
 
-#: ../calendar/gui/e-cal-model.c:3804 ../calendar/gui/e-meeting-list-view.c:222
+#: ../calendar/gui/e-cal-model.c:3804
+#: ../calendar/gui/e-meeting-list-view.c:222
 #: ../calendar/gui/e-meeting-store.c:200 ../calendar/gui/e-meeting-store.c:223
 #: ../calendar/gui/e-meeting-time-sel.c:535
 msgid "Tentative"
 msgstr "Tentativa"
 
-#: ../calendar/gui/e-cal-model.c:3805 ../calendar/gui/e-meeting-list-view.c:223
+#: ../calendar/gui/e-cal-model.c:3805
+#: ../calendar/gui/e-meeting-list-view.c:223
 #: ../calendar/gui/e-meeting-store.c:202 ../calendar/gui/e-meeting-store.c:225
 #: ../modules/itip-formatter/itip-view.c:6215
 msgid "Delegated"
@@ -3599,7 +3608,8 @@ msgstr "Requer ação"
 
 #. To Translators: 'Status' here means the state of the attendees, the resulting string will be in a form:
 #. * Status: Accepted: X   Declined: Y   ...
-#: ../calendar/gui/e-cal-model.c:3861 ../calendar/gui/e-meeting-list-view.c:713
+#: ../calendar/gui/e-cal-model.c:3861
+#: ../calendar/gui/e-meeting-list-view.c:713
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:9
 #: ../calendar/gui/e-task-table.etspec.h:11 ../calendar/gui/tasktypes.xml.h:8
 #: ../mail/filtertypes.xml.in.h:36 ../mail/message-list.etspec.h:1
@@ -3851,7 +3861,7 @@ msgstr "Hora de início incorreta"
 #: ../calendar/gui/e-comp-editor-page-attachments.c:211
 #: ../calendar/gui/e-comp-editor.c:339 ../mail/e-mail-reader-utils.c:650
 #: ../mail/mail-send-recv.c:486 ../mail/mail-send-recv.c:1285
-#: ../plugins/face/face.c:176 ../shell/e-shell.c:972 ../shell/e-shell.c:994
+#: ../plugins/face/face.c:176 ../shell/e-shell.c:973 ../shell/e-shell.c:995
 #: ../smime/gui/certificate-manager.c:346
 msgid "Unknown error"
 msgstr "Erro desconhecido"
@@ -3980,8 +3990,6 @@ msgid "Appointment - %s"
 msgstr "Compromisso - %s"
 
 #: ../calendar/gui/e-comp-editor-memo.c:68
-#| msgid ""
-#| "Task cannot be edited, because the selected task list could not be opened"
 msgid ""
 "Memo cannot be edited, because the selected memo list could not be opened"
 msgstr ""
@@ -4782,7 +4790,7 @@ msgid "Task - %s"
 msgstr "Tarefa - %s"
 
 #: ../calendar/gui/e-comp-editor.c:254
-#: ../modules/prefer-plain/e-mail-parser-prefer-plain.c:121
+#: ../modules/prefer-plain/e-mail-parser-prefer-plain.c:127
 msgid "attachment"
 msgstr "anexo"
 
@@ -4800,7 +4808,8 @@ msgstr "Sem resumo"
 
 #. == Button box ==
 #: ../calendar/gui/e-comp-editor.c:1972 ../composer/e-composer-actions.c:334
-#: ../e-util/e-html-editor-dialog.c:196 ../e-util/e-mail-signature-editor.c:295
+#: ../e-util/e-html-editor-dialog.c:196
+#: ../e-util/e-mail-signature-editor.c:295
 #: ../e-util/e-name-selector-dialog.c:551 ../e-util/e-preferences-window.c:391
 #: ../e-util/e-table-field-chooser-dialog.c:207 ../mail/e-mail-browser.c:129
 #: ../mail/e-mail-notes.c:903 ../mail/em-folder-properties.c:688
@@ -4818,15 +4827,15 @@ msgstr "Fechar a janela atual"
 #. copy menu item
 #: ../calendar/gui/e-comp-editor.c:1979 ../e-util/e-focus-tracker.c:775
 #: ../e-util/e-html-editor-actions.c:1076 ../e-util/e-text.c:2109
-#: ../e-util/e-web-view.c:377 ../mail/e-mail-browser.c:136
+#: ../e-util/e-web-view.c:379 ../mail/e-mail-browser.c:136
 #: ../mail/mail.error.xml.h:141 ../shell/e-shell-window-actions.c:799
 msgid "_Copy"
 msgstr "_Copiar"
 
 #: ../calendar/gui/e-comp-editor.c:1981 ../e-util/e-focus-tracker.c:175
 #: ../e-util/e-focus-tracker.c:231 ../e-util/e-focus-tracker.c:284
-#: ../e-util/e-focus-tracker.c:776 ../e-util/e-web-view.c:379
-#: ../e-util/e-web-view.c:1416 ../mail/e-mail-browser.c:138
+#: ../e-util/e-focus-tracker.c:776 ../e-util/e-web-view.c:381
+#: ../e-util/e-web-view.c:1420 ../mail/e-mail-browser.c:138
 #: ../shell/e-shell-window-actions.c:801
 msgid "Copy the selection"
 msgstr "Copiar a seleção"
@@ -4840,7 +4849,7 @@ msgstr "Cor_Tar"
 
 #: ../calendar/gui/e-comp-editor.c:1988 ../e-util/e-focus-tracker.c:168
 #: ../e-util/e-focus-tracker.c:224 ../e-util/e-focus-tracker.c:278
-#: ../e-util/e-focus-tracker.c:771 ../e-util/e-web-view.c:1410
+#: ../e-util/e-focus-tracker.c:771 ../e-util/e-web-view.c:1414
 #: ../mail/e-mail-browser.c:145 ../shell/e-shell-window-actions.c:808
 msgid "Cut the selection"
 msgstr "Cortar a seleção"
@@ -4864,7 +4873,7 @@ msgstr "_Colar"
 
 #: ../calendar/gui/e-comp-editor.c:2009 ../e-util/e-focus-tracker.c:182
 #: ../e-util/e-focus-tracker.c:238 ../e-util/e-focus-tracker.c:290
-#: ../e-util/e-focus-tracker.c:781 ../e-util/e-web-view.c:1422
+#: ../e-util/e-focus-tracker.c:781 ../e-util/e-web-view.c:1426
 #: ../mail/e-mail-browser.c:152 ../shell/e-shell-window-actions.c:836
 msgid "Paste the clipboard"
 msgstr "Colar da área de transferência"
@@ -4885,7 +4894,7 @@ msgid "Pre_view..."
 msgstr "Ante_Ver..."
 
 #: ../calendar/gui/e-comp-editor.c:2028 ../e-util/e-focus-tracker.c:790
-#: ../e-util/e-html-editor-actions.c:1104 ../e-util/e-web-view.c:387
+#: ../e-util/e-html-editor-actions.c:1104 ../e-util/e-web-view.c:389
 #: ../mail/e-mail-browser.c:157 ../shell/e-shell-window-actions.c:911
 msgid "Select _All"
 msgstr "Seleccion_Ar tudo"
@@ -4924,8 +4933,8 @@ msgstr "_Ver"
 msgid "Save current changes"
 msgstr "Gravar as alterações atuais"
 
-#: ../calendar/gui/e-comp-editor.c:2110 ../e-util/e-mail-signature-editor.c:304
-#: ../mail/e-mail-notes.c:912
+#: ../calendar/gui/e-comp-editor.c:2110
+#: ../e-util/e-mail-signature-editor.c:304 ../mail/e-mail-notes.c:912
 msgid "Save and Close"
 msgstr "Gravar e fechar"
 
@@ -5076,7 +5085,7 @@ msgstr "Participante                      "
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:4
 #: ../calendar/gui/e-memo-table.etspec.h:3
 #: ../calendar/gui/e-task-table.etspec.h:3
-#: ../e-util/e-attachment-tree-view.c:585
+#: ../e-util/e-attachment-tree-view.c:591
 #: ../mail/e-mail-account-tree-view.c:157
 msgid "Type"
 msgstr "Tipo"
@@ -7502,7 +7511,7 @@ msgstr "Nova _Mensagem"
 msgid "Open New Message window"
 msgstr "Abrir a janela Nova mensagem"
 
-#: ../composer/e-composer-actions.c:348 ../shell/e-shell.c:1208
+#: ../composer/e-composer-actions.c:348 ../shell/e-shell.c:1209
 #: ../shell/e-shell-window-actions.c:848
 msgid "_Preferences"
 msgstr "_Preferências"
@@ -10593,15 +10602,21 @@ msgid "Mode to use when displaying mails"
 msgstr "Modo a utilizar ao mostrar mensagens"
 
 #: ../data/org.gnome.evolution.plugin.prefer-plain.gschema.xml.in.h:2
+#| msgid ""
+#| "The mode to use for displaying mails. \"normal\" makes Evolution choose "
+#| "the best part to show, \"prefer_plain\" makes it use the text part, if "
+#| "present, and \"only_plain\" forces Evolution to only show plain text"
 msgid ""
 "The mode to use for displaying mails. \"normal\" makes Evolution choose the "
 "best part to show, \"prefer_plain\" makes it use the text part, if present, "
-"and \"only_plain\" forces Evolution to only show plain text"
+"\"prefer_source\" makes it use the text part, if present, otherwise shows "
+"HTML source, and \"only_plain\" forces Evolution to only show plain text"
 msgstr ""
 "O modo a utilizar para mostrar mensagens. \"normal\" faz o Evolution "
 "escolher a melhor parte a mostrar, \"prefer_plain\" faz com que mostre a "
-"parte de texto, se presente, e \"only_plain\" força o Evolution a mostrar "
-"apenas o texto simples"
+"parte de texto, se presente, \"prefer_source\" faz com que use a parte de "
+"texto, se presente, senão mostra a origem HTML e \"only_plain\" força o "
+"Evolution a mostrar apenas o texto simples."
 
 #: ../data/org.gnome.evolution.plugin.prefer-plain.gschema.xml.in.h:3
 msgid "Whether to show suppressed HTML output"
@@ -10832,7 +10847,7 @@ msgid "Name"
 msgstr "Nome"
 
 #: ../em-format/e-mail-formatter-print.c:51
-#: ../e-util/e-attachment-tree-view.c:573 ../mail/message-list.etspec.h:10
+#: ../e-util/e-attachment-tree-view.c:579 ../mail/message-list.etspec.h:10
 msgid "Size"
 msgstr "Tamanho"
 
@@ -10840,7 +10855,8 @@ msgstr "Tamanho"
 #: ../em-format/e-mail-part-headers.c:51 ../mail/e-mail-tag-editor.c:282
 #: ../mail/filtertypes.xml.in.h:16 ../mail/message-list.etspec.h:6
 #: ../mail/searchtypes.xml.in.h:17 ../mail/vfoldertypes.xml.in.h:17
-#: ../modules/mail/em-mailer-prefs.c:67 ../smime/gui/certificate-manager.c:1632
+#: ../modules/mail/em-mailer-prefs.c:67
+#: ../smime/gui/certificate-manager.c:1632
 msgid "Subject"
 msgstr "Assunto"
 
@@ -11286,12 +11302,12 @@ msgid "Set as _Background"
 msgstr "Definir como _Fundo"
 
 #: ../e-util/e-attachment-icon-view.c:168
-#: ../e-util/e-attachment-tree-view.c:548
+#: ../e-util/e-attachment-tree-view.c:554
 msgid "Loading"
 msgstr "A carregar"
 
 #: ../e-util/e-attachment-icon-view.c:180
-#: ../e-util/e-attachment-tree-view.c:560
+#: ../e-util/e-attachment-tree-view.c:566
 msgid "Saving"
 msgstr "A gravar"
 
@@ -11877,7 +11893,8 @@ msgstr "Clique neste botão para mostrar um calendário"
 msgid "Drop-down combination box to select time"
 msgstr "Caixa de combinação para escolher a hora"
 
-#: ../e-util/e-dateedit.c:629 ../modules/calendar/e-calendar-preferences.ui.h:9
+#: ../e-util/e-dateedit.c:629
+#: ../modules/calendar/e-calendar-preferences.ui.h:9
 msgid "Time"
 msgstr "Hora"
 
@@ -13117,7 +13134,8 @@ msgstr "<b>Imagem de fundo</b>"
 msgid "_Template:"
 msgstr "_Modelo:"
 
-#: ../e-util/e-html-editor-page-dialog.c:646 ../e-util/e-import-assistant.c:283
+#: ../e-util/e-html-editor-page-dialog.c:646
+#: ../e-util/e-import-assistant.c:283
 msgid "Select a file"
 msgstr "Selecione um ficheiro"
 
@@ -13226,7 +13244,8 @@ msgstr "<b>Dicionário</b>"
 msgid "Add word"
 msgstr "Adicionar palavra"
 
-#: ../e-util/e-html-editor-spell-check-dialog.c:637 ../mail/mail-config.ui.h:39
+#: ../e-util/e-html-editor-spell-check-dialog.c:637
+#: ../mail/mail-config.ui.h:39
 msgid "Spell Checking"
 msgstr "Verificar a ortografia"
 
@@ -13267,11 +13286,11 @@ msgstr "Ta_Manho:"
 msgid "Text Properties"
 msgstr "Propriedades do texto"
 
-#: ../e-util/e-html-editor-view.c:6087
+#: ../e-util/e-html-editor-view.c:6110
 msgid "Changed property"
 msgstr "Propriedade alterada"
 
-#: ../e-util/e-html-editor-view.c:6088
+#: ../e-util/e-html-editor-view.c:6111
 msgid "Whether editor changed"
 msgstr "Se o editor mudou"
 
@@ -13511,7 +13530,8 @@ msgstr "Co_Ntactos"
 msgid "Search"
 msgstr "Procurar"
 
-#: ../e-util/e-name-selector-dialog.c:448 ../mail/importers/pine-importer.c:429
+#: ../e-util/e-name-selector-dialog.c:448
+#: ../mail/importers/pine-importer.c:429
 msgid "Address Book"
 msgstr "Livro de endereços"
 
@@ -13746,7 +13766,8 @@ msgid "Reached top of page, continued from bottom"
 msgstr "Alcançado o topo da página, continuada a partir do fundo"
 
 #: ../e-util/e-send-options.c:538 ../mail/importers/elm-importer.c:329
-#: ../mail/importers/kmail-importer.c:253 ../mail/importers/pine-importer.c:422
+#: ../mail/importers/kmail-importer.c:253
+#: ../mail/importers/pine-importer.c:422
 #: ../modules/mail/e-mail-shell-view.c:1179
 #: ../smime/gui/certificate-manager.c:1671
 msgid "Mail"
@@ -14357,86 +14378,86 @@ msgstr "Parâmetros"
 msgid "Identity"
 msgstr "Identidade"
 
-#: ../e-util/e-web-view.c:316
+#: ../e-util/e-web-view.c:318
 msgid "_Copy Link Location"
 msgstr "_Copiar a localização da ligação"
 
-#: ../e-util/e-web-view.c:318
+#: ../e-util/e-web-view.c:320
 msgid "Copy the link to the clipboard"
 msgstr "Copiar a ligação para a área de transferência"
 
-#: ../e-util/e-web-view.c:326
+#: ../e-util/e-web-view.c:328
 msgid "_Open Link in Browser"
 msgstr "Abrir a ligação no _Navegador"
 
-#: ../e-util/e-web-view.c:328
+#: ../e-util/e-web-view.c:330
 msgid "Open the link in a web browser"
 msgstr "Abrir a ligação num navegador web"
 
-#: ../e-util/e-web-view.c:336
+#: ../e-util/e-web-view.c:338
 msgid "_Copy Email Address"
 msgstr "_Copiar o endereço eletrónico"
 
-#: ../e-util/e-web-view.c:343
+#: ../e-util/e-web-view.c:345
 msgid "Copy _Raw Email Address"
 msgstr "Copiar endereço eletrónico _Bruto"
 
-#: ../e-util/e-web-view.c:345
+#: ../e-util/e-web-view.c:347
 msgid "Copy the raw email address to the clipboard"
 msgstr "Copiar o endereço eletrónico bruto para a área de transferência"
 
-#: ../e-util/e-web-view.c:360
+#: ../e-util/e-web-view.c:362
 msgid "_Copy Image"
 msgstr "_Copiar imagem"
 
-#: ../e-util/e-web-view.c:362
+#: ../e-util/e-web-view.c:364
 msgid "Copy the image to the clipboard"
 msgstr "Copiar a imagem para a área de transferência"
 
-#: ../e-util/e-web-view.c:367
+#: ../e-util/e-web-view.c:369
 msgid "Save _Image..."
 msgstr "Gravar a _Imagem..."
 
-#: ../e-util/e-web-view.c:369
+#: ../e-util/e-web-view.c:371
 msgid "Save the image to a file"
 msgstr "Gravar a imagem num ficheiro"
 
-#: ../e-util/e-web-view.c:389 ../e-util/e-web-view.c:1428
+#: ../e-util/e-web-view.c:391 ../e-util/e-web-view.c:1432
 msgid "Select all text and images"
 msgstr "Selecionar todo o texto e imagens"
 
-#: ../e-util/e-web-view.c:1070
+#: ../e-util/e-web-view.c:1074
 #, c-format
 msgid "Click to call %s"
 msgstr "Clicar para realizar uma chamada para %s"
 
-#: ../e-util/e-web-view.c:1072
+#: ../e-util/e-web-view.c:1076
 msgid "Click to hide/unhide addresses"
 msgstr "Clicar para ocultar/mostrar os endereços"
 
-#: ../e-util/e-web-view.c:1083
+#: ../e-util/e-web-view.c:1087
 #, c-format
 msgid "Go to the section %s of the message"
 msgstr "Ir para a secção %s da mensagem"
 
-#: ../e-util/e-web-view.c:1085
+#: ../e-util/e-web-view.c:1089
 msgid "Go to the beginning of the message"
 msgstr "Ir para o início da mensagem"
 
-#: ../e-util/e-web-view.c:1089
+#: ../e-util/e-web-view.c:1093
 #, c-format
 msgid "Click to open %s"
 msgstr "Clique para abrir %s"
 
-#: ../e-util/e-web-view.c:3070
+#: ../e-util/e-web-view.c:3127
 msgid "Copying image to clipboard"
 msgstr "A copiar a imagem para a área de transferência"
 
-#: ../e-util/e-web-view.c:3258
+#: ../e-util/e-web-view.c:3315
 msgid "Save Image"
 msgstr "Gravar imagem"
 
-#: ../e-util/e-web-view.c:3294
+#: ../e-util/e-web-view.c:3351
 #, c-format
 msgid "Saving image to '%s'"
 msgstr "A gravar a imagem para \"%s\""
@@ -14537,7 +14558,8 @@ msgstr "segundos"
 msgid "weeks"
 msgstr "semanas"
 
-#: ../e-util/filter.ui.h:10 ../plugins/publish-calendar/publish-calendar.ui.h:8
+#: ../e-util/filter.ui.h:10
+#: ../plugins/publish-calendar/publish-calendar.ui.h:8
 msgid "months"
 msgstr "meses"
 
@@ -15331,8 +15353,8 @@ msgctxt "PGPKeyDescription"
 msgid "%s - %s"
 msgstr "%s - %s"
 
-#: ../mail/e-mail-config-security-page.c:340 ../mail/em-folder-properties.c:603
-#: ../mail/mail-config.ui.h:31
+#: ../mail/e-mail-config-security-page.c:340
+#: ../mail/em-folder-properties.c:603 ../mail/mail-config.ui.h:31
 #: ../modules/addressbook/autocompletion-config.c:113
 #: ../modules/calendar/e-calendar-preferences.c:625
 #: ../modules/calendar/e-calendar-preferences.ui.h:46
@@ -16156,7 +16178,8 @@ msgid "Compose a reply to the mailing list of the selected message"
 msgstr ""
 "Compor uma resposta para a lista de distribuição da mensagem selecionada"
 
-#: ../mail/e-mail-reader.c:2336 ../modules/mail/e-mail-attachment-handler.c:220
+#: ../mail/e-mail-reader.c:2336
+#: ../modules/mail/e-mail-attachment-handler.c:220
 msgid "_Reply to Sender"
 msgstr "_Responder ao remetente"
 
@@ -16320,7 +16343,8 @@ msgstr "Mostrar as mensagens com todos os cabeçalhos de correio eletrónico"
 msgid "Retrieving message"
 msgstr "A obter mensagem"
 
-#: ../mail/e-mail-reader.c:4203 ../modules/mail/e-mail-attachment-handler.c:206
+#: ../mail/e-mail-reader.c:4203
+#: ../modules/mail/e-mail-attachment-handler.c:206
 msgid "_Forward"
 msgstr "R_Encaminhar"
 
@@ -17169,7 +17193,8 @@ msgctxt "mboxImp"
 msgid "From"
 msgstr "De"
 
-#: ../mail/importers/evolution-mbox-importer.c:568 ../shell/e-shell-utils.c:173
+#: ../mail/importers/evolution-mbox-importer.c:568
+#: ../shell/e-shell-utils.c:173
 msgid "Berkeley Mailbox (mbox)"
 msgstr "Caixa de correio Berkeley (mbox)"
 
@@ -18011,7 +18036,8 @@ msgstr ""
 "Deseja mesmo remover definitivamente todas as mensagens eliminadas em todas "
 "as pastas?"
 
-#: ../mail/mail.error.xml.h:42 ../modules/mail/e-mail-shell-view-actions.c:1638
+#: ../mail/mail.error.xml.h:42
+#: ../modules/mail/e-mail-shell-view-actions.c:1638
 msgid "_Empty Trash"
 msgstr "_Esvaziar o lixo"
 
@@ -22339,23 +22365,23 @@ msgstr "Mostrar versão HTML"
 msgid "Display HTML version of multipart/alternative message"
 msgstr "Mostrar a versão HTML da mensagem multiparte/alternativa"
 
-#: ../modules/prefer-plain/e-mail-parser-prefer-plain.c:78
-#: ../modules/prefer-plain/plugin/config-ui.c:43
+#: ../modules/prefer-plain/e-mail-parser-prefer-plain.c:79
+#: ../modules/prefer-plain/plugin/config-ui.c:37
 msgid "Show HTML if present"
 msgstr "Mostrar HTML, se existente"
 
-#: ../modules/prefer-plain/e-mail-parser-prefer-plain.c:79
-#: ../modules/prefer-plain/plugin/config-ui.c:44
+#: ../modules/prefer-plain/e-mail-parser-prefer-plain.c:80
+#: ../modules/prefer-plain/plugin/config-ui.c:38
 msgid "Let Evolution choose the best part to show."
 msgstr "Permitir que o Evolution escolha a melhor parte a mostrar."
 
-#: ../modules/prefer-plain/e-mail-parser-prefer-plain.c:82
-#: ../modules/prefer-plain/plugin/config-ui.c:47
+#: ../modules/prefer-plain/e-mail-parser-prefer-plain.c:83
+#: ../modules/prefer-plain/plugin/config-ui.c:41
 msgid "Show plain text if present"
 msgstr "Mostrar texto simples, se existente"
 
-#: ../modules/prefer-plain/e-mail-parser-prefer-plain.c:83
-#: ../modules/prefer-plain/plugin/config-ui.c:48
+#: ../modules/prefer-plain/e-mail-parser-prefer-plain.c:84
+#: ../modules/prefer-plain/plugin/config-ui.c:42
 msgid ""
 "Show plain text part, if present, otherwise let Evolution choose the best "
 "part to show."
@@ -22363,13 +22389,28 @@ msgstr ""
 "Mostrar a parte em texto simples, se existir, caso contrário permitir que o "
 "Evolution escolha a melhor parte a mostrar."
 
-#: ../modules/prefer-plain/e-mail-parser-prefer-plain.c:87
-#: ../modules/prefer-plain/plugin/config-ui.c:52
+#: ../modules/prefer-plain/e-mail-parser-prefer-plain.c:88
+#: ../modules/prefer-plain/plugin/config-ui.c:46
+#| msgid "Show plain text if present"
+msgid "Show plain text if present, or HTML source"
+msgstr "Mostrar texto simples, se presente ou origem HTML"
+
+#: ../modules/prefer-plain/e-mail-parser-prefer-plain.c:89
+#: ../modules/prefer-plain/plugin/config-ui.c:47
+#| msgid ""
+#| "Show plain text part, if present, otherwise let Evolution choose the best "
+#| "part to show."
+msgid "Show plain text part, if present, otherwise the HTML part source."
+msgstr ""
+"Mostrar texto simples, se existir, caso contrário, mostrar a origem HTML."
+
+#: ../modules/prefer-plain/e-mail-parser-prefer-plain.c:93
+#: ../modules/prefer-plain/plugin/config-ui.c:51
 msgid "Only ever show plain text"
 msgstr "Mostrar sempre só texto simples"
 
-#: ../modules/prefer-plain/e-mail-parser-prefer-plain.c:88
-#: ../modules/prefer-plain/plugin/config-ui.c:53
+#: ../modules/prefer-plain/e-mail-parser-prefer-plain.c:94
+#: ../modules/prefer-plain/plugin/config-ui.c:52
 msgid ""
 "Always show plain text part and make attachments from other parts, if "
 "requested."
@@ -22377,11 +22418,11 @@ msgstr ""
 "Mostrar sempre só a parte de texto simples e criar anexos para as outras "
 "partes, se pedido."
 
-#: ../modules/prefer-plain/plugin/config-ui.c:104
+#: ../modules/prefer-plain/plugin/config-ui.c:103
 msgid "Show s_uppressed HTML parts as attachments"
 msgstr "Mostrar as partes HTML s_Uprimidas como anexos"
 
-#: ../modules/prefer-plain/plugin/config-ui.c:126
+#: ../modules/prefer-plain/plugin/config-ui.c:125
 msgid "HTML _Mode"
 msgstr "_Modo HTML"
 
@@ -23789,39 +23830,39 @@ msgstr "Gravar como _Modelo"
 msgid "Save as Template"
 msgstr "Gravar como modelo"
 
-#: ../shell/e-shell.c:337
+#: ../shell/e-shell.c:362
 msgid "Preparing to go offline..."
 msgstr "A preparar modo offline..."
 
-#: ../shell/e-shell.c:390
+#: ../shell/e-shell.c:391
 msgid "Preparing to go online..."
 msgstr "A preparar modo online..."
 
-#: ../shell/e-shell.c:501
+#: ../shell/e-shell.c:502
 msgid "Preparing to quit"
 msgstr "A preparar para terminar"
 
-#: ../shell/e-shell.c:507
+#: ../shell/e-shell.c:508
 msgid "Preparing to quit..."
 msgstr "A preparar para terminar..."
 
-#: ../shell/e-shell.c:1024
+#: ../shell/e-shell.c:1025
 msgid "Credentials are required to connect to the destination host."
 msgstr "São necessárias credenciais para ligar à máquina destino."
 
-#: ../shell/e-shell.c:1203 ../shell/e-shell-window-actions.c:827
+#: ../shell/e-shell.c:1204 ../shell/e-shell-window-actions.c:827
 msgid "New _Window"
 msgstr "Nova _Janela"
 
-#: ../shell/e-shell.c:1214
+#: ../shell/e-shell.c:1215
 msgid "Quick _Reference"
 msgstr "_Referência rápida"
 
-#: ../shell/e-shell.c:1216 ../shell/e-shell-window-actions.c:764
+#: ../shell/e-shell.c:1217 ../shell/e-shell-window-actions.c:764
 msgid "_About"
 msgstr "_Sobre"
 
-#: ../shell/e-shell.c:1217 ../shell/e-shell-window-actions.c:862
+#: ../shell/e-shell.c:1218 ../shell/e-shell-window-actions.c:862
 msgid "_Quit"
 msgstr "_Sair"
 
@@ -24420,60 +24461,72 @@ msgstr ""
 "\n"
 "Editar definições de credibilidade:"
 
-#: ../smime/gui/certificate-manager.c:84 ../smime/gui/certificate-manager.c:103
+#: ../smime/gui/certificate-manager.c:84
+#: ../smime/gui/certificate-manager.c:103
 #: ../smime/gui/certificate-manager.c:123
 msgid "Certificate Name"
 msgstr "Nome do certificado"
 
-#: ../smime/gui/certificate-manager.c:85 ../smime/gui/certificate-manager.c:105
+#: ../smime/gui/certificate-manager.c:85
+#: ../smime/gui/certificate-manager.c:105
 msgid "Issued To Organization"
 msgstr "Emitido para a organização"
 
-#: ../smime/gui/certificate-manager.c:86 ../smime/gui/certificate-manager.c:106
+#: ../smime/gui/certificate-manager.c:86
+#: ../smime/gui/certificate-manager.c:106
 msgid "Issued To Organizational Unit"
 msgstr "Emitido para a unidade organizacional"
 
-#: ../smime/gui/certificate-manager.c:87 ../smime/gui/certificate-manager.c:107
+#: ../smime/gui/certificate-manager.c:87
+#: ../smime/gui/certificate-manager.c:107
 #: ../smime/gui/certificate-manager.c:125
 msgid "Serial Number"
 msgstr "Número de série"
 
-#: ../smime/gui/certificate-manager.c:88 ../smime/gui/certificate-manager.c:108
+#: ../smime/gui/certificate-manager.c:88
+#: ../smime/gui/certificate-manager.c:108
 #: ../smime/gui/certificate-manager.c:126
 msgid "Purposes"
 msgstr "Propósitos"
 
-#: ../smime/gui/certificate-manager.c:89 ../smime/gui/certificate-manager.c:109
+#: ../smime/gui/certificate-manager.c:89
+#: ../smime/gui/certificate-manager.c:109
 #: ../smime/gui/certificate-manager.c:127
 msgid "Issued By"
 msgstr "Emitido por"
 
-#: ../smime/gui/certificate-manager.c:90 ../smime/gui/certificate-manager.c:110
+#: ../smime/gui/certificate-manager.c:90
+#: ../smime/gui/certificate-manager.c:110
 #: ../smime/gui/certificate-manager.c:128
 msgid "Issued By Organization"
 msgstr "Emitido pela organização"
 
-#: ../smime/gui/certificate-manager.c:91 ../smime/gui/certificate-manager.c:111
+#: ../smime/gui/certificate-manager.c:91
+#: ../smime/gui/certificate-manager.c:111
 #: ../smime/gui/certificate-manager.c:129
 msgid "Issued By Organizational Unit"
 msgstr "Emitido pela unidade organizacional"
 
-#: ../smime/gui/certificate-manager.c:92 ../smime/gui/certificate-manager.c:112
+#: ../smime/gui/certificate-manager.c:92
+#: ../smime/gui/certificate-manager.c:112
 #: ../smime/gui/certificate-manager.c:130
 msgid "Issued"
 msgstr "Emitido"
 
-#: ../smime/gui/certificate-manager.c:93 ../smime/gui/certificate-manager.c:113
+#: ../smime/gui/certificate-manager.c:93
+#: ../smime/gui/certificate-manager.c:113
 #: ../smime/gui/certificate-manager.c:131
 msgid "Expires"
 msgstr "Expira"
 
-#: ../smime/gui/certificate-manager.c:94 ../smime/gui/certificate-manager.c:114
+#: ../smime/gui/certificate-manager.c:94
+#: ../smime/gui/certificate-manager.c:114
 #: ../smime/gui/certificate-manager.c:132
 msgid "SHA1 Fingerprint"
 msgstr "Impressão digital SHA1"
 
-#: ../smime/gui/certificate-manager.c:95 ../smime/gui/certificate-manager.c:115
+#: ../smime/gui/certificate-manager.c:95
+#: ../smime/gui/certificate-manager.c:115
 #: ../smime/gui/certificate-manager.c:133
 msgid "MD5 Fingerprint"
 msgstr "Impressão digital MD5"
