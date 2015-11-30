@@ -424,6 +424,19 @@ action_calendar_search_stop_cb (GtkAction *action,
 }
 
 static void
+action_calendar_select_all_cb (GtkAction *action,
+			       ECalShellView *cal_shell_view)
+{
+	ECalBaseShellSidebar *cal_shell_sidebar;
+	ESourceSelector *selector;
+
+	cal_shell_sidebar = cal_shell_view->priv->cal_shell_sidebar;
+	selector = e_cal_base_shell_sidebar_get_selector (cal_shell_sidebar);
+
+	e_source_selector_select_all (selector);
+}
+
+static void
 action_calendar_select_one_cb (GtkAction *action,
                                ECalShellView *cal_shell_view)
 {
@@ -1309,6 +1322,13 @@ static GtkActionEntry calendar_entries[] = {
 	  N_("Stop currently running search"),
 	  G_CALLBACK (action_calendar_search_stop_cb) },
 
+	{ "calendar-select-all",
+	  "stock_check-filled",
+	  N_("Sho_w All Calendars"),
+	  NULL,
+	  NULL,  /* XXX Add a tooltip! */
+	  G_CALLBACK (action_calendar_select_all_cb) },
+
 	{ "calendar-select-one",
 	  "stock_check-filled",
 	  N_("Show _Only This Calendar"),
@@ -1482,6 +1502,10 @@ static EPopupActionEntry calendar_popup_entries[] = {
 	{ "calendar-popup-rename",
 	  NULL,
 	  "calendar-rename" },
+
+	{ "calendar-popup-select-all",
+	  NULL,
+	  "calendar-select-all" },
 
 	{ "calendar-popup-select-one",
 	  NULL,

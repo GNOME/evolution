@@ -65,6 +65,7 @@
     <separator/>
     <menuitem action='memo-list-popup-delete'/>
     <menuitem action='memo-list-popup-select-one'/>
+    <menuitem action='memo-list-popup-select-all'/>
     <placeholder name='memo-list-popup-actions'/>
     <separator/>
     <menuitem action='memo-list-popup-manage-groups'/>

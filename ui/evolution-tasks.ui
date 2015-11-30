@@ -78,6 +78,7 @@
     <separator/>
     <menuitem action='task-list-popup-delete'/>
     <menuitem action='task-list-popup-select-one'/>
+    <menuitem action='task-list-popup-select-all'/>
     <placeholder name='task-list-popup-actions'/>
     <separator/>
     <menuitem action='task-list-popup-manage-groups'/>

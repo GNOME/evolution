@@ -2237,6 +2237,93 @@ e_source_selector_get_selection (ESourceSelector *selector)
 	return g_queue_peek_head_link (&closure.queue);
 }
 
+struct CountData {
+	ESourceSelector *selector;
+	guint count;
+	gboolean selected;
+};
+
+static gboolean
+source_selector_count_sources (GtkTreeModel *model,
+			       GtkTreePath *path,
+			       GtkTreeIter *iter,
+			       gpointer user_data)
+{
+	struct CountData *cd = user_data;
+	ESource *source;
+
+	gtk_tree_model_get (model, iter, COLUMN_SOURCE, &source, -1);
+
+	if (e_source_has_extension (source, e_source_selector_get_extension_name (cd->selector))) {
+		if (cd->selected) {
+			if (e_source_selector_source_is_selected (cd->selector, source))
+				cd->count++;
+		} else {
+			cd->count++;
+		}
+	}
+
+	g_object_unref (source);
+
+	return FALSE;
+}
+
+/**
+ * e_source_selector_count_total:
+ * @selector: an #ESourceSelector
+ *
+ * Counts how many ESource-s are shown in the @selector.
+ *
+ * Returns: How many ESource-s are shown in the @selector.
+ *
+ * Since: 3.20
+ **/
+guint
+e_source_selector_count_total (ESourceSelector *selector)
+{
+	struct CountData cd;
+
+	g_return_val_if_fail (E_IS_SOURCE_SELECTOR (selector), 0);
+
+	cd.selector = selector;
+	cd.count = 0;
+	cd.selected = FALSE;
+
+	gtk_tree_model_foreach (
+		gtk_tree_view_get_model (GTK_TREE_VIEW (selector)),
+		source_selector_count_sources, &cd);
+
+	return cd.count;
+}
+
+/**
+ * e_source_selector_count_selected:
+ * @selector: an #ESourceSelector
+ *
+ * Counts how many ESource-s are selected in the @selector.
+ *
+ * Returns: How many ESource-s are selected in the @selector.
+ *
+ * Since: 3.20
+ **/
+guint
+e_source_selector_count_selected (ESourceSelector *selector)
+{
+	struct CountData cd;
+
+	g_return_val_if_fail (E_IS_SOURCE_SELECTOR (selector), 0);
+
+	cd.selector = selector;
+	cd.count = 0;
+	cd.selected = TRUE;
+
+	gtk_tree_model_foreach (
+		gtk_tree_view_get_model (GTK_TREE_VIEW (selector)),
+		source_selector_count_sources, &cd);
+
+	return cd.count;
+}
+
 /**
  * e_source_selector_select_source:
  * @selector: An #ESourceSelector widget
@@ -2342,6 +2429,42 @@ e_source_selector_select_exclusive (ESourceSelector *selector,
 				g_signal_emit (selector, signals[SOURCE_SELECTED], 0, key);
 			else
 				g_signal_emit (selector, signals[SOURCE_UNSELECTED], 0, key);
+		}
+	}
+
+	if (any_changed)
+		g_signal_emit (selector, signals[SELECTION_CHANGED], 0);
+}
+
+/**
+ * e_source_selector_select_all:
+ * @selector: An #ESourceSelector widget
+ *
+ * Selects all ESource-s in the @selector.
+ *
+ * Since: 3.20
+ **/
+void
+e_source_selector_select_all (ESourceSelector *selector)
+{
+	ESourceSelectorClass *class;
+	GHashTable *source_index;
+	GHashTableIter iter;
+	gpointer key;
+	gboolean any_changed = FALSE;
+
+	g_return_if_fail (E_IS_SOURCE_SELECTOR (selector));
+
+	class = E_SOURCE_SELECTOR_GET_CLASS (selector);
+	g_return_if_fail (class->set_source_selected != NULL);
+
+	source_index = selector->priv->source_index;
+	g_hash_table_iter_init (&iter, source_index);
+
+	while (g_hash_table_iter_next (&iter, &key, NULL)) {
+		if (class->set_source_selected (selector, key, TRUE)) {
+			any_changed = TRUE;
+			g_signal_emit (selector, signals[SOURCE_SELECTED], 0, key);
 		}
 	}
 
