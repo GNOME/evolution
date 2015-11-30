@@ -298,6 +298,19 @@ action_memo_list_rename_cb (GtkAction *action,
 }
 
 static void
+action_memo_list_select_all_cb (GtkAction *action,
+				EMemoShellView *memo_shell_view)
+{
+	ECalBaseShellSidebar *memo_shell_sidebar;
+	ESourceSelector *selector;
+
+	memo_shell_sidebar = memo_shell_view->priv->memo_shell_sidebar;
+	selector = e_cal_base_shell_sidebar_get_selector (memo_shell_sidebar);
+
+	e_source_selector_select_all (selector);
+}
+
+static void
 action_memo_list_select_one_cb (GtkAction *action,
                                 EMemoShellView *memo_shell_view)
 {
@@ -617,6 +630,13 @@ static GtkActionEntry memo_entries[] = {
 	  NULL,  /* XXX Add a tooltip! */
 	  G_CALLBACK (action_memo_list_select_one_cb) },
 
+	{ "memo-list-select-all",
+	  "stock_check-filled",
+	  N_("Sho_w All Memo Lists"),
+	  NULL,
+	  NULL,  /* XXX Add a tooltip! */
+	  G_CALLBACK (action_memo_list_select_all_cb) },
+
 	{ "memo-new",
 	  "stock_insert-note",
 	  N_("New _Memo"),
@@ -673,6 +693,10 @@ static EPopupActionEntry memo_popup_entries[] = {
 	{ "memo-list-popup-rename",
 	  NULL,
 	  "memo-list-rename" },
+
+	{ "memo-list-popup-select-all",
+	  NULL,
+	  "memo-list-select-all" },
 
 	{ "memo-list-popup-select-one",
 	  NULL,

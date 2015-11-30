@@ -168,6 +168,7 @@ memo_shell_view_update_actions (EShellView *shell_view)
 	gboolean single_memo_selected;
 	gboolean sources_are_editable;
 	gboolean refresh_supported;
+	gboolean all_sources_selected;
 
 	/* Chain up to parent's update_actions() method. */
 	E_SHELL_VIEW_CLASS (e_memo_shell_view_parent_class)->
@@ -202,8 +203,14 @@ memo_shell_view_update_actions (EShellView *shell_view)
 		(state & E_CAL_BASE_SHELL_SIDEBAR_PRIMARY_SOURCE_IN_COLLECTION);
 	refresh_supported =
 		(state & E_CAL_BASE_SHELL_SIDEBAR_SOURCE_SUPPORTS_REFRESH);
+	all_sources_selected =
+		(state & E_CAL_BASE_SHELL_SIDEBAR_ALL_SOURCES_SELECTED) != 0;
 
 	any_memos_selected = (single_memo_selected || multiple_memos_selected);
+
+	action = ACTION (MEMO_LIST_SELECT_ALL);
+	sensitive = !all_sources_selected;
+	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (MEMO_DELETE);
 	sensitive = any_memos_selected && sources_are_editable;

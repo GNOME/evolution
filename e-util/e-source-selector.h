@@ -122,10 +122,13 @@ void		e_source_selector_unselect_source
 void		e_source_selector_select_exclusive
 						(ESourceSelector *selector,
 						 ESource *source);
+void		e_source_selector_select_all	(ESourceSelector *selector);
 gboolean	e_source_selector_source_is_selected
 						(ESourceSelector *selector,
 						 ESource *source);
 GList *		e_source_selector_get_selection	(ESourceSelector *selector);
+guint		e_source_selector_count_total	(ESourceSelector *selector);
+guint		e_source_selector_count_selected(ESourceSelector *selector);
 void		e_source_selector_edit_primary_selection
 						(ESourceSelector *selector);
 ESource *	e_source_selector_ref_primary_selection

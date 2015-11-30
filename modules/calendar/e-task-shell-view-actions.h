@@ -72,6 +72,8 @@
 	E_SHELL_WINDOW_ACTION ((window), "task-list-refresh")
 #define E_SHELL_WINDOW_ACTION_TASK_LIST_RENAME(window) \
 	E_SHELL_WINDOW_ACTION ((window), "task-list-rename")
+#define E_SHELL_WINDOW_ACTION_TASK_LIST_SELECT_ALL(window) \
+	E_SHELL_WINDOW_ACTION ((window), "task-list-select-all")
 #define E_SHELL_WINDOW_ACTION_TASK_LIST_SELECT_ONE(window) \
 	E_SHELL_WINDOW_ACTION ((window), "task-list-select-one")
 

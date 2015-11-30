@@ -64,6 +64,8 @@
 	E_SHELL_WINDOW_ACTION ((window), "memo-list-refresh")
 #define E_SHELL_WINDOW_ACTION_MEMO_LIST_RENAME(window) \
 	E_SHELL_WINDOW_ACTION ((window), "memo-list-rename")
+#define E_SHELL_WINDOW_ACTION_MEMO_LIST_SELECT_ALL(window) \
+	E_SHELL_WINDOW_ACTION ((window), "memo-list-select-all")
 #define E_SHELL_WINDOW_ACTION_MEMO_LIST_SELECT_ONE(window) \
 	E_SHELL_WINDOW_ACTION ((window), "memo-list-select-one")
 

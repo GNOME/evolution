@@ -261,6 +261,7 @@ task_shell_view_update_actions (EShellView *shell_view)
 	gboolean some_tasks_incomplete;
 	gboolean sources_are_editable;
 	gboolean refresh_supported;
+	gboolean all_sources_selected;
 
 	/* Chain up to parent's update_actions() method. */
 	E_SHELL_VIEW_CLASS (e_task_shell_view_parent_class)->update_actions (shell_view);
@@ -300,8 +301,14 @@ task_shell_view_update_actions (EShellView *shell_view)
 		(state & E_CAL_BASE_SHELL_SIDEBAR_PRIMARY_SOURCE_IN_COLLECTION);
 	refresh_supported =
 		(state & E_CAL_BASE_SHELL_SIDEBAR_SOURCE_SUPPORTS_REFRESH);
+	all_sources_selected =
+		(state & E_CAL_BASE_SHELL_SIDEBAR_ALL_SOURCES_SELECTED) != 0;
 
 	any_tasks_selected = (single_task_selected || multiple_tasks_selected);
+
+	action = ACTION (TASK_LIST_SELECT_ALL);
+	sensitive = !all_sources_selected;
+	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (TASK_ASSIGN);
 	sensitive =

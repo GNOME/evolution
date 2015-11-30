@@ -215,6 +215,8 @@ cal_base_shell_sidebar_check_state (EShellSidebar *shell_sidebar)
 		g_object_unref (source);
 	}
 
+	if (e_source_selector_count_total (selector) == e_source_selector_count_selected (selector))
+		state |= E_CAL_BASE_SHELL_SIDEBAR_ALL_SOURCES_SELECTED;
 	if (has_primary_source)
 		state |= E_CAL_BASE_SHELL_SIDEBAR_HAS_PRIMARY_SOURCE;
 	if (is_writable)

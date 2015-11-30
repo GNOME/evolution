@@ -68,6 +68,7 @@
     <separator/>
     <menuitem action='calendar-popup-delete'/>
     <menuitem action='calendar-popup-select-one'/>
+    <menuitem action='calendar-popup-select-all'/>
     <placeholder name='calendar-popup-actions'/>
     <separator/>
     <menuitem action='calendar-popup-manage-groups'/>
