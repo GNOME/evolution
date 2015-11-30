@@ -15,4 +15,11 @@ Evolution supports a wide range of industry standard data formats and network pr
   <screenshot type="default">https://wiki.gnome.org/Apps/Evolution/Screenshots?action=AttachFile&amp;do=get&amp;target=evolution_mail.png</screenshot>
 </screenshots>
 <updatecontact>evolution-hackers_at_gnome.org</updatecontact>
+<kudos>
+  <kudo>HiDpiIcon</kudo>
+  <kudo>HighContrast</kudo>
+  <kudo>ModernToolkit</kudo>
+  <kudo>Notifications</kudo>
+  <kudo>UserDocs</kudo>
+</kudos>
 </application>
