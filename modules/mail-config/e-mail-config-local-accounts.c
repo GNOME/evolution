@@ -66,6 +66,8 @@ typedef EMailConfigServiceBackendClass EMailConfigNoneBackendClass;
 
 struct _EMailConfigLocalBackend {
 	EMailConfigServiceBackend parent;
+
+	GtkWidget *path_error_image;
 };
 
 struct _EMailConfigLocalBackendClass {
@@ -74,6 +76,8 @@ struct _EMailConfigLocalBackendClass {
 	const gchar *file_chooser_label;
 	const gchar *file_chooser_title;
 	GtkFileChooserAction file_chooser_action;
+	const gchar *file_error_message;
+
 };
 
 /* Forward Declarations */
@@ -151,6 +155,7 @@ mail_config_local_backend_insert_widgets (EMailConfigServiceBackend *backend,
                                           GtkBox *parent)
 {
 	CamelSettings *settings;
+	EMailConfigLocalBackend *local_backend;
 	EMailConfigLocalBackendClass *class;
 	GtkLabel *label;
 	GtkWidget *widget;
@@ -158,6 +163,7 @@ mail_config_local_backend_insert_widgets (EMailConfigServiceBackend *backend,
 	const gchar *path;
 
 	class = E_MAIL_CONFIG_LOCAL_BACKEND_GET_CLASS (backend);
+	local_backend = E_MAIL_CONFIG_LOCAL_BACKEND (backend);
 	settings = e_mail_config_service_backend_get_settings (backend);
 
 	widget = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 12);
@@ -188,21 +194,37 @@ mail_config_local_backend_insert_widgets (EMailConfigServiceBackend *backend,
 	if (path != NULL)
 		gtk_file_chooser_set_filename (
 			GTK_FILE_CHOOSER (widget), path);
+
+	widget = gtk_image_new_from_icon_name ("dialog-warning", GTK_ICON_SIZE_BUTTON);
+	g_object_set (G_OBJECT (widget),
+		"visible", FALSE,
+		"has-tooltip", TRUE,
+		"tooltip-text", class->file_error_message,
+		NULL);
+	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	local_backend->path_error_image = widget;  /* do not reference */
 }
 
 static gboolean
 mail_config_local_backend_check_complete (EMailConfigServiceBackend *backend)
 {
+	EMailConfigLocalBackend *local_backend;
 	CamelSettings *settings;
 	CamelLocalSettings *local_settings;
 	const gchar *path;
+	gboolean complete;
 
+	local_backend = E_MAIL_CONFIG_LOCAL_BACKEND (backend);
 	settings = e_mail_config_service_backend_get_settings (backend);
 
 	local_settings = CAMEL_LOCAL_SETTINGS (settings);
 	path = camel_local_settings_get_path (local_settings);
 
-	return (path != NULL && *path != '\0');
+	complete = (path != NULL && *path != '\0');
+
+	gtk_widget_set_visible (local_backend->path_error_image, !complete);
+
+	return complete;
 }
 
 static void
@@ -245,6 +267,7 @@ e_mail_config_mh_backend_class_init (EMailConfigLocalBackendClass *class)
 	class->file_chooser_label = _("Mail _Directory:");
 	class->file_chooser_title = _("Choose a MH mail directory");
 	class->file_chooser_action = GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER;
+	class->file_error_message = _("MH mail directory cannot be empty");
 }
 
 static void
@@ -268,6 +291,7 @@ e_mail_config_mbox_backend_class_init (EMailConfigLocalBackendClass *class)
 	class->file_chooser_label = _("Local Delivery _File:");
 	class->file_chooser_title = _("Choose a local delivery file");
 	class->file_chooser_action = GTK_FILE_CHOOSER_ACTION_OPEN;
+	class->file_error_message = _("Local delivery file cannot be empty");
 }
 
 static void
@@ -291,6 +315,7 @@ e_mail_config_maildir_backend_class_init (EMailConfigLocalBackendClass *class)
 	class->file_chooser_label = _("Mail _Directory:");
 	class->file_chooser_title = _("Choose a Maildir mail directory");
 	class->file_chooser_action = GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER;
+	class->file_error_message = _("Maildir mail directory cannot be empty");
 }
 
 static void
@@ -314,6 +339,7 @@ e_mail_config_spool_dir_backend_class_init (EMailConfigLocalBackendClass *class)
 	class->file_chooser_label = _("Spool _File:");
 	class->file_chooser_title = _("Choose a mbox spool file");
 	class->file_chooser_action = GTK_FILE_CHOOSER_ACTION_OPEN;
+	class->file_error_message = _("Mbox spool file cannot be empty");
 }
 
 static void
@@ -337,6 +363,7 @@ e_mail_config_spool_file_backend_class_init (EMailConfigLocalBackendClass *class
 	class->file_chooser_label = _("Spool _Directory:");
 	class->file_chooser_title = _("Choose a mbox spool directory");
 	class->file_chooser_action = GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER;
+	class->file_error_message = _("Mbox spool directory cannot be empty");
 }
 
 static void

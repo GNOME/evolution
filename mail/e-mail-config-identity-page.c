@@ -36,7 +36,11 @@ struct _EMailConfigIdentityPagePrivate {
 	gboolean show_instructions;
 	gboolean show_signatures;
 	gboolean show_autodiscover_check;
-	GtkWidget *autodiscover_check; /* not referenced */
+	GtkWidget *autodiscover_check;	/* not referenced */
+	GtkWidget *display_name_entry;	/* not referenced */
+	GtkWidget *name_entry;		/* not referenced */
+	GtkWidget *address_entry;	/* not referenced */
+	GtkWidget *reply_to_entry;	/* not referenced */
 };
 
 enum {
@@ -332,6 +336,8 @@ mail_config_identity_page_constructed (GObject *object)
 	gtk_grid_attach (GTK_GRID (container), widget, 1, 1, 1, 1);
 	gtk_widget_show (widget);
 
+	page->priv->display_name_entry = widget;
+
 	e_binding_bind_object_text_property (
 		source, "display-name",
 		widget, "text",
@@ -385,6 +391,8 @@ mail_config_identity_page_constructed (GObject *object)
 	gtk_grid_attach (GTK_GRID (container), widget, 1, 1, 1, 1);
 	gtk_widget_show (widget);
 
+	page->priv->name_entry = widget;
+
 	e_binding_bind_object_text_property (
 		extension, "name",
 		widget, "text",
@@ -416,6 +424,8 @@ mail_config_identity_page_constructed (GObject *object)
 	gtk_label_set_mnemonic_widget (label, widget);
 	gtk_grid_attach (GTK_GRID (container), widget, 1, 2, 1, 1);
 	gtk_widget_show (widget);
+
+	page->priv->address_entry = widget;
 
 	e_binding_bind_object_text_property (
 		extension, "address",
@@ -467,6 +477,8 @@ mail_config_identity_page_constructed (GObject *object)
 	gtk_label_set_mnemonic_widget (label, widget);
 	gtk_grid_attach (GTK_GRID (container), widget, 1, 1, 2, 1);
 	gtk_widget_show (widget);
+
+	page->priv->reply_to_entry = widget;
 
 	e_binding_bind_object_text_property (
 		extension, "reply-to",
@@ -580,6 +592,7 @@ mail_config_identity_page_check_complete (EMailConfigPage *page)
 	const gchar *address;
 	const gchar *reply_to;
 	const gchar *display_name;
+	gboolean correct, complete = TRUE;
 
 	id_page = E_MAIL_CONFIG_IDENTITY_PAGE (page);
 	extension_name = E_SOURCE_EXTENSION_MAIL_IDENTITY;
@@ -592,28 +605,54 @@ mail_config_identity_page_check_complete (EMailConfigPage *page)
 
 	display_name = e_source_get_display_name (source);
 
-	if (name == NULL)
-		return FALSE;
+	correct = name != NULL;
+	complete = complete && correct;
+
+	e_util_set_entry_issue_hint (id_page->priv->name_entry, correct ? NULL : _("Full Name cannot be empty"));
+
+	correct = TRUE;
 
 	/* Only enforce when the email address is visible. */
 	if (e_mail_config_identity_page_get_show_email_address (id_page)) {
-		if (address == NULL)
-			return FALSE;
+		if (address == NULL) {
+			e_util_set_entry_issue_hint (id_page->priv->address_entry, _("Email Address cannot be empty"));
+			correct = FALSE;
+		}
 
-		if (!mail_config_identity_page_is_email (address))
-			return FALSE;
+		if (correct && !mail_config_identity_page_is_email (address)) {
+			e_util_set_entry_issue_hint (id_page->priv->address_entry, _("Email Address is not a valid email"));
+			correct = FALSE;
+		}
 	}
 
+	complete = complete && correct;
+
+	if (correct)
+		e_util_set_entry_issue_hint (id_page->priv->address_entry, NULL);
+
 	/* A NULL reply_to string is allowed. */
-	if (reply_to != NULL && !mail_config_identity_page_is_email (reply_to))
-		return FALSE;
+	if (reply_to != NULL && !mail_config_identity_page_is_email (reply_to)) {
+		e_util_set_entry_issue_hint (id_page->priv->reply_to_entry, _("Reply To is not a valid email"));
+		complete = FALSE;
+	} else {
+		e_util_set_entry_issue_hint (id_page->priv->reply_to_entry, NULL);
+	}
+
+	correct = TRUE;
 
 	/* Only enforce when account information is visible. */
-	if (e_mail_config_identity_page_get_show_account_info (id_page))
-		if (display_name == NULL || *display_name == '\0')
-			return FALSE;
+	if (e_mail_config_identity_page_get_show_account_info (id_page)) {
+		if (display_name == NULL || *display_name == '\0') {
+			e_util_set_entry_issue_hint (id_page->priv->display_name_entry, _("Account Name cannot be empty"));
+			correct = FALSE;
+		}
+	}
 
-	return TRUE;
+	complete = complete && correct;
+	if (correct)
+		e_util_set_entry_issue_hint (id_page->priv->display_name_entry, NULL);
+
+	return complete;
 }
 
 static void

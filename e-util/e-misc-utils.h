@@ -283,6 +283,9 @@ void		e_util_run_simple_async_result_in_thread
 						 GCancellable *cancellable);
 gboolean	e_util_is_running_gnome		(void);
 
+void		e_util_set_entry_issue_hint	(GtkWidget *entry,
+						 const gchar *hint);
+
 G_END_DECLS
 
 #endif /* E_MISC_UTILS_H */

@@ -412,6 +412,8 @@ cal_config_caldav_check_complete (ESourceConfigBackend *backend,
 
 	gtk_widget_set_sensitive (context->find_button, complete);
 
+	e_util_set_entry_issue_hint (context->url_entry, complete ? NULL : _("URL is not a valid http:// nor https:// URL"));
+
 	return complete;
 }
 

@@ -51,6 +51,7 @@ struct _Context {
 	GtkWidget *auth_entry;
 	GtkWidget *host_entry;
 	GtkWidget *port_combo;
+	GtkWidget *port_error_image;
 	GtkWidget *security_combo;
 	GtkWidget *search_base_combo;
 	GtkWidget *search_base_button;
@@ -101,6 +102,7 @@ book_config_ldap_context_free (Context *context)
 	g_object_unref (context->auth_entry);
 	g_object_unref (context->host_entry);
 	g_object_unref (context->port_combo);
+	g_object_unref (context->port_error_image);
 	g_object_unref (context->security_combo);
 	g_object_unref (context->search_base_combo);
 	g_object_unref (context->search_base_button);
@@ -481,7 +483,7 @@ book_config_build_port_combo (void)
 	return widget;
 }
 
-static void
+static GtkWidget *
 book_config_ldap_insert_notebook_widget (GtkWidget *vbox,
                                          GtkSizeGroup *size_group,
                                          const gchar *caption,
@@ -504,6 +506,8 @@ book_config_ldap_insert_notebook_widget (GtkWidget *vbox,
 	gtk_widget_show (label);
 
 	gtk_box_pack_start (GTK_BOX (hbox), widget, TRUE, TRUE, 0);
+
+	return hbox;
 }
 
 static void
@@ -603,10 +607,19 @@ book_config_ldap_insert_widgets (ESourceConfigBackend *backend,
 	gtk_widget_show (widget);
 
 	widget = book_config_build_port_combo ();
-	book_config_ldap_insert_notebook_widget (
+	hbox = book_config_ldap_insert_notebook_widget (
 		container, size_group, _("Port:"), widget);
 	context->port_combo = g_object_ref (widget);
 	gtk_widget_show (widget);
+
+	widget = gtk_image_new_from_icon_name ("dialog-warning", GTK_ICON_SIZE_BUTTON);
+	g_object_set (G_OBJECT (widget),
+		"visible", FALSE,
+		"has-tooltip", TRUE,
+		"tooltip-text", _("Port number is not valid"),
+		NULL);
+	gtk_box_pack_start (GTK_BOX (hbox), widget, FALSE, FALSE, 0);
+	context->port_error_image = g_object_ref (widget);
 
 	/* This must follow the order of ESourceLDAPSecurity. */
 	widget = gtk_combo_box_text_new ();
@@ -938,6 +951,11 @@ book_config_ldap_check_complete (ESourceConfigBackend *backend,
 	const gchar *host;
 	const gchar *user;
 	guint16 port;
+	Context *context;
+	gboolean correct, complete = TRUE;
+
+	context = g_object_get_data (G_OBJECT (backend), e_source_get_uid (scratch_source));
+	g_return_val_if_fail (context != NULL, FALSE);
 
 	extension_name = E_SOURCE_EXTENSION_LDAP_BACKEND;
 	extension = e_source_get_extension (scratch_source, extension_name);
@@ -954,14 +972,27 @@ book_config_ldap_check_complete (ESourceConfigBackend *backend,
 	user = e_source_authentication_get_user (
 		E_SOURCE_AUTHENTICATION (extension));
 
-	if (host == NULL || *host == '\0' || port == 0)
-		return FALSE;
+	correct = host != NULL && *host != '\0';
+	complete = complete && correct;
+
+	e_util_set_entry_issue_hint (context->host_entry, correct ? NULL : _("Server address cannot be empty"));
+
+	correct = port != 0;
+	complete = complete && correct;
+
+	gtk_widget_set_visible (context->port_error_image, !correct);
+
+	correct = TRUE;
 
 	if (auth != E_SOURCE_LDAP_AUTHENTICATION_NONE)
 		if (user == NULL || *user == '\0')
-			return FALSE;
+			correct = FALSE;
 
-	return TRUE;
+	complete = complete && correct;
+
+	e_util_set_entry_issue_hint (context->auth_entry, correct ? NULL : _("User name cannot be empty"));
+
+	return complete;
 }
 
 static void

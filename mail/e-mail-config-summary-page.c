@@ -22,6 +22,7 @@
 
 #include <camel/camel.h>
 #include <libebackend/libebackend.h>
+#include <e-util/e-util.h>
 
 #define E_MAIL_CONFIG_SUMMARY_PAGE_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -627,6 +628,8 @@ mail_config_summary_page_check_complete (EMailConfigPage *page)
 	stripped_text = g_strstrip (g_strdup ((text != NULL) ? text : ""));
 	complete = (*stripped_text != '\0');
 	g_free (stripped_text);
+
+	e_util_set_entry_issue_hint (GTK_WIDGET (priv->account_name_entry), complete ? NULL : _("Account Name cannot be empty"));
 
 	return complete;
 }

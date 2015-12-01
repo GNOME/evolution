@@ -32,6 +32,7 @@ typedef struct _Context Context;
 
 struct _Context {
 	GtkWidget *google_button;
+	GtkWidget *user_entry;
 };
 
 /* Forward Declarations */
@@ -46,6 +47,7 @@ static void
 cal_config_google_context_free (Context *context)
 {
 	g_object_unref (context->google_button);
+	g_object_unref (context->user_entry);
 
 	g_slice_free (Context, context);
 }
@@ -85,7 +87,7 @@ cal_config_google_insert_widgets (ESourceConfigBackend *backend,
 	e_cal_source_config_add_offline_toggle (
 		E_CAL_SOURCE_CONFIG (config), scratch_source);
 
-	e_source_config_add_user_entry (config, scratch_source);
+	context->user_entry = g_object_ref (e_source_config_add_user_entry (config, scratch_source));
 
 	widget = e_google_chooser_button_new (scratch_source, config);
 	e_source_config_insert_widget (
@@ -158,14 +160,23 @@ cal_config_google_check_complete (ESourceConfigBackend *backend,
                                   ESource *scratch_source)
 {
 	ESourceAuthentication *extension;
+	Context *context;
+	gboolean correct;
 	const gchar *extension_name;
 	const gchar *user;
+
+	context = g_object_get_data (G_OBJECT (backend), e_source_get_uid (scratch_source));
+	g_return_val_if_fail (context != NULL, FALSE);
 
 	extension_name = E_SOURCE_EXTENSION_AUTHENTICATION;
 	extension = e_source_get_extension (scratch_source, extension_name);
 	user = e_source_authentication_get_user (extension);
 
-	return (user != NULL);
+	correct = (user != NULL);
+
+	e_util_set_entry_issue_hint (context->user_entry, correct ? NULL : _("User name cannot be empty"));
+
+	return correct;
 }
 
 static void

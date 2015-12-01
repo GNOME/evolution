@@ -396,6 +396,7 @@ modules/book-config-webdav/evolution-book-config-webdav.c
 modules/cal-config-caldav/evolution-cal-config-caldav.c
 modules/cal-config-contacts/evolution-cal-config-contacts.c
 modules/cal-config-google/e-cal-config-google.c
+modules/cal-config-google/e-cal-config-gtasks.c
 modules/cal-config-google/e-google-chooser-button.c
 modules/cal-config-local/evolution-cal-config-local.c
 modules/cal-config-weather/evolution-cal-config-weather.c

@@ -301,8 +301,13 @@ cal_config_weather_check_complete (ESourceConfigBackend *backend,
                                    ESource *scratch_source)
 {
 	ESourceWeather *extension;
+	Context *context;
+	gboolean correct;
 	const gchar *extension_name;
 	const gchar *location;
+
+	context = g_object_get_data (G_OBJECT (backend), e_source_get_uid (scratch_source));
+	g_return_val_if_fail (context != NULL, FALSE);
 
 	extension_name = E_SOURCE_EXTENSION_WEATHER_BACKEND;
 	extension = e_source_get_extension (scratch_source, extension_name);
@@ -311,7 +316,11 @@ cal_config_weather_check_complete (ESourceConfigBackend *backend,
 
 	g_debug ("Location: [%s]", location);
 
-	return (location != NULL) && (*location != '\0');
+	correct = (location != NULL) && (*location != '\0');
+
+	e_util_set_entry_issue_hint (context->location_entry, correct ? NULL : _("Location cannot be empty"));
+
+	return correct;
 }
 
 static void
