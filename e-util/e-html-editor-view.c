@@ -3951,7 +3951,7 @@ prevent_from_deleting_last_element_in_body (EHTMLEditorView *view)
 
 		content = webkit_dom_node_get_text_content (WEBKIT_DOM_NODE (body));
 
-		if (content && !*content)
+		if (!content || !*content)
 			ret_val = TRUE;
 
 		g_free (content);
