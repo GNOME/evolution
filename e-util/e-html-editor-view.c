@@ -8207,7 +8207,7 @@ html_editor_view_insert_converted_html_into_selection (EHTMLEditorView *view,
 		gint word_wrap_length = e_html_editor_selection_get_word_wrap_length (selection);
 		WebKitDOMElement *br;
 		WebKitDOMNode *first_paragraph, *last_paragraph;
-		WebKitDOMNode *child, *parent;
+		WebKitDOMNode *child, *parent, *current_block;
 
 		first_paragraph = webkit_dom_node_get_first_child (
 			WEBKIT_DOM_NODE (element));
@@ -8280,6 +8280,11 @@ html_editor_view_insert_converted_html_into_selection (EHTMLEditorView *view,
 			child = next_child;
 		}
 
+		current_block = e_html_editor_get_parent_block_node_from_child (
+			WEBKIT_DOM_NODE (selection_start_marker));
+
+		remove_selection_markers (document);
+
 		/* Caret will be restored on the end of pasted text */
 		webkit_dom_node_append_child (
 			last_paragraph,
@@ -8323,12 +8328,10 @@ html_editor_view_insert_converted_html_into_selection (EHTMLEditorView *view,
 		remove_quoting_from_element (WEBKIT_DOM_ELEMENT (parent));
 		remove_wrapping_from_element (WEBKIT_DOM_ELEMENT (parent));
 
-		parent = e_html_editor_get_parent_block_node_from_child (
-			WEBKIT_DOM_NODE (selection_start_marker));
-		parent = WEBKIT_DOM_NODE (e_html_editor_selection_wrap_paragraph_length (
-			selection, WEBKIT_DOM_ELEMENT (parent), length));
+		current_block = WEBKIT_DOM_NODE (e_html_editor_selection_wrap_paragraph_length (
+			selection, WEBKIT_DOM_ELEMENT (current_block), length));
 		e_html_editor_view_quote_plain_text_element_after_wrapping (
-			document, WEBKIT_DOM_ELEMENT (parent), citation_level);
+			document, WEBKIT_DOM_ELEMENT (current_block), citation_level);
 
 		/* If the pasted text begun or ended with a new line we have to
 		 * quote these paragraphs as well */
