@@ -1427,21 +1427,22 @@ html_editor_view_check_magic_links (EHTMLEditorView *view,
 	WebKitDOMNode *node;
 	gboolean include_space = FALSE;
 	gboolean is_email_address = FALSE;
+	gboolean has_selection;
 
 	if (!view->priv->magic_links)
 		return;
 
-	if (include_space_by_user == TRUE)
+	if (include_space_by_user)
 		include_space = TRUE;
 	else
 		include_space = view->priv->space_key_pressed;
 
 	node = webkit_dom_range_get_end_container (range, NULL);
+	has_selection = !webkit_dom_range_get_collapsed (range, NULL);
 
 	if (view->priv->return_key_pressed) {
 		WebKitDOMNode* block;
 
-		node = webkit_dom_range_get_end_container (range, NULL);
 		block = e_html_editor_get_parent_block_node_from_child (node);
 		/* Get previous block */
 		block = webkit_dom_node_get_previous_sibling (block);
@@ -1456,7 +1457,18 @@ html_editor_view_check_magic_links (EHTMLEditorView *view,
 			node = webkit_dom_node_get_previous_sibling (node);
 	} else {
 		e_html_editor_selection_save (view->priv->selection);
-		node = webkit_dom_range_get_end_container (range, NULL);
+		if (has_selection) {
+			WebKitDOMDocument *document;
+			WebKitDOMElement *selection_end_marker;
+
+			document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
+
+			selection_end_marker = webkit_dom_document_get_element_by_id (
+				document, "-x-evo-selection-end-marker");
+
+			node = webkit_dom_node_get_previous_sibling (
+				WEBKIT_DOM_NODE (selection_end_marker));
+		}
 	}
 
 	if (!node || WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (node))
@@ -12995,6 +13007,8 @@ undo_delete (EHTMLEditorView *view,
 			restore_selection_to_history_event_state (view, event->before);
 
 		if (event->type != HISTORY_INPUT) {
+			g_object_unref (range);
+			range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
 			html_editor_view_check_magic_smileys (view, range);
 			if (!was_link)
 				html_editor_view_check_magic_links (view, range, FALSE);
