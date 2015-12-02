@@ -37,7 +37,7 @@
 
 /* stephenhay from https://mathiasbynens.be/demo/url-regex */
 #define URL_PROTOCOLS "news|telnet|nntp|file|https?|s?ftp||webcal|localhost|ssh"
-#define URL_PATTERN "((((" URL_PROTOCOLS ")\\:\\/\\/)|(www\\.|ftp\\.))[^\\s\\/\\$\\.\\?#].[^\\s]*)"
+#define URL_PATTERN "((((" URL_PROTOCOLS ")\\:\\/\\/)|(www\\.|ftp\\.))[^\\s\\/\\$\\.\\?#].[^\\s]*)(?=&nbsp;)"
 #define URL_PATTERN_SPACE URL_PATTERN "\\s"
 /* Taken from camel-url-scanner.c */
 #define URL_INVALID_TRAILING_CHARS ",.:;?!-|}])\""
