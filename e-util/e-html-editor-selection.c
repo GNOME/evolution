@@ -5554,6 +5554,8 @@ e_html_editor_selection_insert_text (EHTMLEditorSelection *selection,
 		e_html_editor_view_insert_new_history_event (view, ev);
 	}
 
+	e_html_editor_view_set_changed (view, TRUE);
+
 	g_object_unref (view);
 }
 
@@ -5706,6 +5708,8 @@ e_html_editor_selection_insert_html (EHTMLEditorSelection *selection,
 			&ev->after.end.y);
 		e_html_editor_view_insert_new_history_event (view, ev);
 	}
+
+	e_html_editor_view_set_changed (view, TRUE);
 
 	g_object_unref (view);
 }
