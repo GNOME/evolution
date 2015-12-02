@@ -719,6 +719,7 @@ composer_build_message_pgp (AsyncContext *context,
 	const gchar *signing_algorithm;
 	gboolean always_trust;
 	gboolean encrypt_to_self;
+	gboolean prefer_inline;
 
 	/* Return silently if we're not signing or encrypting with PGP. */
 	if (!context->pgp_sign && !context->pgp_encrypt)
@@ -729,6 +730,7 @@ composer_build_message_pgp (AsyncContext *context,
 
 	always_trust = e_source_openpgp_get_always_trust (extension);
 	encrypt_to_self = e_source_openpgp_get_encrypt_to_self (extension);
+	prefer_inline = e_source_openpgp_get_prefer_inline (extension);
 	pgp_key_id = e_source_openpgp_get_key_id (extension);
 	signing_algorithm = e_source_openpgp_get_signing_algorithm (extension);
 
@@ -756,8 +758,8 @@ composer_build_message_pgp (AsyncContext *context,
 		npart = camel_mime_part_new ();
 
 		cipher = camel_gpg_context_new (context->session);
-		camel_gpg_context_set_always_trust (
-			CAMEL_GPG_CONTEXT (cipher), always_trust);
+		camel_gpg_context_set_always_trust (CAMEL_GPG_CONTEXT (cipher), always_trust);
+		camel_gpg_context_set_prefer_inline (CAMEL_GPG_CONTEXT (cipher), prefer_inline);
 
 		success = camel_cipher_context_sign_sync (
 			cipher, pgp_key_id,
@@ -790,8 +792,8 @@ composer_build_message_pgp (AsyncContext *context,
 				g_strdup (pgp_key_id));
 
 		cipher = camel_gpg_context_new (context->session);
-		camel_gpg_context_set_always_trust (
-			CAMEL_GPG_CONTEXT (cipher), always_trust);
+		camel_gpg_context_set_always_trust (CAMEL_GPG_CONTEXT (cipher), always_trust);
+		camel_gpg_context_set_prefer_inline (CAMEL_GPG_CONTEXT (cipher), prefer_inline);
 
 		success = camel_cipher_context_encrypt_sync (
 			cipher, pgp_key_id, context->recipients,
@@ -1518,15 +1520,44 @@ composer_build_message_finish (EMsgComposer *composer,
 
 	/* Finalize some details before returning. */
 
-	if (!context->skip_content)
-		camel_medium_set_content (
-			CAMEL_MEDIUM (context->message),
-			context->top_level_part);
+	if (!context->skip_content) {
+		if (context->top_level_part != context->text_plain_part &&
+		    CAMEL_IS_MIME_PART (context->top_level_part)) {
+			CamelDataWrapper *content;
+			CamelMedium *imedium, *omedium;
+			GArray *headers;
 
-	if (context->top_level_part == context->text_plain_part)
+			imedium = CAMEL_MEDIUM (context->top_level_part);
+			omedium = CAMEL_MEDIUM (context->message);
+
+			content = camel_medium_get_content (imedium);
+			camel_medium_set_content (omedium, content);
+			omedium->parent.encoding = imedium->parent.encoding;
+
+			headers = camel_medium_get_headers (imedium);
+			if (headers) {
+				gint ii;
+
+				for (ii = 0; ii < headers->len; ii++) {
+					CamelMediumHeader *hdr = &g_array_index (headers, CamelMediumHeader, ii);
+
+					camel_medium_set_header (omedium, hdr->name, hdr->value);
+				}
+
+				camel_medium_free_headers (imedium, headers);
+			}
+		} else {
+			camel_medium_set_content (
+				CAMEL_MEDIUM (context->message),
+				context->top_level_part);
+		}
+	}
+
+	if (context->top_level_part == context->text_plain_part) {
 		camel_mime_part_set_encoding (
 			CAMEL_MIME_PART (context->message),
 			context->plain_encoding);
+	}
 
 	return g_object_ref (context->message);
 }

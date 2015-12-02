@@ -499,6 +499,18 @@ mail_config_security_page_constructed (GObject *object)
 		G_BINDING_SYNC_CREATE |
 		G_BINDING_BIDIRECTIONAL);
 
+	text = _("Prefer _inline sign/encrypt for plain text messages");
+	widget = gtk_check_button_new_with_mnemonic (text);
+	gtk_widget_set_margin_left (widget, 12);
+	gtk_grid_attach (GTK_GRID (container), widget, 0, 7, 2, 1);
+	gtk_widget_show (widget);
+
+	e_binding_bind_property (
+		openpgp_ext, "prefer-inline",
+		widget, "active",
+		G_BINDING_SYNC_CREATE |
+		G_BINDING_BIDIRECTIONAL);
+
 #if defined (HAVE_NSS)
 
 	/*** Security MIME (S/MIME) ***/
