@@ -8159,11 +8159,28 @@ html_editor_view_insert_converted_html_into_selection (EHTMLEditorView *view,
 
 	has_selection = !e_html_editor_selection_is_collapsed (selection);
 	if (has_selection && !view->priv->undo_redo_in_progress) {
-		WebKitDOMRange *range;
+		if (!view->priv->undo_redo_in_progress) {
+			WebKitDOMRange *range;
 
-		range = html_editor_view_get_dom_range (view);
-		insert_delete_event (view, range);
-		g_object_unref (range);
+			range = html_editor_view_get_dom_range (view);
+			insert_delete_event (view, range);
+			g_object_unref (range);
+		}
+
+		/* Remove the text that was meant to be replaced by the pasted text */
+		e_html_editor_view_exec_command (
+			view, E_HTML_EDITOR_VIEW_COMMAND_DELETE, NULL);
+
+		e_html_editor_selection_save (selection);
+
+		selection_start_marker = webkit_dom_document_get_element_by_id (
+			document, "-x-evo-selection-start-marker");
+		selection_end_marker = webkit_dom_document_get_element_by_id (
+			document, "-x-evo-selection-end-marker");
+		current_block = e_html_editor_get_parent_block_node_from_child (
+			WEBKIT_DOM_NODE (selection_start_marker));
+		if (WEBKIT_DOM_IS_HTML_BODY_ELEMENT (current_block))
+			current_block = NULL;
 	}
 
 	citation_level = get_citation_level (WEBKIT_DOM_NODE (selection_end_marker), FALSE);
@@ -8206,7 +8223,10 @@ html_editor_view_insert_converted_html_into_selection (EHTMLEditorView *view,
 			e_html_editor_view_quote_plain_text_element_after_wrapping (
 				document, WEBKIT_DOM_ELEMENT (parent), citation_level);
 
-			goto delete;
+			e_html_editor_selection_restore (selection);
+
+			g_object_unref (element);
+			goto out;
 		}
 
 		/* Pasting content parsed into the multiple paragraphs */
@@ -8320,12 +8340,8 @@ html_editor_view_insert_converted_html_into_selection (EHTMLEditorView *view,
 			quote_plain_text_recursive (document, parent, parent, citation_level);
 			webkit_dom_element_remove_attribute (br, "class");
 		}
- delete:
+
 		e_html_editor_selection_restore (selection);
-		/* Remove the text that was meant to be replaced by the pasted text */
-		if (has_selection)
-			e_html_editor_view_exec_command (
-				view, E_HTML_EDITOR_VIEW_COMMAND_DELETE, NULL);
 
 		g_object_unref (element);
 		goto out;
