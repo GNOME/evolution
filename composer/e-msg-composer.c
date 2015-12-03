@@ -1848,7 +1848,7 @@ insert_nbsp_history_event (EHTMLEditorView *editor_view,
 	event->type = HISTORY_DELETE;
 
 	if (delete)
-		g_object_set_data (G_OBJECT (event), "history-delete-key", GINT_TO_POINTER (1));
+		g_object_set_data (G_OBJECT (fragment), "history-delete-key", GINT_TO_POINTER (1));
 
 	event->data.fragment = fragment;
 
@@ -2010,12 +2010,12 @@ msg_composer_drag_drop_cb (GtkWidget *widget,
 						webkit_dom_node_clone_node (tmp_block, FALSE),
 						NULL);
 					g_object_set_data (
-						G_OBJECT (event),
+						G_OBJECT (fragment),
 						"history-drag-and-drop",
 						GINT_TO_POINTER (1));
 					/* It should act as a Delete key press. */
 					g_object_set_data (
-						G_OBJECT (event),
+						G_OBJECT (fragment),
 						"history-delete-key",
 						GINT_TO_POINTER (1));
 				}
