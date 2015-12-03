@@ -13280,7 +13280,7 @@ msgid ""
 "On ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} at ${24Hour}:${Minute} "
 "${TimeZone}, ${Sender} wrote:"
 msgstr ""
-"在 ${Year}-${Month}-${Day}${AbbrevWeekdayName}的 ${24Hour}:${Minute} "
+"在 ${Year}-${Month}-${Day}${WeekdayName}的 ${24Hour}:${Minute} "
 "${TimeZone}，${Sender}写道："
 
 #: ../mail/em-composer-utils.c:1460
