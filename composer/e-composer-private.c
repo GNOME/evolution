@@ -141,6 +141,7 @@ e_composer_private_constructed (EMsgComposer *composer)
 	priv->dnd_is_uri = FALSE;
 	priv->check_if_signature_is_changed = FALSE;
 	priv->ignore_next_signature_change = FALSE;
+	priv->dnd_history_saved = FALSE;
 
 	priv->focused_entry = NULL;
 

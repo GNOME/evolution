@@ -1790,6 +1790,51 @@ msg_composer_drag_motion_cb (GtkWidget *widget,
 	return FALSE;
 }
 
+static void
+insert_nbsp_history_event (EHTMLEditorView *editor_view,
+                           gboolean delete,
+                           guint x,
+                           guint y)
+{
+	EHTMLEditorViewHistoryEvent *event;
+	WebKitDOMDocument *document;
+	WebKitDOMDocumentFragment *fragment;
+
+	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (editor_view));
+
+	event = g_new0 (EHTMLEditorViewHistoryEvent, 1);
+	event->type = HISTORY_AND;
+	e_html_editor_view_insert_new_history_event (editor_view, event);
+
+	fragment = webkit_dom_document_create_document_fragment (document);
+	webkit_dom_node_append_child (
+		WEBKIT_DOM_NODE (fragment),
+		WEBKIT_DOM_NODE (
+			webkit_dom_document_create_text_node (document, UNICODE_NBSP)),
+		NULL);
+
+	event = g_new0 (EHTMLEditorViewHistoryEvent, 1);
+	event->type = HISTORY_DELETE;
+
+	if (delete)
+		g_object_set_data (
+			G_OBJECT (fragment), "-x-evo-delete-key", GINT_TO_POINTER (1));
+
+	event->data.fragment = fragment;
+
+	event->before.start.x = x;
+	event->before.start.y = y;
+	event->before.end.x = x;
+	event->before.end.y = y;
+
+	event->after.start.x = x;
+	event->after.start.y = y;
+	event->after.end.x = x;
+	event->after.end.y = y;
+
+	e_html_editor_view_insert_new_history_event (editor_view, event);
+}
+
 static gboolean
 msg_composer_drag_drop_cb (GtkWidget *widget,
                            GdkDragContext *context,
@@ -1801,30 +1846,228 @@ msg_composer_drag_drop_cb (GtkWidget *widget,
 	GdkAtom target;
 	GtkWidget *source_widget;
 
-	/* When we are doind DnD just inside the web view, the DnD is supposed
+	/* When we are doing DnD just inside the web view, the DnD is supposed
 	 * to move things around. */
 	source_widget = gtk_drag_get_source_widget (context);
 	if (E_IS_HTML_EDITOR_VIEW (source_widget)) {
 		EHTMLEditor *editor = e_msg_composer_get_editor (composer);
 		EHTMLEditorView *editor_view = e_html_editor_get_view (editor);
 
-		if ((gpointer) editor_view == (gpointer) source_widget)
+		if ((gpointer) editor_view == (gpointer) source_widget) {
+			EHTMLEditorSelection *selection;
+			EHTMLEditorViewHistoryEvent *event;
+			gboolean start_to_start, end_to_end;
+			gchar *range_text;
+			guint x, y;
+			WebKitDOMDocument *document;
+			WebKitDOMDocumentFragment *fragment;
+			WebKitDOMDOMSelection *dom_selection;
+			WebKitDOMDOMWindow *dom_window;
+			WebKitDOMRange *beginning_of_line = NULL;
+			WebKitDOMRange *range = NULL, *range_clone = NULL;
+
+			selection = e_html_editor_view_get_selection (editor_view);
+			document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (editor_view));
+
+			if (!(dom_window = webkit_dom_document_get_default_view (document)))
+				return FALSE;
+
+			if (!(dom_selection = webkit_dom_dom_window_get_selection (dom_window))) {
+				g_object_unref (dom_window);
+				return FALSE;
+			}
+
+			if (webkit_dom_dom_selection_get_range_count (dom_selection) < 1) {
+				g_object_unref (dom_selection);
+				g_object_unref (dom_window);
+				return FALSE;
+			}
+
+			/* Obtain the dragged content. */
+			range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
+			range_clone = webkit_dom_range_clone_range (range, NULL);
+
+			/* Create the history event for the content that will
+			 * be removed by DnD. */
+			event = g_new0 (EHTMLEditorViewHistoryEvent, 1);
+			event->type = HISTORY_DELETE;
+
+			e_html_editor_selection_get_selection_coordinates (
+				selection,
+				&event->before.start.x,
+				&event->before.start.y,
+				&event->before.end.x,
+				&event->before.end.y);
+
+			x = event->before.start.x;
+			y = event->before.start.y;
+
+			event->after.start.x = x;
+			event->after.start.y = y;
+			event->after.end.x = x;
+			event->after.end.y = y;
+
+			/* Save the content that will be removed. */
+			fragment = webkit_dom_range_clone_contents (range_clone, NULL);
+
+			/* Extend the cloned range to point one character after
+			 * the selection ends to later check if there is a whitespace
+			 * after it. */
+			webkit_dom_range_set_end (
+				range_clone,
+				webkit_dom_range_get_end_container (range_clone, NULL),
+				webkit_dom_range_get_end_offset (range_clone, NULL) + 1,
+				NULL);
+			range_text = webkit_dom_range_get_text (range_clone);
+
+			/* Check if the current selection starts on the beginning
+			 * of line. */
+			webkit_dom_dom_selection_modify (
+				dom_selection, "extend", "left", "lineboundary");
+			beginning_of_line = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
+			start_to_start = webkit_dom_range_compare_boundary_points (
+				beginning_of_line, 0 /* START_TO_START */, range, NULL) == 0;
+
+			/* Restore the selection to state before the check. */
+			webkit_dom_dom_selection_remove_all_ranges (dom_selection);
+			webkit_dom_dom_selection_add_range (dom_selection, range);
+			g_object_unref (beginning_of_line);
+
+			/* Check if the current selection end on the end of the line. */
+			webkit_dom_dom_selection_modify (
+				dom_selection, "extend", "right", "lineboundary");
+			beginning_of_line = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
+			end_to_end = webkit_dom_range_compare_boundary_points (
+				beginning_of_line, 2 /* END_TO_END */, range, NULL) == 0;
+
+			/* Dragging the whole line. */
+			if (start_to_start && end_to_end) {
+				WebKitDOMNode *container, *actual_block, *tmp_block;
+
+				/* Select the whole line (to the beginning of the next
+				 * one so we can reuse the undo code while undoing this.
+				 * Because of this we need to special mark the event
+				 * with -x-evo-drag-and-drop to correct the selection
+				 * after undoing it (otherwise the beginning of the next
+				 * line will be selected as well. */
+				webkit_dom_dom_selection_modify (
+					dom_selection, "extend", "right", "character");
+				g_object_unref (beginning_of_line);
+				beginning_of_line = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
+
+				container = webkit_dom_range_get_end_container (range, NULL);
+				actual_block = e_html_editor_get_parent_block_node_from_child (container);
+
+				tmp_block = webkit_dom_range_get_end_container (beginning_of_line, NULL);
+				if ((tmp_block = e_html_editor_get_parent_block_node_from_child (tmp_block))) {
+					e_html_editor_selection_get_selection_coordinates (
+						selection,
+						&event->before.start.x,
+						&event->before.start.y,
+						&event->before.end.x,
+						&event->before.end.y);
+
+					/* Create the right content for the history event. */
+					fragment = webkit_dom_document_create_document_fragment (document);
+					/* The removed line. */
+					webkit_dom_node_append_child (
+						WEBKIT_DOM_NODE (fragment),
+						webkit_dom_node_clone_node (actual_block, TRUE),
+						NULL);
+					/* The following block, but empty. */
+					webkit_dom_node_append_child (
+						WEBKIT_DOM_NODE (fragment),
+						webkit_dom_node_clone_node (tmp_block, FALSE),
+						NULL);
+					g_object_set_data (
+						G_OBJECT (fragment),
+						"-x-evo-drag-and-drop",
+						GINT_TO_POINTER (1));
+					/* It should act as a Delete key press. */
+					g_object_set_data (G_OBJECT (
+						fragment),
+						"-x-evo-delete-key",
+						GINT_TO_POINTER (1));
+				}
+			}
+
+			event->data.fragment = fragment;
+			e_html_editor_view_insert_new_history_event (editor_view, event);
+
+			/* Selection is ending on the end of the line, check if
+			 * there is a space before the selection start. If so, it
+			 * will be removed and we need create the history event
+			 * for it. */
+			if (end_to_end) {
+				gchar *range_text_start;
+				glong start_offset;
+
+				start_offset = webkit_dom_range_get_start_offset (range_clone, NULL);
+				webkit_dom_range_set_start (
+					range_clone,
+					webkit_dom_range_get_start_container (range_clone, NULL),
+					start_offset > 0 ? start_offset - 1 : 0,
+					NULL);
+
+				range_text_start = webkit_dom_range_get_text (range_clone);
+				if (g_str_has_prefix (range_text_start, " ") ||
+				    g_str_has_prefix (range_text_start, UNICODE_NBSP))
+					insert_nbsp_history_event (editor_view, FALSE, x, y);
+
+				g_free (range_text_start);
+			}
+
+			/* WebKit removes the space (if presented) after selection and
+			 * we need to create a new history event for it. */
+			if (g_str_has_suffix (range_text, " ") ||
+			    g_str_has_suffix (range_text, UNICODE_NBSP))
+				insert_nbsp_history_event (editor_view, TRUE, x, y);
+
+			g_free (range_text);
+
+			/* Restore the selection to original state. */
+			webkit_dom_dom_selection_remove_all_ranges (dom_selection);
+			webkit_dom_dom_selection_add_range (dom_selection, range);
+			g_object_unref (beginning_of_line);
+
+			/* All the things above were about removing the content,
+			 * create an AND event to continue later with inserting
+			 * the dropped content. */
+			event = g_new0 (EHTMLEditorViewHistoryEvent, 1);
+			event->type = HISTORY_AND;
+			e_html_editor_view_insert_new_history_event (editor_view, event);
+
+			g_object_unref (dom_selection);
+			g_object_unref (dom_window);
+
+			g_object_unref (range);
+			g_object_unref (range_clone);
+
 			return FALSE;
+		}
 	}
 
 	target = gtk_drag_dest_find_target (widget, context, NULL);
 	if (target == GDK_NONE)
 		gdk_drag_status (context, 0, time);
 	else {
-		/* Prevent WebKit from pasting the URI of file into the view. */
-		if (composer->priv->dnd_is_uri)
+		/* Prevent WebKit from pasting the URI of file into the view. Also
+		 * prevent it from inserting the text/plain or text/html content as we
+		 * want to insert it ourselves. */
+		if (composer->priv->dnd_is_uri || !E_IS_HTML_EDITOR_VIEW (source_widget))
 			g_signal_stop_emission_by_name (widget, "drag-drop");
 
 		composer->priv->dnd_is_uri = FALSE;
 
-		gdk_drag_status (context, GDK_ACTION_COPY, time);
+		if (E_IS_HTML_EDITOR_VIEW (source_widget))
+			gdk_drag_status (context, GDK_ACTION_MOVE, time);
+		else
+			gdk_drag_status (context, GDK_ACTION_COPY, time);
+
 		composer->priv->drop_occured = TRUE;
 		gtk_drag_get_data (widget, context, target, time);
+
+		return TRUE;
 	}
 
 	return FALSE;
@@ -1842,32 +2085,22 @@ msg_composer_drag_data_received_after_cb (GtkWidget *widget,
 {
 	EHTMLEditor *editor;
 	EHTMLEditorView *view;
-	WebKitDOMDocument *document;
-	WebKitDOMDOMWindow *dom_window;
-	WebKitDOMDOMSelection *dom_selection;
 
 	if (!composer->priv->drop_occured)
-		return;
+		goto out;
 
-	composer->priv->drop_occured = FALSE;
+	/* Save just history for events handled by WebKit. */
+	if (composer->priv->dnd_history_saved)
+		goto out;
 
 	editor = e_msg_composer_get_editor (composer);
 	view = e_html_editor_get_view (editor);
-
-	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
-	dom_window = webkit_dom_document_get_default_view (document);
-	dom_selection = webkit_dom_dom_window_get_selection (dom_window);
-
-	/* When text is DnD'ed into the view, WebKit will select it. So let's
-	 * collapse it to its end to have the caret after the DnD'ed text. */
-	webkit_dom_dom_selection_collapse_to_end (dom_selection, NULL);
-
-	g_clear_object (&dom_selection);
-	g_clear_object (&dom_window);
-
+	e_html_editor_view_save_history_for_drop (view);
 	e_html_editor_view_check_magic_links (view, FALSE);
-	/* Also force spell check on view. */
-	e_html_editor_view_force_spell_check_in_viewport (view);
+
+ out:
+	composer->priv->drop_occured = FALSE;
+	composer->priv->dnd_history_saved = FALSE;
 }
 
 static gchar *
@@ -1916,7 +2149,9 @@ msg_composer_drag_data_received_cb (GtkWidget *widget,
 	html_mode = e_html_editor_view_get_html_mode (html_editor_view);
 	editor_selection = e_html_editor_view_get_selection (html_editor_view);
 
-	/* When we are doind DnD just inside the web view, the DnD is supposed
+	composer->priv->dnd_history_saved = TRUE;
+
+	/* When we are doing DnD just inside the web view, the DnD is supposed
 	 * to move things around. */
 	source_widget = gtk_drag_get_source_widget (context);
 	if (E_IS_HTML_EDITOR_VIEW (source_widget)) {
@@ -1960,6 +2195,7 @@ msg_composer_drag_data_received_cb (GtkWidget *widget,
 	    info == DND_TARGET_TYPE_STRING ||
 	    info == DND_TARGET_TYPE_TEXT_PLAIN ||
 	    info == DND_TARGET_TYPE_TEXT_PLAIN_UTF8) {
+		composer->priv->dnd_history_saved = FALSE;
 		gdk_drag_status (context, 0, time);
 		return;
 	}

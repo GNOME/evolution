@@ -105,6 +105,7 @@ struct _EMsgComposerPrivate {
 	gboolean check_if_signature_is_changed;
 	gboolean ignore_next_signature_change;
 	gboolean is_sending_message;
+	gboolean dnd_history_saved;
 
 	gint focused_entry_selection_start;
 	gint focused_entry_selection_end;
