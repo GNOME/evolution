@@ -176,6 +176,8 @@ gboolean	e_html_editor_view_get_html_mode
 void		e_html_editor_view_set_html_mode
 						(EHTMLEditorView *view,
 						 gboolean html_mode);
+void		e_html_editor_view_save_history_for_drop
+						(EHTMLEditorView *view);
 gboolean	e_html_editor_view_get_inline_spelling
 						(EHTMLEditorView *view);
 void		e_html_editor_view_set_inline_spelling

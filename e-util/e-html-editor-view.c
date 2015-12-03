@@ -211,18 +211,13 @@ html_editor_view_get_dom_range (EHTMLEditorView *view)
 	return range;
 }
 
-#if d(1)+0
-static void
-print_node_inner_html (WebKitDOMNode *node)
+static gchar *
+get_node_inner_html (WebKitDOMNode *node)
 {
+	gchar *inner_html;
 	WebKitDOMDocument *document;
 	WebKitDOMElement *div;
-	gchar *inner_html;
 
-	if (!node) {
-		printf ("    none\n");
-		return;
-	}
 	document = webkit_dom_node_get_owner_document (WEBKIT_DOM_NODE (node));
 	div = webkit_dom_document_create_element (document, "div", NULL);
 	webkit_dom_node_append_child (
@@ -232,6 +227,22 @@ print_node_inner_html (WebKitDOMNode *node)
 
 	inner_html = webkit_dom_html_element_get_inner_html (WEBKIT_DOM_HTML_ELEMENT (div));
 	remove_node (WEBKIT_DOM_NODE (div));
+
+	return inner_html;
+}
+
+#if d(1)+0
+static void
+print_node_inner_html (WebKitDOMNode *node)
+{
+	gchar *inner_html;
+
+	if (!node) {
+		printf ("    none\n");
+		return;
+	}
+
+	inner_html = get_node_inner_html (node);
 
 	printf ("    '%s'\n", inner_html);
 
@@ -10926,15 +10937,17 @@ e_html_editor_view_set_html_mode (EHTMLEditorView *view,
 	g_object_notify (G_OBJECT (view), "html-mode");
 }
 
-static void
-html_editor_view_drag_end_cb (EHTMLEditorView *view,
-                              GdkDragContext *context)
+void
+e_html_editor_view_save_history_for_drop (EHTMLEditorView *view)
 {
+	EHTMLEditorViewHistoryEvent *event;
 	gint ii, length;
 	WebKitDOMDocument *document;
-	WebKitDOMDOMWindow *dom_window;
+	WebKitDOMDocumentFragment *fragment;
 	WebKitDOMDOMSelection *dom_selection;
+	WebKitDOMDOMWindow *dom_window;
 	WebKitDOMNodeList *list;
+	WebKitDOMRange *range;
 
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
 
@@ -10964,15 +10977,91 @@ html_editor_view_drag_end_cb (EHTMLEditorView *view,
 	 * lets collapse the selection to have the caret right after the image. */
 	dom_window = webkit_dom_document_get_default_view (document);
 	dom_selection = webkit_dom_dom_window_get_selection (dom_window);
+
+	range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
+
+	/* Remove the last inserted history event as this one was inserted in
+	 * body_input_event_cb and is wrong as its type is HISTORY_INPUT. */
+	/* FIXME we could probably disable the HTML input event callback while
+	 * doing DnD within the view */
+	if (((EHTMLEditorViewHistoryEvent *) (view->priv->history->data))->type == HISTORY_INPUT)
+		remove_history_event (view, view->priv->history);
+
+	event = g_new0 (EHTMLEditorViewHistoryEvent, 1);
+	event->type = HISTORY_INSERT_HTML;
+
+	/* Get the dropped content. It's easy as it is selected by WebKit. */
+	fragment = webkit_dom_range_clone_contents (range, NULL);
+	event->data.string.from = NULL;
+	/* Get the HTML content of the dropped content. */
+	event->data.string.to = get_node_inner_html (WEBKIT_DOM_NODE (fragment));
+
+	e_html_editor_selection_get_selection_coordinates (
+		view->priv->selection,
+		&event->before.start.x,
+		&event->before.start.y,
+		&event->before.end.x,
+		&event->before.end.y);
+
+	event->before.end.x = event->before.start.x;
+	event->before.end.y = event->before.start.y;
+
 	if (length > 0)
 		webkit_dom_dom_selection_collapse_to_start (dom_selection, NULL);
 	else
 		webkit_dom_dom_selection_collapse_to_end (dom_selection, NULL);
 
+	e_html_editor_selection_get_selection_coordinates (
+		view->priv->selection,
+		&event->after.start.x,
+		&event->after.start.y,
+		&event->after.end.x,
+		&event->after.end.y);
+
+	e_html_editor_view_insert_new_history_event (view, event);
+
+	if (!view->priv->html_mode) {
+		WebKitDOMNodeList *list;
+		gint ii, length;
+
+		list = webkit_dom_document_query_selector_all (
+			document, "span[style^=font-family]", NULL);
+		length = webkit_dom_node_list_get_length (list);
+		if (length > 0)
+			e_html_editor_selection_save (view->priv->selection);
+
+		for (ii = 0; ii < length; ii++) {
+			WebKitDOMNode *span, *child;
+
+			span = webkit_dom_node_list_item (list, ii);
+			while ((child = webkit_dom_node_get_first_child (span)))
+				webkit_dom_node_insert_before (
+					webkit_dom_node_get_parent_node (span),
+					child,
+					span,
+					NULL);
+
+			remove_node (span);
+			g_object_unref (span);
+		}
+		g_object_unref (list);
+
+		if (length > 0)
+			e_html_editor_selection_restore (view->priv->selection);
+	}
+
 	e_html_editor_view_force_spell_check_in_viewport (view);
 
+	g_object_unref (range);
 	g_object_unref (dom_selection);
 	g_object_unref (dom_window);
+}
+
+static void
+html_editor_view_drag_end_cb (EHTMLEditorView *view,
+                              GdkDragContext *context)
+{
+	e_html_editor_view_save_history_for_drop (view);
 }
 
 static void
@@ -12915,6 +13004,18 @@ undo_delete (EHTMLEditorView *view,
 
 		merge_siblings_if_necessary (document, event->data.fragment);
 
+		/* If undoing drag and drop where the whole line was moved we need
+		 * to correct the selection. */
+		if (g_object_get_data (G_OBJECT (event->data.fragment), "-x-evo-drag-and-drop") &&
+		    (element = webkit_dom_document_get_element_by_id (document, "-x-evo-selection-end-marker"))) {
+			WebKitDOMNode *prev_block;
+
+			prev_block = webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (element));
+			if ((prev_block = webkit_dom_node_get_previous_sibling (prev_block)))
+				webkit_dom_node_append_child (
+					prev_block, WEBKIT_DOM_NODE (element), NULL);
+		}
+
 		e_html_editor_selection_restore (selection);
 		e_html_editor_view_force_spell_check_in_viewport (view);
 	} else {
@@ -12924,7 +13025,7 @@ undo_delete (EHTMLEditorView *view,
 
 		element = webkit_dom_document_create_element (document, "span", NULL);
 
-		/* Create temporary node on the selection where the delete occured. */
+		/* Create temporary node on the selection where the delete occurred. */
 		if (webkit_dom_document_fragment_query_selector (event->data.fragment, ".Apple-tab-span", NULL))
 			range = get_range_for_point (document, event->before.start);
 		else
