@@ -15722,7 +15722,7 @@ msgid ""
 "On ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} at ${24Hour}:${Minute} "
 "${TimeZone}, ${Sender} wrote:"
 msgstr ""
-"於 ${AbbrevWeekdayName}，${Year}-${Month}-${Day} 於 ${24Hour}:${Minute} "
+"於 ${WeekdayName}，${Year}-${Month}-${Day} 於 ${24Hour}:${Minute} "
 "${TimeZone}，${Sender} 提到："
 
 #: ../mail/em-composer-utils.c:1609
