@@ -2667,7 +2667,7 @@ save_history_for_input (EHTMLEditorView *view)
 			offset - 1,
 			NULL);
 	fragment = webkit_dom_range_clone_contents (range_clone, NULL);
-	/* We have to specialy handle Return key press */
+	/* We have to specially handle Return key press */
 	if (view->priv->return_key_pressed) {
 		WebKitDOMElement *element_start, *element_end;
 		WebKitDOMNode *parent_start, *parent_end, *node;
@@ -2729,7 +2729,7 @@ save_history_for_input (EHTMLEditorView *view)
 		remove_node (WEBKIT_DOM_NODE (element_end));
 
 		g_object_set_data (
-			G_OBJECT (fragment), "-x-evo-return-key", GINT_TO_POINTER (1));
+			G_OBJECT (ev), "history-return-key", GINT_TO_POINTER (1));
 
 		webkit_dom_dom_selection_modify (dom_selection, "move", "right", "character");
 	} else {
@@ -4434,8 +4434,8 @@ save_history_for_delete_or_backspace (EHTMLEditorView *view,
 									NULL);
 							}
 							g_object_set_data (
-								G_OBJECT (fragment),
-								"-x-evo-fragment",
+								G_OBJECT (ev),
+								"history-concatenating-blocks",
 								GINT_TO_POINTER (1));
 						}
 					}
@@ -4462,7 +4462,10 @@ save_history_for_delete_or_backspace (EHTMLEditorView *view,
 		if (!fragment)
 			fragment = webkit_dom_range_clone_contents (range_clone, NULL);
 		if (removing_from_anchor)
-			g_object_set_data (G_OBJECT (fragment), "-x-evo-removing-from-anchor", GINT_TO_POINTER (1));
+			g_object_set_data (
+				G_OBJECT (ev),
+				"history-removing-from-anchor",
+				GINT_TO_POINTER (1));
 		node = webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (fragment));
 		if (!node) {
 			g_free (ev);
@@ -4704,8 +4707,8 @@ save_history_for_delete_or_backspace (EHTMLEditorView *view,
 	g_object_unref (range);
 	g_object_unref (dom_selection);
 
-	g_object_set_data (G_OBJECT (fragment), "-x-evo-delete-key", GINT_TO_POINTER (delete_key));
-	g_object_set_data (G_OBJECT (fragment), "-x-evo-control-key", GINT_TO_POINTER (control_key));
+	g_object_set_data (G_OBJECT (ev), "history-delete-key", GINT_TO_POINTER (delete_key));
+	g_object_set_data (G_OBJECT (ev), "history-control-key", GINT_TO_POINTER (control_key));
 
 	ev->data.fragment = fragment;
 	e_html_editor_view_insert_new_history_event (view, ev);
@@ -12655,7 +12658,7 @@ undo_delete (EHTMLEditorView *view,
 
 	/* Delete or BackSpace pressed in the beginning of a block or on its end. */
 	if (event->type == HISTORY_DELETE && !single_block &&
-	    g_object_get_data (G_OBJECT (event->data.fragment), "-x-evo-fragment")) {
+	    g_object_get_data (G_OBJECT (event), "history-concatenating-blocks")) {
 		WebKitDOMNode *node, *block;
 
 		range = get_range_for_point (document, event->after.start);
@@ -12728,7 +12731,7 @@ undo_delete (EHTMLEditorView *view,
 
 	/* Redoing Return key press */
 	if (event->type == HISTORY_INPUT && (empty ||
-	    g_object_get_data (G_OBJECT (event->data.fragment), "-x-evo-return-key"))) {
+	    g_object_get_data (G_OBJECT (event), "history-return-key"))) {
 		if (key_press_event_process_return_key (view)) {
 			body_key_up_event_process_return_key (view);
 		} else {
@@ -12972,7 +12975,7 @@ undo_delete (EHTMLEditorView *view,
 
 		/* If undoing drag and drop where the whole line was moved we need
 		 * to correct the selection. */
-		if (g_object_get_data (G_OBJECT (event->data.fragment), "-x-evo-drag-and-drop") &&
+		if (g_object_get_data (G_OBJECT (event), "history-drag-and-drop") &&
 		    (element = webkit_dom_document_get_element_by_id (document, "-x-evo-selection-end-marker"))) {
 			WebKitDOMNode *prev_block;
 
@@ -13048,7 +13051,7 @@ undo_delete (EHTMLEditorView *view,
 					webkit_dom_node_get_next_sibling (parent),
 					NULL);
 			} else {
-				if (g_object_get_data (G_OBJECT (event->data.fragment), "-x-evo-removing-from-anchor") ||
+				if (g_object_get_data (G_OBJECT (event), "history-removing-from-anchor") ||
 				    !event_selection_was_collapsed (event)) {
 					webkit_dom_node_insert_before (
 						webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (element)),
@@ -13135,8 +13138,8 @@ redo_delete (EHTMLEditorView *view,
 
 	restore_selection_to_history_event_state (view, event->before);
 
-	delete_key = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (event->data.fragment), "-x-evo-delete-key"));
-	control_key = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (event->data.fragment), "-x-evo-control-key"));
+	delete_key = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (event), "history-delete-key"));
+	control_key = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (event), "history-control-key"));
 
 	if (!delete_key && key_press_event_process_backspace_key (view))
 		goto out;
@@ -13159,7 +13162,8 @@ redo_delete (EHTMLEditorView *view,
 	 * is wrapped on multiple lines, the last line will by separated
 	 * by WebKit to the separate block. To avoid it let's remove
 	 * all quoting and wrapping from the next paragraph. */
-	if (delete_key && GPOINTER_TO_INT (g_object_get_data (G_OBJECT (event->data.fragment), "-x-evo-fragment"))) {
+	if (delete_key &&
+	    GPOINTER_TO_INT (g_object_get_data (G_OBJECT (event), "history-concatenating-blocks"))) {
 		WebKitDOMNode *current_block, *next_block, *node;
 		WebKitDOMRange *range;
 
