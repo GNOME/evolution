@@ -491,7 +491,7 @@ perform_spell_check (WebKitDOMDOMSelection *dom_selection,
 	/* Go through all words to spellcheck them. To avoid this we have to wait for
 	 * http://www.w3.org/html/wg/drafts/html/master/editing.html#dom-forcespellcheck */
 	/* We are moving forward word by word until we hit the text on the end. */
-	while (actual && webkit_dom_range_compare_boundary_points (end_range, 2, actual, NULL) != 0) {
+	while (actual && webkit_dom_range_compare_boundary_points (end_range, 2 /* END_TO_END */, actual, NULL) != 0) {
 		g_object_unref (actual);
 		webkit_dom_dom_selection_modify (
 			dom_selection, "move", "forward", "word");
@@ -4295,7 +4295,7 @@ save_history_for_delete_or_backspace (EHTMLEditorView *view,
 			dom_selection, "move", delete_key ? "right" : "left", "character");
 
 		tmp_range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
-		if (webkit_dom_range_compare_boundary_points (tmp_range, 2, range, NULL) == 0) {
+		if (webkit_dom_range_compare_boundary_points (tmp_range, 2 /* END_TO_END */, range, NULL) == 0) {
 			g_object_unref (dom_selection);
 			g_object_unref (range);
 			g_object_unref (tmp_range);
@@ -4405,7 +4405,7 @@ save_history_for_delete_or_backspace (EHTMLEditorView *view,
 						dom_selection, "move", delete_key ? "right" : "left", "character");
 
 					tmp_range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
-					if (webkit_dom_range_compare_boundary_points (tmp_range, 2, actual_range, NULL) != 0) {
+					if (webkit_dom_range_compare_boundary_points (tmp_range, 2 /* END_TO_END */, actual_range, NULL) != 0) {
 						WebKitDOMNode *actual_block;
 						WebKitDOMNode *tmp_block;
 
