@@ -13785,7 +13785,6 @@ undo_redo_paste (EHTMLEditorView *view,
 		if (event->type == HISTORY_PASTE_QUOTED) {
 			WebKitDOMElement *tmp;
 			WebKitDOMNode *parent;
-			WebKitDOMNode *sibling;
 
 			restore_selection_to_history_event_state (view, event->after);
 
@@ -13799,18 +13798,12 @@ undo_redo_paste (EHTMLEditorView *view,
 			while (!WEBKIT_DOM_IS_HTML_BODY_ELEMENT (webkit_dom_node_get_parent_node (parent)))
 				parent = webkit_dom_node_get_parent_node (parent);
 
-			sibling = webkit_dom_node_get_previous_sibling (parent);
-			if (sibling) {
-				add_selection_markers_into_element_end (document, WEBKIT_DOM_ELEMENT (sibling), NULL, NULL);
+			webkit_dom_node_replace_child (
+				webkit_dom_node_get_parent_node (parent),
+				WEBKIT_DOM_NODE (prepare_paragraph (selection, document, TRUE)),
+				parent,
+				NULL);
 
-				remove_node (parent);
-			} else {
-				webkit_dom_node_replace_child (
-					webkit_dom_node_get_parent_node (parent),
-					WEBKIT_DOM_NODE (prepare_paragraph (selection, document, TRUE)),
-					parent,
-					NULL);
-			}
 			e_html_editor_selection_restore (selection);
 		} else {
 			WebKitDOMDOMWindow *dom_window;
