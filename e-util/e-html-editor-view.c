@@ -7515,7 +7515,7 @@ e_html_editor_view_insert_quoted_text (EHTMLEditorView *view,
 	gchar *escaped_text, *inner_html;
 	WebKitDOMDocument *document;
 	WebKitDOMElement *blockquote, *element, *selection_start;
-	WebKitDOMNode *sibling;
+	WebKitDOMNode *node;
 
 	if (!text || !*text)
 		return;
@@ -7560,14 +7560,14 @@ e_html_editor_view_insert_quoted_text (EHTMLEditorView *view,
 
 	selection_start = webkit_dom_document_get_element_by_id (
 		document, "-x-evo-selection-start-marker");
-	sibling = webkit_dom_node_get_previous_sibling (WEBKIT_DOM_NODE (selection_start));
+	node = webkit_dom_node_get_previous_sibling (WEBKIT_DOM_NODE (selection_start));
 	/* Check if block is empty. If so, replace it otherwise insert the quoted
 	 * content after current block. */
-	if (!sibling || WEBKIT_DOM_IS_HTMLBR_ELEMENT (sibling)) {
-		sibling = webkit_dom_node_get_next_sibling (
+	if (!node || WEBKIT_DOM_IS_HTMLBR_ELEMENT (node)) {
+		node = webkit_dom_node_get_next_sibling (
 			WEBKIT_DOM_NODE (selection_start));
-		sibling = webkit_dom_node_get_next_sibling (sibling);
-		if (!sibling || WEBKIT_DOM_IS_HTMLBR_ELEMENT (sibling)) {
+		node = webkit_dom_node_get_next_sibling (node);
+		if (!node || WEBKIT_DOM_IS_HTMLBR_ELEMENT (node)) {
 			webkit_dom_node_replace_child (
 				webkit_dom_node_get_parent_node (
 					webkit_dom_node_get_parent_node (
@@ -7588,12 +7588,12 @@ e_html_editor_view_insert_quoted_text (EHTMLEditorView *view,
 
 	parse_html_into_blocks (view, document, blockquote, NULL, inner_html);
 
-	if (!e_html_editor_view_get_html_mode (view)) {
-		WebKitDOMNode *node;
+	if (e_html_editor_view_get_html_mode (view)) {
+		node = webkit_dom_node_get_last_child (WEBKIT_DOM_NODE (blockquote));
+	} else {
 		gint word_wrap_length;
 
 		element_add_class (blockquote, "-x-evo-plaintext-quoted");
-
 		word_wrap_length = e_html_editor_selection_get_word_wrap_length (selection);
 		node = webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (blockquote));
 		while (node) {
@@ -7608,11 +7608,16 @@ e_html_editor_view_insert_quoted_text (EHTMLEditorView *view,
 
 			next_sibling = webkit_dom_node_get_next_sibling (node);
 			if (!next_sibling)
-				add_selection_markers_into_element_end (
-					document, WEBKIT_DOM_ELEMENT (node), NULL, NULL);
+				break;
+
 			node = next_sibling;
 		}
 	}
+
+	add_selection_markers_into_element_end (
+		document, WEBKIT_DOM_ELEMENT (node), NULL, NULL);
+
+	e_html_editor_selection_restore (selection);
 
 	if (ev) {
 		e_html_editor_selection_get_selection_coordinates (
@@ -7623,8 +7628,6 @@ e_html_editor_view_insert_quoted_text (EHTMLEditorView *view,
 			&ev->after.end.y);
 		e_html_editor_view_insert_new_history_event (view, ev);
 	}
-
-	e_html_editor_selection_restore (selection);
 
 	e_html_editor_view_force_spell_check_in_viewport (view);
 
