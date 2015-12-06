@@ -14233,7 +14233,7 @@ undo_redo_citation_split (EHTMLEditorView *view,
 
 		parent = get_parent_block_element (WEBKIT_DOM_NODE (selection_start));
 
-		if (event->data.fragment &&
+		if (!event->data.fragment ||
 		    !webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (event->data.fragment))) {
 			remove_node (WEBKIT_DOM_NODE (parent));
 			merge_siblings_if_necessary (document, NULL);
@@ -14312,6 +14312,8 @@ undo_redo_citation_split (EHTMLEditorView *view,
 
 		e_html_editor_view_force_spell_check_in_viewport (view);
 	} else {
+		restore_selection_to_history_event_state (view, event->before);
+
 		if (in_situ) {
 			WebKitDOMElement *selection_start_marker;
 			WebKitDOMNode *block;
