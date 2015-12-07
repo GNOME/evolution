@@ -107,7 +107,7 @@ struct _EHTMLEditorViewPrivate {
 	gboolean smiley_written;
 	gboolean undo_redo_in_progress;
 	gboolean dont_save_history_in_body_input;
-	gboolean im_input_in_progress;
+	gboolean composition_in_progress;
 	gboolean style_change_callbacks_blocked;
 	gboolean selection_changed_callbacks_blocked;
 	gboolean copy_paste_clipboard_in_view;
@@ -3495,7 +3495,7 @@ body_keyup_event_cb (WebKitDOMElement *element,
 	EHTMLEditorSelection *selection;
 	glong key_code;
 
-	if (!view->priv->im_input_in_progress)
+	if (!view->priv->composition_in_progress)
 		register_input_event_listener_on_body (view);
 
 	selection = e_html_editor_view_get_selection (view);
@@ -7773,20 +7773,20 @@ clear_attributes (WebKitDOMDocument *document)
 }
 
 static void
-im_context_preedit_start_cb (WebKitDOMElement *element,
-                             WebKitDOMUIEvent *event,
-                             EHTMLEditorView *view)
+body_compositionstart_event_cb (WebKitDOMElement *element,
+                                WebKitDOMUIEvent *event,
+                                EHTMLEditorView *view)
 {
-	view->priv->im_input_in_progress = TRUE;
+	view->priv->composition_in_progress = TRUE;
 	remove_input_event_listener_from_body (view);
 }
 
 static void
-im_context_preedit_end_cb (WebKitDOMElement *element,
-                           WebKitDOMUIEvent *event,
-                           EHTMLEditorView *view)
+body_compositionend_event_cb (WebKitDOMElement *element,
+                              WebKitDOMUIEvent *event,
+                              EHTMLEditorView *view)
 {
-	view->priv->im_input_in_progress = FALSE;
+	view->priv->composition_in_progress = FALSE;
 	register_input_event_listener_on_body (view);
 }
 
@@ -7818,14 +7818,14 @@ register_html_events_handlers (EHTMLEditorView *view,
 	webkit_dom_event_target_add_event_listener (
 		WEBKIT_DOM_EVENT_TARGET (body),
 		"compositionstart",
-		G_CALLBACK (im_context_preedit_start_cb),
+		G_CALLBACK (body_compositionstart_event_cb),
 		FALSE,
 		view);
 
 	webkit_dom_event_target_add_event_listener (
 		WEBKIT_DOM_EVENT_TARGET (body),
 		"compositionend",
-		G_CALLBACK (im_context_preedit_end_cb),
+		G_CALLBACK (body_compositionend_event_cb),
 		FALSE,
 		view);
 }
@@ -11251,7 +11251,7 @@ e_html_editor_view_init (EHTMLEditorView *view)
 		(GDestroyNotify) g_free,
 		(GDestroyNotify) g_free);
 
-	view->priv->im_input_in_progress = FALSE;
+	view->priv->composition_in_progress = FALSE;
 
 	g_signal_connect (
 		view, "copy-clipboard",
