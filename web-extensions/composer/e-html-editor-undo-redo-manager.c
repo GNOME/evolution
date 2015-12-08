@@ -186,7 +186,7 @@ print_node_inner_html (WebKitDOMNode *node)
 	WebKitDOMElement *div;
 	gchar *inner_html;
 
-	if (!fragment) {
+	if (!node) {
 		printf ("\tnone\n");
 		return;
 	}
@@ -197,7 +197,7 @@ print_node_inner_html (WebKitDOMNode *node)
 			webkit_dom_node_clone_node (node, TRUE),
 			NULL);
 
-	inner_html = webkit_dom_html_element_get_inner_html (WEBKIT_DOM_HTML_ELEMENT (div));
+	inner_html = webkit_dom_element_get_inner_html (div);
 	remove_node (WEBKIT_DOM_NODE (div));
 
 	printf ("\t'%s'\n", inner_html);
@@ -218,7 +218,7 @@ print_history_event (EHTMLEditorHistoryEvent *event)
 		case HISTORY_SMILEY:
 		case HISTORY_IMAGE:
 		case HISTORY_CITATION_SPLIT:
-		case HISTORY_HISTORY_BLOCKQUOTE:
+		case HISTORY_BLOCKQUOTE:
 			print_node_inner_html (WEBKIT_DOM_NODE (event->data.fragment));
 			break;
 		case HISTORY_ALIGNMENT:
@@ -242,7 +242,6 @@ print_history_event (EHTMLEditorHistoryEvent *event)
 		case HISTORY_HRULE_DIALOG:
 		case HISTORY_IMAGE_DIALOG:
 		case HISTORY_CELL_DIALOG:
-		case HISTORY_TABLE_DIALOG:
 		case HISTORY_TABLE_DIALOG:
 		case HISTORY_PAGE_DIALOG:
 			print_node_inner_html (event->data.dom.from);
