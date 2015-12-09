@@ -142,16 +142,14 @@ composer_move_caret (WebKitDOMDocument *document,
 
 		if (is_message_from_edit_as_new) {
 			element = WEBKIT_DOM_ELEMENT (body);
-/* FIXME WK2
-			e_html_editor_selection_block_selection_changed (editor_selection);*/
+			e_html_editor_web_extension_block_selection_changed_callback (extension);
 			goto move_caret;
 		} else
 			dom_scroll_to_caret (document);
 
 		return;
 	}
-/* FIXME WK2
-	e_html_editor_selection_block_selection_changed (editor_selection);*/
+	e_html_editor_web_extension_block_selection_changed_callback (extension);
 
 	/* When the new message is written from the beginning - note it into body */
 	if (is_from_new_message)
@@ -280,8 +278,7 @@ composer_move_caret (WebKitDOMDocument *document,
 	}
 
 	dom_force_spell_check_in_viewport (document, extension);
-/* FIXME WK2
-	e_html_editor_selection_unblock_selection_changed (editor_selection);*/
+	e_html_editor_web_extension_unblock_selection_changed_callback (extension);
 }
 
 void
