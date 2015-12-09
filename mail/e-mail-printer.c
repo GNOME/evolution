@@ -38,16 +38,6 @@
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_MAIL_PRINTER, EMailPrinterPrivate))
 
-enum {
-	BUTTON_SELECT_ALL,
-	BUTTON_SELECT_NONE,
-	BUTTON_TOP,
-	BUTTON_UP,
-	BUTTON_DOWN,
-	BUTTON_BOTTOM,
-	BUTTONS_COUNT
-};
-
 typedef struct _AsyncContext AsyncContext;
 
 struct _EMailPrinterPrivate {
@@ -56,12 +46,6 @@ struct _EMailPrinterPrivate {
 
 	gchar *export_filename;
 
-	WebKitWebView *webview; /* WebView to print from */
-	gchar *uri;
-	GtkWidget *buttons[BUTTONS_COUNT];
-	GtkWidget *treeview;
-
-	GtkPrintOperation *operation;
 	GtkPrintOperationAction print_action;
 };
 
@@ -111,7 +95,7 @@ async_context_free (AsyncContext *async_context)
 }
 
 static GtkWidget *
-mail_printer_create_custom_widget_cb (GtkPrintOperation *operation,
+mail_printer_create_custom_widget_cb (WebKitPrintOperation *operation,
                                       AsyncContext *async_context)
 {
 	EMailDisplay *display;
@@ -119,7 +103,7 @@ mail_printer_create_custom_widget_cb (GtkPrintOperation *operation,
 	EMailPart *part;
 	GtkWidget *widget;
 
-	gtk_print_operation_set_custom_tab_label (operation, _("Headers"));
+	webkit_print_operation_set_custom_tab_label (operation, _("Headers"));
 
 	display = E_MAIL_DISPLAY (async_context->web_view);
 	part_list = e_mail_display_get_part_list (display);
@@ -137,13 +121,13 @@ mail_printer_create_custom_widget_cb (GtkPrintOperation *operation,
 }
 
 static void
-mail_printer_custom_widget_apply_cb (GtkPrintOperation *operation,
+mail_printer_custom_widget_apply_cb (WebKitPrintOperation *operation,
                                      GtkWidget *widget,
                                      AsyncContext *async_context)
 {
 	webkit_web_view_reload (async_context->web_view);
 }
-
+/* FIXME WK2
 static void
 mail_printer_draw_footer_cb (GtkPrintOperation *operation,
                              GtkPrintContext *context,
@@ -180,6 +164,31 @@ mail_printer_draw_footer_cb (GtkPrintOperation *operation,
 	g_object_unref (layout);
 	g_free (text);
 }
+*/
+static void
+mail_printer_print_finished_cb (WebKitPrintOperation *print_operation,
+                                GSimpleAsyncResult *simple)
+{
+	printf ("%s\n", __FUNCTION__);
+}
+
+static void
+mail_printer_print_failed_cb (WebKitPrintOperation *print_operation,
+                              GError *error,
+                              GSimpleAsyncResult *simple)
+{
+	AsyncContext *async_context;
+
+	printf ("%s\n", __FUNCTION__);
+	async_context = g_simple_async_result_get_op_res_gpointer (simple);
+
+	if (error != NULL)
+		g_simple_async_result_take_error (simple, error);
+	else
+		g_warning ("WebKit print operation returned ERROR result without setting a GError");
+
+	async_context->print_result = GTK_PRINT_OPERATION_RESULT_ERROR;
+}
 
 static gboolean
 mail_printer_print_timeout_cb (gpointer user_data)
@@ -187,34 +196,32 @@ mail_printer_print_timeout_cb (gpointer user_data)
 	GSimpleAsyncResult *simple;
 	AsyncContext *async_context;
 	GCancellable *cancellable;
-	GtkPrintOperation *print_operation;
+	WebKitPrintOperation *print_operation;
+/* 	EMailPrinter *printer;
 	GtkPrintOperationAction print_action;
-	EMailPrinter *printer;
-//	WebKitWebFrame *web_frame;
+	gulong draw_page_handler_id;*/
 	gulong create_custom_widget_handler_id;
 	gulong custom_widget_apply_handler_id;
-	gulong draw_page_handler_id;
 	GError *error = NULL;
 
 	simple = G_SIMPLE_ASYNC_RESULT (user_data);
 	async_context = g_simple_async_result_get_op_res_gpointer (simple);
 
 	cancellable = async_context->cancellable;
+	/*
 	print_action = async_context->print_action;
-
+*/
 	/* Check for cancellation one last time before printing. */
 	if (g_cancellable_set_error_if_cancelled (cancellable, &error))
 		goto exit;
 
 	/* This returns a new reference. */
+/*
 	printer = (EMailPrinter *) g_async_result_get_source_object (
 		G_ASYNC_RESULT (simple));
-
-	print_operation = e_print_operation_new ();
-
-	gtk_print_operation_set_show_progress (print_operation, TRUE);
-	gtk_print_operation_set_unit (print_operation, GTK_UNIT_PIXEL);
-
+*/
+	print_operation = webkit_print_operation_new (async_context->web_view);
+/*
 	if (async_context->print_action == GTK_PRINT_OPERATION_ACTION_EXPORT) {
 		const gchar *export_filename;
 
@@ -223,7 +230,7 @@ mail_printer_print_timeout_cb (gpointer user_data)
 		gtk_print_operation_set_export_filename (
 			print_operation, export_filename);
 	}
-
+*/
 	create_custom_widget_handler_id = g_signal_connect (
 		print_operation, "create-custom-widget",
 		G_CALLBACK (mail_printer_create_custom_widget_cb),
@@ -234,53 +241,41 @@ mail_printer_print_timeout_cb (gpointer user_data)
 		G_CALLBACK (mail_printer_custom_widget_apply_cb),
 		async_context);
 
+	g_signal_connect (
+		print_operation, "failed",
+		G_CALLBACK (mail_printer_print_failed_cb),
+		async_context);
+
+	g_signal_connect (
+		print_operation, "finished",
+		G_CALLBACK (mail_printer_print_finished_cb),
+		async_context);
+
+/* FIXME WK2 - this will be hard to add back to WK2 API.. There is a CSS draft
+ * that can be used to add a page numbers, but it is not in WebKit yet.
+ * http://www.w3.org/TR/css3-page/
 	draw_page_handler_id = g_signal_connect (
 		print_operation, "draw-page",
 		G_CALLBACK (mail_printer_draw_footer_cb),
 		async_context->cancellable);
-/*
-	web_frame = webkit_web_view_get_main_frame (async_context->web_view);
-
-	async_context->print_result = webkit_web_frame_print_full (
-		web_frame, print_operation, print_action, &error);
 */
-	/* Sanity check. */
-	switch (async_context->print_result) {
-		case GTK_PRINT_OPERATION_RESULT_ERROR:
-			if (error == NULL)
-				g_warning (
-					"WebKit print operation returned "
-					"ERROR result without setting a "
-					"GError");
-			break;
-		case GTK_PRINT_OPERATION_RESULT_APPLY:
-			if (error != NULL)
-				g_warning (
-					"WebKit print operation returned "
-					"APPLY result but also set a GError");
-			break;
-		case GTK_PRINT_OPERATION_RESULT_CANCEL:
-			if (error != NULL)
-				g_warning (
-					"WebKit print operation returned "
-					"CANCEL result but also set a GError");
-			break;
-		default:
-			g_warn_if_reached ();
-	}
+	webkit_print_operation_run_dialog (
+		print_operation,
+		GTK_WINDOW (gtk_widget_get_toplevel (gtk_widget_get_toplevel (GTK_WIDGET (async_context->web_view)))));
 
 	g_signal_handler_disconnect (
 		print_operation, create_custom_widget_handler_id);
 
 	g_signal_handler_disconnect (
 		print_operation, custom_widget_apply_handler_id);
-
+/* FIXME WK2
 	g_signal_handler_disconnect (
 		print_operation, draw_page_handler_id);
-
+*/
 	g_object_unref (print_operation);
 
-	g_object_unref (printer);
+/*
+	g_object_unref (printer);*/
 
 exit:
 	if (error != NULL)
@@ -429,24 +424,9 @@ mail_printer_dispose (GObject *object)
 
 	g_clear_object (&priv->formatter);
 	g_clear_object (&priv->part_list);
-	g_clear_object (&priv->webview);
-	g_clear_object (&priv->operation);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_mail_printer_parent_class)->dispose (object);
-}
-
-static void
-mail_printer_finalize (GObject *object)
-{
-	EMailPrinterPrivate *priv;
-
-	priv = E_MAIL_PRINTER_GET_PRIVATE (object);
-
-	g_free (priv->uri);
-
-	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (e_mail_printer_parent_class)->finalize (object);
 }
 
 static void
@@ -460,7 +440,6 @@ e_mail_printer_class_init (EMailPrinterClass *class)
 	object_class->set_property = mail_printer_set_property;
 	object_class->get_property = mail_printer_get_property;
 	object_class->dispose = mail_printer_dispose;
-	object_class->finalize = mail_printer_finalize;
 
 	g_object_class_install_property (
 		object_class,
