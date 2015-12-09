@@ -1605,23 +1605,7 @@ html_editor_view_drag_end_cb (EHTMLEditorView *view,
 {
 	e_html_editor_view_call_simple_extension_function (view, "DOMDragAndDropEnd");
 }
-/* FIXME WK2
-static void
-im_context_preedit_start_cb (GtkIMContext *context,
-                             EHTMLEditorView *view)
-{
-	e_html_editor_view_call_simple_extension_function_sync (
-		view, "DOMIMContextPreEditStart");
-}
 
-static void
-im_context_preedit_end_cb (GtkIMContext *context,
-                           EHTMLEditorView *view)
-{
-	e_html_editor_view_call_simple_extension_function_sync (
-		view, "DOMIMContextPreEditEnd");
-}
-*/
 static void
 e_html_editor_view_init (EHTMLEditorView *view)
 {
@@ -1629,7 +1613,6 @@ e_html_editor_view_init (EHTMLEditorView *view)
 	GSettings *g_settings;
 	GSettingsSchema *settings_schema;
 /* FIXME WK2
-	GtkIMContext *im_context;
 	ESpellChecker *checker;
 	gchar **languages;
 	gchar *comma_separated;
@@ -1710,14 +1693,6 @@ e_html_editor_view_init (EHTMLEditorView *view)
 	view->priv->convert_in_situ = FALSE;
 
 	view->priv->current_user_stylesheet = NULL;
-/* FIXME WK2
-	g_object_get (WEBKIT_WEB_VIEW (view), "im-context", &im_context, NULL);
-	g_signal_connect (
-		im_context, "preedit-start",
-		G_CALLBACK (im_context_preedit_start_cb), view);
-	g_signal_connect (
-		im_context, "preedit-end",
-		G_CALLBACK (im_context_preedit_end_cb), view);*/
 }
 
 void

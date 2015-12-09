@@ -219,24 +219,24 @@ struct _EHTMLEditorUndoRedoManager *
 		e_html_editor_web_extension_get_undo_redo_manager
 						(EHTMLEditorWebExtension *extension);
 
-gboolean	e_html_editor_web_extension_is_im_input_in_progress
+gboolean	e_html_editor_web_extension_is_composition_in_progress
 						(EHTMLEditorWebExtension *extension);
 
-guint
-e_html_editor_web_extension_get_spell_check_on_scroll_event_source_id
+void		e_html_editor_web_extension_set_composition_in_progress
+						(EHTMLEditorWebExtension *extension,
+						 gboolean value);
+
+guint		e_html_editor_web_extension_get_spell_check_on_scroll_event_source_id
 						(EHTMLEditorWebExtension *extension);
 
-void
-e_html_editor_web_extension_set_spell_check_on_scroll_event_source_id
+void		e_html_editor_web_extension_set_spell_check_on_scroll_event_source_id
 						(EHTMLEditorWebExtension *extension,
 						 guint value);
 
-void
-e_html_editor_web_extension_block_selection_changed_callback
+void		e_html_editor_web_extension_block_selection_changed_callback
 						(EHTMLEditorWebExtension *web_extension);
 
-void
-e_html_editor_web_extension_unblock_selection_changed_callback
+void		e_html_editor_web_extension_unblock_selection_changed_callback
 						(EHTMLEditorWebExtension *web_extension);
 
 #endif /* E_HTML_EDITOR_WEB_EXTENSION_H */

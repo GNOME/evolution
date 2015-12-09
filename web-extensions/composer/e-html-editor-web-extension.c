@@ -92,7 +92,7 @@ struct _EHTMLEditorWebExtensionPrivate {
 	gboolean is_message_from_selection;
 	gboolean remove_initial_input_line;
 	gboolean dont_save_history_in_body_input;
-	gboolean im_input_in_progress;
+	gboolean composition_in_progress;
 
 	GHashTable *inline_images;
 
@@ -538,12 +538,6 @@ static const char introspection_xml[] =
 "      <arg type='i' name='x' direction='in'/>"
 "      <arg type='i' name='y' direction='in'/>"
 "      <arg type='b' name='cancel_if_not_collapsed' direction='in'/>"
-"    </method>"
-"    <method name='DOMIMContextPreEditStart'>"
-"      <arg type='t' name='page_id' direction='in'/>"
-"    </method>"
-"    <method name='DOMIMContextPreEditEnd'>"
-"      <arg type='t' name='page_id' direction='in'/>"
 "    </method>"
 "    <method name='DOMInsertSmiley'>"
 "      <arg type='t' name='page_id' direction='in'/>"
@@ -2027,30 +2021,6 @@ handle_method_call (GDBusConnection *connection,
 		document = webkit_web_page_get_dom_document (web_page);
 		dom_drag_and_drop_end (document, extension);
 		g_dbus_method_invocation_return_value (invocation, NULL);
-	} else if (g_strcmp0 (method_name, "DOMIMContextPreEditStart") == 0) {
-		g_variant_get (parameters, "(t)", &page_id);
-
-		web_page = get_webkit_web_page_or_return_dbus_error (
-			invocation, web_extension, page_id);
-		if (!web_page)
-			goto error;
-
-		extension->priv->im_input_in_progress = TRUE;
-		document = webkit_web_page_get_dom_document (web_page);
-		dom_remove_input_event_listener_from_body (document, extension);
-		g_dbus_method_invocation_return_value (invocation, NULL);
-	} else if (g_strcmp0 (method_name, "DOMIMContextPreEditEnd") == 0) {
-		g_variant_get (parameters, "(t)", &page_id);
-
-		web_page = get_webkit_web_page_or_return_dbus_error (
-			invocation, web_extension, page_id);
-		if (!web_page)
-			goto error;
-
-		extension->priv->im_input_in_progress = FALSE;
-		document = webkit_web_page_get_dom_document (web_page);
-		dom_register_input_event_listener_on_body (document, extension);
-		g_dbus_method_invocation_return_value (invocation, NULL);
 	} else if (g_strcmp0 (method_name, "DOMInsertSmiley") == 0) {
 		const gchar *smiley_name;
 
@@ -2828,7 +2798,6 @@ handle_set_property (GDBusConnection *connection,
 
 		extension->priv->node_under_mouse_click_flags = value;
 
-		printf ("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa %d\n", value);
 		g_variant_builder_add (builder,
 			"{sv}",
 			"NodeUnderMouseClickFlags",
@@ -2971,7 +2940,7 @@ e_html_editor_web_extension_init (EHTMLEditorWebExtension *extension)
 	extension->priv->is_message_from_selection = FALSE;
 	extension->priv->remove_initial_input_line = FALSE;
 	extension->priv->dont_save_history_in_body_input = FALSE;
-	extension->priv->im_input_in_progress = FALSE;
+	extension->priv->composition_in_progress = FALSE;
 
 	extension->priv->node_under_mouse_click = NULL;
 
@@ -3634,9 +3603,17 @@ e_html_editor_web_extension_get_undo_redo_manager (EHTMLEditorWebExtension *exte
 }
 
 gboolean
-e_html_editor_web_extension_is_im_input_in_progress (EHTMLEditorWebExtension *extension)
+e_html_editor_web_extension_is_composition_in_progress (EHTMLEditorWebExtension *extension)
 {
-	return extension->priv->im_input_in_progress;
+	return extension->priv->composition_in_progress;
+}
+
+
+void
+e_html_editor_web_extension_set_composition_in_progress (EHTMLEditorWebExtension *extension,
+                                                         gboolean value)
+{
+	extension->priv->composition_in_progress = value;
 }
 
 guint

@@ -2514,7 +2514,7 @@ body_keyup_event_cb (WebKitDOMElement *element,
 	WebKitDOMDocument *document;
 
 	document = webkit_dom_node_get_owner_document (WEBKIT_DOM_NODE (element));
-	if (!e_html_editor_web_extension_is_im_input_in_progress (extension))
+	if (!e_html_editor_web_extension_is_composition_in_progress (extension))
 		dom_register_input_event_listener_on_body (document, extension);
 
 	if (!dom_selection_is_collapsed (document))
@@ -4253,6 +4253,30 @@ clear_attributes (WebKitDOMDocument *document)
 }
 
 static void
+body_compositionstart_event_cb (WebKitDOMElement *element,
+                                WebKitDOMUIEvent *event,
+                                EHTMLEditorWebExtension *extension)
+{
+	WebKitDOMDocument *document;
+
+	document = webkit_dom_node_get_owner_document (WEBKIT_DOM_NODE (element));
+	e_html_editor_web_extension_set_composition_in_progress (extension, TRUE);
+	dom_remove_input_event_listener_from_body (document, extension);
+}
+
+static void
+body_compositionend_event_cb (WebKitDOMElement *element,
+                              WebKitDOMUIEvent *event,
+                              EHTMLEditorWebExtension *extension)
+{
+	WebKitDOMDocument *document;
+
+	document = webkit_dom_node_get_owner_document (WEBKIT_DOM_NODE (element));
+	e_html_editor_web_extension_set_composition_in_progress (extension, FALSE);
+	dom_remove_input_event_listener_from_body (document, extension);
+}
+
+static void
 register_html_events_handlers (WebKitDOMHTMLElement *body,
                                EHTMLEditorWebExtension *extension)
 {
@@ -4274,6 +4298,20 @@ register_html_events_handlers (WebKitDOMHTMLElement *body,
 		WEBKIT_DOM_EVENT_TARGET (body),
 		"keyup",
 		G_CALLBACK (body_keyup_event_cb),
+		FALSE,
+		extension);
+
+	webkit_dom_event_target_add_event_listener (
+		WEBKIT_DOM_EVENT_TARGET (body),
+		"compositionstart",
+		G_CALLBACK (body_compositionstart_event_cb),
+		FALSE,
+		extension);
+
+	webkit_dom_event_target_add_event_listener (
+		WEBKIT_DOM_EVENT_TARGET (body),
+		"compositionend",
+		G_CALLBACK (body_compositionend_event_cb),
 		FALSE,
 		extension);
 }
