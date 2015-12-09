@@ -2958,7 +2958,7 @@ set_font_style (WebKitDOMDocument *document,
 	} else {
 		WebKitDOMNode *node;
 
-		node = webkit_dom_node_get_previous_sibling (WEBKIT_DOM_NODE (element));+
+		node = webkit_dom_node_get_previous_sibling (WEBKIT_DOM_NODE (element));
 
 		/* Turning the formatting in the middle of element. */
 		if (webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (element))) {

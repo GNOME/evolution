@@ -37,20 +37,20 @@ dom_remove_signatures (WebKitDOMDocument *document,
                        gboolean top_signature)
 {
 	gchar *ret_val = NULL;
-	gulong list_length, ii;
-	WebKitDOMNodeList *signatures;
+	gulong length, ii;
+	WebKitDOMHTMLCollection *signatures;
 
 	g_return_val_if_fail (WEBKIT_DOM_IS_HTML_DOCUMENT (document), NULL);
 	g_return_val_if_fail (E_IS_HTML_EDITOR_WEB_EXTENSION (extension), NULL);
 
-	signatures = webkit_dom_document_get_elements_by_class_name (
+	signatures = webkit_dom_document_get_elements_by_class_name_as_html_collection (
 		document, "-x-evo-signature-wrapper");
-	list_length = webkit_dom_node_list_get_length (signatures);
-	for (ii = 0; ii < list_length; ii++) {
+	length = webkit_dom_html_collection_get_length (signatures);
+	for (ii = 0; ii < length; ii++) {
 		WebKitDOMNode *wrapper, *signature;
 		gchar *id;
 
-		wrapper = webkit_dom_node_list_item (signatures, ii);
+		wrapper = webkit_dom_html_collection_item (signatures, ii);
 		signature = webkit_dom_node_get_first_child (wrapper);
 		id = webkit_dom_element_get_id (WEBKIT_DOM_ELEMENT (signature));
 
@@ -115,7 +115,7 @@ composer_move_caret (WebKitDOMDocument *document,
 	WebKitDOMDOMSelection *dom_selection;
 	WebKitDOMElement *element, *signature;
 	WebKitDOMHTMLElement *body;
-	WebKitDOMNodeList *list;
+	WebKitDOMHTMLCollection *paragraphs;
 	WebKitDOMRange *new_range;
 
 	is_message_from_draft = e_html_editor_web_extension_is_message_from_draft (extension);
@@ -158,10 +158,10 @@ composer_move_caret (WebKitDOMDocument *document,
 		webkit_dom_element_set_attribute (
 			WEBKIT_DOM_ELEMENT (body), "data-new-message", "", NULL);
 
-	list = webkit_dom_document_get_elements_by_class_name (document, "-x-evo-paragraph");
+	paragraphs = webkit_dom_document_get_elements_by_class_name_as_html_collection (document, "-x-evo-paragraph");
 	signature = webkit_dom_document_query_selector (document, ".-x-evo-signature-wrapper", NULL);
 	/* Situation when wrapped paragraph is just in signature and not in message body */
-	if (webkit_dom_node_list_get_length (list) == 1)
+	if (webkit_dom_html_collection_get_length (paragraphs) == 1)
 		if (signature && webkit_dom_element_query_selector (signature, ".-x-evo-paragraph", NULL))
 			has_paragraphs_in_body = FALSE;
 
@@ -189,7 +189,7 @@ composer_move_caret (WebKitDOMDocument *document,
 			NULL);
 	}
 
-	if (webkit_dom_node_list_get_length (list) == 0)
+	if (webkit_dom_html_collection_get_length (paragraphs) == 0)
 		has_paragraphs_in_body = FALSE;
 
 	element = webkit_dom_document_get_element_by_id (document, "-x-evo-input-start");
@@ -206,7 +206,7 @@ composer_move_caret (WebKitDOMDocument *document,
 		} else
 			element = WEBKIT_DOM_ELEMENT (body);
 
-		g_object_unref (list);
+		g_object_unref (paragraphs);
 		goto move_caret;
 	}
 
@@ -266,7 +266,7 @@ composer_move_caret (WebKitDOMDocument *document,
 			element = WEBKIT_DOM_ELEMENT (body);
 	}
 
-	g_object_unref (list);
+	g_object_unref (paragraphs);
  move_caret:
 	if (element) {
 		webkit_dom_range_select_node_contents (

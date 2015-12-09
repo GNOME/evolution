@@ -25,16 +25,16 @@ dom_get_active_signature_uid (WebKitDOMDocument *document)
 {
 	gchar *uid = NULL;
 	gulong ii, length;
-	WebKitDOMNodeList *nodes;
+	WebKitDOMHTMLCollection *nodes;
 
-	nodes = webkit_dom_document_get_elements_by_class_name (
+	nodes = webkit_dom_document_get_elements_by_class_name_as_html_collection (
 		document, "-x-evo-signature");
-	length = webkit_dom_node_list_get_length (nodes);
+	length = webkit_dom_html_collection_get_length (nodes);
 	for (ii = 0; ii < length; ii++) {
 		WebKitDOMNode *node;
 		gchar *id;
 
-		node = webkit_dom_node_list_item (nodes, ii);
+		node = webkit_dom_html_collection_item (nodes, ii);
 		id = webkit_dom_element_get_id (WEBKIT_DOM_ELEMENT (node));
 		if (id && (strlen (id) == 1) && (*id == '1')) {
 			uid = webkit_dom_element_get_attribute (
