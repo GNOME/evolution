@@ -40,16 +40,6 @@
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_MAIL_PRINTER, EMailPrinterPrivate))
 
-enum {
-	BUTTON_SELECT_ALL,
-	BUTTON_SELECT_NONE,
-	BUTTON_TOP,
-	BUTTON_UP,
-	BUTTON_DOWN,
-	BUTTON_BOTTOM,
-	BUTTONS_COUNT
-};
-
 typedef struct _AsyncContext AsyncContext;
 
 struct _EMailPrinterPrivate {
@@ -59,10 +49,7 @@ struct _EMailPrinterPrivate {
 
 	gchar *export_filename;
 
-	WebKitWebView *webview; /* WebView to print from */
-	gchar *uri;
-	GtkWidget *buttons[BUTTONS_COUNT];
-	GtkWidget *treeview;
+	WebKitWebView *web_view; /* WebView to print from */
 
 	GtkPrintOperation *operation;
 	GtkPrintOperationAction print_action;
@@ -459,24 +446,11 @@ mail_printer_dispose (GObject *object)
 	g_clear_object (&priv->formatter);
 	g_clear_object (&priv->part_list);
 	g_clear_object (&priv->remote_content);
-	g_clear_object (&priv->webview);
+	g_clear_object (&priv->web_view);
 	g_clear_object (&priv->operation);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_mail_printer_parent_class)->dispose (object);
-}
-
-static void
-mail_printer_finalize (GObject *object)
-{
-	EMailPrinterPrivate *priv;
-
-	priv = E_MAIL_PRINTER_GET_PRIVATE (object);
-
-	g_free (priv->uri);
-
-	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (e_mail_printer_parent_class)->finalize (object);
 }
 
 static void
@@ -490,7 +464,6 @@ e_mail_printer_class_init (EMailPrinterClass *class)
 	object_class->set_property = mail_printer_set_property;
 	object_class->get_property = mail_printer_get_property;
 	object_class->dispose = mail_printer_dispose;
-	object_class->finalize = mail_printer_finalize;
 
 	g_object_class_install_property (
 		object_class,
