@@ -20,8 +20,8 @@ msgstr ""
 "Project-Id-Version: evolution.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2015-12-01 05:51+0000\n"
-"PO-Revision-Date: 2015-12-01 12:35+0100\n"
+"POT-Creation-Date: 2015-12-07 05:50+0000\n"
+"PO-Revision-Date: 2015-12-07 11:40+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
 "Language: es\n"
@@ -372,7 +372,7 @@ msgid "Home Page:"
 msgstr "Página personal:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:19
-#: ../modules/cal-config-google/e-cal-config-google.c:92
+#: ../modules/cal-config-google/e-cal-config-google.c:94
 msgid "Calendar:"
 msgstr "Calendario:"
 
@@ -7672,8 +7672,8 @@ msgstr "Guardar borrador"
 #: ../composer/e-composer-from-header.c:109
 #: ../e-util/e-mail-signature-script-dialog.c:415
 #: ../e-util/gal-view-instance-save-as-dialog.ui.h:2
-#: ../mail/e-mail-config-identity-page.c:319
-#: ../mail/e-mail-config-summary-page.c:331
+#: ../mail/e-mail-config-identity-page.c:323
+#: ../mail/e-mail-config-summary-page.c:332
 msgid "_Name:"
 msgstr "_Nombre:"
 
@@ -7722,7 +7722,7 @@ msgid "S_ubject:"
 msgstr "_Asunto:"
 
 #: ../composer/e-composer-header-table.c:870
-#: ../mail/e-mail-config-identity-page.c:504
+#: ../mail/e-mail-config-identity-page.c:516
 msgid "Si_gnature:"
 msgstr "_Firma:"
 
@@ -7734,7 +7734,7 @@ msgstr "Pulse aquí para la libreta de direcciones"
 msgid "Click here to select folders to post to"
 msgstr "Pulse aquí para seleccionar carpetas en las que publicar"
 
-#: ../composer/e-msg-composer.c:872
+#: ../composer/e-msg-composer.c:874
 #, c-format
 msgid ""
 "Cannot sign outgoing message: No signing certificate set for this account"
@@ -7742,7 +7742,7 @@ msgstr ""
 "No es posible firmar el mensaje saliente: No hay establecido un certificado "
 "de firma para esta cuenta"
 
-#: ../composer/e-msg-composer.c:881
+#: ../composer/e-msg-composer.c:883
 #, c-format
 msgid ""
 "Cannot encrypt outgoing message: No encryption certificate set for this "
@@ -7751,11 +7751,11 @@ msgstr ""
 "No es posible cifrar el mensaje saliente: no hay establecido un certificado "
 "de cifrado para esta cuenta"
 
-#: ../composer/e-msg-composer.c:1588 ../composer/e-msg-composer.c:2385
+#: ../composer/e-msg-composer.c:1619 ../composer/e-msg-composer.c:2651
 msgid "Compose Message"
 msgstr "Redactar un mensaje"
 
-#: ../composer/e-msg-composer.c:4735
+#: ../composer/e-msg-composer.c:5001
 msgid "The composer contains a non-text message body, which cannot be edited."
 msgstr ""
 "El editor contiene un mensaje cuyo cuerpo no tiene texto, el cual no puede "
@@ -11105,9 +11105,9 @@ msgid "S/MIME encrypted"
 msgstr "Cifrado con S/MIME"
 
 #: ../em-format/e-mail-formatter-utils.c:591
-#: ../mail/e-mail-config-security-page.c:748
-#: ../modules/mail-config/e-mail-config-remote-accounts.c:194
-#: ../modules/mail-config/e-mail-config-smtp-backend.c:144
+#: ../mail/e-mail-config-security-page.c:760
+#: ../modules/mail-config/e-mail-config-remote-accounts.c:204
+#: ../modules/mail-config/e-mail-config-smtp-backend.c:154
 msgid "Security"
 msgstr "Seguridad"
 
@@ -11922,7 +11922,7 @@ msgstr "blanco"
 
 #: ../e-util/e-color-combo.c:639 ../mail/e-mail-account-tree-view.c:134
 #: ../mail/e-mail-config-security-page.c:426
-#: ../mail/e-mail-config-security-page.c:578 ../mail/e-mail-reader.c:4024
+#: ../mail/e-mail-config-security-page.c:590 ../mail/e-mail-reader.c:4024
 #: ../mail/mail-config.ui.h:73
 msgid "Default"
 msgstr "Predeterminado"
@@ -12324,8 +12324,8 @@ msgstr "Buscar elementos que cumplen con estos criterios"
 #: ../e-util/e-mail-identity-combo-box.c:476
 #: ../e-util/e-mail-signature-combo-box.c:367
 #: ../libemail-engine/camel-null-store.c:27
-#: ../mail/e-mail-config-summary-page.c:138
-#: ../modules/book-config-ldap/evolution-book-config-ldap.c:615
+#: ../mail/e-mail-config-summary-page.c:139
+#: ../modules/book-config-ldap/evolution-book-config-ldap.c:628
 msgid "None"
 msgstr "Ninguna"
 
@@ -13339,11 +13339,11 @@ msgstr "_Tamaño:"
 msgid "Text Properties"
 msgstr "Propiedades del texto"
 
-#: ../e-util/e-html-editor-view.c:6110
+#: ../e-util/e-html-editor-view.c:6138
 msgid "Changed property"
 msgstr "Propiedad cambiada"
 
-#: ../e-util/e-html-editor-view.c:6111
+#: ../e-util/e-html-editor-view.c:6139
 msgid "Whether editor changed"
 msgstr "Indica si cambió el editor"
 
@@ -13982,21 +13982,26 @@ msgstr "Tipo:"
 msgid "Name:"
 msgstr "Nombre:"
 
+#: ../e-util/e-source-config.c:813
+#| msgid "One or more values cannot be empty."
+msgid "Name cannot be empty"
+msgstr "El nombre no puede estar vacío"
+
 #. Translators: This is the first of a sequence of widgets:
 #. * "Refresh every [NUMERIC_ENTRY] [TIME_UNITS_COMBO]"
-#: ../e-util/e-source-config.c:1311
+#: ../e-util/e-source-config.c:1313
 msgid "Refresh every"
 msgstr "Actualizar cada"
 
-#: ../e-util/e-source-config.c:1341 ../e-util/e-source-config.c:1411
+#: ../e-util/e-source-config.c:1343 ../e-util/e-source-config.c:1413
 msgid "Use a secure connection"
 msgstr "Usar una conexión segura"
 
-#: ../e-util/e-source-config.c:1437
+#: ../e-util/e-source-config.c:1439
 msgid "Unset _trust for SSL certificate"
 msgstr "No confiar en el cer_tificado SSL"
 
-#: ../e-util/e-source-config.c:1473
+#: ../e-util/e-source-config.c:1475
 msgid "User"
 msgstr "_Usuario"
 
@@ -14432,7 +14437,7 @@ msgid "Flags"
 msgstr "Opciones"
 
 #: ../e-util/evolution-source-viewer.c:728
-#: ../mail/e-mail-config-identity-page.c:721
+#: ../mail/e-mail-config-identity-page.c:760
 msgid "Identity"
 msgstr "Identidad"
 
@@ -15324,7 +15329,7 @@ msgstr "Preguntar por cada mensaje"
 msgid "Defaults"
 msgstr "Predeterminados"
 
-#: ../mail/e-mail-config-identity-page.c:282
+#: ../mail/e-mail-config-identity-page.c:286
 msgid ""
 "Please enter your name and email address below. The \"optional\" fields "
 "below do not need to be filled in, unless you wish to include this "
@@ -15334,13 +15339,13 @@ msgstr ""
 "hace falta que los rellene, a menos que quiera incluir esta información en "
 "el correo-e que envíe."
 
-#: ../mail/e-mail-config-identity-page.c:310
-#: ../mail/e-mail-config-summary-page.c:322
+#: ../mail/e-mail-config-identity-page.c:314
+#: ../mail/e-mail-config-summary-page.c:323
 msgid "Account Information"
 msgstr "Información de la cuenta"
 
-#: ../mail/e-mail-config-identity-page.c:346
-#: ../mail/e-mail-config-summary-page.c:352
+#: ../mail/e-mail-config-identity-page.c:352
+#: ../mail/e-mail-config-summary-page.c:353
 msgid ""
 "The above name will be used to identify this account.\n"
 "Use for example, \"Work\" or \"Personal\"."
@@ -15348,40 +15353,66 @@ msgstr ""
 "El nombre anterior se usará para identificar esta cuenta.\n"
 "Por ejemplo: «Trabajo» o «Personal»."
 
-#: ../mail/e-mail-config-identity-page.c:363
+#: ../mail/e-mail-config-identity-page.c:369
 msgid "Required Information"
 msgstr "Información requerida"
 
-#: ../mail/e-mail-config-identity-page.c:372
+#: ../mail/e-mail-config-identity-page.c:378
 msgid "Full Nam_e:"
 msgstr "Nombre co_mpleto:"
 
-#: ../mail/e-mail-config-identity-page.c:399
+#: ../mail/e-mail-config-identity-page.c:407
 msgid "Email _Address:"
 msgstr "Dir_ección de correo-e:"
 
-#: ../mail/e-mail-config-identity-page.c:446
+#: ../mail/e-mail-config-identity-page.c:456
 #: ../plugins/publish-calendar/publish-calendar.ui.h:26
 msgid "Optional Information"
 msgstr "Información opcional"
 
-#: ../mail/e-mail-config-identity-page.c:455
+#: ../mail/e-mail-config-identity-page.c:465
 msgid "Re_ply-To:"
 msgstr "Res_ponder a:"
 
-#: ../mail/e-mail-config-identity-page.c:482
+#: ../mail/e-mail-config-identity-page.c:494
 msgid "Or_ganization:"
 msgstr "Organi_zación:"
 
-#: ../mail/e-mail-config-identity-page.c:537
+#: ../mail/e-mail-config-identity-page.c:549
 msgid "Add Ne_w Signature..."
 msgstr "Añadir firma _nueva…"
 
-#: ../mail/e-mail-config-identity-page.c:555
+#: ../mail/e-mail-config-identity-page.c:567
 msgid "_Look up mail server details based on the entered e-mail address"
 msgstr ""
 "_Buscar los detalles del servidor de correo basándose en la dirección de "
 "correo-e introducida."
+
+#: ../mail/e-mail-config-identity-page.c:611
+#| msgid "One or more values cannot be empty."
+msgid "Full Name cannot be empty"
+msgstr "El nombre completo no puede estar vacío"
+
+#: ../mail/e-mail-config-identity-page.c:618
+#| msgid "One or more values cannot be empty."
+msgid "Email Address cannot be empty"
+msgstr "La dirección de correo-e no puede estar vacía"
+
+#: ../mail/e-mail-config-identity-page.c:623
+#| msgid "End date is not a valid date"
+msgid "Email Address is not a valid email"
+msgstr "La dirección de correo-e no es válida"
+
+#: ../mail/e-mail-config-identity-page.c:635
+#| msgid "Due date is not a valid date"
+msgid "Reply To is not a valid email"
+msgstr "El campo Responder a no es una dirección de correo-e válida"
+
+#: ../mail/e-mail-config-identity-page.c:646
+#: ../mail/e-mail-config-summary-page.c:632
+#| msgid "One or more values cannot be empty."
+msgid "Account Name cannot be empty"
+msgstr "El nombre de la cuenta no puede estar vacío"
 
 #: ../mail/e-mail-config-lookup-page.c:70
 msgid "Looking up account details..."
@@ -15438,22 +15469,22 @@ msgid "Si_gning algorithm:"
 msgstr "Algoritmo de _firma:"
 
 #: ../mail/e-mail-config-security-page.c:429
-#: ../mail/e-mail-config-security-page.c:581 ../mail/mail-config.ui.h:74
+#: ../mail/e-mail-config-security-page.c:593 ../mail/mail-config.ui.h:74
 msgid "SHA1"
 msgstr "SHA1"
 
 #: ../mail/e-mail-config-security-page.c:432
-#: ../mail/e-mail-config-security-page.c:584 ../mail/mail-config.ui.h:75
+#: ../mail/e-mail-config-security-page.c:596 ../mail/mail-config.ui.h:75
 msgid "SHA256"
 msgstr "SHA256"
 
 #: ../mail/e-mail-config-security-page.c:435
-#: ../mail/e-mail-config-security-page.c:587 ../mail/mail-config.ui.h:76
+#: ../mail/e-mail-config-security-page.c:599 ../mail/mail-config.ui.h:76
 msgid "SHA384"
 msgstr "SHA384"
 
 #: ../mail/e-mail-config-security-page.c:438
-#: ../mail/e-mail-config-security-page.c:590 ../mail/mail-config.ui.h:77
+#: ../mail/e-mail-config-security-page.c:602 ../mail/mail-config.ui.h:77
 msgid "SHA512"
 msgstr "SHA512"
 
@@ -15473,43 +15504,47 @@ msgstr "Siempre cifrar a _mí mismo cuando envíe correo cifrado"
 msgid "Always _trust keys in my keyring when encrypting"
 msgstr "Siempre _confiar en las claves de mi almacén al cifrar"
 
-#: ../mail/e-mail-config-security-page.c:514
+#: ../mail/e-mail-config-security-page.c:502
+msgid "Prefer _inline sign/encrypt for plain text messages"
+msgstr "Preferir firma/cifrado _en línea para mensajes de texto plano"
+
+#: ../mail/e-mail-config-security-page.c:526
 msgid "Secure MIME (S/MIME)"
 msgstr "MIME seguro (S/MIME)"
 
-#: ../mail/e-mail-config-security-page.c:523
+#: ../mail/e-mail-config-security-page.c:535
 msgid "Sig_ning certificate:"
 msgstr "Certificado de _firma:"
 
-#: ../mail/e-mail-config-security-page.c:547
-#: ../mail/e-mail-config-security-page.c:653
+#: ../mail/e-mail-config-security-page.c:559
+#: ../mail/e-mail-config-security-page.c:665
 msgid "Select"
 msgstr "Seleccionar"
 
 # Conflicto con _Ver del menú principal
-#: ../mail/e-mail-config-security-page.c:556
-#: ../mail/e-mail-config-security-page.c:662 ../mail/mail-dialogs.ui.h:5
+#: ../mail/e-mail-config-security-page.c:568
+#: ../mail/e-mail-config-security-page.c:674 ../mail/mail-dialogs.ui.h:5
 #: ../shell/e-shell-window-actions.c:876
 msgid "_Clear"
 msgstr "_Vaciar"
 
-#: ../mail/e-mail-config-security-page.c:565
+#: ../mail/e-mail-config-security-page.c:577
 msgid "Signing _algorithm:"
 msgstr "_Algoritmo de firma:"
 
-#: ../mail/e-mail-config-security-page.c:606
+#: ../mail/e-mail-config-security-page.c:618
 msgid "Always sign outgoing messages when using this account"
 msgstr "Firmar siempre los mensajes salientes cuando se use esta cuenta"
 
-#: ../mail/e-mail-config-security-page.c:629
+#: ../mail/e-mail-config-security-page.c:641
 msgid "Encryption certificate:"
 msgstr "Certificado de cifrado:"
 
-#: ../mail/e-mail-config-security-page.c:671
+#: ../mail/e-mail-config-security-page.c:683
 msgid "Always encrypt outgoing messages when using this account"
 msgstr "Cifrar siempre los mensajes salientes cuando se use esta cuenta"
 
-#: ../mail/e-mail-config-security-page.c:691
+#: ../mail/e-mail-config-security-page.c:703
 msgid "Always encrypt to myself when sending encrypted messages"
 msgstr "Cifrarme siempre a mí mismo cuando envíe correo cifrado"
 
@@ -15521,59 +15556,59 @@ msgstr "Envío de correo"
 msgid "Server _Type:"
 msgstr "_Tipo de servidor:"
 
-#: ../mail/e-mail-config-summary-page.c:141
+#: ../mail/e-mail-config-summary-page.c:142
 msgid "SSL"
 msgstr "SSL"
 
-#: ../mail/e-mail-config-summary-page.c:144
+#: ../mail/e-mail-config-summary-page.c:145
 msgid "TLS"
 msgstr "TLS"
 
-#: ../mail/e-mail-config-summary-page.c:305
+#: ../mail/e-mail-config-summary-page.c:306
 msgid ""
 "This is a summary of the settings which will be used to access your mail."
 msgstr ""
 "Esto es un resumen de la configuración que se usará para acceder a su correo."
 
-#: ../mail/e-mail-config-summary-page.c:369
+#: ../mail/e-mail-config-summary-page.c:370
 msgid "Personal Details"
 msgstr "Detalles personales"
 
-#: ../mail/e-mail-config-summary-page.c:378
+#: ../mail/e-mail-config-summary-page.c:379
 msgid "Full Name:"
 msgstr "Nombre completo:"
 
-#: ../mail/e-mail-config-summary-page.c:392
+#: ../mail/e-mail-config-summary-page.c:393
 msgid "Email Address:"
 msgstr "Dirección de correo-e:"
 
-#: ../mail/e-mail-config-summary-page.c:406
+#: ../mail/e-mail-config-summary-page.c:407
 msgid "Receiving"
 msgstr "Recepción de correo"
 
-#: ../mail/e-mail-config-summary-page.c:418
+#: ../mail/e-mail-config-summary-page.c:419
 msgid "Sending"
 msgstr "Opciones de envío"
 
-#: ../mail/e-mail-config-summary-page.c:430
+#: ../mail/e-mail-config-summary-page.c:431
 msgid "Server Type:"
 msgstr "Tipo de servidor:"
 
-#: ../mail/e-mail-config-summary-page.c:451
-#: ../modules/book-config-ldap/evolution-book-config-ldap.c:601
+#: ../mail/e-mail-config-summary-page.c:452
+#: ../modules/book-config-ldap/evolution-book-config-ldap.c:605
 msgid "Server:"
 msgstr "Servidor:"
 
-#: ../mail/e-mail-config-summary-page.c:472
-#: ../modules/book-config-ldap/evolution-book-config-ldap.c:690
+#: ../mail/e-mail-config-summary-page.c:473
+#: ../modules/book-config-ldap/evolution-book-config-ldap.c:703
 msgid "Username:"
 msgstr "Nombre de usuario:"
 
-#: ../mail/e-mail-config-summary-page.c:493
+#: ../mail/e-mail-config-summary-page.c:494
 msgid "Security:"
 msgstr "Seguridad:"
 
-#: ../mail/e-mail-config-summary-page.c:784
+#: ../mail/e-mail-config-summary-page.c:787
 msgid "Account Summary"
 msgstr "Resumen de la cuenta"
 
@@ -17793,8 +17828,8 @@ msgid "Check cu_stom headers for junk"
 msgstr "Compro_bar las cabeceras personalizadas contra SPAM"
 
 #: ../mail/mail-config.ui.h:131
-#: ../modules/mail-config/e-mail-config-remote-accounts.c:224
-#: ../modules/mail-config/e-mail-config-smtp-backend.c:174
+#: ../modules/mail-config/e-mail-config-remote-accounts.c:234
+#: ../modules/mail-config/e-mail-config-smtp-backend.c:184
 msgid "No encryption"
 msgstr "Sin cifrado"
 
@@ -19584,67 +19619,84 @@ msgstr "Bogofilter"
 msgid "Junk filter using Bogofilter"
 msgstr "Filtro de spam usando Bogofilter"
 
-#: ../modules/book-config-ldap/evolution-book-config-ldap.c:440
+#: ../modules/book-config-google/evolution-book-config-google.c:92
+#: ../modules/book-config-ldap/evolution-book-config-ldap.c:993
+#: ../modules/cal-config-google/e-cal-config-google.c:177
+#: ../modules/cal-config-google/e-cal-config-gtasks.c:117
+#: ../modules/mail-config/e-mail-config-remote-accounts.c:361
+#: ../modules/mail-config/e-mail-config-smtp-backend.c:396
+#| msgid "One or more values cannot be empty."
+msgid "User name cannot be empty"
+msgstr "El nombre de usuario no puede estar vacío"
+
+#: ../modules/book-config-ldap/evolution-book-config-ldap.c:442
 msgid "Standard LDAP Port"
 msgstr "Puerto LDAP estándar"
 
-#: ../modules/book-config-ldap/evolution-book-config-ldap.c:446
-#: ../modules/book-config-ldap/evolution-book-config-ldap.c:618
+#: ../modules/book-config-ldap/evolution-book-config-ldap.c:448
+#: ../modules/book-config-ldap/evolution-book-config-ldap.c:631
 msgid "LDAP over SSL (deprecated)"
 msgstr "LDAP sobre SSL (obsoleto)"
 
-#: ../modules/book-config-ldap/evolution-book-config-ldap.c:452
+#: ../modules/book-config-ldap/evolution-book-config-ldap.c:454
 msgid "Microsoft Global Catalog"
 msgstr "Catálogo global de Microsoft"
 
-#: ../modules/book-config-ldap/evolution-book-config-ldap.c:458
+#: ../modules/book-config-ldap/evolution-book-config-ldap.c:460
 msgid "Microsoft Global Catalog over SSL"
 msgstr "Catálogo global de Microsoft sobre SSL"
 
 #. Page 1
-#: ../modules/book-config-ldap/evolution-book-config-ldap.c:563
+#: ../modules/book-config-ldap/evolution-book-config-ldap.c:567
 msgid "Connecting to LDAP"
 msgstr "Conectando a LDAP"
 
-#: ../modules/book-config-ldap/evolution-book-config-ldap.c:580
+#: ../modules/book-config-ldap/evolution-book-config-ldap.c:584
 msgid "Server Information"
 msgstr "Información del servidor"
 
-#: ../modules/book-config-ldap/evolution-book-config-ldap.c:607
+#: ../modules/book-config-ldap/evolution-book-config-ldap.c:611
 msgid "Port:"
 msgstr "Puerto:"
 
-#: ../modules/book-config-ldap/evolution-book-config-ldap.c:621
+#: ../modules/book-config-ldap/evolution-book-config-ldap.c:619
+#: ../modules/mail-config/e-mail-config-remote-accounts.c:185
+#: ../modules/mail-config/e-mail-config-smtp-backend.c:140
+#| msgid "Start time is not a valid time"
+msgid "Port number is not valid"
+msgstr "El número de puerto no es válido"
+
+#: ../modules/book-config-ldap/evolution-book-config-ldap.c:634
 msgid "StartTLS (recommended)"
 msgstr "StartTLS (recomendado)"
 
-#: ../modules/book-config-ldap/evolution-book-config-ldap.c:623
+#: ../modules/book-config-ldap/evolution-book-config-ldap.c:636
 msgid "Encryption:"
 msgstr "Cifrado:"
 
-#: ../modules/book-config-ldap/evolution-book-config-ldap.c:647
-#: ../modules/mail-config/e-mail-config-remote-accounts.c:245
-#: ../modules/mail-config/e-mail-config-smtp-backend.c:195
+#: ../modules/book-config-ldap/evolution-book-config-ldap.c:660
+#: ../modules/mail-config/e-mail-config-remote-accounts.c:255
+#: ../modules/mail-config/e-mail-config-smtp-backend.c:205
 msgid "Authentication"
 msgstr "Autenticación"
 
-#: ../modules/book-config-ldap/evolution-book-config-ldap.c:670
+#: ../modules/book-config-ldap/evolution-book-config-ldap.c:683
 msgid "Anonymous"
 msgstr "Anónimo"
 
-#: ../modules/book-config-ldap/evolution-book-config-ldap.c:673
+#: ../modules/book-config-ldap/evolution-book-config-ldap.c:686
 msgid "Using email address"
 msgstr "Usando dirección de correo-e"
 
-#: ../modules/book-config-ldap/evolution-book-config-ldap.c:676
+#: ../modules/book-config-ldap/evolution-book-config-ldap.c:689
 msgid "Using distinguished name (DN)"
 msgstr "Usando Nombre distintivo (DN)"
 
-#: ../modules/book-config-ldap/evolution-book-config-ldap.c:678
+#: ../modules/book-config-ldap/evolution-book-config-ldap.c:691
 msgid "Method:"
 msgstr "Métodos:"
 
-#: ../modules/book-config-ldap/evolution-book-config-ldap.c:683
+#: ../modules/book-config-ldap/evolution-book-config-ldap.c:696
 msgid ""
 "This is the method Evolution will use to authenticate you.  Note that "
 "setting this to \"Using email address\" requires anonymous access to your "
@@ -19655,36 +19707,36 @@ msgstr ""
 "su servidor LDAP."
 
 #. Page 2
-#: ../modules/book-config-ldap/evolution-book-config-ldap.c:698
+#: ../modules/book-config-ldap/evolution-book-config-ldap.c:711
 msgid "Using LDAP"
 msgstr "Usando LDAP"
 
-#: ../modules/book-config-ldap/evolution-book-config-ldap.c:715
+#: ../modules/book-config-ldap/evolution-book-config-ldap.c:728
 #: ../modules/mail/e-mail-shell-view.c:120
 msgid "Searching"
 msgstr "Búsqueda"
 
-#: ../modules/book-config-ldap/evolution-book-config-ldap.c:737
+#: ../modules/book-config-ldap/evolution-book-config-ldap.c:750
 msgid "Search Base:"
 msgstr "Base de búsqueda:"
 
-#: ../modules/book-config-ldap/evolution-book-config-ldap.c:741
+#: ../modules/book-config-ldap/evolution-book-config-ldap.c:754
 msgid "Find Possible Search Bases"
 msgstr "Buscar bases de búsqueda posibles"
 
-#: ../modules/book-config-ldap/evolution-book-config-ldap.c:763
+#: ../modules/book-config-ldap/evolution-book-config-ldap.c:776
 msgid "One Level"
 msgstr "Un nivel"
 
-#: ../modules/book-config-ldap/evolution-book-config-ldap.c:765
+#: ../modules/book-config-ldap/evolution-book-config-ldap.c:778
 msgid "Subtree"
 msgstr "Subárbol"
 
-#: ../modules/book-config-ldap/evolution-book-config-ldap.c:767
+#: ../modules/book-config-ldap/evolution-book-config-ldap.c:780
 msgid "Search Scope:"
 msgstr "Ámbito de búsqueda:"
 
-#: ../modules/book-config-ldap/evolution-book-config-ldap.c:772
+#: ../modules/book-config-ldap/evolution-book-config-ldap.c:785
 msgid ""
 "The search scope defines how deep you would like the search to extend down "
 "the directory tree.  A search scope of \"Subtree\" will include all entries "
@@ -19696,25 +19748,32 @@ msgstr ""
 "«subárbol» incluirá todas las entradas por debajo de su base de búsqueda. Un "
 "ámbito de «un nivel» sólo incluirá las entradas un nivel bajo su base."
 
-#: ../modules/book-config-ldap/evolution-book-config-ldap.c:781
+#: ../modules/book-config-ldap/evolution-book-config-ldap.c:794
 msgid "Search Filter:"
 msgstr "Filtro de búsqueda:"
 
-#: ../modules/book-config-ldap/evolution-book-config-ldap.c:793
+#: ../modules/book-config-ldap/evolution-book-config-ldap.c:806
 msgid "Downloading"
 msgstr "Descargando"
 
-#: ../modules/book-config-ldap/evolution-book-config-ldap.c:814
+#: ../modules/book-config-ldap/evolution-book-config-ldap.c:827
 msgid "Limit:"
 msgstr "Límite:"
 
-#: ../modules/book-config-ldap/evolution-book-config-ldap.c:825
+#: ../modules/book-config-ldap/evolution-book-config-ldap.c:838
 msgid "contacts"
 msgstr "contactos"
 
-#: ../modules/book-config-ldap/evolution-book-config-ldap.c:830
+#: ../modules/book-config-ldap/evolution-book-config-ldap.c:843
 msgid "Browse until limit is reached"
 msgstr "Examinar hasta llegar al final"
+
+#: ../modules/book-config-ldap/evolution-book-config-ldap.c:978
+#: ../modules/mail-config/e-mail-config-remote-accounts.c:342
+#: ../modules/mail-config/e-mail-config-smtp-backend.c:378
+#| msgid "One or more values cannot be empty."
+msgid "Server address cannot be empty"
+msgstr "La dirección del servidor no puede estar vacía"
 
 #: ../modules/book-config-webdav/evolution-book-config-webdav.c:135
 #: ../modules/cal-config-caldav/evolution-cal-config-caldav.c:299
@@ -19725,6 +19784,12 @@ msgstr "URL:"
 #: ../modules/book-config-webdav/evolution-book-config-webdav.c:145
 msgid "Avoid IfMatch (needed on Apache < 2.2.8)"
 msgstr "Evitar IfMatch (necesario en Apache < 2.2.8)"
+
+#: ../modules/book-config-webdav/evolution-book-config-webdav.c:194
+#: ../modules/cal-config-caldav/evolution-cal-config-caldav.c:415
+#: ../modules/cal-config-webcal/evolution-cal-config-webcal.c:184
+msgid "URL is not a valid http:// nor https:// URL"
+msgstr "El URL no es un URL http:// https:// válido"
 
 #: ../modules/cal-config-caldav/evolution-cal-config-caldav.c:112
 #: ../modules/cal-config-google/e-google-chooser-button.c:224
@@ -19824,6 +19889,11 @@ msgstr "Kelvin (K)"
 #: ../modules/cal-config-weather/evolution-cal-config-weather.c:269
 msgid "Units:"
 msgstr "Unidades:"
+
+#: ../modules/cal-config-weather/evolution-cal-config-weather.c:321
+#| msgid "One or more values cannot be empty."
+msgid "Location cannot be empty"
+msgstr "La ubicación no puede estar vacía"
 
 #: ../modules/calendar/e-cal-attachment-handler.c:287
 #: ../smime/gui/smime-ui.ui.h:9
@@ -20370,7 +20440,6 @@ msgid "Stop currently running search"
 msgstr "Detener la búsqueda actual en ejecución"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1327
-#| msgid "Local Calendars"
 msgid "Sho_w All Calendars"
 msgstr "Mos_trar todos los calendarios"
 
@@ -20772,7 +20841,6 @@ msgid "Show _Only This Memo List"
 msgstr "Mostrar _sólo esta lista de notas"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:635
-#| msgid "Show _Only This Memo List"
 msgid "Sho_w All Memo Lists"
 msgstr "Mos_trar todas las listas de notas"
 
@@ -20907,7 +20975,6 @@ msgid "Rename the selected task list"
 msgstr "Renombrar la lista de tareas seleccionada"
 
 #: ../modules/calendar/e-task-shell-view-actions.c:754
-#| msgid "Show _Only This Task List"
 msgid "Sho_w All Task Lists"
 msgstr "Mos_trar todas las listas de tareas"
 
@@ -21699,98 +21766,123 @@ msgstr "Añadir un con_tacto de Google a esta cuenta"
 msgid "You may need to enable IMAP access"
 msgstr "Debe tener el acceso IMAP activado."
 
-#: ../modules/mail-config/e-mail-config-local-accounts.c:245
-#: ../modules/mail-config/e-mail-config-local-accounts.c:291
+#: ../modules/mail-config/e-mail-config-local-accounts.c:267
+#: ../modules/mail-config/e-mail-config-local-accounts.c:315
 msgid "Mail _Directory:"
 msgstr "Carpeta _de correo:"
 
-#: ../modules/mail-config/e-mail-config-local-accounts.c:246
+#: ../modules/mail-config/e-mail-config-local-accounts.c:268
 msgid "Choose a MH mail directory"
 msgstr "Elegir una carpeta de correo MH"
 
-#: ../modules/mail-config/e-mail-config-local-accounts.c:268
+#: ../modules/mail-config/e-mail-config-local-accounts.c:270
+#| msgid "One or more values cannot be empty."
+msgid "MH mail directory cannot be empty"
+msgstr "La carpeta de correo MH no puede estar vacía"
+
+#: ../modules/mail-config/e-mail-config-local-accounts.c:291
 msgid "Local Delivery _File:"
 msgstr "Archivo de _entrega local:"
 
-#: ../modules/mail-config/e-mail-config-local-accounts.c:269
+#: ../modules/mail-config/e-mail-config-local-accounts.c:292
 msgid "Choose a local delivery file"
 msgstr "Elegir un archivo de entrega local"
 
-#: ../modules/mail-config/e-mail-config-local-accounts.c:292
+#: ../modules/mail-config/e-mail-config-local-accounts.c:294
+#| msgid "One or more values cannot be empty."
+msgid "Local delivery file cannot be empty"
+msgstr "El archivo de entrega local no puede estar vacío"
+
+#: ../modules/mail-config/e-mail-config-local-accounts.c:316
 msgid "Choose a Maildir mail directory"
 msgstr "Elegir una carpeta de correo Maildir"
 
-#: ../modules/mail-config/e-mail-config-local-accounts.c:314
+#: ../modules/mail-config/e-mail-config-local-accounts.c:318
+#| msgid "Choose a Maildir mail directory"
+msgid "Maildir mail directory cannot be empty"
+msgstr "La carpeta de correo Maildir no puede estar vacía"
+
+#: ../modules/mail-config/e-mail-config-local-accounts.c:339
 msgid "Spool _File:"
 msgstr "_Archivo de cola de correo:"
 
-#: ../modules/mail-config/e-mail-config-local-accounts.c:315
+#: ../modules/mail-config/e-mail-config-local-accounts.c:340
 msgid "Choose a mbox spool file"
 msgstr "Elegir un archivo de cola de correo mbox"
 
-#: ../modules/mail-config/e-mail-config-local-accounts.c:337
+#: ../modules/mail-config/e-mail-config-local-accounts.c:342
+#| msgid "One or more values cannot be empty."
+msgid "Mbox spool file cannot be empty"
+msgstr "El archivo de cola de correo mbox no puede estar vacío"
+
+#: ../modules/mail-config/e-mail-config-local-accounts.c:363
 msgid "Spool _Directory:"
 msgstr "Carpeta de cola de co_rreo:"
 
-#: ../modules/mail-config/e-mail-config-local-accounts.c:338
+#: ../modules/mail-config/e-mail-config-local-accounts.c:364
 msgid "Choose a mbox spool directory"
 msgstr "Elija una carpeta de cola de correo mbox"
 
-#: ../modules/mail-config/e-mail-config-remote-accounts.c:136
-#: ../modules/mail-config/e-mail-config-sendmail-backend.c:54
-#: ../modules/mail-config/e-mail-config-smtp-backend.c:92
+#: ../modules/mail-config/e-mail-config-local-accounts.c:366
+msgid "Mbox spool directory cannot be empty"
+msgstr "La carpeta de cola de correo mbox no puede estar vacía"
+
+#: ../modules/mail-config/e-mail-config-remote-accounts.c:137
+#: ../modules/mail-config/e-mail-config-sendmail-backend.c:61
+#: ../modules/mail-config/e-mail-config-smtp-backend.c:93
 #: ../modules/plugin-manager/evolution-plugin-manager.c:158
 msgid "Configuration"
 msgstr "Configuración"
 
-#: ../modules/mail-config/e-mail-config-remote-accounts.c:154
-#: ../modules/mail-config/e-mail-config-smtp-backend.c:110
+#: ../modules/mail-config/e-mail-config-remote-accounts.c:155
+#: ../modules/mail-config/e-mail-config-smtp-backend.c:111
 #: ../plugins/publish-calendar/publish-calendar.ui.h:24
 msgid "_Server:"
 msgstr "_Servidor:"
 
-#: ../modules/mail-config/e-mail-config-remote-accounts.c:168
-#: ../modules/mail-config/e-mail-config-smtp-backend.c:123
+#: ../modules/mail-config/e-mail-config-remote-accounts.c:169
+#: ../modules/mail-config/e-mail-config-smtp-backend.c:124
 msgid "_Port:"
 msgstr "_Puerto:"
 
-#: ../modules/mail-config/e-mail-config-remote-accounts.c:180
-#: ../modules/mail-config/e-mail-config-smtp-backend.c:242
+#. do not reference
+#: ../modules/mail-config/e-mail-config-remote-accounts.c:190
+#: ../modules/mail-config/e-mail-config-smtp-backend.c:252
 msgid "User_name:"
 msgstr "_Usuario:"
 
-#: ../modules/mail-config/e-mail-config-remote-accounts.c:213
-#: ../modules/mail-config/e-mail-config-smtp-backend.c:163
+#: ../modules/mail-config/e-mail-config-remote-accounts.c:223
+#: ../modules/mail-config/e-mail-config-smtp-backend.c:173
 msgid "Encryption _method:"
 msgstr "_Método de cifrado:"
 
-#: ../modules/mail-config/e-mail-config-remote-accounts.c:228
-#: ../modules/mail-config/e-mail-config-smtp-backend.c:178
+#: ../modules/mail-config/e-mail-config-remote-accounts.c:238
+#: ../modules/mail-config/e-mail-config-smtp-backend.c:188
 msgid "STARTTLS after connecting"
 msgstr "STARTTLS después de conectar"
 
-#: ../modules/mail-config/e-mail-config-remote-accounts.c:232
-#: ../modules/mail-config/e-mail-config-smtp-backend.c:182
+#: ../modules/mail-config/e-mail-config-remote-accounts.c:242
+#: ../modules/mail-config/e-mail-config-smtp-backend.c:192
 msgid "SSL on a dedicated port"
 msgstr "SSL en un puerto dedicado"
 
-#: ../modules/mail-config/e-mail-config-sendmail-backend.c:70
+#: ../modules/mail-config/e-mail-config-sendmail-backend.c:77
 msgid "_Use custom binary, instead of 'sendmail'"
 msgstr "_Usar archivo binario personalizado, en lugar de «sendmail»"
 
-#: ../modules/mail-config/e-mail-config-sendmail-backend.c:74
+#: ../modules/mail-config/e-mail-config-sendmail-backend.c:81
 msgid "_Custom binary:"
 msgstr "B_inario personalizado:"
 
-#: ../modules/mail-config/e-mail-config-sendmail-backend.c:91
+#: ../modules/mail-config/e-mail-config-sendmail-backend.c:100
 msgid "U_se custom arguments"
 msgstr "Usar argumento_s personalizados"
 
-#: ../modules/mail-config/e-mail-config-sendmail-backend.c:95
+#: ../modules/mail-config/e-mail-config-sendmail-backend.c:104
 msgid "Cus_tom arguments:"
 msgstr "Argumen_tos personalizados:"
 
-#: ../modules/mail-config/e-mail-config-sendmail-backend.c:113
+#: ../modules/mail-config/e-mail-config-sendmail-backend.c:122
 msgid ""
 "Default arguments are '-i -f %F -- %R', where\n"
 "   %F - stands for the From address\n"
@@ -21800,15 +21892,21 @@ msgstr ""
 "   %F - es la dirección del campo De\n"
 "   %R - es la dirección del destinatario"
 
-#: ../modules/mail-config/e-mail-config-sendmail-backend.c:128
+#: ../modules/mail-config/e-mail-config-sendmail-backend.c:137
 msgid "Send mail also when in offline _mode"
 msgstr "Enviar correo incluso en _modo desconectado"
 
-#: ../modules/mail-config/e-mail-config-smtp-backend.c:135
+#: ../modules/mail-config/e-mail-config-sendmail-backend.c:210
+#| msgid "One or more values cannot be empty."
+msgid "Custom binary cannot be empty"
+msgstr "El binario personalizado no puede estar vacío"
+
+#. do not reference
+#: ../modules/mail-config/e-mail-config-smtp-backend.c:145
 msgid "Ser_ver requires authentication"
 msgstr "El ser_vidor requiere autenticación"
 
-#: ../modules/mail-config/e-mail-config-smtp-backend.c:224
+#: ../modules/mail-config/e-mail-config-smtp-backend.c:234
 msgid "T_ype:"
 msgstr "T_ipo:"
 
