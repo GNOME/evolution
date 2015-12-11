@@ -1678,7 +1678,7 @@ e_html_editor_selection_get_selection_coordinates (EHTMLEditorSelection *selecti
 		if (created_selection_markers)
 			e_html_editor_selection_restore (selection);
 
-		return;
+		goto workaroud;
 	}
 
 	element = webkit_dom_document_get_element_by_id (
@@ -1701,6 +1701,16 @@ e_html_editor_selection_get_selection_coordinates (EHTMLEditorSelection *selecti
 
 	if (created_selection_markers)
 		e_html_editor_selection_restore (selection);
+
+ workaroud:
+	/* Workaround for bug 749712 on the Evolution side. The cause of the bug
+	 * is that WebKit is having problems determining the right line height
+	 * for some fonts and font sizes (the right and wrong value differ by 1).
+	 * To fix this we will add an extra one to the final top offset. This is
+	 * safe to do even for fonts and font sizes that don't behave badly as we
+	 * will still get the right element as we use fonts bigger than 1 pixel. */
+	*start_y += 1;
+	*end_y += 1;
 }
 
 /**
