@@ -519,7 +519,9 @@ e_composer_paste_html (EMsgComposer *composer,
 	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), FALSE);
 	g_return_val_if_fail (GTK_IS_CLIPBOARD (clipboard), FALSE);
 
-	html = e_clipboard_wait_for_html (clipboard);
+	if (!(html = e_clipboard_wait_for_html (clipboard)))
+		return FALSE;
+
 	g_return_val_if_fail (html != NULL, FALSE);
 
 	editor = e_msg_composer_get_editor (composer);
@@ -627,8 +629,8 @@ e_composer_paste_text (EMsgComposer *composer,
 	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), FALSE);
 	g_return_val_if_fail (GTK_IS_CLIPBOARD (clipboard), FALSE);
 
-	text = gtk_clipboard_wait_for_text (clipboard);
-	g_return_val_if_fail (text != NULL, FALSE);
+	if (!(text = gtk_clipboard_wait_for_text (clipboard)))
+		return FALSE;
 
 	editor = e_msg_composer_get_editor (composer);
 	view = e_html_editor_get_view (editor);
