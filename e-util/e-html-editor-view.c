@@ -7147,7 +7147,7 @@ parse_html_into_paragraphs (EHTMLEditorView *view,
 
 	/* Replace single spaces on the beginning of line, 2+ spaces and
 	 * tabulators with non breaking spaces */
-	regex_nbsp = g_regex_new ("^\\s{1}|\\s{2,}|\x9", 0, 0, NULL);
+	regex_nbsp = g_regex_new ("^\\s{1}|\\s{2,}|\x9|\\s$", 0, 0, NULL);
 
 	while (next_br) {
 		gboolean local_ignore_next_br = ignore_next_br;
