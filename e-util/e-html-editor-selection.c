@@ -6333,6 +6333,27 @@ find_where_to_break_line (WebKitDOMCharacterData *node,
 }
 
 static void
+mark_and_remove_trailing_space (WebKitDOMDocument *document,
+                                WebKitDOMNode *node)
+{
+	WebKitDOMElement *element;
+
+	element = webkit_dom_document_create_element (document, "SPAN", NULL);
+	webkit_dom_element_set_attribute (element, "data-hidden-space", "", NULL);
+	webkit_dom_node_insert_before (
+		webkit_dom_node_get_parent_node (node),
+		WEBKIT_DOM_NODE (element),
+		webkit_dom_node_get_next_sibling (node),
+		NULL);
+	webkit_dom_character_data_replace_data (
+		WEBKIT_DOM_CHARACTER_DATA (node),
+		webkit_dom_character_data_get_length (WEBKIT_DOM_CHARACTER_DATA (node)),
+		1,
+		"",
+		NULL);
+}
+
+static void
 mark_and_remove_leading_space (WebKitDOMDocument *document,
                                WebKitDOMNode *node)
 {
@@ -6826,6 +6847,11 @@ wrap_lines (EHTMLEditorSelection *selection,
 									if (nd_content && *nd_content) {
 										if (*nd_content == ' ')
 											mark_and_remove_leading_space (document, nd);
+
+										if (!webkit_dom_node_get_next_sibling (nd) &&
+										    g_str_has_suffix (nd_content, " "))
+											mark_and_remove_trailing_space (document, nd);
+
 										g_free (nd_content);
 									}
 
@@ -6875,29 +6901,41 @@ wrap_lines (EHTMLEditorSelection *selection,
 					nd = node;
 
 				if (nd) {
+					gboolean no_sibling = FALSE;
 					gchar *nd_content;
 
 					nd_content = webkit_dom_node_get_text_content (nd);
 					if (nd_content && *nd_content) {
 						if (*nd_content == ' ')
 							mark_and_remove_leading_space (document, nd);
+
+						if (!webkit_dom_node_get_next_sibling (nd) &&
+						    g_str_has_suffix (nd_content, " ")) {
+							mark_and_remove_trailing_space (document, nd);
+							no_sibling = TRUE;
+						}
+
 						g_free (nd_content);
 					}
 
-					webkit_dom_node_insert_before (
-						webkit_dom_node_get_parent_node (node),
-						WEBKIT_DOM_NODE (element),
-						nd,
-						NULL);
-
+					if (!no_sibling)
+						webkit_dom_node_insert_before (
+							webkit_dom_node_get_parent_node (node),
+							WEBKIT_DOM_NODE (element),
+							nd,
+							NULL);
 					offset = 0;
 
 					nd_content = webkit_dom_node_get_text_content (nd);
 					if (!*nd_content)
 						remove_node (nd);
 					g_free (nd_content);
-					node = webkit_dom_node_get_next_sibling (
-						WEBKIT_DOM_NODE (element));
+
+					if (no_sibling)
+						node = NULL;
+					else
+						node = webkit_dom_node_get_next_sibling (
+							WEBKIT_DOM_NODE (element));
 				} else {
 					webkit_dom_node_append_child (
 						webkit_dom_node_get_parent_node (node),
