@@ -1,3 +1,59 @@
+Evolution 3.19.3 2015-12-14
+---------------------------
+
+Bug Fixes:
+	Bug 758089 - [prefer-plain] Show plain text if present, or HTML source (Milan Crha)
+	Bug 758152 - Network connection not detected on resume from suspend (Milan Crha)
+	Bug 758650 - Use notification actions only when supported (Sebastien Bacher)
+	Bug 758665 - Hangs auto-saving mail with big attachments (Milan Crha)
+	Bug 752543 - Left tooltip from preview panel when mouse leaves it (Milan Crha)
+	Bug 758827 - Evolution crashed in prevent_from_deleting_last_element_in_body() (Tomas Popela)
+	Bug 758752 - "Show all calendars" as a way of undoing "Show only this calendar" (Milan Crha)
+	Bug 758827 - Evolution crashed in prevent_from_deleting_last_element_in_body() (Tomas Popela)
+	Bug 758851 - Cannot delete the first empty line using <backspace> (Tomas Popela)
+	Bug 758846 - CRITICAL **: WebKitDOMNode* webkit_dom_node_get_last_child(WebKitDOMNode*): assertion 'WEBKIT_DOM_IS_NODE(self)' failed (Tomas Popela)
+	Bug 758849 - URL doesn't always unwrap on switch to Preformatted (Tomas Popela)
+	Bug 758747 - Reproducible hang after copy&paste of a URL over another URL in quoted section (Tomas Popela)
+	Bug 758856 - [GPG] Option to prefer inline sign/encrypt of pure text/plain mails (Milan Crha)
+	Bug 757939 - Undo failure after dragging text (Tomas Popela)
+	Bug 759046 - Undo deletes the wrong text and redo does not add it back (Tomas Popela)
+	Bug 759337 - Busy loop after sending a message with a space on the end of paragraph (Tomas Popela)
+	Bug 749712 - Undo/Redo in composer doesn't work right (Tomas Popela)
+
+Miscellaneous:
+	Mail Preferences->Junk page incorrectly referenced in the code (Milan Crha)
+	Fix a crash on Evolution quit in gtk_application_impl_uninhibit() (Milan Crha)
+	Ask for a forced quit when a user tries to re-close the window (Milan Crha)
+	Attachment's List View passes mouse events to the parent widget (Milan Crha)
+	Add <kudos/> into appdata/metainfo files (Milan Crha)
+	Visualize incorrect values in account/source editors (Milan Crha)
+	Composer - Last empty block in pasted content could be inaccessible (Tomas Popela)
+	Composer - Set GObject's data on history event instead on its data and rename them (Tomas Popela)
+	Composer - Partially revert previous commit as EHTMLEditorHistoryEvent is not GObject (Tomas Popela)
+	EHTMLEditorSelection - Editor is not marked as changed after doing paste action (Tomas Popela)
+	EHTMLEditorView - Add an extra debug message when inserting a new history event (Tomas Popela)
+	EHTMLEditorView - Warning printed on console after pressing Enter and Tabulator (Tomas Popela)
+	EHTMLEditorview - Don't save history when undoing/redoing a paste of content (Tomas Popela)
+	EHTMLEditorView - Check if the Backspace or Delete operation can remove anything (Tomas Popela)
+	EHTMLEditorView - Don't include non-breaking space while recognizing links (Tomas Popela)
+	EHTMLEditorView - Links could not be recognized after deleting them and later undoing it (Tomas Popela)
+	EHTMLEditorView - Caret is put on wrong place when pasting into quoted content (Tomas Popela)
+	EHTMLEditorView - Note a type of DOMRange comparison in comment (Tomas Popela)
+	EHTMLEditorView - Don't include non-breaking space while recognizing links (Tomas Popela)
+	EHTMLEditorView - Don't check for links if we cannot obtain valid block (Tomas Popela)
+	EHTMLEditorView - Undoing and redoing Return press in the beginning of citation is wrong (Tomas Popela)
+	EHTMLEditorView - 'Paste Quotation' action in HTML mode is not setting the caret to the right position (Tomas Popela)
+	EHTMLEditorView - Replace the preedit-* signals with compositionstart and compositionend HTML events (Tomas Popela)
+	EHTMLEditorView - Rename variables and functions to more reflect previous change (Tomas Popela)
+	EMailPrinter - Clean the unused variables (Tomas Popela)
+
+Translations:
+	Daniel Mustieles (es)
+	Pedro Albuquerque (pt)
+	Aurimas Černius (lt)
+	Dušan Kazik (sk)
+	Andika Triwidada (id)
+
 Evolution 3.19.2 2015-11-23
 ---------------------------
 
