@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2015-12-24 05:50+0000\n"
+"POT-Creation-Date: 2016-01-04 17:52+0000\n"
 "PO-Revision-Date: 2015-12-24 18:43+0100\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
@@ -4094,11 +4094,8 @@ msgid "_Attachments"
 msgstr "Přílo_hy"
 
 #: ../calendar/gui/e-comp-editor-page-attachments.c:629
-#, fuzzy
-#| msgctxt "iCalImp"
-#| msgid "has attachments"
 msgid "Show attachments"
-msgstr "má přílohy"
+msgstr "Zobrazovat přílohy"
 
 #: ../calendar/gui/e-comp-editor-page-attachments.c:781
 #: ../e-util/e-attachment-bar.c:661 ../e-util/e-attachment-paned.c:735
@@ -4335,7 +4332,6 @@ msgstr "neděli"
 #. * (dropdown menu options are in [square brackets])."
 #.
 #: ../calendar/gui/e-comp-editor-page-recurrence.c:810
-#| msgid "on the"
 msgctxt "ECompEditorPageRecur"
 msgid "on the"
 msgstr ""
@@ -4373,16 +4369,12 @@ msgid "This component rec_urs"
 msgstr "Tato komponenta se _opakuje"
 
 #: ../calendar/gui/e-comp-editor-page-recurrence.c:1869
-#, fuzzy
-#| msgid "Recurrence date is invalid"
 msgid "Recurrence exception date is invalid"
-msgstr "Datum opakování je neplatné"
+msgstr "Datum výjimky z opakování je neplatné"
 
 #: ../calendar/gui/e-comp-editor-page-recurrence.c:1917
-#, fuzzy
-#| msgid "End time of the recurrence was before event's start"
 msgid "End time of the recurrence is before the start"
-msgstr "Konec opakování byl před tím, než událost nastala"
+msgstr "Čas konce opakování je dřív než jeho začátek"
 
 #: ../calendar/gui/e-comp-editor-page-recurrence.c:1960
 msgid "R_ecurrence"
@@ -4712,18 +4704,14 @@ msgid "_Web page:"
 msgstr "_WWW stránka:"
 
 #: ../calendar/gui/e-comp-editor-property-parts.c:1057
-#, fuzzy
-#| msgid "D_ue date:"
 msgctxt "ECompEditor"
 msgid "D_ue date:"
 msgstr "_Termín dokončení:"
 
 #: ../calendar/gui/e-comp-editor-property-parts.c:1117
-#, fuzzy
-#| msgid "Date _completed:"
 msgctxt "ECompEditor"
 msgid "Date _completed:"
-msgstr "Datum do_končení:"
+msgstr "Do_končeno dne:"
 
 #: ../calendar/gui/e-comp-editor-property-parts.c:1133
 msgctxt "ECompEditor"
@@ -4806,8 +4794,6 @@ msgid "Time _zone:"
 msgstr "Časové pá_smo:"
 
 #: ../calendar/gui/e-comp-editor-property-parts.c:1471
-#, fuzzy
-#| msgid "Show Time as _Busy"
 msgctxt "ECompEditor"
 msgid "Show time as _busy"
 msgstr "Zobrazovat čas jako _obsazený"
@@ -4821,12 +4807,10 @@ msgid "Task's due date is in the past"
 msgstr "Termínu dokončení úkolu je v minulosti"
 
 #: ../calendar/gui/e-comp-editor-task.c:308
-#, fuzzy
-#| msgid "Task cannot be edited, because the selected task list is read only"
 msgid ""
 "Task cannot be edited, because the selected task list could not be opened"
 msgstr ""
-"Úkol nemůže být upravován, protože vybraný seznam úkolů je pouze pro čtení"
+"Úkol nemůže být upravován, protože vybraný seznam úkolů nelze otevřít"
 
 #: ../calendar/gui/e-comp-editor-task.c:310
 msgid "Task cannot be edited, because the selected task list is read only"
@@ -4838,33 +4822,26 @@ msgid "Task cannot be fully edited, because you are not the organizer"
 msgstr "Úkol nemůže být plně upravován, protože nejste organizátor"
 
 #: ../calendar/gui/e-comp-editor-task.c:359
-#, fuzzy
-#| msgid "Recurrence date is invalid"
 msgid "Due date is not a valid date"
-msgstr "Datum opakování je neplatné"
+msgstr "Termín dokončení je neplatný"
 
 #: ../calendar/gui/e-comp-editor-task.c:370
-#, fuzzy
-#| msgid "Completed date is wrong"
 msgid "Completed date is not a valid date"
-msgstr "Čas dokončení je chybný"
+msgstr "Datum dokončení je neplatné"
 
 #: ../calendar/gui/e-comp-editor-task.c:381
-#, fuzzy
-#| msgid "1 minute in the future"
-#| msgid_plural "%d minutes in the future"
 msgid "Completed date cannot be in the future"
-msgstr "1 minuta v budoucnu."
+msgstr "Datum, kdy byl úkol dokončen, nemůže být v budoucnu."
 
 #: ../calendar/gui/e-comp-editor-task.c:566
 #, c-format
 msgid "Assigned Task - %s"
-msgstr "Přidělený úkol - %s"
+msgstr "Přidělený úkol – %s"
 
 #: ../calendar/gui/e-comp-editor-task.c:567
 #, c-format
 msgid "Task - %s"
-msgstr "Úkol - %s"
+msgstr "Úkol – %s"
 
 #: ../calendar/gui/e-comp-editor.c:254
 #: ../modules/prefer-plain/e-mail-parser-prefer-plain.c:127
@@ -4872,16 +4849,12 @@ msgid "attachment"
 msgstr "příloha"
 
 #: ../calendar/gui/e-comp-editor.c:609
-#, fuzzy
-#| msgid "Send _updates to attendees"
 msgid "Sending notifications to attendees..."
-msgstr "Poslat _aktualizace účastníkům"
+msgstr "Poslílají se upozornění účastníkům…"
 
 #: ../calendar/gui/e-comp-editor.c:991
-#, fuzzy
-#| msgid "_Save Changes"
 msgid "Saving changes..."
-msgstr "_Uložit změny"
+msgstr "Ukládají se změny…"
 
 #: ../calendar/gui/e-comp-editor.c:1247
 msgid "No Summary"
@@ -5842,16 +5815,12 @@ msgid "New Task List"
 msgstr "Nový seznam úkolů"
 
 #: ../calendar/importers/icalendar-importer.c:356
-#, fuzzy
-#| msgid "Create a new calendar"
 msgid "Cre_ate new calendar"
-msgstr "Vytvořit nový kalendář"
+msgstr "Vytvořit nový k_alendář"
 
 #: ../calendar/importers/icalendar-importer.c:360
-#, fuzzy
-#| msgid "Create a new task list"
 msgid "Cre_ate new task list"
-msgstr "Vytvořit nový seznam úkolů"
+msgstr "Vytvořit nový sezn_am úkolů"
 
 #: ../calendar/importers/icalendar-importer.c:506
 #: ../calendar/importers/icalendar-importer.c:945
@@ -13953,10 +13922,8 @@ msgid "Manage Groups"
 msgstr "Správa skupin"
 
 #: ../e-util/e-source-selector.c:3440
-#, fuzzy
-#| msgid "_Available Categories:"
 msgid "Available Groups:"
-msgstr "Dostupné _kategorie:"
+msgstr "Dostupné skupiny:"
 
 #: ../e-util/e-source-selector-dialog.c:236
 msgid "_Destination"
@@ -15706,10 +15673,8 @@ msgid "Edit Message Note"
 msgstr "_Upravit zprávu"
 
 #: ../mail/e-mail-notes.c:1058
-#, fuzzy
-#| msgid "Retrieving message"
 msgid "Retrieving message..."
-msgstr "Získává se zpráva"
+msgstr "Získává se zpráva…"
 
 #: ../mail/e-mail-print-config-headers.c:165
 msgid "Move selected headers to top"
@@ -15774,7 +15739,7 @@ msgstr "Odstraňování starých zpráv"
 #: ../mail/e-mail-reader.c:1271 ../mail/e-mail-reader.c:1483
 #: ../mail/e-mail-reader.c:1523
 msgid "_Do not ask me again."
-msgstr "_Příště se neptat."
+msgstr "_Příště se neptat"
 
 #: ../mail/e-mail-reader.c:1529
 msgid "_Always ignore Reply-To: for mailing lists."
@@ -15830,38 +15795,28 @@ msgid "Mark the selected messages for deletion"
 msgstr "Označit vybrané zprávy pro smazání"
 
 #: ../mail/e-mail-reader.c:2000
-#, fuzzy
-#| msgid "_Add Attachment..."
 msgid "_Add note..."
-msgstr "_Přidat přílohu…"
+msgstr "_Přidat poznámku…"
 
 #: ../mail/e-mail-reader.c:2002
-#, fuzzy
-#| msgid "Create a new memo from the selected message"
 msgid "Add a note for the selected message"
-msgstr "Vytvořit novou poznámku z vybrané zprávy"
+msgstr "Přidat poznámku k vybrané zprávě"
 
 #: ../mail/e-mail-reader.c:2007
-#, fuzzy
-#| msgid "Delete Memo"
 msgid "Delete no_te"
-msgstr "Smazat poznámku"
+msgstr "Smaza_t poznámku"
 
 #: ../mail/e-mail-reader.c:2009
-#, fuzzy
-#| msgid "Create a new event from the selected message"
 msgid "Delete the note for the selected message"
-msgstr "Vytvořit novou událost z vybrané zprávy"
+msgstr "Smazat poznámku k vybrané zprávy"
 
 #: ../mail/e-mail-reader.c:2014
 msgid "_Edit note..."
 msgstr "_Upravit poznámku…"
 
 #: ../mail/e-mail-reader.c:2016
-#, fuzzy
-#| msgid "Create a new memo from the selected message"
 msgid "Edit a note for the selected message"
-msgstr "Vytvořit novou poznámku z vybrané zprávy"
+msgstr "Upravit poznámku k vybrané zprávě"
 
 #: ../mail/e-mail-reader.c:2021
 msgid "Create a Filter Rule for Mailing _List..."
@@ -16419,10 +16374,8 @@ msgid "Allow remote content from %s"
 msgstr "Povolit vzdálený obsah z %s"
 
 #: ../mail/e-mail-reader.c:5425
-#, fuzzy
-#| msgid "_Do not show this message again"
 msgid "Do not show this message again"
-msgstr "_Příště tuto zprávu nezobrazovat"
+msgstr "Příště tuto zprávu nezobrazovat"
 
 #: ../mail/e-mail-reader.c:5473
 msgid "Load remote content"
@@ -17686,10 +17639,8 @@ msgid "_Always load remote content from the Internet"
 msgstr "_Vždy načítat vzdálený obsah z Internetu"
 
 #: ../mail/mail-config.ui.h:110
-#, fuzzy
-#| msgid "_Show the photograph of sender in the message preview"
 msgid "Notify about _missing remote content in the message preview"
-msgstr "Zob_razovat fotografii odesílatele v náhledu zprávy"
+msgstr "Upozorňovat na chy_bějící vzdálený obsah v náhledu zprávy"
 
 #: ../mail/mail-config.ui.h:111
 msgid "Add"
@@ -18720,17 +18671,13 @@ msgstr "Tento podpis byl změněn, ale nebyl uložen."
 
 #. Translators: {0} is the name of the folder where the delete of the message note failed.
 #: ../mail/mail.error.xml.h:200
-#, fuzzy
-#| msgid "Failed to delete an event in the calendar '{0}'"
 msgid "Failed to delete message note in folder '{0}'"
-msgstr "Selhalo smazání události v kalendáři „{0}“"
+msgstr "Selhalo smazání poznámky ke zprávě ve složce „{0}“"
 
 #. Translators: {0} is the name of the folder where the store of the message note failed.
 #: ../mail/mail.error.xml.h:202
-#, fuzzy
-#| msgid "Failed to mark thread to be ignored in folder '{0}'"
 msgid "Failed to store message note in folder '{0}'"
-msgstr "Nastavení vlákna ve složce „{0}“ jako ignorovaného selhalo."
+msgstr "Selhalo uložení poznámky ke zprávě ve složce „{0}“"
 
 #: ../mail/mail-send-recv.c:191
 msgid "Canceling..."
@@ -19822,10 +19769,8 @@ msgid "Units:"
 msgstr "Jednotky:"
 
 #: ../modules/cal-config-weather/evolution-cal-config-weather.c:321
-#, fuzzy
-#| msgid "One or more values cannot be empty."
 msgid "Location cannot be empty"
-msgstr "Jedna nebo více hodnot nemohou být prázdné."
+msgstr "Místo nemůže být neuvedené"
 
 #: ../modules/calendar/e-cal-attachment-handler.c:287
 #: ../smime/gui/smime-ui.ui.h:9
@@ -21826,10 +21771,8 @@ msgid "Send mail also when in offline _mode"
 msgstr "Posílat poštu také v režimu _odpojení"
 
 #: ../modules/mail-config/e-mail-config-sendmail-backend.c:210
-#, fuzzy
-#| msgid "One or more values cannot be empty."
 msgid "Custom binary cannot be empty"
-msgstr "Jedna nebo více hodnot nemohou být prázdné."
+msgstr "Vlastní program nemůže být neuvedený"
 
 #. do not reference
 #: ../modules/mail-config/e-mail-config-smtp-backend.c:145
@@ -22156,16 +22099,12 @@ msgid "Show deleted messages with a line through them"
 msgstr "Zobrazovat smazáné zprávy přeškrtnuté napříč čarou"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:2004
-#, fuzzy
-#| msgid "Show _Deleted Messages"
 msgid "Show _Junk Messages"
-msgstr "Zobrazovat s_mazané zprávy"
+msgstr "Zobrazovat n_evyžádané zprávy"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:2006
-#, fuzzy
-#| msgid "Show deleted messages with a line through them"
 msgid "Show junk messages with a red line through them"
-msgstr "Zobrazovat smazáné zprávy přeškrtnuté napříč čarou"
+msgstr "Zobrazovat nevyžádané zprávy přeškrtnuté napříč červenou čarou"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:2012
 msgid "_Group By Threads"
