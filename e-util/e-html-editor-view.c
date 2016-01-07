@@ -2857,7 +2857,7 @@ body_input_event_cb (WebKitDOMElement *element,
 
 			text = webkit_dom_node_get_text_content (node);
 
-			if (text && *text && !strstr (text, " ")) {
+			if (text && *text && *text != ' ' && !g_str_has_prefix (text, UNICODE_NBSP)) {
 				gboolean valid = FALSE;
 
 				if (*text == '?' && strlen (text) > 1)
