@@ -36,9 +36,9 @@
 	((obj), E_TYPE_HTML_EDITOR_VIEW, EHTMLEditorViewPrivate))
 
 /* stephenhay from https://mathiasbynens.be/demo/url-regex */
-#define URL_PROTOCOLS "news|telnet|nntp|file|https?|s?ftp||webcal|localhost|ssh"
+#define URL_PROTOCOLS "news|telnet|nntp|file|https?|s?ftp|webcal|localhost|ssh"
 #define URL_PATTERN_BASE "(?=((?:(?:(?:" URL_PROTOCOLS ")\\:\\/\\/)|(?:www\\.|ftp\\.))[^\\s\\/\\$\\.\\?#].[^\\s]*)"
-#define URL_PATTERN_NO_NBSP ")((?!&nbsp;).)*"
+#define URL_PATTERN_NO_NBSP ")((?:(?!&nbsp;).)*)"
 #define URL_PATTERN URL_PATTERN_BASE URL_PATTERN_NO_NBSP
 #define URL_PATTERN_SPACE URL_PATTERN_BASE "\\s$" URL_PATTERN_NO_NBSP
 /* Taken from camel-url-scanner.c */
@@ -6912,17 +6912,32 @@ create_anchor_for_link (const GMatchInfo *info,
                         GString *res,
                         gpointer data)
 {
+	gboolean link_surrounded, with_nbsp = FALSE;
 	gint offset = 0, truncate_from_end = 0;
+	gint match_start, match_end;
+	gchar *match_with_nbsp, *match_without_nbsp;
 	const gchar *end_of_match = NULL;
-	gchar *match;
-	gboolean link_surrounded;
+	const gchar *match, *match_extra_characters;
 
-	match = g_match_info_fetch (info, 0);
+	match_with_nbsp = g_match_info_fetch (info, 1);
+	/* E-mail addresses will be here. */
+	match_without_nbsp = g_match_info_fetch (info, 0);
+
+	if (!match_with_nbsp || (strstr (match_with_nbsp, "&nbsp;") && !g_str_has_prefix (match_with_nbsp, "&nbsp;"))) {
+		match = match_without_nbsp;
+		match_extra_characters = match_with_nbsp;
+		g_match_info_fetch_pos (info, 0, &match_start, &match_end);
+		with_nbsp = TRUE;
+	} else {
+		match = match_with_nbsp;
+		match_extra_characters = match_without_nbsp;
+		g_match_info_fetch_pos (info, 1, &match_start, &match_end);
+	}
 
 	if (g_str_has_prefix (match, "&nbsp;"))
 		offset += 6;
 
-	end_of_match = match + strlen (match) - 1;
+	end_of_match = match + match_end - match_start - 1;
 	/* Taken from camel-url-scanner.c */
 	/* URLs are extremely unlikely to end with any punctuation, so
 	 * strip any trailing punctuation off from link and put it after
@@ -6966,7 +6981,11 @@ create_anchor_for_link (const GMatchInfo *info,
 	if (truncate_from_end > 0)
 		g_string_append (res, end_of_match);
 
-	g_free (match);
+	if (!with_nbsp && match_extra_characters)
+		g_string_append (res, match_extra_characters + (match_end - match_start));
+
+	g_free (match_with_nbsp);
+	g_free (match_without_nbsp);
 
 	return FALSE;
 }
@@ -7258,7 +7277,7 @@ parse_html_into_paragraphs (EHTMLEditorView *view,
 					rest_to_insert,
 					-1,
 					0,
-					0,
+					G_REGEX_MATCH_NOTEMPTY,
 					create_anchor_for_link,
 					NULL,
 					NULL);
@@ -7436,7 +7455,7 @@ parse_html_into_paragraphs (EHTMLEditorView *view,
 				rest_to_insert,
 				-1,
 				0,
-				0,
+				G_REGEX_MATCH_NOTEMPTY,
 				create_anchor_for_link,
 				NULL,
 				NULL);
