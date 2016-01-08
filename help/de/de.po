@@ -21,7 +21,7 @@
 # ##
 #
 # Andre Klapper <ak-47@gmx.net>, 2007-2009.
-# Mario Blättermann <mario.blaettermann@gmail.com>, 2009-2013.
+# Mario Blättermann <mario.blaettermann@gmail.com>, 2009-2013, 2016.
 # Gabor Karsay <gabor.karsay@gmx.at>, 2011, 2012.
 # Christian Kirbach <christian.kirbach@gmail.com>, 2009, 2010, 2011, 2012, 2013.
 # Benjamin Steinwender <b@stbe.at>, 2013.
@@ -32,15 +32,15 @@ msgstr ""
 "Project-Id-Version: manual_evolution\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-11-02 17:30+0000\n"
-"PO-Revision-Date: 2015-11-02 23:17+0100\n"
-"Last-Translator: Christian Kirbach <christian.kirbach@gmail.com>\n"
+"PO-Revision-Date: 2016-01-08 17:27+0100\n"
+"Last-Translator: Mario Blättermann <mario.blaettermann@gmail.com>\n"
 "Language-Team: Deutsch <gnome-de@gnome.org>\n"
 "Language: de_DE\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.8.5\n"
+"X-Generator: Poedit 1.8.6\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
@@ -137,8 +137,8 @@ msgid ""
 "Under <guiseq><gui>Edit</gui><gui>Preferences</gui> <gui>Calendar and Tasks</gui><gui>Reminders</gui></guiseq> you can select those calendars for which you want to receive reminder notifications. If you do not select a calendar, you will not receive reminders for any events in this "
 "calendar. You can also define whether to show a reminder for every appointment and for every birthday and anniversary."
 msgstr ""
-"Unter <guiseq><gui>Bearbeiten</gui><gui>Einstellungen</gui><gui>Kalender und Aufgaben</gui><gui>Erinnerungen</gui></guiseq> wählen Sie die Kalender, für die Sie Erinnerungen erhalten möchten. Wenn Sie einen Kalender nicht auswählen, so werden Sie keine Erinnerungen für Ereignisse in "
-"diesem Kalender erhalten. Sie können ebenso festlegen, ob eine Erinnerung für jeden Termin und für jeden Geburtstag und Jahrestag gegeben werden soll."
+"Unter <guiseq><gui>Bearbeiten</gui><gui>Einstellungen</gui><gui>Kalender und Aufgaben</gui><gui>Erinnerungen</gui></guiseq> wählen Sie die Kalender, für die Sie Erinnerungen erhalten möchten. Wenn Sie einen Kalender nicht auswählen, so werden Sie keine Erinnerungen für Termine in diesem "
+"Kalender erhalten. Sie können ebenso festlegen, ob eine Erinnerung für jeden Termin und für jeden Geburtstag und Jahrestag gegeben werden soll."
 
 #. (itstool) path: when/p
 #: C/calendar-alarms-and-reminders.page:40
@@ -466,7 +466,7 @@ msgstr "Zeigt die Wochennummer neben der jeweiligen Woche im kleinen Kalender in
 #. (itstool) path: item/p
 #: C/calendar-layout-appointment-display.page:62
 msgid "Show recurring events in italic in bottom left calendar."
-msgstr "Wiederkehrende Ereignisse im unteren linken Kalender kursiv anzeigen."
+msgstr "Wiederkehrende Termine im unteren linken Kalender kursiv anzeigen."
 
 #. (itstool) path: item/p
 #: C/calendar-layout-appointment-display.page:65
@@ -760,7 +760,7 @@ msgstr "Eine Besprechungseinladung beantworten"
 #. (itstool) path: page/p
 #: C/calendar-meetings-replying-to-invitation.page:24
 msgid "Meeting requests are sent as attachments and displayed as the body of an email. All the details about the event are shown, including time and dates."
-msgstr "Besprechungsanfragen werden als Anhänge verschickt und im Hauptteil einer E-Mail angezeigt. Alle Angaben zum Ereignis, einschließlich Zeit und Datum, werden angezeigt."
+msgstr "Besprechungsanfragen werden als Anhänge verschickt und im Hauptteil einer E-Mail angezeigt. Alle Angaben zum Termin, einschließlich Zeit und Datum, werden angezeigt."
 
 #. (itstool) path: page/p
 #: C/calendar-meetings-replying-to-invitation.page:25
@@ -779,7 +779,7 @@ msgstr "Falls die Besprechungsanfrage bereits eine <link xref=\"calendar-alarms-
 #. (itstool) path: page/p
 #: C/calendar-meetings-replying-to-invitation.page:29
 msgid "If you click <gui>Accept</gui> the event is added automatically to the calendar that you have chosen."
-msgstr "Sobald Sie auf <gui>Akzeptieren</gui> klicken, wird das Ereignis automatisch zum gewählten Kalnder hinzugefügt."
+msgstr "Sobald Sie auf <gui>Akzeptieren</gui> klicken, wird der Termin automatisch zum gewählten Kalnder hinzugefügt."
 
 #. (itstool) path: page/p
 #: C/calendar-meetings-replying-to-invitation.page:30
@@ -814,7 +814,7 @@ msgid ""
 "If you do not need to collect attendance information when you're scheduling an event, and would rather just announce the event, right-click the meeting and select <gui>Forward as iCalendar</gui>. This opens a new email message with the event notification attached as an announcement. "
 "Recipients can add the event to their calendars with one click, but it will not automatically send you email about whether they plan to attend."
 msgstr ""
-"Falls Sie als Organisator keine Anwesenheitsinformationen von Teilnehmer einsehen möchten und einfach nur das Ereignis ankündigen möchten, klicken Sie mit der rechten Maustaste auf die Besprechung und wählen Sie <gui>Als iCalendar weiterleiten</gui>. Es öffnet sich daraufhin das E-Mail-"
+"Falls Sie als Organisator keine Anwesenheitsinformationen von Teilnehmer einsehen möchten und einfach nur den Termin ankündigen möchten, klicken Sie mit der rechten Maustaste auf die Besprechung und wählen Sie <gui>Als iCalendar weiterleiten</gui>. Es öffnet sich daraufhin das E-Mail-"
 "Editor-Fenster mit der Ankündigung als Dateianhang. Empfänger können den Termin zu ihrem Kalender mit einem Klick hinzufügen, aber Ihnen wird keine E-Mail geschickt, ob ein Empfänger eine Teilnahme plant."
 
 #. (itstool) path: page/p
@@ -850,7 +850,7 @@ msgstr "(Optional) Geben Sie einen Ort im <gui>Ort</gui>-Feld ein."
 #. (itstool) path: item/p
 #: C/calendar-meetings-sending-invitation.page:70 C/calendar-usage-add-appointment.page:45
 msgid "To select this event as an all day event, click <guiseq><gui>Options</gui><gui>All Day Event</gui></guiseq>, or click the <gui>All Day Event</gui> button on the toolbar."
-msgstr "Um dieses Ereignis als ganztägig festzulegen, klicken Sie auf <guiseq><gui>Optionen</gui><gui>Ganztägiges Ereignis</gui></guiseq>, oder auf den Knopf <gui>Ganztägiges Ereignis</gui> in der Werkzeugleiste."
+msgstr "Um diesen Termin als ganztägig festzulegen, klicken Sie auf <guiseq><gui>Optionen</gui><gui>Ganztägiger Termin</gui></guiseq>, oder auf den Knopf <gui>Ganztägiger Termin</gui> in der Werkzeugleiste."
 
 #. (itstool) path: item/p
 #: C/calendar-meetings-sending-invitation.page:75 C/calendar-usage-add-appointment.page:50
@@ -860,7 +860,7 @@ msgstr "Wählen Sie Datum und Zeit."
 #. (itstool) path: item/p
 #: C/calendar-meetings-sending-invitation.page:78 C/calendar-usage-add-appointment.page:53
 msgid "If the event is not an all day event, select either <gui>For</gui> to specify the duration, or select <gui>Until</gui> to specify the ending time of the event."
-msgstr "Wenn das Ereignis nicht ganztägig ist, so wählen Sie entweder <gui>Für</gui> zum Angeben der Dauer oder <gui>Bis</gui> zum Festlegen der Endzeit des Ereignisses."
+msgstr "Wenn der Termin nicht ganztägig ist, so wählen Sie entweder <gui>Für</gui> zum Angeben der Dauer oder <gui>Bis</gui> zum Festlegen der Endzeit des Termins."
 
 #. (itstool) path: item/p
 #: C/calendar-meetings-sending-invitation.page:83 C/calendar-usage-add-appointment.page:58
@@ -880,7 +880,7 @@ msgstr "Klicken Sie auf <gui>Speichern</gui>, um die Besprechung zu speichern."
 #. (itstool) path: page/p
 #: C/calendar-meetings-sending-invitation.page:96
 msgid "An email is sent out to all the recipients, inviting them to your event."
-msgstr "Eine E-Mail wird an alle Teilnehmer verschickt, um diese für das Ereignis einzuladen."
+msgstr "Eine E-Mail wird an alle Teilnehmer verschickt, um diese zu dem Termin einzuladen."
 
 #. (itstool) path: page/p
 #: C/calendar-meetings-sending-invitation.page:99 C/calendar-usage-add-appointment.page:67
@@ -889,7 +889,7 @@ msgid ""
 "\">classification</link> for the event, or add an attachment."
 msgstr ""
 "Sie können ebenfalls eine <link xref=\"calendar-timezones\">Zeitzone</link> festlegen, eine <link xref=\"using-categories\">Kategorie</link>, eine <link xref=\"calendar-alarms-and-reminders\">Erinnerung</link>, eine <link xref=\"calendar-recurrence\">Wiederholung</link> oder eine <link "
-"xref=\"calendar-classifications\">Einstufung</link> für das Ereignis, oder einen Anhang hinzufügen."
+"xref=\"calendar-classifications\">Einstufung</link> für den Termin, oder einen Anhang hinzufügen."
 
 #. (itstool) path: note/p
 #: C/calendar-meetings-sending-invitation.page:107
@@ -2354,8 +2354,8 @@ msgid ""
 "If you would like to import Thunderbird/Lightning calendar data, you may be able to export your Thunderbird events as an <file>.ical</file>/<file>.ics</file> file first, and import these files into Evolution. This is required as Thunderbird stores its calendar data in a non-standard "
 "database format."
 msgstr ""
-"Wenn Sie Ihre Kalenderdaten aus Thunderbird/Lightning importieren möchten, so könnten Sie zuerst Ihre Thunderbird-Ereignisse als <file>.ical</file>/<file>.ics</file>-Datei exportieren und diese Dateien in Evolution importieren. Dies ist notwendig, weil Thunderbird die Kalenderdaten in "
-"einem unüblichen Format speichert."
+"Wenn Sie Ihre Kalenderdaten aus Thunderbird/Lightning importieren möchten, so könnten Sie zuerst Ihre Thunderbird-Termine als <file>.ical</file>/<file>.ics</file>-Datei exportieren und diese Dateien in Evolution importieren. Dies ist notwendig, weil Thunderbird die Kalenderdaten in einem "
+"unüblichen Format speichert."
 
 #. (itstool) path: item/p
 #: C/import-apps-mozilla.page:33 C/import-apps-outlook.page:62 C/import-single-files.page:26
@@ -4036,7 +4036,7 @@ msgstr "Einladungen per E-Mail versenden"
 #. (itstool) path: page/p
 #: C/mail-calendar-sending-invitations.page:23
 msgid "If you create an event in the calendar component, you can then send invitations to the attendee list through the Evolution email tool. The invitation card is sent as an attachment in iCal format."
-msgstr "Wenn Sie im Kalender ein Ereignis hinzufügen können Sie Einladungen an die Teilnehmerliste verschicken. Die Einladung wird als E-Mail-Anhang im iCal-Format verschickt."
+msgstr "Wenn Sie im Kalender einen Termin hinzufügen, können Sie Einladungen an die Teilnehmerliste verschicken. Die Einladung wird als E-Mail-Anhang im iCal-Format verschickt."
 
 #. (itstool) path: page/p
 #: C/mail-calendar-sending-invitations.page:25
@@ -6573,7 +6573,7 @@ msgstr "Ordner verwenden"
 #. (itstool) path: page/p
 #: C/mail-folders.page:30
 msgid "Evolution, like most mail systems, uses folders to store email messages. You start out with a few mail folders such as the Inbox, Outbox, and Drafts. You can, however, create more folders if required."
-msgstr "Evolution speichert, wie die meisten anderen E-Mail-Systeme auch, E-Mails in Ordnern. Sie beginnen mit einer überschaubaren Anzahl an Ordnern, wie Eingang, Verschickt, und Entwürfe, aber Sie können so viele Ordner erstellen wie Sie mögen."
+msgstr "Evolution speichert, wie die meisten anderen E-Mail-Systeme auch, E-Mails in Ordnern. Sie beginnen mit einer überschaubaren Anzahl an Ordnern, wie Eingang, Verschickt, und Entwürfe, aber Sie können so viele Ordner erstellen, wie Sie mögen."
 
 #. (itstool) path: section/title
 #: C/mail-folders.page:33
@@ -9593,603 +9593,3 @@ msgstr "Ändern Sie den Titel oder die gewünschten Suchkriterien im Dialogfeld.
 msgid "Click <_:gui-1/>."
 msgstr "Klicken Sie auf <_:gui-1/>."
 
-#~ msgid "To get public keys from a public key server, enter the command <cmd>gpg --recv-keys --keyserver wwwkeys.pgp.net keyid</cmd>, substituting <code>keyid</code> by your recipient's ID. You need to enter your password, and the ID is automatically added to your keyring."
-#~ msgstr ""
-#~ "Um öffentliche Schlüssel von einem öffentlichen Schlüssel-Server zu holen, geben Sie den Befehl <cmd>gpg --recv-keys --keyserver wwwkeys.pgp.net keyid</cmd> ein und ersetzen Sie <cmd>keyid</cmd> durch die Schlüsselkennung (ID) des Empfängers. Geben Sie auf Nachfrage Ihr Passwort ein, "
-#~ "und die Kennung wird automatisch zu Ihrem Schlüsselbund hinzugefügt."
-
-#~ msgid "If someone sends you a public key directly, save it as a plain text file and enter the command <cmd>gpg --import</cmd> to add it to your keyring."
-#~ msgstr "Falls Ihnen jemand einen öffentlichen Schlüssel direkt zuschickt, speichern Sie diesen als Textdatei und geben Sie den Befehl <cmd>gpg --import</cmd> ein, um den Schlüssel zu Ihrem Schlüsselbund hinzuzufügen."
-
-#~ msgid "On minimizing Evolution to the notification area."
-#~ msgstr "Über das Minimieren von Evolution in das Benachrichtigungsfeld."
-
-#~ msgid "Minimizing Evolution to the system tray"
-#~ msgstr "Evolution in das Benachrichtigungsfeld minimieren"
-
-#~ msgid ""
-#~ "GNOME, by default, has a <link xref=\"mail-received-notification\">notification area</link> which includes an applet that informs users of any system updates, changes, or events. This includes the arrival of email messages on Evolution. You can refer to this built-in feature of GNOME "
-#~ "for any email notifications."
-#~ msgstr ""
-#~ "GNOME hat von Haus aus ein <link xref=\"mail-received-notification\">Benachrichtigungsfeld</link>, das ein Applet enthält, welches Benutzer über Systemaktualisierungen, Änderungen und Ereignisse unterrichtet. Hierzu zählt auch der Eingang neuer Nachrichten in Evolution. Es werden "
-#~ "sämtliche E-Mail-Benachrichtigungen über diese Funktion von GNOME ausgegeben."
-
-# Mit Alltray kann man (theoretisch) alle Anwendungen ins Benachrichtigungsfeld minimieren. Die Wortwahl »Notification area« und »System tray« ist hier etwas unglücklich, weil eigentlich Beides das Gleiche ist (zumindest nach Freedesktop-Standard, von dem die GNOME-Shell deutlich abweicht).
-#~ msgid ""
-#~ "In GNOME version 2 you may modify the notification area and set it up to become a system tray by using external applications which might be available for installation in the software management tool of your distribution. Available options are for example <link href=\"http://code."
-#~ "google.com/p/tint2/\">Tint2</link>. This is no longer possible in GNOME 3."
-#~ msgstr ""
-#~ "In GNOME 2 kann das Benachrichtigungsfeld so angepasst werden, dass es mit Drittsoftware zu einem Systembereich wird. Diese ist möglicherweise in ihrer Softwareverwaltung verfügbar. Beispiel solcher Software ist <link href=\"http://code.google.com/p/tint2/\">Tint2</link>. Dies ist in "
-#~ "GNOME 3 nicht mehr möglich."
-
-#~ msgid "These steps are very technical. For average users we recommend using the <link xref=\"help:seahorse/pgp-create\" href=\"https://help.gnome.org/users/seahorse/stable/pgp-create\"><app>Seahorse</app> application</link> for creating GPG/OpenPGP keys."
-#~ msgstr "Diese Schritte sind sehr technisch. Für die meisten Anwender wird zur Erstellung der GPG/OpenPGP-Schlüssel die <link xref=\"help:seahorse/pgp-create\" href=\"https://help.gnome.org/users/seahorse/stable/pgp-create\">Anwendung <app>Seahorse</app></link> empfohlen."
-
-#~ msgid "Before you can get or send GPG encrypted mail, you need to generate your public and private keys with GPG."
-#~ msgstr "Vor dem Empfangen oder Verschicken von mit GPG verschlüsselten E-Mails müssen Sie Ihren öffentlichen und privaten Schlüssel mit GPG erstellen."
-
-#~ msgid "Open the <app>Terminal</app> application and enter <cmd>gpg --gen-key</cmd>."
-#~ msgstr "Öffnen Sie ein <app>Terminal</app>fenster und geben Sie <cmd>gpg --gen-key</cmd> ein."
-
-#~ msgid "Select an algorithm, then press Enter."
-#~ msgstr "Wählen Sie einen Algorithmus und drücken Sie die Eingabetaste."
-
-#~ msgid "Select a key length, then press Enter."
-#~ msgstr "Wählen Sie eine Schlüssellänge und drücken Sie die <key>Eingabetaste</key>."
-
-#~ msgid "Enter how long your key should be valid for."
-#~ msgstr "Geben Sie ein, wie lang Ihr Schlüssel gültig sein soll."
-
-#~ msgid "Type your real name, then press Enter."
-#~ msgstr "Geben Sie Ihren vollen Namen ein und drücken Sie die Eingabetaste."
-
-#~ msgid "Type your email address, then press Enter."
-#~ msgstr "Geben Sie Ihre E-Mail-Adresse ein und drücken Sie die Eingabetaste."
-
-#~ msgid "(Optional) Type a comment, then press Enter."
-#~ msgstr "(Optional) Geben Sie einen Kommentar ein und drücken Sie die Eingabetaste."
-
-#~ msgid "Review your selected user ID. If it is correct, press O."
-#~ msgstr "Prüfen Sie die ausgewählte Benutzerkennung. Falls diese korrekt ist, so drücken Sie O."
-
-#~ msgid "Type a passphrase, then press Enter."
-#~ msgstr "Geben Sie eine Passphrase ein und drücken Sie die Eingabetaste."
-
-#~ msgid "Move your mouse randomly to generate the keys."
-#~ msgstr "Bewegen Sie Ihre Maus zufällig, um die Schlüssel zu erstellen."
-
-#~ msgid ""
-#~ "After the keys are generated, you can view your key information by entering <cmd>gpg --list-keys</cmd>. You should see something similar to this: <code> /home/you/.gnupg/pubring.gpg ---------------------------- pub 1024D/32j38dk2 2001-06-20 you &lt;you@example.com&gt; sub "
-#~ "1024g/289sklj3 2011-06-20 [expires: 2012-11-14]</code>"
-#~ msgstr ""
-#~ "Nachdem Ihre Schlüssel erstellt wurden, können Sie Ihre Schlüsselinformationen einsehen, indem Sie <cmd>gpg --list-keys</cmd> eingeben. Sie sollten etwas ähnliches wie dieses erhalten: <code> /home/you/.gnupg/pubring.gpg ----------------------------  pub 1024D/32j38dk2 2001-06-20 you "
-#~ "&lt;you@example.com&gt;  sub 1024g/289sklj3 2001-06-20 [expires: 2002-11-14]  </code>"
-
-#~ msgid "GPG creates one list, or keyring, for your public keys and one for your private keys. All the public keys you know are stored in the file <file>~/.gnupg/pubring.gpg</file>. If you want to give other people your key, send them that file."
-#~ msgstr ""
-#~ "GPG erstellt nun eine Liste, Schlüsselbund genannt, für Ihre öffentlichen Schlüssel und eine für Ihre geheimen Schlüssel. Alle Ihnen bekannten öffentlichen Schlüssel werden in der Datei <file>~/.gnupg/pubring.gpg</file> gespeichert. Wenn Sie anderen Ihren Schlüssel geben möchten, so "
-#~ "senden Sie ihnen diese Datei."
-
-#~ msgid "If you want, you can upload your keys to a key server:"
-#~ msgstr "Falls Sie möchten, können Sie Ihre Schlüssel auf einen Schlüssel-Server hochladen:"
-
-#~ msgid "Check your public key ID with <code>gpg --list-keys</code>. It is the string after <code>1024D</code> on the line beginning with <code>pub</code>. In the example above, it is <code>32j38dk2</code>."
-#~ msgstr ""
-#~ "Prüfen Sie die Kennung Ihres öffentlichen Schlüssels mit <code>gpg --list-keys</code>. Es handelt sich um den Text nach <code>1024D</code> in der Zeile, welche mit <code>pub</code> beginnt. Im obigen Beispiel lautet die Kennung Ihres öffentlichen Schlüssels <code>32j38dk2</code>."
-
-#~ msgid "Enter the command <cmd>gpg --send-keys --keyserver wwwkeys.pgp.net 32j38dk2</cmd>. Substitute your key ID for <code>32j38dk2</code>. You need your password to do this."
-#~ msgstr "Geben Sie den Befehl <cmd>gpg --send-keys --keyserver wwwkeys.pgp.net 32j38dk2</cmd> ein. Sie benötigen Ihr Passwort, um diesen Befehl auszuführen."
-
-#~ msgid ""
-#~ "Key servers store your public keys for you so that your friends can decrypt your messages. If you choose not to use a key server, you can manually send your public key, include it in your signature file, or put it on your own Web page. However, it is easier to publish a key once, and "
-#~ "then let people download it from a central place when they want."
-#~ msgstr ""
-#~ "Schlüssel-Server speichern Ihre öffentlichen Schlüssel, so dass Ihre Freunde Ihre Nachrichten entschlüsseln können. Wenn Sie sich dazu entscheiden, keinen Schlüssel-Server zu benutzen, so können Sie Ihren öffentlichen Schlüssel per Hand verschicken, in Ihre Signatur einbauen, oder auf "
-#~ "Ihrer Internetseite veröffentlichen. Es ist allerdings einfacher, einen Schlüssel einmal zu veröffentlichen, so dass Menschen ihn von einem zentralen Ort herunterladen können."
-
-#~ msgid "If you don't have a key to unlock or encrypt a message, you can set your encryption tool to look it up automatically. If it cannot find the key, an error message appears."
-#~ msgstr "Falls Sie keinen Schlüssel zum Verschlüsseln oder Entschlüsseln einer Nachricht besitzen, so können Sie Ihr Verschlüsselungsprogramm so einstellen, dass dieser Schlüssel automatisch gesucht wird. Falls kein Schlüssel gefunden werden kann, wird eine Fehlermeldung angezeigt."
-
-#~ msgid "If you want <link xref=\"mail-filters\">Filters</link> to be automatically used for new messages in your inbox, enable <gui>Apply filters to new messages in Inbox on this server</gui>."
-#~ msgstr "Wenn <link xref=\"mail-filters\">Filter</link> automatisch auf Nachrichten in Ihrem Posteingang angewendet werden sollen, so aktivieren Sie <gui>Filter auf neue Nachrichten im Eingang dieses Servers anwenden</gui>."
-
-#~ msgid "Select if you want Evolution to use custom commands to connect to the IMAP server."
-#~ msgstr "Wählen Sie, ob Evolution einen benutzerdefinierten Befehl zum Verbinden mit dem IMAP-Server verwenden soll."
-
-#~ msgid "Select if you want Evolution to override server-supplied folder namespaces."
-#~ msgstr "Wählen Sie, ob Evolution sich über den vom Server vorgegebenen Ordner-Namensraum (Namespace) hinwegsetzen soll."
-
-#~ msgid "Checking incoming mail for junk messages."
-#~ msgstr "Eingehende E-Mail auf Unerwünschtheit prüfen."
-
-#~ msgid "The default junk filter."
-#~ msgstr "Der vorgegebene Unerwünscht-Filter."
-
-#~ msgid "Bogofilter and SpamAssassin options."
-#~ msgstr "Optionen für Bogofilter und SpamAssassin."
-
-#~ msgid "Emails"
-#~ msgstr "E-Mails"
-
-#~ msgid "E-Mail"
-#~ msgstr "E-Mail"
-
-#~ msgid "Enter a brief summary in the Summary field."
-#~ msgstr "Geben Sie eine kurze Zusammenfassung in das »Zusammenfassung«-Feld ein."
-
-#~ msgid "Palm"
-#~ msgstr "Palm"
-
-#~ msgid ""
-#~ "To synchronize with a Palm OS device like the PalmPilot(TM) and the Handspring Visor several steps are needed: First, you need to enable synchronization. Second, your computer needs to recognize and access your handheld. Third, you should decide what sort of synchronization behavior "
-#~ "you want."
-#~ msgstr ""
-#~ "Zum Abgleichen mit einem Palm OS-Gerät, wie zum Beispiel dem PalmPilot(TM) oder dem Handspring Visor, sind mehrere Schritte notwendig. Erstens: Das Aktivieren des Datenabgleichs. Zweitens muss der Rechner das tragbare Gerät erkennen und darauf zugreifen können. Drittens müssen Sie "
-#~ "entscheiden, was genau abgeglichen werden soll."
-
-#~ msgid "Enabling Synchronization"
-#~ msgstr "Aktivieren des Datenabgleichs"
-
-#~ msgid ""
-#~ "If you have not used a handheld device with your computer before, you need to configure it via <guiseq><gui>Edit</gui><gui>GNOME Pilot Synchronization...</gui></guiseq>. Make sure that you have read and write permissions on the device, which is normally in <file>/dev/pilot</file>. If "
-#~ "that does not work, check in <file>/dev/ttyS0</file> if you have a serial connection, or in <file>/dev/ttyUSB1</file> for a USB connection. You can do this by becoming root user and adding your username to the group that owns this device node. For a USB device on sync, two device "
-#~ "nodes are created, <file>ttyUSB0</file> and <file>ttyUSB1</file>. The second node is the one to be used in configuring the device."
-#~ msgstr ""
-#~ "Falls Sie zuvor noch kein tragbares Gerät mit Ihrem Rechner verbunden haben, so müssen Sie es über <guiseq><gui>Bearbeiten</gui><gui>GNOME Pilot abgleichen …</gui></guiseq> konfigurieren. Stellen Sie sicher, dass Sie Lese- und Schreibrechte auf dem Gerät haben, welches sich "
-#~ "normalerweise in <file>/dev/pilot</file> befindet. Falls dies nicht funktioniert, so prüfen Sie auch <file>/dev/ttyS0</file> im Falle einer seriellen Verbindung und <file>/dev/ttyUSB1</file> bei einer USB-Verbindung. Sie können dies tun, indem Sie sich als root anmelden und Ihren "
-#~ "Benutzernamen der Gruppe hinzufügen, die diese Geräteadresse besitzt. Im Falle eines USB-Gerätes werden zwei Dateien erstellt, <file>ttyUSB0</file> und <file>ttyUSB1</file>. Die zweite Datei wird genutzt, um das Gerät zu konfigurieren."
-
-#~ msgid "Selecting Conduits"
-#~ msgstr "Conduits auswählen"
-
-#~ msgid ""
-#~ "After your computer and your Palm OS device are communicating, select the conduits you want under the <gui>Pilot Conduits</gui> section. You can use conduits to synchronize data with several applications; the Evolution conduits are labeled <gui>EAddress</gui> for the contacts in your "
-#~ "address book; <gui>ECalendar</gui> for your calendar; and <gui>ETodo</gui> for your task list."
-#~ msgstr ""
-#~ "Nachdem Ihr Rechner und Palm OS miteinander kommunizieren können, wählen Sie die Conduits im Bereich <gui>Pilot Conduits</gui> des Kontrollzentrums aus. Sie können Conduits verwenden, um Daten mit mehreren Anwendungen abzugleichen; die Evolution-Conduits lauten <gui>EAddress</gui> für "
-#~ "Kontakte in Ihrem Adressbuch, <gui>ECalendar</gui> für Ihre Kalender und <gui>ETodo</gui> für Ihre Aufgabenliste."
-
-#~ msgid "Click <gui>Enable</gui>, then click <gui>Settings</gui> to change what the conduit does when activated. Your options can vary depending on the conduit, but typically they are as follows:"
-#~ msgstr "Wählen Sie <gui>Aktivieren</gui> und klicken Sie dann auf <gui>Einstellungen</gui>, um zu bestimmen, was das Conduit nach Aktivierung tun soll. Diese Optionen unterscheiden sich je nach Conduit, sind aber üblicherweise folgende:"
-
-#~ msgid "<gui>Disabled</gui>: Do nothing."
-#~ msgstr "<gui>Deaktiviert</gui>: Nichts tun."
-
-#~ msgid "<gui>Synchronize</gui>: Copy new data from the computer to the handheld, and from the handheld to the computer. Remove items that were on both systems but have been deleted on one."
-#~ msgstr "<gui>Abgleichen</gui>: Kopiert neue Daten vom Rechner auf das tragbare Gerät und umgekehrt. Entfernt Elemente, die auf beiden Systemen vorhanden waren, aber seit dem letzten Datenabgleich auf einem System gelöscht wurden."
-
-#~ msgid "<gui>Copy From Pilot</gui>: If there is any new data on the handheld device, copy it to the computer."
-#~ msgstr "<gui>Von Pilot kopieren</gui>: Falls neue Daten auf dem tragbaren Gerät vorhanden sind, werden diese auf den Rechner kopiert."
-
-#~ msgid "<gui>Copy To Pilot</gui>: Copy new data from the computer to the handheld."
-#~ msgstr "<gui>Auf Pilot kopieren</gui>: Neue Daten werden vom Rechner auf das tragbare Gerät kopiert."
-
-#~ msgid "Select the behavior you want for each conduit you choose to use. If you're not sure, use <gui>Synchronize</gui>."
-#~ msgstr "Wählen Sie das gewünschte Verhalten für jedes Conduit, welches Sie benutzen wollen. Falls Sie sich nicht sicher sind, so benutzen Sie <gui>Abgleichen</gui>."
-
-#~ msgid "Synchronizing Information"
-#~ msgstr "Informationen abgleichen"
-
-#~ msgid "Use the following procedure to synchronize the data on your Palm OS device with the data you store in Evolution."
-#~ msgstr "Befolgen Sie folgende Schritte, um Daten zwischen Ihrem Palm OS-Gerät und Evolution abzugleichen:"
-
-#~ msgid "If you want to back up your information before synchronizing, make a copy of the <file>.local/share/evolution</file> directory inside your home directory."
-#~ msgstr "Falls Sie vor dem Abgleich eine Sicherheitskopie Ihrer Evolution-Daten machen möchten, bevor Sie abgleichen, so kopieren Sie die Datei <command>.local/share/evolution</command>-Ordner in Ihrem persönlichen Ordner."
-
-#~ msgid "Put your handheld device in its cradle and press the <gui style=\"button\">HotSync</gui> button."
-#~ msgstr "Stecken Sie das tragbare Gerät in die Halterung und drücken Sie den <gui style=\"button\">HotSync</gui>-Knopf."
-
-#~ msgid ""
-#~ "If you use Palm OS version 4.0 and have password protection turned on for your handheld device, you might encounter trouble synchronizing. If this happens, try turning off password protection on your handheld, synchronize it with your desktop computer, and then re-enable password "
-#~ "protection on your handheld."
-#~ msgstr ""
-#~ "Falls Sie Palm OS Version 4.0 benutzen und der Passwortschutz aktiviert ist, so könnten Sie auf Probleme stoßen. Falls dies passiert, so stellen Sie den Passwortschutz für Ihr tragbares Gerät ab, gleichen Sie dessen Daten mit dem Rechner ab, und aktivieren Sie dann wieder den "
-#~ "Passwortschutz."
-
-#~ msgid "Now your Palm OS device will synchronize data with Evolution."
-#~ msgstr "Nun sollte Ihr Palm-OS-Gerät Daten mit Evolution abgleichen."
-
-#~ msgid "Evolution"
-#~ msgstr "Evolution"
-
-#~ msgid "Enter the address of the calendar in the <gui>URL</gui> field."
-#~ msgstr "Geben Sie die Adresse des Kalenders in das Feld <gui>Adresse</gui> ein."
-
-#~ msgid "Aaron Weber"
-#~ msgstr "Aaron Weber"
-
-#~ msgid "Akhil Laddha"
-#~ msgstr "Akhil Laddha"
-
-#~ msgid "Duncan Mak"
-#~ msgstr "Duncan Mak"
-
-#~ msgid "Ettore Perazzoli"
-#~ msgstr "Ettore Perazzoli"
-
-#~ msgid "Francisco Javier F. Serrador"
-#~ msgstr "Francisco Javier F. Serrador"
-
-#~ msgid "Jessica Prabhakar"
-#~ msgstr "Jessica Prabhakar"
-
-#~ msgid "Kevin Breit"
-#~ msgstr "Kevin Breit"
-
-#~ msgid "Mark Moulder"
-#~ msgstr "Mark Moulder"
-
-#~ msgid "Novell, Inc."
-#~ msgstr "Novell, Inc."
-
-#~ msgid "Radhika Nair"
-#~ msgstr "Radhika Nair"
-
-#~ msgid "Srinivasa Ragavan"
-#~ msgstr "Srinivasa Ragavan"
-
-#~ msgid "Enter the address of the list in the <gui>URL</gui> field."
-#~ msgstr "Geben Sie die Adresse der Liste im <gui>URL</gui>-Feld ein."
-
-#~ msgctxt "_"
-#~ msgid "external ref='figures/evolutionlogo.png' md5='4bf469aaba7c368937309e931ba9bdcc'"
-#~ msgstr "original"
-
-#~ msgctxt "_"
-#~ msgid "external ref='figures/search-icon.png' md5='cd4b82c84c628bfbbfa39d1e0d1eae89'"
-#~ msgstr "lokalisiert - verwendet original"
-
-#~ msgctxt "_"
-#~ msgid "external ref='./figures/color-c4a000.png' md5='9db17d2d5e9013501aeab2e165c6a6c9'"
-#~ msgstr "lokalisiert - verwendet original"
-
-#~ msgctxt "_"
-#~ msgid "external ref='./figures/color-ce5c00.png' md5='19dae9650e3936312e09198973372a24'"
-#~ msgstr "lokalisiert - verwendet original"
-
-#~ msgctxt "_"
-#~ msgid "external ref='./figures/color-8f5902.png' md5='ff5ccb859fe04a004cd67e1c22621dc6'"
-#~ msgstr "lokalisiert - verwendet original"
-
-#~ msgctxt "_"
-#~ msgid "external ref='./figures/color-4e9a06.png' md5='b2c2e7b66fb470344c804db396b48b98'"
-#~ msgstr "lokalisiert - verwendet original"
-
-#~ msgctxt "_"
-#~ msgid "external ref='./figures/color-204a87.png' md5='511497260cc4caab69d67814b1ee3b8b'"
-#~ msgstr "lokalisiert - verwendet original"
-
-#~ msgctxt "_"
-#~ msgid "external ref='./figures/color-a40000.png' md5='19195da020e059dab33aa37788763a97'"
-#~ msgstr "lokalisiert - verwendet original"
-
-#~ msgctxt "_"
-#~ msgid "external ref='./figures/color-5c3566.png' md5='7c001a57237acc2ff61ee61e05ad3168'"
-#~ msgstr "lokalisiert - verwendet original"
-
-#~ msgctxt "_"
-#~ msgid "external ref='./figures/color-2e3436.png' md5='3c796c7aed3044e59f131bea364e8598'"
-#~ msgstr "lokalisiert - verwendet original"
-
-#~ msgctxt "_"
-#~ msgid "external ref='./figures/html-composer-insert-image.png' md5='45e231e87c10b3fc61a1bbb0ad50c3f3'"
-#~ msgstr "original"
-
-#~ msgctxt "_"
-#~ msgid "external ref='./figures/html-composer-insert-link.png' md5='f143b5dabdc8af72dd68fe7557928893'"
-#~ msgstr "original"
-
-#~ msgctxt "_"
-#~ msgid "external ref='./figures/html-composer-insert-rule.png' md5='d3cda5fa4cf0fc2c911fd1aa14908ff3'"
-#~ msgstr "original"
-
-#~ msgctxt "_"
-#~ msgid "external ref='./figures/html-composer-insert-table.png' md5='d5b54d183ad37488041005964062e7f6'"
-#~ msgstr "original"
-
-#~ msgctxt "_"
-#~ msgid "external ref='./figures/color-000000.png' md5='2d416af8bfaec805470e5d2980d90a68'"
-#~ msgstr "external ref='./figures/color-000000.png' md5='2d416af8bfaec805470e5d2980d90a68'"
-
-#~ msgctxt "_"
-#~ msgid "external ref='./figures/plus-icon.png' md5='57bf83c4ab8585c30897a6cf89c5949c'"
-#~ msgstr "lokalisiert - verwendet original"
-
-#~ msgctxt "_"
-#~ msgid "external ref='./figures/minus-icon.png' md5='7cef9df0f691c8d6ce67cad29ebceac9'"
-#~ msgstr "lokalisiert - verwendet original"
-
-#~ msgid "<media type=\"image\" mime=\"image/png\" src=\"./figures/color-c4a000.png\" width=\"10\"/> Menu bar"
-#~ msgstr "<media type=\"image\" mime=\"image/png\" src=\"./figures/color-c4a000.png\" width=\"10\"/> Menüleiste"
-
-#~ msgid "<media type=\"image\" mime=\"image/png\" src=\"./figures/color-ce5c00.png\" width=\"10\"/> Tool bar"
-#~ msgstr "<media type=\"image\" mime=\"image/png\" src=\"./figures/color-ce5c00.png\" width=\"10\"/> Werkzeugleiste"
-
-#~ msgid "<media type=\"image\" mime=\"image/png\" src=\"./figures/color-8f5902.png\" width=\"10\"/> Folder list"
-#~ msgstr "<media type=\"image\" mime=\"image/png\" src=\"./figures/color-8f5902.png\" width=\"10\"/> Ordnerliste"
-
-#~ msgid "<media type=\"image\" mime=\"image/png\" src=\"./figures/color-4e9a06.png\" width=\"10\"/> Search bar"
-#~ msgstr "<media type=\"image\" mime=\"image/png\" src=\"./figures/color-4e9a06.png\" width=\"10\"/> Suchleiste"
-
-#~ msgid "<media type=\"image\" mime=\"image/png\" src=\"./figures/color-204a87.png\" width=\"10\"/> Message list"
-#~ msgstr "<media type=\"image\" mime=\"image/png\" src=\"./figures/color-204a87.png\" width=\"10\"/> Nachrichtenliste"
-
-#~ msgid "<media type=\"image\" mime=\"image/png\" src=\"./figures/color-a40000.png\" width=\"10\"/> Switcher"
-#~ msgstr "<media type=\"image\" mime=\"image/png\" src=\"./figures/color-a40000.png\" width=\"10\"/> Knöpfe"
-
-#~ msgid "<media type=\"image\" mime=\"image/png\" src=\"./figures/color-5c3566.png\" width=\"10\"/> Preview pane"
-#~ msgstr "<media type=\"image\" mime=\"image/png\" src=\"./figures/color-5c3566.png\" width=\"10\"/> Vorschauleiste"
-
-#~ msgid "<media type=\"image\" mime=\"image/png\" src=\"./figures/color-2e3436.png\" width=\"10\"/> Status bar"
-#~ msgstr "<media type=\"image\" mime=\"image/png\" src=\"./figures/color-2e3436.png\" width=\"10\"/> Statusleiste"
-
-#~ msgid "<media type=\"image\" src=\"./figures/color-c4a000.png\" width=\"10\"/> Menu bar"
-#~ msgstr "<media type=\"image\" src=\"./figures/color-c4a000.png\" width=\"10\"/> Menüleiste"
-
-#~ msgid "<media type=\"image\" src=\"./figures/color-ce5c00.png\" width=\"10\"/> Tool bar"
-#~ msgstr "<media type=\"image\" src=\"./figures/color-ce5c00.png\" width=\"10\"/> Werkzeugleiste"
-
-#~ msgid "<media type=\"image\" src=\"./figures/color-8f5902.png\" width=\"10\"/> Calendar list"
-#~ msgstr "<media type=\"image\" src=\"./figures/color-8f5902.png\" width=\"10\"/> Kalenderliste"
-
-#~ msgid "<media type=\"image\" src=\"./figures/color-4e9a06.png\" width=\"10\"/> Search bar"
-#~ msgstr "<media type=\"image\" src=\"./figures/color-4e9a06.png\" width=\"10\"/> Suchleiste"
-
-#~ msgid "<media type=\"image\" src=\"./figures/color-204a87.png\" width=\"10\"/> Appointment list"
-#~ msgstr "<media type=\"image\" src=\"./figures/color-204a87.png\" width=\"10\"/> Terminliste"
-
-#~ msgid "<media type=\"image\" src=\"./figures/color-a40000.png\" width=\"10\"/> Switcher"
-#~ msgstr "<media type=\"image\" src=\"./figures/color-a40000.png\" width=\"10\"/> Umschalter"
-
-#~ msgid "<media type=\"image\" src=\"./figures/color-2e3436.png\" width=\"10\"/> Status bar"
-#~ msgstr "<media type=\"image\" src=\"./figures/color-2e3436.png\" width=\"10\"/> Statusleiste"
-
-#~ msgid "<media type=\"image\" src=\"./figures/color-8f5902.png\" width=\"10\"/> Address book list"
-#~ msgstr "<media type=\"image\" src=\"./figures/color-8f5902.png\" width=\"10\"/> Adressbuchliste"
-
-#~ msgid "<media type=\"image\" src=\"./figures/color-204a87.png\" width=\"10\"/> Contacts list"
-#~ msgstr "<media type=\"image\" src=\"./figures/color-204a87.png\" width=\"10\"/> Kontaktliste"
-
-#~ msgid "<media type=\"image\" src=\"./figures/color-5c3566.png\" width=\"10\"/> Contact preview"
-#~ msgstr "<media type=\"image\" src=\"./figures/color-5c3566.png\" width=\"10\"/> Kontaktvorschau"
-
-#~ msgid "Alternately, you can also use the <media type=\"image\" src=\"./figures/html-composer-insert-rule.png\"/> icon in the second bar below the <gui>Subject</gui> line."
-#~ msgstr "Alternativ können Sie auch das <media type=\"image\" src=\"./figures/html-composer-insert-rule.png\"/> Symbol in der zweiten Leiste unterhalb der <gui>Betreff</gui>zeile verwenden oder ein Bild in den Textbereich des E-Mail-Editors ziehen."
-
-#~ msgid "Alternately, you can also use the <media type=\"image\" src=\"./figures/html-composer-insert-table.png\"/> icon in the second bar below the <gui>Subject</gui> line."
-#~ msgstr "Alternativ können Sie auch das <media type=\"image\" src=\"./figures/html-composer-insert-table.png\"/> Symbol in der zweiten Leiste unterhalb der <gui>Betreff</gui>zeile verwenden oder ein Bild in den Textbereich des E-Mail-Editors ziehen."
-
-#~ msgid "<media type=\"image\" src=\"figures/evolutionlogo.png\"> Evolution logo </media> Evolution Mail and Calendar"
-#~ msgstr "<media type=\"image\" src=\"figures/evolutionlogo.png\"> Evolution-Logo </media> Evolution E-Mail und Kalender"
-
-#~ msgid "Using several address books"
-#~ msgstr "Verschiedene Adressbücher verwenden"
-
-#~ msgid "If you want to export only one appointment, right-click on the appointment and click <gui>Save as iCalendar...</gui>."
-#~ msgstr "Wenn Sie nur eine Besprechung exportieren wollen, so klicken Sie mit der rechten Maustaste auf die Besprechung und wählen Sie <gui>Als iCalendar speichern …</gui>."
-
-#~ msgid "What to do when using a small screen or netbook."
-#~ msgstr "Besonderheiten bei einem kleinen Bildschirm oder einem Netbook."
-
-#~ msgid "Some windows are too large for small screens."
-#~ msgstr "Einige Fenster sind für kleine Bildschirme zu groß."
-
-#~ msgid "This is a known problem and hard to solve for a complex application with many settings such as Evolution."
-#~ msgstr "Dies ist ein bekanntes Problem, welches für eine komplexe Anwendung wie Evolution mit zahlreichen Einstellungsmöglichkeiten schwierig zu lösen ist."
-
-#~ msgid "You can use the Express version which is targeted for mobile and small-screen devices by entering the command <code>evolution --express</code> in the <app>Terminal</app> application."
-#~ msgstr "Sie können die Express-Version für Mobilgeräte und solche mit kleinen Bildschirmen verwenden mit dem Befehl <code>evolution --express</code> in einem <app>Terminal</app>-Fenster."
-
-#~ msgid "Choose the Thunderbird files that you would like to import."
-#~ msgstr "Bitte wählen Sie Thunderbird-Dateien, die Sie importieren wollen."
-
-#~ msgid "Common server types"
-#~ msgstr "Häufige Servertypen"
-
-#~ msgid "The most common available server types for normal users are:"
-#~ msgstr "Die häufigsten Servertypen für Benutzer sind folgende:"
-
-#~ msgid "Continue <link xref=\"#sending\">here</link> for configuration."
-#~ msgstr "Setzen Sie die Konfiguration <link xref=\"#sending\">hier</link> fort."
-
-#~ msgid "Continue <link xref=\"mail-receiving-options-imap\">here</link> for configuration."
-#~ msgstr "Setzen Sie die Konfiguration <link xref=\"mail-receiving-options-imap\">hier</link> fort."
-
-#~ msgid "IMAP+: Keeps the mail on the server so you can access your mail from multiple systems."
-#~ msgstr "IMAP+: Behält E-Mails auf dem Server, so dass Sie auf Ihre E-Mails von verschiedenen Rechnern zugreifen können."
-
-#~ msgid "Continue <link xref=\"mail-receiving-options-imap-plus\">here</link> for configuration."
-#~ msgstr "Setzen Sie die Konfiguration <link xref=\"mail-receiving-options-imap-plus\">hier</link> fort."
-
-#~ msgid "Continue <link xref=\"mail-receiving-options-pop\">here</link> for configuration."
-#~ msgstr "Setzen Sie die Konfiguration <link xref=\"mail-receiving-options-pop\">hier</link> fort."
-
-#~ msgid "Continue <link xref=\"mail-receiving-options-usenet-news\">here</link> for configuration."
-#~ msgstr "Setzen Sie die Konfiguration <link xref=\"mail-receiving-options-usenet-news\">hier</link> fort."
-
-#~ msgid "Corporate server types"
-#~ msgstr "Servertypen im Unternehmensumfeld"
-
-#~ msgid "Available server types for corporate users are:"
-#~ msgstr "Verfügbare Servertypen im Unternehmensumfeld sind:"
-
-#~ msgid "Continue <link xref=\"mail-receiving-options-exchange-ews\">here</link> for configuration."
-#~ msgstr "Setzen Sie die Konfiguration <link xref=\"mail-receiving-options-exchange-ews\">hier</link> fort."
-
-#~ msgid "Continue <link xref=\"mail-receiving-options-exchange-mapi\">here</link> for configuration."
-#~ msgstr "Setzen Sie die Konfiguration <link xref=\"mail-receiving-options-exchange-mapi\">hier</link> fort."
-
-#~ msgid "Microsoft Exchange: For connecting to a Microsoft Exchange 2000 or 2003 server."
-#~ msgstr "Microsoft Exchange: zum Verbinden mit Microsoft Exchange 2000 oder 2003."
-
-#~ msgid "Continue <link xref=\"mail-receiving-options-evolution-exchange\">here</link> for configuration."
-#~ msgstr "Setzen Sie die Konfiguration <link xref=\"mail-receiving-options-evolution-exchange\">hier</link> fort."
-
-#~ msgid "This requires having the <sys>evolution-exchange</sys> package installed."
-#~ msgstr "Dazu muss das Paket <sys>evolution-exchange</sys> installiert sein."
-
-#~ msgid "<link action=\"install:evolution-exchange\" href=\"http://projects.gnome.org/evolution/download\" style=\"button\">Install evolution-exchange</link>"
-#~ msgstr "<link action=\"install:evolution-exchange\" href=\"http://projects.gnome.org/evolution/download\" style=\"button\">Evolution-exchange installieren</link>"
-
-#~ msgid "Local account server types"
-#~ msgstr "Servertypen für lokale Konten"
-
-#~ msgid "Available local account server types for advanced users are:"
-#~ msgstr "Verfügbare Servertypen für lokale Konten für fortgeschrittene Benutzer sind:"
-
-#~ msgid "Continue <link xref=\"mail-receiving-options-local-delivery\">here</link> for configuration."
-#~ msgstr "Setzen Sie die Konfiguration <link xref=\"mail-receiving-options-local-delivery\">hier</link> fort."
-
-#~ msgid "You need to provide the path to the directory you want to use."
-#~ msgstr "Sie müssen den Pfad zum Ordner angeben, der benutzt werden soll."
-
-#~ msgid "Continue <link xref=\"mail-receiving-options-mh-format-directories\">here</link> for configuration."
-#~ msgstr "Setzen Sie die Konfiguration <link xref=\"mail-receiving-options-mh-format-directories\">hier</link> fort."
-
-#~ msgid "Continue <link xref=\"mail-receiving-options-maildir-format-directories\">here</link> for configuration."
-#~ msgstr "Setzen Sie die Konfiguration <link xref=\"mail-receiving-options-maildir-format-directories\">hier</link> fort."
-
-#~ msgid "You need to provide the path to the mail spool file you want to use."
-#~ msgstr "Hierfür müssen Sie den Pfad zur Mail-Spool-Datei angeben, die benutzt werden soll."
-
-#~ msgid "Continue <link xref=\"mail-receiving-options-unix-mbox-spool-file\">here</link> for configuration."
-#~ msgstr "Setzen Sie die Konfiguration <link xref=\"mail-receiving-options-unix-mbox-spool-file\">hier</link> fort."
-
-#~ msgid "Continue <link xref=\"mail-receiving-options-unix-mbox-spool-directory\">here</link> for configuration."
-#~ msgstr "Setzen Sie die Konfiguration <link xref=\"mail-receiving-options-unix-mbox-spool-directory\">hier</link> fort."
-
-#~ msgid "Continue <link xref=\"mail-sending-options-smtp\">here</link> for configuration."
-#~ msgstr "Setzen Sie die Konfiguration <link xref=\"mail-sending-options-smtp\">hier</link> fort."
-
-#~ msgid "When a received message looks weird or is hard to read."
-#~ msgstr "Wenn eine erhaltene Nachricht seltsam aussieht oder kaum zu lesen ist."
-
-#~ msgid "HTML emails are not correctly displayed"
-#~ msgstr "HTML-E-Mails werden nicht richtig dargestellt"
-
-#~ msgid ""
-#~ "If an HTML message is not correctly displayed in Evolution it might be that the formatting of the message is specified as <link href=\"http://en.wikipedia.org/wiki/Cascading_Style_Sheets\">CSS</link>. CSS is currently not supported by gtkhtml (the part that is used to display HTML)."
-#~ msgstr ""
-#~ "Wenn eine HTML-Nachricht nicht richtig in Evolution dargestellt wird, so könnte die Formatierung als <link href=\"http://en.wikipedia.org/wiki/Cascading_Style_Sheets\">CSS</link> angegeben sein. CSS wird derzeit von gtkhtml nicht unterstützt (d.h. dem Teil, der für die Darstellung von "
-#~ "HTML verantwortlich ist)."
-
-#~ msgid "This will likely be fixed in version 3.6."
-#~ msgstr "Dies wird wahrscheinlich in Version 3.6 korrigiert."
-
-#~ msgid "For developers only: In future versions, Evolution will use WebKit instead of gtkhtml for displaying HTML. There is a branch named \"<link href=\"http://git.gnome.org/browse/evolution?h=webkit\">webkit</link>\" in Evolution's code repository to test."
-#~ msgstr "Nur für Entwickler: In zukünftigen Versionen wird Evolution WebKit anstelle von gtkhtml zur Darstellung von HTML verwenden. Es gibt einen Zweig Namens \"<link href=\"http://git.gnome.org/browse/evolution?h=webkit\">webkit</link>\" im Software-Depot von Evolution zum Testen."
-
-#~ msgid "For missing characters in emails, see <link xref=\"mail-displaying-character-encodings\">Character Encodings and Sets</link>."
-#~ msgstr "Lesen Sie zum Thema fehlende Zeichen in E-Mails <link xref=\"mail-displaying-character-encodings\">Zeichenkodierung und -sätze</link>."
-
-#~ msgid "By default only local address books are used for searching the photograph as accessing remote address books can cause delays. You can disable this by deselecting the option <gui>Search for sender photograph only in local address books</gui>."
-#~ msgstr ""
-#~ "Die Voreinstellung ist nur lokale Adressbücher zur Suche des Fotos zu verwenden, weil der Zugriff auf entfernte Adressbücher Verzögerungen verursachen kann. Auf Wunsch kann diese Einstellung durch Abwahl der Option <gui>Nach Foto des Absenders nur in lokalen Adressbüchern suchen</gui> "
-#~ "abgeschaltet werden."
-
-#~ msgid "Any header including <link xref=\"mail-composer-custom-header-lines\">custom ones</link>."
-#~ msgstr "Beliebige Kopfzeilen einschließlich <link xref=\"mail-composer-custom-header-lines\">eigener</link>."
-
-#~ msgid "Checks whether the message is <link xref=\"mail-follow-up-flag\">flagged for follow-up</link>."
-#~ msgstr "Prüft, ob die Nachricht <link xref=\"mail-follow-up-flag\">zur Nachverfolgung markiert ist</link>."
-
-#~ msgid "If you came to this page from the first-run wizard help page, click <link xref=\"intro-first-run#sending\">here</link> to continue with the next step."
-#~ msgstr "Wenn Sie auf diese Seite über die Hilfeseite des Einrichtungsassistenten gelangten, so klicken Sie zum Fortsetzen bitte <link xref=\"intro-first-run#sending\">hier</link>."
-
-#~ msgid "Receiving options for IMAP accounts."
-#~ msgstr "Empfangsoptionen für IMAP-Konten."
-
-#~ msgid "IMAP receiving options"
-#~ msgstr "IMAP-Empfangsoptionen"
-
-#~ msgid "Advanced Search:"
-#~ msgstr "Erweiterte Suche:"
-
-#~ msgid "If you came to this page from the first-run wizard help page, click <link xref=\"intro-first-run#account-information\">here</link> to continue with the next step."
-#~ msgstr "Wenn Sie auf diese Seite über die Hilfeseite des Einrichtungsassistenten gelangten, so klicken Sie zum Fortsetzen bitte <link xref=\"intro-first-run#account-information\">hier</link>."
-
-#~ msgid "Novell Groupwise"
-#~ msgstr "Novell Groupwise"
-
-#~ msgid "Changing keyboard shortcuts."
-#~ msgstr "Tastenkombinationen anpassen."
-
-#~ msgid "Changing keyboard shortcuts"
-#~ msgstr "Tastenkombinationen anpassen"
-
-#~ msgid "Hover your mouse cursor over the menu bar item for which you want to add or change the keyboard shortcut."
-#~ msgstr "Bewegen Sie den Mauszeiger in der Menüleiste über den Eintrag, für welchen Sie ein Tastenkürzel hinzufügen oder ändern wollen."
-
-#~ msgid "Type the shortcut that you want on the keyboard."
-#~ msgstr "Tippen Sie die gewünschte Tastenkombination auf der Tastatur.."
-
-#~ msgid "Note that this setting is desktop-wide and that you can disable it again after your changes by using the command <cmd>gsettings set org.gnome.desktop.interface can-change-accels false</cmd>"
-#~ msgstr "Beachten Sie, dass diese Einstellung die gesamte Arbeitsumgebung betrifft. Sie können Ihre Änderungen wieder mit dem Befehl <cmd>gsettings set org.gnome.desktop.interface can-change-accels false</cmd> widerrufen."
-
-#~ msgid "Only if <sys>evolution-ews</sys> does not work well for you it is recommended to use the package <sys>evolution-mapi</sys>. It supports Microsoft Exchange 2007 and 2010 (and possibly earlier versions that support MAPI)."
-#~ msgstr "Nur für den Fall, dass <sys>evolution-ews</sys> nicht richtig funktioniert, wird empfohlen das Paket <sys>evolution-mapi</sys> zu verwenden. Es unterstützt Microsoft Exchange 2007 und 2010 (und möglicherweise ältere Versionen, die MAPI unterstützen)."
-
-#~ msgid "For Microsoft Exchange 2000 and 2003 (and possibly earlier versions of Exchange that use Outlook Web Access) it is recommended to use the package <sys>evolution-exchange</sys>."
-#~ msgstr "Für Microsoft Exchange 2000 und 2003 (und möglicherweise frühere Versionen von Exchange, die Outlook Web Access verwenden) wird empfohlen, dass Paket <sys>evolution-exchange</sys> zu verwenden."
-
-#~ msgid "Connecting to GroupWise"
-#~ msgstr "Mit GroupWise verbinden"
-
-#~ msgid "For topics not covered here please refer to the <link href=\"http://library.gnome.org/users/evolution/2.32/usage-groupwise.html.en\">old Evolution manual</link>."
-#~ msgstr "Für Themen, die hier nicht angesprochen werden, lesen Sie bitte das <link href=\"http://library.gnome.org/users/evolution/2.32/usage-groupwise.html.de\">alte Evolution-Handbuch</link>."
-
-#~ msgid "Novell Groupwise: For connecting to a Novell GroupWise server."
-#~ msgstr "Novell Groupwise: zum Verbinden mit einem Novell GroupWise-Server."
-
-#~ msgid "Continue <link xref=\"mail-receiving-options-novell-groupwise\">here</link> for configuration."
-#~ msgstr "Setzen Sie die Konfiguration <link xref=\"mail-receiving-options-novell-groupwise\">hier</link> fort."
-
-#~ msgid "Add and edit an IMAP mail account in Evolution."
-#~ msgstr "Ein IMAP E-Mail-Konto in Evolution einrichten und bearbeiten."
-
-#~ msgid "IMAP mail account settings"
-#~ msgstr "E-Mail-Konteneinstellungen für IMAP"
-
-#~ msgid "IMAP Headers"
-#~ msgstr "IMAP-Kopfzeilen"
-
-#~ msgid "Add and edit a Microsoft Exchange 2000/2003 account in Evolution."
-#~ msgstr "Microsoft Exchange-2000/2003-Konto in Evolution hinzufügen und bearbeiten."
-
-#~ msgid "In this section you can define your \"Out of Office\" status, change the password for your Exchange account, and manage the delegation settings."
-#~ msgstr "In diesem Abschnitt können Sie Ihren Abwesenheits-Status festlegen, das Exchange-Passwort ändern und Vertretungs-Einstellungen verwalten."
-
-#~ msgid "You can also view the size of all Exchange folders."
-#~ msgstr "Sie können auch die Größe aller Exchange-Ordner anzeigen lassen."
-
-#~ msgid "Add and edit a Microsoft Exchange 2007 account in Evolution."
-#~ msgstr "Microsoft Exchange-2007-Konto in Evolution hinzufügen und bearbeiten."
-
-#~ msgid "Add and edit a Novell Groupwise account in Evolution."
-#~ msgstr "GroupWise-Konto in Evolution hinzufügen und bearbeiten."
-
-#~ msgid "Novell Groupwise account settings"
-#~ msgstr "Einstellungen für Novell Groupwise-Konten"
-
-#~ msgid "Proxy"
-#~ msgstr "Vertretung"
-
-#~ msgid "Settings for having somebody else handle your account."
-#~ msgstr "Einstellungen für Fremdzugriff auf Ihr Konto."
-
-#~ msgid "What to do when this error is shown."
-#~ msgstr "Wie bei dem gezeigten Fehler zu handeln ist."
-
-#~ msgid "Error message \"Failed to append to...\" after sending message"
-#~ msgstr "Fehlermeldung »Anhängen an … gescheitert« nach dem Verschicken einer Nachricht"
-
-#~ msgid ""
-#~ "If the error message \"Your message was sent, but an error occurred during post-processing. The reported error was \"Failed to append to mbox:///home/user/.local/share/evolution/mail/local#Sent: Cannot get folder 'Sent': folder does not exist. Appending to local 'Sent' folder instead."
-#~ "\".\" is shown, you can fix the problem by editing your default folder settings under <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</gui><gui style=\"button\">Edit</gui><gui>Defaults</gui><gui>Folder for sent messages</gui></guiseq>."
-#~ msgstr ""
-#~ "Wenn die Fehlermeldung »Ihre Nachricht wurde gesendet, aber ein Fehler ist während der Nachverarbeitung aufgetreten. Die Fehlermeldung war ›Anhängen an mbox:///home/user/.local/share/evolution/mail/local#Sent gescheitert: Cannot get folder 'Sent': folder does not exist. Stattdessen "
-#~ "wird versucht, an den lokalen »Verschickt«-Ordner anzuhängen.‹.« gezeigt wird, so können Sie den Fehler beheben, indem Sie die Einstellungen für den Standard-Ordner unter <guiseq><gui>Bearbeiten</gui><gui>Einstellungen</gui><gui>E-Mail-Konten</gui><gui style=\"button\">Bearbeiten</"
-#~ "gui><gui>Vorgaben</gui><gui>Ordner für verschickte Nachrichten</gui></guiseq> bearbeiten."
-
-#~ msgid "This bug is fixed in Evolution versions higher than 3.0.2 (stable series) and 3.1.3 (unstable development series). If this is not the case, please add a comment to the corresponding <link href=\"https://bugzilla.gnome.org/show_bug.cgi?id=638307\">bug report</link>."
-#~ msgstr "Dieser Fehler ist in Evolution Version 3.0.2 und neuere und 3.1.3 (Entwicklungszweig) behoben. Falls dies nicht der Fall ist, so schreiben Sie bitte einen Kommentar in den zugehörigen <link href=\"https://bugzilla.gnome.org/show_bug.cgi?id=638307\">Fehlerbericht</link>."
