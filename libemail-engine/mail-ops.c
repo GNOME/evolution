@@ -493,7 +493,7 @@ mail_fetch_mail (CamelStore *store,
                  GCancellable *cancellable,
                  CamelFilterGetFolderFunc get_folder,
                  gpointer get_data,
-                 CamelFilterStatusFunc *status,
+                 CamelFilterStatusFunc status,
                  gpointer status_data,
                  void (*done)(gpointer data),
                  gpointer data)
@@ -556,7 +556,7 @@ struct _send_queue_msg {
 	CamelFilterDriver *driver;
 
 	/* we use camelfilterstatusfunc, even though its not the filter doing it */
-	CamelFilterStatusFunc *status;
+	CamelFilterStatusFunc status;
 	gpointer status_data;
 
 	void (*done)(gpointer data);
@@ -1111,7 +1111,7 @@ mail_send_queue (EMailSession *session,
                  GCancellable *cancellable,
                  CamelFilterGetFolderFunc get_folder,
                  gpointer get_data,
-                 CamelFilterStatusFunc *status,
+                 CamelFilterStatusFunc status,
                  gpointer status_data,
                  void (*done)(gpointer data),
                  gpointer data)
