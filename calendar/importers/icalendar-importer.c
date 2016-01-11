@@ -36,6 +36,7 @@
 
 #include <libecal/libecal.h>
 #include <libical/icalvcal.h>
+#include <libical/vcc.h>
 
 #include "shell/e-shell.h"
 
