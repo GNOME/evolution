@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2016 Evolution Team <evolution-hackers@gnome.org> -->
+<component type="addon">
+	<id>evolution-pst</id>
+	<extends>evolution.desktop</extends>
+	<_name>Outlook PST import</_name>
+	<_summary>Import Outlook messages from PST file</_summary>
+	<url type="homepage">https://live.gnome.org/Apps/Evolution</url>
+	<metadata_license>CC0-1.0</metadata_license>
+	<project_license>LGPL</project_license>
+	<updatecontact>evolution-hackers_at_gnome.org</updatecontact>
+	<kudos>
+		<kudo>ModernToolkit</kudo>
+	</kudos>
+</component>
