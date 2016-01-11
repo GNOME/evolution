@@ -35,10 +35,17 @@ liborg_gnome_pst_import_la_LIBADD =				\
 	$(LIBPST_LIBS)						\
 	$(NULL)
 
-EXTRA_DIST = org-gnome-pst-import.eplug.xml
+@INTLTOOL_XML_NOMERGE_RULE@
+metainfodir = $(datadir)/appdata
+metainfo_in_files = evolution-pst.metainfo.xml.in
+metainfo_files = $(metainfo_in_files:.xml.in=.xml)
+dist_metainfo_DATA = $(metainfo_files)
+
+EXTRA_DIST = org-gnome-pst-import.eplug.xml $(metainfo_in_files)
 
 BUILT_SOURCES = org-gnome-pst-import.eplug
 
 CLEANFILES = $(BUILT_SOURCES)
+DISTCLEANFILES = $(metainfo_files)
 
 -include $(top_srcdir)/git.mk

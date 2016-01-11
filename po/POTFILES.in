@@ -490,6 +490,7 @@ plugins/mail-notification/mail-notification.c
 plugins/mail-notification/org-gnome-mail-notification.eplug.xml
 plugins/mail-to-task/mail-to-task.c
 plugins/mail-to-task/org-gnome-mail-to-task.eplug.xml
+plugins/pst-import/evolution-pst.metainfo.xml.in
 plugins/pst-import/org-gnome-pst-import.eplug.xml
 plugins/pst-import/pst-importer.c
 plugins/publish-calendar/org-gnome-publish-calendar.eplug.xml
