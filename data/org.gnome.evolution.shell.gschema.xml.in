@@ -30,6 +30,11 @@
       <_summary>Enable express mode</_summary>
       <_description>Flag that enables a much simplified user interface.</_description>
     </key>
+    <key name="buttons-hide" type="as">
+      <default>[]</default>
+      <_summary>List of button names to hide in the window switcher</_summary>
+      <_description>Valid values are 'mail', 'addressbook', 'calendar', 'tasks' and 'memos'. Change of this requires restart of the application.</_description>
+    </key>
     <key name="buttons-visible" type="b">
       <default>true</default>
       <_summary>Window buttons are visible</_summary>

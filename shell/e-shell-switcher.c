@@ -35,6 +35,8 @@
 
 #include <e-util/e-util.h>
 
+#include "e-shell-window-private.h"
+
 #define E_SHELL_SWITCHER_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_SHELL_SWITCHER, EShellSwitcherPrivate))
@@ -683,10 +685,31 @@ e_shell_switcher_add_action (EShellSwitcher *switcher,
 {
 	GtkWidget *widget;
 	GtkButton *button;
+	GSettings *settings;
+	gchar **strv;
+	gint ii;
+	gboolean skip = FALSE;
 
 	g_return_if_fail (E_IS_SHELL_SWITCHER (switcher));
 	g_return_if_fail (GTK_IS_ACTION (switch_action));
 	g_return_if_fail (GTK_IS_ACTION (new_window_action));
+
+	settings = e_util_ref_settings ("org.gnome.evolution.shell");
+	strv = g_settings_get_strv (settings, "buttons-hide");
+	g_clear_object (&settings);
+
+	for (ii = 0; strv && strv[ii] && !skip; ii++) {
+		gchar *name;
+
+		name = g_strdup_printf (E_SHELL_SWITCHER_FORMAT, strv[ii]);
+		skip = g_strcmp0 (name, gtk_action_get_name (switch_action)) == 0;
+		g_free (name);
+	}
+
+	g_strfreev (strv);
+
+	if (skip)
+		return;
 
 	g_object_ref (switch_action);
 	widget = gtk_action_create_tool_item (switch_action);
