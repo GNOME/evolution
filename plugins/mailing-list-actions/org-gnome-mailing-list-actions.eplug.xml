@@ -23,6 +23,8 @@
                   <menuitem action='mailing-list-post'/>
                   <menuitem action='mailing-list-owner'/>
                   <menuitem action='mailing-list-archive'/>
+		  <separator />
+                  <menuitem action='mailing-list-archived-at'/>
                 </menu>
               </placeholder>
             </menu>
@@ -42,6 +44,8 @@
                   <menuitem action='mailing-list-post'/>
                   <menuitem action='mailing-list-owner'/>
                   <menuitem action='mailing-list-archive'/>
+		  <separator />
+                  <menuitem action='mailing-list-archived-at'/>
                 </menu>
               </placeholder>
             </menu>
