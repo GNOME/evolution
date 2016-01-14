@@ -9689,7 +9689,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:131
 msgid "Whether sort thread children always ascending"
-msgstr "Si s'ordenen el fils fills sempre de forma ascendent"
+msgstr "Si s'ordenen els fils fills sempre de forma ascendent"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:132
 #| msgid ""
@@ -9970,7 +9970,7 @@ msgid ""
 "or replying to the displayed message."
 msgstr ""
 "Política de tancament automàticament de la finestra de navegació del "
-"missatge quan es reenvia o es respon el missatges visualitzat."
+"missatge quan es reenvia o es respon el missatge visualitzat."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:176
 msgid "Empty Trash folders on exit"
@@ -10249,7 +10249,7 @@ msgid ""
 "resulting HTML formatted message."
 msgstr ""
 "Quan s'habilita el mode de colors per al fons, el text i els enllaços "
-"s'envien en format HTML al missatges."
+"s'envien en format HTML als missatges."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:222
 msgid "An Archive folder for On This Computer folders."
@@ -16506,7 +16506,7 @@ msgstr "_Arxiva aquesta carpeta usant aquests paràmetres:"
 #| msgid "Sent _Messages Folder:"
 msgctxt "autoarchive"
 msgid "_Cleanup messages older than"
-msgstr "_Neteja els missatge més vells de"
+msgstr "_Neteja els missatges més vells de"
 
 #. Translators: This text is part of "Cleanup messages older than [X] [days/weeks/months]"
 #: ../mail/em-folder-properties.c:516
@@ -17596,7 +17596,7 @@ msgstr "Suprimeix"
 
 #: ../mail/mail-config.ui.h:109
 msgid "Allow for sites:"
-msgstr "Permet per al llocs:"
+msgstr "Permet per als llocs:"
 
 #: ../mail/mail-config.ui.h:110
 msgid "Allow for senders:"
