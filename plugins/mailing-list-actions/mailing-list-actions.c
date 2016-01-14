@@ -57,7 +57,8 @@ typedef enum {
 	EMLA_ACTION_SUBSCRIBE,
 	EMLA_ACTION_POST,
 	EMLA_ACTION_OWNER,
-	EMLA_ACTION_ARCHIVE
+	EMLA_ACTION_ARCHIVE,
+	EMLA_ACTION_ARCHIVED_AT
 } EmlaAction;
 
 typedef struct {
@@ -79,6 +80,7 @@ const EmlaActionHeader emla_action_headers[] = {
 	{ EMLA_ACTION_POST,        TRUE,  "List-Post" },
 	{ EMLA_ACTION_OWNER,       TRUE,  "List-Owner" },
 	{ EMLA_ACTION_ARCHIVE,     FALSE, "List-Archive" },
+	{ EMLA_ACTION_ARCHIVED_AT, FALSE, "Archived-At" }
 };
 
 gboolean	mail_browser_init		(GtkUIManager *ui_manager,
@@ -253,7 +255,14 @@ emla_list_action_cb (CamelFolder *folder,
 
 			goto exit;
 		} else if (url && *url) {
-			e_show_uri (window, url);
+			if (context->action == EMLA_ACTION_ARCHIVED_AT) {
+				GtkClipboard *clipboard;
+
+				clipboard = gtk_clipboard_get (GDK_SELECTION_CLIPBOARD);
+				gtk_clipboard_set_text (clipboard, url, -1);
+			} else {
+				e_show_uri (window, url);
+			}
 			goto exit;
 		}
 		g_free (url);
@@ -323,6 +332,13 @@ action_mailing_list_archive_cb (GtkAction *action,
 }
 
 static void
+action_mailing_list_archived_at_cb (GtkAction *action,
+				    EMailReader *reader)
+{
+	emla_list_action (reader, EMLA_ACTION_ARCHIVED_AT);
+}
+
+static void
 action_mailing_list_help_cb (GtkAction *action,
                              EMailReader *reader)
 {
@@ -365,6 +381,13 @@ static GtkActionEntry mailing_list_entries[] = {
 	  NULL,
 	  N_("Get an archive of the list this message belongs to"),
 	  G_CALLBACK (action_mailing_list_archive_cb) },
+
+	{ "mailing-list-archived-at",
+	  NULL,
+	  N_("Copy _Message Archive URL"),
+	  NULL,
+	  N_("Copy direct URL for the selected message in its archive"),
+	  G_CALLBACK (action_mailing_list_archived_at_cb) },
 
 	{ "mailing-list-help",
 	  NULL,
@@ -421,6 +444,27 @@ update_actions_cb (EMailReader *reader,
 	sensitive = (state & E_MAIL_READER_SELECTION_IS_MAILING_LIST) != 0
 		 && (state & E_MAIL_READER_SELECTION_SINGLE) != 0;
 	gtk_action_group_set_sensitive (action_group, sensitive);
+
+	if (sensitive) {
+		EMailDisplay *mail_display;
+		EMailPartList *part_list;
+		CamelMimeMessage *message;
+		GtkAction *action;
+
+		mail_display = e_mail_reader_get_mail_display (reader);
+		part_list = mail_display ? e_mail_display_get_part_list (mail_display) : NULL;
+		message = part_list ? e_mail_part_list_get_message (part_list) : NULL;
+
+		if (message) {
+			const gchar *header;
+
+			header = camel_medium_get_header (CAMEL_MEDIUM (message), "Archived-At");
+			sensitive = header && *header;
+		}
+
+		action = gtk_action_group_get_action (action_group, "mailing-list-archived-at");
+		gtk_action_set_sensitive (action, message && sensitive);
+	}
 }
 
 static void
