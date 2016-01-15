@@ -605,9 +605,15 @@ main (gint argc,
 		goto exit;
 	}
 
-	if (g_application_get_is_remote (G_APPLICATION (shell)) &&
-	    remaining_args && *remaining_args) {
-		e_shell_handle_uris (shell, (const gchar * const *) remaining_args, import_uris);
+	if (g_application_get_is_remote (G_APPLICATION (shell))) {
+		if (remaining_args && *remaining_args)
+			e_shell_handle_uris (shell, (const gchar * const *) remaining_args, import_uris);
+
+		/* This will be redirected to the previously run instance,
+		   because this instance is remote. */
+		if (requested_view && *requested_view)
+			e_shell_create_shell_window (shell, requested_view);
+
 		goto exit;
 	}
 

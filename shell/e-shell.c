@@ -179,30 +179,47 @@ shell_action_new_window_cb (GSimpleAction *action,
                             EShell *shell)
 {
 	GtkApplication *application;
-	GList *list;
 	const gchar *view_name;
 
 	application = GTK_APPLICATION (shell);
-	list = gtk_application_get_windows (application);
 
-	view_name = g_variant_get_string (parameter, NULL);
+	view_name = parameter ? g_variant_get_string (parameter, NULL) : NULL;
+	if (view_name && !*view_name)
+		view_name = NULL;
 
-	/* Present the first EShellWindow showing 'view_name'. */
-	while (list != NULL) {
-		GtkWindow *window = GTK_WINDOW (list->data);
+	if (view_name) {
+		GList *list;
+		gboolean get_current = g_strcmp0 (view_name, "current") == 0;
 
-		if (E_IS_SHELL_WINDOW (window)) {
-			const gchar *active_view;
+		list = gtk_application_get_windows (application);
 
-			active_view = e_shell_window_get_active_view (
-				E_SHELL_WINDOW (window));
-			if (g_strcmp0 (active_view, view_name) == 0) {
-				gtk_window_present (window);
-				return;
+		/* Present the first EShellWindow showing 'view_name'. */
+		while (list != NULL) {
+			GtkWindow *window = GTK_WINDOW (list->data);
+
+			if (E_IS_SHELL_WINDOW (window)) {
+				const gchar *active_view;
+
+				active_view = e_shell_window_get_active_view (
+					E_SHELL_WINDOW (window));
+				if (g_strcmp0 (active_view, view_name) == 0) {
+					gtk_window_present (window);
+					return;
+				} else if (get_current && active_view) {
+					view_name = active_view;
+					break;
+				}
 			}
-		}
 
-		list = g_list_next (list);
+			list = g_list_next (list);
+		}
+	} else {
+		GtkWindow *window;
+
+		window = e_shell_get_active_window (shell);
+
+		if (E_IS_SHELL_WINDOW (window))
+			view_name = e_shell_window_get_active_view (E_SHELL_WINDOW (window));
 	}
 
 	/* No suitable EShellWindow found, so create one. */
@@ -262,7 +279,7 @@ shell_add_actions (GApplication *application)
 
 	/* Add actions that remote instances can invoke. */
 
-	action = g_simple_action_new ("new-window", G_VARIANT_TYPE_STRING);
+	action = g_simple_action_new ("create-from-remote", G_VARIANT_TYPE_STRING);
 	g_signal_connect (
 		action, "activate",
 		G_CALLBACK (shell_action_new_window_cb), application);
@@ -1159,15 +1176,7 @@ shell_app_menu_activate_cb (GSimpleAction *action,
 	g_return_if_fail (name != NULL);
 
 	if (g_str_equal (name, "new-window")) {
-		GtkWindow *window;
-
-		window = e_shell_get_active_window (shell);
-
-		if (E_IS_SHELL_WINDOW (window))
-			e_shell_create_shell_window (shell,
-				e_shell_window_get_active_view (E_SHELL_WINDOW (window)));
-		else
-			e_shell_create_shell_window (shell, NULL);
+		shell_action_new_window_cb (action, parameter, shell);
 	} else if (g_str_equal (name, "preferences")) {
 		e_shell_utils_run_preferences (shell);
 	} else if (g_str_equal (name, "quick-reference")) {
@@ -1176,8 +1185,6 @@ shell_app_menu_activate_cb (GSimpleAction *action,
 		e_shell_utils_run_help_contents (shell);
 	} else if (g_str_equal (name, "about")) {
 		e_shell_utils_run_help_about (shell);
-	} else if (g_str_equal (name, "quit")) {
-		e_shell_quit (shell, E_SHELL_QUIT_ACTION);
 	} else {
 		g_warning ("%s: Unknown app-menu action '%s'", G_STRFUNC, name);
 	}
@@ -1191,8 +1198,7 @@ shell_create_app_menu (GtkApplication *application)
 		{ "preferences", shell_app_menu_activate_cb, NULL, NULL, NULL },
 		{ "quick-reference", shell_app_menu_activate_cb, NULL, NULL, NULL },
 		{ "help", shell_app_menu_activate_cb, NULL, NULL, NULL },
-		{ "about", shell_app_menu_activate_cb, NULL, NULL, NULL },
-		{ "quit", shell_app_menu_activate_cb, NULL, NULL, NULL }
+		{ "about", shell_app_menu_activate_cb, NULL, NULL, NULL }
 	};
 	GMenu *app_menu, *section;
 
@@ -2262,7 +2268,7 @@ remote:  /* Send a message to the other Evolution process. */
 
 	if (view_name != NULL) {
 		g_action_group_activate_action (
-			G_ACTION_GROUP (shell), "new-window",
+			G_ACTION_GROUP (shell), "create-from-remote",
 			g_variant_new_string (view_name));
 	} else
 		g_application_activate (G_APPLICATION (shell));
