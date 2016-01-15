@@ -87,6 +87,7 @@ struct _EShellPrivate {
 	guint quit_cancelled : 1;
 	guint ready_to_quit : 1;
 	guint safe_mode : 1;
+	guint requires_shutdown : 1;
 };
 
 enum {
@@ -1485,6 +1486,15 @@ shell_constructed (GObject *object)
 static void
 shell_startup (GApplication *application)
 {
+	EShell *shell;
+
+	g_return_if_fail (E_IS_SHELL (application));
+
+	shell = E_SHELL (application);
+	g_warn_if_fail (!shell->priv->requires_shutdown);
+
+	shell->priv->requires_shutdown = TRUE;
+
 	e_file_lock_create ();
 
 	/* Destroy the lock file when the EShell is finalized
@@ -1498,6 +1508,23 @@ shell_startup (GApplication *application)
 
 	if (e_util_is_running_gnome ())
 		shell_create_app_menu (GTK_APPLICATION (application));
+}
+
+static void
+shell_shutdown (GApplication *application)
+{
+	EShell *shell;
+
+	g_return_if_fail (E_IS_SHELL (application));
+
+	shell = E_SHELL (application);
+
+	g_warn_if_fail (shell->priv->requires_shutdown);
+
+	shell->priv->requires_shutdown = FALSE;
+
+	/* Chain up to parent's method. */
+	G_APPLICATION_CLASS (e_shell_parent_class)->shutdown (application);
 }
 
 static void
@@ -1633,6 +1660,7 @@ e_shell_class_init (EShellClass *class)
 
 	application_class = G_APPLICATION_CLASS (class);
 	application_class->startup = shell_startup;
+	application_class->shutdown = shell_shutdown;
 	application_class->activate = shell_activate;
 
 	gtk_application_class = GTK_APPLICATION_CLASS (class);
@@ -1942,6 +1970,7 @@ e_shell_init (EShell *shell)
 	shell->priv->backends_by_name = backends_by_name;
 	shell->priv->backends_by_scheme = backends_by_scheme;
 	shell->priv->safe_mode = e_file_lock_exists ();
+	shell->priv->requires_shutdown = FALSE;
 
 	/* Add our icon directory to the theme's search path
 	 * here instead of in main() so Anjal picks it up. */
@@ -2697,3 +2726,10 @@ e_shell_cancel_quit (EShell *shell)
 	g_signal_stop_emission (shell, signals[QUIT_REQUESTED], 0);
 }
 
+gboolean
+e_shell_requires_shutdown (EShell *shell)
+{
+	g_return_val_if_fail (E_IS_SHELL (shell), FALSE);
+
+	return shell->priv->requires_shutdown;
+}
