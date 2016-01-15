@@ -5473,6 +5473,9 @@ return_pressed_in_empty_list_item (EHTMLEditorView *view)
 				&ev->before.end.y);
 
 			fragment = webkit_dom_document_create_document_fragment (document);
+
+			g_object_set_data (
+				G_OBJECT (fragment), "history-return-key", GINT_TO_POINTER (1));
 		}
 
 		list = split_node_into_two (parent, -1);
