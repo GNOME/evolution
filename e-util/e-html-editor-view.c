@@ -2807,6 +2807,19 @@ body_input_event_cb (WebKitDOMElement *element,
 		goto out;
 	}
 
+	/* When the Backspace is pressed in a bulleted list item with just one
+	 * character left in it, WebKit will create another BR element in the
+	 * item. */
+	if (!view->priv->html_mode) {
+		WebKitDOMElement *element;
+
+		element = webkit_dom_document_query_selector (
+			document, "ul[data-evo-plain-text] > li > br + br", NULL);
+
+		if (element)
+			remove_node (WEBKIT_DOM_NODE (element));
+	}
+
 	if (!save_history_after_event_in_table (view)) {
 		if (!view->priv->dont_save_history_in_body_input)
 			save_history_for_input (view);
