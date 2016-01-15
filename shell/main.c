@@ -655,8 +655,10 @@ main (gint argc,
 	gtk_main ();
 
 exit:
-	/* Workaround https://bugzilla.gnome.org/show_bug.cgi?id=737949 */
-	g_signal_emit_by_name (shell, "shutdown");
+	if (e_shell_requires_shutdown (shell)) {
+		/* Workaround https://bugzilla.gnome.org/show_bug.cgi?id=737949 */
+		g_signal_emit_by_name (shell, "shutdown");
+	}
 
 	/* Drop what should be the last reference to the shell.
 	 * That will cause e_shell_get_default() to henceforth

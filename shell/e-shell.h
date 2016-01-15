@@ -146,6 +146,7 @@ void		e_shell_event			(EShell *shell,
 gboolean	e_shell_quit			(EShell *shell,
 						 EShellQuitReason reason);
 void		e_shell_cancel_quit		(EShell *shell);
+gboolean	e_shell_requires_shutdown	(EShell *shell);
 
 G_END_DECLS
 
