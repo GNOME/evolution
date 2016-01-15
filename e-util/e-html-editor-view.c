@@ -5424,8 +5424,8 @@ insert_tabulator (EHTMLEditorView *view)
 }
 
 static gboolean
-return_pressed_in_empty_list_item (EHTMLEditorView *view,
-                                   gboolean save_history)
+static gboolean
+return_pressed_in_empty_list_item (EHTMLEditorView *view)
 {
 	EHTMLEditorSelection *selection;
 	WebKitDOMDocument *document;
@@ -5454,12 +5454,12 @@ return_pressed_in_empty_list_item (EHTMLEditorView *view,
 	/* Check if return was pressed inside an empty list item. */
 	if (!webkit_dom_node_get_previous_sibling (WEBKIT_DOM_NODE (selection_start_marker)) &&
 	    (!node || (node && WEBKIT_DOM_IS_HTMLBR_ELEMENT (node) && !webkit_dom_node_get_next_sibling (node)))) {
-		EHTMLEditorViewHistoryEvent *ev;
+		EHTMLEditorViewHistoryEvent *ev = NULL;
 		WebKitDOMDocumentFragment *fragment;
 		WebKitDOMElement *paragraph;
 		WebKitDOMNode *list;
 
-		if (save_history) {
+		if (!view->priv->undo_redo_in_progress) {
 			/* Insert new history event for Return to have the right coordinates.
 			 * The fragment will be added later. */
 			ev = g_new0 (EHTMLEditorViewHistoryEvent, 1);
@@ -5477,7 +5477,7 @@ return_pressed_in_empty_list_item (EHTMLEditorView *view,
 
 		list = split_node_into_two (parent, -1);
 
-		if (save_history) {
+		if (ev) {
 			webkit_dom_node_append_child (
 				WEBKIT_DOM_NODE (fragment),
 				parent,
@@ -5496,7 +5496,7 @@ return_pressed_in_empty_list_item (EHTMLEditorView *view,
 
 		e_html_editor_selection_restore (selection);
 
-		if (save_history) {
+		if (ev) {
 			e_html_editor_selection_get_selection_coordinates (
 				selection,
 				&ev->after.start.x,
@@ -5644,7 +5644,7 @@ key_press_event_process_return_key (EHTMLEditorView *view)
 
 	/* If the ENTER key is pressed inside an empty list item then the list
 	 * is broken into two and empty paragraph is inserted between lists. */
-	if (return_pressed_in_empty_list_item (view, TRUE))
+	if (return_pressed_in_empty_list_item (view))
 		return TRUE;
 
 	return FALSE;
