@@ -5693,6 +5693,93 @@ key_press_event_process_return_key (EHTMLEditorView *view)
 }
 
 static gboolean
+remove_empty_bulleted_list_item (EHTMLEditorView *view)
+{
+	EHTMLEditorSelection *selection;
+	WebKitDOMDocument *document;
+	WebKitDOMElement *selection_start;
+	WebKitDOMNode *parent;
+
+	selection = e_html_editor_view_get_selection (view);
+	e_html_editor_selection_save (selection);
+
+	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
+	selection_start = webkit_dom_document_get_element_by_id (
+		document, "-x-evo-selection-start-marker");
+
+	parent = webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (selection_start));
+	while (parent && !node_is_list_or_item (parent))
+		parent = webkit_dom_node_get_parent_node (parent);
+
+	if (!parent)
+		goto out;
+
+	if (selection_is_in_empty_list_item (WEBKIT_DOM_NODE (selection_start))) {
+		EHTMLEditorViewHistoryEvent *ev = NULL;
+		WebKitDOMDocumentFragment *fragment;
+		WebKitDOMNode *prev_item;
+
+		prev_item = webkit_dom_node_get_previous_sibling (parent);
+
+		if (!view->priv->undo_redo_in_progress) {
+			/* Insert new history event for Return to have the right coordinates.
+			 * The fragment will be added later. */
+			ev = g_new0 (EHTMLEditorViewHistoryEvent, 1);
+			ev->type = HISTORY_DELETE;
+
+			e_html_editor_selection_get_selection_coordinates (
+				selection,
+				&ev->before.start.x,
+				&ev->before.start.y,
+				&ev->before.end.x,
+				&ev->before.end.y);
+
+			fragment = webkit_dom_document_create_document_fragment (document);
+		}
+
+		if (ev) {
+			if (prev_item)
+				webkit_dom_node_append_child (
+					WEBKIT_DOM_NODE (fragment),
+					webkit_dom_node_clone_node (prev_item, TRUE),
+					NULL);
+
+			webkit_dom_node_append_child (
+				WEBKIT_DOM_NODE (fragment),
+				parent,
+				NULL);
+		} else
+			remove_node (parent);
+
+		if (prev_item)
+			add_selection_markers_into_element_end (
+				document, WEBKIT_DOM_ELEMENT (prev_item), NULL, NULL);
+
+		if (ev) {
+			e_html_editor_selection_get_selection_coordinates (
+				selection,
+				&ev->after.start.x,
+				&ev->after.start.y,
+				&ev->after.end.x,
+				&ev->after.end.y);
+
+			ev->data.fragment = fragment;
+
+			e_html_editor_view_insert_new_history_event (view, ev);
+		}
+
+		e_html_editor_view_set_changed (view, TRUE);
+		e_html_editor_selection_restore (selection);
+
+		return TRUE;
+	}
+ out:
+	e_html_editor_selection_restore (selection);
+
+	return FALSE;
+}
+
+static gboolean
 key_press_event_process_backspace_key (EHTMLEditorView *view)
 {
 	EHTMLEditorSelection *selection;
@@ -5738,6 +5825,12 @@ key_press_event_process_backspace_key (EHTMLEditorView *view)
 			return TRUE;
 		}
 	}
+
+	/* BackSpace pressed in an empty item in the bulleted list removes it. */
+	if (!view->priv->html_mode && e_html_editor_selection_is_collapsed (selection) &&
+	    remove_empty_bulleted_list_item (view))
+		return TRUE;
+
 
 	if (prevent_from_deleting_last_element_in_body (view))
 		return TRUE;
