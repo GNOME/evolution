@@ -1,3 +1,25 @@
+Evolution 3.18.4 2016-01-18
+---------------------------
+
+Bug Fixes:
+	Bug 759584 - Threading lost for some quotes lines in same paragraph after pressing Enter in quoted text (Tomas Popela)
+	Bug 759564 - Pasting a plain text paragraph starting with an URL will linkify the entire paragraph (Tomas Popela)
+	Bug 760365 - [Calendar] Include libical/vcc.h directly (Antonio Rojas)
+
+Miscellaneous:
+	EHTMLEditorView - Allow to append a query to the link (Tomas Popela)
+	EHTMLEditorView - Cannot append text to links if non-breaking space is presented (Tomas Popela)
+	EHTMLEditorView - Extra new line added after pressing the Backspace in a list item with one character (Tomas Popela)
+	EHTMLEditorView - History can be overwritten when redoing the Return key press in an empty list item (Tomas Popela)
+	EHTMLEditorView - Redoing the Return key press in the list can fail (Tomas Popela)
+	EHTMLEditorView - Pressing the Return key in the bulleted list does not end it (Tomas Popela)
+	EHTMLEditorView - Cannot remove an empty bulleted list item with Backspace key (Tomas Popela)
+	EHTMLEditorView - Only change a smiley to plain text when the node is smiley (Tomas Popela)
+	Address crashes related to second instance execution (Milan Crha)
+
+Translations:
+	Gianvito Cavasoli (it)
+
 Evolution 3.18.3 2015-12-14
 ---------------------------
 
