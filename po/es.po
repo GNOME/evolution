@@ -12,7 +12,7 @@
 # Jorge González <jorgegonz@svn.gnome.org>, 2007, 2008, 2009, 2010, 2011.
 # 
 # 
-# Daniel Mustieles <daniel.mustieles@gmail.com>, 2010, 2011, 2012, 2013, 2014, 2015.
+# Daniel Mustieles <daniel.mustieles@gmail.com>, 2010, 2011, 2012, 2013, 2014, 2015, 2016.
 #
 #: ../shell/main.c:522
 msgid ""
@@ -20,8 +20,8 @@ msgstr ""
 "Project-Id-Version: evolution.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2015-12-07 05:50+0000\n"
-"PO-Revision-Date: 2015-12-07 11:40+0100\n"
+"POT-Creation-Date: 2016-01-14 05:51+0000\n"
+"PO-Revision-Date: 2016-01-14 15:35+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
 "Language: es\n"
@@ -1751,9 +1751,9 @@ msgstr ""
 #: ../addressbook/importers/evolution-csv-importer.c:746
 #: ../addressbook/importers/evolution-ldif-importer.c:548
 #: ../addressbook/importers/evolution-vcard-importer.c:249
-#: ../calendar/importers/icalendar-importer.c:484
-#: ../calendar/importers/icalendar-importer.c:979
-#: ../calendar/importers/icalendar-importer.c:1018
+#: ../calendar/importers/icalendar-importer.c:485
+#: ../calendar/importers/icalendar-importer.c:980
+#: ../calendar/importers/icalendar-importer.c:1019
 #: ../shell/shell.error.xml.h:1
 msgid "Importing..."
 msgstr "Importando…"
@@ -5284,8 +5284,8 @@ msgid "%d%%"
 msgstr "%d%%"
 
 #: ../calendar/gui/e-task-table.c:672 ../calendar/gui/print.c:2404
-#: ../calendar/importers/icalendar-importer.c:78
-#: ../calendar/importers/icalendar-importer.c:1116
+#: ../calendar/importers/icalendar-importer.c:79
+#: ../calendar/importers/icalendar-importer.c:1117
 #: ../modules/calendar/e-calendar-preferences.ui.h:62
 #: ../modules/calendar/e-cal-shell-content.c:1593
 #: ../modules/calendar/e-task-shell-view-actions.c:220
@@ -5750,205 +5750,205 @@ msgstr "es mayor que"
 msgid "is less than"
 msgstr "es menor que"
 
-#: ../calendar/importers/icalendar-importer.c:77
+#: ../calendar/importers/icalendar-importer.c:78
 msgid "Appointments and Meetings"
 msgstr "Reuniones y citas"
 
-#: ../calendar/importers/icalendar-importer.c:311
+#: ../calendar/importers/icalendar-importer.c:312
 #: ../modules/calendar/e-cal-base-shell-backend.c:183
 #: ../modules/calendar/e-cal-shell-view-actions.c:180
 msgid "New Calendar"
 msgstr "Calendario nuevo"
 
-#: ../calendar/importers/icalendar-importer.c:314
+#: ../calendar/importers/icalendar-importer.c:315
 #: ../modules/calendar/e-cal-base-shell-backend.c:191
 #: ../modules/calendar/e-task-shell-view-actions.c:204
 msgid "New Task List"
 msgstr "Lista de tareas nueva"
 
-#: ../calendar/importers/icalendar-importer.c:356
+#: ../calendar/importers/icalendar-importer.c:357
 msgid "Cre_ate new calendar"
 msgstr "Cre_ar un calendario nuevo"
 
-#: ../calendar/importers/icalendar-importer.c:360
+#: ../calendar/importers/icalendar-importer.c:361
 msgid "Cre_ate new task list"
 msgstr "Cre_ar una lista de tareas nueva"
 
-#: ../calendar/importers/icalendar-importer.c:506
-#: ../calendar/importers/icalendar-importer.c:945
+#: ../calendar/importers/icalendar-importer.c:507
+#: ../calendar/importers/icalendar-importer.c:946
 msgid "Opening calendar"
 msgstr "Apertura del calendario"
 
-#: ../calendar/importers/icalendar-importer.c:654
+#: ../calendar/importers/icalendar-importer.c:655
 msgid "iCalendar files (.ics)"
 msgstr "Archivos iCalendar (.ics)"
 
-#: ../calendar/importers/icalendar-importer.c:655
+#: ../calendar/importers/icalendar-importer.c:656
 msgid "Evolution iCalendar importer"
 msgstr "Importador de iCalendar de Evolution"
 
-#: ../calendar/importers/icalendar-importer.c:747
+#: ../calendar/importers/icalendar-importer.c:748
 msgid "Reminder!"
 msgstr "¡Recuerde!"
 
-#: ../calendar/importers/icalendar-importer.c:831
+#: ../calendar/importers/icalendar-importer.c:832
 msgid "vCalendar files (.vcs)"
 msgstr "Archivos vCalendar (.vcs)"
 
-#: ../calendar/importers/icalendar-importer.c:832
+#: ../calendar/importers/icalendar-importer.c:833
 msgid "Evolution vCalendar importer"
 msgstr "Importador de vCalendar de Evolution"
 
-#: ../calendar/importers/icalendar-importer.c:1109
+#: ../calendar/importers/icalendar-importer.c:1110
 msgid "Calendar Events"
 msgstr "Acontecimientos de calendario"
 
-#: ../calendar/importers/icalendar-importer.c:1152
+#: ../calendar/importers/icalendar-importer.c:1153
 msgid "GNOME Calendar"
 msgstr "Calendario de GNOME"
 
-#: ../calendar/importers/icalendar-importer.c:1153
+#: ../calendar/importers/icalendar-importer.c:1154
 msgid "Evolution Calendar intelligent importer"
 msgstr "Importador inteligente del calendario de Evolution"
 
-#: ../calendar/importers/icalendar-importer.c:1224
-#: ../calendar/importers/icalendar-importer.c:1538
+#: ../calendar/importers/icalendar-importer.c:1225
+#: ../calendar/importers/icalendar-importer.c:1539
 msgctxt "iCalImp"
 msgid "Meeting"
 msgstr "Reunión"
 
-#: ../calendar/importers/icalendar-importer.c:1224
-#: ../calendar/importers/icalendar-importer.c:1538
+#: ../calendar/importers/icalendar-importer.c:1225
+#: ../calendar/importers/icalendar-importer.c:1539
 msgctxt "iCalImp"
 msgid "Event"
 msgstr "Acontecimiento"
 
-#: ../calendar/importers/icalendar-importer.c:1227
-#: ../calendar/importers/icalendar-importer.c:1539
+#: ../calendar/importers/icalendar-importer.c:1228
+#: ../calendar/importers/icalendar-importer.c:1540
 msgctxt "iCalImp"
 msgid "Task"
 msgstr "Tarea"
 
-#: ../calendar/importers/icalendar-importer.c:1230
-#: ../calendar/importers/icalendar-importer.c:1540
+#: ../calendar/importers/icalendar-importer.c:1231
+#: ../calendar/importers/icalendar-importer.c:1541
 msgctxt "iCalImp"
 msgid "Memo"
 msgstr "Nota"
 
-#: ../calendar/importers/icalendar-importer.c:1239
+#: ../calendar/importers/icalendar-importer.c:1240
 msgctxt "iCalImp"
 msgid "has recurrences"
 msgstr "tiene repeticiones"
 
-#: ../calendar/importers/icalendar-importer.c:1244
+#: ../calendar/importers/icalendar-importer.c:1245
 msgctxt "iCalImp"
 msgid "is an instance"
 msgstr "es una instancia"
 
-#: ../calendar/importers/icalendar-importer.c:1249
+#: ../calendar/importers/icalendar-importer.c:1250
 msgctxt "iCalImp"
 msgid "has reminders"
 msgstr "tiene recordatorios"
 
-#: ../calendar/importers/icalendar-importer.c:1254
+#: ../calendar/importers/icalendar-importer.c:1255
 msgctxt "iCalImp"
 msgid "has attachments"
 msgstr "tiene adjuntos"
 
 #. Translators: Appointment's classification
-#: ../calendar/importers/icalendar-importer.c:1267
+#: ../calendar/importers/icalendar-importer.c:1268
 msgctxt "iCalImp"
 msgid "Public"
 msgstr "Pública"
 
 #. Translators: Appointment's classification
-#: ../calendar/importers/icalendar-importer.c:1270
+#: ../calendar/importers/icalendar-importer.c:1271
 msgctxt "iCalImp"
 msgid "Private"
 msgstr "Privado"
 
 #. Translators: Appointment's classification
-#: ../calendar/importers/icalendar-importer.c:1273
+#: ../calendar/importers/icalendar-importer.c:1274
 msgctxt "iCalImp"
 msgid "Confidential"
 msgstr "Confidencial"
 
 #. Translators: Appointment's classification section name
-#: ../calendar/importers/icalendar-importer.c:1277
+#: ../calendar/importers/icalendar-importer.c:1278
 msgctxt "iCalImp"
 msgid "Classification"
 msgstr "Clasificación"
 
 #. Translators: Appointment's summary
-#: ../calendar/importers/icalendar-importer.c:1282
-#: ../calendar/importers/icalendar-importer.c:1582
+#: ../calendar/importers/icalendar-importer.c:1283
+#: ../calendar/importers/icalendar-importer.c:1583
 msgctxt "iCalImp"
 msgid "Summary"
 msgstr "Resumen"
 
 #. Translators: Appointment's location
-#: ../calendar/importers/icalendar-importer.c:1288
+#: ../calendar/importers/icalendar-importer.c:1289
 msgctxt "iCalImp"
 msgid "Location"
 msgstr "Lugar"
 
 #. Translators: Appointment's start time
-#: ../calendar/importers/icalendar-importer.c:1296
-#: ../calendar/importers/icalendar-importer.c:1577
+#: ../calendar/importers/icalendar-importer.c:1297
+#: ../calendar/importers/icalendar-importer.c:1578
 msgctxt "iCalImp"
 msgid "Start"
 msgstr "Empieza"
 
 #. Translators: 'Due' like the time due a task should be finished
-#: ../calendar/importers/icalendar-importer.c:1307
+#: ../calendar/importers/icalendar-importer.c:1308
 msgctxt "iCalImp"
 msgid "Due"
 msgstr "Vence"
 
 #. Translators: Appointment's end time
-#: ../calendar/importers/icalendar-importer.c:1319
+#: ../calendar/importers/icalendar-importer.c:1320
 msgctxt "iCalImp"
 msgid "End"
 msgstr "Termina"
 
 #. Translators: Appointment's categories
-#: ../calendar/importers/icalendar-importer.c:1329
+#: ../calendar/importers/icalendar-importer.c:1330
 msgctxt "iCalImp"
 msgid "Categories"
 msgstr "Categorías"
 
 #. Translators: Appointment's complete value (either percentage, or a date/time of a completion)
-#: ../calendar/importers/icalendar-importer.c:1353
+#: ../calendar/importers/icalendar-importer.c:1354
 msgctxt "iCalImp"
 msgid "Completed"
 msgstr "Completada"
 
 #. Translators: Appointment's URL
-#: ../calendar/importers/icalendar-importer.c:1361
+#: ../calendar/importers/icalendar-importer.c:1362
 msgctxt "iCalImp"
 msgid "URL"
 msgstr "URL"
 
 #. Translators: Appointment's organizer
-#: ../calendar/importers/icalendar-importer.c:1372
-#: ../calendar/importers/icalendar-importer.c:1375
+#: ../calendar/importers/icalendar-importer.c:1373
+#: ../calendar/importers/icalendar-importer.c:1376
 msgctxt "iCalImp"
 msgid "Organizer"
 msgstr "Organizador"
 
 #. Translators: Appointment's attendees
-#: ../calendar/importers/icalendar-importer.c:1395
-#: ../calendar/importers/icalendar-importer.c:1398
+#: ../calendar/importers/icalendar-importer.c:1396
+#: ../calendar/importers/icalendar-importer.c:1399
 msgctxt "iCalImp"
 msgid "Attendees"
 msgstr "Participantes"
 
-#: ../calendar/importers/icalendar-importer.c:1412
+#: ../calendar/importers/icalendar-importer.c:1413
 msgctxt "iCalImp"
 msgid "Description"
 msgstr "Descripción"
 
-#: ../calendar/importers/icalendar-importer.c:1572
+#: ../calendar/importers/icalendar-importer.c:1573
 msgctxt "iCalImp"
 msgid "Type"
 msgstr "Tipo"
@@ -10748,18 +10748,32 @@ msgid "Flag that enables a much simplified user interface."
 msgstr "Opción que activa una interfaz mucho más simple."
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:13
+#| msgid "Zoom large images to not be wider than the window width"
+msgid "List of button names to hide in the window switcher"
+msgstr ""
+"Lista de nombres de botones que ocultar en el intercambiador de ventanas"
+
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:14
+msgid ""
+"Valid values are 'mail', 'addressbook', 'calendar', 'tasks' and 'memos'. "
+"Change of this requires restart of the application."
+msgstr ""
+"Los valores válidos son: «mail», «addressbook», «calendar», «tasks» y "
+"«memos». Cambiar esto requiere reiniciar la aplicación."
+
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:15
 msgid "Window buttons are visible"
 msgstr "Los botones de la ventana son visibles"
 
-#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:14
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:16
 msgid "Whether the window buttons should be visible."
 msgstr "Indica si la los botones de la ventana deben ser visibles."
 
-#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:15
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:17
 msgid "Window button style"
 msgstr "Estilo de los botones de ventana"
 
-#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:16
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:18
 msgid ""
 "The style of the window buttons. Can be \"text\", \"icons\", \"both\", "
 "\"toolbar\". If \"toolbar\" is set, the style of the buttons is determined "
@@ -10769,39 +10783,39 @@ msgstr ""
 "\", \"toolbar\". Si se selecciona \"toolbar\", el estilo de los botones se "
 "determina por la configuración de la barra de herramientas de GNOME."
 
-#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:17
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:19
 msgid "Toolbar is visible"
 msgstr "La barra de herramientas es visible"
 
-#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:18
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:20
 msgid "Whether the toolbar should be visible."
 msgstr "Indica si la barra de herramientas debe ser visible."
 
-#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:19
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:21
 msgid "Sidebar is visible"
 msgstr "La barra lateral es visible"
 
-#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:20
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:22
 msgid "Whether the sidebar should be visible."
 msgstr "Indica si la barra lateral debe ser visible."
 
-#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:21
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:23
 msgid "Statusbar is visible"
 msgstr "La barra de estado es visible"
 
-#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:22
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:24
 msgid "Whether the status bar should be visible."
 msgstr "Indica si la barra de estado debe ser visible."
 
-#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:23
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:25
 msgid "ID or alias of the component to be shown by default at start-up."
 msgstr "Id o alias del componente que se mostrará al iniciar."
 
-#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:24
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:26
 msgid "Default sidebar width"
 msgstr "Anchura predeterminada de la barra lateral"
 
-#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:25
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:27
 msgid "The default width for the sidebar, in pixels."
 msgstr "La anchura predeterminada para la barra lateral, en píxeles."
 
@@ -13983,7 +13997,6 @@ msgid "Name:"
 msgstr "Nombre:"
 
 #: ../e-util/e-source-config.c:813
-#| msgid "One or more values cannot be empty."
 msgid "Name cannot be empty"
 msgstr "El nombre no puede estar vacío"
 
@@ -15389,28 +15402,23 @@ msgstr ""
 "correo-e introducida."
 
 #: ../mail/e-mail-config-identity-page.c:611
-#| msgid "One or more values cannot be empty."
 msgid "Full Name cannot be empty"
 msgstr "El nombre completo no puede estar vacío"
 
 #: ../mail/e-mail-config-identity-page.c:618
-#| msgid "One or more values cannot be empty."
 msgid "Email Address cannot be empty"
 msgstr "La dirección de correo-e no puede estar vacía"
 
 #: ../mail/e-mail-config-identity-page.c:623
-#| msgid "End date is not a valid date"
 msgid "Email Address is not a valid email"
 msgstr "La dirección de correo-e no es válida"
 
 #: ../mail/e-mail-config-identity-page.c:635
-#| msgid "Due date is not a valid date"
 msgid "Reply To is not a valid email"
 msgstr "El campo Responder a no es una dirección de correo-e válida"
 
 #: ../mail/e-mail-config-identity-page.c:646
 #: ../mail/e-mail-config-summary-page.c:632
-#| msgid "One or more values cannot be empty."
 msgid "Account Name cannot be empty"
 msgstr "El nombre de la cuenta no puede estar vacío"
 
@@ -15814,11 +15822,11 @@ msgstr "Nombre de la cabecera"
 msgid "Header Value"
 msgstr "Valor de la cabecera"
 
-#: ../mail/e-mail-printer.c:126 ../mail/mail-config.ui.h:123
+#: ../mail/e-mail-printer.c:113 ../mail/mail-config.ui.h:123
 msgid "Headers"
 msgstr "Cabeceras"
 
-#: ../mail/e-mail-printer.c:168
+#: ../mail/e-mail-printer.c:155
 #, c-format
 msgid "Page %d of %d"
 msgstr "Página %d de %d"
@@ -19625,7 +19633,6 @@ msgstr "Filtro de spam usando Bogofilter"
 #: ../modules/cal-config-google/e-cal-config-gtasks.c:117
 #: ../modules/mail-config/e-mail-config-remote-accounts.c:361
 #: ../modules/mail-config/e-mail-config-smtp-backend.c:396
-#| msgid "One or more values cannot be empty."
 msgid "User name cannot be empty"
 msgstr "El nombre de usuario no puede estar vacío"
 
@@ -19662,7 +19669,6 @@ msgstr "Puerto:"
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:619
 #: ../modules/mail-config/e-mail-config-remote-accounts.c:185
 #: ../modules/mail-config/e-mail-config-smtp-backend.c:140
-#| msgid "Start time is not a valid time"
 msgid "Port number is not valid"
 msgstr "El número de puerto no es válido"
 
@@ -19771,7 +19777,6 @@ msgstr "Examinar hasta llegar al final"
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:978
 #: ../modules/mail-config/e-mail-config-remote-accounts.c:342
 #: ../modules/mail-config/e-mail-config-smtp-backend.c:378
-#| msgid "One or more values cannot be empty."
 msgid "Server address cannot be empty"
 msgstr "La dirección del servidor no puede estar vacía"
 
@@ -19891,7 +19896,6 @@ msgid "Units:"
 msgstr "Unidades:"
 
 #: ../modules/cal-config-weather/evolution-cal-config-weather.c:321
-#| msgid "One or more values cannot be empty."
 msgid "Location cannot be empty"
 msgstr "La ubicación no puede estar vacía"
 
@@ -21776,7 +21780,6 @@ msgid "Choose a MH mail directory"
 msgstr "Elegir una carpeta de correo MH"
 
 #: ../modules/mail-config/e-mail-config-local-accounts.c:270
-#| msgid "One or more values cannot be empty."
 msgid "MH mail directory cannot be empty"
 msgstr "La carpeta de correo MH no puede estar vacía"
 
@@ -21789,7 +21792,6 @@ msgid "Choose a local delivery file"
 msgstr "Elegir un archivo de entrega local"
 
 #: ../modules/mail-config/e-mail-config-local-accounts.c:294
-#| msgid "One or more values cannot be empty."
 msgid "Local delivery file cannot be empty"
 msgstr "El archivo de entrega local no puede estar vacío"
 
@@ -21798,7 +21800,6 @@ msgid "Choose a Maildir mail directory"
 msgstr "Elegir una carpeta de correo Maildir"
 
 #: ../modules/mail-config/e-mail-config-local-accounts.c:318
-#| msgid "Choose a Maildir mail directory"
 msgid "Maildir mail directory cannot be empty"
 msgstr "La carpeta de correo Maildir no puede estar vacía"
 
@@ -21811,7 +21812,6 @@ msgid "Choose a mbox spool file"
 msgstr "Elegir un archivo de cola de correo mbox"
 
 #: ../modules/mail-config/e-mail-config-local-accounts.c:342
-#| msgid "One or more values cannot be empty."
 msgid "Mbox spool file cannot be empty"
 msgstr "El archivo de cola de correo mbox no puede estar vacío"
 
@@ -21897,7 +21897,6 @@ msgid "Send mail also when in offline _mode"
 msgstr "Enviar correo incluso en _modo desconectado"
 
 #: ../modules/mail-config/e-mail-config-sendmail-backend.c:210
-#| msgid "One or more values cannot be empty."
 msgid "Custom binary cannot be empty"
 msgstr "El binario personalizado no puede estar vacío"
 
@@ -23663,17 +23662,19 @@ msgstr "Crear una reunión nueva del mensaje seleccionado"
 msgid "Convert a mail message to a task."
 msgstr "Convertir el mensaje de correo en una tarea."
 
+#: ../plugins/pst-import/evolution-pst.metainfo.xml.in.h:1
 #: ../plugins/pst-import/org-gnome-pst-import.eplug.xml.h:1
 msgid "Outlook PST import"
 msgstr "Importador PST de Outlook"
 
-#: ../plugins/pst-import/org-gnome-pst-import.eplug.xml.h:2
-msgid "Outlook personal folders (.pst)"
-msgstr "Carpetas personales de Outlook (.pst)"
-
+#: ../plugins/pst-import/evolution-pst.metainfo.xml.in.h:2
 #: ../plugins/pst-import/org-gnome-pst-import.eplug.xml.h:3
 msgid "Import Outlook messages from PST file"
 msgstr "Importar mensajes de Outlook desde un archivo PST"
+
+#: ../plugins/pst-import/org-gnome-pst-import.eplug.xml.h:2
+msgid "Outlook personal folders (.pst)"
+msgstr "Carpetas personales de Outlook (.pst)"
 
 #: ../plugins/pst-import/pst-importer.c:526
 msgid "_Mail"
