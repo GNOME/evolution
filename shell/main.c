@@ -68,10 +68,6 @@
 #include <sys/stat.h>
 #include <unistd.h>
 
-#ifdef HAVE_ICAL_UNKNOWN_TOKEN_HANDLING
-#include <libical/ical.h>
-#endif
-
 #include "e-util/e-util.h"
 
 #define APPLICATION_ID "org.gnome.Evolution"
@@ -487,6 +483,10 @@ main (gint argc,
 
 #ifdef HAVE_ICAL_UNKNOWN_TOKEN_HANDLING
 	ical_set_unknown_token_handling_setting (ICAL_DISCARD_TOKEN);
+#endif
+
+#ifdef HAVE_ICALTZUTIL_SET_EXACT_VTIMEZONES_SUPPORT
+	icaltzutil_set_exact_vtimezones_support (0);
 #endif
 
 #ifdef G_OS_WIN32

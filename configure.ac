@@ -1168,6 +1168,20 @@ LIBS=$save_libs
 AC_MSG_RESULT([$ac_cv_have_iuth])
 
 dnl ****************************
+dnl Check for icaltzutil_set_exact_vtimezones_support function
+dnl ****************************
+AC_MSG_CHECKING([icaltzutil_set_exact_vtimezones_support function])
+save_cflags=$CFLAGS; CFLAGS="$EVOLUTION_DATA_SERVER_CFLAGS"
+save_libs=$LIBS; LIBS="$EVOLUTION_DATA_SERVER_LIBS"
+AC_LINK_IFELSE([AC_LANG_PROGRAM(
+	[[#include <libical/ical.h>]],
+	[[icaltzutil_set_exact_vtimezones_support (0)]])],
+	[AC_DEFINE(HAVE_ICALTZUTIL_SET_EXACT_VTIMEZONES_SUPPORT, 1, [libical provides icaltzutil_set_exact_vtimezones_support function]) ac_cv_have_isevs=yes],[ac_cv_have_isevs=no])
+CFLAGS=$save_cflags
+LIBS=$save_libs
+AC_MSG_RESULT([$ac_cv_have_isevs])
+
+dnl ****************************
 dnl Check for gtkspell
 dnl ****************************
 AC_ARG_ENABLE([gtkspell],
