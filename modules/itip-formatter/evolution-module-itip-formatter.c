@@ -29,32 +29,9 @@ const gchar * g_module_check_init (GModule *module);
 G_MODULE_EXPORT void
 e_module_load (GTypeModule *type_module)
 {
-	GSettings *settings;
-	gchar **disabled_plugins;
-	gint i = 0;
-
-	settings = e_util_ref_settings ("org.gnome.evolution");
-	disabled_plugins = g_settings_get_strv (settings, "disabled-eplugins");
-
-	for (i = 0; disabled_plugins && disabled_plugins[i] != NULL; i++) {
-
-		if (g_strcmp0 (
-			disabled_plugins[i],
-			"org.gnome.evolution.itip_formatter") == 0) {
-
-			g_strfreev (disabled_plugins);
-			g_object_unref (settings);
-			return;
-		}
-
-	}
-
 	e_mail_part_itip_type_register (type_module);
 	e_mail_parser_itip_type_register (type_module);
 	e_mail_formatter_itip_type_register (type_module);
-
-	g_strfreev (disabled_plugins);
-	g_object_unref (settings);
 }
 
 G_MODULE_EXPORT void
