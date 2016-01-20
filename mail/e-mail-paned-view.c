@@ -163,7 +163,8 @@ mail_paned_view_message_list_built_cb (EMailView *view,
 
 		g_free (folder_uri);
 
-		if (!message_list_contains_uid (message_list, uid))
+		if (!message_list_contains_uid (message_list, uid) &&
+		    e_mail_reader_get_mark_seen_always (E_MAIL_READER (view)))
 			e_mail_reader_unset_folder_just_selected (E_MAIL_READER (view));
 
 		/* Use selection fallbacks if UID is not found. */
