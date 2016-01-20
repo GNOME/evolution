@@ -1624,8 +1624,6 @@ msg_composer_subject_changed_cb (EMsgComposer *composer)
 static void
 msg_composer_mail_identity_changed_cb (EMsgComposer *composer)
 {
-	EHTMLEditor *editor;
-	EHTMLEditorView *view;
 	EMailSignatureComboBox *combo_box;
 	ESourceMailComposition *mc;
 	ESourceOpenPGP *pgp;
@@ -1639,7 +1637,6 @@ msg_composer_mail_identity_changed_cb (EMsgComposer *composer)
 	gboolean pgp_encrypt;
 	gboolean smime_sign;
 	gboolean smime_encrypt;
-	gboolean is_message_from_edit_as_new;
 	const gchar *extension_name;
 	const gchar *uid, *active_signature_id;
 
@@ -1673,32 +1670,23 @@ msg_composer_mail_identity_changed_cb (EMsgComposer *composer)
 			composer->priv->mime_type,
 			"text/calendar", 13) != 0);
 
-	editor = e_msg_composer_get_editor (composer);
-	view = e_html_editor_get_view (editor);
-	is_message_from_edit_as_new =
-		e_html_editor_view_is_message_from_edit_as_new (view);
-
 	action = GTK_TOGGLE_ACTION (ACTION (PGP_SIGN));
 	active = gtk_toggle_action_get_active (action);
-	active &= is_message_from_edit_as_new;
 	active |= (can_sign && pgp_sign);
 	gtk_toggle_action_set_active (action, active);
 
 	action = GTK_TOGGLE_ACTION (ACTION (PGP_ENCRYPT));
 	active = gtk_toggle_action_get_active (action);
-	active &= is_message_from_edit_as_new;
 	active |= pgp_encrypt;
 	gtk_toggle_action_set_active (action, active);
 
 	action = GTK_TOGGLE_ACTION (ACTION (SMIME_SIGN));
 	active = gtk_toggle_action_get_active (action);
-	active &= is_message_from_edit_as_new;
 	active |= (can_sign && smime_sign);
 	gtk_toggle_action_set_active (action, active);
 
 	action = GTK_TOGGLE_ACTION (ACTION (SMIME_ENCRYPT));
 	active = gtk_toggle_action_get_active (action);
-	active &= is_message_from_edit_as_new;
 	active |= smime_encrypt;
 	gtk_toggle_action_set_active (action, active);
 
