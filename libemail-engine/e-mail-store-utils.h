@@ -78,6 +78,17 @@ gboolean	e_mail_store_prepare_for_offline_finish
 						 GAsyncResult *result,
 						 GError **error);
 
+gboolean	e_mail_store_save_initial_setup_sync
+						(CamelStore *store,
+						 GHashTable *save_setup,
+						 ESource *collection_source,
+						 ESource *account_source,
+						 ESource *submission_source,
+						 ESource *transport_source,
+						 gboolean write_sources,
+						 GCancellable *cancellable,
+						 GError **error);
+
 G_END_DECLS
 
 #endif /* E_MAIL_STORE_UTILS_H */

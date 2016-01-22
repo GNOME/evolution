@@ -61,11 +61,14 @@ GType		e_mail_config_notebook_get_type
 					(void) G_GNUC_CONST;
 GtkWidget *	e_mail_config_notebook_new
 					(EMailSession *session,
+					 ESource *original_source,
 					 ESource *account_source,
 					 ESource *identity_source,
 					 ESource *transport_source,
 					 ESource *collection_source);
 EMailSession *	e_mail_config_notebook_get_session
+					(EMailConfigNotebook *notebook);
+ESource *	e_mail_config_notebook_get_original_source
 					(EMailConfigNotebook *notebook);
 ESource *	e_mail_config_notebook_get_account_source
 					(EMailConfigNotebook *notebook);

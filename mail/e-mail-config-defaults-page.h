@@ -22,6 +22,7 @@
 #include <libemail-engine/libemail-engine.h>
 
 #include <mail/e-mail-config-page.h>
+#include <mail/e-mail-config-activity-page.h>
 
 /* Standard GObject macros */
 #define E_TYPE_MAIL_CONFIG_DEFAULTS_PAGE \
@@ -51,25 +52,34 @@ typedef struct _EMailConfigDefaultsPageClass EMailConfigDefaultsPageClass;
 typedef struct _EMailConfigDefaultsPagePrivate EMailConfigDefaultsPagePrivate;
 
 struct _EMailConfigDefaultsPage {
-	GtkBox parent;
+	EMailConfigActivityPage parent;
 	EMailConfigDefaultsPagePrivate *priv;
 };
 
 struct _EMailConfigDefaultsPageClass {
-	GtkBoxClass parent_class;
+	EMailConfigActivityPageClass parent_class;
 };
 
 GType		e_mail_config_defaults_page_get_type
 						(void) G_GNUC_CONST;
 EMailConfigPage *
 		e_mail_config_defaults_page_new	(EMailSession *session,
+						 ESource *original_source,
+						 ESource *collection_source,
 						 ESource *account_source,
-						 ESource *identity_source);
+						 ESource *identity_source,
+						 ESource *transport_source);
 EMailSession *	e_mail_config_defaults_page_get_session
 						(EMailConfigDefaultsPage *page);
 ESource *	e_mail_config_defaults_page_get_account_source
 						(EMailConfigDefaultsPage *page);
+ESource *	e_mail_config_defaults_page_get_collection_source
+						(EMailConfigDefaultsPage *page);
 ESource *	e_mail_config_defaults_page_get_identity_source
+						(EMailConfigDefaultsPage *page);
+ESource *	e_mail_config_defaults_page_get_original_source
+						(EMailConfigDefaultsPage *page);
+ESource *	e_mail_config_defaults_page_get_transport_source
 						(EMailConfigDefaultsPage *page);
 
 G_END_DECLS

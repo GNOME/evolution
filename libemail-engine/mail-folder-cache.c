@@ -1772,6 +1772,163 @@ mail_folder_cache_ref_main_context (MailFolderCache *cache)
 	return g_main_context_ref (cache->priv->main_context);
 }
 
+static ESource *
+mail_folder_cache_ref_related_source (ESourceRegistry *registry,
+				      ESource *account_source,
+				      ESource *collection_source,
+				      const gchar *extension_name)
+{
+	ESource *found_source = NULL;
+	GList *sources, *link;
+	const gchar *parent1, *parent2;
+
+	g_return_val_if_fail (E_IS_SOURCE_REGISTRY (registry), NULL);
+	g_return_val_if_fail (E_IS_SOURCE (account_source), NULL);
+	if (collection_source)
+		g_return_val_if_fail (E_IS_SOURCE (collection_source), NULL);
+	g_return_val_if_fail (extension_name != NULL, NULL);
+
+	parent1 = e_source_get_uid (account_source);
+	parent2 = collection_source ? e_source_get_uid (collection_source) : NULL;
+
+	sources = e_source_registry_list_sources (registry, extension_name);
+	for (link = sources; link; link = g_list_next (link)) {
+		ESource *source = link->data;
+		const gchar *parent;
+
+		if (!source)
+			continue;
+
+		parent = e_source_get_parent (source);
+		if (!parent)
+			continue;
+
+		if (g_strcmp0 (parent, parent1) == 0 ||
+		    g_strcmp0 (parent, parent2) == 0) {
+			found_source = g_object_ref (source);
+			break;
+		}
+	}
+
+	g_list_free_full (sources, g_object_unref);
+
+	return found_source;
+}
+
+static gboolean
+mail_folder_cache_store_save_setup_sync (CamelService *service,
+					 ESourceRegistry *registry,
+					 ESource *account_source,
+					 GHashTable *save_setup,
+					 GCancellable *cancellable,
+					 GError **error)
+{
+	ESource *collection_source = NULL;
+	ESource *submission_source = NULL;
+	ESource *transport_source = NULL;
+	gboolean success = TRUE;
+
+	/* The sources are either:
+		Account
+		 - Submission
+		 - Transport
+	or
+		Collection
+		 - Account
+		 - Submission
+		 - Transport
+	*/
+
+	g_return_val_if_fail (CAMEL_IS_STORE (service), FALSE);
+	g_return_val_if_fail (E_IS_SOURCE_REGISTRY (registry), FALSE);
+	g_return_val_if_fail (E_IS_SOURCE (account_source), FALSE);
+	g_return_val_if_fail (save_setup != NULL, FALSE);
+
+	if (!g_hash_table_size (save_setup))
+		return TRUE;
+
+	if (e_source_get_parent (account_source)) {
+		collection_source = e_source_registry_ref_source (registry, e_source_get_parent (account_source));
+		if (!collection_source || !e_source_has_extension (collection_source, E_SOURCE_EXTENSION_COLLECTION)) {
+			g_clear_object (&collection_source);
+		}
+	}
+
+	submission_source = mail_folder_cache_ref_related_source (registry, account_source,
+		collection_source, E_SOURCE_EXTENSION_MAIL_SUBMISSION);
+	transport_source = mail_folder_cache_ref_related_source (registry, account_source,
+		collection_source, E_SOURCE_EXTENSION_MAIL_TRANSPORT);
+
+	success = e_mail_store_save_initial_setup_sync (CAMEL_STORE (service), save_setup,
+		collection_source, account_source, submission_source, transport_source,
+		TRUE, cancellable, error);
+
+	g_clear_object (&collection_source);
+	g_clear_object (&submission_source);
+	g_clear_object (&transport_source);
+
+	return success;
+}
+
+static gboolean
+mail_folder_cache_maybe_run_initial_setup_sync (CamelService *service,
+						GCancellable *cancellable,
+						GError **error)
+{
+	CamelSession *session;
+	ESourceRegistry *registry;
+	ESource *source;
+	ESourceMailAccount *mail_account;
+	gboolean success = TRUE;
+
+	g_return_val_if_fail (CAMEL_IS_STORE (service), FALSE);
+
+	session = camel_service_ref_session (service);
+
+	/* It can be NULL, in some corner cases, thus do not consider it a problem */
+	if (!session)
+		return TRUE;
+
+	g_return_val_if_fail (E_IS_MAIL_SESSION (session), FALSE);
+
+	registry = e_mail_session_get_registry (E_MAIL_SESSION (session));
+	source = e_source_registry_ref_source (registry, camel_service_get_uid (service));
+
+	if (source) {
+		mail_account = e_source_get_extension (source, E_SOURCE_EXTENSION_MAIL_ACCOUNT);
+		if (e_source_mail_account_get_needs_initial_setup (mail_account)) {
+			CamelStore *store = CAMEL_STORE (service);
+			GHashTable *save_setup = NULL;
+
+			/* The store doesn't support the function, thus silently pretend success.
+			   Still update the ESource flag, in case the store would implement
+			   the function in the future. */
+			if (!(store->flags & CAMEL_STORE_SUPPORTS_INITIAL_SETUP))
+				success = TRUE;
+			else
+				success = camel_store_initial_setup_sync (store, &save_setup, cancellable, error);
+
+			if (success) {
+				e_source_mail_account_set_needs_initial_setup (mail_account, FALSE);
+
+				if (save_setup)
+					success = mail_folder_cache_store_save_setup_sync (service, registry, source, save_setup, cancellable, error);
+
+				if (success && e_source_get_writable (source))
+					success = e_source_write_sync (source, cancellable, error);
+			}
+
+			if (save_setup)
+				g_hash_table_destroy (save_setup);
+		}
+	}
+
+	g_clear_object (&session);
+	g_clear_object (&source);
+
+	return success;
+}
+
 /* Helper for mail_folder_cache_note_store() */
 static void
 mail_folder_cache_first_update (MailFolderCache *cache,
@@ -1865,6 +2022,11 @@ mail_folder_cache_note_store_thread (GSimpleAsyncResult *simple,
 					simple, local_error);
 				goto exit;
 			}
+		}
+
+		if (!mail_folder_cache_maybe_run_initial_setup_sync (service, cancellable, &local_error)) {
+			g_simple_async_result_take_error (simple, local_error);
+			goto exit;
 		}
 	}
 
