@@ -15,15 +15,18 @@
  *
  */
 
-#include "e-mail-config-defaults-page.h"
-
 #include <config.h>
 #include <glib/gi18n-lib.h>
 
 #include <libebackend/libebackend.h>
 
-#include <mail/e-mail-config-page.h>
-#include <mail/em-folder-selection-button.h>
+#include "libemail-engine/libemail-engine.h"
+
+#include "e-mail-config-page.h"
+#include "e-mail-config-activity-page.h"
+#include "em-folder-selection-button.h"
+
+#include "e-mail-config-defaults-page.h"
 
 #define E_MAIL_CONFIG_DEFAULTS_PAGE_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -32,7 +35,10 @@
 struct _EMailConfigDefaultsPagePrivate {
 	EMailSession *session;
 	ESource *account_source;
+	ESource *collection_source;
 	ESource *identity_source;
+	ESource *original_source;
+	ESource *transport_source;
 
 	GtkWidget *drafts_button;  /* not referenced */
 	GtkWidget *sent_button;    /* not referenced */
@@ -45,7 +51,10 @@ struct _EMailConfigDefaultsPagePrivate {
 enum {
 	PROP_0,
 	PROP_ACCOUNT_SOURCE,
+	PROP_COLLECTION_SOURCE,
 	PROP_IDENTITY_SOURCE,
+	PROP_ORIGINAL_SOURCE,
+	PROP_TRANSPORT_SOURCE,
 	PROP_SESSION
 };
 
@@ -56,7 +65,7 @@ static void	e_mail_config_defaults_page_interface_init
 G_DEFINE_TYPE_WITH_CODE (
 	EMailConfigDefaultsPage,
 	e_mail_config_defaults_page,
-	GTK_TYPE_BOX,
+	E_TYPE_MAIL_CONFIG_ACTIVITY_PAGE,
 	G_IMPLEMENT_INTERFACE (
 		E_TYPE_EXTENSIBLE, NULL)
 	G_IMPLEMENT_INTERFACE (
@@ -276,6 +285,105 @@ mail_config_defaults_page_restore_folders (EMailConfigDefaultsPage *page)
 	}
 }
 
+typedef struct _AsyncContext
+{
+	EActivity *activity;
+	EMailConfigDefaultsPage *page;
+	GtkWidget *button;
+} AsyncContext;
+
+static void
+async_context_free (AsyncContext *async_context)
+{
+	if (async_context) {
+		g_clear_object (&async_context->activity);
+		g_clear_object (&async_context->page);
+		g_clear_object (&async_context->button);
+
+		g_slice_free (AsyncContext, async_context);
+	}
+}
+
+static void
+mail_config_defaults_initial_setup_done_cb (GObject *source_object,
+					    GAsyncResult *result,
+					    gpointer user_data)
+{
+	AsyncContext *async_context = user_data;
+	CamelStore *store = CAMEL_STORE (source_object);
+	EAlertSink *alert_sink;
+	GHashTable *save_setup = NULL;
+	GError *error = NULL;
+
+	alert_sink = e_activity_get_alert_sink (async_context->activity);
+
+	camel_store_initial_setup_finish (store, result, &save_setup, &error);
+
+	if (e_activity_handle_cancellation (async_context->activity, error)) {
+		g_warn_if_fail (save_setup == NULL);
+		g_error_free (error);
+
+	} else if (error != NULL) {
+		g_warn_if_fail (save_setup == NULL);
+		e_alert_submit (
+			alert_sink,
+			"mail:initial-setup-error",
+			error->message, NULL);
+		g_error_free (error);
+
+	} else if (save_setup) {
+		e_mail_store_save_initial_setup_sync (store, save_setup,
+			async_context->page->priv->collection_source,
+			async_context->page->priv->account_source,
+			async_context->page->priv->identity_source,
+			async_context->page->priv->transport_source,
+			FALSE, NULL, NULL);
+
+		g_hash_table_destroy (save_setup);
+	}
+
+	gtk_widget_set_sensitive (async_context->button, TRUE);
+
+	async_context_free (async_context);
+}
+
+static void
+mail_config_defaults_page_autodetect_folders_cb (EMailConfigDefaultsPage *page,
+						 GtkWidget *button)
+{
+	CamelService *service;
+	EActivity *activity;
+	AsyncContext *async_context;
+	GCancellable *cancellable;
+
+	g_return_if_fail (E_IS_MAIL_CONFIG_DEFAULTS_PAGE (page));
+
+	service = camel_session_ref_service (CAMEL_SESSION (page->priv->session), e_source_get_uid (page->priv->original_source));
+
+	if (!service || !CAMEL_IS_STORE (service)) {
+		g_clear_object (&service);
+		return;
+	}
+
+	activity = e_mail_config_activity_page_new_activity (E_MAIL_CONFIG_ACTIVITY_PAGE (page));
+
+	cancellable = e_activity_get_cancellable (activity);
+	e_activity_set_text (activity, _("Checking server settings..."));
+
+	gtk_widget_set_sensitive (button, FALSE);
+
+	async_context = g_slice_new (AsyncContext);
+	async_context->activity = activity;
+	async_context->page = g_object_ref (page);
+	async_context->button = g_object_ref (button);
+
+	camel_store_initial_setup (
+		CAMEL_STORE (service), G_PRIORITY_DEFAULT, cancellable,
+		mail_config_defaults_initial_setup_done_cb, async_context);
+
+	g_object_unref (service);
+}
+
 static void
 mail_config_defaults_page_restore_real_folder (GtkToggleButton *toggle_button)
 {
@@ -467,6 +575,17 @@ mail_config_defaults_page_string_to_reply_style (GBinding *binding,
 }
 
 static void
+mail_config_defaults_page_set_collection_source (EMailConfigDefaultsPage *page,
+						 ESource *collection_source)
+{
+	if (collection_source)
+		g_return_if_fail (E_IS_SOURCE (collection_source));
+	g_return_if_fail (page->priv->collection_source == NULL);
+
+	page->priv->collection_source = collection_source ? g_object_ref (collection_source) : NULL;
+}
+
+static void
 mail_config_defaults_page_set_account_source (EMailConfigDefaultsPage *page,
                                               ESource *account_source)
 {
@@ -484,6 +603,28 @@ mail_config_defaults_page_set_identity_source (EMailConfigDefaultsPage *page,
 	g_return_if_fail (page->priv->identity_source == NULL);
 
 	page->priv->identity_source = g_object_ref (identity_source);
+}
+
+static void
+mail_config_defaults_page_set_original_source (EMailConfigDefaultsPage *page,
+					       ESource *original_source)
+{
+	if (original_source)
+		g_return_if_fail (E_IS_SOURCE (original_source));
+	g_return_if_fail (page->priv->original_source == NULL);
+
+	page->priv->original_source = original_source ? g_object_ref (original_source) : NULL;
+}
+
+static void
+mail_config_defaults_page_set_transport_source (EMailConfigDefaultsPage *page,
+						ESource *transport_source)
+{
+	if (transport_source)
+		g_return_if_fail (E_IS_SOURCE (transport_source));
+	g_return_if_fail (page->priv->transport_source == NULL);
+
+	page->priv->transport_source = transport_source ? g_object_ref (transport_source) : NULL;
 }
 
 static void
@@ -509,8 +650,26 @@ mail_config_defaults_page_set_property (GObject *object,
 				g_value_get_object (value));
 			return;
 
+		case PROP_COLLECTION_SOURCE:
+			mail_config_defaults_page_set_collection_source (
+				E_MAIL_CONFIG_DEFAULTS_PAGE (object),
+				g_value_get_object (value));
+			return;
+
 		case PROP_IDENTITY_SOURCE:
 			mail_config_defaults_page_set_identity_source (
+				E_MAIL_CONFIG_DEFAULTS_PAGE (object),
+				g_value_get_object (value));
+			return;
+
+		case PROP_ORIGINAL_SOURCE:
+			mail_config_defaults_page_set_original_source (
+				E_MAIL_CONFIG_DEFAULTS_PAGE (object),
+				g_value_get_object (value));
+			return;
+
+		case PROP_TRANSPORT_SOURCE:
+			mail_config_defaults_page_set_transport_source (
 				E_MAIL_CONFIG_DEFAULTS_PAGE (object),
 				g_value_get_object (value));
 			return;
@@ -539,10 +698,31 @@ mail_config_defaults_page_get_property (GObject *object,
 				E_MAIL_CONFIG_DEFAULTS_PAGE (object)));
 			return;
 
+		case PROP_COLLECTION_SOURCE:
+			g_value_set_object (
+				value,
+				e_mail_config_defaults_page_get_collection_source (
+				E_MAIL_CONFIG_DEFAULTS_PAGE (object)));
+			return;
+
 		case PROP_IDENTITY_SOURCE:
 			g_value_set_object (
 				value,
 				e_mail_config_defaults_page_get_identity_source (
+				E_MAIL_CONFIG_DEFAULTS_PAGE (object)));
+			return;
+
+		case PROP_ORIGINAL_SOURCE:
+			g_value_set_object (
+				value,
+				e_mail_config_defaults_page_get_original_source (
+				E_MAIL_CONFIG_DEFAULTS_PAGE (object)));
+			return;
+
+		case PROP_TRANSPORT_SOURCE:
+			g_value_set_object (
+				value,
+				e_mail_config_defaults_page_get_transport_source (
 				E_MAIL_CONFIG_DEFAULTS_PAGE (object)));
 			return;
 
@@ -564,15 +744,11 @@ mail_config_defaults_page_dispose (GObject *object)
 
 	priv = E_MAIL_CONFIG_DEFAULTS_PAGE_GET_PRIVATE (object);
 
-	if (priv->identity_source != NULL) {
-		g_object_unref (priv->identity_source);
-		priv->identity_source = NULL;
-	}
-
-	if (priv->session != NULL) {
-		g_object_unref (priv->session);
-		priv->session = NULL;
-	}
+	g_clear_object (&priv->account_source);
+	g_clear_object (&priv->collection_source);
+	g_clear_object (&priv->identity_source);
+	g_clear_object (&priv->transport_source);
+	g_clear_object (&priv->session);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_mail_config_defaults_page_parent_class)->
@@ -593,6 +769,7 @@ mail_config_defaults_page_constructed (GObject *object)
 	GtkButton *button;
 	GtkWidget *widget;
 	GtkWidget *container;
+	GtkWidget *hbox;
 	GtkSizeGroup *size_group;
 	GEnumClass *enum_class;
 	GEnumValue *enum_value;
@@ -745,15 +922,40 @@ mail_config_defaults_page_constructed (GObject *object)
 		G_BINDING_BIDIRECTIONAL |
 		G_BINDING_SYNC_CREATE);
 
+	hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 4);
+	gtk_grid_attach (GTK_GRID (container), hbox, 1, 7, 1, 1);
+	gtk_widget_show (hbox);
+
 	widget = gtk_button_new_with_mnemonic (_("_Restore Defaults"));
 	gtk_widget_set_halign (widget, GTK_ALIGN_START);
-	gtk_grid_attach (GTK_GRID (container), widget, 1, 7, 1, 1);
+	gtk_box_pack_start (GTK_BOX (hbox), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 
 	g_signal_connect_swapped (
 		widget, "clicked",
 		G_CALLBACK (mail_config_defaults_page_restore_folders),
 		page);
+
+	if (page->priv->original_source) {
+		CamelService *service;
+
+		service = camel_session_ref_service (CAMEL_SESSION (session), e_source_get_uid (page->priv->original_source));
+
+		if (service && CAMEL_IS_STORE (service) &&
+		    (CAMEL_STORE (service)->flags & CAMEL_STORE_SUPPORTS_INITIAL_SETUP) != 0) {
+			widget = gtk_button_new_with_mnemonic (_("_Lookup Folders"));
+			gtk_widget_set_halign (widget, GTK_ALIGN_START);
+			gtk_box_pack_start (GTK_BOX (hbox), widget, FALSE, FALSE, 0);
+			gtk_widget_show (widget);
+
+			g_signal_connect_swapped (
+				widget, "clicked",
+				G_CALLBACK (mail_config_defaults_page_autodetect_folders_cb),
+				page);
+		}
+
+		g_clear_object (&service);
+	}
 
 	button = GTK_BUTTON (widget);
 
@@ -979,11 +1181,47 @@ e_mail_config_defaults_page_class_init (EMailConfigDefaultsPageClass *class)
 
 	g_object_class_install_property (
 		object_class,
+		PROP_COLLECTION_SOURCE,
+		g_param_spec_object (
+			"collection-source",
+			"Collection Source",
+			"Collection source being edited",
+			E_TYPE_SOURCE,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT_ONLY |
+			G_PARAM_STATIC_STRINGS));
+
+	g_object_class_install_property (
+		object_class,
 		PROP_IDENTITY_SOURCE,
 		g_param_spec_object (
 			"identity-source",
 			"Identity Source",
 			"Mail identity source being edited",
+			E_TYPE_SOURCE,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT_ONLY |
+			G_PARAM_STATIC_STRINGS));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_ORIGINAL_SOURCE,
+		g_param_spec_object (
+			"original-source",
+			"Original Source",
+			"Mail account original source being edited",
+			E_TYPE_SOURCE,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT_ONLY |
+			G_PARAM_STATIC_STRINGS));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_TRANSPORT_SOURCE,
+		g_param_spec_object (
+			"transport-source",
+			"Transport Source",
+			"Mail transport source being edited",
 			E_TYPE_SOURCE,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY |
@@ -1017,17 +1255,24 @@ e_mail_config_defaults_page_init (EMailConfigDefaultsPage *page)
 
 EMailConfigPage *
 e_mail_config_defaults_page_new (EMailSession *session,
+				 ESource *original_source,
+				 ESource *collection_source,
                                  ESource *account_source,
-                                 ESource *identity_source)
+                                 ESource *identity_source,
+				 ESource *transport_source)
 {
+	/* original, collection and transport sources are optional */
 	g_return_val_if_fail (E_IS_MAIL_SESSION (session), NULL);
 	g_return_val_if_fail (E_IS_SOURCE (account_source), NULL);
 	g_return_val_if_fail (E_IS_SOURCE (identity_source), NULL);
 
 	return g_object_new (
 		E_TYPE_MAIL_CONFIG_DEFAULTS_PAGE,
+		"collection-source", collection_source,
 		"account-source", account_source,
 		"identity-source", identity_source,
+		"original-source", original_source,
+		"transport-source", transport_source,
 		"session", session, NULL);
 }
 
@@ -1048,6 +1293,14 @@ e_mail_config_defaults_page_get_account_source (EMailConfigDefaultsPage *page)
 }
 
 ESource *
+e_mail_config_defaults_page_get_collection_source (EMailConfigDefaultsPage *page)
+{
+	g_return_val_if_fail (E_IS_MAIL_CONFIG_DEFAULTS_PAGE (page), NULL);
+
+	return page->priv->collection_source;
+}
+
+ESource *
 e_mail_config_defaults_page_get_identity_source (EMailConfigDefaultsPage *page)
 {
 	g_return_val_if_fail (E_IS_MAIL_CONFIG_DEFAULTS_PAGE (page), NULL);
@@ -1055,3 +1308,18 @@ e_mail_config_defaults_page_get_identity_source (EMailConfigDefaultsPage *page)
 	return page->priv->identity_source;
 }
 
+ESource *
+e_mail_config_defaults_page_get_original_source (EMailConfigDefaultsPage *page)
+{
+	g_return_val_if_fail (E_IS_MAIL_CONFIG_DEFAULTS_PAGE (page), NULL);
+
+	return page->priv->original_source;
+}
+
+ESource *
+e_mail_config_defaults_page_get_transport_source (EMailConfigDefaultsPage *page)
+{
+	g_return_val_if_fail (E_IS_MAIL_CONFIG_DEFAULTS_PAGE (page), NULL);
+
+	return page->priv->transport_source;
+}

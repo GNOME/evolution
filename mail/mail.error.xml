@@ -378,6 +378,11 @@ An mbox account will be created to preserve the old mbox folders. You can delete
     <secondary xml:space="preserve">{0}</secondary>
   </error>
 
+  <error id="initial-setup-error" type="error">
+    <_primary>Failed to get server setup.</_primary>
+    <secondary xml:space="preserve">{0}</secondary>
+  </error>
+
   <error id="ask-quick-offline" type="question" default="GTK_RESPONSE_NO">
     <_primary>Synchronize folders locally for offline usage?</_primary>
     <_secondary xml:space="preserve">Do you want to locally synchronize the folders that are marked for offline usage?</_secondary>

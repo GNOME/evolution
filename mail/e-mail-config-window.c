@@ -356,6 +356,7 @@ mail_config_window_constructed (GObject *object)
 	 */
 	widget = e_mail_config_notebook_new (
 		window->priv->session,
+		window->priv->original_source,
 		window->priv->account_source,
 		window->priv->identity_source,
 		window->priv->transport_source,

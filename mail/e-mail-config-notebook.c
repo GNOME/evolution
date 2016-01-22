@@ -34,6 +34,7 @@ typedef struct _AsyncContext AsyncContext;
 
 struct _EMailConfigNotebookPrivate {
 	EMailSession *session;
+	ESource *original_source;
 	ESource *account_source;
 	ESource *identity_source;
 	ESource *transport_source;
@@ -53,6 +54,7 @@ enum {
 	PROP_COLLECTION_SOURCE,
 	PROP_COMPLETE,
 	PROP_IDENTITY_SOURCE,
+	PROP_ORIGINAL_SOURCE,
 	PROP_SESSION,
 	PROP_TRANSPORT_SOURCE
 };
@@ -144,6 +146,20 @@ mail_config_notebook_set_identity_source (EMailConfigNotebook *notebook,
 }
 
 static void
+mail_config_notebook_set_original_source (EMailConfigNotebook *notebook,
+					  ESource *original_source)
+{
+	g_return_if_fail (notebook->priv->original_source == NULL);
+
+	if (original_source != NULL) {
+		g_return_if_fail (E_IS_SOURCE (original_source));
+		g_object_ref (original_source);
+	}
+
+	notebook->priv->original_source = original_source;
+}
+
+static void
 mail_config_notebook_set_session (EMailConfigNotebook *notebook,
                                   EMailSession *session)
 {
@@ -184,6 +200,12 @@ mail_config_notebook_set_property (GObject *object,
 
 		case PROP_IDENTITY_SOURCE:
 			mail_config_notebook_set_identity_source (
+				E_MAIL_CONFIG_NOTEBOOK (object),
+				g_value_get_object (value));
+			return;
+
+		case PROP_ORIGINAL_SOURCE:
+			mail_config_notebook_set_original_source (
 				E_MAIL_CONFIG_NOTEBOOK (object),
 				g_value_get_object (value));
 			return;
@@ -239,6 +261,13 @@ mail_config_notebook_get_property (GObject *object,
 				E_MAIL_CONFIG_NOTEBOOK (object)));
 			return;
 
+		case PROP_ORIGINAL_SOURCE:
+			g_value_set_object (
+				value,
+				e_mail_config_notebook_get_original_source (
+				E_MAIL_CONFIG_NOTEBOOK (object)));
+			return;
+
 		case PROP_SESSION:
 			g_value_set_object (
 				value,
@@ -264,30 +293,12 @@ mail_config_notebook_dispose (GObject *object)
 
 	priv = E_MAIL_CONFIG_NOTEBOOK_GET_PRIVATE (object);
 
-	if (priv->session != NULL) {
-		g_object_ref (priv->session);
-		priv->session = NULL;
-	}
-
-	if (priv->account_source != NULL) {
-		g_object_ref (priv->account_source);
-		priv->account_source = NULL;
-	}
-
-	if (priv->identity_source != NULL) {
-		g_object_ref (priv->identity_source);
-		priv->identity_source = NULL;
-	}
-
-	if (priv->transport_source != NULL) {
-		g_object_ref (priv->transport_source);
-		priv->transport_source = NULL;
-	}
-
-	if (priv->collection_source != NULL) {
-		g_object_ref (priv->collection_source);
-		priv->collection_source = NULL;
-	}
+	g_clear_object (&priv->session);
+	g_clear_object (&priv->account_source);
+	g_clear_object (&priv->identity_source);
+	g_clear_object (&priv->transport_source);
+	g_clear_object (&priv->collection_source);
+	g_clear_object (&priv->original_source);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_mail_config_notebook_parent_class)->
@@ -438,8 +449,11 @@ mail_config_notebook_constructed (GObject *object)
 
 	page = e_mail_config_defaults_page_new (
 		session,
+		notebook->priv->original_source,
+		notebook->priv->collection_source,
 		notebook->priv->account_source,
-		notebook->priv->identity_source);
+		notebook->priv->identity_source,
+		notebook->priv->transport_source);
 	e_mail_config_notebook_add_page (notebook, page);
 
 	/*** Security Page ***/
@@ -545,6 +559,18 @@ e_mail_config_notebook_class_init (EMailConfigNotebookClass *class)
 
 	g_object_class_install_property (
 		object_class,
+		PROP_ORIGINAL_SOURCE,
+		g_param_spec_object (
+			"original-source",
+			"Original Source",
+			"Mail account original source being edited",
+			E_TYPE_SOURCE,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT_ONLY |
+			G_PARAM_STATIC_STRINGS));
+
+	g_object_class_install_property (
+		object_class,
 		PROP_SESSION,
 		g_param_spec_object (
 			"session",
@@ -576,6 +602,7 @@ e_mail_config_notebook_init (EMailConfigNotebook *notebook)
 
 GtkWidget *
 e_mail_config_notebook_new (EMailSession *session,
+                            ESource *original_source,
                             ESource *account_source,
                             ESource *identity_source,
                             ESource *transport_source,
@@ -593,6 +620,7 @@ e_mail_config_notebook_new (EMailSession *session,
 	return g_object_new (
 		E_TYPE_MAIL_CONFIG_NOTEBOOK,
 		"session", session,
+		"original-source", original_source,
 		"account-source", account_source,
 		"identity-source", identity_source,
 		"transport-source", transport_source,
@@ -606,6 +634,14 @@ e_mail_config_notebook_get_session (EMailConfigNotebook *notebook)
 	g_return_val_if_fail (E_IS_MAIL_CONFIG_NOTEBOOK (notebook), NULL);
 
 	return notebook->priv->session;
+}
+
+ESource *
+e_mail_config_notebook_get_original_source (EMailConfigNotebook *notebook)
+{
+	g_return_val_if_fail (E_IS_MAIL_CONFIG_NOTEBOOK (notebook), NULL);
+
+	return notebook->priv->original_source;
 }
 
 ESource *
