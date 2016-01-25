@@ -92,6 +92,11 @@ settings_calendar_view_constructed (GObject *object)
 			settings, "show-event-end",
 			extensible, "show-event-end-times",
 			G_SETTINGS_BIND_GET);
+
+		g_settings_bind (
+			settings, "show-icons-month-view",
+			extensible, "show-icons-month-view",
+			G_SETTINGS_BIND_GET);
 	}
 
 	g_object_unref (settings);

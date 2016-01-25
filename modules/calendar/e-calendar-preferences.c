@@ -932,6 +932,12 @@ calendar_preferences_construct (ECalendarPreferences *prefs,
 		widget, "active",
 		G_SETTINGS_BIND_DEFAULT);
 
+	widget = e_builder_get_widget (prefs->builder, "show_icons_month_view");
+	g_settings_bind (
+		settings, "show-icons-month-view",
+		widget, "active",
+		G_SETTINGS_BIND_DEFAULT);
+
 	widget = e_builder_get_widget (prefs->builder, "compress_weekend");
 	g_settings_bind (
 		settings, "compress-weekend",
