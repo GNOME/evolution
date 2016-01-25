@@ -380,6 +380,11 @@ gboolean	e_week_view_get_show_event_end_times
 void		e_week_view_set_show_event_end_times
 						(EWeekView *week_view,
 						 gboolean show_event_end_times);
+gboolean	e_week_view_get_show_icons_month_view
+						(EWeekView *week_view);
+void		e_week_view_set_show_icons_month_view
+						(EWeekView *week_view,
+						 gboolean show_icons_month_view);
 
 void		e_week_view_delete_occurrence	(EWeekView *week_view);
 

@@ -324,6 +324,11 @@
       <_summary>Show appointment end times in week and month views</_summary>
       <_description>Whether to display the end time of events in the week and month views</_description>
     </key>
+    <key name="show-icons-month-view" type="b">
+      <default>false</default>
+      <_summary>Show appointment icons in the month view</_summary>
+      <_description>Whether to show icons of events in the month view</_description>
+    </key>
     <key name="show-memo-preview" type="b">
       <default>true</default>
       <_summary>Show the memo preview pane</_summary>

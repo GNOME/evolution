@@ -99,6 +99,8 @@ struct _EWeekViewPrivate {
 	GDateWeekday display_start_day;
 
 	gulong notify_week_start_day_id;
+
+	gboolean show_icons_month_view;
 };
 
 typedef struct {
@@ -197,6 +199,7 @@ enum {
 	PROP_0,
 	PROP_COMPRESS_WEEKEND,
 	PROP_SHOW_EVENT_END_TIMES,
+	PROP_SHOW_ICONS_MONTH_VIEW,
 	PROP_IS_EDITING
 };
 
@@ -773,6 +776,12 @@ week_view_set_property (GObject *object,
 				E_WEEK_VIEW (object),
 				g_value_get_boolean (value));
 			return;
+
+		case PROP_SHOW_ICONS_MONTH_VIEW:
+			e_week_view_set_show_icons_month_view (
+				E_WEEK_VIEW (object),
+				g_value_get_boolean (value));
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -796,6 +805,13 @@ week_view_get_property (GObject *object,
 			g_value_set_boolean (
 				value,
 				e_week_view_get_show_event_end_times (
+				E_WEEK_VIEW (object)));
+			return;
+
+		case PROP_SHOW_ICONS_MONTH_VIEW:
+			g_value_set_boolean (
+				value,
+				e_week_view_get_show_icons_month_view (
 				E_WEEK_VIEW (object)));
 			return;
 
@@ -1621,6 +1637,17 @@ e_week_view_class_init (EWeekViewClass *class)
 			"Show Event End Times",
 			NULL,
 			TRUE,
+			G_PARAM_READWRITE |
+			G_PARAM_STATIC_STRINGS));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_SHOW_ICONS_MONTH_VIEW,
+		g_param_spec_boolean (
+			"show-icons-month-view",
+			"Show Icons Month View",
+			NULL,
+			FALSE,
 			G_PARAM_READWRITE |
 			G_PARAM_STATIC_STRINGS));
 
@@ -2452,6 +2479,37 @@ e_week_view_set_show_event_end_times (EWeekView *week_view,
 	gtk_widget_queue_draw (week_view->main_canvas);
 
 	g_object_notify (G_OBJECT (week_view), "show-event-end-times");
+}
+
+gboolean
+e_week_view_get_show_icons_month_view (EWeekView *week_view)
+{
+	g_return_val_if_fail (E_IS_WEEK_VIEW (week_view), TRUE);
+
+	return week_view->priv->show_icons_month_view;
+}
+
+void
+e_week_view_set_show_icons_month_view (EWeekView *week_view,
+				       gboolean show_icons_month_view)
+{
+	g_return_if_fail (E_IS_WEEK_VIEW (week_view));
+
+	if (show_icons_month_view == week_view->priv->show_icons_month_view)
+		return;
+
+	week_view->priv->show_icons_month_view = show_icons_month_view;
+
+	if (e_week_view_get_multi_week_view (week_view)) {
+		e_week_view_recalc_cell_sizes (week_view);
+		week_view->events_need_reshape = TRUE;
+		e_week_view_check_layout (week_view);
+
+		gtk_widget_queue_draw (week_view->titles_canvas);
+		gtk_widget_queue_draw (week_view->main_canvas);
+	}
+
+	g_object_notify (G_OBJECT (week_view), "show-icons-month-view");
 }
 
 static gboolean
@@ -3588,7 +3646,7 @@ e_week_view_reshape_event_span (EWeekView *week_view,
 		show_icons = FALSE;
 		use_max_width = TRUE;
 	} else if (e_week_view_get_multi_week_view (week_view)) {
-		show_icons = FALSE;
+		show_icons = e_week_view_get_show_icons_month_view (week_view);
 	}
 
 	/* Calculate how many icons we need to show. */
