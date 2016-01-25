@@ -378,7 +378,7 @@ ece_send_process_method (SaveData *sd,
 		GSList *attach_list = NULL;
 		GSList *attach;
 
-		/* mime_attach_list is freed by itip_send_comp_sync */
+		/* mime_attach_list is freed by itip_send_component() */
 		mime_attach_list = sd->mime_attach_list;
 		sd->mime_attach_list = NULL;
 

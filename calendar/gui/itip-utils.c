@@ -2052,13 +2052,21 @@ itip_send_component (ESourceRegistry *registry,
 	ItipSendComponentData *isc;
 
 	isc = g_new0 (ItipSendComponentData, 1);
-	isc->registry = registry;
+	isc->registry = g_object_ref (registry);
 	isc->method = method;
 	isc->send_comp = g_object_ref (send_comp);
-	isc->cal_client = cal_client;
-	isc->zones = zones;
+	isc->cal_client = g_object_ref (cal_client);
+	if (zones)
+		isc->zones = icalcomponent_new_clone (zones);
 	isc->attachments_list = attachments_list;
-	isc->users = users;
+	if (users) {
+		GSList *link;
+
+		isc->users = g_slist_copy (users);
+		for (link = isc->users; link; link = g_slist_next (link)) {
+			link->data = g_strdup (link->data);
+		}
+	}
 	isc->strip_alarms = strip_alarms;
 	isc->only_new_attendees = only_new_attendees;
 	isc->ensure_master_object = ensure_master_object;
