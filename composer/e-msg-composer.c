@@ -1637,6 +1637,7 @@ msg_composer_mail_identity_changed_cb (EMsgComposer *composer)
 	gboolean pgp_encrypt;
 	gboolean smime_sign;
 	gboolean smime_encrypt;
+	gboolean composer_realized;
 	const gchar *extension_name;
 	const gchar *uid, *active_signature_id;
 
@@ -1670,23 +1671,28 @@ msg_composer_mail_identity_changed_cb (EMsgComposer *composer)
 			composer->priv->mime_type,
 			"text/calendar", 13) != 0);
 
+	/* Preserve options only if the composer was realized, otherwise an account
+	   change according to current folder or similar reasons can cause the options
+	   to be set, when the default account has it set, but the other not. */
+	composer_realized = gtk_widget_get_realized (GTK_WIDGET (composer));
+
 	action = GTK_TOGGLE_ACTION (ACTION (PGP_SIGN));
-	active = gtk_toggle_action_get_active (action);
+	active = composer_realized && gtk_toggle_action_get_active (action);
 	active |= (can_sign && pgp_sign);
 	gtk_toggle_action_set_active (action, active);
 
 	action = GTK_TOGGLE_ACTION (ACTION (PGP_ENCRYPT));
-	active = gtk_toggle_action_get_active (action);
+	active = composer_realized && gtk_toggle_action_get_active (action);
 	active |= pgp_encrypt;
 	gtk_toggle_action_set_active (action, active);
 
 	action = GTK_TOGGLE_ACTION (ACTION (SMIME_SIGN));
-	active = gtk_toggle_action_get_active (action);
+	active = composer_realized && gtk_toggle_action_get_active (action);
 	active |= (can_sign && smime_sign);
 	gtk_toggle_action_set_active (action, active);
 
 	action = GTK_TOGGLE_ACTION (ACTION (SMIME_ENCRYPT));
-	active = gtk_toggle_action_get_active (action);
+	active = composer_realized && gtk_toggle_action_get_active (action);
 	active |= smime_encrypt;
 	gtk_toggle_action_set_active (action, active);
 
