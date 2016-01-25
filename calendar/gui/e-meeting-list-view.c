@@ -305,21 +305,7 @@ e_meeting_list_view_remove_attendee_from_name_selector (EMeetingListView *view,
 		const gchar *attendee = NULL;
 		EDestination *des = l->data;
 
-		if (e_destination_is_evolution_list (des)) {
-			GList *l2, *dl;
-
-			dl = (GList *) e_destination_list_get_dests (des);
-
-			for (l2 = dl; l2; l2 = l2->next) {
-				attendee = e_destination_get_email (l2->data);
-				if (madd && attendee && g_str_equal (madd, attendee)) {
-					g_object_unref (l2->data);
-					/* coverity[returned_pointer] */
-					l2 = g_list_remove (l2, l2->data);
-					break;
-				}
-			}
-		} else {
+		if (!e_destination_is_evolution_list (des)) {
 			attendee = e_destination_get_email (des);
 			if (madd && attendee && g_str_equal (madd, attendee)) {
 				e_destination_store_remove_destination (destination_store, des);
@@ -357,18 +343,7 @@ e_meeting_list_view_remove_all_attendees_from_name_selector (EMeetingListView *v
 		for (l = destinations; l; l = g_list_next (l)) {
 			EDestination *des = l->data;
 
-			if (e_destination_is_evolution_list (des)) {
-				GList *m, *dl;
-
-				dl = (GList *) e_destination_list_get_dests (des);
-
-				for (m = dl; m; m = m->next) {
-					g_object_unref (m->data);
-					m = g_list_remove (m, l->data);
-				}
-			} else {
-				e_destination_store_remove_destination (destination_store, des);
-			}
+			e_destination_store_remove_destination (destination_store, des);
 		}
 		g_list_free (destinations);
 	}
