@@ -541,7 +541,7 @@ attachment_button_expanded (GObject *object,
 	EAttachmentButton *button = E_ATTACHMENT_BUTTON (object);
 	EMailDisplay *display = user_data;
 	WebKitDOMDocument *document;
-	WebKitDOMElement *element;
+	WebKitDOMElement *element, *iframe;
 	WebKitDOMCSSStyleDeclaration *css;
 	const gchar *attachment_part_id;
 	gchar *element_id;
@@ -585,6 +585,37 @@ attachment_button_expanded (GObject *object,
 		}
 
 		g_free (inner_html_data);
+	}
+
+	/* Hide/Show all the GtkWidgets inside an attachment, otherwise they could
+	 * be visible even if the wrapper is hidden. */
+	if ((iframe = webkit_dom_element_query_selector (element, "iframe", NULL))) {
+		WebKitDOMDocument *content_document;
+
+		content_document = webkit_dom_html_iframe_element_get_content_document
+			(WEBKIT_DOM_HTML_IFRAME_ELEMENT (iframe));
+
+		if (content_document) {
+			gint length, ii;
+			WebKitDOMNodeList *list;
+
+			list = webkit_dom_document_get_elements_by_tag_name (content_document, "object");
+			length = webkit_dom_node_list_get_length (list);
+
+			for (ii = 0; ii < length; ii++) {
+				WebKitDOMNode *item;
+
+				item = webkit_dom_node_list_item (list, ii);
+
+				css = webkit_dom_element_get_style (WEBKIT_DOM_ELEMENT (item));
+				if (expanded)
+					g_free (webkit_dom_css_style_declaration_remove_property (css, "display", NULL));
+				else
+					webkit_dom_css_style_declaration_set_property (css, "display", "none", "", NULL);
+				g_clear_object (&css);
+			}
+			g_object_unref (list);
+		}
 	}
 
 	/* Show or hide the DIV which contains
