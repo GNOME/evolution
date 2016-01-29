@@ -1408,8 +1408,6 @@ em_utils_compose_new_message_with_mailto (EShell *shell,
 
 	composer_set_no_change (composer);
 
-	gtk_window_present (GTK_WINDOW (composer));
-
 	/* If a CamelFolder was given, we need to backtrack and find
 	 * the corresponding ESource with a Mail Identity extension. */
 
@@ -1429,6 +1427,8 @@ em_utils_compose_new_message_with_mailto (EShell *shell,
 
 	g_object_unref (client_cache);
 	g_object_unref (registry);
+
+	gtk_window_present (GTK_WINDOW (composer));
 
 	return composer;
 }
