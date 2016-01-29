@@ -16,8 +16,8 @@ msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2016-01-26 05:51+0000\n"
-"PO-Revision-Date: 2016-01-26 11:44+0100\n"
+"POT-Creation-Date: 2016-01-29 12:36+0000\n"
+"PO-Revision-Date: 2016-01-29 17:06+0100\n"
 "Last-Translator: Meskó Balázs <meskobalazs@gmail.com>\n"
 "Language-Team: Hungarian <openscope at gmail dot com>\n"
 "Language: hu\n"
@@ -506,8 +506,8 @@ msgstr "_X.509 hozzáadása"
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.ui.h:10
 #: ../calendar/gui/e-comp-editor-page-general.c:1373 ../e-util/e-attachment-view.c:475
 #: ../e-util/e-filter-rule.c:225 ../e-util/e-mail-signature-manager.c:367
-#: ../e-util/e-name-selector-dialog.c:999 ../e-util/filter.ui.h:18
-#: ../mail/e-mail-label-manager.c:391 ../mail/em-filter-rule.c:440
+#: ../e-util/e-name-selector-dialog.c:999 ../e-util/filter.error.xml.h:18
+#: ../e-util/filter.ui.h:18 ../mail/e-mail-label-manager.c:391 ../mail/em-filter-rule.c:440
 #: ../mail/em-vfolder-editor-rule.c:630 ../mail/mail-config.ui.h:59
 #: ../plugins/attachment-reminder/attachment-reminder.c:448
 #: ../plugins/email-custom-header/email-custom-header.c:849
@@ -579,7 +579,7 @@ msgstr "Beállítások"
 #: ../e-util/e-html-editor-actions.c:688 ../e-util/e-image-chooser-dialog.c:171
 #: ../e-util/e-mail-signature-script-dialog.c:365 ../e-util/e-passwords.c:470
 #: ../e-util/e-rule-context.c:815 ../e-util/e-rule-editor.c:180 ../e-util/e-rule-editor.c:282
-#: ../e-util/e-rule-editor.c:776 ../e-util/e-send-options.ui.h:42
+#: ../e-util/e-rule-editor.c:791 ../e-util/e-send-options.ui.h:42
 #: ../e-util/e-source-config-dialog.c:379 ../e-util/e-source-selector-dialog.c:372
 #: ../e-util/e-table-config.c:548 ../e-util/e-table-config.ui.h:1
 #: ../e-util/e-timezone-dialog.ui.h:2 ../e-util/evolution-source-viewer.c:834
@@ -797,7 +797,7 @@ msgstr "Érvénytelen névjegy."
 #: ../e-util/e-charset-combo-box.c:102 ../e-util/e-color-chooser-widget.c:128
 #: ../e-util/e-filter-datespec.c:292 ../e-util/e-html-editor-link-dialog.c:436
 #: ../e-util/e-passwords.c:471 ../e-util/e-rule-context.c:816 ../e-util/e-rule-editor.c:181
-#: ../e-util/e-rule-editor.c:283 ../e-util/e-rule-editor.c:777
+#: ../e-util/e-rule-editor.c:283 ../e-util/e-rule-editor.c:792
 #: ../e-util/e-send-options.ui.h:43 ../e-util/e-source-config-dialog.c:380
 #: ../e-util/e-source-selector-dialog.c:373 ../e-util/e-table-config.c:549
 #: ../e-util/e-table-config.ui.h:3 ../e-util/e-timezone-dialog.ui.h:3
@@ -13982,6 +13982,14 @@ msgstr "Hiányzó érték."
 #: ../e-util/filter.error.xml.h:15
 msgid "One or more values cannot be empty."
 msgstr "Egy vagy több név nem lehet üres."
+
+#: ../e-util/filter.error.xml.h:16
+msgid "Are you sure you want to remove rule '{0}'?"
+msgstr "Valóban törölni akarja a(z) „{0}” szabályt?"
+
+#: ../e-util/filter.error.xml.h:17
+msgid "_Keep"
+msgstr "_Megtartás"
 
 #: ../e-util/filter.ui.h:2
 msgid "the current time"
