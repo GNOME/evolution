@@ -425,9 +425,17 @@ secure_button_get_widget_for_validity (CamelCipherValidity *validity)
 	gtk_button_set_image (GTK_BUTTON (button), widget);
 
 	widget = gtk_label_new (description);
+	g_object_set (G_OBJECT (widget),
+		"wrap", TRUE,
+		"width-chars", 20,
+		"max-width-chars", 80,
+		"xalign", 0.0,
+		"halign", GTK_ALIGN_FILL,
+		"hexpand", TRUE,
+		NULL);
 	/* make sure the text color doesn't change with theme */
 	gtk_widget_override_color (widget, GTK_STATE_FLAG_NORMAL, &smime_sign_colour[5]);
-	gtk_box_pack_start (GTK_BOX (layout), widget, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (layout), widget, TRUE, TRUE, 0);
 
 	g_free (description);
 
