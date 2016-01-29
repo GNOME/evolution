@@ -2626,7 +2626,7 @@ e_mail_shell_view_update_search_filter (EMailShellView *mail_shell_view)
 	/* Use any action in the group; doesn't matter which. */
 	e_action_combo_box_set_action (combo_box, radio_action);
 
-	ii = MAIL_FILTER_UNREAD_MESSAGES;
+	ii = MAIL_FILTER_MESSAGES_NOT_JUNK;
 	e_action_combo_box_add_separator_after (combo_box, ii);
 
 	ii = MAIL_FILTER_READ_MESSAGES;
