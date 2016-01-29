@@ -320,6 +320,21 @@ rule_delete (GtkWidget *widget,
 
 	pos = e_rule_context_get_rank_rule (editor->context, editor->current, editor->source);
 	if (pos != -1) {
+		GtkWindow *parent;
+		GtkWidget *toplevel;
+		gint response;
+
+		toplevel = gtk_widget_get_toplevel (widget);
+		parent = GTK_IS_WINDOW (toplevel) ? GTK_WINDOW (toplevel) : NULL;
+
+		response = e_alert_run_dialog_for_args (parent, "filter:remove-rule-question",
+			(editor->current && editor->current->name) ? editor->current->name : "", NULL);
+
+		if (response != GTK_RESPONSE_YES)
+			pos = -1;
+	}
+
+	if (pos != -1) {
 		EFilterRule *delete_rule = editor->current;
 
 		editor->current = NULL;
