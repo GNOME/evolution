@@ -73,19 +73,18 @@ G_BEGIN_DECLS
 
 /* Filter items are displayed in ascending order.
  * Labels are numbered from zero, so subsequent items must have
- * sufficiently large values.  Unfortunately this introduces an
- * arbitrary upper bound on labels. */
+ * sufficiently large/small values. */
 enum {
-	MAIL_FILTER_ALL_MESSAGES = -3,
-	MAIL_FILTER_UNREAD_MESSAGES = -2,
-	MAIL_FILTER_NO_LABEL = -1,
+	MAIL_FILTER_ALL_MESSAGES = -20,
+	MAIL_FILTER_UNREAD_MESSAGES = -19,
+	MAIL_FILTER_READ_MESSAGES = -18,
+	MAIL_FILTER_LAST_5_DAYS_MESSAGES = -17,
+	MAIL_FILTER_MESSAGES_WITH_ATTACHMENTS = -16,
+	MAIL_FILTER_MESSAGES_WITH_NOTES = -15,
+	MAIL_FILTER_IMPORTANT_MESSAGES = -14,
+	MAIL_FILTER_MESSAGES_NOT_JUNK = -13,
+	MAIL_FILTER_NO_LABEL = -12
 	/* Labels go here */
-	MAIL_FILTER_READ_MESSAGES = 5000,
-	MAIL_FILTER_LAST_5_DAYS_MESSAGES = 5001,
-	MAIL_FILTER_MESSAGES_WITH_ATTACHMENTS = 5002,
-	MAIL_FILTER_MESSAGES_WITH_NOTES = 5003,
-	MAIL_FILTER_IMPORTANT_MESSAGES = 5004,
-	MAIL_FILTER_MESSAGES_NOT_JUNK = 5005
 };
 
 /* Search items are displayed in ascending order. */
