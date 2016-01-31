@@ -14,8 +14,8 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2015-12-05 05:50+0000\n"
-"PO-Revision-Date: 2015-12-05 12:02+0100\n"
+"POT-Creation-Date: 2016-01-31 17:51+0000\n"
+"PO-Revision-Date: 2016-01-31 19:20+0100\n"
 "Last-Translator: Dušan Kazik <prescott66@gmail.com>\n"
 "Language-Team: slovenčina <>\n"
 "Language: sk\n"
@@ -523,9 +523,10 @@ msgstr "Pridať _X.509"
 #: ../calendar/gui/e-comp-editor-page-general.c:1373
 #: ../e-util/e-attachment-view.c:475 ../e-util/e-filter-rule.c:225
 #: ../e-util/e-mail-signature-manager.c:367
-#: ../e-util/e-name-selector-dialog.c:999 ../e-util/filter.ui.h:18
-#: ../mail/e-mail-label-manager.c:391 ../mail/em-filter-rule.c:440
-#: ../mail/em-vfolder-editor-rule.c:630 ../mail/mail-config.ui.h:59
+#: ../e-util/e-name-selector-dialog.c:999 ../e-util/filter.error.xml.h:18
+#: ../e-util/filter.ui.h:18 ../mail/e-mail-label-manager.c:391
+#: ../mail/em-filter-rule.c:440 ../mail/em-vfolder-editor-rule.c:630
+#: ../mail/mail-config.ui.h:59
 #: ../plugins/attachment-reminder/attachment-reminder.c:448
 #: ../plugins/email-custom-header/email-custom-header.c:849
 #: ../plugins/publish-calendar/publish-calendar.c:791
@@ -566,7 +567,7 @@ msgstr "Certifikáty"
 #: ../calendar/gui/e-comp-editor.c:2000 ../calendar/gui/e-comp-editor.c:2072
 #: ../e-util/e-preferences-window.c:382 ../e-util/e-send-options.ui.h:41
 #: ../plugins/email-custom-header/org-gnome-email-custom-header.ui.h:2
-#: ../shell/e-shell.c:1216 ../shell/e-shell-window-actions.c:955
+#: ../shell/e-shell.c:1223 ../shell/e-shell-window-actions.c:955
 msgid "_Help"
 msgstr "_Pomocník"
 
@@ -602,7 +603,7 @@ msgstr "Voľby"
 #: ../e-util/e-image-chooser-dialog.c:171
 #: ../e-util/e-mail-signature-script-dialog.c:365 ../e-util/e-passwords.c:470
 #: ../e-util/e-rule-context.c:815 ../e-util/e-rule-editor.c:180
-#: ../e-util/e-rule-editor.c:282 ../e-util/e-rule-editor.c:776
+#: ../e-util/e-rule-editor.c:282 ../e-util/e-rule-editor.c:791
 #: ../e-util/e-send-options.ui.h:42 ../e-util/e-source-config-dialog.c:379
 #: ../e-util/e-source-selector-dialog.c:372 ../e-util/e-table-config.c:548
 #: ../e-util/e-table-config.ui.h:1 ../e-util/e-timezone-dialog.ui.h:2
@@ -832,7 +833,7 @@ msgstr "Neplatný kontakt."
 #: ../e-util/e-color-chooser-widget.c:128 ../e-util/e-filter-datespec.c:292
 #: ../e-util/e-html-editor-link-dialog.c:436 ../e-util/e-passwords.c:471
 #: ../e-util/e-rule-context.c:816 ../e-util/e-rule-editor.c:181
-#: ../e-util/e-rule-editor.c:283 ../e-util/e-rule-editor.c:777
+#: ../e-util/e-rule-editor.c:283 ../e-util/e-rule-editor.c:792
 #: ../e-util/e-send-options.ui.h:43 ../e-util/e-source-config-dialog.c:380
 #: ../e-util/e-source-selector-dialog.c:373 ../e-util/e-table-config.c:549
 #: ../e-util/e-table-config.ui.h:3 ../e-util/e-timezone-dialog.ui.h:3
@@ -843,7 +844,7 @@ msgstr "Neplatný kontakt."
 #: ../plugins/email-custom-header/org-gnome-email-custom-header.ui.h:4
 #: ../plugins/publish-calendar/url-editor-dialog.c:422
 #: ../shell/e-shell-content.c:661 ../shell/e-shell-content.c:767
-#: ../shell/main.c:184 ../smime/gui/certificate-manager.c:1338
+#: ../shell/main.c:180 ../smime/gui/certificate-manager.c:1338
 #: ../smime/gui/e-cert-selector.c:238 ../smime/gui/smime-ui.ui.h:24
 msgid "_OK"
 msgstr "_OK"
@@ -1623,7 +1624,7 @@ msgid "Title"
 msgstr "Titul"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:38
-#: ../calendar/gui/e-meeting-list-view.c:684
+#: ../calendar/gui/e-meeting-list-view.c:659
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:5
 msgid "Role"
 msgstr "Rola"
@@ -1759,9 +1760,9 @@ msgstr ""
 #: ../addressbook/importers/evolution-csv-importer.c:746
 #: ../addressbook/importers/evolution-ldif-importer.c:548
 #: ../addressbook/importers/evolution-vcard-importer.c:249
-#: ../calendar/importers/icalendar-importer.c:484
-#: ../calendar/importers/icalendar-importer.c:979
-#: ../calendar/importers/icalendar-importer.c:1018 ../shell/shell.error.xml.h:1
+#: ../calendar/importers/icalendar-importer.c:485
+#: ../calendar/importers/icalendar-importer.c:980
+#: ../calendar/importers/icalendar-importer.c:1019 ../shell/shell.error.xml.h:1
 msgid "Importing..."
 msgstr "Importuje sa…"
 
@@ -3099,8 +3100,6 @@ msgid "Run a program"
 msgstr "Spustiť program"
 
 #: ../calendar/gui/e-alarm-list.c:439
-#, fuzzy
-#| msgid "Unknown action to be performed"
 msgctxt "cal-reminders"
 msgid "Unknown action to be performed"
 msgstr "Má sa vykonať neznáma akcia"
@@ -3651,7 +3650,7 @@ msgstr "Vyžaduje akciu"
 
 #. To Translators: 'Status' here means the state of the attendees, the resulting string will be in a form:
 #. * Status: Accepted: X   Declined: Y   ...
-#: ../calendar/gui/e-cal-model.c:3861 ../calendar/gui/e-meeting-list-view.c:713
+#: ../calendar/gui/e-cal-model.c:3861 ../calendar/gui/e-meeting-list-view.c:688
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:9
 #: ../calendar/gui/e-task-table.etspec.h:11 ../calendar/gui/tasktypes.xml.h:8
 #: ../mail/filtertypes.xml.in.h:36 ../mail/message-list.etspec.h:1
@@ -3915,7 +3914,7 @@ msgstr "Čas začiatku nie je platným časom"
 #: ../calendar/gui/e-comp-editor-page-attachments.c:211
 #: ../calendar/gui/e-comp-editor.c:339 ../mail/e-mail-reader-utils.c:650
 #: ../mail/mail-send-recv.c:486 ../mail/mail-send-recv.c:1285
-#: ../plugins/face/face.c:176 ../shell/e-shell.c:973 ../shell/e-shell.c:995
+#: ../plugins/face/face.c:176 ../shell/e-shell.c:991 ../shell/e-shell.c:1013
 #: ../smime/gui/certificate-manager.c:346
 msgid "Unknown error"
 msgstr "Neznáma chyba"
@@ -4239,8 +4238,6 @@ msgid "Or_ganizer:"
 msgstr "Or_ganizátor:"
 
 #: ../calendar/gui/e-comp-editor-page-general.c:1288
-#, fuzzy
-#| msgid "Atte_ndees..."
 msgctxt "ECompEditor"
 msgid "Atte_ndees..."
 msgstr "Účast_níci…"
@@ -4352,9 +4349,6 @@ msgstr "21. až 31."
 #. * (dropdown menu options are in[square brackets]). This means that after 'first', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #: ../calendar/gui/e-comp-editor-page-recurrence.c:674
-#, fuzzy
-#| msgid "day"
-#| msgid_plural "days"
 msgctxt "ECompEditorPageRecur"
 msgid "day"
 msgstr "dní"
@@ -4411,8 +4405,6 @@ msgstr "výskytov"
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
 #: ../calendar/gui/e-comp-editor-page-recurrence.c:1493
 #: ../calendar/gui/e-comp-editor-page-recurrence.c:2023
-#, fuzzy
-#| msgid "This appointment rec_urs"
 msgctxt "ECompEditorPageRecur"
 msgid "This appointment rec_urs"
 msgstr "Táto schôdzka sa _opakuje"
@@ -4563,7 +4555,7 @@ msgid "Set or unset reminders"
 msgstr "Nastavíte alebo zrušíte pripomenutia pre túto udalosť"
 
 #: ../calendar/gui/e-comp-editor-page-reminders.c:1610
-#: ../modules/calendar/e-calendar-preferences.ui.h:63
+#: ../modules/calendar/e-calendar-preferences.ui.h:64
 msgid "Reminders"
 msgstr "Pripomenutia"
 
@@ -4824,57 +4816,41 @@ msgid "_Status:"
 msgstr "_Stav:"
 
 #: ../calendar/gui/e-comp-editor-property-parts.c:1199
-#, fuzzy
-#| msgid "Undefined"
 msgctxt "ECompEditor"
 msgid "Undefined"
 msgstr "Nedefinovaná"
 
 #: ../calendar/gui/e-comp-editor-property-parts.c:1200
-#, fuzzy
-#| msgid "High"
 msgctxt "ECompEditor"
 msgid "High"
 msgstr "Vysoká"
 
 #: ../calendar/gui/e-comp-editor-property-parts.c:1201
-#, fuzzy
-#| msgid "Normal"
 msgctxt "ECompEditor"
 msgid "Normal"
 msgstr "Normálna"
 
 #: ../calendar/gui/e-comp-editor-property-parts.c:1202
-#, fuzzy
-#| msgid "Low"
 msgctxt "ECompEditor"
 msgid "Low"
 msgstr "Nízka"
 
 #: ../calendar/gui/e-comp-editor-property-parts.c:1211
-#, fuzzy
-#| msgid "Priorit_y:"
 msgctxt "ECompEditor"
 msgid "Priorit_y:"
 msgstr "Priorit_a:"
 
 #: ../calendar/gui/e-comp-editor-property-parts.c:1265
-#, fuzzy
-#| msgid "_Percent complete:"
 msgctxt "ECompEditor"
 msgid "Percent complete:"
 msgstr "Dokončených _percent:"
 
 #: ../calendar/gui/e-comp-editor-property-parts.c:1346
-#, fuzzy
-#| msgid "Time _zone:"
 msgctxt "ECompEditor"
 msgid "Time _zone:"
 msgstr "Časové _pásmo:"
 
 #: ../calendar/gui/e-comp-editor-property-parts.c:1471
-#, fuzzy
-#| msgid "Show Time as _Busy"
 msgctxt "ECompEditor"
 msgid "Show time as _busy"
 msgstr "Zobraziť čas ako _obsadený"
@@ -4974,7 +4950,7 @@ msgstr "Zavrie aktuálne okno"
 #: ../calendar/gui/e-comp-editor.c:1979 ../e-util/e-focus-tracker.c:775
 #: ../e-util/e-html-editor-actions.c:1076 ../e-util/e-text.c:2109
 #: ../e-util/e-web-view.c:379 ../mail/e-mail-browser.c:136
-#: ../mail/mail.error.xml.h:141 ../shell/e-shell-window-actions.c:799
+#: ../mail/mail.error.xml.h:142 ../shell/e-shell-window-actions.c:799
 msgid "_Copy"
 msgstr "_Kopírovať"
 
@@ -5098,14 +5074,14 @@ msgid "Save current changes and close editor"
 msgstr "Uloží aktuálne zmeny a zavrie editor"
 
 #. String to use in 12-hour time format for times in the morning.
-#: ../calendar/gui/e-day-view.c:2133 ../calendar/gui/e-week-view.c:1689
+#: ../calendar/gui/e-day-view.c:2133 ../calendar/gui/e-week-view.c:1716
 #: ../calendar/gui/print.c:1073 ../calendar/gui/print.c:1092
 #: ../calendar/gui/print.c:2622 ../calendar/gui/print.c:2642
 msgid "am"
 msgstr "am"
 
 #. String to use in 12-hour time format for times in the afternoon.
-#: ../calendar/gui/e-day-view.c:2136 ../calendar/gui/e-week-view.c:1692
+#: ../calendar/gui/e-day-view.c:2136 ../calendar/gui/e-week-view.c:1719
 #: ../calendar/gui/print.c:1078 ../calendar/gui/print.c:1094
 #: ../calendar/gui/print.c:2627 ../calendar/gui/print.c:2644
 msgid "pm"
@@ -5232,11 +5208,11 @@ msgstr "Bez účasti"
 msgid "Needs Action"
 msgstr "Vyžaduje akciu"
 
-#: ../calendar/gui/e-meeting-list-view.c:644
+#: ../calendar/gui/e-meeting-list-view.c:619
 msgid "Attendee                          "
 msgstr "Prítomný                          "
 
-#: ../calendar/gui/e-meeting-list-view.c:670
+#: ../calendar/gui/e-meeting-list-view.c:645
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:4
 #: ../calendar/gui/e-memo-table.etspec.h:3
 #: ../calendar/gui/e-task-table.etspec.h:3
@@ -5245,7 +5221,7 @@ msgstr "Prítomný                          "
 msgid "Type"
 msgstr "Typ"
 
-#: ../calendar/gui/e-meeting-list-view.c:699
+#: ../calendar/gui/e-meeting-list-view.c:674
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:6
 msgid "RSVP"
 msgstr "Vyžadované potvrdenie"
@@ -5436,9 +5412,9 @@ msgid "%d%%"
 msgstr "%d %%"
 
 #: ../calendar/gui/e-task-table.c:672 ../calendar/gui/print.c:2404
-#: ../calendar/importers/icalendar-importer.c:78
-#: ../calendar/importers/icalendar-importer.c:1116
-#: ../modules/calendar/e-calendar-preferences.ui.h:62
+#: ../calendar/importers/icalendar-importer.c:79
+#: ../calendar/importers/icalendar-importer.c:1117
+#: ../modules/calendar/e-calendar-preferences.ui.h:63
 #: ../modules/calendar/e-cal-shell-content.c:1593
 #: ../modules/calendar/e-task-shell-view-actions.c:220
 #: ../modules/calendar/e-task-shell-view-actions.c:235
@@ -5900,206 +5876,206 @@ msgstr "je viac než"
 msgid "is less than"
 msgstr "je menej než"
 
-#: ../calendar/importers/icalendar-importer.c:77
+#: ../calendar/importers/icalendar-importer.c:78
 msgid "Appointments and Meetings"
 msgstr "Schôdzky a stretnutia"
 
-#: ../calendar/importers/icalendar-importer.c:311
+#: ../calendar/importers/icalendar-importer.c:312
 #: ../modules/calendar/e-cal-base-shell-backend.c:183
 #: ../modules/calendar/e-cal-shell-view-actions.c:180
 msgid "New Calendar"
 msgstr "Nový kalendár"
 
-#: ../calendar/importers/icalendar-importer.c:314
+#: ../calendar/importers/icalendar-importer.c:315
 #: ../modules/calendar/e-cal-base-shell-backend.c:191
 #: ../modules/calendar/e-task-shell-view-actions.c:204
 msgid "New Task List"
 msgstr "Nový zoznam úloh"
 
-#: ../calendar/importers/icalendar-importer.c:356
+#: ../calendar/importers/icalendar-importer.c:357
 msgid "Cre_ate new calendar"
 msgstr "Vytvoriť nový _kalendár"
 
-#: ../calendar/importers/icalendar-importer.c:360
+#: ../calendar/importers/icalendar-importer.c:361
 msgid "Cre_ate new task list"
 msgstr "Vytvoriť nový _zoznam úloh"
 
-#: ../calendar/importers/icalendar-importer.c:506
-#: ../calendar/importers/icalendar-importer.c:945
+#: ../calendar/importers/icalendar-importer.c:507
+#: ../calendar/importers/icalendar-importer.c:946
 msgid "Opening calendar"
 msgstr "Otvára sa kalendár"
 
-#: ../calendar/importers/icalendar-importer.c:654
+#: ../calendar/importers/icalendar-importer.c:655
 msgid "iCalendar files (.ics)"
 msgstr "Súbory iCalendar (.ics)"
 
-#: ../calendar/importers/icalendar-importer.c:655
+#: ../calendar/importers/icalendar-importer.c:656
 msgid "Evolution iCalendar importer"
 msgstr "Importovací nástroj Evolution iCalendar"
 
-#: ../calendar/importers/icalendar-importer.c:747
+#: ../calendar/importers/icalendar-importer.c:748
 msgid "Reminder!"
 msgstr "Pripomenutie!"
 
-#: ../calendar/importers/icalendar-importer.c:831
+#: ../calendar/importers/icalendar-importer.c:832
 msgid "vCalendar files (.vcs)"
 msgstr "Súbory vCalendar (.vcs)"
 
-#: ../calendar/importers/icalendar-importer.c:832
+#: ../calendar/importers/icalendar-importer.c:833
 msgid "Evolution vCalendar importer"
 msgstr "Importovací nástroj Evolution vCalendar"
 
-#: ../calendar/importers/icalendar-importer.c:1109
+#: ../calendar/importers/icalendar-importer.c:1110
 msgid "Calendar Events"
 msgstr "Udalosti kalendára"
 
-#: ../calendar/importers/icalendar-importer.c:1152
+#: ../calendar/importers/icalendar-importer.c:1153
 msgid "GNOME Calendar"
 msgstr "Kalendár prostredia GNOME"
 
-#: ../calendar/importers/icalendar-importer.c:1153
+#: ../calendar/importers/icalendar-importer.c:1154
 msgid "Evolution Calendar intelligent importer"
 msgstr "Inteligentný importovací nástroj kalendára Evolution"
 
-#: ../calendar/importers/icalendar-importer.c:1224
-#: ../calendar/importers/icalendar-importer.c:1538
+#: ../calendar/importers/icalendar-importer.c:1225
+#: ../calendar/importers/icalendar-importer.c:1539
 msgctxt "iCalImp"
 msgid "Meeting"
 msgstr "Stretnutie"
 
-#: ../calendar/importers/icalendar-importer.c:1224
-#: ../calendar/importers/icalendar-importer.c:1538
+#: ../calendar/importers/icalendar-importer.c:1225
+#: ../calendar/importers/icalendar-importer.c:1539
 msgctxt "iCalImp"
 msgid "Event"
 msgstr "Udalosť"
 
-#: ../calendar/importers/icalendar-importer.c:1227
-#: ../calendar/importers/icalendar-importer.c:1539
+#: ../calendar/importers/icalendar-importer.c:1228
+#: ../calendar/importers/icalendar-importer.c:1540
 msgctxt "iCalImp"
 msgid "Task"
 msgstr "Úloha"
 
-#: ../calendar/importers/icalendar-importer.c:1230
-#: ../calendar/importers/icalendar-importer.c:1540
+#: ../calendar/importers/icalendar-importer.c:1231
+#: ../calendar/importers/icalendar-importer.c:1541
 msgctxt "iCalImp"
 msgid "Memo"
 msgstr "Poznámka"
 
-#: ../calendar/importers/icalendar-importer.c:1239
+#: ../calendar/importers/icalendar-importer.c:1240
 msgctxt "iCalImp"
 msgid "has recurrences"
 msgstr "má opakovania"
 
 # PK: kde to je? akym pripadom
-#: ../calendar/importers/icalendar-importer.c:1244
+#: ../calendar/importers/icalendar-importer.c:1245
 msgctxt "iCalImp"
 msgid "is an instance"
 msgstr "je inštanciou"
 
-#: ../calendar/importers/icalendar-importer.c:1249
+#: ../calendar/importers/icalendar-importer.c:1250
 msgctxt "iCalImp"
 msgid "has reminders"
 msgstr "má pripomenutia"
 
-#: ../calendar/importers/icalendar-importer.c:1254
+#: ../calendar/importers/icalendar-importer.c:1255
 msgctxt "iCalImp"
 msgid "has attachments"
 msgstr "má prílohy"
 
 #. Translators: Appointment's classification
-#: ../calendar/importers/icalendar-importer.c:1267
+#: ../calendar/importers/icalendar-importer.c:1268
 msgctxt "iCalImp"
 msgid "Public"
 msgstr "Verejné"
 
 #. Translators: Appointment's classification
-#: ../calendar/importers/icalendar-importer.c:1270
+#: ../calendar/importers/icalendar-importer.c:1271
 msgctxt "iCalImp"
 msgid "Private"
 msgstr "Súkromné"
 
 #. Translators: Appointment's classification
-#: ../calendar/importers/icalendar-importer.c:1273
+#: ../calendar/importers/icalendar-importer.c:1274
 msgctxt "iCalImp"
 msgid "Confidential"
 msgstr "Tajné"
 
 #. Translators: Appointment's classification section name
-#: ../calendar/importers/icalendar-importer.c:1277
+#: ../calendar/importers/icalendar-importer.c:1278
 msgctxt "iCalImp"
 msgid "Classification"
 msgstr "Klasifikácia"
 
 #. Translators: Appointment's summary
-#: ../calendar/importers/icalendar-importer.c:1282
-#: ../calendar/importers/icalendar-importer.c:1582
+#: ../calendar/importers/icalendar-importer.c:1283
+#: ../calendar/importers/icalendar-importer.c:1583
 msgctxt "iCalImp"
 msgid "Summary"
 msgstr "Súhrn"
 
 #. Translators: Appointment's location
-#: ../calendar/importers/icalendar-importer.c:1288
+#: ../calendar/importers/icalendar-importer.c:1289
 msgctxt "iCalImp"
 msgid "Location"
 msgstr "Miesto"
 
 #. Translators: Appointment's start time
-#: ../calendar/importers/icalendar-importer.c:1296
-#: ../calendar/importers/icalendar-importer.c:1577
+#: ../calendar/importers/icalendar-importer.c:1297
+#: ../calendar/importers/icalendar-importer.c:1578
 msgctxt "iCalImp"
 msgid "Start"
 msgstr "Začiatok"
 
 #. Translators: 'Due' like the time due a task should be finished
-#: ../calendar/importers/icalendar-importer.c:1307
+#: ../calendar/importers/icalendar-importer.c:1308
 msgctxt "iCalImp"
 msgid "Due"
 msgstr "Termín"
 
 #. Translators: Appointment's end time
-#: ../calendar/importers/icalendar-importer.c:1319
+#: ../calendar/importers/icalendar-importer.c:1320
 msgctxt "iCalImp"
 msgid "End"
 msgstr "Koniec"
 
 #. Translators: Appointment's categories
-#: ../calendar/importers/icalendar-importer.c:1329
+#: ../calendar/importers/icalendar-importer.c:1330
 msgctxt "iCalImp"
 msgid "Categories"
 msgstr "Kategórie"
 
 #. Translators: Appointment's complete value (either percentage, or a date/time of a completion)
-#: ../calendar/importers/icalendar-importer.c:1353
+#: ../calendar/importers/icalendar-importer.c:1354
 msgctxt "iCalImp"
 msgid "Completed"
 msgstr "Dokončené"
 
 #. Translators: Appointment's URL
-#: ../calendar/importers/icalendar-importer.c:1361
+#: ../calendar/importers/icalendar-importer.c:1362
 msgctxt "iCalImp"
 msgid "URL"
 msgstr "URL"
 
 #. Translators: Appointment's organizer
-#: ../calendar/importers/icalendar-importer.c:1372
-#: ../calendar/importers/icalendar-importer.c:1375
+#: ../calendar/importers/icalendar-importer.c:1373
+#: ../calendar/importers/icalendar-importer.c:1376
 msgctxt "iCalImp"
 msgid "Organizer"
 msgstr "Organizátor"
 
 #. Translators: Appointment's attendees
-#: ../calendar/importers/icalendar-importer.c:1395
-#: ../calendar/importers/icalendar-importer.c:1398
+#: ../calendar/importers/icalendar-importer.c:1396
+#: ../calendar/importers/icalendar-importer.c:1399
 msgctxt "iCalImp"
 msgid "Attendees"
 msgstr "Účastníci"
 
-#: ../calendar/importers/icalendar-importer.c:1412
+#: ../calendar/importers/icalendar-importer.c:1413
 msgctxt "iCalImp"
 msgid "Description"
 msgstr "Popis"
 
-#: ../calendar/importers/icalendar-importer.c:1572
+#: ../calendar/importers/icalendar-importer.c:1573
 msgctxt "iCalImp"
 msgid "Type"
 msgstr "Typ"
@@ -7667,7 +7643,7 @@ msgstr "Nová _správa"
 msgid "Open New Message window"
 msgstr "Otvorí okno novej správy"
 
-#: ../composer/e-composer-actions.c:348 ../shell/e-shell.c:1209
+#: ../composer/e-composer-actions.c:348 ../shell/e-shell.c:1216
 #: ../shell/e-shell-window-actions.c:848
 msgid "_Preferences"
 msgstr "_Nastavenia"
@@ -7914,11 +7890,11 @@ msgstr ""
 "Odchádzajúca správa sa nedá zašifrovať: Nie je nastavený žiadny šifrovací "
 "certifikát pre tento účet"
 
-#: ../composer/e-msg-composer.c:1619 ../composer/e-msg-composer.c:2651
+#: ../composer/e-msg-composer.c:1619 ../composer/e-msg-composer.c:2645
 msgid "Compose Message"
 msgstr "Napísať správu"
 
-#: ../composer/e-msg-composer.c:5001
+#: ../composer/e-msg-composer.c:4995
 msgid "The composer contains a non-text message body, which cannot be edited."
 msgstr ""
 "Editor správ obsahuje netextové telo správy, ktoré nie je možné upraviť."
@@ -8042,7 +8018,7 @@ msgstr ""
 msgid "An error occurred while sending. How do you want to proceed?"
 msgstr "Vyskytla sa chyba pri odosielaní. Ako chcete pokračovať?"
 
-#: ../composer/mail-composer.error.xml.h:28 ../mail/mail.error.xml.h:170
+#: ../composer/mail-composer.error.xml.h:28 ../mail/mail.error.xml.h:171
 msgid "The reported error was &quot;{0}&quot;."
 msgstr "Ohlásená chyba bola „{0}."
 
@@ -8114,7 +8090,8 @@ msgstr "Nástroj na oznámenie pre Evolution"
 msgid "Calendar event notifications"
 msgstr "Oznamuje o udalostiach z kalendára"
 
-#: ../data/evolution.desktop.in.in.h:1 ../mail/e-mail-browser.c:1118
+#: ../data/evolution.desktop.in.in.h:1 ../evolution.appdata.xml.in.h:1
+#: ../mail/e-mail-browser.c:1118
 #: ../modules/mailto-handler/evolution-mailto-handler.c:210
 #: ../shell/e-shell-window-private.c:242
 msgid "Evolution"
@@ -8128,13 +8105,19 @@ msgstr "Program na podporu spolupráce"
 msgid "Evolution Mail and Calendar"
 msgstr "Evolution - pošta a kalendár"
 
-#: ../data/evolution.desktop.in.in.h:4
+#: ../data/evolution.desktop.in.in.h:4 ../evolution.appdata.xml.in.h:2
 msgid "Manage your email, contacts and schedule"
 msgstr "Spravujte váš email, kontakty a časový plán"
 
 #: ../data/evolution.desktop.in.in.h:5
 msgid "email;calendar;contact;addressbook;task;"
 msgstr "email;pošta;kalendár;kontakt;adresár kontaktov;úloha;"
+
+#: ../data/evolution.desktop.in.in.h:6
+#, fuzzy
+#| msgid "New _Window"
+msgid "New Window"
+msgstr "Nové _okno"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:1
 msgid "Enable address formatting"
@@ -8873,51 +8856,65 @@ msgstr ""
 "Určuje, či zobraziť koncové časy udalostí v týždennom a mesačnom zobrazení"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:111
+#, fuzzy
+#| msgid "Show appointment end times in week and month views"
+msgid "Show appointment icons in the month view"
+msgstr "Zobraziť koncové časy schôdzok v týždennom a mesačnom zobrazení"
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:112
+#, fuzzy
+#| msgid ""
+#| "Whether to display the end time of events in the week and month views"
+msgid "Whether to show icons of events in the month view"
+msgstr ""
+"Určuje, či zobraziť koncové časy udalostí v týždennom a mesačnom zobrazení"
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:113
 msgid "Show the memo preview pane"
 msgstr "Zobraziť panel náhľadu poznámky"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:112
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:114
 msgid "If \"true\", show the memo preview pane in the main window"
 msgstr "Ak je  „true“, tak sa zobrazí panel náhľadu poznámky v hlavnom okne"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:113
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:115
 msgid "Show the task preview pane"
 msgstr "Zobraziť panel náhľadu úlohy"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:114
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:116
 msgid "If \"true\", show the task preview pane in the main window"
 msgstr "Ak je „true“, tak sa zobrazí panel náhľadu úlohy v hlavnom okne"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:115
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:117
 msgid "Show week numbers in Day View, Work Week View, and Date Navigator"
 msgstr ""
 "Zobraziť čísla týždňov v dennom pohľade, v pohľade pracovného týždňa a v "
 "navigátorovi dátumov"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:116
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:118
 msgid "Whether to show week numbers in various places in the Calendar"
 msgstr "Určuje, či zobraziť čísla týždňov na rozličných miestach v kalendári"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:117
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:119
 msgid "Vertical position for the tag pane"
 msgstr "Vertikálna pozícia panelu značiek"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:118
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:120
 msgid "Highlight tasks due today"
 msgstr "Zvýrazniť úlohy s dnešným termínom"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:119
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:121
 msgid ""
 "Whether highlight tasks due today with a special color (task-due-today-color)"
 msgstr ""
 "Určuje, či zvýrazniť úlohy s dnešným termínom šeciálnou farbou (task-due-"
 "today-color)"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:120
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:122
 msgid "Tasks due today color"
 msgstr "Farba úloh s dnešným termínom"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:121
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:123
 msgid ""
 "Background color of tasks that are due today, in \"#rrggbb\" format. Used "
 "together with task-due-today-highlight"
@@ -8925,15 +8922,15 @@ msgstr ""
 "Farba pozadia pre úlohy, ktoré majú dnešný termín, vo formáte „#rrggbb“. "
 "Používať spoločne s task-due-today-highlight"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:122
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:124
 msgid "Task preview pane position (horizontal)"
 msgstr "Pozícia panelu náhľadu úlohy (vodorovná)"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:123
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:125
 msgid "Task layout style"
 msgstr "Štýl rozloženia úlohy"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:124
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:126
 msgid ""
 "The layout style determines where to place the preview pane in relation to "
 "the task list. \"0\" (Classic View) places the preview pane below the task "
@@ -8943,20 +8940,20 @@ msgstr ""
 "zoznamom úloh. „0“ (Klasický pohľad) umiestňuje panel náhľadu pod zoznam "
 "úloh. „1“ (Zvislý pohľad) umiestňuje panel náhľadu vedľa zoznamu úloh."
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:125
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:127
 msgid "Task preview pane position (vertical)"
 msgstr "Pozícia panelu náhľadu úlohy (zvislá)"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:126
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:128
 msgid "Position of the task preview pane when oriented vertically"
 msgstr "Pozícia panelu náhľadu úlohy pri zvislej orientácii"
 
 # <long>Whether to hide completed tasks in the tasks view.</long>
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:127
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:129
 msgid "Show reminders for completed tasks"
 msgstr "Zobraziť pripomenutia dokončených úloh"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:128
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:130
 msgid ""
 "Whether to show reminders for completed tasks. When set to false, reminders "
 "for completed tasks are suppressed."
@@ -8964,22 +8961,22 @@ msgstr ""
 "Určuje, či sa majú zobraziť pripomienky pre dokončené úlohy. Keď je hodnota "
 "nastavená na false, pripomienky pre dokončené úlohy budú potlačené."
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:129
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:131
 msgid "Highlight overdue tasks"
 msgstr "Zvýrazniť úlohy po termíne"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:130
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:132
 msgid ""
 "Whether highlight overdue tasks with a special color (task-overdue-color)"
 msgstr ""
 "Určuje, či zvýrazňovať úlohy po termíne špeciálnou farbou (task-overdue-"
 "color)"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:131
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:133
 msgid "Overdue tasks color"
 msgstr "Farba úloh po termíne"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:132
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:134
 msgid ""
 "Background color of tasks that are overdue, in \"#rrggbb\" format. Used "
 "together with task-overdue-highlight."
@@ -8988,19 +8985,19 @@ msgstr ""
 "zároveň s task-overdue-highlight."
 
 # <long>Intervals shown in Day and Work Week views, in minutes.</long>
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:133
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:135
 msgid "Time divisions"
 msgstr "Časové úseky"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:134
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:136
 msgid "Intervals shown in Day and Work Week views, in minutes"
 msgstr "Úseky zobrazované v pohľade Deň a Pracovný týždeň, v minutách"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:135
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:137
 msgid "Timezone"
 msgstr "Časové pásmo"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:136
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:138
 msgid ""
 "The default timezone to use for dates and times in the calendar, as an "
 "untranslated Olson timezone database location like \"America/New York\""
@@ -9009,81 +9006,81 @@ msgstr ""
 "pozícia z nepreloženej Olsonovej databázy časových pásiem napr. „Europe/"
 "Bratislava“"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:137
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:139
 msgid "Twenty four hour time format"
 msgstr "Dvadsaťštyrihodinový formát"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:138
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:140
 msgid "Whether to show times in twenty four hour format instead of using am/pm"
 msgstr ""
 "Určuje, či zobraziť časy v dvadsaťštyrihodinovom formáte namiesto použitia "
 "dopoludnia/popoludní"
 
 # <long>Whether to set a reminder for birthdays and anniversaries.</long>
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:139
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:141
 msgid "Birthday and anniversary reminder"
 msgstr "Pripomienkovač narodenín a výročí"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:140
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:142
 msgid "Whether to set a reminder for birthdays and anniversaries"
 msgstr "Určuje, či nastaviť pripomienky pre narodeniny a výročia"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:141
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:143
 msgid "Default appointment reminder"
 msgstr "Prednastavené upozornenie na schôdzku"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:142
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:144
 msgid "Whether to set a default reminder for appointments"
 msgstr "Určuje, či nastaviť prednastvené pripomienky pre chôdzky"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:143
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:145
 msgid "Use system timezone"
 msgstr "Použiť časové pásmo systému"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:144
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:146
 msgid "Use the system timezone instead of the timezone selected in Evolution"
 msgstr ""
 "Použiť časové pásmo systému namiesto časového pásma vybraného v programe "
 "Evolution"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:145
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:147
 msgid "First day of the week"
 msgstr "Prvý deň týždňa"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:146
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:148
 msgid "Monday is a work day"
 msgstr "Pondelok je pracovný deň"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:147
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:149
 msgid "Tuesday is a work day"
 msgstr "Utorok je pracovný deň"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:148
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:150
 msgid "Wednesday is a work day"
 msgstr "Streda je pracovný deň"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:149
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:151
 msgid "Thursday is a work day"
 msgstr "Štvrtok je pracovný deň"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:150
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:152
 msgid "Friday is a work day"
 msgstr "Piatok je pracovný deň"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:151
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:153
 msgid "Saturday is a work day"
 msgstr "Sobota je pracovný deň"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:152
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:154
 msgid "Sunday is a work day"
 msgstr "Nedeľa je pracovný deň"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:153
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:155
 msgid "(Deprecated) First day of the week, from Sunday (0) to Saturday (6)"
 msgstr ""
 "(Zavrhnuté) Ďeň v týždni, ktorým týždeň začína, od nedele (0) do soboty (6)"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:154
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:156
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "\"week-start-day-name\" instead."
@@ -9091,11 +9088,11 @@ msgstr ""
 "Tento kľúč je zavrhnutý vo verzii 3.10 a nemal by byť naďalej používaný. "
 "Použite miesto neho „week-start-day-name“."
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:155
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:157
 msgid "(Deprecated) Work days"
 msgstr "(Zavrhnuté) Pracovné dni"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:156
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:158
 msgid ""
 "Days on which the start and end of work hours should be indicated. (This key "
 "was deprecated in version 3.10 and should no longer be used. Use the \"work-"
@@ -10808,7 +10805,7 @@ msgstr "Počiatočný priečinok vo výbere súborov"
 msgid "Initial folder for GtkFileChooser dialogs."
 msgstr "Počiatočný priečinok pre dialógové okno GtkFileChooser."
 
-#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:7 ../shell/main.c:324
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:7 ../shell/main.c:320
 msgid "Start in offline mode"
 msgstr "Spustiť v odpojenom režime"
 
@@ -10842,18 +10839,30 @@ msgid "Flag that enables a much simplified user interface."
 msgstr "Príznak ktorý zapína zjednodušené používateľské rozhranie."
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:13
+#, fuzzy
+#| msgid "Zoom large images to not be wider than the window width"
+msgid "List of button names to hide in the window switcher"
+msgstr "Priblížiť veľké obrázky tak, aby neboli širšie ako šírka okna"
+
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:14
+msgid ""
+"Valid values are 'mail', 'addressbook', 'calendar', 'tasks' and 'memos'. "
+"Change of this requires restart of the application."
+msgstr ""
+
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:15
 msgid "Window buttons are visible"
 msgstr "Tlačidlá okna sú viditeľné"
 
-#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:14
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:16
 msgid "Whether the window buttons should be visible."
 msgstr "Určuje, či majú byť viditeľné tlačidlá okna."
 
-#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:15
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:17
 msgid "Window button style"
 msgstr "Štýl tlačidiel v oknách"
 
-#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:16
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:18
 msgid ""
 "The style of the window buttons. Can be \"text\", \"icons\", \"both\", "
 "\"toolbar\". If \"toolbar\" is set, the style of the buttons is determined "
@@ -10863,40 +10872,40 @@ msgstr ""
 "„toolbar“ (lišta nástrojov). Ak je nastavené „toolbar“, tak štýl zavisí od "
 "nastavenia listy nástrojov GNOME."
 
-#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:17
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:19
 msgid "Toolbar is visible"
 msgstr "Lišta nástrojov je viditeľná"
 
-#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:18
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:20
 msgid "Whether the toolbar should be visible."
 msgstr "Určuje, či má byť viditeľná lišta nástrojov."
 
-#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:19
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:21
 msgid "Sidebar is visible"
 msgstr "Bočný panel je viditeľný"
 
-#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:20
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:22
 msgid "Whether the sidebar should be visible."
 msgstr "Určuje, či má byť viditeľný bočný panel."
 
-#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:21
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:23
 msgid "Statusbar is visible"
 msgstr "Stavový lišta je viditeľná"
 
-#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:22
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:24
 msgid "Whether the status bar should be visible."
 msgstr "Určuje, či má byť viditeľná stavová lišta."
 
-#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:23
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:25
 msgid "ID or alias of the component to be shown by default at start-up."
 msgstr ""
 "Identifikátor alebo alias komponenty, ktorá má byť zobrazená pri štarte."
 
-#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:24
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:26
 msgid "Default sidebar width"
 msgstr "Predvolená šírka bočného panela"
 
-#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:25
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:27
 msgid "The default width for the sidebar, in pixels."
 msgstr "Predvolená šírka bočného panela, v pixeloch."
 
@@ -13305,7 +13314,7 @@ msgid "<b>Background Image</b>"
 msgstr "<b>Obrázok pozadia</b>"
 
 #: ../e-util/e-html-editor-page-dialog.c:638
-#: ../modules/calendar/e-calendar-preferences.ui.h:77
+#: ../modules/calendar/e-calendar-preferences.ui.h:78
 msgid "_Template:"
 msgstr "Š_ablóna:"
 
@@ -13465,11 +13474,11 @@ msgstr "Veľ_kosť:"
 msgid "Text Properties"
 msgstr "Vlastnosti textu"
 
-#: ../e-util/e-html-editor-view.c:6136
+#: ../e-util/e-html-editor-view.c:6289
 msgid "Changed property"
 msgstr "Zmenená vlastnosť"
 
-#: ../e-util/e-html-editor-view.c:6137
+#: ../e-util/e-html-editor-view.c:6290
 msgid "Whether editor changed"
 msgstr "Určuje, či sa editor zmenil"
 
@@ -14736,6 +14745,16 @@ msgstr "Chýba hodnota."
 msgid "One or more values cannot be empty."
 msgstr "Jedna alebo viacero hodnôt nemôžu byť prázdne."
 
+#: ../e-util/filter.error.xml.h:16
+#, fuzzy
+#| msgid "Are you sure you want to delete the '{0}' task?"
+msgid "Are you sure you want to remove rule '{0}'?"
+msgstr "Ste si istý, že chcete odstrániť úlohu „{0}“?"
+
+#: ../e-util/filter.error.xml.h:17
+msgid "_Keep"
+msgstr ""
+
 #: ../e-util/filter.ui.h:2
 msgid "the current time"
 msgstr "aktuálny čas"
@@ -14859,7 +14878,7 @@ msgstr "_Vytvoriť novú úlohu"
 msgid "_Replace existing view"
 msgstr "_Nahradiť existujúci pohľad"
 
-#: ../e-util/widgets.error.xml.h:1 ../mail/mail.error.xml.h:196
+#: ../e-util/widgets.error.xml.h:1 ../mail/mail.error.xml.h:197
 msgid "Do you wish to save your changes?"
 msgstr "Želáte si uložiť vaše zmeny?"
 
@@ -14867,7 +14886,7 @@ msgstr "Želáte si uložiť vaše zmeny?"
 msgid "This signature has been changed, but has not been saved."
 msgstr "Tento podpis bol zmenený, ale nebol uložený."
 
-#: ../e-util/widgets.error.xml.h:3 ../mail/mail.error.xml.h:198
+#: ../e-util/widgets.error.xml.h:3 ../mail/mail.error.xml.h:199
 msgid "_Discard changes"
 msgstr "_Zahodiť zmeny"
 
@@ -14895,7 +14914,7 @@ msgstr "Nepodarilo sa načítať podpis."
 msgid "Could not save signature."
 msgstr "Nepodarilo sa uložiť podpis."
 
-#: ../evolution.appdata.xml.in.h:1
+#: ../evolution.appdata.xml.in.h:3
 msgid ""
 "Evolution is a personal information management application that provides "
 "integrated mail, calendaring and address book functionality."
@@ -14903,7 +14922,7 @@ msgstr ""
 "Evolution je aplikácia na správu osobných informácií, ktorá poskytuje "
 "integrované funkcie na správu pošty, kalendára a adresára kontaktov."
 
-#: ../evolution.appdata.xml.in.h:2
+#: ../evolution.appdata.xml.in.h:4
 msgid ""
 "Evolution supports a wide range of industry standard data formats and "
 "network protocols for information exchange, with an emphasis on standards "
@@ -15104,17 +15123,17 @@ msgstr "Zlyhalo pridanie do lokálneho priečinka „Odoslaná pošta“: %s"
 msgid "Sending message"
 msgstr "Odosiela sa správa"
 
-#: ../libemail-engine/e-mail-store-utils.c:189
+#: ../libemail-engine/e-mail-store-utils.c:190
 #, c-format
 msgid "Disconnecting from '%s'"
 msgstr "Odpája sa od „%s“"
 
-#: ../libemail-engine/e-mail-store-utils.c:265
+#: ../libemail-engine/e-mail-store-utils.c:266
 #, c-format
 msgid "Reconnecting to '%s'"
 msgstr "Znovu sa pripája k „%s“"
 
-#: ../libemail-engine/e-mail-store-utils.c:350
+#: ../libemail-engine/e-mail-store-utils.c:351
 #, c-format
 msgid "Preparing account '%s' for offline"
 msgstr "Pripravuje sa účet „%s“ pre odpojený režim"
@@ -15366,7 +15385,11 @@ msgstr ""
 msgid "Done"
 msgstr "Hotovo"
 
-#: ../mail/e-mail-config-defaults-page.c:381
+#: ../mail/e-mail-config-defaults-page.c:371
+msgid "Checking server settings..."
+msgstr ""
+
+#: ../mail/e-mail-config-defaults-page.c:489
 #, fuzzy
 #| msgid "Use locale default"
 msgctxt "ReplyForward"
@@ -15377,120 +15400,127 @@ msgstr "Použiť predvolené miestne nastavenia"
 #     Popisuje spôsob odpovedania na e-mail a odosielania ďalej. Dáva: Príloh
 #     Bolo by vhodnejšie „ako príloha“
 # PŠ: zjavne to už spravili :-)
-#: ../mail/e-mail-config-defaults-page.c:383 ../mail/mail-config.ui.h:26
+#: ../mail/e-mail-config-defaults-page.c:491 ../mail/mail-config.ui.h:26
 msgctxt "ReplyForward"
 msgid "Attachment"
 msgstr "Ako prílohu"
 
-#: ../mail/e-mail-config-defaults-page.c:385 ../mail/mail-config.ui.h:27
+#: ../mail/e-mail-config-defaults-page.c:493 ../mail/mail-config.ui.h:27
 msgctxt "ReplyForward"
 msgid "Inline (Outlook style)"
 msgstr "V texte (Outlook štýl)"
 
 # Styl odpovede:
-#: ../mail/e-mail-config-defaults-page.c:387 ../mail/mail-config.ui.h:28
+#: ../mail/e-mail-config-defaults-page.c:495 ../mail/mail-config.ui.h:28
 msgctxt "ReplyForward"
 msgid "Quoted"
 msgstr "Citovať"
 
-#: ../mail/e-mail-config-defaults-page.c:389 ../mail/mail-config.ui.h:29
+#: ../mail/e-mail-config-defaults-page.c:497 ../mail/mail-config.ui.h:29
 msgctxt "ReplyForward"
 msgid "Do Not Quote"
 msgstr "Necitovať"
 
-#: ../mail/e-mail-config-defaults-page.c:645
+#: ../mail/e-mail-config-defaults-page.c:822
 msgid "Special Folders"
 msgstr "Špeciálne priečinky"
 
-#: ../mail/e-mail-config-defaults-page.c:654
+#: ../mail/e-mail-config-defaults-page.c:831
 msgid "Draft Messages _Folder:"
 msgstr "Priečinok _Koncepty:"
 
-#: ../mail/e-mail-config-defaults-page.c:664
+#: ../mail/e-mail-config-defaults-page.c:841
 msgid "Choose a folder for saving draft messages."
 msgstr "Zvolí priečinok pre uchovávanie konceptov správ."
 
-#: ../mail/e-mail-config-defaults-page.c:678
+#: ../mail/e-mail-config-defaults-page.c:855
 msgid "Sent _Messages Folder:"
 msgstr "Priečinok Odoslané _správy:"
 
-#: ../mail/e-mail-config-defaults-page.c:688
+#: ../mail/e-mail-config-defaults-page.c:865
 msgid "Choose a folder for saving sent messages."
 msgstr "Zvolí priečinok pre uchovávanie odoslaných správ."
 
-#: ../mail/e-mail-config-defaults-page.c:707
+#: ../mail/e-mail-config-defaults-page.c:884
 msgid "S_ave replies in the folder of the message being replied to"
 msgstr "_Uchovávať odpovede v priečinku kde je správa, na ktorú sa odpovedalo"
 
-#: ../mail/e-mail-config-defaults-page.c:724
+#: ../mail/e-mail-config-defaults-page.c:901
 msgid "Archi_ve Folder:"
 msgstr "Archi_vačný priečinok:"
 
 # label
-#: ../mail/e-mail-config-defaults-page.c:734
+#: ../mail/e-mail-config-defaults-page.c:911
 #: ../modules/mail/em-mailer-prefs.c:1403
 msgid "Choose a folder to archive messages to."
 msgstr "Zvoliť priečinok kam archivovať správy."
 
-#: ../mail/e-mail-config-defaults-page.c:748
+#: ../mail/e-mail-config-defaults-page.c:929
 msgid "_Restore Defaults"
 msgstr "_Obnoviť predvolené"
 
-#: ../mail/e-mail-config-defaults-page.c:762
+# dialog title
+#: ../mail/e-mail-config-defaults-page.c:946
+#, fuzzy
+#| msgid "Go to Folder"
+msgid "_Lookup Folders"
+msgstr "Prejdenie do priečinka"
+
+#: ../mail/e-mail-config-defaults-page.c:964
 msgid "Use a Real Folder for _Trash:"
 msgstr "Použiť skutočný priečinok pre _Kôš:"
 
-#: ../mail/e-mail-config-defaults-page.c:763
+#: ../mail/e-mail-config-defaults-page.c:965
 msgid "Choose a folder for deleted messages."
 msgstr "Zvolí priečinok pre uchovávanie odstránených správ."
 
-#: ../mail/e-mail-config-defaults-page.c:772
+#: ../mail/e-mail-config-defaults-page.c:974
 msgid "Use a Real Folder for _Junk:"
 msgstr "Použiť reálny priečinok pre _Nevyžiadaná pošta:"
 
-#: ../mail/e-mail-config-defaults-page.c:773
+#: ../mail/e-mail-config-defaults-page.c:975
 msgid "Choose a folder for junk messages."
 msgstr "Zvolí priečinok pre uchovávanie nevyžiadaných správ."
 
-#: ../mail/e-mail-config-defaults-page.c:790
+#: ../mail/e-mail-config-defaults-page.c:992
 msgid "Composing Messages"
 msgstr "Písanie správ"
 
-#: ../mail/e-mail-config-defaults-page.c:799
+#: ../mail/e-mail-config-defaults-page.c:1001
 msgid "Alway_s carbon-copy (cc) to:"
 msgstr "Vžd_y odoslať _kópiu (cc) pre:"
 
-#: ../mail/e-mail-config-defaults-page.c:824
+#: ../mail/e-mail-config-defaults-page.c:1026
 msgid "Always _blind carbon-copy (bcc) to:"
 msgstr "Vždy odoslať _skrytú kópiu (bcc) pre:"
 
-#: ../mail/e-mail-config-defaults-page.c:855
+#: ../mail/e-mail-config-defaults-page.c:1057
 #, fuzzy
 #| msgid "_Reply style:"
 msgid "Re_ply style:"
 msgstr "Š_týl odpovede:"
 
-#: ../mail/e-mail-config-defaults-page.c:891
+#: ../mail/e-mail-config-defaults-page.c:1093
 msgid "Message Receipts"
 msgstr "Adresáti správy"
 
-#: ../mail/e-mail-config-defaults-page.c:900
+#: ../mail/e-mail-config-defaults-page.c:1102
 msgid "S_end message receipts:"
 msgstr "_Odoslať správu adresátom:"
 
-#: ../mail/e-mail-config-defaults-page.c:925
+#: ../mail/e-mail-config-defaults-page.c:1127
 msgid "Never"
 msgstr "Nikdy"
 
-#: ../mail/e-mail-config-defaults-page.c:931
+#: ../mail/e-mail-config-defaults-page.c:1133
 msgid "Always"
 msgstr "Vždy"
 
-#: ../mail/e-mail-config-defaults-page.c:937
+#: ../mail/e-mail-config-defaults-page.c:1139
 msgid "Ask for each message"
 msgstr "Opýtať sa pri každej správe"
 
-#: ../mail/e-mail-config-defaults-page.c:1008
+#: ../mail/e-mail-config-defaults-page.c:1246
 msgid "Defaults"
 msgstr "Prednastavenia"
 
@@ -15994,11 +16024,11 @@ msgstr "Názov hlavičky"
 msgid "Header Value"
 msgstr "Hodnota hlavičky"
 
-#: ../mail/e-mail-printer.c:126 ../mail/mail-config.ui.h:123
+#: ../mail/e-mail-printer.c:113 ../mail/mail-config.ui.h:123
 msgid "Headers"
 msgstr "Hlavičky"
 
-#: ../mail/e-mail-printer.c:168
+#: ../mail/e-mail-printer.c:155
 #, c-format
 msgid "Page %d of %d"
 msgstr "Stránka %d z %d"
@@ -16012,7 +16042,7 @@ msgid "Copy to Folder"
 msgstr "Kopírovať do priečinka"
 
 #: ../mail/e-mail-reader.c:356 ../mail/em-folder-utils.c:487
-#: ../mail/mail.error.xml.h:147
+#: ../mail/mail.error.xml.h:148
 msgid "_Move"
 msgstr "_Presunúť"
 
@@ -17860,7 +17890,7 @@ msgid "Highlight _quotations with"
 msgstr "Spôso_b zvýrazňovania citácie"
 
 #: ../mail/mail-config.ui.h:92
-#: ../modules/calendar/e-calendar-preferences.ui.h:59
+#: ../modules/calendar/e-calendar-preferences.ui.h:60
 msgid "Pick a color"
 msgstr "Vyberte farbu"
 
@@ -18671,10 +18701,16 @@ msgid ""
 msgstr "Zlyhala požiadavka na server o zoznam podporovaných spôsobov overenia."
 
 #: ../mail/mail.error.xml.h:126
+#, fuzzy
+#| msgid "Failed to retrieve messages."
+msgid "Failed to get server setup."
+msgstr "Zlyhalo získavanie správ."
+
+#: ../mail/mail.error.xml.h:127
 msgid "Synchronize folders locally for offline usage?"
 msgstr "Synchronizovať priečinok lokálne na použitie v odpojenom režime?"
 
-#: ../mail/mail.error.xml.h:127
+#: ../mail/mail.error.xml.h:128
 msgid ""
 "Do you want to locally synchronize the folders that are marked for offline "
 "usage?"
@@ -18682,27 +18718,27 @@ msgstr ""
 "Chcete miestne synchronizovať priečinky, ktoré ste označili na použitie v "
 "odpojenom režime?"
 
-#: ../mail/mail.error.xml.h:128
+#: ../mail/mail.error.xml.h:129
 msgid "Do _Not Synchronize"
 msgstr "_Nesynchronizovať"
 
-#: ../mail/mail.error.xml.h:129
+#: ../mail/mail.error.xml.h:130
 msgid "_Synchronize"
 msgstr "_Synchronizovať"
 
-#: ../mail/mail.error.xml.h:130
+#: ../mail/mail.error.xml.h:131
 msgid "Do you want to mark all messages as read?"
 msgstr "Chcete označiť všetky správy ako prečítané?"
 
-#: ../mail/mail.error.xml.h:131
+#: ../mail/mail.error.xml.h:132
 msgid "This will mark all messages as read in the selected folder."
 msgstr "Vo vybranom priečinku to označí všetky správy ako prečítané."
 
-#: ../mail/mail.error.xml.h:132
+#: ../mail/mail.error.xml.h:133
 msgid "Also mark messages in subfolders?"
 msgstr "Označiť tiež správy v podpriečinkoch?"
 
-#: ../mail/mail.error.xml.h:133
+#: ../mail/mail.error.xml.h:134
 msgid ""
 "Do you want to mark messages as read in the current folder only, or in the "
 "current folder as well as all subfolders?"
@@ -18710,69 +18746,69 @@ msgstr ""
 "Chcete označiť správy ako prečítané len v aktuálnom priečinku alebo aj v "
 "jeho podpriečinkoch?"
 
-#: ../mail/mail.error.xml.h:134
+#: ../mail/mail.error.xml.h:135
 msgid "In Current Folder and _Subfolders"
 msgstr "V aktuálnom priečinku aj podpriečinkoch"
 
-#: ../mail/mail.error.xml.h:135
+#: ../mail/mail.error.xml.h:136
 msgid "In Current _Folder Only"
 msgstr "Len v _aktuálnom priečinku"
 
-#: ../mail/mail.error.xml.h:136
+#: ../mail/mail.error.xml.h:137
 msgid "Should Evolution close this window when replying or forwarding?"
 msgstr "Uzavrieť okno Evolution pokiaľ sa ešte odpovedá, alebo preodosiela?"
 
-#: ../mail/mail.error.xml.h:137
+#: ../mail/mail.error.xml.h:138
 msgid "_Yes, Always"
 msgstr "Án_o, vždy"
 
-#: ../mail/mail.error.xml.h:138
+#: ../mail/mail.error.xml.h:139
 msgid "_No, Never"
 msgstr "_Nie, nikdy"
 
-#: ../mail/mail.error.xml.h:139
+#: ../mail/mail.error.xml.h:140
 msgid "Copy folder in folder tree."
 msgstr "Kopírovať priečinok v strome priečinkov."
 
-#: ../mail/mail.error.xml.h:140
+#: ../mail/mail.error.xml.h:141
 msgid "Are you sure you want to copy folder '{0}' to folder '{1}'?"
 msgstr "Ste si istý, že chcete skopírovať priečinok „{0}“ do priečinka „{1}“?"
 
-#: ../mail/mail.error.xml.h:142
+#: ../mail/mail.error.xml.h:143
 msgid "Do _not copy"
 msgstr "_Nekopírovať"
 
-#: ../mail/mail.error.xml.h:143
+#: ../mail/mail.error.xml.h:144
 msgid "_Always copy"
 msgstr "_Vždy kopírovať"
 
-#: ../mail/mail.error.xml.h:144
+#: ../mail/mail.error.xml.h:145
 msgid "N_ever copy"
 msgstr "Ni_kdy nekopírovať"
 
 #  PK: je to titulok? ak ano, prejdi vsetky vyskyty z tohto suboru
 #  * https://git.gnome.org/browse/evolution/tree/mail/mail.error.xml
-#: ../mail/mail.error.xml.h:145
+#: ../mail/mail.error.xml.h:146
 msgid "Move folder in folder tree."
 msgstr "Presunúť priečinok v strome priečinkov."
 
-#: ../mail/mail.error.xml.h:146
+#: ../mail/mail.error.xml.h:147
 msgid "Are you sure you want to to move folder '{0}' to folder '{1}'?"
 msgstr "Ste si istý, že chcete presunúť priečinok „{0}“ do priečinka „{1}“?"
 
-#: ../mail/mail.error.xml.h:148
+#: ../mail/mail.error.xml.h:149
 msgid "Do _not move"
 msgstr "_Nepresunúť"
 
-#: ../mail/mail.error.xml.h:149
+#: ../mail/mail.error.xml.h:150
 msgid "_Always move"
 msgstr "_Vždy presunút"
 
-#: ../mail/mail.error.xml.h:150
+#: ../mail/mail.error.xml.h:151
 msgid "N_ever move"
 msgstr "Ni_kdy nepresunúť"
 
-#: ../mail/mail.error.xml.h:151
+#: ../mail/mail.error.xml.h:152
 msgid ""
 "This message cannot be sent because the account you chose to send with is "
 "not enabled"
@@ -18780,68 +18816,68 @@ msgstr ""
 "Táto správa nemôže byť odoslaná pretože účet, ktorý je vybratý na odoslanie, "
 "nie je povolený"
 
-#: ../mail/mail.error.xml.h:152
+#: ../mail/mail.error.xml.h:153
 msgid "Please enable the account or send using another account."
 msgstr "Prosím, povoľte účet, alebo na odoslanie použite iný."
 
-#: ../mail/mail.error.xml.h:153
+#: ../mail/mail.error.xml.h:154
 msgid "Mail Deletion Failed"
 msgstr "Odstránenie pošty zlyhalo"
 
-#: ../mail/mail.error.xml.h:154
+#: ../mail/mail.error.xml.h:155
 msgid "You do not have sufficient permissions to delete this mail."
 msgstr "Nemáte dostatočné práva na odstránenie tejto pošty."
 
-#: ../mail/mail.error.xml.h:155
+#: ../mail/mail.error.xml.h:156
 msgid "\"Check Junk\" Failed"
 msgstr "Zlyhalo „Skontolovať nevyžiadanú poštu“"
 
-#: ../mail/mail.error.xml.h:156
+#: ../mail/mail.error.xml.h:157
 msgid "\"Report Junk\" Failed"
 msgstr "Zlyhalo „Oznámiť nevyžiadanú poštu“"
 
-#: ../mail/mail.error.xml.h:157
+#: ../mail/mail.error.xml.h:158
 msgid "\"Report Not Junk\" Failed"
 msgstr "Zlyhalo „Oznámiť očakávanú poštu“"
 
-#: ../mail/mail.error.xml.h:158
+#: ../mail/mail.error.xml.h:159
 msgid "Remove duplicate messages?"
 msgstr "Odstrániť duplicitné správy?"
 
-#: ../mail/mail.error.xml.h:159
+#: ../mail/mail.error.xml.h:160
 msgid "No duplicate messages found."
 msgstr "Nenašli sa žiadne duplicitné správy."
 
 #. Translators: {0} is replaced with a folder name
-#: ../mail/mail.error.xml.h:161
+#: ../mail/mail.error.xml.h:162
 msgid "Folder '{0}' doesn't contain any duplicate message."
 msgstr "Priečinok „{0}“ neobsahuje žiadnu duplicitnú správu."
 
-#: ../mail/mail.error.xml.h:162
+#: ../mail/mail.error.xml.h:163
 msgid "Failed to connect account &quot;{0}&quot;."
 msgstr "Zlyhalo pripojenie účtu „{0}“."
 
-#: ../mail/mail.error.xml.h:163
+#: ../mail/mail.error.xml.h:164
 msgid "Failed to disconnect account &quot;{0}&quot;."
 msgstr "Zlyhalo odpojenie účtu „{0}“."
 
-#: ../mail/mail.error.xml.h:164
+#: ../mail/mail.error.xml.h:165
 msgid "Failed to unsubscribe from folder &quot;{0}&quot;."
 msgstr "Zlyhalo odhlásenie odberu priečinka „{0}“."
 
-#: ../mail/mail.error.xml.h:165
+#: ../mail/mail.error.xml.h:166
 msgid "Unable to retrieve message."
 msgstr "Nepodarilo sa získať správu."
 
-#: ../mail/mail.error.xml.h:166
+#: ../mail/mail.error.xml.h:167
 msgid "{0}"
 msgstr "{0}"
 
-#: ../mail/mail.error.xml.h:167
+#: ../mail/mail.error.xml.h:168
 msgid "Message is not available in offline mode."
 msgstr "Správa nie je dostupná v odpojenom režime."
 
-#: ../mail/mail.error.xml.h:168
+#: ../mail/mail.error.xml.h:169
 msgid ""
 "This can be due to the message not being downloaded yet. The folder, or the "
 "account, can be marked for offline synchronization. Then, once the account "
@@ -18852,39 +18888,39 @@ msgstr ""
 "Toto môže byť spôsobené tým, že správa ešte nebola prevzatá. Priečinok, "
 "alebo účet môže byť označený pre synchronizáciu bez pripojenia."
 
-#: ../mail/mail.error.xml.h:169
+#: ../mail/mail.error.xml.h:170
 msgid "Failed to open folder."
 msgstr "Zlyhalo otvorenie priečinka."
 
-#: ../mail/mail.error.xml.h:171
+#: ../mail/mail.error.xml.h:172
 msgid "Failed to find duplicate messages."
 msgstr "Zlyhalo hľadanie duplicitných správ."
 
-#: ../mail/mail.error.xml.h:172
+#: ../mail/mail.error.xml.h:173
 msgid "Failed to retrieve messages."
 msgstr "Zlyhalo získavanie správ."
 
-#: ../mail/mail.error.xml.h:173
+#: ../mail/mail.error.xml.h:174
 msgid "Failed to mark messages as read."
 msgstr "Zlyhalo označenie správ ako prečítané."
 
-#: ../mail/mail.error.xml.h:174
+#: ../mail/mail.error.xml.h:175
 msgid "Failed to remove attachments from messages."
 msgstr "Zlyhalo zmazanie príloh zo správ."
 
-#: ../mail/mail.error.xml.h:175
+#: ../mail/mail.error.xml.h:176
 msgid "Failed to download messages for offline viewing."
 msgstr "Zlyhalo prevzatie správ na prezeranie v odpojenom režime."
 
-#: ../mail/mail.error.xml.h:176
+#: ../mail/mail.error.xml.h:177
 msgid "Failed to save messages to disk."
 msgstr "Zlyhalo ukladanie správ na disk."
 
-#: ../mail/mail.error.xml.h:177
+#: ../mail/mail.error.xml.h:178
 msgid "Hidden file is attached."
 msgstr "Skrytý súbor je priložený."
 
-#: ../mail/mail.error.xml.h:178
+#: ../mail/mail.error.xml.h:179
 msgid ""
 "The attachment named {0} is a hidden file and may contain sensitive data. "
 "Please review it before sending."
@@ -18892,47 +18928,47 @@ msgstr ""
 "Príloha s názvom {0} je skrytý súbor a môže obsahovať citlivé údaje. "
 "Skontrolujte to, prosím, pred odoslaním."
 
-#: ../mail/mail.error.xml.h:179
+#: ../mail/mail.error.xml.h:180
 msgid "Printing failed."
 msgstr "Zlyhalo tlačenie."
 
-#: ../mail/mail.error.xml.h:180
+#: ../mail/mail.error.xml.h:181
 msgid "The printer replied &quot;{0}&quot;."
 msgstr "Tlačiareň odpovedala „{0}“."
 
-#: ../mail/mail.error.xml.h:181
+#: ../mail/mail.error.xml.h:182
 msgid "Could not perform this operation on {0}."
 msgstr "Nepodarilo sa vykonať túto operáciu na {0}."
 
-#: ../mail/mail.error.xml.h:182
+#: ../mail/mail.error.xml.h:183
 msgid "You must be working online to complete this operation."
 msgstr "Na dokončenie tejto operácie musíte pracovať v pripojenom režime."
 
-#: ../mail/mail.error.xml.h:183
+#: ../mail/mail.error.xml.h:184
 msgid "Message from &quot;{0}&quot; account:"
 msgstr "Správa z účtu „{0}“:"
 
-#: ../mail/mail.error.xml.h:184
+#: ../mail/mail.error.xml.h:185
 msgid "Failed to mark thread to be ignored in folder '{0}'"
 msgstr "Zlyhalo označenie vlákna ako ignorované v priečinku „{0}“"
 
-#: ../mail/mail.error.xml.h:185
+#: ../mail/mail.error.xml.h:186
 msgid "Failed to unmark thread from being ignored in folder '{0}'"
 msgstr "Zlyhalo rušenie označenia vlákna v priečinku „{0}“ ako ignorované"
 
-#: ../mail/mail.error.xml.h:186
+#: ../mail/mail.error.xml.h:187
 msgid "Failed to mark subthread to be ignored in folder '{0}'"
 msgstr "Zlyhalo označenie podvlákna v priečinku „{0}“ ako ignorované"
 
-#: ../mail/mail.error.xml.h:187
+#: ../mail/mail.error.xml.h:188
 msgid "Failed to unmark subthread from being ignored in folder '{0}'"
 msgstr "Zlyhalo rušenie označenia podvlákna v priečinku „{0}“ ako ignorované"
 
-#: ../mail/mail.error.xml.h:188
+#: ../mail/mail.error.xml.h:189
 msgid "Remote content download had been blocked for this message."
 msgstr "Prevzatie vzdialeného obsahu bolo pre túto správu zablokované."
 
-#: ../mail/mail.error.xml.h:189
+#: ../mail/mail.error.xml.h:190
 msgid ""
 "You can download remote content manually, or set to remember to download "
 "remote content for this sender or used sites."
@@ -18941,35 +18977,35 @@ msgstr ""
 "vzdialeného obsahu pre tohto odosielateľa, alebo použité stránky."
 
 #. Translators: This constructs a string like "Follow-up, Completed on Tuesday, January 13, 2009"
-#: ../mail/mail.error.xml.h:191
+#: ../mail/mail.error.xml.h:192
 msgid "{0}, Completed on {1}"
 msgstr "{0}, dokončené dňa {1}"
 
 #. Translators: This constructs a string like "Follow-up by Tuesday, January 13, 2009"
-#: ../mail/mail.error.xml.h:193
+#: ../mail/mail.error.xml.h:194
 msgid "{0} by {1}"
 msgstr "{0} dňa {1}"
 
 #. Translators: This constructs a string like "Overdue: Follow-up by Tuesday, January 13, 2009"
-#: ../mail/mail.error.xml.h:195
+#: ../mail/mail.error.xml.h:196
 msgid "Overdue: {0} by {1}"
 msgstr "Po termíne: {0} do {1}"
 
-#: ../mail/mail.error.xml.h:197
+#: ../mail/mail.error.xml.h:198
 #, fuzzy
 #| msgid "This signature has been changed, but has not been saved."
 msgid "This message note has been changed, but has not been saved."
 msgstr "Tento podpis bol zmenený, ale nebol uložený."
 
 #. Translators: {0} is the name of the folder where the delete of the message note failed.
-#: ../mail/mail.error.xml.h:200
+#: ../mail/mail.error.xml.h:201
 #, fuzzy
 #| msgid "Failed to delete an event in the calendar '{0}'"
 msgid "Failed to delete message note in folder '{0}'"
 msgstr "Zlyhalo odstránenie udalosti z kalendára „{0}“"
 
 #. Translators: {0} is the name of the folder where the store of the message note failed.
-#: ../mail/mail.error.xml.h:202
+#: ../mail/mail.error.xml.h:203
 #, fuzzy
 #| msgid "Failed to mark thread to be ignored in folder '{0}'"
 msgid "Failed to store message note in folder '{0}'"
@@ -20194,11 +20230,11 @@ msgstr "Hľadanie konfliktov"
 msgid "Select the calendars to search for meeting conflicts"
 msgstr "Zvoľte kalendáre, v ktorých sa budú hľadať prekrývajúce sa stretnutia"
 
-#: ../modules/calendar/e-calendar-preferences.c:1057
+#: ../modules/calendar/e-calendar-preferences.c:1063
 msgid "Ti_me and date:"
 msgstr "Č_as a dátum:"
 
-#: ../modules/calendar/e-calendar-preferences.c:1058
+#: ../modules/calendar/e-calendar-preferences.c:1064
 msgid "_Date only:"
 msgstr "Len _dátum:"
 
@@ -20361,99 +20397,105 @@ msgid "_Show appointment end times in week and month view"
 msgstr "_Zobraziť koncové časy schôdzok v týždennom a mesačnom pohľade"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:50
+#, fuzzy
+#| msgid "Show appointment end times in week and month views"
+msgid "Show appointment _icons in the month view"
+msgstr "Zobraziť koncové časy schôdzok v týždennom a mesačnom zobrazení"
+
+#: ../modules/calendar/e-calendar-preferences.ui.h:51
 msgid "_Compress weekends in month view"
 msgstr "Z_hustiť víkendy v mesačnom pohľade"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:51
+#: ../modules/calendar/e-calendar-preferences.ui.h:52
 msgid "Show week _numbers"
 msgstr "Zobraziť čísla _týždňov"
 
 # PK: kde to je?, vlavo dole v kalendari?
 # MČ: Je to vľavo dole v mesačnom prehľade. Je tam zoznam dní a dni, kde je opkakujúca sa udalosť, sú potom skloneným písmom
-#: ../modules/calendar/e-calendar-preferences.ui.h:52
+#: ../modules/calendar/e-calendar-preferences.ui.h:53
 msgid "Show r_ecurring events in italic in bottom left calendar"
 msgstr ""
 "Zobraziť opakujúce sa _udalosti skloneným písmom vľavom dolnom rohu kalendára"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:53
+#: ../modules/calendar/e-calendar-preferences.ui.h:54
 msgid "Sc_roll Month View by a week"
 msgstr "P_osúvať mesačné zobrazenie po týždňoch"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:54
+#: ../modules/calendar/e-calendar-preferences.ui.h:55
 msgid "Alerts"
 msgstr "Výstrahy"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:55
+#: ../modules/calendar/e-calendar-preferences.ui.h:56
 msgid "_Ask for confirmation when deleting items"
 msgstr "_Pýtať si potvrdenie pri odstraňovaní položiek"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:56
+#: ../modules/calendar/e-calendar-preferences.ui.h:57
 msgid "Display"
 msgstr "Zobrazenie"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:57
+#: ../modules/calendar/e-calendar-preferences.ui.h:58
 msgid "Task List"
 msgstr "Zoznam úloh"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:58
+#: ../modules/calendar/e-calendar-preferences.ui.h:59
 msgid "Highlight t_asks due today"
 msgstr "Zvýrazniť úlohy s _dnešným termínom:"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:60
+#: ../modules/calendar/e-calendar-preferences.ui.h:61
 msgid "Highlight _overdue tasks"
 msgstr "Zvýrazniť úlohy _po termíne:"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:61
+#: ../modules/calendar/e-calendar-preferences.ui.h:62
 msgid "_Hide completed tasks after"
 msgstr "_Skryť úlohy dokončené po"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:64
+#: ../modules/calendar/e-calendar-preferences.ui.h:65
 msgid "Display reminders in _notification area only"
 msgstr "Zobraziť pripomenutia len v _oblasti oznámení"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:65
+#: ../modules/calendar/e-calendar-preferences.ui.h:66
 msgid "Display reminders for completed _tasks"
 msgstr "Zobraziť pripomenutia dokončených úloh"
 
 #. This is the first half of a user preference. "Show a reminder [time-period] before every appointment"
-#: ../modules/calendar/e-calendar-preferences.ui.h:67
+#: ../modules/calendar/e-calendar-preferences.ui.h:68
 msgid "Sh_ow a reminder"
 msgstr "_Zobraziť pripomenutie"
 
 #. This is the last half of a user preference. "Show a reminder [time-period] before every appointment"
-#: ../modules/calendar/e-calendar-preferences.ui.h:69
+#: ../modules/calendar/e-calendar-preferences.ui.h:70
 msgid "before every appointment"
 msgstr "pred každou schôdzkou"
 
 #. This is the first half of a user preference. "Show a reminder [time-period] before every anniversary/birthday"
-#: ../modules/calendar/e-calendar-preferences.ui.h:71
+#: ../modules/calendar/e-calendar-preferences.ui.h:72
 msgid "Show a _reminder"
 msgstr "Zobraziť _pripomenutie"
 
 #. This is the last half of a user preference. "Show a reminder [time-period] before every anniversary/birthday"
-#: ../modules/calendar/e-calendar-preferences.ui.h:73
+#: ../modules/calendar/e-calendar-preferences.ui.h:74
 msgid "before every anniversary/birthday"
 msgstr "pred každým výročím/narodeninami"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:74
+#: ../modules/calendar/e-calendar-preferences.ui.h:75
 msgid "Default _snooze time (in minutes)"
 msgstr "Predvolený čas _odloženia (v minútach)"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:75
+#: ../modules/calendar/e-calendar-preferences.ui.h:76
 msgid "Select the calendars for reminder notification"
 msgstr "Vybrať kalendáre pre oznámenie pripomenutia"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:76
+#: ../modules/calendar/e-calendar-preferences.ui.h:77
 msgid "Default Free/Busy Server"
 msgstr "Predvolený server pre diár"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:79
+#: ../modules/calendar/e-calendar-preferences.ui.h:80
 #, no-c-format
 msgid "%u and %d will be replaced by user and domain from the email address."
 msgstr "%u a %d budú nahradené používateľom a doménou z emailovej adresy."
 
 # PK: jedna?
-#: ../modules/calendar/e-calendar-preferences.ui.h:80
+#: ../modules/calendar/e-calendar-preferences.ui.h:81
 msgid "Publishing Information"
 msgstr "Zverejňujú sa informácie"
 
@@ -23572,60 +23614,72 @@ msgstr "Nie je obrázok"
 msgid "The file you selected does not look like a valid PNG image. Error: {0}"
 msgstr "Súbor, ktorý ste vybrali, nevyzerá ako platný PNG obrázok. Chyba: {0}"
 
-#: ../plugins/mailing-list-actions/mailing-list-actions.c:364
+#: ../plugins/mailing-list-actions/mailing-list-actions.c:380
 msgid "Get List _Archive"
 msgstr "Získať _archív konferencie"
 
 # tooltip
-#: ../plugins/mailing-list-actions/mailing-list-actions.c:366
+#: ../plugins/mailing-list-actions/mailing-list-actions.c:382
 msgid "Get an archive of the list this message belongs to"
 msgstr "Získa archív konferencie, do ktorej patrí táto správa"
 
-#: ../plugins/mailing-list-actions/mailing-list-actions.c:371
+#: ../plugins/mailing-list-actions/mailing-list-actions.c:387
+#, fuzzy
+#| msgid "_Message Source"
+msgid "Copy _Message Archive URL"
+msgstr "_Zdroj správy"
+
+#: ../plugins/mailing-list-actions/mailing-list-actions.c:389
+#, fuzzy
+#| msgid "Create a new memo from the selected message"
+msgid "Copy direct URL for the selected message in its archive"
+msgstr "Vytvorí novú poznámku z vybranej správy"
+
+#: ../plugins/mailing-list-actions/mailing-list-actions.c:394
 msgid "Get List _Usage Information"
 msgstr "Získať informácie o po_užívaní konferencie"
 
-#: ../plugins/mailing-list-actions/mailing-list-actions.c:373
+#: ../plugins/mailing-list-actions/mailing-list-actions.c:396
 msgid "Get information about the usage of the list this message belongs to"
 msgstr "Získa informácie o používaní konferencie, do ktorej patrí táto správa"
 
-#: ../plugins/mailing-list-actions/mailing-list-actions.c:378
+#: ../plugins/mailing-list-actions/mailing-list-actions.c:401
 msgid "Contact List _Owner"
 msgstr "Kontaktovať _vlastníka konferencie"
 
 # tooltip
-#: ../plugins/mailing-list-actions/mailing-list-actions.c:380
+#: ../plugins/mailing-list-actions/mailing-list-actions.c:403
 msgid "Contact the owner of the mailing list this message belongs to"
 msgstr "Skontaktuje vlastníka konferencie, do ktorej patrí táto správa"
 
-#: ../plugins/mailing-list-actions/mailing-list-actions.c:385
+#: ../plugins/mailing-list-actions/mailing-list-actions.c:408
 msgid "_Post Message to List"
 msgstr "_Odoslať správu do konferencie"
 
 # tooltip
-#: ../plugins/mailing-list-actions/mailing-list-actions.c:387
+#: ../plugins/mailing-list-actions/mailing-list-actions.c:410
 msgid "Post a message to the mailing list this message belongs to"
 msgstr "Odošle správu do konferencie, do ktorej patrí táto správa"
 
-#: ../plugins/mailing-list-actions/mailing-list-actions.c:392
+#: ../plugins/mailing-list-actions/mailing-list-actions.c:415
 msgid "_Subscribe to List"
 msgstr "Prihlá_siť sa do konferencie"
 
 # tooltip
-#: ../plugins/mailing-list-actions/mailing-list-actions.c:394
+#: ../plugins/mailing-list-actions/mailing-list-actions.c:417
 msgid "Subscribe to the mailing list this message belongs to"
 msgstr "Prihlási do konferencie, do ktorej patrí táto správa"
 
-#: ../plugins/mailing-list-actions/mailing-list-actions.c:399
+#: ../plugins/mailing-list-actions/mailing-list-actions.c:422
 msgid "_Unsubscribe from List"
 msgstr "_Odhlásiť z konferencie"
 
 # tooltip
-#: ../plugins/mailing-list-actions/mailing-list-actions.c:401
+#: ../plugins/mailing-list-actions/mailing-list-actions.c:424
 msgid "Unsubscribe from the mailing list this message belongs to"
 msgstr "Odhlási z konferencie, do ktorej patrí táto správa"
 
-#: ../plugins/mailing-list-actions/mailing-list-actions.c:408
+#: ../plugins/mailing-list-actions/mailing-list-actions.c:431
 msgid "Mailing _List"
 msgstr "Poštová _konferencia"
 
@@ -23974,17 +24028,19 @@ msgstr "Vytvorí nové stretnutie z vybranej správy"
 msgid "Convert a mail message to a task."
 msgstr "Prevedie poštovú správu na úlohu."
 
+#: ../plugins/pst-import/evolution-pst.metainfo.xml.in.h:1
 #: ../plugins/pst-import/org-gnome-pst-import.eplug.xml.h:1
 msgid "Outlook PST import"
 msgstr "Import Outlook PST"
 
-#: ../plugins/pst-import/org-gnome-pst-import.eplug.xml.h:2
-msgid "Outlook personal folders (.pst)"
-msgstr "Osobné priečinky Outlook (.pst)"
-
+#: ../plugins/pst-import/evolution-pst.metainfo.xml.in.h:2
 #: ../plugins/pst-import/org-gnome-pst-import.eplug.xml.h:3
 msgid "Import Outlook messages from PST file"
 msgstr "Importovať Outlook správy z PST súboru"
+
+#: ../plugins/pst-import/org-gnome-pst-import.eplug.xml.h:2
+msgid "Outlook personal folders (.pst)"
+msgstr "Osobné priečinky Outlook (.pst)"
 
 #: ../plugins/pst-import/pst-importer.c:526
 msgid "_Mail"
@@ -24321,40 +24377,40 @@ msgstr "Uložiť ako ša_blónu"
 msgid "Save as Template"
 msgstr "Uloží ako šablónu"
 
-#: ../shell/e-shell.c:362
+#: ../shell/e-shell.c:380
 msgid "Preparing to go offline..."
 msgstr "Pripravuje sa prechod na odpojený režim…"
 
-#: ../shell/e-shell.c:391
+#: ../shell/e-shell.c:409
 msgid "Preparing to go online..."
 msgstr "Pripravuje sa prechod na pripojený režim…"
 
 #  reason for inhibiting
-#: ../shell/e-shell.c:502
+#: ../shell/e-shell.c:520
 msgid "Preparing to quit"
 msgstr "Príprava na ukončenie"
 
-#: ../shell/e-shell.c:508
+#: ../shell/e-shell.c:526
 msgid "Preparing to quit..."
 msgstr "Pripravuje sa na ukončenie…"
 
-#: ../shell/e-shell.c:1025
+#: ../shell/e-shell.c:1043
 msgid "Credentials are required to connect to the destination host."
 msgstr "Na pripojenie k cieľovému hostiteľovi sú potrebné poverenia."
 
-#: ../shell/e-shell.c:1204 ../shell/e-shell-window-actions.c:827
+#: ../shell/e-shell.c:1211 ../shell/e-shell-window-actions.c:827
 msgid "New _Window"
 msgstr "Nové _okno"
 
-#: ../shell/e-shell.c:1215
+#: ../shell/e-shell.c:1222
 msgid "Quick _Reference"
 msgstr "_Rýchla príručka"
 
-#: ../shell/e-shell.c:1217 ../shell/e-shell-window-actions.c:764
+#: ../shell/e-shell.c:1224 ../shell/e-shell-window-actions.c:764
 msgid "_About"
 msgstr "_O progame"
 
-#: ../shell/e-shell.c:1218 ../shell/e-shell-window-actions.c:862
+#: ../shell/e-shell.c:1225 ../shell/e-shell-window-actions.c:862
 msgid "_Quit"
 msgstr "_Ukončiť"
 
@@ -24718,7 +24774,7 @@ msgid "%s - Evolution"
 msgstr "%s - Evolution"
 
 #. Preview/Alpha/Beta version warning message
-#: ../shell/main.c:199
+#: ../shell/main.c:195
 #, no-c-format
 msgid ""
 "Hi.  Thanks for taking the time to download this preview release\n"
@@ -24753,7 +24809,7 @@ msgstr ""
 "Dúfame, že si užijete výsledky našej tvrdej práce a\n"
 "uvítame vaše príspevky.\n"
 
-#: ../shell/main.c:223
+#: ../shell/main.c:219
 msgid ""
 "Thanks\n"
 "The Evolution Team\n"
@@ -24761,13 +24817,13 @@ msgstr ""
 "Ďakujeme\n"
 "Tím Evolution\n"
 
-#: ../shell/main.c:229
+#: ../shell/main.c:225
 msgid "Do not tell me again"
 msgstr "Túto správu už nezobrazovať"
 
 #. Translators: Do NOT translate the five component
 #. * names, they MUST remain in English!
-#: ../shell/main.c:318
+#: ../shell/main.c:314
 msgid ""
 "Start Evolution showing the specified component. Available options are "
 "'mail', 'calendar', 'contacts', 'tasks', and 'memos'"
@@ -24776,39 +24832,39 @@ msgstr ""
 "„mail“ (pošta), „calendar“ (kalendár), „contacts“ (kontakty), "
 "„tasks“ (úlohy) a „memos“ (poznámky)"
 
-#: ../shell/main.c:322
+#: ../shell/main.c:318
 msgid "Apply the given geometry to the main window"
 msgstr "Použiť dodaný rozmer pre hlavné okno"
 
-#: ../shell/main.c:326
+#: ../shell/main.c:322
 msgid "Start in online mode"
 msgstr "Spustiť v pripojenom režime"
 
-#: ../shell/main.c:328
+#: ../shell/main.c:324
 msgid "Ignore network availability"
 msgstr "Ignorovať dostupnosť siete"
 
-#: ../shell/main.c:331
+#: ../shell/main.c:327
 msgid "Forcibly shut down Evolution"
 msgstr "Vynútene vypnúť Evolution"
 
-#: ../shell/main.c:334
+#: ../shell/main.c:330
 msgid "Disable loading of any plugins."
 msgstr "Zakázať načítavanie zásuvných modulov."
 
-#: ../shell/main.c:336
+#: ../shell/main.c:332
 msgid "Disable preview pane of Mail, Contacts and Tasks."
 msgstr "Zakázať panel náhľadu Pošta, Kontakty a Úlohy."
 
-#: ../shell/main.c:340
+#: ../shell/main.c:336
 msgid "Import URIs or filenames given as rest of arguments."
 msgstr "Importovať URI alebo názvy súborov dostupné ako ostatné parametre."
 
-#: ../shell/main.c:342
+#: ../shell/main.c:338
 msgid "Request a running Evolution process to quit"
 msgstr "Požiadať spustený Evolution proces o ukončenie"
 
-#: ../shell/main.c:419
+#: ../shell/main.c:415
 #, c-format
 msgid ""
 "Cannot start Evolution.  Another Evolution instance may be unresponsive. "
@@ -24818,7 +24874,7 @@ msgstr ""
 "systému: %s"
 
 # PIM - personal information manager
-#: ../shell/main.c:473 ../shell/main.c:478
+#: ../shell/main.c:469 ../shell/main.c:474
 msgid "- The Evolution PIM and Email Client"
 msgstr "- Poštový klient a osobný správca údajov Evolution"
 
