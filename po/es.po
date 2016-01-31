@@ -20,8 +20,8 @@ msgstr ""
 "Project-Id-Version: evolution.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2016-01-14 05:51+0000\n"
-"PO-Revision-Date: 2016-01-14 15:35+0100\n"
+"POT-Creation-Date: 2016-01-25 05:50+0000\n"
+"PO-Revision-Date: 2016-01-25 13:23+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
 "Language: es\n"
@@ -578,7 +578,7 @@ msgstr "Certificados"
 #: ../calendar/gui/e-comp-editor.c:2000 ../calendar/gui/e-comp-editor.c:2072
 #: ../e-util/e-preferences-window.c:382 ../e-util/e-send-options.ui.h:41
 #: ../plugins/email-custom-header/org-gnome-email-custom-header.ui.h:2
-#: ../shell/e-shell.c:1216 ../shell/e-shell-window-actions.c:955
+#: ../shell/e-shell.c:1223 ../shell/e-shell-window-actions.c:955
 msgid "_Help"
 msgstr "Ay_uda"
 
@@ -850,7 +850,7 @@ msgstr "Contacto no válido."
 #: ../plugins/email-custom-header/org-gnome-email-custom-header.ui.h:4
 #: ../plugins/publish-calendar/url-editor-dialog.c:422
 #: ../shell/e-shell-content.c:661 ../shell/e-shell-content.c:767
-#: ../shell/main.c:184 ../smime/gui/certificate-manager.c:1338
+#: ../shell/main.c:180 ../smime/gui/certificate-manager.c:1338
 #: ../smime/gui/e-cert-selector.c:238 ../smime/gui/smime-ui.ui.h:24
 msgid "_OK"
 msgstr "_Aceptar"
@@ -3870,7 +3870,7 @@ msgstr "La hora de inicio no es una hora válida"
 #: ../calendar/gui/e-comp-editor-page-attachments.c:211
 #: ../calendar/gui/e-comp-editor.c:339 ../mail/e-mail-reader-utils.c:650
 #: ../mail/mail-send-recv.c:486 ../mail/mail-send-recv.c:1285
-#: ../plugins/face/face.c:176 ../shell/e-shell.c:973 ../shell/e-shell.c:995
+#: ../plugins/face/face.c:176 ../shell/e-shell.c:991 ../shell/e-shell.c:1013
 #: ../smime/gui/certificate-manager.c:346
 msgid "Unknown error"
 msgstr "Error desconocido"
@@ -4831,7 +4831,7 @@ msgstr "Cerrar la ventana actual"
 #: ../calendar/gui/e-comp-editor.c:1979 ../e-util/e-focus-tracker.c:775
 #: ../e-util/e-html-editor-actions.c:1076 ../e-util/e-text.c:2109
 #: ../e-util/e-web-view.c:379 ../mail/e-mail-browser.c:136
-#: ../mail/mail.error.xml.h:141 ../shell/e-shell-window-actions.c:799
+#: ../mail/mail.error.xml.h:142 ../shell/e-shell-window-actions.c:799
 msgid "_Copy"
 msgstr "_Copiar"
 
@@ -7516,7 +7516,7 @@ msgstr "_Mensaje nuevo"
 msgid "Open New Message window"
 msgstr "Abrir la ventana de mensaje nuevo"
 
-#: ../composer/e-composer-actions.c:348 ../shell/e-shell.c:1209
+#: ../composer/e-composer-actions.c:348 ../shell/e-shell.c:1216
 #: ../shell/e-shell-window-actions.c:848
 msgid "_Preferences"
 msgstr "_Preferencias"
@@ -7751,11 +7751,11 @@ msgstr ""
 "No es posible cifrar el mensaje saliente: no hay establecido un certificado "
 "de cifrado para esta cuenta"
 
-#: ../composer/e-msg-composer.c:1619 ../composer/e-msg-composer.c:2651
+#: ../composer/e-msg-composer.c:1619 ../composer/e-msg-composer.c:2639
 msgid "Compose Message"
 msgstr "Redactar un mensaje"
 
-#: ../composer/e-msg-composer.c:5001
+#: ../composer/e-msg-composer.c:4989
 msgid "The composer contains a non-text message body, which cannot be edited."
 msgstr ""
 "El editor contiene un mensaje cuyo cuerpo no tiene texto, el cual no puede "
@@ -7879,7 +7879,7 @@ msgstr "El error devuelto fue «{0}». Seguramente no se ha guardado el mensaje.
 msgid "An error occurred while sending. How do you want to proceed?"
 msgstr "Ocurrió un error al enviar. ¿Cómo quiere proceder?"
 
-#: ../composer/mail-composer.error.xml.h:28 ../mail/mail.error.xml.h:170
+#: ../composer/mail-composer.error.xml.h:28 ../mail/mail.error.xml.h:171
 msgid "The reported error was &quot;{0}&quot;."
 msgstr "El error devuelto fue «{0}»."
 
@@ -7970,6 +7970,11 @@ msgstr "Gestione su correo-e, contactos y calendario"
 #: ../data/evolution.desktop.in.in.h:5
 msgid "email;calendar;contact;addressbook;task;"
 msgstr "correo-e;calendario;contacto;libreta;direcciones;tarea;"
+
+#: ../data/evolution.desktop.in.in.h:6
+#| msgid "New _Window"
+msgid "New Window"
+msgstr "Ventana nueva"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:1
 msgid "Enable address formatting"
@@ -10718,7 +10723,7 @@ msgid "Initial folder for GtkFileChooser dialogs."
 msgstr ""
 "La carpeta inicial para los diálogos GtkFileChooser (selector de archivos)."
 
-#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:7 ../shell/main.c:324
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:7 ../shell/main.c:320
 msgid "Start in offline mode"
 msgstr "Iniciar en modo desconectado"
 
@@ -10748,7 +10753,6 @@ msgid "Flag that enables a much simplified user interface."
 msgstr "Opción que activa una interfaz mucho más simple."
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:13
-#| msgid "Zoom large images to not be wider than the window width"
 msgid "List of button names to hide in the window switcher"
 msgstr ""
 "Lista de nombres de botones que ocultar en el intercambiador de ventanas"
@@ -13353,11 +13357,11 @@ msgstr "_Tamaño:"
 msgid "Text Properties"
 msgstr "Propiedades del texto"
 
-#: ../e-util/e-html-editor-view.c:6138
+#: ../e-util/e-html-editor-view.c:6289
 msgid "Changed property"
 msgstr "Propiedad cambiada"
 
-#: ../e-util/e-html-editor-view.c:6139
+#: ../e-util/e-html-editor-view.c:6290
 msgid "Whether editor changed"
 msgstr "Indica si cambió el editor"
 
@@ -14736,7 +14740,7 @@ msgstr "_Crear vista nueva"
 msgid "_Replace existing view"
 msgstr "_Reemplazar vista existente"
 
-#: ../e-util/widgets.error.xml.h:1 ../mail/mail.error.xml.h:196
+#: ../e-util/widgets.error.xml.h:1 ../mail/mail.error.xml.h:197
 msgid "Do you wish to save your changes?"
 msgstr "¿Quiere guardar los cambios?"
 
@@ -14744,7 +14748,7 @@ msgstr "¿Quiere guardar los cambios?"
 msgid "This signature has been changed, but has not been saved."
 msgstr "Esta firma ha cambiado, pero no se ha guardado."
 
-#: ../e-util/widgets.error.xml.h:3 ../mail/mail.error.xml.h:198
+#: ../e-util/widgets.error.xml.h:3 ../mail/mail.error.xml.h:199
 msgid "_Discard changes"
 msgstr "_Descartar los cambios"
 
@@ -14974,17 +14978,17 @@ msgstr "Falló anexar a la carpeta local «Correo enviado»: %s"
 msgid "Sending message"
 msgstr "Enviando mensaje"
 
-#: ../libemail-engine/e-mail-store-utils.c:189
+#: ../libemail-engine/e-mail-store-utils.c:190
 #, c-format
 msgid "Disconnecting from '%s'"
 msgstr "Desconectando de «%s»"
 
-#: ../libemail-engine/e-mail-store-utils.c:265
+#: ../libemail-engine/e-mail-store-utils.c:266
 #, c-format
 msgid "Reconnecting to '%s'"
 msgstr "Reconectándose con «%s»"
 
-#: ../libemail-engine/e-mail-store-utils.c:350
+#: ../libemail-engine/e-mail-store-utils.c:351
 #, c-format
 msgid "Preparing account '%s' for offline"
 msgstr "Preparando la cuenta «%s» para desconexión"
@@ -15223,122 +15227,132 @@ msgstr ""
 msgid "Done"
 msgstr "Hecho"
 
-#: ../mail/e-mail-config-defaults-page.c:381
+#: ../mail/e-mail-config-defaults-page.c:371
+#| msgid "Checking Service"
+msgid "Checking server settings..."
+msgstr "Comprobando la configuración del servidor…"
+
+#: ../mail/e-mail-config-defaults-page.c:489
 msgctxt "ReplyForward"
 msgid "Use global setting"
 msgstr "Usar configuración global"
 
-#: ../mail/e-mail-config-defaults-page.c:383 ../mail/mail-config.ui.h:26
+#: ../mail/e-mail-config-defaults-page.c:491 ../mail/mail-config.ui.h:26
 msgctxt "ReplyForward"
 msgid "Attachment"
 msgstr "Adjunto"
 
-#: ../mail/e-mail-config-defaults-page.c:385 ../mail/mail-config.ui.h:27
+#: ../mail/e-mail-config-defaults-page.c:493 ../mail/mail-config.ui.h:27
 msgctxt "ReplyForward"
 msgid "Inline (Outlook style)"
 msgstr "En línea (estilo Outlook)"
 
-#: ../mail/e-mail-config-defaults-page.c:387 ../mail/mail-config.ui.h:28
+#: ../mail/e-mail-config-defaults-page.c:495 ../mail/mail-config.ui.h:28
 msgctxt "ReplyForward"
 msgid "Quoted"
 msgstr "Citado"
 
-#: ../mail/e-mail-config-defaults-page.c:389 ../mail/mail-config.ui.h:29
+#: ../mail/e-mail-config-defaults-page.c:497 ../mail/mail-config.ui.h:29
 msgctxt "ReplyForward"
 msgid "Do Not Quote"
 msgstr "No entrecomillar"
 
-#: ../mail/e-mail-config-defaults-page.c:645
+#: ../mail/e-mail-config-defaults-page.c:822
 msgid "Special Folders"
 msgstr "Carpetas especiales"
 
-#: ../mail/e-mail-config-defaults-page.c:654
+#: ../mail/e-mail-config-defaults-page.c:831
 msgid "Draft Messages _Folder:"
 msgstr "Carpeta de _borradores:"
 
-#: ../mail/e-mail-config-defaults-page.c:664
+#: ../mail/e-mail-config-defaults-page.c:841
 msgid "Choose a folder for saving draft messages."
 msgstr "Elija una carpeta en la que guardar los borradores."
 
-#: ../mail/e-mail-config-defaults-page.c:678
+#: ../mail/e-mail-config-defaults-page.c:855
 msgid "Sent _Messages Folder:"
 msgstr "Carpeta de _mensajes enviados:"
 
-#: ../mail/e-mail-config-defaults-page.c:688
+#: ../mail/e-mail-config-defaults-page.c:865
 msgid "Choose a folder for saving sent messages."
 msgstr "Elija una carpeta en la que guardar los mensajes enviados."
 
-#: ../mail/e-mail-config-defaults-page.c:707
+#: ../mail/e-mail-config-defaults-page.c:884
 msgid "S_ave replies in the folder of the message being replied to"
 msgstr ""
 "Gu_ardar respuestas en la carpeta del mensaje al que se está respondiendo"
 
-#: ../mail/e-mail-config-defaults-page.c:724
+#: ../mail/e-mail-config-defaults-page.c:901
 msgid "Archi_ve Folder:"
 msgstr "Archi_var carpeta:"
 
-#: ../mail/e-mail-config-defaults-page.c:734
+#: ../mail/e-mail-config-defaults-page.c:911
 #: ../modules/mail/em-mailer-prefs.c:1403
 msgid "Choose a folder to archive messages to."
 msgstr "Elija una carpeta en la que archivar los mensajes."
 
-#: ../mail/e-mail-config-defaults-page.c:748
+#: ../mail/e-mail-config-defaults-page.c:929
 msgid "_Restore Defaults"
 msgstr "_Restaurar valores predeterminados"
 
-#: ../mail/e-mail-config-defaults-page.c:762
+#: ../mail/e-mail-config-defaults-page.c:946
+#| msgid "Local Folders"
+msgid "_Lookup Folders"
+msgstr "_Carpetas de búsqueda"
+
+#: ../mail/e-mail-config-defaults-page.c:964
 msgid "Use a Real Folder for _Trash:"
 msgstr "Usar una carpeta _real para la papelera:"
 
-#: ../mail/e-mail-config-defaults-page.c:763
+#: ../mail/e-mail-config-defaults-page.c:965
 msgid "Choose a folder for deleted messages."
 msgstr "Elija una carpeta en la que guardar los mensajes eliminados."
 
-#: ../mail/e-mail-config-defaults-page.c:772
+#: ../mail/e-mail-config-defaults-page.c:974
 msgid "Use a Real Folder for _Junk:"
 msgstr "Usar una carpeta real para el _spam:"
 
-#: ../mail/e-mail-config-defaults-page.c:773
+#: ../mail/e-mail-config-defaults-page.c:975
 msgid "Choose a folder for junk messages."
 msgstr "Elija una carpeta para el spam."
 
-#: ../mail/e-mail-config-defaults-page.c:790
+#: ../mail/e-mail-config-defaults-page.c:992
 msgid "Composing Messages"
 msgstr "Redactar mensajes"
 
-#: ../mail/e-mail-config-defaults-page.c:799
+#: ../mail/e-mail-config-defaults-page.c:1001
 msgid "Alway_s carbon-copy (cc) to:"
 msgstr "Siempre enviar _copia de carbón (Cc) a:"
 
-#: ../mail/e-mail-config-defaults-page.c:824
+#: ../mail/e-mail-config-defaults-page.c:1026
 msgid "Always _blind carbon-copy (bcc) to:"
 msgstr "Siempre enviar copia de carbón _oculta (Cco) a:"
 
-#: ../mail/e-mail-config-defaults-page.c:855
+#: ../mail/e-mail-config-defaults-page.c:1057
 msgid "Re_ply style:"
 msgstr "Estilo de _respuesta:"
 
-#: ../mail/e-mail-config-defaults-page.c:891
+#: ../mail/e-mail-config-defaults-page.c:1093
 msgid "Message Receipts"
 msgstr "Destinatarios del mensaje"
 
-#: ../mail/e-mail-config-defaults-page.c:900
+#: ../mail/e-mail-config-defaults-page.c:1102
 msgid "S_end message receipts:"
 msgstr "_Enviar confirmaciones de mensajes:"
 
-#: ../mail/e-mail-config-defaults-page.c:925
+#: ../mail/e-mail-config-defaults-page.c:1127
 msgid "Never"
 msgstr "Nunca"
 
-#: ../mail/e-mail-config-defaults-page.c:931
+#: ../mail/e-mail-config-defaults-page.c:1133
 msgid "Always"
 msgstr "Siempre"
 
-#: ../mail/e-mail-config-defaults-page.c:937
+#: ../mail/e-mail-config-defaults-page.c:1139
 msgid "Ask for each message"
 msgstr "Preguntar por cada mensaje"
 
-#: ../mail/e-mail-config-defaults-page.c:1008
+#: ../mail/e-mail-config-defaults-page.c:1246
 msgid "Defaults"
 msgstr "Predeterminados"
 
@@ -15840,7 +15854,7 @@ msgid "Copy to Folder"
 msgstr "Copiar a la carpeta"
 
 #: ../mail/e-mail-reader.c:356 ../mail/em-folder-utils.c:487
-#: ../mail/mail.error.xml.h:147
+#: ../mail/mail.error.xml.h:148
 msgid "_Move"
 msgstr "_Mover"
 
@@ -18502,38 +18516,43 @@ msgstr ""
 "soportados."
 
 #: ../mail/mail.error.xml.h:126
+#| msgid "Failed to get server URL."
+msgid "Failed to get server setup."
+msgstr "Falló al obtener la configuración del servidor."
+
+#: ../mail/mail.error.xml.h:127
 msgid "Synchronize folders locally for offline usage?"
 msgstr "¿Sincronizar las carpetas localmente para usarse sin conexión?"
 
-#: ../mail/mail.error.xml.h:127
+#: ../mail/mail.error.xml.h:128
 msgid ""
 "Do you want to locally synchronize the folders that are marked for offline "
 "usage?"
 msgstr ""
 "¿Quiere sincronizar localmente las carpetas marcadas para uso en desconexión?"
 
-#: ../mail/mail.error.xml.h:128
+#: ../mail/mail.error.xml.h:129
 msgid "Do _Not Synchronize"
 msgstr "_No sincronizar"
 
-#: ../mail/mail.error.xml.h:129
+#: ../mail/mail.error.xml.h:130
 msgid "_Synchronize"
 msgstr "_Sincronizar"
 
-#: ../mail/mail.error.xml.h:130
+#: ../mail/mail.error.xml.h:131
 msgid "Do you want to mark all messages as read?"
 msgstr "¿Quiere marcar todos los mensajes como leídos?"
 
-#: ../mail/mail.error.xml.h:131
+#: ../mail/mail.error.xml.h:132
 msgid "This will mark all messages as read in the selected folder."
 msgstr ""
 "Esto marcará todos los mensajes como leídos en la carpeta seleccionada."
 
-#: ../mail/mail.error.xml.h:132
+#: ../mail/mail.error.xml.h:133
 msgid "Also mark messages in subfolders?"
 msgstr "¿Marcar también los mensajes en las subcarpetas?"
 
-#: ../mail/mail.error.xml.h:133
+#: ../mail/mail.error.xml.h:134
 msgid ""
 "Do you want to mark messages as read in the current folder only, or in the "
 "current folder as well as all subfolders?"
@@ -18541,67 +18560,67 @@ msgstr ""
 "¿Quiere marcar los mensajes como leídos sólo en la carpeta actual o en la "
 "capeta actual y todas sus subcarpetas?"
 
-#: ../mail/mail.error.xml.h:134
+#: ../mail/mail.error.xml.h:135
 msgid "In Current Folder and _Subfolders"
 msgstr "En la carpeta actual y _subcarpetas"
 
-#: ../mail/mail.error.xml.h:135
+#: ../mail/mail.error.xml.h:136
 msgid "In Current _Folder Only"
 msgstr "Sólo en la carpeta _actual"
 
-#: ../mail/mail.error.xml.h:136
+#: ../mail/mail.error.xml.h:137
 msgid "Should Evolution close this window when replying or forwarding?"
 msgstr "¿Debe Evolution cerrar esta ventana al responder o reenviar?"
 
-#: ../mail/mail.error.xml.h:137
+#: ../mail/mail.error.xml.h:138
 msgid "_Yes, Always"
 msgstr "_Sí, siempre"
 
-#: ../mail/mail.error.xml.h:138
+#: ../mail/mail.error.xml.h:139
 msgid "_No, Never"
 msgstr "_No, nunca"
 
-#: ../mail/mail.error.xml.h:139
+#: ../mail/mail.error.xml.h:140
 msgid "Copy folder in folder tree."
 msgstr "Copiar carpeta en el árbol de carpetas."
 
-#: ../mail/mail.error.xml.h:140
+#: ../mail/mail.error.xml.h:141
 msgid "Are you sure you want to copy folder '{0}' to folder '{1}'?"
 msgstr "¿Está seguro de que quiere copiar la carpeta «{0}» a «{1}»?"
 
-#: ../mail/mail.error.xml.h:142
+#: ../mail/mail.error.xml.h:143
 msgid "Do _not copy"
 msgstr "_No copiar"
 
-#: ../mail/mail.error.xml.h:143
+#: ../mail/mail.error.xml.h:144
 msgid "_Always copy"
 msgstr "Copiar _siempre"
 
-#: ../mail/mail.error.xml.h:144
+#: ../mail/mail.error.xml.h:145
 msgid "N_ever copy"
 msgstr "N_o copiar nunca"
 
-#: ../mail/mail.error.xml.h:145
+#: ../mail/mail.error.xml.h:146
 msgid "Move folder in folder tree."
 msgstr "Mover carpeta en el árbol de carpetas."
 
-#: ../mail/mail.error.xml.h:146
+#: ../mail/mail.error.xml.h:147
 msgid "Are you sure you want to to move folder '{0}' to folder '{1}'?"
 msgstr "¿Está seguro de que quiere mover la carpeta «{0}» a «{1}»?"
 
-#: ../mail/mail.error.xml.h:148
+#: ../mail/mail.error.xml.h:149
 msgid "Do _not move"
 msgstr "_No mover"
 
-#: ../mail/mail.error.xml.h:149
+#: ../mail/mail.error.xml.h:150
 msgid "_Always move"
 msgstr "Mover _siempre"
 
-#: ../mail/mail.error.xml.h:150
+#: ../mail/mail.error.xml.h:151
 msgid "N_ever move"
 msgstr "No mov_er nunca"
 
-#: ../mail/mail.error.xml.h:151
+#: ../mail/mail.error.xml.h:152
 msgid ""
 "This message cannot be sent because the account you chose to send with is "
 "not enabled"
@@ -18609,68 +18628,68 @@ msgstr ""
 "El mensaje no puede enviarse porque la cuenta con la que eligió enviar no "
 "está activada"
 
-#: ../mail/mail.error.xml.h:152
+#: ../mail/mail.error.xml.h:153
 msgid "Please enable the account or send using another account."
 msgstr "Active la cuenta o envíe usando otra cuenta."
 
-#: ../mail/mail.error.xml.h:153
+#: ../mail/mail.error.xml.h:154
 msgid "Mail Deletion Failed"
 msgstr "Falló al eliminar el correo"
 
-#: ../mail/mail.error.xml.h:154
+#: ../mail/mail.error.xml.h:155
 msgid "You do not have sufficient permissions to delete this mail."
 msgstr "No tiene suficientes permisos para eliminar este correo."
 
-#: ../mail/mail.error.xml.h:155
+#: ../mail/mail.error.xml.h:156
 msgid "\"Check Junk\" Failed"
 msgstr "Falló la comprobación de SPAM"
 
-#: ../mail/mail.error.xml.h:156
+#: ../mail/mail.error.xml.h:157
 msgid "\"Report Junk\" Failed"
 msgstr "Falló al informar de que es SPAM"
 
-#: ../mail/mail.error.xml.h:157
+#: ../mail/mail.error.xml.h:158
 msgid "\"Report Not Junk\" Failed"
 msgstr "Falló al informar de que no es SPAM"
 
-#: ../mail/mail.error.xml.h:158
+#: ../mail/mail.error.xml.h:159
 msgid "Remove duplicate messages?"
 msgstr "¿Quitar mensajes duplicados?"
 
-#: ../mail/mail.error.xml.h:159
+#: ../mail/mail.error.xml.h:160
 msgid "No duplicate messages found."
 msgstr "No se encontró ningún correo duplicado."
 
 #. Translators: {0} is replaced with a folder name
-#: ../mail/mail.error.xml.h:161
+#: ../mail/mail.error.xml.h:162
 msgid "Folder '{0}' doesn't contain any duplicate message."
 msgstr "La carpeta «{0}» no contiene ningún correo duplicado."
 
-#: ../mail/mail.error.xml.h:162
+#: ../mail/mail.error.xml.h:163
 msgid "Failed to connect account &quot;{0}&quot;."
 msgstr "Falló al conectar la cuenta &quot;{0}&quot;."
 
-#: ../mail/mail.error.xml.h:163
+#: ../mail/mail.error.xml.h:164
 msgid "Failed to disconnect account &quot;{0}&quot;."
 msgstr "Falló al desconectar la cuenta &quot;{0}&quot;."
 
-#: ../mail/mail.error.xml.h:164
+#: ../mail/mail.error.xml.h:165
 msgid "Failed to unsubscribe from folder &quot;{0}&quot;."
 msgstr "Falló al desuscribirse de la carpeta &quot;{0}&quot;."
 
-#: ../mail/mail.error.xml.h:165
+#: ../mail/mail.error.xml.h:166
 msgid "Unable to retrieve message."
 msgstr "No se pudo obtener el mensaje."
 
-#: ../mail/mail.error.xml.h:166
+#: ../mail/mail.error.xml.h:167
 msgid "{0}"
 msgstr "{0}"
 
-#: ../mail/mail.error.xml.h:167
+#: ../mail/mail.error.xml.h:168
 msgid "Message is not available in offline mode."
 msgstr "Mensaje no disponible en modo desconectado."
 
-#: ../mail/mail.error.xml.h:168
+#: ../mail/mail.error.xml.h:169
 msgid ""
 "This can be due to the message not being downloaded yet. The folder, or the "
 "account, can be marked for offline synchronization. Then, once the account "
@@ -18685,39 +18704,39 @@ msgstr ""
 "seleccionada, para asegurarse de que todos los mensajes de la carpeta "
 "estarán disponibles el modo desconectado."
 
-#: ../mail/mail.error.xml.h:169
+#: ../mail/mail.error.xml.h:170
 msgid "Failed to open folder."
 msgstr "Falló al abrir la carpeta."
 
-#: ../mail/mail.error.xml.h:171
+#: ../mail/mail.error.xml.h:172
 msgid "Failed to find duplicate messages."
 msgstr "Falló al buscar mensajes duplicados."
 
-#: ../mail/mail.error.xml.h:172
+#: ../mail/mail.error.xml.h:173
 msgid "Failed to retrieve messages."
 msgstr "Falló al obtener los mensajes."
 
-#: ../mail/mail.error.xml.h:173
+#: ../mail/mail.error.xml.h:174
 msgid "Failed to mark messages as read."
 msgstr "Falló al marcar los mensajes como leídos."
 
-#: ../mail/mail.error.xml.h:174
+#: ../mail/mail.error.xml.h:175
 msgid "Failed to remove attachments from messages."
 msgstr "Falló al quitar los adjuntos de los mensajes."
 
-#: ../mail/mail.error.xml.h:175
+#: ../mail/mail.error.xml.h:176
 msgid "Failed to download messages for offline viewing."
 msgstr "Falló al descargar los mensajes para trabajar sin conexión"
 
-#: ../mail/mail.error.xml.h:176
+#: ../mail/mail.error.xml.h:177
 msgid "Failed to save messages to disk."
 msgstr "Falló al guardar los mensajes al disco."
 
-#: ../mail/mail.error.xml.h:177
+#: ../mail/mail.error.xml.h:178
 msgid "Hidden file is attached."
 msgstr "Existe un archivo oculto adjunto."
 
-#: ../mail/mail.error.xml.h:178
+#: ../mail/mail.error.xml.h:179
 msgid ""
 "The attachment named {0} is a hidden file and may contain sensitive data. "
 "Please review it before sending."
@@ -18725,48 +18744,48 @@ msgstr ""
 "El adjunto de nombre {0} es un archivo oculto y puede contener datos "
 "sensibles. Revíselo antes de enviarlo."
 
-#: ../mail/mail.error.xml.h:179
+#: ../mail/mail.error.xml.h:180
 msgid "Printing failed."
 msgstr "Falló al imprimir."
 
-#: ../mail/mail.error.xml.h:180
+#: ../mail/mail.error.xml.h:181
 msgid "The printer replied &quot;{0}&quot;."
 msgstr "La impresora respondió &quot;{0}&quot;."
 
-#: ../mail/mail.error.xml.h:181
+#: ../mail/mail.error.xml.h:182
 msgid "Could not perform this operation on {0}."
 msgstr "No se puede realizar esta operación en {0}."
 
-#: ../mail/mail.error.xml.h:182
+#: ../mail/mail.error.xml.h:183
 msgid "You must be working online to complete this operation."
 msgstr "Debe estar trabajando en línea para completar esta operación."
 
-#: ../mail/mail.error.xml.h:183
+#: ../mail/mail.error.xml.h:184
 msgid "Message from &quot;{0}&quot; account:"
 msgstr "Mensaje de la cuenta &quot;{0}&quot;:"
 
-#: ../mail/mail.error.xml.h:184
+#: ../mail/mail.error.xml.h:185
 msgid "Failed to mark thread to be ignored in folder '{0}'"
 msgstr "Falló al marcar la conversación para ignorarla en la carpeta «{0}»"
 
-#: ../mail/mail.error.xml.h:185
+#: ../mail/mail.error.xml.h:186
 msgid "Failed to unmark thread from being ignored in folder '{0}'"
 msgstr "Falló al desmarcar la conversación para ignorarla en la carpeta «{0}»"
 
-#: ../mail/mail.error.xml.h:186
+#: ../mail/mail.error.xml.h:187
 msgid "Failed to mark subthread to be ignored in folder '{0}'"
 msgstr "Falló al marcar la sub-conversación para ignorarla en la carpeta «{0}»"
 
-#: ../mail/mail.error.xml.h:187
+#: ../mail/mail.error.xml.h:188
 msgid "Failed to unmark subthread from being ignored in folder '{0}'"
 msgstr ""
 "Falló al demarcar la sub-conversación para ignorarla en la carpeta «{0}»"
 
-#: ../mail/mail.error.xml.h:188
+#: ../mail/mail.error.xml.h:189
 msgid "Remote content download had been blocked for this message."
 msgstr "Se ha bloqueado la descarga de contenido remoto para este mensaje."
 
-#: ../mail/mail.error.xml.h:189
+#: ../mail/mail.error.xml.h:190
 msgid ""
 "You can download remote content manually, or set to remember to download "
 "remote content for this sender or used sites."
@@ -18775,31 +18794,31 @@ msgstr ""
 "la descargar de contenido remoto para este remitente o sitios usados."
 
 #. Translators: This constructs a string like "Follow-up, Completed on Tuesday, January 13, 2009"
-#: ../mail/mail.error.xml.h:191
+#: ../mail/mail.error.xml.h:192
 msgid "{0}, Completed on {1}"
 msgstr "{0}, Completado en {1}"
 
 #. Translators: This constructs a string like "Follow-up by Tuesday, January 13, 2009"
-#: ../mail/mail.error.xml.h:193
+#: ../mail/mail.error.xml.h:194
 msgid "{0} by {1}"
 msgstr "{0} por {1}"
 
 #. Translators: This constructs a string like "Overdue: Follow-up by Tuesday, January 13, 2009"
-#: ../mail/mail.error.xml.h:195
+#: ../mail/mail.error.xml.h:196
 msgid "Overdue: {0} by {1}"
 msgstr "Fuera de plazo: {0} por {1}"
 
-#: ../mail/mail.error.xml.h:197
+#: ../mail/mail.error.xml.h:198
 msgid "This message note has been changed, but has not been saved."
 msgstr "La nota de este mensaje ha cambiado, pero no se ha guardado."
 
 #. Translators: {0} is the name of the folder where the delete of the message note failed.
-#: ../mail/mail.error.xml.h:200
+#: ../mail/mail.error.xml.h:201
 msgid "Failed to delete message note in folder '{0}'"
 msgstr "Falló al eliminar la nota del mensaje en la carpeta «{0}»"
 
 #. Translators: {0} is the name of the folder where the store of the message note failed.
-#: ../mail/mail.error.xml.h:202
+#: ../mail/mail.error.xml.h:203
 msgid "Failed to store message note in folder '{0}'"
 msgstr "Falló al guardar la nota del mensaje en la carpeta «{0}»"
 
@@ -23269,59 +23288,69 @@ msgid "The file you selected does not look like a valid PNG image. Error: {0}"
 msgstr ""
 "El archivo que ha seleccionado no parece una imagen PNG válida. Error: {0}"
 
-#: ../plugins/mailing-list-actions/mailing-list-actions.c:364
+#: ../plugins/mailing-list-actions/mailing-list-actions.c:380
 msgid "Get List _Archive"
 msgstr "Obtener _archivador de la lista"
 
-#: ../plugins/mailing-list-actions/mailing-list-actions.c:366
+#: ../plugins/mailing-list-actions/mailing-list-actions.c:382
 msgid "Get an archive of the list this message belongs to"
 msgstr "Obtener un archivador de la lista a la que pertenece este mensaje"
 
-#: ../plugins/mailing-list-actions/mailing-list-actions.c:371
+#: ../plugins/mailing-list-actions/mailing-list-actions.c:387
+#| msgid "_Message Source"
+msgid "Copy _Message Archive URL"
+msgstr "Copiar el URL del archivo de _mensajes"
+
+#: ../plugins/mailing-list-actions/mailing-list-actions.c:389
+#| msgid "Edit a note for the selected message"
+msgid "Copy direct URL for the selected message in its archive"
+msgstr "Copiar el URL directo para el mensaje seleccionado en su archivador"
+
+#: ../plugins/mailing-list-actions/mailing-list-actions.c:394
 msgid "Get List _Usage Information"
 msgstr "Obtener información de _uso de la lista"
 
-#: ../plugins/mailing-list-actions/mailing-list-actions.c:373
+#: ../plugins/mailing-list-actions/mailing-list-actions.c:396
 msgid "Get information about the usage of the list this message belongs to"
 msgstr ""
 "Obtiene información sobre el uso de la lista a la que pertenece este mensaje"
 
-#: ../plugins/mailing-list-actions/mailing-list-actions.c:378
+#: ../plugins/mailing-list-actions/mailing-list-actions.c:401
 msgid "Contact List _Owner"
 msgstr "_Responsable de la lista de contactos"
 
-#: ../plugins/mailing-list-actions/mailing-list-actions.c:380
+#: ../plugins/mailing-list-actions/mailing-list-actions.c:403
 msgid "Contact the owner of the mailing list this message belongs to"
 msgstr ""
 "Contactar con el responsable de la lista de correo a la que pertenece este "
 "mensaje"
 
-#: ../plugins/mailing-list-actions/mailing-list-actions.c:385
+#: ../plugins/mailing-list-actions/mailing-list-actions.c:408
 msgid "_Post Message to List"
 msgstr "_Publicar un mensaje a la lista"
 
-#: ../plugins/mailing-list-actions/mailing-list-actions.c:387
+#: ../plugins/mailing-list-actions/mailing-list-actions.c:410
 msgid "Post a message to the mailing list this message belongs to"
 msgstr ""
 "Publicar un mensaje en la lista de correo a la que pertenece este mensaje"
 
-#: ../plugins/mailing-list-actions/mailing-list-actions.c:392
+#: ../plugins/mailing-list-actions/mailing-list-actions.c:415
 msgid "_Subscribe to List"
 msgstr "_Suscribirse a la lista"
 
-#: ../plugins/mailing-list-actions/mailing-list-actions.c:394
+#: ../plugins/mailing-list-actions/mailing-list-actions.c:417
 msgid "Subscribe to the mailing list this message belongs to"
 msgstr "Suscribirse a la lista de correo a la que pertenece este mensaje"
 
-#: ../plugins/mailing-list-actions/mailing-list-actions.c:399
+#: ../plugins/mailing-list-actions/mailing-list-actions.c:422
 msgid "_Unsubscribe from List"
 msgstr "_Desuscribirse de la lista"
 
-#: ../plugins/mailing-list-actions/mailing-list-actions.c:401
+#: ../plugins/mailing-list-actions/mailing-list-actions.c:424
 msgid "Unsubscribe from the mailing list this message belongs to"
 msgstr "Desuscribirse de la lista de correo a la que pertenece este correo"
 
-#: ../plugins/mailing-list-actions/mailing-list-actions.c:408
+#: ../plugins/mailing-list-actions/mailing-list-actions.c:431
 msgid "Mailing _List"
 msgstr "_Lista de correo"
 
@@ -24007,39 +24036,39 @@ msgstr "Guardar como plan_tilla"
 msgid "Save as Template"
 msgstr "Guardar como plantilla"
 
-#: ../shell/e-shell.c:362
+#: ../shell/e-shell.c:380
 msgid "Preparing to go offline..."
 msgstr "Preparándose para desconectarse…"
 
-#: ../shell/e-shell.c:391
+#: ../shell/e-shell.c:409
 msgid "Preparing to go online..."
 msgstr "Preparándose para conectarse…"
 
-#: ../shell/e-shell.c:502
+#: ../shell/e-shell.c:520
 msgid "Preparing to quit"
 msgstr "Preparándose para salir"
 
-#: ../shell/e-shell.c:508
+#: ../shell/e-shell.c:526
 msgid "Preparing to quit..."
 msgstr "Preparándose para salir…"
 
-#: ../shell/e-shell.c:1025
+#: ../shell/e-shell.c:1043
 msgid "Credentials are required to connect to the destination host."
 msgstr "Se necesitan credenciales para conectarse al equipo de destino."
 
-#: ../shell/e-shell.c:1204 ../shell/e-shell-window-actions.c:827
+#: ../shell/e-shell.c:1211 ../shell/e-shell-window-actions.c:827
 msgid "New _Window"
 msgstr "_Ventana nueva"
 
-#: ../shell/e-shell.c:1215
+#: ../shell/e-shell.c:1222
 msgid "Quick _Reference"
 msgstr "_Referencia rápida"
 
-#: ../shell/e-shell.c:1217 ../shell/e-shell-window-actions.c:764
+#: ../shell/e-shell.c:1224 ../shell/e-shell-window-actions.c:764
 msgid "_About"
 msgstr "Acerca _de"
 
-#: ../shell/e-shell.c:1218 ../shell/e-shell-window-actions.c:862
+#: ../shell/e-shell.c:1225 ../shell/e-shell-window-actions.c:862
 msgid "_Quit"
 msgstr "_Salir"
 
@@ -24379,7 +24408,7 @@ msgid "%s - Evolution"
 msgstr "%s - Evolution"
 
 #. Preview/Alpha/Beta version warning message
-#: ../shell/main.c:199
+#: ../shell/main.c:195
 #, no-c-format
 msgid ""
 "Hi.  Thanks for taking the time to download this preview release\n"
@@ -24415,7 +24444,7 @@ msgstr ""
 "Esperamos que disfrute del resultado de nuestro duro trabajo y \n"
 "esperamos su contribución.\n"
 
-#: ../shell/main.c:223
+#: ../shell/main.c:219
 msgid ""
 "Thanks\n"
 "The Evolution Team\n"
@@ -24423,13 +24452,13 @@ msgstr ""
 "Gracias\n"
 "El equipo de Evolution\n"
 
-#: ../shell/main.c:229
+#: ../shell/main.c:225
 msgid "Do not tell me again"
 msgstr "No preguntarme más veces"
 
 #. Translators: Do NOT translate the five component
 #. * names, they MUST remain in English!
-#: ../shell/main.c:318
+#: ../shell/main.c:314
 msgid ""
 "Start Evolution showing the specified component. Available options are "
 "'mail', 'calendar', 'contacts', 'tasks', and 'memos'"
@@ -24437,39 +24466,39 @@ msgstr ""
 "Iniciar Evolution mostrando el componente especificado. Las opciones "
 "disponibles son «mail», «calendar», «contacts», «tasks» y «memos»."
 
-#: ../shell/main.c:322
+#: ../shell/main.c:318
 msgid "Apply the given geometry to the main window"
 msgstr "Aplicar la geometría proporcionada a la ventana principal"
 
-#: ../shell/main.c:326
+#: ../shell/main.c:322
 msgid "Start in online mode"
 msgstr "Iniciar en modo conectado"
 
-#: ../shell/main.c:328
+#: ../shell/main.c:324
 msgid "Ignore network availability"
 msgstr "Ignorar la disponibilidad de la red"
 
-#: ../shell/main.c:331
+#: ../shell/main.c:327
 msgid "Forcibly shut down Evolution"
 msgstr "Forzar el cierre de Evolution"
 
-#: ../shell/main.c:334
+#: ../shell/main.c:330
 msgid "Disable loading of any plugins."
 msgstr "Desactivar la carga de cualquier complemento."
 
-#: ../shell/main.c:336
+#: ../shell/main.c:332
 msgid "Disable preview pane of Mail, Contacts and Tasks."
 msgstr "Desactivar la vista previa del correo, contactos y tareas."
 
-#: ../shell/main.c:340
+#: ../shell/main.c:336
 msgid "Import URIs or filenames given as rest of arguments."
 msgstr "Importar URI o nombres de archivos proporcionados como argumentos."
 
-#: ../shell/main.c:342
+#: ../shell/main.c:338
 msgid "Request a running Evolution process to quit"
 msgstr "Solicitar que el proceso de ejecución de Evolution finalice"
 
-#: ../shell/main.c:419
+#: ../shell/main.c:415
 #, c-format
 msgid ""
 "Cannot start Evolution.  Another Evolution instance may be unresponsive. "
@@ -24478,7 +24507,7 @@ msgstr ""
 "No se puede iniciar Evolution. Es posible que haya otra instancia de "
 "Evolution que no responde. Error del sistema: %s"
 
-#: ../shell/main.c:473 ../shell/main.c:478
+#: ../shell/main.c:469 ../shell/main.c:474
 msgid "- The Evolution PIM and Email Client"
 msgstr "El cliente de correo-e y GIP Evolution"
 
@@ -27903,9 +27932,6 @@ msgstr "Con _estado"
 #~ msgid "User's calendars"
 #~ msgstr "Calendarios del usuario"
 
-#~ msgid "Failed to get server URL."
-#~ msgstr "Falló al obtener el URL del servidor."
-
 #~ msgid "Searching for user's calendars..."
 #~ msgstr "Buscando los calendarios del usuario…"
 
@@ -28261,9 +28287,6 @@ msgstr "Con _estado"
 #~ "\n"
 #~ "Tenga paciencia mientras Evolution migra sus carpetas…"
 
-#~ msgid "Local Folders"
-#~ msgstr "Carpetas locales"
-
 #~ msgid "Alarms"
 #~ msgstr "Alertas"
 
@@ -28501,9 +28524,6 @@ msgstr "Con _estado"
 
 #~ msgid "Error saving messages to: %s:\n"
 #~ msgstr "Error al guardar los mensajes en: %s:\n"
-
-#~ msgid "Checking Service"
-#~ msgstr "Comprobando el servicio"
 
 #~ msgid "Retrieving quota information for folder '%s'"
 #~ msgstr "Obteniendo la información de la cuota para la carpeta «%s»"
