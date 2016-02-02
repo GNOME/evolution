@@ -416,7 +416,19 @@ e_week_view_precalc_visible_time_range (ECalendarView *cal_view,
 	/* See if we need to update the first day shown. */
 	if (!g_date_valid (&week_view->priv->first_day_shown)
 	    || g_date_compare (&week_view->priv->first_day_shown, &base_date)) {
+		GDate end_date, in_end_date;
 		gint day;
+
+		end_date = date;
+		g_date_add_days (&end_date, num_days);
+		g_date_subtract_days (&end_date, day_offset);
+
+		time_to_gdate_with_zone (&in_end_date, in_end_time, e_calendar_view_get_timezone (E_CALENDAR_VIEW (week_view)));
+
+		while (g_date_days_between (&end_date, &in_end_date) >= 6) {
+			g_date_add_days (&end_date, 7);
+			num_days += 7;
+		}
 
 		in_start_time = time_add_day_with_zone (in_start_time, -((gint) day_offset), zone);
 		in_start_time = time_day_begin_with_zone (in_start_time, zone);
@@ -2258,7 +2270,7 @@ e_week_view_recalc_day_starts (EWeekView *week_view,
 	gint num_days, day;
 	time_t tmp_time;
 
-	num_days = e_week_view_get_weeks_shown (week_view) * 7;
+	num_days = E_WEEK_VIEW_MAX_WEEKS * 7;
 
 	tmp_time = lower;
 	week_view->day_starts[0] = tmp_time;
