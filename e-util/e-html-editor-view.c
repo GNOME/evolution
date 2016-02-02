@@ -1077,8 +1077,14 @@ insert_new_line_into_citation (EHTMLEditorView *view,
 
 		return NULL;
 	} else {
+		e_html_editor_view_remove_input_event_listener_from_body (view);
+		block_selection_changed_callbacks (view);
+
 		ret_val = e_html_editor_view_exec_command (
 			view, E_HTML_EDITOR_VIEW_COMMAND_INSERT_NEW_LINE_IN_QUOTED_CONTENT, NULL);
+
+		unblock_selection_changed_callbacks (view);
+		e_html_editor_view_register_input_event_listener_on_body (view);
 
 		if (!ret_val)
 			return NULL;
@@ -3107,45 +3113,6 @@ body_input_event_cb (WebKitDOMElement *element,
 }
 
 static void
-remove_input_event_listener_from_body (EHTMLEditorView *view)
-{
-	if (!view->priv->body_input_event_removed) {
-		WebKitDOMDocument *document;
-
-		document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
-
-		webkit_dom_event_target_remove_event_listener (
-			WEBKIT_DOM_EVENT_TARGET (
-				webkit_dom_document_get_body (document)),
-			"input",
-			G_CALLBACK (body_input_event_cb),
-			FALSE);
-
-		view->priv->body_input_event_removed = TRUE;
-	}
-}
-
-static void
-register_input_event_listener_on_body (EHTMLEditorView *view)
-{
-	if (view->priv->body_input_event_removed) {
-		WebKitDOMDocument *document;
-
-		document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
-
-		webkit_dom_event_target_add_event_listener (
-			WEBKIT_DOM_EVENT_TARGET (
-				webkit_dom_document_get_body (document)),
-			"input",
-			G_CALLBACK (body_input_event_cb),
-			FALSE,
-			view);
-
-		view->priv->body_input_event_removed = FALSE;
-	}
-}
-
-static void
 remove_empty_blocks (WebKitDOMDocument *document)
 {
 	gint ii, length;
@@ -3509,7 +3476,7 @@ body_keyup_event_cb (WebKitDOMElement *element,
 	glong key_code;
 
 	if (!view->priv->composition_in_progress)
-		register_input_event_listener_on_body (view);
+		e_html_editor_view_register_input_event_listener_on_body (view);
 
 	selection = e_html_editor_view_get_selection (view);
 	if (!e_html_editor_selection_is_collapsed (selection))
@@ -5671,7 +5638,7 @@ key_press_event_process_return_key (EHTMLEditorView *view)
 	 * not break the citation automatically, so we need to use
 	 * the special command to do it. */
 	if (e_html_editor_selection_is_citation (selection)) {
-		remove_input_event_listener_from_body (view);
+		e_html_editor_view_remove_input_event_listener_from_body (view);
 		if (split_citation (view)) {
 			WebKitDOMRange *range;
 
@@ -7923,7 +7890,7 @@ body_compositionstart_event_cb (WebKitDOMElement *element,
                                 EHTMLEditorView *view)
 {
 	view->priv->composition_in_progress = TRUE;
-	remove_input_event_listener_from_body (view);
+	e_html_editor_view_remove_input_event_listener_from_body (view);
 }
 
 static void
@@ -7932,7 +7899,7 @@ body_compositionend_event_cb (WebKitDOMElement *element,
                               EHTMLEditorView *view)
 {
 	view->priv->composition_in_progress = FALSE;
-	register_input_event_listener_on_body (view);
+	e_html_editor_view_register_input_event_listener_on_body (view);
 }
 
 static void
@@ -8166,7 +8133,7 @@ html_editor_convert_view_content (EHTMLEditorView *view,
 	g_object_unref (list);
 
 	repair_gmail_blockquotes (document);
-	create_text_markers_for_citations_in_document (document);
+	create_text_markers_for_citations_in_element (WEBKIT_DOM_ELEMENT (body));
 
 	if (preferred_text && *preferred_text)
 		webkit_dom_html_element_set_inner_text (
@@ -8337,7 +8304,7 @@ html_editor_view_insert_converted_html_into_selection (EHTMLEditorView *view,
 	WebKitDOMNode *node;
 	WebKitDOMNode *current_block;
 
-	remove_input_event_listener_from_body (view);
+	e_html_editor_view_remove_input_event_listener_from_body (view);
 
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
 
@@ -8738,7 +8705,7 @@ html_editor_view_insert_converted_html_into_selection (EHTMLEditorView *view,
 	e_html_editor_view_force_spell_check_in_viewport (view);
 	e_html_editor_selection_scroll_to_caret (selection);
 
-	register_input_event_listener_on_body (view);
+	e_html_editor_view_register_input_event_listener_on_body (view);
 }
 
 static void
@@ -10834,7 +10801,7 @@ html_editor_view_load_status_changed (EHTMLEditorView *view)
 		style_updated_cb (view);
 		view->priv->convert_in_situ = FALSE;
 
-		register_input_event_listener_on_body (view);
+		e_html_editor_view_register_input_event_listener_on_body (view);
 		register_html_events_handlers (view, body);
 
 		return;
@@ -10872,7 +10839,7 @@ html_editor_view_load_status_changed (EHTMLEditorView *view)
 	}
 
 	/* Register on input event that is called when the content (body) is modified */
-	register_input_event_listener_on_body (view);
+	e_html_editor_view_register_input_event_listener_on_body (view);
 	register_html_events_handlers (view, body);
 
 	if (view->priv->html_mode)
@@ -14906,4 +14873,43 @@ e_html_editor_view_is_pasting_content_from_itself (EHTMLEditorView *view)
 		return view->priv->copy_paste_primary_in_view;
 	else
 		return view->priv->copy_paste_clipboard_in_view;
+}
+
+void
+e_html_editor_view_remove_input_event_listener_from_body (EHTMLEditorView *view)
+{
+	if (!view->priv->body_input_event_removed) {
+		WebKitDOMDocument *document;
+
+		document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
+
+		webkit_dom_event_target_remove_event_listener (
+			WEBKIT_DOM_EVENT_TARGET (
+				webkit_dom_document_get_body (document)),
+			"input",
+			G_CALLBACK (body_input_event_cb),
+			FALSE);
+
+		view->priv->body_input_event_removed = TRUE;
+	}
+}
+
+void
+e_html_editor_view_register_input_event_listener_on_body (EHTMLEditorView *view)
+{
+	if (view->priv->body_input_event_removed) {
+		WebKitDOMDocument *document;
+
+		document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
+
+		webkit_dom_event_target_add_event_listener (
+			WEBKIT_DOM_EVENT_TARGET (
+				webkit_dom_document_get_body (document)),
+			"input",
+			G_CALLBACK (body_input_event_cb),
+			FALSE,
+			view);
+
+		view->priv->body_input_event_removed = FALSE;
+	}
 }

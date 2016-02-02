@@ -2743,8 +2743,14 @@ format_change_block_to_list (EHTMLEditorSelection *selection,
 		g_object_unref (dom_selection);
 		g_object_unref (dom_window);
 
+		e_html_editor_view_remove_input_event_listener_from_body (view);
+		e_html_editor_selection_block_selection_changed (selection);
+
 		e_html_editor_view_exec_command (
 			view, E_HTML_EDITOR_VIEW_COMMAND_INSERT_NEW_LINE_IN_QUOTED_CONTENT, NULL);
+
+		e_html_editor_view_register_input_event_listener_on_body (view);
+		e_html_editor_selection_unblock_selection_changed (selection);
 
 		element = webkit_dom_document_query_selector (
 			document, "body>br", NULL);
