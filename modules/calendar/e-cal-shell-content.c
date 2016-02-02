@@ -173,7 +173,6 @@ cal_shell_content_update_model_and_current_view_times (ECalShellContent *cal_she
 			e_cal_shell_content_update_filters (cal_shell_content, cal_filter, visible_range_start, visible_range_end);
 			e_calendar_view_set_selected_time_range (current_view, cmp_range_start, cmp_range_start);
 			filters_updated = TRUE;
-
 			view_start_tt = cmp_range_start;
 			view_end_tt = cmp_range_end;
 		}
@@ -2051,13 +2050,17 @@ cal_shell_content_move_view_range_relative (ECalShellContent *cal_shell_content,
 			break;
 		case E_CAL_VIEW_KIND_MONTH:
 		case E_CAL_VIEW_KIND_LIST:
-			if (direction > 0) {
-				g_date_add_months (&start, direction);
-				g_date_add_months (&end, direction);
-			} else {
-				g_date_subtract_months (&start, direction * -1);
-				g_date_subtract_months (&end, direction * -1);
+			if (g_date_get_day (&start) != 1) {
+				g_date_add_months (&start, 1);
+				g_date_set_day (&start, 1);
 			}
+			if (direction > 0)
+				g_date_add_months (&start, direction);
+			else
+				g_date_subtract_months (&start, direction * -1);
+			end = start;
+			g_date_set_day (&end, g_date_get_days_in_month (g_date_get_month (&start), g_date_get_year (&start)));
+			g_date_add_days (&end, 6);
 			break;
 		case E_CAL_VIEW_KIND_LAST:
 			return;
