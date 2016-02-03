@@ -28,8 +28,6 @@
 /* Initial height of the picture gallery. */
 #define GALLERY_INITIAL_HEIGHT 150
 
-#define UNICODE_ZERO_WIDTH_SPACE "\xe2\x80\x8b"
-
 static void
 composer_setup_charset_menu (EMsgComposer *composer)
 {
