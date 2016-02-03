@@ -10393,7 +10393,7 @@ process_content_for_html (EHTMLEditorView *view)
 	gint ii, length;
 	gchar *html_content;
 	WebKitDOMDocument *document;
-	WebKitDOMElement *marker;
+	WebKitDOMElement *element;
 	WebKitDOMNode *node, *document_clone;
 	WebKitDOMNodeList *list;
 	gboolean send_editor_colors = FALSE;
@@ -10401,33 +10401,33 @@ process_content_for_html (EHTMLEditorView *view)
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
 	document_clone = webkit_dom_node_clone_node (
 		WEBKIT_DOM_NODE (webkit_dom_document_get_document_element (document)), TRUE);
-	node = WEBKIT_DOM_NODE (webkit_dom_element_query_selector (
-		WEBKIT_DOM_ELEMENT (document_clone), "style#-x-evo-quote-style", NULL));
-	if (node)
-		remove_node (node);
-	node = WEBKIT_DOM_NODE (webkit_dom_element_query_selector (
-		WEBKIT_DOM_ELEMENT (document_clone), "style#-x-evo-a-color-style", NULL));
-	if (node)
-		remove_node (node);
-	node = WEBKIT_DOM_NODE (webkit_dom_element_query_selector (
-		WEBKIT_DOM_ELEMENT (document_clone), "style#-x-evo-a-color-style-visited", NULL));
-	if (node)
-		remove_node (node);
+	element = webkit_dom_element_query_selector (
+		WEBKIT_DOM_ELEMENT (document_clone), "style#-x-evo-quote-style", NULL);
+	if (element)
+		remove_node (WEBKIT_DOM_NODE (element));
+	element = webkit_dom_element_query_selector (
+		WEBKIT_DOM_ELEMENT (document_clone), "style#-x-evo-a-color-style", NULL);
+	if (element)
+		remove_node (WEBKIT_DOM_NODE (element));
+	element = webkit_dom_element_query_selector (
+		WEBKIT_DOM_ELEMENT (document_clone), "style#-x-evo-a-color-style-visited", NULL);
+	if (element)
+		remove_node (WEBKIT_DOM_NODE (element));
 	/* When the Ctrl + Enter is pressed for sending, the links are activated. */
-	node = WEBKIT_DOM_NODE (webkit_dom_element_query_selector (
-		WEBKIT_DOM_ELEMENT (document_clone), "style#-x-evo-style-a", NULL));
-	if (node)
-		remove_node (node);
+	element = webkit_dom_element_query_selector (
+		WEBKIT_DOM_ELEMENT (document_clone), "style#-x-evo-style-a", NULL);
+	if (element)
+		remove_node (WEBKIT_DOM_NODE (element));
 	node = WEBKIT_DOM_NODE (webkit_dom_element_query_selector (
 		WEBKIT_DOM_ELEMENT (document_clone), "body", NULL));
-	marker = webkit_dom_element_query_selector (
+	element = webkit_dom_element_query_selector (
 		WEBKIT_DOM_ELEMENT (node), "#-x-evo-selection-start-marker", NULL);
-	if (marker)
-		remove_node (WEBKIT_DOM_NODE (marker));
-	marker = webkit_dom_element_query_selector (
+	if (element)
+		remove_node (WEBKIT_DOM_NODE (element));
+	element = webkit_dom_element_query_selector (
 		WEBKIT_DOM_ELEMENT (node), "#-x-evo-selection-end-marker", NULL);
-	if (marker)
-		remove_node (WEBKIT_DOM_NODE (marker));
+	if (element)
+		remove_node (WEBKIT_DOM_NODE (element));
 
 	send_editor_colors = g_settings_get_boolean (
 		view->priv->mail_settings, "composer-inherit-theme-colors");
