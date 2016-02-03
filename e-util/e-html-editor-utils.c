@@ -591,3 +591,19 @@ get_parent_block_element (WebKitDOMNode *node)
 
 	return parent;
 }
+
+void
+dom_element_rename_attribute (WebKitDOMElement *element,
+                              const gchar *from,
+                              const gchar *to)
+{
+	gchar *value;
+
+	if (!webkit_dom_element_has_attribute (element, from))
+		return;
+
+	value = webkit_dom_element_get_attribute (element, from);
+	webkit_dom_element_set_attribute (element, to, (value && *value) ? value : "", NULL);
+	webkit_dom_element_remove_attribute (element, from);
+	g_free (value);
+}

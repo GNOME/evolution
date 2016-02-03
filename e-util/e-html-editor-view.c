@@ -7979,20 +7979,6 @@ register_html_events_handlers (EHTMLEditorView *view,
 }
 
 static void
-rename_attribute (WebKitDOMElement *element,
-                  const gchar *from,
-                  const gchar *to)
-{
-	gchar *value;
-
-	value = webkit_dom_element_get_attribute (element, from);
-	if (value && *value)
-		webkit_dom_element_set_attribute (element, to, value, NULL);
-	webkit_dom_element_remove_attribute (element, from);
-	g_free (value);
-}
-
-static void
 set_monospace_font_family_on_body (WebKitDOMElement *body,
                                    gboolean html_mode)
 {
@@ -8008,14 +7994,14 @@ set_monospace_font_family_on_body (WebKitDOMElement *body,
 	 * font-family style to the body, so WebKit will know about it and will
 	 * avoid the described behaviour. */
 	if (!html_mode) {
-		rename_attribute (WEBKIT_DOM_ELEMENT (body), "data-style", "style");
+		dom_element_rename_attribute (WEBKIT_DOM_ELEMENT (body), "data-style", "style");
 		webkit_dom_element_set_attribute (
 			WEBKIT_DOM_ELEMENT (body),
 			"style",
 			"font-family: Monospace;",
 			NULL);
 	} else {
-		rename_attribute (WEBKIT_DOM_ELEMENT (body), "style", "data-style");
+		dom_element_rename_attribute (WEBKIT_DOM_ELEMENT (body), "style", "data-style");
 	}
 }
 
@@ -9652,6 +9638,20 @@ process_elements (EHTMLEditorView *view,
 
 			first_child = webkit_dom_node_get_first_child (child);
 
+			/* Don't generate any text if the signature is set to None. */
+			if (!changing_mode) {
+				gchar *id;
+
+				id = webkit_dom_element_get_id (WEBKIT_DOM_ELEMENT (first_child));
+				if (g_strcmp0 (id, "none") == 0) {
+					g_free (id);
+
+					skip_node = TRUE;
+					goto next;
+				}
+				g_free (id);
+			}
+
 			if (!to_plain_text) {
 				remove_base_attributes (
 					WEBKIT_DOM_ELEMENT (first_child));
@@ -10434,7 +10434,7 @@ process_content_for_html (EHTMLEditorView *view)
 
 		data_style_node = webkit_dom_node_list_item (list, ii);
 
-		rename_attribute (WEBKIT_DOM_ELEMENT (data_style_node), "data-style", "style");
+		dom_element_rename_attribute (WEBKIT_DOM_ELEMENT (data_style_node), "data-style", "style");
 		g_object_unref (data_style_node);
 	}
 	g_object_unref (list);
@@ -10808,7 +10808,7 @@ html_editor_view_load_status_changed (EHTMLEditorView *view)
 		node = webkit_dom_node_list_item (list, ii);
 		style_value = webkit_dom_element_get_attribute (WEBKIT_DOM_ELEMENT (node), "style");
 		if (camel_strstrcase (style_value, "float"))
-			rename_attribute (WEBKIT_DOM_ELEMENT (node), "style", "data-style");
+			dom_element_rename_attribute (WEBKIT_DOM_ELEMENT (node), "style", "data-style");
 		g_free (style_value);
 
 		g_object_unref (node);
@@ -10947,18 +10947,18 @@ toggle_tables (EHTMLEditorView *view)
 
 		if (view->priv->html_mode) {
 			element_remove_class (WEBKIT_DOM_ELEMENT (table), "-x-evo-plaintext-table");
-			rename_attribute (WEBKIT_DOM_ELEMENT (table), "data-width", "width");
-			rename_attribute (WEBKIT_DOM_ELEMENT (table), "data-cellspacing", "cellspacing");
-			rename_attribute (WEBKIT_DOM_ELEMENT (table), "data-cellpadding", "cellpadding");
-			rename_attribute (WEBKIT_DOM_ELEMENT (table), "data-border", "border");
+			dom_element_rename_attribute (WEBKIT_DOM_ELEMENT (table), "data-width", "width");
+			dom_element_rename_attribute (WEBKIT_DOM_ELEMENT (table), "data-cellspacing", "cellspacing");
+			dom_element_rename_attribute (WEBKIT_DOM_ELEMENT (table), "data-cellpadding", "cellpadding");
+			dom_element_rename_attribute (WEBKIT_DOM_ELEMENT (table), "data-border", "border");
 		} else {
 			element_add_class (WEBKIT_DOM_ELEMENT (table), "-x-evo-plaintext-table");
-			rename_attribute (WEBKIT_DOM_ELEMENT (table), "width", "data-width");
-			rename_attribute (WEBKIT_DOM_ELEMENT (table), "cellspacing", "data-cellspacing");
+			dom_element_rename_attribute (WEBKIT_DOM_ELEMENT (table), "width", "data-width");
+			dom_element_rename_attribute (WEBKIT_DOM_ELEMENT (table), "cellspacing", "data-cellspacing");
 			webkit_dom_element_set_attribute (WEBKIT_DOM_ELEMENT (table), "cellspacing", "0", NULL);
-			rename_attribute (WEBKIT_DOM_ELEMENT (table), "cellpadding", "data-cellpadding");
+			dom_element_rename_attribute (WEBKIT_DOM_ELEMENT (table), "cellpadding", "data-cellpadding");
 			webkit_dom_element_set_attribute (WEBKIT_DOM_ELEMENT (table), "cellpadding", "0", NULL);
-			rename_attribute (WEBKIT_DOM_ELEMENT (table), "border", "data-border");
+			dom_element_rename_attribute (WEBKIT_DOM_ELEMENT (table), "border", "data-border");
 			webkit_dom_element_set_attribute (WEBKIT_DOM_ELEMENT (table), "border", "0", NULL);
 		}
 		g_object_unref (table);
