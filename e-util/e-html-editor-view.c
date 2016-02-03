@@ -2344,12 +2344,11 @@ html_editor_view_set_links_active (EHTMLEditorView *view,
 
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
 
-	if (active) {
-		style = webkit_dom_document_get_element_by_id (
-				document, "-x-evo-style-a");
-		if (style)
-			remove_node (WEBKIT_DOM_NODE (style));
-	} else {
+	style = webkit_dom_document_get_element_by_id (document, "-x-evo-style-a");
+	if (style)
+		remove_node (WEBKIT_DOM_NODE (style));
+
+	if (!active) {
 		WebKitDOMHTMLHeadElement *head;
 		head = webkit_dom_document_get_head (document);
 
@@ -9387,6 +9386,7 @@ remove_evolution_attributes (WebKitDOMElement *element)
 	webkit_dom_element_remove_attribute (element, "data-new-message");
 	webkit_dom_element_remove_attribute (element, "data-user-wrapped");
 	webkit_dom_element_remove_attribute (element, "data-evo-plain-text");
+	webkit_dom_element_remove_attribute (element, "data-style");
 	webkit_dom_element_remove_attribute (element, "spellcheck");
 }
 
@@ -9678,6 +9678,8 @@ process_elements (EHTMLEditorView *view,
 			}
 
 			if (!to_plain_text) {
+				remove_base_attributes (
+					WEBKIT_DOM_ELEMENT (child));
 				remove_base_attributes (
 					WEBKIT_DOM_ELEMENT (first_child));
 				remove_evolution_attributes (
