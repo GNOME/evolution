@@ -2574,6 +2574,14 @@ e_shell_lock_network_available (EShell *shell)
 
 	e_shell_set_network_available (shell, TRUE);
 	shell->priv->network_available_locked = TRUE;
+
+	/* As this is a user choice to go online, do not wait and switch online immediately */
+	if (shell->priv->set_online_timeout_id > 0) {
+		g_source_remove (shell->priv->set_online_timeout_id);
+		shell->priv->set_online_timeout_id = 0;
+
+		e_shell_set_online (shell, TRUE);
+	}
 }
 
 /**
