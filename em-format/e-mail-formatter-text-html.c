@@ -171,7 +171,7 @@ emfe_text_html_format (EMailFormatterExtension *extension,
 			if (*maybe_utf16 == (gunichar2) 0xFFFE) {
 				gunichar2 *ptr;
 
-				for (ptr = maybe_utf16; i < length / 2; i++, ptr++) {
+				for (ptr = maybe_utf16, i = 0; i < length / 2; i++, ptr++) {
 					*ptr = GUINT16_SWAP_LE_BE (*ptr);
 				}
 			}

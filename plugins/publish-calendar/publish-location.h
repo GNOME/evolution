@@ -36,22 +36,9 @@ enum publish_frequency {
 	URI_PUBLISH_MANUAL
 };
 
-static const gint publish_frequency_type_map[] = {
-	URI_PUBLISH_DAILY,
-	URI_PUBLISH_WEEKLY,
-	URI_PUBLISH_MANUAL,
-	-1,
-};
-
 enum publish_format {
 	URI_PUBLISH_AS_ICAL,
 	URI_PUBLISH_AS_FB
-};
-
-static const gint publish_format_type_mask[] = {
-	URI_PUBLISH_AS_ICAL,
-	URI_PUBLISH_AS_FB,
-	-1
 };
 
 enum FBDurationType {

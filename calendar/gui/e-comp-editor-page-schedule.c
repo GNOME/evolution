@@ -491,7 +491,7 @@ e_comp_editor_page_schedule_constructed (GObject *object)
 	settings = e_util_ref_settings ("org.gnome.evolution.calendar");
 
 	for (weekday = G_DATE_BAD_WEEKDAY; weekday <= G_DATE_SUNDAY; weekday++) {
-		gint start_hour, start_minute, end_hour, end_minute;
+		gint start_hour = 8, start_minute = 0, end_hour = 17, end_minute = 0;
 
 		ecep_schedule_get_work_day_range_for (settings, weekday,
 			&start_hour, &start_minute, &end_hour, &end_minute);

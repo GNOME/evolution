@@ -260,7 +260,7 @@ ea_week_view_ref_child (AtkObject *accessible,
 		else
 			continue;
 
-			if (count == index) {
+		if (count == index) {
 			if (span->text_item) {
 				/* Not use atk_gobject_accessible_for_object for event
 				 * text_item we need to do special thing here
@@ -268,8 +268,7 @@ ea_week_view_ref_child (AtkObject *accessible,
 				atk_object =
 					ea_calendar_helpers_get_accessible_for (
 					span->text_item);
-			}
-			else {
+			} else {
 				gint index;
 
 				index = (current_day != -1) ? current_day : 0;

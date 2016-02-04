@@ -92,13 +92,6 @@ enum recur_type {
 	RECUR_CUSTOM
 };
 
-static const gint type_map[] = {
-	RECUR_NONE,
-	RECUR_SIMPLE,
-	RECUR_CUSTOM,
-	-1
-};
-
 static const gint freq_map[] = {
 	ICAL_DAILY_RECURRENCE,
 	ICAL_WEEKLY_RECURRENCE,

@@ -1782,11 +1782,6 @@ e_table_item_init (ETableItem *eti)
 	e_canvas_item_set_reflow_callback (GNOME_CANVAS_ITEM (eti), eti_reflow);
 }
 
-#define gray50_width 2
-#define gray50_height 2
-static const gchar gray50_bits[] = {
-	0x02, 0x01, };
-
 static gboolean
 eti_tree_unfreeze (GtkWidget *widget,
                    GdkEvent *event,
