@@ -37,11 +37,6 @@
 
 #define ITIP_FORMATTER_CONF_KEY_DELETE "delete-processed"
 
-/* same is used for Birthdays & Anniversaries calendar */
-static const gint default_reminder_units_map[] = {
-	E_DURATION_MINUTES, E_DURATION_HOURS, E_DURATION_DAYS, -1
-};
-
 G_DEFINE_DYNAMIC_TYPE (
 	ECalendarPreferences,
 	e_calendar_preferences,
