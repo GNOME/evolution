@@ -14,8 +14,8 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2016-01-31 17:51+0000\n"
-"PO-Revision-Date: 2016-01-31 19:20+0100\n"
+"POT-Creation-Date: 2016-02-07 17:52+0000\n"
+"PO-Revision-Date: 2016-02-07 19:58+0100\n"
 "Last-Translator: Dušan Kazik <prescott66@gmail.com>\n"
 "Language-Team: slovenčina <>\n"
 "Language: sk\n"
@@ -592,7 +592,7 @@ msgstr "Voľby"
 #: ../addressbook/gui/widgets/eab-gui-util.c:318
 #: ../addressbook/gui/widgets/e-addressbook-view.c:1365
 #: ../calendar/gui/e-cal-dialogs.c:689
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:309
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:302
 #: ../composer/e-composer-actions.c:214 ../e-util/e-activity-bar.c:359
 #: ../e-util/e-attachment-dialog.c:311 ../e-util/e-attachment-store.c:496
 #: ../e-util/e-attachment-store.c:640 ../e-util/e-attachment-view.c:421
@@ -827,7 +827,7 @@ msgstr "Neplatný kontakt."
 #: ../addressbook/gui/contact-editor/e-contact-quick-add.c:456
 #: ../addressbook/gui/contact-editor/fullname.ui.h:13
 #: ../addressbook/gui/widgets/eab-gui-util.c:319
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:310
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:303
 #: ../e-util/e-attachment-dialog.c:313 ../e-util/e-categories-dialog.c:83
 #: ../e-util/e-category-editor.c:209 ../e-util/e-charset-combo-box.c:102
 #: ../e-util/e-color-chooser-widget.c:128 ../e-util/e-filter-datespec.c:292
@@ -2019,7 +2019,7 @@ msgstr "_Odložiť"
 
 #: ../calendar/alarm-notify/alarm-notify.ui.h:4
 #: ../calendar/gui/e-comp-editor-page-general.c:1365
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:2247
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:2240
 #: ../calendar/gui/e-comp-editor.c:2058 ../e-util/e-html-editor-actions.c:1120
 #: ../e-util/e-mail-signature-manager.c:357 ../e-util/filter.ui.h:17
 #: ../mail/e-mail-account-manager.c:727 ../mail/e-mail-browser.c:173
@@ -2430,40 +2430,28 @@ msgstr ""
 "svoje zoznamy úloh aktualizované."
 
 #: ../calendar/calendar.error.xml.h:52
-#, fuzzy
-#| msgid "Would you like to send this task to participants?"
 msgid "Would you like to send this memo to participants?"
-msgstr "Chcete odoslať túto úlohu jej účastníkom?"
+msgstr "Chcete odoslať túto poznámku účastníkom?"
 
 #: ../calendar/calendar.error.xml.h:53
-#, fuzzy
-#| msgid ""
-#| "Email invitations will be sent to all participants and allow them to "
-#| "accept this task."
 msgid ""
 "Email invitations will be sent to all participants and allow them to accept "
 "this memo."
 msgstr ""
-"Poštová pozvánka bude odoslaná všetkým účastníkom a umožní im akceptovať "
-"túto úlohu."
+"Emailová pozvánka bude odoslaná všetkým účastníkom a umožní im akceptovať "
+"túto poznámku."
 
 #: ../calendar/calendar.error.xml.h:54
-#, fuzzy
-#| msgid "Would you like to send updated meeting information to participants?"
 msgid "Would you like to send updated memo information to participants?"
-msgstr "Chcete odoslať aktualizované informácie o stretnutí jeho účastníkom?"
+msgstr "Chcete odoslať aktualizované informácie o poznámke účastníkom?"
 
 #: ../calendar/calendar.error.xml.h:55
-#, fuzzy
-#| msgid ""
-#| "Sending updated information allows other participants to keep their task "
-#| "lists up to date."
 msgid ""
 "Sending updated information allows other participants to keep their memo "
 "lists up to date."
 msgstr ""
-"Odoslanie aktualizovanej informácie umožní ostatním účastníkom zachovať si "
-"svoje zoznamy úloh aktualizované."
+"Odoslanie aktualizovanej informácie umožní ostatným účastníkom zachovať si "
+"svoje zoznamy poznámok aktualizované."
 
 #: ../calendar/calendar.error.xml.h:56
 msgid "Editor could not be loaded."
@@ -2929,7 +2917,7 @@ msgid "Do Not Exist"
 msgstr "Neexistuje"
 
 #: ../calendar/gui/caltypes.xml.h:19
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:2011
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:2004
 msgid "Recurrence"
 msgstr "Opakovanie"
 
@@ -3119,11 +3107,10 @@ msgstr "%s %s po začiatku"
 #. Translator: The %s refers to the base, which would be actions like
 #. * "Play a sound"
 #: ../calendar/gui/e-alarm-list.c:467
-#, fuzzy, c-format
-#| msgid "%s attachment"
+#, c-format
 msgctxt "cal-reminders"
 msgid "%s at the start"
-msgstr "Príloha %s"
+msgstr "%s na začiatku"
 
 #: ../calendar/gui/e-alarm-list.c:479
 #, c-format
@@ -3140,11 +3127,10 @@ msgstr "%s %s po skončení"
 #. Translator: The %s refers to the base, which would be actions like
 #. * "Play a sound"
 #: ../calendar/gui/e-alarm-list.c:492
-#, fuzzy, c-format
-#| msgid "%s attachment"
+#, c-format
 msgctxt "cal-reminders"
 msgid "%s at the end"
-msgstr "Príloha %s"
+msgstr "%s na konci"
 
 #. Translator: The first %s refers to the base, which would be actions like
 #. * "Play a Sound". Second %s is an absolute time, e.g. "10:00AM"
@@ -4039,7 +4025,7 @@ msgstr "Prílohy"
 #: ../calendar/gui/e-comp-editor-event.c:719
 msgctxt "ECompEditorPage"
 msgid "Schedule"
-msgstr ""
+msgstr "Plánovanie"
 
 #: ../calendar/gui/e-comp-editor-event.c:748
 #, c-format
@@ -4124,12 +4110,12 @@ msgstr ""
 #: ../calendar/gui/e-comp-editor-page-attachments.c:440
 #, c-format
 msgid "Attachment '%s' cannot be found, remove it from the list, please"
-msgstr ""
+msgstr "Príloha „%s“ sa nedá nájsť. Prosím, odstráňte ju zo zoznamu"
 
 #: ../calendar/gui/e-comp-editor-page-attachments.c:457
 #, c-format
 msgid "Attachment '%s' doesn't have valid URI, remove it from the list, please"
-msgstr ""
+msgstr "Príloha „%s“ neobsahuje platnú URI. Prosím, odstráňte ju zo zoznamu"
 
 #: ../calendar/gui/e-comp-editor-page-attachments.c:618
 #: ../composer/e-composer-actions.c:327
@@ -4160,37 +4146,29 @@ msgid "List View"
 msgstr "Pohľad zoznamu"
 
 #: ../calendar/gui/e-comp-editor-page-general.c:313
-#, fuzzy, c-format
-#| msgid "Cannot find matching event in the next %d year"
-#| msgid_plural "Cannot find matching event in the next %d years"
+#, c-format
 msgid "Cannot find attendee '%s' in the list of attendees"
-msgstr "Nedá sa nájsť vyhovujúca udalosť v nasledujúcich %d rokoch"
+msgstr "Nedá sa nájsť účastník „%s“ v zozname účastníkov"
 
 #: ../calendar/gui/e-comp-editor-page-general.c:320
 #, c-format
 msgid "Not enough rights to delete attendee '%s'"
-msgstr ""
+msgstr "Nedostatočné práva na odstránenie účastníka „%s“"
 
 #: ../calendar/gui/e-comp-editor-page-general.c:350
-#, fuzzy
-#| msgid "Failed to delete contact"
 msgid "Failed to delete selected attendee"
 msgid_plural "Failed to delete selected attendees"
-msgstr[0] "Odstránenie kontaktov zlyhalo"
-msgstr[1] "Odstránenie kontaktov zlyhalo"
-msgstr[2] "Odstránenie kontaktov zlyhalo"
+msgstr[0] "Zlyhalo odstránenie vybratých účastníkov"
+msgstr[1] "Zlyhalo odstránenie vybratého účastníka"
+msgstr[2] "Zlyhalo odstránenie vybratých účastníkov"
 
 #: ../calendar/gui/e-comp-editor-page-general.c:583
-#, fuzzy
-#| msgid "Attendees"
 msgid "A_ttendees"
-msgstr "Účastníci"
+msgstr "Úča_stníci"
 
 #: ../calendar/gui/e-comp-editor-page-general.c:585
-#, fuzzy
-#| msgid "Toggles whether the Attendee Type is displayed"
 msgid "Toggles whether the Attendees are displayed"
-msgstr "Prepína, či má byť zobrazené pole typ účastníka"
+msgstr "Prepína, či má byť zobrazené pole Účastníci"
 
 #: ../calendar/gui/e-comp-editor-page-general.c:594
 msgid "R_ole Field"
@@ -4242,17 +4220,17 @@ msgctxt "ECompEditor"
 msgid "Atte_ndees..."
 msgstr "Účast_níci…"
 
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:333
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:326
 msgid "Add exception"
 msgstr "Pridať výnimku"
 
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:371
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:364
 msgid "Modify exception"
 msgstr "Upraviť výnimku"
 
 #. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] week(s) on [Wednesday] [forever]'
 #. * (dropdown menu options are in [square brackets]). This means that after the 'on', name of a week day always follows.
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:496
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:489
 msgid "on"
 msgstr "v"
 
@@ -4260,7 +4238,7 @@ msgstr "v"
 #. * (dropdown menu options are in [square brackets]). This means that after 'first', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:577
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:570
 msgctxt "ECompEditorPageRecur"
 msgid "first"
 msgstr "prvý(ú)"
@@ -4270,7 +4248,7 @@ msgstr "prvý(ú)"
 #. * (dropdown menu options are in [square brackets]). This means that after 'second', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:583
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:576
 msgctxt "ECompEditorPageRecur"
 msgid "second"
 msgstr "druhý(ú)"
@@ -4279,7 +4257,7 @@ msgstr "druhý(ú)"
 #. * (dropdown menu options are in [square brackets]). This means that after 'third', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:588
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:581
 msgctxt "ECompEditorPageRecur"
 msgid "third"
 msgstr "tretí(u)"
@@ -4288,7 +4266,7 @@ msgstr "tretí(u)"
 #. * (dropdown menu options are in [square brackets]). This means that after 'fourth', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:593
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:586
 msgctxt "ECompEditorPageRecur"
 msgid "fourth"
 msgstr "štvrtý(ú)"
@@ -4297,7 +4275,7 @@ msgstr "štvrtý(ú)"
 #. * (dropdown menu options are in [square brackets]). This means that after 'fifth', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:598
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:591
 msgctxt "ECompEditorPageRecur"
 msgid "fifth"
 msgstr "piaty(u)"
@@ -4306,14 +4284,14 @@ msgstr "piaty(u)"
 #. * (dropdown menu options are in [square brackets]). This means that after 'last', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:603
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:596
 msgctxt "ECompEditorPageRecur"
 msgid "last"
 msgstr "posledný(ú)"
 
 #. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] month(s) on the [Other date] [11th to 20th] [17th] [forever]'
 #. * (dropdown menu options are in [square brackets]).
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:630
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:623
 msgctxt "ECompEditorPageRecur"
 msgid "Other Date"
 msgstr "Iný dátum"
@@ -4322,7 +4300,7 @@ msgstr "Iný dátum"
 #. * the month to setup an appointment recurrence. The entire string is for example: This appointment recurs/Every [x] month(s)
 #. * on the [Other date] [1st to 10th] [7th] [forever]' (dropdown menu options are in [square brackets]).
 #.
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:636
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:629
 msgctxt "ECompEditorPageRecur"
 msgid "1st to 10th"
 msgstr "1. až 10."
@@ -4331,7 +4309,7 @@ msgstr "1. až 10."
 #. * the month to setup an appointment recurrence. The entire string is for example: This appointment recurs/Every [x] month(s)
 #. * on the [Other date] [11th to 20th] [17th] [forever]' (dropdown menu options are in [square brackets]).
 #.
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:642
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:635
 msgctxt "ECompEditorPageRecur"
 msgid "11th to 20th"
 msgstr "11. až 20."
@@ -4340,7 +4318,7 @@ msgstr "11. až 20."
 #. * the month to setup an appointment recurrence. The entire string is for example: This appointment recurs/Every [x] month(s)
 #. * on the [Other date] [21th to 31th] [27th] [forever]' (dropdown menu options are in [square brackets]).
 #.
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:648
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:641
 msgctxt "ECompEditorPageRecur"
 msgid "21st to 31st"
 msgstr "21. až 31."
@@ -4348,42 +4326,42 @@ msgstr "21. až 31."
 #. For Translator : 'day' is part of the sentence of the form 'appointment recurs/Every [x] month(s) on the [first] [day] [forever]'
 #. * (dropdown menu options are in[square brackets]). This means that after 'first', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:674
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:667
 msgctxt "ECompEditorPageRecur"
 msgid "day"
 msgstr "dní"
 
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:675
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:668
 msgctxt "ECompEditorPageRecur"
 msgid "Monday"
 msgstr "Pondelok"
 
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:676
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:669
 msgctxt "ECompEditorPageRecur"
 msgid "Tuesday"
 msgstr "Utorok"
 
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:677
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:670
 msgctxt "ECompEditorPageRecur"
 msgid "Wednesday"
 msgstr "Stredu"
 
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:678
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:671
 msgctxt "ECompEditorPageRecur"
 msgid "Thursday"
 msgstr "Štvrtok"
 
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:679
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:672
 msgctxt "ECompEditorPageRecur"
 msgid "Friday"
 msgstr "Piatok"
 
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:680
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:673
 msgctxt "ECompEditorPageRecur"
 msgid "Saturday"
 msgstr "Sobotu"
 
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:681
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:674
 msgctxt "ECompEditorPageRecur"
 msgid "Sunday"
 msgstr "Nedeľu"
@@ -4391,149 +4369,137 @@ msgstr "Nedeľu"
 #. TRANSLATORS: Entire string is for example: 'This appointment recurs/Every [x] month(s) on the [second] [Tuesday] [forever]'
 #. * (dropdown menu options are in [square brackets])."
 #.
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:810
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:803
 msgctxt "ECompEditorPageRecur"
 msgid "on the"
 msgstr "v"
 
 # * https://bugzilla.gnome.org/show_bug.cgi?id=641020
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:1000
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:993
 msgctxt "ECompEditorPageRecur"
 msgid "occurrences"
 msgstr "výskytov"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:1493
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:2023
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:1486
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:2016
 msgctxt "ECompEditorPageRecur"
 msgid "This appointment rec_urs"
 msgstr "Táto schôdzka sa _opakuje"
 
 #. Translators: Entire string is for example:     'This task recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:1498
-#, fuzzy
-#| msgid "This task recurs"
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:1491
 msgctxt "ECompEditorPageRecur"
 msgid "This task rec_urs"
-msgstr "Táto úloha sa opakuje"
+msgstr "Táto úloha sa opa_kuje"
 
 #. Translators: Entire string is for example:     'This memo recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:1503
-#, fuzzy
-#| msgid "This memo recurs"
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:1496
 msgctxt "ECompEditorPageRecur"
 msgid "This memo rec_urs"
-msgstr "Táto poznámka sa opakuje"
+msgstr "Táto poznámka sa opa_kuje"
 
 #. Translators: Entire string is for example:     'This component recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:1508
-#, fuzzy
-#| msgid "This appointment rec_urs"
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:1501
 msgctxt "ECompEditorPageRecur"
 msgid "This component rec_urs"
-msgstr "Táto schôdzka sa _opakuje"
+msgstr "Táto súčasť sa opa_kuje"
 
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:1869
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:1862
 #, fuzzy
 #| msgid "Recurrence date is invalid"
 msgid "Recurrence exception date is invalid"
 msgstr "Dátum opakovania je neplatný"
 
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:1917
-#, fuzzy
-#| msgid "End time of the recurrence was before event's start"
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:1910
 msgid "End time of the recurrence is before the start"
-msgstr "Čas konca opakovania bol pred pred začiatkom udalosti"
+msgstr "Čas konca opakovania je pred pred začiatkom"
 
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:1960
-#, fuzzy
-#| msgid "Recurrence"
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:1953
 msgid "R_ecurrence"
-msgstr "Opakovanie"
+msgstr "O_pakovanie"
 
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:1962
-#, fuzzy
-#| msgid "It has recurrences."
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:1955
 msgid "Set or unset recurrence"
-msgstr "Má opakovania."
+msgstr "Nastaví alebo zruší nastavenie opakovania"
 
 # * https://bugzilla.gnome.org/show_bug.cgi?id=641020
 # Peter: každý nový problém treba hlásit do nového bugu takto je z toho pekný guláš
 # PK: s tymto nesuhlasim, urcite to je lepsi pre vyvojarov, ked to maju pokope
 # PŠ: nesúhlasiť môžeš, ale bugzilla má svoje pravidlá: https://bugzilla.gnome.org/page.cgi?id=bug-writing.html (One bug per report)
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:2063
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:2056
 msgctxt "ECompEditorPageRecur"
 msgid "Every"
 msgstr "Každý(ch)"
 
 # * https://bugzilla.gnome.org/show_bug.cgi?id=641020
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:2098
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:2091
 msgctxt "ECompEditorPageRecur"
 msgid "day(s)"
 msgstr "deň/dní"
 
 # PK: zevraj to nejde
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:2100
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:2093
 msgctxt "ECompEditorPageRecur"
 msgid "week(s)"
 msgstr "týždeň(ov)"
 
 # PK: zevraj to nejde
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:2102
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:2095
 msgctxt "ECompEditorPageRecur"
 msgid "month(s)"
 msgstr "mesiac(ov)"
 
 # PK: zevraj to nejde
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:2104
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:2097
 msgctxt "ECompEditorPageRecur"
 msgid "year(s)"
 msgstr "rok(ov)"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:2133
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:2126
 msgctxt "ECompEditorPageRecur"
 msgid "for"
 msgstr "s trvaním"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:2135
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:2128
 msgctxt "ECompEditorPageRecur"
 msgid "until"
 msgstr "do"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:2137
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:2130
 msgctxt "ECompEditorPageRecur"
 msgid "forever"
 msgstr "navždy"
 
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:2153
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:2146
 msgid "This appointment contains recurrences that Evolution cannot edit."
 msgstr "Táto schôdzka obsahuje opakovania, ktoré Evolution nedokáže upraviť."
 
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:2170
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:2163
 msgid "Exceptions"
 msgstr "Výnimky"
 
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:2239
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:2232
 #: ../calendar/gui/e-comp-editor-page-reminders.c:1778
 #: ../mail/mail-config.ui.h:62
 msgid "A_dd"
 msgstr "_Pridať"
 
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:2255
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:2248
 #: ../calendar/gui/e-comp-editor-page-reminders.c:1786
 #: ../mail/mail-config.ui.h:64
 msgid "Re_move"
 msgstr "O_dstrániť"
 
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:2263
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:2256
 msgid "Preview"
 msgstr "Náhľad"
 
@@ -4670,8 +4636,6 @@ msgstr "_Opakovať pripomenutie"
 
 #. Translators: Part of: Repeat the reminder [ x ] extra times every [ y ] [ minutes ]
 #: ../calendar/gui/e-comp-editor-page-reminders.c:1952
-#, fuzzy
-#| msgid "extra times every"
 msgctxt "cal-reminders"
 msgid "extra times every"
 msgstr "razy navyše každých"
@@ -4697,8 +4661,6 @@ msgstr "dní"
 #. page_reminders->priv->custom_email_entry is initialized on demand
 #: ../calendar/gui/e-comp-editor-page-reminders.c:2034
 #: ../calendar/gui/e-comp-editor-page-reminders.c:2191
-#, fuzzy
-#| msgid "Custom _message"
 msgctxt "cal-reminders"
 msgid "Custom _message"
 msgstr "Vlastná _správa"
@@ -4709,7 +4671,6 @@ msgid "Custom reminder _sound"
 msgstr "Vlastný zvuk _pripomenutia"
 
 #: ../calendar/gui/e-comp-editor-page-reminders.c:2089
-#, fuzzy
 msgid "Select a sound file"
 msgstr "Vybrať zvukový súbor"
 
@@ -4864,12 +4825,10 @@ msgid "Task's due date is in the past"
 msgstr "Dátum termínu úlohy je v minulosti"
 
 #: ../calendar/gui/e-comp-editor-task.c:308
-#, fuzzy
-#| msgid "Task cannot be edited, because the selected task list is read only"
 msgid ""
 "Task cannot be edited, because the selected task list could not be opened"
 msgstr ""
-"Úloha nemôže byť upravená, pretože vybraný zoznam úloh je len na čítanie"
+"Úloha nemôže byť upravená, pretože vybraný zoznam úloh sa nepodarilo otvoriť"
 
 #: ../calendar/gui/e-comp-editor-task.c:310
 msgid "Task cannot be edited, because the selected task list is read only"
@@ -4881,23 +4840,16 @@ msgid "Task cannot be fully edited, because you are not the organizer"
 msgstr "Úloha sa nedá celá upravovať, pretože nie ste organizátor"
 
 #: ../calendar/gui/e-comp-editor-task.c:359
-#, fuzzy
-#| msgid "Recurrence date is invalid"
 msgid "Due date is not a valid date"
-msgstr "Dátum opakovania je neplatný"
+msgstr "Termín nie je platným dátumom"
 
 #: ../calendar/gui/e-comp-editor-task.c:370
-#, fuzzy
-#| msgid "Completed date is wrong"
 msgid "Completed date is not a valid date"
-msgstr "Dátum dokončenia je neplatný"
+msgstr "Dátum dokončenia nie je platným dátumom"
 
 #: ../calendar/gui/e-comp-editor-task.c:381
-#, fuzzy
-#| msgid "1 minute in the future"
-#| msgid_plural "%d minutes in the future"
 msgid "Completed date cannot be in the future"
-msgstr "%d minút v budúcnosti"
+msgstr "Dátum dokončenia nemôže byť v budúcnosti"
 
 #: ../calendar/gui/e-comp-editor-task.c:566
 #, c-format
@@ -4915,10 +4867,8 @@ msgid "attachment"
 msgstr "príloha"
 
 #: ../calendar/gui/e-comp-editor.c:609
-#, fuzzy
-#| msgid "Send _updates to attendees"
 msgid "Sending notifications to attendees..."
-msgstr "Odoslať _aktualizácie účastníkom"
+msgstr "Odosielajú sa oznámenia účastníkom..."
 
 #: ../calendar/gui/e-comp-editor.c:991
 msgid "Saving changes..."
@@ -5074,14 +5024,14 @@ msgid "Save current changes and close editor"
 msgstr "Uloží aktuálne zmeny a zavrie editor"
 
 #. String to use in 12-hour time format for times in the morning.
-#: ../calendar/gui/e-day-view.c:2133 ../calendar/gui/e-week-view.c:1716
+#: ../calendar/gui/e-day-view.c:2133 ../calendar/gui/e-week-view.c:1728
 #: ../calendar/gui/print.c:1073 ../calendar/gui/print.c:1092
 #: ../calendar/gui/print.c:2622 ../calendar/gui/print.c:2642
 msgid "am"
 msgstr "am"
 
 #. String to use in 12-hour time format for times in the afternoon.
-#: ../calendar/gui/e-day-view.c:2136 ../calendar/gui/e-week-view.c:1719
+#: ../calendar/gui/e-day-view.c:2136 ../calendar/gui/e-week-view.c:1731
 #: ../calendar/gui/print.c:1078 ../calendar/gui/print.c:1094
 #: ../calendar/gui/print.c:2627 ../calendar/gui/print.c:2644
 msgid "pm"
@@ -5121,8 +5071,8 @@ msgstr "Zobraziť druhé časové pásmo"
 
 #. Translators: "None" indicates no second time zone set for a day view
 #: ../calendar/gui/e-day-view-time-item.c:848
-#: ../modules/calendar/e-calendar-preferences.c:308
-#: ../modules/calendar/e-calendar-preferences.c:360
+#: ../modules/calendar/e-calendar-preferences.c:303
+#: ../modules/calendar/e-calendar-preferences.c:355
 #: ../modules/calendar/e-calendar-preferences.ui.h:11
 msgctxt "cal-second-zone"
 msgid "None"
@@ -5130,7 +5080,7 @@ msgstr "Žiadne"
 
 #: ../calendar/gui/e-day-view-time-item.c:882
 #: ../calendar/gui/e-timezone-entry.c:324
-#: ../modules/calendar/e-calendar-preferences.c:391
+#: ../modules/calendar/e-calendar-preferences.c:386
 msgid "Select..."
 msgstr "Vybrať…"
 
@@ -5351,7 +5301,7 @@ msgid "Language"
 msgstr "Jazyk"
 
 #: ../calendar/gui/e-memo-table.c:370
-#: ../modules/calendar/e-cal-shell-content.c:1633
+#: ../modules/calendar/e-cal-shell-content.c:1632
 #: ../modules/calendar/e-memo-shell-view-actions.c:196
 #: ../modules/calendar/e-memo-shell-view-actions.c:211
 #: ../modules/calendar/e-memo-shell-view.c:315
@@ -5415,7 +5365,7 @@ msgstr "%d %%"
 #: ../calendar/importers/icalendar-importer.c:79
 #: ../calendar/importers/icalendar-importer.c:1117
 #: ../modules/calendar/e-calendar-preferences.ui.h:63
-#: ../modules/calendar/e-cal-shell-content.c:1593
+#: ../modules/calendar/e-cal-shell-content.c:1592
 #: ../modules/calendar/e-task-shell-view-actions.c:220
 #: ../modules/calendar/e-task-shell-view-actions.c:235
 #: ../modules/calendar/e-task-shell-view.c:473
@@ -8114,10 +8064,8 @@ msgid "email;calendar;contact;addressbook;task;"
 msgstr "email;pošta;kalendár;kontakt;adresár kontaktov;úloha;"
 
 #: ../data/evolution.desktop.in.in.h:6
-#, fuzzy
-#| msgid "New _Window"
 msgid "New Window"
-msgstr "Nové _okno"
+msgstr "Nové okno"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:1
 msgid "Enable address formatting"
@@ -8856,18 +8804,12 @@ msgstr ""
 "Určuje, či zobraziť koncové časy udalostí v týždennom a mesačnom zobrazení"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:111
-#, fuzzy
-#| msgid "Show appointment end times in week and month views"
 msgid "Show appointment icons in the month view"
-msgstr "Zobraziť koncové časy schôdzok v týždennom a mesačnom zobrazení"
+msgstr "Zobraziť ikony schôdzok v mesačnom pohľade"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:112
-#, fuzzy
-#| msgid ""
-#| "Whether to display the end time of events in the week and month views"
 msgid "Whether to show icons of events in the month view"
-msgstr ""
-"Určuje, či zobraziť koncové časy udalostí v týždennom a mesačnom zobrazení"
+msgstr "Určuje, či zobraziť ikony udalostí v mesačnom pohľade"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:113
 msgid "Show the memo preview pane"
@@ -9633,7 +9575,7 @@ msgstr "Automaticky načítať obrázky HTML správ cez HTTP"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:86
 msgid "Show notification about missing remote content"
-msgstr ""
+msgstr "Zobraziť oznámenie o chýbajúcom vzdialenom obsahu"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:87
 msgid ""
@@ -9641,6 +9583,9 @@ msgid ""
 "content, while the download is not allowed for the user or the site, then "
 "show a notification about it on top of the preview panel."
 msgstr ""
+"Keď náhľad správy zobrazí správu, ktorá vyžaduje prevzatie vzdialeného "
+"obsahu a preberanie nie je používateľovi alebo stránke umožnené, potom bude "
+"zobrazené oznámenie navrchu panelu náhľadu."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:88
 msgid "Show Animations"
@@ -10839,10 +10784,9 @@ msgid "Flag that enables a much simplified user interface."
 msgstr "Príznak ktorý zapína zjednodušené používateľské rozhranie."
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:13
-#, fuzzy
-#| msgid "Zoom large images to not be wider than the window width"
 msgid "List of button names to hide in the window switcher"
-msgstr "Priblížiť veľké obrázky tak, aby neboli širšie ako šírka okna"
+msgstr ""
+"Zoznam názvov tlačidiel, ktoré sa majú skryť v nástroji na prepínanie okien"
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:14
 msgid ""
@@ -13474,11 +13418,11 @@ msgstr "Veľ_kosť:"
 msgid "Text Properties"
 msgstr "Vlastnosti textu"
 
-#: ../e-util/e-html-editor-view.c:6289
+#: ../e-util/e-html-editor-view.c:6255
 msgid "Changed property"
 msgstr "Zmenená vlastnosť"
 
-#: ../e-util/e-html-editor-view.c:6290
+#: ../e-util/e-html-editor-view.c:6256
 msgid "Whether editor changed"
 msgstr "Určuje, či sa editor zmenil"
 
@@ -14119,10 +14063,8 @@ msgid "Name:"
 msgstr "Meno:"
 
 #: ../e-util/e-source-config.c:813
-#, fuzzy
-#| msgid "One or more values cannot be empty."
 msgid "Name cannot be empty"
-msgstr "Jedna alebo viacero hodnôt nemôžu byť prázdne."
+msgstr "Meno nemôže byť prázdne"
 
 # MČ: chcelo by to plurals. Asi.
 #. Translators: This is the first of a sequence of widgets:
@@ -14144,34 +14086,24 @@ msgid "User"
 msgstr "Používateľ"
 
 #: ../e-util/e-source-selector.c:3214
-#, fuzzy
-#| msgid "Show %s"
 msgid "Show"
-msgstr "Zobraziť %s"
+msgstr "Zobraziť"
 
 #: ../e-util/e-source-selector.c:3221
-#, fuzzy
-#| msgid "Group Reply"
 msgid "Group name"
-msgstr "Odpovedať skupine"
+msgstr "Názov skupiny"
 
 #: ../e-util/e-source-selector.c:3376 ../e-util/e-source-selector.c:3475
-#, fuzzy
-#| msgid "Show %s"
 msgid "_Show"
-msgstr "Zobraziť %s"
+msgstr "_Zobraziť"
 
 #: ../e-util/e-source-selector.c:3428
-#, fuzzy
-#| msgid "Manager"
 msgid "Manage Groups"
-msgstr "Manažér"
+msgstr "Spravovať skupiny"
 
 #: ../e-util/e-source-selector.c:3440
-#, fuzzy
-#| msgid "_Available Categories:"
 msgid "Available Groups:"
-msgstr "_Dostupné kategórie:"
+msgstr "Dostupné skupiny:"
 
 #: ../e-util/e-source-selector-dialog.c:236
 msgid "_Destination"
@@ -14746,14 +14678,12 @@ msgid "One or more values cannot be empty."
 msgstr "Jedna alebo viacero hodnôt nemôžu byť prázdne."
 
 #: ../e-util/filter.error.xml.h:16
-#, fuzzy
-#| msgid "Are you sure you want to delete the '{0}' task?"
 msgid "Are you sure you want to remove rule '{0}'?"
-msgstr "Ste si istý, že chcete odstrániť úlohu „{0}“?"
+msgstr "Ste si istý, že chcete odstrániť pravidlo „{0}“?"
 
 #: ../e-util/filter.error.xml.h:17
 msgid "_Keep"
-msgstr ""
+msgstr "Za_chovať"
 
 #: ../e-util/filter.ui.h:2
 msgid "the current time"
@@ -14935,21 +14865,17 @@ msgstr ""
 "Microsoft Exchange pomocou rozšírenia EWS „Exchange Web Services“."
 
 #: ../libemail-engine/camel-sasl-oauth2-google.c:29
-#, fuzzy
 #| msgid "OAuth2"
 msgid "OAuth2 Google"
-msgstr "OAuth2"
+msgstr "OAuth2 Google"
 
 #: ../libemail-engine/camel-sasl-oauth2-google.c:30
-#, fuzzy
-#| msgid ""
-#| "This option will use an OAuth 2.0 access token to connect to the server"
 msgid ""
 "This option will use an OAuth 2.0 access token to connect to the Google "
 "server"
 msgstr ""
 "Táto voľba sprístupní používanie OAuth 2.0 prístupového tokenu na pripojenie "
-"k serveru"
+"k serveru Google"
 
 #: ../libemail-engine/camel-sasl-xoauth2.c:26
 msgid "OAuth2"
@@ -15357,10 +15283,8 @@ msgid "_Revise Details"
 msgstr "_Skontrolovať podrobnosti"
 
 #: ../mail/e-mail-config-auth-check.c:177
-#, fuzzy
-#| msgid "%s authentication failed"
 msgid "Querying authentication types..."
-msgstr "%s overenie totožnosti zlyhalo"
+msgstr "Požadujú sa typy overenia totožnosti..."
 
 # je to nazov tlacidla
 #: ../mail/e-mail-config-auth-check.c:340
@@ -15387,14 +15311,12 @@ msgstr "Hotovo"
 
 #: ../mail/e-mail-config-defaults-page.c:371
 msgid "Checking server settings..."
-msgstr ""
+msgstr "Kontrolujú sa nastavenia servera..."
 
 #: ../mail/e-mail-config-defaults-page.c:489
-#, fuzzy
-#| msgid "Use locale default"
 msgctxt "ReplyForward"
 msgid "Use global setting"
-msgstr "Použiť predvolené miestne nastavenia"
+msgstr "Použiť globálne nastavenie"
 
 # MČ: Je možné oddeliť ../mail/mail-config.ui.h:14 do samostaného reťazca?
 #     Popisuje spôsob odpovedania na e-mail a odosielania ďalej. Dáva: Príloh
@@ -15495,8 +15417,6 @@ msgid "Always _blind carbon-copy (bcc) to:"
 msgstr "Vždy odoslať _skrytú kópiu (bcc) pre:"
 
 #: ../mail/e-mail-config-defaults-page.c:1057
-#, fuzzy
-#| msgid "_Reply style:"
 msgid "Re_ply style:"
 msgstr "Š_týl odpovede:"
 
@@ -15582,20 +15502,16 @@ msgstr ""
 "_Vyhľadať podrobnosti o poštovom serveri na základe zadanej emailovej adresy"
 
 #: ../mail/e-mail-config-identity-page.c:611
-#, fuzzy
-#| msgid "One or more values cannot be empty."
 msgid "Full Name cannot be empty"
-msgstr "Jedna alebo viacero hodnôt nemôžu byť prázdne."
+msgstr "Celé meno nemôže byť prázdne"
 
 #: ../mail/e-mail-config-identity-page.c:618
-#, fuzzy
-#| msgid "One or more values cannot be empty."
 msgid "Email Address cannot be empty"
-msgstr "Jedna alebo viacero hodnôt nemôžu byť prázdne."
+msgstr "Emailová adresa nemôže byť prázdna"
 
 #: ../mail/e-mail-config-identity-page.c:623
 msgid "Email Address is not a valid email"
-msgstr ""
+msgstr "Emailová adresa nie je platným emailom"
 
 #: ../mail/e-mail-config-identity-page.c:635
 msgid "Reply To is not a valid email"
@@ -15603,10 +15519,8 @@ msgstr ""
 
 #: ../mail/e-mail-config-identity-page.c:646
 #: ../mail/e-mail-config-summary-page.c:632
-#, fuzzy
-#| msgid "One or more values cannot be empty."
 msgid "Account Name cannot be empty"
-msgstr "Jedna alebo viacero hodnôt nemôžu byť prázdne."
+msgstr "Názov účtu nemôže byť prázdny"
 
 #: ../mail/e-mail-config-lookup-page.c:70
 msgid "Looking up account details..."
@@ -15639,7 +15553,7 @@ msgstr "%s - %s"
 #: ../mail/e-mail-config-security-page.c:340 ../mail/em-folder-properties.c:603
 #: ../mail/mail-config.ui.h:31
 #: ../modules/addressbook/autocompletion-config.c:113
-#: ../modules/calendar/e-calendar-preferences.c:625
+#: ../modules/calendar/e-calendar-preferences.c:620
 #: ../modules/calendar/e-calendar-preferences.ui.h:46
 #: ../plugins/publish-calendar/publish-calendar.ui.h:16
 msgid "General"
@@ -15962,32 +15876,24 @@ msgid "Color"
 msgstr "Farba"
 
 #: ../mail/e-mail-notes.c:310 ../mail/e-mail-notes.c:692
-#, fuzzy
-#| msgid "Messages To"
 msgid "Message Note"
-msgstr "Správy pre"
+msgstr "Poznámka k správe"
 
 #: ../mail/e-mail-notes.c:612
-#, fuzzy
-#| msgid "Copying messages into folder %s"
 msgid "Cannot find message in its folder summary"
-msgstr "Kopírujú sa správy do priečinka %s"
+msgstr "Nedá sa nájsť správa v jej zhrnutí zložky"
 
 #: ../mail/e-mail-notes.c:815
 msgid "Storing changes..."
 msgstr "Ukladajú sa zmeny…"
 
 #: ../mail/e-mail-notes.c:940
-#, fuzzy
-#| msgid "_Edit Message"
 msgid "Edit Message Note"
-msgstr "_Upraviť správu"
+msgstr "Upraviť poznámku k správe"
 
 #: ../mail/e-mail-notes.c:1058
-#, fuzzy
-#| msgid "Retrieving message"
 msgid "Retrieving message..."
-msgstr "Získava sa správa"
+msgstr "Získava sa správa..."
 
 # tooltip
 #: ../mail/e-mail-print-config-headers.c:165
@@ -16051,10 +15957,8 @@ msgid "C_opy"
 msgstr "K_opírovať"
 
 #: ../mail/e-mail-reader.c:488
-#, fuzzy
-#| msgid "Deleting old messages"
 msgid "Deleting message note..."
-msgstr "Odstraňujú sa staré správy"
+msgstr "Odstraňuje sa poznámka k správe..."
 
 #: ../mail/e-mail-reader.c:1271 ../mail/e-mail-reader.c:1483
 #: ../mail/e-mail-reader.c:1523
@@ -16119,30 +16023,24 @@ msgid "_Add note..."
 msgstr "Pri_dať poznámku…"
 
 #: ../mail/e-mail-reader.c:2002
-#, fuzzy
-#| msgid "Create a new memo from the selected message"
 msgid "Add a note for the selected message"
-msgstr "Vytvorí novú poznámku z vybranej správy"
+msgstr "Pridá poznámku pre vybratú správu"
 
 #: ../mail/e-mail-reader.c:2007
 msgid "Delete no_te"
 msgstr "O_dstrániť poznámku"
 
 #: ../mail/e-mail-reader.c:2009
-#, fuzzy
-#| msgid "Create a new event from the selected message"
 msgid "Delete the note for the selected message"
-msgstr "Vytvorí novú udalosť z vybranej správy"
+msgstr "Odstráni poznámku pre vybratú správu"
 
 #: ../mail/e-mail-reader.c:2014
 msgid "_Edit note..."
 msgstr "_Upraviť poznámku…"
 
 #: ../mail/e-mail-reader.c:2016
-#, fuzzy
-#| msgid "Create a new memo from the selected message"
 msgid "Edit a note for the selected message"
-msgstr "Vytvorí novú poznámku z vybranej správy"
+msgstr "Upraví poznámku pre vybratú správu"
 
 #: ../mail/e-mail-reader.c:2021
 msgid "Create a Filter Rule for Mailing _List..."
@@ -16702,10 +16600,8 @@ msgid "Allow remote content from %s"
 msgstr "Povoliť vzdialený obsah z %s"
 
 #: ../mail/e-mail-reader.c:5425
-#, fuzzy
-#| msgid "_Do not show this message again"
 msgid "Do not show this message again"
-msgstr "_Túto správu už znovu nezobrazovať"
+msgstr "Túto správu už znovu nezobrazovať"
 
 #: ../mail/e-mail-reader.c:5473
 msgid "Load remote content"
@@ -17306,17 +17202,13 @@ msgstr "Veľkosť (kB)"
 
 #: ../mail/filtertypes.xml.in.h:34 ../mail/searchtypes.xml.in.h:36
 #: ../mail/vfoldertypes.xml.in.h:36
-#, fuzzy
-#| msgid "is greater than"
 msgid "is greater than or equal to"
-msgstr "je viac než"
+msgstr "je viac alebo rovné než"
 
 #: ../mail/filtertypes.xml.in.h:35 ../mail/searchtypes.xml.in.h:37
 #: ../mail/vfoldertypes.xml.in.h:37
-#, fuzzy
-#| msgid "is less than"
 msgid "is less than or equal to"
-msgstr "je menej než"
+msgstr "je menej alebo rovné než"
 
 #: ../mail/filtertypes.xml.in.h:37 ../mail/searchtypes.xml.in.h:39
 #: ../mail/vfoldertypes.xml.in.h:39
@@ -17965,10 +17857,8 @@ msgid "_Always load remote content from the Internet"
 msgstr "_Vždy načítavať vzdialený obsah z internetu"
 
 #: ../mail/mail-config.ui.h:110
-#, fuzzy
-#| msgid "_Show the photograph of sender in the message preview"
 msgid "Notify about _missing remote content in the message preview"
-msgstr "_Zobraziť fotografiu odosielateľa v náhľade správy"
+msgstr "Oznámiť _chýbajúci vzdialený obsah v náhľade správy"
 
 #: ../mail/mail-config.ui.h:111
 msgid "Add"
@@ -18701,10 +18591,8 @@ msgid ""
 msgstr "Zlyhala požiadavka na server o zoznam podporovaných spôsobov overenia."
 
 #: ../mail/mail.error.xml.h:126
-#, fuzzy
-#| msgid "Failed to retrieve messages."
 msgid "Failed to get server setup."
-msgstr "Zlyhalo získavanie správ."
+msgstr "Zlyhalo získanie nastavenia servera."
 
 #: ../mail/mail.error.xml.h:127
 msgid "Synchronize folders locally for offline usage?"
@@ -18992,24 +18880,18 @@ msgid "Overdue: {0} by {1}"
 msgstr "Po termíne: {0} do {1}"
 
 #: ../mail/mail.error.xml.h:198
-#, fuzzy
-#| msgid "This signature has been changed, but has not been saved."
 msgid "This message note has been changed, but has not been saved."
-msgstr "Tento podpis bol zmenený, ale nebol uložený."
+msgstr "Táto správa nebola zmenená, ale ani uložená."
 
 #. Translators: {0} is the name of the folder where the delete of the message note failed.
 #: ../mail/mail.error.xml.h:201
-#, fuzzy
-#| msgid "Failed to delete an event in the calendar '{0}'"
 msgid "Failed to delete message note in folder '{0}'"
-msgstr "Zlyhalo odstránenie udalosti z kalendára „{0}“"
+msgstr "Zlyhalo odstránenie poznámky k správe z priečinka „{0}“"
 
 #. Translators: {0} is the name of the folder where the store of the message note failed.
 #: ../mail/mail.error.xml.h:203
-#, fuzzy
-#| msgid "Failed to mark thread to be ignored in folder '{0}'"
 msgid "Failed to store message note in folder '{0}'"
-msgstr "Zlyhalo označenie vlákna ako ignorované v priečinku „{0}“"
+msgstr "Zlyhalo uloženie poznámky k správe do priečinka „{0}“"
 
 #: ../mail/mail-send-recv.c:191
 msgid "Canceling..."
@@ -19841,10 +19723,8 @@ msgstr "Filtrovanie nevyžiadanej pošty pomocou programu Bogofilter"
 #: ../modules/cal-config-google/e-cal-config-gtasks.c:117
 #: ../modules/mail-config/e-mail-config-remote-accounts.c:361
 #: ../modules/mail-config/e-mail-config-smtp-backend.c:396
-#, fuzzy
-#| msgid "One or more values cannot be empty."
 msgid "User name cannot be empty"
-msgstr "Jedna alebo viacero hodnôt nemôžu byť prázdne."
+msgstr "Meno používateľa nemôže byť prázdne"
 
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:442
 msgid "Standard LDAP Port"
@@ -19987,10 +19867,8 @@ msgstr "Prezerať až do obmedzenia"
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:978
 #: ../modules/mail-config/e-mail-config-remote-accounts.c:342
 #: ../modules/mail-config/e-mail-config-smtp-backend.c:378
-#, fuzzy
-#| msgid "One or more values cannot be empty."
 msgid "Server address cannot be empty"
-msgstr "Jedna alebo viacero hodnôt nemôžu byť prázdne."
+msgstr "Adresa servera nemôže byť prázdna"
 
 #: ../modules/book-config-webdav/evolution-book-config-webdav.c:135
 #: ../modules/cal-config-caldav/evolution-cal-config-caldav.c:299
@@ -20206,35 +20084,35 @@ msgstr "Nástroj na výber zoznamu poznámok"
 msgid "Task List Selector"
 msgstr "Nástroj na výber zoznamu uloh"
 
-#: ../modules/calendar/e-calendar-preferences.c:520
+#: ../modules/calendar/e-calendar-preferences.c:515
 msgid "Selected Calendars for Alarms"
 msgstr "Vybrané kalendáre pre poplachy"
 
-#: ../modules/calendar/e-calendar-preferences.c:616
+#: ../modules/calendar/e-calendar-preferences.c:611
 msgid "Meeting Invitations"
 msgstr "Pozvánky na stretnutia"
 
-#: ../modules/calendar/e-calendar-preferences.c:642
+#: ../modules/calendar/e-calendar-preferences.c:637
 msgid "_Delete message after acting"
 msgstr "_Odstrániť správu po stretnutí"
 
 # nebude lepšie rozpor pri hľadaní?
 # MČ: v ktorých kalendároch má hľadať prekrývajúce sa stretnutia
-#: ../modules/calendar/e-calendar-preferences.c:656
-#: ../modules/calendar/e-calendar-preferences.c:687
+#: ../modules/calendar/e-calendar-preferences.c:651
+#: ../modules/calendar/e-calendar-preferences.c:682
 msgid "Conflict Search"
 msgstr "Hľadanie konfliktov"
 
 #. Source selector
-#: ../modules/calendar/e-calendar-preferences.c:671
+#: ../modules/calendar/e-calendar-preferences.c:666
 msgid "Select the calendars to search for meeting conflicts"
 msgstr "Zvoľte kalendáre, v ktorých sa budú hľadať prekrývajúce sa stretnutia"
 
-#: ../modules/calendar/e-calendar-preferences.c:1063
+#: ../modules/calendar/e-calendar-preferences.c:1058
 msgid "Ti_me and date:"
 msgstr "Č_as a dátum:"
 
-#: ../modules/calendar/e-calendar-preferences.c:1064
+#: ../modules/calendar/e-calendar-preferences.c:1059
 msgid "_Date only:"
 msgstr "Len _dátum:"
 
@@ -20397,10 +20275,8 @@ msgid "_Show appointment end times in week and month view"
 msgstr "_Zobraziť koncové časy schôdzok v týždennom a mesačnom pohľade"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:50
-#, fuzzy
-#| msgid "Show appointment end times in week and month views"
 msgid "Show appointment _icons in the month view"
-msgstr "Zobraziť koncové časy schôdzok v týždennom a mesačnom zobrazení"
+msgstr "Zobraziť _ikony schôdzok v mesačnom pohľade"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:51
 msgid "_Compress weekends in month view"
@@ -22050,10 +21926,8 @@ msgid "Choose a MH mail directory"
 msgstr "Zvoľte adresár s poštou typu MH"
 
 #: ../modules/mail-config/e-mail-config-local-accounts.c:270
-#, fuzzy
-#| msgid "One or more values cannot be empty."
 msgid "MH mail directory cannot be empty"
-msgstr "Jedna alebo viacero hodnôt nemôžu byť prázdne."
+msgstr "Poštový adresár MH nemôže byť prázdny"
 
 #: ../modules/mail-config/e-mail-config-local-accounts.c:291
 msgid "Local Delivery _File:"
@@ -22064,10 +21938,8 @@ msgid "Choose a local delivery file"
 msgstr "Zvoľte súbor pre lokálne doručovanie"
 
 #: ../modules/mail-config/e-mail-config-local-accounts.c:294
-#, fuzzy
-#| msgid "One or more values cannot be empty."
 msgid "Local delivery file cannot be empty"
-msgstr "Jedna alebo viacero hodnôt nemôžu byť prázdne."
+msgstr "Súbor miestneho doručenia nemôže byť prázdny"
 
 #: ../modules/mail-config/e-mail-config-local-accounts.c:316
 msgid "Choose a Maildir mail directory"
@@ -22176,10 +22048,8 @@ msgid "Send mail also when in offline _mode"
 msgstr "Odoslať email aj v odpojenom _režime"
 
 #: ../modules/mail-config/e-mail-config-sendmail-backend.c:210
-#, fuzzy
-#| msgid "One or more values cannot be empty."
 msgid "Custom binary cannot be empty"
-msgstr "Jedna alebo viacero hodnôt nemôžu byť prázdne."
+msgstr "Vlastný binárny súbor nemôže byť prázdny"
 
 #. do not reference
 #: ../modules/mail-config/e-mail-config-smtp-backend.c:145
@@ -22894,14 +22764,10 @@ msgstr "Zobraziť obyčajný text, ak je prítomný, alebo zdrojový kód HTML"
 
 #: ../modules/prefer-plain/e-mail-parser-prefer-plain.c:89
 #: ../modules/prefer-plain/plugin/config-ui.c:47
-#, fuzzy
-#| msgid ""
-#| "Show plain text part, if present, otherwise let Evolution choose the best "
-#| "part to show."
 msgid "Show plain text part, if present, otherwise the HTML part source."
 msgstr ""
-"Zobrazí časť s obyčajným textom, ak je prítomná, inak ponechá rozhodnutie "
-"programu Evolution, aby vybral najvhodnejšiu časť."
+"Zobrazí časť s obyčajným textom, ak je prítomná, inak zobrazí čiastočný "
+"zdroj HTML."
 
 #: ../modules/prefer-plain/e-mail-parser-prefer-plain.c:93
 #: ../modules/prefer-plain/plugin/config-ui.c:51
