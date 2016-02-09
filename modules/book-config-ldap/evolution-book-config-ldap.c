@@ -445,7 +445,7 @@ book_config_build_port_combo (void)
 	gtk_list_store_set (
 		store, &iter,
 		0, G_STRINGIFY (LDAPS_PORT),
-		1, _("LDAP over SSL (deprecated)"), -1);
+		1, _("LDAP over SSL/TLS (deprecated)"), -1);
 
 	gtk_list_store_append (store, &iter);
 	gtk_list_store_set (
@@ -457,7 +457,7 @@ book_config_build_port_combo (void)
 	gtk_list_store_set (
 		store, &iter,
 		0, G_STRINGIFY (MSGCS_PORT),
-		1, _("Microsoft Global Catalog over SSL"), -1);
+		1, _("Microsoft Global Catalog over SSL/TLS"), -1);
 
 	widget = gtk_combo_box_new_with_entry ();
 
@@ -628,7 +628,7 @@ book_config_ldap_insert_widgets (ESourceConfigBackend *backend,
 		_("None"));
 	gtk_combo_box_text_append_text (
 		GTK_COMBO_BOX_TEXT (widget),
-		_("LDAP over SSL (deprecated)"));
+		_("LDAP over SSL/TLS (deprecated)"));
 	gtk_combo_box_text_append_text (
 		GTK_COMBO_BOX_TEXT (widget),
 		_("StartTLS (recommended)"));

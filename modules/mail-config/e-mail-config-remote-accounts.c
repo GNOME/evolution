@@ -239,7 +239,7 @@ mail_config_remote_backend_insert_widgets (EMailConfigServiceBackend *backend,
 	gtk_combo_box_text_append (
 		GTK_COMBO_BOX_TEXT (widget),
 		"ssl-on-alternate-port",
-		_("SSL on a dedicated port"));
+		_("TLS on a dedicated port"));
 	gtk_label_set_mnemonic_widget (label, widget);
 	gtk_widget_set_halign (widget, GTK_ALIGN_START);
 	gtk_grid_attach (GTK_GRID (container), widget, 1, 0, 1, 1);
