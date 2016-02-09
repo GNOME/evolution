@@ -139,10 +139,10 @@ mail_config_summary_page_refresh_security_label (ESource *source,
 			gtk_label_set_text (security_label, _("None"));
 			break;
 		case CAMEL_NETWORK_SECURITY_METHOD_SSL_ON_ALTERNATE_PORT:
-			gtk_label_set_text (security_label, _("SSL"));
+			gtk_label_set_text (security_label, _("TLS"));
 			break;
 		case CAMEL_NETWORK_SECURITY_METHOD_STARTTLS_ON_STANDARD_PORT:
-			gtk_label_set_text (security_label, _("TLS"));
+			gtk_label_set_text (security_label, _("STARTTLS"));
 			break;
 	}
 	g_type_class_unref (enum_class);
