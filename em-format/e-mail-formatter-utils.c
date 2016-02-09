@@ -401,7 +401,7 @@ e_mail_formatter_format_header (EMailFormatter *formatter,
 		flags |= E_MAIL_FORMATTER_HEADER_FLAG_BOLD;
 
 	} else if (g_str_equal (canon_name, "Newsgroups")) {
-		struct _camel_header_newsgroup *ng, *scan;
+		GSList *ng, *scan;
 		GString *html;
 
 		buf = camel_header_unfold (header_value);
@@ -416,19 +416,21 @@ e_mail_formatter_format_header (EMailFormatter *formatter,
 		html = g_string_new ("");
 		scan = ng;
 		while (scan) {
+			const gchar *newsgroup = scan->data;
+
 			if (flags & E_MAIL_FORMATTER_HEADER_FLAG_NOLINKS)
 				g_string_append_printf (
-					html, "%s", scan->newsgroup);
+					html, "%s", newsgroup);
 			else
 				g_string_append_printf (
 					html, "<a href=\"news:%s\">%s</a>",
-					scan->newsgroup, scan->newsgroup);
-			scan = scan->next;
+					newsgroup, newsgroup);
+			scan = g_slist_next (scan);
 			if (scan)
 				g_string_append_printf (html, ", ");
 		}
 
-		camel_header_newsgroups_free (ng);
+		g_slist_free_full (ng, g_free);
 
 		txt = html->str;
 		value = g_string_free (html, FALSE);
