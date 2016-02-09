@@ -532,7 +532,7 @@ prepare_intelligent_page (GtkAssistant *assistant,
 
 		text = _("Evolution checked for settings to import from "
 			 "the following applications: Pine, Netscape, Elm, "
-			 "iCalendar. No importable settings found. If you "
+			 "iCalendar, KMail. No importable settings found. If you "
 			 "would like to try again, please click the "
 			 "\"Back\" button.");
 
