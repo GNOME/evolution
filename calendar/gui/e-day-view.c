@@ -2620,7 +2620,8 @@ process_component (EDayView *day_view,
 
 static void
 update_row (EDayView *day_view,
-            gint row)
+	    gint row,
+	    gboolean do_cancel_editing)
 {
 	ECalModelComponent *comp_data;
 	ECalModel *model;
@@ -2628,7 +2629,10 @@ update_row (EDayView *day_view,
 	const gchar *uid = NULL;
 	gchar *rid = NULL;
 
-	e_day_view_stop_editing_event (day_view);
+	if (do_cancel_editing)
+		cancel_editing (day_view);
+	else
+		e_day_view_stop_editing_event (day_view);
 
 	model = e_calendar_view_get_model (E_CALENDAR_VIEW (day_view));
 	comp_data = e_cal_model_get_component_at (model, row);
@@ -2668,7 +2672,7 @@ model_row_changed_cb (ETableModel *etm,
 		return;
 	}
 
-	update_row (day_view, row);
+	update_row (day_view, row, TRUE);
 }
 
 static void
@@ -2685,7 +2689,7 @@ model_cell_changed_cb (ETableModel *etm,
 		return;
 	}
 
-	update_row (day_view, row);
+	update_row (day_view, row, FALSE);
 }
 
 static void
