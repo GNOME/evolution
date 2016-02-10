@@ -5593,13 +5593,21 @@ e_msg_composer_get_raw_message_text_without_signature (EMsgComposer *composer)
 		document, "body > *:not(.-x-evo-signature-wrapper)", NULL);
 	length = webkit_dom_node_list_get_length (list);
 	for (ii = 0; ii < length; ii++) {
-		gchar *text;
 		WebKitDOMNode *node = webkit_dom_node_list_item (list, ii);
 
-		text = webkit_dom_html_element_get_inner_text (
-			WEBKIT_DOM_HTML_ELEMENT (node));
-		g_byte_array_append (array, (guint8 *) text, strlen (text));
-		g_free (text);
+		if (!WEBKIT_DOM_IS_HTML_QUOTE_ELEMENT (node)) {
+			gchar *text;
+
+			text = webkit_dom_html_element_get_inner_text (WEBKIT_DOM_HTML_ELEMENT (node));
+			g_byte_array_append (array, (guint8 *) text, strlen (text));
+			g_free (text);
+
+			if (WEBKIT_DOM_IS_HTML_DIV_ELEMENT (node))
+				g_byte_array_append (array, (const guint8 *) "\n", 1);
+			else
+				g_byte_array_append (array, (const guint8 *) " ", 1);
+		}
+
 		g_object_unref (node);
 	}
 
