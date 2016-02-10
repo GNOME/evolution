@@ -16,8 +16,8 @@ msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2016-01-29 12:36+0000\n"
-"PO-Revision-Date: 2016-01-29 17:06+0100\n"
+"POT-Creation-Date: 2016-02-10 05:52+0000\n"
+"PO-Revision-Date: 2016-02-10 10:52+0100\n"
 "Last-Translator: Meskó Balázs <meskobalazs@gmail.com>\n"
 "Language-Team: Hungarian <openscope at gmail dot com>\n"
 "Language: hu\n"
@@ -569,7 +569,7 @@ msgstr "Beállítások"
 #: ../addressbook/gui/widgets/eab-contact-merging.c:718
 #: ../addressbook/gui/widgets/eab-gui-util.c:318
 #: ../addressbook/gui/widgets/e-addressbook-view.c:1365 ../calendar/gui/e-cal-dialogs.c:689
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:309 ../composer/e-composer-actions.c:214
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:302 ../composer/e-composer-actions.c:214
 #: ../e-util/e-activity-bar.c:359 ../e-util/e-attachment-dialog.c:311
 #: ../e-util/e-attachment-store.c:496 ../e-util/e-attachment-store.c:640
 #: ../e-util/e-attachment-view.c:421 ../e-util/e-categories-dialog.c:82
@@ -792,7 +792,7 @@ msgstr "Érvénytelen névjegy."
 #: ../addressbook/gui/contact-editor/e-contact-quick-add.c:456
 #: ../addressbook/gui/contact-editor/fullname.ui.h:13
 #: ../addressbook/gui/widgets/eab-gui-util.c:319
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:310 ../e-util/e-attachment-dialog.c:313
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:303 ../e-util/e-attachment-dialog.c:313
 #: ../e-util/e-categories-dialog.c:83 ../e-util/e-category-editor.c:209
 #: ../e-util/e-charset-combo-box.c:102 ../e-util/e-color-chooser-widget.c:128
 #: ../e-util/e-filter-datespec.c:292 ../e-util/e-html-editor-link-dialog.c:436
@@ -1936,7 +1936,7 @@ msgstr "_Szundi"
 
 #: ../calendar/alarm-notify/alarm-notify.ui.h:4
 #: ../calendar/gui/e-comp-editor-page-general.c:1365
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:2247 ../calendar/gui/e-comp-editor.c:2058
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:2240 ../calendar/gui/e-comp-editor.c:2058
 #: ../e-util/e-html-editor-actions.c:1120 ../e-util/e-mail-signature-manager.c:357
 #: ../e-util/filter.ui.h:17 ../mail/e-mail-account-manager.c:727 ../mail/e-mail-browser.c:173
 #: ../mail/e-mail-label-manager.c:382 ../mail/mail-config.ui.h:63
@@ -2781,7 +2781,7 @@ msgstr "Létezik"
 msgid "Do Not Exist"
 msgstr "Nem létezik"
 
-#: ../calendar/gui/caltypes.xml.h:19 ../calendar/gui/e-comp-editor-page-recurrence.c:2011
+#: ../calendar/gui/caltypes.xml.h:19 ../calendar/gui/e-comp-editor-page-recurrence.c:2004
 msgid "Recurrence"
 msgstr "Ismétlődés"
 
@@ -3998,17 +3998,17 @@ msgctxt "ECompEditor"
 msgid "Atte_ndees..."
 msgstr "_Résztvevők…"
 
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:333
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:326
 msgid "Add exception"
 msgstr "Kivétel hozzáadása"
 
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:371
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:364
 msgid "Modify exception"
 msgstr "Kivétel módosítása"
 
 #. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] week(s) on [Wednesday] [forever]'
 #. * (dropdown menu options are in [square brackets]). This means that after the 'on', name of a week day always follows.
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:496
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:489
 msgid "on"
 msgstr "ekkor:"
 
@@ -4016,7 +4016,7 @@ msgstr "ekkor:"
 #. * (dropdown menu options are in [square brackets]). This means that after 'first', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:577
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:570
 msgctxt "ECompEditorPageRecur"
 msgid "first"
 msgstr "első"
@@ -4026,7 +4026,7 @@ msgstr "első"
 #. * (dropdown menu options are in [square brackets]). This means that after 'second', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:583
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:576
 msgctxt "ECompEditorPageRecur"
 msgid "second"
 msgstr "második"
@@ -4035,7 +4035,7 @@ msgstr "második"
 #. * (dropdown menu options are in [square brackets]). This means that after 'third', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:588
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:581
 msgctxt "ECompEditorPageRecur"
 msgid "third"
 msgstr "harmadik"
@@ -4044,7 +4044,7 @@ msgstr "harmadik"
 #. * (dropdown menu options are in [square brackets]). This means that after 'fourth', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:593
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:586
 msgctxt "ECompEditorPageRecur"
 msgid "fourth"
 msgstr "negyedik"
@@ -4053,7 +4053,7 @@ msgstr "negyedik"
 #. * (dropdown menu options are in [square brackets]). This means that after 'fifth', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:598
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:591
 msgctxt "ECompEditorPageRecur"
 msgid "fifth"
 msgstr "ötödik"
@@ -4062,14 +4062,14 @@ msgstr "ötödik"
 #. * (dropdown menu options are in [square brackets]). This means that after 'last', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:603
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:596
 msgctxt "ECompEditorPageRecur"
 msgid "last"
 msgstr "utolsó"
 
 #. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] month(s) on the [Other date] [11th to 20th] [17th] [forever]'
 #. * (dropdown menu options are in [square brackets]).
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:630
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:623
 msgctxt "ECompEditorPageRecur"
 msgid "Other Date"
 msgstr "Egyéb dátum"
@@ -4078,7 +4078,7 @@ msgstr "Egyéb dátum"
 #. * the month to setup an appointment recurrence. The entire string is for example: This appointment recurs/Every [x] month(s)
 #. * on the [Other date] [1st to 10th] [7th] [forever]' (dropdown menu options are in [square brackets]).
 #.
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:636
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:629
 msgctxt "ECompEditorPageRecur"
 msgid "1st to 10th"
 msgstr "1-10. között"
@@ -4087,7 +4087,7 @@ msgstr "1-10. között"
 #. * the month to setup an appointment recurrence. The entire string is for example: This appointment recurs/Every [x] month(s)
 #. * on the [Other date] [11th to 20th] [17th] [forever]' (dropdown menu options are in [square brackets]).
 #.
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:642
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:635
 msgctxt "ECompEditorPageRecur"
 msgid "11th to 20th"
 msgstr "11-20. között"
@@ -4096,7 +4096,7 @@ msgstr "11-20. között"
 #. * the month to setup an appointment recurrence. The entire string is for example: This appointment recurs/Every [x] month(s)
 #. * on the [Other date] [21th to 31th] [27th] [forever]' (dropdown menu options are in [square brackets]).
 #.
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:648
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:641
 msgctxt "ECompEditorPageRecur"
 msgid "21st to 31st"
 msgstr "21-31. között"
@@ -4104,42 +4104,42 @@ msgstr "21-31. között"
 #. For Translator : 'day' is part of the sentence of the form 'appointment recurs/Every [x] month(s) on the [first] [day] [forever]'
 #. * (dropdown menu options are in[square brackets]). This means that after 'first', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:674
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:667
 msgctxt "ECompEditorPageRecur"
 msgid "day"
 msgstr "nap"
 
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:675
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:668
 msgctxt "ECompEditorPageRecur"
 msgid "Monday"
 msgstr "Hétfő"
 
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:676
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:669
 msgctxt "ECompEditorPageRecur"
 msgid "Tuesday"
 msgstr "Kedd"
 
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:677
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:670
 msgctxt "ECompEditorPageRecur"
 msgid "Wednesday"
 msgstr "Szerda"
 
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:678
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:671
 msgctxt "ECompEditorPageRecur"
 msgid "Thursday"
 msgstr "Csütörtök"
 
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:679
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:672
 msgctxt "ECompEditorPageRecur"
 msgid "Friday"
 msgstr "Péntek"
 
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:680
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:673
 msgctxt "ECompEditorPageRecur"
 msgid "Saturday"
 msgstr "Szombat"
 
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:681
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:674
 msgctxt "ECompEditorPageRecur"
 msgid "Sunday"
 msgstr "Vasárnap"
@@ -4147,126 +4147,126 @@ msgstr "Vasárnap"
 #. TRANSLATORS: Entire string is for example: 'This appointment recurs/Every [x] month(s) on the [second] [Tuesday] [forever]'
 #. * (dropdown menu options are in [square brackets])."
 #.
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:810
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:803
 msgctxt "ECompEditorPageRecur"
 msgid "on the"
 msgstr "ezen:"
 
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:1000
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:993
 msgctxt "ECompEditorPageRecur"
 msgid "occurrences"
 msgstr "alkalommal"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:1493
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:2023
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:1486
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:2016
 msgctxt "ECompEditorPageRecur"
 msgid "This appointment rec_urs"
 msgstr "Ez az érte_kezlet ismétlődik"
 
 #. Translators: Entire string is for example:     'This task recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:1498
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:1491
 msgctxt "ECompEditorPageRecur"
 msgid "This task rec_urs"
 msgstr "Ez a fela_dat ismétlődik"
 
 #. Translators: Entire string is for example:     'This memo recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:1503
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:1496
 msgctxt "ECompEditorPageRecur"
 msgid "This memo rec_urs"
 msgstr "Ez a _feljegyzés ismétlődik"
 
 #. Translators: Entire string is for example:     'This component recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:1508
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:1501
 msgctxt "ECompEditorPageRecur"
 msgid "This component rec_urs"
 msgstr "Ez az összete_vő ismétlődik"
 
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:1869
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:1862
 msgid "Recurrence exception date is invalid"
 msgstr "Érvénytelen ismétlődéskivételi dátum"
 
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:1917
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:1910
 msgid "End time of the recurrence is before the start"
 msgstr "Az ismétlődés befejezési ideje a kezdés előtt volt"
 
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:1960
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:1953
 msgid "R_ecurrence"
 msgstr "_Ismétlődés"
 
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:1962
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:1955
 msgid "Set or unset recurrence"
 msgstr "Ismétlődés beállítása vagy törlése"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:2063
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:2056
 msgctxt "ECompEditorPageRecur"
 msgid "Every"
 msgstr "Minden"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:2098
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:2091
 msgctxt "ECompEditorPageRecur"
 msgid "day(s)"
 msgstr "nap"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:2100
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:2093
 msgctxt "ECompEditorPageRecur"
 msgid "week(s)"
 msgstr "héten"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:2102
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:2095
 msgctxt "ECompEditorPageRecur"
 msgid "month(s)"
 msgstr "hónapban"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:2104
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:2097
 msgctxt "ECompEditorPageRecur"
 msgid "year(s)"
 msgstr "évben"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:2133
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:2126
 msgctxt "ECompEditorPageRecur"
 msgid "for"
 msgstr "hossz:"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:2135
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:2128
 msgctxt "ECompEditorPageRecur"
 msgid "until"
 msgstr "eddig:"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:2137
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:2130
 msgctxt "ECompEditorPageRecur"
 msgid "forever"
 msgstr "örökké"
 
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:2153
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:2146
 msgid "This appointment contains recurrences that Evolution cannot edit."
 msgstr ""
 "Ez az értekezlet olyan ismétlődéseket tartalmaz, amelyeket az Evolution nem tud "
 "szerkeszteni."
 
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:2170
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:2163
 msgid "Exceptions"
 msgstr "Kivételek"
 
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:2239
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:2232
 #: ../calendar/gui/e-comp-editor-page-reminders.c:1778 ../mail/mail-config.ui.h:62
 msgid "A_dd"
 msgstr "Hozzá_adás"
 
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:2255
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:2248
 #: ../calendar/gui/e-comp-editor-page-reminders.c:1786 ../mail/mail-config.ui.h:64
 msgid "Re_move"
 msgstr "_Eltávolítás"
 
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:2263
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:2256
 msgid "Preview"
 msgstr "Előnézet"
 
@@ -4762,14 +4762,14 @@ msgid "Save current changes and close editor"
 msgstr "Jelenlegi változtatások mentése és szerkesztő bezárása"
 
 #. String to use in 12-hour time format for times in the morning.
-#: ../calendar/gui/e-day-view.c:2133 ../calendar/gui/e-week-view.c:1716
+#: ../calendar/gui/e-day-view.c:2133 ../calendar/gui/e-week-view.c:1728
 #: ../calendar/gui/print.c:1073 ../calendar/gui/print.c:1092 ../calendar/gui/print.c:2622
 #: ../calendar/gui/print.c:2642
 msgid "am"
 msgstr "de"
 
 #. String to use in 12-hour time format for times in the afternoon.
-#: ../calendar/gui/e-day-view.c:2136 ../calendar/gui/e-week-view.c:1719
+#: ../calendar/gui/e-day-view.c:2136 ../calendar/gui/e-week-view.c:1731
 #: ../calendar/gui/print.c:1078 ../calendar/gui/print.c:1094 ../calendar/gui/print.c:2627
 #: ../calendar/gui/print.c:2644
 msgid "pm"
@@ -4808,15 +4808,15 @@ msgid "Show the second time zone"
 msgstr "Második időzóna megjelenítése"
 
 #. Translators: "None" indicates no second time zone set for a day view
-#: ../calendar/gui/e-day-view-time-item.c:848 ../modules/calendar/e-calendar-preferences.c:308
-#: ../modules/calendar/e-calendar-preferences.c:360
+#: ../calendar/gui/e-day-view-time-item.c:848 ../modules/calendar/e-calendar-preferences.c:303
+#: ../modules/calendar/e-calendar-preferences.c:355
 #: ../modules/calendar/e-calendar-preferences.ui.h:11
 msgctxt "cal-second-zone"
 msgid "None"
 msgstr "Nincs"
 
 #: ../calendar/gui/e-day-view-time-item.c:882 ../calendar/gui/e-timezone-entry.c:324
-#: ../modules/calendar/e-calendar-preferences.c:391
+#: ../modules/calendar/e-calendar-preferences.c:386
 msgid "Select..."
 msgstr "Kijelölés…"
 
@@ -5024,7 +5024,7 @@ msgstr "Közönséges név"
 msgid "Language"
 msgstr "Nyelv"
 
-#: ../calendar/gui/e-memo-table.c:370 ../modules/calendar/e-cal-shell-content.c:1633
+#: ../calendar/gui/e-memo-table.c:370 ../modules/calendar/e-cal-shell-content.c:1632
 #: ../modules/calendar/e-memo-shell-view-actions.c:196
 #: ../modules/calendar/e-memo-shell-view-actions.c:211
 #: ../modules/calendar/e-memo-shell-view.c:315
@@ -5087,7 +5087,7 @@ msgstr "%d%%"
 #: ../calendar/importers/icalendar-importer.c:79
 #: ../calendar/importers/icalendar-importer.c:1117
 #: ../modules/calendar/e-calendar-preferences.ui.h:63
-#: ../modules/calendar/e-cal-shell-content.c:1593
+#: ../modules/calendar/e-cal-shell-content.c:1592
 #: ../modules/calendar/e-task-shell-view-actions.c:220
 #: ../modules/calendar/e-task-shell-view-actions.c:235
 #: ../modules/calendar/e-task-shell-view.c:473
@@ -10584,23 +10584,23 @@ msgstr "Másolat"
 msgid "Bcc"
 msgstr "Rejtett másolat"
 
-#: ../em-format/e-mail-formatter-utils.c:564
+#: ../em-format/e-mail-formatter-utils.c:566
 msgid "GPG signed"
 msgstr "GPG aláírt"
 
-#: ../em-format/e-mail-formatter-utils.c:570
+#: ../em-format/e-mail-formatter-utils.c:572
 msgid "GPG encrypted"
 msgstr "GPG titkosított"
 
-#: ../em-format/e-mail-formatter-utils.c:576
+#: ../em-format/e-mail-formatter-utils.c:578
 msgid "S/MIME signed"
 msgstr "S/MIME aláírt"
 
-#: ../em-format/e-mail-formatter-utils.c:582
+#: ../em-format/e-mail-formatter-utils.c:584
 msgid "S/MIME encrypted"
 msgstr "S/MIME titkosított"
 
-#: ../em-format/e-mail-formatter-utils.c:591 ../mail/e-mail-config-security-page.c:760
+#: ../em-format/e-mail-formatter-utils.c:593 ../mail/e-mail-config-security-page.c:760
 #: ../modules/mail-config/e-mail-config-remote-accounts.c:204
 #: ../modules/mail-config/e-mail-config-smtp-backend.c:154
 msgid "Security"
@@ -12766,11 +12766,11 @@ msgstr "_Méret:"
 msgid "Text Properties"
 msgstr "Szövegtulajdonságok"
 
-#: ../e-util/e-html-editor-view.c:6289
+#: ../e-util/e-html-editor-view.c:6255
 msgid "Changed property"
 msgstr "Módosított tulajdonság"
 
-#: ../e-util/e-html-editor-view.c:6290
+#: ../e-util/e-html-editor-view.c:6256
 msgid "Whether editor changed"
 msgstr "A szerkesztő megváltozott-e"
 
@@ -12808,12 +12808,12 @@ msgstr "Válassza ki az információt, amelyet importálni szeretne:"
 #: ../e-util/e-import-assistant.c:533
 msgid ""
 "Evolution checked for settings to import from the following applications: Pine, Netscape, "
-"Elm, iCalendar. No importable settings found. If you would like to try again, please click "
-"the \"Back\" button."
+"Elm, iCalendar, KMail. No importable settings found. If you would like to try again, please "
+"click the \"Back\" button."
 msgstr ""
 "Az Evolution a következő alkalmazásokat ellenőrizte, hogy lehet-e beállításokat importálni "
-"belőlük: Pine, Netscape, Elm, iCalendar. Nem található importálható beállítás. Ha még "
-"egyszer szeretné megpróbálni, kattintson a „Vissza” gombra."
+"belőlük: Pine, Netscape, Elm, iCalendar, KMail. Nem található importálható beállítás. Ha "
+"még egyszer szeretné megpróbálni, kattintson a „Vissza” gombra."
 
 #: ../e-util/e-import-assistant.c:559
 #: ../modules/startup-wizard/e-mail-config-import-page.c:229
@@ -13404,8 +13404,8 @@ msgid "Use a secure connection"
 msgstr "Biztonságos kapcsolat használata"
 
 #: ../e-util/e-source-config.c:1439
-msgid "Unset _trust for SSL certificate"
-msgstr "Bizalom _megvonása az SSL tanúsítványtól"
+msgid "Unset _trust for SSL/TLS certificate"
+msgstr "Bizalom _megvonása az SSL/TLS tanúsítványtól"
 
 #: ../e-util/e-source-config.c:1475
 msgid "User"
@@ -14805,7 +14805,7 @@ msgstr "%s - %s"
 
 #: ../mail/e-mail-config-security-page.c:340 ../mail/em-folder-properties.c:603
 #: ../mail/mail-config.ui.h:31 ../modules/addressbook/autocompletion-config.c:113
-#: ../modules/calendar/e-calendar-preferences.c:625
+#: ../modules/calendar/e-calendar-preferences.c:620
 #: ../modules/calendar/e-calendar-preferences.ui.h:46
 #: ../plugins/publish-calendar/publish-calendar.ui.h:16
 msgid "General"
@@ -14913,12 +14913,12 @@ msgid "Server _Type:"
 msgstr "Kiszolgáló tí_pusa:"
 
 #: ../mail/e-mail-config-summary-page.c:142
-msgid "SSL"
-msgstr "SSL"
-
-#: ../mail/e-mail-config-summary-page.c:145
 msgid "TLS"
 msgstr "TLS"
+
+#: ../mail/e-mail-config-summary-page.c:145
+msgid "STARTTLS"
+msgstr "STARTTLS"
 
 #: ../mail/e-mail-config-summary-page.c:306
 msgid "This is a summary of the settings which will be used to access your mail."
@@ -18868,16 +18868,16 @@ msgstr "Szabványos LDAP port"
 
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:448
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:631
-msgid "LDAP over SSL (deprecated)"
-msgstr "LDAP SSL fölött (elavult)"
+msgid "LDAP over SSL/TLS (deprecated)"
+msgstr "LDAP SSL/TLS fölött (elavult)"
 
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:454
 msgid "Microsoft Global Catalog"
 msgstr "Microsoft globális katalógus"
 
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:460
-msgid "Microsoft Global Catalog over SSL"
-msgstr "Microsoft globális katalógus SSL fölött"
+msgid "Microsoft Global Catalog over SSL/TLS"
+msgstr "Microsoft globális katalógus SSL/TLS fölött"
 
 #. Page 1
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:567
@@ -19211,33 +19211,33 @@ msgstr "Feljegyzéslista-választó"
 msgid "Task List Selector"
 msgstr "Feladatlista-választó"
 
-#: ../modules/calendar/e-calendar-preferences.c:520
+#: ../modules/calendar/e-calendar-preferences.c:515
 msgid "Selected Calendars for Alarms"
 msgstr "Figyelmeztetésekhez kijelölt naptárak"
 
-#: ../modules/calendar/e-calendar-preferences.c:616
+#: ../modules/calendar/e-calendar-preferences.c:611
 msgid "Meeting Invitations"
 msgstr "Találkozómeghívók"
 
-#: ../modules/calendar/e-calendar-preferences.c:642
+#: ../modules/calendar/e-calendar-preferences.c:637
 msgid "_Delete message after acting"
 msgstr "Üzenet tö_rlése reagálás után"
 
-#: ../modules/calendar/e-calendar-preferences.c:656
-#: ../modules/calendar/e-calendar-preferences.c:687
+#: ../modules/calendar/e-calendar-preferences.c:651
+#: ../modules/calendar/e-calendar-preferences.c:682
 msgid "Conflict Search"
 msgstr "Ütközéskeresés"
 
 #. Source selector
-#: ../modules/calendar/e-calendar-preferences.c:671
+#: ../modules/calendar/e-calendar-preferences.c:666
 msgid "Select the calendars to search for meeting conflicts"
 msgstr "Válassza ki a naptárt ütköző találkozók kereséséhez"
 
-#: ../modules/calendar/e-calendar-preferences.c:1063
+#: ../modules/calendar/e-calendar-preferences.c:1058
 msgid "Ti_me and date:"
 msgstr "_Dátum és idő:"
 
-#: ../modules/calendar/e-calendar-preferences.c:1064
+#: ../modules/calendar/e-calendar-preferences.c:1059
 msgid "_Date only:"
 msgstr "_Csak dátum:"
 
@@ -21054,8 +21054,8 @@ msgstr "STARTTLS kapcsolódás után"
 
 #: ../modules/mail-config/e-mail-config-remote-accounts.c:242
 #: ../modules/mail-config/e-mail-config-smtp-backend.c:192
-msgid "SSL on a dedicated port"
-msgstr "SSL kijelölt porton"
+msgid "TLS on a dedicated port"
+msgstr "TLS kijelölt porton"
 
 #: ../modules/mail-config/e-mail-config-sendmail-backend.c:77
 msgid "_Use custom binary, instead of 'sendmail'"
@@ -24273,6 +24273,9 @@ msgstr "Lejárat _dátumával"
 #: ../views/tasks/galview.xml.h:3
 msgid "With _Status"
 msgstr "Á_llapottal"
+
+#~ msgid "SSL"
+#~ msgstr "SSL"
 
 #~ msgid "Edit Reminder"
 #~ msgstr "Emlékeztető szerkesztése"
