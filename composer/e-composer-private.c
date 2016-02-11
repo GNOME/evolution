@@ -483,25 +483,15 @@ e_composer_get_default_charset (void)
 
 	charset = g_settings_get_string (settings, "composer-charset");
 
-	/* See what charset the mailer is using.
-	 * XXX We should not have to know where this lives in GSettings.
-	 *     Need a mail_config_get_default_charset() that does this. */
-	if (!charset || charset[0] == '\0') {
+	if (!charset || !*charset) {
 		g_free (charset);
-		charset = g_settings_get_string (settings, "charset");
-		if (charset != NULL && *charset == '\0') {
-			g_free (charset);
-			charset = NULL;
-		}
+		charset = NULL;
 	}
 
 	g_object_unref (settings);
 
-	if (charset == NULL)
-		charset = g_strdup (camel_iconv_locale_charset ());
-
-	if (charset == NULL)
-		charset = g_strdup ("us-ascii");
+	if (!charset)
+		charset = g_strdup ("UTF-8");
 
 	return charset;
 }
