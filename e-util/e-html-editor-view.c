@@ -5561,7 +5561,7 @@ change_smiley_to_plain_text (EHTMLEditorView *view)
 					    element_has_class (WEBKIT_DOM_ELEMENT (prev_prev_sibling), "-x-evo-smiley-wrapper")) {
 						remove_node (prev_sibling);
 						in_smiley = TRUE;
-						parent = webkit_dom_node_get_last_child (prev_sibling);
+						parent = webkit_dom_node_get_last_child (prev_prev_sibling);
 					}
 				}
 
