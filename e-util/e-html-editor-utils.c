@@ -321,7 +321,7 @@ split_node_into_two (WebKitDOMNode *item,
 	gint current_level = 1;
 	WebKitDOMDocument *document;
 	WebKitDOMDocumentFragment *fragment;
-	WebKitDOMNode *parent, *prev_parent, *tmp;
+	WebKitDOMNode *parent, *prev_parent = NULL, *tmp = NULL;
 
 	document = webkit_dom_node_get_owner_document (item);
 	fragment = webkit_dom_document_create_document_fragment (document);
@@ -366,12 +366,14 @@ split_node_into_two (WebKitDOMNode *item,
 		current_level++;
 	}
 
-	tmp = webkit_dom_node_insert_before (
-		parent,
-		webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (fragment)),
-		webkit_dom_node_get_next_sibling (prev_parent),
-		NULL);
-	remove_node_if_empty (prev_parent);
+	if (prev_parent) {
+		tmp = webkit_dom_node_insert_before (
+			parent,
+			webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (fragment)),
+			webkit_dom_node_get_next_sibling (prev_parent),
+			NULL);
+		remove_node_if_empty (prev_parent);
+	}
 
 	return tmp;
 }
