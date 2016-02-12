@@ -5092,7 +5092,7 @@ delete_last_character_from_previous_line_in_quoted_block (EHTMLEditorView *view,
 	EHTMLEditorViewHistoryEvent *ev = NULL;
 	gboolean hidden_space = FALSE;
 	WebKitDOMDocument *document;
-	WebKitDOMDocumentFragment *fragment;
+	WebKitDOMDocumentFragment *fragment = NULL;
 	WebKitDOMElement *element;
 	WebKitDOMNode *node, *beginning, *prev_sibling;
 
