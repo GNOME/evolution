@@ -2113,7 +2113,15 @@ static GtkRadioActionEntry mail_filter_entries[] = {
 	  N_("Unread Messages"),
 	  NULL,
 	  NULL,  /* XXX Add a tooltip! */
-	  MAIL_FILTER_UNREAD_MESSAGES }
+	  MAIL_FILTER_UNREAD_MESSAGES },
+
+	{ "mail-filter-message-thread",
+	  NULL,
+	  N_("Message Thread"),
+	  NULL,
+	  NULL,  /* XXX Add a tooltip! */
+	  MAIL_FILTER_MESSAGE_THREAD }
+
 };
 
 static GtkRadioActionEntry mail_search_entries[] = {
