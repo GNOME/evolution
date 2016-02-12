@@ -228,6 +228,8 @@
 	E_SHELL_WINDOW_ACTION ((window), "mail-filter-important-messages")
 #define E_SHELL_WINDOW_ACTION_MAIL_FILTER_LAST_5_DAYS_MESSAGES(window) \
 	E_SHELL_WINDOW_ACTION ((window), "mail-filter-last-5-days-messages")
+#define E_SHELL_WINDOW_ACTION_MAIL_FILTER_MESSAGE_THREAD(window) \
+	E_SHELL_WINDOW_ACTION ((window), "mail-filter-message-thread")
 #define E_SHELL_WINDOW_ACTION_MAIL_FILTER_MESSAGES_NOT_JUNK(window) \
 	E_SHELL_WINDOW_ACTION ((window), "mail-filter-messages-not-junk")
 #define E_SHELL_WINDOW_ACTION_MAIL_FILTER_MESSAGES_WITH_ATTACHMENTS(window) \

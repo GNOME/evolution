@@ -346,6 +346,65 @@ mail_shell_view_toggled (EShellView *shell_view)
 		toggled (shell_view);
 }
 
+static gchar *
+mail_shell_view_construct_filter_message_thread (EMailShellView *mail_shell_view,
+						 const gchar *with_query)
+{
+	EMailShellViewPrivate *priv;
+	GString *query;
+	GSList *link;
+
+	g_return_val_if_fail (E_IS_MAIL_SHELL_VIEW (mail_shell_view), NULL);
+
+	priv = E_MAIL_SHELL_VIEW_GET_PRIVATE (mail_shell_view);
+
+	if (!priv->selected_uids) {
+		EShellContent *shell_content;
+		EMailView *mail_view;
+		GPtrArray *uids;
+
+		shell_content = e_shell_view_get_shell_content (E_SHELL_VIEW (mail_shell_view));
+		mail_view = e_mail_shell_content_get_mail_view (E_MAIL_SHELL_CONTENT (shell_content));
+		uids = e_mail_reader_get_selected_uids (E_MAIL_READER (mail_view));
+
+		if (uids) {
+			gint ii;
+
+			for (ii = 0; ii < uids->len; ii++) {
+				priv->selected_uids = g_slist_prepend (priv->selected_uids, (gpointer) camel_pstring_strdup (uids->pdata[ii]));
+			}
+
+			g_ptr_array_unref (uids);
+		}
+
+		if (!priv->selected_uids)
+			priv->selected_uids = g_slist_prepend (priv->selected_uids, (gpointer) camel_pstring_strdup (""));
+	}
+
+	query = g_string_new ("");
+
+	if (with_query)
+		g_string_append_printf (query, "(and %s ", with_query);
+
+	g_string_append (query, "(match-threads \"all\" (match-all (uid");
+
+	for (link = priv->selected_uids; link; link = g_slist_next (link)) {
+		const gchar *uid = link->data;
+
+		g_string_append_c (query, ' ');
+		g_string_append_c (query, '\"');
+		g_string_append (query, uid);
+		g_string_append_c (query, '\"');
+	}
+
+	g_string_append (query, ")))");
+
+	if (with_query)
+		g_string_append (query, ")");
+
+	return g_string_free (query, FALSE);
+}
+
 static void
 mail_shell_view_execute_search (EShellView *shell_view)
 {
@@ -479,6 +538,12 @@ filter:
 
 	combo_box = e_shell_searchbar_get_filter_combo_box (searchbar);
 	value = e_action_combo_box_get_current_value (combo_box);
+
+	if (value != MAIL_FILTER_MESSAGE_THREAD) {
+		g_slist_free_full (priv->selected_uids, (GDestroyNotify) camel_pstring_free);
+		priv->selected_uids = NULL;
+	}
+
 	switch (value) {
 		case MAIL_FILTER_ALL_MESSAGES:
 			break;
@@ -572,6 +637,13 @@ filter:
 			temp = g_strdup_printf (
 				"(and %s (match-all (not "
 				"(system-flag \"junk\"))))", query);
+			g_free (query);
+			query = temp;
+			break;
+
+		case MAIL_FILTER_MESSAGE_THREAD:
+			temp = mail_shell_view_construct_filter_message_thread (
+				E_MAIL_SHELL_VIEW (shell_view), query);
 			g_free (query);
 			query = temp;
 			break;

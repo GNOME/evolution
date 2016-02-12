@@ -870,6 +870,9 @@ e_mail_shell_view_private_dispose (EMailShellView *mail_shell_view)
 		g_object_unref (priv->search_account_cancel);
 		priv->search_account_cancel = NULL;
 	}
+
+	g_slist_free_full (priv->selected_uids, (GDestroyNotify) camel_pstring_free);
+	priv->selected_uids = NULL;
 }
 
 void
