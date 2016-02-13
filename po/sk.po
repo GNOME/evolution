@@ -14,8 +14,8 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2016-02-07 17:52+0000\n"
-"PO-Revision-Date: 2016-02-07 19:58+0100\n"
+"POT-Creation-Date: 2016-02-13 05:52+0000\n"
+"PO-Revision-Date: 2016-02-13 14:36+0100\n"
 "Last-Translator: Dušan Kazik <prescott66@gmail.com>\n"
 "Language-Team: slovenčina <>\n"
 "Language: sk\n"
@@ -23,7 +23,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 1 : (n>=2 && n<=4) ? 2 : 0;\n"
-"X-Generator: Poedit 1.8.6\n"
+"X-Generator: Poedit 1.8.7\n"
 
 #: ../addressbook/addressbook.error.xml.h:1
 msgid "This address book could not be opened."
@@ -203,7 +203,7 @@ msgstr ""
 #: ../mail/e-mail-account-manager.c:718 ../mail/e-mail-label-manager.c:373
 #: ../mail/em-vfolder-editor-rule.c:396 ../mail/em-vfolder-editor-rule.c:625
 #: ../mail/mail-config.ui.h:58 ../modules/mail/em-composer-prefs.c:417
-#: ../plugins/attachment-reminder/attachment-reminder.c:438
+#: ../plugins/attachment-reminder/attachment-reminder.c:457
 #: ../plugins/email-custom-header/email-custom-header.c:839
 #: ../plugins/publish-calendar/publish-calendar.ui.h:32
 #: ../plugins/templates/templates.c:453
@@ -527,7 +527,7 @@ msgstr "Pridať _X.509"
 #: ../e-util/filter.ui.h:18 ../mail/e-mail-label-manager.c:391
 #: ../mail/em-filter-rule.c:440 ../mail/em-vfolder-editor-rule.c:630
 #: ../mail/mail-config.ui.h:59
-#: ../plugins/attachment-reminder/attachment-reminder.c:448
+#: ../plugins/attachment-reminder/attachment-reminder.c:467
 #: ../plugins/email-custom-header/email-custom-header.c:849
 #: ../plugins/publish-calendar/publish-calendar.c:791
 #: ../plugins/publish-calendar/publish-calendar.ui.h:34
@@ -2024,7 +2024,7 @@ msgstr "_Odložiť"
 #: ../e-util/e-mail-signature-manager.c:357 ../e-util/filter.ui.h:17
 #: ../mail/e-mail-account-manager.c:727 ../mail/e-mail-browser.c:173
 #: ../mail/e-mail-label-manager.c:382 ../mail/mail-config.ui.h:63
-#: ../plugins/attachment-reminder/attachment-reminder.c:443
+#: ../plugins/attachment-reminder/attachment-reminder.c:462
 #: ../plugins/email-custom-header/email-custom-header.c:844
 #: ../plugins/publish-calendar/publish-calendar.ui.h:33
 #: ../plugins/templates/templates.c:458 ../shell/e-shell-window-actions.c:941
@@ -3490,7 +3490,7 @@ msgstr "%d. %b %Y"
 #. strftime format %d = day of month, %b = abbreviated
 #. * month name. You can change the order but don't
 #. * change the specifiers or add anything.
-#: ../calendar/gui/e-calendar-view.c:2274 ../calendar/gui/e-day-view.c:3047
+#: ../calendar/gui/e-calendar-view.c:2274 ../calendar/gui/e-day-view.c:3051
 #: ../calendar/gui/e-day-view-top-item.c:859
 #: ../calendar/gui/e-week-view-main-item.c:230
 msgid "%d %b"
@@ -3506,7 +3506,7 @@ msgstr "%A, %d. %b %Y"
 #. * %d = day of month, %b = abbreviated month name.
 #. * You can change the order but don't change the
 #. * specifiers or add anything.
-#: ../calendar/gui/e-calendar-view.c:2300 ../calendar/gui/e-day-view.c:3031
+#: ../calendar/gui/e-calendar-view.c:2300 ../calendar/gui/e-day-view.c:3035
 #: ../calendar/gui/e-day-view-top-item.c:855
 #: ../calendar/gui/e-week-view-main-item.c:216
 msgid "%a %d %b"
@@ -4504,10 +4504,8 @@ msgid "Preview"
 msgstr "Náhľad"
 
 #: ../calendar/gui/e-comp-editor-page-reminders.c:41
-#, fuzzy
-#| msgid "Send To:"
 msgid "Send To"
-msgstr "Adresát:"
+msgstr "Adresát"
 
 #: ../calendar/gui/e-comp-editor-page-reminders.c:1555
 msgid "_Reminders"
@@ -5043,13 +5041,13 @@ msgstr "pm"
 #. * month, %B = full month name. You can change the
 #. * order but don't change the specifiers or add
 #. * anything.
-#: ../calendar/gui/e-day-view.c:3014 ../calendar/gui/e-day-view-top-item.c:851
+#: ../calendar/gui/e-day-view.c:3018 ../calendar/gui/e-day-view-top-item.c:851
 #: ../calendar/gui/e-week-view-main-item.c:207 ../calendar/gui/print.c:2089
 msgid "%A %d %B"
 msgstr "%A %d. %B"
 
 #. To Translators: the %d stands for a week number, it's value between 1 and 52/53
-#: ../calendar/gui/e-day-view.c:3739
+#: ../calendar/gui/e-day-view.c:3743
 #, c-format
 msgid "Week %d"
 msgstr "Týždeň č. %d"
@@ -9118,7 +9116,9 @@ msgid "Default charset in which to compose messages"
 msgstr "Predvolená znaková sada, v ktorej písať správy"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:4
-msgid "Default charset in which to compose messages."
+#, fuzzy
+#| msgid "Default charset in which to compose messages."
+msgid "Default charset in which to compose messages. Uses UTF-8, if not set."
 msgstr "Predvolená znaková sada, v ktorej písať správy."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:5
@@ -9680,19 +9680,16 @@ msgstr "Zobraziť odstránené správy v zozname správ"
 msgid "Show deleted messages (with a strike-through) in the message-list."
 msgstr "Zobraziť odstránené (preškrtnuté) správy v zozname správ."
 
-# asi by tu malo byť zmazané lebo tie správy ešte nie sú odstránené
+# summary
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:108
-#, fuzzy
-#| msgid "Show deleted messages in the message-list"
 msgid "Show junk messages in the message-list"
-msgstr "Zobraziť odstránené správy v zozname správ"
+msgstr "Zobraziť nevyžiadané správy v zozname správ"
 
-# asi by tu malo byť zmazané lebo tie správy ešte nie sú odstránené
+# description
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:109
-#, fuzzy
-#| msgid "Show deleted messages (with a strike-through) in the message-list."
 msgid "Show junk messages (with a red strike-through) in the message-list."
-msgstr "Zobraziť odstránené (preškrtnuté) správy v zozname správ."
+msgstr ""
+"Zobrazí nevyžiadané správy (preškrtnuté červenou čiarou) v zozname správ."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:110
 msgid "Enable Unmatched search folder"
@@ -11136,23 +11133,23 @@ msgstr "Skrytá kópia"
 
 # MČ: „zabezpečenie“
 # PK: rod
-#: ../em-format/e-mail-formatter-utils.c:564
+#: ../em-format/e-mail-formatter-utils.c:566
 msgid "GPG signed"
 msgstr "Podpísané pomocou GPG"
 
-#: ../em-format/e-mail-formatter-utils.c:570
+#: ../em-format/e-mail-formatter-utils.c:572
 msgid "GPG encrypted"
 msgstr "Zašifrované pomocou GPG"
 
-#: ../em-format/e-mail-formatter-utils.c:576
+#: ../em-format/e-mail-formatter-utils.c:578
 msgid "S/MIME signed"
 msgstr "Podpísané pomocou S/MIME"
 
-#: ../em-format/e-mail-formatter-utils.c:582
+#: ../em-format/e-mail-formatter-utils.c:584
 msgid "S/MIME encrypted"
 msgstr "Zašifrované pomocou S/MIME"
 
-#: ../em-format/e-mail-formatter-utils.c:591
+#: ../em-format/e-mail-formatter-utils.c:593
 #: ../mail/e-mail-config-security-page.c:760
 #: ../modules/mail-config/e-mail-config-remote-accounts.c:204
 #: ../modules/mail-config/e-mail-config-smtp-backend.c:154
@@ -13418,11 +13415,11 @@ msgstr "Veľ_kosť:"
 msgid "Text Properties"
 msgstr "Vlastnosti textu"
 
-#: ../e-util/e-html-editor-view.c:6255
+#: ../e-util/e-html-editor-view.c:6301
 msgid "Changed property"
 msgstr "Zmenená vlastnosť"
 
-#: ../e-util/e-html-editor-view.c:6256
+#: ../e-util/e-html-editor-view.c:6302
 msgid "Whether editor changed"
 msgstr "Určuje, či sa editor zmenil"
 
@@ -13462,12 +13459,12 @@ msgstr "Prosím, vyberte informácie, ktoré chcete importovať:"
 #: ../e-util/e-import-assistant.c:533
 msgid ""
 "Evolution checked for settings to import from the following applications: "
-"Pine, Netscape, Elm, iCalendar. No importable settings found. If you would "
-"like to try again, please click the \"Back\" button."
+"Pine, Netscape, Elm, iCalendar, KMail. No importable settings found. If you "
+"would like to try again, please click the \"Back\" button."
 msgstr ""
 "Evolution skontroloval možnosť importu nastavení z týchto aplikácií: Pine, "
-"Netscape, Elm, iCalendar. Nebolo nájdené žiadne nastavenie, ktoré by bolo "
-"možné importovať. Ak to chcete skúsiť znovu, stlačte „Späť“."
+"Netscape, Elm, iCalendarm KMail. Nebolo nájdené žiadne nastavenia, ktoré by "
+"bolo možné importovať. Ak to chcete skúsiť znovu, stlačte tlačidlo „Späť“."
 
 #: ../e-util/e-import-assistant.c:559
 #: ../modules/startup-wizard/e-mail-config-import-page.c:229
@@ -13902,7 +13899,7 @@ msgstr "Dosiahnutý horný okraj strany, pokračuje sa zospodu"
 
 #: ../e-util/e-send-options.c:538 ../mail/importers/elm-importer.c:329
 #: ../mail/importers/kmail-importer.c:253 ../mail/importers/pine-importer.c:422
-#: ../modules/mail/e-mail-shell-view.c:1179
+#: ../modules/mail/e-mail-shell-view.c:1251
 #: ../smime/gui/certificate-manager.c:1671
 msgid "Mail"
 msgstr "Pošta"
@@ -14078,8 +14075,8 @@ msgid "Use a secure connection"
 msgstr "Použiť zabezpečené pripojenie"
 
 #: ../e-util/e-source-config.c:1439
-msgid "Unset _trust for SSL certificate"
-msgstr "Zrušíť _dôveru k SSL certifikátu"
+msgid "Unset _trust for SSL/TLS certificate"
+msgstr "Zrušíť _dôveru k SSL/TLS certifikátu"
 
 #: ../e-util/e-source-config.c:1475
 msgid "User"
@@ -14865,7 +14862,6 @@ msgstr ""
 "Microsoft Exchange pomocou rozšírenia EWS „Exchange Web Services“."
 
 #: ../libemail-engine/camel-sasl-oauth2-google.c:29
-#| msgid "OAuth2"
 msgid "OAuth2 Google"
 msgstr "OAuth2 Google"
 
@@ -14944,36 +14940,36 @@ msgstr "Neplatný URI priečinka „%s“"
 #. Some local folders
 #: ../libemail-engine/e-mail-session.c:125 ../mail/em-folder-properties.c:680
 #: ../mail/em-folder-tree-model.c:1229 ../mail/importers/kmail-libs.c:141
-#: ../modules/mail/e-mail-shell-view-private.c:1049
-#: ../modules/mail/e-mail-shell-view-private.c:1060
+#: ../modules/mail/e-mail-shell-view-private.c:1052
+#: ../modules/mail/e-mail-shell-view-private.c:1063
 msgid "Inbox"
 msgstr "Doručená pošta"
 
 #. E_MAIL_LOCAL_FOLDER_INBOX
 #: ../libemail-engine/e-mail-session.c:126 ../mail/em-folder-tree-model.c:1222
 #: ../mail/importers/kmail-libs.c:147
-#: ../modules/mail/e-mail-shell-view-private.c:1047
+#: ../modules/mail/e-mail-shell-view-private.c:1050
 msgid "Drafts"
 msgstr "Koncepty"
 
 #. E_MAIL_LOCAL_FOLDER_DRAFTS
 #: ../libemail-engine/e-mail-session.c:127 ../mail/em-folder-tree-model.c:1233
 #: ../mail/importers/kmail-libs.c:143
-#: ../modules/mail/e-mail-shell-view-private.c:1051
+#: ../modules/mail/e-mail-shell-view-private.c:1054
 msgid "Outbox"
 msgstr "Pošta na odoslanie"
 
 #. E_MAIL_LOCAL_FOLDER_OUTBOX
 #: ../libemail-engine/e-mail-session.c:128 ../mail/em-folder-tree-model.c:1237
 #: ../mail/importers/kmail-libs.c:145
-#: ../modules/mail/e-mail-shell-view-private.c:1053
+#: ../modules/mail/e-mail-shell-view-private.c:1056
 msgid "Sent"
 msgstr "Odoslaná pošta"
 
 #. E_MAIL_LOCAL_FOLDER_SENT
 #: ../libemail-engine/e-mail-session.c:129 ../mail/em-folder-tree-model.c:1225
 #: ../mail/importers/kmail-libs.c:149
-#: ../modules/mail/e-mail-shell-view-private.c:1055
+#: ../modules/mail/e-mail-shell-view-private.c:1058
 #: ../plugins/templates/org-gnome-templates.eplug.xml.h:1
 #: ../plugins/templates/templates.c:1176 ../plugins/templates/templates.c:1478
 #: ../plugins/templates/templates.c:1488
@@ -15515,7 +15511,7 @@ msgstr "Emailová adresa nie je platným emailom"
 
 #: ../mail/e-mail-config-identity-page.c:635
 msgid "Reply To is not a valid email"
-msgstr ""
+msgstr "Email v poli Odpoveď pre nie je platný"
 
 #: ../mail/e-mail-config-identity-page.c:646
 #: ../mail/e-mail-config-summary-page.c:632
@@ -15664,12 +15660,12 @@ msgid "Server _Type:"
 msgstr "_Typ servera:"
 
 #: ../mail/e-mail-config-summary-page.c:142
-msgid "SSL"
-msgstr "SSL"
-
-#: ../mail/e-mail-config-summary-page.c:145
 msgid "TLS"
 msgstr "TLS"
+
+#: ../mail/e-mail-config-summary-page.c:145
+msgid "STARTTLS"
+msgstr "STARTTLS"
 
 #: ../mail/e-mail-config-summary-page.c:306
 msgid ""
@@ -15754,7 +15750,7 @@ msgstr "_Z tejto adresy"
 
 #: ../mail/e-mail-display.c:125
 msgid "Send _Reply To..."
-msgstr "Odoslať _odpoveď…"
+msgstr "Odoslať _odpoveď pre…"
 
 #: ../mail/e-mail-display.c:127
 msgid "Send a reply message to this address"
@@ -16928,7 +16924,7 @@ msgid "Unsubscribe From _All"
 msgstr "Odhlásiť sa zo _všetkých"
 
 #: ../mail/em-subscription-editor.c:1339
-#: ../modules/mail/e-mail-shell-view-private.c:1026
+#: ../modules/mail/e-mail-shell-view-private.c:1029
 #, c-format
 msgid "%d unread, "
 msgid_plural "%d unread, "
@@ -16937,7 +16933,7 @@ msgstr[1] "%d neprečítaná, "
 msgstr[2] "%d neprečítané, "
 
 #: ../mail/em-subscription-editor.c:1343
-#: ../modules/mail/e-mail-shell-view-private.c:1036
+#: ../modules/mail/e-mail-shell-view-private.c:1039
 #, c-format
 msgid "%d total"
 msgid_plural "%d total"
@@ -17436,7 +17432,7 @@ msgid "Import mail and contacts from KMail."
 msgstr "Importuje poštu z programu KMail."
 
 #: ../mail/importers/kmail-libs.c:152
-#: ../modules/mail/e-mail-shell-view-private.c:1057
+#: ../modules/mail/e-mail-shell-view-private.c:1060
 msgid "Trash"
 msgstr "Kôš"
 
@@ -17512,8 +17508,17 @@ msgid_plural ""
 "%s have been modified to account for the deleted folder\n"
 "\"%s\"."
 msgstr[0] ""
+"Nasledovné pravidlá filtra\n"
+"%s pre odstránený priečinok, boli zmenené v účte\n"
+"„%s“."
 msgstr[1] ""
+"Nasledovné pravidlo filtra „%s“ pre odstránený priečinok bolo zmenené v "
+"účte\n"
+"„%s“."
 msgstr[2] ""
+"Nasledovné pravidlá filtra\n"
+"%s pre odstránený priečinok, boli zmenené v účte\n"
+"„%s“."
 
 #: ../mail/mail-config.ui.h:1
 msgid "Set custom junk header"
@@ -17605,7 +17610,7 @@ msgstr "Digitálne podpisovať správy ak pôvodné sú podísané (P_GP alebo S
 
 #: ../mail/mail-config.ui.h:25
 msgid "_Wrap quoted text in replies"
-msgstr ""
+msgstr "_Zalomiť citovaný text v odpovediach"
 
 #: ../mail/mail-config.ui.h:30
 msgctxt "ReplyForward"
@@ -19077,32 +19082,32 @@ msgid "Subject or Addresses contains"
 msgstr "Predmet alebo adresy obsahujú"
 
 #: ../mail/searchtypes.xml.in.h:58
-#: ../modules/mail/e-mail-shell-view-actions.c:2151
+#: ../modules/mail/e-mail-shell-view-actions.c:2159
 msgid "Recipients contain"
 msgstr "Adresáti obsahujú"
 
 #: ../mail/searchtypes.xml.in.h:59
-#: ../modules/mail/e-mail-shell-view-actions.c:2144
+#: ../modules/mail/e-mail-shell-view-actions.c:2152
 msgid "Message contains"
 msgstr "Správa obsahuje"
 
 #: ../mail/searchtypes.xml.in.h:60
-#: ../modules/mail/e-mail-shell-view-actions.c:2165
+#: ../modules/mail/e-mail-shell-view-actions.c:2173
 msgid "Subject contains"
 msgstr "Predmet obsahuje"
 
 #: ../mail/searchtypes.xml.in.h:61
-#: ../modules/mail/e-mail-shell-view-actions.c:2158
+#: ../modules/mail/e-mail-shell-view-actions.c:2166
 msgid "Sender contains"
 msgstr "Odosielateľ obsahuje"
 
 #: ../mail/searchtypes.xml.in.h:62
-#: ../modules/mail/e-mail-shell-view-actions.c:2130
+#: ../modules/mail/e-mail-shell-view-actions.c:2138
 msgid "Body contains"
 msgstr "Telo obsahuje"
 
 #: ../mail/searchtypes.xml.in.h:63
-#: ../modules/mail/e-mail-shell-view-actions.c:2137
+#: ../modules/mail/e-mail-shell-view-actions.c:2145
 msgid "Free form expression"
 msgstr "Výraz vo voľnom tvare"
 
@@ -19406,7 +19411,7 @@ msgstr "Nevyhovujúce"
 #: ../modules/calendar/e-cal-shell-view-actions.c:1657
 #: ../modules/calendar/e-memo-shell-view-actions.c:777
 #: ../modules/calendar/e-task-shell-view-actions.c:978
-#: ../modules/mail/e-mail-shell-view-actions.c:2123
+#: ../modules/mail/e-mail-shell-view-actions.c:2131
 #: ../shell/e-shell-content.c:657
 msgid "Advanced Search"
 msgstr "Pokročilé hľadanie"
@@ -19732,16 +19737,16 @@ msgstr "Štandardný port LDAP"
 
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:448
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:631
-msgid "LDAP over SSL (deprecated)"
-msgstr "LDAP cez SSL (zavrhnuté)"
+msgid "LDAP over SSL/TLS (deprecated)"
+msgstr "LDAP cez SSL/TLS (zavrhnuté)"
 
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:454
 msgid "Microsoft Global Catalog"
 msgstr "Microsoft globálny katalóg"
 
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:460
-msgid "Microsoft Global Catalog over SSL"
-msgstr "Microsoft globálny katalóg cez SSL"
+msgid "Microsoft Global Catalog over SSL/TLS"
+msgstr "Microsoft globálny katalóg cez SSL/TLS"
 
 #. Page 1
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:567
@@ -21946,10 +21951,8 @@ msgid "Choose a Maildir mail directory"
 msgstr "Zvoľte adresár s poštou typu Maildir"
 
 #: ../modules/mail-config/e-mail-config-local-accounts.c:318
-#, fuzzy
-#| msgid "Choose a Maildir mail directory"
 msgid "Maildir mail directory cannot be empty"
-msgstr "Zvoľte adresár s poštou typu Maildir"
+msgstr "Adresár s poštou typu Maildir nemôže byť prázdny"
 
 #: ../modules/mail-config/e-mail-config-local-accounts.c:339
 msgid "Spool _File:"
@@ -22014,8 +22017,8 @@ msgstr "STARTTLS po pripojení sa"
 
 #: ../modules/mail-config/e-mail-config-remote-accounts.c:242
 #: ../modules/mail-config/e-mail-config-smtp-backend.c:192
-msgid "SSL on a dedicated port"
-msgstr "SSL na vyhradenom porte"
+msgid "TLS on a dedicated port"
+msgstr "TLS na vyhradenom porte"
 
 #: ../modules/mail-config/e-mail-config-sendmail-backend.c:77
 msgid "_Use custom binary, instead of 'sendmail'"
@@ -22467,36 +22470,40 @@ msgstr "Prečítané správy"
 msgid "Unread Messages"
 msgstr "Neprečítané správy"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:2172
+#: ../modules/mail/e-mail-shell-view-actions.c:2120
+msgid "Message Thread"
+msgstr "Vlákno správ"
+
+#: ../modules/mail/e-mail-shell-view-actions.c:2180
 msgid "Subject or Addresses contain"
 msgstr "Predmet alebo adresy obsahujú"
 
 # je to za hľadať v:
-#: ../modules/mail/e-mail-shell-view-actions.c:2182
+#: ../modules/mail/e-mail-shell-view-actions.c:2190
 msgid "All Accounts"
 msgstr "Všetkých účtoch"
 
 # je to za hľadať v:
-#: ../modules/mail/e-mail-shell-view-actions.c:2189
+#: ../modules/mail/e-mail-shell-view-actions.c:2197
 msgid "Current Account"
 msgstr "Aktuálnom účte"
 
 # je to za hľadať v:
-#: ../modules/mail/e-mail-shell-view-actions.c:2196
+#: ../modules/mail/e-mail-shell-view-actions.c:2204
 msgid "Current Folder"
 msgstr "Aktuálnom priečinku"
 
 # MČ: názov vyhľadávacieho priečinka
-#: ../modules/mail/e-mail-shell-view.c:707
+#: ../modules/mail/e-mail-shell-view.c:779
 msgid "All Account Search"
 msgstr "Hľadanie vo všetkých účtoch"
 
 # MČ: názov vyhľadávacieho priečinka
-#: ../modules/mail/e-mail-shell-view.c:815
+#: ../modules/mail/e-mail-shell-view.c:887
 msgid "Account Search"
 msgstr "Hľadanie v účte"
 
-#: ../modules/mail/e-mail-shell-view-private.c:954
+#: ../modules/mail/e-mail-shell-view-private.c:957
 #, c-format
 msgid "%d selected, "
 msgid_plural "%d selected, "
@@ -22504,8 +22511,8 @@ msgstr[0] "%d vybraných, "
 msgstr[1] "%d vybraná, "
 msgstr[2] "%d vybrané, "
 
-#: ../modules/mail/e-mail-shell-view-private.c:963
-#: ../modules/mail/e-mail-shell-view-private.c:980
+#: ../modules/mail/e-mail-shell-view-private.c:966
+#: ../modules/mail/e-mail-shell-view-private.c:983
 #, c-format
 msgid "%d deleted"
 msgid_plural "%d deleted"
@@ -22513,8 +22520,8 @@ msgstr[0] "%d odstránených"
 msgstr[1] "%d odstránená"
 msgstr[2] "%d odstránené"
 
-#: ../modules/mail/e-mail-shell-view-private.c:989
-#: ../modules/mail/e-mail-shell-view-private.c:995
+#: ../modules/mail/e-mail-shell-view-private.c:992
+#: ../modules/mail/e-mail-shell-view-private.c:998
 #, c-format
 msgid "%d junk"
 msgid_plural "%d junk"
@@ -22522,7 +22529,7 @@ msgstr[0] "%d nevyžiadaných"
 msgstr[1] "%d nevyžiadaná"
 msgstr[2] "%d nevyžiadané"
 
-#: ../modules/mail/e-mail-shell-view-private.c:1002
+#: ../modules/mail/e-mail-shell-view-private.c:1005
 #, c-format
 msgid "%d draft"
 msgid_plural "%d drafts"
@@ -22530,7 +22537,7 @@ msgstr[0] "%d konceptov"
 msgstr[1] "%d koncept"
 msgstr[2] "%d koncepty"
 
-#: ../modules/mail/e-mail-shell-view-private.c:1008
+#: ../modules/mail/e-mail-shell-view-private.c:1011
 #, c-format
 msgid "%d unsent"
 msgid_plural "%d unsent"
@@ -22538,7 +22545,7 @@ msgstr[0] "%d neodoslaných"
 msgstr[1] "%d neodoslaná"
 msgstr[2] "%d neodoslané"
 
-#: ../modules/mail/e-mail-shell-view-private.c:1014
+#: ../modules/mail/e-mail-shell-view-private.c:1017
 #, c-format
 msgid "%d sent"
 msgid_plural "%d sent"
@@ -22546,7 +22553,7 @@ msgstr[0] "%d odoslaných"
 msgstr[1] "%d odoslaná"
 msgstr[2] "%d odoslané"
 
-#: ../modules/mail/e-mail-shell-view-private.c:1031
+#: ../modules/mail/e-mail-shell-view-private.c:1034
 #, c-format
 msgid "%d unread"
 msgid_plural "%d unread"
@@ -22554,7 +22561,7 @@ msgstr[0] "%d neprečítaných"
 msgstr[1] "%d neprečítaná"
 msgstr[2] "%d neprečítané"
 
-#: ../modules/mail/e-mail-shell-view-private.c:1549
+#: ../modules/mail/e-mail-shell-view-private.c:1552
 msgid "Send / Receive"
 msgstr "Odoslať / Prijať"
 
@@ -23150,7 +23157,7 @@ msgstr "Webový dozorca programu Evolution"
 msgid "_Do not show this message again."
 msgstr "_Túto správu už nezobrazovať."
 
-#: ../plugins/attachment-reminder/attachment-reminder.c:465
+#: ../plugins/attachment-reminder/attachment-reminder.c:484
 #: ../plugins/templates/templates.c:478
 msgid "Keywords"
 msgstr "Kĺučové slová"
@@ -23490,16 +23497,12 @@ msgid "Get an archive of the list this message belongs to"
 msgstr "Získa archív konferencie, do ktorej patrí táto správa"
 
 #: ../plugins/mailing-list-actions/mailing-list-actions.c:387
-#, fuzzy
-#| msgid "_Message Source"
 msgid "Copy _Message Archive URL"
-msgstr "_Zdroj správy"
+msgstr "Kopírovať URL archívu _správ"
 
 #: ../plugins/mailing-list-actions/mailing-list-actions.c:389
-#, fuzzy
-#| msgid "Create a new memo from the selected message"
 msgid "Copy direct URL for the selected message in its archive"
-msgstr "Vytvorí novú poznámku z vybranej správy"
+msgstr "Skopíruje priamu URL pre vybratú správu vo svojom archíve"
 
 #: ../plugins/mailing-list-actions/mailing-list-actions.c:394
 msgid "Get List _Usage Information"
@@ -25427,6 +25430,9 @@ msgstr "S _termínom"
 #: ../views/tasks/galview.xml.h:3
 msgid "With _Status"
 msgstr "So _stavom"
+
+#~ msgid "SSL"
+#~ msgstr "SSL"
 
 #~ msgid "Edit Reminder"
 #~ msgstr "Upraviť pripomenutie"
