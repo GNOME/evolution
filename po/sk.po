@@ -14,8 +14,8 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2016-02-13 05:52+0000\n"
-"PO-Revision-Date: 2016-02-13 14:36+0100\n"
+"POT-Creation-Date: 2016-02-13 13:37+0000\n"
+"PO-Revision-Date: 2016-02-13 14:40+0100\n"
 "Last-Translator: Dušan Kazik <prescott66@gmail.com>\n"
 "Language-Team: slovenčina <>\n"
 "Language: sk\n"
@@ -18120,6 +18120,7 @@ msgstr ""
 "Ste si istý, že chcete odoslať správu s {0} adresátmi v poliach „Pre“ a "
 "„Kópia“?"
 
+# DK:https://bugzilla.gnome.org/show_bug.cgi?id=761993
 #: ../mail/mail.error.xml.h:17
 msgid ""
 "You are trying to send a message to {0} recipients in To and CC fields. This "
