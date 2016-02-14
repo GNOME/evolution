@@ -19,8 +19,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-02-07 15:44+0100\n"
-"PO-Revision-Date: 2016-02-07 15:45+0100\n"
+"POT-Creation-Date: 2016-02-14 18:57+0100\n"
+"PO-Revision-Date: 2016-02-14 18:58+0100\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <gnomepl@aviary.pl>\n"
 "Language: pl\n"
@@ -208,7 +208,7 @@ msgstr ""
 #: ../mail/e-mail-account-manager.c:718 ../mail/e-mail-label-manager.c:373
 #: ../mail/em-vfolder-editor-rule.c:396 ../mail/em-vfolder-editor-rule.c:625
 #: ../mail/mail-config.ui.h:58 ../modules/mail/em-composer-prefs.c:417
-#: ../plugins/attachment-reminder/attachment-reminder.c:438
+#: ../plugins/attachment-reminder/attachment-reminder.c:457
 #: ../plugins/email-custom-header/email-custom-header.c:839
 #: ../plugins/publish-calendar/publish-calendar.ui.h:32
 #: ../plugins/templates/templates.c:453
@@ -530,7 +530,7 @@ msgstr "Dodaj certyfikat _X.509"
 #: ../e-util/filter.ui.h:18 ../mail/e-mail-label-manager.c:391
 #: ../mail/em-filter-rule.c:440 ../mail/em-vfolder-editor-rule.c:630
 #: ../mail/mail-config.ui.h:59
-#: ../plugins/attachment-reminder/attachment-reminder.c:448
+#: ../plugins/attachment-reminder/attachment-reminder.c:467
 #: ../plugins/email-custom-header/email-custom-header.c:849
 #: ../plugins/publish-calendar/publish-calendar.c:791
 #: ../plugins/publish-calendar/publish-calendar.ui.h:34
@@ -2002,7 +2002,7 @@ msgstr "_Drzemka"
 #: ../e-util/e-mail-signature-manager.c:357 ../e-util/filter.ui.h:17
 #: ../mail/e-mail-account-manager.c:727 ../mail/e-mail-browser.c:173
 #: ../mail/e-mail-label-manager.c:382 ../mail/mail-config.ui.h:63
-#: ../plugins/attachment-reminder/attachment-reminder.c:443
+#: ../plugins/attachment-reminder/attachment-reminder.c:462
 #: ../plugins/email-custom-header/email-custom-header.c:844
 #: ../plugins/publish-calendar/publish-calendar.ui.h:33
 #: ../plugins/templates/templates.c:458 ../shell/e-shell-window-actions.c:941
@@ -3456,7 +3456,7 @@ msgstr "%d %b %Y"
 #. strftime format %d = day of month, %b = abbreviated
 #. * month name. You can change the order but don't
 #. * change the specifiers or add anything.
-#: ../calendar/gui/e-calendar-view.c:2274 ../calendar/gui/e-day-view.c:3047
+#: ../calendar/gui/e-calendar-view.c:2274 ../calendar/gui/e-day-view.c:3051
 #: ../calendar/gui/e-day-view-top-item.c:859
 #: ../calendar/gui/e-week-view-main-item.c:230
 msgid "%d %b"
@@ -3472,7 +3472,7 @@ msgstr "%A, %d %b %Y"
 #. * %d = day of month, %b = abbreviated month name.
 #. * You can change the order but don't change the
 #. * specifiers or add anything.
-#: ../calendar/gui/e-calendar-view.c:2300 ../calendar/gui/e-day-view.c:3031
+#: ../calendar/gui/e-calendar-view.c:2300 ../calendar/gui/e-day-view.c:3035
 #: ../calendar/gui/e-day-view-top-item.c:855
 #: ../calendar/gui/e-week-view-main-item.c:216
 msgid "%a %d %b"
@@ -4970,13 +4970,13 @@ msgstr "PM"
 #. * month, %B = full month name. You can change the
 #. * order but don't change the specifiers or add
 #. * anything.
-#: ../calendar/gui/e-day-view.c:3014 ../calendar/gui/e-day-view-top-item.c:851
+#: ../calendar/gui/e-day-view.c:3018 ../calendar/gui/e-day-view-top-item.c:851
 #: ../calendar/gui/e-week-view-main-item.c:207 ../calendar/gui/print.c:2089
 msgid "%A %d %B"
 msgstr "%A %d %B"
 
 #. To Translators: the %d stands for a week number, it's value between 1 and 52/53
-#: ../calendar/gui/e-day-view.c:3739
+#: ../calendar/gui/e-day-view.c:3743
 #, c-format
 msgid "Week %d"
 msgstr "%d. tydzień"
@@ -8993,8 +8993,10 @@ msgid "Default charset in which to compose messages"
 msgstr "Domyślny zestaw znaków tworzonych wiadomości"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:4
-msgid "Default charset in which to compose messages."
-msgstr "Domyślny zestaw znaków tworzonych wiadomości."
+msgid "Default charset in which to compose messages. Uses UTF-8, if not set."
+msgstr ""
+"Domyślny zestaw znaków tworzonych wiadomości. Używa UTF-8, jeśli nic nie "
+"ustawiono."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:5
 msgid "Path where picture gallery should search for its content"
@@ -11064,23 +11066,23 @@ msgstr "Kopia"
 msgid "Bcc"
 msgstr "Ukryta kopia"
 
-#: ../em-format/e-mail-formatter-utils.c:564
+#: ../em-format/e-mail-formatter-utils.c:566
 msgid "GPG signed"
 msgstr "Podpisana kluczem GPG"
 
-#: ../em-format/e-mail-formatter-utils.c:570
+#: ../em-format/e-mail-formatter-utils.c:572
 msgid "GPG encrypted"
 msgstr "Zaszyfrowana kluczem GPG"
 
-#: ../em-format/e-mail-formatter-utils.c:576
+#: ../em-format/e-mail-formatter-utils.c:578
 msgid "S/MIME signed"
 msgstr "Podpisana kluczem S/MIME"
 
-#: ../em-format/e-mail-formatter-utils.c:582
+#: ../em-format/e-mail-formatter-utils.c:584
 msgid "S/MIME encrypted"
 msgstr "Zaszyfrowana kluczem S/MIME"
 
-#: ../em-format/e-mail-formatter-utils.c:591
+#: ../em-format/e-mail-formatter-utils.c:593
 #: ../mail/e-mail-config-security-page.c:760
 #: ../modules/mail-config/e-mail-config-remote-accounts.c:204
 #: ../modules/mail-config/e-mail-config-smtp-backend.c:154
@@ -13318,11 +13320,11 @@ msgstr "Ro_zmiar:"
 msgid "Text Properties"
 msgstr "Właściwości tekstu"
 
-#: ../e-util/e-html-editor-view.c:6255
+#: ../e-util/e-html-editor-view.c:6301
 msgid "Changed property"
 msgstr "Właściwość zmiany"
 
-#: ../e-util/e-html-editor-view.c:6256
+#: ../e-util/e-html-editor-view.c:6302
 msgid "Whether editor changed"
 msgstr "Określa, czy edytor został zmieniony"
 
@@ -13360,11 +13362,11 @@ msgstr "Proszę wybrać informacje do importowania:"
 #: ../e-util/e-import-assistant.c:533
 msgid ""
 "Evolution checked for settings to import from the following applications: "
-"Pine, Netscape, Elm, iCalendar. No importable settings found. If you would "
-"like to try again, please click the \"Back\" button."
+"Pine, Netscape, Elm, iCalendar, KMail. No importable settings found. If you "
+"would like to try again, please click the \"Back\" button."
 msgstr ""
 "Skontrolowano możliwości importu ustawień z następujących programów: Pine, "
-"Netscape, Elm, iCalendar. Nie odnaleziono jednak żadnych możliwych do "
+"Netscape, Elm, iCalendar, KMail. Nie odnaleziono jednak żadnych możliwych do "
 "zaimportowania ustawień. Aby spróbować jeszcze raz, proszę nacisnąć przycisk "
 "„Wstecz”."
 
@@ -13800,7 +13802,7 @@ msgstr "Osiągnięto górę strony, kontynuacja od dołu"
 
 #: ../e-util/e-send-options.c:538 ../mail/importers/elm-importer.c:329
 #: ../mail/importers/kmail-importer.c:253 ../mail/importers/pine-importer.c:422
-#: ../modules/mail/e-mail-shell-view.c:1179
+#: ../modules/mail/e-mail-shell-view.c:1251
 #: ../smime/gui/certificate-manager.c:1671
 msgid "Mail"
 msgstr "Poczta"
@@ -13971,8 +13973,8 @@ msgid "Use a secure connection"
 msgstr "Użycie bezpiecznego połączenia"
 
 #: ../e-util/e-source-config.c:1439
-msgid "Unset _trust for SSL certificate"
-msgstr "Usunięcie _zaufania certyfikatu SSL"
+msgid "Unset _trust for SSL/TLS certificate"
+msgstr "Usunięcie _zaufania certyfikatu SSL/TLS"
 
 #: ../e-util/e-source-config.c:1475
 msgid "User"
@@ -14831,36 +14833,36 @@ msgstr "Nieprawidłowy adres URI katalogu: „%s”"
 #. Some local folders
 #: ../libemail-engine/e-mail-session.c:125 ../mail/em-folder-properties.c:680
 #: ../mail/em-folder-tree-model.c:1229 ../mail/importers/kmail-libs.c:141
-#: ../modules/mail/e-mail-shell-view-private.c:1049
-#: ../modules/mail/e-mail-shell-view-private.c:1060
+#: ../modules/mail/e-mail-shell-view-private.c:1052
+#: ../modules/mail/e-mail-shell-view-private.c:1063
 msgid "Inbox"
 msgstr "Odebrane"
 
 #. E_MAIL_LOCAL_FOLDER_INBOX
 #: ../libemail-engine/e-mail-session.c:126 ../mail/em-folder-tree-model.c:1222
 #: ../mail/importers/kmail-libs.c:147
-#: ../modules/mail/e-mail-shell-view-private.c:1047
+#: ../modules/mail/e-mail-shell-view-private.c:1050
 msgid "Drafts"
 msgstr "Szkice"
 
 #. E_MAIL_LOCAL_FOLDER_DRAFTS
 #: ../libemail-engine/e-mail-session.c:127 ../mail/em-folder-tree-model.c:1233
 #: ../mail/importers/kmail-libs.c:143
-#: ../modules/mail/e-mail-shell-view-private.c:1051
+#: ../modules/mail/e-mail-shell-view-private.c:1054
 msgid "Outbox"
 msgstr "Wychodzące"
 
 #. E_MAIL_LOCAL_FOLDER_OUTBOX
 #: ../libemail-engine/e-mail-session.c:128 ../mail/em-folder-tree-model.c:1237
 #: ../mail/importers/kmail-libs.c:145
-#: ../modules/mail/e-mail-shell-view-private.c:1053
+#: ../modules/mail/e-mail-shell-view-private.c:1056
 msgid "Sent"
 msgstr "Wysłane"
 
 #. E_MAIL_LOCAL_FOLDER_SENT
 #: ../libemail-engine/e-mail-session.c:129 ../mail/em-folder-tree-model.c:1225
 #: ../mail/importers/kmail-libs.c:149
-#: ../modules/mail/e-mail-shell-view-private.c:1055
+#: ../modules/mail/e-mail-shell-view-private.c:1058
 #: ../plugins/templates/org-gnome-templates.eplug.xml.h:1
 #: ../plugins/templates/templates.c:1176 ../plugins/templates/templates.c:1478
 #: ../plugins/templates/templates.c:1488
@@ -15542,12 +15544,12 @@ msgid "Server _Type:"
 msgstr "_Typ serwera:"
 
 #: ../mail/e-mail-config-summary-page.c:142
-msgid "SSL"
-msgstr "SSL"
-
-#: ../mail/e-mail-config-summary-page.c:145
 msgid "TLS"
 msgstr "TLS"
+
+#: ../mail/e-mail-config-summary-page.c:145
+msgid "STARTTLS"
+msgstr "StartTLS"
 
 #: ../mail/e-mail-config-summary-page.c:306
 msgid ""
@@ -16790,7 +16792,7 @@ msgid "Unsubscribe From _All"
 msgstr "Usuń subs_krypcję wszystkich"
 
 #: ../mail/em-subscription-editor.c:1339
-#: ../modules/mail/e-mail-shell-view-private.c:1026
+#: ../modules/mail/e-mail-shell-view-private.c:1029
 #, c-format
 msgid "%d unread, "
 msgid_plural "%d unread, "
@@ -16799,7 +16801,7 @@ msgstr[1] "%d nieprzeczytane, "
 msgstr[2] "%d nieprzeczytanych, "
 
 #: ../mail/em-subscription-editor.c:1343
-#: ../modules/mail/e-mail-shell-view-private.c:1036
+#: ../modules/mail/e-mail-shell-view-private.c:1039
 #, c-format
 msgid "%d total"
 msgid_plural "%d total"
@@ -17298,7 +17300,7 @@ msgid "Import mail and contacts from KMail."
 msgstr "Importuj pocztę i kontakty z KMail."
 
 #: ../mail/importers/kmail-libs.c:152
-#: ../modules/mail/e-mail-shell-view-private.c:1057
+#: ../modules/mail/e-mail-shell-view-private.c:1060
 msgid "Trash"
 msgstr "Kosz"
 
@@ -18959,32 +18961,32 @@ msgid "Subject or Addresses contains"
 msgstr "Pola Temat lub Adresy zawierają"
 
 #: ../mail/searchtypes.xml.in.h:58
-#: ../modules/mail/e-mail-shell-view-actions.c:2151
+#: ../modules/mail/e-mail-shell-view-actions.c:2159
 msgid "Recipients contain"
 msgstr "Lista odbiorców zawiera"
 
 #: ../mail/searchtypes.xml.in.h:59
-#: ../modules/mail/e-mail-shell-view-actions.c:2144
+#: ../modules/mail/e-mail-shell-view-actions.c:2152
 msgid "Message contains"
 msgstr "Wiadomość zawiera"
 
 #: ../mail/searchtypes.xml.in.h:60
-#: ../modules/mail/e-mail-shell-view-actions.c:2165
+#: ../modules/mail/e-mail-shell-view-actions.c:2173
 msgid "Subject contains"
 msgstr "Temat zawiera"
 
 #: ../mail/searchtypes.xml.in.h:61
-#: ../modules/mail/e-mail-shell-view-actions.c:2158
+#: ../modules/mail/e-mail-shell-view-actions.c:2166
 msgid "Sender contains"
 msgstr "Nadawca zawiera"
 
 #: ../mail/searchtypes.xml.in.h:62
-#: ../modules/mail/e-mail-shell-view-actions.c:2130
+#: ../modules/mail/e-mail-shell-view-actions.c:2138
 msgid "Body contains"
 msgstr "Treść zawiera"
 
 #: ../mail/searchtypes.xml.in.h:63
-#: ../modules/mail/e-mail-shell-view-actions.c:2137
+#: ../modules/mail/e-mail-shell-view-actions.c:2145
 msgid "Free form expression"
 msgstr "Wyrażenie o dowolnej formie"
 
@@ -19288,7 +19290,7 @@ msgstr "Niepasujące"
 #: ../modules/calendar/e-cal-shell-view-actions.c:1657
 #: ../modules/calendar/e-memo-shell-view-actions.c:777
 #: ../modules/calendar/e-task-shell-view-actions.c:978
-#: ../modules/mail/e-mail-shell-view-actions.c:2123
+#: ../modules/mail/e-mail-shell-view-actions.c:2131
 #: ../shell/e-shell-content.c:657
 msgid "Advanced Search"
 msgstr "Wyszukiwanie zaawansowane"
@@ -19614,16 +19616,16 @@ msgstr "Standardowy port LDAP"
 
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:448
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:631
-msgid "LDAP over SSL (deprecated)"
-msgstr "LDAP przez SSL (przestarzałe)"
+msgid "LDAP over SSL/TLS (deprecated)"
+msgstr "LDAP przez SSL/TLS (przestarzałe)"
 
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:454
 msgid "Microsoft Global Catalog"
 msgstr "Microsoft Global Catalog"
 
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:460
-msgid "Microsoft Global Catalog over SSL"
-msgstr "Microsoft Global Catalog przez SSL"
+msgid "Microsoft Global Catalog over SSL/TLS"
+msgstr "Microsoft Global Catalog przez SSL/TLS"
 
 #. Page 1
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:567
@@ -21836,8 +21838,8 @@ msgstr "StartTLS po połączeniu"
 
 #: ../modules/mail-config/e-mail-config-remote-accounts.c:242
 #: ../modules/mail-config/e-mail-config-smtp-backend.c:192
-msgid "SSL on a dedicated port"
-msgstr "SSL przez dedykowany port"
+msgid "TLS on a dedicated port"
+msgstr "TLS przez dedykowany port"
 
 #: ../modules/mail-config/e-mail-config-sendmail-backend.c:77
 msgid "_Use custom binary, instead of 'sendmail'"
@@ -22267,31 +22269,35 @@ msgstr "Przeczytane wiadomości"
 msgid "Unread Messages"
 msgstr "Nieprzeczytane wiadomości"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:2172
+#: ../modules/mail/e-mail-shell-view-actions.c:2120
+msgid "Message Thread"
+msgstr "Wątek wiadomości"
+
+#: ../modules/mail/e-mail-shell-view-actions.c:2180
 msgid "Subject or Addresses contain"
 msgstr "Pola Temat lub Adresy zawierają"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:2182
+#: ../modules/mail/e-mail-shell-view-actions.c:2190
 msgid "All Accounts"
 msgstr "Wszystkich kontach"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:2189
+#: ../modules/mail/e-mail-shell-view-actions.c:2197
 msgid "Current Account"
 msgstr "Bieżącym koncie"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:2196
+#: ../modules/mail/e-mail-shell-view-actions.c:2204
 msgid "Current Folder"
 msgstr "Bieżącym katalogu"
 
-#: ../modules/mail/e-mail-shell-view.c:707
+#: ../modules/mail/e-mail-shell-view.c:779
 msgid "All Account Search"
 msgstr "Wyszukiwanie we wszystkich kontach"
 
-#: ../modules/mail/e-mail-shell-view.c:815
+#: ../modules/mail/e-mail-shell-view.c:887
 msgid "Account Search"
 msgstr "Wyszukiwanie w koncie"
 
-#: ../modules/mail/e-mail-shell-view-private.c:954
+#: ../modules/mail/e-mail-shell-view-private.c:957
 #, c-format
 msgid "%d selected, "
 msgid_plural "%d selected, "
@@ -22299,8 +22305,8 @@ msgstr[0] "%d zaznaczona, "
 msgstr[1] "%d zaznaczone, "
 msgstr[2] "%d zaznaczonych, "
 
-#: ../modules/mail/e-mail-shell-view-private.c:963
-#: ../modules/mail/e-mail-shell-view-private.c:980
+#: ../modules/mail/e-mail-shell-view-private.c:966
+#: ../modules/mail/e-mail-shell-view-private.c:983
 #, c-format
 msgid "%d deleted"
 msgid_plural "%d deleted"
@@ -22308,8 +22314,8 @@ msgstr[0] "%d usunięta"
 msgstr[1] "%d usunięte"
 msgstr[2] "%d usuniętych"
 
-#: ../modules/mail/e-mail-shell-view-private.c:989
-#: ../modules/mail/e-mail-shell-view-private.c:995
+#: ../modules/mail/e-mail-shell-view-private.c:992
+#: ../modules/mail/e-mail-shell-view-private.c:998
 #, c-format
 msgid "%d junk"
 msgid_plural "%d junk"
@@ -22317,7 +22323,7 @@ msgstr[0] "%d niechciana"
 msgstr[1] "%d niechciane"
 msgstr[2] "%d niechcianych"
 
-#: ../modules/mail/e-mail-shell-view-private.c:1002
+#: ../modules/mail/e-mail-shell-view-private.c:1005
 #, c-format
 msgid "%d draft"
 msgid_plural "%d drafts"
@@ -22325,7 +22331,7 @@ msgstr[0] "%d szkic"
 msgstr[1] "%d szkice"
 msgstr[2] "%d szkiców"
 
-#: ../modules/mail/e-mail-shell-view-private.c:1008
+#: ../modules/mail/e-mail-shell-view-private.c:1011
 #, c-format
 msgid "%d unsent"
 msgid_plural "%d unsent"
@@ -22333,7 +22339,7 @@ msgstr[0] "%d niewysłana"
 msgstr[1] "%d niewysłane"
 msgstr[2] "%d niewysłanych"
 
-#: ../modules/mail/e-mail-shell-view-private.c:1014
+#: ../modules/mail/e-mail-shell-view-private.c:1017
 #, c-format
 msgid "%d sent"
 msgid_plural "%d sent"
@@ -22341,7 +22347,7 @@ msgstr[0] "%d wysłana"
 msgstr[1] "%d wysłane"
 msgstr[2] "%d wysłanych"
 
-#: ../modules/mail/e-mail-shell-view-private.c:1031
+#: ../modules/mail/e-mail-shell-view-private.c:1034
 #, c-format
 msgid "%d unread"
 msgid_plural "%d unread"
@@ -22349,7 +22355,7 @@ msgstr[0] "%d nieprzeczytana"
 msgstr[1] "%d nieprzeczytane"
 msgstr[2] "%d nieprzeczytanych"
 
-#: ../modules/mail/e-mail-shell-view-private.c:1549
+#: ../modules/mail/e-mail-shell-view-private.c:1552
 msgid "Send / Receive"
 msgstr "Wyślij/odbierz"
 
@@ -22937,7 +22943,7 @@ msgstr "Inspektor stron WWW programu Evolution"
 msgid "_Do not show this message again."
 msgstr "_Bez wyświetlania tego komunikatu w przyszłości."
 
-#: ../plugins/attachment-reminder/attachment-reminder.c:465
+#: ../plugins/attachment-reminder/attachment-reminder.c:484
 #: ../plugins/templates/templates.c:478
 msgid "Keywords"
 msgstr "Słowa kluczowe"
