@@ -94,6 +94,7 @@ async_context_free (AsyncContext *async_context)
 	g_slice_free (AsyncContext, async_context);
 }
 
+#if 0
 static GtkWidget *
 mail_printer_create_custom_widget_cb (WebKitPrintOperation *operation,
                                       AsyncContext *async_context)
@@ -127,7 +128,7 @@ mail_printer_custom_widget_apply_cb (WebKitPrintOperation *operation,
 {
 	webkit_web_view_reload (async_context->web_view);
 }
-/* FIXME WK2
+
 static void
 mail_printer_draw_footer_cb (GtkPrintOperation *operation,
                              GtkPrintContext *context,
@@ -164,7 +165,7 @@ mail_printer_draw_footer_cb (GtkPrintOperation *operation,
 	g_object_unref (layout);
 	g_free (text);
 }
-*/
+#endif
 static void
 mail_printer_print_finished_cb (WebKitPrintOperation *print_operation,
                                 GSimpleAsyncResult *simple)
@@ -231,6 +232,7 @@ mail_printer_print_timeout_cb (gpointer user_data)
 			print_operation, export_filename);
 	}
 */
+/*
 	create_custom_widget_handler_id = g_signal_connect (
 		print_operation, "create-custom-widget",
 		G_CALLBACK (mail_printer_create_custom_widget_cb),
@@ -240,7 +242,7 @@ mail_printer_print_timeout_cb (gpointer user_data)
 		print_operation, "custom-widget-apply",
 		G_CALLBACK (mail_printer_custom_widget_apply_cb),
 		async_context);
-
+*/
 	g_signal_connect (
 		print_operation, "failed",
 		G_CALLBACK (mail_printer_print_failed_cb),
@@ -262,13 +264,13 @@ mail_printer_print_timeout_cb (gpointer user_data)
 	webkit_print_operation_run_dialog (
 		print_operation,
 		GTK_WINDOW (gtk_widget_get_toplevel (gtk_widget_get_toplevel (GTK_WIDGET (async_context->web_view)))));
-
+/* FIXME WK2
 	g_signal_handler_disconnect (
 		print_operation, create_custom_widget_handler_id);
 
 	g_signal_handler_disconnect (
 		print_operation, custom_widget_apply_handler_id);
-/* FIXME WK2
+
 	g_signal_handler_disconnect (
 		print_operation, draw_page_handler_id);
 */
