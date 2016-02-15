@@ -9692,6 +9692,7 @@ process_elements (EHTMLEditorView *view,
 				if (g_strcmp0 (id, "none") == 0) {
 					g_free (id);
 
+					remove_node (child);
 					skip_node = TRUE;
 					goto next;
 				}
