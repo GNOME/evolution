@@ -1,3 +1,36 @@
+Evolution 3.18.5 2016-02-15
+---------------------------
+
+Bug Fixes:
+	Bug 758977 - Message marked as read after folder selected (Milan Crha)
+	Bug 760971 - [Calendar] Double-free when editing meeting attendees (Milan Crha)
+	Bug 761166 - Control widgets are not hidden after collapsing email message attachment (Tomas Popela)
+	Bug 759201 - Sign/Encrypt bar in message preview doesn't wrap (Milan Crha)
+	Bug 760638 - Month view loses weeks when jumping through months (Milan Crha)
+	Bug 759873 - Cursor jumps to bottom of mail when replying to a mail (Tomas Popela)
+	Bug 761394 - Composer does not remember if a signature was set to 'None' in Drafts/Templates (Tomas Popela)
+	Bug 761496 - Unicode emoticon requires two backspace presses to delete (Tomas Popela)
+	Bug 761883 - Freeze when editing a specific Draft: GLib-GObject-WARNING **: invalid cast from 'WebKitDOMText' to 'WebKitDOMElement' (Tomas Popela)
+
+Miscellaneous:
+	Do not let itip-formatter plugin disable (Milan Crha)
+	Use icaltzutil_set_exact_vtimezones_support(), if available (Milan Crha)
+	Show composer when processing mailto: only after From account is set (Milan Crha)
+	[EMinicard] Release grab when started drag of the contact (Milan Crha)
+	EHTMLEditorUtils - prev_parent variable can be used uninitialized (Tomas Popela)
+	EHTMLEditorView - It's not possible to change formatting from Blockquote to list (Tomas Popela)
+	EHTMLEditorView - Some of the Evolution's composer attributes are sent in HTML messages (Tomas Popela)
+	EHTMLEditorView - Avoid possible critical warnings when sending HTML messages (Tomas Popela)
+	EHTMLEditorView - Avoid critical warnings when deleting a text smiley (Tomas Popela)
+	EHTMLEditorView - Fragment can be used uninitialized when saving history while deleting (Tomas Popela)
+	EHTMLEditorView - Undoing the citation split does not re-wrap and re-quote the block (Tomas Popela)
+	EHTMLEditorView - Pressing the Return key in the beginning of list item will delete the item (Tomas Popela)
+	EHTMLEditorView - Don't send the empty signature placeholder in the HTML messages (Tomas Popela)
+
+Translations:
+	Matej Urbančič (sl)
+	Rūdolfs Mazurs (lv)
+
 Evolution 3.18.4 2016-01-18
 ---------------------------
 
