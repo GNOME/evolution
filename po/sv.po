@@ -21,8 +21,8 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2016-01-31 05:51+0000\n"
-"PO-Revision-Date: 2016-01-31 18:26+0100\n"
+"POT-Creation-Date: 2016-02-12 11:13+0000\n"
+"PO-Revision-Date: 2016-02-13 00:59+0100\n"
 "Last-Translator: Sebastian Rasmussen <sebras@gmail.com>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -30,7 +30,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.8.6\n"
+"X-Generator: Poedit 1.8.7\n"
 "X-DamnedLies-Scope: partial\n"
 
 #: ../addressbook/addressbook.error.xml.h:1
@@ -209,7 +209,7 @@ msgstr ""
 #: ../mail/e-mail-account-manager.c:718 ../mail/e-mail-label-manager.c:373
 #: ../mail/em-vfolder-editor-rule.c:396 ../mail/em-vfolder-editor-rule.c:625
 #: ../mail/mail-config.ui.h:58 ../modules/mail/em-composer-prefs.c:417
-#: ../plugins/attachment-reminder/attachment-reminder.c:438
+#: ../plugins/attachment-reminder/attachment-reminder.c:457
 #: ../plugins/email-custom-header/email-custom-header.c:839
 #: ../plugins/publish-calendar/publish-calendar.ui.h:32
 #: ../plugins/templates/templates.c:453
@@ -536,7 +536,7 @@ msgstr "Lägg till _X.509"
 #: ../e-util/filter.ui.h:18 ../mail/e-mail-label-manager.c:391
 #: ../mail/em-filter-rule.c:440 ../mail/em-vfolder-editor-rule.c:630
 #: ../mail/mail-config.ui.h:59
-#: ../plugins/attachment-reminder/attachment-reminder.c:448
+#: ../plugins/attachment-reminder/attachment-reminder.c:467
 #: ../plugins/email-custom-header/email-custom-header.c:849
 #: ../plugins/publish-calendar/publish-calendar.c:791
 #: ../plugins/publish-calendar/publish-calendar.ui.h:34
@@ -601,7 +601,7 @@ msgstr "Alternativ"
 #: ../addressbook/gui/widgets/eab-gui-util.c:318
 #: ../addressbook/gui/widgets/e-addressbook-view.c:1365
 #: ../calendar/gui/e-cal-dialogs.c:689
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:309
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:302
 #: ../composer/e-composer-actions.c:214 ../e-util/e-activity-bar.c:359
 #: ../e-util/e-attachment-dialog.c:311 ../e-util/e-attachment-store.c:496
 #: ../e-util/e-attachment-store.c:640 ../e-util/e-attachment-view.c:421
@@ -831,7 +831,7 @@ msgstr "Ogiltig kontakt."
 #: ../addressbook/gui/contact-editor/e-contact-quick-add.c:456
 #: ../addressbook/gui/contact-editor/fullname.ui.h:13
 #: ../addressbook/gui/widgets/eab-gui-util.c:319
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:310
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:303
 #: ../e-util/e-attachment-dialog.c:313 ../e-util/e-categories-dialog.c:83
 #: ../e-util/e-category-editor.c:209 ../e-util/e-charset-combo-box.c:102
 #: ../e-util/e-color-chooser-widget.c:128 ../e-util/e-filter-datespec.c:292
@@ -1998,12 +1998,12 @@ msgstr "_Slumra"
 
 #: ../calendar/alarm-notify/alarm-notify.ui.h:4
 #: ../calendar/gui/e-comp-editor-page-general.c:1365
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:2247
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:2240
 #: ../calendar/gui/e-comp-editor.c:2058 ../e-util/e-html-editor-actions.c:1120
 #: ../e-util/e-mail-signature-manager.c:357 ../e-util/filter.ui.h:17
 #: ../mail/e-mail-account-manager.c:727 ../mail/e-mail-browser.c:173
 #: ../mail/e-mail-label-manager.c:382 ../mail/mail-config.ui.h:63
-#: ../plugins/attachment-reminder/attachment-reminder.c:443
+#: ../plugins/attachment-reminder/attachment-reminder.c:462
 #: ../plugins/email-custom-header/email-custom-header.c:844
 #: ../plugins/publish-calendar/publish-calendar.ui.h:33
 #: ../plugins/templates/templates.c:458 ../shell/e-shell-window-actions.c:941
@@ -2891,7 +2891,7 @@ msgid "Do Not Exist"
 msgstr "finns inte"
 
 #: ../calendar/gui/caltypes.xml.h:19
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:2011
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:2004
 msgid "Recurrence"
 msgstr "Upprepning"
 
@@ -3461,7 +3461,7 @@ msgstr "%d %b %Y"
 #. strftime format %d = day of month, %b = abbreviated
 #. * month name. You can change the order but don't
 #. * change the specifiers or add anything.
-#: ../calendar/gui/e-calendar-view.c:2274 ../calendar/gui/e-day-view.c:3047
+#: ../calendar/gui/e-calendar-view.c:2274 ../calendar/gui/e-day-view.c:3051
 #: ../calendar/gui/e-day-view-top-item.c:859
 #: ../calendar/gui/e-week-view-main-item.c:230
 msgid "%d %b"
@@ -3477,7 +3477,7 @@ msgstr "%A %d %b %Y"
 #. * %d = day of month, %b = abbreviated month name.
 #. * You can change the order but don't change the
 #. * specifiers or add anything.
-#: ../calendar/gui/e-calendar-view.c:2300 ../calendar/gui/e-day-view.c:3031
+#: ../calendar/gui/e-calendar-view.c:2300 ../calendar/gui/e-day-view.c:3035
 #: ../calendar/gui/e-day-view-top-item.c:855
 #: ../calendar/gui/e-week-view-main-item.c:216
 msgid "%a %d %b"
@@ -4167,17 +4167,17 @@ msgctxt "ECompEditor"
 msgid "Atte_ndees..."
 msgstr "D_eltagare…"
 
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:333
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:326
 msgid "Add exception"
 msgstr "Lägg till undantag"
 
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:371
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:364
 msgid "Modify exception"
 msgstr "Ändra undantag"
 
 #. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] week(s) on [Wednesday] [forever]'
 #. * (dropdown menu options are in [square brackets]). This means that after the 'on', name of a week day always follows.
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:496
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:489
 msgid "on"
 msgstr "på"
 
@@ -4185,7 +4185,7 @@ msgstr "på"
 #. * (dropdown menu options are in [square brackets]). This means that after 'first', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:577
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:570
 msgctxt "ECompEditorPageRecur"
 msgid "first"
 msgstr "första"
@@ -4196,7 +4196,7 @@ msgstr "första"
 #. * (dropdown menu options are in [square brackets]). This means that after 'second', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:583
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:576
 msgctxt "ECompEditorPageRecur"
 msgid "second"
 msgstr "andra"
@@ -4205,7 +4205,7 @@ msgstr "andra"
 #. * (dropdown menu options are in [square brackets]). This means that after 'third', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:588
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:581
 msgctxt "ECompEditorPageRecur"
 msgid "third"
 msgstr "tredje"
@@ -4214,7 +4214,7 @@ msgstr "tredje"
 #. * (dropdown menu options are in [square brackets]). This means that after 'fourth', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:593
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:586
 msgctxt "ECompEditorPageRecur"
 msgid "fourth"
 msgstr "fjärde"
@@ -4223,7 +4223,7 @@ msgstr "fjärde"
 #. * (dropdown menu options are in [square brackets]). This means that after 'fifth', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:598
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:591
 msgctxt "ECompEditorPageRecur"
 msgid "fifth"
 msgstr "femte"
@@ -4232,14 +4232,14 @@ msgstr "femte"
 #. * (dropdown menu options are in [square brackets]). This means that after 'last', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:603
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:596
 msgctxt "ECompEditorPageRecur"
 msgid "last"
 msgstr "sista"
 
 #. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] month(s) on the [Other date] [11th to 20th] [17th] [forever]'
 #. * (dropdown menu options are in [square brackets]).
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:630
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:623
 msgctxt "ECompEditorPageRecur"
 msgid "Other Date"
 msgstr "Annat datum"
@@ -4248,7 +4248,7 @@ msgstr "Annat datum"
 #. * the month to setup an appointment recurrence. The entire string is for example: This appointment recurs/Every [x] month(s)
 #. * on the [Other date] [1st to 10th] [7th] [forever]' (dropdown menu options are in [square brackets]).
 #.
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:636
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:629
 msgctxt "ECompEditorPageRecur"
 msgid "1st to 10th"
 msgstr "första till tionde"
@@ -4257,7 +4257,7 @@ msgstr "första till tionde"
 #. * the month to setup an appointment recurrence. The entire string is for example: This appointment recurs/Every [x] month(s)
 #. * on the [Other date] [11th to 20th] [17th] [forever]' (dropdown menu options are in [square brackets]).
 #.
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:642
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:635
 msgctxt "ECompEditorPageRecur"
 msgid "11th to 20th"
 msgstr "elfte till tjugonde"
@@ -4266,7 +4266,7 @@ msgstr "elfte till tjugonde"
 #. * the month to setup an appointment recurrence. The entire string is for example: This appointment recurs/Every [x] month(s)
 #. * on the [Other date] [21th to 31th] [27th] [forever]' (dropdown menu options are in [square brackets]).
 #.
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:648
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:641
 msgctxt "ECompEditorPageRecur"
 msgid "21st to 31st"
 msgstr "tjugoförsta till trettioförsta"
@@ -4274,42 +4274,42 @@ msgstr "tjugoförsta till trettioförsta"
 #. For Translator : 'day' is part of the sentence of the form 'appointment recurs/Every [x] month(s) on the [first] [day] [forever]'
 #. * (dropdown menu options are in[square brackets]). This means that after 'first', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:674
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:667
 msgctxt "ECompEditorPageRecur"
 msgid "day"
 msgstr "dagen"
 
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:675
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:668
 msgctxt "ECompEditorPageRecur"
 msgid "Monday"
 msgstr "måndagen"
 
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:676
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:669
 msgctxt "ECompEditorPageRecur"
 msgid "Tuesday"
 msgstr "tisdagen"
 
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:677
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:670
 msgctxt "ECompEditorPageRecur"
 msgid "Wednesday"
 msgstr "onsdagen"
 
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:678
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:671
 msgctxt "ECompEditorPageRecur"
 msgid "Thursday"
 msgstr "torsdagen"
 
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:679
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:672
 msgctxt "ECompEditorPageRecur"
 msgid "Friday"
 msgstr "fredagen"
 
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:680
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:673
 msgctxt "ECompEditorPageRecur"
 msgid "Saturday"
 msgstr "lördagen"
 
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:681
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:674
 msgctxt "ECompEditorPageRecur"
 msgid "Sunday"
 msgstr "söndagen"
@@ -4317,126 +4317,126 @@ msgstr "söndagen"
 #. TRANSLATORS: Entire string is for example: 'This appointment recurs/Every [x] month(s) on the [second] [Tuesday] [forever]'
 #. * (dropdown menu options are in [square brackets])."
 #.
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:810
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:803
 msgctxt "ECompEditorPageRecur"
 msgid "on the"
 msgstr "den"
 
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:1000
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:993
 msgctxt "ECompEditorPageRecur"
 msgid "occurrences"
 msgstr "förekomster"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:1493
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:2023
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:1486
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:2016
 msgctxt "ECompEditorPageRecur"
 msgid "This appointment rec_urs"
 msgstr "Detta möte _upprepas"
 
 #. Translators: Entire string is for example:     'This task recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:1498
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:1491
 msgctxt "ECompEditorPageRecur"
 msgid "This task rec_urs"
 msgstr "Denna uppgift _upprepas"
 
 #. Translators: Entire string is for example:     'This memo recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:1503
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:1496
 msgctxt "ECompEditorPageRecur"
 msgid "This memo rec_urs"
 msgstr "Detta memo _upprepas"
 
 #. Translators: Entire string is for example:     'This component recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:1508
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:1501
 msgctxt "ECompEditorPageRecur"
 msgid "This component rec_urs"
 msgstr "Denna komponent _upprepas"
 
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:1869
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:1862
 msgid "Recurrence exception date is invalid"
 msgstr "Upprepningens undantagsdatum är ogiltigt"
 
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:1917
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:1910
 msgid "End time of the recurrence is before the start"
 msgstr "Sluttiden för upprepningen är före starttiden"
 
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:1960
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:1953
 msgid "R_ecurrence"
 msgstr "Uppr_epning"
 
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:1962
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:1955
 msgid "Set or unset recurrence"
 msgstr "Ange eller ta bort upprepningar"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:2063
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:2056
 msgctxt "ECompEditorPageRecur"
 msgid "Every"
 msgstr "Var"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:2098
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:2091
 msgctxt "ECompEditorPageRecur"
 msgid "day(s)"
 msgstr "dag"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:2100
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:2093
 msgctxt "ECompEditorPageRecur"
 msgid "week(s)"
 msgstr "vecka"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:2102
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:2095
 msgctxt "ECompEditorPageRecur"
 msgid "month(s)"
 msgstr "månad"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:2104
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:2097
 msgctxt "ECompEditorPageRecur"
 msgid "year(s)"
 msgstr "år"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:2133
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:2126
 msgctxt "ECompEditorPageRecur"
 msgid "for"
 msgstr "i"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:2135
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:2128
 msgctxt "ECompEditorPageRecur"
 msgid "until"
 msgstr "tills"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:2137
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:2130
 msgctxt "ECompEditorPageRecur"
 msgid "forever"
 msgstr "för alltid"
 
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:2153
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:2146
 msgid "This appointment contains recurrences that Evolution cannot edit."
 msgstr "Detta möte har upprepningsregler som inte kan redigeras med Evolution."
 
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:2170
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:2163
 msgid "Exceptions"
 msgstr "Undantag"
 
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:2239
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:2232
 #: ../calendar/gui/e-comp-editor-page-reminders.c:1778
 #: ../mail/mail-config.ui.h:62
 msgid "A_dd"
 msgstr "L_ägg till"
 
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:2255
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:2248
 #: ../calendar/gui/e-comp-editor-page-reminders.c:1786
 #: ../mail/mail-config.ui.h:64
 msgid "Re_move"
 msgstr "_Ta bort"
 
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:2263
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:2256
 msgid "Preview"
 msgstr "Förhandsvisning"
 
@@ -4940,14 +4940,14 @@ msgid "Save current changes and close editor"
 msgstr "Spara aktuella förändringar och stäng redigerare"
 
 #. String to use in 12-hour time format for times in the morning.
-#: ../calendar/gui/e-day-view.c:2133 ../calendar/gui/e-week-view.c:1716
+#: ../calendar/gui/e-day-view.c:2133 ../calendar/gui/e-week-view.c:1728
 #: ../calendar/gui/print.c:1073 ../calendar/gui/print.c:1092
 #: ../calendar/gui/print.c:2622 ../calendar/gui/print.c:2642
 msgid "am"
 msgstr "fm"
 
 #. String to use in 12-hour time format for times in the afternoon.
-#: ../calendar/gui/e-day-view.c:2136 ../calendar/gui/e-week-view.c:1719
+#: ../calendar/gui/e-day-view.c:2136 ../calendar/gui/e-week-view.c:1731
 #: ../calendar/gui/print.c:1078 ../calendar/gui/print.c:1094
 #: ../calendar/gui/print.c:2627 ../calendar/gui/print.c:2644
 msgid "pm"
@@ -4959,13 +4959,13 @@ msgstr "em"
 #. * month, %B = full month name. You can change the
 #. * order but don't change the specifiers or add
 #. * anything.
-#: ../calendar/gui/e-day-view.c:3014 ../calendar/gui/e-day-view-top-item.c:851
+#: ../calendar/gui/e-day-view.c:3018 ../calendar/gui/e-day-view-top-item.c:851
 #: ../calendar/gui/e-week-view-main-item.c:207 ../calendar/gui/print.c:2089
 msgid "%A %d %B"
 msgstr "%A %d %B"
 
 #. To Translators: the %d stands for a week number, it's value between 1 and 52/53
-#: ../calendar/gui/e-day-view.c:3739
+#: ../calendar/gui/e-day-view.c:3743
 #, c-format
 msgid "Week %d"
 msgstr "Vecka %d"
@@ -4987,8 +4987,8 @@ msgstr "Visa den sekundära tidszonen"
 
 #. Translators: "None" indicates no second time zone set for a day view
 #: ../calendar/gui/e-day-view-time-item.c:848
-#: ../modules/calendar/e-calendar-preferences.c:308
-#: ../modules/calendar/e-calendar-preferences.c:360
+#: ../modules/calendar/e-calendar-preferences.c:303
+#: ../modules/calendar/e-calendar-preferences.c:355
 #: ../modules/calendar/e-calendar-preferences.ui.h:11
 msgctxt "cal-second-zone"
 msgid "None"
@@ -4996,7 +4996,7 @@ msgstr "Ingen"
 
 #: ../calendar/gui/e-day-view-time-item.c:882
 #: ../calendar/gui/e-timezone-entry.c:324
-#: ../modules/calendar/e-calendar-preferences.c:391
+#: ../modules/calendar/e-calendar-preferences.c:386
 msgid "Select..."
 msgstr "Välj…"
 
@@ -5219,7 +5219,7 @@ msgid "Language"
 msgstr "Språk"
 
 #: ../calendar/gui/e-memo-table.c:370
-#: ../modules/calendar/e-cal-shell-content.c:1633
+#: ../modules/calendar/e-cal-shell-content.c:1632
 #: ../modules/calendar/e-memo-shell-view-actions.c:196
 #: ../modules/calendar/e-memo-shell-view-actions.c:211
 #: ../modules/calendar/e-memo-shell-view.c:315
@@ -5283,7 +5283,7 @@ msgstr "%d%%"
 #: ../calendar/importers/icalendar-importer.c:79
 #: ../calendar/importers/icalendar-importer.c:1117
 #: ../modules/calendar/e-calendar-preferences.ui.h:63
-#: ../modules/calendar/e-cal-shell-content.c:1593
+#: ../modules/calendar/e-cal-shell-content.c:1592
 #: ../modules/calendar/e-task-shell-view-actions.c:220
 #: ../modules/calendar/e-task-shell-view-actions.c:235
 #: ../modules/calendar/e-task-shell-view.c:473
@@ -7624,7 +7624,7 @@ msgstr "Använd Unicode-tecken för smilisar."
 
 #: ../composer/e-composer-actions.c:531
 msgid "_Bcc Field"
-msgstr "_Blindkopia-fältet"
+msgstr "_Blindkopia-fält"
 
 #: ../composer/e-composer-actions.c:533
 msgid "Toggles whether the BCC field is displayed"
@@ -7632,7 +7632,7 @@ msgstr "Växlar huruvida blindkopiefältet ska visas"
 
 #: ../composer/e-composer-actions.c:539
 msgid "_Cc Field"
-msgstr "_Kopia-fältet"
+msgstr "_Kopia-fält"
 
 #: ../composer/e-composer-actions.c:541
 msgid "Toggles whether the CC field is displayed"
@@ -7640,19 +7640,19 @@ msgstr "Växlar huruvida kopiefältet ska visas"
 
 #: ../composer/e-composer-actions.c:547
 msgid "_From Override Field"
-msgstr "_Från-överskuggningsfält"
+msgstr "_Åsidosättningsfält för Från"
 
 #: ../composer/e-composer-actions.c:549
 msgid ""
 "Toggles whether the From override field to change name or email address is "
 "displayed"
 msgstr ""
-"Växlar huruvida Från-överskuggningsfältet för att ändra namn eller e-"
+"Växlar huruvida åsidosättningsfältet för Från för att ändra namn eller e-"
 "postadress ska visas"
 
 #: ../composer/e-composer-actions.c:555
 msgid "_Reply-To Field"
-msgstr "_Svara till-fältet"
+msgstr "_Svara till-fält"
 
 #: ../composer/e-composer-actions.c:557
 msgid "Toggles whether the Reply-To field is displayed"
@@ -9056,8 +9056,10 @@ msgid "Default charset in which to compose messages"
 msgstr "Standardteckentabell som ska användas vid skapande av meddelanden"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:4
-msgid "Default charset in which to compose messages."
-msgstr "Standardteckentabell som ska användas vid skapande av meddelanden."
+msgid "Default charset in which to compose messages. Uses UTF-8, if not set."
+msgstr ""
+"Standardteckentabell som ska användas vid skapande av meddelanden. Använder "
+"UTF-8 om inte inställd."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:5
 msgid "Path where picture gallery should search for its content"
@@ -9196,76 +9198,76 @@ msgstr "Lista över ordboksspråkkoder som används för stavningskontroll."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:31
 msgid "Show \"Bcc\" field when sending a mail message"
-msgstr "Visa \"Blindkopia\"-fältet när ett e-postmeddelande ska skickas"
+msgstr "Visa \"Blindkopia\"-fält när ett e-postmeddelande ska skickas"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:32
 msgid ""
 "Show the \"Bcc\" field when sending a mail message. This is controlled from "
 "the View menu when a mail account is chosen."
 msgstr ""
-"Visa \"Blindkopia\"-fältet när ett e-postmeddelande ska skickas. Detta styrs "
+"Visa \"Blindkopia\"-fält när ett e-postmeddelande ska skickas. Detta styrs "
 "från Visa-menyn när ett e-postkonto väljs."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:33
 msgid "Show \"Cc\" field when sending a mail message"
-msgstr "Visa \"Kopia\"-fältet när ett e-postmeddelande ska skickas"
+msgstr "Visa \"Kopia\"-fält när ett e-postmeddelande ska skickas"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:34
 msgid ""
 "Show the \"Cc\" field when sending a mail message. This is controlled from "
 "the View menu when a mail account is chosen."
 msgstr ""
-"Visa \"Kopia\"-fältet när ett e-postmeddelande ska skickas. Detta styrs från "
+"Visa \"Kopia\"-fält när ett e-postmeddelande ska skickas. Detta styrs från "
 "Visa-menyn när ett e-postkonto väljs."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:35
 msgid "Show \"From\" override field when sending a mail message"
 msgstr ""
-"Visa \"Från\"-överskuggningsfältet när ett e-postmeddelande ska skickas"
+"Visa åsidosättningsfält för \"Från\" när ett e-postmeddelande ska skickas"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:36
 msgid ""
 "Show the \"From\" override field when sending a mail message. This is "
 "controlled from the View menu when a mail account is chosen."
 msgstr ""
-"Visa \"Från\"-överskuggningsfältet när ett e-postmeddelande ska skickas. "
+"Visa åsidosättningsfält för \"Från\" när ett e-postmeddelande ska skickas. "
 "Detta styrs från Visa-menyn när ett e-postkonto väljs."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:37
 msgid "Show \"Reply To\" field when sending a mail message"
-msgstr "Visa \"Svara till\"-fältet när ett e-postmeddelande ska skickas"
+msgstr "Visa \"Svara till\"-fält när ett e-postmeddelande ska skickas"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:38
 msgid ""
 "Show the \"Reply To\" field when sending a mail message. This is controlled "
 "from the View menu when a mail account is chosen."
 msgstr ""
-"Visa \"Svara till\"-fältet när ett e-postmeddelande ska skickas. Detta styrs "
+"Visa \"Svara till\"-fält när ett e-postmeddelande ska skickas. Detta styrs "
 "från Visa-menyn när ett e-postkonto väljs."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:39
 msgid "Show \"From\" field when posting to a newsgroup"
-msgstr "Visa \"Från\"-fältet vid postning till en diskussionsgrupp"
+msgstr "Visa \"Från\"-fält vid postning till en diskussionsgrupp"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:40
 msgid ""
 "Show the \"From\" field when posting to a newsgroup. This is controlled from "
 "the View menu when a news account is chosen."
 msgstr ""
-"Visa \"Från\"-fältet vid postning till en diskussionsgrupp. Detta styrs från "
+"Visa \"Från\"-fält vid postning till en diskussionsgrupp. Detta styrs från "
 "Visa-menyn när ett konto för diskussionsgrupper väljs."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:41
 msgid "Show \"Reply To\" field when posting to a newsgroup"
-msgstr "Visa \"Svara till\"-fältet vid postning till en diskussionsgrupp"
+msgstr "Visa \"Svara till\"-fält vid postning till en diskussionsgrupp"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:42
 msgid ""
 "Show the \"Reply To\" field when posting to a newsgroup. This is controlled "
 "from the View menu when a news account is chosen."
 msgstr ""
-"Visa \"Svara till\"-fältet vid postning till en diskussionsgrupp. Detta "
-"styrs från Visa-menyn när ett konto för diskussionsgrupper väljs."
+"Visa \"Svara till\"-fält vid postning till en diskussionsgrupp. Detta styrs "
+"från Visa-menyn när ett konto för diskussionsgrupper väljs."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:43
 msgid "Digitally sign replies when the original message is signed"
@@ -9421,6 +9423,10 @@ msgstr ""
 msgid "Wrap quoted text in replies"
 msgstr "Radbryt citerad text i svar"
 
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:66
+msgid "If set to 'true' quoted text in replies will be wrapped."
+msgstr "Om satt till 'true' kommer citerad text i svar att radbrytas."
+
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:67
 msgid "Save file format for drag-and-drop operation"
 msgstr "Filformat att spara i vid dra-och-släpp-operationer"
@@ -9515,6 +9521,16 @@ msgstr "Läs in bilder automatiskt för HTML-meddelanden över HTTP"
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:86
 msgid "Show notification about missing remote content"
 msgstr "Visa avisering om saknat fjärrinnehåll"
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:87
+msgid ""
+"When the message preview shows a message which requires to download remote "
+"content, while the download is not allowed for the user or the site, then "
+"show a notification about it on top of the preview panel."
+msgstr ""
+"När förhandsvisning av meddelanden visar ett meddelande som kräver att få "
+"hämta fjärrinnehåll medan hämtning inte är tillåten för användaren eller "
+"platsen, visa då en avisering om det längst upp i förhandsgranskningspanelen."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:88
 msgid "Show Animations"
@@ -10724,6 +10740,14 @@ msgstr "Flagga som aktiverar ett mycket enklare användargränssnitt."
 msgid "List of button names to hide in the window switcher"
 msgstr "Lista över knappnamn som ska gömmas i fönsterväxlaren"
 
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:14
+msgid ""
+"Valid values are 'mail', 'addressbook', 'calendar', 'tasks' and 'memos'. "
+"Change of this requires restart of the application."
+msgstr ""
+"Giltiga värden är 'mail', 'addressbook', 'calendar', 'tasks' och 'memos'. "
+"Att ändra detta kräver en omstart av programmet."
+
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:15
 msgid "Window buttons are visible"
 msgstr "Fönsterknapparna är synliga"
@@ -11065,23 +11089,23 @@ msgstr "Kopia"
 msgid "Bcc"
 msgstr "Blindkopia"
 
-#: ../em-format/e-mail-formatter-utils.c:564
+#: ../em-format/e-mail-formatter-utils.c:566
 msgid "GPG signed"
 msgstr "GPG-signerad"
 
-#: ../em-format/e-mail-formatter-utils.c:570
+#: ../em-format/e-mail-formatter-utils.c:572
 msgid "GPG encrypted"
 msgstr "GPG-krypterad"
 
-#: ../em-format/e-mail-formatter-utils.c:576
+#: ../em-format/e-mail-formatter-utils.c:578
 msgid "S/MIME signed"
 msgstr "S/MIME-signerad"
 
-#: ../em-format/e-mail-formatter-utils.c:582
+#: ../em-format/e-mail-formatter-utils.c:584
 msgid "S/MIME encrypted"
 msgstr "S/MIME-krypterad"
 
-#: ../em-format/e-mail-formatter-utils.c:591
+#: ../em-format/e-mail-formatter-utils.c:593
 #: ../mail/e-mail-config-security-page.c:760
 #: ../modules/mail-config/e-mail-config-remote-accounts.c:204
 #: ../modules/mail-config/e-mail-config-smtp-backend.c:154
@@ -13303,11 +13327,11 @@ msgstr "_Storlek:"
 msgid "Text Properties"
 msgstr "Textegenskaper"
 
-#: ../e-util/e-html-editor-view.c:6289
+#: ../e-util/e-html-editor-view.c:6301
 msgid "Changed property"
 msgstr "Ändrad egenskap"
 
-#: ../e-util/e-html-editor-view.c:6290
+#: ../e-util/e-html-editor-view.c:6302
 msgid "Whether editor changed"
 msgstr "Huruvida redigeraren ändrades"
 
@@ -13347,11 +13371,11 @@ msgstr "Välj den information som du vill importera:"
 #: ../e-util/e-import-assistant.c:533
 msgid ""
 "Evolution checked for settings to import from the following applications: "
-"Pine, Netscape, Elm, iCalendar. No importable settings found. If you would "
-"like to try again, please click the \"Back\" button."
+"Pine, Netscape, Elm, iCalendar, KMail. No importable settings found. If you "
+"would like to try again, please click the \"Back\" button."
 msgstr ""
 "Evolution letade efter inställningar att importera från följande program: "
-"Pine, Netscape, Elm, iCalendar. Inga inställningar hittades som kunde "
+"Pine, Netscape, Elm, iCalendar, KMail. Inga inställningar hittades som kunde "
 "importeras. Om du vill försöka igen bör du klicka på knappen ”Bakåt”."
 
 #: ../e-util/e-import-assistant.c:559
@@ -13783,7 +13807,7 @@ msgstr "Nådde början av sidan, fortsätter från slutet"
 
 #: ../e-util/e-send-options.c:538 ../mail/importers/elm-importer.c:329
 #: ../mail/importers/kmail-importer.c:253 ../mail/importers/pine-importer.c:422
-#: ../modules/mail/e-mail-shell-view.c:1179
+#: ../modules/mail/e-mail-shell-view.c:1251
 #: ../smime/gui/certificate-manager.c:1671
 msgid "Mail"
 msgstr "E-post"
@@ -13954,8 +13978,8 @@ msgid "Use a secure connection"
 msgstr "Använd en säker anslutning"
 
 #: ../e-util/e-source-config.c:1439
-msgid "Unset _trust for SSL certificate"
-msgstr "Återställ påli_tlighet för SSL-certifikat"
+msgid "Unset _trust for SSL/TLS certificate"
+msgstr "Återställ påli_tlighet för SSL-/TLS-certifikat"
 
 #: ../e-util/e-source-config.c:1475
 msgid "User"
@@ -14809,36 +14833,36 @@ msgstr "Ogiltig mapp-URI ”%s”"
 #. Some local folders
 #: ../libemail-engine/e-mail-session.c:125 ../mail/em-folder-properties.c:680
 #: ../mail/em-folder-tree-model.c:1229 ../mail/importers/kmail-libs.c:141
-#: ../modules/mail/e-mail-shell-view-private.c:1049
-#: ../modules/mail/e-mail-shell-view-private.c:1060
+#: ../modules/mail/e-mail-shell-view-private.c:1052
+#: ../modules/mail/e-mail-shell-view-private.c:1063
 msgid "Inbox"
 msgstr "Inkorg"
 
 #. E_MAIL_LOCAL_FOLDER_INBOX
 #: ../libemail-engine/e-mail-session.c:126 ../mail/em-folder-tree-model.c:1222
 #: ../mail/importers/kmail-libs.c:147
-#: ../modules/mail/e-mail-shell-view-private.c:1047
+#: ../modules/mail/e-mail-shell-view-private.c:1050
 msgid "Drafts"
 msgstr "Utkast"
 
 #. E_MAIL_LOCAL_FOLDER_DRAFTS
 #: ../libemail-engine/e-mail-session.c:127 ../mail/em-folder-tree-model.c:1233
 #: ../mail/importers/kmail-libs.c:143
-#: ../modules/mail/e-mail-shell-view-private.c:1051
+#: ../modules/mail/e-mail-shell-view-private.c:1054
 msgid "Outbox"
 msgstr "Utkorg"
 
 #. E_MAIL_LOCAL_FOLDER_OUTBOX
 #: ../libemail-engine/e-mail-session.c:128 ../mail/em-folder-tree-model.c:1237
 #: ../mail/importers/kmail-libs.c:145
-#: ../modules/mail/e-mail-shell-view-private.c:1053
+#: ../modules/mail/e-mail-shell-view-private.c:1056
 msgid "Sent"
 msgstr "Skickat"
 
 #. E_MAIL_LOCAL_FOLDER_SENT
 #: ../libemail-engine/e-mail-session.c:129 ../mail/em-folder-tree-model.c:1225
 #: ../mail/importers/kmail-libs.c:149
-#: ../modules/mail/e-mail-shell-view-private.c:1055
+#: ../modules/mail/e-mail-shell-view-private.c:1058
 #: ../plugins/templates/org-gnome-templates.eplug.xml.h:1
 #: ../plugins/templates/templates.c:1176 ../plugins/templates/templates.c:1478
 #: ../plugins/templates/templates.c:1488
@@ -15398,7 +15422,7 @@ msgstr "%s - %s"
 #: ../mail/e-mail-config-security-page.c:340 ../mail/em-folder-properties.c:603
 #: ../mail/mail-config.ui.h:31
 #: ../modules/addressbook/autocompletion-config.c:113
-#: ../modules/calendar/e-calendar-preferences.c:625
+#: ../modules/calendar/e-calendar-preferences.c:620
 #: ../modules/calendar/e-calendar-preferences.ui.h:46
 #: ../plugins/publish-calendar/publish-calendar.ui.h:16
 msgid "General"
@@ -15508,12 +15532,12 @@ msgid "Server _Type:"
 msgstr "Server_typ:"
 
 #: ../mail/e-mail-config-summary-page.c:142
-msgid "SSL"
-msgstr "SSL"
-
-#: ../mail/e-mail-config-summary-page.c:145
 msgid "TLS"
 msgstr "TLS"
+
+#: ../mail/e-mail-config-summary-page.c:145
+msgid "STARTTLS"
+msgstr "STARTTLS"
 
 #: ../mail/e-mail-config-summary-page.c:306
 msgid ""
@@ -16608,7 +16632,7 @@ msgstr "Kvotanvändning"
 #. choose which account to use as the sender when composing a message in this folder
 #: ../mail/em-folder-properties.c:287
 msgid "_Send Account Override:"
-msgstr "Överskugga av_sändarkonto:"
+msgstr "Åsidosätt av_sändarkonto:"
 
 #: ../mail/em-folder-properties.c:491
 msgid "_Archive this folder using these settings:"
@@ -16756,7 +16780,7 @@ msgid "Unsubscribe From _All"
 msgstr "Säg upp prenumerationen på _dolda"
 
 #: ../mail/em-subscription-editor.c:1339
-#: ../modules/mail/e-mail-shell-view-private.c:1026
+#: ../modules/mail/e-mail-shell-view-private.c:1029
 #, c-format
 msgid "%d unread, "
 msgid_plural "%d unread, "
@@ -16764,7 +16788,7 @@ msgstr[0] "%d oläst, "
 msgstr[1] "%d olästa, "
 
 #: ../mail/em-subscription-editor.c:1343
-#: ../modules/mail/e-mail-shell-view-private.c:1036
+#: ../modules/mail/e-mail-shell-view-private.c:1039
 #, c-format
 msgid "%d total"
 msgid_plural "%d total"
@@ -17262,7 +17286,7 @@ msgid "Import mail and contacts from KMail."
 msgstr "Importera e-post och kontakter från KMail."
 
 #: ../mail/importers/kmail-libs.c:152
-#: ../modules/mail/e-mail-shell-view-private.c:1057
+#: ../modules/mail/e-mail-shell-view-private.c:1060
 msgid "Trash"
 msgstr "Papperskorg"
 
@@ -17542,7 +17566,7 @@ msgstr "Konto"
 
 #: ../mail/mail-config.ui.h:69
 msgid "Send account overrides"
-msgstr "Överskuggningar för avsändarkonto"
+msgstr "Åsidosättningar för avsändarkonto"
 
 #: ../mail/mail-config.ui.h:70
 msgid ""
@@ -17552,13 +17576,13 @@ msgid ""
 "parts are compared separately."
 msgstr ""
 "Ange vilket konto som ska användas som avsändarkonto för respektive mappar "
-"eller mottagare, en överskuggning av den vanliga avkänningen för val av "
+"eller mottagare, en åsidosättning av den vanliga avkänningen för val av "
 "avsändarkonto. Lista av mottagare kan innehålla delar av adresser eller "
 "namn. Namn- och adressdel jämförs separat."
 
 #: ../mail/mail-config.ui.h:71
 msgid "_Folder override has precedence over Recipient override"
-msgstr "_Mappöverskuggning har företräde över Mottagaröverskuggning"
+msgstr "Åsidosättning av _mapp har företräde över åsidosättning av mottagare"
 
 #: ../mail/mail-config.ui.h:72
 msgid "Send Account"
@@ -18929,32 +18953,32 @@ msgid "Subject or Addresses contains"
 msgstr "Ämne eller Adresser innehåller"
 
 #: ../mail/searchtypes.xml.in.h:58
-#: ../modules/mail/e-mail-shell-view-actions.c:2151
+#: ../modules/mail/e-mail-shell-view-actions.c:2159
 msgid "Recipients contain"
 msgstr "Mottagare innehåller"
 
 #: ../mail/searchtypes.xml.in.h:59
-#: ../modules/mail/e-mail-shell-view-actions.c:2144
+#: ../modules/mail/e-mail-shell-view-actions.c:2152
 msgid "Message contains"
 msgstr "Meddelandet innehåller"
 
 #: ../mail/searchtypes.xml.in.h:60
-#: ../modules/mail/e-mail-shell-view-actions.c:2165
+#: ../modules/mail/e-mail-shell-view-actions.c:2173
 msgid "Subject contains"
 msgstr "Ämne innehåller"
 
 #: ../mail/searchtypes.xml.in.h:61
-#: ../modules/mail/e-mail-shell-view-actions.c:2158
+#: ../modules/mail/e-mail-shell-view-actions.c:2166
 msgid "Sender contains"
 msgstr "Avsändare innehåller"
 
 #: ../mail/searchtypes.xml.in.h:62
-#: ../modules/mail/e-mail-shell-view-actions.c:2130
+#: ../modules/mail/e-mail-shell-view-actions.c:2138
 msgid "Body contains"
 msgstr "Meddelandetexten innehåller"
 
 #: ../mail/searchtypes.xml.in.h:63
-#: ../modules/mail/e-mail-shell-view-actions.c:2137
+#: ../modules/mail/e-mail-shell-view-actions.c:2145
 msgid "Free form expression"
 msgstr "Friformsuttryck"
 
@@ -19258,7 +19282,7 @@ msgstr "Omatchade"
 #: ../modules/calendar/e-cal-shell-view-actions.c:1657
 #: ../modules/calendar/e-memo-shell-view-actions.c:777
 #: ../modules/calendar/e-task-shell-view-actions.c:978
-#: ../modules/mail/e-mail-shell-view-actions.c:2123
+#: ../modules/mail/e-mail-shell-view-actions.c:2131
 #: ../shell/e-shell-content.c:657
 msgid "Advanced Search"
 msgstr "Avancerad sökning"
@@ -19582,16 +19606,16 @@ msgstr "Standard LDAP-port"
 
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:448
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:631
-msgid "LDAP over SSL (deprecated)"
-msgstr "LDAP över SSL (föråldrad)"
+msgid "LDAP over SSL/TLS (deprecated)"
+msgstr "LDAP över SSL/TLS (föråldrad)"
 
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:454
 msgid "Microsoft Global Catalog"
 msgstr "Microsoft Global Catalog"
 
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:460
-msgid "Microsoft Global Catalog over SSL"
-msgstr "Microsoft Global Catalog över SSL"
+msgid "Microsoft Global Catalog over SSL/TLS"
+msgstr "Microsoft Global Catalog över SSL/TLS"
 
 #. Page 1
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:567
@@ -19927,33 +19951,33 @@ msgstr "Väljare för memolista"
 msgid "Task List Selector"
 msgstr "Väljare för uppgiftslistor"
 
-#: ../modules/calendar/e-calendar-preferences.c:520
+#: ../modules/calendar/e-calendar-preferences.c:515
 msgid "Selected Calendars for Alarms"
 msgstr "Valda kalendrar för påminnelser"
 
-#: ../modules/calendar/e-calendar-preferences.c:616
+#: ../modules/calendar/e-calendar-preferences.c:611
 msgid "Meeting Invitations"
 msgstr "Sammanträdesinbjudningar"
 
-#: ../modules/calendar/e-calendar-preferences.c:642
+#: ../modules/calendar/e-calendar-preferences.c:637
 msgid "_Delete message after acting"
 msgstr "_Ta bort meddelande efter åtgärd"
 
-#: ../modules/calendar/e-calendar-preferences.c:656
-#: ../modules/calendar/e-calendar-preferences.c:687
+#: ../modules/calendar/e-calendar-preferences.c:651
+#: ../modules/calendar/e-calendar-preferences.c:682
 msgid "Conflict Search"
 msgstr "Konfliktsökning"
 
 #. Source selector
-#: ../modules/calendar/e-calendar-preferences.c:671
+#: ../modules/calendar/e-calendar-preferences.c:666
 msgid "Select the calendars to search for meeting conflicts"
 msgstr "Välj de kalendrar som ska genomsökas efter sammanträdeskonflikter"
 
-#: ../modules/calendar/e-calendar-preferences.c:1063
+#: ../modules/calendar/e-calendar-preferences.c:1058
 msgid "Ti_me and date:"
 msgstr "T_id och datum:"
 
-#: ../modules/calendar/e-calendar-preferences.c:1064
+#: ../modules/calendar/e-calendar-preferences.c:1059
 msgid "_Date only:"
 msgstr "Endast dat_um:"
 
@@ -21805,8 +21829,8 @@ msgstr "STARTTLS efter anslutning"
 
 #: ../modules/mail-config/e-mail-config-remote-accounts.c:242
 #: ../modules/mail-config/e-mail-config-smtp-backend.c:192
-msgid "SSL on a dedicated port"
-msgstr "SSL på en specifik port"
+msgid "TLS on a dedicated port"
+msgstr "TLS på en specifik port"
 
 #: ../modules/mail-config/e-mail-config-sendmail-backend.c:77
 msgid "_Use custom binary, instead of 'sendmail'"
@@ -22234,82 +22258,86 @@ msgstr "Lästa meddelanden"
 msgid "Unread Messages"
 msgstr "Olästa meddelanden"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:2172
+#: ../modules/mail/e-mail-shell-view-actions.c:2120
+msgid "Message Thread"
+msgstr "Meddelandetråd"
+
+#: ../modules/mail/e-mail-shell-view-actions.c:2180
 msgid "Subject or Addresses contain"
 msgstr "Ämne eller Adresser innehåller"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:2182
+#: ../modules/mail/e-mail-shell-view-actions.c:2190
 msgid "All Accounts"
 msgstr "Alla konton"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:2189
+#: ../modules/mail/e-mail-shell-view-actions.c:2197
 msgid "Current Account"
 msgstr "Aktuellt konto"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:2196
+#: ../modules/mail/e-mail-shell-view-actions.c:2204
 msgid "Current Folder"
 msgstr "Aktuell mapp"
 
-#: ../modules/mail/e-mail-shell-view.c:707
+#: ../modules/mail/e-mail-shell-view.c:779
 msgid "All Account Search"
 msgstr "Sökning i alla konton"
 
-#: ../modules/mail/e-mail-shell-view.c:815
+#: ../modules/mail/e-mail-shell-view.c:887
 msgid "Account Search"
 msgstr "Kontosökning"
 
-#: ../modules/mail/e-mail-shell-view-private.c:954
+#: ../modules/mail/e-mail-shell-view-private.c:957
 #, c-format
 msgid "%d selected, "
 msgid_plural "%d selected, "
 msgstr[0] "%d markerad, "
 msgstr[1] "%d markerade, "
 
-#: ../modules/mail/e-mail-shell-view-private.c:963
-#: ../modules/mail/e-mail-shell-view-private.c:980
+#: ../modules/mail/e-mail-shell-view-private.c:966
+#: ../modules/mail/e-mail-shell-view-private.c:983
 #, c-format
 msgid "%d deleted"
 msgid_plural "%d deleted"
 msgstr[0] "%d borttaget"
 msgstr[1] "%d borttagna"
 
-#: ../modules/mail/e-mail-shell-view-private.c:989
-#: ../modules/mail/e-mail-shell-view-private.c:995
+#: ../modules/mail/e-mail-shell-view-private.c:992
+#: ../modules/mail/e-mail-shell-view-private.c:998
 #, c-format
 msgid "%d junk"
 msgid_plural "%d junk"
 msgstr[0] "%d skräp"
 msgstr[1] "%d skräp"
 
-#: ../modules/mail/e-mail-shell-view-private.c:1002
+#: ../modules/mail/e-mail-shell-view-private.c:1005
 #, c-format
 msgid "%d draft"
 msgid_plural "%d drafts"
 msgstr[0] "%d utkast"
 msgstr[1] "%d utkast"
 
-#: ../modules/mail/e-mail-shell-view-private.c:1008
+#: ../modules/mail/e-mail-shell-view-private.c:1011
 #, c-format
 msgid "%d unsent"
 msgid_plural "%d unsent"
 msgstr[0] "%d oskickat"
 msgstr[1] "%d oskickade"
 
-#: ../modules/mail/e-mail-shell-view-private.c:1014
+#: ../modules/mail/e-mail-shell-view-private.c:1017
 #, c-format
 msgid "%d sent"
 msgid_plural "%d sent"
 msgstr[0] "%d skickat"
 msgstr[1] "%d skickade"
 
-#: ../modules/mail/e-mail-shell-view-private.c:1031
+#: ../modules/mail/e-mail-shell-view-private.c:1034
 #, c-format
 msgid "%d unread"
 msgid_plural "%d unread"
 msgstr[0] "%d oläst"
 msgstr[1] "%d olästa"
 
-#: ../modules/mail/e-mail-shell-view-private.c:1549
+#: ../modules/mail/e-mail-shell-view-private.c:1552
 msgid "Send / Receive"
 msgstr "Skicka / Ta emot"
 
@@ -22889,7 +22917,7 @@ msgstr "Evolutions webbinspektör"
 msgid "_Do not show this message again."
 msgstr "Visa _inte detta meddelande igen."
 
-#: ../plugins/attachment-reminder/attachment-reminder.c:465
+#: ../plugins/attachment-reminder/attachment-reminder.c:484
 #: ../plugins/templates/templates.c:478
 msgid "Keywords"
 msgstr "Nyckelord"
@@ -25095,6 +25123,9 @@ msgstr "Med _förfallodatum"
 #: ../views/tasks/galview.xml.h:3
 msgid "With _Status"
 msgstr "Med _status"
+
+#~ msgid "SSL"
+#~ msgstr "SSL"
 
 #~ msgid "Edit Reminder"
 #~ msgstr "Redigera påminnelse"
