@@ -3892,8 +3892,24 @@ e_cal_model_get_color_for_component (ECalModel *model,
 	return color;
 }
 
+gboolean
+e_cal_model_get_rgba_for_component (ECalModel *model,
+				    ECalModelComponent *comp_data,
+				    GdkRGBA *rgba)
+{
+	const gchar *color;
+
+	color = e_cal_model_get_color_for_component (model, comp_data);
+	if (!color)
+		return FALSE;
+
+	return gdk_rgba_parse (rgba, color);
+}
+
 /**
- * e_cal_model_get_rgb_color_for_component
+ * e_cal_model_get_rgb_color_for_component:
+ *
+ * Deprecated: 3.20: Use e_cal_model_get_rgba_for_component() instead
  */
 gboolean
 e_cal_model_get_rgb_color_for_component (ECalModel *model,
@@ -3902,23 +3918,19 @@ e_cal_model_get_rgb_color_for_component (ECalModel *model,
                                          gdouble *green,
                                          gdouble *blue)
 {
-	GdkColor gdk_color;
-	const gchar *color;
+	GdkRGBA rgba;
 
-	color = e_cal_model_get_color_for_component (model, comp_data);
-	if (color && gdk_color_parse (color, &gdk_color)) {
+	if (!e_cal_model_get_rgba_for_component (model, comp_data, &rgba))
+		return FALSE;
 
-		if (red)
-			*red = ((gdouble) gdk_color.red)/0xffff;
-		if (green)
-			*green = ((gdouble) gdk_color.green)/0xffff;
-		if (blue)
-			*blue = ((gdouble) gdk_color.blue)/0xffff;
+	if (red)
+		*red = rgba.red;
+	if (green)
+		*green = rgba.green;
+	if (blue)
+		*blue = rgba.blue;
 
-		return TRUE;
-	}
-
-	return FALSE;
+	return TRUE;
 }
 
 /**

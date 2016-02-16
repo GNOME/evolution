@@ -665,21 +665,20 @@ e_day_view_get_text_color (EDayView *day_view,
                            EDayViewEvent *event)
 {
 	GdkColor color;
-	guint16 red, green, blue;
-	gdouble	cc = 65535.0;
+	GdkRGBA rgba;
 
-	red = day_view->colors[E_DAY_VIEW_COLOR_EVENT_BACKGROUND].red;
-	green = day_view->colors[E_DAY_VIEW_COLOR_EVENT_BACKGROUND].green;
-	blue = day_view->colors[E_DAY_VIEW_COLOR_EVENT_BACKGROUND].blue;
+	if (is_comp_data_valid (event) &&
+	    e_cal_model_get_rgba_for_component (e_calendar_view_get_model (E_CALENDAR_VIEW (day_view)), event->comp_data, &rgba)) {
+	} else {
+		gdouble	cc = 65535.0;
 
-	if (is_comp_data_valid (event) && gdk_color_parse (e_cal_model_get_color_for_component (e_calendar_view_get_model (E_CALENDAR_VIEW (day_view)), event->comp_data),
-	     &color)) {
-		red = color.red;
-		green = color.green;
-		blue = color.blue;
+		rgba.red = day_view->colors[E_DAY_VIEW_COLOR_EVENT_BACKGROUND].red / cc;
+		rgba.green = day_view->colors[E_DAY_VIEW_COLOR_EVENT_BACKGROUND].green / cc;
+		rgba.blue = day_view->colors[E_DAY_VIEW_COLOR_EVENT_BACKGROUND].blue / cc;
+		rgba.alpha = 1.0;
 	}
 
-	if ((red / cc > 0.7) || (green / cc > 0.7) || (blue / cc > 0.7)) {
+	if ((rgba.red > 0.7) || (rgba.green > 0.7) || (rgba.blue > 0.7)) {
 		color.red = 0.0;
 		color.green = 0.0;
 		color.blue = 0.0;

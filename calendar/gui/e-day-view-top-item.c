@@ -98,10 +98,9 @@ day_view_top_item_draw_triangle (EDayViewTopItem *top_item,
 
 	cairo_save (cr);
 	/* Fill it in. */
-	if (gdk_rgba_parse (&bg_color,
-		e_cal_model_get_color_for_component (
+	if (e_cal_model_get_rgba_for_component (
 		e_calendar_view_get_model (E_CALENDAR_VIEW (day_view)),
-		event->comp_data))) {
+		event->comp_data, &bg_color)) {
 		gdk_cairo_set_source_rgba (cr, &bg_color);
 	} else {
 		gdk_cairo_set_source_color (
@@ -151,9 +150,8 @@ day_view_top_item_draw_long_event (EDayViewTopItem *top_item,
 	gboolean draw_start_triangle, draw_end_triangle;
 	GSList *categories_list, *elem;
 	PangoLayout *layout;
-	GdkRGBA bg_color, rgba;
+	GdkRGBA bg_rgba, rgba;
 	cairo_pattern_t *pat;
-	gdouble red, green, blue;
 	gdouble x0, y0, rect_height, rect_width, radius;
 
 	day_view = e_day_view_top_item_get_day_view (top_item);
@@ -184,17 +182,11 @@ day_view_top_item_draw_long_event (EDayViewTopItem *top_item,
 	e_cal_component_set_icalcomponent (
 		comp, icalcomponent_new_clone (event->comp_data->icalcomp));
 
-	if (gdk_rgba_parse (&bg_color,
-		e_cal_model_get_color_for_component (
-		e_calendar_view_get_model (E_CALENDAR_VIEW (day_view)),
-		event->comp_data))) {
-		red = bg_color.red;
-		green = bg_color.green;
-		blue = bg_color.blue;
-	} else {
-		red = day_view->colors[E_DAY_VIEW_COLOR_LONG_EVENT_BACKGROUND].red / 65535.0;
-		green = day_view->colors[E_DAY_VIEW_COLOR_LONG_EVENT_BACKGROUND].green / 65535.0;
-		blue = day_view->colors[E_DAY_VIEW_COLOR_LONG_EVENT_BACKGROUND].blue / 65535.0;
+	if (!e_cal_model_get_rgba_for_component (e_calendar_view_get_model (E_CALENDAR_VIEW (day_view)), event->comp_data, &bg_rgba)) {
+		bg_rgba.red = day_view->colors[E_DAY_VIEW_COLOR_LONG_EVENT_BACKGROUND].red / 65535.0;
+		bg_rgba.green = day_view->colors[E_DAY_VIEW_COLOR_LONG_EVENT_BACKGROUND].green / 65535.0;
+		bg_rgba.blue = day_view->colors[E_DAY_VIEW_COLOR_LONG_EVENT_BACKGROUND].blue / 65535.0;
+		bg_rgba.alpha = 1.0;
 	}
 
 	/* Fill the background with white to play with transparency */
@@ -225,7 +217,7 @@ day_view_top_item_draw_long_event (EDayViewTopItem *top_item,
 
 	draw_curved_rectangle (cr, x0, y0, rect_width, rect_height, radius);
 
-	cairo_set_source_rgb (cr, red, green, blue);
+	gdk_cairo_set_source_rgba (cr, &bg_rgba);
 	cairo_set_line_width (cr, 1.5);
 	cairo_stroke (cr);
 	cairo_restore (cr);
@@ -246,13 +238,13 @@ day_view_top_item_draw_long_event (EDayViewTopItem *top_item,
 	pat = cairo_pattern_create_linear (
 		item_x - x + 5.5, item_y + 2.5 - y,
 		item_x - x + 5, item_y - y + item_h + 7.5);
-	cairo_pattern_add_color_stop_rgba (pat, 1, red, green, blue, 0.8);
-	cairo_pattern_add_color_stop_rgba (pat, 0, red, green, blue, 0.4);
+	cairo_pattern_add_color_stop_rgba (pat, 1, bg_rgba.red, bg_rgba.green, bg_rgba.blue, 0.8 * bg_rgba.alpha);
+	cairo_pattern_add_color_stop_rgba (pat, 0, bg_rgba.red, bg_rgba.green, bg_rgba.blue, 0.4 * bg_rgba.alpha);
 	cairo_set_source (cr, pat);
 	cairo_fill_preserve (cr);
 	cairo_pattern_destroy (pat);
 
-	cairo_set_source_rgba (cr, red, green, blue, 0);
+	gdk_cairo_set_source_rgba (cr, &bg_rgba);
 	cairo_set_line_width (cr, 0.5);
 	cairo_stroke (cr);
 	cairo_restore (cr);

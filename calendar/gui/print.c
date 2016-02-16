@@ -343,9 +343,7 @@ print_border_with_triangles (GtkPrintContext *pc,
                              gdouble y1,
                              gdouble y2,
                              gdouble line_width,
-                             gdouble red,
-                             gdouble green,
-                             gdouble blue,
+                             GdkRGBA bg_rgba,
                              gdouble left_triangle_width,
                              gdouble right_triangle_width)
 {
@@ -354,7 +352,7 @@ print_border_with_triangles (GtkPrintContext *pc,
 	cairo_save (cr);
 
 	/* Fill in the interior of the rectangle, if desired. */
-	if (red >= -EPSILON && green >= -EPSILON && blue >= -EPSILON) {
+	if (bg_rgba.red >= -EPSILON && bg_rgba.green >= -EPSILON && bg_rgba.blue >= -EPSILON) {
 
 		cairo_move_to (cr, x1, y1);
 
@@ -371,7 +369,7 @@ print_border_with_triangles (GtkPrintContext *pc,
 
 		cairo_line_to (cr, x2, y1);
 		cairo_close_path (cr);
-		cairo_set_source_rgb (cr, red, green, blue);
+		gdk_cairo_set_source_rgba (cr, &bg_rgba);
 		cairo_fill (cr);
 		cairo_restore (cr);
 		cairo_save (cr);
@@ -416,13 +414,11 @@ print_border_rgb (GtkPrintContext *pc,
                   gdouble y1,
                   gdouble y2,
                   gdouble line_width,
-                  gdouble red,
-                  gdouble green,
-                  gdouble blue)
+                  GdkRGBA bg_rgba)
 {
 	print_border_with_triangles (
 		pc, x1, x2, y1, y2, line_width,
-		red, green, blue, -1.0, -1.0);
+		bg_rgba, -1.0, -1.0);
 }
 
 static void
@@ -434,9 +430,14 @@ print_border (GtkPrintContext *pc,
               gdouble line_width,
               gdouble fillcolor)
 {
-	print_border_rgb (
-		pc, x1, x2, y1, y2, line_width,
-		fillcolor, fillcolor, fillcolor);
+	GdkRGBA bg_rgba;
+
+	bg_rgba.red = fillcolor;
+	bg_rgba.green = fillcolor;
+	bg_rgba.blue = fillcolor;
+	bg_rgba.alpha = 1.0;
+
+	print_border_rgb (pc, x1, x2, y1, y2, line_width, bg_rgba);
 }
 
 static void
@@ -445,16 +446,14 @@ print_rectangle (GtkPrintContext *context,
                  gdouble y,
                  gdouble width,
                  gdouble height,
-                 gdouble red,
-                 gdouble green,
-                 gdouble blue)
+                 GdkRGBA bg_rgba)
 {
 	cairo_t *cr = gtk_print_context_get_cairo_context (context);
 
 	cairo_save (cr);
 
 	cairo_rectangle (cr, x, y, width, height);
-	cairo_set_source_rgb (cr, red, green, blue);
+	gdk_cairo_set_source_rgba (cr, &bg_rgba);
 	cairo_fill (cr);
 
 	cairo_restore (cr);
@@ -1375,7 +1374,7 @@ print_day_long_event (GtkPrintContext *context,
 	gchar *text;
 	gchar buffer[32];
 	struct tm date_tm;
-	gdouble red, green, blue;
+	GdkRGBA bg_rgba;
 
 	if (!is_comp_data_valid (event))
 		return;
@@ -1395,11 +1394,16 @@ print_day_long_event (GtkPrintContext *context,
 	x2 = right - 10;
 	y1 = top + event->start_row_or_col * row_height + 1;
 	y2 = y1 + row_height - 1;
-	red = green = blue = 0.95;
-	e_cal_model_get_rgb_color_for_component (
-		model, event->comp_data, &red, &green, &blue);
+
+	if (!e_cal_model_get_rgba_for_component (model, event->comp_data, &bg_rgba)) {
+		bg_rgba.red = 0.95;
+		bg_rgba.green = 0.95;
+		bg_rgba.blue = 0.95;
+		bg_rgba.alpha = 1.0;
+	}
+
 	print_border_with_triangles (
-		context, x1, x2, y1, y2, 0.5, red, green, blue,
+		context, x1, x2, y1, y2, 0.5, bg_rgba,
 		left_triangle_width,
 		right_triangle_width);
 
@@ -1465,7 +1469,7 @@ print_day_event (GtkPrintContext *context,
 	gchar *text, start_buffer[32], end_buffer[32];
 	gboolean display_times = FALSE;
 	struct tm date_tm;
-	gdouble red, green, blue;
+	GdkRGBA bg_rgba;
 
 	if (!is_comp_data_valid (event))
 		return;
@@ -1500,10 +1504,14 @@ print_day_event (GtkPrintContext *context,
 		x1, y1, x2, y2, row_height, start_row, top, pdi->rows);
 #endif
 
-	red = green = blue = 0.95;
-	e_cal_model_get_rgb_color_for_component (
-		model, event->comp_data, &red, &green, &blue);
-	print_border_rgb (context, x1, x2, y1, y2, 1.0, red, green, blue);
+	if (!e_cal_model_get_rgba_for_component (model, event->comp_data, &bg_rgba)) {
+		bg_rgba.red = 0.95;
+		bg_rgba.green = 0.95;
+		bg_rgba.blue = 0.95;
+		bg_rgba.alpha = 1.0;
+	}
+
+	print_border_rgb (context, x1, x2, y1, y2, 1.0, bg_rgba);
 
 	text = get_summary_with_location (event->comp_data->icalcomp);
 
@@ -1763,9 +1771,7 @@ print_week_long_event (GtkPrintContext *context,
                        EWeekViewEvent *event,
                        EWeekViewEventSpan *span,
                        gchar *text,
-                       gdouble red,
-                       gdouble green,
-                       gdouble blue)
+                       GdkRGBA bg_rgba)
 {
 	gdouble left_triangle_width = -1.0, right_triangle_width = -1.0;
 	struct tm date_tm;
@@ -1782,7 +1788,7 @@ print_week_long_event (GtkPrintContext *context,
 		right_triangle_width = 4;
 
 	print_border_with_triangles (
-		context, x1 + 6, x2 - 6, y1, y1 + row_height, 0.0, red, green, blue,
+		context, x1 + 6, x2 - 6, y1, y1 + row_height, 0.0, bg_rgba,
 		left_triangle_width, right_triangle_width);
 
 	x1 += 6;
@@ -1844,9 +1850,7 @@ print_week_day_event (GtkPrintContext *context,
                       EWeekViewEvent *event,
                       EWeekViewEventSpan *span,
                       gchar *text,
-                      gdouble red,
-                      gdouble green,
-                      gdouble blue)
+                      GdkRGBA bg_rgba)
 {
 	struct tm date_tm;
 	gchar buffer[32];
@@ -1861,7 +1865,7 @@ print_week_day_event (GtkPrintContext *context,
 
 	e_time_format_time (&date_tm, psi->use_24_hour_format, FALSE,
 			    buffer, sizeof (buffer));
-	print_rectangle (context, x1 + 1, y1, x2 - x1 - 2, row_height, red, green, blue);
+	print_rectangle (context, x1 + 1, y1, x2 - x1 - 2, row_height, bg_rgba);
 	x1 += print_text_line (
 		context, font, buffer, PANGO_ALIGN_LEFT,
 		x1 + 2, x2 - 3, y1, y1 + row_height, TRUE) + 4;
@@ -1900,7 +1904,7 @@ print_week_event (GtkPrintContext *context,
 	gchar *text;
 	gint num_days, start_x, start_y, start_h, end_x, end_y, end_h;
 	gdouble x1, x2, y1;
-	gdouble red, green, blue;
+	GdkRGBA bg_rgba;
 	GdkPixbuf *pixbuf = NULL;
 
 	if (!is_comp_data_valid (event))
@@ -1949,22 +1953,24 @@ print_week_event (GtkPrintContext *context,
 				 + psi->header_row_height
 				 + span->row * (psi->row_height + 2);
 
-			red = .9;
-			green = .9;
-			blue = .9;
-			e_cal_model_get_rgb_color_for_component (
-				model, event->comp_data, &red, &green, &blue);
+			if (!e_cal_model_get_rgba_for_component (model, event->comp_data, &bg_rgba)) {
+				bg_rgba.red = 0.9;
+				bg_rgba.green = 0.9;
+				bg_rgba.blue = 0.9;
+				bg_rgba.alpha = 1.0;
+			}
+
 			if (print_is_one_day_week_event (event, span,
 							 psi->day_starts)) {
 				print_week_day_event (
 					context, font, psi,
 					x1, x2, y1, psi->row_height,
-					event, span, text, red, green, blue);
+					event, span, text, bg_rgba);
 			} else {
 				print_week_long_event (
 					context, font, psi,
 					x1, x2, y1, psi->row_height,
-					event, span, text, red, green, blue);
+					event, span, text, bg_rgba);
 			}
 		} else {
 			cairo_t *cr = gtk_print_context_get_cairo_context (context);
