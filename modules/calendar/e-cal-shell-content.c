@@ -68,6 +68,9 @@ struct _ECalShellContentPrivate {
 	guint32 view_start_range_day_offset;
 	GDate last_range_start; /* because "date-range-changed" can be emit with no real change */
 
+	time_t previous_selected_start_time;
+	time_t previous_selected_end_time;
+
 	gulong current_view_id_changed_id;
 };
 
@@ -580,8 +583,18 @@ cal_shell_content_current_view_id_changed_cb (ECalShellContent *cal_shell_conten
 	model = e_cal_base_shell_content_get_model (E_CAL_BASE_SHELL_CONTENT (cal_shell_content));
 	work_day_first = e_cal_model_get_work_day_first (model);
 	week_start_day = e_cal_model_get_week_start_day (model);
-	sel_start = cal_shell_content->priv->view_start;
-	sel_end = cal_shell_content->priv->view_end;
+
+	if (cal_shell_content->priv->previous_selected_start_time != -1 &&
+	    cal_shell_content->priv->previous_selected_end_time != -1) {
+		icaltimezone *zone;
+
+		zone = e_cal_model_get_timezone (model);
+		time_to_gdate_with_zone (&sel_start, cal_shell_content->priv->previous_selected_start_time, zone);
+		time_to_gdate_with_zone (&sel_end, cal_shell_content->priv->previous_selected_end_time, zone);
+	} else {
+		sel_start = cal_shell_content->priv->view_start;
+		sel_end = cal_shell_content->priv->view_end;
+	}
 
 	switch (cal_shell_content->priv->current_view) {
 		case E_CAL_VIEW_KIND_DAY:
@@ -625,6 +638,22 @@ cal_shell_content_current_view_id_changed_cb (ECalShellContent *cal_shell_conten
 
 	/* Ensure a change */
 	e_cal_shell_content_change_view (cal_shell_content, cal_shell_content->priv->current_view, &sel_start, &sel_end, TRUE);
+
+	/* Try to preserve selection between the views */
+	if (cal_shell_content->priv->previous_selected_start_time != -1 &&
+	    cal_shell_content->priv->previous_selected_end_time != -1) {
+		if (cal_shell_content->priv->current_view >= E_CAL_VIEW_KIND_DAY &&
+		    cal_shell_content->priv->current_view < E_CAL_VIEW_KIND_LAST) {
+			ECalendarView *cal_view = cal_shell_content->priv->views[cal_shell_content->priv->current_view];
+
+			e_calendar_view_set_selected_time_range (cal_view,
+				cal_shell_content->priv->previous_selected_start_time,
+				cal_shell_content->priv->previous_selected_end_time);
+		}
+	}
+
+	cal_shell_content->priv->previous_selected_start_time = -1;
+	cal_shell_content->priv->previous_selected_end_time = -1;
 }
 
 static void
@@ -1093,6 +1122,9 @@ cal_shell_content_notify_work_day_cb (ECalModel *model,
 	    work_day_last == g_date_get_weekday (&cal_shell_content->priv->view_end))
 		return;
 
+	cal_shell_content->priv->previous_selected_start_time = -1;
+	cal_shell_content->priv->previous_selected_end_time = -1;
+
 	/* This makes sure that the selection in the datepicker corresponds
 	   to the time range used in the Work Week view */
 	cal_shell_content_current_view_id_changed_cb (cal_shell_content);
@@ -1105,6 +1137,9 @@ cal_shell_content_notify_week_start_day_cb (ECalModel *model,
 {
 	g_return_if_fail (E_IS_CAL_MODEL (model));
 	g_return_if_fail (E_IS_CAL_SHELL_CONTENT (cal_shell_content));
+
+	cal_shell_content->priv->previous_selected_start_time = -1;
+	cal_shell_content->priv->previous_selected_end_time = -1;
 
 	/* This makes sure that the selection in the datepicker corresponds
 	   to the time range used in the current view */
@@ -1787,6 +1822,8 @@ e_cal_shell_content_init (ECalShellContent *cal_shell_content)
 	g_date_set_time_t (&cal_shell_content->priv->view_end, now);
 
 	cal_shell_content->priv->view_start_range_day_offset = (guint32) -1;
+	cal_shell_content->priv->previous_selected_start_time = -1;
+	cal_shell_content->priv->previous_selected_end_time = -1;
 }
 
 void
@@ -1879,6 +1916,7 @@ void
 e_cal_shell_content_set_current_view_id (ECalShellContent *cal_shell_content,
 					 ECalViewKind view_kind)
 {
+	time_t start_time = -1, end_time = -1;
 	gint ii;
 
 	g_return_if_fail (E_IS_CAL_SHELL_CONTENT (cal_shell_content));
@@ -1886,6 +1924,19 @@ e_cal_shell_content_set_current_view_id (ECalShellContent *cal_shell_content,
 
 	if (cal_shell_content->priv->current_view == view_kind)
 		return;
+
+	if (cal_shell_content->priv->current_view >= E_CAL_VIEW_KIND_DAY &&
+	    cal_shell_content->priv->current_view < E_CAL_VIEW_KIND_LAST) {
+		ECalendarView *cal_view = cal_shell_content->priv->views[cal_shell_content->priv->current_view];
+
+		if (!e_calendar_view_get_selected_time_range (cal_view, &start_time, &end_time)) {
+			start_time = -1;
+			end_time = -1;
+		}
+	}
+
+	cal_shell_content->priv->previous_selected_start_time = start_time;
+	cal_shell_content->priv->previous_selected_end_time = end_time;
 
 	for (ii = 0; ii < E_CAL_VIEW_KIND_LAST; ii++) {
 		ECalendarView *cal_view = cal_shell_content->priv->views[ii];
