@@ -773,7 +773,7 @@ ect_draw (ECellView *ecell_view,
 		}
 
 		if (!color_overwritten && ect->bg_color_column != -1) {
-			GdkColor bg_color;
+			GdkRGBA bg_rgba;
 			gchar *color_spec;
 
 			/* if the background color is overwritten and the text color is not, then
@@ -783,27 +783,20 @@ ect_draw (ECellView *ecell_view,
 				ecell_view->e_table_model,
 				ect->bg_color_column, row);
 
-			if (color_spec && gdk_color_parse (color_spec, &bg_color)) {
-				guint16 red, green, blue;
-				gdouble	cc = 65535.0;
-				GdkRGBA rgba;
+			if (color_spec && gdk_rgba_parse (&bg_rgba, color_spec)) {
+				bg_rgba.alpha = 1.0;
 
-				red = bg_color.red;
-				green = bg_color.green;
-				blue = bg_color.blue;
-				rgba.alpha = 1.0;
-
-				if ((red / cc > 0.7) || (green / cc > 0.7) || (blue / cc > 0.7)) {
-					rgba.red = 0.0;
-					rgba.green = 0.0;
-					rgba.blue = 0.0;
+				if ((bg_rgba.red > 0.7) || (bg_rgba.green > 0.7) || (bg_rgba.blue > 0.7)) {
+					bg_rgba.red = 0.0;
+					bg_rgba.green = 0.0;
+					bg_rgba.blue = 0.0;
 				} else {
-					rgba.red = 1.0;
-					rgba.green = 1.0;
-					rgba.blue = 1.0;
+					bg_rgba.red = 1.0;
+					bg_rgba.green = 1.0;
+					bg_rgba.blue = 1.0;
 				}
 
-				gdk_cairo_set_source_rgba (cr, &rgba);
+				gdk_cairo_set_source_rgba (cr, &bg_rgba);
 			}
 
 			if (color_spec)

@@ -292,7 +292,7 @@ week_view_event_item_button_release (EWeekViewEventItem *event_item,
 
 static void
 week_view_draw_time (EWeekView *week_view,
-		     GdkColor bg_color,
+		     GdkRGBA bg_rgba,
                      cairo_t *cr,
                      gint time_x,
                      gint time_y,
@@ -308,11 +308,10 @@ week_view_draw_time (EWeekView *week_view,
 	PangoFontDescription *small_font_desc;
 	PangoContext *pango_context;
 	GdkColor color;
-	gdouble	cc = 65535.0;
 
 	color.pixel = 0;
 
-	if ((bg_color.red / cc > 0.7) || (bg_color.green / cc > 0.7) || (bg_color.blue / cc > 0.7)) {
+	if ((bg_rgba.red > 0.7) || (bg_rgba.green > 0.7) || (bg_rgba.blue > 0.7)) {
 		color.red = 0.0;
 		color.green = 0.0;
 		color.blue = 0.0;
@@ -549,20 +548,18 @@ week_view_event_item_draw_icons (EWeekViewEventItem *event_item,
 static void
 week_view_event_item_draw_triangle (EWeekViewEventItem *event_item,
                                     cairo_t *cr,
-                                    GdkColor bg_color,
+                                    GdkRGBA bg_rgba,
                                     gint x,
                                     gint y,
                                     gint w,
                                     gint h,
                                     cairo_region_t *draw_region)
 {
-	ECalModel *model;
 	EWeekView *week_view;
 	EWeekViewEvent *event;
 	GnomeCanvas *canvas;
 	GtkWidget *parent;
 	GdkPoint points[3];
-	const gchar *color_spec;
 	gint c1, c2;
 
 	if (!can_draw_in_region (draw_region, x, y, w, h))
@@ -588,22 +585,7 @@ week_view_event_item_draw_triangle (EWeekViewEventItem *event_item,
 	points[2].x = x;
 	points[2].y = y + h - 1;
 
-	model = e_calendar_view_get_model (E_CALENDAR_VIEW (week_view));
-
-	color_spec =
-		e_cal_model_get_color_for_component (model, event->comp_data);
-
-	if (gdk_color_parse (color_spec, &bg_color)) {
-		gdk_cairo_set_source_color (cr, &bg_color);
-	} else {
-		EWeekViewColors wvc;
-		GdkColor *color;
-
-		wvc = E_WEEK_VIEW_COLOR_EVENT_BACKGROUND;
-		color = &week_view->colors[wvc];
-
-		gdk_cairo_set_source_color (cr, color);
-	}
+	gdk_cairo_set_source_rgba (cr, &bg_rgba);
 
 	cairo_save (cr);
 	cairo_set_line_width (cr, 0.7);
@@ -744,14 +726,11 @@ week_view_event_item_draw (GnomeCanvasItem *canvas_item,
 	gint start_hour, start_minute, end_hour, end_minute;
 	gboolean draw_start, draw_end;
 	gboolean draw_start_triangle = FALSE, draw_end_triangle = FALSE;
-	GdkColor bg_color;
+	GdkRGBA bg_rgba;
 	cairo_pattern_t *pat;
-	guint16 red, green, blue;
 	gdouble radius, cx0, cy0, rect_height, rect_width;
-	gdouble cc = 65535.0;
 	cairo_region_t *draw_region;
 	GdkRectangle rect;
-	const gchar *color_spec;
 
 	event_item = E_WEEK_VIEW_EVENT_ITEM (canvas_item);
 	parent = gtk_widget_get_parent (GTK_WIDGET (canvas_item->canvas));
@@ -828,17 +807,14 @@ week_view_event_item_draw (GnomeCanvasItem *canvas_item,
 
 	model = e_calendar_view_get_model (E_CALENDAR_VIEW (week_view));
 
-	color_spec =
-		e_cal_model_get_color_for_component (model, event->comp_data);
+	if (!e_cal_model_get_rgba_for_component (model, event->comp_data, &bg_rgba)) {
+		gdouble cc = 65535.0;
 
-	bg_color = week_view->colors[E_WEEK_VIEW_COLOR_EVENT_BACKGROUND];
-	if (!gdk_color_parse (color_spec, &bg_color)) {
-		bg_color = week_view->colors[E_WEEK_VIEW_COLOR_EVENT_BACKGROUND];
+		bg_rgba.red = week_view->colors[E_WEEK_VIEW_COLOR_EVENT_BACKGROUND].red / cc;
+		bg_rgba.green = week_view->colors[E_WEEK_VIEW_COLOR_EVENT_BACKGROUND].green / cc;
+		bg_rgba.blue = week_view->colors[E_WEEK_VIEW_COLOR_EVENT_BACKGROUND].blue / cc;
+		bg_rgba.alpha = 1.0;
 	}
-
-	red = bg_color.red;
-	green = bg_color.green;
-	blue = bg_color.blue;
 
 	if (one_day_event) {
 		time_x = x1 + E_WEEK_VIEW_EVENT_L_PAD + 1;
@@ -857,7 +833,7 @@ week_view_event_item_draw (GnomeCanvasItem *canvas_item,
 			cairo_save (cr);
 			draw_curved_rectangle (cr, cx0, cy0, rect_width, rect_height, radius);
 			cairo_set_line_width (cr, 2.0);
-			cairo_set_source_rgb (cr, red / cc, green / cc, blue / cc);
+			gdk_cairo_set_source_rgba (cr, &bg_rgba);
 			cairo_stroke (cr);
 			cairo_restore (cr);
 		}
@@ -878,14 +854,12 @@ week_view_event_item_draw (GnomeCanvasItem *canvas_item,
 
 			pat = cairo_pattern_create_linear (
 				rect_x + 2, y1 + 1, rect_x + 2, y2 - 7.25);
-			cairo_pattern_add_color_stop_rgba (
-				pat, 1, red / cc, green / cc, blue / cc, 0.8);
-			cairo_pattern_add_color_stop_rgba (
-				pat, 0, red / cc, green / cc, blue / cc, 0.4);
+			cairo_pattern_add_color_stop_rgba (pat, 1, bg_rgba.red, bg_rgba.green, bg_rgba.blue, 0.8 * bg_rgba.alpha);
+			cairo_pattern_add_color_stop_rgba (pat, 0, bg_rgba.red, bg_rgba.green, bg_rgba.blue, 0.4 * bg_rgba.alpha);
 			cairo_set_source (cr, pat);
 			cairo_fill_preserve (cr);
 			cairo_pattern_destroy (pat);
-			cairo_set_source_rgba (cr, red / cc, green / cc, blue / cc, 0.2);
+			cairo_set_source_rgba (cr, bg_rgba.red, bg_rgba.green, bg_rgba.blue, 0.2 * bg_rgba.alpha);
 			cairo_set_line_width (cr, 0.5);
 			cairo_stroke (cr);
 			cairo_restore (cr);
@@ -918,7 +892,7 @@ week_view_event_item_draw (GnomeCanvasItem *canvas_item,
 
 		if (draw_start) {
 			week_view_draw_time (
-				week_view, bg_color, cr, time_x,
+				week_view, bg_rgba, cr, time_x,
 				time_y, start_hour, start_minute);
 			time_x += time_width;
 		}
@@ -926,7 +900,7 @@ week_view_event_item_draw (GnomeCanvasItem *canvas_item,
 		if (draw_end) {
 			time_x += E_WEEK_VIEW_EVENT_TIME_SPACING;
 			week_view_draw_time (
-				week_view, bg_color, cr, time_x,
+				week_view, bg_rgba, cr, time_x,
 				time_y, end_hour, end_minute);
 			time_x += time_width;
 		}
@@ -974,7 +948,7 @@ week_view_event_item_draw (GnomeCanvasItem *canvas_item,
 			cairo_save (cr);
 			draw_curved_rectangle (cr, cx0, cy0, rect_width, rect_height, radius);
 			cairo_set_line_width (cr, 2.0);
-			cairo_set_source_rgb (cr, red / cc, green / cc, blue / cc);
+			gdk_cairo_set_source_rgba (cr, &bg_rgba);
 			cairo_stroke (cr);
 			cairo_restore (cr);
 		}
@@ -993,16 +967,13 @@ week_view_event_item_draw (GnomeCanvasItem *canvas_item,
 			draw_curved_rectangle (
 				cr, cx0, cy0, rect_width, rect_height, radius);
 
-			pat = cairo_pattern_create_linear (
-				rect_x + 2, y1 + 1, rect_x + 2, y2 - 7.25);
-			cairo_pattern_add_color_stop_rgba (
-				pat, 1, red / cc, green / cc, blue / cc, 0.8);
-			cairo_pattern_add_color_stop_rgba (
-				pat, 0, red / cc, green / cc, blue / cc, 0.4);
+			pat = cairo_pattern_create_linear (rect_x + 2, y1 + 1, rect_x + 2, y2 - 7.25);
+			cairo_pattern_add_color_stop_rgba (pat, 1, bg_rgba.red, bg_rgba.green, bg_rgba.blue, 0.8 * bg_rgba.alpha);
+			cairo_pattern_add_color_stop_rgba (pat, 0, bg_rgba.red, bg_rgba.green, bg_rgba.blue, 0.4 * bg_rgba.alpha);
 			cairo_set_source (cr, pat);
 			cairo_fill_preserve (cr);
 			cairo_pattern_destroy (pat);
-			cairo_set_source_rgba (cr, red / cc, green / cc, blue / cc, 0.2);
+			cairo_set_source_rgba (cr, bg_rgba.red, bg_rgba.green, bg_rgba.blue, 0.2 * bg_rgba.alpha);
 			cairo_set_line_width (cr, 0.5);
 			cairo_stroke (cr);
 			cairo_restore (cr);
@@ -1010,7 +981,7 @@ week_view_event_item_draw (GnomeCanvasItem *canvas_item,
 
 		if (draw_start_triangle) {
 			week_view_event_item_draw_triangle (
-				event_item, cr, bg_color,
+				event_item, cr, bg_rgba,
 				x1 + E_WEEK_VIEW_EVENT_L_PAD + 2,
 				y1, -3, y2 - y1 + 1, draw_region);
 		} else if (can_draw_in_region (draw_region, rect_x, y1, 1, y2 - y1)) {
@@ -1031,7 +1002,7 @@ week_view_event_item_draw (GnomeCanvasItem *canvas_item,
 
 		if (draw_end_triangle) {
 			week_view_event_item_draw_triangle (
-				event_item, cr, bg_color,
+				event_item, cr, bg_rgba,
 				x2 - E_WEEK_VIEW_EVENT_R_PAD - 2,
 				y1, 3, y2 - y1 + 1, draw_region);
 		} else if (can_draw_in_region (draw_region, rect_x2, y2, 1, 1)) {
@@ -1081,7 +1052,7 @@ week_view_event_item_draw (GnomeCanvasItem *canvas_item,
 			cairo_clip (cr);
 
 			week_view_draw_time (
-				week_view, bg_color, cr, time_x,
+				week_view, bg_rgba, cr, time_x,
 				time_y, start_hour, start_minute);
 
 			cairo_restore (cr);
@@ -1109,7 +1080,7 @@ week_view_event_item_draw (GnomeCanvasItem *canvas_item,
 			 * the minimum calculated above. */
 			if (time_x >= min_end_time_x) {
 				week_view_draw_time (
-					week_view, bg_color, cr, time_x,
+					week_view, bg_rgba, cr, time_x,
 					time_y, end_hour, end_minute);
 				max_icon_x -= time_width
 					+ E_WEEK_VIEW_EVENT_TIME_X_PAD;

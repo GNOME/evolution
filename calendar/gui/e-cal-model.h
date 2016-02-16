@@ -346,6 +346,10 @@ gchar *		e_cal_model_get_attendees_status_info
 const gchar *	e_cal_model_get_color_for_component
 						(ECalModel *model,
 						 ECalModelComponent *comp_data);
+gboolean	e_cal_model_get_rgba_for_component
+						(ECalModel *model,
+						 ECalModelComponent *comp_data,
+						 GdkRGBA *rgba);
 gboolean	e_cal_model_get_rgb_color_for_component
 						(ECalModel *model,
 						 ECalModelComponent *comp_data,
