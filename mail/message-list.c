@@ -3814,6 +3814,9 @@ clear_tree (MessageList *message_list,
 	message_list_tree_model_insert (message_list, NULL, 0, NULL);
 	g_warn_if_fail (message_list->priv->tree_model_root != NULL);
 
+	/* Also reset cursor node, it had been just erased */
+	e_tree_set_cursor (E_TREE (message_list), message_list->priv->tree_model_root);
+
 	if (tfree)
 		e_tree_model_rebuilt (tree_model);
 #ifdef TIMEIT
@@ -4969,7 +4972,7 @@ on_cursor_activated_cmd (ETree *tree,
 	MessageList *message_list = MESSAGE_LIST (user_data);
 	const gchar *new_uid;
 
-	if (node == NULL)
+	if (node == NULL || G_NODE_IS_ROOT (node))
 		new_uid = NULL;
 	else
 		new_uid = get_message_uid (message_list, node);
