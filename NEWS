@@ -1,3 +1,9 @@
+Evolution 3.18.5.1 2016-02-18
+-----------------------------
+
+Bug Fixes:
+	Correct typo in the fix for bug 761883 (Milan Crha)
+
 Evolution 3.18.5 2016-02-15
 ---------------------------
 
