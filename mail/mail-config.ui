@@ -283,7 +283,7 @@
                     </child>
                     <child>
                       <object class="GtkCheckButton" id="chkUnicodeSmileys">
-                        <property name="label" translatable="yes">Use Unicode characters for smile_ys</property>
+                        <property name="label" translatable="yes">Use Un_icode characters for emoticons</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>

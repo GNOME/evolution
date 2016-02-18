@@ -62,8 +62,8 @@
     </key>
     <key name="composer-unicode-smileys" type="b">
       <default>false</default>
-      <_summary>Unicode smileys</_summary>
-      <_description>Use Unicode characters for smileys.</_description>
+      <_summary>Unicode emoticons</_summary>
+      <_description>Use Unicode characters for emoticons.</_description>
     </key>
     <key name="composer-message-attribution" type="s">
       <default>''</default>
