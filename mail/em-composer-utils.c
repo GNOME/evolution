@@ -379,22 +379,42 @@ composer_presend_check_recipients (EMsgComposer *composer,
 	}
 
 	settings = e_util_ref_settings ("org.gnome.evolution.mail");
-	if (num_to_cc >= g_settings_get_int (settings, "composer-many-to-cc-recips-num")) {
-		gchar *num_str;
+	if (num_to_cc > 1 && num_to_cc >= g_settings_get_int (settings, "composer-many-to-cc-recips-num")) {
+		gchar *head;
+		gchar *msg;
 
 		g_clear_object (&settings);
 
-		num_str = g_strdup_printf ("%d", num_to_cc);
+		head = g_strdup_printf (ngettext (
+			/* Translators: The %d is replaced with the actual count of recipients, which is always more than one. */
+			"Are you sure you want to send a message with %d To and CC recipients?",
+			"Are you sure you want to send a message with %d To and CC recipients?",
+			num_to_cc), num_to_cc);
+
+		msg = g_strdup_printf (ngettext (
+			/* Translators: The %d is replaced with the actual count of recipients, which is always more than one. */
+			"You are trying to send a message to %d recipients in To and CC fields."
+			" This would result in all recipients seeing the email addresses of each"
+			" other. In some cases this behaviour is undesired, especially if they"
+			" do not know each other or if privacy is a concern. Consider adding"
+			" recipients to the BCC field instead.",
+			"You are trying to send a message to %d recipients in To and CC fields."
+			" This would result in all recipients seeing the email addresses of each"
+			" other. In some cases this behaviour is undesired, especially if they"
+			" do not know each other or if privacy is a concern. Consider adding"
+			" recipients to the BCC field instead.",
+			num_to_cc), num_to_cc);
 
 		if (!e_util_prompt_user (
 			GTK_WINDOW (composer),
 			"org.gnome.evolution.mail",
 			"prompt-on-many-to-cc-recips",
 			"mail:ask-many-to-cc-recips",
-			num_str, NULL)) {
+			head, msg, NULL)) {
 			GtkAction *action;
 
-			g_free (num_str);
+			g_free (head);
+			g_free (msg);
 
 			action = E_COMPOSER_ACTION_VIEW_BCC (composer);
 			gtk_toggle_action_set_active (GTK_TOGGLE_ACTION (action), TRUE);
@@ -402,7 +422,8 @@ composer_presend_check_recipients (EMsgComposer *composer,
 			goto finished;
 		}
 
-		g_free (num_str);
+		g_free (head);
+		g_free (msg);
 	}
 	g_clear_object (&settings);
 
