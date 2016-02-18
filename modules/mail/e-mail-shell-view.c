@@ -702,7 +702,7 @@ all_accounts:
 	/* If the search text is empty, cancel any
 	 * account-wide searches still in progress. */
 	text = e_shell_searchbar_get_search_text (searchbar);
-	if (text == NULL || *text == '\0') {
+	if ((text == NULL || *text == '\0') && !e_shell_view_get_search_rule (shell_view)) {
 		CamelStore *selected_store = NULL;
 		gchar *selected_folder_name = NULL;
 
@@ -810,7 +810,7 @@ current_account:
 	/* If the search text is empty, cancel any
 	 * account-wide searches still in progress. */
 	text = e_shell_searchbar_get_search_text (searchbar);
-	if (text == NULL || *text == '\0') {
+	if ((text == NULL || *text == '\0') && !e_shell_view_get_search_rule (shell_view)) {
 		CamelStore *selected_store = NULL;
 		gchar *selected_folder_name = NULL;
 
@@ -1004,7 +1004,6 @@ mail_shell_view_update_actions (EShellView *shell_view)
 	EMailReader *reader;
 	EMailView *mail_view;
 	GtkAction *action;
-	GtkActionGroup *action_group;
 	CamelStore *store = NULL;
 	GList *list, *link;
 	gchar *folder_name = NULL;
@@ -1130,14 +1129,6 @@ mail_shell_view_update_actions (EShellView *shell_view)
 		}
 	}
 	g_list_free (list);
-
-	action_group = E_SHELL_WINDOW_ACTION_GROUP_CUSTOM_RULES (shell_window);
-	sensitive = folder_is_selected && folder_tree_and_message_list_agree;
-	gtk_action_group_set_sensitive (action_group, sensitive);
-
-	action = E_SHELL_WINDOW_ACTION_SEARCH_ADVANCED (shell_window);
-	sensitive = folder_is_selected && folder_tree_and_message_list_agree;
-	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (MAIL_ACCOUNT_DISABLE);
 	sensitive = folder_is_store && store_can_be_disabled;
