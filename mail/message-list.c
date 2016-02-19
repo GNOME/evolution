@@ -2030,6 +2030,9 @@ ml_tree_value_at_ex (ETreeModel *etm,
 		g_hash_table_destroy (ld.labels_tag2iter);
 		return (gpointer) g_string_free (result, FALSE);
 	}
+	case COL_UID: {
+		return (gpointer) camel_pstring_strdup (camel_message_info_uid (msg_info));
+	}
 	default:
 		g_warning ("%s: This shouldn't be reached (col:%d)", G_STRFUNC, col);
 		return NULL;
@@ -3195,6 +3198,9 @@ message_list_duplicate_value (ETreeModel *tree_model,
 		case COL_FOLLOWUP_FLAG_STATUS:
 			return (gpointer) value;
 
+		case COL_UID:
+			return (gpointer) camel_pstring_strdup (value);
+
 		case COL_FROM:
 		case COL_SUBJECT:
 		case COL_TO:
@@ -3254,6 +3260,10 @@ message_list_free_value (ETreeModel *tree_model,
 		case COL_ITALIC:
 			break;
 
+		case COL_UID:
+			camel_pstring_free (value);
+			break;
+
 		case COL_LOCATION:
 		case COL_SENDER:
 		case COL_RECIPIENTS:
@@ -3294,6 +3304,7 @@ message_list_initialize_value (ETreeModel *tree_model,
 		case COL_FOLLOWUP_FLAG:
 		case COL_FOLLOWUP_FLAG_STATUS:
 		case COL_FOLLOWUP_DUE_BY:
+		case COL_UID:
 			return NULL;
 
 		case COL_LOCATION:
@@ -3341,6 +3352,7 @@ message_list_value_is_empty (ETreeModel *tree_model,
 		case COL_MIXED_SENDER:
 		case COL_MIXED_RECIPIENTS:
 		case COL_LABELS:
+		case COL_UID:
 			return !(value && *(gchar *) value);
 
 		default:
@@ -3397,6 +3409,7 @@ message_list_value_to_string (ETreeModel *tree_model,
 		case COL_MIXED_SENDER:
 		case COL_MIXED_RECIPIENTS:
 		case COL_LABELS:
+		case COL_UID:
 			return g_strdup (value);
 
 		default:

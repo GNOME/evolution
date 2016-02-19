@@ -78,6 +78,8 @@ enum {
 	COL_SUBJECT_NORM,
 	COL_TO_NORM,
 
+	COL_UID,
+
 	COL_LAST,
 
 	/* Invisible columns */
