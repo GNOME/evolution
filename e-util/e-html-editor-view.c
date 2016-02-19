@@ -5435,8 +5435,6 @@ selection_is_in_empty_list_item (WebKitDOMNode *selection_start_marker)
 	gchar *text;
 	WebKitDOMNode *sibling;
 
-	sibling = webkit_dom_node_get_previous_sibling (WEBKIT_DOM_NODE (selection_start_marker));
-
 	/* Selection needs to be collapsed. */
 	sibling = webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (selection_start_marker));
 	if (!e_html_editor_node_is_selection_position_node (sibling))
@@ -5450,8 +5448,7 @@ selection_is_in_empty_list_item (WebKitDOMNode *selection_start_marker)
 	if (sibling && webkit_dom_node_get_next_sibling (sibling))
 		return FALSE;
 
-	if (!sibling)
-		return TRUE;
+	sibling = webkit_dom_node_get_previous_sibling (WEBKIT_DOM_NODE (selection_start_marker));
 
 	/* Only text node with the zero width space character is allowed. */
 	if (!WEBKIT_DOM_IS_TEXT (sibling))
