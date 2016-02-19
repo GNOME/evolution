@@ -233,6 +233,20 @@ spell_entry_store_word (gchar ***set,
 	memcpy ((*set)[n_word], word_start, bytes);
 }
 
+static gboolean
+entry_is_word_char (gunichar uc)
+{
+	if (uc == L'\'') {
+		PangoLanguage *current_locale = pango_language_get_default ();
+
+		/* English locales use apostrophes as part of the word */
+		if (pango_language_matches (current_locale, "en"))
+			return TRUE;
+	}
+
+	return g_unichar_isalnum (uc) || g_unichar_ismark (uc);
+}
+
 static void
 entry_strsplit_utf8 (GtkEntry *entry,
                      gchar ***set,
@@ -249,7 +263,7 @@ entry_strsplit_utf8 (GtkEntry *entry,
 	n_strings = 0;
 	word_start = NULL;
 	for (ptr = text; *ptr; ptr = g_utf8_next_char (ptr)) {
-		if (g_unichar_isspace (g_utf8_get_char (ptr))) {
+		if (!entry_is_word_char (g_utf8_get_char (ptr))) {
 			word_start = NULL;
 		} else if (!word_start) {
 			n_strings++;
@@ -265,7 +279,7 @@ entry_strsplit_utf8 (GtkEntry *entry,
 	word_start = NULL;
 	n_word = -1;
 	for (ptr = text; *ptr; ptr = g_utf8_next_char (ptr)) {
-		if (g_unichar_isspace (g_utf8_get_char (ptr))) {
+		if (!entry_is_word_char (g_utf8_get_char (ptr))) {
 			if (word_start)
 				spell_entry_store_word (set, starts, ends, text, n_word, n_strings, word_start, ptr);
 			word_start = NULL;
