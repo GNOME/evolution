@@ -34,6 +34,7 @@
   <ETableColumn model_col="18"  _title="Labels" expansion="1.0" minimum_width="32" resizable="true" cell="render_text" compare="stringcase" search="string" priority="10"/>
 
   <ETableColumn model_col="19" compare_col="21" _title="Subject - Trimmed" expansion="1.6" minimum_width="32" resizable="true" cell="render_tree" compare="stringcase" search="string"/>
+  <ETableColumn model_col="23" _title="UID" expansion="0.0" minimum_width="32" resizable="true" cell="render_text" compare="string" search="string"/>
 
   <ETableState>
     <column source="0"/> <column source="3"/> <column source="1"/>
