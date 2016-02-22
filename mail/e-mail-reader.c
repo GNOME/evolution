@@ -2931,6 +2931,19 @@ discard_timeout_mark_seen_cb (EMailReader *reader)
 	return FALSE;
 }
 
+
+static void
+mail_reader_preview_pane_visible_changed_cb (EMailReader *reader,
+					     GParamSpec *param,
+					     GtkWidget *widget)
+{
+	g_return_if_fail (E_IS_MAIL_READER (reader));
+	g_return_if_fail (GTK_IS_WIDGET (widget));
+
+	if (!gtk_widget_get_visible (widget))
+		discard_timeout_mark_seen_cb (reader);
+}
+
 static void
 mail_reader_remove_followup_alert (EMailReader *reader)
 {
@@ -4419,6 +4432,10 @@ connect_signals:
 	g_signal_connect_swapped (
 		message_list, "right-click",
 		G_CALLBACK (discard_timeout_mark_seen_cb), reader);
+
+	g_signal_connect_swapped (
+		e_mail_reader_get_preview_pane (reader), "notify::visible",
+		G_CALLBACK (mail_reader_preview_pane_visible_changed_cb), reader);
 
 	g_signal_connect_after (
 		message_list, "message-list-built",
