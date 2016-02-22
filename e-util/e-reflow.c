@@ -733,24 +733,21 @@ connect_adjustment (EReflow *reflow,
 		G_CALLBACK (adjustment_changed), reflow);
 }
 
-#if 0
 static void
-set_scroll_adjustments (GtkLayout *layout,
-                        GtkAdjustment *hadj,
-                        GtkAdjustment *vadj,
+set_scroll_adjustments (GnomeCanvas *canvas,
+                        GParamSpec *param,
                         EReflow *reflow)
 {
-	connect_adjustment (reflow, hadj);
+	connect_adjustment (reflow, gtk_scrollable_get_hadjustment (GTK_SCROLLABLE (GNOME_CANVAS_ITEM (reflow)->canvas)));
 }
 
 static void
 connect_set_adjustment (EReflow *reflow)
 {
 	reflow->set_scroll_adjustments_id = g_signal_connect (
-		GNOME_CANVAS_ITEM (reflow)->canvas, "set_scroll_adjustments",
+		GNOME_CANVAS_ITEM (reflow)->canvas, "notify::hadjustment",
 		G_CALLBACK (set_scroll_adjustments), reflow);
 }
-#endif
 
 static void
 disconnect_set_adjustment (EReflow *reflow)
@@ -942,9 +939,7 @@ e_reflow_realize (GnomeCanvasItem *item)
 
 	adjustment = gtk_scrollable_get_hadjustment (GTK_SCROLLABLE (item->canvas));
 
-#if 0
 	connect_set_adjustment (reflow);
-#endif
 	connect_adjustment (reflow, adjustment);
 
 	page_size = gtk_adjustment_get_page_size (adjustment);
