@@ -234,36 +234,43 @@ spell_entry_store_word (gchar ***set,
 }
 
 static gboolean
-entry_is_word_char (gunichar uc)
+entry_is_word_char (gunichar uc,
+		    gboolean has_en_language)
 {
-	if (uc == L'\'') {
-		PangoLanguage *current_locale = pango_language_get_default ();
-
-		/* English locales use apostrophes as part of the word */
-		if (pango_language_matches (current_locale, "en"))
-			return TRUE;
-	}
-
-	return g_unichar_isalnum (uc) || g_unichar_ismark (uc);
+	return (uc == L'\'' && has_en_language) ||
+		g_unichar_isalnum (uc) ||
+		g_unichar_ismark (uc);
 }
 
 static void
-entry_strsplit_utf8 (GtkEntry *entry,
+entry_strsplit_utf8 (ESpellEntry *entry,
                      gchar ***set,
                      gint **starts,
                      gint **ends)
 {
 	const gchar *text, *ptr, *word_start;
 	gint n_strings, n_word;
+	gchar **active_languages;
+	guint n_languages, ii;
+	gboolean has_en_language = FALSE;
 
 	text = gtk_entry_get_text (GTK_ENTRY (entry));
 	g_return_if_fail (g_utf8_validate (text, -1, NULL));
+
+	active_languages = e_spell_checker_list_active_languages (entry->priv->spell_checker, &n_languages);
+	for (ii = 0; active_languages && ii < n_languages && !has_en_language; ii++) {
+		has_en_language =
+			g_ascii_strncasecmp (active_languages[ii], "en", 2) == 0 &&
+			(!active_languages[ii][2] || active_languages[ii][2] == '_');
+	}
+
+	g_strfreev (active_languages);
 
 	/* Find how many words we have */
 	n_strings = 0;
 	word_start = NULL;
 	for (ptr = text; *ptr; ptr = g_utf8_next_char (ptr)) {
-		if (!entry_is_word_char (g_utf8_get_char (ptr))) {
+		if (!entry_is_word_char (g_utf8_get_char (ptr), has_en_language)) {
 			word_start = NULL;
 		} else if (!word_start) {
 			n_strings++;
@@ -279,7 +286,7 @@ entry_strsplit_utf8 (GtkEntry *entry,
 	word_start = NULL;
 	n_word = -1;
 	for (ptr = text; *ptr; ptr = g_utf8_next_char (ptr)) {
-		if (!entry_is_word_char (g_utf8_get_char (ptr))) {
+		if (!entry_is_word_char (g_utf8_get_char (ptr), has_en_language)) {
 			if (word_start)
 				spell_entry_store_word (set, starts, ends, text, n_word, n_strings, word_start, ptr);
 			word_start = NULL;
@@ -374,7 +381,7 @@ add_to_dictionary (GtkWidget *menuitem,
 	}
 
 	entry_strsplit_utf8 (
-		GTK_ENTRY (entry),
+		entry,
 		&entry->priv->words,
 		&entry->priv->word_starts,
 		&entry->priv->word_ends);
@@ -406,7 +413,7 @@ ignore_all (GtkWidget *menuitem,
 	}
 
 	entry_strsplit_utf8 (
-		GTK_ENTRY (entry),
+		entry,
 		&entry->priv->words,
 		&entry->priv->word_starts,
 		&entry->priv->word_ends);
@@ -724,7 +731,7 @@ spell_entry_changed (GtkEditable *editable)
 	}
 
 	entry_strsplit_utf8 (
-		GTK_ENTRY (entry),
+		entry,
 		&entry->priv->words,
 		&entry->priv->word_starts,
 		&entry->priv->word_ends);
