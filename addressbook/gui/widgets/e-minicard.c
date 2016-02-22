@@ -711,9 +711,97 @@ e_minicard_event (GnomeCanvasItem *item,
 					return TRUE;
 				}
 			}
-		}
-		else if (event->key.keyval == GDK_KEY_Return ||
-				event->key.keyval == GDK_KEY_KP_Enter) {
+		} else if (event->key.keyval == GDK_KEY_Left ||
+			   event->key.keyval == GDK_KEY_Right) {
+			EMinicardView *view = E_MINICARD_VIEW (item->parent);
+			EReflow *reflow = E_REFLOW (view);
+			gdouble current_x, current_y, adept_x, adept_y, check_x;
+			gint row_count, model_index, view_index, inc, ii, adept_index = -1;
+
+			if (!reflow ||
+			    (event->key.state & GDK_SHIFT_MASK) != 0 ||
+			    (event->key.state & GDK_CONTROL_MASK) != 0)
+				return FALSE;
+
+			inc = event->key.keyval == GDK_KEY_Left ? -1 : +1;
+			row_count = e_selection_model_row_count (reflow->selection);
+			model_index = e_selection_model_cursor_row (reflow->selection);
+			view_index = e_sorter_model_to_sorted (reflow->selection->sorter, model_index);
+
+			g_object_get (G_OBJECT (item),
+				"x", &current_x,
+				"y", &current_y,
+				NULL);
+
+			check_x = current_x;
+
+			for (ii = view_index + inc; ii >= 0 && ii < row_count; ii += inc) {
+				gdouble xx, yy;
+
+				model_index = e_sorter_sorted_to_model (E_SORTER (reflow->sorter), ii);
+				if (reflow->items[model_index] == NULL) {
+					reflow->items[model_index] = e_reflow_model_incarnate (reflow->model, model_index, GNOME_CANVAS_GROUP (reflow));
+					g_object_set (
+						reflow->items[model_index],
+						"width", (gdouble) reflow->column_width,
+						NULL);
+				}
+
+				g_object_get (G_OBJECT (reflow->items[model_index]),
+					"x", &xx,
+					"y", &yy,
+					NULL);
+
+				/* Is it a different column? */
+				if (xx - check_x > 1e-9 || xx - check_x < -1e-9) {
+					if (adept_index == -1) {
+						check_x = xx;
+						adept_index = model_index;
+						adept_x = xx;
+						adept_y = yy;
+						continue;
+					} else
+						break;
+				} else if (adept_index == -1) {
+					continue;
+				}
+
+				#define SQR(x) ((x) * (x))
+				#define distance(x1, y1, x2, y2) (SQR ((x1) - (x2)) + SQR ((y1) - (y2)))
+
+				if (distance (adept_x, adept_y, current_x, current_y) >
+				    distance (xx, yy, current_x, current_y)) {
+					adept_index = model_index;
+					adept_x = xx;
+					adept_y = yy;
+				}
+
+				#undef distance
+				#undef SQR
+			}
+
+			if (adept_index == -1 && row_count > 0) {
+				if (inc == -1)
+					adept_index = e_sorter_sorted_to_model (reflow->selection->sorter, 0);
+				else
+					adept_index = e_sorter_sorted_to_model (reflow->selection->sorter, row_count - 1);
+			}
+
+			if (adept_index != -1) {
+				if (reflow->items[adept_index] == NULL) {
+					reflow->items[adept_index] = e_reflow_model_incarnate (reflow->model, adept_index, GNOME_CANVAS_GROUP (reflow));
+					g_object_set (
+						reflow->items[adept_index],
+						"width", (gdouble) reflow->column_width,
+						NULL);
+				}
+
+				e_canvas_item_grab_focus (reflow->items[adept_index], FALSE);
+			}
+
+			return TRUE;
+		} else if (event->key.keyval == GDK_KEY_Return ||
+			   event->key.keyval == GDK_KEY_KP_Enter) {
 			e_minicard_activate_editor (e_minicard);
 			return TRUE;
 		}
