@@ -2257,11 +2257,6 @@ wrap_lines (WebKitDOMDocument *document,
 
 							text_node = webkit_dom_text_split_text (
 								WEBKIT_DOM_TEXT (node), 1, NULL);
-							webkit_dom_node_insert_before (
-								webkit_dom_node_get_parent_node (node),
-								node,
-								webkit_dom_node_get_previous_sibling (node),
-								NULL);
 							node = WEBKIT_DOM_NODE (text_node);
 						}
 					}
