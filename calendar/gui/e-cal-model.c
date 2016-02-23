@@ -505,16 +505,16 @@ set_classification (ECalModelComponent *comp_data,
 			icalproperty_free (prop);
 		}
 	} else {
-	  icalproperty_class ical_class;
+		icalproperty_class ical_class;
 
-	  if (!g_ascii_strcasecmp (value, "PUBLIC"))
-	    ical_class = ICAL_CLASS_PUBLIC;
-	  else if (!g_ascii_strcasecmp (value, "PRIVATE"))
-	    ical_class = ICAL_CLASS_PRIVATE;
-	  else if (!g_ascii_strcasecmp (value, "CONFIDENTIAL"))
-	    ical_class = ICAL_CLASS_CONFIDENTIAL;
-	  else
-	    ical_class = ICAL_CLASS_NONE;
+		if (!g_ascii_strcasecmp (value, "PUBLIC"))
+			ical_class = ICAL_CLASS_PUBLIC;
+		else if (!g_ascii_strcasecmp (value, "PRIVATE"))
+			ical_class = ICAL_CLASS_PRIVATE;
+		else if (!g_ascii_strcasecmp (value, "CONFIDENTIAL"))
+			ical_class = ICAL_CLASS_CONFIDENTIAL;
+		else
+			ical_class = ICAL_CLASS_NONE;
 
 		if (!prop) {
 			prop = icalproperty_new_class (ical_class);
@@ -1385,6 +1385,7 @@ cal_model_create_component_from_values_thread (EAlertSinkThreadJobData *job_data
 	ESource *source;
 	EClient *client;
 	ECalModelComponent *comp_data;
+	icalproperty *prop;
 	const gchar *source_uid;
 	gchar *display_name;
 	GError *local_error = NULL;
@@ -1457,6 +1458,23 @@ cal_model_create_component_from_values_thread (EAlertSinkThreadJobData *job_data
 		model_class = E_CAL_MODEL_GET_CLASS (ccd->model);
 		if (model_class->fill_component_from_values != NULL) {
 			model_class->fill_component_from_values (ccd->model, comp_data, ccd->values);
+		}
+
+		prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_CLASS_PROPERTY);
+		if (!prop || icalproperty_get_class (prop) == ICAL_CLASS_NONE) {
+			icalproperty_class ical_class = ICAL_CLASS_PUBLIC;
+			GSettings *settings;
+
+			settings = e_util_ref_settings ("org.gnome.evolution.calendar");
+			if (g_settings_get_boolean (settings, "classify-private"))
+				ical_class = ICAL_CLASS_PRIVATE;
+			g_object_unref (settings);
+
+			if (!prop) {
+				prop = icalproperty_new_class (ical_class);
+				icalcomponent_add_property (comp_data->icalcomp, prop);
+			} else
+				icalproperty_set_class (prop, ical_class);
 		}
 
 		ccd->success = e_cal_client_create_object_sync (comp_data->client, comp_data->icalcomp, &uid, cancellable, error);

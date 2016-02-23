@@ -874,6 +874,12 @@ calendar_preferences_construct (ECalendarPreferences *prefs,
 		widget, "sensitive",
 		G_SETTINGS_BIND_GET);
 
+	widget = e_builder_get_widget (prefs->builder, "classify-private");
+	g_settings_bind (
+		settings, "classify-private",
+		widget, "active",
+		G_SETTINGS_BIND_DEFAULT);
+
 	/* These settings control the "Birthdays & Anniversaries" backend. */
 
 	eds_settings =

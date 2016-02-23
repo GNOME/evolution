@@ -171,6 +171,7 @@ e_cal_ops_create_component (ECalModel *model,
 {
 	ECalDataModel *data_model;
 	ESource *source;
+	icalproperty *prop;
 	const gchar *description;
 	const gchar *alert_ident;
 	gchar *display_name;
@@ -209,6 +210,23 @@ e_cal_ops_create_component (ECalModel *model,
 	bod->create_cb = callback;
 	bod->user_data = user_data;
 	bod->user_data_free = user_data_free;
+
+	prop = icalcomponent_get_first_property (bod->icalcomp, ICAL_CLASS_PROPERTY);
+	if (!prop || icalproperty_get_class (prop) == ICAL_CLASS_NONE) {
+		icalproperty_class ical_class = ICAL_CLASS_PUBLIC;
+		GSettings *settings;
+
+		settings = e_util_ref_settings ("org.gnome.evolution.calendar");
+		if (g_settings_get_boolean (settings, "classify-private"))
+			ical_class = ICAL_CLASS_PRIVATE;
+		g_object_unref (settings);
+
+		if (!prop) {
+			prop = icalproperty_new_class (ical_class);
+			icalcomponent_add_property (bod->icalcomp, prop);
+		} else
+			icalproperty_set_class (prop, ical_class);
+	}
 
 	display_name = e_util_get_source_full_name (e_cal_model_get_registry (model), source);
 	cancellable = e_cal_data_model_submit_thread_job (data_model, description, alert_ident,

@@ -1134,18 +1134,31 @@ e_comp_editor_property_part_classification_new (void)
 		{ ICAL_CLASS_PRIVATE,      NC_("ECompEditor", "Private"),      FALSE, NULL },
 		{ ICAL_CLASS_CONFIDENTIAL, NC_("ECompEditor", "Confidential"), FALSE, NULL }
 	};
+	GSettings *settings;
+	ECompEditorPropertyPart *part;
+	gboolean classify_private;
 	gint ii, n_elems = G_N_ELEMENTS (map);
 
 	for (ii = 0; ii < n_elems; ii++) {
 		map[ii].description = g_dpgettext2 (GETTEXT_PACKAGE, "ECompEditor", map[ii].description);
 	}
 
-	return e_comp_editor_property_part_picker_with_map_new (map, n_elems,
+	settings = e_util_ref_settings ("org.gnome.evolution.calendar");
+	classify_private = g_settings_get_boolean (settings, "classify-private");
+	g_object_unref (settings);
+
+	part = e_comp_editor_property_part_picker_with_map_new (map, n_elems,
 		C_("ECompEditor", "C_lassification:"),
 		ICAL_CLASS_PROPERTY,
 		(ECompEditorPropertyPartPickerMapICalNewFunc) icalproperty_new_class,
 		(ECompEditorPropertyPartPickerMapICalSetFunc) icalproperty_set_class,
 		(ECompEditorPropertyPartPickerMapICalGetFunc) icalproperty_get_class);
+
+	e_comp_editor_property_part_picker_with_map_set_selected (
+		E_COMP_EDITOR_PROPERTY_PART_PICKER_WITH_MAP (part),
+		classify_private ? ICAL_CLASS_PRIVATE : ICAL_CLASS_PUBLIC);
+
+	return part;
 }
 
 /* ************************************************************************* */
