@@ -20,3 +20,5 @@ libmodulemailwebextension_la_LIBADD =			\
 
 libmodulemailwebextension_la_LDFLAGS =			\
 	-module -avoid-version -no-undefined
+
+-include $(top_srcdir)/git.mk

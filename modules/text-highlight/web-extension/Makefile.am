@@ -20,3 +20,5 @@ libmoduletexthighlightwebextension_la_LIBADD =		\
 
 libmoduletexthighlightwebextension_la_LDFLAGS =		\
 	-module -avoid-version -no-undefined
+
+-include $(top_srcdir)/git.mk

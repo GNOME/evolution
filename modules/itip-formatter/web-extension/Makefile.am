@@ -22,3 +22,5 @@ libmoduleitipformatterwebextension_la_LIBADD =		\
 
 libmoduleitipformatterwebextension_la_LDFLAGS =		\
 	-module -avoid-version -no-undefined
+
+-include $(top_srcdir)/git.mk

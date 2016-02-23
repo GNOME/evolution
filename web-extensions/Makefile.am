@@ -44,3 +44,5 @@ libewebextension_la_LIBADD =				\
 
 libewebextension_la_LDFLAGS =				\
 	-module -avoid-version -no-undefined
+
+-include $(top_srcdir)/git.mk

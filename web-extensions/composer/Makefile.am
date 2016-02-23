@@ -51,3 +51,5 @@ libehtmleditorwebextension_la_LIBADD =			\
 
 libehtmleditorwebextension_la_LDFLAGS =			\
 	-module -avoid-version -no-undefined
+
+-include $(top_srcdir)/git.mk
