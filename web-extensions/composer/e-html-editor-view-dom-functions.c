@@ -706,8 +706,9 @@ dom_insert_new_line_into_citation (WebKitDOMDocument *document,
 		paragraph = dom_prepare_paragraph (document, extension, FALSE);
 		webkit_dom_element_set_inner_html (
 			paragraph, html_to_insert, NULL);
-		dom_add_selection_markers_into_element_end (
-			document, paragraph, NULL, NULL);
+		if (!webkit_dom_element_query_selector (paragraph, "#-x-evo-selection-start-marker", NULL))
+			dom_add_selection_markers_into_element_end (
+				document, paragraph, NULL, NULL);
 	} else
 		paragraph = dom_prepare_paragraph (document, extension, TRUE);
 
