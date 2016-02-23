@@ -2757,10 +2757,11 @@ dom_quote_and_insert_text_into_selection (WebKitDOMDocument *document,
 	g_free (escaped_text);
 }
 
-static gboolean
+gboolean
 dom_change_quoted_block_to_normal (WebKitDOMDocument *document,
                                    EHTMLEditorWebExtension *extension)
 {
+	EHTMLEditorHistoryEvent *ev = NULL;
 	gboolean html_mode;
 	gint citation_level, success = FALSE;
 	WebKitDOMElement *selection_start_marker, *selection_end_marker, *block;
@@ -2810,13 +2811,18 @@ dom_change_quoted_block_to_normal (WebKitDOMDocument *document,
 	if (!success)
 		return FALSE;
 
+	ev = g_new0 (EHTMLEditorHistoryEvent, 1);
+	ev->type = HISTORY_UNQUOTE;
+
+	dom_selection_get_coordinates (document, &ev->before.start.x, &ev->before.start.y, &ev->before.end.x, &ev->before.end.y);
+	ev->data.dom.from = webkit_dom_node_clone_node (WEBKIT_DOM_NODE (block), TRUE);
+
 	if (citation_level == 1) {
 		gchar *inner_html;
 		WebKitDOMElement *paragraph;
 
 		inner_html = webkit_dom_element_get_inner_html (block);
-		webkit_dom_element_set_id (
-			WEBKIT_DOM_ELEMENT (block), "-x-evo-to-remove");
+		webkit_dom_element_set_id (block, "-x-evo-to-remove");
 
 		paragraph = dom_insert_new_line_into_citation (document, extension, inner_html);
 		g_free (inner_html);
@@ -2933,6 +2939,20 @@ dom_change_quoted_block_to_normal (WebKitDOMDocument *document,
 		webkit_dom_node_normalize (WEBKIT_DOM_NODE (block));
 		dom_quote_plain_text_element_after_wrapping (document, block, citation_level - 1);
 
+	}
+
+	if (ev) {
+		EHTMLEditorUndoRedoManager *manager;
+
+		manager = e_html_editor_web_extension_get_undo_redo_manager (extension);
+
+		dom_selection_get_coordinates (
+			document,
+			&ev->after.start.x,
+			&ev->after.start.y,
+			&ev->after.end.x,
+			&ev->after.end.y);
+		e_html_editor_undo_redo_manager_insert_history_event (manager, ev);
 	}
 
 	return success;

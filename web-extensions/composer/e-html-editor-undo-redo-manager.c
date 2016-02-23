@@ -244,6 +244,7 @@ print_history_event (EHTMLEditorHistoryEvent *event)
 		case HISTORY_CELL_DIALOG:
 		case HISTORY_TABLE_DIALOG:
 		case HISTORY_PAGE_DIALOG:
+		case HISTORY_UNQUOTE:
 			print_node_inner_html (event->data.dom.from);
 			print_node_inner_html (event->data.dom.to);
 			break;
@@ -1437,6 +1438,66 @@ undo_redo_blockquote (WebKitDOMDocument *document,
 		dom_selection_restore (document);
 }
 
+static void
+undo_redo_unquote (WebKitDOMDocument *document,
+		   EHTMLEditorWebExtension *extension,
+		   EHTMLEditorHistoryEvent *event,
+                   gboolean undo)
+{
+	WebKitDOMElement *element;
+
+	if (undo)
+		restore_selection_to_history_event_state (document, event->after);
+
+	dom_selection_save (document);
+	element = webkit_dom_document_get_element_by_id (
+		document, "-x-evo-selection-start-marker");
+
+	if (undo) {
+		WebKitDOMNode *next_sibling, *prev_sibling;
+		WebKitDOMElement *block;
+
+		block = get_parent_block_element (WEBKIT_DOM_NODE (element));
+
+		next_sibling = webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (block));
+		prev_sibling = webkit_dom_node_get_previous_sibling (WEBKIT_DOM_NODE (block));
+
+		if (prev_sibling && dom_node_is_citation_node (prev_sibling)) {
+			webkit_dom_node_append_child (
+				prev_sibling,
+				webkit_dom_node_clone_node (event->data.dom.from, TRUE),
+				NULL);
+
+			if (next_sibling && dom_node_is_citation_node (next_sibling)) {
+				WebKitDOMNode *child;
+
+				while  ((child = webkit_dom_node_get_first_child (next_sibling)))
+					webkit_dom_node_append_child (
+						prev_sibling, child, NULL);
+
+				remove_node (next_sibling);
+			}
+		} else if (next_sibling && dom_node_is_citation_node (next_sibling)) {
+			webkit_dom_node_insert_before (
+				next_sibling,
+				webkit_dom_node_clone_node (event->data.dom.from, TRUE),
+				webkit_dom_node_get_first_child (next_sibling),
+				NULL);
+		}
+
+		remove_node (WEBKIT_DOM_NODE (block));
+	} else {
+		dom_change_quoted_block_to_normal (document, extension);
+	}
+
+	if (undo)
+		restore_selection_to_history_event_state (document, event->before);
+	else
+		dom_selection_restore (document);
+
+	dom_force_spell_check_for_current_paragraph (document, extension);
+}
+
 gboolean
 e_html_editor_undo_redo_manager_is_operation_in_progress (EHTMLEditorUndoRedoManager *manager)
 {
@@ -1486,6 +1547,7 @@ free_history_event_content (EHTMLEditorHistoryEvent *event)
 		case HISTORY_TABLE_DIALOG:
 		case HISTORY_TABLE_INPUT:
 		case HISTORY_PAGE_DIALOG:
+		case HISTORY_UNQUOTE:
 			if (event->data.dom.from != NULL)
 				g_object_unref (event->data.dom.from);
 			if (event->data.dom.to != NULL)
@@ -1765,6 +1827,9 @@ e_html_editor_undo_redo_manager_undo (EHTMLEditorUndoRedoManager *manager)
 		case HISTORY_BLOCKQUOTE:
 			undo_redo_blockquote (document, extension, event, TRUE);
 			break;
+		case HISTORY_UNQUOTE:
+			undo_redo_unquote (document, extension, event, TRUE);
+			break;
 		default:
 			g_object_unref (extension);
 			return;
@@ -1878,6 +1943,9 @@ e_html_editor_undo_redo_manager_redo (EHTMLEditorUndoRedoManager *manager)
 			break;
 		case HISTORY_BLOCKQUOTE:
 			undo_redo_blockquote (document, extension, event, FALSE);
+			break;
+		case HISTORY_UNQUOTE:
+			undo_redo_unquote (document, extension, event, FALSE);
 			break;
 		default:
 			g_object_unref (extension);

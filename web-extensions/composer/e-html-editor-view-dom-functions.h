@@ -153,6 +153,10 @@ void		dom_drag_and_drop_end		(WebKitDOMDocument *document,
 void		dom_set_link_color		(WebKitDOMDocument *document,
 						 const gchar *color);
 
+gboolean	dom_change_quoted_block_to_normal
+						(WebKitDOMDocument *document,
+						 EHTMLEditorWebExtension *extension);
+
 G_END_DECLS
 
 #endif /* E_HTML_EDITOR_VIEW_DOM_FUNCTIONS_H */
