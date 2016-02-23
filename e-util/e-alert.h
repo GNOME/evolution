@@ -103,6 +103,9 @@ void		e_alert_add_action		(EAlert *alert,
 						 GtkAction *action,
 						 gint response_id);
 GList *		e_alert_peek_actions		(EAlert *alert);
+void		e_alert_add_widget		(EAlert *alert,
+						 GtkWidget *widget);
+GList *		e_alert_peek_widgets		(EAlert *alert);
 GtkWidget *	e_alert_create_image		(EAlert *alert,
 						 GtkIconSize size);
 void		e_alert_response		(EAlert *alert,

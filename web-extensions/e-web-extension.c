@@ -23,6 +23,7 @@
 #include "e-web-extension-names.h"
 
 #include <gio/gio.h>
+#include <glib/gstdio.h>
 #include <gtk/gtk.h>
 
 #include <string.h>
@@ -52,7 +53,7 @@ static CamelDataCache *emd_global_http_cache = NULL;
 
 static const char introspection_xml[] =
 "<node>"
-"  <interface name='"E_WEB_EXTENSION_INTERFACE"'>"
+"  <interface name='" E_WEB_EXTENSION_INTERFACE "'>"
 "    <signal name='HeadersCollapsed'>"
 "      <arg type='b' name='expanded' direction='out'/>"
 "    </signal>"
@@ -543,7 +544,14 @@ image_exists_in_cache (const gchar *image_uri)
 		emd_global_http_cache, "http", hash);
 
 	if (filename != NULL) {
+		struct stat st;
+
 		exists = g_file_test (filename, G_FILE_TEST_EXISTS);
+		if (exists && g_stat (filename, &st) == 0) {
+			exists = st.st_size != 0;
+		} else {
+			exists = FALSE;
+		}
 		g_free (filename);
 	}
 

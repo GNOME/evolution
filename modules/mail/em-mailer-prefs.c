@@ -83,6 +83,65 @@ static const struct {
 	{ N_("Immediately, on folder leave"), -1 }
 };
 
+#define RC_SECTION_KEY	"evolution-rc-section-key"
+#define RC_ENTRY_KEY	"evolution-rc-entry-key"
+#define RC_TREEVIEW_KEY	"evolution-rc-treeview-key"
+
+enum {
+	RC_SECTION_SITES = 1,
+	RC_SECTION_MAILS = 2
+};
+
+struct _EMMailerPrefsPrivate {
+	GtkBuilder *builder;
+	GSettings *settings;
+	EMailBackend *mail_backend;
+
+	/* General tab */
+
+	/* Message Display */
+	GtkSpinButton *timeout;
+
+	/* HTML Mail tab */
+	GtkFontButton *font_variable;
+	GtkFontButton *font_fixed;
+	GtkToggleButton *font_share;
+
+	GtkToggleButton *autodetect_links;
+
+	/* Labels and Colours tab */
+	GtkWidget *label_add;
+	GtkWidget *label_edit;
+	GtkWidget *label_remove;
+	GtkWidget *label_tree;
+	GtkListStore *label_list_store;
+
+	/* Headers tab */
+	GtkButton *add_header;
+	GtkButton *remove_header;
+	GtkEntry *entry_header;
+	GtkTreeView *header_list;
+	GtkListStore *header_list_store;
+
+	GtkToggleButton *junk_header_check;
+	GtkTreeView *junk_header_tree;
+	GtkListStore *junk_header_list_store;
+	GtkButton *junk_header_add;
+	GtkButton *junk_header_remove;
+	GtkToggleButton *junk_book_lookup;
+	GtkToggleButton *junk_lookup_local_only;
+
+	/* Remote Content section */
+	GtkWidget *rc_sites_entry;
+	GtkWidget *rc_sites_add_btn;
+	GtkWidget *rc_sites_tree_view;
+	GtkWidget *rc_sites_remove_btn;
+	GtkWidget *rc_mails_entry;
+	GtkWidget *rc_mails_add_btn;
+	GtkWidget *rc_mails_tree_view;
+	GtkWidget *rc_mails_remove_btn;
+};
+
 G_DEFINE_TYPE (
 	EMMailerPrefs,
 	em_mailer_prefs,
@@ -93,8 +152,8 @@ em_mailer_prefs_finalize (GObject *object)
 {
 	EMMailerPrefs *prefs = (EMMailerPrefs *) object;
 
-	g_object_unref (prefs->builder);
-	g_object_unref (prefs->settings);
+	g_object_unref (prefs->priv->builder);
+	g_object_unref (prefs->priv->settings);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (em_mailer_prefs_parent_class)->finalize (object);
@@ -105,6 +164,8 @@ em_mailer_prefs_class_init (EMMailerPrefsClass *class)
 {
 	GObjectClass *object_class;
 
+	g_type_class_add_private (class, sizeof (EMMailerPrefsPrivate));
+
 	object_class = G_OBJECT_CLASS (class);
 	object_class->finalize = em_mailer_prefs_finalize;
 }
@@ -112,7 +173,8 @@ em_mailer_prefs_class_init (EMMailerPrefsClass *class)
 static void
 em_mailer_prefs_init (EMMailerPrefs *preferences)
 {
-	preferences->settings = e_util_ref_settings ("org.gnome.evolution.mail");
+	preferences->priv = G_TYPE_INSTANCE_GET_PRIVATE (preferences, EM_TYPE_MAILER_PREFS, EMMailerPrefsPrivate);
+	preferences->priv->settings = e_util_ref_settings ("org.gnome.evolution.mail");
 }
 
 static gboolean
@@ -197,11 +259,11 @@ enum {
 static void
 jh_tree_refill (EMMailerPrefs *prefs)
 {
-	GtkListStore *store = prefs->junk_header_list_store;
+	GtkListStore *store = prefs->priv->junk_header_list_store;
 	gchar **strv;
 	gint ii;
 
-	strv = g_settings_get_strv (prefs->settings, "junk-custom-header");
+	strv = g_settings_get_strv (prefs->priv->settings, "junk-custom-header");
 
 	gtk_list_store_clear (store);
 
@@ -273,14 +335,14 @@ jh_add_cb (GtkWidget *widget,
 		name = gtk_entry_get_text (GTK_ENTRY (e_builder_get_widget (builder, "junk-header-name")));
 		value = gtk_entry_get_text (GTK_ENTRY (e_builder_get_widget (builder, "junk-header-content")));
 
-		strv = g_settings_get_strv (prefs->settings, "junk-custom-header");
+		strv = g_settings_get_strv (prefs->priv->settings, "junk-custom-header");
 		array = g_ptr_array_new ();
 		for (ii = 0; strv[ii] != NULL; ii++)
 			g_ptr_array_add (array, strv[ii]);
 		tok = g_strdup_printf ("%s=%s", name, value);
 		g_ptr_array_add (array, tok);
 		g_ptr_array_add (array, NULL);
-		g_settings_set_strv (prefs->settings, "junk-custom-header", (const gchar * const *) array->pdata);
+		g_settings_set_strv (prefs->priv->settings, "junk-custom-header", (const gchar * const *) array->pdata);
 
 		g_ptr_array_free (array, TRUE);
 		g_strfreev (strv);
@@ -303,14 +365,14 @@ jh_remove_cb (GtkWidget *widget,
 
 	g_return_if_fail (prefs != NULL);
 
-	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (prefs->junk_header_tree));
+	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (prefs->priv->junk_header_tree));
 	if (gtk_tree_selection_get_selected (selection, &model, &iter)) {
 		GPtrArray *array = g_ptr_array_new ();
 		gchar *name = NULL, *value = NULL;
 		gchar **strv;
 		gint ii;
 
-		strv = g_settings_get_strv (prefs->settings, "junk-custom-header");
+		strv = g_settings_get_strv (prefs->priv->settings, "junk-custom-header");
 		gtk_tree_model_get (model, &iter, JH_LIST_COLUMN_NAME, &name, JH_LIST_COLUMN_VALUE, &value, -1);
 		for (ii = 0; strv[ii] != NULL; ii++) {
 			gchar *test;
@@ -328,7 +390,7 @@ jh_remove_cb (GtkWidget *widget,
 
 		g_ptr_array_add (array, NULL);
 
-		g_settings_set_strv (prefs->settings, "junk-custom-header", (const gchar * const *) array->pdata);
+		g_settings_set_strv (prefs->priv->settings, "junk-custom-header", (const gchar * const *) array->pdata);
 
 		g_strfreev (strv);
 		g_ptr_array_free (array, TRUE);
@@ -367,7 +429,7 @@ static void
 emmp_header_remove_sensitivity (EMMailerPrefs *prefs)
 {
 	GtkTreeIter iter;
-	GtkTreeSelection *selection = gtk_tree_view_get_selection (prefs->header_list);
+	GtkTreeSelection *selection = gtk_tree_view_get_selection (prefs->priv->header_list);
 	gboolean is_default;
 
 	/* remove button should be sensitive if the currenlty selected entry in the list view
@@ -376,15 +438,15 @@ emmp_header_remove_sensitivity (EMMailerPrefs *prefs)
 	*/
 	if (gtk_tree_selection_get_selected (selection, NULL, &iter)) {
 		gtk_tree_model_get (
-			GTK_TREE_MODEL (prefs->header_list_store), &iter,
+			GTK_TREE_MODEL (prefs->priv->header_list_store), &iter,
 			HEADER_LIST_IS_DEFAULT_COLUMN, &is_default,
 			-1);
 		if (is_default)
-			gtk_widget_set_sensitive (GTK_WIDGET (prefs->remove_header), FALSE);
+			gtk_widget_set_sensitive (GTK_WIDGET (prefs->priv->remove_header), FALSE);
 		else
-			gtk_widget_set_sensitive (GTK_WIDGET (prefs->remove_header), TRUE);
+			gtk_widget_set_sensitive (GTK_WIDGET (prefs->priv->remove_header), TRUE);
 	} else {
-		gtk_widget_set_sensitive (GTK_WIDGET (prefs->remove_header), FALSE);
+		gtk_widget_set_sensitive (GTK_WIDGET (prefs->priv->remove_header), FALSE);
 	}
 }
 
@@ -412,33 +474,33 @@ emmp_header_add_sensitivity (EMMailerPrefs *prefs)
 	 * a valid header string, that is not a duplicate with something already
 	 * in the list view
 	*/
-	entry_contents = gtk_entry_get_text (GTK_ENTRY (prefs->entry_header));
+	entry_contents = gtk_entry_get_text (GTK_ENTRY (prefs->priv->entry_header));
 	if (!emmp_header_is_valid (entry_contents)) {
-		gtk_widget_set_sensitive (GTK_WIDGET (prefs->add_header), FALSE);
+		gtk_widget_set_sensitive (GTK_WIDGET (prefs->priv->add_header), FALSE);
 		return;
 	}
 
 	/* check if this is a duplicate */
-	valid = gtk_tree_model_get_iter_first (GTK_TREE_MODEL (prefs->header_list_store), &iter);
+	valid = gtk_tree_model_get_iter_first (GTK_TREE_MODEL (prefs->priv->header_list_store), &iter);
 	while (valid) {
 		gchar *header_name;
 
 		gtk_tree_model_get (
-			GTK_TREE_MODEL (prefs->header_list_store), &iter,
+			GTK_TREE_MODEL (prefs->priv->header_list_store), &iter,
 			HEADER_LIST_HEADER_COLUMN, &header_name,
 			-1);
 		if (g_ascii_strcasecmp (header_name, entry_contents) == 0) {
-			gtk_widget_set_sensitive (GTK_WIDGET (prefs->add_header), FALSE);
+			gtk_widget_set_sensitive (GTK_WIDGET (prefs->priv->add_header), FALSE);
 			g_free (header_name);
 			return;
 		}
 
 		g_free (header_name);
 
-		valid = gtk_tree_model_iter_next (GTK_TREE_MODEL (prefs->header_list_store), &iter);
+		valid = gtk_tree_model_iter_next (GTK_TREE_MODEL (prefs->priv->header_list_store), &iter);
 	}
 
-	gtk_widget_set_sensitive (GTK_WIDGET (prefs->add_header), TRUE);
+	gtk_widget_set_sensitive (GTK_WIDGET (prefs->priv->add_header), TRUE);
 }
 
 static void
@@ -452,7 +514,7 @@ emmp_save_headers (EMMailerPrefs *prefs)
 
 	g_variant_builder_init (&builder, G_VARIANT_TYPE ("a(sb)"));
 
-	model = GTK_TREE_MODEL (prefs->header_list_store);
+	model = GTK_TREE_MODEL (prefs->priv->header_list_store);
 	valid = gtk_tree_model_get_iter_first (model, &iter);
 
 	while (valid) {
@@ -475,7 +537,7 @@ emmp_save_headers (EMMailerPrefs *prefs)
 	}
 
 	variant = g_variant_builder_end (&builder);
-	g_settings_set_value (prefs->settings, "show-headers", variant);
+	g_settings_set_value (prefs->priv->settings, "show-headers", variant);
 }
 
 static void
@@ -483,7 +545,7 @@ emmp_header_list_enabled_toggled (GtkCellRendererToggle *cell,
                                   const gchar *path_string,
                                   EMMailerPrefs *prefs)
 {
-	GtkTreeModel *model = GTK_TREE_MODEL (prefs->header_list_store);
+	GtkTreeModel *model = GTK_TREE_MODEL (prefs->priv->header_list_store);
 	GtkTreePath *path = gtk_tree_path_new_from_string (path_string);
 	GtkTreeIter iter;
 	gint enabled;
@@ -505,9 +567,9 @@ static void
 emmp_header_add_header (GtkWidget *widget,
                         EMMailerPrefs *prefs)
 {
-	GtkTreeModel *model = GTK_TREE_MODEL (prefs->header_list_store);
+	GtkTreeModel *model = GTK_TREE_MODEL (prefs->priv->header_list_store);
 	GtkTreeIter iter;
-	const gchar *text = gtk_entry_get_text (prefs->entry_header);
+	const gchar *text = gtk_entry_get_text (prefs->priv->entry_header);
 
 	g_strstrip ((gchar *) text);
 
@@ -520,7 +582,7 @@ emmp_header_add_header (GtkWidget *widget,
 			HEADER_LIST_HEADER_COLUMN, text,
 			HEADER_LIST_IS_DEFAULT_COLUMN, FALSE,
 			-1);
-		gtk_entry_set_text (prefs->entry_header, "");
+		gtk_entry_set_text (prefs->priv->entry_header, "");
 		emmp_header_remove_sensitivity (prefs);
 		emmp_header_add_sensitivity (prefs);
 
@@ -533,11 +595,11 @@ emmp_header_remove_header (GtkWidget *button,
                            gpointer user_data)
 {
 	EMMailerPrefs *prefs = (EMMailerPrefs *) user_data;
-	GtkTreeModel *model = GTK_TREE_MODEL (prefs->header_list_store);
+	GtkTreeModel *model = GTK_TREE_MODEL (prefs->priv->header_list_store);
 	GtkTreeSelection *selection;
 	GtkTreeIter iter;
 
-	selection = gtk_tree_view_get_selection (prefs->header_list);
+	selection = gtk_tree_view_get_selection (prefs->priv->header_list);
 
 	if (!gtk_tree_selection_get_selected (selection, NULL, &iter))
 		return;
@@ -574,7 +636,7 @@ toggle_button_toggled (GtkToggleButton *toggle,
 
 	key = g_object_get_data ((GObject *) toggle, "key");
 	g_settings_set_boolean (
-		prefs->settings, key,
+		prefs->priv->settings, key,
 		gtk_toggle_button_get_active (toggle));
 }
 
@@ -584,7 +646,7 @@ junk_book_lookup_button_toggled (GtkToggleButton *toggle,
 {
 	toggle_button_toggled (toggle, prefs);
 	gtk_widget_set_sensitive (
-		GTK_WIDGET (prefs->junk_lookup_local_only),
+		GTK_WIDGET (prefs->priv->junk_lookup_local_only),
 		gtk_toggle_button_get_active (toggle));
 }
 
@@ -594,13 +656,13 @@ custom_junk_button_toggled (GtkToggleButton *toggle,
 {
 	toggle_button_toggled (toggle, prefs);
 	if (gtk_toggle_button_get_active (toggle)) {
-		gtk_widget_set_sensitive ((GtkWidget *) prefs->junk_header_remove, TRUE);
-		gtk_widget_set_sensitive ((GtkWidget *) prefs->junk_header_add, TRUE);
-		gtk_widget_set_sensitive ((GtkWidget *) prefs->junk_header_tree, TRUE);
+		gtk_widget_set_sensitive ((GtkWidget *) prefs->priv->junk_header_remove, TRUE);
+		gtk_widget_set_sensitive ((GtkWidget *) prefs->priv->junk_header_add, TRUE);
+		gtk_widget_set_sensitive ((GtkWidget *) prefs->priv->junk_header_tree, TRUE);
 	} else {
-		gtk_widget_set_sensitive ((GtkWidget *) prefs->junk_header_tree, FALSE);
-		gtk_widget_set_sensitive ((GtkWidget *) prefs->junk_header_add, FALSE);
-		gtk_widget_set_sensitive ((GtkWidget *) prefs->junk_header_remove, FALSE);
+		gtk_widget_set_sensitive ((GtkWidget *) prefs->priv->junk_header_tree, FALSE);
+		gtk_widget_set_sensitive ((GtkWidget *) prefs->priv->junk_header_add, FALSE);
+		gtk_widget_set_sensitive ((GtkWidget *) prefs->priv->junk_header_remove, FALSE);
 	}
 
 }
@@ -614,7 +676,7 @@ toggle_button_init (EMMailerPrefs *prefs,
 {
 	gboolean v_bool;
 
-	v_bool = g_settings_get_boolean (prefs->settings, key);
+	v_bool = g_settings_get_boolean (prefs->priv->settings, key);
 	gtk_toggle_button_set_active (toggle, not ? !v_bool : v_bool);
 
 	if (toggled) {
@@ -623,7 +685,7 @@ toggle_button_init (EMMailerPrefs *prefs,
 			toggle, "toggled", toggled, prefs);
 	}
 
-	if (!g_settings_is_writable (prefs->settings, key))
+	if (!g_settings_is_writable (prefs->priv->settings, key))
 		gtk_widget_set_sensitive (GTK_WIDGET (toggle), FALSE);
 }
 
@@ -638,7 +700,7 @@ trash_days_changed (GtkComboBox *combo_box,
 	g_return_if_fail (index < G_N_ELEMENTS (empty_trash_frequency));
 
 	g_settings_set_int (
-		prefs->settings,
+		prefs->priv->settings,
 		"trash-empty-on-exit-days",
 		empty_trash_frequency[index].days);
 }
@@ -652,7 +714,7 @@ emmp_empty_trash_init (EMMailerPrefs *prefs,
 	GtkTreeIter iter;
 
 	days = g_settings_get_int (
-		prefs->settings,
+		prefs->priv->settings,
 		"trash-empty-on-exit-days");
 
 	store = GTK_LIST_STORE (gtk_combo_box_get_model (combo_box));
@@ -688,7 +750,7 @@ junk_days_changed (GtkComboBox *combo_box,
 	g_return_if_fail (index < G_N_ELEMENTS (empty_trash_frequency));
 
 	g_settings_set_int (
-		prefs->settings,
+		prefs->priv->settings,
 		"junk-empty-on-exit-days",
 		empty_trash_frequency[index].days);
 }
@@ -702,7 +764,7 @@ emmp_empty_junk_init (EMMailerPrefs *prefs,
 	GtkTreeIter iter;
 
 	days = g_settings_get_int (
-		prefs->settings,
+		prefs->priv->settings,
 		"junk-empty-on-exit-days");
 
 	store = GTK_LIST_STORE (gtk_combo_box_get_model (combo_box));
@@ -785,7 +847,7 @@ emmp_widget_glade (EConfig *ec,
 {
 	EMMailerPrefs *prefs = data;
 
-	return e_builder_get_widget (prefs->builder, item->label);
+	return e_builder_get_widget (prefs->priv->builder, item->label);
 }
 
 /* plugin meta-data */
@@ -817,9 +879,262 @@ emmp_free (EConfig *ec,
 }
 
 static void
+rc_entry_changed_cb (GtkEntry *entry,
+		     GtkWidget *add_btn)
+{
+	const gchar *text;
+
+	text = gtk_entry_get_text (entry);
+
+	if (text && *text) {
+		gint ii;
+
+		for (ii = 0; text[ii]; ii++) {
+			if (text[ii] > 0 && text[ii] <= 32) {
+				/* It contains invalid letter */
+				text = NULL;
+				break;
+			}
+		}
+	}
+
+	gtk_widget_set_sensitive (add_btn, text && *text);
+}
+
+static void
+rc_add_btn_clicked_cb (GObject *button,
+		       EMMailerPrefs *prefs)
+{
+	gint rc_section;
+	GtkEntry *entry;
+	GtkTreeView *tree_view;
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+	gboolean done, found = FALSE;
+	gchar *text;
+
+	g_return_if_fail (GTK_IS_BUTTON (button));
+	g_return_if_fail (EM_IS_MAILER_PREFS (prefs));
+
+	rc_section = GPOINTER_TO_INT (g_object_get_data (button, RC_SECTION_KEY));
+	entry = g_object_get_data (button, RC_ENTRY_KEY);
+	tree_view = g_object_get_data (button, RC_TREEVIEW_KEY);
+
+	g_return_if_fail (GTK_IS_ENTRY (entry));
+	g_return_if_fail (GTK_IS_TREE_VIEW (tree_view));
+
+	text = g_strdup (gtk_entry_get_text (entry));
+	if (!text || !*text) {
+		g_free (text);
+		gtk_entry_set_text (entry, "");
+		return;
+	}
+
+	model = gtk_tree_view_get_model (tree_view);
+	done = !gtk_tree_model_get_iter_first (model, &iter);
+	while (!done && !found) {
+		gchar *stored = NULL;
+
+		gtk_tree_model_get (model, &iter, 0, &stored, -1);
+		if (stored && *stored) {
+			found = g_ascii_strcasecmp (stored, text) == 0;
+		}
+
+		g_free (stored);
+
+		done = !gtk_tree_model_iter_next (model, &iter);
+	}
+
+	if (!found) {
+		EMailRemoteContent *remote_content;
+
+		remote_content = e_mail_backend_get_remote_content (prefs->priv->mail_backend);
+
+		if (rc_section == RC_SECTION_SITES)
+			e_mail_remote_content_add_site (remote_content, text);
+		else
+			e_mail_remote_content_add_mail (remote_content, text);
+
+		gtk_list_store_append (GTK_LIST_STORE (model), &iter);
+		gtk_list_store_set (GTK_LIST_STORE (model), &iter, 0, text, -1);
+	}
+
+	g_free (text);
+	gtk_entry_set_text (entry, "");
+}
+
+static void
+rc_tree_view_selection_changed_cb (GtkTreeSelection *selection,
+				   GtkWidget *remove_btn)
+{
+	gtk_widget_set_sensitive (remove_btn, gtk_tree_selection_count_selected_rows (selection) > 0);
+}
+
+static void
+rc_remove_btn_clicked_cb (GObject *button,
+			  EMMailerPrefs *prefs)
+{
+	gint rc_section;
+	EMailRemoteContent *remote_content;
+	GtkTreeView *tree_view;
+	GtkTreeSelection *selection;
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+	GList *selected, *link, *references = NULL;
+
+	g_return_if_fail (GTK_IS_BUTTON (button));
+	g_return_if_fail (EM_IS_MAILER_PREFS (prefs));
+
+	rc_section = GPOINTER_TO_INT (g_object_get_data (button, RC_SECTION_KEY));
+	tree_view = g_object_get_data (button, RC_TREEVIEW_KEY);
+
+	g_return_if_fail (GTK_IS_TREE_VIEW (tree_view));
+
+	model = gtk_tree_view_get_model (tree_view);
+	selection = gtk_tree_view_get_selection (tree_view);
+	remote_content = e_mail_backend_get_remote_content (prefs->priv->mail_backend);
+
+	selected = gtk_tree_selection_get_selected_rows (selection, NULL);
+	for (link = selected; link; link = g_list_next (link)) {
+		GtkTreePath *path = link->data;
+
+		references = g_list_prepend (references, gtk_tree_row_reference_new (model, path));
+	}
+
+	g_list_free_full (selected, (GDestroyNotify) gtk_tree_path_free);
+
+	for (link = references; link; link = g_list_next (link)) {
+		GtkTreeRowReference *reference = link->data;
+		gchar *value = NULL;
+
+		if (!gtk_tree_row_reference_valid (reference) ||
+		    !gtk_tree_model_get_iter (model, &iter, gtk_tree_row_reference_get_path (reference)))
+			continue;
+
+		gtk_tree_model_get (model, &iter, 0, &value, -1);
+
+		if (!value)
+			continue;
+
+		if (rc_section == RC_SECTION_SITES)
+			e_mail_remote_content_remove_site (remote_content, value);
+		else
+			e_mail_remote_content_remove_mail (remote_content, value);
+
+		g_free (value);
+
+		gtk_list_store_remove (GTK_LIST_STORE (model), &iter);
+	}
+
+	g_list_free_full (references, (GDestroyNotify) gtk_tree_row_reference_free);
+}
+
+static void
+em_mailer_prefs_fill_remote_content_section (EMMailerPrefs *prefs,
+					     gint rc_section)
+{
+	EMailRemoteContent *remote_content;
+	GtkTreeView *tree_view;
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+	GtkListStore *list_store;
+	GSList *values, *link;
+
+	g_return_if_fail (EM_IS_MAILER_PREFS (prefs));
+	g_return_if_fail (rc_section == RC_SECTION_SITES || rc_section == RC_SECTION_MAILS);
+
+	remote_content = e_mail_backend_get_remote_content (prefs->priv->mail_backend);
+
+	if (rc_section == RC_SECTION_SITES) {
+		values = e_mail_remote_content_get_sites (remote_content);
+		tree_view = GTK_TREE_VIEW (prefs->priv->rc_sites_tree_view);
+	} else {
+		values = e_mail_remote_content_get_mails (remote_content);
+		tree_view = GTK_TREE_VIEW (prefs->priv->rc_mails_tree_view);
+	}
+
+	model = gtk_tree_view_get_model (tree_view);
+	list_store = GTK_LIST_STORE (model);
+
+	gtk_list_store_clear (list_store);
+
+	for (link = values; link; link = g_slist_next (link)) {
+		const gchar *value = link->data;
+
+		if (!value)
+			continue;
+
+		gtk_list_store_append (list_store, &iter);
+		gtk_list_store_set (list_store, &iter, 0, value, -1);
+	}
+
+	g_slist_free_full (values, g_free);
+}
+
+static void
+em_mailer_prefs_setup_remote_content_section (EMMailerPrefs *prefs,
+					      gint rc_section,
+					      GtkWidget *entry,
+					      GtkWidget *add_btn,
+					      GtkWidget *tree_view,
+					      GtkWidget *remove_btn)
+{
+	GtkTreeSelection *selection;
+	GtkCellRenderer *renderer;
+
+	g_return_if_fail (EM_IS_MAILER_PREFS (prefs));
+	g_return_if_fail (rc_section == RC_SECTION_SITES || rc_section == RC_SECTION_MAILS);
+	g_return_if_fail (GTK_IS_ENTRY (entry));
+	g_return_if_fail (GTK_IS_BUTTON (add_btn));
+	g_return_if_fail (GTK_IS_TREE_VIEW (tree_view));
+	g_return_if_fail (GTK_IS_BUTTON (remove_btn));
+
+	g_object_set_data (G_OBJECT (add_btn), RC_SECTION_KEY, GINT_TO_POINTER (rc_section));
+	g_object_set_data (G_OBJECT (add_btn), RC_ENTRY_KEY, entry);
+	g_object_set_data (G_OBJECT (add_btn), RC_TREEVIEW_KEY, tree_view);
+	g_object_set_data (G_OBJECT (remove_btn), RC_SECTION_KEY, GINT_TO_POINTER (rc_section));
+	g_object_set_data (G_OBJECT (remove_btn), RC_TREEVIEW_KEY, tree_view);
+
+	em_mailer_prefs_fill_remote_content_section (prefs, rc_section);
+
+	rc_entry_changed_cb (GTK_ENTRY (entry), add_btn);
+	g_signal_connect (entry, "changed", G_CALLBACK (rc_entry_changed_cb), add_btn);
+	g_signal_connect (add_btn, "clicked", G_CALLBACK (rc_add_btn_clicked_cb), prefs);
+
+	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (tree_view));
+
+	rc_tree_view_selection_changed_cb (selection, remove_btn);
+	g_signal_connect (selection, "changed", G_CALLBACK (rc_tree_view_selection_changed_cb), remove_btn);
+	g_signal_connect (remove_btn, "clicked", G_CALLBACK (rc_remove_btn_clicked_cb), prefs);
+
+	renderer = gtk_cell_renderer_text_new ();
+	gtk_tree_view_insert_column_with_attributes (
+		GTK_TREE_VIEW (tree_view), -1, "Value", renderer,
+		"text", 0,
+		NULL);
+}
+
+static void
+em_mailer_prefs_window_notify_visible_cb (EPreferencesWindow *preferences,
+					  GParamSpec *param,
+					  EMMailerPrefs *prefs)
+{
+	g_return_if_fail (EM_IS_MAILER_PREFS (prefs));
+
+	if (!gtk_widget_get_visible (GTK_WIDGET (preferences)))
+		return;
+
+	/* The EMailRemoteContent doesn't have any 'changed' signal, thus update
+	   the inner tree view content on the preferences window show. */
+	em_mailer_prefs_fill_remote_content_section (prefs, RC_SECTION_SITES);
+	em_mailer_prefs_fill_remote_content_section (prefs, RC_SECTION_MAILS);
+}
+
+static void
 em_mailer_prefs_construct (EMMailerPrefs *prefs,
                            EMailSession *session,
-                           EShell *shell)
+                           EShell *shell,
+			   EMailBackend *backend)
 {
 	GSettings *settings;
 	GHashTable *default_header_hash;
@@ -845,8 +1160,9 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 	 * GType before we load the GtkBuilder definition file. */
 	g_type_ensure (E_TYPE_MAIL_JUNK_OPTIONS);
 
-	prefs->builder = gtk_builder_new ();
-	e_load_ui_builder_definition (prefs->builder, "mail-config.ui");
+	prefs->priv->mail_backend = backend;
+	prefs->priv->builder = gtk_builder_new ();
+	e_load_ui_builder_definition (prefs->priv->builder, "mail-config.ui");
 
 	/** @HookPoint-EMConfig: Mail Preferences Page
 	 * @Id: org.gnome.evolution.mail.prefs
@@ -863,13 +1179,13 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 
 	/* General tab */
 
-	widget = e_builder_get_widget (prefs->builder, "chkCheckMailOnStart");
+	widget = e_builder_get_widget (prefs->priv->builder, "chkCheckMailOnStart");
 	g_settings_bind (
 		settings, "send-recv-on-start",
 		widget, "active",
 		G_SETTINGS_BIND_DEFAULT);
 
-	widget = e_builder_get_widget (prefs->builder, "chkCheckMailInAllOnStart");
+	widget = e_builder_get_widget (prefs->priv->builder, "chkCheckMailInAllOnStart");
 	g_settings_bind (
 		settings, "send-recv-all-on-start",
 		widget, "active",
@@ -881,7 +1197,7 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 
 	/* Message Display */
 
-	widget = e_builder_get_widget (prefs->builder, "chkMarkTimeout");
+	widget = e_builder_get_widget (prefs->priv->builder, "chkMarkTimeout");
 	g_settings_bind (
 		settings, "mark-seen",
 		widget, "active",
@@ -890,7 +1206,7 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 	/* The "mark seen" timeout requires special transform functions
 	 * because we display the timeout value to the user in seconds
 	 * but store the settings value in milliseconds. */
-	widget = e_builder_get_widget (prefs->builder, "spinMarkTimeout");
+	widget = e_builder_get_widget (prefs->priv->builder, "spinMarkTimeout");
 	g_settings_bind_with_mapping (
 		settings, "mark-seen-timeout",
 		widget, "value",
@@ -903,17 +1219,17 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 		widget, "sensitive",
 		G_SETTINGS_BIND_GET);
 
-	widget = e_builder_get_widget (prefs->builder, "view-check");
+	widget = e_builder_get_widget (prefs->priv->builder, "view-check");
 	g_settings_bind (
 		settings, "global-view-setting",
 		widget, "active",
 		G_SETTINGS_BIND_DEFAULT);
 
 	widget = e_charset_combo_box_new ();
-	container = e_builder_get_widget (prefs->builder, "hboxDefaultCharset");
+	container = e_builder_get_widget (prefs->priv->builder, "hboxDefaultCharset");
 	gtk_label_set_mnemonic_widget (
 		GTK_LABEL (e_builder_get_widget (
-		prefs->builder, "lblDefaultCharset")), widget);
+		prefs->priv->builder, "lblDefaultCharset")), widget);
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 	g_settings_bind (
@@ -921,13 +1237,13 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 		widget, "charset",
 		G_SETTINGS_BIND_DEFAULT);
 
-	widget = e_builder_get_widget (prefs->builder, "chkHighlightCitations");
+	widget = e_builder_get_widget (prefs->priv->builder, "chkHighlightCitations");
 	g_settings_bind (
 		settings, "mark-citations",
 		widget, "active",
 		G_SETTINGS_BIND_DEFAULT);
 
-	widget = e_builder_get_widget (prefs->builder, "colorButtonHighlightCitations");
+	widget = e_builder_get_widget (prefs->priv->builder, "colorButtonHighlightCitations");
 	g_settings_bind_with_mapping (
 		settings, "citation-color",
 		widget, "rgba",
@@ -940,41 +1256,41 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 		widget, "sensitive",
 		G_SETTINGS_BIND_DEFAULT);
 
-	widget = e_builder_get_widget (prefs->builder, "thread-by-subject");
+	widget = e_builder_get_widget (prefs->priv->builder, "thread-by-subject");
 	g_settings_bind (
 		settings, "thread-subject",
 		widget, "active",
 		G_SETTINGS_BIND_DEFAULT);
 
 	/* Deleting Mail */
-	widget = e_builder_get_widget (prefs->builder, "chkEmptyTrashOnExit");
+	widget = e_builder_get_widget (prefs->priv->builder, "chkEmptyTrashOnExit");
 	g_settings_bind (
 		settings, "trash-empty-on-exit",
 		widget, "active",
 		G_SETTINGS_BIND_DEFAULT);
 
-	widget = e_builder_get_widget (prefs->builder, "comboboxEmptyTrashDays");
+	widget = e_builder_get_widget (prefs->priv->builder, "comboboxEmptyTrashDays");
 	g_settings_bind (
 		settings, "trash-empty-on-exit",
 		widget, "sensitive",
 		G_SETTINGS_BIND_GET);
 	emmp_empty_trash_init (prefs, GTK_COMBO_BOX (widget));
 
-	widget = e_builder_get_widget (prefs->builder, "chkConfirmExpunge");
+	widget = e_builder_get_widget (prefs->priv->builder, "chkConfirmExpunge");
 	g_settings_bind (
 		settings, "prompt-on-expunge",
 		widget, "active",
 		G_SETTINGS_BIND_DEFAULT);
 
 	/* Mail Fonts */
-	widget = e_builder_get_widget (prefs->builder, "radFontUseSame");
+	widget = e_builder_get_widget (prefs->priv->builder, "radFontUseSame");
 	g_settings_bind (
 		settings, "use-custom-font",
 		widget, "active",
 		G_SETTINGS_BIND_DEFAULT |
 		G_SETTINGS_BIND_INVERT_BOOLEAN);
 
-	widget = e_builder_get_widget (prefs->builder, "FontFixed");
+	widget = e_builder_get_widget (prefs->priv->builder, "FontFixed");
 	g_settings_bind (
 		settings, "monospace-font",
 		widget, "font-name",
@@ -984,7 +1300,7 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 		widget, "sensitive",
 		G_SETTINGS_BIND_GET);
 
-	widget = e_builder_get_widget (prefs->builder, "FontVariable");
+	widget = e_builder_get_widget (prefs->priv->builder, "FontVariable");
 	g_settings_bind (
 		settings, "variable-width-font",
 		widget, "font-name",
@@ -998,11 +1314,11 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 
 	/* Loading Images */
 	writable = g_settings_is_writable (
-		prefs->settings, "image-loading-policy");
+		prefs->priv->settings, "image-loading-policy");
 
-	val = g_settings_get_enum (prefs->settings, "image-loading-policy");
+	val = g_settings_get_enum (prefs->priv->settings, "image-loading-policy");
 	widget = e_builder_get_widget (
-		prefs->builder, "radImagesNever");
+		prefs->priv->builder, "radImagesNever");
 	gtk_toggle_button_set_active (
 		GTK_TOGGLE_BUTTON (widget),
 		val == E_IMAGE_LOADING_POLICY_NEVER);
@@ -1013,7 +1329,7 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 		G_CALLBACK (image_loading_policy_never_cb), NULL);
 
 	widget = e_builder_get_widget (
-		prefs->builder, "radImagesSometimes");
+		prefs->priv->builder, "radImagesSometimes");
 	gtk_toggle_button_set_active (
 		GTK_TOGGLE_BUTTON (widget),
 		val == E_IMAGE_LOADING_POLICY_SOMETIMES);
@@ -1024,7 +1340,7 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 		G_CALLBACK (image_loading_policy_sometimes_cb), NULL);
 
 	widget = e_builder_get_widget (
-		prefs->builder, "radImagesAlways");
+		prefs->priv->builder, "radImagesAlways");
 	gtk_toggle_button_set_active (
 		GTK_TOGGLE_BUTTON (widget),
 		val == E_IMAGE_LOADING_POLICY_ALWAYS);
@@ -1034,19 +1350,19 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 		widget, "toggled",
 		G_CALLBACK (image_loading_policy_always_cb), NULL);
 
-	widget = e_builder_get_widget (prefs->builder, "chkShowAnimatedImages");
+	widget = e_builder_get_widget (prefs->priv->builder, "chkShowAnimatedImages");
 	g_settings_bind (
 		settings, "show-animated-images",
 		widget, "active",
 		G_SETTINGS_BIND_DEFAULT);
 
-	widget = e_builder_get_widget (prefs->builder, "chkPromptWantHTML");
+	widget = e_builder_get_widget (prefs->priv->builder, "chkPromptWantHTML");
 	g_settings_bind (
 		settings, "prompt-on-unwanted-html",
 		widget, "active",
 		G_SETTINGS_BIND_DEFAULT);
 
-	container = e_builder_get_widget (prefs->builder, "labels-alignment");
+	container = e_builder_get_widget (prefs->priv->builder, "labels-alignment");
 	widget = e_mail_label_manager_new ();
 	gtk_container_add (GTK_CONTAINER (container), widget);
 	gtk_widget_show (widget);
@@ -1057,15 +1373,15 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 		G_BINDING_SYNC_CREATE);
 
 	/* headers */
-	locked = !g_settings_is_writable (prefs->settings, "headers");
+	locked = !g_settings_is_writable (prefs->priv->settings, "headers");
 
-	widget = e_builder_get_widget (prefs->builder, "photo_show");
+	widget = e_builder_get_widget (prefs->priv->builder, "photo_show");
 	g_settings_bind (
 		settings, "show-sender-photo",
 		widget, "active",
 		G_SETTINGS_BIND_DEFAULT);
 
-	widget = e_builder_get_widget (prefs->builder, "search_gravatar");
+	widget = e_builder_get_widget (prefs->priv->builder, "search_gravatar");
 	g_settings_bind (
 		settings, "search-gravatar-for-photo",
 		widget, "active",
@@ -1075,10 +1391,10 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 		widget, "sensitive",
 		G_SETTINGS_BIND_GET);
 
-	container = e_builder_get_widget (prefs->builder, "archive-mail-hbox");
+	container = e_builder_get_widget (prefs->priv->builder, "archive-mail-hbox");
 	widget = em_folder_selection_button_new (session, "", _("Choose a folder to archive messages to."));
 	gtk_widget_set_hexpand (widget, FALSE);
-	gtk_label_set_mnemonic_widget (GTK_LABEL (e_builder_get_widget (prefs->builder, "lblArchiveMailFolder")), widget);
+	gtk_label_set_mnemonic_widget (GTK_LABEL (e_builder_get_widget (prefs->priv->builder, "lblArchiveMailFolder")), widget);
 	gtk_container_add (GTK_CONTAINER (container), widget);
 	gtk_widget_show (widget);
 
@@ -1088,38 +1404,38 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 		G_SETTINGS_BIND_DEFAULT);
 
 	/* always de-sensitised until the user types something in the entry */
-	prefs->add_header = GTK_BUTTON (e_builder_get_widget (prefs->builder, "cmdHeadersAdd"));
-	gtk_widget_set_sensitive ((GtkWidget *) prefs->add_header, FALSE);
+	prefs->priv->add_header = GTK_BUTTON (e_builder_get_widget (prefs->priv->builder, "cmdHeadersAdd"));
+	gtk_widget_set_sensitive ((GtkWidget *) prefs->priv->add_header, FALSE);
 
 	/* always de-sensitised until the user selects a header in the list */
-	prefs->remove_header = GTK_BUTTON (e_builder_get_widget (prefs->builder, "cmdHeadersRemove"));
-	gtk_widget_set_sensitive ((GtkWidget *) prefs->remove_header, FALSE);
+	prefs->priv->remove_header = GTK_BUTTON (e_builder_get_widget (prefs->priv->builder, "cmdHeadersRemove"));
+	gtk_widget_set_sensitive ((GtkWidget *) prefs->priv->remove_header, FALSE);
 
-	prefs->entry_header = GTK_ENTRY (e_builder_get_widget (prefs->builder, "txtHeaders"));
-	gtk_widget_set_sensitive ((GtkWidget *) prefs->entry_header, !locked);
+	prefs->priv->entry_header = GTK_ENTRY (e_builder_get_widget (prefs->priv->builder, "txtHeaders"));
+	gtk_widget_set_sensitive ((GtkWidget *) prefs->priv->entry_header, !locked);
 
-	prefs->header_list = GTK_TREE_VIEW (e_builder_get_widget (prefs->builder, "treeHeaders"));
-	gtk_widget_set_sensitive ((GtkWidget *) prefs->header_list, !locked);
+	prefs->priv->header_list = GTK_TREE_VIEW (e_builder_get_widget (prefs->priv->builder, "treeHeaders"));
+	gtk_widget_set_sensitive ((GtkWidget *) prefs->priv->header_list, !locked);
 
-	selection = gtk_tree_view_get_selection (prefs->header_list);
+	selection = gtk_tree_view_get_selection (prefs->priv->header_list);
 	g_signal_connect (
 		selection, "changed",
 		G_CALLBACK (emmp_header_list_row_selected), prefs);
 	g_signal_connect (
-		prefs->entry_header, "changed",
+		prefs->priv->entry_header, "changed",
 		G_CALLBACK (emmp_header_entry_changed), prefs);
 	g_signal_connect (
-		prefs->entry_header,
+		prefs->priv->entry_header,
 		"activate", G_CALLBACK (emmp_header_add_header), prefs);
 	/* initialise the tree with appropriate headings */
-	prefs->header_list_store = gtk_list_store_newv (HEADER_LIST_N_COLUMNS, col_types);
+	prefs->priv->header_list_store = gtk_list_store_newv (HEADER_LIST_N_COLUMNS, col_types);
 	g_signal_connect (
-		prefs->add_header, "clicked",
+		prefs->priv->add_header, "clicked",
 		G_CALLBACK (emmp_header_add_header), prefs);
 	g_signal_connect (
-		prefs->remove_header, "clicked",
+		prefs->priv->remove_header, "clicked",
 		G_CALLBACK (emmp_header_remove_header), prefs);
-	gtk_tree_view_set_model (prefs->header_list, GTK_TREE_MODEL (prefs->header_list_store));
+	gtk_tree_view_set_model (prefs->priv->header_list, GTK_TREE_MODEL (prefs->priv->header_list_store));
 
 	renderer = gtk_cell_renderer_toggle_new ();
 	g_object_set (renderer, "activatable", TRUE, NULL);
@@ -1127,13 +1443,13 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 		renderer, "toggled",
 		G_CALLBACK (emmp_header_list_enabled_toggled), prefs);
 	gtk_tree_view_insert_column_with_attributes (
-		GTK_TREE_VIEW (prefs->header_list), -1,
+		GTK_TREE_VIEW (prefs->priv->header_list), -1,
 		"Enabled", renderer,
 		"active", HEADER_LIST_ENABLED_COLUMN,
 		NULL);
 	renderer = gtk_cell_renderer_text_new ();
 	gtk_tree_view_insert_column_with_attributes (
-		GTK_TREE_VIEW (prefs->header_list), -1,
+		GTK_TREE_VIEW (prefs->priv->header_list), -1,
 		"Name", renderer,
 		"text", HEADER_LIST_NAME_COLUMN,
 		NULL);
@@ -1153,7 +1469,7 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 		(GDestroyNotify) g_free,
 		(GDestroyNotify) gtk_tree_path_free);
 
-	tree_model = GTK_TREE_MODEL (prefs->header_list_store);
+	tree_model = GTK_TREE_MODEL (prefs->priv->header_list_store);
 
 	for (ii = 0; ii < G_N_ELEMENTS (default_headers); ii++) {
 		GtkTreeIter iter;
@@ -1186,7 +1502,7 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 			gtk_tree_model_get_path (tree_model, &iter));
 	}
 
-	variant = g_settings_get_value (prefs->settings, "show-headers");
+	variant = g_settings_get_value (prefs->priv->settings, "show-headers");
 	n_children = g_variant_n_children (variant);
 
 	for (ii = 0; ii < n_children; ii++) {
@@ -1229,7 +1545,7 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 	g_hash_table_destroy (default_header_hash);
 
 	/* date/time format */
-	table = e_builder_get_widget (prefs->builder, "datetime-format-table");
+	table = e_builder_get_widget (prefs->priv->builder, "datetime-format-table");
 	/* To Translators: 'Table column' is a label for configurable date/time format for table columns showing a date in message list */
 	e_datetime_format_add_setup_widget (table, 0, "mail", "table",  DTFormatKindDateTime, _("_Table column:"));
 	/* To Translators: 'Date header' is a label for configurable date/time format for 'Date' header in mail message window/preview */
@@ -1243,60 +1559,82 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 		G_SETTINGS_BIND_DEFAULT);
 
 	/* Junk prefs */
-	widget = e_builder_get_widget (prefs->builder, "chkCheckIncomingMail");
+	widget = e_builder_get_widget (prefs->priv->builder, "chkCheckIncomingMail");
 	g_settings_bind (
 		settings, "junk-check-incoming",
 		widget, "active",
 		G_SETTINGS_BIND_DEFAULT);
 
-	widget = e_builder_get_widget (prefs->builder, "junk_empty_check");
+	widget = e_builder_get_widget (prefs->priv->builder, "junk_empty_check");
 	g_settings_bind (
 		settings, "junk-empty-on-exit",
 		widget, "active",
 		G_SETTINGS_BIND_DEFAULT);
 
-	widget = e_builder_get_widget (prefs->builder, "junk_empty_combobox");
+	widget = e_builder_get_widget (prefs->priv->builder, "junk_empty_combobox");
 	emmp_empty_junk_init (prefs, GTK_COMBO_BOX (widget));
 	g_settings_bind (
 		settings, "junk-empty-on-exit",
 		widget, "sensitive",
 		G_SETTINGS_BIND_GET);
 
-	widget = e_builder_get_widget (prefs->builder, "junk-module-options");
+	widget = e_builder_get_widget (prefs->priv->builder, "junk-module-options");
 	e_mail_junk_options_set_session (E_MAIL_JUNK_OPTIONS (widget), session);
 
-	prefs->junk_header_check = (GtkToggleButton *) e_builder_get_widget (prefs->builder, "junk_header_check");
-	prefs->junk_header_tree = (GtkTreeView *) e_builder_get_widget (prefs->builder, "junk_header_tree");
-	prefs->junk_header_add = (GtkButton *) e_builder_get_widget (prefs->builder, "junk_header_add");
-	prefs->junk_header_remove = (GtkButton *) e_builder_get_widget (prefs->builder, "junk_header_remove");
-	prefs->junk_book_lookup = (GtkToggleButton *) e_builder_get_widget (prefs->builder, "lookup_book");
-	prefs->junk_lookup_local_only = (GtkToggleButton *) e_builder_get_widget (prefs->builder, "junk_lookup_local_only");
+	prefs->priv->junk_header_check = (GtkToggleButton *) e_builder_get_widget (prefs->priv->builder, "junk_header_check");
+	prefs->priv->junk_header_tree = (GtkTreeView *) e_builder_get_widget (prefs->priv->builder, "junk_header_tree");
+	prefs->priv->junk_header_add = (GtkButton *) e_builder_get_widget (prefs->priv->builder, "junk_header_add");
+	prefs->priv->junk_header_remove = (GtkButton *) e_builder_get_widget (prefs->priv->builder, "junk_header_remove");
+	prefs->priv->junk_book_lookup = (GtkToggleButton *) e_builder_get_widget (prefs->priv->builder, "lookup_book");
+	prefs->priv->junk_lookup_local_only = (GtkToggleButton *) e_builder_get_widget (prefs->priv->builder, "junk_lookup_local_only");
 	toggle_button_init (
-		prefs, prefs->junk_book_lookup,
+		prefs, prefs->priv->junk_book_lookup,
 		FALSE, "junk-lookup-addressbook",
 		G_CALLBACK (junk_book_lookup_button_toggled));
 
 	toggle_button_init (
-		prefs, prefs->junk_lookup_local_only,
+		prefs, prefs->priv->junk_lookup_local_only,
 		FALSE, "junk-lookup-addressbook-local-only",
 		G_CALLBACK (toggle_button_toggled));
 
-	junk_book_lookup_button_toggled (prefs->junk_book_lookup, prefs);
+	junk_book_lookup_button_toggled (prefs->priv->junk_book_lookup, prefs);
 
-	prefs->junk_header_list_store = init_junk_tree ((GtkWidget *) prefs->junk_header_tree, prefs);
+	prefs->priv->junk_header_list_store = init_junk_tree ((GtkWidget *) prefs->priv->junk_header_tree, prefs);
 	toggle_button_init (
-		prefs, prefs->junk_header_check,
+		prefs, prefs->priv->junk_header_check,
 		FALSE, "junk-check-custom-header",
 		G_CALLBACK (custom_junk_button_toggled));
 
-	custom_junk_button_toggled (prefs->junk_header_check, prefs);
+	custom_junk_button_toggled (prefs->priv->junk_header_check, prefs);
 	jh_tree_refill (prefs);
 	g_signal_connect (
-		prefs->junk_header_add, "clicked",
+		prefs->priv->junk_header_add, "clicked",
 		G_CALLBACK (jh_add_cb), prefs);
 	g_signal_connect (
-		prefs->junk_header_remove, "clicked",
+		prefs->priv->junk_header_remove, "clicked",
 		G_CALLBACK (jh_remove_cb), prefs);
+
+	/* Remote Content section */
+	prefs->priv->rc_sites_entry = e_builder_get_widget (prefs->priv->builder, "RCSitesEntry");
+	prefs->priv->rc_sites_add_btn = e_builder_get_widget (prefs->priv->builder, "RCSitesAddBtn");
+	prefs->priv->rc_sites_tree_view = e_builder_get_widget (prefs->priv->builder, "RCSitesTreeView");
+	prefs->priv->rc_sites_remove_btn = e_builder_get_widget (prefs->priv->builder, "RCSitesRemoveBtn");
+	prefs->priv->rc_mails_entry = e_builder_get_widget (prefs->priv->builder, "RCMailsEntry");
+	prefs->priv->rc_mails_add_btn = e_builder_get_widget (prefs->priv->builder, "RCMailsAddBtn");
+	prefs->priv->rc_mails_tree_view = e_builder_get_widget (prefs->priv->builder, "RCMailsTreeView");
+	prefs->priv->rc_mails_remove_btn = e_builder_get_widget (prefs->priv->builder, "RCMailsRemoveBtn");
+
+	em_mailer_prefs_setup_remote_content_section (prefs, RC_SECTION_SITES,
+		prefs->priv->rc_sites_entry,
+		prefs->priv->rc_sites_add_btn,
+		prefs->priv->rc_sites_tree_view,
+		prefs->priv->rc_sites_remove_btn);
+
+	em_mailer_prefs_setup_remote_content_section (prefs, RC_SECTION_MAILS,
+		prefs->priv->rc_mails_entry,
+		prefs->priv->rc_mails_add_btn,
+		prefs->priv->rc_mails_tree_view,
+		prefs->priv->rc_mails_remove_btn);
 
 	/* get our toplevel widget */
 	target = em_config_target_new_prefs (ec);
@@ -1326,7 +1664,9 @@ em_mailer_prefs_new (EPreferencesWindow *window)
 	new = g_object_new (EM_TYPE_MAILER_PREFS, NULL);
 
 	/* FIXME Kill this function. */
-	em_mailer_prefs_construct (new, session, shell);
+	em_mailer_prefs_construct (new, session, shell, backend);
+
+	g_signal_connect (window, "notify::visible", G_CALLBACK (em_mailer_prefs_window_notify_visible_cb), new);
 
 	return GTK_WIDGET (new);
 }

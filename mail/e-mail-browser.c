@@ -619,7 +619,7 @@ mail_browser_constructed (GObject *object)
 		browser->priv->message_list, "message-list-built",
 		G_CALLBACK (mail_browser_message_list_built_cb), object);
 
-	display = e_mail_display_new ();
+	display = e_mail_display_new (e_mail_backend_get_remote_content (backend));
 
 	e_mail_display_set_mode (
 		E_MAIL_DISPLAY (display),
@@ -675,6 +675,8 @@ mail_browser_constructed (GObject *object)
 	g_signal_connect_swapped (
 		ui_manager, "connect-proxy",
 		G_CALLBACK (mail_browser_connect_proxy_cb), object);
+
+	e_mail_reader_connect_remote_content (reader);
 
 	/* Configure an EFocusTracker to manage selection actions. */
 

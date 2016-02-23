@@ -43,6 +43,7 @@ typedef struct _AsyncContext AsyncContext;
 struct _EMailPrinterPrivate {
 	EMailFormatter *formatter;
 	EMailPartList *part_list;
+	EMailRemoteContent *remote_content;
 
 	gchar *export_filename;
 
@@ -62,7 +63,8 @@ struct _AsyncContext {
 
 enum {
 	PROP_0,
-	PROP_PART_LIST
+	PROP_PART_LIST,
+	PROP_REMOTE_CONTENT
 };
 
 enum {
@@ -383,6 +385,16 @@ mail_printer_set_part_list (EMailPrinter *printer,
 }
 
 static void
+mail_printer_set_remote_content (EMailPrinter *printer,
+				 EMailRemoteContent *remote_content)
+{
+	g_return_if_fail (E_IS_MAIL_REMOTE_CONTENT (remote_content));
+	g_return_if_fail (printer->priv->remote_content == NULL);
+
+	printer->priv->remote_content = g_object_ref (remote_content);
+}
+
+static void
 mail_printer_set_property (GObject *object,
                            guint property_id,
                            const GValue *value,
@@ -391,6 +403,12 @@ mail_printer_set_property (GObject *object,
 	switch (property_id) {
 		case PROP_PART_LIST:
 			mail_printer_set_part_list (
+				E_MAIL_PRINTER (object),
+				g_value_get_object (value));
+			return;
+
+		case PROP_REMOTE_CONTENT:
+			mail_printer_set_remote_content (
 				E_MAIL_PRINTER (object),
 				g_value_get_object (value));
 			return;
@@ -412,6 +430,13 @@ mail_printer_get_property (GObject *object,
 				e_mail_printer_ref_part_list (
 				E_MAIL_PRINTER (object)));
 			return;
+
+		case PROP_REMOTE_CONTENT:
+			g_value_take_object (
+				value,
+				e_mail_printer_ref_remote_content (
+				E_MAIL_PRINTER (object)));
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -426,6 +451,7 @@ mail_printer_dispose (GObject *object)
 
 	g_clear_object (&priv->formatter);
 	g_clear_object (&priv->part_list);
+	g_clear_object (&priv->remote_content);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_mail_printer_parent_class)->dispose (object);
@@ -453,6 +479,17 @@ e_mail_printer_class_init (EMailPrinterClass *class)
 			E_TYPE_MAIL_PART_LIST,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_REMOTE_CONTENT,
+		g_param_spec_object (
+			"remote-content",
+			"Remote Content",
+			NULL,
+			E_TYPE_MAIL_REMOTE_CONTENT,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT_ONLY));
 }
 
 static void
@@ -464,13 +501,15 @@ e_mail_printer_init (EMailPrinter *printer)
 }
 
 EMailPrinter *
-e_mail_printer_new (EMailPartList *part_list)
+e_mail_printer_new (EMailPartList *part_list,
+		    EMailRemoteContent *remote_content)
 {
 	g_return_val_if_fail (E_IS_MAIL_PART_LIST (part_list), NULL);
 
-	return g_object_new (
-		E_TYPE_MAIL_PRINTER,
-		"part-list", part_list, NULL);
+	return g_object_new (E_TYPE_MAIL_PRINTER,
+		"part-list", part_list,
+		"remote-content", remote_content,
+		NULL);
 }
 
 EMailPartList *
@@ -479,6 +518,17 @@ e_mail_printer_ref_part_list (EMailPrinter *printer)
 	g_return_val_if_fail (E_IS_MAIL_PRINTER (printer), NULL);
 
 	return g_object_ref (printer->priv->part_list);
+}
+
+EMailRemoteContent *
+e_mail_printer_ref_remote_content (EMailPrinter *printer)
+{
+	g_return_val_if_fail (E_IS_MAIL_PRINTER (printer), NULL);
+
+	if (!printer->priv->remote_content)
+		return NULL;
+
+	return g_object_ref (printer->priv->remote_content);
 }
 
 void

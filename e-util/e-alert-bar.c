@@ -62,7 +62,7 @@ alert_bar_show_alert (EAlertBar *alert_bar)
 	GtkWidget *action_area;
 	GtkWidget *widget;
 	EAlert *alert;
-	GList *actions;
+	GList *link;
 	GList *children;
 	GtkMessageType message_type;
 	const gchar *primary_text;
@@ -89,8 +89,10 @@ alert_bar_show_alert (EAlertBar *alert_bar)
 	}
 
 	/* Add alert-specific buttons. */
-	actions = e_alert_peek_actions (alert);
-	while (actions != NULL) {
+	link = e_alert_peek_actions (alert);
+	while (link != NULL) {
+		GtkAction *action = GTK_ACTION (link->data);
+
 		/* These actions are already wired to trigger an
 		 * EAlert::response signal when activated, which
 		 * will in turn call gtk_info_bar_response(), so
@@ -99,14 +101,18 @@ alert_bar_show_alert (EAlertBar *alert_bar)
 
 		widget = gtk_button_new ();
 
-		gtk_activatable_set_related_action (
-			GTK_ACTIVATABLE (widget),
-			GTK_ACTION (actions->data));
+		gtk_activatable_set_related_action (GTK_ACTIVATABLE (widget), action);
+		gtk_box_pack_end (GTK_BOX (action_area), widget, FALSE, FALSE, 0);
 
-		gtk_box_pack_end (
-			GTK_BOX (action_area), widget, FALSE, FALSE, 0);
+		link = g_list_next (link);
+	}
 
-		actions = g_list_next (actions);
+	link = e_alert_peek_widgets (alert);
+	while (link != NULL) {
+		widget = link->data;
+
+		gtk_box_pack_end (GTK_BOX (action_area), widget, FALSE, FALSE, 0);
+		link = g_list_next (link);
 	}
 
 	/* Add a dismiss button. */

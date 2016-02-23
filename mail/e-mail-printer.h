@@ -21,6 +21,7 @@
 
 #include <em-format/e-mail-part-list.h>
 #include <em-format/e-mail-formatter.h>
+#include <mail/e-mail-remote-content.h>
 
 /* Standard GObject macros */
 #define E_TYPE_MAIL_PRINTER \
@@ -57,8 +58,12 @@ struct _EMailPrinterClass {
 };
 
 GType		e_mail_printer_get_type		(void) G_GNUC_CONST;
-EMailPrinter *	e_mail_printer_new		(EMailPartList *source);
+EMailPrinter *	e_mail_printer_new		(EMailPartList *source,
+						 EMailRemoteContent *remote_content);
 EMailPartList *	e_mail_printer_ref_part_list	(EMailPrinter *printer);
+EMailRemoteContent *
+		e_mail_printer_ref_remote_content
+						(EMailPrinter *printer);
 void		e_mail_printer_print		(EMailPrinter *printer,
 						 GtkPrintOperationAction action,
 						 EMailFormatter *formatter,

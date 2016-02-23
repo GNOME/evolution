@@ -39,6 +39,7 @@
 
 #include <string.h>
 
+#include <glib/gstdio.h>
 #include <gio/gio.h>
 #include <gtk/gtk.h>
 #include <webkit2/webkit-web-extension.h>
@@ -2984,7 +2985,14 @@ image_exists_in_cache (const gchar *image_uri)
 		emd_global_http_cache, "http", hash);
 
 	if (filename != NULL) {
+		struct stat st;
+
 		exists = g_file_test (filename, G_FILE_TEST_EXISTS);
+		if (exists && g_stat (filename, &st) == 0) {
+			exists = st.st_size != 0;
+		} else {
+			exists = FALSE;
+		}
 		g_free (filename);
 	}
 

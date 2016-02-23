@@ -475,12 +475,16 @@ em_utils_print_messages_to_file (CamelFolder *folder,
 	parts_list = e_mail_parser_parse_sync (
 		parser, folder, uid, message, NULL);
 	if (parts_list != NULL) {
+		EMailBackend *mail_backend;
 		EAsyncClosure *closure;
 		GAsyncResult *result;
 		EMailPrinter *printer;
 		GtkPrintOperationResult print_result;
 
-		printer = e_mail_printer_new (parts_list);
+		mail_backend = E_MAIL_BACKEND (e_shell_get_backend_by_name (e_shell_get_default (), "mail"));
+		g_return_val_if_fail (mail_backend != NULL, FALSE);
+
+		printer = e_mail_printer_new (parts_list, e_mail_backend_get_remote_content (mail_backend));
 		e_mail_printer_set_export_filename (printer, filename);
 
 		closure = e_async_closure_new ();

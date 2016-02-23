@@ -640,10 +640,6 @@ mail_paned_view_constructed (GObject *object)
 
 	priv = E_MAIL_PANED_VIEW_GET_PRIVATE (object);
 
-	priv->display = g_object_new (
-		E_TYPE_MAIL_DISPLAY,
-		"headers-collapsable", TRUE, NULL);
-
 	view = E_MAIL_VIEW (object);
 	shell_view = e_mail_view_get_shell_view (view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
@@ -651,6 +647,11 @@ mail_paned_view_constructed (GObject *object)
 
 	backend = E_MAIL_BACKEND (shell_backend);
 	session = e_mail_backend_get_session (backend);
+
+	priv->display = g_object_new (E_TYPE_MAIL_DISPLAY,
+		"headers-collapsable", TRUE,
+		"remote-content", e_mail_backend_get_remote_content (backend),
+		NULL);
 
 	/* FIXME This should be an EMailPanedView property, so
 	 *       it can be configured from the settings module. */
@@ -736,6 +737,8 @@ mail_paned_view_constructed (GObject *object)
 	/* Do this after creating the message list.  Our
 	 * set_preview_visible() method relies on it. */
 	e_mail_view_set_preview_visible (view, TRUE);
+
+	e_mail_reader_connect_remote_content (reader);
 
 	e_extensible_load_extensions (E_EXTENSIBLE (object));
 

@@ -184,6 +184,8 @@ void		e_mail_reader_avoid_next_mark_as_seen
 void		e_mail_reader_composer_created	(EMailReader *reader,
 						 EMsgComposer *composer,
 						 CamelMimeMessage *message);
+void		e_mail_reader_connect_remote_content
+						(EMailReader *reader);
 
 G_END_DECLS
 

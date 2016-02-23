@@ -57,12 +57,14 @@ struct _EMailBackendPrivate {
 	EMailSession *session;
 	GHashTable *jobs;
 	EMailSendAccountOverride *send_account_override;
+	EMailRemoteContent *remote_content;
 };
 
 enum {
 	PROP_0,
 	PROP_SESSION,
-	PROP_SEND_ACCOUNT_OVERRIDE
+	PROP_SEND_ACCOUNT_OVERRIDE,
+	PROP_REMOTE_CONTENT
 };
 
 G_DEFINE_ABSTRACT_TYPE (
@@ -949,6 +951,13 @@ mail_backend_get_property (GObject *object,
 				e_mail_backend_get_send_account_override (
 				E_MAIL_BACKEND (object)));
 			return;
+
+		case PROP_REMOTE_CONTENT:
+			g_value_set_object (
+				value,
+				e_mail_backend_get_remote_content (
+				E_MAIL_BACKEND (object)));
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -989,6 +998,7 @@ mail_backend_finalize (GObject *object)
 
 	g_hash_table_destroy (priv->jobs);
 	g_clear_object (&priv->send_account_override);
+	g_clear_object (&priv->remote_content);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_mail_backend_parent_class)->finalize (object);
@@ -1143,7 +1153,7 @@ mail_backend_constructed (GObject *object)
 	EShellBackend *shell_backend;
 	MailFolderCache *folder_cache;
 	ESourceRegistry *registry;
-	gchar *send_overrides_ini;
+	gchar *config_filename;
 
 	priv = E_MAIL_BACKEND_GET_PRIVATE (object);
 
@@ -1241,9 +1251,13 @@ mail_backend_constructed (GObject *object)
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (e_mail_backend_parent_class)->constructed (object);
 
-	send_overrides_ini = g_build_filename (e_shell_backend_get_config_dir (shell_backend), "send-overrides.ini", NULL);
-	priv->send_account_override = e_mail_send_account_override_new (send_overrides_ini);
-	g_free (send_overrides_ini);
+	config_filename = g_build_filename (e_shell_backend_get_config_dir (shell_backend), "send-overrides.ini", NULL);
+	priv->send_account_override = e_mail_send_account_override_new (config_filename);
+	g_free (config_filename);
+
+	config_filename = g_build_filename (e_shell_backend_get_config_dir (shell_backend), "remote-content.db", NULL);
+	priv->remote_content = e_mail_remote_content_new (config_filename);
+	g_free (config_filename);
 }
 
 static void
@@ -1283,6 +1297,16 @@ e_mail_backend_class_init (EMailBackendClass *class)
 			NULL,
 			NULL,
 			E_TYPE_MAIL_SEND_ACCOUNT_OVERRIDE,
+			G_PARAM_READABLE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_REMOTE_CONTENT,
+		g_param_spec_object (
+			"remote-content",
+			NULL,
+			NULL,
+			E_TYPE_MAIL_REMOTE_CONTENT,
 			G_PARAM_READABLE));
 }
 
@@ -1381,4 +1405,12 @@ e_mail_backend_get_send_account_override (EMailBackend *backend)
 	g_return_val_if_fail (E_IS_MAIL_BACKEND (backend), NULL);
 
 	return backend->priv->send_account_override;
+}
+
+EMailRemoteContent *
+e_mail_backend_get_remote_content (EMailBackend *backend)
+{
+	g_return_val_if_fail (E_IS_MAIL_BACKEND (backend), NULL);
+
+	return backend->priv->remote_content;
 }

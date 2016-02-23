@@ -49,46 +49,12 @@ G_BEGIN_DECLS
 
 typedef struct _EMMailerPrefs EMMailerPrefs;
 typedef struct _EMMailerPrefsClass EMMailerPrefsClass;
+typedef struct _EMMailerPrefsPrivate EMMailerPrefsPrivate;
 
 struct _EMMailerPrefs {
 	GtkBox parent_object;
 
-	GtkBuilder *builder;
-	GSettings *settings;
-
-	/* General tab */
-
-	/* Message Display */
-	GtkSpinButton *timeout;
-
-	/* HTML Mail tab */
-	GtkFontButton *font_variable;
-	GtkFontButton *font_fixed;
-	GtkToggleButton *font_share;
-
-	GtkToggleButton *autodetect_links;
-
-	/* Labels and Colours tab */
-	GtkWidget *label_add;
-	GtkWidget *label_edit;
-	GtkWidget *label_remove;
-	GtkWidget *label_tree;
-	GtkListStore *label_list_store;
-
-	/* Headers tab */
-	GtkButton *add_header;
-	GtkButton *remove_header;
-	GtkEntry *entry_header;
-	GtkTreeView *header_list;
-	GtkListStore *header_list_store;
-
-	GtkToggleButton *junk_header_check;
-	GtkTreeView *junk_header_tree;
-	GtkListStore *junk_header_list_store;
-	GtkButton *junk_header_add;
-	GtkButton *junk_header_remove;
-	GtkToggleButton *junk_book_lookup;
-	GtkToggleButton *junk_lookup_local_only;
+	EMMailerPrefsPrivate *priv;
 };
 
 struct _EMMailerPrefsClass {

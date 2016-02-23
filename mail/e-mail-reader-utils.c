@@ -1261,6 +1261,7 @@ mail_reader_print_parse_message_cb (GObject *source_object,
 	GCancellable *cancellable;
 	EMailPrinter *printer;
 	EMailPartList *part_list;
+	EMailRemoteContent *remote_content;
 	AsyncContext *async_context;
 	GError *local_error = NULL;
 
@@ -1282,10 +1283,13 @@ mail_reader_print_parse_message_cb (GObject *source_object,
 		return;
 	}
 
-	printer = e_mail_printer_new (part_list);
-
 	mail_display = e_mail_reader_get_mail_display (reader);
 	formatter = e_mail_display_get_formatter (mail_display);
+	remote_content = e_mail_display_ref_remote_content (mail_display);
+
+	printer = e_mail_printer_new (part_list, remote_content);
+
+	g_clear_object (&remote_content);
 
 	e_activity_set_text (activity, _("Printing"));
 
