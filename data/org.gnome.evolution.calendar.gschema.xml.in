@@ -451,6 +451,10 @@
       <default>false</default>
       <_summary>Sunday is a work day</_summary>
     </key>
+    <key name="classify-private" type="b">
+      <default>false</default>
+      <_summary>Create events, memos and tasks as Private by default</_summary>
+    </key>
 
     <!-- The following keys are deprecated. -->
 

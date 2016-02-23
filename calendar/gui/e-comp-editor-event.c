@@ -230,6 +230,7 @@ ece_event_fill_widgets (ECompEditor *comp_editor,
 	icaltimezone *zone = NULL;
 	gboolean all_day_event = FALSE;
 	GtkAction *action;
+	guint32 flags;
 
 	g_return_if_fail (E_IS_COMP_EDITOR_EVENT (comp_editor));
 	g_return_if_fail (component != NULL);
@@ -238,6 +239,7 @@ ece_event_fill_widgets (ECompEditor *comp_editor,
 
 	event_editor = E_COMP_EDITOR_EVENT (comp_editor);
 
+	flags = e_comp_editor_get_flags (comp_editor);
 	dtstart = icaltime_null_time ();
 	dtend = icaltime_null_time ();
 
@@ -262,10 +264,8 @@ ece_event_fill_widgets (ECompEditor *comp_editor,
 	}
 
 	if (zone) {
-		ECompEditorEvent *event_editor;
 		GtkWidget *edit_widget;
 
-		event_editor = E_COMP_EDITOR_EVENT (comp_editor);
 		edit_widget = e_comp_editor_property_part_get_edit_widget (event_editor->priv->timezone);
 
 		e_timezone_entry_set_timezone (E_TIMEZONE_ENTRY (edit_widget), zone);
@@ -287,8 +287,6 @@ ece_event_fill_widgets (ECompEditor *comp_editor,
 	}
 
 	if (icaltime_is_valid_time (dtend) && !icaltime_is_null_time (dtend)) {
-		ECompEditorEvent *event_editor;
-
 		if (dtstart.is_date && dtend.is_date) {
 			all_day_event = TRUE;
 			if (icaltime_compare_date_only (dtend, dtstart) > 0) {
@@ -296,7 +294,6 @@ ece_event_fill_widgets (ECompEditor *comp_editor,
 			}
 		}
 
-		event_editor = E_COMP_EDITOR_EVENT (comp_editor);
 		e_comp_editor_property_part_datetime_set_value (
 			E_COMP_EDITOR_PROPERTY_PART_DATETIME (event_editor->priv->dtend), dtend);
 	}
@@ -308,8 +305,21 @@ ece_event_fill_widgets (ECompEditor *comp_editor,
 		action = e_comp_editor_get_action (comp_editor, "classify-private");
 	else if (prop && icalproperty_get_class (prop) == ICAL_CLASS_CONFIDENTIAL)
 		action = e_comp_editor_get_action (comp_editor, "classify-confidential");
-	else
+	else if (!(flags & E_COMP_EDITOR_FLAG_IS_NEW))
 		action = e_comp_editor_get_action (comp_editor, "classify-public");
+	else {
+		GSettings *settings;
+
+		settings = e_util_ref_settings ("org.gnome.evolution.calendar");
+
+		if (g_settings_get_boolean (settings, "classify-private")) {
+			action = e_comp_editor_get_action (comp_editor, "classify-private");
+		} else {
+			action = e_comp_editor_get_action (comp_editor, "classify-public");
+		}
+
+		g_object_unref (settings);
+	}
 
 	gtk_toggle_action_set_active (GTK_TOGGLE_ACTION (action), TRUE);
 }
