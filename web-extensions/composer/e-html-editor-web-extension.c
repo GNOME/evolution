@@ -55,6 +55,7 @@ struct _EHTMLEditorWebExtensionPrivate {
 	GDBusConnection *dbus_connection;
 	guint registration_id;
 	guint spell_check_on_scroll_event_source_id;
+	gboolean selection_changed_callbacks_blocked;
 
 	/* These properties show the actual state of EHTMLEditorView */
 	EHTMLEditorSelectionAlignment alignment;
@@ -2959,6 +2960,8 @@ e_html_editor_web_extension_init (EHTMLEditorWebExtension *extension)
 		g_str_hash, g_str_equal,
 		(GDestroyNotify) g_free,
 		(GDestroyNotify) g_free);
+
+	extension->priv->selection_changed_callbacks_blocked = FALSE;
 }
 
 static gpointer
@@ -3643,11 +3646,22 @@ e_html_editor_web_extension_set_spell_check_on_scroll_event_source_id (EHTMLEdit
 void
 e_html_editor_web_extension_block_selection_changed_callback (EHTMLEditorWebExtension *extension)
 {
-	g_signal_handlers_block_by_func (extension, web_editor_selection_changed_cb, NULL);
+	if (!extension->priv->selection_changed_callbacks_blocked) {
+		/* FIXME WK2 - the handler is added on WebKitWebEditor, not extension */
+		g_signal_handlers_block_by_func (extension, web_editor_selection_changed_cb, NULL);
+		extension->priv->selection_changed_callbacks_blocked = TRUE;
+	}
 }
 
 void
 e_html_editor_web_extension_unblock_selection_changed_callback (EHTMLEditorWebExtension *extension)
 {
-	g_signal_handlers_unblock_by_func (extension, web_editor_selection_changed_cb, NULL);
+	if (extension->priv->selection_changed_callbacks_blocked) {
+		/* FIXME WK2 - the handler is added on WebKitWebEditor, not extension */
+		g_signal_handlers_unblock_by_func (extension, web_editor_selection_changed_cb, NULL);
+		extension->priv->selection_changed_callbacks_blocked = FALSE;
+
+		/* FIXME WK2 - missing page-ID, to get to the WebKitWebEditor instance */
+		/*web_editor_selection_changed_cb (editor, extension);*/
+	}
 }
