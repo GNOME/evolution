@@ -814,6 +814,9 @@ handle_method_call (GDBusConnection *connection,
 			if (g_strcmp0 (selector, "body") == 0 &&
 			    g_strcmp0 (attribute, "link") == 0)
 				dom_set_link_color (document, value);
+			else if (g_strcmp0 (selector, "body") == 0 &&
+			         g_strcmp0 (attribute, "vlink") == 0)
+				dom_set_visited_link_color (document, value);
 			else
 				webkit_dom_element_set_attribute (
 					element, attribute, value, NULL);

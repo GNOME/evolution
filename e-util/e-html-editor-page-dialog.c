@@ -37,6 +37,7 @@
 struct _EHTMLEditorPageDialogPrivate {
 	GtkWidget *text_color_picker;
 	GtkWidget *link_color_picker;
+	GtkWidget *visited_link_color_picker;
 	GtkWidget *background_color_picker;
 
 	GtkWidget *background_template_combo;
@@ -187,6 +188,32 @@ html_editor_page_dialog_set_link_color (EHTMLEditorPageDialog *dialog)
 
 	e_html_editor_view_set_element_attribute (
 		view, "body", "link", color);
+
+	g_free (color);
+}
+
+static void
+html_editor_page_dialog_set_visited_link_color (EHTMLEditorPageDialog *dialog)
+{
+	EHTMLEditor *editor;
+	EHTMLEditorView *view;
+	GDBusProxy *web_extension;
+	GdkRGBA rgba;
+	gchar *color;
+
+	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
+	view = e_html_editor_get_view (editor);
+	web_extension = e_html_editor_view_get_web_extension_proxy (view);
+	if (!web_extension)
+		return;
+
+	e_color_combo_get_current_color (
+		E_COLOR_COMBO (dialog->priv->visited_link_color_picker), &rgba);
+
+	color = g_strdup_printf ("#%06x", e_rgba_to_value (&rgba));
+
+	e_html_editor_view_set_element_attribute (
+		view, "body", "vlink", color);
 
 	g_free (color);
 }
@@ -397,29 +424,31 @@ html_editor_page_dialog_show (GtkWidget *widget)
 		const gchar *value;
 
 		g_variant_get (result, "(&s)", &value);
-		if (!value || !*value) {
-			GdkColor *color = NULL;
-			GtkStyleContext *context;
-
-			context = gtk_widget_get_style_context (GTK_WIDGET (view));
-			gtk_style_context_get_style (context, "link-color", &color, NULL);
-
-			if (color == NULL) {
-				rgba.alpha = 1;
-				rgba.red = 0;
-				rgba.green = 0;
-				rgba.blue = 1;
-			} else {
-				rgba.alpha = 1;
-				rgba.red = ((gdouble) color->red) / G_MAXUINT16;
-				rgba.green = ((gdouble) color->green) / G_MAXUINT16;
-				rgba.blue = ((gdouble) color->blue) / G_MAXUINT16;
-			}
-		} else {
-			gdk_rgba_parse (&rgba, value);
+		if (!gdk_rgba_parse (&rgba, value)) {
+			rgba.alpha = 1;
+			rgba.red = 0;
+			rgba.green = 0;
+			rgba.blue = 1;
 		}
 		e_color_combo_set_current_color (
 			E_COLOR_COMBO (dialog->priv->link_color_picker), &rgba);
+		g_variant_unref (result);
+	}
+
+	result = e_html_editor_view_get_element_attribute (view, "body", "vlink");
+
+	if (result) {
+		const gchar *value;
+
+		g_variant_get (result, "(&s)", &value);
+		if (!gdk_rgba_parse (&rgba, value)) {
+			rgba.alpha = 1;
+			rgba.red = 1;
+			rgba.green = 0;
+			rgba.blue = 0;
+		}
+		e_color_combo_set_current_color (
+			E_COLOR_COMBO (dialog->priv->visited_link_color_picker), &rgba);
 		g_variant_unref (result);
 	}
 
@@ -526,20 +555,35 @@ e_html_editor_page_dialog_init (EHTMLEditorPageDialog *dialog)
 		GTK_LABEL (widget), dialog->priv->link_color_picker);
 	gtk_grid_attach (grid, widget, 0, 1, 1, 1);
 
+	/* Visited Link */
+	widget = e_color_combo_new ();
+	gtk_widget_set_hexpand (widget, TRUE);
+	g_signal_connect_swapped (
+		widget, "notify::current-color",
+		G_CALLBACK (html_editor_page_dialog_set_visited_link_color), dialog);
+	gtk_grid_attach (grid, widget, 1, 2, 1, 1);
+	dialog->priv->visited_link_color_picker = widget;
+
+	widget = gtk_label_new_with_mnemonic (_("_Visited Link:"));
+	gtk_label_set_justify (GTK_LABEL (widget), GTK_JUSTIFY_RIGHT);
+	gtk_label_set_mnemonic_widget (
+		GTK_LABEL (widget), dialog->priv->visited_link_color_picker);
+	gtk_grid_attach (grid, widget, 0, 2, 1, 1);
+
 	/* Background */
 	widget = e_color_combo_new ();
 	gtk_widget_set_hexpand (widget, TRUE);
 	g_signal_connect_swapped (
 		widget, "notify::current-color",
 		G_CALLBACK (html_editor_page_dialog_set_background_color), dialog);
-	gtk_grid_attach (grid, widget, 1, 2, 1, 1);
+	gtk_grid_attach (grid, widget, 1, 3, 1, 1);
 	dialog->priv->background_color_picker = widget;
 
 	widget = gtk_label_new_with_mnemonic (_("_Background:"));
 	gtk_label_set_justify (GTK_LABEL (widget), GTK_JUSTIFY_RIGHT);
 	gtk_label_set_mnemonic_widget (
 		GTK_LABEL (widget), dialog->priv->background_color_picker);
-	gtk_grid_attach (grid, widget, 0, 2, 1, 1);
+	gtk_grid_attach (grid, widget, 0, 3, 1, 1);
 
 	/* == Background Image == */
 	widget = gtk_label_new ("");
@@ -550,7 +594,7 @@ e_html_editor_page_dialog_init (EHTMLEditorPageDialog *dialog)
 	grid = GTK_GRID (gtk_grid_new ());
 	gtk_grid_set_row_spacing (grid, 5);
 	gtk_grid_set_column_spacing (grid, 5);
-	gtk_grid_attach (main_layout, GTK_WIDGET (grid), 0, 3, 1, 1);
+	gtk_grid_attach (main_layout, GTK_WIDGET (grid), 0, 4, 1, 1);
 	gtk_widget_set_margin_left (GTK_WIDGET (grid), 10);
 
 	/* Template */

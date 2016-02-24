@@ -2393,12 +2393,10 @@ void
 e_html_editor_view_update_fonts (EHTMLEditorView *view)
 {
 	gboolean mark_citations, use_custom_font;
-	GdkColor *visited = NULL;
 	gchar *font, *aa = NULL, *citation_color;
 	const gchar *styles[] = { "normal", "oblique", "italic" };
 	const gchar *smoothing = NULL;
 	GString *stylesheet;
-	GtkStyleContext *context;
 	PangoFontDescription *ms, *vw;
 	WebKitSettings *settings;
 	WebKitUserContentManager *manager;
@@ -2485,22 +2483,6 @@ e_html_editor_view_update_fonts (EHTMLEditorView *view)
 		pango_font_description_get_size (ms) / PANGO_SCALE,
 		pango_font_description_get_weight (ms),
 		styles[pango_font_description_get_style (ms)]);
-
-	context = gtk_widget_get_style_context (GTK_WIDGET (view));
-	gtk_style_context_get_style (
-		context, "visited-link-color", &visited, NULL);
-
-	if (visited == NULL) {
-		visited = g_slice_new0 (GdkColor);
-		visited->red = G_MAXINT16;
-	}
-
-	g_string_append_printf (
-		stylesheet,
-		"a:visited {\n"
-		"  color: #%06x;\n"
-		"}\n",
-		e_color_to_value (visited));
 
 	/* See bug #689777 for details */
 	g_string_append (
@@ -2778,8 +2760,6 @@ e_html_editor_view_update_fonts (EHTMLEditorView *view)
 		"  border-color: %s;\n"
 		"}\n",
 		e_web_view_get_citation_color_for_level (5));
-
-	gdk_color_free (visited);
 
 	settings = webkit_web_view_get_settings (WEBKIT_WEB_VIEW (view));
 	g_object_set (
@@ -3347,6 +3327,7 @@ e_html_editor_view_save_selection (EHTMLEditorView *view)
 	e_html_editor_view_call_simple_extension_function (view, "DOMSaveSelection");
 }
 /* FIXME WK2
+   Finish also changes from commit 59e3bb0 Bug 747510 - Add composer option "Inherit theme colors in HTML mode"
 static void
 set_link_color (EHTMLEditorView *view)
 {

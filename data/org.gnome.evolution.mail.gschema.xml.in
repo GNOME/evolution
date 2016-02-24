@@ -595,6 +595,11 @@
       <_summary>Allow expunge in virtual folders</_summary>
       <_description>Enables Expunge in virtual folders, which means that the Folder->Expunge will be callable in virtual folders, while the expunge itself will be done in all folders for all deleted messages within the virtual folder, not only for deleted messages belonging to the virtual folder.</_description>
     </key>
+    <key name="composer-inherit-theme-colors" type="b">
+      <default>false</default>
+      <_summary>Inherit theme colors in HTML mode</_summary>
+      <_description>When enabled the theme colors for background, text and links are sent in resulting HTML formatted message.</_description>
+    </key>
     <child name="browser-window" schema="org.gnome.evolution.window"/>
     <child name="composer-window" schema="org.gnome.evolution.window"/>
     <child name="filter-window" schema="org.gnome.evolution.window"/>

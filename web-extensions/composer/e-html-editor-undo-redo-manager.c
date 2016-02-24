@@ -720,6 +720,12 @@ undo_redo_page_dialog (WebKitDOMDocument *document,
 					value = webkit_dom_node_get_node_value (attr_clone);
 					dom_set_link_color (document, value);
 					g_free (value);
+				} else if (g_strcmp0 (name, "vlink") == 0) {
+					gchar *value;
+
+					value = webkit_dom_node_get_node_value (attr_clone);
+					dom_set_visited_link_color (document, value);
+					g_free (value);
 				}
 				replaced = TRUE;
 			}

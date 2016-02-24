@@ -1001,6 +1001,8 @@ dom_check_magic_links (WebKitDOMDocument *document,
 			text = webkit_dom_html_element_get_inner_text (
 					WEBKIT_DOM_HTML_ELEMENT (parent));
 
+		element_remove_class (parent, "-x-evo-visited-link");
+
 		if (strstr (href, "://") && !strstr (text, "://")) {
 			url = strstr (href, "://") + 3;
 			diff = strlen (text) - strlen (url);
@@ -5490,7 +5492,6 @@ replace_to_whitespaces (const GMatchInfo *info,
 static void
 process_elements (EHTMLEditorWebExtension *extension,
                   WebKitDOMNode *node,
-                  gboolean to_html,
                   gboolean changing_mode,
                   gboolean to_plain_text,
                   GString *buffer)
@@ -5516,27 +5517,34 @@ process_elements (EHTMLEditorWebExtension *extension,
 				webkit_dom_named_node_map_get_length (attributes);
 
 			for (ii = 0; ii < attributes_length; ii++) {
-				gchar *name, *value;
+				gchar *name;
 				WebKitDOMNode *node =
 					webkit_dom_named_node_map_item (
 						attributes, ii);
 
 				name = webkit_dom_node_get_local_name (node);
-				value = webkit_dom_node_get_node_value (node);
+				if (g_strcmp0 (name, "bgcolor") != 0 &&
+				    g_strcmp0 (name, "text") != 0 &&
+				    g_strcmp0 (name, "vlink") != 0 &&
+				    g_strcmp0 (name, "link") != 0) {
+					gchar *value;
 
-				g_string_append (buffer, name);
-				g_string_append (buffer, "=\"");
-				g_string_append (buffer, value);
-				g_string_append (buffer, "\" ");
+					value = webkit_dom_node_get_node_value (node);
 
+					g_string_append (buffer, name);
+					g_string_append (buffer, "=\"");
+					g_string_append (buffer, value);
+					g_string_append (buffer, "\" ");
+
+					g_free (value);
+				}
 				g_free (name);
-				g_free (value);
 				g_object_unref (node);
 			}
 			g_string_append (buffer, ">");
 			g_object_unref (attributes);
 		}
-		if (to_html)
+		if (!to_plain_text)
 			remove_evolution_attributes (WEBKIT_DOM_ELEMENT (node));
 	}
 
@@ -5707,7 +5715,7 @@ process_elements (EHTMLEditorWebExtension *extension,
 				}
 				g_free (content);
 			}
-			if (to_html) {
+			if (!to_plain_text) {
 				element_remove_class (
 					WEBKIT_DOM_ELEMENT (child),
 					"Applet-tab-span");
@@ -5738,7 +5746,7 @@ process_elements (EHTMLEditorWebExtension *extension,
 					}
 				}
 				process_blockquote (WEBKIT_DOM_ELEMENT (child));
-				if (to_html)
+				if (!to_plain_text)
 					remove_base_attributes (WEBKIT_DOM_ELEMENT (child));
 			}
 		}
@@ -5769,7 +5777,7 @@ process_elements (EHTMLEditorWebExtension *extension,
 			WebKitDOMNode *image =
 				webkit_dom_node_get_first_child (child);
 
-			if (to_html && WEBKIT_DOM_IS_HTML_IMAGE_ELEMENT (image)) {
+			if (!to_plain_text && WEBKIT_DOM_IS_HTML_IMAGE_ELEMENT (image)) {
 				remove_evolution_attributes (
 					WEBKIT_DOM_ELEMENT (image));
 
@@ -5791,7 +5799,7 @@ process_elements (EHTMLEditorWebExtension *extension,
 				skip_node = TRUE;
 				goto next;
 			}
-			if (to_html) {
+			if (!to_plain_text) {
 				remove_base_attributes (WEBKIT_DOM_ELEMENT (child));
 				remove_evolution_attributes (WEBKIT_DOM_ELEMENT (child));
 			}
@@ -5804,7 +5812,7 @@ process_elements (EHTMLEditorWebExtension *extension,
 
 			first_child = webkit_dom_node_get_first_child (child);
 
-			if (to_html) {
+			if (!to_plain_text) {
 				remove_base_attributes (
 					WEBKIT_DOM_ELEMENT (first_child));
 				remove_evolution_attributes (
@@ -5841,7 +5849,7 @@ process_elements (EHTMLEditorWebExtension *extension,
 				skip_node = TRUE;
 				goto next;
 			}
-			if (to_html) {
+			if (!to_plain_text) {
 				WebKitDOMElement *img;
 
 				img = WEBKIT_DOM_ELEMENT (
@@ -5870,7 +5878,7 @@ process_elements (EHTMLEditorWebExtension *extension,
 				g_free (content);
 				skip_node = TRUE;
 			}
-			if (to_html)
+			if (!to_plain_text)
 				remove_evolution_attributes (WEBKIT_DOM_ELEMENT (child));
 		}
 
@@ -5910,18 +5918,21 @@ process_elements (EHTMLEditorWebExtension *extension,
 				g_free (content);
 				skip_node = TRUE;
 			}
-			if (!changing_mode && to_plain_text) {
-				content = webkit_dom_html_element_get_inner_text (
-					WEBKIT_DOM_HTML_ELEMENT (child));
-				g_string_append (buffer, content);
-				g_free (content);
-				skip_node = TRUE;
+			if (!changing_mode) {
+				if (to_plain_text) {
+					content = webkit_dom_html_element_get_inner_text (
+						WEBKIT_DOM_HTML_ELEMENT (child));
+					g_string_append (buffer, content);
+					g_free (content);
+					skip_node = TRUE;
+				} else
+					remove_base_attributes (WEBKIT_DOM_ELEMENT (child));
 			}
 		}
  next:
 		if (webkit_dom_node_has_child_nodes (child) && !skip_node)
 			process_elements (
-				extension, child, to_html, changing_mode, to_plain_text, buffer);
+				extension, child, changing_mode, to_plain_text, buffer);
 		g_object_unref (child);
 	}
 
@@ -6135,9 +6146,12 @@ toggle_paragraphs_style (WebKitDOMDocument *document,
 gchar *
 dom_process_content_for_draft (WebKitDOMDocument *document)
 {
+	gchar *content;
+	gint ii, length;
 	WebKitDOMHTMLElement *body;
 	WebKitDOMElement *document_element;
-	gchar *content;
+	WebKitDOMNodeList *list;
+	WebKitDOMNode *document_element_clone;
 
 	body = webkit_dom_document_get_body (document);
 
@@ -6145,7 +6159,23 @@ dom_process_content_for_draft (WebKitDOMDocument *document)
 		WEBKIT_DOM_ELEMENT (body), "data-evo-draft", "", NULL);
 
 	document_element = webkit_dom_document_get_document_element (document);
-	content = webkit_dom_element_get_outer_html (document_element);
+
+	document_element_clone = webkit_dom_node_clone_node (
+		WEBKIT_DOM_NODE (document_element), TRUE);
+
+	list = webkit_dom_element_query_selector_all (
+		WEBKIT_DOM_ELEMENT (document_element_clone), "a.-x-evo-visited-link", NULL);
+	length = webkit_dom_node_list_get_length (list);
+	for (ii = 0; ii < length; ii++) {
+		WebKitDOMNode *anchor;
+
+		anchor = webkit_dom_node_list_item (list, ii);
+		webkit_dom_element_remove_attribute (WEBKIT_DOM_ELEMENT (anchor), "class");
+		g_object_unref (anchor);
+	}
+	g_object_unref (list);
+
+	content = webkit_dom_element_get_outer_html (WEBKIT_DOM_ELEMENT (document_element_clone));
 
 	webkit_dom_element_remove_attribute (
 		WEBKIT_DOM_ELEMENT (body), "data-evo-draft");
@@ -6164,7 +6194,10 @@ process_content_for_mode_change (WebKitDOMDocument *document,
 
 	plain_text = g_string_sized_new (1024);
 
-	process_elements (extension, body, FALSE, TRUE, TRUE, plain_text);
+	webkit_dom_element_remove_attribute (
+		WEBKIT_DOM_ELEMENT (body), "data-user-colors");
+
+	process_elements (extension, body, TRUE, TRUE, plain_text);
 
 	g_string_append (plain_text, "</body></html>");
 
@@ -6418,7 +6451,7 @@ dom_process_content_for_plain_text (WebKitDOMDocument *document,
 			quote_plain_text_recursive (document, source, source, 0);
 	}
 
-	process_elements (extension, source, FALSE, FALSE, TRUE, plain_text);
+	process_elements (extension, source, FALSE, TRUE, plain_text);
 
 	if (clean)
 		remove_node (source);
@@ -6488,6 +6521,8 @@ dom_process_content_for_html (WebKitDOMDocument *document,
 	WebKitDOMElement *marker;
 	WebKitDOMNode *node, *document_clone;
 	WebKitDOMNodeList *list;
+	GSettings *settings;
+	gboolean send_editor_colors = FALSE;
 
 	if (from_domain != NULL)
 		inline_images_to_restore = dom_get_inline_images_data (document, extension, from_domain);
@@ -6500,6 +6535,10 @@ dom_process_content_for_html (WebKitDOMDocument *document,
 		remove_node (node);
 	node = WEBKIT_DOM_NODE (webkit_dom_element_query_selector (
 		WEBKIT_DOM_ELEMENT (document_clone), "style#-x-evo-a-color-style", NULL));
+	if (node)
+		remove_node (node);
+	node = WEBKIT_DOM_NODE (webkit_dom_element_query_selector (
+		WEBKIT_DOM_ELEMENT (document_clone), "style#-x-evo-a-color-style-visited", NULL));
 	if (node)
 		remove_node (node);
 	/* When the Ctrl + Enter is pressed for sending, the links are activated. */
@@ -6518,6 +6557,19 @@ dom_process_content_for_html (WebKitDOMDocument *document,
 	if (marker)
 		remove_node (WEBKIT_DOM_NODE (marker));
 
+	settings = e_util_ref_settings ("org.gnome.evolution.mail");
+	send_editor_colors = g_settings_get_boolean (settings, "composer-inherit-theme-colors");
+	g_object_unref (settings);
+
+	if (webkit_dom_element_has_attribute (WEBKIT_DOM_ELEMENT (node), "data-user-colors")) {
+		webkit_dom_element_remove_attribute (WEBKIT_DOM_ELEMENT (node), "data-user-colors");
+	} else if (!send_editor_colors) {
+		webkit_dom_element_remove_attribute (WEBKIT_DOM_ELEMENT (node), "bgcolor");
+		webkit_dom_element_remove_attribute (WEBKIT_DOM_ELEMENT (node), "text");
+		webkit_dom_element_remove_attribute (WEBKIT_DOM_ELEMENT (node), "link");
+		webkit_dom_element_remove_attribute (WEBKIT_DOM_ELEMENT (node), "vlink");
+	}
+
 	list = webkit_dom_element_query_selector_all (
 		WEBKIT_DOM_ELEMENT (node), "span[data-hidden-space]", NULL);
 	length = webkit_dom_node_list_get_length (list);
@@ -6530,7 +6582,7 @@ dom_process_content_for_html (WebKitDOMDocument *document,
 	}
 	g_object_unref (list);
 
-	process_elements (extension, node, TRUE, FALSE, FALSE, NULL);
+	process_elements (extension, node, FALSE, FALSE, NULL);
 
 	html_content = webkit_dom_element_get_outer_html (
 		WEBKIT_DOM_ELEMENT (document_clone));
@@ -7892,29 +7944,56 @@ dom_drag_and_drop_end (WebKitDOMDocument *document,
 	g_object_unref (dom_window);
 }
 
-void
-dom_set_link_color (WebKitDOMDocument *document,
-                    const gchar *color)
+static void
+dom_set_link_color_in_document (WebKitDOMDocument *document,
+				const gchar *color,
+				gboolean visited)
 {
 	gchar *color_str = NULL;
+	const gchar *style_id;
 	WebKitDOMHTMLHeadElement *head;
 	WebKitDOMElement *style_element;
+	WebKitDOMHTMLElement *body;
 
 	g_return_if_fail (color != NULL);
 
-	head = webkit_dom_document_get_head (document);
+	style_id = visited ? "-x-evo-a-color-style-visited" : "-x-evo-a-color-style";
 
-	style_element = webkit_dom_document_get_element_by_id (document, "-x-evo-a-color-style");
+	head = webkit_dom_document_get_head (document);
+	body = webkit_dom_document_get_body (document);
+
+	style_element = webkit_dom_document_get_element_by_id (document, style_id);
 	if (!style_element) {
 		style_element = webkit_dom_document_create_element (document, "style", NULL);
-		webkit_dom_element_set_id (style_element, "-x-evo-a-color-style");
+		webkit_dom_element_set_id (style_element, style_id);
 		webkit_dom_element_set_attribute (style_element, "type", "text/css", NULL);
 		webkit_dom_node_append_child (
 			WEBKIT_DOM_NODE (head), WEBKIT_DOM_NODE (style_element), NULL);
 	}
 
-	color_str = g_strconcat ("a { color: ", color, "; }", NULL);
+	color_str = g_strdup_printf (
+		visited ? "a.-x-evo-visited-link { color: %s; }" : "a { color: %s; }", color);
 	webkit_dom_element_set_inner_html (style_element, color_str, NULL);
-
 	g_free (color_str);
+
+	if (visited)
+		webkit_dom_html_body_element_set_v_link (
+			WEBKIT_DOM_HTML_BODY_ELEMENT (body), color);
+	else
+		webkit_dom_html_body_element_set_link (
+			WEBKIT_DOM_HTML_BODY_ELEMENT (body), color);
+}
+
+void
+dom_set_link_color (WebKitDOMDocument *document,
+		    const gchar *color)
+{
+	dom_set_link_color_in_document (document, color, FALSE);
+}
+
+void
+dom_set_visited_link_color (WebKitDOMDocument *document,
+			    const gchar *color)
+{
+	dom_set_link_color_in_document (document, color, TRUE);
 }
