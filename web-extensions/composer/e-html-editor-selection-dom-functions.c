@@ -2050,18 +2050,13 @@ wrap_lines (WebKitDOMDocument *document,
 	gboolean has_selection;
 	gint len, ii, br_count;
 	gulong length_left;
-	glong paragraph_char_count;
 	gchar *text_content;
 
 	has_selection = !dom_selection_is_collapsed (document);
 
 	if (has_selection) {
-		const gchar *selection_content;
 		WebKitDOMNodeList *wrap_br;
 		WebKitDOMRange *range;
-
-		selection_content = e_html_editor_web_extension_get_selection_text (extension);
-		paragraph_char_count = g_utf8_strlen (selection_content, -1);
 
 		range = dom_get_current_range (document);
 		fragment = webkit_dom_range_clone_contents (range, NULL);
@@ -2091,11 +2086,6 @@ wrap_lines (WebKitDOMDocument *document,
 			WEBKIT_DOM_ELEMENT (paragraph_clone),
 			"span#-x-evo-caret-position",
 			NULL);
-		text_content = webkit_dom_node_get_text_content (paragraph_clone);
-		paragraph_char_count = g_utf8_strlen (text_content, -1);
-		if (element)
-			paragraph_char_count--;
-		g_free (text_content);
 
 		/* When we wrap, we are wrapping just the text after caret, text
 		 * before the caret is already wrapped, so unwrap the text after
