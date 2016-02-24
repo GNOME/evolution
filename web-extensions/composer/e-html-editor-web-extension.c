@@ -3155,9 +3155,14 @@ web_editor_selection_changed_cb (WebKitWebEditor *editor,
 {
 	WebKitWebPage *page;
 	WebKitDOMDocument *document;
+	WebKitDOMRange *range;
 
 	page = webkit_web_editor_get_page (editor);
 	document = webkit_web_page_get_dom_document (page);
+	range = dom_get_current_range (document);
+	if (!range)
+		return;
+	g_object_unref (range);
 
 	set_dbus_property_unsigned (extension, "Alignment", dom_selection_get_alignment (document, extension));
 	set_dbus_property_unsigned (extension, "BlockFormat", dom_selection_get_block_format (document, extension));
