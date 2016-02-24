@@ -2927,6 +2927,169 @@ get_has_style (WebKitDOMDocument *document,
 	return result;
 }
 
+typedef gboolean (*IsRightFormatNodeFunc) (WebKitDOMElement *element);
+
+static gboolean
+dom_selection_is_font_format (WebKitDOMDocument *document,
+			      EHTMLEditorWebExtension *extension,
+			      IsRightFormatNodeFunc func,
+			      gboolean *previous_value)
+{
+	gboolean ret_val = FALSE;
+	WebKitDOMDOMWindow *dom_window = NULL;
+	WebKitDOMDOMSelection *dom_selection = NULL;
+	WebKitDOMNode *start, *end, *sibling;
+	WebKitDOMRange *range = NULL;
+
+	if (!e_html_editor_web_extension_get_html_mode (extension))
+		goto out;
+
+	dom_window = webkit_dom_document_get_default_view (document);
+	dom_selection = webkit_dom_dom_window_get_selection (dom_window);
+
+	if (!webkit_dom_dom_selection_get_range_count (dom_selection))
+		goto out;
+
+	range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
+	if (!range)
+		goto out;
+
+	if (webkit_dom_range_get_collapsed (range, NULL) && previous_value) {
+		WebKitDOMNode *node;
+		gchar* text_content;
+
+		node = webkit_dom_range_get_common_ancestor_container (range, NULL);
+		/* If we are changing the format of block we have to re-set the
+		 * format property, otherwise it will be turned off because of no
+		 * text in block. */
+		text_content = webkit_dom_node_get_text_content (node);
+		if (g_strcmp0 (text_content, "") == 0) {
+			g_free (text_content);
+			ret_val = *previous_value;
+			goto out;
+		}
+		g_free (text_content);
+	}
+
+	/* Range without start or end point is a wrong range. */
+	start = webkit_dom_range_get_start_container (range, NULL);
+	end = webkit_dom_range_get_end_container (range, NULL);
+	if (!start || !end)
+		goto out;
+
+	if (WEBKIT_DOM_IS_TEXT (start))
+		start = webkit_dom_node_get_parent_node (start);
+	while (start && WEBKIT_DOM_IS_ELEMENT (start) && !WEBKIT_DOM_IS_HTML_BODY_ELEMENT (start)) {
+		/* Find the start point's parent node with given formatting. */
+		if (func (WEBKIT_DOM_ELEMENT (start))) {
+			ret_val = TRUE;
+			break;
+		}
+		start = webkit_dom_node_get_parent_node (start);
+	}
+
+	/* Start point doesn't have the given formatting. */
+	if (!ret_val)
+		goto out;
+
+	/* If the selection is collapsed, we can return early. */
+	if (webkit_dom_range_get_collapsed (range, NULL))
+		goto out;
+
+	/* The selection is in the same node and that node is supposed to have
+	 * the same formatting (otherwise it is split up with formatting element. */
+	if (webkit_dom_node_is_same_node (
+		webkit_dom_range_get_start_container (range, NULL),
+		webkit_dom_range_get_end_container (range, NULL)))
+		goto out;
+
+	ret_val = FALSE;
+
+	if (WEBKIT_DOM_IS_TEXT (end))
+		end = webkit_dom_node_get_parent_node (end);
+	while (end && WEBKIT_DOM_IS_ELEMENT (end) && !WEBKIT_DOM_IS_HTML_BODY_ELEMENT (end)) {
+		/* Find the end point's parent node with given formatting. */
+		if (func (WEBKIT_DOM_ELEMENT (end))) {
+			ret_val = TRUE;
+			break;
+		}
+		end = webkit_dom_node_get_parent_node (end);
+	}
+
+	if (!ret_val)
+		goto out;
+
+	ret_val = FALSE;
+
+	/* Now go between the end points and check the inner nodes for format validity. */
+	sibling = start;
+	while ((sibling = webkit_dom_node_get_next_sibling (sibling))) {
+		if (webkit_dom_node_is_same_node (sibling, end)) {
+			ret_val = TRUE;
+			goto out;
+		}
+
+		if (WEBKIT_DOM_IS_TEXT (sibling))
+			goto out;
+		else if (func (WEBKIT_DOM_ELEMENT (sibling)))
+			continue;
+		else if (webkit_dom_node_get_first_child (sibling)) {
+			WebKitDOMNode *first_child;
+
+			first_child = webkit_dom_node_get_first_child (sibling);
+			if (!webkit_dom_node_get_next_sibling (first_child))
+				if (WEBKIT_DOM_IS_ELEMENT (first_child) && func (WEBKIT_DOM_ELEMENT (first_child)))
+					continue;
+				else
+					goto out;
+			else
+				goto out;
+		} else
+			goto out;
+	}
+
+	sibling = end;
+	while ((sibling = webkit_dom_node_get_previous_sibling (sibling))) {
+		if (webkit_dom_node_is_same_node (sibling, start))
+			break;
+
+		if (WEBKIT_DOM_IS_TEXT (sibling))
+			goto out;
+		else if (func (WEBKIT_DOM_ELEMENT (sibling)))
+			continue;
+		else if (webkit_dom_node_get_first_child (sibling)) {
+			WebKitDOMNode *first_child;
+
+			first_child = webkit_dom_node_get_first_child (sibling);
+			if (!webkit_dom_node_get_next_sibling (first_child))
+				if (WEBKIT_DOM_IS_ELEMENT (first_child) && func (WEBKIT_DOM_ELEMENT (first_child)))
+					continue;
+				else
+					goto out;
+			else
+				goto out;
+		} else
+			goto out;
+	}
+
+	ret_val = TRUE;
+ out:
+	g_clear_object (&range);
+	g_clear_object (&dom_window);
+	g_clear_object (&dom_selection);
+
+	return ret_val;
+}
+
+static gboolean
+is_underline_element (WebKitDOMElement *element)
+{
+	if (!element || !WEBKIT_DOM_IS_ELEMENT (element))
+		return FALSE;
+
+	return element_has_tag (element, "u");
+}
+
 /**
  * e_html_editor_selection_is_underline:
  * @selection: an #EHTMLEditorSelection
@@ -2940,51 +3103,13 @@ gboolean
 dom_selection_is_underline (WebKitDOMDocument *document,
                             EHTMLEditorWebExtension *extension)
 {
-	gboolean ret_val;
-	gchar *value, *text_content;
-	WebKitDOMCSSStyleDeclaration *style;
-	WebKitDOMDOMWindow *dom_window;
-	WebKitDOMNode *node;
-	WebKitDOMElement *element;
-	WebKitDOMRange *range;
+	gboolean is_underline;
 
-	range = dom_get_current_range (document);
-	if (!range)
-		return FALSE;
+	is_underline = e_html_editor_web_extension_get_underline (extension);
+	is_underline = dom_selection_is_font_format (
+		document, extension, (IsRightFormatNodeFunc) is_underline_element, &is_underline);
 
-	node = webkit_dom_range_get_common_ancestor_container (range, NULL);
-	g_object_unref (range);
-	/* If we are changing the format of block we have to re-set underline property,
-	 * otherwise it will be turned off because of no text in composer */
-	text_content = webkit_dom_node_get_text_content (node);
-	if (g_strcmp0 (text_content, "") == 0) {
-		g_free (text_content);
-		return e_html_editor_web_extension_get_underline (extension);
-	}
-	g_free (text_content);
-
-	if (WEBKIT_DOM_IS_ELEMENT (node))
-		element = WEBKIT_DOM_ELEMENT (node);
-	else
-		element = webkit_dom_node_get_parent_element (node);
-
-	if (WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (element))
-		return FALSE;
-
-	dom_window = webkit_dom_document_get_default_view (document);
-	style = webkit_dom_dom_window_get_computed_style (dom_window, element, NULL);
-	value = webkit_dom_css_style_declaration_get_property_value (style, "text-decoration");
-
-	if (g_strstr_len (value, -1, "underline"))
-		ret_val = TRUE;
-	else
-		ret_val = get_has_style (document, "u");
-
-	g_object_unref (style);
-	g_object_unref (dom_window);
-	g_free (value);
-
-	return ret_val;
+	return is_underline;
 }
 
 static WebKitDOMElement *
@@ -3167,6 +3292,15 @@ dom_selection_set_underline (WebKitDOMDocument *document,
 	set_dbus_property_boolean (extension, "Underline", underline);
 }
 
+static gboolean
+is_subscript_element (WebKitDOMElement *element)
+{
+	if (!element || !WEBKIT_DOM_IS_ELEMENT (element))
+		return FALSE;
+
+	return element_has_tag (element, "sub");
+}
+
 /**
  * e_html_editor_selection_is_subscript:
  * @selection: an #EHTMLEditorSelection
@@ -3180,24 +3314,8 @@ gboolean
 dom_selection_is_subscript (WebKitDOMDocument *document,
                             EHTMLEditorWebExtension *extension)
 {
-	WebKitDOMNode *node;
-	WebKitDOMRange *range;
-
-	if (!(range = dom_get_current_range (document)))
-		return FALSE;
-
-	node = webkit_dom_range_get_common_ancestor_container (range, NULL);
-	g_object_unref (range);
-
-	while (node && !WEBKIT_DOM_IS_HTML_BODY_ELEMENT (node)) {
-		if (WEBKIT_DOM_IS_ELEMENT (node) &&
-		    element_has_tag (WEBKIT_DOM_ELEMENT (node), "sub"))
-			break;
-
-		node = webkit_dom_node_get_parent_node (node);
-	}
-
-	return (node != NULL);
+	return dom_selection_is_font_format (
+		document, extension, (IsRightFormatNodeFunc) is_subscript_element, NULL);
 }
 
 /**
@@ -3221,6 +3339,15 @@ dom_selection_set_subscript (WebKitDOMDocument *document,
 	set_dbus_property_boolean (extension, "Subscript", subscript);
 }
 
+static gboolean
+is_superscript_element (WebKitDOMElement *element)
+{
+	if (!element || !WEBKIT_DOM_IS_ELEMENT (element))
+		return FALSE;
+
+	return element_has_tag (element, "sup");
+}
+
 /**
  * e_html_editor_selection_is_superscript:
  * @selection: an #EHTMLEditorSelection
@@ -3234,24 +3361,8 @@ gboolean
 dom_selection_is_superscript (WebKitDOMDocument *document,
                               EHTMLEditorWebExtension *extension)
 {
-	WebKitDOMNode *node;
-	WebKitDOMRange *range;
-
-	if (!(range = dom_get_current_range (document)))
-		return FALSE;
-
-	node = webkit_dom_range_get_common_ancestor_container (range, NULL);
-	g_object_unref (range);
-
-	while (node && !WEBKIT_DOM_IS_HTML_BODY_ELEMENT (node)) {
-		if (WEBKIT_DOM_IS_ELEMENT (node) &&
-		    element_has_tag (WEBKIT_DOM_ELEMENT (node), "sup"))
-			break;
-
-		node = webkit_dom_node_get_parent_node (node);
-	}
-
-	return (node != NULL);
+	return dom_selection_is_font_format (
+		document, extension, (IsRightFormatNodeFunc) is_superscript_element, NULL);
 }
 
 /**
@@ -3275,6 +3386,15 @@ dom_selection_set_superscript (WebKitDOMDocument *document,
 	set_dbus_property_boolean (extension, "Superscript", superscript);
 }
 
+static gboolean
+is_strikethrough_element (WebKitDOMElement *element)
+{
+	if (!element || !WEBKIT_DOM_IS_ELEMENT (element))
+		return FALSE;
+
+	return element_has_tag (element, "strike");
+}
+
 /**
  * e_html_editor_selection_is_strikethrough:
  * @selection: an #EHTMLEditorSelection
@@ -3288,48 +3408,13 @@ gboolean
 dom_selection_is_strikethrough (WebKitDOMDocument *document,
                                 EHTMLEditorWebExtension *extension)
 {
-	gboolean ret_val;
-	gchar *value, *text_content;
-	WebKitDOMCSSStyleDeclaration *style;
-	WebKitDOMDOMWindow *dom_window;
-	WebKitDOMNode *node;
-	WebKitDOMElement *element;
-	WebKitDOMRange *range;
+	gboolean is_strikethrough;
 
-	range = dom_get_current_range (document);
-	if (!range)
-		return FALSE;
+	is_strikethrough = e_html_editor_web_extension_get_strikethrough (extension);
+	is_strikethrough = dom_selection_is_font_format (
+		document, extension, (IsRightFormatNodeFunc) is_strikethrough_element, &is_strikethrough);
 
-	node = webkit_dom_range_get_common_ancestor_container (range, NULL);
-	g_object_unref (range);
-	/* If we are changing the format of block we have to re-set strikethrough property,
-	 * otherwise it will be turned off because of no text in composer */
-	text_content = webkit_dom_node_get_text_content (node);
-	if (g_strcmp0 (text_content, "") == 0) {
-		g_free (text_content);
-		return e_html_editor_web_extension_get_strikethrough (extension);
-	}
-	g_free (text_content);
-
-	if (WEBKIT_DOM_IS_ELEMENT (node))
-		element = WEBKIT_DOM_ELEMENT (node);
-	else
-		element = webkit_dom_node_get_parent_element (node);
-
-	dom_window = webkit_dom_document_get_default_view (document);
-	style = webkit_dom_dom_window_get_computed_style (dom_window, element, NULL);
-	value = webkit_dom_css_style_declaration_get_property_value (style, "text-decoration");
-
-	if (g_strstr_len (value, -1, "line-through"))
-		ret_val = TRUE;
-	else
-		ret_val = get_has_style (document, "strike");
-
-	g_object_unref (style);
-	g_object_unref (dom_window);
-	g_free (value);
-
-	return ret_val;
+	return is_strikethrough;
 }
 
 /**
@@ -3389,48 +3474,380 @@ gboolean
 dom_selection_is_monospaced (WebKitDOMDocument *document,
                              EHTMLEditorWebExtension *extension)
 {
-	gboolean ret_val;
-	gchar *value, *text_content;
-	WebKitDOMCSSStyleDeclaration *style;
-	WebKitDOMDOMWindow *dom_window;
-	WebKitDOMNode *node;
-	WebKitDOMElement *element;
-	WebKitDOMRange *range;
+	gboolean is_monospaced;
 
-	range = dom_get_current_range (document);
-	if (!range)
-		return FALSE;
+	is_monospaced = e_html_editor_web_extension_get_monospaced (extension);
+	is_monospaced = dom_selection_is_font_format (
+		document, extension, (IsRightFormatNodeFunc) is_monospaced_element, &is_monospaced);
 
-	node = webkit_dom_range_get_common_ancestor_container (range, NULL);
-	g_object_unref (range);
-	/* If we are changing the format of block we have to re-set italic property,
-	 * otherwise it will be turned off because of no text in composer */
-	text_content = webkit_dom_node_get_text_content (node);
-	if (g_strcmp0 (text_content, "") == 0) {
-		g_free (text_content);
-		return e_html_editor_web_extension_get_monospaced (extension);
+	return is_monospaced;
+}
+
+static void
+monospace_selection (WebKitDOMDocument *document,
+                     WebKitDOMElement *monospaced_element)
+{
+	gboolean selection_end = FALSE;
+	gboolean first = TRUE;
+	gint length, ii;
+	WebKitDOMElement *selection_start_marker, *selection_end_marker;
+	WebKitDOMNode *sibling, *node, *monospace, *block;
+	WebKitDOMNodeList *list;
+
+	dom_selection_save (document);
+
+	selection_start_marker = webkit_dom_document_get_element_by_id (
+		document, "-x-evo-selection-start-marker");
+	selection_end_marker = webkit_dom_document_get_element_by_id (
+		document, "-x-evo-selection-end-marker");
+
+	block = WEBKIT_DOM_NODE (get_parent_block_element (WEBKIT_DOM_NODE (selection_start_marker)));
+
+	monospace = WEBKIT_DOM_NODE (monospaced_element);
+	node = WEBKIT_DOM_NODE (selection_start_marker);
+	/* Go through first block in selection. */
+	while (block && node && !webkit_dom_node_is_same_node (block, node)) {
+		if (webkit_dom_node_get_next_sibling (node)) {
+			/* Prepare the monospaced element. */
+			monospace = webkit_dom_node_insert_before (
+				webkit_dom_node_get_parent_node (node),
+				first ? monospace : webkit_dom_node_clone_node (monospace, FALSE),
+				first ? node : webkit_dom_node_get_next_sibling (node),
+				NULL);
+		} else
+			break;
+
+		/* Move the nodes into monospaced element. */
+		while (((sibling = webkit_dom_node_get_next_sibling (monospace)))) {
+			webkit_dom_node_append_child (monospace, sibling, NULL);
+			if (webkit_dom_node_is_same_node (WEBKIT_DOM_NODE (selection_end_marker), sibling)) {
+				selection_end = TRUE;
+				break;
+			}
+		}
+
+		node = webkit_dom_node_get_parent_node (monospace);
+		first = FALSE;
 	}
-	g_free (text_content);
 
-	if (WEBKIT_DOM_IS_ELEMENT (node))
-		element = WEBKIT_DOM_ELEMENT (node);
-	else
-		element = webkit_dom_node_get_parent_element (node);
+	/* Just one block was selected. */
+	if (selection_end)
+		goto out;
 
-	dom_window = webkit_dom_document_get_default_view (document);
-	style = webkit_dom_dom_window_get_computed_style (dom_window, element, NULL);
-	value = webkit_dom_css_style_declaration_get_property_value (style, "font-family");
+	/* Middle blocks (blocks not containing the end of the selection. */
+	block = webkit_dom_node_get_next_sibling (block);
+	while (block && !selection_end) {
+		WebKitDOMNode *next_block;
 
-	if (g_strstr_len (value, -1, "monospace"))
-		ret_val = TRUE;
-	else
-		ret_val = FALSE;
+		selection_end = webkit_dom_node_contains (
+			block, WEBKIT_DOM_NODE (selection_end_marker));
 
-	g_object_unref (style);
-	g_object_unref (dom_window);
-	g_free (value);
+		if (selection_end)
+			break;
 
-	return ret_val;
+		next_block = webkit_dom_node_get_next_sibling (block);
+
+		monospace = webkit_dom_node_insert_before (
+			block,
+			webkit_dom_node_clone_node (monospace, FALSE),
+			webkit_dom_node_get_first_child (block),
+			NULL);
+
+		while (((sibling = webkit_dom_node_get_next_sibling (monospace))))
+			webkit_dom_node_append_child (monospace, sibling, NULL);
+
+		block = next_block;
+	}
+
+	/* Block containing the end of selection. */
+	node = WEBKIT_DOM_NODE (selection_end_marker);
+	while (block && node && !webkit_dom_node_is_same_node (block, node)) {
+		monospace = webkit_dom_node_insert_before (
+			webkit_dom_node_get_parent_node (node),
+			webkit_dom_node_clone_node (monospace, FALSE),
+			webkit_dom_node_get_next_sibling (node),
+			NULL);
+
+		while (((sibling = webkit_dom_node_get_previous_sibling (monospace)))) {
+			webkit_dom_node_insert_before (
+				monospace,
+				sibling,
+				webkit_dom_node_get_first_child (monospace),
+				NULL);
+		}
+
+		node = webkit_dom_node_get_parent_node (monospace);
+	}
+ out:
+	/* Merge all the monospace elements inside other monospace elements. */
+	list = webkit_dom_document_query_selector_all (
+		document, "font[face=monospace] > font[face=monospace]", NULL);
+	length = webkit_dom_node_list_get_length (list);
+	for (ii = 0; ii < length; ii++) {
+		WebKitDOMNode *item;
+		WebKitDOMNode *child;
+
+		item = webkit_dom_node_list_item (list, ii);
+		while ((child = webkit_dom_node_get_first_child (item))) {
+			webkit_dom_node_insert_before (
+				webkit_dom_node_get_parent_node (item),
+				child,
+				item,
+				NULL);
+		}
+		remove_node (item);
+		g_object_unref (item);
+	}
+	g_object_unref (list);
+
+	/* Merge all the adjacent monospace elements. */
+	list = webkit_dom_document_query_selector_all (
+		document, "font[face=monospace] + font[face=monospace]", NULL);
+	length = webkit_dom_node_list_get_length (list);
+	for (ii = 0; ii < length; ii++) {
+		WebKitDOMNode *item;
+		WebKitDOMNode *child;
+
+		item = webkit_dom_node_list_item (list, ii);
+		/* The + CSS selector will return some false positives as it doesn't
+		 * take text between elements into account so it will return this:
+		 * <font face="monospace">xx</font>yy<font face="monospace">zz</font>
+		 * as valid, but it isn't so we have to check if previous node
+		 * is indeed element or not. */
+		if (WEBKIT_DOM_IS_ELEMENT (webkit_dom_node_get_previous_sibling (item))) {
+			while ((child = webkit_dom_node_get_first_child (item))) {
+				webkit_dom_node_append_child (
+					webkit_dom_node_get_previous_sibling (item), child, NULL);
+			}
+			remove_node (item);
+		}
+		g_object_unref (item);
+	}
+	g_object_unref (list);
+
+	dom_selection_restore (document);
+}
+
+static void
+unmonospace_selection (WebKitDOMDocument *document)
+{
+	WebKitDOMElement *selection_start_marker;
+	WebKitDOMElement *selection_end_marker;
+	WebKitDOMElement *selection_start_clone;
+	WebKitDOMElement *selection_end_clone;
+	WebKitDOMNode *sibling, *node;
+	gboolean selection_end = FALSE;
+	WebKitDOMNode *block, *clone, *monospace;
+
+	dom_selection_save (document);
+
+	selection_start_marker = webkit_dom_document_get_element_by_id (
+		document, "-x-evo-selection-start-marker");
+	selection_end_marker = webkit_dom_document_get_element_by_id (
+		document, "-x-evo-selection-end-marker");
+
+	block = WEBKIT_DOM_NODE (get_parent_block_element (WEBKIT_DOM_NODE (selection_start_marker)));
+
+	node = WEBKIT_DOM_NODE (selection_start_marker);
+	monospace = webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (selection_start_marker));
+	while (monospace && !is_monospaced_element (WEBKIT_DOM_ELEMENT (monospace)))
+		monospace = webkit_dom_node_get_parent_node (monospace);
+
+	/* No monospaced element was found as a parent of selection start node. */
+	if (!monospace)
+		goto out;
+
+	/* Make a clone of current monospaced element. */
+	clone = webkit_dom_node_clone_node (monospace, TRUE);
+
+	/* First block */
+	/* Remove all the nodes that are after the selection start point as they
+	 * will be in the cloned node. */
+	while (monospace && node && !webkit_dom_node_is_same_node (monospace, node)) {
+		WebKitDOMNode *tmp;
+		while (((sibling = webkit_dom_node_get_next_sibling (node))))
+			remove_node (sibling);
+
+		tmp = webkit_dom_node_get_parent_node (node);
+		if (webkit_dom_node_get_next_sibling (node))
+			remove_node (node);
+		node = tmp;
+	}
+
+	selection_start_clone = webkit_dom_element_query_selector (
+		WEBKIT_DOM_ELEMENT (clone), "#-x-evo-selection-start-marker", NULL);
+	selection_end_clone = webkit_dom_element_query_selector (
+		WEBKIT_DOM_ELEMENT (clone), "#-x-evo-selection-end-marker", NULL);
+
+	/* No selection start node in the block where it is supposed to be, return. */
+	if (!selection_start_clone)
+		goto out;
+
+	/* Remove all the nodes until we hit the selection start point as these
+	 * nodes will stay monospaced and they are already in original element. */
+	node = webkit_dom_node_get_first_child (clone);
+	while (node) {
+		WebKitDOMNode *next_sibling;
+
+		next_sibling = webkit_dom_node_get_next_sibling (node);
+		if (webkit_dom_node_get_first_child (node)) {
+			if (webkit_dom_node_contains (node, WEBKIT_DOM_NODE (selection_start_clone))) {
+				node = webkit_dom_node_get_first_child (node);
+				continue;
+			} else
+				remove_node (node);
+		} else if (webkit_dom_node_is_same_node (node, WEBKIT_DOM_NODE (selection_start_clone)))
+			break;
+		else
+			remove_node (node);
+
+		node = next_sibling;
+	}
+
+	/* Insert the clone into the tree. Do it after the previous clean up. If
+	 * we would do it the other way the line would contain duplicated text nodes
+	 * and the block would be expading and shrinking while we would modify it. */
+	webkit_dom_node_insert_before (
+		webkit_dom_node_get_parent_node (monospace),
+		clone,
+		webkit_dom_node_get_next_sibling (monospace),
+		NULL);
+
+	/* Move selection start point the right place. */
+	remove_node (WEBKIT_DOM_NODE (selection_start_marker));
+	webkit_dom_node_insert_before (
+		webkit_dom_node_get_parent_node (clone),
+		WEBKIT_DOM_NODE (selection_start_clone),
+		clone,
+		NULL);
+
+	/* Move all the nodes the are supposed to lose the monospace formatting
+	 * out of monospaced element. */
+	node = webkit_dom_node_get_first_child (clone);
+	while (node) {
+		WebKitDOMNode *next_sibling;
+
+		next_sibling = webkit_dom_node_get_next_sibling (node);
+		if (webkit_dom_node_get_first_child (node)) {
+			if (selection_end_clone &&
+			    webkit_dom_node_contains (node, WEBKIT_DOM_NODE (selection_end_clone))) {
+				node = webkit_dom_node_get_first_child (node);
+				continue;
+			} else
+				webkit_dom_node_insert_before (
+					webkit_dom_node_get_parent_node (clone),
+					node,
+					clone,
+					NULL);
+		} else if (selection_end_clone &&
+			   webkit_dom_node_is_same_node (node, WEBKIT_DOM_NODE (selection_end_clone))) {
+			selection_end = TRUE;
+			webkit_dom_node_insert_before (
+				webkit_dom_node_get_parent_node (clone),
+				node,
+				clone,
+				NULL);
+			break;
+		} else
+			webkit_dom_node_insert_before (
+				webkit_dom_node_get_parent_node (clone),
+				node,
+				clone,
+				NULL);
+
+		node = next_sibling;
+	}
+
+	if (!webkit_dom_node_get_first_child (clone))
+		remove_node (clone);
+
+	/* Just one block was selected and we hit the selection end point. */
+	if (selection_end)
+		goto out;
+
+	/* Middle blocks */
+	block = webkit_dom_node_get_next_sibling (block);
+	while (block && !selection_end) {
+		WebKitDOMNode *next_block, *child, *parent;
+		WebKitDOMElement *monospaced_element;
+
+		selection_end = webkit_dom_node_contains (
+			block, WEBKIT_DOM_NODE (selection_end_marker));
+
+		if (selection_end)
+			break;
+
+		next_block = webkit_dom_node_get_next_sibling (block);
+
+		/* Find the monospaced element and move all the nodes from it and
+		 * finally remove it. */
+		monospaced_element = webkit_dom_element_query_selector (
+			WEBKIT_DOM_ELEMENT (block), "font[face=monospace]", NULL);
+		if (!monospaced_element)
+			break;
+
+		parent = webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (monospaced_element));
+		while  ((child = webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (monospaced_element)))) {
+			webkit_dom_node_insert_before (
+				parent, child, WEBKIT_DOM_NODE (monospaced_element), NULL);
+		}
+
+		remove_node (WEBKIT_DOM_NODE (monospaced_element));
+
+		block = next_block;
+	}
+
+	/* End block */
+	node = WEBKIT_DOM_NODE (selection_end_marker);
+	monospace = webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (selection_end_marker));
+	while (monospace && !is_monospaced_element (WEBKIT_DOM_ELEMENT (monospace)))
+		monospace = webkit_dom_node_get_parent_node (monospace);
+
+	/* No monospaced element was found as a parent of selection end node. */
+	if (!monospace)
+		return;
+
+	clone = WEBKIT_DOM_NODE (monospace);
+	node = webkit_dom_node_get_first_child (clone);
+	/* Move all the nodes that are supposed to lose the monospaced formatting
+	 * out of the monospaced element. */
+	while (node) {
+		WebKitDOMNode *next_sibling;
+
+		next_sibling = webkit_dom_node_get_next_sibling (node);
+		if (webkit_dom_node_get_first_child (node)) {
+			if (webkit_dom_node_contains (node, WEBKIT_DOM_NODE (selection_end_marker))) {
+				node = webkit_dom_node_get_first_child (node);
+				continue;
+			} else
+				webkit_dom_node_insert_before (
+					webkit_dom_node_get_parent_node (clone),
+					node,
+					clone,
+					NULL);
+		} else if (webkit_dom_node_is_same_node (node, WEBKIT_DOM_NODE (selection_end_marker))) {
+			selection_end = TRUE;
+			webkit_dom_node_insert_before (
+				webkit_dom_node_get_parent_node (clone),
+				node,
+				clone,
+				NULL);
+			break;
+		} else {
+			webkit_dom_node_insert_before (
+				webkit_dom_node_get_parent_node (clone),
+				node,
+				clone,
+				NULL);
+		}
+
+		node = next_sibling;
+	}
+
+	if (!webkit_dom_node_get_first_child (clone))
+		remove_node (clone);
+ out:
+	dom_selection_restore (document);
 }
 
 /**
@@ -3499,23 +3916,9 @@ dom_selection_set_monospaced (WebKitDOMDocument *document,
 			g_free (font_size_str);
 		}
 
-		if (!webkit_dom_range_get_collapsed (range, NULL)) {
-			webkit_dom_range_surround_contents (
-				range, WEBKIT_DOM_NODE (monospace), NULL);
-
-			webkit_dom_node_insert_before (
-				WEBKIT_DOM_NODE (monospace),
-				WEBKIT_DOM_NODE (dom_create_selection_marker (document, TRUE)),
-				webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (monospace)),
-				NULL);
-
-			webkit_dom_node_append_child (
-				WEBKIT_DOM_NODE (monospace),
-				WEBKIT_DOM_NODE (dom_create_selection_marker (document, FALSE)),
-				NULL);
-
-			dom_selection_restore (document);
-		} else {
+		if (!webkit_dom_range_get_collapsed (range, NULL))
+			monospace_selection (document, monospace);
+		else {
 			/* https://bugs.webkit.org/show_bug.cgi?id=15256 */
 			webkit_dom_element_set_inner_html (
 				monospace,
@@ -3555,73 +3958,9 @@ dom_selection_set_monospaced (WebKitDOMDocument *document,
 		is_underline = e_html_editor_web_extension_get_underline (extension);
 		is_strikethrough = e_html_editor_web_extension_get_strikethrough (extension);
 
-		if (!dom_selection_is_collapsed (document)) {
-			gchar *html, *outer_html, *inner_html, *beginning, *end;
-			gchar *start_position, *end_position, *font_size_str = NULL;
-			WebKitDOMElement *wrapper;
-			WebKitDOMNode *next_sibling;
-			WebKitDOMNode *prev_sibling;
-
-			wrapper = webkit_dom_document_create_element (
-				document, "SPAN", NULL);
-			webkit_dom_element_set_id (wrapper, "-x-evo-remove-tt");
-			webkit_dom_range_surround_contents (
-				range, WEBKIT_DOM_NODE (wrapper), NULL);
-
-			webkit_dom_node_normalize (webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (wrapper)));
-			prev_sibling = webkit_dom_node_get_previous_sibling (WEBKIT_DOM_NODE (wrapper));
-			next_sibling = webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (wrapper));
-
-			html = webkit_dom_element_get_outer_html (tt_element);
-
-			start_position = g_strstr_len (
-				html, -1, "<span id=\"-x-evo-remove-tt\"");
-			end_position = g_strstr_len (start_position, -1, "</span>");
-
-			beginning = g_utf8_substring (
-				html, 0, g_utf8_pointer_to_offset (html, start_position));
-			inner_html = webkit_dom_element_get_inner_html (wrapper);
-			end = g_utf8_substring (
-				html,
-				g_utf8_pointer_to_offset (html, end_position) + 7,
-				g_utf8_strlen (html, -1));
-
-			if (font_size)
-				font_size_str = g_strdup_printf ("%d", font_size);
-
-			outer_html =
-				g_strconcat (
-					/* Beginning */
-					prev_sibling ? beginning : "",
-					/* End the previous FONT tag */
-					prev_sibling ? "</font>" : "",
-					/* Mark selection for restoration */
-					"<span id=\"-x-evo-selection-start-marker\"></span>",
-					/* Inside will be the same */
-					inner_html,
-					"<span id=\"-x-evo-selection-end-marker\"></span>",
-					/* Start the new FONT element */
-					next_sibling ? "<font face=\"monospace\" " : "",
-					next_sibling ? font_size ? "size=\"" : "" : "",
-					next_sibling ? font_size ? font_size_str : "" : "",
-					next_sibling ? font_size ? "\"" : "" : "",
-					next_sibling ? ">" : "",
-					/* End - we have to start after </span> */
-					next_sibling ? end : "",
-					NULL),
-
-			g_free (font_size_str);
-
-			webkit_dom_element_set_outer_html (tt_element, outer_html, NULL);
-
-			dom_selection_restore (document);
-
-			g_free (html);
-			g_free (outer_html);
-			g_free (inner_html);
-			g_free (beginning);
-			g_free (end);
-		} else {
+		if (!dom_selection_is_collapsed (document))
+			unmonospace_selection (document);
+		else {
 			dom_selection_save (document);
 			set_font_style (document, "", FALSE);
 			dom_selection_restore (document);
@@ -3660,6 +3999,19 @@ dom_selection_set_monospaced (WebKitDOMDocument *document,
 	set_dbus_property_boolean (extension, "Monospaced", monospaced);
 }
 
+static gboolean
+is_bold_element (WebKitDOMElement *element)
+{
+	if (!element || !WEBKIT_DOM_IS_ELEMENT (element))
+		return FALSE;
+
+	if (element_has_tag (element, "b"))
+		return TRUE;
+
+	/* Headings are bold by default */
+	return WEBKIT_DOM_IS_HTML_HEADING_ELEMENT (element);
+}
+
 /**
  * e_html_editor_selection_is_bold:
  * @selection: an #EHTMLEditorSelection
@@ -3673,48 +4025,14 @@ gboolean
 dom_selection_is_bold (WebKitDOMDocument *document,
                        EHTMLEditorWebExtension *extension)
 {
-	gboolean ret_val;
-	gchar *value, *text_content;
-	WebKitDOMCSSStyleDeclaration *style;
-	WebKitDOMDOMWindow *dom_window;
-	WebKitDOMNode *node;
-	WebKitDOMElement *element;
-	WebKitDOMRange *range;
+	gboolean is_bold;
 
-	range = dom_get_current_range (document);
-	if (!range)
-		return FALSE;
+	is_bold = e_html_editor_web_extension_get_bold (extension);
 
-	node = webkit_dom_range_get_common_ancestor_container (range, NULL);
-	g_object_unref (range);
-	/* If we are changing the format of block we have to re-set bold property,
-	 * otherwise it will be turned off because of no text in composer */
-	text_content = webkit_dom_node_get_text_content (node);
-	if (g_strcmp0 (text_content, "") == 0) {
-		g_free (text_content);
-		return e_html_editor_web_extension_get_bold (extension);
-	}
-	g_free (text_content);
+	is_bold = dom_selection_is_font_format (
+		document, extension, (IsRightFormatNodeFunc) is_bold_element, &is_bold);
 
-	if (WEBKIT_DOM_IS_ELEMENT (node))
-		element = WEBKIT_DOM_ELEMENT (node);
-	else
-		element = webkit_dom_node_get_parent_element (node);
-
-	dom_window = webkit_dom_document_get_default_view (document);
-	style = webkit_dom_dom_window_get_computed_style (dom_window, element, NULL);
-	value = webkit_dom_css_style_declaration_get_property_value (style, "font-weight");
-
-	if (g_strstr_len (value, -1, "normal"))
-		ret_val = FALSE;
-	else
-		ret_val = TRUE;
-
-	g_object_unref (style);
-	g_object_unref (dom_window);
-
-	g_free (value);
-	return ret_val;
+	return is_bold;
 }
 
 /**
@@ -3741,6 +4059,15 @@ dom_selection_set_bold (WebKitDOMDocument *document,
 	set_dbus_property_boolean (extension, "Bold", bold);
 }
 
+static gboolean
+is_italic_element (WebKitDOMElement *element)
+{
+	if (!element || !WEBKIT_DOM_IS_ELEMENT (element))
+		return FALSE;
+
+	return element_has_tag (element, "i") || element_has_tag (element, "address");
+}
+
 /**
  * e_html_editor_selection_is_italic:
  * @selection: an #EHTMLEditorSelection
@@ -3754,48 +4081,13 @@ gboolean
 dom_selection_is_italic (WebKitDOMDocument *document,
                          EHTMLEditorWebExtension *extension)
 {
-	gboolean ret_val;
-	gchar *value, *text_content;
-	WebKitDOMCSSStyleDeclaration *style;
-	WebKitDOMDOMWindow *dom_window;
-	WebKitDOMNode *node;
-	WebKitDOMElement *element;
-	WebKitDOMRange *range;
+	gboolean is_italic;
 
-	range = dom_get_current_range (document);
-	if (!range)
-		return FALSE;
+	is_italic = e_html_editor_web_extension_get_italic (extension);
+	is_italic = dom_selection_is_font_format (
+		document, extension, (IsRightFormatNodeFunc) is_italic_element, &is_italic);
 
-	node = webkit_dom_range_get_common_ancestor_container (range, NULL);
-	g_object_unref (range);
-	/* If we are changing the format of block we have to re-set italic property,
-	 * otherwise it will be turned off because of no text in composer */
-	text_content = webkit_dom_node_get_text_content (node);
-	if (g_strcmp0 (text_content, "") == 0) {
-		g_free (text_content);
-		return e_html_editor_web_extension_get_italic (extension);
-	}
-	g_free (text_content);
-
-	if (WEBKIT_DOM_IS_ELEMENT (node))
-		element = WEBKIT_DOM_ELEMENT (node);
-	else
-		element = webkit_dom_node_get_parent_element (node);
-
-	dom_window = webkit_dom_document_get_default_view (document);
-	style = webkit_dom_dom_window_get_computed_style (dom_window, element, NULL);
-	value = webkit_dom_css_style_declaration_get_property_value (style, "font-style");
-
-	if (g_strstr_len (value, -1, "italic"))
-		ret_val = TRUE;
-	else
-		ret_val = FALSE;
-
-	g_object_unref (style);
-	g_object_unref (dom_window);
-	g_free (value);
-
-	return ret_val;
+	return is_italic;
 }
 
 /**
@@ -3903,8 +4195,6 @@ dom_selection_is_citation (WebKitDOMDocument *document)
 	if (WEBKIT_DOM_IS_TEXT (node))
 		return get_has_style (document, "citation");
 
-	/* If we are changing the format of block we have to re-set bold property,
-	 * otherwise it will be turned off because of no text in composer */
 	text_content = webkit_dom_node_get_text_content (node);
 	if (g_strcmp0 (text_content, "") == 0) {
 		g_free (text_content);
