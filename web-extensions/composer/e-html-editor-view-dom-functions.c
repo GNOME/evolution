@@ -3621,7 +3621,8 @@ create_anchor_for_link (const GMatchInfo *info,
                         GString *res,
                         gpointer data)
 {
-	gint offset = 0;
+	gint offset = 0, truncate_from_end = 0;
+	const gchar *end_of_match = NULL;
 	gchar *match;
 	gboolean address_surrounded;
 
@@ -3642,26 +3643,47 @@ create_anchor_for_link (const GMatchInfo *info,
 	if (address_surrounded)
 		g_string_append (res, "&lt;");
 
+	if (!address_surrounded) {
+		end_of_match = match + strlen (match) - 1;
+		/* Taken from camel-url-scanner.c */
+		/* URLs are extremely unlikely to end with any punctuation, so
+		 * strip any trailing punctuation off from link and put it after
+		 * the link. Do the same for any closing double-quotes as well. */
+		while (end_of_match && end_of_match != match && strchr (",.:;?!-|}])\"", *end_of_match)) {
+			truncate_from_end++;
+			end_of_match--;
+		}
+	}
 	g_string_append (res, "<a href=\"");
 	if (strstr (match, "@") && !strstr (match, "://")) {
 		g_string_append (res, "mailto:");
 		g_string_append (res, match + offset);
 		if (address_surrounded)
 			g_string_truncate (res, res->len - 4);
+		else if (truncate_from_end > 0)
+			g_string_truncate (res, res->len - truncate_from_end);
 
 		g_string_append (res, "\">");
 		g_string_append (res, match + offset);
 		if (address_surrounded)
 			g_string_truncate (res, res->len - 4);
+		else if (truncate_from_end > 0)
+			g_string_truncate (res, res->len - truncate_from_end);
 	} else {
 		g_string_append (res, match + offset);
+		if (truncate_from_end > 0)
+			g_string_truncate (res, res->len - truncate_from_end);
 		g_string_append (res, "\">");
 		g_string_append (res, match + offset);
+		if (truncate_from_end > 0)
+			g_string_truncate (res, res->len - truncate_from_end);
 	}
 	g_string_append (res, "</a>");
 
 	if (address_surrounded)
 		g_string_append (res, "&gt;");
+	else if (truncate_from_end > 0)
+		g_string_append (res, end_of_match + 1);
 
 	g_free (match);
 
