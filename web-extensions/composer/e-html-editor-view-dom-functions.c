@@ -2382,7 +2382,6 @@ body_input_event_cb (WebKitDOMElement *element,
 				EHTMLEditorHistoryEvent *ev;
 
 				dom_remove_quoting_from_element (block);
-				dom_remove_wrapping_from_element (block);
 
 				block = dom_wrap_paragraph_length (document, extension, block, length);
 				webkit_dom_node_normalize (WEBKIT_DOM_NODE (block));
