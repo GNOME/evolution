@@ -4628,8 +4628,6 @@ dom_convert_content (WebKitDOMDocument *document,
 		FALSE,
 		extension);
 
-	g_object_unref (dom_window);
-
 	register_html_events_handlers (body, extension);
 
 	g_free (inner_html);
@@ -6789,8 +6787,6 @@ dom_process_content_after_load (WebKitDOMDocument *document,
 		G_CALLBACK (body_scroll_event_cb),
 		FALSE,
 		extension);
-
-	g_object_unref (dom_window);
 }
 
 GVariant *
