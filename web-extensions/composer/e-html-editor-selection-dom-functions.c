@@ -899,20 +899,6 @@ dom_selection_indent (WebKitDOMDocument *document,
 	dom_selection_save (document);
 
 	manager = e_html_editor_web_extension_get_undo_redo_manager (extension);
-	if (!e_html_editor_undo_redo_manager_is_operation_in_progress (manager)) {
-		ev = g_new0 (EHTMLEditorHistoryEvent, 1);
-		ev->type = HISTORY_INDENT;
-
-		dom_selection_get_coordinates (
-			document,
-			&ev->before.start.x,
-			&ev->before.start.y,
-			&ev->before.end.x,
-			&ev->before.end.y);
-
-		ev->data.style.from = 1;
-		ev->data.style.to = 1;
-	}
 
 	selection_start_marker = webkit_dom_document_query_selector (
 		document, "span#-x-evo-selection-start-marker", NULL);
@@ -933,6 +919,21 @@ dom_selection_indent (WebKitDOMDocument *document,
 			WEBKIT_DOM_ELEMENT (child),
 			&selection_start_marker,
 			&selection_end_marker);
+	}
+
+	if (!e_html_editor_undo_redo_manager_is_operation_in_progress (manager)) {
+		ev = g_new0 (EHTMLEditorHistoryEvent, 1);
+		ev->type = HISTORY_INDENT;
+
+		dom_selection_get_coordinates (
+			document,
+			&ev->before.start.x,
+			&ev->before.start.y,
+			&ev->before.end.x,
+			&ev->before.end.y);
+
+		ev->data.style.from = 1;
+		ev->data.style.to = 1;
 	}
 
 	block = get_parent_indented_block (
@@ -5216,6 +5217,14 @@ dom_selection_set_alignment (WebKitDOMDocument *document,
 
 	dom_selection_save (document);
 
+	selection_start_marker = webkit_dom_document_query_selector (
+		document, "span#-x-evo-selection-start-marker", NULL);
+	selection_end_marker = webkit_dom_document_query_selector (
+		document, "span#-x-evo-selection-end-marker", NULL);
+
+	if (!selection_start_marker)
+		return;
+
 	manager = e_html_editor_web_extension_get_undo_redo_manager (extension);
 	if (!e_html_editor_undo_redo_manager_is_operation_in_progress (manager)) {
 		ev = g_new0 (EHTMLEditorHistoryEvent, 1);
@@ -5230,14 +5239,6 @@ dom_selection_set_alignment (WebKitDOMDocument *document,
 		ev->data.style.from = current_alignment;
 		ev->data.style.to = alignment;
 	 }
-
-	selection_start_marker = webkit_dom_document_query_selector (
-		document, "span#-x-evo-selection-start-marker", NULL);
-	selection_end_marker = webkit_dom_document_query_selector (
-		document, "span#-x-evo-selection-end-marker", NULL);
-
-	if (!selection_start_marker)
-		return;
 
 	block = get_parent_block_node_from_child (
 		WEBKIT_DOM_NODE (selection_start_marker));
