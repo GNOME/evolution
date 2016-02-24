@@ -4078,7 +4078,7 @@ parse_html_into_paragraphs (WebKitDOMDocument *document,
 					element_add_class (
 						WEBKIT_DOM_ELEMENT (child),
 						"-x-evo-last-br");
-				} else
+				} else if (!e_html_editor_web_extension_is_editting_message (extension))
 					create_and_append_new_paragraph (
 						document, extension, blockquote, block, "<br>");
 			} else
@@ -4583,9 +4583,12 @@ dom_convert_content (WebKitDOMDocument *document,
 		remove_node (WEBKIT_DOM_NODE (content_wrapper));
 	}
 
+	/* If not editting a message, don't add any new block and just place
+	 * the carret in the beginning of content. We want to have the same
+	 * behaviour when editting message as new or we start replying on top. */
 	if (e_html_editor_web_extension_is_message_from_edit_as_new (extension) ||
-	    e_html_editor_web_extension_get_remove_initial_input_line (extension) ||
-            start_bottom) {
+	    !e_html_editor_web_extension_is_editting_message (extension) ||
+            !start_bottom) {
 		WebKitDOMNode *child;
 
 		remove_node (WEBKIT_DOM_NODE (paragraph));

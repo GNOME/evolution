@@ -88,10 +88,10 @@ struct _EHTMLEditorWebExtensionPrivate {
 	gboolean convert_in_situ;
 	gboolean body_input_event_removed;
 	gboolean is_message_from_draft;
+	gboolean is_editting_message;
 	gboolean is_from_new_message;
 	gboolean is_message_from_edit_as_new;
 	gboolean is_message_from_selection;
-	gboolean remove_initial_input_line;
 	gboolean dont_save_history_in_body_input;
 	gboolean composition_in_progress;
 
@@ -116,11 +116,11 @@ static const char introspection_xml[] =
 "    <property type='b' name='MagicLinks' access='readwrite'/>"
 "    <property type='b' name='MagicSmileys' access='readwrite'/>"
 "    <property type='b' name='HTMLMode' access='readwrite'/>"
+"    <property type='b' name='IsEdittingMessage' access='readwrite'/>"
 "    <property type='b' name='IsMessageFromEditAsNew' access='readwrite'/>"
 "    <property type='b' name='IsMessageFromDraft' access='readwrite'/>"
 "    <property type='b' name='IsMessageFromSelection' access='readwrite'/>"
 "    <property type='b' name='IsFromNewMessage' access='readwrite'/>"
-"    <property type='b' name='RemoveInitialInputLine' access='readwrite'/>"
 "    <property type='u' name='NodeUnderMouseClickFlags' access='readwrite'/>"
 "<!-- ********************************************************* -->"
 "<!-- These properties show the actual state of EHTMLEditorView -->"
@@ -2411,6 +2411,8 @@ handle_get_property (GDBusConnection *connection,
 		variant = g_variant_new_boolean (extension->priv->magic_smileys);
 	else if (g_strcmp0 (property_name, "HTMLMode") == 0)
 		variant = g_variant_new_boolean (extension->priv->html_mode);
+	else if (g_strcmp0 (property_name, "IsEdittingMessage") == 0)
+		variant = g_variant_new_boolean (extension->priv->is_editting_message);
 	else if (g_strcmp0 (property_name, "IsFromNewMessage") == 0)
 		variant = g_variant_new_boolean (extension->priv->is_from_new_message);
 	else if (g_strcmp0 (property_name, "IsMessageFromEditAsNew") == 0)
@@ -2419,8 +2421,6 @@ handle_get_property (GDBusConnection *connection,
 		variant = g_variant_new_boolean (extension->priv->is_message_from_draft);
 	else if (g_strcmp0 (property_name, "IsMessageFromSelection") == 0)
 		variant = g_variant_new_boolean (extension->priv->is_message_from_selection);
-	else if (g_strcmp0 (property_name, "RemoveInitialInputLine") == 0)
-		variant = g_variant_new_boolean (extension->priv->remove_initial_input_line);
 	else if (g_strcmp0 (property_name, "Alignment") == 0)
 		variant = g_variant_new_uint32 (extension->priv->alignment);
 	else if (g_strcmp0 (property_name, "BackgroundColor") == 0)
@@ -2502,18 +2502,18 @@ handle_set_property (GDBusConnection *connection,
 			"{sv}",
 			"IsMessageFromDraft",
 			g_variant_new_boolean (extension->priv->is_message_from_draft));
-	} else if (g_strcmp0 (property_name, "RemoveInitialInputLine") == 0) {
+	} else if (g_strcmp0 (property_name, "IsEdittingMessage") == 0) {
 		gboolean value = g_variant_get_boolean (variant);
 
-		if (value == extension->priv->remove_initial_input_line)
+		if (value == extension->priv->is_editting_message)
 			goto exit;
 
-		extension->priv->remove_initial_input_line = value;
+		extension->priv->is_editting_message = value;
 
 		g_variant_builder_add (builder,
 			"{sv}",
-			"RemoveInitialInputLine",
-			g_variant_new_boolean (extension->priv->remove_initial_input_line));
+			"IsEdittingMessage",
+			g_variant_new_boolean (extension->priv->is_editting_message));
 	} else if (g_strcmp0 (property_name, "IsMessageFromSelection") == 0) {
 		gboolean value = g_variant_get_boolean (variant);
 
@@ -2935,11 +2935,11 @@ e_html_editor_web_extension_init (EHTMLEditorWebExtension *extension)
 
 	extension->priv->convert_in_situ = FALSE;
 	extension->priv->body_input_event_removed = TRUE;
+	extension->priv->is_editting_message = TRUE;
 	extension->priv->is_message_from_draft = FALSE;
 	extension->priv->is_message_from_edit_as_new = FALSE;
 	extension->priv->is_from_new_message = FALSE;
 	extension->priv->is_message_from_selection = FALSE;
-	extension->priv->remove_initial_input_line = FALSE;
 	extension->priv->dont_save_history_in_body_input = FALSE;
 	extension->priv->composition_in_progress = FALSE;
 
@@ -3452,9 +3452,9 @@ e_html_editor_web_extension_is_message_from_edit_as_new (EHTMLEditorWebExtension
 }
 
 gboolean
-e_html_editor_web_extension_get_remove_initial_input_line (EHTMLEditorWebExtension *extension)
+e_html_editor_web_extension_is_editting_message (EHTMLEditorWebExtension *extension)
 {
-	return extension->priv->remove_initial_input_line;
+	return extension->priv->is_editting_message;
 }
 
 gboolean

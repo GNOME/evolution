@@ -140,7 +140,7 @@ EHTMLEditorSelectionAlignment
 gboolean	e_html_editor_web_extension_is_message_from_edit_as_new
 						(EHTMLEditorWebExtension *extension);
 
-gboolean	e_html_editor_web_extension_get_remove_initial_input_line
+gboolean	e_html_editor_web_extension_is_editting_message
 						(EHTMLEditorWebExtension *extension);
 
 gboolean	e_html_editor_web_extension_get_return_key_pressed

@@ -198,7 +198,7 @@ gboolean	e_html_editor_view_is_message_from_edit_as_new
 void		e_html_editor_view_set_is_message_from_edit_as_new
 						(EHTMLEditorView *view,
 						 gboolean value);
-void		e_html_editor_view_set_remove_initial_input_line
+void		e_html_editor_view_set_is_editting_message
 						(EHTMLEditorView *view,
 						 gboolean value);
 void		e_html_editor_view_scroll_to_caret

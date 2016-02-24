@@ -73,10 +73,10 @@ struct _EHTMLEditorViewPrivate {
 
 	gboolean convert_in_situ;
 	gboolean body_input_event_removed;
+	gboolean is_editting_message;
 	gboolean is_message_from_draft;
 	gboolean is_message_from_edit_as_new;
 	gboolean is_message_from_selection;
-	gboolean remove_initial_input_line;
 
 	GDBusProxy *web_extension;
 	guint web_extension_watch_name_id;
@@ -1686,10 +1686,10 @@ e_html_editor_view_init (EHTMLEditorView *view)
 	g_free (comma_separated);
 */
 	view->priv->body_input_event_removed = TRUE;
+	view->priv->is_editting_message = TRUE;
 	view->priv->is_message_from_draft = FALSE;
 	view->priv->is_message_from_selection = FALSE;
 	view->priv->is_message_from_edit_as_new = FALSE;
-	view->priv->remove_initial_input_line = FALSE;
 	view->priv->convert_in_situ = FALSE;
 
 	view->priv->current_user_stylesheet = NULL;
@@ -2928,12 +2928,12 @@ e_html_editor_view_set_is_message_from_edit_as_new (EHTMLEditorView *view,
 }
 
 void
-e_html_editor_view_set_remove_initial_input_line (EHTMLEditorView *view,
-                                                  gboolean value)
+e_html_editor_view_set_is_editting_message (EHTMLEditorView *view,
+					    gboolean value)
 {
 	g_return_if_fail (E_IS_HTML_EDITOR_VIEW (view));
 
-	view->priv->remove_initial_input_line = value;
+	view->priv->is_editting_message = value;
 }
 
 void
