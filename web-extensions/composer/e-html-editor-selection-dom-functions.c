@@ -2019,6 +2019,23 @@ dom_scroll_to_caret (WebKitDOMDocument *document)
 	g_object_unref (dom_window);
 }
 
+static void
+mark_and_remove_leading_space (WebKitDOMDocument *document,
+                               WebKitDOMNode *node)
+{
+	WebKitDOMElement *element;
+
+	element = webkit_dom_document_create_element (document, "SPAN", NULL);
+	webkit_dom_element_set_attribute (element, "data-hidden-space", "", NULL);
+	webkit_dom_node_insert_before (
+		webkit_dom_node_get_parent_node (node),
+		WEBKIT_DOM_NODE (element),
+		node,
+		NULL);
+	webkit_dom_character_data_replace_data (
+		WEBKIT_DOM_CHARACTER_DATA (node), 0, 1, "", NULL);
+}
+
 static WebKitDOMElement *
 wrap_lines (WebKitDOMDocument *document,
             EHTMLEditorWebExtension *extension,
@@ -2140,6 +2157,23 @@ wrap_lines (WebKitDOMDocument *document,
 			start_node = paragraph_clone;
 		} else
 			start_node = node;
+	}
+
+	if (start_node && WEBKIT_DOM_IS_ELEMENT (start_node)) {
+		WebKitDOMNodeList *list;
+
+		list = webkit_dom_element_query_selector_all (
+			WEBKIT_DOM_ELEMENT (start_node), "span[data-hidden-space]", NULL);
+		len = webkit_dom_node_list_get_length (list);
+		for (ii = 0; ii < len; ii++) {
+			WebKitDOMNode *hidden_space_node;
+
+			hidden_space_node = webkit_dom_node_list_item (list, ii);
+			webkit_dom_html_element_set_outer_text (
+				WEBKIT_DOM_HTML_ELEMENT (hidden_space_node), " ", NULL);
+			g_object_unref (hidden_space_node);
+		}
+		g_object_unref (list);
 	}
 
 	len = 0;
@@ -2316,8 +2350,7 @@ wrap_lines (WebKitDOMDocument *document,
 					nd_content = webkit_dom_node_get_text_content (nd);
 					if (nd_content && *nd_content) {
 						if (g_str_has_prefix (nd_content, " "))
-							webkit_dom_character_data_replace_data (
-								WEBKIT_DOM_CHARACTER_DATA (nd), 0, 1, "", NULL);
+							mark_and_remove_leading_space (document, nd);
 						g_free (nd_content);
 						nd_content = webkit_dom_node_get_text_content (nd);
 						if (g_strcmp0 (nd_content, UNICODE_NBSP) == 0)
@@ -2349,8 +2382,7 @@ wrap_lines (WebKitDOMDocument *document,
 					nd_content = webkit_dom_node_get_text_content (nd);
 					if (nd_content && *nd_content) {
 						if (g_str_has_prefix (nd_content, " "))
-							webkit_dom_character_data_replace_data (
-								WEBKIT_DOM_CHARACTER_DATA (nd), 0, 1, "", NULL);
+							mark_and_remove_leading_space (document, nd);
 						g_free (nd_content);
 						nd_content = webkit_dom_node_get_text_content (nd);
 						if (g_strcmp0 (nd_content, UNICODE_NBSP) == 0)
