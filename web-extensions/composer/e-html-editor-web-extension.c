@@ -2843,6 +2843,11 @@ e_html_editor_web_extension_dispose (GObject *object)
 {
 	EHTMLEditorWebExtension *extension = E_HTML_EDITOR_WEB_EXTENSION (object);
 
+	if (extension->priv->spell_check_on_scroll_event_source_id > 0) {
+		g_source_remove (extension->priv->spell_check_on_scroll_event_source_id);
+		extension->priv->spell_check_on_scroll_event_source_id = 0;
+	}
+
 	if (extension->priv->dbus_connection) {
 		g_dbus_connection_unregister_object (
 			extension->priv->dbus_connection,
