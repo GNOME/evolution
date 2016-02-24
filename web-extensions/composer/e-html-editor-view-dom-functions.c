@@ -5704,11 +5704,11 @@ process_elements (EHTMLEditorWebExtension *extension,
 				 * replaced by single whitespace */
 				if (strstr (content, "\x9")) {
 					if (buffer->str && *buffer->str) {
-						gchar *start_of_line = g_strrstr_len (
-							buffer->str, -1, "\n") + 1;
+						const gchar *start_of_line = g_strrstr_len (
+							buffer->str, -1, "\n");
 
 						if (start_of_line && *start_of_line)
-							char_count = strlen (start_of_line);
+							char_count = strlen (start_of_line + 1);
 					} else
 						char_count = 0;
 
