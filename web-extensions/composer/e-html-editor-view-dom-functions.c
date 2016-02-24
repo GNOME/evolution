@@ -5467,15 +5467,7 @@ remove_evolution_attributes (WebKitDOMElement *element)
 	webkit_dom_element_remove_attribute (element, "data-user-wrapped");
 	webkit_dom_element_remove_attribute (element, "spellcheck");
 }
-/*
-static void
-remove_style_attributes (WebKitDOMElement *element)
-{
-	webkit_dom_element_remove_attribute (element, "bgcolor");
-	webkit_dom_element_remove_attribute (element, "background");
-	webkit_dom_element_remove_attribute (element, "style");
-}
-*/
+
 static gboolean
 replace_to_whitespaces (const GMatchInfo *info,
                         GString *res,
