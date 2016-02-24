@@ -7554,7 +7554,8 @@ insert_tabulator (WebKitDOMDocument *document,
 
 		manager = e_html_editor_web_extension_get_undo_redo_manager (extension);
 		e_html_editor_undo_redo_manager_insert_history_event (manager, ev);
-	}
+	} else
+		g_free (ev);
 
 	return success;
 }
