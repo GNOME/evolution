@@ -127,7 +127,8 @@ void		dom_insert_html			(WebKitDOMDocument *document,
 
 gboolean	dom_process_on_key_press	(WebKitDOMDocument *document,
 						 EHTMLEditorWebExtension *extension,
-						 guint key_val);
+						 guint key_val,
+						 guint state);
 
 gchar *		dom_process_content_for_draft	(WebKitDOMDocument *document);
 

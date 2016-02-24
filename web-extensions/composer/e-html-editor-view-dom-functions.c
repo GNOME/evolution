@@ -7133,7 +7133,8 @@ fix_structure_after_delete_before_quoted_content (WebKitDOMDocument *document)
 static void
 save_history_for_delete_or_backspace (WebKitDOMDocument *document,
                                       EHTMLEditorWebExtension *extension,
-                                      gboolean delete_key)
+                                      gboolean delete_key,
+                                      gboolean control_key)
 {
 	EHTMLEditorHistoryEvent *ev;
 	EHTMLEditorUndoRedoManager *manager;
@@ -7173,46 +7174,97 @@ save_history_for_delete_or_backspace (WebKitDOMDocument *document,
 		e_html_editor_web_extension_block_selection_changed_callback (extension);
 
 		range_clone = webkit_dom_range_clone_range (range, NULL);
-		if (delete_key) {
-			glong offset = webkit_dom_range_get_start_offset (range_clone, NULL);
-			webkit_dom_range_set_end (
-				range_clone,
-				webkit_dom_range_get_end_container (range_clone, NULL),
-				offset + 1,
-				NULL);
+		if (control_key) {
+			WebKitDOMRange *tmp_range;
+
+			/* Control + Delete/Backspace deletes previous/next word. */
+			webkit_dom_dom_selection_modify (
+				dom_selection, "move", delete_key ? "right" : "left", "word");
+			tmp_range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
+			if (delete_key)
+				webkit_dom_range_set_end (
+					range_clone,
+					webkit_dom_range_get_end_container (tmp_range, NULL),
+					webkit_dom_range_get_end_offset (tmp_range, NULL),
+					NULL);
+			else
+				webkit_dom_range_set_start (
+					range_clone,
+					webkit_dom_range_get_start_container (tmp_range, NULL),
+					webkit_dom_range_get_start_offset (tmp_range, NULL),
+					NULL);
+			g_object_unref (tmp_range);
 		} else {
-			webkit_dom_range_set_start (
-				range_clone,
-				webkit_dom_range_get_start_container (range_clone, NULL),
-				webkit_dom_range_get_start_offset (range_clone, NULL) - 1,
-				NULL);
+			if (delete_key) {
+				glong offset = webkit_dom_range_get_start_offset (range_clone, NULL);
+				webkit_dom_range_set_end (
+					range_clone,
+					webkit_dom_range_get_end_container (range_clone, NULL),
+					offset + 1,
+					NULL);
+			} else {
+				webkit_dom_range_set_start (
+					range_clone,
+					webkit_dom_range_get_start_container (range_clone, NULL),
+					webkit_dom_range_get_start_offset (range_clone, NULL) - 1,
+					NULL);
+			}
 		}
 
 		fragment = webkit_dom_range_clone_contents (range_clone, NULL);
-		g_object_unref (range_clone);
 		if (!webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (fragment))) {
 			g_free (ev);
 			e_html_editor_web_extension_unblock_selection_changed_callback (extension);
 			g_object_unref (range);
+			g_object_unref (range_clone);
 			g_object_unref (dom_selection);
 			return;
 		}
 
-		if (delete_key) {
-			dom_selection_get_coordinates (
-				document, &ev->after.start.x, &ev->after.start.y, &ev->after.end.x, &ev->after.end.y);
+		if (control_key) {
+			if (delete_key) {
+				ev->after.start.x = ev->before.start.x;
+				ev->after.start.y = ev->before.start.y;
+				ev->after.end.x = ev->before.end.x;
+				ev->after.end.y = ev->before.end.y;
+
+				webkit_dom_range_collapse (range_clone, TRUE, NULL);
+				webkit_dom_dom_selection_remove_all_ranges (dom_selection);
+				webkit_dom_dom_selection_add_range (dom_selection, range_clone);
+			} else {
+				WebKitDOMRange *tmp_range;
+
+				tmp_range = webkit_dom_range_clone_range (range_clone, NULL);
+				/* Prepare the selection to the right position after
+				 * delete and save it. */
+				webkit_dom_range_collapse (range_clone, TRUE, NULL);
+				webkit_dom_dom_selection_remove_all_ranges (dom_selection);
+				webkit_dom_dom_selection_add_range (dom_selection, range_clone);
+				dom_selection_get_coordinates (
+					document, &ev->after.start.x, &ev->after.start.y, &ev->after.end.x, &ev->after.end.y);
+				/* Restore the selection where it was before the
+				 * history event was saved. */
+				webkit_dom_range_collapse (tmp_range, FALSE, NULL);
+				webkit_dom_dom_selection_remove_all_ranges (dom_selection);
+				webkit_dom_dom_selection_add_range (dom_selection, tmp_range);
+				g_object_unref (tmp_range);
+			}
 		} else {
-			webkit_dom_dom_selection_modify (dom_selection, "move", "left", "character");
-			dom_selection_get_coordinates (
-				document, &ev->after.start.x, &ev->after.start.y, &ev->after.end.x, &ev->after.end.y);
+			if (delete_key) {
+				dom_selection_get_coordinates (
+					document, &ev->after.start.x, &ev->after.start.y, &ev->after.end.x, &ev->after.end.y);
+			} else {
+				webkit_dom_dom_selection_modify (dom_selection, "move", "left", "character");
+				dom_selection_get_coordinates (
+					document, &ev->after.start.x, &ev->after.start.y, &ev->after.end.x, &ev->after.end.y);
+				webkit_dom_dom_selection_modify (dom_selection, "move", "right", "character");
 
-			webkit_dom_dom_selection_modify (dom_selection, "move", "right", "character");
+				ev->after.end.x = ev->after.start.x;
+				ev->after.end.y = ev->after.start.y;
+			}
 		}
 
-		if (!delete_key) {
-			ev->after.end.x = ev->after.start.x;
-			ev->after.end.y = ev->after.start.y;
-		}
+		g_object_unref (range_clone);
 
 		if (delete_key) {
 			webkit_dom_node_insert_before (
@@ -7579,7 +7631,8 @@ insert_tabulator (WebKitDOMDocument *document,
 gboolean
 dom_process_on_key_press (WebKitDOMDocument *document,
                           EHTMLEditorWebExtension *extension,
-                          guint key_val)
+                          guint key_val,
+			  guint state)
 {
 	e_html_editor_web_extension_set_dont_save_history_in_body_input (extension, FALSE);
 
@@ -7715,7 +7768,7 @@ dom_process_on_key_press (WebKitDOMDocument *document,
 			}
 			dom_selection_restore (document);
 		}
-		save_history_for_delete_or_backspace (document, extension, key_val == GDK_KEY_Delete);
+		save_history_for_delete_or_backspace (document, extension, key_val == GDK_KEY_Delete, (state & GDK_CONTROL_MASK) != 0);
 		if (key_val == GDK_KEY_BackSpace && !html_mode) {
 			if (delete_character_from_quoted_line_start (document))
 				return TRUE;

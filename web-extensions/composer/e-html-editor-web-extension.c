@@ -481,6 +481,7 @@ static const char introspection_xml[] =
 "    <method name='DOMProcessOnKeyPress'>"
 "      <arg type='t' name='page_id' direction='in'/>"
 "      <arg type='u' name='key_val' direction='in'/>"
+"      <arg type='u' name='state' direction='in'/>"
 "      <arg type='b' name='stop_handlers' direction='out'/>"
 "    </method>"
 "    <method name='DOMCheckIfConversionNeeded'>"
@@ -1823,9 +1824,9 @@ handle_method_call (GDBusConnection *connection,
 		g_dbus_method_invocation_return_value (invocation, NULL);
 	} else if (g_strcmp0 (method_name, "DOMProcessOnKeyPress") == 0) {
 		gboolean stop_handlers;
-		guint key_val;
+		guint key_val, state;
 
-		g_variant_get (parameters, "(tu)", &page_id, &key_val);
+		g_variant_get (parameters, "(tuu)", &page_id, &key_val, &state);
 
 		web_page = get_webkit_web_page_or_return_dbus_error (
 			invocation, web_extension, page_id);
@@ -1833,7 +1834,7 @@ handle_method_call (GDBusConnection *connection,
 			goto error;
 
 		document = webkit_web_page_get_dom_document (web_page);
-		stop_handlers = dom_process_on_key_press (document, extension, key_val);
+		stop_handlers = dom_process_on_key_press (document, extension, key_val, state);
 		g_dbus_method_invocation_return_value (
 			invocation, g_variant_new ("(b)", stop_handlers));
 	} else if (g_strcmp0 (method_name, "DOMCheckIfConversionNeeded") == 0) {

@@ -511,6 +511,12 @@ undo_delete (WebKitDOMDocument *document,
 	g_object_unref (dom_selection);
 }
 
+static gboolean
+event_selection_was_collapsed (EHTMLEditorHistoryEvent *ev)
+{
+	return (ev->before.start.x == ev->before.end.x) && (ev->before.start.y == ev->before.end.y);
+}
+
 static void
 redo_delete (WebKitDOMDocument *document,
              EHTMLEditorWebExtension *extension,
@@ -524,7 +530,9 @@ redo_delete (WebKitDOMDocument *document,
 	restore_selection_to_history_event_state (document, event->before);
 
 	if (webkit_dom_document_fragment_query_selector (fragment, "span#-x-evo-selection-start-marker", NULL)) {
-		gboolean delete = FALSE;
+		gboolean delete = FALSE, control_key = FALSE;
+		glong length = 1;
+		gint ii;
 		WebKitDOMDOMWindow *dom_window;
 		WebKitDOMDOMSelection *dom_selection;
 
@@ -532,18 +540,32 @@ redo_delete (WebKitDOMDocument *document,
 		g_object_unref (dom_window);
 		dom_selection = webkit_dom_dom_window_get_selection (dom_window);
 
+		control_key = event_selection_was_collapsed (event);
+		if (control_key) {
+			gchar *text_content;
+
+			text_content = webkit_dom_node_get_text_content (WEBKIT_DOM_NODE (fragment));
+			length = g_utf8_strlen (text_content, -1);
+			control_key = control_key && length > 1;
+
+			g_free (text_content);
+		}
+
 		/* Check if the event was delete or backspace press. */
 		delete = WEBKIT_DOM_IS_ELEMENT (first_child);
 		delete = delete && element_has_id (WEBKIT_DOM_ELEMENT (first_child), "-x-evo-selection-start-marker");
-		if (delete)
-			webkit_dom_dom_selection_modify (dom_selection, "extend", "right", "character");
-		else
-			webkit_dom_dom_selection_modify (dom_selection, "extend", "left", "character");
+		for (ii = 0; ii < length; ii++) {
+			dom_exec_command (
+				document, extension,
+				delete ? E_HTML_EDITOR_VIEW_COMMAND_FORWARD_DELETE :
+					 E_HTML_EDITOR_VIEW_COMMAND_DELETE,
+				NULL);
+		}
 
 		g_object_unref (dom_selection);
-	}
+	} else
+		dom_exec_command (document, extension, E_HTML_EDITOR_VIEW_COMMAND_DELETE, NULL);
 
-	dom_exec_command (document, extension, E_HTML_EDITOR_VIEW_COMMAND_DELETE, NULL);
 	dom_force_spell_check_for_current_paragraph (document, extension);
 }
 
@@ -1728,12 +1750,6 @@ e_html_editor_undo_redo_manager_can_undo (EHTMLEditorUndoRedoManager *manager)
 		return (event->type != HISTORY_START);
 	} else
 		return FALSE;
-}
-
-static gboolean
-event_selection_was_collapsed (EHTMLEditorHistoryEvent *ev)
-{
-	return (ev->before.start.x == ev->before.end.x) && (ev->before.start.y == ev->before.end.y);
 }
 
 void
