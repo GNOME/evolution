@@ -5944,25 +5944,6 @@ process_elements (EHTMLEditorWebExtension *extension,
 }
 
 static void
-remove_wrapping_from_document (WebKitDOMDocument *document)
-{
-	gint length;
-	gint ii;
-	WebKitDOMNodeList *list;
-
-	list = webkit_dom_document_query_selector_all (document, "br.-x-evo-wrap-br", NULL);
-
-	length = webkit_dom_node_list_get_length (list);
-	for (ii = 0; ii < length; ii++) {
-		WebKitDOMNode *node = webkit_dom_node_list_item (list, ii);
-		remove_node (node);
-		g_object_unref (node);
-	}
-
-	g_object_unref (list);
-}
-
-static void
 remove_image_attributes_from_element (WebKitDOMElement *element)
 {
 	webkit_dom_element_remove_attribute (element, "background");
@@ -7745,26 +7726,6 @@ toggle_tables (WebKitDOMDocument *document,
 	g_object_unref (list);
 }
 
-static void
-replace_hidden_spaces (WebKitDOMDocument *document)
-{
-	WebKitDOMNodeList *list;
-	gint ii, length;
-
-	list = webkit_dom_document_query_selector_all (
-		document, "span[data-hidden-space]", NULL);
-	length = webkit_dom_node_list_get_length (list);
-	for (ii = 0; ii < length; ii++) {
-		WebKitDOMNode *hidden_space_node;
-
-		hidden_space_node = webkit_dom_node_list_item (list, ii);
-		webkit_dom_html_element_set_outer_text (
-			WEBKIT_DOM_HTML_ELEMENT (hidden_space_node), " ", NULL);
-		g_object_unref (hidden_space_node);
-	}
-	g_object_unref (list);
-}
-
 void
 dom_process_content_after_mode_change (WebKitDOMDocument *document,
                                        EHTMLEditorWebExtension *extension)
@@ -7779,14 +7740,18 @@ dom_process_content_after_mode_change (WebKitDOMDocument *document,
 		document, "blockquote[type|=cite]", NULL);
 
 	if (html_mode) {
+		WebKitDOMHTMLElement *body;
+
 		if (blockquote)
 			dom_dequote_plain_text (document);
 
 		toggle_paragraphs_style (document, extension);
 		toggle_smileys (document, extension);
 		toggle_tables (document, html_mode);
-		remove_wrapping_from_document (document);
-		replace_hidden_spaces (document);
+
+		body = webkit_dom_document_get_body (document);
+
+		dom_remove_wrapping_from_element (WEBKIT_DOM_ELEMENT (body));
 	} else {
 		gchar *plain;
 
