@@ -1055,9 +1055,9 @@ find_existing_completion (ENameSelectorEntry *name_selector_entry,
 
 	do {
 		EContact      *current_contact;
-		gint           current_field_rank;
-		gint           current_email_num;
-		EContactField  current_field;
+		gint           current_field_rank = best_field_rank;
+		gint           current_email_num = best_email_num;
+		EContactField  current_field = best_field;
 		gboolean       matches;
 
 		current_contact = e_contact_store_get_contact (name_selector_entry->priv->contact_store, &iter);
@@ -1153,9 +1153,9 @@ type_ahead_complete (ENameSelectorEntry *name_selector_entry)
 {
 	EContact      *contact;
 	EBookClient   *book_client = NULL;
-	EContactField  matched_field;
+	EContactField  matched_field = E_CONTACT_FIELD_LAST;
 	EDestination  *destination;
-	gint           matched_email_num;
+	gint           matched_email_num = -1;
 	gint           cursor_pos;
 	gint           range_start = 0;
 	gint           range_end = 0;

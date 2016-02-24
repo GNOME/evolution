@@ -61,7 +61,7 @@ dom_exec_command (WebKitDOMDocument *document,
                   const gchar *value)
 {
 	const gchar *cmd_str = 0;
-	gboolean has_value;
+	gboolean has_value = FALSE;
 
 #define CHECK_COMMAND(cmd,str,val) case cmd:\
 	if (val) {\

@@ -108,7 +108,7 @@ cal_base_shell_sidebar_restore_state_cb (EShellWindow *shell_window,
 	ESourceRegistry *registry;
 	ESourceSelector *selector;
 	GSettings *settings;
-	const gchar *primary_source_key;
+	const gchar *primary_source_key = NULL;
 
 	priv = E_CAL_BASE_SHELL_SIDEBAR (shell_sidebar)->priv;
 
@@ -337,7 +337,7 @@ e_cal_base_shell_sidebar_ensure_source_opened (ECalBaseShellSidebar *sidebar,
 	EShellView *shell_view;
 	EActivity *activity;
 	gchar *description = NULL, *alert_ident = NULL, *alert_arg_0 = NULL;
-	const gchar *extension_name;
+	const gchar *extension_name = NULL;
 
 	g_return_if_fail (E_IS_CAL_BASE_SHELL_SIDEBAR (sidebar));
 	g_return_if_fail (E_IS_SOURCE (source));
@@ -503,7 +503,7 @@ e_cal_base_shell_sidebar_selector_data_dropped (ESourceSelector *selector,
 	gchar **segments;
 	gchar *source_uid = NULL;
 	gchar *message = NULL;
-	const gchar *display_name, *alert_ident;
+	const gchar *display_name, *alert_ident = NULL;
 	const guchar *data;
 	gboolean do_copy;
 	TransferItemToData *titd;
@@ -629,7 +629,7 @@ cal_base_shell_sidebar_constructed (GObject *object)
 	EShellBackend *shell_backend;
 	EShell *shell;
 	EClientCache *client_cache;
-	const gchar *source_extension, *selector_name, *restore_state_signal;
+	const gchar *source_extension = NULL, *selector_name = NULL, *restore_state_signal = NULL;
 	ECalBaseShellSidebar *cal_base_shell_sidebar;
 	GtkWidget *container, *widget;
 	AtkObject *a11y;

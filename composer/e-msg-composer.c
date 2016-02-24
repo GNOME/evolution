@@ -3231,8 +3231,8 @@ handle_multipart (EMsgComposer *composer,
 		} else if (depth == 0 && i == 0) {
 			EHTMLEditor *editor;
 			gboolean is_message_from_draft, is_html = FALSE;
-			gchar *html;
-			gssize length;
+			gchar *html = NULL;
+			gssize length = 0;
 
 			editor = e_msg_composer_get_editor (composer);
 			is_message_from_draft = e_html_editor_view_is_message_from_draft (
@@ -3266,7 +3266,9 @@ handle_multipart (EMsgComposer *composer,
 				html = emcu_part_to_html (
 					composer, mime_part, &length, keep_signature, cancellable);
 			}
-			e_msg_composer_set_pending_body (composer, html, length, is_html);
+
+			if (html)
+				e_msg_composer_set_pending_body (composer, html, length, is_html);
 
 		} else if (camel_mime_part_get_content_id (mime_part) ||
 			   camel_mime_part_get_content_location (mime_part)) {

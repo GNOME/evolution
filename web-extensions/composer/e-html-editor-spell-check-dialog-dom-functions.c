@@ -55,7 +55,7 @@ gchar *
 e_html_editor_spell_check_dialog_next (WebKitDOMDocument *document,
                                        const gchar *word)
 {
-	gulong start_offset, end_offset;
+	gulong start_offset = 0, end_offset = 0;
 	WebKitDOMDOMSelection *dom_selection;
 	WebKitDOMDOMWindow *dom_window;
 	WebKitDOMNode *start = NULL, *end = NULL;
@@ -140,7 +140,7 @@ gchar *
 e_html_editor_spell_check_dialog_prev (WebKitDOMDocument *document,
                                        const gchar *word)
 {
-	gulong start_offset, end_offset;
+	gulong start_offset = 0, end_offset = 0;
 	WebKitDOMDOMSelection *dom_selection;
 	WebKitDOMDOMWindow *dom_window;
 	WebKitDOMNode *start = NULL, *end = NULL;

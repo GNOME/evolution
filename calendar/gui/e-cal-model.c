@@ -2961,7 +2961,7 @@ e_cal_model_create_component_with_defaults_sync (ECalModel *model,
 						 GCancellable *cancellable,
 						 GError **error)
 {
-	ECalComponent *comp;
+	ECalComponent *comp = NULL;
 	icalcomponent *icalcomp;
 
 	g_return_val_if_fail (E_IS_CAL_MODEL (model), NULL);

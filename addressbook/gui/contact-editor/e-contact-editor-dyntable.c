@@ -299,7 +299,7 @@ add_empty_entry (EContactEditorDynTable *dyntable)
 static void
 remove_empty_entries (EContactEditorDynTable *dyntable, gboolean fillup)
 {
-	guint row, col, pos;
+	guint row, col = G_MAXUINT, pos;
 	GtkGrid* grid;
 	GtkWidget* w;
 	EContactEditorDynTableClass *class;
@@ -334,11 +334,10 @@ remove_empty_entries (EContactEditorDynTable *dyntable, gboolean fillup)
 
 	}
 
-	if (fillup
-		&& (dyntable->priv->curr_entries < dyntable->priv->show_min_entries
-			    || (dyntable->priv->justified && col < dyntable->priv->columns-1)))
+	if (fillup &&
+	    (dyntable->priv->curr_entries < dyntable->priv->show_min_entries ||
+	    (dyntable->priv->justified && col < dyntable->priv->columns-1)))
 		add_empty_entry (dyntable);
-
 }
 
 /* clears data, not the combo box list store */

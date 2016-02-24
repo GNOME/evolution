@@ -127,9 +127,7 @@ html_editor_image_dialog_set_width (EHTMLEditorImageDialog *dialog)
 	requested = gtk_spin_button_get_value_as_int (
 			GTK_SPIN_BUTTON (dialog->priv->width_edit));
 
-	switch (gtk_combo_box_get_active (
-		GTK_COMBO_BOX (dialog->priv->width_units))) {
-
+	switch (gtk_combo_box_get_active (GTK_COMBO_BOX (dialog->priv->width_units))) {
 		case 0:	/* px */
 			width = requested;
 			break;
@@ -142,6 +140,8 @@ html_editor_image_dialog_set_width (EHTMLEditorImageDialog *dialog)
 			width = natural;
 			break;
 
+		default:
+			return;
 	}
 
 	g_dbus_proxy_call (
@@ -270,9 +270,7 @@ html_editor_image_dialog_set_height (EHTMLEditorImageDialog *dialog)
 	requested = gtk_spin_button_get_value_as_int (
 			GTK_SPIN_BUTTON (dialog->priv->height_edit));
 
-	switch (gtk_combo_box_get_active (
-		GTK_COMBO_BOX (dialog->priv->height_units))) {
-
+	switch (gtk_combo_box_get_active (GTK_COMBO_BOX (dialog->priv->height_units))) {
 		case 0:	/* px */
 			height = requested;
 			break;
@@ -285,6 +283,8 @@ html_editor_image_dialog_set_height (EHTMLEditorImageDialog *dialog)
 			height = natural;
 			break;
 
+		default:
+			return;
 	}
 
 	g_dbus_proxy_call (
