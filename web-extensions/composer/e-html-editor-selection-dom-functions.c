@@ -2259,7 +2259,6 @@ wrap_lines (WebKitDOMDocument *document,
 				next_sibling = webkit_dom_node_get_next_sibling (node);
 				/* If the anchor doesn't fit on the line wrap after it */
 				if (anchor_length > word_wrap_length) {
-					WebKitDOMElement *removed_link;
 					WebKitDOMNode *inner_node;
 
 					while ((inner_node = webkit_dom_node_get_first_child (node))) {
@@ -2271,16 +2270,6 @@ wrap_lines (WebKitDOMDocument *document,
 					}
 					next_sibling = webkit_dom_node_get_next_sibling (node);
 
-					removed_link =
-						webkit_dom_document_create_element (
-							document, "SPAN", NULL);
-					webkit_dom_element_set_attribute (
-						removed_link, "data-removed-link", "", NULL);
-					webkit_dom_node_insert_before (
-						webkit_dom_node_get_parent_node (node),
-						WEBKIT_DOM_NODE (removed_link),
-						node,
-						NULL);
 					remove_node (node);
 					node = next_sibling;
 					continue;
