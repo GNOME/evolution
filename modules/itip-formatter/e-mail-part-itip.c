@@ -85,6 +85,7 @@ mail_part_itip_bind_dom_element (EMailPart *part,
 	pitip = E_MAIL_PART_ITIP (part);
 
 	/* FIXME XXX WK2 checks */
+	/* FIXME WK2 apply commit abbc5db Bug 680011 - ItipView created multiple times for an attached invitation */
 #if 0
 	if (!WEBKIT_DOM_IS_HTML_IFRAME_ELEMENT (element))
 		element = webkit_dom_element_query_selector (
