@@ -1704,27 +1704,34 @@ fix_paragraph_structure_after_pressing_enter_after_smiley (WebKitDOMDocument *do
 	}
 }
 
-static void
-mark_node_as_paragraph_after_ending_list (WebKitDOMDocument *document,
-                                          EHTMLEditorWebExtension *extension)
+static gboolean
+fix_paragraph_structure_after_pressing_enter (WebKitDOMDocument *document,
+					      EHTMLEditorWebExtension *extension)
 {
+	gboolean prev_is_heading = FALSE;
 	gint ii, length;
 	WebKitDOMNodeList *list;
 
-	/* When pressing Enter on empty line in the list WebKit will end that
-	 * list and inserts <div><br></div> so mark it for wrapping */
+	/* When pressing Enter on empty line in the list (or after heading elements)
+	 * WebKit will end thatlist and inserts <div><br></div> so mark it for wrapping. */
 	list = webkit_dom_document_query_selector_all (
 		document, "body > div:not(.-x-evo-paragraph) > br", NULL);
 
 	length = webkit_dom_node_list_get_length (list);
 	for (ii = 0; ii < length; ii++) {
+		WebKitDOMNode *prev_sibling;
 		WebKitDOMNode *node = webkit_dom_node_get_parent_node (
 			webkit_dom_node_list_item (list, ii));
 
+		prev_sibling = webkit_dom_node_get_previous_sibling (node);
+		if (prev_sibling && WEBKIT_DOM_IS_HTML_HEADING_ELEMENT (prev_sibling))
+			prev_is_heading = TRUE;
 		dom_set_paragraph_style (document, extension, WEBKIT_DOM_ELEMENT (node), -1, 0, "");
 		g_object_unref (node);
 	}
 	g_object_unref (list);
+
+	return prev_is_heading;
 }
 
 static gboolean
@@ -2167,11 +2174,20 @@ body_input_event_cb (WebKitDOMElement *element,
 	if (e_html_editor_web_extension_get_return_key_pressed (extension) ||
 	    e_html_editor_web_extension_get_space_key_pressed (extension)) {
 		dom_check_magic_links (document, extension, FALSE);
-		mark_node_as_paragraph_after_ending_list (document, extension);
-		if (html_mode)
+		if (e_html_editor_web_extension_get_return_key_pressed (extension)) {
+			if (fix_paragraph_structure_after_pressing_enter (document, extension)) {
+				/* When the return is pressed in a H1-6 element, WebKit doesn't
+				 * continue with the same element, but creates normal paragraph,
+				 * so we have to unset the bold font. */
+				e_html_editor_undo_redo_manager_set_operation_in_progress (manager, TRUE);
+				dom_selection_set_bold (document, extension, FALSE);
+				e_html_editor_undo_redo_manager_set_operation_in_progress (manager, FALSE);
+			}
+
 			fix_paragraph_structure_after_pressing_enter_after_smiley (document);
-		if (e_html_editor_web_extension_get_return_key_pressed (extension))
+
 			dom_force_spell_check_for_current_paragraph (document, extension);
+		}
 	} else {
 		WebKitDOMNode *node;
 
@@ -7578,7 +7594,6 @@ dom_process_on_key_press (WebKitDOMDocument *document,
 	}
 
 	if (is_return_key (key_val)) {
-		EHTMLEditorSelectionBlockFormat format;
 		gboolean first_cell = FALSE;
 		WebKitDOMNode *table = NULL;
 
@@ -7616,14 +7631,6 @@ dom_process_on_key_press (WebKitDOMDocument *document,
 			dom_remove_input_event_listener_from_body (document, extension);
 			return split_citation (document, extension);
 		}
-
-		/* When the return is pressed in a H1-6 element, WebKit doesn't
-		 * continue with the same element, but creates normal paragraph,
-		 * so we have to unset the bold font. */
-		format = dom_selection_get_block_format (document, extension);
-		if (format >= E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_H1 &&
-		    format <= E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_H6)
-			dom_selection_set_bold (document, extension, FALSE);
 	}
 
 	if (key_val == GDK_KEY_BackSpace) {
