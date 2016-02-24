@@ -82,7 +82,6 @@ dom_get_current_range (WebKitDOMDocument *document)
 		goto exit;
 
 	range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
-
  exit:
 	g_object_unref (dom_selection);
 	g_object_unref (dom_window);
