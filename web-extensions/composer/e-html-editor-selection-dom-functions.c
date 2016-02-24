@@ -2304,6 +2304,16 @@ wrap_lines (WebKitDOMDocument *document,
 				continue;
 			}
 
+			if (element_has_class (WEBKIT_DOM_ELEMENT (node), "Apple-tab-span")) {
+				WebKitDOMNode *prev_sibling;
+
+				prev_sibling = webkit_dom_node_get_previous_sibling (node);
+				if (prev_sibling && WEBKIT_DOM_IS_ELEMENT (prev_sibling) &&
+				    element_has_class (WEBKIT_DOM_ELEMENT (prev_sibling), "Applet-tab-span"))
+					line_length += TAB_LENGTH;
+				else
+					line_length += TAB_LENGTH - line_length % TAB_LENGTH;
+			}
 			/* When we are not removing user-entered BR elements (lines wrapped by user),
 			 * we need to skip those elements */
 			if (!remove_all_br && WEBKIT_DOM_IS_HTML_BR_ELEMENT (node)) {
