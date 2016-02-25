@@ -511,10 +511,12 @@ undo_delete (WebKitDOMDocument *document,
 		else
 			restore_selection_to_history_event_state (document, event->before);
 
-		if (e_html_editor_web_extension_get_magic_smileys_enabled (extension))
-			dom_check_magic_smileys (document, extension);
-		if (e_html_editor_web_extension_get_magic_links_enabled (extension))
-			dom_check_magic_links (document, extension, FALSE);
+		if (event->type != HISTORY_INPUT) {
+			if (e_html_editor_web_extension_get_magic_smileys_enabled (extension))
+				dom_check_magic_smileys (document, extension);
+			if (e_html_editor_web_extension_get_magic_links_enabled (extension))
+				dom_check_magic_links (document, extension, FALSE);
+		}
 		dom_force_spell_check_for_current_paragraph (document, extension);
 	}
 
@@ -1330,8 +1332,10 @@ undo_input (EHTMLEditorUndoRedoManager *manager,
             EHTMLEditorWebExtension *extension,
             EHTMLEditorHistoryEvent *event)
 {
+	gboolean remove_anchor;
 	WebKitDOMDOMWindow *dom_window;
 	WebKitDOMDOMSelection *dom_selection;
+	WebKitDOMNode *node;
 
 	dom_window = webkit_dom_document_get_default_view (document);
 	dom_selection = webkit_dom_dom_window_get_selection (dom_window);
@@ -1344,7 +1348,35 @@ undo_input (EHTMLEditorUndoRedoManager *manager,
 		manager->priv->operation_in_progress = FALSE;
 		e_html_editor_web_extension_set_dont_save_history_in_body_input (extension, TRUE);
 	}
+
+	/* If we are undoing the text that was appended to the link we have to
+	 * remove the link and make just the plain text from it. */
+	node = webkit_dom_dom_selection_get_anchor_node (dom_selection);
+	node = webkit_dom_node_get_parent_node (node);
+	remove_anchor = WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (node);
+	if (remove_anchor) {
+		gchar *text_content;
+
+		text_content = webkit_dom_node_get_text_content (node);
+		/* Remove the anchor just in case we are undoing the input from
+		 * the end of it. */
+		remove_anchor =
+			g_utf8_strlen (text_content, -1) ==
+			webkit_dom_dom_selection_get_anchor_offset (dom_selection);
+		g_free (text_content);
+	}
+
 	dom_exec_command (document, extension, E_HTML_EDITOR_VIEW_COMMAND_DELETE, NULL);
+
+	if (remove_anchor) {
+		WebKitDOMNode *child;
+
+		while ((child = webkit_dom_node_get_first_child (node)))
+			webkit_dom_node_insert_before (
+				webkit_dom_node_get_parent_node (node), child, node, NULL);
+
+		remove_node (node);
+	}
 
 	g_object_unref (dom_window);
 	g_object_unref (dom_selection);
@@ -1940,6 +1972,18 @@ e_html_editor_undo_redo_manager_redo (EHTMLEditorUndoRedoManager *manager)
 		case HISTORY_INPUT:
 			undo_delete (document, extension, event);
 			dom_check_magic_smileys (document, extension);
+			{
+				gchar *text_content;
+				WebKitDOMNode *first_child;
+
+				first_child = webkit_dom_node_get_first_child (
+					WEBKIT_DOM_NODE (event->data.fragment));
+				text_content = webkit_dom_node_get_text_content (first_child);
+				/* Call magic links when the space was pressed. */
+				if (g_str_has_prefix (text_content, UNICODE_NBSP))
+					dom_check_magic_links (document, extension, FALSE);
+				g_free (text_content);
+			}
 			break;
 		case HISTORY_REMOVE_LINK:
 			undo_redo_remove_link (document, extension, event, FALSE);
