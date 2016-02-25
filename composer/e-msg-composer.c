@@ -2348,6 +2348,9 @@ msg_composer_constructed (GObject *object)
 	EHTMLEditorView *view;
 	GtkUIManager *ui_manager;
 	GtkToggleAction *action;
+	GtkTargetList *target_list;
+	GtkTargetEntry *targets;
+	gint n_targets;
 	GSettings *settings;
 	const gchar *id;
 	gboolean active;
@@ -2490,10 +2493,15 @@ msg_composer_constructed (GObject *object)
 	/* Initialization may have tripped the "changed" state. */
 	e_html_editor_view_set_changed (view, FALSE);
 
-	gtk_target_list_add_table (
-		gtk_drag_dest_get_target_list (GTK_WIDGET (view)),
-		drag_dest_targets,
-		G_N_ELEMENTS (drag_dest_targets));
+	target_list = e_attachment_view_get_target_list (attachment_view);
+	targets = gtk_target_table_new_from_list (target_list, &n_targets);
+
+	target_list = gtk_drag_dest_get_target_list (GTK_WIDGET (view));
+
+	gtk_target_list_add_table (target_list, drag_dest_targets, G_N_ELEMENTS (drag_dest_targets));
+	gtk_target_list_add_table (target_list, targets, n_targets);
+
+	gtk_target_table_free (targets, n_targets);
 
 	id = "org.gnome.evolution.composer";
 	e_plugin_ui_register_manager (ui_manager, id, composer);
