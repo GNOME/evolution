@@ -1892,7 +1892,7 @@ find_where_to_break_line (WebKitDOMNode *node,
 {
 	gchar *str, *text_start;
 	gunichar uc;
-	gint pos;
+	gint pos = 1;
 	gint last_space = 0;
 	gint length;
 	gint ret_val = 0;
@@ -1901,8 +1901,6 @@ find_where_to_break_line (WebKitDOMNode *node,
 	text_start =  webkit_dom_character_data_get_data (WEBKIT_DOM_CHARACTER_DATA (node));
 	length = g_utf8_strlen (text_start, -1);
 
-	pos = 1;
-	last_space = 0;
 	str = text_start;
 	do {
 		uc = g_utf8_get_char (str);
@@ -1910,6 +1908,9 @@ find_where_to_break_line (WebKitDOMNode *node,
 			ret_val = pos <= max_len ? pos : last_space > 0 ? last_space - 1 : 0;
 			goto out;
 		}
+
+		if (g_unichar_isspace (uc) || str[0] == '-')
+			last_space = pos;
 
 		/* If last_space is zero then the word is longer than
 		 * word_wrap_length characters, so continue until we find
@@ -1936,9 +1937,6 @@ find_where_to_break_line (WebKitDOMNode *node,
 			ret_val = last_space > 0 ? last_space - 1 : 0;
 			goto out;
 		}
-
-		if (g_unichar_isspace (uc) || str[0] == '-')
-			last_space = pos;
 
 		pos += 1;
 		str = g_utf8_next_char (str);
@@ -2333,7 +2331,7 @@ wrap_lines (WebKitDOMDocument *document,
 		length_left = webkit_dom_character_data_get_length (
 			WEBKIT_DOM_CHARACTER_DATA (node));
 
-		if ((length_left + line_length) < word_wrap_length) {
+		if ((length_left + line_length) <= word_wrap_length) {
 			line_length += length_left;
 			goto next_node;
 		}
@@ -2435,13 +2433,17 @@ wrap_lines (WebKitDOMDocument *document,
 					node,
 					NULL);
 			}
-			length_left = webkit_dom_character_data_get_length (
-				WEBKIT_DOM_CHARACTER_DATA (node));
+			if (node)
+				length_left = webkit_dom_character_data_get_length (
+					WEBKIT_DOM_CHARACTER_DATA (node));
 
 			line_length = 0;
 		}
 		line_length += length_left - offset;
  next_node:
+		if (!node)
+			break;
+
 		if (WEBKIT_DOM_IS_HTML_LI_ELEMENT (node))
 			line_length = 0;
 
