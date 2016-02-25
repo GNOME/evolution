@@ -3644,66 +3644,56 @@ create_anchor_for_link (const GMatchInfo *info,
 	gint offset = 0, truncate_from_end = 0;
 	const gchar *end_of_match = NULL;
 	gchar *match;
-	gboolean address_surrounded;
+	gboolean link_surrounded;
 
 	match = g_match_info_fetch (info, 0);
-
-	address_surrounded =
-		strstr (match, "@") &&
-		!strstr (match, "://") &&
-		g_str_has_prefix (match, "&lt;") &&
-		g_str_has_suffix (match, "&gt;");
-
-	if (address_surrounded)
-		offset += 4;
 
 	if (g_str_has_prefix (match, "&nbsp;"))
 		offset += 6;
 
-	if (address_surrounded)
-		g_string_append (res, "&lt;");
+	end_of_match = match + strlen (match) - 1;
+	/* Taken from camel-url-scanner.c */
+	/* URLs are extremely unlikely to end with any punctuation, so
+	 * strip any trailing punctuation off from link and put it after
+	 * the link. Do the same for any closing double-quotes as well. */
+	while (end_of_match && end_of_match != match && strchr (",.:;?!-|}])\"", *end_of_match)) {
+		truncate_from_end++;
+		end_of_match--;
+	}
+	end_of_match++;
 
-	if (!address_surrounded) {
-		end_of_match = match + strlen (match) - 1;
-		/* Taken from camel-url-scanner.c */
-		/* URLs are extremely unlikely to end with any punctuation, so
-		 * strip any trailing punctuation off from link and put it after
-		 * the link. Do the same for any closing double-quotes as well. */
-		while (end_of_match && end_of_match != match && strchr (",.:;?!-|}])\"", *end_of_match)) {
-			truncate_from_end++;
-			end_of_match--;
+	link_surrounded =
+		g_str_has_suffix (res->str, "&lt;");
+
+	if (link_surrounded) {
+		if (end_of_match && *end_of_match && strlen (match) > strlen (end_of_match) + 3)
+			link_surrounded = link_surrounded && g_str_has_prefix (end_of_match - 3, "&gt;");
+		else
+			link_surrounded = link_surrounded && g_str_has_suffix (match, "&gt;");
+
+		if (link_surrounded) {
+			/* ";" is already counted by code above */
+			truncate_from_end += 3;
+			end_of_match -= 3;
 		}
 	}
-	g_string_append (res, "<a href=\"");
-	if (strstr (match, "@") && !strstr (match, "://")) {
-		g_string_append (res, "mailto:");
-		g_string_append (res, match + offset);
-		if (address_surrounded)
-			g_string_truncate (res, res->len - 4);
-		else if (truncate_from_end > 0)
-			g_string_truncate (res, res->len - truncate_from_end);
 
-		g_string_append (res, "\">");
-		g_string_append (res, match + offset);
-		if (address_surrounded)
-			g_string_truncate (res, res->len - 4);
-		else if (truncate_from_end > 0)
-			g_string_truncate (res, res->len - truncate_from_end);
-	} else {
-		g_string_append (res, match + offset);
-		if (truncate_from_end > 0)
-			g_string_truncate (res, res->len - truncate_from_end);
-		g_string_append (res, "\">");
-		g_string_append (res, match + offset);
-		if (truncate_from_end > 0)
-			g_string_truncate (res, res->len - truncate_from_end);
-	}
+	g_string_append (res, "<a href=\"");
+	if (strstr (match, "@") && !strstr (match, "://"))
+		g_string_append (res, "mailto:");
+	g_string_append (res, match + offset);
+	if (truncate_from_end > 0)
+		g_string_truncate (res, res->len - truncate_from_end);
+
+	g_string_append (res, "\">");
+	g_string_append (res, match + offset);
+	if (truncate_from_end > 0)
+		g_string_truncate (res, res->len - truncate_from_end);
+
 	g_string_append (res, "</a>");
 
-	if (address_surrounded)
-		g_string_append (res, "&gt;");
-	else if (truncate_from_end > 0)
-		g_string_append (res, end_of_match + 1);
+	if (truncate_from_end > 0)
+		g_string_append (res, end_of_match);
 
 	g_free (match);
 
