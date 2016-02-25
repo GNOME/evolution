@@ -320,7 +320,7 @@ emfe_attachment_format (EMailFormatterExtension *extension,
 		}
 
 		if (success) {
-			gchar *wrapper_element_id;
+			gchar *wrapper_element_id, *inner_html_data;
 			gconstpointer data;
 			gsize size;
 
@@ -332,17 +332,18 @@ emfe_attachment_format (EMailFormatterExtension *extension,
 			size = g_memory_output_stream_get_data_size (
 				G_MEMORY_OUTPUT_STREAM (content_stream));
 
+			inner_html_data = g_markup_escape_text (data, size);
+
 			g_string_append_printf (
 				buffer,
 				"<tr><td colspan=\"2\">"
-				"<div class=\"attachment-wrapper\" id=\"%s\">",
-				wrapper_element_id);
-
-			g_string_append_len (buffer, data, size);
+				"<div class=\"attachment-wrapper\" id=\"%s\" inner-html-data=\"%s\">",
+				wrapper_element_id, inner_html_data);
 
 			g_string_append (buffer, "</div></td></tr>");
 
 			g_free (wrapper_element_id);
+			g_free (inner_html_data);
 		}
 
 		g_object_unref (content_stream);
