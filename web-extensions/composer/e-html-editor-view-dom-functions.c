@@ -5123,7 +5123,8 @@ dom_convert_and_insert_html_into_selection (WebKitDOMDocument *document,
 		/* Check if WebKit created wrong structure */
 		clone1 = webkit_dom_node_clone_node (WEBKIT_DOM_NODE (paragraph), FALSE);
 		clone2 = webkit_dom_node_clone_node (WEBKIT_DOM_NODE (parent), FALSE);
-		if (webkit_dom_node_is_equal_node (clone1, clone2)) {
+		if (webkit_dom_node_is_equal_node (clone1, clone2) ||
+		    (WEBKIT_DOM_IS_HTML_DIV_ELEMENT (clone1) && WEBKIT_DOM_IS_HTML_DIV_ELEMENT (clone2))) {
 			fix_structure_after_pasting_multiline_content (paragraph);
 			if (g_strcmp0 (html, "\n") == 0) {
 				WebKitDOMElement *br;
