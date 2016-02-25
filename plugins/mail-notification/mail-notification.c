@@ -28,6 +28,10 @@
 #include <gtk/gtk.h>
 #include <gio/gio.h>
 
+#ifndef G_OS_WIN32
+#include <gio/gdesktopappinfo.h>
+#endif
+
 #ifdef HAVE_CANBERRA
 #include <canberra-gtk.h>
 #endif
@@ -47,6 +51,8 @@
 #define CONF_KEY_ENABLED_STATUS	        "notify-status-enabled"
 #define CONF_KEY_STATUS_NOTIFICATION	"notify-status-notification"
 #define CONF_KEY_ENABLED_SOUND		"notify-sound-enabled"
+
+#define GNOME_NOTIFICATIONS_PANEL_DESKTOP "gnome-notifications-panel.desktop"
 
 static gboolean enabled = FALSE;
 static GtkWidget *get_cfg_widget (void);
@@ -456,6 +462,12 @@ new_notify_status (EMEventTargetFolder *t)
 			notify, "desktop-entry",
 			g_variant_new_string (PACKAGE));
 
+		if (e_util_is_running_gnome ()) {
+			notify_notification_set_hint (
+				notify, "sound-name",
+				g_variant_new_string ("message-new-email"));
+		}
+
 		/* Check if actions are supported */
 		if (can_support_actions ()) {
 			gchar *label;
@@ -784,6 +796,27 @@ get_config_widget_sound (void)
 /*                     Plugin itself part                               */
 /* -------------------------------------------------------------------  */
 
+static void
+e_mail_notif_open_gnome_notificaiton_settings_cb (GtkWidget *button,
+						  gpointer user_data)
+{
+#ifndef G_OS_WIN32
+	GDesktopAppInfo *app_info;
+	GError *error = NULL;
+
+	app_info = g_desktop_app_info_new (GNOME_NOTIFICATIONS_PANEL_DESKTOP);
+
+	g_return_if_fail (app_info != NULL);
+
+	if (!g_app_info_launch (G_APP_INFO (app_info), NULL, NULL, &error)) {
+		g_message ("%s: Failed with error: %s", G_STRFUNC, error ? error->message : "Unknown error");
+	}
+
+	g_clear_object (&app_info);
+	g_clear_error (&error);
+#endif
+}
+
 static GtkWidget *
 get_cfg_widget (void)
 {
@@ -808,19 +841,26 @@ get_cfg_widget (void)
 		settings, CONF_KEY_NOTIFY_ONLY_INBOX,
 		widget, "active", G_SETTINGS_BIND_DEFAULT);
 
+	if (e_util_is_running_gnome ()) {
+		widget = gtk_button_new_with_mnemonic ("Open _GNOME Notification settings");
+		g_signal_connect (widget, "clicked", G_CALLBACK (e_mail_notif_open_gnome_notificaiton_settings_cb), NULL);
+		gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+		gtk_widget_show (widget);
+	} else {
 #ifdef HAVE_LIBNOTIFY
-	text = _("Show _notification when a new message arrives");
-	widget = gtk_check_button_new_with_mnemonic (text);
-	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
-	gtk_widget_show (widget);
+		text = _("Show _notification when a new message arrives");
+		widget = gtk_check_button_new_with_mnemonic (text);
+		gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+		gtk_widget_show (widget);
 
-	g_settings_bind (
-		settings, CONF_KEY_ENABLED_STATUS,
-		widget, "active", G_SETTINGS_BIND_DEFAULT);
+		g_settings_bind (
+			settings, CONF_KEY_ENABLED_STATUS,
+			widget, "active", G_SETTINGS_BIND_DEFAULT);
 #endif
 
-	widget = get_config_widget_sound ();
-	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+		widget = get_config_widget_sound ();
+		gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	}
 
 	g_object_unref (settings);
 
@@ -848,7 +888,7 @@ org_gnome_mail_new_notify (EPlugin *ep,
 	new_notify_dbus (t);
 
 #ifdef HAVE_LIBNOTIFY
-	if (is_part_enabled (CONF_KEY_ENABLED_STATUS))
+	if (is_part_enabled (CONF_KEY_ENABLED_STATUS) || e_util_is_running_gnome ())
 		new_notify_status (t);
 #endif
 
@@ -872,7 +912,7 @@ org_gnome_mail_read_notify (EPlugin *ep,
 	read_notify_dbus (t);
 
 #ifdef HAVE_LIBNOTIFY
-	if (is_part_enabled (CONF_KEY_ENABLED_STATUS))
+	if (is_part_enabled (CONF_KEY_ENABLED_STATUS) || e_util_is_running_gnome ())
 		read_notify_status (t);
 #endif
 

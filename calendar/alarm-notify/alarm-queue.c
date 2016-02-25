@@ -1722,7 +1722,7 @@ display_notification (time_t trigger,
 		location = _("No location information available.");
 
 	/* create the tray icon */
-	if (tray_icon == NULL) {
+	if (!tray_icon && !e_util_is_running_gnome ()) {
 		tray_icon = gtk_status_icon_new ();
 		gtk_status_icon_set_title (tray_icon, _("Evolution Reminders"));
 		gtk_status_icon_set_from_icon_name (
@@ -1771,9 +1771,9 @@ display_notification (time_t trigger,
 			"You have %d reminder", "You have %d reminders",
 			g_list_length (tray_icons_list)),
 			g_list_length (tray_icons_list));
-		gtk_status_icon_set_tooltip_text (tray_icon, tip);
-	}
-	else {
+		if (tray_icon)
+			gtk_status_icon_set_tooltip_text (tray_icon, tip);
+	} else if (tray_icon) {
 		gtk_status_icon_set_tooltip_text (tray_icon, str);
 	}
 
@@ -1796,7 +1796,7 @@ display_notification (time_t trigger,
 			gtk_window_stick (GTK_WINDOW (
 				alarm_notifications_dialog->dialog));
 	} else {
-		if (tray_blink_id == -1) {
+		if (tray_blink_id == -1 && tray_icon) {
 			tray_blink_countdown = 30;
 			tray_blink_id = e_named_timeout_add (
 				500, tray_icon_blink_cb, tray_data);
@@ -1805,6 +1805,23 @@ display_notification (time_t trigger,
 }
 
 #ifdef HAVE_LIBNOTIFY
+
+static void
+notify_open_appointments_cb (NotifyNotification *notification,
+			     gchar *action,
+			     gpointer user_data)
+{
+	GdkEvent event;
+
+	notify_notification_close (notification, NULL);
+
+	event.type = GDK_BUTTON_PRESS;
+	event.button.button = 1;
+	event.button.time = gtk_get_current_event_time ();
+
+	tray_icon_clicked_cb (NULL, &event, NULL);
+}
+
 static void
 popup_notification (time_t trigger,
                     CompQueuedAlarms *cqa,
@@ -1887,6 +1904,14 @@ popup_notification (time_t trigger,
 	notify_notification_set_hint (
 		qa->notify, "desktop-entry",
 		g_variant_new_string (PACKAGE));
+
+	notify_notification_set_hint (
+		qa->notify, "sound-name",
+		g_variant_new_string ("alarm-clock-elapsed"));
+
+	notify_notification_add_action (
+		qa->notify, "open-appointments", _("Appointments"),
+		notify_open_appointments_cb, NULL, NULL);
 
 	if (!notify_notification_show (qa->notify, &error))
 		g_warning ("Could not send notification to daemon: %s\n", error ? error->message : "Unknown error");

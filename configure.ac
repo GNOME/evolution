@@ -219,6 +219,7 @@ case "$host" in
 	DL_LIB=''
 	SOFTOKN3_LIB=''
 	CHAMPLAIN_REQUIREMENT=''
+	GIO_UNIX_REQUIREMENT=''
 	;;
 *openbsd*|*freebsd*)
 	os_win32=no
@@ -228,6 +229,7 @@ case "$host" in
 	BF_JUNK_PLUGIN=bogo-junk-plugin
 	DL_LIB=''
 	SOFTOKN3_LIB='-lsoftokn3'
+	GIO_UNIX_REQUIREMENT='gio-unix-2.0'
 	;;
 *)
 	os_win32=no
@@ -235,6 +237,7 @@ case "$host" in
 	SOEXT='.so'
 	DL_LIB='-ldl'
 	SOFTOKN3_LIB='-lsoftokn3'
+	GIO_UNIX_REQUIREMENT='gio-unix-2.0'
 	;;
 esac
 AC_MSG_RESULT([$os_win32])
@@ -279,7 +282,8 @@ PKG_CHECK_MODULES([GNOME_PLATFORM],
 	 libxml-2.0 >= libxml_minimum_version
 	 shared-mime-info >= shared_mime_info_minimum_version
 	 gsettings-desktop-schemas >= gsettings_desktop_schemas_minimum_version
-	 webkit2gtk-4.0 >= webkitgtk_minimum_version])
+	 webkit2gtk-4.0 >= webkitgtk_minimum_version
+	 $GIO_UNIX_REQUIREMENT])
 
 GNOME_DESKTOP_DEPENDENCY=""
 AC_ARG_ENABLE([gnome-desktop],
