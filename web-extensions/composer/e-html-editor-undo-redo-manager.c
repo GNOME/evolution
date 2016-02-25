@@ -110,7 +110,6 @@ get_range_for_point (WebKitDOMDocument *document,
 
 		scroll_left = webkit_dom_element_get_scroll_left (WEBKIT_DOM_ELEMENT (body));
 		scroll_top = webkit_dom_element_get_scroll_top (WEBKIT_DOM_ELEMENT (body));
-		g_object_unref (range);
 		range = webkit_dom_document_caret_range_from_point (
 			document, point.x - scroll_left, point.y - scroll_top);
 		g_object_unref (dom_window);
