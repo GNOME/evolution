@@ -328,6 +328,61 @@ event_selection_was_collapsed (EHTMLEditorHistoryEvent *ev)
 }
 
 static void
+merge_duplicates_if_necessarry (WebKitDOMDocument *document,
+                                WebKitDOMDocumentFragment *deleted_content)
+{
+	gboolean equal_nodes;
+	WebKitDOMElement *element, *prev_element;
+	WebKitDOMNode *child;
+
+	element = webkit_dom_document_query_selector (document, "blockquote + blockquote", NULL);
+	if (!element)
+		goto signature;
+
+	prev_element = WEBKIT_DOM_ELEMENT (webkit_dom_node_get_previous_sibling (
+		WEBKIT_DOM_NODE (element)));
+	equal_nodes = webkit_dom_node_is_equal_node (
+		webkit_dom_node_clone_node (WEBKIT_DOM_NODE (element), FALSE),
+		webkit_dom_node_clone_node (WEBKIT_DOM_NODE (prev_element), FALSE));
+
+	if (equal_nodes) {
+		if (webkit_dom_element_get_child_element_count (element) >
+		    webkit_dom_element_get_child_element_count (prev_element)) {
+			while ((child = webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (element))))
+				webkit_dom_node_append_child (
+					WEBKIT_DOM_NODE (prev_element), child, NULL);
+			remove_node (WEBKIT_DOM_NODE (element));
+		} else {
+			while ((child = webkit_dom_node_get_last_child (WEBKIT_DOM_NODE (prev_element))))
+				webkit_dom_node_insert_before (
+					WEBKIT_DOM_NODE (element),
+					child,
+					webkit_dom_node_get_first_child (
+						WEBKIT_DOM_NODE (element)),
+					NULL);
+			remove_node (WEBKIT_DOM_NODE (prev_element));
+		}
+	}
+
+ signature:
+	/* Replace the corrupted signatures with the right one. */
+	element = webkit_dom_document_query_selector (
+		document, ".-x-evo-signature-wrapper + .-x-evo-signature-wrapper", NULL);
+	if (element) {
+		WebKitDOMElement *right_signature;
+
+		right_signature = webkit_dom_document_fragment_query_selector (
+			deleted_content, ".-x-evo-signature-wrapper", NULL);
+		remove_node (webkit_dom_node_get_previous_sibling (WEBKIT_DOM_NODE (element)));
+		webkit_dom_node_replace_child (
+			webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (element)),
+			webkit_dom_node_clone_node (WEBKIT_DOM_NODE (right_signature), TRUE),
+			WEBKIT_DOM_NODE (element),
+			NULL);
+	}
+}
+
+static void
 undo_delete (WebKitDOMDocument *document,
              EHTMLEditorWebExtension *extension,
              EHTMLEditorHistoryEvent *event)
@@ -392,6 +447,8 @@ undo_delete (WebKitDOMDocument *document,
 
 	/* Multi block delete */
 	if (WEBKIT_DOM_IS_ELEMENT (first_child) && !single_block) {
+		gboolean delete;
+		WebKitDOMElement *signature;
 		WebKitDOMNode *node, *parent, *last_child;
 		WebKitDOMNode *parent_deleted_content;
 		WebKitDOMNode *parent_current_block;
@@ -414,11 +471,68 @@ undo_delete (WebKitDOMDocument *document,
 		/* All the nodes that are in current block after the caret position
 		 * belongs on the end of the deleted content. */
 		node = webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (element));
+
+		/* FIXME Ugly hack */
+		/* If the selection ended in signature, the structure will be broken
+		 * thus we saved the while signature into deleted fragment and we will
+		 * restore the whole signature, but we need to remove the rest of the
+		 * signature that's left after delete to avoid duplications. */
+		signature = webkit_dom_document_query_selector (document, ".-x-evo-signature-wrapper", NULL);
+		delete = signature && webkit_dom_node_contains (WEBKIT_DOM_NODE (signature), WEBKIT_DOM_NODE (element));
+		if (!delete) {
+			WebKitDOMNode *tmp_node;
+
+			tmp_node = webkit_dom_node_get_last_child (fragment);
+			delete = tmp_node && WEBKIT_DOM_IS_ELEMENT (tmp_node) &&
+				element_has_class (WEBKIT_DOM_ELEMENT (tmp_node), "-x-evo-signature-wrapper");
+		}
+
 		while (node) {
 			WebKitDOMNode *next_sibling;
 
 			next_sibling = webkit_dom_node_get_next_sibling (node);
-			webkit_dom_node_append_child (last_child, node, NULL);
+			if (!next_sibling && WEBKIT_DOM_IS_HTML_BR_ELEMENT (node)) {
+				/* Check if the whole element was deleted. If so replace it and
+				 * skip the code down there. */
+				if (!webkit_dom_node_get_previous_sibling (WEBKIT_DOM_NODE (element))) {
+					WebKitDOMNode *tmp_node;
+					WebKitDOMElement *tmp_element;
+
+					tmp_node = webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (element));
+					webkit_dom_node_replace_child (
+						webkit_dom_node_get_parent_node (tmp_node),
+						fragment,
+						tmp_node,
+						NULL);
+
+					tmp_element = webkit_dom_document_get_element_by_id (
+						document, "-x-evo-tmp-block");
+					if (tmp_element)
+						webkit_dom_element_remove_attribute (tmp_element, "id");
+
+					/* Remove empty blockquotes, if presented. */
+					tmp_element = webkit_dom_document_query_selector (
+						document, "blockquote[type=cite]:empty", NULL);
+					if (tmp_element)
+						remove_node (WEBKIT_DOM_NODE (tmp_element));
+
+					merge_duplicates_if_necessarry (document, event->data.fragment);
+
+					dom_remove_selection_markers (document);
+
+					restore_selection_to_history_event_state (document, event->before);
+
+					dom_force_spell_check_in_viewport (document, extension);
+
+					g_object_unref (dom_selection);
+
+					return;
+				}
+			}
+			if (delete)
+				remove_node (node);
+			else
+				webkit_dom_node_append_child (last_child, node, NULL);
 			node = next_sibling;
 		}
 
@@ -441,26 +555,30 @@ undo_delete (WebKitDOMDocument *document,
 		remove_node (first_child);
 
 		/* Move the deleted content back to the body. Start from the next sibling
-		 * of the first block (if presented) where the delete occured. */
+		 * of the first block (if presented) where the delete occurred. */
 		while (parent_deleted_content) {
-			WebKitDOMNode *tmp, *sibling;
+			WebKitDOMNode *tmp, *child;
 
 			/* Move all the siblings from current level back to the body. */
-			sibling = webkit_dom_node_get_first_child (parent_deleted_content);
-			while (sibling) {
+			child = webkit_dom_node_get_first_child (parent_deleted_content);
+			while (child) {
 				WebKitDOMNode *next_sibling;
 
-				next_sibling = webkit_dom_node_get_next_sibling (sibling);
+				next_sibling = webkit_dom_node_get_next_sibling (child);
 				webkit_dom_node_insert_before (
-					parent_current_block, sibling, insert_before, NULL);
-				sibling = next_sibling;
+					parent_current_block, child, insert_before, NULL);
+				child = next_sibling;
 			}
 			tmp = webkit_dom_node_get_parent_node (parent_deleted_content);
 			remove_node (parent_deleted_content);
 			parent_deleted_content = tmp;
 			insert_before = webkit_dom_node_get_next_sibling (parent_current_block);
-			parent_current_block = webkit_dom_node_get_parent_node (parent_current_block);
+			/* Be sure that we don't go above body. */
+			if (!WEBKIT_DOM_IS_HTML_BODY_ELEMENT (parent_current_block))
+				parent_current_block = webkit_dom_node_get_parent_node (parent_current_block);
 		}
+
+		merge_duplicates_if_necessarry (document, event->data.fragment);
 
 		dom_selection_restore (document);
 		dom_force_spell_check_in_viewport (document, extension);
@@ -504,8 +622,8 @@ undo_delete (WebKitDOMDocument *document,
 		remove_node (WEBKIT_DOM_NODE (element));
 
 		/* If the selection markers are presented restore the selection,
-		 * otherwise the selection was not callapsed so select the deleted
-		 * content as it was before the delete occured. */
+		 * otherwise the selection was not collapsed so select the deleted
+		 * content as it was before the delete occurred. */
 		if (webkit_dom_document_fragment_query_selector (event->data.fragment, "span#-x-evo-selection-start-marker", NULL))
 			dom_selection_restore (document);
 		else
@@ -552,7 +670,7 @@ redo_delete (WebKitDOMDocument *document,
 
 			text_content = webkit_dom_node_get_text_content (WEBKIT_DOM_NODE (fragment));
 			length = g_utf8_strlen (text_content, -1);
-			control_key = control_key && length > 1;
+			control_key = length > 1;
 
 			g_free (text_content);
 		}
@@ -569,8 +687,15 @@ redo_delete (WebKitDOMDocument *document,
 		}
 
 		g_object_unref (dom_selection);
-	} else
-		dom_exec_command (document, extension, E_HTML_EDITOR_VIEW_COMMAND_DELETE, NULL);
+	} else {
+		if (!dom_delete_character_from_quoted_line_start (document, extension, ~0, 0))
+			if (!dom_fix_structure_after_delete_before_quoted_content (document, extension, ~0, 0))
+				dom_exec_command (document, extension, E_HTML_EDITOR_VIEW_COMMAND_DELETE, NULL);
+
+		dom_disable_quote_marks_select (document);
+	}
+
+	restore_selection_to_history_event_state (document, event->after);
 
 	dom_force_spell_check_for_current_paragraph (document, extension);
 }
@@ -1450,6 +1575,14 @@ undo_redo_citation_split (WebKitDOMDocument *document,
                           EHTMLEditorHistoryEvent *event,
                           gboolean undo)
 {
+	gboolean in_situ = FALSE;
+
+	if (event->before.start.x == event->after.start.x &&
+	    event->before.start.y == event->after.start.y &&
+	    event->after.end.x == event->after.end.x &&
+	    event->after.end.y == event->after.end.y)
+		in_situ = TRUE;
+
 	if (undo) {
 		gint citation_level = 1, length, word_wrap_length;
 		WebKitDOMElement *selection_start, *parent;
@@ -1466,12 +1599,16 @@ undo_redo_citation_split (WebKitDOMDocument *document,
 		parent = get_parent_block_element (WEBKIT_DOM_NODE (selection_start));
 
 		citation_before = webkit_dom_node_get_previous_sibling (WEBKIT_DOM_NODE (parent));
-		if (!dom_node_is_citation_node (citation_before))
+		if (!dom_node_is_citation_node (citation_before)) {
+			dom_selection_restore (document);
 			return;
+		}
 
 		citation_after = webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (parent));
-		if (!dom_node_is_citation_node (citation_after))
+		if (!dom_node_is_citation_node (citation_after)) {
+			dom_selection_restore (document);
 			return;
+		}
 
 		/* Get first block in next citation. */
 		child = webkit_dom_node_get_first_child (citation_after);
@@ -1480,48 +1617,77 @@ undo_redo_citation_split (WebKitDOMDocument *document,
 			child = webkit_dom_node_get_first_child (child);
 		}
 
-		dom_remove_quoting_from_element (WEBKIT_DOM_ELEMENT (child));
-		dom_remove_wrapping_from_element (WEBKIT_DOM_ELEMENT (child));
-
 		/* Get last block in previous citation. */
 		last_child = webkit_dom_node_get_last_child (citation_before);
 		while (last_child && dom_node_is_citation_node (last_child))
 			last_child = webkit_dom_node_get_last_child (last_child);
 
-		dom_remove_quoting_from_element (WEBKIT_DOM_ELEMENT (last_child));
-		dom_remove_wrapping_from_element (WEBKIT_DOM_ELEMENT (last_child));
+		if (in_situ) {
+			webkit_dom_node_append_child (
+				webkit_dom_node_get_parent_node (last_child),
+				webkit_dom_node_clone_node (
+					WEBKIT_DOM_NODE (event->data.fragment), TRUE),
+				NULL);
+		} else {
+			dom_remove_quoting_from_element (WEBKIT_DOM_ELEMENT (child));
+			dom_remove_wrapping_from_element (WEBKIT_DOM_ELEMENT (child));
 
-		/* Copy the content of the first block to the last block to get
-		 * to the state how the block looked like before it was split. */
-		while ((tmp = webkit_dom_node_get_first_child (child)))
-			webkit_dom_node_append_child (last_child, tmp, NULL);
+			dom_remove_quoting_from_element (WEBKIT_DOM_ELEMENT (last_child));
+			dom_remove_wrapping_from_element (WEBKIT_DOM_ELEMENT (last_child));
 
-		word_wrap_length = e_html_editor_web_extension_get_word_wrap_length (extension);
-		length = word_wrap_length - 2 * citation_level;
+			/* Copy the content of the first block to the last block to get
+			 * to the state how the block looked like before it was split. */
+			while ((tmp = webkit_dom_node_get_first_child (child)))
+				webkit_dom_node_append_child (last_child, tmp, NULL);
 
-		/* We need to re-wrap and re-quote the block. */
-		last_child = WEBKIT_DOM_NODE (dom_wrap_paragraph_length (
-			document, extension, WEBKIT_DOM_ELEMENT (last_child), length));
-		dom_quote_plain_text_element_after_wrapping (
-			document, WEBKIT_DOM_ELEMENT (last_child), citation_level);
+			word_wrap_length = e_html_editor_web_extension_get_word_wrap_length (extension);
+			length = word_wrap_length - 2 * citation_level;
 
-		remove_node (child);
+			/* We need to re-wrap and re-quote the block. */
+			last_child = WEBKIT_DOM_NODE (dom_wrap_paragraph_length (
+				document, extension, WEBKIT_DOM_ELEMENT (last_child), length));
+			dom_quote_plain_text_element_after_wrapping (
+				document, WEBKIT_DOM_ELEMENT (last_child), citation_level);
+
+			remove_node (child);
+		}
 
 		/* Move all the block from next citation to the previous one. */
 		while ((child = webkit_dom_node_get_first_child (citation_after)))
 			webkit_dom_node_append_child (citation_before, child, NULL);
 
+		dom_remove_selection_markers (document);
+
 		remove_node (WEBKIT_DOM_NODE (parent));
 		remove_node (WEBKIT_DOM_NODE (citation_after));
 
 		/* If enter was pressed when some text was selected, restore it. */
-		if (event->data.fragment != NULL)
+		if (event->data.fragment != NULL && !in_situ)
 			undo_delete (document, extension, event);
 
 		restore_selection_to_history_event_state (document, event->before);
 
 		dom_force_spell_check_in_viewport (document, extension);
 	} else {
+		if (in_situ) {
+			WebKitDOMElement *selection_start_marker;
+			WebKitDOMNode *block;
+
+			dom_selection_save (document);
+
+			selection_start_marker = webkit_dom_document_get_element_by_id (
+				document, "-x-evo-selection-start-marker");
+
+			block = get_parent_block_node_from_child (
+				WEBKIT_DOM_NODE (selection_start_marker));
+			dom_remove_selection_markers (document);
+
+			/* Remove current block (and all of its parents if they
+			 * are empty) as it will be replaced by a new block that
+			 * will be in the body and not in the blockquote. */
+			dom_remove_node_and_parents_if_empty (block);
+		}
+
 		dom_insert_new_line_into_citation (document, extension, "");
 	}
 }
@@ -1612,9 +1778,8 @@ undo_redo_unquote (WebKitDOMDocument *document,
 		}
 
 		remove_node (WEBKIT_DOM_NODE (block));
-	} else {
+	} else
 		dom_change_quoted_block_to_normal (document, extension);
-	}
 
 	if (undo)
 		restore_selection_to_history_event_state (document, event->before);

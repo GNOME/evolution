@@ -160,6 +160,19 @@ void		dom_set_visited_link_color	(WebKitDOMDocument *document,
 gboolean	dom_change_quoted_block_to_normal
 						(WebKitDOMDocument *document,
 						 EHTMLEditorWebExtension *extension);
+gboolean	dom_delete_character_from_quoted_line_start
+						(WebKitDOMDocument *document,
+						 EHTMLEditorWebExtension *extension,
+						 guint key_val,
+						 guint state);
+gboolean	dom_fix_structure_after_delete_before_quoted_content
+						(WebKitDOMDocument *document,
+						 EHTMLEditorWebExtension *extension,
+						 guint key_val,
+						 guint state);
+void		dom_disable_quote_marks_select	(WebKitDOMDocument *document);
+void		dom_remove_node_and_parents_if_empty
+						(WebKitDOMNode *node);
 
 G_END_DECLS
 

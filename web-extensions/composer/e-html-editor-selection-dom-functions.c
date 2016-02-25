@@ -839,8 +839,8 @@ dom_create_selection_marker (WebKitDOMDocument *document,
 	return element;
 }
 
-static void
-remove_selection_markers (WebKitDOMDocument *document)
+void
+dom_remove_selection_markers (WebKitDOMDocument *document)
 {
 	WebKitDOMElement *marker;
 
@@ -862,7 +862,7 @@ dom_add_selection_markers_into_element_start (WebKitDOMDocument *document,
 {
 	WebKitDOMElement *marker;
 
-	remove_selection_markers (document);
+	dom_remove_selection_markers (document);
 	marker = dom_create_selection_marker (document, FALSE);
 	webkit_dom_node_insert_before (
 		WEBKIT_DOM_NODE (element),
@@ -890,7 +890,7 @@ dom_add_selection_markers_into_element_end (WebKitDOMDocument *document,
 {
 	WebKitDOMElement *marker;
 
-	remove_selection_markers (document);
+	dom_remove_selection_markers (document);
 	marker = dom_create_selection_marker (document, TRUE);
 	webkit_dom_node_append_child (
 		WEBKIT_DOM_NODE (element), WEBKIT_DOM_NODE (marker), NULL);
@@ -1443,7 +1443,7 @@ dom_selection_save (WebKitDOMDocument *document)
 	WebKitDOMElement *start_marker = NULL, *end_marker = NULL;
 
 	/* First remove all markers (if present) */
-	remove_selection_markers (document);
+	dom_remove_selection_markers (document);
 
 	dom_window = webkit_dom_document_get_default_view (document);
 	dom_selection = webkit_dom_dom_window_get_selection (dom_window);

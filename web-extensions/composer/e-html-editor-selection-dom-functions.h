@@ -284,6 +284,7 @@ void		dom_selection_get_coordinates	(WebKitDOMDocument *document,
 						 guint *start_y,
 						 guint *end_x,
 						 guint *end_y);
+void		dom_remove_selection_markers	(WebKitDOMDocument *document);
 G_END_DECLS
 
 #endif /* E_HTML_EDITOR_SELECTION_DOM_FUNCTIONS_H */
