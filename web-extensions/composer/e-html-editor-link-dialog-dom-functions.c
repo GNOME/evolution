@@ -28,6 +28,7 @@
 #include <webkitdom/WebKitDOMDOMSelection.h>
 #include <webkitdom/WebKitDOMDOMWindowUnstable.h>
 
+/* FIXME WK2 apply changes from commit 18c5e81 */
 void
 e_html_editor_link_dialog_ok (WebKitDOMDocument *document,
                               EHTMLEditorWebExtension *extension,
