@@ -1667,6 +1667,17 @@ e_html_editor_undo_redo_manager_get_current_history_event (EHTMLEditorUndoRedoMa
 }
 
 void
+e_html_editor_undo_redo_manager_remove_current_history_event (EHTMLEditorUndoRedoManager *manager)
+{
+	g_return_if_fail (E_IS_HTML_EDITOR_UNDO_REDO_MANAGER (manager));
+
+	if (!manager->priv->history)
+		return;
+
+	remove_history_event (manager, manager->priv->history);
+}
+
+void
 e_html_editor_undo_redo_manager_insert_dash_history_event (EHTMLEditorUndoRedoManager *manager)
 {
 	EHTMLEditorHistoryEvent *event, *last;

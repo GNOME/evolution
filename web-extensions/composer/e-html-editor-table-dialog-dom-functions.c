@@ -301,6 +301,10 @@ e_html_editor_table_dialog_save_history_on_exit (WebKitDOMDocument *document,
 	ev->data.dom.to = webkit_dom_node_clone_node (
 		WEBKIT_DOM_NODE (element), TRUE);
 
-	dom_selection_get_coordinates (
-		document, &ev->after.start.x, &ev->after.start.y, &ev->after.end.x, &ev->after.end.y);
+	if (!webkit_dom_node_is_equal_node (ev->data.dom.from, ev->data.dom.to)) {
+		dom_selection_get_coordinates (
+			document, &ev->after.start.x, &ev->after.start.y, &ev->after.end.x, &ev->after.end.y);
+	} else {
+		e_html_editor_undo_redo_manager_remove_current_history_event (manager);
+	}
 }
