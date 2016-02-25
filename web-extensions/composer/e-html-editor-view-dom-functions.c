@@ -2669,113 +2669,6 @@ fix_structure_after_pasting_multiline_content (WebKitDOMNode *node)
 	}
 }
 
-void
-dom_quote_and_insert_text_into_selection (WebKitDOMDocument *document,
-                                          EHTMLEditorWebExtension *extension,
-                                          const gchar *text)
-{
-	EHTMLEditorHistoryEvent *ev = NULL;
-	EHTMLEditorUndoRedoManager *manager;
-	gchar *escaped_text;
-	WebKitDOMElement *blockquote, *element, *selection_start;
-	WebKitDOMNode *sibling;
-
-	if (!text || !*text)
-		return;
-
-	/* This is a trick to escape any HTML characters (like <, > or &).
-	 * <textarea> automatically replaces all these unsafe characters
-	 * by &lt;, &gt; etc. */
-	element = webkit_dom_document_create_element (document, "textarea", NULL);
-	webkit_dom_element_set_inner_html (element, text, NULL);
-	escaped_text = webkit_dom_element_get_inner_html (element);
-
-	element = webkit_dom_document_create_element (document, "pre", NULL);
-
-	webkit_dom_html_element_set_inner_text (
-		WEBKIT_DOM_HTML_ELEMENT (element), escaped_text, NULL);
-
-	dom_add_selection_markers_into_element_end (document, element, NULL, NULL);
-
-	blockquote = webkit_dom_document_create_element (document, "blockquote", NULL);
-	webkit_dom_element_set_attribute (blockquote, "type", "cite", NULL);
-
-	webkit_dom_node_append_child (
-		WEBKIT_DOM_NODE (blockquote), WEBKIT_DOM_NODE (element), NULL);
-
-	if (!e_html_editor_web_extension_get_html_mode (extension))
-		dom_quote_plain_text_element (document, element);
-
-
-	element = webkit_dom_document_create_element (document, "pre", NULL);
-	webkit_dom_node_append_child (
-		WEBKIT_DOM_NODE (element), WEBKIT_DOM_NODE (blockquote), NULL);
-
-	dom_selection_save (document);
-
-	manager = e_html_editor_web_extension_get_undo_redo_manager (extension);
-	if (!e_html_editor_undo_redo_manager_is_operation_in_progress (manager)) {
-		ev = g_new0 (EHTMLEditorHistoryEvent, 1);
-		ev->type = HISTORY_PASTE_QUOTED;
-
-		dom_selection_get_coordinates (
-			document,
-			&ev->before.start.x,
-			&ev->before.start.y,
-			&ev->before.end.x,
-			&ev->before.end.y);
-
-		ev->data.string.from = NULL;
-		ev->data.string.to = g_strdup (text);
-	}
-
-	selection_start = webkit_dom_document_get_element_by_id (
-		document, "-x-evo-selection-start-marker");
-	sibling = webkit_dom_node_get_previous_sibling (WEBKIT_DOM_NODE (selection_start));
-	/* Check if block is empty. If so, replace it otherwise insert the quoted
-	 * content after current block. */
-	if (!sibling || WEBKIT_DOM_IS_HTML_BR_ELEMENT (sibling)) {
-		sibling = webkit_dom_node_get_next_sibling (
-			WEBKIT_DOM_NODE (selection_start));
-		sibling = webkit_dom_node_get_next_sibling (sibling);
-		if (!sibling || WEBKIT_DOM_IS_HTML_BR_ELEMENT (sibling)) {
-			webkit_dom_node_replace_child (
-				webkit_dom_node_get_parent_node (
-					webkit_dom_node_get_parent_node (
-						WEBKIT_DOM_NODE (selection_start))),
-				WEBKIT_DOM_NODE (element),
-				webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (selection_start)),
-				NULL);
-		}
-	} else {
-		webkit_dom_node_insert_before (
-			WEBKIT_DOM_NODE (webkit_dom_document_get_body (document)),
-			WEBKIT_DOM_NODE (element),
-			webkit_dom_node_get_next_sibling (
-				webkit_dom_node_get_parent_node (
-					WEBKIT_DOM_NODE (selection_start))),
-			NULL);
-	}
-
-	if (ev) {
-		dom_selection_get_coordinates (
-			document,
-			&ev->after.start.x,
-			&ev->after.start.y,
-			&ev->after.end.x,
-			&ev->after.end.y);
-		e_html_editor_undo_redo_manager_insert_history_event (manager, ev);
-	}
-
-	dom_selection_restore (document);
-
-	dom_force_spell_check_for_current_paragraph (document, extension);
-
-	e_html_editor_web_extension_set_content_changed (extension);
-
-	g_free (escaped_text);
-}
-
 gboolean
 dom_change_quoted_block_to_normal (WebKitDOMDocument *document,
                                    EHTMLEditorWebExtension *extension)
@@ -4172,6 +4065,130 @@ parse_html_into_paragraphs (WebKitDOMDocument *document,
 	if (regex_link != NULL)
 		g_regex_unref (regex_link);
 	g_regex_unref (regex_nbsp);
+}
+
+void
+dom_quote_and_insert_text_into_selection (WebKitDOMDocument *document,
+                                          EHTMLEditorWebExtension *extension,
+                                          const gchar *text)
+{
+	EHTMLEditorHistoryEvent *ev = NULL;
+	EHTMLEditorUndoRedoManager *manager;
+	gchar *escaped_text, *inner_html;
+	WebKitDOMElement *blockquote, *element, *selection_start;
+	WebKitDOMNode *sibling;
+
+	if (!text || !*text)
+		return;
+
+	/* This is a trick to escape any HTML characters (like <, > or &).
+	 * <textarea> automatically replaces all these unsafe characters
+	 * by &lt;, &gt; etc. */
+	element = webkit_dom_document_create_element (document, "textarea", NULL);
+	webkit_dom_element_set_inner_html (element, text, NULL);
+	escaped_text = webkit_dom_element_get_inner_html (element);
+
+	webkit_dom_html_element_set_inner_text (
+		WEBKIT_DOM_HTML_ELEMENT (element), escaped_text, NULL);
+
+	inner_html = webkit_dom_html_element_get_inner_html (
+		WEBKIT_DOM_HTML_ELEMENT (element));
+
+	dom_selection_save (document);
+
+	manager = e_html_editor_web_extension_get_undo_redo_manager (extension);
+	if (!e_html_editor_undo_redo_manager_is_operation_in_progress (manager)) {
+		ev = g_new0 (EHTMLEditorHistoryEvent, 1);
+		ev->type = HISTORY_PASTE_QUOTED;
+
+		dom_selection_get_coordinates (
+			document,
+			&ev->before.start.x,
+			&ev->before.start.y,
+			&ev->before.end.x,
+			&ev->before.end.y);
+
+		ev->data.string.from = NULL;
+		ev->data.string.to = g_strdup (text);
+	}
+
+	blockquote = webkit_dom_document_create_element (document, "blockquote", NULL);
+	webkit_dom_element_set_attribute (blockquote, "type", "cite", NULL);
+
+	selection_start = webkit_dom_document_get_element_by_id (
+		document, "-x-evo-selection-start-marker");
+	sibling = webkit_dom_node_get_previous_sibling (WEBKIT_DOM_NODE (selection_start));
+	/* Check if block is empty. If so, replace it otherwise insert the quoted
+	 * content after current block. */
+	if (!sibling || WEBKIT_DOM_IS_HTML_BR_ELEMENT (sibling)) {
+		sibling = webkit_dom_node_get_next_sibling (
+			WEBKIT_DOM_NODE (selection_start));
+		sibling = webkit_dom_node_get_next_sibling (sibling);
+		if (!sibling || WEBKIT_DOM_IS_HTML_BR_ELEMENT (sibling)) {
+			webkit_dom_node_replace_child (
+				webkit_dom_node_get_parent_node (
+					webkit_dom_node_get_parent_node (
+						WEBKIT_DOM_NODE (selection_start))),
+				WEBKIT_DOM_NODE (blockquote),
+				webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (selection_start)),
+				NULL);
+		}
+	} else {
+		webkit_dom_node_insert_before (
+			WEBKIT_DOM_NODE (webkit_dom_document_get_body (document)),
+			WEBKIT_DOM_NODE (blockquote),
+			webkit_dom_node_get_next_sibling (
+				webkit_dom_node_get_parent_node (
+					WEBKIT_DOM_NODE (selection_start))),
+			NULL);
+	}
+
+	parse_html_into_paragraphs (document, extension, blockquote, NULL, inner_html);
+
+	if (!e_html_editor_web_extension_get_html_mode (extension)) {
+		WebKitDOMNode *node;
+		gint word_wrap_length;
+
+		element_add_class (blockquote, "-x-evo-plaintext-quoted");
+
+		word_wrap_length = e_html_editor_web_extension_get_word_wrap_length (extension);
+		node = webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (blockquote));
+		while (node) {
+			WebKitDOMNode *next_sibling;
+
+			node = WEBKIT_DOM_NODE (dom_wrap_paragraph_length (
+				document, extension, WEBKIT_DOM_ELEMENT (node), word_wrap_length - 2));
+
+			webkit_dom_node_normalize (node);
+			dom_quote_plain_text_element_after_wrapping (
+				document, WEBKIT_DOM_ELEMENT (node), 1);
+
+			next_sibling = webkit_dom_node_get_next_sibling (node);
+			if (!next_sibling)
+				dom_add_selection_markers_into_element_end (
+					document, WEBKIT_DOM_ELEMENT (node), NULL, NULL);
+			node = next_sibling;
+		}
+	}
+
+	if (ev) {
+		dom_selection_get_coordinates (
+			document,
+			&ev->after.start.x,
+			&ev->after.start.y,
+			&ev->after.end.x,
+			&ev->after.end.y);
+		e_html_editor_undo_redo_manager_insert_history_event (manager, ev);
+	}
+
+	dom_selection_restore (document);
+
+	dom_force_spell_check_in_viewport (document, extension);
+
+	e_html_editor_web_extension_set_content_changed (extension);
+
+	g_free (escaped_text);
+	g_free (inner_html);
 }
 
 static void
