@@ -761,28 +761,27 @@ put_body_in_citation (WebKitDOMDocument *document)
 
 /* For purpose of this function see e-mail-formatter-quote.c */
 static void
-move_elements_to_body (WebKitDOMDocument *document)
+move_elements_to_body (WebKitDOMDocument *document,
+		       EHTMLEditorWebExtension *extension)
 {
 	WebKitDOMHTMLElement *body = webkit_dom_document_get_body (document);
 	WebKitDOMNodeList *list;
 	gint ii;
 
 	list = webkit_dom_document_query_selector_all (
-		document, "span.-x-evo-to-body[data-headers]", NULL);
+		document, "div[data-headers]", NULL);
 	for (ii = webkit_dom_node_list_get_length (list) - 1; ii >= 0; ii--) {
-		WebKitDOMNode *child;
 		WebKitDOMNode *node = webkit_dom_node_list_item (list, ii);
 
-		while ((child = webkit_dom_node_get_first_child (node))) {
-			webkit_dom_node_insert_before (
-				WEBKIT_DOM_NODE (body),
-				child,
-				webkit_dom_node_get_first_child (
-					WEBKIT_DOM_NODE (body)),
-				NULL);
-		}
+		webkit_dom_element_remove_attribute (
+			WEBKIT_DOM_ELEMENT (node), "data-headers");
+		webkit_dom_node_insert_before (
+			WEBKIT_DOM_NODE (body),
+			node,
+			webkit_dom_node_get_first_child (
+				WEBKIT_DOM_NODE (body)),
+			NULL);
 
-		remove_node (node);
 		g_object_unref (node);
 	}
 	g_object_unref (list);
@@ -791,17 +790,17 @@ move_elements_to_body (WebKitDOMDocument *document)
 		document, "span.-x-evo-to-body[data-credits]", NULL);
 	for (ii = webkit_dom_node_list_get_length (list) - 1; ii >= 0; ii--) {
 		char *credits;
-		WebKitDOMElement *pre_element;
+		WebKitDOMElement *element;
 		WebKitDOMNode *node = webkit_dom_node_list_item (list, ii);
 
-		pre_element = webkit_dom_document_create_element (document, "pre", NULL);
+		element = dom_get_paragraph_element (document, extension, -1, 0);
 		credits = webkit_dom_element_get_attribute (WEBKIT_DOM_ELEMENT (node), "data-credits");
-		webkit_dom_html_element_set_inner_text (WEBKIT_DOM_HTML_ELEMENT (pre_element), credits, NULL);
+		webkit_dom_html_element_set_inner_text (WEBKIT_DOM_HTML_ELEMENT (element), credits, NULL);
 		g_free (credits);
 
 		webkit_dom_node_insert_before (
 			WEBKIT_DOM_NODE (body),
-			WEBKIT_DOM_NODE (pre_element),
+			WEBKIT_DOM_NODE (element),
 			webkit_dom_node_get_first_child (
 				WEBKIT_DOM_NODE (body)),
 			NULL);
@@ -4443,7 +4442,7 @@ dom_convert_content (WebKitDOMDocument *document,
 
 	/* Remove all previously inserted paragraphs. */
 	list = webkit_dom_document_query_selector_all (
-		document, ".-x-evo-paragraph", NULL);
+		document, ".-x-evo-paragraph:not([data-headers])", NULL);
 	length = webkit_dom_node_list_get_length (list);
 	for (ii = 0; ii < length; ii++) {
 		WebKitDOMNode *node = webkit_dom_node_list_item (list, ii);
@@ -4505,17 +4504,17 @@ dom_convert_content (WebKitDOMDocument *document,
 	length = webkit_dom_node_list_get_length (list);
 	for (ii = 0; ii < length; ii++) {
 		char *credits;
-		WebKitDOMElement *pre_element;
+		WebKitDOMElement *element;
 		WebKitDOMNode *node = webkit_dom_node_list_item (list, ii);
 
-		pre_element = webkit_dom_document_create_element (document, "pre", NULL);
+		element = dom_get_paragraph_element (document, extension, -1, 0);
 		credits = webkit_dom_element_get_attribute (WEBKIT_DOM_ELEMENT (node), "data-credits");
-		webkit_dom_html_element_set_inner_text (WEBKIT_DOM_HTML_ELEMENT (pre_element), credits, NULL);
+		webkit_dom_html_element_set_inner_text (WEBKIT_DOM_HTML_ELEMENT (element), credits, NULL);
 		g_free (credits);
 
 		webkit_dom_node_insert_before (
 			WEBKIT_DOM_NODE (wrapper),
-			WEBKIT_DOM_NODE (pre_element),
+			WEBKIT_DOM_NODE (element),
 			WEBKIT_DOM_NODE (content_wrapper),
 			NULL);
 
@@ -4526,21 +4525,23 @@ dom_convert_content (WebKitDOMDocument *document,
 
 	/* Move headers to body */
 	list = webkit_dom_document_query_selector_all (
-		document, "span.-x-evo-to-body[data-headers]", NULL);
+		document, "div[data-headers]", NULL);
 	length = webkit_dom_node_list_get_length (list);
 	for (ii = 0; ii < length; ii++) {
-		WebKitDOMNode *node, *child;
+		WebKitDOMNode *node;
 
 		node = webkit_dom_node_list_item (list, ii);
-		while ((child = webkit_dom_node_get_first_child (node))) {
-			webkit_dom_node_insert_before (
-				WEBKIT_DOM_NODE (wrapper),
-				child,
-				WEBKIT_DOM_NODE (content_wrapper),
-				NULL);
-		}
+		webkit_dom_element_remove_attribute (
+			WEBKIT_DOM_ELEMENT (node), "data-headers");
+		dom_set_paragraph_style (
+			document, extension, WEBKIT_DOM_ELEMENT (node), -1, 0, "");
+		webkit_dom_node_insert_before (
+			WEBKIT_DOM_NODE (wrapper),
+			node,
+			WEBKIT_DOM_NODE (content_wrapper),
+			NULL);
 
-		remove_node (node);
+		g_object_unref (node);
 	}
 	g_object_unref (list);
 
@@ -6836,7 +6837,7 @@ dom_process_content_after_load (WebKitDOMDocument *document,
 	disable_quote_marks_select (document);
 	dom_set_links_active (document, FALSE);
 	put_body_in_citation (document);
-	move_elements_to_body (document);
+	move_elements_to_body (document, extension);
 	repair_gmail_blockquotes (document);
 
 	if (webkit_dom_element_has_attribute (WEBKIT_DOM_ELEMENT (body), "data-evo-draft")) {
