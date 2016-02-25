@@ -1708,37 +1708,29 @@ e_html_editor_undo_redo_manager_insert_dash_history_event (EHTMLEditorUndoRedoMa
 	event->after.end.y = last->after.end.y;
 
 	history = manager->priv->history;
-	while (history) {
+	if (history) {
 		EHTMLEditorHistoryEvent *item;
 		WebKitDOMNode *first_child;
 
 		item = history->data;
 
 		if (item->type != HISTORY_INPUT)
-			break;
+			return;
 
 		first_child = webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (item->data.fragment));
 		if (WEBKIT_DOM_IS_TEXT (first_child)) {
-			gchar *text;
+			guint diff;
 
-			text = webkit_dom_node_get_text_content (first_child);
-			if (text && *text == ':') {
-				guint diff;
+			diff = event->after.start.x - item->after.start.x;
 
-				diff = event->after.start.x - item->after.start.x;
+			/* We need to move the coordinate of the last
+			 * event by one character. */
+			last->after.start.x += diff;
+			last->after.end.x += diff;
 
-				/* We need to move the coordinate of the last
-				 * event by one character. */
-				last->after.start.x += diff;
-				last->after.end.x += diff;
-
-				manager->priv->history = g_list_insert_before (
-					manager->priv->history, history, event);
-			}
-			g_free (text);
-			break;
+			manager->priv->history = g_list_insert_before (
+				manager->priv->history, history, event);
 		}
-		history = history->next;
 	}
 }
 

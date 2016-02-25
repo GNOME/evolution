@@ -1445,19 +1445,21 @@ emoticon_insert_span (EEmoticon *emoticon,
 
 				/* Try to recognize smileys without the dash e.g. :). */
 				while (emoticon_start[ii] && emoticon->text_face[jj]) {
-					if (emoticon_start[ii] == ':' && emoticon->text_face[jj] == ':') {
-						if (emoticon->text_face[jj+1] && emoticon->text_face[jj+1] == '-')
+					if (emoticon_start[ii] == emoticon->text_face[jj]) {
+						if (emoticon->text_face[jj+1] && emoticon->text_face[jj+1] == '-') {
 							ii++;
 							jj+=2;
 							compensate = TRUE;
-							continue;
-					}
-					if (emoticon_start[ii] == emoticon->text_face[jj]) {
-						ii++;
-						jj++;
-					} else
+						} else {
+							ii++;
+							jj++;
+						}
+					} else {
 						same = FALSE;
+						break;
+					}
 				}
+
 				if (same) {
 					webkit_dom_character_data_delete_data (
 						WEBKIT_DOM_CHARACTER_DATA (node),
