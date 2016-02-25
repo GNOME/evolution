@@ -365,6 +365,8 @@ treeview_header_clicked (GtkWidget *widget,
 		return FALSE;
 
 	gtk_widget_show_all (GTK_WIDGET (menu));
+	if (!gtk_menu_get_attach_widget (menu))
+		gtk_menu_attach_to_widget (menu, widget, NULL);
 	gtk_menu_popup (menu, NULL, NULL, NULL, NULL, event_button, event_time);
 
 	return TRUE;

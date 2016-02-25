@@ -4739,13 +4739,19 @@ GtkMenu *
 e_mail_reader_get_popup_menu (EMailReader *reader)
 {
 	EMailReaderInterface *iface;
+	GtkMenu *menu;
 
 	g_return_val_if_fail (E_IS_MAIL_READER (reader), NULL);
 
 	iface = E_MAIL_READER_GET_INTERFACE (reader);
 	g_return_val_if_fail (iface->get_popup_menu != NULL, NULL);
 
-	return iface->get_popup_menu (reader);
+	menu = iface->get_popup_menu (reader);
+	if (!gtk_menu_get_attach_widget (GTK_MENU (menu)))
+		gtk_menu_attach_to_widget (GTK_MENU (menu),
+					   GTK_WIDGET (reader),
+					   NULL);
+	return menu;
 }
 
 EPreviewPane *
@@ -5339,6 +5345,7 @@ e_mail_reader_show_remote_content_popup (EMailReader *reader,
 
 		gtk_widget_show_all (popup_menu);
 
+		gtk_menu_attach_to_widget (GTK_MENU (popup_menu), box, NULL);
 		if (event)
 			gtk_menu_popup (GTK_MENU (popup_menu), NULL, NULL,
 				e_mail_reader_remote_content_menu_position,

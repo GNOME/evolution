@@ -1780,6 +1780,9 @@ ethi_header_context_menu (ETableHeaderItem *ethi,
 		popup, "selection-done",
 		G_CALLBACK (free_popup_info), info);
 
+	gtk_menu_attach_to_widget (GTK_MENU (popup),
+				   GTK_WIDGET (ethi->parent.canvas),
+				   NULL);
 	gtk_menu_popup (
 		GTK_MENU (popup),
 		NULL, NULL, NULL, NULL,
@@ -2082,6 +2085,9 @@ ethi_event (GnomeCanvasItem *item,
 			g_signal_connect (
 				popup, "selection-done",
 				G_CALLBACK (free_popup_info), info);
+			gtk_menu_attach_to_widget (GTK_MENU (popup),
+						   GTK_WIDGET (canvas),
+						   NULL);
 			gtk_menu_popup (
 				GTK_MENU (popup),
 				NULL, NULL, NULL, NULL,

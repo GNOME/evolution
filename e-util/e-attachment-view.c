@@ -1961,6 +1961,11 @@ e_attachment_view_get_popup_menu (EAttachmentView *view)
 	menu = gtk_ui_manager_get_widget (ui_manager, "/context");
 	g_return_val_if_fail (GTK_IS_MENU (menu), NULL);
 
+	if (!gtk_menu_get_attach_widget (GTK_MENU (menu)))
+		gtk_menu_attach_to_widget (GTK_MENU (menu),
+					   GTK_WIDGET (view),
+					   NULL);
+
 	return menu;
 }
 

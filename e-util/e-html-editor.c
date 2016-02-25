@@ -507,6 +507,11 @@ html_editor_context_menu_cb (WebKitWebView *webkit_web_view,
 
 	g_signal_emit (editor, signals[UPDATE_ACTIONS], 0, flags);
 
+	if (!gtk_menu_get_attach_widget (GTK_MENU (menu)))
+		gtk_menu_attach_to_widget (GTK_MENU (menu),
+					   GTK_WIDGET (editor),
+					   NULL);
+
 	if (event)
 		gtk_menu_popup (
 			GTK_MENU (menu), NULL, NULL, NULL,
