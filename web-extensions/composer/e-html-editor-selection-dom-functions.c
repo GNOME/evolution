@@ -2383,20 +2383,22 @@ wrap_lines (WebKitDOMDocument *document,
 							mark_and_remove_leading_space (document, nd);
 						g_free (nd_content);
 						nd_content = webkit_dom_node_get_text_content (nd);
-						if (g_strcmp0 (nd_content, UNICODE_NBSP) == 0)
+						if (g_strcmp0 (nd_content, UNICODE_NBSP) == 0 || !*nd_content)
 							remove_node (nd);
 						g_free (nd_content);
 					}
 
-					webkit_dom_node_insert_before (
-						webkit_dom_node_get_parent_node (node),
-						WEBKIT_DOM_NODE (element),
-						nd,
-						NULL);
+					if (nd) {
+						webkit_dom_node_insert_before (
+							webkit_dom_node_get_parent_node (node),
+							WEBKIT_DOM_NODE (element),
+							nd,
+							NULL);
 
-					node = webkit_dom_node_get_next_sibling (
-						WEBKIT_DOM_NODE (element));
-					offset = 0;
+						node = webkit_dom_node_get_next_sibling (
+							WEBKIT_DOM_NODE (element));
+						offset = 0;
+					}
 				} else {
 					webkit_dom_node_append_child (
 						webkit_dom_node_get_parent_node (node),
