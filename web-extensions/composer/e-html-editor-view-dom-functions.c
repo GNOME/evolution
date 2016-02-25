@@ -268,7 +268,7 @@ refresh_spell_check (WebKitDOMDocument *document,
 		WebKitDOMNode *child;
 
 		child = webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (body));
-		if (!child)
+		if (!child || !WEBKIT_DOM_IS_HTML_ELEMENT (child))
 			return;
 
 		dom_add_selection_markers_into_element_start (
