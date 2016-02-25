@@ -801,14 +801,8 @@ dom_get_alignment_from_node (WebKitDOMNode *node)
 	EHTMLEditorSelectionAlignment alignment;
 	gchar *value;
 	WebKitDOMCSSStyleDeclaration *style;
-	WebKitDOMDocument *document;
-	WebKitDOMDOMWindow *dom_window;
 
-	document = webkit_dom_node_get_owner_document (node);
-	dom_window = webkit_dom_document_get_default_view (document);
-
-	style = webkit_dom_dom_window_get_computed_style (
-		dom_window, WEBKIT_DOM_ELEMENT (node), NULL);
+	style = webkit_dom_element_get_style (WEBKIT_DOM_ELEMENT (node));
 	value = webkit_dom_css_style_declaration_get_property_value (style, "text-align");
 
 	if (!value || !*value ||
@@ -822,7 +816,6 @@ dom_get_alignment_from_node (WebKitDOMNode *node)
 		alignment = E_HTML_EDITOR_SELECTION_ALIGNMENT_LEFT;
 	}
 
-	g_object_unref (dom_window);
 	g_object_unref (style);
 	g_free (value);
 
@@ -5377,7 +5370,6 @@ dom_selection_get_alignment (WebKitDOMDocument *document,
 	EHTMLEditorSelectionAlignment alignment;
 	gchar *value;
 	WebKitDOMCSSStyleDeclaration *style;
-	WebKitDOMDOMWindow *dom_window;
 	WebKitDOMElement *element;
 	WebKitDOMNode *node;
 	WebKitDOMRange *range;
@@ -5396,8 +5388,7 @@ dom_selection_get_alignment (WebKitDOMDocument *document,
 	else
 		element = webkit_dom_node_get_parent_element (node);
 
-	dom_window = webkit_dom_document_get_default_view (document);
-	style = webkit_dom_dom_window_get_computed_style (dom_window, element, NULL);
+	style = webkit_dom_element_get_style (element);
 	value = webkit_dom_css_style_declaration_get_property_value (style, "text-align");
 
 	if (!value || !*value ||
@@ -5412,7 +5403,6 @@ dom_selection_get_alignment (WebKitDOMDocument *document,
 	}
 
 	g_object_unref (style);
-	g_object_unref (dom_window);
 	g_free (value);
 
 	return alignment;
