@@ -208,9 +208,11 @@ print_node_inner_html (WebKitDOMNode *node)
 static void
 print_history_event (EHTMLEditorHistoryEvent *event)
 {
-	printf ("HISTORY EVENT: %d ; \n", event->type);
-	printf ("\t before: start_x: %u ; start_y: %u ; end_x: %u ; end_y: %u ;\n", event->before.start.x, event->before.start.y, event->before.end.x, event->before.end.y);
-	printf ("\t after: start_x: %u ; start_y: %u ; end_x: %u ; end_y: %u ;\n", event->after.start.x, event->after.start.y, event->after.end.x, event->after.end.y);
+	if (event->type != HISTORY_START && event->type != HISTORY_AND) {
+		printf ("HISTORY EVENT: %d ; \n", event->type);
+		printf ("\t before: start_x: %u ; start_y: %u ; end_x: %u ; end_y: %u ;\n", event->before.start.x, event->before.start.y, event->before.end.x, event->before.end.y);
+		printf ("\t after: start_x: %u ; start_y: %u ; end_x: %u ; end_y: %u ;\n", event->after.start.x, event->after.start.y, event->after.end.x, event->after.end.y);
+	}
 	switch (event->type) {
 		case HISTORY_DELETE:
 		case HISTORY_INPUT:
