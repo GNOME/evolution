@@ -503,6 +503,17 @@ dom_get_alignment (WebKitDOMDocument *document)
 	else
 		element = webkit_dom_node_get_parent_element (node);
 
+	if (WEBKIT_DOM_IS_HTML_LI_ELEMENT (element)) {
+		if (element_has_class (element, "-x-evo-align-right"))
+			alignment = E_HTML_EDITOR_SELECTION_ALIGNMENT_RIGHT;
+		else if (element_has_class (element, "-x-evo-align-center"))
+			alignment = E_HTML_EDITOR_SELECTION_ALIGNMENT_CENTER;
+		else
+			alignment = E_HTML_EDITOR_SELECTION_ALIGNMENT_LEFT;
+
+		return alignment;
+	}
+
 	dom_window = webkit_dom_document_get_default_view (document);
 	style = webkit_dom_dom_window_get_computed_style (dom_window, element, NULL);
 	value = webkit_dom_css_style_declaration_get_property_value (style, "text-align");
