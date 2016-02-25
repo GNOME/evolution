@@ -2004,6 +2004,7 @@ create_part_for_inline_image_from_element_data (const gchar *element_src,
 
 	camel_mime_part_set_content_id (part, id);
 	camel_mime_part_set_filename (part, name);
+	camel_mime_part_set_disposition (part, "inline");
 	camel_mime_part_set_encoding (part, CAMEL_TRANSFER_ENCODING_BASE64);
 out:
 	g_free (mime_type);
