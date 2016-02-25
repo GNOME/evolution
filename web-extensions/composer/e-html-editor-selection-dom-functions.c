@@ -153,14 +153,46 @@ dom_insert_base64_image (WebKitDOMDocument *document,
 	WebKitDOMElement *element, *selection_start_marker, *resizable_wrapper;
 	WebKitDOMText *text;
 
-	if (!dom_selection_is_collapsed (document))
+	manager = e_html_editor_web_extension_get_undo_redo_manager (extension);
+
+	if (!dom_selection_is_collapsed (document)) {
+		EHTMLEditorHistoryEvent *ev;
+		WebKitDOMDocumentFragment *fragment;
+		WebKitDOMRange *range;
+
+		ev = g_new0 (EHTMLEditorHistoryEvent, 1);
+		ev->type = HISTORY_DELETE;
+
+		range = dom_get_current_range (document);
+		fragment = webkit_dom_range_clone_contents (range, NULL);
+		g_object_unref (range);
+		ev->data.fragment = fragment;
+
+		dom_selection_get_coordinates (
+			document,
+			&ev->before.start.x,
+			&ev->before.start.y,
+			&ev->before.end.x,
+			&ev->before.end.y);
+
+		ev->after.start.x = ev->before.start.x;
+		ev->after.start.y = ev->before.start.y;
+		ev->after.end.x = ev->before.start.x;
+		ev->after.end.y = ev->before.start.y;
+
+		e_html_editor_undo_redo_manager_insert_history_event (manager, ev);
+
+		ev = g_new0 (EHTMLEditorHistoryEvent, 1);
+		ev->type = HISTORY_AND;
+
+		e_html_editor_undo_redo_manager_insert_history_event (manager, ev);
 		dom_exec_command (document, extension, E_HTML_EDITOR_VIEW_COMMAND_DELETE, NULL);
+	}
 
 	dom_selection_save (document);
 	selection_start_marker = webkit_dom_document_query_selector (
 		document, "span#-x-evo-selection-start-marker", NULL);
 
-	manager = e_html_editor_web_extension_get_undo_redo_manager (extension);
 	if (!e_html_editor_undo_redo_manager_is_operation_in_progress (manager)) {
 		ev = g_new0 (EHTMLEditorHistoryEvent, 1);
 		ev->type = HISTORY_IMAGE;

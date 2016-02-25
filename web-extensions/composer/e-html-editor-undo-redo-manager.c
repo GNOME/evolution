@@ -256,6 +256,9 @@ print_history_event (EHTMLEditorHistoryEvent *event)
 		case HISTORY_START:
 			printf ("HISTORY START\n");
 			break;
+		case HISTORY_AND:
+			printf ("HISTORY AND\n");
+			break;
 		default:
 			printf ("Unknown history type\n");
 	}
@@ -316,6 +319,12 @@ print_redo_events (EHTMLEditorUndoRedoManager *manager)
 	printf ("\n");
 }
 #endif
+
+static gboolean
+event_selection_was_collapsed (EHTMLEditorHistoryEvent *ev)
+{
+	return (ev->before.start.x == ev->before.end.x) && (ev->before.start.y == ev->before.end.y);
+}
 
 static void
 undo_delete (WebKitDOMDocument *document,
@@ -509,12 +518,6 @@ undo_delete (WebKitDOMDocument *document,
 	}
 
 	g_object_unref (dom_selection);
-}
-
-static gboolean
-event_selection_was_collapsed (EHTMLEditorHistoryEvent *ev)
-{
-	return (ev->before.start.x == ev->before.end.x) && (ev->before.start.y == ev->before.end.y);
 }
 
 static void
@@ -1722,7 +1725,7 @@ e_html_editor_undo_redo_manager_insert_dash_history_event (EHTMLEditorUndoRedoMa
 
 				diff = event->after.start.x - item->after.start.x;
 
-				/* We need to move the coordinater of the last
+				/* We need to move the coordinate of the last
 				 * event by one character. */
 				last->after.start.x += diff;
 				last->after.end.x += diff;
@@ -1852,9 +1855,20 @@ e_html_editor_undo_redo_manager_undo (EHTMLEditorUndoRedoManager *manager)
 		case HISTORY_UNQUOTE:
 			undo_redo_unquote (document, extension, event, TRUE);
 			break;
+		case HISTORY_AND:
+			g_warning ("Unhandled HISTORY_AND event!");
+			break;
 		default:
 			g_object_unref (extension);
 			return;
+	}
+
+	/* FIXME WK2 - history->next can be NULL! */
+	event = history->next->data;
+	if (event->type == HISTORY_AND) {
+		manager->priv->history = history->next->next;
+		e_html_editor_undo_redo_manager_undo (manager);
+		return;
 	}
 
 	if (history->next)
@@ -1921,6 +1935,7 @@ e_html_editor_undo_redo_manager_redo (EHTMLEditorUndoRedoManager *manager)
 			break;
 		case HISTORY_INPUT:
 			undo_delete (document, extension, event);
+			dom_check_magic_smileys (document, extension);
 			break;
 		case HISTORY_REMOVE_LINK:
 			undo_redo_remove_link (document, extension, event, FALSE);
@@ -1969,9 +1984,22 @@ e_html_editor_undo_redo_manager_redo (EHTMLEditorUndoRedoManager *manager)
 		case HISTORY_UNQUOTE:
 			undo_redo_unquote (document, extension, event, FALSE);
 			break;
+		case HISTORY_AND:
+			g_warning ("Unhandled HISTORY_AND event!");
+			break;
 		default:
 			g_object_unref (extension);
 			return;
+	}
+
+	/* FIXME WK2 - what if history->prev is NULL? */
+	if (history->prev->prev) {
+		event = history->prev->prev->data;
+		if (event->type == HISTORY_AND) {
+			manager->priv->history = manager->priv->history->prev->prev;
+			e_html_editor_undo_redo_manager_redo (manager);
+			return;
+		}
 	}
 
 	manager->priv->history = manager->priv->history->prev;
