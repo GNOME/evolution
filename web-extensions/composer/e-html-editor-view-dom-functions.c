@@ -902,12 +902,11 @@ dom_check_magic_links (WebKitDOMDocument *document,
 	urls = g_match_info_fetch_all (match_info);
 
 	if (urls) {
-		gchar *final_url, *url_end_raw;
+		const gchar *end_of_match = NULL;
+		gchar *final_url, *url_end_raw, *url_text;
 		glong url_start, url_end, url_length;
-		WebKitDOMNode *url_text_node_clone;
 		WebKitDOMText *url_text_node;
 		WebKitDOMElement *anchor;
-		const gchar* url_text;
 
 		if (!return_key_pressed)
 			dom_selection_save (document);
@@ -918,8 +917,18 @@ dom_check_magic_links (WebKitDOMDocument *document,
 		 * that we get from g_match_info_fetch_pos are not UTF-8 aware */
 		url_end_raw = g_strndup(node_text, end_pos_url);
 		url_end = g_utf8_strlen (url_end_raw, -1);
-
 		url_length = g_utf8_strlen (urls[0], -1);
+
+		end_of_match = url_end_raw + end_pos_url - (include_space ? 3 : 2);
+		/* URLs are extremely unlikely to end with any punctuation, so
+		 * strip any trailing punctuation off from link and put it after
+		 * the link. Do the same for any closing double-quotes as well. */
+		while (end_of_match && end_of_match != url_end_raw && strchr (URL_INVALID_TRAILING_CHARS, *end_of_match)) {
+			url_length--;
+			url_end--;
+			end_of_match--;
+		}
+
 		url_start = url_end - url_length;
 
 		webkit_dom_text_split_text (
@@ -927,12 +936,11 @@ dom_check_magic_links (WebKitDOMDocument *document,
 			include_space ? url_end - 1 : url_end,
 			NULL);
 
-		url_text_node = webkit_dom_text_split_text (
+		webkit_dom_text_split_text (
 			WEBKIT_DOM_TEXT (node), url_start, NULL);
-		url_text_node_clone = webkit_dom_node_clone_node (
-			WEBKIT_DOM_NODE (url_text_node), TRUE);
-		url_text = webkit_dom_text_get_whole_text (
-			WEBKIT_DOM_TEXT (url_text_node_clone));
+		url_text_node = WEBKIT_DOM_TEXT (webkit_dom_node_get_next_sibling (node));
+		url_text = webkit_dom_character_data_get_data (
+			WEBKIT_DOM_CHARACTER_DATA (url_text_node));
 
 		if (g_str_has_prefix (url_text, "www."))
 			final_url = g_strconcat ("http://" , url_text, NULL);
@@ -962,6 +970,7 @@ dom_check_magic_links (WebKitDOMDocument *document,
 
 		g_free (url_end_raw);
 		g_free (final_url);
+		g_free (url_text);
 	} else {
 		gboolean appending_to_link = FALSE;
 		gchar *href, *text, *url, *text_to_append = NULL;
@@ -977,7 +986,8 @@ dom_check_magic_links (WebKitDOMDocument *document,
 		if (WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (prev_sibling)) {
 			text_to_append = webkit_dom_node_get_text_content (node);
 			if (text_to_append && *text_to_append &&
-			    !g_unichar_isspace (g_utf8_get_char (text_to_append))) {
+			    !strstr (text_to_append, " ") &&
+			    !strchr (URL_INVALID_TRAILING_CHARS, *text_to_append)) {
 
 				appending_to_link = TRUE;
 				parent = WEBKIT_DOM_ELEMENT (prev_sibling);
@@ -2286,7 +2296,8 @@ body_input_event_cb (WebKitDOMElement *element,
 
 			text = webkit_dom_node_get_text_content (node);
 
-			if (g_strcmp0 (text, "") != 0 && !g_unichar_isspace (g_utf8_get_char (text))) {
+			if (text && *text && !strstr (text, " ") &&
+			    !strchr (URL_INVALID_TRAILING_CHARS, *text)) {
 				WebKitDOMNode *prev_sibling;
 
 				prev_sibling = webkit_dom_node_get_previous_sibling (node);
@@ -3628,7 +3639,7 @@ create_anchor_for_link (const GMatchInfo *info,
 	/* URLs are extremely unlikely to end with any punctuation, so
 	 * strip any trailing punctuation off from link and put it after
 	 * the link. Do the same for any closing double-quotes as well. */
-	while (end_of_match && end_of_match != match && strchr (",.:;?!-|}])\"", *end_of_match)) {
+	while (end_of_match && end_of_match != match && strchr (URL_INVALID_TRAILING_CHARS, *end_of_match)) {
 		truncate_from_end++;
 		end_of_match--;
 	}
