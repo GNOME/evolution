@@ -2573,6 +2573,18 @@ msg_composer_key_press_event (GtkWidget *widget,
 			return TRUE;
 		}
 
+		if (((event)->state & GDK_CONTROL_MASK) &&
+		    ((event)->keyval == GDK_KEY_z)) {
+			e_html_editor_view_undo (view);
+			return TRUE;
+		}
+
+		if (((event)->state & (GDK_CONTROL_MASK | GDK_SHIFT_MASK)) &&
+		    ((event)->keyval == GDK_KEY_Z)) {
+			e_html_editor_view_redo (view);
+			return TRUE;
+		}
+
 		if (((event)->state & GDK_SHIFT_MASK) &&
 		    ((event)->keyval == GDK_KEY_Delete)) {
 			g_signal_emit_by_name (
