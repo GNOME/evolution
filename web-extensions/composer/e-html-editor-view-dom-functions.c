@@ -963,12 +963,11 @@ dom_check_magic_links (WebKitDOMDocument *document,
 		g_free (url_end_raw);
 		g_free (final_url);
 	} else {
+		gboolean appending_to_link = FALSE;
+		gchar *href, *text, *url, *text_to_append = NULL;
+		gint diff;
 		WebKitDOMElement *parent;
 		WebKitDOMNode *prev_sibling;
-		gchar *href, *text, *url;
-		gint diff;
-		const char* text_to_append;
-		gboolean appending_to_link = FALSE;
 
 		parent = webkit_dom_node_get_parent_element (node);
 		prev_sibling = webkit_dom_node_get_previous_sibling (node);
@@ -977,19 +976,31 @@ dom_check_magic_links (WebKitDOMDocument *document,
 		 * space => we're appending to link */
 		if (WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (prev_sibling)) {
 			text_to_append = webkit_dom_node_get_text_content (node);
-			if (g_strcmp0 (text_to_append, "") != 0 &&
-				!g_unichar_isspace (g_utf8_get_char (text_to_append))) {
+			if (text_to_append && *text_to_append &&
+			    !g_unichar_isspace (g_utf8_get_char (text_to_append))) {
 
 				appending_to_link = TRUE;
 				parent = WEBKIT_DOM_ELEMENT (prev_sibling);
+				/* If the node(text) contains the some of unwanted characters
+				 * split it into two nodes and select the right one. */
+				if (g_str_has_suffix (text_to_append, UNICODE_NBSP) ||
+				    g_str_has_suffix (text_to_append, UNICODE_ZERO_WIDTH_SPACE)) {
+					webkit_dom_text_split_text (
+						WEBKIT_DOM_TEXT (node),
+						g_utf8_strlen (text_to_append, -1) - 1,
+						NULL);
+					g_free (text_to_append);
+					text_to_append = webkit_dom_node_get_text_content (node);
+				}
 			}
 		}
 
 		/* If parent is ANCHOR => we're editing the link */
-		if (!WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (parent) && !appending_to_link) {
+		if ((!WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (parent) && !appending_to_link) || !text_to_append) {
 			g_match_info_free (match_info);
 			g_regex_unref (regex);
 			g_free (node_text);
+			g_free (text_to_append);
 			return;
 		}
 
@@ -1079,6 +1090,7 @@ dom_check_magic_links (WebKitDOMDocument *document,
 			}
 
 		}
+		g_free (text_to_append);
 		g_free (text);
 		g_free (href);
 	}
