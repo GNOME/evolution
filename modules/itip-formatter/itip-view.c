@@ -1193,6 +1193,9 @@ itip_view_rebuild_source_list (ItipView *view)
 	registry = view->priv->registry;
 	extension_name = itip_view_get_extension_name (view);
 
+	if (extension_name == NULL)
+		return;
+
 	g_dbus_proxy_call (
 		view->priv->web_extension,
 		"ElementRemoveChildNodes",
@@ -1202,9 +1205,6 @@ itip_view_rebuild_source_list (ItipView *view)
 		NULL,
 		NULL,
 		NULL);
-
-	if (extension_name == NULL)
-		return;
 
 	list = e_source_registry_list_enabled (registry, extension_name);
 
