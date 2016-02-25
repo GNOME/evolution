@@ -694,8 +694,10 @@ dom_insert_new_line_into_citation (WebKitDOMDocument *document,
 			if (node && WEBKIT_DOM_IS_ELEMENT (node)) {
 				dom_remove_quoting_from_element (WEBKIT_DOM_ELEMENT (node));
 				dom_remove_wrapping_from_element (WEBKIT_DOM_ELEMENT (node));
-				node = WEBKIT_DOM_NODE (dom_wrap_paragraph_length (
-					document, extension, WEBKIT_DOM_ELEMENT (node), length));
+
+				if (element_has_class (WEBKIT_DOM_ELEMENT (node), "-x-evo-paragraph"))
+					node = WEBKIT_DOM_NODE (dom_wrap_paragraph_length (
+						document, extension, WEBKIT_DOM_ELEMENT (node), length));
 				dom_quote_plain_text_element_after_wrapping (
 					document, WEBKIT_DOM_ELEMENT (node), citation_level);
 			}
