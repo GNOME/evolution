@@ -2043,6 +2043,7 @@ wrap_lines (WebKitDOMDocument *document,
             EHTMLEditorWebExtension *extension,
             WebKitDOMNode *block,
 	    gboolean remove_all_br,
+	    gint length_to_wrap,
 	    gint word_wrap_length)
 {
 	WebKitDOMNode *node, *start_node, *block_clone;
@@ -2051,6 +2052,7 @@ wrap_lines (WebKitDOMDocument *document,
 	guint line_length;
 	gulong length_left;
 	gchar *text_content;
+	gboolean compensated = FALSE;
 
 	has_selection = !dom_selection_is_collapsed (document);
 
@@ -2258,7 +2260,7 @@ wrap_lines (WebKitDOMDocument *document,
 
 				next_sibling = webkit_dom_node_get_next_sibling (node);
 				/* If the anchor doesn't fit on the line wrap after it */
-				if (anchor_length > word_wrap_length) {
+				if (anchor_length > length_to_wrap) {
 					WebKitDOMNode *inner_node;
 
 					while ((inner_node = webkit_dom_node_get_first_child (node))) {
@@ -2275,7 +2277,7 @@ wrap_lines (WebKitDOMDocument *document,
 					continue;
 				}
 
-				if (line_length + anchor_length > word_wrap_length) {
+				if (line_length + anchor_length > length_to_wrap) {
 					element = webkit_dom_document_create_element (
 						document, "BR", NULL);
 					element_add_class (element, "-x-evo-wrap-br");
@@ -2285,6 +2287,7 @@ wrap_lines (WebKitDOMDocument *document,
 						node,
 						NULL);
 					line_length = anchor_length;
+					compensated = FALSE;
 				} else
 					line_length += anchor_length;
 
@@ -2300,10 +2303,12 @@ wrap_lines (WebKitDOMDocument *document,
 				if (sibling && WEBKIT_DOM_IS_ELEMENT (sibling) &&
 				    element_has_class (WEBKIT_DOM_ELEMENT (sibling), "Apple-tab-span"))
 					tab_length = TAB_LENGTH;
-				else
-					tab_length = TAB_LENGTH - line_length % TAB_LENGTH;
+				else {
+					tab_length = TAB_LENGTH - (line_length + compensated ? 0 : (word_wrap_length - length_to_wrap)) % TAB_LENGTH;
+					compensated = TRUE;
+				}
 
-				if (line_length + tab_length > word_wrap_length) {
+				if (line_length + tab_length > length_to_wrap) {
 					if (webkit_dom_node_get_next_sibling (node)) {
 						element = webkit_dom_document_create_element (
 							document, "BR", NULL);
@@ -2315,6 +2320,7 @@ wrap_lines (WebKitDOMDocument *document,
 							NULL);
 					}
 					line_length = 0;
+					compensated = FALSE;
 				} else
 					line_length += tab_length;
 
@@ -2327,6 +2333,7 @@ wrap_lines (WebKitDOMDocument *document,
 			if (!remove_all_br && WEBKIT_DOM_IS_HTML_BR_ELEMENT (node)) {
 				if (!element_has_class (WEBKIT_DOM_ELEMENT (node), "-x-evo-wrap-br")) {
 					line_length = 0;
+					compensated = FALSE;
 					node = webkit_dom_node_get_next_sibling (node);
 					continue;
 				}
@@ -2335,23 +2342,23 @@ wrap_lines (WebKitDOMDocument *document,
 		}
 
 		/* If length of this node + what we already have is still less
-		 * then word_wrap_length characters, then just join it and continue to next
-		 * node */
+		 * then length_to_wrap characters, then just concatenate it and
+		 * continue to next node */
 		length_left = webkit_dom_character_data_get_length (
 			WEBKIT_DOM_CHARACTER_DATA (node));
 
-		if ((length_left + line_length) <= word_wrap_length) {
+		if ((length_left + line_length) <= length_to_wrap) {
 			line_length += length_left;
 			goto next_node;
 		}
 
 		/* wrap until we have something */
-		while (node && (length_left + line_length) > word_wrap_length) {
+		while (node && (length_left + line_length) > length_to_wrap) {
 			gint max_length;
 
-			max_length = word_wrap_length - line_length;
+			max_length = length_to_wrap - line_length;
 			if (max_length < 0)
-				max_length = word_wrap_length;
+				max_length = length_to_wrap;
 			/* Find where we can line-break the node so that it
 			 * effectively fills the rest of current row */
 			offset = find_where_to_break_line (node, max_length);
@@ -2408,14 +2415,17 @@ wrap_lines (WebKitDOMDocument *document,
 					WEBKIT_DOM_CHARACTER_DATA (node));
 
 			line_length = 0;
+			compensated = FALSE;
 		}
 		line_length += length_left - offset;
  next_node:
 		if (!node)
 			break;
 
-		if (WEBKIT_DOM_IS_HTML_LI_ELEMENT (node))
+		if (WEBKIT_DOM_IS_HTML_LI_ELEMENT (node)) {
 			line_length = 0;
+			compensated = FALSE;
+		}
 
 		/* Move to next node */
 		if (webkit_dom_node_has_child_nodes (node)) {
@@ -2618,7 +2628,8 @@ dom_wrap_paragraph_length (WebKitDOMDocument *document,
 	g_return_val_if_fail (WEBKIT_DOM_IS_ELEMENT (paragraph), NULL);
 	g_return_val_if_fail (length >= MINIMAL_PARAGRAPH_WIDTH, NULL);
 
-	return wrap_lines (document, extension, WEBKIT_DOM_NODE (paragraph), FALSE, length);
+	return wrap_lines (document, extension, WEBKIT_DOM_NODE (paragraph), FALSE, length,
+		e_html_editor_web_extension_get_word_wrap_length (extension));
 }
 
 /**
