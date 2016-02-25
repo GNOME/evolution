@@ -4204,7 +4204,7 @@ create_text_markers_for_citations_in_document (WebKitDOMDocument *document)
 
 	while (citation) {
 		mark_citation (citation);
-		count ++;
+		count++;
 
 		citation = webkit_dom_document_query_selector (
 			document, "blockquote[type=cite]:not(.marked)", NULL);
