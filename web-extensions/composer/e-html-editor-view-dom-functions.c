@@ -882,10 +882,10 @@ dom_check_magic_links (WebKitDOMDocument *document,
 	}
 
 	node_text = webkit_dom_text_get_whole_text (WEBKIT_DOM_TEXT (node));
-	if (!(node_text && *node_text) || !g_utf8_validate (node_text, -1, NULL))
-		/* FIXME WK2 - this is supposed to be in a block, otherwise the 'return' is always executed */
+	if (!(node_text && *node_text) || !g_utf8_validate (node_text, -1, NULL)) {
 		g_free (node_text);
 		return;
+	}
 
 	if (strstr (node_text, "@") && !strstr (node_text, "://")) {
 		is_email_address = TRUE;
