@@ -2333,7 +2333,7 @@ wrap_lines (WebKitDOMDocument *document,
 		}
 
 		/* wrap until we have something */
-		while ((length_left + line_length) > word_wrap_length) {
+		while (node && (length_left + line_length) > word_wrap_length) {
 			gint max_length;
 
 			max_length = word_wrap_length - line_length;
