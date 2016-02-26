@@ -19,11 +19,6 @@
 
 #include "e-source-conflict-search.h"
 
-/* This forces the GType to be registered in a way that
- * avoids a "statement with no effect" compiler warning. */
-#define REGISTER_TYPE(type) \
-	(g_type_class_unref (g_type_class_ref (type)))
-
 G_DEFINE_TYPE (
 	EConflictSearchSelector,
 	e_conflict_search_selector,
@@ -86,7 +81,7 @@ e_conflict_search_selector_class_init (EConflictSearchSelectorClass *class)
 	source_selector_class->set_source_selected =
 				conflict_search_selector_set_source_selected;
 
-	REGISTER_TYPE (E_TYPE_SOURCE_CONFLICT_SEARCH);
+	g_type_ensure (E_TYPE_SOURCE_CONFLICT_SEARCH);
 }
 
 static void

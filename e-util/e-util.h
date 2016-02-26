@@ -84,6 +84,7 @@
 #include <e-util/e-color-chooser-widget.h>
 #include <e-util/e-color-combo.h>
 #include <e-util/e-config.h>
+#include <e-util/e-conflict-search-selector.h>
 #include <e-util/e-contact-store.h>
 #include <e-util/e-data-capture.h>
 #include <e-util/e-dateedit.h>
@@ -188,6 +189,7 @@
 #include <e-util/e-source-config-backend.h>
 #include <e-util/e-source-config-dialog.h>
 #include <e-util/e-source-config.h>
+#include <e-util/e-source-conflict-search.h>
 #include <e-util/e-source-selector-dialog.h>
 #include <e-util/e-source-selector.h>
 #include <e-util/e-source-util.h>

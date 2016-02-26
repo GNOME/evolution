@@ -1,4 +1,4 @@
-SUBDIRS = plugin web-extension
+SUBDIRS = web-extension
 
 @EVO_PLUGIN_RULE@
 
@@ -15,16 +15,12 @@ module_itip_formatter_la_CPPFLAGS =					\
 	$(NULL)
 
 module_itip_formatter_la_SOURCES =					\
-	e-conflict-search-selector.c					\
-	e-conflict-search-selector.h					\
 	e-mail-formatter-itip.c						\
 	e-mail-formatter-itip.h						\
 	e-mail-parser-itip.c						\
 	e-mail-parser-itip.h						\
 	e-mail-part-itip.c						\
 	e-mail-part-itip.h						\
-	e-source-conflict-search.c					\
-	e-source-conflict-search.h					\
 	itip-view.c							\
 	itip-view.h							\
 	evolution-module-itip-formatter.c				\

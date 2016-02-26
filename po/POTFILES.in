@@ -446,8 +446,6 @@ modules/calendar/e-task-shell-view-private.c
 modules/itip-formatter/e-mail-formatter-itip.c
 modules/itip-formatter/itip-view.c
 modules/itip-formatter/org-gnome-itip-formatter.error.xml
-modules/itip-formatter/plugin/config-ui.c
-modules/itip-formatter/plugin/org-gnome-itip-formatter.eplug.xml
 modules/mail-config/e-mail-config-google-summary.c
 modules/mail-config/e-mail-config-local-accounts.c
 modules/mail-config/e-mail-config-remote-accounts.c
