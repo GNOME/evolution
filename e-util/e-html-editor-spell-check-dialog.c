@@ -92,6 +92,7 @@ html_editor_spell_check_dialog_set_word (EHTMLEditorSpellCheckDialog *dialog,
 	GtkListStore *store;
 	gchar *markup;
 	GList *list = NULL, *link;
+	gboolean empty;
 
 	if (word == NULL)
 		return;
@@ -113,12 +114,26 @@ html_editor_spell_check_dialog_set_word (EHTMLEditorSpellCheckDialog *dialog,
 	list = e_spell_dictionary_get_suggestions (
 		dialog->priv->current_dict, word, -1);*/
 
+	empty = list == NULL;
+
 	for (link = list; link != NULL; link = g_list_next (link)) {
 		GtkTreeIter iter;
 		gchar *suggestion = link->data;
 
 		gtk_list_store_append (store, &iter);
 		gtk_list_store_set (store, &iter, 0, suggestion, -1);
+	}
+
+	gtk_widget_set_sensitive (dialog->priv->replace_button, !empty);
+	gtk_widget_set_sensitive (dialog->priv->replace_all_button, !empty);
+
+	if (!empty) {
+		GtkTreeSelection *tree_selection;
+
+		/* Select the first suggestion */
+		tree_selection = gtk_tree_view_get_selection (
+			GTK_TREE_VIEW (dialog->priv->tree_view));
+		gtk_tree_selection_select_path (tree_selection, gtk_tree_path_new_first ());
 	}
 
 	g_list_free_full (list, (GDestroyNotify) g_free);
