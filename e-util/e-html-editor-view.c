@@ -5583,8 +5583,6 @@ return_pressed_in_empty_list_item (EHTMLEditorView *view)
 		WebKitDOMNode *list;
 
 		if (!view->priv->undo_redo_in_progress) {
-			/* Insert new history event for Return to have the right coordinates.
-			 * The fragment will be added later. */
 			ev = g_new0 (EHTMLEditorViewHistoryEvent, 1);
 			ev->type = HISTORY_INPUT;
 
@@ -5620,8 +5618,6 @@ return_pressed_in_empty_list_item (EHTMLEditorView *view)
 			list,
 			NULL);
 
-		e_html_editor_selection_restore (selection);
-
 		if (ev) {
 			e_html_editor_selection_get_selection_coordinates (
 				selection,
@@ -5634,6 +5630,8 @@ return_pressed_in_empty_list_item (EHTMLEditorView *view)
 
 			e_html_editor_view_insert_new_history_event (view, ev);
 		}
+
+		e_html_editor_selection_restore (selection);
 
 		e_html_editor_view_set_changed (view, TRUE);
 
