@@ -2667,6 +2667,14 @@ e_html_editor_view_update_fonts (EHTMLEditorView *view)
 		"  -webkit-margin-after: 0em; \n"
 		"}\n");
 
+	g_string_append (
+		stylesheet,
+		"a "
+		"{\n"
+		"  word-wrap: break-word; \n"
+		"  word-break: break-all; \n"
+		"}\n");
+
 	citation_color = g_settings_get_string (
 		view->priv->mail_settings, "citation-color");
 	mark_citations = g_settings_get_boolean (

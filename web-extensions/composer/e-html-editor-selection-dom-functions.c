@@ -2561,11 +2561,16 @@ wrap_lines (WebKitDOMDocument *document,
 				g_free (text_content);
 
 				next_sibling = webkit_dom_node_get_next_sibling (node);
-				/* If the anchor doesn't fit on the line wrap after it */
+				/* If the anchor doesn't fit on the line move the inner
+				 * nodes out of it and start to wrap them. */
 				if (anchor_length > length_to_wrap) {
 					WebKitDOMNode *inner_node;
 
 					while ((inner_node = webkit_dom_node_get_first_child (node))) {
+						g_object_set_data (
+							G_OBJECT (inner_node),
+							"-x-evo-anchor-text",
+							GINT_TO_POINTER (1));
 						webkit_dom_node_insert_before (
 							webkit_dom_node_get_parent_node (node),
 							inner_node,
@@ -2661,9 +2666,15 @@ wrap_lines (WebKitDOMDocument *document,
 			max_length = length_to_wrap - line_length;
 			if (max_length < 0)
 				max_length = length_to_wrap;
-			/* Find where we can line-break the node so that it
-			 * effectively fills the rest of current row */
-			offset = find_where_to_break_line (node, max_length);
+
+			/* Allow anchors to break on any character. */
+			if (g_object_get_data (G_OBJECT (node), "-x-evo-anchor-text"))
+				offset = max_length;
+			else {
+				/* Find where we can line-break the node so that it
+				 * effectively fills the rest of current row. */
+				offset = find_where_to_break_line (node, max_length);
+			}
 
 			element = webkit_dom_document_create_element (document, "BR", NULL);
 			element_add_class (element, "-x-evo-wrap-br");
