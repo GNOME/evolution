@@ -4636,6 +4636,48 @@ register_html_events_handlers (WebKitDOMHTMLElement *body,
 		extension);
 }
 
+
+static void
+rename_attribute (WebKitDOMElement *element,
+                  const gchar *from,
+                  const gchar *to)
+{
+	gchar *value;
+
+	value = webkit_dom_element_get_attribute (element, from);
+	if (value)
+		webkit_dom_element_set_attribute (element, to, value, NULL);
+	webkit_dom_element_remove_attribute (element, from);
+	g_free (value);
+}
+
+static void
+set_monospace_font_family_on_body (WebKitDOMElement *body,
+                                   gboolean html_mode)
+{
+	/* If copying some content in view, WebKit adds various information about
+	 * the content's style (such as color, font size, ..) to the resulting HTML
+	 * to correctly apply the style when pasting the content later. The thing
+	 * is that in plain text mode the only font allowed is the monospaced one,
+	 * but we are forcing it through user style sheet in WebKitWebSettings and
+	 * sadly WebKit doesn't count with it, so when the content is pasted,
+	 * WebKit wraps it inside SPANs and sets the font-family style on them.
+	 * The problem is that when we switch to the HTML mode, the pasted content
+	 * will have the monospaced font set. To avoid it we need to set the
+	 * font-family style to the body, so WebKit will know about it and will
+	 * avoid the described behaviour. */
+	if (!html_mode) {
+		rename_attribute (WEBKIT_DOM_ELEMENT (body), "style", "data-style");
+		webkit_dom_element_set_attribute (
+			WEBKIT_DOM_ELEMENT (body),
+			"style",
+			"font-family: Monospace;",
+			NULL);
+	} else {
+		rename_attribute (WEBKIT_DOM_ELEMENT (body), "data-style", "style");
+	}
+}
+
 void
 dom_convert_content (WebKitDOMDocument *document,
                       EHTMLEditorWebExtension *extension,
@@ -4910,6 +4952,7 @@ dom_convert_content (WebKitDOMDocument *document,
 		extension);
 
 	register_html_events_handlers (body, extension);
+	set_monospace_font_family_on_body (WEBKIT_DOM_ELEMENT (body), e_html_editor_web_extension_get_html_mode (extension));
 
 	g_free (inner_html);
 }
@@ -5263,7 +5306,8 @@ dom_convert_and_insert_html_into_selection (WebKitDOMDocument *document,
 			node = webkit_dom_node_get_next_sibling (parent);
 			if (!node) {
 				fix_structure_after_pasting_multiline_content (parent);
-				remove_node (parent);
+				if (!webkit_dom_node_get_first_child (parent))
+					remove_node (parent);
 			}
 		}
 
@@ -5293,24 +5337,24 @@ dom_convert_and_insert_html_into_selection (WebKitDOMDocument *document,
 		/* When pasting the content that was copied from the composer, WebKit
 		 * restores the selection wrongly, thus is saved wrongly and we have
 		 * to fix it */
-		WebKitDOMNode *paragraph, *parent, *clone1, *clone2;
+		WebKitDOMNode *block, *parent, *clone1, *clone2;
 
 		selection_start_marker = webkit_dom_document_get_element_by_id (
 			document, "-x-evo-selection-start-marker");
 		selection_end_marker = webkit_dom_document_get_element_by_id (
 			document, "-x-evo-selection-end-marker");
 
-		paragraph = get_parent_block_node_from_child (
+		block = get_parent_block_node_from_child (
 			WEBKIT_DOM_NODE (selection_start_marker));
-		parent = webkit_dom_node_get_parent_node (paragraph);
+		parent = webkit_dom_node_get_parent_node (block);
 		webkit_dom_element_remove_attribute (WEBKIT_DOM_ELEMENT (parent), "id");
 
 		/* Check if WebKit created wrong structure */
-		clone1 = webkit_dom_node_clone_node (WEBKIT_DOM_NODE (paragraph), FALSE);
+		clone1 = webkit_dom_node_clone_node (WEBKIT_DOM_NODE (block), FALSE);
 		clone2 = webkit_dom_node_clone_node (WEBKIT_DOM_NODE (parent), FALSE);
 		if (webkit_dom_node_is_equal_node (clone1, clone2) ||
 		    (WEBKIT_DOM_IS_HTML_DIV_ELEMENT (clone1) && WEBKIT_DOM_IS_HTML_DIV_ELEMENT (clone2))) {
-			fix_structure_after_pasting_multiline_content (paragraph);
+			fix_structure_after_pasting_multiline_content (block);
 			if (g_strcmp0 (html, "\n") == 0) {
 				WebKitDOMElement *br;
 
@@ -5323,7 +5367,7 @@ dom_convert_and_insert_html_into_selection (WebKitDOMDocument *document,
 					WEBKIT_DOM_NODE (selection_start_marker),
 					webkit_dom_node_get_last_child (parent),
 					NULL);
-			} else
+			} else if (!webkit_dom_node_get_first_child (parent))
 				remove_node (parent);
 		}
 
@@ -7069,6 +7113,8 @@ dom_process_content_after_load (WebKitDOMDocument *document,
 	else
 		dom_turn_spell_check_off (document, extension);
 
+	set_monospace_font_family_on_body (WEBKIT_DOM_ELEMENT (body), e_html_editor_web_extension_get_html_mode (extension));
+
 	dom_window = webkit_dom_document_get_default_view (document);
 
 	webkit_dom_event_target_add_event_listener (
@@ -7223,38 +7269,39 @@ dom_insert_html (WebKitDOMDocument *document,
 		ev->data.string.to = g_strdup (html_text);
 	}
 
-	if (e_html_editor_web_extension_get_html_mode (extension)) {
+	if (e_html_editor_web_extension_get_html_mode (extension) ||
+	    e_html_editor_web_extension_is_pasting_content_from_itself (extension)) {
 		if (!dom_selection_is_collapsed (document)) {
-			EHTMLEditorHistoryEvent *ev;
+			EHTMLEditorHistoryEvent *event;
 			WebKitDOMDocumentFragment *fragment;
 			WebKitDOMRange *range;
 
-			ev = g_new0 (EHTMLEditorHistoryEvent, 1);
-			ev->type = HISTORY_DELETE;
+			event = g_new0 (EHTMLEditorHistoryEvent, 1);
+			event->type = HISTORY_DELETE;
 
 			range = dom_get_current_range (document);
 			fragment = webkit_dom_range_clone_contents (range, NULL);
 			g_object_unref (range);
-			ev->data.fragment = fragment;
+			event->data.fragment = fragment;
 
 			dom_selection_get_coordinates (
 				document,
-				&ev->before.start.x,
-				&ev->before.start.y,
-				&ev->before.end.x,
-				&ev->before.end.y);
+				&event->before.start.x,
+				&event->before.start.y,
+				&event->before.end.x,
+				&event->before.end.y);
 
-			ev->after.start.x = ev->before.start.x;
-			ev->after.start.y = ev->before.start.y;
-			ev->after.end.x = ev->before.start.x;
-			ev->after.end.y = ev->before.start.y;
+			event->after.start.x = event->before.start.x;
+			event->after.start.y = event->before.start.y;
+			event->after.end.x = event->before.start.x;
+			event->after.end.y = event->before.start.y;
 
-			e_html_editor_undo_redo_manager_insert_history_event (manager, ev);
+			e_html_editor_undo_redo_manager_insert_history_event (manager, event);
 
-			ev = g_new0 (EHTMLEditorHistoryEvent, 1);
-			ev->type = HISTORY_AND;
+			event = g_new0 (EHTMLEditorHistoryEvent, 1);
+			event->type = HISTORY_AND;
 
-			e_html_editor_undo_redo_manager_insert_history_event (manager, ev);
+			e_html_editor_undo_redo_manager_insert_history_event (manager, event);
 		}
 
 		dom_exec_command (
@@ -8235,20 +8282,6 @@ dom_check_if_conversion_needed (WebKitDOMDocument *document)
 }
 
 static void
-rename_attribute (WebKitDOMElement *element,
-                  const gchar *from,
-                  const gchar *to)
-{
-	gchar *value;
-
-	value = webkit_dom_element_get_attribute (element, from);
-	if (value)
-		webkit_dom_element_set_attribute (element, to, value, NULL);
-	webkit_dom_element_remove_attribute (element, from);
-	g_free (value);
-}
-
-static void
 toggle_tables (WebKitDOMDocument *document,
                gboolean html_mode)
 {
@@ -8366,6 +8399,8 @@ dom_process_content_after_mode_change (WebKitDOMDocument *document,
 
 		g_free (plain);
 	}
+
+	set_monospace_font_family_on_body (WEBKIT_DOM_ELEMENT (webkit_dom_document_get_body (document)), html_mode);
 
 	manager = e_html_editor_web_extension_get_undo_redo_manager (extension);
 	e_html_editor_undo_redo_manager_clean_history (manager);

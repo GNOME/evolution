@@ -220,6 +220,8 @@ void		e_html_editor_view_move_selection_on_point
 						 gint x,
 						 gint y,
 						 gboolean cancel_if_not_collapsed);
+gboolean	e_html_editor_view_is_pasting_content_from_itself
+						(EHTMLEditorView *view);
 G_END_DECLS
 
 #endif /* E_HTML_EDITOR_VIEW_H */

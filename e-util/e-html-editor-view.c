@@ -81,6 +81,10 @@ struct _EHTMLEditorViewPrivate {
 	gboolean is_message_from_draft;
 	gboolean is_message_from_edit_as_new;
 	gboolean is_message_from_selection;
+	gboolean copy_paste_clipboard_in_view;
+	gboolean copy_paste_primary_in_view;
+	gboolean copy_action_triggered;
+	gboolean pasting_primary_clipboard;
 
 	GDBusProxy *web_extension;
 	guint web_extension_watch_name_id;
@@ -88,6 +92,9 @@ struct _EHTMLEditorViewPrivate {
 	GHashTable *old_settings;
 
 	GQueue *post_reload_operations;
+
+	gulong owner_change_primary_cb_id;
+	gulong owner_change_clipboard_cb_id;
 };
 
 enum {
@@ -212,6 +219,60 @@ e_html_editor_view_redo (EHTMLEditorView *view)
 	e_html_editor_view_call_simple_extension_function (view, "DOMUndo");
 }
 
+
+static void
+html_editor_view_move_selection_on_point (GtkWidget *widget)
+{
+	gint x, y;
+	GdkDeviceManager *device_manager;
+	GdkDevice *pointer;
+
+	device_manager = gdk_display_get_device_manager (gtk_widget_get_display (widget));
+	pointer = gdk_device_manager_get_client_pointer (device_manager);
+	gdk_window_get_device_position (gtk_widget_get_window (widget), pointer, &x, &y, NULL);
+
+	e_html_editor_view_move_selection_on_point (E_HTML_EDITOR_VIEW (widget), x, y, TRUE);
+}
+
+static void
+set_web_extension_boolean_property (EHTMLEditorView *view,
+                                    const gchar *property_name,
+                                    gboolean value)
+{
+	GDBusProxy *web_extension;
+
+	web_extension = e_html_editor_view_get_web_extension_proxy (view);
+	if (!web_extension)
+		return;
+
+	g_dbus_connection_call (
+		g_dbus_proxy_get_connection (web_extension),
+		E_HTML_EDITOR_WEB_EXTENSION_SERVICE_NAME,
+		E_HTML_EDITOR_WEB_EXTENSION_OBJECT_PATH,
+		"org.freedesktop.DBus.Properties",
+		"Set",
+		g_variant_new (
+			"(ssv)",
+			E_HTML_EDITOR_WEB_EXTENSION_INTERFACE,
+			property_name,
+			g_variant_new_boolean (value)),
+		NULL,
+		G_DBUS_CALL_FLAGS_NONE,
+		-1,
+		NULL,
+		NULL,
+		NULL);
+}
+
+static void
+html_editor_update_pasting_content_from_itself (EHTMLEditorView *view)
+{
+	g_return_if_fail (E_IS_HTML_EDITOR_VIEW (view));
+
+	set_web_extension_boolean_property (view, "IsPastingContentFromItself",
+		e_html_editor_view_is_pasting_content_from_itself (view));
+}
+
 static void
 html_editor_view_can_copy_cb (WebKitWebView *webkit_web_view,
                               GAsyncResult *result,
@@ -224,6 +285,11 @@ html_editor_view_can_copy_cb (WebKitWebView *webkit_web_view,
 
 	if (view->priv->can_copy != value) {
 		view->priv->can_copy = value;
+		/* This means that we have an active selection thus the primary
+		 * clipboard content is from composer. */
+		if (value)
+			view->priv->copy_paste_primary_in_view = TRUE;
+		html_editor_update_pasting_content_from_itself (view);
 		g_object_notify (G_OBJECT (view), "can-copy");
 	}
 }
@@ -541,6 +607,20 @@ html_editor_view_dispose (GObject *object)
 		priv->current_user_stylesheet = NULL;
 	}
 
+	if (priv->owner_change_clipboard_cb_id > 0) {
+		g_signal_handler_disconnect (
+			gtk_clipboard_get (GDK_SELECTION_CLIPBOARD),
+			priv->owner_change_clipboard_cb_id);
+		priv->owner_change_clipboard_cb_id = 0;
+	}
+
+	if (priv->owner_change_primary_cb_id > 0) {
+		g_signal_handler_disconnect (
+			gtk_clipboard_get (GDK_SELECTION_PRIMARY),
+			priv->owner_change_primary_cb_id);
+		priv->owner_change_primary_cb_id = 0;
+	}
+
 	g_clear_object (&priv->selection);
 	g_clear_object (&priv->web_extension);
 
@@ -631,29 +711,22 @@ e_html_editor_view_move_selection_on_point (EHTMLEditorView *view,
 		NULL);
 }
 
-static void
-html_editor_view_move_selection_on_point (GtkWidget *widget)
-{
-	gint x, y;
-	GdkDeviceManager *device_manager;
-	GdkDevice *pointer;
-
-	device_manager = gdk_display_get_device_manager (gtk_widget_get_display (widget));
-	pointer = gdk_device_manager_get_client_pointer (device_manager);
-	gdk_window_get_device_position (gtk_widget_get_window (widget), pointer, &x, &y, NULL);
-
-	e_html_editor_view_move_selection_on_point (E_HTML_EDITOR_VIEW (widget), x, y, TRUE);
-}
-
 static gboolean
 html_editor_view_button_press_event (GtkWidget *widget,
                                      GdkEventButton *event)
 {
+	EHTMLEditorView *view;
 	gboolean event_handled;
+
+	view = E_HTML_EDITOR_VIEW (widget);
 
 	if (event->button == 2) {
 		/* Middle click paste */
 		html_editor_view_move_selection_on_point (widget);
+		/* Remember, that we are pasting primary clipboard to return
+		 * correct value in e_html_editor_view_is_pasting_content_from_itself. */
+		view->priv->pasting_primary_clipboard = TRUE;
+		html_editor_update_pasting_content_from_itself (view);
 		g_signal_emit (widget, signals[PASTE_PRIMARY_CLIPBOARD], 0);
 		event_handled = TRUE;
 	} else if (event->button == 3) {
@@ -790,36 +863,6 @@ html_editor_view_paste_clipboard_quoted (EHTMLEditorView *view)
 		clipboard,
 		(GtkClipboardTextReceivedFunc) clipboard_text_received,
 		view);
-}
-
-static void
-set_web_extension_boolean_property (EHTMLEditorView *view,
-                                    const gchar *property_name,
-                                    gboolean value)
-{
-	GDBusProxy *web_extension;
-
-	web_extension = e_html_editor_view_get_web_extension_proxy (view);
-	if (!web_extension)
-		return;
-
-	g_dbus_connection_call (
-		g_dbus_proxy_get_connection (web_extension),
-		E_HTML_EDITOR_WEB_EXTENSION_SERVICE_NAME,
-		E_HTML_EDITOR_WEB_EXTENSION_OBJECT_PATH,
-		"org.freedesktop.DBus.Properties",
-		"Set",
-		g_variant_new (
-			"(ssv)",
-			E_HTML_EDITOR_WEB_EXTENSION_INTERFACE,
-			property_name,
-			g_variant_new_boolean (value)),
-		NULL,
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL,
-		NULL);
 }
 
 static void
@@ -1618,6 +1661,42 @@ html_editor_view_drag_end_cb (EHTMLEditorView *view,
 }
 
 static void
+html_editor_view_owner_change_clipboard_cb (GtkClipboard *clipboard,
+                                            GdkEventOwnerChange *event,
+                                            EHTMLEditorView *view)
+{
+	if (!E_IS_HTML_EDITOR_VIEW (view))
+		return;
+
+	if (view->priv->copy_action_triggered && event->owner)
+		view->priv->copy_paste_clipboard_in_view = TRUE;
+	else
+		view->priv->copy_paste_clipboard_in_view = FALSE;
+	html_editor_update_pasting_content_from_itself (view);
+
+	view->priv->copy_action_triggered = FALSE;
+}
+
+static void
+html_editor_view_owner_change_primary_cb (GtkClipboard *clipboard,
+                                          GdkEventOwnerChange *event,
+                                          EHTMLEditorView *view)
+{
+	if (!E_IS_HTML_EDITOR_VIEW (view))
+		return;
+
+	if (!event->owner)
+		view->priv->copy_paste_primary_in_view = FALSE;
+	html_editor_update_pasting_content_from_itself (view);
+}
+
+static void
+html_editor_view_copy_cut_clipboard_cb (EHTMLEditorView *view)
+{
+	view->priv->copy_action_triggered = TRUE;
+}
+
+static void
 e_html_editor_view_init (EHTMLEditorView *view)
 {
 	WebKitSettings *settings;
@@ -1702,8 +1781,28 @@ e_html_editor_view_init (EHTMLEditorView *view)
 	view->priv->is_message_from_selection = FALSE;
 	view->priv->is_message_from_edit_as_new = FALSE;
 	view->priv->convert_in_situ = FALSE;
+	view->priv->copy_paste_clipboard_in_view = FALSE;
+	view->priv->copy_paste_primary_in_view = FALSE;
+	view->priv->copy_action_triggered = FALSE;
+	view->priv->pasting_primary_clipboard = FALSE;
 
 	view->priv->current_user_stylesheet = NULL;
+
+	g_signal_connect (
+		view, "copy-clipboard",
+		G_CALLBACK (html_editor_view_copy_cut_clipboard_cb), NULL);
+
+	g_signal_connect (
+		view, "cut-clipboard",
+		G_CALLBACK (html_editor_view_copy_cut_clipboard_cb), NULL);
+
+	view->priv->owner_change_primary_cb_id = g_signal_connect (
+		gtk_clipboard_get (GDK_SELECTION_PRIMARY), "owner-change",
+		G_CALLBACK (html_editor_view_owner_change_primary_cb), view);
+
+	view->priv->owner_change_clipboard_cb_id = g_signal_connect (
+		gtk_clipboard_get (GDK_SELECTION_CLIPBOARD), "owner-change",
+		G_CALLBACK (html_editor_view_owner_change_clipboard_cb), view);
 }
 
 void
@@ -3413,3 +3512,14 @@ set_link_color (EHTMLEditorView *view)
 	gdk_color_free (color);
 }
 */
+
+gboolean
+e_html_editor_view_is_pasting_content_from_itself (EHTMLEditorView *view)
+{
+	g_return_val_if_fail (E_IS_HTML_EDITOR_VIEW (view), FALSE);
+
+	if (view->priv->pasting_primary_clipboard)
+		return view->priv->copy_paste_primary_in_view;
+	else
+		return view->priv->copy_paste_clipboard_in_view;
+}

@@ -95,6 +95,7 @@ struct _EHTMLEditorWebExtensionPrivate {
 	gboolean is_message_from_selection;
 	gboolean dont_save_history_in_body_input;
 	gboolean composition_in_progress;
+	gboolean is_pasting_content_from_itself;
 
 	GHashTable *inline_images;
 
@@ -122,6 +123,7 @@ static const char introspection_xml[] =
 "    <property type='b' name='IsMessageFromDraft' access='readwrite'/>"
 "    <property type='b' name='IsMessageFromSelection' access='readwrite'/>"
 "    <property type='b' name='IsFromNewMessage' access='readwrite'/>"
+"    <property type='b' name='IsPastingContentFromItself' access='readwrite'/>"
 "    <property type='u' name='NodeUnderMouseClickFlags' access='readwrite'/>"
 "<!-- ********************************************************* -->"
 "<!-- These properties show the actual state of EHTMLEditorView -->"
@@ -2440,6 +2442,8 @@ handle_get_property (GDBusConnection *connection,
 		variant = g_variant_new_boolean (extension->priv->is_message_from_draft);
 	else if (g_strcmp0 (property_name, "IsMessageFromSelection") == 0)
 		variant = g_variant_new_boolean (extension->priv->is_message_from_selection);
+	else if (g_strcmp0 (property_name, "IsPastingContentFromItself") == 0)
+		variant = g_variant_new_boolean (extension->priv->is_pasting_content_from_itself);
 	else if (g_strcmp0 (property_name, "Alignment") == 0)
 		variant = g_variant_new_uint32 (extension->priv->alignment);
 	else if (g_strcmp0 (property_name, "BackgroundColor") == 0)
@@ -2569,6 +2573,18 @@ handle_set_property (GDBusConnection *connection,
 			"{sv}",
 			"IsMessageFromEditAsNew",
 			g_variant_new_boolean (extension->priv->is_message_from_edit_as_new));
+	} else if (g_strcmp0 (property_name, "IsPastingContentFromItself") == 0) {
+		gboolean value = g_variant_get_boolean (variant);
+
+		if (value == extension->priv->is_pasting_content_from_itself)
+			goto exit;
+
+		extension->priv->is_pasting_content_from_itself = value;
+
+		g_variant_builder_add (builder,
+			"{sv}",
+			"IsPastingContentFromItself",
+			g_variant_new_boolean (extension->priv->is_pasting_content_from_itself));
 	} else if (g_strcmp0 (property_name, "HTMLMode") == 0) {
 		gboolean value = g_variant_get_boolean (variant);
 
@@ -2965,6 +2981,7 @@ e_html_editor_web_extension_init (EHTMLEditorWebExtension *extension)
 	extension->priv->is_from_new_message = FALSE;
 	extension->priv->is_message_from_selection = FALSE;
 	extension->priv->dont_save_history_in_body_input = FALSE;
+	extension->priv->is_pasting_content_from_itself = FALSE;
 	extension->priv->composition_in_progress = FALSE;
 
 	extension->priv->node_under_mouse_click = NULL;
@@ -3631,6 +3648,12 @@ e_html_editor_web_extension_set_dont_save_history_in_body_input (EHTMLEditorWebE
                                                                  gboolean value)
 {
 	extension->priv->dont_save_history_in_body_input = value;
+}
+
+gboolean
+e_html_editor_web_extension_is_pasting_content_from_itself (EHTMLEditorWebExtension *extension)
+{
+	return extension->priv->is_pasting_content_from_itself;
 }
 
 EHTMLEditorUndoRedoManager *

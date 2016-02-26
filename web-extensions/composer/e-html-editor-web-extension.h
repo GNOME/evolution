@@ -214,6 +214,8 @@ gboolean	e_html_editor_web_extension_get_dont_save_history_in_body_input
 void		e_html_editor_web_extension_set_dont_save_history_in_body_input
 						(EHTMLEditorWebExtension *extension,
 						 gboolean value);
+gboolean	e_html_editor_web_extension_is_pasting_content_from_itself
+						(EHTMLEditorWebExtension *extension);
 
 struct _EHTMLEditorUndoRedoManager *
 		e_html_editor_web_extension_get_undo_redo_manager
