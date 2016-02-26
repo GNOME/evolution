@@ -540,7 +540,10 @@ static gint
 set_word_wrap_length (EHTMLEditorWebExtension *extension,
                       gint user_word_wrap_length)
 {
-	return (user_word_wrap_length == -1) ?
+	/* user_word_wrap_length < 0, set block width to word_wrap_length
+	 * user_word_wrap_length ==  0, no width limit set,
+	 * user_word_wrap_length > 0, set width limit to given value */
+	return (user_word_wrap_length < 0) ?
 		e_html_editor_web_extension_get_word_wrap_length (extension) : user_word_wrap_length;
 }
 
@@ -703,7 +706,7 @@ dom_set_indented_style (WebKitDOMDocument *document,
 
 	webkit_dom_element_set_class_name (element, "-x-evo-indented");
 
-	if (e_html_editor_web_extension_get_html_mode (extension))
+	if (e_html_editor_web_extension_get_html_mode (extension) || word_wrap_length == 0)
 		style = g_strdup_printf ("margin-left: %dch;", SPACES_PER_INDENTATION);
 	else
 		style = g_strdup_printf (
@@ -1008,12 +1011,14 @@ dom_selection_indent (WebKitDOMDocument *document,
 					goto next;
 			}
 
-			level = get_indentation_level (WEBKIT_DOM_ELEMENT (block));
+			if (element_has_class (WEBKIT_DOM_ELEMENT (block), "-x-evo-paragraph")) {
+				level = get_indentation_level (WEBKIT_DOM_ELEMENT (block));
 
-			final_width = word_wrap_length - SPACES_PER_INDENTATION * (level + 1);
-			if (final_width < MINIMAL_PARAGRAPH_WIDTH &&
-			    !e_html_editor_web_extension_get_html_mode (extension))
-				goto next;
+				final_width = word_wrap_length - SPACES_PER_INDENTATION * (level + 1);
+				if (final_width < MINIMAL_PARAGRAPH_WIDTH &&
+				!e_html_editor_web_extension_get_html_mode (extension))
+					goto next;
+			}
 
 			indent_block (document, extension, block, final_width);
 
@@ -1039,14 +1044,16 @@ dom_selection_indent (WebKitDOMDocument *document,
 				}
 			}
 
-			level = get_indentation_level (
-				WEBKIT_DOM_ELEMENT (block_to_process));
+			if (element_has_class (WEBKIT_DOM_ELEMENT (block), "-x-evo-paragraph")) {
+				level = get_indentation_level (
+					WEBKIT_DOM_ELEMENT (block_to_process));
 
-			final_width = word_wrap_length - SPACES_PER_INDENTATION * (level + 1);
-			if (final_width < MINIMAL_PARAGRAPH_WIDTH &&
-			    !e_html_editor_web_extension_get_html_mode (extension)) {
-				g_object_unref (block_to_process);
-				continue;
+				final_width = word_wrap_length - SPACES_PER_INDENTATION * (level + 1);
+				if (final_width < MINIMAL_PARAGRAPH_WIDTH &&
+				    !e_html_editor_web_extension_get_html_mode (extension)) {
+					g_object_unref (block_to_process);
+					continue;
+				}
 			}
 
 			indent_block (document, extension, block_to_process, final_width);
