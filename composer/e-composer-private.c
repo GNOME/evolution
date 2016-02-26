@@ -1119,6 +1119,8 @@ composer_load_signature_cb (EMailSignatureComboBox *combo_box,
 
 		webkit_dom_html_element_set_inner_html (
 			WEBKIT_DOM_HTML_ELEMENT (insert_signature_in), contents, NULL);
+		e_html_editor_view_convert_element_from_html_to_plain_text (
+			view, insert_signature_in);
 		inner_text = webkit_dom_html_element_get_inner_text (
 			WEBKIT_DOM_HTML_ELEMENT (insert_signature_in));
 		while ((child = webkit_dom_node_get_last_child (WEBKIT_DOM_NODE (insert_signature_in))))

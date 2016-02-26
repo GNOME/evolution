@@ -831,13 +831,8 @@ e_mail_signature_editor_commit (EMailSignatureEditor *window,
 	editor = e_mail_signature_editor_get_editor (window);
 	view = e_html_editor_get_view (editor);
 
-	if (e_html_editor_view_get_html_mode (view)) {
-		mime_type = "text/html";
-		contents = e_html_editor_view_get_text_html (view, NULL, NULL);
-	} else {
-		mime_type = "text/plain";
-		contents = e_html_editor_view_get_text_plain (view);
-	}
+	mime_type = "text/html";
+	contents = e_html_editor_view_get_body_text_html_for_drafts (view);
 
 	extension_name = E_SOURCE_EXTENSION_MAIL_SIGNATURE;
 	extension = e_source_get_extension (source, extension_name);
