@@ -809,6 +809,7 @@ undo_redo_wrap (WebKitDOMDocument *document,
 		node = webkit_dom_range_get_common_ancestor_container (range, NULL);
 		g_object_unref (range);
 		element = get_parent_block_element (WEBKIT_DOM_NODE (node));
+		webkit_dom_element_remove_attribute (element, "data-user-wrapped");
 		dom_remove_wrapping_from_element (WEBKIT_DOM_ELEMENT (element));
 
 		dom_force_spell_check_for_current_paragraph (document, extension);
