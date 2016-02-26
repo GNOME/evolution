@@ -646,7 +646,7 @@ merge_lists_if_possible (WebKitDOMNode *list)
 		merge_list_into_list (next_sibling, list, FALSE);
 }
 
-static void
+static gboolean
 indent_list (WebKitDOMDocument *document,
              EHTMLEditorWebExtension *extension)
 {
@@ -693,6 +693,8 @@ indent_list (WebKitDOMDocument *document,
 
 		merge_lists_if_possible (WEBKIT_DOM_NODE (list));
 	}
+
+	return after_selection_end;
 }
 
 static void
@@ -999,7 +1001,7 @@ dom_selection_indent (WebKitDOMDocument *document,
 
 		length = webkit_dom_node_list_get_length (list);
 		if (length == 0 && node_is_list_or_item (block)) {
-			indent_list (document, extension);
+			after_selection_end = indent_list (document, extension);
 			goto next;
 		}
 
