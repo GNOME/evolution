@@ -284,6 +284,31 @@ get_caret_position (EHTMLEditorView *view)
 	return position;
 }
 
+static void
+clear_undo_redo_history (EHTMLEditorView *view)
+{
+	GDBusProxy *web_extension;
+	GVariant *result;
+
+	web_extension = e_html_editor_view_get_web_extension_proxy (view);
+	if (!web_extension)
+		return;
+
+	result = g_dbus_proxy_call_sync (
+		web_extension,
+		"DOMClearUndoRedoHistory",
+		g_variant_new (
+			"(t)",
+			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view))),
+		G_DBUS_CALL_FLAGS_NONE,
+		-1,
+		NULL,
+		NULL);
+
+	if (result)
+		g_variant_unref (result);
+}
+
 static gboolean external_editor_running = FALSE;
 static GMutex external_editor_running_lock;
 
@@ -430,6 +455,9 @@ finished:
 
 static void launch_editor (GtkAction *action, EMsgComposer *composer)
 {
+	EHTMLEditor *editor;
+	EHTMLEditorView *view;
+
 	d (printf ("\n\nexternal_editor plugin is launched \n\n"));
 
 	if (editor_running ()) {
@@ -437,6 +465,10 @@ static void launch_editor (GtkAction *action, EMsgComposer *composer)
 		return;
 	}
 
+	editor = e_msg_composer_get_editor (composer);
+	view = e_html_editor_get_view (editor);
+
+	clear_undo_redo_history (view);
 	disable_composer (composer);
 
 	g_mutex_lock (&external_editor_running_lock);

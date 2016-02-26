@@ -634,6 +634,9 @@ static const char introspection_xml[] =
 "      <arg type='t' name='page_id' direction='in'/>"
 "      <arg type='i' name='position' direction='out'/>"
 "    </method>"
+"    <method name='DOMClearUndoRedoHistory'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"    </method>"
 "  </interface>"
 "</node>";
 
@@ -2383,6 +2386,17 @@ handle_method_call (GDBusConnection *connection,
 		g_dbus_method_invocation_return_value (
 			invocation,
 			value ? g_variant_new_int32 (value) : NULL);
+	} else if (g_strcmp0 (method_name, "DOMClearUndoRedoHistory") == 0) {
+		g_variant_get (parameters, "(t)", &page_id);
+
+		web_page = get_webkit_web_page_or_return_dbus_error (
+			invocation, web_extension, page_id);
+		if (!web_page)
+			goto error;
+
+		e_html_editor_undo_redo_manager_clean_history (extension->priv->undo_redo_manager);
+
+		g_dbus_method_invocation_return_value (invocation, NULL);
 	} else {
 		g_warning ("UNKNOWN METHOD '%s:i'", method_name);
 	}
