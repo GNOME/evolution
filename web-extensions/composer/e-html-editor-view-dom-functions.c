@@ -2737,7 +2737,7 @@ body_keyup_event_cb (WebKitDOMElement *element,
 						document, block, level);
 				}
 			}
-		} else if (node && WEBKIT_DOM_IS_HTML_BR_ELEMENT (node)) {
+		} else if (level > 0 && node && WEBKIT_DOM_IS_HTML_BR_ELEMENT (node)) {
 			EHTMLEditorUndoRedoManager *manager;
 			EHTMLEditorHistoryEvent *event;
 			WebKitDOMDocumentFragment *fragment;
