@@ -115,8 +115,8 @@ webkit_find_controller_counted_matches_cb (WebKitFindController *find_controller
 		webkit_find_controller_search_next (dialog->priv->find_controller);
 	}
 
-	result = g_strdup_printf (ngettext("%d occurence replaced",
-					   "%d occurences replaced",
+	result = g_strdup_printf (ngettext("%d occurrence replaced",
+	                                   "%d occurrences replaced",
 					   match_count),
 				 match_count);
 

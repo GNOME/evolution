@@ -73,7 +73,7 @@ webkit_find_controller_found_text_cb (WebKitFindController *find_controller,
                                       EHTMLEditorSpellCheckDialog *dialog)
 {
 	/* Repeatedly search for 'word', then replace selection by
-	 * 'replacement'. Repeat until there's at least one occurence of
+	 * 'replacement'. Repeat until there's at least one occurrence of
 	 * 'word' in the document */
 	e_html_editor_view_insert_html (
 		E_HTML_EDITOR_VIEW (webkit_find_controller_get_web_view (find_controller)), dialog->priv->replacement);
