@@ -7587,13 +7587,6 @@ e_html_editor_selection_save (EHTMLEditorSelection *selection)
 			webkit_dom_node_get_first_child (container),
 			NULL);
 		goto insert_end_marker;
-	} else if (element_has_class (WEBKIT_DOM_ELEMENT (container), "-x-evo-resizable-wrapper")) {
-		marker_node = webkit_dom_node_insert_before (
-			parent_node,
-			WEBKIT_DOM_NODE (start_marker),
-			webkit_dom_node_get_next_sibling (container),
-			NULL);
-		goto insert_end_marker;
 	} else {
 		/* Insert the selection marker on the right position in
 		 * an empty paragraph in the quoted content */

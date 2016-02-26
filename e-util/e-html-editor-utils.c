@@ -143,6 +143,7 @@ e_html_editor_get_parent_block_node_from_child (WebKitDOMNode *node)
 	    element_has_class (WEBKIT_DOM_ELEMENT (parent), "-x-evo-quoted") ||
 	    element_has_class (WEBKIT_DOM_ELEMENT (parent), "-x-evo-quote-character") ||
 	    element_has_class (WEBKIT_DOM_ELEMENT (parent), "-x-evo-signature") ||
+	    element_has_class (WEBKIT_DOM_ELEMENT (parent), "-x-evo-resizable-wrapper") ||
 	    WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (parent) ||
 	    element_has_tag (WEBKIT_DOM_ELEMENT (parent), "b") ||
 	    element_has_tag (WEBKIT_DOM_ELEMENT (parent), "i") ||

@@ -5472,6 +5472,87 @@ selection_is_in_empty_list_item (WebKitDOMNode *selection_start_marker)
 }
 
 static gboolean
+return_pressed_in_image_wrapper (EHTMLEditorView *view)
+{
+	EHTMLEditorSelection *selection;
+	EHTMLEditorViewHistoryEvent *ev = NULL;
+	WebKitDOMDocument *document;
+	WebKitDOMDocumentFragment *fragment;
+	WebKitDOMElement *selection_start_marker;
+	WebKitDOMNode *parent, *block, *clone;
+
+	selection = e_html_editor_view_get_selection (view);
+	if (!e_html_editor_selection_is_collapsed (selection))
+		return FALSE;
+
+	e_html_editor_selection_save (selection);
+
+	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
+	selection_start_marker = webkit_dom_document_get_element_by_id (
+		document, "-x-evo-selection-start-marker");
+
+	parent = webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (selection_start_marker));
+	if (!element_has_class (WEBKIT_DOM_ELEMENT (parent), "-x-evo-resizable-wrapper")) {
+		e_html_editor_selection_restore (selection);
+		return FALSE;
+	}
+
+	if (!view->priv->undo_redo_in_progress) {
+		ev = g_new0 (EHTMLEditorViewHistoryEvent, 1);
+		ev->type = HISTORY_INPUT;
+
+		e_html_editor_selection_get_selection_coordinates (
+			selection,
+			&ev->before.start.x,
+			&ev->before.start.y,
+			&ev->before.end.x,
+			&ev->before.end.y);
+
+		fragment = webkit_dom_document_create_document_fragment (document);
+
+		g_object_set_data (
+			G_OBJECT (fragment), "history-return-key", GINT_TO_POINTER (1));
+	}
+
+	block = e_html_editor_get_parent_block_node_from_child (
+		WEBKIT_DOM_NODE (selection_start_marker));
+
+	clone = webkit_dom_node_clone_node (block, FALSE);
+	webkit_dom_node_append_child (
+		clone, WEBKIT_DOM_NODE (webkit_dom_document_create_element (document, "br", NULL)), NULL);
+
+	webkit_dom_node_insert_before (
+		webkit_dom_node_get_parent_node (block),
+		clone,
+		block,
+		NULL);
+
+	if (ev) {
+		webkit_dom_node_append_child (
+			WEBKIT_DOM_NODE (fragment),
+			webkit_dom_node_clone_node (clone, TRUE),
+			NULL);
+
+		e_html_editor_selection_get_selection_coordinates (
+			selection,
+			&ev->after.start.x,
+			&ev->after.start.y,
+			&ev->after.end.x,
+			&ev->after.end.y);
+
+		ev->data.fragment = fragment;
+
+		e_html_editor_view_insert_new_history_event (view, ev);
+	}
+
+	e_html_editor_view_set_changed (view, TRUE);
+
+	e_html_editor_selection_restore (selection);
+
+	return TRUE;
+}
+
+static gboolean
 return_pressed_in_empty_list_item (EHTMLEditorView *view)
 {
 	EHTMLEditorSelection *selection;
@@ -5699,6 +5780,9 @@ key_press_event_process_return_key (EHTMLEditorView *view)
 	/* If the ENTER key is pressed inside an empty list item then the list
 	 * is broken into two and empty paragraph is inserted between lists. */
 	if (return_pressed_in_empty_list_item (view))
+		return TRUE;
+
+	if (return_pressed_in_image_wrapper (view))
 		return TRUE;
 
 	return FALSE;
