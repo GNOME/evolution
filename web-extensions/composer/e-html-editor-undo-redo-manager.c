@@ -587,8 +587,12 @@ undo_delete (WebKitDOMDocument *document,
 
 		element = webkit_dom_document_create_element (document, "span", NULL);
 
-		range = get_range_for_point (document, event->after.start);
 		/* Create temporary node on the selection where the delete occured. */
+		if (webkit_dom_document_fragment_query_selector (event->data.fragment, ".Apple-tab-span", NULL))
+			range = get_range_for_point (document, event->before.start);
+		else
+			range = get_range_for_point (document, event->after.start);
+
 		webkit_dom_range_surround_contents (range, WEBKIT_DOM_NODE (element), NULL);
 		webkit_dom_dom_selection_remove_all_ranges (dom_selection);
 		webkit_dom_dom_selection_add_range (dom_selection, range);

@@ -7973,11 +7973,19 @@ static gboolean
 insert_tabulator (WebKitDOMDocument *document,
                   EHTMLEditorWebExtension *extension)
 {
-	gboolean success;
 	EHTMLEditorHistoryEvent *ev;
+	gboolean success;
 
 	ev = g_new0 (EHTMLEditorHistoryEvent, 1);
 	ev->type = HISTORY_INPUT;
+
+	if (!dom_selection_is_collapsed (document)) {
+		WebKitDOMRange *tmp_range;
+
+		tmp_range = dom_get_current_range (document);
+		insert_delete_event (document, extension, tmp_range);
+		g_object_unref (tmp_range);
+	}
 
 	dom_selection_get_coordinates (
 		document,
@@ -7985,6 +7993,9 @@ insert_tabulator (WebKitDOMDocument *document,
 		&ev->before.start.y,
 		&ev->before.end.x,
 		&ev->before.end.y);
+
+	ev->before.end.x = ev->before.start.x;
+	ev->before.end.y = ev->before.start.y;
 
 	success = dom_exec_command (document, extension, E_HTML_EDITOR_VIEW_COMMAND_INSERT_TEXT, "\t");
 
@@ -8022,8 +8033,15 @@ insert_tabulator (WebKitDOMDocument *document,
 
 		manager = e_html_editor_web_extension_get_undo_redo_manager (extension);
 		e_html_editor_undo_redo_manager_insert_history_event (manager, ev);
-	} else
+	} else {
+		EHTMLEditorUndoRedoManager *manager;
+
+		manager = e_html_editor_web_extension_get_undo_redo_manager (extension);
+
+		e_html_editor_undo_redo_manager_remove_current_history_event (manager);
+		e_html_editor_undo_redo_manager_remove_current_history_event (manager);
 		g_free (ev);
+	}
 
 	return success;
 }
