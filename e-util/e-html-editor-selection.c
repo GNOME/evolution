@@ -3383,12 +3383,18 @@ set_font_style (WebKitDOMDocument *document,
 
 		return el;
 	} else {
-		WebKitDOMNode *node;
+		gboolean no_sibling;
+		WebKitDOMNode *node, *sibling;
 
 		node = webkit_dom_node_get_previous_sibling (WEBKIT_DOM_NODE (element));
 
 		/* Turning the formatting in the middle of element. */
-		if (webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (element))) {
+		sibling = webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (element));
+		no_sibling = sibling &&
+			!WEBKIT_DOM_IS_HTMLBR_ELEMENT (sibling) &&
+			!webkit_dom_node_get_next_sibling (sibling);
+
+		if (no_sibling) {
 			WebKitDOMNode *clone;
 			WebKitDOMNode *sibling;
 
@@ -3420,11 +3426,21 @@ set_font_style (WebKitDOMDocument *document,
 			webkit_dom_node_get_next_sibling (parent),
 			NULL);
 
+		if (WEBKIT_DOM_IS_HTMLBR_ELEMENT (sibling) && !no_sibling) {
+			webkit_dom_node_insert_before (
+				webkit_dom_node_get_parent_node (parent),
+				node,
+				webkit_dom_node_get_next_sibling (parent),
+				NULL);
+		}
+
 		webkit_dom_html_element_insert_adjacent_text (
 			WEBKIT_DOM_HTML_ELEMENT (parent),
 			"afterend",
 			UNICODE_ZERO_WIDTH_SPACE,
 			NULL);
+
+		remove_node_if_empty (parent);
 	}
 
 	return NULL;
