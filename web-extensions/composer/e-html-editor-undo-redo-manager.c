@@ -1822,7 +1822,7 @@ free_history_event_content (EHTMLEditorHistoryEvent *event)
 		case HISTORY_REMOVE_LINK:
 		case HISTORY_BLOCKQUOTE:
 			if (event->data.fragment != NULL)
-				g_object_unref (event->data.fragment);
+				g_clear_object (&event->data.fragment);
 			break;
 		case HISTORY_FONT_COLOR:
 		case HISTORY_PASTE:
@@ -1845,9 +1845,9 @@ free_history_event_content (EHTMLEditorHistoryEvent *event)
 		case HISTORY_UNQUOTE:
 		case HISTORY_LINK_DIALOG:
 			if (event->data.dom.from != NULL)
-				g_object_unref (event->data.dom.from);
+				g_clear_object (&event->data.dom.from);
 			if (event->data.dom.to != NULL)
-				g_object_unref (event->data.dom.to);
+				g_clear_object (&event->data.dom.to);
 			break;
 		default:
 			break;

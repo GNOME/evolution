@@ -1522,6 +1522,12 @@ html_editor_view_load_changed_cb (EHTMLEditorView *view,
 			op->data_free_func (op->data);
 		g_free (op);
 
+		while ((op = g_queue_pop_head (view->priv->post_reload_operations))) {
+			if (op->data_free_func)
+				op->data_free_func (op->data);
+			g_free (op);
+		}
+
 		g_queue_clear (view->priv->post_reload_operations);
 
 		return;
