@@ -5181,6 +5181,7 @@ dom_selection_set_block_format (WebKitDOMDocument *document,
                                 EHTMLEditorSelectionBlockFormat format)
 {
 	EHTMLEditorSelectionBlockFormat current_format;
+	EHTMLEditorSelectionAlignment current_alignment;
 	EHTMLEditorUndoRedoManager *manager;
 	EHTMLEditorHistoryEvent *ev = NULL;
 	const gchar *value;
@@ -5252,6 +5253,8 @@ dom_selection_set_block_format (WebKitDOMDocument *document,
 	range = dom_get_current_range (document);
 	if (!range)
 		return;
+
+	current_alignment = e_html_editor_web_extension_get_alignment (extension);
 
 	dom_selection_save (document);
 
@@ -5337,8 +5340,7 @@ dom_selection_set_block_format (WebKitDOMDocument *document,
 	dom_force_spell_check_for_current_paragraph (document, extension);
 
 	/* When changing the format we need to re-set the alignment */
-	dom_selection_set_alignment (
-		document, extension, e_html_editor_web_extension_get_alignment (extension));
+	dom_selection_set_alignment (document, extension, current_alignment);
 
 	e_html_editor_web_extension_set_content_changed (extension);
 
@@ -5428,18 +5430,30 @@ dom_selection_get_alignment (WebKitDOMDocument *document,
 	WebKitDOMRange *range;
 
 	range = dom_get_current_range (document);
-	if (!range)
-		return E_HTML_EDITOR_SELECTION_ALIGNMENT_LEFT;
+	if (!range) {
+		alignment = E_HTML_EDITOR_SELECTION_ALIGNMENT_LEFT;
+		goto out;
+	}
 
 	node = webkit_dom_range_get_start_container (range, NULL);
 	g_object_unref (range);
-	if (!node)
-		return E_HTML_EDITOR_SELECTION_ALIGNMENT_LEFT;
+	if (!node) {
+		alignment = E_HTML_EDITOR_SELECTION_ALIGNMENT_LEFT;
+		goto out;
+	}
 
 	if (WEBKIT_DOM_IS_ELEMENT (node))
 		element = WEBKIT_DOM_ELEMENT (node);
 	else
 		element = webkit_dom_node_get_parent_element (node);
+
+	if (element_has_class (element, "-x-evo-align-right")) {
+		alignment = E_HTML_EDITOR_SELECTION_ALIGNMENT_RIGHT;
+		goto out;
+	} else if (element_has_class (element, "-x-evo-align-center")) {
+		alignment = E_HTML_EDITOR_SELECTION_ALIGNMENT_CENTER;
+		goto out;
+	}
 
 	style = webkit_dom_element_get_style (element);
 	value = webkit_dom_css_style_declaration_get_property_value (style, "text-align");
@@ -5457,6 +5471,9 @@ dom_selection_get_alignment (WebKitDOMDocument *document,
 
 	g_object_unref (style);
 	g_free (value);
+
+ out:
+	set_dbus_property_unsigned (extension, "Alignment", alignment);
 
 	return alignment;
 }
