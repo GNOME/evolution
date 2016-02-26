@@ -6102,7 +6102,7 @@ dom_replace_caret_word (WebKitDOMDocument *document,
 	g_object_unref (dom_selection);
 	g_object_unref (dom_window);
 
-	dom_exec_command (document, extension, E_HTML_EDITOR_VIEW_COMMAND_INSERT_HTML, replacement);
+	dom_exec_command (document, extension, E_HTML_EDITOR_VIEW_COMMAND_PASTE_AND_MATCH_STYLE, replacement);
 	dom_force_spell_check_for_current_paragraph (document, extension);
 }
 
