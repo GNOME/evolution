@@ -2836,6 +2836,49 @@ body_keyup_event_cb (WebKitDOMElement *element,
 		dom_selection_restore (document);
 	} else if (key_code == HTML_KEY_CODE_CONTROL)
 		dom_set_links_active (document, FALSE);
+	else if (key_code == HTML_KEY_CODE_RETURN) {
+		WebKitDOMDocument *document;
+		WebKitDOMElement *selection_start_marker, *selection_end_marker;
+		WebKitDOMNode *parent;
+
+		/* If the return is pressed in an unordered list in plain text mode
+		 * the caret is moved to the "*" character before the the newly inserted
+		 * item. It looks like it is not enough that the item has BR element
+		 * inside, but we have to again use the zero width space character
+		 * to fix the situation. */
+		if (e_html_editor_web_extension_get_html_mode (extension))
+			return;
+
+		/* FIXME WK2 - the below is called twice, the second time two lines below */
+		/*dom_selection_save (document);*/
+
+		document = webkit_dom_node_get_owner_document (WEBKIT_DOM_NODE (element));
+
+		dom_selection_save (document);
+
+		selection_start_marker = webkit_dom_document_get_element_by_id (
+			document, "-x-evo-selection-start-marker");
+		selection_end_marker = webkit_dom_document_get_element_by_id (
+			document, "-x-evo-selection-end-marker");
+
+		parent = webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (selection_start_marker));
+		if (!WEBKIT_DOM_IS_HTML_LI_ELEMENT (parent) ||
+		    !WEBKIT_DOM_IS_HTML_U_LIST_ELEMENT (webkit_dom_node_get_parent_node (parent))) {
+			dom_selection_restore (document);
+			return;
+		}
+
+		if (!webkit_dom_node_get_previous_sibling (WEBKIT_DOM_NODE (selection_start_marker)) &&
+		    (!webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (selection_end_marker)) ||
+		     WEBKIT_DOM_IS_HTML_BR_ELEMENT (webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (selection_end_marker)))))
+			webkit_dom_html_element_insert_adjacent_text (
+				WEBKIT_DOM_HTML_ELEMENT (parent),
+				"afterbegin",
+				UNICODE_ZERO_WIDTH_SPACE,
+				NULL);
+
+		dom_selection_restore (document);
+	}
 }
 
 static void
@@ -5530,6 +5573,8 @@ process_list_to_plain_text (EHTMLEditorWebExtension *extension,
 						/* put spaces before line characters -> wordwraplength - indentation */
 						for (ii = 0; ii < level; ii++)
 							g_string_append (line, indent_per_level);
+						if (WEBKIT_DOM_IS_HTML_O_LIST_ELEMENT (element))
+							g_string_append (line, indent_per_level);
 						g_string_append (item_value, line->str);
 						g_string_erase (line, 0, -1);
 					}
@@ -5545,6 +5590,8 @@ process_list_to_plain_text (EHTMLEditorWebExtension *extension,
 
 					fill_length = word_wrap_length - g_utf8_strlen (line->str, -1);
 				        fill_length -= ii * SPACES_PER_LIST_LEVEL;
+					if (WEBKIT_DOM_IS_HTML_O_LIST_ELEMENT (element))
+						fill_length += SPACES_PER_LIST_LEVEL;
 					fill_length /= 2;
 
 					if (fill_length < 0)
@@ -5598,7 +5645,7 @@ process_list_to_plain_text (EHTMLEditorWebExtension *extension,
 				if (tmp == 1)
 					length++;
 
-				space = g_strnfill (SPACES_PER_LIST_LEVEL - 2 - length, ' ');
+				space = g_strnfill (SPACES_ORDERED_LIST_FIRST_LEVEL - 2 - length, ' ');
 				item_str = g_strdup_printf (
 					"%s%d. %s", space, counter, item_value->str);
 				g_free (space);
@@ -5612,8 +5659,7 @@ process_list_to_plain_text (EHTMLEditorWebExtension *extension,
 				else
 					value = get_roman_value (counter, FALSE);
 
-				/* Value already containes dot and space */
-				space = g_strnfill (SPACES_PER_LIST_LEVEL - strlen (value), ' ');
+				space = g_strnfill (SPACES_ORDERED_LIST_FIRST_LEVEL - strlen (value), ' ');
 				item_str = g_strdup_printf (
 					"%s%s%s", space, value, item_value->str);
 				g_free (space);
@@ -5624,6 +5670,9 @@ process_list_to_plain_text (EHTMLEditorWebExtension *extension,
 				for (ii = 0; ii < level - 1; ii++) {
 					g_string_append (output, indent_per_level);
 				}
+				if (WEBKIT_DOM_IS_HTML_U_LIST_ELEMENT (element))
+					if (dom_node_find_parent_element (item, "OL"))
+						g_string_append (output, indent_per_level);
 				g_string_append (output, item_str);
 			}
 
@@ -5662,6 +5711,8 @@ process_list_to_plain_text (EHTMLEditorWebExtension *extension,
 
 					fill_length = word_wrap_length - g_utf8_strlen (item_str, -1);
 				        fill_length -= ii * SPACES_PER_LIST_LEVEL;
+					if (WEBKIT_DOM_IS_HTML_O_LIST_ELEMENT (element))
+						fill_length += SPACES_PER_LIST_LEVEL;
 					fill_length /= 2;
 
 					if (fill_length < 0)
@@ -5724,6 +5775,7 @@ remove_evolution_attributes (WebKitDOMElement *element)
 	webkit_dom_element_remove_attribute (element, "data-name");
 	webkit_dom_element_remove_attribute (element, "data-new-message");
 	webkit_dom_element_remove_attribute (element, "data-user-wrapped");
+	webkit_dom_element_remove_attribute (element, "data-evo-plain-text");
 	webkit_dom_element_remove_attribute (element, "spellcheck");
 }
 
@@ -8192,6 +8244,31 @@ toggle_tables (WebKitDOMDocument *document,
 	g_object_unref (list);
 }
 
+static void
+toggle_unordered_lists (WebKitDOMDocument *document,
+			gboolean html_mode)
+{
+	WebKitDOMNodeList *list;
+	gint ii, length;
+
+	list = webkit_dom_document_query_selector_all (document, "ul", NULL);
+	length = webkit_dom_node_list_get_length (list);
+
+	for (ii = 0; ii < length; ii++) {
+		WebKitDOMNode *node = webkit_dom_node_list_item (list, ii);
+
+		if (html_mode) {
+			webkit_dom_element_remove_attribute (
+				WEBKIT_DOM_ELEMENT (node), "data-evo-plain-text");
+		} else {
+			webkit_dom_element_set_attribute (
+				WEBKIT_DOM_ELEMENT (node), "data-evo-plain-text", "", NULL);
+		}
+		g_object_unref (node);
+	}
+	g_object_unref (list);
+}
+
 void
 dom_process_content_after_mode_change (WebKitDOMDocument *document,
                                        EHTMLEditorWebExtension *extension)
@@ -8214,6 +8291,7 @@ dom_process_content_after_mode_change (WebKitDOMDocument *document,
 		toggle_paragraphs_style (document, extension);
 		toggle_smileys (document, extension);
 		toggle_tables (document, html_mode);
+		toggle_unordered_lists (document, html_mode);
 
 		body = webkit_dom_document_get_body (document);
 
@@ -8232,6 +8310,7 @@ dom_process_content_after_mode_change (WebKitDOMDocument *document,
 		toggle_paragraphs_style (document, extension);
 		toggle_smileys (document, extension);
 		toggle_tables (document, html_mode);
+		toggle_unordered_lists (document, html_mode);
 		remove_images (document);
 		remove_background_images_in_document (document);
 

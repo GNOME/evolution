@@ -38,6 +38,10 @@
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_HTML_EDITOR_VIEW, EHTMLEditorViewPrivate))
 
+#define UNICODE_NBSP "\xc2\xa0"
+#define SPACES_PER_LIST_LEVEL 3
+#define SPACES_ORDERED_LIST_FIRST_LEVEL 6
+
 /**
  * EHTMLEditorView:
  *
@@ -2554,12 +2558,71 @@ e_html_editor_view_update_fonts (EHTMLEditorView *view)
 		"  display : inline-block;\n"
 		"}\n");
 
+	g_string_append_printf (
+		stylesheet,
+		"ul[data-evo-plain-text]"
+		"{\n"
+		"  list-style: outside none;\n"
+		"  -webkit-padding-start: %dch; \n"
+		"}\n", SPACES_PER_LIST_LEVEL);
+
+	g_string_append_printf (
+		stylesheet,
+		"ul[data-evo-plain-text] > li"
+		"{\n"
+		"  list-style-position: outside;\n"
+		"  text-indent: -%dch;\n"
+		"}\n", SPACES_PER_LIST_LEVEL - 1);
+
 	g_string_append (
 		stylesheet,
-		"ul,ol "
+		"ul[data-evo-plain-text] > li::before "
 		"{\n"
-		"  -webkit-padding-start: 7ch; \n"
+		"  content: \"*"UNICODE_NBSP"\";\n"
 		"}\n");
+
+	g_string_append_printf (
+		stylesheet,
+		"ul[data-evo-plain-text].-x-evo-indented "
+		"{\n"
+		"  -webkit-padding-start: %dch; \n"
+		"}\n", SPACES_PER_LIST_LEVEL);
+
+	g_string_append (
+		stylesheet,
+		"ul:not([data-evo-plain-text]),ol > li.-x-evo-align-center"
+		"{\n"
+		"  list-style-position: inside;\n"
+		"}\n");
+
+	g_string_append (
+		stylesheet,
+		"ul:not([data-evo-plain-text]),ol > li.-x-evo-align-right"
+		"{\n"
+		"  list-style-position: inside;\n"
+		"}\n");
+
+	g_string_append_printf (
+		stylesheet,
+		"ul:not([data-evo-plain-text]),ol > li"
+		"{\n"
+		"  text-indent: -%dch;\n"
+		"  list-style-position: inside;\n"
+		"}\n", SPACES_PER_LIST_LEVEL);
+
+	g_string_append_printf (
+		stylesheet,
+		"ol"
+		"{\n"
+		"  -webkit-padding-start: %dch; \n"
+		"}\n", SPACES_ORDERED_LIST_FIRST_LEVEL);
+
+	g_string_append_printf (
+		stylesheet,
+		"ol.-x-evo-indented"
+		"{\n"
+		"  -webkit-padding-start: %dch; \n"
+		"}\n", SPACES_PER_LIST_LEVEL);
 
 	g_string_append (
 		stylesheet,
@@ -2580,35 +2643,6 @@ e_html_editor_view_update_fonts (EHTMLEditorView *view)
 		".-x-evo-align-right "
 		"{\n"
 		"  text-align: right; \n"
-		"}\n");
-
-	g_string_append (
-		stylesheet,
-		".-x-evo-list-item-align-left "
-		"{\n"
-		"  text-align: left; \n"
-		"}\n");
-
-	g_string_append (
-		stylesheet,
-		".-x-evo-list-item-align-center "
-		"{\n"
-		"  text-align: center; \n"
-		"  -webkit-padding-start: 0ch; \n"
-		"  margin-left: -3ch; \n"
-		"  margin-right: 1ch; \n"
-		"  list-style-position: inside; \n"
-		"}\n");
-
-	g_string_append (
-		stylesheet,
-		".-x-evo-list-item-align-right "
-		"{\n"
-		"  text-align: right; \n"
-		"  -webkit-padding-start: 0ch; \n"
-		"  margin-left: -3ch; \n"
-		"  margin-right: 1ch; \n"
-		"  list-style-position: inside; \n"
 		"}\n");
 
 	g_string_append (
