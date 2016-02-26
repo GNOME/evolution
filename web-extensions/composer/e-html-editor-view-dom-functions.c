@@ -6330,7 +6330,17 @@ toggle_paragraphs_style_in_element (WebKitDOMDocument *document,
 			parent = webkit_dom_node_get_parent_node (node);
 			/* If the paragraph is inside indented paragraph don't set
 			 * the style as it will be inherited */
-			if (!element_has_class (WEBKIT_DOM_ELEMENT (parent), "-x-evo-indented")) {
+			if (WEBKIT_DOM_IS_HTML_BODY_ELEMENT (parent) &&
+			    (WEBKIT_DOM_IS_HTML_O_LIST_ELEMENT (node) ||
+			     WEBKIT_DOM_IS_HTML_U_LIST_ELEMENT (node))) {
+				gint offset;
+
+				offset = WEBKIT_DOM_IS_HTML_U_LIST_ELEMENT (node) ?
+					SPACES_PER_LIST_LEVEL : SPACES_ORDERED_LIST_FIRST_LEVEL;
+				/* In plain text mode the paragraphs have width limit */
+				dom_set_paragraph_style (
+					document, extension, WEBKIT_DOM_ELEMENT (node), -1, -offset, "");
+			} else if (!element_has_class (WEBKIT_DOM_ELEMENT (parent), "-x-evo-indented")) {
 				const gchar *style_to_add = "";
 				style = webkit_dom_element_get_attribute (
 					WEBKIT_DOM_ELEMENT (node), "style");
