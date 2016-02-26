@@ -6095,7 +6095,44 @@ process_elements (EHTMLEditorWebExtension *extension,
 					WEBKIT_DOM_ELEMENT (first_child));
 			}
 			if (to_plain_text && !changing_mode) {
+				WebKitDOMDocument *document;
+				WebKitDOMNodeList *list_pre;
+				gint jj, pre_count;
+
 				g_string_append (buffer, "\n");
+
+				/* If the user edited the signature or added more
+				 * content after it, WebKit just duplicated the DOM
+				 * structure and left us with multiple PRE elements
+				 * that don't have the BR elements on their ends.
+				 * The content is rendered fine (every pre has its
+				 * own line), but when we below try to get a plain text
+				 * version of the signature we will get the text from
+				 * these PRE elements on one line. As a solution we need
+				 * to insert the BR elements on the end of each PRE
+				 * element (if not presented) to get the correct text
+				 * from signature. */
+				document = webkit_dom_node_get_owner_document (child);
+				list_pre = webkit_dom_element_query_selector_all (
+					WEBKIT_DOM_ELEMENT (first_child), "pre", NULL);
+				pre_count = webkit_dom_node_list_get_length (list_pre);
+				for (jj = 0; jj < pre_count; jj++) {
+					WebKitDOMNode *last_pre_child, *pre_node;
+
+					pre_node = webkit_dom_node_list_item (list_pre, jj);
+					last_pre_child = webkit_dom_node_get_last_child (pre_node);
+
+					if (last_pre_child && !WEBKIT_DOM_IS_HTML_BR_ELEMENT (last_pre_child)) {
+						WebKitDOMElement *br;
+
+						br = webkit_dom_document_create_element (document, "br", NULL);
+						webkit_dom_node_append_child (
+							pre_node, WEBKIT_DOM_NODE (br), NULL);
+					}
+					g_object_unref (pre_node);
+				}
+				g_object_unref (list_pre);
+
 				content = webkit_dom_html_element_get_inner_text (
 					WEBKIT_DOM_HTML_ELEMENT (first_child));
 				g_string_append (buffer, content);
