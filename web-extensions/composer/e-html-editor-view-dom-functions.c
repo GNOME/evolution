@@ -554,7 +554,11 @@ return_pressed_in_empty_line (WebKitDOMDocument *document)
 WebKitDOMNode *
 get_parent_block_node_from_child (WebKitDOMNode *node)
 {
-	WebKitDOMNode *parent = webkit_dom_node_get_parent_node (node);
+	WebKitDOMNode *parent = node;
+
+	if (!WEBKIT_DOM_IS_ELEMENT (parent) ||
+	    dom_is_selection_position_node (parent))
+		parent = webkit_dom_node_get_parent_node (parent);
 
 	if (element_has_class (WEBKIT_DOM_ELEMENT (parent), "-x-evo-temp-text-wrapper") ||
 	    element_has_class (WEBKIT_DOM_ELEMENT (parent), "-x-evo-quoted") ||
@@ -3312,25 +3316,13 @@ insert_quote_symbols_before_node (WebKitDOMDocument *document,
 }
 
 static gboolean
-element_is_selection_marker (WebKitDOMElement *element)
-{
-	gboolean is_marker = FALSE;
-
-	is_marker =
-		element_has_id (element, "-x-evo-selection-start-marker") ||
-		element_has_id (element, "-x-evo-selection-end-marker");
-
-	return is_marker;
-}
-
-static gboolean
 check_if_suppress_next_node (WebKitDOMNode *node)
 {
 	if (!node)
 		return FALSE;
 
 	if (node && WEBKIT_DOM_IS_ELEMENT (node))
-		if (element_is_selection_marker (WEBKIT_DOM_ELEMENT (node)))
+		if (dom_is_selection_position_node (node))
 			if (!webkit_dom_node_get_previous_sibling (node))
 				return FALSE;
 
@@ -3412,7 +3404,7 @@ quote_plain_text_recursive (WebKitDOMDocument *document,
 		if (!(WEBKIT_DOM_IS_ELEMENT (node) || WEBKIT_DOM_IS_HTML_ELEMENT (node)))
 			goto next_node;
 
-		if (element_is_selection_marker (WEBKIT_DOM_ELEMENT (node))) {
+		if (dom_is_selection_position_node (node)) {
 			/* If there is collapsed selection in the beginning of line
 			 * we cannot suppress first text that is after the end of
 			 * selection */
@@ -3548,7 +3540,7 @@ quote_plain_text_recursive (WebKitDOMDocument *document,
 
 		if (WEBKIT_DOM_IS_HTML_BR_ELEMENT (node) &&
 		    !next_sibling && WEBKIT_DOM_IS_ELEMENT (prev_sibling) &&
-		    element_is_selection_marker (WEBKIT_DOM_ELEMENT (prev_sibling))) {
+		    dom_is_selection_position_node (prev_sibling)) {
 			insert_quote_symbols_before_node (
 				document, node, quote_level, FALSE);
 			goto next_node;

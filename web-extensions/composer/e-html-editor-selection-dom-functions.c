@@ -2070,8 +2070,8 @@ dom_selection_save (WebKitDOMDocument *document)
 	g_object_unref (dom_window);
 }
 
-static gboolean
-is_selection_position_node (WebKitDOMNode *node)
+gboolean
+dom_is_selection_position_node (WebKitDOMNode *node)
 {
 	WebKitDOMElement *element;
 
@@ -2127,7 +2127,7 @@ dom_selection_restore (WebKitDOMDocument *document)
 		selection_start_marker =
 			webkit_dom_node_get_next_sibling (selection_start_marker);
 
-		ok = is_selection_position_node (selection_start_marker);
+		ok = dom_is_selection_position_node (selection_start_marker);
 
 		if (ok) {
 			ok = FALSE;
@@ -2135,7 +2135,7 @@ dom_selection_restore (WebKitDOMDocument *document)
 				selection_end_marker = webkit_dom_node_get_next_sibling (
 					selection_start_marker);
 
-				ok = is_selection_position_node (selection_end_marker);
+				ok = dom_is_selection_position_node (selection_end_marker);
 				if (ok) {
 					parent_start = webkit_dom_node_get_parent_node (selection_end_marker);
 
@@ -2546,7 +2546,7 @@ wrap_lines (WebKitDOMDocument *document,
 			}
 			g_free (text_content);
 		} else {
-			if (is_selection_position_node (node)) {
+			if (dom_is_selection_position_node (node)) {
 				node = webkit_dom_node_get_next_sibling (node);
 				continue;
 			}
@@ -4894,7 +4894,8 @@ dom_selection_get_block_format (WebKitDOMDocument *document,
 		else {
 			WebKitDOMNode *block = get_block_node (range);
 
-			if (element_has_class (WEBKIT_DOM_ELEMENT (block), "-x-evo-paragraph"))
+			if (WEBKIT_DOM_IS_HTML_DIV_ELEMENT (block) ||
+			    element_has_class (WEBKIT_DOM_ELEMENT (block), "-x-evo-paragraph"))
 				result = E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_PARAGRAPH;
 			else {
 				/* Paragraphs inside quote */
