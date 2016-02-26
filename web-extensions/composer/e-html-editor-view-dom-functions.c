@@ -6741,7 +6741,8 @@ dom_process_content_for_plain_text (WebKitDOMDocument *document,
 				}
 				item = next_item;
 			}
-		} else {
+		} else if (!webkit_dom_element_query_selector (WEBKIT_DOM_ELEMENT (paragraph), ".-x-evo-wrap-br,.-x-evo-quoted", NULL)) {
+			/* Dont't try to wrap the already wrapped content. */
 			dom_wrap_paragraph (
 				document, extension, WEBKIT_DOM_ELEMENT (paragraph));
 		}
