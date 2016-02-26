@@ -2642,7 +2642,8 @@ dom_remove_node_and_parents_if_empty (WebKitDOMNode *node)
 			remove_node (parent);
 			parent = tmp;
 		} else {
-			remove_node (parent);
+			if (!webkit_dom_node_get_first_child (parent))
+				remove_node (parent);
 			return;
 		}
 	}
