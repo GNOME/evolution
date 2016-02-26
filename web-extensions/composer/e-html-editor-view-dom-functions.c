@@ -7422,11 +7422,6 @@ save_history_for_delete_or_backspace (WebKitDOMDocument *document,
 				if (child && (WEBKIT_DOM_IS_TEXT (child) ||
 				    (WEBKIT_DOM_IS_ELEMENT (child) &&
 				     !element_has_class (WEBKIT_DOM_ELEMENT (child), "-x-evo-quoted")))) {
-						printf ("%s\n", __FUNCTION__);
-						printf ("%s\n", __FUNCTION__);
-						printf ("%s\n", __FUNCTION__);
-						printf ("%s\n", __FUNCTION__);
-						printf ("%s\n", __FUNCTION__);
 					webkit_dom_node_insert_before (
 						webkit_dom_node_get_parent_node (child),
 						webkit_dom_node_clone_node (sibling, TRUE),
