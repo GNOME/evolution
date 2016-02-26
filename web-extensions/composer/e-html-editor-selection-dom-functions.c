@@ -4838,7 +4838,7 @@ dom_selection_get_block_format (WebKitDOMDocument *document,
 			else
 				result = dom_get_list_format_from_node (WEBKIT_DOM_NODE (tmp_element));
 		} else
-			result = E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_ORDERED_LIST;
+			result = dom_get_list_format_from_node (WEBKIT_DOM_NODE (element));
 	} else if (dom_node_find_parent_element (node, "PRE")) {
 		result = E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_PRE;
 	} else if (dom_node_find_parent_element (node, "ADDRESS")) {
