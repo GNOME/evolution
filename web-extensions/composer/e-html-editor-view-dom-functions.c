@@ -7227,6 +7227,19 @@ dom_get_inline_images_data (WebKitDOMDocument *document,
 	return result;
 }
 
+static gboolean
+pasting_quoted_content (const gchar *content)
+{
+	/* Check if the content we are pasting is a quoted content from composer.
+	 * If it is, we can't use WebKit to paste it as it would leave the formatting
+	 * on the content. */
+	return g_str_has_prefix (
+		content,
+		"<meta http-equiv=\"content-type\" content=\"text/html; "
+		"charset=utf-8\"><blockquote type=\"cite\"") &&
+		strstr (content, "\"-x-evo-");
+}
+
 /**
  * e_html_editor_selection_insert_html:
  * @selection: an #EHTMLEditorSelection
@@ -7270,7 +7283,8 @@ dom_insert_html (WebKitDOMDocument *document,
 	}
 
 	if (e_html_editor_web_extension_get_html_mode (extension) ||
-	    e_html_editor_web_extension_is_pasting_content_from_itself (extension)) {
+	    (e_html_editor_web_extension_is_pasting_content_from_itself (extension) &&
+	    !pasting_quoted_content (html_text))) {
 		if (!dom_selection_is_collapsed (document)) {
 			EHTMLEditorHistoryEvent *event;
 			WebKitDOMDocumentFragment *fragment;
