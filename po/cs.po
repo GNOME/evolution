@@ -9572,7 +9572,7 @@ msgstr "Zobrazovat nevyžádané zprávy v seznamu zpráv"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:109
 msgid "Show junk messages (with a red strike-through) in the message-list."
-msgstr "Zobrazovat (červěně přeškrtnuté) nevyžádané zprávy v seznamu zpráv."
+msgstr "Zobrazovat (červeně přeškrtnuté) nevyžádané zprávy v seznamu zpráv."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:110
 msgid "Enable Unmatched search folder"
