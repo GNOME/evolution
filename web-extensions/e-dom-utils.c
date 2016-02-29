@@ -1870,7 +1870,9 @@ merge_lists_if_possible (WebKitDOMNode *list)
 
 		node = webkit_dom_node_list_item (lists, ii);
 		merge_lists_if_possible (node);
+		g_object_unref (node);
 	}
+	g_object_unref (lists);
 }
 
 WebKitDOMElement *
