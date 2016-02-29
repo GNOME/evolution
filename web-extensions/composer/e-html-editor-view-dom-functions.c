@@ -8364,8 +8364,7 @@ dom_process_on_key_press (WebKitDOMDocument *document,
 				return TRUE;
 			}
 			dom_selection_restore (document);
-		} else
-			dom_remove_input_event_listener_from_body (document, extension);
+		}
 
 		/* BackSpace in indented block decrease indent level by one */
 		if (dom_selection_is_indented (document) &&
