@@ -7137,6 +7137,9 @@ dom_process_content_after_load (WebKitDOMDocument *document,
 		dom_set_links_active (document, FALSE);
 		e_html_editor_web_extension_set_convert_in_situ (extension, FALSE);
 
+		dom_register_input_event_listener_on_body (document, extension);
+		register_html_events_handlers (body, extension);
+
 		return;
 	}
 
