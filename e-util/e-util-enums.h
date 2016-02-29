@@ -15,9 +15,10 @@
  *
  */
 
-#if !defined (__E_UTIL_H_INSIDE__) && !defined (LIBEUTIL_COMPILATION)
+/* FIXME WK2 - the below cannot be enabled due to web-extensions/e-dom-utils.h using this header */
+/*#if !defined (__E_UTIL_H_INSIDE__) && !defined (LIBEUTIL_COMPILATION)
 #error "Only <e-util/e-util.h> should be included directly."
-#endif
+#endif*/
 
 #ifndef E_UTIL_ENUMS_H
 #define E_UTIL_ENUMS_H
