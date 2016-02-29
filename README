@@ -8,7 +8,7 @@ users mailing list.  If you are interested in contributing to
 development on it, you should certainly subscribe to the Evolution
 Hackers mailing list.  Visit
 
-	https://mail.gnome.org/mailman/listinfo
+        https://mail.gnome.org/mailman/listinfo
 
 to subscribe or view archives of the Evolution mailing lists.
 
@@ -20,10 +20,9 @@ to change).
 There is also a #evolution IRC channel on irc.gnome.org.
 
 Help for Evolution is available in the user manual (select "Help" from
-the menu after running the application), at the Novell knowledge base
-(http://support.novell.com), in the Evolution man page (run "man
-evolution" at the command line), and in the --help strings (run
-"evolution --help" at the command line).
+the menu after running the application), at the GNOME users help site
+(https://help.gnome.org/users/evolution/stable/), and in the --help strings
+(run "evolution --help" at the command line).
 
 The rest of this file is dedicated to building Evolution.
 
@@ -31,10 +30,10 @@ The rest of this file is dedicated to building Evolution.
 DEPENDENCIES
 ------------
 
-In order to build Evolution you need to have the full set of GNOME 2.6
+In order to build Evolution you need to have the full set of GNOME 3
 (or greater) development libraries installed.
 
-GNOME 2.6 or greater comes with most of the modern distributions, so
+GNOME 3 or greater comes with most of the modern distributions, so
 in most cases it should be enough to just install all the devel
 packages from your distribution.
 
@@ -44,40 +43,31 @@ installed, since bugs in the libraries can cause bugs in Evolution.
 Additional dependencies, besides the stock GNOME libraries (the
 dependencies should be compiled in the order they are listed here):
 
-	* gnome-icon-theme 1.2.0 or later
+        * evolution-data-server of the same version as the Evolution is
 
-	* ORBit 2.9.8 or later
+             ftp://ftp.gnome.org/pub/gnome/sources/evolution-data-server
 
-	     ftp://ftp.gnome.org/pub/gnome/sources/libsoup
-	
-	* libsoup 2.2.1 or later
+        * libsoup 2.42 or later
 
-	     ftp://ftp.gnome.org/pub/gnome/sources/libsoup
+             ftp://ftp.gnome.org/pub/gnome/sources/libsoup
 
-	* evolution-data-server 1.1.1 or later
+        * WebKitGTK+ 2.4.9
 
-	     ftp://ftp.gnome.org/pub/gnome/sources/evolution-data-server
+             http://webkitgtk.org/releases/
 
-	* gtkhtml 3.5.0 or later
+        * Mozilla NSPR/NSS libraries
 
-	     ftp://ftp.gnome.org/pub/gnome/sources/gtkhtml
+          These are needed if you want to compile Evolution with SSL and S/MIME
+          support.
 
-	* [Optional] Mozilla NSPR/NSS libraries
-
-	  These are needed if you want to compile Evolution with SSL and S/MIME
-	  support.
-
-	     http://www.mozilla.org/
+             http://www.mozilla.org/
 
           Many distributions ship these as Mozilla development
           packages.
 
-	* [Optional] gnome-spell 1.0.1 or later
-
-	  This is only necessary if you want to have the spell
-	  checking functionality in Evolution's message composer.
-
-	     ftp://ftp.gnome.org/pub/gnome/sources/gnome-spell
+Other dependencies are claimed during the ./configure phase. If these are
+optional, also a parameter for the ./configure to not use that dependency
+is shown.
 
 CONFIGURING EVOLUTION
 ---------------------
@@ -95,39 +85,42 @@ that something goes wrong and your GNOME installation gets ruined.
 If you want to install in a different prefix, you need to do the
 following things:
 
-	* Set the PKG_CONFIG_PATH environment variable to contain a
-          colon-separated list of all the pkg-config directories that
-          will be involved in the build.  This basically means a list
-          of $prefix/lib/pkgconfig directory names, where $prefix is
-          the prefix where a library is installed.
+        * Set the environment variables to contain a colon-separated list
+          of all the directories that will be involved in the build.
+          The environment variables are ACLOCAL_FLAGS, GSETTINGS_SCHEMA_DIR,
+          LD_LIBRARY_PATH, PATH and PKG_CONFIG_PATH.
 
-	  For example, if you have GNOME installed in /usr and you
+          For example, if you have GNOME installed in /usr and you
           are installing Evolution and its dependencies in
           /opt/evolution, you want to do something like the following
           (assuming you are using Bash):
 
-	      export PKG_CONFIG_PATH=/usr/lib/pkgconfig:/opt/evolution/lib/pkgconfig
+                export ACLOCAL_FLAGS="-I /opt/evolution/share/aclocal"
+                export GSETTINGS_SCHEMA_DIR="/opt/evolution/share/glib-2.0/schemas"
+                export LD_LIBRARY_PATH=/opt/evolution/lib:$LD_LIBRARY_PATH
+                export PATH=/opt/evolution/bin:$PATH
+                export PKG_CONFIG_PATH=/opt/evolution/lib/pkgconfig:$PKG_CONFIG_PATH
 
-	* Edit the bonobo-activation-config.xml file (which is
-          normally found in /etc/bonobo-activation/) to include the
+        * Edit the D-Bus session-local.conf file (which is normally
+          search for by D-Bus in /etc/dbus-1/) to include the
           location where you are installing Evolution.
 
-	  In the example given above (GNOME in /usr, Evolution and
+          In the example given above (GNOME in /usr, Evolution and
           dependencies in /opt/evolution), your
-          bonobo-activation-config.xml will have to look like this:
+          session-local.conf will have to look like this:
 
-	      <?xml version="1.0"?>
-	      <oafconfig>
-	        <searchpath>
-	          <item>/usr/lib/bonobo/servers</item>
-	          <item>/opt/evolution/lib/bonobo/servers</item>
-	        </searchpath>
-	      </oafconfig>
+                <!DOCTYPE busconfig PUBLIC
+                 "-//freedesktop//DTD D-BUS Bus Configuration 1.0//EN"
+                 "http://www.freedesktop.org/standards/dbus/1.0/busconfig.dtd">
+                <busconfig>
+                  <!-- Search for .service files in /usr/local -->
+                  <servicedir>/opt/evolution/share/dbus-1/services</servicedir>
+                </busconfig>
 
-	* Pass an appropriate --prefix parameter to the configure
+        * Pass an appropriate --prefix parameter to the configure
           scripts of Evolution and its dependencies, eg:
 
-	      ./configure --prefix=/opt/evolution
+                ./configure --prefix=/opt/evolution
 
 More information on how to use the configure script is available in
 the INSTALL file which is part of the Evolution tarball.
@@ -137,12 +130,17 @@ OPTIONAL FEATURES
 -----------------
 
 Some optional features can be enabled at compilation time by passing
-appropriate flags to the configure script:
+appropriate flags to the configure script. You can get list of all
+of the configure option by running:
 
-	* SSL support.
+                ./configure --help
 
-	  Make sure you have Mozilla's NSS nad NSPR libraries
-	  installed and pass the following flag:
+BUILDING EVOLUTION
+------------------
 
-	    --enable-nss
+After the Evolution is properly configured, run:
 
+                make
+                make install
+
+to build it.
