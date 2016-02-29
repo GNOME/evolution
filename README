@@ -48,7 +48,7 @@ dependencies should be compiled in the order they are listed here):
 
 	* ORBit 2.9.8 or later
 
-	     ftp://ftp.gnome.org/pub/gnome/sources/libsoup
+	     ftp://ftp.gnome.org/pub/gnome/sources/ORBit2/
 	
 	* libsoup 2.2.1 or later
 
