@@ -82,9 +82,6 @@ void		dom_create_link			(WebKitDOMDocument *document,
 						 EHTMLEditorWebExtension *extension,
 						 const gchar *uri);
 
-EHTMLEditorSelectionBlockFormat
-		dom_get_list_format_from_node	(WebKitDOMNode *node);
-
 void		dom_selection_indent		(WebKitDOMDocument *document,
 						EHTMLEditorWebExtension *extension);
 
@@ -110,22 +107,6 @@ void		dom_set_paragraph_style		(WebKitDOMDocument *document,
 						 gint width,
 						 gint offset,
 						 const gchar *style_to_add);
-
-WebKitDOMElement *
-		dom_create_selection_marker	(WebKitDOMDocument *document,
-						 gboolean selection_start_marker);
-
-void		dom_add_selection_markers_into_element_start
-						(WebKitDOMDocument *document,
-						 WebKitDOMElement *element,
-						 WebKitDOMElement **selection_start_marker,
-						 WebKitDOMElement **selection_end_marker);
-
-void		dom_add_selection_markers_into_element_end
-						(WebKitDOMDocument *document,
-						 WebKitDOMElement *element,
-						 WebKitDOMElement **selection_start_marker,
-						 WebKitDOMElement **selection_end_marker);
 
 WebKitDOMElement *
 		dom_get_paragraph_element	(WebKitDOMDocument *document,
@@ -285,7 +266,6 @@ void		dom_selection_get_coordinates	(WebKitDOMDocument *document,
 						 guint *start_y,
 						 guint *end_x,
 						 guint *end_y);
-void		dom_remove_selection_markers	(WebKitDOMDocument *document);
 gboolean	dom_is_selection_position_node	(WebKitDOMNode *node);
 
 G_END_DECLS

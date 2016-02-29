@@ -173,6 +173,10 @@ gboolean	dom_fix_structure_after_delete_before_quoted_content
 void		dom_disable_quote_marks_select	(WebKitDOMDocument *document);
 void		dom_remove_node_and_parents_if_empty
 						(WebKitDOMNode *node);
+gboolean	return_pressed_in_empty_list_item
+						(WebKitDOMDocument *document,
+						 EHTMLEditorWebExtension *extension,
+						 gboolean save_history);
 
 G_END_DECLS
 

@@ -5785,8 +5785,7 @@ process_list_to_plain_text (EHTMLEditorWebExtension *extension,
 
 			g_free (item_str);
 			g_string_free (item_value, TRUE);
-		} else if (WEBKIT_DOM_IS_HTML_O_LIST_ELEMENT (item) ||
-			   WEBKIT_DOM_IS_HTML_U_LIST_ELEMENT (item)) {
+		} else if (node_is_list (item)) {
 			process_list_to_plain_text (
 				extension, WEBKIT_DOM_ELEMENT (item), level + 1, output);
 			item = webkit_dom_node_get_next_sibling (item);
@@ -6023,8 +6022,7 @@ process_elements (EHTMLEditorWebExtension *extension,
 		    element_has_class (WEBKIT_DOM_ELEMENT (child), "-x-evo-indented"))
 			process_blockquote (WEBKIT_DOM_ELEMENT (child));
 
-		if (WEBKIT_DOM_IS_HTML_U_LIST_ELEMENT (child) ||
-		    WEBKIT_DOM_IS_HTML_O_LIST_ELEMENT (child)) {
+		if (node_is_list (child)) {
 			if (to_plain_text) {
 				if (changing_mode) {
 					content = webkit_dom_element_get_outer_html (
@@ -6413,9 +6411,7 @@ toggle_paragraphs_style_in_element (WebKitDOMDocument *document,
 			parent = webkit_dom_node_get_parent_node (node);
 			/* If the paragraph is inside indented paragraph don't set
 			 * the style as it will be inherited */
-			if (WEBKIT_DOM_IS_HTML_BODY_ELEMENT (parent) &&
-			    (WEBKIT_DOM_IS_HTML_O_LIST_ELEMENT (node) ||
-			     WEBKIT_DOM_IS_HTML_U_LIST_ELEMENT (node))) {
+			if (WEBKIT_DOM_IS_HTML_BODY_ELEMENT (parent) && node_is_list (node)) {
 				gint offset;
 
 				offset = WEBKIT_DOM_IS_HTML_U_LIST_ELEMENT (node) ?
@@ -6719,8 +6715,7 @@ dom_process_content_for_plain_text (WebKitDOMDocument *document,
 
 		paragraph = webkit_dom_node_list_item (paragraphs, ii);
 
-		if (WEBKIT_DOM_IS_HTML_O_LIST_ELEMENT (paragraph) ||
-		    WEBKIT_DOM_IS_HTML_U_LIST_ELEMENT (paragraph)) {
+		if (node_is_list (paragraph)) {
 			WebKitDOMNode *item = webkit_dom_node_get_first_child (paragraph);
 
 			while (item) {
@@ -8188,6 +8183,103 @@ insert_tabulator (WebKitDOMDocument *document,
 }
 
 gboolean
+return_pressed_in_empty_list_item (WebKitDOMDocument *document,
+				   EHTMLEditorWebExtension *extension,
+				   gboolean save_history)
+{
+	WebKitDOMElement *selection_start_marker, *selection_end_marker;
+	WebKitDOMNode *parent, *node;
+
+	if (!dom_selection_is_collapsed (document))
+		return FALSE;
+
+	dom_selection_save (document);
+
+	selection_start_marker = webkit_dom_document_get_element_by_id (
+		document, "-x-evo-selection-start-marker");
+	selection_end_marker = webkit_dom_document_get_element_by_id (
+		document, "-x-evo-selection-end-marker");
+
+	parent = webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (selection_start_marker));
+	if (!WEBKIT_DOM_IS_HTML_LI_ELEMENT (parent)) {
+		dom_selection_restore (document);
+		return FALSE;
+	}
+
+	node = webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (selection_end_marker));
+	/* Check if return was pressed inside an empty list item. */
+	if (!webkit_dom_node_get_previous_sibling (WEBKIT_DOM_NODE (selection_start_marker)) &&
+	    (!node || (node && WEBKIT_DOM_IS_HTML_BR_ELEMENT (node) && !webkit_dom_node_get_next_sibling (node)))) {
+		EHTMLEditorHistoryEvent *ev;
+		WebKitDOMDocumentFragment *fragment;
+		WebKitDOMElement *paragraph;
+		WebKitDOMNode *list;
+
+		if (save_history) {
+			/* Insert new history event for Return to have the right coordinates.
+			 * The fragment will be added later. */
+			ev = g_new0 (EHTMLEditorHistoryEvent, 1);
+			ev->type = HISTORY_INPUT;
+
+			dom_selection_get_coordinates (
+				document,
+				&ev->before.start.x,
+				&ev->before.start.y,
+				&ev->before.end.x,
+				&ev->before.end.y);
+
+			fragment = webkit_dom_document_create_document_fragment (document);
+		}
+
+		list = split_list_into_two (parent);
+
+		if (save_history) {
+			webkit_dom_node_append_child (
+				WEBKIT_DOM_NODE (fragment),
+				parent,
+				NULL);
+		} else {
+			remove_node (parent);
+		}
+
+		paragraph = dom_prepare_paragraph (document, extension, TRUE);
+
+		webkit_dom_node_insert_before (
+			webkit_dom_node_get_parent_node (list),
+			WEBKIT_DOM_NODE (paragraph),
+			list,
+			NULL);
+
+		dom_selection_restore (document);
+
+		if (save_history) {
+			EHTMLEditorUndoRedoManager *manager;
+
+			dom_selection_get_coordinates (
+				document,
+				&ev->after.start.x,
+				&ev->after.start.y,
+				&ev->after.end.x,
+				&ev->after.end.y);
+
+			ev->data.fragment = fragment;
+
+			manager = e_html_editor_web_extension_get_undo_redo_manager (extension);
+
+			e_html_editor_undo_redo_manager_insert_history_event (manager, ev);
+		}
+
+		e_html_editor_web_extension_set_content_changed (extension);
+
+		return TRUE;
+	}
+
+	dom_selection_restore (document);
+
+	return FALSE;
+}
+
+gboolean
 dom_process_on_key_press (WebKitDOMDocument *document,
                           EHTMLEditorWebExtension *extension,
                           guint key_val,
@@ -8243,6 +8335,11 @@ dom_process_on_key_press (WebKitDOMDocument *document,
 			dom_remove_input_event_listener_from_body (document, extension);
 			return split_citation (document, extension);
 		}
+
+		/* If the ENTER key is pressed inside an empty list item then the list
+		 * is broken into two and empty paragraph is inserted between lists. */
+		if (return_pressed_in_empty_list_item (document, extension, TRUE))
+			return TRUE;
 	}
 
 	if (key_val == GDK_KEY_BackSpace) {
