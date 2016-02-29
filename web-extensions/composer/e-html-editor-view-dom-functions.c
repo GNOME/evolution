@@ -8169,6 +8169,8 @@ insert_tabulator (WebKitDOMDocument *document,
 
 		manager = e_html_editor_web_extension_get_undo_redo_manager (extension);
 		e_html_editor_undo_redo_manager_insert_history_event (manager, ev);
+
+		e_html_editor_web_extension_set_content_changed (extension);
 	} else {
 		EHTMLEditorUndoRedoManager *manager;
 
@@ -8324,6 +8326,7 @@ dom_process_on_key_press (WebKitDOMDocument *document,
 					table,
 					NULL);
 				dom_selection_restore (document);
+				e_html_editor_web_extension_set_content_changed (extension);
 				return TRUE;
 			}
 		}
@@ -8333,7 +8336,11 @@ dom_process_on_key_press (WebKitDOMDocument *document,
 		 * the special command to do it. */
 		if (dom_selection_is_citation (document)) {
 			dom_remove_input_event_listener_from_body (document, extension);
-			return split_citation (document, extension);
+			if (split_citation (document, extension)) {
+				e_html_editor_web_extension_set_content_changed (extension);
+				return TRUE;
+			}
+			return FALSE;
 		}
 
 		/* If the ENTER key is pressed inside an empty list item then the list
@@ -8350,6 +8357,7 @@ dom_process_on_key_press (WebKitDOMDocument *document,
 			if (dom_change_quoted_block_to_normal (document, extension)) {
 				dom_selection_restore (document);
 				dom_force_spell_check_for_current_paragraph (document, extension);
+				e_html_editor_web_extension_set_content_changed (extension);
 				return TRUE;
 			}
 			dom_selection_restore (document);
@@ -8376,6 +8384,7 @@ dom_process_on_key_press (WebKitDOMDocument *document,
 			dom_selection_restore (document);
 			if (!prev_sibling) {
 				dom_selection_unindent (document, extension);
+				e_html_editor_web_extension_set_content_changed (extension);
 				return TRUE;
 			}
 		}
@@ -8425,8 +8434,10 @@ dom_process_on_key_press (WebKitDOMDocument *document,
 			dom_selection_restore (document);
 		}
 		if (key_val == GDK_KEY_BackSpace && !html_mode) {
-			if (dom_delete_character_from_quoted_line_start (document, extension, key_val, state))
+			if (dom_delete_character_from_quoted_line_start (document, extension, key_val, state)) {
+				e_html_editor_web_extension_set_content_changed (extension);
 				return TRUE;
+			}
 		}
 		if (dom_fix_structure_after_delete_before_quoted_content (document, extension, key_val, state))
 			return TRUE;
