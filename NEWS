@@ -1,3 +1,42 @@
+Evolution 3.19.91 2016-02-29
+----------------------------
+
+Bug Fixes:
+	Bug 762075 - Recognize calendar colors encoded by gdk_rgba_to_string() (Milan Crha)
+	Bug 761159 - Try to preserve selection between calendar views (Milan Crha)
+	Bug 759101 - Unset old cursor after clean up of the message list (Milan Crha)
+	Bug 761497 - Replace 'smileys' with 'emoticons' in the strings (Milan Crha)
+	Bug 761596 - Mail Advanced search only searches in Current folder (Milan Crha)
+	Bug 761993 - Use ngettext() for "composer-many-to-cc-recips-num" option question (Milan Crha)
+	Bug 762205 - Add UID column into message list (Milan Crha)
+	Bug 762022 - [ESpellEntry] Considers a comma to be a spelling error (Milan Crha)
+	Bug 762396 - Add missing library to mailing-list-actions Makefile.am (Tim Lunn)
+	Bug 614557 - Hiding mail preview pane should stop auto-mark-seen timer (Milan Crha)
+	Bug 579675 - Empty Contacts minicard view when scrolling (Milan Crha)
+	Bug 203026 - Use left/right arrows to navigate in minicard view (Milan Crha)
+	Bug 761301 - Option to Create events, memos and tasks as Private by default (Milan Crha)
+	Bug 762376 - Embedded images in signature only displays under evolution and not other clients (Tomas Popela)
+
+Miscellaneous:
+	Correct typo in the fix for bug 761883 (Milan Crha)
+	Pressing the Return key in the image wrapper will duplicate the image wrapper structure (Tomas Popela)
+	EHTMLEditorSelection - Turning off the bold formatting can leave unnecessary nodes in the DOM (Tomas Popela)
+	EHTMLEditorView - List item is deleted when enter is pressed on the end of it (Tomas Popela)
+	EHTMLEditorView - Avoid extra selection save/restore in list manipulation (Tomas Popela)
+
+Translations:
+	Sebastian Rasmussen (sv)
+	Daniel Mustieles (es)
+	Piotr Drąg (pl)
+	Reinout van Schouwen (nl)
+	Мирослав Николић (sr)
+	Мирослав Николић (sr@latin)
+	Cédric Valmary (oc)
+	Rafael Fontenelle (pt_BR)
+	Fran Dieguez (gl)
+	Marek Černocký (cs)
+	Kjartan Maraas (nb)
+
 Evolution 3.19.90 2016-02-15
 ----------------------------
 
