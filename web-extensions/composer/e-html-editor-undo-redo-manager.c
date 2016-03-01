@@ -593,6 +593,7 @@ undo_delete (WebKitDOMDocument *document,
 		dom_selection_restore (document);
 		dom_force_spell_check_in_viewport (document, extension);
 	} else {
+		gboolean empty_text = FALSE;
 		WebKitDOMNode *nd;
 
 		element = webkit_dom_document_create_element (document, "span", NULL);
@@ -614,7 +615,7 @@ undo_delete (WebKitDOMDocument *document,
 			glong length = webkit_dom_character_data_get_length (WEBKIT_DOM_CHARACTER_DATA (nd));
 
 			/* We have to preserve empty paragraphs with just UNICODE_ZERO_WIDTH_SPACE
-			 * character as when we will remove it it will collapse */
+			 * character as when we will remove it paragraph will collapse. */
 			if (length > 1) {
 				if (g_str_has_prefix (text, UNICODE_ZERO_WIDTH_SPACE))
 					webkit_dom_character_data_replace_data (
@@ -622,8 +623,23 @@ undo_delete (WebKitDOMDocument *document,
 				else if (g_str_has_suffix (text, UNICODE_ZERO_WIDTH_SPACE))
 					webkit_dom_character_data_replace_data (
 						WEBKIT_DOM_CHARACTER_DATA (nd), length - 1, 1, "", NULL);
-			}
+			} else if (length == 0)
+				empty_text = TRUE;
+
 			g_free (text);
+		}
+
+		if (!nd || empty_text) {
+			WebKitDOMNode *parent;
+
+			parent = webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (element));
+			if (WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (parent)) {
+				webkit_dom_node_insert_before (
+					webkit_dom_node_get_parent_node (parent),
+					WEBKIT_DOM_NODE (element),
+					parent,
+					NULL);
+			}
 		}
 
 		/* Insert the deleted content back to the body. */
