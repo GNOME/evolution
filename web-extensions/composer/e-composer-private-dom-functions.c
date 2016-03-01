@@ -111,25 +111,18 @@ composer_move_caret (WebKitDOMDocument *document,
 	gboolean is_message_from_edit_as_new;
 	gboolean is_from_new_message;
 	gboolean has_paragraphs_in_body = TRUE;
-	WebKitDOMDOMWindow *window;
-	WebKitDOMDOMSelection *dom_selection;
 	WebKitDOMElement *element, *signature;
 	WebKitDOMHTMLElement *body;
 	WebKitDOMHTMLCollection *paragraphs;
-	WebKitDOMRange *new_range;
 
 	is_message_from_draft = e_html_editor_web_extension_is_message_from_draft (extension);
 	is_message_from_edit_as_new =
 		e_html_editor_web_extension_is_message_from_edit_as_new (extension);
 	is_from_new_message = e_html_editor_web_extension_is_from_new_message (extension);
 
-	window = webkit_dom_document_get_default_view (document);
-	dom_selection = webkit_dom_dom_window_get_selection (window);
-
 	body = webkit_dom_document_get_body (document);
 	webkit_dom_element_set_attribute (
 		WEBKIT_DOM_ELEMENT (body), "data-message", "", NULL);
-	new_range = webkit_dom_document_create_range (document);
 
 	/* If editing message as new don't handle with caret */
 	if (is_message_from_edit_as_new || is_message_from_draft) {
@@ -267,11 +260,23 @@ composer_move_caret (WebKitDOMDocument *document,
 	g_object_unref (paragraphs);
  move_caret:
 	if (element) {
+		WebKitDOMDOMSelection *dom_selection;
+		WebKitDOMDOMWindow *dom_window;
+		WebKitDOMRange *range;
+
+		dom_window = webkit_dom_document_get_default_view (document);
+		dom_selection = webkit_dom_dom_window_get_selection (dom_window);
+		range = webkit_dom_document_create_range (document);
+
 		webkit_dom_range_select_node_contents (
-		new_range, WEBKIT_DOM_NODE (element), NULL);
-		webkit_dom_range_collapse (new_range, TRUE, NULL);
+			range, WEBKIT_DOM_NODE (element), NULL);
+		webkit_dom_range_collapse (range, TRUE, NULL);
 		webkit_dom_dom_selection_remove_all_ranges (dom_selection);
-		webkit_dom_dom_selection_add_range (dom_selection, new_range);
+		webkit_dom_dom_selection_add_range (dom_selection, range);
+
+		g_clear_object (&dom_selection);
+		g_clear_object (&dom_window);
+		g_clear_object (&range);
 
 		if (start_bottom)
 			dom_scroll_to_caret (document);
@@ -343,6 +348,9 @@ dom_clean_after_drag_and_drop (WebKitDOMDocument *document,
 	/* When text is DnD'ed into the view, WebKit will select it. So let's
 	 * collapse it to its end to have the caret after the DnD'ed text. */
 	webkit_dom_dom_selection_collapse_to_end (dom_selection, NULL);
+
+	g_clear_object (&dom_selection);
+	g_clear_object (&dom_window);
 
 	dom_check_magic_links (document, extension, FALSE);
 	/* Also force spell check on view. */
