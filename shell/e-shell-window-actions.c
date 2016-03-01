@@ -1726,15 +1726,22 @@ e_shell_window_update_search_menu (EShellWindow *shell_window)
 	rule = e_rule_context_next_rule (context, NULL, source);
 	while (rule != NULL) {
 		GtkAction *action;
+		GString *escaped_name = NULL;
 		gchar *action_name;
 		gchar *action_label;
+
+		if (rule->name && strchr (rule->name, '_') != NULL)
+			escaped_name = e_str_replace_string (rule->name, "_", "__");
 
 		action_name = g_strdup_printf ("custom-rule-%d", ii++);
 		if (ii < 10)
 			action_label = g_strdup_printf (
-				"_%d. %s", ii, rule->name);
+				"_%d. %s", ii, escaped_name ? escaped_name->str : rule->name);
 		else
-			action_label = g_strdup (rule->name);
+			action_label = g_strdup (escaped_name ? escaped_name->str : rule->name);
+
+		if (escaped_name)
+			g_string_free (escaped_name, TRUE);
 
 		action = gtk_action_new (
 			action_name, action_label,

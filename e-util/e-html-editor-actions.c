@@ -1537,12 +1537,21 @@ editor_actions_setup_languages_menu (EHTMLEditor *editor)
 	for (link = list; link != NULL; link = g_list_next (link)) {
 		ESpellDictionary *dictionary = link->data;
 		GtkToggleAction *action;
+		const gchar *language_name;
+		GString *escaped_name = NULL;
 		gboolean active = FALSE;
+
+		language_name = e_spell_dictionary_get_name (dictionary);
+		if (language_name && strchr (language_name, '_') != NULL)
+			escaped_name = e_str_replace_string (language_name, "_", "__");
 
 		action = gtk_toggle_action_new (
 			e_spell_dictionary_get_code (dictionary),
-			e_spell_dictionary_get_name (dictionary),
+			escaped_name ? escaped_name->str : language_name,
 			NULL, NULL);
+
+		if (escaped_name)
+			g_string_free (escaped_name, TRUE);
 
 		/* Do this BEFORE connecting to the "toggled" signal.
 		 * We're not prepared to invoke the signal handler yet.
@@ -1593,6 +1602,7 @@ editor_actions_setup_spell_check_menu (EHTMLEditor *editor)
 		GtkAction *action;
 		const gchar *code;
 		const gchar *name;
+		GString *escaped_name = NULL;
 		gchar *action_label;
 		gchar *action_name;
 
@@ -1603,7 +1613,10 @@ editor_actions_setup_spell_check_menu (EHTMLEditor *editor)
 		action_name = g_strdup_printf (
 			"context-spell-suggest-%s-menu", code);
 
-		action = gtk_action_new (action_name, name, NULL, NULL);
+		if (name && strchr (name, '_') != NULL)
+			escaped_name = e_str_replace_string (name, "_", "__");
+
+		action = gtk_action_new (action_name, escaped_name ? escaped_name->str : name, NULL, NULL);
 		gtk_action_group_add_action (action_group, action);
 		g_object_unref (action);
 
@@ -1620,7 +1633,7 @@ editor_actions_setup_spell_check_menu (EHTMLEditor *editor)
 		/* Translators: %s will be replaced with the actual dictionary
 		 * name, where a user can add a word to. This is part of an
 		 * "Add Word To" submenu. */
-		action_label = g_strdup_printf (_("%s Dictionary"), name);
+		action_label = g_strdup_printf (_("%s Dictionary"), escaped_name ? escaped_name->str : name);
 
 		action = gtk_action_new (
 			action_name, action_label, NULL, NULL);
@@ -1645,6 +1658,9 @@ editor_actions_setup_spell_check_menu (EHTMLEditor *editor)
 
 		g_free (action_label);
 		g_free (action_name);
+
+		if (escaped_name)
+			g_string_free (escaped_name, TRUE);
 	}
 
 	g_list_free (available_dicts);
