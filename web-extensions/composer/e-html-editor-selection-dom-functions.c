@@ -2129,7 +2129,6 @@ wrap_lines (WebKitDOMDocument *document,
 	    gint word_wrap_length)
 {
 	WebKitDOMNode *node, *start_node, *block_clone;
-	WebKitDOMElement *element;
 	gboolean has_selection;
 	guint line_length;
 	gulong length_left;
@@ -2180,6 +2179,9 @@ wrap_lines (WebKitDOMDocument *document,
 		node = WEBKIT_DOM_NODE (fragment);
 		start_node = node;
 	} else {
+		WebKitDOMElement *selection_start_marker, *selection_end_marker;
+		WebKitDOMNode *start_point;
+
 		if (!webkit_dom_node_has_child_nodes (block))
 			return WEBKIT_DOM_ELEMENT (block);
 
@@ -2188,13 +2190,13 @@ wrap_lines (WebKitDOMDocument *document,
 		/* When we wrap, we are wrapping just the text after caret, text
 		 * before the caret is already wrapped, so unwrap the text after
 		 * the caret position */
-		element = webkit_dom_element_query_selector (
+		selection_end_marker = webkit_dom_element_query_selector (
 			WEBKIT_DOM_ELEMENT (block_clone),
 			"span#-x-evo-selection-end-marker",
 			NULL);
 
-		if (element) {
-			WebKitDOMNode *nd = WEBKIT_DOM_NODE (element);
+		if (selection_end_marker) {
+			WebKitDOMNode *nd = WEBKIT_DOM_NODE (selection_end_marker);
 
 			while (nd) {
 				WebKitDOMNode *next_nd = webkit_dom_node_get_next_sibling (nd);
@@ -2242,15 +2244,17 @@ wrap_lines (WebKitDOMDocument *document,
 		}
 
 		/* We have to start from the end of the last wrapped line */
-		element = webkit_dom_element_query_selector (
+		selection_start_marker = webkit_dom_element_query_selector (
 			WEBKIT_DOM_ELEMENT (block_clone),
 			"span#-x-evo-selection-start-marker",
 			NULL);
 
-		if (element) {
-			WebKitDOMNode *nd = webkit_dom_node_get_previous_sibling (WEBKIT_DOM_NODE (element));
+		if (selection_start_marker) {
+			gboolean first_removed = FALSE;
+			WebKitDOMNode *nd;
 
-			element = NULL;
+			nd = webkit_dom_node_get_previous_sibling (
+				WEBKIT_DOM_NODE (selection_start_marker));
 			while (nd) {
 				WebKitDOMNode *prev_nd = webkit_dom_node_get_previous_sibling (nd);
 
@@ -2258,16 +2262,30 @@ wrap_lines (WebKitDOMDocument *document,
 					prev_nd = webkit_dom_node_get_previous_sibling (webkit_dom_node_get_parent_node (nd));
 
 				if (WEBKIT_DOM_IS_HTML_BR_ELEMENT (nd)) {
-					element = WEBKIT_DOM_ELEMENT (nd);
-					break;
+					if (first_removed) {
+						start_point = nd;
+						break;
+					} else {
+						remove_node (nd);
+						first_removed = TRUE;
+					}
+				} else if (WEBKIT_DOM_IS_ELEMENT (nd) &&
+				           webkit_dom_element_has_attribute (WEBKIT_DOM_ELEMENT (nd), "data-hidden-space")) {
+					webkit_dom_html_element_set_outer_text (
+						WEBKIT_DOM_HTML_ELEMENT (nd), " ", NULL);
+				} else if (!prev_nd) {
+					start_point = nd;
 				}
 
 				nd = prev_nd;
 			}
 		}
 
-		if (element) {
-			node = webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (element));
+		if (start_point) {
+			if (WEBKIT_DOM_IS_HTML_BR_ELEMENT (start_point))
+				node = webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (start_point));
+			else
+				node = start_point;
 			start_node = block_clone;
 		} else
 			start_node = node;
@@ -2276,6 +2294,7 @@ wrap_lines (WebKitDOMDocument *document,
 	line_length = 0;
 	while (node) {
 		gint offset = 0;
+		WebKitDOMElement *element;
 
 		if (WEBKIT_DOM_IS_TEXT (node)) {
 			const gchar *newline;
@@ -2568,6 +2587,7 @@ wrap_lines (WebKitDOMDocument *document,
 
 	if (has_selection) {
 		gchar *html;
+		WebKitDOMElement *element;
 
 		/* Create a wrapper DIV and put the processed content into it */
 		element = webkit_dom_document_create_element (document, "DIV", NULL);
