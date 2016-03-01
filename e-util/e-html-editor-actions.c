@@ -264,9 +264,6 @@ action_cut_cb (GtkAction *action,
 {
 	EHTMLEditorView *view = e_html_editor_get_view (editor);
 
-	if (!gtk_widget_has_focus (GTK_WIDGET (view)))
-		return;
-
 	html_editor_call_simple_extension_function (
 		editor, "EHTMLEditorActionsSaveHistoryForCut");
 
