@@ -177,6 +177,9 @@ gboolean	return_pressed_in_empty_list_item
 						(WebKitDOMDocument *document,
 						 EHTMLEditorWebExtension *extension,
 						 gboolean save_history);
+void		dom_merge_siblings_if_necessarry
+						(WebKitDOMDocument *document,
+						 WebKitDOMDocumentFragment *deleted_content);
 
 G_END_DECLS
 

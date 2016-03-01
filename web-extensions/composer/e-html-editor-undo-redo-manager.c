@@ -328,61 +328,6 @@ event_selection_was_collapsed (EHTMLEditorHistoryEvent *ev)
 }
 
 static void
-merge_duplicates_if_necessarry (WebKitDOMDocument *document,
-                                WebKitDOMDocumentFragment *deleted_content)
-{
-	gboolean equal_nodes;
-	WebKitDOMElement *element, *prev_element;
-	WebKitDOMNode *child;
-
-	element = webkit_dom_document_query_selector (document, "blockquote + blockquote", NULL);
-	if (!element)
-		goto signature;
-
-	prev_element = WEBKIT_DOM_ELEMENT (webkit_dom_node_get_previous_sibling (
-		WEBKIT_DOM_NODE (element)));
-	equal_nodes = webkit_dom_node_is_equal_node (
-		webkit_dom_node_clone_node (WEBKIT_DOM_NODE (element), FALSE),
-		webkit_dom_node_clone_node (WEBKIT_DOM_NODE (prev_element), FALSE));
-
-	if (equal_nodes) {
-		if (webkit_dom_element_get_child_element_count (element) >
-		    webkit_dom_element_get_child_element_count (prev_element)) {
-			while ((child = webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (element))))
-				webkit_dom_node_append_child (
-					WEBKIT_DOM_NODE (prev_element), child, NULL);
-			remove_node (WEBKIT_DOM_NODE (element));
-		} else {
-			while ((child = webkit_dom_node_get_last_child (WEBKIT_DOM_NODE (prev_element))))
-				webkit_dom_node_insert_before (
-					WEBKIT_DOM_NODE (element),
-					child,
-					webkit_dom_node_get_first_child (
-						WEBKIT_DOM_NODE (element)),
-					NULL);
-			remove_node (WEBKIT_DOM_NODE (prev_element));
-		}
-	}
-
- signature:
-	/* Replace the corrupted signatures with the right one. */
-	element = webkit_dom_document_query_selector (
-		document, ".-x-evo-signature-wrapper + .-x-evo-signature-wrapper", NULL);
-	if (element) {
-		WebKitDOMElement *right_signature;
-
-		right_signature = webkit_dom_document_fragment_query_selector (
-			deleted_content, ".-x-evo-signature-wrapper", NULL);
-		remove_node (webkit_dom_node_get_previous_sibling (WEBKIT_DOM_NODE (element)));
-		webkit_dom_node_replace_child (
-			webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (element)),
-			webkit_dom_node_clone_node (WEBKIT_DOM_NODE (right_signature), TRUE),
-			WEBKIT_DOM_NODE (element),
-			NULL);
-	}
-}
-
-static void
 undo_delete (WebKitDOMDocument *document,
              EHTMLEditorWebExtension *extension,
              EHTMLEditorHistoryEvent *event)
@@ -526,7 +471,7 @@ undo_delete (WebKitDOMDocument *document,
 					if (tmp_element)
 						remove_node (WEBKIT_DOM_NODE (tmp_element));
 
-					merge_duplicates_if_necessarry (document, event->data.fragment);
+					dom_merge_siblings_if_necessarry (document, event->data.fragment);
 
 					dom_remove_selection_markers (document);
 
@@ -588,7 +533,7 @@ undo_delete (WebKitDOMDocument *document,
 				parent_current_block = webkit_dom_node_get_parent_node (parent_current_block);
 		}
 
-		merge_duplicates_if_necessarry (document, event->data.fragment);
+		dom_merge_siblings_if_necessarry (document, event->data.fragment);
 
 		dom_selection_restore (document);
 		dom_force_spell_check_in_viewport (document, extension);
