@@ -2980,7 +2980,9 @@ dom_change_quoted_block_to_normal (WebKitDOMDocument *document,
 	gboolean html_mode;
 	gint citation_level, success = FALSE;
 	WebKitDOMElement *selection_start_marker, *selection_end_marker, *block;
+	EHTMLEditorUndoRedoManager *manager;
 
+	manager = e_html_editor_web_extension_get_undo_redo_manager (extension);
 	html_mode = e_html_editor_web_extension_get_html_mode (extension);
 
 	selection_start_marker = webkit_dom_document_query_selector (
@@ -3036,11 +3038,13 @@ dom_change_quoted_block_to_normal (WebKitDOMDocument *document,
 	if (!success)
 		return FALSE;
 
-	ev = g_new0 (EHTMLEditorHistoryEvent, 1);
-	ev->type = HISTORY_UNQUOTE;
+	if (!e_html_editor_undo_redo_manager_is_operation_in_progress (manager)) {
+		ev = g_new0 (EHTMLEditorHistoryEvent, 1);
+		ev->type = HISTORY_UNQUOTE;
 
-	dom_selection_get_coordinates (document, &ev->before.start.x, &ev->before.start.y, &ev->before.end.x, &ev->before.end.y);
-	ev->data.dom.from = webkit_dom_node_clone_node (WEBKIT_DOM_NODE (block), TRUE);
+		dom_selection_get_coordinates (document, &ev->before.start.x, &ev->before.start.y, &ev->before.end.x, &ev->before.end.y);
+		ev->data.dom.from = webkit_dom_node_clone_node (WEBKIT_DOM_NODE (block), TRUE);
+	}
 
 	if (citation_level == 1) {
 		gchar *inner_html;
@@ -3168,10 +3172,6 @@ dom_change_quoted_block_to_normal (WebKitDOMDocument *document,
 	}
 
 	if (ev) {
-		EHTMLEditorUndoRedoManager *manager;
-
-		manager = e_html_editor_web_extension_get_undo_redo_manager (extension);
-
 		dom_selection_get_coordinates (
 			document,
 			&ev->after.start.x,
