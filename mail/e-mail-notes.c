@@ -716,7 +716,7 @@ action_close_cb (GtkAction *action,
 
 	view = e_html_editor_get_view (notes_editor->editor);
 
-	something_changed = webkit_web_view_can_undo (WEBKIT_WEB_VIEW (view));
+	something_changed = e_html_editor_view_get_changed (view);
 
 	if (something_changed) {
 		gint response;
