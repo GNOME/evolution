@@ -2187,26 +2187,23 @@ wrap_lines (WebKitDOMDocument *document,
 
 			while (nd) {
 				WebKitDOMNode *next_nd = webkit_dom_node_get_next_sibling (nd);
+
+				if (!next_nd && !webkit_dom_node_is_same_node (webkit_dom_node_get_parent_node (nd), block_clone))
+					next_nd = webkit_dom_node_get_next_sibling (webkit_dom_node_get_parent_node (nd));
+
 				if (WEBKIT_DOM_IS_HTML_BR_ELEMENT (nd)) {
 					if (remove_all_br)
 						remove_node (nd);
 					else if (element_has_class (WEBKIT_DOM_ELEMENT (nd), "-x-evo-wrap-br"))
 						remove_node (nd);
-				}
+				} else if (WEBKIT_DOM_IS_ELEMENT (nd) &&
+				           webkit_dom_element_has_attribute (WEBKIT_DOM_ELEMENT (nd), "data-hidden-space"))
+					webkit_dom_html_element_set_outer_text (
+						WEBKIT_DOM_HTML_ELEMENT (nd), " ", NULL);
+
 				nd = next_nd;
 			}
-		}
-
-		webkit_dom_node_normalize (block_clone);
-		node = webkit_dom_node_get_first_child (block_clone);
-		if (node) {
-			text_content = webkit_dom_node_get_text_content (node);
-			if (g_strcmp0 ("\n", text_content) == 0)
-				node = webkit_dom_node_get_next_sibling (node);
-			g_free (text_content);
-		}
-
-		if (block_clone && WEBKIT_DOM_IS_ELEMENT (block_clone)) {
+		} else {
 			gint ii, length;
 			WebKitDOMNodeList *list;
 
@@ -2224,6 +2221,15 @@ wrap_lines (WebKitDOMDocument *document,
 			g_object_unref (list);
 		}
 
+		webkit_dom_node_normalize (block_clone);
+		node = webkit_dom_node_get_first_child (block_clone);
+		if (node) {
+			text_content = webkit_dom_node_get_text_content (node);
+			if (g_strcmp0 ("\n", text_content) == 0)
+				node = webkit_dom_node_get_next_sibling (node);
+			g_free (text_content);
+		}
+
 		/* We have to start from the end of the last wrapped line */
 		element = webkit_dom_element_query_selector (
 			WEBKIT_DOM_ELEMENT (block_clone),
@@ -2231,14 +2237,21 @@ wrap_lines (WebKitDOMDocument *document,
 			NULL);
 
 		if (element) {
-			WebKitDOMNode *nd = WEBKIT_DOM_NODE (element);
+			WebKitDOMNode *nd = webkit_dom_node_get_previous_sibling (WEBKIT_DOM_NODE (element));
 
-			while ((nd = webkit_dom_node_get_previous_sibling (nd))) {
+			element = NULL;
+			while (nd) {
+				WebKitDOMNode *prev_nd = webkit_dom_node_get_previous_sibling (nd);
+
+				if (!prev_nd && !webkit_dom_node_is_same_node (webkit_dom_node_get_parent_node (nd), block_clone))
+					prev_nd = webkit_dom_node_get_previous_sibling (webkit_dom_node_get_parent_node (nd));
+
 				if (WEBKIT_DOM_IS_HTML_BR_ELEMENT (nd)) {
 					element = WEBKIT_DOM_ELEMENT (nd);
 					break;
-				} else
-					element = NULL;
+				}
+
+				nd = prev_nd;
 			}
 		}
 
