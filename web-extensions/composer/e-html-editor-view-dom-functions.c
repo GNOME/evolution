@@ -3160,10 +3160,11 @@ dom_change_quoted_block_to_normal (WebKitDOMDocument *document,
 				NULL);
 		}
 
-		block = dom_wrap_paragraph_length (document, extension, block, length);
-		webkit_dom_node_normalize (WEBKIT_DOM_NODE (block));
-		dom_quote_plain_text_element_after_wrapping (document, block, citation_level - 1);
-
+		if (!html_mode) {
+			block = dom_wrap_paragraph_length (document, extension, block, length);
+			webkit_dom_node_normalize (WEBKIT_DOM_NODE (block));
+			dom_quote_plain_text_element_after_wrapping (document, block, citation_level - 1);
+		}
 	}
 
 	if (ev) {
