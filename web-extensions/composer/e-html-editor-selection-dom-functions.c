@@ -2002,8 +2002,27 @@ find_where_to_break_line (WebKitDOMCharacterData *node,
 		}
 
 		if (g_unichar_isspace (uc) || *str == '-') {
-			last_break_position_is_dash = *str == '-';
-			last_break_position = pos;
+			if ((last_break_position_is_dash = *str == '-')) {
+				/* There was no space before the dash */
+				if (pos - 1 != last_break_position) {
+					gchar *rest;
+
+					rest = g_utf8_next_char (str);
+					if (rest && *rest) {
+						gunichar next_char;
+
+						/* There is no space after the dash */
+						next_char = g_utf8_get_char (rest);
+						if (g_unichar_isspace (next_char))
+							last_break_position_is_dash = FALSE;
+						else
+							last_break_position = pos;
+					} else
+						last_break_position_is_dash = FALSE;
+				} else
+					last_break_position_is_dash = FALSE;
+			} else
+				last_break_position = pos;
 		}
 
 		if ((pos == max_length)) {
