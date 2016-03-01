@@ -4668,7 +4668,7 @@ dom_selection_get_block_format (WebKitDOMDocument *document,
 
 		tmp_element = dom_node_find_parent_element (node, "OL");
 		if (tmp_element) {
-			if (webkit_dom_node_contains (WEBKIT_DOM_NODE (tmp_element), WEBKIT_DOM_NODE (element))) 
+			if (webkit_dom_node_contains (WEBKIT_DOM_NODE (tmp_element), WEBKIT_DOM_NODE (element)))
 				result = dom_get_list_format_from_node (WEBKIT_DOM_NODE (element));
 			else
 				result = dom_get_list_format_from_node (WEBKIT_DOM_NODE (tmp_element));
@@ -4679,7 +4679,7 @@ dom_selection_get_block_format (WebKitDOMDocument *document,
 
 		tmp_element = dom_node_find_parent_element (node, "UL");
 		if (tmp_element) {
-			if (webkit_dom_node_contains (WEBKIT_DOM_NODE (element), WEBKIT_DOM_NODE (tmp_element))) 
+			if (webkit_dom_node_contains (WEBKIT_DOM_NODE (element), WEBKIT_DOM_NODE (tmp_element)))
 				result = dom_get_list_format_from_node (WEBKIT_DOM_NODE (element));
 			else
 				result = dom_get_list_format_from_node (WEBKIT_DOM_NODE (tmp_element));
