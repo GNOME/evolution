@@ -7484,10 +7484,12 @@ save_history_for_delete_or_backspace (WebKitDOMDocument *document,
 
 					next_node = webkit_dom_node_get_next_sibling (
 						webkit_dom_node_get_next_sibling (next_sibling));
-					webkit_dom_range_set_start (
-						range_clone, next_node, 0, NULL);
-					webkit_dom_range_set_end (
-						range_clone, next_node, 1, NULL);
+					if (next_node) {
+						webkit_dom_range_set_start (
+							range_clone, next_node, 0, NULL);
+						webkit_dom_range_set_end (
+							range_clone, next_node, 1, NULL);
+					}
 				} else {
 					glong offset;
 
