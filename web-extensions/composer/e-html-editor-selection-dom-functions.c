@@ -2904,7 +2904,7 @@ dom_put_node_into_paragraph (WebKitDOMDocument *document,
 }
 
 static gint
-get_citation_level (WebKitDOMNode *node)
+selection_get_citation_level (WebKitDOMNode *node)
 {
 	WebKitDOMNode *parent = webkit_dom_node_get_parent_node (node);
 	gint level = 0;
@@ -3023,7 +3023,7 @@ dom_selection_wrap (WebKitDOMDocument *document,
 		after_selection_end = webkit_dom_node_contains (
 			block, WEBKIT_DOM_NODE (selection_end_marker));
 
-		citation_level = get_citation_level (block);
+		citation_level = selection_get_citation_level (block);
 		quote = citation_level ? citation_level * 2 : 0;
 
 		wrapped_paragraph = dom_wrap_paragraph_length (
@@ -3069,7 +3069,7 @@ dom_wrap_paragraphs_in_document (WebKitDOMDocument *document,
 		gint word_wrap_length, quote, citation_level;
 		WebKitDOMNode *node = webkit_dom_node_list_item (list, ii);
 
-		citation_level = get_citation_level (node);
+		citation_level = selection_get_citation_level (node);
 		quote = citation_level ? citation_level * 2 : 0;
 		word_wrap_length = e_html_editor_web_extension_get_word_wrap_length (extension);
 
@@ -3101,7 +3101,7 @@ dom_wrap_paragraph (WebKitDOMDocument *document,
 	g_return_val_if_fail (WEBKIT_DOM_IS_ELEMENT (paragraph), NULL);
 
 	indentation_level = get_indentation_level (paragraph);
-	citation_level = get_citation_level (WEBKIT_DOM_NODE (paragraph));
+	citation_level = selection_get_citation_level (WEBKIT_DOM_NODE (paragraph));
 
 	if (node_is_list_or_item (WEBKIT_DOM_NODE (paragraph))) {
 		gint list_level = get_list_level (WEBKIT_DOM_NODE (paragraph));
@@ -4999,7 +4999,7 @@ process_block_to_block (WebKitDOMDocument *document,
 		if (!next_block && !after_selection_end) {
 			gint citation_level;
 
-			citation_level = get_citation_level (WEBKIT_DOM_NODE (element));
+			citation_level = selection_get_citation_level (WEBKIT_DOM_NODE (element));
 
 			if (citation_level > 0) {
 				next_block = webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (element));
@@ -5017,7 +5017,7 @@ process_block_to_block (WebKitDOMDocument *document,
 			if (format == E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_BLOCKQUOTE)
 				citation_level = 1;
 			else
-				citation_level = get_citation_level (WEBKIT_DOM_NODE (element));
+				citation_level = selection_get_citation_level (WEBKIT_DOM_NODE (element));
 
 			if (citation_level > 0) {
 				gint quote, word_wrap_length;

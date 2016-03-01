@@ -169,7 +169,8 @@ gboolean	dom_fix_structure_after_delete_before_quoted_content
 						(WebKitDOMDocument *document,
 						 EHTMLEditorWebExtension *extension,
 						 guint key_val,
-						 guint state);
+						 guint state,
+						 gboolean delete_key);
 void		dom_disable_quote_marks_select	(WebKitDOMDocument *document);
 void		dom_remove_node_and_parents_if_empty
 						(WebKitDOMNode *node);
@@ -180,6 +181,34 @@ gboolean	return_pressed_in_empty_list_item
 void		dom_merge_siblings_if_necessarry
 						(WebKitDOMDocument *document,
 						 WebKitDOMDocumentFragment *deleted_content);
+void		body_key_up_event_process_return_key
+						(WebKitDOMDocument *document,
+						 EHTMLEditorWebExtension *extension);
+gboolean	key_press_event_process_backspace_key
+						(WebKitDOMDocument *document,
+						 EHTMLEditorWebExtension *extension);
+gboolean	key_press_event_process_delete_or_backspace_key
+						(WebKitDOMDocument *document,
+						 EHTMLEditorWebExtension *extension,
+						 guint key_val,
+						 guint state,
+						 gboolean delete);
+void		body_input_event_process	(WebKitDOMDocument *document,
+						 EHTMLEditorWebExtension *extension,
+						 WebKitDOMEvent *event);
+void		body_key_up_event_process_backspace_or_delete
+						(WebKitDOMDocument *document,
+						 EHTMLEditorWebExtension *extension,
+						 gboolean delete);
+gboolean	key_press_event_process_return_key
+						(WebKitDOMDocument *document,
+						 EHTMLEditorWebExtension *extension);
+WebKitDOMElement *
+		wrap_and_quote_element		(WebKitDOMDocument *document,
+						 EHTMLEditorWebExtension *extension,
+						 WebKitDOMElement *element);
+gint		get_citation_level		(WebKitDOMNode *node,
+						 gboolean set_plaintext_quoted);
 
 G_END_DECLS
 

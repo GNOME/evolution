@@ -216,6 +216,11 @@ void		e_html_editor_web_extension_set_dont_save_history_in_body_input
 						 gboolean value);
 gboolean	e_html_editor_web_extension_is_pasting_content_from_itself
 						(EHTMLEditorWebExtension *extension);
+gboolean	e_html_editor_web_extension_get_renew_history_after_coordinates
+						(EHTMLEditorWebExtension *extension);
+void		e_html_editor_web_extension_set_renew_history_after_coordinates
+						(EHTMLEditorWebExtension *extension,
+						 gboolean renew_history_after_coordinates);
 
 struct _EHTMLEditorUndoRedoManager *
 		e_html_editor_web_extension_get_undo_redo_manager

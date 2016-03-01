@@ -96,6 +96,7 @@ struct _EHTMLEditorWebExtensionPrivate {
 	gboolean dont_save_history_in_body_input;
 	gboolean composition_in_progress;
 	gboolean is_pasting_content_from_itself;
+	gboolean renew_history_after_coordinates;
 
 	GHashTable *inline_images;
 
@@ -2983,6 +2984,7 @@ e_html_editor_web_extension_init (EHTMLEditorWebExtension *extension)
 	extension->priv->dont_save_history_in_body_input = FALSE;
 	extension->priv->is_pasting_content_from_itself = FALSE;
 	extension->priv->composition_in_progress = FALSE;
+	extension->priv->renew_history_after_coordinates = TRUE;
 
 	extension->priv->node_under_mouse_click = NULL;
 
@@ -3654,6 +3656,19 @@ gboolean
 e_html_editor_web_extension_is_pasting_content_from_itself (EHTMLEditorWebExtension *extension)
 {
 	return extension->priv->is_pasting_content_from_itself;
+}
+
+gboolean
+e_html_editor_web_extension_get_renew_history_after_coordinates (EHTMLEditorWebExtension *extension)
+{
+	return extension->priv->renew_history_after_coordinates;
+}
+
+void
+e_html_editor_web_extension_set_renew_history_after_coordinates (EHTMLEditorWebExtension *extension,
+								 gboolean renew_history_after_coordinates)
+{
+	extension->priv->renew_history_after_coordinates = renew_history_after_coordinates;
 }
 
 EHTMLEditorUndoRedoManager *
