@@ -1907,15 +1907,21 @@ dom_selection_restore (WebKitDOMDocument *document)
 
 				ok = dom_is_selection_position_node (selection_end_marker);
 				if (ok) {
-					parent_start = webkit_dom_node_get_parent_node (selection_end_marker);
+					WebKitDOMNode *next_sibling;
 
-					remove_node (selection_start_marker);
-					remove_node (selection_end_marker);
+					next_sibling = webkit_dom_node_get_next_sibling (selection_end_marker);
 
-					webkit_dom_node_normalize (parent_start);
-					g_object_unref (range);
-					g_object_unref (dom_selection);
-					return;
+					if (next_sibling && !WEBKIT_DOM_IS_HTML_BR_ELEMENT (next_sibling)) {
+						parent_start = webkit_dom_node_get_parent_node (selection_end_marker);
+
+						remove_node (selection_start_marker);
+						remove_node (selection_end_marker);
+
+						webkit_dom_node_normalize (parent_start);
+						g_object_unref (range);
+						g_object_unref (dom_selection);
+						return;
+					}
 				}
 			}
 		}
