@@ -2439,9 +2439,22 @@ wrap_lines (WebKitDOMDocument *document,
 		while (node && (length_left + line_length) > length_to_wrap) {
 			gint max_length;
 
+			element = webkit_dom_document_create_element (document, "BR", NULL);
+			element_add_class (element, "-x-evo-wrap-br");
+
 			max_length = length_to_wrap - line_length;
 			if (max_length < 0)
 				max_length = length_to_wrap;
+			else if (max_length == 0) {
+				/* Break before the current node and continue. */
+				webkit_dom_node_insert_before (
+					webkit_dom_node_get_parent_node (node),
+					WEBKIT_DOM_NODE (element),
+					node,
+					NULL);
+				line_length = 0;
+				continue;
+			}
 
 			/* Allow anchors to break on any character. */
 			if (g_object_get_data (G_OBJECT (node), "-x-evo-anchor-text"))
@@ -2452,9 +2465,6 @@ wrap_lines (WebKitDOMDocument *document,
 				offset = find_where_to_break_line (
 					WEBKIT_DOM_CHARACTER_DATA (node), max_length);
 			}
-
-			element = webkit_dom_document_create_element (document, "BR", NULL);
-			element_add_class (element, "-x-evo-wrap-br");
 
 			if (offset > 0) {
 				WebKitDOMNode *nd;
