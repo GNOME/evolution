@@ -155,7 +155,6 @@ html_editor_inline_spelling_suggestions (EHTMLEditor *editor)
 		threshold = MAX_LEVEL1_SUGGESTIONS;
 	}
 
-	ii = 0;
 	for (ii = 0; suggestions && suggestions[ii]; ii++) {
 		gchar *suggestion = suggestions[ii];
 		gchar *action_name;
@@ -253,7 +252,7 @@ html_editor_spell_checkers_foreach (EHTMLEditor *editor,
 		"/context-menu/context-spell-suggest/"
 		"context-spell-suggest-%s-menu", language_code);
 
-	for (link = list; link != NULL; link = g_list_next (link)) {
+	for (link = list; link != NULL; link = g_list_next (link), ii++) {
 		gchar *suggestion = link->data;
 		gchar *action_name;
 		gchar *action_label;
@@ -266,7 +265,7 @@ html_editor_spell_checkers_foreach (EHTMLEditor *editor,
 			"suggest-%s-%d", language_code, ii);
 
 		action_label = g_markup_printf_escaped (
-			"<b>%s</b>", suggestion);
+			"%s", suggestion);
 
 		action = gtk_action_new (
 			action_name, action_label, NULL, NULL);
@@ -304,6 +303,28 @@ html_editor_spell_checkers_foreach (EHTMLEditor *editor,
 
 	g_free (path);
 	g_free (word);
+}
+
+void
+e_html_editor_update_spell_actions (EHTMLEditor *editor)
+{
+	ESpellChecker *checker;
+	EHTMLEditorView *view;
+	guint count;
+
+	view = e_html_editor_get_view (editor);
+	checker = e_html_editor_view_get_spell_checker (view);
+
+	count = 0;
+/* FIXME WK2
+	count = e_spell_checker_count_active_languages (checker);*/
+
+	gtk_action_set_visible (ACTION (CONTEXT_SPELL_ADD), count == 1);
+	gtk_action_set_visible (ACTION (CONTEXT_SPELL_ADD_MENU), count > 1);
+	gtk_action_set_visible (ACTION (CONTEXT_SPELL_IGNORE), count > 0);
+
+	gtk_action_set_visible (ACTION (SPELL_CHECK), count > 0);
+	gtk_action_set_visible (ACTION (LANGUAGE_MENU), count > 0);
 }
 
 static void
@@ -439,6 +460,8 @@ html_editor_update_actions (EHTMLEditor *editor)
 	if (n_languages == 1) {
 		html_editor_inline_spelling_suggestions (editor);
 		g_strfreev (languages);
+
+		e_html_editor_update_spell_actions (editor);
 		return;
 	}
 
@@ -447,6 +470,8 @@ html_editor_update_actions (EHTMLEditor *editor)
 		html_editor_spell_checkers_foreach (editor, languages[ii]);
 #endif
 	g_strfreev (languages);
+
+	e_html_editor_update_spell_actions (editor);
 }
 #if 0 /* FIXME WK2 */
 static void

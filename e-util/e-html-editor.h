@@ -93,6 +93,9 @@ EActivityBar *	e_html_editor_get_activity_bar	(EHTMLEditor *editor);
 EActivity *	e_html_editor_new_activity	(EHTMLEditor *editor);
 void		e_html_editor_pack_above	(EHTMLEditor *editor,
 						 GtkWidget *child);
+void		e_html_editor_update_spell_actions
+						(EHTMLEditor *editor);
+
 
 /*****************************************************************************
  * High-Level Editing Interface

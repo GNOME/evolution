@@ -103,26 +103,6 @@ insert_text_file_ready_cb (GFile *file,
 	g_object_unref (editor);
 }
 
-static void
-editor_update_static_spell_actions (EHTMLEditor *editor)
-{
-	ESpellChecker *checker;
-	EHTMLEditorView *view;
-	guint count = 0;
-
-	view = e_html_editor_get_view (editor);
-	checker = e_html_editor_view_get_spell_checker (view);
-/* FIXME WK2
-	count = e_spell_checker_count_active_languages (checker);*/
-
-	gtk_action_set_visible (ACTION (CONTEXT_SPELL_ADD), count == 1);
-	gtk_action_set_visible (ACTION (CONTEXT_SPELL_ADD_MENU), count > 1);
-	gtk_action_set_visible (ACTION (CONTEXT_SPELL_IGNORE), count > 0);
-
-	gtk_action_set_visible (ACTION (SPELL_CHECK), count > 0);
-	gtk_action_set_visible (ACTION (LANGUAGE_MENU), count > 0);
-}
-
 /*****************************************************************************
  * Action Callbacks
  *****************************************************************************/
@@ -447,7 +427,7 @@ action_language_cb (GtkToggleAction *toggle_action,
 	gtk_action_set_visible (add_action, active);
 	g_free (action_name);
 
-	editor_update_static_spell_actions (editor);
+	e_html_editor_update_spell_actions (editor);
 
 	g_signal_emit_by_name (editor, "spell-languages-changed");
 }
@@ -1777,7 +1757,7 @@ editor_actions_init (EHTMLEditor *editor)
 	gtk_ui_manager_insert_action_group (manager, action_group, 0);
 
 	/* Do this after all language actions are initialized. */
-	editor_update_static_spell_actions (editor);
+	e_html_editor_update_spell_actions (editor);
 
 	/* Fine Tuning */
 
