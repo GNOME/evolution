@@ -133,7 +133,7 @@ composer_move_caret (WebKitDOMDocument *document,
 				"",
 				NULL);
 
-		if (is_message_from_edit_as_new) {
+		if (is_message_from_edit_as_new && !is_message_from_draft) {
 			element = WEBKIT_DOM_ELEMENT (body);
 			e_html_editor_web_extension_block_selection_changed_callback (extension);
 			goto move_caret;
