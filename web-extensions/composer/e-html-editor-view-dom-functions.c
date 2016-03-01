@@ -2232,6 +2232,7 @@ body_input_event_cb (WebKitDOMElement *element,
                      EHTMLEditorWebExtension *extension)
 {
 	EHTMLEditorUndoRedoManager *manager;
+	gboolean do_spell_check = FALSE;
 	gboolean html_mode;
 	WebKitDOMDocument *document;
 	WebKitDOMNode *node;
@@ -2248,7 +2249,7 @@ body_input_event_cb (WebKitDOMElement *element,
 	if (e_html_editor_undo_redo_manager_is_operation_in_progress (manager)) {
 		e_html_editor_undo_redo_manager_set_operation_in_progress (manager, FALSE);
 		e_html_editor_web_extension_set_dont_save_history_in_body_input (extension, FALSE);
-		dom_force_spell_check_for_current_paragraph (document, extension);
+		do_spell_check = TRUE;
 		goto out;
 	}
 
@@ -2256,7 +2257,7 @@ body_input_event_cb (WebKitDOMElement *element,
 		if (!e_html_editor_web_extension_get_dont_save_history_in_body_input (extension))
 			save_history_for_input (document, extension);
 		else
-			dom_force_spell_check_for_current_paragraph (document, extension);
+			do_spell_check = TRUE;
 	}
 
 	/* Don't try to look for smileys if we are deleting text. */
@@ -2280,7 +2281,7 @@ body_input_event_cb (WebKitDOMElement *element,
 
 			fix_paragraph_structure_after_pressing_enter_after_smiley (document);
 
-			dom_force_spell_check_for_current_paragraph (document, extension);
+			do_spell_check = TRUE;
 		}
 	} else {
 		WebKitDOMNode *node;
@@ -2522,13 +2523,16 @@ body_input_event_cb (WebKitDOMElement *element,
 					&ev->after.end.y);
 
 				dom_selection_restore (document);
-				dom_force_spell_check_for_current_paragraph (document, extension);
+				do_spell_check = TRUE;
 				goto out;
 			}
 		}
 		dom_selection_restore (document);
 	}
  out:
+	if (do_spell_check)
+		dom_force_spell_check_for_current_paragraph (document, extension);
+
 	g_object_unref (range);
 }
 
