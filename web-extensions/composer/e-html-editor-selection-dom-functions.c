@@ -1551,8 +1551,15 @@ dom_selection_save (WebKitDOMDocument *document)
 				WEBKIT_DOM_NODE (start_marker),
 				next_sibling,
 				NULL);
-			goto insert_end_marker;
+		} else {
+			webkit_dom_node_insert_before (
+				node,
+				WEBKIT_DOM_NODE (start_marker),
+				webkit_dom_node_get_next_sibling (
+					webkit_dom_node_get_parent_node (parent_node)),
+				NULL);
 		}
+		goto insert_end_marker;
 	} else if (element_has_class (WEBKIT_DOM_ELEMENT (parent_node), "-x-evo-smiley-text")) {
 		WebKitDOMNode *node;
 
