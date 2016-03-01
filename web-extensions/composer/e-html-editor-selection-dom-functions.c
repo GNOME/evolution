@@ -806,7 +806,7 @@ do_format_change_list_to_block (WebKitDOMDocument *document,
 	}
 
 	if (webkit_dom_node_contains (source_list, WEBKIT_DOM_NODE (selection_end)))
-		source_list = split_list_into_two (item);
+		source_list = split_list_into_two (item, -1);
 	else {
 		source_list = webkit_dom_node_get_next_sibling (source_list);
 	}

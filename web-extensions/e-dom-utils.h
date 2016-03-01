@@ -124,7 +124,8 @@ void		element_remove_class		(WebKitDOMElement *element,
 						 const gchar* class);
 void		remove_node			(WebKitDOMNode *node);
 void		remove_node_if_empty		(WebKitDOMNode *node);
-WebKitDOMNode *	split_list_into_two		(WebKitDOMNode *item);
+WebKitDOMNode *	split_list_into_two		(WebKitDOMNode *item,
+						 gint level);
 
 WebKitDOMElement *
 		dom_create_selection_marker	(WebKitDOMDocument *document,
