@@ -5983,16 +5983,6 @@ process_elements (EHTMLEditorWebExtension *extension,
 				gchar *class;
 				const gchar *css_align;
 
-				if (strstr (content, UNICODE_NBSP)) {
-					GString *nbsp_free;
-
-					nbsp_free = e_str_replace_string (
-						content, UNICODE_NBSP, " ");
-
-					g_free (content);
-					content = g_string_free (nbsp_free, FALSE);
-				}
-
 				class = webkit_dom_element_get_class_name (WEBKIT_DOM_ELEMENT (node));
 				if ((css_align = strstr (class, "-x-evo-align-"))) {
 					gchar *align;
