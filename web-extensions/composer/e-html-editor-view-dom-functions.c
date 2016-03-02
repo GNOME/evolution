@@ -9265,6 +9265,8 @@ dom_process_on_key_press (WebKitDOMDocument *document,
 			  guint state)
 {
 	e_html_editor_web_extension_set_dont_save_history_in_body_input (extension, FALSE);
+	e_html_editor_web_extension_set_return_key_pressed (extension, FALSE);
+	e_html_editor_web_extension_set_space_key_pressed (extension, FALSE);
 
 	if (key_val == GDK_KEY_Tab || key_val == GDK_KEY_ISO_Left_Tab) {
 		if (jump_to_next_table_cell (document, key_val == GDK_KEY_ISO_Left_Tab))
