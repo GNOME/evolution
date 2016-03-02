@@ -195,6 +195,11 @@
       <_summary>Whether to always show Sign and Encrypt buttons on the toolbar</_summary>
       <_description>If set to 'true', the Sign and Encrypt buttons for either PGP or S/MIME are always shown in the composer's toolbar. Otherwise they are shown only when being used.</_description>
     </key>
+    <key name="composer-wrap-quoted-text-in-replies" type="b">
+      <default>true</default>
+      <_summary>Wrap quoted text in replies</_summary>
+      <_description>If set to 'true' quoted text in replies will be wrapped.</_description>
+    </key>
     <key name="drag-and-drop-save-file-format" type="s">
       <default>'mbox'</default>
       <_summary>Save file format for drag-and-drop operation</_summary>

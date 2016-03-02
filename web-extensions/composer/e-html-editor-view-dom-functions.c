@@ -4028,36 +4028,37 @@ surround_links_with_anchor (const gchar *text)
 }
 
 static void
-append_new_paragraph (WebKitDOMElement *parent,
-                      WebKitDOMElement **paragraph)
+append_new_block (WebKitDOMElement *parent,
+                  WebKitDOMElement **block)
 {
 	webkit_dom_node_append_child (
 		WEBKIT_DOM_NODE (parent),
-		WEBKIT_DOM_NODE (*paragraph),
+		WEBKIT_DOM_NODE (*block),
 		NULL);
 
-	*paragraph = NULL;
+	*block = NULL;
 }
 
 static WebKitDOMElement *
-create_and_append_new_paragraph (WebKitDOMDocument *document,
-                                 EHTMLEditorWebExtension *extension,
-                                 WebKitDOMElement *parent,
-                                 WebKitDOMNode *block,
-                                 const gchar *content)
+create_and_append_new_block (WebKitDOMDocument *document,
+			     EHTMLEditorWebExtension *extension,
+                             WebKitDOMElement *parent,
+                             WebKitDOMElement *block_template,
+                             const gchar *content)
 {
-	WebKitDOMElement *paragraph;
+	WebKitDOMElement *block;
 
-	if (!block || WEBKIT_DOM_IS_HTML_DIV_ELEMENT (block))
-		paragraph = dom_get_paragraph_element (document, extension, -1, 0);
+	if (WEBKIT_DOM_IS_HTML_DIV_ELEMENT (block_template))
+		block = dom_get_paragraph_element (document, extension, -1, 0);
 	else
-		paragraph = WEBKIT_DOM_ELEMENT (webkit_dom_node_clone_node (block, FALSE));
+		block = WEBKIT_DOM_ELEMENT (webkit_dom_node_clone_node (
+			WEBKIT_DOM_NODE (block_template), FALSE));
 
-	webkit_dom_element_set_inner_html (paragraph, content, NULL);
+	webkit_dom_element_set_inner_html (block, content, NULL);
 
-	append_new_paragraph (parent, &paragraph);
+	append_new_block (parent, &block);
 
-	return paragraph;
+	return block;
 }
 
 static void
@@ -4109,9 +4110,9 @@ get_decoded_line_length (WebKitDOMDocument *document,
 }
 
 static gboolean
-check_if_end_paragraph (const gchar *input,
-                        glong length,
-                        gboolean preserve_next_line)
+check_if_end_block (const gchar *input,
+                    glong length,
+                    gboolean preserve_next_line)
 {
 	const gchar *next_space;
 
@@ -4143,26 +4144,48 @@ check_if_end_paragraph (const gchar *input,
 }
 
 /* This parses the HTML code (that contains just text, &nbsp; and BR elements)
- * into paragraphs.
+ * into blocks.
  * HTML code in that format we can get by taking innerText from some element,
  * setting it to another one and finally getting innerHTML from it */
 static void
-parse_html_into_paragraphs (WebKitDOMDocument *document,
-                            EHTMLEditorWebExtension *extension,
-                            WebKitDOMElement *blockquote,
-                            WebKitDOMNode *block,
-                            const gchar *html)
+parse_html_into_blocks (WebKitDOMDocument *document,
+			EHTMLEditorWebExtension *extension,
+                        WebKitDOMElement *parent,
+                        WebKitDOMElement *passed_block_template,
+                        const gchar *html)
 {
 	gboolean ignore_next_br = FALSE;
 	gboolean first_element = TRUE;
 	gboolean citation_was_first_element = FALSE;
-	const gchar *prev_br, *next_br;
-	GRegex *regex_nbsp = NULL, *regex_link = NULL, *regex_email = NULL;
-	WebKitDOMElement *paragraph = NULL;
 	gboolean preserve_next_line = FALSE;
 	gboolean has_citation = FALSE;
+	const gchar *prev_br, *next_br;
+	GRegex *regex_nbsp = NULL, *regex_link = NULL, *regex_email = NULL;
+	WebKitDOMElement *block = NULL, *block_template = passed_block_template;
 
-	webkit_dom_element_set_inner_html (blockquote, "", NULL);
+	webkit_dom_element_set_inner_html (parent, "", NULL);
+
+	if (!block_template) {
+		if (WEBKIT_DOM_IS_HTML_QUOTE_ELEMENT (parent)) {
+			gboolean use_paragraphs;
+			GSettings *settings;
+
+			settings = e_util_ref_settings ("org.gnome.evolution.mail");
+
+			use_paragraphs = g_settings_get_boolean (
+				settings, "composer-wrap-quoted-text-in-replies");
+
+			if (use_paragraphs)
+				block_template = dom_get_paragraph_element (
+					document, extension, -1, 0);
+			else
+				block_template = webkit_dom_document_create_element (document, "pre", NULL);
+
+			g_object_unref (settings);
+		} else
+			block_template = dom_get_paragraph_element (
+				document, extension, -1, 0);
+	}
 
 	prev_br = html;
 	next_br = strstr (prev_br, "<br>");
@@ -4193,8 +4216,8 @@ parse_html_into_paragraphs (WebKitDOMDocument *document,
 			has_citation = TRUE;
 			if (strstr (citation, "END##")) {
 				ignore_next_br = TRUE;
-				if (paragraph)
-					append_new_paragraph (blockquote, &paragraph);
+				if (block)
+					append_new_block (parent, &block);
 			}
 
 			citation_end = strstr (citation + 2, "##");
@@ -4204,13 +4227,13 @@ parse_html_into_paragraphs (WebKitDOMDocument *document,
 			if (first_element)
 				citation_was_first_element = TRUE;
 
-			if (paragraph)
-				append_new_paragraph (blockquote, &paragraph);
+			if (block)
+				append_new_block (parent, &block);
 
 			citation_mark = g_utf8_substring (
 				citation, 0, g_utf8_pointer_to_offset (citation, rest));
 
-			append_citation_mark (document, blockquote, citation_mark);
+			append_citation_mark (document, parent, citation_mark);
 
 			g_free (citation_mark);
 		} else
@@ -4268,23 +4291,23 @@ parse_html_into_paragraphs (WebKitDOMDocument *document,
 			}
 
 			if (g_strcmp0 (rest_to_insert, UNICODE_ZERO_WIDTH_SPACE) == 0) {
-				if (paragraph)
-					append_new_paragraph (blockquote, &paragraph);
+				if (block)
+					append_new_block (parent, &block);
 
-				paragraph = create_and_append_new_paragraph (
-					document, extension, blockquote, block, "<br>");
+				block = create_and_append_new_block (
+					document, extension, parent, block_template, "<br>");
 			} else if (preserve_block) {
 				gchar *html;
 				gchar *content_to_append;
 
-			       if (!paragraph) {
-				      if (!block || WEBKIT_DOM_IS_HTML_DIV_ELEMENT (block))
-					       paragraph = dom_get_paragraph_element (document, extension, -1, 0);
+			       if (!block) {
+				      if (WEBKIT_DOM_IS_HTML_DIV_ELEMENT (block_template))
+					       block = dom_get_paragraph_element (document, extension, -1, 0);
 				       else
-					       paragraph = WEBKIT_DOM_ELEMENT (webkit_dom_node_clone_node (block, FALSE));
+					       block = WEBKIT_DOM_ELEMENT (webkit_dom_node_clone_node (WEBKIT_DOM_NODE (block_template), FALSE));
 			       }
 
-				html = webkit_dom_element_get_inner_html (paragraph);
+				html = webkit_dom_element_get_inner_html (block);
 
 				content_to_append = g_strconcat (
 					html && *html ? " " : "",
@@ -4292,7 +4315,7 @@ parse_html_into_paragraphs (WebKitDOMDocument *document,
 					NULL),
 
 				webkit_dom_html_element_insert_adjacent_html (
-					WEBKIT_DOM_HTML_ELEMENT (paragraph),
+					WEBKIT_DOM_HTML_ELEMENT (block),
 					"beforeend",
 					content_to_append,
 					NULL);
@@ -4300,14 +4323,14 @@ parse_html_into_paragraphs (WebKitDOMDocument *document,
 				g_free (html);
 				g_free (content_to_append);
 			} else {
-				if (paragraph)
-					append_new_paragraph (blockquote, &paragraph);
+				if (block)
+					append_new_block (parent, &block);
 
-				paragraph = create_and_append_new_paragraph (
-					document, extension, blockquote, block, rest_to_insert);
+				block = create_and_append_new_block (
+					document, extension, parent, block_template, rest_to_insert);
 			}
 
-			if (rest_to_insert && *rest_to_insert && preserve_block && paragraph) {
+			if (rest_to_insert && *rest_to_insert && preserve_block && block) {
 				glong length = 0;
 
 				/* If the line contains some encoded chracters (i.e. &gt;)
@@ -4320,13 +4343,13 @@ parse_html_into_paragraphs (WebKitDOMDocument *document,
 				/* End the block if there is line with less that 62 characters. */
 				/* The shorter line can also mean that there is a long word on next
 				 * line (and the line was wrapped). So look at it and decide what to do. */
-				if (length < 62 && check_if_end_paragraph (next_br, length, local_preserve_next_line)) {
-					append_new_paragraph (blockquote, &paragraph);
+				if (length < 62 && check_if_end_block (next_br, length, local_preserve_next_line)) {
+					append_new_block (parent, &block);
 					preserve_next_line = FALSE;
 				}
 
 				if (length > 72) {
-					append_new_paragraph (blockquote, &paragraph);
+					append_new_block (parent, &block);
 					preserve_next_line = FALSE;
 				}
 			}
@@ -4336,28 +4359,28 @@ parse_html_into_paragraphs (WebKitDOMDocument *document,
 			g_free (rest_to_insert);
 		} else if (with_br) {
 			if (!citation && (!local_ignore_next_br || citation_was_first_element)) {
-				if (paragraph)
-					append_new_paragraph (blockquote, &paragraph);
+				if (block)
+					append_new_block (parent, &block);
 
-				paragraph = create_and_append_new_paragraph (
-					document, extension, blockquote, block, "<br>");
+				block = create_and_append_new_block (
+					document, extension, parent, block_template, "<br>");
 
 				citation_was_first_element = FALSE;
 			} else if (first_element && !citation_was_first_element) {
-				paragraph = create_and_append_new_paragraph (
+				block = create_and_append_new_block (
 					document,
 					extension,
-					blockquote,
-					block,
+					parent,
+					block_template,
 					"<br class=\"-x-evo-first-br\">");
 			} else
 				preserve_next_line = FALSE;
 		} else if (first_element && !citation_was_first_element) {
-			paragraph = create_and_append_new_paragraph (
+			block = create_and_append_new_block (
 				document,
 				extension,
-				blockquote,
-				block,
+				parent,
+				block_template,
 				"<br class=\"-x-evo-first-br\">");
 		} else
 			preserve_next_line = FALSE;
@@ -4368,8 +4391,8 @@ parse_html_into_paragraphs (WebKitDOMDocument *document,
 		g_free (to_insert);
 	}
 
-	if (paragraph)
-		append_new_paragraph (blockquote, &paragraph);
+	if (block)
+		append_new_block (parent, &block);
 
 	if (g_utf8_strlen (prev_br, -1) > 0) {
 		gchar *rest_to_insert;
@@ -4382,7 +4405,7 @@ parse_html_into_paragraphs (WebKitDOMDocument *document,
 			WebKitDOMNode *child;
 
 			child = webkit_dom_node_get_last_child (
-				WEBKIT_DOM_NODE (blockquote));
+				WEBKIT_DOM_NODE (parent));
 			if (child) {
 				child = webkit_dom_node_get_first_child (child);
 				if (child && WEBKIT_DOM_IS_HTML_BR_ELEMENT (child)) {
@@ -4393,17 +4416,17 @@ parse_html_into_paragraphs (WebKitDOMDocument *document,
 							WEBKIT_DOM_ELEMENT (child),
 							"-x-evo-last-br");
 				} else if (!e_html_editor_web_extension_is_editting_message (extension))
-					create_and_append_new_paragraph (
-						document, extension, blockquote, block, "<br>");
+					create_and_append_new_block (
+						document, extension, parent, block_template, "<br>");
 			} else
-				create_and_append_new_paragraph (
-					document, extension, blockquote, block, "<br>");
+				create_and_append_new_block (
+					document, extension, parent, block_template, "<br>");
 			g_free (truncated);
 			goto end;
 		}
 
 		if (g_ascii_strncasecmp (truncated, "##CITATION_END##", 16) == 0) {
-			append_citation_mark (document, blockquote, truncated);
+			append_citation_mark (document, parent, truncated);
 			g_free (truncated);
 			goto end;
 		}
@@ -4444,11 +4467,11 @@ parse_html_into_paragraphs (WebKitDOMDocument *document,
 		}
 
 		if (g_strcmp0 (rest_to_insert, UNICODE_ZERO_WIDTH_SPACE) == 0)
-			create_and_append_new_paragraph (
-				document, extension, blockquote, block, "<br>");
+			create_and_append_new_block (
+				document, extension, parent, block_template, "<br>");
 		else
-			create_and_append_new_paragraph (
-				document, extension, blockquote, block, rest_to_insert);
+			create_and_append_new_block (
+				document, extension, parent, block_template, rest_to_insert);
 
 		g_free (rest_to_insert);
 	}
@@ -4459,12 +4482,12 @@ parse_html_into_paragraphs (WebKitDOMDocument *document,
 		GString *start, *end;
 
 		/* Replace text markers with actual HTML blockquotes */
-		inner_html = webkit_dom_element_get_inner_html (blockquote);
+		inner_html = webkit_dom_element_get_inner_html (parent);
 		start = e_str_replace_string (
 			inner_html, "##CITATION_START##","<blockquote type=\"cite\">");
 		end = e_str_replace_string (
 			start->str, "##CITATION_END##", "</blockquote>");
-		webkit_dom_element_set_inner_html (blockquote, end->str, NULL);
+		webkit_dom_element_set_inner_html (parent, end->str, NULL);
 
 		g_free (inner_html);
 		g_string_free (start, TRUE);
@@ -4554,7 +4577,7 @@ dom_quote_and_insert_text_into_selection (WebKitDOMDocument *document,
 			NULL);
 	}
 
-	parse_html_into_paragraphs (document, extension, blockquote, NULL, inner_html);
+	parse_html_into_blocks (document, extension, blockquote, NULL, inner_html);
 
 	if (!e_html_editor_web_extension_get_html_mode (extension)) {
 		WebKitDOMNode *node;
@@ -4667,8 +4690,9 @@ quote_plain_text_elements_after_wrapping_in_document (WebKitDOMDocument *documen
 	gint length, ii;
 	WebKitDOMNodeList *list;
 
+	/* Also quote the PRE elements as well. */
 	list = webkit_dom_document_query_selector_all (
-		document, "blockquote[type=cite] > div.-x-evo-paragraph", NULL);
+		document, "blockquote[type=cite] > div.-x-evo-paragraph, blockquote[type=cite] > pre", NULL);
 
 	length = webkit_dom_node_list_get_length (list);
 	for (ii = 0; ii < length; ii++) {
@@ -5042,7 +5066,7 @@ dom_convert_content (WebKitDOMDocument *document,
 		empty = FALSE;
 
 	if (!empty)
-		parse_html_into_paragraphs (document, extension, content_wrapper, NULL, inner_html);
+		parse_html_into_blocks (document, extension, content_wrapper, NULL, inner_html);
 	else
 		webkit_dom_node_append_child (
 			WEBKIT_DOM_NODE (content_wrapper),
@@ -5203,7 +5227,7 @@ dom_convert_and_insert_html_into_selection (WebKitDOMDocument *document,
 			WEBKIT_DOM_HTML_ELEMENT (element), html, NULL);
 
 	inner_html = webkit_dom_element_get_inner_html (element);
-	parse_html_into_paragraphs (document, extension, element, current_block, inner_html);
+	parse_html_into_blocks (document, extension, element, WEBKIT_DOM_ELEMENT (current_block), inner_html);
 
 	g_free (inner_html);
 
@@ -6739,7 +6763,7 @@ convert_element_from_html_to_plain_text (WebKitDOMDocument *document,
 
 	inner_html = webkit_dom_element_get_inner_html (blockquote);
 
-	parse_html_into_paragraphs (
+	parse_html_into_blocks (
 		document,
 		extension,
 		main_blockquote ? blockquote : WEBKIT_DOM_ELEMENT (element),
