@@ -2497,8 +2497,18 @@ wrap_lines (WebKitDOMDocument *document,
 			if (check_next_node)
 				goto check_node;
 			line_length += length_left;
-			if (line_length == length_to_wrap)
+			if (line_length == length_to_wrap) {
 				line_length = 0;
+
+				element = webkit_dom_document_create_element (document, "BR", NULL);
+				element_add_class (element, "-x-evo-wrap-br");
+
+				webkit_dom_node_insert_before (
+					webkit_dom_node_get_parent_node (node),
+					WEBKIT_DOM_NODE (element),
+					webkit_dom_node_get_next_sibling (node),
+					NULL);
+			}
 			goto next_node;
 		}
 
