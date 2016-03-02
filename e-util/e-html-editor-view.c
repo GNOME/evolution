@@ -2695,25 +2695,17 @@ e_html_editor_view_update_fonts (EHTMLEditorView *view)
 
 	g_string_append (
 		stylesheet,
-		"ul:not([data-evo-plain-text]),ol > li.-x-evo-align-center"
+		"ul:not([data-evo-plain-text]) > li.-x-evo-align-center,ol > li.-x-evo-align-center"
 		"{\n"
 		"  list-style-position: inside;\n"
 		"}\n");
 
 	g_string_append (
 		stylesheet,
-		"ul:not([data-evo-plain-text]),ol > li.-x-evo-align-right"
+		"ul:not([data-evo-plain-text]) > li.-x-evo-align-right, ol > li.-x-evo-align-right"
 		"{\n"
 		"  list-style-position: inside;\n"
 		"}\n");
-
-	g_string_append_printf (
-		stylesheet,
-		"ul:not([data-evo-plain-text]),ol > li"
-		"{\n"
-		"  text-indent: -%dch;\n"
-		"  list-style-position: inside;\n"
-		"}\n", SPACES_PER_LIST_LEVEL);
 
 	g_string_append_printf (
 		stylesheet,
