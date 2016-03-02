@@ -18,8 +18,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution-master-po-gl-53747.merged\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-02 09:56+0100\n"
-"PO-Revision-Date: 2016-03-02 10:14+0200\n"
+"POT-Creation-Date: 2016-03-02 11:41+0100\n"
+"PO-Revision-Date: 2016-03-02 11:49+0200\n"
 "Last-Translator: Fran Dieguez <frandieguez@gnome.org>\n"
 "Language-Team: gnome-l10n-gl@gnome.org\n"
 "Language: gl\n"
@@ -9540,6 +9540,10 @@ msgid ""
 "content, while the download is not allowed for the user or the site, then "
 "show a notification about it on top of the preview panel."
 msgstr ""
+"Cando a previsualización de mensaxes mostra unha mensaxe que require "
+"descargar contido remoto, mentres a descarga non está permitida para o "
+"usuario ou o sitio mostrar unha notificación na parte superior do panel de "
+"vista previa."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:88
 msgid "Show Animations"
@@ -10664,7 +10668,6 @@ msgid "Mode to use when displaying mails"
 msgstr "Modo a usar ao mostrar os correos electrónicos"
 
 #: ../data/org.gnome.evolution.plugin.prefer-plain.gschema.xml.in.h:2
-#, fuzzy
 msgid ""
 "The mode to use for displaying mails. \"normal\" makes Evolution choose the "
 "best part to show, \"prefer_plain\" makes it use the text part, if present, "
@@ -10673,8 +10676,9 @@ msgid ""
 msgstr ""
 "O modo a usar para mostrar os correos electrónicos. «normal» fai que "
 "Evolution seleccione a mellor parte para mostrar, «prefer_plain» fai que use "
-"a parte de texto, se está presente, e «only_plain» forza a Evolution para "
-"mostrar só a parte de texto"
+"a parte de texto, se está presente, «prefer_source» fai uso da parte "
+"textual, se está presente, doutro xeito mostrará a fonte HTML e «only_plain» "
+"forza a Evolution para mostrar só o texto plano."
 
 #: ../data/org.gnome.evolution.plugin.prefer-plain.gschema.xml.in.h:3
 msgid "Whether to show suppressed HTML output"
@@ -13412,15 +13416,14 @@ msgid "Please select the information that you would like to import:"
 msgstr "Seleccione a información que desexa importar:"
 
 #: ../e-util/e-import-assistant.c:533
-#, fuzzy
 msgid ""
 "Evolution checked for settings to import from the following applications: "
 "Pine, Netscape, Elm, iCalendar, KMail. No importable settings found. If you "
 "would like to try again, please click the \"Back\" button."
 msgstr ""
 "O Evolution buscou os axustes para importar desde os seguintes aplicativos: "
-"Pine, Netscape, Elm, iCalendar, pero non localizou ningún axuste que se "
-"poida importar. Se desexa tentalo de novo, prema o botón «Atrás»."
+"Pine, Netscape, Elm, iCalendar e KMail. Porén non atopou ningunha "
+"configuración. Se desexa tentalo de novo, prema o botón «Atrás»."
 
 #: ../e-util/e-import-assistant.c:559
 #: ../modules/startup-wizard/e-mail-config-import-page.c:229
@@ -16627,7 +16630,7 @@ msgstr[1] ""
 
 #. Translators: The %d is replaced with the actual count of recipients, which is always more than one.
 #: ../mail/em-composer-utils.c:396
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "You are trying to send a message to %d recipients in To and CC fields. This "
 "would result in all recipients seeing the email addresses of each other. In "
@@ -16641,17 +16644,17 @@ msgid_plural ""
 "other or if privacy is a concern. Consider adding recipients to the BCC "
 "field instead."
 msgstr[0] ""
-"Está tentando enviar un mensaxe a {0} destinatarios en campos Para e CC. "
-"Isto fará que todos os destinatarios vexan os enderezos de correo dos "
-"outros. Nalgúns casos este comportamento non é desexado, especialmente se "
-"eles non se conocen ou se a privacidade é un asunto de importancia. "
-"Considere engadir destinatarios usando o campo BCC no lugar."
+"Está tentando enviar un mensaxe a %d destinatarios en campos Para e CC. Isto "
+"fará que todos os destinatarios vexan os enderezos de correo dos outros. "
+"Nalgúns casos este comportamento non é desexado, especialmente se eles non "
+"se conocen ou se a privacidade é un asunto de importancia. Considere engadir "
+"destinatarios usando o campo BCC no lugar."
 msgstr[1] ""
-"Está tentando enviar un mensaxe a {0} destinatarios en campos Para e CC. "
-"Isto fará que todos os destinatarios vexan os enderezos de correo dos "
-"outros. Nalgúns casos este comportamento non é desexado, especialmente se "
-"eles non se conocen ou se a privacidade é un asunto de importancia. "
-"Considere engadir destinatarios usando o campo BCC no lugar."
+"Está tentando enviar un mensaxe a%d destinatarios en campos Para e CC. Isto "
+"fará que todos os destinatarios vexan os enderezos de correo dos outros. "
+"Nalgúns casos este comportamento non é desexado, especialmente se eles non "
+"se conocen ou se a privacidade é un asunto de importancia. Considere engadir "
+"destinatarios usando o campo BCC no lugar."
 
 #. This message is never removed from the camel operation, otherwise the GtkInfoBar
 #. hides itself and the user sees no feedback.
