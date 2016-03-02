@@ -102,6 +102,7 @@ struct _EMsgComposerPrivate {
 	gboolean set_signature_from_message;
 	gboolean drop_occured;
 	gboolean dnd_is_uri;
+	gboolean is_sending_message;
 
 	gint focused_entry_selection_start;
 	gint focused_entry_selection_end;

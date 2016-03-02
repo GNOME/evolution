@@ -4022,9 +4022,13 @@ msg_composer_send_cb (EMsgComposer *composer,
 	view = e_html_editor_get_view (editor);
 	e_html_editor_view_set_changed (view, TRUE);
 
+	composer->priv->is_sending_message = TRUE;
+
 	g_signal_emit (
 		composer, signals[SEND], 0,
 		message, context->activity);
+
+	composer->priv->is_sending_message = FALSE;
 
 	g_object_unref (message);
 
@@ -4223,15 +4227,18 @@ e_msg_composer_save_to_outbox (EMsgComposer *composer)
 	EHTMLEditor *editor;
 	AsyncContext *context;
 	GCancellable *cancellable;
-	gboolean proceed_with_save = TRUE;
 
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 
-	/* This gives the user a chance to abort the save. */
-	g_signal_emit (composer, signals[PRESEND], 0, &proceed_with_save);
+	if (!composer->priv->is_sending_message) {
+		gboolean proceed_with_save = TRUE;
 
-	if (!proceed_with_save)
-		return;
+		/* This gives the user a chance to abort the save. */
+		g_signal_emit (composer, signals[PRESEND], 0, &proceed_with_save);
+
+		if (!proceed_with_save)
+			return;
+	}
 
 	editor = e_msg_composer_get_editor (composer);
 
