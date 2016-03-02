@@ -854,12 +854,12 @@ undo_delete (WebKitDOMDocument *document,
 
 		remove_node (WEBKIT_DOM_NODE (element));
 
-		if (event->type == HISTORY_DELETE && !e_html_editor_web_extension_get_html_mode (extension) &&
-		    !webkit_dom_document_fragment_query_selector (event->data.fragment, ".-x-evo-quoted", NULL)) {
+		if (event->type == HISTORY_DELETE && !e_html_editor_web_extension_get_html_mode (extension)) {
 			WebKitDOMNode *current_block;
 
 			current_block = get_parent_block_node_from_child (parent);
-			wrap_and_quote_element (document, extension, WEBKIT_DOM_ELEMENT (current_block));
+			if (get_citation_level (current_block, FALSE) > 0)
+				wrap_and_quote_element (document, extension, WEBKIT_DOM_ELEMENT (current_block));
 		}
 
 		/* If the selection markers are presented restore the selection,
