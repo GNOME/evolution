@@ -938,7 +938,7 @@ dom_check_magic_links (WebKitDOMDocument *document,
 		node = webkit_dom_range_get_end_container (range, NULL);
 	}
 
-	if (!node)
+	if (!node || WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (node))
 		goto out;
 
 	if (!WEBKIT_DOM_IS_TEXT (node)) {
