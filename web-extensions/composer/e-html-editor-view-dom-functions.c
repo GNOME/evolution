@@ -3402,7 +3402,8 @@ quote_node (WebKitDOMDocument *document,
 		WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (prev_sibling) ||
 		element_has_tag (WEBKIT_DOM_ELEMENT (prev_sibling), "b") ||
 		element_has_tag (WEBKIT_DOM_ELEMENT (prev_sibling), "i") ||
-		element_has_tag (WEBKIT_DOM_ELEMENT (prev_sibling), "u"));
+		element_has_tag (WEBKIT_DOM_ELEMENT (prev_sibling), "u") ||
+		element_has_class (WEBKIT_DOM_ELEMENT (prev_sibling), "Apple-tab-span"));
 
 	if (prev_sibling && is_html_node)
 		skip_first = TRUE;
@@ -3593,7 +3594,8 @@ quote_plain_text_recursive (WebKitDOMDocument *document,
 			WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (node) ||
 			element_has_tag (WEBKIT_DOM_ELEMENT (node), "b") ||
 			element_has_tag (WEBKIT_DOM_ELEMENT (node), "i") ||
-			element_has_tag (WEBKIT_DOM_ELEMENT (node), "u");
+			element_has_tag (WEBKIT_DOM_ELEMENT (node), "u") ||
+			element_has_class (WEBKIT_DOM_ELEMENT (node), "Apple-tab-span");
 
 		if (is_html_node) {
 			gboolean wrap_br;
@@ -3604,9 +3606,12 @@ quote_plain_text_recursive (WebKitDOMDocument *document,
 				element_has_class (
 					WEBKIT_DOM_ELEMENT (prev_sibling), "-x-evo-wrap-br");
 
-			if (!prev_sibling || wrap_br)
+			if (!prev_sibling || wrap_br) {
 				insert_quote_symbols_before_node (
 					document, node, quote_level, FALSE);
+				if (!prev_sibling && next_sibling && WEBKIT_DOM_IS_TEXT (next_sibling))
+					suppress_next = TRUE;
+			}
 
 			if (WEBKIT_DOM_IS_HTML_BR_ELEMENT (prev_sibling) && !wrap_br)
 				insert_quote_symbols_before_node (
