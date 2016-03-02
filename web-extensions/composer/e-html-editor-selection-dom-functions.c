@@ -4754,12 +4754,11 @@ dom_selection_set_font_color (WebKitDOMDocument *document,
 	dom_exec_command (document, extension, E_HTML_EDITOR_VIEW_COMMAND_FORE_COLOR, color);
 
 	if (ev) {
-		dom_selection_get_coordinates (
-			document,
-			&ev->after.start.x,
-			&ev->after.start.y,
-			&ev->after.end.x,
-			&ev->after.end.y);
+		ev->after.start.x = ev->before.start.x;
+		ev->after.start.y = ev->before.start.y;
+		ev->after.end.x = ev->before.end.x;
+		ev->after.end.y = ev->before.end.y;
+
 		e_html_editor_undo_redo_manager_insert_history_event (manager, ev);
 	}
 
