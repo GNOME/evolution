@@ -3340,9 +3340,7 @@ prevent_from_deleting_last_element_in_body (WebKitDOMDocument *document)
 	body = webkit_dom_document_get_body (document);
 
 	node = webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (body));
-	if (!node || (
-	    webkit_dom_node_get_next_sibling (node) &&
-	    !webkit_dom_node_get_next_sibling (webkit_dom_node_get_next_sibling (node)))) {
+	if (!node || !webkit_dom_node_get_next_sibling (node)) {
 		gchar *content;
 
 		content = webkit_dom_node_get_text_content (WEBKIT_DOM_NODE (body));
