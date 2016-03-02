@@ -570,7 +570,8 @@ get_parent_block_node_from_child (WebKitDOMNode *node)
 	    element_has_tag (WEBKIT_DOM_ELEMENT (parent), "u"))
 		parent = webkit_dom_node_get_parent_node (parent);
 
-	if (element_has_class (WEBKIT_DOM_ELEMENT (parent), "-x-evo-quoted"))
+	if (element_has_class (WEBKIT_DOM_ELEMENT (parent), "-x-evo-quoted") ||
+	    element_has_class (WEBKIT_DOM_ELEMENT (parent), "Apple-tab-span"))
 		parent = webkit_dom_node_get_parent_node (parent);
 
 	return parent;
