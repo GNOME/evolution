@@ -8490,7 +8490,7 @@ dom_delete_character_from_quoted_line_start (WebKitDOMDocument *document,
 {
 	gboolean success = FALSE;
 	WebKitDOMElement *element;
-	WebKitDOMNode *node, *beginning;
+	WebKitDOMNode *node, *beginning, *next_sibling;
 
 	/* We have to be in quoted content. */
 	if (!dom_selection_is_citation (document))
@@ -8509,7 +8509,8 @@ dom_delete_character_from_quoted_line_start (WebKitDOMDocument *document,
 	node = webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (element));
 
 	/* We have to be on the end of line. */
-	if (webkit_dom_node_get_next_sibling (node))
+	next_sibling = webkit_dom_node_get_next_sibling (node);
+	if (next_sibling && (!WEBKIT_DOM_IS_HTML_BR_ELEMENT (next_sibling) || webkit_dom_node_get_next_sibling (next_sibling)))
 		goto out;
 
 	/* Before the caret is just text. */
