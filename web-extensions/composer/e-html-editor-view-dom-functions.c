@@ -5309,11 +5309,29 @@ dom_convert_and_insert_html_into_selection (WebKitDOMDocument *document,
 
 	has_selection = !dom_selection_is_collapsed (document);
 	if (has_selection && !e_html_editor_undo_redo_manager_is_operation_in_progress (manager)) {
-		WebKitDOMRange *range;
+		/* FIXME WK2 - useless if(), see one line above */
+		if (!e_html_editor_undo_redo_manager_is_operation_in_progress (manager)) {
+			WebKitDOMRange *range;
 
-		range = dom_get_current_range (document);
-		insert_delete_event (document, extension, range);
-		g_object_unref (range);
+			range = dom_get_current_range (document);
+			insert_delete_event (document, extension, range);
+			g_object_unref (range);
+		}
+
+		/* Remove the text that was meant to be replaced by the pasted text */
+		dom_exec_command (
+			document, extension, E_HTML_EDITOR_VIEW_COMMAND_DELETE, NULL);
+
+		dom_selection_save (document);
+
+		selection_start_marker = webkit_dom_document_get_element_by_id (
+			document, "-x-evo-selection-start-marker");
+		selection_end_marker = webkit_dom_document_get_element_by_id (
+			document, "-x-evo-selection-end-marker");
+		current_block = get_parent_block_node_from_child (
+			WEBKIT_DOM_NODE (selection_start_marker));
+		if (WEBKIT_DOM_IS_HTML_BODY_ELEMENT (current_block))
+			current_block = NULL;
 	}
 
 	citation_level = get_citation_level (WEBKIT_DOM_NODE (selection_end_marker), FALSE);
@@ -5357,7 +5375,10 @@ dom_convert_and_insert_html_into_selection (WebKitDOMDocument *document,
 			dom_quote_plain_text_element_after_wrapping (
 				document, WEBKIT_DOM_ELEMENT (parent), citation_level);
 
-			goto delete;
+			dom_selection_restore (document);
+
+			g_object_unref (element);
+			goto out;
 		}
 
 		/* Pasting content parsed into the multiple paragraphs */
@@ -5471,7 +5492,7 @@ dom_convert_and_insert_html_into_selection (WebKitDOMDocument *document,
 			quote_plain_text_recursive (document, parent, parent, citation_level);
 			webkit_dom_element_remove_attribute (br, "class");
 		}
- delete:
+
 		if (ev) {
 			dom_selection_get_coordinates (
 				document,
@@ -5483,10 +5504,6 @@ dom_convert_and_insert_html_into_selection (WebKitDOMDocument *document,
 		}
 
 		dom_selection_restore (document);
-		/* Remove the text that was meant to be replaced by the pasted text */
-		if (has_selection)
-			dom_exec_command (
-				document, extension, E_HTML_EDITOR_VIEW_COMMAND_DELETE, NULL);
 
 		g_object_unref (element);
 		goto out;
