@@ -2234,6 +2234,7 @@ e_html_editor_undo_redo_manager_insert_history_event (EHTMLEditorUndoRedoManager
 	if (manager->priv->operation_in_progress)
 		return;
 
+	d (printf ("\nINSERTING EVENT:\n"));
 	d (print_history_event (event));
 
 	remove_forward_redo_history_events_if_needed (manager);
