@@ -4185,6 +4185,7 @@ parse_html_into_blocks (WebKitDOMDocument *document,
 	gboolean citation_was_first_element = FALSE;
 	gboolean preserve_next_line = FALSE;
 	gboolean has_citation = FALSE;
+	gboolean previously_had_empty_citation_start = FALSE;
 	const gchar *prev_br, *next_br;
 	GRegex *regex_nbsp = NULL, *regex_link = NULL, *regex_email = NULL;
 	WebKitDOMElement *block = NULL, *block_template = passed_block_template;
@@ -4244,17 +4245,28 @@ parse_html_into_blocks (WebKitDOMDocument *document,
 				ignore_next_br = TRUE;
 				if (block)
 					append_new_block (parent, &block);
+			} else {
+				previously_had_empty_citation_start = TRUE;
 			}
 
 			citation_end = strstr (citation + 2, "##");
 			if (citation_end)
 				rest = citation_end + 2;
 
+			if (rest && *rest)
+				previously_had_empty_citation_start = FALSE;
+
 			if (first_element)
 				citation_was_first_element = TRUE;
 
 			if (block)
 				append_new_block (parent, &block);
+			else if (with_br && rest && !*rest && previously_had_empty_citation_start && ignore_next_br) {
+				/* Insert an empty block for an empty blockquote */
+				block = create_and_append_new_block (
+					document, extension, parent, block_template, "<br>");
+				previously_had_empty_citation_start = FALSE;
+			}
 
 			citation_mark = g_utf8_substring (
 				citation, 0, g_utf8_pointer_to_offset (citation, rest));
@@ -4262,9 +4274,11 @@ parse_html_into_blocks (WebKitDOMDocument *document,
 			append_citation_mark (document, parent, citation_mark);
 
 			g_free (citation_mark);
-		} else
+		} else {
 			rest = with_br ?
 				to_insert + 4 + (with_br - to_insert) : to_insert;
+			previously_had_empty_citation_start = FALSE;
+		}
 
 		if (!rest) {
 			preserve_next_line = FALSE;
