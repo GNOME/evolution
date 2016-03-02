@@ -180,7 +180,7 @@ gboolean	return_pressed_in_empty_list_item
 						(WebKitDOMDocument *document,
 						 EHTMLEditorWebExtension *extension,
 						 gboolean save_history);
-void		dom_merge_siblings_if_necessarry
+void		dom_merge_siblings_if_necessary
 						(WebKitDOMDocument *document,
 						 WebKitDOMDocumentFragment *deleted_content);
 void		body_key_up_event_process_return_key

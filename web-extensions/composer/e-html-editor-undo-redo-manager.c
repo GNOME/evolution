@@ -656,7 +656,18 @@ undo_delete (WebKitDOMDocument *document,
 					if (tmp_element)
 						remove_node (WEBKIT_DOM_NODE (tmp_element));
 
-					dom_merge_siblings_if_necessarry (document, event->data.fragment);
+					dom_merge_siblings_if_necessary (document, event->data.fragment);
+
+					tmp_node = webkit_dom_node_get_last_child (last_child);
+					if (tmp_node && WEBKIT_DOM_IS_ELEMENT (tmp_node) &&
+					    element_has_class (WEBKIT_DOM_ELEMENT (tmp_node), "-x-evo-quoted")) {
+						webkit_dom_node_append_child (
+							last_child,
+							WEBKIT_DOM_NODE (
+								webkit_dom_document_create_element (
+									document, "br", NULL)),
+							NULL);
+					}
 
 					dom_remove_selection_markers (document);
 
@@ -730,7 +741,7 @@ undo_delete (WebKitDOMDocument *document,
 		if (WEBKIT_DOM_IS_ELEMENT (last_child))
 			wrap_and_quote_element (document, extension, WEBKIT_DOM_ELEMENT (last_child));
 
-		dom_merge_siblings_if_necessarry (document, event->data.fragment);
+		dom_merge_siblings_if_necessary (document, event->data.fragment);
 
 		dom_selection_restore (document);
 		dom_force_spell_check_in_viewport (document, extension);
@@ -1917,7 +1928,7 @@ undo_redo_citation_split (WebKitDOMDocument *document,
 		if (event->data.fragment &&
 		    !webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (event->data.fragment))) {
 			remove_node (WEBKIT_DOM_NODE (parent));
-			dom_merge_siblings_if_necessarry (document, NULL);
+			dom_merge_siblings_if_necessary (document, NULL);
 			restore_selection_to_history_event_state (document, event->before);
 
 			return;
@@ -1987,7 +1998,7 @@ undo_redo_citation_split (WebKitDOMDocument *document,
 		if (event->data.fragment != NULL && !in_situ)
 			undo_delete (document, extension, event);
 
-		dom_merge_siblings_if_necessarry (document, NULL);
+		dom_merge_siblings_if_necessary (document, NULL);
 
 		restore_selection_to_history_event_state (document, event->before);
 
