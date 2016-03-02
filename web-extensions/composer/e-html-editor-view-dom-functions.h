@@ -162,7 +162,7 @@ void		dom_set_visited_link_color	(WebKitDOMDocument *document,
 gboolean	dom_change_quoted_block_to_normal
 						(WebKitDOMDocument *document,
 						 EHTMLEditorWebExtension *extension);
-gboolean	dom_delete_character_from_quoted_line_start
+gboolean	dom_delete_last_character_on_line_in_quoted_block
 						(WebKitDOMDocument *document,
 						 EHTMLEditorWebExtension *extension,
 						 guint key_val,
