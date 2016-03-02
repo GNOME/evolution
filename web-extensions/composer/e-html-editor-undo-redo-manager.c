@@ -2237,8 +2237,15 @@ e_html_editor_undo_redo_manager_insert_history_event (EHTMLEditorUndoRedoManager
 
 	remove_forward_redo_history_events_if_needed (manager);
 
-	if (manager->priv->history_size >= HISTORY_SIZE_LIMIT)
+	if (manager->priv->history_size >= HISTORY_SIZE_LIMIT) {
 		remove_history_event (manager, g_list_last (manager->priv->history)->prev);
+		/* FIXME WK2 - what if g_list_last (manager->priv->history) returns NULL? */
+		while (((EHTMLEditorHistoryEvent *) (g_list_last (manager->priv->history)->prev))->type == HISTORY_AND) {
+			remove_history_event (manager, g_list_last (manager->priv->history)->prev);
+			remove_history_event (manager, g_list_last (manager->priv->history)->prev);
+		}
+
+	}
 
 	manager->priv->history = g_list_prepend (manager->priv->history, event);
 	manager->priv->history_size++;
