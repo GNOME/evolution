@@ -1233,6 +1233,7 @@ composer_build_message (EMsgComposer *composer,
 	}
 
 	if (flags & COMPOSER_FLAG_SAVE_DRAFT) {
+		gboolean selection_saved;
 		gchar *text;
 		EHTMLEditor *editor;
 		EHTMLEditorView *view;
@@ -1251,13 +1252,18 @@ composer_build_message (EMsgComposer *composer,
 		data = g_byte_array_new ();
 
 		e_html_editor_view_embed_styles (view);
-		e_html_editor_view_save_selection (view);
+		selection_saved = e_html_editor_view_is_selection_saved (view);
+		if (!selection_saved)
+			e_html_editor_view_save_selection (view);
 
 		text = e_html_editor_view_get_text_html_for_drafts (view);
 
 		e_html_editor_view_remove_embed_styles (view);
 		e_html_editor_view_restore_selection (view);
 		e_html_editor_view_force_spell_check (view);
+
+		if (selection_saved)
+			e_html_editor_view_save_selection (view);
 
 		g_byte_array_append (data, (guint8 *) text, strlen (text));
 

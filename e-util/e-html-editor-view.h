@@ -215,6 +215,8 @@ void		e_html_editor_view_restore_selection
 						(EHTMLEditorView *view);
 void		e_html_editor_view_save_selection
 						(EHTMLEditorView *view);
+gboolean	e_html_editor_view_is_selection_saved
+						(EHTMLEditorView *view);
 void		e_html_editor_view_move_selection_on_point
 						(EHTMLEditorView *view,
 						 gint x,

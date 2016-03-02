@@ -3479,6 +3479,37 @@ e_html_editor_view_save_selection (EHTMLEditorView *view)
 {
 	e_html_editor_view_call_simple_extension_function (view, "DOMSaveSelection");
 }
+
+gboolean
+e_html_editor_view_is_selection_saved (EHTMLEditorView *view)
+{
+	GVariant *result;
+	gboolean selection_saved = FALSE;
+
+	g_return_val_if_fail (E_IS_HTML_EDITOR_VIEW (view), FALSE);
+
+	if (!view->priv->web_extension)
+		return FALSE;
+
+	result = g_dbus_proxy_call_sync (
+		view->priv->web_extension,
+		"DOMIsSelectionSaved",
+		g_variant_new (
+			"(t)",
+			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view))),
+		G_DBUS_CALL_FLAGS_NONE,
+		-1,
+		NULL,
+		NULL);
+
+	if (result) {
+		g_variant_get (result, "(b)", &selection_saved);
+		g_variant_unref (result);
+	}
+
+	return selection_saved;
+}
+
 /* FIXME WK2
    Finish also changes from commit 59e3bb0 Bug 747510 - Add composer option "Inherit theme colors in HTML mode"
 static void

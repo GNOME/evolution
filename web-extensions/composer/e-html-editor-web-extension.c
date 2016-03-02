@@ -472,6 +472,10 @@ static const char introspection_xml[] =
 "    <method name='DOMRestoreSelection'>"
 "      <arg type='t' name='page_id' direction='in'/>"
 "    </method>"
+"    <method name='DOMIsSelectionSaved'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"      <arg type='b' name='selection_saved' direction='out'/>"
+"    </method>"
 "    <method name='DOMQuoteAndInsertTextIntoSelection'>"
 "      <arg type='t' name='page_id' direction='in'/>"
 "      <arg type='s' name='text' direction='in'/>"
@@ -1744,6 +1748,21 @@ handle_method_call (GDBusConnection *connection,
 		document = webkit_web_page_get_dom_document (web_page);
 		dom_selection_restore (document);
 		g_dbus_method_invocation_return_value (invocation, NULL);
+	} else if (g_strcmp0 (method_name, "DOMIsSelectionSaved") == 0) {
+		gboolean selection_saved = FALSE;
+		g_variant_get (parameters, "(t)", &page_id);
+
+		web_page = get_webkit_web_page_or_return_dbus_error (
+			invocation, web_extension, page_id);
+		if (!web_page)
+			goto error;
+
+		document = webkit_web_page_get_dom_document (web_page);
+		selection_saved = webkit_dom_document_get_element_by_id (
+			document, "-x-evo-selection-start-marker") != NULL;
+
+		g_dbus_method_invocation_return_value (
+			invocation, g_variant_new ("(b)", selection_saved));
 	} else if (g_strcmp0 (method_name, "DOMTurnSpellCheckOff") == 0) {
 		g_variant_get (parameters, "(t)", &page_id);
 
