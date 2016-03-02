@@ -9110,8 +9110,13 @@ key_press_event_process_delete_or_backspace_key (WebKitDOMDocument *document,
 		}
 
 		last_child = webkit_dom_node_get_last_child (prev_block);
-		while (WEBKIT_DOM_IS_HTML_QUOTE_ELEMENT (last_child))
+		while (last_child && WEBKIT_DOM_IS_HTML_QUOTE_ELEMENT (last_child))
 			last_child = webkit_dom_node_get_last_child (last_child);
+
+		if (!last_child) {
+			dom_selection_restore (document);
+			return FALSE;
+		}
 
 		dom_remove_wrapping_from_element (WEBKIT_DOM_ELEMENT (last_child));
 		dom_remove_quoting_from_element (WEBKIT_DOM_ELEMENT (last_child));
