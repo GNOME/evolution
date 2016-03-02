@@ -3516,23 +3516,29 @@ set_link_color (EHTMLEditorView *view)
 		context, "link-color", &color, NULL);
 
 	if (color == NULL) {
+		gboolean is_visited = strstr (name, "visited") != NULL;
+
 		rgba.alpha = 1;
-		rgba.red = 0;
+		rgba.red = is_visited ? 1 : 0;
 		rgba.green = 0;
-		rgba.blue = 1;
+		rgba.blue = is_visited ? 0 : 1;
+
+		#if GTK_CHECK_VERSION(3,12,0)
+		gtk_style_context_get_color (context, is_visited ? GTK_STATE_FLAG_VISITED : GTK_STATE_FLAG_LINK, &rgba);
+		#endif
 	} else {
 		rgba.alpha = 1;
 		rgba.red = ((gdouble) color->red) / G_MAXUINT16;
 		rgba.green = ((gdouble) color->green) / G_MAXUINT16;
 		rgba.blue = ((gdouble) color->blue) / G_MAXUINT16;
+
+		gdk_color_free (color);
 	}
 
 	 // This set_link_color needs to be called when the document is loaded
 	 // (so we will probably emit the signal from WebProcess to Evo when this
 	 // happens).
 	e_html_editor_view_set_link_color (view, &rgba);
-
-	gdk_color_free (color);
 }
 */
 
