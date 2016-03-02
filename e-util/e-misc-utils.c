@@ -3297,3 +3297,32 @@ e_util_is_running_gnome (void)
 	return runs_gnome != 0;
 #endif
 }
+
+/**
+ * e_util_set_entry_issue_hint:
+ * @entry: a #GtkEntry
+ * @hint: (allow none): a hint to set, or %NULL to unset
+ *
+ * Sets a @hint on the secondary @entry icon about an entered value issue,
+ * or unsets it, when the @hint is %NULL.
+ *
+ * Since: 3.20
+ **/
+void
+e_util_set_entry_issue_hint (GtkWidget *entry,
+			     const gchar *hint)
+{
+	GtkEntry *eentry;
+
+	g_return_if_fail (GTK_IS_ENTRY (entry));
+
+	eentry = GTK_ENTRY (entry);
+
+	if (hint) {
+		gtk_entry_set_icon_from_icon_name (eentry, GTK_ENTRY_ICON_SECONDARY, "dialog-warning");
+		gtk_entry_set_icon_tooltip_text (eentry, GTK_ENTRY_ICON_SECONDARY, hint);
+	} else {
+		gtk_entry_set_icon_from_icon_name (eentry, GTK_ENTRY_ICON_SECONDARY, NULL);
+		gtk_entry_set_icon_tooltip_text (eentry, GTK_ENTRY_ICON_SECONDARY, NULL);
+	}
+}

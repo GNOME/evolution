@@ -282,6 +282,8 @@ void		e_util_run_simple_async_result_in_thread
 						 GSimpleAsyncThreadFunc func,
 						 GCancellable *cancellable);
 gboolean	e_util_is_running_gnome		(void);
+void		e_util_set_entry_issue_hint	(GtkWidget *entry,
+						 const gchar *hint);
 
 guint		e_util_normalize_font_size	(GtkWidget *widget,
 						 gdouble font_size);

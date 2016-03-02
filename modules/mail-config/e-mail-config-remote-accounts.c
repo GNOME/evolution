@@ -60,6 +60,7 @@ struct _EMailConfigRemoteBackend {
 
 	GtkWidget *host_entry;		/* not referenced */
 	GtkWidget *port_entry;		/* not referenced */
+	GtkWidget *port_error_image;	/* not referenced */
 	GtkWidget *user_entry;		/* not referenced */
 	GtkWidget *security_combo_box;	/* not referenced */
 	GtkWidget *auth_check;		/* not referenced */
@@ -177,6 +178,15 @@ mail_config_remote_backend_insert_widgets (EMailConfigServiceBackend *backend,
 	remote_backend->port_entry = widget;  /* do not reference */
 	gtk_widget_show (widget);
 
+	widget = gtk_image_new_from_icon_name ("dialog-warning", GTK_ICON_SIZE_BUTTON);
+	g_object_set (G_OBJECT (widget),
+		"visible", FALSE,
+		"has-tooltip", TRUE,
+		"tooltip-text", _("Port number is not valid"),
+		NULL);
+	gtk_grid_attach (GTK_GRID (container), widget, 4, 0, 1, 1);
+	remote_backend->port_error_image = widget;  /* do not reference */
+
 	widget = gtk_label_new_with_mnemonic (_("User_name:"));
 	gtk_misc_set_alignment (GTK_MISC (widget), 1.0, 0.5);
 	gtk_grid_attach (GTK_GRID (container), widget, 0, 1, 1, 1);
@@ -187,7 +197,7 @@ mail_config_remote_backend_insert_widgets (EMailConfigServiceBackend *backend,
 	widget = gtk_entry_new ();
 	gtk_widget_set_hexpand (widget, TRUE);
 	gtk_label_set_mnemonic_widget (label, widget);
-	gtk_grid_attach (GTK_GRID (container), widget, 1, 1, 3, 1);
+	gtk_grid_attach (GTK_GRID (container), widget, 1, 1, 4, 1);
 	remote_backend->user_entry = widget;  /* do not reference */
 	gtk_widget_show (widget);
 
@@ -309,6 +319,7 @@ mail_config_remote_backend_check_complete (EMailConfigServiceBackend *backend)
 	EPortEntry *port_entry;
 	const gchar *host;
 	const gchar *user;
+	gboolean correct, complete = TRUE;
 
 	remote_backend = E_MAIL_CONFIG_REMOTE_BACKEND (backend);
 
@@ -321,20 +332,35 @@ mail_config_remote_backend_check_complete (EMailConfigServiceBackend *backend)
 	host = camel_network_settings_get_host (network_settings);
 	user = camel_network_settings_get_user (network_settings);
 
+	correct = TRUE;
+
 	if (CAMEL_PROVIDER_NEEDS (provider, CAMEL_URL_PART_HOST) &&
 	    (host == NULL || *host == '\0'))
-		return FALSE;
+		correct = FALSE;
+
+	complete = complete && correct;
+	e_util_set_entry_issue_hint (remote_backend->host_entry, correct ? NULL : _("Server address cannot be empty"));
+
+	correct = TRUE;
 
 	port_entry = E_PORT_ENTRY (remote_backend->port_entry);
 	if (CAMEL_PROVIDER_NEEDS (provider, CAMEL_URL_PART_PORT) &&
 	    !e_port_entry_is_valid (port_entry))
-		return FALSE;
+		correct = FALSE;
+
+	complete = complete && correct;
+	gtk_widget_set_visible (remote_backend->port_error_image, !correct);
+
+	correct = TRUE;
 
 	if (CAMEL_PROVIDER_NEEDS (provider, CAMEL_URL_PART_USER) &&
 	    (user == NULL || *user == '\0'))
-		return FALSE;
+		correct = FALSE;
 
-	return TRUE;
+	complete = complete && correct;
+	e_util_set_entry_issue_hint (remote_backend->user_entry, correct ? NULL : _("User name cannot be empty"));
+
+	return complete;
 }
 
 static void

@@ -181,6 +181,8 @@ cal_config_webcal_check_complete (ESourceConfigBackend *backend,
 	if (soup_uri != NULL)
 		soup_uri_free (soup_uri);
 
+	e_util_set_entry_issue_hint (context->url_entry, complete ? NULL : _("URL is not a valid http:// nor https:// URL"));
+
 	return complete;
 }
 

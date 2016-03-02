@@ -18,6 +18,7 @@
 #endif
 
 #include <string.h>
+#include <glib/gi18n-lib.h>
 
 #include <libebackend/libebackend.h>
 
@@ -28,6 +29,12 @@
 typedef ESourceConfigBackend ECalConfigGTasks;
 typedef ESourceConfigBackendClass ECalConfigGTasksClass;
 
+typedef struct _Context Context;
+
+struct _Context {
+	GtkWidget *user_entry;
+};
+
 /* Forward Declarations */
 GType e_cal_config_gtasks_get_type (void);
 
@@ -35,6 +42,14 @@ G_DEFINE_DYNAMIC_TYPE (
 	ECalConfigGTasks,
 	e_cal_config_gtasks,
 	E_TYPE_SOURCE_CONFIG_BACKEND)
+
+static void
+cal_config_gtasks_context_free (Context *context)
+{
+	g_object_unref (context->user_entry);
+
+	g_slice_free (Context, context);
+}
 
 static gboolean
 cal_config_gtasks_allow_creation (ESourceConfigBackend *backend)
@@ -67,10 +82,16 @@ cal_config_gtasks_insert_widgets (ESourceConfigBackend *backend,
                                   ESource *scratch_source)
 {
 	ESourceConfig *config;
+	Context *context;
 
 	config = e_source_config_backend_get_config (backend);
+	context = g_slice_new0 (Context);
 
-	e_source_config_add_user_entry (config, scratch_source);
+	g_object_set_data_full (
+		G_OBJECT (backend), e_source_get_uid (scratch_source), context,
+		(GDestroyNotify) cal_config_gtasks_context_free);
+
+	context->user_entry = g_object_ref (e_source_config_add_user_entry (config, scratch_source));
 	e_source_config_add_refresh_interval (config, scratch_source);
 }
 
@@ -79,14 +100,23 @@ cal_config_gtasks_check_complete (ESourceConfigBackend *backend,
                                   ESource *scratch_source)
 {
 	ESourceAuthentication *extension;
+	Context *context;
+	gboolean correct;
 	const gchar *extension_name;
 	const gchar *user;
+
+	context = g_object_get_data (G_OBJECT (backend), e_source_get_uid (scratch_source));
+	g_return_val_if_fail (context != NULL, FALSE);
 
 	extension_name = E_SOURCE_EXTENSION_AUTHENTICATION;
 	extension = e_source_get_extension (scratch_source, extension_name);
 	user = e_source_authentication_get_user (extension);
 
-	return user && *user;
+	correct = user && *user;
+
+	e_util_set_entry_issue_hint (context->user_entry, correct ? NULL : _("User name cannot be empty"));
+
+	return correct;
 }
 
 static void

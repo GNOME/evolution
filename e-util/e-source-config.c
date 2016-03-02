@@ -798,6 +798,7 @@ source_config_check_complete (ESourceConfig *config,
 	GtkEntry *name_entry;
 	GtkComboBox *type_combo;
 	const gchar *text;
+	gboolean correct;
 
 	/* Make sure the Type: combo box has a valid item. */
 	type_combo = GTK_COMBO_BOX (config->priv->type_combo);
@@ -807,10 +808,11 @@ source_config_check_complete (ESourceConfig *config,
 	/* Make sure the Name: entry field is not empty. */
 	name_entry = GTK_ENTRY (config->priv->name_entry);
 	text = gtk_entry_get_text (name_entry);
-	if (text == NULL || *text == '\0')
-		return FALSE;
+	correct = text != NULL && *text != '\0';
 
-	return TRUE;
+	e_util_set_entry_issue_hint (config->priv->name_entry, correct ? NULL : _("Name cannot be empty"));
+
+	return correct;
 }
 
 static void
@@ -1451,7 +1453,7 @@ e_source_config_add_secure_connection_for_webdav (ESourceConfig *config,
 		G_CALLBACK (webdav_unset_ssl_trust_clicked_cb), extension);
 }
 
-void
+GtkWidget *
 e_source_config_add_user_entry (ESourceConfig *config,
                                 ESource *scratch_source)
 {
@@ -1460,8 +1462,8 @@ e_source_config_add_user_entry (ESourceConfig *config,
 	ESourceExtension *extension;
 	const gchar *extension_name;
 
-	g_return_if_fail (E_IS_SOURCE_CONFIG (config));
-	g_return_if_fail (E_IS_SOURCE (scratch_source));
+	g_return_val_if_fail (E_IS_SOURCE_CONFIG (config), NULL);
+	g_return_val_if_fail (E_IS_SOURCE (scratch_source), NULL);
 
 	extension_name = E_SOURCE_EXTENSION_AUTHENTICATION;
 	extension = e_source_get_extension (scratch_source, extension_name);
@@ -1483,5 +1485,7 @@ e_source_config_add_user_entry (ESourceConfig *config,
 	 * GtkEntry to the user name of the current user. */
 	if (original_source == NULL)
 		gtk_entry_set_text (GTK_ENTRY (widget), g_get_user_name ());
+
+	return widget;
 }
 

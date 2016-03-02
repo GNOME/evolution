@@ -113,7 +113,7 @@ void		e_source_config_add_secure_connection
 void		e_source_config_add_secure_connection_for_webdav
 						(ESourceConfig *config,
 						 ESource *scratch_source);
-void		e_source_config_add_user_entry	(ESourceConfig *config,
+GtkWidget *	e_source_config_add_user_entry	(ESourceConfig *config,
 						 ESource *scratch_source);
 
 #endif /* E_SOURCE_CONFIG_H */

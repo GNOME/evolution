@@ -34,6 +34,7 @@
 struct _EMailConfigSmtpBackendPrivate {
 	GtkWidget *host_entry;			/* not referenced */
 	GtkWidget *port_entry;			/* not referenced */
+	GtkWidget *port_error_image;		/* not referenced */
 	GtkWidget *user_entry;			/* not referenced */
 	GtkWidget *security_combo_box;		/* not referenced */
 	GtkWidget *auth_required_toggle;	/* not referenced */
@@ -132,9 +133,18 @@ mail_config_smtp_backend_insert_widgets (EMailConfigServiceBackend *backend,
 	priv->port_entry = widget;  /* do not reference */
 	gtk_widget_show (widget);
 
+	widget = gtk_image_new_from_icon_name ("dialog-warning", GTK_ICON_SIZE_BUTTON);
+	g_object_set (G_OBJECT (widget),
+		"visible", FALSE,
+		"has-tooltip", TRUE,
+		"tooltip-text", _("Port number is not valid"),
+		NULL);
+	gtk_grid_attach (GTK_GRID (container), widget, 4, 0, 1, 1);
+	priv->port_error_image = widget;  /* do not reference */
+
 	text = _("Ser_ver requires authentication");
 	widget = gtk_check_button_new_with_mnemonic (text);
-	gtk_grid_attach (GTK_GRID (container), widget, 1, 1, 3, 1);
+	gtk_grid_attach (GTK_GRID (container), widget, 1, 1, 4, 1);
 	priv->auth_required_toggle = widget;  /* do not reference */
 	gtk_widget_show (widget);
 
@@ -249,7 +259,7 @@ mail_config_smtp_backend_insert_widgets (EMailConfigServiceBackend *backend,
 	widget = gtk_entry_new ();
 	gtk_widget_set_hexpand (widget, TRUE);
 	gtk_label_set_mnemonic_widget (label, widget);
-	gtk_grid_attach (GTK_GRID (container), widget, 1, 1, 2, 1);
+	gtk_grid_attach (GTK_GRID (container), widget, 1, 1, 3, 1);
 	priv->user_entry = widget;  /* do not reference */
 	gtk_widget_show (widget);
 
@@ -352,6 +362,7 @@ mail_config_smtp_backend_check_complete (EMailConfigServiceBackend *backend)
 	EPortEntry *port_entry;
 	const gchar *host;
 	const gchar *user;
+	gboolean correct, complete = TRUE;
 
 	priv = E_MAIL_CONFIG_SMTP_BACKEND_GET_PRIVATE (backend);
 
@@ -361,21 +372,30 @@ mail_config_smtp_backend_check_complete (EMailConfigServiceBackend *backend)
 	host = camel_network_settings_get_host (network_settings);
 	user = camel_network_settings_get_user (network_settings);
 
-	if (host == NULL || *host == '\0')
-		return FALSE;
+	correct = (host != NULL && *host != '\0');
+	complete = complete && correct;
+
+	e_util_set_entry_issue_hint (priv->host_entry, correct ? NULL : _("Server address cannot be empty"));
 
 	port_entry = E_PORT_ENTRY (priv->port_entry);
 
-	if (!e_port_entry_is_valid (port_entry))
-		return FALSE;
+	correct = e_port_entry_is_valid (port_entry);
+	complete = complete && correct;
+
+	gtk_widget_set_visible (priv->port_error_image, !correct);
 
 	toggle_button = GTK_TOGGLE_BUTTON (priv->auth_required_toggle);
 
+	correct = TRUE;
+
 	if (gtk_toggle_button_get_active (toggle_button))
 		if (user == NULL || *user == '\0')
-			return FALSE;
+			correct = FALSE;
 
-	return TRUE;
+	complete = complete && correct;
+	e_util_set_entry_issue_hint (priv->user_entry, correct ? NULL : _("User name cannot be empty"));
+
+	return complete;
 }
 
 static void
