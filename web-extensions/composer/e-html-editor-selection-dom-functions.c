@@ -3442,7 +3442,7 @@ set_font_style (WebKitDOMDocument *document,
 		webkit_dom_node_append_child (
 			WEBKIT_DOM_NODE (el), node, NULL);
 		name = webkit_dom_node_get_local_name (parent);
-		if (g_strcmp0 (name, element_name) == 0)
+		if (g_strcmp0 (name, element_name) == 0 && g_strcmp0 (name, "font") != 0)
 			webkit_dom_node_insert_before (
 				webkit_dom_node_get_parent_node (parent),
 				WEBKIT_DOM_NODE (el),
