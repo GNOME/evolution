@@ -1232,50 +1232,6 @@ composer_build_message (EMsgComposer *composer,
 		g_free (encoded_organization);
 	}
 
-	if (flags & COMPOSER_FLAG_SAVE_DRAFT) {
-		gboolean selection_saved;
-		gchar *text;
-		EHTMLEditor *editor;
-		EHTMLEditorView *view;
-
-		editor = e_msg_composer_get_editor (composer);
-		view = e_html_editor_get_view (editor);
-
-		/* X-Evolution-Format */
-		composer_add_evolution_format_header (
-			CAMEL_MEDIUM (context->message), flags);
-
-		/* X-Evolution-Composer-Mode */
-		composer_add_evolution_composer_mode_header (
-			CAMEL_MEDIUM (context->message), composer);
-
-		data = g_byte_array_new ();
-
-		e_html_editor_view_embed_styles (view);
-		selection_saved = e_html_editor_view_is_selection_saved (view);
-		if (!selection_saved)
-			e_html_editor_view_save_selection (view);
-
-		text = e_html_editor_view_get_text_html_for_drafts (view);
-
-		e_html_editor_view_remove_embed_styles (view);
-		e_html_editor_view_restore_selection (view);
-		e_html_editor_view_force_spell_check (view);
-
-		if (selection_saved)
-			e_html_editor_view_save_selection (view);
-
-		g_byte_array_append (data, (guint8 *) text, strlen (text));
-
-		g_free (text);
-
-		type = camel_content_type_new ("text", "html");
-		camel_content_type_set_param (type, "charset", "utf-8");
-		iconv_charset = camel_iconv_charset_name ("utf-8");
-
-		goto wrap_drafts_html;
-	}
-
 	/* Build the text/plain part. */
 
 	if (priv->mime_body) {
@@ -1321,7 +1277,6 @@ composer_build_message (EMsgComposer *composer,
 		}
 	}
 
- wrap_drafts_html:
 	mem_stream = camel_stream_mem_new_with_byte_array (data);
 	stream = camel_stream_filter_new (mem_stream);
 	g_object_unref (mem_stream);
@@ -1382,8 +1337,41 @@ composer_build_message (EMsgComposer *composer,
 		view = e_html_editor_get_view (editor);
 
 		data = g_byte_array_new ();
-		text = e_html_editor_view_get_text_html (view, from_domain, &inline_images);
-		length = strlen (text);
+		if ((flags & COMPOSER_FLAG_SAVE_DRAFT) != 0) {
+			gboolean selection_saved;
+			EHTMLEditor *editor;
+			EHTMLEditorView *html_view;
+
+			editor = e_msg_composer_get_editor (composer);
+			html_view = e_html_editor_get_view (editor);
+
+			/* X-Evolution-Format */
+			composer_add_evolution_format_header (
+				CAMEL_MEDIUM (context->message), flags);
+
+			/* X-Evolution-Composer-Mode */
+			composer_add_evolution_composer_mode_header (
+				CAMEL_MEDIUM (context->message), composer);
+
+			e_html_editor_view_embed_styles (html_view);
+			selection_saved = e_html_editor_view_is_selection_saved (html_view);
+			if (!selection_saved)
+				e_html_editor_view_save_selection (html_view);
+
+			text = e_html_editor_view_get_text_html_for_drafts (html_view);
+
+			e_html_editor_view_remove_embed_styles (html_view);
+			e_html_editor_view_restore_selection (html_view);
+			e_html_editor_view_force_spell_check (html_view);
+
+			if (selection_saved)
+				e_html_editor_view_save_selection (html_view);
+
+			length = strlen (text);
+		} else {
+			text = e_html_editor_view_get_text_html (view, from_domain, &inline_images);
+			length = strlen (text);
+		}
 		g_byte_array_append (data, (guint8 *) text, (guint) length);
 		pre_encode = text_requires_quoted_printable (text, length);
 		g_free (text);
