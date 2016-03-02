@@ -969,6 +969,7 @@ redo_delete (WebKitDOMDocument *document,
 		}
 	}
 
+ out:
 	e_html_editor_web_extension_set_dont_save_history_in_body_input (extension, TRUE);
 	e_html_editor_undo_redo_manager_set_operation_in_progress (manager, FALSE);
 	body_input_event_process (document, extension, NULL);
@@ -977,7 +978,7 @@ redo_delete (WebKitDOMDocument *document,
 	e_html_editor_web_extension_set_renew_history_after_coordinates (extension, FALSE);
 	body_key_up_event_process_backspace_or_delete (document, extension, delete_key);
 	e_html_editor_web_extension_set_renew_history_after_coordinates (extension, TRUE);
- out:
+
 	restore_selection_to_history_event_state (document, event->after);
 
 	dom_force_spell_check_for_current_paragraph (document, extension);
