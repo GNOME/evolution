@@ -517,7 +517,9 @@ dom_set_paragraph_style (WebKitDOMDocument *document,
 	if (!e_html_editor_web_extension_get_html_mode (extension) &&
 	    (!parent || WEBKIT_DOM_IS_HTML_BODY_ELEMENT (parent))) {
 		style = g_strdup_printf (
-			"width: %dch; word-wrap: normal; %s",
+			"width: %dch; "
+			"word-wrap: break-word; "
+			"word-break: break-word; %s",
 			(word_wrap_length + offset), style_to_add);
 	} else {
 		if (*style_to_add)
