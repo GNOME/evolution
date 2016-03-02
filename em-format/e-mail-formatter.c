@@ -1095,6 +1095,8 @@ e_mail_formatter_format_text (EMailFormatter *formatter,
 
 	filter = camel_mime_filter_charset_new (charset, "UTF-8");
 	if (filter != NULL) {
+		e_mail_part_set_converted_to_utf8 (part, TRUE);
+
 		stream = camel_filter_output_stream_new (stream, filter);
 		g_filter_output_stream_set_close_base_stream (
 			G_FILTER_OUTPUT_STREAM (stream), FALSE);

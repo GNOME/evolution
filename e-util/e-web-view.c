@@ -1050,6 +1050,11 @@ web_view_constructed (GObject *object)
 
 	web_settings = webkit_web_view_get_settings (WEBKIT_WEB_VIEW (object));
 
+	g_object_set (
+		G_OBJECT (web_settings),
+		"default-charset", "UTF-8",
+		NULL);
+
 	e_binding_bind_property (
 		web_settings, "enable-caret-browsing",
 		E_WEB_VIEW (object), "caret-mode",

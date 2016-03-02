@@ -108,6 +108,11 @@ CamelMimePart *	e_mail_part_ref_mime_part	(EMailPart *part);
 const gchar *	e_mail_part_get_mime_type	(EMailPart *part);
 void		e_mail_part_set_mime_type	(EMailPart *part,
 						 const gchar *mime_type);
+gboolean	e_mail_part_get_converted_to_utf8
+						(EMailPart *part);
+void		e_mail_part_set_converted_to_utf8
+						(EMailPart *part,
+						 gboolean converted_to_utf8);
 gboolean	e_mail_part_should_show_inline	(EMailPart *part);
 struct _EMailPartList *
 		e_mail_part_ref_part_list	(EMailPart *part);

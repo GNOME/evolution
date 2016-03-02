@@ -52,6 +52,7 @@ struct _EMailRequestPrivate {
 	gchar *uri_base;
 	gchar *full_uri;
 
+	gboolean part_converted_to_utf8;
 	gchar *ret_mime_type;
 };
 
@@ -173,6 +174,8 @@ handle_mail_request (GSimpleAsyncResult *simple,
 				formatter, &context, part,
 				output_stream, mime_type,
 				cancellable);
+
+			request->priv->part_converted_to_utf8 = e_mail_part_get_converted_to_utf8 (part);
 		}
 
 		g_object_unref (part);
@@ -436,7 +439,8 @@ mail_request_get_content_type (SoupRequest *request)
 		mime_type = g_strdup ("text/html");
 	}
 
-	if (g_strcmp0 (mime_type, "text/html") == 0) {
+	if (g_strcmp0 (mime_type, "text/html") == 0 &&
+	    priv->part_converted_to_utf8) {
 		priv->ret_mime_type = g_strconcat (
 			mime_type, "; charset=\"UTF-8\"", NULL);
 		g_free (mime_type);
@@ -473,5 +477,6 @@ static void
 e_mail_request_init (EMailRequest *request)
 {
 	request->priv = E_MAIL_REQUEST_GET_PRIVATE (request);
+	request->priv->part_converted_to_utf8 = FALSE;
 }
 
