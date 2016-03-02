@@ -641,6 +641,10 @@ static const char introspection_xml[] =
 "      <arg type='t' name='page_id' direction='in'/>"
 "      <arg type='i' name='position' direction='out'/>"
 "    </method>"
+"    <method name='DOMGetCaretOffset'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"      <arg type='i' name='offset' direction='out'/>"
+"    </method>"
 "    <method name='DOMClearUndoRedoHistory'>"
 "      <arg type='t' name='page_id' direction='in'/>"
 "    </method>"
@@ -2404,6 +2408,22 @@ handle_method_call (GDBusConnection *connection,
 
 		document = webkit_web_page_get_dom_document (web_page);
 		value = dom_get_caret_position (document);
+
+		g_dbus_method_invocation_return_value (
+			invocation,
+			value ? g_variant_new_int32 (value) : NULL);
+	} else if (g_strcmp0 (method_name, "DOMGetCaretOffset") == 0) {
+		gint32 value;
+
+		g_variant_get (parameters, "(t)", &page_id);
+
+		web_page = get_webkit_web_page_or_return_dbus_error (
+			invocation, web_extension, page_id);
+		if (!web_page)
+			goto error;
+
+		document = webkit_web_page_get_dom_document (web_page);
+		value = dom_get_caret_offset (document, extension);
 
 		g_dbus_method_invocation_return_value (
 			invocation,

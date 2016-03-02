@@ -9214,14 +9214,66 @@ dom_process_content_after_mode_change (WebKitDOMDocument *document,
 }
 
 gint
-dom_get_caret_position (WebKitDOMDocument *document)
+dom_get_caret_offset (WebKitDOMDocument *document,
+		      EHTMLEditorWebExtension *extension)
 {
+	gint ret_val;
+	gchar *text;
 	WebKitDOMDOMWindow *dom_window;
 	WebKitDOMDOMSelection *dom_selection;
+	WebKitDOMNode *anchor;
 	WebKitDOMRange *range;
-	gint range_count, ret_val;
-	WebKitDOMNodeList *nodes;
-	gulong ii, length;
+
+	dom_window = webkit_dom_document_get_default_view (document);
+	dom_selection = webkit_dom_dom_window_get_selection (dom_window);
+	g_object_unref (dom_window);
+
+	if (webkit_dom_dom_selection_get_range_count (dom_selection) < 1) {
+		g_object_unref (dom_selection);
+		return 0;
+	}
+
+	webkit_dom_dom_selection_collapse_to_start (dom_selection, NULL);
+	/* Select the text from the current caret position to the beginning of the line. */
+	webkit_dom_dom_selection_modify (dom_selection, "extend", "left", "lineBoundary");
+
+	range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
+	anchor = webkit_dom_dom_selection_get_anchor_node (dom_selection);
+	text = webkit_dom_range_to_string (range, NULL);
+	ret_val = strlen (text);
+	g_free (text);
+
+	webkit_dom_dom_selection_collapse_to_end (dom_selection, NULL);
+
+	/* In the plain text mode we need to increase the return value by 2 per
+	 * citation level because of "> ". */
+	if (!e_html_editor_web_extension_get_html_mode (extension)) {
+		WebKitDOMNode *parent = anchor;
+
+		while (parent && !WEBKIT_DOM_IS_HTML_BODY_ELEMENT (parent)) {
+			if (WEBKIT_DOM_IS_HTML_QUOTE_ELEMENT (parent) &&
+			    element_has_class (WEBKIT_DOM_ELEMENT (parent), "-x-evo-plaintext-quoted"))
+				ret_val += 2;
+
+			parent = webkit_dom_node_get_parent_node (parent);
+		}
+	}
+
+	g_object_unref (range);
+	g_object_unref (dom_selection);
+
+	return ret_val;
+}
+
+gint
+dom_get_caret_position (WebKitDOMDocument *document)
+{
+	gint ret_val;
+	gchar *text;
+	WebKitDOMHTMLElement *body;
+	WebKitDOMDOMWindow *dom_window;
+	WebKitDOMDOMSelection *dom_selection;
+	WebKitDOMRange *range, *range_clone;
 
 	dom_window = webkit_dom_document_get_default_view (document);
 	dom_selection = webkit_dom_dom_window_get_selection (dom_window);
@@ -9233,33 +9285,19 @@ dom_get_caret_position (WebKitDOMDocument *document)
 	}
 
 	range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
-	range_count = 0;
-	nodes = webkit_dom_node_get_child_nodes (
-		webkit_dom_node_get_parent_node (
-			webkit_dom_dom_selection_get_anchor_node (
-				dom_selection)));
-	length = webkit_dom_node_list_get_length (nodes);
-	for (ii = 0; ii < length; ii++) {
-		WebKitDOMNode *node;
+	range_clone = webkit_dom_range_clone_range (range, NULL);
 
-		node = webkit_dom_node_list_item (nodes, ii);
-		if (webkit_dom_node_is_same_node (
-			node, webkit_dom_dom_selection_get_anchor_node (dom_selection))) {
+	body = webkit_dom_document_get_body (document);
+	/* Select the text from the beginning of the body to the current caret. */
+	webkit_dom_range_set_start_before (
+		range_clone, webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (body)), NULL);
 
-			g_object_unref (node);
-			break;
-		} else if (WEBKIT_DOM_IS_TEXT (node)) {
-			gchar *text = webkit_dom_node_get_text_content (node);
-			range_count += strlen (text);
-			g_free (text);
-		}
-		g_object_unref (node);
-	}
+	/* This is returning a text without new lines! */
+	text = webkit_dom_range_to_string (range_clone, NULL);
+	ret_val = strlen (text);
+	g_free (text);
 
-	g_object_unref (nodes);
-
-	ret_val = webkit_dom_range_get_start_offset (range, NULL) + range_count;
-
+	g_object_unref (range_clone);
 	g_object_unref (range);
 	g_object_unref (dom_selection);
 

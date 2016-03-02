@@ -255,6 +255,36 @@ numlines (const gchar *text,
 }
 
 static gint32
+get_caret_offset (EHTMLEditorView *view)
+{
+	GDBusProxy *web_extension;
+	gint position = 0;
+	GVariant *result;
+
+	web_extension = e_html_editor_view_get_web_extension_proxy (view);
+	if (!web_extension)
+		return 0;
+
+	result = g_dbus_proxy_call_sync (
+		web_extension,
+		"DOMGetCaretOffset",
+		g_variant_new (
+			"(t)",
+			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view))),
+		G_DBUS_CALL_FLAGS_NONE,
+		-1,
+		NULL,
+		NULL);
+
+	if (result) {
+		position = g_variant_get_int32 (result);
+		g_variant_unref (result);
+	}
+
+	return position;
+}
+
+static gint32
 get_caret_position (EHTMLEditorView *view)
 {
 	GDBusProxy *web_extension;
@@ -370,7 +400,9 @@ external_editor_thread (gpointer user_data)
 		gboolean set_nofork;
 
 		set_nofork = g_strrstr (editor_cmd, "gvim") != NULL;
-		/* Increment 1 so that entering vim insert mode places you
+
+		offset = get_caret_offset (view);
+		/* Increment by 1 so that entering vim insert mode places you
 		 * in the same entry position you were at in the html. */
 		offset++;
 

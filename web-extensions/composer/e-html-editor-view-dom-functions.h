@@ -146,6 +146,8 @@ void		dom_process_content_after_mode_change
 						(WebKitDOMDocument *document,
 						 EHTMLEditorWebExtension *extension);
 
+gint		dom_get_caret_offset		(WebKitDOMDocument *document,
+						 EHTMLEditorWebExtension *extension);
 gint		dom_get_caret_position		(WebKitDOMDocument *document);
 
 void		dom_drag_and_drop_end		(WebKitDOMDocument *document,
