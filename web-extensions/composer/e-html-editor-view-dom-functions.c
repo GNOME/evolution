@@ -7760,6 +7760,26 @@ save_history_for_delete_or_backspace (WebKitDOMDocument *document,
 
 	range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
 
+	/* Check if we can delete something */
+	if (webkit_dom_range_get_collapsed (range, NULL)) {
+		WebKitDOMRange *tmp_range;
+
+		webkit_dom_dom_selection_modify (
+			dom_selection, "move", delete_key ? "right" : "left", "character");
+
+		tmp_range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
+		if (webkit_dom_range_compare_boundary_points (tmp_range, 2, range, NULL) == 0) {
+			g_object_unref (dom_selection);
+			g_object_unref (range);
+			g_object_unref (tmp_range);
+
+			return;
+		}
+
+		webkit_dom_dom_selection_modify (
+			dom_selection, "move", delete_key ? "left" : "right", "character");
+	}
+
 	if (save_history_before_event_in_table (document, extension, range)) {
 		g_object_unref (range);
 		g_object_unref (dom_selection);
