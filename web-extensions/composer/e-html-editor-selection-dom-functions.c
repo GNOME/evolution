@@ -2792,6 +2792,8 @@ dom_remove_wrapping_from_element (WebKitDOMElement *element)
 	WebKitDOMNodeList *list;
 	gint ii, length;
 
+	g_return_if_fail (element != NULL);
+
 	list = webkit_dom_element_query_selector_all (
 		element, "br.-x-evo-wrap-br", NULL);
 	length = webkit_dom_node_list_get_length (list);
@@ -2832,6 +2834,8 @@ dom_remove_quoting_from_element (WebKitDOMElement *element)
 {
 	gint ii, length;
 	WebKitDOMNodeList *list;
+
+	g_return_if_fail (element != NULL);
 
 	list = webkit_dom_element_query_selector_all (
 		element, "span.-x-evo-quoted", NULL);
