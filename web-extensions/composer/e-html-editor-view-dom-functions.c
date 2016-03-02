@@ -3700,8 +3700,8 @@ quote_plain_text_recursive (WebKitDOMDocument *document,
 				goto next_node;
 			}
 			goto not_br;
-		} else if (element_has_class (WEBKIT_DOM_ELEMENT (node), "-x-evo-first-br") ||
-			   element_has_class (WEBKIT_DOM_ELEMENT (node), "-x-evo-last-br")) {
+		} else if (element_has_id (WEBKIT_DOM_ELEMENT (node), "-x-evo-first-br") ||
+		           element_has_id (WEBKIT_DOM_ELEMENT (node), "-x-evo-last-br")) {
 			quote_br_node (node, quote_level);
 			node = next_sibling;
 			skip_node = TRUE;
@@ -4446,7 +4446,7 @@ parse_html_into_blocks (WebKitDOMDocument *document,
 					extension,
 					parent,
 					block_template,
-					"<br class=\"-x-evo-first-br\">");
+					"<br id=\"-x-evo-first-br\">");
 			} else
 				preserve_next_line = FALSE;
 		} else if (first_element && !citation_was_first_element) {
@@ -4455,7 +4455,7 @@ parse_html_into_blocks (WebKitDOMDocument *document,
 				extension,
 				parent,
 				block_template,
-				"<br class=\"-x-evo-first-br\">");
+				"<br id=\"-x-evo-first-br\">");
 		} else
 			preserve_next_line = FALSE;
  next:
@@ -4484,9 +4484,9 @@ parse_html_into_blocks (WebKitDOMDocument *document,
 				child = webkit_dom_node_get_first_child (child);
 				if (child && WEBKIT_DOM_IS_HTML_BR_ELEMENT (child)) {
 					/* If the processed HTML contained just
-					 * the BR don't overwrite its class. */
-					if (!element_has_class (WEBKIT_DOM_ELEMENT (child), "-x-evo-first-br"))
-						element_add_class (
+					 * the BR don't overwrite its id. */
+					if (!element_has_id (WEBKIT_DOM_ELEMENT (child), "-x-evo-first-br"))
+						webkit_dom_element_set_id (
 							WEBKIT_DOM_ELEMENT (child),
 							"-x-evo-last-br");
 				} else if (!e_html_editor_web_extension_is_editting_message (extension))
@@ -5178,12 +5178,10 @@ dom_convert_content (WebKitDOMDocument *document,
 				document, WEBKIT_DOM_ELEMENT (child), NULL, NULL);
 	}
 
-	paragraph = webkit_dom_document_query_selector (document, "br.-x-evo-last-br", NULL);
-	if (paragraph)
-		webkit_dom_element_remove_attribute (paragraph, "class");
-	paragraph = webkit_dom_document_query_selector (document, "br.-x-evo-first-br", NULL);
-	if (paragraph)
-		webkit_dom_element_remove_attribute (paragraph, "class");
+	if ((paragraph = webkit_dom_document_get_element_by_id (document, "-x-evo-last-br")))
+		webkit_dom_element_remove_attribute (paragraph, "id");
+	if ((paragraph = webkit_dom_document_get_element_by_id (document, "-x-evo-first-br")))
+		webkit_dom_element_remove_attribute (paragraph, "id");
 
 	dom_merge_siblings_if_necessary (document, NULL);
 
@@ -5471,27 +5469,11 @@ dom_convert_and_insert_html_into_selection (WebKitDOMDocument *document,
 		dom_quote_plain_text_element_after_wrapping (
 			document, WEBKIT_DOM_ELEMENT (current_block), citation_level);
 
-		/* If the pasted text begun or ended with a new line we have to
-		 * quote these paragraphs as well */
-		br = webkit_dom_element_query_selector (
-			WEBKIT_DOM_ELEMENT (last_paragraph), "br.-x-evo-last-br", NULL);
-		if (br) {
-			WebKitDOMNode *parent;
-
-			parent = webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (br));
-			quote_plain_text_recursive (document, parent, parent, citation_level);
+		if ((br = webkit_dom_document_get_element_by_id (document, "-x-evo-last-br")))
 			webkit_dom_element_remove_attribute (br, "class");
-		}
 
-		br = webkit_dom_document_query_selector (
-			document, "* > br.-x-evo-first-br", NULL);
-		if (br) {
-			WebKitDOMNode *parent;
-
-			parent = webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (br));
-			quote_plain_text_recursive (document, parent, parent, citation_level);
+		if ((br = webkit_dom_document_get_element_by_id (document, "-x-evo-first-br")))
 			webkit_dom_element_remove_attribute (br, "class");
-		}
 
 		if (ev) {
 			dom_selection_get_coordinates (
@@ -5534,7 +5516,7 @@ dom_convert_and_insert_html_into_selection (WebKitDOMDocument *document,
 	dom_selection_save (document);
 
 	element = webkit_dom_document_query_selector (
-		document, "* > br.-x-evo-first-br", NULL);
+		document, "* > br#-x-evo-first-br", NULL);
 	if (element) {
 		WebKitDOMNode *sibling;
 		WebKitDOMNode *parent;
@@ -5550,7 +5532,7 @@ dom_convert_and_insert_html_into_selection (WebKitDOMDocument *document,
 	}
 
 	element = webkit_dom_document_query_selector (
-		document, "* > br.-x-evo-last-br", NULL);
+		document, "* > br#-x-evo-last-br", NULL);
 	if (element) {
 		WebKitDOMNode *parent;
 		WebKitDOMNode *child;

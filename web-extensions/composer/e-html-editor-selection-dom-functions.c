@@ -2215,10 +2215,26 @@ wrap_lines (WebKitDOMDocument *document,
 		start_node = node;
 	} else {
 		WebKitDOMElement *selection_start_marker, *selection_end_marker;
-		WebKitDOMNode *start_point = NULL;
+		WebKitDOMNode *start_point = NULL, *first_child;
 
 		if (!webkit_dom_node_has_child_nodes (block))
 			return WEBKIT_DOM_ELEMENT (block);
+
+		/* Avoid wrapping when the block contains just the BR element alone
+		 * or with selection markers. */
+		if ((first_child = webkit_dom_node_get_first_child (block)) &&
+		     WEBKIT_DOM_IS_HTML_BR_ELEMENT (first_child)) {
+			WebKitDOMNode *next_sibling;
+
+			if ((next_sibling = webkit_dom_node_get_next_sibling (first_child))) {
+			       if (dom_is_selection_position_node (next_sibling) &&
+				   (next_sibling = webkit_dom_node_get_next_sibling (next_sibling)) &&
+				   dom_is_selection_position_node (next_sibling) &&
+				   !webkit_dom_node_get_next_sibling (next_sibling))
+					return WEBKIT_DOM_ELEMENT (block);
+			} else
+				return WEBKIT_DOM_ELEMENT (block);
+		}
 
 		block_clone = webkit_dom_node_clone_node (block, TRUE);
 
