@@ -2645,17 +2645,19 @@ wrap_lines (WebKitDOMDocument *document,
 				}
 			}
 
-			if (offset > 0) {
+			if (offset >= 0) {
 				WebKitDOMNode *nd;
 
-				if (offset != length_left)
+				if (offset != length_left && offset != 0) {
 					webkit_dom_text_split_text (
 						WEBKIT_DOM_TEXT (node), offset, NULL);
 
-				nd = webkit_dom_node_get_next_sibling (node);
+					nd = webkit_dom_node_get_next_sibling (node);
+				} else
+					nd = node;
+
 				if (nd) {
 					gchar *nd_content;
-
 
 					nd_content = webkit_dom_node_get_text_content (nd);
 					if (nd_content && *nd_content) {
@@ -2684,12 +2686,6 @@ wrap_lines (WebKitDOMDocument *document,
 						WEBKIT_DOM_NODE (element),
 						NULL);
 				}
-			} else {
-				webkit_dom_node_insert_before (
-					webkit_dom_node_get_parent_node (node),
-					WEBKIT_DOM_NODE (element),
-					node,
-					NULL);
 			}
 			if (node && WEBKIT_DOM_IS_CHARACTER_DATA (node))
 				length_left = webkit_dom_character_data_get_length (
