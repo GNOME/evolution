@@ -904,23 +904,24 @@ dom_check_magic_links (WebKitDOMDocument *document,
 	gint start_pos_url, end_pos_url;
 	WebKitDOMNode *node;
 	WebKitDOMRange *range;
+	gboolean has_selection;
 
 	if (!e_html_editor_web_extension_get_magic_links_enabled (extension))
 		return;
 
-	if (include_space_by_user == TRUE)
+	if (include_space_by_user)
 		include_space = TRUE;
 	else
 		include_space = e_html_editor_web_extension_get_return_key_pressed (extension);
 
 	range = dom_get_current_range (document);
 	node = webkit_dom_range_get_end_container (range, NULL);
+	has_selection = !webkit_dom_range_get_collapsed (range, NULL);
 	g_object_unref (range);
 
 	if (return_key_pressed) {
 		WebKitDOMNode* block;
 
-		node = webkit_dom_range_get_end_container (range, NULL);
 		block = get_parent_block_node_from_child (node);
 		/* Get previous block */
 		block = webkit_dom_node_get_previous_sibling (block);
@@ -935,7 +936,15 @@ dom_check_magic_links (WebKitDOMDocument *document,
 			node = webkit_dom_node_get_previous_sibling (node);
 	} else {
 		dom_selection_save (document);
-		node = webkit_dom_range_get_end_container (range, NULL);
+		if (has_selection) {
+			WebKitDOMElement *selection_end_marker;
+
+			selection_end_marker = webkit_dom_document_get_element_by_id (
+				document, "-x-evo-selection-end-marker");
+
+			node = webkit_dom_node_get_previous_sibling (
+				WEBKIT_DOM_NODE (selection_end_marker));
+		}
 	}
 
 	if (!node || WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (node))
