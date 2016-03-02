@@ -5665,6 +5665,8 @@ dom_convert_and_insert_html_into_selection (WebKitDOMDocument *document,
 	dom_scroll_to_caret (document);
 
 	dom_register_input_event_listener_on_body (document, extension);
+
+	e_html_editor_web_extension_set_content_changed (extension);
 }
 
 static gint
