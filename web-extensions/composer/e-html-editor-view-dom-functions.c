@@ -5300,7 +5300,7 @@ dom_convert_and_insert_html_into_selection (WebKitDOMDocument *document,
 	g_free (inner_html);
 
 	has_selection = !dom_selection_is_collapsed (document);
-	if (has_selection) {
+	if (has_selection && !e_html_editor_undo_redo_manager_is_operation_in_progress (manager)) {
 		WebKitDOMRange *range;
 
 		range = dom_get_current_range (document);
