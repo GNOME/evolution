@@ -103,7 +103,7 @@ e_comp_editor_property_part_summary_class_init (ECompEditorPropertyPartSummaryCl
 	ECompEditorPropertyPartClass *part_class;
 
 	part_string_class = E_COMP_EDITOR_PROPERTY_PART_STRING_CLASS (klass);
-	part_string_class->entry_type = E_TYPE_SPELL_ENTRY;
+	/* FIXME WK2 part_string_class->entry_type = E_TYPE_SPELL_ENTRY; */
 	part_string_class->ical_prop_kind = ICAL_SUMMARY_PROPERTY;
 	part_string_class->ical_new_func = icalproperty_new_summary;
 	part_string_class->ical_set_func = icalproperty_set_summary;
