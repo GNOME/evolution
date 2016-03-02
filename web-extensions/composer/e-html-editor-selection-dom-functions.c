@@ -4904,6 +4904,83 @@ dom_selection_get_block_format (WebKitDOMDocument *document,
 	return result;
 }
 
+static void
+change_leading_space_to_nbsp (WebKitDOMNode *block)
+{
+	WebKitDOMNode *child;
+
+	if (!WEBKIT_DOM_IS_HTML_PRE_ELEMENT (block))
+		return;
+
+	if ((child = webkit_dom_node_get_first_child (block)) &&
+	     WEBKIT_DOM_IS_CHARACTER_DATA (child)) {
+		gchar *data;
+
+		data = webkit_dom_character_data_substring_data (
+			WEBKIT_DOM_CHARACTER_DATA (child), 0, 1, NULL);
+
+		if (data && *data == ' ')
+			webkit_dom_character_data_replace_data (
+				WEBKIT_DOM_CHARACTER_DATA (child), 0, 1, UNICODE_NBSP, NULL);
+		g_free (data);
+	}
+}
+
+static void
+change_trailing_space_in_block_to_nbsp (WebKitDOMNode *block)
+{
+	WebKitDOMNode *child;
+
+	if ((child = webkit_dom_node_get_last_child (block)) &&
+	    WEBKIT_DOM_IS_CHARACTER_DATA (child)) {
+		gchar *tmp;
+		gulong length;
+
+		length = webkit_dom_character_data_get_length (
+			WEBKIT_DOM_CHARACTER_DATA (child));
+
+		tmp = webkit_dom_character_data_substring_data (
+			WEBKIT_DOM_CHARACTER_DATA (child), length - 1, 1, NULL);
+		if (tmp && *tmp == ' ') {
+			webkit_dom_character_data_replace_data (
+				WEBKIT_DOM_CHARACTER_DATA (child),
+				length - 1,
+				1,
+				UNICODE_NBSP,
+				NULL);
+		}
+		g_free (tmp);
+	}
+}
+
+static void
+change_space_before_selection_to_nbsp (WebKitDOMNode *node)
+{
+	WebKitDOMNode *prev_sibling;
+
+	if ((prev_sibling = webkit_dom_node_get_previous_sibling (node))) {
+		if (WEBKIT_DOM_IS_CHARACTER_DATA (prev_sibling)) {
+			gchar *tmp;
+			gulong length;
+
+			length = webkit_dom_character_data_get_length (
+				WEBKIT_DOM_CHARACTER_DATA (prev_sibling));
+
+			tmp = webkit_dom_character_data_substring_data (
+				WEBKIT_DOM_CHARACTER_DATA (prev_sibling), length - 1, 1, NULL);
+			if (tmp && *tmp == ' ') {
+				webkit_dom_character_data_replace_data (
+					WEBKIT_DOM_CHARACTER_DATA (prev_sibling),
+					length - 1,
+					1,
+					UNICODE_NBSP,
+					NULL);
+			}
+			g_free (tmp);
+		}
+	}
+}
+
 static gboolean
 process_block_to_block (WebKitDOMDocument *document,
                         EHTMLEditorWebExtension *extension,
@@ -4985,6 +5062,9 @@ process_block_to_block (WebKitDOMDocument *document,
 
 		empty = !*content || (g_strcmp0 (content, UNICODE_ZERO_WIDTH_SPACE) == 0);
 		g_free (content);
+
+		change_leading_space_to_nbsp (block);
+		change_trailing_space_in_block_to_nbsp (block);
 
 		while ((child = webkit_dom_node_get_first_child (block))) {
 			if (WEBKIT_DOM_IS_HTML_BR_ELEMENT (child))
@@ -5215,6 +5295,9 @@ format_change_block_to_list (WebKitDOMDocument *document,
 
 		empty = !*content || (g_strcmp0 (content, UNICODE_ZERO_WIDTH_SPACE) == 0);
 		g_free (content);
+
+		change_leading_space_to_nbsp (block);
+		change_trailing_space_in_block_to_nbsp (block);
 
 		while ((child = webkit_dom_node_get_first_child (block))) {
 			if (WEBKIT_DOM_IS_HTML_BR_ELEMENT (child))
@@ -5731,6 +5814,19 @@ dom_selection_set_block_format (WebKitDOMDocument *document,
 	 }
 
 	g_object_unref (range);
+
+	if (current_format == E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_PRE) {
+		WebKitDOMElement *selection_marker;
+
+		selection_marker = webkit_dom_document_get_element_by_id (
+			document, "-x-evo-selection-start-marker");
+		if (selection_marker)
+			change_space_before_selection_to_nbsp (WEBKIT_DOM_NODE (selection_marker));
+		selection_marker = webkit_dom_document_get_element_by_id (
+			document, "-x-evo-selection-end-marker");
+		if (selection_marker)
+			change_space_before_selection_to_nbsp (WEBKIT_DOM_NODE (selection_marker));
+	}
 
 	if (from_list && to_list)
 		format_change_list_to_list (document, extension, format, html_mode);
