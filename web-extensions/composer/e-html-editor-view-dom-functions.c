@@ -916,23 +916,41 @@ dom_check_magic_links (WebKitDOMDocument *document,
 	node = webkit_dom_range_get_end_container (range, NULL);
 	g_object_unref (range);
 
-	if (return_key_pressed)
-		node = webkit_dom_node_get_previous_sibling (node);
+	if (return_key_pressed) {
+		WebKitDOMNode* block;
+
+		node = webkit_dom_range_get_end_container (range, NULL);
+		block = get_parent_block_node_from_child (node);
+		/* Get previous block */
+		block = webkit_dom_node_get_previous_sibling (block);
+		/* If block is quoted content, get the last block there */
+		while (block && WEBKIT_DOM_IS_HTML_QUOTE_ELEMENT (block))
+			block = webkit_dom_node_get_last_child (block);
+
+		/* Get the last non-empty node */
+		node = webkit_dom_node_get_last_child (block);
+		if (WEBKIT_DOM_IS_CHARACTER_DATA (node) &&
+		    webkit_dom_character_data_get_length (WEBKIT_DOM_CHARACTER_DATA (node)) == 0)
+			node = webkit_dom_node_get_previous_sibling (node);
+	} else {
+		dom_selection_save (document);
+		node = webkit_dom_range_get_end_container (range, NULL);
+	}
 
 	if (!node)
-		return;
+		goto out;
 
 	if (!WEBKIT_DOM_IS_TEXT (node)) {
 		if (webkit_dom_node_has_child_nodes (node))
 			node = webkit_dom_node_get_first_child (node);
 		if (!WEBKIT_DOM_IS_TEXT (node))
-			return;
+			goto out;
 	}
 
 	node_text = webkit_dom_text_get_whole_text (WEBKIT_DOM_TEXT (node));
 	if (!(node_text && *node_text) || !g_utf8_validate (node_text, -1, NULL)) {
 		g_free (node_text);
-		return;
+		goto out;
 	}
 
 	if (strstr (node_text, "@") && !strstr (node_text, "://")) {
@@ -943,7 +961,7 @@ dom_check_magic_links (WebKitDOMDocument *document,
 
 	if (!regex) {
 		g_free (node_text);
-		return;
+		goto out;
 	}
 
 	g_regex_match_all (regex, node_text, G_REGEX_MATCH_NOTEMPTY, &match_info);
@@ -953,11 +971,8 @@ dom_check_magic_links (WebKitDOMDocument *document,
 		const gchar *end_of_match = NULL;
 		gchar *final_url, *url_end_raw, *url_text;
 		glong url_start, url_end, url_length;
-		WebKitDOMText *url_text_node;
+		WebKitDOMNode *url_text_node;
 		WebKitDOMElement *anchor;
-
-		if (!return_key_pressed)
-			dom_selection_save (document);
 
 		g_match_info_fetch_pos (match_info, 0, &start_pos_url, &end_pos_url);
 
@@ -986,7 +1001,7 @@ dom_check_magic_links (WebKitDOMDocument *document,
 
 		webkit_dom_text_split_text (
 			WEBKIT_DOM_TEXT (node), url_start, NULL);
-		url_text_node = WEBKIT_DOM_TEXT (webkit_dom_node_get_next_sibling (node));
+		url_text_node = webkit_dom_node_get_next_sibling (node);
 		url_text = webkit_dom_character_data_get_data (
 			WEBKIT_DOM_CHARACTER_DATA (url_text_node));
 
@@ -1012,9 +1027,6 @@ dom_check_magic_links (WebKitDOMDocument *document,
 			WEBKIT_DOM_NODE (anchor),
 			WEBKIT_DOM_NODE (url_text_node),
 			NULL);
-
-		if (!return_key_pressed)
-			dom_selection_restore (document);
 
 		g_free (url_end_raw);
 		g_free (final_url);
@@ -1060,7 +1072,7 @@ dom_check_magic_links (WebKitDOMDocument *document,
 			g_regex_unref (regex);
 			g_free (node_text);
 			g_free (text_to_append);
-			return;
+			goto out;
 		}
 
 		/* edit only if href and description are the same */
@@ -1157,6 +1169,10 @@ dom_check_magic_links (WebKitDOMDocument *document,
 	g_match_info_free (match_info);
 	g_regex_unref (regex);
 	g_free (node_text);
+
+ out:
+	if (!return_key_pressed)
+		dom_selection_restore (document);
 }
 
 void
@@ -8907,7 +8923,11 @@ key_press_event_process_return_key (WebKitDOMDocument *document,
 	if (dom_selection_is_citation (document)) {
 		dom_remove_input_event_listener_from_body (document, extension);
 		if (split_citation (document, extension)) {
+			e_html_editor_web_extension_set_return_key_pressed (extension, TRUE);
+			dom_check_magic_links (document, extension, FALSE);
+			e_html_editor_web_extension_set_return_key_pressed (extension, FALSE);
 			e_html_editor_web_extension_set_content_changed (extension);
+
 			return TRUE;
 		}
 		return FALSE;

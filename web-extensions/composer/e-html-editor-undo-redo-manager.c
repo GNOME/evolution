@@ -505,8 +505,6 @@ undo_delete (WebKitDOMDocument *document,
 	    g_object_get_data (G_OBJECT (event->data.fragment), "-x-evo-return-key"))) {
 		if (key_press_event_process_return_key (document, extension)) {
 			body_key_up_event_process_return_key (document, extension);
-			dom_force_spell_check_in_viewport (document, extension);
-			return;
 		} else {
 			WebKitDOMElement *element;
 			WebKitDOMNode *next_sibling;
@@ -537,9 +535,14 @@ undo_delete (WebKitDOMDocument *document,
 					NULL);
 			}
 			dom_selection_restore (document);
-
-			return;
 		}
+
+		e_html_editor_web_extension_set_return_key_pressed (extension, TRUE);
+		dom_check_magic_links (document, extension, FALSE);
+		e_html_editor_web_extension_set_return_key_pressed (extension, FALSE);
+		dom_force_spell_check_in_viewport (document, extension);
+
+		return;
 	}
 
 	if (!single_block) {
@@ -1860,6 +1863,12 @@ undo_input (EHTMLEditorUndoRedoManager *manager,
 	if (remove_anchor) {
 		WebKitDOMNode *child;
 
+		/* Don't ask me why, but I got into the situation where the node
+		 * that I received above was out of the document, and all the
+		 * modifications to it were of course not propagated to it. Let's
+		 * get that node again. */
+		node = webkit_dom_dom_selection_get_anchor_node (dom_selection);
+		node = webkit_dom_node_get_parent_node (node);
 		while ((child = webkit_dom_node_get_first_child (node)))
 			webkit_dom_node_insert_before (
 				webkit_dom_node_get_parent_node (node), child, node, NULL);
@@ -2526,8 +2535,11 @@ e_html_editor_undo_redo_manager_redo (EHTMLEditorUndoRedoManager *manager)
 					WEBKIT_DOM_NODE (event->data.fragment));
 				text_content = webkit_dom_node_get_text_content (first_child);
 				/* Call magic links when the space was pressed. */
-				if (g_str_has_prefix (text_content, UNICODE_NBSP))
+				if (g_str_has_prefix (text_content, UNICODE_NBSP)) {
+					e_html_editor_web_extension_set_space_key_pressed (extension, TRUE);
 					dom_check_magic_links (document, extension, FALSE);
+					e_html_editor_web_extension_set_space_key_pressed (extension, FALSE);
+				}
 				g_free (text_content);
 			}
 			break;
