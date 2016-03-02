@@ -18,8 +18,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution-master-po-gl-53747.merged\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-02-24 21:43+0100\n"
-"PO-Revision-Date: 2016-02-24 22:07+0200\n"
+"POT-Creation-Date: 2016-03-02 09:56+0100\n"
+"PO-Revision-Date: 2016-03-02 10:14+0200\n"
 "Last-Translator: Fran Dieguez <frandieguez@gnome.org>\n"
 "Language-Team: gnome-l10n-gl@gnome.org\n"
 "Language: gl\n"
@@ -2580,15 +2580,13 @@ msgstr "A lista de recordatorios non está marcada para o seu uso sen conexión.
 
 #. Translators: {0} is the name of the calendar/memo list/task list.
 #: ../calendar/calendar.error.xml.h:91
-#, fuzzy
 msgid "Failed to add timezone to '{0}'"
-msgstr "Produciuse un fallo ao conectarse «{0}»"
+msgstr "Produciuse un fallo ao engadir o fuso horario ao «{0}»"
 
 #. The {0} is a calendar/memo list/task list name, which is useless here
 #: ../calendar/calendar.error.xml.h:93
-#, fuzzy
 msgid "Failed to save attachments"
-msgstr "Non foi posíbel gardar os anexos"
+msgstr "Produciuse un fallo ao gardar os anexos"
 
 #. Translators: {0} is the name of the calendar.
 #: ../calendar/calendar.error.xml.h:95
@@ -4076,23 +4074,22 @@ msgid "Could not load the attachment"
 msgstr "Non foi posíbel cargar o anexo"
 
 #: ../calendar/gui/e-comp-editor-page-attachments.c:413
-#, fuzzy
 msgid ""
 "Some attachments are still being downloaded. Please wait until the download "
 "is finished."
 msgstr ""
-"Estanse descargando algúns anexos. Se garda a tarefa fará que se perdan eses "
-"anexos."
+"Aínda se están descargando algúns anexos. Por favor agarde ate que a "
+"descarga remate."
 
 #: ../calendar/gui/e-comp-editor-page-attachments.c:440
 #, c-format
 msgid "Attachment '%s' cannot be found, remove it from the list, please"
-msgstr ""
+msgstr "Non se atopou o anexo «%s», elimíneo da lista, por favor"
 
 #: ../calendar/gui/e-comp-editor-page-attachments.c:457
 #, c-format
 msgid "Attachment '%s' doesn't have valid URI, remove it from the list, please"
-msgstr ""
+msgstr "O anexo «%s» non ten un URI válido, elimíneo da lista, por favor"
 
 #: ../calendar/gui/e-comp-editor-page-attachments.c:618
 #: ../composer/e-composer-actions.c:327
@@ -4143,9 +4140,8 @@ msgid "A_ttendees"
 msgstr "P_articipantes"
 
 #: ../calendar/gui/e-comp-editor-page-general.c:585
-#, fuzzy
 msgid "Toggles whether the Attendees are displayed"
-msgstr "Alterna a vista do campo de tipo de participante"
+msgstr "Alterna se se mostran os Participantes"
 
 #: ../calendar/gui/e-comp-editor-page-general.c:594
 msgid "R_ole Field"
@@ -4193,7 +4189,6 @@ msgid "Or_ganizer:"
 msgstr "Or_ganizador:"
 
 #: ../calendar/gui/e-comp-editor-page-general.c:1288
-#, fuzzy
 msgctxt "ECompEditor"
 msgid "Atte_ndees..."
 msgstr "Participa_ntes…"
@@ -4383,25 +4378,20 @@ msgid "This component rec_urs"
 msgstr "Este componente r_epítese"
 
 #: ../calendar/gui/e-comp-editor-page-recurrence.c:1862
-#, fuzzy
 msgid "Recurrence exception date is invalid"
-msgstr "A data da repetición non é correcta"
+msgstr "A data da repetición da excepción non é correcta"
 
 #: ../calendar/gui/e-comp-editor-page-recurrence.c:1910
-#, fuzzy
 msgid "End time of the recurrence is before the start"
-msgstr ""
-"A hora de finalización da repetición era anterior á do inicio da actividade"
+msgstr "A hora de finalización da repetición é anterior á do inicio"
 
 #: ../calendar/gui/e-comp-editor-page-recurrence.c:1953
-#, fuzzy
 msgid "R_ecurrence"
-msgstr "Repetición"
+msgstr "R_epetición"
 
 #: ../calendar/gui/e-comp-editor-page-recurrence.c:1955
-#, fuzzy
 msgid "Set or unset recurrence"
-msgstr "Ten repeticións."
+msgstr "Estabelecer ou retirar repetición."
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
 #: ../calendar/gui/e-comp-editor-page-recurrence.c:2056
@@ -4484,9 +4474,8 @@ msgid "_Reminders"
 msgstr "_Recordatorios"
 
 #: ../calendar/gui/e-comp-editor-page-reminders.c:1557
-#, fuzzy
 msgid "Set or unset reminders"
-msgstr "Estabelcer ou desestabelecer os recordatorios desta actividade"
+msgstr "Estabelcer ou quitar os recordatorios"
 
 #: ../calendar/gui/e-comp-editor-page-reminders.c:1610
 #: ../modules/calendar/e-calendar-preferences.ui.h:66
@@ -8749,11 +8738,8 @@ msgid "Show appointment icons in the month view"
 msgstr "Mostrar as iconas das citas na vista semanal"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:112
-#, fuzzy
 msgid "Whether to show icons of events in the month view"
-msgstr ""
-"Indica se se mostra a hora de finalización das actividades nas vistas "
-"semanais e mensuais"
+msgstr "Indica se se mostran as iconas de eventos na vista mensual"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:113
 msgid "Show the memo preview pane"
@@ -8971,7 +8957,7 @@ msgstr "Domingo é un día de traballo"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:155
 msgid "Create events, memos and tasks as Private by default"
-msgstr ""
+msgstr "Crear eventos, recordatorios e tarefas como Privados por omisión"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:156
 msgid "(Deprecated) First day of the week, from Sunday (0) to Saturday (6)"
@@ -9074,9 +9060,10 @@ msgid "Default charset in which to compose messages"
 msgstr "Conxunto de caracteres predeterminado para escribir mensaxes"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:4
-#, fuzzy
 msgid "Default charset in which to compose messages. Uses UTF-8, if not set."
-msgstr "Conxunto de caracteres predeterminado para escribir mensaxes."
+msgstr ""
+"Conxunto de caracteres predeterminado para escribir mensaxes. Usa UTF-8 se "
+"non está estabelecido."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:5
 msgid "Path where picture gallery should search for its content"
@@ -9443,11 +9430,13 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:65
 msgid "Wrap quoted text in replies"
-msgstr ""
+msgstr "Axustar o texto entre comiñas nas respostas"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:66
 msgid "If set to 'true' quoted text in replies will be wrapped."
 msgstr ""
+"Se está estabelecido a «true» o texto entre comiñas nas respostas será "
+"axustado."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:67
 msgid "Save file format for drag-and-drop operation"
@@ -9543,7 +9532,7 @@ msgstr "Cargar automaticamente as imaxes das mensaxes HTML sobre HTTP"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:86
 msgid "Show notification about missing remote content"
-msgstr ""
+msgstr "Mostrar notificacións do contido remoto que falta"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:87
 msgid ""
@@ -9648,14 +9637,14 @@ msgid "Show deleted messages (with a strike-through) in the message-list."
 msgstr "Mostrar as mensaxes eliminadas (riscadas) na lista de mensaxes."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:108
-#, fuzzy
 msgid "Show junk messages in the message-list"
-msgstr "Mostrar as mensaxes eliminadas na lista de mensaxes"
+msgstr "Mostrar as mensaxes do lixo na lista de mensaxes"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:109
-#, fuzzy
 msgid "Show junk messages (with a red strike-through) in the message-list."
-msgstr "Mostrar as mensaxes eliminadas (riscadas) na lista de mensaxes."
+msgstr ""
+"Mostrar as mensaxes do lixo (riscadas con unha liña vermella) na lista de "
+"mensaxes."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:110
 msgid "Enable Unmatched search folder"
@@ -10772,16 +10761,16 @@ msgid "Flag that enables a much simplified user interface."
 msgstr "Marca que activa unha interface de usuario moito máis simplificada."
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:13
-#, fuzzy
 msgid "List of button names to hide in the window switcher"
-msgstr ""
-"Ampliar imaxes grandes para que non sexan máis anchas que o ancho da xanela"
+msgstr "Lista dos nomes dos botóns a ocultar no trocador de xanelas"
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:14
 msgid ""
 "Valid values are 'mail', 'addressbook', 'calendar', 'tasks' and 'memos'. "
 "Change of this requires restart of the application."
 msgstr ""
+"Os valores válidos son «mail», «addressbook», «calendar», «tasks» e «memos». "
+"Se cambia isto requerirase reiniciar o aplicativo."
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:15
 msgid "Window buttons are visible"
@@ -13381,11 +13370,11 @@ msgstr "Ta_maño:"
 msgid "Text Properties"
 msgstr "Propiedades do texto"
 
-#: ../e-util/e-html-editor-view.c:6298
+#: ../e-util/e-html-editor-view.c:6380
 msgid "Changed property"
 msgstr "Propiedade cambiada"
 
-#: ../e-util/e-html-editor-view.c:6299
+#: ../e-util/e-html-editor-view.c:6381
 msgid "Whether editor changed"
 msgstr "Indica se o editor cambiou"
 
@@ -14021,9 +14010,8 @@ msgid "Name:"
 msgstr "Nome:"
 
 #: ../e-util/e-source-config.c:813
-#, fuzzy
 msgid "Name cannot be empty"
-msgstr "Un ou máis valores non poden ser baleiros."
+msgstr "O nome non pode estar baleiro"
 
 #. Translators: This is the first of a sequence of widgets:
 #. * "Refresh every [NUMERIC_ENTRY] [TIME_UNITS_COMBO]"
@@ -14036,38 +14024,32 @@ msgid "Use a secure connection"
 msgstr "Usar unha conexión segura"
 
 #: ../e-util/e-source-config.c:1439
-#, fuzzy
 msgid "Unset _trust for SSL/TLS certificate"
-msgstr "Desestabelecer _confianza para o certificado SSL"
+msgstr "Desestabelecer _confianza para o certificado SSL/TLS"
 
 #: ../e-util/e-source-config.c:1475
 msgid "User"
 msgstr "Usuario"
 
 #: ../e-util/e-source-selector.c:3214
-#, fuzzy
 msgid "Show"
-msgstr "Mostrar %s"
+msgstr "Mostrar"
 
 #: ../e-util/e-source-selector.c:3221
-#, fuzzy
 msgid "Group name"
-msgstr "Responder ao grupo"
+msgstr "Nome do grupo"
 
 #: ../e-util/e-source-selector.c:3376 ../e-util/e-source-selector.c:3475
-#, fuzzy
 msgid "_Show"
-msgstr "Mostrar %s"
+msgstr "_Mostrar"
 
 #: ../e-util/e-source-selector.c:3428
-#, fuzzy
 msgid "Manage Groups"
-msgstr "Director"
+msgstr "Xestionar grupos"
 
 #: ../e-util/e-source-selector.c:3440
-#, fuzzy
 msgid "Available Groups:"
-msgstr "Campos _dispoñíbeis:"
+msgstr "Grupos dispoñíbeis:"
 
 #: ../e-util/e-source-selector-dialog.c:236
 msgid "_Destination"
@@ -14649,13 +14631,12 @@ msgid "One or more values cannot be empty."
 msgstr "Un ou máis valores non poden ser baleiros."
 
 #: ../e-util/filter.error.xml.h:16
-#, fuzzy
 msgid "Are you sure you want to remove rule '{0}'?"
-msgstr "Está seguro de que desexa eliminar a tarefa «{0}»?"
+msgstr "Está seguro de que desexa eliminar a regra «{0}»?"
 
 #: ../e-util/filter.error.xml.h:17
 msgid "_Keep"
-msgstr ""
+msgstr "_Manter"
 
 #: ../e-util/filter.ui.h:2
 msgid "the current time"
@@ -14837,17 +14818,16 @@ msgstr ""
 "extensión \"Exchange Web Services\" (EWS)."
 
 #: ../libemail-engine/camel-sasl-oauth2-google.c:29
-#, fuzzy
 msgid "OAuth2 Google"
-msgstr "OAuth2"
+msgstr "OAuth2 de Google"
 
 #: ../libemail-engine/camel-sasl-oauth2-google.c:30
-#, fuzzy
 msgid ""
 "This option will use an OAuth 2.0 access token to connect to the Google "
 "server"
 msgstr ""
-"Esta opción usará un token de acceso OAuth 2.0 para conectarse ao servidor"
+"Esta opción usará un token de acceso OAuth 2.0 para conectarse ao servidor "
+"de Google"
 
 #: ../libemail-engine/camel-sasl-xoauth2.c:26
 msgid "OAuth2"
@@ -15240,9 +15220,8 @@ msgid "_Revise Details"
 msgstr "_Revisar detalles"
 
 #: ../mail/e-mail-config-auth-check.c:177
-#, fuzzy
 msgid "Querying authentication types..."
-msgstr "Tipo de _autenticación"
+msgstr "Consultando o tipo de autenticación…"
 
 #: ../mail/e-mail-config-auth-check.c:340
 msgid "Check for Supported Types"
@@ -15268,15 +15247,13 @@ msgid "Done"
 msgstr "Feito"
 
 #: ../mail/e-mail-config-defaults-page.c:371
-#, fuzzy
 msgid "Checking server settings..."
-msgstr "Comprobando o servizo"
+msgstr "Comprobando as preferencias do servidor…"
 
 #: ../mail/e-mail-config-defaults-page.c:489
-#, fuzzy
 msgctxt "ReplyForward"
 msgid "Use global setting"
-msgstr "Usar a localización predeterminada"
+msgstr "Usar a configuración global"
 
 #: ../mail/e-mail-config-defaults-page.c:491 ../mail/mail-config.ui.h:26
 msgctxt "ReplyForward"
@@ -15336,9 +15313,8 @@ msgid "_Restore Defaults"
 msgstr "_Restaurar valores predeterminados"
 
 #: ../mail/e-mail-config-defaults-page.c:946
-#, fuzzy
 msgid "_Lookup Folders"
-msgstr "Cartafoles locais"
+msgstr "_Buscar en cartafoles"
 
 #: ../mail/e-mail-config-defaults-page.c:964
 msgid "Use a Real Folder for _Trash:"
@@ -15369,7 +15345,6 @@ msgid "Always _blind carbon-copy (bcc) to:"
 msgstr "Enviar sempre unha copia de carbón _oculta (Cco) a:"
 
 #: ../mail/e-mail-config-defaults-page.c:1057
-#, fuzzy
 msgid "Re_ply style:"
 msgstr "Estilo da _resposta:"
 
@@ -15457,28 +15432,25 @@ msgstr ""
 "inserido"
 
 #: ../mail/e-mail-config-identity-page.c:611
-#, fuzzy
 msgid "Full Name cannot be empty"
-msgstr "Un ou máis valores non poden ser baleiros."
+msgstr "O nome completo non pode estar baleiro"
 
 #: ../mail/e-mail-config-identity-page.c:618
-#, fuzzy
 msgid "Email Address cannot be empty"
-msgstr "Un ou máis valores non poden ser baleiros."
+msgstr "O enderezo de correo non pode ser baleiro"
 
 #: ../mail/e-mail-config-identity-page.c:623
 msgid "Email Address is not a valid email"
-msgstr ""
+msgstr "O enderezo de correo non é un correo válido"
 
 #: ../mail/e-mail-config-identity-page.c:635
 msgid "Reply To is not a valid email"
-msgstr ""
+msgstr "«Responder a» non é un correo válido"
 
 #: ../mail/e-mail-config-identity-page.c:646
 #: ../mail/e-mail-config-summary-page.c:632
-#, fuzzy
 msgid "Account Name cannot be empty"
-msgstr "Un ou máis valores non poden ser baleiros."
+msgstr "O nome de conta non pode estar baleiro"
 
 #: ../mail/e-mail-config-lookup-page.c:70
 msgid "Looking up account details..."
@@ -15572,7 +15544,7 @@ msgstr "Confia_r sempre nas chaves do meu anel de chaves ao cifrar"
 
 #: ../mail/e-mail-config-security-page.c:502
 msgid "Prefer _inline sign/encrypt for plain text messages"
-msgstr ""
+msgstr "Preferir o asinado/cifrado _en liña para os mensaxes de texto plano"
 
 #: ../mail/e-mail-config-security-page.c:526
 msgid "Secure MIME (S/MIME)"
@@ -15627,7 +15599,7 @@ msgstr "TLS"
 
 #: ../mail/e-mail-config-summary-page.c:145
 msgid "STARTTLS"
-msgstr ""
+msgstr "STARTTLS"
 
 #: ../mail/e-mail-config-summary-page.c:306
 msgid ""
@@ -15833,29 +15805,24 @@ msgid "Color"
 msgstr "Cor"
 
 #: ../mail/e-mail-notes.c:310 ../mail/e-mail-notes.c:692
-#, fuzzy
 msgid "Message Note"
-msgstr "Mensaxes para"
+msgstr "Nota do mensaxe"
 
 #: ../mail/e-mail-notes.c:612
-#, fuzzy
 msgid "Cannot find message in its folder summary"
-msgstr "Copiando as mensaxes ao cartafol %s"
+msgstr "Non se pode atopar o mensaxe no seu resumo de carafol"
 
 #: ../mail/e-mail-notes.c:815
-#, fuzzy
 msgid "Storing changes..."
-msgstr "Formatando a mensaxe…"
+msgstr "Almacenando cambios…"
 
 #: ../mail/e-mail-notes.c:940
-#, fuzzy
 msgid "Edit Message Note"
-msgstr "_Editar a mensaxe"
+msgstr "Editar as notas do mensaxe"
 
 #: ../mail/e-mail-notes.c:1058
-#, fuzzy
 msgid "Retrieving message..."
-msgstr "Descargando mensaxe"
+msgstr "Obtendo a mensaxe…"
 
 #: ../mail/e-mail-print-config-headers.c:165
 msgid "Move selected headers to top"
@@ -15912,9 +15879,8 @@ msgid "C_opy"
 msgstr "C_opiar"
 
 #: ../mail/e-mail-reader.c:488
-#, fuzzy
 msgid "Deleting message note..."
-msgstr "Eliminando mensaxes antigas"
+msgstr "Eliminando as notas da mensaxe…"
 
 #: ../mail/e-mail-reader.c:1271 ../mail/e-mail-reader.c:1483
 #: ../mail/e-mail-reader.c:1523
@@ -16650,16 +16616,14 @@ msgstr "Non foi posíbel atopar os datos para o UID «%s»"
 
 #. Translators: The %d is replaced with the actual count of recipients, which is always more than one.
 #: ../mail/em-composer-utils.c:390
-#, fuzzy, c-format
+#, c-format
 msgid "Are you sure you want to send a message with %d To and CC recipients?"
 msgid_plural ""
 "Are you sure you want to send a message with %d To and CC recipients?"
 msgstr[0] ""
-"Está seguro de que desexa enviar unha mensaxe cos destinatarios {0} Para e "
-"CC?"
+"Está seguro de que desexa enviar unha mensaxe con %d destinatario Para e CC?"
 msgstr[1] ""
-"Está seguro de que desexa enviar unha mensaxe cos destinatarios {0} Para e "
-"CC?"
+"Está seguro de que desexa enviar unha mensaxe con %d destinatarios Para e CC?"
 
 #. Translators: The %d is replaced with the actual count of recipients, which is always more than one.
 #: ../mail/em-composer-utils.c:396
@@ -16693,7 +16657,7 @@ msgstr[1] ""
 #. hides itself and the user sees no feedback.
 #: ../mail/em-composer-utils.c:790
 msgid "Waiting for attachments to load..."
-msgstr ""
+msgstr "Agardando que se carguen os anexos…"
 
 #. Note to translators: this is the attribution string used
 #. * when quoting messages.  Each ${Variable} gets replaced
@@ -17186,15 +17150,13 @@ msgstr "Tamaño (KB)"
 
 #: ../mail/filtertypes.xml.in.h:34 ../mail/searchtypes.xml.in.h:36
 #: ../mail/vfoldertypes.xml.in.h:36
-#, fuzzy
 msgid "is greater than or equal to"
-msgstr "é maior que"
+msgstr "é maior ou igual a"
 
 #: ../mail/filtertypes.xml.in.h:35 ../mail/searchtypes.xml.in.h:37
 #: ../mail/vfoldertypes.xml.in.h:37
-#, fuzzy
 msgid "is less than or equal to"
-msgstr "é menor que"
+msgstr "é menor ou igual a"
 
 #: ../mail/filtertypes.xml.in.h:37 ../mail/searchtypes.xml.in.h:39
 #: ../mail/vfoldertypes.xml.in.h:39
@@ -17850,9 +17812,9 @@ msgid "_Always load remote content from the Internet"
 msgstr "C_argar sempre o contido remoto desde Internet"
 
 #: ../mail/mail-config.ui.h:110
-#, fuzzy
 msgid "Notify about _missing remote content in the message preview"
-msgstr "_Mostrar a fotografía do remitente na vista previa das mensaxes"
+msgstr ""
+"Notificar sobre o contido remoto que _falta na previsualización da mensaxe"
 
 #: ../mail/mail-config.ui.h:111
 msgid "Add"
@@ -20931,7 +20893,7 @@ msgstr "_Xestionar os grupos da lista de recordatorios…"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:595
 msgid "Manage Memo List groups order and visibility"
-msgstr ""
+msgstr "Xestionar a orde e visibilidade dos grupos de listas de recordatorios"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:600
 msgid "_New Memo List"
@@ -20950,9 +20912,8 @@ msgid "Show _Only This Memo List"
 msgstr "M_ostrar só esta lista de notas"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:635
-#, fuzzy
 msgid "Sho_w All Memo Lists"
-msgstr "M_ostrar só esta lista de notas"
+msgstr "M_ostrar todas as listas de recordatorios"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:722
 msgid "Memo _Preview"
@@ -21070,7 +21031,7 @@ msgstr "Eliminar a lista de tarefas seleccionada"
 
 #: ../modules/calendar/e-task-shell-view-actions.c:719
 msgid "_Manage Task List groups..."
-msgstr ""
+msgstr "_Xestionar os grupos das listas de recordatorios…"
 
 #: ../modules/calendar/e-task-shell-view-actions.c:726
 msgid "_New Task List"
@@ -21085,9 +21046,8 @@ msgid "Rename the selected task list"
 msgstr "Renomear a lista de tarefas seleccionada"
 
 #: ../modules/calendar/e-task-shell-view-actions.c:754
-#, fuzzy
 msgid "Sho_w All Task Lists"
-msgstr "M_ostrar só esta lista de tarefas"
+msgstr "M_ostrar todas as listas de tarefas"
 
 #: ../modules/calendar/e-task-shell-view-actions.c:761
 msgid "Show _Only This Task List"
@@ -21888,9 +21848,8 @@ msgid "Choose a MH mail directory"
 msgstr "Seleccione un directorio de correo MH"
 
 #: ../modules/mail-config/e-mail-config-local-accounts.c:270
-#, fuzzy
 msgid "MH mail directory cannot be empty"
-msgstr "Un ou máis valores non poden ser baleiros."
+msgstr "O cartafol de correo MH non pode estar baleiro"
 
 #: ../modules/mail-config/e-mail-config-local-accounts.c:291
 msgid "Local Delivery _File:"
@@ -21901,18 +21860,16 @@ msgid "Choose a local delivery file"
 msgstr "Seleccione un ficheiro de envío local"
 
 #: ../modules/mail-config/e-mail-config-local-accounts.c:294
-#, fuzzy
 msgid "Local delivery file cannot be empty"
-msgstr "Un ou máis valores non poden ser baleiros."
+msgstr "O ficheiro de envío local non pode estar baleiro"
 
 #: ../modules/mail-config/e-mail-config-local-accounts.c:316
 msgid "Choose a Maildir mail directory"
 msgstr "Seleccione un cartafol de correo Maildir"
 
 #: ../modules/mail-config/e-mail-config-local-accounts.c:318
-#, fuzzy
 msgid "Maildir mail directory cannot be empty"
-msgstr "Seleccione un cartafol de correo Maildir"
+msgstr "O cartafol de correo Maildir non pode estar baleiro"
 
 #: ../modules/mail-config/e-mail-config-local-accounts.c:339
 msgid "Spool _File:"
@@ -21923,9 +21880,8 @@ msgid "Choose a mbox spool file"
 msgstr "Seleccione un ficheiro spool de mbox"
 
 #: ../modules/mail-config/e-mail-config-local-accounts.c:342
-#, fuzzy
 msgid "Mbox spool file cannot be empty"
-msgstr "Un ou máis valores non poden ser baleiros."
+msgstr "O fichero spool Mbox non pode estar baleiro"
 
 #: ../modules/mail-config/e-mail-config-local-accounts.c:363
 msgid "Spool _Directory:"
@@ -21937,7 +21893,7 @@ msgstr "Seleccione un cartafol spool de mbox"
 
 #: ../modules/mail-config/e-mail-config-local-accounts.c:366
 msgid "Mbox spool directory cannot be empty"
-msgstr ""
+msgstr "O cartafol de correo Mbox non pode estar baleiro"
 
 #: ../modules/mail-config/e-mail-config-remote-accounts.c:137
 #: ../modules/mail-config/e-mail-config-sendmail-backend.c:61
@@ -21975,9 +21931,8 @@ msgstr "STARTTLS despois de conectarse"
 
 #: ../modules/mail-config/e-mail-config-remote-accounts.c:242
 #: ../modules/mail-config/e-mail-config-smtp-backend.c:192
-#, fuzzy
 msgid "TLS on a dedicated port"
-msgstr "SSL nun porto adicado"
+msgstr "TLS nun porto adicado"
 
 #: ../modules/mail-config/e-mail-config-sendmail-backend.c:77
 msgid "_Use custom binary, instead of 'sendmail'"
@@ -22010,9 +21965,8 @@ msgid "Send mail also when in offline _mode"
 msgstr "Enviar correo electrónico incluso no _modo desconectado"
 
 #: ../modules/mail-config/e-mail-config-sendmail-backend.c:210
-#, fuzzy
 msgid "Custom binary cannot be empty"
-msgstr "Un ou máis valores non poden ser baleiros."
+msgstr "O binario personalizado non pode estar baleiro"
 
 #. do not reference
 #: ../modules/mail-config/e-mail-config-smtp-backend.c:145
@@ -22343,14 +22297,12 @@ msgid "Show deleted messages with a line through them"
 msgstr "Mostrar as mensaxes eliminadas riscándoas."
 
 #: ../modules/mail/e-mail-shell-view-actions.c:2004
-#, fuzzy
 msgid "Show _Junk Messages"
-msgstr "Mostrar as mensaxes _eliminadas"
+msgstr "Mostrar as mensaxes _lixo"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:2006
-#, fuzzy
 msgid "Show junk messages with a red line through them"
-msgstr "Mostrar as mensaxes eliminadas riscándoas."
+msgstr "Mostrar as mensaxes lixo riscándoas con unha liña vermella."
 
 #: ../modules/mail/e-mail-shell-view-actions.c:2012
 msgid "_Group By Threads"
@@ -22397,7 +22349,6 @@ msgid "Messages with Attachments"
 msgstr "Mensaxes con anexos"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:2092
-#, fuzzy
 msgid "Messages with Notes"
 msgstr "Mensaxes con anexos"
 
@@ -22414,9 +22365,8 @@ msgid "Unread Messages"
 msgstr "Mensaxes sen ler"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:2120
-#, fuzzy
 msgid "Message Thread"
-msgstr "Cabeceira da mensaxe"
+msgstr "Fío da mensaxe"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:2180
 msgid "Subject or Addresses contain"
@@ -22690,17 +22640,15 @@ msgstr ""
 
 #: ../modules/prefer-plain/e-mail-parser-prefer-plain.c:88
 #: ../modules/prefer-plain/plugin/config-ui.c:46
-#, fuzzy
 msgid "Show plain text if present, or HTML source"
-msgstr "Mostrar en texto plano se está presente"
+msgstr "Mostrar en texto plano se está presente, o a fonte HTML"
 
 #: ../modules/prefer-plain/e-mail-parser-prefer-plain.c:89
 #: ../modules/prefer-plain/plugin/config-ui.c:47
-#, fuzzy
 msgid "Show plain text part, if present, otherwise the HTML part source."
 msgstr ""
-"Mostrar a parte en texto plano se está presente, doutro xeito permitir que o "
-"Evolution seleccione a mellor parte para mostrar."
+"Mostrar a parte en texto plano se está presente, doutro xeito mostrar a "
+"parte de fonte HTML."
 
 #: ../modules/prefer-plain/e-mail-parser-prefer-plain.c:93
 #: ../modules/prefer-plain/plugin/config-ui.c:51
@@ -23401,14 +23349,12 @@ msgid "Get an archive of the list this message belongs to"
 msgstr "Obter un arquivo da lista á que pertence esta mensaxe"
 
 #: ../plugins/mailing-list-actions/mailing-list-actions.c:387
-#, fuzzy
 msgid "Copy _Message Archive URL"
-msgstr "Fonte da _mensaxe"
+msgstr "Copiar o URL do arquivo da _mensaxe"
 
 #: ../plugins/mailing-list-actions/mailing-list-actions.c:389
-#, fuzzy
 msgid "Copy direct URL for the selected message in its archive"
-msgstr "Redireccionar a alguén a mensaxe seleccionada"
+msgstr "Copiar o URL directo para a mensaxe seleccionada neste arquivo"
 
 #: ../plugins/mailing-list-actions/mailing-list-actions.c:394
 msgid "Get List _Usage Information"
