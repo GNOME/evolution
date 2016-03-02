@@ -6172,16 +6172,6 @@ process_elements (EHTMLEditorWebExtension *extension,
 				skip_node = TRUE;
 				goto next;
 			} else {
-				if (!changing_mode && to_plain_text) {
-					if (get_citation_level (child, FALSE) == 0) {
-						gchar *value = webkit_dom_element_get_attribute (
-							WEBKIT_DOM_ELEMENT (child), "type");
-
-						if (value && g_strcmp0 (value, "cite") == 0)
-							g_string_append (buffer, "\n");
-						g_free (value);
-					}
-				}
 				process_blockquote (WEBKIT_DOM_ELEMENT (child));
 				if (!to_plain_text)
 					remove_base_attributes (WEBKIT_DOM_ELEMENT (child));
