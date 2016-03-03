@@ -924,7 +924,9 @@ dom_check_magic_links (WebKitDOMDocument *document,
 
 		block = get_parent_block_node_from_child (node);
 		/* Get previous block */
-		block = webkit_dom_node_get_previous_sibling (block);
+		if (!(block = webkit_dom_node_get_previous_sibling (block)))
+			return;
+
 		/* If block is quoted content, get the last block there */
 		while (block && WEBKIT_DOM_IS_HTML_QUOTE_ELEMENT (block))
 			block = webkit_dom_node_get_last_child (block);
