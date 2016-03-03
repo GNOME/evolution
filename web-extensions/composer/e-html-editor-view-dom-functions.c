@@ -8920,8 +8920,7 @@ insert_tabulator (WebKitDOMDocument *document,
 
 gboolean
 return_pressed_in_empty_list_item (WebKitDOMDocument *document,
-				   EHTMLEditorWebExtension *extension,
-				   gboolean save_history)
+				   EHTMLEditorWebExtension *extension)
 {
 	WebKitDOMElement *selection_start_marker, *selection_end_marker;
 	WebKitDOMNode *parent, *node;
@@ -8946,12 +8945,15 @@ return_pressed_in_empty_list_item (WebKitDOMDocument *document,
 	/* Check if return was pressed inside an empty list item. */
 	if (!webkit_dom_node_get_previous_sibling (WEBKIT_DOM_NODE (selection_start_marker)) &&
 	    (!node || (node && WEBKIT_DOM_IS_HTML_BR_ELEMENT (node) && !webkit_dom_node_get_next_sibling (node)))) {
-		EHTMLEditorHistoryEvent *ev;
+		EHTMLEditorHistoryEvent *ev = NULL;
+		EHTMLEditorUndoRedoManager *manager;
 		WebKitDOMDocumentFragment *fragment;
 		WebKitDOMElement *paragraph;
 		WebKitDOMNode *list;
 
-		if (save_history) {
+		manager = e_html_editor_web_extension_get_undo_redo_manager (extension);
+
+		if (!e_html_editor_undo_redo_manager_is_operation_in_progress (manager)) {
 			/* Insert new history event for Return to have the right coordinates.
 			 * The fragment will be added later. */
 			ev = g_new0 (EHTMLEditorHistoryEvent, 1);
@@ -8969,7 +8971,7 @@ return_pressed_in_empty_list_item (WebKitDOMDocument *document,
 
 		list = split_list_into_two (parent, -1);
 
-		if (save_history) {
+		if (ev) {
 			webkit_dom_node_append_child (
 				WEBKIT_DOM_NODE (fragment),
 				parent,
@@ -8988,9 +8990,7 @@ return_pressed_in_empty_list_item (WebKitDOMDocument *document,
 
 		dom_selection_restore (document);
 
-		if (save_history) {
-			EHTMLEditorUndoRedoManager *manager;
-
+		if (ev) {
 			dom_selection_get_coordinates (
 				document,
 				&ev->after.start.x,
@@ -8999,8 +8999,6 @@ return_pressed_in_empty_list_item (WebKitDOMDocument *document,
 				&ev->after.end.y);
 
 			ev->data.fragment = fragment;
-
-			manager = e_html_editor_web_extension_get_undo_redo_manager (extension);
 
 			e_html_editor_undo_redo_manager_insert_history_event (manager, ev);
 		}
@@ -9130,7 +9128,7 @@ key_press_event_process_return_key (WebKitDOMDocument *document,
 
 	/* If the ENTER key is pressed inside an empty list item then the list
 	 * is broken into two and empty paragraph is inserted between lists. */
-	if (return_pressed_in_empty_list_item (document, extension, TRUE))
+	if (return_pressed_in_empty_list_item (document, extension))
 		return TRUE;
 
 	return FALSE;

@@ -178,8 +178,7 @@ void		dom_remove_node_and_parents_if_empty
 						(WebKitDOMNode *node);
 gboolean	return_pressed_in_empty_list_item
 						(WebKitDOMDocument *document,
-						 EHTMLEditorWebExtension *extension,
-						 gboolean save_history);
+						 EHTMLEditorWebExtension *extension);
 void		dom_merge_siblings_if_necessary
 						(WebKitDOMDocument *document,
 						 WebKitDOMDocumentFragment *deleted_content);
