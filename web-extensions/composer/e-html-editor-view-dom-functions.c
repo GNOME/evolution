@@ -4243,6 +4243,37 @@ check_if_end_block (const gchar *input,
 	return FALSE;
 }
 
+static void
+replace_selection_markers (gchar **text)
+{
+	if (!text)
+		return;
+
+	if (strstr (*text, "##SELECTION_START##")) {
+		GString *tmp;
+
+		tmp = e_str_replace_string (
+			*text,
+			"##SELECTION_START##",
+			"<span id=\"-x-evo-selection-start-marker\"></span>");
+
+		g_free (*text);
+		*text = g_string_free (tmp, FALSE);
+	}
+
+	if (strstr (*text, "##SELECTION_END##")) {
+		GString *tmp;
+
+		tmp = e_str_replace_string (
+			*text,
+			"##SELECTION_START##",
+			"<span id=\"-x-evo-selection-start-marker\"></span>");
+
+		g_free (*text);
+		*text = g_string_free (tmp, FALSE);
+	}
+}
+
 /* This parses the HTML code (that contains just text, &nbsp; and BR elements)
  * into blocks.
  * HTML code in that format we can get by taking innerText from some element,
@@ -4366,9 +4397,6 @@ parse_html_into_blocks (WebKitDOMDocument *document,
 
 			empty = !*truncated && strlen (rest) > 0;
 
-			if (strchr (" +-@*=\t;#", *rest))
-				preserve_block = FALSE;
-
 			rest_to_insert = g_regex_replace_eval (
 				regex_nbsp,
 				empty ? rest : truncated,
@@ -4379,6 +4407,11 @@ parse_html_into_blocks (WebKitDOMDocument *document,
 				NULL,
 				NULL);
 			g_free (truncated);
+
+			replace_selection_markers (&rest_to_insert);
+
+			if (strchr (" +-@*=\t;#", *rest))
+				preserve_block = FALSE;
 
 			if (surround_links_with_anchor (rest_to_insert)) {
 				gboolean is_email_address =
@@ -4555,6 +4588,8 @@ parse_html_into_blocks (WebKitDOMDocument *document,
 			NULL,
 			NULL);
 		g_free (truncated);
+
+		replace_selection_markers (&rest_to_insert);
 
 		if (surround_links_with_anchor (rest_to_insert)) {
 			gboolean is_email_address =
@@ -4746,40 +4781,19 @@ dom_quote_and_insert_text_into_selection (WebKitDOMDocument *document,
 static void
 mark_citation (WebKitDOMElement *citation)
 {
-	gchar *inner_html, *surrounded;
+	webkit_dom_html_element_insert_adjacent_text (
+		WEBKIT_DOM_HTML_ELEMENT (citation),
+		"beforebegin",
+		"##CITATION_START##",
+		NULL);
 
-	inner_html = webkit_dom_element_get_inner_html (citation);
-
-	surrounded = g_strconcat (
-		"<span>##CITATION_START##</span>", inner_html,
-		"<span>##CITATION_END##</span>", NULL);
-
-	webkit_dom_element_set_inner_html (citation, surrounded, NULL);
+	webkit_dom_html_element_insert_adjacent_text (
+		WEBKIT_DOM_HTML_ELEMENT (citation),
+		"afterend",
+		"##CITATION_END##",
+		NULL);
 
 	element_add_class (citation, "marked");
-
-	g_free (inner_html);
-	g_free (surrounded);
-}
-
-static gint
-create_text_markers_for_citations_in_document (WebKitDOMDocument *document)
-{
-	gint count = 0;
-	WebKitDOMElement *citation;
-
-	citation = webkit_dom_document_query_selector (
-		document, "blockquote[type=cite]:not(.marked)", NULL);
-
-	while (citation) {
-		mark_citation (citation);
-		count++;
-
-		citation = webkit_dom_document_query_selector (
-			document, "blockquote[type=cite]:not(.marked)", NULL);
-	}
-
-	return count;
 }
 
 static gint
@@ -4800,6 +4814,30 @@ create_text_markers_for_citations_in_element (WebKitDOMElement *element)
 	}
 
 	return count;
+}
+
+static void
+create_text_markers_for_selection_in_element (WebKitDOMElement *element)
+{
+	WebKitDOMElement *selection_marker;
+
+	selection_marker = webkit_dom_element_query_selector (
+		element, "#-x-evo-selection-start-marker", NULL);
+	if (selection_marker)
+		webkit_dom_html_element_insert_adjacent_text (
+			WEBKIT_DOM_HTML_ELEMENT (selection_marker),
+			"afterend",
+			"##SELECTION_START##",
+			NULL);
+
+	selection_marker = webkit_dom_element_query_selector (
+		element, "#-x-evo-selection-end-marker", NULL);
+	if (selection_marker)
+		webkit_dom_html_element_insert_adjacent_text (
+			WEBKIT_DOM_HTML_ELEMENT (selection_marker),
+			"afterend",
+			"##SELECTION_END##",
+			NULL);
 }
 
 static void
@@ -6875,7 +6913,6 @@ convert_element_from_html_to_plain_text (WebKitDOMDocument *document,
 {
 	gint blockquotes_count;
 	gchar *inner_text, *inner_html;
-	gboolean restore = TRUE;
 	WebKitDOMElement *top_signature, *signature, *blockquote, *main_blockquote;
 	WebKitDOMNode *signature_clone, *from;
 
@@ -6890,19 +6927,8 @@ convert_element_from_html_to_plain_text (WebKitDOMDocument *document,
 		document, "blockquote", NULL);
 
 	if (main_blockquote) {
-		WebKitDOMElement *input_start;
-
 		webkit_dom_element_set_attribute (
 			blockquote, "type", "cite", NULL);
-
-		input_start = webkit_dom_element_query_selector (
-			element, "#-x-evo-input-start", NULL);
-
-		restore = input_start ? TRUE : FALSE;
-
-		if (input_start)
-			dom_add_selection_markers_into_element_start (
-				document, WEBKIT_DOM_ELEMENT (input_start), NULL, NULL);
 		from = WEBKIT_DOM_NODE (main_blockquote);
 	} else {
 		if (signature) {
@@ -6914,8 +6940,8 @@ convert_element_from_html_to_plain_text (WebKitDOMDocument *document,
 		from = WEBKIT_DOM_NODE (element);
 	}
 
-	blockquotes_count = create_text_markers_for_citations_in_element (
-		WEBKIT_DOM_ELEMENT (from));
+	blockquotes_count = create_text_markers_for_citations_in_element (WEBKIT_DOM_ELEMENT (from));
+	create_text_markers_for_selection_in_element (WEBKIT_DOM_ELEMENT (from));
 
 	inner_text = webkit_dom_html_element_get_inner_text (
 		WEBKIT_DOM_HTML_ELEMENT (from));
@@ -6982,9 +7008,6 @@ convert_element_from_html_to_plain_text (WebKitDOMDocument *document,
 
 	g_free (inner_text);
 	g_free (inner_html);
-
-	if (restore)
-		dom_selection_restore (document);
 }
 
 gchar *
@@ -7006,6 +7029,8 @@ dom_process_content_for_plain_text (WebKitDOMDocument *document,
 	is_from_new_message = webkit_dom_element_has_attribute (
 		WEBKIT_DOM_ELEMENT (body), "data-new-message");
 	source = webkit_dom_node_clone_node (WEBKIT_DOM_NODE (body), TRUE);
+
+	dom_selection_save (document);
 
 	/* If composer is in HTML mode we have to move the content to plain version */
 	if (e_html_editor_web_extension_get_html_mode (extension)) {
@@ -7119,6 +7144,8 @@ dom_process_content_for_plain_text (WebKitDOMDocument *document,
 		remove_node (source);
 	else
 		g_object_unref (source);
+
+	dom_selection_restore (document);
 
 	/* Return text content between <body> and </body> */
 	return g_string_free (plain_text, FALSE);
