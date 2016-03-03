@@ -8661,7 +8661,7 @@ delete_last_character_from_previous_line_in_quoted_block (WebKitDOMDocument *doc
 {
 	EHTMLEditorHistoryEvent *ev = NULL;
 	gboolean hidden_space = FALSE;
-	WebKitDOMDocumentFragment *fragment;
+	WebKitDOMDocumentFragment *fragment = NULL;
 	WebKitDOMElement *element;
 	WebKitDOMNode *node, *beginning, *prev_sibling;
 
