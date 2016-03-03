@@ -130,7 +130,8 @@ gboolean	dom_process_on_key_press	(WebKitDOMDocument *document,
 						 guint key_val,
 						 guint state);
 
-gchar *		dom_process_content_for_draft	(WebKitDOMDocument *document);
+gchar *		dom_process_content_for_draft	(WebKitDOMDocument *document,
+						 gboolean only_inner_body);
 
 gchar *		dom_process_content_for_plain_text
 						(WebKitDOMDocument *document,

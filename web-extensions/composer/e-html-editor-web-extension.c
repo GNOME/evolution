@@ -508,6 +508,7 @@ static const char introspection_xml[] =
 "    </method>"
 "    <method name='DOMProcessContentForDraft'>"
 "      <arg type='t' name='page_id' direction='in'/>"
+"      <arg type='b' name='only_inner_body' direction='in'/>"
 "      <arg type='s' name='content' direction='out'/>"
 "    </method>"
 "    <method name='DOMProcessContentForPlainText'>"
@@ -1894,7 +1895,7 @@ handle_method_call (GDBusConnection *connection,
 		dom_convert_when_changing_composer_mode (document, extension);
 		g_dbus_method_invocation_return_value (invocation, NULL);
 	} else if (g_strcmp0 (method_name, "DOMProcessContentAfterModeChange") == 0) {
-		g_variant_get (parameters, "(t)", &page_id);
+		g_variant_get (parameters, "(tb)", &page_id);
 
 		web_page = get_webkit_web_page_or_return_dbus_error (
 			invocation, web_extension, page_id);
@@ -1905,9 +1906,10 @@ handle_method_call (GDBusConnection *connection,
 		dom_process_content_after_mode_change (document, extension);
 		g_dbus_method_invocation_return_value (invocation, NULL);
 	} else if (g_strcmp0 (method_name, "DOMProcessContentForDraft") == 0) {
+		gboolean only_inner_body;
 		gchar *value = NULL;
 
-		g_variant_get (parameters, "(t)", &page_id);
+		g_variant_get (parameters, "(tb)", &page_id, &only_inner_body);
 
 		web_page = get_webkit_web_page_or_return_dbus_error (
 			invocation, web_extension, page_id);
@@ -1915,7 +1917,7 @@ handle_method_call (GDBusConnection *connection,
 			goto error;
 
 		document = webkit_web_page_get_dom_document (web_page);
-		value = dom_process_content_for_draft (document);
+		value = dom_process_content_for_draft (document, only_inner_body);
 
 		g_dbus_method_invocation_return_value (
 			invocation,

@@ -2032,10 +2032,12 @@ e_html_editor_view_get_spell_checker (EHTMLEditorView *view)
 
 static gchar *
 process_document (EHTMLEditorView *view,
-                  const gchar *function)
+                  const gchar *function,
+		  gboolean with_bool,
+		  gboolean bool_value)
 {
 	GDBusProxy *web_extension;
-	GVariant *result;
+	GVariant *result, *params;
 
 	g_return_val_if_fail (view != NULL, NULL);
 
@@ -2043,12 +2045,20 @@ process_document (EHTMLEditorView *view,
 	if (!web_extension)
 		return NULL;
 
+	if (with_bool) {
+		params = g_variant_new (
+			"(tb)",
+			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view)),
+			bool_value);
+	} else {
+		params = g_variant_new (
+			"(t)",
+			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view)));
+	}
 	result = g_dbus_proxy_call_sync (
 		web_extension,
 		function,
-		g_variant_new (
-			"(t)",
-			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view))),
+		params,
 		G_DBUS_CALL_FLAGS_NONE,
 		-1,
 		NULL,
@@ -2170,7 +2180,7 @@ html_editor_view_get_parts_for_inline_images (EHTMLEditorView *view,
  * e_html_editor_view_get_text_html:
  * @view: an #EHTMLEditorView:
  *
- * Returns processed HTML content of the editor document (with elements attributes
+ * Returns processed HTML content of the editor document (without elements attributes
  * used in Evolution composer)
  *
  * Returns: A newly allocated string
@@ -2220,15 +2230,30 @@ e_html_editor_view_get_text_html (EHTMLEditorView *view,
  * e_html_editor_view_get_text_html_for_drafts:
  * @view: an #EHTMLEditorView:
  *
- * Returns HTML content of the editor document (without elements attributes
- * used in Evolution composer)
+ * Returns HTML content of the editor document (with elements attributes used in
+ * Evolution composer)
  *
  * Returns: A newly allocated string
  */
 gchar *
 e_html_editor_view_get_text_html_for_drafts (EHTMLEditorView *view)
 {
-	return process_document (view, "DOMProcessContentForDraft");
+	return process_document (view, "DOMProcessContentForDraft", TRUE, FALSE);
+}
+
+/**
+ * e_html_editor_view_get_text_html_for_drafts:
+ * @view: an #EHTMLEditorView:
+ *
+ * Returns HTML content of the editor document (with elements attributes used in
+ * Evolution composer)
+ *
+ * Returns: A newly allocated string
+ */
+gchar *
+e_html_editor_view_get_body_text_html_for_drafts (EHTMLEditorView *view)
+{
+	return process_document (view, "DOMProcessContentForDraft", TRUE, TRUE);
 }
 
 /**
@@ -2244,7 +2269,7 @@ e_html_editor_view_get_text_html_for_drafts (EHTMLEditorView *view)
 gchar *
 e_html_editor_view_get_text_plain (EHTMLEditorView *view)
 {
-	return process_document (view, "DOMProcessContentForPlainText");
+	return process_document (view, "DOMProcessContentForPlainText", FALSE, FALSE);
 }
 
 void

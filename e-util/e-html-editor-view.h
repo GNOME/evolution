@@ -154,6 +154,8 @@ gchar *		e_html_editor_view_get_text_html
 						 GList **inline_images);
 gchar *		e_html_editor_view_get_text_html_for_drafts
 						(EHTMLEditorView *view);
+gchar *		e_html_editor_view_get_body_text_html_for_drafts
+						(EHTMLEditorView *view);
 gchar *		e_html_editor_view_get_text_plain
 						(EHTMLEditorView *view);
 void		e_html_editor_view_convert_and_insert_plain_text
