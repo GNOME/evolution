@@ -1921,15 +1921,6 @@ undo_redo_citation_split (WebKitDOMDocument *document,
 
 		parent = get_parent_block_element (WEBKIT_DOM_NODE (selection_start));
 
-		if (!event->data.fragment ||
-		    !webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (event->data.fragment))) {
-			remove_node (WEBKIT_DOM_NODE (parent));
-			dom_merge_siblings_if_necessary (document, NULL);
-			restore_selection_to_history_event_state (document, event->before);
-
-			return;
-		}
-
 		citation_before = webkit_dom_node_get_previous_sibling (WEBKIT_DOM_NODE (parent));
 		if (!dom_node_is_citation_node (citation_before)) {
 			dom_selection_restore (document);
@@ -1958,7 +1949,7 @@ undo_redo_citation_split (WebKitDOMDocument *document,
 		if (WEBKIT_DOM_IS_HTML_BR_ELEMENT (tmp))
 			remove_node (tmp);
 
-		if (in_situ) {
+		if (in_situ && event->data.fragment) {
 			webkit_dom_node_append_child (
 				webkit_dom_node_get_parent_node (last_child),
 				webkit_dom_node_clone_node (
