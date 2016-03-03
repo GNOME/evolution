@@ -5322,8 +5322,14 @@ format_change_block_to_list (WebKitDOMDocument *document,
 		g_object_unref (dom_selection);
 		g_object_unref (dom_window);
 
+		dom_remove_input_event_listener_from_body (document, extension);
+		e_html_editor_web_extension_block_selection_changed_callback (extension);
+
 		dom_exec_command (
 			document, extension, E_HTML_EDITOR_VIEW_COMMAND_INSERT_NEW_LINE_IN_QUOTED_CONTENT, NULL);
+
+		dom_register_input_event_listener_on_body (document, extension);
+		e_html_editor_web_extension_unblock_selection_changed_callback (extension);
 
 		element = webkit_dom_document_query_selector (
 			document, "body>br", NULL);

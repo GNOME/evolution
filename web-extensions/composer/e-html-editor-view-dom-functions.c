@@ -700,8 +700,14 @@ dom_insert_new_line_into_citation (WebKitDOMDocument *document,
 
 		return NULL;
 	} else {
+		dom_remove_input_event_listener_from_body (document, extension);
+		e_html_editor_web_extension_block_selection_changed_callback (extension);
+
 		ret_val = dom_exec_command (
 			document, extension, E_HTML_EDITOR_VIEW_COMMAND_INSERT_NEW_LINE_IN_QUOTED_CONTENT, NULL);
+
+		e_html_editor_web_extension_unblock_selection_changed_callback (extension);
+		dom_register_input_event_listener_on_body (document, extension);
 
 		if (!ret_val)
 			return NULL;
@@ -5124,7 +5130,7 @@ dom_convert_content (WebKitDOMDocument *document,
 	g_object_unref (list);
 
 	repair_gmail_blockquotes (document);
-	create_text_markers_for_citations_in_document (document);
+	create_text_markers_for_citations_in_element (WEBKIT_DOM_ELEMENT (body));
 
 	if (preferred_text && *preferred_text)
 		webkit_dom_html_element_set_inner_text (
