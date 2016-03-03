@@ -9150,8 +9150,6 @@ return_pressed_in_empty_list_item (WebKitDOMDocument *document,
 		manager = e_html_editor_web_extension_get_undo_redo_manager (extension);
 
 		if (!e_html_editor_undo_redo_manager_is_operation_in_progress (manager)) {
-			/* Insert new history event for Return to have the right coordinates.
-			 * The fragment will be added later. */
 			ev = g_new0 (EHTMLEditorHistoryEvent, 1);
 			ev->type = HISTORY_INPUT;
 
@@ -9187,8 +9185,6 @@ return_pressed_in_empty_list_item (WebKitDOMDocument *document,
 			list,
 			NULL);
 
-		dom_selection_restore (document);
-
 		if (ev) {
 			dom_selection_get_coordinates (
 				document,
@@ -9201,6 +9197,8 @@ return_pressed_in_empty_list_item (WebKitDOMDocument *document,
 
 			e_html_editor_undo_redo_manager_insert_history_event (manager, ev);
 		}
+
+		dom_selection_restore (document);
 
 		e_html_editor_web_extension_set_content_changed (extension);
 
