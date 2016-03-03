@@ -8959,7 +8959,21 @@ selection_is_in_empty_list_item (WebKitDOMNode *selection_start_marker)
 	gchar *text;
 	WebKitDOMNode *sibling;
 
+	/* FIXME WK2 - useless expression*/
 	sibling = webkit_dom_node_get_previous_sibling (WEBKIT_DOM_NODE (selection_start_marker));
+
+	/* Selection needs to be collapsed. */
+	sibling = webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (selection_start_marker));
+	if (!dom_is_selection_position_node (sibling))
+		return FALSE;
+
+	/* After the selection end there could be just the BR element. */
+	sibling = webkit_dom_node_get_next_sibling (sibling);
+	if (sibling && !WEBKIT_DOM_IS_HTML_BR_ELEMENT (sibling))
+	       return FALSE;
+
+	if (sibling && webkit_dom_node_get_next_sibling (sibling))
+		return FALSE;
 
 	if (!sibling)
 		return TRUE;
@@ -8981,19 +8995,6 @@ selection_is_in_empty_list_item (WebKitDOMNode *selection_start_marker)
 	}
 
 	g_free (text);
-
-	/* Selection needs to be collapsed. */
-	sibling = webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (selection_start_marker));
-	if (!dom_is_selection_position_node (sibling))
-		return FALSE;
-
-	/* After the selection end there could be just the BR element. */
-	sibling = webkit_dom_node_get_next_sibling (sibling);
-	if (sibling && !WEBKIT_DOM_IS_HTML_BR_ELEMENT (sibling))
-	       return FALSE;
-
-	if (sibling && webkit_dom_node_get_next_sibling (sibling))
-		return FALSE;
 
 	return TRUE;
 }
