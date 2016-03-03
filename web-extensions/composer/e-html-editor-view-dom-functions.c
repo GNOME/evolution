@@ -4586,7 +4586,7 @@ dom_quote_and_insert_text_into_selection (WebKitDOMDocument *document,
 	EHTMLEditorUndoRedoManager *manager;
 	gchar *escaped_text, *inner_html;
 	WebKitDOMElement *blockquote, *element, *selection_start;
-	WebKitDOMNode *sibling;
+	WebKitDOMNode *node;
 
 	if (!text || !*text)
 		return;
@@ -4627,14 +4627,14 @@ dom_quote_and_insert_text_into_selection (WebKitDOMDocument *document,
 
 	selection_start = webkit_dom_document_get_element_by_id (
 		document, "-x-evo-selection-start-marker");
-	sibling = webkit_dom_node_get_previous_sibling (WEBKIT_DOM_NODE (selection_start));
+	node = webkit_dom_node_get_previous_sibling (WEBKIT_DOM_NODE (selection_start));
 	/* Check if block is empty. If so, replace it otherwise insert the quoted
 	 * content after current block. */
-	if (!sibling || WEBKIT_DOM_IS_HTML_BR_ELEMENT (sibling)) {
-		sibling = webkit_dom_node_get_next_sibling (
+	if (!node || WEBKIT_DOM_IS_HTML_BR_ELEMENT (node)) {
+		node = webkit_dom_node_get_next_sibling (
 			WEBKIT_DOM_NODE (selection_start));
-		sibling = webkit_dom_node_get_next_sibling (sibling);
-		if (!sibling || WEBKIT_DOM_IS_HTML_BR_ELEMENT (sibling)) {
+		node = webkit_dom_node_get_next_sibling (node);
+		if (!node || WEBKIT_DOM_IS_HTML_BR_ELEMENT (node)) {
 			webkit_dom_node_replace_child (
 				webkit_dom_node_get_parent_node (
 					webkit_dom_node_get_parent_node (
@@ -4655,8 +4655,9 @@ dom_quote_and_insert_text_into_selection (WebKitDOMDocument *document,
 
 	parse_html_into_blocks (document, extension, blockquote, NULL, inner_html);
 
-	if (!e_html_editor_web_extension_get_html_mode (extension)) {
-		WebKitDOMNode *node;
+	if (e_html_editor_web_extension_get_html_mode (extension)) {
+		node = webkit_dom_node_get_last_child (WEBKIT_DOM_NODE (blockquote));
+	} else {
 		gint word_wrap_length;
 
 		element_add_class (blockquote, "-x-evo-plaintext-quoted");
@@ -4675,11 +4676,16 @@ dom_quote_and_insert_text_into_selection (WebKitDOMDocument *document,
 
 			next_sibling = webkit_dom_node_get_next_sibling (node);
 			if (!next_sibling)
-				dom_add_selection_markers_into_element_end (
-					document, WEBKIT_DOM_ELEMENT (node), NULL, NULL);
+				break;
+
 			node = next_sibling;
 		}
 	}
+
+	dom_add_selection_markers_into_element_end (
+		document, WEBKIT_DOM_ELEMENT (node), NULL, NULL);
+
+	dom_selection_restore (document);
 
 	if (ev) {
 		dom_selection_get_coordinates (
@@ -4690,8 +4696,6 @@ dom_quote_and_insert_text_into_selection (WebKitDOMDocument *document,
 			&ev->after.end.y);
 		e_html_editor_undo_redo_manager_insert_history_event (manager, ev);
 	}
-
-	dom_selection_restore (document);
 
 	dom_force_spell_check_in_viewport (document, extension);
 
