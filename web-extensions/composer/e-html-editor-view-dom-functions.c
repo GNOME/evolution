@@ -8918,12 +8918,57 @@ insert_tabulator (WebKitDOMDocument *document,
 	return success;
 }
 
+static gboolean
+selection_is_in_empty_list_item (WebKitDOMNode *selection_start_marker)
+{
+	gchar *text;
+	WebKitDOMNode *sibling;
+
+	sibling = webkit_dom_node_get_previous_sibling (WEBKIT_DOM_NODE (selection_start_marker));
+
+	if (!sibling)
+		return TRUE;
+
+	/* Only text node with the zero width space character is allowed. */
+	if (!WEBKIT_DOM_IS_TEXT (sibling))
+		return FALSE;
+
+	if (webkit_dom_node_get_previous_sibling (sibling))
+		return FALSE;
+
+	if (webkit_dom_character_data_get_length (WEBKIT_DOM_CHARACTER_DATA (sibling)) != 1)
+		return FALSE;
+
+	text = webkit_dom_character_data_get_data (WEBKIT_DOM_CHARACTER_DATA (sibling));
+	if (!(text && g_strcmp0 (text, UNICODE_ZERO_WIDTH_SPACE) == 0)) {
+		g_free (text);
+		return FALSE;
+	}
+
+	g_free (text);
+
+	/* Selection needs to be collapsed. */
+	sibling = webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (selection_start_marker));
+	if (!dom_is_selection_position_node (sibling))
+		return FALSE;
+
+	/* After the selection end there could be just the BR element. */
+	sibling = webkit_dom_node_get_next_sibling (sibling);
+	if (sibling && !WEBKIT_DOM_IS_HTML_BR_ELEMENT (sibling))
+	       return FALSE;
+
+	if (sibling && webkit_dom_node_get_next_sibling (sibling))
+		return FALSE;
+
+	return TRUE;
+}
+
 gboolean
 return_pressed_in_empty_list_item (WebKitDOMDocument *document,
 				   EHTMLEditorWebExtension *extension)
 {
-	WebKitDOMElement *selection_start_marker, *selection_end_marker;
-	WebKitDOMNode *parent, *node;
+	WebKitDOMElement *selection_start_marker;
+	WebKitDOMNode *parent;
 
 	if (!dom_selection_is_collapsed (document))
 		return FALSE;
@@ -8932,8 +8977,6 @@ return_pressed_in_empty_list_item (WebKitDOMDocument *document,
 
 	selection_start_marker = webkit_dom_document_get_element_by_id (
 		document, "-x-evo-selection-start-marker");
-	selection_end_marker = webkit_dom_document_get_element_by_id (
-		document, "-x-evo-selection-end-marker");
 
 	parent = webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (selection_start_marker));
 	if (!WEBKIT_DOM_IS_HTML_LI_ELEMENT (parent)) {
@@ -8941,10 +8984,7 @@ return_pressed_in_empty_list_item (WebKitDOMDocument *document,
 		return FALSE;
 	}
 
-	node = webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (selection_end_marker));
-	/* Check if return was pressed inside an empty list item. */
-	if (!webkit_dom_node_get_previous_sibling (WEBKIT_DOM_NODE (selection_start_marker)) &&
-	    (!node || (node && WEBKIT_DOM_IS_HTML_BR_ELEMENT (node) && !webkit_dom_node_get_next_sibling (node)))) {
+	if (selection_is_in_empty_list_item (WEBKIT_DOM_NODE (selection_start_marker))) {
 		EHTMLEditorHistoryEvent *ev = NULL;
 		EHTMLEditorUndoRedoManager *manager;
 		WebKitDOMDocumentFragment *fragment;
