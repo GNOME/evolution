@@ -2825,8 +2825,8 @@ dom_merge_siblings_if_necessary (WebKitDOMDocument *document,
 		goto signature;
  repeat:
 	child = webkit_dom_node_get_previous_sibling (WEBKIT_DOM_NODE (element));
-	if (WEBKIT_DOM_IS_ELEMENT (prev_element))
-		prev_element = WEBKIT_DOM_ELEMENT (prev_element);
+	if (WEBKIT_DOM_IS_ELEMENT (child))
+		prev_element = WEBKIT_DOM_ELEMENT (child);
 	else
 		goto signature;
 
