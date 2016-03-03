@@ -181,25 +181,14 @@ restore_selection_to_history_event_state (WebKitDOMDocument *document,
 static void
 print_node_inner_html (WebKitDOMNode *node)
 {
-	WebKitDOMDocument *document;
-	WebKitDOMElement *div;
 	gchar *inner_html;
 
 	if (!node) {
 		printf ("    none\n");
 		return;
 	}
-	document = webkit_dom_node_get_owner_document (node);
-	div = webkit_dom_document_create_element (document, "div", NULL);
-	webkit_dom_node_append_child (
-			WEBKIT_DOM_NODE (div),
-			webkit_dom_node_clone_node (node, TRUE),
-			NULL);
 
-	inner_html = webkit_dom_element_get_inner_html (div);
-	remove_node (WEBKIT_DOM_NODE (div));
-
-	printf ("    '%s'\n", inner_html);
+	inner_html = dom_get_node_inner_html (node);
 
 	g_free (inner_html);
 }
@@ -742,6 +731,18 @@ undo_delete (WebKitDOMDocument *document,
 			wrap_and_quote_element (document, extension, WEBKIT_DOM_ELEMENT (last_child));
 
 		dom_merge_siblings_if_necessary (document, event->data.fragment);
+
+		/* If undoing drag and drop where the whole line was moved we need
+		 * to correct the selection. */
+		if (g_object_get_data (G_OBJECT (event->data.fragment), "-x-evo-drag-and-drop") &&
+		    (element = webkit_dom_document_get_element_by_id (document, "-x-evo-selection-end-marker"))) {
+			WebKitDOMNode *prev_block;
+
+			prev_block = webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (element));
+			if ((prev_block = webkit_dom_node_get_previous_sibling (prev_block)))
+				webkit_dom_node_append_child (
+					prev_block, WEBKIT_DOM_NODE (element), NULL);
+		}
 
 		dom_selection_restore (document);
 		dom_force_spell_check_in_viewport (document, extension);

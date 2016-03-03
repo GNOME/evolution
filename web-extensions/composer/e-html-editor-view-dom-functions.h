@@ -211,6 +211,8 @@ WebKitDOMElement *
 						 WebKitDOMElement *element);
 gint		get_citation_level		(WebKitDOMNode *node,
 						 gboolean set_plaintext_quoted);
+void		dom_save_history_for_drop	(WebKitDOMDocument *document,
+						 EHTMLEditorWebExtension *extension);
 
 G_END_DECLS
 

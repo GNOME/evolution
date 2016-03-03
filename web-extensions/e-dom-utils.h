@@ -159,6 +159,9 @@ void		merge_list_into_list		(WebKitDOMNode *from,
 void		merge_lists_if_possible		(WebKitDOMNode *list);
 WebKitDOMElement *
 		get_parent_block_element	(WebKitDOMNode *node);
+
+gchar *		dom_get_node_inner_html		(WebKitDOMNode *node);
+
 G_END_DECLS
 
 #endif /* E_DOM_UTILS_H */

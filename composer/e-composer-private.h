@@ -103,6 +103,7 @@ struct _EMsgComposerPrivate {
 	gboolean drop_occured;
 	gboolean dnd_is_uri;
 	gboolean is_sending_message;
+	gboolean dnd_history_saved;
 
 	gint focused_entry_selection_start;
 	gint focused_entry_selection_end;

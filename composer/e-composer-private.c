@@ -140,6 +140,7 @@ e_composer_private_constructed (EMsgComposer *composer)
 	priv->saved_editable = FALSE;
 	priv->drop_occured = FALSE;
 	priv->dnd_is_uri = FALSE;
+	priv->dnd_history_saved = FALSE;
 
 	priv->focused_entry = NULL;
 

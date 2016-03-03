@@ -335,24 +335,245 @@ dom_insert_signature (WebKitDOMDocument *document,
 	composer_move_caret (document, extension, top_signature, start_bottom);
 }
 
+static void
+insert_nbsp_history_event (WebKitDOMDocument *document,
+			   EHTMLEditorUndoRedoManager *manager,
+                           gboolean delete,
+                           guint x,
+                           guint y)
+{
+	EHTMLEditorHistoryEvent *event;
+	WebKitDOMDocumentFragment *fragment;
+
+	event = g_new0 (EHTMLEditorHistoryEvent, 1);
+	event->type = HISTORY_AND;
+	e_html_editor_undo_redo_manager_insert_history_event (manager, event);
+
+	fragment = webkit_dom_document_create_document_fragment (document);
+	webkit_dom_node_append_child (
+		WEBKIT_DOM_NODE (fragment),
+		WEBKIT_DOM_NODE (
+			webkit_dom_document_create_text_node (document, UNICODE_NBSP)),
+		NULL);
+
+	event = g_new0 (EHTMLEditorHistoryEvent, 1);
+	event->type = HISTORY_DELETE;
+
+	if (delete)
+		g_object_set_data (
+			G_OBJECT (fragment), "-x-evo-delete-key", GINT_TO_POINTER (1));
+
+	event->data.fragment = fragment;
+
+	event->before.start.x = x;
+	event->before.start.y = y;
+	event->before.end.x = x;
+	event->before.end.y = y;
+
+	event->after.start.x = x;
+	event->after.start.y = y;
+	event->after.end.x = x;
+	event->after.end.y = y;
+
+	e_html_editor_undo_redo_manager_insert_history_event (manager, event);
+}
+
+void
+dom_save_drag_and_drop_history (WebKitDOMDocument *document,
+				EHTMLEditorWebExtension *extension)
+{
+	EHTMLEditorHistoryEvent *event;
+	EHTMLEditorUndoRedoManager *manager;
+	gboolean start_to_start, end_to_end;
+	gchar *range_text;
+	guint x, y;
+	WebKitDOMDocumentFragment *fragment;
+	WebKitDOMDOMSelection *dom_selection;
+	WebKitDOMDOMWindow *dom_window;
+	WebKitDOMRange *beginning_of_line = NULL;
+	WebKitDOMRange *range = NULL, *range_clone = NULL;
+
+	manager = e_html_editor_web_extension_get_undo_redo_manager (extension);
+
+	if (!(dom_window = webkit_dom_document_get_default_view (document)))
+		return;
+
+	if (!(dom_selection = webkit_dom_dom_window_get_selection (dom_window))) {
+		g_object_unref (dom_window);
+		return;
+	}
+
+	if (webkit_dom_dom_selection_get_range_count (dom_selection) < 1) {
+		g_object_unref (dom_selection);
+		g_object_unref (dom_window);
+		return;
+	}
+
+	/* Obtain the dragged content. */
+	range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
+	range_clone = webkit_dom_range_clone_range (range, NULL);
+
+	/* Create the history event for the content that will
+	 * be removed by DnD. */
+	event = g_new0 (EHTMLEditorHistoryEvent, 1);
+	event->type = HISTORY_DELETE;
+
+	dom_selection_get_coordinates (
+		document,
+		&event->before.start.x,
+		&event->before.start.y,
+		&event->before.end.x,
+		&event->before.end.y);
+
+	x = event->before.start.x;
+	y = event->before.start.y;
+
+	event->after.start.x = x;
+	event->after.start.y = y;
+	event->after.end.x = x;
+	event->after.end.y = y;
+
+	/* Save the content that will be removed. */
+	fragment = webkit_dom_range_clone_contents (range_clone, NULL);
+
+	/* Extend the cloned range to point one character after
+	 * the selection ends to later check if there is a whitespace
+	 * after it. */
+	webkit_dom_range_set_end (
+		range_clone,
+		webkit_dom_range_get_end_container (range_clone, NULL),
+		webkit_dom_range_get_end_offset (range_clone, NULL) + 1,
+		NULL);
+	range_text = webkit_dom_range_get_text (range_clone);
+
+	/* Check if the current selection starts on the beginning
+	 * of line. */
+	webkit_dom_dom_selection_modify (
+		dom_selection, "extend", "left", "lineboundary");
+	beginning_of_line = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
+	start_to_start = webkit_dom_range_compare_boundary_points (
+		beginning_of_line, 0 /* START_TO_START */, range, NULL) == 0;
+
+	/* Restore the selection to state before the check. */
+	webkit_dom_dom_selection_remove_all_ranges (dom_selection);
+	webkit_dom_dom_selection_add_range (dom_selection, range);
+	g_object_unref (beginning_of_line);
+
+	/* Check if the current selection end on the end of the line. */
+	webkit_dom_dom_selection_modify (
+		dom_selection, "extend", "right", "lineboundary");
+	beginning_of_line = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
+	end_to_end = webkit_dom_range_compare_boundary_points (
+		beginning_of_line, 2 /* END_TO_END */, range, NULL) == 0;
+
+	/* Dragging the whole line. */
+	if (start_to_start && end_to_end) {
+		WebKitDOMNode *container, *actual_block, *tmp_block;
+
+		/* Select the whole line (to the beginning of the next
+		 * one so we can reuse the undo code while undoing this.
+		 * Because of this we need to special mark the event
+		 * with -x-evo-drag-and-drop to correct the selection
+		 * after undoing it (otherwise the beginning of the next
+		 * line will be selected as well. */
+		webkit_dom_dom_selection_modify (
+			dom_selection, "extend", "right", "character");
+		g_object_unref (beginning_of_line);
+		beginning_of_line = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
+
+		container = webkit_dom_range_get_end_container (range, NULL);
+		actual_block = get_parent_block_node_from_child (container);
+
+		tmp_block = webkit_dom_range_get_end_container (beginning_of_line, NULL);
+		if ((tmp_block = get_parent_block_node_from_child (tmp_block))) {
+			dom_selection_get_coordinates (
+				document,
+				&event->before.start.x,
+				&event->before.start.y,
+				&event->before.end.x,
+				&event->before.end.y);
+
+			/* Create the right content for the history event. */
+			fragment = webkit_dom_document_create_document_fragment (document);
+			/* The removed line. */
+			webkit_dom_node_append_child (
+				WEBKIT_DOM_NODE (fragment),
+				webkit_dom_node_clone_node (actual_block, TRUE),
+				NULL);
+			/* The following block, but empty. */
+			webkit_dom_node_append_child (
+				WEBKIT_DOM_NODE (fragment),
+				webkit_dom_node_clone_node (tmp_block, FALSE),
+				NULL);
+			g_object_set_data (
+				G_OBJECT (fragment),
+				"-x-evo-drag-and-drop",
+				GINT_TO_POINTER (1));
+			/* It should act as a Delete key press. */
+			g_object_set_data (G_OBJECT (
+				fragment),
+				"-x-evo-delete-key",
+				GINT_TO_POINTER (1));
+		}
+	}
+
+	event->data.fragment = fragment;
+	e_html_editor_undo_redo_manager_insert_history_event (manager, event);
+
+	/* Selection is ending on the end of the line, check if
+	 * there is a space before the selection start. If so, it
+	 * will be removed and we need create the history event
+	 * for it. */
+	if (end_to_end) {
+		gchar *range_text_start;
+		glong start_offset;
+
+		start_offset = webkit_dom_range_get_start_offset (range_clone, NULL);
+		webkit_dom_range_set_start (
+			range_clone,
+			webkit_dom_range_get_start_container (range_clone, NULL),
+			start_offset > 0 ? start_offset - 1 : 0,
+			NULL);
+
+		range_text_start = webkit_dom_range_get_text (range_clone);
+		if (g_str_has_prefix (range_text_start, " ") ||
+		    g_str_has_prefix (range_text_start, UNICODE_NBSP))
+			insert_nbsp_history_event (document, manager, FALSE, x, y);
+
+		g_free (range_text_start);
+	}
+
+	/* WebKit removes the space (if presented) after selection and
+	 * we need to create a new history event for it. */
+	if (g_str_has_suffix (range_text, " ") ||
+	    g_str_has_suffix (range_text, UNICODE_NBSP))
+		insert_nbsp_history_event (document, manager, TRUE, x, y);
+
+	g_free (range_text);
+
+	/* Restore the selection to original state. */
+	webkit_dom_dom_selection_remove_all_ranges (dom_selection);
+	webkit_dom_dom_selection_add_range (dom_selection, range);
+	g_object_unref (beginning_of_line);
+
+	/* All the things above were about removing the content,
+	 * create an AND event to continue later with inserting
+	 * the dropped content. */
+	event = g_new0 (EHTMLEditorHistoryEvent, 1);
+	event->type = HISTORY_AND;
+	e_html_editor_undo_redo_manager_insert_history_event (manager, event);
+
+	g_object_unref (dom_selection);
+	g_object_unref (dom_window);
+
+	g_object_unref (range);
+	g_object_unref (range_clone);
+}
+
 void
 dom_clean_after_drag_and_drop (WebKitDOMDocument *document,
                                EHTMLEditorWebExtension *extension)
 {
-	WebKitDOMDOMWindow *dom_window;
-	WebKitDOMDOMSelection *dom_selection;
-
-	dom_window = webkit_dom_document_get_default_view (document);
-	dom_selection = webkit_dom_dom_window_get_selection (dom_window);
-
-	/* When text is DnD'ed into the view, WebKit will select it. So let's
-	 * collapse it to its end to have the caret after the DnD'ed text. */
-	webkit_dom_dom_selection_collapse_to_end (dom_selection, NULL);
-
-	g_clear_object (&dom_selection);
-	g_clear_object (&dom_window);
-
+	dom_save_history_for_drop (document, extension);
 	dom_check_magic_links (document, extension, FALSE);
-	/* Also force spell check on view. */
-	dom_force_spell_check_in_viewport (document, extension);
 }

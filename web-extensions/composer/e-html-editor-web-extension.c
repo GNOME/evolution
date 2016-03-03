@@ -630,9 +630,11 @@ static const char introspection_xml[] =
 "      <arg type='b' name='top_signature' direction='in'/>"
 "      <arg type='b' name='start_bottom' direction='in'/>"
 "    </method>"
+"    <method name='DOMSaveDragAndDropHistory'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"    </method>"
 "    <method name='DOMCleanAfterDragAndDrop'>"
 "      <arg type='t' name='page_id' direction='in'/>"
-"      <arg type='b' name='remove_inserted_uri_on_drop' direction='in'/>"
 "    </method>"
 "<!-- ********************************************************* -->"
 "<!--     Functions that are used in External Editor plugin     -->"
@@ -2324,6 +2326,19 @@ handle_method_call (GDBusConnection *connection,
 
 		document = webkit_web_page_get_dom_document (web_page);
 		dom_insert_signature (document, extension, signature_html, top_signature, start_bottom);
+
+		g_dbus_method_invocation_return_value (invocation, NULL);
+	} else if (g_strcmp0 (method_name, "DOMSaveDragAndDropHistory") == 0) {
+		g_variant_get (
+			parameters, "(t)", &page_id);
+
+		web_page = get_webkit_web_page_or_return_dbus_error (
+			invocation, web_extension, page_id);
+		if (!web_page)
+			goto error;
+
+		document = webkit_web_page_get_dom_document (web_page);
+		dom_save_drag_and_drop_history (document, extension);
 
 		g_dbus_method_invocation_return_value (invocation, NULL);
 	} else if (g_strcmp0 (method_name, "DOMCleanAfterDragAndDrop") == 0) {

@@ -34,6 +34,8 @@ void		dom_insert_signature		(WebKitDOMDocument *document,
 						 const gchar *signature_html,
 						 gboolean top_signature,
 						 gboolean start_bottom);
+void		dom_save_drag_and_drop_history	(WebKitDOMDocument *document,
+						 EHTMLEditorWebExtension *extension);
 void		dom_clean_after_drag_and_drop	(WebKitDOMDocument *document,
 						 EHTMLEditorWebExtension *extension);
 

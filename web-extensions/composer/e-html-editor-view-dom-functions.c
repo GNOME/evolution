@@ -9570,13 +9570,19 @@ dom_get_caret_position (WebKitDOMDocument *document)
 }
 
 void
-dom_drag_and_drop_end (WebKitDOMDocument *document,
-                       EHTMLEditorWebExtension *extension)
+dom_save_history_for_drop (WebKitDOMDocument *document,
+			   EHTMLEditorWebExtension *extension)
 {
+	EHTMLEditorUndoRedoManager *manager;
+	EHTMLEditorHistoryEvent *event;
 	gint ii, length;
-	WebKitDOMDOMWindow *dom_window;
+	WebKitDOMDocumentFragment *fragment;
 	WebKitDOMDOMSelection *dom_selection;
+	WebKitDOMDOMWindow *dom_window;
 	WebKitDOMNodeList *list;
+	WebKitDOMRange *range;
+
+	manager = e_html_editor_web_extension_get_undo_redo_manager (extension);
 
 	/* When the image is DnD inside the view WebKit removes the wrapper that
 	 * is used for resizing the image, so we have to recreate it again. */
@@ -9604,15 +9610,92 @@ dom_drag_and_drop_end (WebKitDOMDocument *document,
 	 * lets collapse the selection to have the caret right after the image. */
 	dom_window = webkit_dom_document_get_default_view (document);
 	dom_selection = webkit_dom_dom_window_get_selection (dom_window);
+
+	range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
+
+	/* Remove the last inserted history event as this one was inserted in
+	 * body_input_event_cb and is wrong as its type is HISTORY_INPUT. */
+	/* FIXME we could probably disable the HTML input event callback while
+	 * doing DnD within the view */
+	/* FIXME WK2 - what if e_html_editor_undo_redo_manager_get_current_history_event() returns NULL? */
+	if (((EHTMLEditorHistoryEvent *) (e_html_editor_undo_redo_manager_get_current_history_event (manager)))->type == HISTORY_INPUT)
+		e_html_editor_undo_redo_manager_remove_current_history_event (manager);
+
+	event = g_new0 (EHTMLEditorHistoryEvent, 1);
+	event->type = HISTORY_INSERT_HTML;
+
+	/* Get the dropped content. It's easy as it is selected by WebKit. */
+	fragment = webkit_dom_range_clone_contents (range, NULL);
+	event->data.string.from = NULL;
+	/* Get the HTML content of the dropped content. */
+	event->data.string.to = dom_get_node_inner_html (WEBKIT_DOM_NODE (fragment));
+
+	dom_selection_get_coordinates (
+		document,
+		&event->before.start.x,
+		&event->before.start.y,
+		&event->before.end.x,
+		&event->before.end.y);
+
+	event->before.end.x = event->before.start.x;
+	event->before.end.y = event->before.start.y;
+
 	if (length > 0)
 		webkit_dom_dom_selection_collapse_to_start (dom_selection, NULL);
 	else
 		webkit_dom_dom_selection_collapse_to_end (dom_selection, NULL);
 
+	dom_selection_get_coordinates (
+		document,
+		&event->after.start.x,
+		&event->after.start.y,
+		&event->after.end.x,
+		&event->after.end.y);
+
+	e_html_editor_undo_redo_manager_insert_history_event (manager, event);
+
+	if (!e_html_editor_web_extension_get_html_mode (extension)) {
+		WebKitDOMNodeList *list;
+		gint ii, length;
+
+		list = webkit_dom_document_query_selector_all (
+			document, "span[style^=font-family]", NULL);
+		length = webkit_dom_node_list_get_length (list);
+		if (length > 0)
+			dom_selection_save (document);
+
+		for (ii = 0; ii < length; ii++) {
+			WebKitDOMNode *span, *child;
+
+			span = webkit_dom_node_list_item (list, ii);
+			while ((child = webkit_dom_node_get_first_child (span)))
+				webkit_dom_node_insert_before (
+					webkit_dom_node_get_parent_node (span),
+					child,
+					span,
+					NULL);
+
+			remove_node (span);
+			g_object_unref (span);
+		}
+		g_object_unref (list);
+
+		if (length > 0)
+			dom_selection_restore (document);
+	}
+
 	dom_force_spell_check_in_viewport (document, extension);
 
+	g_object_unref (range);
 	g_object_unref (dom_selection);
 	g_object_unref (dom_window);
+}
+
+void
+dom_drag_and_drop_end (WebKitDOMDocument *document,
+                       EHTMLEditorWebExtension *extension)
+{
+	dom_save_history_for_drop (document, extension);
 }
 
 static void

@@ -1831,30 +1831,54 @@ msg_composer_drag_drop_cb (GtkWidget *widget,
 	GdkAtom target;
 	GtkWidget *source_widget;
 
-	/* When we are doind DnD just inside the web view, the DnD is supposed
+	/* When we are doing DnD just inside the web view, the DnD is supposed
 	 * to move things around. */
 	source_widget = gtk_drag_get_source_widget (context);
 	if (E_IS_HTML_EDITOR_VIEW (source_widget)) {
 		EHTMLEditor *editor = e_msg_composer_get_editor (composer);
 		EHTMLEditorView *editor_view = e_html_editor_get_view (editor);
 
-		if ((gpointer) editor_view == (gpointer) source_widget)
+		if ((gpointer) editor_view == (gpointer) source_widget) {
+			GDBusProxy *web_extension;
+
+			web_extension = e_html_editor_view_get_web_extension_proxy (editor_view);
+			if (web_extension) {
+				g_dbus_proxy_call_sync (
+					web_extension,
+					"DOMSaveDragAndDropHistory",
+					g_variant_new (
+						"(t)",
+						webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (editor_view))),
+					G_DBUS_CALL_FLAGS_NONE,
+					-1,
+					NULL,
+					NULL);
+			}
 			return FALSE;
+		}
 	}
 
 	target = gtk_drag_dest_find_target (widget, context, NULL);
 	if (target == GDK_NONE)
 		gdk_drag_status (context, 0, time);
 	else {
-		/* Prevent WebKit from pasting the URI of file into the view. */
-		if (composer->priv->dnd_is_uri)
+		/* Prevent WebKit from pasting the URI of file into the view. Also
+		 * prevent it from inserting the text/plain or text/html content as we
+		 * want to insert it ourselves. */
+		if (composer->priv->dnd_is_uri || !E_IS_HTML_EDITOR_VIEW (source_widget))
 			g_signal_stop_emission_by_name (widget, "drag-drop");
 
 		composer->priv->dnd_is_uri = FALSE;
 
-		gdk_drag_status (context, GDK_ACTION_COPY, time);
+		if (E_IS_HTML_EDITOR_VIEW (source_widget))
+			gdk_drag_status (context, GDK_ACTION_MOVE, time);
+		else
+			gdk_drag_status (context, GDK_ACTION_COPY, time);
+
 		composer->priv->drop_occured = TRUE;
 		gtk_drag_get_data (widget, context, target, time);
+
+		return TRUE;
 	}
 
 	return FALSE;
@@ -1875,15 +1899,17 @@ msg_composer_drag_data_received_after_cb (GtkWidget *widget,
 	GDBusProxy *web_extension;
 
 	if (!composer->priv->drop_occured)
-		return;
+		goto out;
 
-	composer->priv->drop_occured = FALSE;
+	/* Save just history for events handled by WebKit. */
+	if (composer->priv->dnd_history_saved)
+		goto out;
 
 	editor = e_msg_composer_get_editor (composer);
 	view = e_html_editor_get_view (editor);
 	web_extension = e_html_editor_view_get_web_extension_proxy (view);
 	if (!web_extension)
-		return;
+		goto out;
 
 	g_dbus_proxy_call_sync (
 		web_extension,
@@ -1895,6 +1921,10 @@ msg_composer_drag_data_received_after_cb (GtkWidget *widget,
 		-1,
 		NULL,
 		NULL);
+
+ out:
+	composer->priv->drop_occured = FALSE;
+	composer->priv->dnd_history_saved = FALSE;
 }
 
 static gchar *
@@ -1941,7 +1971,9 @@ msg_composer_drag_data_received_cb (GtkWidget *widget,
 	view = e_html_editor_get_view (editor);
 	html_mode = e_html_editor_view_get_html_mode (view);
 
-	/* When we are doind DnD just inside the web view, the DnD is supposed
+	composer->priv->dnd_history_saved = TRUE;
+
+	/* When we are doing DnD just inside the web view, the DnD is supposed
 	 * to move things around. */
 	source_widget = gtk_drag_get_source_widget (context);
 	if (E_IS_HTML_EDITOR_VIEW (source_widget)) {
@@ -1985,6 +2017,7 @@ msg_composer_drag_data_received_cb (GtkWidget *widget,
 	    info == DND_TARGET_TYPE_STRING ||
 	    info == DND_TARGET_TYPE_TEXT_PLAIN ||
 	    info == DND_TARGET_TYPE_TEXT_PLAIN_UTF8) {
+		composer->priv->dnd_history_saved = FALSE;
 		gdk_drag_status (context, 0, time);
 		return;
 	}
