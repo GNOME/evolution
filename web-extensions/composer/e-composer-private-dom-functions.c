@@ -360,8 +360,7 @@ insert_nbsp_history_event (WebKitDOMDocument *document,
 	event->type = HISTORY_DELETE;
 
 	if (delete)
-		g_object_set_data (
-			G_OBJECT (fragment), "-x-evo-delete-key", GINT_TO_POINTER (1));
+		g_object_set_data (G_OBJECT (event), "history-delete-key", GINT_TO_POINTER (1));
 
 	event->data.fragment = fragment;
 
@@ -473,7 +472,7 @@ dom_save_drag_and_drop_history (WebKitDOMDocument *document,
 		/* Select the whole line (to the beginning of the next
 		 * one so we can reuse the undo code while undoing this.
 		 * Because of this we need to special mark the event
-		 * with -x-evo-drag-and-drop to correct the selection
+		 * with history-drag-and-drop to correct the selection
 		 * after undoing it (otherwise the beginning of the next
 		 * line will be selected as well. */
 		webkit_dom_dom_selection_modify (
@@ -506,13 +505,13 @@ dom_save_drag_and_drop_history (WebKitDOMDocument *document,
 				webkit_dom_node_clone_node (tmp_block, FALSE),
 				NULL);
 			g_object_set_data (
-				G_OBJECT (fragment),
-				"-x-evo-drag-and-drop",
+				G_OBJECT (event),
+				"history-drag-and-drop",
 				GINT_TO_POINTER (1));
 			/* It should act as a Delete key press. */
-			g_object_set_data (G_OBJECT (
-				fragment),
-				"-x-evo-delete-key",
+			g_object_set_data (
+				G_OBJECT (event),
+				"history-delete-key",
 				GINT_TO_POINTER (1));
 		}
 	}

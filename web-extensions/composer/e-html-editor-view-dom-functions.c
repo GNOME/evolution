@@ -2157,7 +2157,7 @@ save_history_for_input (WebKitDOMDocument *document,
 			offset - 1,
 			NULL);
 	fragment = webkit_dom_range_clone_contents (range_clone, NULL);
-	/* We have to specialy handle Return key press */
+	/* We have to specially handle Return key press */
 	if (e_html_editor_web_extension_get_return_key_pressed (extension)) {
 		WebKitDOMElement *element_start, *element_end;
 		WebKitDOMNode *parent_start, *parent_end, *node;
@@ -2219,7 +2219,7 @@ save_history_for_input (WebKitDOMDocument *document,
 		remove_node (WEBKIT_DOM_NODE (element_end));
 
 		g_object_set_data (
-			G_OBJECT (fragment), "-x-evo-return-key", GINT_TO_POINTER (1));
+			G_OBJECT (ev), "history-return-key", GINT_TO_POINTER (1));
 
 
 		webkit_dom_dom_selection_modify (dom_selection, "move", "right", "character");
@@ -7926,8 +7926,8 @@ save_history_for_delete_or_backspace (WebKitDOMDocument *document,
 									NULL);
 							}
 							g_object_set_data (
-								G_OBJECT (fragment),
-								"-x-evo-fragment",
+								G_OBJECT (ev),
+								"history-concatenating-blocks",
 								GINT_TO_POINTER (1));
 						}
 					}
@@ -7955,7 +7955,10 @@ save_history_for_delete_or_backspace (WebKitDOMDocument *document,
 		if (!fragment)
 			fragment = webkit_dom_range_clone_contents (range_clone, NULL);
 		if (removing_from_anchor)
-			g_object_set_data (G_OBJECT (fragment), "-x-evo-removing-from-anchor", GINT_TO_POINTER (1));
+			g_object_set_data (
+				G_OBJECT (ev),
+				"history-removing-from-anchor",
+				GINT_TO_POINTER (1));
 		node = webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (fragment));
 		if (!node) {
 			g_free (ev);
@@ -8197,8 +8200,8 @@ save_history_for_delete_or_backspace (WebKitDOMDocument *document,
 	g_object_unref (range);
 	g_object_unref (dom_selection);
 
-	g_object_set_data (G_OBJECT (fragment), "-x-evo-delete-key", GINT_TO_POINTER (delete_key));
-	g_object_set_data (G_OBJECT (fragment), "-x-evo-control-key", GINT_TO_POINTER (control_key));
+	g_object_set_data (G_OBJECT (ev), "history-delete-key", GINT_TO_POINTER (delete_key));
+	g_object_set_data (G_OBJECT (ev), "history-control-key", GINT_TO_POINTER (control_key));
 
 	ev->data.fragment = fragment;
 
