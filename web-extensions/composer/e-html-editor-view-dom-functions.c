@@ -564,6 +564,7 @@ get_parent_block_node_from_child (WebKitDOMNode *node)
 	    element_has_class (WEBKIT_DOM_ELEMENT (parent), "-x-evo-quoted") ||
 	    element_has_class (WEBKIT_DOM_ELEMENT (parent), "-x-evo-quote-character") ||
 	    element_has_class (WEBKIT_DOM_ELEMENT (parent), "-x-evo-signature") ||
+	    element_has_class (WEBKIT_DOM_ELEMENT (parent), "-x-evo-resizable-wrapper") ||
 	    WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (parent) ||
 	    element_has_tag (WEBKIT_DOM_ELEMENT (parent), "b") ||
 	    element_has_tag (WEBKIT_DOM_ELEMENT (parent), "i") ||
@@ -9037,6 +9038,87 @@ selection_is_in_empty_list_item (WebKitDOMNode *selection_start_marker)
 	return TRUE;
 }
 
+static gboolean
+return_pressed_in_image_wrapper (WebKitDOMDocument *document,
+				 EHTMLEditorWebExtension *extension)
+{
+	EHTMLEditorHistoryEvent *ev = NULL;
+	EHTMLEditorUndoRedoManager *manager;
+	WebKitDOMDocumentFragment *fragment;
+	WebKitDOMElement *selection_start_marker;
+	WebKitDOMNode *parent, *block, *clone;
+
+	if (!dom_selection_is_collapsed (document))
+		return FALSE;
+
+	dom_selection_save (document);
+
+	selection_start_marker = webkit_dom_document_get_element_by_id (
+		document, "-x-evo-selection-start-marker");
+
+	parent = webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (selection_start_marker));
+	if (!element_has_class (WEBKIT_DOM_ELEMENT (parent), "-x-evo-resizable-wrapper")) {
+		dom_selection_restore (document);
+		return FALSE;
+	}
+
+	manager = e_html_editor_web_extension_get_undo_redo_manager (extension);
+
+	if (!e_html_editor_undo_redo_manager_is_operation_in_progress (manager)) {
+		ev = g_new0 (EHTMLEditorHistoryEvent, 1);
+		ev->type = HISTORY_INPUT;
+
+		dom_selection_get_coordinates (
+			document,
+			&ev->before.start.x,
+			&ev->before.start.y,
+			&ev->before.end.x,
+			&ev->before.end.y);
+
+		fragment = webkit_dom_document_create_document_fragment (document);
+
+		g_object_set_data (
+			G_OBJECT (fragment), "history-return-key", GINT_TO_POINTER (1));
+	}
+
+	block = get_parent_block_node_from_child (
+		WEBKIT_DOM_NODE (selection_start_marker));
+
+	clone = webkit_dom_node_clone_node (block, FALSE);
+	webkit_dom_node_append_child (
+		clone, WEBKIT_DOM_NODE (webkit_dom_document_create_element (document, "br", NULL)), NULL);
+
+	webkit_dom_node_insert_before (
+		webkit_dom_node_get_parent_node (block),
+		clone,
+		block,
+		NULL);
+
+	if (ev) {
+		webkit_dom_node_append_child (
+			WEBKIT_DOM_NODE (fragment),
+			webkit_dom_node_clone_node (clone, TRUE),
+			NULL);
+
+		dom_selection_get_coordinates (
+			document,
+			&ev->after.start.x,
+			&ev->after.start.y,
+			&ev->after.end.x,
+			&ev->after.end.y);
+
+		ev->data.fragment = fragment;
+
+		e_html_editor_undo_redo_manager_insert_history_event (manager, ev);
+	}
+
+	e_html_editor_web_extension_set_content_changed (extension);
+
+	dom_selection_restore (document);
+
+	return TRUE;
+}
+
 gboolean
 return_pressed_in_empty_list_item (WebKitDOMDocument *document,
 				   EHTMLEditorWebExtension *extension)
@@ -9256,6 +9338,9 @@ key_press_event_process_return_key (WebKitDOMDocument *document,
 	/* If the ENTER key is pressed inside an empty list item then the list
 	 * is broken into two and empty paragraph is inserted between lists. */
 	if (return_pressed_in_empty_list_item (document, extension))
+		return TRUE;
+
+	if (return_pressed_in_image_wrapper (document, extension))
 		return TRUE;
 
 	return FALSE;
