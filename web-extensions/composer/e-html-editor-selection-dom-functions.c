@@ -2720,6 +2720,7 @@ wrap_lines (WebKitDOMDocument *document,
 							mark_and_remove_leading_space (document, nd);
 
 						if (!webkit_dom_node_get_next_sibling (nd) &&
+						    length_left <= length_to_wrap &&
 						    g_str_has_suffix (nd_content, " ")) {
 							mark_and_remove_trailing_space (document, nd);
 							no_sibling = TRUE;
