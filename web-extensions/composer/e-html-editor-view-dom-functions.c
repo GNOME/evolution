@@ -2219,7 +2219,7 @@ save_history_for_input (WebKitDOMDocument *document,
 		remove_node (WEBKIT_DOM_NODE (element_end));
 
 		g_object_set_data (
-			G_OBJECT (ev), "history-return-key", GINT_TO_POINTER (1));
+			G_OBJECT (fragment), "history-return-key", GINT_TO_POINTER (1));
 
 
 		webkit_dom_dom_selection_modify (dom_selection, "move", "right", "character");
@@ -7926,7 +7926,7 @@ save_history_for_delete_or_backspace (WebKitDOMDocument *document,
 									NULL);
 							}
 							g_object_set_data (
-								G_OBJECT (ev),
+								G_OBJECT (fragment),
 								"history-concatenating-blocks",
 								GINT_TO_POINTER (1));
 						}
@@ -7956,7 +7956,7 @@ save_history_for_delete_or_backspace (WebKitDOMDocument *document,
 			fragment = webkit_dom_range_clone_contents (range_clone, NULL);
 		if (removing_from_anchor)
 			g_object_set_data (
-				G_OBJECT (ev),
+				G_OBJECT (fragment),
 				"history-removing-from-anchor",
 				GINT_TO_POINTER (1));
 		node = webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (fragment));
@@ -8200,8 +8200,8 @@ save_history_for_delete_or_backspace (WebKitDOMDocument *document,
 	g_object_unref (range);
 	g_object_unref (dom_selection);
 
-	g_object_set_data (G_OBJECT (ev), "history-delete-key", GINT_TO_POINTER (delete_key));
-	g_object_set_data (G_OBJECT (ev), "history-control-key", GINT_TO_POINTER (control_key));
+	g_object_set_data (G_OBJECT (fragment), "history-delete-key", GINT_TO_POINTER (delete_key));
+	g_object_set_data (G_OBJECT (fragment), "history-control-key", GINT_TO_POINTER (control_key));
 
 	ev->data.fragment = fragment;
 
