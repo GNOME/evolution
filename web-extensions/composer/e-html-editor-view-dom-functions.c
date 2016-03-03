@@ -9081,12 +9081,15 @@ change_smiley_to_plain_text (WebKitDOMDocument *document)
 					WEBKIT_DOM_CHARACTER_DATA (prev_sibling));
 
 				if (g_strcmp0 (text, UNICODE_ZERO_WIDTH_SPACE) == 0) {
-					remove_node (prev_sibling);
-					in_smiley = TRUE;
-					prev_sibling = webkit_dom_node_get_previous_sibling (WEBKIT_DOM_NODE (element));
-					if (WEBKIT_DOM_IS_ELEMENT (prev_sibling) &&
-					    element_has_class (WEBKIT_DOM_ELEMENT (prev_sibling), "-x-evo-smiley-wrapper"))
+					WebKitDOMNode *prev_prev_sibling;
+
+					prev_prev_sibling = webkit_dom_node_get_previous_sibling (prev_sibling);
+					if (WEBKIT_DOM_IS_ELEMENT (prev_prev_sibling) &&
+					    element_has_class (WEBKIT_DOM_ELEMENT (prev_prev_sibling), "-x-evo-smiley-wrapper")) {
+						remove_node (prev_sibling);
+						in_smiley = TRUE;
 						parent = webkit_dom_node_get_last_child (prev_sibling);
+					}
 				}
 
 				g_free (text);
