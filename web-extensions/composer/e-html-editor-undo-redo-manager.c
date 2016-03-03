@@ -1928,7 +1928,7 @@ undo_redo_citation_split (WebKitDOMDocument *document,
 
 		parent = get_parent_block_element (WEBKIT_DOM_NODE (selection_start));
 
-		if (event->data.fragment &&
+		if (!event->data.fragment ||
 		    !webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (event->data.fragment))) {
 			remove_node (WEBKIT_DOM_NODE (parent));
 			dom_merge_siblings_if_necessary (document, NULL);
@@ -2007,6 +2007,8 @@ undo_redo_citation_split (WebKitDOMDocument *document,
 
 		dom_force_spell_check_in_viewport (document, extension);
 	} else {
+		restore_selection_to_history_event_state (document, event->before);
+
 		if (in_situ) {
 			WebKitDOMElement *selection_start_marker;
 			WebKitDOMNode *block;
