@@ -2824,8 +2824,12 @@ dom_merge_siblings_if_necessary (WebKitDOMDocument *document,
 	if (!element)
 		goto signature;
  repeat:
-	prev_element = WEBKIT_DOM_ELEMENT (webkit_dom_node_get_previous_sibling (
-		WEBKIT_DOM_NODE (element)));
+	child = webkit_dom_node_get_previous_sibling (WEBKIT_DOM_NODE (element));
+	if (WEBKIT_DOM_IS_ELEMENT (prev_element))
+		prev_element = WEBKIT_DOM_ELEMENT (prev_element);
+	else
+		goto signature;
+
 	equal_nodes = webkit_dom_node_is_equal_node (
 		webkit_dom_node_clone_node (WEBKIT_DOM_NODE (element), FALSE),
 		webkit_dom_node_clone_node (WEBKIT_DOM_NODE (prev_element), FALSE));
