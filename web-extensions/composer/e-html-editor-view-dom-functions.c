@@ -1353,7 +1353,7 @@ emoticon_insert_span (EEmoticon *emoticon,
 	WebKitDOMDocument *document = load_context->document;
 	WebKitDOMElement *selection_start_marker, *selection_end_marker;
 	WebKitDOMNode *node, *insert_before, *prev_sibling, *next_sibling;
-	WebKitDOMNode *selection_end_marker_parent;
+	WebKitDOMNode *selection_end_marker_parent, *inserted_node;
 	WebKitDOMRange *range;
 
 	smiley_written = e_html_editor_web_extension_get_is_smiley_written (extension);
@@ -1370,14 +1370,18 @@ emoticon_insert_span (EEmoticon *emoticon,
 		if (!smiley_written) {
 			if (!e_html_editor_undo_redo_manager_is_operation_in_progress (manager)) {
 				ev = g_new0 (EHTMLEditorHistoryEvent, 1);
-				ev->type = HISTORY_SMILEY;
+				if (e_html_editor_web_extension_get_unicode_smileys_enabled (extension))
+					ev->type = HISTORY_INPUT;
+				else {
+					ev->type = HISTORY_SMILEY;
 
-				dom_selection_get_coordinates (
-					document,
-					&ev->before.start.x,
-					&ev->before.start.y,
-					&ev->before.end.x,
-					&ev->before.end.y);
+					dom_selection_get_coordinates (
+						document,
+						&ev->before.start.x,
+						&ev->before.start.y,
+						&ev->before.end.x,
+						&ev->before.end.y);
+				}
 			}
 		}
 	} else {
@@ -1392,14 +1396,19 @@ emoticon_insert_span (EEmoticon *emoticon,
 		if (!smiley_written) {
 			if (!e_html_editor_undo_redo_manager_is_operation_in_progress (manager)) {
 				ev = g_new0 (EHTMLEditorHistoryEvent, 1);
-				ev->type = HISTORY_SMILEY;
 
-				dom_selection_get_coordinates (
-					document,
-					&ev->before.start.x,
-					&ev->before.start.y,
-					&ev->before.end.x,
-					&ev->before.end.y);
+				if (e_html_editor_web_extension_get_unicode_smileys_enabled (extension))
+					ev->type = HISTORY_INPUT;
+				else {
+					ev->type = HISTORY_SMILEY;
+
+					dom_selection_get_coordinates (
+						document,
+						&ev->before.start.x,
+						&ev->before.start.y,
+						&ev->before.end.x,
+						&ev->before.end.y);
+				}
 			}
 		}
 
@@ -1425,12 +1434,13 @@ emoticon_insert_span (EEmoticon *emoticon,
 			&selection_start_marker,
 			&selection_end_marker);
 
-		dom_selection_get_coordinates (
-			document,
-			&ev->before.start.x,
-			&ev->before.start.y,
-			&ev->before.end.x,
-			&ev->before.end.y);
+		if (ev && !e_html_editor_web_extension_get_unicode_smileys_enabled (extension))
+			dom_selection_get_coordinates (
+				document,
+				&ev->before.start.x,
+				&ev->before.start.y,
+				&ev->before.end.x,
+				&ev->before.end.y);
 	}
 
 	/* Sometimes selection end marker is in body. Move it into next sibling */
@@ -1443,12 +1453,13 @@ emoticon_insert_span (EEmoticon *emoticon,
 			WEBKIT_DOM_NODE (selection_end_marker),
 			WEBKIT_DOM_NODE (selection_start_marker),
 			NULL);
-		dom_selection_get_coordinates (
-			document,
-			&ev->before.start.x,
-			&ev->before.start.y,
-			&ev->before.end.x,
-			&ev->before.end.y);
+		if (ev && !e_html_editor_web_extension_get_unicode_smileys_enabled (extension))
+			dom_selection_get_coordinates (
+				document,
+				&ev->before.start.x,
+				&ev->before.start.y,
+				&ev->before.end.x,
+				&ev->before.end.y);
 	}
 	selection_end_marker_parent = webkit_dom_node_get_parent_node (
 		WEBKIT_DOM_NODE (selection_end_marker));
@@ -1498,24 +1509,38 @@ emoticon_insert_span (EEmoticon *emoticon,
 			WEBKIT_DOM_NODE (selection_end_marker),
 			webkit_dom_node_get_next_sibling (next_sibling),
 			NULL);
-		span = WEBKIT_DOM_ELEMENT (
-			webkit_dom_node_insert_before (
+		if (e_html_editor_web_extension_get_unicode_smileys_enabled (extension))
+			inserted_node = webkit_dom_node_insert_before (
+				webkit_dom_node_get_parent_node (insert_before),
+				webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (span)),
+				webkit_dom_node_get_next_sibling (next_sibling),
+				NULL);
+		else
+			inserted_node = webkit_dom_node_insert_before (
 				webkit_dom_node_get_parent_node (insert_before),
 				WEBKIT_DOM_NODE (span),
 				webkit_dom_node_get_next_sibling (next_sibling),
-				NULL));
+				NULL);
 	} else {
-		span = WEBKIT_DOM_ELEMENT (
-			webkit_dom_node_insert_before (
+		if (e_html_editor_web_extension_get_unicode_smileys_enabled (extension))
+			inserted_node = webkit_dom_node_insert_before (
+				webkit_dom_node_get_parent_node (insert_before),
+				webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (span)),
+				insert_before,
+				NULL);
+		else
+			inserted_node = webkit_dom_node_insert_before (
 				webkit_dom_node_get_parent_node (insert_before),
 				WEBKIT_DOM_NODE (span),
 				insert_before,
-				NULL));
+				NULL);
 	}
 
-	/* &#8203 == UNICODE_ZERO_WIDTH_SPACE */
-	webkit_dom_html_element_insert_adjacent_html (
-		WEBKIT_DOM_HTML_ELEMENT (span), "afterend", "&#8203;", NULL);
+	if (!e_html_editor_web_extension_get_unicode_smileys_enabled (extension)) {
+		/* &#8203 == UNICODE_ZERO_WIDTH_SPACE */
+		webkit_dom_html_element_insert_adjacent_html (
+			WEBKIT_DOM_HTML_ELEMENT (span), "afterend", "&#8203;", NULL);
+	}
 
 	if (ev) {
 		WebKitDOMDocumentFragment *fragment;
@@ -1524,10 +1549,22 @@ emoticon_insert_span (EEmoticon *emoticon,
 		fragment = webkit_dom_document_create_document_fragment (document);
 		node = webkit_dom_node_append_child (
 			WEBKIT_DOM_NODE (fragment),
-			webkit_dom_node_clone_node (WEBKIT_DOM_NODE (span), TRUE),
+			webkit_dom_node_clone_node (WEBKIT_DOM_NODE (inserted_node), TRUE),
 			NULL);
-		webkit_dom_html_element_insert_adjacent_html (
-			WEBKIT_DOM_HTML_ELEMENT (node), "afterend", "&#8203;", NULL);
+		if (e_html_editor_web_extension_get_unicode_smileys_enabled (extension)) {
+			webkit_dom_node_append_child (
+				WEBKIT_DOM_NODE (fragment),
+				WEBKIT_DOM_NODE (
+					dom_create_selection_marker (document, TRUE)),
+				NULL);
+			webkit_dom_node_append_child (
+				WEBKIT_DOM_NODE (fragment),
+				WEBKIT_DOM_NODE (
+					dom_create_selection_marker (document, FALSE)),
+				NULL);
+		} else
+			webkit_dom_html_element_insert_adjacent_html (
+				WEBKIT_DOM_HTML_ELEMENT (node), "afterend", "&#8203;", NULL);
 		ev->data.fragment = fragment;
 	}
 
@@ -8010,6 +8047,7 @@ save_history_for_delete_or_backspace (WebKitDOMDocument *document,
 			} else {
 				glong offset;
 
+				/* FIXME This code is wrong for unicode smileys. */
 				offset = webkit_dom_range_get_start_offset (range_clone, NULL);
 
 				if (delete_key)
@@ -9093,7 +9131,8 @@ return_pressed_in_empty_list_item (WebKitDOMDocument *document,
 }
 
 static void
-change_smiley_to_plain_text (WebKitDOMDocument *document)
+process_smiley_on_delete_or_backspace (WebKitDOMDocument *document,
+				       EHTMLEditorWebExtension *extension)
 {
 	WebKitDOMElement *element;
 	WebKitDOMNode *parent;
@@ -9142,16 +9181,22 @@ change_smiley_to_plain_text (WebKitDOMDocument *document)
 	}
 
 	if (in_smiley) {
-		WebKitDOMNode *wrapper, *child;
+		WebKitDOMNode *wrapper;
 
 		wrapper = webkit_dom_node_get_parent_node (parent);
-		while ((child = webkit_dom_node_get_first_child (parent)))
-			webkit_dom_node_insert_before (
-				webkit_dom_node_get_parent_node (wrapper),
-				child,
-				wrapper,
-				NULL);
+		if (!e_html_editor_web_extension_get_html_mode (extension)) {
+			WebKitDOMNode *child;
+
+			while ((child = webkit_dom_node_get_first_child (parent)))
+				webkit_dom_node_insert_before (
+					webkit_dom_node_get_parent_node (wrapper),
+					child,
+					wrapper,
+					NULL);
+		}
+		/* In the HTML mode the whole smiley will be removed. */
 		remove_node (wrapper);
+		/* FIXME history will be probably broken here */
 	}
 
 	dom_selection_restore (document);
@@ -9369,7 +9414,7 @@ key_press_event_process_delete_or_backspace_key (WebKitDOMDocument *document,
 	html_mode = e_html_editor_web_extension_get_html_mode (extension);
 	local_delete = (key_val == GDK_KEY_Delete) || delete;
 
-	if (!html_mode && e_html_editor_web_extension_get_magic_links_enabled (extension)) {
+	if (e_html_editor_web_extension_get_magic_smileys_enabled (extension)) {
 		/* If deleting something in a smiley it won't be a smiley
 		 * anymore (at least from Evolution' POV), so remove all
 		 * the elements that are hidden in the wrapper and leave
@@ -9377,7 +9422,7 @@ key_press_event_process_delete_or_backspace_key (WebKitDOMDocument *document,
 		 * recognized and we press the BackSpace key we won't delete
 		 * the UNICODE_HIDDEN_SPACE, but we will correctly delete
 		 * the last character of smiley. */
-		change_smiley_to_plain_text (document);
+		process_smiley_on_delete_or_backspace (document, extension);
 	}
 
 	if (!local_delete && !html_mode &&
