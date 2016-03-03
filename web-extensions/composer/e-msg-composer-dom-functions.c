@@ -65,13 +65,20 @@ dom_get_raw_body_content_without_signature (WebKitDOMDocument *document)
 		document, "body > *:not(.-x-evo-signature-wrapper)", NULL);
 	length = webkit_dom_node_list_get_length (list);
 	for (ii = 0; ii < length; ii++) {
-		gchar *text;
 		WebKitDOMNode *node = webkit_dom_node_list_item (list, ii);
 
-		text = webkit_dom_html_element_get_inner_text (
-			WEBKIT_DOM_HTML_ELEMENT (node));
-		g_string_append (content, text);
-		g_free (text);
+		if (!WEBKIT_DOM_IS_HTML_QUOTE_ELEMENT (node)) {
+			gchar *text;
+
+			text = webkit_dom_html_element_get_inner_text (WEBKIT_DOM_HTML_ELEMENT (node));
+			g_string_append (content, text);
+			g_free (text);
+
+			if (WEBKIT_DOM_IS_HTML_DIV_ELEMENT (node))
+				g_string_append (content, "\n");
+			else
+				g_string_append (content, " ");
+		}
 	}
 
 	return g_string_free (content, FALSE);

@@ -140,6 +140,23 @@ ask_for_missing_attachment (EPlugin *ep,
 	return response == GTK_RESPONSE_YES;
 }
 
+static void
+censor_quoted_lines (GByteArray *msg_text)
+{
+	gchar *ptr;
+	gboolean in_quotation = FALSE;
+
+	g_return_if_fail (msg_text != NULL);
+
+	for (ptr = (char *) msg_text->data; ptr && *ptr; ptr++) {
+		if (*ptr == '\n') {
+			in_quotation = ptr[1] == '>';
+		} else if (*ptr != '\r' && in_quotation) {
+			*ptr = ' ';
+		}
+	}
+}
+
 /* check for the clues */
 static gboolean
 check_for_attachment_clues (GByteArray *msg_text)
@@ -159,6 +176,8 @@ check_for_attachment_clues (GByteArray *msg_text)
 		gint ii, jj, to;
 
 		g_byte_array_append (msg_text, (const guint8 *) "\0", 1);
+
+		censor_quoted_lines (msg_text);
 
 		for (ii = 0; clue_list[ii] && !found; ii++) {
 			GString *word;
