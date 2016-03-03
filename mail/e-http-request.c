@@ -246,11 +246,16 @@ handle_http_request (GSimpleAsyncResult *res,
 	/* Open Evolution's cache */
 	user_cache_dir = e_get_user_cache_dir ();
 	cache = camel_data_cache_new (user_cache_dir, NULL);
-	camel_data_cache_set_expire_age (cache, 24 * 60 * 60);
-	camel_data_cache_set_expire_access (cache, 2 * 60 * 60);
+	if (cache) {
+		camel_data_cache_set_expire_age (cache, 24 * 60 * 60);
+		camel_data_cache_set_expire_access (cache, 2 * 60 * 60);
+
+		cache_stream = camel_data_cache_get (cache, "http", uri_md5, NULL);
+	} else {
+		cache_stream = NULL;
+	}
 
 	/* Found item in cache! */
-	cache_stream = camel_data_cache_get (cache, "http", uri_md5, NULL);
 	if (cache_stream != NULL) {
 		gssize len;
 
@@ -413,38 +418,40 @@ handle_http_request (GSimpleAsyncResult *res,
 
 		/* Write the response body to cache */
 		error = NULL;
-		cache_stream = camel_data_cache_add (
-			cache, "http", uri_md5, &error);
-		if (error != NULL) {
-			g_warning (
-				"Failed to create cache file for '%s': %s",
-				uri, error->message);
-			g_clear_error (&error);
-		} else {
-			GOutputStream *output_stream;
-
-			output_stream =
-				g_io_stream_get_output_stream (cache_stream);
-
-			g_output_stream_write_all (
-				output_stream,
-				message->response_body->data,
-				message->response_body->length,
-				NULL, cancellable, &error);
-
-			g_io_stream_close (cache_stream, NULL, NULL);
-			g_object_unref (cache_stream);
-
+		if (cache) {
+			cache_stream = camel_data_cache_add (
+				cache, "http", uri_md5, &error);
 			if (error != NULL) {
-				if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
-					g_warning (
-						"Failed to write data to cache stream: %s",
-						error->message);
+				g_warning (
+					"Failed to create cache file for '%s': %s",
+					uri, error->message);
 				g_clear_error (&error);
-				g_object_unref (message);
-				g_object_unref (temp_session);
-				g_main_context_unref (context);
-				goto cleanup;
+			} else {
+				GOutputStream *output_stream;
+
+				output_stream =
+					g_io_stream_get_output_stream (cache_stream);
+
+				g_output_stream_write_all (
+					output_stream,
+					message->response_body->data,
+					message->response_body->length,
+					NULL, cancellable, &error);
+
+				g_io_stream_close (cache_stream, NULL, NULL);
+				g_object_unref (cache_stream);
+
+				if (error != NULL) {
+					if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
+						g_warning (
+							"Failed to write data to cache stream: %s",
+							error->message);
+					g_clear_error (&error);
+					g_object_unref (message);
+					g_object_unref (temp_session);
+					g_main_context_unref (context);
+					goto cleanup;
+				}
 			}
 		}
 

@@ -6171,7 +6171,8 @@ html_editor_view_image_exists_in_cache (const gchar *image_uri)
 	gchar *hash;
 	gboolean exists = FALSE;
 
-	g_return_val_if_fail (emd_global_http_cache != NULL, FALSE);
+	if (!emd_global_http_cache)
+		return FALSE;
 
 	hash = g_compute_checksum_for_string (G_CHECKSUM_MD5, image_uri, -1);
 	filename = camel_data_cache_get_filename (
@@ -11620,11 +11621,13 @@ e_html_editor_view_init (EHTMLEditorView *view)
 		user_cache_dir = e_get_user_cache_dir ();
 		emd_global_http_cache = camel_data_cache_new (user_cache_dir, NULL);
 
-		/* cache expiry - 2 hour access, 1 day max */
-		camel_data_cache_set_expire_age (
-			emd_global_http_cache, 24 * 60 * 60);
-		camel_data_cache_set_expire_access (
-			emd_global_http_cache, 2 * 60 * 60);
+		if (emd_global_http_cache) {
+			/* cache expiry - 2 hour access, 1 day max */
+			camel_data_cache_set_expire_age (
+				emd_global_http_cache, 24 * 60 * 60);
+			camel_data_cache_set_expire_access (
+				emd_global_http_cache, 2 * 60 * 60);
+		}
 	}
 }
 
