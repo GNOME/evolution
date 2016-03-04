@@ -2918,7 +2918,7 @@ e_web_view_is_selection_active (EWebView *web_view)
 {
 	GDBusProxy *web_extension;
 
-	g_return_val_if_fail (E_IS_WEB_VIEW (web_view), NULL);
+	g_return_val_if_fail (E_IS_WEB_VIEW (web_view), FALSE);
 
 	web_extension = e_web_view_get_web_extension_proxy (web_view);
 	if (web_extension) {

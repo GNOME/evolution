@@ -1460,7 +1460,7 @@ e_html_editor_selection_unindent (EHTMLEditorSelection *selection)
 gboolean
 e_html_editor_selection_is_bold (EHTMLEditorSelection *selection)
 {
-	g_return_if_fail (E_IS_HTML_EDITOR_SELECTION (selection));
+	g_return_val_if_fail (E_IS_HTML_EDITOR_SELECTION (selection), FALSE);
 
 	return selection->priv->is_bold;
 }
