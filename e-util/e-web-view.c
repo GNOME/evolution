@@ -563,6 +563,9 @@ web_view_mouse_target_changed_cb (EWebView *web_view,
 	EWebViewClass *class;
 	const gchar *title, *uri;
 
+	title = webkit_hit_test_result_get_link_title (hit_test_result);
+	uri = webkit_hit_test_result_get_link_uri (hit_test_result);
+
 	web_view->priv->has_hover_link = uri && *uri;
 
 	/* XXX WebKitWebView does not provide a class method for
@@ -571,9 +574,6 @@ web_view_mouse_target_changed_cb (EWebView *web_view,
 
 	class = E_WEB_VIEW_GET_CLASS (web_view);
 	g_return_if_fail (class->hovering_over_link != NULL);
-
-	title = webkit_hit_test_result_get_link_title (hit_test_result);
-	uri = webkit_hit_test_result_get_link_uri (hit_test_result);
 
 	class->hovering_over_link (web_view, title, uri);
 }
