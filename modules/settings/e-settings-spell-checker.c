@@ -39,9 +39,8 @@ settings_spell_checker_get_extensible (ESettingsSpellChecker *extension)
 	EExtensible *extensible;
 
 	extensible = e_extension_get_extensible (E_EXTENSION (extension));
-/* FIXME WK2
-	return E_SPELL_CHECKER (extensible);*/
-	return NULL;
+
+	return E_SPELL_CHECKER (extensible);
 }
 
 static void
@@ -63,20 +62,18 @@ settings_spell_checker_constructed (GObject *object)
 		E_SETTINGS_SPELL_CHECKER (object));
 
 	/* Make sure there are no active languages at this point. */
-/* FIXME WK2
-	g_warn_if_fail (
-		e_spell_checker_count_active_languages (spell_checker) == 0);*/
+	g_warn_if_fail (e_spell_checker_count_active_languages (spell_checker) == 0);
 
 	settings = e_util_ref_settings ("org.gnome.evolution.mail");
 	strv = g_settings_get_strv (settings, "composer-spell-languages");
 	g_object_unref (settings);
 
 	g_return_if_fail (strv != NULL);
-/* FIXME WK2
+
 	for (ii = 0; strv[ii] != NULL; ii++)
 		e_spell_checker_set_language_active (
 			spell_checker, strv[ii], TRUE);
-*/
+
 	g_strfreev (strv);
 }
 
@@ -93,8 +90,7 @@ e_settings_spell_checker_class_init (ESettingsSpellCheckerClass *class)
 	object_class->constructed = settings_spell_checker_constructed;
 
 	extension_class = E_EXTENSION_CLASS (class);
-/* FIXME WK2
-	extension_class->extensible_type = E_TYPE_SPELL_CHECKER; */
+	extension_class->extensible_type = E_TYPE_SPELL_CHECKER;
 }
 
 static void

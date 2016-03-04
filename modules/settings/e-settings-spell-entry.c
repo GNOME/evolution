@@ -67,8 +67,7 @@ e_settings_spell_entry_class_init (ESettingsSpellEntryClass *class)
 	object_class->constructed = settings_spell_entry_constructed;
 
 	extension_class = E_EXTENSION_CLASS (class);
-/* FIXME WK2
-	extension_class->extensible_type = E_TYPE_SPELL_ENTRY;*/
+	extension_class->extensible_type = E_TYPE_SPELL_ENTRY;
 }
 
 static void

@@ -282,6 +282,9 @@ evolution_util_include_HEADERS =  \
 	e-source-selector-dialog.h \
 	e-source-selector.h \
 	e-source-util.h \
+	e-spell-checker.h \
+	e-spell-dictionary.h \
+	e-spell-entry.h \
 	e-spell-text-view.h \
 	e-spinner.h \
 	e-stock-request.h \
@@ -554,6 +557,9 @@ libevolution_util_la_SOURCES = \
 	e-source-selector-dialog.c \
 	e-source-selector.c \
 	e-source-util.c \
+	e-spell-checker.c \
+	e-spell-dictionary.c \
+	e-spell-entry.c \
 	e-spell-text-view.c \
 	e-spinner.c \
 	e-stock-request.c \

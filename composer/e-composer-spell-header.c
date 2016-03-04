@@ -31,8 +31,7 @@ e_composer_spell_header_class_init (EComposerSpellHeaderClass *class)
 	EComposerTextHeaderClass *composer_text_header_class;
 
 	composer_text_header_class = E_COMPOSER_TEXT_HEADER_CLASS (class);
-/* FIXME WK2
-	composer_text_header_class->entry_type = E_TYPE_SPELL_ENTRY;*/
+	composer_text_header_class->entry_type = E_TYPE_SPELL_ENTRY;
 }
 
 static void

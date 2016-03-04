@@ -682,8 +682,7 @@ exit:
 	gtk_accel_map_save (e_get_accels_filename ());
 
 	e_util_cleanup_settings ();
-/* FIXME WK2
-	e_spell_checker_free_global_memory ();*/
+	e_spell_checker_free_global_memory ();
 
 	return 0;
 }

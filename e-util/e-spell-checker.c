@@ -24,7 +24,6 @@
 #include "e-spell-dictionary.h"
 
 #include <libebackend/libebackend.h>
-#include <webkit/webkitspellchecker.h>
 #include <pango/pango.h>
 #include <gtk/gtk.h>
 #include <string.h>
@@ -45,27 +44,19 @@ enum {
 	PROP_ACTIVE_LANGUAGES
 };
 
-/* Forward Declarations */
-static void	e_spell_checker_init_webkit_checker
-				(WebKitSpellCheckerInterface *interface);
-
 G_DEFINE_TYPE_EXTENDED (
 	ESpellChecker,
 	e_spell_checker,
 	G_TYPE_OBJECT,
 	0,
 	G_IMPLEMENT_INTERFACE (
-		E_TYPE_EXTENSIBLE, NULL)
-	G_IMPLEMENT_INTERFACE (
-		WEBKIT_TYPE_SPELL_CHECKER,
-		e_spell_checker_init_webkit_checker))
+		E_TYPE_EXTENSIBLE, NULL))
 
 /**
  * ESpellChecker:
  *
  * #ESpellChecker represents a spellchecker in Evolution. It can be used as a
- * provider for dictionaries. It also implements #WebKitSpellCheckerInterface,
- * so it can be set as a default spell-checker to WebKit editors
+ * provider for dictionaries.
  */
 
 
@@ -89,237 +80,6 @@ spell_checker_enchant_dicts_foreach_cb (gpointer key,
 		enchant_broker_free_dict (enchant_broker, enchant_dict);
 
 	return TRUE;
-}
-
-static void
-wksc_check_spelling (WebKitSpellChecker *webkit_checker,
-                     const gchar *word,
-                     gint *misspelling_location,
-                     gint *misspelling_length)
-{
-	ESpellChecker *checker = E_SPELL_CHECKER (webkit_checker);
-	GHashTable *active_dictionaries;
-	PangoLanguage *language;
-	PangoLogAttr *attrs;
-	gint length, ii;
-
-	active_dictionaries = checker->priv->active_dictionaries;
-	if (g_hash_table_size (active_dictionaries) == 0)
-		return;
-
-	length = g_utf8_strlen (word, -1);
-
-	language = pango_language_get_default ();
-	attrs = g_new (PangoLogAttr, length + 1);
-
-	pango_get_log_attrs (word, -1, -1, language, attrs, length + 1);
-
-	for (ii = 0; ii < length + 1; ii++) {
-		/* We go through each character until we find an is_word_start,
-		 * then we get into an inner loop to find the is_word_end
-		 * corresponding */
-		if (attrs[ii].is_word_start) {
-			gboolean word_recognized;
-			gint start = ii;
-			gint end = ii;
-			gint word_length;
-			gchar *cstart;
-			gint bytes;
-			gchar *new_word;
-
-			while (attrs[end].is_word_end < 1)
-				end++;
-
-			word_length = end - start;
-			/* Set the iterator to be at the current word
-			 * end, so we don't check characters twice. */
-			ii = end;
-
-			cstart = g_utf8_offset_to_pointer (word, start);
-			bytes = g_utf8_offset_to_pointer (word, end) - cstart;
-			new_word = g_new0 (gchar, bytes + 1);
-
-			g_utf8_strncpy (new_word, cstart, word_length);
-
-			word_recognized = e_spell_checker_check_word (
-				checker, new_word, strlen (new_word));
-
-			if (word_recognized) {
-				if (misspelling_location != NULL)
-					*misspelling_location = -1;
-				if (misspelling_length != NULL)
-					*misspelling_length = 0;
-			} else {
-				if (misspelling_location != NULL)
-					*misspelling_location = start;
-				if (misspelling_length != NULL)
-					*misspelling_length = word_length;
-			}
-
-			g_free (new_word);
-		}
-	}
-
-	g_free (attrs);
-}
-
-static gchar **
-wksc_get_guesses (WebKitSpellChecker *webkit_checker,
-                  const gchar *word,
-                  const gchar *context)
-{
-	ESpellChecker *checker = E_SPELL_CHECKER (webkit_checker);
-	GHashTable *active_dictionaries;
-	GList *list, *link;
-	gchar ** guesses;
-	gint ii = 0;
-
-	guesses = g_new0 (gchar *, MAX_SUGGESTIONS + 1);
-
-	active_dictionaries = checker->priv->active_dictionaries;
-	list = g_hash_table_get_keys (active_dictionaries);
-
-	for (link = list; link != NULL; link = g_list_next (link)) {
-		ESpellDictionary *dictionary;
-		GList *suggestions;
-
-		dictionary = E_SPELL_DICTIONARY (link->data);
-		suggestions = e_spell_dictionary_get_suggestions (
-			dictionary, word, -1);
-
-		while (suggestions != NULL && ii < MAX_SUGGESTIONS) {
-			guesses[ii++] = suggestions->data;
-			suggestions->data = NULL;
-
-			suggestions = g_list_delete_link (
-				suggestions, suggestions);
-		}
-
-		g_list_free_full (suggestions, (GDestroyNotify) g_free);
-
-		if (ii >= MAX_SUGGESTIONS)
-			break;
-	}
-
-	g_list_free (list);
-
-	return guesses;
-}
-
-static gchar *
-wksc_get_autocorrect_suggestions (WebKitSpellChecker *webkit_checker,
-                                  const gchar *word)
-{
-	/* Not supported/needed */
-	return NULL;
-}
-
-static void
-spell_checker_learn_word (WebKitSpellChecker *webkit_checker,
-                          const gchar *word)
-{
-	/* Carefully, this will add the word to all active dictionaries! */
-
-	ESpellChecker *checker;
-	GHashTable *active_dictionaries;
-	GList *list, *link;
-
-	checker = E_SPELL_CHECKER (webkit_checker);
-	active_dictionaries = checker->priv->active_dictionaries;
-	list = g_hash_table_get_keys (active_dictionaries);
-
-	for (link = list; link != NULL; link = g_list_next (link)) {
-		ESpellDictionary *dictionary;
-
-		dictionary = E_SPELL_DICTIONARY (link->data);
-		e_spell_dictionary_learn_word (dictionary, word, -1);
-	}
-
-	g_list_free (list);
-}
-
-static void
-spell_checker_ignore_word (WebKitSpellChecker *webkit_checker,
-                           const gchar *word)
-{
-	/* Carefully, this will add the word to all active dictionaries */
-
-	ESpellChecker *checker;
-	GHashTable *active_dictionaries;
-	GList *list, *link;
-
-	checker = E_SPELL_CHECKER (webkit_checker);
-	active_dictionaries = checker->priv->active_dictionaries;
-	list = g_hash_table_get_keys (active_dictionaries);
-
-	for (link = list; link != NULL; link = g_list_next (link)) {
-		ESpellDictionary *dictionary;
-
-		dictionary = E_SPELL_DICTIONARY (link->data);
-		e_spell_dictionary_ignore_word (dictionary, word, -1);
-	}
-
-	g_list_free (list);
-}
-
-static void
-wksc_update_languages (WebKitSpellChecker *webkit_checker,
-                       const gchar *languages)
-{
-	ESpellChecker *checker;
-	GHashTable *active_dictionaries;
-	GQueue queue = G_QUEUE_INIT;
-
-	checker = E_SPELL_CHECKER (webkit_checker);
-	active_dictionaries = checker->priv->active_dictionaries;
-
-	if (languages != NULL) {
-		gchar **langs;
-		gint ii;
-
-		langs = g_strsplit (languages, ",", -1);
-		for (ii = 0; langs[ii] != NULL; ii++) {
-			ESpellDictionary *dictionary;
-
-			dictionary = e_spell_checker_ref_dictionary (
-				checker, langs[ii]);
-			if (dictionary != NULL)
-				g_queue_push_tail (&queue, dictionary);
-		}
-		g_strfreev (langs);
-	} else {
-		ESpellDictionary *dictionary;
-		PangoLanguage *pango_language;
-		const gchar *language;
-
-		pango_language = gtk_get_default_language ();
-		language = pango_language_to_string (pango_language);
-		dictionary = e_spell_checker_ref_dictionary (checker, language);
-
-		if (dictionary == NULL) {
-			GList *list;
-
-			list = e_spell_checker_list_available_dicts (checker);
-			if (list != NULL) {
-				dictionary = g_object_ref (list->data);
-				g_list_free (list);
-			}
-		}
-
-		if (dictionary != NULL)
-			g_queue_push_tail (&queue, dictionary);
-	}
-
-	g_hash_table_remove_all (active_dictionaries);
-
-	while (!g_queue_is_empty (&queue)) {
-		ESpellDictionary *dictionary;
-
-		dictionary = g_queue_pop_head (&queue);
-		g_hash_table_add (active_dictionaries, dictionary);
-	}
-
-	g_object_notify (G_OBJECT (checker), "active-languages");
 }
 
 static void
@@ -374,7 +134,7 @@ spell_checker_constructed (GObject *object)
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (e_spell_checker_parent_class)->constructed (object);
 
-	e_extensible_load_extension (E_EXTENSIBLE (object));
+	e_extensible_load_extensions (E_EXTENSIBLE (object));
 }
 
 static void
@@ -400,18 +160,6 @@ e_spell_checker_class_init (ESpellCheckerClass *class)
 			G_TYPE_STRV,
 			G_PARAM_READABLE |
 			G_PARAM_STATIC_STRINGS));
-}
-
-static void
-e_spell_checker_init_webkit_checker (WebKitSpellCheckerInterface *interface)
-{
-	interface->check_spelling_of_string = wksc_check_spelling;
-	interface->get_autocorrect_suggestions_for_misspelled_word =
-		wksc_get_autocorrect_suggestions;
-	interface->get_guesses_for_word = wksc_get_guesses;
-	interface->ignore_word = spell_checker_ignore_word;
-	interface->learn_word = spell_checker_learn_word;
-	interface->update_spell_checking_languages = wksc_update_languages;
 }
 
 static void
@@ -816,12 +564,24 @@ void
 e_spell_checker_ignore_word (ESpellChecker *checker,
                              const gchar *word)
 {
-	WebKitSpellCheckerInterface *interface;
+	/* Carefully, this will add the word to all active dictionaries */
+
+	GHashTable *active_dictionaries;
+	GList *list, *link;
 
 	g_return_if_fail (E_IS_SPELL_CHECKER (checker));
 
-	interface = WEBKIT_SPELL_CHECKER_GET_IFACE (checker);
-	interface->ignore_word (WEBKIT_SPELL_CHECKER (checker), word);
+	active_dictionaries = checker->priv->active_dictionaries;
+	list = g_hash_table_get_keys (active_dictionaries);
+
+	for (link = list; link != NULL; link = g_list_next (link)) {
+		ESpellDictionary *dictionary;
+
+		dictionary = E_SPELL_DICTIONARY (link->data);
+		e_spell_dictionary_ignore_word (dictionary, word, -1);
+	}
+
+	g_list_free (list);
 }
 
 /**
@@ -836,10 +596,22 @@ void
 e_spell_checker_learn_word (ESpellChecker *checker,
                             const gchar *word)
 {
-	WebKitSpellCheckerInterface *interface;
+	/* Carefully, this will add the word to all active dictionaries! */
+
+	GHashTable *active_dictionaries;
+	GList *list, *link;
 
 	g_return_if_fail (E_IS_SPELL_CHECKER (checker));
 
-	interface = WEBKIT_SPELL_CHECKER_GET_IFACE (checker);
-	interface->learn_word (WEBKIT_SPELL_CHECKER (checker), word);
+	active_dictionaries = checker->priv->active_dictionaries;
+	list = g_hash_table_get_keys (active_dictionaries);
+
+	for (link = list; link != NULL; link = g_list_next (link)) {
+		ESpellDictionary *dictionary;
+
+		dictionary = E_SPELL_DICTIONARY (link->data);
+		e_spell_dictionary_learn_word (dictionary, word, -1);
+	}
+
+	g_list_free (list);
 }
