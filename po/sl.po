@@ -12,7 +12,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
 "POT-Creation-Date: 2016-02-01 22:00+0100\n"
-"PO-Revision-Date: 2016-02-01 22:14+0100\n"
+"PO-Revision-Date: 2016-03-03 21:02+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenščina <gnome-si@googlegroups.com>\n"
 "Language: sl\n"
@@ -6757,7 +6757,7 @@ msgstr "Azija/Kashgar"
 
 #: ../calendar/zones.h:242
 msgid "Asia/Kathmandu"
-msgstr ""
+msgstr "Azija/Katmandu"
 
 #: ../calendar/zones.h:243
 msgid "Asia/Krasnoyarsk"
@@ -7556,13 +7556,13 @@ msgstr "Preklopi prikaz polja KP"
 
 #: ../composer/e-composer-actions.c:547
 msgid "_From Override Field"
-msgstr ""
+msgstr "_Iz polja prepisa"
 
 #: ../composer/e-composer-actions.c:549
 msgid ""
 "Toggles whether the From override field to change name or email address is "
 "displayed"
-msgstr ""
+msgstr "Ali naj bo prikazano ime in elektronski naslov iz polja prepisa"
 
 #: ../composer/e-composer-actions.c:555
 msgid "_Reply-To Field"
@@ -7840,10 +7840,13 @@ msgid ""
 "A keyboard accelerator to send the message has been pressed. Either cancel "
 "sending the message, if it was done by an accident, or send the message."
 msgstr ""
+"Pospeševalna tipka za pošiljanje sporočila je bila pritisnjena. Ali "
+"prekličite pošiljanje sporočila, če je bilo pošiljanje sproženo po pomoti, "
+"ali pa zares pošljite sporočilo."
 
 #: ../composer/mail-composer.error.xml.h:39
 msgid "Are you sure you want to change the composer mode?"
-msgstr ""
+msgstr "Ali res želite spremeniti način skladnje?"
 
 #: ../composer/mail-composer.error.xml.h:40
 msgid ""
@@ -7858,8 +7861,9 @@ msgid "_Don't lose formatting"
 msgstr "_Ne izgubi oblikovanja"
 
 #: ../composer/mail-composer.error.xml.h:42
+#, fuzzy
 msgid "Lose _formatting"
-msgstr ""
+msgstr "_Izgubi oblikovanje"
 
 #: ../data/evolution-alarm-notify.desktop.in.in.h:1
 msgid "Evolution Alarm Notify"
@@ -8040,8 +8044,9 @@ msgid "Whether to show notes in the editor"
 msgstr "Ali naj se v urejevalniku prikažejo opombe"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:32
+#, fuzzy
 msgid "Whether to show Certificates tab in the editor"
-msgstr ""
+msgstr "Ali naj bodo v urejevalniku prikazane telefonske številke"
 
 #: ../data/org.gnome.evolution.bogofilter.gschema.xml.in.h:1
 msgid "Convert mail messages to Unicode"
@@ -8065,6 +8070,8 @@ msgid ""
 "used, usually /usr/bin/bogofilter. The command should not contain any other "
 "arguments."
 msgstr ""
+"Polna pot do ukaza Bogofilter. V kolikor ta ni nastavljen, je uporabljena "
+"pot /usr/bin/bogofilter. Ukaz ne sme vključevati drugih argumentov."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:1
 msgid "Save directory for reminder audio"
@@ -8116,7 +8123,7 @@ msgstr "Ali naj se zahteva potrditev ob brisanju sestankov in nalog."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:11
 msgid "Confirm expunge"
-msgstr "Potrdi uničenje"
+msgstr "Potrdi počiščenje"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:12
 msgid "Whether to ask for confirmation when expunging appointments and tasks"
@@ -8295,8 +8302,9 @@ msgid "Units for a default reminder, \"minutes\", \"hours\" or \"days\""
 msgstr "Enote privzetega opomnika: \"minute\", \"ure\" ali \"dnevi\"."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:50
+#, fuzzy
 msgid "Default reminder snooze interval, in minutes"
-msgstr ""
+msgstr "Enote privzetega opomnika: \"minute\", \"ure\" ali \"dnevi\"."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:51
 msgid ""
@@ -8661,8 +8669,9 @@ msgid "Position of the task preview pane when oriented vertically"
 msgstr "Položaj pladnja predogleda nalog, kadar je ta usmerjen navpično."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:127
+#, fuzzy
 msgid "Show reminders for completed tasks"
-msgstr ""
+msgstr "Poteka dokončno brisanje končanih nalog"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:128
 msgid ""
@@ -9121,6 +9130,8 @@ msgid ""
 "Always save messages to Outbox folder when sending, to let a user choose "
 "when the messages should be sent."
 msgstr ""
+"Vedno shrani poslano sporočilo v mapo Poslanih sporočil, da lahko uporabnik "
+"izbere, kdaj bo sporočilo poslano."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:49
 msgid "Put personalized signatures at the top of replies"
@@ -9198,7 +9209,7 @@ msgstr "Število znakov za prelom besedila"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:60
 msgid "Will autowrap lines after given number of characters."
-msgstr ""
+msgstr "Omogoči prelom vrstic po določenem številu vpisanih znakov"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:61
 msgid ""
@@ -9220,6 +9231,9 @@ msgid ""
 "always shown in the composer's toolbar. Otherwise they are shown only when "
 "being used."
 msgstr ""
+"Izbrana možnost omogoči, da bosta gumba Podpiši in Šifriraj za PGP ali S/"
+"MIME vedno vidna v orodni vrstici. V nasprotnem primeru bosta vidna le, če "
+"sta uporabljena."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:65
 msgid "Save file format for drag-and-drop operation"
@@ -9365,8 +9379,9 @@ msgid "Mark as Seen after specified timeout."
 msgstr "Označi kot Videno po navedeni zakasnitvi."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:96
+#, fuzzy
 msgid "Mark as Seen always after specified timeout"
-msgstr ""
+msgstr "Označi kot Videno po navedeni zakasnitvi."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:97
 msgid ""
@@ -9615,6 +9630,8 @@ msgstr "Privzet način odgovarjanja"
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:143
 msgid "Prompt on send when using key accelerator (Ctrl+Enter)"
 msgstr ""
+"Zahtevaj potrdilo pošiljanja, če je uporabljena pospeševalna tipka (Ctrl"
+"+Enter)"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:144
 msgid ""
@@ -9641,11 +9658,11 @@ msgstr "Opozori uporabnika, ko želi izprazniti smeti."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:149
 msgid "Prompt when user expunges"
-msgstr "Opozori ob uničenju"
+msgstr "Opozori ob počiščenju"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:150
 msgid "Prompt the user when he or she tries to expunge a folder."
-msgstr "Opozori uporabnika, ko želi uničiti mapo."
+msgstr "Opozori uporabnika, ko želi počistiti mapo."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:151
 msgid "Prompt before sending to recipients not entered as mail addresses"
@@ -9802,8 +9819,9 @@ msgid ""
 msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:175
+#, fuzzy
 msgid "Prompt when sending to many To and CC recipients"
-msgstr ""
+msgstr "Opozori med odgovarjanjem več prejemnikom"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:176
 msgid ""
@@ -10054,7 +10072,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:220
 msgid "Allow expunge in virtual folders"
-msgstr "Dovoli uničevanje v navideznih mapah"
+msgstr "Dovoli počiščenje v navideznih mapah"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:221
 msgid ""
@@ -10063,6 +10081,9 @@ msgid ""
 "in all folders for all deleted messages within the virtual folder, not only "
 "for deleted messages belonging to the virtual folder."
 msgstr ""
+"Omogoči počiščenje sporočil v navideznih mapah, kar pomeni, da bo Mapa -> "
+"Počisti usklajena z dejanskimi sporočili. To vpliva na vsa sporočila, ki so "
+"v vseh mapah."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:222
 #: ../mail/mail-config.ui.h:9
@@ -10084,6 +10105,8 @@ msgid ""
 "An Archive folder to use for Messages|Archive... feature when in an On This "
 "Computer folder."
 msgstr ""
+"Mapa arhiva, ki naj bo uporabljen za možnost Sporočila|Arhiv ... , ko je je "
+"uporabih v ustrezni mapi."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:226
 msgid "(Deprecated) Default forward style"
@@ -12922,8 +12945,9 @@ msgid "_Link:"
 msgstr "_Povezava:"
 
 #: ../e-util/e-html-editor-page-dialog.c:593
+#, fuzzy
 msgid "_Visited Link:"
-msgstr ""
+msgstr "Skoči na predhodno obiskano povezavo."
 
 #: ../e-util/e-html-editor-page-dialog.c:608
 msgid "_Background:"
@@ -14174,11 +14198,12 @@ msgstr "Kopiraj _elektronski naslov"
 
 #: ../e-util/e-web-view.c:345
 msgid "Copy _Raw Email Address"
-msgstr ""
+msgstr "Kopiraj le _elektronski naslov"
 
 #: ../e-util/e-web-view.c:347
+#, fuzzy
 msgid "Copy the raw email address to the clipboard"
-msgstr ""
+msgstr "Kopira elektronski naslov v odložišče"
 
 #: ../e-util/e-web-view.c:362
 msgid "_Copy Image"
@@ -15059,7 +15084,7 @@ msgstr "Dodaj no_v podpis ..."
 
 #: ../mail/e-mail-config-identity-page.c:555
 msgid "_Look up mail server details based on the entered e-mail address"
-msgstr ""
+msgstr "_Izvedi poizvedbo poštnega strežnika na vpisan elektronski naslov"
 
 #: ../mail/e-mail-config-lookup-page.c:70
 msgid "Looking up account details..."
@@ -15139,8 +15164,9 @@ msgid "Al_ways sign outgoing messages when using this account"
 msgstr "Ob uporabi tega računa _vedno podpiši odhodno pošto"
 
 #: ../mail/e-mail-config-security-page.c:466
+#, fuzzy
 msgid "Always enc_rypt outgoing messages when using this account"
-msgstr ""
+msgstr "Vedno ko uporabljaš ta račun, šifriraj odhodna sporočila"
 
 #: ../mail/e-mail-config-security-page.c:478
 msgid "Always encrypt to _myself when sending encrypted messages"
@@ -16068,14 +16094,14 @@ msgid "Allow remote content for anyone from %s"
 msgstr ""
 
 #: ../mail/e-mail-reader.c:5242
-#, c-format
+#, fuzzy, c-format
 msgid "Allow remote content for %s"
-msgstr ""
+msgstr "Naloži oddaljeno vsebino"
 
 #: ../mail/e-mail-reader.c:5259
-#, c-format
+#, fuzzy, c-format
 msgid "Allow remote content from %s"
-msgstr ""
+msgstr "Pridobi oddaljeni predmet iz %s"
 
 #: ../mail/e-mail-reader.c:5316
 msgid "Load remote content"
@@ -16262,8 +16288,9 @@ msgid "_Send Account Override:"
 msgstr "_Pošlji spremenjena poverila računa:"
 
 #: ../mail/em-folder-properties.c:491
+#, fuzzy
 msgid "_Archive this folder using these settings:"
-msgstr ""
+msgstr "Arhivska mapa za mape Na tem računalniku."
 
 #. Translators: This text is part of "Cleanup messages older than [X] [days/weeks/months]"
 #: ../mail/em-folder-properties.c:500
@@ -16290,20 +16317,24 @@ msgid "months"
 msgstr "mesecev"
 
 #: ../mail/em-folder-properties.c:526
+#, fuzzy
 msgid "Move old messages to the default archive _folder"
-msgstr ""
+msgstr "Premakne izbrana sporočila v arhivsko mapo računa"
 
 #: ../mail/em-folder-properties.c:537
+#, fuzzy
 msgid "_Move old messages to:"
-msgstr ""
+msgstr "Poteka brisanje starih sporočil"
 
 #: ../mail/em-folder-properties.c:541
+#, fuzzy
 msgid "AutoArchive folder"
-msgstr ""
+msgstr "Samodejno arhiviraj"
 
 #: ../mail/em-folder-properties.c:541
+#, fuzzy
 msgid "Select folder to use for AutoArchive"
-msgstr ""
+msgstr "<kliknite tukaj za izbiro mape>"
 
 #: ../mail/em-folder-properties.c:547
 msgid "_Delete old messages"
@@ -16720,13 +16751,15 @@ msgstr "ni označeno z zastavico"
 
 #: ../mail/filtertypes.xml.in.h:43 ../mail/searchtypes.xml.in.h:45
 #: ../mail/vfoldertypes.xml.in.h:46
+#, fuzzy
 msgid "is Completed"
-msgstr ""
+msgstr "Končano!"
 
 #: ../mail/filtertypes.xml.in.h:44 ../mail/searchtypes.xml.in.h:46
 #: ../mail/vfoldertypes.xml.in.h:47
+#, fuzzy
 msgid "is not Completed"
-msgstr ""
+msgstr "Končano!"
 
 #: ../mail/filtertypes.xml.in.h:48 ../mail/searchtypes.xml.in.h:50
 #: ../mail/vfoldertypes.xml.in.h:51
@@ -17051,7 +17084,7 @@ msgstr "Pošlji sporočila prek mape odhodne po_šte"
 
 #: ../mail/mail-config.ui.h:15
 msgid "Number of characters for word w_rapping:"
-msgstr ""
+msgstr "Število znakov za prelom _vrstic v sporočilu:"
 
 #: ../mail/mail-config.ui.h:16
 msgid "Ch_aracter encoding:"
@@ -17163,8 +17196,9 @@ msgstr "Pošiljanje sporočila le z določenimi prejemniki _Skp"
 
 #. This is in the context of: Ask for confirmation before...
 #: ../mail/mail-config.ui.h:45
+#, fuzzy
 msgid "Sending a message to many _To and CC recipients"
-msgstr ""
+msgstr "Pokaži polje \"Kp\" pri pošiljanju poštnega sporočila"
 
 #. This is in the context of: Ask for confirmation before...
 #: ../mail/mail-config.ui.h:47
@@ -17351,20 +17385,24 @@ msgstr ""
 "O_pozori ob pošiljanju sporočil v obliki HTML tistim stikom, ki tega nočejo"
 
 #: ../mail/mail-config.ui.h:105
+#, fuzzy
 msgid "Loading Remote Content"
-msgstr ""
+msgstr "Naloži oddaljeno vsebino"
 
 #: ../mail/mail-config.ui.h:106
+#, fuzzy
 msgid "_Never load remote content from the Internet"
-msgstr ""
+msgstr "_Nikoli ne nalagaj slik z medmreja"
 
 #: ../mail/mail-config.ui.h:107
+#, fuzzy
 msgid "_Load remote content only in messages from contacts"
-msgstr ""
+msgstr "_Naloži slike le v sporočilih s stikov"
 
 #: ../mail/mail-config.ui.h:108
+#, fuzzy
 msgid "_Always load remote content from the Internet"
-msgstr ""
+msgstr "Vedno n_aloži slike s spleta"
 
 #: ../mail/mail-config.ui.h:109
 msgid "Add"
@@ -17375,12 +17413,16 @@ msgid "Remove"
 msgstr "Odstrani"
 
 #: ../mail/mail-config.ui.h:111
+#, fuzzy
 msgid "Allow for sites:"
 msgstr ""
+"Dovoli spletnim stranem odpiranje novih oken z JavaScriptom (če je slednji "
+"omogočen)."
 
 #: ../mail/mail-config.ui.h:112
+#, fuzzy
 msgid "Allow for senders:"
-msgstr ""
+msgstr "Dovoli"
 
 #: ../mail/mail-config.ui.h:113
 msgid "HTML Messages"
@@ -17615,8 +17657,9 @@ msgstr ""
 "Za: ali KP:."
 
 #: ../mail/mail.error.xml.h:16
+#, fuzzy
 msgid "Are you sure you want to send a message with {0} To and CC recipients?"
-msgstr ""
+msgstr "Ali ste prepričani, da želite sporočilo poslati le s prejemniki Skp?"
 
 #: ../mail/mail.error.xml.h:17
 msgid ""
@@ -17738,7 +17781,7 @@ msgstr "V primeru, da boste nadaljevali, teh sporočil ne bo mogoče obnoviti."
 
 #: ../mail/mail.error.xml.h:40
 msgid "_Expunge"
-msgstr "_Uniči"
+msgstr "_Počisti"
 
 #: ../mail/mail.error.xml.h:41
 msgid ""
@@ -17834,7 +17877,7 @@ msgstr ""
 
 #: ../mail/mail.error.xml.h:63
 msgid "Failed to expunge folder &quot;{0}&quot;."
-msgstr "Napaka med brisanjem mape &quot;{0}&quot;."
+msgstr "Napaka med počiščenjem mape &quot;{0}&quot;."
 
 #: ../mail/mail.error.xml.h:65
 msgid "Failed to refresh folder &quot;{0}&quot;."
@@ -18171,15 +18214,15 @@ msgstr "Ali ste prepričani, da želite kopirati mapo '{0}' v mapo '{1}'?"
 
 #: ../mail/mail.error.xml.h:142
 msgid "Do _not copy"
-msgstr ""
+msgstr "_Ne kopiraj"
 
 #: ../mail/mail.error.xml.h:143
 msgid "_Always copy"
-msgstr ""
+msgstr "_Vedno kopiraj"
 
 #: ../mail/mail.error.xml.h:144
 msgid "N_ever copy"
-msgstr ""
+msgstr "_Nikoli ne kopiraj"
 
 #: ../mail/mail.error.xml.h:145
 msgid "Move folder in folder tree."
@@ -18191,15 +18234,15 @@ msgstr "Ali ste prepričani, da želite premakniti mapo '{0}' v mapo '{1}'?"
 
 #: ../mail/mail.error.xml.h:148
 msgid "Do _not move"
-msgstr ""
+msgstr "Ne _premakni"
 
 #: ../mail/mail.error.xml.h:149
 msgid "_Always move"
-msgstr ""
+msgstr "Ved_no premakni"
 
 #: ../mail/mail.error.xml.h:150
 msgid "N_ever move"
-msgstr ""
+msgstr "Ni_koli ne premakni"
 
 #: ../mail/mail.error.xml.h:151
 msgid ""
@@ -18276,6 +18319,11 @@ msgid ""
 "folder is selected, to make sure that all the messages in the folder will be "
 "available in offline mode."
 msgstr ""
+"Morda je vzrok v neprejetem sporočilu, če je to obsežno. Mapo ali račun je "
+"mogoče označiti za usklajevanje brez povezave. Ko je povezava spet "
+"vzpostavljena, uporabite možnost Datoteka-&gt;Prejmi sporočila za delo brez "
+"povezave na izbrani mapi. S tem bodo vsa sporočila v mapi na voljo tudi v "
+"brez povezave."
 
 #: ../mail/mail.error.xml.h:169
 msgid "Failed to open folder."
@@ -18343,19 +18391,20 @@ msgstr "Označevanje niti v mapi »{0}« kot prezrte je spodletelo"
 
 #: ../mail/mail.error.xml.h:185
 msgid "Failed to unmark thread from being ignored in folder '{0}'"
-msgstr ""
+msgstr "Odstranjevanje označbe niti kot prezrte v mapi '{0}' je spodletelo"
 
 #: ../mail/mail.error.xml.h:186
 msgid "Failed to mark subthread to be ignored in folder '{0}'"
-msgstr ""
+msgstr "Označevanje niti kot prezrte v mapi '{0}' je spodletelo"
 
 #: ../mail/mail.error.xml.h:187
 msgid "Failed to unmark subthread from being ignored in folder '{0}'"
 msgstr ""
+"Odstranjevanje označbe podrejene niti kot prezrte v mapi '{0}' je spodletelo"
 
 #: ../mail/mail.error.xml.h:188
 msgid "Remote content download had been blocked for this message."
-msgstr ""
+msgstr "Prejemanje oddaljene vsebine je za to sporočilo blokirano."
 
 #: ../mail/mail.error.xml.h:189
 msgid ""
@@ -18366,17 +18415,17 @@ msgstr ""
 #. Translators: This constructs a string like "Follow-up, Completed on Tuesday, January 13, 2009"
 #: ../mail/mail.error.xml.h:191
 msgid "{0}, Completed on {1}"
-msgstr ""
+msgstr "{0}, končano {1}"
 
 #. Translators: This constructs a string like "Follow-up by Tuesday, January 13, 2009"
 #: ../mail/mail.error.xml.h:193
 msgid "{0} by {1}"
-msgstr ""
+msgstr "{0} s strani uporabnika {1}"
 
 #. Translators: This constructs a string like "Overdue: Follow-up by Tuesday, January 13, 2009"
 #: ../mail/mail.error.xml.h:195
 msgid "Overdue: {0} by {1}"
-msgstr ""
+msgstr "Prekoračeno: {0} s strani uporabnika {1}"
 
 #: ../mail/mail-send-recv.c:191
 msgid "Canceling..."
@@ -18404,9 +18453,9 @@ msgid "Checking for new mail at '%s'"
 msgstr "Preverjanje za novo pošto na '%s'"
 
 #: ../mail/mail-send-recv.c:1452
-#, c-format
+#, fuzzy, c-format
 msgid "Deleting junk and expunging trash at '%s'"
-msgstr ""
+msgstr "Brisanje neželene pošte v '%s'"
 
 #: ../mail/mail-send-recv.c:1454
 #, c-format
@@ -19104,8 +19153,9 @@ msgid "Invalid Evolution backup file"
 msgstr "Neveljavna datoteka varnostne kopije programa Evolution"
 
 #: ../modules/backup-restore/org-gnome-backup-restore.error.xml.h:2
+#, fuzzy
 msgid "File '{0}' is not a valid Evolution backup file."
-msgstr ""
+msgstr "Izberite ime datoteke varnostne kopije Evolution"
 
 #: ../modules/backup-restore/org-gnome-backup-restore.error.xml.h:3
 msgid "Are you sure you want to close Evolution?"
@@ -19728,8 +19778,9 @@ msgid "Display reminders in _notification area only"
 msgstr "Prikaži opomnike v obvestilnem p_odročju"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:65
+#, fuzzy
 msgid "Display reminders for completed _tasks"
-msgstr ""
+msgstr "Poteka dokončno brisanje končanih nalog"
 
 #. This is the first half of a user preference. "Show a reminder [time-period] before every appointment"
 #: ../modules/calendar/e-calendar-preferences.ui.h:67
@@ -19752,8 +19803,9 @@ msgid "before every anniversary/birthday"
 msgstr "pred vsako obletnico ali rojstnim dnem"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:74
+#, fuzzy
 msgid "Default _snooze time (in minutes)"
-msgstr ""
+msgstr "Čas _dremeža:"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:75
 msgid "Select the calendars for reminder notification"
@@ -21421,11 +21473,11 @@ msgstr "Poteka označevanje sporočil kot prebrana ..."
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1038
 msgid "Go to Folder"
-msgstr ""
+msgstr "Skoči na mapo"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1042
 msgid "_Select"
-msgstr ""
+msgstr "_Izberi"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1631
 msgid "_Disable Account"
@@ -21473,7 +21525,7 @@ msgstr "Trajno odstrani to mapo"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1687
 msgid "E_xpunge"
-msgstr "_Uniči"
+msgstr "_Počisti"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1689
 msgid "Permanently remove all deleted messages from this folder"
@@ -21544,11 +21596,13 @@ msgstr "Trajno odstrani vsa izbrisana sporočila iz vseh računov"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1765
 msgid "Go to _Folder"
-msgstr ""
+msgstr "Skoči v _mapo"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1767
+#, fuzzy
 msgid "Opens a dialog to select a folder to go to"
 msgstr ""
+"URI mape, ki je bila nazadnje uporabljena v pogovornem oknu za izbiro imen"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1772
 msgid "_New Label"
@@ -21804,10 +21858,10 @@ msgstr[3] "%d poslana"
 #, c-format
 msgid "%d unread"
 msgid_plural "%d unread"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "%d neprebranih"
+msgstr[1] "%d neprebrana"
+msgstr[2] "%d neprebrani"
+msgstr[3] "%d neprebrana"
 
 #: ../modules/mail/e-mail-shell-view-private.c:1549
 msgid "Send / Receive"
@@ -22640,8 +22694,9 @@ msgid "Load new _Face picture"
 msgstr "Naloži novo _sličico obraza"
 
 #: ../plugins/face/face.c:449
+#, fuzzy
 msgid "Change Face Image"
-msgstr ""
+msgstr "Ni mogoče spremeniti zapisa ikone"
 
 #: ../plugins/face/face.c:537
 msgid "Include _Face"
@@ -22685,8 +22740,9 @@ msgid "Not an image"
 msgstr "Ni slika"
 
 #: ../plugins/face/org-gnome-face.error.xml.h:8
+#, fuzzy
 msgid "The file you selected does not look like a valid PNG image. Error: {0}"
-msgstr ""
+msgstr "Izbrana datoteka ni veljavna slika .png. Napaka: {0}"
 
 #: ../plugins/mailing-list-actions/mailing-list-actions.c:364
 msgid "Get List _Archive"
@@ -23462,8 +23518,9 @@ msgid "New _Window"
 msgstr "Novo _okno"
 
 #: ../shell/e-shell.c:1221
+#, fuzzy
 msgid "Quick _Reference"
-msgstr ""
+msgstr "hitri priročnik"
 
 #: ../shell/e-shell.c:1223 ../shell/e-shell-window-actions.c:764
 msgid "_About"
@@ -23989,32 +24046,38 @@ msgid "Failed to invoke authenticate for '{0}'"
 msgstr "Overitev na strežniku za '{0}' je spodletela."
 
 #: ../shell/shell.error.xml.h:17
+#, fuzzy
 msgid "Failed to connect '{0}'"
-msgstr ""
+msgstr "Povezovanje s '{0}' je spodletelo."
 
 #: ../shell/shell.error.xml.h:18
 msgid "_Reconnect"
 msgstr "Ponovno _poveži"
 
 #: ../shell/shell.error.xml.h:19
+#, fuzzy
 msgid "Failed to connect address book '{0}'"
-msgstr ""
+msgstr "Osveževanje imenika '{0}' je spodletelo."
 
 #: ../shell/shell.error.xml.h:20
+#, fuzzy
 msgid "Failed to connect calendar '{0}'"
-msgstr ""
+msgstr "Povezovanje s '{0}' je spodletelo."
 
 #: ../shell/shell.error.xml.h:21
+#, fuzzy
 msgid "Failed to connect mail account '{0}'"
-msgstr ""
+msgstr "Povezovanje računa &quot;{0}&quot; je spodletelo."
 
 #: ../shell/shell.error.xml.h:22
+#, fuzzy
 msgid "Failed to connect memo list '{0}'"
-msgstr ""
+msgstr "Ustvarjanje opomnika v seznamu opomnikov '{0}' je spodletelo."
 
 #: ../shell/shell.error.xml.h:23
+#, fuzzy
 msgid "Failed to connect task list '{0}'"
-msgstr ""
+msgstr "Ustvarjanje naloge v seznamu nalog '{0}' je spodletelo."
 
 #: ../shell/shell.error.xml.h:24
 msgid "Failed to prompt for credentials for '{0}'"
@@ -24022,7 +24085,7 @@ msgstr "Povpraševanje po poverilih za »{0}« je spodletelo"
 
 #: ../shell/shell.error.xml.h:25
 msgid "Failed to finish trust prompt for '{0}'"
-msgstr ""
+msgstr "Povpraševanje po poverilih za '{0}' je spodletelo"
 
 #: ../shell/shell.error.xml.h:26
 msgid "SSL certificate for '{0}' is not trusted."
@@ -24033,24 +24096,29 @@ msgid "Reason: {1}"
 msgstr "Vzrok: {1}"
 
 #: ../shell/shell.error.xml.h:29
+#, fuzzy
 msgid "SSL certificate for address book '{0}' is not trusted."
-msgstr ""
+msgstr "Digitalno potrdilo SSL za »{0}« ni vredno zaupanja."
 
 #: ../shell/shell.error.xml.h:30
+#, fuzzy
 msgid "SSL certificate for calendar '{0}' is not trusted."
-msgstr ""
+msgstr "Digitalno potrdilo SSL za »{0}« ni vredno zaupanja."
 
 #: ../shell/shell.error.xml.h:31
+#, fuzzy
 msgid "SSL certificate for mail account '{0}' is not trusted."
-msgstr ""
+msgstr "Digitalno potrdilo SSL za »{0}« ni vredno zaupanja."
 
 #: ../shell/shell.error.xml.h:32
+#, fuzzy
 msgid "SSL certificate for memo list '{0}' is not trusted."
-msgstr ""
+msgstr "Digitalno potrdilo SSL za »{0}« ni vredno zaupanja."
 
 #: ../shell/shell.error.xml.h:33
+#, fuzzy
 msgid "SSL certificate for task list '{0}' is not trusted."
-msgstr ""
+msgstr "Digitalno potrdilo SSL za »{0}« ni vredno zaupanja."
 
 #: ../smime/gui/ca-trust-dialog.c:106
 #, c-format
@@ -24177,6 +24245,9 @@ msgid ""
 "you are about to create.\n"
 "You must set this password to proceed with the backup."
 msgstr ""
+"Geslo varnostne kopije potrdila, ki ste ga nastavili, je namenjen zaščiti "
+"varnostne kopije datoteke, ki jo boste ustvarili.\n"
+"Geslo je treba vpisati, če želite nadaljevati z varnostnim kopiranjem."
 
 #: ../smime/gui/certificate-manager.c:788
 msgid "_Repeat Password:"
@@ -24194,6 +24265,10 @@ msgid ""
 "restore this backup later.\n"
 "Please record it in a safe location."
 msgstr ""
+"Pomembno:\n"
+"V kolikor pozabite geslo varnostne kopije potrdila, kopije ne bo mogoče več "
+"obnoviti!\n"
+"Zabeležite si geslo na varno mesto."
 
 #: ../smime/gui/certificate-manager.c:860
 msgid "No file name provided"
@@ -24222,9 +24297,10 @@ msgid "Never"
 msgstr "Nikoli"
 
 #: ../smime/gui/certificate-manager.c:1123
+#, fuzzy
 msgctxt "CamelTrust"
 msgid "Marginally"
-msgstr ""
+msgstr "Obrobno"
 
 #: ../smime/gui/certificate-manager.c:1125
 msgctxt "CamelTrust"
@@ -24232,14 +24308,16 @@ msgid "Fully"
 msgstr "Polno"
 
 #: ../smime/gui/certificate-manager.c:1127
+#, fuzzy
 msgctxt "CamelTrust"
 msgid "Ultimately"
-msgstr ""
+msgstr "Popolno"
 
 #: ../smime/gui/certificate-manager.c:1129
+#, fuzzy
 msgctxt "CamelTrust"
 msgid "Temporarily"
-msgstr ""
+msgstr "začasno ni mogoče razrešiti '%s'"
 
 #: ../smime/gui/certificate-manager.c:1335
 msgid "Change certificate trust"
@@ -24256,29 +24334,34 @@ msgid "_Ask when used"
 msgstr "_Vprašaj za potrditev ob uporabi"
 
 #: ../smime/gui/certificate-manager.c:1372
+#, fuzzy
 msgctxt "CamelTrust"
 msgid "_Never trust this certificate"
-msgstr ""
+msgstr "Nikoli: potrdilo ni zahtevano ali preverjeno."
 
 #: ../smime/gui/certificate-manager.c:1373
+#, fuzzy
 msgctxt "CamelTrust"
 msgid "_Temporarily trusted (this session only)"
-msgstr ""
+msgstr "Prejmi le od zaupljivih naprav"
 
 #: ../smime/gui/certificate-manager.c:1374
+#, fuzzy
 msgctxt "CamelTrust"
 msgid "_Marginally trusted"
-msgstr ""
+msgstr "Obrobno"
 
 #: ../smime/gui/certificate-manager.c:1375
+#, fuzzy
 msgctxt "CamelTrust"
 msgid "_Fully trusted"
-msgstr ""
+msgstr "Polno"
 
 #: ../smime/gui/certificate-manager.c:1376
+#, fuzzy
 msgctxt "CamelTrust"
 msgid "_Ultimately trusted"
-msgstr ""
+msgstr "Popolno"
 
 #: ../smime/gui/certificate-manager.c:1380
 msgid ""
@@ -24442,7 +24525,7 @@ msgstr ""
 
 #: ../smime/gui/smime-ui.ui.h:25
 msgid "C_ertificate:"
-msgstr ""
+msgstr "_Potrdilo:"
 
 #: ../smime/gui/smime-ui.ui.h:26
 msgid "Email Certificate Trust Settings"
