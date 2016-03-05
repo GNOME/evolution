@@ -11,8 +11,8 @@ msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2016-02-01 22:00+0100\n"
-"PO-Revision-Date: 2016-03-03 21:02+0100\n"
+"POT-Creation-Date: 2016-03-05 22:39+0100\n"
+"PO-Revision-Date: 2016-03-05 22:43+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenščina <gnome-si@googlegroups.com>\n"
 "Language: sl\n"
@@ -4943,14 +4943,14 @@ msgstr ""
 "%s"
 
 #. String to use in 12-hour time format for times in the morning.
-#: ../calendar/gui/e-day-view.c:2138 ../calendar/gui/e-week-view.c:1694
+#: ../calendar/gui/e-day-view.c:2138 ../calendar/gui/e-week-view.c:1706
 #: ../calendar/gui/print.c:1073 ../calendar/gui/print.c:1092
 #: ../calendar/gui/print.c:2622 ../calendar/gui/print.c:2642
 msgid "am"
 msgstr "dop"
 
 #. String to use in 12-hour time format for times in the afternoon.
-#: ../calendar/gui/e-day-view.c:2141 ../calendar/gui/e-week-view.c:1697
+#: ../calendar/gui/e-day-view.c:2141 ../calendar/gui/e-week-view.c:1709
 #: ../calendar/gui/print.c:1078 ../calendar/gui/print.c:1094
 #: ../calendar/gui/print.c:2627 ../calendar/gui/print.c:2644
 msgid "pm"
@@ -5203,7 +5203,7 @@ msgid "Language"
 msgstr "Jezik"
 
 #: ../calendar/gui/e-memo-table.c:371
-#: ../modules/calendar/e-cal-shell-content.c:1632
+#: ../modules/calendar/e-cal-shell-content.c:1631
 #: ../modules/calendar/e-memo-shell-view-actions.c:180
 #: ../modules/calendar/e-memo-shell-view-actions.c:195
 #: ../modules/calendar/e-memo-shell-view.c:308
@@ -5262,7 +5262,7 @@ msgstr "%d%%"
 #: ../calendar/importers/icalendar-importer.c:79
 #: ../calendar/importers/icalendar-importer.c:1063
 #: ../modules/calendar/e-calendar-preferences.ui.h:62
-#: ../modules/calendar/e-cal-shell-content.c:1592
+#: ../modules/calendar/e-cal-shell-content.c:1591
 #: ../modules/calendar/e-task-shell-view-actions.c:203
 #: ../modules/calendar/e-task-shell-view-actions.c:218
 #: ../modules/calendar/e-task-shell-view.c:466
@@ -12945,9 +12945,8 @@ msgid "_Link:"
 msgstr "_Povezava:"
 
 #: ../e-util/e-html-editor-page-dialog.c:593
-#, fuzzy
 msgid "_Visited Link:"
-msgstr "Skoči na predhodno obiskano povezavo."
+msgstr "_Obiskana povezava:"
 
 #: ../e-util/e-html-editor-page-dialog.c:608
 msgid "_Background:"
@@ -13116,11 +13115,11 @@ msgstr "_Velikost:"
 msgid "Text Properties"
 msgstr "Lastnosti besedila"
 
-#: ../e-util/e-html-editor-view.c:6289
+#: ../e-util/e-html-editor-view.c:6298
 msgid "Changed property"
 msgstr "Spremenjena lastnost"
 
-#: ../e-util/e-html-editor-view.c:6290
+#: ../e-util/e-html-editor-view.c:6299
 msgid "Whether editor changed"
 msgstr "Ali je dokument spremenjen"
 
@@ -22694,9 +22693,8 @@ msgid "Load new _Face picture"
 msgstr "Naloži novo _sličico obraza"
 
 #: ../plugins/face/face.c:449
-#, fuzzy
 msgid "Change Face Image"
-msgstr "Ni mogoče spremeniti zapisa ikone"
+msgstr "Spremeni sliko obraza"
 
 #: ../plugins/face/face.c:537
 msgid "Include _Face"
@@ -24046,7 +24044,6 @@ msgid "Failed to invoke authenticate for '{0}'"
 msgstr "Overitev na strežniku za '{0}' je spodletela."
 
 #: ../shell/shell.error.xml.h:17
-#, fuzzy
 msgid "Failed to connect '{0}'"
 msgstr "Povezovanje s '{0}' je spodletelo."
 
@@ -24055,29 +24052,24 @@ msgid "_Reconnect"
 msgstr "Ponovno _poveži"
 
 #: ../shell/shell.error.xml.h:19
-#, fuzzy
 msgid "Failed to connect address book '{0}'"
-msgstr "Osveževanje imenika '{0}' je spodletelo."
+msgstr "Povezovanje s imenikom '{0}' je spodletelo."
 
 #: ../shell/shell.error.xml.h:20
-#, fuzzy
 msgid "Failed to connect calendar '{0}'"
-msgstr "Povezovanje s '{0}' je spodletelo."
+msgstr "Povezovanje s koledarjem '{0}' je spodletelo."
 
 #: ../shell/shell.error.xml.h:21
-#, fuzzy
 msgid "Failed to connect mail account '{0}'"
-msgstr "Povezovanje računa &quot;{0}&quot; je spodletelo."
+msgstr "Povezovanje s poštnim računom '{0}' je spodletelo."
 
 #: ../shell/shell.error.xml.h:22
-#, fuzzy
 msgid "Failed to connect memo list '{0}'"
-msgstr "Ustvarjanje opomnika v seznamu opomnikov '{0}' je spodletelo."
+msgstr "Povezovanje s seznamom opomnikov '{0}' je spodletelo."
 
 #: ../shell/shell.error.xml.h:23
-#, fuzzy
 msgid "Failed to connect task list '{0}'"
-msgstr "Ustvarjanje naloge v seznamu nalog '{0}' je spodletelo."
+msgstr "Povezovanje s seznamom nalog '{0}' je spodletelo."
 
 #: ../shell/shell.error.xml.h:24
 msgid "Failed to prompt for credentials for '{0}'"
@@ -24096,29 +24088,24 @@ msgid "Reason: {1}"
 msgstr "Vzrok: {1}"
 
 #: ../shell/shell.error.xml.h:29
-#, fuzzy
 msgid "SSL certificate for address book '{0}' is not trusted."
-msgstr "Digitalno potrdilo SSL za »{0}« ni vredno zaupanja."
+msgstr "Digitalno potrdilo SSL za imenik '{0}' ni vredno zaupanja."
 
 #: ../shell/shell.error.xml.h:30
-#, fuzzy
 msgid "SSL certificate for calendar '{0}' is not trusted."
-msgstr "Digitalno potrdilo SSL za »{0}« ni vredno zaupanja."
+msgstr "Digitalno potrdilo SSL za koledar '{0}' ni vredno zaupanja."
 
 #: ../shell/shell.error.xml.h:31
-#, fuzzy
 msgid "SSL certificate for mail account '{0}' is not trusted."
-msgstr "Digitalno potrdilo SSL za »{0}« ni vredno zaupanja."
+msgstr "Digitalno potrdilo SSL za poštni račun '{0} ni vredno zaupanja."
 
 #: ../shell/shell.error.xml.h:32
-#, fuzzy
 msgid "SSL certificate for memo list '{0}' is not trusted."
-msgstr "Digitalno potrdilo SSL za »{0}« ni vredno zaupanja."
+msgstr "Digitalno potrdilo SSL za seznam opomnikov '{0}' ni vredno zaupanja."
 
 #: ../shell/shell.error.xml.h:33
-#, fuzzy
 msgid "SSL certificate for task list '{0}' is not trusted."
-msgstr "Digitalno potrdilo SSL za »{0}« ni vredno zaupanja."
+msgstr "Digitalno potrdilo SSL za seznam nalog '{0}' ni vredno zaupanja."
 
 #: ../smime/gui/ca-trust-dialog.c:106
 #, c-format
