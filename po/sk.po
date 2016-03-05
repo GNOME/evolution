@@ -14,8 +14,8 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2016-03-01 19:29+0000\n"
-"PO-Revision-Date: 2016-03-01 21:27+0100\n"
+"POT-Creation-Date: 2016-03-05 05:52+0000\n"
+"PO-Revision-Date: 2016-03-05 11:19+0100\n"
 "Last-Translator: Dušan Kazik <prescott66@gmail.com>\n"
 "Language-Team: slovenčina <>\n"
 "Language: sk\n"
@@ -2199,7 +2199,7 @@ msgstr "_Neodosielať"
 
 #: ../calendar/calendar.error.xml.h:4
 msgid "_Send Notice"
-msgstr "P_oslať oznámenie"
+msgstr "_Odoslať oznámenie"
 
 #: ../calendar/calendar.error.xml.h:5 ../calendar/gui/e-cal-dialogs.c:502
 #, c-format
@@ -3899,9 +3899,10 @@ msgstr "Čas začiatku nie je platným časom"
 #: ../calendar/gui/e-comp-editor-event.c:356
 #: ../calendar/gui/e-comp-editor-event.c:372
 #: ../calendar/gui/e-comp-editor-page-attachments.c:211
-#: ../calendar/gui/e-comp-editor.c:339 ../mail/e-mail-reader-utils.c:650
-#: ../mail/mail-send-recv.c:486 ../mail/mail-send-recv.c:1285
-#: ../plugins/face/face.c:176 ../shell/e-shell.c:991 ../shell/e-shell.c:1013
+#: ../calendar/gui/e-comp-editor.c:339 ../mail/e-mail-display.c:2057
+#: ../mail/e-mail-reader-utils.c:650 ../mail/mail-send-recv.c:486
+#: ../mail/mail-send-recv.c:1285 ../plugins/face/face.c:176
+#: ../shell/e-shell.c:991 ../shell/e-shell.c:1013
 #: ../smime/gui/certificate-manager.c:346
 msgid "Unknown error"
 msgstr "Neznáma chyba"
@@ -7627,7 +7628,7 @@ msgstr "Uloží ako koncept"
 
 #: ../composer/e-composer-actions.c:409
 msgid "S_end"
-msgstr "P_oslať"
+msgstr "_Odoslať"
 
 # tooltip
 #: ../composer/e-composer-actions.c:411
@@ -7837,7 +7838,7 @@ msgstr ""
 
 #: ../composer/e-msg-composer.c:1619 ../composer/e-msg-composer.c:2645
 msgid "Compose Message"
-msgstr "Napísať správu"
+msgstr "Napísanie správy"
 
 #: ../composer/e-msg-composer.c:4995
 msgid "The composer contains a non-text message body, which cannot be edited."
@@ -13408,11 +13409,11 @@ msgstr "Veľ_kosť:"
 msgid "Text Properties"
 msgstr "Vlastnosti textu"
 
-#: ../e-util/e-html-editor-view.c:6380
+#: ../e-util/e-html-editor-view.c:6381
 msgid "Changed property"
 msgstr "Zmenená vlastnosť"
 
-#: ../e-util/e-html-editor-view.c:6381
+#: ../e-util/e-html-editor-view.c:6382
 msgid "Whether editor changed"
 msgstr "Určuje, či sa editor zmenil"
 
@@ -16437,7 +16438,7 @@ msgstr "Zn_aková sada"
 
 #: ../mail/e-mail-reader.c:2408
 msgid "F_orward As"
-msgstr "P_oslať ďalej ako"
+msgstr "_Odoslať ďalej ako"
 
 #: ../mail/e-mail-reader.c:2415
 msgid "_Group Reply"
