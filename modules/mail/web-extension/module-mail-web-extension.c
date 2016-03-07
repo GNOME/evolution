@@ -29,7 +29,7 @@ static GDBusConnection *dbus_connection;
 
 static const char introspection_xml[] =
 "<node>"
-"  <interface name='"MODULE_MAIL_WEB_EXTENSION_INTERFACE"'>"
+"  <interface name='" MODULE_MAIL_WEB_EXTENSION_INTERFACE "'>"
 "    <method name='GetActiveElementName'>"
 "      <arg type='t' name='page_id' direction='in'/>"
 "      <arg type='s' name='element_name' direction='out'/>"

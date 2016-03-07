@@ -32,7 +32,7 @@ static GDBusConnection *dbus_connection;
 
 static const char introspection_xml[] =
 "<node>"
-"  <interface name='"MODULE_TEXT_HIGHLIGHT_WEB_EXTENSION_INTERFACE"'>"
+"  <interface name='" MODULE_TEXT_HIGHLIGHT_WEB_EXTENSION_INTERFACE "'>"
 "    <method name='ChangeIFrameSource'>"
 "      <arg type='s' name='new_uri' direction='in'/>"
 "    </method>"

@@ -110,7 +110,7 @@ static CamelDataCache *emd_global_http_cache = NULL;
 
 static const char introspection_xml[] =
 "<node>"
-"  <interface name='"E_HTML_EDITOR_WEB_EXTENSION_INTERFACE"'>"
+"  <interface name='" E_HTML_EDITOR_WEB_EXTENSION_INTERFACE "'>"
 "<!-- ********************************************************* -->"
 "<!--                       PROPERTIES                          -->"
 "<!-- ********************************************************* -->"

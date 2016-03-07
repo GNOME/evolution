@@ -31,7 +31,7 @@ static GDBusConnection *dbus_connection;
 
 static const char introspection_xml[] =
 "<node>"
-"  <interface name='"MODULE_ITIP_FORMATTER_WEB_EXTENSION_INTERFACE"'>"
+"  <interface name='" MODULE_ITIP_FORMATTER_WEB_EXTENSION_INTERFACE "'>"
 "    <signal name='RecurToggled'>"
 "    </signal>"
 "    <signal name='SourceChanged'>"
