@@ -19,8 +19,6 @@
 #ifndef E_HTML_EDITOR_HISTORY_EVENT_H
 #define E_HTML_EDITOR_HISTORY_EVENT_H
 
-#include "config.h"
-
 G_BEGIN_DECLS
 
 enum EHTMLEditorHistoryEventType {

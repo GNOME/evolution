@@ -16,7 +16,11 @@
  *
  */
 
-#include "e-dom-utils.h"
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
+#include <string.h>
 
 #define WEBKIT_DOM_USE_UNSTABLE_API
 #include <webkitdom/WebKitDOMDOMSelection.h>
@@ -26,12 +30,7 @@
 #include "e-web-extension.h"
 #include "e-web-extension-names.h"
 
-#include <e-util/e-util-enums.h>
-#include <e-util/e-misc-utils.h>
-
-#include <config.h>
-
-#include <string.h>
+#include "e-dom-utils.h"
 
 static void
 replace_local_image_links (WebKitDOMElement *element)

@@ -16,20 +16,23 @@
  *
  */
 
-#include "e-composer-private-dom-functions.h"
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
+#include <string.h>
+
+#define WEBKIT_DOM_USE_UNSTABLE_API
+#include <webkitdom/WebKitDOMDOMSelection.h>
+#include <webkitdom/WebKitDOMDOMWindowUnstable.h>
+
+#include <web-extensions/e-dom-utils.h>
 
 #include "e-html-editor-web-extension.h"
 #include "e-html-editor-selection-dom-functions.h"
 #include "e-html-editor-view-dom-functions.h"
 
-#include <string.h>
-
-#include <web-extensions/e-dom-utils.h>
-#include <e-util/e-misc-utils.h>
-
-#define WEBKIT_DOM_USE_UNSTABLE_API
-#include <webkitdom/WebKitDOMDOMSelection.h>
-#include <webkitdom/WebKitDOMDOMWindowUnstable.h>
+#include "e-composer-private-dom-functions.h"
 
 gchar *
 dom_remove_signatures (WebKitDOMDocument *document,

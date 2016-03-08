@@ -19,7 +19,9 @@
 #ifndef E_DOM_UTILS_H
 #define E_DOM_UTILS_H
 
-#include <e-util/e-util-enums.h>
+#define E_UTIL_INCLUDE_WITHOUT_WEBKIT
+#include <e-util/e-util.h>
+#undef E_UTIL_INCLUDE_WITHOUT_WEBKIT
 
 #include <webkitdom/webkitdom.h>
 

@@ -16,7 +16,9 @@
  *
  */
 
-#include "config.h"
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
 
 #include "e-web-extension.h"
 #include "e-web-extension-names.h"

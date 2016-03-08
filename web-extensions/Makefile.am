@@ -9,7 +9,6 @@ libedomutils_la_SOURCES =				\
 libedomutils_la_CPPFLAGS =				\
 	$(AM_CPPFLAGS)					\
 	-I$(top_srcdir)					\
-	-DLIBEUTIL_COMPILATION				\
 	-DEVOLUTION_IMAGESDIR=\""$(imagesdir)"\"	\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)			\
 	$(GNOME_PLATFORM_CFLAGS)
@@ -30,7 +29,6 @@ libewebextension_la_SOURCES =				\
 libewebextension_la_CPPFLAGS =				\
 	$(AM_CPPFLAGS)					\
 	-I$(top_srcdir)					\
-	-DLIBEUTIL_COMPILATION				\
 	-DEVOLUTION_IMAGESDIR=\""$(imagesdir)"\"	\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)			\
 	$(GNOME_PLATFORM_CFLAGS)			\

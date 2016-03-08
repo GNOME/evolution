@@ -16,12 +16,9 @@
  *
  */
 
-#include "e-html-editor-selection-dom-functions.h"
-
-#include "e-html-editor-view-dom-functions.h"
-#include "e-html-editor-web-extension.h"
-
-#include <web-extensions/e-dom-utils.h>
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
 
 #include <string.h>
 #include <stdlib.h>
@@ -33,6 +30,13 @@
 #include <webkitdom/WebKitDOMDOMWindowUnstable.h>
 #include <webkitdom/WebKitDOMHTMLElementUnstable.h>
 #include <webkitdom/WebKitDOMDocumentUnstable.h>
+
+#include <web-extensions/e-dom-utils.h>
+
+#include "e-html-editor-view-dom-functions.h"
+#include "e-html-editor-web-extension.h"
+
+#include "e-html-editor-selection-dom-functions.h"
 
 static const GdkRGBA black = { 0, 0, 0, 1 };
 

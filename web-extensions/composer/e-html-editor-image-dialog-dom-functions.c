@@ -16,13 +16,17 @@
  *
  */
 
-#include "e-html-editor-image-dialog-dom-functions.h"
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
+#include <web-extensions/e-dom-utils.h>
 
 #include "e-html-editor-selection-dom-functions.h"
 #include "e-html-editor-web-extension.h"
 #include "e-html-editor-undo-redo-manager.h"
 
-#include <web-extensions/e-dom-utils.h>
+#include "e-html-editor-image-dialog-dom-functions.h"
 
 static WebKitDOMElement *
 get_current_image_element (WebKitDOMDocument *document)

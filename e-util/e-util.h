@@ -111,6 +111,8 @@
 #include <e-util/e-filter-part.h>
 #include <e-util/e-filter-rule.h>
 #include <e-util/e-focus-tracker.h>
+#include <e-util/e-html-editor-defines.h>
+#ifndef E_UTIL_INCLUDE_WITHOUT_WEBKIT
 #include <e-util/e-html-editor-actions.h>
 #include <e-util/e-html-editor-cell-dialog.h>
 #include <e-util/e-html-editor-dialog.h>
@@ -127,6 +129,7 @@
 #include <e-util/e-html-editor-text-dialog.h>
 #include <e-util/e-html-editor-view.h>
 #include <e-util/e-html-editor.h>
+#endif
 #include <e-util/e-html-utils.h>
 #include <e-util/e-icon-factory.h>
 #include <e-util/e-image-chooser.h>
@@ -136,9 +139,11 @@
 #include <e-util/e-interval-chooser.h>
 #include <e-util/e-mail-identity-combo-box.h>
 #include <e-util/e-mail-signature-combo-box.h>
+#ifndef E_UTIL_INCLUDE_WITHOUT_WEBKIT
 #include <e-util/e-mail-signature-editor.h>
 #include <e-util/e-mail-signature-manager.h>
 #include <e-util/e-mail-signature-preview.h>
+#endif
 #include <e-util/e-mail-signature-script-dialog.h>
 #include <e-util/e-mail-signature-tree-view.h>
 #include <e-util/e-map.h>
@@ -164,7 +169,9 @@
 #include <e-util/e-popup-menu.h>
 #include <e-util/e-port-entry.h>
 #include <e-util/e-preferences-window.h>
+#ifndef E_UTIL_INCLUDE_WITHOUT_WEBKIT
 #include <e-util/e-preview-pane.h>
+#endif
 #include <e-util/e-print.h>
 #include <e-util/e-printable.h>
 #include <e-util/e-proxy-combo-box.h>
@@ -176,7 +183,9 @@
 #include <e-util/e-reflow.h>
 #include <e-util/e-rule-context.h>
 #include <e-util/e-rule-editor.h>
+#ifndef E_UTIL_INCLUDE_WITHOUT_WEBKIT
 #include <e-util/e-search-bar.h>
+#endif
 #include <e-util/e-selectable.h>
 #include <e-util/e-selection-model-array.h>
 #include <e-util/e-selection-model-simple.h>
@@ -249,8 +258,10 @@
 #include <e-util/e-url-entry.h>
 #include <e-util/e-util-enums.h>
 #include <e-util/e-util-enumtypes.h>
+#ifndef E_UTIL_INCLUDE_WITHOUT_WEBKIT
 #include <e-util/e-web-view-preview.h>
 #include <e-util/e-web-view.h>
+#endif
 #include <e-util/e-widget-undo.h>
 #include <e-util/e-xml-utils.h>
 #include <e-util/ea-cell-table.h>

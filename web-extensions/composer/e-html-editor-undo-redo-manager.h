@@ -19,8 +19,6 @@
 #ifndef E_HTML_EDITOR_UNDO_REDO_MANAGER_H
 #define E_HTML_EDITOR_UNDO_REDO_MANAGER_H
 
-#include "config.h"
-
 #include <glib-object.h>
 #include <webkitdom/webkitdom.h>
 

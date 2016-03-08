@@ -16,22 +16,21 @@
  *
  */
 
-#include "config.h"
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
 
-#include "e-web-extension.h"
-#include "e-dom-utils.h"
-#include "e-web-extension-names.h"
+#include <string.h>
 
 #include <gio/gio.h>
 #include <glib/gstdio.h>
 #include <gtk/gtk.h>
 
-#include <string.h>
-
-#include <e-util/e-util-enums.h>
-#include <e-util/e-misc-utils.h>
-
 #include <libedataserver/libedataserver.h>
+
+#include "e-web-extension.h"
+#include "e-dom-utils.h"
+#include "e-web-extension-names.h"
 
 #define E_WEB_EXTENSION_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \

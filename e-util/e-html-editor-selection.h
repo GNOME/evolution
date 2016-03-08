@@ -27,7 +27,6 @@
 
 #include <gtk/gtk.h>
 #include <e-util/e-util-enums.h>
-#include <webkit2/webkit2.h>
 
 /* Standard GObject macros */
 #define E_TYPE_HTML_EDITOR_SELECTION \

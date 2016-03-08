@@ -19,15 +19,15 @@
 #ifndef E_HTML_EDITOR_WEB_EXTENSION_H
 #define E_HTML_EDITOR_WEB_EXTENSION_H
 
-#include "config.h"
+#include <glib-object.h>
+#include <webkit2/webkit-web-extension.h>
+
+#define E_UTIL_INCLUDE_WITHOUT_WEBKIT
+#include <e-util/e-util.h>
+#undef E_UTIL_INCLUDE_WITHOUT_WEBKIT
 
 #include "e-html-editor-web-extension-names.h"
-
 #include "e-html-editor-undo-redo-manager.h"
-
-#include <e-util/e-util-enums.h>
-#include <webkit2/webkit-web-extension.h>
-#include <glib-object.h>
 
 /* Standard GObject macros */
 #define E_TYPE_HTML_EDITOR_WEB_EXTENSION \

@@ -16,13 +16,17 @@
  *
  */
 
-#include "e-html-editor-spell-check-dialog-dom-functions.h"
-
-#include <web-extensions/e-dom-utils.h>
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
 
 #define WEBKIT_DOM_USE_UNSTABLE_API
 #include <webkitdom/WebKitDOMDOMSelection.h>
 #include <webkitdom/WebKitDOMDOMWindowUnstable.h>
+
+#include <web-extensions/e-dom-utils.h>
+
+#include "e-html-editor-spell-check-dialog-dom-functions.h"
 
 static gboolean
 select_next_word (WebKitDOMDOMSelection *dom_selection)

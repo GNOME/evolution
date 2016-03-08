@@ -16,17 +16,20 @@
  *
  */
 
-#include "e-html-editor-link-dialog-dom-functions.h"
-
-#include "e-html-editor-view-dom-functions.h"
-#include "e-html-editor-selection-dom-functions.h"
-
-#include <e-util/e-util-enums.h>
-#include <web-extensions/e-dom-utils.h>
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
 
 #define WEBKIT_DOM_USE_UNSTABLE_API
 #include <webkitdom/WebKitDOMDOMSelection.h>
 #include <webkitdom/WebKitDOMDOMWindowUnstable.h>
+
+#include <web-extensions/e-dom-utils.h>
+
+#include "e-html-editor-view-dom-functions.h"
+#include "e-html-editor-selection-dom-functions.h"
+
+#include "e-html-editor-link-dialog-dom-functions.h"
 
 /* FIXME WK2 apply changes from commit 18c5e81 */
 void

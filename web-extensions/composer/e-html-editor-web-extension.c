@@ -16,9 +16,19 @@
  *
  */
 
-#include "config.h"
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
 
-#include "e-html-editor-web-extension.h"
+#include <string.h>
+
+#include <glib/gstdio.h>
+#include <gio/gio.h>
+#include <gtk/gtk.h>
+#include <webkit2/webkit-web-extension.h>
+#include <camel/camel.h>
+
+#include <web-extensions/e-dom-utils.h>
 
 #include "e-composer-private-dom-functions.h"
 #include "e-html-editor-actions-dom-functions.h"
@@ -33,17 +43,7 @@
 #include "e-html-editor-view-dom-functions.h"
 #include "e-msg-composer-dom-functions.h"
 
-#include <e-util/e-misc-utils.h>
-#include <e-util/e-html-editor-defines.h>
-#include <web-extensions/e-dom-utils.h>
-
-#include <string.h>
-
-#include <glib/gstdio.h>
-#include <gio/gio.h>
-#include <gtk/gtk.h>
-#include <webkit2/webkit-web-extension.h>
-#include <camel/camel.h>
+#include "e-html-editor-web-extension.h"
 
 #define E_HTML_EDITOR_WEB_EXTENSION_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \

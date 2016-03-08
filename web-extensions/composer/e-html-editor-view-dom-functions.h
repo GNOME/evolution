@@ -21,10 +21,12 @@
 
 #include <webkitdom/webkitdom.h>
 
+#define E_UTIL_INCLUDE_WITHOUT_WEBKIT
+#include <e-util/e-util.h>
+#undef E_UTIL_INCLUDE_WITHOUT_WEBKIT
+
 #include "e-html-editor-web-extension.h"
 
-#include <e-util/e-util-enums.h>
-#include <e-util/e-emoticon.h>
 
 G_BEGIN_DECLS
 

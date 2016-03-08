@@ -16,13 +16,9 @@
  *
  */
 
-#include "e-html-editor-view-dom-functions.h"
-
-#include "e-html-editor-selection-dom-functions.h"
-
-#include <e-util/e-misc-utils.h>
-#include <e-util/e-emoticon-chooser.h>
-#include <web-extensions/e-dom-utils.h>
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
 
 #include <string.h>
 
@@ -33,6 +29,11 @@
 #include <webkitdom/WebKitDOMDOMSelection.h>
 #include <webkitdom/WebKitDOMDOMWindowUnstable.h>
 #include <webkitdom/WebKitDOMHTMLElementUnstable.h>
+
+#include <web-extensions/e-dom-utils.h>
+
+#include "e-html-editor-selection-dom-functions.h"
+#include "e-html-editor-view-dom-functions.h"
 
 #define HTML_KEY_CODE_BACKSPACE 8
 #define HTML_KEY_CODE_RETURN 13

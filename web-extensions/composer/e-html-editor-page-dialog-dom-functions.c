@@ -16,12 +16,16 @@
  *
  */
 
-#include "e-html-editor-page-dialog-dom-functions.h"
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
+#include <web-extensions/e-dom-utils.h>
 
 #include "e-html-editor-selection-dom-functions.h"
 #include "e-html-editor-web-extension.h"
 
-#include <web-extensions/e-dom-utils.h>
+#include "e-html-editor-page-dialog-dom-functions.h"
 
 void
 e_html_editor_page_dialog_save_history (WebKitDOMDocument *document,

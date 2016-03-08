@@ -16,9 +16,13 @@
  *
  */
 
-#include "e-msg-composer-dom-functions.h"
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
 
 #include <string.h>
+
+#include "e-msg-composer-dom-functions.h"
 
 gchar *
 dom_get_active_signature_uid (WebKitDOMDocument *document)

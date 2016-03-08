@@ -16,7 +16,9 @@
  *
  */
 
-#include "config.h"
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
 
 #include "e-html-editor-web-extension.h"
 

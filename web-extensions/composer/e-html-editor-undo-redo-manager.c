@@ -16,14 +16,9 @@
  *
  */
 
-#include "config.h"
-
-#include "e-html-editor-undo-redo-manager.h"
-#include "e-html-editor-web-extension.h"
-#include "e-html-editor-selection-dom-functions.h"
-#include "e-html-editor-view-dom-functions.h"
-
-#include <web-extensions/e-dom-utils.h>
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
 
 #define WEBKIT_DOM_USE_UNSTABLE_API
 #include <webkitdom/WebKitDOMDocumentFragmentUnstable.h>
@@ -32,6 +27,13 @@
 #include <webkitdom/WebKitDOMDOMWindowUnstable.h>
 #include <webkitdom/WebKitDOMHTMLElementUnstable.h>
 #include <webkitdom/WebKitDOMDocumentUnstable.h>
+
+#include <web-extensions/e-dom-utils.h>
+
+#include "e-html-editor-undo-redo-manager.h"
+#include "e-html-editor-web-extension.h"
+#include "e-html-editor-selection-dom-functions.h"
+#include "e-html-editor-view-dom-functions.h"
 
 #define E_HTML_EDITOR_UNDO_REDO_MANAGER_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \

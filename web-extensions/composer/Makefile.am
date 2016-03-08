@@ -36,7 +36,6 @@ libehtmleditorwebextension_la_SOURCES =			\
 libehtmleditorwebextension_la_CPPFLAGS =		\
 	$(AM_CPPFLAGS)					\
 	-I$(top_srcdir)					\
-	-DLIBEUTIL_COMPILATION				\
 	-DEVOLUTION_IMAGESDIR=\""$(imagesdir)"\"	\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)			\
 	$(GNOME_PLATFORM_CFLAGS)			\

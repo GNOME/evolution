@@ -201,6 +201,7 @@ evolution_util_include_HEADERS =  \
 	e-focus-tracker.h \
 	e-html-editor-actions.h \
 	e-html-editor-cell-dialog.h \
+	e-html-editor-defines.h \
 	e-html-editor-dialog.h \
 	e-html-editor-find-dialog.h \
 	e-html-editor-hrule-dialog.h \

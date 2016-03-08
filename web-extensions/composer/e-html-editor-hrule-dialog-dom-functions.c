@@ -16,17 +16,21 @@
  *
  */
 
-#include "e-html-editor-hrule-dialog-dom-functions.h"
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
+#define WEBKIT_DOM_USE_UNSTABLE_API
+#include <webkitdom/WebKitDOMDOMSelection.h>
+#include <webkitdom/WebKitDOMDOMWindowUnstable.h>
+
+#include <web-extensions/e-dom-utils.h>
 
 #include "e-html-editor-selection-dom-functions.h"
 #include "e-html-editor-web-extension.h"
 #include "e-html-editor-undo-redo-manager.h"
 
-#include <web-extensions/e-dom-utils.h>
-
-#define WEBKIT_DOM_USE_UNSTABLE_API
-#include <webkitdom/WebKitDOMDOMSelection.h>
-#include <webkitdom/WebKitDOMDOMWindowUnstable.h>
+#include "e-html-editor-hrule-dialog-dom-functions.h"
 
 static WebKitDOMElement *
 get_current_hrule_element (WebKitDOMDocument *document)
