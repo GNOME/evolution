@@ -26,8 +26,6 @@
 
 #include "e-util/e-util-private.h"
 
-#include "web-extension/module-mail-web-extension.h"
-
 typedef struct _AsyncContext AsyncContext;
 
 struct _AsyncContext {
@@ -529,77 +527,12 @@ mail_shell_view_search_filter_changed_cb (EMailShellView *mail_shell_view)
 	e_mail_reader_avoid_next_mark_as_seen (E_MAIL_READER (mail_view));
 }
 
-static void
-web_extension_proxy_created_cb (GDBusProxy *proxy,
-                                GAsyncResult *result,
-                                EMailShellView *mail_shell_view)
-{
-	GError *error = NULL;
-
-	mail_shell_view->priv->web_extension = g_dbus_proxy_new_finish (result, &error);
-	if (!mail_shell_view->priv->web_extension) {
-		g_warning ("Error creating web extension proxy: %s\n", error->message);
-		g_error_free (error);
-	}
-}
-
-static void
-web_extension_appeared_cb (GDBusConnection *connection,
-                           const gchar *name,
-                           const gchar *name_owner,
-                           EMailShellView *mail_shell_view)
-{
-	g_dbus_proxy_new (
-		connection,
-		G_DBUS_PROXY_FLAGS_DO_NOT_AUTO_START |
-		G_DBUS_PROXY_FLAGS_DO_NOT_LOAD_PROPERTIES |
-		G_DBUS_PROXY_FLAGS_DO_NOT_CONNECT_SIGNALS,
-		NULL,
-		name,
-		MODULE_MAIL_WEB_EXTENSION_OBJECT_PATH,
-		MODULE_MAIL_WEB_EXTENSION_INTERFACE,
-		NULL,
-		(GAsyncReadyCallback)web_extension_proxy_created_cb,
-		mail_shell_view);
-}
-
-static void
-web_extension_vanished_cb (GDBusConnection *connection,
-                           const gchar *name,
-                           EMailShellView *mail_shell_view)
-{
-	g_clear_object (&mail_shell_view->priv->web_extension);
-}
-
-static void
-mail_shell_view_watch_web_extension (EMailShellView *mail_shell_view)
-{
-	mail_shell_view->priv->web_extension_watch_name_id =
-		g_bus_watch_name (
-			G_BUS_TYPE_SESSION,
-			MODULE_MAIL_WEB_EXTENSION_SERVICE_NAME,
-			G_BUS_NAME_WATCHER_FLAGS_NONE,
-			(GBusNameAppearedCallback) web_extension_appeared_cb,
-			(GBusNameVanishedCallback) web_extension_vanished_cb,
-			mail_shell_view, NULL);
-}
-
-GDBusProxy *
-e_mail_shell_view_get_web_extension_proxy (EMailShellView *mail_shell_view)
-{
-	g_return_val_if_fail (E_IS_MAIL_SHELL_VIEW (mail_shell_view), NULL);
-
-	return mail_shell_view->priv->web_extension;
-}
-
 void
 e_mail_shell_view_private_init (EMailShellView *mail_shell_view)
 {
 	e_signal_connect_notify (
 		mail_shell_view, "notify::view-id",
 		G_CALLBACK (mail_shell_view_notify_view_id_cb), NULL);
-
-	mail_shell_view_watch_web_extension (mail_shell_view);
 }
 
 void
@@ -838,12 +771,6 @@ e_mail_shell_view_private_dispose (EMailShellView *mail_shell_view)
 		priv->prepare_for_quit_handler_id = 0;
 	}
 
-	if (priv->web_extension_watch_name_id > 0) {
-		g_bus_unwatch_name (priv->web_extension_watch_name_id);
-		priv->web_extension_watch_name_id = 0;
-	}
-
-	g_clear_object (&priv->web_extension);
 	g_clear_object (&priv->mail_shell_backend);
 	g_clear_object (&priv->mail_shell_content);
 	g_clear_object (&priv->mail_shell_sidebar);

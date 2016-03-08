@@ -138,9 +138,6 @@ struct _EMailShellViewPrivate {
 	GtkToolItem *send_receive_tool_item;
 	GtkToolItem *send_receive_tool_separator;
 
-	GDBusProxy *web_extension;
-	guint web_extension_watch_name_id;
-
 	gboolean vfolder_allow_expunge;
 
 	/* Selected UIDs for MAIL_FILTER_MESSAGE_THREAD filter */
