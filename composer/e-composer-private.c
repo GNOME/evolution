@@ -261,6 +261,9 @@ e_composer_private_constructed (EMsgComposer *composer)
 
 	widget = GTK_WIDGET (view);
 	widget = gtk_widget_get_parent (widget);
+	if (GTK_IS_VIEWPORT (widget))
+		widget = gtk_widget_get_parent (widget);
+	g_warn_if_fail (GTK_IS_SCROLLED_WINDOW (widget));
 	gtk_widget_reparent (widget, container);
 
 	/* Construct the picture gallery. */
