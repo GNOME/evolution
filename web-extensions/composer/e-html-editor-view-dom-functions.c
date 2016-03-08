@@ -3280,7 +3280,7 @@ dom_change_quoted_block_to_normal (WebKitDOMDocument *document,
 		gchar *inner_html;
 		WebKitDOMElement *paragraph, *element;
 
-		inner_html = webkit_dom_html_element_get_inner_html (WEBKIT_DOM_HTML_ELEMENT (block));
+		inner_html = webkit_dom_element_get_inner_html (WEBKIT_DOM_ELEMENT (block));
 		webkit_dom_element_set_id (WEBKIT_DOM_ELEMENT (block), "-x-evo-to-remove");
 
 		paragraph = dom_insert_new_line_into_citation (document, extension, inner_html);
@@ -4716,8 +4716,7 @@ dom_quote_and_insert_text_into_selection (WebKitDOMDocument *document,
 	webkit_dom_html_element_set_inner_text (
 		WEBKIT_DOM_HTML_ELEMENT (element), escaped_text, NULL);
 
-	inner_html = webkit_dom_html_element_get_inner_html (
-		WEBKIT_DOM_HTML_ELEMENT (element));
+	inner_html = webkit_dom_element_get_inner_html (element);
 
 	dom_selection_save (document);
 
@@ -5405,13 +5404,11 @@ dom_convert_and_insert_html_into_selection (WebKitDOMDocument *document,
 			regex = g_regex_new ("\\>[\\s]+\\<", 0, 0, NULL);
 			tmp = g_regex_replace (
 				regex, html, -1, 0, "> <", 0, NULL);
-			webkit_dom_html_element_set_inner_html (
-				WEBKIT_DOM_HTML_ELEMENT (element), tmp, NULL);
+			webkit_dom_element_set_inner_html (element, tmp, NULL);
 			g_free (tmp);
 			g_regex_unref (regex);
 		} else {
-			webkit_dom_html_element_set_inner_html (
-				WEBKIT_DOM_HTML_ELEMENT (element), html, NULL);
+			webkit_dom_element_set_inner_html (element, html, NULL);
 		}
 
 		inner_text = webkit_dom_html_element_get_inner_text (
@@ -5622,11 +5619,10 @@ dom_convert_and_insert_html_into_selection (WebKitDOMDocument *document,
 	 * text to WebKit otherwise WebKit will insert unwanted block with
 	 * extra new line. */
 	if (!webkit_dom_node_get_next_sibling (webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (element))))
-		inner_html = webkit_dom_html_element_get_inner_html (
-			WEBKIT_DOM_HTML_ELEMENT (webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (element))));
+		inner_html = webkit_dom_element_get_inner_html (
+			WEBKIT_DOM_ELEMENT (webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (element))));
 	else
-		inner_html = webkit_dom_html_element_get_inner_html (
-			WEBKIT_DOM_HTML_ELEMENT (element));
+		inner_html = webkit_dom_element_get_inner_html (WEBKIT_DOM_ELEMENT (element));
 
 	dom_exec_command (
 		document, extension, E_HTML_EDITOR_VIEW_COMMAND_INSERT_HTML, inner_html);
@@ -6284,8 +6280,7 @@ convert_element_from_html_to_plain_text (WebKitDOMDocument *document,
 	webkit_dom_html_element_set_inner_text (
 		WEBKIT_DOM_HTML_ELEMENT (blockquote), inner_text, NULL);
 
-	inner_html = webkit_dom_html_element_get_inner_html (
-		WEBKIT_DOM_HTML_ELEMENT (blockquote));
+	inner_html = webkit_dom_element_get_inner_html (blockquote);
 
 	parse_html_into_blocks (
 		document, extension,
@@ -6325,8 +6320,8 @@ convert_element_from_html_to_plain_text (WebKitDOMDocument *document,
 			WEBKIT_DOM_NODE (element));
 		if (first_child) {
 			if (!webkit_dom_node_has_child_nodes (first_child)) {
-				webkit_dom_html_element_set_inner_html (
-					WEBKIT_DOM_HTML_ELEMENT (first_child),
+				webkit_dom_element_set_inner_html (
+					WEBKIT_DOM_ELEMENT (first_child),
 					"<br>",
 					NULL);
 			}
@@ -7051,11 +7046,10 @@ dom_process_content_for_draft (WebKitDOMDocument *document,
 
 		body = webkit_dom_element_query_selector (
 			WEBKIT_DOM_ELEMENT (document_element_clone), "body", NULL);
-		content = webkit_dom_html_element_get_inner_html (
-			WEBKIT_DOM_HTML_ELEMENT (body));
+		content = webkit_dom_element_get_inner_html (body);
 	} else
-		content = webkit_dom_html_element_get_outer_html (
-			WEBKIT_DOM_HTML_ELEMENT (document_element_clone));
+		content = webkit_dom_element_get_outer_html (
+			WEBKIT_DOM_ELEMENT (document_element_clone));
 
 	webkit_dom_element_remove_attribute (
 		WEBKIT_DOM_ELEMENT (body), "data-evo-draft");
