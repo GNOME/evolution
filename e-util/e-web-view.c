@@ -4131,3 +4131,123 @@ e_web_view_add_css_rule_into_style_sheet (EWebView *web_view,
 			NULL);
 	}
 }
+
+/**
+ * e_web_view_get_document_uri_from_point:
+ * @web_view: an #EWebView
+ * @x: x-coordinate
+ * @y: y-coordinate
+ *
+ * Returns: A document URI which is under the @x, @y coordinates or %NULL,
+ * if there is none. Free the returned pointer with g_free() when done with it.
+ *
+ * Since: 3.22
+ **/
+gchar *
+e_web_view_get_document_uri_from_point (EWebView *web_view,
+					gint32 x,
+					gint32 y)
+{
+	GDBusProxy *web_extension;
+	GVariant *result;
+	GError *local_error = NULL;
+
+	g_return_val_if_fail (E_IS_WEB_VIEW (web_view), NULL);
+
+	web_extension = e_web_view_get_web_extension_proxy (web_view);
+	if (!web_extension)
+		return NULL;
+
+	result = g_dbus_proxy_call_sync (
+		web_extension,
+		"GetDocumentURIFromPoint",
+		g_variant_new (
+			"(tii)",
+			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (web_view)),
+			x,
+			y),
+		G_DBUS_CALL_FLAGS_NONE,
+		-1,
+		NULL,
+		&local_error);
+
+	if (local_error)
+		g_warning ("%s: Failed with error: %s", G_STRFUNC, local_error->message);
+
+	g_clear_error (&local_error);
+
+	if (result) {
+		gchar *uri = NULL;
+
+		g_variant_get (result, "(s)", &uri);
+		g_variant_unref (result);
+
+		if (g_strcmp0 (uri, "") == 0) {
+			g_free (uri);
+			uri = NULL;
+		}
+
+		return uri;
+	}
+
+	return NULL;
+}
+
+static void
+e_web_view_set_document_iframe_src_done_cb (GObject *source_object,
+					    GAsyncResult *result,
+					    gpointer user_data)
+{
+	GVariant *variant;
+	GError *local_error = NULL;
+
+	variant = g_dbus_proxy_call_finish (G_DBUS_PROXY (source_object), result, &local_error);
+	if (variant)
+		g_variant_unref (variant);
+
+	if (local_error)
+		g_warning ("%s: Failed with error: %s", G_STRFUNC, local_error->message);
+
+	g_clear_error (&local_error);
+}
+
+/**
+ * e_web_view_set_document_iframe_src:
+ * @web_view: an #EWebView
+ * @document_uri: a document URI for whose IFrame change the source
+ * @new_iframe_src: the source to change the IFrame to
+ *
+ * Change IFrame source for the given @document_uri IFrame
+ * to the @new_iframe_src.
+ *
+ * Since: 3.22
+ **/
+void
+e_web_view_set_document_iframe_src (EWebView *web_view,
+				    const gchar *document_uri,
+				    const gchar *new_iframe_src)
+{
+	GDBusProxy *web_extension;
+
+	g_return_if_fail (E_IS_WEB_VIEW (web_view));
+
+	web_extension = e_web_view_get_web_extension_proxy (web_view);
+	if (!web_extension)
+		return;
+
+	/* Cannot call this synchronously, blocking the local main loop, because the reload
+	   can on the WebProcess side can be asking for a redirection policy, waiting
+	   for a response which may be waiting in the blocked main loop. */
+	g_dbus_proxy_call (
+		web_extension,
+		"SetDocumentIFrameSrc",
+		g_variant_new (
+			"(tss)",
+			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (web_view)),
+			document_uri,
+			new_iframe_src),
+		G_DBUS_CALL_FLAGS_NONE,
+		-1,
+		NULL,
+		e_web_view_set_document_iframe_src_done_cb, NULL);
+}

@@ -1482,26 +1482,29 @@ static gboolean
 mail_display_button_press_event (GtkWidget *widget,
                                  GdkEventButton *event)
 {
-	EWebView *web_view = E_WEB_VIEW (widget);
-	GList *list, *link;
+	if (event->button == 3) {
+		EWebView *web_view = E_WEB_VIEW (widget);
+		gchar *popup_document_uri;
+		GList *list, *link;
 
-	if (event->button != 3)
-		goto chainup;
+		popup_document_uri = e_web_view_get_document_uri_from_point (web_view, event->x, event->y);
 
-	list = e_extensible_list_extensions (
-		E_EXTENSIBLE (web_view), E_TYPE_EXTENSION);
-	for (link = list; link != NULL; link = g_list_next (link)) {
-		EExtension *extension = link->data;
+		list = e_extensible_list_extensions (
+			E_EXTENSIBLE (web_view), E_TYPE_EXTENSION);
+		for (link = list; link != NULL; link = g_list_next (link)) {
+			EExtension *extension = link->data;
 
-		if (!E_IS_MAIL_DISPLAY_POPUP_EXTENSION (extension))
-			continue;
+			if (!E_IS_MAIL_DISPLAY_POPUP_EXTENSION (extension))
+				continue;
 
-		e_mail_display_popup_extension_update_actions (
-			E_MAIL_DISPLAY_POPUP_EXTENSION (extension));
+			e_mail_display_popup_extension_update_actions (
+				E_MAIL_DISPLAY_POPUP_EXTENSION (extension), popup_document_uri);
+		}
+
+		g_list_free (list);
+		g_free (popup_document_uri);
 	}
-	g_list_free (list);
 
-chainup:
 	/* Chain up to parent's button_press_event() method. */
 	return GTK_WIDGET_CLASS (e_mail_display_parent_class)->
 		button_press_event (widget, event);

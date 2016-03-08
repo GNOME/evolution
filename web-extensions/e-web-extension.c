@@ -32,6 +32,9 @@
 #include "e-dom-utils.h"
 #include "e-web-extension-names.h"
 
+#define WEBKIT_DOM_USE_UNSTABLE_API
+#include <webkitdom/WebKitDOMDOMWindowUnstable.h>
+
 #define E_WEB_EXTENSION_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_WEB_EXTENSION, EWebExtensionPrivate))
@@ -125,6 +128,17 @@ static const char introspection_xml[] =
 "      <arg type='t' name='page_id' direction='in'/>"
 "      <arg type='s' name='button_id' direction='in'/>"
 "      <arg type='s' name='src' direction='in'/>"
+"    </method>"
+"    <method name='GetDocumentURIFromPoint'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"      <arg type='i' name='x' direction='in'/>"
+"      <arg type='i' name='y' direction='in'/>"
+"      <arg type='s' name='document_uri' direction='out'/>"
+"    </method>"
+"    <method name='SetDocumentIFrameSrc'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"      <arg type='s' name='document_uri' direction='in'/>"
+"      <arg type='s' name='new_iframe_src' direction='in'/>"
 "    </method>"
 "    <property type='b' name='NeedInput' access='readwrite'/>"
 "    <property type='b' name='ForceImageLoad' access='readwrite'/>"
@@ -384,6 +398,49 @@ handle_method_call (GDBusConnection *connection,
 
 		document = webkit_web_page_get_dom_document (web_page);
 		e_dom_utils_module_vcard_inline_set_iframe_src (document, button_id, src);
+
+		g_dbus_method_invocation_return_value (invocation, NULL);
+	} else if (g_strcmp0 (method_name, "GetDocumentURIFromPoint") == 0) {
+		WebKitDOMDocument *document_at_point;
+		gchar *document_uri = NULL;
+		gint32 xx = 0, yy = 0;
+
+		g_variant_get (parameters, "(tii)", &page_id, &xx, &yy);
+		web_page = get_webkit_web_page_or_return_dbus_error (invocation, web_extension, page_id);
+		if (!web_page)
+			return;
+
+		document = webkit_web_page_get_dom_document (web_page);
+		document_at_point = e_dom_utils_get_document_from_point (document, xx, yy);
+
+		if (document_at_point)
+			document_uri = webkit_dom_document_get_document_uri (document_at_point);
+
+		g_dbus_method_invocation_return_value (
+			invocation,
+			g_variant_new ("(@s)", g_variant_new_take_string (document_uri ? document_uri : g_strdup (""))));
+	} else if (g_strcmp0 (method_name, "SetDocumentIFrameSrc") == 0) {
+		const gchar *document_uri = NULL, *new_iframe_src = NULL;
+		WebKitDOMDocument *iframe_document;
+
+		g_variant_get (parameters, "(t&s&s)", &page_id, &document_uri, &new_iframe_src);
+		web_page = get_webkit_web_page_or_return_dbus_error (invocation, web_extension, page_id);
+		if (!web_page)
+			return;
+
+		document = webkit_web_page_get_dom_document (web_page);
+		iframe_document = e_dom_utils_find_document_with_uri (document, document_uri);
+
+		if (iframe_document) {
+			WebKitDOMDOMWindow *window;
+			WebKitDOMElement *frame_element;
+
+			/* Get frame's window and from the window the actual <iframe> element */
+			window = webkit_dom_document_get_default_view (iframe_document);
+			frame_element = webkit_dom_dom_window_get_frame_element (window);
+			webkit_dom_html_iframe_element_set_src (
+				WEBKIT_DOM_HTML_IFRAME_ELEMENT (frame_element), new_iframe_src);
+		}
 
 		g_dbus_method_invocation_return_value (invocation, NULL);
 	}

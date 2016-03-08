@@ -1924,3 +1924,62 @@ dom_get_node_inner_html (WebKitDOMNode *node)
 
 	return inner_html;
 }
+
+WebKitDOMDocument *
+e_dom_utils_find_document_with_uri (WebKitDOMDocument *root_document,
+				    const gchar *find_document_uri)
+{
+	WebKitDOMDocument *res_document = NULL;
+	GSList *todo;
+
+	g_return_val_if_fail (WEBKIT_DOM_IS_DOCUMENT (root_document), NULL);
+	g_return_val_if_fail (find_document_uri != NULL, NULL);
+
+	todo = g_slist_append (NULL, root_document);
+
+	while (todo) {
+		WebKitDOMDocument *document;
+		WebKitDOMHTMLCollection *frames;
+		gchar *document_uri;
+		gint ii, length;
+
+		document = todo->data;
+		todo = g_slist_remove (todo, document);
+
+		document_uri = webkit_dom_document_get_document_uri (document);
+		if (g_strcmp0 (document_uri, find_document_uri) == 0) {
+			g_free (document_uri);
+			res_document = document;
+			break;
+		}
+
+		g_free (document_uri);
+
+		frames = webkit_dom_document_get_elements_by_tag_name_as_html_collection (document, "iframe");
+		length = webkit_dom_html_collection_get_length (frames);
+
+		/* Add rules to every sub document */
+		for (ii = 0; ii < length; ii++) {
+			WebKitDOMDocument *content_document;
+			WebKitDOMNode *node;
+
+			node = webkit_dom_html_collection_item (frames, ii);
+			content_document =
+				webkit_dom_html_iframe_element_get_content_document (
+					WEBKIT_DOM_HTML_IFRAME_ELEMENT (node));
+
+			if (!content_document)
+				continue;
+
+			todo = g_slist_prepend (todo, content_document);
+
+			g_object_unref (node);
+		}
+
+		g_object_unref (frames);
+	}
+
+	g_slist_free (todo);
+
+	return res_document;
+}

@@ -33,13 +33,14 @@ e_mail_display_popup_extension_default_init (EMailDisplayPopupExtensionInterface
  * e_mail_display_popup_extension_update_actions:
  *
  * @extension: An object derived from #EMailDisplayPopupExtension
- * @context: A #WebKitHitTestResult describing context of the popup menu
+ * @popup_document_uri: Document URI on top of which the popup menu had been invoked
  *
  * When #EMailDisplay is about to display a popup menu, it calls this function
  * on every extension so that they can add their items to the menu.
  */
 void
-e_mail_display_popup_extension_update_actions (EMailDisplayPopupExtension *extension)
+e_mail_display_popup_extension_update_actions (EMailDisplayPopupExtension *extension,
+					       const gchar *popup_document_uri)
 {
 	EMailDisplayPopupExtensionInterface *iface;
 
@@ -48,5 +49,5 @@ e_mail_display_popup_extension_update_actions (EMailDisplayPopupExtension *exten
 	iface = E_MAIL_DISPLAY_POPUP_EXTENSION_GET_INTERFACE (extension);
 	g_return_if_fail (iface->update_actions != NULL);
 
-	iface->update_actions (extension);
+	iface->update_actions (extension, popup_document_uri);
 }

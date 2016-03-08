@@ -47,13 +47,15 @@ typedef struct _EMailDisplayPopupExtensionInterface EMailDisplayPopupExtensionIn
 struct _EMailDisplayPopupExtensionInterface {
 	GTypeInterface parent_interface;
 
-	void	(*update_actions)		(EMailDisplayPopupExtension *extension);
+	void	(*update_actions)		(EMailDisplayPopupExtension *extension,
+						 const gchar *popup_document_uri);
 };
 
 GType		e_mail_display_popup_extension_get_type	(void);
 
 void		e_mail_display_popup_extension_update_actions
-							(EMailDisplayPopupExtension *extension);
+							(EMailDisplayPopupExtension *extension,
+							 const gchar *popup_document_uri);
 
 G_END_DECLS
 

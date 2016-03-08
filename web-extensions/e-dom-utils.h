@@ -164,6 +164,11 @@ WebKitDOMElement *
 
 gchar *		dom_get_node_inner_html		(WebKitDOMNode *node);
 
+WebKitDOMDocument *
+		e_dom_utils_find_document_with_uri
+						(WebKitDOMDocument *root_document,
+						 const gchar *find_document_uri);
+
 G_END_DECLS
 
 #endif /* E_DOM_UTILS_H */

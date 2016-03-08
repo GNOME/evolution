@@ -248,6 +248,14 @@ void		e_web_view_add_css_rule_into_style_sheet
 						 const gchar *style);
 const gchar *	e_web_view_get_citation_color_for_level
 						(gint level);
+gchar *		e_web_view_get_document_uri_from_point
+						(EWebView *web_view,
+						 gint32 x,
+						 gint32 y);
+void		e_web_view_set_document_iframe_src
+						(EWebView *web_view,
+						 const gchar *document_uri,
+						 const gchar *new_iframe_src);
 G_END_DECLS
 
 #endif /* E_WEB_VIEW_H */
