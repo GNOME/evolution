@@ -885,8 +885,8 @@ web_extension_proxy_created_cb (GDBusProxy *proxy,
 	e_html_editor_selection_activate_properties_changed (view->priv->selection);
 
 	set_web_extension_boolean_property (view, "MagicSmileys", view->priv->magic_smileys);
-	set_web_extension_boolean_property (view, "MagicLinks", view->priv->magic_smileys);
-	set_web_extension_boolean_property (view, "InlineSpelling", view->priv->magic_smileys);
+	set_web_extension_boolean_property (view, "MagicLinks", view->priv->magic_links);
+	set_web_extension_boolean_property (view, "InlineSpelling", view->priv->inline_spelling);
 }
 
 static void
