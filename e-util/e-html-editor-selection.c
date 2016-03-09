@@ -29,7 +29,8 @@
 #include <camel/camel.h>
 #include <web-extensions/composer/e-html-editor-web-extension-names.h>
 
-#include <e-util/e-util.h>
+#include "e-util-enums.h"
+#include "e-misc-utils.h"
 
 #include <webkit2/webkit2.h>
 #include <string.h>
@@ -771,6 +772,8 @@ static void
 e_html_editor_selection_init (EHTMLEditorSelection *selection)
 {
 	selection->priv = E_HTML_EDITOR_SELECTION_GET_PRIVATE (selection);
+	selection->priv->block_format = E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_PARAGRAPH;
+	selection->priv->font_size = E_HTML_EDITOR_SELECTION_FONT_SIZE_NORMAL;
 }
 
 /**
