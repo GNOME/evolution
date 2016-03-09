@@ -137,6 +137,7 @@ perform_spell_check (WebKitDOMDOMSelection *dom_selection,
 {
 	WebKitDOMRange *actual = start_range;
 
+	/* FIXME WK2: this doesn't work, the cursor is moved, but the spellcheck is not updated */
 	/* Go through all words to spellcheck them. To avoid this we have to wait for
 	 * http://www.w3.org/html/wg/drafts/html/master/editing.html#dom-forcespellcheck */
 	/* We are moving forward word by word until we hit the text on the end. */
@@ -255,6 +256,9 @@ refresh_spell_check (WebKitDOMDocument *document,
 		"spellcheck",
 		enable_spell_check ? "true" : "false",
 		NULL);
+	webkit_dom_html_element_set_spellcheck (body, FALSE);
+	webkit_dom_html_element_set_spellcheck (body, enable_spell_check);
+	return;
 
 	dom_selection_save (document);
 

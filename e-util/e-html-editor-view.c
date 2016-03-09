@@ -97,6 +97,8 @@ struct _EHTMLEditorViewPrivate {
 
 	gulong owner_change_primary_cb_id;
 	gulong owner_change_clipboard_cb_id;
+
+	ESpellChecker *spell_checker;
 };
 
 enum {
@@ -649,6 +651,8 @@ html_editor_view_finalize (GObject *object)
 		priv->post_reload_operations = NULL;
 	}
 
+	g_clear_object (&priv->spell_checker);
+
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_html_editor_view_parent_class)->finalize (object);
 }
@@ -656,26 +660,35 @@ html_editor_view_finalize (GObject *object)
 static void
 html_editor_view_constructed (GObject *object)
 {
-	e_extensible_load_extensions (E_EXTENSIBLE (object));
+	WebKitWebContext *web_context;
+	WebKitSettings *web_settings;
+	WebKitWebView *web_view;
+	EHTMLEditorView *view;
+	gchar **languages;
+
+	view = E_HTML_EDITOR_VIEW (object);
 
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (e_html_editor_view_parent_class)->constructed (object);
 
-	webkit_web_view_set_editable (WEBKIT_WEB_VIEW (object), TRUE);
+	e_extensible_load_extensions (E_EXTENSIBLE (view));
 
-	e_html_editor_view_update_fonts (E_HTML_EDITOR_VIEW (object));
+	web_view = WEBKIT_WEB_VIEW (view);
 
-/* FIXME WK2
-	WebKitSettings *web_settings;
+	/* Give spell check languages to WebKit */
+	languages = e_spell_checker_list_active_languages (view->priv->spell_checker, NULL);
 
-	web_settings = webkit_web_view_get_settings (WEBKIT_WEB_VIEW (object));
+	web_context = webkit_web_view_get_context (web_view);
+	webkit_web_context_set_spell_checking_enabled (web_context, TRUE);
+	webkit_web_context_set_spell_checking_languages (web_context, (const gchar * const *) languages);
+	webkit_web_view_set_editable (web_view, TRUE);
 
-	g_object_set (
-		G_OBJECT (web_settings),
-		"enable-dom-paste", TRUE,
-		"enable-file-access-from-file-uris", TRUE,
-		"enable-spell-checking", TRUE,
-		NULL);*/
+	e_html_editor_view_update_fonts (view);
+
+	g_strfreev (languages);
+
+	web_settings = webkit_web_view_get_settings (web_view);
+	webkit_settings_set_allow_file_access_from_file_urls (web_settings, TRUE);
 
 	/* Make WebKit think we are displaying a local file, so that it
 	 * does not block loading resources from file:// protocol */
@@ -887,6 +900,11 @@ web_extension_proxy_created_cb (GDBusProxy *proxy,
 	set_web_extension_boolean_property (view, "MagicSmileys", view->priv->magic_smileys);
 	set_web_extension_boolean_property (view, "MagicLinks", view->priv->magic_links);
 	set_web_extension_boolean_property (view, "InlineSpelling", view->priv->inline_spelling);
+
+	if (view->priv->inline_spelling)
+		e_html_editor_view_force_spell_check (view);
+	else
+		e_html_editor_view_turn_spell_check_off (view);
 }
 
 static void
@@ -1260,7 +1278,7 @@ e_html_editor_view_class_init (EHTMLEditorViewClass *class)
 			"inline-spelling",
 			"Inline Spelling",
 			"Check your spelling as you type",
-			TRUE,
+			FALSE,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT |
 			G_PARAM_STATIC_STRINGS));
@@ -1317,7 +1335,7 @@ e_html_editor_view_class_init (EHTMLEditorViewClass *class)
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT |
 			G_PARAM_STATIC_STRINGS));
-#if 0 /* FIXME WK2 */
+
 	/**
 	 * EHTMLEditorView:spell-checker:
 	 *
@@ -1333,7 +1351,7 @@ e_html_editor_view_class_init (EHTMLEditorViewClass *class)
 			E_TYPE_SPELL_CHECKER,
 			G_PARAM_READABLE |
 			G_PARAM_STATIC_STRINGS));
-#endif
+
 	/**
 	 * EHTMLEditorView:popup-event
 	 *
@@ -1348,6 +1366,7 @@ e_html_editor_view_class_init (EHTMLEditorViewClass *class)
 		e_marshal_BOOLEAN__BOXED,
 		G_TYPE_BOOLEAN, 1,
 		GDK_TYPE_EVENT | G_SIGNAL_TYPE_STATIC_SCOPE);
+
 	/**
 	 * EHTMLEditorView:paste-primary-clipboad
 	 *
@@ -1701,25 +1720,15 @@ html_editor_view_copy_cut_clipboard_cb (EHTMLEditorView *view)
 static void
 e_html_editor_view_init (EHTMLEditorView *view)
 {
-	WebKitSettings *settings;
 	GSettings *g_settings;
 	GSettingsSchema *settings_schema;
-/* FIXME WK2
-	ESpellChecker *checker;
-	gchar **languages;
-	gchar *comma_separated;
-*/
-	view->priv = E_HTML_EDITOR_VIEW_GET_PRIVATE (view);
-	settings = webkit_web_view_get_settings (WEBKIT_WEB_VIEW (view));
 
+	view->priv = E_HTML_EDITOR_VIEW_GET_PRIVATE (view);
+
+	view->priv->spell_checker = e_spell_checker_new ();
 	view->priv->old_settings = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, (GDestroyNotify) g_variant_unref);
 
-	/* Override the spell-checker, use our own */
 /* FIXME WK2
-	checker = e_spell_checker_new ();
-	webkit_set_text_checker (G_OBJECT (checker));
-	g_object_unref (checker);
-
 	g_signal_connect (
 		view, "selection-changed",
 		G_CALLBACK (html_editor_view_selection_changed_cb), NULL);*/
@@ -1764,19 +1773,6 @@ e_html_editor_view_init (EHTMLEditorView *view)
 		view->priv->aliasing_settings = g_settings;
 	}
 
-	/* Give spell check languages to WebKit */
-/* FIXME WK2
-	languages = e_spell_checker_list_active_languages (checker, NULL);
-	comma_separated = g_strjoinv (",", languages);
-	g_strfreev (languages);
-
-	g_object_set (
-		G_OBJECT (settings),
-		"spell-checking-languages", comma_separated,
-		NULL);
-
-	g_free (comma_separated);
-*/
 	view->priv->body_input_event_removed = TRUE;
 	view->priv->is_editting_message = TRUE;
 	view->priv->is_message_from_draft = FALSE;
@@ -1856,12 +1852,12 @@ e_html_editor_view_set_inline_spelling (EHTMLEditorView *view,
 	view->priv->inline_spelling = inline_spelling;
 
 	set_web_extension_boolean_property (view, "InlineSpelling", view->priv->inline_spelling);
-/* FIXME WK2
+
 	if (inline_spelling)
 		e_html_editor_view_force_spell_check (view);
 	else
 		e_html_editor_view_turn_spell_check_off (view);
-*/
+
 	g_object_notify (G_OBJECT (view), "inline-spelling");
 }
 
@@ -2029,9 +2025,9 @@ e_html_editor_view_set_unicode_smileys (EHTMLEditorView *view,
 ESpellChecker *
 e_html_editor_view_get_spell_checker (EHTMLEditorView *view)
 {
-/* FIXME WK2
-	return E_SPELL_CHECKER (webkit_get_text_checker ());*/
-	return NULL;
+	g_return_val_if_fail (E_IS_HTML_EDITOR_VIEW (view), NULL);
+
+	return view->priv->spell_checker;
 }
 
 static gchar *

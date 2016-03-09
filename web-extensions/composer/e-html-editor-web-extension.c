@@ -104,6 +104,7 @@ struct _EHTMLEditorWebExtensionPrivate {
 	guint node_under_mouse_click_flags;
 
 	EHTMLEditorUndoRedoManager *undo_redo_manager;
+	ESpellChecker *spell_checker;
 };
 
 static CamelDataCache *emd_global_http_cache = NULL;
@@ -363,11 +364,13 @@ static const char introspection_xml[] =
 "    <method name='EHTMLEditorSpellCheckDialogNext'>"
 "      <arg type='t' name='page_id' direction='in'/>"
 "      <arg type='s' name='word' direction='in'/>"
+"      <arg type='as' name='languages' direction='in'/>"
 "      <arg type='s' name='next_word' direction='out'/>"
 "    </method>"
 "    <method name='EHTMLEditorSpellCheckDialogPrev'>"
 "      <arg type='t' name='page_id' direction='in'/>"
 "      <arg type='s' name='word' direction='in'/>"
+"      <arg type='as' name='languages' direction='in'/>"
 "      <arg type='s' name='prev_word' direction='out'/>"
 "    </method>"
 "<!-- ********************************************************* -->"
@@ -1406,10 +1409,11 @@ handle_method_call (GDBusConnection *connection,
 
 		g_dbus_method_invocation_return_value (invocation, NULL);
 	} else if (g_strcmp0 (method_name, "EHTMLEditorSpellCheckDialogNext") == 0) {
-		const gchar *word;
+		const gchar *from_word = NULL;
+		const gchar * const *languages = NULL;
 		gchar *value = NULL;
 
-		g_variant_get (parameters, "(t&s)", &page_id, &word);
+		g_variant_get (parameters, "(t&s^as)", &page_id, &from_word, &languages);
 
 		web_page = get_webkit_web_page_or_return_dbus_error (
 			invocation, web_extension, page_id);
@@ -1417,7 +1421,7 @@ handle_method_call (GDBusConnection *connection,
 			goto error;
 
 		document = webkit_web_page_get_dom_document (web_page);
-		value = e_html_editor_spell_check_dialog_next (document, word);
+		value = e_html_editor_spell_check_dialog_next (document, extension, from_word, languages);
 
 		g_dbus_method_invocation_return_value (
 			invocation,
@@ -1426,10 +1430,11 @@ handle_method_call (GDBusConnection *connection,
 				g_variant_new_take_string (
 					value ? value : g_strdup (""))));
 	} else if (g_strcmp0 (method_name, "EHTMLEditorSpellCheckDialogPrev") == 0) {
-		const gchar *word;
+		const gchar *from_word = NULL;
+		const gchar * const *languages = NULL;
 		gchar *value = NULL;
 
-		g_variant_get (parameters, "(t&s)", &page_id, &word);
+		g_variant_get (parameters, "(t&s^as)", &page_id, &from_word, &languages);
 
 		web_page = get_webkit_web_page_or_return_dbus_error (
 			invocation, web_extension, page_id);
@@ -1437,7 +1442,7 @@ handle_method_call (GDBusConnection *connection,
 			goto error;
 
 		document = webkit_web_page_get_dom_document (web_page);
-		value = e_html_editor_spell_check_dialog_prev (document, word);
+		value = e_html_editor_spell_check_dialog_prev (document, extension, from_word, languages);
 
 		g_dbus_method_invocation_return_value (
 			invocation,
@@ -1779,6 +1784,7 @@ handle_method_call (GDBusConnection *connection,
 		if (!web_page)
 			goto error;
 
+		extension->priv->inline_spelling = FALSE;
 		document = webkit_web_page_get_dom_document (web_page);
 		dom_turn_spell_check_off (document, extension);
 		g_dbus_method_invocation_return_value (invocation, NULL);
@@ -1842,6 +1848,7 @@ handle_method_call (GDBusConnection *connection,
 			goto error;
 
 		document = webkit_web_page_get_dom_document (web_page);
+		extension->priv->inline_spelling = TRUE;
 		dom_force_spell_check (document, extension);
 		g_dbus_method_invocation_return_value (invocation, NULL);
 	} else if (g_strcmp0 (method_name, "DOMCheckMagicLinks") == 0) {
@@ -2688,6 +2695,10 @@ handle_set_property (GDBusConnection *connection,
 			goto exit;
 
 		extension->priv->inline_spelling = value;
+		/*if (extension->priv->inline_spelling)
+			dom_force_spell_check (document, extension);
+		else
+			dom_turn_spell_check_off (document, extension);*/
 
 		g_variant_builder_add (builder,
 			"{sv}",
@@ -2974,6 +2985,7 @@ e_html_editor_web_extension_dispose (GObject *object)
 	}
 
 	g_clear_object (&extension->priv->wk_extension);
+	g_clear_object (&extension->priv->spell_checker);
 
 	g_hash_table_remove_all (extension->priv->inline_images);
 
@@ -3061,6 +3073,7 @@ e_html_editor_web_extension_init (EHTMLEditorWebExtension *extension)
 		(GDestroyNotify) g_free);
 
 	extension->priv->selection_changed_callbacks_blocked = FALSE;
+	extension->priv->spell_checker = e_spell_checker_new ();
 }
 
 static gpointer
@@ -3621,17 +3634,27 @@ e_html_editor_web_extension_set_inline_spelling (EHTMLEditorWebExtension *extens
 		return;
 
 	extension->priv->inline_spelling = value;
-/* FIXME WK2
-	if (inline_spelling)
-		e_html_editor_view_force_spell_check (view);
-	else
-		e_html_editor_view_turn_spell_check_off (view);*/
 }
 
 gboolean
 e_html_editor_web_extension_get_inline_spelling_enabled (EHTMLEditorWebExtension *extension)
 {
 	return extension->priv->inline_spelling;
+}
+
+gboolean
+e_html_editor_web_extension_check_word_spelling (EHTMLEditorWebExtension *extension,
+						 const gchar *word,
+						 const gchar * const *languages)
+{
+	g_return_val_if_fail (E_IS_HTML_EDITOR_WEB_EXTENSION (extension), TRUE);
+
+	if (!word || !languages || !*languages)
+		return TRUE;
+
+	e_spell_checker_set_active_languages (extension->priv->spell_checker, languages);
+
+	return e_spell_checker_check_word (extension->priv->spell_checker, word, -1);
 }
 
 gboolean

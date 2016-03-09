@@ -57,7 +57,9 @@ select_next_word (WebKitDOMDOMSelection *dom_selection)
 
 gchar *
 e_html_editor_spell_check_dialog_next (WebKitDOMDocument *document,
-                                       const gchar *word)
+				       EHTMLEditorWebExtension *extension,
+                                       const gchar *from_word,
+				       const gchar * const *languages)
 {
 	gulong start_offset = 0, end_offset = 0;
 	WebKitDOMDOMSelection *dom_selection;
@@ -68,7 +70,7 @@ e_html_editor_spell_check_dialog_next (WebKitDOMDocument *document,
 	dom_selection = webkit_dom_dom_window_get_selection (dom_window);
 	g_object_unref (dom_window);
 
-	if (!word) {
+	if (!from_word || !*from_word) {
 		webkit_dom_dom_selection_modify (
 			dom_selection, "move", "left", "documentboundary");
 	} else {
@@ -79,28 +81,22 @@ e_html_editor_spell_check_dialog_next (WebKitDOMDocument *document,
 		end_offset = webkit_dom_dom_selection_get_focus_offset (dom_selection);
 	}
 
-#if 0 /* FIXME WK2 */
 	while (select_next_word (dom_selection)) {
 		WebKitDOMRange *range;
-		WebKitSpellChecker *checker;
-		gint loc, len;
 		gchar *word;
 
 		range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
 		word = webkit_dom_range_get_text (range);
 		g_object_unref (range);
 
-		checker = WEBKIT_SPELL_CHECKER (webkit_get_text_checker ());
-		webkit_spell_checker_check_spelling_of_string (
-			checker, word, &loc, &len);
-
-		/* Found misspelled word! */
-		if (loc != -1)
+		if (!e_html_editor_web_extension_check_word_spelling (extension, word, languages)) {
+			/* Found misspelled word! */
 			return word;
+		}
 
 		g_free (word);
 	}
-#endif
+
 	/* Restore the selection to contain the last misspelled word. This is
 	 * reached only when we reach the end of the document */
 	if (start && end)
@@ -109,7 +105,7 @@ e_html_editor_spell_check_dialog_next (WebKitDOMDocument *document,
 
 	g_object_unref (dom_selection);
 
-	return FALSE;
+	return NULL;
 }
 
 static gboolean
@@ -142,7 +138,9 @@ select_previous_word (WebKitDOMDOMSelection *dom_selection)
 
 gchar *
 e_html_editor_spell_check_dialog_prev (WebKitDOMDocument *document,
-                                       const gchar *word)
+				       EHTMLEditorWebExtension *extension,
+                                       const gchar *from_word,
+				       const gchar * const *languages)
 {
 	gulong start_offset = 0, end_offset = 0;
 	WebKitDOMDOMSelection *dom_selection;
@@ -153,7 +151,7 @@ e_html_editor_spell_check_dialog_prev (WebKitDOMDocument *document,
 	dom_selection = webkit_dom_dom_window_get_selection (dom_window);
 	g_object_unref (dom_window);
 
-	if (!word) {
+	if (!from_word || !*from_word) {
 		webkit_dom_dom_selection_modify (
 			dom_selection, "move", "right", "documentboundary");
 		webkit_dom_dom_selection_modify (
@@ -165,36 +163,28 @@ e_html_editor_spell_check_dialog_prev (WebKitDOMDocument *document,
 		start_offset = webkit_dom_dom_selection_get_anchor_offset (dom_selection);
 		end_offset = webkit_dom_dom_selection_get_focus_offset (dom_selection);
 	}
-#if 0 /* FIXME WK2 */
+
 	while (select_previous_word (dom_selection)) {
 		WebKitDOMRange *range;
-		WebKitSpellChecker *checker;
-		gint loc, len;
 		gchar *word;
 
 		range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
 		word = webkit_dom_range_get_text (range);
 		g_object_unref (range);
 
-		checker = WEBKIT_SPELL_CHECKER (webkit_get_text_checker ());
-		webkit_spell_checker_check_spelling_of_string (
-			checker, word, &loc, &len);
-
-		/* Found misspelled word! */
-		if (loc != -1) {
-			html_editor_spell_check_dialog_set_word (dialog, word);
-			g_free (word);
-			return TRUE;
+		if (!e_html_editor_web_extension_check_word_spelling (extension, word, languages)) {
+			/* Found misspelled word! */
+			return word;
 		}
 
 		g_free (word);
 	}
-#endif
+
 	/* Restore the selection to contain the last misspelled word. This is
 	 * reached only when we reach the beginning of the document */
 	if (start && end)
 		webkit_dom_dom_selection_set_base_and_extent (
 			dom_selection, start, start_offset, end, end_offset, NULL);
 
-	return FALSE;
+	return NULL;
 }

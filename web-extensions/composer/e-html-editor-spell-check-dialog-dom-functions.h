@@ -21,13 +21,19 @@
 
 #include <webkitdom/webkitdom.h>
 
+#include "e-html-editor-web-extension.h"
+
 G_BEGIN_DECLS
 
 gchar * 	e_html_editor_spell_check_dialog_prev	(WebKitDOMDocument *document,
-							 const gchar *word);
+							 EHTMLEditorWebExtension *extension,
+							 const gchar *from_word,
+							 const gchar * const *languages);
 
 gchar * 	e_html_editor_spell_check_dialog_next	(WebKitDOMDocument *document,
-							 const gchar *word);
+							 EHTMLEditorWebExtension *extension,
+							 const gchar *from_word,
+							 const gchar * const *languages);
 
 G_END_DECLS
 

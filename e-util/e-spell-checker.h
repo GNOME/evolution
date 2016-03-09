@@ -66,6 +66,8 @@ void		e_spell_checker_free_global_memory
 ESpellChecker *	e_spell_checker_new		(void);
 GList *		e_spell_checker_list_available_dicts
 						(ESpellChecker *checker);
+guint		e_spell_checker_count_available_dicts
+						(ESpellChecker *checker);
 ESpellDictionary *
 		e_spell_checker_ref_dictionary	(ESpellChecker *checker,
 						 const gchar *language_code);
@@ -79,6 +81,9 @@ void		e_spell_checker_set_language_active
 						(ESpellChecker *checker,
 						 const gchar *language_code,
 						 gboolean active);
+void		e_spell_checker_set_active_languages
+						(ESpellChecker *checker,
+						 const gchar * const *languages);
 gchar **	e_spell_checker_list_active_languages
 						(ESpellChecker *checker,
 						 guint *n_languages);
@@ -90,6 +95,9 @@ gboolean	e_spell_checker_check_word	(ESpellChecker *checker,
 void		e_spell_checker_learn_word	(ESpellChecker *checker,
 						 const gchar *word);
 void		e_spell_checker_ignore_word	(ESpellChecker *checker,
+						 const gchar *word);
+gchar **	e_spell_checker_get_guesses_for_word
+						(ESpellChecker *checker,
 						 const gchar *word);
 
 G_END_DECLS

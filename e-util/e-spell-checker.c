@@ -321,6 +321,25 @@ e_spell_checker_list_available_dicts (ESpellChecker *checker)
 }
 
 /**
+ * e_spell_checker_count_available_dicts:
+ * @checker: An #ESpellChecker
+ *
+ * Returns: Count of available dictionaries.
+ **/
+guint
+e_spell_checker_count_available_dicts (ESpellChecker *checker)
+{
+	g_return_val_if_fail (E_IS_SPELL_CHECKER (checker), 0);
+
+	if (g_hash_table_size (checker->priv->dictionaries_cache) == 0) {
+		e_spell_checker_init_global_memory ();
+		g_hash_table_foreach (global_language_tags, copy_enchant_dicts, checker);
+	}
+
+	return g_hash_table_size (checker->priv->dictionaries_cache);
+}
+
+/**
  * e_spell_checker_ref_dictionary:
  * @checker: an #ESpellChecker
  * @language_code: (allow-none): language code of a dictionary, or %NULL
@@ -448,6 +467,42 @@ e_spell_checker_set_language_active (ESpellChecker *checker,
 	}
 
 	g_object_unref (dictionary);
+}
+
+/**
+ * e_spell_checker_set_active_languages:
+ * @checker: An #ESpellChecker
+ * @languages: A list of languages to have activated
+ *
+ * Activates only the languages from @languages, all others will
+ * be deactivated after this function is finished.
+ **/
+void
+e_spell_checker_set_active_languages (ESpellChecker *checker,
+				      const gchar * const *languages)
+{
+	gint ii;
+
+	g_return_if_fail (E_IS_SPELL_CHECKER (checker));
+
+	g_object_freeze_notify (G_OBJECT (checker));
+
+	for (ii = 0; languages && languages[ii]; ii++) {
+		e_spell_checker_set_language_active (checker, languages[ii], TRUE);
+	}
+
+	if (ii == g_hash_table_size (checker->priv->active_dictionaries)) {
+		g_object_thaw_notify (G_OBJECT (checker));
+		return;
+	}
+
+	g_hash_table_remove_all (checker->priv->active_dictionaries);
+	for (ii = 0; languages && languages[ii]; ii++) {
+		e_spell_checker_set_language_active (checker, languages[ii], TRUE);
+	}
+
+	g_object_notify (G_OBJECT (checker), "active-languages");
+	g_object_thaw_notify (G_OBJECT (checker));
 }
 
 /**
@@ -614,4 +669,56 @@ e_spell_checker_learn_word (ESpellChecker *checker,
 	}
 
 	g_list_free (list);
+}
+
+/**
+ * e_spell_checker_get_guesses_for_word:
+ * @checker: an #ESpellChecker
+ * @word: word to get guesses for
+ *
+ * Returns: a NULL-terminated array of guesses for the @word. Free the returned
+ *    pointer with g_strfreev() when done with it.
+ **/
+gchar **
+e_spell_checker_get_guesses_for_word (ESpellChecker *checker,
+				      const gchar *word)
+{
+	GHashTable *active_dictionaries;
+	GList *list, *link;
+	gchar **guesses;
+	gint ii = 0;
+
+	g_return_val_if_fail (E_IS_SPELL_CHECKER (checker), NULL);
+	g_return_val_if_fail (word != NULL, NULL);
+
+	guesses = g_new0 (gchar *, MAX_SUGGESTIONS + 1);
+
+	active_dictionaries = checker->priv->active_dictionaries;
+	list = g_hash_table_get_keys (active_dictionaries);
+
+	for (link = list; link != NULL; link = g_list_next (link)) {
+		ESpellDictionary *dictionary;
+		GList *suggestions;
+
+		dictionary = E_SPELL_DICTIONARY (link->data);
+		suggestions = e_spell_dictionary_get_suggestions (
+			dictionary, word, -1);
+
+		while (suggestions != NULL && ii < MAX_SUGGESTIONS) {
+			guesses[ii++] = suggestions->data;
+			suggestions->data = NULL;
+
+			suggestions = g_list_delete_link (
+				suggestions, suggestions);
+		}
+
+		g_list_free_full (suggestions, (GDestroyNotify) g_free);
+
+		if (ii >= MAX_SUGGESTIONS)
+			break;
+	}
+
+	g_list_free (list);
+
+	return guesses;
 }

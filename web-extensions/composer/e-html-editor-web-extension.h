@@ -172,6 +172,10 @@ void		e_html_editor_web_extension_set_inline_spelling
 
 gboolean	e_html_editor_web_extension_get_inline_spelling_enabled
 						(EHTMLEditorWebExtension *extension);
+gboolean	e_html_editor_web_extension_check_word_spelling
+						(EHTMLEditorWebExtension *extension,
+						 const gchar *word,
+						 const gchar * const *languages);
 
 gboolean	e_html_editor_web_extension_get_body_input_event_removed
 						(EHTMLEditorWebExtension *extension);

@@ -109,13 +109,13 @@ action_context_spell_suggest_cb (GtkAction *action,
 
 	e_html_editor_selection_replace_caret_word (selection, word);
 }
-#if 0 /* FIXME WK2 */
+
 static void
 html_editor_inline_spelling_suggestions (EHTMLEditor *editor)
 {
 	EHTMLEditorView *view;
 	EHTMLEditorSelection *selection;
-	WebKitSpellChecker *checker;
+	ESpellChecker *spell_checker;
 	GtkActionGroup *action_group;
 	GtkUIManager *manager;
 	gchar **suggestions;
@@ -130,13 +130,13 @@ html_editor_inline_spelling_suggestions (EHTMLEditor *editor)
 	view = e_html_editor_get_view (editor);
 	selection = e_html_editor_view_get_selection (view);
 
-	checker = WEBKIT_SPELL_CHECKER (webkit_get_text_checker ());*/
+	spell_checker = e_html_editor_view_get_spell_checker (view);
 
 	word = e_html_editor_selection_get_caret_word (selection);
 	if (word == NULL || *word == '\0')
 		return;
 
-	suggestions = webkit_spell_checker_get_guesses_for_word (checker, word, NULL);
+	suggestions = e_spell_checker_get_guesses_for_word (spell_checker, word);
 
 	path = "/context-menu/context-spell-suggest/";
 	manager = e_html_editor_get_ui_manager (editor);
@@ -207,7 +207,7 @@ html_editor_inline_spelling_suggestions (EHTMLEditor *editor)
 	g_free (word);
 	g_strfreev (suggestions);
 }
-#endif
+
 /* Helper for html_editor_update_actions() */
 static void
 html_editor_spell_checkers_foreach (EHTMLEditor *editor,
@@ -232,14 +232,13 @@ html_editor_spell_checkers_foreach (EHTMLEditor *editor,
 	word = e_html_editor_selection_get_caret_word (selection);
 	if (word == NULL || *word == '\0')
 		return;
-/* FIXME WK2
+
 	dictionary = e_spell_checker_ref_dictionary (
-		spell_checker, language_code);*/
+		spell_checker, language_code);
 	if (dictionary != NULL) {
-		/* FIXME WK2
 		list = e_spell_dictionary_get_suggestions (
 			dictionary, word, -1);
-		g_object_unref (dictionary);*/
+		g_object_unref (dictionary);
 	} else {
 		list = NULL;
 	}
@@ -315,22 +314,19 @@ e_html_editor_update_spell_actions (EHTMLEditor *editor)
 	view = e_html_editor_get_view (editor);
 	checker = e_html_editor_view_get_spell_checker (view);
 
-	count = 0;
-/* FIXME WK2
-	count = e_spell_checker_count_active_languages (checker);*/
+	count = e_spell_checker_count_active_languages (checker);
 
 	gtk_action_set_visible (ACTION (CONTEXT_SPELL_ADD), count == 1);
 	gtk_action_set_visible (ACTION (CONTEXT_SPELL_ADD_MENU), count > 1);
 	gtk_action_set_visible (ACTION (CONTEXT_SPELL_IGNORE), count > 0);
 
-	gtk_action_set_visible (ACTION (SPELL_CHECK), count > 0);
-	gtk_action_set_visible (ACTION (LANGUAGE_MENU), count > 0);
+	gtk_action_set_sensitive (ACTION (SPELL_CHECK), count > 0);
+	gtk_action_set_sensitive (ACTION (LANGUAGE_MENU), e_spell_checker_count_available_dicts (checker) > 0);
 }
 
 static void
 html_editor_update_actions (EHTMLEditor *editor)
 {
-//	WebKitSpellChecker *checker;
 	EHTMLEditorSelection *selection;
 	EHTMLEditorView *view;
 	GDBusProxy *web_extension;
@@ -342,7 +338,6 @@ html_editor_update_actions (EHTMLEditor *editor)
 	guint ii, n_languages;
 	gboolean visible;
 	guint merge_id;
-	gint loc, len;
 	guint flags = 0;
 
 	view = e_html_editor_get_view (editor);
@@ -424,20 +419,16 @@ html_editor_update_actions (EHTMLEditor *editor)
 		list = g_list_delete_link (list, list);
 	}
 
-#if 0 /* FIXME WK2 */
 	languages = e_spell_checker_list_active_languages (
 		spell_checker, &n_languages);
 
 	/* Decide if we should show spell checking items. */
-	checker = WEBKIT_SPELL_CHECKER (webkit_get_text_checker ());
 	selection = e_html_editor_view_get_selection (view);
 	visible = FALSE;
 	if ((n_languages > 0) && e_html_editor_selection_has_text (selection)) {
 		gchar *word = e_html_editor_selection_get_caret_word (selection);
 		if (word && *word) {
-			webkit_spell_checker_check_spelling_of_string (
-				checker, word, &loc, &len);
-			visible = (loc > -1);
+			visible = !e_spell_checker_check_word (spell_checker, word, -1);
 		} else {
 			visible = FALSE;
 		}
@@ -468,50 +459,42 @@ html_editor_update_actions (EHTMLEditor *editor)
 	/* Add actions and context menu content for active languages. */
 	for (ii = 0; ii < n_languages; ii++)
 		html_editor_spell_checkers_foreach (editor, languages[ii]);
-#endif
+
 	g_strfreev (languages);
 
 	e_html_editor_update_spell_actions (editor);
 }
-#if 0 /* FIXME WK2 */
+
 static void
 html_editor_spell_languages_changed (EHTMLEditor *editor)
 {
 	EHTMLEditorView *view;
 	ESpellChecker *spell_checker;
-	WebKitSettings *settings;
-	gchar *comma_separated;
+	WebKitWebContext *web_context;
 	gchar **languages;
 
 	view = e_html_editor_get_view (editor);
 	spell_checker = e_html_editor_view_get_spell_checker (view);
 
 	languages = e_spell_checker_list_active_languages (spell_checker, NULL);
-	comma_separated = g_strjoinv (",", languages);
-	g_strfreev (languages);
 
 	/* Set the languages for webview to highlight misspelled words */
-	settings = webkit_web_view_get_settings (
-		WEBKIT_WEB_VIEW (editor->priv->html_editor_view));
-
-	g_object_set (
-		G_OBJECT (settings),
-		"spell-checking-languages", comma_separated,
-		NULL);
+	web_context = webkit_web_view_get_context (WEBKIT_WEB_VIEW (view));
+	webkit_web_context_set_spell_checking_languages (web_context, (const gchar * const *) languages);
 
 	if (editor->priv->spell_check_dialog != NULL)
 		e_html_editor_spell_check_dialog_update_dictionaries (
 			E_HTML_EDITOR_SPELL_CHECK_DIALOG (
 			editor->priv->spell_check_dialog));
 
-	if (*comma_separated)
-		e_html_editor_view_force_spell_check (editor->priv->html_editor_view);
+	if (languages && *languages)
+		e_html_editor_view_force_spell_check (view);
 	else
-		e_html_editor_view_turn_spell_check_off (editor->priv->html_editor_view);
+		e_html_editor_view_turn_spell_check_off (view);
 
-	g_free (comma_separated);
+	g_strfreev (languages);
 }
-#endif
+
 static gboolean
 html_editor_context_menu_cb (WebKitWebView *webkit_web_view,
                              WebKitContextMenu *context_menu,
@@ -840,8 +823,7 @@ e_html_editor_class_init (EHTMLEditorClass *class)
 	widget_class->parent_set = html_editor_parent_changed;
 
 	class->update_actions = html_editor_update_actions;
-/* FIXME WK2
-	class->spell_languages_changed = html_editor_spell_languages_changed; */
+	class->spell_languages_changed = html_editor_spell_languages_changed;
 
 	g_object_class_install_property (
 		object_class,

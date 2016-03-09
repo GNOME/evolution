@@ -203,10 +203,8 @@ action_context_spell_add_cb (GtkAction *action,
 	selection = e_html_editor_view_get_selection (editor->priv->html_editor_view);
 
 	word = e_html_editor_selection_get_caret_word (selection);
-	/* FIXME WK2
-	if (word && *word) {
+	if (word && *word)
 		e_spell_checker_learn_word (spell_checker, word);
-	} */
 }
 
 static void
@@ -222,10 +220,8 @@ action_context_spell_ignore_cb (GtkAction *action,
 	selection = e_html_editor_view_get_selection (editor->priv->html_editor_view);
 
 	word = e_html_editor_selection_get_caret_word (selection);
-	/* FIXME WK2
-	if (word && *word) {
+	if (word && *word)
 		e_spell_checker_ignore_word (spell_checker, word);
-	}*/
 }
 
 static void
@@ -418,8 +414,7 @@ action_language_cb (GtkToggleAction *toggle_action,
 	language_code = gtk_action_get_name (GTK_ACTION (toggle_action));
 
 	active = gtk_toggle_action_get_active (toggle_action);
-	/* FIXME WK2
-	e_spell_checker_set_language_active (checker, language_code, active);*/
+	e_spell_checker_set_language_active (checker, language_code, active);
 
 	/* Update "Add Word To" context menu item visibility. */
 	action_name = g_strdup_printf ("context-spell-add-%s", language_code);
@@ -1518,7 +1513,6 @@ static GtkActionEntry spell_context_entries[] = {
 static void
 editor_actions_setup_languages_menu (EHTMLEditor *editor)
 {
-#if 0
 	ESpellChecker *checker;
 	EHTMLEditorView *view;
 	GtkUIManager *manager;
@@ -1578,13 +1572,11 @@ editor_actions_setup_languages_menu (EHTMLEditor *editor)
 	}
 
 	g_list_free (list);
-#endif
 }
 
 static void
 editor_actions_setup_spell_check_menu (EHTMLEditor *editor)
 {
-#if 0
 	ESpellChecker *checker;
 	GtkUIManager *manager;
 	GtkActionGroup *action_group;
@@ -1664,7 +1656,6 @@ editor_actions_setup_spell_check_menu (EHTMLEditor *editor)
 	}
 
 	g_list_free (available_dicts);
-#endif
 }
 
 void
