@@ -1903,7 +1903,7 @@ handle_method_call (GDBusConnection *connection,
 		dom_convert_when_changing_composer_mode (document, extension);
 		g_dbus_method_invocation_return_value (invocation, NULL);
 	} else if (g_strcmp0 (method_name, "DOMProcessContentAfterModeChange") == 0) {
-		g_variant_get (parameters, "(tb)", &page_id);
+		g_variant_get (parameters, "(t)", &page_id);
 
 		web_page = get_webkit_web_page_or_return_dbus_error (
 			invocation, web_extension, page_id);
