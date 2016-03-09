@@ -20,6 +20,8 @@
 #include <config.h>
 #endif
 
+#include <camel/camel.h>
+
 #include "e-html-editor-web-extension.h"
 
 static void
@@ -37,6 +39,8 @@ G_MODULE_EXPORT void
 webkit_web_extension_initialize (WebKitWebExtension *wk_extension)
 {
 	EHTMLEditorWebExtension *extension;
+
+	camel_debug_init ();
 
 	extension = e_html_editor_web_extension_get ();
 	e_html_editor_web_extension_initialize (extension, wk_extension);

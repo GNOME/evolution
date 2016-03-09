@@ -357,8 +357,8 @@ html_editor_update_actions (EHTMLEditor *editor)
 		}
 	}
 
-	printf ("%s\n", __FUNCTION__);
-	printf ("%d\n", flags);
+	if (camel_debug ("wex"))
+		printf ("%s: flags:%d(%x)\n", G_STRFUNC, flags, flags);
 	spell_checker = e_html_editor_view_get_spell_checker (view);
 
 	manager = e_html_editor_get_ui_manager (editor);

@@ -689,7 +689,8 @@ handle_method_call (GDBusConnection *connection,
 	if (g_strcmp0 (interface_name, E_HTML_EDITOR_WEB_EXTENSION_INTERFACE) != 0)
 		return;
 
-	printf ("%s - %s\n", __FUNCTION__, method_name);
+	if (camel_debug ("wex"))
+		printf ("%s - %s\n", G_STRFUNC, method_name);
 	if (g_strcmp0 (method_name, "ElementHasAttribute") == 0) {
 		gboolean value = FALSE;
 		const gchar *element_id, *attribute;
@@ -2478,7 +2479,8 @@ handle_get_property (GDBusConnection *connection,
 	EHTMLEditorWebExtension *extension = E_HTML_EDITOR_WEB_EXTENSION (user_data);
 	GVariant *variant;
 
-	printf ("%s - %s - %s\n", __FUNCTION__, sender, property_name);
+	if (camel_debug ("wex"))
+		printf ("%s - %s - %s\n", G_STRFUNC, sender, property_name);
 	if (g_strcmp0 (property_name, "ForceImageLoad") == 0)
 		variant = g_variant_new_boolean (extension->priv->force_image_load);
 	else if (g_strcmp0 (property_name, "InlineSpelling") == 0)
@@ -2555,7 +2557,8 @@ handle_set_property (GDBusConnection *connection,
 	GError *local_error = NULL;
 	GVariantBuilder *builder;
 
-	printf ("%s - %s - %s\n", __FUNCTION__, sender, property_name);
+	if (camel_debug ("wex"))
+		printf ("%s - %s - %s\n", G_STRFUNC, sender, property_name);
 	builder = g_variant_builder_new (G_VARIANT_TYPE_ARRAY);
 
 	if (g_strcmp0 (property_name, "ForceImageLoad") == 0) {
@@ -2914,7 +2917,8 @@ handle_set_property (GDBusConnection *connection,
 	g_assert_no_error (local_error);
 
  exit:
-	printf ("\tExitting\n");
+	if (camel_debug ("wex"))
+		printf ("\tExitting\n");
 	g_variant_builder_unref (builder);
 
 	return TRUE;

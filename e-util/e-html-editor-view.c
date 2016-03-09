@@ -27,6 +27,8 @@
 #include "e-emoticon-chooser.h"
 #include "e-misc-utils.h"
 
+#include <camel/camel.h>
+
 #include <web-extensions/composer/e-html-editor-web-extension-names.h>
 
 #include <e-util/e-util.h>
@@ -1912,7 +1914,8 @@ e_html_editor_view_insert_smiley (EHTMLEditorView *view,
 	g_return_if_fail (E_IS_HTML_EDITOR_VIEW (view));
 	g_return_if_fail (emoticon != NULL);
 
-	printf ("%s\n", __FUNCTION__);
+	if (camel_debug ("wex"))
+		printf ("%s\n", G_STRFUNC);
 	web_extension = e_html_editor_view_get_web_extension_proxy (view);
 	if (!web_extension)
 		return;
@@ -1962,7 +1965,8 @@ e_html_editor_view_set_magic_smileys (EHTMLEditorView *view,
 {
 	g_return_if_fail (E_IS_HTML_EDITOR_VIEW (view));
 
-	printf ("%s - %d\n", __FUNCTION__, magic_smileys);
+	if (camel_debug ("wex"))
+		printf ("%s - %d\n", G_STRFUNC, magic_smileys);
 	if (view->priv->magic_smileys == magic_smileys)
 		return;
 

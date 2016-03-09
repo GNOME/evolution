@@ -503,7 +503,6 @@ web_view_context_menu_cb (WebKitWebView *webkit_web_view,
 
 	web_view = E_WEB_VIEW (webkit_web_view);
 
-	printf ("%s\n", __FUNCTION__);
 	g_free (web_view->priv->cursor_image_src);
 	web_view->priv->cursor_image_src = NULL;
 

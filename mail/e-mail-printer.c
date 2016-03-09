@@ -23,6 +23,8 @@
 #include <glib/gi18n.h>
 #include <gtk/gtk.h>
 
+#include <camel/camel.h>
+
 #include "e-util/e-util.h"
 
 #include "em-format/e-mail-formatter-print.h"
@@ -172,7 +174,8 @@ static void
 mail_printer_print_finished_cb (WebKitPrintOperation *print_operation,
                                 GSimpleAsyncResult *simple)
 {
-	printf ("%s\n", __FUNCTION__);
+	if (camel_debug ("wex"))
+		printf ("%s\n", G_STRFUNC);
 }
 
 static void
@@ -182,7 +185,8 @@ mail_printer_print_failed_cb (WebKitPrintOperation *print_operation,
 {
 	AsyncContext *async_context;
 
-	printf ("%s\n", __FUNCTION__);
+	if (camel_debug ("wex"))
+		printf ("%s\n", G_STRFUNC);
 	async_context = g_simple_async_result_get_op_res_gpointer (simple);
 
 	if (error != NULL)

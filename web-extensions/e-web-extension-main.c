@@ -20,6 +20,8 @@
 #include <config.h>
 #endif
 
+#include <camel/camel.h>
+
 #include "e-web-extension.h"
 #include "e-web-extension-names.h"
 
@@ -39,7 +41,11 @@ webkit_web_extension_initialize (WebKitWebExtension *wk_extension)
 {
 	EWebExtension *extension;
 
-	printf ("%s\n", __FUNCTION__);
+	camel_debug_init ();
+
+	if (camel_debug ("wex"))
+		printf ("%s\n", G_STRFUNC);
+
 	extension = e_web_extension_get ();
 	e_web_extension_initialize (extension, wk_extension);
 

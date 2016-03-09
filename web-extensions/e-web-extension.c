@@ -26,6 +26,7 @@
 #include <glib/gstdio.h>
 #include <gtk/gtk.h>
 
+#include <camel/camel.h>
 #include <libedataserver/libedataserver.h>
 
 #include "e-web-extension.h"
@@ -180,7 +181,8 @@ handle_method_call (GDBusConnection *connection,
 	if (g_strcmp0 (interface_name, E_WEB_EXTENSION_INTERFACE) != 0)
 		return;
 
-	printf ("EWebExtension - %s - %s\n", __FUNCTION__, method_name);
+	if (camel_debug ("wex"))
+		printf ("EWebExtension - %s - %s\n", G_STRFUNC, method_name);
 	if (g_strcmp0 (method_name, "ReplaceLocalImageLinks") == 0) {
 		g_variant_get (parameters, "(t)", &page_id);
 		web_page = get_webkit_web_page_or_return_dbus_error (

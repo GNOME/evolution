@@ -26,6 +26,7 @@
 #include "e-html-editor-view.h"
 #include "e-html-editor.h"
 
+#include <camel/camel.h>
 #include <web-extensions/composer/e-html-editor-web-extension-names.h>
 
 #include <e-util/e-util.h>
@@ -109,7 +110,8 @@ web_extension_properties_changed_cb (GDBusProxy *proxy,
                                      GStrv invalidated_properties,
                                      EHTMLEditorSelection *selection)
 {
-	printf ("%s\n", __FUNCTION__);
+	if (camel_debug ("wex"))
+		printf ("%s\n", G_STRFUNC);
 	g_object_freeze_notify (G_OBJECT (selection));
 
 	if (g_variant_n_children (changed_properties) > 0) {
@@ -117,7 +119,8 @@ web_extension_properties_changed_cb (GDBusProxy *proxy,
 		const gchar *key;
 		GVariant *value;
 
-		g_print (" *** Properties Changed:\n");
+		if (camel_debug ("wex"))
+			g_print (" *** Properties Changed:\n");
 		g_variant_get (changed_properties,
 				"a{sv}",
 				&iter);
@@ -163,14 +166,15 @@ web_extension_properties_changed_cb (GDBusProxy *proxy,
 				g_object_notify (G_OBJECT (selection), "monospaced");
 			} else if (g_strcmp0 (key, "HTMLMode") != 0 &&
 			           g_strcmp0 (key, "Changed") != 0)
-				g_warning ("UNKNOWN PROPERTY %s IN %s", key, __FUNCTION__);
-			g_print ("      %s -> %s\n", key, value_str);
+				g_warning ("UNKNOWN PROPERTY %s IN %s", key, G_STRFUNC);
+			if (camel_debug ("wex"))
+				g_print ("      %s -> %s\n", key, value_str);
 			g_free (value_str);
 		}
 		g_variant_iter_free (iter);
 	}
 
-	if (g_strv_length ((GStrv) invalidated_properties) > 0) {
+	if (camel_debug ("wex") && g_strv_length ((GStrv) invalidated_properties) > 0) {
 		guint n;
 		g_print (" *** Properties Invalidated:\n");
 		for (n = 0; invalidated_properties[n] != NULL; n++)
@@ -928,7 +932,8 @@ e_html_editor_selection_replace (EHTMLEditorSelection *selection,
 	EHTMLEditorView *view;
 	GDBusProxy *web_extension;
 
-	printf ("%s\n", __FUNCTION__);
+	if (camel_debug ("wex"))
+		printf ("%s\n", G_STRFUNC);
 	g_return_if_fail (E_IS_HTML_EDITOR_SELECTION (selection));
 
 	view = e_html_editor_selection_ref_html_editor_view (selection);
@@ -986,7 +991,8 @@ html_editor_selection_set_format_string (EHTMLEditorSelection *selection,
 	EHTMLEditorView *view;
 	GDBusProxy *web_extension;
 
-	printf ("%s - %s - %s\n", __FUNCTION__, format_dom_function, format_value);
+	if (camel_debug ("wex"))
+		printf ("%s - %s - %s\n", G_STRFUNC, format_dom_function, format_value);
 	g_return_if_fail (E_IS_HTML_EDITOR_SELECTION (selection));
 
 	view = e_html_editor_selection_ref_html_editor_view (selection);
@@ -1282,7 +1288,8 @@ e_html_editor_selection_get_font_color (EHTMLEditorSelection *selection,
 	g_return_if_fail (view != NULL);
 
 	if (!e_html_editor_view_get_html_mode (view)) {
-		printf ("%s\n", __FUNCTION__);
+		if (camel_debug ("wex"))
+			printf ("%s\n", G_STRFUNC);
 		*rgba = black;
 		g_object_unref (view);
 		return;
