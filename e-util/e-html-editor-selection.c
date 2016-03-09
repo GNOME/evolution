@@ -165,7 +165,10 @@ web_extension_properties_changed_cb (GDBusProxy *proxy,
 				selection->priv->is_monospaced = g_variant_get_boolean (value);
 				g_object_notify (G_OBJECT (selection), "monospaced");
 			} else if (g_strcmp0 (key, "HTMLMode") != 0 &&
-			           g_strcmp0 (key, "Changed") != 0)
+			           g_strcmp0 (key, "Changed") != 0 &&
+				   g_strcmp0 (key, "MagicLinks") != 0 &&
+				   g_strcmp0 (key, "MagicSmileys") != 0 &&
+				   g_strcmp0 (key, "InlineSpelling") != 0)
 				g_warning ("UNKNOWN PROPERTY %s IN %s", key, G_STRFUNC);
 			if (camel_debug ("wex"))
 				g_print ("      %s -> %s\n", key, value_str);
