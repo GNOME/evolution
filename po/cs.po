@@ -22,7 +22,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
 "POT-Creation-Date: 2016-03-09 05:51+0000\n"
-"PO-Revision-Date: 2016-03-09 12:31+0100\n"
+"PO-Revision-Date: 2016-03-10 12:46+0100\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -4215,7 +4215,7 @@ msgstr "zapnuto"
 #: ../calendar/gui/e-comp-editor-page-recurrence.c:570
 msgctxt "ECompEditorPageRecur"
 msgid "first"
-msgstr ""
+msgstr "první"
 
 #. TRANSLATORS: here, "second" is the ordinal number (like "third"), not the time division (like "minute")
 #. * Entire string is for example: This appointment recurs/Every [x] month(s) on the [second] [Monday] [forever]'
@@ -4225,7 +4225,7 @@ msgstr ""
 #: ../calendar/gui/e-comp-editor-page-recurrence.c:576
 msgctxt "ECompEditorPageRecur"
 msgid "second"
-msgstr ""
+msgstr "druh(é/ý/ou)"
 
 #. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] month(s) on the [third] [Monday] [forever]'
 #. * (dropdown menu options are in [square brackets]). This means that after 'third', either the string 'day' or
@@ -4234,7 +4234,7 @@ msgstr ""
 #: ../calendar/gui/e-comp-editor-page-recurrence.c:581
 msgctxt "ECompEditorPageRecur"
 msgid "third"
-msgstr ""
+msgstr "třetí"
 
 #. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] month(s) on the [fourth] [Monday] [forever]'
 #. * (dropdown menu options are in [square brackets]). This means that after 'fourth', either the string 'day' or
@@ -4243,7 +4243,7 @@ msgstr ""
 #: ../calendar/gui/e-comp-editor-page-recurrence.c:586
 msgctxt "ECompEditorPageRecur"
 msgid "fourth"
-msgstr ""
+msgstr "čtvrt(é/ý/ou)"
 
 #. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] month(s) on the [fifth] [Monday] [forever]'
 #. * (dropdown menu options are in [square brackets]). This means that after 'fifth', either the string 'day' or
@@ -4252,7 +4252,7 @@ msgstr ""
 #: ../calendar/gui/e-comp-editor-page-recurrence.c:591
 msgctxt "ECompEditorPageRecur"
 msgid "fifth"
-msgstr ""
+msgstr "pát(é/ý/ou)"
 
 #. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] month(s) on the [last] [Monday] [forever]'
 #. * (dropdown menu options are in [square brackets]). This means that after 'last', either the string 'day' or
@@ -4346,11 +4346,9 @@ msgstr "neděli"
 #: ../calendar/gui/e-comp-editor-page-recurrence.c:803
 msgctxt "ECompEditorPageRecur"
 msgid "on the"
-msgstr ""
+msgstr "v"
 
 #: ../calendar/gui/e-comp-editor-page-recurrence.c:993
-#, fuzzy
-#| msgid "occurrences"
 msgctxt "ECompEditorPageRecur"
 msgid "occurrences"
 msgstr "opakování"
@@ -4398,46 +4396,33 @@ msgstr "Nastavit opakování nebo jej zrušit"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
 #: ../calendar/gui/e-comp-editor-page-recurrence.c:2056
-#, fuzzy
-#| msgid "Every"
 msgctxt "ECompEditorPageRecur"
 msgid "Every"
 msgstr "Každých"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
 #: ../calendar/gui/e-comp-editor-page-recurrence.c:2091
-#, fuzzy
-#| msgid "day(s)"
 msgctxt "ECompEditorPageRecur"
 msgid "day(s)"
-msgstr "den(dnů)"
+msgstr "den/dny/dnů"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
 #: ../calendar/gui/e-comp-editor-page-recurrence.c:2093
-#, fuzzy
-#| msgctxt "recurrpage"
-#| msgid "week(s)"
 msgctxt "ECompEditorPageRecur"
 msgid "week(s)"
-msgstr "týdnů"
+msgstr "týden/týdny/týdnů"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
 #: ../calendar/gui/e-comp-editor-page-recurrence.c:2095
-#, fuzzy
-#| msgctxt "recurrpage"
-#| msgid "month(s)"
 msgctxt "ECompEditorPageRecur"
 msgid "month(s)"
-msgstr "měsíců"
+msgstr "měsíc(e)(ů)"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
 #: ../calendar/gui/e-comp-editor-page-recurrence.c:2097
-#, fuzzy
-#| msgctxt "recurrpage"
-#| msgid "year(s)"
 msgctxt "ECompEditorPageRecur"
 msgid "year(s)"
-msgstr "roků"
+msgstr "rok(y)(ů)"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
 #: ../calendar/gui/e-comp-editor-page-recurrence.c:2126
@@ -4559,57 +4544,45 @@ msgstr "Vlastní"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ minute(s) ] [ before ] [ start ]
 #: ../calendar/gui/e-comp-editor-page-reminders.c:1863
-#, fuzzy
-#| msgid "minute(s)"
 msgctxt "cal-reminders"
 msgid "minute(s)"
-msgstr "minut(y)"
+msgstr "minut(u/y)"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ hour(s) ] [ before ] [ start ]
 #: ../calendar/gui/e-comp-editor-page-reminders.c:1865
-#, fuzzy
-#| msgid "hour(s)"
 msgctxt "cal-reminders"
 msgid "hour(s)"
-msgstr "hodin(y)"
+msgstr "hodin(u/y)"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ day(s) ] [ before ] [ start ]
 #: ../calendar/gui/e-comp-editor-page-reminders.c:1867
-#, fuzzy
-#| msgid "day(s)"
 msgctxt "cal-reminders"
 msgid "day(s)"
-msgstr "den(dnů)"
+msgstr "den/dny/dnů"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ minute(s) ] [ before ] [ start ]
 #: ../calendar/gui/e-comp-editor-page-reminders.c:1884
-#, fuzzy
 msgctxt "cal-reminders"
 msgid "before"
-msgstr "před"
+msgstr "před tím než"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ minute(s) ] [ after ] [ start ]
 #: ../calendar/gui/e-comp-editor-page-reminders.c:1886
-#, fuzzy
 msgctxt "cal-reminders"
 msgid "after"
-msgstr "po"
+msgstr "po tom co"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ minute(s) ] [ before ] [ start ]
 #: ../calendar/gui/e-comp-editor-page-reminders.c:1902
-#, fuzzy
-#| msgid "Start"
 msgctxt "cal-reminders"
 msgid "start"
-msgstr "Začátek"
+msgstr "začne"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ minute(s) ] [ before ] [ end ]
 #: ../calendar/gui/e-comp-editor-page-reminders.c:1904
-#, fuzzy
-#| msgid "_Send"
 msgctxt "cal-reminders"
 msgid "end"
-msgstr "_Odeslat"
+msgstr "skončí"
 
 #. Translators: Part of: Repeat the reminder [ x ] extra times every [ y ] [ minutes ]
 #: ../calendar/gui/e-comp-editor-page-reminders.c:1927
@@ -4618,35 +4591,27 @@ msgstr "O_pakovat připomenutí"
 
 #. Translators: Part of: Repeat the reminder [ x ] extra times every [ y ] [ minutes ]
 #: ../calendar/gui/e-comp-editor-page-reminders.c:1952
-#, fuzzy
-#| msgid "extra times every"
 msgctxt "cal-reminders"
 msgid "extra times every"
-msgstr "krát navíc každých"
+msgstr "krát navíc vždy po"
 
 #. Translators: Part of: Repeat the reminder [ x ] extra times every [ y ] [ minutes ]
 #: ../calendar/gui/e-comp-editor-page-reminders.c:1989
-#, fuzzy
-#| msgid "minutes"
 msgctxt "cal-reminders"
 msgid "minutes"
-msgstr "minut"
+msgstr "minut(u/y)"
 
 #. Translators: Part of: Repeat the reminder [ x ] extra times every [ y ] [ hours ]
 #: ../calendar/gui/e-comp-editor-page-reminders.c:1991
-#, fuzzy
-#| msgid "hours"
 msgctxt "cal-reminders"
 msgid "hours"
-msgstr "hodiny"
+msgstr "hodin(u/y)"
 
 #. Translators: Part of: Repeat the reminder [ x ] extra times every [ y ] [ days ]
 #: ../calendar/gui/e-comp-editor-page-reminders.c:1993
-#, fuzzy
-#| msgid "days"
 msgctxt "cal-reminders"
 msgid "days"
-msgstr "dnů"
+msgstr "den/dny/dnů"
 
 #. page_reminders->priv->custom_email_entry is initialized on demand
 #: ../calendar/gui/e-comp-editor-page-reminders.c:2034
@@ -9036,7 +9001,9 @@ msgstr "Výchozí znaková sada, ve které psát zprávy"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:4
 msgid "Default charset in which to compose messages. Uses UTF-8, if not set."
-msgstr "Výchozí znaková sada, ve které psát zprávy. Když není nastaveno, použije se UTF-8."
+msgstr ""
+"Výchozí znaková sada, ve které psát zprávy. Když není nastaveno, použije se "
+"UTF-8."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:5
 msgid "Path where picture gallery should search for its content"
@@ -13336,9 +13303,9 @@ msgid ""
 "would like to try again, please click the \"Back\" button."
 msgstr ""
 "Aplikace Evolution hledala nastavení k importu z následujících aplikací: "
-"Pine, Netscape, Elm, iCalendar, KMail. Nebylo nalezeno nastavení, které by bylo "
-"možné importovat. Pokud to chcete zkusit znovu, klikněte prosím na tlačítko "
-"„Zpět“."
+"Pine, Netscape, Elm, iCalendar, KMail. Nebylo nalezeno nastavení, které by "
+"bylo možné importovat. Pokud to chcete zkusit znovu, klikněte prosím na "
+"tlačítko „Zpět“."
 
 #: ../e-util/e-import-assistant.c:559
 #: ../modules/startup-wizard/e-mail-config-import-page.c:229
@@ -15219,10 +15186,8 @@ msgid "_Restore Defaults"
 msgstr "_Obnovit výchozí"
 
 #: ../mail/e-mail-config-defaults-page.c:946
-#, fuzzy
-#| msgid "Go to Folder"
 msgid "_Lookup Folders"
-msgstr "Přejit do složky"
+msgstr "Vyh_ledat složky"
 
 #: ../mail/e-mail-config-defaults-page.c:964
 msgid "Use a Real Folder for _Trash:"
@@ -15350,10 +15315,8 @@ msgid "Email Address is not a valid email"
 msgstr "E-mailová adresa není platná pro e-mail"
 
 #: ../mail/e-mail-config-identity-page.c:635
-#, fuzzy
-#| msgid "Recurrence date is invalid"
 msgid "Reply To is not a valid email"
-msgstr "Datum opakování je neplatné"
+msgstr "„Odpovědět komu“ není platná e-mailová adresa"
 
 #: ../mail/e-mail-config-identity-page.c:646
 #: ../mail/e-mail-config-summary-page.c:632
@@ -15710,26 +15673,20 @@ msgid "Color"
 msgstr "Barva"
 
 #: ../mail/e-mail-notes.c:310 ../mail/e-mail-notes.c:692
-#, fuzzy
-#| msgid "Messages To"
 msgid "Message Note"
-msgstr "Zprávy pro"
+msgstr "Poznámka ke zprávě"
 
 #: ../mail/e-mail-notes.c:612
-#, fuzzy
-#| msgid "Copying messages into folder %s"
 msgid "Cannot find message in its folder summary"
-msgstr "Kopírování zprávy do složky %s"
+msgstr "Nelze najít zprávu v jejím souhrnu složky"
 
 #: ../mail/e-mail-notes.c:815
 msgid "Storing changes..."
 msgstr "Ukládají se změny…"
 
 #: ../mail/e-mail-notes.c:940
-#, fuzzy
-#| msgid "_Edit Message"
 msgid "Edit Message Note"
-msgstr "_Upravit zprávu"
+msgstr "Upravit poznámku ke zprávě"
 
 #: ../mail/e-mail-notes.c:1058
 msgid "Retrieving message..."
@@ -15790,10 +15747,8 @@ msgid "C_opy"
 msgstr "_Kopírovat"
 
 #: ../mail/e-mail-reader.c:488
-#, fuzzy
-#| msgid "Deleting old messages"
 msgid "Deleting message note..."
-msgstr "Odstraňování starých zpráv"
+msgstr "Maže se poznámka ke zprávě…"
 
 #: ../mail/e-mail-reader.c:1271 ../mail/e-mail-reader.c:1483
 #: ../mail/e-mail-reader.c:1523
@@ -16541,13 +16496,7 @@ msgstr[2] "Opravdu chcete odeslat zprávu s %d příjemci v polích Komu a Kopie
 
 #. Translators: The %d is replaced with the actual count of recipients, which is always more than one.
 #: ../mail/em-composer-utils.c:396
-#, fuzzy, c-format
-#| msgid ""
-#| "You are trying to send a message to {0} recipients in To and CC fields. "
-#| "This would result in all recipients seeing the email addresses of each "
-#| "other. In some cases this behaviour is undesired, especially if they do "
-#| "not know each other or if privacy is a concern. Consider adding "
-#| "recipients to the BCC field instead."
+#, c-format
 msgid ""
 "You are trying to send a message to %d recipients in To and CC fields. This "
 "would result in all recipients seeing the email addresses of each other. In "
@@ -16561,17 +16510,17 @@ msgid_plural ""
 "other or if privacy is a concern. Consider adding recipients to the BCC "
 "field instead."
 msgstr[0] ""
-"Pokoušíte se odeslat zprávu s {0} příjemci v polích Komu a Kopie. To povede "
+"Pokoušíte se odeslat zprávu %d příjemci v polích Komu a Kopie. To povede "
 "k tomu, že všichni příjemci uvidí emailové adresy ostatních. V určitých "
 "případech je toto nechtěné chování, zvláště, pokud se navzájem neznají nebo "
 "obávají o soukromí. Zvažte, zda raději nedáte příjemce do skryté kopie."
 msgstr[1] ""
-"Pokoušíte se odeslat zprávu s {0} příjemci v polích Komu a Kopie. To povede "
+"Pokoušíte se odeslat zprávu %d příjemcům v polích Komu a Kopie. To povede "
 "k tomu, že všichni příjemci uvidí emailové adresy ostatních. V určitých "
 "případech je toto nechtěné chování, zvláště, pokud se navzájem neznají nebo "
 "obávají o soukromí. Zvažte, zda raději nedáte příjemce do skryté kopie."
 msgstr[2] ""
-"Pokoušíte se odeslat zprávu s {0} příjemci v polích Komu a Kopie. To povede "
+"Pokoušíte se odeslat zprávu %d příjemcům v polích Komu a Kopie. To povede "
 "k tomu, že všichni příjemci uvidí emailové adresy ostatních. V určitých "
 "případech je toto nechtěné chování, zvláště, pokud se navzájem neznají nebo "
 "obávají o soukromí. Zvažte, zda raději nedáte příjemce do skryté kopie."
@@ -18757,10 +18706,8 @@ msgid "Overdue: {0} by {1}"
 msgstr "Po termínu: {0} do {1}"
 
 #: ../mail/mail.error.xml.h:196
-#, fuzzy
-#| msgid "This signature has been changed, but has not been saved."
 msgid "This message note has been changed, but has not been saved."
-msgstr "Tento podpis byl změněn, ale nebyl uložen."
+msgstr "Poznámka ke zprávě byla změněna, ale zatím nebyla uložena."
 
 #. Translators: {0} is the name of the folder where the delete of the message note failed.
 #: ../mail/mail.error.xml.h:199
@@ -22244,10 +22191,8 @@ msgid "Messages with Attachments"
 msgstr "Zprávy s přílohami"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:2092
-#, fuzzy
-#| msgid "Messages with Attachments"
 msgid "Messages with Notes"
-msgstr "Zprávy s přílohami"
+msgstr "Zprávy s poznámkami"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:2099
 msgid "No Label"
