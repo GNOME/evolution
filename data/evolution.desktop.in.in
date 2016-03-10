@@ -4,7 +4,7 @@ _GenericName=Groupware Suite
 _X-GNOME-FullName=Evolution Mail and Calendar
 _Comment=Manage your email, contacts and schedule
 _Keywords=email;calendar;contact;addressbook;task;
-Actions=new-window;
+Actions=new-window;compose;contacts;calendar;mail;memos;tasks;
 Exec=evolution %U
 Icon=evolution
 Terminal=false
@@ -22,3 +22,27 @@ MimeType=text/calendar;text/x-vcard;text/directory;application/mbox;message/rfc8
 [Desktop Action new-window]
 _Name=New Window
 Exec=evolution -c current
+
+[Desktop Action compose]
+_Name=Compose Message
+Exec=evolution mailto:
+
+[Desktop Action contacts]
+_Name=Contacts
+Exec=evolution -c contacts
+
+[Desktop Action calendar]
+_Name=Calendar
+Exec=evolution -c calendar
+
+[Desktop Action mail]
+_Name=Mail
+Exec=evolution -c mail
+
+[Desktop Action memos]
+_Name=Memos
+Exec=evolution -c memos
+
+[Desktop Action tasks]
+_Name=Tasks
+Exec=evolution -c tasks
