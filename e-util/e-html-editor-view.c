@@ -9522,11 +9522,12 @@ convert_element_from_html_to_plain_text (EHTMLEditorView *view,
                                          gboolean *wrap,
                                          gboolean *quote)
 {
-	gint blockquotes_count;
+	gint blockquotes_count, ii, length;
 	gchar *inner_text, *inner_html;
 	WebKitDOMDocument *document;
 	WebKitDOMElement *top_signature, *signature, *blockquote, *main_blockquote;
 	WebKitDOMNode *signature_clone, *from;
+	WebKitDOMNodeList *list;
 
 	document = webkit_dom_node_get_owner_document (WEBKIT_DOM_NODE (element));
 
@@ -9556,6 +9557,24 @@ convert_element_from_html_to_plain_text (EHTMLEditorView *view,
 
 	blockquotes_count = create_text_markers_for_citations_in_element (WEBKIT_DOM_ELEMENT (from));
 	create_text_markers_for_selection_in_element (WEBKIT_DOM_ELEMENT (from));
+
+	/* Add the missing BR elements on the end of all DIV elements to correctly
+	 * preserve the line breaks. */
+	list = webkit_dom_element_query_selector_all (WEBKIT_DOM_ELEMENT (from), "div", NULL);
+	length = webkit_dom_node_list_get_length (list);
+	for (ii = 0; ii < length; ii++) {
+		WebKitDOMNode *node;
+
+		node = webkit_dom_node_list_item (list, ii);
+		if (!WEBKIT_DOM_IS_HTMLBR_ELEMENT (webkit_dom_node_get_last_child (node))) {
+			webkit_dom_node_append_child (
+				node,
+				WEBKIT_DOM_NODE (webkit_dom_document_create_element (document, "br", NULL)),
+				NULL);
+		}
+		g_object_unref (node);
+	}
+	g_object_unref (list);
 
 	inner_text = webkit_dom_html_element_get_inner_text (
 		WEBKIT_DOM_HTML_ELEMENT (from));

@@ -1068,6 +1068,7 @@ composer_load_signature_cb (EMailSignatureComboBox *combo_box,
 	WebKitDOMElement *signature_to_insert;
 	WebKitDOMElement *insert_signature_in = NULL;
 	WebKitDOMElement *signature_wrapper;
+	WebKitDOMElement *element, *converted_signature = NULL;
 	WebKitDOMHTMLElement *body;
 	WebKitDOMNodeList *signatures;
 
@@ -1111,26 +1112,6 @@ composer_load_signature_cb (EMailSignatureComboBox *combo_box,
 	if (!contents)
 		goto insert;
 
-	/* If inserting HTML signature in plain text composer we have to convert it. */
-	html_mode = e_html_editor_view_get_html_mode (view);
-	if (is_html && !html_mode) {
-		gchar *inner_text;
-		WebKitDOMNode *child;
-
-		webkit_dom_html_element_set_inner_html (
-			WEBKIT_DOM_HTML_ELEMENT (insert_signature_in), contents, NULL);
-		e_html_editor_view_convert_element_from_html_to_plain_text (
-			view, insert_signature_in);
-		inner_text = webkit_dom_html_element_get_inner_text (
-			WEBKIT_DOM_HTML_ELEMENT (insert_signature_in));
-		while ((child = webkit_dom_node_get_last_child (WEBKIT_DOM_NODE (insert_signature_in))))
-			remove_node (child);
-
-		g_free (contents);
-		contents = inner_text ? g_strstrip (inner_text) : g_strdup ("");
-		is_html = FALSE;
-	}
-
 	if (!is_html) {
 		gchar *html;
 
@@ -1147,6 +1128,25 @@ composer_load_signature_cb (EMailSignatureComboBox *combo_box,
 			WEBKIT_DOM_NODE (signature_to_insert),
 			WEBKIT_DOM_NODE (insert_signature_in),
 			NULL);
+	}
+
+	/* If inserting HTML signature in plain text composer we have to convert it. */
+	html_mode = e_html_editor_view_get_html_mode (view);
+	if (is_html && !html_mode && !strstr (contents, "data-evo-signature-plain-text-mode")) {
+		gchar *inner_text;
+
+		/* Save the converted signature to avoid parsing it later again
+		 * while inserting it into the view. */
+		converted_signature = webkit_dom_document_create_element (document, "pre", NULL);
+		webkit_dom_html_element_set_inner_html (
+			WEBKIT_DOM_HTML_ELEMENT (converted_signature), contents, NULL);
+		e_html_editor_view_convert_element_from_html_to_plain_text (view, converted_signature);
+		inner_text = webkit_dom_html_element_get_inner_text (WEBKIT_DOM_HTML_ELEMENT (converted_signature));
+
+		g_free (contents);
+		contents = inner_text ? g_strstrip (inner_text) : g_strdup ("");
+		/* because of the -- \n check */
+		is_html = FALSE;
 	}
 
 	/* The signature dash convention ("-- \n") is specified
@@ -1175,8 +1175,22 @@ composer_load_signature_cb (EMailSignatureComboBox *combo_box,
 				WEBKIT_DOM_HTML_ELEMENT (insert_signature_in), delim, NULL);
 	}
 
-	webkit_dom_html_element_insert_adjacent_html (
-		WEBKIT_DOM_HTML_ELEMENT (insert_signature_in), "beforeend", contents, NULL);
+	if (converted_signature) {
+		WebKitDOMNode *node;
+
+		while ((node = webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (converted_signature))))
+			webkit_dom_node_append_child (
+				WEBKIT_DOM_NODE (insert_signature_in), node, NULL);
+		remove_node (WEBKIT_DOM_NODE (converted_signature));
+	} else
+		webkit_dom_html_element_insert_adjacent_html (
+			WEBKIT_DOM_HTML_ELEMENT (insert_signature_in), "beforeend", contents, NULL);
+
+	element = webkit_dom_element_query_selector (
+		insert_signature_in, "[data-evo-signature-plain-text-mode]", NULL);
+	if (element)
+		webkit_dom_element_remove_attribute (
+			element, "data-evo-signature-plain-text-mode");
 	g_free (contents);
 
 insert:
