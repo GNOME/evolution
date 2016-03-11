@@ -2363,7 +2363,7 @@ mail_display_process_mail_uri_scheme_request (GTask *task,
 	input_stream =
 		g_memory_input_stream_new_from_bytes (bytes);
 
-	webkit_uri_scheme_request_finish (request, input_stream, -1, "text/html");
+	webkit_uri_scheme_request_finish (request, input_stream, -1, "text/html; charset=UTF-8");
 
 	g_object_unref (input_stream);
 	g_object_unref (output_stream);
