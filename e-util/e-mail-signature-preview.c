@@ -107,7 +107,24 @@ signature_preview_document_loaded_cb (WebKitWebView *web_view,
                                       WebKitWebFrame *web_frame,
                                       gpointer user_data)
 {
-	replace_local_image_links (webkit_web_view_get_dom_document (web_view));
+	WebKitDOMDocument *document;
+
+	document = webkit_web_view_get_dom_document (web_view);
+	replace_local_image_links (document);
+
+	if ((webkit_dom_document_query_selector (
+		document, "[data-evo-signature-plain-text-mode]", NULL))) {
+
+		WebKitDOMHTMLElement *body;
+
+		body = webkit_dom_document_get_body (document);
+
+		webkit_dom_element_set_attribute (
+			WEBKIT_DOM_ELEMENT (body),
+			"style",
+			"font-family: Monospace;",
+			NULL);
+	}
 }
 
 static void

@@ -147,9 +147,13 @@ mail_signature_editor_loaded_cb (GObject *object,
 	view = e_html_editor_get_view (editor);
 	e_html_editor_view_set_html_mode (view, is_html);
 
-	if (is_html)
+	if (is_html) {
+		if (strstr (contents, "data-evo-signature-plain-text-mode")) {
+			e_html_editor_view_set_html_mode (view, FALSE);
+			e_html_editor_view_set_is_message_from_draft (view, TRUE);
+		}
 		e_html_editor_view_set_text_html (view, contents);
-	else
+	} else
 		e_html_editor_view_set_text_plain (view, contents);
 
 	g_free (contents);

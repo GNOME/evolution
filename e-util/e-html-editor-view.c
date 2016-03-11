@@ -10357,11 +10357,23 @@ process_content_for_saving_as_draft (EHTMLEditorView *view,
 
 	if (only_inner_body) {
 		WebKitDOMElement *body;
+		WebKitDOMNode *first_child;
 
 		body = webkit_dom_element_query_selector (
 			WEBKIT_DOM_ELEMENT (document_element_clone), "body", NULL);
+
+		first_child = webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (body));
+
+		if (!view->priv->html_mode)
+			webkit_dom_element_set_attribute (
+				WEBKIT_DOM_ELEMENT (first_child), "data-evo-signature-plain-text-mode", "", NULL);
+
 		content = webkit_dom_html_element_get_inner_html (
 			WEBKIT_DOM_HTML_ELEMENT (body));
+
+		if (!view->priv->html_mode)
+			webkit_dom_element_remove_attribute (
+				WEBKIT_DOM_ELEMENT (first_child), "data-evo-signature-plain-text-mode");
 	} else
 		content = webkit_dom_html_element_get_outer_html (
 			WEBKIT_DOM_HTML_ELEMENT (document_element_clone));
