@@ -8,14 +8,14 @@
 # Милош Поповић <gpopac@gmail.com>, 2010—2015.
 # Мирослав Николић <miroslavnikolic@rocketmail.com>, 2011—2016.
 # Марко М. Костић <marko.m.kostic@gmail.com>, 2015—2016.
-# 
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2016-03-06 17:52+0000\n"
-"PO-Revision-Date: 2016-03-06 20:03+0100\n"
+"POT-Creation-Date: 2016-03-11 11:50+0000\n"
+"PO-Revision-Date: 2016-03-11 18:23+0100\n"
 "Last-Translator: Марко М. Костић <marko.m.kostic@gmail.com>\n"
 "Language-Team: Serbian <gnom@prevod.org>\n"
 "Language: sr\n"
@@ -1163,7 +1163,7 @@ msgid "Video Chat"
 msgstr "Видео разговор"
 
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:827
-#: ../e-util/e-send-options.c:546
+#: ../data/evolution.desktop.in.in.h:9 ../e-util/e-send-options.c:546
 #: ../modules/calendar/e-cal-shell-view-actions.c:199
 #: ../modules/calendar/e-cal-shell-view.c:579
 #: ../plugins/publish-calendar/publish-calendar.ui.h:21
@@ -2152,7 +2152,7 @@ msgid_plural "%d hours"
 msgstr[0] "%d сат"
 msgstr[1] "%d сата"
 msgstr[2] "%d сати"
-msgstr[3] "један сат"
+msgstr[3] "Један сат"
 
 #. Translator: Entire string is like "Pop up an alert %d minutes before start"
 #: ../calendar/alarm-notify/util.c:75 ../calendar/gui/e-alarm-list.c:388
@@ -2163,7 +2163,7 @@ msgid_plural "%d minutes"
 msgstr[0] "%d минут"
 msgstr[1] "%d минута"
 msgstr[2] "%d минута"
-msgstr[3] "један минут"
+msgstr[3] "Један минут"
 
 #. TRANSLATORS: here, "second" is the time division (like "minute"), not the ordinal number (like "third")
 #. Translator: Entire string is like "Pop up an alert %d seconds before start"
@@ -2176,7 +2176,7 @@ msgid_plural "%d seconds"
 msgstr[0] "%d секунда"
 msgstr[1] "%d секунде"
 msgstr[2] "%d секунди"
-msgstr[3] "једну секунду"
+msgstr[3] "Једна секунда"
 
 # calendar:prompt-cancel-task primary
 #: ../calendar/calendar.error.xml.h:1
@@ -3062,10 +3062,10 @@ msgstr[3] "%d дан"
 #, c-format
 msgid "%d week"
 msgid_plural "%d weeks"
-msgstr[0] "%d недељу"
+msgstr[0] "%d недеља"
 msgstr[1] "%d недеље"
 msgstr[2] "%d недеља"
-msgstr[3] "%d недељу"
+msgstr[3] "%d недеља"
 
 #. Translators: Part of: [ Play a sound ] [ x ] [ minute(s) ] [ before ] [ start ]
 #: ../calendar/gui/e-alarm-list.c:421
@@ -3739,7 +3739,7 @@ msgid_plural "Deleting %d tasks"
 msgstr[0] "Уклањам %d задатак"
 msgstr[1] "Уклањам %d задатка"
 msgstr[2] "Уклањам %d задатака"
-msgstr[3] "Уклањам задатак"
+msgstr[3] "Уклањам белешку"
 
 #: ../calendar/gui/e-cal-ops.c:723
 #, c-format
@@ -4899,7 +4899,7 @@ msgstr "Без сажетка"
 
 #. == Button box ==
 #: ../calendar/gui/e-comp-editor.c:1972 ../composer/e-composer-actions.c:334
-#: ../e-util/e-html-editor-dialog.c:196 ../e-util/e-mail-signature-editor.c:295
+#: ../e-util/e-html-editor-dialog.c:196 ../e-util/e-mail-signature-editor.c:299
 #: ../e-util/e-name-selector-dialog.c:551 ../e-util/e-preferences-window.c:391
 #: ../e-util/e-table-field-chooser-dialog.c:207 ../mail/e-mail-browser.c:129
 #: ../mail/e-mail-notes.c:903 ../mail/em-folder-properties.c:688
@@ -5000,7 +5000,7 @@ msgid "_Classification"
 msgstr "_Разврставање"
 
 #: ../calendar/gui/e-comp-editor.c:2065 ../e-util/e-html-editor-actions.c:1127
-#: ../e-util/e-mail-signature-editor.c:309 ../mail/e-mail-browser.c:166
+#: ../e-util/e-mail-signature-editor.c:313 ../mail/e-mail-browser.c:166
 #: ../mail/e-mail-notes.c:917 ../shell/e-shell-window-actions.c:948
 msgid "_File"
 msgstr "_Датотека"
@@ -5023,7 +5023,7 @@ msgstr "П_реглед"
 msgid "Save current changes"
 msgstr "Сачувајте текуће измене"
 
-#: ../calendar/gui/e-comp-editor.c:2110 ../e-util/e-mail-signature-editor.c:304
+#: ../calendar/gui/e-comp-editor.c:2110 ../e-util/e-mail-signature-editor.c:308
 #: ../mail/e-mail-notes.c:912
 msgid "Save and Close"
 msgstr "Сачувај и затвори"
@@ -5319,7 +5319,7 @@ msgstr "Заједничко име"
 msgid "Language"
 msgstr "Језик"
 
-#: ../calendar/gui/e-memo-table.c:370
+#: ../calendar/gui/e-memo-table.c:370 ../data/evolution.desktop.in.in.h:11
 #: ../modules/calendar/e-cal-shell-content.c:1667
 #: ../modules/calendar/e-memo-shell-view-actions.c:196
 #: ../modules/calendar/e-memo-shell-view-actions.c:211
@@ -5387,6 +5387,7 @@ msgstr "%d%%"
 #: ../calendar/gui/e-task-table.c:672 ../calendar/gui/print.c:2410
 #: ../calendar/importers/icalendar-importer.c:79
 #: ../calendar/importers/icalendar-importer.c:1117
+#: ../data/evolution.desktop.in.in.h:12
 #: ../modules/calendar/e-calendar-preferences.ui.h:65
 #: ../modules/calendar/e-cal-shell-content.c:1627
 #: ../modules/calendar/e-task-shell-view-actions.c:220
@@ -7862,6 +7863,7 @@ msgstr ""
 "за овај налог"
 
 #: ../composer/e-msg-composer.c:1619 ../composer/e-msg-composer.c:2645
+#: ../data/evolution.desktop.in.in.h:7
 msgid "Compose Message"
 msgstr "Састави поруку"
 
@@ -8088,6 +8090,21 @@ msgstr "ел.пошта;пошта;календар;контакт;адреса�
 #: ../data/evolution.desktop.in.in.h:6
 msgid "New Window"
 msgstr "Нови прозор"
+
+#: ../data/evolution.desktop.in.in.h:8 ../e-util/e-name-selector-dialog.c:451
+#: ../modules/addressbook/e-book-shell-backend.c:303
+#: ../modules/addressbook/e-book-shell-view.c:373
+msgid "Contacts"
+msgstr "Контакти"
+
+# 48x48/emblems/emblem-mail.icon.in.h:1
+#: ../data/evolution.desktop.in.in.h:10 ../e-util/e-send-options.c:538
+#: ../mail/importers/elm-importer.c:329 ../mail/importers/kmail-importer.c:253
+#: ../mail/importers/pine-importer.c:422
+#: ../modules/mail/e-mail-shell-view.c:1242
+#: ../smime/gui/certificate-manager.c:1671
+msgid "Mail"
+msgstr "Пошта"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:1
 msgid "Enable address formatting"
@@ -9444,7 +9461,7 @@ msgstr ""
 msgid ""
 "When to ask, when the number of To and CC recipients reaches this value."
 msgstr ""
-"Када се поставља питање. Када број За и ЦЦ примаоца достигне ову вредност."
+"Када се поставља питање. Када брон За и ЦЦ примаоца достигне ову вредност."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:63
 msgid "Whether to always show Sign and Encrypt buttons on the toolbar"
@@ -13510,23 +13527,23 @@ msgstr "Кликните на „Примени“ да започнете ув�
 msgid "Autogenerated"
 msgstr "Аутоматски састављено"
 
-#: ../e-util/e-mail-signature-editor.c:297 ../mail/e-mail-notes.c:905
+#: ../e-util/e-mail-signature-editor.c:301 ../mail/e-mail-notes.c:905
 msgid "Close"
 msgstr "Затвори"
 
-#: ../e-util/e-mail-signature-editor.c:302 ../mail/e-mail-notes.c:910
+#: ../e-util/e-mail-signature-editor.c:306 ../mail/e-mail-notes.c:910
 msgid "_Save and Close"
 msgstr "_Сачувај и затвори"
 
-#: ../e-util/e-mail-signature-editor.c:529
+#: ../e-util/e-mail-signature-editor.c:533
 msgid "Edit Signature"
 msgstr "Уреди потпис"
 
-#: ../e-util/e-mail-signature-editor.c:562
+#: ../e-util/e-mail-signature-editor.c:566
 msgid "_Signature Name:"
 msgstr "Назив _потписа:"
 
-#: ../e-util/e-mail-signature-editor.c:598
+#: ../e-util/e-mail-signature-editor.c:602
 msgid "Unnamed"
 msgstr "Без имена"
 
@@ -13641,12 +13658,6 @@ msgstr "Потражи"
 #: ../e-util/e-name-selector-dialog.c:448 ../mail/importers/pine-importer.c:429
 msgid "Address Book"
 msgstr "Адресар"
-
-#: ../e-util/e-name-selector-dialog.c:451
-#: ../modules/addressbook/e-book-shell-backend.c:303
-#: ../modules/addressbook/e-book-shell-view.c:373
-msgid "Contacts"
-msgstr "Контакти"
 
 #: ../e-util/e-name-selector-dialog.c:576
 msgid "Select Contacts from Address Book"
@@ -13869,14 +13880,6 @@ msgstr "Стигао сам до дна странице, настављам с�
 #: ../e-util/e-search-bar.c:687
 msgid "Reached top of page, continued from bottom"
 msgstr "Стигао сам до врха странице, настављам са дна"
-
-# 48x48/emblems/emblem-mail.icon.in.h:1
-#: ../e-util/e-send-options.c:538 ../mail/importers/elm-importer.c:329
-#: ../mail/importers/kmail-importer.c:253 ../mail/importers/pine-importer.c:422
-#: ../modules/mail/e-mail-shell-view.c:1242
-#: ../smime/gui/certificate-manager.c:1671
-msgid "Mail"
-msgstr "Пошта"
 
 #: ../e-util/e-send-options.c:570
 msgid "When de_leted:"
@@ -15574,7 +15577,7 @@ msgstr "Увек _веруј кључевима мог привеска при �
 #: ../mail/e-mail-config-security-page.c:502
 msgid "Prefer _inline sign/encrypt for plain text messages"
 msgstr ""
-"Користи унутрашње _потписивање или шифровање за обичне текстуалне поруке"
+"Користи унутрашње потписивање или шифровање за обичне текстуалне поруке"
 
 #: ../mail/e-mail-config-security-page.c:526
 msgid "Secure MIME (S/MIME)"
@@ -16661,10 +16664,10 @@ msgstr "Није пронађен извор података за ЈИБ „%s�
 msgid "Are you sure you want to send a message with %d To and CC recipients?"
 msgid_plural ""
 "Are you sure you want to send a message with %d To and CC recipients?"
-msgstr[0] "Сигурно желите да пошаљете поруку са %d примаоцем За и ЦЦ?"
-msgstr[1] "Сигурно желите да пошаљете поруку са %d примaоца За и ЦЦ?"
-msgstr[2] "Сигурно желите да пошаљете поруку са %d прималаца За и ЦЦ?"
-msgstr[3] "Сигурно желите да пошаљете поруку са једним примаоцем За и ЦЦ?"
+msgstr[0] "Сигурно желите да пошаљете поруку са %d За и ЦЦ примаоца?"
+msgstr[1] "Сигурно желите да пошаљете поруку са %d За и ЦЦ примaoца?"
+msgstr[2] "Сигурно желите да пошаљете поруку са %d За и ЦЦ примаоца?"
+msgstr[3] "Сигурно желите да пошаљете поруку са %d За и ЦЦ примаоца?"
 
 #. Translators: The %d is replaced with the actual count of recipients, which is always more than one.
 #: ../mail/em-composer-utils.c:396
@@ -16682,25 +16685,25 @@ msgid_plural ""
 "other or if privacy is a concern. Consider adding recipients to the BCC "
 "field instead."
 msgstr[0] ""
-"Покушавате да пошаљете поруку %d примаоцу који је наведен у пољу За "
+"Покушавате да пошаљете поруку на %d примаоца који су наведену унутар поља За "
 "и ЦЦ. Ово ће омогућити свим примаоцима да виде адресе е-поште осталих. "
 "Понекад примаоци неће бити задовољни тиме, поготову уколико се међусобно не "
 "познају или уколико им на тај начин угрожавате приватност. Да би ово избегли "
 "можете да додате примаоце у поље БЦЦ."
 msgstr[1] ""
-"Покушавате да пошаљете поруку %d примаоца који су наведену у пољу За "
+"Покушавате да пошаљете поруку на %d примаоца који су наведену унутар поља За "
 "и ЦЦ. Ово ће омогућити свим примаоцима да виде адресе е-поште осталих. "
 "Понекад примаоци неће бити задовољни тиме, поготову уколико се међусобно не "
 "познају или уколико им на тај начин угрожавате приватност. Да би ово избегли "
 "можете да додате примаоце у поље БЦЦ."
 msgstr[2] ""
-"Покушавате да пошаљете поруку %d прималаца који су наведену у пољу За "
+"Покушавате да пошаљете поруку на %d примаоца који су наведену унутар поља За "
 "и ЦЦ. Ово ће омогућити свим примаоцима да виде адресе е-поште осталих. "
 "Понекад примаоци неће бити задовољни тиме, поготову уколико се међусобно не "
 "познају или уколико им на тај начин угрожавате приватност. Да би ово избегли "
 "можете да додате примаоце у поље БЦЦ."
 msgstr[3] ""
-"Покушавате да пошаљете поруку једном примаоцу који је наведен у пољу За "
+"Покушавате да пошаљете поруку на %d примаоца који су наведену унутар поља За "
 "и ЦЦ. Ово ће омогућити свим примаоцима да виде адресе е-поште осталих. "
 "Понекад примаоци неће бити задовољни тиме, поготову уколико се међусобно не "
 "познају или уколико им на тај начин угрожавате приватност. Да би ово избегли "
