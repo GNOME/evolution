@@ -11585,7 +11585,7 @@ msgstr "Čínské"
 
 #: ../e-util/e-charset.c:56
 msgid "Cyrillic"
-msgstr "Cyrilice"
+msgstr "Azbuka"
 
 #: ../e-util/e-charset.c:57
 msgid "Greek"
