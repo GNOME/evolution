@@ -14,8 +14,8 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2016-03-05 05:52+0000\n"
-"PO-Revision-Date: 2016-03-05 11:19+0100\n"
+"POT-Creation-Date: 2016-03-12 05:52+0000\n"
+"PO-Revision-Date: 2016-03-12 13:04+0100\n"
 "Last-Translator: Dušan Kazik <prescott66@gmail.com>\n"
 "Language-Team: slovenčina <>\n"
 "Language: sk\n"
@@ -1166,7 +1166,7 @@ msgid "Video Chat"
 msgstr "Video rozhovor"
 
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:827
-#: ../e-util/e-send-options.c:546
+#: ../data/evolution.desktop.in.in.h:9 ../e-util/e-send-options.c:546
 #: ../modules/calendar/e-cal-shell-view-actions.c:199
 #: ../modules/calendar/e-cal-shell-view.c:579
 #: ../plugins/publish-calendar/publish-calendar.ui.h:21
@@ -4876,7 +4876,7 @@ msgstr "Žiadny súhrn"
 
 #. == Button box ==
 #: ../calendar/gui/e-comp-editor.c:1972 ../composer/e-composer-actions.c:334
-#: ../e-util/e-html-editor-dialog.c:196 ../e-util/e-mail-signature-editor.c:295
+#: ../e-util/e-html-editor-dialog.c:196 ../e-util/e-mail-signature-editor.c:299
 #: ../e-util/e-name-selector-dialog.c:551 ../e-util/e-preferences-window.c:391
 #: ../e-util/e-table-field-chooser-dialog.c:207 ../mail/e-mail-browser.c:129
 #: ../mail/e-mail-notes.c:903 ../mail/em-folder-properties.c:688
@@ -4984,7 +4984,7 @@ msgid "_Classification"
 msgstr "_Klasifikácia"
 
 #: ../calendar/gui/e-comp-editor.c:2065 ../e-util/e-html-editor-actions.c:1127
-#: ../e-util/e-mail-signature-editor.c:309 ../mail/e-mail-browser.c:166
+#: ../e-util/e-mail-signature-editor.c:313 ../mail/e-mail-browser.c:166
 #: ../mail/e-mail-notes.c:917 ../shell/e-shell-window-actions.c:948
 msgid "_File"
 msgstr "_Súbor"
@@ -5009,7 +5009,7 @@ msgid "Save current changes"
 msgstr "Uloží aktuálne zmeny"
 
 # label
-#: ../calendar/gui/e-comp-editor.c:2110 ../e-util/e-mail-signature-editor.c:304
+#: ../calendar/gui/e-comp-editor.c:2110 ../e-util/e-mail-signature-editor.c:308
 #: ../mail/e-mail-notes.c:912
 msgid "Save and Close"
 msgstr "Uložiť a zavrieť"
@@ -5296,7 +5296,7 @@ msgstr "Spoločný názov"
 msgid "Language"
 msgstr "Jazyk"
 
-#: ../calendar/gui/e-memo-table.c:370
+#: ../calendar/gui/e-memo-table.c:370 ../data/evolution.desktop.in.in.h:11
 #: ../modules/calendar/e-cal-shell-content.c:1667
 #: ../modules/calendar/e-memo-shell-view-actions.c:196
 #: ../modules/calendar/e-memo-shell-view-actions.c:211
@@ -5360,6 +5360,7 @@ msgstr "%d %%"
 #: ../calendar/gui/e-task-table.c:672 ../calendar/gui/print.c:2410
 #: ../calendar/importers/icalendar-importer.c:79
 #: ../calendar/importers/icalendar-importer.c:1117
+#: ../data/evolution.desktop.in.in.h:12
 #: ../modules/calendar/e-calendar-preferences.ui.h:65
 #: ../modules/calendar/e-cal-shell-content.c:1627
 #: ../modules/calendar/e-task-shell-view-actions.c:220
@@ -7655,7 +7656,7 @@ msgstr "Podpíše túto správu vašim PGP kľúčom"
 
 #: ../composer/e-composer-actions.c:435
 msgid "_Picture Gallery"
-msgstr "_Obrázková galéria"
+msgstr "_Galéria obrázkov"
 
 # tooltip
 #: ../composer/e-composer-actions.c:437
@@ -7729,11 +7730,10 @@ msgstr ""
 
 #: ../composer/e-composer-actions.c:549
 #, fuzzy
-#| msgid "Toggles whether the Role field is displayed"
 msgid ""
 "Toggles whether the From override field to change name or email address is "
 "displayed"
-msgstr "Prepína, či má byť zobrazené pole Rola"
+msgstr "Prepína, či má byť zobrazené pole nahradenia odosielateľa"
 
 #: ../composer/e-composer-actions.c:555
 msgid "_Reply-To Field"
@@ -7837,6 +7837,7 @@ msgstr ""
 "certifikát pre tento účet"
 
 #: ../composer/e-msg-composer.c:1619 ../composer/e-msg-composer.c:2645
+#: ../data/evolution.desktop.in.in.h:7
 msgid "Compose Message"
 msgstr "Napísanie správy"
 
@@ -8062,6 +8063,20 @@ msgstr "email;pošta;kalendár;kontakt;adresár kontaktov;úloha;"
 #: ../data/evolution.desktop.in.in.h:6
 msgid "New Window"
 msgstr "Nové okno"
+
+#: ../data/evolution.desktop.in.in.h:8 ../e-util/e-name-selector-dialog.c:451
+#: ../modules/addressbook/e-book-shell-backend.c:303
+#: ../modules/addressbook/e-book-shell-view.c:373
+msgid "Contacts"
+msgstr "Kontakty"
+
+#: ../data/evolution.desktop.in.in.h:10 ../e-util/e-send-options.c:538
+#: ../mail/importers/elm-importer.c:329 ../mail/importers/kmail-importer.c:253
+#: ../mail/importers/pine-importer.c:422
+#: ../modules/mail/e-mail-shell-view.c:1242
+#: ../smime/gui/certificate-manager.c:1671
+msgid "Mail"
+msgstr "Pošta"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:1
 msgid "Enable address formatting"
@@ -13040,11 +13055,11 @@ msgstr "Ší_rka"
 
 #: ../e-util/e-html-editor-cell-dialog.c:880
 msgid "Row S_pan:"
-msgstr ""
+msgstr "Roztiahnutie _riadku:"
 
 #: ../e-util/e-html-editor-cell-dialog.c:894
 msgid "Co_lumn Span:"
-msgstr ""
+msgstr "Roztiahnutie _stĺpca:"
 
 #: ../e-util/e-html-editor-cell-dialog.c:901
 #: ../e-util/e-html-editor-table-dialog.c:916
@@ -13524,25 +13539,25 @@ msgstr "Kliknutím na „Potvrdiť“ spustíte import súboru do programu Evolu
 msgid "Autogenerated"
 msgstr "Automaticky generovaný"
 
-#: ../e-util/e-mail-signature-editor.c:297 ../mail/e-mail-notes.c:905
+#: ../e-util/e-mail-signature-editor.c:301 ../mail/e-mail-notes.c:905
 msgid "Close"
 msgstr "Zavrieť"
 
-#: ../e-util/e-mail-signature-editor.c:302 ../mail/e-mail-notes.c:910
+#: ../e-util/e-mail-signature-editor.c:306 ../mail/e-mail-notes.c:910
 msgid "_Save and Close"
 msgstr "_Uložiť a zavrieť"
 
-#: ../e-util/e-mail-signature-editor.c:529
+#: ../e-util/e-mail-signature-editor.c:533
 msgid "Edit Signature"
 msgstr "Úprava podpisu"
 
-#: ../e-util/e-mail-signature-editor.c:562
+#: ../e-util/e-mail-signature-editor.c:566
 msgid "_Signature Name:"
 msgstr "Názov _podpisu:"
 
 # V prvých dvoch prípadoch ide o názov podpisu, tretí je názov súboru s podpisom a posledný je názov skriptu
 #     čiže áno, správny rod
-#: ../e-util/e-mail-signature-editor.c:598
+#: ../e-util/e-mail-signature-editor.c:602
 msgid "Unnamed"
 msgstr "Nepomenovaný"
 
@@ -13658,12 +13673,6 @@ msgstr "Hľadať"
 #: ../e-util/e-name-selector-dialog.c:448 ../mail/importers/pine-importer.c:429
 msgid "Address Book"
 msgstr "Adresár kontaktov"
-
-#: ../e-util/e-name-selector-dialog.c:451
-#: ../modules/addressbook/e-book-shell-backend.c:303
-#: ../modules/addressbook/e-book-shell-view.c:373
-msgid "Contacts"
-msgstr "Kontakty"
 
 # dialog title
 #: ../e-util/e-name-selector-dialog.c:576
@@ -13890,13 +13899,6 @@ msgstr "Dosiahnutý spodný okraj strany, pokračuje sa zvrchu"
 #: ../e-util/e-search-bar.c:687
 msgid "Reached top of page, continued from bottom"
 msgstr "Dosiahnutý horný okraj strany, pokračuje sa zospodu"
-
-#: ../e-util/e-send-options.c:538 ../mail/importers/elm-importer.c:329
-#: ../mail/importers/kmail-importer.c:253 ../mail/importers/pine-importer.c:422
-#: ../modules/mail/e-mail-shell-view.c:1242
-#: ../smime/gui/certificate-manager.c:1671
-msgid "Mail"
-msgstr "Pošta"
 
 #: ../e-util/e-send-options.c:570
 msgid "When de_leted:"
@@ -15605,6 +15607,7 @@ msgstr "Vždy _dôverovať kľúčom v mojom zväzku kľúčov pri šifrovaní"
 #: ../mail/e-mail-config-security-page.c:502
 msgid "Prefer _inline sign/encrypt for plain text messages"
 msgstr ""
+"U_prednostniť podpis/zašifrovanie v texte pre správy napísané v čistom texte"
 
 #: ../mail/e-mail-config-security-page.c:526
 msgid "Secure MIME (S/MIME)"
@@ -17758,7 +17761,7 @@ msgstr "Účet"
 
 #: ../mail/mail-config.ui.h:69
 msgid "Send account overrides"
-msgstr ""
+msgstr "Nahradenie odosielacieho účtu"
 
 #: ../mail/mail-config.ui.h:70
 msgid ""
@@ -22000,10 +22003,8 @@ msgid "Choose a mbox spool file"
 msgstr "Zvoľte zhromažďovací súbor typu mbox"
 
 #: ../modules/mail-config/e-mail-config-local-accounts.c:342
-#, fuzzy
-#| msgid "One or more values cannot be empty."
 msgid "Mbox spool file cannot be empty"
-msgstr "Jedna alebo viacero hodnôt nemôžu byť prázdne."
+msgstr "Zhromažďovací súbor typu mbox nemôže byť prázdny"
 
 #: ../modules/mail-config/e-mail-config-local-accounts.c:363
 msgid "Spool _Directory:"
@@ -22015,7 +22016,7 @@ msgstr "Zvoľte adresár pre zhromažďovací súbor typu mbox"
 
 #: ../modules/mail-config/e-mail-config-local-accounts.c:366
 msgid "Mbox spool directory cannot be empty"
-msgstr ""
+msgstr "Zhromažďovací adresár typu mbox nemôže byť prázdny"
 
 #: ../modules/mail-config/e-mail-config-remote-accounts.c:137
 #: ../modules/mail-config/e-mail-config-sendmail-backend.c:61
