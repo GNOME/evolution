@@ -1,7 +1,7 @@
 dnl Evolution Versions
 m4_define([evo_major_version], [3])
 m4_define([evo_minor_version], [18])
-m4_define([evo_micro_version], [6])
+m4_define([evo_micro_version], [5])
 m4_define([evo_version],
 	[evo_major_version.evo_minor_version.evo_micro_version])
 m4_define([evo_stable_version],
@@ -18,7 +18,7 @@ m4_define([base_version], [3.18])
 
 dnl Autoconf / Automake Initialization
 AC_PREREQ([2.64])
-AC_INIT([evolution],[evo_version],[http://bugzilla.gnome.org/enter_bug.cgi?product=Evolution],[evolution],[http://wiki.gnome.org/Apps/Evolution/])
+AC_INIT([evolution],[evo_version].2,[http://bugzilla.gnome.org/enter_bug.cgi?product=Evolution],[evolution],[http://wiki.gnome.org/Apps/Evolution/])
 AM_INIT_AUTOMAKE([1.10 dist-xz no-dist-gzip subdir-objects -Wall -Wno-portability foreign tar-ustar])
 AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_HEADERS(config.h)

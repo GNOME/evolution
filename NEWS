@@ -1,3 +1,14 @@
+Evolution 3.18.5.2 2016-03-14
+-----------------------------
+
+Bug Fixes:
+	Bug 762429 - List item is removed when the Return is pressed on its end (Tomas Popela)
+
+Translations:
+	Reinout van Schouwen (nl)
+	Rafael Fontenelle (pt_BR)
+	Matej Urbančič (sl)
+
 Evolution 3.18.5.1 2016-02-18
 -----------------------------
 
