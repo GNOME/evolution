@@ -1687,6 +1687,12 @@ subscription_editor_realize (GtkWidget *widget)
 
 	combo_box = GTK_COMBO_BOX (editor->priv->combo_box);
 	gtk_combo_box_set_active (combo_box, initial_index);
+
+	g_signal_connect (
+		combo_box, "changed",
+		G_CALLBACK (subscription_editor_combo_box_changed_cb), editor);
+
+	subscription_editor_combo_box_changed_cb (combo_box, editor);
 }
 
 static void
@@ -1780,10 +1786,6 @@ em_subscription_editor_init (EMSubscriptionEditor *editor)
 	gtk_grid_attach (GTK_GRID (container), widget, 1, 0, 1, 1);
 	editor->priv->combo_box = widget;
 	gtk_widget_show (widget);
-
-	g_signal_connect (
-		widget, "changed",
-		G_CALLBACK (subscription_editor_combo_box_changed_cb), editor);
 
 	widget = gtk_label_new_with_mnemonic (_("_Account:"));
 	gtk_label_set_mnemonic_widget (
