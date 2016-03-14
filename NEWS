@@ -1,3 +1,32 @@
+Evolution 3.19.92 2016-03-14
+----------------------------
+
+Bug Fixes:
+	Bug 762759 - Crash on start when ~/.cache is not accessible (Milan Crha)
+	Bug 762477 - Add .desktop file actions to open respective parts (Iain Lane)
+
+Miscellaneous:
+	Update README file (Milan Crha)
+	Plain text signature is opened as an HTML one (Tomas Popela)
+	Some HTML signatures lost line breaks when inserted to the composer (Tomas Popela)
+	EHTMLEditorView - Signature in a message can lost its line breaks after sending it (Tomas Popela)
+
+Translations:
+	Rūdolfs Mazurs (lv)
+	Dušan Kazik (sk)
+	Fran Dieguez (gl)
+	Balázs Úr (hu)
+	Baurzhan Muftakhidinov (kk)
+	Matej Urbančič (sl)
+	Aurimas Černius (lt)
+	Марко М. Костић (sr)
+	Duarte Loreto (pt)
+	Marek Černocký (cs)
+	Alexandre Franke (fr)
+	Jordi Mas (ca)
+	Милош Поповић (sr@latin)
+	Changwoo Ryu (ko)
+
 Evolution 3.19.91 2016-02-29
 ----------------------------
 
