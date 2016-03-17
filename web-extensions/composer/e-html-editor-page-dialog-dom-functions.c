@@ -44,7 +44,7 @@ e_html_editor_page_dialog_save_history (WebKitDOMDocument *document,
 		dom_selection_get_coordinates (
 			document, &ev->before.start.x, &ev->before.start.y, &ev->before.end.x, &ev->before.end.y);
 		body = webkit_dom_document_get_body (document);
-		ev->data.dom.from = webkit_dom_node_clone_node (WEBKIT_DOM_NODE (body), FALSE);
+		ev->data.dom.from = webkit_dom_node_clone_node_with_error (WEBKIT_DOM_NODE (body), FALSE, NULL);
 
 		e_html_editor_undo_redo_manager_insert_history_event (manager, ev);
 	}
@@ -61,7 +61,7 @@ e_html_editor_page_dialog_save_history_on_exit (WebKitDOMDocument *document,
 	manager = e_html_editor_web_extension_get_undo_redo_manager (extension);
 	ev = e_html_editor_undo_redo_manager_get_current_history_event (manager);
 	body = webkit_dom_document_get_body (document);
-	ev->data.dom.to = webkit_dom_node_clone_node (WEBKIT_DOM_NODE (body), FALSE);
+	ev->data.dom.to = webkit_dom_node_clone_node_with_error (WEBKIT_DOM_NODE (body), FALSE, NULL);
 
 	if (!webkit_dom_node_is_equal_node (ev->data.dom.from, ev->data.dom.to)) {
 		dom_selection_get_coordinates (

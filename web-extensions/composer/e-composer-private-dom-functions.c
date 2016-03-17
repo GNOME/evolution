@@ -500,12 +500,12 @@ dom_save_drag_and_drop_history (WebKitDOMDocument *document,
 			/* The removed line. */
 			webkit_dom_node_append_child (
 				WEBKIT_DOM_NODE (fragment),
-				webkit_dom_node_clone_node (actual_block, TRUE),
+				webkit_dom_node_clone_node_with_error (actual_block, TRUE, NULL),
 				NULL);
 			/* The following block, but empty. */
 			webkit_dom_node_append_child (
 				WEBKIT_DOM_NODE (fragment),
-				webkit_dom_node_clone_node (tmp_block, FALSE),
+				webkit_dom_node_clone_node_with_error (tmp_block, FALSE, NULL),
 				NULL);
 			g_object_set_data (
 				G_OBJECT (fragment),

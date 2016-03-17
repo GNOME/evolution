@@ -256,7 +256,7 @@ dom_insert_base64_image (WebKitDOMDocument *document,
 		fragment = webkit_dom_document_create_document_fragment (document);
 		node = webkit_dom_node_append_child (
 			WEBKIT_DOM_NODE (fragment),
-			webkit_dom_node_clone_node (WEBKIT_DOM_NODE (resizable_wrapper), TRUE),
+			webkit_dom_node_clone_node_with_error (WEBKIT_DOM_NODE (resizable_wrapper), TRUE, NULL),
 			NULL);
 
 		webkit_dom_html_element_insert_adjacent_html (
@@ -345,7 +345,7 @@ dom_selection_unlink (WebKitDOMDocument *document,
 		fragment = webkit_dom_document_create_document_fragment (document);
 		webkit_dom_node_append_child (
 			WEBKIT_DOM_NODE (fragment),
-			webkit_dom_node_clone_node (WEBKIT_DOM_NODE (link), TRUE),
+			webkit_dom_node_clone_node_with_error (WEBKIT_DOM_NODE (link), TRUE, NULL),
 			NULL);
 		ev->data.fragment = fragment;
 
@@ -1161,9 +1161,9 @@ unindent_list (WebKitDOMDocument *document)
 		WEBKIT_DOM_NODE (selection_start_marker));
 	source_list = webkit_dom_node_get_parent_node (item);
 	new_list = WEBKIT_DOM_ELEMENT (
-		webkit_dom_node_clone_node (source_list, FALSE));
+		webkit_dom_node_clone_node_with_error (source_list, FALSE, NULL));
 	current_list = source_list;
-	source_list_clone = webkit_dom_node_clone_node (source_list, FALSE);
+	source_list_clone = webkit_dom_node_clone_node_with_error (source_list, FALSE, NULL);
 
 	webkit_dom_node_insert_before (
 		webkit_dom_node_get_parent_node (source_list),
@@ -1250,7 +1250,7 @@ unindent_block (WebKitDOMDocument *document,
 	while ((child = webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (element)))) {
 		if (webkit_dom_node_is_equal_node (child, block_to_process)) {
 			before_node = FALSE;
-			node_clone = webkit_dom_node_clone_node (child, TRUE);
+			node_clone = webkit_dom_node_clone_node_with_error (child, TRUE, NULL);
 			remove_node (child);
 			continue;
 		}
@@ -2254,7 +2254,7 @@ wrap_lines (WebKitDOMDocument *document,
 				return WEBKIT_DOM_ELEMENT (block);
 		}
 
-		block_clone = webkit_dom_node_clone_node (block, TRUE);
+		block_clone = webkit_dom_node_clone_node_with_error (block, TRUE, NULL);
 
 		/* When we wrap, we are wrapping just the text after caret, text
 		 * before the caret is already wrapped, so unwrap the text after
@@ -3541,8 +3541,8 @@ set_font_style (WebKitDOMDocument *document,
 			WebKitDOMNode *clone;
 			WebKitDOMNode *sibling;
 
-			clone = webkit_dom_node_clone_node (
-				WEBKIT_DOM_NODE (parent), FALSE);
+			clone = webkit_dom_node_clone_node_with_error (
+				WEBKIT_DOM_NODE (parent), FALSE, NULL);
 
 			while ((sibling = webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (element))))
 				webkit_dom_node_insert_before (
@@ -3899,7 +3899,7 @@ monospace_selection (WebKitDOMDocument *document,
 			/* Prepare the monospaced element. */
 			monospace = webkit_dom_node_insert_before (
 				webkit_dom_node_get_parent_node (node),
-				first ? monospace : webkit_dom_node_clone_node (monospace, FALSE),
+				first ? monospace : webkit_dom_node_clone_node_with_error (monospace, FALSE, NULL),
 				first ? node : webkit_dom_node_get_next_sibling (node),
 				NULL);
 		} else
@@ -3937,7 +3937,7 @@ monospace_selection (WebKitDOMDocument *document,
 
 		monospace = webkit_dom_node_insert_before (
 			block,
-			webkit_dom_node_clone_node (monospace, FALSE),
+			webkit_dom_node_clone_node_with_error (monospace, FALSE, NULL),
 			webkit_dom_node_get_first_child (block),
 			NULL);
 
@@ -3952,7 +3952,7 @@ monospace_selection (WebKitDOMDocument *document,
 	while (block && node && !webkit_dom_node_is_same_node (block, node)) {
 		monospace = webkit_dom_node_insert_before (
 			webkit_dom_node_get_parent_node (node),
-			webkit_dom_node_clone_node (monospace, FALSE),
+			webkit_dom_node_clone_node_with_error (monospace, FALSE, NULL),
 			webkit_dom_node_get_next_sibling (node),
 			NULL);
 
@@ -4046,7 +4046,7 @@ unmonospace_selection (WebKitDOMDocument *document)
 		goto out;
 
 	/* Make a clone of current monospaced element. */
-	clone = webkit_dom_node_clone_node (monospace, TRUE);
+	clone = webkit_dom_node_clone_node_with_error (monospace, TRUE, NULL);
 
 	/* First block */
 	/* Remove all the nodes that are after the selection start point as they
@@ -5453,8 +5453,8 @@ do_format_change_list_to_list (WebKitDOMElement *list_to_process,
 		WebKitDOMNode *clone, *child;
 
 		/* Create new list from template. */
-		clone = webkit_dom_node_clone_node (
-			WEBKIT_DOM_NODE (new_list_template), FALSE);
+		clone = webkit_dom_node_clone_node_with_error (
+			WEBKIT_DOM_NODE (new_list_template), FALSE, NULL);
 
 		/* Insert it before the list that we are processing. */
 		webkit_dom_node_insert_before (
@@ -5498,7 +5498,7 @@ format_change_list_from_list (WebKitDOMDocument *document,
 	item = get_list_item_node_from_child (WEBKIT_DOM_NODE (selection_start_marker));
 	source_list = webkit_dom_node_get_parent_node (item);
 	current_list = source_list;
-	source_list_clone = webkit_dom_node_clone_node (source_list, FALSE);
+	source_list_clone = webkit_dom_node_clone_node_with_error (source_list, FALSE, NULL);
 
 	new_list = create_list_element (document, extension, to, 0, html_mode);
 
@@ -5566,8 +5566,8 @@ format_change_list_from_list (WebKitDOMDocument *document,
 			if (ii == 0) {
 				WebKitDOMNode *clone, *child;
 
-				clone = webkit_dom_node_clone_node (
-					WEBKIT_DOM_NODE (new_list), FALSE);
+				clone = webkit_dom_node_clone_node_with_error (
+					WEBKIT_DOM_NODE (new_list), FALSE, NULL);
 
 				webkit_dom_node_append_child (
 					after_selection_end ?
@@ -5597,8 +5597,8 @@ format_change_list_from_list (WebKitDOMDocument *document,
 				while (!done) {
 					WebKitDOMNode *clone, *child;
 
-					clone = webkit_dom_node_clone_node (
-						WEBKIT_DOM_NODE (new_list), FALSE);
+					clone = webkit_dom_node_clone_node_with_error (
+						WEBKIT_DOM_NODE (new_list), FALSE, NULL);
 
 					webkit_dom_node_append_child (
 						tmp_parent, clone, NULL);
@@ -5627,7 +5627,7 @@ format_change_list_from_list (WebKitDOMDocument *document,
 		}
 
 		if (selection_end) {
-			source_list_clone = webkit_dom_node_clone_node (current_list, FALSE);
+			source_list_clone = webkit_dom_node_clone_node_with_error (current_list, FALSE, NULL);
 			after_selection_end = TRUE;
 		}
 
@@ -5880,19 +5880,19 @@ dom_selection_set_block_format (WebKitDOMDocument *document,
 
 				webkit_dom_node_append_child (
 					WEBKIT_DOM_NODE (fragment),
-					webkit_dom_node_clone_node (block, TRUE),
+					webkit_dom_node_clone_node_with_error (block, TRUE, NULL),
 					NULL);
 			} else {
 				fragment = webkit_dom_range_clone_contents (range, NULL);
 				webkit_dom_node_replace_child (
 					WEBKIT_DOM_NODE (fragment),
-					webkit_dom_node_clone_node (block, TRUE),
+					webkit_dom_node_clone_node_with_error (block, TRUE, NULL),
 					webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (fragment)),
 					NULL);
 
 				webkit_dom_node_replace_child (
 					WEBKIT_DOM_NODE (fragment),
-					webkit_dom_node_clone_node (end_block, TRUE),
+					webkit_dom_node_clone_node_with_error (end_block, TRUE, NULL),
 					webkit_dom_node_get_last_child (WEBKIT_DOM_NODE (fragment)),
 					NULL);
 			}
