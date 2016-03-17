@@ -271,8 +271,8 @@ e_html_editor_cell_dialog_mark_current_cell_element (WebKitDOMDocument *document
 
 		table = dom_node_find_parent_element (
 			WEBKIT_DOM_NODE (parent), "TABLE");
-		ev->data.dom.from = webkit_dom_node_clone_node (
-			WEBKIT_DOM_NODE (table), TRUE);
+		ev->data.dom.from = webkit_dom_node_clone_node_with_error (
+			WEBKIT_DOM_NODE (table), TRUE, NULL);
 
 		e_html_editor_undo_redo_manager_insert_history_event (manager, ev);
 	}
@@ -298,8 +298,8 @@ e_html_editor_cell_dialog_save_history_on_exit (WebKitDOMDocument *document,
 
 	manager = e_html_editor_web_extension_get_undo_redo_manager (extension);
 	ev = e_html_editor_undo_redo_manager_get_current_history_event (manager);
-	ev->data.dom.to = webkit_dom_node_clone_node (
-		WEBKIT_DOM_NODE (table), TRUE);
+	ev->data.dom.to = webkit_dom_node_clone_node_with_error (
+		WEBKIT_DOM_NODE (table), TRUE, NULL);
 
 	if (!webkit_dom_node_is_equal_node (ev->data.dom.from, ev->data.dom.to)) {
 		dom_selection_get_coordinates (

@@ -338,7 +338,7 @@ split_node_into_two (WebKitDOMNode *item,
 		WebKitDOMNode *clone, *first_child, *insert_before = NULL, *sibling;
 
 		first_child = webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (fragment));
-		clone = webkit_dom_node_clone_node (parent, FALSE);
+		clone = webkit_dom_node_clone_node_with_error (parent, FALSE, NULL);
 		webkit_dom_node_insert_before (
 			WEBKIT_DOM_NODE (fragment), clone, first_child, NULL);
 
@@ -401,7 +401,7 @@ undo_delete (WebKitDOMDocument *document,
 	dom_selection = webkit_dom_dom_window_get_selection (dom_window);
 	g_object_unref (dom_window);
 
-	fragment = webkit_dom_node_clone_node (WEBKIT_DOM_NODE (event->data.fragment), TRUE);
+	fragment = webkit_dom_node_clone_node_with_error (WEBKIT_DOM_NODE (event->data.fragment), TRUE, NULL);
 	first_child = webkit_dom_node_get_first_child (fragment);
 
 	content = webkit_dom_node_get_text_content (fragment);
@@ -843,8 +843,8 @@ undo_delete (WebKitDOMDocument *document,
 		if (prev_sibling && next_sibling) {
 			WebKitDOMNode *clone_prev, *clone_next;
 
-			clone_prev = webkit_dom_node_clone_node (prev_sibling, FALSE);
-			clone_next = webkit_dom_node_clone_node (next_sibling, FALSE);
+			clone_prev = webkit_dom_node_clone_node_with_error (prev_sibling, FALSE, NULL);
+			clone_next = webkit_dom_node_clone_node_with_error (next_sibling, FALSE, NULL);
 
 			if (webkit_dom_node_is_equal_node (clone_prev, clone_next)) {
 				WebKitDOMNode *child;
@@ -1149,8 +1149,8 @@ undo_redo_page_dialog (WebKitDOMDocument *document,
 			if (g_strcmp0 (name, name_history) == 0) {
 				WebKitDOMNode *attr_clone;
 
-				attr_clone = webkit_dom_node_clone_node (
-						undo ? attr_history : attr, TRUE);
+				attr_clone = webkit_dom_node_clone_node_with_error (
+						undo ? attr_history : attr, TRUE, NULL);
 				webkit_dom_element_set_attribute_node (
 					WEBKIT_DOM_ELEMENT (body),
 					WEBKIT_DOM_ATTR (attr_clone),
@@ -1188,7 +1188,7 @@ undo_redo_page_dialog (WebKitDOMDocument *document,
 				webkit_dom_element_set_attribute_node (
 					WEBKIT_DOM_ELEMENT (body),
 					WEBKIT_DOM_ATTR (
-						webkit_dom_node_clone_node (attr, TRUE)),
+						webkit_dom_node_clone_node_with_error (attr, TRUE, NULL)),
 					NULL);
 			}
 		}
@@ -1233,7 +1233,7 @@ undo_redo_hrule_dialog (WebKitDOMDocument *document,
 			else
 				webkit_dom_node_replace_child (
 					webkit_dom_node_get_parent_node (node),
-					webkit_dom_node_clone_node (event->data.dom.from, TRUE),
+					webkit_dom_node_clone_node_with_error (event->data.dom.from, TRUE, NULL),
 					node,
 					NULL);
 		}
@@ -1249,7 +1249,7 @@ undo_redo_hrule_dialog (WebKitDOMDocument *document,
 			if (node && WEBKIT_DOM_IS_HTML_HR_ELEMENT (node))
 				webkit_dom_node_replace_child (
 					webkit_dom_node_get_parent_node (node),
-					webkit_dom_node_clone_node (event->data.dom.to, TRUE),
+					webkit_dom_node_clone_node_with_error (event->data.dom.to, TRUE, NULL),
 					node,
 					NULL);
 		} else {
@@ -1306,7 +1306,7 @@ undo_redo_image_dialog (WebKitDOMDocument *document,
 
 	webkit_dom_node_replace_child (
 		webkit_dom_node_get_parent_node (image),
-		webkit_dom_node_clone_node (undo ? event->data.dom.from : event->data.dom.to, TRUE),
+		webkit_dom_node_clone_node_with_error (undo ? event->data.dom.from : event->data.dom.to, TRUE, NULL),
 		image,
 		NULL);
 
@@ -1343,7 +1343,7 @@ undo_redo_link_dialog (WebKitDOMDocument *document,
 			else
 				webkit_dom_node_replace_child (
 					webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (anchor)),
-					webkit_dom_node_clone_node (event->data.dom.from, TRUE),
+					webkit_dom_node_clone_node_with_error (event->data.dom.from, TRUE, NULL),
 					WEBKIT_DOM_NODE (anchor),
 					NULL);
 		}
@@ -1355,13 +1355,13 @@ undo_redo_link_dialog (WebKitDOMDocument *document,
 			if (WEBKIT_DOM_IS_ELEMENT (event->data.dom.from) && anchor) {
 				webkit_dom_node_replace_child (
 					webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (anchor)),
-					webkit_dom_node_clone_node (event->data.dom.to, TRUE),
+					webkit_dom_node_clone_node_with_error (event->data.dom.to, TRUE, NULL),
 					WEBKIT_DOM_NODE (anchor),
 					NULL);
 			} else {
 				webkit_dom_node_insert_before (
 					webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (element)),
-					webkit_dom_node_clone_node (event->data.dom.to, TRUE),
+					webkit_dom_node_clone_node_with_error (event->data.dom.to, TRUE, NULL),
 					WEBKIT_DOM_NODE (element),
 					NULL);
 
@@ -1403,7 +1403,7 @@ undo_redo_table_dialog (WebKitDOMDocument *document,
 			parent = get_parent_block_element (WEBKIT_DOM_NODE (element));
 			webkit_dom_node_insert_before (
 				webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (parent)),
-				webkit_dom_node_clone_node (undo ? event->data.dom.from : event->data.dom.to, TRUE),
+				webkit_dom_node_clone_node_with_error (undo ? event->data.dom.from : event->data.dom.to, TRUE, NULL),
 				WEBKIT_DOM_NODE (parent),
 				NULL);
 			restore_selection_to_history_event_state (document, event->before);
@@ -1418,7 +1418,7 @@ undo_redo_table_dialog (WebKitDOMDocument *document,
 		else
 			webkit_dom_node_replace_child (
 				webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (table)),
-				webkit_dom_node_clone_node (event->data.dom.from, TRUE),
+				webkit_dom_node_clone_node_with_error (event->data.dom.from, TRUE, NULL),
 				WEBKIT_DOM_NODE (table),
 				NULL);
 	} else {
@@ -1427,7 +1427,7 @@ undo_redo_table_dialog (WebKitDOMDocument *document,
 		else
 			webkit_dom_node_replace_child (
 				webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (table)),
-				webkit_dom_node_clone_node (event->data.dom.to, TRUE),
+				webkit_dom_node_clone_node_with_error (event->data.dom.to, TRUE, NULL),
 				WEBKIT_DOM_NODE (table),
 				NULL);
 	}
@@ -1479,7 +1479,7 @@ undo_redo_table_input (WebKitDOMDocument *document,
 
 	webkit_dom_node_replace_child (
 		webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (element)),
-		webkit_dom_node_clone_node (undo ? event->data.dom.from : event->data.dom.to, TRUE),
+		webkit_dom_node_clone_node_with_error (undo ? event->data.dom.from : event->data.dom.to, TRUE, NULL),
 		WEBKIT_DOM_NODE (element),
 		NULL);
 
@@ -1631,7 +1631,7 @@ undo_redo_image (WebKitDOMDocument *document,
 		/* Insert the deleted content back to the body. */
 		webkit_dom_node_insert_before (
 			webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (element)),
-			webkit_dom_node_clone_node (WEBKIT_DOM_NODE (event->data.fragment), TRUE),
+			webkit_dom_node_clone_node_with_error (WEBKIT_DOM_NODE (event->data.fragment), TRUE, NULL),
 			WEBKIT_DOM_NODE (element),
 			NULL);
 
@@ -1783,7 +1783,7 @@ undo_redo_remove_link (WebKitDOMDocument *document,
 		g_object_unref (range);
 		webkit_dom_node_insert_before (
 			webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (element)),
-			webkit_dom_node_clone_node (WEBKIT_DOM_NODE (event->data.fragment), TRUE),
+			webkit_dom_node_clone_node_with_error (WEBKIT_DOM_NODE (event->data.fragment), TRUE, NULL),
 			WEBKIT_DOM_NODE (element),
 			NULL);
 		remove_node (WEBKIT_DOM_NODE (element));
@@ -1815,7 +1815,7 @@ undo_return_in_empty_list_item (WebKitDOMDocument *document,
 		dom_remove_selection_markers (document);
 		webkit_dom_node_insert_before (
 			webkit_dom_node_get_parent_node (parent),
-			webkit_dom_node_clone_node (WEBKIT_DOM_NODE (event->data.fragment), TRUE),
+			webkit_dom_node_clone_node_with_error (WEBKIT_DOM_NODE (event->data.fragment), TRUE, NULL),
 			webkit_dom_node_get_next_sibling (parent),
 			NULL);
 
@@ -1955,8 +1955,8 @@ undo_redo_citation_split (WebKitDOMDocument *document,
 		if (in_situ && event->data.fragment) {
 			webkit_dom_node_append_child (
 				webkit_dom_node_get_parent_node (last_child),
-				webkit_dom_node_clone_node (
-					WEBKIT_DOM_NODE (event->data.fragment), TRUE),
+				webkit_dom_node_clone_node_with_error (
+					WEBKIT_DOM_NODE (event->data.fragment), TRUE, NULL),
 				NULL);
 		} else {
 			dom_remove_quoting_from_element (WEBKIT_DOM_ELEMENT (child));
@@ -2084,7 +2084,7 @@ undo_redo_unquote (WebKitDOMDocument *document,
 		if (prev_sibling && dom_node_is_citation_node (prev_sibling)) {
 			webkit_dom_node_append_child (
 				prev_sibling,
-				webkit_dom_node_clone_node (event->data.dom.from, TRUE),
+				webkit_dom_node_clone_node_with_error (event->data.dom.from, TRUE, NULL),
 				NULL);
 
 			if (next_sibling && dom_node_is_citation_node (next_sibling)) {
@@ -2099,7 +2099,7 @@ undo_redo_unquote (WebKitDOMDocument *document,
 		} else if (next_sibling && dom_node_is_citation_node (next_sibling)) {
 			webkit_dom_node_insert_before (
 				next_sibling,
-				webkit_dom_node_clone_node (event->data.dom.from, TRUE),
+				webkit_dom_node_clone_node_with_error (event->data.dom.from, TRUE, NULL),
 				webkit_dom_node_get_first_child (next_sibling),
 				NULL);
 		}

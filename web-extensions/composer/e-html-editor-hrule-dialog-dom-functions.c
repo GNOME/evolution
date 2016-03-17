@@ -86,8 +86,8 @@ e_html_editor_hrule_dialog_find_hrule (WebKitDOMDocument *document,
 		dom_selection_get_coordinates (
 			document, &ev->before.start.x, &ev->before.start.y, &ev->before.end.x, &ev->before.end.y);
 		if (!created)
-			ev->data.dom.from = webkit_dom_node_clone_node (
-				WEBKIT_DOM_NODE (rule), FALSE);
+			ev->data.dom.from = webkit_dom_node_clone_node_with_error (
+				WEBKIT_DOM_NODE (rule), FALSE, NULL);
 		else
 			ev->data.dom.from = NULL;
 
@@ -112,8 +112,8 @@ e_html_editor_hrule_dialog_save_history_on_exit (WebKitDOMDocument *document,
 
 	manager = e_html_editor_web_extension_get_undo_redo_manager (extension);
 	ev = e_html_editor_undo_redo_manager_get_current_history_event (manager);
-	ev->data.dom.to = webkit_dom_node_clone_node (
-		WEBKIT_DOM_NODE (element), TRUE);
+	ev->data.dom.to = webkit_dom_node_clone_node_with_error (
+		WEBKIT_DOM_NODE (element), TRUE, NULL);
 
 	if (!webkit_dom_node_is_equal_node (ev->data.dom.from, ev->data.dom.to)) {
 		dom_selection_get_coordinates (
