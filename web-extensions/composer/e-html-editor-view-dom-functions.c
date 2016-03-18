@@ -602,7 +602,8 @@ wrap_and_quote_element (WebKitDOMDocument *document,
 	dom_remove_quoting_from_element (element);
 	dom_remove_wrapping_from_element (element);
 
-	if (element_has_class (element, "-x-evo-paragraph")) {
+	if (WEBKIT_DOM_IS_HTML_PARAGRAPH_ELEMENT (element) &&
+	    webkit_dom_element_has_attribute (element, "data-evo-paragraph")) {
 		gint word_wrap_length, length;
 
 		word_wrap_length = e_html_editor_web_extension_get_word_wrap_length (extension);
@@ -1917,9 +1918,9 @@ fix_paragraph_structure_after_pressing_enter (WebKitDOMDocument *document,
 	WebKitDOMNodeList *list;
 
 	/* When pressing Enter on empty line in the list (or after heading elements)
-	 * WebKit will end thatlist and inserts <div><br></div> so mark it for wrapping. */
+	 * WebKit will end that list and inserts <div><br></div> so mark it for wrapping. */
 	list = webkit_dom_document_query_selector_all (
-		document, "body > div:not(.-x-evo-paragraph) > br", NULL);
+		document, "body > div > br", NULL);
 
 	length = webkit_dom_node_list_get_length (list);
 	for (ii = 0; ii < length; ii++) {
@@ -2777,11 +2778,14 @@ body_input_event_process (WebKitDOMDocument *document,
 		g_free (text);
 
 		parent = webkit_dom_node_get_parent_node (node);
-		if ((WEBKIT_DOM_IS_HTML_PARAGRAPH_ELEMENT (parent) ||
-		    WEBKIT_DOM_IS_HTML_DIV_ELEMENT (parent)) &&
-		    !element_has_class (WEBKIT_DOM_ELEMENT (parent), "-x-evo-paragraph")) {
+		if (WEBKIT_DOM_IS_HTML_PARAGRAPH_ELEMENT (parent) &&
+		    !webkit_dom_element_has_attribute (WEBKIT_DOM_ELEMENT (parent), "data-evo-paragraph")) {
 			if (html_mode)
-				element_add_class (WEBKIT_DOM_ELEMENT (parent), "-x-evo-paragraph");
+				webkit_dom_element_set_attribute (
+					WEBKIT_DOM_ELEMENT (parent),
+					"data-evo-paragraph",
+					"",
+					NULL);
 			else
 				dom_set_paragraph_style (
 					document, extension, WEBKIT_DOM_ELEMENT (parent), -1, 0, "");
@@ -3223,7 +3227,7 @@ body_key_up_event_process_backspace_or_delete (WebKitDOMDocument *document,
 			WEBKIT_DOM_NODE (selection_start_marker)));
 
 		dom_remove_quoting_from_element (block);
-		if (element_has_class (block, "-x-evo-paragraph")) {
+		if (webkit_dom_element_has_attribute (block, "data-evo-paragraph")) {
 			gint length, word_wrap_length;
 
 			word_wrap_length = e_html_editor_web_extension_get_word_wrap_length (extension);
@@ -5164,7 +5168,7 @@ quote_plain_text_elements_after_wrapping_in_document (WebKitDOMDocument *documen
 
 	/* Also quote the PRE elements as well. */
 	list = webkit_dom_document_query_selector_all (
-		document, "blockquote[type=cite] > div.-x-evo-paragraph, blockquote[type=cite] > pre", NULL);
+		document, "blockquote[type=cite] > p[data-evo-paragraph], blockquote[type=cite] > pre", NULL);
 
 	length = webkit_dom_node_list_get_length (list);
 	for (ii = 0; ii < length; ii++) {
@@ -5380,7 +5384,7 @@ dom_convert_content (WebKitDOMDocument *document,
 
 	/* Remove all previously inserted paragraphs. */
 	list = webkit_dom_document_query_selector_all (
-		document, ".-x-evo-paragraph:not([data-headers])", NULL);
+		document, "p[data-evo-paragraph]:not([data-headers])", NULL);
 	length = webkit_dom_node_list_get_length (list);
 	for (ii = 0; ii < length; ii++) {
 		WebKitDOMNode *node = webkit_dom_node_list_item (list, ii);
@@ -6866,7 +6870,7 @@ process_elements (EHTMLEditorWebExtension *extension,
 		}
 
 		/* Leave paragraphs as they are */
-		if (element_has_class (WEBKIT_DOM_ELEMENT (child), "-x-evo-paragraph")) {
+		if (webkit_dom_element_has_attribute (WEBKIT_DOM_ELEMENT (child), "data-evo-paragraph")) {
 			if (changing_mode && to_plain_text) {
 				content = webkit_dom_element_get_outer_html (
 					WEBKIT_DOM_ELEMENT (child));
@@ -7194,7 +7198,7 @@ toggle_paragraphs_style_in_element (WebKitDOMDocument *document,
 	WebKitDOMNodeList *paragraphs;
 
 	paragraphs = webkit_dom_element_query_selector_all (
-		element, ":not(td) > .-x-evo-paragraph", NULL);
+		element, ":not(td) > [data-evo-paragraph]", NULL);
 
 	length = webkit_dom_node_list_get_length (paragraphs);
 
@@ -7426,7 +7430,7 @@ dom_process_content_for_plain_text (WebKitDOMDocument *document,
 	}
 
 	paragraphs = webkit_dom_element_query_selector_all (
-		WEBKIT_DOM_ELEMENT (source), ".-x-evo-paragraph", NULL);
+		WEBKIT_DOM_ELEMENT (source), "[data-evo-paragraph]", NULL);
 
 	length = webkit_dom_node_list_get_length (paragraphs);
 	for (ii = 0; ii < length; ii++) {
@@ -7689,7 +7693,7 @@ wrap_paragraphs_in_quoted_content (WebKitDOMDocument *document,
 	WebKitDOMNodeList *paragraphs;
 
 	paragraphs = webkit_dom_document_query_selector_all (
-		document, "blockquote[type=cite] > .-x-evo-paragraph", NULL);
+		document, "blockquote[type=cite] > [data-evo-paragraph]", NULL);
 
 	length = webkit_dom_node_list_get_length (paragraphs);
 	for (ii = 0; ii < length; ii++) {
@@ -7806,6 +7810,40 @@ change_cid_images_src_to_base64 (WebKitDOMDocument *document,
 	g_hash_table_remove_all (inline_images);
 }
 
+static void
+adapt_to_editor_dom_changes (WebKitDOMDocument *document)
+{
+	WebKitDOMHTMLCollection *collection;
+	gint ii, length;
+
+	/* Normal block code div.-x-evo-paragraph replaced by p[data-evo-paragraph] */
+	collection = webkit_dom_document_get_elements_by_class_name_as_html_collection (document, "-x-evo-paragraph");
+	length = webkit_dom_html_collection_get_length (collection);
+	for (ii = 0; ii < length; ii++) {
+		WebKitDOMNode *node, *child;
+		WebKitDOMElement *element;
+		gchar *style;
+
+		node = webkit_dom_html_collection_item (collection, ii);
+		element = webkit_dom_document_create_element (document, "p", NULL);
+		webkit_dom_node_insert_before (
+			webkit_dom_node_get_parent_node (node),
+			WEBKIT_DOM_NODE (element),
+			node,
+			NULL);
+
+		while ((child = webkit_dom_node_get_first_child (node)))
+			webkit_dom_node_append_child (WEBKIT_DOM_NODE (element), child, NULL);
+
+		style = webkit_dom_element_get_attribute (WEBKIT_DOM_ELEMENT (node), "style");
+		webkit_dom_element_set_attribute (element, "style", style, NULL);
+
+		remove_node (node);
+		g_object_unref (node);
+	}
+	g_object_unref (collection);
+}
+
 void
 dom_process_content_after_load (WebKitDOMDocument *document,
                                 EHTMLEditorWebExtension *extension)
@@ -7819,6 +7857,8 @@ dom_process_content_after_load (WebKitDOMDocument *document,
 	 * versions of Evolution or other MUAs */
 	dom_exec_command (
 		document, extension, E_HTML_EDITOR_VIEW_COMMAND_STYLE_WITH_CSS, "false");
+	dom_exec_command (
+		document, extension, E_HTML_EDITOR_VIEW_COMMAND_DEFAULT_PARAGRAPH_SEPARATOR, "p");
 
 	body = webkit_dom_document_get_body (document);
 
@@ -7863,6 +7903,8 @@ dom_process_content_after_load (WebKitDOMDocument *document,
 
 		return;
 	}
+
+	adapt_to_editor_dom_changes (document);
 
 	/* Make the quote marks non-selectable. */
 	dom_disable_quote_marks_select (document);

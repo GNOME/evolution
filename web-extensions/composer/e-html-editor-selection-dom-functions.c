@@ -505,7 +505,7 @@ dom_set_paragraph_style (WebKitDOMDocument *document,
 	gint word_wrap_length = set_word_wrap_length (extension, width);
 	WebKitDOMNode *parent;
 
-	element_add_class (element, "-x-evo-paragraph");
+	webkit_dom_element_set_attribute (element, "data-evo-paragraph", "", NULL);
 
 	/* Don't set the alignment for nodes as they are handled separately. */
 	if (!node_is_list (WEBKIT_DOM_NODE (element))) {
@@ -680,7 +680,7 @@ indent_block (WebKitDOMDocument *document,
 	}
 
 	/* Remove style and let the paragraph inherit it from parent */
-	if (element_has_class (WEBKIT_DOM_ELEMENT (block), "-x-evo-paragraph"))
+	if (webkit_dom_element_has_attribute (WEBKIT_DOM_ELEMENT (block), "data-evo-paragraph"))
 		webkit_dom_element_remove_attribute (
 			WEBKIT_DOM_ELEMENT (block), "style");
 
@@ -876,7 +876,7 @@ do_format_change_list_to_block (WebKitDOMDocument *document,
 
 				node = WEBKIT_DOM_NODE (element);
 
-				if (element_has_class (element, "-x-evo-paragraph"))
+				if (webkit_dom_element_has_attribute (element, "data-evo-paragraph"))
 					final_width = e_html_editor_web_extension_get_word_wrap_length (extension) -
 						SPACES_PER_INDENTATION * level;
 
@@ -1064,7 +1064,7 @@ dom_selection_indent (WebKitDOMDocument *document,
 					goto next;
 			}
 
-			if (element_has_class (WEBKIT_DOM_ELEMENT (block), "-x-evo-paragraph")) {
+			if (webkit_dom_element_has_attribute (WEBKIT_DOM_ELEMENT (block), "data-evo-paragraph")) {
 				level = get_indentation_level (WEBKIT_DOM_ELEMENT (block));
 
 				final_width = word_wrap_length - SPACES_PER_INDENTATION * (level + 1);
@@ -1097,7 +1097,7 @@ dom_selection_indent (WebKitDOMDocument *document,
 				}
 			}
 
-			if (element_has_class (WEBKIT_DOM_ELEMENT (block), "-x-evo-paragraph")) {
+			if (webkit_dom_element_has_attribute (WEBKIT_DOM_ELEMENT (block), "data-evo-paragraph")) {
 				level = get_indentation_level (
 					WEBKIT_DOM_ELEMENT (block_to_process));
 
@@ -1277,7 +1277,7 @@ unindent_block (WebKitDOMDocument *document,
 			}
 		}
 
-		if (level == 1 && element_has_class (WEBKIT_DOM_ELEMENT (node_clone), "-x-evo-paragraph")) {
+		if (level == 1 && webkit_dom_element_has_attribute (WEBKIT_DOM_ELEMENT (node_clone), "data-evo-paragraph")) {
 			dom_set_paragraph_style (
 				document, extension, WEBKIT_DOM_ELEMENT (node_clone), word_wrap_length, 0, "");
 			element_add_class (
@@ -2811,8 +2811,9 @@ wrap_lines (WebKitDOMDocument *document,
 		WebKitDOMElement *element;
 
 		/* Create a wrapper DIV and put the processed content into it */
-		element = webkit_dom_document_create_element (document, "DIV", NULL);
-		element_add_class (element, "-x-evo-paragraph");
+		element = webkit_dom_document_create_element (document, "p", NULL);
+		webkit_dom_element_set_attribute (
+			element, "data-evo-paragraph", "", NULL);
 		webkit_dom_node_append_child (
 			WEBKIT_DOM_NODE (element),
 			WEBKIT_DOM_NODE (start_node),
@@ -2950,7 +2951,7 @@ dom_get_paragraph_element (WebKitDOMDocument *document,
 {
 	WebKitDOMElement *element;
 
-	element = webkit_dom_document_create_element (document, "DIV", NULL);
+	element = webkit_dom_document_create_element (document, "p", NULL);
 	dom_set_paragraph_style (document, extension, element, width, offset, "");
 
 	return element;
@@ -3080,7 +3081,7 @@ dom_selection_wrap (WebKitDOMDocument *document,
 
 		/* Don't try to wrap the 'Normal' blocks as they are already wrapped and*/
 		/* also skip blocks that we already wrapped with this function. */
-		if ((!html_mode && element_has_class (WEBKIT_DOM_ELEMENT (block), "-x-evo-paragraph")) ||
+		if ((!html_mode && webkit_dom_element_has_attribute (WEBKIT_DOM_ELEMENT (block), "data-evo-paragraph")) ||
 		    webkit_dom_element_has_attribute (WEBKIT_DOM_ELEMENT (block), "data-user-wrapped")) {
 			block = next_block;
 			continue;
@@ -3136,7 +3137,7 @@ dom_wrap_paragraphs_in_document (WebKitDOMDocument *document,
 	gint ii, length;
 
 	list = webkit_dom_document_query_selector_all (
-		document, "div.-x-evo-paragraph:not(#-x-evo-input-start)", NULL);
+		document, "[data-evo-paragraph]:not(#-x-evo-input-start)", NULL);
 
 	length = webkit_dom_node_list_get_length (list);
 
@@ -4960,16 +4961,13 @@ dom_selection_get_block_format (WebKitDOMDocument *document,
 		else {
 			WebKitDOMNode *block = get_block_node (range);
 
-			if (WEBKIT_DOM_IS_HTML_DIV_ELEMENT (block) ||
-			    element_has_class (WEBKIT_DOM_ELEMENT (block), "-x-evo-paragraph"))
+			if (WEBKIT_DOM_IS_HTML_PARAGRAPH_ELEMENT (block) ||
+			    webkit_dom_element_has_attribute (WEBKIT_DOM_ELEMENT (block), "data-evo-paragraph"))
 				result = E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_PARAGRAPH;
 			else {
 				/* Paragraphs inside quote */
-				if ((element = dom_node_find_parent_element (node, "DIV")) != NULL)
-					if (element_has_class (element, "-x-evo-paragraph"))
-						result = E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_PARAGRAPH;
-					else
-						result = E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_BLOCKQUOTE;
+				if ((element = dom_node_find_parent_element (node, "P")) != NULL)
+					result = E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_PARAGRAPH;
 				else
 					result = E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_BLOCKQUOTE;
 			}

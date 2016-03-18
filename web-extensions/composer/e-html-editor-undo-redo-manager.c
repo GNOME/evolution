@@ -543,8 +543,7 @@ undo_delete (WebKitDOMDocument *document,
 		if (WEBKIT_DOM_IS_ELEMENT (first_child) &&
 		    !(WEBKIT_DOM_IS_HTML_QUOTE_ELEMENT (first_child) ||
 		      WEBKIT_DOM_IS_HTML_PRE_ELEMENT (first_child) ||
-		      (WEBKIT_DOM_IS_HTML_DIV_ELEMENT (first_child) &&
-		       element_has_class (WEBKIT_DOM_ELEMENT (first_child), "-x-evo-paragraph"))))
+		      WEBKIT_DOM_IS_HTML_PARAGRAPH_ELEMENT (first_child)))
 			single_block = TRUE;
 	}
 

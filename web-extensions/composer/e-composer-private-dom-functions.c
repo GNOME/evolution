@@ -116,7 +116,7 @@ composer_move_caret (WebKitDOMDocument *document,
 	gboolean has_paragraphs_in_body = TRUE;
 	WebKitDOMElement *element, *signature;
 	WebKitDOMHTMLElement *body;
-	WebKitDOMHTMLCollection *paragraphs;
+	WebKitDOMNodeList *paragraphs;
 
 	is_message_from_draft = e_html_editor_web_extension_is_message_from_draft (extension);
 	is_message_from_edit_as_new =
@@ -152,11 +152,11 @@ composer_move_caret (WebKitDOMDocument *document,
 		webkit_dom_element_set_attribute (
 			WEBKIT_DOM_ELEMENT (body), "data-new-message", "", NULL);
 
-	paragraphs = webkit_dom_document_get_elements_by_class_name_as_html_collection (document, "-x-evo-paragraph");
+	paragraphs = webkit_dom_document_query_selector_all (document, "[data-evo-paragraph]", NULL);
 	signature = webkit_dom_document_query_selector (document, ".-x-evo-signature-wrapper", NULL);
 	/* Situation when wrapped paragraph is just in signature and not in message body */
-	if (webkit_dom_html_collection_get_length (paragraphs) == 1)
-		if (signature && webkit_dom_element_query_selector (signature, ".-x-evo-paragraph", NULL))
+	if (webkit_dom_node_list_get_length (paragraphs) == 1)
+		if (signature && webkit_dom_element_query_selector (signature, "[data-evo-paragraph]", NULL))
 			has_paragraphs_in_body = FALSE;
 
 	/*
@@ -183,7 +183,7 @@ composer_move_caret (WebKitDOMDocument *document,
 			NULL);
 	}
 
-	if (webkit_dom_html_collection_get_length (paragraphs) == 0)
+	if (webkit_dom_node_list_get_length (paragraphs) == 0)
 		has_paragraphs_in_body = FALSE;
 
 	element = webkit_dom_document_get_element_by_id (document, "-x-evo-input-start");

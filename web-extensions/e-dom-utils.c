@@ -1890,6 +1890,7 @@ get_parent_block_element (WebKitDOMNode *node)
 		return WEBKIT_DOM_ELEMENT (node);
 
 	while (parent &&
+	       !WEBKIT_DOM_IS_HTML_PARAGRAPH_ELEMENT (parent) &&
 	       !WEBKIT_DOM_IS_HTML_DIV_ELEMENT (parent) &&
 	       !WEBKIT_DOM_IS_HTML_QUOTE_ELEMENT (parent) &&
 	       !WEBKIT_DOM_IS_HTML_U_LIST_ELEMENT (parent) &&
