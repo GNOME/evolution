@@ -129,8 +129,8 @@ void		dom_insert_html			(WebKitDOMDocument *document,
 
 gboolean	dom_process_on_key_press	(WebKitDOMDocument *document,
 						 EHTMLEditorWebExtension *extension,
-						 guint key_val,
-						 guint state);
+						 glong key_code,
+						 gboolean control_key);
 
 gchar *		dom_process_content_for_draft	(WebKitDOMDocument *document,
 						 gboolean only_inner_body);
@@ -168,13 +168,13 @@ gboolean	dom_change_quoted_block_to_normal
 gboolean	dom_delete_last_character_on_line_in_quoted_block
 						(WebKitDOMDocument *document,
 						 EHTMLEditorWebExtension *extension,
-						 guint key_val,
-						 guint state);
+						 glong key_code,
+						 gboolean control_key);
 gboolean	dom_fix_structure_after_delete_before_quoted_content
 						(WebKitDOMDocument *document,
 						 EHTMLEditorWebExtension *extension,
-						 guint key_val,
-						 guint state,
+						 glong key_code,
+						 gboolean control_key,
 						 gboolean delete_key);
 void		dom_disable_quote_marks_select	(WebKitDOMDocument *document);
 void		dom_remove_node_and_parents_if_empty
@@ -194,8 +194,8 @@ gboolean	key_press_event_process_backspace_key
 gboolean	key_press_event_process_delete_or_backspace_key
 						(WebKitDOMDocument *document,
 						 EHTMLEditorWebExtension *extension,
-						 guint key_val,
-						 guint state,
+						 glong key_code,
+						 gboolean control_key,
 						 gboolean delete);
 void		body_input_event_process	(WebKitDOMDocument *document,
 						 EHTMLEditorWebExtension *extension,

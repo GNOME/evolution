@@ -784,20 +784,9 @@ editor_view_mouse_target_changed_cb (EHTMLEditorView *view,
 }
 
 static gboolean
-is_return_key (guint key_val)
-{
-	return (
-	    (key_val == GDK_KEY_Return) ||
-	    (key_val == GDK_KEY_Linefeed) ||
-	    (key_val == GDK_KEY_KP_Enter));
-}
-
-static gboolean
 html_editor_view_key_press_event (GtkWidget *widget,
                                   GdkEventKey *event)
 {
-	EHTMLEditorView *view = E_HTML_EDITOR_VIEW (widget);
-
 	if (event->keyval == GDK_KEY_Menu) {
 		gboolean event_handled;
 
@@ -809,43 +798,6 @@ html_editor_view_key_press_event (GtkWidget *widget,
 		return event_handled;
 	}
 
-	if (event->keyval == GDK_KEY_Tab ||
-	    event->keyval == GDK_KEY_ISO_Left_Tab ||
-	    event->keyval == GDK_KEY_BackSpace ||
-	    event->keyval == GDK_KEY_Delete ||
-	    is_return_key (event->keyval)) {
-		GDBusProxy *web_extension;
-		GVariant *result;
-
-		web_extension = e_html_editor_view_get_web_extension_proxy (view);
-		if (!web_extension)
-			goto out;
-
-		result = g_dbus_proxy_call_sync (
-			web_extension,
-			"DOMProcessOnKeyPress",
-			g_variant_new (
-				"(tuu)",
-				webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view)),
-				event->keyval,
-				event->state),
-			G_DBUS_CALL_FLAGS_NONE,
-			-1,
-			NULL,
-			NULL);
-
-		if (result) {
-			gboolean ret_val = FALSE;
-
-			g_variant_get (result, "(b)", &ret_val);
-			g_variant_unref (result);
-
-			if (ret_val)
-				return ret_val;
-		}
-	}
-
- out:
 	/* Chain up to parent's key_press_event() method. */
 	return GTK_WIDGET_CLASS (e_html_editor_view_parent_class)->key_press_event (widget, event);
 }

@@ -40,6 +40,7 @@
 #define HTML_KEY_CODE_CONTROL 17
 #define HTML_KEY_CODE_SPACE 32
 #define HTML_KEY_CODE_DELETE 46
+#define HTML_KEY_CODE_TABULATOR 9
 
 #define TRY_TO_PRESERVE_BLOCKS 0
 
@@ -1977,20 +1978,153 @@ surround_text_with_paragraph_if_needed (WebKitDOMDocument *document,
 	return FALSE;
 }
 
-static void
-body_keydown_event_cb (WebKitDOMElement *element,
-                       WebKitDOMUIEvent *event,
-                       EHTMLEditorWebExtension *extension)
+static gboolean
+selection_is_in_table (WebKitDOMDocument *document,
+                       gboolean *first_cell,
+                       WebKitDOMNode **table_node)
 {
-	glong key_code;
+	WebKitDOMDOMWindow *dom_window;
+	WebKitDOMDOMSelection *dom_selection;
+	WebKitDOMNode *node, *parent;
+	WebKitDOMRange *range;
 
-	key_code = webkit_dom_ui_event_get_key_code (event);
-	if (key_code == HTML_KEY_CODE_CONTROL)
-		dom_set_links_active (
-			webkit_dom_node_get_owner_document (WEBKIT_DOM_NODE (element)), TRUE);
-	else if (key_code == HTML_KEY_CODE_DELETE ||
-		 key_code == HTML_KEY_CODE_BACKSPACE)
-		e_html_editor_web_extension_set_dont_save_history_in_body_input (extension, TRUE);
+	dom_window = webkit_dom_document_get_default_view (document);
+	dom_selection = webkit_dom_dom_window_get_selection (dom_window);
+	g_object_unref (dom_window);
+
+	if (first_cell != NULL)
+		*first_cell = FALSE;
+
+	if (table_node != NULL)
+		*table_node = NULL;
+
+	if (webkit_dom_dom_selection_get_range_count (dom_selection) < 1) {
+		g_object_unref (dom_selection);
+		return FALSE;
+	}
+
+	range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
+	node = webkit_dom_range_get_start_container (range, NULL);
+	g_object_unref (range);
+	g_object_unref (dom_selection);
+
+	parent = node;
+	while (parent && !WEBKIT_DOM_IS_HTML_BODY_ELEMENT (parent)) {
+		if (WEBKIT_DOM_IS_HTML_TABLE_CELL_ELEMENT (parent)) {
+			if (first_cell != NULL) {
+				if (!webkit_dom_node_get_previous_sibling (parent)) {
+					gboolean on_start = TRUE;
+					WebKitDOMNode *tmp;
+
+					tmp = webkit_dom_node_get_previous_sibling (node);
+					if (!tmp && WEBKIT_DOM_IS_TEXT (node))
+						on_start = webkit_dom_range_get_start_offset (range, NULL) == 0;
+					else if (tmp)
+						on_start = FALSE;
+
+					if (on_start) {
+						node = webkit_dom_node_get_parent_node (parent);
+						if (node && WEBKIT_DOM_HTML_TABLE_ROW_ELEMENT (node))
+							if (!webkit_dom_node_get_previous_sibling (node))
+								*first_cell = TRUE;
+					}
+				}
+			} else
+				return TRUE;
+		}
+		if (WEBKIT_DOM_IS_HTML_TABLE_ELEMENT (parent)) {
+			if (table_node != NULL)
+				*table_node = parent;
+			else
+				return TRUE;
+		}
+		parent = webkit_dom_node_get_parent_node (parent);
+	}
+
+	if (table_node == NULL)
+		return FALSE;
+
+	return *table_node != NULL;
+}
+
+static gboolean
+jump_to_next_table_cell (WebKitDOMDocument *document,
+                         gboolean jump_back)
+{
+	WebKitDOMDOMWindow *dom_window;
+	WebKitDOMDOMSelection *dom_selection;
+	WebKitDOMNode *node, *cell;
+	WebKitDOMRange *range;
+
+	if (!selection_is_in_table (document, NULL, NULL))
+		return FALSE;
+
+	dom_window = webkit_dom_document_get_default_view (document);
+	dom_selection = webkit_dom_dom_window_get_selection (dom_window);
+	g_object_unref (dom_window);
+	range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
+	node = webkit_dom_range_get_start_container (range, NULL);
+
+	cell = node;
+	while (cell && !WEBKIT_DOM_IS_HTML_TABLE_CELL_ELEMENT (cell)) {
+		cell = webkit_dom_node_get_parent_node (cell);
+	}
+
+	if (!WEBKIT_DOM_IS_HTML_TABLE_CELL_ELEMENT (cell)) {
+		g_object_unref (range);
+		g_object_unref (dom_selection);
+		return FALSE;
+	}
+
+	if (jump_back) {
+		/* Get previous cell */
+		node = webkit_dom_node_get_previous_sibling (cell);
+		if (!node || !WEBKIT_DOM_IS_HTML_TABLE_CELL_ELEMENT (node)) {
+			/* No cell, go one row up. */
+			node = webkit_dom_node_get_parent_node (cell);
+			node = webkit_dom_node_get_previous_sibling (node);
+			if (node && WEBKIT_DOM_IS_HTML_TABLE_ROW_ELEMENT (node)) {
+				node = webkit_dom_node_get_last_child (node);
+			} else {
+				/* No row above, move to the block before table. */
+				node = webkit_dom_node_get_parent_node (cell);
+				while (!WEBKIT_DOM_IS_HTML_BODY_ELEMENT (webkit_dom_node_get_parent_node (node)))
+					node = webkit_dom_node_get_parent_node (node);
+
+				node = webkit_dom_node_get_previous_sibling (node);
+			}
+		}
+	} else {
+		/* Get next cell */
+		node = webkit_dom_node_get_next_sibling (cell);
+		if (!node || !WEBKIT_DOM_IS_HTML_TABLE_CELL_ELEMENT (node)) {
+			/* No cell, go one row below. */
+			node = webkit_dom_node_get_parent_node (cell);
+			node = webkit_dom_node_get_next_sibling (node);
+			if (node && WEBKIT_DOM_IS_HTML_TABLE_ROW_ELEMENT (node)) {
+				node = webkit_dom_node_get_first_child (node);
+			} else {
+				/* No row below, move to the block after table. */
+				node = webkit_dom_node_get_parent_node (cell);
+				while (!WEBKIT_DOM_IS_HTML_BODY_ELEMENT (webkit_dom_node_get_parent_node (node)))
+					node = webkit_dom_node_get_parent_node (node);
+
+				node = webkit_dom_node_get_next_sibling (node);
+			}
+		}
+	}
+
+	if (!node)
+		return FALSE;
+
+	webkit_dom_range_select_node_contents (range, node, NULL);
+	webkit_dom_range_collapse (range, TRUE, NULL);
+	webkit_dom_dom_selection_remove_all_ranges (dom_selection);
+	webkit_dom_dom_selection_add_range (dom_selection, range);
+	g_object_unref (range);
+	g_object_unref (dom_selection);
+
+	return TRUE;
 }
 
 static gboolean
@@ -2037,25 +2171,94 @@ save_history_before_event_in_table (WebKitDOMDocument *document,
 	return FALSE;
 }
 
+static gboolean
+insert_tabulator (WebKitDOMDocument *document,
+                  EHTMLEditorWebExtension *extension)
+{
+	EHTMLEditorUndoRedoManager *manager;
+	EHTMLEditorHistoryEvent *ev = NULL;
+	gboolean success;
+
+	manager = e_html_editor_web_extension_get_undo_redo_manager (extension);
+
+	if (!e_html_editor_undo_redo_manager_is_operation_in_progress (manager)) {
+		ev = g_new0 (EHTMLEditorHistoryEvent, 1);
+		ev->type = HISTORY_INPUT;
+
+		if (!dom_selection_is_collapsed (document)) {
+			WebKitDOMRange *tmp_range;
+
+			tmp_range = dom_get_current_range (document);
+			insert_delete_event (document, extension, tmp_range);
+			g_object_unref (tmp_range);
+		}
+
+		dom_selection_get_coordinates (
+			document,
+			&ev->before.start.x,
+			&ev->before.start.y,
+			&ev->before.end.x,
+			&ev->before.end.y);
+
+		ev->before.end.x = ev->before.start.x;
+		ev->before.end.y = ev->before.start.y;
+	}
+
+	success = dom_exec_command (document, extension, E_HTML_EDITOR_VIEW_COMMAND_INSERT_TEXT, "\t");
+
+	if (ev) {
+		if (success) {
+			WebKitDOMElement *element;
+			WebKitDOMDocumentFragment *fragment;
+
+			dom_selection_get_coordinates (
+				document,
+				&ev->after.start.x,
+				&ev->after.start.y,
+				&ev->after.end.x,
+				&ev->after.end.y);
+
+			fragment = webkit_dom_document_create_document_fragment (document);
+			element = webkit_dom_document_create_element (document, "span", NULL);
+			webkit_dom_html_element_set_inner_text (
+				WEBKIT_DOM_HTML_ELEMENT (element), "\t", NULL);
+			webkit_dom_element_set_attribute (
+				element, "class", "Apple-tab-span", NULL);
+			webkit_dom_element_set_attribute (
+				element, "style", "white-space:pre", NULL);
+			webkit_dom_node_append_child (
+				WEBKIT_DOM_NODE (fragment), WEBKIT_DOM_NODE (element), NULL);
+			webkit_dom_node_append_child (
+				WEBKIT_DOM_NODE (fragment),
+				WEBKIT_DOM_NODE (dom_create_selection_marker (document, TRUE)),
+				NULL);
+			webkit_dom_node_append_child (
+				WEBKIT_DOM_NODE (fragment),
+				WEBKIT_DOM_NODE (dom_create_selection_marker (document, FALSE)),
+				NULL);
+			ev->data.fragment = fragment;
+
+			e_html_editor_undo_redo_manager_insert_history_event (manager, ev);
+			e_html_editor_web_extension_set_content_changed (extension);
+		} else {
+			e_html_editor_undo_redo_manager_remove_current_history_event (manager);
+			e_html_editor_undo_redo_manager_remove_current_history_event (manager);
+			g_free (ev);
+		}
+	}
+
+	return success;
+}
+
 static void
 body_keypress_event_cb (WebKitDOMElement *element,
                         WebKitDOMUIEvent *event,
                         EHTMLEditorWebExtension *extension)
 {
-	glong key_code;
 	WebKitDOMDocument *document;
-	WebKitDOMDOMWindow *dom_window;
-	WebKitDOMDOMSelection *dom_selection;
-	WebKitDOMRange *range;
-
-	e_html_editor_web_extension_set_return_key_pressed (extension, FALSE);
-	e_html_editor_web_extension_set_space_key_pressed (extension, FALSE);
-
-	key_code = webkit_dom_ui_event_get_key_code (event);
-	if (key_code == HTML_KEY_CODE_RETURN)
-		e_html_editor_web_extension_set_return_key_pressed (extension, TRUE);
-	else if (key_code == HTML_KEY_CODE_SPACE)
-		e_html_editor_web_extension_set_space_key_pressed (extension, TRUE);
+	WebKitDOMDOMWindow *dom_window = NULL;
+	WebKitDOMDOMSelection *dom_selection = NULL;
+	WebKitDOMRange *range = NULL;
 
 	document = webkit_dom_node_get_owner_document (WEBKIT_DOM_NODE (element));
 	dom_window = webkit_dom_document_get_default_view (document);
@@ -2063,16 +2266,84 @@ body_keypress_event_cb (WebKitDOMElement *element,
 	g_object_unref (dom_window);
 	range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
 
-	if (save_history_before_event_in_table (document, extension, range)) {
-		g_object_unref (range);
-		g_object_unref (dom_selection);
+	if (!webkit_dom_range_get_collapsed (range, NULL))
+		insert_delete_event (document, extension, range);
+}
+
+static void
+body_keydown_event_cb (WebKitDOMElement *element,
+                       WebKitDOMUIEvent *event,
+                       EHTMLEditorWebExtension *extension)
+{
+	gboolean backspace_key, delete_key, space_key, return_key;
+	gboolean shift_key, control_key;
+	glong key_code;
+	WebKitDOMDocument *document;
+	WebKitDOMDOMWindow *dom_window = NULL;
+	WebKitDOMDOMSelection *dom_selection = NULL;
+	WebKitDOMRange *range = NULL;
+
+	document = webkit_dom_node_get_owner_document (WEBKIT_DOM_NODE (element));
+
+	key_code = webkit_dom_ui_event_get_key_code (event);
+	delete_key = key_code == HTML_KEY_CODE_DELETE;
+	return_key = key_code == HTML_KEY_CODE_RETURN;
+	backspace_key = key_code == HTML_KEY_CODE_BACKSPACE;
+	space_key = key_code == HTML_KEY_CODE_SPACE;
+
+	if (key_code == HTML_KEY_CODE_CONTROL) {
+		dom_set_links_active (document, TRUE);
 		return;
 	}
 
-	if (!webkit_dom_range_get_collapsed (range, NULL))
-		insert_delete_event (document, extension, range);
+	e_html_editor_web_extension_set_dont_save_history_in_body_input (extension, delete_key || backspace_key);
 
-	if (e_html_editor_web_extension_get_return_key_pressed (extension)) {
+	if (!(delete_key || return_key || backspace_key || space_key))
+		return;
+
+	shift_key = webkit_dom_keyboard_event_get_shift_key (WEBKIT_DOM_KEYBOARD_EVENT (event));
+	control_key = webkit_dom_keyboard_event_get_ctrl_key (WEBKIT_DOM_KEYBOARD_EVENT (event));
+
+	e_html_editor_web_extension_set_return_key_pressed (extension, return_key);
+	e_html_editor_web_extension_set_space_key_pressed (extension, space_key);
+
+	if (key_code == HTML_KEY_CODE_TABULATOR) {
+		if (jump_to_next_table_cell (document, shift_key)) {
+			webkit_dom_event_prevent_default (WEBKIT_DOM_EVENT (event));
+			goto out;
+		}
+
+		if (!shift_key && insert_tabulator (document, extension))
+			webkit_dom_event_prevent_default (WEBKIT_DOM_EVENT (event));
+
+		goto out;
+	}
+
+	if (return_key && key_press_event_process_return_key (document, extension)) {
+		webkit_dom_event_prevent_default (WEBKIT_DOM_EVENT (event));
+		goto out;
+	}
+
+	if (backspace_key && key_press_event_process_backspace_key (document, extension)) {
+		webkit_dom_event_prevent_default (WEBKIT_DOM_EVENT (event));
+		goto out;
+	}
+
+	if ((delete_key || backspace_key) &&
+	    key_press_event_process_delete_or_backspace_key (document, extension, key_code, control_key, delete_key)) {
+		webkit_dom_event_prevent_default (WEBKIT_DOM_EVENT (event));
+		goto out;
+	}
+
+	dom_window = webkit_dom_document_get_default_view (document);
+	dom_selection = webkit_dom_dom_window_get_selection (dom_window);
+	g_object_unref (dom_window);
+	range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
+
+	if (save_history_before_event_in_table (document, extension, range))
+		goto out;
+
+	if (return_key) {
 		EHTMLEditorHistoryEvent *ev;
 		EHTMLEditorUndoRedoManager *manager;
 
@@ -2091,7 +2362,7 @@ body_keypress_event_cb (WebKitDOMElement *element,
 			&ev->after.end.y);
 		e_html_editor_undo_redo_manager_insert_history_event (manager, ev);
 	}
-
+ out:
 	g_object_unref (range);
 	g_object_unref (dom_selection);
 }
@@ -8356,8 +8627,8 @@ save_history_for_delete_or_backspace (WebKitDOMDocument *document,
 gboolean
 dom_fix_structure_after_delete_before_quoted_content (WebKitDOMDocument *document,
 						      EHTMLEditorWebExtension *extension,
-						      guint key_val,
-						      guint state,
+						      glong key_code,
+						      gboolean control_key,
 						      gboolean delete_key)
 {
 	gboolean collapsed = FALSE;
@@ -8397,9 +8668,9 @@ dom_fix_structure_after_delete_before_quoted_content (WebKitDOMDocument *documen
 		if (node && !WEBKIT_DOM_IS_HTML_BR_ELEMENT (node))
 			goto restore;
 		else {
-			if (key_val != ~0)
+			if (key_code != ~0)
 				save_history_for_delete_or_backspace (
-					document, extension, key_val == GDK_KEY_Delete, (state & GDK_CONTROL_MASK) != 0);
+					document, extension, key_code == HTML_KEY_CODE_DELETE, control_key);
 
 			/* Remove the empty block and move caret to the right place. */
 			remove_node (block);
@@ -8491,9 +8762,9 @@ dom_fix_structure_after_delete_before_quoted_content (WebKitDOMDocument *documen
 		}
 	}
  restore:
-	if (key_val != ~0)
+	if (key_code != ~0)
 		save_history_for_delete_or_backspace (
-			document, extension, key_val == GDK_KEY_Delete, (state & GDK_CONTROL_MASK) != 0);
+			document, extension, key_code == HTML_KEY_CODE_DELETE, control_key);
 
 	dom_selection_restore (document);
 
@@ -8576,158 +8847,9 @@ split_citation (WebKitDOMDocument *document,
 }
 
 static gboolean
-selection_is_in_table (WebKitDOMDocument *document,
-                       gboolean *first_cell,
-                       WebKitDOMNode **table_node)
-{
-	WebKitDOMDOMWindow *dom_window;
-	WebKitDOMDOMSelection *dom_selection;
-	WebKitDOMNode *node, *parent;
-	WebKitDOMRange *range;
-
-	dom_window = webkit_dom_document_get_default_view (document);
-	dom_selection = webkit_dom_dom_window_get_selection (dom_window);
-	g_object_unref (dom_window);
-
-	if (first_cell != NULL)
-		*first_cell = FALSE;
-
-	if (table_node != NULL)
-		*table_node = NULL;
-
-	if (webkit_dom_dom_selection_get_range_count (dom_selection) < 1) {
-		g_object_unref (dom_selection);
-		return FALSE;
-	}
-
-	range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
-	node = webkit_dom_range_get_start_container (range, NULL);
-	g_object_unref (range);
-	g_object_unref (dom_selection);
-
-	parent = node;
-	while (parent && !WEBKIT_DOM_IS_HTML_BODY_ELEMENT (parent)) {
-		if (WEBKIT_DOM_IS_HTML_TABLE_CELL_ELEMENT (parent)) {
-			if (first_cell != NULL) {
-				if (!webkit_dom_node_get_previous_sibling (parent)) {
-					gboolean on_start = TRUE;
-					WebKitDOMNode *tmp;
-
-					tmp = webkit_dom_node_get_previous_sibling (node);
-					if (!tmp && WEBKIT_DOM_IS_TEXT (node))
-						on_start = webkit_dom_range_get_start_offset (range, NULL) == 0;
-					else if (tmp)
-						on_start = FALSE;
-
-					if (on_start) {
-						node = webkit_dom_node_get_parent_node (parent);
-						if (node && WEBKIT_DOM_HTML_TABLE_ROW_ELEMENT (node))
-							if (!webkit_dom_node_get_previous_sibling (node))
-								*first_cell = TRUE;
-					}
-				}
-			} else
-				return TRUE;
-		}
-		if (WEBKIT_DOM_IS_HTML_TABLE_ELEMENT (parent)) {
-			if (table_node != NULL)
-				*table_node = parent;
-			else
-				return TRUE;
-		}
-		parent = webkit_dom_node_get_parent_node (parent);
-	}
-
-	if (table_node == NULL)
-		return FALSE;
-
-	return *table_node != NULL;
-}
-
-static gboolean
-jump_to_next_table_cell (WebKitDOMDocument *document,
-                         gboolean jump_back)
-{
-	WebKitDOMDOMWindow *dom_window;
-	WebKitDOMDOMSelection *dom_selection;
-	WebKitDOMNode *node, *cell;
-	WebKitDOMRange *range;
-
-	if (!selection_is_in_table (document, NULL, NULL))
-		return FALSE;
-
-	dom_window = webkit_dom_document_get_default_view (document);
-	dom_selection = webkit_dom_dom_window_get_selection (dom_window);
-	g_object_unref (dom_window);
-	range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
-	node = webkit_dom_range_get_start_container (range, NULL);
-
-	cell = node;
-	while (cell && !WEBKIT_DOM_IS_HTML_TABLE_CELL_ELEMENT (cell)) {
-		cell = webkit_dom_node_get_parent_node (cell);
-	}
-
-	if (!WEBKIT_DOM_IS_HTML_TABLE_CELL_ELEMENT (cell)) {
-		g_object_unref (range);
-		g_object_unref (dom_selection);
-		return FALSE;
-	}
-
-	if (jump_back) {
-		/* Get previous cell */
-		node = webkit_dom_node_get_previous_sibling (cell);
-		if (!node || !WEBKIT_DOM_IS_HTML_TABLE_CELL_ELEMENT (node)) {
-			/* No cell, go one row up. */
-			node = webkit_dom_node_get_parent_node (cell);
-			node = webkit_dom_node_get_previous_sibling (node);
-			if (node && WEBKIT_DOM_IS_HTML_TABLE_ROW_ELEMENT (node)) {
-				node = webkit_dom_node_get_last_child (node);
-			} else {
-				/* No row above, move to the block before table. */
-				node = webkit_dom_node_get_parent_node (cell);
-				while (!WEBKIT_DOM_IS_HTML_BODY_ELEMENT (webkit_dom_node_get_parent_node (node)))
-					node = webkit_dom_node_get_parent_node (node);
-
-				node = webkit_dom_node_get_previous_sibling (node);
-			}
-		}
-	} else {
-		/* Get next cell */
-		node = webkit_dom_node_get_next_sibling (cell);
-		if (!node || !WEBKIT_DOM_IS_HTML_TABLE_CELL_ELEMENT (node)) {
-			/* No cell, go one row below. */
-			node = webkit_dom_node_get_parent_node (cell);
-			node = webkit_dom_node_get_next_sibling (node);
-			if (node && WEBKIT_DOM_IS_HTML_TABLE_ROW_ELEMENT (node)) {
-				node = webkit_dom_node_get_first_child (node);
-			} else {
-				/* No row below, move to the block after table. */
-				node = webkit_dom_node_get_parent_node (cell);
-				while (!WEBKIT_DOM_IS_HTML_BODY_ELEMENT (webkit_dom_node_get_parent_node (node)))
-					node = webkit_dom_node_get_parent_node (node);
-
-				node = webkit_dom_node_get_next_sibling (node);
-			}
-		}
-	}
-
-	if (!node)
-		return FALSE;
-
-	webkit_dom_range_select_node_contents (range, node, NULL);
-	webkit_dom_range_collapse (range, TRUE, NULL);
-	webkit_dom_dom_selection_remove_all_ranges (dom_selection);
-	webkit_dom_dom_selection_add_range (dom_selection, range);
-	g_object_unref (range);
-	g_object_unref (dom_selection);
-
-	return TRUE;
-}
-
-static gboolean
 delete_last_character_from_previous_line_in_quoted_block (WebKitDOMDocument *document,
 							  EHTMLEditorWebExtension *extension,
-							  guint key_val,
+							  glong key_code,
 							  guint state)
 {
 	EHTMLEditorHistoryEvent *ev = NULL;
@@ -8771,7 +8893,7 @@ delete_last_character_from_previous_line_in_quoted_block (WebKitDOMDocument *doc
 	if (!(prev_sibling = webkit_dom_node_get_previous_sibling (beginning)))
 		goto out;
 
-	if (key_val != ~0) {
+	if (key_code != ~0) {
 		ev = g_new0 (EHTMLEditorHistoryEvent, 1);
 		ev->type = HISTORY_DELETE;
 
@@ -8786,7 +8908,7 @@ delete_last_character_from_previous_line_in_quoted_block (WebKitDOMDocument *doc
 	}
 
 	if (WEBKIT_DOM_IS_HTML_BR_ELEMENT (prev_sibling)) {
-		if (key_val != ~0)
+		if (key_code != ~0)
 			webkit_dom_node_append_child (WEBKIT_DOM_NODE (fragment), prev_sibling, NULL);
 		else
 			remove_node (prev_sibling);
@@ -8796,7 +8918,7 @@ delete_last_character_from_previous_line_in_quoted_block (WebKitDOMDocument *doc
 	if (WEBKIT_DOM_IS_ELEMENT (prev_sibling) &&
 	    webkit_dom_element_has_attribute (WEBKIT_DOM_ELEMENT (prev_sibling), "data-hidden-space")) {
 		hidden_space = TRUE;
-		if (key_val != ~0)
+		if (key_code != ~0)
 			webkit_dom_node_insert_before (
 				WEBKIT_DOM_NODE (fragment),
 				prev_sibling,
@@ -8808,13 +8930,13 @@ delete_last_character_from_previous_line_in_quoted_block (WebKitDOMDocument *doc
 
 	node = webkit_dom_node_get_previous_sibling (beginning);
 
-	if (key_val != ~0)
+	if (key_code != ~0)
 		webkit_dom_node_append_child (WEBKIT_DOM_NODE (fragment), beginning, NULL);
 	else
 		remove_node (beginning);
 
 	if (!hidden_space) {
-		if (key_val != ~0) {
+		if (key_code != ~0) {
 			gchar *data;
 
 			data = webkit_dom_character_data_substring_data (
@@ -8841,7 +8963,7 @@ delete_last_character_from_previous_line_in_quoted_block (WebKitDOMDocument *doc
 			NULL);
 	}
 
-	if (key_val != ~0) {
+	if (key_code != ~0) {
 		EHTMLEditorUndoRedoManager *manager;
 
 		dom_selection_get_coordinates (
@@ -8869,8 +8991,8 @@ delete_last_character_from_previous_line_in_quoted_block (WebKitDOMDocument *doc
 gboolean
 dom_delete_last_character_on_line_in_quoted_block (WebKitDOMDocument *document,
 						   EHTMLEditorWebExtension *extension,
-						   guint key_val,
-						   guint state)
+						   glong key_code,
+						   gboolean control_key)
 {
 	gboolean success = FALSE;
 	WebKitDOMElement *element;
@@ -8919,9 +9041,9 @@ dom_delete_last_character_on_line_in_quoted_block (WebKitDOMDocument *document,
 	if (!webkit_dom_node_get_previous_sibling (beginning))
 		goto out;
 
-	if (key_val != ~0)
+	if (key_code != ~0)
 		save_history_for_delete_or_backspace (
-			document, extension, key_val == GDK_KEY_Delete, (state & GDK_CONTROL_MASK) != 0);
+			document, extension, key_code == HTML_KEY_CODE_DELETE, control_key);
 
 	element = webkit_dom_node_get_parent_element (beginning);
 	remove_node (WEBKIT_DOM_NODE (element));
@@ -8932,94 +9054,6 @@ dom_delete_last_character_on_line_in_quoted_block (WebKitDOMDocument *document,
 
 	if (success)
 		dom_insert_new_line_into_citation (document, extension, NULL);
-
-	return success;
-}
-
-static gboolean
-is_return_key (guint key_val)
-{
-	return (
-	    (key_val == GDK_KEY_Return) ||
-	    (key_val == GDK_KEY_Linefeed) ||
-	    (key_val == GDK_KEY_KP_Enter));
-}
-
-static gboolean
-insert_tabulator (WebKitDOMDocument *document,
-                  EHTMLEditorWebExtension *extension)
-{
-	EHTMLEditorUndoRedoManager *manager;
-	EHTMLEditorHistoryEvent *ev = NULL;
-	gboolean success;
-
-	manager = e_html_editor_web_extension_get_undo_redo_manager (extension);
-
-	if (!e_html_editor_undo_redo_manager_is_operation_in_progress (manager)) {
-		ev = g_new0 (EHTMLEditorHistoryEvent, 1);
-		ev->type = HISTORY_INPUT;
-
-		if (!dom_selection_is_collapsed (document)) {
-			WebKitDOMRange *tmp_range;
-
-			tmp_range = dom_get_current_range (document);
-			insert_delete_event (document, extension, tmp_range);
-			g_object_unref (tmp_range);
-		}
-
-		dom_selection_get_coordinates (
-			document,
-			&ev->before.start.x,
-			&ev->before.start.y,
-			&ev->before.end.x,
-			&ev->before.end.y);
-
-		ev->before.end.x = ev->before.start.x;
-		ev->before.end.y = ev->before.start.y;
-	}
-
-	success = dom_exec_command (document, extension, E_HTML_EDITOR_VIEW_COMMAND_INSERT_TEXT, "\t");
-
-	if (ev) {
-		if (success) {
-			WebKitDOMElement *element;
-			WebKitDOMDocumentFragment *fragment;
-
-			dom_selection_get_coordinates (
-				document,
-				&ev->after.start.x,
-				&ev->after.start.y,
-				&ev->after.end.x,
-				&ev->after.end.y);
-
-			fragment = webkit_dom_document_create_document_fragment (document);
-			element = webkit_dom_document_create_element (document, "span", NULL);
-			webkit_dom_html_element_set_inner_text (
-				WEBKIT_DOM_HTML_ELEMENT (element), "\t", NULL);
-			webkit_dom_element_set_attribute (
-				element, "class", "Apple-tab-span", NULL);
-			webkit_dom_element_set_attribute (
-				element, "style", "white-space:pre", NULL);
-			webkit_dom_node_append_child (
-				WEBKIT_DOM_NODE (fragment), WEBKIT_DOM_NODE (element), NULL);
-			webkit_dom_node_append_child (
-				WEBKIT_DOM_NODE (fragment),
-				WEBKIT_DOM_NODE (dom_create_selection_marker (document, TRUE)),
-				NULL);
-			webkit_dom_node_append_child (
-				WEBKIT_DOM_NODE (fragment),
-				WEBKIT_DOM_NODE (dom_create_selection_marker (document, FALSE)),
-				NULL);
-			ev->data.fragment = fragment;
-
-			e_html_editor_undo_redo_manager_insert_history_event (manager, ev);
-			e_html_editor_web_extension_set_content_changed (extension);
-		} else {
-			e_html_editor_undo_redo_manager_remove_current_history_event (manager);
-			e_html_editor_undo_redo_manager_remove_current_history_event (manager);
-			g_free (ev);
-		}
-	}
 
 	return success;
 }
@@ -9515,15 +9549,15 @@ key_press_event_process_backspace_key (WebKitDOMDocument *document,
 gboolean
 key_press_event_process_delete_or_backspace_key (WebKitDOMDocument *document,
 						 EHTMLEditorWebExtension *extension,
-						 guint key_val,
-						 guint state,
+						 glong key_code,
+						 gboolean control_key,
 						 gboolean delete)
 {
 	gboolean html_mode;
 	gboolean local_delete;
 
 	html_mode = e_html_editor_web_extension_get_html_mode (extension);
-	local_delete = (key_val == GDK_KEY_Delete) || delete;
+	local_delete = (key_code == HTML_KEY_CODE_DELETE) || delete;
 
 	if (e_html_editor_web_extension_get_magic_smileys_enabled (extension)) {
 		/* If deleting something in a smiley it won't be a smiley
@@ -9537,14 +9571,14 @@ key_press_event_process_delete_or_backspace_key (WebKitDOMDocument *document,
 	}
 
 	if (!local_delete && !html_mode &&
-	    dom_delete_last_character_on_line_in_quoted_block (document, extension, key_val, state))
+	    dom_delete_last_character_on_line_in_quoted_block (document, extension, key_code, control_key))
 		goto out;
 
 	if (!local_delete && !html_mode &&
-	    delete_last_character_from_previous_line_in_quoted_block (document, extension, key_val, state))
+	    delete_last_character_from_previous_line_in_quoted_block (document, extension, key_code, control_key))
 		goto out;
 
-	if (dom_fix_structure_after_delete_before_quoted_content (document, extension, key_val, state, FALSE))
+	if (dom_fix_structure_after_delete_before_quoted_content (document, extension, key_code, control_key, FALSE))
 		goto out;
 
 	if (local_delete) {
@@ -9657,42 +9691,6 @@ key_press_event_process_delete_or_backspace_key (WebKitDOMDocument *document,
 	e_html_editor_web_extension_set_content_changed (extension);
 
 	return TRUE;
-}
-
-gboolean
-dom_process_on_key_press (WebKitDOMDocument *document,
-                          EHTMLEditorWebExtension *extension,
-                          guint key_val,
-			  guint state)
-{
-	e_html_editor_web_extension_set_dont_save_history_in_body_input (extension, FALSE);
-	e_html_editor_web_extension_set_return_key_pressed (extension, FALSE);
-	e_html_editor_web_extension_set_space_key_pressed (extension, FALSE);
-
-	if (key_val == GDK_KEY_Tab || key_val == GDK_KEY_ISO_Left_Tab) {
-		if (jump_to_next_table_cell (document, key_val == GDK_KEY_ISO_Left_Tab))
-			return TRUE;
-
-		if (key_val == GDK_KEY_Tab)
-			return insert_tabulator (document, extension);
-		else
-			return FALSE;
-	}
-
-	if (is_return_key (key_val) && key_press_event_process_return_key (document, extension))
-		return TRUE;
-
-	if (key_val == GDK_KEY_BackSpace &&
-	    key_press_event_process_backspace_key (document, extension)) {
-		return TRUE;
-	}
-
-	if ((key_val == GDK_KEY_Delete || key_val == GDK_KEY_BackSpace) &&
-	    key_press_event_process_delete_or_backspace_key (document, extension, key_val, state, key_val == GDK_KEY_Delete)) {
-		return TRUE;
-	}
-
-	return FALSE;
 }
 
 gboolean
