@@ -192,6 +192,8 @@ print_node_inner_html (WebKitDOMNode *node)
 
 	inner_html = dom_get_node_inner_html (node);
 
+	printf ("    '%s'\n", inner_html);
+
 	g_free (inner_html);
 }
 
