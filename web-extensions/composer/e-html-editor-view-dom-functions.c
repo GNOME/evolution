@@ -7850,8 +7850,6 @@ dom_process_content_after_load (WebKitDOMDocument *document,
 {
 	WebKitDOMHTMLElement *body;
 	WebKitDOMDOMWindow *dom_window;
-	WebKitDOMNodeList *list;
-	gint ii, length;
 
 	/* Don't use CSS when possible to preserve compatibility with older
 	 * versions of Evolution or other MUAs */
@@ -7865,31 +7863,6 @@ dom_process_content_after_load (WebKitDOMDocument *document,
 	webkit_dom_element_remove_attribute (WEBKIT_DOM_ELEMENT (body), "style");
 	webkit_dom_element_set_attribute (
 		WEBKIT_DOM_ELEMENT (body), "data-message", "", NULL);
-
-	/* Workaround for https://bugzilla.gnome.org/show_bug.cgi?id=752997 where
-	* WebKit (2.4.9) crashes when it is trying to move or remove an anchor
-	* element that has an image element inside and this image element has
-	* the CSS float property set in the style attribute. To workaround it we
-	* will rename the style attribute and rename it back when we will send
-	* the message. It is unfortunate that we can change the formatting with
-	* this, but this is definitely better than crashing. This could be
-	* removed once Evolution switches to WebKit2 as the WebKit2 is unaffected
-	* (tested on 2.8.4). */
-	list = webkit_dom_document_query_selector_all (document, "a img[style]", NULL);
-	length = webkit_dom_node_list_get_length (list);
-	for (ii = 0; ii < length; ii++) {
-		WebKitDOMNode *node;
-		gchar *style_value;
-
-		node = webkit_dom_node_list_item (list, ii);
-		style_value = webkit_dom_element_get_attribute (WEBKIT_DOM_ELEMENT (node), "style");
-		if (camel_strstrcase (style_value, "float"))
-			rename_attribute (WEBKIT_DOM_ELEMENT (node), "style", "data-style");
-		g_free (style_value);
-
-		g_object_unref (node);
-	}
-	g_object_unref (list);
 
 	if (e_html_editor_web_extension_get_convert_in_situ (extension)) {
 		dom_convert_content (document, extension, NULL);
