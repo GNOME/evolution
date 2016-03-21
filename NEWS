@@ -1,3 +1,17 @@
+Evolution 3.20.0 2016-03-21
+---------------------------
+
+Bug Fixes:
+	Bug 763631 - Folder->Subscriptions opened empty with gtk+3.19.11 (Milan Crha)
+
+Translations:
+	Jiri Grönroos (fi)
+	Bernd Homuth (de)
+	Efstathios Iosifidis (el)
+	Ask Hjorth Larsen (da)
+	Justin van Steijn (nl)
+	Gianvito Cavasoli (it)
+
 Evolution 3.19.92 2016-03-14
 ----------------------------
 
