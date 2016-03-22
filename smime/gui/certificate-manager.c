@@ -167,6 +167,8 @@ struct _ECertManagerConfigPrivate {
 
 	GtkTreeModel *mail_model;
 	GtkTreeView *mail_tree_view; /* not referenced */
+
+	GCancellable *load_all_certs_cancellable;
 };
 
 typedef struct {
@@ -1709,6 +1711,153 @@ unload_certs (CertPage *cp)
 		(GDestroyNotify) gtk_tree_iter_free);
 }
 
+typedef struct _LoadAllCertsAsyncData
+{
+	ECertManagerConfig *ecmc;
+	GCancellable *cancellable;
+	GSList *ecerts;
+	gint tries;
+} LoadAllCertsAsyncData;
+
+static void
+load_all_certs_async_data_free (gpointer ptr)
+{
+	LoadAllCertsAsyncData *data = ptr;
+
+	if (data) {
+		g_clear_object (&data->ecmc);
+		g_clear_object (&data->cancellable);
+		g_slist_free_full (data->ecerts, g_object_unref);
+		g_free (data);
+	}
+}
+
+static gboolean
+load_all_certs_done_idle_cb (gpointer user_data)
+{
+	LoadAllCertsAsyncData *data = user_data;
+
+	g_return_val_if_fail (data != NULL, FALSE);
+	g_return_val_if_fail (E_IS_CERT_MANAGER_CONFIG (data->ecmc), FALSE);
+
+	if (!g_cancellable_is_cancelled (data->cancellable)) {
+		ECertManagerConfig *ecmc = data->ecmc;
+		GSList *link;
+
+		unload_certs (data->ecmc->priv->yourcerts_page);
+		unload_certs (data->ecmc->priv->contactcerts_page);
+		unload_certs (data->ecmc->priv->authoritycerts_page);
+
+		for (link = data->ecerts; link; link = g_slist_next (link)) {
+			ECert *cert = link->data;
+			ECertType ct;
+
+			if (!cert)
+				continue;
+
+			ct = e_cert_get_cert_type (cert);
+			if (ct == data->ecmc->priv->yourcerts_page->cert_type) {
+				add_cert (data->ecmc->priv->yourcerts_page, g_object_ref (cert));
+			} else if (ct == data->ecmc->priv->authoritycerts_page->cert_type) {
+				add_cert (data->ecmc->priv->authoritycerts_page, g_object_ref (cert));
+			} else if (ct == data->ecmc->priv->contactcerts_page->cert_type || (ct != E_CERT_CA && ct != E_CERT_USER)) {
+				add_cert (data->ecmc->priv->contactcerts_page, g_object_ref (cert));
+			}
+		}
+
+		/* expand all three trees */
+		gtk_tree_view_expand_all (ECMC_TREE_VIEW (yourcerts_page));
+		gtk_tree_view_expand_all (ECMC_TREE_VIEW (contactcerts_page));
+		gtk_tree_view_expand_all (ECMC_TREE_VIEW (authoritycerts_page));
+
+		/* Now load settings of each treeview */
+		load_treeview_state (ECMC_TREE_VIEW (yourcerts_page));
+		load_treeview_state (ECMC_TREE_VIEW (contactcerts_page));
+		load_treeview_state (ECMC_TREE_VIEW (authoritycerts_page));
+	}
+
+	return FALSE;
+}
+
+static gpointer
+load_all_certs_thread (gpointer user_data)
+{
+	LoadAllCertsAsyncData *data = user_data;
+	CERTCertList *certList;
+	CERTCertListNode *node;
+
+	g_return_val_if_fail (data != NULL, NULL);
+
+	certList = PK11_ListCerts (PK11CertListUnique, NULL);
+
+	for (node = CERT_LIST_HEAD (certList);
+	     !CERT_LIST_END (node, certList) && !g_cancellable_is_cancelled (data->cancellable);
+	     node = CERT_LIST_NEXT (node)) {
+		ECert *cert = e_cert_new (CERT_DupCertificate ((CERTCertificate *) node->cert));
+
+		data->ecerts = g_slist_prepend (data->ecerts, cert);
+	}
+
+	CERT_DestroyCertList (certList);
+
+	g_idle_add_full (G_PRIORITY_HIGH_IDLE, load_all_certs_done_idle_cb, data, load_all_certs_async_data_free);
+
+	return NULL;
+}
+
+static gboolean
+load_all_threads_try_create_thread (gpointer user_data)
+{
+	LoadAllCertsAsyncData *data = user_data;
+	GThread *thread;
+	GError *error = NULL;
+
+	g_return_val_if_fail (data != NULL, FALSE);
+
+	if (data->tries > 10 || g_cancellable_is_cancelled (data->cancellable)) {
+		load_all_certs_async_data_free (data);
+		return FALSE;
+	}
+
+	thread = g_thread_try_new (NULL, load_all_certs_thread, data, &error);
+	if (g_error_matches (error, G_THREAD_ERROR, G_THREAD_ERROR_AGAIN)) {
+		data->tries++;
+
+		g_timeout_add (250, load_all_threads_try_create_thread, data);
+	} else if (!thread) {
+		g_warning ("%s: Failed to create thread: %s", G_STRFUNC, error ? error->message : "Unknown error");
+	} else {
+		g_thread_unref (thread);
+	}
+
+	g_clear_error (&error);
+
+	return FALSE;
+}
+
+static void
+load_all_certs (ECertManagerConfig *ecmc)
+{
+	LoadAllCertsAsyncData *data;
+
+	g_return_if_fail (E_IS_CERT_MANAGER_CONFIG (ecmc));
+
+	if (ecmc->priv->load_all_certs_cancellable) {
+		g_cancellable_cancel (ecmc->priv->load_all_certs_cancellable);
+		g_clear_object (&ecmc->priv->load_all_certs_cancellable);
+	}
+
+	ecmc->priv->load_all_certs_cancellable = g_cancellable_new ();
+
+	data = g_new0 (LoadAllCertsAsyncData, 1);
+	data->ecmc = g_object_ref (ecmc);
+	data->cancellable = g_object_ref (ecmc->priv->load_all_certs_cancellable);
+	data->ecerts = NULL;
+	data->tries = 0;
+
+	load_all_threads_try_create_thread (data);
+}
+
 static void
 load_certs (CertPage *cp)
 {
@@ -1741,28 +1890,9 @@ populate_ui (ECertManagerConfig *ecmc)
 {
 	/* This is an idle callback. */
 
-	ECertManagerConfigPrivate *priv = ecmc->priv;
-
-	unload_certs (priv->yourcerts_page);
-	load_certs (priv->yourcerts_page);
-
-	unload_certs (priv->contactcerts_page);
-	load_certs (priv->contactcerts_page);
-
-	unload_certs (priv->authoritycerts_page);
-	load_certs (priv->authoritycerts_page);
-
+	load_all_certs (ecmc);
 	load_mail_certs (ecmc);
 
-	/* expand all three trees */
-	gtk_tree_view_expand_all (ECMC_TREE_VIEW (yourcerts_page));
-	gtk_tree_view_expand_all (ECMC_TREE_VIEW (contactcerts_page));
-	gtk_tree_view_expand_all (ECMC_TREE_VIEW (authoritycerts_page));
-
-	/* Now load settings of each treeview */
-	load_treeview_state (ECMC_TREE_VIEW (yourcerts_page));
-	load_treeview_state (ECMC_TREE_VIEW (contactcerts_page));
-	load_treeview_state (ECMC_TREE_VIEW (authoritycerts_page));
 	load_treeview_state (ecmc->priv->mail_tree_view);
 
 	return FALSE;
@@ -1896,6 +2026,11 @@ cert_manager_config_dispose (GObject *object)
 	if (ecmc->priv->pref_window) {
 		g_signal_handlers_disconnect_matched (ecmc->priv->pref_window, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, ecmc);
 		ecmc->priv->pref_window = NULL;
+	}
+
+	if (ecmc->priv->load_all_certs_cancellable) {
+		g_cancellable_cancel (ecmc->priv->load_all_certs_cancellable);
+		g_clear_object (&ecmc->priv->load_all_certs_cancellable);
 	}
 
 	G_OBJECT_CLASS (e_cert_manager_config_parent_class)->dispose (object);
