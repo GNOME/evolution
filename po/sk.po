@@ -14,8 +14,8 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2016-03-12 05:52+0000\n"
-"PO-Revision-Date: 2016-03-12 13:04+0100\n"
+"POT-Creation-Date: 2016-03-22 05:41+0000\n"
+"PO-Revision-Date: 2016-03-22 07:49+0100\n"
 "Last-Translator: Dušan Kazik <prescott66@gmail.com>\n"
 "Language-Team: slovenčina <>\n"
 "Language: sk\n"
@@ -4880,7 +4880,7 @@ msgstr "Žiadny súhrn"
 #: ../e-util/e-name-selector-dialog.c:551 ../e-util/e-preferences-window.c:391
 #: ../e-util/e-table-field-chooser-dialog.c:207 ../mail/e-mail-browser.c:129
 #: ../mail/e-mail-notes.c:903 ../mail/em-folder-properties.c:688
-#: ../mail/em-subscription-editor.c:1759
+#: ../mail/em-subscription-editor.c:1765
 #: ../modules/plugin-manager/evolution-plugin-manager.c:256
 #: ../shell/e-shell-window-actions.c:280 ../shell/e-shell-window-actions.c:778
 #: ../smime/gui/certificate-manager.c:2068
@@ -7726,14 +7726,15 @@ msgstr "Prepína, či má byť zobrazené pole Kópia"
 
 #: ../composer/e-composer-actions.c:547
 msgid "_From Override Field"
-msgstr ""
+msgstr "_Nahradzovacie pole Od"
 
 #: ../composer/e-composer-actions.c:549
-#, fuzzy
 msgid ""
 "Toggles whether the From override field to change name or email address is "
 "displayed"
-msgstr "Prepína, či má byť zobrazené pole nahradenia odosielateľa"
+msgstr ""
+"Prepína, či má byť zobrazené nahradzovacie pole Od na zmenu mena alebo "
+"emailovej adresy"
 
 #: ../composer/e-composer-actions.c:555
 msgid "_Reply-To Field"
@@ -16957,7 +16958,7 @@ msgstr "Prihlásiť sa k _zobrazeným"
 msgid "Subscribe To _All"
 msgstr "Prihlásiť sa ku _všetkým"
 
-#: ../mail/em-subscription-editor.c:970 ../mail/em-subscription-editor.c:1912
+#: ../mail/em-subscription-editor.c:970 ../mail/em-subscription-editor.c:1914
 #: ../modules/mail/e-mail-shell-view-actions.c:1751
 msgid "_Unsubscribe"
 msgstr "O_dhlásiť odber"
@@ -16988,66 +16989,66 @@ msgstr[0] "celkom %d"
 msgstr[1] "celkom %d"
 msgstr[2] "celkom %d"
 
-#: ../mail/em-subscription-editor.c:1749
+#: ../mail/em-subscription-editor.c:1755
 msgid "Folder Subscriptions"
 msgstr "Priečinky prihlásené k odberu"
 
-#: ../mail/em-subscription-editor.c:1788
+#: ../mail/em-subscription-editor.c:1790
 msgid "_Account:"
 msgstr "Úč_et:"
 
-#: ../mail/em-subscription-editor.c:1801
+#: ../mail/em-subscription-editor.c:1803
 msgid "Clear Search"
 msgstr "Vyčistiť hľadanie"
 
-#: ../mail/em-subscription-editor.c:1818
+#: ../mail/em-subscription-editor.c:1820
 msgid "Sho_w items that contain:"
 msgstr "_Zobraziť položky obsahujúce:"
 
-#: ../mail/em-subscription-editor.c:1865
+#: ../mail/em-subscription-editor.c:1867
 msgid "Subscribe to the selected folder"
 msgstr "Prihlási sa k odberu vybraného priečinka"
 
-#: ../mail/em-subscription-editor.c:1866
+#: ../mail/em-subscription-editor.c:1868
 msgid "Su_bscribe"
 msgstr "P_rihlásiť k odberu"
 
-#: ../mail/em-subscription-editor.c:1911
+#: ../mail/em-subscription-editor.c:1913
 #: ../modules/mail/e-mail-shell-view-actions.c:1753
 msgid "Unsubscribe from the selected folder"
 msgstr "Odhlási z odberu vybraného priečinka"
 
-#: ../mail/em-subscription-editor.c:1951
+#: ../mail/em-subscription-editor.c:1953
 msgid "Collapse all folders"
 msgstr "Zbalí všetky priečinky"
 
-#: ../mail/em-subscription-editor.c:1952
+#: ../mail/em-subscription-editor.c:1954
 msgid "C_ollapse All"
 msgstr "Zbaliť _všetko"
 
-#: ../mail/em-subscription-editor.c:1962
+#: ../mail/em-subscription-editor.c:1964
 msgid "Expand all folders"
 msgstr "Rozbalí všetky priečinky"
 
-#: ../mail/em-subscription-editor.c:1963
+#: ../mail/em-subscription-editor.c:1965
 msgid "E_xpand All"
 msgstr "Roz_baliť všetko"
 
-#: ../mail/em-subscription-editor.c:1973
+#: ../mail/em-subscription-editor.c:1975
 msgid "Refresh the folder list"
 msgstr "Obnoví zoznam priečinkov"
 
-#: ../mail/em-subscription-editor.c:1974
+#: ../mail/em-subscription-editor.c:1976
 #: ../modules/mail/e-mail-shell-view-actions.c:1652
 #: ../modules/mail/e-mail-shell-view-actions.c:1723
 msgid "_Refresh"
 msgstr "_Obnoviť"
 
-#: ../mail/em-subscription-editor.c:1985
+#: ../mail/em-subscription-editor.c:1987
 msgid "Stop the current operation"
 msgstr "Zastaví aktuálnu operáciu"
 
-#: ../mail/em-subscription-editor.c:1986
+#: ../mail/em-subscription-editor.c:1988
 #: ../modules/addressbook/e-book-shell-view-actions.c:1001
 msgid "_Stop"
 msgstr "_Zastaviť"
