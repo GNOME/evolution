@@ -2062,7 +2062,7 @@ pst_error_msg (const gchar *fmt,
 static void
 pst_import_imported (PstImporter *m)
 {
-	e_import_complete (m->target->import, (EImportTarget *) m->target);
+	e_import_complete (m->target->import, (EImportTarget *) m->target, m->base.error);
 }
 
 static void
@@ -2181,7 +2181,7 @@ org_credativ_evolution_readpst_import (EImport *ei,
 	    || GPOINTER_TO_INT (g_datalist_get_data (&target->data, "pst-do-journal"))) {
 				pst_import (ei, target);
 	} else {
-		e_import_complete (target->import, target);
+		e_import_complete (target->import, target, NULL);
 	}
 }
 

@@ -86,7 +86,7 @@ kmail_import_done (gpointer data,
 	g_mutex_clear (&importer->status_lock);
 	g_object_unref (importer->cancellable);
 
-	e_import_complete (importer->import, importer->target);
+	e_import_complete (importer->import, importer->target, error ? *error : NULL);
 	g_free (importer);
 }
 

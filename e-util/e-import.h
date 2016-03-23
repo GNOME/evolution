@@ -58,7 +58,8 @@ typedef struct _EImportFactory EImportFactory;
 typedef struct _EImportTarget EImportTarget;
 
 typedef void		(*EImportCompleteFunc)	(EImport *ei,
-						 gpointer data);
+						 const GError *error,
+						 gpointer user_data);
 typedef void		(*EImportStatusFunc)	(EImport *ei,
 						 const gchar *what,
 						 gint pc,
@@ -227,7 +228,8 @@ void		e_import_status			(EImport *import,
 						 const gchar *what,
 						 gint pc);
 void		e_import_complete		(EImport *import,
-						 EImportTarget *target);
+						 EImportTarget *target,
+						 const GError *error);
 gpointer	e_import_target_new		(EImport *import,
 						 gint type,
 						 gsize size);

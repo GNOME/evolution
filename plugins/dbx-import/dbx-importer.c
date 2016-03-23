@@ -723,7 +723,7 @@ dbx_import_import (DbxImporter *m,
 static void
 dbx_import_imported (DbxImporter *m)
 {
-	e_import_complete (m->target->import, (EImportTarget *) m->target);
+	e_import_complete (m->target->import, (EImportTarget *) m->target, m->base.error);
 }
 
 static void

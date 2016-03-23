@@ -95,13 +95,14 @@ is_icalcomp_usable (icalcomponent *icalcomp)
 }
 
 static void
-ivcal_import_done (ICalImporter *ici)
+ivcal_import_done (ICalImporter *ici,
+		   const GError *error)
 {
 	if (ici->cal_client)
 		g_object_unref (ici->cal_client);
 	icalcomponent_free (ici->icalcomp);
 
-	e_import_complete (ici->import, ici->target);
+	e_import_complete (ici->import, ici->target, error);
 	g_object_unref (ici->import);
 	g_object_unref (ici->cancellable);
 	g_free (ici);
@@ -169,7 +170,7 @@ prepare_tasks (icalcomponent *icalcomp,
 
 struct UpdateObjectsData
 {
-	void (*done_cb) (gpointer user_data);
+	void (*done_cb) (gpointer user_data, const GError *error);
 	gpointer user_data;
 };
 
@@ -186,15 +187,10 @@ receive_objects_ready_cb (GObject *source_object,
 
 	e_cal_client_receive_objects_finish (cal_client, result, &error);
 
-	if (error != NULL) {
-		g_warning (
-			"%s: Failed to receive objects: %s",
-			G_STRFUNC, error->message);
-		g_error_free (error);
-	}
-
 	if (uod->done_cb)
-		uod->done_cb (uod->user_data);
+		uod->done_cb (uod->user_data, error);
+	g_clear_error (&error);
+
 	g_free (uod);
 }
 
@@ -202,7 +198,7 @@ static void
 update_objects (ECalClient *cal_client,
                 icalcomponent *icalcomp,
                 GCancellable *cancellable,
-                void (*done_cb) (gpointer user_data),
+                void (*done_cb) (gpointer user_data, const GError *error),
                 gpointer user_data)
 {
 	icalcomponent_kind kind;
@@ -223,7 +219,7 @@ update_objects (ECalClient *cal_client,
 			icalcomponent_set_method (vcal, ICAL_METHOD_PUBLISH);
 	} else {
 		if (done_cb)
-			done_cb (user_data);
+			done_cb (user_data, NULL);
 		return;
 	}
 
@@ -423,9 +419,10 @@ ivcal_getwidget (EImport *ei,
 }
 
 static void
-ivcal_call_import_done (gpointer user_data)
+ivcal_call_import_done (gpointer user_data,
+			const GError *error)
 {
-	ivcal_import_done (user_data);
+	ivcal_import_done (user_data, error);
 }
 
 static gboolean
@@ -446,7 +443,7 @@ ivcal_import_items (gpointer d)
 		g_warn_if_reached ();
 
 		ici->idle_id = 0;
-		ivcal_import_done (ici);
+		ivcal_import_done (ici, NULL);
 		return FALSE;
 	}
 
@@ -474,9 +471,8 @@ ivcal_connect_cb (GObject *source_object,
 		((client == NULL) && (error != NULL)));
 
 	if (error != NULL) {
-		g_warning ("%s: %s", G_STRFUNC, error->message);
+		ivcal_import_done (ici, error);
 		g_error_free (error);
-		ivcal_import_done (ici);
 		return;
 	}
 
@@ -579,17 +575,20 @@ ical_import (EImport *ei,
 	gchar *filename;
 	gchar *contents;
 	icalcomponent *icalcomp;
+	GError *error = NULL;
 	EImportTargetURI *s = (EImportTargetURI *) target;
 
-	filename = g_filename_from_uri (s->uri_src, NULL, NULL);
+	filename = g_filename_from_uri (s->uri_src, NULL, &error);
 	if (!filename) {
-		e_import_complete (ei, target);
+		e_import_complete (ei, target, error);
+		g_clear_error (&error);
 		return;
 	}
 
-	if (!g_file_get_contents (filename, &contents, NULL, NULL)) {
+	if (!g_file_get_contents (filename, &contents, NULL, &error)) {
 		g_free (filename);
-		e_import_complete (ei, target);
+		e_import_complete (ei, target, error);
+		g_clear_error (&error);
 		return;
 	}
 	g_free (filename);
@@ -600,7 +599,7 @@ ical_import (EImport *ei,
 	if (icalcomp)
 		ivcal_import (ei, target, icalcomp);
 	else
-		e_import_complete (ei, target);
+		e_import_complete (ei, target, error);
 }
 
 static GtkWidget *
@@ -772,10 +771,11 @@ vcal_import (EImport *ei,
 	gchar *filename;
 	icalcomponent *icalcomp;
 	EImportTargetURI *s = (EImportTargetURI *) target;
+	GError *error = NULL;
 
-	filename = g_filename_from_uri (s->uri_src, NULL, NULL);
+	filename = g_filename_from_uri (s->uri_src, NULL, &error);
 	if (!filename) {
-		e_import_complete (ei, target);
+		e_import_complete (ei, target, error);
 		return;
 	}
 
@@ -784,7 +784,7 @@ vcal_import (EImport *ei,
 	if (icalcomp)
 		ivcal_import (ei, target, icalcomp);
 	else
-		e_import_complete (ei, target);
+		e_import_complete (ei, target, error);
 }
 
 static GtkWidget *
@@ -953,13 +953,14 @@ open_default_source (ICalIntelligentImporter *ici,
 }
 
 static void
-continue_done_cb (gpointer user_data)
+continue_done_cb (gpointer user_data,
+		  const GError *error)
 {
 	ICalIntelligentImporter *ici = user_data;
 
 	g_return_if_fail (ici != NULL);
 
-	e_import_complete (ici->ei, ici->target);
+	e_import_complete (ici->ei, ici->target, error);
 }
 
 static void
@@ -970,10 +971,7 @@ gc_import_tasks (ECalClient *cal_client,
 	g_return_if_fail (ici != NULL);
 
 	if (error != NULL) {
-		g_warning (
-			"%s: Failed to open tasks: %s",
-			G_STRFUNC, error->message);
-		e_import_complete (ici->ei, ici->target);
+		e_import_complete (ici->ei, ici->target, error);
 		return;
 	}
 
@@ -987,13 +985,17 @@ gc_import_tasks (ECalClient *cal_client,
 }
 
 static void
-continue_tasks_cb (gpointer user_data)
+continue_tasks_cb (gpointer user_data,
+		   const GError *error)
 {
 	ICalIntelligentImporter *ici = user_data;
 
 	g_return_if_fail (ici != NULL);
 
-	open_default_source (ici, E_CAL_CLIENT_SOURCE_TYPE_TASKS, gc_import_tasks);
+	if (error)
+		continue_done_cb (ici, error);
+	else
+		open_default_source (ici, E_CAL_CLIENT_SOURCE_TYPE_TASKS, gc_import_tasks);
 }
 
 static void
@@ -1004,15 +1006,12 @@ gc_import_events (ECalClient *cal_client,
 	g_return_if_fail (ici != NULL);
 
 	if (error != NULL) {
-		g_warning (
-			"%s: Failed to open events calendar: %s",
-			G_STRFUNC, error->message);
 		if (ici->tasks)
 			open_default_source (
 				ici, E_CAL_CLIENT_SOURCE_TYPE_TASKS,
 				gc_import_tasks);
 		else
-			e_import_complete (ici->ei, ici->target);
+			e_import_complete (ici->ei, ici->target, error);
 		return;
 	}
 
@@ -1071,7 +1070,7 @@ gnome_calendar_import (EImport *ei,
 		}
 	}
 
-	e_import_complete (ei, target);
+	e_import_complete (ei, target, NULL);
 }
 
 static void

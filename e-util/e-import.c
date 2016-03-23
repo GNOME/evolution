@@ -222,16 +222,18 @@ e_import_get_preview_widget (EImport *import,
  * e_import_complete:
  * @import: an #EImport
  * @target: Target just completed (unused currently)
+ * @error: a #GError for the operation, %NULL when succeeded
  *
  * Signify that an import is complete.  This must be called by
  * importer implementations when they are done.
  **/
 void
 e_import_complete (EImport *import,
-                   EImportTarget *target)
+                   EImportTarget *target,
+		   const GError *error)
 {
 	if (import->done)
-		import->done (import, import->done_data);
+		import->done (import, error, import->done_data);
 }
 
 void

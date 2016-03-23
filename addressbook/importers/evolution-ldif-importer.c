@@ -32,6 +32,7 @@
 #include <config.h>
 #endif
 
+#include <errno.h>
 #include <stdio.h>
 #include <ctype.h>
 #include <string.h>
@@ -669,7 +670,7 @@ ldif_import_done (LDIFImporter *gci)
 	g_slist_free (gci->list_contacts);
 	g_hash_table_destroy (gci->dn_contact_hash);
 
-	e_import_complete (gci->import, gci->target);
+	e_import_complete (gci->import, gci->target, NULL);
 	g_object_unref (gci->import);
 
 	g_free (gci);
@@ -704,15 +705,21 @@ ldif_import (EImport *ei,
 	FILE *file = NULL;
 	EImportTargetURI *s = (EImportTargetURI *) target;
 	gchar *filename;
+	gint errn = 0;
 
 	filename = g_filename_from_uri (s->uri_src, NULL, NULL);
 	if (filename != NULL) {
 		file = g_fopen (filename, "r");
+		errn = errno;
 		g_free (filename);
 	}
 	if (file == NULL) {
-		g_message (G_STRLOC ":Can't open .ldif file");
-		e_import_complete (ei, target);
+		GError *error;
+
+		error = g_error_new_literal (G_IO_ERROR, g_io_error_from_errno (errn), _("Can't open .ldif file"));
+		e_import_complete (ei, target, error);
+		g_clear_error (&error);
+
 		return;
 	}
 
