@@ -46,6 +46,7 @@ get_button_padding (GtkWidget *widget,
 
 	gtk_style_context_save (context);
 	gtk_style_context_add_class (context, GTK_STYLE_CLASS_BUTTON);
+	gtk_style_context_set_state (context, state_flags);
 	gtk_style_context_get_padding (context, state_flags, padding);
 
 	gtk_style_context_restore (context);
