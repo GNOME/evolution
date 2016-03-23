@@ -285,7 +285,7 @@ pine_import_exec (struct _pine_import_msg *m,
 static void
 pine_import_done (struct _pine_import_msg *m)
 {
-	e_import_complete (m->import, (EImportTarget *) m->target);
+	e_import_complete (m->import, (EImportTarget *) m->target, m->base.error);
 }
 
 static void
@@ -447,7 +447,7 @@ pine_import (EImport *ei,
 	    || GPOINTER_TO_INT (g_datalist_get_data (&target->data, "pine-do-addr")))
 		mail_importer_pine_import (ei, target);
 	else
-		e_import_complete (ei, target);
+		e_import_complete (ei, target, NULL);
 }
 
 static void

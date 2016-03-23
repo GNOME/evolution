@@ -25,6 +25,7 @@
 #include <config.h>
 #endif
 
+#include <errno.h>
 #include <stdio.h>
 #include <ctype.h>
 #include <string.h>
@@ -874,7 +875,7 @@ csv_import_done (CSVImporter *gci)
 	if (gci->fields_map)
 		g_hash_table_destroy (gci->fields_map);
 
-	e_import_complete (gci->import, gci->target);
+	e_import_complete (gci->import, gci->target, NULL);
 	g_object_unref (gci->import);
 
 	g_free (gci);
@@ -908,19 +909,27 @@ csv_import (EImport *ei,
 	ESource *source;
 	gchar *filename;
 	FILE *file;
+	gint errn;
 	EImportTargetURI *s = (EImportTargetURI *) target;
+	GError *error = NULL;
 
-	filename = g_filename_from_uri (s->uri_src, NULL, NULL);
+	filename = g_filename_from_uri (s->uri_src, NULL, &error);
 	if (filename == NULL) {
-		g_message (G_STRLOC ": Couldn't get filename from URI '%s'", s->uri_src);
+		e_import_complete (ei, target, error);
+		g_clear_error (&error);
+
 		return;
 	}
 
 	file = g_fopen (filename, "r");
+	errn = errno;
 	g_free (filename);
+
 	if (file == NULL) {
-		g_message ("Can't open .csv file");
-		e_import_complete (ei, target);
+		error = g_error_new_literal (G_IO_ERROR, g_io_error_from_errno (errn), _("Can't open .csv file"));
+		e_import_complete (ei, target, error);
+		g_clear_error (&error);
+
 		return;
 	}
 

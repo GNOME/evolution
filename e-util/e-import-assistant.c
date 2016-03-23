@@ -33,6 +33,7 @@
 #include <gdk/gdkkeysyms.h>
 #include <libebackend/libebackend.h>
 
+#include "e-dialog-utils.h"
 #include "e-dialog-widgets.h"
 #include "e-import.h"
 #include "e-util-private.h"
@@ -137,8 +138,12 @@ G_DEFINE_TYPE_WITH_CODE (
 /* Importing functions */
 
 static void
-import_assistant_emit_finished (EImportAssistant *import_assistant)
+import_assistant_finished (EImportAssistant *import_assistant,
+			   const GError *error)
 {
+	if (error)
+		e_notice (import_assistant, GTK_MESSAGE_ERROR, "%s", error->message);
+
 	g_signal_emit (import_assistant, signals[FINISHED], 0);
 }
 
@@ -596,15 +601,17 @@ import_status (EImport *import,
 
 static void
 import_done (EImport *ei,
+	     const GError *error,
              gpointer user_data)
 {
 	EImportAssistant *import_assistant = user_data;
 
-	import_assistant_emit_finished (import_assistant);
+	import_assistant_finished (import_assistant, error);
 }
 
 static void
 import_simple_done (EImport *ei,
+		    const GError *error,
                     gpointer user_data)
 {
 	EImportAssistant *import_assistant = user_data;
@@ -617,7 +624,7 @@ import_simple_done (EImport *ei,
 	g_return_if_fail (priv->fileuris != NULL);
 	g_return_if_fail (priv->simple_page.target != NULL);
 
-	if (import_assistant->priv->fileuris->len > 0) {
+	if (!error && import_assistant->priv->fileuris->len > 0) {
 		import_status (ei, "", 0, import_assistant);
 
 		/* process next file URI */
@@ -630,11 +637,12 @@ import_simple_done (EImport *ei,
 			priv->import_importer, import_status,
 			import_simple_done, import_assistant);
 	} else
-		import_done (ei, import_assistant);
+		import_done (ei, error, import_assistant);
 }
 
 static void
 import_intelligent_done (EImport *ei,
+			 const GError *error,
                          gpointer user_data)
 {
 	EImportAssistant *import_assistant = user_data;
@@ -642,7 +650,7 @@ import_intelligent_done (EImport *ei,
 
 	page = &import_assistant->priv->selection_page;
 
-	if (page->current && (page->current = page->current->next)) {
+	if (!error && page->current && (page->current = page->current->next)) {
 		import_status (ei, "", 0, import_assistant);
 		import_assistant->priv->import_importer = page->current->data;
 		e_import_import (
@@ -652,7 +660,7 @@ import_intelligent_done (EImport *ei,
 			import_status, import_intelligent_done,
 			import_assistant);
 	} else
-		import_done (ei, import_assistant);
+		import_done (ei, error, import_assistant);
 }
 
 static void
@@ -809,7 +817,7 @@ prepare_progress_page (GtkAssistant *assistant,
 			priv->import_importer, import_status,
 			done, assistant);
 	else
-		import_assistant_emit_finished (E_IMPORT_ASSISTANT (assistant));
+		import_assistant_finished (E_IMPORT_ASSISTANT (assistant), NULL);
 }
 
 static void

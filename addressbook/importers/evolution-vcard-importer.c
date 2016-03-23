@@ -463,7 +463,7 @@ vcard_import_done (VCardImporter *gci)
 	g_object_unref (gci->book_client);
 	g_slist_free_full (gci->contactlist, (GDestroyNotify) g_object_unref);
 
-	e_import_complete (gci->import, gci->target);
+	e_import_complete (gci->import, gci->target, NULL);
 	g_object_unref (gci->import);
 	g_free (gci);
 }
@@ -523,11 +523,13 @@ vcard_import (EImport *ei,
 	gchar *filename;
 	gchar *contents;
 	VCardEncoding encoding;
+	GError *error = NULL;
 
-	filename = g_filename_from_uri (s->uri_src, NULL, NULL);
+	filename = g_filename_from_uri (s->uri_src, NULL, &error);
 	if (filename == NULL) {
-		g_message (G_STRLOC ": Couldn't get filename from URI '%s'", s->uri_src);
-		e_import_complete (ei, target);
+		e_import_complete (ei, target, error);
+		g_clear_error (&error);
+
 		return;
 	}
 	encoding = guess_vcard_encoding (filename);
@@ -535,14 +537,16 @@ vcard_import (EImport *ei,
 		g_free (filename);
 		/* This check is superfluous, we've already
 		 * checked otherwise we can't get here ... */
-		e_import_complete (ei, target);
+		e_import_complete (ei, target, NULL);
+
 		return;
 	}
 
-	if (!g_file_get_contents (filename, &contents, NULL, NULL)) {
-		g_message (G_STRLOC ":Couldn't read file.");
+	if (!g_file_get_contents (filename, &contents, NULL, &error)) {
 		g_free (filename);
-		e_import_complete (ei, target);
+		e_import_complete (ei, target, error);
+		g_clear_error (&error);
+
 		return;
 	}
 

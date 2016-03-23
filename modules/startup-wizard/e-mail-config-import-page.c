@@ -77,10 +77,11 @@ async_context_free (AsyncContext *async_context)
 
 static void
 mail_config_import_page_status (EImport *import,
-                                const gchar *what,
-                                gint percent,
-                                GSimpleAsyncResult *simple)
+				const gchar *what,
+				gint percent,
+				gpointer user_data)
 {
+	GSimpleAsyncResult *simple = user_data;
 	AsyncContext *async_context;
 
 	async_context = g_simple_async_result_get_op_res_gpointer (simple);
@@ -91,10 +92,19 @@ mail_config_import_page_status (EImport *import,
 
 static void
 mail_config_import_page_complete (EImport *import,
-                                  GSimpleAsyncResult *simple)
+				  const GError *error,
+                                  gpointer user_data)
 {
-	/* Schedule the next importer to start. */
-	g_idle_add (mail_config_import_page_next, simple);
+	GSimpleAsyncResult *simple = user_data;
+
+	if (error) {
+		g_simple_async_result_set_from_error (simple, error);
+		g_simple_async_result_complete (simple);
+		g_object_unref (simple);
+	} else {
+		/* Schedule the next importer to start. */
+		g_idle_add (mail_config_import_page_next, simple);
+	}
 }
 
 static gboolean
@@ -124,8 +134,8 @@ mail_config_import_page_next (gpointer user_data)
 			async_context->page->priv->import,
 			async_context->page->priv->import_target,
 			next_importer,
-			(EImportStatusFunc) mail_config_import_page_status,
-			(EImportCompleteFunc) mail_config_import_page_complete,
+			mail_config_import_page_status,
+			mail_config_import_page_complete,
 			simple);
 
 	} else {
@@ -349,8 +359,8 @@ e_mail_config_import_page_import (EMailConfigImportPage *page,
 			async_context->page->priv->import,
 			async_context->page->priv->import_target,
 			first_importer,
-			(EImportStatusFunc) mail_config_import_page_status,
-			(EImportCompleteFunc) mail_config_import_page_complete,
+			mail_config_import_page_status,
+			mail_config_import_page_complete,
 			simple);
 	else
 		g_simple_async_result_complete_in_idle (simple);

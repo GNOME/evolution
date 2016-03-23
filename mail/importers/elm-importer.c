@@ -213,7 +213,7 @@ elm_import_exec (struct _elm_import_msg *m,
 static void
 elm_import_done (struct _elm_import_msg *m)
 {
-	e_import_complete (m->import, (EImportTarget *) m->target);
+	e_import_complete (m->import, (EImportTarget *) m->target, m->base.error);
 }
 
 static void
@@ -346,7 +346,7 @@ elm_import (EImport *ei,
 	if (GPOINTER_TO_INT (g_datalist_get_data (&target->data, "elm-do-mail")))
 		mail_importer_elm_import (ei, target);
 	else
-		e_import_complete (ei, target);
+		e_import_complete (ei, target, NULL);
 }
 
 static void
