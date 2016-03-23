@@ -1626,6 +1626,12 @@ send_receive (GtkWindow *parent,
 
 	g_list_free (scan);
 
+	if (g_hash_table_size (data->active) == 0) {
+		if (data->gd)
+			gtk_widget_destroy ((GtkWidget *) data->gd);
+		free_send_data ();
+	}
+
 	return send_recv_dialog;
 }
 
