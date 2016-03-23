@@ -946,6 +946,7 @@ e_calendar_item_update (GnomeCanvasItem *item,
 	gint rows, cols, xthickness, ythickness, old_month_width;
 	PangoContext *pango_context;
 	PangoFontMetrics *font_metrics;
+	GtkStyleContext *style_context;
 	GtkBorder padding;
 
 	item_class = GNOME_CANVAS_ITEM_CLASS (e_calendar_item_parent_class);
@@ -953,7 +954,8 @@ e_calendar_item_update (GnomeCanvasItem *item,
 		item_class->update (item, i2c, flags);
 
 	calitem = E_CALENDAR_ITEM (item);
-	gtk_style_context_get_padding (gtk_widget_get_style_context (GTK_WIDGET (item->canvas)), 0, &padding);
+	style_context = gtk_widget_get_style_context (GTK_WIDGET (item->canvas));
+	gtk_style_context_get_padding (style_context, gtk_style_context_get_state (style_context), &padding);
 	xthickness = padding.left;
 	ythickness = padding.top;
 
@@ -1115,8 +1117,7 @@ e_calendar_item_draw (GnomeCanvasItem *canvas_item,
 
 	e_utils_get_theme_color (widget, "theme_bg_color", E_UTILS_DEFAULT_THEME_BG_COLOR, &bg_color);
 
-	gtk_style_context_get_border (
-		style_context, GTK_STATE_NORMAL, &border);
+	gtk_style_context_get_border (style_context, gtk_style_context_get_state (style_context), &border);
 
 	/* Clear the entire background. */
 	cairo_save (cr);
@@ -1226,6 +1227,7 @@ e_calendar_item_draw_month (ECalendarItem *calitem,
 	PangoContext *pango_context;
 	PangoFontMetrics *font_metrics;
 	PangoLayout *layout;
+	GtkStyleContext *style_context;
 	GtkBorder padding;
 	PangoFontDescription *font_desc;
 	GdkRGBA rgba;
@@ -1251,7 +1253,8 @@ e_calendar_item_draw_month (ECalendarItem *calitem,
 	char_height =
 		PANGO_PIXELS (pango_font_metrics_get_ascent (font_metrics)) +
 		PANGO_PIXELS (pango_font_metrics_get_descent (font_metrics));
-	gtk_style_context_get_padding (gtk_widget_get_style_context (widget), 0, &padding);
+	style_context = gtk_widget_get_style_context (widget);
+	gtk_style_context_get_padding (style_context, gtk_style_context_get_state (style_context), &padding);
 	xthickness = padding.left;
 	ythickness = padding.top;
 	arrow_button_size =
@@ -2116,11 +2119,13 @@ e_calendar_item_recalc_sizes (ECalendarItem *calitem)
 	PangoLayout *layout;
 	GDateWeekday weekday;
 	GtkWidget *widget;
+	GtkStyleContext *style_context;
 	GtkBorder padding;
 
 	canvas_item = GNOME_CANVAS_ITEM (calitem);
 	widget = GTK_WIDGET (canvas_item->canvas);
-	gtk_style_context_get_padding (gtk_widget_get_style_context (widget), 0, &padding);
+	style_context = gtk_widget_get_style_context (widget);
+	gtk_style_context_get_padding (style_context, gtk_style_context_get_state (style_context), &padding);
 
 	/* Set up Pango prerequisites */
 	font_desc = calitem->font_desc;
@@ -2644,6 +2649,7 @@ e_calendar_item_convert_position_to_day (ECalendarItem *calitem,
 {
 	GnomeCanvasItem *item;
 	GtkWidget *widget;
+	GtkStyleContext *style_context;
 	GtkBorder padding;
 	gint xthickness, ythickness, char_height;
 	gint x, y, row, col, cells_x, cells_y, day_row, day_col;
@@ -2654,7 +2660,8 @@ e_calendar_item_convert_position_to_day (ECalendarItem *calitem,
 
 	item = GNOME_CANVAS_ITEM (calitem);
 	widget = GTK_WIDGET (item->canvas);
-	gtk_style_context_get_padding (gtk_widget_get_style_context (widget), 0, &padding);
+	style_context = gtk_widget_get_style_context (widget);
+	gtk_style_context_get_padding (style_context, gtk_style_context_get_state (style_context), &padding);
 
 	pango_context = gtk_widget_create_pango_context (widget);
 	font_metrics = pango_context_get_metrics (
