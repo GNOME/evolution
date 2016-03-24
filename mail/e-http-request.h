@@ -18,10 +18,7 @@
 #ifndef E_HTTP_REQUEST_H
 #define E_HTTP_REQUEST_H
 
-#define LIBSOUP_USE_UNSTABLE_REQUEST_API
-
-#include <libsoup/soup.h>
-#include <libsoup/soup-request.h>
+#include <e-util/e-util.h>
 
 /* Standard GObject macros */
 #define E_TYPE_HTTP_REQUEST \
@@ -49,15 +46,18 @@ typedef struct _EHTTPRequestClass EHTTPRequestClass;
 typedef struct _EHTTPRequestPrivate EHTTPRequestPrivate;
 
 struct _EHTTPRequest {
-	SoupRequest parent;
+	GObject parent;
 	EHTTPRequestPrivate *priv;
 };
 
 struct _EHTTPRequestClass {
-	SoupRequestClass parent;
+	GObjectClass parent;
 };
 
 GType		e_http_request_get_type		(void) G_GNUC_CONST;
+EContentRequest *
+		e_http_request_new		(void);
+
 
 G_END_DECLS
 

@@ -52,6 +52,7 @@ libevolution_mail_la_CPPFLAGS =				\
 	$(NULL)
 
 mailinclude_HEADERS =					\
+	e-cid-request.h					\
 	e-http-request.h				\
 	e-mail.h					\
 	e-mail-account-manager.h			\
@@ -135,6 +136,7 @@ mailinclude_HEADERS =					\
 	message-list.h
 
 libevolution_mail_la_SOURCES =				\
+	e-cid-request.c					\
 	e-http-request.c				\
 	e-mail-account-manager.c			\
 	e-mail-account-store.c				\

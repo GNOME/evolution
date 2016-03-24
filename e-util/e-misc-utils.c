@@ -3326,3 +3326,19 @@ e_util_set_entry_issue_hint (GtkWidget *entry,
 		gtk_entry_set_icon_tooltip_text (eentry, GTK_ENTRY_ICON_SECONDARY, NULL);
 	}
 }
+
+static GThread *main_thread = NULL;
+
+void
+e_util_init_main_thread (GThread *thread)
+{
+	g_return_if_fail (main_thread == NULL);
+
+	main_thread = thread ? thread : g_thread_self ();
+}
+
+gboolean
+e_util_is_main_thread (GThread *thread)
+{
+	return thread ? thread == main_thread : g_thread_self () == main_thread;
+}

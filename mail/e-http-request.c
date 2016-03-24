@@ -15,9 +15,10 @@
  *
  */
 
-#include "e-http-request.h"
-
+#ifdef HAVE_CONFIG_H
 #include <config.h>
+#endif
+
 #include <string.h>
 
 #define LIBSOUP_USE_UNSTABLE_REQUEST_API
@@ -35,19 +36,29 @@
 #include <shell/e-shell.h>
 
 #include "e-mail-ui-session.h"
+#include "e-http-request.h"
 
 #define d(x)
 
-#define E_HTTP_REQUEST_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_HTTP_REQUEST, EHTTPRequestPrivate))
-
 struct _EHTTPRequestPrivate {
-	gchar *content_type;
-	gint content_length;
+	gint dummy;
 };
 
-G_DEFINE_TYPE (EHTTPRequest, e_http_request, SOUP_TYPE_REQUEST)
+static void e_http_request_content_request_init (EContentRequestInterface *iface);
+
+G_DEFINE_TYPE_WITH_CODE (EHTTPRequest, e_http_request, G_TYPE_OBJECT,
+	G_IMPLEMENT_INTERFACE (E_TYPE_CONTENT_REQUEST, e_http_request_content_request_init))
+
+static gboolean
+e_http_request_can_process_uri (EContentRequest *request,
+				const gchar *uri)
+{
+	g_return_val_if_fail (E_IS_HTTP_REQUEST (request), FALSE);
+	g_return_val_if_fail (uri != NULL, FALSE);
+
+	return g_ascii_strncasecmp (uri, "evo-http:", 9) == 0 ||
+	       g_ascii_strncasecmp (uri, "evo-https:", 10) == 0;
+}
 
 static gssize
 copy_stream_to_stream (GIOStream *file_io_stream,
@@ -162,16 +173,18 @@ http_request_cancelled_cb (GCancellable *cancellable,
 	soup_session_abort (session);
 }
 
-static void
-handle_http_request (GSimpleAsyncResult *res,
-                     GObject *source_object,
-                     GCancellable *cancellable)
+static gboolean
+e_http_request_process_sync (EContentRequest *request,
+			     const gchar *uri,
+			     GObject *requester,
+			     GInputStream **out_stream,
+			     gint64 *out_stream_length,
+			     gchar **out_mime_type,
+			     GCancellable *cancellable,
+			     GError **error)
 {
-	EHTTPRequestPrivate *priv;
 	SoupURI *soup_uri;
-	SoupRequest *soup_request;
-	SoupSession *soup_session;
-	gchar *evo_uri, *uri;
+	gchar *evo_uri, *use_uri;
 	gchar *mail_uri = NULL;
 	GInputStream *stream;
 	gboolean force_load_images = FALSE;
@@ -183,15 +196,16 @@ handle_http_request (GSimpleAsyncResult *res,
 	CamelDataCache *cache;
 	GIOStream *cache_stream;
 	gint uri_len;
+	gboolean success = FALSE;
 
-	if (g_cancellable_is_cancelled (cancellable))
-		return;
+	g_return_val_if_fail (E_IS_HTTP_REQUEST (request), FALSE);
+	g_return_val_if_fail (uri != NULL, FALSE);
 
-	priv = E_HTTP_REQUEST_GET_PRIVATE (source_object);
+	if (g_cancellable_set_error_if_cancelled (cancellable, error))
+		return FALSE;
 
-	soup_request = SOUP_REQUEST (source_object);
-	soup_session = soup_request_get_session (soup_request);
-	soup_uri = soup_request_get_uri (soup_request);
+	soup_uri = soup_uri_new (uri);
+	g_return_val_if_fail (soup_uri != NULL, FALSE);
 
 	/* Remove the __evo-mail query */
 	soup_query = soup_uri_get_query (soup_uri);
@@ -224,24 +238,26 @@ handle_http_request (GSimpleAsyncResult *res,
 
 	/* Remove the "evo-" prefix from scheme */
 	uri_len = (evo_uri != NULL) ? strlen (evo_uri) : 0;
-	uri = NULL;
+	use_uri = NULL;
 	if (evo_uri != NULL && (uri_len > 5)) {
 
 		/* Remove trailing "?" if there is no URI query */
 		if (evo_uri[uri_len - 1] == '?') {
-			uri = g_strndup (evo_uri + 4, uri_len - 5);
+			use_uri = g_strndup (evo_uri + 4, uri_len - 5);
 		} else {
-			uri = g_strdup (evo_uri + 4);
+			use_uri = g_strdup (evo_uri + 4);
 		}
 		g_free (evo_uri);
 	}
 
-	g_return_if_fail (uri && *uri);
+	g_return_val_if_fail (use_uri && *use_uri, FALSE);
+
+	*out_stream_length = -1;
 
 	/* Use MD5 hash of the URI as a filname of the resourec cache file.
 	 * We were previously using the URI as a filename but the URI is
 	 * sometimes too long for a filename. */
-	uri_md5 = g_compute_checksum_for_string (G_CHECKSUM_MD5, uri, -1);
+	uri_md5 = g_compute_checksum_for_string (G_CHECKSUM_MD5, use_uri, -1);
 
 	/* Open Evolution's cache */
 	user_cache_dir = e_get_user_cache_dir ();
@@ -256,17 +272,15 @@ handle_http_request (GSimpleAsyncResult *res,
 
 		stream = g_memory_input_stream_new ();
 
-		len = copy_stream_to_stream (
-			cache_stream,
-			G_MEMORY_INPUT_STREAM (stream), cancellable);
-		priv->content_length = len;
+		len = copy_stream_to_stream (cache_stream, G_MEMORY_INPUT_STREAM (stream), cancellable);
+		*out_stream_length = len;
 
 		g_object_unref (cache_stream);
 
 		/* When succesfully read some data from cache then
 		 * get mimetype and return the stream to WebKit.
 		 * Otherwise try to fetch the resource again from the network. */
-		if ((len != -1) && (priv->content_length > 0)) {
+		if (len != -1 && *out_stream_length > 0) {
 			GFile *file;
 			GFileInfo *info;
 			gchar *path;
@@ -279,13 +293,12 @@ handle_http_request (GSimpleAsyncResult *res,
 				0, cancellable, NULL);
 
 			if (info) {
-				priv->content_type = g_strdup (
-					g_file_info_get_content_type (info));
+				*out_mime_type = g_strdup (g_file_info_get_content_type (info));
 
 				d (
 					printf ("'%s' found in cache (%d bytes, %s)\n",
-					uri, priv->content_length,
-					priv->content_type));
+					use_uri, (gint) *out_stream_length,
+					*out_mime_type));
 			}
 
 			g_clear_object (&info);
@@ -293,12 +306,12 @@ handle_http_request (GSimpleAsyncResult *res,
 			g_free (path);
 
 			/* Set result and quit the thread */
-			g_simple_async_result_set_op_res_gpointer (
-				res, stream, g_object_unref);
+			*out_stream = stream;
+			success = TRUE;
 
 			goto cleanup;
 		} else {
-			d (printf ("Failed to load '%s' from cache.\n", uri));
+			d (printf ("Failed to load '%s' from cache.\n", use_uri));
 			g_object_unref (stream);
 		}
 	}
@@ -332,7 +345,6 @@ handle_http_request (GSimpleAsyncResult *res,
 			CamelInternetAddress *addr;
 			CamelMimeMessage *message;
 			gboolean known_address = FALSE;
-			GError *error = NULL;
 
 			shell_backend =
 				e_shell_get_backend_by_name (shell, "mail");
@@ -342,14 +354,13 @@ handle_http_request (GSimpleAsyncResult *res,
 			message = e_mail_part_list_get_message (part_list);
 			addr = camel_mime_message_get_from (message);
 
-			e_mail_ui_session_check_known_address_sync (
+			if (!e_mail_ui_session_check_known_address_sync (
 				E_MAIL_UI_SESSION (session),
 				addr, FALSE, cancellable,
-				&known_address, &error);
-
-			if (error != NULL) {
-				g_warning ("%s: %s", G_STRFUNC, error->message);
-				g_error_free (error);
+				&known_address, error)) {
+				g_object_unref (part_list);
+				g_free (decoded_uri);
+				goto cleanup;
 			}
 
 			if (known_address)
@@ -363,20 +374,19 @@ handle_http_request (GSimpleAsyncResult *res,
 
 	if ((image_policy == E_IMAGE_LOADING_POLICY_ALWAYS) ||
 	    force_load_images) {
-
+		ESource *proxy_source;
 		SoupSession *temp_session;
 		SoupMessage *message;
 		GIOStream *cache_stream;
-		GError *error;
 		GMainContext *context;
 		gulong cancelled_id = 0;
 
-		if (g_cancellable_is_cancelled (cancellable))
+		if (g_cancellable_set_error_if_cancelled (cancellable, error))
 			goto cleanup;
 
-		message = soup_message_new (SOUP_METHOD_GET, uri);
+		message = soup_message_new (SOUP_METHOD_GET, use_uri);
 		if (!message) {
-			g_debug ("%s: Skipping invalid URI '%s'", G_STRFUNC, uri);
+			g_debug ("%s: Skipping invalid URI '%s'", G_STRFUNC, use_uri);
 			goto cleanup;
 		}
 
@@ -386,12 +396,16 @@ handle_http_request (GSimpleAsyncResult *res,
 		temp_session = soup_session_new_with_options (
 			SOUP_SESSION_TIMEOUT, 90, NULL);
 
-		e_binding_bind_property (
-			soup_session, "proxy-resolver",
-			temp_session, "proxy-resolver",
-			G_BINDING_SYNC_CREATE);
+		proxy_source = e_source_registry_ref_builtin_proxy (e_shell_get_registry (shell));
 
-		message = soup_message_new (SOUP_METHOD_GET, uri);
+		g_object_set (
+			temp_session,
+			SOUP_SESSION_PROXY_RESOLVER,
+			G_PROXY_RESOLVER (proxy_source),
+			NULL);
+
+		g_object_unref (proxy_source);
+
 		soup_message_headers_append (
 			message->request_headers,
 			"User-Agent", "Evolution/" VERSION);
@@ -405,7 +419,7 @@ handle_http_request (GSimpleAsyncResult *res,
 			g_cancellable_disconnect (cancellable, cancelled_id);
 
 		if (!SOUP_STATUS_IS_SUCCESSFUL (message->status_code)) {
-			g_debug ("Failed to request %s (code %d)", uri, message->status_code);
+			g_debug ("Failed to request %s (code %d)", use_uri, message->status_code);
 			g_object_unref (message);
 			g_object_unref (temp_session);
 			g_main_context_unref (context);
@@ -413,54 +427,39 @@ handle_http_request (GSimpleAsyncResult *res,
 		}
 
 		/* Write the response body to cache */
-		error = NULL;
 		cache_stream = camel_data_cache_add (
-			cache, "http", uri_md5, &error);
-		if (error != NULL) {
-			g_warning (
-				"Failed to create cache file for '%s': %s",
-				uri, error->message);
-			g_clear_error (&error);
-		} else {
+			cache, "http", uri_md5, error);
+		if (cache_stream) {
 			GOutputStream *output_stream;
 
 			output_stream =
 				g_io_stream_get_output_stream (cache_stream);
 
-			g_output_stream_write_all (
+			success = g_output_stream_write_all (
 				output_stream,
 				message->response_body->data,
 				message->response_body->length,
-				NULL, cancellable, &error);
+				NULL, cancellable, error);
 
 			g_io_stream_close (cache_stream, NULL, NULL);
 			g_object_unref (cache_stream);
 
-			if (error != NULL) {
-				if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
-					g_warning (
-						"Failed to write data to cache stream: %s",
-						error->message);
-				g_clear_error (&error);
-				g_object_unref (message);
-				g_object_unref (temp_session);
-				g_main_context_unref (context);
-				goto cleanup;
+			if (success) {
+				/* Send the response body to WebKit */
+				stream = g_memory_input_stream_new_from_data (
+					g_memdup (
+						message->response_body->data,
+						message->response_body->length),
+					message->response_body->length,
+					(GDestroyNotify) g_free);
+
+				*out_stream = stream;
+				*out_stream_length = message->response_body->length;
+				*out_mime_type = g_strdup (
+					soup_message_headers_get_content_type (
+						message->response_headers, NULL));
 			}
 		}
-
-		/* Send the response body to WebKit */
-		stream = g_memory_input_stream_new_from_data (
-			g_memdup (
-				message->response_body->data,
-				message->response_body->length),
-			message->response_body->length,
-			(GDestroyNotify) g_free);
-
-		priv->content_length = message->response_body->length;
-		priv->content_type = g_strdup (
-			soup_message_headers_get_content_type (
-				message->response_headers, NULL));
 
 		g_object_unref (message);
 		g_object_unref (temp_session);
@@ -470,150 +469,42 @@ handle_http_request (GSimpleAsyncResult *res,
 			"Content-Type: %s\n"
 			"Content-Length: %d bytes\n"
 			"URI MD5: %s:\n",
-			uri, priv->content_type,
-			priv->content_length, uri_md5));
-
-		g_simple_async_result_set_op_res_gpointer (res, stream, g_object_unref);
-
-		goto cleanup;
+			use_uri, *out_mime_type ? *out_mime_type : "[null]",
+			(gint) *out_stream_length, uri_md5));
 	}
 
-cleanup:
+ cleanup:
 	g_clear_object (&cache);
 
-	g_free (uri);
+	g_free (use_uri);
 	g_free (uri_md5);
 	g_free (mail_uri);
+	soup_uri_free (soup_uri);
+
+	return success;
 }
 
 static void
-http_request_finalize (GObject *object)
+e_http_request_content_request_init (EContentRequestInterface *iface)
 {
-	EHTTPRequest *request = E_HTTP_REQUEST (object);
-
-	if (request->priv->content_type) {
-		g_free (request->priv->content_type);
-		request->priv->content_type = NULL;
-	}
-
-	G_OBJECT_CLASS (e_http_request_parent_class)->finalize (object);
+	iface->can_process_uri = e_http_request_can_process_uri;
+	iface->process_sync = e_http_request_process_sync;
 }
-
-static gboolean
-http_request_check_uri (SoupRequest *request,
-                        SoupURI *uri,
-                        GError **error)
-{
-	return ((strcmp (uri->scheme, "evo-http") == 0) ||
-		(strcmp (uri->scheme, "evo-https") == 0));
-}
-
-static void
-http_request_send_async (SoupRequest *request,
-                         GCancellable *cancellable,
-                         GAsyncReadyCallback callback,
-                         gpointer user_data)
-{
-	GSimpleAsyncResult *simple;
-
-	d ({
-		const gchar *soup_query;
-		SoupURI *uri;
-
-		uri = soup_request_get_uri (request);
-		soup_query = soup_uri_get_query (uri);
-
-		if (soup_query) {
-			gchar *uri_str;
-			GHashTable *query;
-
-			query = soup_form_decode (soup_uri_get_query (uri));
-			uri_str = soup_uri_to_string (uri, FALSE);
-			printf ("received request for %s\n", uri_str);
-			g_free (uri_str);
-			g_hash_table_destroy (query);
-		}
-	});
-
-	simple = g_simple_async_result_new (
-		G_OBJECT (request), callback,
-		user_data, http_request_send_async);
-
-	g_simple_async_result_set_check_cancellable (simple, cancellable);
-
-	e_util_run_simple_async_result_in_thread (
-		simple, handle_http_request,
-		cancellable);
-
-	g_object_unref (simple);
-}
-
-static GInputStream *
-http_request_send_finish (SoupRequest *request,
-                          GAsyncResult *result,
-                          GError **error)
-{
-	GInputStream *stream;
-
-	stream = g_simple_async_result_get_op_res_gpointer (
-		G_SIMPLE_ASYNC_RESULT (result));
-
-	/* Reset the stream before passing it back to webkit */
-	if (stream && G_IS_SEEKABLE (stream))
-		g_seekable_seek (G_SEEKABLE (stream), 0, G_SEEK_SET, NULL, NULL);
-
-	if (!stream) /* We must always return something */
-		stream = g_memory_input_stream_new ();
-	else
-		g_object_ref (stream);
-
-	return stream;
-}
-
-static goffset
-http_request_get_content_length (SoupRequest *request)
-{
-	EHTTPRequest *efr = E_HTTP_REQUEST (request);
-
-	d (printf ("Content-Length: %d bytes\n", efr->priv->content_length));
-	return efr->priv->content_length;
-}
-
-static const gchar *
-http_request_get_content_type (SoupRequest *request)
-{
-	EHTTPRequest *efr = E_HTTP_REQUEST (request);
-
-	d (printf ("Content-Type: %s\n", efr->priv->content_type));
-
-	return efr->priv->content_type;
-}
-
-static const gchar *data_schemes[] = { "evo-http", "evo-https", NULL };
 
 static void
 e_http_request_class_init (EHTTPRequestClass *class)
 {
-	GObjectClass *object_class;
-	SoupRequestClass *request_class;
-
 	g_type_class_add_private (class, sizeof (EHTTPRequestPrivate));
-
-	object_class = G_OBJECT_CLASS (class);
-	object_class->finalize = http_request_finalize;
-
-	request_class = SOUP_REQUEST_CLASS (class);
-	request_class->schemes = data_schemes;
-	request_class->send_async = http_request_send_async;
-	request_class->send_finish = http_request_send_finish;
-	request_class->get_content_type = http_request_get_content_type;
-	request_class->get_content_length = http_request_get_content_length;
-	request_class->check_uri = http_request_check_uri;
 }
 
 static void
 e_http_request_init (EHTTPRequest *request)
 {
-	request->priv = E_HTTP_REQUEST_GET_PRIVATE (request);
+	request->priv = G_TYPE_INSTANCE_GET_PRIVATE (request, E_TYPE_HTTP_REQUEST, EHTTPRequestPrivate);
 }
 
+EContentRequest *
+e_http_request_new (void)
+{
+	return g_object_new (E_TYPE_HTTP_REQUEST, NULL);
+}

@@ -569,6 +569,7 @@ main (gint argc,
 		handle_term_signal, NULL, NULL);
 #endif
 
+	e_util_init_main_thread (NULL);
 	e_passwords_init ();
 
 	gtk_window_set_default_icon_name ("evolution");

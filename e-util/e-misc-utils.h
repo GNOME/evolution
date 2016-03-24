@@ -287,6 +287,9 @@ void		e_util_set_entry_issue_hint	(GtkWidget *entry,
 
 guint		e_util_normalize_font_size	(GtkWidget *widget,
 						 gdouble font_size);
+void		e_util_init_main_thread		(GThread *thread);
+gboolean	e_util_is_main_thread		(GThread *thread);
+
 G_END_DECLS
 
 #endif /* E_MISC_UTILS_H */

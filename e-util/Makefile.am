@@ -174,6 +174,7 @@ evolution_util_include_HEADERS =  \
 	e-config.h \
 	e-conflict-search-selector.h \
 	e-contact-store.h \
+	e-content-request.h \
 	e-data-capture.h \
 	e-dateedit.h \
 	e-datetime-format.h \
@@ -449,6 +450,7 @@ libevolution_util_la_SOURCES = \
 	e-config.c \
 	e-conflict-search-selector.c \
 	e-contact-store.c \
+	e-content-request.c \
 	e-data-capture.c \
 	e-dateedit.c \
 	e-datetime-format.c \

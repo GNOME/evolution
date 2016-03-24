@@ -18,10 +18,7 @@
 #ifndef E_MAIL_REQUEST_H
 #define E_MAIL_REQUEST_H
 
-#define LIBSOUP_USE_UNSTABLE_REQUEST_API
-
-#include <libsoup/soup.h>
-#include <libsoup/soup-request.h>
+#include <e-util/e-util.h>
 
 /* Standard GObject macros */
 #define E_TYPE_MAIL_REQUEST \
@@ -49,15 +46,17 @@ typedef struct _EMailRequestClass EMailRequestClass;
 typedef struct _EMailRequestPrivate EMailRequestPrivate;
 
 struct _EMailRequest {
-	SoupRequest parent;
+	GObject parent;
 	EMailRequestPrivate *priv;
 };
 
 struct _EMailRequestClass {
-	SoupRequestClass parent;
+	GObjectClass parent;
 };
 
 GType		e_mail_request_get_type		(void) G_GNUC_CONST;
+EContentRequest *
+		e_mail_request_new		(void);
 
 G_END_DECLS
 

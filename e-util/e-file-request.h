@@ -22,10 +22,7 @@
 #ifndef E_FILE_REQUEST_H
 #define E_FILE_REQUEST_H
 
-#define LIBSOUP_USE_UNSTABLE_REQUEST_API
-
-#include <libsoup/soup.h>
-#include <libsoup/soup-request.h>
+#include <e-util/e-content-request.h>
 
 /* Standard GObject macros */
 #define E_TYPE_FILE_REQUEST \
@@ -53,15 +50,17 @@ typedef struct _EFileRequestClass EFileRequestClass;
 typedef struct _EFileRequestPrivate EFileRequestPrivate;
 
 struct _EFileRequest {
-	SoupRequest parent;
+	GObject parent;
 	EFileRequestPrivate *priv;
 };
 
 struct _EFileRequestClass {
-	SoupRequestClass parent;
+	GObjectClass parent;
 };
 
 GType		e_file_request_get_type		(void) G_GNUC_CONST;
+EContentRequest *
+		e_file_request_new		(void);
 
 G_END_DECLS
 

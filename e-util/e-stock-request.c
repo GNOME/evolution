@@ -15,56 +15,87 @@
  *
  */
 
-#define LIBSOUP_USE_UNSTABLE_REQUEST_API
-
-#include "e-stock-request.h"
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
 
 #include <stdlib.h>
+#include <string.h>
+
 #include <gtk/gtk.h>
 #include <libsoup/soup.h>
 
-#include <string.h>
+#include <libedataserver/libedataserver.h>
 
-#define E_STOCK_REQUEST_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_STOCK_REQUEST, EStockRequestPrivate))
+#include "e-misc-utils.h"
+#include "e-stock-request.h"
 
 struct _EStockRequestPrivate {
-	gchar *content_type;
-	gint content_length;
+	gint dummy;
 };
 
-static const gchar *data_schemes[] = { "gtk-stock", NULL };
+static void e_stock_request_content_request_init (EContentRequestInterface *iface);
 
-G_DEFINE_TYPE (EStockRequest, e_stock_request, SOUP_TYPE_REQUEST)
+G_DEFINE_TYPE_WITH_CODE (EStockRequest, e_stock_request, G_TYPE_OBJECT,
+	G_IMPLEMENT_INTERFACE (E_TYPE_CONTENT_REQUEST, e_stock_request_content_request_init))
 
 static gboolean
-handle_stock_request_idle_cb (gpointer user_data)
+e_stock_request_can_process_uri (EContentRequest *request,
+				 const gchar *uri)
 {
-	EStockRequestPrivate *priv;
-	GSimpleAsyncResult *simple;
-	GObject *object;
-	SoupURI *uri;
+	g_return_val_if_fail (E_IS_STOCK_REQUEST (request), FALSE);
+	g_return_val_if_fail (uri != NULL, FALSE);
+
+	return g_ascii_strncasecmp (uri, "gtk-stock:", 10) == 0;
+}
+
+typedef struct _StockIdleData
+{
+	EContentRequest *request;
+	const gchar *uri;
+	GObject *requester;
+	GInputStream **out_stream;
+	gint64 *out_stream_length;
+	gchar **out_mime_type;
+	GCancellable *cancellable;
+	GError **error;
+
+	gboolean success;
+	EFlag *flag;
+} StockIdleData;
+
+static gboolean
+process_stock_request_idle_cb (gpointer user_data)
+{
+	StockIdleData *sid = user_data;
+	SoupURI *suri;
 	GHashTable *query = NULL;
 	GtkStyleContext *context;
 	GtkWidgetPath *path;
 	GtkIconSet *icon_set;
 	gssize size = GTK_ICON_SIZE_BUTTON;
 	gchar *a_size;
-	gchar *buffer = NULL;
+	gchar *buffer = NULL, *mime_type = NULL;
 	gsize buff_len = 0;
 	GError *local_error = NULL;
 
-	simple = G_SIMPLE_ASYNC_RESULT (user_data);
+	g_return_val_if_fail (sid != NULL, FALSE);
+	g_return_val_if_fail (E_IS_STOCK_REQUEST (sid->request), FALSE);
+	g_return_val_if_fail (sid->uri != NULL, FALSE);
+	g_return_val_if_fail (sid->flag != NULL, FALSE);
 
-	/* This returns a new reference. */
-	object = g_async_result_get_source_object (G_ASYNC_RESULT (simple));
+	if (g_cancellable_set_error_if_cancelled (sid->cancellable, sid->error)) {
+		sid->success = FALSE;
+		e_flag_set (sid->flag);
 
-	priv = E_STOCK_REQUEST_GET_PRIVATE (object);
+		return FALSE;
+	}
 
-	uri = soup_request_get_uri (SOUP_REQUEST (object));
-	if (uri->query != NULL)
-		query = soup_form_decode (uri->query);
+	suri = soup_uri_new (sid->uri);
+	g_return_val_if_fail (suri != NULL, FALSE);
+
+	if (suri->query != NULL)
+		query = soup_form_decode (suri->query);
 
 	if (query != NULL) {
 		a_size = g_hash_table_lookup (query, "size");
@@ -81,7 +112,7 @@ handle_stock_request_idle_cb (gpointer user_data)
 	gtk_style_context_set_path (context, path);
 	gtk_widget_path_free (path);
 
-	icon_set = gtk_style_context_lookup_icon_set (context, uri->host);
+	icon_set = gtk_style_context_lookup_icon_set (context, suri->host);
 	if (icon_set != NULL) {
 		GdkPixbuf *pixbuf;
 
@@ -101,7 +132,7 @@ handle_stock_request_idle_cb (gpointer user_data)
 		icon_theme = gtk_icon_theme_get_default ();
 
 		icon_info = gtk_icon_theme_lookup_icon (
-			icon_theme, uri->host, size,
+			icon_theme, suri->host, size,
 			GTK_ICON_LOOKUP_USE_BUILTIN);
 
 		/* Some icons can be missing in the theme */
@@ -113,9 +144,7 @@ handle_stock_request_idle_cb (gpointer user_data)
 					buffer = NULL;
 					buff_len = 0;
 				}
-				priv->content_type =
-					g_content_type_guess (filename, NULL, 0, NULL);
-
+				mime_type = g_content_type_guess (filename, NULL, 0, NULL);
 			} else {
 				GdkPixbuf *pixbuf;
 
@@ -137,148 +166,97 @@ handle_stock_request_idle_cb (gpointer user_data)
 		((buffer != NULL) && (local_error == NULL)) ||
 		((buffer == NULL) && (local_error != NULL)));
 
-	if (priv->content_type == NULL)
-		priv->content_type = g_strdup ("image/png");
-	priv->content_length = buff_len;
+	if (!mime_type)
+		mime_type = g_strdup ("image/png");
 
 	if (buffer != NULL) {
-		GInputStream *stream;
+		*sid->out_stream = g_memory_input_stream_new_from_data (buffer, buff_len, g_free);;
+		*sid->out_stream_length = buff_len;
+		*sid->out_mime_type = mime_type;
 
-		stream = g_memory_input_stream_new_from_data (
-			buffer, buff_len, (GDestroyNotify) g_free);
-		g_simple_async_result_set_op_res_gpointer (
-			simple, g_object_ref (stream),
-			(GDestroyNotify) g_object_unref);
-		g_object_unref (stream);
+		sid->success = TRUE;
+	} else {
+		g_free (mime_type);
+
+		if (local_error)
+			g_propagate_error (sid->error, local_error);
+
+		sid->success = FALSE;
 	}
 
-	if (local_error != NULL)
-		g_simple_async_result_take_error (simple, local_error);
-
-	g_simple_async_result_complete_in_idle (simple);
-
 	g_object_unref (context);
-	g_object_unref (object);
+
+	e_flag_set (sid->flag);
 
 	return FALSE;
 }
 
-static void
-stock_request_finalize (GObject *object)
-{
-	EStockRequestPrivate *priv;
-
-	priv = E_STOCK_REQUEST_GET_PRIVATE (object);
-
-	g_free (priv->content_type);
-
-	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (e_stock_request_parent_class)->finalize (object);
-}
-
 static gboolean
-stock_request_check_uri (SoupRequest *request,
-                         SoupURI *uri,
-                         GError **error)
+e_stock_request_process_sync (EContentRequest *request,
+			      const gchar *uri,
+			      GObject *requester,
+			      GInputStream **out_stream,
+			      gint64 *out_stream_length,
+			      gchar **out_mime_type,
+			      GCancellable *cancellable,
+			      GError **error)
 {
-	return (strcmp (uri->scheme, "gtk-stock") == 0);
+	StockIdleData sid;
+
+	g_return_val_if_fail (E_IS_STOCK_REQUEST (request), FALSE);
+	g_return_val_if_fail (uri != NULL, FALSE);
+
+	sid.request = request;
+	sid.uri = uri;
+	sid.requester = requester;
+	sid.out_stream = out_stream;
+	sid.out_stream_length = out_stream_length;
+	sid.out_mime_type = out_mime_type;
+	sid.cancellable = cancellable;
+	sid.error = error;
+	sid.flag = e_flag_new ();
+	sid.success = FALSE;
+
+	if (e_util_is_main_thread (NULL)) {
+		process_stock_request_idle_cb (&sid);
+	} else {
+		/* Need to run this operation in an idle callback rather
+		 * than a worker thread, since we're making all kinds of
+		 * GdkPixbuf/GTK+ calls. */
+		g_idle_add_full (
+			G_PRIORITY_HIGH_IDLE,
+			process_stock_request_idle_cb,
+			&sid, NULL);
+
+		e_flag_wait (sid.flag);
+	}
+
+	e_flag_free (sid.flag);
+
+	return sid.success;
 }
 
 static void
-stock_request_send_async (SoupRequest *request,
-                          GCancellable *cancellable,
-                          GAsyncReadyCallback callback,
-                          gpointer user_data)
+e_stock_request_content_request_init (EContentRequestInterface *iface)
 {
-	GSimpleAsyncResult *simple;
-
-	simple = g_simple_async_result_new (
-		G_OBJECT (request), callback, user_data,
-		stock_request_send_async);
-
-	g_simple_async_result_set_check_cancellable (simple, cancellable);
-
-	/* Need to run this operation in an idle callback rather
-	 * than a worker thread, since we're making all kinds of
-	 * GdkPixbuf/GTK+ calls. */
-	g_idle_add_full (
-		G_PRIORITY_HIGH_IDLE,
-		handle_stock_request_idle_cb,
-		g_object_ref (simple),
-		(GDestroyNotify) g_object_unref);
-
-	g_object_unref (simple);
-}
-
-static GInputStream *
-stock_request_send_finish (SoupRequest *request,
-                           GAsyncResult *result,
-                           GError **error)
-{
-	GSimpleAsyncResult *simple;
-	GInputStream *stream;
-
-	simple = G_SIMPLE_ASYNC_RESULT (result);
-	stream = g_simple_async_result_get_op_res_gpointer (simple);
-
-	if (g_simple_async_result_propagate_error (simple, error))
-		return NULL;
-
-	/* Reset the stream before passing it back to WebKit. */
-	if (G_IS_SEEKABLE (stream))
-		g_seekable_seek (
-			G_SEEKABLE (stream), 0,
-			G_SEEK_SET, NULL, NULL);
-
-	if (stream != NULL)
-		return g_object_ref (stream);
-
-	return g_memory_input_stream_new ();
-}
-
-static goffset
-stock_request_get_content_length (SoupRequest *request)
-{
-	EStockRequestPrivate *priv;
-
-	priv = E_STOCK_REQUEST_GET_PRIVATE (request);
-
-	return priv->content_length;
-}
-
-static const gchar *
-stock_request_get_content_type (SoupRequest *request)
-{
-	EStockRequestPrivate *priv;
-
-	priv = E_STOCK_REQUEST_GET_PRIVATE (request);
-
-	return priv->content_type;
+	iface->can_process_uri = e_stock_request_can_process_uri;
+	iface->process_sync = e_stock_request_process_sync;
 }
 
 static void
 e_stock_request_class_init (EStockRequestClass *class)
 {
-	GObjectClass *object_class;
-	SoupRequestClass *request_class;
-
 	g_type_class_add_private (class, sizeof (EStockRequestPrivate));
-
-	object_class = G_OBJECT_CLASS (class);
-	object_class->finalize = stock_request_finalize;
-
-	request_class = SOUP_REQUEST_CLASS (class);
-	request_class->schemes = data_schemes;
-	request_class->check_uri = stock_request_check_uri;
-	request_class->send_async = stock_request_send_async;
-	request_class->send_finish = stock_request_send_finish;
-	request_class->get_content_length = stock_request_get_content_length;
-	request_class->get_content_type = stock_request_get_content_type;
 }
 
 static void
 e_stock_request_init (EStockRequest *request)
 {
-	request->priv = E_STOCK_REQUEST_GET_PRIVATE (request);
+	request->priv = G_TYPE_INSTANCE_GET_PRIVATE (request, E_TYPE_STOCK_REQUEST, EStockRequestPrivate);
 }
 
+EContentRequest *
+e_stock_request_new (void)
+{
+	return g_object_new (E_TYPE_STOCK_REQUEST, NULL);
+}

@@ -30,6 +30,7 @@
 
 #include <webkit2/webkit2.h>
 #include <e-util/e-activity.h>
+#include <e-util/e-content-request.h>
 
 /* Standard GObject macros */
 #define E_TYPE_WEB_VIEW \
@@ -113,6 +114,10 @@ GtkWidget *	e_web_view_new			(void);
 WebKitSettings *
 		e_web_view_get_default_webkit_settings
 						(void);
+void		e_web_view_register_content_request_for_scheme
+						(EWebView *web_view,
+						 const gchar *scheme,
+						 EContentRequest *content_request);
 void		e_web_view_update_fonts_settings
 						(GSettings *font_settings,
 						 GSettings *aliasing_settings,
