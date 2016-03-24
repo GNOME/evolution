@@ -1639,7 +1639,7 @@ split_list_into_two (WebKitDOMNode *item,
 		WebKitDOMNode *clone, *first_child, *insert_before = NULL, *sibling;
 
 		first_child = webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (fragment));
-		clone = webkit_dom_node_clone_node_with_error (parent, FALSE, NULL);
+		clone = webkit_dom_node_clone_node (parent, FALSE);
 		webkit_dom_node_insert_before (
 			WEBKIT_DOM_NODE (fragment), clone, first_child, NULL);
 
@@ -1917,7 +1917,7 @@ dom_get_node_inner_html (WebKitDOMNode *node)
 	div = webkit_dom_document_create_element (document, "div", NULL);
 	webkit_dom_node_append_child (
 			WEBKIT_DOM_NODE (div),
-			webkit_dom_node_clone_node_with_error (node, TRUE, NULL),
+			webkit_dom_node_clone_node (node, TRUE),
 			NULL);
 
 	inner_html = webkit_dom_element_get_inner_html (div);

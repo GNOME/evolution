@@ -49,8 +49,8 @@ prepare_history_for_table (WebKitDOMDocument *document,
 	dom_selection_get_coordinates (
 		document, &ev->before.start.x, &ev->before.start.y, &ev->before.end.x, &ev->before.end.y);
 
-	ev->data.dom.from = webkit_dom_node_clone_node_with_error (
-		WEBKIT_DOM_NODE (table), TRUE, NULL);
+	ev->data.dom.from = webkit_dom_node_clone_node (
+		WEBKIT_DOM_NODE (table), TRUE);
 }
 
 
@@ -63,8 +63,8 @@ save_history_for_table (WebKitDOMDocument *document,
 	EHTMLEditorUndoRedoManager *manager;
 
 	if (table)
-		ev->data.dom.to = webkit_dom_node_clone_node_with_error (
-			WEBKIT_DOM_NODE (table), TRUE, NULL);
+		ev->data.dom.to = webkit_dom_node_clone_node (
+			WEBKIT_DOM_NODE (table), TRUE);
 	else
 		ev->data.dom.to = NULL;
 

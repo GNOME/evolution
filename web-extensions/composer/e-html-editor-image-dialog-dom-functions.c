@@ -54,7 +54,7 @@ e_html_editor_image_dialog_mark_image (WebKitDOMDocument *document,
 
 		dom_selection_get_coordinates (
 			document, &ev->before.start.x, &ev->before.start.y, &ev->before.end.x, &ev->before.end.y);
-		ev->data.dom.from = webkit_dom_node_clone_node_with_error (node_under_mouse_click, FALSE, NULL);
+		ev->data.dom.from = webkit_dom_node_clone_node (node_under_mouse_click, FALSE);
 
 		e_html_editor_undo_redo_manager_insert_history_event (manager, ev);
 	}
@@ -75,8 +75,8 @@ e_html_editor_image_dialog_save_history_on_exit (WebKitDOMDocument *document,
 
 	manager = e_html_editor_web_extension_get_undo_redo_manager (extension);
 	ev = e_html_editor_undo_redo_manager_get_current_history_event (manager);
-	ev->data.dom.to = webkit_dom_node_clone_node_with_error (
-		WEBKIT_DOM_NODE (element), TRUE, NULL);
+	ev->data.dom.to = webkit_dom_node_clone_node (
+		WEBKIT_DOM_NODE (element), TRUE);
 
 	dom_selection_get_coordinates (
 		document, &ev->after.start.x, &ev->after.start.y, &ev->after.end.x, &ev->after.end.y);

@@ -512,7 +512,7 @@ dom_quote_plain_text_element_after_wrapping (WebKitDOMDocument *document,
 
 		webkit_dom_node_insert_before (
 			webkit_dom_node_get_parent_node (br),
-			webkit_dom_node_clone_node_with_error (quoted_node, TRUE, NULL),
+			webkit_dom_node_clone_node (quoted_node, TRUE),
 			webkit_dom_node_get_next_sibling (br),
 			NULL);
 		g_object_unref (br);
@@ -647,7 +647,7 @@ dom_insert_new_line_into_citation (WebKitDOMDocument *document,
 		current_block = get_parent_block_node_from_child (
 			WEBKIT_DOM_NODE (selection_start_marker));
 
-		block_clone = webkit_dom_node_clone_node_with_error (current_block, TRUE, NULL);
+		block_clone = webkit_dom_node_clone_node (current_block, TRUE);
 		/* Find selection start marker and restore it after the new line
 		 * is inserted */
 		selection_start_marker = webkit_dom_element_query_selector (
@@ -661,7 +661,7 @@ dom_insert_new_line_into_citation (WebKitDOMDocument *document,
 			WebKitDOMNode *node;
 
 			parent_block = parent;
-			node = webkit_dom_node_clone_node_with_error (parent_block, FALSE, NULL);
+			node = webkit_dom_node_clone_node (parent_block, FALSE);
 			webkit_dom_node_append_child (node, block_clone, NULL);
 			block_clone = node;
 			parent = webkit_dom_node_get_parent_node (parent_block);
@@ -1557,7 +1557,7 @@ emoticon_insert_span (EEmoticon *emoticon,
 		fragment = webkit_dom_document_create_document_fragment (document);
 		node = webkit_dom_node_append_child (
 			WEBKIT_DOM_NODE (fragment),
-			webkit_dom_node_clone_node_with_error (WEBKIT_DOM_NODE (inserted_node), TRUE, NULL),
+			webkit_dom_node_clone_node (WEBKIT_DOM_NODE (inserted_node), TRUE),
 			NULL);
 		if (e_html_editor_web_extension_get_unicode_smileys_enabled (extension)) {
 			webkit_dom_node_append_child (
@@ -2151,7 +2151,7 @@ save_history_before_event_in_table (WebKitDOMDocument *document,
 
 		if (block) {
 			dom_selection_save (document);
-			ev->data.dom.from = webkit_dom_node_clone_node_with_error (WEBKIT_DOM_NODE (block), TRUE, NULL);
+			ev->data.dom.from = webkit_dom_node_clone_node (WEBKIT_DOM_NODE (block), TRUE);
 			dom_selection_restore (document);
 		} else
 			ev->data.dom.from = NULL;
@@ -2417,7 +2417,7 @@ save_history_after_event_in_table (WebKitDOMDocument *document,
 		&ev->after.end.x,
 		&ev->after.end.y);
 
-	ev->data.dom.to = webkit_dom_node_clone_node_with_error (WEBKIT_DOM_NODE (element), TRUE, NULL);
+	ev->data.dom.to = webkit_dom_node_clone_node (WEBKIT_DOM_NODE (element), TRUE);
 
 	dom_selection_restore (document);
 
@@ -2498,7 +2498,7 @@ save_history_for_input (WebKitDOMDocument *document,
 		while (parent_start && parent_end && !webkit_dom_node_is_same_node (parent_start, parent_end)) {
 			webkit_dom_node_insert_before (
 				WEBKIT_DOM_NODE (fragment),
-				webkit_dom_node_clone_node_with_error (parent_start, FALSE, NULL),
+				webkit_dom_node_clone_node (parent_start, FALSE),
 				webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (fragment)),
 				NULL);
 			parent_start = webkit_dom_node_get_parent_node (parent_start);
@@ -3112,8 +3112,8 @@ dom_merge_siblings_if_necessary (WebKitDOMDocument *document,
 		goto signature;
 
 	equal_nodes = webkit_dom_node_is_equal_node (
-		webkit_dom_node_clone_node_with_error (WEBKIT_DOM_NODE (element), FALSE, NULL),
-		webkit_dom_node_clone_node_with_error (WEBKIT_DOM_NODE (prev_element), FALSE, NULL));
+		webkit_dom_node_clone_node (WEBKIT_DOM_NODE (element), FALSE),
+		webkit_dom_node_clone_node (WEBKIT_DOM_NODE (prev_element), FALSE));
 
 	if (equal_nodes) {
 		if (webkit_dom_element_get_child_element_count (element) >
@@ -3165,7 +3165,7 @@ dom_merge_siblings_if_necessary (WebKitDOMDocument *document,
 		remove_node (webkit_dom_node_get_previous_sibling (WEBKIT_DOM_NODE (element)));
 		webkit_dom_node_replace_child (
 			webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (element)),
-			webkit_dom_node_clone_node_with_error (WEBKIT_DOM_NODE (right_signature), TRUE, NULL),
+			webkit_dom_node_clone_node (WEBKIT_DOM_NODE (right_signature), TRUE),
 			WEBKIT_DOM_NODE (element),
 			NULL);
 	}
@@ -3552,7 +3552,7 @@ dom_change_quoted_block_to_normal (WebKitDOMDocument *document,
 		ev->type = HISTORY_UNQUOTE;
 
 		dom_selection_get_coordinates (document, &ev->before.start.x, &ev->before.start.y, &ev->before.end.x, &ev->before.end.y);
-		ev->data.dom.from = webkit_dom_node_clone_node_with_error (block, TRUE, NULL);
+		ev->data.dom.from = webkit_dom_node_clone_node (block, TRUE);
 	}
 
 	if (citation_level == 1) {
@@ -3642,7 +3642,7 @@ dom_change_quoted_block_to_normal (WebKitDOMDocument *document,
 			 * the citation that is one level lower */
 			WebKitDOMNode *clone, *child;
 
-			clone = webkit_dom_node_clone_node_with_error (parent, FALSE, NULL);
+			clone = webkit_dom_node_clone_node (parent, FALSE);
 
 			/* Move nodes that are after the currect block into the
 			 * new blockquote */
@@ -3818,7 +3818,7 @@ quote_node (WebKitDOMDocument *document,
 	wrapper = webkit_dom_document_create_element (document, "SPAN", NULL);
 	webkit_dom_element_set_class_name (wrapper, "-x-evo-temp-text-wrapper");
 
-	node_clone = webkit_dom_node_clone_node_with_error (node, TRUE, NULL);
+	node_clone = webkit_dom_node_clone_node (node, TRUE);
 
 	webkit_dom_node_append_child (
 		WEBKIT_DOM_NODE (wrapper),
@@ -4182,7 +4182,7 @@ dom_quote_plain_text_element (WebKitDOMDocument *document,
 	WebKitDOMNodeList *list;
 	gint ii, length, level;
 
-	element_clone = webkit_dom_node_clone_node_with_error (WEBKIT_DOM_NODE (element), TRUE, NULL);
+	element_clone = webkit_dom_node_clone_node (WEBKIT_DOM_NODE (element), TRUE);
 	level = get_citation_level (WEBKIT_DOM_NODE (element), TRUE);
 
 	/* Remove old quote characters if the exists */
@@ -4243,7 +4243,7 @@ dom_quote_plain_text (WebKitDOMDocument *document)
 		return NULL;
 
 	body = webkit_dom_document_get_body (document);
-	body_clone = webkit_dom_node_clone_node_with_error (WEBKIT_DOM_NODE (body), TRUE, NULL);
+	body_clone = webkit_dom_node_clone_node (WEBKIT_DOM_NODE (body), TRUE);
 
 	/* Clean unwanted spaces before and after blockquotes */
 	list = webkit_dom_element_query_selector_all (
@@ -4472,8 +4472,8 @@ create_and_append_new_block (WebKitDOMDocument *document,
 	if (WEBKIT_DOM_IS_HTML_DIV_ELEMENT (block_template))
 		block = dom_get_paragraph_element (document, extension, -1, 0);
 	else
-		block = WEBKIT_DOM_ELEMENT (webkit_dom_node_clone_node_with_error (
-			WEBKIT_DOM_NODE (block_template), FALSE, NULL));
+		block = WEBKIT_DOM_ELEMENT (webkit_dom_node_clone_node (
+			WEBKIT_DOM_NODE (block_template), FALSE));
 
 	webkit_dom_element_set_inner_html (block, content, NULL);
 
@@ -4772,7 +4772,7 @@ parse_html_into_blocks (WebKitDOMDocument *document,
 				      if (WEBKIT_DOM_IS_HTML_DIV_ELEMENT (block_template))
 					       block = dom_get_paragraph_element (document, extension, -1, 0);
 				       else
-					       block = WEBKIT_DOM_ELEMENT (webkit_dom_node_clone_node_with_error (WEBKIT_DOM_NODE (block_template), FALSE, NULL));
+					       block = WEBKIT_DOM_ELEMENT (webkit_dom_node_clone_node (WEBKIT_DOM_NODE (block_template), FALSE));
 			       }
 
 				html = webkit_dom_element_get_inner_html (block);
@@ -5506,7 +5506,7 @@ dom_convert_content (WebKitDOMDocument *document,
 	inner_html = webkit_dom_element_get_inner_html (content_wrapper);
 
 	/* Replace the old body with the new one. */
-	node = webkit_dom_node_clone_node_with_error (WEBKIT_DOM_NODE (body), FALSE, NULL);
+	node = webkit_dom_node_clone_node (WEBKIT_DOM_NODE (body), FALSE);
 	webkit_dom_node_replace_child (
 		webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (body)),
 		node,
@@ -6029,8 +6029,8 @@ dom_convert_and_insert_html_into_selection (WebKitDOMDocument *document,
 		webkit_dom_element_remove_attribute (WEBKIT_DOM_ELEMENT (parent), "id");
 
 		/* Check if WebKit created wrong structure */
-		clone1 = webkit_dom_node_clone_node_with_error (WEBKIT_DOM_NODE (block), FALSE, NULL);
-		clone2 = webkit_dom_node_clone_node_with_error (WEBKIT_DOM_NODE (parent), FALSE, NULL);
+		clone1 = webkit_dom_node_clone_node (WEBKIT_DOM_NODE (block), FALSE);
+		clone2 = webkit_dom_node_clone_node (WEBKIT_DOM_NODE (parent), FALSE);
 		if (webkit_dom_node_is_equal_node (clone1, clone2) ||
 		    (WEBKIT_DOM_IS_HTML_DIV_ELEMENT (clone1) && WEBKIT_DOM_IS_HTML_DIV_ELEMENT (clone2))) {
 			fix_structure_after_pasting_multiline_content (block);
@@ -6544,7 +6544,7 @@ convert_element_from_html_to_plain_text (WebKitDOMDocument *document,
 		if (signature) {
 			WebKitDOMNode *parent = webkit_dom_node_get_parent_node (
 				WEBKIT_DOM_NODE (signature));
-			signature_clone = webkit_dom_node_clone_node_with_error (parent, TRUE, NULL);
+			signature_clone = webkit_dom_node_clone_node (parent, TRUE);
 			remove_node (parent);
 		}
 		from = WEBKIT_DOM_NODE (element);
@@ -7292,8 +7292,8 @@ dom_process_content_for_draft (WebKitDOMDocument *document,
 
 	document_element = webkit_dom_document_get_document_element (document);
 
-	document_element_clone = webkit_dom_node_clone_node_with_error (
-		WEBKIT_DOM_NODE (document_element), TRUE, NULL);
+	document_element_clone = webkit_dom_node_clone_node (
+		WEBKIT_DOM_NODE (document_element), TRUE);
 
 	list = webkit_dom_element_query_selector_all (
 		WEBKIT_DOM_ELEMENT (document_element_clone), "a.-x-evo-visited-link", NULL);
@@ -7375,7 +7375,7 @@ dom_process_content_for_plain_text (WebKitDOMDocument *document,
 		WEBKIT_DOM_ELEMENT (body), "data-converted");
 	is_from_new_message = webkit_dom_element_has_attribute (
 		WEBKIT_DOM_ELEMENT (body), "data-new-message");
-	source = webkit_dom_node_clone_node_with_error (WEBKIT_DOM_NODE (body), TRUE, NULL);
+	source = webkit_dom_node_clone_node (WEBKIT_DOM_NODE (body), TRUE);
 
 	dom_selection_save (document);
 
@@ -7563,8 +7563,8 @@ dom_process_content_for_html (WebKitDOMDocument *document,
 	if (from_domain != NULL)
 		inline_images_to_restore = dom_get_inline_images_data (document, extension, from_domain);
 
-	document_clone = webkit_dom_node_clone_node_with_error (
-		WEBKIT_DOM_NODE (webkit_dom_document_get_document_element (document)), TRUE, NULL);
+	document_clone = webkit_dom_node_clone_node (
+		WEBKIT_DOM_NODE (webkit_dom_document_get_document_element (document)), TRUE);
 	element = webkit_dom_element_query_selector (
 		WEBKIT_DOM_ELEMENT (document_clone), "style#-x-evo-quote-style", NULL);
 	if (element)
@@ -8336,22 +8336,22 @@ save_history_for_delete_or_backspace (WebKitDOMDocument *document,
 							if (delete_key) {
 								webkit_dom_node_append_child (
 									WEBKIT_DOM_NODE (fragment),
-									webkit_dom_node_clone_node_with_error (actual_block, TRUE, NULL),
+									webkit_dom_node_clone_node (actual_block, TRUE),
 									NULL);
 								webkit_dom_node_append_child (
 									WEBKIT_DOM_NODE (fragment),
-									webkit_dom_node_clone_node_with_error (tmp_block, TRUE, NULL),
+									webkit_dom_node_clone_node (tmp_block, TRUE),
 									NULL);
 								if (delete_key)
 									next_block = tmp_block;
 							} else {
 								webkit_dom_node_append_child (
 									WEBKIT_DOM_NODE (fragment),
-									webkit_dom_node_clone_node_with_error (tmp_block, TRUE, NULL),
+									webkit_dom_node_clone_node (tmp_block, TRUE),
 									NULL);
 								webkit_dom_node_append_child (
 									WEBKIT_DOM_NODE (fragment),
-									webkit_dom_node_clone_node_with_error (actual_block, TRUE, NULL),
+									webkit_dom_node_clone_node (actual_block, TRUE),
 									NULL);
 							}
 							g_object_set_data (
@@ -8562,7 +8562,7 @@ save_history_for_delete_or_backspace (WebKitDOMDocument *document,
 				     !element_has_class (WEBKIT_DOM_ELEMENT (child), "-x-evo-quoted")))) {
 					webkit_dom_node_insert_before (
 						webkit_dom_node_get_parent_node (child),
-						webkit_dom_node_clone_node_with_error (sibling, TRUE, NULL),
+						webkit_dom_node_clone_node (sibling, TRUE),
 						child,
 						NULL);
 				}
@@ -8599,7 +8599,7 @@ save_history_for_delete_or_backspace (WebKitDOMDocument *document,
 					WebKitDOMNode *clone;
 
 					tmp_fragment = webkit_dom_document_create_document_fragment (document);
-					clone = webkit_dom_node_clone_node_with_error (node, FALSE, NULL);
+					clone = webkit_dom_node_clone_node (node, FALSE);
 					clone = webkit_dom_node_append_child (
 						WEBKIT_DOM_NODE (tmp_fragment), clone, NULL);
 					webkit_dom_node_append_child (clone, WEBKIT_DOM_NODE (fragment), NULL);
@@ -8620,7 +8620,7 @@ save_history_for_delete_or_backspace (WebKitDOMDocument *document,
 			if (signature) {
 				webkit_dom_node_replace_child (
 					webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (tmp_element)),
-					webkit_dom_node_clone_node_with_error (WEBKIT_DOM_NODE (signature), TRUE, NULL),
+					webkit_dom_node_clone_node (WEBKIT_DOM_NODE (signature), TRUE),
 					WEBKIT_DOM_NODE (tmp_element),
 					NULL);
 			}
@@ -9161,7 +9161,7 @@ return_pressed_in_image_wrapper (WebKitDOMDocument *document,
 	block = get_parent_block_node_from_child (
 		WEBKIT_DOM_NODE (selection_start_marker));
 
-	clone = webkit_dom_node_clone_node_with_error (block, FALSE, NULL);
+	clone = webkit_dom_node_clone_node (block, FALSE);
 	webkit_dom_node_append_child (
 		clone, WEBKIT_DOM_NODE (webkit_dom_document_create_element (document, "br", NULL)), NULL);
 
@@ -9174,7 +9174,7 @@ return_pressed_in_image_wrapper (WebKitDOMDocument *document,
 	if (ev) {
 		webkit_dom_node_append_child (
 			WEBKIT_DOM_NODE (fragment),
-			webkit_dom_node_clone_node_with_error (clone, TRUE, NULL),
+			webkit_dom_node_clone_node (clone, TRUE),
 			NULL);
 
 		dom_selection_get_coordinates (
@@ -9375,7 +9375,7 @@ key_press_event_process_return_key (WebKitDOMDocument *document,
 		node = webkit_dom_node_get_previous_sibling (table);
 		if (!node) {
 			node = webkit_dom_node_get_next_sibling (table);
-			node = webkit_dom_node_clone_node_with_error (node, FALSE, NULL);
+			node = webkit_dom_node_clone_node (node, FALSE);
 			webkit_dom_node_append_child (
 				node,
 				WEBKIT_DOM_NODE (webkit_dom_document_create_element (
@@ -9469,7 +9469,7 @@ remove_empty_bulleted_list_item (WebKitDOMDocument *document,
 			if (prev_item)
 				webkit_dom_node_append_child (
 					WEBKIT_DOM_NODE (fragment),
-					webkit_dom_node_clone_node_with_error (prev_item, TRUE, NULL),
+					webkit_dom_node_clone_node (prev_item, TRUE),
 					NULL);
 
 			webkit_dom_node_append_child (
