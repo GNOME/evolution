@@ -6,6 +6,7 @@
 # Tiago S. <almosthumane@portugalmail.pt>
 # Pedro Albuquerque <palbuquerque73@gmail.com>, 2015.
 # Sérgio Cardeira <cardeira dot sergio at gmail dot com>, 2016.
+# Tiago Carrrondo <tcarrondo@ubuntu.com>, 2016.
 #
 #: ../shell/main.c:522
 msgid ""
@@ -13,10 +14,10 @@ msgstr ""
 "Project-Id-Version: 3.12\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2016-03-03 18:03+0000\n"
-"PO-Revision-Date: 2016-02-18 21:41-0100\n"
-"Last-Translator: Sérgio Cardeira <cardeira dot sergio at gmail dot com>\n"
-"Language-Team: Português <>\n"
+"POT-Creation-Date: 2016-03-24 05:40+0000\n"
+"PO-Revision-Date: 2016-03-24 13:44+0000\n"
+"Last-Translator: Tiago Carrrondo <tcarrondo@ubuntu.com>\n"
+"Language-Team: Português <gnome_pt@yahoogroups.com>\n"
 "Language: pt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -556,11 +557,11 @@ msgstr "_Carregar X.509"
 #: ../calendar/calendar.error.xml.h:47 ../calendar/gui/e-comp-editor.c:2103
 #: ../composer/e-composer-actions.c:215 ../composer/e-composer-actions.c:355
 #: ../e-util/e-attachment-store.c:641
-#: ../e-util/e-mail-signature-script-dialog.c:369 ../e-util/e-web-view.c:3318
+#: ../e-util/e-mail-signature-script-dialog.c:369 ../e-util/e-web-view.c:3334
 #: ../e-util/gal-view-instance-save-as-dialog.c:270
 #: ../shell/e-shell-content.c:660 ../shell/e-shell-utils.c:137
-#: ../smime/gui/certificate-manager.c:655
-#: ../smime/gui/certificate-manager.c:732
+#: ../smime/gui/certificate-manager.c:657
+#: ../smime/gui/certificate-manager.c:734
 msgid "_Save"
 msgstr "_Gravar"
 
@@ -613,7 +614,7 @@ msgstr "Opções"
 #: ../e-util/e-send-options.ui.h:42 ../e-util/e-source-config-dialog.c:379
 #: ../e-util/e-source-selector-dialog.c:372 ../e-util/e-table-config.c:548
 #: ../e-util/e-table-config.ui.h:1 ../e-util/e-timezone-dialog.ui.h:2
-#: ../e-util/evolution-source-viewer.c:834 ../e-util/e-web-view.c:3317
+#: ../e-util/evolution-source-viewer.c:834 ../e-util/e-web-view.c:3333
 #: ../e-util/gal-view-instance-save-as-dialog.c:269
 #: ../mail/e-mail-config-window.c:330 ../mail/e-mail-label-dialog.c:196
 #: ../mail/e-mail-tag-editor.c:242 ../mail/em-folder-selector.c:317
@@ -628,10 +629,10 @@ msgstr "Opções"
 #: ../plugins/publish-calendar/url-editor-dialog.c:421
 #: ../plugins/save-calendar/save-calendar.c:187 ../shell/e-shell-content.c:659
 #: ../shell/e-shell-content.c:766 ../shell/e-shell-utils.c:72
-#: ../shell/e-shell-utils.c:136 ../smime/gui/certificate-manager.c:654
-#: ../smime/gui/certificate-manager.c:731
-#: ../smime/gui/certificate-manager.c:955
-#: ../smime/gui/certificate-manager.c:1337 ../smime/gui/e-cert-selector.c:237
+#: ../shell/e-shell-utils.c:136 ../smime/gui/certificate-manager.c:656
+#: ../smime/gui/certificate-manager.c:733
+#: ../smime/gui/certificate-manager.c:957
+#: ../smime/gui/certificate-manager.c:1339 ../smime/gui/e-cert-selector.c:237
 #: ../smime/gui/smime-ui.ui.h:23
 msgid "_Cancel"
 msgstr "_Cancelar"
@@ -728,8 +729,8 @@ msgid "PGP keys"
 msgstr "Chaves PGP"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:3251
-#: ../smime/gui/certificate-manager.c:678
-#: ../smime/gui/certificate-manager.c:967
+#: ../smime/gui/certificate-manager.c:680
+#: ../smime/gui/certificate-manager.c:969
 msgid "All files"
 msgstr "Todos os ficheiros"
 
@@ -746,7 +747,7 @@ msgstr "Abrir certificado X.509"
 #: ../e-util/e-attachment-store.c:494 ../e-util/e-category-editor.c:146
 #: ../e-util/e-html-editor-actions.c:594 ../e-util/e-html-editor-actions.c:689
 #: ../e-util/e-image-chooser-dialog.c:174 ../plugins/face/face.c:298
-#: ../shell/e-shell-utils.c:73 ../smime/gui/certificate-manager.c:956
+#: ../shell/e-shell-utils.c:73 ../smime/gui/certificate-manager.c:958
 msgid "_Open"
 msgstr "_Abrir"
 
@@ -845,7 +846,7 @@ msgstr "Contacto inválido."
 #: ../plugins/email-custom-header/org-gnome-email-custom-header.ui.h:4
 #: ../plugins/publish-calendar/url-editor-dialog.c:422
 #: ../shell/e-shell-content.c:661 ../shell/e-shell-content.c:767
-#: ../shell/main.c:180 ../smime/gui/certificate-manager.c:1338
+#: ../shell/main.c:180 ../smime/gui/certificate-manager.c:1340
 #: ../smime/gui/e-cert-selector.c:238 ../smime/gui/smime-ui.ui.h:24
 msgid "_OK"
 msgstr "_Aceitar"
@@ -1159,7 +1160,7 @@ msgid "Video Chat"
 msgstr "Chat de vídeo"
 
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:827
-#: ../e-util/e-send-options.c:546
+#: ../data/evolution.desktop.in.in.h:9 ../e-util/e-send-options.c:546
 #: ../modules/calendar/e-cal-shell-view-actions.c:199
 #: ../modules/calendar/e-cal-shell-view.c:579
 #: ../plugins/publish-calendar/publish-calendar.ui.h:21
@@ -1472,7 +1473,7 @@ msgstr "Tem a certeza que deseja eliminar este contacto (%s)?"
 #: ../modules/calendar/e-task-shell-view-actions.c:832
 #: ../modules/mail/e-mail-shell-view-actions.c:1680
 #: ../shell/e-shell-window-actions.c:813
-#: ../smime/gui/certificate-manager.c:1661 ../smime/gui/smime-ui.ui.h:10
+#: ../smime/gui/certificate-manager.c:1663 ../smime/gui/smime-ui.ui.h:10
 msgid "_Delete"
 msgstr "_Eliminar"
 
@@ -3857,7 +3858,7 @@ msgstr "Hora de início incorreta"
 #: ../mail/e-mail-reader-utils.c:650 ../mail/mail-send-recv.c:486
 #: ../mail/mail-send-recv.c:1285 ../plugins/face/face.c:176
 #: ../shell/e-shell.c:991 ../shell/e-shell.c:1013
-#: ../smime/gui/certificate-manager.c:346
+#: ../smime/gui/certificate-manager.c:348
 msgid "Unknown error"
 msgstr "Erro desconhecido"
 
@@ -4803,14 +4804,14 @@ msgstr "Sem resumo"
 
 #. == Button box ==
 #: ../calendar/gui/e-comp-editor.c:1972 ../composer/e-composer-actions.c:334
-#: ../e-util/e-html-editor-dialog.c:196 ../e-util/e-mail-signature-editor.c:295
+#: ../e-util/e-html-editor-dialog.c:196 ../e-util/e-mail-signature-editor.c:299
 #: ../e-util/e-name-selector-dialog.c:551 ../e-util/e-preferences-window.c:391
 #: ../e-util/e-table-field-chooser-dialog.c:207 ../mail/e-mail-browser.c:129
 #: ../mail/e-mail-notes.c:903 ../mail/em-folder-properties.c:688
-#: ../mail/em-subscription-editor.c:1759
+#: ../mail/em-subscription-editor.c:1765
 #: ../modules/plugin-manager/evolution-plugin-manager.c:256
 #: ../shell/e-shell-window-actions.c:280 ../shell/e-shell-window-actions.c:778
-#: ../smime/gui/certificate-manager.c:2068
+#: ../smime/gui/certificate-manager.c:2203
 msgid "_Close"
 msgstr "_Fechar"
 
@@ -4904,7 +4905,7 @@ msgid "_Classification"
 msgstr "_Classificação"
 
 #: ../calendar/gui/e-comp-editor.c:2065 ../e-util/e-html-editor-actions.c:1127
-#: ../e-util/e-mail-signature-editor.c:309 ../mail/e-mail-browser.c:166
+#: ../e-util/e-mail-signature-editor.c:313 ../mail/e-mail-browser.c:166
 #: ../mail/e-mail-notes.c:917 ../shell/e-shell-window-actions.c:948
 msgid "_File"
 msgstr "_Ficheiro"
@@ -4919,7 +4920,7 @@ msgstr "_Opções"
 
 #: ../calendar/gui/e-comp-editor.c:2093 ../e-util/e-html-editor-actions.c:1169
 #: ../mail/e-mail-browser.c:180 ../shell/e-shell-window-actions.c:991
-#: ../smime/gui/certificate-manager.c:1651 ../smime/gui/smime-ui.ui.h:5
+#: ../smime/gui/certificate-manager.c:1653 ../smime/gui/smime-ui.ui.h:5
 msgid "_View"
 msgstr "_Ver"
 
@@ -4927,7 +4928,7 @@ msgstr "_Ver"
 msgid "Save current changes"
 msgstr "Gravar as alterações atuais"
 
-#: ../calendar/gui/e-comp-editor.c:2110 ../e-util/e-mail-signature-editor.c:304
+#: ../calendar/gui/e-comp-editor.c:2110 ../e-util/e-mail-signature-editor.c:308
 #: ../mail/e-mail-notes.c:912
 msgid "Save and Close"
 msgstr "Gravar e fechar"
@@ -5213,7 +5214,7 @@ msgstr "Nome comum"
 msgid "Language"
 msgstr "Idioma"
 
-#: ../calendar/gui/e-memo-table.c:370
+#: ../calendar/gui/e-memo-table.c:370 ../data/evolution.desktop.in.in.h:11
 #: ../modules/calendar/e-cal-shell-content.c:1667
 #: ../modules/calendar/e-memo-shell-view-actions.c:196
 #: ../modules/calendar/e-memo-shell-view-actions.c:211
@@ -5277,6 +5278,7 @@ msgstr "%d%%"
 #: ../calendar/gui/e-task-table.c:672 ../calendar/gui/print.c:2410
 #: ../calendar/importers/icalendar-importer.c:79
 #: ../calendar/importers/icalendar-importer.c:1117
+#: ../data/evolution.desktop.in.in.h:12
 #: ../modules/calendar/e-calendar-preferences.ui.h:65
 #: ../modules/calendar/e-cal-shell-content.c:1627
 #: ../modules/calendar/e-task-shell-view-actions.c:220
@@ -7743,6 +7745,7 @@ msgstr ""
 "para esta conta"
 
 #: ../composer/e-msg-composer.c:1619 ../composer/e-msg-composer.c:2645
+#: ../data/evolution.desktop.in.in.h:7
 msgid "Compose Message"
 msgstr "Escrever uma mensagem"
 
@@ -7974,6 +7977,20 @@ msgstr ""
 #: ../data/evolution.desktop.in.in.h:6
 msgid "New Window"
 msgstr "Nova _janela"
+
+#: ../data/evolution.desktop.in.in.h:8 ../e-util/e-name-selector-dialog.c:451
+#: ../modules/addressbook/e-book-shell-backend.c:303
+#: ../modules/addressbook/e-book-shell-view.c:373
+msgid "Contacts"
+msgstr "Contactos"
+
+#: ../data/evolution.desktop.in.in.h:10 ../e-util/e-send-options.c:538
+#: ../mail/importers/elm-importer.c:329 ../mail/importers/kmail-importer.c:253
+#: ../mail/importers/pine-importer.c:422
+#: ../modules/mail/e-mail-shell-view.c:1242
+#: ../smime/gui/certificate-manager.c:1673
+msgid "Mail"
+msgstr "Correio"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:1
 msgid "Enable address formatting"
@@ -8908,7 +8925,7 @@ msgstr "Domingo é um dia útil"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:155
 msgid "Create events, memos and tasks as Private by default"
-msgstr ""
+msgstr "Criar eventos, memorandos e tarefas como Privado por defeito"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:156
 msgid "(Deprecated) First day of the week, from Sunday (0) to Saturday (6)"
@@ -9707,31 +9724,31 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:131
 msgid "Thread the message-list based on Subject"
-msgstr "Mostrar a lista de mensagens em árvore por Assunto"
+msgstr "Mostrar a lista de mensagens em tópicos por Assunto"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:132
 msgid ""
 "Whether or not to fall back on threading by subjects when the messages do "
 "not contain In-Reply-To or References headers."
 msgstr ""
-"Se recorrer ou não a árvores por assunto quando as mensagens não contêm "
+"Se recorrer ou não a tópicos por assunto quando as mensagens não contêm "
 "cabeçalhos Em resposta a ou Referências."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:133
 msgid "Default value for thread expand state"
-msgstr "Valor predefinido para o estado de expansão de árvores"
+msgstr "Valor predefinido para o estado de expansão de tópicos"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:134
 msgid ""
 "This setting specifies whether the threads should be in expanded or "
 "collapsed state by default. Evolution requires a restart."
 msgstr ""
-"Esta definição especifica se as árvores deverão estar predefinidas no estado "
+"Esta definição especifica se os tópicos deverão estar predefinidas no estado "
 "expandido ou colapsado. É necessário reiniciar o Evolution para aplicar."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:135
 msgid "Whether sort threads based on latest message in that thread"
-msgstr "Se ordenar ou não as árvores com base na última mensagem nessa árvore"
+msgstr "Se ordenar ou não os tópicos com base na última mensagem nesse tópico"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:136
 msgid ""
@@ -9739,21 +9756,21 @@ msgid ""
 "message in each thread, rather than by message's date. Evolution requires a "
 "restart."
 msgstr ""
-"Esta definição especifica se as árvores deverão estar ordenadas com base na "
-"última mensagem em cada árvore, em vez de por data da mensagem. O Evolution "
+"Esta definição especifica se os tópicos deverão estar ordenados com base na "
+"última mensagem em cada tópico, em vez de por data da mensagem. O Evolution "
 "necessita de ser reiniciado após a alteração."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:137
 msgid "Whether sort thread children always ascending"
-msgstr "Se as árvores-filho devem estar em ordem ascendente"
+msgstr "Se os sub-tópicos devem estar em ordem ascendente"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:138
 msgid ""
 "This setting specifies whether the thread children should be sorted always "
 "ascending, rather than using the same sort order as in the thread root level."
 msgstr ""
-"Esta definição especifica se as árvores deverão estar sempre em ordem "
-"ascendente, em vez de usar a mesma ordem do nível raíz."
+"Esta definição especifica se os tópicos deverão estar sempre em ordem "
+"ascendente, em vez de usar a mesma ordem do nível inicial."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:139
 msgid "Sort accounts alphabetically in a folder tree"
@@ -10710,15 +10727,13 @@ msgid "Flag that enables a much simplified user interface."
 msgstr "Parâmetro que ativa um ambiente de utilizador muito simplificado."
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:13
-#, fuzzy
 #| msgid "Zoom large images to not be wider than the window width"
 msgid "List of button names to hide in the window switcher"
-msgstr "Reduzir imagens grandes para caberem na largura da janela"
+msgstr "Lista de nomes de botões a ocultar no alternador de janelas"
 
 #
 # Saber se os valores são traduzidos ou não
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:14
-#, fuzzy
 msgid ""
 "Valid values are 'mail', 'addressbook', 'calendar', 'tasks' and 'memos'. "
 "Change of this requires restart of the application."
@@ -10881,7 +10896,7 @@ msgstr "Tamanho"
 #: ../em-format/e-mail-part-headers.c:51 ../mail/e-mail-tag-editor.c:282
 #: ../mail/filtertypes.xml.in.h:16 ../mail/message-list.etspec.h:6
 #: ../mail/searchtypes.xml.in.h:17 ../mail/vfoldertypes.xml.in.h:17
-#: ../modules/mail/em-mailer-prefs.c:67 ../smime/gui/certificate-manager.c:1632
+#: ../modules/mail/em-mailer-prefs.c:67 ../smime/gui/certificate-manager.c:1634
 msgid "Subject"
 msgstr "Assunto"
 
@@ -11244,7 +11259,7 @@ msgstr "Fechar esta mensagem (Esc)"
 
 #: ../e-util/e-alert-sink.c:246
 msgid "Failed to create a thread: "
-msgstr "Falha ao criar uma linha: "
+msgstr "Falha ao criar um tópico: "
 
 #. To Translators: This text is set as a description of an attached
 #. * message when, for example, attaching it to a composer. When the
@@ -11487,19 +11502,19 @@ msgid "Month Calendar"
 msgstr "Calendário do mês"
 
 #. This is a strftime() format. %B = Month name.
-#: ../e-util/e-calendar-item.c:1337 ../e-util/e-calendar-item.c:2215
+#: ../e-util/e-calendar-item.c:1340 ../e-util/e-calendar-item.c:2220
 msgctxt "CalItem"
 msgid "%B"
 msgstr "%B"
 
 #. This is a strftime() format. %Y = Year.
-#: ../e-util/e-calendar-item.c:1339
+#: ../e-util/e-calendar-item.c:1342
 msgctxt "CalItem"
 msgid "%Y"
 msgstr "%Y"
 
 #. This is a strftime() format. %B = Month name, %Y = Year.
-#: ../e-util/e-calendar-item.c:1376
+#: ../e-util/e-calendar-item.c:1379
 msgctxt "CalItem"
 msgid "%B %Y"
 msgstr "%B %Y"
@@ -12320,7 +12335,7 @@ msgstr "Nenhuma resposta ou mãe"
 
 #: ../e-util/e-filter-rule.c:863
 msgid "I_nclude threads:"
-msgstr "I_ncluir árvores:"
+msgstr "I_ncluir tópicos:"
 
 #: ../e-util/e-filter-rule.c:942
 msgid "A_dd Condition"
@@ -13350,7 +13365,6 @@ msgid "Please select the information that you would like to import:"
 msgstr "Por favor, selecione a informação que deseja importar:"
 
 #: ../e-util/e-import-assistant.c:533
-#, fuzzy
 #| msgid ""
 #| "Evolution checked for settings to import from the following applications: "
 #| "Pine, Netscape, Elm, iCalendar. No importable settings found. If you "
@@ -13361,7 +13375,7 @@ msgid ""
 "would like to try again, please click the \"Back\" button."
 msgstr ""
 "O Evolution procurou configurações para importar das seguintes aplicações: "
-"Pine, Netscape, Elm, iCalendar. Não foram encontradas definições para "
+"Pine, Netscape, Elm, iCalendar, KMail. Não foram encontradas definições para "
 "importação. Se desejar tentar novamente, clique em \"Recuar\"."
 
 #: ../e-util/e-import-assistant.c:559
@@ -13428,23 +13442,23 @@ msgstr ""
 msgid "Autogenerated"
 msgstr "Gerada automaticamente"
 
-#: ../e-util/e-mail-signature-editor.c:297 ../mail/e-mail-notes.c:905
+#: ../e-util/e-mail-signature-editor.c:301 ../mail/e-mail-notes.c:905
 msgid "Close"
 msgstr "Fechar"
 
-#: ../e-util/e-mail-signature-editor.c:302 ../mail/e-mail-notes.c:910
+#: ../e-util/e-mail-signature-editor.c:306 ../mail/e-mail-notes.c:910
 msgid "_Save and Close"
 msgstr "_Gravar e fechar"
 
-#: ../e-util/e-mail-signature-editor.c:529
+#: ../e-util/e-mail-signature-editor.c:533
 msgid "Edit Signature"
 msgstr "Editar a assinatura"
 
-#: ../e-util/e-mail-signature-editor.c:562
+#: ../e-util/e-mail-signature-editor.c:566
 msgid "_Signature Name:"
 msgstr "Nome da a_Ssinatura:"
 
-#: ../e-util/e-mail-signature-editor.c:598
+#: ../e-util/e-mail-signature-editor.c:602
 msgid "Unnamed"
 msgstr "Sem nome"
 
@@ -13560,12 +13574,6 @@ msgstr "Procurar"
 #: ../e-util/e-name-selector-dialog.c:448 ../mail/importers/pine-importer.c:429
 msgid "Address Book"
 msgstr "Livro de endereços"
-
-#: ../e-util/e-name-selector-dialog.c:451
-#: ../modules/addressbook/e-book-shell-backend.c:303
-#: ../modules/addressbook/e-book-shell-view.c:373
-msgid "Contacts"
-msgstr "Contactos"
 
 #: ../e-util/e-name-selector-dialog.c:576
 msgid "Select Contacts from Address Book"
@@ -13790,13 +13798,6 @@ msgstr "Alcançado o fundo da página, continuada a partir do topo"
 #: ../e-util/e-search-bar.c:687
 msgid "Reached top of page, continued from bottom"
 msgstr "Alcançado o topo da página, continuada a partir do fundo"
-
-#: ../e-util/e-send-options.c:538 ../mail/importers/elm-importer.c:329
-#: ../mail/importers/kmail-importer.c:253 ../mail/importers/pine-importer.c:422
-#: ../modules/mail/e-mail-shell-view.c:1242
-#: ../smime/gui/certificate-manager.c:1671
-msgid "Mail"
-msgstr "Correio"
 
 #: ../e-util/e-send-options.c:570
 msgid "When de_leted:"
@@ -14478,15 +14479,15 @@ msgstr "Ir para o início da mensagem"
 msgid "Click to open %s"
 msgstr "Clique para abrir %s"
 
-#: ../e-util/e-web-view.c:3127
+#: ../e-util/e-web-view.c:3143
 msgid "Copying image to clipboard"
 msgstr "A copiar a imagem para a área de transferência"
 
-#: ../e-util/e-web-view.c:3315
+#: ../e-util/e-web-view.c:3331
 msgid "Save Image"
 msgstr "Gravar imagem"
 
-#: ../e-util/e-web-view.c:3351
+#: ../e-util/e-web-view.c:3367
 #, c-format
 msgid "Saving image to '%s'"
 msgstr "A gravar a imagem para \"%s\""
@@ -14568,10 +14569,9 @@ msgid "One or more values cannot be empty."
 msgstr "Um ou mais valores não podem ser vazios."
 
 #: ../e-util/filter.error.xml.h:16
-#, fuzzy
 #| msgid "Are you sure you want to delete the '{0}' task?"
 msgid "Are you sure you want to remove rule '{0}'?"
-msgstr "Tem a certeza que deseja eliminar a tarefa \"{0}\"?"
+msgstr "Tem a certeza que deseja eliminar a tarefa '{0}'?"
 
 #: ../e-util/filter.error.xml.h:17
 msgid "_Keep"
@@ -15253,10 +15253,9 @@ msgid "_Restore Defaults"
 msgstr "_Restaurar predefinições"
 
 #: ../mail/e-mail-config-defaults-page.c:946
-#, fuzzy
 #| msgid "Local Folders"
 msgid "_Lookup Folders"
-msgstr "Pastas Locais"
+msgstr "Pastas de _Pesquisa"
 
 #: ../mail/e-mail-config-defaults-page.c:964
 msgid "Use a Real Folder for _Trash:"
@@ -16026,19 +16025,19 @@ msgstr "Forçar as imagens na mensagem HTML a serem carregadas"
 
 #: ../mail/e-mail-reader.c:2133 ../mail/e-mail-reader.c:2523
 msgid "_Ignore Subthread"
-msgstr "_Ignorar subárvore"
+msgstr "_Ignorar sub-tópico"
 
 #: ../mail/e-mail-reader.c:2135
 msgid "Mark new mails in a subthread as read automatically"
-msgstr "Marcar novas mensagens numa subárvore como automaticamente lidas"
+msgstr "Marcar novas mensagens numa sub-tópico como automaticamente lidas"
 
 #: ../mail/e-mail-reader.c:2140 ../mail/e-mail-reader.c:2527
 msgid "_Ignore Thread"
-msgstr "_Ignorar árvore"
+msgstr "_Ignorar Tópico"
 
 #: ../mail/e-mail-reader.c:2142
 msgid "Mark new mails in this thread as read automatically"
-msgstr "Marcar novas mensagens nesta árvore como automaticamente lidas"
+msgstr "Marcar novas mensagens neste tópico como automaticamente lidas"
 
 #: ../mail/e-mail-reader.c:2147
 msgid "_Important"
@@ -16074,19 +16073,19 @@ msgstr "Marcar as mensagens selecionadas como lidas"
 
 #: ../mail/e-mail-reader.c:2175 ../mail/e-mail-reader.c:2547
 msgid "Do not _Ignore Subthread"
-msgstr "Não _ignorar subárvore"
+msgstr "Não _ignorar sub-tópico"
 
 #: ../mail/e-mail-reader.c:2177
 msgid "Do not mark new mails in a subthread as read automatically"
-msgstr "Não marcar novas mensagens numa subárvore como automaticamente lidas"
+msgstr "Não marcar novas mensagens numa sub-tópico como automaticamente lidas"
 
 #: ../mail/e-mail-reader.c:2182 ../mail/e-mail-reader.c:2551
 msgid "Do not _Ignore Thread"
-msgstr "Não _ignorar árvore"
+msgstr "Não _Ignorar Tópico"
 
 #: ../mail/e-mail-reader.c:2184
 msgid "Do not mark new mails in this thread as read automatically"
-msgstr "Não marcar novas mensagens nesta árvore como automaticamente lidas"
+msgstr "Não marcar novas mensagens neste tópico como automaticamente lidas"
 
 #: ../mail/e-mail-reader.c:2189
 msgid "Uni_mportant"
@@ -16154,11 +16153,11 @@ msgstr "Mostrar a mensagem importante seguinte"
 
 #: ../mail/e-mail-reader.c:2245
 msgid "Next _Thread"
-msgstr "Árvore seguin_te"
+msgstr "Tópico seguin_te"
 
 #: ../mail/e-mail-reader.c:2247
 msgid "Display the next thread"
-msgstr "Mostrar a árvore seguinte"
+msgstr "Mostrar o tópico seguinte"
 
 #: ../mail/e-mail-reader.c:2252
 msgid "Next _Unread Message"
@@ -16190,7 +16189,7 @@ msgstr "Á_rvore anterior"
 
 #: ../mail/e-mail-reader.c:2275
 msgid "Display the previous thread"
-msgstr "Mostrar a árvore anterior"
+msgstr "Mostrar o tópico anterior"
 
 #: ../mail/e-mail-reader.c:2280
 msgid "P_revious Unread Message"
@@ -16484,19 +16483,19 @@ msgstr "A atualizar a pasta \"%s\""
 
 #: ../mail/e-mail-reader-utils.c:1165
 msgid "Marking thread to be ignored"
-msgstr "Marcar árvore a ser ignorada"
+msgstr "Marcar tópico a ser ignorado"
 
 #: ../mail/e-mail-reader-utils.c:1169
 msgid "Unmarking thread from being ignored"
-msgstr "Desmarcar árvore para não ser ignorada"
+msgstr "Desmarcar tópico para não ser ignorado"
 
 #: ../mail/e-mail-reader-utils.c:1173
 msgid "Marking subthread to be ignored"
-msgstr "Marcar sub-árvore para ser ignorada"
+msgstr "Marcar sub-tópico para ser ignorado"
 
 #: ../mail/e-mail-reader-utils.c:1177
 msgid "Unmarking subthread from being ignored"
-msgstr "Desmarcar sub-árvore para não ser ignorada"
+msgstr "Desmarcar sub-tópico para não ser ignorado"
 
 #: ../mail/e-mail-reader-utils.c:1421
 msgid "Printing"
@@ -16560,18 +16559,18 @@ msgstr "Nenhuma origem de dados encontrada para o UID \"%s\""
 
 #. Translators: The %d is replaced with the actual count of recipients, which is always more than one.
 #: ../mail/em-composer-utils.c:390
-#, fuzzy, c-format
+#, c-format
 #| msgid ""
 #| "Are you sure you want to send a message with {0} To and CC recipients?"
 msgid "Are you sure you want to send a message with %d To and CC recipients?"
 msgid_plural ""
 "Are you sure you want to send a message with %d To and CC recipients?"
-msgstr[0] "Deseja mesmo enviar uma mensagem com {0} destinatários Para e CC?"
-msgstr[1] "Deseja mesmo enviar uma mensagem com {0} destinatários Para e CC?"
+msgstr[0] "Deseja mesmo enviar uma mensagem com %d destinatários Para e CC?"
+msgstr[1] "Deseja mesmo enviar uma mensagem com %d destinatários Para e CC?"
 
 #. Translators: The %d is replaced with the actual count of recipients, which is always more than one.
 #: ../mail/em-composer-utils.c:396
-#, fuzzy, c-format
+#, c-format
 #| msgid ""
 #| "You are trying to send a message to {0} recipients in To and CC fields. "
 #| "This would result in all recipients seeing the email addresses of each "
@@ -16591,16 +16590,16 @@ msgid_plural ""
 "other or if privacy is a concern. Consider adding recipients to the BCC "
 "field instead."
 msgstr[0] ""
-"Está a tentar enviar uma mensagem a {0} destinatários nos campos Para e CC. "
+"Está a tentar enviar uma mensagem a %d destinatários nos campos Para e CC. "
 "Isto resultaria em mostrar a todos o endereço de cada um. Nalguns casos, "
 "este comportamento é indesejável, especialmente se eles não se conhecem ou "
-"se a provacidade for importante. Ao invés, considere adicionar os "
+"se a privacidade for importante. Ao invés, considere adicionar os "
 "destinatários ao campo BCC."
 msgstr[1] ""
-"Está a tentar enviar uma mensagem a {0} destinatários nos campos Para e CC. "
+"Está a tentar enviar uma mensagem a %d destinatários nos campos Para e CC. "
 "Isto resultaria em mostrar a todos o endereço de cada um. Nalguns casos, "
 "este comportamento é indesejável, especialmente se eles não se conhecem ou "
-"se a provacidade for importante. Ao invés, considere adicionar os "
+"se a privacidade for importante. Ao invés, considere adicionar os "
 "destinatários ao campo BCC."
 
 #. This message is never removed from the camel operation, otherwise the GtkInfoBar
@@ -16816,7 +16815,7 @@ msgstr "Su_bscrever a mostrada"
 msgid "Subscribe To _All"
 msgstr "Subscrever _todas"
 
-#: ../mail/em-subscription-editor.c:970 ../mail/em-subscription-editor.c:1912
+#: ../mail/em-subscription-editor.c:970 ../mail/em-subscription-editor.c:1914
 #: ../modules/mail/e-mail-shell-view-actions.c:1751
 msgid "_Unsubscribe"
 msgstr "_Remover a subscrição"
@@ -16845,66 +16844,66 @@ msgid_plural "%d total"
 msgstr[0] "%d no total"
 msgstr[1] "%d no total"
 
-#: ../mail/em-subscription-editor.c:1749
+#: ../mail/em-subscription-editor.c:1755
 msgid "Folder Subscriptions"
 msgstr "Subscrições de pasta"
 
-#: ../mail/em-subscription-editor.c:1788
+#: ../mail/em-subscription-editor.c:1790
 msgid "_Account:"
 msgstr "Cont_a:"
 
-#: ../mail/em-subscription-editor.c:1801
+#: ../mail/em-subscription-editor.c:1803
 msgid "Clear Search"
 msgstr "Limpar a procura"
 
-#: ../mail/em-subscription-editor.c:1818
+#: ../mail/em-subscription-editor.c:1820
 msgid "Sho_w items that contain:"
 msgstr "Mostrar itens que conten_ham:"
 
-#: ../mail/em-subscription-editor.c:1865
+#: ../mail/em-subscription-editor.c:1867
 msgid "Subscribe to the selected folder"
 msgstr "Subscrever a pasta selecionada"
 
-#: ../mail/em-subscription-editor.c:1866
+#: ../mail/em-subscription-editor.c:1868
 msgid "Su_bscribe"
 msgstr "Su_bscrever"
 
-#: ../mail/em-subscription-editor.c:1911
+#: ../mail/em-subscription-editor.c:1913
 #: ../modules/mail/e-mail-shell-view-actions.c:1753
 msgid "Unsubscribe from the selected folder"
 msgstr "Remover a subscrição sobre a pasta selecionada"
 
-#: ../mail/em-subscription-editor.c:1951
+#: ../mail/em-subscription-editor.c:1953
 msgid "Collapse all folders"
 msgstr "Colapsar todas as pastas"
 
-#: ../mail/em-subscription-editor.c:1952
+#: ../mail/em-subscription-editor.c:1954
 msgid "C_ollapse All"
 msgstr "C_olapsar todas"
 
-#: ../mail/em-subscription-editor.c:1962
+#: ../mail/em-subscription-editor.c:1964
 msgid "Expand all folders"
 msgstr "Expandir todas as pastas"
 
-#: ../mail/em-subscription-editor.c:1963
+#: ../mail/em-subscription-editor.c:1965
 msgid "E_xpand All"
 msgstr "E_xpandir todas"
 
-#: ../mail/em-subscription-editor.c:1973
+#: ../mail/em-subscription-editor.c:1975
 msgid "Refresh the folder list"
 msgstr "Atualizar a lista de pastas"
 
-#: ../mail/em-subscription-editor.c:1974
+#: ../mail/em-subscription-editor.c:1976
 #: ../modules/mail/e-mail-shell-view-actions.c:1652
 #: ../modules/mail/e-mail-shell-view-actions.c:1723
 msgid "_Refresh"
 msgstr "Atualiza_r"
 
-#: ../mail/em-subscription-editor.c:1985
+#: ../mail/em-subscription-editor.c:1987
 msgid "Stop the current operation"
 msgstr "Cancelar a operação atual"
 
-#: ../mail/em-subscription-editor.c:1986
+#: ../mail/em-subscription-editor.c:1988
 #: ../modules/addressbook/e-book-shell-view-actions.c:1001
 msgid "_Stop"
 msgstr "_Parar"
@@ -17710,7 +17709,7 @@ msgstr "Aplicar as mesmas definições de _vista a todas as pastas"
 
 #: ../mail/mail-config.ui.h:96
 msgid "F_all back to threading messages by subject"
-msgstr "Recorrer a organizar as mensagens em árvore por _assunto"
+msgstr "Recorrer a organizar as mensagens em tópico por _assunto"
 
 #: ../mail/mail-config.ui.h:97
 msgid "Delete Mail"
@@ -18738,19 +18737,19 @@ msgstr "Mensagem da conta &quot;{0}&quot;:"
 
 #: ../mail/mail.error.xml.h:183
 msgid "Failed to mark thread to be ignored in folder '{0}'"
-msgstr "Falha ao marcar árvore a ser ignorada na pasta \"{0}\""
+msgstr "Falha ao marcar tópico a ser ignorado na pasta '{0}'"
 
 #: ../mail/mail.error.xml.h:184
 msgid "Failed to unmark thread from being ignored in folder '{0}'"
-msgstr "Falha ao desmarcar árvore para não ser ignorada na pasta \"{0}\""
+msgstr "Falha ao desmarcar tópico para não ser ignorado na pasta '{0}'"
 
 #: ../mail/mail.error.xml.h:185
 msgid "Failed to mark subthread to be ignored in folder '{0}'"
-msgstr "Falha ao marcar subárvore a ser ignorada na pasta \"{0}\""
+msgstr "Falha ao marcar sub-tópico a ser ignorado na pasta '{0}'"
 
 #: ../mail/mail.error.xml.h:186
 msgid "Failed to unmark subthread from being ignored in folder '{0}'"
-msgstr "Falha ao desmarcar subárvore para não ser ignorada na pasta \"{0}\""
+msgstr "Falha ao desmarcar sub-tópico para não ser ignorado na pasta '{0}'"
 
 #: ../mail/mail.error.xml.h:187
 msgid "Remote content download had been blocked for this message."
@@ -20165,7 +20164,7 @@ msgstr "Dia t_ermina:"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:47
 msgid "Create events, memos and tasks as _Private by default"
-msgstr ""
+msgstr "Criar eventos, memorandos e tarefas como _Privado por defeito"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:49
 msgid "View Options"
@@ -21493,7 +21492,7 @@ msgid "_Update Attendee Status"
 msgstr "_Atualizar estado dos participantes"
 
 #: ../modules/itip-formatter/itip-view.c:1066
-#: ../smime/gui/certificate-manager.c:1666
+#: ../smime/gui/certificate-manager.c:1668
 msgid "_Update"
 msgstr "_Atualizar"
 
@@ -21869,7 +21868,6 @@ msgstr "STARTTLS após ligar"
 
 #: ../modules/mail-config/e-mail-config-remote-accounts.c:242
 #: ../modules/mail-config/e-mail-config-smtp-backend.c:192
-#, fuzzy
 #| msgid "SSL on a dedicated port"
 msgid "TLS on a dedicated port"
 msgstr "SSL numa porta dedicada"
@@ -22089,16 +22087,16 @@ msgstr "Alterar o nome desta pasta"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1737
 msgid "Select Message _Thread"
-msgstr "Selecionar a ár_vore de mensagens"
+msgstr "Selecionar o Tó_pico de mensagem"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1739
 msgid "Select all messages in the same thread as the selected message"
 msgstr ""
-"Selecionar todas as mensagens na mesma árvore que a mensagem selecionada"
+"Selecionar todas as mensagens no mesmo tópico que a mensagem selecionada"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1744
 msgid "Select Message S_ubthread"
-msgstr "Selecionar a s_ub-árvore da mensagem"
+msgstr "Selecionar o s_ub-tópico da mensagem"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1746
 msgid "Select all replies to the currently selected message"
@@ -22169,19 +22167,19 @@ msgstr "Cancelar a operação de correio atual"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1858
 msgid "Collapse All _Threads"
-msgstr "Colapsar todas as ár_vores"
+msgstr "Colapsar todas os tó_picos"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1860
 msgid "Collapse all message threads"
-msgstr "Colapsar todas as árvores de mensagens"
+msgstr "Colapsar todas os tópicos de mensagens"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1865
 msgid "E_xpand All Threads"
-msgstr "E_xpandir todas as árvores"
+msgstr "E_xpandir Todos Os Tópicos"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1867
 msgid "Expand all message threads"
-msgstr "Expandir todas as árvores de mensagens"
+msgstr "Expandir todos os tópicos de mensagens"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1872
 msgid "_Message Filters"
@@ -22245,11 +22243,11 @@ msgstr "Mostrar as mensagens lixo com uma rasura vermelha"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:2012
 msgid "_Group By Threads"
-msgstr "A_grupar por árvores"
+msgstr "A_grupar Por Tópicos"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:2014
 msgid "Threaded message list"
-msgstr "Lista de mensagens em árvore"
+msgstr "Lista de mensagens por tópicos"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:2020
 msgid "_Unmatched Folder Enabled"
@@ -22304,10 +22302,9 @@ msgid "Unread Messages"
 msgstr "Mensagens por ler"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:2120
-#, fuzzy
 #| msgid "Message Header"
 msgid "Message Thread"
-msgstr "Cabeçalho da mensagem"
+msgstr "Tópico da mensagem"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:2180
 msgid "Subject or Addresses contain"
@@ -23295,10 +23292,9 @@ msgid "Copy _Message Archive URL"
 msgstr "Código fonte da _mensagem"
 
 #: ../plugins/mailing-list-actions/mailing-list-actions.c:389
-#, fuzzy
 #| msgid "Edit a note for the selected message"
 msgid "Copy direct URL for the selected message in its archive"
-msgstr "Editar a nota da mensagem selecionada"
+msgstr "Copie o URL direto para a mensagem selecionada no seu arquivo"
 
 #: ../plugins/mailing-list-actions/mailing-list-actions.c:394
 msgid "Get List _Usage Information"
@@ -23769,7 +23765,7 @@ msgstr "Tem a certeza que deseja eliminar esta localização?"
 #. * ever happen, and if so, then something is really wrong.
 #: ../plugins/publish-calendar/publish-calendar.c:1097
 msgid "Could not create publish thread."
-msgstr "Impossível criar a discussão de publicação."
+msgstr "Impossível criar tópico de publicação."
 
 #: ../plugins/publish-calendar/publish-calendar.c:1107
 msgid "_Publish Calendar Information"
@@ -23852,7 +23848,7 @@ msgid "_Username:"
 msgstr "_Utilizador:"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:29
-#: ../smime/gui/certificate-manager.c:774
+#: ../smime/gui/certificate-manager.c:776
 msgid "_Password:"
 msgstr "_Senha:"
 
@@ -24718,7 +24714,7 @@ msgstr "Impressão digital MD5"
 msgid "Email Address"
 msgstr "Endereço eletrónico"
 
-#: ../smime/gui/certificate-manager.c:652
+#: ../smime/gui/certificate-manager.c:654
 msgid "Select a file to backup your key and certificate..."
 msgstr "Selecione um ficheiro para gravar a sua chave e certificado..."
 
@@ -24727,31 +24723,31 @@ msgstr "Selecione um ficheiro para gravar a sua chave e certificado..."
 #. * when a user wants to backup one of her/his private keys/certificates.
 #. * For example: gnomedev-backup.p12
 #.
-#: ../smime/gui/certificate-manager.c:664
+#: ../smime/gui/certificate-manager.c:666
 #, c-format
 msgid "%s-backup.p12"
 msgstr "%s-seguranca.p12"
 
-#: ../smime/gui/certificate-manager.c:730
+#: ../smime/gui/certificate-manager.c:732
 msgid "Backup Certificate"
 msgstr "Cópia de segurança do certificado"
 
 #. filename selection
-#: ../smime/gui/certificate-manager.c:744
+#: ../smime/gui/certificate-manager.c:746
 msgid "_File name:"
 msgstr "_Ficheiro:"
 
 #. FIXME when gtk_file_chooser_button allows GTK_FILE_CHOOSER_ACTION_SAVE use it
-#: ../smime/gui/certificate-manager.c:749
+#: ../smime/gui/certificate-manager.c:751
 msgid "Please select a file..."
 msgstr "Por favor, selecione um ficheiro..."
 
-#: ../smime/gui/certificate-manager.c:763
+#: ../smime/gui/certificate-manager.c:765
 msgid "_Include certificate chain in the backup"
 msgstr "_Incluir cadeia do certificado na cópia"
 
 #. To Translators: this text was copied from Firefox
-#: ../smime/gui/certificate-manager.c:769
+#: ../smime/gui/certificate-manager.c:771
 msgid ""
 "The certificate backup password you set here protects the backup file that "
 "you are about to create.\n"
@@ -24761,16 +24757,16 @@ msgstr ""
 "ficheiro de segurança que está prestes a criar.\n"
 "Tem de definir esta senha para continuar com a cópia de segurança."
 
-#: ../smime/gui/certificate-manager.c:788
+#: ../smime/gui/certificate-manager.c:790
 msgid "_Repeat Password:"
 msgstr "_Repetir senha:"
 
-#: ../smime/gui/certificate-manager.c:807
+#: ../smime/gui/certificate-manager.c:809
 msgid "Passwords do not match"
 msgstr "A senhas não coincidem"
 
 #. To Translators: this text was copied from Firefox
-#: ../smime/gui/certificate-manager.c:815
+#: ../smime/gui/certificate-manager.c:817
 msgid ""
 "Important:\n"
 "If you forget your certificate backup password, you will not be able to "
@@ -24782,92 +24778,92 @@ msgstr ""
 "restaurar mais tarde.\n"
 "Por favor, registe-a num local seguro."
 
-#: ../smime/gui/certificate-manager.c:860
+#: ../smime/gui/certificate-manager.c:862
 msgid "No file name provided"
 msgstr "Nenhum ficheiro fornecido"
 
-#: ../smime/gui/certificate-manager.c:864
+#: ../smime/gui/certificate-manager.c:866
 msgid "Failed to backup key and certificate"
 msgstr "Falha na cópia de segurança da chave e certificado"
 
-#: ../smime/gui/certificate-manager.c:953
+#: ../smime/gui/certificate-manager.c:955
 msgid "Select a certificate to import..."
 msgstr "Selecionar um certificado a importar..."
 
-#: ../smime/gui/certificate-manager.c:1003
+#: ../smime/gui/certificate-manager.c:1005
 msgid "Failed to import certificate"
 msgstr "Falha ao importar o certificado"
 
-#: ../smime/gui/certificate-manager.c:1119
+#: ../smime/gui/certificate-manager.c:1121
 msgctxt "CamelTrust"
 msgid "Ask when used"
 msgstr "Perguntar quando usado"
 
-#: ../smime/gui/certificate-manager.c:1121
+#: ../smime/gui/certificate-manager.c:1123
 msgctxt "CamelTrust"
 msgid "Never"
 msgstr "Nunca"
 
-#: ../smime/gui/certificate-manager.c:1123
+#: ../smime/gui/certificate-manager.c:1125
 msgctxt "CamelTrust"
 msgid "Marginally"
 msgstr "Marginalmente"
 
-#: ../smime/gui/certificate-manager.c:1125
+#: ../smime/gui/certificate-manager.c:1127
 msgctxt "CamelTrust"
 msgid "Fully"
 msgstr "Total"
 
-#: ../smime/gui/certificate-manager.c:1127
+#: ../smime/gui/certificate-manager.c:1129
 msgctxt "CamelTrust"
 msgid "Ultimately"
 msgstr "Finalmente"
 
-#: ../smime/gui/certificate-manager.c:1129
+#: ../smime/gui/certificate-manager.c:1131
 msgctxt "CamelTrust"
 msgid "Temporarily"
 msgstr "Temporariamente"
 
-#: ../smime/gui/certificate-manager.c:1335
+#: ../smime/gui/certificate-manager.c:1337
 msgid "Change certificate trust"
 msgstr "Alterar confiança do certificado"
 
-#: ../smime/gui/certificate-manager.c:1347
+#: ../smime/gui/certificate-manager.c:1349
 #, c-format
 msgid "Change trust for the host '%s':"
 msgstr "Alterar confiança do anfitrião \"%s\":"
 
-#: ../smime/gui/certificate-manager.c:1371
+#: ../smime/gui/certificate-manager.c:1373
 msgctxt "CamelTrust"
 msgid "_Ask when used"
 msgstr "_Perguntar quando usado"
 
-#: ../smime/gui/certificate-manager.c:1372
+#: ../smime/gui/certificate-manager.c:1374
 msgctxt "CamelTrust"
 msgid "_Never trust this certificate"
 msgstr "_Nunca confiar neste certificado"
 
-#: ../smime/gui/certificate-manager.c:1373
+#: ../smime/gui/certificate-manager.c:1375
 msgctxt "CamelTrust"
 msgid "_Temporarily trusted (this session only)"
 msgstr "_Temporariamente de confiança (só nesta sessão)"
 
-#: ../smime/gui/certificate-manager.c:1374
+#: ../smime/gui/certificate-manager.c:1376
 msgctxt "CamelTrust"
 msgid "_Marginally trusted"
 msgstr "_Marginalmente de confiança"
 
-#: ../smime/gui/certificate-manager.c:1375
+#: ../smime/gui/certificate-manager.c:1377
 msgctxt "CamelTrust"
 msgid "_Fully trusted"
 msgstr "_Totalmente de confiança"
 
-#: ../smime/gui/certificate-manager.c:1376
+#: ../smime/gui/certificate-manager.c:1378
 msgctxt "CamelTrust"
 msgid "_Ultimately trusted"
 msgstr "_Completamente de confiança"
 
-#: ../smime/gui/certificate-manager.c:1380
+#: ../smime/gui/certificate-manager.c:1382
 msgid ""
 "Before trusting this site, you should examine its certificate and its policy "
 "and procedures (if available)."
@@ -24875,44 +24871,44 @@ msgstr ""
 "Antes de confiar neste site, deverá examinar o seu certificado, políticas e "
 "procedimentos (se disponíveis)."
 
-#: ../smime/gui/certificate-manager.c:1395
+#: ../smime/gui/certificate-manager.c:1397
 msgid "_Display certificate"
 msgstr "_Mostrar certificado"
 
-#: ../smime/gui/certificate-manager.c:1600
+#: ../smime/gui/certificate-manager.c:1602
 msgid "You have certificates on file that identify these mail servers:"
 msgstr ""
 "Tem certificados em ficheiro que identificam estes servidores de correio:"
 
-#: ../smime/gui/certificate-manager.c:1631
+#: ../smime/gui/certificate-manager.c:1633
 msgid "Host name"
 msgstr "Nome da máquina:"
 
-#: ../smime/gui/certificate-manager.c:1633
+#: ../smime/gui/certificate-manager.c:1635
 msgid "Issuer"
 msgstr "Emissor"
 
-#: ../smime/gui/certificate-manager.c:1634
+#: ../smime/gui/certificate-manager.c:1636
 msgid "Fingerprint"
 msgstr "Impressão digital"
 
-#: ../smime/gui/certificate-manager.c:1635
+#: ../smime/gui/certificate-manager.c:1637
 msgid "Trust"
 msgstr "Confiança"
 
-#: ../smime/gui/certificate-manager.c:1656
+#: ../smime/gui/certificate-manager.c:1658
 msgid "_Edit Trust"
 msgstr "_Editar conafiança"
 
-#: ../smime/gui/certificate-manager.c:1977
+#: ../smime/gui/certificate-manager.c:2112
 msgid "All PKCS12 files"
 msgstr "Todos os ficheiro PKCS12"
 
-#: ../smime/gui/certificate-manager.c:1994
+#: ../smime/gui/certificate-manager.c:2129
 msgid "All email certificate files"
 msgstr "Todos os ficheiros de certificação de correio"
 
-#: ../smime/gui/certificate-manager.c:2011
+#: ../smime/gui/certificate-manager.c:2146
 msgid "All CA certificate files"
 msgstr "Todos os ficheiros de certificado de AC"
 
