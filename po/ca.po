@@ -2664,12 +2664,12 @@ msgstr "Ha fallat l'actualització d'un esdeveniment al calendari «{0}»"
 #: ../calendar/calendar.error.xml.h:121
 msgid "Failed to update a memo in the memo list '{0}'"
 msgstr ""
-"Ha fallat l'actualització d'una anotació a la llitsa d'anotacions «{0}»"
+"Ha fallat l'actualització d'una anotació a la llista d'anotacions «{0}»"
 
 #. Translators: {0} is the name of the task list.
 #: ../calendar/calendar.error.xml.h:123
 msgid "Failed to update a task in the task list '{0}'"
-msgstr "Ha fallat l'actualització d'una tasca a la llitsa de tasques «{0}»"
+msgstr "Ha fallat l'actualització d'una tasca a la llista de tasques «{0}»"
 
 # c-format
 #. Translators: {0} is the name of the calendar.
@@ -9324,7 +9324,7 @@ msgstr ""
 "Codifica els noms de fitxer en les capçaleres de correu de la mateixa manera "
 "que ho fan l'Outlook o el GMail, de manera que aquests mostrin correctament "
 "els noms de fitxer amb UTF-8 enviats amb l'Evolution. Això cal fer-ho perquè "
-"no segueixen l'RFC 2231, sinó que utilitzen l'estàndard incorrecte RFC 2047"
+"no segueixen l'RFC 2231, sinó que utilitzen l'estàndard incorrecte RFC 2047."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:47
 msgid "Send messages through Outbox folder"
@@ -13808,7 +13808,7 @@ msgstr "_URL de configuració:"
 
 #: ../e-util/e-proxy-editor.c:560
 msgid "No proxy"
-msgstr "Sense Servidor intermediari"
+msgstr "Sense servidor intermediari"
 
 #: ../e-util/e-proxy-editor.c:563
 msgid "Use a direct connection, no proxying required."
@@ -15525,7 +15525,7 @@ msgstr "El nom complet no es pot deixar buit"
 
 #: ../mail/e-mail-config-identity-page.c:618
 msgid "Email Address cannot be empty"
-msgstr "L'adreça electrònia no es pot deixar buida"
+msgstr "L'adreça electrònica no es pot deixar buida"
 
 #: ../mail/e-mail-config-identity-page.c:623
 msgid "Email Address is not a valid email"
@@ -15544,9 +15544,10 @@ msgstr "El nom del compte no es pot deixar buit"
 msgid "Looking up account details..."
 msgstr "S'estan consultant les dades del compte..."
 
+# N.T.: Títol de secció a la configuració
 #: ../mail/e-mail-config-provider-page.c:484
 msgid "Checking for New Mail"
-msgstr "S'està comprovant si hi ha cap correu nou"
+msgstr "Comprovació de correu nou"
 
 #: ../mail/e-mail-config-provider-page.c:500
 msgid "Check for _new messages every"
@@ -17725,7 +17726,7 @@ msgstr "Enviament d'un missatge amb destinataris n_omés al camp CCO"
 #. This is in the context of: Ask for confirmation before...
 #: ../mail/mail-config.ui.h:46
 msgid "Sending a message to many _To and CC recipients"
-msgstr "S'està enviant un missatge a molts des_tinataris i CC"
+msgstr "Enviant d'un missatge a molts des_tinataris i CC"
 
 #. This is in the context of: Ask for confirmation before...
 #: ../mail/mail-config.ui.h:48
@@ -17755,7 +17756,7 @@ msgstr ""
 #: ../mail/mail-config.ui.h:56
 msgid "Sending a message using _key accelerator (Ctrl+Enter)"
 msgstr ""
-"S'està enviant un missatge usant l'accelerador del _ teclat (Ctrl+Retorn)"
+"Enviament d'un missatge usant l'_accelerador del teclat (Ctrl+Retorn)"
 
 #: ../mail/mail-config.ui.h:57
 msgid "Confirmations"
@@ -20179,8 +20180,9 @@ msgid "Selected Calendars for Alarms"
 msgstr "Calendaris seleccionats per les alarmes"
 
 #: ../modules/calendar/e-calendar-preferences.c:611
+# N.T.: Títol en secció de configuració
 msgid "Meeting Invitations"
-msgstr "Invitacions de la reunió"
+msgstr "Invitacions a reunions"
 
 #: ../modules/calendar/e-calendar-preferences.c:637
 msgid "_Delete message after acting"
@@ -24625,12 +24627,12 @@ msgid ""
 "We hope that you enjoy the results of our hard work, and we\n"
 "eagerly await your contributions!\n"
 msgstr ""
-"Gràcies per baixar-vos aquesta versió\n"
-"provisional del paquet de treball en grup Evolution.\n"
+"Gràcies per baixar-vos aquesta versió provisional del paquet\n"
+"de treball en grup Evolution.\n"
 "\n"
 "Aquesta versió de l'Evolution no està completament acabada. Està\n"
-"pràcticament llesta, però algunes característiques encara no a\n"
-"punt o no funcionen correctament.\n"
+"pràcticament llesta, però algunes característiques encara no estan\n"
+"a punt o no funcionen correctament.\n"
 "\n"
 "Si voleu utilitzar una versió estable de l'Evolution us suggerim que\n"
 "desinstal·leu aquesta versió, i instal·leu la versió %s.\n"
