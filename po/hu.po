@@ -2,6 +2,7 @@
 # Copyright (C) 2000-2016 Free Software Foundation, Inc.
 # This file is distributed under the same license as the evolution package.
 #
+#: ../shell/main.c:522
 # Szabolcs Ban <shooby at gnome dot hu>, 2000.
 # Andras Timar <timar at gnome dot hu>, 2001, 2002, 2003, 2004.
 # Zsiraf <zsiraf at mylinux dot hu>, 2003.
@@ -14,8 +15,8 @@ msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2016-03-04 17:53+0000\n"
-"PO-Revision-Date: 2016-03-04 19:20+0100\n"
+"POT-Creation-Date: 2016-03-25 18:03+0000\n"
+"PO-Revision-Date: 2016-03-26 00:34+0100\n"
 "Last-Translator: Balázs Úr <urbalazs@gmail.com>\n"
 "Language-Team: Hungarian <openscope at gmail dot com>\n"
 "Language: hu\n"
@@ -331,7 +332,7 @@ msgid "Instant Messaging"
 msgstr "Azonnali üzenetek"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:13
-#: ../addressbook/importers/evolution-vcard-importer.c:979
+#: ../addressbook/importers/evolution-vcard-importer.c:983
 msgid "Contact"
 msgstr "Névjegy"
 
@@ -549,11 +550,11 @@ msgstr "X.509 _betöltése"
 #: ../calendar/calendar.error.xml.h:47 ../calendar/gui/e-comp-editor.c:2103
 #: ../composer/e-composer-actions.c:215 ../composer/e-composer-actions.c:355
 #: ../e-util/e-attachment-store.c:641
-#: ../e-util/e-mail-signature-script-dialog.c:369 ../e-util/e-web-view.c:3318
+#: ../e-util/e-mail-signature-script-dialog.c:369 ../e-util/e-web-view.c:3334
 #: ../e-util/gal-view-instance-save-as-dialog.c:270
 #: ../shell/e-shell-content.c:660 ../shell/e-shell-utils.c:137
-#: ../smime/gui/certificate-manager.c:655
-#: ../smime/gui/certificate-manager.c:732
+#: ../smime/gui/certificate-manager.c:657
+#: ../smime/gui/certificate-manager.c:734
 msgid "_Save"
 msgstr "M_entés"
 
@@ -606,7 +607,7 @@ msgstr "Beállítások"
 #: ../e-util/e-send-options.ui.h:42 ../e-util/e-source-config-dialog.c:379
 #: ../e-util/e-source-selector-dialog.c:372 ../e-util/e-table-config.c:548
 #: ../e-util/e-table-config.ui.h:1 ../e-util/e-timezone-dialog.ui.h:2
-#: ../e-util/evolution-source-viewer.c:834 ../e-util/e-web-view.c:3317
+#: ../e-util/evolution-source-viewer.c:834 ../e-util/e-web-view.c:3333
 #: ../e-util/gal-view-instance-save-as-dialog.c:269
 #: ../mail/e-mail-config-window.c:330 ../mail/e-mail-label-dialog.c:196
 #: ../mail/e-mail-tag-editor.c:242 ../mail/em-folder-selector.c:317
@@ -621,10 +622,10 @@ msgstr "Beállítások"
 #: ../plugins/publish-calendar/url-editor-dialog.c:421
 #: ../plugins/save-calendar/save-calendar.c:187 ../shell/e-shell-content.c:659
 #: ../shell/e-shell-content.c:766 ../shell/e-shell-utils.c:72
-#: ../shell/e-shell-utils.c:136 ../smime/gui/certificate-manager.c:654
-#: ../smime/gui/certificate-manager.c:731
-#: ../smime/gui/certificate-manager.c:955
-#: ../smime/gui/certificate-manager.c:1337 ../smime/gui/e-cert-selector.c:237
+#: ../shell/e-shell-utils.c:136 ../smime/gui/certificate-manager.c:656
+#: ../smime/gui/certificate-manager.c:733
+#: ../smime/gui/certificate-manager.c:957
+#: ../smime/gui/certificate-manager.c:1339 ../smime/gui/e-cert-selector.c:237
 #: ../smime/gui/smime-ui.ui.h:23
 msgid "_Cancel"
 msgstr "Mé_gse"
@@ -721,8 +722,8 @@ msgid "PGP keys"
 msgstr "PGP-kulcsok"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:3251
-#: ../smime/gui/certificate-manager.c:678
-#: ../smime/gui/certificate-manager.c:967
+#: ../smime/gui/certificate-manager.c:680
+#: ../smime/gui/certificate-manager.c:969
 msgid "All files"
 msgstr "Minden fájl"
 
@@ -739,7 +740,7 @@ msgstr "X.509 tanúsítvány megnyitása"
 #: ../e-util/e-attachment-store.c:494 ../e-util/e-category-editor.c:146
 #: ../e-util/e-html-editor-actions.c:594 ../e-util/e-html-editor-actions.c:689
 #: ../e-util/e-image-chooser-dialog.c:174 ../plugins/face/face.c:298
-#: ../shell/e-shell-utils.c:73 ../smime/gui/certificate-manager.c:956
+#: ../shell/e-shell-utils.c:73 ../smime/gui/certificate-manager.c:958
 msgid "_Open"
 msgstr "_Megnyitás"
 
@@ -838,7 +839,7 @@ msgstr "Érvénytelen névjegy."
 #: ../plugins/email-custom-header/org-gnome-email-custom-header.ui.h:4
 #: ../plugins/publish-calendar/url-editor-dialog.c:422
 #: ../shell/e-shell-content.c:661 ../shell/e-shell-content.c:767
-#: ../shell/main.c:180 ../smime/gui/certificate-manager.c:1338
+#: ../shell/main.c:180 ../smime/gui/certificate-manager.c:1340
 #: ../smime/gui/e-cert-selector.c:238 ../smime/gui/smime-ui.ui.h:24
 msgid "_OK"
 msgstr "_OK"
@@ -1152,7 +1153,7 @@ msgid "Video Chat"
 msgstr "Videokonferencia"
 
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:827
-#: ../e-util/e-send-options.c:546
+#: ../data/evolution.desktop.in.in.h:9 ../e-util/e-send-options.c:546
 #: ../modules/calendar/e-cal-shell-view-actions.c:199
 #: ../modules/calendar/e-cal-shell-view.c:579
 #: ../plugins/publish-calendar/publish-calendar.ui.h:21
@@ -1465,7 +1466,7 @@ msgstr "Biztos benne, hogy törli a névjegyet (%s)?"
 #: ../modules/calendar/e-task-shell-view-actions.c:832
 #: ../modules/mail/e-mail-shell-view-actions.c:1680
 #: ../shell/e-shell-window-actions.c:813
-#: ../smime/gui/certificate-manager.c:1661 ../smime/gui/smime-ui.ui.h:10
+#: ../smime/gui/certificate-manager.c:1663 ../smime/gui/smime-ui.ui.h:10
 msgid "_Delete"
 msgstr "_Törlés"
 
@@ -1732,52 +1733,62 @@ msgstr ""
 "\n"
 "Ebben a nézetben nincsenek megjeleníthető névjegyek."
 
-#: ../addressbook/importers/evolution-csv-importer.c:746
-#: ../addressbook/importers/evolution-ldif-importer.c:548
+#: ../addressbook/importers/evolution-csv-importer.c:747
+#: ../addressbook/importers/evolution-ldif-importer.c:549
 #: ../addressbook/importers/evolution-vcard-importer.c:249
-#: ../calendar/importers/icalendar-importer.c:485
-#: ../calendar/importers/icalendar-importer.c:980
-#: ../calendar/importers/icalendar-importer.c:1019 ../shell/shell.error.xml.h:1
+#: ../calendar/importers/icalendar-importer.c:481
+#: ../calendar/importers/icalendar-importer.c:978
+#: ../calendar/importers/icalendar-importer.c:1018 ../shell/shell.error.xml.h:1
 msgid "Importing..."
 msgstr "Importálás folyamatban…"
 
-#: ../addressbook/importers/evolution-csv-importer.c:1089
+#: ../addressbook/importers/evolution-csv-importer.c:929
+#| msgid "Can not open file"
+msgid "Can't open .csv file"
+msgstr "A .csv fájl nem nyitható meg"
+
+#: ../addressbook/importers/evolution-csv-importer.c:1098
 msgid "Outlook Contacts CSV or Tab (.csv, .tab)"
 msgstr "Outlook névjegyek CSV vagy Tab (.csv, .tab)"
 
-#: ../addressbook/importers/evolution-csv-importer.c:1090
+#: ../addressbook/importers/evolution-csv-importer.c:1099
 msgid "Outlook Contacts CSV and Tab Importer"
 msgstr "Outlook névjegyek CSV és Tab importáló"
 
-#: ../addressbook/importers/evolution-csv-importer.c:1098
+#: ../addressbook/importers/evolution-csv-importer.c:1107
 msgid "Mozilla Contacts CSV or Tab (.csv, .tab)"
 msgstr "Mozilla névjegyek CSV vagy Tab (.csv, .tab)"
 
-#: ../addressbook/importers/evolution-csv-importer.c:1099
+#: ../addressbook/importers/evolution-csv-importer.c:1108
 msgid "Mozilla Contacts CSV and Tab Importer"
 msgstr "Mozilla névjegyek CSV és Tab importáló"
 
-#: ../addressbook/importers/evolution-csv-importer.c:1107
+#: ../addressbook/importers/evolution-csv-importer.c:1116
 msgid "Evolution Contacts CSV or Tab (.csv, .tab)"
 msgstr "Evolution névjegyek CSV vagy Tab (.csv, .tab)"
 
-#: ../addressbook/importers/evolution-csv-importer.c:1108
+#: ../addressbook/importers/evolution-csv-importer.c:1117
 msgid "Evolution Contacts CSV and Tab Importer"
 msgstr "Evolution névjegyek CSV és Tab importáló"
 
-#: ../addressbook/importers/evolution-ldif-importer.c:814
+#: ../addressbook/importers/evolution-ldif-importer.c:719
+#| msgid "Can not open file"
+msgid "Can't open .ldif file"
+msgstr "Az .ldif fájl nem nyitható meg"
+
+#: ../addressbook/importers/evolution-ldif-importer.c:821
 msgid "LDAP Data Interchange Format (.ldif)"
 msgstr "LDAP adatcserélő formátum (.ldif)"
 
-#: ../addressbook/importers/evolution-ldif-importer.c:815
+#: ../addressbook/importers/evolution-ldif-importer.c:822
 msgid "Evolution LDIF importer"
 msgstr "Evolution LDIF importáló"
 
-#: ../addressbook/importers/evolution-vcard-importer.c:642
+#: ../addressbook/importers/evolution-vcard-importer.c:646
 msgid "vCard (.vcf, .gcrd)"
 msgstr "VCard (.vcf, .gcrd)"
 
-#: ../addressbook/importers/evolution-vcard-importer.c:643
+#: ../addressbook/importers/evolution-vcard-importer.c:647
 msgid "Evolution vCard Importer"
 msgstr "Evolution VCard importáló"
 
@@ -3841,7 +3852,7 @@ msgstr "A kezdés időpontja érvénytelen"
 #: ../mail/e-mail-reader-utils.c:650 ../mail/mail-send-recv.c:486
 #: ../mail/mail-send-recv.c:1285 ../plugins/face/face.c:176
 #: ../shell/e-shell.c:991 ../shell/e-shell.c:1013
-#: ../smime/gui/certificate-manager.c:346
+#: ../smime/gui/certificate-manager.c:348
 msgid "Unknown error"
 msgstr "Ismeretlen hiba"
 
@@ -4787,14 +4798,14 @@ msgstr "Nincs összefoglaló"
 
 #. == Button box ==
 #: ../calendar/gui/e-comp-editor.c:1972 ../composer/e-composer-actions.c:334
-#: ../e-util/e-html-editor-dialog.c:196 ../e-util/e-mail-signature-editor.c:295
+#: ../e-util/e-html-editor-dialog.c:196 ../e-util/e-mail-signature-editor.c:299
 #: ../e-util/e-name-selector-dialog.c:551 ../e-util/e-preferences-window.c:391
 #: ../e-util/e-table-field-chooser-dialog.c:207 ../mail/e-mail-browser.c:129
 #: ../mail/e-mail-notes.c:903 ../mail/em-folder-properties.c:688
-#: ../mail/em-subscription-editor.c:1759
+#: ../mail/em-subscription-editor.c:1765
 #: ../modules/plugin-manager/evolution-plugin-manager.c:256
 #: ../shell/e-shell-window-actions.c:280 ../shell/e-shell-window-actions.c:778
-#: ../smime/gui/certificate-manager.c:2068
+#: ../smime/gui/certificate-manager.c:2203
 msgid "_Close"
 msgstr "_Bezárás"
 
@@ -4888,7 +4899,7 @@ msgid "_Classification"
 msgstr "_Besorolás"
 
 #: ../calendar/gui/e-comp-editor.c:2065 ../e-util/e-html-editor-actions.c:1127
-#: ../e-util/e-mail-signature-editor.c:309 ../mail/e-mail-browser.c:166
+#: ../e-util/e-mail-signature-editor.c:313 ../mail/e-mail-browser.c:166
 #: ../mail/e-mail-notes.c:917 ../shell/e-shell-window-actions.c:948
 msgid "_File"
 msgstr "_Fájl"
@@ -4903,7 +4914,7 @@ msgstr "_Beállítások"
 
 #: ../calendar/gui/e-comp-editor.c:2093 ../e-util/e-html-editor-actions.c:1169
 #: ../mail/e-mail-browser.c:180 ../shell/e-shell-window-actions.c:991
-#: ../smime/gui/certificate-manager.c:1651 ../smime/gui/smime-ui.ui.h:5
+#: ../smime/gui/certificate-manager.c:1653 ../smime/gui/smime-ui.ui.h:5
 msgid "_View"
 msgstr "_Nézet"
 
@@ -4911,7 +4922,7 @@ msgstr "_Nézet"
 msgid "Save current changes"
 msgstr "Jelenlegi változtatások mentése"
 
-#: ../calendar/gui/e-comp-editor.c:2110 ../e-util/e-mail-signature-editor.c:304
+#: ../calendar/gui/e-comp-editor.c:2110 ../e-util/e-mail-signature-editor.c:308
 #: ../mail/e-mail-notes.c:912
 msgid "Save and Close"
 msgstr "Mentés és bezárás"
@@ -5197,7 +5208,7 @@ msgstr "Közönséges név"
 msgid "Language"
 msgstr "Nyelv"
 
-#: ../calendar/gui/e-memo-table.c:370
+#: ../calendar/gui/e-memo-table.c:370 ../data/evolution.desktop.in.in.h:11
 #: ../modules/calendar/e-cal-shell-content.c:1667
 #: ../modules/calendar/e-memo-shell-view-actions.c:196
 #: ../modules/calendar/e-memo-shell-view-actions.c:211
@@ -5260,7 +5271,8 @@ msgstr "%d%%"
 
 #: ../calendar/gui/e-task-table.c:672 ../calendar/gui/print.c:2410
 #: ../calendar/importers/icalendar-importer.c:79
-#: ../calendar/importers/icalendar-importer.c:1117
+#: ../calendar/importers/icalendar-importer.c:1116
+#: ../data/evolution.desktop.in.in.h:12
 #: ../modules/calendar/e-calendar-preferences.ui.h:65
 #: ../modules/calendar/e-cal-shell-content.c:1627
 #: ../modules/calendar/e-task-shell-view-actions.c:220
@@ -5727,40 +5739,40 @@ msgstr "kisebb mint"
 msgid "Appointments and Meetings"
 msgstr "Értekezletek és találkozók"
 
-#: ../calendar/importers/icalendar-importer.c:312
+#: ../calendar/importers/icalendar-importer.c:308
 #: ../modules/calendar/e-cal-base-shell-backend.c:183
 #: ../modules/calendar/e-cal-shell-view-actions.c:180
 msgid "New Calendar"
 msgstr "Új naptár"
 
-#: ../calendar/importers/icalendar-importer.c:315
+#: ../calendar/importers/icalendar-importer.c:311
 #: ../modules/calendar/e-cal-base-shell-backend.c:191
 #: ../modules/calendar/e-task-shell-view-actions.c:204
 msgid "New Task List"
 msgstr "Új feladatlista"
 
-#: ../calendar/importers/icalendar-importer.c:357
+#: ../calendar/importers/icalendar-importer.c:353
 msgid "Cre_ate new calendar"
 msgstr "Új _naptár létrehozása"
 
-#: ../calendar/importers/icalendar-importer.c:361
+#: ../calendar/importers/icalendar-importer.c:357
 msgid "Cre_ate new task list"
 msgstr "Új _feladatlista létrehozása"
 
-#: ../calendar/importers/icalendar-importer.c:507
+#: ../calendar/importers/icalendar-importer.c:503
 #: ../calendar/importers/icalendar-importer.c:946
 msgid "Opening calendar"
 msgstr "Naptár megnyitása"
 
-#: ../calendar/importers/icalendar-importer.c:655
+#: ../calendar/importers/icalendar-importer.c:654
 msgid "iCalendar files (.ics)"
 msgstr "iCalendar-fájlok (.ics)"
 
-#: ../calendar/importers/icalendar-importer.c:656
+#: ../calendar/importers/icalendar-importer.c:655
 msgid "Evolution iCalendar importer"
 msgstr "Evolution iCalendar importáló"
 
-#: ../calendar/importers/icalendar-importer.c:748
+#: ../calendar/importers/icalendar-importer.c:747
 msgid "Reminder!"
 msgstr "Emlékeztető!"
 
@@ -5772,156 +5784,156 @@ msgstr "vCalendar-fájlok (.vcs)"
 msgid "Evolution vCalendar importer"
 msgstr "Evolution vCalendar importáló"
 
-#: ../calendar/importers/icalendar-importer.c:1110
+#: ../calendar/importers/icalendar-importer.c:1109
 msgid "Calendar Events"
 msgstr "Naptáresemények"
 
-#: ../calendar/importers/icalendar-importer.c:1153
+#: ../calendar/importers/icalendar-importer.c:1152
 msgid "GNOME Calendar"
 msgstr "GNOME Naptár"
 
-#: ../calendar/importers/icalendar-importer.c:1154
+#: ../calendar/importers/icalendar-importer.c:1153
 msgid "Evolution Calendar intelligent importer"
 msgstr "Evolution Naptár intelligens importáló"
 
-#: ../calendar/importers/icalendar-importer.c:1225
-#: ../calendar/importers/icalendar-importer.c:1539
+#: ../calendar/importers/icalendar-importer.c:1224
+#: ../calendar/importers/icalendar-importer.c:1538
 msgctxt "iCalImp"
 msgid "Meeting"
 msgstr "Találkozó"
 
-#: ../calendar/importers/icalendar-importer.c:1225
-#: ../calendar/importers/icalendar-importer.c:1539
+#: ../calendar/importers/icalendar-importer.c:1224
+#: ../calendar/importers/icalendar-importer.c:1538
 msgctxt "iCalImp"
 msgid "Event"
 msgstr "Esemény"
 
-#: ../calendar/importers/icalendar-importer.c:1228
-#: ../calendar/importers/icalendar-importer.c:1540
+#: ../calendar/importers/icalendar-importer.c:1227
+#: ../calendar/importers/icalendar-importer.c:1539
 msgctxt "iCalImp"
 msgid "Task"
 msgstr "Feladat"
 
-#: ../calendar/importers/icalendar-importer.c:1231
-#: ../calendar/importers/icalendar-importer.c:1541
+#: ../calendar/importers/icalendar-importer.c:1230
+#: ../calendar/importers/icalendar-importer.c:1540
 msgctxt "iCalImp"
 msgid "Memo"
 msgstr "Feljegyzés"
 
-#: ../calendar/importers/icalendar-importer.c:1240
+#: ../calendar/importers/icalendar-importer.c:1239
 msgctxt "iCalImp"
 msgid "has recurrences"
 msgstr "vannak ismétlődései"
 
-#: ../calendar/importers/icalendar-importer.c:1245
+#: ../calendar/importers/icalendar-importer.c:1244
 msgctxt "iCalImp"
 msgid "is an instance"
 msgstr "egy előfordulás"
 
-#: ../calendar/importers/icalendar-importer.c:1250
+#: ../calendar/importers/icalendar-importer.c:1249
 msgctxt "iCalImp"
 msgid "has reminders"
 msgstr "vannak emlékeztetői"
 
-#: ../calendar/importers/icalendar-importer.c:1255
+#: ../calendar/importers/icalendar-importer.c:1254
 msgctxt "iCalImp"
 msgid "has attachments"
 msgstr "vannak mellékletei"
 
 #. Translators: Appointment's classification
-#: ../calendar/importers/icalendar-importer.c:1268
+#: ../calendar/importers/icalendar-importer.c:1267
 msgctxt "iCalImp"
 msgid "Public"
 msgstr "Nyilvános"
 
 #. Translators: Appointment's classification
-#: ../calendar/importers/icalendar-importer.c:1271
+#: ../calendar/importers/icalendar-importer.c:1270
 msgctxt "iCalImp"
 msgid "Private"
 msgstr "Magánjellegű"
 
 #. Translators: Appointment's classification
-#: ../calendar/importers/icalendar-importer.c:1274
+#: ../calendar/importers/icalendar-importer.c:1273
 msgctxt "iCalImp"
 msgid "Confidential"
 msgstr "Bizalmas"
 
 #. Translators: Appointment's classification section name
-#: ../calendar/importers/icalendar-importer.c:1278
+#: ../calendar/importers/icalendar-importer.c:1277
 msgctxt "iCalImp"
 msgid "Classification"
 msgstr "Besorolás"
 
 #. Translators: Appointment's summary
-#: ../calendar/importers/icalendar-importer.c:1283
-#: ../calendar/importers/icalendar-importer.c:1583
+#: ../calendar/importers/icalendar-importer.c:1282
+#: ../calendar/importers/icalendar-importer.c:1582
 msgctxt "iCalImp"
 msgid "Summary"
 msgstr "Összegzés"
 
 #. Translators: Appointment's location
-#: ../calendar/importers/icalendar-importer.c:1289
+#: ../calendar/importers/icalendar-importer.c:1288
 msgctxt "iCalImp"
 msgid "Location"
 msgstr "Hely"
 
 #. Translators: Appointment's start time
-#: ../calendar/importers/icalendar-importer.c:1297
-#: ../calendar/importers/icalendar-importer.c:1578
+#: ../calendar/importers/icalendar-importer.c:1296
+#: ../calendar/importers/icalendar-importer.c:1577
 msgctxt "iCalImp"
 msgid "Start"
 msgstr "Kezdés"
 
 #. Translators: 'Due' like the time due a task should be finished
-#: ../calendar/importers/icalendar-importer.c:1308
+#: ../calendar/importers/icalendar-importer.c:1307
 msgctxt "iCalImp"
 msgid "Due"
 msgstr "Esedékes"
 
 #. Translators: Appointment's end time
-#: ../calendar/importers/icalendar-importer.c:1320
+#: ../calendar/importers/icalendar-importer.c:1319
 msgctxt "iCalImp"
 msgid "End"
 msgstr "Befejezés"
 
 #. Translators: Appointment's categories
-#: ../calendar/importers/icalendar-importer.c:1330
+#: ../calendar/importers/icalendar-importer.c:1329
 msgctxt "iCalImp"
 msgid "Categories"
 msgstr "Kategóriák"
 
 #. Translators: Appointment's complete value (either percentage, or a date/time of a completion)
-#: ../calendar/importers/icalendar-importer.c:1354
+#: ../calendar/importers/icalendar-importer.c:1353
 msgctxt "iCalImp"
 msgid "Completed"
 msgstr "Befejezve"
 
 #. Translators: Appointment's URL
-#: ../calendar/importers/icalendar-importer.c:1362
+#: ../calendar/importers/icalendar-importer.c:1361
 msgctxt "iCalImp"
 msgid "URL"
 msgstr "URL"
 
 #. Translators: Appointment's organizer
-#: ../calendar/importers/icalendar-importer.c:1373
-#: ../calendar/importers/icalendar-importer.c:1376
+#: ../calendar/importers/icalendar-importer.c:1372
+#: ../calendar/importers/icalendar-importer.c:1375
 msgctxt "iCalImp"
 msgid "Organizer"
 msgstr "Szervező"
 
 #. Translators: Appointment's attendees
-#: ../calendar/importers/icalendar-importer.c:1396
-#: ../calendar/importers/icalendar-importer.c:1399
+#: ../calendar/importers/icalendar-importer.c:1395
+#: ../calendar/importers/icalendar-importer.c:1398
 msgctxt "iCalImp"
 msgid "Attendees"
 msgstr "Résztvevők"
 
-#: ../calendar/importers/icalendar-importer.c:1413
+#: ../calendar/importers/icalendar-importer.c:1412
 msgctxt "iCalImp"
 msgid "Description"
 msgstr "Leírás"
 
-#: ../calendar/importers/icalendar-importer.c:1573
+#: ../calendar/importers/icalendar-importer.c:1572
 msgctxt "iCalImp"
 msgid "Type"
 msgstr "Típus"
@@ -7592,13 +7604,11 @@ msgstr "Az üzenet aláírása az Ön S/MIME-aláírástanúsítványával"
 
 #: ../composer/e-composer-actions.c:523
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:13
-#| msgid "Unicode smileys"
 msgid "Unicode emoticons"
 msgstr "Unicode hangulatjelek"
 
 #: ../composer/e-composer-actions.c:525
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:14
-#| msgid "Use Unicode characters for smileys."
 msgid "Use Unicode characters for emoticons."
 msgstr "Unicode karakterek használata a hangulatjelekhez."
 
@@ -7728,6 +7738,7 @@ msgstr ""
 "titkosításhoz ehhez a postafiókhoz"
 
 #: ../composer/e-msg-composer.c:1619 ../composer/e-msg-composer.c:2645
+#: ../data/evolution.desktop.in.in.h:7
 msgid "Compose Message"
 msgstr "Üzenet írása"
 
@@ -7950,6 +7961,20 @@ msgstr "levél;naptár;névjegy;címjegyzék;feladat;"
 #: ../data/evolution.desktop.in.in.h:6
 msgid "New Window"
 msgstr "Új ablak"
+
+#: ../data/evolution.desktop.in.in.h:8 ../e-util/e-name-selector-dialog.c:451
+#: ../modules/addressbook/e-book-shell-backend.c:303
+#: ../modules/addressbook/e-book-shell-view.c:373
+msgid "Contacts"
+msgstr "Névjegyek"
+
+#: ../data/evolution.desktop.in.in.h:10 ../e-util/e-send-options.c:538
+#: ../mail/importers/elm-importer.c:329 ../mail/importers/kmail-importer.c:253
+#: ../mail/importers/pine-importer.c:422
+#: ../modules/mail/e-mail-shell-view.c:1242
+#: ../smime/gui/certificate-manager.c:1673
+msgid "Mail"
+msgstr "Levelek"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:1
 msgid "Enable address formatting"
@@ -10814,7 +10839,7 @@ msgstr "Méret"
 #: ../em-format/e-mail-part-headers.c:51 ../mail/e-mail-tag-editor.c:282
 #: ../mail/filtertypes.xml.in.h:16 ../mail/message-list.etspec.h:6
 #: ../mail/searchtypes.xml.in.h:17 ../mail/vfoldertypes.xml.in.h:17
-#: ../modules/mail/em-mailer-prefs.c:67 ../smime/gui/certificate-manager.c:1632
+#: ../modules/mail/em-mailer-prefs.c:67 ../smime/gui/certificate-manager.c:1634
 msgid "Subject"
 msgstr "Tárgy"
 
@@ -11229,7 +11254,7 @@ msgstr "A melléklet nem menthető"
 msgid "Attachment Properties"
 msgstr "Melléklet tulajdonságai"
 
-#: ../e-util/e-attachment-dialog.c:339 ../e-util/e-import-assistant.c:273
+#: ../e-util/e-attachment-dialog.c:339 ../e-util/e-import-assistant.c:278
 msgid "F_ilename:"
 msgstr "_Fájlnév:"
 
@@ -11418,19 +11443,19 @@ msgid "Month Calendar"
 msgstr "Hónap naptár"
 
 #. This is a strftime() format. %B = Month name.
-#: ../e-util/e-calendar-item.c:1337 ../e-util/e-calendar-item.c:2215
+#: ../e-util/e-calendar-item.c:1340 ../e-util/e-calendar-item.c:2220
 msgctxt "CalItem"
 msgid "%B"
 msgstr "%B"
 
 #. This is a strftime() format. %Y = Year.
-#: ../e-util/e-calendar-item.c:1339
+#: ../e-util/e-calendar-item.c:1342
 msgctxt "CalItem"
 msgid "%Y"
 msgstr "%Y"
 
 #. This is a strftime() format. %B = Month name, %Y = Year.
-#: ../e-util/e-calendar-item.c:1376
+#: ../e-util/e-calendar-item.c:1379
 msgctxt "CalItem"
 msgid "%B %Y"
 msgstr "%Y. %B"
@@ -13086,7 +13111,7 @@ msgstr "<b>Háttérkép</b>"
 msgid "_Template:"
 msgstr "_Sablon:"
 
-#: ../e-util/e-html-editor-page-dialog.c:646 ../e-util/e-import-assistant.c:283
+#: ../e-util/e-html-editor-page-dialog.c:646 ../e-util/e-import-assistant.c:288
 msgid "Select a file"
 msgstr "Válasszon ki egy fájlt"
 
@@ -13244,7 +13269,7 @@ msgstr "Módosított tulajdonság"
 msgid "Whether editor changed"
 msgstr "A szerkesztő megváltozott-e"
 
-#: ../e-util/e-import-assistant.c:256
+#: ../e-util/e-import-assistant.c:261
 msgid ""
 "Choose the file that you want to import into Evolution, and select what type "
 "of file it is from the list."
@@ -13252,32 +13277,32 @@ msgstr ""
 "Válassza ki az Evolutionbe importálandó fájlt, és jelölje ki a típusát a "
 "listából."
 
-#: ../e-util/e-import-assistant.c:297 ../e-util/e-import-assistant.c:472
+#: ../e-util/e-import-assistant.c:302 ../e-util/e-import-assistant.c:477
 msgid "File _type:"
 msgstr "Fájl_típus:"
 
-#: ../e-util/e-import-assistant.c:340 ../e-util/e-import-assistant.c:917
+#: ../e-util/e-import-assistant.c:345 ../e-util/e-import-assistant.c:925
 msgid "Choose the destination for this import"
 msgstr "Válassza ki ezen import célpontját"
 
-#: ../e-util/e-import-assistant.c:365
+#: ../e-util/e-import-assistant.c:370
 msgid "Choose the type of importer to run:"
 msgstr "Válassza ki a futtatandó importáló típusát:"
 
-#: ../e-util/e-import-assistant.c:373
+#: ../e-util/e-import-assistant.c:378
 msgid "Import data and settings from _older programs"
 msgstr "Adat_ok és beállítások importálása korábbi programokból"
 
-#: ../e-util/e-import-assistant.c:381
+#: ../e-util/e-import-assistant.c:386
 msgid "Import a _single file"
 msgstr "Egyetlen fájl importálá_sa"
 
-#: ../e-util/e-import-assistant.c:403
-#: ../modules/startup-wizard/e-mail-config-import-page.c:200
+#: ../e-util/e-import-assistant.c:408
+#: ../modules/startup-wizard/e-mail-config-import-page.c:210
 msgid "Please select the information that you would like to import:"
 msgstr "Válassza ki az információt, amelyet importálni szeretne:"
 
-#: ../e-util/e-import-assistant.c:533
+#: ../e-util/e-import-assistant.c:538
 msgid ""
 "Evolution checked for settings to import from the following applications: "
 "Pine, Netscape, Elm, iCalendar, KMail. No importable settings found. If you "
@@ -13288,40 +13313,40 @@ msgstr ""
 "található importálható beállítás. Ha még egyszer szeretné megpróbálni, "
 "kattintson a „Vissza” gombra."
 
-#: ../e-util/e-import-assistant.c:559
-#: ../modules/startup-wizard/e-mail-config-import-page.c:229
+#: ../e-util/e-import-assistant.c:564
+#: ../modules/startup-wizard/e-mail-config-import-page.c:239
 #, c-format
 msgid "From %s:"
 msgstr "Feladó %s:"
 
 #. Install a custom "Cancel Import" button.
-#: ../e-util/e-import-assistant.c:775
+#: ../e-util/e-import-assistant.c:783
 msgid "_Cancel Import"
 msgstr "_Importálás megszakítása"
 
-#: ../e-util/e-import-assistant.c:916
+#: ../e-util/e-import-assistant.c:924
 msgid "Preview data to be imported"
 msgstr "Az importálandó adatok előnézete"
 
-#: ../e-util/e-import-assistant.c:922 ../e-util/e-import-assistant.c:935
-#: ../e-util/e-import-assistant.c:1288 ../e-util/e-import-assistant.c:1364
-#: ../e-util/e-import-assistant.c:1373
+#: ../e-util/e-import-assistant.c:930 ../e-util/e-import-assistant.c:943
+#: ../e-util/e-import-assistant.c:1296 ../e-util/e-import-assistant.c:1372
+#: ../e-util/e-import-assistant.c:1381
 msgid "Import Data"
 msgstr "Adatok importálása"
 
-#: ../e-util/e-import-assistant.c:930
+#: ../e-util/e-import-assistant.c:938
 msgid "Select what type of file you want to import from the list."
 msgstr "Válassza ki az importálni kívánt fájl típusát a listából."
 
-#: ../e-util/e-import-assistant.c:1278 ../e-util/e-import-assistant.c:1313
+#: ../e-util/e-import-assistant.c:1286 ../e-util/e-import-assistant.c:1321
 msgid "Evolution Import Assistant"
 msgstr "Evolution importáló varázsló"
 
-#: ../e-util/e-import-assistant.c:1295 ../e-util/e-import-assistant.c:1351
+#: ../e-util/e-import-assistant.c:1303 ../e-util/e-import-assistant.c:1359
 msgid "Import Location"
 msgstr "Hely importálása"
 
-#: ../e-util/e-import-assistant.c:1306
+#: ../e-util/e-import-assistant.c:1314
 msgid ""
 "Welcome to the Evolution Import Assistant.\n"
 "With this assistant you will be guided through the process of importing "
@@ -13331,19 +13356,19 @@ msgstr ""
 "Ez a varázsló végigvezeti a külső fájlok Evolutionbe importálásának "
 "folyamatán."
 
-#: ../e-util/e-import-assistant.c:1323
+#: ../e-util/e-import-assistant.c:1331
 msgid "Importer Type"
 msgstr "Importáló típusa"
 
-#: ../e-util/e-import-assistant.c:1333
+#: ../e-util/e-import-assistant.c:1341
 msgid "Select Information to Import"
 msgstr "Válassza ki az importálandó információkat"
 
-#: ../e-util/e-import-assistant.c:1342
+#: ../e-util/e-import-assistant.c:1350
 msgid "Select a File"
 msgstr "Válasszon ki egy fájlt"
 
-#: ../e-util/e-import-assistant.c:1359
+#: ../e-util/e-import-assistant.c:1367
 msgid "Click \"Apply\" to begin importing the file into Evolution."
 msgstr "A fájl importálásának megkezdéséhez kattintson az „Alkalmaz” gombra."
 
@@ -13351,23 +13376,23 @@ msgstr "A fájl importálásának megkezdéséhez kattintson az „Alkalmaz” g
 msgid "Autogenerated"
 msgstr "Automatikusan létrehozott"
 
-#: ../e-util/e-mail-signature-editor.c:297 ../mail/e-mail-notes.c:905
+#: ../e-util/e-mail-signature-editor.c:301 ../mail/e-mail-notes.c:905
 msgid "Close"
 msgstr "Bezárás"
 
-#: ../e-util/e-mail-signature-editor.c:302 ../mail/e-mail-notes.c:910
+#: ../e-util/e-mail-signature-editor.c:306 ../mail/e-mail-notes.c:910
 msgid "_Save and Close"
 msgstr "_Mentés és bezárás"
 
-#: ../e-util/e-mail-signature-editor.c:529
+#: ../e-util/e-mail-signature-editor.c:533
 msgid "Edit Signature"
 msgstr "Aláírás szerkesztése"
 
-#: ../e-util/e-mail-signature-editor.c:562
+#: ../e-util/e-mail-signature-editor.c:566
 msgid "_Signature Name:"
 msgstr "_Aláírás neve:"
 
-#: ../e-util/e-mail-signature-editor.c:598
+#: ../e-util/e-mail-signature-editor.c:602
 msgid "Unnamed"
 msgstr "Névtelen"
 
@@ -13481,12 +13506,6 @@ msgstr "Keresés"
 #: ../e-util/e-name-selector-dialog.c:448 ../mail/importers/pine-importer.c:429
 msgid "Address Book"
 msgstr "Címjegyzék"
-
-#: ../e-util/e-name-selector-dialog.c:451
-#: ../modules/addressbook/e-book-shell-backend.c:303
-#: ../modules/addressbook/e-book-shell-view.c:373
-msgid "Contacts"
-msgstr "Névjegyek"
 
 #: ../e-util/e-name-selector-dialog.c:576
 msgid "Select Contacts from Address Book"
@@ -13716,13 +13735,6 @@ msgstr "Az oldal vége elérve, folytatás az elejétől"
 #: ../e-util/e-search-bar.c:687
 msgid "Reached top of page, continued from bottom"
 msgstr "Az oldal eleje elérve, folytatás a végétől"
-
-#: ../e-util/e-send-options.c:538 ../mail/importers/elm-importer.c:329
-#: ../mail/importers/kmail-importer.c:253 ../mail/importers/pine-importer.c:422
-#: ../modules/mail/e-mail-shell-view.c:1242
-#: ../smime/gui/certificate-manager.c:1671
-msgid "Mail"
-msgstr "Levelek"
 
 #: ../e-util/e-send-options.c:570
 msgid "When de_leted:"
@@ -14411,15 +14423,15 @@ msgstr "Ugrás az üzenet kezdetéhez"
 msgid "Click to open %s"
 msgstr "Kattintson a(z) %s megnyitásához"
 
-#: ../e-util/e-web-view.c:3127
+#: ../e-util/e-web-view.c:3143
 msgid "Copying image to clipboard"
 msgstr "Kép másolása a vágólapra"
 
-#: ../e-util/e-web-view.c:3315
+#: ../e-util/e-web-view.c:3331
 msgid "Save Image"
 msgstr "Kép mentése"
 
-#: ../e-util/e-web-view.c:3351
+#: ../e-util/e-web-view.c:3367
 #, c-format
 msgid "Saving image to '%s'"
 msgstr "Kép mentése ide: „%s”"
@@ -16489,8 +16501,6 @@ msgstr "Nem található adatforrás a(z) „%s” UID-hez"
 #. Translators: The %d is replaced with the actual count of recipients, which is always more than one.
 #: ../mail/em-composer-utils.c:390
 #, c-format
-#| msgid ""
-#| "Are you sure you want to send a message with {0} To and CC recipients?"
 msgid "Are you sure you want to send a message with %d To and CC recipients?"
 msgid_plural ""
 "Are you sure you want to send a message with %d To and CC recipients?"
@@ -16502,12 +16512,6 @@ msgstr[1] ""
 #. Translators: The %d is replaced with the actual count of recipients, which is always more than one.
 #: ../mail/em-composer-utils.c:396
 #, c-format
-#| msgid ""
-#| "You are trying to send a message to {0} recipients in To and CC fields. "
-#| "This would result in all recipients seeing the email addresses of each "
-#| "other. In some cases this behaviour is undesired, especially if they do "
-#| "not know each other or if privacy is a concern. Consider adding "
-#| "recipients to the BCC field instead."
 msgid ""
 "You are trying to send a message to %d recipients in To and CC fields. This "
 "would result in all recipients seeing the email addresses of each other. In "
@@ -16743,7 +16747,7 @@ msgstr "Feliratkozás _megjelenítettre"
 msgid "Subscribe To _All"
 msgstr "Feliratkozás min_dre"
 
-#: ../mail/em-subscription-editor.c:970 ../mail/em-subscription-editor.c:1912
+#: ../mail/em-subscription-editor.c:970 ../mail/em-subscription-editor.c:1914
 #: ../modules/mail/e-mail-shell-view-actions.c:1751
 msgid "_Unsubscribe"
 msgstr "_Leiratkozás"
@@ -16772,66 +16776,66 @@ msgid_plural "%d total"
 msgstr[0] "összesen %d"
 msgstr[1] "összesen %d"
 
-#: ../mail/em-subscription-editor.c:1749
+#: ../mail/em-subscription-editor.c:1755
 msgid "Folder Subscriptions"
 msgstr "Feliratkozás mappákra"
 
-#: ../mail/em-subscription-editor.c:1788
+#: ../mail/em-subscription-editor.c:1790
 msgid "_Account:"
 msgstr "_Postafiók:"
 
-#: ../mail/em-subscription-editor.c:1801
+#: ../mail/em-subscription-editor.c:1803
 msgid "Clear Search"
 msgstr "Keresés törlése"
 
-#: ../mail/em-subscription-editor.c:1818
+#: ../mail/em-subscription-editor.c:1820
 msgid "Sho_w items that contain:"
 msgstr "A_z ezt tartalmazó elemek:"
 
-#: ../mail/em-subscription-editor.c:1865
+#: ../mail/em-subscription-editor.c:1867
 msgid "Subscribe to the selected folder"
 msgstr "Feliratkozás a kijelölt mappára"
 
-#: ../mail/em-subscription-editor.c:1866
+#: ../mail/em-subscription-editor.c:1868
 msgid "Su_bscribe"
 msgstr "_Feliratkozás"
 
-#: ../mail/em-subscription-editor.c:1911
+#: ../mail/em-subscription-editor.c:1913
 #: ../modules/mail/e-mail-shell-view-actions.c:1753
 msgid "Unsubscribe from the selected folder"
 msgstr "Leiratkozás a kijelölt mappáról"
 
-#: ../mail/em-subscription-editor.c:1951
+#: ../mail/em-subscription-editor.c:1953
 msgid "Collapse all folders"
 msgstr "Összes mappa összecsukása"
 
-#: ../mail/em-subscription-editor.c:1952
+#: ../mail/em-subscription-editor.c:1954
 msgid "C_ollapse All"
 msgstr "Összes össze_csukása"
 
-#: ../mail/em-subscription-editor.c:1962
+#: ../mail/em-subscription-editor.c:1964
 msgid "Expand all folders"
 msgstr "Összes mappa kibontása"
 
-#: ../mail/em-subscription-editor.c:1963
+#: ../mail/em-subscription-editor.c:1965
 msgid "E_xpand All"
 msgstr "Öss_zes kibontása"
 
-#: ../mail/em-subscription-editor.c:1973
+#: ../mail/em-subscription-editor.c:1975
 msgid "Refresh the folder list"
 msgstr "A mappalista frissítése"
 
-#: ../mail/em-subscription-editor.c:1974
+#: ../mail/em-subscription-editor.c:1976
 #: ../modules/mail/e-mail-shell-view-actions.c:1652
 #: ../modules/mail/e-mail-shell-view-actions.c:1723
 msgid "_Refresh"
 msgstr "_Frissítés"
 
-#: ../mail/em-subscription-editor.c:1985
+#: ../mail/em-subscription-editor.c:1987
 msgid "Stop the current operation"
 msgstr "A jelenlegi művelet leállítása"
 
-#: ../mail/em-subscription-editor.c:1986
+#: ../mail/em-subscription-editor.c:1988
 #: ../modules/addressbook/e-book-shell-view-actions.c:1001
 msgid "_Stop"
 msgstr "_Leállítás"
@@ -17378,7 +17382,6 @@ msgid "Automatically insert _emoticons"
 msgstr "Han_gulatjelek automatikus beillesztése"
 
 #: ../mail/mail-config.ui.h:11
-#| msgid "Use Unicode characters for smileys."
 msgid "Use Un_icode characters for emoticons"
 msgstr "Un_icode karakterek használata a hangulatjelekhez"
 
@@ -17993,7 +17996,8 @@ msgid ""
 "proceed?"
 msgstr ""
 "Egy levelezőlistán érkezett levélre válaszol, de a feladónak magánjellegű "
-"levélben próbál válaszolni, nem pedig a listára. Biztos benne, hogy folytatja?"
+"levélben próbál válaszolni, nem pedig a listára. Biztos benne, hogy "
+"folytatja?"
 
 #: ../mail/mail.error.xml.h:29
 msgid "Send reply to all recipients?"
@@ -21419,7 +21423,7 @@ msgid "_Update Attendee Status"
 msgstr "_Résztvevő állapotának frissítése"
 
 #: ../modules/itip-formatter/itip-view.c:1066
-#: ../smime/gui/certificate-manager.c:1666
+#: ../smime/gui/certificate-manager.c:1668
 msgid "_Update"
 msgstr "_Frissítés"
 
@@ -22595,7 +22599,7 @@ msgstr "Levélszemétszűrő szoftver SpamAssassin használatával"
 
 #. Keep the title identical to EMailConfigImportPage
 #. * so it's only shown once in the assistant sidebar.
-#: ../modules/startup-wizard/e-mail-config-import-page.c:260
+#: ../modules/startup-wizard/e-mail-config-import-page.c:270
 #: ../modules/startup-wizard/e-mail-config-import-progress-page.c:339
 msgid "Importing Files"
 msgstr "Fájlok importálása"
@@ -23768,7 +23772,7 @@ msgid "_Username:"
 msgstr "_Felhasználónév:"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:29
-#: ../smime/gui/certificate-manager.c:774
+#: ../smime/gui/certificate-manager.c:776
 msgid "_Password:"
 msgstr "_Jelszó:"
 
@@ -24636,7 +24640,7 @@ msgstr "MD5 ujjlenyomat"
 msgid "Email Address"
 msgstr "E-mail cím"
 
-#: ../smime/gui/certificate-manager.c:652
+#: ../smime/gui/certificate-manager.c:654
 msgid "Select a file to backup your key and certificate..."
 msgstr "Válasszon egy fájlt a kulcs és tanúsítvány biztonsági mentéséhez…"
 
@@ -24645,31 +24649,31 @@ msgstr "Válasszon egy fájlt a kulcs és tanúsítvány biztonsági mentéséhe
 #. * when a user wants to backup one of her/his private keys/certificates.
 #. * For example: gnomedev-backup.p12
 #.
-#: ../smime/gui/certificate-manager.c:664
+#: ../smime/gui/certificate-manager.c:666
 #, c-format
 msgid "%s-backup.p12"
 msgstr "%s-backup.p12"
 
-#: ../smime/gui/certificate-manager.c:730
+#: ../smime/gui/certificate-manager.c:732
 msgid "Backup Certificate"
 msgstr "Tanúsítvány biztonsági mentése"
 
 #. filename selection
-#: ../smime/gui/certificate-manager.c:744
+#: ../smime/gui/certificate-manager.c:746
 msgid "_File name:"
 msgstr "_Fájlnév:"
 
 #. FIXME when gtk_file_chooser_button allows GTK_FILE_CHOOSER_ACTION_SAVE use it
-#: ../smime/gui/certificate-manager.c:749
+#: ../smime/gui/certificate-manager.c:751
 msgid "Please select a file..."
 msgstr "Válasszon egy fájlt…"
 
-#: ../smime/gui/certificate-manager.c:763
+#: ../smime/gui/certificate-manager.c:765
 msgid "_Include certificate chain in the backup"
 msgstr "A tanúsítványlánc _felvétele a biztonsági mentésbe"
 
 #. To Translators: this text was copied from Firefox
-#: ../smime/gui/certificate-manager.c:769
+#: ../smime/gui/certificate-manager.c:771
 msgid ""
 "The certificate backup password you set here protects the backup file that "
 "you are about to create.\n"
@@ -24679,16 +24683,16 @@ msgstr ""
 "most létrehozandó mentésfájlt.\n"
 "A folytatáshoz meg kell adni a jelszót."
 
-#: ../smime/gui/certificate-manager.c:788
+#: ../smime/gui/certificate-manager.c:790
 msgid "_Repeat Password:"
 msgstr "_Jelszó ismétlése:"
 
-#: ../smime/gui/certificate-manager.c:807
+#: ../smime/gui/certificate-manager.c:809
 msgid "Passwords do not match"
 msgstr "A jelszavak nem egyeznek"
 
 #. To Translators: this text was copied from Firefox
-#: ../smime/gui/certificate-manager.c:815
+#: ../smime/gui/certificate-manager.c:817
 msgid ""
 "Important:\n"
 "If you forget your certificate backup password, you will not be able to "
@@ -24700,92 +24704,92 @@ msgstr ""
 "jelszót, nem fogja tudni visszaállítani a tanúsítványokat a mentésből.\n"
 "Írja fel biztonságos helyre."
 
-#: ../smime/gui/certificate-manager.c:860
+#: ../smime/gui/certificate-manager.c:862
 msgid "No file name provided"
 msgstr "Nincs megadva fájlnév"
 
-#: ../smime/gui/certificate-manager.c:864
+#: ../smime/gui/certificate-manager.c:866
 msgid "Failed to backup key and certificate"
 msgstr "A kulcs és tanúsítvány biztonsági mentése meghiúsult"
 
-#: ../smime/gui/certificate-manager.c:953
+#: ../smime/gui/certificate-manager.c:955
 msgid "Select a certificate to import..."
 msgstr "Válasszon ki egy importálandó tanúsítványt…"
 
-#: ../smime/gui/certificate-manager.c:1003
+#: ../smime/gui/certificate-manager.c:1005
 msgid "Failed to import certificate"
 msgstr "A tanúsítvány importálása meghiúsult"
 
-#: ../smime/gui/certificate-manager.c:1119
+#: ../smime/gui/certificate-manager.c:1121
 msgctxt "CamelTrust"
 msgid "Ask when used"
 msgstr "Kérdezzen használat előtt"
 
-#: ../smime/gui/certificate-manager.c:1121
+#: ../smime/gui/certificate-manager.c:1123
 msgctxt "CamelTrust"
 msgid "Never"
 msgstr "Soha"
 
-#: ../smime/gui/certificate-manager.c:1123
+#: ../smime/gui/certificate-manager.c:1125
 msgctxt "CamelTrust"
 msgid "Marginally"
 msgstr "Kismértékben"
 
-#: ../smime/gui/certificate-manager.c:1125
+#: ../smime/gui/certificate-manager.c:1127
 msgctxt "CamelTrust"
 msgid "Fully"
 msgstr "Teljesen"
 
-#: ../smime/gui/certificate-manager.c:1127
+#: ../smime/gui/certificate-manager.c:1129
 msgctxt "CamelTrust"
 msgid "Ultimately"
 msgstr "Tökéletesen"
 
-#: ../smime/gui/certificate-manager.c:1129
+#: ../smime/gui/certificate-manager.c:1131
 msgctxt "CamelTrust"
 msgid "Temporarily"
 msgstr "Átmenetileg"
 
-#: ../smime/gui/certificate-manager.c:1335
+#: ../smime/gui/certificate-manager.c:1337
 msgid "Change certificate trust"
 msgstr "Tanúsítvány megbízhatóságának módosítása"
 
-#: ../smime/gui/certificate-manager.c:1347
+#: ../smime/gui/certificate-manager.c:1349
 #, c-format
 msgid "Change trust for the host '%s':"
 msgstr "Megbízhatóság módosítása ezen géphez: „%s”:"
 
-#: ../smime/gui/certificate-manager.c:1371
+#: ../smime/gui/certificate-manager.c:1373
 msgctxt "CamelTrust"
 msgid "_Ask when used"
 msgstr "Kérdezzen _használat előtt"
 
-#: ../smime/gui/certificate-manager.c:1372
+#: ../smime/gui/certificate-manager.c:1374
 msgctxt "CamelTrust"
 msgid "_Never trust this certificate"
 msgstr "_Sose bízzon meg ebben tanúsítványában"
 
-#: ../smime/gui/certificate-manager.c:1373
+#: ../smime/gui/certificate-manager.c:1375
 msgctxt "CamelTrust"
 msgid "_Temporarily trusted (this session only)"
 msgstr "Át_menetileg megbízható (csak erre a munkamenetre)"
 
-#: ../smime/gui/certificate-manager.c:1374
+#: ../smime/gui/certificate-manager.c:1376
 msgctxt "CamelTrust"
 msgid "_Marginally trusted"
 msgstr "_Kismértékben megbízható"
 
-#: ../smime/gui/certificate-manager.c:1375
+#: ../smime/gui/certificate-manager.c:1377
 msgctxt "CamelTrust"
 msgid "_Fully trusted"
 msgstr "_Teljesen megbízható"
 
-#: ../smime/gui/certificate-manager.c:1376
+#: ../smime/gui/certificate-manager.c:1378
 msgctxt "CamelTrust"
 msgid "_Ultimately trusted"
 msgstr "Tökél_etesen megbízható"
 
-#: ../smime/gui/certificate-manager.c:1380
+#: ../smime/gui/certificate-manager.c:1382
 msgid ""
 "Before trusting this site, you should examine its certificate and its policy "
 "and procedures (if available)."
@@ -24793,45 +24797,45 @@ msgstr ""
 "Mielőtt megbízik ebben az oldalban, meg kell vizsgálnia a hitelességét, "
 "szabályait és eljárásait (ha lehetséges)."
 
-#: ../smime/gui/certificate-manager.c:1395
+#: ../smime/gui/certificate-manager.c:1397
 msgid "_Display certificate"
 msgstr "_Tanúsítvány megjelenítése"
 
-#: ../smime/gui/certificate-manager.c:1600
+#: ../smime/gui/certificate-manager.c:1602
 msgid "You have certificates on file that identify these mail servers:"
 msgstr ""
 "Ön rendelkezik olyan tanúsítványokkal, melyek azonosítják a következő "
 "kiszolgálókat:"
 
-#: ../smime/gui/certificate-manager.c:1631
+#: ../smime/gui/certificate-manager.c:1633
 msgid "Host name"
 msgstr "Gépnév"
 
-#: ../smime/gui/certificate-manager.c:1633
+#: ../smime/gui/certificate-manager.c:1635
 msgid "Issuer"
 msgstr "Kibocsátó"
 
-#: ../smime/gui/certificate-manager.c:1634
+#: ../smime/gui/certificate-manager.c:1636
 msgid "Fingerprint"
 msgstr "Ujjlenyomat"
 
-#: ../smime/gui/certificate-manager.c:1635
+#: ../smime/gui/certificate-manager.c:1637
 msgid "Trust"
 msgstr "Megbízhatóság"
 
-#: ../smime/gui/certificate-manager.c:1656
+#: ../smime/gui/certificate-manager.c:1658
 msgid "_Edit Trust"
 msgstr "_Megbízhatóság szerkesztése"
 
-#: ../smime/gui/certificate-manager.c:1977
+#: ../smime/gui/certificate-manager.c:2112
 msgid "All PKCS12 files"
 msgstr "Minden PKCS12 fájl"
 
-#: ../smime/gui/certificate-manager.c:1994
+#: ../smime/gui/certificate-manager.c:2129
 msgid "All email certificate files"
 msgstr "Minden e-mail tanúsítványfájl"
 
-#: ../smime/gui/certificate-manager.c:2011
+#: ../smime/gui/certificate-manager.c:2146
 msgid "All CA certificate files"
 msgstr "Minden hitelesítésszolgáltató-tanúsítványfájl"
 
