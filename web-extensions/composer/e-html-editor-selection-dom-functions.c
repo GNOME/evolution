@@ -3276,9 +3276,8 @@ get_has_style (WebKitDOMDocument *document,
 		 * has type=cite, then ignore it unless style_tag is "citation" */
 		if (result && WEBKIT_DOM_IS_HTML_QUOTE_ELEMENT (element)) {
 			if (webkit_dom_element_has_attribute (element, "type")) {
-				gchar *type;
-				type = webkit_dom_element_get_attribute (element, "type");
-				if (!accept_citation && (g_ascii_strncasecmp (type, "cite", 4) == 0)) {
+				gchar *type = webkit_dom_element_get_attribute (element, "type");
+				if (!accept_citation && (type && g_ascii_strncasecmp (type, "cite", 4) == 0)) {
 					result = FALSE;
 				}
 				g_free (type);
@@ -3841,8 +3840,7 @@ is_monospaced_element (WebKitDOMElement *element)
 		return FALSE;
 
 	value = webkit_dom_element_get_attribute (element, "face");
-
-	if (g_strcmp0 (value, "monospace") == 0)
+	if (value && g_strcmp0 (value, "monospace") == 0)
 		ret_val = TRUE;
 
 	g_free (value);
@@ -4592,9 +4590,8 @@ dom_selection_is_citation (WebKitDOMDocument *document)
 	g_free (text_content);
 
 	value = webkit_dom_element_get_attribute (WEBKIT_DOM_ELEMENT (node), "type");
-
 	/* citation == <blockquote type='cite'> */
-	if (strstr (value, "cite"))
+	if (value && strstr (value, "cite"))
 		ret_val = TRUE;
 	else
 		ret_val = get_has_style (document, "citation");

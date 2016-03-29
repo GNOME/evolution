@@ -430,7 +430,7 @@ dom_node_is_citation_node (WebKitDOMNode *node)
 	value = webkit_dom_element_get_attribute (WEBKIT_DOM_ELEMENT (node), "type");
 
 	/* citation == <blockquote type='cite'> */
-	if (g_strcmp0 (value, "cite") == 0) {
+	if (value && g_strcmp0 (value, "cite") == 0) {
 		g_free (value);
 		return TRUE;
 	} else {
@@ -858,7 +858,8 @@ move_elements_to_body (WebKitDOMDocument *document,
 
 		element = dom_get_paragraph_element (document, extension, -1, 0);
 		credits = webkit_dom_element_get_attribute (WEBKIT_DOM_ELEMENT (node), "data-credits");
-		webkit_dom_html_element_set_inner_text (WEBKIT_DOM_HTML_ELEMENT (element), credits, NULL);
+		if (credits)
+			webkit_dom_html_element_set_inner_text (WEBKIT_DOM_HTML_ELEMENT (element), credits, NULL);
 		g_free (credits);
 
 		webkit_dom_node_insert_before (
@@ -5451,7 +5452,8 @@ dom_convert_content (WebKitDOMDocument *document,
 
 		element = dom_get_paragraph_element (document, extension, -1, 0);
 		credits = webkit_dom_element_get_attribute (WEBKIT_DOM_ELEMENT (node), "data-credits");
-		webkit_dom_html_element_set_inner_text (WEBKIT_DOM_HTML_ELEMENT (element), credits, NULL);
+		if (credits)
+			webkit_dom_html_element_set_inner_text (WEBKIT_DOM_HTML_ELEMENT (element), credits, NULL);
 		g_free (credits);
 
 		webkit_dom_node_insert_before (
@@ -6710,7 +6712,7 @@ process_elements (EHTMLEditorWebExtension *extension,
 				const gchar *css_align;
 
 				class = webkit_dom_element_get_class_name (WEBKIT_DOM_ELEMENT (node));
-				if ((css_align = strstr (class, "-x-evo-align-"))) {
+				if (class && (css_align = strstr (class, "-x-evo-align-"))) {
 					gchar *align;
 					gchar *content_with_align;
 					gint length;
@@ -6800,7 +6802,7 @@ process_elements (EHTMLEditorWebExtension *extension,
 			const gchar *css_align;
 
 			class = webkit_dom_element_get_class_name (WEBKIT_DOM_ELEMENT (child));
-			if ((css_align = strstr (class, "-x-evo-align-"))) {
+			if (class && (css_align = strstr (class, "-x-evo-align-"))) {
 				if (!g_str_has_prefix (css_align + 13, "left")) {
 					if (WEBKIT_DOM_IS_HTML_LI_ELEMENT (child))
 						webkit_dom_element_set_attribute (
@@ -7211,7 +7213,7 @@ toggle_paragraphs_style_in_element (WebKitDOMDocument *document,
 			style = webkit_dom_element_get_attribute (
 				WEBKIT_DOM_ELEMENT (node), "style");
 
-			if ((css_align = strstr (style, "text-align: "))) {
+			if (style && (css_align = strstr (style, "text-align: "))) {
 				webkit_dom_element_set_attribute (
 					WEBKIT_DOM_ELEMENT (node),
 					"style",
@@ -7244,7 +7246,7 @@ toggle_paragraphs_style_in_element (WebKitDOMDocument *document,
 				style = webkit_dom_element_get_attribute (
 					WEBKIT_DOM_ELEMENT (node), "style");
 
-				if ((css_align = strstr (style, "text-align: "))) {
+				if (style && (css_align = strstr (style, "text-align: "))) {
 					style_to_add = g_str_has_prefix (
 						css_align + 12, "center") ?
 							"text-align: center;" :
@@ -7836,7 +7838,8 @@ adapt_to_editor_dom_changes (WebKitDOMDocument *document)
 			webkit_dom_node_append_child (WEBKIT_DOM_NODE (element), child, NULL);
 
 		style = webkit_dom_element_get_attribute (WEBKIT_DOM_ELEMENT (node), "style");
-		webkit_dom_element_set_attribute (element, "style", style, NULL);
+		if (style)
+			webkit_dom_element_set_attribute (element, "style", style, NULL);
 
 		remove_node (node);
 		g_object_unref (node);
@@ -7958,21 +7961,28 @@ dom_get_inline_images_data (WebKitDOMDocument *document,
 		gchar *src = webkit_dom_element_get_attribute (
 			WEBKIT_DOM_ELEMENT (node), "src");
 
+		if (!src)
+			continue;
+
 		if ((id = g_hash_table_lookup (added, src)) != NULL) {
 			cid = g_strdup_printf ("cid:%s", id);
 			g_free (src);
 		} else {
 			gchar *data_name = webkit_dom_element_get_attribute (
 				WEBKIT_DOM_ELEMENT (node), "data-name");
-			gchar *new_id;
 
-			new_id = camel_header_msgid_generate (uid_domain);
-			g_variant_builder_add (
-				builder, "sss", src, data_name, new_id);
-			cid = g_strdup_printf ("cid:%s", new_id);
+			if (data_name) {
+				gchar *new_id;
 
-			g_hash_table_insert (added, src, new_id);
-			g_free (new_id);
+				new_id = camel_header_msgid_generate (uid_domain);
+				g_variant_builder_add (
+					builder, "sss", src, data_name, new_id);
+				cid = g_strdup_printf ("cid:%s", new_id);
+
+				g_hash_table_insert (added, src, new_id);
+				g_free (new_id);
+			}
+			g_free (data_name);
 		}
 		webkit_dom_element_set_attribute (
 			WEBKIT_DOM_ELEMENT (node), "src", cid, NULL);
@@ -7997,6 +8007,9 @@ dom_get_inline_images_data (WebKitDOMDocument *document,
 		gchar *src = webkit_dom_element_get_attribute (
 			WEBKIT_DOM_ELEMENT (node), "background");
 
+		if (!src)
+			continue;
+
 		if ((id = g_hash_table_lookup (added, src)) != NULL) {
 			cid = g_strdup_printf ("cid:%s", id);
 			webkit_dom_element_set_attribute (
@@ -8005,18 +8018,22 @@ dom_get_inline_images_data (WebKitDOMDocument *document,
 		} else {
 			gchar *data_name = webkit_dom_element_get_attribute (
 				WEBKIT_DOM_ELEMENT (node), "data-name");
-			gchar *new_id;
 
-			new_id = camel_header_msgid_generate (uid_domain);
-			g_variant_builder_add (
-				builder, "sss", src, data_name, new_id);
-			cid = g_strdup_printf ("cid:%s", new_id);
+			if (data_name) {
+				gchar *new_id;
 
-			g_hash_table_insert (added, src, new_id);
-			g_free (new_id);
+				new_id = camel_header_msgid_generate (uid_domain);
+				g_variant_builder_add (
+					builder, "sss", src, data_name, new_id);
+				cid = g_strdup_printf ("cid:%s", new_id);
 
-			webkit_dom_element_set_attribute (
-				WEBKIT_DOM_ELEMENT (node), "background", cid, NULL);
+				g_hash_table_insert (added, src, new_id);
+				g_free (new_id);
+
+				webkit_dom_element_set_attribute (
+					WEBKIT_DOM_ELEMENT (node), "background", cid, NULL);
+			}
+			g_free (data_name);
 		}
 		g_free (cid);
 		g_object_unref (node);

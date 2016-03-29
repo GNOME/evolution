@@ -543,6 +543,9 @@ collapse_contacts_list (WebKitDOMEventTarget *event_target,
 	document = user_data;
 	id = webkit_dom_element_get_id (WEBKIT_DOM_ELEMENT (event_target));
 
+	if (!id)
+		return;
+
 	list_id = g_strconcat ("list-", id, NULL);
 	list = webkit_dom_document_get_element_by_id (document, list_id);
 	g_free (id);
@@ -1026,7 +1029,7 @@ e_dom_utils_e_mail_part_headers_bind_dom_element (WebKitDOMDocument *document,
 	WebKitDOMDocument *element_document;
 	WebKitDOMElement *element;
 	WebKitDOMElement *photo;
-	gchar *addr, *uri;
+	gchar *addr;
 
 	element = e_dom_utils_find_element_by_id (document, element_id);
 	if (!element)
@@ -1042,13 +1045,18 @@ e_dom_utils_e_mail_part_headers_bind_dom_element (WebKitDOMDocument *document,
 		return;
 
 	addr = webkit_dom_element_get_attribute (photo, "data-mailaddr");
-	uri = g_strdup_printf ("mail://contact-photo?mailaddr=%s", addr);
+	if (addr) {
+		gchar *uri;
 
-	webkit_dom_html_image_element_set_src (
-		WEBKIT_DOM_HTML_IMAGE_ELEMENT (photo), uri);
+		uri = g_strdup_printf ("mail://contact-photo?mailaddr=%s", addr);
+
+		webkit_dom_html_image_element_set_src (
+			WEBKIT_DOM_HTML_IMAGE_ELEMENT (photo), uri);
+
+		g_free (uri);
+	}
 
 	g_free (addr);
-	g_free (uri);
 }
 
 void
@@ -1249,7 +1257,7 @@ display_mode_toggle_button_cb (WebKitDOMElement *button,
 		E_WEB_EXTENSION_OBJECT_PATH,
 		E_WEB_EXTENSION_INTERFACE,
 		"VCardInlineDisplayModeToggled",
-		g_variant_new ("(s)", element_id),
+		g_variant_new ("(s)", element_id ? element_id : ""),
 		&error);
 
 	if (error) {
