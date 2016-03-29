@@ -85,6 +85,8 @@ enum {
 	PROP_REMOTE_CONTENT
 };
 
+static CamelDataCache *emd_global_http_cache = NULL;
+
 static const gchar *ui =
 "<ui>"
 "  <popup name='context'>"
@@ -1528,10 +1530,43 @@ mail_display_button_press_event (GtkWidget *widget,
 	return GTK_WIDGET_CLASS (e_mail_display_parent_class)->
 		button_press_event (widget, event);
 }
-#if 0 /* FIXME WK2 */
-static gchar *
-mail_display_redirect_uri (EWebView *web_view,
-                           const gchar *uri)
+
+
+static gboolean
+mail_display_image_exists_in_cache (const gchar *image_uri)
+{
+	gchar *filename;
+	gchar *hash;
+	gboolean exists = FALSE;
+
+	if (!emd_global_http_cache)
+		return FALSE;
+
+	hash = g_compute_checksum_for_string (G_CHECKSUM_MD5, image_uri, -1);
+	filename = camel_data_cache_get_filename (
+		emd_global_http_cache, "http", hash);
+
+	if (filename != NULL) {
+		struct stat st;
+
+		exists = g_file_test (filename, G_FILE_TEST_EXISTS);
+		if (exists && g_stat (filename, &st) == 0) {
+			exists = st.st_size != 0;
+		} else {
+			exists = FALSE;
+		}
+		g_free (filename);
+	}
+
+	g_free (hash);
+
+	return exists;
+}
+
+static void
+mail_display_uri_requested_cb (EWebView *web_view,
+			       const gchar *uri,
+			       gchar **redirect_to_uri)
 {
 	EMailDisplay *display;
 	EMailPartList *part_list;
@@ -1541,7 +1576,7 @@ mail_display_redirect_uri (EWebView *web_view,
 	part_list = e_mail_display_get_part_list (display);
 
 	if (part_list == NULL)
-		goto chainup;
+		return;
 
 	uri_is_http =
 		g_str_has_prefix (uri, "http:") ||
@@ -1563,7 +1598,8 @@ mail_display_redirect_uri (EWebView *web_view,
 		can_download_uri = e_mail_display_can_download_uri (display, uri);
 		if (!can_download_uri) {
 			/* Check Evolution's cache */
-			can_download_uri = mail_display_image_exists_in_cache (uri);
+			can_download_uri = mail_display_image_exists_in_cache (
+				uri + (g_str_has_prefix (uri, "evo-") ? 4 : 0));
 		}
 
 		/* If the URI is not cached and we are not allowed to load it
@@ -1574,17 +1610,26 @@ mail_display_redirect_uri (EWebView *web_view,
 		if (!can_download_uri && !display->priv->force_image_load &&
 		    (image_policy == E_IMAGE_LOADING_POLICY_NEVER)) {
 			e_mail_display_claim_skipped_uri (display, uri);
-			return g_strdup ("about:blank");
+			g_free (*redirect_to_uri);
+			*redirect_to_uri = g_strdup ("");
+			return;
 		}
 
 		folder = e_mail_part_list_get_folder (part_list);
 		message_uid = e_mail_part_list_get_message_uid (part_list);
 
-		new_uri = g_strconcat ("evo-", uri, NULL);
+		if (g_str_has_prefix (uri, "evo-")) {
+			soup_uri = soup_uri_new (uri);
+		} else {
+			new_uri = g_strconcat ("evo-", uri, NULL);
+			soup_uri = soup_uri_new (new_uri);
+
+			g_free (new_uri);
+		}
+
 		mail_uri = e_mail_part_build_uri (
 			folder, message_uid, NULL, NULL);
 
-		soup_uri = soup_uri_new (new_uri);
 		if (soup_uri->query)
 			query = soup_form_decode (soup_uri->query);
 		else
@@ -1606,22 +1651,18 @@ mail_display_redirect_uri (EWebView *web_view,
 		g_free (mail_uri);
 
 		soup_uri_set_query_from_form (soup_uri, query);
-		g_free (new_uri);
 
 		new_uri = soup_uri_to_string (soup_uri, FALSE);
 
 		soup_uri_free (soup_uri);
 		g_hash_table_unref (query);
 
-		return new_uri;
+		g_free (*redirect_to_uri);
+		*redirect_to_uri = new_uri;
 	}
-
-chainup:
-	/* Chain up to parent's redirect_uri() method. */
-	return E_WEB_VIEW_CLASS (e_mail_display_parent_class)->
-		redirect_uri (web_view, uri);
 }
 
+#if 0 /* FIXME WK2 */
 static CamelMimePart *
 camel_mime_part_from_cid (EMailDisplay *display,
                           const gchar *uri)
@@ -1776,7 +1817,6 @@ e_mail_display_class_init (EMailDisplayClass *class)
 
 	web_view_class = E_WEB_VIEW_CLASS (class);
 #if 0
-	web_view_class->redirect_uri = mail_display_redirect_uri;
 	web_view_class->suggest_filename = mail_display_suggest_filename;
 #endif
 	web_view_class->set_fonts = mail_display_set_fonts;
@@ -1920,6 +1960,29 @@ e_mail_display_init (EMailDisplay *display)
 	g_mutex_init (&display->priv->remote_content_lock);
 	display->priv->remote_content = NULL;
 	display->priv->skipped_remote_content_sites = g_hash_table_new_full (camel_strcase_hash, camel_strcase_equal, g_free, NULL);
+
+	g_signal_connect (display, "uri-requested", G_CALLBACK (mail_display_uri_requested_cb), NULL);
+
+	if (emd_global_http_cache == NULL) {
+		const gchar *user_cache_dir;
+		GError *error = NULL;
+
+		user_cache_dir = e_get_user_cache_dir ();
+		emd_global_http_cache = camel_data_cache_new (user_cache_dir, &error);
+
+		if (emd_global_http_cache) {
+			/* cache expiry - 2 hour access, 1 day max */
+			camel_data_cache_set_expire_age (
+				emd_global_http_cache, 24 * 60 * 60);
+			camel_data_cache_set_expire_access (
+				emd_global_http_cache, 2 * 60 * 60);
+		} else {
+			e_alert_submit (
+				E_ALERT_SINK (display), "mail:folder-open",
+				error ? error->message : _("Unknown error"), NULL);
+			g_clear_error (&error);
+		}
+	}
 }
 
 static void
@@ -2352,30 +2415,12 @@ void
 e_mail_display_set_force_load_images (EMailDisplay *display,
                                       gboolean force_load_images)
 {
-	GDBusProxy *web_extension;
-
  	g_return_if_fail (E_IS_MAIL_DISPLAY (display));
 
-	web_extension = e_web_view_get_web_extension_proxy (E_WEB_VIEW (display));
-	if (web_extension) {
-		g_dbus_connection_call (
-			g_dbus_proxy_get_connection (web_extension),
-			g_dbus_proxy_get_name (web_extension),
-			E_WEB_EXTENSION_OBJECT_PATH,
-			"org.freedesktop.DBus.Properties",
-			"Set",
-			g_variant_new (
-				"(ssv)",
-				E_WEB_EXTENSION_INTERFACE,
-				"ForceImageLoad",
-				g_variant_new_boolean (force_load_images)),
-			NULL,
-			G_DBUS_CALL_FLAGS_NONE,
-			-1,
-			NULL,
-			NULL,
-			NULL);
-	}
+	if ((display->priv->force_image_load ? 1 : 0) == (force_load_images ? 1 : 0))
+		return;
+
+	display->priv->force_image_load = force_load_images;
 }
 
 gboolean

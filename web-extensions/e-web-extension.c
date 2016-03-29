@@ -49,10 +49,7 @@ struct _EWebExtensionPrivate {
 	gboolean initialized;
 
 	gboolean need_input;
-	gboolean force_image_load;
 };
-
-static CamelDataCache *emd_global_http_cache = NULL;
 
 static const char introspection_xml[] =
 "<node>"
@@ -142,7 +139,6 @@ static const char introspection_xml[] =
 "      <arg type='s' name='new_iframe_src' direction='in'/>"
 "    </method>"
 "    <property type='b' name='NeedInput' access='readwrite'/>"
-"    <property type='b' name='ForceImageLoad' access='readwrite'/>"
 "  </interface>"
 "</node>";
 
@@ -462,8 +458,6 @@ handle_get_property (GDBusConnection *connection,
 
 	if (g_strcmp0 (property_name, "NeedInput") == 0) {
 		variant = g_variant_new_boolean (extension->priv->need_input);
-	} else if (g_strcmp0 (property_name, "ForceImageLoad") == 0) {
-		variant = g_variant_new_boolean (extension->priv->force_image_load);
 	}
 
 	return variant;
@@ -496,18 +490,6 @@ handle_set_property (GDBusConnection *connection,
 		g_variant_builder_add (builder,
 			"{sv}",
 			"NeedInput",
-			g_variant_new_boolean (value));
-	} else if (g_strcmp0 (property_name, "ForceImageLoad") == 0) {
-		gboolean value = g_variant_get_boolean (variant);
-
-		if (value == extension->priv->force_image_load)
-			goto exit;
-
-		extension->priv->force_image_load = value;
-
-		g_variant_builder_add (builder,
-			"{sv}",
-			"ForceImageLoad",
 			g_variant_new_boolean (value));
 	}
 
@@ -572,7 +554,6 @@ e_web_extension_init (EWebExtension *extension)
 
 	extension->priv->initialized = FALSE;
 	extension->priv->need_input = FALSE;
-	extension->priv->force_image_load = FALSE;
 }
 
 static gpointer
@@ -589,120 +570,13 @@ e_web_extension_get (void)
 }
 
 static gboolean
-image_exists_in_cache (const gchar *image_uri)
-{
-	gchar *filename;
-	gchar *hash;
-	gboolean exists = FALSE;
-
-	g_return_val_if_fail (emd_global_http_cache != NULL, FALSE);
-
-	hash = g_compute_checksum_for_string (G_CHECKSUM_MD5, image_uri, -1);
-	filename = camel_data_cache_get_filename (
-		emd_global_http_cache, "http", hash);
-
-	if (filename != NULL) {
-		struct stat st;
-
-		exists = g_file_test (filename, G_FILE_TEST_EXISTS);
-		if (exists && g_stat (filename, &st) == 0) {
-			exists = st.st_size != 0;
-		} else {
-			exists = FALSE;
-		}
-		g_free (filename);
-	}
-
-	g_free (hash);
-
-	return exists;
-}
-
-static EImageLoadingPolicy
-get_image_loading_policy (void)
-{
-	GSettings *settings;
-	EImageLoadingPolicy image_policy;
-
-	settings = e_util_ref_settings ("org.gnome.evolution.mail");
-	image_policy = g_settings_get_enum (settings, "image-loading-policy");
-	g_object_unref (settings);
-
-	return image_policy;
-}
-
-static void
-redirect_http_uri (EWebExtension *extension,
-                   WebKitWebPage *web_page,
-                   WebKitURIRequest *request)
-{
-	const gchar *uri, *page_uri;
-	gchar *new_uri, *mail_uri, *enc;
-	SoupURI *soup_uri;
-	GHashTable *query;
-	gboolean image_exists;
-	EImageLoadingPolicy image_policy;
-
-	uri = webkit_uri_request_get_uri (request);
-	page_uri = webkit_web_page_get_uri (web_page);
-
-	/* Check Evolution's cache */
-	image_exists = image_exists_in_cache (uri);
-
-	/* If the URI is not cached and we are not allowed to load it
-	 * then redirect to invalid URI, so that webkit would display
-	 * a native placeholder for it. */
-	image_policy = get_image_loading_policy ();
-	if (!image_exists && !extension->priv->force_image_load &&
-	    (image_policy == E_IMAGE_LOADING_POLICY_NEVER)) {
-		webkit_uri_request_set_uri (request, "about:blank");
-		return;
-	}
-
-	new_uri = g_strconcat ("evo-", uri, NULL);
-	mail_uri = g_strndup (page_uri, strstr (page_uri, "?") - page_uri);
-
-	soup_uri = soup_uri_new (new_uri);
-	if (soup_uri->query)
-		query = soup_form_decode (soup_uri->query);
-	else
-		query = g_hash_table_new_full (
-			g_str_hash, g_str_equal,
-			g_free, g_free);
-
-	enc = soup_uri_encode (mail_uri, NULL);
-	g_hash_table_insert (query, g_strdup ("__evo-mail"), enc);
-
-	if (extension->priv->force_image_load) {
-		g_hash_table_insert (
-			query,
-			g_strdup ("__evo-load-images"),
-			g_strdup ("true"));
-	}
-
-	g_free (mail_uri);
-
-	soup_uri_set_query_from_form (soup_uri, query);
-	g_free (new_uri);
-
-	new_uri = soup_uri_to_string (soup_uri, FALSE);
-
-	webkit_uri_request_set_uri (request, new_uri);
-
-	soup_uri_free (soup_uri);
-	g_hash_table_unref (query);
-	g_free (new_uri);
-}
-
-static gboolean
 web_page_send_request_cb (WebKitWebPage *web_page,
                           WebKitURIRequest *request,
                           WebKitURIResponse *redirected_response,
                           EWebExtension *extension)
 {
-	const char *request_uri;
-	const char *page_uri;
-	gboolean uri_is_http;
+	const gchar *request_uri;
+	const gchar *page_uri;
 
 	request_uri = webkit_uri_request_get_uri (request);
 	page_uri = webkit_web_page_get_uri (web_page);
@@ -714,14 +588,16 @@ web_page_send_request_cb (WebKitWebPage *web_page,
 	    g_str_has_prefix (page_uri, "https:"))
 		return FALSE;
 
-	uri_is_http =
-		g_str_has_prefix (request_uri, "http:") ||
-		g_str_has_prefix (request_uri, "https:") ||
-		g_str_has_prefix (request_uri, "evo-http:") ||
-		g_str_has_prefix (request_uri, "evo-https:");
+	if (g_str_has_prefix (request_uri, "http:") ||
+	    g_str_has_prefix (request_uri, "https:")) {
+		gchar *new_uri;
 
-	if (uri_is_http)
-		redirect_http_uri (extension, web_page, request);
+		new_uri = g_strconcat ("evo-", request_uri, NULL);
+
+		webkit_uri_request_set_uri (request, new_uri);
+
+		g_free (new_uri);
+	}
 
 	return FALSE;
 }
@@ -761,17 +637,6 @@ e_web_extension_initialize (EWebExtension *extension,
 	extension->priv->initialized = TRUE;
 
 	extension->priv->wk_extension = g_object_ref (wk_extension);
-
-	if (emd_global_http_cache == NULL) {
-		emd_global_http_cache = camel_data_cache_new (
-			e_get_user_cache_dir (), NULL);
-
-		/* cache expiry - 2 hour access, 1 day max */
-		camel_data_cache_set_expire_age (
-			emd_global_http_cache, 24 * 60 * 60);
-		camel_data_cache_set_expire_access (
-			emd_global_http_cache, 2 * 60 * 60);
-	}
 
 	g_signal_connect (
 		wk_extension, "page-created",

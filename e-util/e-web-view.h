@@ -107,6 +107,9 @@ struct _EWebViewClass {
 	void		(*update_actions)	(EWebView *web_view);
 	gboolean	(*process_mailto)	(EWebView *web_view,
 						 const gchar *mailto_uri);
+	void		(*uri_requested)	(EWebView *web_view,
+						 const gchar *uri,
+						 gchar **redirect_to_uri);
 };
 
 GType		e_web_view_get_type		(void) G_GNUC_CONST;

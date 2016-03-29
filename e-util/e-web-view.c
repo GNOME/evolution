@@ -120,6 +120,7 @@ enum {
 	STOP_LOADING,
 	UPDATE_ACTIONS,
 	PROCESS_MAILTO,
+	URI_REQUESTED,
 	LAST_SIGNAL
 };
 
@@ -1034,6 +1035,7 @@ web_view_process_uri_request_cb (WebKitURISchemeRequest *request,
 {
 	EContentRequest *content_request = user_data;
 	const gchar *uri;
+	gchar *redirect_to_uri = NULL;
 	GObject *requester;
 
 	g_return_if_fail (WEBKIT_IS_URI_SCHEME_REQUEST (request));
@@ -1044,8 +1046,30 @@ web_view_process_uri_request_cb (WebKitURISchemeRequest *request,
 
 	g_return_if_fail (e_content_request_can_process_uri (content_request, uri));
 
+	if (E_IS_WEB_VIEW (requester)) {
+		/* Expects an empty string to abandon the request,
+		   or NULL to keep the passed-in uri,
+		   or a new uri to load instead. */
+		g_signal_emit (requester, signals[URI_REQUESTED], 0, uri, &redirect_to_uri);
+
+		if (redirect_to_uri && *redirect_to_uri) {
+			uri = redirect_to_uri;
+		} else if (redirect_to_uri) {
+			GError *error;
+
+			g_free (redirect_to_uri);
+
+			error = g_error_new_literal (G_IO_ERROR, G_IO_ERROR_CANCELLED, "Cancelled");
+
+			webkit_uri_scheme_request_finish_error (request, error);
+			return;
+		}
+	}
+
 	e_content_request_process (content_request, uri, requester, NULL,
 		web_view_uri_request_done_cb, g_object_ref (request));
+
+	g_free (redirect_to_uri);
 }
 
 /* 'scheme' is like "file", not "file:" */
@@ -2001,6 +2025,17 @@ e_web_view_class_init (EWebViewClass *class)
 		NULL, NULL,
 		e_marshal_BOOLEAN__STRING,
 		G_TYPE_BOOLEAN, 1, G_TYPE_STRING);
+
+	/* Expects an empty string to abandon the request,
+	   or NULL to keep the passed-in uri,
+	   or a new uri to load instead. */
+	signals[URI_REQUESTED] = g_signal_new (
+		"uri-requested",
+		G_TYPE_FROM_CLASS (class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (EWebViewClass, uri_requested),
+		NULL, NULL, NULL,
+		G_TYPE_NONE, 2, G_TYPE_STRING, G_TYPE_POINTER);
 }
 
 static void
