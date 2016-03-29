@@ -57,7 +57,9 @@ e_http_request_can_process_uri (EContentRequest *request,
 	g_return_val_if_fail (uri != NULL, FALSE);
 
 	return g_ascii_strncasecmp (uri, "evo-http:", 9) == 0 ||
-	       g_ascii_strncasecmp (uri, "evo-https:", 10) == 0;
+	       g_ascii_strncasecmp (uri, "evo-https:", 10) == 0 ||
+	       g_ascii_strncasecmp (uri, "http:", 5) == 0 ||
+	       g_ascii_strncasecmp (uri, "https:", 6) == 0;
 }
 
 static gssize
@@ -240,15 +242,20 @@ e_http_request_process_sync (EContentRequest *request,
 	uri_len = (evo_uri != NULL) ? strlen (evo_uri) : 0;
 	use_uri = NULL;
 	if (evo_uri != NULL && (uri_len > 5)) {
+		gint inc = 0;
+
+		if (g_str_has_prefix (evo_uri, "evo-"))
+			inc = 4;
 
 		/* Remove trailing "?" if there is no URI query */
 		if (evo_uri[uri_len - 1] == '?') {
-			use_uri = g_strndup (evo_uri + 4, uri_len - 5);
+			use_uri = g_strndup (evo_uri + inc, uri_len - 1 - inc);
 		} else {
-			use_uri = g_strdup (evo_uri + 4);
+			use_uri = g_strdup (evo_uri + inc);
 		}
-		g_free (evo_uri);
 	}
+
+	g_free (evo_uri);
 
 	g_return_val_if_fail (use_uri && *use_uri, FALSE);
 

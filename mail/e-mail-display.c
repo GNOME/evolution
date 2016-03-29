@@ -392,30 +392,6 @@ decide_policy_cb (WebKitWebView *web_view,
 	return FALSE;
 }
 #if 0 /* FIXME WK2 */
-static void
-mail_display_resource_requested (WebKitWebView *web_view,
-                                 WebKitWebFrame *frame,
-                                 WebKitWebResource *resource,
-                                 WebKitNetworkRequest *request,
-                                 WebKitNetworkResponse *response,
-                                 gpointer user_data)
-{
-	const gchar *original_uri;
-
-	original_uri = webkit_network_request_get_uri (request);
-
-	if (original_uri != NULL) {
-		gchar *redirected_uri;
-
-		redirected_uri = e_web_view_redirect_uri (
-			E_WEB_VIEW (web_view), original_uri);
-
-		webkit_network_request_set_uri (request, redirected_uri);
-
-		g_free (redirected_uri);
-	}
-}
-
 static WebKitDOMElement *
 find_element_by_id (WebKitDOMDocument *document,
                     const gchar *id)
@@ -1907,11 +1883,7 @@ e_mail_display_init (EMailDisplay *display)
 	g_signal_connect (
 		display, "decide-policy",
 		G_CALLBACK (decide_policy_cb), NULL);
-#if 0
-	g_signal_connect (
-		display, "resource-request-starting",
-		G_CALLBACK (mail_display_resource_requested), NULL);
-#endif
+
 	g_signal_connect (
 		display, "process-mailto",
 		G_CALLBACK (mail_display_process_mailto), NULL);

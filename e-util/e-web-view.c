@@ -92,12 +92,16 @@ struct _EWebViewPrivate {
 	EWebViewZoomHackState zoom_hack_state;
 
 	gboolean has_hover_link;
+
+	GSList *content_requests; /* EContentRequest * */
 };
 
 struct _AsyncContext {
 	EActivity *activity;
 	GFile *destination;
 	GInputStream *input_stream;
+	EContentRequest *content_request;
+	gchar *uri;
 };
 
 enum {
@@ -170,11 +174,18 @@ G_DEFINE_TYPE_WITH_CODE (
 		e_web_view_selectable_init))
 
 static void
-async_context_free (AsyncContext *async_context)
+async_context_free (gpointer ptr)
 {
+	AsyncContext *async_context = ptr;
+
+	if (!async_context)
+		return;
+
 	g_clear_object (&async_context->activity);
 	g_clear_object (&async_context->destination);
 	g_clear_object (&async_context->input_stream);
+	g_clear_object (&async_context->content_request);
+	g_free (async_context->uri);
 
 	g_slice_free (AsyncContext, async_context);
 }
@@ -967,6 +978,9 @@ web_view_dispose (GObject *object)
 		priv->failed_to_find_text_handler_id = 0;
 	}
 
+	g_slist_free_full (priv->content_requests, g_object_unref);
+	priv->content_requests = NULL;
+
 	g_clear_object (&priv->ui_manager);
 	g_clear_object (&priv->open_proxy);
 	g_clear_object (&priv->print_proxy);
@@ -1088,6 +1102,12 @@ e_web_view_register_content_request_for_scheme (EWebView *web_view,
 
 	webkit_web_context_register_uri_scheme (web_context, scheme, web_view_process_uri_request_cb,
 		g_object_ref (content_request), g_object_unref);
+
+	if (!g_slist_find (web_view->priv->content_requests, content_request)) {
+		web_view->priv->content_requests = g_slist_prepend (
+			web_view->priv->content_requests,
+			g_object_ref (content_request));
+	}
 }
 
 static void
@@ -1377,13 +1397,6 @@ web_view_load_uri (EWebView *web_view,
 		uri = "about:blank";
 
 	webkit_web_view_load_uri (WEBKIT_WEB_VIEW (web_view), uri);
-}
-
-static gchar *
-web_view_redirect_uri (EWebView *web_view,
-                       const gchar *uri)
-{
-	return g_strdup (uri);
 }
 
 static gchar *
@@ -1881,7 +1894,6 @@ e_web_view_class_init (EWebViewClass *class)
 	class->link_clicked = web_view_link_clicked;
 	class->load_string = web_view_load_string;
 	class->load_uri = web_view_load_uri;
-	class->redirect_uri = web_view_redirect_uri;
 	class->suggest_filename = web_view_suggest_filename;
 	class->popup_event = web_view_popup_event;
 	class->stop_loading = web_view_stop_loading;
@@ -2312,37 +2324,6 @@ e_web_view_load_uri (EWebView *web_view,
 	g_return_if_fail (class->load_uri != NULL);
 
 	class->load_uri (web_view, uri);
-}
-
-/**
- * e_web_view_redirect_uri:
- * @web_view: an #EWebView
- * @uri: the requested URI
- *
- * Replaces @uri with a redirected URI as necessary, primarily for use
- * with custom #SoupRequest handlers.  Typically this function would be
- * called just prior to handing a request off to a #SoupSession, such as
- * from a #WebKitWebView #WebKitWebView::resource-request-starting signal
- * handler.
- *
- * A newly-allocated URI string is always returned, whether the @uri was
- * redirected or not.  Free the returned string with g_free().
- *
- * Returns: the redirected URI or a copy of @uri
- **/
-gchar *
-e_web_view_redirect_uri (EWebView *web_view,
-                         const gchar *uri)
-{
-	EWebViewClass *class;
-
-	g_return_val_if_fail (E_IS_WEB_VIEW (web_view), NULL);
-	g_return_val_if_fail (uri != NULL, NULL);
-
-	class = E_WEB_VIEW_GET_CLASS (web_view);
-	g_return_val_if_fail (class->redirect_uri != NULL, NULL);
-
-	return class->redirect_uri (web_view, uri);
 }
 
 /**
@@ -3825,24 +3806,25 @@ e_web_view_cursor_image_save (EWebView *web_view)
 
 /* Helper for e_web_view_request() */
 static void
-web_view_request_send_cb (GObject *source_object,
-                          GAsyncResult *result,
-                          gpointer user_data)
+web_view_request_process_thread (GTask *task,
+				 gpointer source_object,
+				 gpointer task_data,
+				 GCancellable *cancellable)
 {
-	GSimpleAsyncResult *simple;
-	AsyncContext *async_context;
+	AsyncContext *async_context = task_data;
+	gint64 stream_length = -1;
+	gchar *mime_type = NULL;
 	GError *local_error = NULL;
 
-	simple = G_SIMPLE_ASYNC_RESULT (user_data);
-	async_context = g_simple_async_result_get_op_res_gpointer (simple);
+	if (!e_content_request_process_sync (async_context->content_request,
+		async_context->uri, source_object, &async_context->input_stream,
+		&stream_length, &mime_type, cancellable, &local_error)) {
+		g_task_return_error (task, local_error);
+	} else {
+		g_task_return_boolean (task, TRUE);
+	}
 
-	async_context->input_stream = soup_request_send_finish (
-		SOUP_REQUEST (source_object), result, &local_error);
-
-	if (local_error != NULL)
-		g_simple_async_result_take_error (simple, local_error);
-
-	g_simple_async_result_complete (simple);
+	g_free (mime_type);
 }
 
 /**
@@ -3853,9 +3835,7 @@ web_view_request_send_cb (GObject *source_object,
  * @callback: a #GAsyncReadyCallback to call when the request is satisfied
  * @user_data: data to pass to the callback function
  *
- * Asynchronously requests data at @uri by way of a #SoupRequest to WebKit's
- * default #SoupSession, incorporating both e_web_view_redirect_uri() and the
- * custom request handlers installed via e_web_view_install_request_handler().
+ * Asynchronously requests data at @uri as displaed in the @web_view.
  *
  * When the operation is finished, @callback will be called.  You can then
  * call e_web_view_request_finish() to get the result of the operation.
@@ -3867,53 +3847,41 @@ e_web_view_request (EWebView *web_view,
                     GAsyncReadyCallback callback,
                     gpointer user_data)
 {
-	SoupSession *session;
-	SoupRequest *request;
-	gchar *real_uri;
-	GSimpleAsyncResult *simple;
+	EContentRequest *content_request = NULL;
 	AsyncContext *async_context;
-	GError *local_error = NULL;
+	GSList *link;
+	GTask *task;
 
 	g_return_if_fail (E_IS_WEB_VIEW (web_view));
 	g_return_if_fail (uri != NULL);
 
-//	session = webkit_get_default_session ();
-	session = NULL;
+	for (link = web_view->priv->content_requests; link; link = g_slist_next (link)) {
+		EContentRequest *adept = link->data;
 
-	async_context = g_slice_new0 (AsyncContext);
+		if (!E_IS_CONTENT_REQUEST (adept) ||
+		    !e_content_request_can_process_uri (adept, uri))
+			continue;
 
-	simple = g_simple_async_result_new (
-		G_OBJECT (web_view), callback,
-		user_data, e_web_view_request);
-
-	g_simple_async_result_set_check_cancellable (simple, cancellable);
-
-	g_simple_async_result_set_op_res_gpointer (
-		simple, async_context, (GDestroyNotify) async_context_free);
-
-	real_uri = e_web_view_redirect_uri (web_view, uri);
-	request = soup_session_request (session, real_uri, &local_error);
-	g_free (real_uri);
-
-	/* Sanity check. */
-	g_return_if_fail (
-		((request != NULL) && (local_error == NULL)) ||
-		((request == NULL) && (local_error != NULL)));
-
-	if (request != NULL) {
-		soup_request_send_async (
-			request, cancellable,
-			web_view_request_send_cb,
-			g_object_ref (simple));
-
-		g_object_unref (request);
-
-	} else {
-		g_simple_async_result_take_error (simple, local_error);
-		g_simple_async_result_complete_in_idle (simple);
+		content_request = adept;
+		break;
 	}
 
-	g_object_unref (simple);
+	async_context = g_slice_new0 (AsyncContext);
+	async_context->uri = g_strdup (uri);
+
+	task = g_task_new (web_view, cancellable, callback, user_data);
+	g_task_set_task_data (task, async_context, async_context_free);
+	g_task_set_check_cancellable (task, TRUE);
+
+	if (content_request) {
+		async_context->content_request = g_object_ref (content_request);
+		g_task_run_in_thread (task, web_view_request_process_thread);
+	} else {
+		g_task_return_new_error (task, G_IO_ERROR, G_IO_ERROR_FAILED,
+			_("Cannot get URI '%s', do not know how to download it."), uri);
+	}
+
+	g_object_unref (task);
 }
 
 /**
@@ -3935,18 +3903,14 @@ e_web_view_request_finish (EWebView *web_view,
                            GAsyncResult *result,
                            GError **error)
 {
-	GSimpleAsyncResult *simple;
 	AsyncContext *async_context;
 
-	g_return_val_if_fail (
-		g_simple_async_result_is_valid (
-		result, G_OBJECT (web_view), e_web_view_request), NULL);
+	g_return_val_if_fail (g_task_is_valid (result, web_view), NULL);
 
-	simple = G_SIMPLE_ASYNC_RESULT (result);
-	async_context = g_simple_async_result_get_op_res_gpointer (simple);
-
-	if (g_simple_async_result_propagate_error (simple, error))
+	if (!g_task_propagate_boolean (G_TASK (result), error))
 		return NULL;
+
+	async_context = g_task_get_task_data (G_TASK (result));
 
 	g_return_val_if_fail (async_context->input_stream != NULL, NULL);
 
