@@ -112,6 +112,7 @@ enum {
 	PROP_DISABLE_PRINTING,
 	PROP_DISABLE_SAVE_TO_DISK,
 	PROP_OPEN_PROXY,
+	PROP_PASTE_TARGET_LIST,
 	PROP_PRINT_PROXY,
 	PROP_SAVE_AS_PROXY,
 	PROP_SELECTED_URI
@@ -826,6 +827,11 @@ web_view_set_property (GObject *object,
 				g_value_get_boolean (value));
 			return;
 
+		case PROP_COPY_TARGET_LIST:
+			/* This is a fake property. */
+			g_warning ("%s: EWebView::copy-target-list not used", G_STRFUNC);
+			return;
+
 		case PROP_CURSOR_IMAGE_SRC:
 			e_web_view_set_cursor_image_src (
 				E_WEB_VIEW (object),
@@ -848,6 +854,11 @@ web_view_set_property (GObject *object,
 			e_web_view_set_open_proxy (
 				E_WEB_VIEW (object),
 				g_value_get_object (value));
+			return;
+
+		case PROP_PASTE_TARGET_LIST:
+			/* This is a fake property. */
+			g_warning ("%s: EWebView::paste-target-list not used", G_STRFUNC);
 			return;
 
 		case PROP_PRINT_PROXY:
@@ -884,6 +895,11 @@ web_view_get_property (GObject *object,
 				E_WEB_VIEW (object)));
 			return;
 
+		case PROP_COPY_TARGET_LIST:
+			/* This is a fake property. */
+			g_value_set_boxed (value, NULL);
+			return;
+
 		case PROP_CURSOR_IMAGE_SRC:
 			g_value_set_string (
 				value, e_web_view_get_cursor_image_src (
@@ -906,6 +922,11 @@ web_view_get_property (GObject *object,
 			g_value_set_object (
 				value, e_web_view_get_open_proxy (
 				E_WEB_VIEW (object)));
+			return;
+
+		case PROP_PASTE_TARGET_LIST:
+			/* This is a fake property. */
+			g_value_set_boxed (value, NULL);
 			return;
 
 		case PROP_PRINT_PROXY:
@@ -1908,6 +1929,18 @@ e_web_view_class_init (EWebViewClass *class)
 			NULL,
 			FALSE,
 			G_PARAM_READWRITE));
+
+	/* Inherited from ESelectableInterface; just a fake property here */
+	g_object_class_override_property (
+		object_class,
+		PROP_COPY_TARGET_LIST,
+		"copy-target-list");
+
+	/* Inherited from ESelectableInterface; just a fake property here */
+	g_object_class_override_property (
+		object_class,
+		PROP_PASTE_TARGET_LIST,
+		"paste-target-list");
 
 	g_object_class_install_property (
 		object_class,
