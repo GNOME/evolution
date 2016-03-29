@@ -284,7 +284,25 @@ mail_request_process_contact_photo_sync (EContentRequest *request,
 		}
 	}
 
-	return success;
+	if (!success) {
+		GdkPixbuf *pixbuf;
+		gchar *buffer;
+		gsize length;
+
+		g_clear_error (error);
+
+		/* Construct empty image stream, to not show "broken image" icon when no contact photo is found */
+		pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8, 1, 1);
+		gdk_pixbuf_fill (pixbuf, 0x00000000); /* transparent black */
+		gdk_pixbuf_save_to_buffer (pixbuf, &buffer, &length, "png", NULL, NULL);
+		g_object_unref (pixbuf);
+
+		*out_stream = g_memory_input_stream_new_from_data (buffer, length, g_free);
+		*out_stream_length = length;
+		*out_mime_type = g_strdup ("image/png");
+	}
+
+	return TRUE;
 }
 
 typedef struct _MailIdleData
