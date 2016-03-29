@@ -531,14 +531,14 @@ module_itip_formatter_dom_utils_select_set_selected (WebKitDOMDocument *document
 		return;
 
 	length = webkit_dom_html_select_element_get_length (
-		WEBKIT_DOM_HTML_SELECT_ELEMENT (select));
+		WEBKIT_DOM_HTML_SELECT_ELEMENT (element));
 	for (ii = 0; ii < length; ii++) {
 		WebKitDOMNode *node;
 		WebKitDOMHTMLOptionElement *option_element;
 		gchar *value;
 
 		node = webkit_dom_html_select_element_item (
-			WEBKIT_DOM_HTML_SELECT_ELEMENT (select), ii);
+			WEBKIT_DOM_HTML_SELECT_ELEMENT (element), ii);
 		option_element = WEBKIT_DOM_HTML_OPTION_ELEMENT (node);
 
 		value = webkit_dom_html_option_element_get_value (option_element);

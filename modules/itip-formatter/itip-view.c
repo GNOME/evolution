@@ -939,10 +939,12 @@ source_changed_cb (ItipView *view)
 
 	source = itip_view_ref_source (view);
 
-	d (printf ("Source changed to '%s'\n", e_source_get_display_name (source)));
-	g_signal_emit (view, signals[SOURCE_SELECTED], 0, source);
+	if (source) {
+		d (printf ("Source changed to '%s'\n", e_source_get_display_name (source)));
+		g_signal_emit (view, signals[SOURCE_SELECTED], 0, source);
 
-	g_object_unref (source);
+		g_object_unref (source);
+	}
 }
 
 static void
@@ -952,8 +954,12 @@ source_changed_cb_signal_cb (GDBusConnection *connection,
                           const gchar *interface_name,
                           const gchar *signal_name,
                           GVariant *parameters,
-                          ItipView *view)
+                          gpointer user_data)
 {
+	ItipView *view = user_data;
+
+	g_return_if_fail (ITIP_IS_VIEW (view));
+
 	if (g_strcmp0 (signal_name, "SourceChanged") != 0)
 		return;
 
@@ -1786,7 +1792,7 @@ web_extension_proxy_created_cb (GDBusProxy *proxy,
 			MODULE_ITIP_FORMATTER_WEB_EXTENSION_OBJECT_PATH,
 			NULL,
 			G_DBUS_SIGNAL_FLAGS_NONE,
-			(GDBusSignalCallback) source_changed_cb_signal_cb,
+			source_changed_cb_signal_cb,
 			view,
 			NULL);
 
@@ -2617,7 +2623,7 @@ itip_view_set_source (ItipView *view,
 ESource *
 itip_view_ref_source (ItipView *view)
 {
-	ESource *source;
+	ESource *source = NULL;
 	gboolean disable = FALSE, enabled = FALSE;
 	GVariant *result;
 

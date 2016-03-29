@@ -96,7 +96,7 @@ mail_part_itip_bind_dom_element (EMailPart *part,
 	document = webkit_dom_html_iframe_element_get_content_document (
 		WEBKIT_DOM_HTML_IFRAME_ELEMENT (element));
 #endif
-	itip_view_new (pitip, pitip->client_cache, element_id, page_id);
+	pitip->view = itip_view_new (pitip, pitip->client_cache, element_id, page_id);
 }
 
 static void
