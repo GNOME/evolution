@@ -12158,6 +12158,28 @@ e_html_editor_view_get_text_html (EHTMLEditorView *view,
 	return html;
 }
 
+gchar *
+e_html_editor_view_get_text_html_for_drafts_with_images (EHTMLEditorView *view,
+                                                         const gchar *from_domain,
+                                                         GList **inline_images)
+{
+	gchar *html = NULL;
+	GHashTable *inline_images_to_restore = NULL;
+
+	g_return_val_if_fail (E_IS_HTML_EDITOR_VIEW (view), NULL);
+
+	if (inline_images && from_domain)
+		*inline_images = html_editor_view_get_parts_for_inline_images (
+			view, from_domain, &inline_images_to_restore);
+
+	html = process_content_for_saving_as_draft (view, FALSE);
+
+	if (inline_images && from_domain && inline_images_to_restore)
+		html_editor_view_restore_images (view, &inline_images_to_restore);
+
+	return html;
+}
+
 /**
  * e_html_editor_view_get_text_html_for_drafts:
  * @view: an #EHTMLEditorView:

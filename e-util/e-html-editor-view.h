@@ -207,6 +207,10 @@ gchar *		e_html_editor_view_get_text_html
 						(EHTMLEditorView *view,
 						 const gchar *from_domain,
 						 GList **inline_images);
+gchar *		e_html_editor_view_get_text_html_for_drafts_with_images
+						(EHTMLEditorView *view,
+						 const gchar *from_domain,
+						 GList **inline_images);
 gchar *		e_html_editor_view_get_text_html_for_drafts
 						(EHTMLEditorView *view);
 gchar *		e_html_editor_view_get_body_text_html_for_drafts
