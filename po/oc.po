@@ -10,14 +10,14 @@ msgstr ""
 "http://bugzilla.gnome.org/enter_bug.cgi?product=evince&keywords=I18N+L10N&com"
 "ponent=general\n"
 "POT-Creation-Date: 2016-03-21 10:50+0000\n"
-"PO-Revision-Date: 2016-03-29 17:30+0000\n"
+"PO-Revision-Date: 2016-03-30 16:11+0000\n"
 "Last-Translator: Cédric VALMARY (Tot en òc) <cvalmary@yahoo.fr>\n"
 "Language-Team: Tot En Òc\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Launchpad-Export-Date: 2016-03-29 17:32+0000\n"
+"X-Launchpad-Export-Date: 2016-03-30 16:24+0000\n"
 "X-Generator: Launchpad (build 17967)\n"
 "X-Project-Style: gnome\n"
 "Language: oc\n"
@@ -9724,22 +9724,22 @@ msgstr ""
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:131
 msgid "Whether sort thread children always ascending"
 msgstr ""
-"Indica se cal trier les enfants del fil de discussion totjorn de façon "
-"creissente"
+"Indica se cal triar los enfants del fial de discussion totjorn de faiçon "
+"creissenta"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:132
 msgid ""
 "This setting specifies whether the thread children should be sorted always "
 "ascending, rather than using the same sort order as in the thread root level."
 msgstr ""
-"Aqueste paramètre indica se les enfants des fials de discussion devon èsser "
-"triés de manière creissente, puslèu que d'utilizar lo même ordre de tri "
-"qu'au niveau de la racine des fials de discussion."
+"Aqueste paramètre indica se los enfants dels fials de discussion devon èsser "
+"triats de manièra creissenta, puslèu que d'utilizar lo meteis òrdre de "
+"triada qu'al nivèl de la raiç dels fials de discussion."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:133
 msgid "Sort accounts alphabetically in a folder tree"
 msgstr ""
-"Trier los comptes en ordre alphabétique dins una arborescéncia de dorsièrs"
+"Triar los comptes en òrdre alpfabetic dins una arborescéncia de dorsièrs"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:134
 msgid ""
@@ -9748,32 +9748,32 @@ msgid ""
 "Computer and Search folders, otherwise accounts are sorted based on an order "
 "given by a user"
 msgstr ""
-"Indica comment trier los comptes dins una arborescéncia de dorsièrs "
-"utilizada dans una vista corrièr electronic. Se défini a « true », los "
-"comptes son triés en ordre alphabétique, excepté les dorsièrs « Sur aqueste "
-"oredenador » e « Dorsièrs de recèrca », siquenon los comptes son triés en "
-"fonction de l'ordre imposé per l'utilizaire"
+"Indica cossí triar los comptes dins una arborescéncia de dorsièrs utilizada "
+"dins una vista corrièr electronic. Se definit a « true », los comptes son "
+"triats en òrdre alfabetic, exceptat los dorsièrs « Sus aqueste ordenador » e "
+"« Dorsièrs de recèrca », siquenon los comptes son triats en fonction de "
+"l'òrdre impausat per l'utilizaire"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:135
 msgid "Log filter actions"
-msgstr "Enregistrar les actions des filtres"
+msgstr "Enregistrar las accions dels filtres"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:136
 msgid "Log filter actions to the specified log file."
 msgstr ""
-"Enregistra les actions des filtres dins lo fichièr de jornnal indicat."
+"Enregistra las accions dels filtres dins lo fichièr de jornal indicat."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:137
 msgid "Logfile to log filter actions"
-msgstr "Fichièr de jornnal où enregistrar les actions des filtres"
+msgstr "Fichièr de jornal ont enregistrar las accions dels filtres"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:138
 msgid "Logfile to log filter actions."
-msgstr "Fichièr de jornnal où enregistrar les actions des filtres."
+msgstr "Fichièr de jornal ont enregistrar las accions dels filtres."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:139
 msgid "Flush Outbox after filtering"
-msgstr "Vider la bóstia de mandadís après lo filtrage"
+msgstr "Voidar la bóstia de mandadís aprèp lo filtratge"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:140
 msgid ""
@@ -9781,14 +9781,14 @@ msgid ""
 "only when there was used any 'Forward to' filter action and approximately "
 "one minute after the last action invocation."
 msgstr ""
-"Indica se la bóstia de mandadís es vidée après que lo filtrage a été "
-"efectuat. Aqueste vidage ne se produit que quand una action de filtre « "
-"Faire suivre » es utilizada e se approximativement una minute s'est écoulée "
-"dempuèi la darrièra action invoquée."
+"Indica se la bóstia de mandadís es voidada aprèp que lo filtratge es estat "
+"efectuat. Aqueste voidatge se produtz pas que quand una accion de filtre « "
+"Far seguir » es utilizada e se aproximativament una minuta s'es passada "
+"dempuèi la darrièra accion invocada."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:141
 msgid "Default forward style"
-msgstr "Estil de transfert per defaut"
+msgstr "Estil de transferiment per defaut"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:142
 msgid "Default reply style"
@@ -9796,49 +9796,46 @@ msgstr "Estil de responsa per defaut"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:143
 msgid "Prompt on send when using key accelerator (Ctrl+Enter)"
-msgstr "Demander pel mandadís amb combinaison de touches (Ctrl + Entrée)"
+msgstr "Demandar pel mandadís amb combinason de tòcas (Ctrl + Entrada)"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:144
 msgid ""
 "Prompt the user when he or she tries to send a message with a key "
 "accelerator."
 msgstr ""
-"Demander confirmation a l'utilizaire quand il o elle envoie un messatge amb "
-"une combinaison de touches."
+"Demandar confirmacion a l'utilizaire quand manda un messatge amb una "
+"combinason de tòcas."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:145
 msgid "Prompt on empty subject"
-msgstr "Demander per les objèctes vides"
+msgstr "Demandar pels objèctes voids"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:146
 msgid ""
 "Prompt the user when he or she tries to send a message without a Subject."
 msgstr ""
-"Demander confirmation a l'utilizaire quand il o elle envoie des message sens "
-"objècte."
+"Demandar confirmacion a l'utilizaire quand manda de messatges sens objècte."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:147
 msgid "Prompt when emptying the trash"
-msgstr "Demander lorsque l'escobilhièr es vidée"
+msgstr "Demandar quand l'escobilhièr es voidat"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:148
 msgid "Prompt the user when he or she tries to empty the trash."
-msgstr ""
-"Demander a l'utilizaire quand il o elle essaie de vider l'escobilhièr."
+msgstr "Demandar a l'utilizaire quand ensaja de voidar l'escobilhièr."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:149
 msgid "Prompt when user expunges"
-msgstr "Demander quand l'utilizaire nettoie"
+msgstr "Demandar quand l'utilizaire neteja"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:150
 msgid "Prompt the user when he or she tries to expunge a folder."
-msgstr ""
-"Demander a l'utilizaire quand il o elle essaie de nettoyer un dorsièr."
+msgstr "Demandar a l'utilizaire quand ensaja de netejar un dorsièr."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:151
 msgid "Prompt before sending to recipients not entered as mail addresses"
 msgstr ""
-"Demander abans lo mandadís a des destinataires non saisis jos la forma "
+"Demandar abans lo mandadís a de destinataris pas sasits jos la forma "
 "d'adreças de corrièr electronic"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:152
@@ -9846,59 +9843,59 @@ msgid ""
 "It disables/enables the repeated prompts to warn that you are trying to send "
 "a message to recipients not entered as mail addresses"
 msgstr ""
-"Ceci active o désactive les fenèstras de confirmation qui informent que vous "
-"envoyez un messatge a des destinataires non saisis jos la forma d'adreças de "
+"Aquò activa o desactiva las fenèstras de confirmacion qu'infòrman que "
+"mandatz un messatge a de destinataris pas sasits jos la forma d'adreças de "
 "corrièr electronic."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:153
 msgid "Prompt when user only fills Bcc"
-msgstr "Demander se l'utilizaire remplit unicament Cci"
+msgstr "Demandar se l'utilizaire emplena unicament Cci"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:154
 msgid "Prompt when user tries to send a message with no To or Cc recipients."
 msgstr ""
-"Demander al moment de lo mandadís de messatges où seuls des destinataires "
-"sens À o Cc définis."
+"Demandar al moment del mandadís de messatges ont sols de destinataris sens A "
+"o Cc definits."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:155
 msgid "Prompt when user tries to send unwanted HTML"
 msgstr ""
-"Demander lorsque l'utilizaire essaye d'mandar des message HTML non désirés"
+"Demandar quand l'utilizaire ensaja de mandar de messatges HTML pas desirats"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:156
 msgid ""
 "Prompt when user tries to send HTML mail to recipients that may not want to "
 "receive HTML mail."
 msgstr ""
-"Demander al moment de lo mandadís de messatges HTML a dels contactes qui "
-"n'en veulent pas."
+"Demandar al moment del mandadís de messatges HTML a de contactes que ne'n "
+"vòlon pas."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:157
 msgid "Prompt when user tries to open 10 or more messages at once"
-msgstr "Demander al moment de lo mandadís de 10 messages o plus a la fois"
+msgstr "Demandar al moment del mandadís de 10 messatges o mai a l'encòp"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:158
 msgid ""
 "If a user tries to open 10 or more messages at one time, ask the user if "
 "they really want to do it."
 msgstr ""
-"Se un utilizaire essaye de dobrir 10 messages o plus en una sola fois, lui "
-"demander se c'est réellement ce qu'il désire."
+"Se un utilizaire ensaja de dobrir 10 messatges o mai en un sol còp, li "
+"demandar se es vertadièrament çò que desira."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:159
 msgid "Prompt while marking multiple messages"
-msgstr "Demander al moment del marquage de messatges multiples"
+msgstr "Demander al moment del marcatge de messatges multiples"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:160
 msgid "Enable or disable the prompt whilst marking multiple messages."
 msgstr ""
-"Activar o désactivar la confirmation al moment del marquage de plusieurs "
-"messages."
+"Activar o desactivar la confirmacion al moment del marcatge de mantun "
+"messatge."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:161
 msgid "Prompt when deleting messages in search folder"
 msgstr ""
-"Demander al moment de la supression de messatges dins un dorsièr de recèrca"
+"Demandar al moment de la supression de messatges dins un dorsièr de recèrca"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:162
 msgid ""
@@ -9906,15 +9903,15 @@ msgid ""
 "a search folder permanently deletes the message, not simply removing it from "
 "the search results."
 msgstr ""
-"Ceci active o désactive les fenèstras de confirmation qui informent que la "
-"supression de messatges del dorsièr de recèrca suprimís definitivament ces "
-"messages e ne les suprimís pas simplement des resultats de recèrca."
+"Aquò activa o desactiva las fenèstras de confirmacion qu'infòrman que la "
+"supression de messatges del dorsièr de recèrca suprimís definitivament "
+"aquestes messatges e los suprimís pas simplament dels resultats de recèrca."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:163
 msgid "Asks whether to copy a folder by drag &amp; drop in the folder tree"
 msgstr ""
-"Demande se cal copiar un dorsièr al moment d'un lisar-depausar dins "
-"l'arborescéncia des dorsièrs"
+"Demanda se cal copiar un dorsièr al moment d'un lisar-depausar dins "
+"l'arborescéncia dels dorsièrs"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:164
 msgid ""
@@ -9923,17 +9920,17 @@ msgid ""
 "folders in folder tree without asking, or 'ask' - (or any other value) will "
 "ask user."
 msgstr ""
-"Les valors possibles son : « never » (ne jamais permetre la còpia al moment "
-"d'un lisar-depausar de dorsièrs dins l'arborescéncia des dorsièrs), « always "
-"» (totjorn permetre la còpia al moment d'un lisar-depausar de dorsièrs dins "
-"l'arborescéncia des dorsièrs sens demander confirmation) o « ask » (ou tota "
-"autre valor), demander a l'utilizaire."
+"Las valors possiblas son : « never » (permetre pas jamai la còpia al moment "
+"d'un lisar-depausar de dorsièrs dins l'arborescéncia dels dorsièrs), « "
+"always » (totjorn permetre la còpia al moment d'un lisar-depausar de "
+"dorsièrs dins l'arborescéncia dels dorsièrs sens demandar confirmacion) o « "
+"ask » (o tota autra valor), demandar a l'utilizaire."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:165
 msgid "Asks whether to move a folder by drag &amp; drop in the folder tree"
 msgstr ""
 "Demande se cal desplaçar un dorsièr al moment d'un lisar-depausar dins "
-"l'arborescéncia des dorsièrs"
+"l'arborescéncia dels dorsièrs"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:166
 msgid ""
@@ -9942,30 +9939,30 @@ msgid ""
 "folders in folder tree without asking, or 'ask' - (or any other value) will "
 "ask user."
 msgstr ""
-"Les valors possibles son : « never » (ne jamais permetre lo desplaçament al "
-"moment d'un lisar-depausar de dorsièrs dins l'arborescéncia des dorsièrs), « "
-"always » (totjorn permetre lo desplaçament al moment d'un lisar-depausar de "
-"dorsièrs dins l'arborescéncia des dorsièrs sens demander confirmation) o « "
-"ask » (ou tota autre valor), demander a l'utilizaire."
+"Las valors possiblas son : « never » (permetre pas jamai lo desplaçament al "
+"moment d'un lisar-depausar de dorsièrs dins l'arborescéncia dels dorsièrs), "
+"« always » (totjorn permetre lo desplaçament al moment d'un lisar-depausar "
+"de dorsièrs dins l'arborescéncia dels dorsièrs sens demandar confirmacion) o "
+"« ask » (o tota autra valor), demandar a l'utilizaire."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:167
 msgid "Prompt when replying privately to list messages"
 msgstr ""
-"Demander al moment de responsas privées a dels messatges de listes de "
-"diffusion"
+"Demandar al moment de responsas privadas a dels messatges de listas de "
+"difusion"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:168
 msgid ""
 "It disables/enables the repeated prompts to warn that you are sending a "
 "private reply to a message which arrived via a mailing list."
 msgstr ""
-"Ceci active o désactive les fenèstras de confirmation qui informent que vous "
-"répondez en privé a un messatge qui es arrivé per l'intermédiaire d'una "
-"liste de diffusion."
+"Aquò activa o desactiva las fenèstras de confirmacion qu'infòrman que "
+"respondètz en privat a un messatge qu'es arribat per l'intermediari d'una "
+"lista de difusion."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:169
 msgid "Prompt when mailing list hijacks private replies"
-msgstr "Demander quand una liste de diffusion détourne las responsas privées"
+msgstr "Demandar quand una liste de difusion desvia las responsas privadas"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:170
 msgid ""
@@ -9973,107 +9970,108 @@ msgid ""
 "a private reply to a message which arrived via a mailing list, but the list "
 "sets a Reply-To: header which redirects your reply back to the list"
 msgstr ""
-"Ceci active o désactive les fenèstras de confirmation qui informent que vous "
-"répondez en privé a un messatge qui es arrivé per l'intermédiaire d'una "
-"liste de diffusion, mas que la lista a placé un entèsta « Reply-To: » qui "
-"redirige votre responsa sus la lista."
+"Aquò activa o desactiva las fenèstras de confirmacion qu'infòrman que "
+"respondètz en privat a un messatge qu'es arribat per l'intermediari d'una "
+"lista de difusion, mas que la lista a plaçat un entèsta « Reply-To: » que "
+"redirigís vòstra responsa sus la lista."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:171
 msgid "Prompt when replying to many recipients"
-msgstr "Demander al moment de responsas a de nombreux destinataires"
+msgstr "Demandar al moment de respondre a fòrça destinataris"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:172
 msgid ""
 "It disables/enables the repeated prompts to warn that you are sending a "
 "reply to many people."
 msgstr ""
-"Ceci active o désactive les fenèstras de confirmation qui informent que vous "
-"envoyez una responsa a de nombreuses personnes."
+"Aquò activa o desactiva las fenèstras de confirmacion qu'infòrman que "
+"mandatz una responsa a fòrça monde."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:173
 msgid ""
 "Prompt when switching composer mode and the content needs to lose its "
 "formatting"
 msgstr ""
-"Demander lorsque vous changez de mode d'édition e que lo contengut va perdre "
-"son formatage."
+"Demandar quand cambiatz de mòde d'edicion e que lo contengut va pèrdre son "
+"formatatge."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:174
 msgid ""
 "It disables/enables the repeated prompts to warn that you are switching "
 "composer mode and the content needs to lose its formatting."
 msgstr ""
-"Ceci active o désactive les fenèstras de confirmation qui informent que vous "
-"changez de mode d'édition e que lo contengut va perdre son formatage."
+"Aquò activa o desactiva las fenèstras de confirmacion qu'infòrman que "
+"cambiatz de mòde d'edicion e que lo contengut va pèrdre son formatatge."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:175
 msgid "Prompt when sending to many To and CC recipients"
-msgstr "Demander al moment de lo mandadís a de nombreux destinataires À e Cc"
+msgstr "Demandar al moment del mandadís a fòrça destinataris A e Cc"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:176
 msgid ""
 "Enable or disable the prompt when sending to many To and CC recipients. The "
 "'composer-many-to-cc-recips-num' defines the threshold."
 msgstr ""
-"Active o désactivar lo dialogue al moment de lo mandadís a de nombreux "
-"destinataires À et Cc. Lo « composer-many-to-cc-recips-num » définit lo "
-"seuil de déclenchement."
+"Activar o desactivar lo dialòg al moment del mandadís a fòrça destinataris A "
+"e Cc. Lo « composer-many-to-cc-recips-num » definís lo sulhet de "
+"desenclavament."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:177
 msgid ""
 "Policy for automatically closing the message browser window when forwarding "
 "or replying to the displayed message."
 msgstr ""
-"Règles de fermeture automatique de la fenèstra del navigador de messatges "
-"lors du transfert o de responsa al messatge afichat."
+"Règlas de tampadura automatica de la fenèstra del navigador de messatges al "
+"moment del transferiment o de responsa al messatge afichat."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:178
 msgid "Empty Trash folders on exit"
-msgstr "Vider les dorsièrs Corbeille en quittant"
+msgstr "Voidar los dorsièrs Escobilhièr en quitant"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:179
 msgid "Empty all Trash folders when exiting Evolution."
-msgstr "Vider totes los dorsièrs Corbeille en quittant Evolution."
+msgstr "Voidar totes los dorsièrs Escobilhièr en quitant Evolution."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:180
 msgid "Minimum days between emptying the trash on exit"
-msgstr "Nombre minimum de jorns entre les vidages de corbeille en quittant"
+msgstr ""
+"Nombre minimum de jorns entre los voidatges d'ecscobilhièr en quitant"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:181
 msgid "Minimum time between emptying the trash on exit, in days."
-msgstr "Durée minimum en jorns abans de vider l'escobilhièr en quittant."
+msgstr "Durada minimum en jorns abans de voidar l'escobilhièr en quitant."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:182
 msgid "Last time Empty Trash was run"
-msgstr "Darrièra fois où l'escobilhièr a été vidée"
+msgstr "Darrièr còp que l'escobilhièr es estat voidat"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:183
 msgid ""
 "The last time Empty Trash was run, in days since January 1st, 1970 (Epoch)."
 msgstr ""
-"La darrièra fois que l'escobilhièr a été vidée, en jorns dempuèi lo 1/1/1970 "
+"Darrièr còp que l'escobilhièr es estat voidat, en jorns dempuèi lo 1/1/1970 "
 "(Epoch)."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:184
 msgid ""
 "Amount of time in seconds the error should be shown on the status bar."
-msgstr "Durée d'afichatge en segondas de l'error dins la barra d'estat."
+msgstr "Durada d'afichatge en segondas de l'error dins la barra d'estat."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:185
 msgid "Level beyond which the message should be logged."
-msgstr "Niveau au-delà duquel los messatges devon èsser jornnalisés."
+msgstr "Nivèl de delà del qual los messatges devon èsser jornalizats."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:186
 msgid ""
 "This can have three possible values. \"0\" for errors. \"1\" for warnings. "
 "\"2\" for debug messages."
 msgstr ""
-"Aquesta opcion peut prene las valors suivantes : 0 per les errors, 1 per les "
-"avertiments e 2 pels messatges de débogage."
+"Aquesta opcion pòt prene las valors seguentas : 0 per las errors, 1 pels "
+"avertiments e 2 pels messatges de desbugatge."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:187
 msgid "Show original \"Date\" header value."
-msgstr "Afichar la valor d'origine de l'entèsta « Date »."
+msgstr "Afichar la valor d'origina de l'entèsta « Data »."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:188
 msgid ""
@@ -10081,22 +10079,22 @@ msgid ""
 "differs). Otherwise always show \"Date\" header value in a user preferred "
 "format and local time zone."
 msgstr ""
-"Afichar la valor d'origine de l'entèsta « Date » (amb l'ora locale se lo fus "
-"orari es diferent). Sinon, totjorn afichar la valor de l'entèsta « Date » "
-"dins lo format préféré de l'utilizaire e dins lo fus orari local."
+"Afichar la valor d'origina de l'entèsta « Data » (amb l'ora locala se lo fus "
+"orari es diferent). Siquenon, afichar totjorn la valor de l'entèsta « Data » "
+"dins lo format preferit de l'utilizaire e dins lo fus orari local."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:189
 msgid "List of Labels and their associated colors"
-msgstr "Lista de las etiquetas e de las colors que lor son associadas"
+msgstr "Lista de las etiquetas e de las colors que i son associadas"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:190
 msgid ""
 "List of labels known to the mail component of Evolution. The list contains "
 "strings containing name:color where color uses the HTML hex encoding."
 msgstr ""
-"Liste des étiquettes connues pel client de messatjariá d'Evolution. Aquesta "
-"liste conten des cadenas de type nom:color où les colors utilisent lo codage "
-"hexadécimal HTML."
+"Lista de las etiquetas conegudas pel client de messatjariá d'Evolution. "
+"Aquesta lista conten de cadenas de tipe nom:color ont las colors utilizan "
+"l'encodatge exadecimal HTML."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:191
 msgid "Check incoming mail being junk"
@@ -10104,42 +10102,43 @@ msgstr "Verificar se los messatges entrants son des corrièrs indesirables"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:192
 msgid "Run junk test on incoming mail."
-msgstr "Lancer lo test de porrièr electronic sus los messatges entrants."
+msgstr "Aviar lo tèst de corrièr indesirable suls messatges entrants."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:193
 msgid "Empty Junk folders on exit"
-msgstr "Vider les dorsièrs Porrièrs electronics en quittant"
+msgstr "Voidar los dorsièrs Porrièrs electronics en quitant"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:194
 msgid "Empty all Junk folders when exiting Evolution."
-msgstr "Vider totes los dorsièrs Porrièrs electronics en quittant Evolution."
+msgstr ""
+"Voidar totes los dorsièrs Corrièrs indesirables en quitant Evolution."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:195
 msgid "Minimum days between emptying the junk on exit"
 msgstr ""
-"Nombre minimum de jorns entre les vidages de corrièrs indesirables en "
-"quittant"
+"Nombre minimum de jorns entre los voidatges de corrièrs indesirables en "
+"quitant"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:196
 msgid "Minimum time between emptying the junk on exit, in days."
 msgstr ""
-"Durée minimum en jorns entre les vidages de corrièrs indesirables en "
-"quittant."
+"Durada minimum en jorns entre los voidatges de corrièrs indesirables en "
+"quitant."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:197
 msgid "Last time Empty Junk was run"
-msgstr "Darrièra fois où los corrièrs indesirables ont été vidés"
+msgstr "Darrièr còp que los corrièrs indesirables son estats voidats"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:198
 msgid ""
 "The last time Empty Junk was run, in days since January 1st, 1970 (Epoch)."
 msgstr ""
-"Darrièr vidage des corrièrs indesirables, en jorns dempuèi lo 1/1/1970 "
+"Darrièr voidatge dels corrièrs indesirables, en jorns dempuèi lo 1/1/1970 "
 "(Epoch)."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:199
 msgid "The default plugin for Junk hook"
-msgstr "L'empeuton per defaut pel traitement del porrièr electronic"
+msgstr "L'empeuton per defaut pel tractament del corrièr indesirable"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:200
 msgid ""
@@ -10147,14 +10146,14 @@ msgid ""
 "enabled. If the default listed plugin is disabled, then it won't fall back "
 "to the other available plugins."
 msgstr ""
-"Ceci es l'empeuton de porrièr electronic per defaut, bien que de nombreux "
-"greffons soient activats. Se l'empeuton listé per defaut es désactivat, les "
-"autres greffons disponibles ne prendront pas lo relais."
+"Aquò es l'empeuton de corrièr indesirable per defaut, mentre que fòrça "
+"empeutons sián activats. Se l'empeuton listat per defaut es desactivat, los "
+"autres empeutons disponibles prendràn pas lo relai."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:201
 msgid "Determines whether to lookup in address book for sender email"
 msgstr ""
-"Indica se cal consulter lo quasernet d'adreças per l'expeditor del corrièr "
+"Indica se cal consultar lo quasernet d'adreças per l'expeditor del corrièr "
 "electronic"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:202
@@ -10165,17 +10164,17 @@ msgid ""
 "autocompletion."
 msgstr ""
 "Indica se cal recercar l'expeditor del corrièr electronic dins lo quasernet "
-"d'adreças. S'il es trouvé, lo messatge n'est certanament pas un porrièr "
-"electronic. Les quasernets utilizats per la complecion automatica seràn "
-"consultés, mas l'opération peut èsser lente se vous utilizatz des quasernets "
-"d'adreças distants (tel que LDAP)."
+"d'adreças. S'es trobat, lo messatge es segurament pas un corrièr "
+"indesirable. Los quasernets utilizats per la complecion automatica seràn "
+"consultats, mas l'operacion pòt èsser lenta se utilizatz de quasernets "
+"d'adreças distants (tal coma LDAP)."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:203
 msgid ""
 "Determines whether to look up addresses for junk filtering in local address "
 "book only"
 msgstr ""
-"Indica se cal verificar las adreças pel filtrage des corrièrs indesirables "
+"Indica se cal verificar las adreças pel filtrage dels corrièrs indesirables "
 "solament dins lo quasernet d'adreças local"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:204
@@ -10184,15 +10183,15 @@ msgid ""
 "determine whether to look up addresses in local address book only to exclude "
 "mail sent by known contacts from junk filtering."
 msgstr ""
-"Aquesta opcion es relative a la clau « lookup_addressbook » e es utilizada "
-"per savoir se cal verificar las adreças solament dins lo quasernet d'adreças "
-"local per exclure del filtrage porrièr electronic los corrièrs electronics "
-"mandats per dels contactes connus."
+"Aquesta opcion es relativa a la clau « lookup_addressbook » e es utilizada "
+"per saber se cal verificar las adreças solament dins lo quasernet d'adreças "
+"local per exclure del filtratge corrièr indesirable los corrièrs electronics "
+"mandats per de contactes coneguts."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:205
 msgid "Determines whether to use custom headers to check for junk"
 msgstr ""
-"Indica se cal utilizar des entèstas personalizats per la deteccion des "
+"Indica se cal utilizar d'entèstas personalizats per la deteccion dels "
 "corrièrs indesirables"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:206
@@ -10201,23 +10200,24 @@ msgid ""
 "is enabled and the headers are mentioned, it will be improve the junk "
 "checking speed."
 msgstr ""
-"Indica se cal utilizar des entèstas personalizats per la deteccion des "
-"corrièrs indesirables. Se aquesta option es active e que des entèstas son "
-"renseignés, la deteccion des corrièrs indesirables serà plus rapide."
+"Indica se cal utilizar d'entèstas personalizats per la deteccion dels "
+"corrièrs indesirables. Se aquesta opcion es activa e que d'entèstas son "
+"completats, la deteccion dels corrièrs indesirables serà mai rapida."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:207
 msgid "Custom headers to use while checking for junk."
 msgstr ""
-"Entèstas personalizats a utilizar per la deteccion des corrièrs indesirables."
+"Entèstas personalizats d'utilizar per la deteccion dels corrièrs "
+"indesirables."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:208
 msgid ""
 "Custom headers to use while checking for junk. The list elements are string "
 "in the format \"headername=value\"."
 msgstr ""
-"Entèstas personalizats a utilizar per la deteccion des corrièrs "
-"indesirables. Les elements de la lista son des cadenas al format « nom-"
-"entête=valor »."
+"Entèstas personalizats d'utilizar per la deteccion dels corrièrs "
+"indesirables. Los elements de la lista son de cadenas al format « nom-"
+"entèsta=valor »."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:209
 msgid "UID string of the default account."
@@ -10230,27 +10230,27 @@ msgstr "Repertòri de salvament"
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:211
 msgid "Directory for saving mail component files."
 msgstr ""
-"Répertoire per enregistrar los fichièrs joints aux corrièrs electronics."
+"Repertòri per enregistrar los fichièrs junts als corrièrs electronics."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:212
 msgid "Composer load/attach directory"
-msgstr "Répertoire de l'editor per cargar/jónher"
+msgstr "Repertòri de l'editor per cargar/jónher"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:213
 msgid "Directory for loading/attaching files to composer."
-msgstr "Répertoire per cargar/jónher des fichièrs dins l'editor."
+msgstr "Repertòri per cargar/jónher de fichièrs dins l'editor."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:214
 msgid "Check for new messages on start"
-msgstr "Verificar los novèls messatges al démarrage"
+msgstr "Verificar los novèls messatges a l'aviada"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:215
 msgid ""
 "Whether to check for new messages when Evolution is started. This includes "
 "also sending messages from Outbox."
 msgstr ""
-"Indica se cal verificar la présence de novèls messatges lorsqu'Evolution "
-"démarre. Aquò significa également lo mandadís dels messatges de la bóstia de "
+"Indica se cal verificar la preséncia de novèls messatges quand Evolution "
+"s'avia. Aquò significa tanben lo mandadís dels messatges de la bóstia de "
 "mandadís."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:216
@@ -10263,27 +10263,27 @@ msgid ""
 "account \"Check for new messages every X minutes\" option when Evolution is "
 "started. This option is used only together with 'send_recv_on_start' option."
 msgstr ""
-"Indica se cal verificar la présence de novèls messatges dins totes los "
-"comptes actius indépendamment de l'option « Verificar los novèls messatges "
-"toutes les » lorsqu'Evolution démarre. Aquesta opcion pòt pas èsser "
-"utilizada que conjuntament a l'option « send_recv_on_start »."
+"Indica se cal verificar la preséncia de novèls messatges dins totes los "
+"comptes actius independentament de l'opcion « Verificar los novèls messatges "
+"totas las » quand Evolution s'avia. Aquesta opcion pòt pas èsser utilizada "
+"que conjuntament amb l'opcion « send_recv_on_start »."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:218
 msgid "Server synchronization interval"
-msgstr "Délai de sincronizacion amb lo servidor"
+msgstr "Relambi de sincronizacion amb lo servidor"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:219
 msgid ""
 "Controls how frequently local changes are synchronized with the remote mail "
 "server. The interval must be at least 30 seconds."
 msgstr ""
-"Vérifie a quelle fréquence las modificacions locales son sincronizadas amb "
-"le servidor de messatjariá distant. Lo délai deu èsser d'au moins 30 "
+"Verifica a quina frequéncia las modificacions localas son sincronizadas amb "
+"lo servidor de messatjariá distant. Lo relambi deu èsser d'al mens 30 "
 "segondas."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:220
 msgid "Allow expunge in virtual folders"
-msgstr "Permetre lo netejatge des dorsièrs virtuels"
+msgstr "Permetre lo netejatge dels dorsièrs virtuals"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:221
 msgid ""
