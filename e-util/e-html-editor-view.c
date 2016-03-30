@@ -1381,6 +1381,17 @@ repair_gmail_blockquotes (WebKitDOMDocument *document)
 	g_object_unref (list);
 }
 
+static void
+remove_thunderbird_signature (WebKitDOMDocument *document)
+{
+	WebKitDOMElement *signature;
+
+	signature = webkit_dom_document_query_selector (
+		document, "pre.moz-signature", NULL);
+	if (signature)
+		remove_node (WEBKIT_DOM_NODE (signature));
+}
+
 /* Based on original use_pictograms() from GtkHTML */
 static const gchar *emoticons_chars =
 	/*  0 */ "DO)(|/PQ*!"
@@ -8305,6 +8316,7 @@ html_editor_convert_view_content (EHTMLEditorView *view,
 	g_object_unref (list);
 
 	repair_gmail_blockquotes (document);
+	remove_thunderbird_signature (document);
 	create_text_markers_for_citations_in_element (WEBKIT_DOM_ELEMENT (body));
 
 	if (preferred_text && *preferred_text)
@@ -11053,6 +11065,7 @@ html_editor_view_load_status_changed (EHTMLEditorView *view)
 	put_body_in_citation (document);
 	move_elements_to_body (view);
 	repair_gmail_blockquotes (document);
+	remove_thunderbird_signature (document);
 
 	if (webkit_dom_element_has_attribute (WEBKIT_DOM_ELEMENT (body), "data-evo-draft")) {
 		/* Restore the selection how it was when the draft was saved */
