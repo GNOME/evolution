@@ -2901,17 +2901,19 @@ format_change_list_to_list (EHTMLEditorSelection *selection,
 	prev = get_list_format_from_node (prev_list);
 	next = get_list_format_from_node (next_list);
 
-	if (format == prev && format != -1 && prev != -1) {
-		if (selection_starts_in_first_child && selection_ends_in_last_child) {
-			done = TRUE;
-			merge_list_into_list (current_list, prev_list, FALSE);
+	if (format != E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_NONE) {
+		if (format == prev && prev != E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_NONE) {
+			if (selection_starts_in_first_child && selection_ends_in_last_child) {
+				done = TRUE;
+				merge_list_into_list (current_list, prev_list, FALSE);
+			}
 		}
-	}
 
-	if (format == next && format != -1 && next != -1) {
-		if (selection_starts_in_first_child && selection_ends_in_last_child) {
-			done = TRUE;
-			merge_list_into_list (next_list, prev_list, FALSE);
+		if (format == next && next != E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_NONE) {
+			if (selection_starts_in_first_child && selection_ends_in_last_child) {
+				done = TRUE;
+				merge_list_into_list (next_list, prev_list, FALSE);
+			}
 		}
 	}
 

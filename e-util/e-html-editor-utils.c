@@ -488,7 +488,7 @@ get_list_format_from_node (WebKitDOMNode *node)
 		E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_UNORDERED_LIST;
 
 	if (WEBKIT_DOM_IS_HTMLLI_ELEMENT (node))
-		return -1;
+		return E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_NONE;
 
 	if (WEBKIT_DOM_IS_HTMLU_LIST_ELEMENT (node))
 		return format;
@@ -511,7 +511,7 @@ get_list_format_from_node (WebKitDOMNode *node)
 		return format;
 	}
 
-	return -1;
+	return E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_NONE;
 }
 
 void
@@ -552,11 +552,13 @@ merge_lists_if_possible (WebKitDOMNode *list)
 	prev = get_list_format_from_node (prev_sibling);
 	next = get_list_format_from_node (next_sibling);
 
-	if (format == prev && format != -1 && prev != -1)
-		merge_list_into_list (prev_sibling, list, TRUE);
+	if (format != E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_NONE) {
+		if (format == prev && prev != E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_NONE)
+			merge_list_into_list (prev_sibling, list, TRUE);
 
-	if (format == next && format != -1 && next != -1)
-		merge_list_into_list (next_sibling, list, FALSE);
+		if (format == next && next != E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_NONE)
+			merge_list_into_list (next_sibling, list, FALSE);
+	}
 
 	lists = webkit_dom_element_query_selector_all (
 		WEBKIT_DOM_ELEMENT (list), "ol + ol, ul + ul", NULL);
