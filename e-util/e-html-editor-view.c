@@ -7481,9 +7481,14 @@ parse_html_into_blocks (EHTMLEditorView *view,
 	prev_br = html;
 	next_br = strstr (prev_br, "<br>");
 
-	/* Replace single spaces on the beginning of line, 2+ spaces and
-	 * tabulators with non breaking spaces */
-	regex_nbsp = g_regex_new ("^\\s{1}|\\s{2,}|\x9|\\s$", 0, 0, NULL);
+	/* Replace the tabulators with SPAN elements that corresponds to them.
+	 * If not inserting the content into the PRE element also replace single
+	 * spaces on the beginning of line, 2+ spaces and with non breaking
+	 * spaces. */
+	if (WEBKIT_DOM_IS_HTML_PRE_ELEMENT (block_template))
+		regex_nbsp = g_regex_new ("\x9", 0, 0, NULL);
+	else
+		regex_nbsp = g_regex_new ("^\\s{1}|\\s{2,}|\x9|\\s$", 0, 0, NULL);
 
 	while (next_br) {
 		gboolean local_ignore_next_br = ignore_next_br;
