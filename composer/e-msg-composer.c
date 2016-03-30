@@ -1361,7 +1361,8 @@ composer_build_message (EMsgComposer *composer,
 			if (!selection_saved)
 				e_html_editor_selection_save (selection);
 
-			text = e_html_editor_view_get_text_html_for_drafts (view);
+			text = e_html_editor_view_get_text_html_for_drafts_with_images (
+				view, from_domain, &inline_images);
 
 			e_html_editor_view_remove_embed_styles (view);
 			e_html_editor_selection_restore (selection);
