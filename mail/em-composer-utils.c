@@ -1751,14 +1751,23 @@ em_utils_edit_message (EShell *shell,
 	gchar *override_identity_uid = NULL;
 
 	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
-	g_return_val_if_fail (CAMEL_IS_FOLDER (folder), NULL);
 	g_return_val_if_fail (CAMEL_IS_MIME_MESSAGE (message), NULL);
+	if (folder)
+		g_return_val_if_fail (CAMEL_IS_FOLDER (folder), NULL);
 
 	registry = e_shell_get_registry (shell);
-	folder_is_sent = em_utils_folder_is_sent (registry, folder);
-	folder_is_drafts = em_utils_folder_is_drafts (registry, folder);
-	folder_is_outbox = em_utils_folder_is_outbox (registry, folder);
-	folder_is_templates = em_utils_folder_is_templates (registry, folder);
+
+	if (folder) {
+		folder_is_sent = em_utils_folder_is_sent (registry, folder);
+		folder_is_drafts = em_utils_folder_is_drafts (registry, folder);
+		folder_is_outbox = em_utils_folder_is_outbox (registry, folder);
+		folder_is_templates = em_utils_folder_is_templates (registry, folder);
+	} else {
+		folder_is_sent = FALSE;
+		folder_is_drafts = FALSE;
+		folder_is_outbox = FALSE;
+		folder_is_templates = FALSE;
+	}
 
 	/* Template specific code follows. */
 	if (folder_is_templates) {
@@ -1784,12 +1793,21 @@ em_utils_edit_message (EShell *shell,
 		g_slist_free (clue_list);
 	}
 
-	if (!folder_is_sent && !folder_is_drafts && !folder_is_outbox && !folder_is_templates) {
-		CamelStore *store;
+	if (folder) {
+		if (!folder_is_sent && !folder_is_drafts && !folder_is_outbox && !folder_is_templates) {
+			CamelStore *store;
 
-		store = camel_folder_get_parent_store (folder);
-		source = em_utils_ref_mail_identity_for_store (registry, store);
+			store = camel_folder_get_parent_store (folder);
+			source = em_utils_ref_mail_identity_for_store (registry, store);
 
+			if (source) {
+				g_free (override_identity_uid);
+				override_identity_uid = e_source_dup_uid (source);
+				g_object_unref (source);
+			}
+		}
+
+		source = em_utils_check_send_account_override (shell, message, folder);
 		if (source) {
 			g_free (override_identity_uid);
 			override_identity_uid = e_source_dup_uid (source);
@@ -1797,19 +1815,12 @@ em_utils_edit_message (EShell *shell,
 		}
 	}
 
-	source = em_utils_check_send_account_override (shell, message, folder);
-	if (source) {
-		g_free (override_identity_uid);
-		override_identity_uid = e_source_dup_uid (source);
-		g_object_unref (source);
-	}
-
 	composer = e_msg_composer_new_with_message (shell, message, keep_signature, override_identity_uid, NULL);
 
 	g_free (override_identity_uid);
 
 	/* Override PostTo header only if the folder is a regular folder */
-	if (!folder_is_sent && !folder_is_drafts && !folder_is_outbox && !folder_is_templates) {
+	if (folder && !folder_is_sent && !folder_is_drafts && !folder_is_outbox && !folder_is_templates) {
 		EComposerHeaderTable *table;
 		gchar *folder_uri;
 		GList *list;
@@ -1828,7 +1839,7 @@ em_utils_edit_message (EShell *shell,
 	e_msg_composer_remove_header (
 		composer, "X-Evolution-Replace-Outbox-UID");
 
-	if (message_uid != NULL && folder_is_drafts) {
+	if (message_uid != NULL && folder_is_drafts && folder) {
 		gchar *folder_uri;
 
 		folder_uri = e_mail_folder_uri_from_folder (folder);
