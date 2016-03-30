@@ -7729,7 +7729,8 @@ e_html_editor_selection_save (EHTMLEditorSelection *selection)
 		}
 		if (!webkit_dom_node_get_previous_sibling (container)) {
 			split_node = parent_node;
-		} else if (!webkit_dom_node_get_next_sibling (container)) {
+		} else if (!webkit_dom_node_get_next_sibling (container) &&
+		           !WEBKIT_DOM_IS_HTML_BODY_ELEMENT (parent_node)) {
 			split_node = parent_node;
 			split_node = webkit_dom_node_get_next_sibling (split_node);
 		} else
