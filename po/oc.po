@@ -6,21 +6,20 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: oc\n"
-"Report-Msgid-Bugs-To: "
-"http://bugzilla.gnome.org/enter_bug.cgi?product=evince&keywords=I18N+L10N&com"
-"ponent=general\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=evince&"
+"keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2016-03-21 10:50+0000\n"
-"PO-Revision-Date: 2016-03-30 16:11+0000\n"
-"Last-Translator: Cédric VALMARY (Tot en òc) <cvalmary@yahoo.fr>\n"
+"PO-Revision-Date: 2016-03-31 20:36+0200\n"
+"Last-Translator: Cédric Valmary (totenoc.eu) <cvalmary@yahoo.fr>\n"
 "Language-Team: Tot En Òc\n"
+"Language: oc\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Launchpad-Export-Date: 2016-03-30 16:24+0000\n"
-"X-Generator: Launchpad (build 17967)\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Generator: Virtaal 0.7.1\n"
+"X-Launchpad-Export-Date: 2016-03-31 17:52+0000\n"
 "X-Project-Style: gnome\n"
-"Language: oc\n"
 "X-DamnedLies-Scope: partial\n"
 
 #: ../addressbook/addressbook.error.xml.h:1
@@ -7715,8 +7714,8 @@ msgid ""
 "Evolution quit unexpectedly while you were composing a new message. "
 "Recovering the message will allow you to continue where you left off."
 msgstr ""
-"Evolution a quitat de faiçon inesperada pendant que redigissiatz un novèl "
-"messatge. Recuparar lo messatge, vos permetrà de reprene aquí ont vos èretz "
+"Evolution a quitat de faiçon inesperada pendant que redigissiatz un messatge "
+"novèl. Recuparar lo messatge, vos permetrà de reprene aquí ont vos èretz "
 "arrestat."
 
 #: ../composer/mail-composer.error.xml.h:7
@@ -10356,36 +10355,36 @@ msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "\"show-headers\" instead."
 msgstr ""
-"Aquesta clau es estada abandonada dins la version 3.10 e ne deu plus èsser "
-"utilizada. Utilizar « show-headers » a la place."
+"Aquesta clau es estada abandonada dins la version 3.10 e deu pas mai èsser "
+"utilizada. Utilizar « show-headers » a la plaça."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:232
 msgid "(Deprecated) Load images for HTML messages over HTTP"
-msgstr "(Obsolète) Cargar los imatges pels messatges HTML en utilisant http"
+msgstr "(Obsolèt) Cargar los imatges pels messatges HTML en utilizant http"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:233
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "\"image-loading-policy\" instead."
 msgstr ""
-"Aquesta clau es estada abandonada dins la version 3.10 e ne deu plus èsser "
-"utilizada. Utilizar « image-loading-policy » a la place."
+"Aquesta clau es estada abandonada dins la version 3.10 e deu pas mai èsser "
+"utilizada. Utilizar « image-loading-policy » a la plaça."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:234
 msgid ""
 "(Deprecated) Asks whether to close the message window when the user forwards "
 "or replies to the message shown in the window"
 msgstr ""
-"(Obsolète) Demande se cal tampar la fenèstra del messatge lorsque "
-"l'utilizaire fait suivre o répond al messatge afichat dins la fenèstra"
+"(Obsolèt) Demanda se cal tampar la fenèstra del messatge quand l'utilizaire "
+"fa seguir o respond al messatge afichat dins la fenèstra"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:235
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "\"browser-close-on-reply-policy\" instead."
 msgstr ""
-"Aquesta clau es estada abandonada dins la version 3.10 e ne deu plus èsser "
-"utilizada. Utilizar « browser-close-on-reply-policy » a la place."
+"Aquesta clau es estada abandonada dins la version 3.10 e deu pas mai èsser "
+"utilizada. Utilizar « browser-close-on-reply-policy » a la plaça."
 
 #. Translators: This is the a list of words for the attach reminder plugin to look
 #. for in a message body. Please use any number of words here in your language that might
@@ -10393,24 +10392,25 @@ msgstr ""
 #: ../data/org.gnome.evolution.plugin.attachment-reminder.gschema.xml.in.h:4
 msgid "['attachment','attaching','attached','enclosed']"
 msgstr ""
-"[« pèça junta », « pèça », « jónher », « junta », « joint », « ci-joint », « "
-"ci-junta », « inclure », « inclue », « inclus », « estacat »]"
+"[« pèça junta », « pèça », « jónher », « junta », « jonch », « joncha », « "
+"junt », « çaijunt », « çaijunta », « inclure », « inclusa », « inclús », « "
+"estacat », « estacada »]"
 
 #: ../data/org.gnome.evolution.plugin.attachment-reminder.gschema.xml.in.h:5
 msgid ""
 "List of clues for the attachment reminder plugin to look for in a message "
 "body"
 msgstr ""
-"Liste d'indices que l'empeuton d'oubli des pèças juntas deu recercar dins lo "
-"còs d'un messatge"
+"Lista d'indicis que l'empeuton de doblit de las pèças juntas deu recercar "
+"dins lo còs d'un messatge"
 
 #: ../data/org.gnome.evolution.plugin.attachment-reminder.gschema.xml.in.h:6
 msgid ""
 "List of clues for the attachment reminder plugin to look for in a message "
 "body."
 msgstr ""
-"Liste d'indices que l'empeuton d'oubli des pèças juntas deu recercar dins lo "
-"còs d'un messatge."
+"Lista d'indicis que l'empeuton de doblit de las pèças juntas deu recercar "
+"dins lo còs d'un messatge."
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:1
 msgid "Address book source"
@@ -10419,7 +10419,7 @@ msgstr "Font del quasernet d'adreças"
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:2
 msgid "Address book to use for storing automatically synced contacts."
 msgstr ""
-"Quasernet d'adreças a utilizar per l'enregistrament dels contactes "
+"Quasernet d'adreças d'utilizar per l'enregistrament dels contactes "
 "sincronizats automaticament."
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:3
@@ -10433,7 +10433,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:5
 msgid "Enable autocontacts"
-msgstr "Activar les auto-contacts"
+msgstr "Activar los autocontactes"
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:6
 msgid ""
@@ -10455,12 +10455,12 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:9
 msgid "Pidgin check interval"
-msgstr "Délai entre les verificacions de Pidgin"
+msgstr "Relambi entre las verificacions de Pidgin"
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:10
 msgid "Check interval for Pidgin syncing of contacts."
 msgstr ""
-"Délai entre les verificacions per la sincronizacion Pidgin dels contactes."
+"Relambi entre las verificacions per la sincronizacion Pidgin dels contactes."
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:11
 msgid "Pidgin last sync MD5"
@@ -10476,7 +10476,7 @@ msgstr "Darrièra date de sincronizacion Pidgin"
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:14
 msgid "Pidgin last sync time."
-msgstr "Darrièra date de sincronizacion Pidgin."
+msgstr "Darrièra data de sincronizacion Pidgin."
 
 #: ../data/org.gnome.evolution.plugin.email-custom-header.gschema.xml.in.h:1
 msgid "List of Custom Headers"
@@ -10488,22 +10488,22 @@ msgid ""
 "message. The format for specifying a Header and Header value is: Name of the "
 "custom header followed by \"=\" and the values separated by \";\""
 msgstr ""
-"Aquesta clau fournit la lista des entèstas personalizats que podètz apondre "
-"à un messatge sortant. Lo format per indiquer un entèsta e sa valor es : nom "
-"de l'entèsta personalizat suivi de « = » puis las valors, séparées per des « "
-"; »"
+"Aquesta clau provesís la lista dels entèstas personalizats que podètz "
+"apondre a un messatge sortent. Lo format per indicar un entèsta e sa valor "
+"es : nom de l'entèsta personalizat seguit de « = » puèi las valors, "
+"separadas per de « ; »"
 
 #: ../data/org.gnome.evolution.plugin.external-editor.gschema.xml.in.h:1
 msgid "Default External Editor"
-msgstr "Editor externe per defaut"
+msgstr "Editor extèrne per defaut"
 
 #: ../data/org.gnome.evolution.plugin.external-editor.gschema.xml.in.h:2
 msgid "The default command that must be used as the editor."
-msgstr "La comanda a utilizar per defaut per aviar l'editor."
+msgstr "La comanda d'utilizar per defaut per aviar l'editor."
 
 #: ../data/org.gnome.evolution.plugin.external-editor.gschema.xml.in.h:3
 msgid "Automatically launch when a new mail is edited"
-msgstr "Lancer automaticament lorsqu'un nouveau corrièr electronic es édité"
+msgstr "Aviar automaticament quand un noovèl corrièr electronic es editat"
 
 #: ../data/org.gnome.evolution.plugin.external-editor.gschema.xml.in.h:4
 msgid "Automatically launch editor when key is pressed in the mail composer."
@@ -10520,9 +10520,9 @@ msgid ""
 "Whether insert Face picture to outgoing messages by default. The picture "
 "should be set before checking this, otherwise nothing happens."
 msgstr ""
-"Indica se cal inserir per defaut un imatge retrach aux messages sortants. "
-"L'imatge deu èsser definida abans d'activar aqueste paramètre, siquenon rien "
-"ne se produit."
+"Indica se cal inserir per defaut un imatge retrach als messatges sortents. "
+"L'imatge deu èsser definida abans d'activar aqueste paramètre, siquenon res "
+"se produtz pas."
 
 #: ../data/org.gnome.evolution.plugin.itip.gschema.xml.in.h:1
 msgid "Delete processed"
@@ -10530,12 +10530,12 @@ msgstr "Supression efectuada"
 
 #: ../data/org.gnome.evolution.plugin.itip.gschema.xml.in.h:2
 msgid "Whether to delete processed iTip objects"
-msgstr "Indica se cal suprimir les objèctes iTip traités"
+msgstr "Indica se cal suprimir los objèctes iTip tractats"
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:1
 msgid "Notify new messages for Inbox only."
 msgstr ""
-"Avertit unicament de novèls messatges dins la « Bóstia de recepcion »."
+"Avertís unicament de novèls messatges dins la « Bóstia de recepcion »."
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:2
 msgid "Whether to notify new messages in Inbox folder only."
@@ -10549,7 +10549,7 @@ msgstr "Activar los messatges D-Bus."
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:4
 msgid "Generates a D-Bus message when new mail messages arrive."
-msgstr "Generar un messatge D-Bus a la recepcion de novèls messatges."
+msgstr "Generar un messatge D-Bus a la recepcion de messatges novèls."
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:5
 msgid "Enable icon in notification area."
@@ -10559,21 +10559,21 @@ msgstr "Activar l'icòna dins la zòna de notificacion."
 msgid "Show new mail icon in notification area when new messages arrive."
 msgstr ""
 "Affiche l'icòna de novèl messatge dins la zòna de notificacion a la "
-"recepcion de novèls messatges."
+"recepcion de messatges novèls."
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:7
 msgid "Popup message together with the icon."
-msgstr "Messatge surgissant conjuntament a l'icòna."
+msgstr "Messatge sorgissent conjuntament a l'icòna."
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:8
 msgid "Whether show message over the icon when new messages arrive."
 msgstr ""
 "Indica se cal afichar lo messatge en dessús de l'icòna a la recepcion d'un "
-"novèl messatge."
+"messatge novèl."
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:9
 msgid "Enable audible notifications when new messages arrive."
-msgstr "Active las notificacions sonòras a la recepcion de novèls messatges."
+msgstr "Active las notificacions sonòras a la recepcion de messatges novèls."
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:10
 msgid ""
@@ -10581,8 +10581,8 @@ msgid ""
 "the \"notify-sound-beep\", \"notify-sound-file\", \"notify-sound-play-file\" "
 "and \"notify-sound-use-theme\" keys are disregarded."
 msgstr ""
-"Indica se cal emetre un son de tot type a la recepcion de nouveaux messages. "
-"Se « false », les clés « notify-sound-beep », « notify-sound-file », « "
+"Indica se cal emetre un son de tot tipe a la recepcion de messatges novèls. "
+"Se « false », las claus « notify-sound-beep », « notify-sound-file », « "
 "notify-sound-play-file » e « notify-sound-use-theme » son pas presas en "
 "compte."
 
@@ -10592,18 +10592,18 @@ msgstr "Indica se cal emetre un bip."
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:12
 msgid "Whether to emit a beep when new messages arrive."
-msgstr "Indica se cal emetre un bip a la recepcion de novèls messatges."
+msgstr "Indica se cal emetre un bip a la recepcion de messatges novèls."
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:13
 msgid "Sound filename to be played."
-msgstr "Nom del fichièr son a jouer."
+msgstr "Nom del fichièr son de jogar."
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:14
 msgid ""
 "Sound file to be played when new messages arrive, if \"notify-sound-play-"
 "file\" is \"true\"."
 msgstr ""
-"Fichièr son a jouer a la recepcion d'un novèl messatge se « notify-sound-"
+"Fichièr son de jogar a la recepcion d'un messatge novèl se « notify-sound-"
 "play-file » es « true »."
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:15
@@ -10615,22 +10615,22 @@ msgid ""
 "Whether to play a sound file when new messages arrive. The name of the sound "
 "file is given by the 'notify-sound-file' key."
 msgstr ""
-"Indica se cal emetre un son a la recepcion de novèls messatges. Lo nom du "
+"Indica se cal emetre un son a la recepcion de messatges novèls. Lo nom del "
 "fichièr son es donat per la clau « notify-sound-file »."
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:17
 msgid "Use sound theme"
-msgstr "Utilise lo thème sonore"
+msgstr "Utilise lo tèma sonòr"
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:18
 msgid "Play themed sound when new messages arrive, if not in beep mode."
 msgstr ""
-"Émet un son a thème a la recepcion d'un novèl messatge se lo mode Bip es "
+"Emet un son a tèma a la recepcion d'un messatge novèl se lo mòde Bip es "
 "inactiu."
 
 #: ../data/org.gnome.evolution.plugin.prefer-plain.gschema.xml.in.h:1
 msgid "Mode to use when displaying mails"
-msgstr "Mode a utilizar per afichar lo corrièr electronic"
+msgstr "Mòde d'utilizar per afichar lo corrièr electronic"
 
 #: ../data/org.gnome.evolution.plugin.prefer-plain.gschema.xml.in.h:2
 msgid ""
@@ -10638,10 +10638,10 @@ msgid ""
 "best part to show, \"prefer_plain\" makes it use the text part, if present, "
 "and \"only_plain\" forces Evolution to only show plain text"
 msgstr ""
-"Lo mode a utilizar per l'afichatge des corrièrs electronics. « normal » "
-"laisse Evolution choisir la meilleure partie a afichar, « prefer_plain » lo "
-"laisse utilizar la partie texte, se présente, e « only_plain » force "
-"Evolution a n'afichar que le tèxte simple"
+"Lo mòde d'utilizar per l'afichatge dels corrièrs electronics. « normal » "
+"daissa Evolution causir la melhora partida d'afichar, « prefer_plain » lo "
+"daissa utilizar la partida tèxte, se presenta, e « only_plain » fòrça "
+"Evolution a afichar pas que lo tèxte simple"
 
 #: ../data/org.gnome.evolution.plugin.prefer-plain.gschema.xml.in.h:3
 msgid "Whether to show suppressed HTML output"
@@ -10649,46 +10649,46 @@ msgstr "Indica se cal afichar la sortida HTML suprimida"
 
 #: ../data/org.gnome.evolution.plugin.publish-calendar.gschema.xml.in.h:1
 msgid "List of Destinations for publishing"
-msgstr "Lista des destinations per la publication"
+msgstr "Lista de las destinacions per la publicacion"
 
 #: ../data/org.gnome.evolution.plugin.publish-calendar.gschema.xml.in.h:2
 msgid ""
 "The key specifies the list of destinations to where publish calendars. Each "
 "values specifies an XML with setup for publishing to one destination."
 msgstr ""
-"La clau spécifie la lista des destinations per la publication des agendas. "
-"Cada valor indica las coordenadas d'una destinacion jos forma XML."
+"La clau especifica la lista de las destinacions per la publicacion dels "
+"agendas. Cada valor indica las coordenadas d'una destinacion jos forma XML."
 
 #: ../data/org.gnome.evolution.plugin.templates.gschema.xml.in.h:1
 msgid ""
 "List of keyword/value pairs for the Templates plugin to substitute in a "
 "message body."
 msgstr ""
-"Liste de paires mot clau/valor per l'empeuton Modèls en vista de lor "
-"substitution dins lo còs dels messatges."
+"Lista de paras mot clau/valor per l'empeuton Modèls en vista de lor "
+"substitucion dins lo còs dels messatges."
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:1
 msgid "Skip development warning dialog"
-msgstr "Ignorer los dialògs d'avertiment de développement"
+msgstr "Ignorar los dialògs d'avertiment de desvolopament"
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:2
 msgid ""
 "Whether the warning dialog in development versions of Evolution is skipped."
 msgstr ""
-"Indica se les fenèstras d'avertiment de la version de développement "
-"d'Evolution son ignorées."
+"Indica se las fenèstras d'avertiment de la version de desvolopament "
+"d'Evolution son ignoradas."
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:3
 msgid "Initial attachment view"
-msgstr "Afichatge initial de pèça junta"
+msgstr "Afichatge inicial de pèça junta"
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:4
 msgid ""
 "Initial view for attachment bar widgets. \"0\" is Icon View, \"1\" is List "
 "View."
 msgstr ""
-"Vue initiale per les widgets de la barra des pèças juntas. « 0 » es la vista "
-"en icònas, « 1 » es la vista en lista."
+"Vista iniciala per las widgets de la barra de las pèças juntas. « 0 » es la "
+"vista en icònas, « 1 » es la vista en lista."
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:5
 msgid "Initial file chooser folder"
@@ -10716,16 +10716,16 @@ msgstr "Camins dels dorsièrs fòra linha"
 msgid ""
 "List of paths for the folders to be synchronized to disk for offline usage."
 msgstr ""
-"Liste des camins des dorsièrs a sincronizar sul disc per l'utilizacion fòra "
-"linha."
+"Lista dels camins dels dorsièrs de sincronizar sul disc per l'utilizacion "
+"fòra linha."
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:11
 msgid "Enable express mode"
-msgstr "Activar lo mode express"
+msgstr "Activar lo mòde express"
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:12
 msgid "Flag that enables a much simplified user interface."
-msgstr "Activar una interfàcia d'utilizaire très simplificada."
+msgstr "Activar una interfàcia d'utilizaire fòrt simplificada."
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:13
 msgid "Window buttons are visible"
@@ -10733,7 +10733,7 @@ msgstr "Los botons de la fenèstra son visibles"
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:14
 msgid "Whether the window buttons should be visible."
-msgstr "Indica se la fenèstra dels botons deu èsser visible."
+msgstr "Indica se los botons de la fenèstra devon èsser visibles."
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:15
 msgid "Window button style"
@@ -10745,9 +10745,9 @@ msgid ""
 "\"toolbar\". If \"toolbar\" is set, the style of the buttons is determined "
 "by the GNOME toolbar setting."
 msgstr ""
-"Lo styles des botons de la fenèstra. Pòt èsser « text » (texte), « icons » "
-"(icònas), « both » (les deux), « toolbar » (barra d'aisinas). Se « toolbar » "
-"est choisi, l'estil des botons es défini pel paramètre GNOME de la barra "
+"Los estils dels botons de la fenèstra. Pòt èsser « text » (tèxte), « icons » "
+"(icònas), « both » (los dos), « toolbar » (barra d'aisinas). Se « toolbar » "
+"es causit, l'estil dels botons es definit pel paramètre GNOME de la barra "
 "d'aisinas."
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:17
@@ -10764,7 +10764,7 @@ msgstr "Lo panèl lateral es visible"
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:20
 msgid "Whether the sidebar should be visible."
-msgstr "Indica se lo panèl lateral deu èsser visibla."
+msgstr "Indica se lo panèl lateral deu èsser visible."
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:21
 msgid "Statusbar is visible"
@@ -10772,23 +10772,23 @@ msgstr "La barra d'estat es visibla"
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:22
 msgid "Whether the status bar should be visible."
-msgstr "Indica se la barra d'estat deu èsser visible."
+msgstr "Indica se la barra d'estat deu èsser visibla."
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:23
 msgid "ID or alias of the component to be shown by default at start-up."
-msgstr "ID o alias del component a afichar per defaut al démarrage."
+msgstr "ID o aliàs del component d'afichar per defaut a l'aviada."
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:24
 msgid "Default sidebar width"
-msgstr "Largeur per defaut del panèl lateral"
+msgstr "Largor per defaut del panèl lateral"
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:25
 msgid "The default width for the sidebar, in pixels."
-msgstr "Largeur per defaut del panèl lateral, en pixels."
+msgstr "Largor per defaut del panèl lateral, en pixèls."
 
 #: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:1
 msgid "Use only local spam tests."
-msgstr "Utilizar solament des tests de corrièrs indesirables locals."
+msgstr "Utilizar solament de tèsts de corrièrs indesirables locals."
 
 #: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:2
 msgid "Use only the local spam tests (no DNS)."
@@ -10805,9 +10805,9 @@ msgid ""
 "used, usually /usr/bin/spamassassin. The command should not contain any "
 "other arguments."
 msgstr ""
-"Camin complet de commande Spamassassin. S'il es pas défini, un camin établi "
-"al moment de la compilation es utilizat, habituellement "
-"/usr/bin/spamassassin. La comanda deu pas conténer d'autres paramètres."
+"Camin complet de commande Spamassassin. Se es pas definit, un camin establit "
+"al moment de la compilacion es utilizat, de costuma /usr/bin/spamassassin. "
+"La comanda deu pas conténer d'autres paramètres."
 
 #: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:5
 msgid "Full path command to run sa-learn"
@@ -10819,9 +10819,9 @@ msgid ""
 "used, usually /usr/bin/sa-learn. The command should not contain any other "
 "arguments."
 msgstr ""
-"Camin complet de commande Sa-learn. S'il es pas défini, un camin établi al "
-"moment de la compilation es utilizat, habituellement /usr/bin/sa-learn. La "
-"commande deu pas conténer d'autres paramètres."
+"Camin complet de comanda Sa-learn. Se es pas definit, un camin establit al "
+"moment de la compilacion es utilizat, de costuma /usr/bin/sa-learn. La "
+"comanda deu pas conténer d'autres paramètres."
 
 #: ../em-format/e-mail-formatter-attachment.c:424
 #: ../e-util/e-attachment-bar.c:101 ../e-util/e-attachment-bar.c:106
@@ -10842,7 +10842,7 @@ msgstr "Lector àudio"
 
 #: ../em-format/e-mail-formatter-audio.c:153
 msgid "Play the attachment in embedded audio player"
-msgstr "Jouer la pèça junta dins lo lector àudio intégré"
+msgstr "Jogar la pèça junta dins lo lector àudio integrat"
 
 #: ../em-format/e-mail-formatter-headers.c:102
 #: ../em-format/e-mail-part-headers.c:46 ../mail/e-mail-tag-editor.c:277
@@ -10852,22 +10852,20 @@ msgstr "De"
 
 #: ../em-format/e-mail-formatter-headers.c:128
 msgid "(no subject)"
-msgstr "(aucun objècte)"
+msgstr "(sens objècte)"
 
 #: ../em-format/e-mail-formatter-headers.c:329
 #, c-format
 msgid "This message was sent by %s on behalf of %s"
 msgstr "Aqueste messatge es estat mandat per %s pel compte de %s"
 
-# Títol de fenèstra
-# Títol de fenèstra
 #: ../em-format/e-mail-formatter-image.c:170
 msgid "Regular Image"
-msgstr "Imatge normale"
+msgstr "Imatge normal"
 
 #: ../em-format/e-mail-formatter-image.c:171
 msgid "Display part as an image"
-msgstr "Affiche la partida jos forma d'imatge"
+msgstr "Aficha la partida jos forma d'imatge"
 
 #: ../em-format/e-mail-formatter-message-rfc822.c:254
 msgid "RFC822 message"
@@ -10875,7 +10873,7 @@ msgstr "Messatge RFC822"
 
 #: ../em-format/e-mail-formatter-message-rfc822.c:255
 msgid "Format part as an RFC822 message"
-msgstr "Formate la partida coma un messatge RFC822"
+msgstr "Formata la partida coma un messatge RFC822"
 
 #: ../em-format/e-mail-formatter-print.c:53
 #: ../e-util/gal-view-instance-save-as-dialog.c:94
@@ -10887,7 +10885,7 @@ msgstr "Nom"
 #: ../em-format/e-mail-formatter-print.c:53
 #: ../e-util/e-attachment-tree-view.c:579 ../mail/message-list.etspec.h:10
 msgid "Size"
-msgstr "Taille"
+msgstr "Talha"
 
 #: ../em-format/e-mail-formatter-quote-headers.c:180
 #: ../em-format/e-mail-part-headers.c:51 ../mail/e-mail-tag-editor.c:282
@@ -10902,7 +10900,7 @@ msgstr "Objècte"
 #: ../em-format/e-mail-formatter-utils.c:343
 #: ../modules/mail/em-mailer-prefs.c:1484
 msgid "Mailer"
-msgstr "Client de messatjariá"
+msgstr "Logicial de messatjariá"
 
 #: ../em-format/e-mail-formatter-quote-text-enriched.c:94
 #: ../em-format/e-mail-formatter-text-enriched.c:102
@@ -10937,43 +10935,43 @@ msgstr "Afichar la partida jos forma de tèxte simple"
 
 #: ../em-format/e-mail-formatter-secure-button.c:51
 msgid "Unsigned"
-msgstr "Non signat"
+msgstr "Pas signat"
 
 #: ../em-format/e-mail-formatter-secure-button.c:51
 msgid ""
 "This message is not signed. There is no guarantee that this message is "
 "authentic."
 msgstr ""
-"Aqueste messatge es pas signat. Il n'y a aucune garantie qu'aqueste messatge "
-"siá authentique."
+"Aqueste messatge es pas signat. I a pas cap de garantida qu'aqueste messatge "
+"siá autentic."
 
 #: ../em-format/e-mail-formatter-secure-button.c:52
 msgid "Valid signature"
-msgstr "Signatura valide"
+msgstr "Signatura valida"
 
 #: ../em-format/e-mail-formatter-secure-button.c:52
 msgid ""
 "This message is signed and is valid meaning that it is very likely that this "
 "message is authentic."
 msgstr ""
-"Aqueste messatge es signat e valide, ce qui significa qu'aqueste messatge es "
-"vraisemblablement authentique."
+"Aqueste messatge es signat e valid, aquò significa qu'aqueste messatge es "
+"versemblablament autentic."
 
 #: ../em-format/e-mail-formatter-secure-button.c:53
 msgid "Invalid signature"
-msgstr "Signatura non valide"
+msgstr "Signatura pas valabla"
 
 #: ../em-format/e-mail-formatter-secure-button.c:53
 msgid ""
 "The signature of this message cannot be verified, it may have been altered "
 "in transit."
 msgstr ""
-"La signature d'aqueste messatge pòt pas èsser vérifiée, il se peut qu'il ait "
-"été altéré al moment de la transmission."
+"La signatura d'aqueste messatge pòt pas èsser verificada, es possible que "
+"siá estada alterada al moment de la transmission."
 
 #: ../em-format/e-mail-formatter-secure-button.c:54
 msgid "Valid signature, but cannot verify sender"
-msgstr "Signatura valide, mas impossible de verificar l'expeditor"
+msgstr "Signatura valida, mas impossible de verificar l'expeditor"
 
 #: ../em-format/e-mail-formatter-secure-button.c:54
 msgid ""
@@ -10981,34 +10979,35 @@ msgid ""
 "cannot be verified."
 msgstr ""
 "Aqueste messatge es signat amb una signatura valida, mas l'expeditor del "
-"messatge pòt pas èsser vérifié."
+"messatge pòt pas èsser verificat."
 
 #: ../em-format/e-mail-formatter-secure-button.c:55
 msgid "Signature exists, but need public key"
-msgstr "La signature existe, mas elle requiert una clau publica"
+msgstr "La signature existís, mas requesís una clau publica"
 
 #: ../em-format/e-mail-formatter-secure-button.c:55
 msgid ""
 "This message is signed with a signature, but there is no corresponding "
 "public key."
 msgstr ""
-"Aqueste messatge es signat amb una signatura dont la clau publica es absente."
+"Aqueste messatge es signat amb una signatura que la clau publica n'es "
+"absenta."
 
 #: ../em-format/e-mail-formatter-secure-button.c:62
 msgid "Unencrypted"
-msgstr "Non chifrat"
+msgstr "Pas chifrat"
 
 #: ../em-format/e-mail-formatter-secure-button.c:62
 msgid ""
 "This message is not encrypted. Its content may be viewed in transit across "
 "the Internet."
 msgstr ""
-"Aqueste messatge es pas chifrat. Son contengut peut èsser legit al moment de "
-"son passage sus Internet."
+"Aqueste messatge es pas chifrat. Son contengut pòt èsser legit al moment de "
+"son passatge sus Internet."
 
 #: ../em-format/e-mail-formatter-secure-button.c:63
 msgid "Encrypted, weak"
-msgstr "Chifrat, faiblement"
+msgstr "Chifrat, feblament"
 
 #: ../em-format/e-mail-formatter-secure-button.c:63
 msgid ""
@@ -11016,9 +11015,9 @@ msgid ""
 "difficult, but not impossible for an outsider to view the content of this "
 "message in a practical amount of time."
 msgstr ""
-"Aqueste messatge es chifrat, mas amb un algoritme de chiframent faible. Il "
-"serà difficile, mas pas impossible, per una tèrça persona de voir lo "
-"contengut de aqueste messatge dins un periòde de temps rasonable."
+"Aqueste messatge es chifrat, mas amb un algoritme de chiframent feble. Serà "
+"dificile, mas pas impossible, per una tèrça persona de veire lo contengut "
+"d'aqueste messatge dins un periòde de temps rasonable."
 
 #: ../em-format/e-mail-formatter-secure-button.c:64
 msgid "Encrypted"
@@ -11029,12 +11028,12 @@ msgid ""
 "This message is encrypted.  It would be difficult for an outsider to view "
 "the content of this message."
 msgstr ""
-"Aqueste messatge es chifrat. Il serà difficile per una tèrça persona de voir "
-"lo contengut d'aqueste messatge."
+"Aqueste messatge es chifrat. Serà dificile per una tèrça persona de veire lo "
+"contengut d'aqueste messatge."
 
 #: ../em-format/e-mail-formatter-secure-button.c:65
 msgid "Encrypted, strong"
-msgstr "Chifrat, fortement"
+msgstr "Chifrat, fòrtament"
 
 #: ../em-format/e-mail-formatter-secure-button.c:65
 msgid ""
@@ -11042,18 +11041,18 @@ msgid ""
 "very difficult for an outsider to view the content of this message in a "
 "practical amount of time."
 msgstr ""
-"Aqueste messatge es chifrat amb un algoritme de chiframent fort. Il serà "
-"vraiment difficile, per una tèrça persona, de voir lo contengut d'aqueste "
-"messatge dans un periòde de temps rasonable."
+"Aqueste messatge es chifrat amb un algoritme de chiframent fòrt. Serà "
+"vertadièrament dificile, per una tèrça persona, de veire lo contengut "
+"d'aqueste messatge dins un periòde de temps rasonable."
 
 #: ../em-format/e-mail-formatter-secure-button.c:187
 #: ../shell/shell.error.xml.h:28 ../smime/gui/smime-ui.ui.h:22
 msgid "_View Certificate"
-msgstr "_Voir lo certificat"
+msgstr "_Veire lo certificat"
 
 #: ../em-format/e-mail-formatter-secure-button.c:202
 msgid "This certificate is not viewable"
-msgstr "Aqueste certificat es pas affichable"
+msgstr "Aqueste certificat es pas afichable"
 
 #: ../em-format/e-mail-formatter-source.c:120
 msgid "Source"
@@ -11061,7 +11060,7 @@ msgstr "Font"
 
 #: ../em-format/e-mail-formatter-source.c:121
 msgid "Display source of a MIME part"
-msgstr "Afichar la font d'una partie MIME"
+msgstr "Afichar la font d'una partida MIME"
 
 #: ../em-format/e-mail-formatter-utils.c:203
 #: ../em-format/e-mail-formatter-utils.c:220
@@ -11096,12 +11095,12 @@ msgstr "S/MIME chifrat"
 #: ../modules/mail-config/e-mail-config-remote-accounts.c:194
 #: ../modules/mail-config/e-mail-config-smtp-backend.c:144
 msgid "Security"
-msgstr "Sécurité"
+msgstr "Seguretat"
 
 #: ../em-format/e-mail-parser-application-mbox.c:87
 #, c-format
 msgid "Error parsing MBOX part: %s"
-msgstr "Error durant l'analyse de la partida MBOX : %s"
+msgstr "Error pendent l'analisi de la partida MBOX : %s"
 
 #: ../em-format/e-mail-parser-application-smime.c:83
 #, c-format
@@ -11131,7 +11130,7 @@ msgstr "Puntador sul site FTP (%s)"
 #: ../em-format/e-mail-parser-message-external.c:112
 #, c-format
 msgid "Pointer to local file (%s) valid at site \"%s\""
-msgstr "Puntador sul fichièr local (%s) valide sul site « %s »"
+msgstr "Puntador sul fichièr local (%s) valid sul site « %s »"
 
 #: ../em-format/e-mail-parser-message-external.c:114
 #, c-format
@@ -11151,7 +11150,7 @@ msgstr "Puntador sus de donadas extèrnas desconegudas (type « %s »)"
 #: ../em-format/e-mail-parser-multipart-encrypted.c:66
 #: ../em-format/e-mail-parser-multipart-signed.c:83
 msgid "Could not parse MIME message. Displaying as source."
-msgstr "Impossible d'analisar lo messatge MIME. Afichar coma source."
+msgstr "Impossible d'analisar lo messatge MIME. Afichar coma font."
 
 #: ../em-format/e-mail-parser-multipart-encrypted.c:82
 msgid "Unsupported encryption type for multipart/encrypted"
@@ -11174,7 +11173,7 @@ msgstr "Respondre a"
 #: ../e-util/e-dateedit.c:575 ../mail/message-list.etspec.h:7
 #: ../modules/mail/em-mailer-prefs.c:68
 msgid "Date"
-msgstr "Date"
+msgstr "Data"
 
 #: ../em-format/e-mail-part-headers.c:53 ../modules/mail/em-mailer-prefs.c:69
 msgid "Newsgroups"
@@ -11183,7 +11182,7 @@ msgstr "Gropes de discussion"
 #: ../em-format/e-mail-part-headers.c:54 ../modules/mail/em-mailer-prefs.c:70
 #: ../plugins/face/org-gnome-face.eplug.xml.h:1
 msgid "Face"
-msgstr "Portrait"
+msgstr "Retrach"
 
 #: ../em-format/e-mail-part-utils.c:544
 #, c-format
@@ -11197,11 +11196,11 @@ msgstr "%d %B %Y"
 #: ../e-util/ea-calendar-item.c:326
 #, c-format
 msgid "Calendar: from %s to %s"
-msgstr "Agenda : del %s al %s"
+msgstr "Calendièr : del %s al %s"
 
 #: ../e-util/ea-calendar-item.c:363
 msgid "evolution calendar item"
-msgstr "element de l'agenda d'Evolution"
+msgstr "element de calendièr d'Evolution"
 
 #. Translators: This is a cancelled activity.
 #: ../e-util/e-activity.c:258
@@ -11252,15 +11251,15 @@ msgstr "Tampar aqueste messatge (Escap)"
 
 #: ../e-util/e-alert-sink.c:246
 msgid "Failed to create a thread: "
-msgstr "Fracàs de creacion d'un fil de discussion : "
+msgstr "Fracàs de creacion d'un fial de discussion : "
 
 #: ../e-util/e-attachment-bar.c:661 ../e-util/e-attachment-paned.c:735
 msgid "Icon View"
-msgstr "Vue en icònas"
+msgstr "Afichatge en icònas"
 
 #: ../e-util/e-attachment-bar.c:663 ../e-util/e-attachment-paned.c:737
 msgid "List View"
-msgstr "Vue en lista"
+msgstr "Afichatge en lista"
 
 #. To Translators: This text is set as a description of an attached
 #. * message when, for example, attaching it to a composer. When the
@@ -11272,7 +11271,7 @@ msgstr "Messatge junt"
 
 #: ../e-util/e-attachment.c:2152 ../e-util/e-attachment.c:3149
 msgid "Operation was cancelled"
-msgstr "Opération anullada."
+msgstr "L'operacion es estada anullada"
 
 #. Translators: Default attachment filename.
 #: ../e-util/e-attachment.c:2312 ../e-util/e-attachment.c:3011
@@ -11301,7 +11300,7 @@ msgstr "Impossible de cargar la pèça junta"
 #: ../e-util/e-attachment.c:2809
 #, c-format
 msgid "Could not open '%s'"
-msgstr "Impossible de dobrir « %s »"
+msgstr "Impossible de dobrir « %s »"
 
 #: ../e-util/e-attachment.c:2812
 #, c-format
@@ -11332,7 +11331,7 @@ msgstr "Nom del f_ichièr :"
 
 #: ../e-util/e-attachment-dialog.c:374
 msgid "MIME Type:"
-msgstr "Tipe MIME :"
+msgstr "Tipe MIME :"
 
 #: ../e-util/e-attachment-dialog.c:382 ../e-util/e-attachment-store.c:526
 msgid "_Suggest automatic display of attachment"
@@ -11374,7 +11373,7 @@ msgstr "_Jónher"
 
 #: ../e-util/e-attachment-store.c:538
 msgid "Archive selected directories using this format:"
-msgstr "Répertoires seleccionats d'archives utilisant ce format :"
+msgstr "Repertòris seleccionats d'archius qu'utilizan aqueste format :"
 
 #: ../e-util/e-attachment-store.c:631
 msgid "Save Attachment"
@@ -11384,15 +11383,15 @@ msgstr[1] "Enregistrar las pèças juntas"
 
 #: ../e-util/e-attachment-store.c:658
 msgid "Do _not extract files from the attachment"
-msgstr "_Ne pas extraire los fichièrs de la pèça junta"
+msgstr "_Extraire pas los fichièrs de la pèça junta"
 
 #: ../e-util/e-attachment-store.c:663
 msgid "Save extracted files _only"
-msgstr "N'enregistrar que los fichièrs e_xtraits"
+msgstr "Enregistrar pas que los fichièrs e_xtraches"
 
 #: ../e-util/e-attachment-store.c:668
 msgid "Save extracted files and the original _archive"
-msgstr "Enregistrar los fichièrs extraits e l'_archive d'origine"
+msgstr "Enregistrar los fichièrs extraches e l'_archiu d'origina"
 
 #: ../e-util/e-attachment-view.c:428
 msgid "Open With Other Application..."
@@ -11400,7 +11399,7 @@ msgstr "Dobrir amb una autra aplicacion..."
 
 #: ../e-util/e-attachment-view.c:435
 msgid "S_ave All"
-msgstr "_Tout enregistrar"
+msgstr "Enregistr_ar tot"
 
 #: ../e-util/e-attachment-view.c:442
 msgid "Sa_ve As"
@@ -11433,7 +11432,7 @@ msgstr "_Amagar"
 
 #: ../e-util/e-attachment-view.c:492
 msgid "Hid_e All"
-msgstr "Tout ma_squer"
+msgstr "Ama_gar tot"
 
 #: ../e-util/e-attachment-view.c:499
 msgid "_View Inline"
@@ -11441,25 +11440,23 @@ msgstr "_Afichar dins lo còs"
 
 #: ../e-util/e-attachment-view.c:506
 msgid "Vie_w All Inline"
-msgstr "Tout affic_her dins lo còs"
+msgstr "Afic_har tot dins lo còs"
 
 #: ../e-util/e-attachment-view.c:513
 msgid "_Zoom to 100%"
-msgstr "_Zoomer a 100%"
+msgstr "_Zoomar a 100%"
 
 #: ../e-util/e-attachment-view.c:515
 msgid "Zoom the image to its natural size"
-msgstr "Restaure la talha de l'imatge a sa valor d'origine"
+msgstr "Restablís la talha de l'imatge a sa valor d'origina"
 
 #: ../e-util/e-attachment-view.c:520
 msgid "_Zoom to window"
-msgstr "_Adapter lo zoom a la fenèstra"
+msgstr "_Adaptar lo zoom a la fenèstra"
 
 #: ../e-util/e-attachment-view.c:522
 msgid "Zoom large images to not be wider than the window width"
-msgstr ""
-"Zoomer les grandes images per qu'elle ne soient pas plus larges que la "
-"fenèstra"
+msgstr "Zoomar los grands imatges per que sián pas mai largs que la fenèstra"
 
 #: ../e-util/e-attachment-view.c:880
 #, c-format
@@ -11491,19 +11488,19 @@ msgstr "Clicatz en quichant sus Ctrl per dobrir un ligam"
 
 #: ../e-util/e-calendar.c:207
 msgid "Previous month"
-msgstr "Mes precedent"
+msgstr "Mes passat"
 
 #: ../e-util/e-calendar.c:232
 msgid "Next month"
-msgstr "Mes seguent"
+msgstr "Mes que ven"
 
 #: ../e-util/e-calendar.c:258
 msgid "Previous year"
-msgstr "Annada precedenta"
+msgstr "An passat"
 
 #: ../e-util/e-calendar.c:283
 msgid "Next year"
-msgstr "Annada suivante"
+msgstr "An que ven"
 
 #: ../e-util/e-calendar.c:307
 msgid "Month Calendar"
@@ -11525,7 +11522,7 @@ msgstr "%Y"
 #: ../e-util/e-calendar-item.c:1376
 msgctxt "CalItem"
 msgid "%B %Y"
-msgstr "%B %Y"
+msgstr "%B %Y"
 
 #: ../e-util/e-cal-source-config.c:169
 msgid "Mark as default calendar"
@@ -11541,12 +11538,12 @@ msgstr "Marcar coma lista de memos per defaut"
 
 #: ../e-util/e-cal-source-config.c:200
 msgid "Color:"
-msgstr "Color :"
+msgstr "Color :"
 
 #: ../e-util/e-cal-source-config.c:428
 msgid "Copy calendar contents locally for offline operation"
 msgstr ""
-"Copiar localament lo contengut des agendas per las operacions fòra linha"
+"Copiar localament lo contengut dels agendas per las operacions fòra linha"
 
 #: ../e-util/e-cal-source-config.c:432
 msgid "Copy task list contents locally for offline operation"
@@ -11562,11 +11559,11 @@ msgstr ""
 
 #: ../e-util/e-categories-editor.c:223
 msgid "Currently _used categories:"
-msgstr "Categorias act_uellement utilizadas :"
+msgstr "Categorias utilizadas act_ualament :"
 
 #: ../e-util/e-categories-editor.c:234
 msgid "_Available Categories:"
-msgstr "Caté_gories disponibles :"
+msgstr "Categorias _disponiblas :"
 
 #: ../e-util/e-categories-editor.c:274
 msgctxt "category"
@@ -11576,7 +11573,7 @@ msgstr "_Novèla"
 #: ../e-util/e-categories-editor.c:278
 msgctxt "category"
 msgid "_Edit"
-msgstr "É_dition"
+msgstr "_Edicion"
 
 #: ../e-util/e-categories-editor.c:282
 msgctxt "category"
@@ -11590,7 +11587,7 @@ msgstr "Icòna"
 #: ../e-util/e-category-completion.c:307
 #, c-format
 msgid "Create category \"%s\""
-msgstr "Crear la categoria « %s »"
+msgstr "Crear la categoria « %s »"
 
 #: ../e-util/e-category-editor.c:136
 msgid "Category Icon"
@@ -11598,11 +11595,11 @@ msgstr "Icòna de categoria"
 
 #: ../e-util/e-category-editor.c:140
 msgid "_No Image"
-msgstr "_Aucune image"
+msgstr "_Pas cap d'imatge"
 
 #: ../e-util/e-category-editor.c:173
 msgid "Category _Name"
-msgstr "_Nom de la categoria"
+msgstr "_Nom de categoria"
 
 #: ../e-util/e-category-editor.c:185
 msgid "Category _Icon"
@@ -11618,12 +11615,11 @@ msgid ""
 "There is already a category '%s' in the configuration. Please use another "
 "name"
 msgstr ""
-"I a ja una categoria « %s » dins la configuracion. Veuillez utilizar un "
-"autre nom"
+"I a ja una categoria « %s » dins la configuracion. Utilizatz un autre nom"
 
 #: ../e-util/e-cell-combo.c:185
 msgid "popup list"
-msgstr "liste des popups"
+msgstr "listal dels popups"
 
 #: ../e-util/e-cell-date.c:51 ../e-util/e-cell-date.c:139
 #: ../e-util/e-cell-date.c:159 ../mail/message-list.c:2034
@@ -11632,25 +11628,25 @@ msgstr "?"
 
 #: ../e-util/e-cell-date-edit.c:303
 msgid "Now"
-msgstr "Maintenant"
+msgstr "Ara"
 
 #. strftime format of a weekday and a date.
 #: ../e-util/e-cell-date-edit.c:311 ../e-util/e-datetime-format.c:208
 #: ../modules/calendar/e-cal-shell-view-actions.c:1740
 #: ../modules/itip-formatter/itip-view.c:221
 msgid "Today"
-msgstr "Aujourd'hui"
+msgstr "Uèi"
 
 #. Translators: "None" as a label of a button to unset date in a
 #. * date table cell.
 #: ../e-util/e-cell-date-edit.c:321
 msgctxt "table-date"
 msgid "None"
-msgstr "Aucune"
+msgstr "Pas cap"
 
 #: ../e-util/e-cell-date-edit.c:329 ../mail/e-mail-label-dialog.c:200
 msgid "OK"
-msgstr "Valider"
+msgstr "D'acòrdi"
 
 #: ../e-util/e-cell-date-edit.c:878
 #, c-format
@@ -11659,47 +11655,47 @@ msgstr "La data deu èsser dins lo format : %s"
 
 #: ../e-util/e-cell-percent.c:81
 msgid "The percent value must be between 0 and 100, inclusive"
-msgstr "Lo percentatge deu èsser compris entre 0 e 100 inclus"
+msgstr "Lo percentatge deu èsser comprés entre 0 e 100 inclús"
 
 #: ../e-util/e-charset.c:52
 msgid "Arabic"
-msgstr "Arabe"
+msgstr "Arabi"
 
 #: ../e-util/e-charset.c:53
 msgid "Baltic"
-msgstr "Balte"
+msgstr "Balt"
 
 #: ../e-util/e-charset.c:54
 msgid "Central European"
-msgstr "Euròpa centrale"
+msgstr "Euròpa centrala"
 
 #: ../e-util/e-charset.c:55
 msgid "Chinese"
-msgstr "Chinois"
+msgstr "Chinés"
 
 #: ../e-util/e-charset.c:56
 msgid "Cyrillic"
-msgstr "Cyrillique"
+msgstr "Cirillic"
 
 #: ../e-util/e-charset.c:57
 msgid "Greek"
-msgstr "Grec"
+msgstr "Grèc"
 
 #: ../e-util/e-charset.c:58
 msgid "Hebrew"
-msgstr "Hébreu"
+msgstr "Ebrieu"
 
 #: ../e-util/e-charset.c:59
 msgid "Japanese"
-msgstr "Japonais"
+msgstr "Japonés"
 
 #: ../e-util/e-charset.c:60
 msgid "Korean"
-msgstr "Coréen"
+msgstr "Corean"
 
 #: ../e-util/e-charset.c:61
 msgid "Thai"
-msgstr "Thaï"
+msgstr "Tai"
 
 #: ../e-util/e-charset.c:62
 msgid "Turkish"
@@ -11711,16 +11707,16 @@ msgstr "Unicode"
 
 #: ../e-util/e-charset.c:64
 msgid "Western European"
-msgstr "Européen de l'ouest"
+msgstr "Europèu de l'oèst"
 
 #: ../e-util/e-charset.c:65
 msgid "Western European, New"
-msgstr "Européen de l'ouest, Novèl"
+msgstr "Europèu de l'oèst, Novèl"
 
 #. Translators: Character set "Chinese, Traditional"
 #: ../e-util/e-charset.c:84 ../e-util/e-charset.c:86 ../e-util/e-charset.c:88
 msgid "Traditional"
-msgstr "Traditionnel"
+msgstr "Tradicional"
 
 #. Translators: Character set "Chinese, Simplified"
 #: ../e-util/e-charset.c:90 ../e-util/e-charset.c:92 ../e-util/e-charset.c:94
@@ -11731,20 +11727,20 @@ msgstr "Simplificat"
 #. Translators: Character set "Cyrillic, Ukrainian"
 #: ../e-util/e-charset.c:100
 msgid "Ukrainian"
-msgstr "Ukrainien"
+msgstr "Urcraïnian"
 
 #. Translators: Character set "Hebrew, Visual"
 #: ../e-util/e-charset.c:104
 msgid "Visual"
-msgstr "Visuel"
+msgstr "Visual"
 
 #: ../e-util/e-charset-combo-box.c:99
 msgid "Character Encoding"
-msgstr "Codage des caractèrs"
+msgstr "Encodatge dels caractèrs"
 
 #: ../e-util/e-charset-combo-box.c:119
 msgid "Enter the character set to use"
-msgstr "Sasissètz lo jòc de caractèrs a utilizar"
+msgstr "Sasissètz lo jòc de caractèrs d'utilizar"
 
 #: ../e-util/e-charset-combo-box.c:365
 msgid "Other..."
@@ -11758,39 +11754,39 @@ msgstr ""
 
 #: ../e-util/e-color-chooser-widget.c:124
 msgid "Choose custom color"
-msgstr "Choisir una color personalizada"
+msgstr "Causir una color personalizada"
 
 #: ../e-util/e-color-combo.c:81
 msgid "black"
-msgstr "noir"
+msgstr "negre"
 
 #: ../e-util/e-color-combo.c:82
 msgid "light brown"
-msgstr "brun clair"
+msgstr "marron clar"
 
 #: ../e-util/e-color-combo.c:83
 msgid "brown gold"
-msgstr "brun doré"
+msgstr "marron daurat"
 
 #: ../e-util/e-color-combo.c:84
 msgid "dark green #2"
-msgstr "vert foncé n° 2"
+msgstr "verd escur n°2"
 
 #: ../e-util/e-color-combo.c:85
 msgid "navy"
-msgstr "bleu marine"
+msgstr "blau marina"
 
 #: ../e-util/e-color-combo.c:86
 msgid "dark blue"
-msgstr "bleu foncé"
+msgstr "blau escur"
 
 #: ../e-util/e-color-combo.c:87
 msgid "purple #2"
-msgstr "violet n° 2"
+msgstr "violet n°2"
 
 #: ../e-util/e-color-combo.c:88
 msgid "very dark gray"
-msgstr "gris très foncé"
+msgstr "gris fòrça escur"
 
 #: ../e-util/e-color-combo.c:90
 msgid "dark red"
@@ -11798,39 +11794,39 @@ msgstr "rouge foncé"
 
 #: ../e-util/e-color-combo.c:91
 msgid "red-orange"
-msgstr "rouge-orange"
+msgstr "roge iranjat"
 
 #: ../e-util/e-color-combo.c:92
 msgid "gold"
-msgstr "doré"
+msgstr "aur"
 
 #: ../e-util/e-color-combo.c:93
 msgid "dark green"
-msgstr "vert foncé"
+msgstr "verd escur"
 
 #: ../e-util/e-color-combo.c:94
 msgid "dull blue"
-msgstr "bleu sombre"
+msgstr "blau escur"
 
 #: ../e-util/e-color-combo.c:95
 msgid "blue"
-msgstr "bleu"
+msgstr "blau"
 
 #: ../e-util/e-color-combo.c:96
 msgid "dull purple"
-msgstr "violet sombre"
+msgstr "violet escur"
 
 #: ../e-util/e-color-combo.c:97
 msgid "dark grey"
-msgstr "gris foncé"
+msgstr "gris escur"
 
 #: ../e-util/e-color-combo.c:99
 msgid "red"
-msgstr "rouge"
+msgstr "roge"
 
 #: ../e-util/e-color-combo.c:100
 msgid "orange"
-msgstr "orange"
+msgstr "irange"
 
 #: ../e-util/e-color-combo.c:101
 msgid "lime"
@@ -11838,15 +11834,15 @@ msgstr "citron"
 
 #: ../e-util/e-color-combo.c:102
 msgid "dull green"
-msgstr "vert sombre"
+msgstr "verd escur"
 
 #: ../e-util/e-color-combo.c:103
 msgid "dull blue #2"
-msgstr "bleu sombre n° 2"
+msgstr "blau escur n°2"
 
 #: ../e-util/e-color-combo.c:104
 msgid "sky blue #2"
-msgstr "bleu ciel n° 2"
+msgstr "blau cèl n°2"
 
 #: ../e-util/e-color-combo.c:105
 msgid "purple"
@@ -11862,7 +11858,7 @@ msgstr "magenta"
 
 #: ../e-util/e-color-combo.c:109
 msgid "bright orange"
-msgstr "orange vif"
+msgstr "irange viu"
 
 #: ../e-util/e-color-combo.c:110
 msgid "yellow"
@@ -11870,51 +11866,51 @@ msgstr "jaune"
 
 #: ../e-util/e-color-combo.c:111
 msgid "green"
-msgstr "vert"
+msgstr "verd"
 
 #: ../e-util/e-color-combo.c:112
 msgid "cyan"
-msgstr "cyan"
+msgstr "cian"
 
 #: ../e-util/e-color-combo.c:113
 msgid "bright blue"
-msgstr "bleu vif"
+msgstr "blau viu"
 
 #: ../e-util/e-color-combo.c:114
 msgid "red purple"
-msgstr "violet rouge"
+msgstr "roge violet"
 
 #: ../e-util/e-color-combo.c:115
 msgid "light grey"
-msgstr "gris clair"
+msgstr "gris clar"
 
 #: ../e-util/e-color-combo.c:117
 msgid "pink"
-msgstr "rose"
+msgstr "ròse"
 
 #: ../e-util/e-color-combo.c:118
 msgid "light orange"
-msgstr "orange clair"
+msgstr "irange clar"
 
 #: ../e-util/e-color-combo.c:119
 msgid "light yellow"
-msgstr "jaune clair"
+msgstr "jaune clar"
 
 #: ../e-util/e-color-combo.c:120
 msgid "light green"
-msgstr "vert clair"
+msgstr "verd clar"
 
 #: ../e-util/e-color-combo.c:121
 msgid "light cyan"
-msgstr "cyan clair"
+msgstr "cian clar"
 
 #: ../e-util/e-color-combo.c:122
 msgid "light blue"
-msgstr "bleu clair"
+msgstr "blau clar"
 
 #: ../e-util/e-color-combo.c:123
 msgid "light purple"
-msgstr "violet clair"
+msgstr "violet clar"
 
 #: ../e-util/e-color-combo.c:124
 msgid "white"
@@ -11933,7 +11929,7 @@ msgstr "Data e ora"
 
 #: ../e-util/e-dateedit.c:551
 msgid "Text entry to input date"
-msgstr "Zone de sasida per fixer la date"
+msgstr "Zòna de sasida per fixar la data"
 
 #: ../e-util/e-dateedit.c:574
 msgid "Click this button to show a calendar"
@@ -11941,7 +11937,7 @@ msgstr "Clicatz sus aqueste boton per afichar un agenda"
 
 #: ../e-util/e-dateedit.c:628
 msgid "Drop-down combination box to select time"
-msgstr "Zone de liste déroulante de seleccion de la date"
+msgstr "Zòna de lista desenrotlanta de seleccion de la data"
 
 #: ../e-util/e-dateedit.c:629 ../modules/calendar/e-calendar-preferences.ui.h:9
 msgid "Time"
@@ -11949,41 +11945,41 @@ msgstr "Ora"
 
 #: ../e-util/e-dateedit.c:703
 msgid "No_w"
-msgstr "_Maintenant"
+msgstr "Ar_a"
 
 #: ../e-util/e-dateedit.c:710
 msgid "_Today"
-msgstr "A_ujourd'hui"
+msgstr "_Uèi"
 
 #. Note that we don't show this here, since by default a 'None' date
 #. * is not permitted.
 #: ../e-util/e-dateedit.c:719
 msgid "_None"
-msgstr "_Aucune"
+msgstr "_Pas cap"
 
 #. Translators: "None" for date field of a date edit, shown when
 #. * there is no date set.
 #: ../e-util/e-dateedit.c:1841 ../e-util/e-dateedit.c:2089
 msgctxt "date"
 msgid "None"
-msgstr "Aucune"
+msgstr "Pas cap"
 
 #: ../e-util/e-dateedit.c:1981
 msgid "Invalid Date Value"
-msgstr "Data non valide"
+msgstr "Data invalida"
 
 #: ../e-util/e-dateedit.c:2026
 msgid "Invalid Time Value"
-msgstr "Ora non valide"
+msgstr "Ora invalida"
 
 #. strftime format of a weekday and a date.
 #: ../e-util/e-datetime-format.c:219 ../modules/itip-formatter/itip-view.c:249
 msgid "Tomorrow"
-msgstr "Demain"
+msgstr "Deman"
 
 #: ../e-util/e-datetime-format.c:221
 msgid "Yesterday"
-msgstr "Hier"
+msgstr "Ièr"
 
 #. Translators: This is used for abbreviated days in the future.
 #. *         You can use strftime modifiers here too, like "Next %a", to avoid
@@ -11991,7 +11987,7 @@ msgstr "Hier"
 #: ../e-util/e-datetime-format.c:229
 msgctxt "DateFmt"
 msgid "Next Mon"
-msgstr "Lun. prochain"
+msgstr "Dil. que ven"
 
 #. Translators: This is used for abbreviated days in the future.
 #. *         You can use strftime modifiers here too, like "Next %a", to avoid
@@ -11999,7 +11995,7 @@ msgstr "Lun. prochain"
 #: ../e-util/e-datetime-format.c:235
 msgctxt "DateFmt"
 msgid "Next Tue"
-msgstr "Mar. prochain"
+msgstr "Dima. que ven"
 
 #. Translators: This is used for abbreviated days in the future.
 #. *         You can use strftime modifiers here too, like "Next %a", to avoid
@@ -12007,7 +12003,7 @@ msgstr "Mar. prochain"
 #: ../e-util/e-datetime-format.c:241
 msgctxt "DateFmt"
 msgid "Next Wed"
-msgstr "Mer. prochain"
+msgstr "Dimè. que ven"
 
 #. Translators: This is used for abbreviated days in the future.
 #. *         You can use strftime modifiers here too, like "Next %a", to avoid
@@ -12015,7 +12011,7 @@ msgstr "Mer. prochain"
 #: ../e-util/e-datetime-format.c:247
 msgctxt "DateFmt"
 msgid "Next Thu"
-msgstr "Jeu. prochain"
+msgstr "Dij. que ven"
 
 #. Translators: This is used for abbreviated days in the future.
 #. *         You can use strftime modifiers here too, like "Next %a", to avoid
@@ -12023,7 +12019,7 @@ msgstr "Jeu. prochain"
 #: ../e-util/e-datetime-format.c:253
 msgctxt "DateFmt"
 msgid "Next Fri"
-msgstr "Ven. prochain"
+msgstr "Div. que ven"
 
 #. Translators: This is used for abbreviated days in the future.
 #. *         You can use strftime modifiers here too, like "Next %a", to avoid
@@ -12031,7 +12027,7 @@ msgstr "Ven. prochain"
 #: ../e-util/e-datetime-format.c:259
 msgctxt "DateFmt"
 msgid "Next Sat"
-msgstr "Sam. prochain"
+msgstr "Diss. que ven"
 
 #. Translators: This is used for abbreviated days in the future.
 #. *         You can use strftime modifiers here too, like "Next %a", to avoid
@@ -12039,7 +12035,7 @@ msgstr "Sam. prochain"
 #: ../e-util/e-datetime-format.c:265
 msgctxt "DateFmt"
 msgid "Next Sun"
-msgstr "Dim. prochain"
+msgstr "Dimg. que ven"
 
 #: ../e-util/e-datetime-format.c:351 ../e-util/e-datetime-format.c:361
 #: ../e-util/e-datetime-format.c:370
@@ -12048,12 +12044,12 @@ msgstr "Utilizar los reglatges locals per defaut"
 
 #: ../e-util/e-datetime-format.c:575
 msgid "Format:"
-msgstr "Format :"
+msgstr "Format :"
 
 #. Translators: :-)
 #: ../e-util/e-emoticon-chooser.c:40
 msgid "_Smile"
-msgstr "So_uriant"
+msgstr "_Sorisent"
 
 #. Translators: :-(
 #: ../e-util/e-emoticon-chooser.c:42
@@ -12063,12 +12059,12 @@ msgstr "_Triste"
 #. Translators: ;-)
 #: ../e-util/e-emoticon-chooser.c:44
 msgid "_Wink"
-msgstr "_Clin d'œil"
+msgstr "_Clucada"
 
 #. Translators: :-P
 #: ../e-util/e-emoticon-chooser.c:46
 msgid "Ton_gue"
-msgstr "Tirer la _langue"
+msgstr "Tirar la _lenga"
 
 #. Translators: :-))
 #: ../e-util/e-emoticon-chooser.c:48
@@ -12083,77 +12079,77 @@ msgstr "_Indiferent"
 #. Translators: :-!
 #: ../e-util/e-emoticon-chooser.c:52
 msgid "Smi_rk"
-msgstr "Sourire _bête"
+msgstr "So_rire trufandièr"
 
 #. Translators: :"-)
 #: ../e-util/e-emoticon-chooser.c:54
 msgid "_Embarrassed"
-msgstr "_Embarrassé"
+msgstr "_Embarrassat"
 
 #. Translators: :-D
 #: ../e-util/e-emoticon-chooser.c:56
 msgid "_Big Smile"
-msgstr "_Grand sourire"
+msgstr "Gra_nd sorire"
 
 #. Translators: :-/
 #: ../e-util/e-emoticon-chooser.c:58
 msgid "Uncer_tain"
-msgstr "Co_nsterné"
+msgstr "Const_ernat"
 
 #. Translators: :-O
 #: ../e-util/e-emoticon-chooser.c:60
 msgid "S_urprise"
-msgstr "S_urpris"
+msgstr "S_usprés"
 
 #. Translators: :-S
 #: ../e-util/e-emoticon-chooser.c:62
 msgid "W_orried"
-msgstr "_Désolé"
+msgstr "Conf_ús"
 
 #. Translators: :-*
 #: ../e-util/e-emoticon-chooser.c:64
 msgid "_Kiss"
-msgstr "B_isou"
+msgstr "_Poton"
 
 #. Translators: X-(
 #: ../e-util/e-emoticon-chooser.c:66
 msgid "A_ngry"
-msgstr "En c_olère"
+msgstr "En c_olèra"
 
 #. Translators: B-)
 #: ../e-util/e-emoticon-chooser.c:68
 msgid "_Cool"
-msgstr "Cal_me"
+msgstr "Cal_m"
 
 #. Translators: O:-)
 #: ../e-util/e-emoticon-chooser.c:70
 msgid "Ange_l"
-msgstr "A_ngélique"
+msgstr "A_ngelic"
 
 #. Translators: :'(
 #: ../e-util/e-emoticon-chooser.c:72
 msgid "Cr_ying"
-msgstr "Pl_eurant"
+msgstr "_Plorant"
 
 #. Translators: :-Q
 #: ../e-util/e-emoticon-chooser.c:74
 msgid "S_ick"
-msgstr "M_alade"
+msgstr "_Malaut"
 
 #. Translators: |-)
 #: ../e-util/e-emoticon-chooser.c:76
 msgid "Tire_d"
-msgstr "_Fatigué"
+msgstr "A_lassat"
 
 #. Translators: >:-)
 #: ../e-util/e-emoticon-chooser.c:78
 msgid "De_vilish"
-msgstr "Diaboli_que"
+msgstr "_Diabolic"
 
 #. Translators: :-(|)
 #: ../e-util/e-emoticon-chooser.c:80
 msgid "_Monkey"
-msgstr "_Singe"
+msgstr "Mona_rd"
 
 #: ../e-util/e-file-utils.c:120
 msgid "(Unknown Filename)"
@@ -12163,14 +12159,14 @@ msgstr "(nom de fichièr desconegut)"
 #: ../e-util/e-file-utils.c:124
 #, c-format
 msgid "Writing \"%s\""
-msgstr "Écriture de « %s »"
+msgstr "Escritura de « %s »"
 
 #. Translators: The first string value is the basename of a
 #. * remote file, the second string value is the hostname.
 #: ../e-util/e-file-utils.c:129
 #, c-format
 msgid "Writing \"%s\" to %s"
-msgstr "Écriture de « %s » cap a %s"
+msgstr "Escritura de « %s » cap a %s"
 
 #. Don't delete this code, since it is needed so that xgettext can extract the translations.
 #. * Please, keep these strings in sync with the strings in the timespans array
@@ -12192,15 +12188,15 @@ msgstr[1] "Dins %d segondas"
 #, c-format
 msgid "1 minute ago"
 msgid_plural "%d minutes ago"
-msgstr[0] "I a una minute"
-msgstr[1] "I a %d minutes"
+msgstr[0] "I a una minuta"
+msgstr[1] "I a %d minutas"
 
 #: ../e-util/e-filter-datespec.c:69
 #, c-format
 msgid "1 minute in the future"
 msgid_plural "%d minutes in the future"
-msgstr[0] "Dins 1 minute"
-msgstr[1] "Dins %d minutes"
+msgstr[0] "Dins 1 minuta"
+msgstr[1] "Dins %d minutas"
 
 #: ../e-util/e-filter-datespec.c:70
 #, c-format
@@ -12248,15 +12244,15 @@ msgstr[1] "Dins %d setmanas"
 #, c-format
 msgid "1 month ago"
 msgid_plural "%d months ago"
-msgstr[0] "I a 1 mois"
-msgstr[1] "I a %d mois"
+msgstr[0] "I a 1 mes"
+msgstr[1] "I a %d meses"
 
 #: ../e-util/e-filter-datespec.c:77
 #, c-format
 msgid "1 month in the future"
 msgid_plural "%d months in the future"
-msgstr[0] "Dins 1 mois"
-msgstr[1] "Dins %d mois"
+msgstr[0] "Dins 1 mes"
+msgstr[1] "Dins %d meses"
 
 #: ../e-util/e-filter-datespec.c:78
 #, c-format
@@ -12284,15 +12280,15 @@ msgstr "ara"
 #. strftime for date filter display, only needs to show a day date (i.e. no time)
 #: ../e-util/e-filter-datespec.c:139
 msgid "%d-%b-%Y"
-msgstr "%d-%b-%Y"
+msgstr "%d/%b/%Y"
 
 #: ../e-util/e-filter-datespec.c:288
 msgid "Select a time to compare against"
-msgstr "Seleccionatz una ora per la comparaison"
+msgstr "Seleccionatz una ora per la comparason"
 
 #: ../e-util/e-filter-file.c:186
 msgid "Choose a File"
-msgstr "Choisir un fichièr"
+msgstr "Causir un fichièr"
 
 #: ../e-util/e-filter-rule.c:761
 msgid "R_ule name:"
@@ -12300,19 +12296,19 @@ msgstr "Nom de la _règla :"
 
 #: ../e-util/e-filter-rule.c:811
 msgid "all the following conditions"
-msgstr "toutes les conditions suivantes"
+msgstr "totas las condicions seguentas"
 
 #: ../e-util/e-filter-rule.c:812
 msgid "any of the following conditions"
-msgstr "l'une des conditions suivantes"
+msgstr "una de las condicions seguentas"
 
 #: ../e-util/e-filter-rule.c:818
 msgid "_Find items which match:"
-msgstr "_Recercar les elements qui correspondent a :"
+msgstr "_Recercar los elements que correspondon a :"
 
 #: ../e-util/e-filter-rule.c:841
 msgid "Find items that meet the following conditions"
-msgstr "Recercar les elements qui remplissent les conditions suivantes"
+msgstr "Recercar los elements qu'emplenon las condicions seguentas"
 
 #. Translators: "None" for not including threads;
 #. * part of "Include threads: None"
@@ -12329,7 +12325,7 @@ msgstr "Pas cap"
 
 #: ../e-util/e-filter-rule.c:857
 msgid "All related"
-msgstr "Totes ceux relatifs"
+msgstr "Totes los que son relatius"
 
 #: ../e-util/e-filter-rule.c:858 ../e-util/e-send-options.ui.h:19
 msgid "Replies"
@@ -12349,7 +12345,7 @@ msgstr "I_nclure los fials de discussion :"
 
 #: ../e-util/e-filter-rule.c:942
 msgid "A_dd Condition"
-msgstr "Apondre una condi_tion"
+msgstr "Apondre una condi_cion"
 
 #: ../e-util/e-filter-rule.c:1256 ../e-util/filter.ui.h:1
 #: ../mail/em-utils.c:165
@@ -12358,15 +12354,15 @@ msgstr "Entrant"
 
 #: ../e-util/e-filter-rule.c:1256 ../mail/em-utils.c:166
 msgid "Outgoing"
-msgstr "Sortant"
+msgstr "Sortent"
 
 #: ../e-util/e-html-editor-actions.c:58
 msgid "Failed to insert HTML file."
-msgstr "Fracàs d'insertion d'un fichièr HTML."
+msgstr "Fracàs d'insercion d'un fichièr HTML."
 
 #: ../e-util/e-html-editor-actions.c:95
 msgid "Failed to insert text file."
-msgstr "Fracàs d'insertion d'un fichièr texte."
+msgstr "Fracàs d'insercion d'un fichièr tèxte."
 
 #: ../e-util/e-html-editor-actions.c:591
 msgid "Insert HTML File"
@@ -12404,7 +12400,7 @@ msgstr "Pega lo tèxte dempuèi lo quichapapièrs"
 
 #: ../e-util/e-html-editor-actions.c:1099
 msgid "Redo the last undone action"
-msgstr "Rétablit la darrièra accion anullada"
+msgstr "Restablís la darrièra accion anullada"
 
 #  Verificar lo contèxte
 #: ../e-util/e-html-editor-actions.c:1113
@@ -12417,12 +12413,12 @@ msgstr "For_mat"
 
 #: ../e-util/e-html-editor-actions.c:1141
 msgid "_Paragraph Style"
-msgstr "_Style de paragraphe"
+msgstr "Estil de _paragraf"
 
 #: ../e-util/e-html-editor-actions.c:1155
 #: ../e-util/e-html-editor-image-dialog.c:635
 msgid "_Alignment"
-msgstr "A_linhament"
+msgstr "_Alinhament"
 
 #: ../e-util/e-html-editor-actions.c:1162
 msgid "Current _Languages"
@@ -12434,7 +12430,7 @@ msgstr "Aumentar l'_indentacion"
 
 #: ../e-util/e-html-editor-actions.c:1181
 msgid "Increase Indent"
-msgstr "Augmente l'indentacion"
+msgstr "Augmenta l'indentacion"
 
 #: ../e-util/e-html-editor-actions.c:1186
 msgid "_HTML File..."
@@ -12442,11 +12438,11 @@ msgstr "Fichièr _HTML..."
 
 #: ../e-util/e-html-editor-actions.c:1193
 msgid "Te_xt File..."
-msgstr "Fichièr te_xte..."
+msgstr "Fichièr tè_xte..."
 
 #: ../e-util/e-html-editor-actions.c:1200
 msgid "Paste _Quotation"
-msgstr "Pegar la _citation"
+msgstr "Pegar la _citacion"
 
 #: ../e-util/e-html-editor-actions.c:1207
 msgid "_Find..."
@@ -12458,19 +12454,19 @@ msgstr "Recèrca de tèxte"
 
 #: ../e-util/e-html-editor-actions.c:1214
 msgid "Find A_gain"
-msgstr "Resultat sui_vant"
+msgstr "Recercar  tor_narmai"
 
 #: ../e-util/e-html-editor-actions.c:1221
 msgid "Re_place..."
-msgstr "Rem_placer..."
+msgstr "Rem_plaçar..."
 
 #: ../e-util/e-html-editor-actions.c:1223
 msgid "Search for and replace text"
-msgstr "Recèrca de tèxte e lo remplace"
+msgstr "Recèrca un tèxte e lo remplaça"
 
 #: ../e-util/e-html-editor-actions.c:1228
 msgid "Check _Spelling..."
-msgstr "_Correction orthographique..."
+msgstr "_Correccion ortografica..."
 
 #: ../e-util/e-html-editor-actions.c:1235
 msgid "_Decrease Indent"
@@ -12478,11 +12474,11 @@ msgstr "_Demesir l'indentacion"
 
 #: ../e-util/e-html-editor-actions.c:1237
 msgid "Decrease Indent"
-msgstr "Diminue l'indentacion"
+msgstr "Demesís l'indentacion"
 
 #: ../e-util/e-html-editor-actions.c:1242
 msgid "_Wrap Lines"
-msgstr "Ret_ours a la linha"
+msgstr "Ret_orns a la linha"
 
 #: ../e-util/e-html-editor-actions.c:1249
 msgid "Open Inspector"
@@ -12492,31 +12488,31 @@ msgstr "Dobrir l'inspector"
 #: ../e-util/e-html-editor-actions.c:1259
 #: ../e-util/e-html-editor-paragraph-dialog.c:110
 msgid "_Center"
-msgstr "_Centrer"
+msgstr "_Centrar"
 
 #: ../e-util/e-html-editor-actions.c:1261
 msgid "Center Alignment"
-msgstr "Centrer l'alinhament"
+msgstr "Alinhament centrat"
 
 #. Left
 #: ../e-util/e-html-editor-actions.c:1266
 #: ../e-util/e-html-editor-paragraph-dialog.c:101
 msgid "_Left"
-msgstr "_Gauche"
+msgstr "Es_quèrra"
 
 #: ../e-util/e-html-editor-actions.c:1268
 msgid "Left Alignment"
-msgstr "Alinhament a gauche"
+msgstr "Alinhament a esquèrra"
 
 #. Right
 #: ../e-util/e-html-editor-actions.c:1273
 #: ../e-util/e-html-editor-paragraph-dialog.c:119
 msgid "_Right"
-msgstr "D_roite"
+msgstr "_Drecha"
 
 #: ../e-util/e-html-editor-actions.c:1275
 msgid "Right Alignment"
-msgstr "Alinhament a droite"
+msgstr "Alinhament a drecha"
 
 #: ../e-util/e-html-editor-actions.c:1283
 #: ../modules/text-highlight/languages.c:72
@@ -12525,7 +12521,7 @@ msgstr "_HTML"
 
 #: ../e-util/e-html-editor-actions.c:1285
 msgid "HTML editing mode"
-msgstr "Mode d'édition HTML"
+msgstr "Mòde d'edicion HTML"
 
 #: ../e-util/e-html-editor-actions.c:1290
 msgid "Plain _Text"
@@ -12533,7 +12529,7 @@ msgstr "_Tèxte simple"
 
 #: ../e-util/e-html-editor-actions.c:1292
 msgid "Plain text editing mode"
-msgstr "Mode d'édition tèxte simple"
+msgstr "Mòde d'edicion tèxte brut"
 
 #: ../e-util/e-html-editor-actions.c:1300
 msgid "_Normal"
@@ -12565,50 +12561,50 @@ msgstr "Entèsta_6"
 
 #: ../e-util/e-html-editor-actions.c:1349
 msgid "_Preformatted"
-msgstr "_Préformaté"
+msgstr "_Preformatat"
 
 #: ../e-util/e-html-editor-actions.c:1356
 msgid "A_ddress"
-msgstr "A_dresse"
+msgstr "A_dreça"
 
 #: ../e-util/e-html-editor-actions.c:1363
 msgid "_Blockquote"
-msgstr "_Bloc de citation"
+msgstr "_Blòt de citacion"
 
 #: ../e-util/e-html-editor-actions.c:1370
 msgid "_Bulleted List"
-msgstr "_Liste a puces"
+msgstr "Lista de _piuses"
 
 #: ../e-util/e-html-editor-actions.c:1377
 msgid "_Roman Numeral List"
-msgstr "Lista a chifras _romains"
+msgstr "Lista numerotada amb chifras _romanas"
 
 #: ../e-util/e-html-editor-actions.c:1384
 msgid "Numbered _List"
-msgstr "Lista nu_mérotée"
+msgstr "Lista _numerotada"
 
 #: ../e-util/e-html-editor-actions.c:1391
 msgid "_Alphabetical List"
-msgstr "Lista _alphabétique"
+msgstr "Lista _alfabetica"
 
 #: ../e-util/e-html-editor-actions.c:1407
 #: ../e-util/e-html-editor-actions.c:1445
 msgid "_Image..."
-msgstr "_Image..."
+msgstr "_Imatge..."
 
 #. Translators: This is an action tooltip
 #: ../e-util/e-html-editor-actions.c:1410
 msgid "Insert Image"
-msgstr "Insère un imatge"
+msgstr "Inserís un imatge"
 
 #: ../e-util/e-html-editor-actions.c:1415
 #: ../e-util/e-html-editor-actions.c:1452
 msgid "_Link..."
-msgstr "_Lien..."
+msgstr "_Ligam..."
 
 #: ../e-util/e-html-editor-actions.c:1417
 msgid "Insert Link"
-msgstr "Insère un ligam"
+msgstr "Inserís un ligam"
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
 #: ../e-util/e-html-editor-actions.c:1423
@@ -12619,36 +12615,36 @@ msgstr "_Filet..."
 #. Translators: 'Rule' here means a horizontal line in an HTML text
 #: ../e-util/e-html-editor-actions.c:1426
 msgid "Insert Rule"
-msgstr "Insère una linha horizontale"
+msgstr "Inserís un filet"
 
 #: ../e-util/e-html-editor-actions.c:1431
 #: ../e-util/e-html-editor-actions.c:1474
 msgid "_Table..."
-msgstr "_Tableau..."
+msgstr "_Tablèu..."
 
 #: ../e-util/e-html-editor-actions.c:1433
 msgid "Insert Table"
-msgstr "Insère un tableau"
+msgstr "Inserís un tablèu"
 
 #: ../e-util/e-html-editor-actions.c:1438
 msgid "_Cell..."
-msgstr "_Cellule..."
+msgstr "_Cellula..."
 
 #: ../e-util/e-html-editor-actions.c:1459
 msgid "Pa_ge..."
-msgstr "Pa_ge..."
+msgstr "Pa_gina..."
 
 #: ../e-util/e-html-editor-actions.c:1483
 msgid "Font _Size"
-msgstr "Tai_lle de police"
+msgstr "_Talha de la poliça"
 
 #: ../e-util/e-html-editor-actions.c:1490
 msgid "_Font Style"
-msgstr "Estil de _police"
+msgstr "E_stil de la poliça"
 
 #: ../e-util/e-html-editor-actions.c:1497
 msgid "Paste As _Text"
-msgstr "Pegar coma _texte"
+msgstr "Pegar coma _tèxte"
 
 #: ../e-util/e-html-editor-actions.c:1508
 #: ../e-util/e-html-editor-text-dialog.c:214
@@ -12662,29 +12658,29 @@ msgstr "En gras"
 #: ../e-util/e-html-editor-actions.c:1516
 #: ../e-util/e-html-editor-text-dialog.c:225
 msgid "_Italic"
-msgstr "_Italique"
+msgstr "_Italica"
 
 #: ../e-util/e-html-editor-actions.c:1518
 msgid "Italic"
-msgstr "En italique"
+msgstr "En italica"
 
 #: ../e-util/e-html-editor-actions.c:1524
 msgid "_Plain Text"
-msgstr "Texte _simple"
+msgstr "Tèxte _simple"
 
 #: ../e-util/e-html-editor-actions.c:1532
 #: ../e-util/e-html-editor-text-dialog.c:246
 msgid "_Strikethrough"
-msgstr "_Barré"
+msgstr "_Raiat"
 
 #: ../e-util/e-html-editor-actions.c:1534
 msgid "Strikethrough"
-msgstr "Barré"
+msgstr "Raiat"
 
 #: ../e-util/e-html-editor-actions.c:1540
 #: ../e-util/e-html-editor-text-dialog.c:236
 msgid "_Underline"
-msgstr "S_ouligné"
+msgstr "_Soslinhat"
 
 #: ../e-util/e-html-editor-actions.c:1542
 msgid "Underline"
@@ -12727,7 +12723,7 @@ msgstr "+4"
 
 #: ../e-util/e-html-editor-actions.c:1619
 msgid "Cell Contents"
-msgstr "Contengut de cellule"
+msgstr "Contengut de la cellula"
 
 #: ../e-util/e-html-editor-actions.c:1626
 msgid "Column"
@@ -12735,26 +12731,26 @@ msgstr "Colomna"
 
 #: ../e-util/e-html-editor-actions.c:1633
 msgid "Row"
-msgstr "Ligne"
+msgstr "Linha"
 
 #: ../e-util/e-html-editor-actions.c:1640
 #: ../e-util/e-html-editor-actions.c:1725
 msgid "Table"
-msgstr "Tableau"
+msgstr "Tablèu"
 
 #. Translators: Popup menu item caption, containing all the Delete options for a table
 #: ../e-util/e-html-editor-actions.c:1650
 msgid "Table Delete"
-msgstr "Supression de tableau"
+msgstr "Suprimir lo tablèu"
 
 #: ../e-util/e-html-editor-actions.c:1657 ../e-util/e-text.c:2147
 msgid "Input Methods"
-msgstr "Méthodes de sasida"
+msgstr "Metòdes de sasida"
 
 #. Translators: Popup menu item caption, containing all the Insert options for a table
 #: ../e-util/e-html-editor-actions.c:1665
 msgid "Table Insert"
-msgstr "Insertion de tableau"
+msgstr "Inserir un tablèu"
 
 #: ../e-util/e-html-editor-actions.c:1672
 msgid "Properties"
@@ -12762,27 +12758,27 @@ msgstr "Proprietats"
 
 #: ../e-util/e-html-editor-actions.c:1690
 msgid "Column After"
-msgstr "Colomna après"
+msgstr "Colomna aprèp"
 
 #: ../e-util/e-html-editor-actions.c:1697
 msgid "Column Before"
-msgstr "Colomna avant"
+msgstr "Colomna abans"
 
 #: ../e-util/e-html-editor-actions.c:1704
 msgid "Insert _Link"
-msgstr "Inserir un _lien"
+msgstr "Inserir un _ligam"
 
 #: ../e-util/e-html-editor-actions.c:1711
 msgid "Row Above"
-msgstr "Ligne en dessús"
+msgstr "Linha en dessús"
 
 #: ../e-util/e-html-editor-actions.c:1718
 msgid "Row Below"
-msgstr "Ligne en dessous"
+msgstr "Linha en dejós"
 
 #: ../e-util/e-html-editor-actions.c:1732
 msgid "Cell..."
-msgstr "Cellule..."
+msgstr "Cellula..."
 
 #: ../e-util/e-html-editor-actions.c:1739
 msgid "Image..."
@@ -12790,15 +12786,15 @@ msgstr "Imatge..."
 
 #: ../e-util/e-html-editor-actions.c:1746
 msgid "Link..."
-msgstr "Lien..."
+msgstr "Ligam..."
 
 #: ../e-util/e-html-editor-actions.c:1753
 msgid "Page..."
-msgstr "Page..."
+msgstr "Pagina..."
 
 #: ../e-util/e-html-editor-actions.c:1760
 msgid "Paragraph..."
-msgstr "Paragraphe..."
+msgstr "Paragraf..."
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
 #: ../e-util/e-html-editor-actions.c:1768
@@ -12807,11 +12803,11 @@ msgstr "Filet..."
 
 #: ../e-util/e-html-editor-actions.c:1775
 msgid "Table..."
-msgstr "Tableau..."
+msgstr "Tablèu..."
 
 #: ../e-util/e-html-editor-actions.c:1782
 msgid "Text..."
-msgstr "Texte..."
+msgstr "Tèxte..."
 
 #: ../e-util/e-html-editor-actions.c:1789
 msgid "Remove Link"
@@ -12819,11 +12815,11 @@ msgstr "Levar lo ligam"
 
 #: ../e-util/e-html-editor-actions.c:1806
 msgid "Add Word to Dictionary"
-msgstr "Apondre lo mot al dictionnaire"
+msgstr "Apondre lo mot al diccionari"
 
 #: ../e-util/e-html-editor-actions.c:1813
 msgid "Ignore Misspelled Word"
-msgstr "Ignorer lo mot mal oortografiat"
+msgstr "Ignorar lo mot mal ortografiat"
 
 #: ../e-util/e-html-editor-actions.c:1820
 msgid "Add Word To"
@@ -12831,7 +12827,7 @@ msgstr "Apondre lo mot a"
 
 #: ../e-util/e-html-editor-actions.c:1829
 msgid "More Suggestions"
-msgstr "Autres suggestions"
+msgstr "Mai de suggestions"
 
 #. Translators: %s will be replaced with the actual dictionary
 #. * name, where a user can add a word to. This is part of an
@@ -12839,27 +12835,27 @@ msgstr "Autres suggestions"
 #: ../e-util/e-html-editor-actions.c:1937
 #, c-format
 msgid "%s Dictionary"
-msgstr "dictionnaire %s"
+msgstr "diccionari %s"
 
 #: ../e-util/e-html-editor-actions.c:2024
 msgid "_Emoticon"
-msgstr "_Frimousse"
+msgstr "_Emoticòna"
 
 #: ../e-util/e-html-editor-actions.c:2025
 msgid "Insert Emoticon"
-msgstr "Insère una frimousse"
+msgstr "Inserís una emoticòna"
 
 #: ../e-util/e-html-editor-actions.c:2093
 msgid "Re_place"
-msgstr "Rem_placer"
+msgstr "Rem_plaçar"
 
 #: ../e-util/e-html-editor-actions.c:2096
 msgid "_Image"
-msgstr "_Image"
+msgstr "_Imatge"
 
 #: ../e-util/e-html-editor-actions.c:2099
 msgid "_Link"
-msgstr "_Lien"
+msgstr "_Ligam"
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
 #: ../e-util/e-html-editor-actions.c:2103
@@ -12869,49 +12865,49 @@ msgstr "_Filet"
 #: ../e-util/e-html-editor-actions.c:2106
 #: ../e-util/e-html-editor-cell-dialog.c:738
 msgid "_Table"
-msgstr "_Tableau"
+msgstr "_Tablèu"
 
 #: ../e-util/e-html-editor.c:704
 msgid "Paragraph Style"
-msgstr "Estil de paragraphe"
+msgstr "Estil de paragraf"
 
 #: ../e-util/e-html-editor.c:718
 msgid "Editing Mode"
-msgstr "Mode édition"
+msgstr "Mòde d'edicion"
 
 #: ../e-util/e-html-editor.c:730
 msgid "Font Color"
-msgstr "Color de police"
+msgstr "Color de la poliça"
 
 #: ../e-util/e-html-editor.c:748
 msgid "Font Size"
-msgstr "Taille de police"
+msgstr "Talha de la poliça"
 
 #: ../e-util/e-html-editor-cell-dialog.c:698
 msgid "<b>Scope</b>"
-msgstr "<b>Limites</b>"
+msgstr "<b>Limits</b>"
 
 #: ../e-util/e-html-editor-cell-dialog.c:712
 msgid "C_ell"
-msgstr "C_ellule"
+msgstr "C_ellula"
 
 #: ../e-util/e-html-editor-cell-dialog.c:725
 msgid "_Row"
-msgstr "_Ligne"
+msgstr "_Linha"
 
 #: ../e-util/e-html-editor-cell-dialog.c:751
 msgid "Col_umn"
-msgstr "C_olomna"
+msgstr "Col_omna"
 
 #: ../e-util/e-html-editor-cell-dialog.c:761
 msgid "<b>Alignment &amp; Behavior</b>"
-msgstr "<b>Alinhament e comportement</b>"
+msgstr "<b>Alinhament e comportament</b>"
 
 #: ../e-util/e-html-editor-cell-dialog.c:774
 #: ../e-util/e-html-editor-hrule-dialog.c:413
 #: ../e-util/e-html-editor-table-dialog.c:900
 msgid "Left"
-msgstr "Gauche"
+msgstr "Esquèrra"
 
 #: ../e-util/e-html-editor-cell-dialog.c:775
 #: ../e-util/e-html-editor-hrule-dialog.c:415
@@ -12923,21 +12919,21 @@ msgstr "Centre"
 #: ../e-util/e-html-editor-hrule-dialog.c:417
 #: ../e-util/e-html-editor-table-dialog.c:902
 msgid "Right"
-msgstr "Droite"
+msgstr "Drecha"
 
 #: ../e-util/e-html-editor-cell-dialog.c:784
 msgid "_Horizontal:"
-msgstr "_Horizontal :"
+msgstr "_Orizontal :"
 
 #: ../e-util/e-html-editor-cell-dialog.c:792
 #: ../e-util/e-html-editor-image-dialog.c:625
 msgid "Top"
-msgstr "Haut"
+msgstr "Naut"
 
 #: ../e-util/e-html-editor-cell-dialog.c:793
 #: ../e-util/e-html-editor-image-dialog.c:626
 msgid "Middle"
-msgstr "Milieu"
+msgstr "Mitan"
 
 #: ../e-util/e-html-editor-cell-dialog.c:794
 #: ../e-util/e-html-editor-image-dialog.c:627
@@ -12946,41 +12942,41 @@ msgstr "Bas"
 
 #: ../e-util/e-html-editor-cell-dialog.c:802
 msgid "_Vertical:"
-msgstr "_Vertical :"
+msgstr "_Vertical :"
 
 #. Wrap Text
 #: ../e-util/e-html-editor-cell-dialog.c:808
 msgid "_Wrap Text"
-msgstr "_Retour a la linha"
+msgstr "_Retorn a la linha"
 
 #. Header Style
 #: ../e-util/e-html-editor-cell-dialog.c:816
 msgid "_Header Style"
-msgstr "_Style d'entèsta"
+msgstr "E_stil d'entèsta"
 
 #: ../e-util/e-html-editor-cell-dialog.c:830
 #: ../e-util/e-html-editor-image-dialog.c:565
 #: ../e-util/e-html-editor-table-dialog.c:812
 msgid "<b>Layout</b>"
-msgstr "<b>Disposition</b>"
+msgstr "<b>Disposicion</b>"
 
 #. Width
 #: ../e-util/e-html-editor-cell-dialog.c:841
 msgid "_Width"
-msgstr "_Largeur"
+msgstr "_Largor"
 
 #: ../e-util/e-html-editor-cell-dialog.c:880
 msgid "Row S_pan:"
-msgstr "Recou_vrement de linhas (row span) :"
+msgstr "Reco_briment de linhas (row span) :"
 
 #: ../e-util/e-html-editor-cell-dialog.c:894
 msgid "Co_lumn Span:"
-msgstr "Recouvrement de co_lonnes (column span) :"
+msgstr "Recobriment de co_lomnas (column span) :"
 
 #: ../e-util/e-html-editor-cell-dialog.c:901
 #: ../e-util/e-html-editor-table-dialog.c:916
 msgid "<b>Background</b>"
-msgstr "<b>Arrière-plan</b>"
+msgstr "<b>Rèireplan</b>"
 
 #: ../e-util/e-html-editor-cell-dialog.c:914
 #: ../e-util/e-html-editor-table-dialog.c:929
@@ -12989,13 +12985,13 @@ msgstr "Transparent"
 
 #: ../e-util/e-html-editor-cell-dialog.c:922
 msgid "C_olor:"
-msgstr "C_olor :"
+msgstr "C_olor :"
 
 #: ../e-util/e-html-editor-cell-dialog.c:930
 #: ../e-util/e-html-editor-image-dialog.c:527
 #: ../e-util/e-html-editor-table-dialog.c:945
 msgid "Choose Background Image"
-msgstr "Choisir un imatge d'rèireplan"
+msgstr "Causir un imatge de rèireplan"
 
 #: ../e-util/e-html-editor-cell-dialog.c:935
 #: ../e-util/e-html-editor-image-dialog.c:533
@@ -13005,7 +13001,7 @@ msgstr "Imatges"
 
 #: ../e-util/e-html-editor-cell-dialog.c:948
 msgid "_Image:"
-msgstr "_Image :"
+msgstr "_Imatge :"
 
 #: ../e-util/e-html-editor-cell-dialog.c:955
 #: ../e-util/e-html-editor-page-dialog.c:660
@@ -13021,12 +13017,12 @@ msgstr "Proprietats de la cellula"
 #: ../e-util/e-html-editor-replace-dialog.c:90
 #: ../e-util/e-html-editor-replace-dialog.c:108
 msgid "No match found"
-msgstr "Aucune correspondance trouvée"
+msgstr "Cap de correspondéncia pas trobada"
 
 #: ../e-util/e-html-editor-find-dialog.c:160
 #: ../e-util/e-html-editor-replace-dialog.c:247
 msgid "Search _backwards"
-msgstr "Re_cercar en arrière"
+msgstr "Recercar en _arrièr"
 
 #: ../e-util/e-html-editor-find-dialog.c:167
 msgid "Case _Sensitive"
@@ -13034,7 +13030,7 @@ msgstr "_Sensible a la cassa"
 
 #: ../e-util/e-html-editor-find-dialog.c:174
 msgid "_Wrap Search"
-msgstr "Recèrca _circulaire"
+msgstr "Recèrca _circulara"
 
 #: ../e-util/e-html-editor-find-dialog.c:213
 msgid "Find"
@@ -13042,32 +13038,32 @@ msgstr "Recercar"
 
 #: ../e-util/e-html-editor-hrule-dialog.c:348
 msgid "<b>Size</b>"
-msgstr "<b>Taille</b>"
+msgstr "<b>Talha</b>"
 
 #. Width
 #: ../e-util/e-html-editor-hrule-dialog.c:368
 #: ../e-util/e-html-editor-image-dialog.c:583
 #: ../e-util/e-html-editor-table-dialog.c:823
 msgid "_Width:"
-msgstr "_Largeur :"
+msgstr "_Largor :"
 
 #: ../e-util/e-html-editor-hrule-dialog.c:393
 msgid "_Size:"
-msgstr "_Taille :"
+msgstr "_Talha :"
 
 #: ../e-util/e-html-editor-hrule-dialog.c:400
 msgid "<b>Style</b>"
-msgstr "<b>Style</b>"
+msgstr "<b>Estil</b>"
 
 #: ../e-util/e-html-editor-hrule-dialog.c:425
 #: ../e-util/e-html-editor-table-dialog.c:909
 msgid "_Alignment:"
-msgstr "A_linhament :"
+msgstr "_Alinhament :"
 
 #. Shaded
 #: ../e-util/e-html-editor-hrule-dialog.c:431
 msgid "S_haded"
-msgstr "Om_bré"
+msgstr "_Ombrat"
 
 #: ../e-util/e-html-editor-hrule-dialog.c:448
 msgid "Rule properties"
@@ -13077,42 +13073,42 @@ msgstr "Proprietats del filet"
 #: ../e-util/e-html-editor-paragraph-dialog.c:66
 #: ../e-util/e-html-editor-table-dialog.c:766
 msgid "<b>General</b>"
-msgstr "<b>Général</b>"
+msgstr "<b>General</b>"
 
 #: ../e-util/e-html-editor-image-dialog.c:544
 msgid "_Source:"
-msgstr "_Source :"
+msgstr "_Font :"
 
 #: ../e-util/e-html-editor-image-dialog.c:607
 msgid "_Height:"
-msgstr "_Nautor :"
+msgstr "_Nautor :"
 
 #: ../e-util/e-html-editor-image-dialog.c:648
 msgid "_X-Padding:"
-msgstr "Espacement _X :"
+msgstr "Espaçament _X :"
 
 #: ../e-util/e-html-editor-image-dialog.c:664
 msgid "_Y-Padding:"
-msgstr "Espacement _Y :"
+msgstr "Espaçament _Y :"
 
 #: ../e-util/e-html-editor-image-dialog.c:680
 #: ../e-util/e-html-editor-table-dialog.c:890
 msgid "_Border:"
-msgstr "_Bordure :"
+msgstr "_Bordadura :"
 
 #: ../e-util/e-html-editor-image-dialog.c:690
 msgid "<b>Link</b>"
-msgstr "<b>Lien</b>"
+msgstr "<b>Ligam</b>"
 
 #: ../e-util/e-html-editor-image-dialog.c:708
 #: ../e-util/e-html-editor-link-dialog.c:400
 msgid "_URL:"
-msgstr "_URL :"
+msgstr "_URL :"
 
 #: ../e-util/e-html-editor-image-dialog.c:713
 #: ../e-util/e-html-editor-link-dialog.c:405
 msgid "_Test URL..."
-msgstr "_Tester l'URL..."
+msgstr "_Testar l'URL..."
 
 #: ../e-util/e-html-editor-image-dialog.c:730
 msgid "Image Properties"
@@ -13124,27 +13120,27 @@ msgstr "_Levar lo ligam"
 
 #: ../e-util/e-html-editor-link-dialog.c:454
 msgid "Link Properties"
-msgstr "Proprietats del lien"
+msgstr "Proprietats del ligam"
 
 #: ../e-util/e-html-editor-page-dialog.c:72
 msgid "Perforated Paper"
-msgstr "Papier perforé"
+msgstr "Papièr perforat"
 
 #: ../e-util/e-html-editor-page-dialog.c:81
 msgid "Blue Ink"
-msgstr "Encre bleue"
+msgstr "Tinta blava"
 
 #: ../e-util/e-html-editor-page-dialog.c:90
 msgid "Paper"
-msgstr "Papier"
+msgstr "Papièr"
 
 #: ../e-util/e-html-editor-page-dialog.c:99
 msgid "Ribbon"
-msgstr "Ruban"
+msgstr "Cinta"
 
 #: ../e-util/e-html-editor-page-dialog.c:108
 msgid "Midnight"
-msgstr "Minuit"
+msgstr "Mièjanuèch"
 
 #: ../e-util/e-html-editor-page-dialog.c:126 ../mail/filtertypes.xml.in.h:36
 #: ../mail/searchtypes.xml.in.h:39 ../mail/vfoldertypes.xml.in.h:39
@@ -13153,7 +13149,7 @@ msgstr "Borrolhon"
 
 #: ../e-util/e-html-editor-page-dialog.c:135
 msgid "Graph Paper"
-msgstr "Papier millimétré"
+msgstr "Papier millimetrat"
 
 #: ../e-util/e-html-editor-page-dialog.c:544
 msgid "<b>Colors</b>"
@@ -13161,28 +13157,28 @@ msgstr "<b>Colors</b>"
 
 #: ../e-util/e-html-editor-page-dialog.c:563
 msgid "_Text:"
-msgstr "_Texte :"
+msgstr "_Tèxte :"
 
 #: ../e-util/e-html-editor-page-dialog.c:578
 msgid "_Link:"
-msgstr "_Lien :"
+msgstr "_Ligam :"
 
 #: ../e-util/e-html-editor-page-dialog.c:593
 msgid "_Visited Link:"
-msgstr "Lien _visités :"
+msgstr "Ligam _visitat :"
 
 #: ../e-util/e-html-editor-page-dialog.c:608
 msgid "_Background:"
-msgstr "_Arrière-plan :"
+msgstr "_Rèireplan :"
 
 #: ../e-util/e-html-editor-page-dialog.c:616
 msgid "<b>Background Image</b>"
-msgstr "<b>Image d'rèireplan</b>"
+msgstr "<b>Image de rèireplan</b>"
 
 #: ../e-util/e-html-editor-page-dialog.c:638
 #: ../modules/calendar/e-calendar-preferences.ui.h:77
 msgid "_Template:"
-msgstr "_Modèl :"
+msgstr "_Modèl :"
 
 #: ../e-util/e-html-editor-page-dialog.c:646 ../e-util/e-import-assistant.c:283
 msgid "Select a file"
@@ -13194,11 +13190,11 @@ msgstr "_Personalizar :"
 
 #: ../e-util/e-html-editor-page-dialog.c:680
 msgid "Page Properties"
-msgstr "Proprietats de la page"
+msgstr "Proprietats de la pagina"
 
 #: ../e-util/e-html-editor-paragraph-dialog.c:83
 msgid "_Style:"
-msgstr "_Style  :"
+msgstr "_Estil :"
 
 #: ../e-util/e-html-editor-paragraph-dialog.c:90
 msgid "<b>Alignment</b>"
@@ -13212,28 +13208,28 @@ msgstr "Proprietats del paragraf"
 #, c-format
 msgid "%d occurrence replaced"
 msgid_plural "%d occurrences replaced"
-msgstr[0] "%d occurrence remplaçada"
-msgstr[1] "%d occurrences remplaçadas"
+msgstr[0] "%d ocuréncia remplaçada"
+msgstr[1] "%d ocuréncias remplaçadas"
 
 #: ../e-util/e-html-editor-replace-dialog.c:227
 msgid "R_eplace:"
-msgstr "R_emplaçar :"
+msgstr "R_emplaçar :"
 
 #: ../e-util/e-html-editor-replace-dialog.c:239
 msgid "_With:"
-msgstr "_Par :"
+msgstr "_Amb :"
 
 #: ../e-util/e-html-editor-replace-dialog.c:251
 msgid "_Case sensitive"
-msgstr "Sensible a la _casse"
+msgstr "Sensible a la _cassa"
 
 #: ../e-util/e-html-editor-replace-dialog.c:255
 msgid "Wra_p search"
-msgstr "Recèrca c_irculaire"
+msgstr "Recèrca c_irculara"
 
 #: ../e-util/e-html-editor-replace-dialog.c:265
 msgid "_Skip"
-msgstr "_Sauter"
+msgstr "_Sautar"
 
 #: ../e-util/e-html-editor-replace-dialog.c:273
 #: ../e-util/e-system.error.xml.h:3
@@ -13242,7 +13238,7 @@ msgstr "_Remplaçar"
 
 #: ../e-util/e-html-editor-replace-dialog.c:281
 msgid "Replace _All"
-msgstr "Tout rempl_acer"
+msgstr "Remplaçar _tot"
 
 #: ../e-util/e-html-editor-replace-dialog.c:301
 msgctxt "dialog-title"
@@ -13266,27 +13262,27 @@ msgstr "Remplaçar"
 #. Replace All
 #: ../e-util/e-html-editor-spell-check-dialog.c:564
 msgid "Replace All"
-msgstr "Tout remplaçar"
+msgstr "Remplaçar tot"
 
 #. Ignore
 #: ../e-util/e-html-editor-spell-check-dialog.c:573
 #: ../mail/mail.error.xml.h:112
 msgid "Ignore"
-msgstr "Ignorer"
+msgstr "Ignorar"
 
 #. Skip
 #: ../e-util/e-html-editor-spell-check-dialog.c:582
 msgid "Skip"
-msgstr "Sauter"
+msgstr "Sautar"
 
 #. Back
 #: ../e-util/e-html-editor-spell-check-dialog.c:591
 msgid "Back"
-msgstr "En arrière"
+msgstr "En arrièr"
 
 #: ../e-util/e-html-editor-spell-check-dialog.c:600
 msgid "<b>Dictionary</b>"
-msgstr "<b>Dictionnaire</b>"
+msgstr "<b>Diccionari</b>"
 
 #. Add Word button
 #: ../e-util/e-html-editor-spell-check-dialog.c:620
@@ -13295,40 +13291,40 @@ msgstr "Apondre un mot"
 
 #: ../e-util/e-html-editor-spell-check-dialog.c:637 ../mail/mail-config.ui.h:38
 msgid "Spell Checking"
-msgstr "Correction orthographique"
+msgstr "Correccion ortografica"
 
 #: ../e-util/e-html-editor-table-dialog.c:788
 msgid "_Rows:"
-msgstr "_Lignes :"
+msgstr "_Linhas :"
 
 #: ../e-util/e-html-editor-table-dialog.c:805
 msgid "C_olumns:"
-msgstr "C_olomnas :"
+msgstr "C_olomnas :"
 
 #: ../e-util/e-html-editor-table-dialog.c:856
 msgid "_Spacing:"
-msgstr "E_spacement :"
+msgstr "E_spaçament :"
 
 #: ../e-util/e-html-editor-table-dialog.c:873
 msgid "_Padding:"
-msgstr "Rem_plissage :"
+msgstr "_Emplenatge :"
 
 #: ../e-util/e-html-editor-table-dialog.c:937
 #: ../e-util/e-html-editor-text-dialog.c:261
 msgid "_Color:"
-msgstr "_Color :"
+msgstr "_Color :"
 
 #: ../e-util/e-html-editor-table-dialog.c:963
 msgid "Image:"
-msgstr "Imatge :"
+msgstr "Imatge :"
 
 #: ../e-util/e-html-editor-table-dialog.c:990
 msgid "Table Properties"
-msgstr "Proprietats de tableau"
+msgstr "Proprietats del tablèu"
 
 #: ../e-util/e-html-editor-text-dialog.c:281
 msgid "Si_ze:"
-msgstr "Ta_ille :"
+msgstr "_Talha :"
 
 #: ../e-util/e-html-editor-text-dialog.c:296
 msgid "Text Properties"
@@ -13340,7 +13336,7 @@ msgstr "Proprietat « modificat »"
 
 #: ../e-util/e-html-editor-view.c:6299
 msgid "Whether editor changed"
-msgstr "Indica se l'editor a changé"
+msgstr "Indica se l'editor a cambiat"
 
 #: ../e-util/e-import-assistant.c:256
 msgid ""
@@ -13352,11 +13348,11 @@ msgstr ""
 
 #: ../e-util/e-import-assistant.c:297 ../e-util/e-import-assistant.c:472
 msgid "File _type:"
-msgstr "_Type de fichièr :"
+msgstr "_Tipe de fichièr :"
 
 #: ../e-util/e-import-assistant.c:340 ../e-util/e-import-assistant.c:917
 msgid "Choose the destination for this import"
-msgstr "Causissètz la destination d'aquesta importacion"
+msgstr "Causissètz la destinacion d'aquesta importacion"
 
 #: ../e-util/e-import-assistant.c:365
 msgid "Choose the type of importer to run:"
@@ -13364,16 +13360,16 @@ msgstr "Causissètz l'assistent d'importacion d'aviar :"
 
 #: ../e-util/e-import-assistant.c:373
 msgid "Import data and settings from _older programs"
-msgstr "Importer las donadas e paramètres de programas plus _ancians"
+msgstr "Importar las donadas e paramètres de programas pus _ancians"
 
 #: ../e-util/e-import-assistant.c:381
 msgid "Import a _single file"
-msgstr "Importer un _seul fichièr"
+msgstr "Importar un _sol fichièr"
 
 #: ../e-util/e-import-assistant.c:403
 #: ../modules/startup-wizard/e-mail-config-import-page.c:200
 msgid "Please select the information that you would like to import:"
-msgstr "Seleccionatz las informacions que vous désirez importar :"
+msgstr "Seleccionatz las informacions volètz importar :"
 
 #: ../e-util/e-import-assistant.c:533
 msgid ""
@@ -13381,16 +13377,16 @@ msgid ""
 "Pine, Netscape, Elm, iCalendar. No importable settings found. If you would "
 "like to try again, please click the \"Back\" button."
 msgstr ""
-"Evolution a vérifié les paramètres a importar dempuèi les applications "
-"suivantes : Pine, Netscape, Elm, iCalendar. Aucun paramètre pouvant èsser "
-"importat n'a été trouvé. Se volètz ensajar de nouveau, clicatz sul boton « "
-"Précédent »."
+"Evolution a verificat los paramètres d'importar dempuèi las aplicacions "
+"seguentas : Pine, Netscape, Elm, iCalendar. Cap de paramètre que pòsca èsser "
+"importat es pas estat trobat. Se volètz ensajar tornamai, clicatz sul boton "
+"« Precedent »."
 
 #: ../e-util/e-import-assistant.c:559
 #: ../modules/startup-wizard/e-mail-config-import-page.c:229
 #, c-format
 msgid "From %s:"
-msgstr "De %s :"
+msgstr "De %s :"
 
 #. Install a custom "Cancel Import" button.
 #: ../e-util/e-import-assistant.c:775
@@ -13399,26 +13395,25 @@ msgstr "_Anullar l'importacion"
 
 #: ../e-util/e-import-assistant.c:916
 msgid "Preview data to be imported"
-msgstr "Prévisualiser las donadas a importar"
+msgstr "Previsualizar las donadas d'importar"
 
 #: ../e-util/e-import-assistant.c:922 ../e-util/e-import-assistant.c:935
 #: ../e-util/e-import-assistant.c:1288 ../e-util/e-import-assistant.c:1364
 #: ../e-util/e-import-assistant.c:1373
 msgid "Import Data"
-msgstr "Importer las donadas"
+msgstr "Importar las donadas"
 
 #: ../e-util/e-import-assistant.c:930
 msgid "Select what type of file you want to import from the list."
-msgstr ""
-"Causissètz dins la lista lo type de fichièr que vous souhaitez importar."
+msgstr "Causissètz dins la lista lo tipe de fichièr que volètz importar."
 
 #: ../e-util/e-import-assistant.c:1278 ../e-util/e-import-assistant.c:1313
 msgid "Evolution Import Assistant"
-msgstr "Assistant d'importacion d'Evolution"
+msgstr "Assistent d'importacion d'Evolution"
 
 #: ../e-util/e-import-assistant.c:1295 ../e-util/e-import-assistant.c:1351
 msgid "Import Location"
-msgstr "Importer un emplaçament"
+msgstr "Importar un emplaçament"
 
 #: ../e-util/e-import-assistant.c:1306
 msgid ""
@@ -13426,17 +13421,17 @@ msgid ""
 "With this assistant you will be guided through the process of importing "
 "external files into Evolution."
 msgstr ""
-"Bienvenue dins l'assistant d'importacion d'Evolution.\n"
-"Aqueste assistant va vous guider dins lo processus d'importacion de fichièrs "
-"externes dins Evolution."
+"Benvenguda dins l'assistent d'importacion d'Evolution.\n"
+"Aqueste assistent vos va guidar dins lo processus d'importacion de fichièrs "
+"extèrnes dins Evolution."
 
 #: ../e-util/e-import-assistant.c:1323
 msgid "Importer Type"
-msgstr "Tipe d'importateurs"
+msgstr "Tipe d'importadors"
 
 #: ../e-util/e-import-assistant.c:1333
 msgid "Select Information to Import"
-msgstr "Seleccionatz las informacions a importar"
+msgstr "Seleccionatz las informacions d'importar"
 
 #: ../e-util/e-import-assistant.c:1342
 msgid "Select a File"
@@ -13445,11 +13440,11 @@ msgstr "Seleccionatz un fichièr"
 #: ../e-util/e-import-assistant.c:1359
 msgid "Click \"Apply\" to begin importing the file into Evolution."
 msgstr ""
-"Clicatz sus « Aplicar » per commencer a importar lo fichièr dins Evolution."
+"Clicatz sus « Aplicar » per començar d'importar lo fichièr dins Evolution."
 
 #: ../e-util/e-mail-signature-combo-box.c:376
 msgid "Autogenerated"
-msgstr "Générée automaticament"
+msgstr "Generada automaticament"
 
 #: ../e-util/e-mail-signature-editor.c:297
 msgid "Close"
@@ -13465,23 +13460,23 @@ msgstr "Editar la signatura"
 
 #: ../e-util/e-mail-signature-editor.c:562
 msgid "_Signature Name:"
-msgstr "Nom de la _signature :"
+msgstr "Nom de la _signatura :"
 
 #: ../e-util/e-mail-signature-editor.c:598
 msgid "Unnamed"
-msgstr "Sans nom"
+msgstr "Sens nom"
 
 #: ../e-util/e-mail-signature-manager.c:337
 msgid "Add _Script"
-msgstr "Apondre un sc_ript"
+msgstr "Apondre un e_script"
 
 #: ../e-util/e-mail-signature-manager.c:426
 msgid "Add Signature Script"
-msgstr "Apondre un script de signatura"
+msgstr "Apondre un escript de signatura"
 
 #: ../e-util/e-mail-signature-manager.c:497
 msgid "Edit Signature Script"
-msgstr "Modificar lo script de signatura"
+msgstr "Modificar l'escript de signatura"
 
 #: ../e-util/e-mail-signature-script-dialog.c:393
 msgid ""
@@ -13489,30 +13484,30 @@ msgid ""
 "signature. The name you specify will be used\n"
 "for display purposes only."
 msgstr ""
-"La sortida de ce script serà utilizada per votre\n"
-"signature. Lo nom indicat ne serà utilizat que per l'afichatge."
+"La sortida d'aqueste escript serà utilizada per vòstra\n"
+"signatura. Lo nom indicat serà pas utilizat que per l'afichatge."
 
 #: ../e-util/e-mail-signature-script-dialog.c:444
 msgid "S_cript:"
-msgstr "S_cript :"
+msgstr "Es_cript :"
 
 #: ../e-util/e-mail-signature-script-dialog.c:475
 msgid "Script file must be executable."
-msgstr "Lo fichièr de script deu èsser exécutable."
+msgstr "Lo fichièr d'escript deu èsser executable."
 
 #: ../e-util/e-map.c:885
 msgid "World Map"
-msgstr "Carte del monde"
+msgstr "Mapa del mond"
 
 #: ../e-util/e-map.c:888
 msgid ""
 "Mouse-based interactive map widget for selecting timezone. Keyboard users "
 "should instead select the timezone from the drop-down combination box below."
 msgstr ""
-"Component graphique del type carte interactive basé sus l'utilizacion de la "
-"souris afin de choisir lo fus orari. Les utilizaires se servant d'un clavier "
-"devon seleccionar lo fus orari grâce a la zòna de liste déroulante située en "
-"bas."
+"Component grafic del tipe mapa interactiva basat sus l'utilizacion de la "
+"mirga per fin de causir lo fus orari. Los utilizaires que se servisson d'un "
+"clavièr devon seleccionar lo fus orari gràcias a la zòna de lista "
+"desenrotlanta situada en bas."
 
 #: ../e-util/e-misc-utils.c:251
 msgid "Could not open the link."
@@ -13557,11 +13552,11 @@ msgstr "Quasernet d'_adreças :"
 
 #: ../e-util/e-name-selector-dialog.c:316
 msgid "Cat_egory:"
-msgstr "Catégori_e :"
+msgstr "Categori_a :"
 
 #: ../e-util/e-name-selector-dialog.c:340
 msgid "_Search:"
-msgstr "_Recercar :"
+msgstr "_Recercar :"
 
 #: ../e-util/e-name-selector-dialog.c:366
 #: ../e-util/e-name-selector-dialog.c:1274
@@ -13570,11 +13565,11 @@ msgstr "_Recercar :"
 #: ../modules/calendar/e-memo-shell-view-actions.c:709
 #: ../modules/calendar/e-task-shell-view-actions.c:881
 msgid "Any Category"
-msgstr "Totas les categorias"
+msgstr "Totas las categorias"
 
 #: ../e-util/e-name-selector-dialog.c:368
 msgid "Co_ntacts"
-msgstr "Co_ntacts"
+msgstr "Co_ntactes"
 
 #: ../e-util/e-name-selector-dialog.c:445
 msgid "Search"
@@ -13592,19 +13587,19 @@ msgstr "Seleccionar los contactes del quasernet d'adreças"
 #: ../e-util/e-name-selector-entry.c:3186
 #, c-format
 msgid "E_xpand %s Inline"
-msgstr "Dé_plier %s en linha"
+msgstr "Des_plegar %s en linha"
 
 #. Copy Contact Item
 #: ../e-util/e-name-selector-entry.c:3202
 #, c-format
 msgid "Cop_y %s"
-msgstr "Cop_ier %s"
+msgstr "Cop_iar %s"
 
 #. Cut Contact Item
 #: ../e-util/e-name-selector-entry.c:3213
 #, c-format
 msgid "C_ut %s"
-msgstr "C_ouper %s"
+msgstr "Tal_har %s"
 
 #. Edit Contact item
 #: ../e-util/e-name-selector-entry.c:3231
@@ -13620,45 +13615,44 @@ msgstr "_Suprimir %s"
 #: ../e-util/e-online-button.c:32
 msgid "Evolution is currently online.  Click this button to work offline."
 msgstr ""
-"Evolution es actualament en linha. Clicatz sus ce boton per trabalhler fòra "
-"linha."
+"Evolution es actualament en linha. Clicatz sus aqueste boton per trabalhar "
+"fòra linha."
 
 #: ../e-util/e-online-button.c:35
 msgid "Evolution is currently offline.  Click this button to work online."
 msgstr ""
-"Evolution es actualament fòra linha. Clicatz sus ce boton per trabalhler en "
-"linha."
+"Evolution es actualament fòra linha. Clicatz sus aqueste boton per trabalhar "
+"en linha."
 
 #: ../e-util/e-online-button.c:38
 msgid "Evolution is currently offline because the network is unavailable."
-msgstr ""
-"Evolution es actualament fòra linha parce que lo réseau es indisponible."
+msgstr "Evolution es actualament fòra linha perque la ret es indisponibla."
 
 #: ../e-util/e-passwords.c:127
 msgid "Keyring key is unusable: no user or host name"
 msgstr ""
-"La clau del trousseau de clés es inutilisable : pas d'utilizaire ni de nom "
-"d'hôte"
+"La clau del trossèl de claus es inutilizable : pas d'utilizaire ni de nom "
+"d'òste"
 
 #: ../e-util/e-passwords.c:447
 msgid "You have the Caps Lock key on."
-msgstr "Votre verrolhatge des majusculas es activat."
+msgstr "Vòstre verrolhatge de las majusculas es activat."
 
 #: ../e-util/e-passwords.c:578
 msgid "_Remember this passphrase"
-msgstr "Mémo_riser aquesta phrase de passe"
+msgstr "Memo_rizar aquesta frasa secreta"
 
 #: ../e-util/e-passwords.c:579
 msgid "_Remember this passphrase for the remainder of this session"
-msgstr "Mémo_riser aquesta phrase de passe pel reste d'aquesta session"
+msgstr "Memo_rizar aquesta frasa secreta per la rèsta d'aquesta session"
 
 #: ../e-util/e-passwords.c:584
 msgid "_Remember this password"
-msgstr "Mémo_riser ce senhal"
+msgstr "_Memorizar aqueste senhal"
 
 #: ../e-util/e-passwords.c:585
 msgid "_Remember this password for the remainder of this session"
-msgstr "Mémo_riser ce senhal pel reste d'aquesta session"
+msgstr "Memo_rizar aqueste senhal per la rèsta d'aquesta session"
 
 #: ../e-util/e-preferences-window.c:318
 msgid "Evolution Preferences"
@@ -13666,36 +13660,36 @@ msgstr "Preferéncias d'Evolution"
 
 #: ../e-util/e-print.c:160
 msgid "An error occurred while printing"
-msgstr "Error durant l'impression"
+msgstr "Error pendent l'impression"
 
 #: ../e-util/e-print.c:167
 msgid "The printing system reported the following details about the error:"
 msgstr ""
-"Lo système d'impression a rapporté las informacions suivantes sus aquesta "
+"Lo sistèma d'impression a raportat las informacions seguentas sus aquesta "
 "error :"
 
 #: ../e-util/e-print.c:173
 msgid ""
 "The printing system did not report any additional details about the error."
 msgstr ""
-"Lo système d'impression a pas rapporté d'informations supplémentaires sus "
-"cette error."
+"Lo sistèma d'impression a pas raportat cap d'informacions suplementàrias sus "
+"aquesta error."
 
 #: ../e-util/e-proxy-editor.c:325
 msgid "_Method:"
-msgstr "_Méthode :"
+msgstr "_Metòde :"
 
 #: ../e-util/e-proxy-editor.c:347
 msgid "Defer to Desktop Settings"
-msgstr "Se reporter aux paramètres système"
+msgstr "Se reportar als paramètres del sistèma"
 
 #: ../e-util/e-proxy-editor.c:351
 msgid "_Open Desktop Settings"
-msgstr "_Dobrir les paramètres système"
+msgstr "_Dobrir los paramètres del sistèma"
 
 #: ../e-util/e-proxy-editor.c:377
 msgid "Manual"
-msgstr "Manuellement"
+msgstr "Manualament"
 
 #: ../e-util/e-proxy-editor.c:396
 msgid "_HTTP Proxy:"
@@ -13711,7 +13705,7 @@ msgstr "Servidor mandatari _Socks :"
 
 #: ../e-util/e-proxy-editor.c:489
 msgid "_Ignore Hosts:"
-msgstr "_Ignorer les hôtes :"
+msgstr "_Ignorar los òstes :"
 
 #: ../e-util/e-proxy-editor.c:515
 msgid "Automatic"
@@ -13719,38 +13713,38 @@ msgstr "Automaticament"
 
 #: ../e-util/e-proxy-editor.c:534
 msgid "Configuration _URL:"
-msgstr "_URL de configuration :"
+msgstr "_URL de configuracion :"
 
 #: ../e-util/e-proxy-editor.c:560
 msgid "No proxy"
-msgstr "Aucun servidor mandatari"
+msgstr "Pas cap de servidor mandatari"
 
 #: ../e-util/e-proxy-editor.c:563
 msgid "Use a direct connection, no proxying required."
-msgstr "Utilizar una connexion directe, sens servidor mandatari."
+msgstr "Utilizar una connexion dirècta, sens servidor mandatari."
 
 #: ../e-util/e-proxy-preferences.c:213
 msgid "Switch to Basic Proxy Preferences"
-msgstr "Basculer cap a les preferéncias basiques del servidor mandatari"
+msgstr "Bascular cap a las preferéncias basicas del servidor mandatari"
 
 #: ../e-util/e-proxy-preferences.c:215
 msgid "Switch to Advanced Proxy Preferences"
-msgstr "Basculer cap a les preferéncias avancées del servidor mandatari"
+msgstr "Bascular cap a las preferéncias avançadas del servidor mandatari"
 
 #: ../e-util/e-proxy-preferences.c:526
 msgid "Apply custom proxy settings to these accounts:"
 msgstr ""
-"Aplicar les preferéncias personalizadas del servidor mandatari a ces comptes "
-":"
+"Aplicar las preferéncias personalizadas del servidor mandatari a aquestes "
+"comptes :"
 
 #: ../e-util/e-proxy-preferences.c:561
 msgid ""
 "<b>Advanced Proxy Preferences</b> lets you define alternate network proxies "
 "and apply them to specific accounts"
 msgstr ""
-"Les <b>preferéncias personalizadas del servidor mandatari</b> vous "
-"permettent de definir des servidors de réseaux alternatifs e de les aplicar "
-"a ces comptes spécifiques"
+"Las <b>preferéncias personalizadas del servidor mandatari</b> vos permeton "
+"de definir de servidors de rets alternativas e de los aplicar a aquestes "
+"comptes especifics"
 
 #: ../e-util/e-proxy-selector.c:85
 msgid "Custom Proxy"
@@ -13758,11 +13752,11 @@ msgstr "Personalizar lo servidor mandatari"
 
 #: ../e-util/e-proxy-selector.c:487
 msgid "Create a new proxy profile"
-msgstr "Crear un nouveau profil de servidor mandatari"
+msgstr "Crear un novèl perfil de servidor mandatari"
 
 #: ../e-util/e-proxy-selector.c:492
 msgid "Delete the selected proxy profile"
-msgstr "Suprimir lo profil del servidor mandatari seleccionat"
+msgstr "Suprimir lo perfil del servidor mandatari seleccionat"
 
 #: ../e-util/e-rule-editor.c:184
 msgid "Add Rule"
@@ -13775,7 +13769,7 @@ msgstr "Modificar la règla"
 #: ../e-util/e-search-bar.c:83
 #, c-format
 msgid "Matches: %u"
-msgstr "Correspondances : %u"
+msgstr "Correspondéncias : %u"
 
 #: ../e-util/e-search-bar.c:569
 msgid "Close the find bar"
@@ -13783,41 +13777,43 @@ msgstr "Tampa la barra de recèrca"
 
 #: ../e-util/e-search-bar.c:577
 msgid "Fin_d:"
-msgstr "_Recercar :"
+msgstr "_Recercar :"
 
 #: ../e-util/e-search-bar.c:589
 msgid "Clear the search"
-msgstr "Efface la recèrca"
+msgstr "Escafa la recèrca"
 
 #: ../e-util/e-search-bar.c:613
 msgid "_Previous"
-msgstr "_Précédent"
+msgstr "_Precedent"
 
 #: ../e-util/e-search-bar.c:616
 msgid "Find the previous occurrence of the phrase"
-msgstr "Recèrca l'occurrence precedenta de la frasa"
+msgstr "Recèrca l'occuréncia precedenta de la frasa"
 
 #: ../e-util/e-search-bar.c:625
 msgid "_Next"
-msgstr "_Suivant"
+msgstr "_Seguent"
 
 #: ../e-util/e-search-bar.c:628
 msgid "Find the next occurrence of the phrase"
-msgstr "Recèrca la prochaine occurrence de la frasa"
+msgstr "Recèrca l'ocurréncia venenta de la frasa"
 
 #: ../e-util/e-search-bar.c:637
 msgid "Mat_ch case"
-msgstr "Respecter la _casse"
+msgstr "Respectar la _cassa"
 
 #: ../e-util/e-search-bar.c:665
 msgid "Reached bottom of page, continued from top"
 msgstr ""
-"La fin de la page a été atteinte, la recèrca continue dempuèi lo début"
+"La fin de la pagina es estada atencha, la recèrca contunha dempuèi lo "
+"començament"
 
 #: ../e-util/e-search-bar.c:687
 msgid "Reached top of page, continued from bottom"
 msgstr ""
-"Lo començament de la page a été atteint, la recèrca continue dempuèi la fin"
+"Lo començament de la pagina es estat atench, la recèrca contunha dempuèi la "
+"fin"
 
 #: ../e-util/e-send-options.c:538 ../mail/importers/elm-importer.c:329
 #: ../mail/importers/kmail-importer.c:253 ../mail/importers/pine-importer.c:422
@@ -13832,11 +13828,11 @@ msgstr "Se s_uprimit :"
 
 #: ../e-util/e-send-options.ui.h:3
 msgid "Standard"
-msgstr "Standard"
+msgstr "Estandard"
 
 #: ../e-util/e-send-options.ui.h:6
 msgid "Proprietary"
-msgstr "Propriétaire"
+msgstr "Proprietari"
 
 #: ../e-util/e-send-options.ui.h:8
 msgid "Secret"
@@ -13848,13 +13844,13 @@ msgstr "Top secret"
 
 #: ../e-util/e-send-options.ui.h:10
 msgid "For Your Eyes Only"
-msgstr "Ultra-confidentiel"
+msgstr "Ultraconfidencial"
 
 #. Translators: Used in send options dialog
 #: ../e-util/e-send-options.ui.h:12
 msgctxt "send-options"
 msgid "None"
-msgstr "Aucune"
+msgstr "Pas cap"
 
 #: ../e-util/e-send-options.ui.h:13
 msgid "Mail Receipt"
@@ -13862,12 +13858,12 @@ msgstr "Acusat de recepcion"
 
 #: ../e-util/e-send-options.ui.h:15
 msgid "R_eply requested"
-msgstr "_Responsa requise"
+msgstr "_Responsa requesida"
 
 #: ../e-util/e-send-options.ui.h:16
 msgctxt "ESendOptionsWithin"
 msgid "Wi_thin"
-msgstr "_Dans"
+msgstr "D_ins"
 
 #: ../e-util/e-send-options.ui.h:17
 msgctxt "ESendOptionsWithin"
@@ -13876,16 +13872,16 @@ msgstr "jorns"
 
 #: ../e-util/e-send-options.ui.h:18
 msgid "_When convenient"
-msgstr "Quand cela vous _convient"
+msgstr "Quand aquò vos _conven"
 
 #: ../e-util/e-send-options.ui.h:20
 msgid "_Delay message delivery"
-msgstr "_Retarder la distribution del messatge"
+msgstr "_Retardar la distribucion del messatge"
 
 #: ../e-util/e-send-options.ui.h:21
 msgctxt "ESendOptionsAfter"
 msgid "_After"
-msgstr "_Après"
+msgstr "_Aprèp"
 
 #: ../e-util/e-send-options.ui.h:22
 msgctxt "ESendOptionsAfter"
@@ -13894,40 +13890,40 @@ msgstr "jorns"
 
 #: ../e-util/e-send-options.ui.h:23
 msgid "_Set expiration date"
-msgstr "_Definir una data d'expiration"
+msgstr "_Definir una data d'expiracion"
 
 #: ../e-util/e-send-options.ui.h:24
 msgctxt "ESendOptions"
 msgid "_Until"
-msgstr "_Jusqu'au"
+msgstr "_Fins al"
 
 #: ../e-util/e-send-options.ui.h:25
 msgid "Delivery Options"
-msgstr "Opcions de distribution"
+msgstr "Opcions de distribucion"
 
 #: ../e-util/e-send-options.ui.h:26
 msgid "_Priority:"
-msgstr "_Prioritat :"
+msgstr "_Prioritat :"
 
 #: ../e-util/e-send-options.ui.h:27
 msgid "_Classification:"
-msgstr "_Classification :"
+msgstr "_Classificacion :"
 
 #: ../e-util/e-send-options.ui.h:28
 msgid "Gene_ral Options"
-msgstr "Opcions géné_rales"
+msgstr "Opcions gene_ralas"
 
 #: ../e-util/e-send-options.ui.h:29
 msgid "Creat_e a sent item to track information"
-msgstr "Cré_er un element mandat per suivre l'information"
+msgstr "Cr_ear un element mandat per seguir l'informacion"
 
 #: ../e-util/e-send-options.ui.h:30
 msgid "_Delivered"
-msgstr "_Distribué"
+msgstr "_Distribuit"
 
 #: ../e-util/e-send-options.ui.h:31
 msgid "Deli_vered and opened"
-msgstr "Déli_vré e dobèrt"
+msgstr "Desli_urat e dobèrt"
 
 #: ../e-util/e-send-options.ui.h:32
 msgid "_All information"
@@ -13939,7 +13935,7 @@ msgstr "S_uprimir automaticament l'element mandat"
 
 #: ../e-util/e-send-options.ui.h:34
 msgid "Status Tracking"
-msgstr "Suivi de l'estat"
+msgstr "Seguiment de l'estat"
 
 #: ../e-util/e-send-options.ui.h:35
 msgid "_When opened:"
@@ -13951,19 +13947,19 @@ msgstr "Quand _refusat :"
 
 #: ../e-util/e-send-options.ui.h:37
 msgid "When co_mpleted:"
-msgstr "Quand t_erminé :"
+msgstr "Quand aca_bat :"
 
 #: ../e-util/e-send-options.ui.h:38
 msgid "When acce_pted:"
-msgstr "Quand acce_pté :"
+msgstr "Quand acce_ptat :"
 
 #: ../e-util/e-send-options.ui.h:39
 msgid "Return Notification"
-msgstr "Rmandar una notification"
+msgstr "Renviar una notificacion"
 
 #: ../e-util/e-send-options.ui.h:40
 msgid "Sta_tus Tracking"
-msgstr "_Suivi de l'estat"
+msgstr "_Seguiment de l'estat"
 
 #: ../e-util/e-source-config.c:690 ../e-util/e-source-config.c:694
 msgid "Type:"
@@ -13971,21 +13967,21 @@ msgstr "Tipe :"
 
 #: ../e-util/e-source-config.c:702 ../e-util/e-source-config.c:706
 msgid "Name:"
-msgstr "Nom :"
+msgstr "Nom :"
 
 #. Translators: This is the first of a sequence of widgets:
 #. * "Refresh every [NUMERIC_ENTRY] [TIME_UNITS_COMBO]"
 #: ../e-util/e-source-config.c:1311
 msgid "Refresh every"
-msgstr "Actualizar tous les"
+msgstr "Actualizar cada"
 
 #: ../e-util/e-source-config.c:1341 ../e-util/e-source-config.c:1411
 msgid "Use a secure connection"
-msgstr "Utilizar una connexion sécurisée"
+msgstr "Utilizar una connexion securizada"
 
 #: ../e-util/e-source-config.c:1437
 msgid "Unset _trust for SSL certificate"
-msgstr "Re_tirer la confiance del certificat SSL"
+msgstr "_Levar la fisança del certificat SSL"
 
 #: ../e-util/e-source-config.c:1473
 msgid "User"
@@ -13993,18 +13989,18 @@ msgstr "Utilizaire"
 
 #: ../e-util/e-source-selector-dialog.c:236
 msgid "_Destination"
-msgstr "_Destination"
+msgstr "_Destinacion"
 
 #: ../e-util/e-source-selector-dialog.c:364
 msgid "Select destination"
-msgstr "Seleccionar una destinacion"
+msgstr "Seleccionatz una destinacion"
 
 #. Translators: %s is the language ISO code.
 #: ../e-util/e-spell-dictionary.c:266
 #, c-format
 msgctxt "language"
 msgid "Unknown (%s)"
-msgstr "Inconnu (%s)"
+msgstr "Desconegut (%s)"
 
 #. Translators: The first %s is the language name, and the
 #. * second is the country name. Example: "French (France)"
@@ -14012,7 +14008,7 @@ msgstr "Inconnu (%s)"
 #, c-format
 msgctxt "language"
 msgid "%s (%s)"
-msgstr "%s (%s)"
+msgstr "%s (%s)"
 
 #. no suggestions. Put something in the menu anyway...
 #: ../e-util/e-spell-entry.c:457
@@ -14027,20 +14023,20 @@ msgstr "Autre..."
 #: ../e-util/e-spell-entry.c:566
 #, c-format
 msgid "Add \"%s\" to Dictionary"
-msgstr "Apondre « %s » al dictionnaire"
+msgstr "Apondre « %s » al diccionari"
 
 #. - Ignore All
 #: ../e-util/e-spell-entry.c:615
 msgid "Ignore All"
-msgstr "Tout ignorer"
+msgstr "Ignorar tot"
 
 #: ../e-util/e-spell-entry.c:647
 msgid "Spelling Suggestions"
-msgstr "Suggestions de correction orthographique"
+msgstr "Suggestions de correccion ortografica"
 
 #: ../e-util/e-system.error.xml.h:1
 msgid "A file named \"{0}\" already exists. Do you want to replace it?"
-msgstr "Un fichièr nomenat « {0} » existís ja. Volètz lo remplaçar ?"
+msgstr "Un fichièr nomenat « {0} » existís ja. Lo volètz remplaçar ?"
 
 #: ../e-util/e-system.error.xml.h:2
 msgid ""
@@ -14054,7 +14050,7 @@ msgstr "Impossible d'enregistrar lo fichièr « {0} »."
 
 #: ../e-util/e-system.error.xml.h:5
 msgid "Because \"{1}\"."
-msgstr "À cause de « {1} »."
+msgstr "A causa de « {1} »."
 
 #: ../e-util/e-system.error.xml.h:6
 msgid "Cannot open file \"{0}\"."
@@ -14062,15 +14058,15 @@ msgstr "Impossible de dobrir lo fichièr « {0} »."
 
 #: ../e-util/e-system.error.xml.h:7
 msgid "Failed to remove data source &quot;{0}&quot;."
-msgstr "Impossible de suprimir la font de données « {0} »."
+msgstr "Impossible de suprimir la font de donadas « {0} »."
 
 #: ../e-util/e-system.error.xml.h:8 ../mail/mail.error.xml.h:64
 msgid "The reported error was &quot;{1}&quot;."
-msgstr "L'error signalée était « {1} »."
+msgstr "L'error senhalada èra « {1} »."
 
 #: ../e-util/e-system.error.xml.h:9
 msgid "Failed to update data source &quot;{0}&quot;."
-msgstr "Impossible de mettre a jorn la font de données « {0} »."
+msgstr "Impossible de metre a jorn la font de donadas « {0} »."
 
 #: ../e-util/e-system.error.xml.h:10
 msgid "Failed to delete resource &quot;{0}&quot;."
@@ -14080,65 +14076,64 @@ msgstr "Impossible de suprimir la ressorsa « {0} »."
 msgid ""
 "The address book backend servicing &quot;{0}&quot; has quit unexpectedly."
 msgstr ""
-"Lo motor « {0} » del quasernet d'adreças a quitat de façon inesperada."
+"Lo motor « {0} » del quasernet d'adreças a quitat d'un biais imprevist."
 
 #: ../e-util/e-system.error.xml.h:12
 msgid ""
 "Some of your contacts may not be available until Evolution is restarted."
 msgstr ""
-"Certains contacts ne seràn plus disponibles tant qu'Evolution n'aura pas été "
-"redémarré."
+"Certans contactes seràn pas mai disponibles tant qu'Evolution serà pas estat "
+"reaviat."
 
 #: ../e-util/e-system.error.xml.h:13
 msgid "The calendar backend servicing &quot;{0}&quot; has quit unexpectedly."
-msgstr "Lo motor « {0} » de l'agenda a quitat de façon inesperada."
+msgstr "Lo motor « {0} » de l'agenda a quitat d'un biais imprevist."
 
 #: ../e-util/e-system.error.xml.h:14
 msgid ""
 "Some of your appointments may not be available until Evolution is restarted."
 msgstr ""
-"Certains rendètz-vos ne seràn pas disponibles tant qu'Evolution n'aura pas "
-"été redémarré."
+"Certans rendètz-vos seràn pas disponibles tant qu'Evolution serà pas estat "
+"reaviat."
 
 #: ../e-util/e-system.error.xml.h:15
 msgid ""
 "The memo list backend servicing &quot;{0}&quot; has quit unexpectedly."
-msgstr "Lo motor « {0} » de la lista de memos a quitat de façon inesperada."
+msgstr "Lo motor « {0} » de la lista de memos a quitat d'un biais imprevist."
 
 #: ../e-util/e-system.error.xml.h:16
 msgid "Some of your memos may not be available until Evolution is restarted."
 msgstr ""
-"Certains memos ne seràn pas disponibles tant qu'Evolution n'aura pas été "
-"redémarré."
+"Certans memos seràn pas disponibles tant qu'Evolution serà pas estat reaviat."
 
 #: ../e-util/e-system.error.xml.h:17
 msgid ""
 "The task list backend servicing &quot;{0}&quot; has quit unexpectedly."
 msgstr ""
-"Lo motor « {0} » de la lista de prètzfaches a quitat de façon inesperada."
+"Lo motor « {0} » de la lista de prètzfaches a quitat d'un biais imprevist."
 
 #: ../e-util/e-system.error.xml.h:18
 msgid "Some of your tasks may not be available until Evolution is restarted."
 msgstr ""
-"Certanas prètzfaches ne seràn pas disponibles tant qu'Evolution n'aura pas "
-"été redémarré."
+"Certanas prètzfaches seràn pas disponibles tant qu'Evolution serà pas estat "
+"reaviat."
 
 #: ../e-util/e-system.error.xml.h:19
 msgid ""
 "The address book backend servicing &quot;{0}&quot; encountered an error."
-msgstr "Lo motor « {0} » del quasernet d'adreças a rencontré una error."
+msgstr "Lo motor « {0} » del quasernet d'adreças a rencontrat una error."
 
 #: ../e-util/e-system.error.xml.h:20
 msgid "The calendar backend servicing &quot;{0}&quot; encountered an error."
-msgstr "Lo motor « {0} » de l'agenda a rencontré una error."
+msgstr "Lo motor « {0} » de l'agenda a rencontrat una error."
 
 #: ../e-util/e-system.error.xml.h:21
 msgid "The memo list backend servicing &quot;{0}&quot; encountered an error."
-msgstr "Lo motor « {0} » de la lista de memos a rencontré una error."
+msgstr "Lo motor « {0} » de la lista de memos a rencontrat una error."
 
 #: ../e-util/e-system.error.xml.h:22
 msgid "The task list backend servicing &quot;{0}&quot; encountered an error."
-msgstr "Lo motor « {0} » de la lista de prètzfaches a rencontré una error."
+msgstr "Lo motor « {0} » de la lista de prètzfaches a rencontrat una error."
 
 #: ../e-util/e-table-click-to-add.c:689
 #: ../e-util/gal-a11y-e-table-click-to-add.c:61
@@ -14148,15 +14143,15 @@ msgstr "clicatz per apondre"
 
 #: ../e-util/e-table-column-selector.c:264
 msgid "Move selected column names to top"
-msgstr "Desplaça los noms de colomnas seleccionadas cap a lo haut"
+msgstr "Desplaça los noms de colomnas seleccionadas cap amont"
 
 #: ../e-util/e-table-column-selector.c:269
 msgid "Move selected column names up one row"
-msgstr "Remonte los noms de colomnas seleccionadas d'una linha"
+msgstr "Remonta los noms de colomnas seleccionadas d'una linha"
 
 #: ../e-util/e-table-column-selector.c:274
 msgid "Move selected column names down one row"
-msgstr "Descend los noms de colomnas seleccionadas d'una linha"
+msgstr "Davala los noms de colomnas seleccionadas d'una linha"
 
 #: ../e-util/e-table-column-selector.c:279
 msgid "Move selected column names to bottom"
@@ -14176,20 +14171,21 @@ msgstr "(Descreissent)"
 
 #: ../e-util/e-table-config.c:395
 msgid "Not sorted"
-msgstr "Non trié"
+msgstr "Pas triat"
 
 #: ../e-util/e-table-config.c:440
 msgid "No grouping"
-msgstr "Aucun groupement"
+msgstr "Pas cap de gropament"
 
 #: ../e-util/e-table-config.c:545
 msgid "Show Fields"
-msgstr "Afichar les camps"
+msgstr "Afichar los camps"
 
 #: ../e-util/e-table-config.c:559
 msgid "Choose the order of information to appear in the message list."
 msgstr ""
-"Causissètz l'ordre d'apparition des informations dins la lista del messatge."
+"Causissètz l'òrdre d'aparicion de las informacions dins la lista del "
+"messatge."
 
 #: ../e-util/e-table-config.ui.h:2
 msgid "_Apply"
@@ -14197,11 +14193,11 @@ msgstr "_Aplicar"
 
 #: ../e-util/e-table-config.ui.h:4
 msgid "_Sort..."
-msgstr "_Trier..."
+msgstr "_Triar..."
 
 #: ../e-util/e-table-config.ui.h:5
 msgid "_Group By..."
-msgstr "_Grouper par..."
+msgstr "_Gropar per..."
 
 #: ../e-util/e-table-config.ui.h:6
 msgid "_Fields Shown..."
@@ -14209,7 +14205,7 @@ msgstr "_Camps afichats..."
 
 #: ../e-util/e-table-config.ui.h:9
 msgid "Clear _All"
-msgstr "_Tout effacer"
+msgstr "Escafar _tot"
 
 #: ../e-util/e-table-config.ui.h:10
 msgid "_Show field in View"
@@ -14221,11 +14217,11 @@ msgstr "Creissent"
 
 #: ../e-util/e-table-config.ui.h:12 ../e-util/e-table-header-item.c:1755
 msgid "Descending"
-msgstr "Décreissent"
+msgstr "Descreissent"
 
 #: ../e-util/e-table-config.ui.h:13
 msgid "Group Items By"
-msgstr "Grouper les elements par"
+msgstr "Gropar los elements per"
 
 #: ../e-util/e-table-config.ui.h:14
 msgid "Show _field in View"
@@ -14233,11 +14229,11 @@ msgstr "Afichar lo _camp dins Afichatge"
 
 #: ../e-util/e-table-config.ui.h:15
 msgid "Then By"
-msgstr "Puis par"
+msgstr "Puèi per"
 
 #: ../e-util/e-table-config.ui.h:16
 msgid "Show field i_n View"
-msgstr "Afichar lo camp _dans Afichatge"
+msgstr "Afichar lo camp _dins Afichatge"
 
 #: ../e-util/e-table-config.ui.h:17
 msgid "Show field in _View"
@@ -14245,23 +14241,23 @@ msgstr "Afichar lo camp dins A_fichatge"
 
 #: ../e-util/e-table-config.ui.h:18
 msgid "Sort"
-msgstr "Trier"
+msgstr "Triar"
 
 #: ../e-util/e-table-config.ui.h:19
 msgid "Clear All"
-msgstr "Tout effacer"
+msgstr "Escafar tot"
 
 #: ../e-util/e-table-config.ui.h:20
 msgid "Sort Items By"
-msgstr "Trier les elements par"
+msgstr "Triar los elements per"
 
 #: ../e-util/e-table-field-chooser.c:166
 msgid ""
 "To add a column to your table, drag it into\n"
 "the location in which you want it to appear."
 msgstr ""
-"Pour apondre una colomna a votre table, glissez-la\n"
-"à l'emplaçament où elle deu apparaître."
+"Per apondre una colomna a vòstra taula, lisatz-la\n"
+"a l'emplaçament ont deu aparéisser."
 
 #: ../e-util/e-table-field-chooser-dialog.c:226
 msgid "Add a Column"
@@ -14287,19 +14283,19 @@ msgstr "Personalizar la vista en cors"
 
 #: ../e-util/e-table-header-item.c:1601
 msgid "Sort _Ascending"
-msgstr "Triada _creissent"
+msgstr "Triada _creissenta"
 
 #: ../e-util/e-table-header-item.c:1604
 msgid "Sort _Descending"
-msgstr "Triada _décreissent"
+msgstr "Triada _decreissenta"
 
 #: ../e-util/e-table-header-item.c:1607
 msgid "_Unsort"
-msgstr "_Ne pas trier"
+msgstr "Triar _pas"
 
 #: ../e-util/e-table-header-item.c:1610
 msgid "Group By This _Field"
-msgstr "Grouper per ce _camp"
+msgstr "Gropar per aqueste _camp"
 
 #: ../e-util/e-table-header-item.c:1613
 msgid "Group By _Box"
@@ -14311,7 +14307,7 @@ msgstr "Levar aquesta c_olomna"
 
 #: ../e-util/e-table-header-item.c:1620
 msgid "Add a C_olumn..."
-msgstr "_Apondre una colomna..."
+msgstr "Apondre una c_olomna..."
 
 #: ../e-util/e-table-header-item.c:1624
 msgid "A_lignment"
@@ -14319,11 +14315,11 @@ msgstr "A_linhament"
 
 #: ../e-util/e-table-header-item.c:1627
 msgid "B_est Fit"
-msgstr "_Meilleur ajustement"
+msgstr "_Melhor ajustament"
 
 #: ../e-util/e-table-header-item.c:1630
 msgid "Format Column_s..."
-msgstr "Format des colomna_s..."
+msgstr "Format de las colomna_s..."
 
 #: ../e-util/e-table-header-item.c:1634
 msgid "Custo_mize Current View..."
@@ -14331,7 +14327,7 @@ msgstr "_Personalizar la vista actuala..."
 
 #: ../e-util/e-table-header-item.c:1705
 msgid "_Sort By"
-msgstr "_Trier par"
+msgstr "_Triar per"
 
 #. Custom
 #: ../e-util/e-table-header-item.c:1728
@@ -14340,7 +14336,7 @@ msgstr "_Personalizar"
 
 #: ../e-util/e-text.c:2134
 msgid "Select All"
-msgstr "Tout seleccionar"
+msgstr "Seleccionar tot"
 
 #. Put the "UTC" entry at the top of the combo's list.
 #: ../e-util/e-timezone-dialog.c:206 ../e-util/e-timezone-dialog.c:428
@@ -14359,13 +14355,13 @@ msgid ""
 "zone.\n"
 "Use the right mouse button to zoom out."
 msgstr ""
-"Utilizatz lo boton gauche de la souris per faire un zoom sus una région de "
-"la carte e seleccionar un fus orari.\n"
-"Utilizatz lo boton droit de la souris per réduire."
+"Utilizatz lo boton d'esquèrra de la mirga per far un zoom sus una region de "
+"la mapa e seleccionar un fus orari.\n"
+"Utilizatz lo boton drech de la mirga per reduire."
 
 #: ../e-util/e-timezone-dialog.ui.h:6
 msgid "Time Zones"
-msgstr "Fuseaux horaires"
+msgstr "Fuses oraris"
 
 #: ../e-util/e-timezone-dialog.ui.h:7
 msgid "_Selection"
@@ -14373,7 +14369,7 @@ msgstr "_Seleccion"
 
 #: ../e-util/e-timezone-dialog.ui.h:8
 msgid "Timezone drop-down combination box"
-msgstr "Zone de liste déroulante pel fus orari"
+msgstr "Zòna de lista desenrotlanta pel fus orari"
 
 #: ../e-util/e-url-entry.c:108
 msgid "Click here to open the URL"
@@ -14381,29 +14377,29 @@ msgstr "Clicatz aicí per dobrir l'URL"
 
 #: ../e-util/e-url-entry.c:110
 msgid "Enter a URL here"
-msgstr "Sasissètz un URL ici"
+msgstr "Sasissètz un URL aicí"
 
 #: ../e-util/evolution-source-viewer.c:637
 msgid "Evolution Source Viewer"
-msgstr "Afficheur des sources d'Evolution"
+msgstr "Afichador de las fonts d'Evolution"
 
 #. Translators: The name that is displayed in the user interface
 #: ../e-util/evolution-source-viewer.c:667
 msgid "Display Name"
-msgstr "Afichar lo nom"
+msgstr "Nom d'afichatge"
 
 #: ../e-util/evolution-source-viewer.c:676
 msgid "Flags"
-msgstr "Marqueurs"
+msgstr "Marcadors"
 
 #: ../e-util/evolution-source-viewer.c:728
 #: ../mail/e-mail-config-identity-page.c:721
 msgid "Identity"
-msgstr "Identité"
+msgstr "Identitat"
 
 #: ../e-util/e-web-view.c:318
 msgid "_Copy Link Location"
-msgstr "_Copiar l'emplaçament del lien"
+msgstr "_Copiar l'emplaçament del ligam"
 
 #: ../e-util/e-web-view.c:320
 msgid "Copy the link to the clipboard"
@@ -14415,7 +14411,7 @@ msgstr "_Dobrir un ligam dins lo navigador"
 
 #: ../e-util/e-web-view.c:330
 msgid "Open the link in a web browser"
-msgstr "Ouvre lo ligam dins un navigador Web"
+msgstr "Dobrís lo ligam dins un navigador Web"
 
 #: ../e-util/e-web-view.c:338
 msgid "_Copy Email Address"
@@ -14423,11 +14419,11 @@ msgstr "Copiar l'_adreça electronica"
 
 #: ../e-util/e-web-view.c:345
 msgid "Copy _Raw Email Address"
-msgstr "Copiar l'adreça corrièr electronic b_rute"
+msgstr "Copiar l'adreça corrièr electronic b_ruta"
 
 #: ../e-util/e-web-view.c:347
 msgid "Copy the raw email address to the clipboard"
-msgstr "Còpia l'adreça corrièr electronic brute dins lo quichapapièrs"
+msgstr "Còpia l'adreça corrièr electronic bruta dins lo quichapapièrs"
 
 #: ../e-util/e-web-view.c:362
 msgid "_Copy Image"
@@ -14439,7 +14435,7 @@ msgstr "Còpia l'imatge dins lo quichapapièrs"
 
 #: ../e-util/e-web-view.c:369
 msgid "Save _Image..."
-msgstr "Enregistrar l'_image..."
+msgstr "Enregistrar l'_imatge..."
 
 #: ../e-util/e-web-view.c:371
 msgid "Save the image to a file"
@@ -14452,7 +14448,7 @@ msgstr "Selecciona tot lo tèxte e los imatges"
 #: ../e-util/e-web-view.c:1074
 #, c-format
 msgid "Click to call %s"
-msgstr "Clicar per apèler %s"
+msgstr "Clicar per apelar %s"
 
 #: ../e-util/e-web-view.c:1076
 msgid "Click to hide/unhide addresses"
@@ -14507,7 +14503,7 @@ msgstr "Data mancanta."
 
 #: ../e-util/filter.error.xml.h:2
 msgid "You must choose a date."
-msgstr "Vos cal choisir una data."
+msgstr "Vos cal causir una data."
 
 #: ../e-util/filter.error.xml.h:3
 msgid "Missing filename."
@@ -14515,19 +14511,19 @@ msgstr "Nom de fichièr mancant."
 
 #: ../e-util/filter.error.xml.h:4
 msgid "You must specify a filename."
-msgstr "Vos cal indiquer un nom de fichièr."
+msgstr "Vos cal indicar un nom de fichièr."
 
 #: ../e-util/filter.error.xml.h:5
 msgid "File &quot;{0}&quot; does not exist or is not a regular file."
-msgstr "Lo fichièr « {0} » n'existe pas o es pas un fichièr standard."
+msgstr "Lo fichièr « {0} » existís pas o es pas un fichièr estandard."
 
 #: ../e-util/filter.error.xml.h:6
 msgid "Bad regular expression &quot;{0}&quot;."
-msgstr "Error dins l'expression régulière « {0} »."
+msgstr "Error dins l'expression regulara « {0} »."
 
 #: ../e-util/filter.error.xml.h:7
 msgid "Could not compile regular expression &quot;{1}&quot;."
-msgstr "Impossible de compiler l'expression régulière « {1} »."
+msgstr "Impossible de compilar l'expression regulara « {1} »."
 
 #: ../e-util/filter.error.xml.h:8 ../mail/mail.error.xml.h:103
 msgid "Missing name."
@@ -14551,7 +14547,7 @@ msgstr "Condicion mancanta."
 
 #: ../e-util/filter.error.xml.h:13
 msgid "Filter should have at least one condition."
-msgstr "Lo filtre deu comporter al minimum una condicion."
+msgstr "Lo filtre deu comportar al minimum una condicion."
 
 #: ../e-util/filter.error.xml.h:14
 msgid "Missing value."
@@ -14559,7 +14555,7 @@ msgstr "Valor mancanta."
 
 #: ../e-util/filter.error.xml.h:15
 msgid "One or more values cannot be empty."
-msgstr "Una o plusieurs valors ne peuvent pas èsser vides."
+msgstr "Una o mantuna valor pòdon pas èsser voidas."
 
 #: ../e-util/filter.ui.h:2
 msgid "the current time"
@@ -14567,11 +14563,11 @@ msgstr "la data actuala"
 
 #: ../e-util/filter.ui.h:3
 msgid "the time you specify"
-msgstr "la data que vous indiquez"
+msgstr "la data qu'indicatz"
 
 #: ../e-util/filter.ui.h:4
 msgid "a time relative to the current time"
-msgstr "une date relative a la data actuala"
+msgstr "una data relativa a la data actuala"
 
 #: ../e-util/filter.ui.h:5 ../mail/mail-config.ui.h:89
 msgid "seconds"
@@ -14603,7 +14599,7 @@ msgstr "Afichar los filtres pel corrièr electronic :"
 
 #: ../e-util/filter.ui.h:15 ../mail/em-filter-editor.c:165
 msgid "_Filter Rules"
-msgstr "Règles de _filtrage"
+msgstr "Règlas de _filtratge"
 
 #: ../e-util/filter.ui.h:23
 msgid "Compare against"
@@ -14614,15 +14610,15 @@ msgid ""
 "The message's date will be compared against\n"
 "the current time when filtering occurs."
 msgstr ""
-"La data del messatge serà comparada a la date\n"
-"actuala al moment del filtrage."
+"La data del messatge serà comparada a la data\n"
+"actuala al moment del filtratge."
 
 #: ../e-util/filter.ui.h:26
 msgid ""
 "The message's date will be compared against\n"
 "12:00am of the date specified."
 msgstr ""
-"La data del messatge serà comparada a celle\n"
+"La data del messatge serà comparada a la qu'es\n"
 "indicada a 12:00am."
 
 #: ../e-util/filter.ui.h:28
@@ -14631,21 +14627,21 @@ msgid ""
 "a time relative to when filtering occurs."
 msgstr ""
 "La data del messatge serà comparada a una data\n"
-"relative al moment où lo filtre es exécuté."
+"relativa al moment que lo filtre es executat."
 
 #: ../e-util/gal-a11y-e-cell.c:130
 msgid "Table Cell"
-msgstr "Cellule de tableau"
+msgstr "Cellula de tablèu"
 
 #. Translators: description of a "popup" action
 #: ../e-util/gal-a11y-e-cell-popup.c:127
 msgid "popup a child"
-msgstr "affiche un enfant"
+msgstr "aficha un enfant"
 
 #. Translators: description of an "edit" action
 #: ../e-util/gal-a11y-e-cell-text.c:631
 msgid "begin editing this cell"
-msgstr "comença la modificacion de la cellula"
+msgstr "començar l'edicion d'aquesta cellula"
 
 #. Translators: description of a "toggle" action
 #: ../e-util/gal-a11y-e-cell-toggle.c:185
@@ -14655,12 +14651,12 @@ msgstr "bascula la cellula"
 #. Translators: description of an "expand" action
 #: ../e-util/gal-a11y-e-cell-tree.c:213
 msgid "expands the row in the ETree containing this cell"
-msgstr "étend la rengada del ETree que conten aquesta cellula"
+msgstr "espandís la rengada del ETree que conten aquesta cellula"
 
 #. Translators: description of a "collapse" action
 #: ../e-util/gal-a11y-e-cell-tree.c:221
 msgid "collapses the row in the ETree containing this cell"
-msgstr "réduit la rengada del ETree que conten aquesta cellula"
+msgstr "redusís la rengada del ETree que conten aquesta cellula"
 
 #: ../e-util/gal-a11y-e-table-click-to-add.c:71
 msgid "click"
@@ -14668,7 +14664,7 @@ msgstr "clic"
 
 #: ../e-util/gal-a11y-e-table-column-header.c:162
 msgid "sort"
-msgstr "tri"
+msgstr "triada"
 
 #: ../e-util/gal-view-instance-save-as-dialog.c:295
 msgid "Save Current View"
@@ -14680,11 +14676,11 @@ msgstr "_Crear una novèla vista"
 
 #: ../e-util/gal-view-instance-save-as-dialog.ui.h:3
 msgid "_Replace existing view"
-msgstr "_Remplaçar la vista existante"
+msgstr "_Remplaçar la vista existenta"
 
 #: ../e-util/widgets.error.xml.h:1
 msgid "Do you wish to save your changes?"
-msgstr "Volètz enregistrar vos modifications ?"
+msgstr "Volètz enregistrar vòstras modificacions ?"
 
 #: ../e-util/widgets.error.xml.h:2
 msgid "This signature has been changed, but has not been saved."
@@ -14693,11 +14689,11 @@ msgstr ""
 
 #: ../e-util/widgets.error.xml.h:3
 msgid "_Discard changes"
-msgstr "Aban_donner las modificacions"
+msgstr "Aban_donar las modificacions"
 
 #: ../e-util/widgets.error.xml.h:4
 msgid "Blank Signature"
-msgstr "Signatura vide"
+msgstr "Signatura voida"
 
 #: ../e-util/widgets.error.xml.h:5
 msgid "Please provide an unique name to identify this signature."
@@ -14724,8 +14720,8 @@ msgid ""
 "Evolution is a personal information management application that provides "
 "integrated mail, calendaring and address book functionality."
 msgstr ""
-"Evolution es una application de gestion des informations personalas qui "
-"regroupe las foncions de corrièr electronic, d'agenda e de quasernet "
+"Evolution es una aplicacion de gestion de las informacions personalas que "
+"regropa las foncions de corrièr electronic, d'agenda e de quasernet "
 "d'adreças."
 
 #: ../evolution.appdata.xml.in.h:2
@@ -14735,11 +14731,11 @@ msgid ""
 "compliance and security. Evolution can also integrate smoothly with "
 "Microsoft Exchange by way of the \"Exchange Web Services\" (EWS) extension."
 msgstr ""
-"Evolution prend en carga un large éventail de formats e de protocoles "
-"réseaux standards de l'industrie de l'échange d'informations, amb un fort "
-"accent mis sus la compatibilitat e la sécurité. Evolution peut aussi "
-"aisidament s'integrar a Microsoft Exchange gràce a l'extension « Exchange "
-"Web Services » (EWS)."
+"Evolution pren en carga un larg ventalh de formats e de protocòls de rets "
+"estandards de l'industria de l'escambi d'informacions, amb un fòrt accent "
+"mes sus la compatibilitat e la seguretat. Evolution pòt tanben s'integrar "
+"aisidament a Microsoft Exchange gràcias a l'extension « Exchange Web "
+"Services » (EWS)."
 
 #: ../libemail-engine/camel-sasl-xoauth2.c:26
 msgid "OAuth2"
@@ -14766,12 +14762,12 @@ msgstr "Messatges transferits"
 #, c-format
 msgid "Retrieving %d message"
 msgid_plural "Retrieving %d messages"
-msgstr[0] "Recuperacion de %d message"
-msgstr[1] "Recuperacion de %d messages"
+msgstr[0] "Recuperacion de %d messatge"
+msgstr[1] "Recuperacion de %d messatges"
 
 #: ../libemail-engine/e-mail-folder-utils.c:778
 msgid "Scanning messages for duplicates"
-msgstr "Verificacion de la présence de doblons parmi los messatges"
+msgstr "Verificacion de la preséncia de doblons demest los messatges"
 
 #: ../libemail-engine/e-mail-folder-utils.c:1148
 #, c-format
@@ -14789,7 +14785,7 @@ msgstr "Lo fichièr es estat suprimit."
 
 #: ../libemail-engine/e-mail-folder-utils.c:1391
 msgid "Removing attachments"
-msgstr "Supression des pèças juntas"
+msgstr "Supression de las pèças juntas"
 
 #: ../libemail-engine/e-mail-folder-utils.c:1555
 #, c-format
@@ -14801,7 +14797,7 @@ msgstr[1] "Enregistrament de %d messatges"
 #: ../libemail-engine/e-mail-folder-utils.c:1933
 #, c-format
 msgid "Invalid folder URI '%s'"
-msgstr "URI de dorsièr non valide « %s »"
+msgstr "URI de dorsièr invalida « %s »"
 
 #. Some local folders
 #: ../libemail-engine/e-mail-session.c:124 ../mail/em-folder-properties.c:680
@@ -14845,7 +14841,7 @@ msgstr "Modèls"
 #: ../libemail-engine/e-mail-session.c:1261
 #, c-format
 msgid "User cancelled operation"
-msgstr "L'utilizaire a anullat l'opération"
+msgstr "L'utilizaire a anullat l'operacion"
 
 #: ../libemail-engine/e-mail-session.c:1318
 #, c-format
@@ -14853,7 +14849,7 @@ msgid ""
 "No destination address provided, forwarding of the message has been "
 "cancelled."
 msgstr ""
-"Aucune adresse de destination provesida, lo transferiment del messatge es "
+"Pas cap d'adreça de destinacion provesida, lo transferiment del messatge es "
 "estat anullat."
 
 #: ../libemail-engine/e-mail-session.c:1331
@@ -14861,29 +14857,29 @@ msgstr ""
 msgid ""
 "No identity found to use, forwarding of the message has been cancelled."
 msgstr ""
-"Aucun compte a utilizar n'a été trouvé, lo transferiment del messatge es "
-"estat anullat."
+"Cap de compte d'utilizar es pas estat trobat, lo transferiment del messatge "
+"es estat anullat."
 
 #: ../libemail-engine/e-mail-session.c:2360
 #, c-format
 msgid "Waiting for '%s'"
-msgstr "En attente de « %s »"
+msgstr "En espèra de « %s »"
 
 #: ../libemail-engine/e-mail-session-utils.c:540
 msgid "No mail transport service available"
-msgstr "Aucun service d'acaminament de corrièr electronic disponible"
+msgstr "Cap d'acaminament de corrièr electronic pas disponible"
 
 #: ../libemail-engine/e-mail-session-utils.c:630
 #: ../libemail-engine/mail-ops.c:719
 #, c-format
 msgid "Posting message to '%s'"
-msgstr "Envoi d'un messatge a « %s »"
+msgstr "Mandadís d'un messatge a « %s »"
 
 #: ../libemail-engine/e-mail-session-utils.c:667
 #: ../libemail-engine/mail-ops.c:755
 #, c-format
 msgid "Failed to apply outgoing filters: %s"
-msgstr "L'aplicacion des filtres de sortida a fracassat : %s"
+msgstr "L'aplicacion dels filtres de sortida a fracassat : %s"
 
 #: ../libemail-engine/e-mail-session-utils.c:697
 #: ../libemail-engine/e-mail-session-utils.c:732
@@ -14899,19 +14895,19 @@ msgid ""
 "Failed to append to %s: %s\n"
 "Appending to local 'Sent' folder instead."
 msgstr ""
-"L'ajout a %s a fracassat : %s\n"
-"Apondut al dorsièr local « Mandats » a la place."
+"L'apondon a %s a fracassat : %s\n"
+"Apondut al dorsièr local « Mandats » a la plaça."
 
 #: ../libemail-engine/e-mail-session-utils.c:751
 #: ../libemail-engine/mail-ops.c:831
 #, c-format
 msgid "Failed to append to local 'Sent' folder: %s"
-msgstr "L'ajout al dorsièr local « Mandats » a fracassat : %s"
+msgstr "L'apondon al dorsièr local « Mandats » a fracassat : %s"
 
 #: ../libemail-engine/e-mail-session-utils.c:953
 #: ../libemail-engine/mail-ops.c:979 ../libemail-engine/mail-ops.c:1081
 msgid "Sending message"
-msgstr "Envoi del messatge"
+msgstr "Mandadís del messatge"
 
 #: ../libemail-engine/e-mail-store-utils.c:189
 #, c-format
@@ -14930,7 +14926,7 @@ msgstr "Preparacion del compte « %s » per utilizacion fòra linha"
 
 #: ../libemail-engine/mail-ops.c:90
 msgid "Filtering Selected Messages"
-msgstr "Filtrage dels messatges seleccionats"
+msgstr "Filtratge dels messatges seleccionats"
 
 #: ../libemail-engine/mail-ops.c:148
 #, c-format
@@ -14940,11 +14936,10 @@ msgid ""
 ">Message Filters.\n"
 "Original error was: %s"
 msgstr ""
-"Fracàs de filtrage dels messatges seleccionats. Il se peut que l'adreça "
-"definida pour l'emplaçament del dorsièr dins un o plusieurs filtres ne siá "
-"pas valide. Veuillez verificar vos filtres dins Édition->Filtres de "
-"messatges.\n"
-"L'error initiale était : %s"
+"Fracàs de filtratge dels messatges seleccionats. Es possible que l'adreça "
+"definida per l'emplaçament del dorsièr dins un o mantun filtre siá pas "
+"valida. Verificatz vòstres filtres dins Edicion->Filtres de messatges.\n"
+"L'error iniciala èra : %s"
 
 #: ../libemail-engine/mail-ops.c:229
 #, c-format
@@ -14959,22 +14954,22 @@ msgid ""
 ">Message Filters.\n"
 "Original error was: %s"
 msgstr ""
-"Fracàs d'aplicacion des filtres de sortida. Il se peut que l'adreça definida "
-"pour l'emplaçament del dorsièr dins un o plusieurs filtres ne siá pas "
-"valide. Veuillez verificar vos filtres dins Édition->Filtres de messatges.\n"
-"L'error initiale était : %s"
+"Fracàs d'aplicacion dels filtres de sortida. Es possible que l'adreça "
+"definida per l'emplaçament del dorsièr dins un o mantun filtre siá pas "
+"valid. Verificatz vòstres filtres dins Edicion->Filtres de messatges.\n"
+"L'error iniciala èra : %s"
 
 #: ../libemail-engine/mail-ops.c:990
 #, c-format
 msgid "Sending message %d of %d"
-msgstr "Envoi del messatge %d sus %d"
+msgstr "Mandadís del messatge %d sus %d"
 
 #: ../libemail-engine/mail-ops.c:1042
 #, c-format
 msgid "Failed to send a message"
 msgid_plural "Failed to send %d of %d messages"
-msgstr[0] "Fracàs al moment de lo mandadís del messatge"
-msgstr[1] "Fracàs al moment de lo mandadís de %d messages sus %d"
+msgstr[0] "Fracàs al moment del mandadís del messatge"
+msgstr[1] "Fracàs al moment del mandadís de %d messages sus %d"
 
 #: ../libemail-engine/mail-ops.c:1048
 msgid "Canceled."
@@ -14997,7 +14992,7 @@ msgstr "Còpia dels messatges cap a « %s »"
 #: ../libemail-engine/mail-ops.c:1284
 #, c-format
 msgid "Storing folder '%s'"
-msgstr "Stockage del dorsièr « %s »"
+msgstr "Emmagazinatge del dorsièr « %s »"
 
 #: ../libemail-engine/mail-ops.c:1412
 #, c-format
@@ -15007,7 +15002,7 @@ msgstr "Netejatge e emmagazinatge del compte « %s »"
 #: ../libemail-engine/mail-ops.c:1413
 #, c-format
 msgid "Storing account '%s'"
-msgstr "Stockage del compte « %s »"
+msgstr "Emmagazinatge del compte « %s »"
 
 #: ../libemail-engine/mail-ops.c:1488
 #, c-format
@@ -15017,7 +15012,7 @@ msgstr "Voidatge de l'escobilhièr dins « %s »"
 #: ../libemail-engine/mail-ops.c:1580
 #, c-format
 msgid "Processing folder changes in '%s'"
-msgstr "Traitement des modifications de dorsièr dins « %s »"
+msgstr "Tractament de las modificacions de dorsièr dins « %s »"
 
 #: ../libemail-engine/mail-tools.c:70
 #, c-format
@@ -15027,7 +15022,7 @@ msgstr "Impossible de crear lo dorsièr spool « %s » : %s"
 #: ../libemail-engine/mail-tools.c:110
 #, c-format
 msgid "Trying to movemail a non-mbox source '%s'"
-msgstr "Tentative de movemail d'una source non mbox « %s »"
+msgstr "Temptativa de movemail d'una font pas mbox « %s »"
 
 #: ../libemail-engine/mail-tools.c:236
 #, c-format
@@ -15068,8 +15063,8 @@ msgstr[0] ""
 "supression del dorsièr\n"
 "« %s »."
 msgstr[1] ""
-"Les dorsièrs de recèrca suivants\n"
-"%s ont été modificats per prene en compte la supression del dorsièr\n"
+"Los dorsièrs de recèrca seguents\n"
+"%s son estats modificats per prene en compte la supression del dorsièr\n"
 "« %s »."
 
 #: ../mail/e-mail-account-manager.c:117 ../mail/e-mail-account-manager.c:204
@@ -15082,7 +15077,7 @@ msgstr "Aqueste compte es estat creat amb lo servici de comptes en linha."
 
 #: ../mail/e-mail-account-manager.c:689
 msgid "_Reset Order"
-msgstr "_Réinitialiser l'ordre"
+msgstr "_Reïnicializar l'òrdre"
 
 #: ../mail/e-mail-account-manager.c:702
 msgid "You can drag and drop account names to reorder them."
@@ -15090,7 +15085,7 @@ msgstr "Podètz desplaçar los noms de comptes per los reorganizar."
 
 #: ../mail/e-mail-account-manager.c:745
 msgid "De_fault"
-msgstr "Par dé_faut"
+msgstr "Per de_faut"
 
 #: ../mail/e-mail-account-tree-view.c:83
 #: ../modules/mail/em-composer-prefs.c:1276
@@ -15105,7 +15100,7 @@ msgstr "Nom del compte"
 
 #: ../mail/e-mail-autoconfig.c:619
 msgid "No email address provided"
-msgstr "Aucune adreça electronica provesida"
+msgstr "Cap d'adreça electronica pas provesida"
 
 #: ../mail/e-mail-autoconfig.c:628
 msgid "Missing domain in email address"
@@ -15118,29 +15113,29 @@ msgstr "Tampa aquesta fenèstra"
 
 #: ../mail/e-mail-browser.c:286
 msgid "(No Subject)"
-msgstr "(Aucun objècte)"
+msgstr "(Pas cap d'objècte)"
 
 #. GtkAssistant's back button label.
 #: ../mail/e-mail-config-assistant.c:46
 msgid "Go _Back"
-msgstr "En _arrière"
+msgstr "En _arrièr"
 
 #. GtkAssistant sinks the floating button reference.
 #: ../mail/e-mail-config-assistant.c:115
 msgid "_Skip Lookup"
-msgstr "_Sauter la recèrca"
+msgstr "_Sautar la recèrca"
 
 #: ../mail/e-mail-config-assistant.c:660
 msgid "Evolution Account Assistant"
-msgstr "Assistant de compte d'Evolution"
+msgstr "Assistent de compte d'Evolution"
 
 #: ../mail/e-mail-config-assistant.c:952
 msgid "_Revise Details"
-msgstr "_Revoir les détails"
+msgstr "_Repassar los detalhs"
 
 #: ../mail/e-mail-config-auth-check.c:339
 msgid "Check for Supported Types"
-msgstr "Verificar los tipes pris en carga"
+msgstr "Verificar los tipes preses en carga"
 
 #: ../mail/e-mail-config-confirm-page.c:155
 msgid ""
@@ -15150,11 +15145,11 @@ msgid ""
 "\n"
 "Click \"Apply\" to save your settings."
 msgstr ""
-"Félicitations, la configuracion de vòstre messatjariá es acabada.\n"
+"Felicitacions, la configuracion de vòstra messatjariá es acabada.\n"
 "\n"
-"Podètz ara mandar e recebre des corrièrs electronics amb Evolution.\n"
+"Podètz ara mandar e recebre de corrièrs electronics amb Evolution.\n"
 "\n"
-"Clicatz sus « Aplicar » per enregistrar les paramètres."
+"Clicatz sus « Aplicar » per enregistrar los paramètres."
 
 #: ../mail/e-mail-config-confirm-page.c:167
 msgid "Done"
@@ -15166,12 +15161,12 @@ msgstr "Dorsièrs especials"
 
 #: ../mail/e-mail-config-defaults-page.c:558
 msgid "Draft Messages _Folder:"
-msgstr "Dorsièr des borrolhons de _messages :"
+msgstr "Dorsièr dels borrolhons de _messatges :"
 
 #: ../mail/e-mail-config-defaults-page.c:568
 msgid "Choose a folder for saving draft messages."
 msgstr ""
-"Causissètz un dorsièr per l'enregistrament des borrolhons de messatges."
+"Causissètz un dorsièr per l'enregistrament dels borrolhons de messatges."
 
 #: ../mail/e-mail-config-defaults-page.c:582
 msgid "Sent _Messages Folder:"
@@ -15307,7 +15302,7 @@ msgstr "Apondre una _novèla signature..."
 #: ../mail/e-mail-config-identity-page.c:555
 msgid "_Look up mail server details based on the entered e-mail address"
 msgstr ""
-"_Cercar les détails del servidor de courrier sus la base de l'adreça "
+"_Cercar los détails del servidor de courrier sus la base de l'adreça "
 "électronique sasida"
 
 #: ../mail/e-mail-config-lookup-page.c:70
@@ -15318,11 +15313,9 @@ msgstr "Recèrca des détails del compte..."
 msgid "Checking for New Mail"
 msgstr "Recèrca de nouveaux corrièrs electronics"
 
-# Totas les n minutes (Stéphane)
-# Totas las n minutes (Stéphane)
 #: ../mail/e-mail-config-provider-page.c:500
 msgid "Check for _new messages every"
-msgstr "Verificar les _novèls messatges toutes les"
+msgstr "Verificar los messatges _novèls cada"
 
 #: ../mail/e-mail-config-provider-page.c:698
 msgid "Receiving Options"
@@ -15876,7 +15869,7 @@ msgstr "_Dins lo còs"
 
 #: ../mail/e-mail-reader.c:2008 ../mail/e-mail-reader.c:2015
 msgid "Forward the selected message in the body of a new message"
-msgstr "Fait suivre lo messatge seleccionat dins lo còs d'un novèl messatge"
+msgstr "Fait suivre lo messatge seleccionat dins lo còs d'un messatge novèl"
 
 #: ../mail/e-mail-reader.c:2013
 msgid "Forward As _Inline"
@@ -15992,7 +15985,7 @@ msgstr "Marque los messatges seleccionats coma non lus"
 
 #: ../mail/e-mail-reader.c:2111
 msgid "_Edit as New Message..."
-msgstr "É_diter coma un novèl messatge..."
+msgstr "_Modificar coma un messatge novèl..."
 
 #: ../mail/e-mail-reader.c:2113
 msgid "Open the selected messages in the composer for editing"
@@ -16000,7 +15993,7 @@ msgstr "Ouvre los messatges seleccionats dins l'editor"
 
 #: ../mail/e-mail-reader.c:2118
 msgid "Compose _New Message"
-msgstr "Rédiger un _novèl messatge"
+msgstr "Redigir un messatge _novèl"
 
 #: ../mail/e-mail-reader.c:2120
 msgid "Open a window for composing a mail message"
@@ -17516,7 +17509,7 @@ msgstr "Démarrage"
 
 #: ../mail/mail-config.ui.h:80
 msgid "Check for new _messages on start"
-msgstr "Verificar les _novèls messatges al démarrage"
+msgstr "Verificar los _messatges novèls a l'aviada"
 
 #: ../mail/mail-config.ui.h:81
 msgid "Check for new messa_ges in all active accounts"
@@ -23237,8 +23230,8 @@ msgstr ""
 #, c-format
 msgid "You have received %d new message."
 msgid_plural "You have received %d new messages."
-msgstr[0] "Avètz reçu %d novèl messatge."
-msgstr[1] "Avètz reçu %d novèls messatges."
+msgstr[0] "Avètz recebut %d messatge novèl."
+msgstr[1] "Avètz recebut %d messatges novèls."
 
 #. Translators: "From:" is preceding a new mail
 #. * sender address, like "From: user@example.com"
@@ -23267,7 +23260,7 @@ msgstr "Afichar %s"
 
 #: ../plugins/mail-notification/mail-notification.c:687
 msgid "_Play sound when a new message arrives"
-msgstr "_Jouer un son a la recepcion d'un novèl messatge"
+msgstr "_Jogar un son a la recepcion d'un messatge novèl"
 
 #: ../plugins/mail-notification/mail-notification.c:719
 msgid "_Beep"
@@ -23287,11 +23280,11 @@ msgstr "Seleccion d'un fichièr sonore"
 
 #: ../plugins/mail-notification/mail-notification.c:837
 msgid "Notify new messages for _Inbox only"
-msgstr "Avertir unicament des novèls messatges dins la _bóstia de recepcion"
+msgstr "Avertir unicament dels novèls messatges dins la _bóstia de recepcion"
 
 #: ../plugins/mail-notification/mail-notification.c:853
 msgid "Show _notification when a new message arrives"
-msgstr "Afichar una _notification a la recepcion d'un novèl messatge"
+msgstr "Afichar una _notification a la recepcion d'un messatge novèl"
 
 #: ../plugins/mail-notification/org-gnome-mail-notification.eplug.xml.h:1
 msgid "Mail Notification"
@@ -23299,7 +23292,7 @@ msgstr "Notification de nouveau corrièr electronic"
 
 #: ../plugins/mail-notification/org-gnome-mail-notification.eplug.xml.h:2
 msgid "Notifies you when new mail messages arrive."
-msgstr "Affiche una notification a la recepcion d'un novèl messatge."
+msgstr "Affiche una notification a la recepcion d'un messatge novèl."
 
 #. To Translators: The full sentence looks like: "Created from a mail by John Doe <john.doe@myco.example>"
 #: ../plugins/mail-to-task/mail-to-task.c:229
@@ -24959,39 +24952,39 @@ msgstr "Coma lo dorsièr _Mandats"
 
 #: ../views/mail/galview.xml.h:3
 msgid "By Su_bject"
-msgstr "Par _objècte"
+msgstr "Per _objècte"
 
 #: ../views/mail/galview.xml.h:4
 msgid "By Se_nder"
-msgstr "Par e_xpeditor"
+msgstr "Per e_xpeditor"
 
 #: ../views/mail/galview.xml.h:5
 msgid "By S_tatus"
-msgstr "Par _estat"
+msgstr "Per es_tat"
 
 #: ../views/mail/galview.xml.h:6
 msgid "By _Follow Up Flag"
-msgstr "Par _indicateur de suivi"
+msgstr "Per _indicador de seguiment"
 
 #: ../views/mail/galview.xml.h:7
 msgid "For _Wide View"
-msgstr "Pour l'afichatge _large"
+msgstr "Per l'afichatge _larg"
 
 #: ../views/mail/galview.xml.h:8
 msgid "As Sent Folder for Wi_de View"
-msgstr "Comme lo dorsièr _Mandats per l'afichatge large"
+msgstr "Coma lo dorsièr _Mandats per l'afichatge larg"
 
 #: ../views/memos/galview.xml.h:1
 msgid "_Memos"
-msgstr "_Mémos"
+msgstr "_Memos"
 
 #: ../views/tasks/galview.xml.h:2
 msgid "With _Due Date"
-msgstr "Avec _date d'escasença"
+msgstr "Amb _data d'escasença"
 
 #: ../views/tasks/galview.xml.h:3
 msgid "With _Status"
-msgstr "Avec l'é_tat"
+msgstr "Amb l'es_tat"
 
 #~ msgid "N_ever"
 #~ msgstr "Pas _jamai"
