@@ -60,6 +60,27 @@ G_DEFINE_TYPE_WITH_CODE (
 		E_TYPE_EXTENSIBLE, NULL))
 
 static void
+attachment_tree_view_render_size (GtkTreeViewColumn *column,
+                                  GtkCellRenderer *renderer,
+                                  GtkTreeModel *model,
+                                  GtkTreeIter *iter)
+{
+	gchar *display_size = NULL;
+	gint column_id;
+	guint64 size;
+
+	column_id = E_ATTACHMENT_STORE_COLUMN_SIZE;
+	gtk_tree_model_get (model, iter, column_id, &size, -1);
+
+	if (size > 0)
+		display_size = g_format_size ((goffset) size);
+
+	g_object_set (renderer, "text", display_size, NULL);
+
+	g_free (display_size);
+}
+
+static void
 attachment_tree_view_set_property (GObject *object,
                                    guint property_id,
                                    const GValue *value,
@@ -106,6 +127,97 @@ attachment_tree_view_get_property (GObject *object,
 }
 
 static void
+attachment_tree_view_constructed (GObject *object)
+{
+	EAttachmentTreeView *tree_view = E_ATTACHMENT_TREE_VIEW (object);
+	GtkTreeSelection *selection;
+	GtkTreeViewColumn *column;
+	GtkCellRenderer *renderer;
+
+	/* Chain up to parent's method. */
+	G_OBJECT_CLASS (e_attachment_tree_view_parent_class)->constructed (object);
+
+	gtk_tree_view_set_rules_hint (GTK_TREE_VIEW (tree_view), TRUE);
+
+	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (tree_view));
+	gtk_tree_selection_set_mode (selection, GTK_SELECTION_MULTIPLE);
+
+	/* Name Column */
+	column = gtk_tree_view_column_new ();
+	gtk_tree_view_column_set_expand (column, TRUE);
+	gtk_tree_view_column_set_spacing (column, 3);
+	gtk_tree_view_column_set_title (column, _("Description"));
+	gtk_tree_view_append_column (GTK_TREE_VIEW (tree_view), column);
+
+	renderer = gtk_cell_renderer_pixbuf_new ();
+	gtk_tree_view_column_pack_start (column, renderer, FALSE);
+
+	g_object_set (renderer, "stock-size", GTK_ICON_SIZE_MENU, NULL);
+
+	gtk_tree_view_column_add_attribute (
+		column, renderer, "gicon",
+		E_ATTACHMENT_STORE_COLUMN_ICON);
+
+	renderer = gtk_cell_renderer_text_new ();
+	g_object_set (renderer, "ellipsize", PANGO_ELLIPSIZE_END, NULL);
+	gtk_tree_view_column_pack_start (column, renderer, TRUE);
+
+	gtk_tree_view_column_add_attribute (
+		column, renderer, "text",
+		E_ATTACHMENT_STORE_COLUMN_DESCRIPTION);
+
+	renderer = gtk_cell_renderer_progress_new ();
+	g_object_set (renderer, "text", _("Loading"), NULL);
+	gtk_tree_view_column_pack_start (column, renderer, TRUE);
+
+	gtk_tree_view_column_add_attribute (
+		column, renderer, "value",
+		E_ATTACHMENT_STORE_COLUMN_PERCENT);
+
+	gtk_tree_view_column_add_attribute (
+		column, renderer, "visible",
+		E_ATTACHMENT_STORE_COLUMN_LOADING);
+
+	renderer = gtk_cell_renderer_progress_new ();
+	g_object_set (renderer, "text", _("Saving"), NULL);
+	gtk_tree_view_column_pack_start (column, renderer, TRUE);
+
+	gtk_tree_view_column_add_attribute (
+		column, renderer, "value",
+		E_ATTACHMENT_STORE_COLUMN_PERCENT);
+
+	gtk_tree_view_column_add_attribute (
+		column, renderer, "visible",
+		E_ATTACHMENT_STORE_COLUMN_SAVING);
+
+	/* Size Column */
+	column = gtk_tree_view_column_new ();
+	gtk_tree_view_column_set_title (column, _("Size"));
+	gtk_tree_view_append_column (GTK_TREE_VIEW (tree_view), column);
+
+	renderer = gtk_cell_renderer_text_new ();
+	gtk_tree_view_column_pack_start (column, renderer, TRUE);
+
+	gtk_tree_view_column_set_cell_data_func (
+		column, renderer, (GtkTreeCellDataFunc)
+		attachment_tree_view_render_size, NULL, NULL);
+
+	/* Type Column */
+	column = gtk_tree_view_column_new ();
+	gtk_tree_view_column_set_title (column, _("Type"));
+	gtk_tree_view_append_column (GTK_TREE_VIEW (tree_view), column);
+
+	renderer = gtk_cell_renderer_text_new ();
+	gtk_tree_view_column_pack_start (column, renderer, TRUE);
+
+	gtk_tree_view_column_add_attribute (
+		column, renderer, "text",
+		E_ATTACHMENT_STORE_COLUMN_CONTENT_TYPE);
+
+	e_extensible_load_extensions (E_EXTENSIBLE (tree_view));
+}
+
+static void
 attachment_tree_view_dispose (GObject *object)
 {
 	e_attachment_view_dispose (E_ATTACHMENT_VIEW (object));
@@ -121,27 +233,6 @@ attachment_tree_view_finalize (GObject *object)
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_attachment_tree_view_parent_class)->finalize (object);
-}
-
-static void
-attachment_tree_view_render_size (GtkTreeViewColumn *column,
-                                  GtkCellRenderer *renderer,
-                                  GtkTreeModel *model,
-                                  GtkTreeIter *iter)
-{
-	gchar *display_size = NULL;
-	gint column_id;
-	guint64 size;
-
-	column_id = E_ATTACHMENT_STORE_COLUMN_SIZE;
-	gtk_tree_model_get (model, iter, column_id, &size, -1);
-
-	if (size > 0)
-		display_size = g_format_size ((goffset) size);
-
-	g_object_set (renderer, "text", display_size, NULL);
-
-	g_free (display_size);
 }
 
 static gboolean
@@ -484,6 +575,7 @@ e_attachment_tree_view_class_init (EAttachmentTreeViewClass *class)
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = attachment_tree_view_set_property;
 	object_class->get_property = attachment_tree_view_get_property;
+	object_class->constructed = attachment_tree_view_constructed;
 	object_class->dispose = attachment_tree_view_dispose;
 	object_class->finalize = attachment_tree_view_finalize;
 
@@ -513,92 +605,9 @@ e_attachment_tree_view_class_init (EAttachmentTreeViewClass *class)
 static void
 e_attachment_tree_view_init (EAttachmentTreeView *tree_view)
 {
-	GtkTreeSelection *selection;
-	GtkTreeViewColumn *column;
-	GtkCellRenderer *renderer;
-
 	tree_view->priv = E_ATTACHMENT_TREE_VIEW_GET_PRIVATE (tree_view);
 
 	e_attachment_view_init (E_ATTACHMENT_VIEW (tree_view));
-
-	gtk_tree_view_set_rules_hint (GTK_TREE_VIEW (tree_view), TRUE);
-
-	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (tree_view));
-	gtk_tree_selection_set_mode (selection, GTK_SELECTION_MULTIPLE);
-
-	/* Name Column */
-	column = gtk_tree_view_column_new ();
-	gtk_tree_view_column_set_expand (column, TRUE);
-	gtk_tree_view_column_set_spacing (column, 3);
-	gtk_tree_view_column_set_title (column, _("Description"));
-	gtk_tree_view_append_column (GTK_TREE_VIEW (tree_view), column);
-
-	renderer = gtk_cell_renderer_pixbuf_new ();
-	gtk_tree_view_column_pack_start (column, renderer, FALSE);
-
-	g_object_set (renderer, "stock-size", GTK_ICON_SIZE_MENU, NULL);
-
-	gtk_tree_view_column_add_attribute (
-		column, renderer, "gicon",
-		E_ATTACHMENT_STORE_COLUMN_ICON);
-
-	renderer = gtk_cell_renderer_text_new ();
-	g_object_set (renderer, "ellipsize", PANGO_ELLIPSIZE_END, NULL);
-	gtk_tree_view_column_pack_start (column, renderer, TRUE);
-
-	gtk_tree_view_column_add_attribute (
-		column, renderer, "text",
-		E_ATTACHMENT_STORE_COLUMN_DESCRIPTION);
-
-	renderer = gtk_cell_renderer_progress_new ();
-	g_object_set (renderer, "text", _("Loading"), NULL);
-	gtk_tree_view_column_pack_start (column, renderer, TRUE);
-
-	gtk_tree_view_column_add_attribute (
-		column, renderer, "value",
-		E_ATTACHMENT_STORE_COLUMN_PERCENT);
-
-	gtk_tree_view_column_add_attribute (
-		column, renderer, "visible",
-		E_ATTACHMENT_STORE_COLUMN_LOADING);
-
-	renderer = gtk_cell_renderer_progress_new ();
-	g_object_set (renderer, "text", _("Saving"), NULL);
-	gtk_tree_view_column_pack_start (column, renderer, TRUE);
-
-	gtk_tree_view_column_add_attribute (
-		column, renderer, "value",
-		E_ATTACHMENT_STORE_COLUMN_PERCENT);
-
-	gtk_tree_view_column_add_attribute (
-		column, renderer, "visible",
-		E_ATTACHMENT_STORE_COLUMN_SAVING);
-
-	/* Size Column */
-	column = gtk_tree_view_column_new ();
-	gtk_tree_view_column_set_title (column, _("Size"));
-	gtk_tree_view_append_column (GTK_TREE_VIEW (tree_view), column);
-
-	renderer = gtk_cell_renderer_text_new ();
-	gtk_tree_view_column_pack_start (column, renderer, TRUE);
-
-	gtk_tree_view_column_set_cell_data_func (
-		column, renderer, (GtkTreeCellDataFunc)
-		attachment_tree_view_render_size, NULL, NULL);
-
-	/* Type Column */
-	column = gtk_tree_view_column_new ();
-	gtk_tree_view_column_set_title (column, _("Type"));
-	gtk_tree_view_append_column (GTK_TREE_VIEW (tree_view), column);
-
-	renderer = gtk_cell_renderer_text_new ();
-	gtk_tree_view_column_pack_start (column, renderer, TRUE);
-
-	gtk_tree_view_column_add_attribute (
-		column, renderer, "text",
-		E_ATTACHMENT_STORE_COLUMN_CONTENT_TYPE);
-
-	e_extensible_load_extensions (E_EXTENSIBLE (tree_view));
 }
 
 static void
