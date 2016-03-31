@@ -140,6 +140,8 @@ attachment_icon_view_constructed (GObject *object)
 	/* Chain up to parent's method. */
 	G_OBJECT_CLASS (e_attachment_icon_view_parent_class)->constructed (object);
 
+	gtk_icon_view_set_selection_mode (GTK_ICON_VIEW (object), GTK_SELECTION_MULTIPLE);
+
 	cell_layout = GTK_CELL_LAYOUT (object);
 
 	/* This needs to happen after constructor properties are set
@@ -546,9 +548,6 @@ e_attachment_icon_view_init (EAttachmentIconView *icon_view)
 	icon_view->priv = E_ATTACHMENT_ICON_VIEW_GET_PRIVATE (icon_view);
 
 	e_attachment_view_init (E_ATTACHMENT_VIEW (icon_view));
-
-	gtk_icon_view_set_selection_mode (
-		GTK_ICON_VIEW (icon_view), GTK_SELECTION_MULTIPLE);
 }
 
 static void
