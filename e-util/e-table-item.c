@@ -288,8 +288,14 @@ eti_ungrab (ETableItem *eti,
             guint32 time)
 {
 	GnomeCanvasItem *item = GNOME_CANVAS_ITEM (eti);
+	gboolean was_grabbed;
+
 	d (g_print ("%s: time: %d\n", G_STRFUNC, time));
-	eti->grabbed_count--;
+
+	was_grabbed = eti->grabbed_count > 0;
+	if (was_grabbed)
+		eti->grabbed_count--;
+
 	if (eti->grabbed_count == 0) {
 		if (eti->grab_cancelled) {
 			eti->grab_cancelled = FALSE;
@@ -299,7 +305,8 @@ eti_ungrab (ETableItem *eti,
 				gtk_grab_remove (GTK_WIDGET (item->canvas));
 				eti->gtk_grabbed = FALSE;
 			}
-			gnome_canvas_item_ungrab (item, time);
+			if (was_grabbed)
+				gnome_canvas_item_ungrab (item, time);
 			eti->grabbed_col = -1;
 			eti->grabbed_row = -1;
 		}
@@ -1762,7 +1769,6 @@ e_table_item_init (ETableItem *eti)
 
 	eti->in_drag = 0;
 	eti->maybe_in_drag = 0;
-	eti->grabbed = 0;
 
 	eti->grabbed_col = -1;
 	eti->grabbed_row = -1;
@@ -2506,11 +2512,7 @@ eti_event (GnomeCanvasItem *item,
 			}
 
 			if (event_button == 1) {
-				GdkDevice *event_device;
-
 				return_val = TRUE;
-
-				event_device = gdk_event_get_device (event);
 
 				eti->maybe_in_drag = TRUE;
 				eti->drag_row = new_cursor_row;
@@ -2518,9 +2520,6 @@ eti_event (GnomeCanvasItem *item,
 				eti->drag_x = event_x_item;
 				eti->drag_y = event_y_item;
 				eti->drag_state = event_state;
-				eti->grabbed = TRUE;
-				d (g_print ("%s: eti_grab\n", G_STRFUNC));
-				eti_grab (eti, event_device, event_time);
 			}
 
 			break;
