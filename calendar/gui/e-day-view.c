@@ -7200,10 +7200,8 @@ cancel_editing (EDayView *day_view)
 	day = day_view->editing_event_day;
 	event_num = day_view->editing_event_num;
 
-	if (day == -1) {
-		g_warn_if_reached ();
+	if (day == -1)
 		return;
-	}
 
 	if (day == E_DAY_VIEW_LONG_EVENT) {
 		if (!is_array_index_in_bounds (day_view->long_events, event_num))
