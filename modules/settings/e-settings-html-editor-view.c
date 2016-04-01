@@ -84,22 +84,22 @@ settings_html_editor_view_realize (GtkWidget *widget,
 	g_settings_bind (
 		settings, "composer-inline-spelling",
 		widget, "inline-spelling",
-		G_SETTINGS_BIND_GET);
+		G_SETTINGS_BIND_DEFAULT);
 
 	g_settings_bind (
 		settings, "composer-magic-links",
 		widget, "magic-links",
-		G_SETTINGS_BIND_GET);
+		G_SETTINGS_BIND_DEFAULT);
 
 	g_settings_bind (
 		settings, "composer-magic-smileys",
 		widget, "magic-smileys",
-		G_SETTINGS_BIND_GET);
+		G_SETTINGS_BIND_DEFAULT);
 
 	g_settings_bind (
 		settings, "composer-unicode-smileys",
 		widget, "unicode-smileys",
-		G_SETTINGS_BIND_GET);
+		G_SETTINGS_BIND_DEFAULT);
 
 	settings_html_editor_view_load_style (extension);
 
