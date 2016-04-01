@@ -33,6 +33,7 @@
 #include "calendar-config.h"
 #include "e-meeting-list-view.h"
 #include "itip-utils.h"
+#include <addressbook/util/eab-book-util.h>
 #include <shell/e-shell.h>
 #include "e-select-names-renderer.h"
 
@@ -946,23 +947,27 @@ process_section (EMeetingListView *view,
 		for (l = list_dests; l; l = l->next) {
 			EDestination *dest = l->data;
 			EContact *contact;
-			const gchar *name, *attendee = NULL;
-			gchar *fburi = NULL;
+			const gchar *textrep;
+			gchar *fburi = NULL, *name = NULL, *email_addr = NULL;
 
-			name = e_destination_get_name (dest);
-			attendee = e_destination_get_email (dest);
+			textrep = e_destination_get_textrep (dest, TRUE);
+			if (!eab_parse_qp_email (textrep, &name, &email_addr))
+				email_addr = g_strdup (textrep);
 
-			if (attendee == NULL || *attendee == '\0')
+			if (!email_addr || !*email_addr) {
+				g_free (name);
+				g_free (email_addr);
 				continue;
+			}
 
 			contact = e_destination_get_contact (dest);
 			if (contact)
 				fburi = e_contact_get (contact, E_CONTACT_FREEBUSY_URL);
 
-			if (e_meeting_store_find_attendee (priv->store, attendee, NULL) == NULL) {
+			if (e_meeting_store_find_attendee (priv->store, email_addr, NULL) == NULL) {
 				EMeetingAttendee *ia = e_meeting_store_add_attendee_with_defaults (priv->store);
 
-				e_meeting_attendee_set_address (ia, g_strdup_printf ("MAILTO:%s", attendee));
+				e_meeting_attendee_set_address (ia, g_strdup_printf ("MAILTO:%s", email_addr));
 				e_meeting_attendee_set_role (ia, role);
 				if (role == ICAL_ROLE_NONPARTICIPANT)
 					e_meeting_attendee_set_cutype (ia, ICAL_CUTYPE_RESOURCE);
@@ -977,10 +982,12 @@ process_section (EMeetingListView *view,
 					g_slist_free (*la);
 					*la = NULL;
 				} else
-					*la = g_slist_remove_link (*la, g_slist_find_custom (*la, attendee, (GCompareFunc)g_ascii_strcasecmp));
+					*la = g_slist_remove_link (*la, g_slist_find_custom (*la, email_addr, (GCompareFunc) g_ascii_strcasecmp));
 			}
 
+			g_free (name);
 			g_free (fburi);
+			g_free (email_addr);
 		}
 
 		if (des) {
