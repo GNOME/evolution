@@ -130,7 +130,7 @@ e_table_header_draw_button (cairo_t *cr,
 {
 	gint inner_x, inner_y;
 	gint inner_width, inner_height;
-	gint arrow_width = 0, arrow_height = 0;
+	gint arrow_width = 0, arrow_height = 0, text_height = 0;
 	PangoContext *pango_context;
 	PangoLayout *layout;
 	GtkStyleContext *context;
@@ -207,6 +207,10 @@ e_table_header_draw_button (cairo_t *cr,
 		return; /* nothing else fits */
 	}
 
+	layout = gtk_widget_create_pango_layout (widget, ecol->text);
+	pango_layout_get_pixel_size (layout, NULL, &text_height);
+	g_object_unref (layout);
+
 	pango_context = gtk_widget_create_pango_context (widget);
 	layout = pango_layout_new (pango_context);
 	g_object_unref (pango_context);
@@ -238,7 +242,7 @@ e_table_header_draw_button (cairo_t *cr,
 				xpos = inner_x + (inner_width - width - (pwidth + 1)) / 2;
 			}
 
-			ypos = inner_y;
+			ypos = inner_y + MAX (0, (inner_height - text_height) / 2);
 
 			pango_layout_set_width (
 				layout, (inner_width - (xpos - inner_x)) *
@@ -256,7 +260,7 @@ e_table_header_draw_button (cairo_t *cr,
 	} else {
 		pango_layout_set_width (layout, inner_width * PANGO_SCALE);
 
-		gtk_render_layout (context, cr, inner_x, inner_y, layout);
+		gtk_render_layout (context, cr, inner_x, inner_y + MAX (0, (inner_height - text_height) / 2), layout);
 	}
 
 	switch (arrow) {
