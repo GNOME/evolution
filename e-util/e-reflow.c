@@ -560,13 +560,8 @@ set_empty (EReflow *reflow)
 			if (reflow->empty_message) {
 				gnome_canvas_item_set (
 					reflow->empty_text,
-					"width", reflow->minimum_width,
 					"text", reflow->empty_message,
 					NULL);
-				e_canvas_item_move_absolute (
-					reflow->empty_text,
-					reflow->minimum_width / 2,
-					0);
 			} else {
 				g_object_run_dispose (G_OBJECT (reflow->empty_text));
 				reflow->empty_text = NULL;
@@ -576,17 +571,23 @@ set_empty (EReflow *reflow)
 				reflow->empty_text = gnome_canvas_item_new (
 					GNOME_CANVAS_GROUP (reflow),
 					e_text_get_type (),
-					"width", reflow->minimum_width,
 					"clip", TRUE,
 					"use_ellipsis", TRUE,
-					"justification", GTK_JUSTIFY_CENTER,
+					"justification", GTK_JUSTIFY_LEFT,
 					"text", reflow->empty_message,
 					NULL);
-				e_canvas_item_move_absolute (
-					reflow->empty_text,
-					reflow->minimum_width / 2,
-					0);
 			}
+		}
+
+		if (reflow->empty_text) {
+			gdouble text_width = -1.0;
+
+			g_object_get (reflow->empty_text, "text_width", &text_width, NULL);
+
+			e_canvas_item_move_absolute (
+				reflow->empty_text,
+				(MAX (reflow->width - text_width, 0) + E_REFLOW_BORDER_WIDTH) / 2,
+				0);
 		}
 	} else {
 		if (reflow->empty_text) {
@@ -1497,6 +1498,14 @@ e_reflow_reflow (GnomeCanvasItem *item,
 	reflow->width = running_width + reflow->column_width + E_REFLOW_BORDER_WIDTH;
 	if (reflow->width < reflow->minimum_width)
 		reflow->width = reflow->minimum_width;
+	if (reflow->empty_text) {
+		gdouble text_width = -1.0;
+
+		g_object_get (reflow->empty_text, "text_width", &text_width, NULL);
+
+		if (text_width + (E_REFLOW_BORDER_WIDTH * 2) > reflow->width)
+			reflow->width = text_width + (E_REFLOW_BORDER_WIDTH * 2);
+	}
 	if (old_width != reflow->width)
 		e_canvas_item_request_parent_reflow (item);
 }
