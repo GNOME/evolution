@@ -482,10 +482,44 @@ attachment_bar_update_actions (EAttachmentView *view)
 	e_attachment_view_update_actions (view);
 }
 
+static gboolean
+attachment_bar_button_press_event (GtkWidget *widget,
+				   GdkEventButton *event)
+{
+	/* Chain up to parent's button_press_event() method. */
+	GTK_WIDGET_CLASS (e_attachment_bar_parent_class)->button_press_event (widget, event);
+
+	/* Never propagate the event to the parent */
+	return TRUE;
+}
+
+static gboolean
+attachment_bar_button_release_event (GtkWidget *widget,
+				     GdkEventButton *event)
+{
+	/* Chain up to parent's button_release_event() method. */
+	GTK_WIDGET_CLASS (e_attachment_bar_parent_class)->button_release_event (widget, event);
+
+	/* Never propagate the event to the parent */
+	return TRUE;
+}
+
+static gboolean
+attachment_bar_motion_notify_event (GtkWidget *widget,
+				    GdkEventMotion *event)
+{
+	/* Chain up to parent's motion_notify_event() method. */
+	GTK_WIDGET_CLASS (e_attachment_bar_parent_class)->motion_notify_event (widget, event);
+
+	/* Never propagate the event to the parent */
+	return TRUE;
+}
+
 static void
 e_attachment_bar_class_init (EAttachmentBarClass *class)
 {
 	GObjectClass *object_class;
+	GtkWidgetClass *widget_class;
 
 	g_type_class_add_private (class, sizeof (EAttachmentBarPrivate));
 
@@ -494,6 +528,11 @@ e_attachment_bar_class_init (EAttachmentBarClass *class)
 	object_class->get_property = attachment_bar_get_property;
 	object_class->dispose = attachment_bar_dispose;
 	object_class->constructed = attachment_bar_constructed;
+
+	widget_class = GTK_WIDGET_CLASS (class);
+	widget_class->button_press_event = attachment_bar_button_press_event;
+	widget_class->button_release_event = attachment_bar_button_release_event;
+	widget_class->motion_notify_event = attachment_bar_motion_notify_event;
 
 	g_object_class_install_property (
 		object_class,
