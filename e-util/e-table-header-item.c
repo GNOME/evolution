@@ -904,6 +904,20 @@ ethi_drag_leave (GtkWidget *widget,
 }
 
 static void
+ethi_style_updated_cb (GtkWidget *widget,
+		       ETableHeaderItem *ethi)
+{
+	PangoContext *pango_context;
+
+	g_return_if_fail (GTK_IS_WIDGET (widget));
+	g_return_if_fail (E_IS_TABLE_HEADER_ITEM (ethi));
+
+	pango_context = gtk_widget_get_pango_context (widget);
+
+	ethi_font_set (ethi, pango_context_get_font_description (pango_context));
+}
+
+static void
 ethi_realize (GnomeCanvasItem *item)
 {
 	ETableHeaderItem *ethi = E_TABLE_HEADER_ITEM (item);
@@ -921,6 +935,10 @@ ethi_realize (GnomeCanvasItem *item)
 
 		ethi_font_set (ethi, pango_context_get_font_description (pango_context));
 	}
+
+	g_signal_connect (
+		item->canvas, "style-updated",
+		G_CALLBACK (ethi_style_updated_cb), ethi);
 
 	/*
 	 * Now, configure DnD
@@ -965,6 +983,8 @@ ethi_unrealize (GnomeCanvasItem *item)
 		pango_font_description_free (ethi->font_desc);
 		ethi->font_desc = NULL;
 	}
+
+	g_signal_handlers_disconnect_by_func (item->canvas, G_CALLBACK (ethi_style_updated_cb), ethi);
 
 	g_signal_handler_disconnect (item->canvas, ethi->drag_motion_id);
 	g_signal_handler_disconnect (item->canvas, ethi->drag_leave_id);
