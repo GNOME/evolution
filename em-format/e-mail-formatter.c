@@ -29,7 +29,6 @@
 #include "e-mail-formatter-extension.h"
 #include "e-mail-formatter-utils.h"
 #include "e-mail-part.h"
-#include "e-mail-meta-remove-filter.h"
 
 #define d(x)
 
@@ -1057,8 +1056,6 @@ e_mail_formatter_format_text (EMailFormatter *formatter,
 	CamelMimeFilter *filter;
 	const gchar *charset = NULL;
 	CamelMimeFilter *windows = NULL;
-	/* FIXME XXX WK2 */
-	CamelMimeFilter *meta_remove = NULL;
 	CamelMimePart *mime_part;
 	CamelContentType *mime_type;
 
@@ -1113,25 +1110,13 @@ e_mail_formatter_format_text (EMailFormatter *formatter,
 	} else {
 		g_object_ref (stream);
 	}
-/* FIXME WK2
-	if (g_strcmp0 (e_mail_part_get_mime_type (part), "text/html") == 0) {
-		meta_remove = e_mail_meta_remove_filter_new (FALSE);
 
-		camel_stream_filter_add (
-			CAMEL_STREAM_FILTER (filter_stream), meta_remove);
-	}
-*/
 	camel_data_wrapper_decode_to_output_stream_sync (
 		camel_medium_get_content (CAMEL_MEDIUM (mime_part)),
 		stream, cancellable, NULL);
 	g_output_stream_flush (stream, cancellable, NULL);
 
 	g_object_unref (stream);
-
-	/* FIXME WK2 g_clear_object? */
-	if (meta_remove != NULL)
-		g_object_unref (meta_remove);
-
 	g_clear_object (&windows);
 	g_clear_object (&mime_part);
 }

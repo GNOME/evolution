@@ -30,7 +30,6 @@ evolution_mail_formatter_include_HEADERS =		\
 	e-mail-formatter-quote.h			\
 	e-mail-formatter-utils.h			\
 	e-mail-inline-filter.h				\
-	e-mail-meta-remove-filter.h			\
 	e-mail-parser-extension.h			\
 	e-mail-parser.h					\
 	e-mail-part.h					\
@@ -90,7 +89,6 @@ libevolution_mail_formatter_la_SOURCES =		\
 	e-mail-formatter-quote-text-enriched.c		\
 	e-mail-formatter-quote-text-html.c		\
 	e-mail-formatter-quote-text-plain.c		\
-	e-mail-meta-remove-filter.c			\
 	e-mail-parser-extension.c			\
 	e-mail-parser.c					\
 	e-mail-parser-application-mbox.c		\
