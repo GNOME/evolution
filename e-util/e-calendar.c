@@ -124,6 +124,50 @@ calitem_month_width_changed_cb (ECalendarItem *item,
 	gtk_widget_queue_resize (GTK_WIDGET (cal));
 }
 
+static GtkWidget *
+e_calendar_create_button (GtkArrowType arrow_type)
+{
+	GtkWidget *button, *pixmap;
+
+	button = gtk_button_new ();
+	gtk_button_set_relief (GTK_BUTTON (button), GTK_RELIEF_NONE);
+	gtk_widget_show (button);
+
+	pixmap = gtk_arrow_new (arrow_type, GTK_SHADOW_NONE);
+	gtk_widget_show (pixmap);
+	gtk_container_add (GTK_CONTAINER (button), pixmap);
+
+	#if GTK_CHECK_VERSION (3, 20, 0)
+	{
+		GtkCssProvider *css_provider;
+		GtkStyleContext *style_context;
+		GError *error = NULL;
+
+		css_provider = gtk_css_provider_new ();
+		gtk_css_provider_load_from_data (css_provider,
+			"button.ecalendar {"
+			" min-height: 0px;"
+			" min-width: 0px;"
+			" padding: 0px;"
+			"}", -1, &error);
+		style_context = gtk_widget_get_style_context (button);
+		if (error == NULL) {
+			gtk_style_context_add_class (style_context, "ecalendar");
+			gtk_style_context_add_provider (
+				style_context,
+				GTK_STYLE_PROVIDER (css_provider),
+				GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+		} else {
+			g_warning ("%s: %s", G_STRFUNC, error->message);
+			g_clear_error (&error);
+		}
+		g_object_unref (css_provider);
+	}
+	#endif
+
+	return button;
+}
+
 static void
 e_calendar_class_init (ECalendarClass *class)
 {
@@ -151,7 +195,7 @@ e_calendar_init (ECalendar *cal)
 	GnomeCanvasGroup *canvas_group;
 	PangoFontDescription *small_font_desc;
 	PangoContext *pango_context;
-	GtkWidget *button, *pixmap;
+	GtkWidget *button;
 	AtkObject *a11y;
 
 	pango_context = gtk_widget_create_pango_context (GTK_WIDGET (cal));
@@ -181,9 +225,7 @@ e_calendar_init (ECalendar *cal)
 		G_CALLBACK (calitem_month_width_changed_cb), cal);
 
 	/* Create the arrow buttons to move to the previous/next month. */
-	button = gtk_button_new ();
-	gtk_button_set_relief (GTK_BUTTON (button), GTK_RELIEF_NONE);
-	gtk_widget_show (button);
+	button = e_calendar_create_button (GTK_ARROW_LEFT);
 	g_signal_connect_swapped (
 		button, "pressed",
 		G_CALLBACK (e_calendar_on_prev_pressed), cal);
@@ -194,10 +236,6 @@ e_calendar_init (ECalendar *cal)
 		button, "clicked",
 		G_CALLBACK (e_calendar_on_prev_clicked), cal);
 
-	pixmap = gtk_arrow_new (GTK_ARROW_LEFT, GTK_SHADOW_NONE);
-	gtk_widget_show (pixmap);
-	gtk_container_add (GTK_CONTAINER (button), pixmap);
-
 	cal->prev_item = gnome_canvas_item_new (
 		canvas_group,
 		gnome_canvas_widget_get_type (),
@@ -206,9 +244,7 @@ e_calendar_init (ECalendar *cal)
 	a11y = gtk_widget_get_accessible (button);
 	atk_object_set_name (a11y, _("Previous month"));
 
-	button = gtk_button_new ();
-	gtk_button_set_relief (GTK_BUTTON (button), GTK_RELIEF_NONE);
-	gtk_widget_show (button);
+	button = e_calendar_create_button (GTK_ARROW_RIGHT);
 	g_signal_connect_swapped (
 		button, "pressed",
 		G_CALLBACK (e_calendar_on_next_pressed), cal);
@@ -219,10 +255,6 @@ e_calendar_init (ECalendar *cal)
 		button, "clicked",
 		G_CALLBACK (e_calendar_on_next_clicked), cal);
 
-	pixmap = gtk_arrow_new (GTK_ARROW_RIGHT, GTK_SHADOW_NONE);
-	gtk_widget_show (pixmap);
-	gtk_container_add (GTK_CONTAINER (button), pixmap);
-
 	cal->next_item = gnome_canvas_item_new (
 		canvas_group,
 		gnome_canvas_widget_get_type (),
@@ -232,9 +264,7 @@ e_calendar_init (ECalendar *cal)
 	atk_object_set_name (a11y, _("Next month"));
 
 	/* Create the arrow buttons to move to the previous/next year. */
-	button = gtk_button_new ();
-	gtk_button_set_relief (GTK_BUTTON (button), GTK_RELIEF_NONE);
-	gtk_widget_show (button);
+	button = e_calendar_create_button (GTK_ARROW_LEFT);
 	g_signal_connect_swapped (
 		button, "pressed",
 		G_CALLBACK (e_calendar_on_prev_year_pressed), cal);
@@ -245,10 +275,6 @@ e_calendar_init (ECalendar *cal)
 		button, "clicked",
 		G_CALLBACK (e_calendar_on_prev_year_clicked), cal);
 
-	pixmap = gtk_arrow_new (GTK_ARROW_LEFT, GTK_SHADOW_NONE);
-	gtk_widget_show (pixmap);
-	gtk_container_add (GTK_CONTAINER (button), pixmap);
-
 	cal->prev_item_year = gnome_canvas_item_new (
 		canvas_group,
 		gnome_canvas_widget_get_type (),
@@ -257,9 +283,7 @@ e_calendar_init (ECalendar *cal)
 	a11y = gtk_widget_get_accessible (button);
 	atk_object_set_name (a11y, _("Previous year"));
 
-	button = gtk_button_new ();
-	gtk_button_set_relief (GTK_BUTTON (button), GTK_RELIEF_NONE);
-	gtk_widget_show (button);
+	button = e_calendar_create_button (GTK_ARROW_RIGHT);
 	g_signal_connect_swapped (
 		button, "pressed",
 		G_CALLBACK (e_calendar_on_next_year_pressed), cal);
@@ -269,10 +293,6 @@ e_calendar_init (ECalendar *cal)
 	g_signal_connect_swapped (
 		button, "clicked",
 		G_CALLBACK (e_calendar_on_next_year_clicked), cal);
-
-	pixmap = gtk_arrow_new (GTK_ARROW_RIGHT, GTK_SHADOW_NONE);
-	gtk_widget_show (pixmap);
-	gtk_container_add (GTK_CONTAINER (button), pixmap);
 
 	cal->next_item_year = gnome_canvas_item_new (
 		canvas_group,
