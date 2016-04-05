@@ -90,6 +90,8 @@ struct _MessageListPrivate {
 	RegenData *regen_data;
 	guint regen_idle_id;
 
+	gboolean thaw_needs_regen;
+
 	GMutex thread_tree_lock;
 	CamelFolderThread *thread_tree;
 
@@ -2741,6 +2743,8 @@ ml_tree_sorting_changed (ETreeTableAdapter *adapter,
 		mail_regen_list (message_list, NULL, FALSE);
 
 		return TRUE;
+	} else if (group_by_threads) {
+		message_list->priv->thaw_needs_regen = TRUE;
 	}
 
 	return FALSE;
@@ -4792,6 +4796,8 @@ message_list_set_folder (MessageList *message_list,
 
 		if (message_list->frozen == 0)
 			mail_regen_list (message_list, NULL, FALSE);
+		else
+			message_list->priv->thaw_needs_regen = TRUE;
 	}
 }
 
@@ -4845,6 +4851,8 @@ message_list_set_group_by_threads (MessageList *message_list,
 	/* Changing this property triggers a message list regen. */
 	if (message_list->frozen == 0)
 		mail_regen_list (message_list, NULL, FALSE);
+	else
+		message_list->priv->thaw_needs_regen = TRUE;
 }
 
 gboolean
@@ -4874,6 +4882,8 @@ message_list_set_show_deleted (MessageList *message_list,
 	/* Changing this property triggers a message list regen. */
 	if (message_list->frozen == 0)
 		mail_regen_list (message_list, NULL, FALSE);
+	else
+		message_list->priv->thaw_needs_regen = TRUE;
 }
 
 gboolean
@@ -4903,6 +4913,8 @@ message_list_set_show_junk (MessageList *message_list,
 	/* Changing this property triggers a message list regen. */
 	if (message_list->frozen == 0)
 		mail_regen_list (message_list, NULL, FALSE);
+	else
+		message_list->priv->thaw_needs_regen = TRUE;
 }
 
 gboolean
@@ -5341,7 +5353,7 @@ message_list_thaw (MessageList *message_list)
 	g_return_if_fail (message_list->frozen != 0);
 
 	message_list->frozen--;
-	if (message_list->frozen == 0) {
+	if (message_list->frozen == 0 && message_list->priv->thaw_needs_regen) {
 		const gchar *search;
 
 		if (message_list->frozen_search != NULL)
@@ -5353,6 +5365,7 @@ message_list_thaw (MessageList *message_list)
 
 		g_free (message_list->frozen_search);
 		message_list->frozen_search = NULL;
+		message_list->priv->thaw_needs_regen = FALSE;
 	}
 }
 
@@ -5367,6 +5380,8 @@ message_list_set_threaded_expand_all (MessageList *message_list)
 
 		if (message_list->frozen == 0)
 			mail_regen_list (message_list, NULL, FALSE);
+		else
+			message_list->priv->thaw_needs_regen = TRUE;
 	}
 }
 
@@ -5380,6 +5395,8 @@ message_list_set_threaded_collapse_all (MessageList *message_list)
 
 		if (message_list->frozen == 0)
 			mail_regen_list (message_list, NULL, FALSE);
+		else
+			message_list->priv->thaw_needs_regen = TRUE;
 	}
 }
 
@@ -5413,6 +5430,7 @@ message_list_set_search (MessageList *message_list,
 	else {
 		g_free (message_list->frozen_search);
 		message_list->frozen_search = g_strdup (search);
+		message_list->priv->thaw_needs_regen = TRUE;
 	}
 }
 

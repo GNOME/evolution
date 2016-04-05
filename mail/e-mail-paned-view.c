@@ -535,6 +535,7 @@ mail_paned_view_set_folder (EMailReader *reader,
 	EMailReaderInterface *default_interface;
 	GtkWidget *message_list;
 	GKeyFile *key_file;
+	CamelFolder *previous_folder;
 	gchar *folder_uri;
 	gchar *group_name;
 	const gchar *key;
@@ -549,6 +550,14 @@ mail_paned_view_set_folder (EMailReader *reader,
 	/* Can be NULL, if the shell window was closed meanwhile */
 	if (!shell_view)
 		return;
+
+	previous_folder = e_mail_reader_ref_folder (reader);
+	if (previous_folder == folder) {
+		g_clear_object (&previous_folder);
+		return;
+	}
+
+	g_clear_object (&previous_folder);
 
 	shell_window = e_shell_view_get_shell_window (shell_view);
 
