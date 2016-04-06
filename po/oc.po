@@ -10,15 +10,15 @@ msgstr ""
 "http://bugzilla.gnome.org/enter_bug.cgi?product=evince&keywords=I18N+L10N&com"
 "ponent=general\n"
 "POT-Creation-Date: 2016-03-21 10:50+0000\n"
-"PO-Revision-Date: 2016-04-05 20:08+0000\n"
+"PO-Revision-Date: 2016-04-06 17:23+0000\n"
 "Last-Translator: Cédric VALMARY (Tot en òc) <cvalmary@yahoo.fr>\n"
 "Language-Team: Tot En Òc\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Launchpad-Export-Date: 2016-04-05 20:09+0000\n"
-"X-Generator: Launchpad (build 17972)\n"
+"X-Launchpad-Export-Date: 2016-04-06 17:28+0000\n"
+"X-Generator: Launchpad (build 17989)\n"
 "X-Project-Style: gnome\n"
 "Language: oc\n"
 "X-DamnedLies-Scope: partial\n"
@@ -22987,23 +22987,23 @@ msgstr "Seleccionar una fòto de visatge"
 
 #: ../plugins/face/face.c:304
 msgid "Image files"
-msgstr "Fichièrs image"
+msgstr "Fichièrs imatge"
 
 #: ../plugins/face/face.c:392
 msgid "_Insert Face picture by default"
-msgstr "_Inserir una photo de visage per defaut"
+msgstr "_Inserir una fòto de visatge per defaut"
 
 #: ../plugins/face/face.c:405
 msgid "Load new _Face picture"
-msgstr "Cargar una _novèla photo de visage"
+msgstr "Cargar una _novèla fòto de visatge"
 
 #: ../plugins/face/face.c:449
 msgid "Change Face Image"
-msgstr "Modificar l'imatge d'apparence"
+msgstr "Modificar l'imatge d'aparéncia"
 
 #: ../plugins/face/face.c:537
 msgid "Include _Face"
-msgstr "Inclure un _visage"
+msgstr "Inclure un _visatge"
 
 #: ../plugins/face/org-gnome-face.eplug.xml.h:2
 msgid "Attach a small picture of your face to outgoing messages."
@@ -23015,23 +23015,23 @@ msgstr "Fracàs de lectura"
 
 #: ../plugins/face/org-gnome-face.error.xml.h:2
 msgid "The file cannot be read"
-msgstr "Impossible de lire lo fichièr"
+msgstr "Impossible de legir lo fichièr"
 
 #: ../plugins/face/org-gnome-face.error.xml.h:3
 msgid "Invalid Image Size"
-msgstr "Taille d'imatge non valide"
+msgstr "Talha d'imatge invalida"
 
 #: ../plugins/face/org-gnome-face.error.xml.h:4
 msgid ""
 "Please select a PNG image of size 48 * 48 pixels, whose file size doesn't "
 "exceed 723 bytes."
 msgstr ""
-"Merci de seleccionar un imatge de 48 * 48 pixels, dont la talha ne dépasse "
-"pas 723 octets."
+"Mercé de seleccionar un imatge de 48 * 48 pixèls, que la talha depassa pas "
+"723 octets."
 
 #: ../plugins/face/org-gnome-face.error.xml.h:5
 msgid "Incorrect Face Image Byte Size"
-msgstr "Taille de l'Image d'Apparence incorrecte"
+msgstr "Talha de l'Imatge d'Aparéncia incorrècta"
 
 #: ../plugins/face/org-gnome-face.error.xml.h:6
 msgid ""
@@ -23039,23 +23039,23 @@ msgid ""
 "bytes. Please select a PNG image of size 48 * 48 pixels, whose file size "
 "doesn't exceed 723 bytes."
 msgstr ""
-"La talha de l'imatge d'apparence es de {0} octets, alors qu'elle ne devrait "
-"pas dépasser 723 octets. Merci de seleccionar un imatge PNG d'una talha de "
-"48*48 pixels, dont la talha ne dépasse pas 723 octets."
+"La talha de l'imatge d'aparéncia es de {0} octets, mentre que deuriá pas "
+"depassar 723 octets. Mercé de seleccionar un imatge PNG d'una talha de 48*48 "
+"pixèls, que la talha depassa pas 723 octets."
 
 #: ../plugins/face/org-gnome-face.error.xml.h:7
 msgid "Not an image"
-msgstr "Aqueste es pas un imatge"
+msgstr "Aquò es pas un imatge"
 
 #: ../plugins/face/org-gnome-face.error.xml.h:8
 msgid ""
 "The file you selected does not look like a valid PNG image. Error: {0}"
 msgstr ""
-"Lo fichièr seleccionat ne semble pas èsser un imatge PNG valide. Error : {0}"
+"Sembla que lo fichièr seleccionat es pas un imatge PNG valid. Error : {0}"
 
 #: ../plugins/mailing-list-actions/mailing-list-actions.c:364
 msgid "Get List _Archive"
-msgstr "Récupérer l'_archive de la lista"
+msgstr "Recuperar l'_archiu de la lista"
 
 #: ../plugins/mailing-list-actions/mailing-list-actions.c:366
 msgid "Get an archive of the list this message belongs to"
@@ -23063,7 +23063,7 @@ msgstr "Recupèra un archiu de la lista a la quala aqueste messatge aparten"
 
 #: ../plugins/mailing-list-actions/mailing-list-actions.c:371
 msgid "Get List _Usage Information"
-msgstr "Récupérer las informacions d'_utilizacion de la lista"
+msgstr "Recuperar las informacions d'_utilizacion de la lista"
 
 #: ../plugins/mailing-list-actions/mailing-list-actions.c:373
 msgid "Get information about the usage of the list this message belongs to"
@@ -23073,12 +23073,12 @@ msgstr ""
 
 #: ../plugins/mailing-list-actions/mailing-list-actions.c:378
 msgid "Contact List _Owner"
-msgstr "_Propriétaire de la lista de contactes"
+msgstr "_Proprietari de la lista de contactes"
 
 #: ../plugins/mailing-list-actions/mailing-list-actions.c:380
 msgid "Contact the owner of the mailing list this message belongs to"
 msgstr ""
-"Contacte lo proprietari de la lista de difusion al qual aqueste messatge "
+"Contacta lo proprietari de la lista de difusion al qual aqueste messatge "
 "aparten"
 
 #: ../plugins/mailing-list-actions/mailing-list-actions.c:385
@@ -23092,7 +23092,7 @@ msgstr ""
 
 #: ../plugins/mailing-list-actions/mailing-list-actions.c:392
 msgid "_Subscribe to List"
-msgstr "S'_abonner a la lista"
+msgstr "S'_abonar a la lista"
 
 #: ../plugins/mailing-list-actions/mailing-list-actions.c:394
 msgid "Subscribe to the mailing list this message belongs to"
@@ -23100,7 +23100,7 @@ msgstr "S'inscriure a la lista de difusion a la quala lo messatge aparten"
 
 #: ../plugins/mailing-list-actions/mailing-list-actions.c:399
 msgid "_Unsubscribe from List"
-msgstr "Se _désabonner de la lista"
+msgstr "Se _desabonar de la lista"
 
 #: ../plugins/mailing-list-actions/mailing-list-actions.c:401
 msgid "Unsubscribe from the mailing list this message belongs to"
@@ -23108,21 +23108,21 @@ msgstr "Se desabonar de la lista de difusion a la quala lo messatge aparten"
 
 #: ../plugins/mailing-list-actions/mailing-list-actions.c:408
 msgid "Mailing _List"
-msgstr "_Liste de diffusion"
+msgstr "_Liste de difusion"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:1
 msgid "Mailing List Actions"
-msgstr "Accions de la lista de diffusion"
+msgstr "Accions de la lista de difusion"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:2
 msgid "Perform common mailing list actions (subscribe, unsubscribe, etc.)."
 msgstr ""
-"Effectue les actions des commandes usuelles sus les listes de diffusion "
-"(abonnement, désabonnement, etc)."
+"Efectua las accions de las comandas usualas sus las listas de difusion "
+"(abonament, desabonament, etc)."
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:1
 msgid "Action not available"
-msgstr "Accion non disponible"
+msgstr "Accion pas disponibla"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:2
 msgid ""
@@ -23134,20 +23134,20 @@ msgstr ""
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:3
 msgid "Posting not allowed"
-msgstr "Envoi non autorisé"
+msgstr "Mandadís pas autorizat"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:4
 msgid ""
 "Posting to this mailing list is not allowed. Possibly, this is a read-only "
 "mailing list. Contact the list owner for details."
 msgstr ""
-"Vous n'êtes pas autorisé a poster dins aquesta lista de discussion. C'est "
-"très certanament una liste de discussion en lectura sola. Contactez "
-"l'administrateur de la lista per plus de détails."
+"Sètz pas autorizat a postar dins aquesta lista de discussion. Es fòrt "
+"probablament una lista de discussion en lectura sola. Contactatz "
+"l'administrateur de la lista per mai de detalhs."
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:5
 msgid "Send e-mail message to mailing list?"
-msgstr "Mandar un messatge électronique a la lista ?"
+msgstr "Mandar un messatge electronic a la lista ?"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:6
 msgid ""
@@ -23157,11 +23157,11 @@ msgid ""
 "You should receive an answer from the mailing list shortly after the message "
 "has been sent."
 msgstr ""
-"Un message électronique serà mandat a l'url « {0} ». Podètz mandar lo "
-"message automaticament, o bien lo consulter e lo modificar.\n"
+"Un messatge electronic serà mandat a l'url « {0} ». Podètz mandar lo "
+"messatge automaticament, o alara lo consultar e lo modificar.\n"
 "\n"
-"Vous recevrez rapidement una responsa de la lista de discussion après lo "
-"mandadís du message."
+"Recebretz rapidament una responsa de la lista de discussion aprèp lo "
+"mandadís del messatge."
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:9
 msgid "_Send message"
@@ -23169,7 +23169,7 @@ msgstr "_Mandar lo messatge"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:10
 msgid "_Edit message"
-msgstr "Mo_difier lo messatge"
+msgstr "Mo_dificar lo messatge"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:11
 msgid "Malformed header"
@@ -23181,13 +23181,13 @@ msgid ""
 "\n"
 "Header: {1}"
 msgstr ""
-"L'entèsta d'aqueste messatge es pas conforme e pòt pas èsser traité.\n"
+"L'entèsta d'aqueste messatge es pas confòrme e pòt pas èsser tractat.\n"
 "\n"
 "Entèsta : {1}"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:15
 msgid "No e-mail action"
-msgstr "Pas d'action del corrièr electronic"
+msgstr "Pas d'accion del corrièr electronic"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:16
 msgid ""
@@ -23196,8 +23196,8 @@ msgid ""
 "\n"
 "Header: {0}"
 msgstr ""
-"L'action a pas pu èsser efectuada. L'entèsta d'aquesta action ne contenait "
-"pas d'action réalisable.\n"
+"L'accion a pas pogut èsser efectuada. L'entèsta d'aquesta accion conteniá "
+"pas d'accion realizabla.\n"
 "\n"
 "Entèsta : {0}"
 
@@ -23244,37 +23244,37 @@ msgstr "_Bip"
 
 #: ../plugins/mail-notification/mail-notification.c:732
 msgid "Use sound _theme"
-msgstr "Utilizar lo _thème sonore"
+msgstr "Utilizar lo _tèma sonòr"
 
 #: ../plugins/mail-notification/mail-notification.c:751
 msgid "Play _file:"
-msgstr "Jouer lo f_ichièr :"
+msgstr "Jogar lo f_ichièr :"
 
 #: ../plugins/mail-notification/mail-notification.c:760
 msgid "Select sound file"
-msgstr "Seleccion d'un fichièr sonore"
+msgstr "Seleccion d'un fichièr sonòr"
 
 #: ../plugins/mail-notification/mail-notification.c:837
 msgid "Notify new messages for _Inbox only"
-msgstr "Avertir unicament dels novèls messatges dins la _bóstia de recepcion"
+msgstr "Avertir unicament de messatges novèls dins la _bóstia de recepcion"
 
 #: ../plugins/mail-notification/mail-notification.c:853
 msgid "Show _notification when a new message arrives"
-msgstr "Afichar una _notification a la recepcion d'un messatge novèl"
+msgstr "Afichar una _notificacion a la recepcion d'un messatge novèl"
 
 #: ../plugins/mail-notification/org-gnome-mail-notification.eplug.xml.h:1
 msgid "Mail Notification"
-msgstr "Notification de nouveau corrièr electronic"
+msgstr "Notificacion de corrièr electronic novèl"
 
 #: ../plugins/mail-notification/org-gnome-mail-notification.eplug.xml.h:2
 msgid "Notifies you when new mail messages arrive."
-msgstr "Affiche una notification a la recepcion d'un messatge novèl."
+msgstr "Aficha una notificacion a la recepcion d'un messatge novèl."
 
 #. To Translators: The full sentence looks like: "Created from a mail by John Doe <john.doe@myco.example>"
 #: ../plugins/mail-to-task/mail-to-task.c:229
 #, c-format
 msgid "Created from a mail by %s"
-msgstr "Créé a partir d'un corrièr electronic de %s"
+msgstr "Creat a partir d'un corrièr electronic de %s"
 
 #. Translators: Dialog button to Cancel edit of an existing event/memo/task
 #: ../plugins/mail-to-task/mail-to-task.c:594
@@ -23286,7 +23286,7 @@ msgstr "_Anullar"
 #: ../plugins/mail-to-task/mail-to-task.c:596
 msgctxt "mail-to-task"
 msgid "_Edit"
-msgstr "É_dition"
+msgstr "E_dicion"
 
 #. Translators: Dialog button to create a New event/memo/task
 #: ../plugins/mail-to-task/mail-to-task.c:598
@@ -23301,7 +23301,7 @@ msgid ""
 "old event?"
 msgstr ""
 "L'agenda seleccionat conten ja l'eveniment « %s ». Volètz modificar "
-"l'eveniment existant ?"
+"l'eveniment existent ?"
 
 #: ../plugins/mail-to-task/mail-to-task.c:619
 #, c-format
@@ -23309,8 +23309,8 @@ msgid ""
 "Selected task list contains task '%s' already. Would you like to edit the "
 "old task?"
 msgstr ""
-"La lista de prètzfaches seleccionada conten ja la tâche « %s ». Volètz "
-"modificar la tâche existante ?"
+"La lista de prètzfaches seleccionada conten ja lo prètzfach « %s ». Volètz "
+"modificar lo prètzfach existent ?"
 
 #: ../plugins/mail-to-task/mail-to-task.c:622
 #, c-format
@@ -23319,7 +23319,7 @@ msgid ""
 "old memo?"
 msgstr ""
 "La lista de memos seleccionada conten ja lo memo « %s ». Volètz modificar lo "
-"memo existant ?"
+"memo existent ?"
 
 #: ../plugins/mail-to-task/mail-to-task.c:642
 #, c-format
@@ -23330,11 +23330,11 @@ msgid_plural ""
 "You have selected %d mails to be converted to events. Do you really want to "
 "add them all?"
 msgstr[0] ""
-"Avètz seleccionat %d corrièrs electronics a convertir en eveniments. Volètz "
-"vraiment les apondre tous ?"
+"Avètz seleccionat %d corrièrs electronics a convertir en eveniments. Sètz "
+"segur que los volètz apondre totes ?"
 msgstr[1] ""
-"Avètz seleccionat %d corrièrs electronics a convertir en eveniments. Volètz "
-"vraiment les apondre tous ?"
+"Avètz seleccionat %d corrièrs electronics a convertir en eveniments. Sètz "
+"segur que los volètz apondre totes ?"
 
 #: ../plugins/mail-to-task/mail-to-task.c:649
 #, c-format
@@ -23346,10 +23346,10 @@ msgid_plural ""
 "add them all?"
 msgstr[0] ""
 "Avètz seleccionat %d corrièrs electronics a convertir en prètzfaches. Sètz "
-"segur que volètz les apondre tous ?"
+"segur que los volètz apondre totes ?"
 msgstr[1] ""
 "Avètz seleccionat %d corrièrs electronics a convertir en prètzfaches. Sètz "
-"segur que volètz les apondre tous ?"
+"segur que los volètz apondre totes ?"
 
 #: ../plugins/mail-to-task/mail-to-task.c:656
 #, c-format
@@ -23360,11 +23360,11 @@ msgid_plural ""
 "You have selected %d mails to be converted to memos. Do you really want to "
 "add them all?"
 msgstr[0] ""
-"Avètz seleccionat %d corrièrs electronics a convertir en memos. Sètz segur "
-"que volètz les apondre tous ?"
+"Avètz seleccionat %d corrièrs electronics a convertir en memos.  Sètz segur "
+"que los volètz apondre totes ?"
 msgstr[1] ""
-"Avètz seleccionat %d corrièrs electronics a convertir en memos. Sètz segur "
-"que volètz les apondre tous ?"
+"Avètz seleccionat %d corrièrs electronics a convertir en memos.  Sètz segur "
+"que los volètz apondre totes ?"
 
 #: ../plugins/mail-to-task/mail-to-task.c:677
 msgid "Do you wish to continue converting remaining mails?"
@@ -23372,16 +23372,16 @@ msgstr "Volètz contunhar a convertir los corrièrs electronics restants ?"
 
 #: ../plugins/mail-to-task/mail-to-task.c:753
 msgid "[No Summary]"
-msgstr "[Aucun resumit]"
+msgstr "[Pas cap de resumit]"
 
 #: ../plugins/mail-to-task/mail-to-task.c:766
 msgid "Invalid object returned from a server"
-msgstr "Objècte non valide renviat per un servidor"
+msgstr "Objècte invalid renviat per un servidor"
 
 #: ../plugins/mail-to-task/mail-to-task.c:821
 #, c-format
 msgid "An error occurred during processing: %s"
-msgstr "Una error s'es producha pendant lo traitement : %s"
+msgstr "Una error s'es producha pendent lo tractament : %s"
 
 #: ../plugins/mail-to-task/mail-to-task.c:857
 #, c-format
@@ -23393,7 +23393,7 @@ msgid ""
 "Selected calendar is read only, thus cannot create event there. Select other "
 "calendar, please."
 msgstr ""
-"L'agenda seleccionat es en lectura sola, vous ne pouvez donc pas y crear "
+"L'agenda seleccionat es en lectura sola, doncas, i podètz pas crear cap "
 "d'eveniment. Seleccionatz un autre agenda."
 
 #: ../plugins/mail-to-task/mail-to-task.c:864
@@ -23401,16 +23401,16 @@ msgid ""
 "Selected task list is read only, thus cannot create task there. Select other "
 "task list, please."
 msgstr ""
-"La lista dels prètzfaches seleccionada es en lectura sola, vous ne pouvez "
-"donc pas y crear de tâche. Seleccionatz una autre liste de prètzfaches."
+"La lista dels prètzfaches seleccionada es en lectura sola, doncas, i podètz "
+"pas crear cap de prètzfach. Seleccionatz una autra lista de prètzfaches."
 
 #: ../plugins/mail-to-task/mail-to-task.c:867
 msgid ""
 "Selected memo list is read only, thus cannot create memo there. Select other "
 "memo list, please."
 msgstr ""
-"La lista de memos seleccionada es en lectura sola, vous ne pouvez donc pas y "
-"crear de memo. Seleccionatz una autre liste de memos."
+"La lista de memos seleccionada es en lectura sola, doncas, i podètz pas "
+"crear cap de memo. Seleccionatz una autra lista de memos."
 
 #: ../plugins/mail-to-task/mail-to-task.c:1269
 msgid "Create an _Appointment"
@@ -23418,23 +23418,23 @@ msgstr "Crear un _rendètz-vos"
 
 #: ../plugins/mail-to-task/mail-to-task.c:1271
 msgid "Create a new event from the selected message"
-msgstr "Crée un nouvel eveniment a partir del messatge seleccionat"
+msgstr "Crèa un novèl eveniment a partir del messatge seleccionat"
 
 #: ../plugins/mail-to-task/mail-to-task.c:1276
 msgid "Create a Mem_o"
-msgstr "Crear un mém_o"
+msgstr "Crear un mem_o"
 
 #: ../plugins/mail-to-task/mail-to-task.c:1278
 msgid "Create a new memo from the selected message"
-msgstr "Crée un nouveau memo a partir del messatge seleccionat"
+msgstr "Crèa un novèl memo a partir del messatge seleccionat"
 
 #: ../plugins/mail-to-task/mail-to-task.c:1283
 msgid "Create a _Task"
-msgstr "Crear una _tâche"
+msgstr "Crear un prè_tzfach"
 
 #: ../plugins/mail-to-task/mail-to-task.c:1285
 msgid "Create a new task from the selected message"
-msgstr "Crée una novèla tâche a partir del messatge seleccionat"
+msgstr "Crèa un novèl prètzfach a partir del messatge seleccionat"
 
 #: ../plugins/mail-to-task/mail-to-task.c:1293
 msgid "Create a _Meeting"
@@ -23442,7 +23442,7 @@ msgstr "Crear una _reünion"
 
 #: ../plugins/mail-to-task/mail-to-task.c:1295
 msgid "Create a new meeting from the selected message"
-msgstr "Crée una novèla reünion a partir del messatge seleccionat"
+msgstr "Crèa una novèla reünion a partir del messatge seleccionat"
 
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.eplug.xml.h:1
 msgid "Convert a mail message to a task."
@@ -23466,15 +23466,15 @@ msgstr "_Corrièr electronic"
 
 #: ../plugins/pst-import/pst-importer.c:555
 msgid "Destination folder:"
-msgstr "Dorsièr de destination :"
+msgstr "Dorsièr de destinacion :"
 
 #: ../plugins/pst-import/pst-importer.c:565
 msgid "_Address Book"
-msgstr "C_arnet d'adreças"
+msgstr "Qu_asernet d'adreças"
 
 #: ../plugins/pst-import/pst-importer.c:570
 msgid "A_ppointments"
-msgstr "Ren_dez-vos"
+msgstr "Ren_dètz-vos"
 
 #: ../plugins/pst-import/pst-importer.c:575 ../views/tasks/galview.xml.h:1
 msgid "_Tasks"
@@ -23486,13 +23486,13 @@ msgstr "Entradas de _jornal"
 
 #: ../plugins/pst-import/pst-importer.c:697
 msgid "Importing Outlook data"
-msgstr "Importacion des données Outlook"
+msgstr "Importacion de las donadas Outlook"
 
 #: ../plugins/publish-calendar/org-gnome-publish-calendar.eplug.xml.h:1
 #: ../plugins/publish-calendar/publish-calendar.c:140
 #: ../plugins/publish-calendar/publish-calendar.c:147
 msgid "Calendar Publishing"
-msgstr "Publication d'agenda"
+msgstr "Publicacion d'agenda"
 
 #: ../plugins/publish-calendar/org-gnome-publish-calendar.eplug.xml.h:2
 msgid "Locations"
@@ -23500,7 +23500,7 @@ msgstr "Emplaçaments"
 
 #: ../plugins/publish-calendar/org-gnome-publish-calendar.eplug.xml.h:3
 msgid "Publish calendars to the web."
-msgstr "Publie les agendas sul Web."
+msgstr "Publica los agendas sul Web."
 
 #: ../plugins/publish-calendar/publish-calendar.c:217
 #: ../plugins/publish-calendar/publish-calendar.c:484
@@ -23511,17 +23511,17 @@ msgstr "Impossible de dobrir %s :"
 #: ../plugins/publish-calendar/publish-calendar.c:236
 #, c-format
 msgid "There was an error while publishing to %s:"
-msgstr "Una error s'es producha al moment de la publication sus %s :"
+msgstr "Una error s'es producha al moment de la publicacion sus %s :"
 
 #: ../plugins/publish-calendar/publish-calendar.c:242
 #, c-format
 msgid "Publishing to %s finished successfully"
-msgstr "La publication sus %s s'est acabada amb succès"
+msgstr "La publicacion sus %s s'est acabada amb succès"
 
 #: ../plugins/publish-calendar/publish-calendar.c:290
 #, c-format
 msgid "Mount of %s failed:"
-msgstr "Lo montage de %s a fracassat :"
+msgstr "Lo montatge de %s a fracassat :"
 
 #: ../plugins/publish-calendar/publish-calendar.c:789
 msgid "Are you sure you want to remove this location?"
@@ -23532,11 +23532,11 @@ msgstr "Sètz segur que volètz suprimir aqueste emplaçament ?"
 #. * ever happen, and if so, then something is really wrong.
 #: ../plugins/publish-calendar/publish-calendar.c:1097
 msgid "Could not create publish thread."
-msgstr "Impossible de crear lo fil de publication."
+msgstr "Impossible de crear lo fial de publicacion."
 
 #: ../plugins/publish-calendar/publish-calendar.c:1107
 msgid "_Publish Calendar Information"
-msgstr "_Publier las informacions des agendas"
+msgstr "_Publicar las informacions dels agendas"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:1
 msgid "iCal"
@@ -23544,31 +23544,31 @@ msgstr "iCal"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:3
 msgid "Daily"
-msgstr "Jornalier"
+msgstr "Jornalièr"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:4
 msgid "Weekly"
-msgstr "Hebdomadaire"
+msgstr "Setmanièr"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:5
 msgid "Manual (via Actions menu)"
-msgstr "Manuel (via lo menú Actions)"
+msgstr "Manual (via lo menú Actions)"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:9
 msgid "Secure FTP (SFTP)"
-msgstr "FTP sécurisé (SFTP)"
+msgstr "FTP securizat (SFTP)"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:10
 msgid "Public FTP"
-msgstr "FTP publique"
+msgstr "FTP public"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:11
 msgid "FTP (with login)"
-msgstr "FTP (amb identifiant)"
+msgstr "FTP (amb identificant)"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:12
 msgid "Windows share"
-msgstr "Partage Windows"
+msgstr "Partiment Windows"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:13
 msgid "WebDAV (HTTP)"
@@ -23576,7 +23576,7 @@ msgstr "WebDAV (HTTP)"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:14
 msgid "Secure WebDAV (HTTPS)"
-msgstr "WebDAV sécurisé (HTTPS)"
+msgstr "WebDAV securizat (HTTPS)"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:15
 msgid "Custom Location"
@@ -23584,15 +23584,15 @@ msgstr "Emplaçament personalizat"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:17
 msgid "_Publish as:"
-msgstr "_Publier jos :"
+msgstr "_Publicar jos :"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:18
 msgid "Publishing _Frequency:"
-msgstr "_Fréquence de publication :"
+msgstr "Frequéncia de publicacion :"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:19
 msgid "Time _duration:"
-msgstr "_Durée :"
+msgstr "_Durada :"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:20
 msgid "Sources"
@@ -23600,24 +23600,24 @@ msgstr "Fonts"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:23
 msgid "Service _type:"
-msgstr "_Type de service :"
+msgstr "_Tipe de servici :"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:25
 msgid "_File:"
-msgstr "_Fichièr :"
+msgstr "_Fichièr :"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:27
 msgid "P_ort:"
-msgstr "P_ort :"
+msgstr "_Pòrt :"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:28
 msgid "_Username:"
-msgstr "Nom d'_utilizaire :"
+msgstr "Nom d'_utilizaire :"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:29
 #: ../smime/gui/certificate-manager.c:774
 msgid "_Password:"
-msgstr "_Senhal :"
+msgstr "Sen_hal :"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:30
 msgid "_Remember password"
@@ -23625,17 +23625,17 @@ msgstr "Memo_rizar lo senhal"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:31
 msgid "Publishing Location"
-msgstr "Emplaçament de publication"
+msgstr "Emplaçament de publicacion"
 
 #: ../plugins/publish-calendar/publish-format-fb.c:84
 #: ../plugins/publish-calendar/publish-format-ical.c:104
 #, c-format
 msgid "Invalid source UID '%s'"
-msgstr "Font UID « %s » non valide"
+msgstr "Font UID « %s » invalida"
 
 #: ../plugins/publish-calendar/url-editor-dialog.c:544
 msgid "New Location"
-msgstr "Nouvel emplaçament"
+msgstr "Novèl emplaçament"
 
 #: ../plugins/publish-calendar/url-editor-dialog.c:546
 msgid "Edit Location"
@@ -23662,7 +23662,7 @@ msgstr "Lista de las categorias"
 
 #: ../plugins/save-calendar/csv-format.c:378
 msgid "Comment List"
-msgstr "Lista des commentaires"
+msgstr "Lista dels comentaris"
 
 #: ../plugins/save-calendar/csv-format.c:381
 msgid "Contact List"
@@ -23670,7 +23670,7 @@ msgstr "Lista dels contactes"
 
 #: ../plugins/save-calendar/csv-format.c:382
 msgid "Start"
-msgstr "Début"
+msgstr "Començament"
 
 #: ../plugins/save-calendar/csv-format.c:383
 msgid "End"
@@ -23690,7 +23690,7 @@ msgstr "URL"
 
 #: ../plugins/save-calendar/csv-format.c:388
 msgid "Attendees List"
-msgstr "Lista des participants"
+msgstr "Lista dels participants"
 
 #: ../plugins/save-calendar/csv-format.c:390
 msgid "Modified"
@@ -23698,7 +23698,7 @@ msgstr "Modificat"
 
 #: ../plugins/save-calendar/csv-format.c:563
 msgid "A_dvanced options for the CSV format"
-msgstr "_Options avancées pel format CSV"
+msgstr "_Opcions avançadas pel format CSV"
 
 #: ../plugins/save-calendar/csv-format.c:571
 msgid "Prepend a _header"
@@ -23706,19 +23706,19 @@ msgstr "_Apondre un entèsta"
 
 #: ../plugins/save-calendar/csv-format.c:580
 msgid "_Value delimiter:"
-msgstr "_Délimiteur de valors :"
+msgstr "_Delimitador de valors :"
 
 #: ../plugins/save-calendar/csv-format.c:591
 msgid "_Record delimiter:"
-msgstr "_Séparateur d'enregistrament :"
+msgstr "_Separador d'enregistrament :"
 
 #: ../plugins/save-calendar/csv-format.c:602
 msgid "_Encapsulate values with:"
-msgstr "En_capsuler las valors amb :"
+msgstr "En_capsular las valors amb :"
 
 #: ../plugins/save-calendar/csv-format.c:628
 msgid "Comma separated values (.csv)"
-msgstr "Valors séparées per des virgules (.csv)"
+msgstr "Valors separadas per de virgulas (.csv)"
 
 #: ../plugins/save-calendar/ical-format.c:183 ../shell/e-shell-utils.c:179
 msgid "iCalendar (.ics)"
@@ -23730,7 +23730,7 @@ msgstr "Enregistrar la seleccion"
 
 #: ../plugins/save-calendar/org-gnome-save-calendar.eplug.xml.h:2
 msgid "Save a calendar or task list to disk."
-msgstr "Enregistrar un agenda o una liste de prètzfaches sus disque."
+msgstr "Enregistrar un agenda o una lista de prètzfaches sus disc."
 
 #. 
 #. * Translator: the %FT%T is the thirth argument for a strftime function.
@@ -23747,11 +23747,11 @@ msgstr "RDF (.rdf)"
 
 #: ../plugins/save-calendar/save-calendar.c:119
 msgid "_Format:"
-msgstr "_Format :"
+msgstr "_Format :"
 
 #: ../plugins/save-calendar/save-calendar.c:184
 msgid "Select destination file"
-msgstr "Seleccionar un fichièr de destination"
+msgstr "Seleccionar un fichièr de destinacion"
 
 #: ../plugins/save-calendar/save-calendar.c:188
 msgid "_Save As"
@@ -23775,13 +23775,13 @@ msgid ""
 "$ORIG[from], $ORIG[to] or $ORIG[body], which will be replaced by values from "
 "an email you are replying to."
 msgstr ""
-"Greffon Modèl basé sus des borrolhons. Podètz utilizar des variables comme "
-"$ORIG[subject], $ORIG[from], $ORIG[to] o $ORIG[body] qui seràn remplaçadas "
-"per les vaal moment del corrièr electronic auquel vous répondez."
+"Empeuton Modèl basat sus de borrolhons. Podètz utilizar de variablas coma "
+"$ORIG[subject], $ORIG[from], $ORIG[to] o $ORIG[body] que seràn remplaçadas "
+"per las valors del corrièr electronic al qual respondètz."
 
 #: ../plugins/templates/templates.c:1245
 msgid "No Title"
-msgstr "Sans titre"
+msgstr "Sens títol"
 
 #: ../plugins/templates/templates.c:1354
 msgid "Save as _Template"
@@ -23793,19 +23793,19 @@ msgstr "Enregistra coma modèl"
 
 #: ../shell/e-shell.c:379
 msgid "Preparing to go offline..."
-msgstr "Preparacion a la mise fòra linha..."
+msgstr "Preparacion a la mesa fòra linha..."
 
 #: ../shell/e-shell.c:408
 msgid "Preparing to go online..."
-msgstr "Preparacion a la mise en linha..."
+msgstr "Preparacion a la mesa en linha..."
 
 #: ../shell/e-shell.c:519
 msgid "Preparing to quit"
-msgstr "Preparacion de l'arrêt"
+msgstr "Preparacion de l'arrèst"
 
 #: ../shell/e-shell.c:525
 msgid "Preparing to quit..."
-msgstr "Preparacion de l'arrêt..."
+msgstr "Preparacion de l'arrèst..."
 
 #: ../shell/e-shell.c:1042
 msgid "Credentials are required to connect to the destination host."
@@ -23814,11 +23814,11 @@ msgstr ""
 
 #: ../shell/e-shell.c:1210 ../shell/e-shell-window-actions.c:827
 msgid "New _Window"
-msgstr "Novèla _fenèstra"
+msgstr "_Fenèstra novèla"
 
 #: ../shell/e-shell.c:1221
 msgid "Quick _Reference"
-msgstr "_Referéncia rapide"
+msgstr "_Referéncia rapida"
 
 #: ../shell/e-shell.c:1223 ../shell/e-shell-window-actions.c:764
 msgid "_About"
@@ -23826,7 +23826,7 @@ msgstr "_A prepaus"
 
 #: ../shell/e-shell.c:1224 ../shell/e-shell-window-actions.c:862
 msgid "_Quit"
-msgstr "_Quitter"
+msgstr "_Quitar"
 
 #: ../shell/e-shell-content.c:720 ../shell/e-shell-content.c:721
 msgid "Searches"
@@ -23854,7 +23854,7 @@ msgstr "_Recercar :"
 #. * example: Search: [_______________] in [ Current Folder ]
 #: ../shell/e-shell-searchbar.c:1019
 msgid "i_n"
-msgstr "_dans"
+msgstr "_dins"
 
 #: ../shell/e-shell-utils.c:176
 msgid "vCard (.vcf)"
@@ -23892,15 +23892,15 @@ msgstr "Editor de categorias"
 
 #: ../shell/e-shell-window-actions.c:585
 msgid "Bug Buddy is not installed."
-msgstr "Bug Buddy es pas installé."
+msgstr "Bug Buddy es pas installat."
 
 #: ../shell/e-shell-window-actions.c:586
 msgid "Bug Buddy could not be run."
-msgstr "Bug Buddy pòt pas èsser exécuté."
+msgstr "Bug Buddy pòt pas èsser executat."
 
 #: ../shell/e-shell-window-actions.c:766
 msgid "Show information about Evolution"
-msgstr "Affiche las informacions concernant Evolution"
+msgstr "Aficha las informacions a prepaus d'Evolution"
 
 #: ../shell/e-shell-window-actions.c:771 ../shell/e-shell-window-actions.c:785
 msgid "_Close Window"
@@ -23908,69 +23908,67 @@ msgstr "_Tampar la fenèstra"
 
 #: ../shell/e-shell-window-actions.c:792
 msgid "_Contents"
-msgstr "_Sommaire"
+msgstr "_Ensenhador"
 
 #: ../shell/e-shell-window-actions.c:794
 msgid "Open the Evolution User Guide"
-msgstr "Ouvre lo manuel d'utilizacion d'Evolution"
+msgstr "Dobrís lo manual d'utilizacion d'Evolution"
 
 #: ../shell/e-shell-window-actions.c:820
 msgid "I_mport..."
-msgstr "I_mporter..."
+msgstr "I_mportar..."
 
 #: ../shell/e-shell-window-actions.c:822
 msgid "Import data from other programs"
-msgstr "Importe las donadas d'autres programas"
+msgstr "Importa las donadas d'autres programas"
 
 #: ../shell/e-shell-window-actions.c:829
 msgid "Create a new window displaying this view"
-msgstr "Crée una novèla fenèstra per afichar aquesta vista"
+msgstr "Crèa una novèla fenèstra per afichar aquesta vista"
 
 #: ../shell/e-shell-window-actions.c:841
 msgid "Available Cate_gories"
-msgstr "Caté_gories disponibles"
+msgstr "Cate_gorias disponiblas"
 
 #: ../shell/e-shell-window-actions.c:843
 msgid "Manage available categories"
-msgstr "Gère les categorias disponibles"
+msgstr "Gerís las categorias disponiblas"
 
 #: ../shell/e-shell-window-actions.c:855
 msgid "_Quick Reference"
-msgstr "_Referéncia rapide"
+msgstr "_Referéncia rapida"
 
 #: ../shell/e-shell-window-actions.c:857
 msgid "Show Evolution's shortcut keys"
-msgstr "Affiche les raccourcis clavier d'Evolution"
+msgstr "Aficha los acorchis de clavièr d'Evolution"
 
 #: ../shell/e-shell-window-actions.c:864
 msgid "Exit the program"
-msgstr "Quitte lo programa"
+msgstr "Quita lo programa"
 
 #: ../shell/e-shell-window-actions.c:869
 msgid "_Advanced Search..."
-msgstr "Recèrca _avancée..."
+msgstr "Recèrca _avançada..."
 
 #: ../shell/e-shell-window-actions.c:871
 msgid "Construct a more advanced search"
-msgstr "Construit una recèrca plus élaborée"
+msgstr "Bastís una recèrca mai elaborada"
 
 #: ../shell/e-shell-window-actions.c:878
 msgid "Clear the current search parameters"
-msgstr "Efface les paramètres de recèrca actuals"
+msgstr "Escafa los paramètres de recèrca actuals"
 
 #: ../shell/e-shell-window-actions.c:883
 msgid "_Edit Saved Searches..."
-msgstr "Mo_difier les recèrcas enregistradas..."
+msgstr "_Modificar las recèrcas enregistradas..."
 
-# Utilizacion de l'infinitif dins les infobulles del Burèu
-# Utilizacion de l'infinitiu dins las infobullas del Burèu
 #: ../shell/e-shell-window-actions.c:885
 msgid "Manage your saved searches"
-msgstr "Gérer vos recèrcas enregistradas"
+msgstr "Gerir vòstras recèrcas enregistradas"
 
 #: ../shell/e-shell-window-actions.c:892
 msgid "Click here to change the search type"
-msgstr "Clicatz aicí per modificar lo type de recèrca"
+msgstr "Clicatz aicí per modificar lo tipe de recèrca"
 
 #: ../shell/e-shell-window-actions.c:897
 msgid "_Find Now"
@@ -23978,27 +23976,27 @@ msgstr "_Recercar ara"
 
 #: ../shell/e-shell-window-actions.c:899
 msgid "Execute the current search parameters"
-msgstr "Applique les paramètres de recèrca actuals"
+msgstr "Aplica los paramètres de recèrca actuals"
 
 #: ../shell/e-shell-window-actions.c:904
 msgid "_Save Search..."
-msgstr "Enre_gistrer la recèrca..."
+msgstr "Enre_gistrar la recèrca..."
 
 #: ../shell/e-shell-window-actions.c:906
 msgid "Save the current search parameters"
-msgstr "Enregistra les paramètres de recèrca actuals"
+msgstr "Enregistra los paramètres de recèrca actuals"
 
 #: ../shell/e-shell-window-actions.c:918
 msgid "Submit _Bug Report..."
-msgstr "Soumettre un _rapport d'anomalie..."
+msgstr "Sometre un _rapòrt d'anomalia..."
 
 #: ../shell/e-shell-window-actions.c:920
 msgid "Submit a bug report using Bug Buddy"
-msgstr "Soumet un rapport d'anomalie en utilisant Bug Buddy"
+msgstr "Somet un rapòrt d'anomalia en utilizant Bug Buddy"
 
 #: ../shell/e-shell-window-actions.c:925
 msgid "_Work Offline"
-msgstr "Travailler _fòra linha"
+msgstr "Trabalhar _fòra linha"
 
 #: ../shell/e-shell-window-actions.c:927
 msgid "Put Evolution into offline mode"
@@ -24006,7 +24004,7 @@ msgstr "Bascula Evolution en mòde fòra linha"
 
 #: ../shell/e-shell-window-actions.c:932
 msgid "_Work Online"
-msgstr "Travailler _en linha"
+msgstr "Trabalhar _en linha"
 
 #: ../shell/e-shell-window-actions.c:934
 msgid "Put Evolution into online mode"
@@ -24014,7 +24012,7 @@ msgstr "Bascula Evolution en mòde en linha"
 
 #: ../shell/e-shell-window-actions.c:962
 msgid "Lay_out"
-msgstr "_Agencement"
+msgstr "_Agençament"
 
 #. Translators: This is a New menu item caption, under File->New
 #: ../shell/e-shell-window-actions.c:970
@@ -24027,7 +24025,7 @@ msgstr "_Recèrca"
 
 #: ../shell/e-shell-window-actions.c:984
 msgid "_Switcher Appearance"
-msgstr "A_pparence del sélector"
+msgstr "A_paréncia del sélector"
 
 #: ../shell/e-shell-window-actions.c:998
 msgid "_Window"
@@ -24039,31 +24037,31 @@ msgstr "Afichar la barra _laterala"
 
 #: ../shell/e-shell-window-actions.c:1029
 msgid "Show the side bar"
-msgstr "Affiche la barra latérale"
+msgstr "Aficha la barra laterala"
 
 #: ../shell/e-shell-window-actions.c:1035
 msgid "Show _Buttons"
-msgstr "Afichar les b_otons"
+msgstr "Afichar los b_otons"
 
 #: ../shell/e-shell-window-actions.c:1037
 msgid "Show the switcher buttons"
-msgstr "Affiche los botons del sélector"
+msgstr "Aficha los botons del selector"
 
 #: ../shell/e-shell-window-actions.c:1043
 msgid "Show _Status Bar"
-msgstr "Afichar la _barre d'estat"
+msgstr "Afichar la _barra d'estat"
 
 #: ../shell/e-shell-window-actions.c:1045
 msgid "Show the status bar"
-msgstr "Affiche la barra d'estat"
+msgstr "Aficha la barra d'estat"
 
 #: ../shell/e-shell-window-actions.c:1051
 msgid "Show _Tool Bar"
-msgstr "Afichar la barra d'ou_tils"
+msgstr "Afichar la barra d'ai_sinas"
 
 #: ../shell/e-shell-window-actions.c:1053
 msgid "Show the tool bar"
-msgstr "Affiche la barra d'aisinas"
+msgstr "Aficha la barra d'aisinas"
 
 #: ../shell/e-shell-window-actions.c:1075
 msgid "_Icons Only"
@@ -24096,7 +24094,7 @@ msgstr "Estil de la _barra d'aisinas"
 #: ../shell/e-shell-window-actions.c:1098
 msgid "Display window buttons using the desktop toolbar setting"
 msgstr ""
-"Affiche los botons de la fenèstra en utilisant les paramètres de la barra "
+"Affiche los botons de la fenèstra en utilizant los paramètres de la barra "
 "d'aisinas del burèu"
 
 #: ../shell/e-shell-window-actions.c:1106
@@ -24113,11 +24111,11 @@ msgstr "Enregistrar la vista personalizada actuala"
 
 #: ../shell/e-shell-window-actions.c:1122
 msgid "C_urrent View"
-msgstr "Vue co_urante"
+msgstr "Vista c_orrenta"
 
 #: ../shell/e-shell-window-actions.c:1132
 msgid "Custom View"
-msgstr "Vue personalizada"
+msgstr "Vista personalizada"
 
 #: ../shell/e-shell-window-actions.c:1134
 msgid "Current view is a customized view"
@@ -24125,16 +24123,16 @@ msgstr "La vista actuala es una vista personalizada"
 
 #: ../shell/e-shell-window-actions.c:1142
 msgid "Page Set_up..."
-msgstr "P_aramétrage de la page..."
+msgstr "P_arametratge de la pagina..."
 
 #: ../shell/e-shell-window-actions.c:1144
 msgid "Change the page settings for your current printer"
-msgstr "Modifie les paramètres de la page per votre imprimante actuala"
+msgstr "Modifica los paramètres de la pagina per vòstra imprimenta actuala"
 
 #: ../shell/e-shell-window-actions.c:1507
 #, c-format
 msgid "Switch to %s"
-msgstr "Change per %s"
+msgstr "Càmbia per %s"
 
 #: ../shell/e-shell-window-actions.c:1630
 #, c-format
@@ -24148,7 +24146,7 @@ msgstr "Suprimir la vista : %s"
 
 #: ../shell/e-shell-window-actions.c:1741
 msgid "Execute these search parameters"
-msgstr "Exécuter ces paramètres de recèrca"
+msgstr "Executar aquestes paramètres de recèrca"
 
 #. Translators: a 'New' toolbar button caption which is context sensitive and
 #. runs one of the actions under File->New menu
@@ -24183,24 +24181,24 @@ msgid ""
 "We hope that you enjoy the results of our hard work, and we\n"
 "eagerly await your contributions!\n"
 msgstr ""
-"Bonjour,\n"
+"Bonjorn,\n"
 "\n"
-"Merci d'avoir pris lo temps de telecargar aquesta version \n"
-"de développement de la suite de trabalh collaboratif Evolution.\n"
+"Mercé d'aver pres lo temps de telecargar aquesta version \n"
+"de desvolopament de la seguida de trabalh collaboratiu Evolution.\n"
 "\n"
-"Aquesta version d'Evolution es pas encara finalisée. Elle es sur\n"
-"le point de l'être mas certanas foncionalitats son pas acabadas\n"
-"ou ne fonctionnent pas corrèctament.\n"
+"Aquesta version d'Evolution es pas encara finalizada. Es a mand\n"
+"de l'èsser mas certanas foncionalitats son pas acabadas\n"
+"o foncionan pas corrèctament.\n"
 "\n"
-"Se vous souhaitez utilizar una version stable d'Evolution, nous vous\n"
-"recommandons de désinstaller aquesta version e d'installer, a la place,\n"
+"Se volètz utilizar una version establa d'Evolution, vos\n"
+"recomandam de desinstallar aquesta version e d'installar, a la plaça,\n"
 "la version %s.\n"
 "\n"
-"Se vous découvrez des anomalies, veuillez nous les rapporter sur\n"
-"bugzilla.gnome.org. Aqueste produit es fourni sens aucune garantie et\n"
-"es pas destiné a des individus sujets a de violents accès de colère.\n"
+"Se descobrissètz d'anomalias, raportatz-nos-las sus\n"
+"bugzilla.gnome.org. Aqueste produch es provesit sens cap de garantida e\n"
+"es pas destinat a d'individús subjèctes a de violents accèsses de colèra.\n"
 "\n"
-"Nous espérons que vous apprécierez lo resultat de notre dur labeur,\n"
+"Esperam que vos agradarà lo resultat de nòstre dur obratge,\n"
 "et nous attendons impatiemment vos contributions !\n"
 
 #: ../shell/main.c:219
@@ -24208,12 +24206,12 @@ msgid ""
 "Thanks\n"
 "The Evolution Team\n"
 msgstr ""
-"Merci,\n"
-"L'équipe d'Evolution\n"
+"Mercé,\n"
+"L'equipa d'Evolution\n"
 
 #: ../shell/main.c:225
 msgid "Do not tell me again"
-msgstr "Ne plus afichar lo messatge"
+msgstr "Afichar pas mai lo messatge"
 
 #. Translators: Do NOT translate the five component
 #. * names, they MUST remain in English!
@@ -24222,24 +24220,24 @@ msgid ""
 "Start Evolution showing the specified component. Available options are "
 "'mail', 'calendar', 'contacts', 'tasks', and 'memos'"
 msgstr ""
-"Démarre Evolution en affichant lo component indicat. Les options disponibles "
-"sont « mail », « calendar », « contacts », « tasks » e « memos »"
+"Avia Evolution en afichant lo component indicat. Las opcions disponiblas son "
+"« mail », « calendar », « contacts », « tasks » e « memos »"
 
 #: ../shell/main.c:318
 msgid "Apply the given geometry to the main window"
-msgstr "Applique la géométrie indicada a la fenèstra principale"
+msgstr "Aplica la geometria indicada a la fenèstra principala"
 
 #: ../shell/main.c:322
 msgid "Start in online mode"
-msgstr "Démarre en mòde connectat"
+msgstr "S'avia en mòde connectat"
 
 #: ../shell/main.c:324
 msgid "Ignore network availability"
-msgstr "Ignore la disponibilité del réseau"
+msgstr "Ignòra la disponibilité de la ret"
 
 #: ../shell/main.c:327
 msgid "Forcibly shut down Evolution"
-msgstr "Force l'arrêt d'Evolution"
+msgstr "Fòrça l'arrèst d'Evolution"
 
 #: ../shell/main.c:330
 msgid "Disable loading of any plugins."
@@ -24248,16 +24246,16 @@ msgstr "Desactiva lo cargament dels empeutons."
 #: ../shell/main.c:332
 msgid "Disable preview pane of Mail, Contacts and Tasks."
 msgstr ""
-"Désactive l'apercebut des corrièrs electronics, contacts e prètzfaches."
+"Desactiva l'apercebut dels corrièrs electronics, contactes e prètzfaches."
 
 #: ../shell/main.c:336
 msgid "Import URIs or filenames given as rest of arguments."
 msgstr ""
-"Importe les URI o noms de fichièr indicats dins la suite des paramètres."
+"Impòrta las URI o noms de fichièr indicats dins la seguida dels paramètres."
 
 #: ../shell/main.c:338
 msgid "Request a running Evolution process to quit"
-msgstr "Demande a un processus d'Evolution en cors d'exécution de quitter"
+msgstr "Demanda a un processus d'Evolution en cors d'execucion de quitar"
 
 #: ../shell/main.c:415
 #, c-format
@@ -24265,8 +24263,8 @@ msgid ""
 "Cannot start Evolution.  Another Evolution instance may be unresponsive. "
 "System error: %s"
 msgstr ""
-"Impossible de aviar Evolution. Il se peut qu'une autre session d'Evolution "
-"soit en cors e ne répond plus. Error système : %s"
+"Impossible d'aviar Evolution. Es possible qu'una autra session d'Evolution "
+"siá en cors e responda pas mai. Error sistèma : %s"
 
 #: ../shell/main.c:469 ../shell/main.c:474
 msgid "- The Evolution PIM and Email Client"
@@ -24278,8 +24276,8 @@ msgid ""
 "%s: --online and --offline cannot be used together.\n"
 "  Run '%s --help' for more information.\n"
 msgstr ""
-"%s : --online e --offline ne peuvent pas èsser utilizats \n"
-"ensemble. Lancez « %s --help » per plus d'informations.\n"
+"%s : --online e --offline pòdon pas èsser utilizats \n"
+"ensemble. Aviatz « %s --help » per mai d'informacions.\n"
 
 #: ../shell/main.c:542
 #, c-format
@@ -24287,12 +24285,12 @@ msgid ""
 "%s: --force-online and --offline cannot be used together.\n"
 "  Run '%s --help' for more information.\n"
 msgstr ""
-"%s : --force-online e --offline ne peuvent pas èsser utilizats \n"
-"ensemble. Lancez « %s --help » per plus d'informations.\n"
+"%s : --force-online e --offline pòdon pas èsser utilizats \n"
+"ensemble. Aviatz « %s --help » per mai d'informations.\n"
 
 #: ../shell/shell.error.xml.h:2
 msgid "Upgrade from previous version failed:"
-msgstr "La mise a jorn dempuèi la version precedenta a fracassat :"
+msgstr "La mesa a jorn dempuèi la version precedenta a fracassat :"
 
 #: ../shell/shell.error.xml.h:3
 msgid ""
@@ -24303,20 +24301,20 @@ msgid ""
 msgstr ""
 "{0}\n"
 "\n"
-"Se vous causissètz de contunhar, il se peut que vous n'ayez plus accès a "
-"certanas de vos ancianas données.\n"
+"Se causissètz de contunhar, es possible qu'ajatz pas mai accès a certanas de "
+"vòstras ancianas donadas.\n"
 
 #: ../shell/shell.error.xml.h:7
 msgid "Continue Anyway"
-msgstr "Contunhar quand même"
+msgstr "Contunhar malgrat tot"
 
 #: ../shell/shell.error.xml.h:8
 msgid "Quit Now"
-msgstr "Quitter ara"
+msgstr "Quitar ara"
 
 #: ../shell/shell.error.xml.h:9
 msgid "Cannot upgrade directly from version {0}"
-msgstr "Impossible de mettre a jorn directement dempuèi la version {0}"
+msgstr "Impossible de metre a jorn dirècta ment dempuèi la version {0}"
 
 #: ../shell/shell.error.xml.h:10
 msgid ""
@@ -24330,7 +24328,7 @@ msgstr ""
 
 #: ../shell/shell.error.xml.h:11
 msgid "Close Evolution with pending background operations?"
-msgstr "Tampar Evolution malgré des opérations en suspens en rèireplan ?"
+msgstr "Tampar Evolution malgrat d'operacions en suspens en rèireplan ?"
 
 #: ../shell/shell.error.xml.h:12
 msgid ""
@@ -24344,19 +24342,19 @@ msgstr ""
 
 #: ../shell/shell.error.xml.h:13
 msgid "_Close Immediately"
-msgstr "_Tampar immédiatement"
+msgstr "_Tampar immediatament"
 
 #: ../shell/shell.error.xml.h:14
 msgid "Keep _Waiting"
-msgstr "Contunhar a _attendre"
+msgstr "Contunhar d'_esperar"
 
 #: ../shell/shell.error.xml.h:15
 msgid "Failed to get values from '{0}'"
-msgstr "Impossible d'acquérir les vaal moment dempuèi « {0} »"
+msgstr "Impossible d'aquerir las valors dempuèi « {0} »"
 
 #: ../shell/shell.error.xml.h:16
 msgid "Failed to invoke authenticate for '{0}'"
-msgstr "Impossible d'invoquer l'autentificacion de « {0} »"
+msgstr "Impossible d'invocar l'autentificacion de « {0} »"
 
 #: ../shell/shell.error.xml.h:17
 msgid "Failed to connect '{0}'"
@@ -24388,40 +24386,40 @@ msgstr "Impossible de se connectar a la lista dels prètzfaches « {0} »"
 
 #: ../shell/shell.error.xml.h:24
 msgid "Failed to prompt for credentials for '{0}'"
-msgstr "Impossible de demander les identifiants de « {0} »"
+msgstr "Impossible de demander las identificants de « {0} »"
 
 #: ../shell/shell.error.xml.h:25
 msgid "Failed to finish trust prompt for '{0}'"
-msgstr "Impossible d'achever una demande fiable per « {0} »"
+msgstr "Impossible d'acabar una demanda fisabla per « {0} »"
 
 #: ../shell/shell.error.xml.h:26
 msgid "SSL certificate for '{0}' is not trusted."
-msgstr "Lo certificat SSL de « {0} » es pas fiable."
+msgstr "Lo certificat SSL de « {0} » es pas fisable."
 
 #: ../shell/shell.error.xml.h:27
 msgid "Reason: {1}"
-msgstr "Raison : {1}"
+msgstr "Rason : {1}"
 
 #: ../shell/shell.error.xml.h:29
 msgid "SSL certificate for address book '{0}' is not trusted."
-msgstr "Lo certificat SSL del quasernet de contactes « {0} » es pas fiable."
+msgstr "Lo certificat SSL del quasernet de contactes « {0} » es pas fisable."
 
 #: ../shell/shell.error.xml.h:30
 msgid "SSL certificate for calendar '{0}' is not trusted."
-msgstr "Lo certificat SSL de l'agenda « {0} » es pas fiable."
+msgstr "Lo certificat SSL de l'agenda « {0} » es pas fisable."
 
 #: ../shell/shell.error.xml.h:31
 msgid "SSL certificate for mail account '{0}' is not trusted."
 msgstr ""
-"Lo certificat SSL del compte corrièr electronic « {0} » es pas fiable."
+"Lo certificat SSL del compte corrièr electronic « {0} » es pas fisable."
 
 #: ../shell/shell.error.xml.h:32
 msgid "SSL certificate for memo list '{0}' is not trusted."
-msgstr "Lo certificat SSL de la lista de memo « {0} » es pas fiable."
+msgstr "Lo certificat SSL de la lista de memo « {0} » es pas fisable."
 
 #: ../shell/shell.error.xml.h:33
 msgid "SSL certificate for task list '{0}' is not trusted."
-msgstr "Lo certificat SSL de la lista de prètzfaches « {0} » es pas fiable."
+msgstr "Lo certificat SSL de la lista de prètzfaches « {0} » es pas fisable."
 
 #: ../smime/gui/ca-trust-dialog.c:106
 #, c-format
@@ -24432,7 +24430,7 @@ msgid ""
 msgstr ""
 "Lo certificat « %s » es un certificat CA.\n"
 "\n"
-"Editar les paramètres d'approbation :"
+"Editar los paramètres d'aprovacion :"
 
 #: ../smime/gui/certificate-manager.c:84 ../smime/gui/certificate-manager.c:103
 #: ../smime/gui/certificate-manager.c:123
@@ -24441,56 +24439,56 @@ msgstr "Nom de certificat"
 
 #: ../smime/gui/certificate-manager.c:85 ../smime/gui/certificate-manager.c:105
 msgid "Issued To Organization"
-msgstr "Émis per l'organisation"
+msgstr "Emés per l'organizacion"
 
 #: ../smime/gui/certificate-manager.c:86 ../smime/gui/certificate-manager.c:106
 msgid "Issued To Organizational Unit"
-msgstr "Émis per l'unité d'organisation"
+msgstr "Emés per l'unitat d'organizacion"
 
 #: ../smime/gui/certificate-manager.c:87 ../smime/gui/certificate-manager.c:107
 #: ../smime/gui/certificate-manager.c:125
 msgid "Serial Number"
-msgstr "Numéro de série"
+msgstr "Numèro de seria"
 
 #: ../smime/gui/certificate-manager.c:88 ../smime/gui/certificate-manager.c:108
 #: ../smime/gui/certificate-manager.c:126
 msgid "Purposes"
-msgstr "Sujets"
+msgstr "Subjèctes"
 
 #: ../smime/gui/certificate-manager.c:89 ../smime/gui/certificate-manager.c:109
 #: ../smime/gui/certificate-manager.c:127
 msgid "Issued By"
-msgstr "Émis par"
+msgstr "Emés per"
 
 #: ../smime/gui/certificate-manager.c:90 ../smime/gui/certificate-manager.c:110
 #: ../smime/gui/certificate-manager.c:128
 msgid "Issued By Organization"
-msgstr "Émis per l'organisation"
+msgstr "Emés per l'organizacion"
 
 #: ../smime/gui/certificate-manager.c:91 ../smime/gui/certificate-manager.c:111
 #: ../smime/gui/certificate-manager.c:129
 msgid "Issued By Organizational Unit"
-msgstr "Émis per l'unité d'organisation"
+msgstr "Emés per l'unitat d'organizacion"
 
 #: ../smime/gui/certificate-manager.c:92 ../smime/gui/certificate-manager.c:112
 #: ../smime/gui/certificate-manager.c:130
 msgid "Issued"
-msgstr "Émis"
+msgstr "Emés"
 
 #: ../smime/gui/certificate-manager.c:93 ../smime/gui/certificate-manager.c:113
 #: ../smime/gui/certificate-manager.c:131
 msgid "Expires"
-msgstr "Expire"
+msgstr "Expira"
 
 #: ../smime/gui/certificate-manager.c:94 ../smime/gui/certificate-manager.c:114
 #: ../smime/gui/certificate-manager.c:132
 msgid "SHA1 Fingerprint"
-msgstr "Empreinte numerica SHA1"
+msgstr "Emprencha numerica SHA1"
 
 #: ../smime/gui/certificate-manager.c:95 ../smime/gui/certificate-manager.c:115
 #: ../smime/gui/certificate-manager.c:133
 msgid "MD5 Fingerprint"
-msgstr "Empreinte numerica MD5"
+msgstr "Emprencha numerica MD5"
 
 #: ../smime/gui/certificate-manager.c:104
 #: ../smime/gui/certificate-manager.c:124
@@ -24500,7 +24498,7 @@ msgstr "Adreça electronica"
 #: ../smime/gui/certificate-manager.c:652
 msgid "Select a file to backup your key and certificate..."
 msgstr ""
-"Seleccionatz un fichièr per sauvegarder vòstra clau e vòstre certificat..."
+"Seleccionatz un fichièr per salvar vòstra clau e vòstre certificat..."
 
 #. To Translators:
 #. * %s-backup.p12 is the default file name suggested by the file selection dialog,
@@ -24510,16 +24508,16 @@ msgstr ""
 #: ../smime/gui/certificate-manager.c:664
 #, c-format
 msgid "%s-backup.p12"
-msgstr "%s-sauvegarde.p12"
+msgstr "%s-salvament.p12"
 
 #: ../smime/gui/certificate-manager.c:730
 msgid "Backup Certificate"
-msgstr "Sauvegarder lo certificat"
+msgstr "Salvar lo certificat"
 
 #. filename selection
 #: ../smime/gui/certificate-manager.c:744
 msgid "_File name:"
-msgstr "Nom del f_ichièr :"
+msgstr "Nom del _fichièr :"
 
 #. FIXME when gtk_file_chooser_button allows GTK_FILE_CHOOSER_ACTION_SAVE use it
 #: ../smime/gui/certificate-manager.c:749
@@ -24528,7 +24526,7 @@ msgstr "Seleccionatz un fichièr..."
 
 #: ../smime/gui/certificate-manager.c:763
 msgid "_Include certificate chain in the backup"
-msgstr "_Inclure la cadena del certificat dins la sauvegarde"
+msgstr "_Inclure la cadena del certificat dins lo salvament"
 
 #. To Translators: this text was copied from Firefox
 #: ../smime/gui/certificate-manager.c:769
@@ -24543,11 +24541,11 @@ msgstr ""
 
 #: ../smime/gui/certificate-manager.c:788
 msgid "_Repeat Password:"
-msgstr "_Répéter lo senhal :"
+msgstr "_Repetir lo senhal :"
 
 #: ../smime/gui/certificate-manager.c:807
 msgid "Passwords do not match"
-msgstr "Les senhals ne correspondent pas."
+msgstr "Los senhals correspondon pas."
 
 #. To Translators: this text was copied from Firefox
 #: ../smime/gui/certificate-manager.c:815
@@ -24558,19 +24556,17 @@ msgid ""
 "Please record it in a safe location."
 msgstr ""
 "Important :\n"
-"Se vous oubliez vòstre senhal de sauvegarde de certificat, vous ne pourrez "
-"plus restablir aquesta sauvegarde.\n"
-"Gardez-le dins un endroit sûr."
+"Se doblidatz vòstre senhal de salvament de certificat, poiretz pas mai "
+"restablir aqueste salvament.\n"
+"Gardatz-lo dins un endrech segur."
 
 #: ../smime/gui/certificate-manager.c:860
 msgid "No file name provided"
-msgstr "Aucun nom de fichièr fourni"
+msgstr "Cap de nom de fichièr pas provesit"
 
-# pluriel o singulier ?
-# pluriel o singulier ?
 #: ../smime/gui/certificate-manager.c:864
 msgid "Failed to backup key and certificate"
-msgstr "Impossible de sauvegarder la clau e lo certificat"
+msgstr "Impossible de salvatr la clau e lo certificat"
 
 #: ../smime/gui/certificate-manager.c:953
 msgid "Select a certificate to import..."
@@ -24583,12 +24579,12 @@ msgstr "Impossible d'importar lo certificat"
 #: ../smime/gui/certificate-manager.c:1119
 msgctxt "CamelTrust"
 msgid "Ask when used"
-msgstr "Demander al moment d'utilizar"
+msgstr "Demandar al moment d'utilizar"
 
 #: ../smime/gui/certificate-manager.c:1121
 msgctxt "CamelTrust"
 msgid "Never"
-msgstr "Jamais"
+msgstr "Pas jamai"
 
 #: ../smime/gui/certificate-manager.c:1123
 msgctxt "CamelTrust"
@@ -24598,31 +24594,31 @@ msgstr "Marginal"
 #: ../smime/gui/certificate-manager.c:1125
 msgctxt "CamelTrust"
 msgid "Fully"
-msgstr "Pleinement"
+msgstr "Plenament"
 
 #: ../smime/gui/certificate-manager.c:1127
 msgctxt "CamelTrust"
 msgid "Ultimately"
-msgstr "Ultime"
+msgstr "Ultim"
 
 #: ../smime/gui/certificate-manager.c:1129
 msgctxt "CamelTrust"
 msgid "Temporarily"
-msgstr "Temporairement"
+msgstr "Temporàriament"
 
 #: ../smime/gui/certificate-manager.c:1335
 msgid "Change certificate trust"
-msgstr "Changer l'approbation del certificat"
+msgstr "Cambiar l'aprovacion del certificat"
 
 #: ../smime/gui/certificate-manager.c:1347
 #, c-format
 msgid "Change trust for the host '%s':"
-msgstr "Change l'approbation per l'hôte « %s » :"
+msgstr "Càmbia l'aprovacion per l'òste « %s » :"
 
 #: ../smime/gui/certificate-manager.c:1371
 msgctxt "CamelTrust"
 msgid "_Ask when used"
-msgstr "_Demander al moment d'utilizar"
+msgstr "_Demandar al moment d'utilizar"
 
 #: ../smime/gui/certificate-manager.c:1372
 msgctxt "CamelTrust"
@@ -24632,22 +24628,22 @@ msgstr "Se fisar pas _jamai d'aqueste certificat"
 #: ../smime/gui/certificate-manager.c:1373
 msgctxt "CamelTrust"
 msgid "_Temporarily trusted (this session only)"
-msgstr "Confiance _temporaire (solament aquesta session)"
+msgstr "Fisança _temporària (solament aquesta session)"
 
 #: ../smime/gui/certificate-manager.c:1374
 msgctxt "CamelTrust"
 msgid "_Marginally trusted"
-msgstr "Confiance _marginale"
+msgstr "Fisança _marginala"
 
 #: ../smime/gui/certificate-manager.c:1375
 msgctxt "CamelTrust"
 msgid "_Fully trusted"
-msgstr "_Entière confiance"
+msgstr "Fisança _completa"
 
 #: ../smime/gui/certificate-manager.c:1376
 msgctxt "CamelTrust"
 msgid "_Ultimately trusted"
-msgstr "Confiance _ultime"
+msgstr "Fisança _ultima"
 
 #: ../smime/gui/certificate-manager.c:1380
 msgid ""
@@ -24659,33 +24655,33 @@ msgstr ""
 
 #: ../smime/gui/certificate-manager.c:1395
 msgid "_Display certificate"
-msgstr "_Voir lo certificat"
+msgstr "_Veire lo certificat"
 
 #: ../smime/gui/certificate-manager.c:1600
 msgid "You have certificates on file that identify these mail servers:"
 msgstr ""
-"Vous possédez des fichièrs de certificats qui identifient les servidors de "
-"courrier suivants :"
+"Possedissètz de fichièrs de certificats qu'identifican los servidors de "
+"corrièr seguents :"
 
 #: ../smime/gui/certificate-manager.c:1631
 msgid "Host name"
-msgstr "Nom d'hôte"
+msgstr "Nom d'òste"
 
 #: ../smime/gui/certificate-manager.c:1633
 msgid "Issuer"
-msgstr "Émetteur"
+msgstr "Emeteire"
 
 #: ../smime/gui/certificate-manager.c:1634
 msgid "Fingerprint"
-msgstr "Empreinte numerica"
+msgstr "Emprencha digitala"
 
 #: ../smime/gui/certificate-manager.c:1635
 msgid "Trust"
-msgstr "Approbation"
+msgstr "Aprovacion"
 
 #: ../smime/gui/certificate-manager.c:1656
 msgid "_Edit Trust"
-msgstr "M_odificar l'approbation"
+msgstr "M_odificar l'aprovacion"
 
 #: ../smime/gui/certificate-manager.c:1975
 msgid "All PKCS12 files"
@@ -24693,11 +24689,11 @@ msgstr "Totes los fichièrs PKCS12"
 
 #: ../smime/gui/certificate-manager.c:1992
 msgid "All email certificate files"
-msgstr "Totes los fichièrs de certification de corrièr electronic"
+msgstr "Totes los fichièrs de certificacion de corrièr electronic"
 
 #: ../smime/gui/certificate-manager.c:2009
 msgid "All CA certificate files"
-msgstr "Totes los fichièrs de certification CA"
+msgstr "Totes los fichièrs de certificacion CA"
 
 #: ../smime/gui/cert-trust-dialog.c:152
 msgid ""
@@ -24705,7 +24701,7 @@ msgid ""
 "then you trust the authenticity of this certificate unless otherwise "
 "indicated here"
 msgstr ""
-"Perque vos fisatz de l'autoritat de certificaxion qu'a emés aqueste "
+"Perque vos fisatz de l'autoritat de certificacion qu'a emés aqueste "
 "certificat mentre que vos fisatz de l'autenticitat d'aqueste certificat "
 "levat se quicòm indica lo contrari aicí"
 
@@ -24715,7 +24711,7 @@ msgid ""
 "certificate, then you do not trust the authenticity of this certificate "
 "unless otherwise indicated here"
 msgstr ""
-"Perque vos fisatz de l'autoritat de certificaxion qu'a emés aqueste "
+"Perque vos fisatz de l'autoritat de certificacion qu'a emés aqueste "
 "certificat mentre que vos fisatz de l'autenticitat d'aqueste certificat "
 "levat se quicòm indica lo contrari aicí"
 
@@ -24732,11 +24728,11 @@ msgstr "Sasissètz lo senhal per « %s »"
 #. we're setting the password initially
 #: ../smime/gui/component.c:85
 msgid "Enter new password for certificate database"
-msgstr "Sasissètz lo nouveau senhal per la base de certification"
+msgstr "Sasissètz lo novèl senhal per la basa de certificacion"
 
 #: ../smime/gui/component.c:88
 msgid "Enter new password"
-msgstr "Sasissètz lo nouveau senhal"
+msgstr "Sasissètz lo novèl senhal"
 
 #: ../smime/gui/e-cert-selector.c:180
 msgid "Select certificate"
@@ -24745,31 +24741,31 @@ msgstr "Seleccionatz lo certificat"
 #: ../smime/gui/smime-ui.ui.h:3
 msgid "You have certificates from these organizations that identify you:"
 msgstr ""
-"Vous possédez des certificats vous identifiant alprèp des organisations "
-"suivantes :"
+"Possedissètz de certificats que vos identifican alprèp de las organizacions "
+"seguentas :"
 
 #: ../smime/gui/smime-ui.ui.h:4
 msgid "Certificates Table"
-msgstr "Tableau des certificats"
+msgstr "Tablèu dels certificats"
 
 #. This is a verb, as in "make a backup".
 #: ../smime/gui/smime-ui.ui.h:7
 msgid "_Backup"
-msgstr "A_rchiver"
+msgstr "A_rchivar"
 
 #: ../smime/gui/smime-ui.ui.h:8
 msgid "Backup _All"
-msgstr "Tout _archiver"
+msgstr "_Archiver tot"
 
 #: ../smime/gui/smime-ui.ui.h:11
 msgid "Your Certificates"
-msgstr "Vos certificats"
+msgstr "Vòstres certificats"
 
 #: ../smime/gui/smime-ui.ui.h:12
 msgid "You have certificates on file that identify these people:"
 msgstr ""
-"Vous possédez des fichièrs de certificats qui identifient les personnes "
-"suivantes :"
+"Possedissètz de fichièrs de certificats qu'identifican las personas "
+"seguentas :"
 
 #: ../smime/gui/smime-ui.ui.h:14
 msgid "Contact Certificates"
@@ -24779,16 +24775,16 @@ msgstr "Certificats dels contactes"
 msgid ""
 "You have certificates on file that identify these certificate authorities:"
 msgstr ""
-"Vous possédez des fichièrs certificats qui identifient les autorités de "
-"certification suivantes :"
+"Possedissètz de fichièrs certificats qu'identifican las autoritats de "
+"certificacion seguentas :"
 
 #: ../smime/gui/smime-ui.ui.h:16
 msgid "Authorities"
-msgstr "Autorités"
+msgstr "Autoritats"
 
 #: ../smime/gui/smime-ui.ui.h:17
 msgid "Certificate Authority Trust"
-msgstr "Approbation d'autorité de certification"
+msgstr "Aprovacion d'autoritat de certificacion"
 
 #: ../smime/gui/smime-ui.ui.h:18
 msgid "Trust this CA to identify _websites."
@@ -24848,7 +24844,7 @@ msgstr "Chiframent"
 
 #: ../smime/lib/e-cert-db.c:787
 msgid "Certificate already exists"
-msgstr "Certificat ja existant"
+msgstr "Lo certificat existís ja"
 
 #: ../smime/lib/e-pkcs12.c:201
 msgid "PKCS12 File Password"
@@ -24861,29 +24857,29 @@ msgstr "Sasissètz lo senhal pel fichièr PKCS12 :"
 #: ../smime/lib/e-pkcs12.c:328
 #, c-format
 msgid "Unable to create export context, err_code: %i"
-msgstr "Impossible de crear un contexte d'exportation, code d'error : %i"
+msgstr "Impossible de crear un contèxte d'exportacion, còde d'error : %i"
 
 #: ../smime/lib/e-pkcs12.c:335
 #, c-format
 msgid "Unable to setup password integrity, err_code: %i"
-msgstr "Impossible d'establir l'intégrité del senhal, code d'error : %i"
+msgstr "Impossible d'establir l'integritat del senhal, còde d'error : %i"
 
 #: ../smime/lib/e-pkcs12.c:345
 #, c-format
 msgid "Unable to create safe bag, err_code: %i"
-msgstr "Impossible de crear una base sûre, l'error es : %i"
+msgstr "Impossible de crear una basa segura, l'error es : %i"
 
 #: ../smime/lib/e-pkcs12.c:363
 #, c-format
 msgid "Unable to add key/cert to the store, err_code: %i"
 msgstr ""
-"Impossible d'apondre la clé/certificat dins lo emmagazinatge, code d'error : "
+"Impossible d'apondre la clau/certificat dins l'emmagazinatge, còde d'error : "
 "%i"
 
 #: ../smime/lib/e-pkcs12.c:381
 #, c-format
 msgid "Unable to write store to disk, err_code: %i"
-msgstr "Impossible d'écrire lo emmagazinatge sul disc, code d'error : %i"
+msgstr "Impossible d'escriure l'emmagazinatge sul disc, còde d'error : %i"
 
 #: ../smime/lib/e-pkcs12.c:408
 msgid "Imported Certificate"
@@ -24891,15 +24887,15 @@ msgstr "Certificats importats"
 
 #: ../views/addressbook/galview.xml.h:1
 msgid "_Address Cards"
-msgstr "Cartes de _visite"
+msgstr "Cartas de _visita"
 
 #: ../views/addressbook/galview.xml.h:2 ../views/calendar/galview.xml.h:5
 msgid "_List View"
-msgstr "Vue en _liste"
+msgstr "Vista en _lista"
 
 #: ../views/addressbook/galview.xml.h:3
 msgid "By _Company"
-msgstr "Par _societat"
+msgstr "Per _societat"
 
 #: ../views/calendar/galview.xml.h:1
 msgid "_Day View"
