@@ -66,6 +66,8 @@
 #define E_CALENDAR_AUTO_MOVE_TIMEOUT		150
 #define E_CALENDAR_AUTO_MOVE_TIMEOUT_DELAY	2
 
+#define REPOSITION_TIMEOUT_KEY "e-calendar-reposition-timeout-id"
+
 static void e_calendar_dispose		(GObject	*object);
 static void e_calendar_realize		(GtkWidget	*widget);
 static void e_calendar_style_updated	(GtkWidget	*widget);
@@ -330,6 +332,20 @@ e_calendar_new (void)
 }
 
 static void
+cancel_pending_reposition_timeout (GObject *cal)
+{
+	guint reposition_timeout_id;
+
+	g_return_if_fail (E_IS_CALENDAR (cal));
+
+	reposition_timeout_id = GPOINTER_TO_UINT (g_object_get_data (cal, REPOSITION_TIMEOUT_KEY));
+	if (reposition_timeout_id) {
+		g_source_remove (reposition_timeout_id);
+		g_object_set_data (cal, REPOSITION_TIMEOUT_KEY, NULL);
+	}
+}
+
+static void
 e_calendar_dispose (GObject *object)
 {
 	ECalendar *cal;
@@ -343,6 +359,8 @@ e_calendar_dispose (GObject *object)
 		g_source_remove (cal->timeout_id);
 		cal->timeout_id = 0;
 	}
+
+	cancel_pending_reposition_timeout (object);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_calendar_parent_class)->dispose (object);
@@ -425,11 +443,11 @@ e_calendar_get_preferred_height (GtkWidget *widget,
 	*minimum = *natural = row_height * cal->min_rows + padding.top * 2;
 }
 
-static void
-e_calendar_size_allocate (GtkWidget *widget,
-                          GtkAllocation *allocation)
+static gboolean
+e_calendar_reposition_timeout_cb (gpointer user_data)
 {
-	ECalendar *cal;
+	ECalendar *cal = user_data;
+	GtkWidget *widget;
 	GtkStyleContext *style_context;
 	GtkBorder padding;
 	GtkAllocation old_allocation;
@@ -439,13 +457,15 @@ e_calendar_size_allocate (GtkWidget *widget,
 	gdouble xthickness, ythickness, arrow_button_size, current_x, month_width;
 	gboolean is_rtl;
 
-	cal = E_CALENDAR (widget);
+	g_return_val_if_fail (E_IS_CALENDAR (cal), FALSE);
+
+	g_object_set_data (G_OBJECT (cal), REPOSITION_TIMEOUT_KEY, NULL);
+
+	widget = GTK_WIDGET (cal);
 	style_context = gtk_widget_get_style_context (widget);
 	gtk_style_context_get_padding (style_context, gtk_style_context_get_state (style_context), &padding);
 	xthickness = padding.left;
 	ythickness = padding.top;
-
-	(*GTK_WIDGET_CLASS (e_calendar_parent_class)->size_allocate) (widget, allocation);
 
 	/* Set up Pango prerequisites */
 	pango_context = gtk_widget_get_pango_context (widget);
@@ -534,6 +554,23 @@ e_calendar_size_allocate (GtkWidget *widget,
 		NULL);
 
 	pango_font_metrics_unref (font_metrics);
+
+	return FALSE;
+}
+
+static void
+e_calendar_size_allocate (GtkWidget *widget,
+                          GtkAllocation *allocation)
+{
+	GObject *object;
+
+	(*GTK_WIDGET_CLASS (e_calendar_parent_class)->size_allocate) (widget, allocation);
+
+	object = G_OBJECT (widget);
+
+	cancel_pending_reposition_timeout (object);
+	g_object_set_data (object, REPOSITION_TIMEOUT_KEY, GUINT_TO_POINTER (
+		g_timeout_add (1, e_calendar_reposition_timeout_cb, widget)));
 }
 
 void
