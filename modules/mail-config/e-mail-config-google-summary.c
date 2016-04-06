@@ -157,8 +157,12 @@ mail_config_google_summary_commit_changes_cb (EMailConfigSummaryPage *page,
 	collection_extension = e_source_get_extension (source, extension_name);
 	e_source_collection_set_identity (collection_extension, user);
 
+	/* Always create the Authentication extension, thus the collection source
+	   can be used for the credentials prompt. */
+	auth_extension = e_source_get_extension (source, E_SOURCE_EXTENSION_AUTHENTICATION);
+	e_source_authentication_set_host (auth_extension, "");
+
 	if (e_source_credentials_google_is_supported ()) {
-		auth_extension = e_source_get_extension (source, E_SOURCE_EXTENSION_AUTHENTICATION);
 		e_source_authentication_set_user (auth_extension, user);
 		e_source_authentication_set_method (auth_extension, "Google");
 	}

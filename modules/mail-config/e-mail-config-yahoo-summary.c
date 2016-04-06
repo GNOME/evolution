@@ -113,6 +113,7 @@ mail_config_yahoo_summary_commit_changes_cb (EMailConfigSummaryPage *page,
 	ESource *source;
 	ESourceCollection *collection_extension;
 	ESourceMailIdentity *identity_extension;
+	ESourceAuthentication *auth_extension;
 	GtkToggleButton *toggle_button;
 	GList *head, *link;
 	const gchar *address;
@@ -146,6 +147,11 @@ mail_config_yahoo_summary_commit_changes_cb (EMailConfigSummaryPage *page,
 	extension_name = E_SOURCE_EXTENSION_COLLECTION;
 	collection_extension = e_source_get_extension (source, extension_name);
 	e_source_collection_set_identity (collection_extension, address);
+
+	/* Always create the Authentication extension, thus the collection source
+	   can be used for the credentials prompt. */
+	auth_extension = e_source_get_extension (source, E_SOURCE_EXTENSION_AUTHENTICATION);
+	e_source_authentication_set_host (auth_extension, "");
 
 	/* All queued sources become children of the collection source. */
 	parent_uid = e_source_get_uid (source);
