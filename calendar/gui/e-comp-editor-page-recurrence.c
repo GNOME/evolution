@@ -175,7 +175,7 @@ ecep_recurrence_update_preview (ECompEditorPageRecurrence *page_recurrence)
 	if (!client)
 		client = e_comp_editor_get_target_client (comp_editor);
 
-	e_calendar_item_clear_marks (E_CALENDAR (page_recurrence->priv->preview)->calitem);
+	e_calendar_item_clear_marks (e_calendar_get_item (E_CALENDAR (page_recurrence->priv->preview)));
 
 	editing_comp = e_comp_editor_get_component (comp_editor);
 	if (!editing_comp || e_cal_util_component_is_instance ((icalcomponent *) editing_comp)) {
@@ -2284,10 +2284,10 @@ ecep_recurrence_constructed (GObject *object)
 
 	ecal = E_CALENDAR (page_recurrence->priv->preview);
 	g_signal_connect_swapped (
-		ecal->calitem, "date-range-changed",
+		e_calendar_get_item (ecal), "date-range-changed",
 		G_CALLBACK (ecep_recurrence_update_preview), page_recurrence);
-	e_calendar_item_set_max_days_sel (ecal->calitem, 0);
-	e_calendar_item_set_get_time_callback (ecal->calitem, ecep_recurrence_get_current_time_cb, NULL, NULL);
+	e_calendar_item_set_max_days_sel (e_calendar_get_item (ecal), 0);
+	e_calendar_item_set_get_time_callback (e_calendar_get_item (ecal), ecep_recurrence_get_current_time_cb, NULL, NULL);
 
 	g_signal_connect_swapped (page_recurrence->priv->recr_interval_value_spin, "value-changed",
 		G_CALLBACK (ecep_recurrence_changed), page_recurrence);

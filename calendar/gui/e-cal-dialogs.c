@@ -603,7 +603,7 @@ year_changed (GtkAdjustment *adj,
 	dlg->year_val = gtk_spin_button_get_value_as_int (spin_button);
 
 	e_calendar_item_set_first_month (
-		dlg->ecal->calitem, dlg->year_val, dlg->month_val);
+		e_calendar_get_item (dlg->ecal), dlg->year_val, dlg->month_val);
 }
 
 /* Callback used when a month button is toggled */
@@ -618,7 +618,7 @@ month_changed (GtkToggleButton *toggle,
 	dlg->month_val = gtk_combo_box_get_active (combo_box);
 
 	e_calendar_item_set_first_month (
-		dlg->ecal->calitem, dlg->year_val, dlg->month_val);
+		e_calendar_get_item (dlg->ecal), dlg->year_val, dlg->month_val);
 }
 
 /* Event handler for day groups in the month item.  A button press makes
@@ -729,7 +729,7 @@ goto_dialog_create_widgets (GoToDialog *dlg,
 	dlg->ecal = E_CALENDAR (e_calendar_new ());
 	dlg->tag_calendar = e_tag_calendar_new (dlg->ecal);
 
-	calitem = dlg->ecal->calitem;
+	calitem = e_calendar_get_item (dlg->ecal);
 
 	gnome_canvas_item_set (
 		GNOME_CANVAS_ITEM (calitem),
@@ -806,7 +806,7 @@ e_cal_dialogs_goto_run (GtkWindow *parent,
 		G_CALLBACK (year_changed), dlg);
 
 	g_signal_connect (
-		dlg->ecal->calitem, "selection_changed",
+		e_calendar_get_item (dlg->ecal), "selection_changed",
 		G_CALLBACK (ecal_event), dlg);
 
 	gtk_combo_box_set_active (GTK_COMBO_BOX (dlg->month_combobox), dlg->month_val);
@@ -816,13 +816,13 @@ e_cal_dialogs_goto_run (GtkWindow *parent,
 
 	/* set initial selection to current day */
 
-	dlg->ecal->calitem->selection_set = TRUE;
-	dlg->ecal->calitem->selection_start_month_offset = 0;
-	dlg->ecal->calitem->selection_start_day = dlg->day_val;
-	dlg->ecal->calitem->selection_end_month_offset = 0;
-	dlg->ecal->calitem->selection_end_day = dlg->day_val;
+	e_calendar_get_item (dlg->ecal)->selection_set = TRUE;
+	e_calendar_get_item (dlg->ecal)->selection_start_month_offset = 0;
+	e_calendar_get_item (dlg->ecal)->selection_start_day = dlg->day_val;
+	e_calendar_get_item (dlg->ecal)->selection_end_month_offset = 0;
+	e_calendar_get_item (dlg->ecal)->selection_end_day = dlg->day_val;
 
-	gnome_canvas_item_grab_focus (GNOME_CANVAS_ITEM (dlg->ecal->calitem));
+	gnome_canvas_item_grab_focus (GNOME_CANVAS_ITEM (e_calendar_get_item (dlg->ecal)));
 
 	e_tag_calendar_subscribe (dlg->tag_calendar, dlg->data_model);
 

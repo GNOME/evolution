@@ -244,7 +244,7 @@ cal_base_shell_sidebar_date_navigator_scroll_event_cb (ECalBaseShellSidebar *cal
 	gint year = -1, month = -1;
 	GdkScrollDirection direction;
 
-	calitem = date_navigator->calitem;
+	calitem = e_calendar_get_item (date_navigator);
 	e_calendar_item_get_first_month (calitem, &year, &month);
 	if (year == -1 || month == -1)
 		return FALSE;
@@ -748,7 +748,7 @@ cal_base_shell_sidebar_constructed (GObject *object)
 		gtk_widget_set_margin_start (widget, 6);
 		gtk_widget_set_margin_end (widget, 6);
 		#endif
-		calitem = E_CALENDAR (widget)->calitem;
+		calitem = e_calendar_get_item (E_CALENDAR (widget));
 		e_calendar_item_set_days_start_week_sel (calitem, 9);
 		e_calendar_item_set_max_days_sel (calitem, 42);
 		gtk_paned_pack2 (GTK_PANED (container), widget, FALSE, FALSE);
@@ -756,7 +756,7 @@ cal_base_shell_sidebar_constructed (GObject *object)
 		gtk_widget_show (widget);
 
 		gnome_canvas_item_set (
-			GNOME_CANVAS_ITEM (cal_base_shell_sidebar->priv->date_navigator->calitem),
+			GNOME_CANVAS_ITEM (e_calendar_get_item (cal_base_shell_sidebar->priv->date_navigator)),
 			"move-selection-when-moving", FALSE,
 			NULL);
 
