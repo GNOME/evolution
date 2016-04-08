@@ -267,9 +267,13 @@ setup_e_table (ECalListView *cal_list_view)
 	gtk_scrolled_window_set_policy (
 		GTK_SCROLLED_WINDOW (widget),
 		GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-	gtk_table_attach (
-		GTK_TABLE (container), widget, 0, 2, 0, 2,
-		GTK_EXPAND | GTK_FILL, GTK_EXPAND | GTK_FILL, 0, 0);
+	gtk_grid_attach (GTK_GRID (container), widget, 0, 0, 2, 2);
+	g_object_set (G_OBJECT (widget),
+		"hexpand", TRUE,
+		"vexpand", TRUE,
+		"halign", GTK_ALIGN_FILL,
+		"valign", GTK_ALIGN_FILL,
+		NULL);
 	gtk_widget_show (widget);
 
 	container = widget;

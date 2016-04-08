@@ -2154,9 +2154,13 @@ e_day_view_init (EDayView *day_view)
 
 	widget = gtk_box_new (GTK_ORIENTATION_VERTICAL, 2);
 
-	gtk_table_attach (
-		GTK_TABLE (day_view), widget, 0, 1, 0, 1,
-		GTK_FILL, GTK_FILL, 0, 0);
+	gtk_grid_attach (GTK_GRID (day_view), widget, 0, 0, 1, 1);
+	g_object_set (G_OBJECT (widget),
+		"hexpand", FALSE,
+		"vexpand", FALSE,
+		"halign", GTK_ALIGN_FILL,
+		"valign", GTK_ALIGN_FILL,
+		NULL);
 
 	container = widget;
 
@@ -2179,9 +2183,13 @@ e_day_view_init (EDayView *day_view)
 	 * Top Canvas
 	 */
 	widget = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
-	gtk_table_attach (
-		GTK_TABLE (day_view), widget,
-		1, 2, 0, 1, GTK_EXPAND | GTK_FILL, GTK_FILL, 0, 0);
+	gtk_grid_attach (GTK_GRID (day_view), widget, 1, 0, 1, 1);
+	g_object_set (G_OBJECT (widget),
+		"hexpand", TRUE,
+		"vexpand", FALSE,
+		"halign", GTK_ALIGN_FILL,
+		"valign", GTK_ALIGN_FILL,
+		NULL);
 	gtk_widget_show (widget);
 
 	container = widget;
@@ -2296,9 +2304,13 @@ e_day_view_init (EDayView *day_view)
 	/* Keep our own canvas reference so we can
 	 * disconnect signal handlers in dispose(). */
 	widget = e_canvas_new ();
-	gtk_table_attach (
-		GTK_TABLE (day_view), widget, 1, 2, 1, 2,
-		GTK_EXPAND | GTK_FILL, GTK_EXPAND | GTK_FILL, 0, 0);
+	gtk_grid_attach (GTK_GRID (day_view), widget, 1, 1, 1, 1);
+	g_object_set (G_OBJECT (widget),
+		"hexpand", TRUE,
+		"vexpand", TRUE,
+		"halign", GTK_ALIGN_FILL,
+		"valign", GTK_ALIGN_FILL,
+		NULL);
 	day_view->main_canvas = g_object_ref (widget);
 	gtk_widget_show (widget);
 
@@ -2405,9 +2417,13 @@ e_day_view_init (EDayView *day_view)
 	adjustment = gtk_scrollable_get_vadjustment (scrollable);
 	scrollable = GTK_SCROLLABLE (widget);
 	gtk_scrollable_set_vadjustment (scrollable, adjustment);
-	gtk_table_attach (
-		GTK_TABLE (day_view), widget, 0, 1, 1, 2,
-		GTK_FILL, GTK_EXPAND | GTK_FILL, 0, 0);
+	gtk_grid_attach (GTK_GRID (day_view), widget, 0, 1, 1, 1);
+	g_object_set (G_OBJECT (widget),
+		"hexpand", FALSE,
+		"vexpand", TRUE,
+		"halign", GTK_ALIGN_FILL,
+		"valign", GTK_ALIGN_FILL,
+		NULL);
 	day_view->time_canvas = g_object_ref (widget);
 	gtk_widget_show (widget);
 
@@ -2432,25 +2448,39 @@ e_day_view_init (EDayView *day_view)
 	adjustment = gtk_scrollable_get_hadjustment (scrollable);
 	day_view->mc_hscrollbar = gtk_scrollbar_new (
 		GTK_ORIENTATION_HORIZONTAL, adjustment);
-	gtk_table_attach (GTK_TABLE (day_view), day_view->mc_hscrollbar, 1, 2, 2, 3, GTK_FILL, 0, 0, 0);
+	gtk_grid_attach (GTK_GRID (day_view), day_view->mc_hscrollbar, 1, 2, 1, 1);
+	g_object_set (G_OBJECT (day_view->mc_hscrollbar),
+		"hexpand", FALSE,
+		"vexpand", FALSE,
+		"halign", GTK_ALIGN_FILL,
+		"valign", GTK_ALIGN_START,
+		NULL);
 	gtk_widget_show (day_view->mc_hscrollbar);
 
 	scrollable = GTK_SCROLLABLE (day_view->top_canvas);
 	adjustment = gtk_scrollable_get_vadjustment (scrollable);
 	day_view->tc_vscrollbar = gtk_scrollbar_new (
 		GTK_ORIENTATION_VERTICAL, adjustment);
-	gtk_table_attach (
-		GTK_TABLE (day_view), day_view->tc_vscrollbar,
-		2, 3, 0, 1, 0, GTK_FILL, 0, 0);
+	gtk_grid_attach (GTK_GRID (day_view), day_view->tc_vscrollbar, 2, 0, 1, 1);
+	g_object_set (G_OBJECT (day_view->tc_vscrollbar),
+		"hexpand", FALSE,
+		"vexpand", FALSE,
+		"halign", GTK_ALIGN_START,
+		"valign", GTK_ALIGN_FILL,
+		NULL);
 	/* gtk_widget_show (day_view->tc_vscrollbar); */
 
 	scrollable = GTK_SCROLLABLE (day_view->main_canvas);
 	adjustment = gtk_scrollable_get_vadjustment (scrollable);
 	day_view->vscrollbar = gtk_scrollbar_new (
 		GTK_ORIENTATION_VERTICAL, adjustment);
-	gtk_table_attach (
-		GTK_TABLE (day_view), day_view->vscrollbar,
-		2, 3, 1, 2, 0, GTK_EXPAND | GTK_FILL, 0, 0);
+	gtk_grid_attach (GTK_GRID (day_view), day_view->vscrollbar, 2, 1, 1, 1);
+	g_object_set (G_OBJECT (day_view->vscrollbar),
+		"hexpand", FALSE,
+		"vexpand", TRUE,
+		"halign", GTK_ALIGN_START,
+		"valign", GTK_ALIGN_FILL,
+		NULL);
 	gtk_widget_show (day_view->vscrollbar);
 
 	/* Create the cursors. */

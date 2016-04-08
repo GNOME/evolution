@@ -106,7 +106,7 @@ typedef struct _ECalendarViewClass ECalendarViewClass;
 typedef struct _ECalendarViewPrivate ECalendarViewPrivate;
 
 struct _ECalendarView {
-	GtkTable parent;
+	GtkGrid parent;
 	gboolean in_focus;
 	ECalendarViewPrivate *priv;
 };
@@ -134,7 +134,7 @@ typedef enum {
 } ECalendarViewMoveType;
 
 struct _ECalendarViewClass {
-	GtkTableClass parent_class;
+	GtkGridClass parent_class;
 
 	/* Notification signals */
 	void		(*popup_event)		(ECalendarView *cal_view,
