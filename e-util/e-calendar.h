@@ -60,30 +60,13 @@ G_BEGIN_DECLS
 	((obj), E_TYPE_CALENDAR, ECalendarClass))
 
 typedef struct _ECalendar ECalendar;
-typedef struct _ECalendarClass  ECalendarClass;
+typedef struct _ECalendarClass ECalendarClass;
+typedef struct _ECalendarPrivate ECalendarPrivate;
 
 struct _ECalendar {
 	ECanvas parent;
 
-	ECalendarItem *calitem;
-
-	GnomeCanvasItem *prev_item;
-	GnomeCanvasItem *next_item;
-	GnomeCanvasItem *prev_item_year;
-	GnomeCanvasItem *next_item_year;
-
-	gint min_rows;
-	gint min_cols;
-
-	gint max_rows;
-	gint max_cols;
-
-	/* These are all used when the prev/next buttons are held down.
-	 * moving_forward is TRUE if we are moving forward in time, i.e. the
-	 * next button is pressed. */
-	gint timeout_id;
-	gint timeout_delay;
-	gboolean moving_forward;
+	ECalendarPrivate *priv;
 };
 
 struct _ECalendarClass {
@@ -92,6 +75,7 @@ struct _ECalendarClass {
 
 GType		e_calendar_get_type		(void) G_GNUC_CONST;
 GtkWidget *	e_calendar_new			(void);
+ECalendarItem *	e_calendar_get_item		(ECalendar *cal);
 void		e_calendar_set_minimum_size	(ECalendar *cal,
 						 gint rows,
 						 gint cols);

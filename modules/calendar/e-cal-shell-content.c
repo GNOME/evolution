@@ -281,11 +281,11 @@ e_cal_shell_content_change_view (ECalShellContent *cal_shell_content,
 	    g_date_valid (&cal_shell_content->priv->view_end) &&
 	    g_date_compare (&cal_shell_content->priv->view_start, view_start) == 0 &&
 	    g_date_compare (&cal_shell_content->priv->view_end, view_end) == 0) {
-		ECalendarItem *calitem = calendar->calitem;
+		ECalendarItem *calitem = e_calendar_get_item (calendar);
 
 		if (view_changed)
 			cal_shell_content_update_model_and_current_view_times (
-				cal_shell_content, model, calendar->calitem, view_start_tt, view_end_tt, view_start, view_end);
+				cal_shell_content, model, calitem, view_start_tt, view_end_tt, view_start, view_end);
 
 		g_signal_handler_block (calitem, cal_shell_content->priv->datepicker_range_moved_id);
 		g_signal_handler_block (calitem, cal_shell_content->priv->datepicker_selection_changed_id);
@@ -302,7 +302,7 @@ e_cal_shell_content_change_view (ECalShellContent *cal_shell_content,
 	cal_shell_content->priv->view_end = *view_end;
 
 	cal_shell_content_update_model_and_current_view_times (
-		cal_shell_content, model, calendar->calitem, view_start_tt, view_end_tt, view_start, view_end);
+		cal_shell_content, model, e_calendar_get_item (calendar), view_start_tt, view_end_tt, view_start, view_end);
 }
 
 static void
@@ -555,7 +555,7 @@ cal_shell_content_datepicker_button_press_cb (ECalendar *calendar,
 		return FALSE;
 
 	if (event->type == GDK_2BUTTON_PRESS) {
-		ECalendarItem *calitem = calendar->calitem;
+		ECalendarItem *calitem = e_calendar_get_item (calendar);
 		GDate sel_start, sel_end;
 
 		g_date_clear (&sel_start, 1);
@@ -1275,7 +1275,7 @@ cal_shell_content_view_created (ECalBaseShellContent *cal_base_shell_content)
 	g_return_if_fail (E_IS_CALENDAR (calendar));
 
 	model = e_cal_base_shell_content_get_model (E_CAL_BASE_SHELL_CONTENT (cal_shell_content));
-	e_calendar_item_set_selection (calendar->calitem, &date, &date);
+	e_calendar_item_set_selection (e_calendar_get_item (calendar), &date, &date);
 	e_cal_model_set_time_range (model, today, today);
 
 	/* Show everything known by default in the task and memo pads */
@@ -1283,10 +1283,10 @@ cal_shell_content_view_created (ECalBaseShellContent *cal_base_shell_content)
 	e_cal_model_set_time_range (cal_shell_content->priv->task_model, 0, 0);
 
 	cal_shell_content->priv->datepicker_selection_changed_id =
-		g_signal_connect (calendar->calitem, "selection-changed",
+		g_signal_connect (e_calendar_get_item (calendar), "selection-changed",
 		G_CALLBACK (cal_shell_content_datepicker_selection_changed_cb), cal_shell_content);
 	cal_shell_content->priv->datepicker_range_moved_id =
-		g_signal_connect (calendar->calitem, "date-range-moved",
+		g_signal_connect (e_calendar_get_item (calendar), "date-range-moved",
 		G_CALLBACK (cal_shell_content_datepicker_range_moved_cb), cal_shell_content);
 
 	g_signal_connect_after (calendar, "button-press-event",
@@ -2141,7 +2141,7 @@ e_cal_shell_content_move_view_range (ECalShellContent *cal_shell_content,
 
 	calendar = e_cal_base_shell_sidebar_get_date_navigator (E_CAL_BASE_SHELL_SIDEBAR (shell_sidebar));
 	g_return_if_fail (E_IS_CALENDAR (calendar));
-	g_return_if_fail (calendar->calitem != NULL);
+	g_return_if_fail (e_calendar_get_item (calendar) != NULL);
 
 	data_model = e_cal_base_shell_content_get_data_model (E_CAL_BASE_SHELL_CONTENT (cal_shell_content));
 	zone = e_cal_data_model_get_timezone (data_model);
@@ -2157,7 +2157,7 @@ e_cal_shell_content_move_view_range (ECalShellContent *cal_shell_content,
 			tt = icaltime_current_time_with_zone (zone);
 			g_date_set_dmy (&date, tt.day, tt.month, tt.year);
 			/* one-day selection takes care of the view range move with left view kind */
-			e_calendar_item_set_selection (calendar->calitem, &date, &date);
+			e_calendar_item_set_selection (e_calendar_get_item (calendar), &date, &date);
 			break;
 		case E_CALENDAR_VIEW_MOVE_TO_EXACT_DAY:
 			time_to_gdate_with_zone (&date, exact_date, zone);

@@ -361,7 +361,7 @@ e_tag_calendar_query_tooltip_cb (ECalendar *calendar,
 	g_return_val_if_fail (E_IS_TAG_CALENDAR (tag_calendar), FALSE);
 	g_return_val_if_fail (GTK_IS_TOOLTIP (tooltip), FALSE);
 
-	if (!e_calendar_item_convert_position_to_date (calendar->calitem, x, y, &date))
+	if (!e_calendar_item_convert_position_to_date (e_calendar_get_item (calendar), x, y, &date))
 		return FALSE;
 
 	julian = encode_ymd_to_julian (g_date_get_year (&date), g_date_get_month (&date), g_date_get_day (&date));
@@ -595,11 +595,11 @@ e_tag_calendar_set_calendar (ETagCalendar *tag_calendar,
 {
 	g_return_if_fail (E_IS_TAG_CALENDAR (tag_calendar));
 	g_return_if_fail (E_IS_CALENDAR (calendar));
-	g_return_if_fail (calendar->calitem != NULL);
+	g_return_if_fail (e_calendar_get_item (calendar) != NULL);
 	g_return_if_fail (tag_calendar->priv->calendar == NULL);
 
 	tag_calendar->priv->calendar = calendar;
-	tag_calendar->priv->calitem = calendar->calitem;
+	tag_calendar->priv->calitem = e_calendar_get_item (calendar);
 
 	g_object_weak_ref (G_OBJECT (tag_calendar->priv->calendar),
 		(GWeakNotify) g_nullify_pointer, &tag_calendar->priv->calendar);
@@ -687,7 +687,7 @@ e_tag_calendar_dispose (GObject *object)
 	ETagCalendar *tag_calendar = E_TAG_CALENDAR (object);
 
 	if (tag_calendar->priv->calendar != NULL) {
-		g_signal_handlers_disconnect_by_func (tag_calendar->priv->calendar->calitem,
+		g_signal_handlers_disconnect_by_func (e_calendar_get_item (tag_calendar->priv->calendar),
 			G_CALLBACK (e_tag_calendar_date_range_changed_cb), tag_calendar);
 		g_signal_handlers_disconnect_by_func (tag_calendar->priv->calendar,
 			G_CALLBACK (e_tag_calendar_query_tooltip_cb), tag_calendar);
@@ -890,10 +890,10 @@ prepare_tag (ECalendar *ecal,
 	struct icaltimetype end_tt = icaltime_null_time ();
 
 	if (clear_first)
-		e_calendar_item_clear_marks (ecal->calitem);
+		e_calendar_item_clear_marks (e_calendar_get_item (ecal));
 
 	if (!e_calendar_item_get_date_range (
-		ecal->calitem,
+		e_calendar_get_item (ecal),
 		&start_year, &start_month, &start_day,
 		&end_year, &end_month, &end_day))
 		return FALSE;
@@ -908,7 +908,7 @@ prepare_tag (ECalendar *ecal,
 
 	icaltime_adjust (&end_tt, 1, 0, 0, 0);
 
-	closure->calitem = ecal->calitem;
+	closure->calitem = e_calendar_get_item (ecal);
 
 	if (zone != NULL)
 		closure->zone = zone;

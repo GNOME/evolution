@@ -683,13 +683,13 @@ create_children (EDateEdit *dedit)
 	priv->calendar = e_calendar_new ();
 	calendar = E_CALENDAR (priv->calendar);
 	gnome_canvas_item_set (
-		GNOME_CANVAS_ITEM (calendar->calitem),
+		GNOME_CANVAS_ITEM (e_calendar_get_item (calendar)),
 		"maximum_days_selected", 1,
 		"move_selection_when_moving", FALSE,
 		NULL);
 
 	g_signal_connect (
-		calendar->calitem, "selection_changed",
+		e_calendar_get_item (calendar), "selection_changed",
 		G_CALLBACK (on_date_popup_date_selected), dedit);
 
 	gtk_box_pack_start (GTK_BOX (vbox), priv->calendar, FALSE, FALSE, 0);
@@ -1225,7 +1225,7 @@ e_date_edit_get_week_start_day (EDateEdit *dedit)
 	g_return_val_if_fail (E_IS_DATE_EDIT (dedit), 1);
 
 	g_object_get (
-		E_CALENDAR (dedit->priv->calendar)->calitem,
+		e_calendar_get_item (E_CALENDAR (dedit->priv->calendar)),
 		"week-start-day", &week_start_day, NULL);
 
 	return week_start_day;
@@ -1246,7 +1246,7 @@ e_date_edit_set_week_start_day (EDateEdit *dedit,
 	g_return_if_fail (g_date_valid_weekday (week_start_day));
 
 	gnome_canvas_item_set (
-		GNOME_CANVAS_ITEM (E_CALENDAR (dedit->priv->calendar)->calitem),
+		GNOME_CANVAS_ITEM (e_calendar_get_item (E_CALENDAR (dedit->priv->calendar))),
 		"week-start-day", week_start_day, NULL);
 
 	g_object_notify (G_OBJECT (dedit), "week-start-day");
@@ -1261,7 +1261,7 @@ e_date_edit_get_show_week_numbers (EDateEdit *dedit)
 	g_return_val_if_fail (E_IS_DATE_EDIT (dedit), FALSE);
 
 	g_object_get (
-		E_CALENDAR (dedit->priv->calendar)->calitem,
+		e_calendar_get_item (E_CALENDAR (dedit->priv->calendar)),
 		"show_week_numbers", &show_week_numbers, NULL);
 
 	return show_week_numbers;
@@ -1274,7 +1274,7 @@ e_date_edit_set_show_week_numbers (EDateEdit *dedit,
 	g_return_if_fail (E_IS_DATE_EDIT (dedit));
 
 	gnome_canvas_item_set (
-		GNOME_CANVAS_ITEM (E_CALENDAR (dedit->priv->calendar)->calitem),
+		GNOME_CANVAS_ITEM (e_calendar_get_item (E_CALENDAR (dedit->priv->calendar))),
 		"show_week_numbers", show_week_numbers, NULL);
 
 	g_object_notify (G_OBJECT (dedit), "show-week-numbers");
@@ -1423,20 +1423,20 @@ e_date_edit_show_date_popup (EDateEdit *dedit,
 		clear_selection = TRUE;
 
 	if (clear_selection) {
-		e_calendar_item_set_selection (calendar->calitem, NULL, NULL);
+		e_calendar_item_set_selection (e_calendar_get_item (calendar), NULL, NULL);
 	} else {
 		g_date_clear (&selected_day, 1);
 		g_date_set_dmy (
 			&selected_day, mtm.tm_mday, mtm.tm_mon + 1,
 			mtm.tm_year + 1900);
 		e_calendar_item_set_selection (
-			calendar->calitem,
+			e_calendar_get_item (calendar),
 			&selected_day, NULL);
 	}
 
 	/* FIXME: Hack. Change ECalendarItem so it doesn't queue signal
 	 * emissions. */
-	calendar->calitem->selection_changed = FALSE;
+	e_calendar_get_item (calendar)->selection_changed = FALSE;
 
 	position_date_popup (dedit);
 	gtk_widget_show (priv->cal_popup);

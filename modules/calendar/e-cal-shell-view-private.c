@@ -346,7 +346,7 @@ e_cal_shell_view_private_constructed (ECalShellView *cal_shell_view)
 		cal_shell_view);
 
 	e_calendar_item_set_get_time_callback (
-		calendar->calitem, (ECalendarItemGetTimeCallback)
+		e_calendar_get_item (calendar), (ECalendarItemGetTimeCallback)
 		cal_shell_view_get_current_time, cal_shell_view, NULL);
 
 	init_timezone_monitors (cal_shell_view);
@@ -706,8 +706,8 @@ cal_searching_check_candidates (ECalShellView *cal_shell_view)
 			GDate *dt;
 
 			dt = g_date_new_dmy (tt.day, tt.month, tt.year);
-			e_calendar_item_set_selection (calendar->calitem, dt, dt);
-			g_signal_emit_by_name (calendar->calitem, "selection-changed", 0);
+			e_calendar_item_set_selection (e_calendar_get_item (calendar), dt, dt);
+			g_signal_emit_by_name (e_calendar_get_item (calendar), "selection-changed", 0);
 			g_date_free (dt);
 
 			cal_view = e_cal_shell_content_get_current_calendar_view (cal_shell_view->priv->cal_shell_content);

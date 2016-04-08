@@ -383,5 +383,5 @@ e_cal_shell_backend_open_date_range (ECalShellBackend *cal_shell_backend,
 	shell_sidebar = e_shell_view_get_shell_sidebar (shell_view);
 	calendar = e_cal_base_shell_sidebar_get_date_navigator (E_CAL_BASE_SHELL_SIDEBAR (shell_sidebar));
 
-	e_calendar_item_set_selection (calendar->calitem, start_date, end_date);
+	e_calendar_item_set_selection (e_calendar_get_item (calendar), start_date, end_date);
 }

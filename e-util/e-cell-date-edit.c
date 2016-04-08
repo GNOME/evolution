@@ -239,7 +239,7 @@ e_cell_date_edit_init (ECellDateEdit *ecde)
 
 	ecde->calendar = e_calendar_new ();
 	gnome_canvas_item_set (
-		GNOME_CANVAS_ITEM (E_CALENDAR (ecde->calendar)->calitem),
+		GNOME_CANVAS_ITEM (e_calendar_get_item (E_CALENDAR (ecde->calendar))),
 		"move_selection_when_moving", FALSE,
 		NULL);
 	gtk_box_pack_start (GTK_BOX (hbox), ecde->calendar, TRUE, TRUE, 0);
@@ -534,7 +534,7 @@ e_cell_date_edit_set_popup_values (ECellDateEdit *ecde)
 
 	/* If there is no date and time set, or the date is invalid, we clear
 	 * the selections, else we select the appropriate date & time. */
-	calitem = E_CALENDAR_ITEM (E_CALENDAR (ecde->calendar)->calitem);
+	calitem = E_CALENDAR_ITEM (e_calendar_get_item (E_CALENDAR (ecde->calendar)));
 	if (status == E_TIME_PARSE_NONE || status == E_TIME_PARSE_INVALID) {
 		gtk_entry_set_text (GTK_ENTRY (ecde->time_entry), "");
 		e_calendar_item_set_selection (calitem, NULL, NULL);
@@ -820,7 +820,7 @@ e_cell_date_edit_on_ok_clicked (GtkWidget *button,
 	ETimeParseStatus status;
 	gboolean is_date = FALSE;
 
-	calitem = E_CALENDAR_ITEM (E_CALENDAR (ecde->calendar)->calitem);
+	calitem = E_CALENDAR_ITEM (e_calendar_get_item (E_CALENDAR (ecde->calendar)));
 	day_selected = e_calendar_item_get_selection (
 		calitem, &start_date, &end_date);
 
