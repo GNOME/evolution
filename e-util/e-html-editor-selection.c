@@ -6564,7 +6564,11 @@ wrap_lines (EHTMLEditorSelection *selection,
 					webkit_dom_html_element_set_outer_text (
 						WEBKIT_DOM_HTML_ELEMENT (nd), " ", NULL);
 				} else if (!prev_nd) {
-					start_point = nd;
+					WebKitDOMNode *parent;
+
+					parent = webkit_dom_node_get_parent_node (parent);
+					if (!WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (parent))
+						start_point = nd;
 				}
 
 				nd = prev_nd;
