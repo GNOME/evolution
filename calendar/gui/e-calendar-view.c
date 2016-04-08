@@ -94,7 +94,7 @@ static guint signals[LAST_SIGNAL];
 static void calendar_view_selectable_init (ESelectableInterface *iface);
 
 G_DEFINE_ABSTRACT_TYPE_WITH_CODE (
-	ECalendarView, e_calendar_view, GTK_TYPE_TABLE,
+	ECalendarView, e_calendar_view, GTK_TYPE_GRID,
 	G_IMPLEMENT_INTERFACE (E_TYPE_EXTENSIBLE, NULL)
 	G_IMPLEMENT_INTERFACE (E_TYPE_SELECTABLE, calendar_view_selectable_init));
 

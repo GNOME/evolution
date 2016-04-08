@@ -1741,9 +1741,13 @@ e_week_view_init (EWeekView *week_view)
 	 * Month view.
 	 */
 	week_view->titles_canvas = e_canvas_new ();
-	gtk_table_attach (
-		GTK_TABLE (week_view), week_view->titles_canvas,
-		1, 2, 0, 1, GTK_EXPAND | GTK_FILL, GTK_FILL, 0, 0);
+	gtk_grid_attach (GTK_GRID (week_view), week_view->titles_canvas, 1, 0, 1, 1);
+	g_object_set (G_OBJECT (week_view->titles_canvas),
+		"hexpand", TRUE,
+		"vexpand", FALSE,
+		"halign", GTK_ALIGN_FILL,
+		"valign", GTK_ALIGN_FILL,
+		NULL);
 
 	canvas_group = GNOME_CANVAS_GROUP (GNOME_CANVAS (week_view->titles_canvas)->root);
 
@@ -1758,10 +1762,13 @@ e_week_view_init (EWeekView *week_view)
 	 * Main Canvas
 	 */
 	week_view->main_canvas = e_canvas_new ();
-	gtk_table_attach (
-		GTK_TABLE (week_view), week_view->main_canvas,
-		1, 2, 1, 2,
-		GTK_EXPAND | GTK_FILL, GTK_EXPAND | GTK_FILL, 1, 1);
+	gtk_grid_attach (GTK_GRID (week_view), week_view->main_canvas, 1, 1, 1, 1);
+	g_object_set (G_OBJECT (week_view->main_canvas),
+		"hexpand", TRUE,
+		"vexpand", TRUE,
+		"halign", GTK_ALIGN_FILL,
+		"valign", GTK_ALIGN_FILL,
+		NULL);
 	gtk_widget_show (week_view->main_canvas);
 
 	canvas_group = GNOME_CANVAS_GROUP (GNOME_CANVAS (week_view->main_canvas)->root);
@@ -1811,9 +1818,13 @@ e_week_view_init (EWeekView *week_view)
 
 	week_view->vscrollbar = gtk_scrollbar_new (
 		GTK_ORIENTATION_VERTICAL, adjustment);
-	gtk_table_attach (
-		GTK_TABLE (week_view), week_view->vscrollbar,
-		2, 3, 1, 2, 0, GTK_EXPAND | GTK_FILL, 0, 0);
+	gtk_grid_attach (GTK_GRID (week_view), week_view->vscrollbar, 2, 1, 1, 1);
+	g_object_set (G_OBJECT (week_view->vscrollbar),
+		"hexpand", FALSE,
+		"vexpand", TRUE,
+		"halign", GTK_ALIGN_START,
+		"valign", GTK_ALIGN_FILL,
+		NULL);
 	gtk_widget_show (week_view->vscrollbar);
 
 	/* Create the cursors. */
