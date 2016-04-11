@@ -1108,6 +1108,8 @@ composer_load_signature_cb (EMailSignatureComboBox *combo_box,
 		signature_to_insert, gtk_combo_box_get_active_id (GTK_COMBO_BOX (combo_box)));
 	insert_signature_in = signature_to_insert;
 
+	html_mode = e_html_editor_view_get_html_mode (view);
+
 	/* The signature has no content usually it means it is set to None. */
 	if (!contents)
 		goto insert;
@@ -1131,7 +1133,6 @@ composer_load_signature_cb (EMailSignatureComboBox *combo_box,
 	}
 
 	/* If inserting HTML signature in plain text composer we have to convert it. */
-	html_mode = e_html_editor_view_get_html_mode (view);
 	if (is_html && !html_mode && !strstr (contents, "data-evo-signature-plain-text-mode")) {
 		gchar *inner_text;
 
