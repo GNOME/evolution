@@ -1,3 +1,47 @@
+Evolution 3.20.1 2016-04-11
+---------------------------
+
+Bug Fixes:
+	Bug 736808 - Fill lists of certificates asynchronously (Milan Crha)
+	Bug 763796 - Excessive runtime warnings from gtk_style_context_get_...() (Milan Crha)
+	Bug 764062 - Send/Receive dialog can be left opened with empty content (Milan Crha)
+	Bug 764234 - Add more handling options for Content-Type: message/rfc822 (Milan Crha)
+	Bug 764172 - Do not grab mouse on left-click in message list (Milan Crha)
+	Bug 763723 - Do not propagate mouse events to parent of EAttachmentBar (Milan Crha)
+	Bug 764426 - Contact list with umlauts shown encoded in meetings (Milan Crha)
+	Bug 764428 - Empty state text in Contacts view is not properly centered (Milan Crha)
+	Bug 240130 - Resize table header on theme font change (Milan Crha)
+	Bug 764542 - ECalendar next/previous month arrows oversized in gtk+ 3.20 (Milan Crha)
+	Bug 762785 - Avoid unnecessary MessageList rebuilds (Milan Crha)
+	Bug 758878 - Asked repeatedly for a Google account password (with calendar) (Milan Crha)
+
+Miscellaneous:
+	[EAttachmentTree/IconView] Setup widgets in 'constructed' handler (Milan Crha)
+	Remove unneeded runtime warning from e-day-view.c::cancel_editing() (Milan Crha)
+	Vertically center table header text (Milan Crha)
+	Make some settings changes in mail composer permanent (Milan Crha)
+	Add missing closing double quote, thus webview-print.css is actually used (Milan Crha)
+	Reposition ECalendar children on timeout, not inside size-allocate handler (Milan Crha)
+	Cannot change order list to unordered for the first time (Tomas Popela)
+	Inline images in drafts are not displayed in GMail (Tomas Popela)
+	EHTMLEditorView - Remove signature from Thunderbird if presented (Tomas Popela)
+	EHTMLEditorView - Correct the new lines handling in quoted content (Tomas Popela)
+	EHTMLEditorView - Avoid variables with the same name in one scope (Tomas Popela)
+	EHTMLEditorView - Don't replace various whitespaces with non-breaking spaces when inserting into PRE element (Tomas Popela)
+	EHTMLEditorView - Busy loop after pasting two links after each other in the quoted content (Tomas Popela)
+	EHTMLEditorSelection - Selection could be saved wrong in quoted content (Tomas Popela)
+	EHTMLEditorSelection - Anchors could be wrongly wrapped in quoted content (Tomas Popela)
+	EHTMLEditorSelection - Ask for a parent node of the right node (Tomas Popela)
+
+Translations:
+	Dušan Kazik (sk)
+	Daniel Korostil (uk)
+	Tiago Carrondo (pt)
+	Inaki Larranaga Murgoitio (eu)
+	Cédric Valmary (oc)
+	Gianvito Cavasoli (it)
+	Mingye Wang (zh_CN)
+
 Evolution 3.20.0 2016-03-21
 ---------------------------
 
