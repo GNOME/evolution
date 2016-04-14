@@ -191,7 +191,7 @@ action_mail_account_refresh_cb (GtkAction *action,
 
 	camel_store_get_folder_info (
 		store, NULL,
-		CAMEL_STORE_FOLDER_INFO_RECURSIVE,
+		CAMEL_STORE_FOLDER_INFO_RECURSIVE | CAMEL_STORE_FOLDER_INFO_REFRESH,
 		G_PRIORITY_DEFAULT, cancellable,
 		account_refresh_folder_info_received_cb, activity);
 
