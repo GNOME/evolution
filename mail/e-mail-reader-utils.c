@@ -786,7 +786,7 @@ e_mail_reader_refresh_folder_name (EMailReader *reader,
 
 	camel_store_get_folder (
 		store, folder_name,
-		CAMEL_STORE_FOLDER_INFO_FAST,
+		CAMEL_STORE_FOLDER_INFO_FAST | CAMEL_STORE_FOLDER_INFO_REFRESH,
 		G_PRIORITY_DEFAULT, cancellable,
 		mail_reader_refresh_folder_name_cb,
 		async_context);
