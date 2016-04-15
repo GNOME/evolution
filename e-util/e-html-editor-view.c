@@ -4101,7 +4101,7 @@ delete_hidden_space (EHTMLEditorView *view)
 }
 
 static gboolean
-change_quoted_block_to_normal (EHTMLEditorView *view)
+move_quoted_block_level_up (EHTMLEditorView *view)
 {
 	EHTMLEditorViewHistoryEvent *ev = NULL;
 	EHTMLEditorSelection *selection;
@@ -4183,24 +4183,40 @@ change_quoted_block_to_normal (EHTMLEditorView *view)
 		g_free (inner_html);
 
 		if (paragraph) {
-			if (view->priv->html_mode) {
-				webkit_dom_node_insert_before (
-					WEBKIT_DOM_NODE (paragraph),
-					WEBKIT_DOM_NODE (selection_start_marker),
-					webkit_dom_node_get_first_child (
-						WEBKIT_DOM_NODE (paragraph)),
-					NULL);
-				webkit_dom_node_insert_before (
-					WEBKIT_DOM_NODE (paragraph),
-					WEBKIT_DOM_NODE (selection_end_marker),
-					webkit_dom_node_get_first_child (
-						WEBKIT_DOM_NODE (paragraph)),
-					NULL);
-
-			}
+			webkit_dom_node_insert_before (
+				WEBKIT_DOM_NODE (paragraph),
+				WEBKIT_DOM_NODE (selection_start_marker),
+				webkit_dom_node_get_first_child (
+					WEBKIT_DOM_NODE (paragraph)),
+				NULL);
+			webkit_dom_node_insert_before (
+				WEBKIT_DOM_NODE (paragraph),
+				WEBKIT_DOM_NODE (selection_end_marker),
+				webkit_dom_node_get_first_child (
+					WEBKIT_DOM_NODE (paragraph)),
+				NULL);
 
 			remove_quoting_from_element (paragraph);
 			remove_wrapping_from_element (paragraph);
+
+			/* Moving PRE block from citation to body */
+			if (WEBKIT_DOM_IS_HTML_PRE_ELEMENT (block)) {
+				WebKitDOMElement *pre;
+				WebKitDOMNode *child;
+
+				pre = webkit_dom_document_create_element (document, "pre", NULL);
+				webkit_dom_node_insert_before (
+					webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (paragraph)),
+					WEBKIT_DOM_NODE (pre),
+					WEBKIT_DOM_NODE (paragraph),
+					NULL);
+				while ((child = webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (paragraph))))
+					webkit_dom_node_append_child (WEBKIT_DOM_NODE (pre), child, NULL);
+
+				remove_node (WEBKIT_DOM_NODE (paragraph));
+				paragraph = pre;
+			}
+
 		}
 
 		if (block)
@@ -5880,7 +5896,7 @@ key_press_event_process_backspace_key (EHTMLEditorView *view)
 	 * format to normal and inserts text into body */
 	if (e_html_editor_selection_is_collapsed (selection)) {
 		e_html_editor_selection_save (selection);
-		if (change_quoted_block_to_normal (view) || delete_hidden_space (view)) {
+		if (move_quoted_block_level_up (view) || delete_hidden_space (view)) {
 			e_html_editor_selection_restore (selection);
 			e_html_editor_view_force_spell_check_for_current_paragraph (view);
 			e_html_editor_view_set_changed (view, TRUE);
@@ -14892,7 +14908,7 @@ undo_redo_unquote (EHTMLEditorView *view,
 
 		remove_node (WEBKIT_DOM_NODE (block));
 	} else
-		change_quoted_block_to_normal (view);
+		move_quoted_block_level_up (view);
 
 	if (undo)
 		restore_selection_to_history_event_state (view, event->before);
