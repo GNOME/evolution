@@ -1739,7 +1739,7 @@ tooltip_window_destroyed_cb (gpointer user_data,
 gboolean
 e_calendar_view_get_tooltips (const ECalendarViewEventData *data)
 {
-	GtkWidget *label, *box, *hbox, *ebox, *frame;
+	GtkWidget *label, *box, *hbox, *ebox, *frame, *toplevel;
 	const gchar *str;
 	gchar *tmp, *tmp1 = NULL, *tmp2 = NULL;
 	ECalComponentOrganizer organiser;
@@ -1929,6 +1929,13 @@ e_calendar_view_get_tooltips (const ECalendarViewEventData *data)
 	}
 
 	pevent->tooltip = gtk_window_new (GTK_WINDOW_POPUP);
+
+	toplevel = gtk_widget_get_toplevel (GTK_WIDGET (data->cal_view));
+	if (GTK_IS_WINDOW (toplevel)) {
+		gtk_window_group_add_window (gtk_window_get_group (GTK_WINDOW (toplevel)), GTK_WINDOW (pevent->tooltip));
+		gtk_window_set_transient_for (GTK_WINDOW (pevent->tooltip), GTK_WINDOW (toplevel));
+	}
+
 	frame = gtk_frame_new (NULL);
 	gtk_frame_set_shadow_type ((GtkFrame *) frame, GTK_SHADOW_IN);
 
