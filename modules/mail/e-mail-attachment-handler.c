@@ -48,6 +48,7 @@ static const gchar *ui =
 "      <menuitem action='mail-message-edit'/>"
 "      <separator/>"
 "      <menuitem action='mail-reply-sender'/>"
+"      <menuitem action='mail-reply-list'/>"
 "      <menuitem action='mail-reply-all'/>"
 "      <menuitem action='mail-forward'/>"
 "      <menu action='mail-forward-as-menu'>"
@@ -238,6 +239,13 @@ mail_attachment_handler_reply_all (GtkAction *action,
 }
 
 static void
+mail_attachment_handler_reply_list (GtkAction *action,
+                                    EAttachmentHandler *handler)
+{
+	mail_attachment_handler_reply (handler, E_MAIL_REPLY_TO_LIST);
+}
+
+static void
 mail_attachment_handler_reply_sender (GtkAction *action,
                                       EAttachmentHandler *handler)
 {
@@ -322,6 +330,13 @@ static GtkActionEntry standard_entries[] = {
 	  NULL,
 	  N_("Compose a reply to all the recipients of the selected message"),
 	  G_CALLBACK (mail_attachment_handler_reply_all) },
+
+	{ "mail-reply-list",
+	  NULL,
+	  N_("Reply to _List"),
+	  NULL,
+	  N_("Compose a reply to the mailing list of the selected message"),
+	  G_CALLBACK (mail_attachment_handler_reply_list) },
 
 	{ "mail-reply-sender",
 	  "mail-reply-sender",
@@ -634,8 +649,9 @@ mail_attachment_handler_update_actions (EAttachmentView *view,
 	EAttachment *attachment;
 	CamelMimePart *mime_part;
 	GtkActionGroup *action_group;
+	GtkAction *action;
 	GList *selected;
-	gboolean visible = FALSE;
+	gboolean visible = FALSE, has_list_post = FALSE;
 
 	selected = e_attachment_view_get_selected_attachments (view);
 
@@ -658,12 +674,18 @@ mail_attachment_handler_update_actions (EAttachmentView *view,
 		content = camel_medium_get_content (medium);
 		visible = CAMEL_IS_MIME_MESSAGE (content);
 
+		if (visible)
+			has_list_post = camel_medium_get_header (CAMEL_MEDIUM (content), "List-Post") != NULL;
+
 		g_object_unref (mime_part);
 	}
 
 exit:
 	action_group = e_attachment_view_get_action_group (view, "mail");
 	gtk_action_group_set_visible (action_group, visible);
+
+	action = gtk_action_group_get_action (action_group, "mail-reply-list");
+	gtk_action_set_visible (action, has_list_post);
 
 	g_list_foreach (selected, (GFunc) g_object_unref, NULL);
 	g_list_free (selected);
