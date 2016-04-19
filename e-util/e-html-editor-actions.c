@@ -517,17 +517,13 @@ action_cut_cb (GtkAction *action,
 	dom_selection = webkit_dom_dom_window_get_selection (dom_window);
 	g_object_unref (dom_window);
 
-	if (!webkit_dom_dom_selection_get_range_count (dom_selection)) {
+	if (!webkit_dom_dom_selection_get_range_count (dom_selection) ||
+	    webkit_dom_dom_selection_get_is_collapsed (dom_selection)) {
 		g_object_unref (dom_selection);
 		return;
 	}
 
 	range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
-	if (webkit_dom_range_get_collapsed (range, NULL)) {
-		g_object_unref (range);
-		g_object_unref (dom_selection);
-		return;
-	}
 
 	selection = e_html_editor_view_get_selection (view);
 
