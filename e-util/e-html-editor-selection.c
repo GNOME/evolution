@@ -913,50 +913,43 @@ e_html_editor_selection_ref_html_editor_view (EHTMLEditorSelection *selection)
 gboolean
 e_html_editor_selection_has_text (EHTMLEditorSelection *selection)
 {
-	WebKitDOMRange *range;
-	WebKitDOMNode *node;
+	EHTMLEditorView *view;
+	gboolean has_text = FALSE;
+	gchar *text = NULL;
+	WebKitDOMDocument *document;
+	WebKitDOMDOMWindow *dom_window = NULL;
+	WebKitDOMDOMSelection *dom_selection = NULL;
+	WebKitDOMRange *range = NULL;
 
 	g_return_val_if_fail (E_IS_HTML_EDITOR_SELECTION (selection), FALSE);
 
-	range = html_editor_selection_get_current_range (selection);
+	view = e_html_editor_selection_ref_html_editor_view (selection);
+	g_return_val_if_fail (view != NULL, FALSE);
 
-	node = webkit_dom_range_get_start_container (range, NULL);
-	if (WEBKIT_DOM_IS_TEXT (node)) {
-		g_object_unref (range);
-		return TRUE;
-	}
+	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
+	g_object_unref (view);
 
-	node = webkit_dom_range_get_end_container (range, NULL);
-	if (WEBKIT_DOM_IS_TEXT (node)) {
-		g_object_unref (range);
-		return TRUE;
-	}
+	if (!(dom_window = webkit_dom_document_get_default_view (document)))
+		goto out;
 
-	node = WEBKIT_DOM_NODE (webkit_dom_range_clone_contents (range, NULL));
-	while (node) {
-		if (WEBKIT_DOM_IS_TEXT (node)) {
-			g_object_unref (range);
-			return TRUE;
-		}
+	if (!(dom_selection = webkit_dom_dom_window_get_selection (dom_window)))
+		goto out;
 
-		if (webkit_dom_node_has_child_nodes (node)) {
-			node = webkit_dom_node_get_first_child (node);
-		} else if (webkit_dom_node_get_next_sibling (node)) {
-			node = webkit_dom_node_get_next_sibling (node);
-		} else {
-			node = webkit_dom_node_get_parent_node (node);
-			if (node) {
-				node = webkit_dom_node_get_next_sibling (node);
-			}
-		}
-	}
+	if (webkit_dom_dom_selection_get_is_collapsed (dom_selection))
+		goto out;
 
-	if (node)
-		g_object_unref (node);
+	if (!(range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL)))
+		goto out;
 
-	g_object_unref (range);
+	text = webkit_dom_range_get_text (range);
+	has_text = text && *text;
+ out:
+	g_free (text);
+	g_clear_object (&dom_window);
+	g_clear_object (&dom_selection);
+	g_clear_object (&range);
 
-	return FALSE;
+	return has_text;
 }
 
 /**
@@ -1071,17 +1064,30 @@ e_html_editor_selection_replace_caret_word (EHTMLEditorSelection *selection,
 gboolean
 e_html_editor_selection_is_collapsed (EHTMLEditorSelection *selection)
 {
+	EHTMLEditorView *view;
 	gboolean collapsed;
-	WebKitDOMRange *range;
+	WebKitDOMDocument *document;
+	WebKitDOMDOMWindow *dom_window;
+	WebKitDOMDOMSelection *dom_selection;
 
 	g_return_val_if_fail (E_IS_HTML_EDITOR_SELECTION (selection), TRUE);
 
-	range = html_editor_selection_get_current_range (selection);
-	if (!range)
-		return TRUE;
+	view = e_html_editor_selection_ref_html_editor_view (selection);
+	g_return_val_if_fail (view != NULL, TRUE);
 
-	collapsed = webkit_dom_range_get_collapsed (range, NULL);
-	g_object_unref (range);
+	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
+	g_object_unref (view);
+	if (!(dom_window = webkit_dom_document_get_default_view (document)))
+		return FALSE;
+
+	if (!(dom_selection = webkit_dom_dom_window_get_selection (dom_window))) {
+		g_object_unref (dom_window);
+		return FALSE;
+	}
+
+	collapsed = webkit_dom_dom_selection_get_is_collapsed (dom_selection);
+
+	g_object_unref (dom_selection);
 
 	return collapsed;
 }
