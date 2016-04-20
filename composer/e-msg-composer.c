@@ -1340,13 +1340,6 @@ composer_build_message (EMsgComposer *composer,
 
 		data = g_byte_array_new ();
 		if ((flags & COMPOSER_FLAG_SAVE_DRAFT) != 0) {
-			EHTMLEditorSelection *selection;
-			gboolean selection_saved = FALSE;
-			WebKitDOMDocument *document;
-
-			selection = e_html_editor_view_get_selection (view);
-			document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
-
 			/* X-Evolution-Format */
 			composer_add_evolution_format_header (
 				CAMEL_MEDIUM (context->message), flags);
@@ -1355,21 +1348,8 @@ composer_build_message (EMsgComposer *composer,
 			composer_add_evolution_composer_mode_header (
 				CAMEL_MEDIUM (context->message), composer);
 
-			e_html_editor_view_embed_styles (view);
-			selection_saved = webkit_dom_document_get_element_by_id (
-				document, "-x-evo-selection-start-marker") != NULL;
-			if (!selection_saved)
-				e_html_editor_selection_save (selection);
-
 			text = e_html_editor_view_get_text_html_for_drafts_with_images (
 				view, from_domain, &inline_images);
-
-			e_html_editor_view_remove_embed_styles (view);
-			e_html_editor_selection_restore (selection);
-			e_html_editor_view_force_spell_check_in_viewport (view);
-
-			if (selection_saved)
-				e_html_editor_selection_save (selection);
 
 			length = strlen (text);
 		} else {
