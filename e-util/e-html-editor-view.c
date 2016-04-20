@@ -12204,19 +12204,38 @@ e_html_editor_view_get_text_html_for_drafts_with_images (EHTMLEditorView *view,
                                                          const gchar *from_domain,
                                                          GList **inline_images)
 {
+	EHTMLEditorSelection *selection;
+	gboolean selection_saved = FALSE;
 	gchar *html = NULL;
 	GHashTable *inline_images_to_restore = NULL;
+	WebKitDOMDocument *document;
 
 	g_return_val_if_fail (E_IS_HTML_EDITOR_VIEW (view), NULL);
+
+	selection = e_html_editor_view_get_selection (view);
+	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
 
 	if (inline_images && from_domain)
 		*inline_images = html_editor_view_get_parts_for_inline_images (
 			view, from_domain, &inline_images_to_restore);
 
+	e_html_editor_view_embed_styles (view);
+	selection_saved = webkit_dom_document_get_element_by_id (
+		document, "-x-evo-selection-start-marker") != NULL;
+	if (!selection_saved)
+		e_html_editor_selection_save (selection);
+
 	html = process_content_for_saving_as_draft (view, FALSE);
 
 	if (inline_images && from_domain && inline_images_to_restore)
 		html_editor_view_restore_images (view, &inline_images_to_restore);
+
+	e_html_editor_view_remove_embed_styles (view);
+	e_html_editor_selection_restore (selection);
+	e_html_editor_view_force_spell_check_in_viewport (view);
+
+	if (selection_saved)
+		e_html_editor_selection_save (selection);
 
 	return html;
 }
