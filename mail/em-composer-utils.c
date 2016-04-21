@@ -3119,7 +3119,7 @@ attribution_format (CamelMimeMessage *message)
 				str, attribvars[i].v.format, tzone);
 			break;
 		case ATTRIB_STRFTIME:
-			e_utf8_strftime (
+			e_utf8_strftime_match_lc_messages (
 				buf, sizeof (buf), attribvars[i].v.format, &tm);
 			g_string_append (str, buf);
 			break;
