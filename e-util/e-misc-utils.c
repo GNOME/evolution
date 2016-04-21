@@ -1810,6 +1810,58 @@ e_utf8_strftime_fix_am_pm (gchar *str,
 }
 
 /**
+ * e_utf8_strftime_match_lc_messages:
+ * @string: The string to store the result in.
+ * @max: The size of the @string.
+ * @fmt: The formatting to use on @tm.
+ * @tm: The time value to format.
+ *
+ * The UTF-8 equivalent of e_strftime (), which also
+ * makes sure that the locale used for time and date
+ * formatting matches the locale used by the
+ * application so that, for example, the quoted
+ * message header produced by the mail composer in a
+ * reply uses only one locale (i.e. LC_MESSAGES, where
+ * available, overrides LC_TIME for consistency).
+ *
+ * Returns: The number of characters placed in @string.
+ *
+ * Since: 3.22
+ **/
+gsize
+e_utf8_strftime_match_lc_messages (gchar *string,
+				    gsize max,
+				    const gchar *fmt,
+				    const struct tm *tm)
+{
+	gsize ret;
+#if defined(LC_MESSAGES) && defined(LC_TIME)
+	gchar *ctime, *cmessages, *saved_locale;
+
+	/* Use LC_MESSAGES instead of LC_TIME for time
+	 * formatting (for consistency).
+	 */
+	ctime = setlocale (LC_TIME, NULL);
+	saved_locale = g_strdup (ctime);
+	g_return_val_if_fail (saved_locale != NULL, 0);
+	cmessages = setlocale (LC_MESSAGES, NULL);
+	setlocale (LC_TIME, cmessages);
+#endif
+
+	ret = e_utf8_strftime(string, max, fmt, tm);
+
+#if defined(LC_MESSAGES) && defined(LC_TIME)
+	/* Restore LC_TIME, if it has been changed to match
+	 * LC_MESSAGES.
+	 */
+	setlocale (LC_TIME, saved_locale);
+	g_free (saved_locale);
+#endif
+
+	return ret;
+}
+
+/**
  * e_get_month_name:
  * @month: month index
  * @abbreviated: if %TRUE, abbreviate the month name

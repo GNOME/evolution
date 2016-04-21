@@ -3210,6 +3210,7 @@ ESortCompareFunc
 e_bsearch
 e_strftime_fix_am_pm
 e_utf8_strftime_fix_am_pm
+e_utf8_strftime_match_lc_messages
 e_get_month_name
 e_get_weekday_name
 e_weekday_get_next
