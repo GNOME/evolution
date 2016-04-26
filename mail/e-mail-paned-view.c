@@ -994,6 +994,10 @@ mail_paned_view_update_view_instance (EMailView *view)
 		gal_view_instance_get_current_view (view_instance),
 		view);
 
+	view_id = gal_view_instance_get_current_view_id (view_instance);
+	e_shell_view_set_view_id (shell_view, view_id);
+	g_free (view_id);
+
 	g_object_unref (view_instance);
 
 	g_clear_object (&folder);
