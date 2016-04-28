@@ -52,7 +52,7 @@ GtkTreeIter	add_alarm_to_notified_alarms_dialog
 						 time_t trigger,
 						 time_t occur_start,
 						 time_t occur_end,
-						 ECalComponentVType vtype,
+						 ECalComponent *comp,
 						 const gchar *summary,
 						 const gchar *description,
 						 const gchar *location,

@@ -436,7 +436,7 @@ notified_alarms_dialog_new (void)
  * @trigger: Trigger time for the alarm.
  * @occur_start: Start of occurrence time for the event.
  * @occur_end: End of occurrence time for the event.
- * @vtype: Type of the component which corresponds to the alarm.
+ * @comp: The #ECalComponent which corresponds to the alarm.
  * @summary: Short summary of the appointment
  * @description: Long description of the appointment
  * @location: Location of the appointment
@@ -454,7 +454,7 @@ add_alarm_to_notified_alarms_dialog (AlarmNotificationsDialog *na,
                                      time_t trigger,
                                      time_t occur_start,
                                      time_t occur_end,
-                                     ECalComponentVType vtype,
+                                     ECalComponent *comp,
                                      const gchar *summary,
                                      const gchar *description,
                                      const gchar *location,
@@ -464,11 +464,15 @@ add_alarm_to_notified_alarms_dialog (AlarmNotificationsDialog *na,
 	GtkTreeIter iter = { 0 };
 	GtkTreeModel *model = gtk_tree_view_get_model (GTK_TREE_VIEW (na->treeview));
 	AlarmFuncInfo *funcinfo = NULL;
-	gchar *to_display = NULL, *start, *end, *str_time;
+	ECalComponentVType vtype;
+	gchar *to_display = NULL, *start, *str_time;
 	icaltimezone *current_zone;
 
 	/* Iter is not yet defined but still we return it in all the g_return_val_if_fail() calls? */
 	g_return_val_if_fail (trigger != -1, iter);
+	g_return_val_if_fail (E_IS_CAL_COMPONENT (comp), iter);
+
+	vtype = e_cal_component_get_vtype (comp);
 
 	/* Only VEVENTs or VTODOs can have alarms */
 	g_return_val_if_fail (vtype == E_CAL_COMPONENT_EVENT || vtype == E_CAL_COMPONENT_TODO, iter);
@@ -484,14 +488,12 @@ add_alarm_to_notified_alarms_dialog (AlarmNotificationsDialog *na,
 	gtk_list_store_append (GTK_LIST_STORE (model), &iter);
 
 	current_zone = config_data_get_timezone ();
-	start = timet_to_str_with_zone (occur_start, current_zone);
-	end = timet_to_str_with_zone (occur_end, current_zone);
+	start = timet_to_str_with_zone (occur_start, current_zone, datetime_is_date_only (comp, DATETIME_CHECK_DTSTART));
 	str_time = calculate_time (occur_start, occur_end);
 	to_display = g_markup_printf_escaped (
 		"<big><b>%s</b></big>\n%s %s",
 		summary, start, str_time);
 	g_free (start);
-	g_free (end);
 	gtk_list_store_set (
 		GTK_LIST_STORE (model), &iter,
 		ALARM_DISPLAY_COLUMN, to_display, -1);
