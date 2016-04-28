@@ -1508,7 +1508,7 @@ open_alarm_dialog (TrayIconData *tray_data)
 				tray_data->trigger,
 				qa->instance->occur_start,
 				qa->instance->occur_end,
-				e_cal_component_get_vtype (tray_data->comp),
+				tray_data->comp,
 				tray_data->summary,
 				tray_data->description,
 				tray_data->location,
@@ -1693,7 +1693,7 @@ display_notification (time_t trigger,
 	TrayIconData *tray_data;
 	ECalComponentText text;
 	GSList *text_list;
-	gchar *str, *start_str, *end_str, *alarm_str, *time_str;
+	gchar *str, *start_str, *alarm_str, *time_str;
 	icaltimezone *current_zone;
 	ECalComponentOrganizer organiser;
 
@@ -1747,9 +1747,8 @@ display_notification (time_t trigger,
 	}
 
 	current_zone = config_data_get_timezone ();
-	alarm_str = timet_to_str_with_zone (trigger, current_zone);
-	start_str = timet_to_str_with_zone (qa->instance->occur_start, current_zone);
-	end_str = timet_to_str_with_zone (qa->instance->occur_end, current_zone);
+	alarm_str = timet_to_str_with_zone (trigger, current_zone, FALSE);
+	start_str = timet_to_str_with_zone (qa->instance->occur_start, current_zone, datetime_is_date_only (comp, DATETIME_CHECK_DTSTART));
 	time_str = calculate_time (qa->instance->occur_start, qa->instance->occur_end);
 
 	str = g_strdup_printf (
@@ -1790,7 +1789,6 @@ display_notification (time_t trigger,
 
 	g_free (alarm_summary);
 	g_free (start_str);
-	g_free (end_str);
 	g_free (alarm_str);
 	g_free (time_str);
 	g_free (str);
@@ -1871,7 +1869,7 @@ popup_notification (time_t trigger,
 	ECalComponent *comp;
 	const gchar *summary, *location;
 	gchar *alarm_summary;
-	gchar *str, *start_str, *end_str, *alarm_str, *time_str;
+	gchar *str, *start_str, *alarm_str, *time_str;
 	icaltimezone *current_zone;
 	ECalComponentOrganizer organiser;
 	gchar *body;
@@ -1900,9 +1898,8 @@ popup_notification (time_t trigger,
 	/* create the tray icon */
 
 	current_zone = config_data_get_timezone ();
-	alarm_str = timet_to_str_with_zone (trigger, current_zone);
-	start_str = timet_to_str_with_zone (qa->instance->occur_start, current_zone);
-	end_str = timet_to_str_with_zone (qa->instance->occur_end, current_zone);
+	alarm_str = timet_to_str_with_zone (trigger, current_zone, FALSE);
+	start_str = timet_to_str_with_zone (qa->instance->occur_start, current_zone, datetime_is_date_only (comp, DATETIME_CHECK_DTSTART));
 	time_str = calculate_time (qa->instance->occur_start, qa->instance->occur_end);
 
 	str = g_strdup_printf (
@@ -1956,7 +1953,6 @@ popup_notification (time_t trigger,
 	g_clear_error (&error);
 	g_free (alarm_summary);
 	g_free (start_str);
-	g_free (end_str);
 	g_free (alarm_str);
 	g_free (time_str);
 	g_free (str);

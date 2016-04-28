@@ -27,6 +27,10 @@
 
 #include <libecal/libecal.h>
 
-gchar *timet_to_str_with_zone (time_t t, icaltimezone *zone);
+#define DATETIME_CHECK_DTSTART TRUE
+#define DATETIME_CHECK_DTEND FALSE
+
+gboolean datetime_is_date_only (ECalComponent *comp, gboolean datetime_check);
+gchar *timet_to_str_with_zone (time_t t, icaltimezone *zone, gboolean date_only);
 gchar *calculate_time (time_t start, time_t end);
 #endif
