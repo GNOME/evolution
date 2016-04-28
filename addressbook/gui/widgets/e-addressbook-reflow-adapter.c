@@ -39,8 +39,9 @@ struct _EAddressbookReflowAdapterPrivate {
 
 	gboolean loading;
 
-	gint create_contact_id, remove_contact_id, modify_contact_id, model_changed_id;
-	gint search_started_id, search_result_id;
+	gulong create_contact_id, remove_contact_id, modify_contact_id, model_changed_id;
+	gulong search_started_id, search_result_id;
+	gulong notify_client_id;
 };
 
 #define d(x)
@@ -95,6 +96,10 @@ unlink_model (EAddressbookReflowAdapter *adapter)
 		g_signal_handler_disconnect (
 			priv->model,
 			priv->search_result_id);
+	if (priv->model && priv->notify_client_id)
+		g_signal_handler_disconnect (
+			priv->model,
+			priv->notify_client_id);
 
 	priv->create_contact_id = 0;
 	priv->remove_contact_id = 0;
@@ -102,6 +107,7 @@ unlink_model (EAddressbookReflowAdapter *adapter)
 	priv->model_changed_id = 0;
 	priv->search_started_id = 0;
 	priv->search_result_id = 0;
+	priv->notify_client_id = 0;
 
 	if (priv->model)
 		g_object_unref (priv->model);
@@ -416,6 +422,16 @@ search_result (EAddressbookModel *model,
 }
 
 static void
+notify_client_cb (EAddressbookModel *model,
+		  GParamSpec *param,
+		  GObject *adapter)
+{
+	g_return_if_fail (E_IS_ADDRESSBOOK_REFLOW_ADAPTER (adapter));
+
+	g_object_notify (adapter, "client");
+}
+
+static void
 addressbook_set_property (GObject *object,
                           guint property_id,
                           const GValue *value,
@@ -607,6 +623,10 @@ e_addressbook_reflow_adapter_construct (EAddressbookReflowAdapter *adapter,
 	priv->search_result_id = g_signal_connect (
 		priv->model, "search_result",
 		G_CALLBACK (search_result), adapter);
+
+	priv->notify_client_id = g_signal_connect (
+		priv->model, "notify::client",
+		G_CALLBACK (notify_client_cb), adapter);
 }
 
 EReflowModel *

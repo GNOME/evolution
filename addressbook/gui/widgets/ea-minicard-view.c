@@ -132,9 +132,36 @@ ea_minicard_view_get_type (void)
 }
 
 static void
+adapter_notify_client_cb (EAddressbookReflowAdapter *adapter,
+			  GParamSpec *param,
+			  AtkObject *accessible)
+{
+	atk_object_set_name (accessible, ea_minicard_view_get_name (accessible));
+}
+
+static void
+ea_minicard_view_dispose (GObject *object)
+{
+	EMinicardView *card_view = NULL;
+	GObject *gobj;
+
+	gobj = atk_gobject_accessible_get_object (ATK_GOBJECT_ACCESSIBLE (object));
+
+	if (E_IS_MINICARD_VIEW (gobj))
+		card_view = E_MINICARD_VIEW (gobj);
+
+	if (card_view && card_view->adapter) {
+		g_signal_handlers_disconnect_by_func (card_view->adapter, adapter_notify_client_cb, object);
+	}
+
+	G_OBJECT_CLASS (parent_class)->dispose (object);
+}
+
+static void
 ea_minicard_view_class_init (EaMinicardViewClass *klass)
 {
 	AtkObjectClass *class = ATK_OBJECT_CLASS (klass);
+	GObjectClass *object_class;
 
 	parent_class = g_type_class_peek_parent (klass);
 
@@ -143,6 +170,9 @@ ea_minicard_view_class_init (EaMinicardViewClass *klass)
 	class->ref_state_set = ea_minicard_view_ref_state_set;
 	class->get_n_children = ea_minicard_view_get_n_children;
 	class->ref_child = ea_minicard_view_ref_child;
+
+	object_class = G_OBJECT_CLASS (klass);
+	object_class->dispose = ea_minicard_view_dispose;
 }
 
 static const gchar *
@@ -166,6 +196,8 @@ ea_minicard_view_get_name (AtkObject *accessible)
 	/* Get the current name of minicard view*/
 	card_view = E_MINICARD_VIEW (reflow);
 	g_object_get (card_view->adapter, "client", &book_client, NULL);
+	if (!book_client)
+		return accessible->name;
 	g_return_val_if_fail (E_IS_BOOK_CLIENT (book_client), NULL);
 	source = e_client_get_source (E_CLIENT (book_client));
 	display_name = e_source_get_display_name (source);
@@ -198,12 +230,18 @@ ea_minicard_view_new (GObject *obj)
 {
 	GObject *object;
 	AtkObject *accessible;
+	EMinicardView *card_view;
 
 	g_return_val_if_fail (E_IS_MINICARD_VIEW (obj), NULL);
 	object = g_object_new (EA_TYPE_MINICARD_VIEW, NULL);
 	accessible = ATK_OBJECT (object);
 	atk_object_initialize (accessible, obj);
 	accessible->role = ATK_ROLE_PANEL;
+
+	card_view = E_MINICARD_VIEW (obj);
+	if (card_view->adapter)
+		g_signal_connect (card_view->adapter, "notify::client", G_CALLBACK (adapter_notify_client_cb), accessible);
+
 	return accessible;
 }
 
