@@ -120,13 +120,35 @@ item_finalized (gpointer user_data,
 	}
 	g_object_set_data (G_OBJECT (a11y), "gail-focus-object", NULL);
 
-	atk_state_set_add_state (priv->state_set, ATK_STATE_DEFUNCT);
-	atk_object_notify_state_change (ATK_OBJECT (a11y), ATK_STATE_DEFUNCT, TRUE);
+	if (atk_state_set_add_state (priv->state_set, ATK_STATE_DEFUNCT))
+		atk_object_notify_state_change (ATK_OBJECT (a11y), ATK_STATE_DEFUNCT, TRUE);
 
 	if (priv->selection)
 		gal_a11y_e_table_item_unref_selection (a11y);
 
 	g_object_unref (a11y);
+}
+
+static void
+gal_a11y_e_table_item_state_change_cb (AtkObject *atkobject,
+				       const gchar *state_name,
+				       gboolean was_set,
+				       gpointer user_data)
+{
+	g_return_if_fail (GAL_A11Y_IS_E_TABLE_ITEM (atkobject));
+
+	if (atk_state_type_for_name (state_name) == ATK_STATE_DEFUNCT) {
+		GalA11yETableItemPrivate *priv;
+
+		priv = GET_PRIVATE (atkobject);
+
+		g_return_if_fail (priv != NULL);
+
+		if (was_set)
+			atk_state_set_add_state (priv->state_set, ATK_STATE_DEFUNCT);
+		else
+			atk_state_set_remove_state (priv->state_set, ATK_STATE_DEFUNCT);
+	}
 }
 
 static AtkStateSet *
@@ -1138,6 +1160,8 @@ gal_a11y_e_table_item_new (ETableItem *item)
 	atk_state_set_add_state (GET_PRIVATE (a11y)->state_set, ATK_STATE_SENSITIVE);
 	atk_state_set_add_state (GET_PRIVATE (a11y)->state_set, ATK_STATE_SHOWING);
 	atk_state_set_add_state (GET_PRIVATE (a11y)->state_set, ATK_STATE_VISIBLE);
+
+	g_signal_connect (a11y, "state-change", G_CALLBACK (gal_a11y_e_table_item_state_change_cb), NULL);
 
 	accessible = ATK_OBJECT (a11y);
 
