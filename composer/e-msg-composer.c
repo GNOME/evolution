@@ -1350,12 +1350,10 @@ composer_build_message (EMsgComposer *composer,
 
 			text = e_html_editor_view_get_text_html_for_drafts_with_images (
 				view, from_domain, &inline_images);
-
-			length = strlen (text);
-		} else {
+		} else
 			text = e_html_editor_view_get_text_html (view, from_domain, &inline_images);
-			length = strlen (text);
-		}
+
+		length = strlen (text);
 		g_byte_array_append (data, (guint8 *) text, (guint) length);
 		pre_encode = text_requires_quoted_printable (text, length);
 		g_free (text);
@@ -1576,12 +1574,13 @@ static void
 attachment_store_changed_cb (EMsgComposer *composer)
 {
 	EHTMLEditor *editor;
-	EHTMLEditorView *view;
 
 	/* Mark the editor as changed so it prompts about unsaved
 	 * changes on close. */
 	editor = e_msg_composer_get_editor (composer);
 	if (editor) {
+		EHTMLEditorView *view;
+
 		view = e_html_editor_get_view (editor);
 		e_html_editor_view_set_changed (view, TRUE);
 	}
