@@ -275,7 +275,7 @@ e_composer_private_constructed (EMsgComposer *composer)
 	g_free (gallery_path);
 
 	e_signal_connect_notify_swapped (
-		view, "notify::mode",
+		view, "notify::html-mode",
 		G_CALLBACK (composer_update_gallery_visibility), composer);
 
 	g_signal_connect_swapped (
