@@ -285,6 +285,11 @@ gboolean	e_html_editor_view_is_message_from_edit_as_new
 void		e_html_editor_view_set_is_message_from_edit_as_new
 						(EHTMLEditorView *view,
 						 gboolean value);
+gboolean	e_html_editor_view_content_is_new_message
+						(EHTMLEditorView *view);
+void		e_html_editor_view_set_content_is_new_message
+						(EHTMLEditorView *view,
+						 gboolean value);
 void		e_html_editor_view_insert_quoted_text
 						(EHTMLEditorView *view,
 						 const gchar *text);
@@ -320,6 +325,14 @@ void		e_html_editor_view_remove_input_event_listener_from_body
 						(EHTMLEditorView *view);
 void		e_html_editor_view_register_input_event_listener_on_body
 						(EHTMLEditorView *view);
+gchar *		e_html_editor_view_insert_signature
+						(EHTMLEditorView *view,
+						 const gchar *content,
+						 gboolean is_html,
+						 const gchar *id,
+						 gboolean *set_signature_from_message,
+						 gboolean *check_if_signature_is_changed,
+						 gboolean *ignore_next_signature_change);
 G_END_DECLS
 
 #endif /* E_HTML_EDITOR_VIEW_H */

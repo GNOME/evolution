@@ -1360,6 +1360,8 @@ em_utils_compose_new_message (EShell *shell,
                               CamelFolder *folder)
 {
 	EMsgComposer *composer;
+	EHTMLEditor *editor;
+	EHTMLEditorView *view;
 
 	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
 
@@ -1368,7 +1370,11 @@ em_utils_compose_new_message (EShell *shell,
 
 	composer = create_new_composer (shell, "", folder);
 	composer_set_no_change (composer);
-	e_msg_composer_is_from_new_message (composer, TRUE);
+
+	editor = e_msg_composer_get_editor (composer);
+	view = e_html_editor_get_view (editor);
+
+	e_html_editor_view_set_content_is_new_message (view, TRUE);
 
 	gtk_widget_show (GTK_WIDGET (composer));
 

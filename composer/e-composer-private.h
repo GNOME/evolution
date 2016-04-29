@@ -95,7 +95,6 @@ struct _EMsgComposerPrivate {
 	gboolean busy;
 	gboolean disable_signature;
 	gboolean is_from_draft;
-	gboolean is_from_new_message;
 	/* The web view is uneditable while the editor is busy.
 	 * This is used to restore the previous editable state. */
 	gboolean saved_editable;
