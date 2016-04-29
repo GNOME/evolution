@@ -799,27 +799,6 @@ use_top_signature (EMsgComposer *composer)
 	return top_signature;
 }
 
-static void
-composer_size_allocate_cb (GtkWidget *widget,
-			   gpointer user_data)
-{
-	GtkWidget *scrolled_window;
-	GtkAdjustment *adj;
-
-	scrolled_window = gtk_widget_get_parent (GTK_WIDGET (widget));
-	adj = gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW (scrolled_window));
-
-	/* Scroll only when there is some size allocated */
-	if (gtk_adjustment_get_upper (adj) != 0.0) {
-		/* Scroll web view down to caret */
-		gtk_adjustment_set_value (adj, gtk_adjustment_get_upper (adj) - gtk_adjustment_get_page_size (adj));
-		gtk_scrolled_window_set_vadjustment (GTK_SCROLLED_WINDOW (scrolled_window), adj);
-		/* Disconnect because we don't want to scroll down the view on every window size change */
-		g_signal_handlers_disconnect_by_func (
-			widget, G_CALLBACK (composer_size_allocate_cb), NULL);
-	}
-}
-
 static WebKitDOMElement *
 prepare_paragraph (EHTMLEditorSelection *selection,
                    WebKitDOMDocument *document)
@@ -1037,15 +1016,10 @@ composer_move_caret (EMsgComposer *composer)
 		g_clear_object (&dom_selection);
 		g_clear_object (&dom_window);
 		g_clear_object (&range);
-
-		if (start_bottom)
-			e_html_editor_selection_scroll_to_caret (editor_selection);
 	}
 
 	if (start_bottom)
-		g_signal_connect (
-			view, "size-allocate",
-			G_CALLBACK (composer_size_allocate_cb), NULL);
+		e_html_editor_selection_scroll_to_caret (editor_selection);
 
 	e_html_editor_view_force_spell_check_in_viewport (view);
 
