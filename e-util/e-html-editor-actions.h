@@ -119,6 +119,8 @@
 	E_HTML_EDITOR_ACTION ((editor), "properties-table")
 #define E_HTML_EDITOR_ACTION_REDO(editor) \
 	E_HTML_EDITOR_ACTION ((editor), "redo")
+#define E_HTML_EDITOR_ACTION_SELECT_ALL(editor) \
+	E_HTML_EDITOR_ACTION ((editor), "select-all")
 #define E_HTML_EDITOR_ACTION_SHOW_FIND(editor) \
 	E_HTML_EDITOR_ACTION ((editor), "show-find")
 #define E_HTML_EDITOR_ACTION_SHOW_REPLACE(editor) \
