@@ -4918,59 +4918,45 @@ split_citation (EHTMLEditorView *view)
 	selection = e_html_editor_view_get_selection (view);
 
 	if (!view->priv->undo_redo_in_progress) {
+		WebKitDOMDocument *document;
+		WebKitDOMElement *selection_end;
+		WebKitDOMNode *sibling;
+
 		ev = g_new0 (EHTMLEditorViewHistoryEvent, 1);
 		ev->type = HISTORY_CITATION_SPLIT;
+
+		e_html_editor_selection_save (selection);
 
 		e_html_editor_selection_get_selection_coordinates (
 			selection, &ev->before.start.x, &ev->before.start.y, &ev->before.end.x, &ev->before.end.y);
 
 		if (!e_html_editor_selection_is_collapsed (selection)) {
-			WebKitDOMDocument *document;
+			WebKitDOMRange *tmp_range;
+
+			tmp_range = html_editor_view_get_dom_range (view);
+			insert_delete_event (view, tmp_range);
+			g_object_unref (tmp_range);
+
+			ev->before.end.x = ev->before.start.x;
+			ev->before.end.y = ev->before.start.y;
+		}
+
+		document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
+		selection_end = webkit_dom_document_get_element_by_id (
+			document, "-x-evo-selection-end-marker");
+
+		sibling = webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (selection_end));
+		if (!sibling || (WEBKIT_DOM_IS_HTMLBR_ELEMENT (sibling) &&
+		    !element_has_class (WEBKIT_DOM_ELEMENT (sibling), "-x-evo-wrap-br"))) {
 			WebKitDOMDocumentFragment *fragment;
-			WebKitDOMDOMWindow *dom_window;
-			WebKitDOMDOMSelection *dom_selection;
-			WebKitDOMRange *range;
 
-			document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
-			dom_window = webkit_dom_document_get_default_view (document);
-			dom_selection = webkit_dom_dom_window_get_selection (dom_window);
-			g_object_unref (dom_window);
-
-			if (!webkit_dom_dom_selection_get_range_count (dom_selection)) {
-				g_object_unref (dom_selection);
-				return FALSE;
-			}
-
-			range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
-			fragment = webkit_dom_range_clone_contents (range, NULL);
-			g_object_unref (range);
-			g_object_unref (dom_selection);
-
+			fragment = webkit_dom_document_create_document_fragment (document);
 			ev->data.fragment = fragment;
 		} else {
-			WebKitDOMDocument *document;
-			WebKitDOMElement *selection_end;
-			WebKitDOMNode *sibling;
-
-			e_html_editor_selection_save (selection);
-
-			document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
-			selection_end = webkit_dom_document_get_element_by_id (
-				document, "-x-evo-selection-end-marker");
-
-			sibling = webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (selection_end));
-			if (!sibling || (WEBKIT_DOM_IS_HTMLBR_ELEMENT (sibling) &&
-			    !element_has_class (WEBKIT_DOM_ELEMENT (sibling), "-x-evo-wrap-br"))) {
-				WebKitDOMDocumentFragment *fragment;
-
-				fragment = webkit_dom_document_create_document_fragment (document);
-				ev->data.fragment = fragment;
-			} else {
-				ev->data.fragment = NULL;
-			}
-
-			e_html_editor_selection_restore (selection);
+			ev->data.fragment = NULL;
 		}
+
+		e_html_editor_selection_restore (selection);
 	}
 
 	element = insert_new_line_into_citation (view, "");
@@ -14718,9 +14704,9 @@ undo_redo_citation_split (EHTMLEditorView *view,
 
 	if (event->before.start.x == event->after.start.x &&
 	    event->before.start.y == event->after.start.y &&
-	    event->after.end.x == event->after.end.x &&
-	    event->after.end.y == event->after.end.y)
-		in_situ = TRUE;
+	    event->before.end.x == event->after.end.x &&
+	    event->before.end.y == event->after.end.y)
+		in_situ = FALSE;
 
 	if (undo) {
 		EHTMLEditorSelection *selection;
