@@ -82,6 +82,7 @@ struct _EHTMLEditorViewClass {
 						 GdkEventButton *event);
 	void		(*paste_primary_clipboard)
 						(EHTMLEditorView *view);
+	void		(*is_ready)		(EHTMLEditorView *view);
 };
 
 enum EHTMLEditorViewHistoryEventType {
@@ -333,6 +334,7 @@ gchar *		e_html_editor_view_insert_signature
 						 gboolean *set_signature_from_message,
 						 gboolean *check_if_signature_is_changed,
 						 gboolean *ignore_next_signature_change);
+gboolean	e_html_editor_view_is_ready	(EHTMLEditorView *view);
 G_END_DECLS
 
 #endif /* E_HTML_EDITOR_VIEW_H */

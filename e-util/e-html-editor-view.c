@@ -148,6 +148,7 @@ enum {
 enum {
 	POPUP_EVENT,
 	PASTE_PRIMARY_CLIPBOARD,
+	IS_READY,
 	LAST_SIGNAL
 };
 
@@ -6509,6 +6510,7 @@ e_html_editor_view_class_init (EHTMLEditorViewClass *class)
 		e_marshal_BOOLEAN__BOXED,
 		G_TYPE_BOOLEAN, 1,
 		GDK_TYPE_EVENT | G_SIGNAL_TYPE_STATIC_SCOPE);
+
 	/**
 	 * EHTMLEditorView:paste-primary-clipboad
 	 *
@@ -6519,6 +6521,20 @@ e_html_editor_view_class_init (EHTMLEditorViewClass *class)
 		G_TYPE_FROM_CLASS (class),
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (EHTMLEditorViewClass, paste_primary_clipboard),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__VOID,
+		G_TYPE_NONE, 0);
+
+	/**
+	 * EHTMLEditorView:is-ready
+	 *
+	 * Emitted when the view is ready.
+	 */
+	signals[IS_READY] = g_signal_new (
+		"is-ready",
+		G_TYPE_FROM_CLASS (class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (EHTMLEditorViewClass, is_ready),
 		NULL, NULL,
 		g_cclosure_marshal_VOID__VOID,
 		G_TYPE_NONE, 0);
@@ -11050,6 +11066,7 @@ html_editor_view_load_status_changed (EHTMLEditorView *view)
 		return;
 	}
 
+	g_signal_emit (view, signals[IS_READY], 0);
 	view->priv->reload_in_progress = FALSE;
 
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
@@ -15701,4 +15718,22 @@ insert:
 	*set_signature_from_message = FALSE;
 
 	return NULL;
+}
+
+/**
+ * e_html_editor_view_is_ready;
+ * @view: an #EHTMLEditorView
+ *
+ * Checks the current load status of the view.
+ *
+ * Returns: TRUE when the view is loaded and ready for manipulations.
+ */
+gboolean
+e_html_editor_view_is_ready (EHTMLEditorView *view)
+{
+	WebKitLoadStatus status;
+
+	status = webkit_web_view_get_load_status (WEBKIT_WEB_VIEW (view));
+
+	return status == WEBKIT_LOAD_FINISHED;
 }

@@ -839,6 +839,18 @@ composer_web_view_load_status_changed_cb (WebKitWebView *webkit_web_view,
 	e_composer_update_signature (composer);
 }
 
+static void
+html_editor_view_is_ready_cb (EHTMLEditorView *view,
+                              EMsgComposer *composer)
+{
+	g_signal_handlers_disconnect_by_func (
+		view,
+		G_CALLBACK (html_editor_view_is_ready_cb),
+		composer);
+
+	e_composer_update_signature (composer);
+}
+
 void
 e_composer_update_signature (EMsgComposer *composer)
 {
@@ -846,7 +858,6 @@ e_composer_update_signature (EMsgComposer *composer)
 	EMailSignatureComboBox *combo_box;
 	EHTMLEditor *editor;
 	EHTMLEditorView *view;
-	WebKitLoadStatus status;
 
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 
@@ -860,18 +871,11 @@ e_composer_update_signature (EMsgComposer *composer)
 	editor = e_msg_composer_get_editor (composer);
 	view = e_html_editor_get_view (editor);
 
-	status = webkit_web_view_get_load_status (WEBKIT_WEB_VIEW (view));
-	/* If document is not loaded, we will wait for him */
-	if (status != WEBKIT_LOAD_FINISHED) {
-		/* Disconnect previous handlers */
-		g_signal_handlers_disconnect_by_func (
-			WEBKIT_WEB_VIEW (view),
-			G_CALLBACK (composer_web_view_load_status_changed_cb),
-			composer);
+	if (!e_html_editor_view_is_ready (view)) {
 		g_signal_connect (
-			WEBKIT_WEB_VIEW(view), "notify::load-status",
-			G_CALLBACK (composer_web_view_load_status_changed_cb),
-			composer);
+			view, "is-ready",
+			G_CALLBACK (html_editor_view_is_ready_cb), composer);
+
 		return;
 	}
 
