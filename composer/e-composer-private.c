@@ -818,28 +818,6 @@ composer_load_signature_cb (EMailSignatureComboBox *combo_box,
 }
 
 static void
-composer_web_view_load_status_changed_cb (WebKitWebView *webkit_web_view,
-					  GParamSpec *pspec,
-					  EMsgComposer *composer)
-{
-	WebKitLoadStatus status;
-
-	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
-
-	status = webkit_web_view_get_load_status (webkit_web_view);
-
-	if (status != WEBKIT_LOAD_FINISHED)
-		return;
-
-	g_signal_handlers_disconnect_by_func (
-		webkit_web_view,
-		G_CALLBACK (composer_web_view_load_status_changed_cb),
-		NULL);
-
-	e_composer_update_signature (composer);
-}
-
-static void
 html_editor_view_is_ready_cb (EHTMLEditorView *view,
                               EMsgComposer *composer)
 {
