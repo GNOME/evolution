@@ -2240,31 +2240,9 @@ msg_composer_drag_data_received_cb (GtkWidget *widget,
 	/* If we're receiving URIs and -all- the URIs point to
 	 * image files, we want the image(s) to be inserted in
 	 * the message body. */
-	if (html_mode && e_composer_selection_is_image_uris (composer, selection)) {
-		const guchar *data;
-		gint length;
-		gint list_len, len;
-		gchar *uri;
-
-		data = gtk_selection_data_get_data (selection);
-		length = gtk_selection_data_get_length (selection);
-
-		if (!data || length < 0) {
-			gtk_drag_finish (context, FALSE, FALSE, time);
-			return;
-		}
-
-		e_html_editor_selection_set_on_point (editor_selection, x, y);
-
-		list_len = length;
-		do {
-			uri = next_uri ((guchar **) &data, &len, &list_len);
-			e_html_editor_selection_insert_image (editor_selection, uri);
-			g_free (uri);
-		} while (list_len);
-
-		gtk_drag_finish (context, TRUE, FALSE, time);
-	} else if (html_mode && e_composer_selection_is_base64_uris (composer, selection)) {
+	if (html_mode &&
+	    (e_composer_selection_is_image_uris (composer, selection) ||
+	     e_composer_selection_is_base64_uris (composer, selection))) {
 		const guchar *data;
 		gint length;
 		gint list_len, len;
