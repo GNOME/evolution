@@ -3642,11 +3642,10 @@ set_signature_gui (EMsgComposer *composer)
 	EHTMLEditor *editor;
 	EHTMLEditorView *view;
 	WebKitDOMDocument *document;
-	WebKitDOMNodeList *nodes;
+	WebKitDOMElement *element;
 	EComposerHeaderTable *table;
 	EMailSignatureComboBox *combo_box;
-	gchar *uid;
-	gulong ii, length;
+	gchar *uid = NULL;
 
 	table = e_msg_composer_get_header_table (composer);
 	combo_box = e_composer_header_table_get_signature_combo_box (table);
@@ -3655,28 +3654,8 @@ set_signature_gui (EMsgComposer *composer)
 	view = e_html_editor_get_view (editor);
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
 
-	uid = NULL;
-	nodes = webkit_dom_document_get_elements_by_class_name (
-		document, "-x-evo-signature");
-	length = webkit_dom_node_list_get_length (nodes);
-	for (ii = 0; ii < length; ii++) {
-		WebKitDOMNode *node;
-		gchar *id;
-
-		node = webkit_dom_node_list_item (nodes, ii);
-		id = webkit_dom_element_get_id (WEBKIT_DOM_ELEMENT (node));
-		if (id && (strlen (id) == 1) && (*id == '1')) {
-			uid = webkit_dom_element_get_attribute (
-				WEBKIT_DOM_ELEMENT (node), "name");
-			g_free (id);
-			g_object_unref (node);
-			break;
-		}
-		g_free (id);
-		g_object_unref (node);
-	}
-
-	g_object_unref (nodes);
+	if ((element = webkit_dom_document_query_selector (document, ".-x-evo-signature[id]", NULL)))
+		uid = webkit_dom_element_get_id (element);
 
 	/* The combo box active ID is the signature's ESource UID. */
 	if (uid != NULL) {
