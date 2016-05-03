@@ -191,7 +191,7 @@ action_close_cb (GtkAction *action,
 	editor = e_mail_signature_editor_get_editor (window);
 	view = e_html_editor_get_view (editor);
 
-	something_changed |= webkit_web_view_can_undo (WEBKIT_WEB_VIEW (view));
+	something_changed |= e_html_editor_view_can_undo (view);
 	something_changed |= (strcmp (signature_name, original_name) != 0);
 
 	if (something_changed) {
