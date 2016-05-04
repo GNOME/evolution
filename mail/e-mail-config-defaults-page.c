@@ -43,6 +43,7 @@ struct _EMailConfigDefaultsPagePrivate {
 	GtkWidget *drafts_button;  /* not referenced */
 	GtkWidget *sent_button;    /* not referenced */
 	GtkWidget *archive_button; /* not referenced */
+	GtkWidget *templates_button; /* not referenced */
 	GtkWidget *replies_toggle; /* not referenced */
 	GtkWidget *trash_toggle;   /* not referenced */
 	GtkWidget *junk_toggle;    /* not referenced */
@@ -272,6 +273,11 @@ mail_config_defaults_page_restore_folders (EMailConfigDefaultsPage *page)
 
 	type = E_MAIL_LOCAL_FOLDER_DRAFTS;
 	button = EM_FOLDER_SELECTION_BUTTON (page->priv->drafts_button);
+	folder_uri = e_mail_session_get_local_folder_uri (session, type);
+	em_folder_selection_button_set_folder_uri (button, folder_uri);
+
+	type = E_MAIL_LOCAL_FOLDER_TEMPLATES;
+	button = EM_FOLDER_SELECTION_BUTTON (page->priv->templates_button);
 	folder_uri = e_mail_session_get_local_folder_uri (session, type);
 	em_folder_selection_button_set_folder_uri (button, folder_uri);
 
@@ -775,6 +781,7 @@ mail_config_defaults_page_constructed (GObject *object)
 	GEnumValue *enum_value;
 	EMdnResponsePolicy policy;
 	CamelProvider *provider = NULL;
+	CamelStore *store;
 	const gchar *extension_name;
 	const gchar *text;
 	gchar *markup;
@@ -922,8 +929,36 @@ mail_config_defaults_page_constructed (GObject *object)
 		G_BINDING_BIDIRECTIONAL |
 		G_BINDING_SYNC_CREATE);
 
+	text = _("_Templates Folder:");
+	widget = gtk_label_new_with_mnemonic (text);
+	gtk_widget_set_margin_left (widget, 12);
+	gtk_size_group_add_widget (size_group, widget);
+	gtk_misc_set_alignment (GTK_MISC (widget), 1.0, 0.5);
+	gtk_grid_attach (GTK_GRID (container), widget, 0, 5, 1, 1);
+	gtk_widget_show (widget);
+
+	label = GTK_LABEL (widget);
+
+	text = _("Choose a folder to use for template messages to.");
+	widget = em_folder_selection_button_new (session, "", text);
+	store = mail_config_defaults_page_ref_store (page);
+	if (store)
+		em_folder_selection_button_set_store (EM_FOLDER_SELECTION_BUTTON (widget), store);
+	g_clear_object (&store);
+	gtk_widget_set_hexpand (widget, TRUE);
+	gtk_label_set_mnemonic_widget (label, widget);
+	gtk_grid_attach (GTK_GRID (container), widget, 1, 5, 1, 1);
+	page->priv->templates_button = widget;  /* not referenced */
+	gtk_widget_show (widget);
+
+	e_binding_bind_object_text_property (
+		composition_ext, "templates-folder",
+		widget, "folder-uri",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
+
 	hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 4);
-	gtk_grid_attach (GTK_GRID (container), hbox, 1, 7, 1, 1);
+	gtk_grid_attach (GTK_GRID (container), hbox, 1, 8, 1, 1);
 	gtk_widget_show (hbox);
 
 	widget = gtk_button_new_with_mnemonic (_("_Restore Defaults"));
@@ -965,7 +1000,7 @@ mail_config_defaults_page_constructed (GObject *object)
 		_("Choose a folder for deleted messages."),
 		"real-trash-path", "use-real-trash-path");
 	if (widget != NULL) {
-		gtk_grid_attach (GTK_GRID (container), widget, 0, 5, 2, 1);
+		gtk_grid_attach (GTK_GRID (container), widget, 0, 6, 2, 1);
 		gtk_widget_show (widget);
 	}
 
@@ -975,7 +1010,7 @@ mail_config_defaults_page_constructed (GObject *object)
 		_("Choose a folder for junk messages."),
 		"real-junk-path", "use-real-junk-path");
 	if (widget != NULL) {
-		gtk_grid_attach (GTK_GRID (container), widget, 0, 6, 2, 1);
+		gtk_grid_attach (GTK_GRID (container), widget, 0, 7, 2, 1);
 		gtk_widget_show (widget);
 	}
 
