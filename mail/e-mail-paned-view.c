@@ -854,6 +854,8 @@ mail_paned_view_update_view_instance (EMailView *view)
 	ESourceRegistry *registry;
 	GalViewCollection *view_collection;
 	GalViewInstance *view_instance;
+	MailFolderCache *folder_cache;
+	CamelFolderInfoFlags info_flags;
 	CamelFolder *folder;
 	GtkOrientable *orientable;
 	GtkOrientation orientation;
@@ -888,7 +890,15 @@ mail_paned_view_update_view_instance (EMailView *view)
 	view_id = empv_create_view_id (folder);
 	e_filename_make_safe (view_id);
 
+	folder_cache = e_mail_session_get_folder_cache (e_mail_backend_get_session (e_mail_reader_get_backend (reader)));
+	if (!mail_folder_cache_get_folder_info_flags (folder_cache,
+		camel_folder_get_parent_store (folder),
+		camel_folder_get_full_name (folder), &info_flags))
+		info_flags = 0;
+
 	outgoing_folder =
+		(info_flags & CAMEL_FOLDER_TYPE_MASK) == CAMEL_FOLDER_TYPE_OUTBOX ||
+		(info_flags & CAMEL_FOLDER_TYPE_MASK) == CAMEL_FOLDER_TYPE_SENT ||
 		em_utils_folder_is_drafts (registry, folder) ||
 		em_utils_folder_is_outbox (registry, folder) ||
 		em_utils_folder_is_sent (registry, folder);
