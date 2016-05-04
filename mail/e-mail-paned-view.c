@@ -842,6 +842,54 @@ empv_create_view_id (CamelFolder *folder)
 	return res;
 }
 
+static gboolean
+empv_folder_or_parent_is_outgoing (MailFolderCache *folder_cache,
+				   CamelStore *store,
+				   const gchar *fullname)
+{
+	CamelFolderInfoFlags info_flags;
+	gchar *path, *dash;
+	gboolean res = FALSE;
+
+	g_return_val_if_fail (MAIL_IS_FOLDER_CACHE (folder_cache), FALSE);
+	g_return_val_if_fail (CAMEL_IS_STORE (store), FALSE);
+	g_return_val_if_fail (fullname != NULL, FALSE);
+
+	if (!mail_folder_cache_get_folder_info_flags (folder_cache, store, fullname, &info_flags))
+		info_flags = 0;
+
+	if ((info_flags & CAMEL_FOLDER_TYPE_MASK) == CAMEL_FOLDER_TYPE_OUTBOX ||
+	    (info_flags & CAMEL_FOLDER_TYPE_MASK) == CAMEL_FOLDER_TYPE_SENT)
+		return TRUE;
+
+	dash = strrchr (fullname, '/');
+	if (!dash)
+		return FALSE;
+
+	path = g_strdup (fullname);
+
+	while (path && *path) {
+		dash = strrchr (path, '/');
+		if (!dash)
+			break;
+
+		*dash = '\0';
+
+		if (!mail_folder_cache_get_folder_info_flags (folder_cache, store, path, &info_flags))
+			continue;
+
+		if ((info_flags & CAMEL_FOLDER_TYPE_MASK) == CAMEL_FOLDER_TYPE_OUTBOX ||
+		    (info_flags & CAMEL_FOLDER_TYPE_MASK) == CAMEL_FOLDER_TYPE_SENT) {
+			res = TRUE;
+			break;
+		}
+	}
+
+	g_free (path);
+
+	return res;
+}
+
 static void
 mail_paned_view_update_view_instance (EMailView *view)
 {
@@ -855,7 +903,6 @@ mail_paned_view_update_view_instance (EMailView *view)
 	GalViewCollection *view_collection;
 	GalViewInstance *view_instance;
 	MailFolderCache *folder_cache;
-	CamelFolderInfoFlags info_flags;
 	CamelFolder *folder;
 	GtkOrientable *orientable;
 	GtkOrientation orientation;
@@ -891,14 +938,9 @@ mail_paned_view_update_view_instance (EMailView *view)
 	e_filename_make_safe (view_id);
 
 	folder_cache = e_mail_session_get_folder_cache (e_mail_backend_get_session (e_mail_reader_get_backend (reader)));
-	if (!mail_folder_cache_get_folder_info_flags (folder_cache,
-		camel_folder_get_parent_store (folder),
-		camel_folder_get_full_name (folder), &info_flags))
-		info_flags = 0;
 
 	outgoing_folder =
-		(info_flags & CAMEL_FOLDER_TYPE_MASK) == CAMEL_FOLDER_TYPE_OUTBOX ||
-		(info_flags & CAMEL_FOLDER_TYPE_MASK) == CAMEL_FOLDER_TYPE_SENT ||
+		empv_folder_or_parent_is_outgoing (folder_cache, camel_folder_get_parent_store (folder), camel_folder_get_full_name (folder)) ||
 		em_utils_folder_is_drafts (registry, folder) ||
 		em_utils_folder_is_outbox (registry, folder) ||
 		em_utils_folder_is_sent (registry, folder);
