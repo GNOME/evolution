@@ -345,6 +345,7 @@ html_editor_update_actions (EHTMLEditor *editor,
 	gint loc, len;
 
 	view = e_html_editor_get_view (editor);
+	selection = e_html_editor_view_get_selection (view);
 	spell_checker = e_html_editor_view_get_spell_checker (view);
 
 	web_view = WEBKIT_WEB_VIEW (view);
@@ -380,12 +381,15 @@ html_editor_update_actions (EHTMLEditor *editor,
 	gtk_action_set_visible (ACTION (CONTEXT_PROPERTIES_RULE), visible);
 
 	visible = (WEBKIT_DOM_IS_TEXT (node));
-	gtk_action_set_visible (ACTION (CONTEXT_PROPERTIES_TEXT), visible);
+	/* Only display the text properties dialog when some text is selected. */
+	gtk_action_set_visible (
+		ACTION (CONTEXT_PROPERTIES_TEXT),
+		visible && !e_html_editor_selection_is_collapsed (selection));
 
 	visible =
 		gtk_action_get_visible (ACTION (CONTEXT_PROPERTIES_IMAGE)) ||
 		gtk_action_get_visible (ACTION (CONTEXT_PROPERTIES_LINK)) ||
-		gtk_action_get_visible (ACTION (CONTEXT_PROPERTIES_TEXT));
+		visible; /* text node under caret */
 	gtk_action_set_visible (ACTION (CONTEXT_PROPERTIES_PARAGRAPH), visible);
 
 	/* Set to visible if any of these are true:
@@ -443,7 +447,6 @@ html_editor_update_actions (EHTMLEditor *editor,
 
 	/* Decide if we should show spell checking items. */
 	checker = WEBKIT_SPELL_CHECKER (webkit_get_text_checker ());
-	selection = e_html_editor_view_get_selection (view);
 	visible = FALSE;
 	if ((n_languages > 0) && e_html_editor_selection_has_text (selection)) {
 		gchar *word = e_html_editor_selection_get_caret_word (selection);
