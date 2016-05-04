@@ -102,4 +102,9 @@
   <button _label="Lose _formatting" response="GTK_RESPONSE_YES"/>
  </error>
 
+ <error id="failed-save-template" type="error">
+  <_primary>An error occurred while saving to your Templates folder.</_primary>
+  <_secondary>The reported error was &quot;{0}&quot;. The message has most likely not been saved.</_secondary>
+ </error>
+
 </error-list>

@@ -34,11 +34,14 @@
 #include <shell/e-shell-view.h>
 
 #include <mail/e-mail-reader.h>
+#include <mail/e-mail-ui-session.h>
 #include <mail/em-composer-utils.h>
 #include <mail/em-utils.h>
 #include <mail/message-list.h>
 
 #include <composer/e-msg-composer.h>
+
+#include "e-templates-store.h"
 
 #define CONF_KEY_TEMPLATE_PLACEHOLDERS "template-placeholders"
 
@@ -78,6 +81,31 @@ gboolean	init_shell_actions		(GtkUIManager *ui_manager,
 gint		e_plugin_lib_enable		(EPlugin *plugin,
 						 gboolean enabled);
 
+#define TEMPLATES_DATA_KEY "templates::data"
+
+typedef struct _TemplatesData {
+	ETemplatesStore *templates_store;
+	gulong changed_handler_id;
+	gboolean changed;
+	guint merge_id;
+} TemplatesData;
+
+static void
+templates_data_free (gpointer ptr)
+{
+	TemplatesData *td = ptr;
+
+	if (td) {
+		if (td->templates_store && td->changed_handler_id) {
+			g_signal_handler_disconnect (td->templates_store, td->changed_handler_id);
+			td->changed_handler_id = 0;
+		}
+
+		g_clear_object (&td->templates_store);
+		g_free (td);
+	}
+}
+
 /* Thanks to attachment reminder plugin for this*/
 static void commit_changes (UIData *ui);
 
@@ -90,18 +118,7 @@ static void  value_cell_edited_callback (GtkCellRendererText *cell, gchar *path_
 static gboolean clue_foreach_check_isempty (GtkTreeModel *model, GtkTreePath
 					*path, GtkTreeIter *iter, UIData *ui);
 
-static void templates_folder_msg_changed_cb (CamelFolder *folder,
-			      CamelFolderChangeInfo *change_info,
-			      EShellWindow *shell_window);
-
 static gboolean plugin_enabled;
-
-static void
-disconnect_signals_on_dispose (gpointer object_with_signal,
-                               GObject *signal_data)
-{
-	g_signal_handlers_disconnect_by_data (object_with_signal, signal_data);
-}
 
 static void
 async_context_free (AsyncContext *context)
@@ -1032,19 +1049,20 @@ template_got_source_message (CamelFolder *folder,
 }
 
 static void
-action_reply_with_template_cb (GtkAction *action,
-                               EShellView *shell_view)
+action_reply_with_template_cb (ETemplatesStore *templates_store,
+			       CamelFolder *template_folder,
+			       const gchar *template_message_uid,
+			       gpointer user_data)
 {
 	EActivity *activity;
 	AsyncContext *context;
 	GCancellable *cancellable;
 	CamelFolder *folder;
-	CamelFolder *template_folder;
+	EShellView *shell_view = user_data;
 	EShellContent *shell_content;
 	EMailReader *reader;
 	GPtrArray *uids;
 	const gchar *message_uid;
-	const gchar *template_message_uid;
 
 	shell_content = e_shell_view_get_shell_content (shell_view);
 	reader = E_MAIL_READER (shell_content);
@@ -1052,11 +1070,6 @@ action_reply_with_template_cb (GtkAction *action,
 	uids = e_mail_reader_get_selected_uids (reader);
 	g_return_if_fail (uids != NULL && uids->len == 1);
 	message_uid = g_ptr_array_index (uids, 0);
-
-	template_folder = g_object_get_data (
-		G_OBJECT (action), "template-folder");
-	template_message_uid = g_object_get_data (
-		G_OBJECT (action), "template-uid");
 
 	activity = e_mail_reader_new_activity (reader);
 	cancellable = e_activity_get_cancellable (activity);
@@ -1087,196 +1100,86 @@ action_reply_with_template_cb (GtkAction *action,
 	g_ptr_array_unref (uids);
 }
 
-static gint
-compare_ptr_array_uids_by_subject (gconstpointer ptr1,
-				   gconstpointer ptr2,
-				   gpointer user_data)
+static gchar *
+get_account_templates_folder_uri (EMsgComposer *composer)
 {
-	CamelFolderSummary *summary = user_data;
-	CamelMessageInfo *mi1, *mi2;
-	const gchar * const *puid1 = ptr1, * const *puid2 = ptr2;
-	const gchar *subject1, *subject2;
-	gint res;
+	EComposerHeaderTable *table;
+	ESource *source;
+	const gchar *identity_uid;
+	gchar *templates_folder_uri = NULL;
 
-	if (!puid1 || !*puid1) {
-		if (!puid2 || !*puid2)
-			return 0;
+	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), NULL);
 
-		return -1;
-	} else if (!puid2 || !*puid2) {
-		return 1;
+	table = e_msg_composer_get_header_table (composer);
+	identity_uid = e_composer_header_table_get_identity_uid (table);
+	source = e_composer_header_table_ref_source (table, identity_uid);
+
+	/* Get the selected identity's preferred Templates folder. */
+	if (source != NULL) {
+		ESourceMailComposition *extension;
+		const gchar *extension_name;
+
+		extension_name = E_SOURCE_EXTENSION_MAIL_COMPOSITION;
+		extension = e_source_get_extension (source, extension_name);
+		templates_folder_uri = e_source_mail_composition_dup_templates_folder (extension);
+
+		g_object_unref (source);
 	}
 
-	mi1 = camel_folder_summary_get (summary, *puid1);
-	mi2 = camel_folder_summary_get (summary, *puid2);
+	return templates_folder_uri;
+}
 
-	if (!mi1) {
-		if (!mi2)
-			return 0;
+typedef struct _SaveTemplateAsyncData {
+	EMsgComposer *composer;
+	EMailSession *session;
+	CamelMimeMessage *message;
+	CamelMessageInfo *info;
+	gchar *templates_folder_uri;
+} SaveTemplateAsyncData;
 
-		camel_message_info_unref (mi2);
-		return -1;
-	} else if (!mi2) {
-		camel_message_info_unref (mi1);
-		return 1;
+static void
+save_template_async_data_free (gpointer ptr)
+{
+	SaveTemplateAsyncData *sta = ptr;
+
+	if (sta) {
+		g_clear_object (&sta->composer);
+		g_clear_object (&sta->session);
+		g_clear_object (&sta->message);
+		camel_message_info_unref (sta->info);
+		g_free (sta->templates_folder_uri);
+		g_free (sta);
 	}
-
-	subject1 = camel_message_info_subject (mi1);
-	subject2 = camel_message_info_subject (mi2);
-
-	if (!subject1)
-		subject1 = "";
-	if (!subject2)
-		subject2 = "";
-
-	res = g_utf8_collate (subject1, subject2);
-
-	camel_message_info_unref (mi1);
-	camel_message_info_unref (mi2);
-
-	return res;
 }
 
 static void
-build_template_menus_recurse (CamelStore *local_store,
-                              GtkUIManager *ui_manager,
-                              GtkActionGroup *action_group,
-                              const gchar *menu_path,
-                              guint *action_count,
-                              guint merge_id,
-                              CamelFolderInfo *folder_info,
-                              EShellView *shell_view)
+save_template_thread (EAlertSinkThreadJobData *job_data,
+		      gpointer user_data,
+		      GCancellable *cancellable,
+		      GError **error)
 {
-	EShellWindow *shell_window;
+	SaveTemplateAsyncData *sta = user_data;
+	CamelFolder *templates_folder = NULL;
 
-	shell_window = e_shell_view_get_shell_window (shell_view);
-
-	while (folder_info != NULL) {
-		CamelFolder *folder;
-		GPtrArray *uids;
-		GtkAction *action;
-		const gchar *action_label;
-		const gchar *display_name;
-		gchar *action_name;
-		gchar *path;
-		guint ii;
-
-		display_name = folder_info->display_name;
-
-		/* FIXME Not passing a GCancellable or GError here. */
-		folder = camel_store_get_folder_sync (
-			local_store, folder_info->full_name, 0, NULL, NULL);
-
-		action_name = g_strdup_printf (
-			"templates-menu-%d", *action_count);
-		*action_count = *action_count + 1;
-
-		/* To avoid having a Templates dir, we ignore the top level */
-		if (g_str_has_suffix (display_name, "Templates"))
-			action_label = _("Templates");
-		else
-			action_label = display_name;
-
-		action = gtk_action_new (
-			action_name, action_label, NULL, NULL);
-
-		gtk_action_group_add_action (action_group, action);
-
-		gtk_ui_manager_add_ui (
-			ui_manager, merge_id, menu_path, action_name,
-			action_name, GTK_UI_MANAGER_MENU, FALSE);
-
-		/* Disconnect previous connection to avoid possible multiple calls because
-		 * folder is a persistent structure */
-		if (g_signal_handlers_disconnect_by_func (
-			folder, G_CALLBACK (templates_folder_msg_changed_cb), shell_window))
-			g_object_weak_unref (G_OBJECT (shell_window), disconnect_signals_on_dispose, folder);
-		g_signal_connect (
-			folder, "changed",
-			G_CALLBACK (templates_folder_msg_changed_cb),
-			shell_window);
-		g_object_weak_ref (G_OBJECT (shell_window), disconnect_signals_on_dispose, folder);
-
-		path = g_strdup_printf ("%s/%s", menu_path, action_name);
-
-		g_object_unref (action);
-		g_free (action_name);
-
-		/* Add submenus, if any. */
-		if (folder_info->child != NULL)
-			build_template_menus_recurse (
-				local_store,
-				ui_manager, action_group,
-				path, action_count, merge_id,
-				folder_info->child, shell_view);
-
-		if (!folder) {
-			g_free (path);
-			folder_info = folder_info->next;
-			continue;
-		}
-
-		/* Get the UIDs for this folder and add them to the menu. */
-		uids = camel_folder_get_uids (folder);
-		if (uids && folder->summary)
-			g_ptr_array_sort_with_data (uids, compare_ptr_array_uids_by_subject, folder->summary);
-
-		for (ii = 0; uids && ii < uids->len; ii++) {
-			CamelMimeMessage *template;
-			const gchar *uid = uids->pdata[ii];
-			guint32 flags;
-
-			/* If the UIDs is marked for deletion, skip it. */
-			flags = camel_folder_get_message_flags (folder, uid);
-			if (flags & CAMEL_MESSAGE_DELETED)
-				continue;
-
-			/* FIXME Not passing a GCancellable or GError here. */
-			template = camel_folder_get_message_sync (
-				folder, uid, NULL, NULL);
-
-			/* FIXME Do something more intelligent with errors. */
-			if (template == NULL)
-				continue;
-
-			action_label =
-				camel_mime_message_get_subject (template);
-			if (action_label == NULL || *action_label == '\0')
-				action_label = _("No Title");
-
-			action_name = g_strdup_printf (
-				"templates-item-%d", *action_count);
-			*action_count = *action_count + 1;
-
-			action = gtk_action_new (
-				action_name, action_label, NULL, NULL);
-
-			g_object_set_data (G_OBJECT (action), "template-uid", (gpointer) uid);
-
-			g_object_set_data (G_OBJECT (action), "template-folder", folder);
-
-			g_signal_connect (
-				action, "activate",
-				G_CALLBACK (action_reply_with_template_cb),
-				shell_view);
-
-			gtk_action_group_add_action (action_group, action);
-
-			gtk_ui_manager_add_ui (
-				ui_manager, merge_id, path, action_name,
-				action_name, GTK_UI_MANAGER_MENUITEM, FALSE);
-
-			g_object_unref (action);
-			g_free (action_name);
-			g_object_unref (template);
-		}
-
-		camel_folder_free_uids (folder, uids);
-		g_object_unref (folder);
-		g_free (path);
-
-		folder_info = folder_info->next;
+	if (sta->templates_folder_uri && *sta->templates_folder_uri) {
+		templates_folder = e_mail_session_uri_to_folder_sync (sta->session,
+			sta->templates_folder_uri, 0, cancellable, error);
+		if (!templates_folder)
+			return;
 	}
+
+	if (!templates_folder) {
+		e_mail_session_append_to_local_folder_sync (
+			sta->session, E_MAIL_LOCAL_FOLDER_TEMPLATES,
+			sta->message, sta->info,
+			NULL, cancellable, error);
+	} else {
+		e_mail_folder_append_message_sync (
+			templates_folder, sta->message, sta->info,
+			NULL, cancellable, error);
+	}
+
+	g_clear_object (&templates_folder);
 }
 
 static void
@@ -1287,8 +1190,11 @@ got_message_draft_cb (EMsgComposer *composer,
 	EShellBackend *shell_backend;
 	EMailBackend *backend;
 	EMailSession *session;
+	EHTMLEditor *html_editor;
 	CamelMimeMessage *message;
 	CamelMessageInfo *info;
+	SaveTemplateAsyncData *sta;
+	EActivity *activity;
 	GError *error = NULL;
 
 	message = e_msg_composer_get_message_draft_finish (
@@ -1325,16 +1231,24 @@ got_message_draft_cb (EMsgComposer *composer,
 	 * which flags to modify.  In this case, ~0 means all flags.
 	 * So it clears all the flags and then sets SEEN and DRAFT. */
 	camel_message_info_set_flags (
-		info, CAMEL_MESSAGE_SEEN | CAMEL_MESSAGE_DRAFT, ~0);
+		info, CAMEL_MESSAGE_SEEN | CAMEL_MESSAGE_DRAFT |
+		(camel_mime_message_has_attachment (message) ? CAMEL_MESSAGE_ATTACHMENTS : 0), ~0);
 
-	/* FIXME Should submit an EActivity for this
-	 *       operation, same as saving to Outbox. */
-	e_mail_session_append_to_local_folder (
-		session, E_MAIL_LOCAL_FOLDER_TEMPLATES,
-		message, info, G_PRIORITY_DEFAULT,
-		NULL, (GAsyncReadyCallback) NULL, NULL);
+	sta = g_new0 (SaveTemplateAsyncData, 1);
+	sta->composer = g_object_ref (composer);
+	sta->session = g_object_ref (session);
+	sta->message = message;
+	sta->info = info;
+	sta->templates_folder_uri = get_account_templates_folder_uri (composer);
 
-	g_object_unref (message);
+	html_editor = e_msg_composer_get_editor (composer);
+
+	activity = e_alert_sink_submit_thread_job (E_ALERT_SINK (html_editor),
+			_("Saving message template"),
+			"mail-composer:failed-save-template",
+			NULL, save_template_thread, sta, save_template_async_data_free);
+
+	g_clear_object (&activity);
 }
 
 static void
@@ -1358,73 +1272,33 @@ static GtkActionEntry composer_entries[] = {
 };
 
 static void
-build_menu (EShellWindow *shell_window,
-            GtkActionGroup *action_group)
+templates_update_actions_cb (EShellView *shell_view,
+			     GtkActionGroup *action_group)
 {
-	EShellView *shell_view;
-	EShellBackend *shell_backend;
-	EMailBackend *backend;
-	EMailSession *session;
-	CamelFolder *folder;
-	CamelStore *local_store;
-	CamelFolderInfo *folder_info;
-	GtkUIManager *ui_manager;
-	guint merge_id;
-	guint action_count = 0;
-	const gchar *full_name;
-
-	ui_manager = e_shell_window_get_ui_manager (shell_window);
-	shell_view = e_shell_window_get_shell_view (shell_window, "mail");
-	shell_backend = e_shell_view_get_shell_backend (shell_view);
-
-	backend = E_MAIL_BACKEND (shell_backend);
-	session = e_mail_backend_get_session (backend);
-	local_store = e_mail_session_get_local_store (session);
-
-	merge_id = GPOINTER_TO_UINT (g_object_get_data (G_OBJECT (action_group), "merge-id"));
-
-	/* Now recursively build template submenus in the pop-up menu. */
-	folder = e_mail_session_get_local_folder (
-		session, E_MAIL_LOCAL_FOLDER_TEMPLATES);
-	full_name = camel_folder_get_full_name (folder);
-
-	/* FIXME Not passing a GCancellable or GError here. */
-	folder_info = camel_store_get_folder_info_sync (
-		local_store, full_name,
-		CAMEL_STORE_FOLDER_INFO_RECURSIVE |
-		CAMEL_STORE_FOLDER_INFO_FAST, NULL, NULL);
-
-	build_template_menus_recurse (
-		local_store, ui_manager, action_group,
-		"/mail-message-popup/mail-message-templates",
-		&action_count, merge_id, folder_info,
-		shell_view);
-
-	camel_folder_info_free (folder_info);
-}
-
-static void
-update_actions_cb (EShellView *shell_view,
-                   GtkActionGroup *action_group)
-{
-	GList *list;
-	gint length;
+	TemplatesData *td;
 
 	if (!plugin_enabled)
 		return;
 
-	list = gtk_action_group_list_actions (action_group);
-	length = g_list_length (list);
+	td = g_object_get_data (G_OBJECT (shell_view), TEMPLATES_DATA_KEY);
+	if (td) {
+		if (td->changed) {
+			EShellWindow *shell_window;
+			GtkUIManager *ui_manager;
 
-	if (!length) {
-		EShellWindow *shell_window = e_shell_view_get_shell_window (shell_view);
-		build_menu (shell_window, action_group);
+			td->changed = FALSE;
+
+			shell_window = e_shell_view_get_shell_window (shell_view);
+			ui_manager = e_shell_window_get_ui_manager (shell_window);
+
+			e_templates_store_build_menu (td->templates_store, shell_view, ui_manager, action_group,
+				"/mail-message-popup/mail-message-templates", td->merge_id,
+				action_reply_with_template_cb, shell_view);
+		}
 	}
 
 	gtk_action_group_set_sensitive (action_group, TRUE);
 	gtk_action_group_set_visible (action_group, TRUE);
-
-	g_list_free (list);
 }
 
 gboolean
@@ -1444,49 +1318,14 @@ init_composer_actions (GtkUIManager *ui_manager,
 }
 
 static void
-rebuild_template_menu (EShellWindow *shell_window)
+templates_store_changed_cb (ETemplatesStore *templates_store,
+			    gpointer user_data)
 {
-	GtkUIManager *ui_manager;
-	GtkActionGroup *action_group;
-	guint merge_id;
+	TemplatesData *td = user_data;
 
-	ui_manager = e_shell_window_get_ui_manager (shell_window);
+	g_return_if_fail (td != NULL);
 
-	action_group = e_lookup_action_group (ui_manager, "templates");
-	merge_id = GPOINTER_TO_UINT (g_object_get_data (G_OBJECT (action_group), "merge-id"));
-
-	gtk_ui_manager_remove_ui (ui_manager, merge_id);
-	e_action_group_remove_all_actions (action_group);
-	gtk_ui_manager_ensure_update (ui_manager);
-
-	build_menu (shell_window, action_group);
-}
-
-static void
-templates_folder_msg_changed_cb (CamelFolder *folder,
-                                 CamelFolderChangeInfo *change_info,
-                                 EShellWindow *shell_window)
-{
-	rebuild_template_menu (shell_window);
-}
-
-static void
-templates_folder_changed_cb (CamelStore *store,
-                             CamelFolderInfo *folder_info,
-                             EShellWindow *shell_window)
-{
-	if (folder_info->full_name && strstr (folder_info->full_name, _("Templates")) != NULL)
-		rebuild_template_menu (shell_window);
-}
-
-static void
-templates_folder_renamed_cb (CamelStore *store,
-                             const gchar *old_name,
-                             CamelFolderInfo *folder_info,
-                             EShellWindow *shell_window)
-{
-	if (folder_info->full_name && strstr (folder_info->full_name, _("Templates")) != NULL)
-		rebuild_template_menu (shell_window);
+	td->changed = TRUE;
 }
 
 static void
@@ -1498,48 +1337,28 @@ mail_shell_view_created_cb (EShellWindow *shell_window,
 	EShellBackend *shell_backend;
 	GtkUIManager *ui_manager;
 	GtkActionGroup *action_group;
-	CamelFolder *folder;
-	CamelStore *local_store;
-	guint merge_id;
+	TemplatesData *td;
 
 	ui_manager = e_shell_window_get_ui_manager (shell_window);
 	e_shell_window_add_action_group (shell_window, "templates");
 	action_group = e_lookup_action_group (ui_manager, "templates");
 
-	merge_id = gtk_ui_manager_new_merge_id (ui_manager);
-
-	g_object_set_data (
-		G_OBJECT (action_group), "merge-id",
-		GUINT_TO_POINTER (merge_id));
-
 	shell_backend = e_shell_view_get_shell_backend (shell_view);
 
 	backend = E_MAIL_BACKEND (shell_backend);
 	session = e_mail_backend_get_session (backend);
-	local_store = e_mail_session_get_local_store (session);
 
-	folder = e_mail_session_get_local_folder (
-		session, E_MAIL_LOCAL_FOLDER_TEMPLATES);
+	td = g_new0 (TemplatesData, 1);
+	td->templates_store = e_templates_store_ref_default (e_mail_ui_session_get_account_store (E_MAIL_UI_SESSION (session)));
+	td->changed_handler_id = g_signal_connect (td->templates_store, "changed", G_CALLBACK (templates_store_changed_cb), td);
+	td->merge_id = gtk_ui_manager_new_merge_id (ui_manager);
+	td->changed = TRUE;
 
-	g_signal_connect (
-		folder, "changed",
-		G_CALLBACK (templates_folder_msg_changed_cb), shell_window);
-	g_signal_connect (
-		local_store, "folder-created",
-		G_CALLBACK (templates_folder_changed_cb), shell_window);
-	g_signal_connect (
-		local_store, "folder-deleted",
-		G_CALLBACK (templates_folder_changed_cb), shell_window);
-	g_signal_connect (
-		local_store, "folder-renamed",
-		G_CALLBACK (templates_folder_renamed_cb), shell_window);
-
-	g_object_weak_ref (G_OBJECT (shell_window), disconnect_signals_on_dispose, folder);
-	g_object_weak_ref (G_OBJECT (shell_window), disconnect_signals_on_dispose, local_store);
+	g_object_set_data_full (G_OBJECT (shell_view), TEMPLATES_DATA_KEY, td, templates_data_free);
 
 	g_signal_connect (
 		shell_view, "update-actions",
-		G_CALLBACK (update_actions_cb), action_group);
+		G_CALLBACK (templates_update_actions_cb), action_group);
 }
 
 gboolean

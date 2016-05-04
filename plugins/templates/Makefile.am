@@ -14,7 +14,10 @@ liborg_gnome_templates_la_CPPFLAGS =			\
 	$(CODE_COVERAGE_CFLAGS)				\
 	$(NULL)
 
-liborg_gnome_templates_la_SOURCES = templates.c
+liborg_gnome_templates_la_SOURCES =			\
+	templates.c					\
+	e-templates-store.h				\
+	e-templates-store.c
 
 liborg_gnome_templates_la_LDFLAGS = -module -avoid-version $(NO_UNDEFINED) $(CODE_COVERAGE_LDFLAGS)
 

@@ -1056,17 +1056,20 @@ em_folder_tree_model_set_session (EMFolderTreeModel *model,
 	g_object_notify (G_OBJECT (model), "session");
 }
 
-/* Helper for em_folder_tree_model_set_folder_info() */
 static void
-folder_tree_model_get_drafts_folder_uri (ESourceRegistry *registry,
-                                         CamelStore *store,
-                                         gchar **drafts_folder_uri)
+folder_tree_model_get_special_folders_uri (ESourceRegistry *registry,
+					   CamelStore *store,
+					   gchar **drafts_folder_uri,
+					   gchar **templates_folder_uri,
+					   gchar **sent_folder_uri)
 {
 	ESource *source;
 	const gchar *extension_name;
 
 	/* In case we fail... */
 	*drafts_folder_uri = NULL;
+	*templates_folder_uri = NULL;
+	*sent_folder_uri = NULL;
 
 	source = em_utils_ref_mail_identity_for_store (registry, store);
 	if (source == NULL)
@@ -1078,28 +1081,9 @@ folder_tree_model_get_drafts_folder_uri (ESourceRegistry *registry,
 
 		extension = e_source_get_extension (source, extension_name);
 
-		*drafts_folder_uri =
-			e_source_mail_composition_dup_drafts_folder (extension);
+		*drafts_folder_uri = e_source_mail_composition_dup_drafts_folder (extension);
+		*templates_folder_uri = e_source_mail_composition_dup_templates_folder (extension);
 	}
-
-	g_object_unref (source);
-}
-
-/* Helper for em_folder_tree_model_set_folder_info() */
-static void
-folder_tree_model_get_sent_folder_uri (ESourceRegistry *registry,
-                                       CamelStore *store,
-                                       gchar **sent_folder_uri)
-{
-	ESource *source;
-	const gchar *extension_name;
-
-	/* In case we fail... */
-	*sent_folder_uri = NULL;
-
-	source = em_utils_ref_mail_identity_for_store (registry, store);
-	if (source == NULL)
-		return;
 
 	extension_name = E_SOURCE_EXTENSION_MAIL_SUBMISSION;
 	if (e_source_has_extension (source, extension_name)) {
@@ -1107,8 +1091,7 @@ folder_tree_model_get_sent_folder_uri (ESourceRegistry *registry,
 
 		extension = e_source_get_extension (source, extension_name);
 
-		*sent_folder_uri =
-			e_source_mail_submission_dup_sent_folder (extension);
+		*sent_folder_uri = e_source_mail_submission_dup_sent_folder (extension);
 	}
 
 	g_object_unref (source);
@@ -1240,18 +1223,22 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model,
 
 	if ((flags & CAMEL_FOLDER_TYPE_MASK) == 0) {
 		gchar *drafts_folder_uri;
+		gchar *templates_folder_uri;
 		gchar *sent_folder_uri;
 
-		folder_tree_model_get_drafts_folder_uri (
-			registry, store, &drafts_folder_uri);
-
-		folder_tree_model_get_sent_folder_uri (
-			registry, store, &sent_folder_uri);
+		folder_tree_model_get_special_folders_uri (registry, store,
+			&drafts_folder_uri, &templates_folder_uri, &sent_folder_uri);
 
 		if (!folder_is_drafts && drafts_folder_uri != NULL) {
 			folder_is_drafts = e_mail_folder_uri_equal (
 				CAMEL_SESSION (session),
 				uri, drafts_folder_uri);
+		}
+
+		if (!folder_is_templates && templates_folder_uri != NULL) {
+			folder_is_templates = e_mail_folder_uri_equal (
+				CAMEL_SESSION (session),
+				uri, templates_folder_uri);
 		}
 
 		if (sent_folder_uri != NULL) {
@@ -1263,6 +1250,7 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model,
 		}
 
 		g_free (drafts_folder_uri);
+		g_free (templates_folder_uri);
 		g_free (sent_folder_uri);
 	}
 

@@ -505,6 +505,7 @@ plugins/save-calendar/ical-format.c
 plugins/save-calendar/org-gnome-save-calendar.eplug.xml
 plugins/save-calendar/rdf-format.c
 plugins/save-calendar/save-calendar.c
+plugins/templates/e-templates-store.c
 plugins/templates/org-gnome-templates.eplug.xml
 plugins/templates/templates.c
 shell/e-shell-backend.c
