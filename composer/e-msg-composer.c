@@ -1706,65 +1706,60 @@ msg_composer_paste_clipboard_targets_cb (GtkClipboard *clipboard,
 		return;
 	}
 
-	/* Prefer plain text over HTML when in the plain text mode, but only
-	 * when pasting content from outside the editor view. */
-	if (e_html_editor_view_get_html_mode (editor_view) ||
-	    e_html_editor_view_is_pasting_content_from_itself (editor_view)) {
-		if (e_targets_include_html (targets, n_targets)) {
-			e_composer_paste_html (composer, clipboard);
-			return;
-		}
-
-		if (gtk_targets_include_text (targets, n_targets)) {
-			e_composer_paste_text (composer, clipboard);
-			return;
-		}
-	} else {
-		if (gtk_targets_include_text (targets, n_targets)) {
-			e_composer_paste_text (composer, clipboard);
-			return;
-		}
-
-		if (e_targets_include_html (targets, n_targets)) {
-			e_composer_paste_html (composer, clipboard);
-			return;
-		}
-	}
-
-	if (gtk_targets_include_image (targets, n_targets, TRUE)) {
+	if (!e_html_editor_view_get_html_mode (editor_view) &&
+	    gtk_targets_include_image (targets, n_targets, TRUE)) {
 		e_composer_paste_image (composer, clipboard);
 		return;
 	}
+
+	composer->priv->ignore_next_paste_clipboard_signals_emission = TRUE;
+
+	g_signal_emit_by_name (
+		editor_view,
+		composer->priv->last_signal_was_paste_primary ?
+			"paste-primary-clipboard" : "paste-clipboard");
 }
 
 static void
 msg_composer_paste_primary_clipboard_cb (EHTMLEditorView *view,
                                          EMsgComposer *composer)
 {
-	GtkClipboard *clipboard;
+	if (composer->priv->ignore_next_paste_clipboard_signals_emission)
+		composer->priv->ignore_next_paste_clipboard_signals_emission = FALSE;
+	else {
+		GtkClipboard *clipboard;
 
-	clipboard = gtk_clipboard_get (GDK_SELECTION_PRIMARY);
+		clipboard = gtk_clipboard_get (GDK_SELECTION_PRIMARY);
 
-	gtk_clipboard_request_targets (
-		clipboard, (GtkClipboardTargetsReceivedFunc)
-		msg_composer_paste_clipboard_targets_cb, composer);
+		composer->priv->last_signal_was_paste_primary = TRUE;
 
-	g_signal_stop_emission_by_name (view, "paste-primary-clipboard");
+		gtk_clipboard_request_targets (
+			clipboard, (GtkClipboardTargetsReceivedFunc)
+			msg_composer_paste_clipboard_targets_cb, composer);
+
+		g_signal_stop_emission_by_name (view, "paste-primary-clipboard");
+	}
 }
 
 static void
 msg_composer_paste_clipboard_cb (EHTMLEditorView *view,
                                  EMsgComposer *composer)
 {
-	GtkClipboard *clipboard;
+	if (composer->priv->ignore_next_paste_clipboard_signals_emission)
+		composer->priv->ignore_next_paste_clipboard_signals_emission = FALSE;
+	else {
+		GtkClipboard *clipboard;
 
-	clipboard = gtk_clipboard_get (GDK_SELECTION_CLIPBOARD);
+		clipboard = gtk_clipboard_get (GDK_SELECTION_CLIPBOARD);
 
-	gtk_clipboard_request_targets (
-		clipboard, (GtkClipboardTargetsReceivedFunc)
-		msg_composer_paste_clipboard_targets_cb, composer);
+		composer->priv->last_signal_was_paste_primary = FALSE;
 
-	g_signal_stop_emission_by_name (view, "paste-clipboard");
+		gtk_clipboard_request_targets (
+			clipboard, (GtkClipboardTargetsReceivedFunc)
+			msg_composer_paste_clipboard_targets_cb, composer);
+
+		g_signal_stop_emission_by_name (view, "paste-clipboard");
+	}
 }
 
 static gboolean
@@ -2659,6 +2654,7 @@ msg_composer_constructed (GObject *object)
 		html_editor_view, "paste-primary-clipboard",
 		G_CALLBACK (msg_composer_paste_primary_clipboard_cb), composer);
 
+	e_html_editor_view_reconnect_paste_clipboard_signals (html_editor_view);
 	/* Drag-and-Drop Support */
 
 	g_signal_connect (
@@ -2880,41 +2876,6 @@ msg_composer_key_press_event (GtkWidget *widget,
 			if (!view_processed)
 				gtk_widget_grab_focus (input_widget);
 
-			return TRUE;
-		}
-
-		if ((((event)->state & GDK_SHIFT_MASK) &&
-		    ((event)->keyval == GDK_KEY_Insert)) ||
-		    (((event)->state & GDK_CONTROL_MASK) &&
-		    ((event)->keyval == GDK_KEY_v))) {
-			g_signal_emit_by_name (
-				WEBKIT_WEB_VIEW (view), "paste-clipboard");
-			return TRUE;
-		}
-
-		if (((event)->state & GDK_CONTROL_MASK) &&
-		    ((event)->keyval == GDK_KEY_Insert)) {
-			g_signal_emit_by_name (
-				WEBKIT_WEB_VIEW (view), "copy-clipboard");
-			return TRUE;
-		}
-
-		if (((event)->state & GDK_CONTROL_MASK) &&
-		    ((event)->keyval == GDK_KEY_z)) {
-			e_html_editor_view_undo (view);
-			return TRUE;
-		}
-
-		if (((event)->state & (GDK_CONTROL_MASK)) &&
-		    ((event)->keyval == GDK_KEY_Z)) {
-			e_html_editor_view_redo (view);
-			return TRUE;
-		}
-
-		if (((event)->state & GDK_SHIFT_MASK) &&
-		    ((event)->keyval == GDK_KEY_Delete)) {
-			g_signal_emit_by_name (
-				WEBKIT_WEB_VIEW (view), "cut-clipboard");
 			return TRUE;
 		}
 	}

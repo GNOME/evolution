@@ -6106,6 +6106,41 @@ html_editor_view_key_press_event (GtkWidget *widget,
 		return event_handled;
 	}
 
+	if ((((event)->state & GDK_SHIFT_MASK) &&
+	    ((event)->keyval == GDK_KEY_Insert)) ||
+	    (((event)->state & GDK_CONTROL_MASK) &&
+	    ((event)->keyval == GDK_KEY_v))) {
+		g_signal_emit_by_name (
+			WEBKIT_WEB_VIEW (view), "paste-clipboard");
+		return TRUE;
+	}
+
+	if (((event)->state & GDK_CONTROL_MASK) &&
+	    ((event)->keyval == GDK_KEY_Insert)) {
+		g_signal_emit_by_name (
+			WEBKIT_WEB_VIEW (view), "copy-clipboard");
+		return TRUE;
+	}
+
+	if (((event)->state & GDK_CONTROL_MASK) &&
+	    ((event)->keyval == GDK_KEY_z)) {
+		e_html_editor_view_undo (view);
+		return TRUE;
+	}
+
+	if (((event)->state & (GDK_CONTROL_MASK)) &&
+	    ((event)->keyval == GDK_KEY_Z)) {
+		e_html_editor_view_redo (view);
+		return TRUE;
+	}
+
+	if (((event)->state & GDK_SHIFT_MASK) &&
+	    ((event)->keyval == GDK_KEY_Delete)) {
+		g_signal_emit_by_name (
+			WEBKIT_WEB_VIEW (view), "cut-clipboard");
+		return TRUE;
+	}
+
 	if (event->keyval == GDK_KEY_Tab || event->keyval == GDK_KEY_ISO_Left_Tab) {
 		if (jump_to_next_table_cell (view, event->keyval == GDK_KEY_ISO_Left_Tab))
 			return TRUE;
@@ -11561,6 +11596,130 @@ html_editor_view_copy_cut_clipboard_cb (EHTMLEditorView *view)
 }
 
 static void
+html_editor_view_paste_clipboard_targets_cb (GtkClipboard *clipboard,
+                                             GdkAtom *targets,
+                                             gint n_targets,
+                                             EHTMLEditorView *view)
+{
+	EHTMLEditorSelection *selection;
+
+	if (targets == NULL || n_targets < 0)
+		return;
+
+	selection = e_html_editor_view_get_selection (view);
+
+	/* If view doesn't have focus, focus it */
+	if (!gtk_widget_has_focus (GTK_WIDGET (view)))
+		gtk_widget_grab_focus (GTK_WIDGET (view));
+
+	/* Order is important here to ensure common use cases are
+	 * handled correctly.  See GNOME bug #603715 for details. */
+	/* Prefer plain text over HTML when in the plain text mode, but only
+	 * when pasting content from outside the editor view. */
+	if (e_html_editor_view_get_html_mode (view) ||
+	    e_html_editor_view_is_pasting_content_from_itself (view)) {
+		gchar *content = NULL;
+
+		if (e_targets_include_html (targets, n_targets)) {
+			if (!(content = e_clipboard_wait_for_html (clipboard)))
+				return;
+
+			e_html_editor_selection_insert_html (selection, content);
+			g_free (content);
+			return;
+		}
+
+		if (gtk_targets_include_text (targets, n_targets)) {
+			if (!(content = gtk_clipboard_wait_for_text (clipboard)))
+				return;
+
+			e_html_editor_selection_insert_text (selection, content);
+			g_free (content);
+			return;
+		}
+	} else {
+		gchar *content = NULL;
+
+		if (gtk_targets_include_text (targets, n_targets)) {
+			if (!(content = gtk_clipboard_wait_for_text (clipboard)))
+				return;
+
+			e_html_editor_selection_insert_text (selection, content);
+			g_free (content);
+			return;
+		}
+
+		if (e_targets_include_html (targets, n_targets)) {
+			if (!(content = e_clipboard_wait_for_html (clipboard)))
+				return;
+
+			e_html_editor_selection_insert_html (selection, content);
+			g_free (content);
+			return;
+		}
+	}
+
+	if (gtk_targets_include_image (targets, n_targets, TRUE)) {
+		gchar *uri;
+
+		if (!(uri = e_util_save_image_from_clipboard (clipboard)))
+			return;
+
+		e_html_editor_selection_insert_image (selection, uri);
+
+		g_free (uri);
+
+		return;
+	}
+}
+
+static void
+html_editor_view_paste_primary_clipboard_cb (EHTMLEditorView *view)
+{
+	GtkClipboard *clipboard;
+
+	clipboard = gtk_clipboard_get (GDK_SELECTION_PRIMARY);
+
+	gtk_clipboard_request_targets (
+		clipboard, (GtkClipboardTargetsReceivedFunc)
+		html_editor_view_paste_clipboard_targets_cb, view);
+
+	g_signal_stop_emission_by_name (view, "paste-primary-clipboard");
+}
+
+static void
+html_editor_view_paste_clipboard_cb (EHTMLEditorView *view)
+{
+	GtkClipboard *clipboard;
+
+	clipboard = gtk_clipboard_get (GDK_SELECTION_CLIPBOARD);
+
+	gtk_clipboard_request_targets (
+		clipboard, (GtkClipboardTargetsReceivedFunc)
+		html_editor_view_paste_clipboard_targets_cb, view);
+
+	g_signal_stop_emission_by_name (view, "paste-clipboard");
+}
+
+void
+e_html_editor_view_reconnect_paste_clipboard_signals (EHTMLEditorView *view)
+{
+	g_return_if_fail (E_IS_HTML_EDITOR_VIEW (view));
+
+	g_signal_handlers_disconnect_by_func (
+		view, html_editor_view_paste_clipboard_cb, NULL);
+	g_signal_handlers_disconnect_by_func (
+		view, html_editor_view_paste_primary_clipboard_cb, NULL);
+
+	g_signal_connect (
+		view, "paste-clipboard",
+		G_CALLBACK (html_editor_view_paste_clipboard_cb), NULL);
+	g_signal_connect (
+		view, "paste-primary-clipboard",
+		G_CALLBACK (html_editor_view_paste_primary_clipboard_cb), NULL);
+}
+
+static void
 e_html_editor_view_init (EHTMLEditorView *view)
 {
 	WebKitWebSettings *settings;
@@ -11628,6 +11787,13 @@ e_html_editor_view_init (EHTMLEditorView *view)
 	g_signal_connect (
 		view, "notify::load-status",
 		G_CALLBACK (html_editor_view_load_status_changed), NULL);
+
+	g_signal_connect (
+		view, "paste-clipboard",
+		G_CALLBACK (html_editor_view_paste_clipboard_cb), NULL);
+	g_signal_connect (
+		view, "paste-primary-clipboard",
+		G_CALLBACK (html_editor_view_paste_primary_clipboard_cb), NULL);
 
 	g_signal_connect (
 		view, "style-updated",

@@ -139,6 +139,7 @@ e_composer_private_constructed (EMsgComposer *composer)
 	priv->check_if_signature_is_changed = FALSE;
 	priv->ignore_next_signature_change = FALSE;
 	priv->dnd_history_saved = FALSE;
+	priv->ignore_next_paste_clipboard_signals_emission = FALSE;
 
 	priv->focused_entry = NULL;
 
@@ -495,48 +496,13 @@ e_composer_get_default_charset (void)
 }
 
 gboolean
-e_composer_paste_html (EMsgComposer *composer,
-                       GtkClipboard *clipboard)
-{
-	EHTMLEditor *editor;
-	EHTMLEditorView *view;
-	EHTMLEditorSelection *editor_selection;
-	gchar *html;
-
-	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), FALSE);
-	g_return_val_if_fail (GTK_IS_CLIPBOARD (clipboard), FALSE);
-
-	if (!(html = e_clipboard_wait_for_html (clipboard)))
-		return FALSE;
-
-	g_return_val_if_fail (html != NULL, FALSE);
-
-	editor = e_msg_composer_get_editor (composer);
-	view = e_html_editor_get_view (editor);
-	editor_selection = e_html_editor_view_get_selection (view);
-	/* If Web View doesn't have focus, focus it */
-	if (!gtk_widget_has_focus (GTK_WIDGET (view)))
-		gtk_widget_grab_focus (GTK_WIDGET (view));
-	e_html_editor_selection_insert_html (editor_selection, html);
-
-	g_free (html);
-
-	return TRUE;
-}
-
-gboolean
 e_composer_paste_image (EMsgComposer *composer,
                         GtkClipboard *clipboard)
 {
-	EHTMLEditor *editor;
-	EHTMLEditorView *html_editor_view;
+	EAttachment *attachment;
 	EAttachmentStore *store;
 	EAttachmentView *view;
-	GdkPixbuf *pixbuf = NULL;
-	gchar *filename = NULL;
-	gchar *uri = NULL;
-	gboolean success = FALSE;
-	GError *error = NULL;
+	gchar *uri;
 
 	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), FALSE);
 	g_return_val_if_fail (GTK_IS_CLIPBOARD (clipboard), FALSE);
@@ -544,91 +510,17 @@ e_composer_paste_image (EMsgComposer *composer,
 	view = e_msg_composer_get_attachment_view (composer);
 	store = e_attachment_view_get_store (view);
 
-	/* Extract the image data from the clipboard. */
-	pixbuf = gtk_clipboard_wait_for_image (clipboard);
-	g_return_val_if_fail (pixbuf != NULL, FALSE);
-
-	/* Reserve a temporary file. */
-	filename = e_mktemp (NULL);
-	if (filename == NULL) {
-		g_set_error (
-			&error, G_FILE_ERROR,
-			g_file_error_from_errno (errno),
-			"Could not create temporary file: %s",
-			g_strerror (errno));
-		goto exit;
-	}
-
-	/* Save the pixbuf as a temporary file in image/png format. */
-	if (!gdk_pixbuf_save (pixbuf, filename, "png", &error, NULL))
-		goto exit;
-
-	/* Convert the filename to a URI. */
-	uri = g_filename_to_uri (filename, NULL, &error);
-	if (uri == NULL)
-		goto exit;
-
-	/* In HTML mode, paste the image into the message body.
-	 * In text mode, add the image to the attachment store. */
-	editor = e_msg_composer_get_editor (composer);
-	html_editor_view = e_html_editor_get_view (editor);
-	if (e_html_editor_view_get_html_mode (html_editor_view)) {
-		EHTMLEditorSelection *selection;
-
-		selection = e_html_editor_view_get_selection (html_editor_view);
-		e_html_editor_selection_insert_image (selection, uri);
-		e_html_editor_selection_scroll_to_caret (selection);
-	} else {
-		EAttachment *attachment;
-
-		attachment = e_attachment_new_for_uri (uri);
-		e_attachment_store_add_attachment (store, attachment);
-		e_attachment_load_async (
-			attachment, (GAsyncReadyCallback)
-			e_attachment_load_handle_error, composer);
-		g_object_unref (attachment);
-	}
-
-	success = TRUE;
-
-exit:
-	if (error != NULL) {
-		g_warning ("%s", error->message);
-		g_error_free (error);
-	}
-
-	g_object_unref (pixbuf);
-	g_free (filename);
-	g_free (uri);
-
-	return success;
-}
-
-gboolean
-e_composer_paste_text (EMsgComposer *composer,
-                       GtkClipboard *clipboard)
-{
-	EHTMLEditor *editor;
-	EHTMLEditorView *view;
-	EHTMLEditorSelection *editor_selection;
-	gchar *text;
-
-	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), FALSE);
-	g_return_val_if_fail (GTK_IS_CLIPBOARD (clipboard), FALSE);
-
-	if (!(text = gtk_clipboard_wait_for_text (clipboard)))
+	if (!(uri = e_util_save_image_from_clipboard (clipboard)))
 		return FALSE;
 
-	editor = e_msg_composer_get_editor (composer);
-	view = e_html_editor_get_view (editor);
-	editor_selection = e_html_editor_view_get_selection (view);
-	/* If WebView doesn't have focus, focus it */
-	if (!gtk_widget_has_focus (GTK_WIDGET (view)))
-		gtk_widget_grab_focus (GTK_WIDGET (view));
+	attachment = e_attachment_new_for_uri (uri);
+	e_attachment_store_add_attachment (store, attachment);
+	e_attachment_load_async (
+		attachment, (GAsyncReadyCallback)
+		e_attachment_load_handle_error, composer);
+	g_object_unref (attachment);
 
-	e_html_editor_selection_insert_text (editor_selection, text);
-
-	g_free (text);
+	g_free (uri);
 
 	return TRUE;
 }

@@ -5991,6 +5991,7 @@ insert_base64_image (EHTMLEditorSelection *selection,
 
 	e_html_editor_selection_restore (selection);
 	e_html_editor_view_force_spell_check_for_current_paragraph (view);
+	e_html_editor_selection_scroll_to_caret (selection);
 
 	g_object_unref (view);
 }

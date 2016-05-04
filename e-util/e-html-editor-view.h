@@ -335,6 +335,8 @@ gchar *		e_html_editor_view_insert_signature
 						 gboolean *check_if_signature_is_changed,
 						 gboolean *ignore_next_signature_change);
 gboolean	e_html_editor_view_is_ready	(EHTMLEditorView *view);
+void		e_html_editor_view_reconnect_paste_clipboard_signals
+						(EHTMLEditorView *view);
 G_END_DECLS
 
 #endif /* E_HTML_EDITOR_VIEW_H */

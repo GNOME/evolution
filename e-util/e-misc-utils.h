@@ -290,6 +290,8 @@ gboolean	e_util_is_running_gnome		(void);
 
 void		e_util_set_entry_issue_hint	(GtkWidget *entry,
 						 const gchar *hint);
+gchar *		e_util_save_image_from_clipboard
+						(GtkClipboard *clipboard);
 
 G_END_DECLS
 
