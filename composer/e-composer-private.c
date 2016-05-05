@@ -254,14 +254,7 @@ e_composer_private_constructed (EMsgComposer *composer)
 	priv->gallery_scrolled_window = g_object_ref (widget);
 	gtk_widget_show (widget);
 
-	/* Reparent the scrolled window containing the web view
-	 * widget into the content area of the top attachment pane. */
-
 	widget = GTK_WIDGET (view);
-	widget = gtk_widget_get_parent (widget);
-	if (GTK_IS_VIEWPORT (widget))
-		widget = gtk_widget_get_parent (widget);
-	g_warn_if_fail (GTK_IS_SCROLLED_WINDOW (widget));
 	gtk_widget_reparent (widget, container);
 
 	/* Construct the picture gallery. */
@@ -795,28 +788,6 @@ use_top_signature (EMsgComposer *composer)
 }
 
 static void
-composer_size_allocate_cb (GtkWidget *widget,
-			   gpointer user_data)
-{
-	GtkWidget *scrolled_window;
-	GtkAdjustment *adj;
-
-	/* FIXME WK2 this has to be arranged as in WK2 the webview is not in scrolled window */
-	scrolled_window = gtk_widget_get_parent (GTK_WIDGET (widget));
-	adj = gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW (scrolled_window));
-
-	/* Scroll only when there is some size allocated */
-	if (gtk_adjustment_get_upper (adj) != 0.0) {
-		/* Scroll web view down to caret */
-		gtk_adjustment_set_value (adj, gtk_adjustment_get_upper (adj) - gtk_adjustment_get_page_size (adj));
-		gtk_scrolled_window_set_vadjustment (GTK_SCROLLED_WINDOW (scrolled_window), adj);
-		/* Disconnect because we don't want to scroll down the view on every window size change */
-		g_signal_handlers_disconnect_by_func (
-			widget, G_CALLBACK (composer_size_allocate_cb), NULL);
-	}
-}
-
-static void
 composer_load_signature_cb (EMailSignatureComboBox *combo_box,
                             GAsyncResult *result,
                             EMsgComposer *composer)
@@ -975,9 +946,7 @@ insert:
 	}
 
 	if (start_bottom)
-		g_signal_connect (
-			view, "size-allocate",
-			G_CALLBACK (composer_size_allocate_cb), NULL);
+		e_html_editor_view_scroll_to_caret (view);
 exit:
 	/* Make sure the flag will be unset and won't influence user's choice */
 	composer->priv->set_signature_from_message = FALSE;

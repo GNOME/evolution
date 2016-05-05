@@ -655,21 +655,8 @@ html_editor_constructed (GObject *object)
 	/* EAlertBar controls its own visibility. */
 
 	/* Construct the main editing area. */
-
-	widget = gtk_scrolled_window_new (NULL, NULL);
-	gtk_scrolled_window_set_policy (
-		GTK_SCROLLED_WINDOW (widget),
-		GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-	gtk_scrolled_window_set_shadow_type (
-		GTK_SCROLLED_WINDOW (widget), GTK_SHADOW_IN);
-	gtk_widget_set_hexpand (widget, TRUE);
-	gtk_widget_set_vexpand (widget, TRUE);
-	gtk_grid_attach (GTK_GRID (editor), widget, 0, 4, 1, 1);
-	priv->scrolled_window = g_object_ref (widget);
-	gtk_widget_show (widget);
-
 	widget = GTK_WIDGET (e_html_editor_get_view (editor));
-	gtk_container_add (GTK_CONTAINER (priv->scrolled_window), widget);
+	gtk_grid_attach (GTK_GRID (editor), widget, 0, 4, 1, 1);
 	gtk_widget_show (widget);
 	g_signal_connect (
 		widget, "context-menu",
@@ -764,7 +751,6 @@ html_editor_dispose (GObject *object)
 	g_clear_object (&priv->mode_combo_box);
 	g_clear_object (&priv->size_combo_box);
 	g_clear_object (&priv->style_combo_box);
-	g_clear_object (&priv->scrolled_window);
 
 	g_clear_object (&priv->html_editor_view);
 
