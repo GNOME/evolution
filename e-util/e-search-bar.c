@@ -206,6 +206,9 @@ search_bar_find (ESearchBar *search_bar,
 static void
 search_bar_changed_cb (ESearchBar *search_bar)
 {
+	gtk_widget_set_sensitive (search_bar->priv->next_button, TRUE);
+	gtk_widget_set_sensitive (search_bar->priv->prev_button, TRUE);
+
 	g_object_notify (G_OBJECT (search_bar), "text");
 }
 
