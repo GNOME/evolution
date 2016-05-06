@@ -355,23 +355,23 @@ e_cal_shell_view_memopad_actions_update (ECalShellView *cal_shell_view)
 
 	action = ACTION (CALENDAR_MEMOPAD_FORWARD);
 	sensitive = (n_selected == 1);
-	gtk_action_set_sensitive (action, sensitive);
+	gtk_action_set_visible (action, sensitive);
 
 	action = ACTION (CALENDAR_MEMOPAD_OPEN);
 	sensitive = (n_selected == 1);
-	gtk_action_set_sensitive (action, sensitive);
+	gtk_action_set_visible (action, sensitive);
 
 	action = ACTION (CALENDAR_MEMOPAD_OPEN_URL);
 	sensitive = (n_selected == 1) && has_url;
-	gtk_action_set_sensitive (action, sensitive);
+	gtk_action_set_visible (action, sensitive);
 
 	action = ACTION (CALENDAR_MEMOPAD_PRINT);
 	sensitive = (n_selected == 1);
-	gtk_action_set_sensitive (action, sensitive);
+	gtk_action_set_visible (action, sensitive);
 
 	action = ACTION (CALENDAR_MEMOPAD_SAVE_AS);
 	sensitive = (n_selected == 1);
-	gtk_action_set_sensitive (action, sensitive);
+	gtk_action_set_visible (action, sensitive);
 }
 
 void
