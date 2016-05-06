@@ -166,6 +166,7 @@ static void
 color_combo_popup (EColorCombo *combo)
 {
 	GdkWindow *window;
+	GtkWidget *toplevel;
 	gboolean grab_status;
 	GdkDevice *device, *mouse, *keyboard;
 	guint32 activate_time;
@@ -191,12 +192,12 @@ color_combo_popup (EColorCombo *combo)
 	/* Position the window over the button. */
 	color_combo_reposition_window (combo);
 
-	/* Show the pop-up. */
-	gtk_widget_show_all (combo->priv->window);
-	gtk_widget_grab_focus (combo->priv->window);
+	toplevel = gtk_widget_get_toplevel (GTK_WIDGET (combo));
+	if (GTK_IS_WINDOW (toplevel))
+		gtk_window_set_transient_for (GTK_WINDOW (combo->priv->window), GTK_WINDOW (toplevel));
 
 	/* Try to grab the pointer and keyboard. */
-	window = gtk_widget_get_window (combo->priv->window);
+	window = gtk_widget_get_window (toplevel);
 	grab_status =
 		(keyboard == NULL) ||
 		(gdk_device_grab (
@@ -230,6 +231,10 @@ color_combo_popup (EColorCombo *combo)
 	g_object_set (
 		G_OBJECT (combo->priv->chooser_widget),
 		"show-editor", FALSE, NULL);
+
+	/* Show the pop-up. */
+	gtk_widget_show_all (combo->priv->window);
+	gtk_widget_grab_focus (combo->priv->window);
 }
 
 static void
