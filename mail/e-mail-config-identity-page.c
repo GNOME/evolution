@@ -606,9 +606,10 @@ mail_config_identity_page_check_complete (EMailConfigPage *page)
 	display_name = e_source_get_display_name (source);
 
 	correct = name != NULL;
-	complete = complete && correct;
+	/* This is only a warning, not a blocker */
+	/* complete = complete && correct; */
 
-	e_util_set_entry_issue_hint (id_page->priv->name_entry, correct ? NULL : _("Full Name cannot be empty"));
+	e_util_set_entry_issue_hint (id_page->priv->name_entry, correct ? NULL : _("Full Name should not be empty"));
 
 	correct = TRUE;
 

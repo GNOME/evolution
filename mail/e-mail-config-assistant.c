@@ -693,6 +693,8 @@ mail_config_assistant_constructed (GObject *object)
 	extension = e_source_get_extension (identity_source, extension_name);
 	mail_submission_extension = E_SOURCE_MAIL_SUBMISSION (extension);
 
+	e_source_mail_identity_set_name (mail_identity_extension, g_get_real_name ());
+
 	e_source_mail_composition_set_drafts_folder (
 		mail_composition_extension,
 		e_mail_session_get_local_folder_uri (
