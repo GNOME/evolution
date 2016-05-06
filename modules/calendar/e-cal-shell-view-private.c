@@ -111,6 +111,9 @@ cal_shell_view_memopad_popup_event_cb (EShellView *shell_view,
 	const gchar *widget_path;
 
 	widget_path = "/calendar-memopad-popup";
+
+	e_cal_shell_view_memopad_actions_update (E_CAL_SHELL_VIEW (shell_view));
+
 	e_shell_view_show_popup_menu (shell_view, widget_path, button_event);
 }
 
@@ -121,6 +124,9 @@ cal_shell_view_taskpad_popup_event_cb (EShellView *shell_view,
 	const gchar *widget_path;
 
 	widget_path = "/calendar-taskpad-popup";
+
+	e_cal_shell_view_taskpad_actions_update (E_CAL_SHELL_VIEW (shell_view));
+
 	e_shell_view_show_popup_menu (shell_view, widget_path, button_event);
 }
 
