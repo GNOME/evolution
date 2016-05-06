@@ -614,6 +614,14 @@ static const char introspection_xml[] =
 "    <method name='DOMSelectionUnindent'>"
 "      <arg type='t' name='page_id' direction='in'/>"
 "    </method>"
+"    <method name='DOMGetCaretWord'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"      <arg type='s' name='word' direction='out'/>"
+"    </method>"
+"    <method name='DOMSelectionHasText'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"      <arg type='b' name='has_text' direction='out'/>"
+"    </method>"
 "<!-- ********************************************************* -->"
 "<!--     Functions that are used in EComposerPrivate           -->"
 "<!-- ********************************************************* -->"
@@ -2281,6 +2289,40 @@ handle_method_call (GDBusConnection *connection,
 		document = webkit_web_page_get_dom_document (web_page);
 		dom_selection_wrap (document, extension);
 		g_dbus_method_invocation_return_value (invocation, NULL);
+	} else if (g_strcmp0 (method_name, "DOMGetCaretWord") == 0) {
+		gchar *word;
+
+		g_variant_get (parameters, "(t)", &page_id);
+
+		web_page = get_webkit_web_page_or_return_dbus_error (
+			invocation, web_extension, page_id);
+		if (!web_page)
+			goto error;
+
+		document = webkit_web_page_get_dom_document (web_page);
+		word = dom_get_caret_word (document);
+
+		g_dbus_method_invocation_return_value (
+			invocation,
+			g_variant_new (
+				"(@s)",
+				g_variant_new_take_string (
+					word ? word : g_strdup (""))));
+	} else if (g_strcmp0 (method_name, "DOMSelectionHasText") == 0) {
+		gboolean value = FALSE;
+
+		g_variant_get (parameters, "(t)", &page_id);
+
+		web_page = get_webkit_web_page_or_return_dbus_error (
+			invocation, web_extension, page_id);
+		if (!web_page)
+			goto error;
+
+		document = webkit_web_page_get_dom_document (web_page);
+		value = dom_selection_has_text (document);
+
+		g_dbus_method_invocation_return_value (
+			invocation, g_variant_new ("(b)", value));
 	} else if (g_strcmp0 (method_name, "DOMRemoveSignatures") == 0) {
 		gboolean top_signature;
 		gchar *active_signature;
