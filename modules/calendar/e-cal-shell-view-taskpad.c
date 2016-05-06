@@ -462,35 +462,35 @@ e_cal_shell_view_taskpad_actions_update (ECalShellView *cal_shell_view)
 
 	action = ACTION (CALENDAR_TASKPAD_ASSIGN);
 	sensitive = (n_selected == 1) && editable && assignable;
-	gtk_action_set_sensitive (action, sensitive);
+	gtk_action_set_visible (action, sensitive);
 
 	action = ACTION (CALENDAR_TASKPAD_FORWARD);
 	sensitive = (n_selected == 1);
-	gtk_action_set_sensitive (action, sensitive);
+	gtk_action_set_visible (action, sensitive);
 
 	action = ACTION (CALENDAR_TASKPAD_MARK_COMPLETE);
 	sensitive = (n_selected > 0) && editable && (n_incomplete > 0);
-	gtk_action_set_sensitive (action, sensitive);
+	gtk_action_set_visible (action, sensitive);
 
 	action = ACTION (CALENDAR_TASKPAD_MARK_INCOMPLETE);
 	sensitive = (n_selected > 0) && editable && (n_complete > 0);
-	gtk_action_set_sensitive (action, sensitive);
+	gtk_action_set_visible (action, sensitive);
 
 	action = ACTION (CALENDAR_TASKPAD_OPEN);
 	sensitive = (n_selected == 1);
-	gtk_action_set_sensitive (action, sensitive);
+	gtk_action_set_visible (action, sensitive);
 
 	action = ACTION (CALENDAR_TASKPAD_OPEN_URL);
 	sensitive = (n_selected == 1) && has_url;
-	gtk_action_set_sensitive (action, sensitive);
+	gtk_action_set_visible (action, sensitive);
 
 	action = ACTION (CALENDAR_TASKPAD_PRINT);
 	sensitive = (n_selected == 1);
-	gtk_action_set_sensitive (action, sensitive);
+	gtk_action_set_visible (action, sensitive);
 
 	action = ACTION (CALENDAR_TASKPAD_SAVE_AS);
 	sensitive = (n_selected == 1);
-	gtk_action_set_sensitive (action, sensitive);
+	gtk_action_set_visible (action, sensitive);
 }
 
 void
