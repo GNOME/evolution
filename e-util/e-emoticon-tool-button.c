@@ -347,6 +347,7 @@ emoticon_tool_button_popup (EEmoticonToolButton *button)
 {
 	GtkToggleToolButton *tool_button;
 	GdkWindow *window;
+	GtkWidget *toplevel;
 	gboolean grab_status;
 	GdkDevice *device, *mouse, *keyboard;
 	guint32 activate_time;
@@ -372,16 +373,16 @@ emoticon_tool_button_popup (EEmoticonToolButton *button)
 	/* Position the window over the button. */
 	emoticon_tool_button_reposition_window (button);
 
-	/* Show the pop-up. */
-	gtk_widget_show (button->priv->window);
-	gtk_widget_grab_focus (button->priv->window);
-
 	/* Activate the tool button. */
 	tool_button = GTK_TOGGLE_TOOL_BUTTON (button);
 	gtk_toggle_tool_button_set_active (tool_button, TRUE);
 
+	toplevel = gtk_widget_get_toplevel (GTK_WIDGET (button));
+	if (GTK_IS_WINDOW (toplevel))
+		gtk_window_set_transient_for (GTK_WINDOW (button->priv->window), GTK_WINDOW (toplevel));
+
 	/* Try to grab the pointer and keyboard. */
-	window = gtk_widget_get_window (button->priv->window);
+	window = gtk_widget_get_window (toplevel);
 	grab_status = !keyboard ||
 		gdk_device_grab (
 			keyboard, window,
@@ -405,6 +406,10 @@ emoticon_tool_button_popup (EEmoticonToolButton *button)
 	} else {
 		gtk_widget_hide (button->priv->window);
 	}
+
+	/* Show the pop-up. */
+	gtk_widget_show (button->priv->window);
+	gtk_widget_grab_focus (button->priv->window);
 }
 
 static void
