@@ -1,3 +1,33 @@
+Evolution 3.20.2 2016-05-09
+---------------------------
+
+Bug Fixes:
+	Bug 765090 - Replying to a message with a reply to an inline patch loses parts at the end of the patch. (Tomas Popela)
+	Bug 765102 - [Wayland] Tooltips for calendar events are misplaced (Milan Crha)
+	Bug 765202 - Reply to List for MIME digest sub-messages (Milan Crha)
+	Bug 765446 - Mail: View->Current view->... no updated on folder change (Milan Crha)
+	Bug 765665 - Notification doesn't use user selected date/time format (Milan Crha)
+	Bug 765636 - Runtime warning from spi_register_deregister_object() on quit (Milan Crha)
+	Bug 435219 - Treat Sent/Outbox subfolders as outgoing folders too (Milan Crha)
+	Bug 765950 - Search bar text change should enable Next/Prev buttons (Milan Crha)
+	Bug 766017 - Taskpad/Memopad Calendar popup menus not updated on popup (Milan Crha)
+
+Miscellaneous:
+	Optimize some of the DOM functions related to selection (Tomas Popela)
+	EMsgComposer - Move the DOM manipulation to EHTMLEditorView (Tomas Popela)
+	EHTMLEditorActions - 'Select All' action is always disabled (Tomas Popela)
+	EHTMLEditorView - Deleting a content in a PRE element could wrap the content in SPAN element (Tomas Popela)
+	EHTMLEditorView - Moving a Preformatted block one level up in the quoted content will change it to Normal (Tomas Popela)
+	EHTMLEditorView - Restore the selection end mark correctly when processing HTML to plain text (Tomas Popela)
+	EHTMLEditorView - Redoing a citation split removes an extra text (Tomas Popela)
+	EHTMLEditorView - Simplify and improve how the undo/redo of delete operation in quoted content is performed (Tomas Popela)
+	Recognize special folders for a global mail view also based on flags (Milan Crha)
+	Rather hide, than disable, items in Taskpad/Memopad context menus (Milan Crha)
+	Correct placement of emoticon and color chooser in composer under Wayland (Milan Crha)
+
+Translations:
+	Kjartan Maraas (nb)
+
 Evolution 3.20.1 2016-04-11
 ---------------------------
 
