@@ -437,7 +437,7 @@ e_mail_identity_combo_box_refresh (EMailIdentityComboBox *combo_box)
 		name = e_source_mail_identity_get_name (extension);
 		address = e_source_mail_identity_get_address (extension);
 
-		if (name == NULL || address == NULL)
+		if (address == NULL)
 			continue;
 
 		queue = g_hash_table_lookup (address_table, address);
@@ -446,7 +446,10 @@ e_mail_identity_combo_box_refresh (EMailIdentityComboBox *combo_box)
 		uid = e_source_get_uid (source);
 
 		string = g_string_sized_new (512);
-		g_string_append_printf (string, "%s <%s>", name, address);
+		if (name && *name)
+			g_string_append_printf (string, "%s <%s>", name, address);
+		else
+			g_string_append_printf (string, "%s", address);
 
 		/* Show the account name for duplicate email addresses. */
 		if (queue != NULL && g_queue_get_length (queue) > 1)

@@ -147,10 +147,13 @@ itip_get_user_identities (ESourceRegistry *registry)
 		name = e_source_mail_identity_get_name (extension);
 		address = e_source_mail_identity_get_address (extension);
 
-		if (name == NULL || address == NULL)
+		if (!address)
 			continue;
 
-		identities[ii++] = g_strdup_printf ("%s <%s>", name, address);
+		if (name && *name)
+			identities[ii++] = g_strdup_printf ("%s <%s>", name, address);
+		else
+			identities[ii++] = g_strdup_printf ("%s", address);
 	}
 
 	g_list_free_full (list, (GDestroyNotify) g_object_unref);
@@ -198,8 +201,12 @@ itip_get_fallback_identity (ESourceRegistry *registry)
 	name = e_source_mail_identity_get_name (mail_identity);
 	address = e_source_mail_identity_get_address (mail_identity);
 
-	if (name != NULL && address != NULL)
-		identity = g_strdup_printf ("%s <%s>", name, address);
+	if (address != NULL) {
+		if (name && *name)
+			identity = g_strdup_printf ("%s <%s>", name, address);
+		else
+			identity = g_strdup_printf ("%s", address);
+	}
 
 	g_object_unref (source);
 
