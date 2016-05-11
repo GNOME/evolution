@@ -946,6 +946,7 @@ receive_done (gpointer data)
 			local_outbox,
 			CAMEL_TRANSPORT (info->service),
 			E_FILTER_SOURCE_OUTGOING,
+			FALSE,
 			info->cancellable,
 			receive_get_folder, info,
 			receive_status, info,
@@ -1610,6 +1611,7 @@ send_receive (GtkWindow *parent,
 				session, local_outbox,
 				CAMEL_TRANSPORT (info->service),
 				E_FILTER_SOURCE_OUTGOING,
+				FALSE,
 				info->cancellable,
 				receive_get_folder, info,
 				receive_status, info,
@@ -1719,6 +1721,7 @@ mail_receive_service (CamelService *service)
 			local_outbox,
 			CAMEL_TRANSPORT (service),
 			E_FILTER_SOURCE_OUTGOING,
+			FALSE,
 			info->cancellable,
 			receive_get_folder, info,
 			receive_status, info,
@@ -1735,8 +1738,9 @@ exit:
 	g_object_unref (session);
 }
 
-void
-mail_send (EMailSession *session)
+static void
+do_mail_send (EMailSession *session,
+	      gboolean immediately)
 {
 	CamelFolder *local_outbox;
 	CamelService *service;
@@ -1792,10 +1796,23 @@ mail_send (EMailSession *session)
 		session, local_outbox,
 		CAMEL_TRANSPORT (service),
 		E_FILTER_SOURCE_OUTGOING,
+		immediately,
 		info->cancellable,
 		receive_get_folder, info,
 		receive_status, info,
 		send_done, info);
 
 	g_object_unref (service);
+}
+
+void
+mail_send (EMailSession *session)
+{
+	do_mail_send (session, FALSE);
+}
+
+void
+mail_send_immediately (EMailSession *session)
+{
+	do_mail_send (session, TRUE);
 }

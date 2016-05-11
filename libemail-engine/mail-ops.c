@@ -552,6 +552,7 @@ struct _send_queue_msg {
 	EMailSession *session;
 	CamelFolder *queue;
 	CamelTransport *transport;
+	gboolean immediately;
 
 	CamelFilterDriver *driver;
 
@@ -945,9 +946,23 @@ send_queue_exec (struct _send_queue_msg *m,
 	CamelFolder *sent_folder;
 	GPtrArray *uids, *send_uids = NULL;
 	gint i, j;
+	time_t delay_send = 0;
 	GError *local_error = NULL;
 
 	d (printf ("sending queue\n"));
+
+	if (!m->immediately) {
+		GSettings *settings;
+
+		settings = e_util_ref_settings ("org.gnome.evolution.mail");
+		if (g_settings_get_boolean (settings, "composer-use-outbox")) {
+			gint delay_flush = g_settings_get_int (settings, "composer-delay-outbox-flush");
+
+			if (delay_flush > 0)
+				delay_send = time (NULL) - (60 * delay_flush);
+		}
+		g_object_unref (settings);
+	}
 
 	sent_folder =
 		e_mail_session_get_local_folder (
@@ -962,7 +977,8 @@ send_queue_exec (struct _send_queue_msg *m,
 
 		info = camel_folder_get_message_info (m->queue, uids->pdata[i]);
 		if (info) {
-			if ((camel_message_info_flags (info) & CAMEL_MESSAGE_DELETED) == 0)
+			if ((camel_message_info_flags (info) & CAMEL_MESSAGE_DELETED) == 0 &&
+			    (!delay_send || camel_message_info_date_sent (info) <= delay_send))
 				send_uids->pdata[j++] = uids->pdata[i];
 			camel_message_info_unref (info);
 		}
@@ -1108,6 +1124,7 @@ mail_send_queue (EMailSession *session,
                  CamelFolder *queue,
                  CamelTransport *transport,
                  const gchar *type,
+		 gboolean immediately,
                  GCancellable *cancellable,
                  CamelFilterGetFolderFunc get_folder,
                  gpointer get_data,
@@ -1126,6 +1143,7 @@ mail_send_queue (EMailSession *session,
 	m->session = g_object_ref (session);
 	m->queue = g_object_ref (queue);
 	m->transport = g_object_ref (transport);
+	m->immediately = immediately;
 	if (G_IS_CANCELLABLE (cancellable))
 		m->base.cancellable = g_object_ref (cancellable);
 	m->status = status;
