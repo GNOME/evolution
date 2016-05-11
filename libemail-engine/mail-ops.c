@@ -1061,7 +1061,7 @@ send_queue_exec (struct _send_queue_msg *m,
 			j, send_uids->len);
 	else if (g_error_matches (
 			m->base.error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
-		report_status (m, CAMEL_FILTER_STATUS_END, 100, _("Canceled."));
+		report_status (m, CAMEL_FILTER_STATUS_END, 100, _("Cancelled."));
 	else
 		report_status (m, CAMEL_FILTER_STATUS_END, 100, _("Complete."));
 

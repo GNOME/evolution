@@ -1170,7 +1170,7 @@ e_comp_editor_property_part_status_new (void)
 		{ ICAL_STATUS_NONE,      NC_("ECompEditor", "Not Started"), TRUE,  NULL },
 		{ ICAL_STATUS_INPROCESS, NC_("ECompEditor", "In Progress"), FALSE, NULL },
 		{ ICAL_STATUS_COMPLETED, NC_("ECompEditor", "Completed"),   FALSE, NULL },
-		{ ICAL_STATUS_CANCELLED, NC_("ECompEditor", "Canceled"),    FALSE, NULL }
+		{ ICAL_STATUS_CANCELLED, NC_("ECompEditor", "Cancelled"),    FALSE, NULL }
 	};
 	gint ii, n_elems = G_N_ELEMENTS (map);
 

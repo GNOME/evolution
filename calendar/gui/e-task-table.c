@@ -210,7 +210,7 @@ task_table_status_compare_cb (gconstpointer a,
 			status_a = 1;
 		else if (same_cache_string (cmp_cache, cache_str, _("Completed")))
 			status_a = 2;
-		else if (same_cache_string (cmp_cache, cache_str, _("Canceled")))
+		else if (same_cache_string (cmp_cache, cache_str, _("Cancelled")))
 			status_a = 3;
 	}
 
@@ -225,7 +225,7 @@ task_table_status_compare_cb (gconstpointer a,
 			status_b = 1;
 		else if (same_cache_string (cmp_cache, cache_str, _("Completed")))
 			status_b = 2;
-		else if (same_cache_string (cmp_cache, cache_str, _("Canceled")))
+		else if (same_cache_string (cmp_cache, cache_str, _("Cancelled")))
 			status_b = 3;
 	}
 
@@ -607,7 +607,7 @@ task_table_constructed (GObject *object)
 	strings = g_list_append (strings, (gchar *) _("Not Started"));
 	strings = g_list_append (strings, (gchar *) _("In Progress"));
 	strings = g_list_append (strings, (gchar *) _("Completed"));
-	strings = g_list_append (strings, (gchar *) _("Canceled"));
+	strings = g_list_append (strings, (gchar *) _("Cancelled"));
 	e_cell_combo_set_popdown_strings (
 		E_CELL_COMBO (popup_cell),
 		strings);

@@ -961,7 +961,7 @@ receive_done (gpointer data)
 			GTK_PROGRESS_BAR (info->progress_bar), 1.0);
 
 		if (info->state == SEND_CANCELLED)
-			text = _("Canceled");
+			text = _("Cancelled");
 		else {
 			text = _("Complete");
 			info->state = SEND_COMPLETE;
