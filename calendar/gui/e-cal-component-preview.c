@@ -305,7 +305,7 @@ cal_component_preview_write_html (ECalComponentPreview *preview,
 			str = g_strdup (_("Completed"));
 			break;
 		case ICAL_STATUS_CANCELLED :
-			str = g_strdup (_("Canceled"));
+			str = g_strdup (_("Cancelled"));
 			break;
 		case ICAL_STATUS_NONE :
 		default :

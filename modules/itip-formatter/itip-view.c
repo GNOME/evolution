@@ -439,9 +439,9 @@ set_calendar_sender_text (ItipView *view)
 		break;
 	case ITIP_VIEW_MODE_CANCEL:
 		if (priv->organizer_sentby)
-			sender = dupe_first_bold (_("%s through %s has canceled the following meeting:"), organizer, priv->organizer_sentby);
+			sender = dupe_first_bold (_("%s through %s has cancelled the following meeting:"), organizer, priv->organizer_sentby);
 		else
-			sender = dupe_first_bold (_("%s has canceled the following meeting:"), organizer, NULL);
+			sender = dupe_first_bold (_("%s has cancelled the following meeting:"), organizer, NULL);
 		break;
 	case ITIP_VIEW_MODE_COUNTER:
 		if (priv->attendee_sentby)
@@ -529,9 +529,9 @@ set_tasklist_sender_text (ItipView *view)
 		break;
 	case ITIP_VIEW_MODE_CANCEL:
 		if (priv->organizer_sentby)
-			sender = dupe_first_bold (_("%s through %s has canceled the following assigned task:"), organizer, priv->organizer_sentby);
+			sender = dupe_first_bold (_("%s through %s has cancelled the following assigned task:"), organizer, priv->organizer_sentby);
 		else
-			sender = dupe_first_bold (_("%s has canceled the following assigned task:"), organizer, NULL);
+			sender = dupe_first_bold (_("%s has cancelled the following assigned task:"), organizer, NULL);
 		break;
 	case ITIP_VIEW_MODE_COUNTER:
 		if (priv->attendee_sentby)
@@ -595,9 +595,9 @@ set_journal_sender_text (ItipView *view)
 		break;
 	case ITIP_VIEW_MODE_CANCEL:
 		if (priv->organizer_sentby)
-			sender = dupe_first_bold (_("%s through %s has canceled the following shared memo:"), organizer, priv->organizer_sentby);
+			sender = dupe_first_bold (_("%s through %s has cancelled the following shared memo:"), organizer, priv->organizer_sentby);
 		else
-			sender = dupe_first_bold (_("%s has canceled the following shared memo:"), organizer, NULL);
+			sender = dupe_first_bold (_("%s has cancelled the following shared memo:"), organizer, NULL);
 		break;
 	default:
 		break;
@@ -4816,7 +4816,7 @@ receive_objects_ready_cb (GObject *ecalclient,
 		/* FIXME some calendars just might not save it at all, is this accurate? */
 		itip_view_add_lower_info_item_printf (
 			view, ITIP_VIEW_INFO_ITEM_TYPE_INFO,
-			_("Sent to calendar '%s' as canceled"), e_source_get_display_name (source));
+			_("Sent to calendar '%s' as cancelled"), e_source_get_display_name (source));
 		break;
 	default:
 		g_warn_if_reached ();

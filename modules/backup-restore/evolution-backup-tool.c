@@ -814,11 +814,11 @@ dlg_response (GtkWidget *dlg,
 	run_cmd ("pkill tar");
 
 	if (bk_file && backup_op && response == GTK_RESPONSE_REJECT) {
-		/* Backup was canceled, delete the
+		/* Backup was cancelled, delete the
 		 * backup file as it is not needed now. */
 		gchar *cmd, *filename;
 
-		g_message ("Back up canceled, removing partial back up file.");
+		g_message ("Back up cancelled, removing partial back up file.");
 
 		filename = g_shell_quote (bk_file);
 		cmd = g_strconcat ("rm ", filename, NULL);

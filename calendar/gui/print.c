@@ -3585,7 +3585,7 @@ print_comp_draw_real (GtkPrintOperation *operation,
 				status_string = _("Completed");
 				break;
 			case ICAL_STATUS_CANCELLED:
-				status_string = _("Canceled");
+				status_string = _("Cancelled");
 				break;
 			default:
 				break;
