@@ -78,6 +78,7 @@ struct _EMailSessionPrivate {
 	gulong source_enabled_handler_id;
 	gulong source_disabled_handler_id;
 	gulong default_mail_account_handler_id;
+	gulong outbox_changed_handler_id;
 
 	CamelService *local_store;
 	CamelService *vfolder_store;
@@ -641,12 +642,36 @@ mail_session_default_mail_account_cb (ESourceRegistry *registry,
 }
 
 static void
+mail_session_outbox_folder_changed_cb (CamelFolder *folder,
+				       CamelFolderChangeInfo *changes,
+				       EMailSession *session)
+{
+	g_return_if_fail (CAMEL_IS_FOLDER (folder));
+	g_return_if_fail (changes != NULL);
+	g_return_if_fail (E_IS_MAIL_SESSION (session));
+
+	if (changes->uid_added && changes->uid_added->len) {
+		GSettings *settings;
+
+		settings = e_util_ref_settings ("org.gnome.evolution.mail");
+		if (g_settings_get_boolean (settings, "composer-use-outbox")) {
+			gint delay_flush = g_settings_get_int (settings, "composer-delay-outbox-flush");
+
+			if (delay_flush > 0)
+				e_mail_session_schedule_outbox_flush (session, delay_flush);
+		}
+		g_object_unref (settings);
+	}
+}
+
+static void
 mail_session_configure_local_store (EMailSession *session)
 {
 	CamelLocalSettings *local_settings;
 	CamelSession *camel_session;
 	CamelSettings *settings;
 	CamelService *service;
+	CamelFolder *folder;
 	const gchar *data_dir;
 	const gchar *uid;
 	gchar *path;
@@ -677,7 +702,6 @@ mail_session_configure_local_store (EMailSession *session)
 
 	/* Populate the local folder cache. */
 	for (ii = 0; ii < E_MAIL_NUM_LOCAL_FOLDERS; ii++) {
-		CamelFolder *folder;
 		gchar *folder_uri;
 		const gchar *display_name;
 		GError *error = NULL;
@@ -704,6 +728,12 @@ mail_session_configure_local_store (EMailSession *session)
 			g_critical ("%s: %s", G_STRFUNC, error->message);
 			g_error_free (error);
 		}
+	}
+
+	folder = e_mail_session_get_local_folder (session, E_MAIL_LOCAL_FOLDER_OUTBOX);
+	if (folder) {
+		session->priv->outbox_changed_handler_id = g_signal_connect (folder, "changed",
+			G_CALLBACK (mail_session_outbox_folder_changed_cb), session);
 	}
 }
 
@@ -900,6 +930,16 @@ mail_session_dispose (GObject *object)
 	EMailSessionPrivate *priv;
 
 	priv = E_MAIL_SESSION_GET_PRIVATE (object);
+
+	if (priv->outbox_changed_handler_id) {
+		CamelFolder *folder;
+
+		folder = e_mail_session_get_local_folder (E_MAIL_SESSION (object), E_MAIL_LOCAL_FOLDER_OUTBOX);
+		if (folder)
+			g_signal_handler_disconnect (folder, priv->outbox_changed_handler_id);
+
+		priv->outbox_changed_handler_id = 0;
+	}
 
 	if (priv->folder_cache != NULL) {
 		g_object_unref (priv->folder_cache);

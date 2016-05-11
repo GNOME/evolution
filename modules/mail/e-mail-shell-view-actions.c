@@ -337,7 +337,7 @@ action_mail_flush_outbox_cb (GtkAction *action,
 	backend = E_MAIL_BACKEND (shell_backend);
 	session = e_mail_backend_get_session (backend);
 
-	mail_send (session);
+	mail_send_immediately (session);
 }
 
 static void
@@ -1300,7 +1300,7 @@ action_mail_send_receive_send_all_cb (GtkAction *action,
 	backend = E_MAIL_BACKEND (shell_backend);
 	session = e_mail_backend_get_session (backend);
 
-	mail_send (session);
+	mail_send_immediately (session);
 }
 
 static void

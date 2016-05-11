@@ -38,6 +38,7 @@ GtkWidget *	mail_receive			(GtkWindow *parent,
 void		mail_receive_service		(CamelService *service);
 
 void		mail_send			(EMailSession *session);
+void		mail_send_immediately		(EMailSession *session);
 
 /* setup auto receive stuff */
 void		mail_autoreceive_init		(EMailSession *session);
