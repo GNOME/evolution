@@ -427,6 +427,16 @@ html_editor_image_dialog_show (GtkWidget *widget)
 		GTK_COMBO_BOX (dialog->priv->height_units), "units-px");
 
 	tmp = webkit_dom_html_image_element_get_border (dialog->priv->image);
+	if (tmp && *tmp) {
+		gint border;
+
+		border = atoi (tmp);
+		gtk_spin_button_set_value (
+			GTK_SPIN_BUTTON (dialog->priv->border_edit), border);
+	}
+	g_free (tmp);
+
+	tmp = webkit_dom_html_image_element_get_align (dialog->priv->image);
 	gtk_combo_box_set_active_id (
 		GTK_COMBO_BOX (dialog->priv->alignment),
 		(tmp && *tmp) ? tmp : "bottom");
