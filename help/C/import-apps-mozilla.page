@@ -6,7 +6,7 @@
     
     <link type="guide" xref="import-data#import-from-apps" />
 
-    <revision pkgversion="3.6.4" version="0.3" date="2013-04-20" status="final"/>
+    <revision pkgversion="3.6.4" version="0.4" date="2016-05-13" status="final"/>
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
       <email its:translate="no">ak-47@gmx.net</email>
@@ -22,9 +22,10 @@
 <!-- TODO: Check https://bugzilla.gnome.org/show_bug.cgi?id=214858 occasionally (Thunderbird automatic mail import) -->
 <!-- TODO: Check https://bugzilla.gnome.org/show_bug.cgi?id=559266 occasionally (Thunderbird mailfilter importer) -->
 <steps>
+<item><p><link href="https://support.mozilla.org/kb/profiles-tb#w_how-to-find-your-profile">Find your <app>Thunderbird</app> profile folder.</p></item>
 <item><p>Click <guiseq><gui>File</gui><gui>Import</gui></guiseq>.</p></item>
 <item><p>In the <gui>Importer Type</gui> tab, click <gui>Import a single file</gui>.</p></item>
-<item><p>Go to the folder in which <app>Thunderbird</app> stores its data. On a Linux system, <app>Thunderbird</app>'s files are located in the hidden folder <file>$HOME/.thunderbird/12345678</file>. <file>12345678</file> will be a random string. If you cannot see the <file>.thunderbird</file> folder, make sure to <link xref="help:gnome-help/files-hidden#show-hidden" href="https://help.gnome.org/users/gnome-help/stable/files-hidden#show-hidden">show hidden files</link> in the file selector dialog.</p></item>
+<item><p>Go to the folder in which <app>Thunderbird</app> stores its data. You will have to make sure to <link xref="help:gnome-help/files-hidden#show-hidden" href="https://help.gnome.org/users/gnome-help/stable/files-hidden#show-hidden">show hidden files</link> in the file selector dialog.</p></item>
 <item>
 <list>
 <item><p>If you would like to import <app>Thunderbird</app> mail, go to <file>Mail/Local Folders</file> (for local mail accounts) or <file>ImapMail/servername</file> (for remote mail accounts). <file>servername</file> will be the address of your remote mail server. Files without a file ending include your messages (not the <file>.msf</file> files).</p></item>
