@@ -2,7 +2,7 @@
       type="topic" id="intro-application">
 
   <info>
-    <desc>An introduction to <app>Evolution<app>.</desc>
+    <desc>An introduction to <app>Evolution</app>.</desc>
 
      <link type="guide" xref="index#getting-started"/>
 
