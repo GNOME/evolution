@@ -38,7 +38,7 @@
 
 <section id="autocompletion">
 <title>Autocompletion</title>
-<p>It is recommended to use the <link xref="contacts-autocompletion">Autocompletion</link> feature of the Evolution address book for entering addresses. By using this you avoid typos and save time.</p>
+<p>It is recommended to use the <link xref="contacts-autocompletion">Autocompletion</link> feature of the <app>Evolution</app> address book for entering addresses. By using this you avoid typos and save time.</p>
 </section>
 
 <section id="to-cc-bcc-buttons">

@@ -24,7 +24,7 @@
 <item><p>Click <guiseq><gui>File</gui><gui>Import</gui></guiseq>.</p></item>
 <item><p>In the <gui>Importer Type</gui> tab, click <gui>Import a single file</gui>.</p></item>
 <item><p>Choose the file.</p><p>The file type will be automatically determined.</p></item>
-<item><p>Choose the destination (e.g. the folder in Evolution) for the imported data.</p></item>
+<item><p>Choose the destination (e.g. the folder in <app>Evolution</app>) for the imported data.</p></item>
 </steps>
 
 <note style="tip"><p>You can also import contacts that you have received as a vCard attachment of an email from its attachment menu.</p></note>

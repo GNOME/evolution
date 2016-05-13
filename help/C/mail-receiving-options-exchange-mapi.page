@@ -28,7 +28,7 @@
 <item><p>Enter the address of the email server in the <gui>Server</gui> field and enter your username for that server.</p></item>
 <item><p>Enter the Domain name for that server.</p>
 <note style="tip"><p>If you are in an organizational environment, you may want to contact your system administrator for more information.</p></note></item>
-<item><p>Select your authentication type in the Authentication list, or click <gui style="button">Check for Supported Types</gui> to have Evolution check for supported authentication mechanisms. Some servers do not announce the authentication mechanisms they support, so clicking this button is not a guarantee that available mechanisms actually work.</p></item>
+<item><p>Select your authentication type in the Authentication list, or click <gui style="button">Check for Supported Types</gui> to have <app>Evolution</app> check for supported authentication mechanisms. Some servers do not announce the authentication mechanisms they support, so clicking this button is not a guarantee that available mechanisms actually work.</p></item>
 <item><p>Select if you want to use a secure connection (SSL or TLS).</p></item>
 <item><p>Click <gui style="button">Authenticate</gui> and enter your password.</p></item>
 </list>
@@ -41,8 +41,8 @@
 <p>On the <gui>Receiving Options</gui> page (accessible via <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</gui><gui style="button">Edit</gui><gui>Receiving Options</gui></guiseq>):</p>
 
 <list>
-<item><p>If you want Evolution to check automatically for new messages, click the <gui>Check for new messages every … minutes</gui> option and select the frequency in minutes.</p></item>
-<item><p>You can also define if Evolution checks for new messages in all folders.</p></item>
+<item><p>If you want <app>Evolution</app> to check automatically for new messages, click the <gui>Check for new messages every … minutes</gui> option and select the frequency in minutes.</p></item>
+<item><p>You can also define if <app>Evolution</app> checks for new messages in all folders.</p></item>
 </list>
 
 </section>

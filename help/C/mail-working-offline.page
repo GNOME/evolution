@@ -22,11 +22,11 @@
 
 <title>Working Offline</title>
 
-<p>Forced offline mode helps you communicate with remote mail storage systems like GroupWise, IMAP or Exchange, in situations where you are not connected to the network at all times. Evolution keeps a local copy of one or more folders to allow you to compose messages, storing them in your Outbox to be sent the next time you connect.</p>
+<p>Forced offline mode helps you communicate with remote mail storage systems like GroupWise, IMAP or Exchange, in situations where you are not connected to the network at all times. <app>Evolution</app> keeps a local copy of one or more folders to allow you to compose messages, storing them in your Outbox to be sent the next time you connect.</p>
 
-<note style="warning"><p>Evolution's forced offline mode only refers to mail and does not apply to contacts and calendars.</p></note>
+<note style="warning"><p><app>Evolution</app>'s forced offline mode only refers to mail and does not apply to contacts and calendars.</p></note>
 
-<p>POP mail downloads all messages to your local system, but other connections usually download just the headers, and get the rest only when you want to read the message. Before you force Evolution to be offline, Evolution downloads the unread messages from the folders you have chosen to store.</p>
+<p>POP mail downloads all messages to your local system, but other connections usually download just the headers, and get the rest only when you want to read the message. Before you force <app>Evolution</app> to be offline, <app>Evolution</app> downloads the unread messages from the folders you have chosen to store.</p>
 
 <section id="mark-folders">
 <title>Marking folders for offline usage</title>
@@ -39,13 +39,13 @@
 
 <section id="sync-for-offline">
 <title>Syncing messages for offline usage</title>
-<p>Your connection status is shown by the small icon in the lower left corner of the Evolution main window. When you are online, it displays two connected cables. When you force offline mode via clicking the icon or via <guiseq><gui>File</gui><gui>Work Offline</gui></guiseq>, the cables separate. You will be asked whether you want to go offline immediately or synchronize folders locally before you go offline.</p>
+<p>Your connection status is shown by the small icon in the lower left corner of the <app>Evolution</app> main window. When you are online, it displays two connected cables. When you force offline mode via clicking the icon or via <guiseq><gui>File</gui><gui>Work Offline</gui></guiseq>, the cables separate. You will be asked whether you want to go offline immediately or synchronize folders locally before you go offline.</p>
 <p>To download Messages for Offline Operations without immediately going offline, select <guiseq><gui>File</gui><gui>Download Messages for Offline Usage</gui></guiseq>.</p>
 </section>
 
 <section id="network-manager-integration">
 <title>Automatic Network State Handling</title>
-<p>Evolution automatically understands the network state and acts accordingly. For instance, Evolution switches to offline mode when the network goes down and automatically switches on when the network is up again.</p>
+<p><app>Evolution</app> automatically understands the network state and acts accordingly. For instance, <app>Evolution</app> switches to offline mode when the network goes down and automatically switches on when the network is up again.</p>
 </section>
 
 </page>

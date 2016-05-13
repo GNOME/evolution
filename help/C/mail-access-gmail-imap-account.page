@@ -21,7 +21,7 @@
 
 <!-- Page only exists for the <note>, apart from that nothing special. -->
 
-<title>Access a Gmail IMAP Account via Evolution</title>
+<title>Access a Gmail IMAP Account via <app>Evolution</app></title>
 
 <p>Please refer to the <link xref="mail-account-manage-imap-plus">IMAP+ mail account settings</link>.</p>
 

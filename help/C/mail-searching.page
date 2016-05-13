@@ -47,7 +47,7 @@
 <note style="tip"><p>For the <gui>Current Account</gui> scope, the term "account" refers to top-level nodes in the <link xref="intro-main-window#e-mail"> mail folder list</link>, like "On this computer" and remote mail accounts.</p></note>
 </item>
 <item><p>Enter the text you want to search for and press <key>Enter</key>.</p></item>
-<item><p>Evolution displays the search results.</p></item>
+<item><p><app>Evolution</app> displays the search results.</p></item>
 </steps>
 <note style="tip"><p>If you start directly from the fourth step, text will be searched in mail's subjects and addresses and scope will be "Current folder".</p></note>
 <note style="tip"><p>If you search for messages that are not in the same folder rather often you might want to create a search folder instead; see <link xref="mail-search-folders">Using Search Folders</link> for more detail.</p></note>

@@ -23,7 +23,7 @@
 
 <title>Moved emails are still shown in the original folder</title>
 
-<p>If your IMAP mail server does not yet support <link href="http://tools.ietf.org/html/rfc6851">IMAP's "move" feature</link> which was introduced in January 2013, Evolution "moves" messages by copying and deleting emails. Deleting means "marking messages for deletion" so all the original messages are retained until you expunge the emails marked for deletion.</p>
+<p>If your IMAP mail server does not yet support <link href="http://tools.ietf.org/html/rfc6851">IMAP's "move" feature</link> which was introduced in January 2013, <app>Evolution</app> "moves" messages by copying and deleting emails. Deleting means "marking messages for deletion" so all the original messages are retained until you expunge the emails marked for deletion.</p>
 
 <p>See the topic on <link xref="mail-delete-and-undelete">deleting emails</link> for instructions on how to expunge email messages. Note that this applies to other types of accounts as well.</p>
 

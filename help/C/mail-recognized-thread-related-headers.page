@@ -2,7 +2,7 @@
       type="topic" id="mail-recognized-thread-related-headers">
 
   <info>
-    <desc>Which thread-related headers are recognized by Evolution.</desc>
+    <desc>Which thread-related headers are recognized by <app>Evolution</app>.</desc>
     
     <link type="guide" xref="index#common-mail-problems" />
 
@@ -17,9 +17,9 @@
 
   </info>
 
-<title>Thread related headers recognized by Evolution</title>
+<title>Thread related headers recognized by <app>Evolution</app></title>
 
-<p>Evolution supports the following headers:</p>
+<p><app>Evolution</app> supports the following headers:</p>
 <list>
 <item><p>References</p></item>
 <item><p>In-Reply-To</p></item>

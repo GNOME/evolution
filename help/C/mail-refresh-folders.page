@@ -2,7 +2,7 @@
       type="topic" id="mail-refresh-folders">
 
   <info>
-    <desc>Ways to update your Evolution folders.</desc>
+    <desc>Ways to update your <app>Evolution</app> folders.</desc>
     
     <link type="guide" xref="index#common-mail-problems" />
 

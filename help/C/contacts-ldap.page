@@ -135,8 +135,8 @@
     </item>
     <item>
       <p>You can also mark the network folder for offline usage. To mark the
-      folder, right-click the folder, click Properties and select Copy Folder
-      Content Locally for Offline Operation.</p>
+      folder, right-click the folder, click <gui>Properties</gui> and select
+      <gui>Copy folder content locally for offline operation</gui>.</p>
     </item>
     <item>
       <p>To prevent excess network traffic, <app>Evolution</app> does not

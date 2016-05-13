@@ -22,7 +22,7 @@
 
 <title>Collapsible Message Headers</title>
 
-<p>Evolution compresses the To, Cc and Bcc headers of received mail and shows only five addresses in the message preview.</p>
+<p><app>Evolution</app> compresses the To, Cc and Bcc headers of received mail and shows only five addresses in the message preview.</p>
 
 <p>To see all recipients, click the <media type="image" its:translate="no" src="./figures/plus-icon.png"></media> icon next to the <gui>To:</gui> or <gui>Cc:</gui> line, or click the ellipsis (…) at the end of the five displayed addresses.</p>
 

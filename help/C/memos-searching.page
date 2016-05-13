@@ -43,13 +43,13 @@
 <item><p>Click the search icon <media type="image" mime="image/png" its:translate="no" src="figures/search-icon.png"/> to expand the drop-down list.</p></item>
 <item><p>Select the search condition from the list.</p></item>
 <item><p>Enter the text you want to search for and press <key>Enter</key>.</p></item>
-<item><p>Evolution displays the search results.</p></item>
+<item><p><app>Evolution</app> displays the search results.</p></item>
 </steps>
 <p>Searching by category:</p>
 <steps>
 <item><p>Click the <gui>Show</gui> drop-down list.</p></item>
 <item><p>Select the category from the list.</p></item>
-<item><p>Evolution displays the search results.</p></item>
+<item><p><app>Evolution</app> displays the search results.</p></item>
 </steps>
 <p>If you want to set several search conditions, you should use an Advanced search, which is described below.</p>
 </section>

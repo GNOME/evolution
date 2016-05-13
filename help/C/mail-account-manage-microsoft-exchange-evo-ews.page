@@ -2,7 +2,7 @@
       type="guide" id="mail-account-manage-microsoft-exchange-evo-ews">
 
   <info>
-    <desc>Add and edit a Microsoft Exchange 2007 or 2010 account in Evolution.</desc>
+    <desc>Add and edit a Microsoft Exchange 2007 or 2010 account in <app>Evolution</app>.</desc>
 
   <link type="guide" xref="mail-account-manage-microsoft-exchange" group="#first"/>
 

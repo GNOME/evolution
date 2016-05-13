@@ -2,7 +2,7 @@
       type="topic" id="mail-search-folders-refresh">
 
   <info>
-    <desc>Ways of updating Search folders.</desc>
+    <desc>Ways of updating <gui>Search</gui> folders.</desc>
     
     <link type="guide" xref="mail-search-folders" />
 
@@ -21,9 +21,9 @@
 
   </info>
 
-<title>Updating/refreshing Search folders</title>
+<title>Updating/refreshing <gui>Search</gui> folders</title>
 
-<p>It might happen that one of your Search folders has not updated since some new email arrived or since an email was deleted, for example. This will mean that the list of emails in the folder is not up-to-date.</p>
+<p>It might happen that one of your <gui>Search</gui> folders has not updated since some new email arrived or since an email was deleted, for example. This will mean that the list of emails in the folder is not up-to-date.</p>
 
 <p>You can get an updated view of the search folder either by switching to another folder and then back again, or by right-clicking on the search folder and choosing <gui>Refresh</gui>.</p>
 

@@ -2,7 +2,7 @@
       type="topic" id="import-apps-mozilla">
 
   <info>
-    <desc>Importing data from Mozilla Thunderbird.</desc>
+    <desc>Importing data from Mozilla <app>Thunderbird</app>.</desc>
     
     <link type="guide" xref="import-data#import-from-apps" />
 
@@ -24,14 +24,14 @@
 <steps>
 <item><p>Click <guiseq><gui>File</gui><gui>Import</gui></guiseq>.</p></item>
 <item><p>In the <gui>Importer Type</gui> tab, click <gui>Import a single file</gui>.</p></item>
-<item><p>Go to the folder in which Thunderbird stores its data. On a Linux system, Thunderbird's files are located in the hidden folder <file>$HOME/.thunderbird/12345678</file>. <file>12345678</file> will be a random string. If you cannot see the <file>.thunderbird</file> folder, make sure to <link xref="help:gnome-help/files-hidden#show-hidden" href="https://help.gnome.org/users/gnome-help/stable/files-hidden#show-hidden">show hidden files</link> in the file selector dialog.</p></item>
+<item><p>Go to the folder in which <app>Thunderbird</app> stores its data. On a Linux system, <app>Thunderbird</app>'s files are located in the hidden folder <file>$HOME/.thunderbird/12345678</file>. <file>12345678</file> will be a random string. If you cannot see the <file>.thunderbird</file> folder, make sure to <link xref="help:gnome-help/files-hidden#show-hidden" href="https://help.gnome.org/users/gnome-help/stable/files-hidden#show-hidden">show hidden files</link> in the file selector dialog.</p></item>
 <item>
 <list>
-<item><p>If you would like to import Thunderbird mail, go to <file>Mail/Local Folders</file> (for local mail accounts) or <file>ImapMail/servername</file> (for remote mail accounts). <file>servername</file> will be the address of your remote mail server. Files without a file ending include your messages (not the <file>.msf</file> files).</p></item>
-<item><p>If you would like to import Thunderbird/Lightning calendar data, you may be able to export your Thunderbird events as an <file>.ical</file>/<file>.ics</file> file first, and import these files into Evolution. This is required as Thunderbird stores its calendar data in a non-standard database format.</p></item>
+<item><p>If you would like to import <app>Thunderbird</app> mail, go to <file>Mail/Local Folders</file> (for local mail accounts) or <file>ImapMail/servername</file> (for remote mail accounts). <file>servername</file> will be the address of your remote mail server. Files without a file ending include your messages (not the <file>.msf</file> files).</p></item>
+<item><p>If you would like to import <app>Thunderbird/Lightning</app> calendar data, you may be able to export your <app>Thunderbird</app> events as an <file>.ical</file>/<file>.ics</file> file first, and import these files into <app>Evolution</app>. This is required as <app>Thunderbird</app> stores its calendar data in a non-standard database format.</p></item>
 </list>
 <p>The file type will be automatically determined.</p></item>
-<item><p>Choose the destination (e.g. the folder or calendar in Evolution) for the imported data.</p></item>
+<item><p>Choose the destination (e.g. the folder or calendar in <app>Evolution</app>) for the imported data.</p></item>
 <item><p>Repeat the import steps until you have imported all your data.</p></item>
 </steps>
 </page>

@@ -35,6 +35,6 @@
 
 <p>You can request read receipts by selecting <guiseq><gui>Options</gui><gui>Request Read Receipt</gui></guiseq> in the menu of the composer window or clicking the corresponding toolbar icon.</p>
 
-<p>For read receipts that you receive you can define Evolution's behavior under <gui>Message Receipts</gui> under the account's <link xref="mail-default-folder-locations"><gui>Defaults</gui></link>.</p>
+<p>For read receipts that you receive you can define <app>Evolution</app>'s behavior under <gui>Message Receipts</gui> under the account's <link xref="mail-default-folder-locations"><gui>Defaults</gui></link>.</p>
 
 </page>

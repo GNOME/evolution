@@ -34,7 +34,7 @@ included by XInclude. See http://blogs.gnome.org/shaunm/2011/07/21/understanding
 <p>Filters messages according the server you got them from. This is most useful if you use multiple POP mail accounts.</p></item>
 
 <item><p>Pipe to Program:</p>
-<p>Evolution can use an external command to process a message, then process it based on the return value. Commands used in this way must return an integer. This is most commonly used to add an external junk mail filter.</p></item>
+<p><app>Evolution</app> can use an external command to process a message, then process it based on the return value. Commands used in this way must return an integer. This is most commonly used to add an external junk mail filter.</p></item>
 
 <item><p>Junk Test:</p>
 <p>Filters based on the results of the <link xref="mail-spam">junk mail</link> test.</p></item>

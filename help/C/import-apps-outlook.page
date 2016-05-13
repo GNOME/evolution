@@ -23,7 +23,7 @@
   <title>Outlook</title>
 <!-- "Import data and settings from older programs" cannot recognize Outlook, as there obviously is no default storage location for Outlook *under Linux* -->
 
-<p>These steps refer to locally stored data such as POP accounts. For remote data (like IMAP) this is not necessary, since the data is still on the server and does not need to be manually transferred. You can set up the corresponding account in Evolution and the data will be downloaded.</p>
+<p>These steps refer to locally stored data such as POP accounts. For remote data (like IMAP) this is not necessary, since the data is still on the server and does not need to be manually transferred. You can set up the corresponding account in <app>Evolution</app> and the data will be downloaded.</p>
 
 <section id="prerequisites">
 <title>Prerequisites under Windows</title>
@@ -44,17 +44,17 @@
 <p>(Replace "username" by your username.)</p>
 </item>
 <!-- File locations taken from http://support.microsoft.com/kb/2291280 and http://answers.microsoft.com/en-us/windows/forum/windows_7-files/where-is-location-of-outlookpst-file-in-windows-7/3a4c03c3-e8ad-4912-9e37-f1c62057d1f9 -->
-<item><p>Copy the Outlook files to the system or partition that Evolution is installed on.</p>
+<item><p>Copy the Outlook files to the system or partition that <app>Evolution</app> is installed on.</p>
 <p>As your Windows hard drive is probably in the NTFS format, some Linux systems cannot read it without additional software. You might find it simpler to copy the mail folders to a USB drive or to burn a CD.</p></item>
 </steps>
 </section>
 
 <section id="importing">
-<title>Importing into Evolution</title>
+<title>Importing into <app>Evolution</app></title>
 <steps>
 <item><p>Depending on your last step, either plug in the disk or USB drive with the data and wait until the file manager window opens, or mount your Windows drive.</p></item>
 <item><p>Copy all the mail files into your home directory or another convenient place.</p></item>
-<item><p>Start Evolution.</p></item>
+<item><p>Start <app>Evolution</app>.</p></item>
 <item><p>Optionally select <guiseq><gui>File</gui><gui>New</gui><gui>Mail Folder</gui></guiseq> to create the <link xref="mail-folders">folders</link> you want.</p></item>
 
 <item><p>Click <guiseq><gui>File</gui><gui>Import</gui></guiseq>.</p></item>
@@ -62,7 +62,7 @@
 <item><p>Choose the Outlook personal folders (.pst) file that you would like to import.</p><p>The file type will be automatically determined.</p>
 <note style="tip"><p>If the option to import Outlook personal folders (.pst files) is not available under <guiseq><gui>File</gui><gui>Import</gui><gui>Import single file</gui><gui>File type</gui></guiseq>, your distribution might have not enabled this functionality.</p></note>
 </item>
-<item><p>Choose the destination (e.g. the folder in Evolution) for the imported data.</p></item>
+<item><p>Choose the destination (e.g. the folder in <app>Evolution</app>) for the imported data.</p></item>
 <item><p>Repeat the import steps until you have imported all your data.</p></item>
 </steps>
 

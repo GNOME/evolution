@@ -2,7 +2,7 @@
       type="topic" id="data-storage">
 
   <info>
-    <desc>Where does Evolution store my data on the harddisk?</desc>
+    <desc>Where does <app>Evolution</app> store my data on the harddisk?</desc>
     
     <link type="guide" xref="index#common-other-problems" />
 
@@ -23,7 +23,7 @@
 <p>This is only interesting for advanced users who want to debug problems.</p>
 </note>
 
-<p>Evolution 3.6 and later stores its data according to the <link href="http://www.freedesktop.org/wiki/Specifications/basedir-spec">XDG Base Directory Specification</link>. By default this means:</p>
+<p><app>Evolution</app> 3.6 and later stores its data according to the <link href="http://www.freedesktop.org/wiki/Specifications/basedir-spec">XDG Base Directory Specification</link>. By default this means:</p>
 
 <terms>
 <item>

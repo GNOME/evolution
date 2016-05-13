@@ -2,7 +2,7 @@
       type="guide" id="mail-account-manage-imap-plus">
 
   <info>
-    <desc>Add and edit an IMAP+ mail account in Evolution.</desc>
+    <desc>Add and edit an IMAP+ mail account in <app>Evolution</app>.</desc>
 
     <link type="guide" xref="mail-account-management#mail-common-account-types"/>
 

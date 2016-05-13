@@ -30,7 +30,7 @@
   <p>If you cannot see any emails at all in a folder, check that you have not maximized the message preview (so the message list pane is hidden). To do this, click <guiseq><gui>View</gui><gui>Preview</gui><gui>Show Message Preview</gui></guiseq>.</p>
  </item>
  <item>
-  <p>Look in the <gui>Junk</gui> folder. Messages that are marked as Junk disappear from the original folder and are moved to the Junk folder.
+  <p>Look in the <gui>Junk</gui> folder. Messages that are marked as Junk disappear from the original folder and are moved to the <gui>Junk</gui> folder.
   </p>
  </item>
  <!-- Does the following option still exist? -->

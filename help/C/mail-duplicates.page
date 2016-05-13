@@ -34,7 +34,7 @@
 <p>Downloading duplicate emails may be due to one of the following reasons:</p>
 <list>
 <item><p>There are several copies of the same message in the mailbox</p></item>
-<item><p>Evolution is having a problem with the UIDL extension.</p></item>
+<item><p><app>Evolution</app> is having a problem with the UIDL extension.</p></item>
 <item><p>The cache files located at <file>$HOME/.local/share/evolution/mail/local/</file> are not writable.</p></item>
 </list>
 </section>

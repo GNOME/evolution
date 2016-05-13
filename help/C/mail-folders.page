@@ -27,7 +27,7 @@
 
   <title>Using Folders</title>
   
-<p>Evolution, like most mail systems, uses folders to store email messages. You start out with a few mail folders such as the Inbox, Outbox, and Drafts. You can, however, create more folders if required.</p>
+<p><app>Evolution</app>, like most mail systems, uses folders to store email messages. You start out with a few mail folders such as the Inbox, Outbox, and Drafts. You can, however, create more folders if required.</p>
 
 <section id="create-folder">
 <title>Creating A Folder</title>
@@ -40,7 +40,7 @@
 <p>The new folder will be shown in the folder view. You can then move messages into the folder.</p>
 
 <note style="warning">
-<p>The Inbox folders on most IMAP servers cannot contain both messages and subfolders. When creating additional folders on your IMAP mail server, branch the folders from the root of the IMAP account and not from the Inbox. Creating subfolders in your Inbox may prevent you from reading messages that exist in the Inbox. If this happens, move the folders to the IMAP account.</p>
+<p>The <gui>Inbox</gui> folders on most IMAP servers cannot contain both messages and subfolders. When creating additional folders on your IMAP mail server, branch the folders from the root of the IMAP account and not from the Inbox. Creating subfolders in your Inbox may prevent you from reading messages that exist in the Inbox. If this happens, move the folders to the IMAP account.</p>
 </note>
 
 </section>

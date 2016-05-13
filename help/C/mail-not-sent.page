@@ -24,7 +24,7 @@
 <list>
 <item><p>Invalid email address. Check if all the addresses listed as mail recipients are correct. If the message contains a wrong or invalid email address, the message will not be sent.</p></item>
 <item><p>Incorrect SMTP settings. Verify if the settings used for outgoing messages are correct. Using the incorrect server address or authentication method may prevent emails from being sent.</p></item>
-<item><p>Offline status. Evolution may be offline. Check on the <gui style="button">Send and Receive</gui> button; if it is greyed out, then you are offline. To go online, go to <guiseq><gui>File</gui><gui>Work online</gui></guiseq>. You should now be able to use the <gui style="button">Send and Receive</gui> button.</p></item>
+<item><p>Offline status. <app>Evolution</app> may be offline. Check on the <gui style="button">Send and Receive</gui> button; if it is greyed out, then you are offline. To go online, go to <guiseq><gui>File</gui><gui>Work online</gui></guiseq>. You should now be able to use the <gui style="button">Send and Receive</gui> button.</p></item>
 </list>
 
 </page>

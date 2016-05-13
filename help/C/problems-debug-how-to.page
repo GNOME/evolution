@@ -22,9 +22,9 @@
 
 <p>As a first hint, error messages will be either displayed in the statusbar or between the tool bar and the search bar.</p>
 
-<p>To further track down a problem, some debug options are listed on the <link href="https://wiki.gnome.org/Apps/Evolution/Debugging">Evolution project website</link>.</p>
+<p>To further track down a problem, some debug options are listed on the <link href="https://wiki.gnome.org/Apps/Evolution/Debugging"><app>Evolution</app> project website</link>.</p>
 
-<p>To contact the Evolution community for help, please see <link xref="problems-getting-help">How to get help</link>.</p>
+<p>To contact the <app>Evolution</app> community for help, please see <link xref="problems-getting-help">How to get help</link>.</p>
 
 <!-- Debug logs as described in http://library.gnome.org/users/evolution/2.32/b1a4ol61.html.en do not exist anymore in 3.0 -->
 </page>

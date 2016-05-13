@@ -31,7 +31,7 @@
 </item>
 <item><p>If the server requires authentication, you need to provide the following information:</p>
 <list>
-  <item><p>Select the authentication type in the Authentication list, or click <gui>Check for Supported Types</gui> to have Evolution check. Some servers do not support this, so clicking this button is not a guarantee that available mechanisms actually work.</p></item>
+  <item><p>Select the authentication type in the Authentication list, or click <gui>Check for Supported Types</gui> to have <app>Evolution</app> check. Some servers do not support this, so clicking this button is not a guarantee that available mechanisms actually work.</p></item>
   <item><p>Enter your username.</p></item>
 </list>
 </item>

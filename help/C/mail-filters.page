@@ -24,7 +24,7 @@
 
 <p>Message filters apply actions on messages based on conditions that you have defined. You can define filters for both incoming and outgoing emails.</p>
 
-<p>Filters will be automatically applied to incoming messages for local accounts (such as POP). Mail servers for remote accounts (such as IMAP) often already filter mail directly on the server as this is faster. If you want to apply your Evolution filters to remote accounts, you can enable this under <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</gui><gui style="button">Edit</gui><gui>Receiving Options</gui><gui>Options</gui><gui>Apply filters to new messages in Inbox on this server</gui></guiseq>.</p>
+<p>Filters will be automatically applied to incoming messages for local accounts (such as POP). Mail servers for remote accounts (such as IMAP) often already filter mail directly on the server as this is faster. If you want to apply your <app>Evolution</app> filters to remote accounts, you can enable this under <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</gui><gui style="button">Edit</gui><gui>Receiving Options</gui><gui>Options</gui><gui>Apply filters to new messages in Inbox on this server</gui></guiseq>.</p>
 
 <p>To manually apply filters on messages in a folder, select the messages and click <guiseq><gui>Message</gui><gui>Apply Filters</gui></guiseq> or press <keyseq><key>Ctrl</key><key>Y</key></keyseq>.</p>
 <p>You can select all messages in a folder by clicking <guiseq><gui>Edit</gui><gui>Select All</gui></guiseq> or pressing <keyseq><key>Ctrl</key><key>A</key></keyseq>.</p>

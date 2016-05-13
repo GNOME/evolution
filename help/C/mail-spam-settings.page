@@ -59,8 +59,8 @@
 
 <section id="preferences">
 <title>Junk Mail Preferences</title>
-<note style="tip"><p>The junk mail options discussed in this page refer only to POP and Local Delivery accounts. For handling junk mail on IMAP accounts, see the Evolution settings under <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</gui><gui style="button">Edit</gui><gui>Receiving Options</gui></guiseq>.</p></note>
-<p>You can modify how Evolution handles junk mail by changing the Junk Mail Preferences:</p>
+<note style="tip"><p>The junk mail options discussed in this page refer only to POP and Local Delivery accounts. For handling junk mail on IMAP accounts, see the <app>Evolution</app> settings under <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</gui><gui style="button">Edit</gui><gui>Receiving Options</gui></guiseq>.</p></note>
+<p>You can modify how <app>Evolution</app> handles junk mail by changing the Junk Mail Preferences:</p>
 <steps>
 <item><p>Click <guiseq><gui>Edit</gui><gui>Preferences</gui></guiseq> or press <keyseq><key>Shift</key><key>Ctrl</key><key>S</key></keyseq>.</p></item>
 <item><p>Select <gui>Mail Preferences</gui>.</p></item>

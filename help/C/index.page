@@ -4,7 +4,7 @@
   <info>
     <desc>Manage your email, contacts and schedule</desc>
     <title type='link' role="trail"><media type="image" its:translate="no" src="figures/evolutionlogo.png"/></title>
-    <title type='text'>Evolution Mail and Calendar</title>
+    <title type='text'><app>Evolution</app> Mail and Calendar</title>
     <revision pkgversion="3.8.2" version="0.7" date="2013-06-22" status="final"/>
     <credit type="author">
       <name its:translate="no">Phil Bull</name>
@@ -24,7 +24,7 @@
   <media type="image" its:translate="no" src="figures/evolutionlogo.png">
     <span its:translate="yes">Evolution logo</span>
   </media>
-  Evolution Mail and Calendar
+ <app>Evolution</app> Mail and Calendar
 </title>
 
   <section id="getting-started" style="2column">

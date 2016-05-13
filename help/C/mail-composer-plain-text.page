@@ -26,7 +26,7 @@
 <section id="headers-and-lists">
  <title>Headers and Lists:</title>
  <p>At the left of the upper tool bar, you can choose <gui>Normal</gui> for a default text style or <gui>Header 1</gui> through <gui>Header 6</gui> for varying sizes of header from large (1) to tiny (6). Other styles include <gui>Preformat</gui>, to use the HTML tag for preformatted blocks of text, and three types of bullet points for lists.</p>
- <p>For instance, instead of using asterisks to mark a bulleted list, you can use the <gui>Bulleted List</gui> style from the style dropdown list. Evolution uses different bullet styles, and handles word wrap and multiple levels of indentation.</p>
+ <p>For instance, instead of using asterisks to mark a bulleted list, you can use the <gui>Bulleted List</gui> style from the style dropdown list. <app>Evolution</app> uses different bullet styles, and handles word wrap and multiple levels of indentation.</p>
 </section>
 
 <section id="alignment">

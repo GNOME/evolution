@@ -21,7 +21,7 @@
 
 <p>Lists of this type are read-only.</p>
 
-<p>To add such a task list or memo list to Evolution, perform the following steps:</p>
+<p>To add such a task list or memo list to <app>Evolution</app>, perform the following steps:</p>
 <steps>
 <item><p>Click <guiseq><gui>File</gui><gui>New</gui><gui>Task List</gui></guiseq> or <guiseq><gui>File</gui><gui>New</gui><gui>Memo List</gui></guiseq>.</p></item>
 <item><p>Select the type <gui>On the Web</gui>.</p></item>
@@ -34,6 +34,6 @@
 <item><p>Click <gui style="button">Apply</gui>.</p></item>
 </steps>
 
-<p>The list will be added in Evolution.</p>
+<p>The list will be added in <app>Evolution</app>.</p>
 
 </page>

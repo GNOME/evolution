@@ -31,8 +31,8 @@
 <item><p>Enter the address of the email server in the <gui>Server</gui> field and enter your username for that server.</p></item>
 <item><p>Select if you want to use a secure connection (SSL or TLS).</p><p>You should enable this option if your server supports it.</p>
 <note style="tip"><p>Free webmail providers often supply information about which of these options can be used. If you are in an organizational environment, you may want to contact your system administrator for more information.</p></note></item>
-<item><p>Select your authentication type in the Authentication list, or click <gui style="button">Check for Supported Types</gui> to have Evolution check for supported authentication mechanisms. Some servers do not announce the authentication mechanisms they support, so clicking this button is not a guarantee that available mechanisms actually work.</p></item>
-<item><p>Select if you want Evolution to remember your password.</p></item>
+<item><p>Select your authentication type in the Authentication list, or click <gui style="button">Check for Supported Types</gui> to have <app>Evolution</app> check for supported authentication mechanisms. Some servers do not announce the authentication mechanisms they support, so clicking this button is not a guarantee that available mechanisms actually work.</p></item>
+<item><p>Select if you want <app>Evolution</app> to remember your password.</p></item>
 </list>
 
 </section>
@@ -43,12 +43,12 @@
 <p>On the <gui>Receiving Options</gui> page (accessible via <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</gui><gui style="button">Edit</gui><gui>Receiving Options</gui></guiseq>):</p>
 
 <list>
-<item><p>If you want Evolution to check automatically for new messages, click the <gui>Check for new messages every … minutes</gui> option and select the frequency in minutes.</p></item>
+<item><p>If you want <app>Evolution</app> to check automatically for new messages, click the <gui>Check for new messages every … minutes</gui> option and select the frequency in minutes.</p></item>
 <item><p>Select <gui>Use Quick Resync</gui> if the IMAP server supports <link href="http://tools.ietf.org/html/rfc5162">IMAP4 Extensions for Quick Mailbox Resynchronization</link>.</p></item>
 <!-- https://bugzilla.gnome.org/show_bug.cgi?id=730460 -->
-<item><p>If the mail server does not allow multiple connections from Evolution to the server at the same time (for example when you have more than one account on that server), set <gui>Number of concurrent connections to use</gui> to 1.</p></item>
-<item><p>You can also define if Evolution checks for new messages in all folders, or only in subscribed folders.</p></item>
-<item><p>Select if you want Evolution to show only <link xref="mail-imap-subscriptions">subscribed folders</link>.</p></item>
+<item><p>If the mail server does not allow multiple connections from <app>Evolution</app> to the server at the same time (for example when you have more than one account on that server), set <gui>Number of concurrent connections to use</gui> to 1.</p></item>
+<item><p>You can also define if <app>Evolution</app> checks for new messages in all folders, or only in subscribed folders.</p></item>
+<item><p>Select if you want <app>Evolution</app> to show only <link xref="mail-imap-subscriptions">subscribed folders</link>.</p></item>
 <item><p>Select if you want <link xref="mail-filters">filters</link> to be automatically applied on mail that you receive, if <link xref="mail-spam-marking">spam</link> should be automatically filtered, and if <link xref="mail-working-offline">mail on the server should be synchronized with your local copy for offline access to it</link>.</p></item></list>
 
 </section>

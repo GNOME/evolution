@@ -20,7 +20,7 @@
 
   <title>Using Labels</title>
 
-<p>You can add colored labels to emails in order to categorize them. This is similar to <link xref="using-categories">Categories</link> in the other Evolution windows.</p>
+<p>You can add colored labels to emails in order to categorize them. This is similar to <link xref="using-categories">Categories</link> in the other <app>Evolution</app> windows.</p>
 
 <p>You can search for messages with specific labels by using the <link xref="mail-searching">quick search dropdown</link>. Also, <link xref="mail-search-folders">search folders</link> can be created based on labels.</p>
 

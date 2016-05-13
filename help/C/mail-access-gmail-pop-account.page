@@ -25,9 +25,9 @@
 
 
 
-<title>Access a Gmail POP Account via Evolution</title>
+<title>Access a Gmail POP Account via <app>Evolution</app></title>
 
-<p>Follow these steps to set up your Gmail POP Account in Evolution:</p>
+<p>Follow these steps to set up your Gmail POP Account in <app>Evolution</app>:</p>
 
 <steps>
 <item><p>Log in to your Gmail account.</p></item>
@@ -40,7 +40,7 @@
 </item>
 <item><p>Specify the other required settings for this Gmail feature.</p></item>
 <item><p>To know the Gmail Account settings, click on <gui>Configuration instructions</gui>. Choose <gui>I want to enable POP</gui> and select <gui>Other</gui> from the list of clients.</p></item>
-<item><p>On your Evolution client, go to <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</gui></guiseq>. Click <gui style="button">Add</gui>. </p></item>
+<item><p>On your <app>Evolution</app> client, go to <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</gui></guiseq>. Click <gui style="button">Add</gui>. </p></item>
 <item><p>Provide the required information. For the account settings, refer to Step 5.</p></item>
 </steps>
 </page>
