@@ -36,7 +36,7 @@ Select this item to repeat the last search you performed.</p></item>
 Find a word or phrase, and replace it with something else.</p></item>
 </list>
 
-<p>For all of these menu items you can choose whether to search backwards in the document from the point where your cursor is. You can also determine whether the search is to be case sensitive in determining a match</p>
+<p>For all of these menu items you can choose whether to search backwards in the document from the point where your cursor is. You can also determine whether the search is to be case sensitive in determining a match.</p>
 <p>If you have a technical background you can also select the option to use <link href="https://en.wikipedia.org/wiki/Regular_expression">Regular expressions</link> for searching.</p>
 
 </page>

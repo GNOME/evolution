@@ -32,7 +32,7 @@
 <p>(For advanced users only) Combine numerous conditions by using a <link href="https://bugzilla.gnome.org/show_bug.cgi?id=550796#c10">special syntax</link>.</p></item>
 
 <item><p>Date sent:</p>
-<p>Filters messages according to the date on which they were sent. First, choose the conditions you want a message to meet, such as before a given time or after a given time. Then choose the time. The filter compares the message's time stamp to the system clock when the filter is run, or to a specific time and date you choose from a calendar. You can also have it look for a message within a range of time relative to the filter, such as two to four days ago.</p></item>
+<p>Filters messages according to the date on which they were sent. First, choose the conditions you want a message to meet, such as before a given date or after a given date. Then choose the time. The filter compares the message's time stamp to the system clock when the filter is run, or to a specific time and date you choose from a calendar. You can also have it look for a message within a range of time relative to the filter, such as two to four days ago.</p></item>
 
 <item><p>Date received:</p>
 <p>This works the same way as the Date Sent option, except that it compares the time you received the message with the dates you specify.</p></item>
@@ -62,6 +62,6 @@
 <p>Filters based on the mailing list the message came from. This filter might miss messages from some list servers, because it checks for the X-BeenThere header, which is used to identify mailing lists or other redistributors of mail. Mail from list servers that do not set X-BeenThere properly are not be caught by these filters.</p></item>
 
 <item><p>Regex Match:</p>
-<p>(For programmers only) If you know your way around a <link href="https://en.wikipedia.org/wiki/Regular_expression">regex</link>, or regular expression, this option allows you to search for complex patterns of letters, so that you can find, for example, all words that start with a and end with m, and are between six and fifteen letters long, or all messages that declare a particular header twice. For information about how to use regular expressions, check <link href="man:grep">the man page for the <cmd>grep</cmd></link> command.</p></item>
+<p>(For programmers only) If you know your way around a <link href="https://en.wikipedia.org/wiki/Regular_expression">regex</link>, or regular expression, this option allows you to search for complex patterns of letters, so that you can find, for example, all words that start with "a" and end with "m", and are between six and fifteen letters long, or all messages that declare a particular header twice. For information about how to use regular expressions, check <link href="man:grep">the man page for the <cmd>grep</cmd></link> command.</p></item>
 
 </info>

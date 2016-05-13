@@ -2,7 +2,7 @@
       type="topic" id="mail-encryption-gpg-create-key">
 
   <info>
-    <desc>Signing or encrypting messages via GPG/OpenPGP that you send.</desc>
+    <desc>Signing or encrypting messages that you send via GPG/OpenPGP.</desc>
 
     <link type="guide" xref="mail-encryption#gpg"/>
 

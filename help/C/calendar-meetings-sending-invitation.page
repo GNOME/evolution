@@ -32,7 +32,7 @@
 
   <p>If you do not need to collect attendance information when you're
   scheduling an event, and would rather just announce the event, right-click
-  the meeting and select <gui>Forward as iCalendar</gui>. This opens a new
+  the meeting and select <gui>Forward as iCalendar...</gui>. This opens a new
   email message with the event notification attached as an announcement.
   Recipients can add the event to their calendars with one click, but it will
   not automatically send you email about whether they plan to attend.</p>
