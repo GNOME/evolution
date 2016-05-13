@@ -35,7 +35,7 @@
   <item><p>Enter your username.</p></item>
 </list>
 </item>
-<item><p>Choose <gui>Use secure connection</gui> if you want to connect securely.</p></item>
+<item><p>Choose <gui>Use a secure connection</gui> if you want to connect securely.</p></item>
 </list>
 
 </page>

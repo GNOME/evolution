@@ -27,7 +27,7 @@
 <item><p>Optionally choose a color that you prefer.</p></item>
 <item><p>Choose if you want to be able to view the content also while offline.</p></item>
 <item><p>Enter the address in the <gui>URL</gui> field.</p></item>
-<item><p>Choose <gui>Use secure connection</gui> if you want to connect securely.</p></item>
+<item><p>Choose <gui>Use a secure connection</gui> if you want to connect securely.</p></item>
 <item><p>Enter your username and your email address.</p></item>
 <item><p>Click <gui style="button">Apply</gui>.</p></item>
 </steps>

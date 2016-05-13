@@ -33,7 +33,7 @@
 <title>Creating a Filter</title>
 
 <steps>
-<item><p>Click <guiseq><gui>Edit</gui><gui>Message Filters</gui></guiseq>, or click <guiseq><gui>Message</gui><gui>Create Rule</gui></guiseq> and select the criterion the filter will be based on.</p></item>
+<item><p>Click <guiseq><gui>Edit</gui><gui>Message Filters</gui></guiseq>, or click <guiseq><gui>Message</gui><gui>Create</gui></guiseq> and select the criterion the filter will be based on.</p></item>
 <item><p>Click <gui style="button">Add</gui>.</p></item>
 <item><p>Enter a name in the <gui>Rule name</gui> field.</p></item>
 <item><p>Define the conditions for the rule. For each condition, you first select which part of the message will be checked and then define the comparison.</p><p>For more information on the available conditions see <link xref="mail-filters-conditions">Available Filter conditions</link>.</p></item>

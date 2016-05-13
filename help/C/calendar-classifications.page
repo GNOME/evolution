@@ -29,7 +29,7 @@
   server, you can select a classification to determine who can view it.</p>
 
   <p>To set a classification for an appointment or a task, click
-  <guiseq><gui>Options</gui><gui>Classifications</gui></guiseq> and select a
+  <guiseq><gui>Options</gui><gui>Classification</gui></guiseq> and select a
   classification in the editor. <gui>Public</gui> is the default category, and
   a public appointment can be viewed by anyone on the calendar-sharing network.
   <gui>Private</gui> denotes one level of security, and <gui>Confidential</gui>

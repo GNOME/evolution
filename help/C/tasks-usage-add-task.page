@@ -39,7 +39,7 @@
 <p>Evolution can be used to assign a task to multiple people.</p>
 <p>When you assign a task, you can specify the attendees in several categories, such as "chair" or "required". When you save the task, each attendee is sent an email with the task information, which also gives them the option to respond.</p>
 <p>This is similar to <link xref="calendar-meetings-sending-invitation">meetings</link>.</p>
-<p>To create an Assigned Task, click <guiseq><gui>File</gui><gui>New</gui><gui>Assigned Task</gui></guiseq>.</p>
+<p>To create an assigned task, click <guiseq><gui>File</gui><gui>New</gui><gui>Assigned Task</gui></guiseq>.</p>
 </section>
 
 </page>

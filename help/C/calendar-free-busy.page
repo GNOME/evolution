@@ -93,9 +93,9 @@
 
   <p>In corporate environments you can publish Calendar and Free/Busy
   information to an Exchange or Groupwise server. Note that you must use the
-  top-level Exchange calendar if you want others to be able to access your Free
-  / Busy information when inviting you to a meeting.</p> <p>The default server
-  can be defined under
+  top-level Exchange calendar if you want others to be able to access your
+  Free/Busy information when inviting you to a meeting.</p> <p>The default
+  server can be defined under
   <guiseq><gui>Edit</gui><gui>Preferences</gui>
   <gui>Calendar and Tasks</gui>
   <gui>Publishing Information</gui>

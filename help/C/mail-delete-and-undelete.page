@@ -29,7 +29,7 @@
 
 <p>To delete a message, select it and press the <key>Delete</key> key, or click the <gui style="button">Delete</gui> button in the toolbar, or press <keyseq><key>Ctrl</key><key>D</key></keyseq>, or right-click the message and click <gui>Delete</gui>.</p>
 
-<p>When you press Delete or click the Trash folder, your mail is not actually deleted, but is marked for deletion. You can see all message marked for deletion in the Trash folder. To show deleted messages, click <guiseq><gui>View</gui><gui>Show Deleted Messages</gui></guiseq>. You can view the messages striken off for later deletion.</p>
+<p>When you press Delete or click the Trash folder, your mail is not actually deleted, but is marked for deletion. You can see all message marked for deletion in the Trash folder. To show deleted messages, click <guiseq><gui>View</gui><gui>Show Deleted Messages</gui></guiseq>. You can view the messages stricken off for later deletion.</p>
 
 <p>To permanently erase all the deleted messages in a folder, click <guiseq><gui>Folder</gui><gui>Expunge</gui></guiseq> or press <keyseq><key>Ctrl</key><key>E</key></keyseq>.</p>
 </section>
@@ -37,7 +37,7 @@
 <section id="undelete">
 <title>Undeleting Messages</title>
 
-<p>You can undelete a message that has been deleted but not expunged yet. To undelete a message, select the message, click <guiseq><gui>Edit</gui><gui>Undelete message</gui></guiseq>. Note that <guiseq><gui>View</gui><gui>Show Deleted Messages</gui></guiseq> must be enabled for this.</p>
+<p>You can undelete a message that has been deleted but not expunged yet. To undelete a message, select the message, click <guiseq><gui>Edit</gui><gui>Undelete message</gui></guiseq>. Note that <guiseq><gui>View</gui><gui>Show Deleted Messages</gui></guiseq> must be enabled for this to work.</p>
 
 <p>If you have marked a message for deletion, undeleting it unmarks it, and the message is not shown anymore in the Trash folder.</p>
 </section>
