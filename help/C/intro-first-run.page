@@ -5,7 +5,7 @@
       type="topic" id="intro-first-run">
 
   <info>
-    <desc>Running Evolution for the very first time.</desc>
+    <desc>Running <app>Evolution</app> for the very first time.</desc>
 
     <link type="guide" xref="index#getting-started"/>
 
@@ -22,7 +22,7 @@
 
   <title>Starting <app>Evolution</app> for the first time</title>
 
-<p>The first time you run Evolution, it opens the First-Run Assistant to help you set up email accounts and <link xref="import-data">import data from other applications.</link></p>
+<p>The first time you run <app>Evolution</app>, it opens the First-Run Assistant to help you set up email accounts and <link xref="import-data">import data from other applications.</link></p>
 
 <include href="xinclude-mail-account-identity.xml"
  xpointer="xmlns(mal=http://projectmallard.org/1.0/)xpointer(/mal:info/mal:section)"
@@ -228,7 +228,7 @@
 
 <section id="server-type-none">
 <title>None</title>
-<p>If you do not plan to use Evolution for receiving email.</p>
+<p>If you do not plan to use <app>Evolution</app> for receiving email.</p>
 </section>
 
 </section>

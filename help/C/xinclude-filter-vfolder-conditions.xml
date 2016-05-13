@@ -20,13 +20,13 @@
 
 <item><p>Specific Header:</p>
 <p>Any header including <link xref="mail-composer-custom-header-lines">custom ones</link>.</p>
-<p>If a message uses a header more than once, Evolution pays attention only to the first instance, even if the message defines the header differently the second time. For example, if a message declares the Resent-From: header as "engineering@example.com" and then restates it as "marketing@example.com", Evolution filters as though the second declaration did not occur. To filter on messages that use headers multiple times, use a regular expression.</p></item>
+<p>If a message uses a header more than once, <app>Evolution</app> pays attention only to the first instance, even if the message defines the header differently the second time. For example, if a message declares the Resent-From: header as "engineering@example.com" and then restates it as "marketing@example.com", <app>Evolution</app> filters as though the second declaration did not occur. To filter on messages that use headers multiple times, use a regular expression.</p></item>
 
 <item><p>Message Body:</p>
 <p>Searches in the actual text of the message.</p></item>
 
 <item><p>Expression:</p>
-<p>(For programmers only) Match a message according to an expression you write in the Scheme language used to define <link xref="mail-filters">filters</link> in Evolution.</p></item>
+<p>(For programmers only) Match a message according to an expression you write in the Scheme language used to define <link xref="mail-filters">filters</link> in <app>Evolution</app>.</p></item>
 
 <item><p>Free Form Expression:</p>
 <p>(For advanced users only) Combine numerous conditions by using a <link href="https://bugzilla.gnome.org/show_bug.cgi?id=550796#c10">special syntax</link>.</p></item>

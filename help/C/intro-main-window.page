@@ -2,7 +2,7 @@
       type="topic" id="intro-main-window">
 
   <info>
-    <desc>An explanation of the areas shown in the Evolution window.</desc>
+    <desc>An explanation of the areas shown in the <app>Evolution</app> window.</desc>
 
     <link type="guide" xref="index#getting-started"/>
     <link type="seealso" xref="calendar-layout"/>
@@ -29,13 +29,13 @@
   <title>The <app>Evolution</app> main window</title>
 
 <!-- This section fixes https://bugzilla.gnome.org/show_bug.cgi?id=657028 -->
-<p>Evolution provides functionality for Email, Calendar, Contacts, Tasks, and Memos. You can switch to another functionality by using the "Switcher" buttons in the lower left corner. Depending on the displayed functionality also the displayed elements in the window differ.</p>
+<p><app>Evolution</app> provides functionality for Email, Calendar, Contacts, Tasks, and Memos. You can switch to another functionality by using the "Switcher" buttons in the lower left corner. Depending on the displayed functionality also the displayed elements in the window differ.</p>
 
 <section id="e-mail">
 <title>Mail</title>
 
 <media type="image" src="./figures/window-overview-layers.png" width="600">
-  <p>The Evolution mail main window</p>
+  <p>The <app>Evolution</app> mail main window</p>
 </media>
 
 <p>Corresponding elements in the mail main window:</p>
@@ -74,7 +74,7 @@
 </item>
 <item>
 <title>Switcher</title>
-<p>The switcher at the bottom of the side bar lets you switch between the Evolution tools:  Mail, Contacts, Calendars, Memos and Tasks.</p><p>For more information see <link xref="change-switcher-appearance">Changing the Switcher appearance</link>.</p>
+<p>The switcher at the bottom of the side bar lets you switch between the <app>Evolution</app> tools:  Mail, Contacts, Calendars, Memos and Tasks.</p><p>For more information see <link xref="change-switcher-appearance">Changing the Switcher appearance</link>.</p>
 <note style="tip"><p>You can disable the folder list and the switcher side bar by toggling <guiseq><gui>View</gui><gui>Layout</gui><gui>Show Side Bar</gui></guiseq> or pressing <key>F9</key>.</p></note>
 </item>
 <item>

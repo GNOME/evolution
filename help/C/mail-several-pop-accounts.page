@@ -21,7 +21,7 @@
 
 <title>Separating POP mail for more than one account</title>
 
-<p>It is not possible to have separate accounts in the accounts and folder list pane. Evolution only has one unique inbox for incoming email.</p>
+<p>It is not possible to have separate accounts in the accounts and folder list pane. <app>Evolution</app> only has one unique inbox for incoming email.</p>
 <p>You can either use IMAP instead of POP, or move incoming emails into different folders by <link xref="mail-folders">creating folders</link> and <link xref="mail-filters">creating filters</link>: Create a new folder and create two subfolders (for incoming and for sent mail of that account). Now set up an incoming filter via <guiseq><gui>Edit</gui><gui>Message Filters…</gui><gui style="button">Add</gui></guiseq> to move incoming mail to the incoming folder by filtering on the recipient's address and set up an outgoing filter to move outgoing mail to the sent folder by filtering on the sender's address.</p>
 
 <!-- https://bugzilla.gnome.org/show_bug.cgi?id=273944 -->

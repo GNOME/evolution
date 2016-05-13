@@ -19,13 +19,13 @@
         
   </info>
 
-  <title>Using Search folders</title>
+  <title>Using <gui>Search</gui> folders</title>
   
 <p>If <link xref="mail-filters">filters</link> are not flexible enough, or you find yourself performing the same <link xref="mail-searching">search</link> again and again, consider a search folder.</p>
 
 <p>A search folder looks like a <link xref="mail-folders">folder</link>, it acts like a <link xref="mail-searching">search</link>, and you set it up like a <link xref="mail-filters">filter</link>. While a conventional folder actually contains messages, a search folder is a view of messages that might be in several different folders. The messages it contains are determined on the fly using a set of criteria that you have chosen when setting up the search folder.</p>
 
-<p>Evolution automatically updates the search folder contents when new messages are received or message are deleted.</p>
+<p><app>Evolution</app> automatically updates the search folder contents when new messages are received or message are deleted.</p>
 
 <p>The <gui>Unmatched</gui> search folder is the opposite of other search folders: it displays all messages that do not appear in other search folders.</p>
 

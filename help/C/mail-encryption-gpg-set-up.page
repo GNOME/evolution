@@ -35,6 +35,6 @@
 <item><p>Click <gui style="button">OK</gui>.</p></item>
 <item><p>Click <gui style="button">Close</gui>.</p></item>
 </steps>
-<p>Evolution requires that you know your key ID. If you do not remember it, start <app>Passwords and Keys</app>, go to <gui>GnuPG Keys</gui>, select the preferred GPG key, right-click on it, select <gui>Properties</gui> and copy the <gui>Key ID</gui>. Your key ID is an eight-character string with random numbers and letters.</p>
+<p><app>Evolution</app> requires that you know your key ID. If you do not remember it, start <app>Passwords and Keys</app>, go to <gui>GnuPG Keys</gui>, select the preferred GPG key, right-click on it, select <gui>Properties</gui> and copy the <gui>Key ID</gui>. Your key ID is an eight-character string with random numbers and letters.</p>
 
 </page>

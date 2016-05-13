@@ -2,7 +2,7 @@
       type="guide" id="deleting-to-free-disk-space">
 
   <info>
-    <desc>Deleting emails and calendar entries to reduce the size of the files used by Evolution.</desc>
+    <desc>Deleting emails and calendar entries to reduce the size of the files used by <app>Evolution</app>.</desc>
     
     <link type="guide" xref="index#common-other-problems" />
 

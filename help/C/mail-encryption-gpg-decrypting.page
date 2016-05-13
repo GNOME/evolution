@@ -25,12 +25,12 @@
 <section id="decryption">
 <title>Decrypting a received message</title>
 <p>If you receive an encrypted message, you need to decrypt it before you can read it.</p>
-<p>When you view the message, Evolution prompts you for your PGP password. Enter it, and the unencrypted message is displayed.</p>
+<p>When you view the message, <app>Evolution</app> prompts you for your PGP password. Enter it, and the unencrypted message is displayed.</p>
 <note style="tip"><p>Senders must have your GPG public key before they can send you an encrypted message.</p></note>
 </section>
 
 <section id="signature">
 <title>Checking the signature of a received message</title>
-<p>To check the sender's signature of a received message, scroll down to the bottom of the message and click the logo. Evolution will display <gui>Security Information</gui> for the message.</p>
+<p>To check the sender's signature of a received message, scroll down to the bottom of the message and click the logo. <app>Evolution</app> will display <gui>Security Information</gui> for the message.</p>
 </section>
 </page>

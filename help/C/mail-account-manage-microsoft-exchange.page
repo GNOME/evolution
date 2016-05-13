@@ -2,7 +2,7 @@
       type="guide" id="mail-account-manage-microsoft-exchange">
 
   <info>
-    <desc>Add and edit a Microsoft Exchange account in Evolution.</desc>
+    <desc>Add and edit a Microsoft Exchange account in <app>Evolution</app>.</desc>
 
     <link type="guide" xref="mail-account-management#mail-corporate-account-types"/>
     <link type="guide" xref="exchange-placeholder"/>

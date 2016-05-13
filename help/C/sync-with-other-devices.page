@@ -2,7 +2,7 @@
       type="topic" id="sync-with-other-devices">
 
   <info>
-    <desc>Synchronize Evolution data with handheld devices and mobile phones.</desc>
+    <desc>Synchronize <app>Evolution</app> data with handheld devices and mobile phones.</desc>
 
     <link type="guide" xref="index#data-migration-and-sync"/>
 
@@ -14,7 +14,7 @@
     
     <include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
     
-<!-- TODO:POST-3-8: Find out how to sync modern devices, e.g. Android, iPhone, Nokia N97 / N900, N9, N950, etc. Maybe SyncEvolution is the recommended (and external) way here? -->
+<!-- TODO:POST-3-8: Find out how to sync modern devices, e.g. Android, iPhone, Nokia N97 / N900, N9, N950, etc. Maybe Syn <app>Evolution</app> is the recommended (and external) way here? -->
   </info>
 
   <title>Synchronize <app>Evolution</app> with other devices</title>

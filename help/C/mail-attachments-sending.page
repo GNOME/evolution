@@ -39,7 +39,7 @@
 <section id="reminders">
 <title>Attachment Reminder</title>
 
-<p>Evolution has an Attachment Reminder plugin you can use to remind yourself to attach a file to an email. If it determines that you have not attached the file, it displays a reminder window before the email is sent.</p>
+<p><app>Evolution</app> has an Attachment Reminder plugin you can use to remind yourself to attach a file to an email. If it determines that you have not attached the file, it displays a reminder window before the email is sent.</p>
 
 <p>To enable the Attachment Reminder:</p>
 <steps>
@@ -48,7 +48,7 @@
 <item><p>Click the <gui>Configuration</gui> tab.</p></item>
 <item><p>Click <gui style="button">Add</gui>, then enter keywords in your language such as "Attach" or "enclosed".</p></item>
 </steps>
-<p>Based on the keywords you have added, Evolution searches the text of every mail you are going to send. If it finds any of the keywords in your email and there is no actual attached file, the reminder window is displayed.</p>
+<p>Based on the keywords you have added, <app>Evolution</app> searches the text of every mail you are going to send. If it finds any of the keywords in your email and there is no actual attached file, the reminder window is displayed.</p>
 
 </section>
 

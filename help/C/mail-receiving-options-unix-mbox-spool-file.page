@@ -36,7 +36,7 @@
 <p>On the <gui>Receiving Options</gui> page (accessible via <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</gui><gui style="button">Edit</gui><gui>Receiving Options</gui></guiseq>):</p>
 
 <list>
-<item><p>If you want Evolution to check automatically for new messages, click the <gui>Check for new messages every … minutes</gui> option and select the frequency in minutes.</p></item>
+<item><p>If you want <app>Evolution</app> to check automatically for new messages, click the <gui>Check for new messages every … minutes</gui> option and select the frequency in minutes.</p></item>
 <item><p>If you want <link xref="mail-filters">Filters</link> to be automatically used for new messages in your inbox, enable <gui>Apply filters to new messages in Inbox</gui>.</p></item>
 </list>
 

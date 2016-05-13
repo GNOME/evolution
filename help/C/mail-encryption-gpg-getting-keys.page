@@ -22,5 +22,5 @@
 
   <title>Getting and using GPG public keys</title>
 
-<p>To send an encrypted message, you need to use the recipient's public key in combination with your private key. Evolution handles the encryption, but you need to <link xref="help:seahorse/pgp-import" href="https://help.gnome.org/users/seahorse/stable/pgp-import">get the public key and add it to your keyring</link>.</p>
+<p>To send an encrypted message, you need to use the recipient's public key in combination with your private key. <app>Evolution</app> handles the encryption, but you need to <link xref="help:seahorse/pgp-import" href="https://help.gnome.org/users/seahorse/stable/pgp-import">get the public key and add it to your keyring</link>.</p>
 </page>

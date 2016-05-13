@@ -24,6 +24,6 @@
 
 <p>You can prioritize a message to be sent, so that the recipient sees its relative importance. To prioritize a message, select <guiseq><gui>Options</gui><gui>Prioritize Message</gui></guiseq> in the menu of the composer window or click the corresponding toolbar icon.</p>
 
-<note style="tip"><p>Evolution will ignore the message priority of incoming messages because the recipient should decide whether the message is important or not. You can set the "Important" flag for any messages.</p></note>
+<note style="tip"><p><app>Evolution</app> will ignore the message priority of incoming messages because the recipient should decide whether the message is important or not. You can set the "Important" flag for any messages.</p></note>
 <!-- TODO: Nowhere is explained how to set the Important flag. -->
 </page>

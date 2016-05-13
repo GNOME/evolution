@@ -33,7 +33,7 @@
 
 <section id="marking-junk">
 <title>Manually Marking Junk Mail</title>
-<p>If Evolution misses junk mail, right-click the message, then click <gui>Mark as Junk</gui>, or mark the message and press <keyseq><key>Ctrl</key><key>J</key></keyseq> or click the <gui>Junk</gui> button in the tool bar. When you correct it, the filter can recognize similar messages in the future, and becomes more accurate as time goes on.</p>
+<p>If <app>Evolution</app> misses junk mail, right-click the message, then click <gui>Mark as Junk</gui>, or mark the message and press <keyseq><key>Ctrl</key><key>J</key></keyseq> or click the <gui>Junk</gui> button in the tool bar. When you correct it, the filter can recognize similar messages in the future, and becomes more accurate as time goes on.</p>
 <p>If legitimate mail is incorrectly flagged, remove it from the <gui>Junk</gui> folder by right-clicking it and selecting <gui>Mark as Not Junk</gui> or pressing <keyseq><key>Shift</key><key>Ctrl</key><key>J</key></keyseq>, or mark the message and click the <gui>Not Junk</gui> button.</p>
 
 </section>

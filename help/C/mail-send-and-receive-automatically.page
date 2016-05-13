@@ -18,9 +18,9 @@
   </info>
 
 <title>Automatically check for new mail</title>
-<p>If you want Evolution to check automatically for new messages, enable the option <gui>Check for new messages every … minutes</gui> in the <gui>Receiving Options</gui> page of the mail account settings (accessible via <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</gui><gui style="button">Edit</gui><gui>Receiving Options</gui></guiseq>) and select the frequency in minutes.</p>
+<p>If you want <app>Evolution</app> to check automatically for new messages, enable the option <gui>Check for new messages every … minutes</gui> in the <gui>Receiving Options</gui> page of the mail account settings (accessible via <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</gui><gui style="button">Edit</gui><gui>Receiving Options</gui></guiseq>) and select the frequency in minutes.</p>
 
-<note style="advanced"><p>Evolution supports <link href="https://en.wikipedia.org/wiki/IMAP_IDLE">IMAP IDLE</link> on the currently selected folder and partially supports the <link href="http://tools.ietf.org/search/rfc5465">IMAP NOTIFY</link> extension.</p></note>
+<note style="advanced"><p><app>Evolution</app> supports <link href="https://en.wikipedia.org/wiki/IMAP_IDLE">IMAP IDLE</link> on the currently selected folder and partially supports the <link href="http://tools.ietf.org/search/rfc5465">IMAP NOTIFY</link> extension.</p></note>
 
 </page>
 

@@ -2,7 +2,7 @@
       type="topic" id="offline">
 
   <info>
-    <desc>Make Evolution mail be online again.</desc>
+    <desc>Make <app>Evolution</app> mail be online again.</desc>
     
     <link type="guide" xref="index#common-other-problems"/>
     <link type="seealso" xref="mail-working-offline" />
@@ -24,19 +24,19 @@
     
 
   </info>
-<title>Why is Evolution's mail component offline?</title>
-<p>You may have started Evolution with the <cmd>--offline</cmd> commandline option to enforce offline mode.</p>
+<title>Why is <app>Evolution</app>'s mail component offline?</title>
+<p>You may have started <app>Evolution</app> with the <cmd>--offline</cmd> commandline option to enforce offline mode.</p>
 
-<p>If this is not the case and Evolution normally works but has suddenly stopped connecting to your mail accounts, you may have unintentionally clicked on the connection icon in the lower left corner. When connected, the icon resembles a pair of sockets joined together. If the sockets are open, there is no connection to your mail accounts (and the <gui style="button">Send/Receive</gui> button is grayed out). Click on the icon to change its state.</p>
+<p>If this is not the case and <app>Evolution</app> normally works but has suddenly stopped connecting to your mail accounts, you may have unintentionally clicked on the connection icon in the lower left corner. When connected, the icon resembles a pair of sockets joined together. If the sockets are open, there is no connection to your mail accounts (and the <gui style="button">Send/Receive</gui> button is grayed out). Click on the icon to change its state.</p>
 
 <p>If the problem persists and you are sure you have not clicked the icon, but you can still reach the network from other apps on your system (browsers, FTP, SSH, ping etc.) it may be that your network connection is not properly configured. For more information please take a look at the <link xref="help:gnome-help/net-problem" href="https://help.gnome.org/users/gnome-help/stable/net-problem">Desktop help</link> or seek help from your distribution support forums, mailing lists etc.</p>
 
 <!-- from https://bugzilla.gnome.org/show_bug.cgi?id=728604 -->
-<p>If you want to force Evolution to be in online mode, make sure that Evolution is not running and open a <app>Terminal</app> window and type the following command:</p>
+<p>If you want to force <app>Evolution</app> to be in online mode, make sure that <app>Evolution</app> is not running and open a <app>Terminal</app> window and type the following command:</p>
      <p><cmd its:translate="no">
          GIO_USE_NETWORK_MONITOR=base evolution
      </cmd></p>
 
-<note style="warning"><p>Evolution's forced offline mode only refers to mail and does not apply to contacts and calendars.</p></note>
+<note style="warning"><p><app>Evolution</app>'s forced offline mode only refers to mail and does not apply to contacts and calendars.</p></note>
 
 </page>

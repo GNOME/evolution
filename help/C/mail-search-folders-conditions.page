@@ -20,7 +20,7 @@
     
   </info>
 
-  <title>Available Search folder conditions</title>
+  <title>Available <gui>Search</gui> folder conditions</title>
 
 <list>
 
@@ -31,7 +31,7 @@ included by XInclude. See http://blogs.gnome.org/shaunm/2011/07/21/understanding
   xmlns="http://www.w3.org/2001/XInclude"/>
 
 <item><p>Message Location:</p>
-<p>Checks whether the message is located in a specific folder.</p><p>Note that by default, Evolution's <gui>Trash</gui> and <gui>Junk</gui> folders are <link xref="mail-search-folders">Search folders</link> so they cannot be selected here.</p></item>
+<p>Checks whether the message is located in a specific folder.</p><p>Note that by default, <app>Evolution</app>'s <gui>Trash</gui> and <gui>Junk</gui> folders are <link xref="mail-search-folders"><gui>Search</gui> folders</link> so they cannot be selected here.</p></item>
 
 <item><p>Match All:</p>
 <p>Applies an action always to any message, without further conditions. This could be useful at the end of the list of search folders to cover those emails that did not match any conditions for the preceding search folders in the list.</p></item>

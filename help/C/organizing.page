@@ -2,7 +2,7 @@
       type="guide" id="organizing">
 
   <info>
-    <desc>On organizing and finding your data in Evolution.</desc>
+    <desc>On organizing and finding your data in <app>Evolution</app>.</desc>
 
     <revision pkgversion="2.32.1" version="0.1" date="2011-01-05" status="stub"/>
     <credit type="author">

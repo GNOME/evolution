@@ -21,7 +21,7 @@
 
   <title>Vertical view</title>
 
-<p>Evolution provides a vertical view in addition to the classical view. In the vertical view, the message preview pane is located at the right side of the message list when compared to the classical view where the message preview pane is placed below the message list. Vertical view enables you to use the extra width of wide screen monitors.</p>
+<p><app>Evolution</app> provides a vertical view in addition to the classical view. In the vertical view, the message preview pane is located at the right side of the message list when compared to the classical view where the message preview pane is placed below the message list. Vertical view enables you to use the extra width of wide screen monitors.</p>
 
 <p>To switch to vertical view, click <guiseq><gui>View</gui><gui>Preview</gui><gui>Vertical View</gui></guiseq>.</p>
 

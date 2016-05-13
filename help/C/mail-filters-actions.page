@@ -57,13 +57,13 @@
 <p>Makes the system beep.</p></item>
 
 <item><p>Play Sound:</p>
-<p>Select a sound file for Evolution to play.</p></item>
+<p>Select a sound file for <app>Evolution</app> to play.</p></item>
 
 <item><p>Run Program:</p>
-<p>Evolution runs an application.</p></item>
+<p><app>Evolution</app> runs an application.</p></item>
 
 <item><p>Pipe to Program:</p>
-<p>Sends the message to an application of your choice. No return value is expected. This feature can be used to create automatic Web postings from email messages or to perform additional message post processing not supported by Evolution.</p></item>
+<p>Sends the message to an application of your choice. No return value is expected. This feature can be used to create automatic Web postings from email messages or to perform additional message post processing not supported by <app>Evolution</app>.</p></item>
 
 <item><p>Forward to:</p>
 <p>Forwards the message to another email address.</p></item>

@@ -24,13 +24,13 @@
 
 <title>IMAP Subscriptions</title>
 
-<p>As opening many IMAP folders on the server takes time you can define which IMAP folders to check and display in Evolution, and which ones to ignore for the time being, via the <gui>IMAP Subscriptions Manager</gui>.</p>
+<p>As opening many IMAP folders on the server takes time you can define which IMAP folders to check and display in <app>Evolution</app>, and which ones to ignore for the time being, via the <gui>IMAP Subscriptions Manager</gui>.</p>
 <steps>
 <item><p>Select <guiseq><gui>Folder</gui><gui>Subscriptions</gui></guiseq>, or right-click on the top level node of an email account in the folder list and click <gui>Manage subscriptions</gui>.</p></item> 
 <item><p>If you have accounts on multiple servers, select the server where you want to manage your subscriptions.</p></item>
-<item><p>Evolution displays a list of files and folders available on the IMAP server.</p></item>
+<item><p><app>Evolution</app> displays a list of files and folders available on the IMAP server.</p></item>
 <item><p>Select a file or folder by clicking it.</p>
-<p>You should select at least the Inbox folder. Depending upon the way your IMAP server is configured, the list of available files might include non-mail folders. If it does, you can ignore them.</p></item>
+<p>You should select at least the <gui>Inbox</gui> folder. Depending upon the way your IMAP server is configured, the list of available files might include non-mail folders. If it does, you can ignore them.</p></item>
 <item><p>Click a folder's checkbox to add a folder to your subscriptions.</p></item>
 </steps>
 

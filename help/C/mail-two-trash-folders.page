@@ -22,13 +22,13 @@
 
   </info>
 
-<title>Two Trash or Junk folders shown for the same account</title>
+<title>Two Trash or <gui>Junk</gui> folders shown for the same account</title>
 
-<p>If you use a remote mail account that also has Junk and/or Trash folders on the server you might face duplicated folders in Evolution.</p>
-<p>You can easily tell the two Trash folders apart by looking at their icons. The Evolution <gui>Trash</gui> folder has a special icon whereas the other physical Trash folder looks like any other folder.</p>
+<p>If you use a remote mail account that also has Junk and/or <gui>Trash</gui> folders on the server you might face duplicated folders in <app>Evolution</app>.</p>
+<p>You can easily tell the two <gui>Trash</gui> folders apart by looking at their icons. The <app>Evolution</app> <gui>Trash</gui> folder has a special icon whereas the other physical <gui>Trash</gui> folder looks like any other folder.</p>
 
-<p>By default, Evolution's <gui>Trash</gui> and <gui>Junk</gui> folders are <link xref="mail-search-folders">Search folders</link>. They do not really exist but simply display all the messages that are marked as junk or for deletion in any folders of that account.</p>
+<p>By default, <app>Evolution</app>'s <gui>Trash</gui> and <gui>Junk</gui> folders are <link xref="mail-search-folders">Search folders</link>. They do not really exist but simply display all the messages that are marked as junk or for deletion in any folders of that account.</p>
 
-<p>In order to only use the folders for Junk and Trash on the mail server, select the corresponding <gui>Use a Real Folder</gui> option under <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</gui><gui style="button">Edit</gui><gui>Defaults</gui></guiseq>. In this case, Evolution's local virtual folders will not be used.</p>
+<p>In order to only use the folders for Junk and Trash on the mail server, select the corresponding <gui>Use a Real Folder</gui> option under <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</gui><gui style="button">Edit</gui><gui>Defaults</gui></guiseq>. In this case, <app>Evolution</app>'s local virtual folders will not be used.</p>
 
 </page>

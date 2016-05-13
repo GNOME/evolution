@@ -20,7 +20,7 @@
 
 <title>Sending invitations by email</title>
 
-<p>If you create an event in the calendar component, you can then send invitations to the attendee list through the Evolution email tool. The invitation card is sent as an attachment in iCal format.</p>
+<p>If you create an event in the calendar component, you can then send invitations to the attendee list through the <app>Evolution</app> email tool. The invitation card is sent as an attachment in iCal format.</p>
 
 <p>To send an invitation, right-click on the entry in the calendar and choose <gui>Forward as iCalendar</gui>.</p>
 

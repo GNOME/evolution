@@ -2,7 +2,7 @@
       type="topic" id="intro-application">
 
   <info>
-    <desc>An introduction to Evolution.</desc>
+    <desc>An introduction to <app>Evolution<app>.</desc>
 
      <link type="guide" xref="index#getting-started"/>
 
@@ -22,10 +22,10 @@
   </info>
 
 <title>Getting Started</title>
-<p>Evolution allows you to access your personal information like your calendars, mail, address books and tasks in one place.</p>
+<p><app>Evolution</app> allows you to access your personal information like your calendars, mail, address books and tasks in one place.</p>
 
-<p>By default Evolution opens the mail view. This is were you can view all your mail. You can change to other views of the application by going to the bottom of the left pane in the window (the so-called "switcher") and selecting the desired view. <link xref="intro-main-window">Learn more about the elements of the main window.</link></p>
+<p>By default <app>Evolution</app> opens the mail view. This is were you can view all your mail. You can change to other views of the application by going to the bottom of the left pane in the window (the so-called "switcher") and selecting the desired view. <link xref="intro-main-window">Learn more about the elements of the main window</link>.</p>
 
-<note style="advanced"><p>When Evolution starts, it remembers the last view that you used. However you can also explicitly start Evolution in a specific view. For the calendar view, use the command <cmd>evolution --component=calendar</cmd> in the <app>Terminal</app> application. Other available options are "mail", "contacts", "tasks", and "memos".</p></note>
+<note style="advanced"><p>When <app>Evolution</app> starts, it remembers the last view that you used. However you can also explicitly start <app>Evolution</app> in a specific view. For the calendar view, use the command <cmd>evolution --component=calendar</cmd> in the <app>Terminal</app> application. Other available options are "mail", "contacts", "tasks", and "memos".</p></note>
 
 </page>

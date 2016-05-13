@@ -22,22 +22,22 @@
 
   <title>Supported file formats</title>
 
-<p>Evolution can import the following types of files:</p>
+<p><app>Evolution</app> can import the following types of files:</p>
 
 <section id="mail">
 <title>Mail</title>
 <list>
 <item><p>
 Berkeley Mailbox (.mbox or no extension):</p>
-<p>The email format used by Mozilla, Netscape, Evolution (for local folders until version 2.32), Eudora, and many other email clients.
+<p>The email format used by <app>Mozilla</app>, <app>Netscape</app>, <app>Evolution</app> (for local folders until version 2.32), <app>Eudora</app>, and many other email clients.
 </p></item>
 <item><p>
 Maildir (no extension):</p>
-<p>The format used by Evolution (for local folders since version 3.0). There is no need to import Maildir files as you can <link xref="mail-account-manage-maildir-format-directories">configure a Maildir account</link> in Evolution and point to the folder where the Maildir files are stored.
+<p>The format used by <app>Evolution</app> (for local folders since version 3.0). There is no need to import Maildir files as you can <link xref="mail-account-manage-maildir-format-directories">configure a Maildir account</link> in <app>Evolution</app> and point to the folder where the Maildir files are stored.
 </p></item>
 <item><p>
 Outlook Express 5/6 Personal Folders (.dbx):</p>
-<p>The email file format used by Microsoft Outlook Express 5/6. For newer versions PST import is recommended.
+<p>The email file format used by <app>Microsoft Outlook Express 5/6</app>. For newer versions PST import is recommended.
 </p></item>
 </list>
 </section>
@@ -47,11 +47,11 @@ Outlook Express 5/6 Personal Folders (.dbx):</p>
 <list>
 <item><p>
 vCalendar (.vcs):</p>
-<p>A format for storing calendar files, which is generally used by Evolution, Microsoft Outlook, Sunbird, and Korganizer.
+<p>A format for storing calendar files, which is generally used by <app>Evolution</app>, <app>Microsoft Outlook</app>, <app>Sunbird</app>, and <app>Korganizer</app>.
 </p></item>
 <item><p>
 iCalendar or iCal (.ics):</p>
-<p>A format for storing calendar files. iCalendar is used by Evolution, Microsoft Outlook, Palm OS handhelds, and others.
+<p>A format for storing calendar files. iCalendar is used by <app>Evolution</app>, <app>Microsoft Outlook</app>, Palm OS handhelds, and others.
 </p></item>
 </list>
 </section>
@@ -74,12 +74,12 @@ vCard (.vcf, .gcrd):</p>
 <title>Miscellaneous</title>
 <list>
 <item><p>
-Evolution/Mozilla/Outlook CSV/Tab (.csv, .tab):</p>
-<p>CSV (Comma-separated values) or Tabulator files saved by using Evolution, Microsoft Outlook and Mozilla.
+<app>Evolution</app>/Mozilla/Outlook CSV/Tab (.csv, .tab):</p>
+<p>CSV (Comma-separated values) or Tabulator files saved by using <app>Evolution</app>, <app>Microsoft Outlook</app> and <app>Mozilla</app>.
 </p></item>
 <item><p>
 Outlook Personal Folders (.pst):</p>
-<p>A file format used to store local copies of messages, calendar events, and other items within Microsoft software such as Microsoft Exchange Client, Windows Messaging, and Microsoft Outlook. It is also called "Personal Storage Table".
+<p>A file format used to store local copies of messages, calendar events, and other items within Microsoft software such as <app>Microsoft Exchange Client</app>, <app>Windows Messaging</app>, and <app>Microsoft Outlook</app>. It is also called "Personal Storage Table".
 </p></item>
 </list>
 </section>

@@ -2,7 +2,7 @@
       type="guide" id="mail-account-manage-mh-format-directories">
 
   <info>
-    <desc>Add and edit a MH Format Mail Directories account in Evolution.</desc>
+    <desc>Add and edit a MH Format Mail Directories account in <app>Evolution</app>.</desc>
 
     <link type="guide" xref="mail-account-management#mail-local-account-types"/>
 

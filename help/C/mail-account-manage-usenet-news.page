@@ -2,7 +2,7 @@
       type="guide" id="mail-account-manage-usenet-news">
 
   <info>
-    <desc>Add and edit a Usenet news account in Evolution.</desc>
+    <desc>Add and edit a Usenet news account in <app>Evolution</app>.</desc>
 
     <link type="guide" xref="mail-account-management#mail-common-account-types"/>
 

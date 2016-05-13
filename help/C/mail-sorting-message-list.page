@@ -27,7 +27,7 @@
 
   <title>Sorting the message list</title>
   
-<p>Evolution lets you organize your emails by letting you sort messages in the <link xref="intro-main-window#e-mail">message list</link>.</p>
+<p><app>Evolution</app> lets you organize your emails by letting you sort messages in the <link xref="intro-main-window#e-mail">message list</link>.</p>
 
 <section id="email-threads">
 <title>Sorting Mail in Email Threads</title>
@@ -51,12 +51,12 @@
 <item><p>Select the <gui>Remove This Column</gui> or <gui>Add a Column</gui> option.</p></item>
 </list>
 
-<p>Evolution allows you to sort your messages using these columns. Just click on the column label to sort the emails. The direction of the arrow next to the label indicates the direction of the sort.</p>
+<p><app>Evolution</app> allows you to sort your messages using these columns. Just click on the column label to sort the emails. The direction of the arrow next to the label indicates the direction of the sort.</p>
 </section>
 
 <section id="sort-options">
 <title>Using Other Sorting Options</title>
-<p>Evolution provides other ways for sorting email messages. You can use Sort By, Sort Ascending, Sort Descending, or Unsort.</p>
+<p><app>Evolution</app> provides other ways for sorting email messages. You can use Sort By, Sort Ascending, Sort Descending, or Unsort.</p>
 	<section id="sort-options-by">
 	<title>Sort By</title>
 		<p>You can also sort email messages using the <gui>Sort By</gui> list.</p>

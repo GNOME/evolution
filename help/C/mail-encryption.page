@@ -29,7 +29,7 @@
 
   <title>Mail encryption and certificates</title>
 
-<p>Evolution offers GPG Encryption and S/MIME Encryption for signing and encrypting email messages. S/MIME is used most often in corporate environments.</p>
+<p><app>Evolution</app> offers GPG Encryption and S/MIME Encryption for signing and encrypting email messages. S/MIME is used most often in corporate environments.</p>
 
   <section id="gpg" style="2column">
     <title>GPG</title>

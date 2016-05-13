@@ -28,7 +28,7 @@
 
 <if:choose>
   <if:when test="!platform:gnome-shell !platform:gnome-classic !platform:unity">
-<p>In case you use Evolution under a different environment from GNOME,</p>
+<p>In case you use <app>Evolution</app> under a different environment from GNOME,</p>
  <steps>
    <item>
      <p>Open a terminal application.</p>
@@ -49,7 +49,7 @@
      </cmd></p>
    </item>
    <item>
-     <p>Evolution may need to be restarted for the settings to take effect.</p>
+     <p><app>Evolution</app> may need to be restarted for the settings to take effect.</p>
    </item>
  </steps>
 <note style="tip">
