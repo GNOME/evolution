@@ -939,7 +939,7 @@ mail_config_defaults_page_constructed (GObject *object)
 
 	label = GTK_LABEL (widget);
 
-	text = _("Choose a folder to use for template messages to.");
+	text = _("Choose a folder to use for template messages.");
 	widget = em_folder_selection_button_new (session, "", text);
 	store = mail_config_defaults_page_ref_store (page);
 	if (store)

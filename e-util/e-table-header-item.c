@@ -1624,7 +1624,7 @@ static EPopupMenu ethi_context_menu[] = {
 		N_("Sort _Descending"),
 		G_CALLBACK (ethi_popup_sort_descending), 2),
 	E_POPUP_ITEM (
-		N_("_Unsort"), G_CALLBACK (ethi_popup_unsort), 0),
+		N_("_Reset sort"), G_CALLBACK (ethi_popup_unsort), 0),
 	E_POPUP_SEPARATOR,
 	E_POPUP_ITEM (
 		N_("Group By This _Field"),

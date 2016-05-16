@@ -56,7 +56,7 @@
 
 <section id="sort-options">
 <title>Using Other Sorting Options</title>
-<p><app>Evolution</app> provides other ways for sorting email messages. You can use Sort By, Sort Ascending, Sort Descending, or Unsort.</p>
+<p><app>Evolution</app> provides other ways for sorting email messages. You can use Sort By, Sort Ascending, Sort Descending, or Reset sort.</p>
 	<section id="sort-options-by">
 	<title>Sort By</title>
 		<p>You can also sort email messages using the <gui>Sort By</gui> list.</p>
@@ -107,10 +107,10 @@
 	</section>
 
 	<section id="sort-options-unsort">
-	<title>Unsort</title>
+	<title>Reset sort</title>
 		<steps>
 		<item><p>Right-click on the message list column headers.</p></item>
-		<item><p>Select the <gui>Unsort</gui> option.</p></item>
+		<item><p>Select the <gui>Reset sort</gui> option.</p></item>
 		</steps>
 		<p>This removes sorting from the column, reverting to the order of messages as they were added to the folder.</p>
 	</section>
