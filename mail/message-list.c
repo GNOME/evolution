@@ -6266,7 +6266,8 @@ mail_regen_list (MessageList *message_list,
 			tmp_search_copy = g_strdup (old_regen_data->search);
 			search = tmp_search_copy;
 		} else {
-			search = message_list->search;
+			tmp_search_copy = g_strdup (message_list->search);
+			search = tmp_search_copy;
 		}
 
 		if (old_regen_data)

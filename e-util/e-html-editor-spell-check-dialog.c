@@ -202,7 +202,8 @@ html_editor_spell_check_dialog_replace (EHTMLEditorSpellCheckDialog *dialog)
 
 	selection = gtk_tree_view_get_selection (
 		GTK_TREE_VIEW (dialog->priv->tree_view));
-	gtk_tree_selection_get_selected (selection, &model, &iter);
+	if (!gtk_tree_selection_get_selected (selection, &model, &iter))
+		return;
 	gtk_tree_model_get (model, &iter, 0, &replacement, -1);
 
 	e_content_editor_insert_content (
@@ -228,7 +229,8 @@ html_editor_spell_check_dialog_replace_all (EHTMLEditorSpellCheckDialog *dialog)
 
 	selection = gtk_tree_view_get_selection (
 		GTK_TREE_VIEW (dialog->priv->tree_view));
-	gtk_tree_selection_get_selected (selection, &model, &iter);
+	if (!gtk_tree_selection_get_selected (selection, &model, &iter))
+		return;
 	gtk_tree_model_get (model, &iter, 0, &replacement, -1);
 
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));

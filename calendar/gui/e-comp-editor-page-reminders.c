@@ -632,6 +632,7 @@ ecep_reminders_widgets_to_selected (ECompEditorPageReminders *page_reminders)
 			g_return_if_reached ();
 		}
 	} else {
+		memset (&repeat, 0, sizeof (repeat));
 		repeat.repetitions = 0;
 	}
 

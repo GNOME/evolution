@@ -2384,6 +2384,15 @@ e_meeting_time_selector_recalc_date_format (EMeetingTimeSelector *mts)
 			longest_weekday = day;
 			longest_weekday_width = width;
 		}
+
+		/* Now try it with abbreviated weekday names. */
+		name = e_get_weekday_name (day, TRUE);
+		pango_layout_set_text (layout, name, -1);
+		pango_layout_get_pixel_size (layout, &width, NULL);
+		if (width > longest_weekday_width) {
+			longest_weekday = day;
+			longest_weekday_width = width;
+		}
 	}
 
 	/* Now find the biggest month name. */
@@ -2396,19 +2405,6 @@ e_meeting_time_selector_recalc_date_format (EMeetingTimeSelector *mts)
 		if (width > longest_month_width) {
 			longest_month = month;
 			longest_month_width = width;
-		}
-	}
-
-	/* Now try it with abbreviated weekday names. */
-	longest_weekday_width = 0;
-	longest_weekday = G_DATE_MONDAY;
-	for (day = G_DATE_MONDAY; day <= G_DATE_SUNDAY; day++) {
-		name = e_get_weekday_name (day, TRUE);
-		pango_layout_set_text (layout, name, -1);
-		pango_layout_get_pixel_size (layout, &width, NULL);
-		if (width > longest_weekday_width) {
-			longest_weekday = day;
-			longest_weekday_width = width;
 		}
 	}
 

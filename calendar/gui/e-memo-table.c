@@ -426,6 +426,9 @@ memo_table_query_tooltip (GtkWidget *widget,
 	if (esm && esm->sorter && e_sorter_needs_sorting (esm->sorter))
 		row = e_sorter_sorted_to_model (esm->sorter, row);
 
+	if (row < 0)
+		return FALSE;
+
 	model = e_memo_table_get_model (memo_table);
 	comp_data = e_cal_model_get_component_at (model, row);
 	if (!comp_data || !comp_data->icalcomp)
