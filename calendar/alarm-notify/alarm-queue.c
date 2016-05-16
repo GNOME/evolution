@@ -731,7 +731,8 @@ remove_alarms (CompQueuedAlarms *cqa,
 		l = l->next;
 
 		alarm_remove (qa->alarm_id);
-		remove_queued_alarm (cqa, qa->alarm_id, free_object, FALSE);
+		if (remove_queued_alarm (cqa, qa->alarm_id, free_object, FALSE))
+			break;
 	}
 }
 

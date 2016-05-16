@@ -806,8 +806,10 @@ get_address_format (AddressFormat address_format,
 	g_key_file_load_from_file (key_file, EVOLUTION_RULEDIR "/address_formats.dat", 0, &error);
 	if (error != NULL) {
 		g_warning ("%s: Failed to load address_formats.dat file: %s", G_STRFUNC, error->message);
-		*format = g_strdup (ADDRESS_DEFAULT_FORMAT);
-		*country_position = g_strdup (ADDRESS_DEFAULT_COUNTRY_POSITION);
+		if (format)
+			*format = g_strdup (ADDRESS_DEFAULT_FORMAT);
+		if (country_position)
+			*country_position = g_strdup (ADDRESS_DEFAULT_COUNTRY_POSITION);
 		g_key_file_free (key_file);
 		g_free (loc);
 		g_error_free (error);

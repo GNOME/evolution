@@ -2028,8 +2028,10 @@ ethi_event (GnomeCanvasItem *item,
 				ethi->click_x = event_x_win;
 				ethi->click_y = event_y_win;
 				ethi->maybe_drag = TRUE;
+				col = -1;
 				is_pointer_on_division (ethi, x, &start, &col);
-				ethi->selected_col = col;
+				if (col != -1)
+					ethi->selected_col = col;
 				if (gtk_widget_get_can_focus (GTK_WIDGET (item->canvas)))
 					e_canvas_item_grab_focus (item, TRUE);
 			} else if (event_button == 3) {

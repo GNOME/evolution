@@ -191,7 +191,7 @@ check_for_attachment_clues (GByteArray *msg_text)
 			to = word->len;
 			g_string_append (word, clue);
 
-			for (jj = word->len - 1; jj <= to; jj--) {
+			for (jj = word->len - 1; jj >= to; jj--) {
 				if (word->str[jj] == '\\' || word->str[jj] == '\"')
 					g_string_insert_c (word, jj, '\\');
 			}

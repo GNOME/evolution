@@ -4431,14 +4431,9 @@ find_server (EMailPartItip *pitip,
 		fd->count++;
 		d (printf ("Increasing itip formatter search count to %d\n", fd->count));
 
-		if (current_source == source)
-			start_calendar_server (
-				pitip, view, source, pitip->type,
-				find_cal_opened_cb, fd);
-		else
-			start_calendar_server (
-				pitip, view, source, pitip->type,
-				find_cal_opened_cb, fd);
+		start_calendar_server (
+			pitip, view, source, pitip->type,
+			find_cal_opened_cb, fd);
 	}
 
 	g_list_free_full (conflict_list, (GDestroyNotify) g_object_unref);
