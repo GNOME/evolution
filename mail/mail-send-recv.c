@@ -1291,7 +1291,7 @@ refresh_folders_exec (struct _refresh_folders_msg *m,
 				g_clear_error (&local_error);
 				break;
 			} else if (!g_error_matches (local_error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
-				CamelStore *store = m->store;
+				CamelStore *store;
 				const gchar *full_name;
 
 				if (folder) {

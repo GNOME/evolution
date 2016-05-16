@@ -400,7 +400,7 @@ bogofilter_classify (CamelJunkFilter *junk_filter,
 {
 	EBogofilter *extension = E_BOGOFILTER (junk_filter);
 	static gboolean wordlist_initialized = FALSE;
-	CamelJunkStatus status;
+	CamelJunkStatus status = CAMEL_JUNK_STATUS_ERROR;
 	gint exit_code;
 
 	const gchar *argv[] = {

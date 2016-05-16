@@ -159,7 +159,7 @@ week_view_main_item_draw_day (EWeekViewMainItem *main_item,
 				cr, &week_view->colors[E_WEEK_VIEW_COLOR_SELECTED]);
 		} else {
 			gdk_cairo_set_source_color (
-				cr, &week_view->colors[E_WEEK_VIEW_COLOR_SELECTED]);
+				cr, &week_view->colors[E_WEEK_VIEW_COLOR_SELECTED_UNFOCUSSED]);
 		}
 
 		if (multi_week_view) {

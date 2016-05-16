@@ -163,14 +163,9 @@ ea_minicard_get_name (AtkObject *accessible)
 	g_string_append (new_str, string);
 	g_free (string);
 
-	/* if there exist no enough space for remain info, return */
-	if (new_str->len >= BUFFERSIZE) {
-		strncpy (name, new_str->str, BUFFERSIZE);
-		name[BUFFERSIZE] = '\0';
-		return name;
-	}
+	strncpy (name, new_str->str, new_str->len + 1 >= BUFFERSIZE ? BUFFERSIZE : new_str->len + 1);
+	name[BUFFERSIZE] = '\0';
 
-	strcpy (name, new_str->str);
 	g_string_free (new_str, TRUE);
 
 	ATK_OBJECT_CLASS (parent_class)->set_name (accessible, name);

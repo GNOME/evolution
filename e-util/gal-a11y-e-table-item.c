@@ -945,8 +945,12 @@ eti_header_structure_changed (ETableHeader *eth,
 	}
 
 	/* If nothing interesting just return. */
-	if (!reorder_found && !added_found && !removed_found)
+	if (!reorder_found && !added_found && !removed_found) {
+		g_free (state);
+		g_free (reorder);
+		g_free (prev_state);
 		return;
+	}
 
 	/* Emit signals */
 	if (reorder_found)
