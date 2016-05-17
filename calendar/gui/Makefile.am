@@ -224,6 +224,7 @@ libevolution_calendar_la_LIBADD =					\
 	$(top_builddir)/composer/libevolution-mail-composer.la		\
 	$(top_builddir)/addressbook/gui/contact-editor/libecontacteditor.la \
 	$(top_builddir)/addressbook/gui/contact-list-editor/libecontactlisteditor.la \
+	$(top_builddir)/addressbook/util/libeabutil.la			\
 	$(top_builddir)/shell/libevolution-shell.la			\
 	$(top_builddir)/calendar/importers/libevolution-calendar-importers.la \
 	$(top_builddir)/e-util/libevolution-util.la			\
