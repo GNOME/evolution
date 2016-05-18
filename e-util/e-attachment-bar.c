@@ -663,6 +663,7 @@ e_attachment_bar_init (EAttachmentBar *bar)
 
 	widget = gtk_expander_new (NULL);
 	gtk_expander_set_spacing (GTK_EXPANDER (widget), 0);
+	gtk_widget_set_valign (widget, GTK_ALIGN_CENTER);
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	bar->priv->expander = g_object_ref (widget);
 	gtk_widget_show (widget);
