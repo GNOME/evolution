@@ -597,6 +597,21 @@ e_mail_part_bind_dom_element (EMailPart *part,
 		class->bind_dom_element (part, web_extension, page_id, element_id);
 }
 
+void
+e_mail_part_web_view_loaded (EMailPart *part,
+			     EWebView *web_view)
+{
+	EMailPartClass *klass;
+
+	g_return_if_fail (E_IS_MAIL_PART (part));
+	g_return_if_fail (E_IS_WEB_VIEW (web_view));
+
+	klass = E_MAIL_PART_GET_CLASS (part);
+
+	if (klass->web_view_loaded)
+		klass->web_view_loaded (part, web_view);
+}
+
 static EMailPartValidityPair *
 mail_part_find_validity_pair (EMailPart *part,
                               EMailPartValidityFlags validity_type)

@@ -39,6 +39,7 @@ evolution_mail_formatter_include_HEADERS =		\
 	e-mail-part-headers.h				\
 	e-mail-part-image.h				\
 	e-mail-part-list.h				\
+	e-mail-part-secure-button.h			\
 	e-mail-part-utils.h				\
 	e-mail-stripsig-filter.h
 
@@ -121,6 +122,7 @@ libevolution_mail_formatter_la_SOURCES =		\
 	e-mail-part-headers.c				\
 	e-mail-part-image.c				\
 	e-mail-part-list.c				\
+	e-mail-part-secure-button.c			\
 	e-mail-part-utils.c				\
 	e-mail-stripsig-filter.c			\
 	$(SMIME_EXTENSIONS)

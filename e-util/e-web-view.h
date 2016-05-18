@@ -66,6 +66,12 @@ typedef enum {
 	GTK_STOCK_URI_SCHEME
 } EURIScheme;
 
+typedef void (*EWebViewElementClickedFunc) (EWebView *web_view,
+					    const gchar *element_class,
+					    const gchar *element_value,
+					    const GtkAllocation *element_position,
+					    gpointer user_data);
+
 struct _EWebView {
 	WebKitWebView parent;
 	EWebViewPrivate *priv;
@@ -260,6 +266,16 @@ void		e_web_view_set_document_iframe_src
 						(EWebView *web_view,
 						 const gchar *document_uri,
 						 const gchar *new_iframe_src);
+void		e_web_view_register_element_clicked
+						(EWebView *web_view,
+						 const gchar *element_class,
+						 EWebViewElementClickedFunc callback,
+						 gpointer user_data);
+void		e_web_view_unregister_element_clicked
+						(EWebView *web_view,
+						 const gchar *element_class,
+						 EWebViewElementClickedFunc callback,
+						 gpointer user_data);
 G_END_DECLS
 
 #endif /* E_WEB_VIEW_H */

@@ -1133,16 +1133,17 @@ mail_element_exists_cb (GDBusProxy *web_extension,
 }
 
 static void
-mail_parts_bind_dom (WebKitWebView *web_view,
+mail_parts_bind_dom (WebKitWebView *wk_web_view,
                      WebKitLoadEvent load_event,
                      gpointer user_data)
 {
 	EMailDisplay *display;
+	EWebView *web_view;
 	GQueue queue = G_QUEUE_INIT;
 	GList *head, *link;
 	GDBusProxy *web_extension;
 
-	display = E_MAIL_DISPLAY (web_view);
+	display = E_MAIL_DISPLAY (wk_web_view);
 
 	if (load_event == WEBKIT_LOAD_STARTED) {
 		e_mail_display_cleanup_skipped_uris (display);
@@ -1157,12 +1158,13 @@ mail_parts_bind_dom (WebKitWebView *web_view,
 
 	initialize_web_view_colors (display);
 
-	web_extension = e_web_view_get_web_extension_proxy (E_WEB_VIEW (display));
+	web_view = E_WEB_VIEW (display);
+
+	web_extension = e_web_view_get_web_extension_proxy (web_view);
 	if (!web_extension)
 		return;
 
-	e_mail_part_list_queue_parts (
-		display->priv->part_list, NULL, &queue);
+	e_mail_part_list_queue_parts (display->priv->part_list, NULL, &queue);
 	head = g_queue_peek_head_link (&queue);
 
 	for (link = head; link != NULL; link = g_list_next (link)) {
@@ -1170,6 +1172,8 @@ mail_parts_bind_dom (WebKitWebView *web_view,
 		const gchar *part_id;
 
 		part_id = e_mail_part_get_id (part);
+
+		e_mail_part_web_view_loaded (part, web_view);
 
 		g_dbus_proxy_call (
 			web_extension,

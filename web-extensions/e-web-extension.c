@@ -36,6 +36,8 @@
 #define WEBKIT_DOM_USE_UNSTABLE_API
 #include <webkitdom/WebKitDOMDOMWindowUnstable.h>
 
+#define WEB_EXTENSION_PAGE_ID_KEY "web-extension-page-id"
+
 #define E_WEB_EXTENSION_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_WEB_EXTENSION, EWebExtensionPrivate))
@@ -54,6 +56,19 @@ struct _EWebExtensionPrivate {
 static const char introspection_xml[] =
 "<node>"
 "  <interface name='" E_WEB_EXTENSION_INTERFACE "'>"
+"    <method name='RegisterElementClicked'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"      <arg type='s' name='element_class' direction='in'/>"
+"    </method>"
+"    <signal name='ElementClicked'>"
+"      <arg type='t' name='page_id' direction='out'/>"
+"      <arg type='s' name='element_class' direction='out'/>"
+"      <arg type='s' name='element_value' direction='out'/>"
+"      <arg type='i' name='position_left' direction='out'/>"
+"      <arg type='i' name='position_top' direction='out'/>"
+"      <arg type='i' name='position_width' direction='out'/>"
+"      <arg type='i' name='position_height' direction='out'/>"
+"    </signal>"
 "    <signal name='HeadersCollapsed'>"
 "      <arg type='b' name='expanded' direction='out'/>"
 "    </signal>"
@@ -159,6 +174,58 @@ get_webkit_web_page_or_return_dbus_error (GDBusMethodInvocation *invocation,
 }
 
 static void
+element_clicked_cb (WebKitDOMElement *element,
+		    WebKitDOMEvent *event,
+		    gpointer user_data)
+{
+	EWebExtension *extension = user_data;
+	WebKitDOMElement *offset_parent;
+	gchar *attr_class, *attr_value;
+	const guint64 *ppage_id;
+	gdouble with_parents_left, with_parents_top;
+	GError *error = NULL;
+
+	g_return_if_fail (E_IS_WEB_EXTENSION (extension));
+	g_return_if_fail (G_IS_OBJECT (element));
+
+	ppage_id = g_object_get_data (G_OBJECT (element), WEB_EXTENSION_PAGE_ID_KEY);
+	g_return_if_fail (ppage_id != NULL);
+
+	with_parents_left = webkit_dom_element_get_offset_left (element);
+	with_parents_top = webkit_dom_element_get_offset_top (element);
+
+	offset_parent = element;
+	while (offset_parent = webkit_dom_element_get_offset_parent (offset_parent), offset_parent) {
+		with_parents_left += webkit_dom_element_get_offset_left (offset_parent);
+		with_parents_top += webkit_dom_element_get_offset_top (offset_parent);
+	}
+
+	attr_class = webkit_dom_element_get_class_name (element);
+	attr_value = webkit_dom_element_get_attribute (element, "value");
+
+	g_dbus_connection_emit_signal (
+		extension->priv->dbus_connection,
+		NULL,
+		E_WEB_EXTENSION_OBJECT_PATH,
+		E_WEB_EXTENSION_INTERFACE,
+		"ElementClicked",
+		g_variant_new ("(tssiiii)", *ppage_id, attr_class ? attr_class : "", attr_value ? attr_value : "",
+			(gint) with_parents_left,
+			(gint) with_parents_top,
+			(gint) webkit_dom_element_get_offset_width (element),
+			(gint) webkit_dom_element_get_offset_height (element)),
+		&error);
+
+	if (error) {
+		g_warning ("Error emitting signal ElementClicked: %s\n", error->message);
+		g_error_free (error);
+	}
+
+	g_free (attr_class);
+	g_free (attr_value);
+}
+
+static void
 handle_method_call (GDBusConnection *connection,
                     const char *sender,
                     const char *object_path,
@@ -179,7 +246,49 @@ handle_method_call (GDBusConnection *connection,
 
 	if (camel_debug ("wex"))
 		printf ("EWebExtension - %s - %s\n", G_STRFUNC, method_name);
-	if (g_strcmp0 (method_name, "ReplaceLocalImageLinks") == 0) {
+	if (g_strcmp0 (method_name, "RegisterElementClicked") == 0) {
+		const gchar *element_class = NULL;
+
+		g_variant_get (parameters, "(t&s)", &page_id, &element_class);
+
+		web_page = get_webkit_web_page_or_return_dbus_error (invocation, web_extension, page_id);
+		if (!web_page)
+			return;
+
+		if (!element_class || !*element_class) {
+			g_warn_if_fail (element_class && *element_class);
+		} else {
+			WebKitDOMHTMLCollection *collection;
+
+			document = webkit_web_page_get_dom_document (web_page);
+			collection = webkit_dom_document_get_elements_by_class_name_as_html_collection (document, element_class);
+			if (collection) {
+				gulong ii, len;
+
+				len = webkit_dom_html_collection_get_length (collection);
+				for (ii = 0; ii < len; ii++) {
+					WebKitDOMNode *node;
+
+					node = webkit_dom_html_collection_item (collection, ii);
+					if (WEBKIT_DOM_IS_EVENT_TARGET (node)) {
+						guint64 *ppage_id;
+
+						ppage_id = g_new0 (guint64, 1);
+						*ppage_id = page_id;
+
+						g_object_set_data_full (G_OBJECT (node), WEB_EXTENSION_PAGE_ID_KEY, ppage_id, g_free);
+
+						webkit_dom_event_target_add_event_listener (
+							WEBKIT_DOM_EVENT_TARGET (node), "click",
+							G_CALLBACK (element_clicked_cb), FALSE, extension);
+					}
+				}
+			}
+			g_clear_object (&collection);
+		}
+
+		g_dbus_method_invocation_return_value (invocation, NULL);
+	} else if (g_strcmp0 (method_name, "ReplaceLocalImageLinks") == 0) {
 		g_variant_get (parameters, "(t)", &page_id);
 		web_page = get_webkit_web_page_or_return_dbus_error (
 			invocation, web_extension, page_id);

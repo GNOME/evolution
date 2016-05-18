@@ -148,6 +148,7 @@ em-format/e-mail-parser-message-external.c
 em-format/e-mail-parser-multipart-encrypted.c
 em-format/e-mail-parser-multipart-signed.c
 em-format/e-mail-part-headers.c
+em-format/e-mail-part-secure-button.c
 em-format/e-mail-part-utils.c
 e-util/ea-calendar-item.c
 e-util/e-action-combo-box.c

@@ -54,6 +54,11 @@ typedef enum {
 
 typedef struct _AsyncContext AsyncContext;
 
+typedef struct _ElementClickedData {
+	EWebViewElementClickedFunc callback;
+	gpointer user_data;
+} ElementClickedData;
+
 struct _EWebViewPrivate {
 	GtkUIManager *ui_manager;
 	gchar *selected_uri;
@@ -94,6 +99,9 @@ struct _EWebViewPrivate {
 	gboolean has_hover_link;
 
 	GSList *content_requests; /* EContentRequest * */
+
+	GHashTable *element_clicked_cbs; /* gchar *element_class ~> GPtrArray {ElementClickedData} */
+	guint web_extension_element_clicked_signal_id;
 };
 
 struct _AsyncContext {
@@ -748,6 +756,9 @@ web_view_load_changed_cb (WebKitWebView *webkit_web_view,
 		}
 	}
 
+	if (load_event == WEBKIT_LOAD_STARTED)
+		g_hash_table_remove_all (web_view->priv->element_clicked_cbs);
+
 	if (load_event != WEBKIT_LOAD_FINISHED)
 		return;
 
@@ -999,6 +1010,15 @@ web_view_dispose (GObject *object)
 		priv->failed_to_find_text_handler_id = 0;
 	}
 
+	if (priv->web_extension && priv->web_extension_element_clicked_signal_id) {
+		g_dbus_connection_signal_unsubscribe (
+			g_dbus_proxy_get_connection (priv->web_extension),
+			priv->web_extension_element_clicked_signal_id);
+		priv->web_extension_element_clicked_signal_id = 0;
+	}
+
+	g_hash_table_remove_all (priv->element_clicked_cbs);
+
 	g_slist_free_full (priv->content_requests, g_object_unref);
 	priv->content_requests = NULL;
 
@@ -1031,6 +1051,8 @@ web_view_finalize (GObject *object)
 		g_hash_table_destroy (priv->old_settings);
 		priv->old_settings = NULL;
 	}
+
+	g_hash_table_destroy (priv->element_clicked_cbs);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_web_view_parent_class)->finalize (object);
@@ -1456,6 +1478,81 @@ web_view_stop_loading (EWebView *web_view)
 }
 
 static void
+web_view_register_element_clicked_hfunc (gpointer key,
+					 gpointer value,
+					 gpointer user_data)
+{
+	const gchar *elem_class = key;
+	EWebView *web_view = user_data;
+
+	g_return_if_fail (elem_class && *elem_class);
+	g_return_if_fail (E_IS_WEB_VIEW (web_view));
+
+	if (!web_view->priv->web_extension)
+		return;
+
+	g_dbus_proxy_call (
+		web_view->priv->web_extension,
+		"RegisterElementClicked",
+		g_variant_new (
+			"(ts)",
+			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (web_view)),
+			elem_class),
+		G_DBUS_CALL_FLAGS_NONE,
+		-1,
+		NULL,
+		NULL,
+		NULL);
+}
+
+static void
+web_view_element_clicked_signal_cb (GDBusConnection *connection,
+				    const gchar *sender_name,
+				    const gchar *object_path,
+				    const gchar *interface_name,
+				    const gchar *signal_name,
+				    GVariant *parameters,
+				    gpointer user_data)
+{
+	EWebView *web_view = user_data;
+	const gchar *elem_class = NULL, *elem_value = NULL;
+	GtkAllocation elem_position;
+	guint64 page_id = 0;
+	gint position_left = 0, position_top = 0, position_width = 0, position_height = 0;
+	GPtrArray *listeners;
+
+	if (g_strcmp0 (signal_name, "ElementClicked") != 0)
+		return;
+
+	g_return_if_fail (E_IS_WEB_VIEW (web_view));
+
+	if (!parameters)
+		return;
+
+	g_variant_get (parameters, "(t&s&siiii)", &page_id, &elem_class, &elem_value, &position_left, &position_top, &position_width, &position_height);
+
+	if (!elem_class || !*elem_class || page_id != webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (web_view)))
+		return;
+
+	elem_position.x = position_left;
+	elem_position.y = position_top;
+	elem_position.width = position_width;
+	elem_position.height = position_height;
+
+	listeners = g_hash_table_lookup (web_view->priv->element_clicked_cbs, elem_class);
+	if (listeners) {
+		guint ii;
+
+		for (ii = 0; ii <listeners->len; ii++) {
+			ElementClickedData *ecd = g_ptr_array_index (listeners, ii);
+
+			if (ecd && ecd->callback)
+				ecd->callback (web_view, elem_class, elem_value, &elem_position, ecd->user_data);
+		}
+	}
+}
+
+static void
 web_extension_proxy_created_cb (GDBusProxy *proxy,
                                 GAsyncResult *result,
                                 EWebView *web_view)
@@ -1466,6 +1563,21 @@ web_extension_proxy_created_cb (GDBusProxy *proxy,
 	if (!web_view->priv->web_extension) {
 		g_warning ("Error creating web extension proxy: %s\n", error->message);
 		g_error_free (error);
+	} else {
+		web_view->priv->web_extension_element_clicked_signal_id =
+			g_dbus_connection_signal_subscribe (
+				g_dbus_proxy_get_connection (web_view->priv->web_extension),
+				g_dbus_proxy_get_name (web_view->priv->web_extension),
+				E_WEB_EXTENSION_INTERFACE,
+				"ElementClicked",
+				E_WEB_EXTENSION_OBJECT_PATH,
+				NULL,
+				G_DBUS_SIGNAL_FLAGS_NONE,
+				web_view_element_clicked_signal_cb,
+				web_view,
+				NULL);
+
+		g_hash_table_foreach (web_view->priv->element_clicked_cbs, web_view_register_element_clicked_hfunc, web_view);
 	}
 }
 
@@ -2307,6 +2419,8 @@ e_web_view_init (EWebView *web_view)
 	id = "org.gnome.evolution.webview";
 	e_plugin_ui_register_manager (ui_manager, id, web_view);
 	e_plugin_ui_enable_manager (ui_manager, id);
+
+	web_view->priv->element_clicked_cbs = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, (GDestroyNotify) g_ptr_array_unref);
 }
 
 GtkWidget *
@@ -4149,4 +4263,121 @@ e_web_view_set_document_iframe_src (EWebView *web_view,
 		-1,
 		NULL,
 		e_web_view_set_document_iframe_src_done_cb, NULL);
+}
+
+/**
+ * EWebViewElementClickedFunc:
+ * @web_view: an #EWebView
+ * @element_class: an element class, as set on the element which had been clicked
+ * @element_value: a 'value' attribute content of the clicked element
+ * @element_position: a #GtkAllocation with the position of the clicked element
+ * @user_data: user data as provided in the e_web_view_register_element_clicked() call
+ *
+ * The callback is called whenever an element of class @element_class is clicked.
+ * The @element_value is a content of the 'value' attribute of the clicked element.
+ * The @element_location is the place of the element within the web page.
+ *
+ * See: e_web_view_register_element_clicked, e_web_view_unregister_element_clicked
+ *
+ * Since: 3.22
+ **/
+
+/**
+ * e_web_view_register_element_clicked:
+ * @web_view: an #EWebView
+ * @element_class: an element class on which to listen for clicking
+ * @callback: an #EWebViewElementClickedFunc to call, when the element is clicked
+ * @user_data: user data to pass to @callback
+ *
+ * Registers a @callback to be called when any element of the class @element_class
+ * is clicked. If the element contains a 'value' attribute, then it is passed to
+ * the @callback too. These callback are valid until a new content of the @web_view
+ * is loaded, after which all the registered callbacks are forgotten.
+ *
+ * Since: 3.22
+ **/
+void
+e_web_view_register_element_clicked (EWebView *web_view,
+				     const gchar *element_class,
+				     EWebViewElementClickedFunc callback,
+				     gpointer user_data)
+{
+	ElementClickedData *ecd;
+	GPtrArray *cbs;
+	guint ii;
+
+	g_return_if_fail (E_IS_WEB_VIEW (web_view));
+	g_return_if_fail (element_class != NULL);
+	g_return_if_fail (callback != NULL);
+
+	cbs = g_hash_table_lookup (web_view->priv->element_clicked_cbs, element_class);
+	if (cbs) {
+		for (ii = 0; ii < cbs->len; ii++) {
+			ecd = g_ptr_array_index (cbs, ii);
+
+			if (ecd && ecd->callback == callback && ecd->user_data == user_data) {
+				g_warning ("%s: Callback already registered", G_STRFUNC);
+				return;
+			}
+		}
+	}
+
+	ecd = g_new0 (ElementClickedData, 1);
+	ecd->callback = callback;
+	ecd->user_data = user_data;
+
+	if (!cbs) {
+		web_view_register_element_clicked_hfunc ((gpointer) element_class, NULL, web_view);
+
+		cbs = g_ptr_array_new_full (1, g_free);
+		g_ptr_array_add (cbs, ecd);
+
+		g_hash_table_insert (web_view->priv->element_clicked_cbs, g_strdup (element_class), cbs);
+	} else {
+		g_ptr_array_add (cbs, ecd);
+	}
+}
+
+/**
+ * e_web_view_unregister_element_clicked:
+ * @web_view: an #EWebView
+ * @element_class: an element class on which to listen for clicking
+ * @callback: an #EWebViewElementClickedFunc to call, when the element is clicked
+ * @user_data: user data to pass to @callback
+ *
+ * Unregisters the @callback for the @element_class with the given @user_data, which
+ * should be previously registered with e_web_view_register_element_clicked(). This
+ * unregister is usually not needed, because the @web_view unregisters all callbacks
+ * when a new content is loaded.
+ *
+ * Since: 3.22
+ **/
+void
+e_web_view_unregister_element_clicked (EWebView *web_view,
+				       const gchar *element_class,
+				       EWebViewElementClickedFunc callback,
+				       gpointer user_data)
+{
+	ElementClickedData *ecd;
+	GPtrArray *cbs;
+	guint ii;
+
+	g_return_if_fail (E_IS_WEB_VIEW (web_view));
+	g_return_if_fail (element_class != NULL);
+	g_return_if_fail (callback != NULL);
+
+	cbs = g_hash_table_lookup (web_view->priv->element_clicked_cbs, element_class);
+	if (!cbs)
+		return;
+
+	for (ii = 0; ii < cbs->len; ii++) {
+		ecd = g_ptr_array_index (cbs, ii);
+
+		if (ecd && ecd->callback == callback && ecd->user_data == user_data) {
+			g_ptr_array_remove (cbs, ecd);
+			if (!cbs->len)
+				g_hash_table_remove (web_view->priv->element_clicked_cbs, element_class);
+			break;
+		}
+	}
 }

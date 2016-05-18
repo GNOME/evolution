@@ -89,6 +89,8 @@ struct _EMailPartClass {
 						 GDBusProxy *web_extension,
 						 guint64 page_id,
 						 const gchar *element_id);
+	void		(*web_view_loaded)	(EMailPart *part,
+						 EWebView *web_view);
 };
 
 GType		e_mail_part_get_type		(void) G_GNUC_CONST;
@@ -125,6 +127,8 @@ void		e_mail_part_bind_dom_element	(EMailPart *part,
 						 GDBusProxy *web_extension,
 						 guint64 page_id,
 						 const gchar *element_id);
+void		e_mail_part_web_view_loaded	(EMailPart *part,
+						 EWebView *web_view);
 void		e_mail_part_update_validity	(EMailPart *part,
 						 CamelCipherValidity *validity,
 						 EMailPartValidityFlags validity_type);
