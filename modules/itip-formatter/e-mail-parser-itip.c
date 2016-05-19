@@ -38,8 +38,6 @@
 #include "e-mail-part-itip.h"
 #include "itip-view.h"
 
-#define CONF_KEY_DELETE "delete-processed"
-
 #define d(x)
 
 typedef EMailParserExtension EMailParserItip;
@@ -69,9 +67,6 @@ empe_itip_parse (EMailParserExtension *extension,
                  GCancellable *cancellable,
                  GQueue *out_mail_parts)
 {
-	EShell *shell;
-	GSettings *settings;
-	EClientCache *client_cache;
 	EMailPartItip *itip_part;
 	CamelDataWrapper *content;
 	CamelStream *stream;
@@ -83,21 +78,8 @@ empe_itip_parse (EMailParserExtension *extension,
 	len = part_id->len;
 	g_string_append_printf (part_id, ".itip");
 
-	settings = e_util_ref_settings ("org.gnome.evolution.plugin.itip");
-
-	shell = e_shell_get_default ();
-	client_cache = e_shell_get_client_cache (shell);
-
 	itip_part = e_mail_part_itip_new (part, part_id->str);
-	itip_part->delete_message = g_settings_get_boolean (settings, CONF_KEY_DELETE);
-	itip_part->has_organizer = FALSE;
-	itip_part->no_reply_wanted = FALSE;
-	itip_part->part = part;
-	itip_part->cancellable = g_cancellable_new ();
-	itip_part->real_comps = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_object_unref);
-	itip_part->client_cache = g_object_ref (client_cache);
-
-	g_object_unref (settings);
+	itip_part->itip_mime_part = g_object_ref (part);
 
 	/* This is non-gui thread. Download the part for using in the main thread */
 	content = camel_medium_get_content ((CamelMedium *) part);
@@ -153,4 +135,3 @@ e_mail_parser_itip_type_register (GTypeModule *type_module)
 {
 	e_mail_parser_itip_register_type (type_module);
 }
-

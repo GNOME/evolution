@@ -4317,7 +4317,9 @@ e_web_view_register_element_clicked (EWebView *web_view,
 			ecd = g_ptr_array_index (cbs, ii);
 
 			if (ecd && ecd->callback == callback && ecd->user_data == user_data) {
-				g_warning ("%s: Callback already registered", G_STRFUNC);
+				/* Callback is already registered, but re-register it, in case the page
+				   was changed dynamically and new elements with the given call are added. */
+				web_view_register_element_clicked_hfunc ((gpointer) element_class, cbs, web_view);
 				return;
 			}
 		}
@@ -4328,8 +4330,6 @@ e_web_view_register_element_clicked (EWebView *web_view,
 	ecd->user_data = user_data;
 
 	if (!cbs) {
-		web_view_register_element_clicked_hfunc ((gpointer) element_class, NULL, web_view);
-
 		cbs = g_ptr_array_new_full (1, g_free);
 		g_ptr_array_add (cbs, ecd);
 
@@ -4337,6 +4337,9 @@ e_web_view_register_element_clicked (EWebView *web_view,
 	} else {
 		g_ptr_array_add (cbs, ecd);
 	}
+
+	/* Dynamically changing page can call this multiple times; re-register all classes */
+	g_hash_table_foreach (web_view->priv->element_clicked_cbs, web_view_register_element_clicked_hfunc, web_view);
 }
 
 /**

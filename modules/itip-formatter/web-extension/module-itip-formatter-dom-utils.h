@@ -25,6 +25,11 @@
 
 G_BEGIN_DECLS
 
+void		module_itip_formatter_dom_utils_create_dom_bindings
+						(WebKitDOMDocument *document,
+						 guint64 page_id,
+						 const gchar *part_id,
+						 GDBusConnection *connection);
 void		module_itip_formatter_dom_utils_show_button
 						(WebKitDOMDocument *document,
 						 const gchar *button_id);
@@ -32,12 +37,6 @@ void		module_itip_formatter_dom_utils_enable_button
 						(WebKitDOMDocument *document,
 						 const gchar *button_id,
 						 gboolean enable);
-void		module_itip_formatter_dom_utils_create_dom_bindings
-						(WebKitDOMDocument *document,
-						 GDBusConnection *connection);
-void		module_itip_formatter_dom_utils_bind_save_button
-						(WebKitDOMDocument *document,
-                                                 GDBusConnection *connection);
 void		module_itip_formatter_dom_utils_input_set_checked
 						(WebKitDOMDocument *document,
 						 const gchar *input_id,

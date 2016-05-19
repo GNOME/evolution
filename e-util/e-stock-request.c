@@ -184,6 +184,7 @@ process_stock_request_idle_cb (gpointer user_data)
 		sid->success = FALSE;
 	}
 
+	soup_uri_free (suri);
 	g_object_unref (context);
 
 	e_flag_set (sid->flag);

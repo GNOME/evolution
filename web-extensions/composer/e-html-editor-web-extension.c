@@ -670,7 +670,7 @@ get_webkit_web_page_or_return_dbus_error (GDBusMethodInvocation *invocation,
 	if (!web_page) {
 		g_dbus_method_invocation_return_error (
 			invocation, G_DBUS_ERROR, G_DBUS_ERROR_INVALID_ARGS,
-			"Invalid page ID: %"G_GUINT64_FORMAT, page_id);
+			"Invalid page ID: %" G_GUINT64_FORMAT, page_id);
 	}
 	return web_page;
 }

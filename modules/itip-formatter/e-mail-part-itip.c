@@ -15,6 +15,13 @@
  *
  */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
+#include <string.h>
+#include <e-util/e-util.h>
+
 #include "e-mail-part-itip.h"
 
 #define E_MAIL_PART_ITIP_GET_PRIVATE(obj) \
@@ -22,7 +29,7 @@
 	((obj), E_TYPE_MAIL_PART_ITIP, EMailPartItipPrivate))
 
 struct _EMailPartItipPrivate {
-	gint placeholder;
+	GSList *views; /* ItipView * */
 };
 
 G_DEFINE_DYNAMIC_TYPE (
@@ -37,10 +44,16 @@ mail_part_itip_dispose (GObject *object)
 
 	g_cancellable_cancel (part->cancellable);
 
+	g_free (part->message_uid);
+	part->message_uid = NULL;
+
+	g_free (part->vcalendar);
+	part->vcalendar = NULL;
+
+	g_clear_object (&part->folder);
+	g_clear_object (&part->message);
+	g_clear_object (&part->itip_mime_part);
 	g_clear_object (&part->cancellable);
-	g_clear_object (&part->client_cache);
-	g_clear_object (&part->comp);
-	g_clear_object (&part->view);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_mail_part_itip_parent_class)->dispose (object);
@@ -51,52 +64,48 @@ mail_part_itip_finalize (GObject *object)
 {
 	EMailPartItip *part = E_MAIL_PART_ITIP (object);
 
-	g_free (part->vcalendar);
-	g_free (part->calendar_uid);
-	g_free (part->from_address);
-	g_free (part->from_name);
-	g_free (part->to_address);
-	g_free (part->to_name);
-	g_free (part->delegator_address);
-	g_free (part->delegator_name);
-	g_free (part->my_address);
-	g_free (part->uid);
-
-	if (part->top_level != NULL)
-		icalcomponent_free (part->top_level);
-
-	if (part->main_comp != NULL)
-		icalcomponent_free (part->main_comp);
-
-	g_hash_table_destroy (part->real_comps);
+	g_slist_free_full (part->priv->views, g_object_unref);
+	part->priv->views = NULL;
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_mail_part_itip_parent_class)->finalize (object);
 }
 
 static void
-mail_part_itip_bind_dom_element (EMailPart *part,
-                                 GDBusProxy *evolution_web_extension,
-                                 guint64 page_id,
-                                 const gchar *element_id)
+mail_part_itip_web_view_loaded (EMailPart *mail_part,
+				EWebView *web_view)
 {
 	EMailPartItip *pitip;
+	ItipView *itip_view;
 
-	pitip = E_MAIL_PART_ITIP (part);
+	g_return_if_fail (E_IS_MAIL_PART_ITIP (mail_part));
+	g_return_if_fail (E_IS_WEB_VIEW (web_view));
 
-	/* FIXME XXX WK2 checks */
-	/* FIXME WK2 apply commit abbc5db Bug 680011 - ItipView created multiple times for an attached invitation */
-#if 0
-	if (!WEBKIT_DOM_IS_HTML_IFRAME_ELEMENT (element))
-		element = webkit_dom_element_query_selector (
-			element, "iframe", NULL);
+	pitip = E_MAIL_PART_ITIP (mail_part);
 
-	g_return_if_fail (WEBKIT_DOM_IS_HTML_IFRAME_ELEMENT (element));
+	/* FIXME WK2 - it can sometimes happen that the pitip members, like the folder, message_uid and message,
+	   are not initialized yet, because the internal frame in the main EWebView is not passed
+	   through the EMailFormatter, where these are set. This requires a new signal on the WebKitWebView,
+	   ideally, to call this only after the iframe is truly loaded (these pitip members are only a side
+	   effect of a whole issue with non-knowing that a particular iframe was fully loaded).
 
-	document = webkit_dom_html_iframe_element_get_content_document (
-		WEBKIT_DOM_HTML_IFRAME_ELEMENT (element));
-#endif
-	pitip->view = itip_view_new (pitip, pitip->client_cache, element_id, page_id);
+	   Also retest what happens when the same meeting is opened in multiple windows; it could crash in gtk+
+	   when a button was clicked in one or the other, but also not always.
+	*/
+	itip_view = itip_view_new (
+		webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (web_view)),
+		e_mail_part_get_id (mail_part),
+		pitip,
+		pitip->folder,
+		pitip->message_uid,
+		pitip->message,
+		pitip->itip_mime_part,
+		pitip->vcalendar,
+		pitip->cancellable);
+
+	itip_view_set_web_view (itip_view, web_view);
+
+	pitip->priv->views = g_slist_prepend (pitip->priv->views, itip_view);
 }
 
 static void
@@ -112,7 +121,7 @@ e_mail_part_itip_class_init (EMailPartItipClass *class)
 	object_class->finalize = mail_part_itip_finalize;
 
 	mail_part_class = E_MAIL_PART_CLASS (class);
-	mail_part_class->bind_dom_element = mail_part_itip_bind_dom_element;
+	mail_part_class->web_view_loaded = mail_part_itip_web_view_loaded;
 }
 
 static void
@@ -124,6 +133,7 @@ static void
 e_mail_part_itip_init (EMailPartItip *part)
 {
 	part->priv = E_MAIL_PART_ITIP_GET_PRIVATE (part);
+	part->cancellable = g_cancellable_new ();
 
 	e_mail_part_set_mime_type (E_MAIL_PART (part), "text/calendar");
 
@@ -149,4 +159,3 @@ e_mail_part_itip_new (CamelMimePart *mime_part,
 		E_TYPE_MAIL_PART_ITIP,
 		"id", id, "mime-part", mime_part, NULL);
 }
-

@@ -168,7 +168,7 @@ get_webkit_web_page_or_return_dbus_error (GDBusMethodInvocation *invocation,
 	if (!web_page) {
 		g_dbus_method_invocation_return_error (
 			invocation, G_DBUS_ERROR, G_DBUS_ERROR_INVALID_ARGS,
-			"Invalid page ID: %"G_GUINT64_FORMAT, page_id);
+			"Invalid page ID: %" G_GUINT64_FORMAT, page_id);
 	}
 	return web_page;
 }
@@ -237,6 +237,69 @@ element_clicked_cb (WebKitDOMElement *element,
 }
 
 static void
+web_extension_register_element_clicked_in_document (EWebExtension *extension,
+						    guint64 page_id,
+						    WebKitDOMDocument *document,
+						    const gchar *element_class)
+{
+	WebKitDOMHTMLCollection *collection;
+	gulong ii, len;
+
+	g_return_if_fail (E_IS_WEB_EXTENSION (extension));
+	g_return_if_fail (WEBKIT_DOM_IS_DOCUMENT (document));
+	g_return_if_fail (element_class && *element_class);
+
+	collection = webkit_dom_document_get_elements_by_class_name_as_html_collection (document, element_class);
+	if (collection) {
+		len = webkit_dom_html_collection_get_length (collection);
+		for (ii = 0; ii < len; ii++) {
+			WebKitDOMNode *node;
+
+			node = webkit_dom_html_collection_item (collection, ii);
+			if (WEBKIT_DOM_IS_EVENT_TARGET (node)) {
+				guint64 *ppage_id;
+
+				ppage_id = g_new0 (guint64, 1);
+				*ppage_id = page_id;
+
+				g_object_set_data_full (G_OBJECT (node), WEB_EXTENSION_PAGE_ID_KEY, ppage_id, g_free);
+
+				/* Remove first, in case there was a listener already (it's when
+				   the page is dynamically filled and not all the elements are
+				   available in time of the first call. */
+				webkit_dom_event_target_remove_event_listener (
+					WEBKIT_DOM_EVENT_TARGET (node), "click",
+					G_CALLBACK (element_clicked_cb), FALSE);
+
+				webkit_dom_event_target_add_event_listener (
+					WEBKIT_DOM_EVENT_TARGET (node), "click",
+					G_CALLBACK (element_clicked_cb), FALSE, extension);
+			}
+		}
+	}
+	g_clear_object (&collection);
+
+	/* Traverse also iframe-s */
+	collection = webkit_dom_document_get_elements_by_tag_name_as_html_collection (document, "iframe");
+	if (collection) {
+		len = webkit_dom_html_collection_get_length (collection);
+		for (ii = 0; ii < len; ii++) {
+			WebKitDOMNode *node;
+
+			node = webkit_dom_html_collection_item (collection, ii);
+			if (WEBKIT_DOM_IS_HTML_IFRAME_ELEMENT (node)) {
+				WebKitDOMDocument *content;
+
+				content = webkit_dom_html_iframe_element_get_content_document (WEBKIT_DOM_HTML_IFRAME_ELEMENT (node));
+				if (content)
+					web_extension_register_element_clicked_in_document (extension, page_id, content, element_class);
+			}
+		}
+	}
+	g_clear_object (&collection);
+}
+
+static void
 handle_method_call (GDBusConnection *connection,
                     const char *sender,
                     const char *object_path,
@@ -269,33 +332,8 @@ handle_method_call (GDBusConnection *connection,
 		if (!element_class || !*element_class) {
 			g_warn_if_fail (element_class && *element_class);
 		} else {
-			WebKitDOMHTMLCollection *collection;
-
 			document = webkit_web_page_get_dom_document (web_page);
-			collection = webkit_dom_document_get_elements_by_class_name_as_html_collection (document, element_class);
-			if (collection) {
-				gulong ii, len;
-
-				len = webkit_dom_html_collection_get_length (collection);
-				for (ii = 0; ii < len; ii++) {
-					WebKitDOMNode *node;
-
-					node = webkit_dom_html_collection_item (collection, ii);
-					if (WEBKIT_DOM_IS_EVENT_TARGET (node)) {
-						guint64 *ppage_id;
-
-						ppage_id = g_new0 (guint64, 1);
-						*ppage_id = page_id;
-
-						g_object_set_data_full (G_OBJECT (node), WEB_EXTENSION_PAGE_ID_KEY, ppage_id, g_free);
-
-						webkit_dom_event_target_add_event_listener (
-							WEBKIT_DOM_EVENT_TARGET (node), "click",
-							G_CALLBACK (element_clicked_cb), FALSE, extension);
-					}
-				}
-			}
-			g_clear_object (&collection);
+			web_extension_register_element_clicked_in_document (extension, page_id, document, element_class);
 		}
 
 		g_dbus_method_invocation_return_value (invocation, NULL);

@@ -26,34 +26,24 @@
 
 #include <e-util/e-util.h>
 
-void
-module_itip_formatter_dom_utils_show_button (WebKitDOMDocument *document,
-                                             const gchar *button_id)
-{
-	WebKitDOMElement *button;
-
-	button = webkit_dom_document_get_element_by_id (document, button_id);
-	webkit_dom_html_element_set_hidden (WEBKIT_DOM_HTML_ELEMENT (button), FALSE);
-}
-
-void
-module_itip_formatter_dom_utils_enable_button (WebKitDOMDocument *document,
-                                               const gchar *button_id,
-                                               gboolean enable)
-{
-	WebKitDOMElement *el;
-
-	el = webkit_dom_document_get_element_by_id (document, button_id);
-	webkit_dom_html_button_element_set_disabled (
-		WEBKIT_DOM_HTML_BUTTON_ELEMENT (el), !enable);
-}
+#define ITIP_WEB_EXTENSION_PAGE_ID_KEY "itip-web-extension-page-id"
+#define ITIP_WEB_EXTENSION_PART_ID_KEY "itip-web-extension-part-id"
 
 static void
 recur_toggled_cb (WebKitDOMHTMLInputElement *input,
                   WebKitDOMEvent *event,
                   GDBusConnection *connection)
 {
+	guint64 *ppage_id;
+	const gchar *part_id;
 	GError *error = NULL;
+
+	ppage_id = g_object_get_data (G_OBJECT (input), ITIP_WEB_EXTENSION_PAGE_ID_KEY);
+	part_id = g_object_get_data (G_OBJECT (input), ITIP_WEB_EXTENSION_PART_ID_KEY);
+	if (!ppage_id || !part_id) {
+		g_warning ("%s: page_id/part_id not set on %p", G_STRFUNC, input);
+		return;
+	}
 
 	g_dbus_connection_emit_signal (
 		connection,
@@ -61,7 +51,7 @@ recur_toggled_cb (WebKitDOMHTMLInputElement *input,
 		MODULE_ITIP_FORMATTER_WEB_EXTENSION_OBJECT_PATH,
 		MODULE_ITIP_FORMATTER_WEB_EXTENSION_INTERFACE,
 		"RecurToggled",
-		NULL,
+		g_variant_new ("(ts)", *ppage_id, part_id),
 		&error);
 
 	if (error) {
@@ -75,7 +65,16 @@ source_changed_cb (WebKitDOMElement *element,
                    WebKitDOMEvent *event,
                    GDBusConnection *connection)
 {
+	guint64 *ppage_id;
+	const gchar *part_id;
 	GError *error = NULL;
+
+	ppage_id = g_object_get_data (G_OBJECT (element), ITIP_WEB_EXTENSION_PAGE_ID_KEY);
+	part_id = g_object_get_data (G_OBJECT (element), ITIP_WEB_EXTENSION_PART_ID_KEY);
+	if (!ppage_id || !part_id) {
+		g_warning ("%s: page_id/part_id not set on %p", G_STRFUNC, element);
+		return;
+	}
 
 	g_dbus_connection_emit_signal (
 		connection,
@@ -83,41 +82,13 @@ source_changed_cb (WebKitDOMElement *element,
 		MODULE_ITIP_FORMATTER_WEB_EXTENSION_OBJECT_PATH,
 		MODULE_ITIP_FORMATTER_WEB_EXTENSION_INTERFACE,
 		"SourceChanged",
-		NULL,
+		g_variant_new ("(ts)", *ppage_id, part_id),
 		&error);
 
 	if (error) {
 		g_warning ("Error emitting signal SourceChanged: %s\n", error->message);
 		g_error_free (error);
 	}
-}
-
-static void
-button_clicked_cb (WebKitDOMElement *element,
-                   WebKitDOMEvent *event,
-                   GDBusConnection *connection)
-{
-	GError *error = NULL;
-	gchar *button_value;
-
-	button_value = webkit_dom_html_button_element_get_value (
-		WEBKIT_DOM_HTML_BUTTON_ELEMENT (element));
-
-	g_dbus_connection_emit_signal (
-		connection,
-		NULL,
-		MODULE_ITIP_FORMATTER_WEB_EXTENSION_OBJECT_PATH,
-		MODULE_ITIP_FORMATTER_WEB_EXTENSION_INTERFACE,
-		"ButtonClicked",
-		g_variant_new ("(s)", button_value),
-		&error);
-
-	if (error) {
-		g_warning ("Error emitting signal ButtonClicked: %s\n", error->message);
-		g_error_free (error);
-	}
-
-	g_free (button_value);
 }
 
 static void
@@ -176,15 +147,42 @@ alarm_check_toggled_cb (WebKitDOMHTMLInputElement *check1,
 
 void
 module_itip_formatter_dom_utils_create_dom_bindings (WebKitDOMDocument *document,
+						     guint64 page_id,
+						     const gchar *part_id,
                                                      GDBusConnection *connection)
 {
 	WebKitDOMElement *el;
 
+	g_return_if_fail (part_id && *part_id);
+
 	el = webkit_dom_document_get_element_by_id (document, CHECKBOX_RECUR);
 	if (el) {
+		guint64 *ppage_id;
+
+		ppage_id = g_new0 (guint64, 1);
+		*ppage_id = page_id;
+
+		g_object_set_data_full (G_OBJECT (el), ITIP_WEB_EXTENSION_PAGE_ID_KEY, ppage_id, g_free);
+		g_object_set_data_full (G_OBJECT (el), ITIP_WEB_EXTENSION_PART_ID_KEY, g_strdup (part_id), g_free);
+
 		webkit_dom_event_target_add_event_listener (
 			WEBKIT_DOM_EVENT_TARGET (el), "click",
 			G_CALLBACK (recur_toggled_cb), FALSE, connection);
+	}
+
+	el = webkit_dom_document_get_element_by_id (document, SELECT_ESOURCE);
+	if (el) {
+		guint64 *ppage_id;
+
+		ppage_id = g_new0 (guint64, 1);
+		*ppage_id = page_id;
+
+		g_object_set_data_full (G_OBJECT (el), ITIP_WEB_EXTENSION_PAGE_ID_KEY, ppage_id, g_free);
+		g_object_set_data_full (G_OBJECT (el), ITIP_WEB_EXTENSION_PART_ID_KEY, g_strdup (part_id), g_free);
+
+		webkit_dom_event_target_add_event_listener (
+			WEBKIT_DOM_EVENT_TARGET (el), "change",
+			G_CALLBACK (source_changed_cb), FALSE, connection);
 	}
 
 	el = webkit_dom_document_get_element_by_id (document, CHECKBOX_RSVP);
@@ -207,97 +205,28 @@ module_itip_formatter_dom_utils_create_dom_bindings (WebKitDOMDocument *document
 			WEBKIT_DOM_EVENT_TARGET (el), "click",
 			G_CALLBACK (alarm_check_toggled_cb), FALSE, connection);
 	}
-
-	el = webkit_dom_document_get_element_by_id (document, BUTTON_OPEN_CALENDAR);
-	if (el) {
-		webkit_dom_event_target_add_event_listener (
-			WEBKIT_DOM_EVENT_TARGET (el), "click",
-			G_CALLBACK (button_clicked_cb), FALSE, connection);
-	}
-
-	el = webkit_dom_document_get_element_by_id (document, BUTTON_ACCEPT);
-	if (el) {
-		webkit_dom_event_target_add_event_listener (
-			WEBKIT_DOM_EVENT_TARGET (el), "click",
-			G_CALLBACK (button_clicked_cb), FALSE, connection);
-	}
-
-	el = webkit_dom_document_get_element_by_id (document, BUTTON_ACCEPT_ALL);
-	if (el) {
-		webkit_dom_event_target_add_event_listener (
-			WEBKIT_DOM_EVENT_TARGET (el), "click",
-			G_CALLBACK (button_clicked_cb), FALSE, connection);
-	}
-
-	el = webkit_dom_document_get_element_by_id (document, BUTTON_TENTATIVE);
-	if (el) {
-		webkit_dom_event_target_add_event_listener (
-			WEBKIT_DOM_EVENT_TARGET (el), "click",
-			G_CALLBACK (button_clicked_cb), FALSE, connection);
-	}
-
-	el = webkit_dom_document_get_element_by_id (document, BUTTON_TENTATIVE_ALL);
-	if (el) {
-		webkit_dom_event_target_add_event_listener (
-			WEBKIT_DOM_EVENT_TARGET (el), "click",
-			G_CALLBACK (button_clicked_cb), FALSE, connection);
-	}
-
-	el = webkit_dom_document_get_element_by_id (document, BUTTON_DECLINE);
-	if (el) {
-		webkit_dom_event_target_add_event_listener (
-			WEBKIT_DOM_EVENT_TARGET (el), "click",
-			G_CALLBACK (button_clicked_cb), FALSE, connection);
-	}
-
-	el = webkit_dom_document_get_element_by_id (document, BUTTON_DECLINE_ALL);
-	if (el) {
-		webkit_dom_event_target_add_event_listener (
-			WEBKIT_DOM_EVENT_TARGET (el), "click",
-			G_CALLBACK (button_clicked_cb), FALSE, connection);
-	}
-
-	el = webkit_dom_document_get_element_by_id (document, BUTTON_UPDATE);
-	if (el) {
-		webkit_dom_event_target_add_event_listener (
-			WEBKIT_DOM_EVENT_TARGET (el), "click",
-			G_CALLBACK (button_clicked_cb), FALSE, connection);
-	}
-
-	el = webkit_dom_document_get_element_by_id (document, BUTTON_UPDATE_ATTENDEE_STATUS);
-	if (el) {
-		webkit_dom_event_target_add_event_listener (
-			WEBKIT_DOM_EVENT_TARGET (el), "click",
-			G_CALLBACK (button_clicked_cb), FALSE, connection);
-	}
-
-	el = webkit_dom_document_get_element_by_id (document, BUTTON_SEND_INFORMATION);
-	if (el) {
-		webkit_dom_event_target_add_event_listener (
-			WEBKIT_DOM_EVENT_TARGET (el), "click",
-			G_CALLBACK (button_clicked_cb), FALSE, connection);
-	}
-
-	el = webkit_dom_document_get_element_by_id (document, SELECT_ESOURCE);
-	if (el) {
-		webkit_dom_event_target_add_event_listener (
-			WEBKIT_DOM_EVENT_TARGET (el), "change",
-			G_CALLBACK (source_changed_cb), FALSE, connection);
-	}
 }
 
 void
-module_itip_formatter_dom_utils_bind_save_button (WebKitDOMDocument *document,
-                                                  GDBusConnection *connection)
+module_itip_formatter_dom_utils_show_button (WebKitDOMDocument *document,
+                                             const gchar *button_id)
+{
+	WebKitDOMElement *button;
+
+	button = webkit_dom_document_get_element_by_id (document, button_id);
+	webkit_dom_html_element_set_hidden (WEBKIT_DOM_HTML_ELEMENT (button), FALSE);
+}
+
+void
+module_itip_formatter_dom_utils_enable_button (WebKitDOMDocument *document,
+                                               const gchar *button_id,
+                                               gboolean enable)
 {
 	WebKitDOMElement *el;
 
-	el = webkit_dom_document_get_element_by_id (document, BUTTON_SAVE);
-	if (el) {
-		webkit_dom_event_target_add_event_listener (
-			WEBKIT_DOM_EVENT_TARGET (el), "click",
-			G_CALLBACK (button_clicked_cb), FALSE, connection);
-	}
+	el = webkit_dom_document_get_element_by_id (document, button_id);
+	webkit_dom_html_button_element_set_disabled (
+		WEBKIT_DOM_HTML_BUTTON_ELEMENT (el), !enable);
 }
 
 gboolean
