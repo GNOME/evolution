@@ -4275,7 +4275,8 @@ e_web_view_set_document_iframe_src (EWebView *web_view,
  *
  * The callback is called whenever an element of class @element_class is clicked.
  * The @element_value is a content of the 'value' attribute of the clicked element.
- * The @element_location is the place of the element within the web page.
+ * The @element_position is the place of the element within the web page, already
+ * accounting scrollbar positions.
  *
  * See: e_web_view_register_element_clicked, e_web_view_unregister_element_clicked
  *

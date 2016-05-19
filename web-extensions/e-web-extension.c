@@ -180,9 +180,11 @@ element_clicked_cb (WebKitDOMElement *element,
 {
 	EWebExtension *extension = user_data;
 	WebKitDOMElement *offset_parent;
+	WebKitDOMDOMWindow *dom_window;
 	gchar *attr_class, *attr_value;
 	const guint64 *ppage_id;
 	gdouble with_parents_left, with_parents_top;
+	glong scroll_x = 0, scroll_y = 0;
 	GError *error = NULL;
 
 	g_return_if_fail (E_IS_WEB_EXTENSION (extension));
@@ -200,6 +202,15 @@ element_clicked_cb (WebKitDOMElement *element,
 		with_parents_top += webkit_dom_element_get_offset_top (offset_parent);
 	}
 
+	dom_window = webkit_dom_document_get_default_view (webkit_dom_node_get_owner_document (WEBKIT_DOM_NODE (element)));
+	if (WEBKIT_DOM_IS_DOM_WINDOW (dom_window)) {
+		g_object_get (G_OBJECT (dom_window),
+			"scroll-x", &scroll_x,
+			"scroll-y", &scroll_y,
+			NULL);
+	}
+	g_clear_object (&dom_window);
+
 	attr_class = webkit_dom_element_get_class_name (element);
 	attr_value = webkit_dom_element_get_attribute (element, "value");
 
@@ -210,8 +221,8 @@ element_clicked_cb (WebKitDOMElement *element,
 		E_WEB_EXTENSION_INTERFACE,
 		"ElementClicked",
 		g_variant_new ("(tssiiii)", *ppage_id, attr_class ? attr_class : "", attr_value ? attr_value : "",
-			(gint) with_parents_left,
-			(gint) with_parents_top,
+			(gint) (with_parents_left - scroll_x),
+			(gint) (with_parents_top - scroll_y),
 			(gint) webkit_dom_element_get_offset_width (element),
 			(gint) webkit_dom_element_get_offset_height (element)),
 		&error);
