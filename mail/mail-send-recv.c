@@ -200,6 +200,9 @@ free_send_data (void)
 {
 	struct _send_data *data = send_data;
 
+	if (!data)
+		return;
+
 	g_return_if_fail (g_hash_table_size (data->active) == 0);
 
 	if (data->inbox) {
