@@ -1,3 +1,52 @@
+Evolution 3.21.2 2016-05-23
+---------------------------
+
+Bug Fixes:
+	Bug 765446 - Mail: View->Current view->... no updated on folder change (Milan Crha)
+	Bug 765665 - Notification doesn't use user selected date/time format (Milan Crha)
+	Bug 765636 - Runtime warning from spi_register_deregister_object() on quit (Milan Crha)
+	Bug 681353 - Use per-account Templates folder setting (Milan Crha)
+	Bug 435219 - Treat Sent/Outbox subfolders as outgoing folders too (Milan Crha)
+	Bug 765950 - Search bar text change should enable Next/Prev buttons (Milan Crha)
+	Bug 765857 - Allow blank "Full Name" for email account (Milan Crha)
+	Bug 766017 - Taskpad/Memopad Calendar popup menus not updated on popup (Milan Crha)
+	Bug 571723 - Prefer "Cancelled" over "Canceled" in translatable strings (Milan Crha)
+	Bug 766111 - Fix typos in reference manual (Sebastian Rasmussen)
+	Bug 766111 - Use <app> and <gui> tags consistently in manual (Sebastian Rasmussen)
+	Bug 766315 - Link to Thunderbird docs for finding profile information instead of hardcoding (Andre Klapper)
+	Bug 766111 - Fix typos in GUI and help text (Sebastian Rasmussen)
+	Bug 766540 - Add missing library to build of calendar/gui/ (Tim Lunn)
+
+Miscellaneous:
+	Avoid minor occasional runtime warning (Milan Crha)
+	Occasional runtime warning from EaMinicardView about invalid book client (Milan Crha)
+	Move the clipboard handling from EMsgComposer to EHTMLEditorView (Tomas Popela)
+	Recognize special folders for a global mail view also based on flags (Milan Crha)
+	Rather hide, than disable, items in Taskpad/Memopad context menus (Milan Crha)
+	Correct placement of emoticon and color chooser in composer under Wayland (Milan Crha)
+	Enhance delayed message send through Outbox (Milan Crha)
+	Fix typo in previous commit (Andre Klapper)
+	Add missing closing tag. (Andre Klapper)
+	Fix some issues found by Coverity Scan, cppcheck and clang (Milan Crha)
+	Explicitly center attachment bar expander vertically (Milan Crha)
+	EHTMLEditor - Only display the text properties dialog when some text is selected (Tomas Popela)
+	EHTMLEditorActions - 'Select All' action is always disabled (Tomas Popela)
+	EHTMLEditorImageDialog - Border and alignment are not set properly (Tomas Popela)
+	EHTMLEditorView - Restore the selection end mark correctly when processing HTML to plain text (Tomas Popela)
+	EHTMLEditorView - Redoing a citation split removes an extra text (Tomas Popela)
+	EHTMLEditorView - Introduce the is-ready signal (Tomas Popela)
+	EHTMLEditorView - Background image from page is removed when saving draft (Tomas Popela)
+	EMailSignatureEditor - Undo and redo history is handled by EHTMLEditorView and not by WebKitWebView (Tomas Popela)
+	EMsgComposer - Move the signature handling to EHTMLEditorView (Tomas Popela)
+
+Translations:
+	Daniel Mustieles (es)
+	Matej Urbančič (sl)
+	Cédric Valmary (oc)
+	Aurimas Černius (lt)
+	Sveinn í Felli (is)
+	Tiago Santos (pt)
+
 Evolution 3.21.1 2016-04-25
 ---------------------------
 
