@@ -1388,18 +1388,20 @@ mail_display_get_font_settings (GSettings *settings,
 	use_custom_font = g_settings_get_boolean (settings, "use-custom-font");
 
 	if (!use_custom_font) {
-		*monospace = NULL;
-		*variable = NULL;
+		if (monospace)
+			*monospace = NULL;
+		if (variable)
+			*variable = NULL;
 		return;
 	}
 
 	monospace_font = g_settings_get_string (settings, "monospace-font");
 	variable_font = g_settings_get_string (settings, "variable-width-font");
 
-	*monospace = (monospace_font != NULL) ?
-		pango_font_description_from_string (monospace_font) : NULL;
-	*variable = (variable_font != NULL) ?
-		pango_font_description_from_string (variable_font) : NULL;
+	if (monospace)
+		*monospace = (monospace_font != NULL) ? pango_font_description_from_string (monospace_font) : NULL;
+	if (variable)
+		*variable = (variable_font != NULL) ? pango_font_description_from_string (variable_font) : NULL;
 
 	g_free (monospace_font);
 	g_free (variable_font);
