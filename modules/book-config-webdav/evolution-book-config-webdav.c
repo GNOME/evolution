@@ -19,6 +19,7 @@
 #include <glib/gi18n-lib.h>
 
 #include <libebackend/libebackend.h>
+#include <libedataserverui/libedataserverui.h>
 
 #include <e-util/e-util.h>
 
@@ -28,7 +29,11 @@ typedef ESourceConfigBackendClass EBookConfigWebdavClass;
 typedef struct _Context Context;
 
 struct _Context {
+	ESourceConfigBackend *backend;		/* not referenced */
+	ESource *scratch_source;		/* not referenced */
+
 	GtkWidget *url_entry;
+	GtkWidget *find_button;
 	GtkWidget *avoid_ifmatch;
 };
 
@@ -48,9 +53,106 @@ static void
 book_config_webdav_context_free (Context *context)
 {
 	g_object_unref (context->url_entry);
+	g_object_unref (context->find_button);
 	g_object_unref (context->avoid_ifmatch);
 
 	g_slice_free (Context, context);
+}
+
+static GtkWindow *
+webdav_config_get_dialog_parent_cb (ECredentialsPrompter *prompter,
+				    GtkWindow *dialog)
+{
+	return dialog;
+}
+
+static void
+book_config_webdav_run_dialog (GtkButton *button,
+			       Context *context)
+{
+	ESourceConfig *config;
+	ESourceRegistry *registry;
+	ESourceWebdav *webdav_extension;
+	ECredentialsPrompter *prompter;
+	SoupURI *uri;
+	gchar *base_url;
+	GtkDialog *dialog;
+	gpointer parent;
+	gulong handler_id;
+	guint supports_filter = 0;
+	const gchar *title = NULL;
+
+	config = e_source_config_backend_get_config (context->backend);
+	registry = e_source_config_get_registry (config);
+
+	parent = gtk_widget_get_toplevel (GTK_WIDGET (config));
+	parent = gtk_widget_is_toplevel (parent) ? parent : NULL;
+
+	supports_filter = E_WEBDAV_DISCOVER_SUPPORTS_CONTACTS;
+	title = _("Choose an Address Book");
+
+	webdav_extension = e_source_get_extension (context->scratch_source, E_SOURCE_EXTENSION_WEBDAV_BACKEND);
+
+	uri = e_source_webdav_dup_soup_uri (webdav_extension);
+
+	prompter = e_credentials_prompter_new (registry);
+	e_credentials_prompter_set_auto_prompt (prompter, FALSE);
+	base_url = soup_uri_to_string (uri, FALSE);
+
+	dialog = e_webdav_discover_dialog_new (parent, title, prompter, context->scratch_source, base_url, supports_filter);
+
+	if (parent != NULL)
+		e_binding_bind_property (
+			parent, "icon-name",
+			dialog, "icon-name",
+			G_BINDING_SYNC_CREATE);
+
+	handler_id = g_signal_connect (prompter, "get-dialog-parent",
+		G_CALLBACK (webdav_config_get_dialog_parent_cb), dialog);
+
+	e_webdav_discover_dialog_refresh (dialog);
+
+	if (gtk_dialog_run (dialog) == GTK_RESPONSE_ACCEPT) {
+		gchar *href = NULL, *display_name = NULL, *color = NULL, *email;
+		guint supports = 0;
+		GtkWidget *content;
+
+		content = e_webdav_discover_dialog_get_content (dialog);
+
+		if (e_webdav_discover_content_get_selected (content, 0, &href, &supports, &display_name, &color)) {
+			soup_uri_free (uri);
+			uri = soup_uri_new (href);
+
+			if (uri) {
+				e_source_set_display_name (context->scratch_source, display_name);
+
+				e_source_webdav_set_display_name (webdav_extension, display_name);
+				e_source_webdav_set_soup_uri (webdav_extension, uri);
+			}
+
+			g_free (href);
+			g_free (display_name);
+			g_free (color);
+
+			href = NULL;
+			display_name = NULL;
+			color = NULL;
+		}
+
+		email = e_webdav_discover_content_get_user_address (content);
+		if (email && *email)
+			e_source_webdav_set_email_address (webdav_extension, email);
+		g_free (email);
+	}
+
+	g_signal_handler_disconnect (prompter, handler_id);
+
+	gtk_widget_destroy (GTK_WIDGET (dialog));
+
+	g_object_unref (prompter);
+	if (uri)
+		soup_uri_free (uri);
+	g_free (base_url);
 }
 
 static gboolean
@@ -123,6 +225,9 @@ book_config_webdav_insert_widgets (ESourceConfigBackend *backend,
 	uid = e_source_get_uid (scratch_source);
 	config = e_source_config_backend_get_config (backend);
 
+	context->backend = backend;
+	context->scratch_source = scratch_source;
+
 	g_object_set_data_full (
 		G_OBJECT (backend), uid, context,
 		(GDestroyNotify) book_config_webdav_context_free);
@@ -140,6 +245,15 @@ book_config_webdav_insert_widgets (ESourceConfigBackend *backend,
 		config, scratch_source);
 
 	e_source_config_add_user_entry (config, scratch_source);
+
+	widget = gtk_button_new_with_label (_("Find Address Books"));
+	e_source_config_insert_widget (config, scratch_source, NULL, widget);
+	context->find_button = g_object_ref (widget);
+	gtk_widget_show (widget);
+
+	g_signal_connect (
+		widget, "clicked",
+		G_CALLBACK (book_config_webdav_run_dialog), context);
 
 	widget = gtk_check_button_new_with_label (
 		_("Avoid IfMatch (needed on Apache < 2.2.8)"));
