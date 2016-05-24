@@ -23,9 +23,6 @@
 
 #include <e-util/e-util.h>
 
-#define HTTP_PORT 80
-#define HTTPS_PORT 443
-
 typedef ESourceConfigBackend ECalConfigCalDAV;
 typedef ESourceConfigBackendClass ECalConfigCalDAVClass;
 
