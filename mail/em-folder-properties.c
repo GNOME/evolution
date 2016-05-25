@@ -133,6 +133,55 @@ add_numbered_row (GtkTable *table,
 	return row + 1;
 }
 
+typedef struct _ThreeStateData {
+	CamelFolder *folder;
+	gchar *property_name;
+	gulong handler_id;
+} ThreeStateData;
+
+static void
+three_state_data_free (gpointer data,
+		       GClosure *closure)
+{
+	ThreeStateData *tsd = data;
+
+	if (tsd) {
+		g_clear_object (&tsd->folder);
+		g_free (tsd->property_name);
+		g_free (tsd);
+	}
+}
+
+static void
+emfp_three_state_toggled_cb (GtkToggleButton *widget,
+			     gpointer user_data)
+{
+	ThreeStateData *tsd = user_data;
+	CamelThreeState set_to;
+
+	g_return_if_fail (GTK_IS_TOGGLE_BUTTON (widget));
+	g_return_if_fail (tsd != NULL);
+
+	g_signal_handler_block (widget, tsd->handler_id);
+
+	if (gtk_toggle_button_get_inconsistent (widget) &&
+	    gtk_toggle_button_get_active (widget)) {
+		gtk_toggle_button_set_active (widget, FALSE);
+		gtk_toggle_button_set_inconsistent (widget, FALSE);
+		set_to = CAMEL_THREE_STATE_OFF;
+	} else if (!gtk_toggle_button_get_active (widget)) {
+		gtk_toggle_button_set_inconsistent (widget, TRUE);
+		gtk_toggle_button_set_active (widget, FALSE);
+		set_to = CAMEL_THREE_STATE_INCONSISTENT;
+	} else {
+		set_to = CAMEL_THREE_STATE_ON;
+	}
+
+	g_object_set (G_OBJECT (tsd->folder), tsd->property_name, set_to, NULL);
+
+	g_signal_handler_unblock (widget, tsd->handler_id);
+}
+
 static GtkWidget *
 emfp_get_folder_item (EConfig *ec,
                       EConfigItem *item,
@@ -272,7 +321,56 @@ emfp_get_folder_item (EConfig *ec,
 				row++;
 				break;
 			default:
-				g_warn_if_reached ();
+				if (properties[ii]->value_type == CAMEL_TYPE_THREE_STATE) {
+					ThreeStateData *tsd;
+					GValue value = G_VALUE_INIT;
+					CamelThreeState three_state;
+					gboolean set_inconsistent = FALSE, set_active = FALSE;
+
+					g_value_init (&value, properties[ii]->value_type);
+
+					g_object_get_property (G_OBJECT (context->folder), properties[ii]->name, &value);
+					three_state = g_value_get_enum (&value);
+					g_value_unset (&value);
+
+					switch (three_state) {
+						case CAMEL_THREE_STATE_ON:
+							set_inconsistent = FALSE;
+							set_active = TRUE;
+							break;
+						case CAMEL_THREE_STATE_OFF:
+							set_inconsistent = FALSE;
+							set_active = FALSE;
+							break;
+						case CAMEL_THREE_STATE_INCONSISTENT:
+							set_inconsistent = TRUE;
+							set_active = FALSE;
+							break;
+					}
+
+					widget = gtk_check_button_new_with_mnemonic (blurb);
+
+					g_object_set (G_OBJECT (widget),
+						"inconsistent", set_inconsistent,
+						"active", set_active,
+						NULL);
+
+					tsd = g_new0 (ThreeStateData, 1);
+					tsd->folder = g_object_ref (context->folder);
+					tsd->property_name = g_strdup (properties[ii]->name);
+					tsd->handler_id = g_signal_connect_data (widget, "toggled",
+						G_CALLBACK (emfp_three_state_toggled_cb),
+						tsd, three_state_data_free, 0);
+
+					gtk_widget_show (widget);
+					gtk_table_attach (
+						GTK_TABLE (table), widget,
+						0, 2, row, row + 1,
+						GTK_FILL | GTK_EXPAND, 0, 0, 0);
+					row++;
+				} else {
+					g_warn_if_reached ();
+				}
 				break;
 		}
 	}
