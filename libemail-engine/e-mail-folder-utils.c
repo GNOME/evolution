@@ -1278,31 +1278,32 @@ mail_folder_remove_attachments_thread (GSimpleAsyncResult *simple,
 		g_simple_async_result_take_error (simple, error);
 }
 
-/* Helper for e_mail_folder_remove_attachments_sync() */
 static gboolean
-mail_folder_strip_message (CamelFolder *folder,
-                           CamelMimeMessage *message,
-                           const gchar *message_uid,
-                           GCancellable *cancellable,
-                           GError **error)
+mail_folder_strip_message_level (CamelMimePart *in_part,
+				 GCancellable *cancellable)
 {
 	CamelDataWrapper *content;
 	CamelMultipart *multipart;
 	gboolean modified = FALSE;
-	gboolean success = TRUE;
 	guint ii, n_parts;
 
-	content = camel_medium_get_content (CAMEL_MEDIUM (message));
+	g_return_val_if_fail (CAMEL_IS_MIME_PART (in_part), FALSE);
+
+	content = camel_medium_get_content (CAMEL_MEDIUM (in_part));
+
+	if (CAMEL_IS_MIME_MESSAGE (content)) {
+		return mail_folder_strip_message_level (CAMEL_MIME_PART (content), cancellable);
+	}
 
 	if (!CAMEL_IS_MULTIPART (content))
-		return TRUE;
+		return FALSE;
 
 	multipart = CAMEL_MULTIPART (content);
 	n_parts = camel_multipart_get_number (multipart);
 
 	/* Replace MIME parts with "attachment" or "inline" dispositions
 	 * with a small "text/plain" part saying the file was removed. */
-	for (ii = 0; ii < n_parts; ii++) {
+	for (ii = 0; ii < n_parts && !g_cancellable_is_cancelled (cancellable); ii++) {
 		CamelMimePart *mime_part;
 		const gchar *disposition;
 		gboolean is_attachment;
@@ -1340,8 +1341,26 @@ mail_folder_strip_message (CamelFolder *folder,
 				mime_part, disposition);
 
 			modified = TRUE;
+		} else {
+			modified = mail_folder_strip_message_level (mime_part, cancellable) || modified;
 		}
 	}
+
+	return modified;
+}
+
+/* Helper for e_mail_folder_remove_attachments_sync() */
+static gboolean
+mail_folder_strip_message (CamelFolder *folder,
+                           CamelMimeMessage *message,
+                           const gchar *message_uid,
+                           GCancellable *cancellable,
+                           GError **error)
+{
+	gboolean modified;
+	gboolean success = TRUE;
+
+	modified = mail_folder_strip_message_level (CAMEL_MIME_PART (message), cancellable);
 
 	/* Append the modified message with removed attachments to
 	 * the folder and mark the original message for deletion. */
