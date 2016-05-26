@@ -142,6 +142,41 @@ format_cert_infos (GQueue *cert_infos,
 }
 
 static void
+add_photo_cb (gpointer data,
+	      gpointer user_data)
+{
+	CamelCipherCertInfo *cert_info = data;
+	gint width, height;
+	GString *html = user_data;
+	const gchar *photo_filename;
+	gchar *uri;
+
+	g_return_if_fail (cert_info != NULL);
+	g_return_if_fail (html != NULL);
+
+	photo_filename = camel_cipher_certinfo_get_property (cert_info, CAMEL_CIPHER_CERT_INFO_PROPERTY_PHOTO_FILENAME);
+	if (!photo_filename || !g_file_test (photo_filename, G_FILE_TEST_EXISTS | G_FILE_TEST_IS_REGULAR))
+		return;
+
+	if (!gtk_icon_size_lookup (GTK_ICON_SIZE_DND, &width, &height)) {
+		width = 32;
+		height = 32;
+	}
+
+	if (width < 32)
+		width = 32;
+	if (height < 32)
+		height = 32;
+
+	uri = g_filename_to_uri (photo_filename, NULL, NULL);
+
+	g_string_append_printf (html, "<img src=\"evo-%s\" width=\"%dpx\" height=\"%dpx\" style=\"vertical-align:middle; margin-right:4px;\">",
+		uri, width, height);
+
+	g_free (uri);
+}
+
+static void
 secure_button_format_validity (EMailPart *part,
 			       CamelCipherValidity *validity,
 			       GString *html)
@@ -201,12 +236,16 @@ secure_button_format_validity (EMailPart *part,
 
 	g_string_append_printf (html,
 		"<td style=\"width:1px;\"><button type=\"button\" class=\"secure-button\" id=\"secure-button\" value=\"%p:%p\" accesskey=\"\" style=\"vertical-align:middle;\">"
-		"<img src=\"gtk-stock://%s?size=%d\" width=\"%dpx\" height=\"%dpx\" style=\"vertical-align:middle;\"></button></td><td><span style=\"color:#%06x; vertical-align:middle;\">%s</span></td>",
+		"<img src=\"gtk-stock://%s?size=%d\" width=\"%dpx\" height=\"%dpx\" style=\"vertical-align:middle;\"></button></td><td><span style=\"color:#%06x; vertical-align:middle;\">",
 		part, validity, icon_name, GTK_ICON_SIZE_LARGE_TOOLBAR,
-		icon_width, icon_height, e_rgba_to_value (&smime_sign_colour[5]), description);
+		icon_width, icon_height, e_rgba_to_value (&smime_sign_colour[5]));
+
+	g_queue_foreach (&validity->sign.signers, add_photo_cb, html);
+	g_queue_foreach (&validity->encrypt.encrypters, add_photo_cb, html);
+
+	g_string_append_printf (html, "%s</span></td></tr></table>\n", description);
 
 	g_free (description);
-	g_string_append (html, "</tr></table>\n");
 }
 
 static gboolean
