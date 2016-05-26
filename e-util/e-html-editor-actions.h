@@ -113,6 +113,8 @@
 	E_HTML_EDITOR_ACTION ((editor), "monospaced")
 #define E_HTML_EDITOR_ACTION_PASTE(editor) \
 	E_HTML_EDITOR_ACTION ((editor), "paste")
+#define E_HTML_EDITOR_ACTION_PASTE_QUOTE(editor) \
+	E_HTML_EDITOR_ACTION ((editor), "paste-quote")
 #define E_HTML_EDITOR_ACTION_PROPERTIES_RULE(editor) \
 	E_HTML_EDITOR_ACTION ((editor), "properties-rule")
 #define E_HTML_EDITOR_ACTION_PROPERTIES_TABLE(editor) \
