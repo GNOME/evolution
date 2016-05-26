@@ -12,8 +12,8 @@ msgstr ""
 "Project-Id-Version: 3.12\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2016-05-18 09:51+0000\n"
-"PO-Revision-Date: 2016-05-21 21:12+0100\n"
+"POT-Creation-Date: 2016-05-26 11:24+0000\n"
+"PO-Revision-Date: 2016-05-26 14:38+0100\n"
 "Last-Translator: Tiago Santos <tiagofsantos81@sapo.pt>\n"
 "Language-Team: Português <>\n"
 "Language: pt\n"
@@ -617,7 +617,7 @@ msgstr "Opções"
 #: ../mail/e-mail-config-window.c:330 ../mail/e-mail-label-dialog.c:196
 #: ../mail/e-mail-tag-editor.c:242 ../mail/em-folder-selector.c:317
 #: ../mail/mail-config.ui.h:2 ../mail/mail.error.xml.h:16
-#: ../mail/mail-send-recv.c:743 ../mail/mail-send-recv.c:825
+#: ../mail/mail-send-recv.c:746 ../mail/mail-send-recv.c:828
 #: ../mail/mail-vfolder-ui.c:148 ../mail/mail-vfolder-ui.c:270
 #: ../modules/backup-restore/evolution-backup-tool.c:899
 #: ../modules/calendar/e-cal-attachment-handler.c:285
@@ -1234,7 +1234,7 @@ msgstr "Blogue"
 #: ../calendar/gui/e-cal-model-tasks.c:558 ../calendar/gui/e-task-table.c:213
 #: ../calendar/gui/e-task-table.c:228 ../calendar/gui/e-task-table.c:610
 #: ../calendar/gui/print.c:3588 ../calendar/gui/tasktypes.xml.h:14
-#: ../mail/mail-send-recv.c:964
+#: ../mail/mail-send-recv.c:967
 msgid "Cancelled"
 msgstr "Cancelada"
 
@@ -3868,8 +3868,8 @@ msgstr "Hora de início incorreta"
 #: ../calendar/gui/e-comp-editor-event.c:372
 #: ../calendar/gui/e-comp-editor-page-attachments.c:211
 #: ../calendar/gui/e-comp-editor.c:339 ../mail/e-mail-display.c:2057
-#: ../mail/e-mail-reader-utils.c:650 ../mail/mail-send-recv.c:486
-#: ../mail/mail-send-recv.c:1286 ../plugins/face/face.c:176
+#: ../mail/e-mail-reader-utils.c:650 ../mail/mail-send-recv.c:489
+#: ../mail/mail-send-recv.c:1289 ../plugins/face/face.c:176
 #: ../shell/e-shell.c:991 ../shell/e-shell.c:1013
 #: ../smime/gui/certificate-manager.c:348
 msgid "Unknown error"
@@ -4702,7 +4702,6 @@ msgid "Completed"
 msgstr "Terminada"
 
 #: ../calendar/gui/e-comp-editor-property-parts.c:1173
-#| msgid "Cancelled"
 msgctxt "ECompEditor"
 msgid "Cancelled"
 msgstr "Cancelada"
@@ -4822,7 +4821,7 @@ msgstr "Sem resumo"
 #: ../e-util/e-mail-signature-editor.c:299
 #: ../e-util/e-name-selector-dialog.c:551 ../e-util/e-preferences-window.c:391
 #: ../e-util/e-table-field-chooser-dialog.c:207 ../mail/e-mail-browser.c:129
-#: ../mail/e-mail-notes.c:903 ../mail/em-folder-properties.c:688
+#: ../mail/e-mail-notes.c:903 ../mail/em-folder-properties.c:786
 #: ../mail/em-subscription-editor.c:1765
 #: ../modules/plugin-manager/evolution-plugin-manager.c:256
 #: ../shell/e-shell-window-actions.c:280 ../shell/e-shell-window-actions.c:778
@@ -5335,7 +5334,7 @@ msgstr "Data de início"
 msgid "Completion date"
 msgstr "Data de fim"
 
-#: ../calendar/gui/e-task-table.etspec.h:6 ../mail/mail-send-recv.c:966
+#: ../calendar/gui/e-task-table.etspec.h:6 ../mail/mail-send-recv.c:969
 msgid "Complete"
 msgstr "Terminada"
 
@@ -7957,7 +7956,6 @@ msgid "Lose _formatting"
 msgstr "Perder a _formatação"
 
 #: ../composer/mail-composer.error.xml.h:41
-#| msgid "An error occurred while saving to your Drafts folder."
 msgid "An error occurred while saving to your Templates folder."
 msgstr "Ocorreu um erro ao gravar na sua pasta de Modelos."
 
@@ -14321,7 +14319,6 @@ msgid "Sort _Descending"
 msgstr "Ordem _descendente"
 
 #: ../e-util/e-table-header-item.c:1627
-#| msgid "_Reset Order"
 msgid "_Reset sort"
 msgstr "_Repor ordenação"
 
@@ -14824,33 +14821,33 @@ msgstr "A verificar a existência de duplicados nas mensagens"
 msgid "Removing folder '%s'"
 msgstr "A remover a pasta \"%s\""
 
-#: ../libemail-engine/e-mail-folder-utils.c:1328
+#: ../libemail-engine/e-mail-folder-utils.c:1329
 #, c-format
 msgid "File \"%s\" has been removed."
 msgstr "O ficheiro \"%s\" foi removido."
 
-#: ../libemail-engine/e-mail-folder-utils.c:1332
+#: ../libemail-engine/e-mail-folder-utils.c:1333
 msgid "File has been removed."
 msgstr "O ficheiro foi removido."
 
-#: ../libemail-engine/e-mail-folder-utils.c:1391
+#: ../libemail-engine/e-mail-folder-utils.c:1410
 msgid "Removing attachments"
 msgstr "A remover os anexos"
 
-#: ../libemail-engine/e-mail-folder-utils.c:1555
+#: ../libemail-engine/e-mail-folder-utils.c:1574
 #, c-format
 msgid "Saving %d message"
 msgid_plural "Saving %d messages"
 msgstr[0] "A gravar %d mensagem"
 msgstr[1] "A gravar %d mensagens"
 
-#: ../libemail-engine/e-mail-folder-utils.c:1933
+#: ../libemail-engine/e-mail-folder-utils.c:1952
 #, c-format
 msgid "Invalid folder URI '%s'"
 msgstr "URI de pasta \"%s\" inválido"
 
 #. Some local folders
-#: ../libemail-engine/e-mail-session.c:126 ../mail/em-folder-properties.c:680
+#: ../libemail-engine/e-mail-session.c:126 ../mail/em-folder-properties.c:778
 #: ../mail/em-folder-tree-model.c:1212 ../mail/importers/kmail-libs.c:141
 #: ../modules/mail/e-mail-shell-view-private.c:1052
 #: ../modules/mail/e-mail-shell-view-private.c:1063
@@ -15020,7 +15017,6 @@ msgstr[0] "Falha ao enviar uma mensagem"
 msgstr[1] "Falha ao enviar %d de %d mensagens"
 
 #: ../libemail-engine/mail-ops.c:1064
-#| msgid "Cancelled"
 msgid "Cancelled."
 msgstr "Cancelada."
 
@@ -15270,12 +15266,10 @@ msgid "Choose a folder to archive messages to."
 msgstr "Escolha uma pasta onde arquivar mensagens."
 
 #: ../mail/e-mail-config-defaults-page.c:932
-#| msgid "_Template:"
 msgid "_Templates Folder:"
 msgstr "Pasta de _Modelos:"
 
 #: ../mail/e-mail-config-defaults-page.c:942
-#| msgid "Choose a folder for deleted messages."
 msgid "Choose a folder to use for template messages."
 msgstr "Escolha uma pasta para mensagens modelo."
 
@@ -15405,7 +15399,6 @@ msgstr ""
 #. This is only a warning, not a blocker
 #. complete = complete && correct;
 #: ../mail/e-mail-config-identity-page.c:612
-#| msgid "Full Name cannot be empty"
 msgid "Full Name should not be empty"
 msgstr "O nome completo não pode estar vazio"
 
@@ -15455,7 +15448,7 @@ msgid "%s - %s"
 msgstr "%s - %s"
 
 #: ../mail/e-mail-config-security-page.c:340
-#: ../mail/em-folder-properties.c:603 ../mail/mail-config.ui.h:31
+#: ../mail/em-folder-properties.c:701 ../mail/mail-config.ui.h:31
 #: ../modules/addressbook/autocompletion-config.c:113
 #: ../modules/calendar/e-calendar-preferences.c:620
 #: ../modules/calendar/e-calendar-preferences.ui.h:48
@@ -16697,87 +16690,87 @@ msgstr "Depois"
 msgid "Add Ac_tion"
 msgstr "Adicio_nar ação"
 
-#: ../mail/em-folder-properties.c:178
+#: ../mail/em-folder-properties.c:227
 msgid "Unread messages:"
 msgid_plural "Unread messages:"
 msgstr[0] "Mensagens por ler:"
 msgstr[1] "Mensagens por ler:"
 
-#: ../mail/em-folder-properties.c:189
+#: ../mail/em-folder-properties.c:238
 msgid "Total messages:"
 msgid_plural "Total messages:"
 msgstr[0] "Total de mensagens:"
 msgstr[1] "Total de mensagens:"
 
-#: ../mail/em-folder-properties.c:210
+#: ../mail/em-folder-properties.c:259
 #, c-format
 msgid "Quota usage (%s):"
 msgstr "Utilização de quota (%s):"
 
-#: ../mail/em-folder-properties.c:212
+#: ../mail/em-folder-properties.c:261
 #, c-format
 msgid "Quota usage"
 msgstr "Utilização de quota"
 
 #. Translators: Label of a combo with a list of configured accounts where a user can
 #. choose which account to use as the sender when composing a message in this folder
-#: ../mail/em-folder-properties.c:287
+#: ../mail/em-folder-properties.c:385
 msgid "_Send Account Override:"
 msgstr "Sobreposição de conta de _envio:"
 
-#: ../mail/em-folder-properties.c:491
+#: ../mail/em-folder-properties.c:589
 msgid "_Archive this folder using these settings:"
 msgstr "_Arquivar esta pasta usando estas definições:"
 
 #. Translators: This text is part of "Cleanup messages older than [X] [days/weeks/months]"
-#: ../mail/em-folder-properties.c:500
+#: ../mail/em-folder-properties.c:598
 msgctxt "autoarchive"
 msgid "_Cleanup messages older than"
 msgstr "_Limpar mensagens com mais de"
 
 #. Translators: This text is part of "Cleanup messages older than [X] [days/weeks/months]"
-#: ../mail/em-folder-properties.c:516
+#: ../mail/em-folder-properties.c:614
 msgctxt "autoarchive"
 msgid "days"
 msgstr "dias"
 
 #. Translators: This text is part of "Cleanup messages older than [X] [days/weeks/months]"
-#: ../mail/em-folder-properties.c:518
+#: ../mail/em-folder-properties.c:616
 msgctxt "autoarchive"
 msgid "weeks"
 msgstr "semanas"
 
 #. Translators: This text is part of "Cleanup messages older than [X] [days/weeks/months]"
-#: ../mail/em-folder-properties.c:520
+#: ../mail/em-folder-properties.c:618
 msgctxt "autoarchive"
 msgid "months"
 msgstr "meses"
 
-#: ../mail/em-folder-properties.c:526
+#: ../mail/em-folder-properties.c:624
 msgid "Move old messages to the default archive _folder"
 msgstr "Mover as mensages _antigas para a pasta de arquivo predefinida"
 
-#: ../mail/em-folder-properties.c:537
+#: ../mail/em-folder-properties.c:635
 msgid "_Move old messages to:"
 msgstr "_Mover mensagens antigas para:"
 
-#: ../mail/em-folder-properties.c:541
+#: ../mail/em-folder-properties.c:639
 msgid "AutoArchive folder"
 msgstr "Pasta de arquivo automático"
 
-#: ../mail/em-folder-properties.c:541
+#: ../mail/em-folder-properties.c:639
 msgid "Select folder to use for AutoArchive"
 msgstr "Selecionar a pasta para arquivo automático"
 
-#: ../mail/em-folder-properties.c:547
+#: ../mail/em-folder-properties.c:645
 msgid "_Delete old messages"
 msgstr "_Eliminar mensagens antigas"
 
-#: ../mail/em-folder-properties.c:606
+#: ../mail/em-folder-properties.c:704
 msgid "AutoArchive"
 msgstr "Arquivo automático"
 
-#: ../mail/em-folder-properties.c:685
+#: ../mail/em-folder-properties.c:783
 msgid "Folder Properties"
 msgstr "Propriedades da pasta"
 
@@ -18841,38 +18834,38 @@ msgstr "Falha ao gravar nota de mensagem na pasta '{0}'"
 msgid "Canceling..."
 msgstr "A cancelar..."
 
-#: ../mail/mail-send-recv.c:636
+#: ../mail/mail-send-recv.c:639
 msgid "Send & Receive Mail"
 msgstr "Enviar & receber mensagens"
 
-#: ../mail/mail-send-recv.c:650
+#: ../mail/mail-send-recv.c:653
 msgid "Cancel _All"
 msgstr "Cancelar _tudo"
 
-#: ../mail/mail-send-recv.c:740 ../mail/mail-send-recv.c:1260
+#: ../mail/mail-send-recv.c:743 ../mail/mail-send-recv.c:1263
 msgid "Updating..."
 msgstr "A atualizar..."
 
-#: ../mail/mail-send-recv.c:740 ../mail/mail-send-recv.c:822
+#: ../mail/mail-send-recv.c:743 ../mail/mail-send-recv.c:825
 msgid "Waiting..."
 msgstr "A aguardar..."
 
-#: ../mail/mail-send-recv.c:1226
+#: ../mail/mail-send-recv.c:1229
 #, c-format
 msgid "Checking for new mail at '%s'"
 msgstr "A procurar novas mensagens em \"%s\""
 
-#: ../mail/mail-send-recv.c:1453
+#: ../mail/mail-send-recv.c:1456
 #, c-format
 msgid "Deleting junk and expunging trash at '%s'"
 msgstr "A eliminar não solicitado e expurgar lixo em \"%s\""
 
-#: ../mail/mail-send-recv.c:1455
+#: ../mail/mail-send-recv.c:1458
 #, c-format
 msgid "Deleting junk at '%s'"
 msgstr "A eliminar não solicitado em \"%s\""
 
-#: ../mail/mail-send-recv.c:1457
+#: ../mail/mail-send-recv.c:1460
 #, c-format
 msgid "Expunging trash at '%s'"
 msgstr "A expurgar o lixo em \"%s\""
@@ -19825,54 +19818,64 @@ msgstr "Navegar até atingir o limite"
 msgid "Server address cannot be empty"
 msgstr "O endereço do servidor não pode estar vazio"
 
-#: ../modules/book-config-webdav/evolution-book-config-webdav.c:135
-#: ../modules/cal-config-caldav/evolution-cal-config-caldav.c:299
+#: ../modules/book-config-webdav/evolution-book-config-webdav.c:92
+#| msgid "New Address Book"
+msgid "Choose an Address Book"
+msgstr "Escolher um livro de endereços"
+
+#: ../modules/book-config-webdav/evolution-book-config-webdav.c:240
+#: ../modules/cal-config-caldav/evolution-cal-config-caldav.c:296
 #: ../modules/cal-config-webcal/evolution-cal-config-webcal.c:127
 msgid "URL:"
 msgstr "URL:"
 
-#: ../modules/book-config-webdav/evolution-book-config-webdav.c:145
+#: ../modules/book-config-webdav/evolution-book-config-webdav.c:249
+#| msgid "Address Book"
+msgid "Find Address Books"
+msgstr "Encontrar livro de endereços"
+
+#: ../modules/book-config-webdav/evolution-book-config-webdav.c:259
 msgid "Avoid IfMatch (needed on Apache < 2.2.8)"
 msgstr "Evitar IfMatch (necessário no Apache < 2.2.8)"
 
-#: ../modules/book-config-webdav/evolution-book-config-webdav.c:194
-#: ../modules/cal-config-caldav/evolution-cal-config-caldav.c:415
+#: ../modules/book-config-webdav/evolution-book-config-webdav.c:308
+#: ../modules/cal-config-caldav/evolution-cal-config-caldav.c:412
 #: ../modules/cal-config-webcal/evolution-cal-config-webcal.c:184
 msgid "URL is not a valid http:// nor https:// URL"
 msgstr "O URL não é um http:// ou https:// válido"
 
-#: ../modules/cal-config-caldav/evolution-cal-config-caldav.c:112
+#: ../modules/cal-config-caldav/evolution-cal-config-caldav.c:109
 #: ../modules/cal-config-google/e-google-chooser-button.c:224
 msgid "Choose a Calendar"
 msgstr "Escolha um calendário"
 
-#: ../modules/cal-config-caldav/evolution-cal-config-caldav.c:116
+#: ../modules/cal-config-caldav/evolution-cal-config-caldav.c:113
 #: ../modules/cal-config-google/e-google-chooser-button.c:228
 msgid "Choose a Memo List"
 msgstr "Escolha uma lista de memorandos"
 
-#: ../modules/cal-config-caldav/evolution-cal-config-caldav.c:120
+#: ../modules/cal-config-caldav/evolution-cal-config-caldav.c:117
 #: ../modules/cal-config-google/e-google-chooser-button.c:232
 msgid "Choose a Task List"
 msgstr "Escolha uma lista de tarefas"
 
-#: ../modules/cal-config-caldav/evolution-cal-config-caldav.c:313
+#: ../modules/cal-config-caldav/evolution-cal-config-caldav.c:310
 msgid "Find Calendars"
 msgstr "Procurar calendários"
 
-#: ../modules/cal-config-caldav/evolution-cal-config-caldav.c:316
+#: ../modules/cal-config-caldav/evolution-cal-config-caldav.c:313
 msgid "Find Memo Lists"
 msgstr "Procurar listas de memorandos"
 
-#: ../modules/cal-config-caldav/evolution-cal-config-caldav.c:319
+#: ../modules/cal-config-caldav/evolution-cal-config-caldav.c:316
 msgid "Find Task Lists"
 msgstr "Procurar listas de tarefas"
 
-#: ../modules/cal-config-caldav/evolution-cal-config-caldav.c:337
+#: ../modules/cal-config-caldav/evolution-cal-config-caldav.c:334
 msgid "Email:"
 msgstr "Email:"
 
-#: ../modules/cal-config-caldav/evolution-cal-config-caldav.c:342
+#: ../modules/cal-config-caldav/evolution-cal-config-caldav.c:339
 msgid "Server handles meeting invitations"
 msgstr "O servidor gere os convites de reunião"
 
@@ -21327,13 +21330,11 @@ msgstr "%s enviou a seguinte resposta à reunião:"
 
 #: ../modules/itip-formatter/itip-view.c:442
 #, c-format
-#| msgid "%s through %s has canceled the following meeting:"
 msgid "%s through %s has cancelled the following meeting:"
 msgstr "%s através de %s cancelou a seguinte reunião:"
 
 #: ../modules/itip-formatter/itip-view.c:444
 #, c-format
-#| msgid "%s has canceled the following meeting:"
 msgid "%s has cancelled the following meeting:"
 msgstr "%s cancelou a seguinte reunião:"
 
@@ -21421,13 +21422,11 @@ msgstr "%s enviou a seguinte resposta à tarefa atribuída:"
 
 #: ../modules/itip-formatter/itip-view.c:532
 #, c-format
-#| msgid "%s through %s has canceled the following assigned task:"
 msgid "%s through %s has cancelled the following assigned task:"
 msgstr "%s através de %s cancelou a seguinte tarefa atribuída:"
 
 #: ../modules/itip-formatter/itip-view.c:534
 #, c-format
-#| msgid "%s has canceled the following assigned task:"
 msgid "%s has cancelled the following assigned task:"
 msgstr "%s cancelou a seguinte tarefa atribuída:"
 
@@ -21474,13 +21473,11 @@ msgstr "%s deseja adicionar a um memorando existente:"
 
 #: ../modules/itip-formatter/itip-view.c:598
 #, c-format
-#| msgid "%s through %s has canceled the following shared memo:"
 msgid "%s through %s has cancelled the following shared memo:"
 msgstr "%s através de %s cancelou o seguinte memorando partilhado:"
 
 #: ../modules/itip-formatter/itip-view.c:600
 #, c-format
-#| msgid "%s has canceled the following shared memo:"
 msgid "%s has cancelled the following shared memo:"
 msgstr "%s cancelou o seguinte memorando partilhado:"
 
@@ -21654,7 +21651,6 @@ msgstr "Enviar para o calendário \"%s\" como recusada"
 
 #: ../modules/itip-formatter/itip-view.c:4814
 #, c-format
-#| msgid "Sent to calendar '%s' as canceled"
 msgid "Sent to calendar '%s' as cancelled"
 msgstr "Enviada para o calendário \"%s\" como cancelada"
 
@@ -24062,7 +24058,6 @@ msgstr ""
 "substituídas por valores da mensagem de email à qual está a responder."
 
 #: ../plugins/templates/templates.c:1247
-#| msgid "Saving message to Outbox."
 msgid "Saving message template"
 msgstr "A gravar a mensagem modelo"
 
