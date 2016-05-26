@@ -361,6 +361,53 @@ secure_button_clicked_cb (GtkWidget *widget,
 	gtk_widget_show (dialog);
 }
 
+static void
+add_photo_cb (gpointer data,
+	      gpointer user_data)
+{
+	CamelCipherCertInfo *cert_info = data;
+	gint width, height;
+	GtkWidget *image;
+	GdkPixbuf *pixbuf, *scaled;
+	GtkBox *box = user_data;
+	const gchar *photo_filename;
+
+	g_return_if_fail (cert_info != NULL);
+	g_return_if_fail (GTK_IS_BOX (box));
+
+	photo_filename = camel_cipher_certinfo_get_property (cert_info, CAMEL_CIPHER_CERT_INFO_PROPERTY_PHOTO_FILENAME);
+	if (!photo_filename || !g_file_test (photo_filename, G_FILE_TEST_EXISTS | G_FILE_TEST_IS_REGULAR))
+		return;
+
+	pixbuf = gdk_pixbuf_new_from_file (photo_filename, NULL);
+	if (!pixbuf)
+		return;
+
+	if (!gtk_icon_size_lookup (GTK_ICON_SIZE_DND, &width, &height)) {
+		width = 32;
+		height = 32;
+	}
+
+	if (width < 32)
+		width = 32;
+	if (height < 32)
+		height = 32;
+
+	scaled = e_icon_factory_pixbuf_scale (pixbuf, width, height);
+	g_object_unref (pixbuf);
+
+	if (!scaled)
+		return;
+
+	image = gtk_image_new_from_pixbuf (scaled);
+	g_object_unref (scaled);
+
+	if (!image)
+		return;
+
+	gtk_box_pack_start (box, image, FALSE, FALSE, 0);
+}
+
 static GtkWidget *
 secure_button_get_widget_for_validity (CamelCipherValidity *validity)
 {
@@ -423,6 +470,9 @@ secure_button_get_widget_for_validity (CamelCipherValidity *validity)
 	widget = gtk_image_new_from_icon_name (
 			icon_name, GTK_ICON_SIZE_LARGE_TOOLBAR);
 	gtk_button_set_image (GTK_BUTTON (button), widget);
+
+	g_queue_foreach (&validity->sign.signers, add_photo_cb, layout);
+	g_queue_foreach (&validity->encrypt.encrypters, add_photo_cb, layout);
 
 	widget = gtk_label_new (description);
 	g_object_set (G_OBJECT (widget),
