@@ -2140,6 +2140,10 @@ editor_actions_init (EHTMLEditor *editor)
 		view, "can-paste",
 		ACTION (PASTE), "sensitive",
 		G_BINDING_SYNC_CREATE);
+	e_binding_bind_property (
+		view, "can-paste",
+		ACTION (PASTE_QUOTE), "sensitive",
+		G_BINDING_SYNC_CREATE);
 
 	/* This is connected to JUSTIFY_LEFT action only, but
 	 * it automatically applies on all actions in the group. */
