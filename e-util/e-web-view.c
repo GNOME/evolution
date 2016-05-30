@@ -608,7 +608,7 @@ web_view_decide_policy_cb (EWebView *web_view,
 	WebKitNavigationAction *navigation_action;
 	WebKitNavigationType navigation_type;
 	WebKitURIRequest *request;
-	const gchar *uri, *frame_uri;
+	const gchar *uri, *view_uri;
 
 	if (type != WEBKIT_POLICY_DECISION_TYPE_NAVIGATION_ACTION)
 		return FALSE;
@@ -622,41 +622,35 @@ web_view_decide_policy_cb (EWebView *web_view,
 
 	request = webkit_navigation_action_get_request (navigation_action);
 	uri = webkit_uri_request_get_uri (request);
-	/* FIXME XXX WK2 */
-//	frame_uri = webkit_web_frame_get_uri (frame);
-	frame_uri = "";
+	view_uri = webkit_web_view_get_uri (WEBKIT_WEB_VIEW (web_view));
 
 	/* Allow navigation through fragments in page */
-	if (uri && *uri && frame_uri && *frame_uri) {
-		SoupURI *uri_link, *uri_frame;
+	if (uri && *uri && view_uri && *view_uri) {
+		SoupURI *uri_link, *uri_view;
 
 		uri_link = soup_uri_new (uri);
-		uri_frame = soup_uri_new (frame_uri);
-		if (uri_link && uri_frame) {
+		uri_view = soup_uri_new (view_uri);
+		if (uri_link && uri_view) {
 			const gchar *tmp1, *tmp2;
 
 			tmp1 = soup_uri_get_scheme (uri_link);
-			tmp2 = soup_uri_get_scheme (uri_frame);
+			tmp2 = soup_uri_get_scheme (uri_view);
 
 			/* The scheme on both URIs should be the same */
-			if (tmp1 && tmp2) {
-				if (g_ascii_strcasecmp (tmp1, tmp2) != 0)
-					goto free_uris;
-			}
+			if (tmp1 && tmp2 && g_ascii_strcasecmp (tmp1, tmp2) != 0)
+				goto free_uris;
 
 			tmp1 = soup_uri_get_host (uri_link);
-			tmp2 = soup_uri_get_host (uri_frame);
+			tmp2 = soup_uri_get_host (uri_view);
 
 			/* The host on both URIs should be the same */
-			if (tmp1 && tmp2) {
-				if (g_ascii_strcasecmp (tmp1, tmp2) != 0)
-					goto free_uris;
-			}
+			if (tmp1 && tmp2 && g_ascii_strcasecmp (tmp1, tmp2) != 0)
+				goto free_uris;
 
 			/* URI from link should have fragment set - could be empty */
 			if (soup_uri_get_fragment (uri_link)) {
 				soup_uri_free (uri_link);
-				soup_uri_free (uri_frame);
+				soup_uri_free (uri_view);
 				webkit_policy_decision_use (decision);
 				return TRUE;
 			}
@@ -665,8 +659,8 @@ web_view_decide_policy_cb (EWebView *web_view,
  free_uris:
 		if (uri_link)
 			soup_uri_free (uri_link);
-		if (uri_frame)
-			soup_uri_free (uri_frame);
+		if (uri_view)
+			soup_uri_free (uri_view);
 	}
 
 	/* XXX WebKitWebView does not provide a class method for
