@@ -1267,9 +1267,9 @@ dnl **********************************
 dnl WebKit2 Web Extensions
 dnl **********************************
 webextensionsdir="$privlibdir/web-extensions"
-webextensionscomposerdir="$privlibdir/web-extensions/composer"
+webextensionscontenteditordir="$privlibdir/web-extensions/content-editor"
 AC_SUBST(webextensionsdir)
-AC_SUBST(webextensionscomposerdir)
+AC_SUBST(webextensionscontenteditordir)
 
 PKG_CHECK_MODULES(WEB_EXTENSION, [webkit2gtk-4.0 >= webkit2gtk_minimum_version])
 AC_SUBST(WEB_EXTENSIONS_CFLAGS)
@@ -1618,6 +1618,7 @@ modules/tnef-attachment/Makefile
 modules/vcard-inline/Makefile
 modules/web-inspector/Makefile
 modules/webkit-content-editor/Makefile
+modules/webkit-content-editor/web-extension/Makefile
 plugins/Makefile
 plugins/attachment-reminder/Makefile
 plugins/bbdb/Makefile
@@ -1633,7 +1634,6 @@ plugins/publish-calendar/Makefile
 plugins/save-calendar/Makefile
 plugins/templates/Makefile
 web-extensions/Makefile
-web-extensions/composer/Makefile
 smime/Makefile
 smime/lib/Makefile
 smime/gui/Makefile

@@ -1,5 +1,3 @@
-SUBDIRS = . composer
-
 webextensions_LTLIBRARIES = libewebextension.la libedomutils.la
 
 libedomutils_la_SOURCES =				\

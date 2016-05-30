@@ -1,3 +1,5 @@
+SUBDIRS = . web-extension
+
 module_LTLIBRARIES = module-webkit-content-editor.la
 
 module_webkit_content_editor_la_CPPFLAGS = 		\

@@ -1,6 +1,6 @@
-webextensionscomposer_LTLIBRARIES = libehtmleditorwebextension.la
+webextensionscontenteditor_LTLIBRARIES = libewebkitcontenteditorwebextension.la
 
-libehtmleditorwebextension_la_SOURCES =			\
+libewebkitcontenteditorwebextension_la_SOURCES =	\
 	e-composer-private-dom-functions.h		\
 	e-html-editor-actions-dom-functions.h		\
 	e-html-editor-cell-dialog-dom-functions.h	\
@@ -33,7 +33,7 @@ libehtmleditorwebextension_la_SOURCES =			\
 	e-html-editor-web-extension-names.h		\
 	e-html-editor-web-extension-main.c
 
-libehtmleditorwebextension_la_CPPFLAGS =		\
+libewebkitcontenteditorwebextension_la_CPPFLAGS =	\
 	$(AM_CPPFLAGS)					\
 	-I$(top_srcdir)					\
 	-DEVOLUTION_IMAGESDIR=\""$(imagesdir)"\"	\
@@ -41,14 +41,14 @@ libehtmleditorwebextension_la_CPPFLAGS =		\
 	$(GNOME_PLATFORM_CFLAGS)			\
 	$(WEB_EXTENSIONS_CFLAGS)
 
-libehtmleditorwebextension_la_LIBADD =			\
+libewebkitcontenteditorwebextension_la_LIBADD =		\
 	$(top_builddir)/e-util/libevolution-util.la	\
 	$(top_builddir)/web-extensions/libedomutils.la	\
 	$(EVOLUTION_DATA_SERVER_LIBS)			\
 	$(GNOME_PLATFORM_LIBS)				\
 	$(WEB_EXTENSIONS_LIBS)
 
-libehtmleditorwebextension_la_LDFLAGS =			\
+libewebkitcontenteditorwebextension_la_LDFLAGS =	\
 	-module -avoid-version -no-undefined
 
 -include $(top_srcdir)/git.mk

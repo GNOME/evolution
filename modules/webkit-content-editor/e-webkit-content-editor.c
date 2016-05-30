@@ -21,8 +21,9 @@
 #include "e-webkit-content-editor.h"
 #include "e-webkit-content-editor-find-controller.h"
 
+#include "web-extension/e-html-editor-web-extension-names.h"
+
 #include <e-util/e-util.h>
-#include <web-extensions/composer/e-html-editor-web-extension-names.h>
 #include <string.h>
 
 #define E_WEBKIT_CONTENT_EDITOR_GET_PRIVATE(obj) \
