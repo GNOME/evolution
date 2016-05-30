@@ -832,7 +832,6 @@ static void
 e_html_editor_init (EHTMLEditor *editor)
 {
 	EHTMLEditorPrivate *priv;
-	GtkWidget *widget;
 	gchar *filename;
 	GError *error = NULL;
 

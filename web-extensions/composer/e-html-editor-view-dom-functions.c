@@ -7960,7 +7960,7 @@ dom_get_inline_images_data (WebKitDOMDocument *document,
 {
 	GVariant *result;
 	GVariantBuilder *builder = NULL;
-	GHashTable *added;
+	GHashTable *added = NULL;
 	gint length, ii;
 	WebKitDOMNodeList *list;
 
@@ -7977,7 +7977,7 @@ dom_get_inline_images_data (WebKitDOMDocument *document,
 	added = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
 	for (ii = 0; ii < length; ii++) {
 		const gchar *id;
-		gchar *cid;
+		gchar *cid = NULL;
 		WebKitDOMNode *node = webkit_dom_node_list_item (list, ii);
 		gchar *src = webkit_dom_element_get_attribute (
 			WEBKIT_DOM_ELEMENT (node), "src");
@@ -8061,7 +8061,8 @@ dom_get_inline_images_data (WebKitDOMDocument *document,
 	}
  out:
 	g_object_unref (list);
-	g_hash_table_destroy (added);
+	if (added)
+		g_hash_table_destroy (added);
 
 	result = g_variant_new ("asss", builder);
 	g_variant_builder_unref (builder);

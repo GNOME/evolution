@@ -2486,7 +2486,7 @@ wrap_lines (WebKitDOMDocument *document,
 	    gint length_to_wrap,
 	    gint word_wrap_length)
 {
-	WebKitDOMNode *node, *start_node, *block_clone;
+	WebKitDOMNode *node, *start_node, *block_clone = NULL;
 	gboolean has_selection;
 	guint line_length;
 	gulong length_left;
