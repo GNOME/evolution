@@ -350,7 +350,6 @@ decide_policy_cb (WebKitWebView *web_view,
 	uri = webkit_uri_request_get_uri (request);
 
 	if (!uri || !*uri) {
-		g_warning ("asdasdasdasdadasdasd"); /* FIXME WK2 */
 		webkit_policy_decision_ignore (decision);
 		return TRUE;
 	}
