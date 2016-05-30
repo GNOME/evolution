@@ -56,7 +56,6 @@ e_cid_request_process_sync (EContentRequest *request,
 	EMailDisplay *display;
 	EMailPartList *part_list;
 	EMailPart *part;
-	const gchar *mime_type;
 	GByteArray *byte_array;
 	CamelStream *output_stream;
 	CamelDataWrapper *dw;
@@ -82,7 +81,6 @@ e_cid_request_process_sync (EContentRequest *request,
 	if (!part)
 		return FALSE;
 
-	mime_type = e_mail_part_get_mime_type (part);
 	mime_part = e_mail_part_ref_mime_part (part);
 	dw = camel_medium_get_content (CAMEL_MEDIUM (mime_part));
 
@@ -96,6 +94,7 @@ e_cid_request_process_sync (EContentRequest *request,
 
 	if (camel_data_wrapper_decode_to_stream_sync (dw, output_stream, cancellable, error)) {
 		GBytes *bytes;
+		gchar *mime_type;
 
 		bytes = g_byte_array_free_to_bytes (byte_array);
 
@@ -103,7 +102,14 @@ e_cid_request_process_sync (EContentRequest *request,
 
 		*out_stream = g_memory_input_stream_new_from_bytes (bytes);
 		*out_stream_length = g_bytes_get_size (bytes);
-		*out_mime_type = g_strdup (mime_type);
+
+		mime_type = camel_data_wrapper_get_mime_type (dw);
+		if (mime_type && *mime_type)
+			*out_mime_type = mime_type;
+		else {
+			g_free (mime_type);
+			*out_mime_type = g_strdup (e_mail_part_get_mime_type (part));
+		}
 
 		g_bytes_unref (bytes);
 	}

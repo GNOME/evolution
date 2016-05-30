@@ -154,33 +154,15 @@ mail_request_process_mail_sync (EContentRequest *request,
 		if (context.mode == E_MAIL_FORMATTER_MODE_SOURCE)
 			mime_type = "application/vnd.evolution.source";
 
-		if (context.mode == E_MAIL_FORMATTER_MODE_CID) {
-			CamelDataWrapper *dw;
-			CamelMimePart *mime_part;
+		if (mime_type == NULL)
+			mime_type = e_mail_part_get_mime_type (part);
 
-			mime_part = e_mail_part_ref_mime_part (part);
-			dw = camel_medium_get_content (CAMEL_MEDIUM (mime_part));
-			g_return_val_if_fail (dw != NULL, FALSE);
+		e_mail_formatter_format_as (
+			formatter, &context, part,
+			output_stream, mime_type,
+			cancellable);
 
-			if (!mime_type) {
-				use_mime_type = camel_data_wrapper_get_mime_type (dw);
-			}
-
-			camel_data_wrapper_decode_to_output_stream_sync (
-				dw, output_stream, cancellable, NULL);
-
-			g_object_unref (mime_part);
-		} else {
-			if (mime_type == NULL)
-				mime_type = e_mail_part_get_mime_type (part);
-
-			e_mail_formatter_format_as (
-				formatter, &context, part,
-				output_stream, mime_type,
-				cancellable);
-
-			part_converted_to_utf8 = e_mail_part_get_converted_to_utf8 (part);
-		}
+		part_converted_to_utf8 = e_mail_part_get_converted_to_utf8 (part);
 
 		g_object_unref (part);
 
