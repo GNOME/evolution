@@ -79,7 +79,7 @@ void		e_html_editor_web_extension_initialize
 void		e_html_editor_web_extension_dbus_register
 						(EHTMLEditorWebExtension *extension,
 						 GDBusConnection *connection);
-
+/*
 void		set_dbus_property_string	(EHTMLEditorWebExtension *extension,
 						 const gchar *name,
 						 const gchar *value);
@@ -95,7 +95,7 @@ void		set_dbus_property_unsigned	(EHTMLEditorWebExtension *extension,
 void		set_dbus_property_boolean	(EHTMLEditorWebExtension *extension,
 						 const gchar *name,
 						 gboolean value);
-
+*/
 void		e_html_editor_web_extension_set_content_changed
 						(EHTMLEditorWebExtension *extension);
 
@@ -133,14 +133,12 @@ guint		e_html_editor_web_extension_get_font_size
 const gchar *	e_html_editor_web_extension_get_font_color
 						(EHTMLEditorWebExtension *extension);
 
-EHTMLEditorSelectionAlignment
+EContentEditorAlignment
 		e_html_editor_web_extension_get_alignment
 						(EHTMLEditorWebExtension *extension);
 
-gboolean	e_html_editor_web_extension_is_message_from_edit_as_new
-						(EHTMLEditorWebExtension *extension);
-
-gboolean	e_html_editor_web_extension_is_editting_message
+EContentEditorContentFlags
+		e_html_editor_web_extension_get_current_content_flags
 						(EHTMLEditorWebExtension *extension);
 
 gboolean	e_html_editor_web_extension_get_return_key_pressed
@@ -166,12 +164,9 @@ gboolean	e_html_editor_web_extension_get_magic_smileys_enabled
 gboolean	e_html_editor_web_extension_get_unicode_smileys_enabled
 						(EHTMLEditorWebExtension *extension);
 
-void		e_html_editor_web_extension_set_inline_spelling
-						(EHTMLEditorWebExtension *extension,
-                                                 gboolean value);
-
 gboolean	e_html_editor_web_extension_get_inline_spelling_enabled
 						(EHTMLEditorWebExtension *extension);
+
 gboolean	e_html_editor_web_extension_check_word_spelling
 						(EHTMLEditorWebExtension *extension,
 						 const gchar *word,
@@ -199,12 +194,6 @@ void		e_html_editor_web_extension_add_new_inline_image_into_list
 						 const gchar *cid_src,
 						 const gchar *src);
 
-gboolean	e_html_editor_web_extension_is_message_from_draft
-						(EHTMLEditorWebExtension *extension);
-
-gboolean	e_html_editor_web_extension_is_from_new_message
-						(EHTMLEditorWebExtension *extension);
-
 gboolean	e_html_editor_web_extension_get_is_smiley_written
 						(EHTMLEditorWebExtension *extension);
 
@@ -218,10 +207,13 @@ gboolean	e_html_editor_web_extension_get_dont_save_history_in_body_input
 void		e_html_editor_web_extension_set_dont_save_history_in_body_input
 						(EHTMLEditorWebExtension *extension,
 						 gboolean value);
+
 gboolean	e_html_editor_web_extension_is_pasting_content_from_itself
 						(EHTMLEditorWebExtension *extension);
+
 gboolean	e_html_editor_web_extension_get_renew_history_after_coordinates
 						(EHTMLEditorWebExtension *extension);
+
 void		e_html_editor_web_extension_set_renew_history_after_coordinates
 						(EHTMLEditorWebExtension *extension,
 						 gboolean renew_history_after_coordinates);

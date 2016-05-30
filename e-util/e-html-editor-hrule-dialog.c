@@ -23,7 +23,6 @@
 #endif
 
 #include "e-html-editor-hrule-dialog.h"
-#include "e-html-editor-view.h"
 
 #include <glib/gi18n-lib.h>
 #include <stdlib.h>
@@ -50,224 +49,133 @@ static void
 html_editor_hrule_dialog_set_alignment (EHTMLEditorHRuleDialog *dialog)
 {
 	EHTMLEditor *editor;
-	EHTMLEditorView *view;
+	EContentEditor *cnt_editor;
 	const gchar *value;
 
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
-	view = e_html_editor_get_view (editor);
+	cnt_editor = e_html_editor_get_content_editor (editor);
 
 	value = gtk_combo_box_get_active_id (
 		GTK_COMBO_BOX (dialog->priv->alignment_combo));
 
-	e_html_editor_view_set_element_attribute (
-		view, "#-x-evo-current-hr", "align", value);
+	e_content_editor_h_rule_set_align (cnt_editor, value);
 }
 
 static void
 html_editor_hrule_dialog_get_alignment (EHTMLEditorHRuleDialog *dialog)
 {
 	EHTMLEditor *editor;
-	EHTMLEditorView *view;
-	GVariant *result;
+	EContentEditor *cnt_editor;
+	gchar *value;
 
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
-	view = e_html_editor_get_view (editor);
+	cnt_editor = e_html_editor_get_content_editor (editor);
 
-	result = e_html_editor_view_get_element_attribute (
-		view, "#-x-evo-current-hr", "align");
-
-	if (result) {
-		const gchar *value;
-
-		g_variant_get (result, "(&s)", &value);
+	value = e_content_editor_h_rule_get_align (cnt_editor);
+	if (value && *value)
 		gtk_combo_box_set_active_id (
 			GTK_COMBO_BOX (dialog->priv->alignment_combo), value);
-		g_variant_unref (result);
-	}
+	g_free (value);
 }
 
 static void
 html_editor_hrule_dialog_set_size (EHTMLEditorHRuleDialog *dialog)
 {
 	EHTMLEditor *editor;
-	EHTMLEditorView *view;
-	gchar *size;
+	EContentEditor *cnt_editor;
+	gint value;
 
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
-	view = e_html_editor_get_view (editor);
+	cnt_editor = e_html_editor_get_content_editor (editor);
 
-	size = g_strdup_printf (
-		"%d",
-		(gint) gtk_spin_button_get_value (
-			GTK_SPIN_BUTTON (dialog->priv->size_edit)));
-
-	e_html_editor_view_set_element_attribute (
-		view, "#-x-evo-current-hr", "size", size);
-
-	g_free (size);
+	value = gtk_spin_button_get_value_as_int  GTK_SPIN_BUTTON (dialog->priv->size_edit);
+	e_content_editor_h_rule_set_size (cnt_editor, value);
 }
 
 static void
 html_editor_hrule_dialog_get_size (EHTMLEditorHRuleDialog *dialog)
 {
 	EHTMLEditor *editor;
-	EHTMLEditorView *view;
-	GVariant *result;
+	EContentEditor *cnt_editor;
+	gint value;
 
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
-	view = e_html_editor_get_view (editor);
+	cnt_editor = e_html_editor_get_content_editor (editor);
 
-	result = e_html_editor_view_get_element_attribute (
-		view, "#-x-evo-current-hr", "size");
+	value = e_content_editor_h_rule_get_size (cnt_editor);
 
-	if (result) {
-		const gchar *value;
-		gint value_int = 0;
-
-		g_variant_get (result, "(&s)", &value);
-		if (value && *value)
-			value_int = atoi (value);
-
-		if (value_int == 0)
-			value_int = 2;
-
-		gtk_spin_button_set_value (
-			GTK_SPIN_BUTTON (dialog->priv->size_edit),
-			(gdouble) value_int);
-
-		g_variant_unref (result);
-	}
+	gtk_spin_button_set_value (
+		GTK_SPIN_BUTTON (dialog->priv->size_edit), (gdouble) value);
 }
 
 static void
 html_editor_hrule_dialog_set_width (EHTMLEditorHRuleDialog *dialog)
 {
 	EHTMLEditor *editor;
-	EHTMLEditorView *view;
-	gchar *width, *units;
+	EContentEditor *cnt_editor;
 
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
-	view = e_html_editor_get_view (editor);
+	cnt_editor = e_html_editor_get_content_editor (editor);
 
-	units = gtk_combo_box_text_get_active_text (
-			GTK_COMBO_BOX_TEXT (dialog->priv->unit_combo));
-	width = g_strdup_printf (
-		"%d%s",
-		(gint) gtk_spin_button_get_value (
+	e_content_editor_h_rule_set_width (
+		cnt_editor,
+		gtk_spin_button_get_value_as_int (
 			GTK_SPIN_BUTTON (dialog->priv->width_edit)),
-		units);
-
-	e_html_editor_view_set_element_attribute (
-		view, "#-x-evo-current-hr", "width", width);
-
-	g_free (units);
-	g_free (width);
+		(gtk_combo_box_get_active (
+			GTK_COMBO_BOX (dialog->priv->unit_combo)) == 0) ?
+				E_CONTENT_EDITOR_UNIT_PIXEL :
+				E_CONTENT_EDITOR_UNIT_PERCENTAGE);
 }
 
 static void
 html_editor_hrule_dialog_get_width (EHTMLEditorHRuleDialog *dialog)
 {
 	EHTMLEditor *editor;
-	EHTMLEditorView *view;
-	GVariant *result;
+	EContentEditor *cnt_editor;
+	EContentEditorUnit unit;
+	gint value;
 
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
-	view = e_html_editor_get_view (editor);
+	cnt_editor = e_html_editor_get_content_editor (editor);
 
-	result = e_html_editor_view_get_element_attribute (
-		view, "#-x-evo-current-hr", "width");
-
-	if (result) {
-		const gchar *value, *units;
-		gint value_int = 0;
-
-		g_variant_get (result, "(&s)", &value);
-		if (value && *value) {
-			value_int = atoi (value);
-
-			if (strstr (value, "%") != NULL)
-				units = "units-percent";
-			else
-				units = "units-px";
-
-			if (value_int == 0) {
-				value_int = 100;
-				units = "units-percent";
-			}
-
-			gtk_spin_button_set_value (
-				GTK_SPIN_BUTTON (dialog->priv->width_edit),
-				(gdouble) value_int);
-			gtk_combo_box_set_active_id (
-				GTK_COMBO_BOX (dialog->priv->unit_combo), units);
-		}
-		g_variant_unref (result);
-	}
+	value = e_content_editor_h_rule_get_width (cnt_editor, &unit);
+	gtk_spin_button_set_value (
+		GTK_SPIN_BUTTON (dialog->priv->width_edit),
+		value == 0 && unit == E_CONTENT_EDITOR_UNIT_PERCENTAGE ? 100 : value);
+	gtk_combo_box_set_active_id (
+		GTK_COMBO_BOX (dialog->priv->unit_combo),
+		unit == E_CONTENT_EDITOR_UNIT_PIXEL ? "units-px" : "units-percent");
 }
 
 static void
 html_editor_hrule_dialog_set_shading (EHTMLEditorHRuleDialog *dialog)
 {
 	EHTMLEditor *editor;
-	EHTMLEditorView *view;
-	GDBusProxy *web_extension;
+	EContentEditor *cnt_editor;
+	gboolean value;
 
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
-	view = e_html_editor_get_view (editor);
-	web_extension = e_html_editor_view_get_web_extension_proxy (view);
-	if (!web_extension)
-		return;
+	cnt_editor = e_html_editor_get_content_editor (editor);
 
-	g_dbus_proxy_call (
-		web_extension,
-		"HRElementSetNoShade",
-		g_variant_new (
-			"(tsb)",
-			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view)),
-			"-x-evo-current-hr",
-			!gtk_toggle_button_get_active (
-				GTK_TOGGLE_BUTTON (dialog->priv->shaded_check))),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL,
-		NULL);
+	value = !gtk_toggle_button_get_active (
+		GTK_TOGGLE_BUTTON (dialog->priv->shaded_check));
+
+	e_content_editor_h_rule_set_no_shade (cnt_editor, value);
 }
 
 static void
 html_editor_hrule_dialog_get_shading (EHTMLEditorHRuleDialog *dialog)
 {
 	EHTMLEditor *editor;
-	EHTMLEditorView *view;
-	GVariant *result;
-	GDBusProxy *web_extension;
+	EContentEditor *cnt_editor;
+	gboolean value = FALSE;
 
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
-	view = e_html_editor_get_view (editor);
-	web_extension = e_html_editor_view_get_web_extension_proxy (view);
-	if (!web_extension)
-		return;
+	cnt_editor = e_html_editor_get_content_editor (editor);
 
-	result = g_dbus_proxy_call_sync (
-		web_extension,
-		"HRElementGetNoShade",
-		g_variant_new (
-			"(ts)",
-			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view)),
-			"-x-evo-current-hr"),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL);
-
-	if (result) {
-		gboolean value;
-
-		g_variant_get (result, "(b)", &value);
-		gtk_toggle_button_set_active (
-			GTK_TOGGLE_BUTTON (dialog->priv->shaded_check), !value);
-		g_variant_unref (result);
-	}
+	value = e_content_editor_h_rule_get_no_shade (cnt_editor);
+	gtk_toggle_button_set_active (
+		GTK_TOGGLE_BUTTON (dialog->priv->shaded_check), !value);
 }
 
 static void
@@ -275,14 +183,13 @@ html_editor_hrule_dialog_hide (GtkWidget *widget)
 {
 	EHTMLEditor *editor;
 	EHTMLEditorHRuleDialog *dialog;
-	EHTMLEditorView *view;
+	EContentEditor *cnt_editor;
 
 	dialog = E_HTML_EDITOR_HRULE_DIALOG (widget);
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
-	view = e_html_editor_get_view (editor);
+	cnt_editor = e_html_editor_get_content_editor (editor);
 
-	e_html_editor_view_call_simple_extension_function (
-		view, "EHTMLEditorHRuleDialogSaveHistoryOnExit");
+	e_content_editor_on_h_rule_dialog_close (cnt_editor);
 
 	GTK_WIDGET_CLASS (e_html_editor_hrule_dialog_parent_class)->hide (widget);
 }
@@ -292,58 +199,39 @@ html_editor_hrule_dialog_show (GtkWidget *widget)
 {
 	EHTMLEditorHRuleDialog *dialog;
 	EHTMLEditor *editor;
-	EHTMLEditorView *view;
-	GVariant *result;
-	GDBusProxy *web_extension;
+	EContentEditor *cnt_editor;
+	gboolean h_rule_found = FALSE;
 
 	dialog = E_HTML_EDITOR_HRULE_DIALOG (widget);
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
-	view = e_html_editor_get_view (editor);
-	web_extension = e_html_editor_view_get_web_extension_proxy (view);
-	if (!web_extension)
-		return;
+	cnt_editor = e_html_editor_get_content_editor (editor);
 
-	result = g_dbus_proxy_call_sync (
-		web_extension,
-		"EHTMLEditorHRuleDialogFindHRule",
-		g_variant_new (
-			"(t)",
-			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view))),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL);
+	h_rule_found = e_content_editor_on_h_rule_dialog_open (cnt_editor);
 
-	if (result) {
-		gboolean found = FALSE;
+	if (h_rule_found) {
+		html_editor_hrule_dialog_get_alignment (dialog);
+		html_editor_hrule_dialog_get_size (dialog);
+		html_editor_hrule_dialog_get_width (dialog);
+		html_editor_hrule_dialog_get_shading (dialog);
+	} else {
+		/* For new rule reset the values to default */
+		gtk_spin_button_set_value (
+			GTK_SPIN_BUTTON (dialog->priv->width_edit), 100.0);
+		gtk_combo_box_set_active_id (
+			GTK_COMBO_BOX (dialog->priv->unit_combo), "units-percent");
+		gtk_spin_button_set_value (
+			GTK_SPIN_BUTTON (dialog->priv->size_edit), 2.0);
+		gtk_combo_box_set_active_id (
+			GTK_COMBO_BOX (dialog->priv->alignment_combo), "left");
+		gtk_toggle_button_set_active (
+			GTK_TOGGLE_BUTTON (dialog->priv->shaded_check), FALSE);
 
-		g_variant_get (result, "(b)", found);
-		if (found) {
-			html_editor_hrule_dialog_get_alignment (dialog);
-			html_editor_hrule_dialog_get_size (dialog);
-			html_editor_hrule_dialog_get_width (dialog);
-			html_editor_hrule_dialog_get_shading (dialog);
-		} else {
-			/* For new rule reset the values to default */
-			gtk_spin_button_set_value (
-				GTK_SPIN_BUTTON (dialog->priv->width_edit), 100.0);
-			gtk_combo_box_set_active_id (
-				GTK_COMBO_BOX (dialog->priv->unit_combo), "units-percent");
-			gtk_spin_button_set_value (
-				GTK_SPIN_BUTTON (dialog->priv->size_edit), 2.0);
-			gtk_combo_box_set_active_id (
-				GTK_COMBO_BOX (dialog->priv->alignment_combo), "left");
-			gtk_toggle_button_set_active (
-				GTK_TOGGLE_BUTTON (dialog->priv->shaded_check), FALSE);
+		html_editor_hrule_dialog_set_alignment (dialog);
+		html_editor_hrule_dialog_set_size (dialog);
+		html_editor_hrule_dialog_set_alignment (dialog);
+		html_editor_hrule_dialog_set_shading (dialog);
 
-			html_editor_hrule_dialog_set_alignment (dialog);
-			html_editor_hrule_dialog_set_size (dialog);
-			html_editor_hrule_dialog_set_alignment (dialog);
-			html_editor_hrule_dialog_set_shading (dialog);
-
-			e_html_editor_view_set_changed (view, TRUE);
-		}
-		g_variant_unref (result);
+		e_content_editor_set_changed (cnt_editor, TRUE);
 	}
 
 	/* Chain up to parent implementation */

@@ -76,6 +76,15 @@ void		dom_insert_base64_image		(WebKitDOMDocument *document,
 						 const gchar *uri,
 						 const gchar *base64_content);
 
+void		dom_insert_image		(WebKitDOMDocument *document,
+						 EHTMLEditorWebExtension *extension,
+						 const gchar *uri);
+
+void		dom_replace_image_src		(WebKitDOMDocument *document,
+						 EHTMLEditorWebExtension *extension,
+						 const gchar *selector,
+						 const gchar *uri);
+
 void		dom_selection_unlink		(WebKitDOMDocument *document,
                                                  EHTMLEditorWebExtension *extension);
 
@@ -221,21 +230,21 @@ void		dom_selection_set_background_color
 						 EHTMLEditorWebExtension *extension,
 						 const gchar *font_color);
 
-EHTMLEditorSelectionBlockFormat
+EContentEditorBlockFormat
 		dom_selection_get_block_format	(WebKitDOMDocument *document,
 						 EHTMLEditorWebExtension *extension);
 
 void		dom_selection_set_block_format	(WebKitDOMDocument *document,
 						 EHTMLEditorWebExtension *extension,
-						 EHTMLEditorSelectionBlockFormat format);
+						 EContentEditorBlockFormat format);
 
-EHTMLEditorSelectionAlignment
+EContentEditorAlignment
 		dom_selection_get_alignment	(WebKitDOMDocument *document,
 						 EHTMLEditorWebExtension *extension);
 
 void		dom_selection_set_alignment	(WebKitDOMDocument *document,
 						 EHTMLEditorWebExtension *extension,
-						 EHTMLEditorSelectionAlignment alignment);
+						 EContentEditorAlignment alignment);
 
 void		dom_selection_replace		(WebKitDOMDocument *document,
 						 EHTMLEditorWebExtension *extension,
@@ -249,7 +258,7 @@ gchar *		dom_get_caret_word		(WebKitDOMDocument *document);
 
 gboolean	dom_selection_has_text		(WebKitDOMDocument *document);
 
-EHTMLEditorSelectionAlignment
+EContentEditorAlignment
 		dom_get_list_alignment_from_node
 						(WebKitDOMNode *node);
 

@@ -56,6 +56,7 @@
 #include "e-client-cache.h"
 #include "e-filter-option.h"
 #include "e-util-private.h"
+#include "e-mktemp.h"
 
 typedef struct _WindowData WindowData;
 
@@ -3341,4 +3342,57 @@ gboolean
 e_util_is_main_thread (GThread *thread)
 {
 	return thread ? thread == main_thread : g_thread_self () == main_thread;
+}
+
+/**
+ * e_util_save_image_from_clipboard:
+ * @clipboard: a #GtkClipboard
+ * @hint: (allow none): a hint to set, or %NULL to unset
+ *
+ * Saves the image from @clipboard to a temporary file and returns its URI.
+ *
+ * Since: 3.22
+ **/
+gchar *
+e_util_save_image_from_clipboard (GtkClipboard *clipboard)
+{
+	GdkPixbuf *pixbuf = NULL;
+	gchar *filename = NULL;
+	gchar *uri = NULL;
+	GError *error = NULL;
+
+	g_return_val_if_fail (GTK_IS_CLIPBOARD (clipboard), NULL);
+
+	/* Extract the image data from the clipboard. */
+	pixbuf = gtk_clipboard_wait_for_image (clipboard);
+	g_return_val_if_fail (pixbuf != NULL, FALSE);
+
+	/* Reserve a temporary file. */
+	filename = e_mktemp (NULL);
+	if (filename == NULL) {
+		g_set_error (
+			&error, G_FILE_ERROR,
+			g_file_error_from_errno (errno),
+			"Could not create temporary file: %s",
+			g_strerror (errno));
+		goto exit;
+	}
+
+	/* Save the pixbuf as a temporary file in image/png format. */
+	if (!gdk_pixbuf_save (pixbuf, filename, "png", &error, NULL))
+		goto exit;
+
+	/* Convert the filename to a URI. */
+	uri = g_filename_to_uri (filename, NULL, &error);
+
+ exit:
+	if (error != NULL) {
+		g_warning ("%s", error->message);
+		g_error_free (error);
+	}
+
+	g_object_unref (pixbuf);
+	g_free (filename);
+
+	return uri;
 }

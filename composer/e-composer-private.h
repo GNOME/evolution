@@ -104,6 +104,10 @@ struct _EMsgComposerPrivate {
 	gboolean dnd_is_uri;
 	gboolean is_sending_message;
 	gboolean dnd_history_saved;
+	gboolean check_if_signature_is_changed;
+	gboolean ignore_next_signature_change;
+	gboolean ignore_next_paste_clipboard_signals_emission;
+	gboolean last_signal_was_paste_primary;
 
 	gint focused_entry_selection_start;
 	gint focused_entry_selection_end;
@@ -129,11 +133,7 @@ gchar *		e_composer_find_data_file	(const gchar *basename);
 gchar *		e_composer_get_default_charset	(void);
 gchar *		e_composer_decode_clue_value	(const gchar *encoded_value);
 gchar *		e_composer_encode_clue_value	(const gchar *decoded_value);
-gboolean	e_composer_paste_html		(EMsgComposer *composer,
-						 GtkClipboard *clipboard);
 gboolean	e_composer_paste_image		(EMsgComposer *composer,
-						 GtkClipboard *clipboard);
-gboolean	e_composer_paste_text		(EMsgComposer *composer,
 						 GtkClipboard *clipboard);
 gboolean	e_composer_paste_uris		(EMsgComposer *composer,
 						 GtkClipboard *clipboard);

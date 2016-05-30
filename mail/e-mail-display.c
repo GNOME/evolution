@@ -1076,7 +1076,6 @@ setup_dom_bindings (WebKitWebView *web_view,
 
 	web_extension = e_web_view_get_web_extension_proxy (E_WEB_VIEW (web_view));
 
-
 	if (web_extension) {
 		if (display->priv->web_extension_headers_collapsed_signal_id == 0) {
 			display->priv->web_extension_headers_collapsed_signal_id =

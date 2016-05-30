@@ -150,16 +150,16 @@ enable_disable_composer (EMsgComposer *composer,
                          gboolean enable)
 {
 	EHTMLEditor *editor;
-	EHTMLEditorView *view;
+	EContentEditor *cnt_editor;
 	GtkAction *action;
 	GtkActionGroup *action_group;
 
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 
 	editor = e_msg_composer_get_editor (composer);
-	view = e_html_editor_get_view (editor);
+	cnt_editor = e_html_editor_get_content_editor (editor);
 
-	webkit_web_view_set_editable (WEBKIT_WEB_VIEW (view), enable);
+	e_content_editor_set_editable (cnt_editor, enable);
 
 	action = E_HTML_EDITOR_ACTION_EDIT_MENU (editor);
 	gtk_action_set_sensitive (action, enable);
@@ -192,20 +192,20 @@ update_composer_text (GArray *array)
 {
 	EMsgComposer *composer;
 	EHTMLEditor *editor;
-	EHTMLEditorView *view;
+	EContentEditor *cnt_editor;
 	gchar *text;
 
 	composer = g_array_index (array, gpointer, 0);
 	text = g_array_index (array, gpointer, 1);
 
 	editor = e_msg_composer_get_editor (composer);
-	view = e_html_editor_get_view (editor);
+	cnt_editor = e_html_editor_get_content_editor (editor);
 
 	e_msg_composer_set_body_text (composer, text, FALSE);
 
 	enable_composer (composer);
 
-	e_html_editor_view_set_changed (view, TRUE);
+	e_content_editor_set_changed (cnt_editor, TRUE);
 
 	g_free (text);
 
@@ -254,91 +254,6 @@ numlines (const gchar *text,
 	return lineno;
 }
 
-static gint32
-get_caret_offset (EHTMLEditorView *view)
-{
-	GDBusProxy *web_extension;
-	gint position = 0;
-	GVariant *result;
-
-	web_extension = e_html_editor_view_get_web_extension_proxy (view);
-	if (!web_extension)
-		return 0;
-
-	result = g_dbus_proxy_call_sync (
-		web_extension,
-		"DOMGetCaretOffset",
-		g_variant_new (
-			"(t)",
-			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view))),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL);
-
-	if (result) {
-		position = g_variant_get_int32 (result);
-		g_variant_unref (result);
-	}
-
-	return position;
-}
-
-static gint32
-get_caret_position (EHTMLEditorView *view)
-{
-	GDBusProxy *web_extension;
-	gint position = 0;
-	GVariant *result;
-
-	web_extension = e_html_editor_view_get_web_extension_proxy (view);
-	if (!web_extension)
-		return 0;
-
-	result = g_dbus_proxy_call_sync (
-		web_extension,
-		"DOMGetCaretPosition",
-		g_variant_new (
-			"(t)",
-			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view))),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL);
-
-	if (result) {
-		position = g_variant_get_int32 (result);
-		g_variant_unref (result);
-	}
-
-	return position;
-}
-
-static void
-clear_undo_redo_history (EHTMLEditorView *view)
-{
-	GDBusProxy *web_extension;
-	GVariant *result;
-
-	web_extension = e_html_editor_view_get_web_extension_proxy (view);
-	if (!web_extension)
-		return;
-
-	result = g_dbus_proxy_call_sync (
-		web_extension,
-		"DOMClearUndoRedoHistory",
-		g_variant_new (
-			"(t)",
-			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view))),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL);
-
-	if (result)
-		g_variant_unref (result);
-}
-
 static gboolean external_editor_running = FALSE;
 static GMutex external_editor_running_lock;
 
@@ -352,10 +267,10 @@ external_editor_thread (gpointer user_data)
 	gchar *editor_cmd_line = NULL, *editor_cmd = NULL, *content;
 	gint fd, position = -1, offset = -1;
 	EHTMLEditor *editor;
-	EHTMLEditorView *view;
+	EContentEditor *cnt_editor;
 
 	editor = e_msg_composer_get_editor (composer);
-	view = e_html_editor_get_view (editor);
+	cnt_editor = e_html_editor_get_content_editor (editor);
 
 	/* prefix temp files with evo so .*vimrc can be setup to recognize them */
 	fd = g_file_open_tmp ("evoXXXXXX", &filename, NULL);
@@ -364,7 +279,11 @@ external_editor_thread (gpointer user_data)
 		d (printf ("\n\aTemporary-file Name is : [%s] \n\a", filename));
 
 		/* Push the text (if there is one) from the composer to the file */
-		content = e_html_editor_view_get_text_plain (view);
+		content = e_content_editor_get_content (
+			cnt_editor,
+			E_CONTENT_EDITOR_GET_TEXT_PLAIN |
+			E_CONTENT_EDITOR_GET_PROCESSED,
+			NULL);
 		if (content && *content)
 			g_file_set_contents (filename, content, strlen (content), NULL);
 	} else {
@@ -394,14 +313,14 @@ external_editor_thread (gpointer user_data)
 	g_object_unref (settings);
 
 	if (g_strrstr (editor_cmd, "vim") != NULL &&
-	    ((position = get_caret_position (view)) > 0)) {
+	    ((position = e_content_editor_get_caret_position (cnt_editor)) > 0)) {
 		gchar *tmp = editor_cmd;
 		gint lineno;
 		gboolean set_nofork;
 
 		set_nofork = g_strrstr (editor_cmd, "gvim") != NULL;
 
-		offset = get_caret_offset (view);
+		offset = e_content_editor_get_caret_offset (cnt_editor);
 		/* Increment by 1 so that entering vim insert mode places you
 		 * in the same entry position you were at in the html. */
 		offset++;
@@ -488,7 +407,7 @@ finished:
 static void launch_editor (GtkAction *action, EMsgComposer *composer)
 {
 	EHTMLEditor *editor;
-	EHTMLEditorView *view;
+	EContentEditor *cnt_editor;
 
 	d (printf ("\n\nexternal_editor plugin is launched \n\n"));
 
@@ -498,9 +417,9 @@ static void launch_editor (GtkAction *action, EMsgComposer *composer)
 	}
 
 	editor = e_msg_composer_get_editor (composer);
-	view = e_html_editor_get_view (editor);
+	cnt_editor = e_html_editor_get_content_editor (editor);
 
-	clear_undo_redo_history (view);
+	e_content_editor_clear_undo_redo_history (cnt_editor);
 	disable_composer (composer);
 
 	g_mutex_lock (&external_editor_running_lock);
@@ -584,10 +503,10 @@ e_plugin_ui_init (GtkUIManager *manager,
                   EMsgComposer *composer)
 {
 	EHTMLEditor *editor;
-	EHTMLEditorView *view;
+	EContentEditor *cnt_editor;
 
 	editor = e_msg_composer_get_editor (composer);
-	view = e_html_editor_get_view (editor);
+	cnt_editor = e_html_editor_get_content_editor (editor);
 
 	/* Add actions to the "composer" action group. */
 	gtk_action_group_add_actions (
@@ -595,11 +514,11 @@ e_plugin_ui_init (GtkUIManager *manager,
 		entries, G_N_ELEMENTS (entries), composer);
 
 	g_signal_connect (
-		view, "key_press_event",
+		cnt_editor, "key_press_event",
 		G_CALLBACK (key_press_cb), composer);
 
 	g_signal_connect (
-		view, "delete-event",
+		cnt_editor, "delete-event",
 		G_CALLBACK (delete_cb), composer);
 
 	return TRUE;

@@ -25,7 +25,6 @@
 #include "e-html-editor-find-dialog.h"
 #include "e-dialog-widgets.h"
 
-#include <webkit2/webkit2.h>
 #include <glib/gi18n-lib.h>
 #include <gdk/gdkkeysyms.h>
 
@@ -43,7 +42,7 @@ struct _EHTMLEditorFindDialogPrivate {
 
 	GtkWidget *result_label;
 
-	WebKitFindController *find_controller;
+	EContentEditorFindController *find_controller;
 	gulong found_text_handler_id;
 	gulong failed_to_find_text_handler_id;
 };
@@ -63,9 +62,15 @@ reset_dialog (EHTMLEditorFindDialog *dialog)
 static void
 html_editor_find_dialog_hide (GtkWidget *widget)
 {
+	EContentEditor *cnt_editor;
+	EHTMLEditor *editor;
 	EHTMLEditorFindDialog *dialog = E_HTML_EDITOR_FIND_DIALOG (widget);
 
-	webkit_find_controller_search_finish (dialog->priv->find_controller);
+	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
+	cnt_editor = e_html_editor_get_content_editor (editor);
+
+	e_content_editor_find_controller_search_finish (dialog->priv->find_controller);
+	e_content_editor_on_find_dialog_close (cnt_editor);
 
 	/* Chain up to parent's implementation */
 	GTK_WIDGET_CLASS (e_html_editor_find_dialog_parent_class)->hide (widget);
@@ -74,7 +79,14 @@ html_editor_find_dialog_hide (GtkWidget *widget)
 static void
 html_editor_find_dialog_show (GtkWidget *widget)
 {
+	EContentEditor *cnt_editor;
+	EHTMLEditor *editor;
 	EHTMLEditorFindDialog *dialog = E_HTML_EDITOR_FIND_DIALOG (widget);
+
+	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
+	cnt_editor = e_html_editor_get_content_editor (editor);
+
+	e_content_editor_on_find_dialog_open (cnt_editor);
 
 	reset_dialog (dialog);
 	gtk_widget_grab_focus (dialog->priv->entry);
@@ -84,17 +96,17 @@ html_editor_find_dialog_show (GtkWidget *widget)
 }
 
 static void
-webkit_find_controller_found_text_cb (WebKitFindController *find_controller,
-                                      guint match_count,
-                                      EHTMLEditorFindDialog *dialog)
+content_editor_find_controller_found_text_cb (EContentEditorFindController *find_controller,
+                                              guint match_count,
+                                              EHTMLEditorFindDialog *dialog)
 {
 	gtk_widget_hide (dialog->priv->result_label);
 	gtk_widget_set_sensitive (dialog->priv->find_button, TRUE);
 }
 
 static void
-webkit_find_controller_failed_to_found_text_cb (WebKitFindController *find_controller,
-                                                EHTMLEditorFindDialog *dialog)
+content_editor_find_controller_failed_to_found_text_cb (EContentEditorFindController *find_controller,
+                                                        EHTMLEditorFindDialog *dialog)
 {
 	gtk_label_set_label (
 		GTK_LABEL (dialog->priv->result_label), N_("No match found"));
@@ -107,19 +119,18 @@ html_editor_find_dialog_find_cb (EHTMLEditorFindDialog *dialog)
 	guint32 flags = 0;
 
 	if (!gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (dialog->priv->case_sensitive)))
-		flags |= WEBKIT_FIND_OPTIONS_CASE_INSENSITIVE;
+		flags |= E_CONTENT_EDITOR_FIND_CASE_INSENSITIVE;
 
 	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (dialog->priv->backwards)))
-		flags |= WEBKIT_FIND_OPTIONS_BACKWARDS;
+		flags |= E_CONTENT_EDITOR_FIND_BACKWARDS;
 
 	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (dialog->priv->wrap_search)))
-		flags |= WEBKIT_FIND_OPTIONS_WRAP_AROUND;
+		flags |= E_CONTENT_EDITOR_FIND_WRAP_AROUND;
 
-	webkit_find_controller_search (
+	e_content_editor_find_controller_search (
 		dialog->priv->find_controller,
 		gtk_entry_get_text (GTK_ENTRY (dialog->priv->entry)),
-		flags,
-		G_MAXUINT);
+		flags);
 }
 
 static gboolean
@@ -169,24 +180,23 @@ html_editor_find_dialog_constructed (GObject *object)
 {
 	EHTMLEditor *editor;
 	EHTMLEditorFindDialog *dialog;
-	EHTMLEditorView *view;
-	WebKitFindController *find_controller;
+	EContentEditor *cnt_editor;
+	EContentEditorFindController *find_controller;
 
 	dialog = E_HTML_EDITOR_FIND_DIALOG (object);
 	dialog->priv = E_HTML_EDITOR_FIND_DIALOG_GET_PRIVATE (dialog);
 
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
-	view = e_html_editor_get_view (editor);
-	find_controller =
-		webkit_web_view_get_find_controller (WEBKIT_WEB_VIEW (view));
+	cnt_editor = e_html_editor_get_content_editor (editor);
+	find_controller = e_content_editor_get_find_controller (cnt_editor);
 
 	dialog->priv->found_text_handler_id = g_signal_connect (
 		find_controller, "found-text",
-		G_CALLBACK (webkit_find_controller_found_text_cb), dialog);
+		G_CALLBACK (content_editor_find_controller_found_text_cb), dialog);
 
 	dialog->priv->failed_to_find_text_handler_id = g_signal_connect (
 		find_controller, "failed-to-find-text",
-		G_CALLBACK (webkit_find_controller_failed_to_found_text_cb), dialog);
+		G_CALLBACK (content_editor_find_controller_failed_to_found_text_cb), dialog);
 
 	dialog->priv->find_controller = find_controller;
 

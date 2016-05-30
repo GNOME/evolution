@@ -58,8 +58,8 @@ struct _EHTMLEditorWebExtensionPrivate {
 	gboolean selection_changed_callbacks_blocked;
 
 	/* These properties show the actual state of EHTMLEditorView */
-	EHTMLEditorSelectionAlignment alignment;
-	EHTMLEditorSelectionBlockFormat block_format;
+	EContentEditorAlignment alignment;
+	EContentEditorBlockFormat block_format;
 	gchar *background_color;
 	gchar *font_color;
 	gchar *font_name;
@@ -75,11 +75,6 @@ struct _EHTMLEditorWebExtensionPrivate {
 	gboolean underline;
 
 	gboolean force_image_load;
-	gboolean changed;
-	gboolean inline_spelling;
-	gboolean magic_links;
-	gboolean magic_smileys;
-	gboolean unicode_smileys;
 	gboolean html_mode;
 	gboolean return_key_pressed;
 	gboolean space_key_pressed;
@@ -88,11 +83,6 @@ struct _EHTMLEditorWebExtensionPrivate {
 
 	gboolean convert_in_situ;
 	gboolean body_input_event_removed;
-	gboolean is_message_from_draft;
-	gboolean is_editting_message;
-	gboolean is_from_new_message;
-	gboolean is_message_from_edit_as_new;
-	gboolean is_message_from_selection;
 	gboolean dont_save_history_in_body_input;
 	gboolean composition_in_progress;
 	gboolean is_pasting_content_from_itself;
@@ -101,7 +91,10 @@ struct _EHTMLEditorWebExtensionPrivate {
 	GHashTable *inline_images;
 
 	WebKitDOMNode *node_under_mouse_click;
-	guint node_under_mouse_click_flags;
+
+	GSettings *mail_settings;
+
+	EContentEditorContentFlags content_flags;
 
 	EHTMLEditorUndoRedoManager *undo_redo_manager;
 	ESpellChecker *spell_checker;
@@ -113,39 +106,25 @@ static const char introspection_xml[] =
 "<node>"
 "  <interface name='" E_HTML_EDITOR_WEB_EXTENSION_INTERFACE "'>"
 "<!-- ********************************************************* -->"
-"<!--                       PROPERTIES                          -->"
+"<!--                          SIGNALS                          -->"
 "<!-- ********************************************************* -->"
-"    <property type='b' name='ForceImageLoad' access='readwrite'/>"
-"    <property type='b' name='InlineSpelling' access='readwrite'/>"
-"    <property type='b' name='MagicLinks' access='readwrite'/>"
-"    <property type='b' name='MagicSmileys' access='readwrite'/>"
-"    <property type='b' name='HTMLMode' access='readwrite'/>"
-"    <property type='b' name='IsEdittingMessage' access='readwrite'/>"
-"    <property type='b' name='IsMessageFromEditAsNew' access='readwrite'/>"
-"    <property type='b' name='IsMessageFromDraft' access='readwrite'/>"
-"    <property type='b' name='IsMessageFromSelection' access='readwrite'/>"
-"    <property type='b' name='IsFromNewMessage' access='readwrite'/>"
-"    <property type='b' name='IsPastingContentFromItself' access='readwrite'/>"
-"    <property type='u' name='NodeUnderMouseClickFlags' access='readwrite'/>"
-"<!-- ********************************************************* -->"
-"<!-- These properties show the actual state of EHTMLEditorView -->"
-"<!-- ********************************************************* -->"
-"    <property type='u' name='Alignment' access='readwrite'/>"
-"    <property type='s' name='BackgroundColor' access='readwrite'/>"
-"    <property type='u' name='BlockFormat' access='readwrite'/>"
-"    <property type='b' name='Bold' access='readwrite'/>"
-"    <property type='b' name='Changed' access='readwrite'/>"
-"    <property type='s' name='FontColor' access='readwrite'/>"
-"    <property type='s' name='FontName' access='readwrite'/>"
-"    <property type='u' name='FontSize' access='readwrite'/>"
-"    <property type='b' name='Indented' access='readwrite'/>"
-"    <property type='b' name='Italic' access='readwrite'/>"
-"    <property type='b' name='Monospaced' access='readwrite'/>"
-"    <property type='b' name='Strikethrough' access='readwrite'/>"
-"    <property type='b' name='Subscript' access='readwrite'/>"
-"    <property type='b' name='Superscript' access='readwrite'/>"
-"    <property type='b' name='Underline' access='readwrite'/>"
-"    <property type='s' name='Text' access='readwrite'/>"
+"    <signal name='SelectionChanged'>"
+"      <arg type='i' name='alignment' direction='out'/>"
+"      <arg type='i' name='block_format' direction='out'/>"
+"      <arg type='b' name='indented' direction='out'/>"
+"      <arg type='b' name='bold' direction='out'/>"
+"      <arg type='b' name='italic' direction='out'/>"
+"      <arg type='b' name='underline' direction='out'/>"
+"      <arg type='b' name='strikethrough' direction='out'/>"
+"      <arg type='b' name='monospaced' direction='out'/>"
+"      <arg type='b' name='subscript' direction='out'/>"
+"      <arg type='b' name='superscript' direction='out'/>"
+"      <arg type='b' name='underline' direction='out'/>"
+"      <arg type='i' name='font_size' direction='out'/>"
+"      <arg type='s' name='font_color' direction='out'/>"
+"    </signal>"
+"    <signal name='ContentChanged'>"
+"    </signal>"
 "<!-- ********************************************************* -->"
 "<!--                          METHODS                          -->"
 "<!-- ********************************************************* -->"
@@ -217,42 +196,42 @@ static const char introspection_xml[] =
 "    <method name='EHTMLEditorCellDialogSetElementVAlign'>"
 "      <arg type='t' name='page_id' direction='in'/>"
 "      <arg type='s' name='value' direction='in'/>"
-"      <arg type='u' name='scope' direction='in'/>"
+"      <arg type='i' name='scope' direction='in'/>"
 "    </method>"
 "    <method name='EHTMLEditorCellDialogSetElementAlign'>"
 "      <arg type='t' name='page_id' direction='in'/>"
 "      <arg type='s' name='value' direction='in'/>"
-"      <arg type='u' name='scope' direction='in'/>"
+"      <arg type='i' name='scope' direction='in'/>"
 "    </method>"
 "    <method name='EHTMLEditorCellDialogSetElementNoWrap'>"
 "      <arg type='t' name='page_id' direction='in'/>"
 "      <arg type='b' name='value' direction='in'/>"
-"      <arg type='u' name='scope' direction='in'/>"
+"      <arg type='i' name='scope' direction='in'/>"
 "    </method>"
 "    <method name='EHTMLEditorCellDialogSetElementHeaderStyle'>"
 "      <arg type='t' name='page_id' direction='in'/>"
 "      <arg type='b' name='value' direction='in'/>"
-"      <arg type='u' name='scope' direction='in'/>"
+"      <arg type='i' name='scope' direction='in'/>"
 "    </method>"
 "    <method name='EHTMLEditorCellDialogSetElementWidth'>"
 "      <arg type='t' name='page_id' direction='in'/>"
 "      <arg type='s' name='value' direction='in'/>"
-"      <arg type='u' name='scope' direction='in'/>"
+"      <arg type='i' name='scope' direction='in'/>"
 "    </method>"
 "    <method name='EHTMLEditorCellDialogSetElementColSpan'>"
 "      <arg type='t' name='page_id' direction='in'/>"
 "      <arg type='i' name='value' direction='in'/>"
-"      <arg type='u' name='scope' direction='in'/>"
+"      <arg type='i' name='scope' direction='in'/>"
 "    </method>"
 "    <method name='EHTMLEditorCellDialogSetElementRowSpan'>"
 "      <arg type='t' name='page_id' direction='in'/>"
 "      <arg type='i' name='value' direction='in'/>"
-"      <arg type='u' name='scope' direction='in'/>"
+"      <arg type='i' name='scope' direction='in'/>"
 "    </method>"
 "    <method name='EHTMLEditorCellDialogSetElementBgColor'>"
 "      <arg type='t' name='page_id' direction='in'/>"
 "      <arg type='s' name='value' direction='in'/>"
-"      <arg type='u' name='scope' direction='in'/>"
+"      <arg type='i' name='scope' direction='in'/>"
 "    </method>"
 "<!-- ********************************************************* -->"
 "<!--     Functions that are used in EHTMLEditorHRuleDialog      -->"
@@ -348,6 +327,11 @@ static const char introspection_xml[] =
 "      <arg type='t' name='page_id' direction='in'/>"
 "      <arg type='s' name='url' direction='in'/>"
 "      <arg type='s' name='inner_text' direction='in'/>"
+"    </method>"
+"    <method name='EHTMLEditorLinkDialogShow'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"      <arg type='s' name='url' direction='out'/>"
+"      <arg type='s' name='inner_text' direction='out'/>"
 "    </method>"
 "<!-- ********************************************************* -->"
 "<!--     Functions that are used in EHTMLEditorPageDialog     -->"
@@ -450,13 +434,27 @@ static const char introspection_xml[] =
 "<!-- ********************************************************* -->"
 "<!--     Functions that are used in EHTMLEditorView            -->"
 "<!-- ********************************************************* -->"
+"    <method name='SetCurrentContentFlags'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"      <arg type='i' name='content_flags' direction='in'/>"
+"    </method>"
+"    <method name='SetPastingContentFromItself'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"      <arg type='b' name='value' direction='in'/>"
+"    </method>"
+"    <method name='SetEditorHTMLMode'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"      <arg type='b' name='html_mode' direction='in'/>"
+"      <arg type='b' name='convert' direction='in'/>"
+"    </method>"
+"    <method name='SetConvertInSitu'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"      <arg type='b' name='value' direction='in'/>"
+"    </method>"
 "    <method name='DOMForceSpellCheck'>"
 "      <arg type='t' name='page_id' direction='in'/>"
 "    </method>"
 "    <method name='DOMTurnSpellCheckOff'>"
-"      <arg type='t' name='page_id' direction='in'/>"
-"    </method>"
-"    <method name='DOMCheckMagicLinks'>"
 "      <arg type='t' name='page_id' direction='in'/>"
 "    </method>"
 "    <method name='DOMScrollToCaret'>"
@@ -466,7 +464,7 @@ static const char introspection_xml[] =
 "      <arg type='t' name='page_id' direction='in'/>"
 "      <arg type='s' name='style_sheet_content' direction='in'/>"
 "    </method>"
-"    <method name='DOMRemoveEmbedStyleSheet'>"
+"    <method name='DOMRemoveEmbeddedStyleSheet'>"
 "      <arg type='t' name='page_id' direction='in'/>"
 "    </method>"
 "    <method name='DOMSaveSelection'>"
@@ -474,10 +472,6 @@ static const char introspection_xml[] =
 "    </method>"
 "    <method name='DOMRestoreSelection'>"
 "      <arg type='t' name='page_id' direction='in'/>"
-"    </method>"
-"    <method name='DOMIsSelectionSaved'>"
-"      <arg type='t' name='page_id' direction='in'/>"
-"      <arg type='b' name='selection_saved' direction='out'/>"
 "    </method>"
 "    <method name='DOMQuoteAndInsertTextIntoSelection'>"
 "      <arg type='t' name='page_id' direction='in'/>"
@@ -492,25 +486,12 @@ static const char introspection_xml[] =
 "      <arg type='t' name='page_id' direction='in'/>"
 "      <arg type='b' name='conversion_needed' direction='out'/>"
 "    </method>"
-"    <method name='DOMConvertWhenChangingComposerMode'>"
-"      <arg type='t' name='page_id' direction='in'/>"
-"    </method>"
-"    <method name='DOMProcessContentAfterModeChange'>"
-"      <arg type='t' name='page_id' direction='in'/>"
-"    </method>"
-"    <method name='DOMProcessContentForHTML'>"
+"    <method name='DOMGetContent'>"
 "      <arg type='t' name='page_id' direction='in'/>"
 "      <arg type='s' name='from_domain' direction='in'/>"
+"      <arg type='i' name='flags' direction='in'/>"
 "      <arg type='s' name='content' direction='out'/>"
-"    </method>"
-"    <method name='DOMProcessContentForDraft'>"
-"      <arg type='t' name='page_id' direction='in'/>"
-"      <arg type='b' name='only_inner_body' direction='in'/>"
-"      <arg type='s' name='content' direction='out'/>"
-"    </method>"
-"    <method name='DOMProcessContentForPlainText'>"
-"      <arg type='t' name='page_id' direction='in'/>"
-"      <arg type='s' name='content' direction='out'/>"
+"      <arg type='v' name='inline_images' direction='out'/>"
 "    </method>"
 "    <method name='DOMInsertHTML'>"
 "      <arg type='t' name='page_id' direction='in'/>"
@@ -520,22 +501,15 @@ static const char introspection_xml[] =
 "      <arg type='t' name='page_id' direction='in'/>"
 "      <arg type='s' name='preffered_text' direction='in'/>"
 "    </method>"
-"    <method name='DOMGetInlineImagesData'>"
-"      <arg type='t' name='page_id' direction='in'/>"
-"      <arg type='s' name='uid_domain' direction='in'/>"
-"      <arg type='a*' name='image_data' direction='out'/>"
-"    </method>"
 "    <method name='DOMAddNewInlineImageIntoList'>"
 "      <arg type='t' name='page_id' direction='in'/>"
 "      <arg type='s' name='filename' direction='in'/>"
 "      <arg type='s' name='cid_src' direction='in'/>"
 "      <arg type='s' name='src' direction='in'/>"
 "    </method>"
-"    <method name='DOMReplaceBase64ImageSrc'>"
+"    <method name='DOMReplaceImageSrc'>"
 "      <arg type='t' name='page_id' direction='in'/>"
 "      <arg type='s' name='selector' direction='in'/>"
-"      <arg type='s' name='base64_content' direction='in'/>"
-"      <arg type='s' name='filename' direction='in'/>"
 "      <arg type='s' name='uri' direction='in'/>"
 "    </method>"
 "    <method name='DOMDragAndDropEnd'>"
@@ -557,10 +531,14 @@ static const char introspection_xml[] =
 "    <method name='DOMSelectionIndent'>"
 "      <arg type='t' name='page_id' direction='in'/>"
 "    </method>"
-"    <method name='DOMSelectionInsertBase64Image'>"
+"    <method name='DOMSelectionSave'>"
 "      <arg type='t' name='page_id' direction='in'/>"
-"      <arg type='s' name='base64_content' direction='in'/>"
-"      <arg type='s' name='filename' direction='in'/>"
+"    </method>"
+"    <method name='DOMSelectionRestore'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"    </method>"
+"    <method name='DOMSelectionInsertImage'>"
+"      <arg type='t' name='page_id' direction='in'/>"
 "      <arg type='s' name='uri' direction='in'/>"
 "    </method>"
 "    <method name='DOMSelectionReplace'>"
@@ -569,7 +547,7 @@ static const char introspection_xml[] =
 "    </method>"
 "    <method name='DOMSelectionSetAlignment'>"
 "      <arg type='t' name='page_id' direction='in'/>"
-"      <arg type='u' name='alignment' direction='in'/>"
+"      <arg type='i' name='alignment' direction='in'/>"
 "    </method>"
 "    <method name='DOMSelectionSetBold'>"
 "      <arg type='t' name='page_id' direction='in'/>"
@@ -577,7 +555,7 @@ static const char introspection_xml[] =
 "    </method>"
 "    <method name='DOMSelectionSetBlockFormat'>"
 "      <arg type='t' name='page_id' direction='in'/>"
-"      <arg type='u' name='block_format' direction='in'/>"
+"      <arg type='i' name='block_format' direction='in'/>"
 "    </method>"
 "    <method name='DOMSelectionSetFontColor'>"
 "      <arg type='t' name='page_id' direction='in'/>"
@@ -585,7 +563,7 @@ static const char introspection_xml[] =
 "    </method>"
 "    <method name='DOMSelectionSetFontSize'>"
 "      <arg type='t' name='page_id' direction='in'/>"
-"      <arg type='u' name='font_size' direction='in'/>"
+"      <arg type='i' name='font_size' direction='in'/>"
 "    </method>"
 "    <method name='DOMSelectionSetItalic'>"
 "      <arg type='t' name='page_id' direction='in'/>"
@@ -632,9 +610,16 @@ static const char introspection_xml[] =
 "    </method>"
 "    <method name='DOMInsertSignature'>"
 "      <arg type='t' name='page_id' direction='in'/>"
-"      <arg type='s' name='signature_html' direction='in'/>"
-"      <arg type='b' name='top_signature' direction='in'/>"
-"      <arg type='b' name='start_bottom' direction='in'/>"
+"      <arg type='s' name='content' direction='in'/>"
+"      <arg type='b' name='is_html' direction='in'/>"
+"      <arg type='s' name='signature_id' direction='in'/>"
+"      <arg type='b' name='set_signature_from_message' direction='in'/>"
+"      <arg type='b' name='check_if_signature_is_changed' direction='in'/>"
+"      <arg type='b' name='ignore_next_signature_change' direction='in'/>"
+"      <arg type='s' name='new_signature_id' direction='out'/>"
+"      <arg type='b' name='out_set_signature_from_message' direction='out'/>"
+"      <arg type='b' name='out_check_if_signature_is_changed' direction='out'/>"
+"      <arg type='b' name='out_ignore_next_signature_change' direction='out'/>"
 "    </method>"
 "    <method name='DOMSaveDragAndDropHistory'>"
 "      <arg type='t' name='page_id' direction='in'/>"
@@ -647,11 +632,11 @@ static const char introspection_xml[] =
 "<!-- ********************************************************* -->"
 "    <method name='DOMGetCaretPosition'>"
 "      <arg type='t' name='page_id' direction='in'/>"
-"      <arg type='i' name='position' direction='out'/>"
+"      <arg type='u' name='position' direction='out'/>"
 "    </method>"
 "    <method name='DOMGetCaretOffset'>"
 "      <arg type='t' name='page_id' direction='in'/>"
-"      <arg type='i' name='offset' direction='out'/>"
+"      <arg type='u' name='offset' direction='out'/>"
 "    </method>"
 "    <method name='DOMClearUndoRedoHistory'>"
 "      <arg type='t' name='page_id' direction='in'/>"
@@ -694,8 +679,6 @@ handle_method_call (GDBusConnection *connection,
 	if (g_strcmp0 (interface_name, E_HTML_EDITOR_WEB_EXTENSION_INTERFACE) != 0)
 		return;
 
-	if (camel_debug ("wex"))
-		printf ("%s - %s\n", G_STRFUNC, method_name);
 	if (g_strcmp0 (method_name, "ElementHasAttribute") == 0) {
 		gboolean value = FALSE;
 		const gchar *element_id, *attribute;
@@ -921,9 +904,9 @@ handle_method_call (GDBusConnection *connection,
 		g_dbus_method_invocation_return_value (invocation, NULL);
 	} else if (g_strcmp0 (method_name, "EHTMLEditorCellDialogSetElementVAlign") == 0) {
 		const gchar *value;
-		guint scope;
+		EContentEditorScope scope;
 
-		g_variant_get (parameters, "(t&su)", &page_id, &value, &scope);
+		g_variant_get (parameters, "(t&si)", &page_id, &value, &scope);
 
 		web_page = get_webkit_web_page_or_return_dbus_error (
 			invocation, web_extension, page_id);
@@ -936,7 +919,7 @@ handle_method_call (GDBusConnection *connection,
 		g_dbus_method_invocation_return_value (invocation, NULL);
 	} else if (g_strcmp0 (method_name, "EHTMLEditorCellDialogSetElementAlign") == 0) {
 		const gchar *value;
-		guint scope;
+		EContentEditorScope scope;
 
 		g_variant_get (parameters, "(t&su)", &page_id, &value, &scope);
 
@@ -951,7 +934,7 @@ handle_method_call (GDBusConnection *connection,
 		g_dbus_method_invocation_return_value (invocation, NULL);
 	} else if (g_strcmp0 (method_name, "EHTMLEditorCellDialogSetElementNoWrap") == 0) {
 		gboolean value;
-		guint scope;
+		EContentEditorScope scope;
 
 		g_variant_get (parameters, "(tbu)", &page_id, &value, &scope);
 
@@ -966,7 +949,7 @@ handle_method_call (GDBusConnection *connection,
 		g_dbus_method_invocation_return_value (invocation, NULL);
 	} else if (g_strcmp0 (method_name, "EHTMLEditorCellDialogSetElementHeaderStyle") == 0) {
 		gboolean value;
-		guint scope;
+		EContentEditorScope scope;
 
 		g_variant_get (parameters, "(tbu)", &page_id, &value, &scope);
 
@@ -982,7 +965,7 @@ handle_method_call (GDBusConnection *connection,
 		g_dbus_method_invocation_return_value (invocation, NULL);
 	} else if (g_strcmp0 (method_name, "EHTMLEditorCellDialogSetElementWidth") == 0) {
 		const gchar *value;
-		guint scope;
+		EContentEditorScope scope;
 
 		g_variant_get (parameters, "(t&su)", &page_id, &value, &scope);
 
@@ -997,7 +980,7 @@ handle_method_call (GDBusConnection *connection,
 		g_dbus_method_invocation_return_value (invocation, NULL);
 	} else if (g_strcmp0 (method_name, "EHTMLEditorCellDialogSetElementColSpan") == 0) {
 		glong value;
-		guint scope;
+		EContentEditorScope scope;
 
 		g_variant_get (parameters, "(tiu)", &page_id, &value, &scope);
 
@@ -1012,7 +995,7 @@ handle_method_call (GDBusConnection *connection,
 		g_dbus_method_invocation_return_value (invocation, NULL);
 	} else if (g_strcmp0 (method_name, "EHTMLEditorCellDialogSetElementRowSpan") == 0) {
 		glong value;
-		guint scope;
+		EContentEditorScope scope;
 
 		g_variant_get (parameters, "(tiu)", &page_id, &value, &scope);
 
@@ -1027,7 +1010,7 @@ handle_method_call (GDBusConnection *connection,
 		g_dbus_method_invocation_return_value (invocation, NULL);
 	} else if (g_strcmp0 (method_name, "EHTMLEditorCellDialogSetElementBgColor") == 0) {
 		const gchar *value;
-		guint scope;
+		EContentEditorScope scope;
 
 		g_variant_get (parameters, "(t&su)", &page_id, &value, &scope);
 
@@ -1386,6 +1369,20 @@ handle_method_call (GDBusConnection *connection,
 		e_html_editor_link_dialog_ok (document, extension, url, inner_text);
 
 		g_dbus_method_invocation_return_value (invocation, NULL);
+	} else if (g_strcmp0 (method_name, "EHTMLEditorLinkDialogShow") == 0) {
+		g_variant_get (parameters, "(t)", &page_id);
+
+		web_page = get_webkit_web_page_or_return_dbus_error (
+			invocation, web_extension, page_id);
+		if (!web_page)
+			goto error;
+
+		printf ("%s:%d\n", __FUNCTION__, __LINE__);
+		document = webkit_web_page_get_dom_document (web_page);
+
+		g_dbus_method_invocation_return_value (
+			invocation,
+			e_html_editor_link_dialog_show (document));
 	} else if (g_strcmp0 (method_name, "EHTMLEditorPageDialogSaveHistory") == 0) {
 		g_variant_get (parameters, "(t)", &page_id);
 
@@ -1763,21 +1760,6 @@ handle_method_call (GDBusConnection *connection,
 		document = webkit_web_page_get_dom_document (web_page);
 		dom_selection_restore (document);
 		g_dbus_method_invocation_return_value (invocation, NULL);
-	} else if (g_strcmp0 (method_name, "DOMIsSelectionSaved") == 0) {
-		gboolean selection_saved = FALSE;
-		g_variant_get (parameters, "(t)", &page_id);
-
-		web_page = get_webkit_web_page_or_return_dbus_error (
-			invocation, web_extension, page_id);
-		if (!web_page)
-			goto error;
-
-		document = webkit_web_page_get_dom_document (web_page);
-		selection_saved = webkit_dom_document_get_element_by_id (
-			document, "-x-evo-selection-start-marker") != NULL;
-
-		g_dbus_method_invocation_return_value (
-			invocation, g_variant_new ("(b)", selection_saved));
 	} else if (g_strcmp0 (method_name, "DOMTurnSpellCheckOff") == 0) {
 		g_variant_get (parameters, "(t)", &page_id);
 
@@ -1786,7 +1768,6 @@ handle_method_call (GDBusConnection *connection,
 		if (!web_page)
 			goto error;
 
-		extension->priv->inline_spelling = FALSE;
 		document = webkit_web_page_get_dom_document (web_page);
 		dom_turn_spell_check_off (document, extension);
 		g_dbus_method_invocation_return_value (invocation, NULL);
@@ -1830,7 +1811,7 @@ handle_method_call (GDBusConnection *connection,
 		document = webkit_web_page_get_dom_document (web_page);
 		dom_embed_style_sheet (document, style_sheet_content);
 		g_dbus_method_invocation_return_value (invocation, NULL);
-	} else if (g_strcmp0 (method_name, "DOMRemoveEmbedStyleSheet") == 0) {
+	} else if (g_strcmp0 (method_name, "DOMRemoveEmbeddedStyleSheet") == 0) {
 		g_variant_get (parameters, "(t)", &page_id);
 
 		web_page = get_webkit_web_page_or_return_dbus_error (
@@ -1839,7 +1820,54 @@ handle_method_call (GDBusConnection *connection,
 			goto error;
 
 		document = webkit_web_page_get_dom_document (web_page);
-		dom_remove_embed_style_sheet (document);
+		dom_remove_embedded_style_sheet (document);
+		g_dbus_method_invocation_return_value (invocation, NULL);
+	} else if (g_strcmp0 (method_name, "SetCurrentContentFlags") == 0) {
+		g_variant_get (parameters, "(ti)", &page_id, &extension->priv->content_flags);
+
+		web_page = get_webkit_web_page_or_return_dbus_error (
+			invocation, web_extension, page_id);
+		if (!web_page)
+			goto error;
+
+		g_dbus_method_invocation_return_value (invocation, NULL);
+	} else if (g_strcmp0 (method_name, "SetPastingContentFromItself") == 0) {
+		g_variant_get (
+			parameters,
+			"(tb)",
+			&page_id,
+			&extension->priv->is_pasting_content_from_itself);
+
+		g_dbus_method_invocation_return_value (invocation, NULL);
+	} else if (g_strcmp0 (method_name, "SetEditorHTMLMode") == 0) {
+		gboolean html_mode = FALSE;
+		gboolean convert = FALSE;
+
+		g_variant_get (parameters, "(tbb)", &page_id, &html_mode, &convert);
+
+		web_page = get_webkit_web_page_or_return_dbus_error (
+			invocation, web_extension, page_id);
+		if (!web_page)
+			goto error;
+
+		document = webkit_web_page_get_dom_document (web_page);
+
+		convert = convert && extension->priv->html_mode && !html_mode;
+		extension->priv->html_mode = html_mode;
+
+		if (convert)
+			dom_convert_when_changing_composer_mode (document, extension);
+		else
+			dom_process_content_after_mode_change (document, extension);
+
+		g_dbus_method_invocation_return_value (invocation, NULL);
+	} else if (g_strcmp0 (method_name, "SetConvertInSitu") == 0) {
+		g_variant_get (
+			parameters,
+			"(tb)",
+			&page_id,
+			&extension->priv->convert_in_situ);
+
 		g_dbus_method_invocation_return_value (invocation, NULL);
 	} else if (g_strcmp0 (method_name, "DOMForceSpellCheck") == 0) {
 		g_variant_get (parameters, "(t)", &page_id);
@@ -1850,19 +1878,7 @@ handle_method_call (GDBusConnection *connection,
 			goto error;
 
 		document = webkit_web_page_get_dom_document (web_page);
-		extension->priv->inline_spelling = TRUE;
 		dom_force_spell_check (document, extension);
-		g_dbus_method_invocation_return_value (invocation, NULL);
-	} else if (g_strcmp0 (method_name, "DOMCheckMagicLinks") == 0) {
-		g_variant_get (parameters, "(t)", &page_id);
-
-		web_page = get_webkit_web_page_or_return_dbus_error (
-			invocation, web_extension, page_id);
-		if (!web_page)
-			goto error;
-
-		document = webkit_web_page_get_dom_document (web_page);
-		dom_check_magic_links (document, extension, FALSE);
 		g_dbus_method_invocation_return_value (invocation, NULL);
 	} else if (g_strcmp0 (method_name, "DOMCheckIfConversionNeeded") == 0) {
 		gboolean conversion_needed;
@@ -1878,72 +1894,13 @@ handle_method_call (GDBusConnection *connection,
 		conversion_needed = dom_check_if_conversion_needed (document);
 		g_dbus_method_invocation_return_value (
 			invocation, g_variant_new ("(b)", conversion_needed));
-	} else if (g_strcmp0 (method_name, "DOMConvertWhenChangingComposerMode") == 0) {
-		g_variant_get (parameters, "(t)", &page_id);
-
-		web_page = get_webkit_web_page_or_return_dbus_error (
-			invocation, web_extension, page_id);
-		if (!web_page)
-			goto error;
-
-		document = webkit_web_page_get_dom_document (web_page);
-		dom_convert_when_changing_composer_mode (document, extension);
-		g_dbus_method_invocation_return_value (invocation, NULL);
-	} else if (g_strcmp0 (method_name, "DOMProcessContentAfterModeChange") == 0) {
-		g_variant_get (parameters, "(t)", &page_id);
-
-		web_page = get_webkit_web_page_or_return_dbus_error (
-			invocation, web_extension, page_id);
-		if (!web_page)
-			goto error;
-
-		document = webkit_web_page_get_dom_document (web_page);
-		dom_process_content_after_mode_change (document, extension);
-		g_dbus_method_invocation_return_value (invocation, NULL);
-	} else if (g_strcmp0 (method_name, "DOMProcessContentForDraft") == 0) {
-		gboolean only_inner_body;
-		gchar *value = NULL;
-
-		g_variant_get (parameters, "(tb)", &page_id, &only_inner_body);
-
-		web_page = get_webkit_web_page_or_return_dbus_error (
-			invocation, web_extension, page_id);
-		if (!web_page)
-			goto error;
-
-		document = webkit_web_page_get_dom_document (web_page);
-		value = dom_process_content_for_draft (document, only_inner_body);
-
-		g_dbus_method_invocation_return_value (
-			invocation,
-			g_variant_new (
-				"(@s)",
-				g_variant_new_take_string (
-					value ? value : g_strdup (""))));
-	} else if (g_strcmp0 (method_name, "DOMProcessContentForHTML") == 0) {
+	} else if (g_strcmp0 (method_name, "DOMGetContent") == 0) {
+		EContentEditorGetContentFlags flags;
 		const gchar *from_domain;
 		gchar *value = NULL;
+		GVariant *inline_images = NULL;
 
-		g_variant_get (parameters, "(t&s)", &page_id, &from_domain);
-
-		web_page = get_webkit_web_page_or_return_dbus_error (
-			invocation, web_extension, page_id);
-		if (!web_page)
-			goto error;
-
-		document = webkit_web_page_get_dom_document (web_page);
-		value = dom_process_content_for_html (document, extension, from_domain);
-
-		g_dbus_method_invocation_return_value (
-			invocation,
-			g_variant_new (
-				"(@s)",
-				g_variant_new_take_string (
-					value ? value : g_strdup (""))));
-	} else if (g_strcmp0 (method_name, "DOMProcessContentForPlainText") == 0) {
-		gchar *value = NULL;
-
-		g_variant_get (parameters, "(t)", &page_id);
+		g_variant_get (parameters, "(t&si)", &page_id, &from_domain, &flags);
 
 		web_page = get_webkit_web_page_or_return_dbus_error (
 			invocation, web_extension, page_id);
@@ -1951,14 +1908,48 @@ handle_method_call (GDBusConnection *connection,
 			goto error;
 
 		document = webkit_web_page_get_dom_document (web_page);
-		value = dom_process_content_for_plain_text (document, extension);
 
+		if ((flags & E_CONTENT_EDITOR_GET_INLINE_IMAGES) && from_domain && *from_domain)
+			inline_images = dom_get_inline_images_data (document, extension, from_domain);
+
+		if ((flags & E_CONTENT_EDITOR_GET_TEXT_HTML) &&
+		    !(flags & E_CONTENT_EDITOR_GET_PROCESSED)) {
+			value = dom_process_content_for_draft (
+				document, extension, (flags & E_CONTENT_EDITOR_GET_BODY));
+		} else if ((flags & E_CONTENT_EDITOR_GET_TEXT_HTML) &&
+			   (flags & E_CONTENT_EDITOR_GET_PROCESSED) &&
+			   !(flags & E_CONTENT_EDITOR_GET_BODY)) {
+			value = dom_process_content_for_html (document, extension);
+		} else if ((flags & E_CONTENT_EDITOR_GET_TEXT_PLAIN) &&
+			   (flags & E_CONTENT_EDITOR_GET_PROCESSED) &&
+			   !(flags & E_CONTENT_EDITOR_GET_BODY)) {
+			value = dom_process_content_for_plain_text (document, extension);
+		} else if ((flags & E_CONTENT_EDITOR_GET_TEXT_PLAIN) &&
+		           (flags & E_CONTENT_EDITOR_GET_BODY) &&
+		           !(flags & E_CONTENT_EDITOR_GET_PROCESSED)) {
+			if (flags & E_CONTENT_EDITOR_GET_EXCLUDE_SIGNATURE)
+				value = dom_get_raw_body_content_without_signature  (document);
+			else
+				value = dom_get_raw_body_content (document);
+		} else {
+			g_warning ("Unsupported flags combination (%d) in (%s)", flags, G_STRFUNC);
+		}
+
+		/* If no inline images are requested we still have to return
+		 * something even it won't be used at all. */
 		g_dbus_method_invocation_return_value (
 			invocation,
 			g_variant_new (
-				"(@s)",
-				g_variant_new_take_string (
-					value ? value : g_strdup (""))));
+				"(sv)",
+				value ? value : "",
+				inline_images ? inline_images : g_variant_new_int32 (0)));
+
+		g_free (value);
+
+		if ((flags & E_CONTENT_EDITOR_GET_INLINE_IMAGES) && from_domain && *from_domain && inline_images) {
+			dom_restore_images (document, inline_images);
+			g_object_unref (inline_images);
+		}
 	} else if (g_strcmp0 (method_name, "DOMInsertHTML") == 0) {
 		const gchar *html;
 
@@ -1985,20 +1976,6 @@ handle_method_call (GDBusConnection *connection,
 		document = webkit_web_page_get_dom_document (web_page);
 		dom_convert_content (document, extension, preferred_text);
 		g_dbus_method_invocation_return_value (invocation, NULL);
-	} else if (g_strcmp0 (method_name, "DOMGetInlineImagesData") == 0) {
-		const gchar *uid_domain;
-		GVariant *images_data;
-
-		g_variant_get (parameters, "(t&s)", &page_id, &uid_domain);
-
-		web_page = get_webkit_web_page_or_return_dbus_error (
-			invocation, web_extension, page_id);
-		if (!web_page)
-			goto error;
-
-		document = webkit_web_page_get_dom_document (web_page);
-		images_data = dom_get_inline_images_data (document, extension, uid_domain);
-		g_dbus_method_invocation_return_value (invocation, images_data);
 	} else if (g_strcmp0 (method_name, "DOMAddNewInlineImageIntoList") == 0) {
 		const gchar *cid_uri, *src, *filename;
 
@@ -2016,24 +1993,10 @@ handle_method_call (GDBusConnection *connection,
 		dom_insert_base64_image (document, extension, filename, cid_uri, src);
 
 		g_dbus_method_invocation_return_value (invocation, NULL);
-	} else if (g_strcmp0 (method_name, "DOMReplaceBase64ImageSrc") == 0) {
-		const gchar *selector, *base64_content, *filename, *uri;
+	} else if (g_strcmp0 (method_name, "DOMReplaceImageSrc") == 0) {
+		const gchar *selector, *uri;
 
-		g_variant_get (parameters, "(t&s&s)", &page_id, &selector, &base64_content, &filename, &uri);
-
-		web_page = get_webkit_web_page_or_return_dbus_error (
-			invocation, web_extension, page_id);
-		if (!web_page)
-			goto error;
-
-		document = webkit_web_page_get_dom_document (web_page);
-		dom_replace_base64_image_src (document, selector, base64_content, filename, uri);
-
-		g_dbus_method_invocation_return_value (invocation, NULL);
-	} else if (g_strcmp0 (method_name, "DOMReplaceBase64ImageSrc") == 0) {
-		const gchar *selector, *base64_content, *filename, *uri;
-
-		g_variant_get (parameters, "(t&s&s)", &page_id, &selector, &base64_content, &filename, &uri);
+		g_variant_get (parameters, "(t&s&s)", &page_id, &selector, &uri);
 
 		web_page = get_webkit_web_page_or_return_dbus_error (
 			invocation, web_extension, page_id);
@@ -2041,7 +2004,7 @@ handle_method_call (GDBusConnection *connection,
 			goto error;
 
 		document = webkit_web_page_get_dom_document (web_page);
-		dom_replace_base64_image_src (document, selector, base64_content, filename, uri);
+		dom_replace_image_src (document, extension, selector, uri);
 
 		g_dbus_method_invocation_return_value (invocation, NULL);
 	} else if (g_strcmp0 (method_name, "DOMDragAndDropEnd") == 0) {
@@ -2097,10 +2060,8 @@ handle_method_call (GDBusConnection *connection,
 		document = webkit_web_page_get_dom_document (web_page);
 		dom_selection_indent (document, extension);
 		g_dbus_method_invocation_return_value (invocation, NULL);
-	} else if (g_strcmp0 (method_name, "DOMSelectionInsertBase64Image") == 0) {
-		const gchar *base64_content, *filename, *uri;
-
-		g_variant_get (parameters, "(t&s&s&s)", &page_id, &base64_content, &filename, &uri);
+	} else if (g_strcmp0 (method_name, "DOMSelectionSave") == 0) {
+		g_variant_get (parameters, "(t)", &page_id);
 
 		web_page = get_webkit_web_page_or_return_dbus_error (
 			invocation, web_extension, page_id);
@@ -2108,7 +2069,31 @@ handle_method_call (GDBusConnection *connection,
 			goto error;
 
 		document = webkit_web_page_get_dom_document (web_page);
-		dom_insert_base64_image (document, extension, filename, uri, base64_content);
+		dom_selection_save (document);
+		g_dbus_method_invocation_return_value (invocation, NULL);
+	} else if (g_strcmp0 (method_name, "DOMSelectionRestore") == 0) {
+		g_variant_get (parameters, "(t)", &page_id);
+
+		web_page = get_webkit_web_page_or_return_dbus_error (
+			invocation, web_extension, page_id);
+		if (!web_page)
+			goto error;
+
+		document = webkit_web_page_get_dom_document (web_page);
+		dom_selection_restore (document);
+		g_dbus_method_invocation_return_value (invocation, NULL);
+	} else if (g_strcmp0 (method_name, "DOMSelectionInsertImage") == 0) {
+		const gchar *uri;
+
+		g_variant_get (parameters, "(t&s)", &page_id, &uri);
+
+		web_page = get_webkit_web_page_or_return_dbus_error (
+			invocation, web_extension, page_id);
+		if (!web_page)
+			goto error;
+
+		document = webkit_web_page_get_dom_document (web_page);
+		dom_insert_image (document, extension, uri);
 
 		g_dbus_method_invocation_return_value (invocation, NULL);
 	} else if (g_strcmp0 (method_name, "DOMSelectionReplace") == 0) {
@@ -2125,9 +2110,9 @@ handle_method_call (GDBusConnection *connection,
 		dom_selection_replace (document, extension, replacement);
 		g_dbus_method_invocation_return_value (invocation, NULL);
 	} else if (g_strcmp0 (method_name, "DOMSelectionSetAlignment") == 0) {
-		guint32 alignment;
+		EContentEditorAlignment alignment;
 
-		g_variant_get (parameters, "(tu)", &page_id, &alignment);
+		g_variant_get (parameters, "(ti)", &page_id, &alignment);
 
 		web_page = get_webkit_web_page_or_return_dbus_error (
 			invocation, web_extension, page_id);
@@ -2136,6 +2121,7 @@ handle_method_call (GDBusConnection *connection,
 
 		document = webkit_web_page_get_dom_document (web_page);
 		dom_selection_set_alignment (document, extension, alignment);
+		extension->priv->alignment = alignment;
 		g_dbus_method_invocation_return_value (invocation, NULL);
 	} else if (g_strcmp0 (method_name, "DOMSelectionSetBold") == 0) {
 		gboolean bold;
@@ -2151,9 +2137,9 @@ handle_method_call (GDBusConnection *connection,
 		dom_selection_set_bold (document, extension, bold);
 		g_dbus_method_invocation_return_value (invocation, NULL);
 	} else if (g_strcmp0 (method_name, "DOMSelectionSetBlockFormat") == 0) {
-		guint32 block_format;
+		EContentEditorBlockFormat block_format;
 
-		g_variant_get (parameters, "(tu)", &page_id, &block_format);
+		g_variant_get (parameters, "(ti)", &page_id, &block_format);
 
 		web_page = get_webkit_web_page_or_return_dbus_error (
 			invocation, web_extension, page_id);
@@ -2177,9 +2163,9 @@ handle_method_call (GDBusConnection *connection,
 		dom_selection_set_font_color (document, extension, color);
 		g_dbus_method_invocation_return_value (invocation, NULL);
 	} else if (g_strcmp0 (method_name, "DOMSelectionSetFontSize") == 0) {
-		guint32 font_size;
+		EContentEditorFontSize font_size;
 
-		g_variant_get (parameters, "(tu)", &page_id, &font_size);
+		g_variant_get (parameters, "(ti)", &page_id, &font_size);
 
 		web_page = get_webkit_web_page_or_return_dbus_error (
 			invocation, web_extension, page_id);
@@ -2344,11 +2330,21 @@ handle_method_call (GDBusConnection *connection,
 				g_variant_new_take_string (
 					active_signature ? active_signature : g_strdup (""))));
 	} else if (g_strcmp0 (method_name, "DOMInsertSignature") == 0) {
-		gboolean top_signature, start_bottom;
-		const gchar *signature_html;
+		gboolean is_html, set_signature_from_message;
+		gboolean check_if_signature_is_changed, ignore_next_signature_change;
+		const gchar *content, *signature_id;
+		gchar *new_signature_id = NULL;
 
 		g_variant_get (
-			parameters, "(t&sbb)", &page_id, &signature_html, &top_signature, &start_bottom);
+			parameters,
+			"(t&sb&sbbb)",
+			&page_id,
+			&content,
+			&is_html,
+			&signature_id,
+			&set_signature_from_message,
+			&check_if_signature_is_changed,
+			&ignore_next_signature_change);
 
 		web_page = get_webkit_web_page_or_return_dbus_error (
 			invocation, web_extension, page_id);
@@ -2356,9 +2352,26 @@ handle_method_call (GDBusConnection *connection,
 			goto error;
 
 		document = webkit_web_page_get_dom_document (web_page);
-		dom_insert_signature (document, extension, signature_html, top_signature, start_bottom);
+		new_signature_id = dom_insert_signature (
+			document,
+			extension,
+			content,
+			is_html,
+			signature_id,
+			&set_signature_from_message,
+			&check_if_signature_is_changed,
+			&ignore_next_signature_change);
 
-		g_dbus_method_invocation_return_value (invocation, NULL);
+		g_dbus_method_invocation_return_value (
+			invocation,
+			g_variant_new (
+				"(sbbb)",
+				new_signature_id ? new_signature_id : "",
+				set_signature_from_message,
+				check_if_signature_is_changed,
+				ignore_next_signature_change));
+
+		g_free (new_signature_id);
 	} else if (g_strcmp0 (method_name, "DOMSaveDragAndDropHistory") == 0) {
 		g_variant_get (
 			parameters, "(t)", &page_id);
@@ -2404,46 +2417,8 @@ handle_method_call (GDBusConnection *connection,
 				"(@s)",
 				g_variant_new_take_string (
 					value ? value : g_strdup (""))));
-	} else if (g_strcmp0 (method_name, "DOMGetRawBodyContentWithoutSignature") == 0) {
-		gchar *value;
-
-		g_variant_get (parameters, "(t)", &page_id);
-
-		web_page = get_webkit_web_page_or_return_dbus_error (
-			invocation, web_extension, page_id);
-		if (!web_page)
-			goto error;
-
-		document = webkit_web_page_get_dom_document (web_page);
-		value = dom_get_raw_body_content_without_signature (document);
-
-		g_dbus_method_invocation_return_value (
-			invocation,
-			g_variant_new (
-				"(@s)",
-				g_variant_new_take_string (
-					value ? value : g_strdup (""))));
-	} else if (g_strcmp0 (method_name, "DOMGetRawBodyContent") == 0) {
-		gchar *value;
-
-		g_variant_get (parameters, "(t)", &page_id);
-
-		web_page = get_webkit_web_page_or_return_dbus_error (
-			invocation, web_extension, page_id);
-		if (!web_page)
-			goto error;
-
-		document = webkit_web_page_get_dom_document (web_page);
-		value = dom_get_raw_body_content (document);
-
-		g_dbus_method_invocation_return_value (
-			invocation,
-			g_variant_new (
-				"(@s)",
-				g_variant_new_take_string (
-					value ? value : g_strdup (""))));
 	} else if (g_strcmp0 (method_name, "DOMGetCaretPosition") == 0) {
-		gint32 value;
+		guint32 value;
 
 		g_variant_get (parameters, "(t)", &page_id);
 
@@ -2457,9 +2432,9 @@ handle_method_call (GDBusConnection *connection,
 
 		g_dbus_method_invocation_return_value (
 			invocation,
-			value ? g_variant_new_int32 (value) : NULL);
+			value ? g_variant_new_uint32 (value) : NULL);
 	} else if (g_strcmp0 (method_name, "DOMGetCaretOffset") == 0) {
-		gint32 value;
+		guint32 value;
 
 		g_variant_get (parameters, "(t)", &page_id);
 
@@ -2473,7 +2448,7 @@ handle_method_call (GDBusConnection *connection,
 
 		g_dbus_method_invocation_return_value (
 			invocation,
-			value ? g_variant_new_int32 (value) : NULL);
+			value ? g_variant_new_uint32 (value) : NULL);
 	} else if (g_strcmp0 (method_name, "DOMClearUndoRedoHistory") == 0) {
 		g_variant_get (parameters, "(t)", &page_id);
 
@@ -2495,471 +2470,10 @@ handle_method_call (GDBusConnection *connection,
 	g_warning ("Cannot obtain WebKitWebPage for '%ld'", page_id);
 }
 
-static GVariant *
-handle_get_property (GDBusConnection *connection,
-                     const gchar *sender,
-                     const gchar *object_path,
-                     const gchar *interface_name,
-                     const gchar *property_name,
-                     GError **error,
-                     gpointer user_data)
-{
-	EHTMLEditorWebExtension *extension = E_HTML_EDITOR_WEB_EXTENSION (user_data);
-	GVariant *variant;
-
-	if (camel_debug ("wex"))
-		printf ("%s - %s - %s\n", G_STRFUNC, sender, property_name);
-	if (g_strcmp0 (property_name, "ForceImageLoad") == 0)
-		variant = g_variant_new_boolean (extension->priv->force_image_load);
-	else if (g_strcmp0 (property_name, "InlineSpelling") == 0)
-		variant = g_variant_new_boolean (extension->priv->inline_spelling);
-	else if (g_strcmp0 (property_name, "MagicLinks") == 0)
-		variant = g_variant_new_boolean (extension->priv->magic_links);
-	else if (g_strcmp0 (property_name, "MagicSmileys") == 0)
-		variant = g_variant_new_boolean (extension->priv->magic_smileys);
-	else if (g_strcmp0 (property_name, "HTMLMode") == 0)
-		variant = g_variant_new_boolean (extension->priv->html_mode);
-	else if (g_strcmp0 (property_name, "IsEdittingMessage") == 0)
-		variant = g_variant_new_boolean (extension->priv->is_editting_message);
-	else if (g_strcmp0 (property_name, "IsFromNewMessage") == 0)
-		variant = g_variant_new_boolean (extension->priv->is_from_new_message);
-	else if (g_strcmp0 (property_name, "IsMessageFromEditAsNew") == 0)
-		variant = g_variant_new_boolean (extension->priv->is_message_from_edit_as_new);
-	else if (g_strcmp0 (property_name, "IsMessageFromDraft") == 0)
-		variant = g_variant_new_boolean (extension->priv->is_message_from_draft);
-	else if (g_strcmp0 (property_name, "IsMessageFromSelection") == 0)
-		variant = g_variant_new_boolean (extension->priv->is_message_from_selection);
-	else if (g_strcmp0 (property_name, "IsPastingContentFromItself") == 0)
-		variant = g_variant_new_boolean (extension->priv->is_pasting_content_from_itself);
-	else if (g_strcmp0 (property_name, "Alignment") == 0)
-		variant = g_variant_new_uint32 (extension->priv->alignment);
-	else if (g_strcmp0 (property_name, "BackgroundColor") == 0)
-		variant = g_variant_new_string (extension->priv->background_color);
-	else if (g_strcmp0 (property_name, "BlockFormat") == 0)
-		variant = g_variant_new_uint32 (extension->priv->block_format);
-	else if (g_strcmp0 (property_name, "Bold") == 0)
-		variant = g_variant_new_boolean (extension->priv->bold);
-	else if (g_strcmp0 (property_name, "Changed") == 0)
-		variant = g_variant_new_boolean (extension->priv->changed);
-	else if (g_strcmp0 (property_name, "FontColor") == 0)
-		variant = g_variant_new_string (extension->priv->font_color);
-	else if (g_strcmp0 (property_name, "FontName") == 0)
-		variant = g_variant_new_string (extension->priv->font_name);
-	else if (g_strcmp0 (property_name, "FontSize") == 0)
-		variant = g_variant_new_uint32 (extension->priv->font_size);
-	else if (g_strcmp0 (property_name, "Indented") == 0)
-		variant = g_variant_new_boolean (extension->priv->indented);
-	else if (g_strcmp0 (property_name, "Italic") == 0)
-		variant = g_variant_new_boolean (extension->priv->italic);
-	else if (g_strcmp0 (property_name, "Monospaced") == 0)
-		variant = g_variant_new_boolean (extension->priv->monospaced);
-	else if (g_strcmp0 (property_name, "Strikethrough") == 0)
-		variant = g_variant_new_boolean (extension->priv->strikethrough);
-	else if (g_strcmp0 (property_name, "Subscript") == 0)
-		variant = g_variant_new_boolean (extension->priv->subscript);
-	else if (g_strcmp0 (property_name, "Superscript") == 0)
-		variant = g_variant_new_boolean (extension->priv->superscript);
-	else if (g_strcmp0 (property_name, "Superscript") == 0)
-		variant = g_variant_new_boolean (extension->priv->superscript);
-	else if (g_strcmp0 (property_name, "Underline") == 0)
-		variant = g_variant_new_boolean (extension->priv->underline);
-	else if (g_strcmp0 (property_name, "Text") == 0)
-		variant = g_variant_new_string (extension->priv->text);
-	else if (g_strcmp0 (property_name, "NodeUnderMouseClickFlags") == 0)
-		variant = g_variant_new_uint32 (extension->priv->node_under_mouse_click_flags);
-
-	return variant;
-}
-
-static gboolean
-handle_set_property (GDBusConnection *connection,
-                     const gchar *sender,
-                     const gchar *object_path,
-                     const gchar *interface_name,
-                     const gchar *property_name,
-                     GVariant *variant,
-                     GError **error,
-                     gpointer user_data)
-{
-	EHTMLEditorWebExtension *extension = E_HTML_EDITOR_WEB_EXTENSION (user_data);
-	GError *local_error = NULL;
-	GVariantBuilder *builder;
-
-	if (camel_debug ("wex"))
-		printf ("%s - %s - %s\n", G_STRFUNC, sender, property_name);
-	builder = g_variant_builder_new (G_VARIANT_TYPE_ARRAY);
-
-	if (g_strcmp0 (property_name, "ForceImageLoad") == 0) {
-		gboolean value = g_variant_get_boolean (variant);
-
-		if (value == extension->priv->force_image_load)
-			goto exit;
-
-		extension->priv->force_image_load = value;
-
-		g_variant_builder_add (builder,
-			"{sv}",
-			"ForceImageLoad",
-			g_variant_new_boolean (extension->priv->force_image_load));
-	} else if (g_strcmp0 (property_name, "IsMessageFromDraft") == 0) {
-		gboolean value = g_variant_get_boolean (variant);
-
-		if (value == extension->priv->is_message_from_draft)
-			goto exit;
-
-		extension->priv->is_message_from_draft = value;
-
-		g_variant_builder_add (builder,
-			"{sv}",
-			"IsMessageFromDraft",
-			g_variant_new_boolean (extension->priv->is_message_from_draft));
-	} else if (g_strcmp0 (property_name, "IsEdittingMessage") == 0) {
-		gboolean value = g_variant_get_boolean (variant);
-
-		if (value == extension->priv->is_editting_message)
-			goto exit;
-
-		extension->priv->is_editting_message = value;
-
-		g_variant_builder_add (builder,
-			"{sv}",
-			"IsEdittingMessage",
-			g_variant_new_boolean (extension->priv->is_editting_message));
-	} else if (g_strcmp0 (property_name, "IsMessageFromSelection") == 0) {
-		gboolean value = g_variant_get_boolean (variant);
-
-		if (value == extension->priv->is_message_from_selection)
-			goto exit;
-
-		extension->priv->is_message_from_selection = value;
-
-		g_variant_builder_add (builder,
-			"{sv}",
-			"IsMessageFromSelection",
-			g_variant_new_boolean (extension->priv->is_message_from_selection));
-	} else if (g_strcmp0 (property_name, "IsFromNewMessage") == 0) {
-		gboolean value = g_variant_get_boolean (variant);
-
-		if (value == extension->priv->is_from_new_message)
-			goto exit;
-
-		extension->priv->is_from_new_message = value;
-
-		g_variant_builder_add (builder,
-			"{sv}",
-			"IsFromNewMessage",
-			g_variant_new_boolean (extension->priv->is_from_new_message));
-	} else if (g_strcmp0 (property_name, "IsMessageFromEditAsNew") == 0) {
-		gboolean value = g_variant_get_boolean (variant);
-
-		if (value == extension->priv->is_message_from_edit_as_new)
-			goto exit;
-
-		extension->priv->is_message_from_edit_as_new = value;
-
-		g_variant_builder_add (builder,
-			"{sv}",
-			"IsMessageFromEditAsNew",
-			g_variant_new_boolean (extension->priv->is_message_from_edit_as_new));
-	} else if (g_strcmp0 (property_name, "IsPastingContentFromItself") == 0) {
-		gboolean value = g_variant_get_boolean (variant);
-
-		if (value == extension->priv->is_pasting_content_from_itself)
-			goto exit;
-
-		extension->priv->is_pasting_content_from_itself = value;
-
-		g_variant_builder_add (builder,
-			"{sv}",
-			"IsPastingContentFromItself",
-			g_variant_new_boolean (extension->priv->is_pasting_content_from_itself));
-	} else if (g_strcmp0 (property_name, "HTMLMode") == 0) {
-		gboolean value = g_variant_get_boolean (variant);
-
-		if (value == extension->priv->html_mode)
-			goto exit;
-
-		extension->priv->html_mode = value;
-
-		g_variant_builder_add (builder,
-			"{sv}",
-			"HTMLMode",
-			g_variant_new_boolean (extension->priv->html_mode));
-	} else if (g_strcmp0 (property_name, "MagicLinks") == 0) {
-		gboolean value = g_variant_get_boolean (variant);
-
-		if (value == extension->priv->magic_links)
-			goto exit;
-
-		extension->priv->magic_links = value;
-
-		g_variant_builder_add (builder,
-			"{sv}",
-			"MagicLinks",
-			g_variant_new_boolean (extension->priv->magic_links));
-	} else if (g_strcmp0 (property_name, "MagicSmileys") == 0) {
-		gboolean value = g_variant_get_boolean (variant);
-
-		if (value == extension->priv->magic_smileys)
-			goto exit;
-
-		extension->priv->magic_smileys = value;
-
-		g_variant_builder_add (builder,
-			"{sv}",
-			"MagicSmileys",
-			g_variant_new_boolean (extension->priv->magic_smileys));
-	} else if (g_strcmp0 (property_name, "InlineSpelling") == 0) {
-		gboolean value = g_variant_get_boolean (variant);
-
-		if (value == extension->priv->inline_spelling)
-			goto exit;
-
-		extension->priv->inline_spelling = value;
-		/*if (extension->priv->inline_spelling)
-			dom_force_spell_check (document, extension);
-		else
-			dom_turn_spell_check_off (document, extension);*/
-
-		g_variant_builder_add (builder,
-			"{sv}",
-			"InlineSpelling",
-			g_variant_new_boolean (extension->priv->inline_spelling));
-	} else if (g_strcmp0 (property_name, "Alignment") == 0) {
-		gint32 value = g_variant_get_uint32 (variant);
-
-		if (value == extension->priv->alignment)
-			goto exit;
-
-		extension->priv->alignment = value;
-
-		g_variant_builder_add (builder,
-			"{sv}",
-			"Alignment",
-			g_variant_new_uint32 (extension->priv->alignment));
-	} else if (g_strcmp0 (property_name, "BackgroundColor") == 0) {
-		const gchar *value = g_variant_get_string (variant, NULL);
-
-		if (g_strcmp0 (value, extension->priv->background_color) != 0)
-			goto exit;
-
-		g_free (extension->priv->background_color);
-		extension->priv->background_color = g_strdup (value);
-
-		g_variant_builder_add (builder,
-			"{sv}",
-			"BackgroundColor",
-			g_variant_new_string (extension->priv->background_color));
-	} else if (g_strcmp0 (property_name, "BlockFormat") == 0) {
-		guint32 value = g_variant_get_uint32 (variant);
-
-		if (value == extension->priv->block_format)
-			goto exit;
-
-		extension->priv->block_format = value;
-
-		g_variant_builder_add (builder,
-			"{sv}",
-			"BlockFormat",
-			g_variant_new_uint32 (extension->priv->block_format));
-	} else if (g_strcmp0 (property_name, "Bold") == 0) {
-		gboolean value = g_variant_get_boolean (variant);
-
-		if (value == extension->priv->bold)
-			goto exit;
-
-		extension->priv->bold = value;
-
-		g_variant_builder_add (builder,
-			"{sv}",
-			"Bold",
-			g_variant_new_boolean (extension->priv->bold));
-	} else if (g_strcmp0 (property_name, "Changed") == 0) {
-		gboolean value = g_variant_get_boolean (variant);
-
-		if (value == extension->priv->changed)
-			goto exit;
-
-		extension->priv->changed = value;
-
-		g_variant_builder_add (builder,
-			"{sv}",
-			"Changed",
-			g_variant_new_boolean (extension->priv->changed));
-	} else if (g_strcmp0 (property_name, "FontColor") == 0) {
-		const gchar *value = g_variant_get_string (variant, NULL);
-
-		if (g_strcmp0 (value, extension->priv->font_color) == 0)
-			goto exit;
-
-		g_free (extension->priv->font_color);
-		extension->priv->font_color = g_strdup (value);
-
-		g_variant_builder_add (builder,
-			"{sv}",
-			"FontColor",
-			g_variant_new_string (extension->priv->font_color));
-	} else if (g_strcmp0 (property_name, "FontName") == 0) {
-		const gchar *value = g_variant_get_string (variant, NULL);
-
-		if (g_strcmp0 (value, extension->priv->font_name) == 0)
-			goto exit;
-
-		g_free (extension->priv->font_name);
-		extension->priv->font_name = g_strdup (value);
-
-		g_variant_builder_add (builder,
-			"{sv}",
-			"FontName",
-			g_variant_new_string (extension->priv->font_name));
-	} else if (g_strcmp0 (property_name, "FontSize") == 0) {
-		gint32 value = g_variant_get_uint32 (variant);
-
-		if (value == extension->priv->font_size)
-			goto exit;
-
-		extension->priv->font_size = value;
-
-		g_variant_builder_add (builder,
-			"{sv}",
-			"FontSize",
-			g_variant_new_uint32 (extension->priv->font_size));
-	} else if (g_strcmp0 (property_name, "Indented") == 0) {
-		gboolean value = g_variant_get_boolean (variant);
-
-		if (value == extension->priv->indented)
-			goto exit;
-
-		extension->priv->indented = value;
-
-		g_variant_builder_add (builder,
-			"{sv}",
-			"Indented",
-			g_variant_new_boolean (extension->priv->indented));
-	} else if (g_strcmp0 (property_name, "Italic") == 0) {
-		gboolean value = g_variant_get_boolean (variant);
-
-		if (value == extension->priv->italic)
-			goto exit;
-
-		extension->priv->italic = value;
-
-		g_variant_builder_add (builder,
-			"{sv}",
-			"Italic",
-			g_variant_new_boolean (extension->priv->italic));
-	} else if (g_strcmp0 (property_name, "Monospaced") == 0) {
-		gboolean value = g_variant_get_boolean (variant);
-
-		if (value == extension->priv->monospaced)
-			goto exit;
-
-		extension->priv->monospaced = value;
-
-		g_variant_builder_add (builder,
-			"{sv}",
-			"Monospaced",
-			g_variant_new_boolean (extension->priv->monospaced));
-	} else if (g_strcmp0 (property_name, "Strikethrough") == 0) {
-		gboolean value = g_variant_get_boolean (variant);
-
-		if (value == extension->priv->strikethrough)
-			goto exit;
-
-		extension->priv->strikethrough = value;
-
-		g_variant_builder_add (builder,
-			"{sv}",
-			"Strikethrough",
-			g_variant_new_boolean (extension->priv->strikethrough));
-	} else if (g_strcmp0 (property_name, "Subscript") == 0) {
-		gboolean value = g_variant_get_boolean (variant);
-
-		if (value == extension->priv->subscript)
-			goto exit;
-
-		extension->priv->subscript = value;
-
-		g_variant_builder_add (builder,
-			"{sv}",
-			"Subscript",
-			g_variant_new_boolean (extension->priv->subscript));
-	} else if (g_strcmp0 (property_name, "Superscript") == 0) {
-		gboolean value = g_variant_get_boolean (variant);
-
-		if (value == extension->priv->superscript)
-			goto exit;
-
-		extension->priv->superscript = value;
-
-		g_variant_builder_add (builder,
-			"{sv}",
-			"Superscript",
-			g_variant_new_boolean (extension->priv->superscript));
-	} else if (g_strcmp0 (property_name, "Underline") == 0) {
-		gboolean value = g_variant_get_boolean (variant);
-
-		if (value == extension->priv->underline)
-			goto exit;
-
-		extension->priv->underline = value;
-
-		g_variant_builder_add (builder,
-			"{sv}",
-			"Underline",
-			g_variant_new_boolean (extension->priv->underline));
-	} else if (g_strcmp0 (property_name, "Text") == 0) {
-		const gchar *value = g_variant_get_string (variant, NULL);
-
-		if (g_strcmp0 (value, extension->priv->text) == 0)
-			goto exit;
-
-		g_free (extension->priv->text);
-		extension->priv->text = g_strdup (value);
-
-		g_variant_builder_add (builder,
-			"{sv}",
-			"Text",
-			g_variant_new_string (extension->priv->text));
-	} else if (g_strcmp0 (property_name, "NodeUnderMouseClickFlags") == 0) {
-		guint32 value = g_variant_get_uint32 (variant);
-
-		extension->priv->node_under_mouse_click_flags = value;
-
-		g_variant_builder_add (builder,
-			"{sv}",
-			"NodeUnderMouseClickFlags",
-			g_variant_new_uint32 (extension->priv->node_under_mouse_click_flags));
-	} else {
-		g_warning ("UNKNOWN PROPERY '%s'", property_name);
-	}
-
-	g_dbus_connection_emit_signal (connection,
-		NULL,
-		object_path,
-		"org.freedesktop.DBus.Properties",
-		"PropertiesChanged",
-		g_variant_new (
-			"(sa{sv}as)",
-			interface_name,
-			builder,
-			NULL),
-		&local_error);
-
-	g_assert_no_error (local_error);
-
- exit:
-	if (camel_debug ("wex"))
-		printf ("\tExitting\n");
-	g_variant_builder_unref (builder);
-
-	return TRUE;
-}
-
 static const GDBusInterfaceVTable interface_vtable = {
 	handle_method_call,
-	handle_get_property,
-	handle_set_property
+	NULL,
+	NULL
 };
 
 static void
@@ -3005,6 +2519,12 @@ e_html_editor_web_extension_dispose (GObject *object)
 		extension->priv->undo_redo_manager = NULL;
 	}
 
+	if (extension->priv->mail_settings != NULL) {
+		g_signal_handlers_disconnect_by_data (extension->priv->mail_settings, object);
+		g_object_unref (extension->priv->mail_settings);
+		extension->priv->mail_settings = NULL;
+	}
+
 	g_clear_object (&extension->priv->wk_extension);
 	g_clear_object (&extension->priv->spell_checker);
 
@@ -3038,14 +2558,16 @@ e_html_editor_web_extension_class_init (EHTMLEditorWebExtensionClass *class)
 static void
 e_html_editor_web_extension_init (EHTMLEditorWebExtension *extension)
 {
-	extension->priv = G_TYPE_INSTANCE_GET_PRIVATE (extension, E_TYPE_HTML_EDITOR_WEB_EXTENSION, EHTMLEditorWebExtensionPrivate);
+	GSettings *g_settings;
+
+	extension->priv = E_HTML_EDITOR_WEB_EXTENSION_GET_PRIVATE (extension);
 
 	extension->priv->bold = FALSE;
 	extension->priv->background_color = g_strdup ("");
 	extension->priv->font_color = g_strdup ("");
 	extension->priv->font_name = g_strdup ("");
 	extension->priv->text = g_strdup ("");
-	extension->priv->font_size = E_HTML_EDITOR_SELECTION_FONT_SIZE_NORMAL;
+	extension->priv->font_size = E_CONTENT_EDITOR_FONT_SIZE_NORMAL;
 	extension->priv->indented = FALSE;
 	extension->priv->italic = FALSE;
 	extension->priv->monospaced = FALSE;
@@ -3053,35 +2575,30 @@ e_html_editor_web_extension_init (EHTMLEditorWebExtension *extension)
 	extension->priv->subscript = FALSE;
 	extension->priv->superscript = FALSE;
 	extension->priv->underline = FALSE;
-	extension->priv->alignment = E_HTML_EDITOR_SELECTION_ALIGNMENT_LEFT;
-	extension->priv->block_format = E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_PARAGRAPH;
-	extension->priv->changed = FALSE;
+	extension->priv->alignment = E_CONTENT_EDITOR_ALIGNMENT_LEFT;
+	extension->priv->block_format = E_CONTENT_EDITOR_BLOCK_FORMAT_PARAGRAPH;
 	extension->priv->force_image_load = FALSE;
-	extension->priv->inline_spelling = FALSE;
-	extension->priv->magic_links = FALSE;
-	extension->priv->magic_smileys = FALSE;
-	extension->priv->unicode_smileys = FALSE;
 	extension->priv->html_mode = FALSE;
 	extension->priv->return_key_pressed = FALSE;
 	extension->priv->space_key_pressed = FALSE;
 	extension->priv->smiley_written = FALSE;
-	extension->priv->word_wrap_length = 71;
 
 	extension->priv->convert_in_situ = FALSE;
 	extension->priv->body_input_event_removed = TRUE;
-	extension->priv->is_editting_message = TRUE;
-	extension->priv->is_message_from_draft = FALSE;
-	extension->priv->is_message_from_edit_as_new = FALSE;
-	extension->priv->is_from_new_message = FALSE;
-	extension->priv->is_message_from_selection = FALSE;
 	extension->priv->dont_save_history_in_body_input = FALSE;
 	extension->priv->is_pasting_content_from_itself = FALSE;
 	extension->priv->composition_in_progress = FALSE;
 	extension->priv->renew_history_after_coordinates = TRUE;
 
-	extension->priv->node_under_mouse_click = NULL;
+	extension->priv->content_flags = 0;
 
 	extension->priv->spell_check_on_scroll_event_source_id = 0;
+
+	g_settings = e_util_ref_settings ("org.gnome.evolution.mail");
+	extension->priv->mail_settings = g_settings;
+
+	extension->priv->word_wrap_length = g_settings_get_int (
+		extension->priv->mail_settings, "composer-word-wrap-length");
 
 	extension->priv->undo_redo_manager = g_object_new (
 		E_TYPE_HTML_EDITOR_UNDO_REDO_MANAGER,
@@ -3141,14 +2658,11 @@ image_exists_in_cache (const gchar *image_uri)
 }
 
 static EImageLoadingPolicy
-get_image_loading_policy (void)
+get_image_loading_policy (EHTMLEditorWebExtension *extension)
 {
-	GSettings *settings;
 	EImageLoadingPolicy image_policy;
 
-	settings = e_util_ref_settings ("org.gnome.evolution.mail");
-	image_policy = g_settings_get_enum (settings, "image-loading-policy");
-	g_object_unref (settings);
+	image_policy = g_settings_get_enum (extension->priv->mail_settings, "image-loading-policy");
 
 	return image_policy;
 }
@@ -3172,7 +2686,7 @@ redirect_http_uri (EHTMLEditorWebExtension *extension,
 	/* If the URI is not cached and we are not allowed to load it
 	 * then redirect to invalid URI, so that webkit would display
 	 * a native placeholder for it. */
-	image_policy = get_image_loading_policy ();
+	image_policy = get_image_loading_policy (extension);
 	if (!image_exists && !extension->priv->force_image_load &&
 	    (image_policy == E_IMAGE_LOADING_POLICY_NEVER)) {
 		webkit_uri_request_set_uri (request, "about:blank");
@@ -3242,44 +2756,78 @@ web_page_context_menu_cb (WebKitWebPage *web_page,
                           EHTMLEditorWebExtension *web_extension)
 {
 	WebKitDOMNode *node;
-	guint flags = 0;
+	EContentEditorNodeFlags flags = 0;
+	GVariant *variant;
 
 	node = webkit_web_hit_test_result_get_node (hit_test_result);
 	web_extension->priv->node_under_mouse_click = node;
 
 	if (WEBKIT_DOM_IS_HTML_HR_ELEMENT (node))
-		flags |= E_HTML_EDITOR_NODE_IS_HR;
+		flags |= E_CONTENT_EDITOR_NODE_IS_H_RULE;
 
 	if (WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (node) ||
 	    (dom_node_find_parent_element (node, "A") != NULL))
-		flags |= E_HTML_EDITOR_NODE_IS_ANCHOR;
+		flags |= E_CONTENT_EDITOR_NODE_IS_ANCHOR;
 
 	if (WEBKIT_DOM_IS_HTML_IMAGE_ELEMENT (node) ||
-	    (dom_node_find_parent_element (node, "IMG") != NULL)) {
-
-		flags |= E_HTML_EDITOR_NODE_IS_IMAGE;
-	}
+	    (dom_node_find_parent_element (node, "IMG") != NULL))
+		flags |= E_CONTENT_EDITOR_NODE_IS_IMAGE;
 
 	if (WEBKIT_DOM_IS_HTML_TABLE_CELL_ELEMENT (node) ||
 	    (dom_node_find_parent_element (node, "TD") != NULL) ||
-	    (dom_node_find_parent_element (node, "TH") != NULL)) {
+	    (dom_node_find_parent_element (node, "TH") != NULL))
+		flags |= E_CONTENT_EDITOR_NODE_IS_TABLE_CELL;
 
-		flags |= E_HTML_EDITOR_NODE_IS_TABLE_CELL;
-	}
-
-	if (flags && E_HTML_EDITOR_NODE_IS_TABLE_CELL &&
+	if (flags & E_CONTENT_EDITOR_NODE_IS_TABLE_CELL &&
 	    (WEBKIT_DOM_IS_HTML_TABLE_ELEMENT (node) ||
-	    dom_node_find_parent_element (node, "TABLE") != NULL)) {
-
-		flags |= E_HTML_EDITOR_NODE_IS_TABLE;
-	}
+	    dom_node_find_parent_element (node, "TABLE") != NULL))
+		flags |= E_CONTENT_EDITOR_NODE_IS_TABLE;
 
 	if (flags == 0)
-		flags |= E_HTML_EDITOR_NODE_IS_TEXT;
+		flags |= E_CONTENT_EDITOR_NODE_IS_TEXT;
 
-	set_dbus_property_unsigned (web_extension, "NodeUnderMouseClickFlags", flags);
+	variant = g_variant_new_int32 (flags);
+	webkit_context_menu_set_user_data (context_menu, variant);
 
 	return FALSE;
+}
+
+static GVariant *
+create_parameters_and_update_font_properties (WebKitDOMDocument *document,
+                                              EHTMLEditorWebExtension *extension)
+{
+	extension->priv->alignment = dom_selection_get_alignment (document, extension);
+	extension->priv->block_format = dom_selection_get_block_format (document, extension);
+	extension->priv->indented = dom_selection_is_indented (document);
+
+	if (extension->priv->html_mode) {
+		extension->priv->bold = dom_selection_is_bold (document, extension);
+		extension->priv->italic = dom_selection_is_italic (document, extension);
+		extension->priv->underline = dom_selection_is_underline (document, extension);
+		extension->priv->strikethrough = dom_selection_is_strikethrough (document, extension);
+		extension->priv->monospaced = dom_selection_is_monospaced (document, extension);
+		extension->priv->subscript = dom_selection_is_subscript (document, extension);
+		extension->priv->superscript = dom_selection_is_superscript (document, extension);
+		extension->priv->underline = dom_selection_is_underline (document, extension);
+		extension->priv->font_size = dom_selection_get_font_size (document, extension);
+		g_free (extension->priv->font_color);
+		extension->priv->font_color = dom_selection_get_font_color (document, extension);
+	}
+
+	return g_variant_new ("(iibbbbbbbbbis)",
+		(gint32) extension->priv->alignment,
+		(gint32) extension->priv->block_format,
+		extension->priv->indented,
+		extension->priv->bold,
+		extension->priv->italic,
+		extension->priv->underline,
+		extension->priv->strikethrough,
+		extension->priv->monospaced,
+		extension->priv->subscript,
+		extension->priv->superscript,
+		extension->priv->underline,
+		(gint32) extension->priv->font_size,
+		extension->priv->font_color ? extension->priv->font_color : "");
 }
 
 static void
@@ -3289,6 +2837,14 @@ web_editor_selection_changed_cb (WebKitWebEditor *editor,
 	WebKitWebPage *page;
 	WebKitDOMDocument *document;
 	WebKitDOMRange *range;
+	GError *error = NULL;
+	GVariant *parameters;
+
+	if (extension->priv->selection_changed_callbacks_blocked)
+		return;
+
+	if (!extension->priv->dbus_connection)
+		return;
 
 	page = webkit_web_editor_get_page (editor);
 	document = webkit_web_page_get_dom_document (page);
@@ -3297,28 +2853,25 @@ web_editor_selection_changed_cb (WebKitWebEditor *editor,
 		return;
 	g_object_unref (range);
 
-	set_dbus_property_unsigned (extension, "Alignment", dom_selection_get_alignment (document, extension));
-	set_dbus_property_unsigned (extension, "BlockFormat", dom_selection_get_block_format (document, extension));
-	set_dbus_property_boolean (extension, "Indented", dom_selection_is_indented (document));
 	/*
-	g_object_notify (G_OBJECT (selection), "text");
-*/
-	if (!extension->priv->html_mode)
-		return;
-
-	set_dbus_property_boolean (extension, "Bold", dom_selection_is_bold (document, extension));
-	set_dbus_property_boolean (extension, "Italic", dom_selection_is_italic (document, extension));
-	set_dbus_property_boolean (extension, "Underline", dom_selection_is_underline (document, extension));
-	set_dbus_property_boolean (extension, "Strikethrough", dom_selection_is_strikethrough (document, extension));
-	set_dbus_property_boolean (extension, "Monospaced", dom_selection_is_monospaced (document, extension));
-	set_dbus_property_boolean (extension, "Subscript", dom_selection_is_subscript (document, extension));
-	set_dbus_property_boolean (extension, "Superscript", dom_selection_is_superscript (document, extension));
-	set_dbus_property_unsigned (extension, "FontSize", dom_selection_get_font_size (document, extension));
-	set_dbus_property_take_string (extension, "FontColor", dom_selection_get_font_color (document, extension));
-/*
 	g_object_notify (G_OBJECT (selection), "background-color");
 	g_object_notify (G_OBJECT (selection), "font-name");
 	*/
+	parameters = create_parameters_and_update_font_properties (document, extension);
+
+	g_dbus_connection_emit_signal (
+		extension->priv->dbus_connection,
+		NULL,
+		E_HTML_EDITOR_WEB_EXTENSION_OBJECT_PATH,
+		E_HTML_EDITOR_WEB_EXTENSION_INTERFACE,
+		"SelectionChanged",
+		parameters,
+		&error);
+
+	if (error) {
+		g_warning ("Error emitting signal SelectionChanged: %s\n", error->message);
+		g_error_free (error);
+	}
 }
 
 static void
@@ -3408,113 +2961,26 @@ e_html_editor_web_extension_dbus_register (EHTMLEditorWebExtension *extension,
 }
 
 void
-set_dbus_property_string (EHTMLEditorWebExtension *extension,
-                          const gchar *name,
-                          const gchar *value)
-{
-	if (extension->priv->dbus_connection) {
-		g_dbus_connection_call (
-			extension->priv->dbus_connection,
-			E_HTML_EDITOR_WEB_EXTENSION_SERVICE_NAME,
-			E_HTML_EDITOR_WEB_EXTENSION_OBJECT_PATH,
-			"org.freedesktop.DBus.Properties",
-			"Set",
-			g_variant_new (
-				"(ssv)",
-				E_HTML_EDITOR_WEB_EXTENSION_INTERFACE,
-				name,
-				g_variant_new_string (value)),
-			NULL,
-			G_DBUS_CALL_FLAGS_NONE,
-			-1,
-			NULL,
-			NULL,
-			NULL);
-	}
-}
-
-void
-set_dbus_property_take_string (EHTMLEditorWebExtension *extension,
-                               const gchar *name,
-                               gchar *value)
-{
-	if (extension->priv->dbus_connection) {
-		g_dbus_connection_call (
-			extension->priv->dbus_connection,
-			E_HTML_EDITOR_WEB_EXTENSION_SERVICE_NAME,
-			E_HTML_EDITOR_WEB_EXTENSION_OBJECT_PATH,
-			"org.freedesktop.DBus.Properties",
-			"Set",
-			g_variant_new (
-				"(ssv)",
-				E_HTML_EDITOR_WEB_EXTENSION_INTERFACE,
-				name,
-				g_variant_new_take_string (value)),
-			NULL,
-			G_DBUS_CALL_FLAGS_NONE,
-			-1,
-			NULL,
-			NULL,
-			NULL);
-	}
-}
-
-void
-set_dbus_property_unsigned (EHTMLEditorWebExtension *extension,
-                            const gchar *name,
-                            guint32 value)
-{
-	if (extension->priv->dbus_connection) {
-		g_dbus_connection_call (
-			extension->priv->dbus_connection,
-			E_HTML_EDITOR_WEB_EXTENSION_SERVICE_NAME,
-			E_HTML_EDITOR_WEB_EXTENSION_OBJECT_PATH,
-			"org.freedesktop.DBus.Properties",
-			"Set",
-			g_variant_new (
-				"(ssv)",
-				E_HTML_EDITOR_WEB_EXTENSION_INTERFACE,
-				name,
-				g_variant_new_uint32 (value)),
-			NULL,
-			G_DBUS_CALL_FLAGS_NONE,
-			-1,
-			NULL,
-			NULL,
-			NULL);
-	}
-}
-
-void
-set_dbus_property_boolean (EHTMLEditorWebExtension *extension,
-                           const gchar *name,
-                           gboolean value)
-{
-	if (extension->priv->dbus_connection) {
-		g_dbus_connection_call (
-			extension->priv->dbus_connection,
-			E_HTML_EDITOR_WEB_EXTENSION_SERVICE_NAME,
-			E_HTML_EDITOR_WEB_EXTENSION_OBJECT_PATH,
-			"org.freedesktop.DBus.Properties",
-			"Set",
-			g_variant_new (
-				"(ssv)",
-				E_HTML_EDITOR_WEB_EXTENSION_INTERFACE,
-				name,
-				g_variant_new_boolean (value)),
-			NULL,
-			G_DBUS_CALL_FLAGS_NONE,
-			-1,
-			NULL,
-			NULL,
-			NULL);
-	}
-}
-
-void
 e_html_editor_web_extension_set_content_changed (EHTMLEditorWebExtension *extension)
 {
-	set_dbus_property_boolean (extension, "Changed", TRUE);
+	GError *error = NULL;
+
+	if (!extension->priv->dbus_connection)
+		return;
+
+	g_dbus_connection_emit_signal (
+		extension->priv->dbus_connection,
+		NULL,
+		E_HTML_EDITOR_WEB_EXTENSION_OBJECT_PATH,
+		E_HTML_EDITOR_WEB_EXTENSION_INTERFACE,
+		"ContentChanged",
+		NULL,
+		&error);
+
+	if (error) {
+		g_warning ("Error emitting signal ContentChanged: %s\n", error->message);
+		g_error_free (error);
+	}
 }
 
 gboolean
@@ -3583,22 +3049,16 @@ e_html_editor_web_extension_get_font_color (EHTMLEditorWebExtension *extension)
 	return extension->priv->font_color;
 }
 
-EHTMLEditorSelectionAlignment
+EContentEditorAlignment
 e_html_editor_web_extension_get_alignment (EHTMLEditorWebExtension *extension)
 {
 	return extension->priv->alignment;
 }
 
-gboolean
-e_html_editor_web_extension_is_message_from_edit_as_new (EHTMLEditorWebExtension *extension)
+EContentEditorContentFlags
+e_html_editor_web_extension_get_current_content_flags (EHTMLEditorWebExtension *extension)
 {
-	return extension->priv->is_message_from_edit_as_new;
-}
-
-gboolean
-e_html_editor_web_extension_is_editting_message (EHTMLEditorWebExtension *extension)
-{
-	return extension->priv->is_editting_message;
+	return extension->priv->content_flags;
 }
 
 gboolean
@@ -3630,37 +3090,29 @@ e_html_editor_web_extension_set_space_key_pressed (EHTMLEditorWebExtension *exte
 gboolean
 e_html_editor_web_extension_get_magic_links_enabled (EHTMLEditorWebExtension *extension)
 {
-	return extension->priv->magic_links;
+	return g_settings_get_boolean (
+		extension->priv->mail_settings, "composer-magic-links");
 }
 
 gboolean
 e_html_editor_web_extension_get_magic_smileys_enabled (EHTMLEditorWebExtension *extension)
 {
-	return extension->priv->magic_smileys;
+	return g_settings_get_boolean (
+		extension->priv->mail_settings, "composer-magic-smileys");
 }
 
 gboolean
 e_html_editor_web_extension_get_unicode_smileys_enabled (EHTMLEditorWebExtension *extension)
 {
-	return extension->priv->unicode_smileys;
-}
-
-void
-e_html_editor_web_extension_set_inline_spelling (EHTMLEditorWebExtension *extension,
-                                                 gboolean value)
-{
-	g_return_if_fail (E_IS_HTML_EDITOR_WEB_EXTENSION (extension));
-
-	if (extension->priv->inline_spelling == value)
-		return;
-
-	extension->priv->inline_spelling = value;
+	return g_settings_get_boolean (
+		extension->priv->mail_settings, "composer-unicode-smileys");
 }
 
 gboolean
 e_html_editor_web_extension_get_inline_spelling_enabled (EHTMLEditorWebExtension *extension)
 {
-	return extension->priv->inline_spelling;
+	return g_settings_get_boolean (
+		extension->priv->mail_settings, "composer-inline-spelling");
 }
 
 gboolean
@@ -3716,18 +3168,6 @@ e_html_editor_web_extension_add_new_inline_image_into_list (EHTMLEditorWebExtens
                                                             const gchar *src)
 {
 	g_hash_table_insert (extension->priv->inline_images, g_strdup (cid_src), g_strdup (src));
-}
-
-gboolean
-e_html_editor_web_extension_is_message_from_draft (EHTMLEditorWebExtension *extension)
-{
-	return extension->priv->is_message_from_draft;
-}
-
-gboolean
-e_html_editor_web_extension_is_from_new_message (EHTMLEditorWebExtension *extension)
-{
-	return extension->priv->is_from_new_message;
 }
 
 gboolean
@@ -3813,22 +3253,13 @@ e_html_editor_web_extension_set_spell_check_on_scroll_event_source_id (EHTMLEdit
 void
 e_html_editor_web_extension_block_selection_changed_callback (EHTMLEditorWebExtension *extension)
 {
-	if (!extension->priv->selection_changed_callbacks_blocked) {
-		/* FIXME WK2 - the handler is added on WebKitWebEditor, not extension */
-		g_signal_handlers_block_by_func (extension, web_editor_selection_changed_cb, NULL);
+	if (!extension->priv->selection_changed_callbacks_blocked)
 		extension->priv->selection_changed_callbacks_blocked = TRUE;
-	}
 }
 
 void
 e_html_editor_web_extension_unblock_selection_changed_callback (EHTMLEditorWebExtension *extension)
 {
-	if (extension->priv->selection_changed_callbacks_blocked) {
-		/* FIXME WK2 - the handler is added on WebKitWebEditor, not extension */
-		g_signal_handlers_unblock_by_func (extension, web_editor_selection_changed_cb, NULL);
+	if (extension->priv->selection_changed_callbacks_blocked)
 		extension->priv->selection_changed_callbacks_blocked = FALSE;
-
-		/* FIXME WK2 - missing page-ID, to get to the WebKitWebEditor instance */
-		/*web_editor_selection_changed_cb (editor, extension);*/
-	}
 }

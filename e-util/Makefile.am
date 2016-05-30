@@ -174,6 +174,9 @@ evolution_util_include_HEADERS =  \
 	e-config.h \
 	e-conflict-search-selector.h \
 	e-contact-store.h \
+	e-content-editor.h \
+	e-content-editor-find-controller.h \
+	e-content-editor-enums.h \
 	e-content-request.h \
 	e-data-capture.h \
 	e-dateedit.h \
@@ -202,7 +205,6 @@ evolution_util_include_HEADERS =  \
 	e-focus-tracker.h \
 	e-html-editor-actions.h \
 	e-html-editor-cell-dialog.h \
-	e-html-editor-defines.h \
 	e-html-editor-dialog.h \
 	e-html-editor-find-dialog.h \
 	e-html-editor-hrule-dialog.h \
@@ -211,11 +213,9 @@ evolution_util_include_HEADERS =  \
 	e-html-editor-page-dialog.h \
 	e-html-editor-paragraph-dialog.h \
 	e-html-editor-replace-dialog.h \
-	e-html-editor-selection.h \
 	e-html-editor-spell-check-dialog.h \
 	e-html-editor-table-dialog.h \
 	e-html-editor-text-dialog.h \
-	e-html-editor-view.h \
 	e-html-editor.h \
 	e-html-utils.h \
 	e-icon-factory.h \
@@ -450,6 +450,8 @@ libevolution_util_la_SOURCES = \
 	e-config.c \
 	e-conflict-search-selector.c \
 	e-contact-store.c \
+	e-content-editor.c \
+	e-content-editor-find-controller.c \
 	e-content-request.c \
 	e-data-capture.c \
 	e-dateedit.c \
@@ -487,11 +489,9 @@ libevolution_util_la_SOURCES = \
 	e-html-editor-paragraph-dialog.c \
 	e-html-editor-private.h \
 	e-html-editor-replace-dialog.c \
-	e-html-editor-selection.c \
 	e-html-editor-spell-check-dialog.c \
 	e-html-editor-table-dialog.c \
 	e-html-editor-text-dialog.c \
-	e-html-editor-view.c \
 	e-html-editor.c \
 	e-html-utils.c \
 	e-icon-factory.c \

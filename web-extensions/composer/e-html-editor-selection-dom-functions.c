@@ -190,7 +190,7 @@ dom_insert_base64_image (WebKitDOMDocument *document,
 		ev->type = HISTORY_AND;
 
 		e_html_editor_undo_redo_manager_insert_history_event (manager, ev);
-		dom_exec_command (document, extension, E_HTML_EDITOR_VIEW_COMMAND_DELETE, NULL);
+		dom_exec_command (document, extension, E_CONTENT_EDITOR_COMMAND_DELETE, NULL);
 	}
 
 	dom_selection_save (document);
@@ -275,6 +275,317 @@ dom_insert_base64_image (WebKitDOMDocument *document,
 
 	dom_selection_restore (document);
 	dom_force_spell_check_for_current_paragraph (document, extension);
+	dom_scroll_to_caret (document);
+}
+
+/************************* image_load_and_insert_async() *************************/
+
+typedef struct _LoadContext LoadContext;
+
+struct _LoadContext {
+	WebKitDOMDocument *document;
+	EHTMLEditorWebExtension *extension;
+	GInputStream *input_stream;
+	GOutputStream *output_stream;
+	GFile *file;
+	GFileInfo *file_info;
+	goffset total_num_bytes;
+	gssize bytes_read;
+	const gchar *content_type;
+	const gchar *filename;
+	const gchar *selector;
+	gchar buffer[4096];
+};
+
+/* Forward Declaration */
+static void
+image_load_stream_read_cb (GInputStream *input_stream,
+                           GAsyncResult *result,
+                           LoadContext *load_context);
+
+static LoadContext *
+image_load_context_new (WebKitDOMDocument *document,
+                        EHTMLEditorWebExtension *extension)
+{
+	LoadContext *load_context;
+
+	load_context = g_slice_new0 (LoadContext);
+	load_context->document = document;
+	load_context->extension = extension;
+
+	return load_context;
+}
+
+static void
+image_load_context_free (LoadContext *load_context)
+{
+	if (load_context->input_stream != NULL)
+		g_object_unref (load_context->input_stream);
+
+	if (load_context->output_stream != NULL)
+		g_object_unref (load_context->output_stream);
+
+	if (load_context->file_info != NULL)
+		g_object_unref (load_context->file_info);
+
+	if (load_context->file != NULL)
+		g_object_unref (load_context->file);
+
+	g_slice_free (LoadContext, load_context);
+}
+
+static void
+image_load_finish (LoadContext *load_context)
+{
+	WebKitDOMDocument *document;
+	EHTMLEditorWebExtension *extension;
+	GMemoryOutputStream *output_stream;
+	const gchar *selector;
+	gchar *base64_encoded, *mime_type, *output, *uri;
+	gsize size;
+	gpointer data;
+
+	output_stream = G_MEMORY_OUTPUT_STREAM (load_context->output_stream);
+
+	document = load_context->document;
+	extension = load_context->extension;
+
+	mime_type = g_content_type_get_mime_type (load_context->content_type);
+
+	data = g_memory_output_stream_get_data (output_stream);
+	size = g_memory_output_stream_get_data_size (output_stream);
+	uri = g_file_get_uri (load_context->file);
+
+	base64_encoded = g_base64_encode ((const guchar *) data, size);
+	output = g_strconcat ("data:", mime_type, ";base64,", base64_encoded, NULL);
+	selector = load_context->selector;
+	if (selector && *selector)
+		dom_replace_base64_image_src (document, selector, output, load_context->filename, uri);
+	else
+		dom_insert_base64_image (document, extension, output, load_context->filename, uri);
+
+	g_free (base64_encoded);
+	g_free (output);
+	g_free (mime_type);
+	g_free (uri);
+
+	image_load_context_free (load_context);
+}
+
+static void
+image_load_write_cb (GOutputStream *output_stream,
+                     GAsyncResult *result,
+                     LoadContext *load_context)
+{
+	GInputStream *input_stream;
+	gssize bytes_written;
+	GError *error = NULL;
+
+	bytes_written = g_output_stream_write_finish (
+		output_stream, result, &error);
+
+	if (error) {
+		image_load_context_free (load_context);
+		return;
+	}
+
+	input_stream = load_context->input_stream;
+
+	if (bytes_written < load_context->bytes_read) {
+		g_memmove (
+			load_context->buffer,
+			load_context->buffer + bytes_written,
+			load_context->bytes_read - bytes_written);
+		load_context->bytes_read -= bytes_written;
+
+		g_output_stream_write_async (
+			output_stream,
+			load_context->buffer,
+			load_context->bytes_read,
+			G_PRIORITY_DEFAULT, NULL,
+			(GAsyncReadyCallback) image_load_write_cb,
+			load_context);
+	} else
+		g_input_stream_read_async (
+			input_stream,
+			load_context->buffer,
+			sizeof (load_context->buffer),
+			G_PRIORITY_DEFAULT, NULL,
+			(GAsyncReadyCallback) image_load_stream_read_cb,
+			load_context);
+}
+
+static void
+image_load_stream_read_cb (GInputStream *input_stream,
+                           GAsyncResult *result,
+                           LoadContext *load_context)
+{
+	GOutputStream *output_stream;
+	gssize bytes_read;
+	GError *error = NULL;
+
+	bytes_read = g_input_stream_read_finish (
+		input_stream, result, &error);
+
+	if (error) {
+		image_load_context_free (load_context);
+		return;
+	}
+
+	if (bytes_read == 0) {
+		image_load_finish (load_context);
+		return;
+	}
+
+	output_stream = load_context->output_stream;
+	load_context->bytes_read = bytes_read;
+
+	g_output_stream_write_async (
+		output_stream,
+		load_context->buffer,
+		load_context->bytes_read,
+		G_PRIORITY_DEFAULT, NULL,
+		(GAsyncReadyCallback) image_load_write_cb,
+		load_context);
+}
+
+static void
+image_load_file_read_cb (GFile *file,
+                         GAsyncResult *result,
+                         LoadContext *load_context)
+{
+	GFileInputStream *input_stream;
+	GOutputStream *output_stream;
+	GError *error = NULL;
+
+	/* Input stream might be NULL, so don't use cast macro. */
+	input_stream = g_file_read_finish (file, result, &error);
+	load_context->input_stream = (GInputStream *) input_stream;
+
+	if (error) {
+		image_load_context_free (load_context);
+		return;
+	}
+
+	/* Load the contents into a GMemoryOutputStream. */
+	output_stream = g_memory_output_stream_new (
+		NULL, 0, g_realloc, g_free);
+
+	load_context->output_stream = output_stream;
+
+	g_input_stream_read_async (
+		load_context->input_stream,
+		load_context->buffer,
+		sizeof (load_context->buffer),
+		G_PRIORITY_DEFAULT, NULL,
+		(GAsyncReadyCallback) image_load_stream_read_cb,
+		load_context);
+}
+
+static void
+image_load_query_info_cb (GFile *file,
+                          GAsyncResult *result,
+                          LoadContext *load_context)
+{
+	GFileInfo *file_info;
+	GError *error = NULL;
+
+	file_info = g_file_query_info_finish (file, result, &error);
+	if (error) {
+		image_load_context_free (load_context);
+		return;
+	}
+
+	load_context->content_type = g_file_info_get_content_type (file_info);
+	load_context->total_num_bytes = g_file_info_get_size (file_info);
+	load_context->filename = g_file_info_get_name (file_info);
+
+	g_file_read_async (
+		file, G_PRIORITY_DEFAULT,
+		NULL, (GAsyncReadyCallback)
+		image_load_file_read_cb, load_context);
+}
+
+static void
+image_load_and_insert_async (WebKitDOMDocument *document,
+                             EHTMLEditorWebExtension *extension,
+                             const gchar *selector,
+                             const gchar *uri)
+{
+	LoadContext *load_context;
+	GFile *file;
+
+	g_return_if_fail (uri && *uri);
+
+	file = g_file_new_for_uri (uri);
+	g_return_if_fail (file != NULL);
+
+	load_context = image_load_context_new (document, extension);
+	load_context->file = file;
+	if (selector && *selector)
+		load_context->selector = g_strdup (selector);
+
+	g_file_query_info_async (
+		file, "standard::*",
+		G_FILE_QUERY_INFO_NONE,G_PRIORITY_DEFAULT,
+		NULL, (GAsyncReadyCallback)
+		image_load_query_info_cb, load_context);
+}
+
+void
+dom_insert_image (WebKitDOMDocument *document,
+                  EHTMLEditorWebExtension *extension,
+                  const gchar *uri)
+{
+	if (!e_html_editor_web_extension_get_html_mode (extension))
+		return;
+
+	if (strstr (uri, ";base64,")) {
+		if (g_str_has_prefix (uri, "data:"))
+			dom_insert_base64_image (document, extension, uri, "", "");
+		if (strstr (uri, ";data")) {
+			const gchar *base64_data = strstr (uri, ";") + 1;
+			gchar *filename;
+			glong filename_length;
+
+			filename_length =
+				g_utf8_strlen (uri, -1) -
+				g_utf8_strlen (base64_data, -1) - 1;
+			filename = g_strndup (uri, filename_length);
+
+			dom_insert_base64_image (document, extension, base64_data, filename, "");
+			g_free (filename);
+		}
+	} else
+		image_load_and_insert_async (document, extension, NULL, uri);
+}
+
+void
+dom_replace_image_src (WebKitDOMDocument *document,
+                       EHTMLEditorWebExtension *extension,
+                       const gchar *selector,
+                       const gchar *uri)
+{
+	if (strstr (uri, ";base64,")) {
+		if (g_str_has_prefix (uri, "data:"))
+			dom_replace_base64_image_src (
+				document, selector, uri, "", "");
+		if (strstr (uri, ";data")) {
+			const gchar *base64_data = strstr (uri, ";") + 1;
+			gchar *filename;
+			glong filename_length;
+
+			filename_length =
+				g_utf8_strlen (uri, -1) -
+				g_utf8_strlen (base64_data, -1) - 1;
+			filename = g_strndup (uri, filename_length);
+
+			dom_replace_base64_image_src (
+				document, selector, base64_data, filename, "");
+			g_free (filename);
+		}
+	} else
+		image_load_and_insert_async (document, extension, selector, uri);
 }
 
 /**
@@ -319,7 +630,7 @@ dom_selection_unlink (WebKitDOMDocument *document,
 				link = WEBKIT_DOM_ELEMENT (node);
 		}
 	} else {
-		dom_exec_command (document, extension, E_HTML_EDITOR_VIEW_COMMAND_UNLINK, NULL);
+		dom_exec_command (document, extension, E_CONTENT_EDITOR_COMMAND_UNLINK, NULL);
 	}
 
 	g_object_unref (range);
@@ -372,7 +683,7 @@ dom_create_link (WebKitDOMDocument *document,
 {
 	g_return_if_fail (uri != NULL && *uri != '\0');
 
-	dom_exec_command (document, extension, E_HTML_EDITOR_VIEW_COMMAND_CREATE_LINK, uri);
+	dom_exec_command (document, extension, E_CONTENT_EDITOR_COMMAND_CREATE_LINK, uri);
 }
 
 static gint
@@ -391,26 +702,26 @@ get_list_level (WebKitDOMNode *node)
 
 static void
 set_ordered_list_type_to_element (WebKitDOMElement *list,
-                                  EHTMLEditorSelectionBlockFormat format)
+                                  EContentEditorBlockFormat format)
 {
-	if (format == E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_ORDERED_LIST)
+	if (format == E_CONTENT_EDITOR_BLOCK_FORMAT_ORDERED_LIST)
 		webkit_dom_element_remove_attribute (list, "type");
-	else if (format == E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_ORDERED_LIST_ALPHA)
+	else if (format == E_CONTENT_EDITOR_BLOCK_FORMAT_ORDERED_LIST_ALPHA)
 		webkit_dom_element_set_attribute (list, "type", "A", NULL);
-	else if (format == E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_ORDERED_LIST_ROMAN)
+	else if (format == E_CONTENT_EDITOR_BLOCK_FORMAT_ORDERED_LIST_ROMAN)
 		webkit_dom_element_set_attribute (list, "type", "I", NULL);
 }
 
 static const gchar *
-get_css_alignment_value_class (EHTMLEditorSelectionAlignment alignment)
+get_css_alignment_value_class (EContentEditorAlignment alignment)
 {
-	if (alignment == E_HTML_EDITOR_SELECTION_ALIGNMENT_LEFT)
+	if (alignment == E_CONTENT_EDITOR_ALIGNMENT_LEFT)
 		return ""; /* Left is by default on ltr */
 
-	if (alignment == E_HTML_EDITOR_SELECTION_ALIGNMENT_CENTER)
+	if (alignment == E_CONTENT_EDITOR_ALIGNMENT_CENTER)
 		return "-x-evo-align-center";
 
-	if (alignment == E_HTML_EDITOR_SELECTION_ALIGNMENT_RIGHT)
+	if (alignment == E_CONTENT_EDITOR_ALIGNMENT_RIGHT)
 		return "-x-evo-align-right";
 
 	return "";
@@ -422,12 +733,12 @@ get_css_alignment_value_class (EHTMLEditorSelectionAlignment alignment)
  *
  * Returns alignment of current paragraph
  *
- * Returns: #EHTMLEditorSelectionAlignment
+ * Returns: #EContentEditorAlignment
  */
-static EHTMLEditorSelectionAlignment
+static EContentEditorAlignment
 dom_get_alignment (WebKitDOMDocument *document)
 {
-	EHTMLEditorSelectionAlignment alignment;
+	EContentEditorAlignment alignment;
 	gchar *value;
 	WebKitDOMCSSStyleDeclaration *style;
 	WebKitDOMDOMWindow *dom_window;
@@ -437,12 +748,12 @@ dom_get_alignment (WebKitDOMDocument *document)
 
 	range = dom_get_current_range (document);
 	if (!range)
-		return E_HTML_EDITOR_SELECTION_ALIGNMENT_LEFT;
+		return E_CONTENT_EDITOR_ALIGNMENT_LEFT;
 
 	node = webkit_dom_range_get_start_container (range, NULL);
 	g_object_unref (range);
 	if (!node)
-		return E_HTML_EDITOR_SELECTION_ALIGNMENT_LEFT;
+		return E_CONTENT_EDITOR_ALIGNMENT_LEFT;
 
 	if (WEBKIT_DOM_IS_ELEMENT (node))
 		element = WEBKIT_DOM_ELEMENT (node);
@@ -451,11 +762,11 @@ dom_get_alignment (WebKitDOMDocument *document)
 
 	if (WEBKIT_DOM_IS_HTML_LI_ELEMENT (element)) {
 		if (element_has_class (element, "-x-evo-align-right"))
-			alignment = E_HTML_EDITOR_SELECTION_ALIGNMENT_RIGHT;
+			alignment = E_CONTENT_EDITOR_ALIGNMENT_RIGHT;
 		else if (element_has_class (element, "-x-evo-align-center"))
-			alignment = E_HTML_EDITOR_SELECTION_ALIGNMENT_CENTER;
+			alignment = E_CONTENT_EDITOR_ALIGNMENT_CENTER;
 		else
-			alignment = E_HTML_EDITOR_SELECTION_ALIGNMENT_LEFT;
+			alignment = E_CONTENT_EDITOR_ALIGNMENT_LEFT;
 
 		return alignment;
 	}
@@ -466,13 +777,13 @@ dom_get_alignment (WebKitDOMDocument *document)
 
 	if (!value || !*value ||
 	    (g_ascii_strncasecmp (value, "left", 4) == 0)) {
-		alignment = E_HTML_EDITOR_SELECTION_ALIGNMENT_LEFT;
+		alignment = E_CONTENT_EDITOR_ALIGNMENT_LEFT;
 	} else if (g_ascii_strncasecmp (value, "center", 6) == 0) {
-		alignment = E_HTML_EDITOR_SELECTION_ALIGNMENT_CENTER;
+		alignment = E_CONTENT_EDITOR_ALIGNMENT_CENTER;
 	} else if (g_ascii_strncasecmp (value, "right", 5) == 0) {
-		alignment = E_HTML_EDITOR_SELECTION_ALIGNMENT_RIGHT;
+		alignment = E_CONTENT_EDITOR_ALIGNMENT_RIGHT;
 	} else {
-		alignment = E_HTML_EDITOR_SELECTION_ALIGNMENT_LEFT;
+		alignment = E_CONTENT_EDITOR_ALIGNMENT_LEFT;
 	}
 
 	g_object_unref (dom_window);
@@ -509,7 +820,7 @@ dom_set_paragraph_style (WebKitDOMDocument *document,
 
 	/* Don't set the alignment for nodes as they are handled separately. */
 	if (!node_is_list (WEBKIT_DOM_NODE (element))) {
-		EHTMLEditorSelectionAlignment alignment;
+		EContentEditorAlignment alignment;
 
 		alignment = dom_get_alignment (document);
 		element_add_class (element, get_css_alignment_value_class (alignment));
@@ -538,14 +849,14 @@ dom_set_paragraph_style (WebKitDOMDocument *document,
 static WebKitDOMElement *
 create_list_element (WebKitDOMDocument *document,
                      EHTMLEditorWebExtension *extension,
-                     EHTMLEditorSelectionBlockFormat format,
+                     EContentEditorBlockFormat format,
 		     gint level,
                      gboolean html_mode)
 {
 	gboolean inserting_unordered_list;
 	WebKitDOMElement *list;
 
-	inserting_unordered_list = format == E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_UNORDERED_LIST;
+	inserting_unordered_list = format == E_CONTENT_EDITOR_BLOCK_FORMAT_UNORDERED_LIST;
 
 	list = webkit_dom_document_create_element (
 		document, inserting_unordered_list  ? "UL" : "OL", NULL);
@@ -591,7 +902,7 @@ indent_list (WebKitDOMDocument *document,
 		gboolean html_mode = e_html_editor_web_extension_get_html_mode (extension);
 		WebKitDOMElement *list;
 		WebKitDOMNode *source_list = webkit_dom_node_get_parent_node (item);
-		EHTMLEditorSelectionBlockFormat format;
+		EContentEditorBlockFormat format;
 
 		format = dom_get_list_format_from_node (source_list);
 
@@ -787,8 +1098,8 @@ get_indentation_level (WebKitDOMElement *element)
 
 static gboolean
 do_format_change_list_to_block (WebKitDOMDocument *document,
-				EHTMLEditorWebExtension *extension,
-                                EHTMLEditorSelectionBlockFormat format,
+                                EHTMLEditorWebExtension *extension,
+                                EContentEditorBlockFormat format,
                                 WebKitDOMNode *item,
                                 const gchar *value)
 {
@@ -855,7 +1166,7 @@ do_format_change_list_to_block (WebKitDOMDocument *document,
 
 			level = get_indentation_level (WEBKIT_DOM_ELEMENT (item));
 
-			if (format == E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_PARAGRAPH) {
+			if (format == E_CONTENT_EDITOR_BLOCK_FORMAT_PARAGRAPH) {
 				element = dom_get_paragraph_element (document, extension, -1, 0);
 			} else
 				element = webkit_dom_document_create_element (
@@ -899,7 +1210,7 @@ do_format_change_list_to_block (WebKitDOMDocument *document,
 static void
 format_change_list_to_block (WebKitDOMDocument *document,
                              EHTMLEditorWebExtension *extension,
-                             EHTMLEditorSelectionBlockFormat format,
+                             EContentEditorBlockFormat format,
                              const gchar *value)
 {
 	WebKitDOMElement *selection_start;
@@ -944,10 +1255,10 @@ get_element_for_inspection (WebKitDOMRange *range)
 	return WEBKIT_DOM_ELEMENT (get_parent_indented_block (node));
 }
 
-static EHTMLEditorSelectionAlignment
+static EContentEditorAlignment
 dom_get_alignment_from_node (WebKitDOMNode *node)
 {
-	EHTMLEditorSelectionAlignment alignment;
+	EContentEditorAlignment alignment;
 	gchar *value;
 	WebKitDOMCSSStyleDeclaration *style;
 
@@ -956,13 +1267,13 @@ dom_get_alignment_from_node (WebKitDOMNode *node)
 
 	if (!value || !*value ||
 	    (g_ascii_strncasecmp (value, "left", 4) == 0)) {
-		alignment = E_HTML_EDITOR_SELECTION_ALIGNMENT_LEFT;
+		alignment = E_CONTENT_EDITOR_ALIGNMENT_LEFT;
 	} else if (g_ascii_strncasecmp (value, "center", 6) == 0) {
-		alignment = E_HTML_EDITOR_SELECTION_ALIGNMENT_CENTER;
+		alignment = E_CONTENT_EDITOR_ALIGNMENT_CENTER;
 	} else if (g_ascii_strncasecmp (value, "right", 5) == 0) {
-		alignment = E_HTML_EDITOR_SELECTION_ALIGNMENT_RIGHT;
+		alignment = E_CONTENT_EDITOR_ALIGNMENT_RIGHT;
 	} else {
-		alignment = E_HTML_EDITOR_SELECTION_ALIGNMENT_LEFT;
+		alignment = E_CONTENT_EDITOR_ALIGNMENT_LEFT;
 	}
 
 	g_object_unref (style);
@@ -1135,8 +1446,6 @@ dom_selection_indent (WebKitDOMDocument *document,
 
 	dom_selection_restore (document);
 	dom_force_spell_check_for_current_paragraph (document, extension);
-
-	set_dbus_property_boolean (extension, "Indented", TRUE);
 }
 
 static void
@@ -1215,7 +1524,7 @@ unindent_block (WebKitDOMDocument *document,
 {
 	gboolean before_node = TRUE;
 	gint word_wrap_length, level, width;
-	EHTMLEditorSelectionAlignment alignment;
+	EContentEditorAlignment alignment;
 	WebKitDOMElement *element;
 	WebKitDOMElement *prev_blockquote = NULL, *next_blockquote = NULL;
 	WebKitDOMNode *block_to_process, *node_clone = NULL, *child;
@@ -1445,9 +1754,6 @@ dom_selection_unindent (WebKitDOMDocument *document,
 	dom_selection_restore (document);
 
 	dom_force_spell_check_for_current_paragraph (document, extension);
-
-	/* FIXME XXX - Check if the block is still indented */
-	set_dbus_property_boolean (extension, "Indented", TRUE);
 }
 
 static WebKitDOMNode *
@@ -2961,7 +3267,7 @@ WebKitDOMElement *
 dom_put_node_into_paragraph (WebKitDOMDocument *document,
                              EHTMLEditorWebExtension *extension,
                              WebKitDOMNode *node,
-			     gboolean with_input)
+                             gboolean with_input)
 {
 	WebKitDOMRange *range;
 	WebKitDOMElement *container;
@@ -3203,7 +3509,7 @@ static void
 html_editor_selection_modify (WebKitDOMDocument *document,
                               const gchar *alter,
                               gboolean forward,
-                              EHTMLEditorSelectionGranularity granularity)
+                              EContentEditorGranularity granularity)
 {
 	WebKitDOMDOMWindow *dom_window;
 	WebKitDOMDOMSelection *dom_selection;
@@ -3213,10 +3519,10 @@ html_editor_selection_modify (WebKitDOMDocument *document,
 	dom_selection = webkit_dom_dom_window_get_selection (dom_window);
 
 	switch (granularity) {
-		case E_HTML_EDITOR_SELECTION_GRANULARITY_CHARACTER:
+		case E_CONTENT_EDITOR_GRANULARITY_CHARACTER:
 			granularity_str = "character";
 			break;
-		case E_HTML_EDITOR_SELECTION_GRANULARITY_WORD:
+		case E_CONTENT_EDITOR_GRANULARITY_WORD:
 			granularity_str = "word";
 			break;
 	}
@@ -3303,9 +3609,9 @@ typedef gboolean (*IsRightFormatNodeFunc) (WebKitDOMElement *element);
 
 static gboolean
 dom_selection_is_font_format (WebKitDOMDocument *document,
-			      EHTMLEditorWebExtension *extension,
-			      IsRightFormatNodeFunc func,
-			      gboolean *previous_value)
+                              EHTMLEditorWebExtension *extension,
+                              IsRightFormatNodeFunc func,
+                              gboolean *previous_value)
 {
 	gboolean ret_val = FALSE;
 	WebKitDOMDOMWindow *dom_window = NULL;
@@ -3592,7 +3898,7 @@ set_font_style (WebKitDOMDocument *document,
 static void
 selection_set_font_style (WebKitDOMDocument *document,
                           EHTMLEditorWebExtension *extension,
-                          EHTMLEditorViewCommand command,
+                          EContentEditorCommand command,
                           gboolean value)
 {
 	EHTMLEditorHistoryEvent *ev = NULL;
@@ -3603,13 +3909,13 @@ selection_set_font_style (WebKitDOMDocument *document,
 	manager = e_html_editor_web_extension_get_undo_redo_manager (extension);
 	if (!e_html_editor_undo_redo_manager_is_operation_in_progress (manager)) {
 		ev = g_new0 (EHTMLEditorHistoryEvent, 1);
-		if (command == E_HTML_EDITOR_VIEW_COMMAND_BOLD)
+		if (command == E_CONTENT_EDITOR_COMMAND_BOLD)
 			ev->type = HISTORY_BOLD;
-		else if (command == E_HTML_EDITOR_VIEW_COMMAND_ITALIC)
+		else if (command == E_CONTENT_EDITOR_COMMAND_ITALIC)
 			ev->type = HISTORY_ITALIC;
-		else if (command == E_HTML_EDITOR_VIEW_COMMAND_UNDERLINE)
+		else if (command == E_CONTENT_EDITOR_COMMAND_UNDERLINE)
 			ev->type = HISTORY_UNDERLINE;
-		else if (command == E_HTML_EDITOR_VIEW_COMMAND_STRIKETHROUGH)
+		else if (command == E_CONTENT_EDITOR_COMMAND_STRIKETHROUGH)
 			ev->type = HISTORY_STRIKETHROUGH;
 
 		dom_selection_get_coordinates (
@@ -3626,13 +3932,13 @@ selection_set_font_style (WebKitDOMDocument *document,
 	if (dom_selection_is_collapsed (document)) {
 		const gchar *element_name = NULL;
 
-		if (command == E_HTML_EDITOR_VIEW_COMMAND_BOLD)
+		if (command == E_CONTENT_EDITOR_COMMAND_BOLD)
 			element_name = "b";
-		else if (command == E_HTML_EDITOR_VIEW_COMMAND_ITALIC)
+		else if (command == E_CONTENT_EDITOR_COMMAND_ITALIC)
 			element_name = "i";
-		else if (command == E_HTML_EDITOR_VIEW_COMMAND_UNDERLINE)
+		else if (command == E_CONTENT_EDITOR_COMMAND_UNDERLINE)
 			element_name = "u";
-		else if (command == E_HTML_EDITOR_VIEW_COMMAND_STRIKETHROUGH)
+		else if (command == E_CONTENT_EDITOR_COMMAND_STRIKETHROUGH)
 			element_name = "strike";
 
 		if (element_name)
@@ -3675,9 +3981,7 @@ dom_selection_set_underline (WebKitDOMDocument *document,
 		return;
 
 	selection_set_font_style (
-		document, extension, E_HTML_EDITOR_VIEW_COMMAND_UNDERLINE, underline);
-
-	set_dbus_property_boolean (extension, "Underline", underline);
+		document, extension, E_CONTENT_EDITOR_COMMAND_UNDERLINE, underline);
 }
 
 static gboolean
@@ -3722,9 +4026,7 @@ dom_selection_set_subscript (WebKitDOMDocument *document,
 	if (dom_selection_is_subscript (document, extension) == subscript)
 		return;
 
-	dom_exec_command (document, extension, E_HTML_EDITOR_VIEW_COMMAND_SUBSCRIPT, NULL);
-
-	set_dbus_property_boolean (extension, "Subscript", subscript);
+	dom_exec_command (document, extension, E_CONTENT_EDITOR_COMMAND_SUBSCRIPT, NULL);
 }
 
 static gboolean
@@ -3769,9 +4071,7 @@ dom_selection_set_superscript (WebKitDOMDocument *document,
 	if (dom_selection_is_superscript (document, extension) == superscript)
 		return;
 
-	dom_exec_command (document, extension, E_HTML_EDITOR_VIEW_COMMAND_SUPERSCRIPT, NULL);
-
-	set_dbus_property_boolean (extension, "Superscript", superscript);
+	dom_exec_command (document, extension, E_CONTENT_EDITOR_COMMAND_SUPERSCRIPT, NULL);
 }
 
 static gboolean
@@ -3822,9 +4122,7 @@ dom_selection_set_strikethrough (WebKitDOMDocument *document,
 		return;
 
 	selection_set_font_style (
-		document, extension, E_HTML_EDITOR_VIEW_COMMAND_STRIKETHROUGH, strikethrough);
-
-	set_dbus_property_boolean (extension, "Strikethrough", strikethrough);
+		document, extension, E_CONTENT_EDITOR_COMMAND_STRIKETHROUGH, strikethrough);
 }
 
 static gboolean
@@ -4282,7 +4580,7 @@ dom_selection_set_monospaced (WebKitDOMDocument *document,
 
 	font_size = e_html_editor_web_extension_get_font_size (extension);
 	if (font_size == 0)
-		font_size = E_HTML_EDITOR_SELECTION_FONT_SIZE_NORMAL;
+		font_size = E_CONTENT_EDITOR_FONT_SIZE_NORMAL;
 
 	dom_window = webkit_dom_document_get_default_view (document);
 	dom_selection = webkit_dom_dom_window_get_selection (dom_window);
@@ -4382,8 +4680,6 @@ dom_selection_set_monospaced (WebKitDOMDocument *document,
 	g_object_unref (range);
 	g_object_unref (dom_selection);
 	g_object_unref (dom_window);
-
-	set_dbus_property_boolean (extension, "Monospaced", monospaced);
 }
 
 static gboolean
@@ -4439,11 +4735,9 @@ dom_selection_set_bold (WebKitDOMDocument *document,
 		return;
 
 	selection_set_font_style (
-		document, extension, E_HTML_EDITOR_VIEW_COMMAND_BOLD, bold);
+		document, extension, E_CONTENT_EDITOR_COMMAND_BOLD, bold);
 
 	dom_force_spell_check_for_current_paragraph (document, extension);
-
-	set_dbus_property_boolean (extension, "Bold", bold);
 }
 
 static gboolean
@@ -4494,9 +4788,7 @@ dom_selection_set_italic (WebKitDOMDocument *document,
 		return;
 
 	selection_set_font_style (
-		document, extension, E_HTML_EDITOR_VIEW_COMMAND_ITALIC, italic);
-
-	set_dbus_property_boolean (extension, "Italic", italic);
+		document, extension, E_CONTENT_EDITOR_COMMAND_ITALIC, italic);
 }
 
 /**
@@ -4647,7 +4939,7 @@ dom_selection_get_font_size (WebKitDOMDocument *document,
 	size = get_font_property (document, "size");
 	if (!(size && *size)) {
 		g_free (size);
-		return E_HTML_EDITOR_SELECTION_FONT_SIZE_NORMAL;
+		return E_CONTENT_EDITOR_FONT_SIZE_NORMAL;
 	}
 
 	/* We don't support increments, but when going through a content that
@@ -4659,7 +4951,7 @@ dom_selection_get_font_size (WebKitDOMDocument *document,
 	g_free (size);
 
 	if (increment || size_int == 0)
-		return E_HTML_EDITOR_SELECTION_FONT_SIZE_NORMAL;
+		return E_CONTENT_EDITOR_FONT_SIZE_NORMAL;
 
 	return size_int;
 }
@@ -4675,7 +4967,7 @@ dom_selection_get_font_size (WebKitDOMDocument *document,
 void
 dom_selection_set_font_size (WebKitDOMDocument *document,
                              EHTMLEditorWebExtension *extension,
-                             guint font_size)
+                             EContentEditorFontSize font_size)
 {
 	EHTMLEditorUndoRedoManager *manager;
 	EHTMLEditorHistoryEvent *ev = NULL;
@@ -4718,11 +5010,11 @@ dom_selection_set_font_size (WebKitDOMDocument *document,
 
 	dom_selection_restore (document);
 
-	dom_exec_command (document, extension, E_HTML_EDITOR_VIEW_COMMAND_FONT_SIZE, size_str);
+	dom_exec_command (document, extension, E_CONTENT_EDITOR_COMMAND_FONT_SIZE, size_str);
 
 	/* Text in <font size="3"></font> (size 3 is our default size) is a little
 	 * bit smaller than font outsize it. So move it outside of it. */
-	if (font_size == E_HTML_EDITOR_SELECTION_FONT_SIZE_NORMAL) {
+	if (font_size == E_CONTENT_EDITOR_FONT_SIZE_NORMAL) {
 		WebKitDOMElement *element;
 
 		element = webkit_dom_document_query_selector (document, "font[size=\"3\"]", NULL);
@@ -4753,8 +5045,6 @@ dom_selection_set_font_size (WebKitDOMDocument *document,
 
 		e_html_editor_undo_redo_manager_insert_history_event (manager, ev);
 	}
-
-	set_dbus_property_unsigned (extension, "FontSize", font_size);
 }
 
 /**
@@ -4770,9 +5060,7 @@ dom_selection_set_font_name (WebKitDOMDocument *document,
                              EHTMLEditorWebExtension *extension,
                              const gchar *font_name)
 {
-	dom_exec_command (document, extension, E_HTML_EDITOR_VIEW_COMMAND_FONT_NAME, font_name);
-/* FIXME WK2
-	set_dbus_property_string (extension, "FontName", font_name); */
+	dom_exec_command (document, extension, E_CONTENT_EDITOR_COMMAND_FONT_NAME, font_name);
 }
 
 /**
@@ -4836,7 +5124,7 @@ dom_selection_set_font_color (WebKitDOMDocument *document,
 		ev->data.string.to = g_strdup (color);
 	}
 
-	dom_exec_command (document, extension, E_HTML_EDITOR_VIEW_COMMAND_FORE_COLOR, color);
+	dom_exec_command (document, extension, E_CONTENT_EDITOR_COMMAND_FORE_COLOR, color);
 
 	if (ev) {
 		ev->after.start.x = ev->before.start.x;
@@ -4846,8 +5134,6 @@ dom_selection_set_font_color (WebKitDOMDocument *document,
 
 		e_html_editor_undo_redo_manager_insert_history_event (manager, ev);
 	}
-
-	set_dbus_property_string (extension, "FontColor", color);
 }
 
 /**
@@ -4897,20 +5183,20 @@ get_block_node (WebKitDOMRange *range)
  *
  * Returns block format of current paragraph.
  *
- * Returns: #EHTMLEditorSelectionBlockFormat
+ * Returns: #EContentEditorBlockFormat
  */
-EHTMLEditorSelectionBlockFormat
+EContentEditorBlockFormat
 dom_selection_get_block_format (WebKitDOMDocument *document,
                                 EHTMLEditorWebExtension *extension)
 {
 	WebKitDOMNode *node;
 	WebKitDOMRange *range;
 	WebKitDOMElement *element;
-	EHTMLEditorSelectionBlockFormat result;
+	EContentEditorBlockFormat result;
 
 	range = dom_get_current_range (document);
 	if (!range)
-		return E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_PARAGRAPH;
+		return E_CONTENT_EDITOR_BLOCK_FORMAT_PARAGRAPH;
 
 	node = webkit_dom_range_get_start_container (range, NULL);
 
@@ -4924,7 +5210,7 @@ dom_selection_get_block_format (WebKitDOMDocument *document,
 			else
 				result = dom_get_list_format_from_node (WEBKIT_DOM_NODE (tmp_element));
 		} else
-			result = E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_UNORDERED_LIST;
+			result = E_CONTENT_EDITOR_BLOCK_FORMAT_UNORDERED_LIST;
 	} else if ((element = dom_node_find_parent_element (node, "OL")) != NULL) {
 		WebKitDOMElement *tmp_element;
 
@@ -4937,42 +5223,42 @@ dom_selection_get_block_format (WebKitDOMDocument *document,
 		} else
 			result = dom_get_list_format_from_node (WEBKIT_DOM_NODE (element));
 	} else if (dom_node_find_parent_element (node, "PRE")) {
-		result = E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_PRE;
+		result = E_CONTENT_EDITOR_BLOCK_FORMAT_PRE;
 	} else if (dom_node_find_parent_element (node, "ADDRESS")) {
-		result = E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_ADDRESS;
+		result = E_CONTENT_EDITOR_BLOCK_FORMAT_ADDRESS;
 	} else if (dom_node_find_parent_element (node, "H1")) {
-		result = E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_H1;
+		result = E_CONTENT_EDITOR_BLOCK_FORMAT_H1;
 	} else if (dom_node_find_parent_element (node, "H2")) {
-		result = E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_H2;
+		result = E_CONTENT_EDITOR_BLOCK_FORMAT_H2;
 	} else if (dom_node_find_parent_element (node, "H3")) {
-		result = E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_H3;
+		result = E_CONTENT_EDITOR_BLOCK_FORMAT_H3;
 	} else if (dom_node_find_parent_element (node, "H4")) {
-		result = E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_H4;
+		result = E_CONTENT_EDITOR_BLOCK_FORMAT_H4;
 	} else if (dom_node_find_parent_element (node, "H5")) {
-		result = E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_H5;
+		result = E_CONTENT_EDITOR_BLOCK_FORMAT_H5;
 	} else if (dom_node_find_parent_element (node, "H6")) {
-		result = E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_H6;
+		result = E_CONTENT_EDITOR_BLOCK_FORMAT_H6;
 	} else if ((element = dom_node_find_parent_element (node, "BLOCKQUOTE")) != NULL) {
 		if (element_has_class (element, "-x-evo-indented"))
-			result = E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_PARAGRAPH;
+			result = E_CONTENT_EDITOR_BLOCK_FORMAT_PARAGRAPH;
 		else {
 			WebKitDOMNode *block = get_block_node (range);
 
 			if (WEBKIT_DOM_IS_HTML_PARAGRAPH_ELEMENT (block) ||
 			    webkit_dom_element_has_attribute (WEBKIT_DOM_ELEMENT (block), "data-evo-paragraph"))
-				result = E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_PARAGRAPH;
+				result = E_CONTENT_EDITOR_BLOCK_FORMAT_PARAGRAPH;
 			else {
 				/* Paragraphs inside quote */
 				if ((element = dom_node_find_parent_element (node, "P")) != NULL)
-					result = E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_PARAGRAPH;
+					result = E_CONTENT_EDITOR_BLOCK_FORMAT_PARAGRAPH;
 				else
-					result = E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_BLOCKQUOTE;
+					result = E_CONTENT_EDITOR_BLOCK_FORMAT_BLOCKQUOTE;
 			}
 		}
 	} else if (dom_node_find_parent_element (node, "P")) {
-		result = E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_PARAGRAPH;
+		result = E_CONTENT_EDITOR_BLOCK_FORMAT_PARAGRAPH;
 	} else {
-		result = E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_PARAGRAPH;
+		result = E_CONTENT_EDITOR_BLOCK_FORMAT_PARAGRAPH;
 	}
 
 	g_object_unref (range);
@@ -5060,7 +5346,7 @@ change_space_before_selection_to_nbsp (WebKitDOMNode *node)
 static gboolean
 process_block_to_block (WebKitDOMDocument *document,
                         EHTMLEditorWebExtension *extension,
-                        EHTMLEditorSelectionBlockFormat format,
+                        EContentEditorBlockFormat format,
                         const gchar *value,
                         WebKitDOMNode *block,
                         WebKitDOMNode *end_block,
@@ -5127,8 +5413,8 @@ process_block_to_block (WebKitDOMDocument *document,
 			continue;
 		}
 
-		if (format == E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_PARAGRAPH ||
-		    format == E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_BLOCKQUOTE)
+		if (format == E_CONTENT_EDITOR_BLOCK_FORMAT_PARAGRAPH ||
+		    format == E_CONTENT_EDITOR_BLOCK_FORMAT_BLOCKQUOTE)
 			element = dom_get_paragraph_element (document, extension, -1, 0);
 		else
 			element = webkit_dom_document_create_element (
@@ -5181,11 +5467,11 @@ process_block_to_block (WebKitDOMDocument *document,
 		block = next_block;
 
 		if (!html_mode &&
-		    (format == E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_PARAGRAPH ||
-		     format == E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_BLOCKQUOTE)) {
+		    (format == E_CONTENT_EDITOR_BLOCK_FORMAT_PARAGRAPH ||
+		     format == E_CONTENT_EDITOR_BLOCK_FORMAT_BLOCKQUOTE)) {
 			gint citation_level;
 
-			if (format == E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_BLOCKQUOTE)
+			if (format == E_CONTENT_EDITOR_BLOCK_FORMAT_BLOCKQUOTE)
 				citation_level = 1;
 			else
 				citation_level = selection_get_citation_level (WEBKIT_DOM_NODE (element));
@@ -5203,7 +5489,7 @@ process_block_to_block (WebKitDOMDocument *document,
 			}
 		}
 
-		if (blockquote && format == E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_BLOCKQUOTE) {
+		if (blockquote && format == E_CONTENT_EDITOR_BLOCK_FORMAT_BLOCKQUOTE) {
 			webkit_dom_node_append_child (
 				blockquote, WEBKIT_DOM_NODE (element), NULL);
 			if (!html_mode)
@@ -5218,7 +5504,7 @@ process_block_to_block (WebKitDOMDocument *document,
 static void
 format_change_block_to_block (WebKitDOMDocument *document,
                               EHTMLEditorWebExtension *extension,
-                              EHTMLEditorSelectionBlockFormat format,
+                              EContentEditorBlockFormat format,
                               const gchar *value)
 {
 	gboolean html_mode = FALSE;
@@ -5250,7 +5536,7 @@ format_change_block_to_block (WebKitDOMDocument *document,
 
 	html_mode = e_html_editor_web_extension_get_html_mode (extension);
 
-	if (format == E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_BLOCKQUOTE) {
+	if (format == E_CONTENT_EDITOR_BLOCK_FORMAT_BLOCKQUOTE) {
 		blockquote = WEBKIT_DOM_NODE (
 			webkit_dom_document_create_element (document, "BLOCKQUOTE", NULL));
 
@@ -5276,7 +5562,7 @@ format_change_block_to_block (WebKitDOMDocument *document,
 static void
 format_change_block_to_list (WebKitDOMDocument *document,
                              EHTMLEditorWebExtension *extension,
-                             EHTMLEditorSelectionBlockFormat format)
+                             EContentEditorBlockFormat format)
 {
 	gboolean after_selection_end = FALSE, in_quote = FALSE;
 	gboolean html_mode = e_html_editor_web_extension_get_html_mode (extension);
@@ -5334,7 +5620,7 @@ format_change_block_to_list (WebKitDOMDocument *document,
 		e_html_editor_web_extension_block_selection_changed_callback (extension);
 
 		dom_exec_command (
-			document, extension, E_HTML_EDITOR_VIEW_COMMAND_INSERT_NEW_LINE_IN_QUOTED_CONTENT, NULL);
+			document, extension, E_CONTENT_EDITOR_COMMAND_INSERT_NEW_LINE_IN_QUOTED_CONTENT, NULL);
 
 		dom_register_input_event_listener_on_body (document, extension);
 		e_html_editor_web_extension_unblock_selection_changed_callback (extension);
@@ -5430,17 +5716,17 @@ format_change_block_to_list (WebKitDOMDocument *document,
 static WebKitDOMElement *
 do_format_change_list_to_list (WebKitDOMElement *list_to_process,
                                WebKitDOMElement *new_list_template,
-                               EHTMLEditorSelectionBlockFormat to)
+                               EContentEditorBlockFormat to)
 {
-	EHTMLEditorSelectionBlockFormat current_format;
+	EContentEditorBlockFormat current_format;
 
 	current_format = dom_get_list_format_from_node (
 		WEBKIT_DOM_NODE (list_to_process));
 	if (to == current_format) {
 		/* Same format, skip it. */
 		return list_to_process;
-	} else if (current_format >= E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_ORDERED_LIST &&
-		   to >= E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_ORDERED_LIST) {
+	} else if (current_format >= E_CONTENT_EDITOR_BLOCK_FORMAT_ORDERED_LIST &&
+		   to >= E_CONTENT_EDITOR_BLOCK_FORMAT_ORDERED_LIST) {
 		/* Changing from ordered list type to another ordered list type. */
 		set_ordered_list_type_to_element (list_to_process, to);
 		return list_to_process;
@@ -5474,7 +5760,7 @@ do_format_change_list_to_list (WebKitDOMElement *list_to_process,
 static void
 format_change_list_from_list (WebKitDOMDocument *document,
                               EHTMLEditorWebExtension *extension,
-                              EHTMLEditorSelectionBlockFormat to,
+                              EContentEditorBlockFormat to,
                               gboolean html_mode)
 {
 	gboolean after_selection_end = FALSE;
@@ -5670,10 +5956,10 @@ format_change_list_from_list (WebKitDOMDocument *document,
 static void
 format_change_list_to_list (WebKitDOMDocument *document,
                             EHTMLEditorWebExtension *extension,
-                            EHTMLEditorSelectionBlockFormat format,
+                            EContentEditorBlockFormat format,
                             gboolean html_mode)
 {
-	EHTMLEditorSelectionBlockFormat prev = 0, next = 0;
+	EContentEditorBlockFormat prev = 0, next = 0;
 	gboolean done = FALSE, indented = FALSE;
 	gboolean selection_starts_in_first_child, selection_ends_in_last_child;
 	WebKitDOMElement *selection_start_marker, *selection_end_marker;
@@ -5751,17 +6037,17 @@ format_change_list_to_list (WebKitDOMDocument *document,
 /**
  * e_html_editor_selection_set_block_format:
  * @selection: an #EHTMLEditorSelection
- * @format: an #EHTMLEditorSelectionBlockFormat value
+ * @format: an #EContentEditorBlockFormat value
  *
  * Changes block format of current paragraph to @format.
  */
 void
 dom_selection_set_block_format (WebKitDOMDocument *document,
                                 EHTMLEditorWebExtension *extension,
-                                EHTMLEditorSelectionBlockFormat format)
+                                EContentEditorBlockFormat format)
 {
-	EHTMLEditorSelectionBlockFormat current_format;
-	EHTMLEditorSelectionAlignment current_alignment;
+	EContentEditorBlockFormat current_format;
+	EContentEditorAlignment current_alignment;
 	EHTMLEditorUndoRedoManager *manager;
 	EHTMLEditorHistoryEvent *ev = NULL;
 	const gchar *value;
@@ -5769,66 +6055,60 @@ dom_selection_set_block_format (WebKitDOMDocument *document,
 	WebKitDOMRange *range;
 
 	current_format = dom_selection_get_block_format (document, extension);
-	if (current_format == format) {
+	if (current_format == format)
 		return;
-	}
 
 	switch (format) {
-		case E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_BLOCKQUOTE:
+		case E_CONTENT_EDITOR_BLOCK_FORMAT_BLOCKQUOTE:
 			value = "BLOCKQUOTE";
 			break;
-		case E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_H1:
+		case E_CONTENT_EDITOR_BLOCK_FORMAT_H1:
 			value = "H1";
 			break;
-		case E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_H2:
+		case E_CONTENT_EDITOR_BLOCK_FORMAT_H2:
 			value = "H2";
 			break;
-		case E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_H3:
+		case E_CONTENT_EDITOR_BLOCK_FORMAT_H3:
 			value = "H3";
 			break;
-		case E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_H4:
+		case E_CONTENT_EDITOR_BLOCK_FORMAT_H4:
 			value = "H4";
 			break;
-		case E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_H5:
+		case E_CONTENT_EDITOR_BLOCK_FORMAT_H5:
 			value = "H5";
 			break;
-		case E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_H6:
+		case E_CONTENT_EDITOR_BLOCK_FORMAT_H6:
 			value = "H6";
 			break;
-		case E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_PARAGRAPH:
+		case E_CONTENT_EDITOR_BLOCK_FORMAT_PARAGRAPH:
 			value = "P";
 			break;
-		case E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_PRE:
+		case E_CONTENT_EDITOR_BLOCK_FORMAT_PRE:
 			value = "PRE";
 			break;
-		case E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_ADDRESS:
+		case E_CONTENT_EDITOR_BLOCK_FORMAT_ADDRESS:
 			value = "ADDRESS";
 			break;
-		case E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_ORDERED_LIST:
-		case E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_ORDERED_LIST_ALPHA:
-		case E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_ORDERED_LIST_ROMAN:
+		case E_CONTENT_EDITOR_BLOCK_FORMAT_ORDERED_LIST:
+		case E_CONTENT_EDITOR_BLOCK_FORMAT_ORDERED_LIST_ALPHA:
+		case E_CONTENT_EDITOR_BLOCK_FORMAT_ORDERED_LIST_ROMAN:
 			to_list = TRUE;
 			value = NULL;
 			break;
-		case E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_UNORDERED_LIST:
+		case E_CONTENT_EDITOR_BLOCK_FORMAT_UNORDERED_LIST:
 			to_list = TRUE;
 			value = NULL;
 			break;
-		case E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_NONE:
+		case E_CONTENT_EDITOR_BLOCK_FORMAT_NONE:
 		default:
 			value = NULL;
 			break;
 	}
 
-	/* H1 - H6 have bold font by default */
-	if (format >= E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_H1 &&
-	    format <= E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_H6)
-		set_dbus_property_boolean (extension, "Bold", TRUE);
-
 	html_mode = e_html_editor_web_extension_get_html_mode (extension);
 
 	from_list =
-		current_format >= E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_UNORDERED_LIST;
+		current_format >= E_CONTENT_EDITOR_BLOCK_FORMAT_UNORDERED_LIST;
 
 	range = dom_get_current_range (document);
 	if (!range)
@@ -5841,7 +6121,7 @@ dom_selection_set_block_format (WebKitDOMDocument *document,
 	manager = e_html_editor_web_extension_get_undo_redo_manager (extension);
 	if (!e_html_editor_undo_redo_manager_is_operation_in_progress (manager)) {
 		ev = g_new0 (EHTMLEditorHistoryEvent, 1);
-		if (format != E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_BLOCKQUOTE)
+		if (format != E_CONTENT_EDITOR_BLOCK_FORMAT_BLOCKQUOTE)
 			ev->type = HISTORY_BLOCK_FORMAT;
 		else
 			ev->type = HISTORY_BLOCKQUOTE;
@@ -5853,7 +6133,7 @@ dom_selection_set_block_format (WebKitDOMDocument *document,
 			&ev->before.end.x,
 			&ev->before.end.y);
 
-		if (format != E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_BLOCKQUOTE) {
+		if (format != E_CONTENT_EDITOR_BLOCK_FORMAT_BLOCKQUOTE) {
 			ev->data.style.from = current_format;
 			ev->data.style.to = format;
 		} else {
@@ -5897,7 +6177,7 @@ dom_selection_set_block_format (WebKitDOMDocument *document,
 
 	g_object_unref (range);
 
-	if (current_format == E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_PRE) {
+	if (current_format == E_CONTENT_EDITOR_BLOCK_FORMAT_PRE) {
 		WebKitDOMElement *selection_marker;
 
 		selection_marker = webkit_dom_document_get_element_by_id (
@@ -5919,7 +6199,7 @@ dom_selection_set_block_format (WebKitDOMDocument *document,
 	if (from_list && !to_list) {
 		format_change_list_to_block (document, extension, format, value);
 
-		if (format == E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_BLOCKQUOTE) {
+		if (format == E_CONTENT_EDITOR_BLOCK_FORMAT_BLOCKQUOTE) {
 			dom_selection_restore (document);
 			format_change_block_to_block (document, extension, format, value);
 		}
@@ -5946,8 +6226,6 @@ dom_selection_set_block_format (WebKitDOMDocument *document,
 			&ev->after.end.y);
 		e_html_editor_undo_redo_manager_insert_history_event (manager, ev);
 	}
-
-	set_dbus_property_unsigned (extension, "BlockFormat", format);
 }
 
 /**
@@ -5998,9 +6276,7 @@ dom_selection_set_background_color (WebKitDOMDocument *document,
                                     EHTMLEditorWebExtension *extension,
                                     const gchar *color)
 {
-	dom_exec_command (document, extension, E_HTML_EDITOR_VIEW_COMMAND_BACKGROUND_COLOR, color);
-/* FIXME WK2
-	set_dbus_property_string (extension, "BackgroundColor", color); */
+	dom_exec_command (document, extension, E_CONTENT_EDITOR_COMMAND_BACKGROUND_COLOR, color);
 }
 
 /**
@@ -6009,13 +6285,13 @@ dom_selection_set_background_color (WebKitDOMDocument *document,
  *
  * Returns alignment of current paragraph
  *
- * Returns: #EHTMLEditorSelectionAlignment
+ * Returns: #EContentEditorAlignment
  */
-EHTMLEditorSelectionAlignment
+EContentEditorAlignment
 dom_selection_get_alignment (WebKitDOMDocument *document,
                              EHTMLEditorWebExtension *extension)
 {
-	EHTMLEditorSelectionAlignment alignment;
+	EContentEditorAlignment alignment;
 	gchar *value;
 	WebKitDOMCSSStyleDeclaration *style;
 	WebKitDOMElement *element;
@@ -6024,14 +6300,14 @@ dom_selection_get_alignment (WebKitDOMDocument *document,
 
 	range = dom_get_current_range (document);
 	if (!range) {
-		alignment = E_HTML_EDITOR_SELECTION_ALIGNMENT_LEFT;
+		alignment = E_CONTENT_EDITOR_ALIGNMENT_LEFT;
 		goto out;
 	}
 
 	node = webkit_dom_range_get_start_container (range, NULL);
 	g_object_unref (range);
 	if (!node) {
-		alignment = E_HTML_EDITOR_SELECTION_ALIGNMENT_LEFT;
+		alignment = E_CONTENT_EDITOR_ALIGNMENT_LEFT;
 		goto out;
 	}
 
@@ -6041,10 +6317,10 @@ dom_selection_get_alignment (WebKitDOMDocument *document,
 		element = webkit_dom_node_get_parent_element (node);
 
 	if (element_has_class (element, "-x-evo-align-right")) {
-		alignment = E_HTML_EDITOR_SELECTION_ALIGNMENT_RIGHT;
+		alignment = E_CONTENT_EDITOR_ALIGNMENT_RIGHT;
 		goto out;
 	} else if (element_has_class (element, "-x-evo-align-center")) {
-		alignment = E_HTML_EDITOR_SELECTION_ALIGNMENT_CENTER;
+		alignment = E_CONTENT_EDITOR_ALIGNMENT_CENTER;
 		goto out;
 	}
 
@@ -6053,21 +6329,19 @@ dom_selection_get_alignment (WebKitDOMDocument *document,
 
 	if (!value || !*value ||
 	    (g_ascii_strncasecmp (value, "left", 4) == 0)) {
-		alignment = E_HTML_EDITOR_SELECTION_ALIGNMENT_LEFT;
+		alignment = E_CONTENT_EDITOR_ALIGNMENT_LEFT;
 	} else if (g_ascii_strncasecmp (value, "center", 6) == 0) {
-		alignment = E_HTML_EDITOR_SELECTION_ALIGNMENT_CENTER;
+		alignment = E_CONTENT_EDITOR_ALIGNMENT_CENTER;
 	} else if (g_ascii_strncasecmp (value, "right", 5) == 0) {
-		alignment = E_HTML_EDITOR_SELECTION_ALIGNMENT_RIGHT;
+		alignment = E_CONTENT_EDITOR_ALIGNMENT_RIGHT;
 	} else {
-		alignment = E_HTML_EDITOR_SELECTION_ALIGNMENT_LEFT;
+		alignment = E_CONTENT_EDITOR_ALIGNMENT_LEFT;
 	}
 
 	g_object_unref (style);
 	g_free (value);
 
  out:
-	set_dbus_property_unsigned (extension, "Alignment", alignment);
-
 	return alignment;
 }
 
@@ -6092,16 +6366,16 @@ set_block_alignment (WebKitDOMElement *element,
 /**
  * e_html_editor_selection_set_alignment:
  * @selection: an #EHTMLEditorSelection
- * @alignment: an #EHTMLEditorSelectionAlignment value to apply
+ * @alignment: an #EContentEditorAlignment value to apply
  *
  * Sets alignment of current paragraph to give @alignment.
  */
 void
 dom_selection_set_alignment (WebKitDOMDocument *document,
                              EHTMLEditorWebExtension *extension,
-                             EHTMLEditorSelectionAlignment alignment)
+                             EContentEditorAlignment alignment)
 {
-	EHTMLEditorSelectionAlignment current_alignment;
+	EContentEditorAlignment current_alignment;
 	EHTMLEditorUndoRedoManager *manager;
 	EHTMLEditorHistoryEvent *ev = NULL;
 	gboolean after_selection_end = FALSE;
@@ -6111,18 +6385,19 @@ dom_selection_set_alignment (WebKitDOMDocument *document,
 
 	current_alignment = e_html_editor_web_extension_get_alignment (extension);
 
+	printf ("%d:%d\n", current_alignment, alignment);
 	if (current_alignment == alignment)
 		return;
 
 	switch (alignment) {
-		case E_HTML_EDITOR_SELECTION_ALIGNMENT_CENTER:
+		case E_CONTENT_EDITOR_ALIGNMENT_CENTER:
 			class = "-x-evo-align-center";
 			break;
 
-		case E_HTML_EDITOR_SELECTION_ALIGNMENT_LEFT:
+		case E_CONTENT_EDITOR_ALIGNMENT_LEFT:
 			break;
 
-		case E_HTML_EDITOR_SELECTION_ALIGNMENT_RIGHT:
+		case E_CONTENT_EDITOR_ALIGNMENT_RIGHT:
 			class = "-x-evo-align-right";
 			break;
 	}
@@ -6150,7 +6425,7 @@ dom_selection_set_alignment (WebKitDOMDocument *document,
 			&ev->before.end.y);
 		ev->data.style.from = current_alignment;
 		ev->data.style.to = alignment;
-	 }
+	}
 
 	block = get_parent_block_node_from_child (
 		WEBKIT_DOM_NODE (selection_start_marker));
@@ -6206,8 +6481,6 @@ dom_selection_set_alignment (WebKitDOMDocument *document,
 	dom_selection_restore (document);
 
 	dom_force_spell_check_for_current_paragraph (document, extension);
-
-	set_dbus_property_unsigned (extension, "Alignment", alignment);
 }
 
 /**
@@ -6254,7 +6527,7 @@ dom_selection_replace (WebKitDOMDocument *document,
 		g_object_unref (dom_window);
 	}
 
-	dom_exec_command (document, extension, E_HTML_EDITOR_VIEW_COMMAND_INSERT_TEXT, replacement);
+	dom_exec_command (document, extension, E_CONTENT_EDITOR_COMMAND_INSERT_TEXT, replacement);
 
 	if (ev) {
 		dom_selection_get_coordinates (
@@ -6421,17 +6694,17 @@ dom_selection_has_text (WebKitDOMDocument *document)
  *
  * Returns alignment of given list.
  *
- * Returns: #EHTMLEditorSelectionAlignment
+ * Returns: #EContentEditorAlignment
  */
-EHTMLEditorSelectionAlignment
+EContentEditorAlignment
 dom_get_list_alignment_from_node (WebKitDOMNode *node)
 {
 	if (element_has_class (WEBKIT_DOM_ELEMENT (node), "-x-evo-align-center"))
-		return E_HTML_EDITOR_SELECTION_ALIGNMENT_CENTER;
+		return E_CONTENT_EDITOR_ALIGNMENT_CENTER;
 	if (element_has_class (WEBKIT_DOM_ELEMENT (node), "-x-evo-align-right"))
-		return E_HTML_EDITOR_SELECTION_ALIGNMENT_RIGHT;
+		return E_CONTENT_EDITOR_ALIGNMENT_RIGHT;
 	else
-		return E_HTML_EDITOR_SELECTION_ALIGNMENT_LEFT;
+		return E_CONTENT_EDITOR_ALIGNMENT_LEFT;
 }
 
 WebKitDOMElement *

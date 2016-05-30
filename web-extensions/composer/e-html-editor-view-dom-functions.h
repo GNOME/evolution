@@ -32,7 +32,7 @@ G_BEGIN_DECLS
 
 gboolean	dom_exec_command		(WebKitDOMDocument *document,
 						 EHTMLEditorWebExtension *extension,
-						 EHTMLEditorViewCommand command,
+						 EContentEditorCommand command,
 						 const gchar *value);
 
 void		dom_force_spell_check_for_current_paragraph
@@ -52,7 +52,7 @@ void		dom_turn_spell_check_off	(WebKitDOMDocument *document,
 void		dom_embed_style_sheet		(WebKitDOMDocument *document,
 						 const gchar *style_sheet_content);
 
-void		dom_remove_embed_style_sheet	(WebKitDOMDocument *document);
+void		dom_remove_embedded_style_sheet	(WebKitDOMDocument *document);
 
 void		dom_register_input_event_listener_on_body
 						(WebKitDOMDocument *document,
@@ -132,16 +132,24 @@ gboolean	dom_process_on_key_press	(WebKitDOMDocument *document,
 						 glong key_code,
 						 gboolean control_key);
 
+void		dom_convert_element_from_html_to_plain_text
+						(WebKitDOMDocument *document,
+						 EHTMLEditorWebExtension *extension,
+						 WebKitDOMElement *element);
+
 gchar *		dom_process_content_for_draft	(WebKitDOMDocument *document,
+						 EHTMLEditorWebExtension *extension,
 						 gboolean only_inner_body);
 
 gchar *		dom_process_content_for_plain_text
 						(WebKitDOMDocument *document,
 						 EHTMLEditorWebExtension *extension);
 
+void		dom_restore_images		(WebKitDOMDocument *document,
+						 GVariant *inline_images_to_restore);
+
 gchar *		dom_process_content_for_html	(WebKitDOMDocument *document,
-						 EHTMLEditorWebExtension *extension,
-						 const gchar *from_domain);
+						 EHTMLEditorWebExtension *extension);
 
 gboolean	dom_check_if_conversion_needed	(WebKitDOMDocument *document);
 
@@ -149,9 +157,9 @@ void		dom_process_content_after_mode_change
 						(WebKitDOMDocument *document,
 						 EHTMLEditorWebExtension *extension);
 
-gint		dom_get_caret_offset		(WebKitDOMDocument *document,
+guint		dom_get_caret_offset		(WebKitDOMDocument *document,
 						 EHTMLEditorWebExtension *extension);
-gint		dom_get_caret_position		(WebKitDOMDocument *document);
+guint		dom_get_caret_position		(WebKitDOMDocument *document);
 
 void		dom_drag_and_drop_end		(WebKitDOMDocument *document,
 						 EHTMLEditorWebExtension *extension);
@@ -215,7 +223,7 @@ gint		get_citation_level		(WebKitDOMNode *node,
 						 gboolean set_plaintext_quoted);
 void		dom_save_history_for_drop	(WebKitDOMDocument *document,
 						 EHTMLEditorWebExtension *extension);
-
+void		dom_fix_file_uri_images		(WebKitDOMDocument *document);
 G_END_DECLS
 
 #endif /* E_HTML_EDITOR_VIEW_DOM_FUNCTIONS_H */

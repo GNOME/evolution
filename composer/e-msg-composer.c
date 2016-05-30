@@ -1041,11 +1041,11 @@ composer_add_evolution_composer_mode_header (CamelMedium *medium,
 {
 	gboolean html_mode;
 	EHTMLEditor *editor;
-	EHTMLEditorView *view;
+	EContentEditor *cnt_editor;
 
 	editor = e_msg_composer_get_editor (composer);
-	view = e_html_editor_get_view (editor);
-	html_mode = e_html_editor_view_get_html_mode (view);
+	cnt_editor = e_html_editor_get_content_editor (editor);
+	html_mode = e_content_editor_get_html_mode (cnt_editor);
 
 	camel_medium_add_header (
 		medium,
@@ -1260,12 +1260,18 @@ composer_build_message (EMsgComposer *composer,
 	} else {
 		gchar *text;
 		EHTMLEditor *editor;
-		EHTMLEditorView *view;
+		EContentEditor *cnt_editor;
 
 		editor = e_msg_composer_get_editor (composer);
-		view = e_html_editor_get_view (editor);
+		cnt_editor = e_html_editor_get_content_editor (editor);
 		data = g_byte_array_new ();
-		text = e_html_editor_view_get_text_plain (view);
+
+		text = e_content_editor_get_content (
+			cnt_editor,
+			E_CONTENT_EDITOR_GET_TEXT_PLAIN |
+			E_CONTENT_EDITOR_GET_PROCESSED,
+			NULL);
+
 		g_byte_array_append (data, (guint8 *) text, strlen (text));
 		g_free (text);
 
@@ -1332,21 +1338,17 @@ composer_build_message (EMsgComposer *composer,
 		gsize length;
 		gboolean pre_encode;
 		EHTMLEditor *editor;
-		EHTMLEditorView *view;
-		GList *inline_images = NULL;
+		EContentEditor *cnt_editor;
+		EContentEditorInlineImages *inline_images;
 
 		editor = e_msg_composer_get_editor (composer);
-		view = e_html_editor_get_view (editor);
+		cnt_editor = e_html_editor_get_content_editor (editor);
+
+		inline_images = g_new0 (EContentEditorInlineImages, 1);
+		inline_images->from_domain = (gchar *) from_domain;
 
 		data = g_byte_array_new ();
 		if ((flags & COMPOSER_FLAG_SAVE_DRAFT) != 0) {
-			gboolean selection_saved;
-			EHTMLEditor *editor;
-			EHTMLEditorView *html_view;
-
-			editor = e_msg_composer_get_editor (composer);
-			html_view = e_html_editor_get_view (editor);
-
 			/* X-Evolution-Format */
 			composer_add_evolution_format_header (
 				CAMEL_MEDIUM (context->message), flags);
@@ -1355,25 +1357,20 @@ composer_build_message (EMsgComposer *composer,
 			composer_add_evolution_composer_mode_header (
 				CAMEL_MEDIUM (context->message), composer);
 
-			e_html_editor_view_embed_styles (html_view);
-			selection_saved = e_html_editor_view_is_selection_saved (html_view);
-			if (!selection_saved)
-				e_html_editor_view_save_selection (html_view);
+			text = e_content_editor_get_content (
+				cnt_editor,
+				E_CONTENT_EDITOR_GET_TEXT_HTML |
+				E_CONTENT_EDITOR_GET_INLINE_IMAGES,
+				&inline_images);
+		} else
+			text = e_content_editor_get_content (
+				cnt_editor,
+				E_CONTENT_EDITOR_GET_TEXT_HTML |
+				E_CONTENT_EDITOR_GET_PROCESSED |
+				E_CONTENT_EDITOR_GET_INLINE_IMAGES,
+				&inline_images);
 
-			text = e_html_editor_view_get_text_html_for_drafts (html_view);
-
-			e_html_editor_view_remove_embed_styles (html_view);
-			e_html_editor_view_restore_selection (html_view);
-			e_html_editor_view_force_spell_check (html_view);
-
-			if (selection_saved)
-				e_html_editor_view_save_selection (html_view);
-
-			length = strlen (text);
-		} else {
-			text = e_html_editor_view_get_text_html (view, from_domain, &inline_images);
-			length = strlen (text);
-		}
+		length = strlen (text);
 		g_byte_array_append (data, (guint8 *) text, (guint) length);
 		pre_encode = text_requires_quoted_printable (text, length);
 		g_free (text);
@@ -1427,7 +1424,7 @@ composer_build_message (EMsgComposer *composer,
 
 		/* If there are inlined images, construct a multipart/related
 		 * containing the multipart/alternative and the images. */
-		count = g_list_length (inline_images);
+		count = g_list_length (inline_images->images);
 		if (count > 0) {
 			guint ii;
 			CamelMultipart *html_with_images;
@@ -1449,7 +1446,7 @@ composer_build_message (EMsgComposer *composer,
 			g_object_unref (body);
 
 			for (ii = 0; ii < count; ii++) {
-				CamelMimePart *part = g_list_nth_data (inline_images, ii);
+				CamelMimePart *part = g_list_nth_data (inline_images->images, ii);
 				camel_multipart_add_part (
 					html_with_images, part);
 			}
@@ -1460,7 +1457,8 @@ composer_build_message (EMsgComposer *composer,
 			context->top_level_part =
 				CAMEL_DATA_WRAPPER (body);
 		}
-		g_list_free_full (inline_images, g_object_unref);
+		g_list_free_full (inline_images->images, g_object_unref);
+		g_free (inline_images);
 	}
 
 	/* If there are attachments, wrap what we've built so far
@@ -1571,18 +1569,26 @@ set_editor_text (EMsgComposer *composer,
                  gboolean set_signature)
 {
 	EHTMLEditor *editor;
-	EHTMLEditorView *view;
+	EContentEditor *cnt_editor;
 
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 	g_return_if_fail (text != NULL);
 
 	editor = e_msg_composer_get_editor (composer);
-	view = e_html_editor_get_view (editor);
+	cnt_editor = e_html_editor_get_content_editor (editor);
 
 	if (is_html)
-		e_html_editor_view_set_text_html (view, text);
+		e_content_editor_insert_content (
+			cnt_editor,
+			text,
+			E_CONTENT_EDITOR_INSERT_TEXT_HTML |
+			E_CONTENT_EDITOR_INSERT_REPLACE_ALL);
 	else
-		e_html_editor_view_set_text_plain (view, text);
+		e_content_editor_insert_content (
+			cnt_editor,
+			text,
+			E_CONTENT_EDITOR_INSERT_TEXT_PLAIN |
+			E_CONTENT_EDITOR_INSERT_REPLACE_ALL);
 
 	if (set_signature)
 		e_composer_update_signature (composer);
@@ -1594,14 +1600,15 @@ static void
 attachment_store_changed_cb (EMsgComposer *composer)
 {
 	EHTMLEditor *editor;
-	EHTMLEditorView *view;
 
 	/* Mark the editor as changed so it prompts about unsaved
 	 * changes on close. */
 	editor = e_msg_composer_get_editor (composer);
 	if (editor) {
-		view = e_html_editor_get_view (editor);
-		e_html_editor_view_set_changed (view, TRUE);
+		EContentEditor *cnt_editor;
+
+		cnt_editor = e_html_editor_get_content_editor (editor);
+		e_content_editor_set_changed (cnt_editor, TRUE);
 	}
 }
 
@@ -1711,8 +1718,8 @@ msg_composer_paste_clipboard_targets_cb (GtkClipboard *clipboard,
                                          gint n_targets,
                                          EMsgComposer *composer)
 {
-	EHTMLEditor *editor = e_msg_composer_get_editor (composer);
-	EHTMLEditorView *editor_view = e_html_editor_get_view (editor);
+	EHTMLEditor *editor;
+	EContentEditor *cnt_editor;
 
 	if (targets == NULL || n_targets < 0)
 		return;
@@ -1725,67 +1732,65 @@ msg_composer_paste_clipboard_targets_cb (GtkClipboard *clipboard,
 		return;
 	}
 
-	/* Prefer plain text over HTML when in the plain text mode, but only
-	 * when pasting content from outside the editor view. */
-	if (e_html_editor_view_get_html_mode (editor_view) ||
-	    e_html_editor_view_is_pasting_content_from_itself (editor_view)) {
-		if (e_targets_include_html (targets, n_targets)) {
-			e_composer_paste_html (composer, clipboard);
-			return;
-		}
+	editor = e_msg_composer_get_editor (composer);
+	cnt_editor = e_html_editor_get_content_editor (editor);
 
-		if (gtk_targets_include_text (targets, n_targets)) {
-			e_composer_paste_text (composer, clipboard);
-			return;
-		}
-	} else {
-		if (gtk_targets_include_text (targets, n_targets)) {
-			e_composer_paste_text (composer, clipboard);
-			return;
-		}
-
-		if (e_targets_include_html (targets, n_targets)) {
-			e_composer_paste_html (composer, clipboard);
-			return;
-		}
-	}
-
-	if (gtk_targets_include_image (targets, n_targets, TRUE)) {
+	if (!e_content_editor_get_html_mode (cnt_editor) &&
+	    gtk_targets_include_image (targets, n_targets, TRUE)) {
 		e_composer_paste_image (composer, clipboard);
 		return;
 	}
+
+	composer->priv->ignore_next_paste_clipboard_signals_emission = TRUE;
+
+	g_signal_emit_by_name (
+		cnt_editor,
+		composer->priv->last_signal_was_paste_primary ?
+			"paste-primary-clipboard" : "paste-clipboard");
 }
 
 static void
-msg_composer_paste_primary_clipboard_cb (EHTMLEditorView *view,
+msg_composer_paste_primary_clipboard_cb (EContentEditor *cnt_editor,
                                          EMsgComposer *composer)
 {
-	GtkClipboard *clipboard;
+	if (composer->priv->ignore_next_paste_clipboard_signals_emission)
+		composer->priv->ignore_next_paste_clipboard_signals_emission = FALSE;
+	else {
+		GtkClipboard *clipboard;
 
-	clipboard = gtk_clipboard_get (GDK_SELECTION_PRIMARY);
+		clipboard = gtk_clipboard_get (GDK_SELECTION_PRIMARY);
 
-	gtk_clipboard_request_targets (
-		clipboard, (GtkClipboardTargetsReceivedFunc)
-		msg_composer_paste_clipboard_targets_cb, composer);
+		composer->priv->last_signal_was_paste_primary = TRUE;
 
-	g_signal_stop_emission_by_name (view, "paste-primary-clipboard");
+		gtk_clipboard_request_targets (
+			clipboard, (GtkClipboardTargetsReceivedFunc)
+			msg_composer_paste_clipboard_targets_cb, composer);
+
+		g_signal_stop_emission_by_name (cnt_editor, "paste-primary-clipboard");
+	}
 }
-/* FIXME WK2
+
 static void
-msg_composer_paste_clipboard_cb (EHTMLEditorView *view,
+msg_composer_paste_clipboard_cb (EContentEditor *cnt_editor,
                                  EMsgComposer *composer)
 {
-	GtkClipboard *clipboard;
+	if (composer->priv->ignore_next_paste_clipboard_signals_emission)
+		composer->priv->ignore_next_paste_clipboard_signals_emission = FALSE;
+	else {
+		GtkClipboard *clipboard;
 
-	clipboard = gtk_clipboard_get (GDK_SELECTION_CLIPBOARD);
+		clipboard = gtk_clipboard_get (GDK_SELECTION_CLIPBOARD);
 
-	gtk_clipboard_request_targets (
-		clipboard, (GtkClipboardTargetsReceivedFunc)
-		msg_composer_paste_clipboard_targets_cb, composer);
+		composer->priv->last_signal_was_paste_primary = FALSE;
 
-	g_signal_stop_emission_by_name (view, "paste-clipboard");
+		gtk_clipboard_request_targets (
+			clipboard, (GtkClipboardTargetsReceivedFunc)
+			msg_composer_paste_clipboard_targets_cb, composer);
+
+		g_signal_stop_emission_by_name (cnt_editor, "paste-clipboard");
+	}
 }
-*/
+#if 0
 static gboolean
 msg_composer_drag_motion_cb (GtkWidget *widget,
                              GdkDragContext *context,
@@ -1957,26 +1962,22 @@ msg_composer_drag_data_received_cb (GtkWidget *widget,
                                     EMsgComposer *composer)
 {
 	EHTMLEditor *editor;
-	EHTMLEditorView *view;
+	EContentEditor *cnt_editor;
 	gboolean html_mode, same_widget = FALSE;
 	GtkWidget *source_widget;
 
 	editor = e_msg_composer_get_editor (composer);
-	view = e_html_editor_get_view (editor);
-	html_mode = e_html_editor_view_get_html_mode (view);
+	cnt_editor = e_html_editor_get_content_editor (editor);
+	html_mode = e_content_editor_get_html_mode (cnt_editor);
 
 	composer->priv->dnd_history_saved = TRUE;
 
 	/* When we are doing DnD just inside the web view, the DnD is supposed
 	 * to move things around. */
 	source_widget = gtk_drag_get_source_widget (context);
-	if (E_IS_HTML_EDITOR_VIEW (source_widget)) {
-		EHTMLEditor *editor = e_msg_composer_get_editor (composer);
-		EHTMLEditorView *editor_view = e_html_editor_get_view (editor);
-
-		if ((gpointer) editor_view == (gpointer) source_widget)
-			same_widget = TRUE;
-	}
+	if (E_IS_CONTENT_EDITOR (source_widget) &&
+	    ((gpointer) cnt_editor == (gpointer) source_widget))
+		same_widget = TRUE;
 
 	/* Leave DnD inside the view on WebKit. */
 	if (composer->priv->drop_occured && same_widget) {
@@ -2030,21 +2031,20 @@ msg_composer_drag_data_received_cb (GtkWidget *widget,
 			return;
 		}
 
-		e_html_editor_view_move_selection_on_point (view, x, y, FALSE);
+		e_content_editor_move_caret_on_coordinates (cnt_editor, x, y, FALSE);
 
 		list_len = length;
 		do {
 			text = next_uri ((guchar **) &data, &len, &list_len);
-			e_html_editor_view_insert_html (view, text);
+			e_content_editor_insert_content (
+				cnt_editor,
+				text,
+				E_CONTENT_EDITOR_INSERT_TEXT_HTML);
 			g_free (text);
 		} while (list_len);
 
-		e_html_editor_view_check_magic_links (view);
-		e_html_editor_view_force_spell_check (view);
-
-		e_html_editor_view_scroll_to_caret (view);
-
 		gtk_drag_finish (context, TRUE, FALSE, time);
+
 		return;
 	}
 
@@ -2052,7 +2052,9 @@ msg_composer_drag_data_received_cb (GtkWidget *widget,
 	/* If we're receiving URIs and -all- the URIs point to
 	 * image files, we want the image(s) to be inserted in
 	 * the message body. */
-	if (html_mode && e_composer_selection_is_image_uris (composer, selection)) {
+	if (html_mode &&
+	    (e_composer_selection_is_image_uris (composer, selection) ||
+	     e_composer_selection_is_base64_uris (composer, selection))) {
 		const guchar *data;
 		gint length;
 		gint list_len, len;
@@ -2066,36 +2068,12 @@ msg_composer_drag_data_received_cb (GtkWidget *widget,
 			return;
 		}
 
-		e_html_editor_view_move_selection_on_point (view, x, y, FALSE);
+		e_content_editor_move_caret_on_coordinates (cnt_editor, x, y, FALSE);
 
 		list_len = length;
 		do {
 			uri = next_uri ((guchar **) &data, &len, &list_len);
-			e_html_editor_view_insert_image (view, uri);
-			g_free (uri);
-		} while (list_len);
-
-		gtk_drag_finish (context, TRUE, FALSE, time);
-	} else if (html_mode && e_composer_selection_is_base64_uris (composer, selection)) {
-		const guchar *data;
-		gint length;
-		gint list_len, len;
-		gchar *uri;
-
-		data = gtk_selection_data_get_data (selection);
-		length = gtk_selection_data_get_length (selection);
-
-		if (!data || length < 0) {
-			gtk_drag_finish (context, FALSE, FALSE, time);
-			return;
-		}
-
-		e_html_editor_view_move_selection_on_point (view, x, y, FALSE);
-
-		list_len = length;
-		do {
-			uri = next_uri ((guchar **) &data, &len, &list_len);
-			e_html_editor_view_insert_image (view, uri);
+			e_content_editor_insert_image (cnt_editor, uri);
 			g_free (uri);
 		} while (list_len);
 
@@ -2112,16 +2090,16 @@ msg_composer_drag_data_received_cb (GtkWidget *widget,
 			context, x, y, selection, info, time);
 	}
 }
-
+#endif
 static void
 msg_composer_notify_header_cb (EMsgComposer *composer)
 {
+	EContentEditor *cnt_editor;
 	EHTMLEditor *editor;
-	EHTMLEditorView *view;
 
 	editor = e_msg_composer_get_editor (composer);
-	view = e_html_editor_get_view (editor);
-	e_html_editor_view_set_changed (view, TRUE);
+	cnt_editor = e_html_editor_get_content_editor (editor);
+	e_content_editor_set_changed (cnt_editor, TRUE);
 }
 
 static gboolean
@@ -2368,8 +2346,7 @@ composer_notify_activity_cb (EActivityBar *activity_bar,
                              EMsgComposer *composer)
 {
 	EHTMLEditor *editor;
-	EHTMLEditorView *view;
-	WebKitWebView *web_view;
+	EContentEditor *cnt_editor;
 	gboolean editable = TRUE;
 	gboolean busy;
 
@@ -2384,16 +2361,15 @@ composer_notify_activity_cb (EActivityBar *activity_bar,
 		e_msg_composer_save_focused_widget (composer);
 
 	editor = e_msg_composer_get_editor (composer);
-	view = e_html_editor_get_view (editor);
-	web_view = WEBKIT_WEB_VIEW (view);
+	cnt_editor = e_html_editor_get_content_editor (editor);
 
 	if (busy) {
-		editable = webkit_web_view_is_editable (web_view);
-		webkit_web_view_set_editable (web_view, FALSE);
+		editable = e_content_editor_is_editable (cnt_editor);
+		e_content_editor_set_editable (cnt_editor, FALSE);
 		composer->priv->saved_editable = editable;
 	} else {
 		editable = composer->priv->saved_editable;
-		webkit_web_view_set_editable (web_view, editable);
+		e_content_editor_set_editable (cnt_editor, editable);
 	}
 
 	g_object_notify (G_OBJECT (composer), "busy");
@@ -2412,7 +2388,7 @@ msg_composer_constructed (GObject *object)
 	EAttachmentStore *store;
 	EComposerHeaderTable *table;
 	EHTMLEditor *editor;
-	EHTMLEditorView *view;
+	EContentEditor *cnt_editor;
 	GtkUIManager *ui_manager;
 	GtkToggleAction *action;
 	GtkTargetList *target_list;
@@ -2429,7 +2405,7 @@ msg_composer_constructed (GObject *object)
 	e_composer_private_constructed (composer);
 
 	editor = e_msg_composer_get_editor (composer);
-	view = e_html_editor_get_view (editor);
+	cnt_editor = e_html_editor_get_content_editor (editor);
 	ui_manager = e_html_editor_get_ui_manager (editor);
 	attachment_view = e_msg_composer_get_attachment_view (composer);
 	table = E_COMPOSER_HEADER_TABLE (composer->priv->header_table);
@@ -2484,16 +2460,22 @@ msg_composer_constructed (GObject *object)
 	g_object_unref (settings);
 
 	/* Clipboard Support */
-/* FIXME WK2
+
 	g_signal_connect (
-		view, "paste-clipboard",
+		cnt_editor, "paste-clipboard",
 		G_CALLBACK (msg_composer_paste_clipboard_cb), composer);
-*/
+
 	g_signal_connect (
-		view, "paste-primary-clipboard",
+		cnt_editor, "paste-primary-clipboard",
 		G_CALLBACK (msg_composer_paste_primary_clipboard_cb), composer);
 
+	e_content_editor_reconnect_paste_clipboard_signals (cnt_editor);
+
 	/* Drag-and-Drop Support */
+#if 0 /* FIXME WK2 */
+	EHTMLEditorView *view;
+
+	view = e_html_editor_get_view (editor);
 
 	g_signal_connect (
 		view, "drag-motion",
@@ -2511,7 +2493,7 @@ msg_composer_constructed (GObject *object)
 	g_signal_connect_after (
 		view, "drag-data-received",
 		G_CALLBACK (msg_composer_drag_data_received_after_cb), composer);
-
+#endif
 	g_signal_connect (
 		composer->priv->gallery_icon_view, "drag-data-get",
 		G_CALLBACK (msg_composer_gallery_drag_data_get), NULL);
@@ -2558,12 +2540,12 @@ msg_composer_constructed (GObject *object)
 		G_CALLBACK (attachment_store_changed_cb), composer);
 
 	/* Initialization may have tripped the "changed" state. */
-	e_html_editor_view_set_changed (view, FALSE);
+	e_content_editor_set_changed (cnt_editor, FALSE);
 
 	target_list = e_attachment_view_get_target_list (attachment_view);
 	targets = gtk_target_table_new_from_list (target_list, &n_targets);
 
-	target_list = gtk_drag_dest_get_target_list (GTK_WIDGET (view));
+	target_list = gtk_drag_dest_get_target_list (GTK_WIDGET (cnt_editor));
 
 	gtk_target_list_add_table (target_list, drag_dest_targets, G_N_ELEMENTS (drag_dest_targets));
 	gtk_target_list_add_table (target_list, targets, n_targets);
@@ -2635,7 +2617,7 @@ msg_composer_map (GtkWidget *widget)
 	EComposerHeaderTable *table;
 	GtkWidget *input_widget;
 	EHTMLEditor *editor;
-	EHTMLEditorView *view;
+	EContentEditor *cnt_editor;
 	const gchar *text;
 
 	/* Chain up to parent's map() method. */
@@ -2666,8 +2648,8 @@ msg_composer_map (GtkWidget *widget)
 	}
 
 	/* Jump to the editor as a last resort. */
-	view = e_html_editor_get_view (editor);
-	gtk_widget_grab_focus (GTK_WIDGET (view));
+	cnt_editor = e_html_editor_get_content_editor (editor);
+	gtk_widget_grab_focus (GTK_WIDGET (cnt_editor));
 }
 
 static gboolean
@@ -2677,11 +2659,11 @@ msg_composer_key_press_event (GtkWidget *widget,
 	EMsgComposer *composer;
 	GtkWidget *input_widget;
 	EHTMLEditor *editor;
-	EHTMLEditorView *view;
+	EContentEditor *cnt_editor;
 
 	composer = E_MSG_COMPOSER (widget);
 	editor = e_msg_composer_get_editor (composer);
-	view = e_html_editor_get_view (editor);
+	cnt_editor = e_html_editor_get_content_editor (editor);
 
 	input_widget =
 		e_composer_header_table_get_header (
@@ -2701,54 +2683,19 @@ msg_composer_key_press_event (GtkWidget *widget,
 	}
 
 	if (event->keyval == GDK_KEY_Tab && gtk_widget_is_focus (input_widget)) {
-		gtk_widget_grab_focus (GTK_WIDGET (view));
+		gtk_widget_grab_focus (GTK_WIDGET (cnt_editor));
 		return TRUE;
 	}
 
-	if (gtk_widget_is_focus (GTK_WIDGET (view))) {
+	if (gtk_widget_is_focus (GTK_WIDGET (cnt_editor))) {
 		if (event->keyval == GDK_KEY_ISO_Left_Tab) {
 			gboolean view_processed = FALSE;
 
-			g_signal_emit_by_name (view, "key-press-event", event, &view_processed);
+			g_signal_emit_by_name (cnt_editor, "key-press-event", event, &view_processed);
 
 			if (!view_processed)
 				gtk_widget_grab_focus (input_widget);
 
-			return TRUE;
-		}
-
-		if ((((event)->state & GDK_SHIFT_MASK) &&
-		    ((event)->keyval == GDK_KEY_Insert)) ||
-		    (((event)->state & GDK_CONTROL_MASK) &&
-		    ((event)->keyval == GDK_KEY_v))) {
-			g_signal_emit_by_name (
-				WEBKIT_WEB_VIEW (view), "paste-clipboard");
-			return TRUE;
-		}
-
-		if (((event)->state & GDK_CONTROL_MASK) &&
-		    ((event)->keyval == GDK_KEY_Insert)) {
-			g_signal_emit_by_name (
-				WEBKIT_WEB_VIEW (view), "copy-clipboard");
-			return TRUE;
-		}
-
-		if (((event)->state & GDK_CONTROL_MASK) &&
-		    ((event)->keyval == GDK_KEY_z)) {
-			e_html_editor_view_undo (view);
-			return TRUE;
-		}
-
-		if (((event)->state & (GDK_CONTROL_MASK)) &&
-		    ((event)->keyval == GDK_KEY_Z)) {
-			e_html_editor_view_redo (view);
-			return TRUE;
-		}
-
-		if (((event)->state & GDK_SHIFT_MASK) &&
-		    ((event)->keyval == GDK_KEY_Delete)) {
-			g_signal_emit_by_name (
-				WEBKIT_WEB_VIEW (view), "cut-clipboard");
 			return TRUE;
 		}
 	}
@@ -2907,13 +2854,17 @@ e_msg_composer_class_init (EMsgComposerClass *class)
 static void
 e_msg_composer_init (EMsgComposer *composer)
 {
-	EHTMLEditorView *view;
+	EContentEditor *cnt_editor;
+	EContentEditorContentFlags flags;
 
 	composer->priv = E_MSG_COMPOSER_GET_PRIVATE (composer);
 
 	composer->priv->editor = g_object_ref_sink (e_html_editor_new ());
-	view = e_html_editor_get_view (composer->priv->editor);
-	e_html_editor_view_set_is_editting_message (view, TRUE);
+	cnt_editor = e_html_editor_get_content_editor (composer->priv->editor);
+
+	flags = e_content_editor_get_current_content_flags (cnt_editor);
+	flags |= E_CONTENT_EDITOR_MESSAGE_EDITTING;
+	e_content_editor_set_current_content_flags (cnt_editor, flags);
 }
 
 /**
@@ -2998,7 +2949,7 @@ add_attachments_handle_mime_part (EMsgComposer *composer,
 	CamelContentType *content_type;
 	CamelDataWrapper *wrapper;
 	EHTMLEditor *editor;
-	EHTMLEditorView *view;
+	EContentEditor *cnt_editor;
 
 	if (!mime_part)
 		return;
@@ -3006,7 +2957,7 @@ add_attachments_handle_mime_part (EMsgComposer *composer,
 	content_type = camel_mime_part_get_content_type (mime_part);
 	wrapper = camel_medium_get_content (CAMEL_MEDIUM (mime_part));
 	editor = e_msg_composer_get_editor (composer);
-	view = e_html_editor_get_view (editor);
+	cnt_editor = e_html_editor_get_content_editor (editor);
 
 	if (CAMEL_IS_MULTIPART (wrapper)) {
 		/* another layer of multipartness... */
@@ -3016,10 +2967,10 @@ add_attachments_handle_mime_part (EMsgComposer *composer,
 	} else if (just_inlines) {
 		if (camel_mime_part_get_content_id (mime_part) ||
 		    camel_mime_part_get_content_location (mime_part))
-			e_html_editor_view_add_inline_image_from_mime_part (
-				view, mime_part);
+			e_content_editor_insert_image_from_mime_part (
+				cnt_editor, mime_part);
 	} else if (related && camel_content_type_is (content_type, "image", "*")) {
-		e_html_editor_view_add_inline_image_from_mime_part (view, mime_part);
+		e_content_editor_insert_image_from_mime_part (cnt_editor, mime_part);
 	} else if (camel_content_type_is (content_type, "text", "*") &&
 		camel_mime_part_get_filename (mime_part) == NULL) {
 		/* Do nothing if this is a text/anything without a
@@ -3414,13 +3365,17 @@ handle_multipart (EMsgComposer *composer,
 
 		} else if (depth == 0 && i == 0) {
 			EHTMLEditor *editor;
+			EContentEditor *cnt_editor;
+			EContentEditorContentFlags flags;
 			gboolean is_message_from_draft, is_html = FALSE;
 			gchar *html = NULL;
 			gssize length = 0;
 
 			editor = e_msg_composer_get_editor (composer);
-			is_message_from_draft = e_html_editor_view_is_message_from_draft (
-				e_html_editor_get_view (editor));
+			cnt_editor = e_html_editor_get_content_editor (editor);
+
+			flags = e_content_editor_get_current_content_flags (cnt_editor);
+			is_message_from_draft = (flags & E_CONTENT_EDITOR_MESSAGE_DRAFT);
 			is_html = camel_content_type_is (content_type, "text", "html");
 
 			/* Since the first part is not multipart/alternative,
@@ -3458,11 +3413,12 @@ handle_multipart (EMsgComposer *composer,
 			   camel_mime_part_get_content_location (mime_part)) {
 			/* special in-line attachment */
 			EHTMLEditor *editor;
+			EContentEditor *cnt_editor;
 
 			editor = e_msg_composer_get_editor (composer);
-			e_html_editor_view_add_inline_image_from_mime_part (
-				e_html_editor_get_view (editor), mime_part);
+			cnt_editor = e_html_editor_get_content_editor (editor);
 
+			e_content_editor_insert_image_from_mime_part (cnt_editor, mime_part);
 		} else {
 			/* normal attachment */
 			e_msg_composer_attach (composer, mime_part);
@@ -3474,44 +3430,20 @@ static void
 set_signature_gui (EMsgComposer *composer)
 {
 	EHTMLEditor *editor;
-	EHTMLEditorView *view;
+	EContentEditor *cnt_editor;
 	EComposerHeaderTable *table;
 	EMailSignatureComboBox *combo_box;
-	GDBusProxy *web_extension;
-	GVariant *result;
+	gchar *uid = NULL;
 
 	table = e_msg_composer_get_header_table (composer);
 	combo_box = e_composer_header_table_get_signature_combo_box (table);
 
 	editor = e_msg_composer_get_editor (composer);
-	view = e_html_editor_get_view (editor);
-	web_extension = e_html_editor_view_get_web_extension_proxy (view);
-	if (!web_extension)
-		return;
+	cnt_editor = e_html_editor_get_content_editor (editor);
 
-	result = g_dbus_proxy_call_sync (
-		web_extension,
-		"DOMGetActiveSignatureUid",
-		g_variant_new (
-			"(t)",
-			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view))),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL);
-
-	if (result) {
-		const gchar *uid;
-		gsize length = 0;
-
-		uid = g_variant_get_string (result, &length);
-
-		if (uid && *uid && length > 0) {
-			/* The combo box active ID is the signature's ESource UID. */
-			gtk_combo_box_set_active_id (GTK_COMBO_BOX (combo_box), uid);
-		}
-
-		g_object_unref (result);
+	if ((uid = e_content_editor_get_current_signature_uid (cnt_editor))) {
+		/* The combo box active ID is the signature's ESource UID. */
+		gtk_combo_box_set_active_id (GTK_COMBO_BOX (combo_box), uid);
 	}
 }
 
@@ -3595,7 +3527,8 @@ e_msg_composer_new_with_message (EShell *shell,
 	EComposerHeaderTable *table;
 	ESource *source = NULL;
 	EHTMLEditor *editor;
-	EHTMLEditorView *view;
+	EContentEditor *cnt_editor;
+	EContentEditorContentFlags flags;
 	GtkToggleAction *action;
 	struct _camel_header_raw *xev;
 	gchar *identity_uid;
@@ -3618,9 +3551,9 @@ e_msg_composer_new_with_message (EShell *shell,
 
 	composer = e_msg_composer_new (shell);
 	priv = E_MSG_COMPOSER_GET_PRIVATE (composer);
-	editor = e_msg_composer_get_editor (composer);
 	table = e_msg_composer_get_header_table (composer);
-	view = e_html_editor_get_view (editor);
+	editor = e_msg_composer_get_editor (composer);
+	cnt_editor = e_html_editor_get_content_editor (editor);
 
 	if (postto) {
 		e_composer_header_table_set_post_to_list (table, postto);
@@ -3783,9 +3716,13 @@ e_msg_composer_new_with_message (EShell *shell,
 	composer_mode = camel_medium_get_header (
 		CAMEL_MEDIUM (message), "X-Evolution-Composer-Mode");
 
+	flags = e_content_editor_get_current_content_flags (cnt_editor);
+
 	if (composer_mode && *composer_mode) {
 		is_message_from_draft = TRUE;
-		e_html_editor_view_set_is_message_from_draft (view, TRUE);
+
+		flags |= E_CONTENT_EDITOR_MESSAGE_DRAFT;
+		e_content_editor_set_current_content_flags (cnt_editor, flags);
 	}
 
 	if (format != NULL) {
@@ -3796,22 +3733,12 @@ e_msg_composer_new_with_message (EShell *shell,
 
 		flags = g_strsplit (format, ", ", 0);
 		for (i = 0; flags[i]; i++) {
-			if (g_ascii_strcasecmp (flags[i], "text/html") == 0) {
-				if (composer_mode && g_ascii_strcasecmp (composer_mode, "text/html") == 0) {
-					e_html_editor_view_set_html_mode (
-						view, TRUE);
-				} else {
-					e_html_editor_view_set_html_mode (
-						view, FALSE);
-				}
-			} else if (g_ascii_strcasecmp (flags[i], "text/plain") == 0) {
-				if (composer_mode && g_ascii_strcasecmp (composer_mode, "text/html") == 0) {
-					e_html_editor_view_set_html_mode (
-						view, TRUE);
-				} else {
-					e_html_editor_view_set_html_mode (
-						view, FALSE);
-				}
+			if (g_ascii_strcasecmp (flags[i], "text/html") == 0 ||
+			    g_ascii_strcasecmp (flags[i], "text/plain") == 0) {
+				gboolean html_mode;
+
+				html_mode = composer_mode && !g_ascii_strcasecmp (composer_mode, "text/html");
+				e_content_editor_set_html_mode (cnt_editor, html_mode);
 			} else if (g_ascii_strcasecmp (flags[i], "pgp-sign") == 0) {
 				action = GTK_TOGGLE_ACTION (ACTION (PGP_SIGN));
 				gtk_toggle_action_set_active (action, TRUE);
@@ -3945,7 +3872,9 @@ e_msg_composer_new_with_message (EShell *shell,
 		e_msg_composer_set_pending_body (composer, html, length, is_html);
 	}
 
-	e_html_editor_view_set_is_message_from_edit_as_new (view, TRUE);
+	flags |= E_CONTENT_EDITOR_MESSAGE_EDIT_AS_NEW;
+	e_content_editor_set_current_content_flags (cnt_editor, flags);
+
 	priv->set_signature_from_message = TRUE;
 
 	/* We wait until now to set the body text because we need to
@@ -3976,7 +3905,7 @@ e_msg_composer_new_redirect (EShell *shell,
 	EMsgComposer *composer;
 	EComposerHeaderTable *table;
 	EHTMLEditor *editor;
-	EHTMLEditorView *view;
+	EContentEditor *cnt_editor;
 	const gchar *subject;
 
 	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
@@ -3994,8 +3923,8 @@ e_msg_composer_new_redirect (EShell *shell,
 	e_composer_header_table_set_subject (table, subject);
 
 	editor = e_msg_composer_get_editor (composer);
-	view = e_html_editor_get_view (editor);
-	webkit_web_view_set_editable (WEBKIT_WEB_VIEW (view), FALSE);
+	cnt_editor = e_html_editor_get_content_editor (editor);
+	e_content_editor_set_editable (cnt_editor, FALSE);
 
 	return composer;
 }
@@ -4054,7 +3983,7 @@ msg_composer_send_cb (EMsgComposer *composer,
 	CamelMimeMessage *message;
 	EAlertSink *alert_sink;
 	EHTMLEditor *editor;
-	EHTMLEditorView *view;
+	EContentEditor *cnt_editor;
 	GError *error = NULL;
 
 	alert_sink = e_activity_get_alert_sink (context->activity);
@@ -4087,8 +4016,8 @@ msg_composer_send_cb (EMsgComposer *composer,
 
 	/* The callback can set editor 'changed' if anything failed. */
 	editor = e_msg_composer_get_editor (composer);
-	view = e_html_editor_get_view (editor);
-	e_html_editor_view_set_changed (view, TRUE);
+	cnt_editor = e_html_editor_get_content_editor (editor);
+	e_content_editor_set_changed (cnt_editor, TRUE);
 
 	composer->priv->is_sending_message = TRUE;
 
@@ -4148,7 +4077,7 @@ msg_composer_save_to_drafts_cb (EMsgComposer *composer,
 	CamelMimeMessage *message;
 	EAlertSink *alert_sink;
 	EHTMLEditor *editor;
-	EHTMLEditorView *view;
+	EContentEditor *cnt_editor;
 	GError *error = NULL;
 
 	alert_sink = e_activity_get_alert_sink (context->activity);
@@ -4190,8 +4119,8 @@ msg_composer_save_to_drafts_cb (EMsgComposer *composer,
 
 	/* The callback can set editor 'changed' if anything failed. */
 	editor = e_msg_composer_get_editor (composer);
-	view = e_html_editor_get_view (editor);
-	e_html_editor_view_set_changed (view, FALSE);
+	cnt_editor = e_html_editor_get_content_editor (editor);
+	e_content_editor_set_changed (cnt_editor, TRUE);
 
 	g_signal_emit (
 		composer, signals[SAVE_TO_DRAFTS],
@@ -4243,7 +4172,7 @@ msg_composer_save_to_outbox_cb (EMsgComposer *composer,
 	CamelMimeMessage *message;
 	EAlertSink *alert_sink;
 	EHTMLEditor *editor;
-	EHTMLEditorView *view;
+	EContentEditor *cnt_editor;
 	GError *error = NULL;
 
 	alert_sink = e_activity_get_alert_sink (context->activity);
@@ -4279,8 +4208,8 @@ msg_composer_save_to_outbox_cb (EMsgComposer *composer,
 	async_context_free (context);
 
 	editor = e_msg_composer_get_editor (composer);
-	view = e_html_editor_get_view (editor);
-	e_html_editor_view_set_changed (view, FALSE);
+	cnt_editor = e_html_editor_get_content_editor (editor);
+	e_content_editor_set_changed (cnt_editor, TRUE);
 }
 
 /**
@@ -4763,7 +4692,7 @@ e_msg_composer_set_body (EMsgComposer *composer,
 	EMsgComposerPrivate *priv = composer->priv;
 	EComposerHeaderTable *table;
 	EHTMLEditor *editor;
-	EHTMLEditorView *view;
+	EContentEditor *cnt_editor;
 	ESource *source;
 	const gchar *identity_uid;
 	const gchar *content;
@@ -4771,7 +4700,7 @@ e_msg_composer_set_body (EMsgComposer *composer,
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 
 	editor = e_msg_composer_get_editor (composer);
-	view = e_html_editor_get_view (editor);
+	cnt_editor = e_html_editor_get_content_editor (editor);
 	table = e_msg_composer_get_header_table (composer);
 
 	/* Disable signature */
@@ -4783,8 +4712,8 @@ e_msg_composer_set_body (EMsgComposer *composer,
 	content = _("The composer contains a non-text message body, which cannot be edited.");
 	set_editor_text (composer, content, TRUE, FALSE);
 
-	e_html_editor_view_set_html_mode (view, FALSE);
-	webkit_web_view_set_editable (WEBKIT_WEB_VIEW (view), FALSE);
+	e_content_editor_set_html_mode (cnt_editor, FALSE);
+	e_content_editor_set_editable (cnt_editor, FALSE);
 
 	g_free (priv->mime_body);
 	priv->mime_body = g_strdup (body);
@@ -5084,12 +5013,12 @@ e_msg_composer_get_message (EMsgComposer *composer,
 	GtkAction *action;
 	ComposerFlags flags = 0;
 	EHTMLEditor *editor;
-	EHTMLEditorView *view;
+	EContentEditor *cnt_editor;
 
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 
 	editor = e_msg_composer_get_editor (composer);
-	view = e_html_editor_get_view (editor);
+	cnt_editor = e_html_editor_get_content_editor (editor);
 
 	simple = g_simple_async_result_new (
 		G_OBJECT (composer), callback,
@@ -5097,7 +5026,7 @@ e_msg_composer_get_message (EMsgComposer *composer,
 
 	g_simple_async_result_set_check_cancellable (simple, cancellable);
 
-	if (e_html_editor_view_get_html_mode (view))
+	if (e_content_editor_get_html_mode (cnt_editor))
 		flags |= COMPOSER_FLAG_HTML_CONTENT;
 
 	action = ACTION (PRIORITIZE_MESSAGE);
@@ -5215,7 +5144,7 @@ e_msg_composer_get_message_draft (EMsgComposer *composer,
                                   gpointer user_data)
 {
 	EHTMLEditor *editor;
-	EHTMLEditorView *view;
+	EContentEditor *cnt_editor;
 	GSimpleAsyncResult *simple;
 	ComposerFlags flags = COMPOSER_FLAG_SAVE_DRAFT;
 	GtkAction *action;
@@ -5229,9 +5158,9 @@ e_msg_composer_get_message_draft (EMsgComposer *composer,
 	g_simple_async_result_set_check_cancellable (simple, cancellable);
 
 	editor = e_msg_composer_get_editor (composer);
-	view = e_html_editor_get_view (editor);
+	cnt_editor = e_html_editor_get_content_editor (editor);
 	/* We need to remember composer mode */
-	if (e_html_editor_view_get_html_mode (view))
+	if (e_content_editor_get_html_mode (cnt_editor))
 		flags |= COMPOSER_FLAG_HTML_MODE;
 	/* We want to save HTML content everytime when we save as draft */
 	flags |= COMPOSER_FLAG_SAVE_DRAFT;
@@ -5355,52 +5284,6 @@ e_msg_composer_get_reply_to (EMsgComposer *composer)
 	return address;
 }
 
-static GByteArray *
-msg_composer_get_content (EMsgComposer *composer,
-                          const gchar *dom_function)
-{
-	EHTMLEditor *editor;
-	EHTMLEditorView *view;
-	GByteArray *array;
-	GDBusProxy *web_extension;
-	GVariant *result;
-
-	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), NULL);
-
-	editor = e_msg_composer_get_editor (composer);
-	view = e_html_editor_get_view (editor);
-	array = g_byte_array_new ();
-
-	web_extension = e_html_editor_view_get_web_extension_proxy (view);
-	if (!web_extension)
-		return array;
-
-	result = g_dbus_proxy_call_sync (
-		web_extension,
-		dom_function,
-		g_variant_new (
-			"(t)",
-			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view))),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL);
-
-	if (result) {
-		const gchar *content;
-		gsize length = 0;
-
-		/* FIXME WK2 do it better */
-		content = g_variant_get_string (result, &length);
-		if (content && *content && length > 0)
-			g_byte_array_append (array, (guint8 *) content, length);
-
-		g_object_unref (result);
-	}
-
-	return array;
-}
-
 /**
  * e_msg_composer_get_raw_message_text_without_signature:
  *
@@ -5409,8 +5292,23 @@ msg_composer_get_content (EMsgComposer *composer,
 GByteArray *
 e_msg_composer_get_raw_message_text_without_signature (EMsgComposer *composer)
 {
-	return msg_composer_get_content (composer, "DOMGetRawBodyContentWithoutSignature");
+	EHTMLEditor *editor;
+	EContentEditor *cnt_editor;
+	gchar *content;
 
+	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), NULL);
+
+	editor = e_msg_composer_get_editor (composer);
+	cnt_editor = e_html_editor_get_content_editor (editor);
+
+	content = e_content_editor_get_content (
+		cnt_editor,
+		E_CONTENT_EDITOR_GET_BODY |
+		E_CONTENT_EDITOR_GET_TEXT_PLAIN |
+		E_CONTENT_EDITOR_GET_EXCLUDE_SIGNATURE,
+		NULL);
+
+	return g_byte_array_new_take ((guint8 *) content, strlen (content));
 }
 
 /**
@@ -5421,7 +5319,22 @@ e_msg_composer_get_raw_message_text_without_signature (EMsgComposer *composer)
 GByteArray *
 e_msg_composer_get_raw_message_text (EMsgComposer *composer)
 {
-	return msg_composer_get_content (composer, "DOMGetRawBodyContent");
+	EHTMLEditor *editor;
+	EContentEditor *cnt_editor;
+	gchar *content;
+
+	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), NULL);
+
+	editor = e_msg_composer_get_editor (composer);
+	cnt_editor = e_html_editor_get_content_editor (editor);
+
+	content = e_content_editor_get_content (
+		cnt_editor,
+		E_CONTENT_EDITOR_GET_BODY |
+		E_CONTENT_EDITOR_GET_TEXT_PLAIN,
+		NULL);
+
+	return g_byte_array_new_take ((guint8 *) content, strlen (content));
 }
 
 gboolean
@@ -5452,7 +5365,7 @@ e_msg_composer_can_close (EMsgComposer *composer,
 {
 	gboolean res = FALSE;
 	EHTMLEditor *editor;
-	EHTMLEditorView *view;
+	EContentEditor *cnt_editor;
 	EComposerHeaderTable *table;
 	GdkWindow *window;
 	GtkWidget *widget;
@@ -5461,14 +5374,14 @@ e_msg_composer_can_close (EMsgComposer *composer,
 
 	widget = GTK_WIDGET (composer);
 	editor = e_msg_composer_get_editor (composer);
-	view = e_html_editor_get_view (editor);
+	cnt_editor = e_html_editor_get_content_editor (editor);
 
 	/* this means that there is an async operation running,
 	 * in which case the composer cannot be closed */
 	if (!gtk_action_group_get_sensitive (composer->priv->async_actions))
 		return FALSE;
 
-	if (!e_html_editor_view_get_changed (view))
+	if (!e_content_editor_get_changed (cnt_editor))
 		return TRUE;
 
 	window = gtk_widget_get_window (widget);
@@ -5530,7 +5443,7 @@ e_save_spell_languages (const GList *spell_dicts)
 
 	/* Build a list of spell check language codes. */
 	lang_array = g_ptr_array_new ();
-/* FIXME WK2
+
 	while (spell_dicts != NULL) {
 		ESpellDictionary *dict = spell_dicts->data;
 		const gchar *language_code;
@@ -5539,7 +5452,7 @@ e_save_spell_languages (const GList *spell_dicts)
 		g_ptr_array_add (lang_array, (gpointer) language_code);
 
 		spell_dicts = g_list_next (spell_dicts);
-	}*/
+	}
 
 	g_ptr_array_add (lang_array, NULL);
 
@@ -5554,15 +5467,6 @@ e_save_spell_languages (const GList *spell_dicts)
 }
 
 void
-e_msg_composer_is_from_new_message (EMsgComposer *composer,
-                                    gboolean is_from_new_message)
-{
-	g_return_if_fail (composer != NULL);
-
-	composer->priv->is_from_new_message = is_from_new_message;
-}
-
-void
 e_msg_composer_save_focused_widget (EMsgComposer *composer)
 {
 	GtkWidget *widget;
@@ -5572,8 +5476,8 @@ e_msg_composer_save_focused_widget (EMsgComposer *composer)
 	widget = gtk_window_get_focus (GTK_WINDOW (composer));
 	composer->priv->focused_entry = widget;
 
-	if (E_IS_HTML_EDITOR_VIEW (widget))
-		e_html_editor_view_save_selection (E_HTML_EDITOR_VIEW (widget));
+	if (E_IS_CONTENT_EDITOR (widget))
+		e_content_editor_selection_save (E_CONTENT_EDITOR (widget));
 
 	if (GTK_IS_EDITABLE (widget)) {
 		gtk_editable_get_selection_bounds (
@@ -5602,11 +5506,11 @@ e_msg_composer_restore_focus_on_composer (EMsgComposer *composer)
 			composer->priv->focused_entry_selection_end);
 	}
 
-	if (E_IS_HTML_EDITOR_VIEW (widget)) {
-		EHTMLEditorView *view = E_HTML_EDITOR_VIEW (widget);
-
-		e_html_editor_view_force_spell_check (view);
-		e_html_editor_view_restore_selection (view);
+	if (E_IS_CONTENT_EDITOR (widget)) {
+		EContentEditor *cnt_editor = E_CONTENT_EDITOR (widget);
+		/* FIXME WK2
+		e_html_editor_view_force_spell_check (view);*/
+		e_content_editor_selection_restore (cnt_editor);
 	}
 
 	composer->priv->focused_entry = NULL;

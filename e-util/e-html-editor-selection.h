@@ -26,7 +26,7 @@
 #define E_HTML_EDITOR_SELECTION_H
 
 #include <gtk/gtk.h>
-#include <e-util/e-util-enums.h>
+#include <e-util/e-content-editor-enums.h>
 
 /* Standard GObject macros */
 #define E_TYPE_HTML_EDITOR_SELECTION \
@@ -77,19 +77,12 @@ void		e_html_editor_selection_unblock_selection_changed
 						(EHTMLEditorSelection *selection);
 gint		e_html_editor_selection_get_word_wrap_length
 						(EHTMLEditorSelection *selection);
-gboolean	e_html_editor_selection_has_text
-						(EHTMLEditorSelection *selection);
-gchar *		e_html_editor_selection_get_caret_word
-						(EHTMLEditorSelection *selection);
-void		e_html_editor_selection_replace_caret_word
-						(EHTMLEditorSelection *selection,
-						 const gchar *replacement);
-EHTMLEditorSelectionAlignment
+EContentEditorAlignment
 		e_html_editor_selection_get_alignment
 						(EHTMLEditorSelection *selection);
 void		e_html_editor_selection_set_alignment
 						(EHTMLEditorSelection *selection,
-						 EHTMLEditorSelectionAlignment alignment);
+						 EContentEditorAlignment alignment);
 const gchar *	e_html_editor_selection_get_background_color
 						(EHTMLEditorSelection *selection);
 void		e_html_editor_selection_set_background_color
@@ -111,12 +104,12 @@ guint		e_html_editor_selection_get_font_size
 void		e_html_editor_selection_set_font_size
 						(EHTMLEditorSelection *selection,
 						 guint font_size);
-EHTMLEditorSelectionBlockFormat
+EContentEditorBlockFormat
 		e_html_editor_selection_get_block_format
 						(EHTMLEditorSelection *selection);
 void		e_html_editor_selection_set_block_format
 						(EHTMLEditorSelection *selection,
-						 EHTMLEditorSelectionBlockFormat format);
+						 EContentEditorBlockFormat format);
 gboolean	e_html_editor_selection_is_citation
 						(EHTMLEditorSelection *selection);
 gboolean	e_html_editor_selection_is_indented
@@ -165,21 +158,6 @@ void		e_html_editor_selection_create_link
 gboolean	e_html_editor_selection_is_collapsed
 						(EHTMLEditorSelection *selection);
 const gchar *	e_html_editor_selection_get_string
-						(EHTMLEditorSelection *selection);
-void		e_html_editor_selection_replace	(EHTMLEditorSelection *selection,
-						 const gchar *new_string);
-void		e_html_editor_selection_insert_as_text
-						(EHTMLEditorSelection *selection,
-						 const gchar *html_text);
-void		e_html_editor_selection_save	(EHTMLEditorSelection *selection);
-void		e_html_editor_selection_restore	(EHTMLEditorSelection *selection);
-void		e_html_editor_selection_move	(EHTMLEditorSelection *selection,
-						 gboolean forward,
-						 EHTMLEditorSelectionGranularity granularity);
-void		e_html_editor_selection_extend	(EHTMLEditorSelection *selection,
-						 gboolean forward,
-						 EHTMLEditorSelectionGranularity granularity);
-void		e_html_editor_selection_scroll_to_caret
 						(EHTMLEditorSelection *selection);
 G_END_DECLS
 

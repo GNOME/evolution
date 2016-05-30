@@ -225,20 +225,6 @@ e_html_editor_view_redo (EHTMLEditorView *view)
 
 
 static void
-html_editor_view_move_selection_on_point (GtkWidget *widget)
-{
-	gint x, y;
-	GdkDeviceManager *device_manager;
-	GdkDevice *pointer;
-
-	device_manager = gdk_display_get_device_manager (gtk_widget_get_display (widget));
-	pointer = gdk_device_manager_get_client_pointer (device_manager);
-	gdk_window_get_device_position (gtk_widget_get_window (widget), pointer, &x, &y, NULL);
-
-	e_html_editor_view_move_selection_on_point (E_HTML_EDITOR_VIEW (widget), x, y, TRUE);
-}
-
-static void
 set_web_extension_boolean_property (EHTMLEditorView *view,
                                     const gchar *property_name,
                                     gboolean value)
@@ -401,44 +387,6 @@ insert_and_convert_html_into_selection (EHTMLEditorView *view,
 			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view)),
 			text,
 			is_html),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL,
-		NULL);
-}
-
-static void
-clipboard_text_received_for_paste_as_text (GtkClipboard *clipboard,
-                                           const gchar *text,
-                                           EHTMLEditorView *view)
-{
-	insert_and_convert_html_into_selection (view, text, TRUE);
-}
-
-static void
-clipboard_text_received (GtkClipboard *clipboard,
-                         const gchar *text,
-                         EHTMLEditorView *view)
-{
-	GDBusProxy *web_extension;
-
-	g_return_if_fail (view != NULL);
-
-	if (!text || !*text)
-		return;
-
-	web_extension = e_html_editor_view_get_web_extension_proxy (view);
-	if (!web_extension)
-		return;
-
-	g_dbus_proxy_call (
-		web_extension,
-		"DOMQuoteAndInsertTextIntoSelection",
-		g_variant_new (
-			"(tsb)",
-			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view)),
-			text),
 		G_DBUS_CALL_FLAGS_NONE,
 		-1,
 		NULL,
@@ -695,143 +643,6 @@ html_editor_view_constructed (GObject *object)
 	webkit_web_view_load_html (WEBKIT_WEB_VIEW (object), "", "file://");
 }
 
-void
-e_html_editor_view_move_selection_on_point (EHTMLEditorView *view,
-                                            gint x,
-                                            gint y,
-                                            gboolean cancel_if_not_collapsed)
-{
-	GDBusProxy *web_extension;
-
-	g_return_if_fail (E_IS_HTML_EDITOR_VIEW (view));
-	g_return_if_fail (x >= 0);
-	g_return_if_fail (y >= 0);
-
-	web_extension = e_html_editor_view_get_web_extension_proxy (view);
-	if (!web_extension)
-		return;
-
-	g_dbus_proxy_call_sync (
-		web_extension,
-		"DOMMoveSelectionOnPoint",
-		g_variant_new (
-			"(tiib)",
-			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view)),
-			x,
-			y,
-			cancel_if_not_collapsed),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL);
-}
-
-static gboolean
-html_editor_view_button_press_event (GtkWidget *widget,
-                                     GdkEventButton *event)
-{
-	EHTMLEditorView *view;
-	gboolean event_handled;
-
-	view = E_HTML_EDITOR_VIEW (widget);
-
-	if (event->button == 2) {
-		/* Middle click paste */
-		html_editor_view_move_selection_on_point (widget);
-		/* Remember, that we are pasting primary clipboard to return
-		 * correct value in e_html_editor_view_is_pasting_content_from_itself. */
-		view->priv->pasting_primary_clipboard = TRUE;
-		html_editor_update_pasting_content_from_itself (view);
-		g_signal_emit (widget, signals[PASTE_PRIMARY_CLIPBOARD], 0);
-		event_handled = TRUE;
-	} else if (event->button == 3) {
-		html_editor_view_move_selection_on_point (widget);
-		g_signal_emit (
-			widget, signals[POPUP_EVENT],
-			0, event, &event_handled);
-	} else {
-		event_handled = FALSE;
-	}
-
-	if (event_handled)
-		return TRUE;
-
-	/* Chain up to parent's button_press_event() method. */
-	return GTK_WIDGET_CLASS (e_html_editor_view_parent_class)->
-		button_press_event (widget, event);
-}
-
-static void
-editor_view_mouse_target_changed_cb (EHTMLEditorView *view,
-                                     WebKitHitTestResult *hit_test_result,
-                                     guint modifiers,
-                                     gpointer user_data)
-{
-	/* Ctrl + Left Click on link opens it. */
-	if (webkit_hit_test_result_context_is_link (hit_test_result) &&
-	    (modifiers & GDK_CONTROL_MASK)) {
-		GdkScreen *screen;
-		const gchar *uri;
-		GtkWidget *toplevel;
-
-		toplevel = gtk_widget_get_toplevel (GTK_WIDGET (view));
-		screen = gtk_window_get_screen (GTK_WINDOW (toplevel));
-
-		uri = webkit_hit_test_result_get_link_uri (hit_test_result);
-
-		gtk_show_uri (screen, uri, GDK_CURRENT_TIME, NULL);
-	}
-}
-
-static gboolean
-html_editor_view_key_press_event (GtkWidget *widget,
-                                  GdkEventKey *event)
-{
-	if (event->keyval == GDK_KEY_Menu) {
-		gboolean event_handled;
-
-		html_editor_view_move_selection_on_point (widget);
-		g_signal_emit (
-			widget, signals[POPUP_EVENT],
-			0, event, &event_handled);
-
-		return event_handled;
-	}
-
-	/* Chain up to parent's key_press_event() method. */
-	return GTK_WIDGET_CLASS (e_html_editor_view_parent_class)->key_press_event (widget, event);
-}
-
-static void
-html_editor_view_paste_as_text (EHTMLEditorView *view)
-{
-	GtkClipboard *clipboard;
-
-	clipboard = gtk_clipboard_get_for_display (
-		gdk_display_get_default (),
-		GDK_SELECTION_CLIPBOARD);
-
-	gtk_clipboard_request_text (
-		clipboard,
-		(GtkClipboardTextReceivedFunc) clipboard_text_received_for_paste_as_text,
-		view);
-}
-
-static void
-html_editor_view_paste_clipboard_quoted (EHTMLEditorView *view)
-{
-	GtkClipboard *clipboard;
-
-	clipboard = gtk_clipboard_get_for_display (
-		gdk_display_get_default (),
-		GDK_SELECTION_CLIPBOARD);
-
-	gtk_clipboard_request_text (
-		clipboard,
-		(GtkClipboardTextReceivedFunc) clipboard_text_received,
-		view);
-}
-
 static void
 web_extension_proxy_created_cb (GDBusProxy *proxy,
                                 GAsyncResult *result,
@@ -851,7 +662,6 @@ web_extension_proxy_created_cb (GDBusProxy *proxy,
 
 	set_web_extension_boolean_property (view, "MagicSmileys", view->priv->magic_smileys);
 	set_web_extension_boolean_property (view, "MagicLinks", view->priv->magic_links);
-	set_web_extension_boolean_property (view, "InlineSpelling", view->priv->inline_spelling);
 
 	if (view->priv->inline_spelling)
 		e_html_editor_view_force_spell_check (view);
@@ -1081,7 +891,6 @@ static void
 e_html_editor_view_class_init (EHTMLEditorViewClass *class)
 {
 	GObjectClass *object_class;
-	GtkWidgetClass *widget_class;
 
 	g_type_class_add_private (class, sizeof (EHTMLEditorViewPrivate));
 
@@ -1093,11 +902,6 @@ e_html_editor_view_class_init (EHTMLEditorViewClass *class)
 	object_class->finalize = html_editor_view_finalize;
 	object_class->constructed = html_editor_view_constructed;
 
-	widget_class = GTK_WIDGET_CLASS (class);
-	widget_class->button_press_event = html_editor_view_button_press_event;
-	widget_class->key_press_event = html_editor_view_key_press_event;
-
-	class->paste_clipboard_quoted = html_editor_view_paste_clipboard_quoted;
 
 	/**
 	 * EHTMLEditorView:can-copy
@@ -1550,7 +1354,6 @@ html_editor_view_load_changed_cb (EHTMLEditorView *view,
 	}
 
 	view->priv->reload_in_progress = FALSE;
-
 }
 
 /**
@@ -1690,9 +1493,6 @@ e_html_editor_view_init (EHTMLEditorView *view)
 	g_signal_connect (
 		view, "load-changed",
 		G_CALLBACK (html_editor_view_load_changed_cb), NULL);
-	g_signal_connect (
-		view, "mouse-target-changed",
-		G_CALLBACK (editor_view_mouse_target_changed_cb), NULL);
 
 	view->priv->selection = g_object_new (
 		E_TYPE_HTML_EDITOR_SELECTION,
@@ -1854,8 +1654,8 @@ e_html_editor_view_set_magic_links (EHTMLEditorView *view,
 }
 
 void
-e_html_editor_view_insert_smiley (EHTMLEditorView *view,
-                                  EEmoticon *emoticon)
+e_html_editor_view_insert_emoticon (EHTMLEditorView *view,
+                                    EEmoticon *emoticon)
 {
 	GDBusProxy *web_extension;
 
@@ -2402,39 +2202,6 @@ e_html_editor_view_set_text_plain (EHTMLEditorView *view,
 		NULL,
 		NULL,
 		NULL);
-}
-
-/**
- * e_html_editor_view_paste_as_text:
- * @view: an #EHTMLEditorView
- *
- * Pastes current content of clipboard into the editor without formatting
- */
-void
-e_html_editor_view_paste_as_text (EHTMLEditorView *view)
-{
-	g_return_if_fail (E_IS_HTML_EDITOR_VIEW (view));
-
-	html_editor_view_paste_as_text (view);
-}
-
-/**
- * e_html_editor_view_paste_clipboard_quoted:
- * @view: an #EHTMLEditorView
- *
- * Pastes current content of clipboard into the editor as quoted text
- */
-void
-e_html_editor_view_paste_clipboard_quoted (EHTMLEditorView *view)
-{
-	EHTMLEditorViewClass *class;
-
-	g_return_if_fail (E_IS_HTML_EDITOR_VIEW (view));
-
-	class = E_HTML_EDITOR_VIEW_GET_CLASS (view);
-	g_return_if_fail (class->paste_clipboard_quoted != NULL);
-
-	class->paste_clipboard_quoted (view);
 }
 
 void
@@ -3038,320 +2805,6 @@ e_html_editor_view_set_is_editting_message (EHTMLEditorView *view,
 	view->priv->is_editting_message = value;
 }
 
-void
-e_html_editor_view_scroll_to_caret (EHTMLEditorView *view)
-{
-	e_html_editor_view_call_simple_extension_function (view, "DOMScrollToCaret");
-}
-
-/************************* image_load_and_insert_async() *************************/
-
-typedef struct _LoadContext LoadContext;
-
-struct _LoadContext {
-	EHTMLEditorView *view;
-	GInputStream *input_stream;
-	GOutputStream *output_stream;
-	GFile *file;
-	GFileInfo *file_info;
-	goffset total_num_bytes;
-	gssize bytes_read;
-	const gchar *content_type;
-	const gchar *filename;
-	const gchar *selector;
-	gchar buffer[4096];
-};
-
-/* Forward Declaration */
-static void
-image_load_stream_read_cb (GInputStream *input_stream,
-                           GAsyncResult *result,
-                           LoadContext *load_context);
-
-static LoadContext *
-image_load_context_new (EHTMLEditorView *view)
-{
-	LoadContext *load_context;
-
-	load_context = g_slice_new0 (LoadContext);
-	load_context->view = view;
-
-	return load_context;
-}
-
-static void
-image_load_context_free (LoadContext *load_context)
-{
-	if (load_context->input_stream != NULL)
-		g_object_unref (load_context->input_stream);
-
-	if (load_context->output_stream != NULL)
-		g_object_unref (load_context->output_stream);
-
-	if (load_context->file_info != NULL)
-		g_object_unref (load_context->file_info);
-
-	if (load_context->file != NULL)
-		g_object_unref (load_context->file);
-
-	g_slice_free (LoadContext, load_context);
-}
-
-static void
-replace_base64_image_src (EHTMLEditorView *view,
-                          const gchar *selector,
-                          const gchar *base64_content,
-                          const gchar *filename,
-                          const gchar *uri)
-{
-	GDBusProxy *web_extension;
-
-	e_html_editor_view_set_changed (view, TRUE);
-	web_extension = e_html_editor_view_get_web_extension_proxy (view);
-	if (!web_extension)
-		return;
-
-	g_dbus_proxy_call (
-		web_extension,
-		"DOMReplaceBase64ImageSrc",
-		g_variant_new (
-			"(tssss)",
-			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view)),
-			selector,
-			base64_content,
-			filename,
-			uri),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL,
-		NULL);
-}
-
-static void
-insert_base64_image (EHTMLEditorView *view,
-                     const gchar *base64_content,
-                     const gchar *filename,
-                     const gchar *uri)
-{
-	GDBusProxy *web_extension;
-
-	e_html_editor_view_set_changed (view, TRUE);
-	web_extension = e_html_editor_view_get_web_extension_proxy (view);
-	if (!web_extension)
-		return;
-
-	g_dbus_proxy_call (
-		web_extension,
-		"DOMSelectionInsertBase64Image",
-		g_variant_new (
-			"(tsss)",
-			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view)),
-			base64_content,
-			filename,
-			uri),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL,
-		NULL);
-}
-
-static void
-image_load_finish (LoadContext *load_context)
-{
-	EHTMLEditorView *view;
-	GMemoryOutputStream *output_stream;
-	const gchar *selector;
-	gchar *base64_encoded, *mime_type, *output, *uri;
-	gsize size;
-	gpointer data;
-
-	output_stream = G_MEMORY_OUTPUT_STREAM (load_context->output_stream);
-
-	view = load_context->view;
-
-	mime_type = g_content_type_get_mime_type (load_context->content_type);
-
-	data = g_memory_output_stream_get_data (output_stream);
-	size = g_memory_output_stream_get_data_size (output_stream);
-	uri = g_file_get_uri (load_context->file);
-
-	base64_encoded = g_base64_encode ((const guchar *) data, size);
-	output = g_strconcat ("data:", mime_type, ";base64,", base64_encoded, NULL);
-	selector = load_context->selector;
-	if (selector && *selector)
-		replace_base64_image_src (
-			view, selector, output, load_context->filename, uri);
-	else
-		insert_base64_image (view, output, load_context->filename, uri);
-
-	g_free (base64_encoded);
-	g_free (output);
-	g_free (mime_type);
-	g_free (uri);
-
-	image_load_context_free (load_context);
-}
-
-static void
-image_load_write_cb (GOutputStream *output_stream,
-                     GAsyncResult *result,
-                     LoadContext *load_context)
-{
-	GInputStream *input_stream;
-	gssize bytes_written;
-	GError *error = NULL;
-
-	bytes_written = g_output_stream_write_finish (
-		output_stream, result, &error);
-
-	if (error) {
-		image_load_context_free (load_context);
-		return;
-	}
-
-	input_stream = load_context->input_stream;
-
-	if (bytes_written < load_context->bytes_read) {
-		g_memmove (
-			load_context->buffer,
-			load_context->buffer + bytes_written,
-			load_context->bytes_read - bytes_written);
-		load_context->bytes_read -= bytes_written;
-
-		g_output_stream_write_async (
-			output_stream,
-			load_context->buffer,
-			load_context->bytes_read,
-			G_PRIORITY_DEFAULT, NULL,
-			(GAsyncReadyCallback) image_load_write_cb,
-			load_context);
-	} else
-		g_input_stream_read_async (
-			input_stream,
-			load_context->buffer,
-			sizeof (load_context->buffer),
-			G_PRIORITY_DEFAULT, NULL,
-			(GAsyncReadyCallback) image_load_stream_read_cb,
-			load_context);
-}
-
-static void
-image_load_stream_read_cb (GInputStream *input_stream,
-                           GAsyncResult *result,
-                           LoadContext *load_context)
-{
-	GOutputStream *output_stream;
-	gssize bytes_read;
-	GError *error = NULL;
-
-	bytes_read = g_input_stream_read_finish (
-		input_stream, result, &error);
-
-	if (error) {
-		image_load_context_free (load_context);
-		return;
-	}
-
-	if (bytes_read == 0) {
-		image_load_finish (load_context);
-		return;
-	}
-
-	output_stream = load_context->output_stream;
-	load_context->bytes_read = bytes_read;
-
-	g_output_stream_write_async (
-		output_stream,
-		load_context->buffer,
-		load_context->bytes_read,
-		G_PRIORITY_DEFAULT, NULL,
-		(GAsyncReadyCallback) image_load_write_cb,
-		load_context);
-}
-
-static void
-image_load_file_read_cb (GFile *file,
-                         GAsyncResult *result,
-                         LoadContext *load_context)
-{
-	GFileInputStream *input_stream;
-	GOutputStream *output_stream;
-	GError *error = NULL;
-
-	/* Input stream might be NULL, so don't use cast macro. */
-	input_stream = g_file_read_finish (file, result, &error);
-	load_context->input_stream = (GInputStream *) input_stream;
-
-	if (error) {
-		image_load_context_free (load_context);
-		return;
-	}
-
-	/* Load the contents into a GMemoryOutputStream. */
-	output_stream = g_memory_output_stream_new (
-		NULL, 0, g_realloc, g_free);
-
-	load_context->output_stream = output_stream;
-
-	g_input_stream_read_async (
-		load_context->input_stream,
-		load_context->buffer,
-		sizeof (load_context->buffer),
-		G_PRIORITY_DEFAULT, NULL,
-		(GAsyncReadyCallback) image_load_stream_read_cb,
-		load_context);
-}
-
-static void
-image_load_query_info_cb (GFile *file,
-                          GAsyncResult *result,
-                          LoadContext *load_context)
-{
-	GFileInfo *file_info;
-	GError *error = NULL;
-
-	file_info = g_file_query_info_finish (file, result, &error);
-	if (error) {
-		image_load_context_free (load_context);
-		return;
-	}
-
-	load_context->content_type = g_file_info_get_content_type (file_info);
-	load_context->total_num_bytes = g_file_info_get_size (file_info);
-	load_context->filename = g_file_info_get_name (file_info);
-
-	g_file_read_async (
-		file, G_PRIORITY_DEFAULT,
-		NULL, (GAsyncReadyCallback)
-		image_load_file_read_cb, load_context);
-}
-
-static void
-image_load_and_insert_async (EHTMLEditorView *view,
-                             const gchar *selector,
-                             const gchar *uri)
-{
-	LoadContext *load_context;
-	GFile *file;
-
-	g_return_if_fail (uri && *uri);
-
-	file = g_file_new_for_uri (uri);
-	g_return_if_fail (file != NULL);
-
-	load_context = image_load_context_new (view);
-	load_context->file = file;
-	if (selector && *selector)
-		load_context->selector = g_strdup (selector);
-
-	g_file_query_info_async (
-		file, "standard::*",
-		G_FILE_QUERY_INFO_NONE,G_PRIORITY_DEFAULT,
-		NULL, (GAsyncReadyCallback)
-		image_load_query_info_cb, load_context);
-}
 
 /**
  * e_html_editor_selection_insert_image:
@@ -3365,29 +2818,6 @@ void
 e_html_editor_view_insert_image (EHTMLEditorView *view,
                                  const gchar *image_uri)
 {
-	g_return_if_fail (E_IS_HTML_EDITOR_VIEW (view));
-	g_return_if_fail (image_uri != NULL);
-
-	if (e_html_editor_view_get_html_mode (view)) {
-		if (strstr (image_uri, ";base64,")) {
-			if (g_str_has_prefix (image_uri, "data:"))
-				insert_base64_image (view, image_uri, "", "");
-			if (strstr (image_uri, ";data")) {
-				const gchar *base64_data = strstr (image_uri, ";") + 1;
-				gchar *filename;
-				glong filename_length;
-
-				filename_length =
-					g_utf8_strlen (image_uri, -1) -
-					g_utf8_strlen (base64_data, -1) - 1;
-				filename = g_strndup (image_uri, filename_length);
-
-				insert_base64_image (view, base64_data, filename, "");
-				g_free (filename);
-			}
-		} else
-			image_load_and_insert_async (view, NULL, image_uri);
-	}
 }
 
 /**
@@ -3405,36 +2835,6 @@ e_html_editor_view_replace_image_src (EHTMLEditorView *view,
                                       const gchar *selector,
                                       const gchar *image_uri)
 {
-	g_return_if_fail (E_IS_HTML_EDITOR_VIEW (view));
-	g_return_if_fail (image_uri != NULL);
-	g_return_if_fail (selector && *selector);
-
-	if (strstr (image_uri, ";base64,")) {
-		if (g_str_has_prefix (image_uri, "data:"))
-			replace_base64_image_src (
-				view, selector, image_uri, "", "");
-		if (strstr (image_uri, ";data")) {
-			const gchar *base64_data = strstr (image_uri, ";") + 1;
-			gchar *filename;
-			glong filename_length;
-
-			filename_length =
-				g_utf8_strlen (image_uri, -1) -
-				g_utf8_strlen (base64_data, -1) - 1;
-			filename = g_strndup (image_uri, filename_length);
-
-			replace_base64_image_src (
-				view, selector, base64_data, filename, "");
-			g_free (filename);
-		}
-	} else
-		image_load_and_insert_async (view, selector, image_uri);
-}
-
-void
-e_html_editor_view_check_magic_links (EHTMLEditorView *view)
-{
-	e_html_editor_view_call_simple_extension_function (view, "DOMCheckMagicLinks");
 }
 
 void
@@ -3447,36 +2847,6 @@ void
 e_html_editor_view_save_selection (EHTMLEditorView *view)
 {
 	e_html_editor_view_call_simple_extension_function (view, "DOMSaveSelection");
-}
-
-gboolean
-e_html_editor_view_is_selection_saved (EHTMLEditorView *view)
-{
-	GVariant *result;
-	gboolean selection_saved = FALSE;
-
-	g_return_val_if_fail (E_IS_HTML_EDITOR_VIEW (view), FALSE);
-
-	if (!view->priv->web_extension)
-		return FALSE;
-
-	result = g_dbus_proxy_call_sync (
-		view->priv->web_extension,
-		"DOMIsSelectionSaved",
-		g_variant_new (
-			"(t)",
-			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view))),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL);
-
-	if (result) {
-		g_variant_get (result, "(b)", &selection_saved);
-		g_variant_unref (result);
-	}
-
-	return selection_saved;
 }
 
 /* FIXME WK2

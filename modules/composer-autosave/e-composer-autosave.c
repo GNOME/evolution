@@ -120,15 +120,15 @@ static void
 composer_autosave_changed_cb (EComposerAutosave *autosave)
 {
 	EHTMLEditor *editor;
-	EHTMLEditorView *view;
+	EContentEditor *cnt_editor;
 	EExtensible *extensible;
 
 	extensible = e_extension_get_extensible (E_EXTENSION (autosave));
 
 	editor = e_msg_composer_get_editor (E_MSG_COMPOSER (extensible));
-	view = e_html_editor_get_view (editor);
+	cnt_editor = e_html_editor_get_content_editor (editor);
 
-	if (autosave->priv->timeout_id == 0 && e_html_editor_view_get_changed (view)) {
+	if (autosave->priv->timeout_id == 0 && e_content_editor_get_changed (cnt_editor)) {
 		autosave->priv->timeout_id = e_named_timeout_add_seconds (
 			AUTOSAVE_INTERVAL,
 			composer_autosave_timeout_cb, autosave);
@@ -160,7 +160,7 @@ static void
 composer_autosave_constructed (GObject *object)
 {
 	EHTMLEditor *editor;
-	EHTMLEditorView *view;
+	EContentEditor *cnt_editor;
 	EExtensible *extensible;
 
 	/* Chain up to parent's constructed() method. */
@@ -168,12 +168,12 @@ composer_autosave_constructed (GObject *object)
 
 	extensible = e_extension_get_extensible (E_EXTENSION (object));
 	editor = e_msg_composer_get_editor (E_MSG_COMPOSER (extensible));
-	view = e_html_editor_get_view (editor);
+	cnt_editor = e_html_editor_get_content_editor (editor);
 
 	/* Do not use e_signal_connect_notify_swapped() here,
 	   this module relies on "false" change notifications. */
 	g_signal_connect_swapped (
-		view, "notify::changed",
+		cnt_editor, "notify::changed",
 		G_CALLBACK (composer_autosave_changed_cb), object);
 }
 

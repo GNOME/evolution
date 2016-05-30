@@ -28,30 +28,10 @@ gchar *
 dom_get_active_signature_uid (WebKitDOMDocument *document)
 {
 	gchar *uid = NULL;
-	gulong ii, length;
-	WebKitDOMHTMLCollection *nodes;
+	WebKitDOMElement *element;
 
-	nodes = webkit_dom_document_get_elements_by_class_name_as_html_collection (
-		document, "-x-evo-signature");
-	length = webkit_dom_html_collection_get_length (nodes);
-	for (ii = 0; ii < length; ii++) {
-		WebKitDOMNode *node;
-		gchar *id;
-
-		node = webkit_dom_html_collection_item (nodes, ii);
-		id = webkit_dom_element_get_id (WEBKIT_DOM_ELEMENT (node));
-		if (id && (strlen (id) == 1) && (*id == '1')) {
-			uid = webkit_dom_element_get_attribute (
-				WEBKIT_DOM_ELEMENT (node), "name");
-			g_free (id);
-			g_object_unref (node);
-			break;
-		}
-		g_free (id);
-		g_object_unref (node);
-	}
-
-	g_object_unref (nodes);
+	if ((element = webkit_dom_document_query_selector (document, ".-x-evo-signature[id]", NULL)))
+		uid = webkit_dom_element_get_id (element);
 
 	return uid;
 }

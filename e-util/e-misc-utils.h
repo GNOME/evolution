@@ -289,6 +289,8 @@ guint		e_util_normalize_font_size	(GtkWidget *widget,
 						 gdouble font_size);
 void		e_util_init_main_thread		(GThread *thread);
 gboolean	e_util_is_main_thread		(GThread *thread);
+gchar *		e_util_save_image_from_clipboard
+						(GtkClipboard *clipboard);
 
 G_END_DECLS
 

@@ -495,11 +495,11 @@ mail_shell_backend_window_added_cb (GtkApplication *application,
 
 	/* This applies to both the composer and signature editor. */
 	if (editor != NULL) {
-		EHTMLEditorView *view;
+		EContentEditor *cnt_editor;
 		GSettings *settings;
 		gboolean active = TRUE;
 
-		view = e_html_editor_get_view (editor);
+		cnt_editor = e_html_editor_get_content_editor (editor);
 
 		settings = e_util_ref_settings ("org.gnome.evolution.mail");
 
@@ -508,7 +508,7 @@ mail_shell_backend_window_added_cb (GtkApplication *application,
 
 		g_object_unref (settings);
 
-		e_html_editor_view_set_html_mode (view, active);
+		e_content_editor_set_html_mode (cnt_editor, active);
 	}
 
 	if (E_IS_MSG_COMPOSER (window)) {

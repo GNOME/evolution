@@ -107,294 +107,153 @@ static  void
 html_editor_cell_dialog_set_valign (EHTMLEditorCellDialog *dialog)
 {
 	EHTMLEditor *editor;
-	EHTMLEditorView *view;
-	GDBusProxy *web_extension;
+	EContentEditor *cnt_editor;
 
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
-	view = e_html_editor_get_view (editor);
-	web_extension = e_html_editor_view_get_web_extension_proxy (view);
-	if (!web_extension)
-		return;
+	cnt_editor = e_html_editor_get_content_editor (editor);
 
-	g_dbus_proxy_call (
-		web_extension,
-		"EHTMLEditorCellDialogSetElementVAlign",
-		g_variant_new (
-			"(tsu)",
-			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view)),
-			gtk_combo_box_get_active_id (
-				GTK_COMBO_BOX (dialog->priv->valign_combo)),
-			dialog->priv->scope),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL,
-		NULL);
+	e_content_editor_cell_set_v_align (
+		cnt_editor,
+		gtk_combo_box_get_active_id (
+			GTK_COMBO_BOX (dialog->priv->valign_combo)),
+		dialog->priv->scope);
 }
 
 static void
 html_editor_cell_dialog_set_halign (EHTMLEditorCellDialog *dialog)
 {
 	EHTMLEditor *editor;
-	EHTMLEditorView *view;
-	GDBusProxy *web_extension;
+	EContentEditor *cnt_editor;
 
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
-	view = e_html_editor_get_view (editor);
-	web_extension = e_html_editor_view_get_web_extension_proxy (view);
-	if (!web_extension)
-		return;
+	cnt_editor = e_html_editor_get_content_editor (editor);
 
-	g_dbus_proxy_call (
-		web_extension,
-		"EHTMLEditorCellDialogSetElementAlign",
-		g_variant_new (
-			"(tsu)",
-			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view)),
-			gtk_combo_box_get_active_id (
-				GTK_COMBO_BOX (dialog->priv->halign_combo)),
-			dialog->priv->scope),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL,
-		NULL);
+	e_content_editor_cell_set_align (
+		cnt_editor,
+		gtk_combo_box_get_active_id (
+			GTK_COMBO_BOX (dialog->priv->halign_combo)),
+		dialog->priv->scope);
 }
 
 static void
 html_editor_cell_dialog_set_wrap_text (EHTMLEditorCellDialog *dialog)
 {
 	EHTMLEditor *editor;
-	EHTMLEditorView *view;
-	GDBusProxy *web_extension;
+	EContentEditor *cnt_editor;
 
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
-	view = e_html_editor_get_view (editor);
-	web_extension = e_html_editor_view_get_web_extension_proxy (view);
-	if (!web_extension)
-		return;
+	cnt_editor = e_html_editor_get_content_editor (editor);
 
-	g_dbus_proxy_call (
-		web_extension,
-		"EHTMLEditorCellDialogSetElementNoWrap",
-		g_variant_new (
-			"(tbu)",
-			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view)),
-			!gtk_combo_box_get_active (
-				GTK_COMBO_BOX (dialog->priv->wrap_text_check)),
-			dialog->priv->scope),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL,
-		NULL);
+	e_content_editor_cell_set_wrap (
+		cnt_editor,
+		gtk_combo_box_get_active (
+			GTK_COMBO_BOX (dialog->priv->wrap_text_check)),
+		dialog->priv->scope);
 }
 
 static void
 html_editor_cell_dialog_set_header_style (EHTMLEditorCellDialog *dialog)
 {
 	EHTMLEditor *editor;
-	EHTMLEditorView *view;
-	GDBusProxy *web_extension;
+	EContentEditor *cnt_editor;
 
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
-	view = e_html_editor_get_view (editor);
-	web_extension = e_html_editor_view_get_web_extension_proxy (view);
-	if (!web_extension)
-		return;
+	cnt_editor = e_html_editor_get_content_editor (editor);
 
-	g_dbus_proxy_call (
-		web_extension,
-		"EHTMLEditorCellDialogSetElementHeaderStyle",
-		g_variant_new (
-			"(tbu)",
-			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view)),
-			gtk_toggle_button_get_active (
-				GTK_TOGGLE_BUTTON (
-					dialog->priv->header_style_check)),
-			dialog->priv->scope),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL,
-		NULL);
+	e_content_editor_cell_set_header_style (
+		cnt_editor,
+		gtk_toggle_button_get_active (
+			GTK_TOGGLE_BUTTON (dialog->priv->header_style_check)),
+		dialog->priv->scope);
 }
 
 static void
 html_editor_cell_dialog_set_width (EHTMLEditorCellDialog *dialog)
 {
 	EHTMLEditor *editor;
-	EHTMLEditorView *view;
-	GDBusProxy *web_extension;
-	gchar *width;
+	EContentEditor *cnt_editor;
 
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
-	view = e_html_editor_get_view (editor);
-	web_extension = e_html_editor_view_get_web_extension_proxy (view);
-	if (!web_extension)
-		return;
+	cnt_editor = e_html_editor_get_content_editor (editor);
 
-	if (!gtk_toggle_button_get_active (
+	if (gtk_toggle_button_get_active (
 		GTK_TOGGLE_BUTTON (dialog->priv->width_check))) {
 
-		width = g_strdup ("auto");
-	} else {
-
-		width = g_strdup_printf (
-			"%d%s",
+		e_content_editor_cell_set_width (
+			cnt_editor,
 			gtk_spin_button_get_value_as_int (
 				GTK_SPIN_BUTTON (dialog->priv->width_edit)),
-			((gtk_combo_box_get_active (
+			(gtk_combo_box_get_active (
 				GTK_COMBO_BOX (dialog->priv->width_units)) == 0) ?
-					"px" : "%"));
-	}
-
-	g_dbus_proxy_call (
-		web_extension,
-		"EHTMLEditorCellDialogSetElementWidth",
-		g_variant_new (
-			"(tsu)",
-			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view)),
-			width,
-			dialog->priv->scope),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL,
-		NULL);
-
-	g_free (width);
+					E_CONTENT_EDITOR_UNIT_PIXEL :
+					E_CONTENT_EDITOR_UNIT_PERCENTAGE,
+			dialog->priv->scope);
+	} else
+		e_content_editor_cell_set_width (
+			cnt_editor, 0, E_CONTENT_EDITOR_UNIT_AUTO, dialog->priv->scope);
 }
 
 static void
 html_editor_cell_dialog_set_column_span (EHTMLEditorCellDialog *dialog)
 {
 	EHTMLEditor *editor;
-	EHTMLEditorView *view;
-	GDBusProxy *web_extension;
+	EContentEditor *cnt_editor;
 
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
-	view = e_html_editor_get_view (editor);
-	web_extension = e_html_editor_view_get_web_extension_proxy (view);
-	if (!web_extension)
-		return;
+	cnt_editor = e_html_editor_get_content_editor (editor);
 
-	g_dbus_proxy_call (
-		web_extension,
-		"EHTMLEditorCellDialogSetElementColSpan",
-		g_variant_new (
-			"(tiu)",
-			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view)),
-			gtk_spin_button_get_value_as_int (
-				GTK_SPIN_BUTTON (dialog->priv->col_span_edit)),
-			dialog->priv->scope),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL,
-		NULL);
+	e_content_editor_cell_set_col_span (
+		cnt_editor,
+		gtk_spin_button_get_value_as_int (
+			GTK_SPIN_BUTTON (dialog->priv->col_span_edit)),
+		dialog->priv->scope);
 }
 
 static void
 html_editor_cell_dialog_set_row_span (EHTMLEditorCellDialog *dialog)
 {
 	EHTMLEditor *editor;
-	EHTMLEditorView *view;
-	GDBusProxy *web_extension;
+	EContentEditor *cnt_editor;
 
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
-	view = e_html_editor_get_view (editor);
-	web_extension = e_html_editor_view_get_web_extension_proxy (view);
-	if (!web_extension)
-		return;
+	cnt_editor = e_html_editor_get_content_editor (editor);
 
-	g_dbus_proxy_call (
-		web_extension,
-		"EHTMLEditorCellDialogSetElementRowSpan",
-		g_variant_new (
-			"(tiu)",
-			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view)),
-			gtk_spin_button_get_value_as_int (
-				GTK_SPIN_BUTTON (dialog->priv->row_span_edit)),
-			dialog->priv->scope),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL,
-		NULL);
+	e_content_editor_cell_set_row_span (
+		cnt_editor,
+		gtk_spin_button_get_value_as_int (
+			GTK_SPIN_BUTTON (dialog->priv->row_span_edit)),
+		dialog->priv->scope);
 }
 
 static void
 html_editor_cell_dialog_set_background_color (EHTMLEditorCellDialog *dialog)
 {
 	EHTMLEditor *editor;
-	EHTMLEditorView *view;
-	GDBusProxy *web_extension;
-	gchar *color;
+	EContentEditor *cnt_editor;
 	GdkRGBA rgba;
 
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
-	view = e_html_editor_get_view (editor);
-	web_extension = e_html_editor_view_get_web_extension_proxy (view);
-	if (!web_extension)
-		return;
+	cnt_editor = e_html_editor_get_content_editor (editor);
 
 	e_color_combo_get_current_color (
 		E_COLOR_COMBO (dialog->priv->background_color_picker), &rgba);
-	if (rgba.alpha != 0.0)
-		color = g_strdup_printf ("#%06x", e_rgba_to_value (&rgba));
-	else
-		color = g_strdup ("");
-
-	g_dbus_proxy_call (
-		web_extension,
-		"EHTMLEditorCellDialogSetElementBgColor",
-		g_variant_new (
-			"(tsu)",
-			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view)),
-			color,
-			dialog->priv->scope),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL,
-		NULL);
-
-	g_free (color);
+	e_content_editor_cell_set_background_color (cnt_editor, &rgba, dialog->priv->scope);
 }
 
 static void
 html_editor_cell_dialog_set_background_image (EHTMLEditorCellDialog *dialog)
 {
 	EHTMLEditor *editor;
-	EHTMLEditorView *view;
-	GDBusProxy *web_extension;
+	EContentEditor *cnt_editor;
 	gchar *uri;
 
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
-	view = e_html_editor_get_view (editor);
-	web_extension = e_html_editor_view_get_web_extension_proxy (view);
-	if (!web_extension)
-		return;
+	cnt_editor = e_html_editor_get_content_editor (editor);
 
 	uri = gtk_file_chooser_get_uri (
 		GTK_FILE_CHOOSER (dialog->priv->background_image_chooser));
 
-	if (uri && *uri)
-		g_dbus_proxy_call (
-			web_extension,
-			"RemoveImageAttributesFromElementBySelector",
-			g_variant_new (
-				"(ts)",
-				webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view)),
-				"#-x-evo-current-cell"),
-			G_DBUS_CALL_FLAGS_NONE,
-			-1,
-			NULL,
-			NULL,
-			NULL);
-	else
-		e_html_editor_view_replace_image_src (view, "#-x-evo-current-cell", uri);
+	e_content_editor_cell_set_background_image_uri (cnt_editor, uri);
 
 	gtk_widget_set_sensitive (dialog->priv->remove_image_button, uri && *uri);
 
@@ -405,27 +264,12 @@ static void
 html_editor_cell_dialog_remove_image (EHTMLEditorCellDialog *dialog)
 {
 	EHTMLEditor *editor;
-	EHTMLEditorView *view;
-	GDBusProxy *web_extension;
+	EContentEditor *cnt_editor;
 
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
-	view = e_html_editor_get_view (editor);
-	web_extension = e_html_editor_view_get_web_extension_proxy (view);
-	if (!web_extension)
-		return;
+	cnt_editor = e_html_editor_get_content_editor (editor);
 
-	g_dbus_proxy_call (
-		web_extension,
-		"RemoveImageAttributesFromElementBySelector",
-		g_variant_new (
-			"(ts)",
-			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view)),
-			"#-x-evo-current-cell"),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL,
-		NULL);
+	e_content_editor_cell_set_background_image_uri (cnt_editor, NULL);
 
 	gtk_file_chooser_unselect_all (
 		GTK_FILE_CHOOSER (dialog->priv->background_image_chooser));
@@ -437,237 +281,72 @@ static void
 html_editor_cell_dialog_show (GtkWidget *widget)
 {
 	EHTMLEditor *editor;
-	EHTMLEditorView *view;
+	EContentEditor *cnt_editor;
+	EContentEditorUnit unit;
 	EHTMLEditorCellDialog *dialog;
-	GDBusProxy *web_extension;
-	GVariant *result;
-	GdkRGBA color;
+	GdkRGBA rgba;
+	gchar *alignment, *uri;
+	gint width;
 
 	dialog = E_HTML_EDITOR_CELL_DIALOG (widget);
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
-	view = e_html_editor_get_view (editor);
-	web_extension = e_html_editor_view_get_web_extension_proxy (view);
-	if (!web_extension)
-		return;
+	cnt_editor = e_html_editor_get_content_editor (editor);
 
-	g_dbus_proxy_call (
-		web_extension,
-		"EHTMLEditorCellDialogMarkCurrentCellElement",
-		g_variant_new (
-			"(ts)",
-			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view)),
-			"-x-evo-table-cell"),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL,
-		NULL);
+	e_content_editor_on_cell_dialog_open (cnt_editor);
 
 	gtk_toggle_button_set_active (
 		GTK_TOGGLE_BUTTON (dialog->priv->scope_cell_button), TRUE);
 
-	result = e_html_editor_view_get_element_attribute (
-		view, "#-x-evo-current-cell", "align");
+	alignment = e_content_editor_cell_get_align (cnt_editor);
+	gtk_combo_box_set_active_id (
+		GTK_COMBO_BOX (dialog->priv->halign_combo),
+		(alignment && *alignment) ? alignment : "left");
+	g_free (alignment);
 
-	if (result) {
-		const gchar *align;
+	alignment = e_content_editor_cell_get_v_align (cnt_editor);
+	gtk_combo_box_set_active_id (
+		GTK_COMBO_BOX (dialog->priv->valign_combo),
+		(alignment && *alignment) ? alignment : "middle");
+	g_free (alignment);
 
-		g_variant_get (result, "(&s)", &align);
-		gtk_combo_box_set_active_id (
-			GTK_COMBO_BOX (dialog->priv->halign_combo),
-			(align && *align) ? align : "left");
-		g_variant_unref (result);
-	}
+	gtk_toggle_button_set_active (
+		GTK_TOGGLE_BUTTON (dialog->priv->wrap_text_check),
+		e_content_editor_cell_get_wrap (cnt_editor));
 
-	result = e_html_editor_view_get_element_attribute (
-		view, "#-x-evo-current-cell", "valign");
+	gtk_toggle_button_set_active (
+		GTK_TOGGLE_BUTTON (dialog->priv->header_style_check),
+		e_content_editor_cell_is_header (cnt_editor));
 
-	if (result) {
-		const gchar *v_align;
+	width = e_content_editor_cell_get_width (cnt_editor, &unit);
+	gtk_spin_button_set_value (
+		GTK_SPIN_BUTTON (dialog->priv->width_edit), width);
+	gtk_toggle_button_set_active (
+		GTK_TOGGLE_BUTTON (dialog->priv->width_check),
+		unit != E_CONTENT_EDITOR_UNIT_AUTO);
+	gtk_combo_box_set_active_id (
+		GTK_COMBO_BOX (dialog->priv->width_units),
+		(unit == E_CONTENT_EDITOR_UNIT_PIXEL) ? "units-px" : "units-percent");
 
-		g_variant_get (result, "(&s)", &v_align);
-		gtk_combo_box_set_active_id (
-			GTK_COMBO_BOX (dialog->priv->valign_combo),
-			(v_align && *v_align) ? v_align : "middle");
-		g_variant_unref (result);
-	}
+	gtk_spin_button_set_value (
+		GTK_SPIN_BUTTON (dialog->priv->row_span_edit),
+		e_content_editor_cell_get_row_span (cnt_editor));
 
-	result = g_dbus_proxy_call_sync (
-		web_extension,
-		"TableCellElementGetNoWrap",
-		g_variant_new (
-			"(ts)",
-			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view)),
-			"-x-evo-current-cell"),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL);
+	gtk_spin_button_set_value (
+		GTK_SPIN_BUTTON (dialog->priv->col_span_edit),
+		e_content_editor_cell_get_col_span (cnt_editor));
 
-	if (result) {
-		gboolean no_wrap;
+	uri = e_content_editor_cell_get_background_image_uri (cnt_editor);
+	if (uri && *uri)
+		gtk_file_chooser_set_uri (
+			GTK_FILE_CHOOSER (dialog->priv->background_image_chooser), uri);
+	else
+		gtk_file_chooser_unselect_all (
+			GTK_FILE_CHOOSER (dialog->priv->background_image_chooser));
+	g_free (uri);
 
-		g_variant_get (result, "(b)", &no_wrap);
-		gtk_toggle_button_set_active (
-			GTK_TOGGLE_BUTTON (dialog->priv->wrap_text_check), !no_wrap);
-		g_variant_unref (result);
-	}
-
-	result = g_dbus_proxy_call_sync (
-		web_extension,
-		"ElementGetTagName",
-		g_variant_new (
-			"(ts)",
-			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view)),
-			"-x-evo-current-cell"),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL);
-
-	if (result) {
-		const gchar *tag_name;
-
-		g_variant_get (result, "(&s)", &tag_name);
-		gtk_toggle_button_set_active (
-			GTK_TOGGLE_BUTTON (dialog->priv->header_style_check),
-			(g_ascii_strncasecmp (tag_name, "TH", 2) == 0));
-		g_variant_unref (result);
-	}
-
-	result = e_html_editor_view_get_element_attribute (
-		view, "#-x-evo-current-cell", "width");
-
-	if (result) {
-		const gchar *width;
-
-		g_variant_get (result, "(&s)", &width);
-		if (width && *width) {
-			gint val = atoi (width);
-			gtk_spin_button_set_value (
-				GTK_SPIN_BUTTON (dialog->priv->width_edit), val);
-			gtk_toggle_button_set_active (
-				GTK_TOGGLE_BUTTON (dialog->priv->width_check), TRUE);
-		} else {
-			gtk_spin_button_set_value (
-				GTK_SPIN_BUTTON (dialog->priv->width_edit), 0);
-			gtk_toggle_button_set_active (
-				GTK_TOGGLE_BUTTON (dialog->priv->width_check), FALSE);
-		}
-		gtk_combo_box_set_active_id (
-			GTK_COMBO_BOX (dialog->priv->width_units), "units-px");
-		g_variant_unref (result);
-	}
-
-	result = g_dbus_proxy_call_sync (
-		web_extension,
-		"TableCellElementGetRowSpan",
-		g_variant_new (
-			"(ts)",
-			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view)),
-			"-x-evo-current-cell"),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL);
-
-	if (result) {
-		glong row_span;
-
-		g_variant_get (result, "(i)", &row_span);
-		gtk_spin_button_set_value (
-			GTK_SPIN_BUTTON (dialog->priv->row_span_edit), row_span);
-		g_variant_unref (result);
-	}
-
-	result = g_dbus_proxy_call_sync (
-		web_extension,
-		"TableCellElementGetColSpan",
-		g_variant_new (
-			"(ts)",
-			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view)),
-			"-x-evo-current-cell"),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL);
-
-	if (result) {
-		glong col_span;
-
-		g_variant_get (result, "(i)", &col_span);
-		gtk_spin_button_set_value (
-			GTK_SPIN_BUTTON (dialog->priv->col_span_edit), col_span);
-		g_variant_unref (result);
-	}
-
-	result = g_dbus_proxy_call_sync (
-		web_extension,
-		"ElementHasAttribute",
-		g_variant_new (
-			"(tss)",
-			webkit_web_view_get_page_id (
-				WEBKIT_WEB_VIEW (view)),
-			"-x-evo-current-cell",
-			"background"),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL);
-
-	if (result) {
-		gboolean has_background;
-
-		g_variant_get (result, "(b)", &has_background);
-		if (has_background) {
-			g_variant_unref (result);
-
-			result = e_html_editor_view_get_element_attribute (
-				view, "#-x-evo-current-cell", "data-uri");
-
-			if (result) {
-				const gchar *value;
-
-				g_variant_get (result, "(&s)", &value);
-
-				gtk_file_chooser_set_uri (
-					GTK_FILE_CHOOSER (dialog->priv->background_image_chooser),
-					value);
-
-				g_variant_unref (result);
-			}
-		} else {
-			gtk_file_chooser_unselect_all (
-				GTK_FILE_CHOOSER (dialog->priv->background_image_chooser));
-			g_variant_unref (result);
-		}
-	}
-
-	result = e_html_editor_view_get_element_attribute (
-		view, "#-x-evo-current-cell", "bgcolor");
-
-	if (result) {
-		const gchar *bg_color;
-
-		g_variant_get (result, "(&s)", &bg_color);
-
-		if (bg_color && *bg_color) {
-			if (gdk_rgba_parse (&color, bg_color)) {
-				e_color_combo_set_current_color (
-					E_COLOR_COMBO (dialog->priv->background_color_picker),
-					&color);
-			} else {
-				e_color_combo_set_current_color (
-					E_COLOR_COMBO (dialog->priv->background_color_picker),
-					&transparent);
-			}
-		}
-		e_color_combo_set_current_color (
-			E_COLOR_COMBO (dialog->priv->background_color_picker),
-			&transparent);
-
-		g_variant_unref (result);
-	}
+	e_content_editor_cell_get_background_color (cnt_editor, &rgba);
+	e_color_combo_set_current_color (
+		E_COLOR_COMBO (dialog->priv->background_color_picker), &rgba);
 
 	GTK_WIDGET_CLASS (e_html_editor_cell_dialog_parent_class)->show (widget);
 }
@@ -677,14 +356,13 @@ html_editor_cell_dialog_hide (GtkWidget *widget)
 {
 	EHTMLEditor *editor;
 	EHTMLEditorCellDialog *dialog;
-	EHTMLEditorView *view;
+	EContentEditor *cnt_editor;
 
 	dialog = E_HTML_EDITOR_CELL_DIALOG (widget);
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
-	view = e_html_editor_get_view (editor);
+	cnt_editor = e_html_editor_get_content_editor (editor);
 
-	e_html_editor_view_call_simple_extension_function_sync (
-		view, "EHTMLEditorCellDialogSaveHistoryOnExit");
+	e_content_editor_on_cell_dialog_close (cnt_editor);
 
 	GTK_WIDGET_CLASS (e_html_editor_cell_dialog_parent_class)->hide (widget);
 }
@@ -875,8 +553,8 @@ e_html_editor_cell_dialog_init (EHTMLEditorCellDialog *dialog)
 		G_BINDING_SYNC_CREATE);
 
 	widget = gtk_combo_box_text_new ();
-	gtk_combo_box_text_append (GTK_COMBO_BOX_TEXT (widget), "unit-px", "px");
-	gtk_combo_box_text_append (GTK_COMBO_BOX_TEXT (widget), "unit-percent", "%");
+	gtk_combo_box_text_append (GTK_COMBO_BOX_TEXT (widget), "units-px", "px");
+	gtk_combo_box_text_append (GTK_COMBO_BOX_TEXT (widget), "units-percent", "%");
 	gtk_grid_attach (grid, widget, 2, 0, 1, 1);
 	dialog->priv->width_units = widget;
 

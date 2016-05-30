@@ -148,102 +148,64 @@ static void
 html_editor_page_dialog_set_text_color (EHTMLEditorPageDialog *dialog)
 {
 	EHTMLEditor *editor;
-	EHTMLEditorView *view;
+	EContentEditor *cnt_editor;
 	GdkRGBA rgba;
-	gchar *color;
 
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
-	view = e_html_editor_get_view (editor);
+	cnt_editor = e_html_editor_get_content_editor (editor);
 
 	e_color_combo_get_current_color (
 		E_COLOR_COMBO (dialog->priv->text_color_picker), &rgba);
 
-	color = g_strdup_printf ("#%06x", e_rgba_to_value (&rgba));
-
-	e_html_editor_view_set_element_attribute (
-		view, "body", "text", color);
-
-	g_free (color);
+	e_content_editor_page_set_text_color (cnt_editor, &rgba);
 }
 
 static void
 html_editor_page_dialog_set_link_color (EHTMLEditorPageDialog *dialog)
 {
 	EHTMLEditor *editor;
-	EHTMLEditorView *view;
-	GDBusProxy *web_extension;
+	EContentEditor *cnt_editor;
 	GdkRGBA rgba;
-	gchar *color;
 
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
-	view = e_html_editor_get_view (editor);
-	web_extension = e_html_editor_view_get_web_extension_proxy (view);
-	if (!web_extension)
-		return;
+	cnt_editor = e_html_editor_get_content_editor (editor);
 
 	e_color_combo_get_current_color (
 		E_COLOR_COMBO (dialog->priv->link_color_picker), &rgba);
 
-	color = g_strdup_printf ("#%06x", e_rgba_to_value (&rgba));
-
-	e_html_editor_view_set_element_attribute (
-		view, "body", "link", color);
-
-	g_free (color);
+	e_content_editor_page_set_link_color (cnt_editor, &rgba);
 }
 
 static void
 html_editor_page_dialog_set_visited_link_color (EHTMLEditorPageDialog *dialog)
 {
 	EHTMLEditor *editor;
-	EHTMLEditorView *view;
-	GDBusProxy *web_extension;
+	EContentEditor *cnt_editor;
 	GdkRGBA rgba;
-	gchar *color;
 
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
-	view = e_html_editor_get_view (editor);
-	web_extension = e_html_editor_view_get_web_extension_proxy (view);
-	if (!web_extension)
-		return;
+	cnt_editor = e_html_editor_get_content_editor (editor);
 
 	e_color_combo_get_current_color (
 		E_COLOR_COMBO (dialog->priv->visited_link_color_picker), &rgba);
 
-	color = g_strdup_printf ("#%06x", e_rgba_to_value (&rgba));
-
-	e_html_editor_view_set_element_attribute (
-		view, "body", "vlink", color);
-
-	g_free (color);
+	e_content_editor_page_set_visited_link_color (cnt_editor, &rgba);
 }
 
 static void
 html_editor_page_dialog_set_background_color (EHTMLEditorPageDialog *dialog)
 {
 	EHTMLEditor *editor;
-	EHTMLEditorView *view;
-	GDBusProxy *web_extension;
+	EContentEditor *cnt_editor;
 	GdkRGBA rgba;
-	gchar *color;
 
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
-	view = e_html_editor_get_view (editor);
-	web_extension = e_html_editor_view_get_web_extension_proxy (view);
-	if (!web_extension)
-		return;
+	cnt_editor = e_html_editor_get_content_editor (editor);
 
 	e_color_combo_get_current_color (
 		E_COLOR_COMBO (dialog->priv->background_color_picker), &rgba);
-	if (rgba.alpha != 0.0)
-		color = g_strdup_printf ("#%06x", e_rgba_to_value (&rgba));
-	else
-		color = g_strdup ("");
 
-	e_html_editor_view_set_element_attribute (
-		view, "body", "bgcolor", color);
-
-	g_free (color);
+	e_content_editor_page_set_background_color (cnt_editor, &rgba);
 }
 
 static void
@@ -286,34 +248,16 @@ static void
 html_editor_page_dialog_set_background_image (EHTMLEditorPageDialog *dialog)
 {
 	EHTMLEditor *editor;
-	EHTMLEditorView *view;
-	GDBusProxy *web_extension;
+	EContentEditor *cnt_editor;
 	gchar *uri;
 
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
-	view = e_html_editor_get_view (editor);
-	web_extension = e_html_editor_view_get_web_extension_proxy (view);
-	if (!web_extension)
-		return;
+	cnt_editor = e_html_editor_get_content_editor (editor);
 
 	uri = gtk_file_chooser_get_uri (
 		GTK_FILE_CHOOSER (dialog->priv->background_image_filechooser));
 
-	if (uri && *uri)
-		e_html_editor_view_replace_image_src (view, "body", uri);
-	else
-		g_dbus_proxy_call (
-			web_extension,
-			"RemoveImageAttributesFromElementBySelector",
-			g_variant_new (
-				"(ts)",
-				webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view)),
-				"body"),
-			G_DBUS_CALL_FLAGS_NONE,
-			-1,
-			NULL,
-			NULL,
-			NULL);
+	e_content_editor_page_set_background_image_uri (cnt_editor, uri);
 
 	gtk_widget_set_sensitive (dialog->priv->remove_image_button, uri && *uri);
 
@@ -324,27 +268,12 @@ static void
 html_editor_page_dialog_remove_image (EHTMLEditorPageDialog *dialog)
 {
 	EHTMLEditor *editor;
-	EHTMLEditorView *view;
-	GDBusProxy *web_extension;
+	EContentEditor *cnt_editor;
 
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
-	view = e_html_editor_get_view (editor);
-	web_extension = e_html_editor_view_get_web_extension_proxy (view);
-	if (!web_extension)
-		return;
+	cnt_editor = e_html_editor_get_content_editor (editor);
 
-	g_dbus_proxy_call (
-		web_extension,
-		"RemoveImageAttributesFromElementBySelector",
-		g_variant_new (
-			"(ts)",
-			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view)),
-			"body"),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL,
-		NULL);
+	e_content_editor_page_set_background_image_uri (cnt_editor, NULL);
 
 	gtk_file_chooser_unselect_all (
 		GTK_FILE_CHOOSER (dialog->priv->background_image_filechooser));
@@ -356,118 +285,53 @@ static void
 html_editor_page_dialog_show (GtkWidget *widget)
 {
 	EHTMLEditor *editor;
-	EHTMLEditorView *view;
+	EContentEditor *cnt_editor;
 	EHTMLEditorPageDialog *dialog;
-	GDBusProxy *web_extension;
 	GdkRGBA rgba;
-	GVariant *result;
+	gchar *uri;
 
 	dialog = E_HTML_EDITOR_PAGE_DIALOG (widget);
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
-	view = e_html_editor_get_view (editor);
-	web_extension = e_html_editor_view_get_web_extension_proxy (view);
-	if (!web_extension)
-		return;
+	cnt_editor = e_html_editor_get_content_editor (editor);
 
-	e_html_editor_view_call_simple_extension_function (
-		view, "EHTMLEditorPageDialogSaveHistory");
+	e_content_editor_on_page_dialog_open (cnt_editor);
 
-	result = e_html_editor_view_get_element_attribute (
-		view, "body", "data-uri");
+	uri = e_content_editor_page_get_background_image_uri (cnt_editor);
+	if (uri && *uri) {
+		gint ii;
+		gchar *fname = g_filename_from_uri (uri, NULL, NULL);
+		for (ii = 0; ii < G_N_ELEMENTS (templates); ii++) {
+			const Template *tmplt = &templates[ii];
 
-	if (result) {
-		const gchar *value;
-
-		g_variant_get (result, "(&s)", &value);
-
-		if (value && *value) {
-			gint ii;
-			gchar *fname = g_filename_from_uri (value, NULL, NULL);
-			for (ii = 0; ii < G_N_ELEMENTS (templates); ii++) {
-				const Template *tmplt = &templates[ii];
-
-				if (g_strcmp0 (tmplt->filename, fname) == 0) {
-					gtk_combo_box_set_active (
-						GTK_COMBO_BOX (dialog->priv->background_template_combo),
-						ii);
-					break;
-				}
+			if (g_strcmp0 (tmplt->filename, fname) == 0) {
+				gtk_combo_box_set_active (
+					GTK_COMBO_BOX (dialog->priv->background_template_combo),
+					ii);
+				break;
 			}
-			g_free (fname);
-		} else {
-			gtk_combo_box_set_active (
-				GTK_COMBO_BOX (dialog->priv->background_template_combo), 0);
 		}
-		g_variant_unref (result);
+		g_free (fname);
+	} else {
+		gtk_combo_box_set_active (
+			GTK_COMBO_BOX (dialog->priv->background_template_combo), 0);
 	}
+	g_free (uri);
 
-	result = e_html_editor_view_get_element_attribute (view, "body", "text");
+	e_content_editor_page_get_text_color (cnt_editor, &rgba);
+	e_color_combo_set_current_color (
+		E_COLOR_COMBO (dialog->priv->text_color_picker), &rgba);
 
-	if (result) {
-		const gchar *value;
+	e_content_editor_page_get_link_color (cnt_editor, &rgba);
+	e_color_combo_set_current_color (
+		E_COLOR_COMBO (dialog->priv->link_color_picker), &rgba);
 
-		g_variant_get (result, "(&s)", &value);
-		if (!value || !*value || !gdk_rgba_parse (&rgba, value))
-			e_utils_get_theme_color (
-				widget,
-				"theme_text_color",
-				E_UTILS_DEFAULT_THEME_TEXT_COLOR,
-				&rgba);
-		e_color_combo_set_current_color (
-			E_COLOR_COMBO (dialog->priv->text_color_picker), &rgba);
-		g_variant_unref (result);
-	}
+	e_content_editor_page_get_visited_link_color (cnt_editor, &rgba);
+	e_color_combo_set_current_color (
+		E_COLOR_COMBO (dialog->priv->visited_link_color_picker), &rgba);
 
-	result = e_html_editor_view_get_element_attribute (view, "body", "link");
-
-	if (result) {
-		const gchar *value;
-
-		g_variant_get (result, "(&s)", &value);
-		if (!gdk_rgba_parse (&rgba, value)) {
-			rgba.alpha = 1;
-			rgba.red = 0;
-			rgba.green = 0;
-			rgba.blue = 1;
-		}
-		e_color_combo_set_current_color (
-			E_COLOR_COMBO (dialog->priv->link_color_picker), &rgba);
-		g_variant_unref (result);
-	}
-
-	result = e_html_editor_view_get_element_attribute (view, "body", "vlink");
-
-	if (result) {
-		const gchar *value;
-
-		g_variant_get (result, "(&s)", &value);
-		if (!gdk_rgba_parse (&rgba, value)) {
-			rgba.alpha = 1;
-			rgba.red = 1;
-			rgba.green = 0;
-			rgba.blue = 0;
-		}
-		e_color_combo_set_current_color (
-			E_COLOR_COMBO (dialog->priv->visited_link_color_picker), &rgba);
-		g_variant_unref (result);
-	}
-
-	result = e_html_editor_view_get_element_attribute (view, "body", "bgcolor");
-
-	if (result) {
-		const gchar *value;
-
-		g_variant_get (result, "(&s)", &value);
-		if (!value || !*value || !gdk_rgba_parse (&rgba, value))
-			e_utils_get_theme_color (
-			widget,
-			"theme_base_color",
-			E_UTILS_DEFAULT_THEME_BASE_COLOR,
-			&rgba);
-		e_color_combo_set_current_color (
-			E_COLOR_COMBO (dialog->priv->background_color_picker), &rgba);
-		g_variant_unref (result);
-	}
+	e_content_editor_page_get_background_color (cnt_editor, &rgba);
+	e_color_combo_set_current_color (
+		E_COLOR_COMBO (dialog->priv->background_color_picker), &rgba);
 
 	GTK_WIDGET_CLASS (e_html_editor_page_dialog_parent_class)->show (widget);
 }
@@ -476,15 +340,14 @@ static void
 html_editor_page_dialog_hide (GtkWidget *widget)
 {
 	EHTMLEditor *editor;
-	EHTMLEditorView *view;
+	EContentEditor *cnt_editor;
 	EHTMLEditorPageDialog *dialog;
 
 	dialog = E_HTML_EDITOR_PAGE_DIALOG (widget);
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
-	view = e_html_editor_get_view (editor);
+	cnt_editor = e_html_editor_get_content_editor (editor);
 
-	e_html_editor_view_call_simple_extension_function (
-		view, "EHTMLEditorPageDialogSaveHistoryOnExit");
+	e_content_editor_on_page_dialog_close (cnt_editor);
 
 	GTK_WIDGET_CLASS (e_html_editor_page_dialog_parent_class)->hide (widget);
 }

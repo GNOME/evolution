@@ -22,17 +22,20 @@
 
 #include <string.h>
 
-#define WEBKIT_DOM_USE_UNSTABLE_API
-#include <webkitdom/WebKitDOMDOMSelection.h>
-#include <webkitdom/WebKitDOMDOMWindowUnstable.h>
-
-#include <web-extensions/e-dom-utils.h>
+#include "e-composer-private-dom-functions.h"
 
 #include "e-html-editor-web-extension.h"
 #include "e-html-editor-selection-dom-functions.h"
 #include "e-html-editor-view-dom-functions.h"
 
-#include "e-composer-private-dom-functions.h"
+#define WEBKIT_DOM_USE_UNSTABLE_API
+#include <webkitdom/WebKitDOMDOMSelection.h>
+#include <webkitdom/WebKitDOMDOMWindowUnstable.h>
+#include <webkitdom/WebKitDOMHTMLElementUnstable.h>
+
+#include <web-extensions/e-dom-utils.h>
+
+#include <camel/camel.h>
 
 gchar *
 dom_remove_signatures (WebKitDOMDocument *document,
@@ -104,24 +107,72 @@ prepare_top_signature_spacer (WebKitDOMDocument *document,
 	return element;
 }
 
-static void
-composer_move_caret (WebKitDOMDocument *document,
-                     EHTMLEditorWebExtension *extension,
-                     gboolean top_signature,
-		     gboolean start_bottom)
+static gboolean
+add_signature_delimiter (void)
 {
+	gboolean ret_val;
+	GSettings *settings;
+
+	settings = e_util_ref_settings ("org.gnome.evolution.mail");
+	ret_val = !g_settings_get_boolean (settings, "composer-no-signature-delim");
+	g_object_unref (settings);
+
+	return ret_val;
+}
+
+static gboolean
+use_top_signature (void)
+{
+	gboolean ret_val;
+	GSettings *settings;
+
+	settings = e_util_ref_settings ("org.gnome.evolution.mail");
+	ret_val = g_settings_get_boolean (settings, "composer-top-signature");
+	g_object_unref (settings);
+
+	return ret_val;
+}
+
+static gboolean
+start_typing_at_bottom (void)
+{
+	gboolean ret_val;
+	GSettings *settings;
+
+	settings = e_util_ref_settings ("org.gnome.evolution.mail");
+	ret_val = g_settings_get_boolean (settings, "composer-reply-start-bottom");
+	g_object_unref (settings);
+
+	return ret_val;
+}
+
+static void
+move_caret_after_signature_inserted (WebKitDOMDocument *document,
+                                     EHTMLEditorWebExtension *extension)
+{
+	EContentEditorContentFlags flags;
 	gboolean is_message_from_draft;
 	gboolean is_message_from_edit_as_new;
 	gboolean is_from_new_message;
+	gboolean top_signature;
+	gboolean start_bottom;
 	gboolean has_paragraphs_in_body = TRUE;
 	WebKitDOMElement *element, *signature;
 	WebKitDOMHTMLElement *body;
 	WebKitDOMNodeList *paragraphs;
 
-	is_message_from_draft = e_html_editor_web_extension_is_message_from_draft (extension);
-	is_message_from_edit_as_new =
-		e_html_editor_web_extension_is_message_from_edit_as_new (extension);
-	is_from_new_message = e_html_editor_web_extension_is_from_new_message (extension);
+	flags = e_html_editor_web_extension_get_current_content_flags (extension);
+
+	is_message_from_draft = (flags & E_CONTENT_EDITOR_MESSAGE_DRAFT);
+	is_message_from_edit_as_new = (flags & E_CONTENT_EDITOR_MESSAGE_EDIT_AS_NEW);
+	is_from_new_message = (flags & E_CONTENT_EDITOR_MESSAGE_NEW);
+
+	top_signature =
+		use_top_signature () &&
+		!is_message_from_edit_as_new &&
+		!is_from_new_message;
+
+	start_bottom = start_typing_at_bottom ();
 
 	body = webkit_dom_document_get_body (document);
 	webkit_dom_element_set_attribute (
@@ -280,43 +331,230 @@ composer_move_caret (WebKitDOMDocument *document,
 		g_clear_object (&dom_selection);
 		g_clear_object (&dom_window);
 		g_clear_object (&range);
-
-		if (start_bottom)
-			dom_scroll_to_caret (document);
 	}
+
+	if (start_bottom)
+		dom_scroll_to_caret (document);
 
 	dom_force_spell_check_in_viewport (document, extension);
 	e_html_editor_web_extension_unblock_selection_changed_callback (extension);
 }
 
-void
+gchar *
 dom_insert_signature (WebKitDOMDocument *document,
                       EHTMLEditorWebExtension *extension,
-                      const gchar *signature_html,
-                      gboolean top_signature,
-		      gboolean start_bottom)
+                      const gchar *content,
+		      gboolean is_html,
+		      const gchar *id,
+		      gboolean *set_signature_from_message,
+		      gboolean *check_if_signature_is_changed,
+		      gboolean *ignore_next_signature_change)
 {
-	WebKitDOMElement *element;
+	EContentEditorContentFlags flags;
+	gchar *new_signature_id = NULL;
+	gchar *signature_text = NULL;
+	gboolean top_signature, html_mode, is_message_from_edit_as_new;
+	gboolean is_message_from_draft, is_from_new_message;
+	gulong list_length, ii;
+	WebKitDOMElement *signature_to_insert;
+	WebKitDOMElement *insert_signature_in = NULL;
+	WebKitDOMElement *signature_wrapper;
+	WebKitDOMElement *element, *converted_signature = NULL;
 	WebKitDOMHTMLElement *body;
+	WebKitDOMHTMLCollection *signatures;
 
-	g_return_if_fail (WEBKIT_DOM_IS_HTML_DOCUMENT (document));
-	g_return_if_fail (E_IS_HTML_EDITOR_WEB_EXTENSION (extension));
-	g_return_if_fail (signature_html && *signature_html);
+	g_return_val_if_fail (WEBKIT_DOM_IS_HTML_DOCUMENT (document), NULL);
+	g_return_val_if_fail (E_IS_HTML_EDITOR_WEB_EXTENSION (extension), NULL);
+	g_return_val_if_fail (set_signature_from_message != NULL, NULL);
+	g_return_val_if_fail (check_if_signature_is_changed != NULL, NULL);
+	g_return_val_if_fail (ignore_next_signature_change != NULL, NULL);
+
+	flags = e_html_editor_web_extension_get_current_content_flags (extension);
+
+	is_message_from_draft = (flags & E_CONTENT_EDITOR_MESSAGE_DRAFT);
+	is_message_from_edit_as_new = (flags & E_CONTENT_EDITOR_MESSAGE_EDIT_AS_NEW);
+	is_from_new_message = (flags & E_CONTENT_EDITOR_MESSAGE_NEW);
+
+	/* "Edit as New Message" sets is_message_from_edit_as_new.
+	 * Always put the signature at the bottom for that case. */
+	top_signature =
+		use_top_signature () &&
+		!is_message_from_edit_as_new &&
+		!is_from_new_message;
+
+	html_mode = e_html_editor_web_extension_get_html_mode (extension);
+
+	/* Create the DOM signature that is the same across all types of signatures. */
+	signature_to_insert = webkit_dom_document_create_element (document, "span", NULL);
+	webkit_dom_element_set_class_name (signature_to_insert, "-x-evo-signature");
+	/* The combo box active ID is the signature's ESource UID. */
+	webkit_dom_element_set_id (signature_to_insert, id);
+	insert_signature_in = signature_to_insert;
+
+	/* The signature has no content usually it means it is set to None. */
+	if (!content)
+		goto insert;
+
+	if (!is_html) {
+		gchar *html;
+
+		html = camel_text_to_html (content, 0, 0);
+		if (html) {
+			signature_text = html;
+		} else
+			signature_text = g_strdup (content);
+
+		insert_signature_in = webkit_dom_document_create_element (document, "pre", NULL);
+		webkit_dom_node_append_child (
+			WEBKIT_DOM_NODE (signature_to_insert),
+			WEBKIT_DOM_NODE (insert_signature_in),
+			NULL);
+	} else
+		signature_text = g_strdup (content);
+
+
+	/* If inserting HTML signature in the plain text composer we have to convert it. */
+	if (is_html && !html_mode && !strstr (signature_text, "data-evo-signature-plain-text-mode")) {
+		gchar *inner_text;
+
+		/* Save the converted signature to avoid parsing it later again
+		 * while inserting it into the view. */
+		converted_signature = webkit_dom_document_create_element (document, "pre", NULL);
+		webkit_dom_element_set_inner_html (converted_signature, signature_text, NULL);
+		dom_convert_element_from_html_to_plain_text (document, extension, converted_signature);
+		inner_text = webkit_dom_html_element_get_inner_text (WEBKIT_DOM_HTML_ELEMENT (converted_signature));
+
+		g_free (signature_text);
+		signature_text = inner_text ? g_strstrip (inner_text) : g_strdup ("");
+		/* because of the -- \n check */
+		is_html = FALSE;
+	}
+
+	/* The signature dash convention ("-- \n") is specified
+	 * in the "Son of RFC 1036", section 4.3.2.
+	 * http://www.chemie.fu-berlin.de/outerspace/netnews/son-of-1036.html
+	 */
+	if (add_signature_delimiter ()) {
+		const gchar *delim;
+		const gchar *delim_nl;
+
+		if (is_html) {
+			delim = "-- <BR>";
+			delim_nl = "\n-- <BR>";
+		} else {
+			delim = "-- \n";
+			delim_nl = "\n-- \n";
+		}
+
+		/* Skip the delimiter if the signature already has one. */
+		if (g_ascii_strncasecmp (signature_text, delim, strlen (delim)) == 0)
+			;  /* skip */
+		else if (e_util_strstrcase (signature_text, delim_nl) != NULL)
+			;  /* skip */
+		else
+			webkit_dom_element_set_inner_html (insert_signature_in, delim, NULL);
+	}
+
+	if (converted_signature) {
+		WebKitDOMNode *node;
+
+		while ((node = webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (converted_signature))))
+			webkit_dom_node_append_child (
+				WEBKIT_DOM_NODE (insert_signature_in), node, NULL);
+		remove_node (WEBKIT_DOM_NODE (converted_signature));
+	} else
+		webkit_dom_html_element_insert_adjacent_html (
+			WEBKIT_DOM_HTML_ELEMENT (insert_signature_in),
+			"beforeend",
+			signature_text,
+			NULL);
+
+	element = webkit_dom_element_query_selector (
+		insert_signature_in, "[data-evo-signature-plain-text-mode]", NULL);
+	if (element)
+		webkit_dom_element_remove_attribute (
+			element, "data-evo-signature-plain-text-mode");
+	g_free (signature_text);
+
+insert:
+	/* Remove the old signature and insert the new one. */
+	signatures = webkit_dom_document_get_elements_by_class_name_as_html_collection (
+		document, "-x-evo-signature-wrapper");
+	list_length = webkit_dom_html_collection_get_length (signatures);
+	for (ii = 0; ii < list_length; ii++) {
+		WebKitDOMNode *wrapper, *signature;
+
+		wrapper = webkit_dom_html_collection_item (signatures, ii);
+		signature = webkit_dom_node_get_first_child (wrapper);
+
+		/* Old messages will have the signature id in the name attribute, correct it. */
+		element_rename_attribute (WEBKIT_DOM_ELEMENT (signature), "name", "id");
+
+		/* When we are editing a message with signature, we need to unset the
+		 * active signature id as if the signature in the message was edited
+		 * by the user we would discard these changes. */
+		if (*set_signature_from_message &&
+		    (is_message_from_edit_as_new || is_message_from_draft)) {
+			if (*check_if_signature_is_changed) {
+				/* Normalize the signature that we want to insert as the one in the
+				 * message already is normalized. */
+				webkit_dom_node_normalize (WEBKIT_DOM_NODE (signature_to_insert));
+				if (!webkit_dom_node_is_equal_node (WEBKIT_DOM_NODE (signature_to_insert), signature)) {
+					/* Signature in the body is different than the one with the
+					 * same id, so set the active signature to None and leave
+					 * the signature that is in the body. */
+					new_signature_id = g_strdup ("none");
+					*ignore_next_signature_change = TRUE;
+				}
+
+				*check_if_signature_is_changed = FALSE;
+				*set_signature_from_message = FALSE;
+			} else {
+				/* Load the signature and check if is it the same
+				 * as the signature in body or the user previously
+				 * changed it. */
+				new_signature_id = webkit_dom_element_get_id (WEBKIT_DOM_ELEMENT (signature));
+				*check_if_signature_is_changed = TRUE;
+			}
+			g_object_unref (wrapper);
+			g_object_unref (signatures);
+
+			return new_signature_id;
+		}
+
+		/* If the top signature was set we have to remove the newline
+		 * that was inserted after it */
+		if (top_signature) {
+			WebKitDOMElement *spacer;
+
+			spacer = webkit_dom_document_query_selector (
+				document, ".-x-evo-top-signature-spacer", NULL);
+			if (spacer)
+				remove_node_if_empty (WEBKIT_DOM_NODE (spacer));
+		}
+		/* We have to remove the div containing the span with signature */
+		remove_node (wrapper);
+		g_object_unref (wrapper);
+	}
+	g_object_unref (signatures);
 
 	body = webkit_dom_document_get_body (document);
-	element = webkit_dom_document_create_element (document, "DIV", NULL);
-	webkit_dom_element_set_class_name (element, "-x-evo-signature-wrapper");
-
-	webkit_dom_element_set_inner_html (element, signature_html, NULL);
+	signature_wrapper = webkit_dom_document_create_element (document, "div", NULL);
+	webkit_dom_node_append_child (
+		WEBKIT_DOM_NODE (signature_wrapper),
+		WEBKIT_DOM_NODE (signature_to_insert),
+		NULL);
+	webkit_dom_element_set_class_name (signature_wrapper, "-x-evo-signature-wrapper");
 
 	if (top_signature) {
-		WebKitDOMNode *child =
-			webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (body));
+		WebKitDOMNode *child;
 
-		if (start_bottom) {
+		child = webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (body));
+
+		if (start_typing_at_bottom ()) {
 			webkit_dom_node_insert_before (
 				WEBKIT_DOM_NODE (body),
-				WEBKIT_DOM_NODE (element),
+				WEBKIT_DOM_NODE (signature_wrapper),
 				child,
 				NULL);
 		} else {
@@ -324,18 +562,27 @@ dom_insert_signature (WebKitDOMDocument *document,
 			 * should be before the signature */
 			webkit_dom_node_insert_before (
 				WEBKIT_DOM_NODE (body),
-				WEBKIT_DOM_NODE (element),
+				WEBKIT_DOM_NODE (signature_wrapper),
 				child,
 				NULL);
 		}
 	} else {
 		webkit_dom_node_append_child (
 			WEBKIT_DOM_NODE (body),
-			WEBKIT_DOM_NODE (element),
+			WEBKIT_DOM_NODE (signature_wrapper),
 			NULL);
 	}
 
-	composer_move_caret (document, extension, top_signature, start_bottom);
+/* FIXME WK2 - dom_fix_file_uri_images
+	if (is_html && html_mode) {
+		e_html_editor_view_fix_file_uri_images (view);*/
+
+	move_caret_after_signature_inserted (document, extension);
+
+	/* Make sure the flag will be unset and won't influence user's choice */
+	*set_signature_from_message = FALSE;
+
+	return NULL;
 }
 
 static void

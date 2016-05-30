@@ -23,8 +23,6 @@
 #endif
 
 #include "e-html-editor-link-dialog.h"
-#include "e-html-editor-selection.h"
-#include "e-html-editor-view.h"
 
 #include <glib/gi18n-lib.h>
 
@@ -87,42 +85,27 @@ static void
 html_editor_link_dialog_remove_link (EHTMLEditorLinkDialog *dialog)
 {
 	EHTMLEditor *editor;
-	EHTMLEditorView *view;
+	EContentEditor *cnt_editor;
 
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
-	view = e_html_editor_get_view (editor);
-	e_html_editor_view_call_simple_extension_function (
-		view, "EHTMLEditorSelectionDOMUnlink");
+	cnt_editor = e_html_editor_get_content_editor (editor);
 
-	gtk_widget_hide (GTK_WIDGET (dialog));
+	e_content_editor_selection_unlink (cnt_editor);
 }
 
 static void
 html_editor_link_dialog_ok (EHTMLEditorLinkDialog *dialog)
 {
 	EHTMLEditor *editor;
-	EHTMLEditorView *view;
-	GDBusProxy *web_extension;
+	EContentEditor *cnt_editor;
 
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
-	view = e_html_editor_get_view (editor);
-	web_extension = e_html_editor_view_get_web_extension_proxy (view);
-	if (!web_extension)
-		return;
+	cnt_editor = e_html_editor_get_content_editor (editor);
 
-	g_dbus_proxy_call (
-		web_extension,
-		"EHTMLEditorLinkDialogOk",
-		g_variant_new (
-			"(tss)",
-			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view)),
-			gtk_entry_get_text (GTK_ENTRY (dialog->priv->url_edit)),
-			gtk_entry_get_text (GTK_ENTRY (dialog->priv->label_edit))),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL,
-		NULL);
+	e_content_editor_link_set_values (
+		cnt_editor,
+		gtk_entry_get_text (GTK_ENTRY (dialog->priv->url_edit)),
+		gtk_entry_get_text (GTK_ENTRY (dialog->priv->label_edit)));
 
 	gtk_widget_hide (GTK_WIDGET (dialog));
 }
@@ -146,16 +129,12 @@ html_editor_link_dialog_show (GtkWidget *widget)
 {
 	EHTMLEditor *editor;
 	EHTMLEditorLinkDialog *dialog;
-	EHTMLEditorView *view;
-	GDBusProxy *web_extension;
-	GVariant *result;
+	EContentEditor *cnt_editor;
+	gchar *href = NULL, *text = NULL;
 
 	dialog = E_HTML_EDITOR_LINK_DIALOG (widget);
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
-	view = e_html_editor_get_view (editor);
-	web_extension = e_html_editor_view_get_web_extension_proxy (view);
-	if (!web_extension)
-		return;
+	cnt_editor = e_html_editor_get_content_editor (editor);
 
 	/* Reset to default values */
 	gtk_entry_set_text (GTK_ENTRY (dialog->priv->url_edit), "http://");
@@ -164,39 +143,22 @@ html_editor_link_dialog_show (GtkWidget *widget)
 	gtk_widget_set_sensitive (dialog->priv->remove_link_button, TRUE);
 
 	dialog->priv->label_autofill = TRUE;
-	result = g_dbus_proxy_call_sync (
-		web_extension,
-		"EHTMLEditorLinkDialogShow",
-		g_variant_new (
-			"(t)",
-			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view))),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL);
 
-	if (result) {
-		const gchar *href, *inner_text;
-
-		g_variant_get (result, "(&s&s)", &href, &inner_text);
-
-		if (href && *href) {
-			gtk_entry_set_text (
-				GTK_ENTRY (dialog->priv->url_edit), href);
-		}
-
-		if (inner_text && *inner_text) {
-			gtk_widget_set_sensitive (
-				dialog->priv->label_edit, TRUE);
-			if (!href || !*href) {
-				gtk_widget_set_sensitive (
-					dialog->priv->label_edit, FALSE);
-				gtk_widget_set_sensitive (
-					dialog->priv->remove_link_button, FALSE);
-			}
-		}
-		g_variant_unref (result);
+	e_content_editor_link_get_values (cnt_editor, &href, &text);
+	if (href && *href)
+		gtk_entry_set_text (
+			GTK_ENTRY (dialog->priv->url_edit), href);
+	else {
+		gtk_widget_set_sensitive (
+			dialog->priv->remove_link_button, FALSE);
 	}
+	g_free (href);
+
+	if (text && *text) {
+		gtk_entry_set_text (
+			GTK_ENTRY (dialog->priv->label_edit), text);
+	}
+	g_free (text);
 
 	/* Chain up to parent implementation */
 	GTK_WIDGET_CLASS (e_html_editor_link_dialog_parent_class)->show (widget);

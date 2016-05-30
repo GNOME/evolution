@@ -38,62 +38,33 @@ e_html_editor_link_dialog_ok (WebKitDOMDocument *document,
                               const gchar *url,
                               const gchar *inner_text)
 {
-	WebKitDOMDOMWindow *dom_window;
-	WebKitDOMDOMSelection *dom_selection;
-	WebKitDOMRange *range;
 	WebKitDOMElement *link;
 
-	dom_window = webkit_dom_document_get_default_view (document);
-	dom_selection = webkit_dom_dom_window_get_selection (dom_window);
-	g_object_unref (dom_window);
-
-	if (!dom_selection ||
-	    (webkit_dom_dom_selection_get_range_count (dom_selection) == 0)) {
-		g_object_unref (dom_selection);
-		return;
-	}
-
-	range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
-	link = dom_node_find_parent_element (
-		webkit_dom_range_get_start_container (range, NULL), "A");
-	if (!link) {
-		if ((webkit_dom_range_get_start_container (range, NULL) !=
-			webkit_dom_range_get_end_container (range, NULL)) ||
-		    (webkit_dom_range_get_start_offset (range, NULL) !=
-			webkit_dom_range_get_end_offset (range, NULL))) {
-
-			WebKitDOMDocumentFragment *fragment;
-			fragment = webkit_dom_range_extract_contents (range, NULL);
-			link = dom_node_find_child_element (WEBKIT_DOM_NODE (fragment), "A");
-			webkit_dom_range_insert_node (
-				range, WEBKIT_DOM_NODE (fragment), NULL);
-
-			webkit_dom_dom_selection_set_base_and_extent (
-				dom_selection,
-				webkit_dom_range_get_start_container (range, NULL),
-				webkit_dom_range_get_start_offset (range, NULL),
-				webkit_dom_range_get_end_container (range, NULL),
-				webkit_dom_range_get_end_offset (range, NULL),
-				NULL);
-		} else {
-			WebKitDOMNode *node;
-			/* get element that was clicked on */
-			node = webkit_dom_range_get_common_ancestor_container (range, NULL);
-			if (node && !WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (node)) {
-				link = dom_node_find_parent_element (node, "A");
-				if (link && !WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (link))
-					link = NULL;
-			} else
-				link = WEBKIT_DOM_ELEMENT (node);
-		}
-	}
+	link = webkit_dom_document_get_element_by_id (document, "-x-evo-current-anchor");
 
 	if (link) {
 		webkit_dom_html_anchor_element_set_href (
 			WEBKIT_DOM_HTML_ANCHOR_ELEMENT (link), url);
-		webkit_dom_element_set_inner_html (link, inner_text, NULL);
+		webkit_dom_html_element_set_inner_text (
+			WEBKIT_DOM_HTML_ELEMENT (link), inner_text, NULL);
+		webkit_dom_element_remove_attribute (link, "id");
 	} else {
 		gchar *text;
+		WebKitDOMDOMWindow *dom_window;
+		WebKitDOMDOMSelection *dom_selection;
+		WebKitDOMRange *range;
+
+		dom_window = webkit_dom_document_get_default_view (document);
+		dom_selection = webkit_dom_dom_window_get_selection (dom_window);
+		g_object_unref (dom_window);
+
+		if (!dom_selection ||
+		    (webkit_dom_dom_selection_get_range_count (dom_selection) == 0)) {
+			g_object_unref (dom_selection);
+			return;
+		}
+
+		range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
 
 		/* Check whether a text is selected or not */
 		text = webkit_dom_range_get_text (range);
@@ -104,16 +75,15 @@ e_html_editor_link_dialog_ok (WebKitDOMDocument *document,
 				"<a href=\"%s\">%s</a>", url, inner_text);
 
 			dom_exec_command (
-				document, extension, E_HTML_EDITOR_VIEW_COMMAND_INSERT_HTML, html);
+				document, extension, E_CONTENT_EDITOR_COMMAND_INSERT_HTML, html);
 			g_free (html);
-
 		}
 
 		g_free (text);
-	}
 
-	g_object_unref (range);
-	g_object_unref (dom_selection);
+		g_object_unref (range);
+		g_object_unref (dom_selection);
+	}
 }
 
 GVariant *
@@ -169,6 +139,9 @@ e_html_editor_link_dialog_show (WebKitDOMDocument *document)
 				WEBKIT_DOM_HTML_ANCHOR_ELEMENT (link));
 		text = webkit_dom_html_element_get_inner_text (
 				WEBKIT_DOM_HTML_ELEMENT (link));
+
+		webkit_dom_element_set_id (
+			WEBKIT_DOM_ELEMENT (link), "-x-evo-current-anchor");
 
 		result = g_variant_new ("(ss)", href, text);
 

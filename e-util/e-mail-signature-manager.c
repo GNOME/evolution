@@ -399,7 +399,7 @@ static void
 mail_signature_manager_add_signature (EMailSignatureManager *manager)
 {
 	EHTMLEditor *editor;
-	EHTMLEditorView *view;
+	EContentEditor *cnt_editor;
 	ESourceRegistry *registry;
 	GtkWidget *widget;
 
@@ -409,9 +409,8 @@ mail_signature_manager_add_signature (EMailSignatureManager *manager)
 
 	editor = e_mail_signature_editor_get_editor (
 		E_MAIL_SIGNATURE_EDITOR (widget));
-	view = e_html_editor_get_view (editor);
-	e_html_editor_view_set_html_mode (
-		view, manager->priv->prefer_html);
+	cnt_editor = e_html_editor_get_content_editor (editor);
+	e_content_editor_set_html_mode (cnt_editor, manager->priv->prefer_html);
 
 	mail_signature_manager_emit_editor_created (manager, widget);
 

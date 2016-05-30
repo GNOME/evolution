@@ -101,7 +101,7 @@ mail_signature_editor_loaded_cb (GObject *object,
                                  gpointer user_data)
 {
 	EHTMLEditor *editor;
-	EHTMLEditorView *view;
+	EContentEditor *cnt_editor;
 	ESource *source;
 	EMailSignatureEditor *window;
 	ESourceMailSignature *extension;
@@ -144,13 +144,21 @@ mail_signature_editor_loaded_cb (GObject *object,
 	is_html = (g_strcmp0 (mime_type, "text/html") == 0);
 
 	editor = e_mail_signature_editor_get_editor (window);
-	view = e_html_editor_get_view (editor);
-	e_html_editor_view_set_html_mode (view, is_html);
+	cnt_editor = e_html_editor_get_content_editor (editor);
+	e_content_editor_set_html_mode (cnt_editor, is_html);
 
 	if (is_html)
-		e_html_editor_view_set_text_html (view, contents);
+		e_content_editor_insert_content (
+			cnt_editor,
+			contents,
+			E_CONTENT_EDITOR_INSERT_TEXT_HTML |
+			E_CONTENT_EDITOR_INSERT_REPLACE_ALL);
 	else
-		e_html_editor_view_set_text_plain (view, contents);
+		e_content_editor_insert_content (
+			cnt_editor,
+			contents,
+			E_CONTENT_EDITOR_INSERT_TEXT_PLAIN |
+			E_CONTENT_EDITOR_INSERT_REPLACE_ALL);
 
 	g_free (contents);
 
@@ -172,22 +180,22 @@ mail_signature_editor_delete_event_cb (EMailSignatureEditor *editor,
 }
 
 static void
-can_undo_cb (WebKitWebView *webkit_web_view,
-             GAsyncResult *result,
-             EMailSignatureEditor *window)
+action_close_cb (GtkAction *action,
+                 EMailSignatureEditor *window)
 {
+	EHTMLEditor *editor;
+	EContentEditor *cnt_editor;
 	gboolean something_changed = FALSE;
 	const gchar *original_name;
 	const gchar *signature_name;
-	gboolean can_undo;
+
+	editor = e_mail_signature_editor_get_editor (window);
+	cnt_editor = e_html_editor_get_content_editor (editor);
 
 	original_name = window->priv->original_name;
 	signature_name = gtk_entry_get_text (GTK_ENTRY (window->priv->entry));
 
-	can_undo = webkit_web_view_can_execute_editing_command_finish (
-		webkit_web_view, result, NULL);
-
-	something_changed |= can_undo;
+	something_changed |= e_content_editor_can_undo (cnt_editor);
 	something_changed |= (strcmp (signature_name, original_name) != 0);
 
 	if (something_changed) {
@@ -210,25 +218,6 @@ can_undo_cb (WebKitWebView *webkit_web_view,
 	}
 
 	gtk_widget_destroy (GTK_WIDGET (window));
-
-}
-
-static void
-action_close_cb (GtkAction *action,
-                 EMailSignatureEditor *window)
-{
-	EHTMLEditor *editor;
-	EHTMLEditorView *view;
-
-	editor = e_mail_signature_editor_get_editor (window);
-	view = e_html_editor_get_view (editor);
-
-	webkit_web_view_can_execute_editing_command (
-		WEBKIT_WEB_VIEW (view),
-		WEBKIT_EDITING_COMMAND_UNDO,
-		NULL, /* cancellable */
-		(GAsyncReadyCallback) can_undo_cb,
-		window);
 }
 
 static void
@@ -501,7 +490,7 @@ mail_signature_editor_constructed (GObject *object)
 	GtkActionGroup *action_group;
 	EFocusTracker *focus_tracker;
 	EHTMLEditor *editor;
-	EHTMLEditorView *view;
+	EContentEditor *cnt_editor;
 	GtkUIManager *ui_manager;
 	GDBusObject *dbus_object;
 	ESource *source;
@@ -517,7 +506,7 @@ mail_signature_editor_constructed (GObject *object)
 
 	window = E_MAIL_SIGNATURE_EDITOR (object);
 	editor = e_mail_signature_editor_get_editor (window);
-	view = e_html_editor_get_view (editor);
+	cnt_editor = e_html_editor_get_content_editor (editor);
 
 	ui_manager = e_html_editor_get_ui_manager (editor);
 
@@ -628,7 +617,7 @@ mail_signature_editor_constructed (GObject *object)
 	if (source == NULL) {
 		gtk_widget_grab_focus (window->priv->entry);
 	} else {
-		gtk_widget_grab_focus (GTK_WIDGET (view));
+		gtk_widget_grab_focus (GTK_WIDGET (cnt_editor));
 	}
 
 	/* Load file content only for an existing signature.
@@ -841,7 +830,7 @@ e_mail_signature_editor_commit (EMailSignatureEditor *window,
 	const gchar *mime_type;
 	gchar *contents;
 	EHTMLEditor *editor;
-	EHTMLEditorView *view;
+	EContentEditor *cnt_editor;
 
 	g_return_if_fail (E_IS_MAIL_SIGNATURE_EDITOR (window));
 
@@ -849,10 +838,14 @@ e_mail_signature_editor_commit (EMailSignatureEditor *window,
 	source = e_mail_signature_editor_get_source (window);
 
 	editor = e_mail_signature_editor_get_editor (window);
-	view = e_html_editor_get_view (editor);
+	cnt_editor = e_html_editor_get_content_editor (editor);
 
 	mime_type = "text/html";
-	contents = e_html_editor_view_get_body_text_html_for_drafts (view);
+	contents = e_content_editor_get_content (
+		cnt_editor,
+		E_CONTENT_EDITOR_GET_TEXT_HTML |
+		E_CONTENT_EDITOR_GET_BODY,
+		NULL);
 
 	extension_name = E_SOURCE_EXTENSION_MAIL_SIGNATURE;
 	extension = e_source_get_extension (source, extension_name);

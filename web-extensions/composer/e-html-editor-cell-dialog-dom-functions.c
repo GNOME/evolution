@@ -27,13 +27,6 @@
 
 #include "e-html-editor-cell-dialog-dom-functions.h"
 
-enum {
-	SCOPE_CELL,
-	SCOPE_ROW,
-	SCOPE_COLUMN,
-	SCOPE_TABLE
-};
-
 typedef void (*DOMStrFunc) (WebKitDOMHTMLTableCellElement *cell, const gchar *val, gpointer user_data);
 typedef void (*DOMUlongFunc) (WebKitDOMHTMLTableCellElement *cell, gulong val, gpointer user_data);
 typedef void (*DOMBoolFunc) (WebKitDOMHTMLTableCellElement *cell, gboolean val, gpointer user_data);
@@ -89,20 +82,20 @@ for_each_cell_do (WebKitDOMElement *row,
 
 static void
 html_editor_cell_dialog_set_attribute (WebKitDOMDocument *document,
-                                       guint scope,
+                                       EContentEditorScope scope,
                                        gpointer func,
                                        GValue *value,
                                        gpointer user_data)
 {
 	WebKitDOMElement *cell = get_current_cell_element (document);
 
-	if (scope == SCOPE_CELL) {
+	if (scope == E_CONTENT_EDITOR_SCOPE_CELL) {
 
 		call_cell_dom_func (
 			WEBKIT_DOM_HTML_TABLE_CELL_ELEMENT (cell),
 			func, value, user_data);
 
-	} else if (scope == SCOPE_COLUMN) {
+	} else if (scope == E_CONTENT_EDITOR_SCOPE_COLUMN) {
 		gulong index, ii, length;
 		WebKitDOMElement *table;
 		WebKitDOMHTMLCollection *rows;
@@ -140,7 +133,7 @@ html_editor_cell_dialog_set_attribute (WebKitDOMDocument *document,
 		}
 		g_object_unref (rows);
 
-	} else if (scope == SCOPE_ROW) {
+	} else if (scope == E_CONTENT_EDITOR_SCOPE_ROW) {
 		WebKitDOMElement *row;
 
 		row = dom_node_find_parent_element (WEBKIT_DOM_NODE (cell), "TR");
@@ -150,7 +143,7 @@ html_editor_cell_dialog_set_attribute (WebKitDOMDocument *document,
 
 		for_each_cell_do (row, func, value, user_data);
 
-	} else if (scope == SCOPE_TABLE) {
+	} else if (scope == E_CONTENT_EDITOR_SCOPE_TABLE) {
 		gulong ii, length;
 		WebKitDOMElement *table;
 		WebKitDOMHTMLCollection *rows;
@@ -312,7 +305,7 @@ e_html_editor_cell_dialog_save_history_on_exit (WebKitDOMDocument *document,
 void
 e_html_editor_cell_dialog_set_element_v_align (WebKitDOMDocument *document,
                                                const gchar *v_align,
-                                               guint scope)
+                                               EContentEditorScope scope)
 {
 	GValue val = { 0 };
 
@@ -328,7 +321,7 @@ e_html_editor_cell_dialog_set_element_v_align (WebKitDOMDocument *document,
 void
 e_html_editor_cell_dialog_set_element_align (WebKitDOMDocument *document,
                                              const gchar *align,
-                                             guint scope)
+                                             EContentEditorScope scope)
 {
 	GValue val = { 0 };
 
@@ -344,7 +337,7 @@ e_html_editor_cell_dialog_set_element_align (WebKitDOMDocument *document,
 void
 e_html_editor_cell_dialog_set_element_no_wrap (WebKitDOMDocument *document,
                                                gboolean wrap_text,
-                                               guint scope)
+                                               EContentEditorScope scope)
 {
 	GValue val = { 0 };
 
@@ -358,7 +351,7 @@ e_html_editor_cell_dialog_set_element_no_wrap (WebKitDOMDocument *document,
 void
 e_html_editor_cell_dialog_set_element_header_style (WebKitDOMDocument *document,
                                                     gboolean header_style,
-                                                    guint scope)
+                                                    EContentEditorScope scope)
 {
 	GValue val = { 0 };
 
@@ -372,7 +365,7 @@ e_html_editor_cell_dialog_set_element_header_style (WebKitDOMDocument *document,
 void
 e_html_editor_cell_dialog_set_element_width (WebKitDOMDocument *document,
                                              const gchar *width,
-                                             guint scope)
+                                             EContentEditorScope scope)
 {
 	GValue val = { 0 };
 
@@ -388,7 +381,7 @@ e_html_editor_cell_dialog_set_element_width (WebKitDOMDocument *document,
 void
 e_html_editor_cell_dialog_set_element_col_span (WebKitDOMDocument *document,
                                                 glong span,
-                                                guint scope)
+                                                EContentEditorScope scope)
 {
 	GValue val = { 0 };
 
@@ -402,7 +395,7 @@ e_html_editor_cell_dialog_set_element_col_span (WebKitDOMDocument *document,
 void
 e_html_editor_cell_dialog_set_element_row_span (WebKitDOMDocument *document,
                                                 glong span,
-                                                guint scope)
+                                                EContentEditorScope scope)
 {
 	GValue val = { 0 };
 
@@ -416,7 +409,7 @@ e_html_editor_cell_dialog_set_element_row_span (WebKitDOMDocument *document,
 void
 e_html_editor_cell_dialog_set_element_bg_color (WebKitDOMDocument *document,
                                                 const gchar *color,
-                                                guint scope)
+                                                EContentEditorScope scope)
 {
 	GValue val = { 0 };
 

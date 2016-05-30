@@ -28,12 +28,14 @@ G_BEGIN_DECLS
 gchar *		dom_remove_signatures		(WebKitDOMDocument *document,
 						 EHTMLEditorWebExtension *extension,
 						 gboolean top_signature);
-
-void		dom_insert_signature		(WebKitDOMDocument *document,
+gchar *		dom_insert_signature		(WebKitDOMDocument *document,
 						 EHTMLEditorWebExtension *extension,
-						 const gchar *signature_html,
-						 gboolean top_signature,
-						 gboolean start_bottom);
+						 const gchar *content,
+						 gboolean is_html,
+						 const gchar *id,
+						 gboolean *set_signature_from_message,
+						 gboolean *check_if_signature_is_changed,
+						 gboolean *ignore_next_signature_change);
 void		dom_save_drag_and_drop_history	(WebKitDOMDocument *document,
 						 EHTMLEditorWebExtension *extension);
 void		dom_clean_after_drag_and_drop	(WebKitDOMDocument *document,

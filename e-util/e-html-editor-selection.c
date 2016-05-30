@@ -73,8 +73,8 @@ struct _EHTMLEditorSelectionPrivate {
 
 	guint font_size;
 
-	EHTMLEditorSelectionAlignment alignment;
-	EHTMLEditorSelectionBlockFormat block_format;
+	EContentEditorAlignment alignment;
+	EContentEditorBlockFormat block_format;
 };
 
 enum {
@@ -168,8 +168,7 @@ web_extension_properties_changed_cb (GDBusProxy *proxy,
 			} else if (g_strcmp0 (key, "HTMLMode") != 0 &&
 			           g_strcmp0 (key, "Changed") != 0 &&
 				   g_strcmp0 (key, "MagicLinks") != 0 &&
-				   g_strcmp0 (key, "MagicSmileys") != 0 &&
-				   g_strcmp0 (key, "InlineSpelling") != 0)
+				   g_strcmp0 (key, "MagicSmileys") != 0)
 				g_warning ("UNKNOWN PROPERTY %s IN %s", key, G_STRFUNC);
 			if (camel_debug ("wex"))
 				g_print ("      %s -> %s\n", key, value_str);
@@ -510,9 +509,9 @@ e_html_editor_selection_class_init (EHTMLEditorSelectionClass *class)
 			"alignment",
 			NULL,
 			NULL,
-			E_HTML_EDITOR_SELECTION_ALIGNMENT_LEFT,
-			E_HTML_EDITOR_SELECTION_ALIGNMENT_RIGHT,
-			E_HTML_EDITOR_SELECTION_ALIGNMENT_LEFT,
+			E_CONTENT_EDITOR_ALIGNMENT_LEFT,
+			E_CONTENT_EDITOR_ALIGNMENT_RIGHT,
+			E_CONTENT_EDITOR_ALIGNMENT_LEFT,
 			G_PARAM_READWRITE));
 
 	/**
@@ -535,9 +534,9 @@ e_html_editor_selection_class_init (EHTMLEditorSelectionClass *class)
 	 * EHTMLEditorSelection:block-format
 	 *
 	 * Holds block format of current paragraph. See
-	 * #EHTMLEditorSelectionBlockFormat for valid values.
+	 * #EContentEditorBlockFormat for valid values.
 	 */
-	/* FIXME Convert the EHTMLEditorSelectionBlockFormat
+	/* FIXME Convert the EContentEditorBlockFormat
 	 *       enum to a proper type. */
 	g_object_class_install_property (
 		object_class,
@@ -772,8 +771,8 @@ static void
 e_html_editor_selection_init (EHTMLEditorSelection *selection)
 {
 	selection->priv = E_HTML_EDITOR_SELECTION_GET_PRIVATE (selection);
-	selection->priv->block_format = E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_PARAGRAPH;
-	selection->priv->font_size = E_HTML_EDITOR_SELECTION_FONT_SIZE_NORMAL;
+	selection->priv->block_format = E_CONTENT_EDITOR_BLOCK_FORMAT_PARAGRAPH;
+	selection->priv->font_size = E_CONTENT_EDITOR_FONT_SIZE_NORMAL;
 }
 
 /**
@@ -791,177 +790,6 @@ e_html_editor_selection_ref_html_editor_view (EHTMLEditorSelection *selection)
 	g_return_val_if_fail (E_IS_HTML_EDITOR_SELECTION (selection), NULL);
 
 	return g_weak_ref_get (&selection->priv->html_editor_view);
-}
-
-/**
- * e_html_editor_selection_has_text:
- * @selection: an #EHTMLEditorSelection
- *
- * Returns whether current selection contains any text.
- *
- * Returns: @TRUE when current selection contains text, @FALSE otherwise.
- */
-gboolean
-e_html_editor_selection_has_text (EHTMLEditorSelection *selection)
-{
-	EHTMLEditorView *view;
-	gboolean ret_val = FALSE;
-	GDBusProxy *web_extension;
-	GVariant *result;
-
-	g_return_val_if_fail (E_IS_HTML_EDITOR_SELECTION (selection), ret_val);
-
-	view = e_html_editor_selection_ref_html_editor_view (selection);
-	g_return_val_if_fail (view != NULL, ret_val);
-
-	web_extension = e_html_editor_view_get_web_extension_proxy (view);
-	if (!web_extension)
-		goto out;
-
-	result = g_dbus_proxy_call_sync (
-		web_extension,
-		"DOMSelectionHasText",
-		g_variant_new (
-			"(t)", webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view))),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL);
-
-	if (result) {
-		g_variant_get (result, "(b)", &ret_val);
-		g_variant_unref (result);
-	}
- out:
-	g_object_unref (view);
-
-	return ret_val;
-}
-
-/**
- * e_html_editor_selection_get_caret_word:
- * @selection: an #EHTMLEditorSelection
- *
- * Returns word under cursor.
- *
- * Returns: A newly allocated string with current caret word or @NULL when there
- * is no text under cursor or when selection is active. [transfer-full].
- */
-gchar *
-e_html_editor_selection_get_caret_word (EHTMLEditorSelection *selection)
-{
-	EHTMLEditorView *view;
-	gchar *ret_val = NULL;
-	GDBusProxy *web_extension;
-	GVariant *result;
-
-	g_return_val_if_fail (E_IS_HTML_EDITOR_SELECTION (selection), ret_val);
-
-	view = e_html_editor_selection_ref_html_editor_view (selection);
-	g_return_val_if_fail (view != NULL, ret_val);
-
-	web_extension = e_html_editor_view_get_web_extension_proxy (view);
-	if (!web_extension)
-		goto out;
-
-	result = g_dbus_proxy_call_sync (
-		web_extension,
-		"DOMGetCaretWord",
-		g_variant_new (
-			"(t)", webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view))),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL);
-
-	if (result) {
-		g_variant_get (result, "(s)", &ret_val);
-		g_variant_unref (result);
-	}
- out:
-	g_object_unref (view);
-
-	return ret_val;
-}
-
-/**
- * e_html_editor_selection_replace_caret_word:
- * @selection: an #EHTMLEditorSelection
- * @replacement: a string to replace current caret word with
- *
- * Replaces current word under cursor with @replacement.
- */
-void
-e_html_editor_selection_replace_caret_word (EHTMLEditorSelection *selection,
-                                            const gchar *replacement)
-{
-	EHTMLEditorView *view;
-	GDBusProxy *web_extension;
-
-	g_return_if_fail (E_IS_HTML_EDITOR_SELECTION (selection));
-	g_return_if_fail (replacement != NULL);
-
-	view = e_html_editor_selection_ref_html_editor_view (selection);
-	g_return_if_fail (view != NULL);
-
-	web_extension = e_html_editor_view_get_web_extension_proxy (view);
-	if (!web_extension)
-		goto out;
-
-	g_dbus_proxy_call (
-		web_extension,
-		"DOMReplaceCaretWord",
-		g_variant_new ("(ts)",
-			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view)),
-			replacement),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL,
-		NULL);
-
- out:
-	g_object_unref (view);
-}
-
-/**
- * e_html_editor_selection_replace:
- * @selection: an #EHTMLEditorSelection
- * @replacement: a string to replace current selection with
- *
- * Replaces currently selected text with @replacement.
- */
-void
-e_html_editor_selection_replace (EHTMLEditorSelection *selection,
-                                 const gchar *replacement)
-{
-	EHTMLEditorView *view;
-	GDBusProxy *web_extension;
-
-	if (camel_debug ("wex"))
-		printf ("%s\n", G_STRFUNC);
-	g_return_if_fail (E_IS_HTML_EDITOR_SELECTION (selection));
-
-	view = e_html_editor_selection_ref_html_editor_view (selection);
-	g_return_if_fail (view != NULL);
-
-	web_extension = e_html_editor_view_get_web_extension_proxy (view);
-	if (!web_extension)
-		goto out;
-
-	g_dbus_proxy_call_sync (
-		web_extension,
-		"DOMSelectionReplace",
-		g_variant_new ("(ts)",
-			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view)),
-			replacement),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL);
-
- out:
-	g_object_unref (view);
 }
 
 static const gchar *
@@ -1098,14 +926,14 @@ html_editor_selection_set_format_unsigned (EHTMLEditorSelection *selection,
  *
  * Returns alignment of current paragraph
  *
- * Returns: #EHTMLEditorSelectionAlignment
+ * Returns: #EContentEditorAlignment
  */
-EHTMLEditorSelectionAlignment
+EContentEditorAlignment
 e_html_editor_selection_get_alignment (EHTMLEditorSelection *selection)
 {
 	g_return_val_if_fail (
 		E_IS_HTML_EDITOR_SELECTION (selection),
-		E_HTML_EDITOR_SELECTION_ALIGNMENT_LEFT);
+		E_CONTENT_EDITOR_ALIGNMENT_LEFT);
 
 	return selection->priv->alignment;
 }
@@ -1113,13 +941,13 @@ e_html_editor_selection_get_alignment (EHTMLEditorSelection *selection)
 /**
  * e_html_editor_selection_set_alignment:
  * @selection: an #EHTMLEditorSelection
- * @alignment: an #EHTMLEditorSelectionAlignment value to apply
+ * @alignment: an #EContentEditorAlignment value to apply
  *
  * Sets alignment of current paragraph to give @alignment.
  */
 void
 e_html_editor_selection_set_alignment (EHTMLEditorSelection *selection,
-                                       EHTMLEditorSelectionAlignment alignment)
+                                       EContentEditorAlignment alignment)
 {
 	g_return_if_fail (E_IS_HTML_EDITOR_SELECTION (selection));
 
@@ -1134,14 +962,14 @@ e_html_editor_selection_set_alignment (EHTMLEditorSelection *selection,
  *
  * Returns block format of current paragraph.
  *
- * Returns: #EHTMLEditorSelectionBlockFormat
+ * Returns: #EContentEditorBlockFormat
  */
-EHTMLEditorSelectionBlockFormat
+EContentEditorBlockFormat
 e_html_editor_selection_get_block_format (EHTMLEditorSelection *selection)
 {
 	g_return_val_if_fail (
 		E_IS_HTML_EDITOR_SELECTION (selection),
-		E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_PARAGRAPH);
+		E_CONTENT_EDITOR_BLOCK_FORMAT_PARAGRAPH);
 
 	return selection->priv->block_format;
 }
@@ -1149,13 +977,13 @@ e_html_editor_selection_get_block_format (EHTMLEditorSelection *selection)
 /**
  * e_html_editor_selection_set_block_format:
  * @selection: an #EHTMLEditorSelection
- * @format: an #EHTMLEditorSelectionBlockFormat value
+ * @format: an #EContentEditorBlockFormat value
  *
  * Changes block format of current paragraph to @format.
  */
 void
 e_html_editor_selection_set_block_format (EHTMLEditorSelection *selection,
-                                          EHTMLEditorSelectionBlockFormat format)
+                                          EContentEditorBlockFormat format)
 {
 	g_return_if_fail (E_IS_HTML_EDITOR_SELECTION (selection));
 
@@ -1348,7 +1176,7 @@ e_html_editor_selection_get_font_size (EHTMLEditorSelection *selection)
 {
 	g_return_val_if_fail (
 		E_IS_HTML_EDITOR_SELECTION (selection),
-		E_HTML_EDITOR_SELECTION_FONT_SIZE_NORMAL);
+		E_CONTENT_EDITOR_FONT_SIZE_NORMAL);
 
 	return selection->priv->font_size;
 }
@@ -1696,72 +1524,4 @@ e_html_editor_selection_set_underline (EHTMLEditorSelection *selection,
 
 	html_editor_selection_set_format_boolean (
 		selection, "DOMSelectionSetUnderline", underline);
-}
-
-static void
-html_editor_selection_modify (EHTMLEditorSelection *selection,
-                              const gchar *alter,
-                              gboolean forward,
-                              EHTMLEditorSelectionGranularity granularity)
-{
-	EHTMLEditorView *view;
-	GDBusProxy *web_extension;
-
-	view = e_html_editor_selection_ref_html_editor_view (selection);
-	g_return_if_fail (view != NULL);
-
-	e_html_editor_view_set_changed (view, TRUE);
-	web_extension = e_html_editor_view_get_web_extension_proxy (view);
-	if (!web_extension)
-		goto out;
-
-	g_dbus_proxy_call (
-		web_extension,
-		"DOMSelectionModify",
-		g_variant_new (
-			"(tsbi)",
-			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view)),
-			alter,
-			forward,
-			granularity),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL,
-		NULL);
-
- out:
-	g_object_unref (view);
-}
-
-/**
- * e_html_editor_selection_extend:
- * @selection: an #EHTMLEditorSelection
- * @forward: whether to extend selection forward or backward
- * @granularity: granularity of the extension
- *
- * Extends current selection in given direction by given granularity.
- */
-void
-e_html_editor_selection_extend (EHTMLEditorSelection *selection,
-                                gboolean forward,
-                                EHTMLEditorSelectionGranularity granularity)
-{
-	html_editor_selection_modify (selection, "extend", forward, granularity);
-}
-
-/**
- * e_html_editor_selection_move:
- * @selection: an #EHTMLEditorSelection
- * @forward: whether to move the selection forward or backward
- * @granularity: granularity of the movement
- *
- * Moves current selection in given direction by given granularity
- */
-void
-e_html_editor_selection_move (EHTMLEditorSelection *selection,
-                              gboolean forward,
-                              EHTMLEditorSelectionGranularity granularity)
-{
-	html_editor_selection_modify (selection, "move", forward, granularity);
 }

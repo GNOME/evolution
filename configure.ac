@@ -1617,6 +1617,7 @@ modules/text-highlight/Makefile
 modules/tnef-attachment/Makefile
 modules/vcard-inline/Makefile
 modules/web-inspector/Makefile
+modules/webkit-content-editor/Makefile
 plugins/Makefile
 plugins/attachment-reminder/Makefile
 plugins/bbdb/Makefile

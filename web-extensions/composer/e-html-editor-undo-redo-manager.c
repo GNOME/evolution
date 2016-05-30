@@ -944,8 +944,8 @@ redo_delete (WebKitDOMDocument *document,
 	for (ii = 0; ii < length; ii++) {
 		dom_exec_command (
 			document, extension,
-			delete_key ? E_HTML_EDITOR_VIEW_COMMAND_FORWARD_DELETE :
-				     E_HTML_EDITOR_VIEW_COMMAND_DELETE,
+			delete_key ? E_CONTENT_EDITOR_COMMAND_FORWARD_DELETE :
+				     E_CONTENT_EDITOR_COMMAND_DELETE,
 			NULL);
 	}
 
@@ -957,7 +957,7 @@ redo_delete (WebKitDOMDocument *document,
 		if (WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (node)) {
 			dom_exec_command (
 				document, extension,
-				E_HTML_EDITOR_VIEW_COMMAND_FORWARD_DELETE,
+				E_CONTENT_EDITOR_COMMAND_FORWARD_DELETE,
 				NULL);
 			break;
 		}
@@ -968,7 +968,7 @@ redo_delete (WebKitDOMDocument *document,
 		if (WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (node)) {
 			dom_exec_command (
 				document, extension,
-				E_HTML_EDITOR_VIEW_COMMAND_FORWARD_DELETE,
+				E_CONTENT_EDITOR_COMMAND_FORWARD_DELETE,
 				NULL);
 			break;
 		}
@@ -1069,7 +1069,7 @@ undo_redo_font_color (WebKitDOMDocument *document,
 	dom_exec_command (
 		document,
 		extension,
-		E_HTML_EDITOR_VIEW_COMMAND_FORE_COLOR,
+		E_CONTENT_EDITOR_COMMAND_FORE_COLOR,
 		undo ? event->data.string.from : event->data.string.to);
 
 	if (undo)
@@ -1367,7 +1367,7 @@ undo_redo_link_dialog (WebKitDOMDocument *document,
 
 				if (event->data.dom.from)
 					dom_exec_command (document, extension,
-						E_HTML_EDITOR_VIEW_COMMAND_DELETE, NULL);
+						E_CONTENT_EDITOR_COMMAND_DELETE, NULL);
 			}
 		}
 	}
@@ -1562,7 +1562,7 @@ undo_redo_paste (WebKitDOMDocument *document,
 
 			dom_selection_restore (document);
 
-			dom_exec_command (document, extension, E_HTML_EDITOR_VIEW_COMMAND_DELETE, NULL);
+			dom_exec_command (document, extension, E_CONTENT_EDITOR_COMMAND_DELETE, NULL);
 
 			dom_force_spell_check_for_current_paragraph (document, extension);
 		}
@@ -1665,7 +1665,7 @@ undo_redo_replace (WebKitDOMDocument *document,
 	dom_exec_command (
 		document,
 		extension,
-		E_HTML_EDITOR_VIEW_COMMAND_INSERT_TEXT,
+		E_CONTENT_EDITOR_COMMAND_INSERT_TEXT,
 		undo ? event->data.string.from : event->data.string.to);
 
 	dom_force_spell_check_for_current_paragraph (document, extension);
@@ -1869,7 +1869,7 @@ undo_input (EHTMLEditorUndoRedoManager *manager,
 		g_free (text_content);
 	}
 
-	dom_exec_command (document, extension, E_HTML_EDITOR_VIEW_COMMAND_DELETE, NULL);
+	dom_exec_command (document, extension, E_CONTENT_EDITOR_COMMAND_DELETE, NULL);
 
 	if (remove_anchor) {
 		WebKitDOMNode *child;
@@ -2048,7 +2048,7 @@ undo_redo_blockquote (WebKitDOMDocument *document,
 			NULL);
 	} else {
 		dom_selection_set_block_format (
-			document, extension, E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_BLOCKQUOTE);
+			document, extension, E_CONTENT_EDITOR_BLOCK_FORMAT_BLOCKQUOTE);
 	}
 
 	if (undo)

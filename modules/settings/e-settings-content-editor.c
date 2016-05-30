@@ -1,5 +1,5 @@
 /*
- * e-settings-html-editor-web-view.c
+ * e-settings-content-editor.c
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -22,39 +22,40 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "e-settings-html-editor-view.h"
+#include "e-settings-content-editor.h"
 
 #include <e-util/e-util.h>
 
-#define E_SETTINGS_HTML_EDITOR_VIEW_GET_PRIVATE(obj) \
+#define E_SETTINGS_CONTENT_EDITOR_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_SETTINGS_HTML_EDITOR_VIEW, ESettingsHTMLEditorViewPrivate))
+	((obj), E_TYPE_SETTINGS_CONTENT_EDITOR, ESettingsContentEditorPrivate))
 
-struct _ESettingsHTMLEditorViewPrivate {
+struct _ESettingsContentEditorPrivate {
 	GSettings *settings;
 
 	GHashTable *old_settings;
 };
 
 G_DEFINE_DYNAMIC_TYPE (
-	ESettingsHTMLEditorView,
-	e_settings_html_editor_view,
+	ESettingsContentEditor,
+	e_settings_content_editor,
 	E_TYPE_EXTENSION)
 
 static void
-settings_html_editor_view_load_style (ESettingsHTMLEditorView *extension)
+settings_content_editor_load_style (ESettingsContentEditor *extension)
 {
 	EExtensible *extensible;
+	EContentEditor *cnt_editor;
 
 	extensible = e_extension_get_extensible (E_EXTENSION (extension));
-
-	e_html_editor_view_update_fonts (E_HTML_EDITOR_VIEW (extensible));
+	cnt_editor = e_html_editor_get_content_editor (E_HTML_EDITOR (extensible));
+	e_content_editor_update_fonts (cnt_editor);
 }
 
 static void
-settings_html_editor_view_changed_cb (GSettings *settings,
-                                      const gchar *key,
-                                      ESettingsHTMLEditorView *extension)
+settings_content_editor_changed_cb (GSettings *settings,
+                                    const gchar *key,
+                                    ESettingsContentEditor *extension)
 {
 	GVariant *new_value, *old_value;
 
@@ -67,15 +68,15 @@ settings_html_editor_view_changed_cb (GSettings *settings,
 		else
 			g_hash_table_remove (extension->priv->old_settings, key);
 
-		settings_html_editor_view_load_style (extension);
+		settings_content_editor_load_style (extension);
 	} else if (new_value) {
 		g_variant_unref (new_value);
 	}
 }
 
 static void
-settings_html_editor_view_realize (GtkWidget *widget,
-                                   ESettingsHTMLEditorView *extension)
+settings_content_editor_realize (GtkWidget *widget,
+                                 ESettingsContentEditor *extension)
 {
 	GSettings *settings;
 
@@ -101,56 +102,56 @@ settings_html_editor_view_realize (GtkWidget *widget,
 		widget, "unicode-smileys",
 		G_SETTINGS_BIND_GET);
 
-	settings_html_editor_view_load_style (extension);
+	settings_content_editor_load_style (extension);
 
 	/* Reload the web view when certain settings change. */
 
 	g_signal_connect (
 		settings, "changed::use-custom-font",
-		G_CALLBACK (settings_html_editor_view_changed_cb), extension);
+		G_CALLBACK (settings_content_editor_changed_cb), extension);
 
 	g_signal_connect (
 		settings, "changed::monospace-font",
-		G_CALLBACK (settings_html_editor_view_changed_cb), extension);
+		G_CALLBACK (settings_content_editor_changed_cb), extension);
 
 	g_signal_connect (
 		settings, "changed::variable-width-font",
-		G_CALLBACK (settings_html_editor_view_changed_cb), extension);
+		G_CALLBACK (settings_content_editor_changed_cb), extension);
 
 	g_signal_connect (
 		settings, "changed::mark-citations",
-		G_CALLBACK (settings_html_editor_view_changed_cb), extension);
+		G_CALLBACK (settings_content_editor_changed_cb), extension);
 
 	g_signal_connect (
 		settings, "changed::citation-color",
-		G_CALLBACK (settings_html_editor_view_changed_cb), extension);
+		G_CALLBACK (settings_content_editor_changed_cb), extension);
 }
 
 static void
-settings_html_editor_view_dispose (GObject *object)
+settings_content_editor_dispose (GObject *object)
 {
-	ESettingsHTMLEditorViewPrivate *priv;
+	ESettingsContentEditorPrivate *priv;
 
-	priv = E_SETTINGS_HTML_EDITOR_VIEW_GET_PRIVATE (object);
+	priv = E_SETTINGS_CONTENT_EDITOR_GET_PRIVATE (object);
 
 	if (priv->settings != NULL) {
 		g_signal_handlers_disconnect_by_func (
 			priv->settings,
-			settings_html_editor_view_changed_cb, object);
+			settings_content_editor_changed_cb, object);
 	}
 
 	g_clear_object (&priv->settings);
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (e_settings_html_editor_view_parent_class)->dispose (object);
+	G_OBJECT_CLASS (e_settings_content_editor_parent_class)->dispose (object);
 }
 
 static void
-settings_html_editor_view_finalize (GObject *object)
+settings_content_editor_finalize (GObject *object)
 {
-	ESettingsHTMLEditorViewPrivate *priv;
+	ESettingsContentEditorPrivate *priv;
 
-	priv = E_SETTINGS_HTML_EDITOR_VIEW_GET_PRIVATE (object);
+	priv = E_SETTINGS_CONTENT_EDITOR_GET_PRIVATE (object);
 
 	if (priv->old_settings) {
 		g_hash_table_destroy (priv->old_settings);
@@ -158,52 +159,54 @@ settings_html_editor_view_finalize (GObject *object)
 	}
 
 	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (e_settings_html_editor_view_parent_class)->finalize (object);
+	G_OBJECT_CLASS (e_settings_content_editor_parent_class)->finalize (object);
 }
 
 static void
-settings_html_editor_view_constructed (GObject *object)
+settings_content_editor_constructed (GObject *object)
 {
 	EExtensible *extensible;
+	EContentEditor *cnt_editor;
 
 	extensible = e_extension_get_extensible (E_EXTENSION (object));
+	cnt_editor = e_html_editor_get_content_editor (E_HTML_EDITOR (extensible));
 
 	g_signal_connect (
-		extensible, "realize",
-		G_CALLBACK (settings_html_editor_view_realize), object);
+		cnt_editor, "realize",
+		G_CALLBACK (settings_content_editor_realize), object);
 
 	/* Chain up to parent's constructed() method. */
-	G_OBJECT_CLASS (e_settings_html_editor_view_parent_class)->constructed (object);
+	G_OBJECT_CLASS (e_settings_content_editor_parent_class)->constructed (object);
 }
 
 static void
-e_settings_html_editor_view_class_init (ESettingsHTMLEditorViewClass *class)
+e_settings_content_editor_class_init (ESettingsContentEditorClass *class)
 {
 	GObjectClass *object_class;
 	EExtensionClass *extension_class;
 
-	g_type_class_add_private (class, sizeof (ESettingsHTMLEditorViewPrivate));
+	g_type_class_add_private (class, sizeof (ESettingsContentEditorPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
-	object_class->dispose = settings_html_editor_view_dispose;
-	object_class->finalize = settings_html_editor_view_finalize;
-	object_class->constructed = settings_html_editor_view_constructed;
+	object_class->dispose = settings_content_editor_dispose;
+	object_class->finalize = settings_content_editor_finalize;
+	object_class->constructed = settings_content_editor_constructed;
 
 	extension_class = E_EXTENSION_CLASS (class);
-	extension_class->extensible_type = E_TYPE_HTML_EDITOR_VIEW;
+	extension_class->extensible_type = E_TYPE_HTML_EDITOR;
 }
 
 static void
-e_settings_html_editor_view_class_finalize (ESettingsHTMLEditorViewClass *class)
+e_settings_content_editor_class_finalize (ESettingsContentEditorClass *class)
 {
 }
 
 static void
-e_settings_html_editor_view_init (ESettingsHTMLEditorView *extension)
+e_settings_content_editor_init (ESettingsContentEditor *extension)
 {
 	GSettings *settings;
 
-	extension->priv = E_SETTINGS_HTML_EDITOR_VIEW_GET_PRIVATE (extension);
+	extension->priv = E_SETTINGS_CONTENT_EDITOR_GET_PRIVATE (extension);
 
 	settings = e_util_ref_settings ("org.gnome.evolution.mail");
 	extension->priv->settings = settings;
@@ -213,11 +216,11 @@ e_settings_html_editor_view_init (ESettingsHTMLEditorView *extension)
 }
 
 void
-e_settings_html_editor_view_type_register (GTypeModule *type_module)
+e_settings_content_editor_type_register (GTypeModule *type_module)
 {
 	/* XXX G_DEFINE_DYNAMIC_TYPE declares a static type registration
 	 *     function, so we have to wrap it with a public function in
 	 *     order to register types from a separate compilation unit. */
-	e_settings_html_editor_view_register_type (type_module);
+	e_settings_content_editor_register_type (type_module);
 }
 

@@ -64,14 +64,14 @@ static void
 composer_update_gallery_visibility (EMsgComposer *composer)
 {
 	EHTMLEditor *editor;
-	EHTMLEditorView *view;
+	EContentEditor *cnt_editor;
 	GtkToggleAction *toggle_action;
 	gboolean gallery_active;
 	gboolean is_html;
 
 	editor = e_msg_composer_get_editor (composer);
-	view = e_html_editor_get_view (editor);
-	is_html = e_html_editor_view_get_html_mode (view);
+	cnt_editor = e_html_editor_get_content_editor (editor);
+	is_html = e_content_editor_get_html_mode (cnt_editor);
 
 	toggle_action = GTK_TOGGLE_ACTION (ACTION (PICTURE_GALLERY));
 	gallery_active = gtk_toggle_action_get_active (toggle_action);
@@ -94,7 +94,7 @@ e_composer_private_constructed (EMsgComposer *composer)
 	EShell *shell;
 	EClientCache *client_cache;
 	EHTMLEditor *editor;
-	EHTMLEditorView *view;
+	EContentEditor *cnt_editor;
 	GtkUIManager *ui_manager;
 	GtkAction *action;
 	GtkWidget *container;
@@ -109,7 +109,7 @@ e_composer_private_constructed (EMsgComposer *composer)
 
 	editor = e_msg_composer_get_editor (composer);
 	ui_manager = e_html_editor_get_ui_manager (editor);
-	view = e_html_editor_get_view (editor);
+	cnt_editor = e_html_editor_get_content_editor (editor);
 
 	settings = e_util_ref_settings ("org.gnome.evolution.mail");
 
@@ -130,7 +130,6 @@ e_composer_private_constructed (EMsgComposer *composer)
 
 	priv->charset = e_composer_get_default_charset ();
 
-	priv->is_from_new_message = FALSE;
 	priv->set_signature_from_message = FALSE;
 	priv->disable_signature = FALSE;
 	priv->busy = FALSE;
@@ -138,6 +137,9 @@ e_composer_private_constructed (EMsgComposer *composer)
 	priv->drop_occured = FALSE;
 	priv->dnd_is_uri = FALSE;
 	priv->dnd_history_saved = FALSE;
+	priv->check_if_signature_is_changed = FALSE;
+	priv->ignore_next_signature_change = FALSE;
+	priv->ignore_next_paste_clipboard_signals_emission = FALSE;
 
 	priv->focused_entry = NULL;
 
@@ -212,7 +214,7 @@ e_composer_private_constructed (EMsgComposer *composer)
 		E_COMPOSER_HEADER_TABLE (widget),
 		E_COMPOSER_HEADER_SUBJECT);
 	e_binding_bind_property (
-		view, "spell-checker",
+		cnt_editor, "spell-checker",
 		header->input_widget, "spell-checker",
 		G_BINDING_SYNC_CREATE);
 
@@ -230,11 +232,10 @@ e_composer_private_constructed (EMsgComposer *composer)
 	priv->attachment_paned = g_object_ref_sink (widget);
 	gtk_widget_show (widget);
 
-/* FIXME WK2
 	e_binding_bind_property (
-		view, "editable",
+		cnt_editor, "editable",
 		widget, "sensitive",
-		G_BINDING_SYNC_CREATE);*/
+		G_BINDING_SYNC_CREATE);
 
 	container = e_attachment_paned_get_content_area (
 		E_ATTACHMENT_PANED (priv->attachment_paned));
@@ -254,7 +255,7 @@ e_composer_private_constructed (EMsgComposer *composer)
 	priv->gallery_scrolled_window = g_object_ref (widget);
 	gtk_widget_show (widget);
 
-	widget = GTK_WIDGET (view);
+	widget = GTK_WIDGET (cnt_editor);
 	gtk_widget_reparent (widget, container);
 
 	/* Construct the picture gallery. */
@@ -270,7 +271,7 @@ e_composer_private_constructed (EMsgComposer *composer)
 	g_free (gallery_path);
 
 	e_signal_connect_notify_swapped (
-		view, "notify::mode",
+		cnt_editor, "notify::html-mode",
 		G_CALLBACK (composer_update_gallery_visibility), composer);
 
 	g_signal_connect_swapped (
@@ -491,133 +492,32 @@ e_composer_get_default_charset (void)
 }
 
 gboolean
-e_composer_paste_html (EMsgComposer *composer,
-                       GtkClipboard *clipboard)
-{
-	EHTMLEditor *editor;
-	EHTMLEditorView *view;
-	gchar *html;
-
-	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), FALSE);
-	g_return_val_if_fail (GTK_IS_CLIPBOARD (clipboard), FALSE);
-
-	if (!(html = e_clipboard_wait_for_html (clipboard)))
-		return FALSE;
-
-	g_return_val_if_fail (html != NULL, FALSE);
-
-	editor = e_msg_composer_get_editor (composer);
-	view = e_html_editor_get_view (editor);
-	/* If Web View doesn't have focus, focus it */
-	if (!gtk_widget_has_focus (GTK_WIDGET (view)))
-		gtk_widget_grab_focus (GTK_WIDGET (view));
-	e_html_editor_view_insert_html (view, html);
-
-	g_free (html);
-
-	return TRUE;
-}
-
-gboolean
 e_composer_paste_image (EMsgComposer *composer,
                         GtkClipboard *clipboard)
 {
-	EHTMLEditor *editor;
-	EHTMLEditorView *view;
-	GdkPixbuf *pixbuf = NULL;
-	gchar *filename = NULL;
-	gchar *uri = NULL;
-	gboolean success = FALSE;
-	GError *error = NULL;
+	EAttachment *attachment;
+	EAttachmentStore *store;
+	EAttachmentView *view;
+	gchar *uri;
 
 	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), FALSE);
 	g_return_val_if_fail (GTK_IS_CLIPBOARD (clipboard), FALSE);
 
-	/* Extract the image data from the clipboard. */
-	pixbuf = gtk_clipboard_wait_for_image (clipboard);
-	g_return_val_if_fail (pixbuf != NULL, FALSE);
+	view = e_msg_composer_get_attachment_view (composer);
+	store = e_attachment_view_get_store (view);
 
-	/* Reserve a temporary file. */
-	filename = e_mktemp (NULL);
-	if (filename == NULL) {
-		g_set_error (
-			&error, G_FILE_ERROR,
-			g_file_error_from_errno (errno),
-			"Could not create temporary file: %s",
-			g_strerror (errno));
-		goto exit;
-	}
-
-	/* Save the pixbuf as a temporary file in image/png format. */
-	if (!gdk_pixbuf_save (pixbuf, filename, "png", &error, NULL))
-		goto exit;
-
-	/* Convert the filename to a URI. */
-	uri = g_filename_to_uri (filename, NULL, &error);
-	if (uri == NULL)
-		goto exit;
-
-	/* In HTML mode, paste the image into the message body.
-	 * In text mode, add the image to the attachment store. */
-	editor = e_msg_composer_get_editor (composer);
-	view = e_html_editor_get_view (editor);
-	if (e_html_editor_view_get_html_mode (view)) {
-		e_html_editor_view_insert_image (view, uri);
-		e_html_editor_view_scroll_to_caret (view);
-	} else {
-		EAttachment *attachment;
-		EAttachmentStore *store;
-		EAttachmentView *attachment_view;
-
-		attachment_view = e_msg_composer_get_attachment_view (composer);
-		store = e_attachment_view_get_store (attachment_view);
-
-		attachment = e_attachment_new_for_uri (uri);
-		e_attachment_store_add_attachment (store, attachment);
-		e_attachment_load_async (
-			attachment, (GAsyncReadyCallback)
-			e_attachment_load_handle_error, composer);
-		g_object_unref (attachment);
-	}
-
-	success = TRUE;
-
-exit:
-	if (error != NULL) {
-		g_warning ("%s", error->message);
-		g_error_free (error);
-	}
-
-	g_object_unref (pixbuf);
-	g_free (filename);
-	g_free (uri);
-
-	return success;
-}
-
-gboolean
-e_composer_paste_text (EMsgComposer *composer,
-                       GtkClipboard *clipboard)
-{
-	EHTMLEditor *editor;
-	EHTMLEditorView *view;
-	gchar *text;
-
-	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), FALSE);
-	g_return_val_if_fail (GTK_IS_CLIPBOARD (clipboard), FALSE);
-
-	if (!(text = gtk_clipboard_wait_for_text (clipboard)))
+	if (!(uri = e_util_save_image_from_clipboard (clipboard)))
 		return FALSE;
 
-	editor = e_msg_composer_get_editor (composer);
-	view = e_html_editor_get_view (editor);
-	/* If WebView doesn't have focus, focus it */
-	if (!gtk_widget_has_focus (GTK_WIDGET (view)))
-		gtk_widget_grab_focus (GTK_WIDGET (view));
+	attachment = e_attachment_new_for_uri (uri);
+	e_attachment_store_add_attachment (store, attachment);
+	e_attachment_load_async (
+		attachment, (GAsyncReadyCallback)
+		e_attachment_load_handle_error, composer);
+	g_object_unref (attachment);
 
-	e_html_editor_view_insert_text (view, text);
 
-	g_free (text);
+	g_free (uri);
 
 	return TRUE;
 }
@@ -757,55 +657,17 @@ e_composer_selection_is_image_uris (EMsgComposer *composer,
 	return all_image_uris;
 }
 
-static gboolean
-add_signature_delimiter (EMsgComposer *composer)
-{
-	GSettings *settings;
-	gboolean signature_delim;
-
-	/* FIXME This should be an EMsgComposer property. */
-	settings = e_util_ref_settings ("org.gnome.evolution.mail");
-	signature_delim = !g_settings_get_boolean (
-		settings, "composer-no-signature-delim");
-	g_object_unref (settings);
-
-	return signature_delim;
-}
-
-static gboolean
-use_top_signature (EMsgComposer *composer)
-{
-	GSettings *settings;
-	gboolean top_signature;
-
-	/* FIXME This should be an EMsgComposer property. */
-	settings = e_util_ref_settings ("org.gnome.evolution.mail");
-	top_signature = g_settings_get_boolean (
-		settings, "composer-top-signature");
-	g_object_unref (settings);
-
-	return top_signature;
-}
-
 static void
 composer_load_signature_cb (EMailSignatureComboBox *combo_box,
                             GAsyncResult *result,
                             EMsgComposer *composer)
 {
-	GString *html_buffer = NULL;
-	gchar *contents = NULL;
+	gchar *contents = NULL, *new_signature_id;
 	gsize length = 0;
-	const gchar *active_id;
-	gboolean top_signature;
 	gboolean is_html;
 	GError *error = NULL;
 	EHTMLEditor *editor;
-	EHTMLEditorView *view;
-	GSettings *settings;
-	gboolean start_bottom;
-	gboolean is_message_from_edit_as_new;
-	GDBusProxy *web_extension;
-	GVariant *extension_result;
+	EContentEditor *cnt_editor;
 
 	e_mail_signature_combo_box_load_selected_finish (
 		combo_box, result, &contents, &length, &is_html, &error);
@@ -814,160 +676,42 @@ composer_load_signature_cb (EMailSignatureComboBox *combo_box,
 	if (error != NULL) {
 		g_warning ("%s: %s", G_STRFUNC, error->message);
 		g_error_free (error);
-		goto exit;
+		g_object_unref (composer);
+		return;
+	}
+
+	if (composer->priv->ignore_next_signature_change) {
+		composer->priv->ignore_next_signature_change = FALSE;
+		g_object_unref (composer);
+		return;
 	}
 
 	editor = e_msg_composer_get_editor (composer);
-	view = e_html_editor_get_view (editor);
-	is_message_from_edit_as_new =
-		e_html_editor_view_is_message_from_edit_as_new (view);
+	cnt_editor = e_html_editor_get_content_editor (editor);
 
-	/* "Edit as New Message" sets is_message_from_edit_as_new.
-	 * Always put the signature at the bottom for that case. */
-	top_signature =
-		use_top_signature (composer) &&
-		!is_message_from_edit_as_new &&
-		!composer->priv->is_from_new_message;
+	new_signature_id = e_content_editor_insert_signature (
+		cnt_editor,
+		contents,
+		is_html,
+		gtk_combo_box_get_active_id (GTK_COMBO_BOX (combo_box)),
+		&composer->priv->set_signature_from_message,
+		&composer->priv->check_if_signature_is_changed,
+		&composer->priv->ignore_next_signature_change);
 
-	settings = e_util_ref_settings ("org.gnome.evolution.mail");
-	start_bottom = g_settings_get_boolean (settings, "composer-reply-start-bottom");
-	g_object_unref (settings);
+	if (new_signature_id && *new_signature_id)
+		gtk_combo_box_set_active_id (GTK_COMBO_BOX (combo_box), new_signature_id);
 
-	if (contents == NULL)
-		goto insert;
-
-	if (!is_html) {
-		gchar *html;
-
-		html = camel_text_to_html (contents, 0, 0);
-		if (html) {
-			g_free (contents);
-
-			contents = html;
-			length = strlen (contents);
-		}
-	}
-
-	/* Generate HTML code for the signature. */
-
-	html_buffer = g_string_sized_new (1024);
-
-	/* The combo box active ID is the signature's ESource UID. */
-	active_id = gtk_combo_box_get_active_id (GTK_COMBO_BOX (combo_box));
-
-	g_string_append_printf (
-		html_buffer,
-		"<SPAN class=\"-x-evo-signature\" id=\"1\" name=\"%s\">",
-		(active_id != NULL) ? active_id : "");
-
-	if (!is_html)
-		g_string_append (html_buffer, "<PRE>");
-
-	/* The signature dash convention ("-- \n") is specified
-	 * in the "Son of RFC 1036", section 4.3.2.
-	 * http://www.chemie.fu-berlin.de/outerspace/netnews/son-of-1036.html
-	 */
-	if (add_signature_delimiter (composer)) {
-		const gchar *delim;
-		const gchar *delim_nl;
-
-		if (is_html) {
-			delim = "-- <BR>";
-			delim_nl = "\n-- <BR>";
-		} else {
-			delim = "-- \n";
-			delim_nl = "\n-- \n";
-		}
-
-		/* Skip the delimiter if the signature already has one. */
-		if (g_ascii_strncasecmp (contents, delim, strlen (delim)) == 0)
-			;  /* skip */
-		else if (e_util_strstrcase (contents, delim_nl) != NULL)
-			;  /* skip */
-		else
-			g_string_append (html_buffer, delim);
-	}
-
-	g_string_append_len (html_buffer, contents, length);
-
-	if (!is_html)
-		g_string_append (html_buffer, "</PRE>");
-
-	g_string_append (html_buffer, "</SPAN>");
+	g_free (new_signature_id);
 	g_free (contents);
-
-insert:
-	/* Remove the old signature and insert the new one. */
-	web_extension = e_html_editor_view_get_web_extension_proxy (view);
-	if (!web_extension)
-		return;
-
-	extension_result = g_dbus_proxy_call_sync (
-		web_extension,
-		"DOMRemoveSignatures",
-		g_variant_new (
-			"(tb)",
-			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view)),
-			top_signature),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL);
-
-	if (is_message_from_edit_as_new && composer->priv->set_signature_from_message && extension_result) {
-		const gchar *id;
-		gsize length = 0;
-
-		id = g_variant_get_string (extension_result, &length);
-		if (length > 0 && id && *id) {
-			composer->priv->set_signature_from_message = FALSE;
-			gtk_combo_box_set_active_id (GTK_COMBO_BOX (combo_box), id);
-		}
-		g_object_unref (extension_result);
-	}
-
-	if (html_buffer && html_buffer->str && *html_buffer->str) {
-		g_dbus_proxy_call (
-			web_extension,
-			"DOMInsertSignature",
-			g_variant_new (
-				"(tsbb)",
-				webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view)),
-				html_buffer->str,
-				top_signature,
-				start_bottom),
-			G_DBUS_CALL_FLAGS_NONE,
-			-1,
-			NULL,
-			NULL,
-			NULL);
-
-		g_string_free (html_buffer, TRUE);
-	}
-
-	if (start_bottom)
-		e_html_editor_view_scroll_to_caret (view);
-exit:
-	/* Make sure the flag will be unset and won't influence user's choice */
-	composer->priv->set_signature_from_message = FALSE;
-
 	g_object_unref (composer);
 }
 
 static void
-composer_web_view_load_changed_cb (WebKitWebView *webkit_web_view,
-                                   WebKitLoadEvent load_event,
-                                   EMsgComposer *composer)
+content_editor_load_finished_cb (EContentEditor *cnt_editor,
+                                 EMsgComposer *composer)
 {
-	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
-
-	if (load_event != WEBKIT_LOAD_FINISHED)
-		return;
-
 	g_signal_handlers_disconnect_by_func (
-		webkit_web_view,
-		G_CALLBACK (composer_web_view_load_changed_cb),
-		NULL);
+		cnt_editor, G_CALLBACK (content_editor_load_finished_cb), composer);
 
 	e_composer_update_signature (composer);
 }
@@ -978,7 +722,7 @@ e_composer_update_signature (EMsgComposer *composer)
 	EComposerHeaderTable *table;
 	EMailSignatureComboBox *combo_box;
 	EHTMLEditor *editor;
-	EHTMLEditorView *view;
+	EContentEditor *cnt_editor;
 
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 
@@ -990,18 +734,12 @@ e_composer_update_signature (EMsgComposer *composer)
 	table = e_msg_composer_get_header_table (composer);
 	combo_box = e_composer_header_table_get_signature_combo_box (table);
 	editor = e_msg_composer_get_editor (composer);
-	view = e_html_editor_get_view (editor);
+	cnt_editor = e_html_editor_get_content_editor (editor);
 
-	/* If document is not loaded, we will wait for him */
-	if (webkit_web_view_is_loading (WEBKIT_WEB_VIEW (view))) {
-		/* Disconnect previous handlers */
-		g_signal_handlers_disconnect_by_func (
-			WEBKIT_WEB_VIEW (view),
-			G_CALLBACK (composer_web_view_load_changed_cb),
-			composer);
+	if (!e_content_editor_is_ready (cnt_editor)) {
 		g_signal_connect (
-			WEBKIT_WEB_VIEW(view), "load-changed",
-			G_CALLBACK (composer_web_view_load_changed_cb),
+			cnt_editor, "load-finished",
+			G_CALLBACK (content_editor_load_finished_cb),
 			composer);
 		return;
 	}

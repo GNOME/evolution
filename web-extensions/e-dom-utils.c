@@ -1594,6 +1594,22 @@ element_remove_class (WebKitDOMElement *element,
 }
 
 void
+element_rename_attribute (WebKitDOMElement *element,
+                      const gchar *from,
+                      const gchar *to)
+{
+	gchar *value;
+
+	if (!webkit_dom_element_has_attribute (element, from))
+		return;
+
+	value = webkit_dom_element_get_attribute (element, from);
+	webkit_dom_element_set_attribute (element, to, (value && *value) ? value : "", NULL);
+	webkit_dom_element_remove_attribute (element, from);
+	g_free (value);
+}
+
+void
 remove_node (WebKitDOMNode *node)
 {
 	WebKitDOMNode *parent = webkit_dom_node_get_parent_node (node);
@@ -1796,13 +1812,13 @@ node_is_list (WebKitDOMNode *node)
  *
  * Returns block format of given list.
  *
- * Returns: #EHTMLEditorSelectionBlockFormat
+ * Returns: #EContentEditorBlockFormat
  */
-EHTMLEditorSelectionBlockFormat
+EContentEditorBlockFormat
 dom_get_list_format_from_node (WebKitDOMNode *node)
 {
-	EHTMLEditorSelectionBlockFormat format =
-		E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_UNORDERED_LIST;
+	EContentEditorBlockFormat format =
+		E_CONTENT_EDITOR_BLOCK_FORMAT_UNORDERED_LIST;
 
 	if (WEBKIT_DOM_IS_HTML_LI_ELEMENT (node))
 		return -1;
@@ -1815,14 +1831,14 @@ dom_get_list_format_from_node (WebKitDOMNode *node)
 			WEBKIT_DOM_ELEMENT (node), "type");
 
 		if (!type_value)
-			return E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_ORDERED_LIST;
+			return E_CONTENT_EDITOR_BLOCK_FORMAT_ORDERED_LIST;
 
 		if (!*type_value)
-			format = E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_ORDERED_LIST;
+			format = E_CONTENT_EDITOR_BLOCK_FORMAT_ORDERED_LIST;
 		else if (g_ascii_strcasecmp (type_value, "A") == 0)
-			format = E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_ORDERED_LIST_ALPHA;
+			format = E_CONTENT_EDITOR_BLOCK_FORMAT_ORDERED_LIST_ALPHA;
 		else if (g_ascii_strcasecmp (type_value, "I") == 0)
-			format = E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_ORDERED_LIST_ROMAN;
+			format = E_CONTENT_EDITOR_BLOCK_FORMAT_ORDERED_LIST_ROMAN;
 		g_free (type_value);
 
 		return format;
@@ -1858,7 +1874,7 @@ merge_list_into_list (WebKitDOMNode *from,
 void
 merge_lists_if_possible (WebKitDOMNode *list)
 {
-	EHTMLEditorSelectionBlockFormat format, prev, next;
+	EContentEditorBlockFormat format, prev, next;
 	gint ii, length;
 	WebKitDOMNode *prev_sibling, *next_sibling;
 	WebKitDOMNodeList *lists;

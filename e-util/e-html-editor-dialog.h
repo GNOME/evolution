@@ -62,6 +62,16 @@ struct _EHTMLEditorDialogClass {
 	GtkWindowClass parent_class;
 };
 
+#if 0
+struct _EContentEditorDialogInterface {
+	GTypeInterface parent_interface;
+
+	void		(*dialog_opened)		(EContentEditorDialog *dialog);
+
+	void		(*dialog_closed)		(EContentEditorDialog *dialog);
+};
+#endif
+
 GType		e_html_editor_dialog_get_type	(void) G_GNUC_CONST;
 EHTMLEditor *	e_html_editor_dialog_get_editor	(EHTMLEditorDialog *dialog);
 GtkBox *	e_html_editor_dialog_get_button_box

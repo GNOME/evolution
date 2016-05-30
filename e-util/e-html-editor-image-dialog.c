@@ -60,16 +60,16 @@ static void
 html_editor_image_dialog_set_src (EHTMLEditorImageDialog *dialog)
 {
 	EHTMLEditor *editor;
-	EHTMLEditorView *view;
+	EContentEditor *cnt_editor;
 	gchar *uri;
 
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
-	view = e_html_editor_get_view (editor);
+	cnt_editor = e_html_editor_get_content_editor (editor);
 
 	uri = gtk_file_chooser_get_uri (
 		GTK_FILE_CHOOSER (dialog->priv->file_chooser));
 
-	e_html_editor_view_replace_image_src (view, "img#-x-evo-current-img", uri);
+	e_content_editor_image_set_src (cnt_editor, uri);
 
 	g_free (uri);
 }
@@ -78,54 +78,33 @@ static void
 html_editor_image_dialog_set_alt (EHTMLEditorImageDialog *dialog)
 {
 	EHTMLEditor *editor;
-	EHTMLEditorView *view;
+	EContentEditor *cnt_editor;
 	const gchar *value;
 
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
-	view = e_html_editor_get_view (editor);
+	cnt_editor = e_html_editor_get_content_editor (editor);
 
 	value = gtk_entry_get_text (GTK_ENTRY (dialog->priv->description_edit));
 
-	e_html_editor_view_set_element_attribute (
-		view, "#-x-evo-current-img", "alt", value);
+	e_content_editor_image_set_alt (cnt_editor, value);
 }
 
 static void
 html_editor_image_dialog_set_width (EHTMLEditorImageDialog *dialog)
 {
 	EHTMLEditor *editor;
-	EHTMLEditorView *view;
-	GDBusProxy *web_extension;
-	GVariant *result;
+	EContentEditor *cnt_editor;
 	gint requested;
-	gulong natural = 0;
+	gint32 natural = 0;
 	gint width;
 
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
-	view = e_html_editor_get_view (editor);
-	web_extension = e_html_editor_view_get_web_extension_proxy (view);
-	if (!web_extension)
-		return;
+	cnt_editor = e_html_editor_get_content_editor (editor);
 
-	result = g_dbus_proxy_call_sync (
-		web_extension,
-		"ImageElementGetNaturalWidth",
-		g_variant_new (
-			"(ts)",
-			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view)),
-			"-x-evo-current-img"),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL);
-
-	if (result) {
-		g_variant_get (result, "(i)", &natural);
-		g_variant_unref (result);
-	}
+	natural = e_content_editor_image_get_natural_width (cnt_editor);
 
 	requested = gtk_spin_button_get_value_as_int (
-			GTK_SPIN_BUTTON (dialog->priv->width_edit));
+		GTK_SPIN_BUTTON (dialog->priv->width_edit));
 
 	switch (gtk_combo_box_get_active (GTK_COMBO_BOX (dialog->priv->width_units))) {
 		case 0:	/* px */
@@ -144,54 +123,22 @@ html_editor_image_dialog_set_width (EHTMLEditorImageDialog *dialog)
 			return;
 	}
 
-	g_dbus_proxy_call (
-		web_extension,
-		"ImageElementSetWidth",
-		g_variant_new (
-			"(tsi)",
-			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view)),
-			"-x-evo-current-img",
-			width),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL,
-		NULL);
+	e_content_editor_image_set_width (cnt_editor, width);
 }
 
 static void
 html_editor_image_dialog_set_width_units (EHTMLEditorImageDialog *dialog)
 {
 	EHTMLEditor *editor;
-	EHTMLEditorView *view;
-	GDBusProxy *web_extension;
-	GVariant *result;
+	EContentEditor *cnt_editor;
 	gint requested;
-	gulong natural = 0;
+	gint32 natural = 0;
 	gint width = 0;
 
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
-	view = e_html_editor_get_view (editor);
-	web_extension = e_html_editor_view_get_web_extension_proxy (view);
-	if (!web_extension)
-		return;
+	cnt_editor = e_html_editor_get_content_editor (editor);
 
-	result = g_dbus_proxy_call_sync (
-		web_extension,
-		"ImageElementGetNaturalWidth",
-		g_variant_new (
-			"(ts)",
-			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view)),
-			"-x-evo-current-img"),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL);
-
-	if (result) {
-		g_variant_get (result, "(i)", &natural);
-		g_variant_unref (result);
-	}
+	natural = e_content_editor_image_get_natural_width (cnt_editor);
 
 	requested = gtk_spin_button_get_value_as_int (
 			GTK_SPIN_BUTTON (dialog->priv->width_edit));
@@ -205,8 +152,6 @@ html_editor_image_dialog_set_width_units (EHTMLEditorImageDialog *dialog)
 			} else {
 				width = natural;
 			}
-			e_html_editor_view_remove_element_attribute (
-				view, "#-x-evo-current-img", "style");
 			gtk_widget_set_sensitive (dialog->priv->width_edit, TRUE);
 			break;
 
@@ -216,17 +161,16 @@ html_editor_image_dialog_set_width_units (EHTMLEditorImageDialog *dialog)
 			} else {
 				width = 100;
 			}
-			e_html_editor_view_remove_element_attribute (
-				view, "#-x-evo-current-img", "style");
 			gtk_widget_set_sensitive (dialog->priv->width_edit, TRUE);
 			break;
 
 		case 2: /* follow */
-			e_html_editor_view_set_element_attribute (
-				view, "#-x-evo-current-img", "style", "width: auto;");
 			gtk_widget_set_sensitive (dialog->priv->width_edit, FALSE);
 			break;
 	}
+
+	e_content_editor_image_set_width_follow (
+		cnt_editor, !gtk_widget_get_sensitive (dialog->priv->width_edit));
 
 	if (width != 0)
 		gtk_spin_button_set_value (
@@ -237,38 +181,18 @@ static void
 html_editor_image_dialog_set_height (EHTMLEditorImageDialog *dialog)
 {
 	EHTMLEditor *editor;
-	EHTMLEditorView *view;
-	GDBusProxy *web_extension;
-	GVariant *result;
+	EContentEditor *cnt_editor;
 	gint requested;
-	gulong natural = 0;
+	gint32 natural = 0;
 	gint height;
 
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
-	view = e_html_editor_get_view (editor);
-	web_extension = e_html_editor_view_get_web_extension_proxy (view);
-	if (!web_extension)
-		return;
+	cnt_editor = e_html_editor_get_content_editor (editor);
 
-	result = g_dbus_proxy_call_sync (
-		web_extension,
-		"ImageElementGetNaturalHeight",
-		g_variant_new (
-			"(ts)",
-			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view)),
-			"-x-evo-current-img"),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL);
-
-	if (result) {
-		g_variant_get (result, "(i)", &natural);
-		g_variant_unref (result);
-	}
+	natural = e_content_editor_image_get_natural_height (cnt_editor);
 
 	requested = gtk_spin_button_get_value_as_int (
-			GTK_SPIN_BUTTON (dialog->priv->height_edit));
+		GTK_SPIN_BUTTON (dialog->priv->height_edit));
 
 	switch (gtk_combo_box_get_active (GTK_COMBO_BOX (dialog->priv->height_units))) {
 		case 0:	/* px */
@@ -287,57 +211,25 @@ html_editor_image_dialog_set_height (EHTMLEditorImageDialog *dialog)
 			return;
 	}
 
-	g_dbus_proxy_call (
-		web_extension,
-		"ImageElementSetHeight",
-		g_variant_new (
-			"(tsi)",
-			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view)),
-			"-x-evo-current-img",
-			height),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL,
-		NULL);
+	e_content_editor_image_set_height (cnt_editor, height);
 }
 
 static void
 html_editor_image_dialog_set_height_units (EHTMLEditorImageDialog *dialog)
 {
 	EHTMLEditor *editor;
-	EHTMLEditorView *view;
-	GDBusProxy *web_extension;
-	GVariant *result;
+	EContentEditor *cnt_editor;
 	gint requested;
 	gulong natural = 0;
 	gint height = -1;
 
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
-	view = e_html_editor_get_view (editor);
-	web_extension = e_html_editor_view_get_web_extension_proxy (view);
-	if (!web_extension)
-		return;
+	cnt_editor = e_html_editor_get_content_editor (editor);
 
-	result = g_dbus_proxy_call_sync (
-		web_extension,
-		"ImageElementGetNaturalHeight",
-		g_variant_new (
-			"(ts)",
-			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view)),
-			"-x-evo-current-img"),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL);
-
-	if (result) {
-		g_variant_get (result, "(i)", &natural);
-		g_variant_unref (result);
-	}
+	natural = e_content_editor_image_get_natural_height (cnt_editor);
 
 	requested = gtk_spin_button_get_value_as_int (
-			GTK_SPIN_BUTTON (dialog->priv->height_edit));
+		GTK_SPIN_BUTTON (dialog->priv->height_edit));
 
 	switch (gtk_combo_box_get_active (
 		GTK_COMBO_BOX (dialog->priv->height_units))) {
@@ -348,8 +240,6 @@ html_editor_image_dialog_set_height_units (EHTMLEditorImageDialog *dialog)
 			} else {
 				height = natural;
 			}
-			e_html_editor_view_remove_element_attribute (
-				view, "#-x-evo-current-img", "style");
 			gtk_widget_set_sensitive (dialog->priv->height_edit, TRUE);
 			break;
 
@@ -359,17 +249,16 @@ html_editor_image_dialog_set_height_units (EHTMLEditorImageDialog *dialog)
 			} else {
 				height = 100;
 			}
-			e_html_editor_view_remove_element_attribute (
-				view, "#-x-evo-current-img", "style");
 			gtk_widget_set_sensitive (dialog->priv->height_edit, TRUE);
 			break;
 
 		case 2: /* follow */
-			e_html_editor_view_set_element_attribute (
-				view, "#-x-evo-current-img", "style", "height: auto;");
 			gtk_widget_set_sensitive (dialog->priv->height_edit, FALSE);
 			break;
 	}
+
+	e_content_editor_image_set_height_follow (
+		cnt_editor, !gtk_widget_get_sensitive (dialog->priv->height_edit));
 
 	if (height != -1)
 		gtk_spin_button_set_value (
@@ -380,120 +269,75 @@ static void
 html_editor_image_dialog_set_alignment (EHTMLEditorImageDialog *dialog)
 {
 	EHTMLEditor *editor;
-	EHTMLEditorView *view;
+	EContentEditor *cnt_editor;
 	const gchar *value;
 
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
-	view = e_html_editor_get_view (editor);
+	cnt_editor = e_html_editor_get_content_editor (editor);
 
 	value = gtk_combo_box_get_active_id (GTK_COMBO_BOX (dialog->priv->alignment));
-	e_html_editor_view_set_element_attribute (
-		view, "#-x-evo-current-img", "align", value);
+	e_content_editor_image_set_align (cnt_editor, value);
 }
 
 static void
 html_editor_image_dialog_set_x_padding (EHTMLEditorImageDialog *dialog)
 {
 	EHTMLEditor *editor;
-	EHTMLEditorView *view;
-	GDBusProxy *web_extension;
+	EContentEditor *cnt_editor;
+	gint value;
 
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
-	view = e_html_editor_get_view (editor);
-	web_extension = e_html_editor_view_get_web_extension_proxy (view);
-	if (!web_extension)
-		return;
+	cnt_editor = e_html_editor_get_content_editor (editor);
 
-	g_dbus_proxy_call (
-		web_extension,
-		"ImageElementSetHSpace",
-		g_variant_new (
-			"(tsi)",
-			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view)),
-			"-x-evo-current-img",
-			gtk_spin_button_get_value_as_int (
-				GTK_SPIN_BUTTON (dialog->priv->x_padding_edit))),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL,
-		NULL);
+	value = gtk_spin_button_get_value_as_int (
+		GTK_SPIN_BUTTON (dialog->priv->x_padding_edit));
+	e_content_editor_image_set_hspace (cnt_editor, value);
 }
 
 static void
 html_editor_image_dialog_set_y_padding (EHTMLEditorImageDialog *dialog)
 {
 	EHTMLEditor *editor;
-	EHTMLEditorView *view;
-	GDBusProxy *web_extension;
+	EContentEditor *cnt_editor;
+	gint value;
 
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
-	view = e_html_editor_get_view (editor);
-	web_extension = e_html_editor_view_get_web_extension_proxy (view);
-	if (!web_extension)
-		return;
+	cnt_editor = e_html_editor_get_content_editor (editor);
 
-	g_dbus_proxy_call (
-		web_extension,
-		"ImageElementSetVSpace",
-		g_variant_new (
-			"(tsi)",
-			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view)),
-			"-x-evo-current-img",
-			gtk_spin_button_get_value_as_int (
-				GTK_SPIN_BUTTON (dialog->priv->y_padding_edit))),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL,
-		NULL);
+	value = gtk_spin_button_get_value_as_int (
+		GTK_SPIN_BUTTON (dialog->priv->y_padding_edit));
+	e_content_editor_image_set_vspace (cnt_editor, value);
 }
 
 static void
 html_editor_image_dialog_set_border (EHTMLEditorImageDialog *dialog)
 {
 	EHTMLEditor *editor;
-	EHTMLEditorView *view;
-	gchar *value;
+	EContentEditor *cnt_editor;
+	gint value;
 
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
-	view = e_html_editor_get_view (editor);
+	cnt_editor = e_html_editor_get_content_editor (editor);
 
-	value = g_strdup_printf (
-		"%d", gtk_spin_button_get_value_as_int (
-			GTK_SPIN_BUTTON (dialog->priv->border_edit)));
+	value = gtk_spin_button_get_value_as_int (
+		GTK_SPIN_BUTTON (dialog->priv->border_edit));
 
-	e_html_editor_view_set_element_attribute (
-		view, "#-x-evo-current-img", "border", value);
-
-	g_free (value);
+	e_content_editor_image_set_border (cnt_editor, value);
 }
 
 static void
 html_editor_image_dialog_set_url (EHTMLEditorImageDialog *dialog)
 {
 	EHTMLEditor *editor;
-	EHTMLEditorView *view;
-	GDBusProxy *web_extension;
+	EContentEditor *cnt_editor;
+	const gchar *value;
 
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
-	view = e_html_editor_get_view (editor);
-	web_extension = e_html_editor_view_get_web_extension_proxy (view);
-	if (!web_extension)
-		return;
+	cnt_editor = e_html_editor_get_content_editor (editor);
 
-	g_dbus_proxy_call (
-		web_extension,
-		"EHTMLEditorImageDialogSetElementUrl",
-		g_variant_new (
-			"(ts)",
-			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view)),
-			gtk_entry_get_text (GTK_ENTRY (dialog->priv->url_edit))),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL,
-		NULL);
+	value = gtk_entry_get_text (GTK_ENTRY (dialog->priv->url_edit));
+
+	e_content_editor_image_set_url (cnt_editor, value);
 }
 
 static void
@@ -511,173 +355,70 @@ html_editor_image_dialog_show (GtkWidget *widget)
 {
 	EHTMLEditor *editor;
 	EHTMLEditorImageDialog *dialog;
-	EHTMLEditorView *view;
-	GDBusProxy *web_extension;
-	GVariant *result;
+	EContentEditor *cnt_editor;
+	gchar *value;
 
 	dialog = E_HTML_EDITOR_IMAGE_DIALOG (widget);
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
-	view = e_html_editor_get_view (editor);
-	web_extension = e_html_editor_view_get_web_extension_proxy (view);
-	if (!web_extension)
-		return;
+	cnt_editor = e_html_editor_get_content_editor (editor);
 
-	e_html_editor_view_call_simple_extension_function (
-		view, "EHTMLEditorImageDialogMarkImage");
+	e_content_editor_on_image_dialog_open (cnt_editor);
 
-	result = e_html_editor_view_get_element_attribute (
-		view, "#-x-evo-current-img", "data-uri");
-
-	if (result) {
-		const gchar *value;
-
-		g_variant_get (result, "(&s)", &value);
-		if (value && *value) {
-			gtk_file_chooser_set_uri (
-				GTK_FILE_CHOOSER (dialog->priv->file_chooser), value);
-			gtk_widget_set_sensitive (
-				GTK_WIDGET (dialog->priv->file_chooser), TRUE);
-		} else {
-			gtk_file_chooser_set_uri (
-				GTK_FILE_CHOOSER (dialog->priv->file_chooser), "");
-			gtk_widget_set_sensitive (
-				GTK_WIDGET (dialog->priv->file_chooser), FALSE);
-		}
-		g_variant_unref (result);
+	value = e_content_editor_image_get_src (cnt_editor);
+	if (value && *value) {
+		gtk_file_chooser_set_uri (
+			GTK_FILE_CHOOSER (dialog->priv->file_chooser), value);
+		gtk_widget_set_sensitive (
+			GTK_WIDGET (dialog->priv->file_chooser), TRUE);
+	} else {
+		gtk_file_chooser_set_uri (
+			GTK_FILE_CHOOSER (dialog->priv->file_chooser), "");
+		gtk_widget_set_sensitive (
+			GTK_WIDGET (dialog->priv->file_chooser), FALSE);
 	}
+	g_free (value);
 
-	result = e_html_editor_view_get_element_attribute (
-		view, "#-x-evo-current-img", "alt");
+	value = e_content_editor_image_get_alt (cnt_editor);
+	gtk_entry_set_text (
+		GTK_ENTRY (dialog->priv->description_edit), value ? value : "");
+	g_free (value);
 
-	if (result) {
-		const gchar *value;
+	gtk_spin_button_set_value (
+		GTK_SPIN_BUTTON (dialog->priv->width_edit),
+		e_content_editor_image_get_width (cnt_editor));
 
-		g_variant_get (result, "(&s)", &value);
-		gtk_entry_set_text (
-			GTK_ENTRY (dialog->priv->description_edit),
-			value ? value : "");
-		g_variant_unref (result);
-	}
+	gtk_combo_box_set_active_id (
+		GTK_COMBO_BOX (dialog->priv->width_units), "units-px");
 
-	result = g_dbus_proxy_call_sync (
-		web_extension,
-		"ImageElementGetWidth",
-		g_variant_new (
-			"(ts)",
-			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view)),
-			"-x-evo-current-img"),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL);
+	gtk_spin_button_set_value (
+		GTK_SPIN_BUTTON (dialog->priv->height_edit),
+		e_content_editor_image_get_height (cnt_editor));
 
-	if (result) {
-		glong value = 0;
+	gtk_combo_box_set_active_id (
+		GTK_COMBO_BOX (dialog->priv->height_units), "units-px");
 
-		g_variant_get (result, "(&i)", &value);
-		gtk_spin_button_set_value (
-			GTK_SPIN_BUTTON (dialog->priv->width_edit), value);
-		gtk_combo_box_set_active_id (
-			GTK_COMBO_BOX (dialog->priv->width_units), "units-px");
-		g_variant_unref (result);
-	}
+	gtk_spin_button_set_value (
+		GTK_SPIN_BUTTON (dialog->priv->border_edit),
+		e_content_editor_image_get_border (cnt_editor));
 
-	result = g_dbus_proxy_call_sync (
-		web_extension,
-		"ImageElementGetHeight",
-		g_variant_new (
-			"(ts)",
-			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view)),
-			"-x-evo-current-img"),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL);
+	value = e_content_editor_image_get_align (cnt_editor);
+	gtk_combo_box_set_active_id (
+		GTK_COMBO_BOX (dialog->priv->alignment),
+		(value && *value) ? value : "bottom");
+	g_free (value);
 
-	if (result) {
-		glong value;
+	gtk_spin_button_set_value (
+		GTK_SPIN_BUTTON (dialog->priv->y_padding_edit),
+		e_content_editor_image_get_hspace (cnt_editor));
 
-		g_variant_get (result, "(i)", &value);
-		gtk_spin_button_set_value (
-			GTK_SPIN_BUTTON (dialog->priv->height_edit), value);
-		gtk_combo_box_set_active_id (
-			GTK_COMBO_BOX (dialog->priv->height_units), "units-px");
-		g_variant_unref (result);
-	}
+	gtk_spin_button_set_value (
+		GTK_SPIN_BUTTON (dialog->priv->y_padding_edit),
+		e_content_editor_image_get_vspace (cnt_editor));
 
-	result = e_html_editor_view_get_element_attribute (
-		view, "#-x-evo-current-img", "border");
-
-	if (result) {
-		const gchar *value;
-
-		g_variant_get (result, "(&s)", &value);
-		gtk_combo_box_set_active_id (
-			GTK_COMBO_BOX (dialog->priv->alignment),
-			(value && *value) ? value : "bottom");
-		g_variant_unref (result);
-	}
-
-	result = g_dbus_proxy_call_sync (
-		web_extension,
-		"ImageElementGetHSpace",
-		g_variant_new (
-			"(ts)",
-			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view)),
-			"-x-evo-current-img"),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL);
-
-	if (result) {
-		glong value = 0;
-
-		g_variant_get (result, "(&i)", &value);
-		gtk_spin_button_set_value (
-			GTK_SPIN_BUTTON (dialog->priv->x_padding_edit), value);
-		g_variant_unref (result);
-	}
-
-	result = g_dbus_proxy_call_sync (
-		web_extension,
-		"ImageElementGetVSpace",
-		g_variant_new (
-			"(ts)",
-			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view)),
-			"-x-evo-current-img"),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL);
-
-	if (result) {
-		glong value = 0;
-
-		g_variant_get (result, "(&i)", &value);
-		gtk_spin_button_set_value (
-			GTK_SPIN_BUTTON (dialog->priv->y_padding_edit), value);
-		g_variant_unref (result);
-	}
-
-	result = g_dbus_proxy_call_sync (
-		web_extension,
-		"EHTMLEditorImageDialogGetElementUrl",
-		g_variant_new (
-			"(t)",
-			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view))),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL);
-
-	if (result) {
-		const gchar *value;
-
-		g_variant_get (result, "(&s)", &value);
+	value = e_content_editor_image_get_url (cnt_editor);
+	if (value && *value)
 		gtk_entry_set_text (GTK_ENTRY (dialog->priv->url_edit), value);
-		g_variant_unref (result);
-	}
+	g_free (value);
 
 	/* Chain up to parent implementation */
 	GTK_WIDGET_CLASS (e_html_editor_image_dialog_parent_class)->show (widget);
@@ -688,14 +429,13 @@ html_editor_image_dialog_hide (GtkWidget *widget)
 {
 	EHTMLEditor *editor;
 	EHTMLEditorImageDialog *dialog;
-	EHTMLEditorView *view;
+	EContentEditor *cnt_editor;
 
 	dialog = E_HTML_EDITOR_IMAGE_DIALOG (widget);
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
-	view = e_html_editor_get_view (editor);
+	cnt_editor = e_html_editor_get_content_editor (editor);
 
-	e_html_editor_view_call_simple_extension_function (
-		view, "EHTMLEditorImageDialogSaveHistoryOnExit");
+	e_content_editor_on_image_dialog_close (cnt_editor);
 
 	GTK_WIDGET_CLASS (e_html_editor_image_dialog_parent_class)->hide (widget);
 }

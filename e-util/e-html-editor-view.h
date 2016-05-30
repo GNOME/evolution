@@ -67,8 +67,6 @@ struct _EHTMLEditorView {
 struct _EHTMLEditorViewClass {
 	WebKitWebViewClass parent_class;
 
-	void		(*paste_clipboard_quoted)
-						(EHTMLEditorView *view);
 	gboolean	(*popup_event)		(EHTMLEditorView *view,
 						 GdkEventButton *event);
 	void		(*paste_primary_clipboard)
@@ -133,7 +131,7 @@ gboolean	e_html_editor_view_get_magic_links
 void		e_html_editor_view_set_magic_links
 						(EHTMLEditorView *view,
 						 gboolean magic_links);
-void		e_html_editor_view_insert_smiley
+void		e_html_editor_view_insert_emoticon
 						(EHTMLEditorView *view,
 						 EEmoticon *emoticon);
 gboolean	e_html_editor_view_get_magic_smileys
@@ -174,10 +172,6 @@ void		e_html_editor_view_set_text_html
 void		e_html_editor_view_set_text_plain
 						(EHTMLEditorView *view,
 						 const gchar *text);
-void		e_html_editor_view_paste_as_text
-						(EHTMLEditorView *view);
-void		e_html_editor_view_paste_clipboard_quoted
-						(EHTMLEditorView *view);
 void		e_html_editor_view_embed_styles	(EHTMLEditorView *view);
 void		e_html_editor_view_remove_embed_styles
 						(EHTMLEditorView *view);
@@ -203,8 +197,6 @@ void		e_html_editor_view_set_is_message_from_edit_as_new
 void		e_html_editor_view_set_is_editting_message
 						(EHTMLEditorView *view,
 						 gboolean value);
-void		e_html_editor_view_scroll_to_caret
-						(EHTMLEditorView *view);
 void		e_html_editor_view_replace_image_src
 						(EHTMLEditorView *view,
 						 const gchar *selector,
@@ -216,8 +208,6 @@ void		e_html_editor_view_check_magic_links
 void		e_html_editor_view_restore_selection
 						(EHTMLEditorView *view);
 void		e_html_editor_view_save_selection
-						(EHTMLEditorView *view);
-gboolean	e_html_editor_view_is_selection_saved
 						(EHTMLEditorView *view);
 void		e_html_editor_view_move_selection_on_point
 						(EHTMLEditorView *view,

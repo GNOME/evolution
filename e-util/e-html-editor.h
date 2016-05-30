@@ -28,7 +28,7 @@
 #include <gtk/gtk.h>
 #include <e-util/e-activity.h>
 #include <e-util/e-activity-bar.h>
-#include <e-util/e-html-editor-view.h>
+#include <e-util/e-content-editor.h>
 
 /* Standard GObject macros */
 #define E_TYPE_HTML_EDITOR \
@@ -71,8 +71,12 @@ struct _EHTMLEditorClass {
 
 GType		e_html_editor_get_type		(void) G_GNUC_CONST;
 GtkWidget *	e_html_editor_new		(void);
-EHTMLEditorView *
-		e_html_editor_get_view		(EHTMLEditor *editor);
+EContentEditor *
+		e_html_editor_get_content_editor
+						(EHTMLEditor *editor);
+void		e_html_editor_register_content_editor
+						(EHTMLEditor *editor,
+						 EContentEditor *cnt_editor);
 GtkBuilder *	e_html_editor_get_builder	(EHTMLEditor *editor);
 GtkUIManager *	e_html_editor_get_ui_manager	(EHTMLEditor *editor);
 GtkAction *	e_html_editor_get_action	(EHTMLEditor *editor,

@@ -124,6 +124,9 @@ void		element_add_class		(WebKitDOMElement *element,
 						 const gchar* class);
 void		element_remove_class		(WebKitDOMElement *element,
 						 const gchar* class);
+void		element_rename_attribute	(WebKitDOMElement *element,
+						 const gchar *from,
+						 const gchar *to);
 void		remove_node			(WebKitDOMNode *node);
 void		remove_node_if_empty		(WebKitDOMNode *node);
 WebKitDOMNode *	split_list_into_two		(WebKitDOMNode *item,
@@ -151,7 +154,7 @@ gboolean	node_is_list			(WebKitDOMNode *node);
 
 gboolean	node_is_list_or_item		(WebKitDOMNode *node);
 
-EHTMLEditorSelectionBlockFormat
+EContentEditorBlockFormat
 		dom_get_list_format_from_node	(WebKitDOMNode *node);
 
 void		merge_list_into_list		(WebKitDOMNode *from,

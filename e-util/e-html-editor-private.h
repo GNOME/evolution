@@ -36,7 +36,6 @@
 #include <e-html-editor-spell-check-dialog.h>
 #include <e-html-editor-table-dialog.h>
 #include <e-html-editor-text-dialog.h>
-#include <e-html-editor-view.h>
 
 #ifdef HAVE_XFREE
 #include <X11/XF86keysym.h>
@@ -84,8 +83,9 @@ struct _EHTMLEditorPrivate {
 	GtkWidget *style_combo_box;
 	GtkWidget *scrolled_window;
 
-	EHTMLEditorView *html_editor_view;
-	EHTMLEditorSelection *selection;
+	GList *content_editors;
+
+	EContentEditorNodeFlags node_flags;
 
 	gchar *filename;
 

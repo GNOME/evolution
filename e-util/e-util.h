@@ -86,6 +86,9 @@
 #include <e-util/e-config.h>
 #include <e-util/e-conflict-search-selector.h>
 #include <e-util/e-contact-store.h>
+#include <e-util/e-content-editor.h>
+#include <e-util/e-content-editor-find-controller.h>
+#include <e-util/e-content-editor-enums.h>
 #include <e-util/e-content-request.h>
 #include <e-util/e-data-capture.h>
 #include <e-util/e-dateedit.h>
@@ -112,7 +115,6 @@
 #include <e-util/e-filter-part.h>
 #include <e-util/e-filter-rule.h>
 #include <e-util/e-focus-tracker.h>
-#include <e-util/e-html-editor-defines.h>
 #ifndef E_UTIL_INCLUDE_WITHOUT_WEBKIT
 #include <e-util/e-html-editor-actions.h>
 #include <e-util/e-html-editor-cell-dialog.h>
@@ -124,11 +126,9 @@
 #include <e-util/e-html-editor-page-dialog.h>
 #include <e-util/e-html-editor-paragraph-dialog.h>
 #include <e-util/e-html-editor-replace-dialog.h>
-#include <e-util/e-html-editor-selection.h>
 #include <e-util/e-html-editor-spell-check-dialog.h>
 #include <e-util/e-html-editor-table-dialog.h>
 #include <e-util/e-html-editor-text-dialog.h>
-#include <e-util/e-html-editor-view.h>
 #include <e-util/e-html-editor.h>
 #endif
 #include <e-util/e-html-utils.h>
