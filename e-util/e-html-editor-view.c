@@ -2864,6 +2864,9 @@ set_link_color (EHTMLEditorView *view)
 
 	if (color == NULL) {
 		gboolean is_visited = strstr (name, "visited") != NULL;
+		#if GTK_CHECK_VERSION(3,12,0)
+		GtkStateFlags state;
+		#endif
 
 		rgba.alpha = 1;
 		rgba.red = is_visited ? 1 : 0;
@@ -2871,7 +2874,14 @@ set_link_color (EHTMLEditorView *view)
 		rgba.blue = is_visited ? 0 : 1;
 
 		#if GTK_CHECK_VERSION(3,12,0)
-		gtk_style_context_get_color (context, is_visited ? GTK_STATE_FLAG_VISITED : GTK_STATE_FLAG_LINK, &rgba);
+		state = gtk_style_context_get_state (context);
+		state = state & (~(GTK_STATE_FLAG_VISITED | GTK_STATE_FLAG_LINK));
+		state = state | (is_visited ? GTK_STATE_FLAG_VISITED : GTK_STATE_FLAG_LINK);
+
+		gtk_style_context_save (context);
+		gtk_style_context_set_state (context, state);
+		gtk_style_context_get_color (context, state, out_color);
+		gtk_style_context_restore (context);
 		#endif
 	} else {
 		rgba.alpha = 1;

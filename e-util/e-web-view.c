@@ -3394,6 +3394,7 @@ e_web_view_update_fonts_settings (GSettings *font_settings,
 		if (link == NULL) {
 			#if GTK_CHECK_VERSION(3,12,0)
 			GdkRGBA rgba;
+			GtkStateFlags state;
 			#endif
 
 			link = g_slice_new0 (GdkColor);
@@ -3405,7 +3406,14 @@ e_web_view_update_fonts_settings (GSettings *font_settings,
 			rgba.green = 0;
 			rgba.blue = 1;
 
-			gtk_style_context_get_color (context, GTK_STATE_FLAG_LINK, &rgba);
+			state = gtk_style_context_get_state (context);
+			state = state & (~(GTK_STATE_FLAG_VISITED | GTK_STATE_FLAG_LINK));
+			state = state | GTK_STATE_FLAG_LINK;
+
+			gtk_style_context_save (context);
+			gtk_style_context_set_state (context, state);
+			gtk_style_context_get_color (context, state, &rgba);
+			gtk_style_context_restore (context);
 
 			e_rgba_to_color (&rgba, link);
 			#endif
@@ -3414,6 +3422,7 @@ e_web_view_update_fonts_settings (GSettings *font_settings,
 		if (visited == NULL) {
 			#if GTK_CHECK_VERSION(3,12,0)
 			GdkRGBA rgba;
+			GtkStateFlags state;
 			#endif
 
 			visited = g_slice_new0 (GdkColor);
@@ -3425,7 +3434,14 @@ e_web_view_update_fonts_settings (GSettings *font_settings,
 			rgba.green = 0;
 			rgba.blue = 0;
 
-			gtk_style_context_get_color (context, GTK_STATE_FLAG_VISITED, &rgba);
+			state = gtk_style_context_get_state (context);
+			state = state & (~(GTK_STATE_FLAG_VISITED | GTK_STATE_FLAG_LINK));
+			state = state | GTK_STATE_FLAG_VISITED;
+
+			gtk_style_context_save (context);
+			gtk_style_context_set_state (context, state);
+			gtk_style_context_get_color (context, state, &rgba);
+			gtk_style_context_restore (context);
 
 			e_rgba_to_color (&rgba, visited);
 			#endif

@@ -471,6 +471,7 @@ e_cell_combo_get_popup_pos (ECellCombo *ecc,
 	GtkScrolledWindow *popup;
 	GtkRequisition requisition;
 	GtkRequisition list_requisition;
+	GtkStyleContext *style_context;
 	gboolean show_vscroll = FALSE, show_hscroll = FALSE;
 	gint avail_height, avail_width, min_height, work_height, screen_width;
 	gint column_width, row_height, scrollbar_width;
@@ -533,10 +534,12 @@ e_cell_combo_get_popup_pos (ECellCombo *ecc,
 		list_requisition.height += E_CELL_COMBO_LIST_EMPTY_HEIGHT;
 
 	popwin_child = gtk_bin_get_child (popwin);
-	gtk_style_context_get_padding (gtk_widget_get_style_context (popwin_child), 0, &popwin_padding);
+	style_context = gtk_widget_get_style_context (popwin_child);
+	gtk_style_context_get_padding (style_context, gtk_style_context_get_state (style_context), &popwin_padding);
 
 	popup_child = gtk_bin_get_child (GTK_BIN (popup));
-	gtk_style_context_get_padding (gtk_widget_get_style_context (popup_child), 0, &popup_padding);
+	style_context = gtk_widget_get_style_context (popup_child);
+	gtk_style_context_get_padding (style_context, gtk_style_context_get_state (style_context), &popup_padding);
 
 	/* Calculate the desired width. */
 	*width = list_requisition.width

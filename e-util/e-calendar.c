@@ -373,13 +373,15 @@ e_calendar_get_preferred_width (GtkWidget *widget,
                                 gint *natural)
 {
 	ECalendar *cal;
+	GtkStyleContext *style_context;
 	GtkBorder padding;
 	gint col_width;
 
 	cal = E_CALENDAR (widget);
 
 	g_object_get ((cal->calitem), "column_width", &col_width, NULL);
-	gtk_style_context_get_padding (gtk_widget_get_style_context (widget), 0, &padding);
+	style_context = gtk_widget_get_style_context (widget);
+	gtk_style_context_get_padding (style_context, gtk_style_context_get_state (style_context), &padding);
 
 	*minimum = *natural = col_width * cal->min_cols + padding.left * 2;
 }
@@ -390,13 +392,15 @@ e_calendar_get_preferred_height (GtkWidget *widget,
                                  gint *natural)
 {
 	ECalendar *cal;
+	GtkStyleContext *style_context;
 	GtkBorder padding;
 	gint row_height;
 
 	cal = E_CALENDAR (widget);
 
 	g_object_get ((cal->calitem), "row_height", &row_height, NULL);
-	gtk_style_context_get_padding (gtk_widget_get_style_context (widget), 0, &padding);
+	style_context = gtk_widget_get_style_context (widget);
+	gtk_style_context_get_padding (style_context, gtk_style_context_get_state (style_context), &padding);
 
 	*minimum = *natural = row_height * cal->min_rows + padding.top * 2;
 }
@@ -406,6 +410,7 @@ e_calendar_size_allocate (GtkWidget *widget,
                           GtkAllocation *allocation)
 {
 	ECalendar *cal;
+	GtkStyleContext *style_context;
 	GtkBorder padding;
 	GtkAllocation old_allocation;
 	PangoContext *pango_context;
@@ -415,7 +420,8 @@ e_calendar_size_allocate (GtkWidget *widget,
 	gboolean is_rtl;
 
 	cal = E_CALENDAR (widget);
-	gtk_style_context_get_padding (gtk_widget_get_style_context (widget), 0, &padding);
+	style_context = gtk_widget_get_style_context (widget);
+	gtk_style_context_get_padding (style_context, gtk_style_context_get_state (style_context), &padding);
 	xthickness = padding.left;
 	ythickness = padding.top;
 
@@ -565,7 +571,7 @@ e_calendar_get_border_size (ECalendar *cal,
 	if (style_context) {
 		GtkBorder padding;
 
-		gtk_style_context_get_padding (style_context, 0, &padding);
+		gtk_style_context_get_padding (style_context, gtk_style_context_get_state (style_context), &padding);
 
 		*top    = padding.top;
 		*bottom = padding.top;
