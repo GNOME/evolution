@@ -4617,8 +4617,8 @@ replace_selection_markers (gchar **text)
 
 		tmp = e_str_replace_string (
 			*text,
-			"##SELECTION_START##",
-			"<span id=\"-x-evo-selection-start-marker\"></span>");
+			"##SELECTION_END##",
+			"<span id=\"-x-evo-selection-end-marker\"></span>");
 
 		g_free (*text);
 		*text = g_string_free (tmp, FALSE);
