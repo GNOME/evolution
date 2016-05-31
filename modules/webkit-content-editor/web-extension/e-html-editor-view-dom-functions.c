@@ -7197,24 +7197,25 @@ remove_image_attributes_from_element (WebKitDOMElement *element)
 }
 
 static void
-remove_background_images_in_document (WebKitDOMDocument *document)
+remove_background_images_in_element (WebKitDOMElement *element)
 {
 	gint length, ii;
-	WebKitDOMNodeList *elements;
+	WebKitDOMNodeList *images;
 
-	elements = webkit_dom_document_query_selector_all (
-		document, "[background][data-inline]", NULL);
+	images = webkit_dom_element_query_selector_all (
+		element, "[background][data-inline]", NULL);
 
-	length = webkit_dom_node_list_get_length (elements);
+	length = webkit_dom_node_list_get_length (images);
 	for (ii = 0; ii < length; ii++) {
-		WebKitDOMElement *element = WEBKIT_DOM_ELEMENT (
-			webkit_dom_node_list_item (elements, ii));
+		WebKitDOMElement *image = WEBKIT_DOM_ELEMENT (
+			webkit_dom_node_list_item (images, ii));
 
-		remove_image_attributes_from_element (element);
-		g_object_unref (element);
+		remove_image_attributes_from_element (image);
+		g_object_unref (image);
 	}
 
-	g_object_unref (elements);
+	remove_image_attributes_from_element (element);
+	g_object_unref (element);
 }
 
 static void
@@ -7510,7 +7511,8 @@ dom_process_content_for_plain_text (WebKitDOMDocument *document,
 				document, extension, WEBKIT_DOM_ELEMENT (source), FALSE);
 			remove_images_in_element (
 				WEBKIT_DOM_ELEMENT (source));
-			remove_background_images_in_document (document);
+			remove_background_images_in_element (
+				WEBKIT_DOM_ELEMENT (source));
 		} else {
 			gchar *inner_html;
 			WebKitDOMElement *div;
@@ -7788,7 +7790,7 @@ dom_convert_when_changing_composer_mode (WebKitDOMDocument *document,
 	toggle_paragraphs_style (document, extension);
 	toggle_smileys (document, extension);
 	remove_images (document);
-	remove_background_images_in_document (document);
+	remove_background_images_in_element (WEBKIT_DOM_ELEMENT (body));
 
 	clear_attributes (document);
 
@@ -9929,6 +9931,7 @@ dom_process_content_after_mode_change (WebKitDOMDocument *document,
 		dom_remove_wrapping_from_element (WEBKIT_DOM_ELEMENT (body));
 	} else {
 		gchar *plain;
+		WebKitDOMHTMLElement *body;
 
 		dom_selection_save (document);
 
@@ -9943,7 +9946,8 @@ dom_process_content_after_mode_change (WebKitDOMDocument *document,
 		toggle_tables (document, html_mode);
 		toggle_unordered_lists (document, html_mode);
 		remove_images (document);
-		remove_background_images_in_document (document);
+		body = webkit_dom_document_get_body (document);
+		remove_background_images_in_element (WEBKIT_DOM_ELEMENT (body));
 
 		plain = process_content_for_mode_change (document, extension);
 
