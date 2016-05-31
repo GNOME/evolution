@@ -6645,7 +6645,8 @@ dom_convert_element_from_html_to_plain_text (WebKitDOMDocument *document,
 }
 
 static void
-process_elements (EHTMLEditorWebExtension *extension,
+process_elements (WebKitDOMDocument *document,
+                  EHTMLEditorWebExtension *extension,
                   WebKitDOMNode *node,
                   gboolean changing_mode,
                   gboolean to_plain_text,
@@ -6655,9 +6656,12 @@ process_elements (EHTMLEditorWebExtension *extension,
 	gulong ii, length;
 	gchar *content;
 	gboolean skip_nl = FALSE;
+	gboolean html_mode;
 
 	if (to_plain_text && !buffer)
 		return;
+
+	html_mode = e_html_editor_web_extension_get_html_mode (extension);
 
 	if (WEBKIT_DOM_IS_HTML_BODY_ELEMENT (node)) {
 		if (changing_mode && to_plain_text) {
@@ -6915,6 +6919,7 @@ process_elements (EHTMLEditorWebExtension *extension,
 
 			first_child = webkit_dom_node_get_first_child (child);
 
+			skip_node = TRUE;
 			/* Don't generate any text if the signature is set to None. */
 			if (!changing_mode) {
 				gchar *id;
@@ -6924,7 +6929,6 @@ process_elements (EHTMLEditorWebExtension *extension,
 					g_free (id);
 
 					remove_node (child);
-					skip_node = TRUE;
 					goto next;
 				}
 				g_free (id);
@@ -6937,63 +6941,56 @@ process_elements (EHTMLEditorWebExtension *extension,
 					WEBKIT_DOM_ELEMENT (first_child));
 				remove_evolution_attributes (
 					WEBKIT_DOM_ELEMENT (first_child));
-			}
-			if (to_plain_text && !changing_mode) {
-				WebKitDOMDocument *document;
-				WebKitDOMNodeList *list_pre;
-				gint jj, pre_count;
-
-				g_string_append (buffer, "\n");
-
-				/* If the user edited the signature or added more
-				 * content after it, WebKit just duplicated the DOM
-				 * structure and left us with multiple PRE elements
-				 * that don't have the BR elements on their ends.
-				 * The content is rendered fine (every pre has its
-				 * own line), but when we below try to get a plain text
-				 * version of the signature we will get the text from
-				 * these PRE elements on one line. As a solution we need
-				 * to insert the BR elements on the end of each PRE
-				 * element (if not presented) to get the correct text
-				 * from signature. */
-				document = webkit_dom_node_get_owner_document (child);
-				list_pre = webkit_dom_element_query_selector_all (
-					WEBKIT_DOM_ELEMENT (first_child), "pre", NULL);
-				pre_count = webkit_dom_node_list_get_length (list_pre);
-				for (jj = 0; jj < pre_count; jj++) {
-					WebKitDOMNode *last_pre_child, *pre_node;
-
-					pre_node = webkit_dom_node_list_item (list_pre, jj);
-					last_pre_child = webkit_dom_node_get_last_child (pre_node);
-
-					if (last_pre_child && !WEBKIT_DOM_IS_HTML_BR_ELEMENT (last_pre_child)) {
-						WebKitDOMElement *br;
-
-						br = webkit_dom_document_create_element (document, "br", NULL);
-						webkit_dom_node_append_child (
-							pre_node, WEBKIT_DOM_NODE (br), NULL);
-					}
-					g_object_unref (pre_node);
-				}
-				g_object_unref (list_pre);
-
-				convert_element_from_html_to_plain_text (
-					document, extension, WEBKIT_DOM_ELEMENT (first_child), NULL, NULL);
-				content = webkit_dom_html_element_get_inner_text (
-					WEBKIT_DOM_HTML_ELEMENT (first_child));
-				g_string_append (buffer, content);
-				g_free (content);
-				skip_nl = TRUE;
-			}
-			if (to_plain_text && changing_mode) {
+				if (!changing_mode)
+					skip_node = FALSE;
+			} else if (changing_mode) {
 				content = webkit_dom_element_get_outer_html (
 					WEBKIT_DOM_ELEMENT (child));
 				g_string_append (buffer, content);
 				g_free (content);
-			}
-			skip_node = TRUE;
-			if (!to_plain_text && !changing_mode)
+			} else {
+				g_string_append (buffer, "\n");
+
+				if (html_mode) {
+					convert_element_from_html_to_plain_text (
+						document, extension, WEBKIT_DOM_ELEMENT (first_child), NULL, NULL);
+				} else {
+					WebKitDOMNode *signature_node;
+
+					signature_node = webkit_dom_node_get_last_child (first_child);
+					if (WEBKIT_DOM_IS_HTML_PRE_ELEMENT (signature_node)) {
+						WebKitDOMNode *last_child;
+
+						/* Remove a line break on the end of the last
+						 * PRE element. It is not showed by the WebKit,
+						 * but it is still there are will be added to
+						 * the output. */
+						last_child = webkit_dom_node_get_last_child (signature_node);
+						if (WEBKIT_DOM_IS_CHARACTER_DATA (last_child)) {
+							WebKitDOMCharacterData *data;
+							glong length;
+
+							data = WEBKIT_DOM_CHARACTER_DATA (last_child);
+							length = webkit_dom_character_data_get_length (data);
+							if (length > 0) {
+								gchar *last_char;
+
+								last_char = webkit_dom_character_data_substring_data (
+										data, length - 1, 1, NULL);
+
+								if (last_char && *last_char == '\n')
+									webkit_dom_character_data_delete_data (
+											data, length -1, 1, NULL);
+
+								g_free (last_char);
+							}
+						}
+					}
+				}
 				skip_node = FALSE;
+				skip_nl = TRUE;
+			}
+
 			goto next;
 		}
 
@@ -7032,15 +7029,15 @@ process_elements (EHTMLEditorWebExtension *extension,
 
 		/* Leave PRE elements untouched */
 		if (WEBKIT_DOM_IS_HTML_PRE_ELEMENT (child)) {
-			if (changing_mode && to_plain_text) {
+			if (!to_plain_text) {
+				remove_evolution_attributes (WEBKIT_DOM_ELEMENT (child));
+			} else if (changing_mode) {
 				content = webkit_dom_element_get_outer_html (
 					WEBKIT_DOM_ELEMENT (child));
 				g_string_append (buffer, content);
 				g_free (content);
 				skip_node = TRUE;
 			}
-			if (!to_plain_text)
-				remove_evolution_attributes (WEBKIT_DOM_ELEMENT (child));
 		}
 
 		if (WEBKIT_DOM_IS_HTML_BR_ELEMENT (child)) {
@@ -7093,7 +7090,7 @@ process_elements (EHTMLEditorWebExtension *extension,
  next:
 		if (webkit_dom_node_has_child_nodes (child) && !skip_node)
 			process_elements (
-				extension, child, changing_mode, to_plain_text, buffer);
+				document, extension, child, changing_mode, to_plain_text, buffer);
 		g_object_unref (child);
 	}
 
@@ -7418,7 +7415,7 @@ process_content_for_mode_change (WebKitDOMDocument *document,
 	webkit_dom_element_remove_attribute (
 		WEBKIT_DOM_ELEMENT (body), "data-user-colors");
 
-	process_elements (extension, body, TRUE, TRUE, plain_text);
+	process_elements (document, extension, body, TRUE, TRUE, plain_text);
 
 	g_string_append (plain_text, "</body></html>");
 
@@ -7553,7 +7550,7 @@ dom_process_content_for_plain_text (WebKitDOMDocument *document,
 			quote_plain_text_recursive (document, source, source, 0);
 	}
 
-	process_elements (extension, source, FALSE, TRUE, plain_text);
+	process_elements (document, extension, source, FALSE, TRUE, plain_text);
 
 	if (clean)
 		remove_node (source);
@@ -7694,7 +7691,7 @@ dom_process_content_for_html (WebKitDOMDocument *document,
 	}
 	g_object_unref (list);
 
-	process_elements (extension, node, FALSE, FALSE, NULL);
+	process_elements (document, extension, node, FALSE, FALSE, NULL);
 
 	html_content = webkit_dom_element_get_outer_html (
 		WEBKIT_DOM_ELEMENT (document_clone));
