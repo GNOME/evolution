@@ -6685,7 +6685,7 @@ process_elements (WebKitDOMDocument *document,
 {
 	WebKitDOMNodeList *nodes;
 	gulong ii, length;
-	gchar *content;
+	gchar *content = NULL;
 	gboolean skip_nl = FALSE;
 	gboolean html_mode;
 
@@ -6748,24 +6748,28 @@ process_elements (WebKitDOMDocument *document,
 		child = webkit_dom_node_list_item (nodes, ii);
 
 		if (WEBKIT_DOM_IS_TEXT (child)) {
-			gchar *content, *tmp;
 			GRegex *regex;
 
 			content = webkit_dom_node_get_text_content (child);
 			if (strstr (content, UNICODE_ZERO_WIDTH_SPACE)) {
+				gchar *tmp;
+
 				regex = g_regex_new (UNICODE_ZERO_WIDTH_SPACE, 0, 0, NULL);
 				tmp = g_regex_replace (
 					regex, content, -1, 0, "", 0, NULL);
-				webkit_dom_node_set_text_content (child, tmp, NULL);
-				g_free (tmp);
 				g_free (content);
-				content = webkit_dom_node_get_text_content (child);
+				if (changing_mode) {
+					webkit_dom_node_set_text_content (child, tmp, NULL);
+					g_free (tmp);
+					content = webkit_dom_node_get_text_content (child);
+				} else
+					content = tmp;
 				g_regex_unref (regex);
 			}
 
 			if (to_plain_text && !changing_mode) {
 				gchar *class;
-				const gchar *css_align;
+				const gchar *css_align = NULL;
 
 				class = webkit_dom_element_get_class_name (WEBKIT_DOM_ELEMENT (node));
 				if (class && (css_align = strstr (class, "-x-evo-align-"))) {
