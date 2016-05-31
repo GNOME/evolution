@@ -15,6 +15,10 @@
  *
  */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 /**
  * SECTION: e-client-selector
  * @include: e-util/e-util.h
@@ -24,6 +28,8 @@
  * utilizing an #EClientCache to display status information about the
  * backends associated with the displayed data sources.
  **/
+
+#include <libedataserver/libedataserver.h>
 
 #include "e-client-selector.h"
 
@@ -361,7 +367,7 @@ client_selector_constructed (GObject *object)
 	 *     But the approach below is good enough for now.
 	 */
 
-	network_monitor = g_network_monitor_get_default ();
+	network_monitor = e_network_monitor_get_default ();
 
 	registry = e_source_selector_get_registry (
 		E_SOURCE_SELECTOR (selector));
