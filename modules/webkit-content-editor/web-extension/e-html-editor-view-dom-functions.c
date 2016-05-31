@@ -4677,42 +4677,61 @@ parse_html_into_blocks (WebKitDOMDocument *document,
 		with_br = strstr (to_insert, "<br>");
 		citation = strstr (to_insert, "##CITATION_");
 		if (citation) {
-			gchar *citation_mark;
+			gboolean processed = FALSE;
 
-			has_citation = TRUE;
-			if (strstr (citation, "END##")) {
-				ignore_next_br = TRUE;
+			while (!processed) {
+				gchar *citation_mark;
+				gboolean citation_start = TRUE;
+
+				has_citation = TRUE;
+				if (g_str_has_prefix (citation + 11, "END##")) {
+					citation_start = FALSE;
+					if (block)
+						append_new_block (parent, &block);
+				} else
+					previously_had_empty_citation_start = TRUE;
+
+				citation_end = strstr (citation + 2, "##");
+				if (citation_end)
+					rest = citation_end + 2;
+
+				if (rest && *rest && !g_str_has_prefix (rest, "##CITATION_"))
+					previously_had_empty_citation_start = FALSE;
+
+				if (first_element)
+					citation_was_first_element = TRUE;
+
 				if (block)
 					append_new_block (parent, &block);
-			} else {
-				previously_had_empty_citation_start = TRUE;
+				else if (with_br && rest && !*rest &&
+				         previously_had_empty_citation_start &&
+					 ignore_next_br) {
+					/* Insert an empty block for an empty blockquote */
+					block = create_and_append_new_block (
+						document, extension, parent, block_template, "<br>");
+					previously_had_empty_citation_start = FALSE;
+				}
+
+				if (citation_start)
+					ignore_next_br = TRUE;
+
+				citation_mark = g_utf8_substring (
+					citation,
+					0,
+					g_utf8_pointer_to_offset (citation, rest));
+
+				append_citation_mark (document, parent, citation_mark);
+
+				g_free (citation_mark);
+
+				if (rest && *rest) {
+					if (g_str_has_prefix (rest, "##CITATION_"))
+						citation = rest;
+					else
+						processed = TRUE;
+				} else
+					processed = TRUE;
 			}
-
-			citation_end = strstr (citation + 2, "##");
-			if (citation_end)
-				rest = citation_end + 2;
-
-			if (rest && *rest)
-				previously_had_empty_citation_start = FALSE;
-
-			if (first_element)
-				citation_was_first_element = TRUE;
-
-			if (block)
-				append_new_block (parent, &block);
-			else if (with_br && rest && !*rest && previously_had_empty_citation_start && ignore_next_br) {
-				/* Insert an empty block for an empty blockquote */
-				block = create_and_append_new_block (
-					document, extension, parent, block_template, "<br>");
-				previously_had_empty_citation_start = FALSE;
-			}
-
-			citation_mark = g_utf8_substring (
-				citation, 0, g_utf8_pointer_to_offset (citation, rest));
-
-			append_citation_mark (document, parent, citation_mark);
-
-			g_free (citation_mark);
 		} else {
 			rest = with_br ?
 				to_insert + 4 + (with_br - to_insert) : to_insert;
