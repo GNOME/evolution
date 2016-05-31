@@ -2285,6 +2285,37 @@ body_keypress_event_cb (WebKitDOMElement *element,
 }
 
 static void
+set_monospace_font_family_on_body (WebKitDOMElement *body,
+                                   gboolean html_mode)
+{
+	/* If copying some content in view, WebKit adds various information about
+	 * the content's style (such as color, font size, ..) to the resulting HTML
+	 * to correctly apply the style when pasting the content later. The thing
+	 * is that in plain text mode the only font allowed is the monospaced one,
+	 * but we are forcing it through user style sheet in WebKitWebSettings and
+	 * sadly WebKit doesn't count with it, so when the content is pasted,
+	 * WebKit wraps it inside SPANs and sets the font-family style on them.
+	 * The problem is that when we switch to the HTML mode, the pasted content
+	 * will have the monospaced font set. To avoid it we need to set the
+	 * font-family style to the body, so WebKit will know about it and will
+	 * avoid the described behaviour. */
+	/* When we are deleting a content from the PRE elements we need to turn
+	 * this off, otherwise we will end with the same unwanted behavior (the
+	 * text between the caret and the end of the element will be wrapped
+	 * inside a SPAN element. */
+	if (!html_mode) {
+		dom_element_rename_attribute (WEBKIT_DOM_ELEMENT (body), "data-style", "style");
+		webkit_dom_element_set_attribute (
+			WEBKIT_DOM_ELEMENT (body),
+			"style",
+			"font-family: Monospace;",
+			NULL);
+	} else {
+		dom_element_rename_attribute (WEBKIT_DOM_ELEMENT (body), "style", "data-style");
+	}
+}
+
+static void
 body_keydown_event_cb (WebKitDOMElement *element,
                        WebKitDOMUIEvent *event,
                        EHTMLEditorWebExtension *extension)
@@ -2343,9 +2374,11 @@ body_keydown_event_cb (WebKitDOMElement *element,
 		goto out;
 	}
 
-	if ((delete_key || backspace_key) &&
-	    key_press_event_process_delete_or_backspace_key (document, extension, key_code, control_key, delete_key)) {
-		webkit_dom_event_prevent_default (WEBKIT_DOM_EVENT (event));
+	if (delete_key || backspace_key) {
+		if (key_press_event_process_delete_or_backspace_key (document, extension, key_code, control_key, delete_key))
+			webkit_dom_event_prevent_default (WEBKIT_DOM_EVENT (event));
+		else if (!e_html_editor_web_extension_get_html_mode (extension))
+			set_monospace_font_family_on_body (element, TRUE);
 		goto out;
 	}
 
@@ -3331,6 +3364,13 @@ body_keyup_event_cb (WebKitDOMElement *element,
 
 	key_code = webkit_dom_ui_event_get_key_code (event);
 	if (key_code == HTML_KEY_CODE_BACKSPACE || key_code == HTML_KEY_CODE_DELETE) {
+		if (!e_html_editor_web_extension_get_html_mode (extension)) {
+			WebKitDOMHTMLElement *body;
+
+			body = webkit_dom_document_get_body (document);
+
+			set_monospace_font_family_on_body (WEBKIT_DOM_ELEMENT (body), FALSE);
+		}
 		body_key_up_event_process_backspace_or_delete (document, extension, key_code == HTML_KEY_CODE_DELETE);
 
 		/* The content was wrapped and the coordinates
@@ -5297,33 +5337,6 @@ register_html_events_handlers (WebKitDOMHTMLElement *body,
 		G_CALLBACK (body_compositionend_event_cb),
 		FALSE,
 		extension);
-}
-
-static void
-set_monospace_font_family_on_body (WebKitDOMElement *body,
-                                   gboolean html_mode)
-{
-	/* If copying some content in view, WebKit adds various information about
-	 * the content's style (such as color, font size, ..) to the resulting HTML
-	 * to correctly apply the style when pasting the content later. The thing
-	 * is that in plain text mode the only font allowed is the monospaced one,
-	 * but we are forcing it through user style sheet in WebKitWebSettings and
-	 * sadly WebKit doesn't count with it, so when the content is pasted,
-	 * WebKit wraps it inside SPANs and sets the font-family style on them.
-	 * The problem is that when we switch to the HTML mode, the pasted content
-	 * will have the monospaced font set. To avoid it we need to set the
-	 * font-family style to the body, so WebKit will know about it and will
-	 * avoid the described behaviour. */
-	if (!html_mode) {
-		element_rename_attribute (WEBKIT_DOM_ELEMENT (body), "data-style", "style");
-		webkit_dom_element_set_attribute (
-			WEBKIT_DOM_ELEMENT (body),
-			"style",
-			"font-family: Monospace;",
-			NULL);
-	} else {
-		element_rename_attribute (WEBKIT_DOM_ELEMENT (body), "style", "data-style");
-	}
 }
 
 void
