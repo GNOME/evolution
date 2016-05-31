@@ -632,16 +632,137 @@ mail_shell_backend_changes_committed_cb (EMailConfigWindow *window,
 	g_object_unref (service);
 }
 
+static gboolean
+network_monitor_gio_name_to_active_id (GBinding *binding,
+				       const GValue *from_value,
+				       GValue *to_value,
+				       gpointer user_data)
+{
+	const gchar *gio_name_value;
+
+	gio_name_value = g_value_get_string (from_value);
+
+	if (g_strcmp0 (gio_name_value, E_NETWORK_MONITOR_ALWAYS_ONLINE_NAME) == 0) {
+		g_value_set_string (to_value, gio_name_value);
+	} else {
+		ENetworkMonitor *network_monitor;
+		GSList *gio_names, *link;
+
+		network_monitor = E_NETWORK_MONITOR (e_network_monitor_get_default ());
+		gio_names = e_network_monitor_list_gio_names (network_monitor);
+		for (link = gio_names; link; link = g_slist_next (link)) {
+			const gchar *gio_name = link->data;
+
+			g_warn_if_fail (gio_name != NULL);
+
+			if (g_strcmp0 (gio_name_value, gio_name) == 0)
+				break;
+		}
+		g_slist_free_full (gio_names, g_free);
+
+		/* Stopped before checked all the gio_names, thus found a match */
+		if (link)
+			g_value_set_string (to_value, gio_name_value);
+		else
+			g_value_set_string (to_value, "default");
+	}
+
+	return TRUE;
+}
+
 static GtkWidget *
-mail_shell_backend_create_proxy_page (EPreferencesWindow *window)
+mail_shell_backend_create_network_page (EPreferencesWindow *window)
 {
 	EShell *shell;
 	ESourceRegistry *registry;
+	GtkBox *vbox, *hbox;
+	GtkWidget *widget, *label;
+	PangoAttrList *bold;
+	ENetworkMonitor *network_monitor;
+	GSList *gio_names, *link;
+
+	const gchar *known_gio_names[] = {
+		/* Translators: One of the known implementation names of the GNetworkMonitor. Either translate
+		    it to some user-frienly form, or keep it as is. */
+		NC_("NetworkMonitor", "base"),
+		/* Translators: One of the known implementation names of the GNetworkMonitor. Either translate
+		    it to some user-frienly form, or keep it as is. */
+		NC_("NetworkMonitor", "netlink"),
+		/* Translators: One of the known implementation names of the GNetworkMonitor. Either translate
+		    it to some user-frienly form, or keep it as is. */
+		NC_("NetworkMonitor", "networkmanager")
+	};
+
+	/* To quiet a gcc warning about unused variable */
+	known_gio_names[0] = known_gio_names[1];
 
 	shell = e_preferences_window_get_shell (window);
 	registry = e_shell_get_registry (shell);
 
-	return e_proxy_preferences_new (registry);
+	bold = pango_attr_list_new ();
+	pango_attr_list_insert (bold, pango_attr_weight_new (PANGO_WEIGHT_BOLD));
+
+	vbox = GTK_BOX (gtk_box_new (GTK_ORIENTATION_VERTICAL, 4));
+
+	widget = gtk_label_new (_("General"));
+	g_object_set (G_OBJECT (widget),
+		"hexpand", FALSE,
+		"halign", GTK_ALIGN_START,
+		"vexpand", FALSE,
+		"valign", GTK_ALIGN_START,
+		"attributes", bold,
+		NULL);
+	gtk_widget_show (widget);
+	gtk_box_pack_start (vbox, widget, FALSE, FALSE, 0);
+
+	hbox = GTK_BOX (gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 4));
+	#if GTK_CHECK_VERSION(3,12,0)
+	gtk_widget_set_margin_start (GTK_WIDGET (hbox), 12);
+	#else
+	gtk_widget_set_margin_left (GTK_WIDGET (hbox), 12);
+	#endif
+
+	label = gtk_label_new_with_mnemonic (C_("NetworkMonitor", "Method to detect _online state:"));
+	gtk_box_pack_start (hbox, label, FALSE, FALSE, 0);
+
+	widget = gtk_combo_box_text_new ();
+	gtk_box_pack_start (hbox, widget, FALSE, FALSE, 0);
+
+	gtk_label_set_mnemonic_widget (GTK_LABEL (label), widget);
+
+	/* Always as the first */
+	gtk_combo_box_text_append (GTK_COMBO_BOX_TEXT (widget), "default", C_("NetworkMonitor", "Default"));
+
+	network_monitor = E_NETWORK_MONITOR (e_network_monitor_get_default ());
+	gio_names = e_network_monitor_list_gio_names (network_monitor);
+	for (link = gio_names; link; link = g_slist_next (link)) {
+		const gchar *gio_name = link->data;
+
+		g_warn_if_fail (gio_name != NULL);
+
+		gtk_combo_box_text_append (GTK_COMBO_BOX_TEXT (widget), gio_name, g_dpgettext2 (NULL, "NetworkMonitor", gio_name));
+	}
+	g_slist_free_full (gio_names, g_free);
+
+	/* Always as the last */
+	gtk_combo_box_text_append (GTK_COMBO_BOX_TEXT (widget), E_NETWORK_MONITOR_ALWAYS_ONLINE_NAME, C_("NetworkMonitor", "Always Online"));
+
+	e_binding_bind_property_full (
+		network_monitor, "gio-name",
+		widget, "active-id",
+		G_BINDING_BIDIRECTIONAL | G_BINDING_SYNC_CREATE,
+		network_monitor_gio_name_to_active_id,
+		NULL,
+		NULL, NULL);
+
+	gtk_widget_show_all (GTK_WIDGET (hbox));
+	gtk_box_pack_start (vbox, GTK_WIDGET (hbox), FALSE, FALSE, 0);
+
+	widget = e_proxy_preferences_new (registry);
+	gtk_widget_show (widget);
+	gtk_box_pack_start (vbox, widget, TRUE, TRUE, 0);
+
+	return GTK_WIDGET (vbox);
 }
 
 static void
@@ -707,14 +828,13 @@ mail_shell_backend_constructed (GObject *object)
 		em_composer_prefs_new,
 		400);
 
-	/* This page is encapsulated by EProxyPreferences. */
 	e_preferences_window_add_page (
 		E_PREFERENCES_WINDOW (preferences_window),
 		"system-network-proxy",
 		"preferences-system-network-proxy",
 		_("Network Preferences"),
 		NULL,
-		mail_shell_backend_create_proxy_page,
+		mail_shell_backend_create_network_page,
 		500);
 
 	mail_session = e_mail_backend_get_session (E_MAIL_BACKEND (object));

@@ -42,6 +42,7 @@
 #endif
 
 #include <libebackend/libebackend.h>
+#include <libedataserver/libedataserver.h>
 
 #include "libemail-engine/mail-mt.h"
 
@@ -1044,6 +1045,8 @@ mail_session_constructed (GObject *object)
 
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (e_mail_session_parent_class)->constructed (object);
+
+	camel_session_set_network_monitor (CAMEL_SESSION (session), e_network_monitor_get_default ());
 
 	/* Add available mail accounts. */
 

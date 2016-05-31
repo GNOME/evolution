@@ -34,6 +34,7 @@
 #include <glib/gi18n.h>
 #include <glib/gstdio.h>
 #include <libebackend/libebackend.h>
+#include <libedataserver/libedataserver.h>
 
 #include "e-util/e-util-private.h"
 
@@ -1474,7 +1475,7 @@ shell_constructed (GObject *object)
 
 	/* Synchronize network monitoring. */
 
-	monitor = g_network_monitor_get_default ();
+	monitor = e_network_monitor_get_default ();
 
 	e_binding_bind_property (
 		monitor, "network-available",
