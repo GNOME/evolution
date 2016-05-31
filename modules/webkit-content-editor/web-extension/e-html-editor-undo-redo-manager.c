@@ -460,12 +460,18 @@ undo_delete (WebKitDOMDocument *document,
 					if (get_citation_level (block, FALSE) > 0) {
 						WebKitDOMNode *next_node;
 
-						next_node = split_node_into_two (block, -1);
-						webkit_dom_node_insert_before (
-							webkit_dom_node_get_parent_node (next_node),
-							node,
-							next_node,
-							NULL);
+						if ((next_node = split_node_into_two (block, -1)))
+							webkit_dom_node_insert_before (
+								webkit_dom_node_get_parent_node (next_node),
+								node,
+								next_node,
+								NULL);
+						else
+							webkit_dom_node_insert_before (
+								webkit_dom_node_get_parent_node (block),
+								node,
+								block,
+								NULL);
 					} else
 						webkit_dom_node_insert_before (
 							webkit_dom_node_get_parent_node (block),
@@ -553,7 +559,6 @@ undo_delete (WebKitDOMDocument *document,
 		WebKitDOMElement *signature;
 		WebKitDOMNode *node, *current_block, *last_child;
 		WebKitDOMNode *next_block, *insert_before;
-		WebKitDOMNode *parent_deleted_content, *parent_current_block;
 
 		range = get_range_for_point (document, event->after.start);
 		webkit_dom_dom_selection_remove_all_ranges (dom_selection);
@@ -621,56 +626,47 @@ undo_delete (WebKitDOMDocument *document,
 
 			next_sibling = webkit_dom_node_get_next_sibling (node);
 			parent_node = webkit_dom_node_get_parent_node (node);
-			if (!next_sibling && WEBKIT_DOM_IS_HTML_BR_ELEMENT (node)) {
-				/* Check if the whole element was deleted. If so replace it and
-				 * skip the code down there. */
-				if (!webkit_dom_node_get_previous_sibling (WEBKIT_DOM_NODE (element))) {
-					WebKitDOMNode *tmp_node;
-					WebKitDOMElement *tmp_element;
+			/* Check if the whole element was deleted. If so replace it. */
+			if (!next_sibling && WEBKIT_DOM_IS_HTML_BR_ELEMENT (node) &&
+					!webkit_dom_node_get_previous_sibling (WEBKIT_DOM_NODE (element))) {
+				WebKitDOMNode *tmp_node;
+				WebKitDOMElement *tmp_element;
 
-					tmp_node = webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (element));
-					webkit_dom_node_replace_child (
-						webkit_dom_node_get_parent_node (tmp_node),
-						fragment,
-						tmp_node,
+				tmp_node = webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (element));
+				webkit_dom_node_replace_child (
+					webkit_dom_node_get_parent_node (tmp_node),
+					fragment,
+					tmp_node,
+					NULL);
+
+				/* Remove empty blockquotes, if presented. */
+				tmp_element = webkit_dom_document_query_selector (
+					document, "blockquote[type=cite]:empty", NULL);
+				if (tmp_element)
+					remove_node (WEBKIT_DOM_NODE (tmp_element));
+
+				dom_merge_siblings_if_necessary (document, event->data.fragment);
+
+				tmp_node = webkit_dom_node_get_last_child (last_child);
+				if (tmp_node && WEBKIT_DOM_IS_ELEMENT (tmp_node) &&
+				    element_has_class (WEBKIT_DOM_ELEMENT (tmp_node), "-x-evo-quoted")) {
+					webkit_dom_node_append_child (
+						last_child,
+						WEBKIT_DOM_NODE (
+							webkit_dom_document_create_element (
+								document, "br", NULL)),
 						NULL);
-
-					tmp_element = webkit_dom_document_get_element_by_id (
-						document, "-x-evo-tmp-block");
-					if (tmp_element) {
-						webkit_dom_element_remove_attribute (tmp_element, "id");
-						wrap_and_quote_element (document, extension, tmp_element);
-					}
-
-					/* Remove empty blockquotes, if presented. */
-					tmp_element = webkit_dom_document_query_selector (
-						document, "blockquote[type=cite]:empty", NULL);
-					if (tmp_element)
-						remove_node (WEBKIT_DOM_NODE (tmp_element));
-
-					dom_merge_siblings_if_necessary (document, event->data.fragment);
-
-					tmp_node = webkit_dom_node_get_last_child (last_child);
-					if (tmp_node && WEBKIT_DOM_IS_ELEMENT (tmp_node) &&
-					    element_has_class (WEBKIT_DOM_ELEMENT (tmp_node), "-x-evo-quoted")) {
-						webkit_dom_node_append_child (
-							last_child,
-							WEBKIT_DOM_NODE (
-								webkit_dom_document_create_element (
-									document, "br", NULL)),
-							NULL);
-					}
-
-					dom_remove_selection_markers (document);
-
-					restore_selection_to_history_event_state (document, event->before);
-
-					dom_force_spell_check_in_viewport (document, extension);
-
-					g_object_unref (dom_selection);
-
-					return;
 				}
+
+				dom_remove_selection_markers (document);
+
+				restore_selection_to_history_event_state (document, event->before);
+
+				dom_force_spell_check_in_viewport (document, extension);
+
+				g_object_unref (dom_selection);
+
+				return;
 			} else if (!next_sibling && !webkit_dom_node_is_same_node (parent_node, current_block))
 				next_sibling = webkit_dom_node_get_next_sibling (parent_node);
 
@@ -690,43 +686,45 @@ undo_delete (WebKitDOMDocument *document,
 		while ((node = webkit_dom_node_get_first_child (first_child)))
 			webkit_dom_node_append_child (current_block, node, NULL);
 
-		parent_deleted_content = webkit_dom_node_get_parent_node (first_child);
-		parent_current_block = webkit_dom_node_get_parent_node (current_block);
-		insert_before = webkit_dom_node_get_next_sibling (current_block);
+		next_block = webkit_dom_node_get_next_sibling (current_block);
+		insert_before = next_block;
+
+		if (!insert_before) {
+			WebKitDOMNode *parent = NULL;
+
+			parent = current_block;
+			while ((parent = webkit_dom_node_get_parent_node (parent)) &&
+					!WEBKIT_DOM_IS_HTML_BODY_ELEMENT (parent)) {
+				insert_before = webkit_dom_node_get_next_sibling (parent);
+				if (insert_before)
+					break;
+			}
+		}
+
+		/* Split a BLOCKQUOTE if the deleted content started with BLOCKQUOTE */
+		if (insert_before &&
+		    WEBKIT_DOM_IS_HTML_QUOTE_ELEMENT (
+			webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (fragment))) &&
+		    get_citation_level (insert_before, FALSE > 0))
+			insert_before = split_node_into_two (insert_before, -1);
 
 		/* Remove the first block from deleted content as its content was already
 		 * moved to the right place. */
 		remove_node (first_child);
 
-		next_block = webkit_dom_node_get_next_sibling (current_block);
-		/* Move the deleted content back to the body. Start from the next sibling
-		 * of the first block (if presented) where the delete occurred. */
-		while (parent_deleted_content) {
-			WebKitDOMNode *tmp, *child;
-
-			/* Move all the siblings from current level back to the body. */
-			child = webkit_dom_node_get_first_child (parent_deleted_content);
-			while (child) {
-				WebKitDOMNode *next_sibling;
-
-				next_sibling = webkit_dom_node_get_next_sibling (child);
-				webkit_dom_node_insert_before (
-					parent_current_block, child, insert_before, NULL);
-				child = next_sibling;
-			}
-			tmp = webkit_dom_node_get_parent_node (parent_deleted_content);
-			remove_node (parent_deleted_content);
-			parent_deleted_content = tmp;
-			insert_before = webkit_dom_node_get_next_sibling (parent_current_block);
-
-			if (!insert_before && next_block && WEBKIT_DOM_IS_HTML_BODY_ELEMENT (
-			    webkit_dom_node_get_parent_node (parent_current_block)))
-				insert_before = split_node_into_two (next_block, -1);
-
-			/* Be sure that we don't go above body. */
-			if (!WEBKIT_DOM_IS_HTML_BODY_ELEMENT (parent_current_block))
-				parent_current_block = webkit_dom_node_get_parent_node (parent_current_block);
-		}
+		/* Insert the deleted content. */
+		if (insert_before)
+			webkit_dom_node_insert_before (
+				webkit_dom_node_get_parent_node (insert_before),
+				WEBKIT_DOM_NODE (fragment),
+				insert_before,
+				NULL);
+		else
+			webkit_dom_node_append_child (
+				WEBKIT_DOM_NODE (
+					webkit_dom_document_get_body (document)),
+				WEBKIT_DOM_NODE (fragment),
+				NULL);
 
 		wrap_and_quote_element (document, extension, WEBKIT_DOM_ELEMENT (current_block));
 

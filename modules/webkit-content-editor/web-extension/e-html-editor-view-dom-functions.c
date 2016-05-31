@@ -3194,7 +3194,6 @@ body_key_up_event_process_backspace_or_delete (WebKitDOMDocument *document,
 {
 	gint level;
 	WebKitDOMElement *selection_start_marker, *selection_end_marker;
-	WebKitDOMElement *tmp_element;
 	WebKitDOMNode *parent, *node;
 
 	if (e_html_editor_web_extension_get_html_mode (extension))
@@ -3263,45 +3262,6 @@ body_key_up_event_process_backspace_or_delete (WebKitDOMDocument *document,
 				parent,
 				WEBKIT_DOM_NODE (webkit_dom_document_create_element (document, "br", NULL)),
 				NULL);
-	}
-
-	/* Situation where the start of the selection was in the beginning
-	 * of the block in quoted content and the end in the beginning of
-	 * content that is after the citation or the selection end was in
-	 * the end of the quoted content (showed by ^). The correct structure
-	 * in these cases is to have empty block after the citation.
-	 *
-	 * > |xxx
-	 * > xxx^
-	 * |xxx
-	 * */
-	tmp_element = webkit_dom_document_get_element_by_id (document, "-x-evo-tmp-block");
-	if (tmp_element) {
-		dom_remove_wrapping_from_element (tmp_element);
-		dom_remove_quoting_from_element (tmp_element);
-
-		/* Append the BR element if the block is empty, but the
-		 * selection is there to be able to move to the block
-		 * with caret later. */
-		if (!webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (selection_end_marker)) &&
-		    !webkit_dom_node_get_previous_sibling (WEBKIT_DOM_NODE (selection_start_marker)))
-			webkit_dom_node_append_child (
-				WEBKIT_DOM_NODE (tmp_element),
-				WEBKIT_DOM_NODE (webkit_dom_document_create_element (
-					document, "br", NULL)),
-				NULL);
-
-		webkit_dom_element_remove_attribute (tmp_element, "id");
-
-		parent = webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (tmp_element));
-		while (parent && !WEBKIT_DOM_IS_HTML_BODY_ELEMENT (webkit_dom_node_get_parent_node (parent)))
-			parent = webkit_dom_node_get_parent_node (parent);
-
-		webkit_dom_node_insert_before (
-			webkit_dom_node_get_parent_node (parent),
-			WEBKIT_DOM_NODE (tmp_element),
-			webkit_dom_node_get_next_sibling (parent),
-			NULL);
 	}
 
 	dom_merge_siblings_if_necessary (document, NULL);
@@ -8692,16 +8652,8 @@ save_history_for_delete_or_backspace (WebKitDOMDocument *document,
 			WebKitDOMNode *node;
 
 			node = WEBKIT_DOM_NODE (tmp_element);
-			while (!WEBKIT_DOM_IS_HTML_BODY_ELEMENT (webkit_dom_node_get_parent_node (node))) {
-				WebKitDOMNode *next_sibling;
-
-				next_sibling = webkit_dom_node_get_next_sibling (node);
-				if (next_sibling &&
-				    (!WEBKIT_DOM_IS_HTML_BR_ELEMENT (next_sibling) ||
-				     webkit_dom_node_get_next_sibling (next_sibling)))
-					break;
+			while (!WEBKIT_DOM_IS_HTML_BODY_ELEMENT (webkit_dom_node_get_parent_node (node)))
 				node = webkit_dom_node_get_parent_node (node);
-			}
 
 			if (node && WEBKIT_DOM_IS_HTML_QUOTE_ELEMENT (node)) {
 				WebKitDOMNode *last_child;
@@ -8882,14 +8834,8 @@ dom_fix_structure_after_delete_before_quoted_content (WebKitDOMDocument *documen
 				parent = next_parent;
 			}
 		}
-
-		node = webkit_dom_node_get_next_sibling (
-			WEBKIT_DOM_NODE (selection_end_marker));
-		if (!node || WEBKIT_DOM_IS_HTML_BR_ELEMENT (node)) {
-			webkit_dom_element_set_id (
-				WEBKIT_DOM_ELEMENT (block), "-x-evo-tmp-block");
-		}
 	}
+
  restore:
 	if (key_code != ~0)
 		save_history_for_delete_or_backspace (
