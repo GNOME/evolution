@@ -3063,7 +3063,6 @@ webkit_content_editor_link_get_values (EContentEditor *editor,
 	if (!wk_editor->priv->web_extension)
 		return;
 
-	printf ("%s:%d\n", __FUNCTION__, __LINE__);
 	result = g_dbus_proxy_call_sync (
 		wk_editor->priv->web_extension,
 		"EHTMLEditorLinkDialogShow",
@@ -3077,7 +3076,6 @@ webkit_content_editor_link_get_values (EContentEditor *editor,
 		g_variant_get (result, "(ss)", href, text);
 		g_variant_unref (result);
 	} else {
-		printf ("%s:%d\n", __FUNCTION__, __LINE__);
 		*href = NULL;
 		*text = NULL;
 	}

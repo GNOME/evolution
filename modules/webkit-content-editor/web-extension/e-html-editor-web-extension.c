@@ -1377,7 +1377,6 @@ handle_method_call (GDBusConnection *connection,
 		if (!web_page)
 			goto error;
 
-		printf ("%s:%d\n", __FUNCTION__, __LINE__);
 		document = webkit_web_page_get_dom_document (web_page);
 
 		g_dbus_method_invocation_return_value (
