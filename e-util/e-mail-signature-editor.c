@@ -147,13 +147,21 @@ mail_signature_editor_loaded_cb (GObject *object,
 	cnt_editor = e_html_editor_get_content_editor (editor);
 	e_content_editor_set_html_mode (cnt_editor, is_html);
 
-	if (is_html)
+	if (is_html) {
+		if (strstr (contents, "data-evo-signature-plain-text-mode")) {
+			EContentEditorContentFlags flags;
+
+			flags = e_content_editor_get_current_content_flags (cnt_editor);
+			flags |= E_CONTENT_EDITOR_MESSAGE_DRAFT;
+
+			e_content_editor_set_html_mode (cnt_editor, TRUE);
+		}
 		e_content_editor_insert_content (
 			cnt_editor,
 			contents,
 			E_CONTENT_EDITOR_INSERT_TEXT_HTML |
 			E_CONTENT_EDITOR_INSERT_REPLACE_ALL);
-	else
+	} else
 		e_content_editor_insert_content (
 			cnt_editor,
 			contents,

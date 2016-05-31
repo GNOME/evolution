@@ -56,31 +56,6 @@ G_DEFINE_TYPE (
 	E_TYPE_WEB_VIEW)
 
 static void
-signature_preview_load_changed_cb (WebKitWebView *web_view,
-                                   WebKitLoadEvent load_event)
-{
-	GDBusProxy *web_extension;
-
-	if (load_event != WEBKIT_LOAD_FINISHED)
-		return;
-
-	web_extension = e_web_view_get_web_extension_proxy (E_WEB_VIEW (web_view));
-	if (web_extension) {
-		g_dbus_proxy_call (
-			web_extension,
-			"ReplaceLocalImageLinks",
-			g_variant_new (
-				"(t)",
-				webkit_web_view_get_page_id (web_view)),
-			G_DBUS_CALL_FLAGS_NONE,
-			-1,
-			NULL,
-			NULL,
-			NULL);
-	}
-}
-
-static void
 mail_signature_preview_load_cb (ESource *source,
                                 GAsyncResult *result,
                                 EMailSignaturePreview *preview)
@@ -329,10 +304,6 @@ static void
 e_mail_signature_preview_init (EMailSignaturePreview *preview)
 {
 	preview->priv = E_MAIL_SIGNATURE_PREVIEW_GET_PRIVATE (preview);
-
-	g_signal_connect (
-		preview, "load-changed",
-		G_CALLBACK (signature_preview_load_changed_cb), NULL);
 }
 
 GtkWidget *

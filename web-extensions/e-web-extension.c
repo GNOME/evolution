@@ -72,9 +72,6 @@ static const char introspection_xml[] =
 "    <signal name='HeadersCollapsed'>"
 "      <arg type='b' name='expanded' direction='out'/>"
 "    </signal>"
-"    <method name='ReplaceLocalImageLinks'>"
-"      <arg type='t' name='page_id' direction='in'/>"
-"    </method>"
 "    <method name='DocumentHasSelection'>"
 "      <arg type='t' name='page_id' direction='in'/>"
 "      <arg type='b' name='has_selection' direction='out'/>"
@@ -335,17 +332,6 @@ handle_method_call (GDBusConnection *connection,
 			document = webkit_web_page_get_dom_document (web_page);
 			web_extension_register_element_clicked_in_document (extension, page_id, document, element_class);
 		}
-
-		g_dbus_method_invocation_return_value (invocation, NULL);
-	} else if (g_strcmp0 (method_name, "ReplaceLocalImageLinks") == 0) {
-		g_variant_get (parameters, "(t)", &page_id);
-		web_page = get_webkit_web_page_or_return_dbus_error (
-			invocation, web_extension, page_id);
-		if (!web_page)
-			return;
-
-		document = webkit_web_page_get_dom_document (web_page);
-		e_dom_utils_replace_local_image_links (document);
 
 		g_dbus_method_invocation_return_value (invocation, NULL);
 	} else if (g_strcmp0 (method_name, "DocumentHasSelection") == 0) {
@@ -764,6 +750,25 @@ static void
 web_page_document_loaded_cb (WebKitWebPage *web_page,
                              gpointer user_data)
 {
+	WebKitDOMDocument *document;
+
+	document = webkit_web_page_get_dom_document (web_page);
+
+	e_dom_utils_replace_local_image_links (document);
+
+	if ((webkit_dom_document_query_selector (
+		document, "[data-evo-signature-plain-text-mode]", NULL))) {
+
+		WebKitDOMHTMLElement *body;
+
+		body = webkit_dom_document_get_body (document);
+
+		webkit_dom_element_set_attribute (
+			WEBKIT_DOM_ELEMENT (body),
+			"style",
+			"font-family: Monospace;",
+			NULL);
+	}
 }
 
 static void
