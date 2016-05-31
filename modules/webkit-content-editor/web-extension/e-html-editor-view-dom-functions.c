@@ -5742,27 +5742,56 @@ dom_convert_and_insert_html_into_selection (WebKitDOMDocument *document,
 
 		/* Pasting text that was parsed just into one paragraph */
 		if (webkit_dom_node_is_same_node (first_paragraph, last_paragraph)) {
-			WebKitDOMNode *child, *parent;
+			WebKitDOMNode *child, *parent, *parent_block;
 
-			parent = get_parent_block_node_from_child (
+			parent_block = get_parent_block_node_from_child (
 				WEBKIT_DOM_NODE (selection_start_marker));
 
-			dom_remove_quoting_from_element (WEBKIT_DOM_ELEMENT (parent));
-			dom_remove_wrapping_from_element (WEBKIT_DOM_ELEMENT (parent));
+			dom_remove_quoting_from_element (WEBKIT_DOM_ELEMENT (parent_block));
+			dom_remove_wrapping_from_element (WEBKIT_DOM_ELEMENT (parent_block));
 
-			while ((child = webkit_dom_node_get_first_child (first_paragraph)))
-				webkit_dom_node_insert_before (
-					parent,
-					child,
-					WEBKIT_DOM_NODE (selection_start_marker),
+			parent = webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (selection_start_marker));
+			while ((child = webkit_dom_node_get_first_child (first_paragraph))) {
+				if (WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (parent) &&
+				    WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (child)) {
+					WebKitDOMNode *anchor_child;
+
+					while ((anchor_child = webkit_dom_node_get_first_child (child)))
+						webkit_dom_node_insert_before (
+							webkit_dom_node_get_parent_node (
+								WEBKIT_DOM_NODE (selection_start_marker)),
+							anchor_child,
+							WEBKIT_DOM_NODE (selection_start_marker),
+							NULL);
+					remove_node (child);
+				} else
+					webkit_dom_node_insert_before (
+						webkit_dom_node_get_parent_node (
+							WEBKIT_DOM_NODE (selection_start_marker)),
+						child,
+						WEBKIT_DOM_NODE (selection_start_marker),
+						NULL);
+			}
+
+			if (WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (parent)) {
+				gchar *text_content;
+
+				text_content = webkit_dom_node_get_text_content (parent);
+
+				webkit_dom_element_set_attribute (
+					WEBKIT_DOM_ELEMENT (parent),
+					"href",
+					text_content,
 					NULL);
+				g_free (text_content);
+			}
 
-			parent = WEBKIT_DOM_NODE (
+			parent_block = WEBKIT_DOM_NODE (
 				dom_wrap_paragraph_length (
-					document, extension, WEBKIT_DOM_ELEMENT (parent), length));
-			webkit_dom_node_normalize (parent);
+					document, extension, WEBKIT_DOM_ELEMENT (parent_block), length));
+			webkit_dom_node_normalize (parent_block);
 			dom_quote_plain_text_element_after_wrapping (
-				document, WEBKIT_DOM_ELEMENT (parent), citation_level);
+				document, WEBKIT_DOM_ELEMENT (parent_block), citation_level);
 
 			dom_selection_restore (document);
 
