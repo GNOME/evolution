@@ -345,12 +345,15 @@ html_editor_update_actions (EHTMLEditor *editor)
 	gtk_action_set_visible (ACTION (CONTEXT_PROPERTIES_RULE), visible);
 
 	visible = (flags & E_CONTENT_EDITOR_NODE_IS_TEXT);
-	gtk_action_set_visible (ACTION (CONTEXT_PROPERTIES_TEXT), visible);
+	/* Only display the text properties dialog when some text is selected. */
+	gtk_action_set_visible (
+		ACTION (CONTEXT_PROPERTIES_TEXT),
+		visible && !(flags & E_CONTENT_EDITOR_NODE_IS_TEXT_COLLAPSED));
 
 	visible =
 		gtk_action_get_visible (ACTION (CONTEXT_PROPERTIES_IMAGE)) ||
 		gtk_action_get_visible (ACTION (CONTEXT_PROPERTIES_LINK)) ||
-		gtk_action_get_visible (ACTION (CONTEXT_PROPERTIES_TEXT));
+		visible; /* text node under caret */
 	gtk_action_set_visible (ACTION (CONTEXT_PROPERTIES_PARAGRAPH), visible);
 
 	/* Set to visible if any of these are true:
