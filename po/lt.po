@@ -15458,10 +15458,6 @@ msgstr "Pašto siuntimas"
 msgid "Server _Type:"
 msgstr "Serverio _tipas:"
 
-#: ../mail/e-mail-config-summary-page.c:142
-msgid "SSL"
-msgstr "SSL"
-
 #: ../mail/e-mail-config-summary-page.c:145
 msgid "TLS"
 msgstr "TLS"
