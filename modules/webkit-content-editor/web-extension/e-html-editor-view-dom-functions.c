@@ -8916,56 +8916,43 @@ split_citation (WebKitDOMDocument *document,
 	manager = e_html_editor_web_extension_get_undo_redo_manager (extension);
 
 	if (!e_html_editor_undo_redo_manager_is_operation_in_progress (manager)) {
+		WebKitDOMElement *selection_end;
+		WebKitDOMNode *sibling;
+
 		ev = g_new0 (EHTMLEditorHistoryEvent, 1);
 		ev->type = HISTORY_CITATION_SPLIT;
+
+		dom_selection_save (document);
 
 		dom_selection_get_coordinates (
 			document, &ev->before.start.x, &ev->before.start.y, &ev->before.end.x, &ev->before.end.y);
 
 		if (!dom_selection_is_collapsed (document)) {
-			WebKitDOMDocumentFragment *fragment;
-			WebKitDOMDOMWindow *dom_window;
-			WebKitDOMDOMSelection *dom_selection;
 			WebKitDOMRange *range;
 
-			dom_window = webkit_dom_document_get_default_view (document);
-			dom_selection = webkit_dom_dom_window_get_selection (dom_window);
-			g_object_unref (dom_window);
-
-			if (!webkit_dom_dom_selection_get_range_count (dom_selection)) {
-				g_object_unref (dom_selection);
-				return FALSE;
-			}
-
-			range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
-			fragment = webkit_dom_range_clone_contents (range, NULL);
+			range = dom_get_current_range (document);
+			insert_delete_event (document, extension, range);
 
 			g_object_unref (range);
-			g_object_unref (dom_selection);
 
-			ev->data.fragment = fragment;
-		} else {
-			WebKitDOMElement *selection_end;
-			WebKitDOMNode *sibling;
-
-			dom_selection_save (document);
-
-			selection_end = webkit_dom_document_get_element_by_id (
-				document, "-x-evo-selection-end-marker");
-
-			sibling = webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (selection_end));
-			if (!sibling || (WEBKIT_DOM_IS_HTML_BR_ELEMENT (sibling) &&
-			    !element_has_class (WEBKIT_DOM_ELEMENT (sibling), "-x-evo-wrap-br"))) {
-				WebKitDOMDocumentFragment *fragment;
-
-				fragment = webkit_dom_document_create_document_fragment (document);
-				ev->data.fragment = fragment;
-			} else {
-				ev->data.fragment = NULL;
-			}
-
-			dom_selection_restore (document);
+			ev->before.end.x = ev->before.start.x;
+			ev->before.end.y = ev->before.start.y;
 		}
+
+		selection_end = webkit_dom_document_get_element_by_id (
+			document, "-x-evo-selection-end-marker");
+
+		sibling = webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (selection_end));
+		if (!sibling || (WEBKIT_DOM_IS_HTML_BR_ELEMENT (sibling) &&
+		    !element_has_class (WEBKIT_DOM_ELEMENT (sibling), "-x-evo-wrap-br"))) {
+			WebKitDOMDocumentFragment *fragment;
+
+			fragment = webkit_dom_document_create_document_fragment (document);
+			ev->data.fragment = fragment;
+		} else
+			ev->data.fragment = NULL;
+
+		dom_selection_restore (document);
 	}
 
 	element = dom_insert_new_line_into_citation (document, extension, "");

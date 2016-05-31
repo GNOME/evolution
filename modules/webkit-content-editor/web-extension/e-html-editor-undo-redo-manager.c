@@ -1904,8 +1904,8 @@ undo_redo_citation_split (WebKitDOMDocument *document,
 
 	if (event->before.start.x == event->after.start.x &&
 	    event->before.start.y == event->after.start.y &&
-	    event->after.end.x == event->after.end.x &&
-	    event->after.end.y == event->after.end.y)
+	    event->before.end.x == event->after.end.x &&
+	    event->before.end.y == event->after.end.y)
 		in_situ = TRUE;
 
 	if (undo) {
