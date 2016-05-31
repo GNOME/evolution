@@ -1968,7 +1968,7 @@ webkit_content_editor_insert_signature (EContentEditor *editor,
 		g_variant_new (
 			"(tsbsbbb)",
 			current_page_id (wk_editor),
-			content,
+			content ? content : "",
 			is_html,
 			signature_id,
 			set_signature_from_message,

@@ -392,7 +392,7 @@ dom_insert_signature (WebKitDOMDocument *document,
 	insert_signature_in = signature_to_insert;
 
 	/* The signature has no content usually it means it is set to None. */
-	if (!content)
+	if (!(content && *content))
 		goto insert;
 
 	if (!is_html) {
