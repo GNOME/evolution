@@ -5,7 +5,7 @@ module_LTLIBRARIES = module-webkit-content-editor.la
 module_webkit_content_editor_la_CPPFLAGS = 		\
 	$(AM_CPPFLAGS)					\
 	-I$(top_srcdir)					\
-	-DEVOLUTION_WEB_EXTENSIONS_COMPOSER_DIR=\""$(webextensionscomposerdir)"\" \
+	-DEVOLUTION_WEB_EXTENSIONS_CONTENT_EDITOR_DIR=\""$(webextensionscontenteditordir)"\" \
 	-DG_LOG_DOMAIN=\"webkit-content-editor\"	\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)			\
 	$(GNOME_PLATFORM_CFLAGS)			\

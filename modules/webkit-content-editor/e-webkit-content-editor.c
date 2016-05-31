@@ -4917,7 +4917,7 @@ webkit_content_editor_constructor (GType type,
 				web_context, WEBKIT_CACHE_MODEL_DOCUMENT_VIEWER);
 
 			webkit_web_context_set_web_extensions_directory (
-				web_context, EVOLUTION_WEB_EXTENSIONS_COMPOSER_DIR);
+				web_context, EVOLUTION_WEB_EXTENSIONS_CONTENT_EDITOR_DIR);
 
 			g_value_take_object (param->value, web_context);
 		}
