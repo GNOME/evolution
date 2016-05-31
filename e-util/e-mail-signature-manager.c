@@ -376,19 +376,8 @@ mail_signature_manager_constructed (GObject *object)
 
 	container = GTK_WIDGET (manager);
 
-	widget = gtk_scrolled_window_new (NULL, NULL);
-	gtk_scrolled_window_set_policy (
-		GTK_SCROLLED_WINDOW (widget),
-		GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-	gtk_scrolled_window_set_shadow_type (
-		GTK_SCROLLED_WINDOW (widget), GTK_SHADOW_IN);
-	gtk_paned_pack2 (GTK_PANED (container), widget, FALSE, FALSE);
-	gtk_widget_show (widget);
-
-	container = widget;
-
 	widget = e_mail_signature_preview_new (registry);
-	gtk_container_add (GTK_CONTAINER (container), widget);
+	gtk_paned_pack2 (GTK_PANED (container), widget, FALSE, FALSE);
 	manager->priv->preview = widget;  /* not referenced */
 	gtk_widget_show (widget);
 
