@@ -170,9 +170,9 @@ void		dom_set_link_color		(WebKitDOMDocument *document,
 void		dom_set_visited_link_color	(WebKitDOMDocument *document,
 						 const gchar *color);
 
-gboolean	dom_change_quoted_block_to_normal
-						(WebKitDOMDocument *document,
+gboolean	dom_move_quoted_block_level_up  (WebKitDOMDocument *document,
 						 EHTMLEditorWebExtension *extension);
+
 gboolean	dom_delete_last_character_on_line_in_quoted_block
 						(WebKitDOMDocument *document,
 						 EHTMLEditorWebExtension *extension,

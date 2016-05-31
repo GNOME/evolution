@@ -2104,7 +2104,7 @@ undo_redo_unquote (WebKitDOMDocument *document,
 
 		remove_node (WEBKIT_DOM_NODE (block));
 	} else
-		dom_change_quoted_block_to_normal (document, extension);
+		dom_move_quoted_block_level_up (document, extension);
 
 	if (undo)
 		restore_selection_to_history_event_state (document, event->before);
