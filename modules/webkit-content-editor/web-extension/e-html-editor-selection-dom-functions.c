@@ -2393,14 +2393,20 @@ gboolean
 dom_selection_is_collapsed (WebKitDOMDocument *document)
 {
 	gboolean collapsed;
-	WebKitDOMRange *range;
+	WebKitDOMDOMWindow *dom_window;
+	WebKitDOMDOMSelection *dom_selection;
 
-	range = dom_get_current_range (document);
-	if (!range)
-		return TRUE;
+	if (!(dom_window = webkit_dom_document_get_default_view (document)))
+		return FALSE;
 
-	collapsed = webkit_dom_range_get_collapsed (range, NULL);
-	g_object_unref (range);
+	if (!(dom_selection = webkit_dom_dom_window_get_selection (dom_window))) {
+		g_object_unref (dom_window);
+		return FALSE;
+	}
+
+	collapsed = webkit_dom_dom_selection_get_is_collapsed (dom_selection);
+
+	g_object_unref (dom_selection);
 
 	return collapsed;
 }
@@ -6650,48 +6656,33 @@ dom_get_caret_word (WebKitDOMDocument *document)
 gboolean
 dom_selection_has_text (WebKitDOMDocument *document)
 {
-	WebKitDOMRange *range;
-	WebKitDOMNode *node;
+	gboolean has_text = FALSE;
+	gchar *text = NULL;
+	WebKitDOMDOMWindow *dom_window = NULL;
+	WebKitDOMDOMSelection *dom_selection = NULL;
+	WebKitDOMRange *range = NULL;
 
-	range = dom_get_current_range (document);
+	if (!(dom_window = webkit_dom_document_get_default_view (document)))
+		goto out;
 
-	node = webkit_dom_range_get_start_container (range, NULL);
-	if (WEBKIT_DOM_IS_TEXT (node)) {
-		g_object_unref (range);
-		return TRUE;
-	}
+	if (!(dom_selection = webkit_dom_dom_window_get_selection (dom_window)))
+		goto out;
 
-	node = webkit_dom_range_get_end_container (range, NULL);
-	if (WEBKIT_DOM_IS_TEXT (node)) {
-		g_object_unref (range);
-		return TRUE;
-	}
+	if (webkit_dom_dom_selection_get_is_collapsed (dom_selection))
+		goto out;
 
-	node = WEBKIT_DOM_NODE (webkit_dom_range_clone_contents (range, NULL));
-	while (node) {
-		if (WEBKIT_DOM_IS_TEXT (node)) {
-			g_object_unref (range);
-			return TRUE;
-		}
+	if (!(range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL)))
+		goto out;
 
-		if (webkit_dom_node_has_child_nodes (node)) {
-			node = webkit_dom_node_get_first_child (node);
-		} else if (webkit_dom_node_get_next_sibling (node)) {
-			node = webkit_dom_node_get_next_sibling (node);
-		} else {
-			node = webkit_dom_node_get_parent_node (node);
-			if (node) {
-				node = webkit_dom_node_get_next_sibling (node);
-			}
-		}
-	}
+	text = webkit_dom_range_get_text (range);
+	has_text = text && *text;
+ out:
+	g_free (text);
+	g_clear_object (&dom_window);
+	g_clear_object (&dom_selection);
+	g_clear_object (&range);
 
-	if (node)
-		g_object_unref (node);
-
-	g_object_unref (range);
-
-	return FALSE;
+	return has_text;
 }
 
 /**
