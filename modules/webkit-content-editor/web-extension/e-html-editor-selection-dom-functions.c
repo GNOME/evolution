@@ -2645,7 +2645,7 @@ wrap_lines (WebKitDOMDocument *document,
 				} else if (!prev_nd) {
 					WebKitDOMNode *parent;
 
-					parent = webkit_dom_node_get_parent_node (parent);
+					parent = webkit_dom_node_get_parent_node (nd);
 					if (!WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (parent))
 						start_point = nd;
 				}
