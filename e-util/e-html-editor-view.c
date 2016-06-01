@@ -13781,13 +13781,21 @@ redo_delete (EHTMLEditorView *view,
 	gboolean delete_key, control_key;
 	glong length = 1;
 	gint ii;
+	WebKitDOMDocument *document;
 	WebKitDOMDocumentFragment *fragment = event->data.fragment;
+	WebKitDOMHTMLElement *body;
 	WebKitDOMNode *node;
 
 	restore_selection_to_history_event_state (view, event->before);
 
 	delete_key = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (event->data.fragment), "history-delete-key"));
 	control_key = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (event->data.fragment), "history-control-key"));
+
+	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
+	body = webkit_dom_document_get_body (document);
+
+	if (!view->priv->html_mode)
+		set_monospace_font_family_on_body (WEBKIT_DOM_ELEMENT (body), TRUE);
 
 	if (!delete_key && key_press_event_process_backspace_key (view))
 		goto out;
@@ -13868,6 +13876,9 @@ redo_delete (EHTMLEditorView *view,
 	view->priv->renew_history_after_coordinates = FALSE;
 	body_key_up_event_process_backspace_or_delete (view, delete_key);
 	view->priv->renew_history_after_coordinates = TRUE;
+
+	if (!view->priv->html_mode)
+		set_monospace_font_family_on_body (WEBKIT_DOM_ELEMENT (body), FALSE);
 
 	restore_selection_to_history_event_state (view, event->after);
 
