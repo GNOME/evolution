@@ -2113,25 +2113,6 @@ remove_quoting_from_element (WebKitDOMElement *element)
 	g_object_unref (list);
 
 	list = webkit_dom_element_query_selector_all (
-		element, "span.-x-evo-temp-text-wrapper", NULL);
-	length = webkit_dom_node_list_get_length (list);
-	for (ii = 0; ii < length; ii++) {
-		WebKitDOMNode *node = webkit_dom_node_list_item (list, ii);
-		WebKitDOMNode *parent = webkit_dom_node_get_parent_node (node);
-
-		while (webkit_dom_node_get_first_child (node))
-			webkit_dom_node_insert_before (
-				parent,
-				webkit_dom_node_get_first_child (node),
-				node,
-				NULL);
-
-		remove_node (node);
-		g_object_unref (node);
-	}
-	g_object_unref (list);
-
-	list = webkit_dom_element_query_selector_all (
 		element, "br.-x-evo-temp-br", NULL);
 	length = webkit_dom_node_list_get_length (list);
 	for (ii = 0; ii < length; ii++) {

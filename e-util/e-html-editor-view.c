@@ -6582,8 +6582,8 @@ quote_node (WebKitDOMDocument *document,
 	gboolean skip_first = FALSE;
 	gboolean insert_newline = FALSE;
 	gboolean is_html_node = FALSE;
-	WebKitDOMElement *wrapper;
-	WebKitDOMNode *node_clone, *prev_sibling, *next_sibling;
+	WebKitDOMNode *prev_sibling, *next_sibling;
+	WebKitDOMNode *parent;
 
 	/* Don't quote when we are not in citation */
 	if (quote_level == 0)
@@ -6617,28 +6617,10 @@ quote_node (WebKitDOMDocument *document,
 	if (quote_level == 1 && next_sibling && WEBKIT_DOM_IS_HTML_PRE_ELEMENT (next_sibling))
 		return;
 
-	/* Do temporary wrapper */
-	wrapper = webkit_dom_document_create_element (document, "SPAN", NULL);
-	webkit_dom_element_set_class_name (wrapper, "-x-evo-temp-text-wrapper");
-
-	node_clone = webkit_dom_node_clone_node (node, TRUE);
-
-	webkit_dom_node_append_child (
-		WEBKIT_DOM_NODE (wrapper),
-		node_clone,
-		NULL);
+	parent = webkit_dom_node_get_parent_node (node),
 
 	insert_quote_symbols (
-		WEBKIT_DOM_HTML_ELEMENT (wrapper),
-		quote_level,
-		skip_first,
-		insert_newline);
-
-	webkit_dom_node_replace_child (
-		webkit_dom_node_get_parent_node (node),
-		WEBKIT_DOM_NODE (wrapper),
-		node,
-		NULL);
+		WEBKIT_DOM_HTML_ELEMENT (parent), quote_level, skip_first, insert_newline);
 }
 
 static void
@@ -6854,24 +6836,6 @@ quote_plain_text_recursive (WebKitDOMDocument *document,
 			goto next_node;
 		}
 
-		if (WEBKIT_DOM_IS_ELEMENT (prev_sibling) &&
-		    WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (next_sibling) &&
-		    element_has_class (WEBKIT_DOM_ELEMENT (prev_sibling), "-x-evo-temp-text-wrapper")) {
-			/* Situation when anchors are alone on line */
-			text_content = webkit_dom_node_get_text_content (prev_sibling);
-
-			if (g_str_has_suffix (text_content, "\n")) {
-				insert_quote_symbols_before_node (
-					document, node, quote_level, FALSE);
-				remove_node (node);
-				g_free (text_content);
-				node = next_sibling;
-				skip_node = TRUE;
-				goto next_node;
-			}
-			g_free (text_content);
-		}
-
 		if (WEBKIT_DOM_IS_HTMLBR_ELEMENT (prev_sibling)) {
 			quote_br_node (prev_sibling, quote_level);
 			node = next_sibling;
@@ -6891,21 +6855,6 @@ quote_plain_text_recursive (WebKitDOMDocument *document,
 
 				goto next_node;
 			}
-		}
-
-		if (WEBKIT_DOM_IS_ELEMENT (prev_sibling) &&
-		    element_has_class (WEBKIT_DOM_ELEMENT (prev_sibling), "-x-evo-temp-text-wrapper")) {
-			text_content = webkit_dom_node_get_text_content (prev_sibling);
-			if (text_content && !*text_content) {
-				insert_quote_symbols_before_node (
-					document, node, quote_level, FALSE);
-
-				g_free (text_content);
-				goto next_node;
-
-			}
-
-			g_free (text_content);
 		}
 
 		if (is_citation_node (prev_sibling)) {
@@ -9122,25 +9071,7 @@ process_blockquote (WebKitDOMElement *blockquote,
 	WebKitDOMNodeList *list;
 	int jj, length;
 
-	/* First replace wrappers */
-	list = webkit_dom_element_query_selector_all (
-		blockquote, "span.-x-evo-temp-text-wrapper", NULL);
-	length = webkit_dom_node_list_get_length (list);
-	for (jj = 0; jj < length; jj++) {
-		WebKitDOMNode *quoted_node;
-		gchar *text_content;
-
-		quoted_node = webkit_dom_node_list_item (list, jj);
-		text_content = webkit_dom_node_get_text_content (quoted_node);
-		webkit_dom_html_element_set_outer_html (
-			WEBKIT_DOM_HTML_ELEMENT (quoted_node), text_content, NULL);
-
-		g_free (text_content);
-		g_object_unref (quoted_node);
-	}
-	g_object_unref (list);
-
-	/* Afterwards replace quote nodes with symbols */
+	/* Replace quote nodes with symbols */
 	list = webkit_dom_element_query_selector_all (
 		blockquote, "span.-x-evo-quoted", NULL);
 	length = webkit_dom_node_list_get_length (list);
