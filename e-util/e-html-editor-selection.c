@@ -2476,6 +2476,7 @@ process_block_to_block (EHTMLEditorSelection *selection,
 		gboolean quoted = FALSE;
 		gboolean empty = FALSE;
 		gchar *content;
+		gint citation_level = 0;
 		WebKitDOMNode *child;
 		WebKitDOMElement *element;
 
@@ -2587,7 +2588,7 @@ process_block_to_block (EHTMLEditorSelection *selection,
 		if (!html_mode &&
 		    (format == E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_PARAGRAPH ||
 		     format == E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_BLOCKQUOTE)) {
-			gint citation_level, quote;
+			gint quote;
 
 			if (format == E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_BLOCKQUOTE)
 				citation_level = 1;
@@ -2605,9 +2606,12 @@ process_block_to_block (EHTMLEditorSelection *selection,
 				blockquote, WEBKIT_DOM_NODE (element), NULL);
 			if (!html_mode)
 				e_html_editor_view_quote_plain_text_element_after_wrapping (document, element, 1);
-		} else
-			if (!html_mode && quoted)
+		} else if (!html_mode && quoted) {
+			if (citation_level > 0)
+				e_html_editor_view_quote_plain_text_element_after_wrapping (document, element, citation_level);
+			else
 				e_html_editor_view_quote_plain_text_element (view, element);
+		}
 	}
 
 	return after_selection_end;
