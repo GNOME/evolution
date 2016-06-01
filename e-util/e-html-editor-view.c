@@ -7490,6 +7490,8 @@ parse_html_into_blocks (EHTMLEditorView *view,
 	while (next_br) {
 		gboolean local_ignore_next_br = ignore_next_br;
 		gboolean local_preserve_next_line = preserve_next_line;
+		gboolean local_previously_had_empty_citation_start =
+			previously_had_empty_citation_start;
 		gboolean preserve_block = TRY_TO_PRESERVE_BLOCKS;
 		const gchar *citation = NULL, *citation_end = NULL;
 		const gchar *rest = NULL, *with_br = NULL;
@@ -7703,6 +7705,14 @@ parse_html_into_blocks (EHTMLEditorView *view,
 					parent,
 					block_template,
 					"<br id=\"-x-evo-first-br\">");
+			} else if (local_previously_had_empty_citation_start &&
+			           !citation && with_br && rest && !*rest) {
+				/* Empty citation */
+				if (block)
+					append_new_block (parent, &block);
+
+				block = create_and_append_new_block (
+					selection, document, parent, block_template, "<br>");
 			} else
 				preserve_next_line = FALSE;
 		} else if (first_element && !citation_was_first_element) {
