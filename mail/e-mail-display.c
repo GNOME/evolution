@@ -52,6 +52,8 @@
 	((obj), E_TYPE_MAIL_DISPLAY, EMailDisplayPrivate))
 
 struct _EMailDisplayPrivate {
+	EAttachmentStore *attachment_store;
+	GWeakRef *attachment_view; /* EAttachmentView * */
 	EMailPartList *part_list;
 	EMailFormatterMode mode;
 	EMailFormatter *formatter;
@@ -62,8 +64,6 @@ struct _EMailDisplayPrivate {
 
 	GSettings *settings;
 
-	GHashTable *widgets;
-
 	guint scheduled_reload;
 
 	GHashTable *old_settings;
@@ -73,10 +73,14 @@ struct _EMailDisplayPrivate {
 	GHashTable *skipped_remote_content_sites;
 
 	guint web_extension_headers_collapsed_signal_id;
+
+	GtkAllocation attachment_popup_position;
 };
 
 enum {
 	PROP_0,
+	PROP_ATTACHMENT_STORE,
+	PROP_ATTACHMENT_VIEW,
 	PROP_FORMATTER,
 	PROP_HEADERS_COLLAPSABLE,
 	PROP_HEADERS_COLLAPSED,
@@ -278,30 +282,6 @@ mail_display_update_formatter_colors (EMailDisplay *display)
 		e_mail_formatter_update_style (formatter, state_flags);
 }
 
-#if 0
-static void
-mail_display_plugin_widget_disconnect_children (GtkWidget *widget,
-                                                gpointer mail_display)
-{
-	g_signal_handlers_disconnect_by_data (widget, mail_display);
-}
-
-static void
-mail_display_plugin_widget_disconnect (gpointer widget_uri,
-                                       gpointer widget,
-                                       gpointer mail_display)
-{
-	if (E_IS_ATTACHMENT_BAR (widget))
-		g_signal_handlers_disconnect_by_data (widget, mail_display);
-	else if (E_IS_ATTACHMENT_BUTTON (widget))
-		g_signal_handlers_disconnect_by_data (widget, mail_display);
-	else if (GTK_IS_CONTAINER (widget))
-		gtk_container_foreach (
-			widget,
-			mail_display_plugin_widget_disconnect_children,
-			mail_display);
-}
-#endif
 static gboolean
 mail_display_process_mailto (EWebView *web_view,
                              const gchar *mailto_uri,
@@ -390,541 +370,7 @@ decide_policy_cb (WebKitWebView *web_view,
 	/* Let WebKit handle it. */
 	return FALSE;
 }
-#if 0 /* FIXME WK2 */
-static WebKitDOMElement *
-find_element_by_id (WebKitDOMDocument *document,
-                    const gchar *id)
-{
-	WebKitDOMNodeList *frames;
-	WebKitDOMElement *element = NULL;
-	gulong ii, length;
 
-	if (!WEBKIT_DOM_IS_DOCUMENT (document))
-		return NULL;
-
-	/* Try to look up the element in this DOM document */
-	element = webkit_dom_document_get_element_by_id (document, id);
-	if (element != NULL)
-		return element;
-
-	/* If the element is not here then recursively scan all frames */
-	frames = webkit_dom_document_get_elements_by_tag_name (
-		document, "iframe");
-	length = webkit_dom_node_list_get_length (frames);
-	for (ii = 0; ii < length; ii++) {
-		WebKitDOMHTMLIFrameElement *iframe;
-		WebKitDOMDocument *frame_doc;
-		WebKitDOMElement *element;
-
-		iframe = WEBKIT_DOM_HTML_IFRAME_ELEMENT (
-			webkit_dom_node_list_item (frames, ii));
-
-		frame_doc = webkit_dom_html_iframe_element_get_content_document (iframe);
-
-		element = find_element_by_id (frame_doc, id);
-
-		if (element != NULL)
-			goto out;
-	}
- out:
-	g_object_unref (frames);
-
-	return element;
-}
-
-static void
-mail_display_plugin_widget_resize (GtkWidget *widget,
-                                   gpointer dummy,
-                                   EMailDisplay *display)
-{
-	WebKitDOMElement *parent_element;
-	gchar *dim;
-	gint height, width;
-	gfloat scale;
-
-	parent_element = g_object_get_data (
-		G_OBJECT (widget), "parent_element");
-
-	if (!WEBKIT_DOM_IS_ELEMENT (parent_element)) {
-		d (
-			printf ("%s: %s does not have (valid) parent element!\n",
-			G_STRFUNC, (gchar *) g_object_get_data (G_OBJECT (widget), "uri")));
-		return;
-	}
-
-	scale = webkit_web_view_get_zoom_level (WEBKIT_WEB_VIEW (display));
-	width = gtk_widget_get_allocated_width (widget);
-	gtk_widget_get_preferred_height_for_width (widget, width, &height, NULL);
-
-	/* When zooming WebKit does not change dimensions of the elements,
-	 * but only scales them on the canvas.  GtkWidget can't be scaled
-	 * though so we need to cope with the dimension changes to keep the
-	 * the widgets the correct size.  Due to inaccuracy in rounding
-	 * (float -> int) it still acts a bit funny, but at least it does
-	 * not cause widgets in WebKit to go crazy when zooming. */
-	height = height * (1 / scale);
-
-	/* Int -> Str */
-	dim = g_strdup_printf ("%d", height);
-
-	/* Set height of the containment <object> to match height of the
-	 * GtkWidget it contains */
-	webkit_dom_html_object_element_set_height (
-		WEBKIT_DOM_HTML_OBJECT_ELEMENT (parent_element), dim);
-	g_free (dim);
-}
-
-static void
-plugin_widget_set_parent_element (GtkWidget *widget,
-                                  EMailDisplay *display)
-{
-	const gchar *uri;
-	WebKitDOMDocument *document;
-	WebKitDOMElement *element;
-
-	uri = g_object_get_data (G_OBJECT (widget), "uri");
-	if (uri == NULL || *uri == '\0')
-		return;
-
-	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (display));
-	element = find_element_by_id (document, uri);
-
-	if (!WEBKIT_DOM_IS_ELEMENT (element)) {
-		g_warning ("Failed to find parent <object> for '%s' - no ID set?", uri);
-		return;
-	}
-
-	/* Assign the WebKitDOMElement to "parent_element" data of the
-	 * GtkWidget and the GtkWidget to "widget" data of the DOM Element. */
-	g_object_set_data (G_OBJECT (widget), "parent_element", element);
-	g_object_set_data (G_OBJECT (element), "widget", widget);
-
-	e_binding_bind_property (
-		element, "hidden",
-		widget, "visible",
-		G_BINDING_SYNC_CREATE |
-		G_BINDING_INVERT_BOOLEAN);
-}
-
-static void
-attachment_button_expanded (GObject *object,
-                            GParamSpec *pspec,
-                            gpointer user_data)
-{
-	EAttachmentButton *button = E_ATTACHMENT_BUTTON (object);
-	EMailDisplay *display = user_data;
-	WebKitDOMDocument *document;
-	WebKitDOMElement *element, *iframe;
-	WebKitDOMCSSStyleDeclaration *css;
-	const gchar *attachment_part_id;
-	gchar *element_id;
-	gboolean expanded;
-
-	d (
-		printf ("Attachment button %s has been %s!\n",
-		(gchar *) g_object_get_data (object, "uri"),
-		(e_attachment_button_get_expanded (button) ? "expanded" : "collapsed")));
-
-	expanded =
-		e_attachment_button_get_expanded (button) &&
-		gtk_widget_get_visible (GTK_WIDGET (button));
-
-	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (display));
-	attachment_part_id = g_object_get_data (object, "attachment_id");
-
-	element_id = g_strconcat (attachment_part_id, ".wrapper", NULL);
-	element = find_element_by_id (document, element_id);
-	g_free (element_id);
-
-	if (!WEBKIT_DOM_IS_ELEMENT (element)) {
-		d (
-			printf ("%s: Content <div> of attachment %s does not exist!!\n",
-			G_STRFUNC, (gchar *) g_object_get_data (object, "uri")));
-		return;
-	}
-
-	if (WEBKIT_DOM_IS_HTML_ELEMENT (element) && expanded &&
-	    webkit_dom_element_get_child_element_count (element) == 0) {
-		gchar *inner_html_data;
-
-		inner_html_data = webkit_dom_element_get_attribute (element, "inner-html-data");
-		if (inner_html_data && *inner_html_data) {
-			WebKitDOMHTMLElement *html_element;
-
-			html_element = WEBKIT_DOM_HTML_ELEMENT (element);
-			webkit_dom_html_element_set_inner_html (html_element, inner_html_data, NULL);
-
-			webkit_dom_element_remove_attribute (element, "inner-html-data");
-		}
-
-		g_free (inner_html_data);
-	}
-
-	/* Hide/Show all the GtkWidgets inside an attachment, otherwise they could
-	 * be visible even if the wrapper is hidden. */
-	if ((iframe = webkit_dom_element_query_selector (element, "iframe", NULL))) {
-		WebKitDOMDocument *content_document;
-
-		content_document = webkit_dom_html_iframe_element_get_content_document
-			(WEBKIT_DOM_HTML_IFRAME_ELEMENT (iframe));
-
-		if (content_document) {
-			gint length, ii;
-			WebKitDOMNodeList *list;
-
-			list = webkit_dom_document_get_elements_by_tag_name (content_document, "object");
-			length = webkit_dom_node_list_get_length (list);
-
-			for (ii = 0; ii < length; ii++) {
-				WebKitDOMNode *item;
-
-				item = webkit_dom_node_list_item (list, ii);
-
-				css = webkit_dom_element_get_style (WEBKIT_DOM_ELEMENT (item));
-				if (expanded)
-					g_free (webkit_dom_css_style_declaration_remove_property (css, "display", NULL));
-				else
-					webkit_dom_css_style_declaration_set_property (css, "display", "none", "", NULL);
-				g_clear_object (&css);
-			}
-			g_object_unref (list);
-		}
-	}
-
-	/* Show or hide the DIV which contains
-	 * the attachment (iframe, image...). */
-	css = webkit_dom_element_get_style (element);
-	webkit_dom_css_style_declaration_set_property (
-		css, "display", expanded ? "block" : "none", "", NULL);
-}
-
-static void
-attachment_button_zoom_to_window_cb (GObject *object,
-				     GParamSpec *pspec,
-				     gpointer user_data)
-{
-	EAttachmentButton *button = E_ATTACHMENT_BUTTON (object);
-	EMailDisplay *display = user_data;
-	WebKitDOMDocument *document;
-	WebKitDOMElement *element, *child;
-	WebKitDOMCSSStyleDeclaration *css;
-	const gchar *attachment_part_id;
-	gchar *element_id;
-	gboolean zoom_to_window;
-
-	d (
-		printf ("Attachment button %s has been set to %s!\n",
-		(gchar *) g_object_get_data (object, "uri"),
-		(e_attachment_botton_get_zoom_to_window (attachment) ? "zoom-to-window" : "zoom to 100%")));
-
-	if (!gtk_widget_get_visible (GTK_WIDGET (button)))
-		return;
-
-	zoom_to_window = e_attachment_button_get_zoom_to_window (button);
-
-	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (display));
-	attachment_part_id = g_object_get_data (object, "attachment_id");
-
-	element_id = g_strconcat (attachment_part_id, ".wrapper", NULL);
-	element = find_element_by_id (document, element_id);
-	g_free (element_id);
-
-	if (!WEBKIT_DOM_IS_ELEMENT (element)) {
-		d (
-			printf ("%s: Content <div> of attachment %s does not exist!!\n",
-			G_STRFUNC, (gchar *) g_object_get_data (object, "uri")));
-		return;
-	}
-
-	child = webkit_dom_element_get_first_element_child (element);
-	if (!child || !WEBKIT_DOM_IS_HTML_IMAGE_ELEMENT (child)) {
-		d (
-			printf ("%s: Content <div> of attachment %s does not contain image, but %s\n",
-			G_STRFUNC, (gchar *) g_object_get_data (object, "uri"),
-			child ? G_OBJECT_TYPE_NAME (child) : "[null]"));
-		g_clear_object (&child);
-		return;
-	}
-
-	css = webkit_dom_element_get_style (child);
-	if (zoom_to_window) {
-		webkit_dom_css_style_declaration_set_property (css, "max-width", "100%", "", NULL);
-	} else {
-		g_free (webkit_dom_css_style_declaration_remove_property (css, "max-width", NULL));
-	}
-	g_object_unref (css);
-	g_clear_object (&child);
-}
-
-static void
-mail_display_attachment_count_changed (EAttachmentStore *store,
-                                       GParamSpec *pspec,
-                                       GtkWidget *box)
-{
-	WebKitDOMHTMLElement *element;
-	GList *children;
-
-	children = gtk_container_get_children (GTK_CONTAINER (box));
-	g_return_if_fail (children && children->data);
-
-	element = g_object_get_data (children->data, "parent_element");
-	g_list_free (children);
-
-	g_return_if_fail (WEBKIT_DOM_IS_HTML_ELEMENT (element));
-
-	if (e_attachment_store_get_num_attachments (store) == 0) {
-		gtk_widget_hide (box);
-		webkit_dom_html_element_set_hidden (element, TRUE);
-	} else {
-		gtk_widget_show (box);
-		webkit_dom_html_element_set_hidden (element, FALSE);
-	}
-}
-
-typedef struct _NumAttachmentsData {
-	EAttachmentStore *store;
-	gulong handler_id;
-} NumAttachmentsData;
-
-static void
-attachment_bar_box_gone_cb (gpointer data,
-			    GObject *gone_box)
-{
-	NumAttachmentsData *nad = data;
-
-	if (nad) {
-		g_signal_handler_disconnect (nad->store, nad->handler_id);
-		g_object_unref (nad->store);
-		g_free (nad);
-	}
-}
-
-static GtkWidget *
-mail_display_plugin_widget_requested (WebKitWebView *web_view,
-                                      gchar *mime_type,
-                                      gchar *uri,
-                                      GHashTable *param,
-                                      gpointer user_data)
-{
-	EMailDisplay *display;
-	EMailExtensionRegistry *reg;
-	EMailFormatterExtension *extension;
-	GQueue *extensions;
-	GList *head, *link;
-	EMailPart *part = NULL;
-	GtkWidget *widget = NULL;
-	GWeakRef *weakref;
-	gchar *part_id, *type, *object_uri;
-
-	part_id = g_hash_table_lookup (param, "data");
-	if (part_id == NULL || !g_str_has_prefix (uri, "mail://"))
-		return NULL;
-
-	type = g_hash_table_lookup (param, "type");
-	if (type == NULL)
-		return NULL;
-
-	display = E_MAIL_DISPLAY (web_view);
-
-	weakref = g_hash_table_lookup (display->priv->widgets, part_id);
-	if (weakref)
-		widget = g_weak_ref_get (weakref);
-
-	if (widget != NULL) {
-		/* This cannot be the last reference; thread-safety is assured,
-		   because this runs in the main thread only. */
-		g_object_unref (widget);
-		d (printf ("Handeled %s widget request from cache\n", part_id));
-		return widget;
-	}
-
-	/* Find the EMailPart representing the requested widget. */
-	part = e_mail_part_list_ref_part (display->priv->part_list, part_id);
-	if (part == NULL)
-		return NULL;
-
-	reg = e_mail_formatter_get_extension_registry (display->priv->formatter);
-	extensions = e_mail_extension_registry_get_for_mime_type (reg, type);
-	if (extensions == NULL)
-		goto exit;
-
-	extension = NULL;
-	head = g_queue_peek_head_link (extensions);
-	for (link = head; link != NULL; link = g_list_next (link)) {
-		extension = link->data;
-
-		if (extension == NULL)
-			continue;
-
-		if (e_mail_formatter_extension_has_widget (extension))
-			break;
-	}
-
-	if (extension == NULL)
-		goto exit;
-
-	/* Get the widget from formatter */
-	widget = e_mail_formatter_extension_get_widget (
-		extension, display->priv->part_list, part, param);
-	d (
-		printf ("Created widget %s (%p) for part %s\n",
-			G_OBJECT_TYPE_NAME (widget), widget, part_id));
-
-	/* Should not happen! WebKit will display an ugly 'Plug-in not
-	 * available' placeholder instead of hiding the <object> element. */
-	if (widget == NULL)
-		goto exit;
-
-	/* Attachment button has URI different then the actual PURI because
-	 * that URI identifies the attachment itself */
-	if (E_IS_ATTACHMENT_BUTTON (widget)) {
-		EMailPartAttachment *empa = (EMailPartAttachment *) part;
-		EAttachment *attachment;
-		gchar *attachment_part_id;
-
-		if (empa->attachment_view_part_id)
-			attachment_part_id = empa->attachment_view_part_id;
-		else
-			attachment_part_id = part_id;
-
-		object_uri = g_strconcat (
-			attachment_part_id, ".attachment_button", NULL);
-		g_object_set_data_full (
-			G_OBJECT (widget), "attachment_id",
-			g_strdup (attachment_part_id),
-			(GDestroyNotify) g_free);
-
-		attachment = e_mail_part_attachment_ref_attachment (empa);
-		if (attachment && e_attachment_is_mail_note (attachment)) {
-			CamelFolder *folder;
-			const gchar *message_uid;
-
-			folder = e_mail_part_list_get_folder (display->priv->part_list);
-			message_uid = e_mail_part_list_get_message_uid (display->priv->part_list);
-
-			if (folder && message_uid) {
-				CamelMessageInfo *info;
-
-				info = camel_folder_get_message_info (folder, message_uid);
-				if (info) {
-					if (!camel_message_info_user_flag (info, E_MAIL_NOTES_USER_FLAG))
-						camel_message_info_set_user_flag (info, E_MAIL_NOTES_USER_FLAG, TRUE);
-					camel_message_info_unref (info);
-				}
-			}
-		}
-
-		g_clear_object (&attachment);
-	} else {
-		object_uri = g_strdup (part_id);
-	}
-
-	/* Store the uri as data of the widget */
-	g_object_set_data_full (
-		G_OBJECT (widget), "uri",
-		object_uri, (GDestroyNotify) g_free);
-
-	/* Set pointer to the <object> element as GObject data
-	 * "parent_element" and set pointer to the widget as GObject
-	 * data "widget" to the <object> element. */
-	plugin_widget_set_parent_element (widget, display);
-
-	/* Resizing a GtkWidget requires changing size of parent
-	 * <object> HTML element in DOM. */
-	g_signal_connect (
-		widget, "size-allocate",
-		G_CALLBACK (mail_display_plugin_widget_resize), display);
-
-	if (E_IS_ATTACHMENT_BAR (widget)) {
-		GtkWidget *box = NULL;
-		EAttachmentStore *store;
-		NumAttachmentsData *nad;
-
-		/* Only when packed in box (grid does not work),
-		 * EAttachmentBar reports correct height */
-		box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
-		gtk_box_pack_start (GTK_BOX (box), widget, TRUE, TRUE, 0);
-
-		/* When EAttachmentBar is expanded/collapsed it does not
-		 * emit size-allocate signal despite it changes it's height. */
-		g_signal_connect (
-			widget, "notify::expanded",
-			G_CALLBACK (mail_display_plugin_widget_resize),
-			display);
-		g_signal_connect (
-			widget, "notify::active-view",
-			G_CALLBACK (mail_display_plugin_widget_resize),
-			display);
-
-		/* Always hide an attachment bar without attachments */
-		store = e_attachment_bar_get_store (E_ATTACHMENT_BAR (widget));
-
-		nad = g_new0 (NumAttachmentsData, 1);
-		nad->store = g_object_ref (store);
-		nad->handler_id = g_signal_connect (
-			store, "notify::num-attachments",
-			G_CALLBACK (mail_display_attachment_count_changed),
-			box);
-
-		g_object_weak_ref (G_OBJECT (box), attachment_bar_box_gone_cb, nad);
-
-		gtk_widget_show (widget);
-		gtk_widget_show (box);
-
-		/* Initial sync */
-		mail_display_attachment_count_changed (store, NULL, box);
-
-		widget = box;
-
-	} else if (E_IS_ATTACHMENT_BUTTON (widget)) {
-
-		/* Bind visibility of DOM element containing related
-		 * attachment with 'expanded' property of this
-		 * attachment button. */
-		EMailPartAttachment *empa = (EMailPartAttachment *) part;
-
-		e_attachment_button_set_expandable (E_ATTACHMENT_BUTTON (widget),
-			e_mail_part_attachment_get_expandable (empa));
-
-		if (e_mail_part_attachment_get_expandable (empa)) {
-			/* Show/hide the attachment when the EAttachmentButton
-			 * is expanded/collapsed or shown/hidden. */
-			g_signal_connect (
-				widget, "notify::expanded",
-				G_CALLBACK (attachment_button_expanded),
-				display);
-			g_signal_connect (
-				widget, "notify::visible",
-				G_CALLBACK (attachment_button_expanded),
-				display);
-			g_signal_connect (
-				widget, "notify::zoom-to-window",
-				G_CALLBACK (attachment_button_zoom_to_window_cb),
-				display);
-
-			if (e_mail_part_should_show_inline (part)) {
-				e_attachment_button_set_expanded (
-					E_ATTACHMENT_BUTTON (widget), TRUE);
-			} else {
-				e_attachment_button_set_expanded (
-					E_ATTACHMENT_BUTTON (widget), FALSE);
-				attachment_button_expanded (
-					G_OBJECT (widget), NULL, display);
-			}
-		}
-	}
-
-	g_hash_table_insert (
-		display->priv->widgets,
-		g_strdup (object_uri), e_weak_ref_new (widget));
-
-exit:
-	if (part != NULL)
-		g_object_unref (part);
-
-	return widget;
-}
-#endif
 static void
 add_color_css_rule_for_web_view (EWebView *view,
                                  const gchar *color_name,
@@ -1061,19 +507,11 @@ headers_collapsed_signal_cb (GDBusConnection *connection,
 }
 
 static void
-setup_dom_bindings (WebKitWebView *web_view,
-                    WebKitLoadEvent load_event,
-                    gpointer user_data)
+setup_dom_bindings (EMailDisplay *display)
 {
 	GDBusProxy *web_extension;
-	EMailDisplay *display;
 
-	if (load_event != WEBKIT_LOAD_FINISHED)
-		return;
-
-	display = E_MAIL_DISPLAY (web_view);
-
-	web_extension = e_web_view_get_web_extension_proxy (E_WEB_VIEW (web_view));
+	web_extension = e_web_view_get_web_extension_proxy (E_WEB_VIEW (display));
 
 	if (web_extension) {
 		if (display->priv->web_extension_headers_collapsed_signal_id == 0) {
@@ -1096,13 +534,288 @@ setup_dom_bindings (WebKitWebView *web_view,
 			"EMailDisplayBindDOM",
 			g_variant_new (
 				"(t)",
-				webkit_web_view_get_page_id (web_view)),
+				webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (display))),
 			G_DBUS_CALL_FLAGS_NONE,
 			-1,
 			NULL,
 			NULL,
  			NULL);
 	}
+}
+
+static EAttachment *
+mail_display_ref_attachment_from_element (EMailDisplay *display,
+					  const gchar *element_value)
+{
+	EAttachment *attachment = NULL;
+	GQueue queue = G_QUEUE_INIT;
+	GList *head, *link;
+
+	g_return_val_if_fail (E_IS_MAIL_DISPLAY (display), NULL);
+	g_return_val_if_fail (element_value != NULL, NULL);
+
+	e_mail_part_list_queue_parts (display->priv->part_list, NULL, &queue);
+	head = g_queue_peek_head_link (&queue);
+
+	for (link = head; link != NULL; link = g_list_next (link)) {
+		EMailPart *part = E_MAIL_PART (link->data);
+
+		if (E_IS_MAIL_PART_ATTACHMENT (part)) {
+			EAttachment *adept;
+			gboolean can_use;
+			gchar *tmp;
+
+			adept = e_mail_part_attachment_ref_attachment (E_MAIL_PART_ATTACHMENT (part));
+
+			tmp = g_strdup_printf ("%p", adept);
+			can_use = g_strcmp0 (tmp, element_value) == 0;
+			g_free (tmp);
+
+			if (can_use) {
+				attachment = adept;
+				break;
+			}
+
+			g_clear_object (&adept);
+		}
+	}
+
+	while (!g_queue_is_empty (&queue))
+		g_object_unref (g_queue_pop_head (&queue));
+
+	return attachment;
+}
+
+static void
+mail_display_attachment_expander_clicked_cb (EWebView *web_view,
+					     const gchar *element_class,
+					     const gchar *element_value,
+					     const GtkAllocation *element_position,
+					     gpointer user_data)
+{
+	EMailDisplay *display;
+	EAttachmentView *view;
+	EAttachment *attachment;
+
+	g_return_if_fail (E_IS_MAIL_DISPLAY (web_view));
+	g_return_if_fail (element_class != NULL);
+	g_return_if_fail (element_value != NULL);
+	g_return_if_fail (element_position != NULL);
+
+	display = E_MAIL_DISPLAY (web_view);
+	view = e_mail_display_ref_attachment_view (display);
+	attachment = mail_display_ref_attachment_from_element (display, element_value);
+
+	if (view && attachment) {
+		/* mail_display_attachment_notify_cb() takes care of the HTML part */
+		e_attachment_set_shown (attachment, !e_attachment_get_shown (attachment));
+	}
+
+	g_clear_object (&attachment);
+	g_clear_object (&view);
+}
+
+static void
+mail_display_attachment_menu_deactivate_cb (GtkMenuShell *menu,
+					    gpointer user_data)
+{
+	EMailDisplay *display = user_data;
+	EAttachmentView *view;
+	GtkActionGroup *action_group;
+
+	g_return_if_fail (E_IS_MAIL_DISPLAY (display));
+
+	view = e_mail_display_ref_attachment_view (display);
+	action_group = e_attachment_view_get_action_group (view, "inline");
+
+	gtk_action_group_set_visible (action_group, FALSE);
+
+	g_signal_handlers_disconnect_by_func (menu,
+		G_CALLBACK (mail_display_attachment_menu_deactivate_cb), display);
+}
+
+static void
+mail_display_attachment_menu_position_cb (GtkMenu *menu,
+					  gint *x,
+					  gint *y,
+					  gboolean *push_in,
+					  gpointer user_data)
+{
+	GtkRequisition menu_requisition;
+	GtkTextDirection direction;
+	GtkAllocation allocation;
+	GdkRectangle monitor;
+	GdkScreen *screen;
+	GdkWindow *window;
+	GtkWidget *widget;
+	EMailDisplay *display = user_data;
+	gint monitor_num;
+
+	g_return_if_fail (E_IS_MAIL_DISPLAY (display));
+
+	widget = GTK_WIDGET (display);
+	gtk_widget_get_preferred_size (GTK_WIDGET (menu), &menu_requisition, NULL);
+
+	window = gtk_widget_get_parent_window (widget);
+	screen = gtk_widget_get_screen (GTK_WIDGET (menu));
+	monitor_num = gdk_screen_get_monitor_at_window (screen, window);
+	if (monitor_num < 0)
+		monitor_num = 0;
+	gdk_screen_get_monitor_geometry (screen, monitor_num, &monitor);
+
+	allocation = display->priv->attachment_popup_position;
+
+	gdk_window_get_origin (window, x, y);
+	*x += allocation.x;
+	*y += allocation.y + allocation.height;
+
+	direction = gtk_widget_get_direction (widget);
+	if (direction == GTK_TEXT_DIR_LTR)
+		*x += MAX (allocation.width - menu_requisition.width, 0);
+	else if (menu_requisition.width > allocation.width)
+		*x -= menu_requisition.width - allocation.width;
+
+	*push_in = FALSE;
+}
+
+static void
+mail_display_attachment_select_path (EAttachmentView *view,
+				     EAttachment *attachment)
+{
+	GtkTreeRowReference *reference;
+	GtkTreePath *path;
+
+	g_return_if_fail (E_IS_ATTACHMENT_VIEW (view));
+	g_return_if_fail (E_IS_ATTACHMENT (attachment));
+
+	reference = e_attachment_get_reference (attachment);
+	g_return_if_fail (gtk_tree_row_reference_valid (reference));
+
+	path = gtk_tree_row_reference_get_path (reference);
+
+	e_attachment_view_unselect_all (view);
+	e_attachment_view_select_path (view, path);
+
+	gtk_tree_path_free (path);
+}
+
+static void
+mail_display_attachment_menu_clicked_cb (EWebView *web_view,
+					 const gchar *element_class,
+					 const gchar *element_value,
+					 const GtkAllocation *element_position,
+					 gpointer user_data)
+{
+	EMailDisplay *display;
+	EAttachmentView *view;
+	EAttachment *attachment;
+
+	g_return_if_fail (E_IS_MAIL_DISPLAY (web_view));
+	g_return_if_fail (element_class != NULL);
+	g_return_if_fail (element_value != NULL);
+	g_return_if_fail (element_position != NULL);
+
+	display = E_MAIL_DISPLAY (web_view);
+	view = e_mail_display_ref_attachment_view (display);
+	attachment = mail_display_ref_attachment_from_element (display, element_value);
+
+	if (view && attachment) {
+		GtkActionGroup *action_group;
+		GtkWidget *popup_menu;
+
+		popup_menu = e_attachment_view_get_popup_menu (view);
+
+		g_signal_connect (
+			popup_menu, "deactivate",
+			G_CALLBACK (mail_display_attachment_menu_deactivate_cb), display);
+
+		action_group = e_attachment_view_get_action_group (view, "inline");
+
+		mail_display_attachment_select_path (view, attachment);
+		display->priv->attachment_popup_position = *element_position;
+
+		e_attachment_view_show_popup_menu (view, NULL,
+			mail_display_attachment_menu_position_cb, display);
+
+		gtk_action_group_set_visible (action_group, TRUE);
+	}
+
+	g_clear_object (&attachment);
+	g_clear_object (&view);
+}
+
+static void
+mail_display_attachment_notify_cb (GObject *attachment,
+				   GParamSpec *param,
+				   gpointer user_data)
+{
+	EMailDisplay *display = user_data;
+	gchar *element_id = NULL;
+
+	g_return_if_fail (E_IS_ATTACHMENT (attachment));
+	g_return_if_fail (param != NULL);
+	g_return_if_fail (E_IS_MAIL_DISPLAY (display));
+
+	if (g_str_equal (param->name, "shown")) {
+		gboolean shown;
+		gchar *uri;
+
+		shown = e_attachment_get_shown (E_ATTACHMENT (attachment));
+
+		element_id = g_strdup_printf ("attachment-wrapper-%p", attachment);
+		e_web_view_set_element_hidden (E_WEB_VIEW (display), element_id, !shown);
+
+		g_free (element_id);
+		element_id = g_strdup_printf ("attachment-expander-img-%p", attachment);
+		uri = g_strdup_printf ("gtk-stock://%s?size=%d", shown ? "go-down" : "go-next", GTK_ICON_SIZE_BUTTON);
+
+		e_web_view_set_element_attribute (E_WEB_VIEW (display), element_id, NULL, "src", uri);
+
+		g_free (uri);
+	} else if (g_str_equal (param->name, "zoom-to-window")) {
+		const gchar *value;
+
+		if (e_attachment_get_zoom_to_window (E_ATTACHMENT (attachment)))
+			value = "100%";
+		else
+			value = NULL;
+
+		element_id = g_strdup_printf ("attachment-wrapper-%p::child", attachment);
+
+		e_web_view_set_element_style_property (E_WEB_VIEW (display), element_id, "max-width", value, "");
+	}
+
+	g_free (element_id);
+}
+
+static void
+mail_display_attachment_added_cb (EAttachmentStore *store,
+				  EAttachment *attachment,
+				  gpointer user_data)
+{
+	EMailDisplay *display = user_data;
+
+	g_return_if_fail (E_IS_ATTACHMENT_STORE (store));
+	g_return_if_fail (E_IS_ATTACHMENT (attachment));
+	g_return_if_fail (E_IS_MAIL_DISPLAY (display));
+
+	g_signal_connect (attachment, "notify",
+		G_CALLBACK (mail_display_attachment_notify_cb), display);
+}
+
+static void
+mail_display_attachment_removed_cb (EAttachmentStore *store,
+				    EAttachment *attachment,
+				    gpointer user_data)
+{
+	EMailDisplay *display = user_data;
+
+	g_return_if_fail (E_IS_ATTACHMENT_STORE (store));
+	g_return_if_fail (E_IS_ATTACHMENT (attachment));
+	g_return_if_fail (E_IS_MAIL_DISPLAY (display));
+
+	g_signal_handlers_disconnect_by_func (attachment,
+		G_CALLBACK (mail_display_attachment_notify_cb), display);
 }
 
 static void
@@ -1131,25 +844,15 @@ mail_element_exists_cb (GDBusProxy *web_extension,
 }
 
 static void
-mail_parts_bind_dom (WebKitWebView *wk_web_view,
-                     WebKitLoadEvent load_event,
-                     gpointer user_data)
+mail_parts_bind_dom (EMailDisplay *display)
 {
-	EMailDisplay *display;
 	EWebView *web_view;
 	GQueue queue = G_QUEUE_INIT;
 	GList *head, *link;
 	GDBusProxy *web_extension;
+	gboolean has_attachment = FALSE;
 
-	display = E_MAIL_DISPLAY (wk_web_view);
-
-	if (load_event == WEBKIT_LOAD_STARTED) {
-		e_mail_display_cleanup_skipped_uris (display);
-		return;
-	}
-
-	if (load_event != WEBKIT_LOAD_FINISHED)
-		return;
+	g_return_if_fail (E_IS_MAIL_DISPLAY (display));
 
 	if (display->priv->part_list == NULL)
 		return;
@@ -1171,6 +874,8 @@ mail_parts_bind_dom (WebKitWebView *wk_web_view,
 
 		part_id = e_mail_part_get_id (part);
 
+		has_attachment = has_attachment || E_IS_MAIL_PART_ATTACHMENT (part);
+
 		e_mail_part_web_view_loaded (part, web_view);
 
 		g_dbus_proxy_call (
@@ -1190,29 +895,38 @@ mail_parts_bind_dom (WebKitWebView *wk_web_view,
 
 	while (!g_queue_is_empty (&queue))
 		g_object_unref (g_queue_pop_head (&queue));
-}
-#if 0
-static void
-mail_display_uri_changed (EMailDisplay *display,
-                          GParamSpec *pspec,
-                          gpointer dummy)
-{
-	d (printf ("EMailDisplay URI changed, recreating widgets hashtable\n"));
 
-	if (display->priv->widgets != NULL) {
-		g_hash_table_foreach (
-			display->priv->widgets,
-			mail_display_plugin_widget_disconnect, display);
-		g_hash_table_destroy (display->priv->widgets);
+	if (has_attachment) {
+		e_web_view_register_element_clicked (web_view, "attachment-expander",
+			mail_display_attachment_expander_clicked_cb, NULL);
+		e_web_view_register_element_clicked (web_view, "attachment-menu",
+			mail_display_attachment_menu_clicked_cb, NULL);
+	}
+}
+
+static void
+mail_display_load_changed_cb (WebKitWebView *wk_web_view,
+			      WebKitLoadEvent load_event,
+			      gpointer user_data)
+{
+	EMailDisplay *display;
+
+	g_return_if_fail (E_IS_MAIL_DISPLAY (wk_web_view));
+
+	display = E_MAIL_DISPLAY (wk_web_view);
+
+	if (load_event == WEBKIT_LOAD_STARTED) {
+		e_mail_display_cleanup_skipped_uris (display);
+		e_attachment_store_remove_all (display->priv->attachment_store);
+		return;
 	}
 
-	display->priv->widgets = g_hash_table_new_full (
-		(GHashFunc) g_str_hash,
-		(GEqualFunc) g_str_equal,
-		(GDestroyNotify) g_free,
-		(GDestroyNotify) e_weak_ref_free);
+	if (load_event == WEBKIT_LOAD_FINISHED) {
+		setup_dom_bindings (display);
+		mail_parts_bind_dom (display);
+	}
 }
-#endif
+
 static void
 mail_display_set_property (GObject *object,
                            guint property_id,
@@ -1220,6 +934,12 @@ mail_display_set_property (GObject *object,
                            GParamSpec *pspec)
 {
 	switch (property_id) {
+		case PROP_ATTACHMENT_VIEW:
+			e_mail_display_set_attachment_view (
+				E_MAIL_DISPLAY (object),
+				g_value_get_object (value));
+			return;
+
 		case PROP_HEADERS_COLLAPSABLE:
 			e_mail_display_set_headers_collapsable (
 				E_MAIL_DISPLAY (object),
@@ -1261,6 +981,20 @@ mail_display_get_property (GObject *object,
                            GParamSpec *pspec)
 {
 	switch (property_id) {
+		case PROP_ATTACHMENT_STORE:
+			g_value_set_object (
+				value,
+				e_mail_display_get_attachment_store (
+				E_MAIL_DISPLAY (object)));
+			return;
+
+		case PROP_ATTACHMENT_VIEW:
+			g_value_take_object (
+				value,
+				e_mail_display_ref_attachment_view (
+				E_MAIL_DISPLAY (object)));
+			return;
+
 		case PROP_FORMATTER:
 			g_value_set_object (
 				value,
@@ -1318,15 +1052,7 @@ mail_display_dispose (GObject *object)
 		g_source_remove (priv->scheduled_reload);
 		priv->scheduled_reload = 0;
 	}
-#if 0
-	if (priv->widgets != NULL) {
-		g_hash_table_foreach (
-			priv->widgets,
-			mail_display_plugin_widget_disconnect, object);
-		g_hash_table_destroy (priv->widgets);
-		priv->widgets = NULL;
-	}
-#endif
+
 	if (priv->settings != NULL)
 		g_signal_handlers_disconnect_matched (
 			priv->settings, G_SIGNAL_MATCH_DATA,
@@ -1340,9 +1066,21 @@ mail_display_dispose (GObject *object)
 		priv->web_extension_headers_collapsed_signal_id = 0;
 	}
 
+	if (priv->attachment_store) {
+		/* To have called the mail_display_attachment_removed_cb() before it's disconnected */
+		e_attachment_store_remove_all (priv->attachment_store);
+
+		g_signal_handlers_disconnect_by_func (priv->attachment_store,
+			G_CALLBACK (mail_display_attachment_added_cb), object);
+
+		g_signal_handlers_disconnect_by_func (priv->attachment_store,
+			G_CALLBACK (mail_display_attachment_removed_cb), object);
+	}
+
 	g_clear_object (&priv->part_list);
 	g_clear_object (&priv->formatter);
 	g_clear_object (&priv->settings);
+	g_clear_object (&priv->attachment_store);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_mail_display_parent_class)->dispose (object);
@@ -1369,6 +1107,7 @@ mail_display_finalize (GObject *object)
 	g_clear_object (&priv->remote_content);
 	g_mutex_unlock (&priv->remote_content_lock);
 	g_mutex_clear (&priv->remote_content_lock);
+	e_weak_ref_free (priv->attachment_view);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_mail_display_parent_class)->finalize (object);
@@ -1803,6 +1542,28 @@ e_mail_display_class_init (EMailDisplayClass *class)
 
 	g_object_class_install_property (
 		object_class,
+		PROP_ATTACHMENT_STORE,
+		g_param_spec_object (
+			"attachment-store",
+			"Attachment Store",
+			NULL,
+			E_TYPE_ATTACHMENT_STORE,
+			G_PARAM_READABLE |
+			G_PARAM_STATIC_STRINGS));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_ATTACHMENT_VIEW,
+		g_param_spec_object (
+			"attachment-view",
+			"Attachment View",
+			NULL,
+			E_TYPE_ATTACHMENT_VIEW,
+			G_PARAM_READWRITE |
+			G_PARAM_STATIC_STRINGS));
+
+	g_object_class_install_property (
+		object_class,
 		PROP_FORMATTER,
 		g_param_spec_pointer (
 			"formatter",
@@ -1875,7 +1636,24 @@ e_mail_display_init (EMailDisplay *display)
 
 	display->priv = E_MAIL_DISPLAY_GET_PRIVATE (display);
 
+	/* FIXME WK2: EAttachment::row-reference cannot be used. Steps:
+	   a) open one message with attachments in the Mail window with the preview panel on
+	   b) open the same message in a separate window
+	      * observation - changing properties on the attachment are shown in both windows (expand/collapse/zoom)
+	   c) close the separate window
+	   d) click the arrow-down on the attachment to get its popup menu
+	   A runtime warning:
+	     evolution-mail-CRITICAL **: mail_display_attachment_select_path: assertion 'gtk_tree_row_reference_valid (reference)' failed
+	   is shown on the console and the popup menu is empty. Expand/collapse using the left part of the attachment button still works.
+	*/
+	display->priv->attachment_store = E_ATTACHMENT_STORE (e_attachment_store_new ());
+	display->priv->attachment_view = e_weak_ref_new (NULL);
 	display->priv->old_settings = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, (GDestroyNotify) g_variant_unref);
+
+	g_signal_connect (display->priv->attachment_store, "attachment-added",
+		G_CALLBACK (mail_display_attachment_added_cb), display);
+	g_signal_connect (display->priv->attachment_store, "attachment-removed",
+		G_CALLBACK (mail_display_attachment_removed_cb), display);
 
 	/* Set invalid mode so that MODE property initialization is run
 	 * completely (see e_mail_display_set_mode) */
@@ -1892,18 +1670,6 @@ e_mail_display_init (EMailDisplay *display)
 		display, "process-mailto",
 		G_CALLBACK (mail_display_process_mailto), NULL);
 #if 0
-	g_signal_connect (
-		display, "create-plugin-widget",
-		G_CALLBACK (mail_display_plugin_widget_requested), NULL);
-	e_signal_connect_notify (
-		display, "notify::uri",
-		G_CALLBACK (mail_display_uri_changed), NULL);
-	g_signal_connect (
-		display, "document-load-finished",
-		G_CALLBACK (setup_dom_bindings), NULL);
-	g_signal_connect (
-		display, "document-load-finished",
-		G_CALLBACK (initialize_web_view_colors), NULL);
 	g_signal_connect_after (
 		display, "drag-data-get",
 		G_CALLBACK (mail_display_drag_data_get), display);
@@ -1921,10 +1687,7 @@ e_mail_display_init (EMailDisplay *display)
 
 	g_signal_connect (
 		display, "load-changed",
-		G_CALLBACK (setup_dom_bindings), NULL);
-	g_signal_connect (
-		display, "load-changed",
-		G_CALLBACK (mail_parts_bind_dom), NULL);
+		G_CALLBACK (mail_display_load_changed_cb), NULL);
 
 	actions = e_web_view_get_action_group (E_WEB_VIEW (display), "mailto");
 	gtk_action_group_add_actions (
@@ -1985,12 +1748,80 @@ e_mail_display_update_colors (EMailDisplay *display,
 	g_free (color_value);
 }
 
+static void
+e_mail_display_claim_attachment (EMailFormatter *formatter,
+				 EAttachment *attachment,
+				 gpointer user_data)
+{
+	EMailDisplay *display = user_data;
+	GList *attachments;
+
+	g_return_if_fail (E_IS_MAIL_FORMATTER (formatter));
+	g_return_if_fail (E_IS_ATTACHMENT (attachment));
+	g_return_if_fail (E_IS_MAIL_DISPLAY (display));
+
+	attachments = e_attachment_store_get_attachments (display->priv->attachment_store);
+
+	if (!g_list_find (attachments, attachment)) {
+		e_attachment_store_add_attachment (display->priv->attachment_store, attachment);
+
+		if (e_attachment_is_mail_note (attachment)) {
+			CamelFolder *folder;
+			const gchar *message_uid;
+
+			folder = e_mail_part_list_get_folder (display->priv->part_list);
+			message_uid = e_mail_part_list_get_message_uid (display->priv->part_list);
+
+			if (folder && message_uid) {
+				CamelMessageInfo *info;
+
+				info = camel_folder_get_message_info (folder, message_uid);
+				if (info) {
+					if (!camel_message_info_user_flag (info, E_MAIL_NOTES_USER_FLAG))
+						camel_message_info_set_user_flag (info, E_MAIL_NOTES_USER_FLAG, TRUE);
+					camel_message_info_unref (info);
+				}
+			}
+		}
+	}
+
+	g_list_free_full (attachments, g_object_unref);
+}
+
 GtkWidget *
 e_mail_display_new (EMailRemoteContent *remote_content)
 {
 	return g_object_new (E_TYPE_MAIL_DISPLAY,
 		"remote-content", remote_content,
 		NULL);
+}
+
+EAttachmentStore *
+e_mail_display_get_attachment_store (EMailDisplay *display)
+{
+	g_return_val_if_fail (E_IS_MAIL_DISPLAY (display), NULL);
+
+	return display->priv->attachment_store;
+}
+
+void
+e_mail_display_set_attachment_view (EMailDisplay *display,
+				    EAttachmentView *view)
+{
+	g_return_if_fail (E_IS_MAIL_DISPLAY (display));
+	g_return_if_fail (E_IS_ATTACHMENT_VIEW (view));
+
+	g_weak_ref_set (display->priv->attachment_view, view);
+
+	g_object_notify (G_OBJECT (display), "attachment-view");
+}
+
+EAttachmentView *
+e_mail_display_ref_attachment_view (EMailDisplay *display)
+{
+	g_return_val_if_fail (E_IS_MAIL_DISPLAY (display), NULL);
+
+	return g_weak_ref_get (display->priv->attachment_view);
 }
 
 EMailFormatterMode
@@ -2074,6 +1905,8 @@ e_mail_display_set_mode (EMailDisplay *display,
 		"swapped-object-signal::need-redraw",
 			G_CALLBACK (e_mail_display_reload), display,
 		NULL);
+
+	g_signal_connect (formatter, "claim-attachment", G_CALLBACK (e_mail_display_claim_attachment), display);
 
 	e_mail_display_reload (display);
 

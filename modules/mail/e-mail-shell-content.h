@@ -67,6 +67,8 @@ GtkWidget *	e_mail_shell_content_new
 					(EShellView *shell_view);
 EMailView *	e_mail_shell_content_get_mail_view
 					(EMailShellContent *mail_shell_content);
+GtkWidget *	e_mail_shell_content_get_attachment_bar
+					(EMailShellContent *mail_shell_content);
 EShellSearchbar *
 		e_mail_shell_content_get_searchbar
 					(EMailShellContent *mail_shell_content);

@@ -60,6 +60,12 @@ struct _EAttachmentStore {
 
 struct _EAttachmentStoreClass {
 	GtkListStoreClass parent_class;
+
+	/* Signals */
+	void	(* attachment_added)	(EAttachmentStore *store,
+					 EAttachment *attachment);
+	void	(* attachment_removed)	(EAttachmentStore *store,
+					 EAttachment *attachment);
 };
 
 enum {
@@ -104,6 +110,11 @@ GFile *		e_attachment_store_run_save_dialog
 						 GList *attachment_list,
 						 GtkWindow *parent);
 
+gboolean	e_attachment_store_transform_num_attachments_to_visible_boolean
+						(GBinding *binding,
+						 const GValue *from_value,
+						 GValue *to_value,
+						 gpointer user_data);
 /* Asynchronous Operations */
 void		e_attachment_store_get_uris_async
 						(EAttachmentStore *store,

@@ -63,12 +63,6 @@ empe_message_parse (EMailParserExtension *extension,
 		"application/vnd.evolution.headers",
 		cancellable, out_mail_parts);
 
-	/* Attachment Bar */
-	e_mail_parser_parse_part_as (
-		parser, part, part_id,
-		"application/vnd.evolution.widget.attachment-bar",
-		cancellable, out_mail_parts);
-
 	ct = camel_mime_part_get_content_type (part);
 	mime_type = camel_content_type_simple (ct);
 

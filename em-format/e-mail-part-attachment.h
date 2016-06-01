@@ -52,7 +52,7 @@ struct _EMailPartAttachment {
 	EMailPart parent;
 	EMailPartAttachmentPrivate *priv;
 
-	gchar *attachment_view_part_id;
+	gchar *attachment_view_part_id; /* FIXME WK2: maybe drop this property */
 
 	gboolean shown;
 	const gchar *snoop_mime_type;

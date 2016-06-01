@@ -4395,3 +4395,100 @@ e_web_view_unregister_element_clicked (EWebView *web_view,
 		}
 	}
 }
+
+void
+e_web_view_set_element_hidden (EWebView *web_view,
+			       const gchar *element_id,
+			       gboolean hidden)
+{
+	GDBusProxy *web_extension;
+
+	g_return_if_fail (E_IS_WEB_VIEW (web_view));
+	g_return_if_fail (element_id && *element_id);
+
+	web_extension = e_web_view_get_web_extension_proxy (web_view);
+	if (!web_extension)
+		return;
+
+	g_dbus_proxy_call (
+		web_extension,
+		"SetElementHidden",
+		g_variant_new (
+			"(tsb)",
+			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (web_view)),
+			element_id,
+			hidden),
+		G_DBUS_CALL_FLAGS_NONE,
+		-1,
+		NULL,
+		NULL,
+		NULL);
+}
+
+void
+e_web_view_set_element_style_property (EWebView *web_view,
+				       const gchar *element_id,
+				       const gchar *property_name,
+				       const gchar *value,
+				       const gchar *priority)
+{
+	GDBusProxy *web_extension;
+
+	g_return_if_fail (E_IS_WEB_VIEW (web_view));
+	g_return_if_fail (element_id && *element_id);
+	g_return_if_fail (property_name && *property_name);
+
+	web_extension = e_web_view_get_web_extension_proxy (web_view);
+	if (!web_extension)
+		return;
+
+	g_dbus_proxy_call (
+		web_extension,
+		"SetElementStyleProperty",
+		g_variant_new (
+			"(tssss)",
+			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (web_view)),
+			element_id,
+			property_name,
+			value ? value : "",
+			priority ? priority : ""),
+		G_DBUS_CALL_FLAGS_NONE,
+		-1,
+		NULL,
+		NULL,
+		NULL);
+}
+
+void
+e_web_view_set_element_attribute (EWebView *web_view,
+				  const gchar *element_id,
+				  const gchar *namespace_uri,
+				  const gchar *qualified_name,
+				  const gchar *value)
+{
+	GDBusProxy *web_extension;
+
+	g_return_if_fail (E_IS_WEB_VIEW (web_view));
+	g_return_if_fail (element_id && *element_id);
+	g_return_if_fail (qualified_name && *qualified_name);
+
+	web_extension = e_web_view_get_web_extension_proxy (web_view);
+	if (!web_extension)
+		return;
+
+	g_dbus_proxy_call (
+		web_extension,
+		"SetElementAttribute",
+		g_variant_new (
+			"(tssss)",
+			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (web_view)),
+			element_id,
+			namespace_uri ? namespace_uri : "",
+			qualified_name,
+			value ? value : ""),
+		G_DBUS_CALL_FLAGS_NONE,
+		-1,
+		NULL,
+		NULL,
+		NULL);
+}

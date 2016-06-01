@@ -63,7 +63,6 @@ struct _AsyncContext {
 
 /* internal formatter extensions */
 GType e_mail_formatter_attachment_get_type (void);
-GType e_mail_formatter_attachment_bar_get_type (void);
 GType e_mail_formatter_audio_get_type (void);
 GType e_mail_formatter_error_get_type (void);
 GType e_mail_formatter_headers_get_type (void);
@@ -96,6 +95,7 @@ enum {
 
 enum {
 	NEED_REDRAW,
+	CLAIM_ATTACHMENT,
 	LAST_SIGNAL
 };
 
@@ -560,7 +560,6 @@ e_mail_formatter_base_init (EMailFormatterClass *class)
 
 	/* Register internal extensions. */
 	g_type_ensure (e_mail_formatter_attachment_get_type ());
-	g_type_ensure (e_mail_formatter_attachment_bar_get_type ());
 	g_type_ensure (e_mail_formatter_audio_get_type ());
 	g_type_ensure (e_mail_formatter_error_get_type ());
 	g_type_ensure (e_mail_formatter_headers_get_type ());
@@ -773,6 +772,14 @@ e_mail_formatter_class_init (EMailFormatterClass *class)
 			G_PARAM_READWRITE |
 			G_PARAM_STATIC_STRINGS));
 
+	signals[CLAIM_ATTACHMENT] = g_signal_new (
+		"claim-attachment",
+		E_TYPE_MAIL_FORMATTER,
+		G_SIGNAL_RUN_FIRST,
+		G_STRUCT_OFFSET (EMailFormatterClass, claim_attachment),
+		NULL, NULL, NULL,
+		G_TYPE_NONE, 1, E_TYPE_ATTACHMENT);
+
 	signals[NEED_REDRAW] = g_signal_new (
 		"need-redraw",
 		E_TYPE_MAIL_FORMATTER,
@@ -834,6 +841,16 @@ e_mail_formatter_get_type (void)
 	}
 
 	return type;
+}
+
+void
+e_mail_formatter_claim_attachment (EMailFormatter *formatter,
+				   EAttachment *attachment)
+{
+	g_return_if_fail (E_IS_MAIL_FORMATTER (formatter));
+	g_return_if_fail (E_IS_ATTACHMENT (attachment));
+
+	g_signal_emit (formatter, signals[CLAIM_ATTACHMENT], 0, attachment);
 }
 
 void

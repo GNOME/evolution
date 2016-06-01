@@ -166,6 +166,41 @@ process_stock_request_idle_cb (gpointer user_data)
 			}
 
 			gtk_icon_info_free (icon_info);
+		} else if (g_strcmp0 (suri->host, "x-evolution-arrow-down") == 0) {
+			GdkPixbuf *pixbuf;
+			GdkRGBA rgba;
+			guchar *data;
+			gint stride;
+			cairo_surface_t *surface;
+			cairo_t *cr;
+
+			stride = cairo_format_stride_for_width (CAIRO_FORMAT_RGB24, size);
+			buff_len = stride * size;
+			data = g_malloc0 (buff_len);
+			surface = cairo_image_surface_create_for_data (data, CAIRO_FORMAT_RGB24, size, size, stride);
+
+			cr = cairo_create (surface);
+
+			if (gtk_style_context_lookup_color (context, "color", &rgba))
+				gdk_cairo_set_source_rgba (cr, &rgba);
+			else
+				cairo_set_source_rgba (cr, 0.0, 0.0, 0.0, 1.0);
+
+			gtk_render_background (context, cr, 0, 0, size, size);
+			gtk_render_arrow (context, cr, G_PI, 0, 0, size);
+
+			cairo_destroy (cr);
+
+			cairo_surface_flush (surface);
+
+			pixbuf = gdk_pixbuf_new_from_data (data, GDK_COLORSPACE_RGB, TRUE, 8, size, size, stride, NULL, NULL);
+			gdk_pixbuf_save_to_buffer (
+				pixbuf, &buffer, &buff_len,
+				"png", &local_error, NULL);
+			g_object_unref (pixbuf);
+
+			cairo_surface_destroy (surface);
+			g_free (data);
 		}
 	}
 

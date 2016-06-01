@@ -85,13 +85,17 @@ struct _EMailFormatterClass {
 
 	/* Signals */
 	void		(*need_redraw)		(EMailFormatter *formatter);
+	void		(*claim_attachment)	(EMailFormatter *formatter,
+						 EAttachment *attachment);
 };
 
 GType		e_mail_formatter_get_type	(void);
 
 EMailFormatter *
 		e_mail_formatter_new		(void);
-
+void		e_mail_formatter_claim_attachment
+						(EMailFormatter *formatter,
+						 EAttachment *attachment);
 void		e_mail_formatter_format_sync	(EMailFormatter *formatter,
 						 EMailPartList *part_list,
 						 GOutputStream *stream,

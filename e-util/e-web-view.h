@@ -276,6 +276,21 @@ void		e_web_view_unregister_element_clicked
 						 const gchar *element_class,
 						 EWebViewElementClickedFunc callback,
 						 gpointer user_data);
+void		e_web_view_set_element_hidden	(EWebView *web_view,
+						 const gchar *element_id,
+						 gboolean hidden);
+void		e_web_view_set_element_style_property
+						(EWebView *web_view,
+						 const gchar *element_id,
+						 const gchar *property_name,
+						 const gchar *value,
+						 const gchar *priority);
+void		e_web_view_set_element_attribute
+						(EWebView *web_view,
+						 const gchar *element_id,
+						 const gchar *namespace_uri,
+						 const gchar *qualified_name,
+						 const gchar *value);
 G_END_DECLS
 
 #endif /* E_WEB_VIEW_H */

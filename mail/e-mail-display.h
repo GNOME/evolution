@@ -62,6 +62,15 @@ struct _EMailDisplayClass {
 
 GType		e_mail_display_get_type		(void) G_GNUC_CONST;
 GtkWidget *	e_mail_display_new		(EMailRemoteContent *remote_content);
+EAttachmentStore *
+		e_mail_display_get_attachment_store
+						(EMailDisplay *display);
+void		e_mail_display_set_attachment_view
+						(EMailDisplay *display,
+						 EAttachmentView *view);
+EAttachmentView *
+		e_mail_display_ref_attachment_view
+						(EMailDisplay *display);
 EMailFormatterMode
 		e_mail_display_get_mode		(EMailDisplay *display);
 void		e_mail_display_set_mode		(EMailDisplay *display,

@@ -53,6 +53,14 @@ enum {
 	PROP_TOTAL_SIZE
 };
 
+enum {
+	ATTACHMENT_ADDED,
+	ATTACHMENT_REMOVED,
+	LAST_SIGNAL
+};
+
+static gulong signals[LAST_SIGNAL];
+
 G_DEFINE_TYPE (
 	EAttachmentStore,
 	e_attachment_store,
@@ -159,6 +167,22 @@ e_attachment_store_class_init (EAttachmentStoreClass *class)
 			G_MAXUINT64,
 			0,
 			G_PARAM_READABLE));
+
+	signals[ATTACHMENT_ADDED] = g_signal_new (
+		"attachment-added",
+		G_TYPE_FROM_CLASS (class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (EAttachmentStoreClass, attachment_added),
+		NULL, NULL, NULL,
+		G_TYPE_NONE, 1, E_TYPE_ATTACHMENT);
+
+	signals[ATTACHMENT_REMOVED] = g_signal_new (
+		"attachment-removed",
+		G_TYPE_FROM_CLASS (class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (EAttachmentStoreClass, attachment_removed),
+		NULL, NULL, NULL,
+		G_TYPE_NONE, 1, E_TYPE_ATTACHMENT);
 }
 
 static void
@@ -232,6 +256,8 @@ e_attachment_store_add_attachment (EAttachmentStore *store,
 	g_object_notify (G_OBJECT (store), "num-attachments");
 	g_object_notify (G_OBJECT (store), "total-size");
 	g_object_thaw_notify (G_OBJECT (store));
+
+	g_signal_emit (store, signals[ATTACHMENT_ADDED], 0, attachment);
 }
 
 gboolean
@@ -243,6 +269,7 @@ e_attachment_store_remove_attachment (EAttachmentStore *store,
 	GtkTreeModel *model;
 	GtkTreePath *path;
 	GtkTreeIter iter;
+	gboolean removed;
 
 	g_return_val_if_fail (E_IS_ATTACHMENT_STORE (store), FALSE);
 	g_return_val_if_fail (E_IS_ATTACHMENT (attachment), FALSE);
@@ -254,7 +281,8 @@ e_attachment_store_remove_attachment (EAttachmentStore *store,
 		return FALSE;
 
 	if (!gtk_tree_row_reference_valid (reference)) {
-		g_hash_table_remove (hash_table, attachment);
+		if (g_hash_table_remove (hash_table, attachment))
+			g_signal_emit (store, signals[ATTACHMENT_REMOVED], 0, attachment);
 		return FALSE;
 	}
 
@@ -267,12 +295,15 @@ e_attachment_store_remove_attachment (EAttachmentStore *store,
 	gtk_tree_path_free (path);
 
 	gtk_list_store_remove (GTK_LIST_STORE (store), &iter);
-	g_hash_table_remove (hash_table, attachment);
+	removed = g_hash_table_remove (hash_table, attachment);
 
 	g_object_freeze_notify (G_OBJECT (store));
 	g_object_notify (G_OBJECT (store), "num-attachments");
 	g_object_notify (G_OBJECT (store), "total-size");
 	g_object_thaw_notify (G_OBJECT (store));
+
+	if (removed)
+		g_signal_emit (store, signals[ATTACHMENT_REMOVED], 0, attachment);
 
 	return TRUE;
 }
@@ -307,6 +338,8 @@ e_attachment_store_remove_all (EAttachmentStore *store)
 		e_attachment_set_reference (attachment, NULL);
 
 		g_warn_if_fail (g_hash_table_remove (store->priv->attachment_index, attachment));
+
+		g_signal_emit (store, signals[ATTACHMENT_REMOVED], 0, attachment);
 	}
 
 	g_list_foreach (list, (GFunc) g_object_unref, NULL);
@@ -778,6 +811,22 @@ e_attachment_store_run_save_dialog (EAttachmentStore *store,
 	gtk_widget_destroy (dialog);
 
 	return destination;
+}
+
+gboolean
+e_attachment_store_transform_num_attachments_to_visible_boolean (GBinding *binding,
+								 const GValue *from_value,
+								 GValue *to_value,
+								 gpointer user_data)
+{
+	g_return_val_if_fail (from_value != NULL, FALSE);
+	g_return_val_if_fail (to_value != NULL, FALSE);
+	g_return_val_if_fail (G_VALUE_HOLDS_UINT (from_value), FALSE);
+	g_return_val_if_fail (G_VALUE_HOLDS_BOOLEAN (to_value), FALSE);
+
+	g_value_set_boolean (to_value, g_value_get_uint (from_value) != 0);
+
+	return TRUE;
 }
 
 /******************** e_attachment_store_get_uris_async() ********************/

@@ -34,6 +34,8 @@
 	E_SHELL_WINDOW_ACTION ((window), "mail-account-refresh")
 #define E_SHELL_WINDOW_ACTION_MAIL_ADD_SENDER(window) \
 	E_SHELL_WINDOW_ACTION ((window), "mail-add-sender")
+#define E_SHELL_WINDOW_ACTION_MAIL_ATTACHMENT_BAR(window) \
+	E_SHELL_WINDOW_ACTION ((window), "mail-attachment-bar")
 #define E_SHELL_WINDOW_ACTION_MAIL_CARET_MODE(window) \
 	E_SHELL_WINDOW_ACTION ((window), "mail-caret-mode")
 #define E_SHELL_WINDOW_ACTION_MAIL_CHECK_FOR_JUNK(window) \

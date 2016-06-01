@@ -69,6 +69,25 @@ static const char introspection_xml[] =
 "      <arg type='i' name='position_width' direction='out'/>"
 "      <arg type='i' name='position_height' direction='out'/>"
 "    </signal>"
+"    <method name='SetElementHidden'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"      <arg type='s' name='element_id' direction='in'/>"
+"      <arg type='b' name='hidden' direction='in'/>"
+"    </method>"
+"    <method name='SetElementStyleProperty'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"      <arg type='s' name='element_id' direction='in'/>"
+"      <arg type='s' name='property_name' direction='in'/>"
+"      <arg type='s' name='value' direction='in'/>"
+"      <arg type='s' name='priority' direction='in'/>"
+"    </method>"
+"    <method name='SetElementAttribute'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"      <arg type='s' name='element_id' direction='in'/>"
+"      <arg type='s' name='namespace_uri' direction='in'/>"
+"      <arg type='s' name='qualified_name' direction='in'/>"
+"      <arg type='s' name='value' direction='in'/>"
+"    </method>"
 "    <signal name='HeadersCollapsed'>"
 "      <arg type='b' name='expanded' direction='out'/>"
 "    </signal>"
@@ -331,6 +350,146 @@ handle_method_call (GDBusConnection *connection,
 		} else {
 			document = webkit_web_page_get_dom_document (web_page);
 			web_extension_register_element_clicked_in_document (extension, page_id, document, element_class);
+		}
+
+		g_dbus_method_invocation_return_value (invocation, NULL);
+	} else if (g_strcmp0 (method_name, "SetElementHidden") == 0) {
+		const gchar *element_id = NULL;
+		gboolean hidden = FALSE;
+
+		g_variant_get (parameters, "(t&sb)", &page_id, &element_id, &hidden);
+
+		web_page = get_webkit_web_page_or_return_dbus_error (invocation, web_extension, page_id);
+		if (!web_page)
+			return;
+
+		if (!element_id || !*element_id) {
+			g_warn_if_fail (element_id && *element_id);
+		} else {
+			document = webkit_web_page_get_dom_document (web_page);
+
+			/* A secret short-cut, to not have two functions for basically the same thing ("hide attachment" and "hide element") */
+			if (!hidden && g_str_has_prefix (element_id, "attachment-wrapper-")) {
+				WebKitDOMElement *element;
+
+				element = e_dom_utils_find_element_by_id (document, element_id);
+
+				if (WEBKIT_DOM_IS_HTML_ELEMENT (element) &&
+				    webkit_dom_element_get_child_element_count (element) == 0) {
+					gchar *inner_html_data;
+
+					inner_html_data = webkit_dom_element_get_attribute (element, "inner-html-data");
+					if (inner_html_data && *inner_html_data) {
+						WebKitDOMHTMLElement *html_element;
+
+						html_element = WEBKIT_DOM_HTML_ELEMENT (element);
+						webkit_dom_html_element_set_inner_html (html_element, inner_html_data, NULL);
+
+						webkit_dom_element_remove_attribute (element, "inner-html-data");
+					}
+
+					g_free (inner_html_data);
+				}
+			}
+
+			e_dom_utils_hide_element (document, element_id, hidden);
+		}
+
+		g_dbus_method_invocation_return_value (invocation, NULL);
+	} else if (g_strcmp0 (method_name, "SetElementStyleProperty") == 0) {
+		const gchar *element_id = NULL, *property_name = NULL, *value = NULL, *priority = NULL;
+
+		g_variant_get (parameters, "(t&s&s&s&s)", &page_id, &element_id, &property_name, &value, &priority);
+
+		web_page = get_webkit_web_page_or_return_dbus_error (invocation, web_extension, page_id);
+		if (!web_page)
+			return;
+
+		if (!element_id || !*element_id || !property_name || !*property_name) {
+			g_warn_if_fail (element_id && *element_id);
+			g_warn_if_fail (property_name && *property_name);
+		} else {
+			WebKitDOMElement *element;
+			gboolean use_child = FALSE;
+			gchar *tmp = NULL;
+
+			/* element_id can be also of the form: "id::child", where the change will
+			   be done on the first child of it */
+			use_child = g_str_has_suffix (element_id, "::child");
+			if (use_child) {
+				tmp = g_strdup (element_id);
+				tmp[strlen (tmp) - 7] = '\0';
+
+				element_id = tmp;
+			}
+
+			document = webkit_web_page_get_dom_document (web_page);
+			element = e_dom_utils_find_element_by_id (document, element_id);
+
+			if (use_child && element)
+				element = webkit_dom_element_get_first_element_child (element);
+
+			if (element) {
+				WebKitDOMCSSStyleDeclaration *css;
+
+				css = webkit_dom_element_get_style (element);
+
+				if (value && *value)
+					webkit_dom_css_style_declaration_set_property (css, property_name, value, priority, NULL);
+				else
+					g_free (webkit_dom_css_style_declaration_remove_property (css, property_name, NULL));
+
+				g_clear_object (&css);
+			}
+
+			g_free (tmp);
+		}
+
+		g_dbus_method_invocation_return_value (invocation, NULL);
+	} else if (g_strcmp0 (method_name, "SetElementAttribute") == 0) {
+		const gchar *element_id = NULL, *namespace_uri = NULL, *qualified_name = NULL, *value = NULL;
+
+		g_variant_get (parameters, "(t&s&s&s&s)", &page_id, &element_id, &namespace_uri, &qualified_name, &value);
+
+		web_page = get_webkit_web_page_or_return_dbus_error (invocation, web_extension, page_id);
+		if (!web_page)
+			return;
+
+		if (!element_id || !*element_id || !qualified_name || !*qualified_name) {
+			g_warn_if_fail (element_id && *element_id);
+			g_warn_if_fail (qualified_name && *qualified_name);
+		} else {
+			WebKitDOMElement *element;
+			gboolean use_child = FALSE;
+			gchar *tmp = NULL;
+
+			/* element_id can be also of the form: "id::child", where the change will
+			   be done on the first child of it */
+			use_child = g_str_has_suffix (element_id, "::child");
+			if (use_child) {
+				tmp = g_strdup (element_id);
+				tmp[strlen (tmp) - 7] = '\0';
+
+				element_id = tmp;
+			}
+
+			if (namespace_uri && !*namespace_uri)
+				namespace_uri = NULL;
+
+			document = webkit_web_page_get_dom_document (web_page);
+			element = e_dom_utils_find_element_by_id (document, element_id);
+
+			if (use_child && element)
+				element = webkit_dom_element_get_first_element_child (element);
+
+			if (element) {
+				if (value && *value)
+					webkit_dom_element_set_attribute_ns (element, namespace_uri, qualified_name, value, NULL);
+				else
+					webkit_dom_element_remove_attribute_ns (element, namespace_uri, qualified_name);
+			}
+
+			g_free (tmp);
 		}
 
 		g_dbus_method_invocation_return_value (invocation, NULL);

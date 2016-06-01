@@ -191,6 +191,7 @@ e-util/e-charset-combo-box.c
 e-util/e-client-cache.c
 e-util/e-color-chooser-widget.c
 e-util/e-color-combo.c
+e-util/e-content-editor.c
 e-util/e-dateedit.c
 e-util/e-datetime-format.c
 e-util/e-dialog-utils.c

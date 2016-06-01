@@ -119,7 +119,6 @@ evolution_util_include_HEADERS =  \
 	e-alert-sink.h \
 	e-alert.h \
 	e-attachment-bar.h \
-	e-attachment-button.h \
 	e-attachment-dialog.h \
 	e-attachment-handler-image.h \
 	e-attachment-handler.h \
@@ -395,7 +394,6 @@ libevolution_util_la_SOURCES = \
 	e-alert-sink.c \
 	e-alert.c \
 	e-attachment-bar.c \
-	e-attachment-button.c \
 	e-attachment-dialog.c \
 	e-attachment-handler-image.c \
 	e-attachment-handler.c \

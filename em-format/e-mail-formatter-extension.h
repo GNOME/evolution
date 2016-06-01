@@ -83,10 +83,6 @@ struct _EMailFormatterExtensionClass {
 					 EMailPart *part,
 					 GOutputStream *stream,
 					 GCancellable *cancellable);
-	GtkWidget *	(*get_widget)	(EMailFormatterExtension *extension,
-					 EMailPartList *context,
-					 EMailPart *part,
-					 GHashTable *params);
 };
 
 GType		e_mail_formatter_extension_get_type
@@ -98,13 +94,6 @@ gboolean	e_mail_formatter_extension_format
 						 EMailPart *part,
 						 GOutputStream *stream,
 						 GCancellable *cancellable);
-gboolean	e_mail_formatter_extension_has_widget
-						(EMailFormatterExtension *extension);
-GtkWidget *	e_mail_formatter_extension_get_widget
-						(EMailFormatterExtension *extension,
-						 EMailPartList *context,
-						 EMailPart *part,
-						 GHashTable *params);
 
 G_END_DECLS
 

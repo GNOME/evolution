@@ -294,6 +294,11 @@
       <_summary>Timeout for marking messages as seen</_summary>
       <_description>Timeout in milliseconds for marking messages as seen.</_description>
     </key>
+    <key name="show-attachment-bar" type="b">
+      <default>true</default>
+      <_summary>Show Attachment Bar</_summary>
+      <_description>Show Attachment Bar below the message preview pane when the message has attachments.</_description>
+    </key>
     <key name="show-email" type="b">
       <default>false</default>
       <_summary>Sender email-address column in the message list</_summary>

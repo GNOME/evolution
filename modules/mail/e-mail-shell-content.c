@@ -43,6 +43,7 @@
 
 struct _EMailShellContentPrivate {
 	EMailView *mail_view;
+	GtkWidget *attachment_bar; /* not referenced */
 };
 
 enum {
@@ -66,6 +67,27 @@ G_DEFINE_DYNAMIC_TYPE_EXTENDED (
 	G_IMPLEMENT_INTERFACE_DYNAMIC (
 		E_TYPE_MAIL_READER,
 		e_mail_shell_content_reader_init))
+
+static gboolean
+mail_shell_content_transform_num_attachments_to_visible_boolean_with_settings (GBinding *binding,
+									       const GValue *from_value,
+									       GValue *to_value,
+									       gpointer user_data)
+{
+	GSettings *settings;
+	gboolean res = TRUE;
+
+	settings = e_util_ref_settings ("org.gnome.evolution.mail");
+
+	if (g_settings_get_boolean (settings, "show-attachment-bar"))
+		res = e_attachment_store_transform_num_attachments_to_visible_boolean (binding, from_value, to_value, user_data);
+	else
+		g_value_set_boolean (to_value, FALSE);
+
+	g_clear_object (&settings);
+
+	return res;
+}
 
 static void
 reconnect_changed_event (EMailReader *child,
@@ -179,9 +201,11 @@ mail_shell_content_constructed (GObject *object)
 	EMailShellContentPrivate *priv;
 	EShellContent *shell_content;
 	EShellView *shell_view;
+	EAttachmentStore *attachment_store;
+	EMailDisplay *display;
 	GtkWindow *window;
-	GtkWidget *container;
 	GtkWidget *widget;
+	GtkBox *vbox;
 
 	priv = E_MAIL_SHELL_CONTENT_GET_PRIVATE (object);
 
@@ -193,11 +217,15 @@ mail_shell_content_constructed (GObject *object)
 
 	/* Build content widgets. */
 
-	container = GTK_WIDGET (object);
+	widget = gtk_box_new (GTK_ORIENTATION_VERTICAL, 4);
+	gtk_container_add (GTK_CONTAINER (shell_content), widget);
+	gtk_widget_show (widget);
+
+	vbox = GTK_BOX (widget);
 
 	widget = e_mail_paned_view_new (shell_view);
+	gtk_box_pack_start (vbox, widget, TRUE, TRUE, 0);
 
-	gtk_container_add (GTK_CONTAINER (container), widget);
 	priv->mail_view = g_object_ref (widget);
 	gtk_widget_show (widget);
 
@@ -207,6 +235,21 @@ mail_shell_content_constructed (GObject *object)
 	g_signal_connect (
 		widget, "folder-loaded",
 		G_CALLBACK (reconnect_folder_loaded_event), object);
+
+	display = e_mail_reader_get_mail_display (E_MAIL_READER (object));
+	attachment_store = e_mail_display_get_attachment_store (display);
+	widget = e_attachment_bar_new (attachment_store);
+	e_mail_display_set_attachment_view (display, E_ATTACHMENT_VIEW (widget));
+	gtk_box_pack_start (vbox, widget, FALSE, FALSE, 0);
+
+	priv->attachment_bar = widget;
+
+	e_binding_bind_property_full (
+		attachment_store, "num-attachments",
+		widget, "visible",
+		G_BINDING_SYNC_CREATE,
+		mail_shell_content_transform_num_attachments_to_visible_boolean_with_settings,
+		NULL, NULL, NULL);
 
 	window = e_mail_reader_get_window (E_MAIL_READER (object));
 	widget = e_mail_reader_get_message_list (E_MAIL_READER (object));
@@ -510,6 +553,14 @@ e_mail_shell_content_get_mail_view (EMailShellContent *mail_shell_content)
 		E_IS_MAIL_SHELL_CONTENT (mail_shell_content), NULL);
 
 	return mail_shell_content->priv->mail_view;
+}
+
+GtkWidget *
+e_mail_shell_content_get_attachment_bar (EMailShellContent *mail_shell_content)
+{
+	g_return_val_if_fail (E_IS_MAIL_SHELL_CONTENT (mail_shell_content), NULL);
+
+	return mail_shell_content->priv->attachment_bar;
 }
 
 EShellSearchbar *

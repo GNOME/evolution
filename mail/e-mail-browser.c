@@ -604,6 +604,7 @@ mail_browser_constructed (GObject *object)
 	EShellBackend *shell_backend;
 	EShell *shell;
 	EFocusTracker *focus_tracker;
+	EAttachmentStore *attachment_store;
 	GtkAccelGroup *accel_group;
 	GtkActionGroup *action_group;
 	GtkAction *action;
@@ -751,6 +752,19 @@ mail_browser_constructed (GObject *object)
 		GTK_BOX (container),
 		browser->priv->preview_pane,
 		TRUE, TRUE, 0);
+
+	attachment_store = e_mail_display_get_attachment_store (E_MAIL_DISPLAY (display));
+	widget = e_attachment_bar_new (attachment_store);
+	e_mail_display_set_attachment_view (E_MAIL_DISPLAY (display), E_ATTACHMENT_VIEW (widget));
+	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	gtk_widget_show (widget);
+
+	e_binding_bind_property_full (
+		attachment_store, "num-attachments",
+		widget, "visible",
+		G_BINDING_SYNC_CREATE,
+		e_attachment_store_transform_num_attachments_to_visible_boolean,
+		NULL, NULL, NULL);
 
 	id = "org.gnome.evolution.mail.browser";
 	e_plugin_ui_register_manager (ui_manager, id, object);

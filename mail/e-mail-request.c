@@ -32,6 +32,7 @@
 #include "em-format/e-mail-formatter-print.h"
 
 #include "em-utils.h"
+#include "e-mail-display.h"
 #include "e-mail-ui-session.h"
 #include "e-mail-request.h"
 
@@ -54,6 +55,35 @@ e_mail_request_can_process_uri (EContentRequest *request,
 	g_return_val_if_fail (uri != NULL, FALSE);
 
 	return g_ascii_strncasecmp (uri, "mail:", 5) == 0;
+}
+
+static void
+save_gicon_to_stream (GIcon *icon,
+		      gint size,
+		      GOutputStream *output_stream,
+		      gchar **out_mime_type)
+{
+	GtkIconInfo *icon_info;
+	GdkPixbuf *pixbuf;
+
+	if (size < 16)
+		size = 16;
+
+	icon_info = gtk_icon_theme_lookup_by_gicon (gtk_icon_theme_get_default (), icon, size, GTK_ICON_LOOKUP_FORCE_SIZE);
+	if (!icon_info)
+		return;
+
+	pixbuf = gtk_icon_info_load_icon (icon_info, NULL);
+	if (pixbuf) {
+		if (gdk_pixbuf_save_to_stream (
+			pixbuf, output_stream,
+			"png", NULL, NULL, NULL)) {
+			*out_mime_type = g_strdup ("image/png");
+		}
+		g_object_unref (pixbuf);
+	}
+
+	g_object_unref (icon);
 }
 
 static gboolean
@@ -120,6 +150,8 @@ mail_request_process_mail_sync (EContentRequest *request,
 
 	if (context.mode == E_MAIL_FORMATTER_MODE_PRINTING)
 		formatter = e_mail_formatter_print_new ();
+	else if (E_IS_MAIL_DISPLAY (requester))
+		formatter = g_object_ref (e_mail_display_get_formatter (E_MAIL_DISPLAY (requester)));
 	else
 		formatter = e_mail_formatter_new ();
 
@@ -129,6 +161,65 @@ mail_request_process_mail_sync (EContentRequest *request,
 		e_mail_formatter_set_charset (formatter, charset);
 
 	output_stream = g_memory_output_stream_new_resizable ();
+
+	val = g_hash_table_lookup (uri_query, "attachment_icon");
+	if (val) {
+		gchar *attachment_id;
+
+		attachment_id = soup_uri_decode (val);
+		if (E_IS_MAIL_DISPLAY (requester)) {
+			EMailDisplay *mail_display = E_MAIL_DISPLAY (requester);
+			EAttachmentStore *attachment_store;
+			GList *attachments, *link;
+
+			attachment_store = e_mail_display_get_attachment_store (mail_display);
+			attachments = e_attachment_store_get_attachments (attachment_store);
+			for (link = attachments; link; link = g_list_next (link)) {
+				EAttachment *attachment = link->data;
+				gboolean can_use;
+
+				tmp = g_strdup_printf ("%p", attachment);
+				can_use = g_strcmp0 (tmp, attachment_id) == 0;
+				g_free (tmp);
+
+				if (can_use) {
+					GtkTreeRowReference *reference;
+
+					reference = e_attachment_get_reference (attachment);
+					if (gtk_tree_row_reference_valid (reference)) {
+						GtkTreePath *path;
+						GtkTreeIter iter;
+
+						path = gtk_tree_row_reference_get_path (reference);
+						if (gtk_tree_model_get_iter (GTK_TREE_MODEL (attachment_store), &iter, path)) {
+							GIcon *icon = NULL;
+
+							gtk_tree_model_get (GTK_TREE_MODEL (attachment_store), &iter,
+								E_ATTACHMENT_STORE_COLUMN_ICON, &icon,
+								-1);
+
+							if (icon) {
+								const gchar *size = g_hash_table_lookup (uri_query, "size");
+								if (!size)
+									size = "16";
+
+								save_gicon_to_stream (icon, atoi (size), output_stream, &use_mime_type);
+							}
+						}
+						gtk_tree_path_free (path);
+					}
+
+					break;
+				}
+			}
+
+			g_list_free_full (attachments, g_object_unref);
+		}
+
+		g_free (attachment_id);
+
+		goto no_part;
+	}
 
 	val = g_hash_table_lookup (uri_query, "part_id");
 	if (val != NULL) {

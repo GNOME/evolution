@@ -485,6 +485,11 @@ e_mail_part_build_uri (CamelFolder *folder,
 				g_free (escaped);
 				break;
 			}
+			case G_TYPE_POINTER: {
+				gpointer val = va_arg (ap, gpointer);
+				tmp2 = g_strdup_printf ("%s%c%s=%p", tmp, separator, name, val);
+				break;
+			}
 			default:
 				g_warning ("Invalid param type %s", g_type_name (type));
 				va_end (ap);

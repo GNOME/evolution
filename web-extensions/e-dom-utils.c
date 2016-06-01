@@ -962,38 +962,11 @@ gboolean
 e_dom_utils_element_exists (WebKitDOMDocument *document,
                             const gchar *element_id)
 {
-	WebKitDOMHTMLCollection *frames;
-	gboolean element_exists = FALSE;
-	gulong ii, length;
+	WebKitDOMElement *element;
 
-	/* Try to look up the element in this DOM document */
-	if (webkit_dom_document_get_element_by_id (document, element_id))
-		return TRUE;
+	element = e_dom_utils_find_element_by_id (document, element_id);
 
-	/* If the element is not here then recursively scan all frames */
-	frames = webkit_dom_document_get_elements_by_tag_name_as_html_collection (document, "iframe");
-	length = webkit_dom_html_collection_get_length (frames);
-	for (ii = 0; ii < length; ii++) {
-		WebKitDOMHTMLIFrameElement *iframe;
-		WebKitDOMDocument *content_document;
-
-		iframe = WEBKIT_DOM_HTML_IFRAME_ELEMENT (
-			webkit_dom_html_collection_item (frames, ii));
-
-		content_document = webkit_dom_html_iframe_element_get_content_document (iframe);
-		if (!content_document)
-			continue;
-
-		element_exists = e_dom_utils_element_exists (content_document, element_id);
-
-		if (element_exists) {
-			g_object_unref (frames);
-			return TRUE;
-		}
-	}
-
-	g_object_unref (frames);
-	return FALSE;
+	return element != NULL;
 }
 
 gchar *
@@ -1066,7 +1039,7 @@ e_dom_utils_element_set_inner_html (WebKitDOMDocument *document,
 {
 	WebKitDOMElement *element;
 
-	element = webkit_dom_document_get_element_by_id (document, element_id);
+	element = e_dom_utils_find_element_by_id (document, element_id);
 
 	if (!element)
 		return;
@@ -1080,7 +1053,7 @@ e_dom_utils_remove_element (WebKitDOMDocument *document,
 {
 	WebKitDOMElement *element;
 
-	element = webkit_dom_document_get_element_by_id (document, element_id);
+	element = e_dom_utils_find_element_by_id (document, element_id);
 
 	if (!element)
 		return;
@@ -1096,8 +1069,13 @@ e_dom_utils_element_remove_child_nodes (WebKitDOMDocument *document,
                                         const gchar *element_id)
 {
 	WebKitDOMNode *node;
+	WebKitDOMElement *element;
 
-	node = WEBKIT_DOM_NODE (webkit_dom_document_get_element_by_id (document, element_id));
+	element = e_dom_utils_find_element_by_id (document, element_id);
+	if (!element)
+		return;
+
+	node = WEBKIT_DOM_NODE (element);
 
 	if (!node)
 		return;
@@ -1117,7 +1095,7 @@ e_dom_utils_hide_element (WebKitDOMDocument *document,
 {
 	WebKitDOMElement *element;
 
-	element = webkit_dom_document_get_element_by_id (document, element_id);
+	element = e_dom_utils_find_element_by_id (document, element_id);
 
 	if (!element)
 		return;
@@ -1132,13 +1110,12 @@ e_dom_utils_element_is_hidden (WebKitDOMDocument *document,
 {
 	WebKitDOMElement *element;
 
-	element = webkit_dom_document_get_element_by_id (document, element_id);
+	element = e_dom_utils_find_element_by_id (document, element_id);
 
 	if (!element)
 		return FALSE;
 
-	return webkit_dom_html_element_get_hidden (
-		WEBKIT_DOM_HTML_ELEMENT (element));
+	return webkit_dom_html_element_get_hidden (WEBKIT_DOM_HTML_ELEMENT (element));
 }
 
 static void
