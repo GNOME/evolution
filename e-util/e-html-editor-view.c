@@ -6512,66 +6512,30 @@ e_html_editor_view_class_init (EHTMLEditorViewClass *class)
 }
 
 static void
-insert_quote_symbols (WebKitDOMHTMLElement *element,
-                      gint quote_level,
-                      gboolean skip_first,
-                      gboolean insert_newline)
+insert_quote_symbols (WebKitDOMDocument *document,
+                      WebKitDOMHTMLElement *element,
+                      gint quote_level)
 {
-	gchar *text;
-	gint ii;
-	GString *output;
 	gchar *quotation;
+	WebKitDOMElement *quote_element;
 
 	if (!WEBKIT_DOM_IS_HTML_ELEMENT (element))
 		return;
 
-	text = webkit_dom_html_element_get_inner_html (element);
-	output = g_string_new ("");
 	quotation = get_quotation_for_level (quote_level);
 
-	if (g_strcmp0 (text, "\n") == 0) {
-		g_string_append (output, "<span class=\"-x-evo-quoted\">");
-		g_string_append (output, quotation);
-		g_string_append (output, "</span>");
-		g_string_append (output, "\n");
-	} else {
-		gchar **lines;
+	quote_element = webkit_dom_document_create_element (document, "span", NULL);
+	element_add_class (quote_element, "-x-evo-quote");
 
-		lines = g_strsplit (text, "\n", 0);
+	webkit_dom_html_element_set_inner_html (
+		WEBKIT_DOM_HTML_ELEMENT (quote_element), quotation, NULL);
+	webkit_dom_node_insert_before (
+		WEBKIT_DOM_NODE (element),
+		WEBKIT_DOM_NODE (quote_element),
+		webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (element)),
+		NULL);
 
-		for (ii = 0; lines[ii]; ii++) {
-			if (ii == 0 && skip_first) {
-				if (g_strv_length (lines) == 1) {
-					g_strfreev (lines);
-					goto exit;
-				}
-				g_string_append (output, lines[ii]);
-				g_string_append (output, "\n");
-			}
-
-			g_string_append (output, "<span class=\"-x-evo-quoted\">");
-			g_string_append (output, quotation);
-			g_string_append (output, "</span>");
-
-			/* Insert line of text */
-			g_string_append (output, lines[ii]);
-			if ((ii == g_strv_length (lines) - 1) &&
-			    !g_str_has_suffix (text, "\n") && !insert_newline) {
-				/* If we are on last line and node's text doesn't
-				 * end with \n, don't insert it */
-				break;
-			}
-			g_string_append (output, "\n");
-		}
-
-		g_strfreev (lines);
-	}
-
-	webkit_dom_html_element_set_inner_html (element, output->str, NULL);
- exit:
 	g_free (quotation);
-	g_free (text);
-	g_string_free (output, TRUE);
 }
 
 static void
@@ -6579,10 +6543,7 @@ quote_node (WebKitDOMDocument *document,
 	    WebKitDOMNode *node,
 	    gint quote_level)
 {
-	gboolean skip_first = FALSE;
-	gboolean insert_newline = FALSE;
-	gboolean is_html_node = FALSE;
-	WebKitDOMNode *prev_sibling, *next_sibling;
+	WebKitDOMNode *next_sibling;
 	WebKitDOMNode *parent;
 
 	/* Don't quote when we are not in citation */
@@ -6594,24 +6555,11 @@ quote_node (WebKitDOMDocument *document,
 
 	if (WEBKIT_DOM_IS_HTML_ELEMENT (node)) {
 		insert_quote_symbols (
-			WEBKIT_DOM_HTML_ELEMENT (node), quote_level, FALSE, FALSE);
+			document, WEBKIT_DOM_HTML_ELEMENT (node), quote_level);
 		return;
 	}
 
-	prev_sibling = webkit_dom_node_get_previous_sibling (node);
 	next_sibling = webkit_dom_node_get_next_sibling (node);
-
-	is_html_node =
-		!WEBKIT_DOM_IS_TEXT (prev_sibling) &&
-		!WEBKIT_DOM_IS_COMMENT (prev_sibling) && (
-		WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (prev_sibling) ||
-		element_has_tag (WEBKIT_DOM_ELEMENT (prev_sibling), "b") ||
-		element_has_tag (WEBKIT_DOM_ELEMENT (prev_sibling), "i") ||
-		element_has_tag (WEBKIT_DOM_ELEMENT (prev_sibling), "u") ||
-		element_has_class (WEBKIT_DOM_ELEMENT (prev_sibling), "Apple-tab-span"));
-
-	if (prev_sibling && is_html_node)
-		skip_first = TRUE;
 
 	/* Skip the BR between first blockquote and pre */
 	if (quote_level == 1 && next_sibling && WEBKIT_DOM_IS_HTML_PRE_ELEMENT (next_sibling))
@@ -6620,7 +6568,7 @@ quote_node (WebKitDOMDocument *document,
 	parent = webkit_dom_node_get_parent_node (node),
 
 	insert_quote_symbols (
-		WEBKIT_DOM_HTML_ELEMENT (parent), quote_level, skip_first, insert_newline);
+		document, WEBKIT_DOM_HTML_ELEMENT (parent), quote_level);
 }
 
 static void
