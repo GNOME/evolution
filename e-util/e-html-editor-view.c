@@ -6708,7 +6708,7 @@ quote_br_node (WebKitDOMNode *node,
 
 static void
 quote_plain_text_recursive (WebKitDOMDocument *document,
-			    WebKitDOMNode *node,
+			    WebKitDOMNode *block,
 			    WebKitDOMNode *start_node,
 			    gint quote_level)
 {
@@ -6717,9 +6717,10 @@ quote_plain_text_recursive (WebKitDOMDocument *document,
 	gboolean suppress_next = FALSE;
 	gboolean is_html_node = FALSE;
 	gboolean next = FALSE;
+	WebKitDOMNode *node;
 	WebKitDOMNode *next_sibling, *prev_sibling;
 
-	node = webkit_dom_node_get_first_child (node);
+	node = webkit_dom_node_get_first_child (block);
 
 	while (node) {
 		gchar *text_content;
