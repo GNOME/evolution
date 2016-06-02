@@ -380,11 +380,7 @@ handle_method_call (GDBusConnection *connection,
 
 					inner_html_data = webkit_dom_element_get_attribute (element, "inner-html-data");
 					if (inner_html_data && *inner_html_data) {
-						WebKitDOMHTMLElement *html_element;
-
-						html_element = WEBKIT_DOM_HTML_ELEMENT (element);
-						webkit_dom_html_element_set_inner_html (html_element, inner_html_data, NULL);
-
+						webkit_dom_element_set_inner_html (element, inner_html_data, NULL);
 						webkit_dom_element_remove_attribute (element, "inner-html-data");
 					}
 
