@@ -177,17 +177,7 @@ ecep_attachments_attachment_loaded_cb (EAttachment *attachment,
 	}
 
 	if (!e_attachment_load_finish (attachment, result, &error)) {
-		GtkTreeRowReference *reference;
-
-		reference = e_attachment_get_reference (attachment);
-		if (gtk_tree_row_reference_valid (reference)) {
-			GtkTreeModel *model;
-
-			model = gtk_tree_row_reference_get_model (reference);
-
-			e_attachment_store_remove_attachment (
-				E_ATTACHMENT_STORE (model), attachment);
-		}
+		g_signal_emit_by_name (attachment, "load-failed", NULL);
 
 		/* Ignore cancellations. */
 		if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {

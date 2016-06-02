@@ -183,30 +183,22 @@ mail_request_process_mail_sync (EContentRequest *request,
 				g_free (tmp);
 
 				if (can_use) {
-					GtkTreeRowReference *reference;
+					GtkTreeIter iter;
 
-					reference = e_attachment_get_reference (attachment);
-					if (gtk_tree_row_reference_valid (reference)) {
-						GtkTreePath *path;
-						GtkTreeIter iter;
+					if (e_attachment_store_find_attachment_iter (attachment_store, attachment, &iter)) {
+						GIcon *icon = NULL;
 
-						path = gtk_tree_row_reference_get_path (reference);
-						if (gtk_tree_model_get_iter (GTK_TREE_MODEL (attachment_store), &iter, path)) {
-							GIcon *icon = NULL;
+						gtk_tree_model_get (GTK_TREE_MODEL (attachment_store), &iter,
+							E_ATTACHMENT_STORE_COLUMN_ICON, &icon,
+							-1);
 
-							gtk_tree_model_get (GTK_TREE_MODEL (attachment_store), &iter,
-								E_ATTACHMENT_STORE_COLUMN_ICON, &icon,
-								-1);
+						if (icon) {
+							const gchar *size = g_hash_table_lookup (uri_query, "size");
+							if (!size)
+								size = "16";
 
-							if (icon) {
-								const gchar *size = g_hash_table_lookup (uri_query, "size");
-								if (!size)
-									size = "16";
-
-								save_gicon_to_stream (icon, atoi (size), output_stream, &use_mime_type);
-							}
+							save_gicon_to_stream (icon, atoi (size), output_stream, &use_mime_type);
 						}
-						gtk_tree_path_free (path);
 					}
 
 					break;

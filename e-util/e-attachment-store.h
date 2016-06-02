@@ -115,6 +115,10 @@ gboolean	e_attachment_store_transform_num_attachments_to_visible_boolean
 						 const GValue *from_value,
 						 GValue *to_value,
 						 gpointer user_data);
+gboolean	e_attachment_store_find_attachment_iter
+						(EAttachmentStore *store,
+						 EAttachment *attachment,
+						 GtkTreeIter *out_iter);
 /* Asynchronous Operations */
 void		e_attachment_store_get_uris_async
 						(EAttachmentStore *store,

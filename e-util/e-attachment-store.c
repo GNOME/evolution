@@ -67,6 +67,143 @@ G_DEFINE_TYPE (
 	GTK_TYPE_LIST_STORE)
 
 static void
+attachment_store_update_file_info_cb (EAttachment *attachment,
+				      const gchar *caption,
+				      const gchar *content_type,
+				      const gchar *description,
+				      gint64 size,
+				      gpointer user_data)
+{
+	EAttachmentStore *store = user_data;
+	GtkTreeIter iter;
+
+	g_return_if_fail (E_IS_ATTACHMENT (attachment));
+	g_return_if_fail (E_IS_ATTACHMENT_STORE (store));
+
+	if (e_attachment_store_find_attachment_iter (store, attachment, &iter)) {
+		gtk_list_store_set (
+			GTK_LIST_STORE (store), &iter,
+			E_ATTACHMENT_STORE_COLUMN_CAPTION, caption,
+			E_ATTACHMENT_STORE_COLUMN_CONTENT_TYPE, content_type,
+			E_ATTACHMENT_STORE_COLUMN_DESCRIPTION, description,
+			E_ATTACHMENT_STORE_COLUMN_SIZE, size,
+			-1);
+	}
+}
+
+static void
+attachment_store_update_icon_cb (EAttachment *attachment,
+				 GIcon *icon,
+				 gpointer user_data)
+{
+	EAttachmentStore *store = user_data;
+	GtkTreeIter iter;
+
+	g_return_if_fail (E_IS_ATTACHMENT (attachment));
+	g_return_if_fail (E_IS_ATTACHMENT_STORE (store));
+
+	if (e_attachment_store_find_attachment_iter (store, attachment, &iter)) {
+		gtk_list_store_set (
+			GTK_LIST_STORE (store), &iter,
+			E_ATTACHMENT_STORE_COLUMN_ICON, icon,
+			-1);
+	}
+}
+
+static void
+attachment_store_update_progress_cb (EAttachment *attachment,
+				     gboolean loading,
+				     gboolean saving,
+				     gint percent,
+				     gpointer user_data)
+{
+	EAttachmentStore *store = user_data;
+	GtkTreeIter iter;
+
+	g_return_if_fail (E_IS_ATTACHMENT (attachment));
+	g_return_if_fail (E_IS_ATTACHMENT_STORE (store));
+
+	if (e_attachment_store_find_attachment_iter (store, attachment, &iter)) {
+		gtk_list_store_set (
+			GTK_LIST_STORE (store), &iter,
+			E_ATTACHMENT_STORE_COLUMN_LOADING, loading,
+			E_ATTACHMENT_STORE_COLUMN_SAVING, saving,
+			E_ATTACHMENT_STORE_COLUMN_PERCENT, percent,
+			-1);
+	}
+}
+
+static void
+attachment_store_load_failed_cb (EAttachment *attachment,
+				 gpointer user_data)
+{
+	EAttachmentStore *store = user_data;
+
+	g_return_if_fail (E_IS_ATTACHMENT (attachment));
+	g_return_if_fail (E_IS_ATTACHMENT_STORE (store));
+
+	e_attachment_store_remove_attachment (store, attachment);
+}
+
+static void
+attachment_store_attachment_notify_cb (GObject *attachment,
+				       GParamSpec *param,
+				       gpointer user_data)
+{
+	EAttachmentStore *store = user_data;
+
+	g_return_if_fail (E_IS_ATTACHMENT (attachment));
+	g_return_if_fail (param != NULL);
+	g_return_if_fail (E_IS_ATTACHMENT_STORE (store));
+
+	if (g_str_equal (param->name, "loading")) {
+		g_object_notify (G_OBJECT (store), "num-loading");
+	} else if (g_str_equal (param->name, "file-info")) {
+		g_object_notify (G_OBJECT (store), "total-size");
+	}
+}
+
+static void
+attachment_store_attachment_added (EAttachmentStore *store,
+				   EAttachment *attachment)
+{
+	g_return_if_fail (E_IS_ATTACHMENT_STORE (store));
+	g_return_if_fail (E_IS_ATTACHMENT (attachment));
+
+	g_signal_connect (attachment, "update-file-info",
+		G_CALLBACK (attachment_store_update_file_info_cb), store);
+	g_signal_connect (attachment, "update-icon",
+		G_CALLBACK (attachment_store_update_icon_cb), store);
+	g_signal_connect (attachment, "update-progress",
+		G_CALLBACK (attachment_store_update_progress_cb), store);
+	g_signal_connect (attachment, "load-failed",
+		G_CALLBACK (attachment_store_load_failed_cb), store);
+	g_signal_connect (attachment, "notify",
+		G_CALLBACK (attachment_store_attachment_notify_cb), store);
+
+	e_attachment_update_store_columns (attachment);
+}
+
+static void
+attachment_store_attachment_removed (EAttachmentStore *store,
+				     EAttachment *attachment)
+{
+	g_return_if_fail (E_IS_ATTACHMENT_STORE (store));
+	g_return_if_fail (E_IS_ATTACHMENT (attachment));
+
+	g_signal_handlers_disconnect_by_func (attachment,
+		G_CALLBACK (attachment_store_update_file_info_cb), store);
+	g_signal_handlers_disconnect_by_func (attachment,
+		G_CALLBACK (attachment_store_update_icon_cb), store);
+	g_signal_handlers_disconnect_by_func (attachment,
+		G_CALLBACK (attachment_store_update_progress_cb), store);
+	g_signal_handlers_disconnect_by_func (attachment,
+		G_CALLBACK (attachment_store_load_failed_cb), store);
+	g_signal_handlers_disconnect_by_func (attachment,
+		G_CALLBACK (attachment_store_attachment_notify_cb), store);
+}
+
+static void
 attachment_store_get_property (GObject *object,
                                guint property_id,
                                GValue *value,
@@ -131,6 +268,9 @@ e_attachment_store_class_init (EAttachmentStoreClass *class)
 	object_class->get_property = attachment_store_get_property;
 	object_class->dispose = attachment_store_dispose;
 	object_class->finalize = attachment_store_finalize;
+
+	class->attachment_added = attachment_store_attachment_added;
+	class->attachment_removed = attachment_store_attachment_removed;
 
 	g_object_class_install_property (
 		object_class,
@@ -249,9 +389,6 @@ e_attachment_store_add_attachment (EAttachmentStore *store,
 		store->priv->attachment_index,
 		g_object_ref (attachment), reference);
 
-	/* This lets the attachment tell us when to update. */
-	e_attachment_set_reference (attachment, reference);
-
 	g_object_freeze_notify (G_OBJECT (store));
 	g_object_notify (G_OBJECT (store), "num-attachments");
 	g_object_notify (G_OBJECT (store), "total-size");
@@ -287,7 +424,6 @@ e_attachment_store_remove_attachment (EAttachmentStore *store,
 	}
 
 	e_attachment_cancel (attachment);
-	e_attachment_set_reference (attachment, NULL);
 
 	model = gtk_tree_row_reference_get_model (reference);
 	path = gtk_tree_row_reference_get_path (reference);
@@ -335,7 +471,6 @@ e_attachment_store_remove_all (EAttachmentStore *store)
 		EAttachment *attachment = iter->data;
 
 		e_attachment_cancel (attachment);
-		e_attachment_set_reference (attachment, NULL);
 
 		g_warn_if_fail (g_hash_table_remove (store->priv->attachment_index, attachment));
 
@@ -827,6 +962,35 @@ e_attachment_store_transform_num_attachments_to_visible_boolean (GBinding *bindi
 	g_value_set_boolean (to_value, g_value_get_uint (from_value) != 0);
 
 	return TRUE;
+}
+
+gboolean
+e_attachment_store_find_attachment_iter (EAttachmentStore *store,
+					 EAttachment *attachment,
+					 GtkTreeIter *out_iter)
+{
+	GtkTreeRowReference *reference;
+	GtkTreeModel *model;
+	GtkTreePath *path;
+	gboolean found;
+
+	g_return_val_if_fail (E_IS_ATTACHMENT_STORE (store), FALSE);
+	g_return_val_if_fail (E_IS_ATTACHMENT (attachment), FALSE);
+	g_return_val_if_fail (out_iter != NULL, FALSE);
+
+	reference = g_hash_table_lookup (store->priv->attachment_index, attachment);
+
+	if (!reference || !gtk_tree_row_reference_valid (reference))
+		return FALSE;
+
+	model = gtk_tree_row_reference_get_model (reference);
+	g_return_val_if_fail (model == GTK_TREE_MODEL (store), FALSE);
+
+	path = gtk_tree_row_reference_get_path (reference);
+	found = gtk_tree_model_get_iter (model, out_iter, path);
+	gtk_tree_path_free (path);
+
+	return found;
 }
 
 /******************** e_attachment_store_get_uris_async() ********************/

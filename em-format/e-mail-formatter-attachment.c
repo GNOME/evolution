@@ -103,7 +103,7 @@ emfe_attachment_format (EMailFormatterExtension *extension,
 					pair->validity->encrypt.status);
 		}
 
-		e_attachment_set_shown (attachment, e_mail_part_should_show_inline (part));
+		e_attachment_set_initially_shown (attachment, e_mail_part_should_show_inline (part));
 
 		e_mail_formatter_claim_attachment (formatter, attachment);
 

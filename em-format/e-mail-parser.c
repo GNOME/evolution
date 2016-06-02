@@ -718,7 +718,7 @@ e_mail_parser_wrap_as_attachment (EMailParser *parser,
 
 	attachment = e_mail_part_attachment_ref_attachment (empa);
 
-	e_attachment_set_shown (attachment, empa->shown);
+	e_attachment_set_initially_shown (attachment, empa->shown);
 	e_attachment_set_can_show (
 		attachment,
 		extensions && !g_queue_is_empty (extensions));
