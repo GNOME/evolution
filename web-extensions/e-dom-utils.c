@@ -1152,6 +1152,8 @@ find_element_from_point (WebKitDOMDocument *document,
 
 	if (!element)
 		return element_on_point;
+	else if (!WEBKIT_DOM_IS_HTML_IFRAME_ELEMENT (element))
+		element_on_point = element;
 
 	if (element_on_point && webkit_dom_node_is_equal_node (
 	    	WEBKIT_DOM_NODE (element),
