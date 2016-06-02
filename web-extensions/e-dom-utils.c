@@ -32,66 +32,52 @@
 
 #include "e-dom-utils.h"
 
-static void
-replace_local_image_links (WebKitDOMElement *element)
-{
-	WebKitDOMElement *child;
-
-	if (element == NULL)
-		return;
-
-	if (WEBKIT_DOM_IS_HTML_IMAGE_ELEMENT (element)) {
-		WebKitDOMHTMLImageElement *img;
-		gchar *src;
-
-		img = WEBKIT_DOM_HTML_IMAGE_ELEMENT (element);
-		src = webkit_dom_html_image_element_get_src (img);
-		if (src && g_ascii_strncasecmp (src, "file://", 7) == 0) {
-			gchar *new_src;
-
-			/* this forms "evo-file://", which can be loaded,
-			 * while "file://" cannot be, due to webkit policy */
-			new_src = g_strconcat ("evo-", src, NULL);
-			webkit_dom_html_image_element_set_src (img, new_src);
-			g_free (new_src);
-		}
-
-		g_free (src);
-	}
-
-	if (WEBKIT_DOM_IS_HTML_IFRAME_ELEMENT (element)) {
-		WebKitDOMDocument *content_document;
-
-		content_document =
-			webkit_dom_html_iframe_element_get_content_document (
-				WEBKIT_DOM_HTML_IFRAME_ELEMENT (element));
-
-		if (!content_document)
-			return;
-
-		replace_local_image_links (WEBKIT_DOM_ELEMENT (content_document));
-	}
-
-	child = webkit_dom_element_get_first_element_child (element);
-	replace_local_image_links (child);
-
-	do {
-		element = webkit_dom_element_get_next_element_sibling (element);
-		replace_local_image_links (element);
-	} while (element != NULL);
-}
-
 void
 e_dom_utils_replace_local_image_links (WebKitDOMDocument *document)
 {
-	WebKitDOMNode *node;
+	gint ii, length;
+	WebKitDOMNodeList *list;
 
-	for (node = webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (document));
-	     node;
-	     node = webkit_dom_node_get_next_sibling (node)) {
-		if (WEBKIT_DOM_IS_ELEMENT (node))
-			replace_local_image_links (WEBKIT_DOM_ELEMENT (node));
+	list = webkit_dom_document_query_selector_all (
+		document, "img[src^=\"file://\"]", NULL);
+	length = webkit_dom_node_list_get_length (list);
+
+	for (ii = 0; ii < length; ii++) {
+		gchar *src, *new_src;
+		WebKitDOMHTMLImageElement *img;
+
+		img = WEBKIT_DOM_HTML_IMAGE_ELEMENT (
+			webkit_dom_node_list_item (list, ii));
+		src = webkit_dom_html_image_element_get_src (img);
+
+		/* this forms "evo-file://", which can be loaded,
+		 * while "file://" cannot be, due to WebKit policy */
+		new_src = g_strconcat ("evo-", src, NULL);
+		webkit_dom_html_image_element_set_src (img, new_src);
+		g_free (new_src);
+		g_free (src);
+		g_object_unref (img);
 	}
+	g_object_unref (list);
+
+	list = webkit_dom_document_query_selector_all (
+		document, "iframe", NULL);
+	length = webkit_dom_node_list_get_length (list);
+	for (ii = 0; ii < length; ii++) {
+		WebKitDOMDocument *content_document;
+		WebKitDOMHTMLIFrameElement *iframe;
+
+		iframe = WEBKIT_DOM_HTML_IFRAME_ELEMENT (
+			webkit_dom_node_list_item (list, ii));
+
+		content_document =
+			webkit_dom_html_iframe_element_get_content_document (iframe);
+
+		if (content_document && WEBKIT_DOM_IS_DOCUMENT (content_document))
+			e_dom_utils_replace_local_image_links (content_document);
+		g_object_unref (iframe);
+	}
+	g_object_unref (list);
 }
 
 gboolean
