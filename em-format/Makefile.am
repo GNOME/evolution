@@ -82,7 +82,6 @@ libevolution_mail_formatter_la_SOURCES =		\
 	e-mail-formatter-text-html.c			\
 	e-mail-formatter-text-plain.c			\
 	e-mail-formatter-print-headers.c		\
-	e-mail-formatter-quote-attachment.c		\
 	e-mail-formatter-quote-headers.c		\
 	e-mail-formatter-quote-message-rfc822.c		\
 	e-mail-formatter-quote-text-enriched.c		\

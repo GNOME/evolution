@@ -712,7 +712,7 @@ e_mail_parser_wrap_as_attachment (EMailParser *parser,
 	first_part = g_queue_peek_head (parts_queue);
 	if (first_part != NULL) {
 		const gchar *id = e_mail_part_get_id (first_part);
-		empa->attachment_view_part_id = g_strdup (id);
+		empa->part_id_with_attachment = g_strdup (id);
 		first_part->is_hidden = TRUE;
 	}
 

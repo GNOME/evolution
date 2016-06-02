@@ -34,7 +34,7 @@
 
 #define E_MAIL_FORMATTER_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_MAIL_FORMATTER, EMailFormatterPrivate))\
+	((obj), E_TYPE_MAIL_FORMATTER, EMailFormatterPrivate))
 
 #define STYLESHEET_URI \
 	"evo-file://" EVOLUTION_PRIVDATADIR "/theme/webview.css"
@@ -451,8 +451,7 @@ mail_formatter_run (EMailFormatter *formatter,
 
 		if (!ok) {
 			/* We don't want to source these */
-			if (e_mail_part_id_has_suffix (part, ".headers") ||
-			    e_mail_part_id_has_suffix (part, "attachment-bar"))
+			if (e_mail_part_id_has_suffix (part, ".headers"))
 				continue;
 
 			e_mail_formatter_format_as (

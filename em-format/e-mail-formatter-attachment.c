@@ -189,8 +189,8 @@ emfe_attachment_format (EMailFormatterExtension *extension,
 	g_free (text);
 	g_object_unref (mime_part);
 
-	if (empa->attachment_view_part_id)
-		attachment_part_id = empa->attachment_view_part_id;
+	if (empa->part_id_with_attachment)
+		attachment_part_id = empa->part_id_with_attachment;
 	else
 		attachment_part_id = part_id;
 
@@ -206,12 +206,12 @@ emfe_attachment_format (EMailFormatterExtension *extension,
 
 		content_stream = g_memory_output_stream_new_resizable ();
 
-		if (empa->attachment_view_part_id != NULL) {
+		if (empa->part_id_with_attachment != NULL) {
 			EMailPart *attachment_view_part;
 
 			attachment_view_part = e_mail_part_list_ref_part (
 				context->part_list,
-				empa->attachment_view_part_id);
+				empa->part_id_with_attachment);
 
 			/* Avoid recursion. */
 			if (attachment_view_part == part)

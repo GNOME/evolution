@@ -157,10 +157,6 @@ emfe_message_rfc822_format (EMailFormatterExtension *extension,
 			EMailPart *p = link->data;
 			const gchar *p_id;
 
-			/* Skip attachment bar */
-			if (e_mail_part_id_has_suffix (part, ".attachment-bar"))
-				continue;
-
 			p_id = e_mail_part_get_id (p);
 
 			/* Check for nested rfc822 messages */

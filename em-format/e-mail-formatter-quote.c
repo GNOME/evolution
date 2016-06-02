@@ -38,7 +38,6 @@ struct _EMailFormatterQuotePrivate {
 };
 
 /* internal formatter extensions */
-GType e_mail_formatter_quote_attachment_get_type (void);
 GType e_mail_formatter_quote_headers_get_type (void);
 GType e_mail_formatter_quote_message_rfc822_get_type (void);
 GType e_mail_formatter_quote_text_enriched_get_type (void);
@@ -161,7 +160,6 @@ static void
 e_mail_formatter_quote_base_init (EMailFormatterQuoteClass *class)
 {
 	/* Register internal extensions. */
-	g_type_ensure (e_mail_formatter_quote_attachment_get_type ());
 	g_type_ensure (e_mail_formatter_quote_headers_get_type ());
 	g_type_ensure (e_mail_formatter_quote_message_rfc822_get_type ());
 	g_type_ensure (e_mail_formatter_quote_text_enriched_get_type ());

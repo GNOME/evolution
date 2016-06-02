@@ -98,7 +98,7 @@ mail_part_attachment_finalize (GObject *object)
 {
 	EMailPartAttachment *part = E_MAIL_PART_ATTACHMENT (object);
 
-	g_free (part->attachment_view_part_id);
+	g_free (part->part_id_with_attachment);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_mail_part_attachment_parent_class)->
