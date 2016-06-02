@@ -753,7 +753,7 @@ handle_get_property (GDBusConnection *connection,
                      gpointer user_data)
 {
 	EWebExtension *extension = E_WEB_EXTENSION (user_data);
-	GVariant *variant;
+	GVariant *variant = NULL;
 
 	if (g_strcmp0 (property_name, "NeedInput") == 0) {
 		variant = g_variant_new_boolean (extension->priv->need_input);
