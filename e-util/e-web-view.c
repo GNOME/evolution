@@ -46,12 +46,6 @@
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_WEB_VIEW, EWebViewPrivate))
 
-typedef enum {
-	E_WEB_VIEW_ZOOM_HACK_STATE_NONE,
-	E_WEB_VIEW_ZOOM_HACK_STATE_ZOOMED_IN,
-	E_WEB_VIEW_ZOOM_HACK_STATE_ZOOMED_OUT
-} EWebViewZoomHackState;
-
 typedef struct _AsyncContext AsyncContext;
 
 typedef struct _ElementClickedData {
@@ -91,10 +85,6 @@ struct _EWebViewPrivate {
 	WebKitFindController *find_controller;
 	gulong found_text_handler_id;
 	gulong failed_to_find_text_handler_id;
-
-	/* To workaround webkit bug:
-	 * https://bugs.webkit.org/show_bug.cgi?id=89553 */
-	EWebViewZoomHackState zoom_hack_state;
 
 	gboolean has_hover_link;
 
@@ -739,17 +729,6 @@ web_view_load_changed_cb (WebKitWebView *webkit_web_view,
 
 	web_view = E_WEB_VIEW (webkit_web_view);
 
-	if (web_view->priv->zoom_hack_state == E_WEB_VIEW_ZOOM_HACK_STATE_NONE &&
-	    load_event == WEBKIT_LOAD_COMMITTED) {
-		if (webkit_web_view_get_zoom_level (WEBKIT_WEB_VIEW (web_view)) > 0.9999) {
-			e_web_view_zoom_out (web_view);
-			web_view->priv->zoom_hack_state = E_WEB_VIEW_ZOOM_HACK_STATE_ZOOMED_OUT;
-		} else {
-			e_web_view_zoom_in (web_view);
-			web_view->priv->zoom_hack_state = E_WEB_VIEW_ZOOM_HACK_STATE_ZOOMED_IN;
-		}
-	}
-
 	if (load_event == WEBKIT_LOAD_STARTED)
 		g_hash_table_remove_all (web_view->priv->element_clicked_cbs);
 
@@ -759,24 +738,6 @@ web_view_load_changed_cb (WebKitWebView *webkit_web_view,
 	style_updated_cb (web_view);
 
 	web_view_update_document_highlights (web_view);
-
-	if (web_view->priv->zoom_hack_state == E_WEB_VIEW_ZOOM_HACK_STATE_NONE) {
-		/* This may not happen, but just in case keep it here. */
-		if (webkit_web_view_get_zoom_level (WEBKIT_WEB_VIEW (web_view)) > 0.9999) {
-			e_web_view_zoom_out (web_view);
-			e_web_view_zoom_in (web_view);
-		} else {
-			e_web_view_zoom_in (web_view);
-			e_web_view_zoom_out (web_view);
-		}
-	} else {
-		if (web_view->priv->zoom_hack_state == E_WEB_VIEW_ZOOM_HACK_STATE_ZOOMED_IN)
-			e_web_view_zoom_out (web_view);
-		else
-			e_web_view_zoom_in (web_view);
-
-		web_view->priv->zoom_hack_state = E_WEB_VIEW_ZOOM_HACK_STATE_NONE;
-	}
 }
 
 static GObjectConstructParam*
@@ -2229,7 +2190,6 @@ e_web_view_init (EWebView *web_view)
 	web_view->priv = E_WEB_VIEW_GET_PRIVATE (web_view);
 
 	web_view->priv->old_settings = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, (GDestroyNotify) g_variant_unref);
-	web_view->priv->zoom_hack_state = E_WEB_VIEW_ZOOM_HACK_STATE_NONE;
 
 	/* XXX No WebKitWebView class method pointers to
 	 *     override so we have to use signal handlers. */
