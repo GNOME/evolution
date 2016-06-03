@@ -456,10 +456,9 @@ e_mail_request_process_sync (EContentRequest *request,
 		if (e_util_is_main_thread (NULL)) {
 			process_mail_request_idle_cb (&mid);
 		} else {
-			/* Process e-mail mail requests in this thread, which should be
-			 * the main/UI thread, because any EMailFormatter can create
-			 * GtkWidget-s, or manipulate with them, which should be always
-			 * done in the main/UI thread. */
+			/* Process e-mail mail requests in the main/UI thread, because
+			 * any EMailFormatter can create GtkWidget-s, or manipulate with
+			 * them, which should be always done in the main/UI thread. */
 			g_idle_add_full (
 				G_PRIORITY_HIGH_IDLE,
 				process_mail_request_idle_cb,
