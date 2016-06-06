@@ -1099,13 +1099,6 @@ static GtkRadioActionEntry core_style_entries[] = {
 	  NULL,
 	  E_CONTENT_EDITOR_BLOCK_FORMAT_ADDRESS },
 
-        { "style-blockquote",
-          NULL,
-          N_("_Blockquote"),
-          "<Control>9",
-          NULL,
-          E_CONTENT_EDITOR_BLOCK_FORMAT_BLOCKQUOTE },
-
 	{ "style-list-bullet",
 	  NULL,
 	  N_("_Bulleted List"),

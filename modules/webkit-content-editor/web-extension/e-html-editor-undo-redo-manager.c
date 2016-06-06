@@ -214,7 +214,6 @@ print_history_event (EHTMLEditorHistoryEvent *event)
 		case HISTORY_SMILEY:
 		case HISTORY_IMAGE:
 		case HISTORY_CITATION_SPLIT:
-		case HISTORY_BLOCKQUOTE:
 			print_node_inner_html (WEBKIT_DOM_NODE (event->data.fragment));
 			break;
 		case HISTORY_ALIGNMENT:
@@ -2018,44 +2017,6 @@ undo_redo_citation_split (WebKitDOMDocument *document,
 }
 
 static void
-undo_redo_blockquote (WebKitDOMDocument *document,
-                      EHTMLEditorWebExtension *extension,
-                      EHTMLEditorHistoryEvent *event,
-                      gboolean undo)
-{
-	WebKitDOMElement *element;
-
-	if (undo)
-		restore_selection_to_history_event_state (document, event->after);
-
-	dom_selection_save (document);
-	element = webkit_dom_document_get_element_by_id (
-		document, "-x-evo-selection-start-marker");
-
-	if (undo) {
-		WebKitDOMNode *node;
-		WebKitDOMElement *parent;
-
-		parent = get_parent_block_element (WEBKIT_DOM_NODE (element));
-		node = webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (parent));
-
-		webkit_dom_node_replace_child (
-			webkit_dom_node_get_parent_node (node),
-			WEBKIT_DOM_NODE (event->data.fragment),
-			node,
-			NULL);
-	} else {
-		dom_selection_set_block_format (
-			document, extension, E_CONTENT_EDITOR_BLOCK_FORMAT_BLOCKQUOTE);
-	}
-
-	if (undo)
-		restore_selection_to_history_event_state (document, event->before);
-	else
-		dom_selection_restore (document);
-}
-
-static void
 undo_redo_unquote (WebKitDOMDocument *document,
 		   EHTMLEditorWebExtension *extension,
 		   EHTMLEditorHistoryEvent *event,
@@ -2141,7 +2102,6 @@ free_history_event_content (EHTMLEditorHistoryEvent *event)
 		case HISTORY_IMAGE:
 		case HISTORY_SMILEY:
 		case HISTORY_REMOVE_LINK:
-		case HISTORY_BLOCKQUOTE:
 			if (event->data.fragment != NULL)
 				g_clear_object (&event->data.fragment);
 			break;
@@ -2449,9 +2409,6 @@ e_html_editor_undo_redo_manager_undo (EHTMLEditorUndoRedoManager *manager)
 		case HISTORY_REPLACE_ALL:
 			undo_redo_replace_all (manager, document, extension, event, TRUE);
 			break;
-		case HISTORY_BLOCKQUOTE:
-			undo_redo_blockquote (document, extension, event, TRUE);
-			break;
 		case HISTORY_UNQUOTE:
 			undo_redo_unquote (document, extension, event, TRUE);
 			break;
@@ -2596,9 +2553,6 @@ e_html_editor_undo_redo_manager_redo (EHTMLEditorUndoRedoManager *manager)
 		case HISTORY_REPLACE:
 		case HISTORY_REPLACE_ALL:
 			undo_redo_replace_all (manager, document, extension, event, FALSE);
-			break;
-		case HISTORY_BLOCKQUOTE:
-			undo_redo_blockquote (document, extension, event, FALSE);
 			break;
 		case HISTORY_UNQUOTE:
 			undo_redo_unquote (document, extension, event, FALSE);

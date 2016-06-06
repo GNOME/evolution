@@ -5250,22 +5250,7 @@ dom_selection_get_block_format (WebKitDOMDocument *document,
 	} else if (dom_node_find_parent_element (node, "H6")) {
 		result = E_CONTENT_EDITOR_BLOCK_FORMAT_H6;
 	} else if ((element = dom_node_find_parent_element (node, "BLOCKQUOTE")) != NULL) {
-		if (element_has_class (element, "-x-evo-indented"))
-			result = E_CONTENT_EDITOR_BLOCK_FORMAT_PARAGRAPH;
-		else {
-			WebKitDOMNode *block = get_block_node (range);
-
-			if (WEBKIT_DOM_IS_HTML_PARAGRAPH_ELEMENT (block) ||
-			    webkit_dom_element_has_attribute (WEBKIT_DOM_ELEMENT (block), "data-evo-paragraph"))
-				result = E_CONTENT_EDITOR_BLOCK_FORMAT_PARAGRAPH;
-			else {
-				/* Paragraphs inside quote */
-				if ((element = dom_node_find_parent_element (node, "P")) != NULL)
-					result = E_CONTENT_EDITOR_BLOCK_FORMAT_PARAGRAPH;
-				else
-					result = E_CONTENT_EDITOR_BLOCK_FORMAT_BLOCKQUOTE;
-			}
-		}
+		result = E_CONTENT_EDITOR_BLOCK_FORMAT_PARAGRAPH;
 	} else if (dom_node_find_parent_element (node, "P")) {
 		result = E_CONTENT_EDITOR_BLOCK_FORMAT_PARAGRAPH;
 	} else {
@@ -5424,8 +5409,7 @@ process_block_to_block (WebKitDOMDocument *document,
 			continue;
 		}
 
-		if (format == E_CONTENT_EDITOR_BLOCK_FORMAT_PARAGRAPH ||
-		    format == E_CONTENT_EDITOR_BLOCK_FORMAT_BLOCKQUOTE)
+		if (format == E_CONTENT_EDITOR_BLOCK_FORMAT_PARAGRAPH)
 			element = dom_get_paragraph_element (document, extension, -1, 0);
 		else
 			element = webkit_dom_document_create_element (
@@ -5477,15 +5461,10 @@ process_block_to_block (WebKitDOMDocument *document,
 
 		block = next_block;
 
-		if (!html_mode &&
-		    (format == E_CONTENT_EDITOR_BLOCK_FORMAT_PARAGRAPH ||
-		     format == E_CONTENT_EDITOR_BLOCK_FORMAT_BLOCKQUOTE)) {
+		if (!html_mode && format == E_CONTENT_EDITOR_BLOCK_FORMAT_PARAGRAPH) {
 			gint citation_level;
 
-			if (format == E_CONTENT_EDITOR_BLOCK_FORMAT_BLOCKQUOTE)
-				citation_level = 1;
-			else
-				citation_level = selection_get_citation_level (WEBKIT_DOM_NODE (element));
+			citation_level = selection_get_citation_level (WEBKIT_DOM_NODE (element));
 
 			if (citation_level > 0) {
 				gint quote, word_wrap_length;
@@ -5500,12 +5479,7 @@ process_block_to_block (WebKitDOMDocument *document,
 			}
 		}
 
-		if (blockquote && format == E_CONTENT_EDITOR_BLOCK_FORMAT_BLOCKQUOTE) {
-			webkit_dom_node_append_child (
-				blockquote, WEBKIT_DOM_NODE (element), NULL);
-			if (!html_mode)
-				dom_quote_plain_text_element_after_wrapping (document, element, 1);
-		} else if (!html_mode && quoted)
+		if (!html_mode && quoted)
 			dom_quote_plain_text_element (document, element);
 	}
 
@@ -5546,21 +5520,6 @@ format_change_block_to_block (WebKitDOMDocument *document,
 		WEBKIT_DOM_NODE (selection_start_marker));
 
 	html_mode = e_html_editor_web_extension_get_html_mode (extension);
-
-	if (format == E_CONTENT_EDITOR_BLOCK_FORMAT_BLOCKQUOTE) {
-		blockquote = WEBKIT_DOM_NODE (
-			webkit_dom_document_create_element (document, "BLOCKQUOTE", NULL));
-
-		webkit_dom_element_set_attribute (WEBKIT_DOM_ELEMENT (blockquote), "type", "cite", NULL);
-		if (!html_mode)
-			webkit_dom_element_set_attribute (
-				WEBKIT_DOM_ELEMENT (blockquote), "class", "-x-evo-plaintext-quoted", NULL);
-		webkit_dom_node_insert_before (
-			webkit_dom_node_get_parent_node (block),
-			blockquote,
-			block,
-			NULL);
-	}
 
 	end_block = get_parent_block_node_from_child (
 		WEBKIT_DOM_NODE (selection_end_marker));
@@ -6071,9 +6030,6 @@ dom_selection_set_block_format (WebKitDOMDocument *document,
 		return;
 
 	switch (format) {
-		case E_CONTENT_EDITOR_BLOCK_FORMAT_BLOCKQUOTE:
-			value = "BLOCKQUOTE";
-			break;
 		case E_CONTENT_EDITOR_BLOCK_FORMAT_H1:
 			value = "H1";
 			break;
@@ -6133,10 +6089,7 @@ dom_selection_set_block_format (WebKitDOMDocument *document,
 	manager = e_html_editor_web_extension_get_undo_redo_manager (extension);
 	if (!e_html_editor_undo_redo_manager_is_operation_in_progress (manager)) {
 		ev = g_new0 (EHTMLEditorHistoryEvent, 1);
-		if (format != E_CONTENT_EDITOR_BLOCK_FORMAT_BLOCKQUOTE)
-			ev->type = HISTORY_BLOCK_FORMAT;
-		else
-			ev->type = HISTORY_BLOCKQUOTE;
+		ev->type = HISTORY_BLOCK_FORMAT;
 
 		dom_selection_get_coordinates (
 			document,
@@ -6145,47 +6098,9 @@ dom_selection_set_block_format (WebKitDOMDocument *document,
 			&ev->before.end.x,
 			&ev->before.end.y);
 
-		if (format != E_CONTENT_EDITOR_BLOCK_FORMAT_BLOCKQUOTE) {
-			ev->data.style.from = current_format;
-			ev->data.style.to = format;
-		} else {
-			WebKitDOMDocumentFragment *fragment;
-			WebKitDOMElement *selection_start_marker, *selection_end_marker;
-			WebKitDOMNode *block, *end_block;
-
-			selection_start_marker = webkit_dom_document_get_element_by_id (
-				document, "-x-evo-selection-start-marker");
-			selection_end_marker = webkit_dom_document_get_element_by_id (
-				document, "-x-evo-selection-end-marker");
-			block = get_parent_block_node_from_child (
-				WEBKIT_DOM_NODE (selection_start_marker));
-			end_block = get_parent_block_node_from_child (
-				WEBKIT_DOM_NODE (selection_end_marker));
-			if (webkit_dom_range_get_collapsed (range, NULL) ||
-			    webkit_dom_node_is_same_node (block, end_block)) {
-				fragment = webkit_dom_document_create_document_fragment (document);
-
-				webkit_dom_node_append_child (
-					WEBKIT_DOM_NODE (fragment),
-					webkit_dom_node_clone_node_with_error (block, TRUE, NULL),
-					NULL);
-			} else {
-				fragment = webkit_dom_range_clone_contents (range, NULL);
-				webkit_dom_node_replace_child (
-					WEBKIT_DOM_NODE (fragment),
-					webkit_dom_node_clone_node_with_error (block, TRUE, NULL),
-					webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (fragment)),
-					NULL);
-
-				webkit_dom_node_replace_child (
-					WEBKIT_DOM_NODE (fragment),
-					webkit_dom_node_clone_node_with_error (end_block, TRUE, NULL),
-					webkit_dom_node_get_last_child (WEBKIT_DOM_NODE (fragment)),
-					NULL);
-			}
-			ev->data.fragment = fragment;
-		}
-	 }
+		ev->data.style.from = current_format;
+		ev->data.style.to = format;
+	}
 
 	g_object_unref (range);
 
@@ -6208,14 +6123,8 @@ dom_selection_set_block_format (WebKitDOMDocument *document,
 	if (!from_list && !to_list)
 		format_change_block_to_block (document, extension, format, value);
 
-	if (from_list && !to_list) {
+	if (from_list && !to_list)
 		format_change_list_to_block (document, extension, format, value);
-
-		if (format == E_CONTENT_EDITOR_BLOCK_FORMAT_BLOCKQUOTE) {
-			dom_selection_restore (document);
-			format_change_block_to_block (document, extension, format, value);
-		}
-	}
 
 	if (!from_list && to_list)
 		format_change_block_to_list (document, extension, format);
