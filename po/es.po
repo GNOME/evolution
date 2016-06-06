@@ -20,8 +20,8 @@ msgstr ""
 "Project-Id-Version: evolution.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2016-05-26 11:24+0000\n"
-"PO-Revision-Date: 2016-05-26 14:59+0200\n"
+"POT-Creation-Date: 2016-05-31 22:25+0000\n"
+"PO-Revision-Date: 2016-06-02 09:19+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
 "Language: es\n"
@@ -580,7 +580,7 @@ msgstr "Certificados"
 #: ../calendar/gui/e-comp-editor.c:2000 ../calendar/gui/e-comp-editor.c:2072
 #: ../e-util/e-preferences-window.c:382 ../e-util/e-send-options.ui.h:41
 #: ../plugins/email-custom-header/org-gnome-email-custom-header.ui.h:2
-#: ../shell/e-shell.c:1223 ../shell/e-shell-window-actions.c:955
+#: ../shell/e-shell.c:1224 ../shell/e-shell-window-actions.c:955
 msgid "_Help"
 msgstr "Ay_uda"
 
@@ -3879,7 +3879,7 @@ msgstr "La hora de inicio no es una hora válida"
 #: ../calendar/gui/e-comp-editor.c:339 ../mail/e-mail-display.c:2057
 #: ../mail/e-mail-reader-utils.c:650 ../mail/mail-send-recv.c:489
 #: ../mail/mail-send-recv.c:1289 ../plugins/face/face.c:176
-#: ../shell/e-shell.c:991 ../shell/e-shell.c:1013
+#: ../shell/e-shell.c:992 ../shell/e-shell.c:1014
 #: ../smime/gui/certificate-manager.c:348
 msgid "Unknown error"
 msgstr "Error desconocido"
@@ -7526,7 +7526,7 @@ msgstr "_Mensaje nuevo"
 msgid "Open New Message window"
 msgstr "Abrir la ventana de mensaje nuevo"
 
-#: ../composer/e-composer-actions.c:348 ../shell/e-shell.c:1216
+#: ../composer/e-composer-actions.c:348 ../shell/e-shell.c:1217
 #: ../shell/e-shell-window-actions.c:848
 msgid "_Preferences"
 msgstr "_Preferencias"
@@ -14381,7 +14381,6 @@ msgid "Sort _Descending"
 msgstr "Ordenar _descendentemente"
 
 #: ../e-util/e-table-header-item.c:1627
-#| msgid "_Reset Order"
 msgid "_Reset sort"
 msgstr "_Reiniciar orden"
 
@@ -14910,7 +14909,7 @@ msgid "Invalid folder URI '%s'"
 msgstr "URI « %s» de la carpeta no válida"
 
 #. Some local folders
-#: ../libemail-engine/e-mail-session.c:126 ../mail/em-folder-properties.c:778
+#: ../libemail-engine/e-mail-session.c:127 ../mail/em-folder-properties.c:778
 #: ../mail/em-folder-tree-model.c:1212 ../mail/importers/kmail-libs.c:141
 #: ../modules/mail/e-mail-shell-view-private.c:1052
 #: ../modules/mail/e-mail-shell-view-private.c:1063
@@ -14918,28 +14917,28 @@ msgid "Inbox"
 msgstr "Bandeja de entrada"
 
 #. E_MAIL_LOCAL_FOLDER_INBOX
-#: ../libemail-engine/e-mail-session.c:127 ../mail/em-folder-tree-model.c:1205
+#: ../libemail-engine/e-mail-session.c:128 ../mail/em-folder-tree-model.c:1205
 #: ../mail/importers/kmail-libs.c:147
 #: ../modules/mail/e-mail-shell-view-private.c:1050
 msgid "Drafts"
 msgstr "Borradores"
 
 #. E_MAIL_LOCAL_FOLDER_DRAFTS
-#: ../libemail-engine/e-mail-session.c:128 ../mail/em-folder-tree-model.c:1216
+#: ../libemail-engine/e-mail-session.c:129 ../mail/em-folder-tree-model.c:1216
 #: ../mail/importers/kmail-libs.c:143
 #: ../modules/mail/e-mail-shell-view-private.c:1054
 msgid "Outbox"
 msgstr "Bandeja de salida"
 
 #. E_MAIL_LOCAL_FOLDER_OUTBOX
-#: ../libemail-engine/e-mail-session.c:129 ../mail/em-folder-tree-model.c:1220
+#: ../libemail-engine/e-mail-session.c:130 ../mail/em-folder-tree-model.c:1220
 #: ../mail/importers/kmail-libs.c:145
 #: ../modules/mail/e-mail-shell-view-private.c:1056
 msgid "Sent"
 msgstr "Correo enviado"
 
 #. E_MAIL_LOCAL_FOLDER_SENT
-#: ../libemail-engine/e-mail-session.c:130 ../mail/em-folder-tree-model.c:1208
+#: ../libemail-engine/e-mail-session.c:131 ../mail/em-folder-tree-model.c:1208
 #: ../mail/importers/kmail-libs.c:149
 #: ../modules/mail/e-mail-shell-view-private.c:1058
 #: ../plugins/templates/e-templates-store.c:2214
@@ -14947,12 +14946,12 @@ msgstr "Correo enviado"
 msgid "Templates"
 msgstr "Plantillas"
 
-#: ../libemail-engine/e-mail-session.c:1302
+#: ../libemail-engine/e-mail-session.c:1305
 #, c-format
 msgid "User cancelled operation"
 msgstr "El usuario canceló la operación"
 
-#: ../libemail-engine/e-mail-session.c:1359
+#: ../libemail-engine/e-mail-session.c:1362
 #, c-format
 msgid ""
 "No destination address provided, forwarding of the message has been "
@@ -14961,13 +14960,13 @@ msgstr ""
 "No se proporcionó ninguna dirección de destino, se ha cancelado el reenvío "
 "del mensaje."
 
-#: ../libemail-engine/e-mail-session.c:1372
+#: ../libemail-engine/e-mail-session.c:1375
 #, c-format
 msgid "No identity found to use, forwarding of the message has been cancelled."
 msgstr ""
 "No se encontró ninguna identidad que usar, se canceló el reenvío del mensaje."
 
-#: ../libemail-engine/e-mail-session.c:2402
+#: ../libemail-engine/e-mail-session.c:2405
 #, c-format
 msgid "Waiting for '%s'"
 msgstr "Esperando a %s"
@@ -15333,7 +15332,6 @@ msgid "_Templates Folder:"
 msgstr "Carpeta de plan_tillas:"
 
 #: ../mail/e-mail-config-defaults-page.c:942
-#| msgid "Choose a folder to use for template messages to."
 msgid "Choose a folder to use for template messages."
 msgstr "Elija una carpeta en la que guardar las plantillas de mensajes."
 
@@ -15516,6 +15514,7 @@ msgstr "%s - %s"
 #: ../modules/addressbook/autocompletion-config.c:113
 #: ../modules/calendar/e-calendar-preferences.c:620
 #: ../modules/calendar/e-calendar-preferences.ui.h:48
+#: ../modules/mail/e-mail-shell-backend.c:707
 #: ../plugins/publish-calendar/publish-calendar.ui.h:16
 msgid "General"
 msgstr "General"
@@ -19886,7 +19885,6 @@ msgid "Server address cannot be empty"
 msgstr "La dirección del servidor no puede estar vacía"
 
 #: ../modules/book-config-webdav/evolution-book-config-webdav.c:92
-#| msgid "New Address Book"
 msgid "Choose an Address Book"
 msgstr "Elija una libreta de direcciones"
 
@@ -19897,7 +19895,6 @@ msgid "URL:"
 msgstr "URL:"
 
 #: ../modules/book-config-webdav/evolution-book-config-webdav.c:249
-#| msgid "Add Address Book"
 msgid "Find Address Books"
 msgstr "Buscar libretas de direcciones"
 
@@ -22075,25 +22072,65 @@ msgstr "_Carpeta de correo"
 msgid "Create a new mail folder"
 msgstr "Crea una carpeta de correo nueva"
 
+#. Translators: One of the known implementation names of the GNetworkMonitor. Either translate
+#. it to some user-frienly form, or keep it as is.
 #: ../modules/mail/e-mail-shell-backend.c:687
+msgctxt "NetworkMonitor"
+msgid "base"
+msgstr "base"
+
+#. Translators: One of the known implementation names of the GNetworkMonitor. Either translate
+#. it to some user-frienly form, or keep it as is.
+#: ../modules/mail/e-mail-shell-backend.c:690
+msgctxt "NetworkMonitor"
+msgid "netlink"
+msgstr "enlace de red"
+
+#. Translators: One of the known implementation names of the GNetworkMonitor. Either translate
+#. it to some user-frienly form, or keep it as is.
+#: ../modules/mail/e-mail-shell-backend.c:693
+msgctxt "NetworkMonitor"
+msgid "networkmanager"
+msgstr "networkmanager"
+
+#: ../modules/mail/e-mail-shell-backend.c:725
+msgctxt "NetworkMonitor"
+msgid "Method to detect _online state:"
+msgstr "Método para detectar el _estado en línea:"
+
+#. Always as the first
+#: ../modules/mail/e-mail-shell-backend.c:734
+#| msgid "Default"
+msgctxt "NetworkMonitor"
+msgid "Default"
+msgstr "Predeterminado"
+
+#. Always as the last
+#: ../modules/mail/e-mail-shell-backend.c:748
+#| msgid "_Always move"
+msgctxt "NetworkMonitor"
+msgid "Always Online"
+msgstr "Siempre en línea"
+
+#: ../modules/mail/e-mail-shell-backend.c:808
 msgid "Mail Accounts"
 msgstr "Cuentas de correo"
 
-#: ../modules/mail/e-mail-shell-backend.c:696
+#: ../modules/mail/e-mail-shell-backend.c:817
 msgid "Mail Preferences"
 msgstr "Opciones de correo"
 
-#: ../modules/mail/e-mail-shell-backend.c:705
+#: ../modules/mail/e-mail-shell-backend.c:826
 msgid "Composer Preferences"
 msgstr "Preferencias del editor"
 
-#: ../modules/mail/e-mail-shell-backend.c:715
+#: ../modules/mail/e-mail-shell-backend.c:835
 msgid "Network Preferences"
 msgstr "Preferencias de red"
 
 #. Translators: The first item in the list, to be
 #. * able to set rule: [Label] [is/is-not] [None]
-#: ../modules/mail/e-mail-shell-backend.c:1007
+#: ../modules/mail/e-mail-shell-backend.c:1127
 msgctxt "label"
 msgid "None"
 msgstr "Ninguno"
@@ -24143,39 +24180,39 @@ msgstr "Guardar como plan_tilla"
 msgid "Save as Template"
 msgstr "Guardar como plantilla"
 
-#: ../shell/e-shell.c:380
+#: ../shell/e-shell.c:381
 msgid "Preparing to go offline..."
 msgstr "Preparándose para desconectarse…"
 
-#: ../shell/e-shell.c:409
+#: ../shell/e-shell.c:410
 msgid "Preparing to go online..."
 msgstr "Preparándose para conectarse…"
 
-#: ../shell/e-shell.c:520
+#: ../shell/e-shell.c:521
 msgid "Preparing to quit"
 msgstr "Preparándose para salir"
 
-#: ../shell/e-shell.c:526
+#: ../shell/e-shell.c:527
 msgid "Preparing to quit..."
 msgstr "Preparándose para salir…"
 
-#: ../shell/e-shell.c:1043
+#: ../shell/e-shell.c:1044
 msgid "Credentials are required to connect to the destination host."
 msgstr "Se necesitan credenciales para conectarse al equipo de destino."
 
-#: ../shell/e-shell.c:1211 ../shell/e-shell-window-actions.c:827
+#: ../shell/e-shell.c:1212 ../shell/e-shell-window-actions.c:827
 msgid "New _Window"
 msgstr "_Ventana nueva"
 
-#: ../shell/e-shell.c:1222
+#: ../shell/e-shell.c:1223
 msgid "Quick _Reference"
 msgstr "_Referencia rápida"
 
-#: ../shell/e-shell.c:1224 ../shell/e-shell-window-actions.c:764
+#: ../shell/e-shell.c:1225 ../shell/e-shell-window-actions.c:764
 msgid "_About"
 msgstr "Acerca _de"
 
-#: ../shell/e-shell.c:1225 ../shell/e-shell-window-actions.c:862
+#: ../shell/e-shell.c:1226 ../shell/e-shell-window-actions.c:862
 msgid "_Quit"
 msgstr "_Salir"
 
