@@ -714,20 +714,29 @@ ethi_drag_motion (GtkWidget *widget,
 {
 	GtkAllocation allocation;
 	GtkAdjustment *adjustment;
-	GList *targets;
+	GList *targets, *link;
 	gdouble hadjustment_value;
 	gdouble vadjustment_value;
-	gchar *droptype, *headertype;
+	gchar *headertype;
 	guint direction = 0;
 
 	gdk_drag_status (context, 0, time);
 
+	headertype = g_strdup_printf ("%s-%s", TARGET_ETABLE_COL_TYPE, ethi->dnd_code);
 	targets = gdk_drag_context_list_targets (context);
-	droptype = gdk_atom_name (GDK_POINTER_TO_ATOM (targets->data));
-	headertype = g_strdup_printf (
-		"%s-%s", TARGET_ETABLE_COL_TYPE, ethi->dnd_code);
+	for (link = targets; link; link = g_list_next (link)) {
+		gchar *droptype;
 
-	if (strcmp (droptype, headertype) != 0) {
+		droptype = gdk_atom_name (GDK_POINTER_TO_ATOM (link->data));
+		if (g_strcmp0 (droptype, headertype) == 0) {
+			g_free (droptype);
+			break;
+		}
+
+		g_free (droptype);
+	}
+
+	if (!link) {
 		g_free (headertype);
 		return FALSE;
 	}
