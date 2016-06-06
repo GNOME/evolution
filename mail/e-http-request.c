@@ -437,13 +437,15 @@ e_http_request_process_sync (EContentRequest *request,
 		}
 
 		if (cache) {
+			GError *local_error = NULL;
+
 			cache_stream = camel_data_cache_add (
-				cache, "http", uri_md5, error);
-			if (error != NULL) {
+				cache, "http", uri_md5, &local_error);
+			if (local_error) {
 				g_warning (
 					"Failed to create cache file for '%s': %s",
-					uri, (*error)->message);
-				g_clear_error (error);
+					uri, local_error->message);
+				g_clear_error (&local_error);
 			} else {
 				GOutputStream *output_stream;
 
@@ -454,17 +456,17 @@ e_http_request_process_sync (EContentRequest *request,
 					output_stream,
 					message->response_body->data,
 					message->response_body->length,
-					NULL, cancellable, error);
+					NULL, cancellable, &local_error);
 
 				g_io_stream_close (cache_stream, NULL, NULL);
 				g_object_unref (cache_stream);
 
-				if (error != NULL) {
-					if (!g_error_matches (*error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
+				if (local_error != NULL) {
+					if (!g_error_matches (local_error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
 						g_warning (
 							"Failed to write data to cache stream: %s",
-							(*error)->message);
-					g_clear_error (error);
+							local_error->message);
+					g_clear_error (&local_error);
 					g_object_unref (message);
 					g_object_unref (temp_session);
 					g_main_context_unref (context);
