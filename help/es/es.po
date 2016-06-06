@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: evolution-help.master\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-05-19 05:06+0000\n"
-"PO-Revision-Date: 2016-06-02 22:07-0500\n"
+"PO-Revision-Date: 2016-06-03 22:26-0500\n"
 "Last-Translator: Yolanda Alvarez Perez <yolandaa.alvarez.perez@gmail.com>\n"
 "Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
 "Language: \n"
@@ -288,6 +288,7 @@ msgstr "Escriba la dirección en el campo <gui>URL</gui>."
 #: C/calendar-webdav.page:48 C/contacts-google.page:45
 #: C/mail-sending-options-smtp.page:38 C/tasks-caldav.page:30
 #: C/tasks-webdav.page:32
+#, fuzzy
 #| msgid ""
 #| "Choose <gui>Use secure connection</gui> if you want to connect securely."
 msgid ""
@@ -3458,8 +3459,8 @@ msgstr ""
 "app>, puede que sea capaz de exportar sus eventos de <app>Thunderbird</app> "
 "primero como un archivo <file>.ical</file>/<file>.ics</file> y luego "
 "importar este archivo en <app>Evolution</app>. Esto es necesario ya que "
-"<app>Thunderbird</app> guardar los datos del calendario en un formato de "
-"base de datos no estándar."
+"<app>Thunderbird</app> guarda los datos del calendario en un formato de base "
+"de datos no estándar."
 
 #. (itstool) path: item/p
 #: C/import-apps-mozilla.page:34 C/import-apps-outlook.page:62
@@ -3792,7 +3793,7 @@ msgstr ""
 "El formato usado por <app>Evolution</app> (para carpetas locales desde la "
 "versión 3.0). No existe necesidad de importar archivos Maildir ya que puede "
 "<link xref=\"mail-account-manage-maildir-format-directories\">configurar una "
-"cuenta Maildir</link> en <app>Evolution</app> y que apunte a la carpeta "
+"cuenta Maildir</link> en <app>Evolution</app> y que apunte a la carepta "
 "donde los archivos Maildir están almacenados."
 
 #. (itstool) path: item/p
@@ -3916,7 +3917,6 @@ msgstr "Carpetas personales de Outlook (.pst):"
 
 #. (itstool) path: item/p
 #: C/import-supported-file-formats.page:82
-#, fuzzy
 #| msgid ""
 #| "A file format used to store local copies of messages, calendar events, "
 #| "and other items within Microsoft software such as Microsoft Exchange "
@@ -3930,8 +3930,9 @@ msgid ""
 msgstr ""
 "Un formato de archivo usado para almacenar copias locales de mensajes, "
 "eventos de calendario y otros elementos de software de Microsoft como "
-"Microsoft Exchange Client, Windows Messaging y Microsoft Outlook. También se "
-"llama «Tabla de almacenamiento personal»."
+"<app>Microsoft Exchange Client</app>, <app>Windows Messaging</app> y "
+"<app>Microsoft Outlook</app>. También se llama «Tabla de almacenamiento "
+"personal»."
 
 #. (itstool) path: info/desc
 #: C/index.page:5
@@ -3940,12 +3941,11 @@ msgstr "Gestionar su correo-e, sus contactos y sus tareas"
 
 #. (itstool) path: info/title
 #: C/index.page:7
-#, fuzzy
 #| msgctxt "text"
 #| msgid "Evolution Mail and Calendar"
 msgctxt "text"
 msgid "<app>Evolution</app> Mail and Calendar"
-msgstr "Correo y calendario de Evolution"
+msgstr "Correo y calendario de <app>Evolution</app>"
 
 #. (itstool) path: media/span
 #: C/index.page:25
