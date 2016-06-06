@@ -1,3 +1,22 @@
+Evolution 3.20.3 2016-06-06
+---------------------------
+
+Bug Fixes:
+	Bug 766540 - Add missing library to build of calendar/gui/ (Tim Lunn)
+	Bug 766713 - Remove attachment does not work on multiple level message structure (Milan Crha)
+
+Miscellaneous:
+	Fix some issues found by Coverity Scan, cppcheck and clang (Milan Crha)
+	Explicitly center attachment bar expander vertically (Milan Crha)
+	Avoid NULL dereference in mail-send-recv.c:free_send_data() function (Milan Crha)
+	EHTMLEditorActions - Paste Quotation action is always active (Tomas Popela)
+	EHTMLEditorImageDialog - Border and alignment are not set properly (Tomas Popela)
+	EHTMLEditorView - Background image from page is removed when saving draft (Tomas Popela)
+
+Translations:
+	Sveinn í Felli (is)
+	Kjartan Maraas (nb)
+
 Evolution 3.20.2 2016-05-09
 ---------------------------
 
