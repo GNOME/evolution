@@ -69,7 +69,6 @@
         <menuitem action='style-normal'/>
         <menuitem action='style-preformat'/>
         <menuitem action='style-address'/>
-        <menuitem action='style-blockquote'/>
         <separator/>
         <menuitem action='style-h1'/>
         <menuitem action='style-h2'/>
