@@ -2139,7 +2139,7 @@ itip_view_set_item_type (ItipView *view,
 ECalClientSourceType
 itip_view_get_item_type (ItipView *view)
 {
-	g_return_val_if_fail (ITIP_IS_VIEW (view), ITIP_VIEW_MODE_NONE);
+	g_return_val_if_fail (ITIP_IS_VIEW (view), E_CAL_CLIENT_SOURCE_TYPE_LAST);
 
 	return view->priv->type;
 }

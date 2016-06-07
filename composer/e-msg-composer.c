@@ -353,9 +353,10 @@ text_requires_quoted_printable (const gchar *text,
 	return FALSE;
 }
 
-static CamelTransferEncoding
+static gboolean
 best_encoding (GByteArray *buf,
-               const gchar *charset)
+               const gchar *charset,
+	       CamelTransferEncoding *encoding)
 {
 	gchar *in, *out, outbuf[256], *ch;
 	gsize inlen, outlen;
@@ -363,11 +364,11 @@ best_encoding (GByteArray *buf,
 	iconv_t cd;
 
 	if (!charset)
-		return -1;
+		return FALSE;
 
 	cd = camel_iconv_open (charset, "utf-8");
 	if (cd == (iconv_t) -1)
-		return -1;
+		return FALSE;
 
 	in = (gchar *) buf->data;
 	inlen = buf->len;
@@ -383,16 +384,18 @@ best_encoding (GByteArray *buf,
 	camel_iconv_close (cd);
 
 	if (status == (gsize) -1 || status > 0)
-		return -1;
+		return FALSE;
 
 	if ((count == 0) && (buf->len < LINE_LEN) &&
 		!text_requires_quoted_printable (
 		(const gchar *) buf->data, buf->len))
-		return CAMEL_TRANSFER_ENCODING_7BIT;
+		*encoding = CAMEL_TRANSFER_ENCODING_7BIT;
 	else if (count <= buf->len * 0.17)
-		return CAMEL_TRANSFER_ENCODING_QUOTEDPRINTABLE;
+		*encoding = CAMEL_TRANSFER_ENCODING_QUOTEDPRINTABLE;
 	else
-		return CAMEL_TRANSFER_ENCODING_BASE64;
+		*encoding = CAMEL_TRANSFER_ENCODING_BASE64;
+
+	return TRUE;
 }
 
 static gchar *
@@ -403,19 +406,17 @@ best_charset (GByteArray *buf,
 	const gchar *charset;
 
 	/* First try US-ASCII */
-	*encoding = best_encoding (buf, "US-ASCII");
-	if (*encoding == CAMEL_TRANSFER_ENCODING_7BIT)
+	if (best_encoding (buf, "US-ASCII", encoding) &&
+	    *encoding == CAMEL_TRANSFER_ENCODING_7BIT)
 		return NULL;
 
 	/* Next try the user-specified charset for this message */
-	*encoding = best_encoding (buf, default_charset);
-	if (*encoding != -1)
+	if (best_encoding (buf, default_charset, encoding))
 		return g_strdup (default_charset);
 
 	/* Now try the user's default charset from the mail config */
 	charset = e_composer_get_default_charset ();
-	*encoding = best_encoding (buf, charset);
-	if (*encoding != -1)
+	if (best_encoding (buf, charset, encoding))
 		return g_strdup (charset);
 
 	/* Try to find something that will work */
@@ -426,7 +427,8 @@ best_charset (GByteArray *buf,
 		return NULL;
 	}
 
-	*encoding = best_encoding (buf, charset);
+	if (!best_encoding (buf, charset, encoding))
+		*encoding = CAMEL_TRANSFER_ENCODING_BASE64;
 
 	return g_strdup (charset);
 }

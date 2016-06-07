@@ -41,6 +41,7 @@
 #include "e-comp-editor-page-recurrence.h"
 
 enum month_num_options {
+	MONTH_NUM_INVALID = -1,
 	MONTH_NUM_FIRST,
 	MONTH_NUM_SECOND,
 	MONTH_NUM_THIRD,
@@ -1262,25 +1263,25 @@ ecep_recurrence_simple_recur_to_comp (ECompEditorPageRecurrence *page_recurrence
 
 		ii = 0;
 
-		if (e_weekday_chooser_get_selected (chooser, E_DATE_SUNDAY))
+		if (e_weekday_chooser_get_selected (chooser, G_DATE_SUNDAY))
 			r.by_day[ii++] = ICAL_SUNDAY_WEEKDAY;
 
-		if (e_weekday_chooser_get_selected (chooser, E_DATE_MONDAY))
+		if (e_weekday_chooser_get_selected (chooser, G_DATE_MONDAY))
 			r.by_day[ii++] = ICAL_MONDAY_WEEKDAY;
 
-		if (e_weekday_chooser_get_selected (chooser, E_DATE_TUESDAY))
+		if (e_weekday_chooser_get_selected (chooser, G_DATE_TUESDAY))
 			r.by_day[ii++] = ICAL_TUESDAY_WEEKDAY;
 
-		if (e_weekday_chooser_get_selected (chooser, E_DATE_WEDNESDAY))
+		if (e_weekday_chooser_get_selected (chooser, G_DATE_WEDNESDAY))
 			r.by_day[ii++] = ICAL_WEDNESDAY_WEEKDAY;
 
-		if (e_weekday_chooser_get_selected (chooser, E_DATE_THURSDAY))
+		if (e_weekday_chooser_get_selected (chooser, G_DATE_THURSDAY))
 			r.by_day[ii++] = ICAL_THURSDAY_WEEKDAY;
 
-		if (e_weekday_chooser_get_selected (chooser, E_DATE_FRIDAY))
+		if (e_weekday_chooser_get_selected (chooser, G_DATE_FRIDAY))
 			r.by_day[ii++] = ICAL_FRIDAY_WEEKDAY;
 
-		if (e_weekday_chooser_get_selected (chooser, E_DATE_SATURDAY))
+		if (e_weekday_chooser_get_selected (chooser, G_DATE_SATURDAY))
 			r.by_day[ii] = ICAL_SATURDAY_WEEKDAY;
 
 		break;
@@ -1300,15 +1301,15 @@ ecep_recurrence_simple_recur_to_comp (ECompEditorPageRecurrence *page_recurrence
 		month_day = e_dialog_combo_box_get (page_recurrence->priv->month_day_combo, month_day_options_map);
 
 		if (month_num == MONTH_NUM_LAST)
-			month_num = -1;
-		else if (month_num != -1)
+			month_num = MONTH_NUM_INVALID;
+		else if (month_num != MONTH_NUM_INVALID)
 			month_num++;
 		else
 			g_warn_if_reached ();
 
 		switch (month_day) {
 		case MONTH_DAY_NTH:
-			if (month_num == -1)
+			if (month_num == MONTH_NUM_INVALID)
 				r.by_month_day[0] = -1;
 			else
 				r.by_month_day[0] = page_recurrence->priv->month_index;

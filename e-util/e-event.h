@@ -77,6 +77,7 @@ typedef void (*EEventFactoryFunc)(EEvent *ee, gpointer);
  * Events should normally be @E_EVENT_PASS.
  **/
 enum _e_event_t {
+	E_EVENT_INVALID = -1,
 	E_EVENT_PASS,		/* passthrough */
 	E_EVENT_SINK		/* sink events */
 };

@@ -132,6 +132,8 @@ enum _e_config_target_change_t {
  * display.
  **/
 enum _e_config_t {
+	E_CONFIG_INVALID = -1,
+
 	/* use one and only one of these for any given config-window id */
 	E_CONFIG_BOOK,
 
