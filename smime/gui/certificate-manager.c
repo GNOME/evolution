@@ -259,6 +259,8 @@ load_treeview_state (GtkTreeView *treeview)
 	GtkTreeModel *model;
 	gchar *cfg_file;
 	const gchar *tree_name;
+	gint sort_column, sort_order;
+	GError *error = NULL;
 
 	g_return_if_fail (treeview && GTK_IS_TREE_VIEW (treeview));
 
@@ -324,11 +326,20 @@ load_treeview_state (GtkTreeView *treeview)
 		g_list_free (columns);
 	}
 
+	sort_column = g_key_file_get_integer (keyfile, tree_name, "sort-column", &error);
+	if (error) {
+		sort_column = 0;
+		g_clear_error (&error);
+	}
+
+	sort_order = g_key_file_get_integer (keyfile, tree_name, "sort-order", &error);
+	if (error) {
+		sort_order = GTK_SORT_ASCENDING;
+		g_clear_error (&error);
+	}
+
 	sortable = GTK_TREE_SORTABLE (gtk_tree_view_get_model (treeview));
-	gtk_tree_sortable_set_sort_column_id (
-		sortable,
-		g_key_file_get_integer (keyfile, tree_name, "sort-column", 0),
-		g_key_file_get_integer (keyfile, tree_name, "sort-order", GTK_SORT_ASCENDING));
+	gtk_tree_sortable_set_sort_column_id (sortable, sort_column, sort_order);
 
  exit:
 	g_free (cfg_file);

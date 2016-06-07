@@ -435,7 +435,7 @@ emph_construct_item (EPluginHook *eph,
 		goto error;
 	item->target_type = map->id;
 	item->type = e_plugin_hook_id (root, emph_item_types, "type");
-	if (item->type == -1)
+	if (item->type == E_EVENT_INVALID)
 		item->type = E_EVENT_PASS;
 	item->priority = e_plugin_xml_int (root, "priority", 0);
 	item->id = e_plugin_xml_prop (root, "id");

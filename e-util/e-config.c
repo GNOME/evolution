@@ -405,6 +405,9 @@ ec_rebuild (EConfig *config)
 
 		/* Now process the item */
 		switch (item->type) {
+		case E_CONFIG_INVALID:
+			g_warn_if_reached ();
+			break;
 		case E_CONFIG_BOOK:
 			/* This is used by the defining code to mark the
 			 * type of the config window.  It is cross-checked
@@ -1194,7 +1197,7 @@ config_hook_construct_item (EPluginHook *eph,
 
 	d (printf ("  loading config item\n"));
 	item = g_malloc0 (sizeof (*item));
-	if ((item->type = e_plugin_hook_id (root, config_hook_item_types, "type")) == -1)
+	if ((item->type = e_plugin_hook_id (root, config_hook_item_types, "type")) == E_CONFIG_INVALID)
 		goto error;
 	item->path = e_plugin_xml_prop (root, "path");
 	item->label = e_plugin_xml_prop_domain (root, "label", eph->plugin->domain);

@@ -74,11 +74,16 @@ dnl ******************************
 dnl Compiler Warning Flags
 dnl ******************************
 proposed_warning_flags=
+append_warning_flags=
 
 if test "x$enable_maintainer_mode" = "xyes" ; then
 	proposed_warning_flags="-Wall -Wextra -Wdeprecated-declarations"
 else
 	proposed_warning_flags="-Wno-deprecated-declarations"
+fi
+
+if test "$CC" = "clang" ; then
+	append_warning_flags="-Wno-parentheses-equality -Wno-format-nonliteral"
 fi
 
 AS_COMPILER_FLAGS(WARNING_FLAGS,
@@ -91,7 +96,8 @@ AS_COMPILER_FLAGS(WARNING_FLAGS,
 	-Wformat -Wformat-security -Winit-self
 	-Wmissing-declarations -Wmissing-include-dirs
 	-Wmissing-noreturn -Wnested-externs -Wpointer-arith
-	-Wredundant-decls -Wundef -Wwrite-strings")
+	-Wredundant-decls -Wundef -Wwrite-strings
+	$append_warning_flags")
 AC_SUBST(WARNING_FLAGS)
 
 dnl Other useful compiler warnings for test builds only.

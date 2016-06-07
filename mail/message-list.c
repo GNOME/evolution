@@ -2683,7 +2683,7 @@ ml_tree_drag_motion (ETree *tree,
 		if (has_selection) {
 			selected_folder = camel_store_get_folder_sync (
 				selected_store, selected_folder_name,
-				CAMEL_STORE_FOLDER_INFO_FAST, NULL, NULL);
+				0, NULL, NULL);
 			g_object_unref (selected_store);
 			g_free (selected_folder_name);
 		}

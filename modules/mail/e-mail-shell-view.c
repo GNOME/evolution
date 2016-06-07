@@ -727,7 +727,7 @@ all_accounts:
 		if (selected_store != NULL && selected_folder_name != NULL) {
 			folder = camel_store_get_folder_sync (
 				selected_store, selected_folder_name,
-				CAMEL_STORE_FOLDER_INFO_FAST, NULL, NULL);
+				0, NULL, NULL);
 			e_mail_reader_set_folder (reader, folder);
 			g_object_unref (folder);
 		}
@@ -835,7 +835,7 @@ current_account:
 		if (selected_store != NULL && selected_folder_name != NULL) {
 			folder = camel_store_get_folder_sync (
 				selected_store, selected_folder_name,
-				CAMEL_STORE_FOLDER_INFO_FAST, NULL, NULL);
+				0, NULL, NULL);
 			e_mail_reader_set_folder (reader, folder);
 			g_object_unref (folder);
 		}
