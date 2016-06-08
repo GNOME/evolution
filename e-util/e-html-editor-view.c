@@ -7403,25 +7403,21 @@ parse_html_into_blocks (EHTMLEditorView *view,
 		WEBKIT_DOM_HTML_ELEMENT (parent), "", NULL);
 
 	if (!block_template) {
-		if (WEBKIT_DOM_IS_HTML_QUOTE_ELEMENT (parent)) {
-			gboolean use_paragraphs;
-			GSettings *settings;
+		gboolean use_paragraphs;
+		GSettings *settings;
 
-			settings = e_util_ref_settings ("org.gnome.evolution.mail");
+		settings = e_util_ref_settings ("org.gnome.evolution.mail");
 
-			use_paragraphs = g_settings_get_boolean (
-				settings, "composer-wrap-quoted-text-in-replies");
+		use_paragraphs = g_settings_get_boolean (
+			settings, "composer-wrap-quoted-text-in-replies");
 
-			if (use_paragraphs)
-				block_template = e_html_editor_selection_get_paragraph_element (
-					selection, document, -1, 0);
-			else
-				block_template = webkit_dom_document_create_element (document, "pre", NULL);
-
-			g_object_unref (settings);
-		} else
+		if (use_paragraphs)
 			block_template = e_html_editor_selection_get_paragraph_element (
 				selection, document, -1, 0);
+		else
+			block_template = webkit_dom_document_create_element (document, "pre", NULL);
+
+		g_object_unref (settings);
 	}
 
 	prev_br = html;
