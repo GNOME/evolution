@@ -56,8 +56,8 @@ webkit_editor_extension_constructed (GObject *object)
 	priv = E_WEBKIT_EDITOR_EXTENSION_GET_PRIVATE (object);
 	extensible = e_extension_get_extensible (E_EXTENSION (object));
 
-	e_html_editor_register_content_editor (
-		E_HTML_EDITOR (extensible), E_CONTENT_EDITOR (priv->wk_editor));
+	e_html_editor_register_content_editor (E_HTML_EDITOR (extensible),
+		DEFAULT_CONTENT_EDITOR_NAME, E_CONTENT_EDITOR (priv->wk_editor));
 }
 
 static void

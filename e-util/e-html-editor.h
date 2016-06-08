@@ -76,6 +76,7 @@ EContentEditor *
 						(EHTMLEditor *editor);
 void		e_html_editor_register_content_editor
 						(EHTMLEditor *editor,
+						 const gchar *name,
 						 EContentEditor *cnt_editor);
 GtkBuilder *	e_html_editor_get_builder	(EHTMLEditor *editor);
 GtkUIManager *	e_html_editor_get_ui_manager	(EHTMLEditor *editor);

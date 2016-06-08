@@ -33,6 +33,7 @@
 #include "e-alert-sink.h"
 #include "e-html-editor-private.h"
 #include "e-content-editor.h"
+#include "e-misc-utils.h"
 
 #define E_HTML_EDITOR_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -742,6 +743,17 @@ html_editor_dispose (GObject *object)
 }
 
 static void
+html_editor_finalize (GObject *object)
+{
+	EHTMLEditor *editor = E_HTML_EDITOR (object);
+
+	g_hash_table_destroy (editor->priv->content_editors);
+
+	/* Chain up to parent's method. */
+	G_OBJECT_CLASS (e_html_editor_parent_class)->finalize (object);
+}
+
+static void
 html_editor_submit_alert (EAlertSink *alert_sink,
                           EAlert *alert)
 {
@@ -787,6 +799,7 @@ e_html_editor_class_init (EHTMLEditorClass *class)
 	object_class->get_property = html_editor_get_property;
 	object_class->constructed = html_editor_constructed;
 	object_class->dispose = html_editor_dispose;
+	object_class->finalize = html_editor_finalize;
 
 	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->parent_set = html_editor_parent_changed;
@@ -851,7 +864,7 @@ e_html_editor_init (EHTMLEditor *editor)
 	priv->language_actions = gtk_action_group_new ("language");
 	priv->spell_check_actions = gtk_action_group_new ("spell-check");
 	priv->suggestion_actions = gtk_action_group_new ("suggestion");
-	priv->content_editors = NULL;
+	priv->content_editors = g_hash_table_new_full (camel_strcase_hash, camel_strcase_equal, g_free, NULL);
 
 	filename = html_editor_find_ui_file ("e-html-editor-manager.ui");
 	if (!gtk_ui_manager_add_ui_from_file (priv->manager, filename, &error)) {
@@ -885,23 +898,58 @@ e_html_editor_get_content_editor (EHTMLEditor *editor)
 {
 	g_return_val_if_fail (E_IS_HTML_EDITOR (editor), NULL);
 
-	if (!editor->priv->content_editors)
-		return NULL;
+	if (!editor->priv->use_content_editor) {
+		GSettings *settings;
+		gchar *name;
 
-	return editor->priv->content_editors->data;
+		if (!g_hash_table_size (editor->priv->content_editors))
+			return NULL;
+
+		settings = e_util_ref_settings ("org.gnome.evolution.mail");
+		name = g_settings_get_string (settings, "composer-editor");
+		g_clear_object (&settings);
+
+		if (name)
+			editor->priv->use_content_editor = g_hash_table_lookup (editor->priv->content_editors, name);
+
+		g_free (name);
+
+		if (!editor->priv->use_content_editor)
+			editor->priv->use_content_editor = g_hash_table_lookup (editor->priv->content_editors, DEFAULT_CONTENT_EDITOR_NAME);
+
+		if (!editor->priv->use_content_editor) {
+			GHashTableIter iter;
+			gpointer key, value;
+
+			g_hash_table_iter_init (&iter, editor->priv->content_editors);
+			if (g_hash_table_iter_next (&iter, &key, &value)) {
+				editor->priv->use_content_editor = value;
+			}
+		}
+	}
+
+	return editor->priv->use_content_editor;
 }
 
 void
 e_html_editor_register_content_editor (EHTMLEditor *editor,
+				       const gchar *name,
                                        EContentEditor *cnt_editor)
 {
+	EContentEditor *already_taken;
+
 	g_return_if_fail (E_IS_HTML_EDITOR (editor));
+	g_return_if_fail (name != NULL);
 	g_return_if_fail (E_IS_CONTENT_EDITOR (cnt_editor));
 
-	/* FIXME XXX */
-	/* Insert the content editors base on some preferences, so the first
-	 * one is the most preferable */
-	editor->priv->content_editors = g_list_append (editor->priv->content_editors, cnt_editor);
+	already_taken = g_hash_table_lookup (editor->priv->content_editors, name);
+
+	if (already_taken) {
+		g_warning ("%s: Cannot register %s with name '%s', because it's already taken by %s",
+			G_STRFUNC, G_OBJECT_TYPE_NAME (cnt_editor), name, G_OBJECT_TYPE_NAME (already_taken));
+	} else {
+		g_hash_table_insert (editor->priv->content_editors, g_strdup (name), cnt_editor);
+	}
 }
 
 /**

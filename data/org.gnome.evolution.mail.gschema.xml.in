@@ -40,6 +40,11 @@
       <_summary>Default charset in which to compose messages</_summary>
       <_description>Default charset in which to compose messages. Uses UTF-8, if not set.</_description>
     </key>
+    <key name="composer-editor" type="s">
+      <default>''</default>
+      <_summary>Name of the editor to prefer in the message composer</_summary>
+      <_description>If the name doesn't correspond to any known editor, then the built-in WebKit editor is used.</_description>
+    </key>
     <key name="composer-gallery-path" type="s">
       <default>''</default>
       <_summary>Path where picture gallery should search for its content</_summary>

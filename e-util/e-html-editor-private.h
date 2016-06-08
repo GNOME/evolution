@@ -83,7 +83,8 @@ struct _EHTMLEditorPrivate {
 	GtkWidget *style_combo_box;
 	GtkWidget *scrolled_window;
 
-	GList *content_editors;
+	GHashTable *content_editors;
+	EContentEditor *use_content_editor;
 
 	EContentEditorNodeFlags node_flags;
 

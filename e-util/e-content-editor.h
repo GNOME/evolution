@@ -30,6 +30,8 @@
 #include <e-util/e-emoticon.h>
 #include <e-util/e-spell-checker.h>
 
+#define DEFAULT_CONTENT_EDITOR_NAME "WebKit"
+
 G_BEGIN_DECLS
 
 #define E_TYPE_CONTENT_EDITOR e_content_editor_get_type ()
