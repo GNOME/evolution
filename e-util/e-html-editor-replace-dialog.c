@@ -23,7 +23,6 @@
 #endif
 
 #include "e-html-editor-replace-dialog.h"
-#include "e-content-editor-find-controller.h"
 
 #include <glib/gi18n-lib.h>
 
@@ -50,12 +49,9 @@ struct _EHTMLEditorReplaceDialogPrivate {
 	GtkWidget *replace_button;
 	GtkWidget *replace_all_button;
 
-	EHTMLEditor *editor;
-
-	EContentEditorFindController *find_controller;
-	gulong found_text_handler_id;
-	gulong failed_to_find_text_handler_id;
-	gulong replace_all_finished_handler_id;
+	EContentEditor *cnt_editor;
+	gulong find_done_handler_id;
+	gulong replace_all_done_handler_id;
 };
 
 enum {
@@ -64,77 +60,76 @@ enum {
 };
 
 static void
-content_editor_find_controller_found_text_cb (EContentEditorFindController *find_controller,
-                                              guint match_count,
-                                              EHTMLEditorReplaceDialog *dialog)
+content_editor_find_done_cb (EContentEditor *cnt_editor,
+			     guint match_count,
+			     EHTMLEditorReplaceDialog *dialog)
 {
-	gtk_widget_hide (dialog->priv->result_label);
-}
-
-static void
-content_editor_find_controller_failed_to_found_text_cb (EContentEditorFindController *find_controller,
-                                                        EHTMLEditorReplaceDialog *dialog)
-{
-	gtk_label_set_label (
-		GTK_LABEL (dialog->priv->result_label), N_("No match found"));
-	gtk_widget_show (dialog->priv->result_label);
+	if (match_count) {
+		gtk_widget_hide (dialog->priv->result_label);
+	} else {
+		gtk_label_set_label (GTK_LABEL (dialog->priv->result_label), _("No match found"));
+		gtk_widget_show (dialog->priv->result_label);
+	}
 }
 
 static void
 replace_occurance (EHTMLEditorReplaceDialog *dialog)
 {
-	EContentEditor *cnt_editor;
-
-	cnt_editor = e_html_editor_get_content_editor (dialog->priv->editor);
-
 	gtk_widget_hide (dialog->priv->result_label);
 
 	e_content_editor_selection_replace (
-		cnt_editor,
+		dialog->priv->cnt_editor,
 		gtk_entry_get_text (GTK_ENTRY (dialog->priv->replace_entry)));
 }
 
 static void
-content_editor_find_controller_replace_all_finished_cb (EContentEditorFindController *find_controller,
-                                                        guint match_count,
-                                                        EHTMLEditorReplaceDialog *dialog)
+content_editor_replace_all_done_cb (EContentEditor *cnt_editor,
+				    guint replaced_count,
+				    EHTMLEditorReplaceDialog *dialog)
 {
 	gchar *result;
 
 	result = g_strdup_printf (ngettext("%d occurrence replaced",
 	                                   "%d occurrences replaced",
-					   match_count),
-				 match_count);
+					   replaced_count),
+				 replaced_count);
 
 	gtk_label_set_label (GTK_LABEL (dialog->priv->result_label), result);
 	gtk_widget_show (dialog->priv->result_label);
 	g_free (result);
 }
 
-static void
-search (EHTMLEditorReplaceDialog *dialog)
+static guint32
+replace_dialog_get_find_flags (EHTMLEditorReplaceDialog *dialog)
 {
-	guint32 flags = 0;
+	guint32 flags = E_CONTENT_EDITOR_FIND_NEXT;
+
+	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (dialog->priv->backwards)))
+		flags |= E_CONTENT_EDITOR_FIND_MODE_BACKWARDS;
 
 	if (!gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (dialog->priv->case_sensitive)))
 		flags |= E_CONTENT_EDITOR_FIND_CASE_INSENSITIVE;
 
-	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (dialog->priv->backwards)))
-		flags |= E_CONTENT_EDITOR_FIND_BACKWARDS;
-
 	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (dialog->priv->wrap)))
 		flags |= E_CONTENT_EDITOR_FIND_WRAP_AROUND;
 
-	e_content_editor_find_controller_search (
-		dialog->priv->find_controller,
-		gtk_entry_get_text (GTK_ENTRY (dialog->priv->search_entry)),
-		flags);
+	return flags;
+}
+
+static void
+search (EHTMLEditorReplaceDialog *dialog)
+{
+
+	e_content_editor_find (
+		dialog->priv->cnt_editor,
+		replace_dialog_get_find_flags (dialog),
+		gtk_entry_get_text (GTK_ENTRY (dialog->priv->search_entry)));
 }
 
 static void
 html_editor_replace_dialog_skip_cb (EHTMLEditorReplaceDialog *dialog)
 {
-	e_content_editor_find_controller_search_next (dialog->priv->find_controller);
+	search (dialog);
 }
 
 static void
@@ -143,28 +138,17 @@ html_editor_replace_dialog_replace_cb (EHTMLEditorReplaceDialog *dialog)
 	replace_occurance (dialog);
 
 	/* Jump to next matching word */
-	e_content_editor_find_controller_search_next (dialog->priv->find_controller);
+	search (dialog);
 }
 
 static void
 html_editor_replace_dialog_replace_all_cb (EHTMLEditorReplaceDialog *dialog)
 {
-	guint32 flags = 0;
-
-	if (!gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (dialog->priv->case_sensitive)))
-		flags |= E_CONTENT_EDITOR_FIND_CASE_INSENSITIVE;
-
-	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (dialog->priv->backwards)))
-		flags |= E_CONTENT_EDITOR_FIND_BACKWARDS;
-
-	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (dialog->priv->wrap)))
-		flags |= E_CONTENT_EDITOR_FIND_WRAP_AROUND;
-
-	e_content_editor_find_controller_replace_all (
-		dialog->priv->find_controller,
+	e_content_editor_replace_all (
+		dialog->priv->cnt_editor,
+		replace_dialog_get_find_flags (dialog),
 		gtk_entry_get_text (GTK_ENTRY (dialog->priv->search_entry)),
-		gtk_entry_get_text (GTK_ENTRY (dialog->priv->replace_entry)),
-		flags);
+		gtk_entry_get_text (GTK_ENTRY (dialog->priv->replace_entry)));
 }
 
 static void
@@ -185,14 +169,9 @@ html_editor_replace_dialog_entry_changed (EHTMLEditorReplaceDialog *dialog)
 static void
 html_editor_replace_dialog_show (GtkWidget *widget)
 {
-	EContentEditor *cnt_editor;
-	EHTMLEditor *editor;
 	EHTMLEditorReplaceDialog *dialog = E_HTML_EDITOR_REPLACE_DIALOG (widget);
 
-	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
-	cnt_editor = e_html_editor_get_content_editor (editor);
-
-	e_content_editor_on_replace_dialog_open (cnt_editor);
+	e_content_editor_on_replace_dialog_open (dialog->priv->cnt_editor);
 
 	gtk_widget_grab_focus (dialog->priv->search_entry);
 	gtk_widget_hide (dialog->priv->result_label);
@@ -204,15 +183,9 @@ html_editor_replace_dialog_show (GtkWidget *widget)
 static void
 html_editor_replace_dialog_hide (GtkWidget *widget)
 {
-	EContentEditor *cnt_editor;
-	EHTMLEditor *editor;
 	EHTMLEditorReplaceDialog *dialog = E_HTML_EDITOR_REPLACE_DIALOG (widget);
 
-	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
-	cnt_editor = e_html_editor_get_content_editor (editor);
-
-	e_content_editor_find_controller_search_finish (dialog->priv->find_controller);
-	e_content_editor_on_spell_check_dialog_close (cnt_editor);
+	e_content_editor_on_replace_dialog_close (dialog->priv->cnt_editor);
 
 	/* Chain up to parent implementation */
 	GTK_WIDGET_CLASS (e_html_editor_replace_dialog_parent_class)->hide (widget);
@@ -224,28 +197,22 @@ html_editor_replace_dialog_constructed (GObject *object)
 	EContentEditor *cnt_editor;
 	EHTMLEditor *editor;
 	EHTMLEditorReplaceDialog *dialog;
-	EContentEditorFindController *find_controller;
 
 	dialog = E_HTML_EDITOR_REPLACE_DIALOG (object);
 	dialog->priv = E_HTML_EDITOR_REPLACE_DIALOG_GET_PRIVATE (dialog);
 
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
 	cnt_editor = e_html_editor_get_content_editor (editor);
-	find_controller = e_content_editor_get_find_controller (cnt_editor);
 
-	dialog->priv->found_text_handler_id = g_signal_connect (
-		find_controller, "found-text",
-		G_CALLBACK (content_editor_find_controller_found_text_cb), dialog);
+	dialog->priv->find_done_handler_id = g_signal_connect (
+		cnt_editor, "find-done",
+		G_CALLBACK (content_editor_find_done_cb), dialog);
 
-	dialog->priv->failed_to_find_text_handler_id = g_signal_connect (
-		find_controller, "failed-to-find-text",
-		G_CALLBACK (content_editor_find_controller_failed_to_found_text_cb), dialog);
+	dialog->priv->replace_all_done_handler_id = g_signal_connect (
+		cnt_editor, "replace-all-done",
+		G_CALLBACK (content_editor_replace_all_done_cb), dialog);
 
-	dialog->priv->replace_all_finished_handler_id = g_signal_connect (
-		find_controller, "replace-all-finished",
-		G_CALLBACK (content_editor_find_controller_replace_all_finished_cb), dialog);
-
-	dialog->priv->find_controller = find_controller;
+	dialog->priv->cnt_editor = cnt_editor;
 
 	G_OBJECT_CLASS (e_html_editor_replace_dialog_parent_class)->constructed (object);
 }
@@ -257,25 +224,18 @@ html_editor_replace_dialog_dispose (GObject *object)
 
 	priv = E_HTML_EDITOR_REPLACE_DIALOG_GET_PRIVATE (object);
 
-	if (priv->found_text_handler_id > 0) {
+	if (priv->find_done_handler_id > 0) {
 		g_signal_handler_disconnect (
-			priv->find_controller,
-			priv->found_text_handler_id);
-		priv->found_text_handler_id = 0;
+			priv->cnt_editor,
+			priv->find_done_handler_id);
+		priv->find_done_handler_id = 0;
 	}
 
-	if (priv->failed_to_find_text_handler_id > 0) {
+	if (priv->replace_all_done_handler_id > 0) {
 		g_signal_handler_disconnect (
-			priv->find_controller,
-			priv->failed_to_find_text_handler_id);
-		priv->failed_to_find_text_handler_id = 0;
-	}
-
-	if (priv->replace_all_finished_handler_id > 0) {
-		g_signal_handler_disconnect (
-			priv->find_controller,
-			priv->replace_all_finished_handler_id);
-		priv->replace_all_finished_handler_id = 0;
+			priv->cnt_editor,
+			priv->replace_all_done_handler_id);
+		priv->replace_all_done_handler_id = 0;
 	}
 
 	/* Chain up to parent's dispose() method. */

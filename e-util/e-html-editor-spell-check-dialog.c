@@ -221,7 +221,6 @@ html_editor_spell_check_dialog_replace_all (EHTMLEditorSpellCheckDialog *dialog)
 {
 	EHTMLEditor *editor;
 	EContentEditor *cnt_editor;
-	EContentEditorFindController *find_controller;
 	GtkTreeModel *model;
 	GtkTreeSelection *selection;
 	GtkTreeIter iter;
@@ -235,14 +234,13 @@ html_editor_spell_check_dialog_replace_all (EHTMLEditorSpellCheckDialog *dialog)
 
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
 	cnt_editor = e_html_editor_get_content_editor (editor);
-	find_controller = e_content_editor_get_find_controller (cnt_editor);
 
-	e_content_editor_find_controller_replace_all (
-		find_controller,
-		dialog->priv->word,
-		replacement,
+	e_content_editor_replace_all (
+		cnt_editor,
 		E_CONTENT_EDITOR_FIND_CASE_INSENSITIVE |
-		E_CONTENT_EDITOR_FIND_WRAP_AROUND);
+		E_CONTENT_EDITOR_FIND_WRAP_AROUND,
+		dialog->priv->word,
+		replacement);
 
 	g_idle_add (html_editor_spell_check_dialog_next_idle_cb, g_object_ref (dialog));
 }
@@ -302,8 +300,15 @@ html_editor_spell_check_dialog_show (GtkWidget *widget)
 
 	/* Select the first word or quit */
 	if (html_editor_spell_check_dialog_next (dialog)) {
-		GTK_WIDGET_CLASS (e_html_editor_spell_check_dialog_parent_class)->
-			show (widget);
+		EHTMLEditor *editor;
+		EContentEditor *cnt_editor;
+
+		editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
+		cnt_editor = e_html_editor_get_content_editor (editor);
+
+		e_content_editor_on_spell_check_dialog_open (cnt_editor);
+
+		GTK_WIDGET_CLASS (e_html_editor_spell_check_dialog_parent_class)->show (widget);
 	}
 }
 

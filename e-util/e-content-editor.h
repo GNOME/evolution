@@ -22,15 +22,13 @@
 #define E_CONTENT_EDITOR_H
 
 #include <glib-object.h>
+#include <gtk/gtk.h>
 
 #include <camel/camel.h>
 
-#include "e-content-editor-find-controller.h"
-#include "e-content-editor-enums.h"
-
+#include <e-util/e-content-editor-enums.h>
 #include <e-util/e-emoticon.h>
 #include <e-util/e-spell-checker.h>
-#include <gtk/gtk.h>
 
 G_BEGIN_DECLS
 
@@ -44,9 +42,6 @@ typedef struct {
 
 struct _EContentEditorInterface {
 	GTypeInterface parent_interface;
-
-	EContentEditorFindController *
-			(*get_find_controller)		(EContentEditor *editor);
 
 	void		(*insert_content)		(EContentEditor *editor,
 							 const gchar *content,
@@ -140,8 +135,17 @@ struct _EContentEditorInterface {
 
 	void		(*selection_unlink)		(EContentEditor *editor);
 
+	void		(*find)				(EContentEditor *editor,
+							 guint32 flags,
+							 const gchar *text);
+
 	void		(*selection_replace)		(EContentEditor *editor,
 							 const gchar *replacement);
+
+	void		(*replace_all)			(EContentEditor *editor,
+							 guint32 flags,
+							 const gchar *find_text,
+							 const gchar *replace_with);
 
 	void		(*selection_save)		(EContentEditor *editor);
 
@@ -521,19 +525,16 @@ struct _EContentEditorInterface {
 
 	/* Signals */
 	void		(*load_finished)		(EContentEditor *editor);
-
-	void		(*paste_clipboard)		(EContentEditor *editor);
-
-	void		(*paste_primary_clipboard)	(EContentEditor *editor);
-
+	gboolean	(*paste_clipboard)		(EContentEditor *editor);
+	gboolean	(*paste_primary_clipboard)	(EContentEditor *editor);
 	gboolean	(*context_menu_requested)	(EContentEditor *editor,
 							 EContentEditorNodeFlags flags,
 							 GdkEvent *event);
+	void		(*find_done)			(EContentEditor *editor,
+							 guint match_count);
+	void		(*replace_all_done)		(EContentEditor *editor,
+							 guint replaced_count);
 };
-
-EContentEditorFindController *
-		e_content_editor_get_find_controller
-						(EContentEditor *editor);
 
 void		e_content_editor_insert_content	(EContentEditor *editor,
 						 const gchar *content,
@@ -645,9 +646,18 @@ void		e_content_editor_selection_create_link
 void		e_content_editor_selection_unlink
 						(EContentEditor *editor);
 
+void		e_content_editor_find		(EContentEditor *editor,
+						 guint32 flags,
+						 const gchar *text);
+
 void		e_content_editor_selection_replace
 						(EContentEditor *editor,
 						 const gchar *replacement);
+
+void		e_content_editor_replace_all	(EContentEditor *editor,
+						 guint32 flags,
+						 const gchar *find_text,
+						 const gchar *replace_with);
 
 void		e_content_editor_selection_save	(EContentEditor *editor);
 
@@ -1123,6 +1133,22 @@ void		e_content_editor_on_find_dialog_open
 
 void		e_content_editor_on_find_dialog_close
 						(EContentEditor *editor);
+
+void		e_content_editor_emit_load_finished
+						(EContentEditor *editor);
+gboolean	e_content_editor_emit_paste_clipboard
+						(EContentEditor *editor);
+gboolean	e_content_editor_emit_paste_primary_clipboard
+						(EContentEditor *editor);
+gboolean	e_content_editor_emit_context_menu_requested
+						(EContentEditor *editor,
+						 EContentEditorNodeFlags flags,
+						 GdkEvent *event);
+void		e_content_editor_emit_find_done	(EContentEditor *editor,
+						 guint match_count);
+void		e_content_editor_emit_replace_all_done
+						(EContentEditor *editor,
+						 guint replaced_count);
 
 G_END_DECLS
 

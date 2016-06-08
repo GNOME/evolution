@@ -173,7 +173,6 @@ evolution_util_include_HEADERS =  \
 	e-conflict-search-selector.h \
 	e-contact-store.h \
 	e-content-editor.h \
-	e-content-editor-find-controller.h \
 	e-content-editor-enums.h \
 	e-content-request.h \
 	e-data-capture.h \
@@ -448,7 +447,6 @@ libevolution_util_la_SOURCES = \
 	e-conflict-search-selector.c \
 	e-contact-store.c \
 	e-content-editor.c \
-	e-content-editor-find-controller.c \
 	e-content-request.c \
 	e-data-capture.c \
 	e-dateedit.c \

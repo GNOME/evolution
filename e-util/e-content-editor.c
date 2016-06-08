@@ -25,16 +25,16 @@
 #include <libedataserver/libedataserver.h>
 
 #include "e-content-editor.h"
-#include "e-marshal.h"
 
 G_DEFINE_INTERFACE (EContentEditor, e_content_editor, GTK_TYPE_WIDGET);
 
 enum {
-	CONTEXT_MENU_REQUESTED,
+	LOAD_FINISHED,
 	PASTE_CLIPBOARD,
 	PASTE_PRIMARY_CLIPBOARD,
-	LOAD_FINISHED,
-
+	CONTEXT_MENU_REQUESTED,
+	FIND_DONE,
+	REPLACE_ALL_DONE,
 	LAST_SIGNAL
 };
 
@@ -417,16 +417,16 @@ e_content_editor_default_init (EContentEditorInterface *iface)
 	/**
 	 * EContentEditor:paste-clipboard
 	 *
-	 * Emitted when user presses middle button on EWebKitContentEditor.
+	 * Emitted when user presses middle button on EContentEditor.
 	 */
 	signals[PASTE_CLIPBOARD] = g_signal_new (
 		"paste-clipboard",
 		E_TYPE_CONTENT_EDITOR,
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (EContentEditorInterface, paste_clipboard),
-		NULL, NULL,
-		g_cclosure_marshal_VOID__VOID,
-		G_TYPE_NONE, 0);
+		g_signal_accumulator_true_handled, NULL,
+		NULL,
+		G_TYPE_BOOLEAN, 0);
 
 	/**
 	 * EContentEditor:paste-primary-clipboard
@@ -438,9 +438,9 @@ e_content_editor_default_init (EContentEditorInterface *iface)
 		E_TYPE_CONTENT_EDITOR,
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (EContentEditorInterface, paste_primary_clipboard),
-		NULL, NULL,
-		g_cclosure_marshal_VOID__VOID,
-		G_TYPE_NONE, 0);
+		g_signal_accumulator_true_handled, NULL,
+		NULL,
+		G_TYPE_BOOLEAN, 0);
 
 	/**
 	 * EContentEditor:is-ready
@@ -453,7 +453,7 @@ e_content_editor_default_init (EContentEditorInterface *iface)
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (EContentEditorInterface, load_finished),
 		NULL, NULL,
-		g_cclosure_marshal_VOID__VOID,
+		NULL,
 		G_TYPE_NONE, 0);
 
 	/**
@@ -467,24 +467,40 @@ e_content_editor_default_init (EContentEditorInterface *iface)
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (EContentEditorInterface, context_menu_requested),
 		g_signal_accumulator_true_handled, NULL,
-		e_marshal_BOOLEAN__INT_BOXED,
+		NULL,
 		G_TYPE_BOOLEAN, 2,
 		G_TYPE_INT,
 		GDK_TYPE_EVENT | G_SIGNAL_TYPE_STATIC_SCOPE);
-}
 
-EContentEditorFindController *
-e_content_editor_get_find_controller (EContentEditor *editor)
-{
-	EContentEditorInterface *iface;
+	/**
+	 * EContentEditor::find-done
+	 *
+	 * Emitted when the call to e_content_editor_find() is done.
+	 **/
+	signals[FIND_DONE] = g_signal_new (
+		"find-done",
+		E_TYPE_CONTENT_EDITOR,
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (EContentEditorInterface, find_done),
+		NULL, NULL,
+		NULL,
+		G_TYPE_NONE, 1,
+		G_TYPE_UINT);
 
-	g_return_val_if_fail (E_IS_CONTENT_EDITOR (editor), NULL);
-
-	iface = E_CONTENT_EDITOR_GET_IFACE (editor);
-	g_return_val_if_fail (iface != NULL, NULL);
-	g_return_val_if_fail (iface->get_find_controller != NULL, NULL);
-
-	return iface->get_find_controller (editor);
+	/**
+	 * EContentEditor::replace-all-done
+	 *
+	 * Emitted when the call to e_content_editor_replace_all() is done.
+	 **/
+	signals[REPLACE_ALL_DONE] = g_signal_new (
+		"replace-all-done",
+		E_TYPE_CONTENT_EDITOR,
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (EContentEditorInterface, replace_all_done),
+		NULL, NULL,
+		NULL,
+		G_TYPE_NONE, 1,
+		G_TYPE_UINT);
 }
 
 void
@@ -1083,7 +1099,37 @@ e_content_editor_selection_unlink (EContentEditor *editor)
 }
 
 /**
- * e_content_editor_replace:
+ * e_content_editor_find:
+ * @editor: an #EContentEditor
+ * @flags: a bit-OR of #EContentEditorFindFlags flags
+ * @text: a text to find
+ *
+ * Searches the content of the @editor for the occurrence of the @text.
+ * The @flags modify the behaviour of the search. The found text,
+ * if any, is supposed to be selected.
+ *
+ * Once the search is done, the "find-done" signal should be
+ * emitted, by using e_content_editor_emit_find_done().
+ **/
+void
+e_content_editor_find (EContentEditor *editor,
+		       guint32 flags,
+		       const gchar *text)
+{
+	EContentEditorInterface *iface;
+
+	g_return_if_fail (E_IS_CONTENT_EDITOR (editor));
+	g_return_if_fail (text != NULL);
+
+	iface = E_CONTENT_EDITOR_GET_IFACE (editor);
+	g_return_if_fail (iface != NULL);
+	g_return_if_fail (iface->find != NULL);
+
+	iface->find (editor, flags, text);
+}
+
+/**
+ * e_content_editor_selection_replace:
  * @editor: an #EContentEditor
  * @replacement: a string to replace current selection with
  *
@@ -1103,6 +1149,39 @@ e_content_editor_selection_replace (EContentEditor *editor,
 	g_return_if_fail (iface->selection_replace != NULL);
 
 	iface->selection_replace (editor, replacement);
+}
+
+/**
+ * e_content_editor_replace_all:
+ * @editor: an #EContentEditor
+ * @flags: a bit-OR of #EContentEditorFindFlags flags
+ * @find_text: a text to find
+ * @replace_with: a text to replace the found text with
+ *
+ * Searches the content of the @editor for all the occurrences of
+ * the @find_text and replaces them with the @replace_with.
+ * The @flags modify the behaviour of the search.
+ *
+ * Once the replace is done, the "replace-all-done" signal should be
+ * emitted, by using e_content_editor_emit_replace_all_done().
+ **/
+void
+e_content_editor_replace_all (EContentEditor *editor,
+			      guint32 flags,
+			      const gchar *find_text,
+			      const gchar *replace_with)
+{
+	EContentEditorInterface *iface;
+
+	g_return_if_fail (E_IS_CONTENT_EDITOR (editor));
+	g_return_if_fail (find_text != NULL);
+	g_return_if_fail (replace_with != NULL);
+
+	iface = E_CONTENT_EDITOR_GET_IFACE (editor);
+	g_return_if_fail (iface != NULL);
+	g_return_if_fail (iface->replace_all != NULL);
+
+	iface->replace_all (editor, flags, find_text, replace_with);
 }
 
 /**
@@ -3455,3 +3534,66 @@ e_content_editor_on_find_dialog_close (EContentEditor *editor)
 	iface->on_find_dialog_close (editor);
 }
 
+void
+e_content_editor_emit_load_finished (EContentEditor *editor)
+{
+	g_return_if_fail (E_IS_CONTENT_EDITOR (editor));
+
+	g_signal_emit (editor, signals[LOAD_FINISHED], 0);
+}
+
+gboolean
+e_content_editor_emit_paste_clipboard (EContentEditor *editor)
+{
+	gboolean handled = FALSE;
+
+	g_return_val_if_fail (E_IS_CONTENT_EDITOR (editor), FALSE);
+
+	g_signal_emit (editor, signals[PASTE_CLIPBOARD], 0, &handled);
+
+	return handled;
+}
+
+gboolean
+e_content_editor_emit_paste_primary_clipboard (EContentEditor *editor)
+{
+	gboolean handled = FALSE;
+
+	g_return_val_if_fail (E_IS_CONTENT_EDITOR (editor), FALSE);
+
+	g_signal_emit (editor, signals[PASTE_PRIMARY_CLIPBOARD], 0, &handled);
+
+	return handled;
+}
+
+gboolean
+e_content_editor_emit_context_menu_requested (EContentEditor *editor,
+					      EContentEditorNodeFlags flags,
+					      GdkEvent *event)
+{
+	gboolean handled = FALSE;
+
+	g_return_val_if_fail (E_IS_CONTENT_EDITOR (editor), FALSE);
+
+	g_signal_emit (editor, signals[CONTEXT_MENU_REQUESTED], 0, flags, event, &handled);
+
+	return handled;
+}
+
+void
+e_content_editor_emit_find_done (EContentEditor *editor,
+				 guint match_count)
+{
+	g_return_if_fail (E_IS_CONTENT_EDITOR (editor));
+
+	g_signal_emit (editor, signals[FIND_DONE], 0, match_count);
+}
+
+void
+e_content_editor_emit_replace_all_done (EContentEditor *editor,
+					guint replaced_count)
+{
+	g_return_if_fail (E_IS_CONTENT_EDITOR (editor));
+
+	g_signal_emit (editor, signals[REPLACE_ALL_DONE], 0, replaced_count);
+}

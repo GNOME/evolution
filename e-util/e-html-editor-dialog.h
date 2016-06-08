@@ -62,7 +62,7 @@ struct _EHTMLEditorDialogClass {
 	GtkWindowClass parent_class;
 };
 
-#if 0
+#if 0 /* FIXME WK2 */
 struct _EContentEditorDialogInterface {
 	GTypeInterface parent_interface;
 

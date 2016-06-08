@@ -17,9 +17,7 @@ module_webkit_content_editor_la_SOURCES = \
 	e-webkit-editor-extension.c			\
 	e-webkit-editor-extension.h			\
 	e-webkit-content-editor.c			\
-	e-webkit-content-editor.h			\
-	e-webkit-content-editor-find-controller.c	\
-	e-webkit-content-editor-find-controller.h
+	e-webkit-content-editor.h
 
 module_webkit_content_editor_la_LIBADD = \
 	$(top_builddir)/e-util/libevolution-util.la	\

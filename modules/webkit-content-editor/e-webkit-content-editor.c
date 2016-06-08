@@ -19,7 +19,6 @@
 #endif
 
 #include "e-webkit-content-editor.h"
-#include "e-webkit-content-editor-find-controller.h"
 
 #include "web-extension/e-html-editor-web-extension-names.h"
 
@@ -64,16 +63,12 @@ enum {
 };
 
 enum {
-	POPUP_EVENT,
 	COPY_CLIPBOARD,
 	CUT_CLIPBOARD,
-	PASTE_CLIPBOARD,
-	PASTE_PRIMARY_CLIPBOARD,
-
 	LAST_SIGNAL
 };
 
-static guint signals[LAST_SIGNAL] = { 0 };
+static guint signals[LAST_SIGNAL];
 
 struct _EWebKitContentEditorPrivate {
 	GDBusProxy *web_extension;
@@ -130,10 +125,16 @@ struct _EWebKitContentEditorPrivate {
 	EContentEditorContentFlags content_flags;
 
 	ESpellChecker *spell_checker;
-	EContentEditorFindController *find_controller;
 
 	gulong owner_change_primary_clipboard_cb_id;
 	gulong owner_change_clipboard_cb_id;
+
+	WebKitFindController *find_controller; /* not referenced; set to non-NULL only if the search is in progress */
+	gboolean performing_replace_all;
+	guint replaced_count;
+	gchar *replace_with;
+	gulong found_text_handler_id;
+	gulong failed_to_find_text_handler_id;
 };
 
 static const GdkRGBA black = { 0, 0, 0, 1 };
@@ -446,7 +447,8 @@ web_extension_proxy_created_cb (GDBusProxy *proxy,
 	dispatch_pending_operations (wk_editor);
 
 	if (wk_editor->priv->emit_load_finished_when_extension_is_ready) {
-		g_signal_emit_by_name (E_CONTENT_EDITOR (wk_editor), "load-finished", 0);
+		e_content_editor_emit_load_finished (E_CONTENT_EDITOR (wk_editor));
+
 		wk_editor->priv->emit_load_finished_when_extension_is_ready = FALSE;
 	}
 }
@@ -610,16 +612,6 @@ webkit_content_editor_set_format_int (EWebKitContentEditor *wk_editor,
 		NULL,
 		NULL,
 		NULL);
-}
-
-static EContentEditorFindController *
-webkit_content_editor_get_find_controller (EContentEditor *editor)
-{
-	EWebKitContentEditor *wk_editor;
-
-	wk_editor = E_WEBKIT_CONTENT_EDITOR (editor);
-
-	return wk_editor->priv->find_controller;
 }
 
 static void
@@ -1783,16 +1775,13 @@ webkit_content_editor_copy (EContentEditor *editor)
 static void
 webkit_content_editor_paste (EContentEditor *editor)
 {
-	EWebKitContentEditor *wk_editor;
-	gboolean handled = FALSE;
+	gboolean handled;
 
-	wk_editor = E_WEBKIT_CONTENT_EDITOR (editor);
-
-	g_signal_emit_by_name (editor, "paste-clipboard", editor, &handled);
+	handled = e_content_editor_emit_paste_clipboard (editor);
 
 	if (!handled)
 		webkit_web_view_execute_editing_command (
-			WEBKIT_WEB_VIEW (wk_editor), WEBKIT_EDITING_COMMAND_PASTE);
+			WEBKIT_WEB_VIEW (editor), WEBKIT_EDITING_COMMAND_PASTE);
 
 	/* FIXME
 	e_html_editor_view_force_spell_check (view) */
@@ -2122,6 +2111,143 @@ webkit_content_editor_replace_caret_word (EContentEditor *editor,
 }
 
 static void
+webkit_content_editor_finish_search (EWebKitContentEditor *wk_editor)
+{
+	g_return_if_fail (E_IS_WEBKIT_CONTENT_EDITOR (wk_editor));
+
+	if (!wk_editor->priv->find_controller)
+		return;
+
+	webkit_find_controller_search_finish (wk_editor->priv->find_controller);
+
+	wk_editor->priv->performing_replace_all = FALSE;
+	wk_editor->priv->replaced_count = 0;
+	g_free (wk_editor->priv->replace_with);
+	wk_editor->priv->replace_with = NULL;
+
+	if (wk_editor->priv->found_text_handler_id) {
+		g_signal_handler_disconnect (wk_editor->priv->find_controller, wk_editor->priv->found_text_handler_id);
+		wk_editor->priv->found_text_handler_id = 0;
+	}
+
+	if (wk_editor->priv->failed_to_find_text_handler_id) {
+		g_signal_handler_disconnect (wk_editor->priv->find_controller, wk_editor->priv->failed_to_find_text_handler_id);
+		wk_editor->priv->failed_to_find_text_handler_id = 0;
+	}
+
+	wk_editor->priv->find_controller = NULL;
+}
+
+static guint32 /* WebKitFindOptions */
+find_flags_to_webkit_find_options (guint32 flags /* EContentEditorFindFlags */)
+{
+	guint32 options = 0;
+
+	if (flags & E_CONTENT_EDITOR_FIND_CASE_INSENSITIVE)
+		options |= WEBKIT_FIND_OPTIONS_CASE_INSENSITIVE;
+
+	if (flags & E_CONTENT_EDITOR_FIND_WRAP_AROUND)
+		options |= WEBKIT_FIND_OPTIONS_WRAP_AROUND;
+
+	if (flags & E_CONTENT_EDITOR_FIND_MODE_BACKWARDS)
+		options |= WEBKIT_FIND_OPTIONS_BACKWARDS;
+
+	return options;
+}
+
+static void
+webkit_find_controller_found_text_cb (WebKitFindController *find_controller,
+                                      guint match_count,
+                                      EWebKitContentEditor *wk_editor)
+{
+	if (wk_editor->priv->performing_replace_all) {
+		if (!wk_editor->priv->replaced_count)
+			wk_editor->priv->replaced_count = match_count;
+
+		/* Repeatedly search for 'word', then replace selection by
+		 * 'replacement'. Repeat until there's at least one occurrence of
+		 * 'word' in the document */
+		e_content_editor_insert_content (
+			E_CONTENT_EDITOR (wk_editor),
+			wk_editor->priv->replace_with,
+			E_CONTENT_EDITOR_INSERT_TEXT_PLAIN);
+
+		webkit_find_controller_search_next (find_controller);
+	} else {
+		e_content_editor_emit_find_done (E_CONTENT_EDITOR (wk_editor), match_count);
+	}
+}
+
+static void
+webkit_find_controller_failed_to_find_text_cb (WebKitFindController *find_controller,
+                                               EWebKitContentEditor *wk_editor)
+{
+	if (wk_editor->priv->performing_replace_all) {
+		guint replaced_count = wk_editor->priv->replaced_count;
+
+		webkit_content_editor_finish_search (wk_editor);
+		e_content_editor_emit_replace_all_done (E_CONTENT_EDITOR (wk_editor), replaced_count);
+	} else {
+		e_content_editor_emit_find_done (E_CONTENT_EDITOR (wk_editor), 0);
+	}
+}
+
+static void
+webkit_content_editor_prepare_find_controller (EWebKitContentEditor *wk_editor)
+{
+	g_return_if_fail (E_IS_WEBKIT_CONTENT_EDITOR (wk_editor));
+	g_return_if_fail (wk_editor->priv->find_controller == NULL);
+
+	wk_editor->priv->find_controller = webkit_web_view_get_find_controller (WEBKIT_WEB_VIEW (wk_editor));
+
+	wk_editor->priv->found_text_handler_id = g_signal_connect (
+		wk_editor->priv->find_controller, "found-text",
+		G_CALLBACK (webkit_find_controller_found_text_cb), wk_editor);
+
+	wk_editor->priv->failed_to_find_text_handler_id = g_signal_connect (
+		wk_editor->priv->find_controller, "failed-to-find-text",
+		G_CALLBACK (webkit_find_controller_failed_to_find_text_cb), wk_editor);
+
+	wk_editor->priv->performing_replace_all = FALSE;
+	wk_editor->priv->replaced_count = 0;
+	g_free (wk_editor->priv->replace_with);
+	wk_editor->priv->replace_with = NULL;
+}
+
+static void
+webkit_content_editor_find (EContentEditor *editor,
+			    guint32 flags,
+			    const gchar *text)
+{
+	EWebKitContentEditor *wk_editor;
+	guint32 wk_options;
+	gboolean needs_init;
+
+	g_return_if_fail (E_IS_WEBKIT_CONTENT_EDITOR (editor));
+	g_return_if_fail (text != NULL);
+
+	wk_editor = E_WEBKIT_CONTENT_EDITOR (editor);
+
+	wk_options = find_flags_to_webkit_find_options (flags);
+
+	needs_init = !wk_editor->priv->find_controller;
+	if (needs_init) {
+		webkit_content_editor_prepare_find_controller (wk_editor);
+	} else {
+		needs_init = wk_options != webkit_find_controller_get_options (wk_editor->priv->find_controller) ||
+			g_strcmp0 (text, webkit_find_controller_get_search_text (wk_editor->priv->find_controller)) != 0;
+	}
+
+	if (needs_init) {
+		webkit_find_controller_search (wk_editor->priv->find_controller, text, wk_options, G_MAXUINT);
+	} else if ((flags & E_CONTENT_EDITOR_FIND_PREVIOUS) != 0) {
+		webkit_find_controller_search_previous (wk_editor->priv->find_controller);
+	} else {
+		webkit_find_controller_search_next (wk_editor->priv->find_controller);
+	}
+}
+
+static void
 webkit_content_editor_selection_replace (EContentEditor *editor,
                                          const gchar *replacement)
 {
@@ -2140,6 +2266,34 @@ webkit_content_editor_selection_replace (EContentEditor *editor,
 		NULL,
 		NULL,
 		NULL);
+}
+
+static void
+webkit_content_editor_replace_all (EContentEditor *editor,
+				   guint32 flags,
+				   const gchar *find_text,
+				   const gchar *replace_with)
+{
+	EWebKitContentEditor *wk_editor;
+	guint32 wk_options;
+
+	g_return_if_fail (E_IS_WEBKIT_CONTENT_EDITOR (editor));
+	g_return_if_fail (find_text != NULL);
+	g_return_if_fail (replace_with != NULL);
+
+	wk_editor = E_WEBKIT_CONTENT_EDITOR (editor);
+	wk_options = find_flags_to_webkit_find_options (flags);
+
+	if (!wk_editor->priv->find_controller)
+		webkit_content_editor_prepare_find_controller (wk_editor);
+
+	g_free (wk_editor->priv->replace_with);
+	wk_editor->priv->replace_with = g_strdup (replace_with);
+
+	wk_editor->priv->performing_replace_all = TRUE;
+	wk_editor->priv->replaced_count = 0;
+
+	webkit_find_controller_search (wk_editor->priv->find_controller, find_text, wk_options, G_MAXUINT);
 }
 
 static void
@@ -4751,6 +4905,8 @@ webkit_content_editor_on_table_dialog_close (EContentEditor *editor)
 
 	webkit_content_editor_call_simple_extension_function (
 		wk_editor, "EHTMLEditorTableDialogSaveHistoryOnExit");
+
+	webkit_content_editor_finish_search (E_WEBKIT_CONTENT_EDITOR (editor));
 }
 
 static void
@@ -4761,6 +4917,7 @@ webkit_content_editor_on_spell_check_dialog_open (EContentEditor *editor)
 static void
 webkit_content_editor_on_spell_check_dialog_close (EContentEditor *editor)
 {
+	webkit_content_editor_finish_search (E_WEBKIT_CONTENT_EDITOR (editor));
 }
 
 static gchar *
@@ -4825,6 +4982,7 @@ webkit_content_editor_on_replace_dialog_open (EContentEditor *editor)
 static void
 webkit_content_editor_on_replace_dialog_close (EContentEditor *editor)
 {
+	webkit_content_editor_finish_search (E_WEBKIT_CONTENT_EDITOR (editor));
 }
 
 static void
@@ -4835,6 +4993,7 @@ webkit_content_editor_on_find_dialog_open (EContentEditor *editor)
 static void
 webkit_content_editor_on_find_dialog_close (EContentEditor *editor)
 {
+	webkit_content_editor_finish_search (E_WEBKIT_CONTENT_EDITOR (editor));
 }
 
 static void
@@ -4850,11 +5009,6 @@ webkit_content_editor_constructed (GObject *object)
 
 	wk_editor = E_WEBKIT_CONTENT_EDITOR (object);
 	web_view = WEBKIT_WEB_VIEW (wk_editor);
-
-	wk_editor->priv->find_controller = g_object_new (
-		E_TYPE_WEBKIT_CONTENT_EDITOR_FIND_CONTROLLER,
-		"webkit-content-editor", wk_editor,
-		NULL);
 
 	/* Give spell check languages to WebKit */
 	languages = e_spell_checker_list_active_languages (wk_editor->priv->spell_checker, NULL);
@@ -4991,8 +5145,9 @@ webkit_content_editor_dispose (GObject *object)
 		priv->owner_change_primary_clipboard_cb_id = 0;
 	}
 
+	webkit_content_editor_finish_search (E_WEBKIT_CONTENT_EDITOR (object));
+
 	g_clear_object (&priv->web_extension);
-	g_clear_object (&priv->find_controller);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_webkit_content_editor_parent_class)->dispose (object);
@@ -5353,7 +5508,7 @@ webkit_content_editor_load_changed_cb (EWebKitContentEditor *wk_editor,
 		return;
 
 	if (wk_editor->priv->web_extension)
-		g_signal_emit_by_name (E_CONTENT_EDITOR (wk_editor), "load-finished", 0);
+		e_content_editor_emit_load_finished (E_CONTENT_EDITOR (wk_editor));
 	else
 		wk_editor->priv->emit_load_finished_when_extension_is_ready = TRUE;
 
@@ -5590,19 +5745,14 @@ webkit_content_editor_context_menu_cb (EWebKitContentEditor *wk_editor,
 {
 	GVariant *result;
 	EContentEditorNodeFlags flags = 0;
-	gboolean handled = FALSE;
+	gboolean handled;
 
 	webkit_context_menu_remove_all (context_menu);
 
 	if ((result = webkit_context_menu_get_user_data (context_menu)))
 		flags = g_variant_get_int32 (result);
 
-	g_signal_emit_by_name (
-		E_CONTENT_EDITOR (wk_editor),
-		"context-menu-requested",
-		flags,
-		event,
-		&handled);
+	handled = e_content_editor_emit_context_menu_requested (E_CONTENT_EDITOR (wk_editor), flags, event);
 
 	return handled;
 }
@@ -5629,8 +5779,7 @@ webkit_content_editor_button_press_event (GtkWidget *widget,
 		/* Remember, that we are pasting primary clipboard to return
 		 * correct value in e_html_editor_view_is_pasting_content_from_itself. */
 		wk_editor->priv->pasting_primary_clipboard = TRUE;
-		g_signal_emit_by_name (E_CONTENT_EDITOR (widget), "paste-primary-clipboard", 0);
-		event_handled = TRUE;
+		event_handled = e_content_editor_emit_paste_primary_clipboard (E_CONTENT_EDITOR (widget));
 	} else {
 		event_handled = FALSE;
 	}
@@ -5752,21 +5901,6 @@ e_webkit_content_editor_class_init (EWebKitContentEditorClass *class)
 		object_class, PROP_UNDERLINE, "underline");
 	g_object_class_override_property (
 		object_class, PROP_SPELL_CHECKER, "spell-checker");
-
-	/**
-	 * EWebkitContentEditor:popup-event
-	 *
-	 * Emitted whenever a context menu is requested.
-	 */
-	signals[POPUP_EVENT] = g_signal_new (
-		"popup-event",
-		G_TYPE_FROM_CLASS (class),
-		G_SIGNAL_RUN_LAST,
-		G_STRUCT_OFFSET (EWebKitContentEditorClass, popup_event),
-		g_signal_accumulator_true_handled, NULL,
-		e_marshal_BOOLEAN__BOXED,
-		G_TYPE_BOOLEAN, 1,
-		GDK_TYPE_EVENT | G_SIGNAL_TYPE_STATIC_SCOPE);
 }
 
 static void
@@ -5875,7 +6009,6 @@ e_webkit_content_editor_init (EWebKitContentEditor *wk_editor)
 static void
 e_webkit_content_editor_content_editor_init (EContentEditorInterface *iface)
 {
-	iface->get_find_controller = webkit_content_editor_get_find_controller;
 	iface->insert_content = webkit_content_editor_insert_content;
 	iface->get_content = webkit_content_editor_get_content;
 	iface->insert_image = webkit_content_editor_insert_image;
@@ -5912,7 +6045,9 @@ e_webkit_content_editor_content_editor_init (EContentEditorInterface *iface)
 	iface->selection_unindent = webkit_content_editor_selection_unindent;
 //	iface->create_link = webkit_content_editor_create_link;
 	iface->selection_unlink = webkit_content_editor_selection_unlink;
+	iface->find = webkit_content_editor_find;
 	iface->selection_replace = webkit_content_editor_selection_replace;
+	iface->replace_all = webkit_content_editor_replace_all;
 	iface->selection_save = webkit_content_editor_selection_save;
 	iface->selection_restore = webkit_content_editor_selection_restore;
 	iface->selection_wrap = webkit_content_editor_selection_wrap;

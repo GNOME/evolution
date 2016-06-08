@@ -275,6 +275,29 @@ typedef enum {
 	E_CONTENT_EDITOR_UNIT_PERCENTAGE
 } EContentEditorUnit;
 
+/**
+ * EContentEditorCommand:
+ * @E_CONTENT_EDITOR_FIND_NEXT: Search for the next occurrence of the text.
+ *    This is the default. It's mutually exclusive with @E_CONTENT_EDITOR_FIND_PREVIOUS.
+ * @E_CONTENT_EDITOR_FIND_PREVIOUS: Search for the previous occurrence of the text.
+ *    It's mutually exclusive with @E_CONTENT_EDITOR_FIND_NEXT.
+ * @E_CONTENT_EDITOR_FIND_MODE_BACKWARDS: The search mode is backwards. If not set,
+ *    then the mode is forward.
+ * @E_CONTENT_EDITOR_FIND_CASE_INSENSITIVE: Search case insensitively.
+ * @E_CONTENT_EDITOR_FIND_WRAP_AROUND: Wrap around when searching.
+ *
+ * Flags to use to modify behaviour of the search for the text.
+ *
+ * Since: 3.22
+ **/
+typedef enum {
+	E_CONTENT_EDITOR_FIND_NEXT		= (1 << 0),
+	E_CONTENT_EDITOR_FIND_PREVIOUS		= (1 << 1),
+	E_CONTENT_EDITOR_FIND_MODE_BACKWARDS	= (1 << 2),
+	E_CONTENT_EDITOR_FIND_CASE_INSENSITIVE	= (1 << 3),
+	E_CONTENT_EDITOR_FIND_WRAP_AROUND	= (1 << 4)
+} EContentEditorFindFlags;
+
 G_END_DECLS
 
 #endif /* E_CONTENT_EDITOR_ENUMS_H */

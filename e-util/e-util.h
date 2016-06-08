@@ -86,7 +86,6 @@
 #include <e-util/e-conflict-search-selector.h>
 #include <e-util/e-contact-store.h>
 #include <e-util/e-content-editor.h>
-#include <e-util/e-content-editor-find-controller.h>
 #include <e-util/e-content-editor-enums.h>
 #include <e-util/e-content-request.h>
 #include <e-util/e-data-capture.h>
