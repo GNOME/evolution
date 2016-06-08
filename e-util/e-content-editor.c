@@ -913,28 +913,6 @@ e_content_editor_select_all (EContentEditor *editor)
 }
 
 /**
- * e_content_editor_has_text:
- * @editor: an #EContentEditor
- *
- * Returns whether current selection contains any text.
- *
- * Returns: @TRUE when current selection contains text, @FALSE otherwise.
- */
-gboolean
-e_content_editor_selection_has_text (EContentEditor *editor)
-{
-	EContentEditorInterface *iface;
-
-	g_return_val_if_fail (E_IS_CONTENT_EDITOR (editor), FALSE);
-
-	iface = E_CONTENT_EDITOR_GET_IFACE (editor);
-	g_return_val_if_fail (iface != NULL, FALSE);
-	g_return_val_if_fail (iface->selection_has_text != NULL, FALSE);
-
-	return iface->selection_has_text (editor);
-}
-
-/**
  * e_content_editor_selection_get_text:
  * @editor: an #EContentEditor
  *

@@ -5177,17 +5177,6 @@ dom_selection_get_font_color (WebKitDOMDocument *document,
 	return color;
 }
 
-static WebKitDOMNode *
-get_block_node (WebKitDOMRange *range)
-{
-	WebKitDOMNode *node;
-
-	node = webkit_dom_range_get_common_ancestor_container (range, NULL);
-	node = get_parent_block_node_from_child (node);
-
-	return node;
-}
-
 /**
  * e_html_editor_selection_get_block_format:
  * @selection: an #EHTMLEditorSelection
@@ -6552,46 +6541,6 @@ dom_get_caret_word (WebKitDOMDocument *document)
 	g_object_unref (range);
 
 	return word;
-}
-
-/**
- * e_html_editor_selection_has_text:
- * @selection: an #EHTMLEditorSelection
- *
- * Returns whether current selection contains any text.
- *
- * Returns: @TRUE when current selection contains text, @FALSE otherwise.
- */
-gboolean
-dom_selection_has_text (WebKitDOMDocument *document)
-{
-	gboolean has_text = FALSE;
-	gchar *text = NULL;
-	WebKitDOMDOMWindow *dom_window = NULL;
-	WebKitDOMDOMSelection *dom_selection = NULL;
-	WebKitDOMRange *range = NULL;
-
-	if (!(dom_window = webkit_dom_document_get_default_view (document)))
-		goto out;
-
-	if (!(dom_selection = webkit_dom_dom_window_get_selection (dom_window)))
-		goto out;
-
-	if (webkit_dom_dom_selection_get_is_collapsed (dom_selection))
-		goto out;
-
-	if (!(range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL)))
-		goto out;
-
-	text = webkit_dom_range_get_text (range);
-	has_text = text && *text;
- out:
-	g_free (text);
-	g_clear_object (&dom_window);
-	g_clear_object (&dom_selection);
-	g_clear_object (&range);
-
-	return has_text;
 }
 
 /**

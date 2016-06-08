@@ -2061,34 +2061,6 @@ webkit_content_editor_clear_undo_redo_history (EContentEditor *editor)
 		NULL);
 }
 
-static gboolean
-webkit_content_editor_selection_has_text (EContentEditor *editor)
-{
-	EWebKitContentEditor *wk_editor;
-	gboolean ret_val;
-	GVariant *result;
-
-	wk_editor = E_WEBKIT_CONTENT_EDITOR (editor);
-	if (!wk_editor->priv->web_extension)
-		return FALSE;
-
-	result = g_dbus_proxy_call_sync (
-		wk_editor->priv->web_extension,
-		"DOMSelectionHasText",
-		g_variant_new ("(t)", current_page_id (wk_editor)),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL);
-
-	if (result) {
-		g_variant_get (result, "(b)", &ret_val);
-		g_variant_unref (result);
-	}
-
-	return ret_val;
-}
-
 static void
 webkit_content_editor_replace_caret_word (EContentEditor *editor,
                                           const gchar *replacement)
@@ -6035,7 +6007,6 @@ e_webkit_content_editor_content_editor_init (EContentEditorInterface *iface)
 	iface->set_spell_checking_languages = webkit_content_editor_set_spell_checking_languages;
 	iface->set_spell_check = webkit_content_editor_set_spell_check;
 	iface->get_spell_check = webkit_content_editor_get_spell_check;
-	iface->selection_has_text = webkit_content_editor_selection_has_text;
 //	iface->selection_get_text = webkit_content_editor_selection_get_text;
 	iface->get_caret_word = webkit_content_editor_get_caret_word;
 	iface->replace_caret_word = webkit_content_editor_replace_caret_word;

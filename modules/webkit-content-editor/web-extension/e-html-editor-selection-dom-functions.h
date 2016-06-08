@@ -256,8 +256,6 @@ void		dom_replace_caret_word		(WebKitDOMDocument *document,
 
 gchar *		dom_get_caret_word		(WebKitDOMDocument *document);
 
-gboolean	dom_selection_has_text		(WebKitDOMDocument *document);
-
 EContentEditorAlignment
 		dom_get_list_alignment_from_node
 						(WebKitDOMNode *node);

@@ -406,7 +406,7 @@ html_editor_update_actions (EHTMLEditor *editor)
 
 	/* Decide if we should show spell checking items. */
 	visible = FALSE;
-	if ((n_languages > 0) && e_content_editor_selection_has_text (cnt_editor)) {
+	if (n_languages > 0) {
 		gchar *word = e_content_editor_get_caret_word (cnt_editor);
 		if (word && *word) {
 			visible = !e_spell_checker_check_word (spell_checker, word, -1);

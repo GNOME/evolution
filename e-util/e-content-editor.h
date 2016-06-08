@@ -113,8 +113,6 @@ struct _EContentEditorInterface {
 
 	gboolean	(*get_spell_check)		(EContentEditor *editor);
 
-	gboolean	(*selection_has_text)		(EContentEditor *editor);
-
 	gchar *		(*selection_get_text)		(EContentEditor *editor);
 
 	gchar *		(*get_caret_word)		(EContentEditor *editor);
@@ -617,9 +615,6 @@ gboolean	e_content_editor_get_spell_check
 						(EContentEditor *editor);
 
 void		e_content_editor_select_all	(EContentEditor *editor);
-
-gboolean	e_content_editor_selection_has_text
-						(EContentEditor *editor);
 
 gchar *		e_content_editor_selection_get_text
 						(EContentEditor *editor);
