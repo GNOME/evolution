@@ -445,7 +445,7 @@ html_editor_update_actions (EHTMLEditor *editor,
 	checker = WEBKIT_SPELL_CHECKER (webkit_get_text_checker ());
 	selection = e_html_editor_view_get_selection (view);
 	visible = FALSE;
-	if ((n_languages > 0) && e_html_editor_selection_has_text (selection)) {
+	if (n_languages > 0) {
 		gchar *word = e_html_editor_selection_get_caret_word (selection);
 		if (word && *word) {
 			webkit_spell_checker_check_spelling_of_string (
