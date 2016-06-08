@@ -32,16 +32,16 @@ msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2016-06-06 10:54+0000\n"
-"PO-Revision-Date: 2016-06-06 19:45+0200\n"
-"Last-Translator: Christian Kirbach <christian.kirbach@gmail.com>\n"
+"POT-Creation-Date: 2016-06-08 20:02+0000\n"
+"PO-Revision-Date: 2016-06-08 22:05+0200\n"
+"Last-Translator: Mario Blättermann <mario.blaettermann@gmail.com>\n"
 "Language-Team: Deutsch <gnome-de@gnome.org>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.8.7.1\n"
+"X-Generator: Poedit 1.8.8\n"
 
 #: ../addressbook/addressbook.error.xml.h:1
 msgid "This address book could not be opened."
@@ -571,7 +571,7 @@ msgstr "X.509 _laden"
 #: ../e-util/e-attachment-store.c:641 ../e-util/e-mail-signature-script-dialog.c:369
 #: ../e-util/e-web-view.c:3334 ../e-util/gal-view-instance-save-as-dialog.c:270
 #: ../shell/e-shell-content.c:660 ../shell/e-shell-utils.c:137
-#: ../smime/gui/certificate-manager.c:657 ../smime/gui/certificate-manager.c:734
+#: ../smime/gui/certificate-manager.c:668 ../smime/gui/certificate-manager.c:745
 msgid "_Save"
 msgstr "_Speichern"
 
@@ -608,7 +608,7 @@ msgstr "Optionen"
 #: ../addressbook/gui/widgets/eab-gui-util.c:318
 #: ../addressbook/gui/widgets/e-addressbook-view.c:1365
 #: ../calendar/gui/e-cal-dialogs.c:689
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:302
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:303
 #: ../composer/e-composer-actions.c:214 ../e-util/e-activity-bar.c:359
 #: ../e-util/e-attachment-dialog.c:311 ../e-util/e-attachment-store.c:496
 #: ../e-util/e-attachment-store.c:640 ../e-util/e-attachment-view.c:421
@@ -637,9 +637,9 @@ msgstr "Optionen"
 #: ../plugins/publish-calendar/url-editor-dialog.c:421
 #: ../plugins/save-calendar/save-calendar.c:187 ../shell/e-shell-content.c:659
 #: ../shell/e-shell-content.c:766 ../shell/e-shell-utils.c:72
-#: ../shell/e-shell-utils.c:136 ../smime/gui/certificate-manager.c:656
-#: ../smime/gui/certificate-manager.c:733 ../smime/gui/certificate-manager.c:957
-#: ../smime/gui/certificate-manager.c:1339 ../smime/gui/e-cert-selector.c:237
+#: ../shell/e-shell-utils.c:136 ../smime/gui/certificate-manager.c:667
+#: ../smime/gui/certificate-manager.c:744 ../smime/gui/certificate-manager.c:968
+#: ../smime/gui/certificate-manager.c:1350 ../smime/gui/e-cert-selector.c:237
 #: ../smime/gui/smime-ui.ui.h:23
 msgid "_Cancel"
 msgstr "A_bbrechen"
@@ -736,7 +736,7 @@ msgid "PGP keys"
 msgstr "PGP-Schlüssel"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:3251
-#: ../smime/gui/certificate-manager.c:680 ../smime/gui/certificate-manager.c:969
+#: ../smime/gui/certificate-manager.c:691 ../smime/gui/certificate-manager.c:980
 msgid "All files"
 msgstr "Alle Dateien"
 
@@ -753,7 +753,7 @@ msgstr "X.509-Zertifikat öffnen"
 #: ../e-util/e-attachment-store.c:494 ../e-util/e-category-editor.c:146
 #: ../e-util/e-html-editor-actions.c:590 ../e-util/e-html-editor-actions.c:685
 #: ../e-util/e-image-chooser-dialog.c:174 ../plugins/face/face.c:298
-#: ../shell/e-shell-utils.c:73 ../smime/gui/certificate-manager.c:958
+#: ../shell/e-shell-utils.c:73 ../smime/gui/certificate-manager.c:969
 msgid "_Open"
 msgstr "Ö_ffnen"
 
@@ -835,7 +835,7 @@ msgstr "Kontakt ungültig."
 #: ../addressbook/gui/contact-editor/e-contact-quick-add.c:456
 #: ../addressbook/gui/contact-editor/fullname.ui.h:13
 #: ../addressbook/gui/widgets/eab-gui-util.c:319
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:303
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:304
 #: ../e-util/e-attachment-dialog.c:313 ../e-util/e-categories-dialog.c:83
 #: ../e-util/e-category-editor.c:209 ../e-util/e-charset-combo-box.c:102
 #: ../e-util/e-color-chooser-widget.c:128 ../e-util/e-filter-datespec.c:292
@@ -852,7 +852,7 @@ msgstr "Kontakt ungültig."
 #: ../plugins/email-custom-header/org-gnome-email-custom-header.ui.h:4
 #: ../plugins/publish-calendar/url-editor-dialog.c:422 ../shell/e-shell-content.c:661
 #: ../shell/e-shell-content.c:767 ../shell/main.c:180
-#: ../smime/gui/certificate-manager.c:1340 ../smime/gui/e-cert-selector.c:238
+#: ../smime/gui/certificate-manager.c:1351 ../smime/gui/e-cert-selector.c:238
 #: ../smime/gui/smime-ui.ui.h:24
 msgid "_OK"
 msgstr "_OK"
@@ -1481,7 +1481,7 @@ msgstr "Sind Sie sicher, dass Sie diesen Kontakt löschen wollen (%s)?"
 #: ../modules/calendar/e-memo-shell-view-actions.c:678
 #: ../modules/calendar/e-task-shell-view-actions.c:832
 #: ../modules/mail/e-mail-shell-view-actions.c:1680
-#: ../shell/e-shell-window-actions.c:813 ../smime/gui/certificate-manager.c:1663
+#: ../shell/e-shell-window-actions.c:813 ../smime/gui/certificate-manager.c:1674
 #: ../smime/gui/smime-ui.ui.h:10
 msgid "_Delete"
 msgstr "_Löschen"
@@ -2012,7 +2012,7 @@ msgstr "_Schlummer"
 
 #: ../calendar/alarm-notify/alarm-notify.ui.h:4
 #: ../calendar/gui/e-comp-editor-page-general.c:1365
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:2240
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:2241
 #: ../calendar/gui/e-comp-editor.c:2058 ../e-util/e-html-editor-actions.c:1116
 #: ../e-util/e-mail-signature-manager.c:357 ../e-util/filter.ui.h:17
 #: ../mail/e-mail-account-manager.c:727 ../mail/e-mail-browser.c:173
@@ -2920,7 +2920,7 @@ msgid "Do Not Exist"
 msgstr "Existieren nicht"
 
 #: ../calendar/gui/caltypes.xml.h:19
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:2004
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:2005
 msgid "Recurrence"
 msgstr "Wiederholung"
 
@@ -3860,9 +3860,9 @@ msgstr "Die Anfangszeit ist ungültig"
 #: ../calendar/gui/e-comp-editor-event.c:372
 #: ../calendar/gui/e-comp-editor-page-attachments.c:211
 #: ../calendar/gui/e-comp-editor.c:339 ../mail/e-mail-display.c:2057
-#: ../mail/e-mail-reader-utils.c:650 ../mail/mail-send-recv.c:489
+#: ../mail/e-mail-reader-utils.c:648 ../mail/mail-send-recv.c:489
 #: ../mail/mail-send-recv.c:1289 ../plugins/face/face.c:176 ../shell/e-shell.c:992
-#: ../shell/e-shell.c:1014 ../smime/gui/certificate-manager.c:348
+#: ../shell/e-shell.c:1014 ../smime/gui/certificate-manager.c:359
 msgid "Unknown error"
 msgstr "Unbekannter Fehler"
 
@@ -4163,17 +4163,17 @@ msgctxt "ECompEditor"
 msgid "Atte_ndees..."
 msgstr "Teil_nehmer …"
 
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:326
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:327
 msgid "Add exception"
 msgstr "Ausnahme hinzufügen"
 
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:364
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:365
 msgid "Modify exception"
 msgstr "Ausnahme verändern"
 
 #. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] week(s) on [Wednesday] [forever]'
 #. * (dropdown menu options are in [square brackets]). This means that after the 'on', name of a week day always follows.
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:489
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:490
 msgid "on"
 msgstr "am"
 
@@ -4181,7 +4181,7 @@ msgstr "am"
 #. * (dropdown menu options are in [square brackets]). This means that after 'first', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:570
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:571
 msgctxt "ECompEditorPageRecur"
 msgid "first"
 msgstr "ersten"
@@ -4191,7 +4191,7 @@ msgstr "ersten"
 #. * (dropdown menu options are in [square brackets]). This means that after 'second', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:576
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:577
 msgctxt "ECompEditorPageRecur"
 msgid "second"
 msgstr "zweiten"
@@ -4200,7 +4200,7 @@ msgstr "zweiten"
 #. * (dropdown menu options are in [square brackets]). This means that after 'third', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:581
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:582
 msgctxt "ECompEditorPageRecur"
 msgid "third"
 msgstr "dritten"
@@ -4209,7 +4209,7 @@ msgstr "dritten"
 #. * (dropdown menu options are in [square brackets]). This means that after 'fourth', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:586
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:587
 msgctxt "ECompEditorPageRecur"
 msgid "fourth"
 msgstr "vierten"
@@ -4218,7 +4218,7 @@ msgstr "vierten"
 #. * (dropdown menu options are in [square brackets]). This means that after 'fifth', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:591
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:592
 msgctxt "ECompEditorPageRecur"
 msgid "fifth"
 msgstr "fünften"
@@ -4227,14 +4227,14 @@ msgstr "fünften"
 #. * (dropdown menu options are in [square brackets]). This means that after 'last', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:596
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:597
 msgctxt "ECompEditorPageRecur"
 msgid "last"
 msgstr "letzten"
 
 #. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] month(s) on the [Other date] [11th to 20th] [17th] [forever]'
 #. * (dropdown menu options are in [square brackets]).
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:623
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:624
 msgctxt "ECompEditorPageRecur"
 msgid "Other Date"
 msgstr "Anderes Datum"
@@ -4243,7 +4243,7 @@ msgstr "Anderes Datum"
 #. * the month to setup an appointment recurrence. The entire string is for example: This appointment recurs/Every [x] month(s)
 #. * on the [Other date] [1st to 10th] [7th] [forever]' (dropdown menu options are in [square brackets]).
 #.
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:629
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:630
 msgctxt "ECompEditorPageRecur"
 msgid "1st to 10th"
 msgstr "1. bis 10."
@@ -4252,7 +4252,7 @@ msgstr "1. bis 10."
 #. * the month to setup an appointment recurrence. The entire string is for example: This appointment recurs/Every [x] month(s)
 #. * on the [Other date] [11th to 20th] [17th] [forever]' (dropdown menu options are in [square brackets]).
 #.
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:635
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:636
 msgctxt "ECompEditorPageRecur"
 msgid "11th to 20th"
 msgstr "11. bis 20."
@@ -4261,7 +4261,7 @@ msgstr "11. bis 20."
 #. * the month to setup an appointment recurrence. The entire string is for example: This appointment recurs/Every [x] month(s)
 #. * on the [Other date] [21th to 31th] [27th] [forever]' (dropdown menu options are in [square brackets]).
 #.
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:641
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:642
 msgctxt "ECompEditorPageRecur"
 msgid "21st to 31st"
 msgstr "21. bis 31."
@@ -4269,42 +4269,42 @@ msgstr "21. bis 31."
 #. For Translator : 'day' is part of the sentence of the form 'appointment recurs/Every [x] month(s) on the [first] [day] [forever]'
 #. * (dropdown menu options are in[square brackets]). This means that after 'first', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:667
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:668
 msgctxt "ECompEditorPageRecur"
 msgid "day"
 msgstr "Tag"
 
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:668
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:669
 msgctxt "ECompEditorPageRecur"
 msgid "Monday"
 msgstr "Montag"
 
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:669
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:670
 msgctxt "ECompEditorPageRecur"
 msgid "Tuesday"
 msgstr "Dienstag"
 
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:670
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:671
 msgctxt "ECompEditorPageRecur"
 msgid "Wednesday"
 msgstr "Mittwoch"
 
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:671
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:672
 msgctxt "ECompEditorPageRecur"
 msgid "Thursday"
 msgstr "Donnerstag"
 
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:672
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:673
 msgctxt "ECompEditorPageRecur"
 msgid "Friday"
 msgstr "Freitag"
 
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:673
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:674
 msgctxt "ECompEditorPageRecur"
 msgid "Saturday"
 msgstr "Samstag"
 
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:674
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:675
 msgctxt "ECompEditorPageRecur"
 msgid "Sunday"
 msgstr "Sonntag"
@@ -4312,125 +4312,125 @@ msgstr "Sonntag"
 #. TRANSLATORS: Entire string is for example: 'This appointment recurs/Every [x] month(s) on the [second] [Tuesday] [forever]'
 #. * (dropdown menu options are in [square brackets])."
 #.
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:803
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:804
 msgctxt "ECompEditorPageRecur"
 msgid "on the"
 msgstr "am"
 
 # oder im Falle von Terminen: Wiederholungen ??
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:993
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:994
 msgctxt "ECompEditorPageRecur"
 msgid "occurrences"
 msgstr "Wiederholungen"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:1486
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:2016
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:1487
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:2017
 msgctxt "ECompEditorPageRecur"
 msgid "This appointment rec_urs"
 msgstr "Termin_wiederholung"
 
 #. Translators: Entire string is for example:     'This task recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:1491
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:1492
 msgctxt "ECompEditorPageRecur"
 msgid "This task rec_urs"
 msgstr "Aufgaben_wiederholung"
 
 #. Translators: Entire string is for example:     'This memo recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:1496
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:1497
 msgctxt "ECompEditorPageRecur"
 msgid "This memo rec_urs"
 msgstr "Notiz_wiederholung"
 
 #. Translators: Entire string is for example:     'This component recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:1501
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:1502
 msgctxt "ECompEditorPageRecur"
 msgid "This component rec_urs"
 msgstr "Dieser Termin _wiederholt sich"
 
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:1862
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:1863
 msgid "Recurrence exception date is invalid"
 msgstr "Das Datum für Wiederholungsausnahmen ist ungültig"
 
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:1910
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:1911
 msgid "End time of the recurrence is before the start"
 msgstr "Die Zeit der letzten Wiederholung liegt vor dem Start des Termins"
 
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:1953
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:1954
 msgid "R_ecurrence"
 msgstr "_Wiederholung"
 
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:1955
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:1956
 msgid "Set or unset recurrence"
 msgstr "Wiederholungen aktivieren oder deaktieveren"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:2056
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:2057
 msgctxt "ECompEditorPageRecur"
 msgid "Every"
 msgstr "alle"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:2091
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:2092
 msgctxt "ECompEditorPageRecur"
 msgid "day(s)"
 msgstr "Tag(e)"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:2093
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:2094
 msgctxt "ECompEditorPageRecur"
 msgid "week(s)"
 msgstr "Woche(n)"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:2095
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:2096
 msgctxt "ECompEditorPageRecur"
 msgid "month(s)"
 msgstr "Monat(e)"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:2097
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:2098
 msgctxt "ECompEditorPageRecur"
 msgid "year(s)"
 msgstr "Jahr(e)"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:2126
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:2127
 msgctxt "ECompEditorPageRecur"
 msgid "for"
 msgstr "für"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:2128
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:2129
 msgctxt "ECompEditorPageRecur"
 msgid "until"
 msgstr "bis"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:2130
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:2131
 msgctxt "ECompEditorPageRecur"
 msgid "forever"
 msgstr "immer"
 
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:2146
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:2147
 msgid "This appointment contains recurrences that Evolution cannot edit."
 msgstr "Dieser Termin enthält Wiederholungen, die Evolution nicht bearbeiten kann."
 
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:2163
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:2164
 msgid "Exceptions"
 msgstr "Ausnahmen"
 
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:2232
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:2233
 #: ../calendar/gui/e-comp-editor-page-reminders.c:1779 ../mail/mail-config.ui.h:62
 msgid "A_dd"
 msgstr "_Hinzufügen"
 
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:2248
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:2249
 #: ../calendar/gui/e-comp-editor-page-reminders.c:1787 ../mail/mail-config.ui.h:64
 msgid "Re_move"
 msgstr "_Entfernen"
 
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:2256
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:2257
 msgid "Preview"
 msgstr "Vorschau"
 
@@ -4807,7 +4807,7 @@ msgstr "Keine Zusammenfassung"
 #: ../mail/em-subscription-editor.c:1765
 #: ../modules/plugin-manager/evolution-plugin-manager.c:256
 #: ../shell/e-shell-window-actions.c:280 ../shell/e-shell-window-actions.c:778
-#: ../smime/gui/certificate-manager.c:2203
+#: ../smime/gui/certificate-manager.c:2214
 msgid "_Close"
 msgstr "S_chließen"
 
@@ -4916,7 +4916,7 @@ msgstr "_Optionen"
 
 #: ../calendar/gui/e-comp-editor.c:2093 ../e-util/e-html-editor-actions.c:1165
 #: ../mail/e-mail-browser.c:180 ../shell/e-shell-window-actions.c:991
-#: ../smime/gui/certificate-manager.c:1653 ../smime/gui/smime-ui.ui.h:5
+#: ../smime/gui/certificate-manager.c:1664 ../smime/gui/smime-ui.ui.h:5
 msgid "_View"
 msgstr "_Ansicht"
 
@@ -7713,14 +7713,14 @@ msgstr "Klicken Sie hier, um das Adressbuch zu öffnen"
 msgid "Click here to select folders to post to"
 msgstr "Klicken Sie hier, um die Veröffentlichungsordner zu wählen"
 
-#: ../composer/e-msg-composer.c:874
+#: ../composer/e-msg-composer.c:876
 #, c-format
 msgid "Cannot sign outgoing message: No signing certificate set for this account"
 msgstr ""
 "Ausgehende Nachricht konnte nicht signiert werden: Kein Signaturzertifikat für "
 "dieses Konto festgelegt"
 
-#: ../composer/e-msg-composer.c:883
+#: ../composer/e-msg-composer.c:885
 #, c-format
 msgid ""
 "Cannot encrypt outgoing message: No encryption certificate set for this account"
@@ -7728,12 +7728,12 @@ msgstr ""
 "Ausgehende Nachricht konnte nicht verschlüsselt werden: Kein "
 "Verschlüsselungszertifikat für dieses Konto festgelegt"
 
-#: ../composer/e-msg-composer.c:1599 ../composer/e-msg-composer.c:2598
+#: ../composer/e-msg-composer.c:1601 ../composer/e-msg-composer.c:2600
 #: ../data/evolution.desktop.in.in.h:7
 msgid "Compose Message"
 msgstr "Nachricht verfassen"
 
-#: ../composer/e-msg-composer.c:4893
+#: ../composer/e-msg-composer.c:4895
 msgid "The composer contains a non-text message body, which cannot be edited."
 msgstr ""
 "Der Editor enthält einen nicht-Text-Nachrichtenrumpf, der nicht bearbeitet werden "
@@ -7973,7 +7973,7 @@ msgstr "Kontakte"
 #: ../data/evolution.desktop.in.in.h:10 ../e-util/e-send-options.c:538
 #: ../mail/importers/elm-importer.c:329 ../mail/importers/kmail-importer.c:253
 #: ../mail/importers/pine-importer.c:422 ../modules/mail/e-mail-shell-view.c:1242
-#: ../smime/gui/certificate-manager.c:1673
+#: ../smime/gui/certificate-manager.c:1684
 msgid "Mail"
 msgstr "E-Mail"
 
@@ -10822,7 +10822,7 @@ msgstr "Größe"
 #: ../em-format/e-mail-part-headers.c:51 ../mail/e-mail-tag-editor.c:282
 #: ../mail/filtertypes.xml.in.h:16 ../mail/message-list.etspec.h:6
 #: ../mail/searchtypes.xml.in.h:17 ../mail/vfoldertypes.xml.in.h:17
-#: ../modules/mail/em-mailer-prefs.c:67 ../smime/gui/certificate-manager.c:1634
+#: ../modules/mail/em-mailer-prefs.c:67 ../smime/gui/certificate-manager.c:1645
 msgid "Subject"
 msgstr "Betreff"
 
@@ -15133,10 +15133,8 @@ msgid "Choose a folder to archive messages to."
 msgstr "Wählen Sie einen Ordner, in denen Nachrichten archiviert werden sollen."
 
 #: ../mail/e-mail-config-defaults-page.c:932
-#, fuzzy
-#| msgid "_Template:"
 msgid "_Templates Folder:"
-msgstr "_Vorlage:"
+msgstr "Ordner für _Vorlagen:"
 
 #: ../mail/e-mail-config-defaults-page.c:942
 msgid "Choose a folder to use for template messages."
@@ -16371,34 +16369,34 @@ msgstr "Entfernten Inhalt laden"
 msgid "Do not warn me again"
 msgstr "Nicht mehr nachfragen"
 
-#: ../mail/e-mail-reader-utils.c:572
+#: ../mail/e-mail-reader-utils.c:570
 #, c-format
 msgid "Refreshing folder '%s'"
 msgstr "Ordner »%s« wird aktualisiert"
 
-#: ../mail/e-mail-reader-utils.c:1165
+#: ../mail/e-mail-reader-utils.c:1163
 msgid "Marking thread to be ignored"
 msgstr "Die Konversation zum Ignorieren markieren"
 
-#: ../mail/e-mail-reader-utils.c:1169
+#: ../mail/e-mail-reader-utils.c:1167
 msgid "Unmarking thread from being ignored"
 msgstr "Markierung zum Ignorieren der Konversation entfernen"
 
-#: ../mail/e-mail-reader-utils.c:1173
+#: ../mail/e-mail-reader-utils.c:1171
 msgid "Marking subthread to be ignored"
 msgstr "Unterkonversation als »zu ignorieren« markieren"
 
-#: ../mail/e-mail-reader-utils.c:1177
+#: ../mail/e-mail-reader-utils.c:1175
 msgid "Unmarking subthread from being ignored"
 msgstr "Markierung zum Ignorieren der Unterkonversation entfernen"
 
-#: ../mail/e-mail-reader-utils.c:1421
+#: ../mail/e-mail-reader-utils.c:1419
 msgid "Printing"
 msgstr "Drucken"
 
 #. Translators: %s is replaced with a folder
 #. * name %u with count of duplicate messages.
-#: ../mail/e-mail-reader-utils.c:1658
+#: ../mail/e-mail-reader-utils.c:1656
 #, c-format
 msgid ""
 "Folder '%s' contains %u duplicate message. Are you sure you want to delete it?"
@@ -16410,7 +16408,7 @@ msgstr[1] ""
 "Der Ordner »%s« enthält %u doppelte Nachrichten. Sollen diese wirklich gelöscht "
 "werden?"
 
-#: ../mail/e-mail-reader-utils.c:2489
+#: ../mail/e-mail-reader-utils.c:2487
 msgid "Save Message"
 msgid_plural "Save Messages"
 msgstr[0] "Nachricht speichern"
@@ -16421,13 +16419,13 @@ msgstr[1] "Nachrichten speichern"
 #. * mbox format, when the first message doesn't have a
 #. * subject.  The extension ".mbox" is appended to the
 #. * string; for example "Message.mbox".
-#: ../mail/e-mail-reader-utils.c:2510
+#: ../mail/e-mail-reader-utils.c:2508
 msgid "Message"
 msgid_plural "Messages"
 msgstr[0] "Nachricht"
 msgstr[1] "Nachrichten"
 
-#: ../mail/e-mail-reader-utils.c:2883
+#: ../mail/e-mail-reader-utils.c:2881
 msgid "Parsing message"
 msgstr "Nachricht wird verarbeitet"
 
@@ -21160,14 +21158,12 @@ msgid "%s has sent back the following meeting response:"
 msgstr "%s hat folgende Besprechungsrückmeldung geschickt:"
 
 #: ../modules/itip-formatter/itip-view.c:442
-#, fuzzy, c-format
-#| msgid "%s through %s has canceled the following meeting:"
+#, c-format
 msgid "%s through %s has cancelled the following meeting:"
 msgstr "%s hat durch %s folgende Besprechung abgesagt:"
 
 #: ../modules/itip-formatter/itip-view.c:444
-#, fuzzy, c-format
-#| msgid "%s has canceled the following meeting:"
+#, c-format
 msgid "%s has cancelled the following meeting:"
 msgstr "%s hat folgende Besprechung abgesagt:"
 
@@ -21253,14 +21249,12 @@ msgid "%s has sent back the following assigned task response:"
 msgstr "%s hat folgende Rückmeldung zu einer zugewiesenen Aufgabe geschickt:"
 
 #: ../modules/itip-formatter/itip-view.c:532
-#, fuzzy, c-format
-#| msgid "%s through %s has canceled the following assigned task:"
+#, c-format
 msgid "%s through %s has cancelled the following assigned task:"
 msgstr "%s hat durch %s folgende zugewiesene Aufgabe zurückgezogen:"
 
 #: ../modules/itip-formatter/itip-view.c:534
-#, fuzzy, c-format
-#| msgid "%s has canceled the following assigned task:"
+#, c-format
 msgid "%s has cancelled the following assigned task:"
 msgstr "%s hat folgende zugewiesene Aufgabe zurückgezogen:"
 
@@ -21305,14 +21299,12 @@ msgid "%s wishes to add to an existing memo:"
 msgstr "%s wünscht zu einer existierenden Notiz hinzuzufügen:"
 
 #: ../modules/itip-formatter/itip-view.c:598
-#, fuzzy, c-format
-#| msgid "%s through %s has canceled the following shared memo:"
+#, c-format
 msgid "%s through %s has cancelled the following shared memo:"
 msgstr "%s hat durch %s folgende gemeinsame Notiz gelöscht:"
 
 #: ../modules/itip-formatter/itip-view.c:600
-#, fuzzy, c-format
-#| msgid "%s has canceled the following shared memo:"
+#, c-format
 msgid "%s has cancelled the following shared memo:"
 msgstr "%s hat folgende gemeinsame Notiz gelöscht:"
 
@@ -21374,7 +21366,7 @@ msgstr "Informationen über_mitteln"
 msgid "_Update Attendee Status"
 msgstr "Teilnehmerstatus a_ktualisieren"
 
-#: ../modules/itip-formatter/itip-view.c:1066 ../smime/gui/certificate-manager.c:1668
+#: ../modules/itip-formatter/itip-view.c:1066 ../smime/gui/certificate-manager.c:1679
 msgid "_Update"
 msgstr "A_ktualisieren"
 
@@ -21483,8 +21475,7 @@ msgid "Sent to calendar '%s' as declined"
 msgstr "In Kalender »%s« als »Abgelehnt« eingetragen"
 
 #: ../modules/itip-formatter/itip-view.c:4814
-#, fuzzy, c-format
-#| msgid "Sent to calendar '%s' as canceled"
+#, c-format
 msgid "Sent to calendar '%s' as cancelled"
 msgstr "In Kalender »%s« als »Abgesagt« eingetragen"
 
@@ -21843,7 +21834,7 @@ msgstr "E-Mail-_Ordner"
 msgid "Create a new mail folder"
 msgstr "Einen neuen E-Mail-Ordner anlegen"
 
-# One of the known implementation names of the GNetworkMonitor. Either 
+# One of the known implementation names of the GNetworkMonitor. Either
 # translate
 # it to some user-frienly form, or keep it as is.
 #. Translators: One of the known implementation names of the GNetworkMonitor. Either translate
@@ -21861,7 +21852,7 @@ msgctxt "NetworkMonitor"
 msgid "netlink"
 msgstr "netlink"
 
-# One of the known implementation names of the GNetworkMonitor. Either 
+# One of the known implementation names of the GNetworkMonitor. Either
 # translate
 # it to some user-frienly form, or keep it as is.
 #. Translators: One of the known implementation names of the GNetworkMonitor. Either translate
@@ -21874,7 +21865,7 @@ msgstr "networkmanager"
 #: ../modules/mail/e-mail-shell-backend.c:725
 msgctxt "NetworkMonitor"
 msgid "Method to detect _online state:"
-msgstr ""
+msgstr "Methode zur Erkennung des _Online-Status:"
 
 #. Always as the first
 #: ../modules/mail/e-mail-shell-backend.c:734
@@ -23764,7 +23755,7 @@ msgid "_Username:"
 msgstr "_Benutzername:"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:29
-#: ../smime/gui/certificate-manager.c:776
+#: ../smime/gui/certificate-manager.c:787
 msgid "_Password:"
 msgstr "_Passwort:"
 
@@ -24643,7 +24634,7 @@ msgstr "MD5-Fingerabdruck"
 msgid "Email Address"
 msgstr "E-Mail-Adresse"
 
-#: ../smime/gui/certificate-manager.c:654
+#: ../smime/gui/certificate-manager.c:665
 msgid "Select a file to backup your key and certificate..."
 msgstr "Wählen Sie eine Datei zum Sichern ihres Schlüssels und Zertifikats …"
 
@@ -24652,31 +24643,31 @@ msgstr "Wählen Sie eine Datei zum Sichern ihres Schlüssels und Zertifikats …
 #. * when a user wants to backup one of her/his private keys/certificates.
 #. * For example: gnomedev-backup.p12
 #.
-#: ../smime/gui/certificate-manager.c:666
+#: ../smime/gui/certificate-manager.c:677
 #, c-format
 msgid "%s-backup.p12"
 msgstr "%s-backup.p12"
 
-#: ../smime/gui/certificate-manager.c:732
+#: ../smime/gui/certificate-manager.c:743
 msgid "Backup Certificate"
 msgstr "Zertifikat sichern"
 
 #. filename selection
-#: ../smime/gui/certificate-manager.c:746
+#: ../smime/gui/certificate-manager.c:757
 msgid "_File name:"
 msgstr "_Dateiname:"
 
 #. FIXME when gtk_file_chooser_button allows GTK_FILE_CHOOSER_ACTION_SAVE use it
-#: ../smime/gui/certificate-manager.c:751
+#: ../smime/gui/certificate-manager.c:762
 msgid "Please select a file..."
 msgstr "Bitte eine Datei wählen …"
 
-#: ../smime/gui/certificate-manager.c:765
+#: ../smime/gui/certificate-manager.c:776
 msgid "_Include certificate chain in the backup"
 msgstr "Die Zertifikatskette in der Sicherung mit _einschließen"
 
 #. To Translators: this text was copied from Firefox
-#: ../smime/gui/certificate-manager.c:771
+#: ../smime/gui/certificate-manager.c:782
 msgid ""
 "The certificate backup password you set here protects the backup file that you are "
 "about to create.\n"
@@ -24686,16 +24677,16 @@ msgstr ""
 "erstellen.\n"
 "Sie müssen ein Passwort angeben, um mit der Sicherheitskopie fortsetzen zu können."
 
-#: ../smime/gui/certificate-manager.c:790
+#: ../smime/gui/certificate-manager.c:801
 msgid "_Repeat Password:"
 msgstr "Passwort _wiederholen:"
 
-#: ../smime/gui/certificate-manager.c:809
+#: ../smime/gui/certificate-manager.c:820
 msgid "Passwords do not match"
 msgstr "Passwörter stimmen nicht überein"
 
 #. To Translators: this text was copied from Firefox
-#: ../smime/gui/certificate-manager.c:817
+#: ../smime/gui/certificate-manager.c:828
 msgid ""
 "Important:\n"
 "If you forget your certificate backup password, you will not be able to restore "
@@ -24707,93 +24698,93 @@ msgstr ""
 "Sicherheitskopie später nicht wiederherstellen.\n"
 "Bewahren Sie das Passwort an einem sicheren Ort auf."
 
-#: ../smime/gui/certificate-manager.c:862
+#: ../smime/gui/certificate-manager.c:873
 msgid "No file name provided"
 msgstr "Kein Dateiname angegeben"
 
-#: ../smime/gui/certificate-manager.c:866
+#: ../smime/gui/certificate-manager.c:877
 msgid "Failed to backup key and certificate"
 msgstr "Zertifikat und Notfallschlüssel konnten nicht gesichert werden"
 
-#: ../smime/gui/certificate-manager.c:955
+#: ../smime/gui/certificate-manager.c:966
 msgid "Select a certificate to import..."
 msgstr "Wählen Sie ein zu importierendes Zertifikat …"
 
-#: ../smime/gui/certificate-manager.c:1005
+#: ../smime/gui/certificate-manager.c:1016
 msgid "Failed to import certificate"
 msgstr "Zertifikat konnte nicht importiert werden"
 
-#: ../smime/gui/certificate-manager.c:1121
+#: ../smime/gui/certificate-manager.c:1132
 msgctxt "CamelTrust"
 msgid "Ask when used"
 msgstr "Beim Verwenden nachfragen"
 
-#: ../smime/gui/certificate-manager.c:1123
+#: ../smime/gui/certificate-manager.c:1134
 msgctxt "CamelTrust"
 msgid "Never"
 msgstr "Nie"
 
-#: ../smime/gui/certificate-manager.c:1125
+#: ../smime/gui/certificate-manager.c:1136
 msgctxt "CamelTrust"
 msgid "Marginally"
 msgstr "Geringfügig"
 
-#: ../smime/gui/certificate-manager.c:1127
+#: ../smime/gui/certificate-manager.c:1138
 msgctxt "CamelTrust"
 msgid "Fully"
 msgstr "Vollkommen"
 
-#: ../smime/gui/certificate-manager.c:1129
+#: ../smime/gui/certificate-manager.c:1140
 msgctxt "CamelTrust"
 msgid "Ultimately"
 msgstr "Uneingeschränkt"
 
-#: ../smime/gui/certificate-manager.c:1131
+#: ../smime/gui/certificate-manager.c:1142
 msgctxt "CamelTrust"
 msgid "Temporarily"
 msgstr "Vorübergehend"
 
-#: ../smime/gui/certificate-manager.c:1337
+#: ../smime/gui/certificate-manager.c:1348
 msgid "Change certificate trust"
 msgstr "Vertrauenswürdigkeit eines Zertifikats ändern"
 
-#: ../smime/gui/certificate-manager.c:1349
+#: ../smime/gui/certificate-manager.c:1360
 #, c-format
 msgid "Change trust for the host '%s':"
 msgstr "Vertrauenswürdigkeit für Rechner »%s« ändern:"
 
-#: ../smime/gui/certificate-manager.c:1373
+#: ../smime/gui/certificate-manager.c:1384
 msgctxt "CamelTrust"
 msgid "_Ask when used"
 msgstr "Beim _Verwenden nachfragen"
 
-#: ../smime/gui/certificate-manager.c:1374
+#: ../smime/gui/certificate-manager.c:1385
 msgctxt "CamelTrust"
 msgid "_Never trust this certificate"
 msgstr "_Niemals diesem Zertifikat vertrauen"
 
-#: ../smime/gui/certificate-manager.c:1375
+#: ../smime/gui/certificate-manager.c:1386
 msgctxt "CamelTrust"
 msgid "_Temporarily trusted (this session only)"
 msgstr "_Vorübergehend vertrauenswürdig (nur für diese Sitzung)"
 
-#: ../smime/gui/certificate-manager.c:1376
+#: ../smime/gui/certificate-manager.c:1387
 msgctxt "CamelTrust"
 msgid "_Marginally trusted"
 msgstr "_Geringfügig vertrauenswürdig"
 
-#: ../smime/gui/certificate-manager.c:1377
+#: ../smime/gui/certificate-manager.c:1388
 msgctxt "CamelTrust"
 msgid "_Fully trusted"
 msgstr "_Vollständig vertrauenswürdig"
 
-#: ../smime/gui/certificate-manager.c:1378
+#: ../smime/gui/certificate-manager.c:1389
 msgctxt "CamelTrust"
 msgid "_Ultimately trusted"
 msgstr "_Uneingeschränkt vertrauenswürdig"
 
 # CHECK
-#: ../smime/gui/certificate-manager.c:1382
+#: ../smime/gui/certificate-manager.c:1393
 msgid ""
 "Before trusting this site, you should examine its certificate and its policy and "
 "procedures (if available)."
@@ -24801,43 +24792,43 @@ msgstr ""
 "Bevor Sie dieser Zertifizierungsstelle vertrauen, sollten Sie deren Zertifikat und "
 "seine Verfahrensweisen genau kontrollieren (falls möglich)."
 
-#: ../smime/gui/certificate-manager.c:1397
+#: ../smime/gui/certificate-manager.c:1408
 msgid "_Display certificate"
 msgstr "_Zertifikat anzeigen"
 
-#: ../smime/gui/certificate-manager.c:1602
+#: ../smime/gui/certificate-manager.c:1613
 msgid "You have certificates on file that identify these mail servers:"
 msgstr "Sie besitzen Zertifikate, die folgende E-Mail-Server identifizieren:"
 
-#: ../smime/gui/certificate-manager.c:1633
+#: ../smime/gui/certificate-manager.c:1644
 msgid "Host name"
 msgstr "Rechnername"
 
-#: ../smime/gui/certificate-manager.c:1635
+#: ../smime/gui/certificate-manager.c:1646
 msgid "Issuer"
 msgstr "Aussteller"
 
-#: ../smime/gui/certificate-manager.c:1636
+#: ../smime/gui/certificate-manager.c:1647
 msgid "Fingerprint"
 msgstr "Fingerabdruck"
 
-#: ../smime/gui/certificate-manager.c:1637
+#: ../smime/gui/certificate-manager.c:1648
 msgid "Trust"
 msgstr "Vertrauenswürdigkeit"
 
-#: ../smime/gui/certificate-manager.c:1658
+#: ../smime/gui/certificate-manager.c:1669
 msgid "_Edit Trust"
 msgstr "Vertrauenswürdigkeit _bearbeiten"
 
-#: ../smime/gui/certificate-manager.c:2112
+#: ../smime/gui/certificate-manager.c:2123
 msgid "All PKCS12 files"
 msgstr "Alle PKCS12-Dateien"
 
-#: ../smime/gui/certificate-manager.c:2129
+#: ../smime/gui/certificate-manager.c:2140
 msgid "All email certificate files"
 msgstr "Alle E-Mail-Zertifikatdateien"
 
-#: ../smime/gui/certificate-manager.c:2146
+#: ../smime/gui/certificate-manager.c:2157
 msgid "All CA certificate files"
 msgstr "Alle CA-Zertifikatdateien"
 
