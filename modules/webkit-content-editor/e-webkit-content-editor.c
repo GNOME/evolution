@@ -62,14 +62,6 @@ enum {
 	PROP_UNDERLINE
 };
 
-enum {
-	COPY_CLIPBOARD,
-	CUT_CLIPBOARD,
-	LAST_SIGNAL
-};
-
-static guint signals[LAST_SIGNAL];
-
 struct _EWebKitContentEditorPrivate {
 	GDBusProxy *web_extension;
 	guint web_extension_watch_name_id;
@@ -88,7 +80,7 @@ struct _EWebKitContentEditorPrivate {
 	gboolean reload_in_progress;
 	gboolean copy_paste_clipboard_in_view;
 	gboolean copy_paste_primary_in_view;
-	gboolean copy_action_triggered;
+	gboolean copy_cut_actions_triggered;
 	gboolean pasting_primary_clipboard;
 
 	gboolean is_bold;
@@ -1738,6 +1730,8 @@ webkit_content_editor_cut (EContentEditor *editor)
 
 	wk_editor = E_WEBKIT_CONTENT_EDITOR (editor);
 
+	wk_editor->priv->copy_cut_actions_triggered = TRUE;
+
 	webkit_content_editor_call_simple_extension_function (
 		wk_editor, "EHTMLEditorActionsSaveHistoryForCut");
 
@@ -1755,6 +1749,8 @@ webkit_content_editor_copy (EContentEditor *editor)
 	gboolean handled = FALSE;
 
 	wk_editor = E_WEBKIT_CONTENT_EDITOR (editor);
+
+	wk_editor->priv->copy_cut_actions_triggered = TRUE;
 
 	g_signal_emit_by_name (editor, "copy-clipboard", editor, &handled);
 
@@ -5406,7 +5402,7 @@ webkit_content_editor_clipboard_owner_change_cb (GtkClipboard *clipboard,
 	if (!E_IS_WEBKIT_CONTENT_EDITOR (wk_editor))
 		return;
 
-	if (wk_editor->priv->copy_action_triggered && event->owner)
+	if (wk_editor->priv->copy_cut_actions_triggered && event->owner)
 		wk_editor->priv->copy_paste_clipboard_in_view = TRUE;
 	else
 		wk_editor->priv->copy_paste_clipboard_in_view = FALSE;
@@ -5424,7 +5420,7 @@ webkit_content_editor_clipboard_owner_change_cb (GtkClipboard *clipboard,
 		NULL,
 		NULL);
 
-	wk_editor->priv->copy_action_triggered = FALSE;
+	wk_editor->priv->copy_cut_actions_triggered = FALSE;
 }
 
 static void
@@ -5450,12 +5446,6 @@ webkit_content_editor_primary_clipboard_owner_change_cb (GtkClipboard *clipboard
 		NULL,
 		NULL,
 		NULL);
-}
-
-static void
-webkit_content_editor_copy_cut_clipboard_cb (EWebKitContentEditor *wk_editor)
-{
-	wk_editor->priv->copy_action_triggered = TRUE;
 }
 
 static gboolean
@@ -5792,14 +5782,6 @@ e_webkit_content_editor_init (EWebKitContentEditor *wk_editor)
 		G_CALLBACK (webkit_content_editor_load_changed_cb), NULL);
 
 	g_signal_connect (
-		wk_editor, "copy-clipboard",
-		G_CALLBACK (webkit_content_editor_copy_cut_clipboard_cb), NULL);
-
-	g_signal_connect (
-		wk_editor, "cut-clipboard",
-		G_CALLBACK (webkit_content_editor_copy_cut_clipboard_cb), NULL);
-
-	g_signal_connect (
 		wk_editor, "context-menu",
 		G_CALLBACK (webkit_content_editor_context_menu_cb), NULL);
 
@@ -5852,7 +5834,7 @@ e_webkit_content_editor_init (EWebKitContentEditor *wk_editor)
 	wk_editor->priv->can_redo = FALSE;
 	wk_editor->priv->copy_paste_clipboard_in_view = FALSE;
 	wk_editor->priv->copy_paste_primary_in_view = FALSE;
-	wk_editor->priv->copy_action_triggered = FALSE;
+	wk_editor->priv->copy_cut_actions_triggered = FALSE;
 	wk_editor->priv->pasting_primary_clipboard = FALSE;
 	wk_editor->priv->content_flags = 0;
 	wk_editor->priv->current_user_stylesheet = NULL;
