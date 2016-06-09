@@ -51,7 +51,6 @@
       <menuitem action='request-read-receipt'/>
       <menuitem action='prioritize-message'/>
       <separator/>
-      <menuitem action='unicode-smileys'/>
       <menu action='charset-menu'/>
     </menu>
   </menubar>

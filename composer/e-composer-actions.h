@@ -56,8 +56,6 @@
 	E_COMPOSER_ACTION ((composer), "smime-encrypt")
 #define E_COMPOSER_ACTION_SMIME_SIGN(composer) \
 	E_COMPOSER_ACTION ((composer), "smime-sign")
-#define E_COMPOSER_ACTION_UNICODE_SMILEYS(composer) \
-	E_COMPOSER_ACTION ((composer), "unicode-smileys")
 #define E_COMPOSER_ACTION_TOOLBAR_PGP_ENCRYPT(composer) \
 	E_COMPOSER_ACTION ((composer), "toolbar-pgp-encrypt")
 #define E_COMPOSER_ACTION_TOOLBAR_PGP_SIGN(composer) \
