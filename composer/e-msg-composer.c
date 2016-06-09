@@ -1741,54 +1741,44 @@ msg_composer_paste_clipboard_targets_cb (GtkClipboard *clipboard,
 		return;
 	}
 
-	composer->priv->ignore_next_paste_clipboard_signals_emission = TRUE;
-
-	g_signal_emit_by_name (
-		cnt_editor,
-		composer->priv->last_signal_was_paste_primary ?
-			"paste-primary-clipboard" : "paste-clipboard");
+	if (composer->priv->last_signal_was_paste_primary) {
+		e_content_editor_paste_primary (cnt_editor);
+	} else
+		e_content_editor_paste (cnt_editor);
 }
 
-static void
+static gboolean
 msg_composer_paste_primary_clipboard_cb (EContentEditor *cnt_editor,
                                          EMsgComposer *composer)
 {
-	if (composer->priv->ignore_next_paste_clipboard_signals_emission)
-		composer->priv->ignore_next_paste_clipboard_signals_emission = FALSE;
-	else {
-		GtkClipboard *clipboard;
+	GtkClipboard *clipboard;
 
-		clipboard = gtk_clipboard_get (GDK_SELECTION_PRIMARY);
+	clipboard = gtk_clipboard_get (GDK_SELECTION_PRIMARY);
 
-		composer->priv->last_signal_was_paste_primary = TRUE;
+	composer->priv->last_signal_was_paste_primary = TRUE;
 
-		gtk_clipboard_request_targets (
-			clipboard, (GtkClipboardTargetsReceivedFunc)
-			msg_composer_paste_clipboard_targets_cb, composer);
+	gtk_clipboard_request_targets (
+		clipboard, (GtkClipboardTargetsReceivedFunc)
+		msg_composer_paste_clipboard_targets_cb, composer);
 
-		g_signal_stop_emission_by_name (cnt_editor, "paste-primary-clipboard");
-	}
+	return TRUE;
 }
 
-static void
+static gboolean
 msg_composer_paste_clipboard_cb (EContentEditor *cnt_editor,
                                  EMsgComposer *composer)
 {
-	if (composer->priv->ignore_next_paste_clipboard_signals_emission)
-		composer->priv->ignore_next_paste_clipboard_signals_emission = FALSE;
-	else {
-		GtkClipboard *clipboard;
+	GtkClipboard *clipboard;
 
-		clipboard = gtk_clipboard_get (GDK_SELECTION_CLIPBOARD);
+	clipboard = gtk_clipboard_get (GDK_SELECTION_CLIPBOARD);
 
-		composer->priv->last_signal_was_paste_primary = FALSE;
+	composer->priv->last_signal_was_paste_primary = FALSE;
 
-		gtk_clipboard_request_targets (
-			clipboard, (GtkClipboardTargetsReceivedFunc)
-			msg_composer_paste_clipboard_targets_cb, composer);
+	gtk_clipboard_request_targets (
+		clipboard, (GtkClipboardTargetsReceivedFunc)
+		msg_composer_paste_clipboard_targets_cb, composer);
 
-		g_signal_stop_emission_by_name (cnt_editor, "paste-clipboard");
-	}
+	return TRUE;
 }
 #if 0
 static gboolean
@@ -2468,8 +2458,6 @@ msg_composer_constructed (GObject *object)
 	g_signal_connect (
 		cnt_editor, "paste-primary-clipboard",
 		G_CALLBACK (msg_composer_paste_primary_clipboard_cb), composer);
-
-	e_content_editor_reconnect_paste_clipboard_signals (cnt_editor);
 
 	/* Drag-and-Drop Support */
 #if 0 /* FIXME WK2 */

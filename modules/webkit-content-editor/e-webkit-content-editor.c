@@ -1252,9 +1252,7 @@ webkit_content_editor_insert_content (EContentEditor *editor,
 
 	wk_editor->priv->reload_in_progress = TRUE;
 
-	/* FIXME TOTO JE ASI BLBE.. */
 	if ((flags & E_CONTENT_EDITOR_INSERT_CONVERT) &&
-	    (flags & E_CONTENT_EDITOR_INSERT_TEXT_HTML) &&
 	    !(flags & E_CONTENT_EDITOR_INSERT_REPLACE_ALL)) {
 		// e_html_editor_view_convert_and_insert_plain_text
 		// e_html_editor_view_convert_and_insert_html_to_plain_text
@@ -1763,34 +1761,6 @@ webkit_content_editor_copy (EContentEditor *editor)
 	if (!handled)
 		webkit_web_view_execute_editing_command (
 			WEBKIT_WEB_VIEW (wk_editor), WEBKIT_EDITING_COMMAND_COPY);
-}
-
-static void
-webkit_content_editor_paste (EContentEditor *editor)
-{
-	gboolean handled;
-
-	handled = e_content_editor_emit_paste_clipboard (editor);
-
-	if (!handled)
-		webkit_web_view_execute_editing_command (
-			WEBKIT_WEB_VIEW (editor), WEBKIT_EDITING_COMMAND_PASTE);
-
-	/* FIXME
-	e_html_editor_view_force_spell_check (view) */
-}
-
-static gboolean
-webkit_content_editor_paste_prefer_text_html (EContentEditor *editor)
-{
-	EWebKitContentEditor *wk_editor;
-
-	wk_editor = E_WEBKIT_CONTENT_EDITOR (editor);
-
-	if (wk_editor->priv->pasting_primary_clipboard)
-		return wk_editor->priv->copy_paste_primary_in_view;
-	else
-		return wk_editor->priv->copy_paste_clipboard_in_view;
 }
 
 static ESpellChecker *
@@ -5488,6 +5458,15 @@ webkit_content_editor_copy_cut_clipboard_cb (EWebKitContentEditor *wk_editor)
 	wk_editor->priv->copy_action_triggered = TRUE;
 }
 
+static gboolean
+webkit_content_editor_paste_prefer_text_html (EWebKitContentEditor *wk_editor)
+{
+	if (wk_editor->priv->pasting_primary_clipboard)
+		return wk_editor->priv->copy_paste_primary_in_view;
+	else
+		return wk_editor->priv->copy_paste_clipboard_in_view;
+}
+
 static void
 webkit_content_editor_paste_clipboard_targets_cb (GtkClipboard *clipboard,
                                                   GdkAtom *targets,
@@ -5506,7 +5485,7 @@ webkit_content_editor_paste_clipboard_targets_cb (GtkClipboard *clipboard,
 	/* Prefer plain text over HTML when in the plain text mode, but only
 	 * when pasting content from outside the editor view. */
 	if (wk_editor->priv->html_mode ||
-	    webkit_content_editor_paste_prefer_text_html (E_CONTENT_EDITOR (wk_editor))) {
+	    webkit_content_editor_paste_prefer_text_html (wk_editor)) {
 		gchar *content = NULL;
 
 		if (e_targets_include_html (targets, n_targets)) {
@@ -5529,7 +5508,8 @@ webkit_content_editor_paste_clipboard_targets_cb (GtkClipboard *clipboard,
 			webkit_content_editor_insert_content (
 				E_CONTENT_EDITOR (wk_editor),
 				content,
-				E_CONTENT_EDITOR_INSERT_TEXT_PLAIN);
+				E_CONTENT_EDITOR_INSERT_TEXT_PLAIN |
+				E_CONTENT_EDITOR_INSERT_CONVERT);
 
 			g_free (content);
 			return;
@@ -5544,7 +5524,8 @@ webkit_content_editor_paste_clipboard_targets_cb (GtkClipboard *clipboard,
 			webkit_content_editor_insert_content (
 				E_CONTENT_EDITOR (wk_editor),
 				content,
-				E_CONTENT_EDITOR_INSERT_TEXT_PLAIN);
+				E_CONTENT_EDITOR_INSERT_TEXT_PLAIN |
+				E_CONTENT_EDITOR_INSERT_CONVERT);
 
 			g_free (content);
 			return;
@@ -5579,51 +5560,40 @@ webkit_content_editor_paste_clipboard_targets_cb (GtkClipboard *clipboard,
 }
 
 static void
-webkit_content_editor_paste_primary_clipboard_cb (EWebKitContentEditor *wk_editor)
+webkit_content_editor_paste_primary (EContentEditor *editor)
 {
+
 	GtkClipboard *clipboard;
+	EWebKitContentEditor *wk_editor;
+
+	wk_editor = E_WEBKIT_CONTENT_EDITOR (editor);
+
+	/* Remember, that we are pasting primary clipboard to return
+	 * correct value in e_html_editor_view_is_pasting_content_from_itself. */
+	wk_editor->priv->pasting_primary_clipboard = TRUE;
+
+	webkit_content_editor_move_caret_on_current_coordinates (GTK_WIDGET (wk_editor));
 
 	clipboard = gtk_clipboard_get (GDK_SELECTION_PRIMARY);
 
 	gtk_clipboard_request_targets (
 		clipboard, (GtkClipboardTargetsReceivedFunc)
 		webkit_content_editor_paste_clipboard_targets_cb, wk_editor);
-
-	g_signal_stop_emission_by_name (wk_editor, "paste-primary-clipboard");
 }
 
 static void
-webkit_content_editor_paste_clipboard_cb (EWebKitContentEditor *wk_editor)
+webkit_content_editor_paste (EContentEditor *editor)
 {
 	GtkClipboard *clipboard;
+	EWebKitContentEditor *wk_editor;
+
+	wk_editor = E_WEBKIT_CONTENT_EDITOR (editor);
 
 	clipboard = gtk_clipboard_get (GDK_SELECTION_CLIPBOARD);
 
 	gtk_clipboard_request_targets (
 		clipboard, (GtkClipboardTargetsReceivedFunc)
 		webkit_content_editor_paste_clipboard_targets_cb, wk_editor);
-
-	g_signal_stop_emission_by_name (wk_editor, "paste-clipboard");
-}
-
-static void
-webkit_content_editor_reconnect_paste_clipboard_signals (EContentEditor *editor)
-{
-	EWebKitContentEditor *wk_editor;
-
-	wk_editor = E_WEBKIT_CONTENT_EDITOR (editor);
-
-	g_signal_handlers_disconnect_by_func (
-		wk_editor, webkit_content_editor_paste_clipboard_cb, NULL);
-	g_signal_handlers_disconnect_by_func (
-		wk_editor, webkit_content_editor_paste_primary_clipboard_cb, NULL);
-
-	g_signal_connect (
-		wk_editor, "paste-clipboard",
-		G_CALLBACK (webkit_content_editor_paste_clipboard_cb), NULL);
-	g_signal_connect (
-		wk_editor, "paste-primary-clipboard",
-		G_CALLBACK (webkit_content_editor_paste_primary_clipboard_cb), NULL);
 }
 
 static void
@@ -5679,24 +5649,12 @@ static gboolean
 webkit_content_editor_button_press_event (GtkWidget *widget,
                                           GdkEventButton *event)
 {
-	EWebKitContentEditor *wk_editor;
-	gboolean event_handled;
-
-	wk_editor = E_WEBKIT_CONTENT_EDITOR (widget);
-
 	if (event->button == 2) {
-		/* Middle click paste */
-		webkit_content_editor_move_caret_on_current_coordinates (widget);
-		/* Remember, that we are pasting primary clipboard to return
-		 * correct value in e_html_editor_view_is_pasting_content_from_itself. */
-		wk_editor->priv->pasting_primary_clipboard = TRUE;
-		event_handled = e_content_editor_emit_paste_primary_clipboard (E_CONTENT_EDITOR (widget));
-	} else {
-		event_handled = FALSE;
-	}
+		if (!e_content_editor_emit_paste_primary_clipboard (E_CONTENT_EDITOR (widget)))
+			webkit_content_editor_paste_primary (E_CONTENT_EDITOR( (widget)));
 
-	if (event_handled)
 		return TRUE;
+	}
 
 	/* Chain up to parent's button_press_event() method. */
 	return GTK_WIDGET_CLASS (e_webkit_content_editor_parent_class)->button_press_event (widget, event);
@@ -5714,7 +5672,9 @@ webkit_content_editor_key_press_event (GtkWidget *widget,
 	    ((event)->keyval == GDK_KEY_Insert)) ||
 	    (((event)->state & GDK_CONTROL_MASK) &&
 	    ((event)->keyval == GDK_KEY_v))) {
-		webkit_content_editor_paste (E_CONTENT_EDITOR (wk_editor));
+		if (!e_content_editor_emit_paste_clipboard (E_CONTENT_EDITOR (widget)))
+			webkit_content_editor_paste (E_CONTENT_EDITOR (widget));
+
 		return TRUE;
 	}
 
@@ -5840,14 +5800,6 @@ e_webkit_content_editor_init (EWebKitContentEditor *wk_editor)
 		G_CALLBACK (webkit_content_editor_copy_cut_clipboard_cb), NULL);
 
 	g_signal_connect (
-		wk_editor, "paste-clipboard",
-		G_CALLBACK (webkit_content_editor_paste_clipboard_cb), NULL);
-
-	g_signal_connect (
-		wk_editor, "paste-primary-clipboard",
-		G_CALLBACK (webkit_content_editor_paste_primary_clipboard_cb), NULL);
-
-	g_signal_connect (
 		wk_editor, "context-menu",
 		G_CALLBACK (webkit_content_editor_context_menu_cb), NULL);
 
@@ -5932,8 +5884,7 @@ e_webkit_content_editor_content_editor_init (EContentEditorInterface *iface)
 	iface->cut = webkit_content_editor_cut;
 	iface->copy = webkit_content_editor_copy;
 	iface->paste = webkit_content_editor_paste;
-	iface->paste_prefer_text_html = webkit_content_editor_paste_prefer_text_html;
-	iface->reconnect_paste_clipboard_signals = webkit_content_editor_reconnect_paste_clipboard_signals;
+	iface->paste_primary = webkit_content_editor_paste_primary;
 	iface->undo = webkit_content_editor_undo;
 	iface->redo = webkit_content_editor_redo;
 	iface->clear_undo_redo_history = webkit_content_editor_clear_undo_redo_history;

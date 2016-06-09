@@ -81,10 +81,7 @@ struct _EContentEditorInterface {
 
 	void		(*paste)			(EContentEditor *editor);
 
-	gboolean	(*paste_prefer_text_html)	(EContentEditor *editor);
-
-	void		(*reconnect_paste_clipboard_signals)
-							(EContentEditor *editor);
+	void		(*paste_primary)		(EContentEditor *editor);
 
 	void		(*undo)				(EContentEditor *editor);
 
@@ -556,11 +553,7 @@ void		e_content_editor_copy		(EContentEditor *editor);
 
 void		e_content_editor_paste		(EContentEditor *editor);
 
-gboolean	e_content_editor_paste_prefer_text_html
-						(EContentEditor *editor);
-
-void		e_content_editor_reconnect_paste_clipboard_signals
-						(EContentEditor *editor);
+void		e_content_editor_paste_primary	(EContentEditor *editor);
 
 void		e_content_editor_undo		(EContentEditor *editor);
 

@@ -1390,22 +1390,8 @@ e_content_editor_paste (EContentEditor *editor)
 	iface->paste (editor);
 }
 
-gboolean
-e_content_editor_paste_prefer_text_html (EContentEditor *editor)
-{
-	EContentEditorInterface *iface;
-
-	g_return_val_if_fail (E_IS_CONTENT_EDITOR (editor), FALSE);
-
-	iface = E_CONTENT_EDITOR_GET_IFACE (editor);
-	g_return_val_if_fail (iface != NULL, FALSE);
-	g_return_val_if_fail (iface->paste_prefer_text_html != NULL, FALSE);
-
-	return iface->paste_prefer_text_html (editor);
-}
-
 void
-e_content_editor_reconnect_paste_clipboard_signals (EContentEditor *editor)
+e_content_editor_paste_primary (EContentEditor *editor)
 {
 	EContentEditorInterface *iface;
 
@@ -1413,9 +1399,9 @@ e_content_editor_reconnect_paste_clipboard_signals (EContentEditor *editor)
 
 	iface = E_CONTENT_EDITOR_GET_IFACE (editor);
 	g_return_if_fail (iface != NULL);
-	g_return_if_fail (iface->reconnect_paste_clipboard_signals != NULL);
+	g_return_if_fail (iface->paste_primary != NULL);
 
-	iface->reconnect_paste_clipboard_signals (editor);
+	iface->paste_primary (editor);
 }
 
 void

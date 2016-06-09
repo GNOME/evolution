@@ -139,7 +139,6 @@ e_composer_private_constructed (EMsgComposer *composer)
 	priv->dnd_history_saved = FALSE;
 	priv->check_if_signature_is_changed = FALSE;
 	priv->ignore_next_signature_change = FALSE;
-	priv->ignore_next_paste_clipboard_signals_emission = FALSE;
 
 	priv->focused_entry = NULL;
 
