@@ -173,7 +173,6 @@ evolution_util_include_HEADERS =  \
 	e-conflict-search-selector.h \
 	e-contact-store.h \
 	e-content-editor.h \
-	e-content-editor-enums.h \
 	e-content-request.h \
 	e-data-capture.h \
 	e-dateedit.h \

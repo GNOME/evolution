@@ -142,7 +142,7 @@ html_editor_text_dialog_show (GtkWidget *widget)
 	EHTMLEditorTextDialog *dialog;
 	EHTMLEditor *editor;
 	EContentEditor *cnt_editor;
-	const GdkRGBA *rgba;
+	GdkRGBA *rgba;
 
 	dialog = E_HTML_EDITOR_TEXT_DIALOG (widget);
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
@@ -165,9 +165,12 @@ html_editor_text_dialog_show (GtkWidget *widget)
 		GTK_COMBO_BOX (dialog->priv->size_check),
 		e_content_editor_get_font_size (cnt_editor) - 1);
 
-	rgba = e_content_editor_get_font_color (cnt_editor);
-	e_color_combo_set_current_color (
-		E_COLOR_COMBO (dialog->priv->color_check), rgba);
+	rgba = e_content_editor_dup_font_color (cnt_editor);
+	if (rgba) {
+		e_color_combo_set_current_color (
+			E_COLOR_COMBO (dialog->priv->color_check), rgba);
+		gdk_rgba_free (rgba);
+	}
 
 	GTK_WIDGET_CLASS (e_html_editor_text_dialog_parent_class)->show (widget);
 }

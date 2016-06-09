@@ -879,7 +879,7 @@ e_html_editor_init (EHTMLEditor *editor)
  *
  * Constructs a new #EHTMLEditor.
  *
- * Returns: A newly created widget. [transfer-full]
+ * Returns: (transfer-full): A newly created widget.
  */
 GtkWidget *
 e_html_editor_new (void)

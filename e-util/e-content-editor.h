@@ -26,9 +26,9 @@
 
 #include <camel/camel.h>
 
-#include <e-util/e-content-editor-enums.h>
 #include <e-util/e-emoticon.h>
 #include <e-util/e-spell-checker.h>
+#include <e-util/e-util-enums.h>
 
 #define DEFAULT_CONTENT_EDITOR_NAME "WebKit"
 
@@ -45,6 +45,7 @@ typedef struct {
 struct _EContentEditorInterface {
 	GTypeInterface parent_interface;
 
+	void		(*update_styles)		(EContentEditor *editor);
 	void		(*insert_content)		(EContentEditor *editor,
 							 const gchar *content,
 							 EContentEditorInsertContentFlags flags);
@@ -74,11 +75,6 @@ struct _EContentEditorInterface {
 							 gint y,
 							 gboolean cancel_if_not_collapsed);
 
-	void		(*set_changed)			(EContentEditor *editor,
-							 gboolean changed);
-
-	gboolean	(*get_changed)			(EContentEditor *editor);
-
 	void		(*cut)				(EContentEditor *editor);
 
 	void		(*copy)				(EContentEditor *editor);
@@ -90,20 +86,11 @@ struct _EContentEditorInterface {
 	void		(*reconnect_paste_clipboard_signals)
 							(EContentEditor *editor);
 
-	gboolean	(*can_undo)			(EContentEditor *editor);
-
 	void		(*undo)				(EContentEditor *editor);
-
-	gboolean	(*can_redo)			(EContentEditor *editor);
 
 	void		(*redo)				(EContentEditor *editor);
 
 	void		(*clear_undo_redo_history)	(EContentEditor *editor);
-
-	void		(*set_html_mode)		(EContentEditor *editor,
-							 gboolean html_mode);
-
-	gboolean	(*get_html_mode)		(EContentEditor *editor);
 
 	ESpellChecker *	(*get_spell_checker)		(EContentEditor *editor);
 
@@ -115,7 +102,7 @@ struct _EContentEditorInterface {
 
 	gboolean	(*get_spell_check)		(EContentEditor *editor);
 
-	gchar *		(*selection_get_text)		(EContentEditor *editor);
+	gchar *		(*get_selected_text)		(EContentEditor *editor);
 
 	gchar *		(*get_caret_word)		(EContentEditor *editor);
 
@@ -123,8 +110,6 @@ struct _EContentEditorInterface {
 							 const gchar *replacement);
 
 	void		(*select_all)			(EContentEditor *editor);
-
-	gboolean	(*selection_is_indented)	(EContentEditor *editor);
 
 	void		(*selection_indent)		(EContentEditor *editor);
 
@@ -139,7 +124,7 @@ struct _EContentEditorInterface {
 							 guint32 flags,
 							 const gchar *text);
 
-	void		(*selection_replace)		(EContentEditor *editor,
+	void		(*replace)			(EContentEditor *editor,
 							 const gchar *replacement);
 
 	void		(*replace_all)			(EContentEditor *editor,
@@ -159,13 +144,6 @@ struct _EContentEditorInterface {
 
 	guint		(*get_caret_offset)		(EContentEditor *editor);
 
-	void		(*update_fonts)			(EContentEditor *editor);
-
-	gboolean	(*is_editable)			(EContentEditor *editor);
-
-	void		(*set_editable)			(EContentEditor *editor,
-							 gboolean editable);
-
 	gchar *		(*get_current_signature_uid)	(EContentEditor *editor);
 
 	gboolean	(*is_ready)			(EContentEditor *editor);
@@ -177,73 +155,6 @@ struct _EContentEditorInterface {
 							 gboolean *set_signature_from_message,
 							 gboolean *check_if_signature_is_changed,
 							 gboolean *ignore_next_signature_change);
-
-	void		(*set_alignment)		(EContentEditor *editor,
-							 EContentEditorAlignment value);
-
-	EContentEditorAlignment
-			(*get_alignment)		(EContentEditor *editor);
-
-	void		(*set_block_format)		(EContentEditor *editor,
-							 EContentEditorBlockFormat value);
-
-	EContentEditorBlockFormat
-			(*get_block_format)		(EContentEditor *editor);
-
-	void		(*set_background_color)		(EContentEditor *editor,
-							 const GdkRGBA *value);
-
-	const GdkRGBA *	(*get_background_color)		(EContentEditor *editor);
-
-	void		(*set_font_name)		(EContentEditor *editor,
-							 const gchar *value);
-
-	const gchar *	(*get_font_name)		(EContentEditor *editor);
-
-	void		(*set_font_color)		(EContentEditor *editor,
-							 const GdkRGBA *value);
-
-	const GdkRGBA *	(*get_font_color)		(EContentEditor *editor);
-
-	void		(*set_font_size)		(EContentEditor *editor,
-							 guint value);
-
-	guint		(*get_font_size)		(EContentEditor *editor);
-
-	void		(*set_bold)			(EContentEditor *editor,
-							 gboolean bold);
-
-	gboolean	(*is_bold)			(EContentEditor *editor);
-
-	void		(*set_italic)			(EContentEditor *editor,
-							 gboolean italic);
-
-	gboolean	(*is_italic)			(EContentEditor *editor);
-
-	void		(*set_monospaced)		(EContentEditor *editor,
-							 gboolean monospaced);
-
-	gboolean	(*is_monospaced)		(EContentEditor *editor);
-
-	void		(*set_strikethrough)		(EContentEditor *editor,
-							 gboolean strikethrough);
-
-	gboolean	(*is_strikethrough)		(EContentEditor *editor);
-
-	void		(*set_subscript)		(EContentEditor *editor,
-							 gboolean subscript);
-
-	gboolean	(*is_subscript)			(EContentEditor *editor);
-
-	void		(*set_superscript)		(EContentEditor *editor,
-							 gboolean superscript);
-
-	gboolean	(*is_superscript)		(EContentEditor *editor);
-
-	void		(*set_underline)		(EContentEditor *editor,
-							 gboolean underline);
-
-	gboolean	(*is_underline)			(EContentEditor *editor);
 
 	void		(*delete_cell_contents)		(EContentEditor *editor);
 
@@ -536,6 +447,76 @@ struct _EContentEditorInterface {
 							 guint replaced_count);
 };
 
+/* Properties */
+
+gboolean	e_content_editor_can_cut	(EContentEditor *editor);
+gboolean	e_content_editor_can_copy	(EContentEditor *editor);
+gboolean	e_content_editor_can_paste	(EContentEditor *editor);
+gboolean	e_content_editor_can_undo	(EContentEditor *editor);
+gboolean	e_content_editor_can_redo	(EContentEditor *editor);
+gboolean	e_content_editor_is_indented	(EContentEditor *editor);
+gboolean	e_content_editor_is_editable	(EContentEditor *editor);
+void		e_content_editor_set_editable	(EContentEditor *editor,
+						 gboolean editable);
+gboolean	e_content_editor_get_changed	(EContentEditor *editor);
+void		e_content_editor_set_changed	(EContentEditor *editor,
+						 gboolean changed);
+gboolean	e_content_editor_get_html_mode	(EContentEditor *editor);
+void		e_content_editor_set_html_mode	(EContentEditor *editor,
+						 gboolean html_mode);
+void		e_content_editor_set_alignment	(EContentEditor *editor,
+						 EContentEditorAlignment value);
+EContentEditorAlignment
+		e_content_editor_get_alignment	(EContentEditor *editor);
+void		e_content_editor_set_background_color
+						(EContentEditor *editor,
+						 const GdkRGBA *value);
+GdkRGBA *	e_content_editor_dup_background_color
+						(EContentEditor *editor);
+void		e_content_editor_set_font_color	(EContentEditor *editor,
+						 const GdkRGBA *value);
+GdkRGBA *	e_content_editor_dup_font_color	(EContentEditor *editor);
+void		e_content_editor_set_font_name	(EContentEditor *editor,
+						 const gchar *value);
+gchar *		e_content_editor_dup_font_name	(EContentEditor *editor);
+void		e_content_editor_set_font_size	(EContentEditor *editor,
+						 gint value);
+gint		e_content_editor_get_font_size	(EContentEditor *editor);
+void		e_content_editor_set_block_format
+						(EContentEditor *editor,
+						 EContentEditorBlockFormat value);
+EContentEditorBlockFormat
+		e_content_editor_get_block_format
+						(EContentEditor *editor);
+void		e_content_editor_set_bold	(EContentEditor *editor,
+						 gboolean bold);
+gboolean	e_content_editor_is_bold	(EContentEditor *editor);
+void		e_content_editor_set_italic	(EContentEditor *editor,
+						 gboolean italic);
+gboolean	e_content_editor_is_italic	(EContentEditor *editor);
+void		e_content_editor_set_monospaced	(EContentEditor *editor,
+						 gboolean monospaced);
+gboolean	e_content_editor_is_monospaced (EContentEditor *editor);
+void		e_content_editor_set_strikethrough
+						(EContentEditor *editor,
+						 gboolean strikethrough);
+gboolean	e_content_editor_is_strikethrough
+						(EContentEditor *editor);
+void		e_content_editor_set_subscript	(EContentEditor *editor,
+						 gboolean subscript);
+gboolean	e_content_editor_is_subscript	(EContentEditor *editor);
+void		e_content_editor_set_superscript
+						(EContentEditor *editor,
+						 gboolean superscript);
+gboolean	e_content_editor_is_superscript
+						(EContentEditor *editor);
+void		e_content_editor_set_underline	(EContentEditor *editor,
+						 gboolean underline);
+gboolean	e_content_editor_is_underline	(EContentEditor *editor);
+
+/* Methods */
+
+void		e_content_editor_update_styles	(EContentEditor *editor);
 void		e_content_editor_insert_content	(EContentEditor *editor,
 						 const gchar *content,
 						 EContentEditorInsertContentFlags flags);
@@ -569,11 +550,6 @@ void		e_content_editor_move_caret_on_coordinates
 						 gint y,
 						 gboolean cancel_if_not_collapsed);
 
-void		e_content_editor_set_changed	(EContentEditor *editor,
-						 gboolean changed);
-
-gboolean	e_content_editor_get_changed	(EContentEditor *editor);
-
 void		e_content_editor_cut		(EContentEditor *editor);
 
 void		e_content_editor_copy		(EContentEditor *editor);
@@ -586,21 +562,12 @@ gboolean	e_content_editor_paste_prefer_text_html
 void		e_content_editor_reconnect_paste_clipboard_signals
 						(EContentEditor *editor);
 
-gboolean	e_content_editor_can_undo	(EContentEditor *editor);
-
 void		e_content_editor_undo		(EContentEditor *editor);
-
-gboolean	e_content_editor_can_redo	(EContentEditor *editor);
 
 void		e_content_editor_redo		(EContentEditor *editor);
 
 void		e_content_editor_clear_undo_redo_history
 						(EContentEditor *editor);
-
-void		e_content_editor_set_html_mode	(EContentEditor *editor,
-						 gboolean html_mode);
-
-gboolean	e_content_editor_get_html_mode	(EContentEditor *editor);
 
 ESpellChecker *	e_content_editor_get_spell_checker
 						(EContentEditor *editor);
@@ -618,7 +585,7 @@ gboolean	e_content_editor_get_spell_check
 
 void		e_content_editor_select_all	(EContentEditor *editor);
 
-gchar *		e_content_editor_selection_get_text
+gchar *		e_content_editor_get_selected_text
 						(EContentEditor *editor);
 
 gchar *		e_content_editor_get_caret_word	(EContentEditor *editor);
@@ -626,9 +593,6 @@ gchar *		e_content_editor_get_caret_word	(EContentEditor *editor);
 void		e_content_editor_replace_caret_word
 						(EContentEditor *editor,
 						 const gchar *replacement);
-
-gboolean	e_content_editor_selection_is_indented
-						(EContentEditor *editor);
 
 void		e_content_editor_selection_indent
 						(EContentEditor *editor);
@@ -647,8 +611,7 @@ void		e_content_editor_find		(EContentEditor *editor,
 						 guint32 flags,
 						 const gchar *text);
 
-void		e_content_editor_selection_replace
-						(EContentEditor *editor,
+void		e_content_editor_replace	(EContentEditor *editor,
 						 const gchar *replacement);
 
 void		e_content_editor_replace_all	(EContentEditor *editor,
@@ -671,13 +634,6 @@ guint		e_content_editor_get_caret_position
 guint		e_content_editor_get_caret_offset
 						(EContentEditor *editor);
 
-void		e_content_editor_update_fonts	(EContentEditor *editor);
-
-gboolean	e_content_editor_is_editable	(EContentEditor *editor);
-
-void		e_content_editor_set_editable	(EContentEditor *editor,
-						 gboolean editable);
-
 gchar *		e_content_editor_get_current_signature_uid
 						(EContentEditor *editor);
 
@@ -691,81 +647,6 @@ gchar *		e_content_editor_insert_signature
 						 gboolean *set_signature_from_message,
 						 gboolean *check_if_signature_is_changed,
 						 gboolean *ignore_next_signature_change);
-
-void		e_content_editor_set_alignment	(EContentEditor *editor,
-						 EContentEditorAlignment value);
-
-EContentEditorAlignment
-		e_content_editor_get_alignment	(EContentEditor *editor);
-
-void		e_content_editor_set_block_format
-						(EContentEditor *editor,
-						 EContentEditorBlockFormat value);
-
-EContentEditorBlockFormat
-		e_content_editor_get_block_format
-						(EContentEditor *editor);
-
-void		e_content_editor_set_background_color
-						(EContentEditor *editor,
-						 const GdkRGBA *value);
-
-const GdkRGBA *	e_content_editor_get_background_color
-						(EContentEditor *editor);
-
-void		e_content_editor_set_font_name	(EContentEditor *editor,
-						 const gchar *value);
-
-const gchar *	e_content_editor_get_font_name	(EContentEditor *editor);
-
-void		e_content_editor_set_font_color	(EContentEditor *editor,
-						 const GdkRGBA *value);
-
-const GdkRGBA *	e_content_editor_get_font_color	(EContentEditor *editor);
-
-void		e_content_editor_set_font_size	(EContentEditor *editor,
-						 guint value);
-
-guint		e_content_editor_get_font_size	(EContentEditor *editor);
-
-void		e_content_editor_set_bold	(EContentEditor *editor,
-						 gboolean bold);
-
-gboolean	e_content_editor_is_bold	(EContentEditor *editor);
-
-void		e_content_editor_set_italic	(EContentEditor *editor,
-						 gboolean italic);
-
-gboolean	e_content_editor_is_italic	(EContentEditor *editor);
-
-void		e_content_editor_set_monospaced	(EContentEditor *editor,
-						 gboolean monospaced);
-
-gboolean	e_content_editor_is_monospaced (EContentEditor *editor);
-
-void		e_content_editor_set_strikethrough
-						(EContentEditor *editor,
-						 gboolean strikethrough);
-
-gboolean	e_content_editor_is_strikethrough
-						(EContentEditor *editor);
-
-void		e_content_editor_set_subscript	(EContentEditor *editor,
-						 gboolean subscript);
-
-gboolean	e_content_editor_is_subscript	(EContentEditor *editor);
-
-void		e_content_editor_set_superscript
-						(EContentEditor *editor,
-						 gboolean superscript);
-
-gboolean	e_content_editor_is_superscript
-						(EContentEditor *editor);
-
-void		e_content_editor_set_underline	(EContentEditor *editor,
-						 gboolean underline);
-
-gboolean	e_content_editor_is_underline	(EContentEditor *editor);
 
 void		e_content_editor_delete_cell_contents
 						(EContentEditor *editor);
@@ -1130,6 +1011,8 @@ void		e_content_editor_on_find_dialog_open
 
 void		e_content_editor_on_find_dialog_close
 						(EContentEditor *editor);
+
+/* Signal helpers */
 
 void		e_content_editor_emit_load_finished
 						(EContentEditor *editor);

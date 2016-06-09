@@ -49,7 +49,7 @@ settings_content_editor_load_style (ESettingsContentEditor *extension)
 
 	extensible = e_extension_get_extensible (E_EXTENSION (extension));
 	cnt_editor = e_html_editor_get_content_editor (E_HTML_EDITOR (extensible));
-	e_content_editor_update_fonts (cnt_editor);
+	e_content_editor_update_styles (cnt_editor);
 }
 
 static void

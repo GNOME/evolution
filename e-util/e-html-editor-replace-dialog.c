@@ -77,7 +77,7 @@ replace_occurance (EHTMLEditorReplaceDialog *dialog)
 {
 	gtk_widget_hide (dialog->priv->result_label);
 
-	e_content_editor_selection_replace (
+	e_content_editor_replace (
 		dialog->priv->cnt_editor,
 		gtk_entry_get_text (GTK_ENTRY (dialog->priv->replace_entry)));
 }

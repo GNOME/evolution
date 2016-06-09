@@ -1165,7 +1165,7 @@ e_html_editor_settings_changed_cb (GSettings *settings,
  *
  * Returns a new instance of the editor.
  *
- * Returns: A newly created #EHTMLEditorView. [transfer-full]
+ * Returns: (transfer-full): A newly created #EHTMLEditorView.
  */
 EHTMLEditorView *
 e_html_editor_view_new (void)

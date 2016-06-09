@@ -26,7 +26,7 @@
 #define E_HTML_EDITOR_SELECTION_H
 
 #include <gtk/gtk.h>
-#include <e-util/e-content-editor-enums.h>
+#include <e-util/e-util-enums.h>
 
 /* Standard GObject macros */
 #define E_TYPE_HTML_EDITOR_SELECTION \

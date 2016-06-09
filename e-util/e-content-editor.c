@@ -24,6 +24,7 @@
 
 #include <libedataserver/libedataserver.h>
 
+#include "e-util-enumtypes.h"
 #include "e-content-editor.h"
 
 G_DEFINE_INTERFACE (EContentEditor, e_content_editor, GTK_TYPE_WIDGET);
@@ -125,6 +126,22 @@ e_content_editor_default_init (EContentEditorInterface *iface)
 			G_PARAM_STATIC_STRINGS));
 
 	/**
+	 * EContentEditor:editable
+	 *
+	 * Determines whether the editor is editable or read-only.
+	 **/
+	g_object_interface_install_property (
+		iface,
+		g_param_spec_boolean (
+			"editable",
+			_("Editable"),
+			_("Wheter editor is editable"),
+			TRUE,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT |
+			G_PARAM_STATIC_STRINGS));
+
+	/**
 	 * EContentEditor:changed
 	 *
 	 * Determines whether document has been modified
@@ -156,35 +173,17 @@ e_content_editor_default_init (EContentEditorInterface *iface)
 			G_PARAM_STATIC_STRINGS));
 
 	/**
-	 * EContentEditor:editable
-	 *
-	 * Determines whether the editor is editable or read-only.
-	 **/
-	g_object_interface_install_property (
-		iface,
-		g_param_spec_boolean (
-			"editable",
-			_("Editable"),
-			_("Wheter editor is editable"),
-			TRUE,
-			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT |
-			G_PARAM_STATIC_STRINGS));
-
-	/**
 	 * EContentEditor:alignment
 	 *
 	 * Holds alignment of current paragraph.
 	 */
-	/* FIXME: Convert the enum to a proper type */
 	g_object_interface_install_property (
 		iface,
-		g_param_spec_int (
+		g_param_spec_enum (
 			"alignment",
 			NULL,
 			NULL,
-			E_CONTENT_EDITOR_ALIGNMENT_LEFT,
-			E_CONTENT_EDITOR_ALIGNMENT_RIGHT,
+			E_TYPE_CONTENT_EDITOR_ALIGNMENT,
 			E_CONTENT_EDITOR_ALIGNMENT_LEFT,
 			G_PARAM_READWRITE));
 
@@ -196,11 +195,11 @@ e_content_editor_default_init (EContentEditorInterface *iface)
 	 */
 	g_object_interface_install_property (
 		iface,
-		g_param_spec_string (
+		g_param_spec_boxed (
 			"background-color",
 			NULL,
 			NULL,
-			NULL,
+			GDK_TYPE_RGBA,
 			G_PARAM_READWRITE));
 
 	/**
@@ -209,19 +208,15 @@ e_content_editor_default_init (EContentEditorInterface *iface)
 	 * Holds block format of current paragraph. See
 	 * #EContentEditorBlockFormat for valid values.
 	 */
-	/* FIXME Convert the EContentEditorBlockFormat
-	 *       enum to a proper type. */
 	g_object_interface_install_property (
 		iface,
-		g_param_spec_int (
+		g_param_spec_enum (
 			"block-format",
 			NULL,
 			NULL,
-			0,
-			G_MAXINT,
-			0,
-			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			E_TYPE_CONTENT_EDITOR_BLOCK_FORMAT,
+			E_CONTENT_EDITOR_BLOCK_FORMAT_NONE,
+			G_PARAM_READWRITE));
 
 	/**
 	 * EContentEditor:bold
@@ -503,6 +498,715 @@ e_content_editor_default_init (EContentEditorInterface *iface)
 		G_TYPE_UINT);
 }
 
+gboolean
+e_content_editor_can_cut (EContentEditor *editor)
+{
+	gboolean value = FALSE;
+
+	g_return_val_if_fail (E_IS_CONTENT_EDITOR (editor), FALSE);
+
+	g_object_get (G_OBJECT (editor), "can-cut", &value, NULL);
+
+	return value;
+}
+
+gboolean
+e_content_editor_can_copy (EContentEditor *editor)
+{
+	gboolean value = FALSE;
+
+	g_return_val_if_fail (E_IS_CONTENT_EDITOR (editor), FALSE);
+
+	g_object_get (G_OBJECT (editor), "can-copy", &value, NULL);
+
+	return value;
+}
+
+gboolean
+e_content_editor_can_paste (EContentEditor *editor)
+{
+	gboolean value = FALSE;
+
+	g_return_val_if_fail (E_IS_CONTENT_EDITOR (editor), FALSE);
+
+	g_object_get (G_OBJECT (editor), "can-paste", &value, NULL);
+
+	return value;
+}
+
+gboolean
+e_content_editor_can_undo (EContentEditor *editor)
+{
+	gboolean value = FALSE;
+
+	g_return_val_if_fail (E_IS_CONTENT_EDITOR (editor), FALSE);
+
+	g_object_get (G_OBJECT (editor), "can-undo", &value, NULL);
+
+	return value;
+}
+
+gboolean
+e_content_editor_can_redo (EContentEditor *editor)
+{
+	gboolean value = FALSE;
+
+	g_return_val_if_fail (E_IS_CONTENT_EDITOR (editor), FALSE);
+
+	g_object_get (G_OBJECT (editor), "can-redo", &value, NULL);
+
+	return value;
+}
+
+/**
+ * e_content_editor_is_indented:
+ * @editor: an #EContentEditor
+ *
+ * Returns whether the current paragraph is indented. This does not include
+ * citations.
+ *
+ * Returns: %TRUE when current paragraph is indented, %FALSE otherwise.
+ *
+ * Since: 3.22
+ **/
+gboolean
+e_content_editor_is_indented (EContentEditor *editor)
+{
+	gboolean value = FALSE;
+
+	g_return_val_if_fail (E_IS_CONTENT_EDITOR (editor), FALSE);
+
+	g_object_get (G_OBJECT (editor), "indented", &value, NULL);
+
+	return value;
+}
+
+gboolean
+e_content_editor_is_editable (EContentEditor *editor)
+{
+	gboolean value = FALSE;
+
+	g_return_val_if_fail (E_IS_CONTENT_EDITOR (editor), FALSE);
+
+	g_object_get (G_OBJECT (editor), "editable", &value, NULL);
+
+	return value;
+}
+
+void
+e_content_editor_set_editable (EContentEditor *editor,
+			       gboolean editable)
+{
+	g_return_if_fail (E_IS_CONTENT_EDITOR (editor));
+
+	g_object_set (G_OBJECT (editor), "editable", editable, NULL);
+}
+
+gboolean
+e_content_editor_get_changed (EContentEditor *editor)
+{
+	gboolean value = FALSE;
+
+	g_return_val_if_fail (E_IS_CONTENT_EDITOR (editor), FALSE);
+
+	g_object_get (G_OBJECT (editor), "changed", &value, NULL);
+
+	return value;
+}
+
+void
+e_content_editor_set_changed (EContentEditor *editor,
+			      gboolean changed)
+{
+	g_return_if_fail (E_IS_CONTENT_EDITOR (editor));
+
+	g_object_set (G_OBJECT (editor), "changed", changed, NULL);
+}
+
+gboolean
+e_content_editor_get_html_mode (EContentEditor *editor)
+{
+	gboolean value = FALSE;
+
+	g_return_val_if_fail (E_IS_CONTENT_EDITOR (editor), FALSE);
+
+	g_object_get (G_OBJECT (editor), "html-mode", &value, NULL);
+
+	return value;
+}
+
+void
+e_content_editor_set_html_mode (EContentEditor *editor,
+				gboolean html_mode)
+{
+	g_return_if_fail (E_IS_CONTENT_EDITOR (editor));
+
+	g_object_set (G_OBJECT (editor), "html-mode", html_mode, NULL);
+}
+
+/**
+ * e_content_editor_set_alignment:
+ * @editor: an #EContentEditor
+ * @value: an #EContentEditorAlignment value to apply
+ *
+ * Sets alignment of current paragraph to @value.
+ *
+ * Since: 3.22
+ **/
+void
+e_content_editor_set_alignment (EContentEditor *editor,
+				EContentEditorAlignment value)
+{
+	g_return_if_fail (E_IS_CONTENT_EDITOR (editor));
+
+	g_object_set (G_OBJECT (editor), "alignment", value, NULL);
+}
+
+/**
+ * e_content_editor_get_alignment:
+ * @editor: #an EContentEditor
+ *
+ * Returns alignment of the current paragraph.
+ *
+ * Returns: #EContentEditorAlignment
+ *
+ * Since: 3.22
+ **/
+EContentEditorAlignment
+e_content_editor_get_alignment (EContentEditor *editor)
+{
+	EContentEditorAlignment value = E_CONTENT_EDITOR_ALIGNMENT_LEFT;
+
+	g_return_val_if_fail (E_IS_CONTENT_EDITOR (editor), E_CONTENT_EDITOR_ALIGNMENT_LEFT);
+
+	g_object_get (G_OBJECT (editor), "alignment", &value, NULL);
+
+	return value;
+}
+
+/**
+ * e_content_editor_set_background_color:
+ * @editor: an #EContentEditor
+ * @value: a #GdkRGBA
+ *
+ * Sets the background color of the current selection or letter at the current cursor position to
+ * a color defined by @value.
+ *
+ * Since: 3.22
+ **/
+void
+e_content_editor_set_background_color (EContentEditor *editor,
+				       const GdkRGBA *value)
+{
+	g_return_if_fail (E_IS_CONTENT_EDITOR (editor));
+	g_return_if_fail (value != NULL);
+
+	g_object_set (G_OBJECT (editor), "background-color", value, NULL);
+}
+
+/**
+ * e_content_editor_dup_background_color:
+ * @editor: an #EContentEditor
+ *
+ * Returns the background color used in the current selection or at letter
+ * at the current cursor position.
+ *
+ * Returns: (transfer-full): A newly allocated #GdkRGBA structure with
+ *   the current background color. Free the returned value with gdk_rgba_free()
+ *   when done with it.
+ *
+ * Since: 3.22
+ **/
+GdkRGBA *
+e_content_editor_dup_background_color (EContentEditor *editor)
+{
+	GdkRGBA *value = NULL;
+
+	g_return_val_if_fail (E_IS_CONTENT_EDITOR (editor), NULL);
+
+	g_object_get (G_OBJECT (editor), "background-color", &value, NULL);
+
+	return value;
+}
+
+/**
+ * e_content_editor_set_font_color:
+ * @editor: an #EContentEditor
+ * @value: a #GdkRGBA
+ *
+ * Sets the font color of the current selection or letter at the current cursor position to
+ * a color defined by @value.
+ *
+ * Since: 3.22
+ **/
+void
+e_content_editor_set_font_color (EContentEditor *editor,
+				 const GdkRGBA *value)
+{
+	g_return_if_fail (E_IS_CONTENT_EDITOR (editor));
+	g_return_if_fail (value != NULL);
+
+	g_object_set (G_OBJECT (editor), "font-color", value, NULL);
+}
+
+/**
+ * e_content_editor_dup_font_color:
+ * @editor: an #EContentEditor
+ *
+ * Returns the font color used in the current selection or at letter
+ * at the current cursor position.
+ *
+ * Returns: (transfer-full): A newly allocated #GdkRGBA structure with
+ *   the current font color. Free the returned value with gdk_rgba_free()
+ *   when done with it.
+ *
+ * Since: 3.22
+ **/
+GdkRGBA *
+e_content_editor_dup_font_color (EContentEditor *editor)
+{
+	GdkRGBA *value = NULL;
+
+	g_return_val_if_fail (E_IS_CONTENT_EDITOR (editor), NULL);
+
+	g_object_get (G_OBJECT (editor), "font-color", &value, NULL);
+
+	return value;
+}
+
+/**
+ * e_content_editor_set_font_name:
+ * @editor: an #EContentEditor
+ * @value: a font name to apply
+ *
+ * Sets font name of current selection or of letter at current cursor position
+ * to @value.
+ *
+ * Since: 3.22
+ **/
+void
+e_content_editor_set_font_name (EContentEditor *editor,
+				const gchar *value)
+{
+	g_return_if_fail (E_IS_CONTENT_EDITOR (editor));
+	g_return_if_fail (value != NULL);
+
+	g_object_set (G_OBJECT (editor), "font-name", value, NULL);
+}
+
+/**
+ * e_content_editor_dup_font_name:
+ * @editor: an #EContentEditor
+ *
+ * Returns a name of the font used in the current selection or at letter
+ * at the current cursor position.
+ *
+ * Returns: (transfer-full): A newly allocated string with the font name.
+ *    Free it with g_free() when done with it.
+ *
+ * Since: 3.22
+ **/
+gchar *
+e_content_editor_dup_font_name (EContentEditor *editor)
+{
+	gchar *value = NULL;
+
+	g_return_val_if_fail (E_IS_CONTENT_EDITOR (editor), NULL);
+
+	g_object_get (G_OBJECT (editor), "font-name", &value, NULL);
+
+	return value;
+}
+
+/**
+ * e_content_editor_set_font_size:
+ * @editor: an #EContentEditor
+ * @value: font size to apply
+ *
+ * Sets font size of current selection or of letter at current cursor position
+ * to @value.
+ *
+ * Since: 3.22
+ **/
+void
+e_content_editor_set_font_size (EContentEditor *editor,
+				gint value)
+{
+	g_return_if_fail (E_IS_CONTENT_EDITOR (editor));
+
+	g_object_set (G_OBJECT (editor), "font-size", value, NULL);
+}
+
+/**
+ * e_content_editor_get_font_size:
+ * @editor: an #EContentEditor
+ *
+ * Returns fotn size of the current selection or letter at the current
+ * cursor position.
+ *
+ * Returns: Current font size.
+ *
+ * Since: 3.22
+ **/
+gint
+e_content_editor_get_font_size (EContentEditor *editor)
+{
+	gint value = -1;
+
+	g_return_val_if_fail (E_IS_CONTENT_EDITOR (editor), -1);
+
+	g_object_get (G_OBJECT (editor), "font-size", &value, NULL);
+
+	return value;
+}
+
+/**
+ * e_content_editor_set_block_format:
+ * @editor: an #EContentEditor
+ * @value: an #EContentEditorBlockFormat value
+ *
+ * Changes block format of the current paragraph to @value.
+ *
+ * Since: 3.22
+ **/
+void
+e_content_editor_set_block_format (EContentEditor *editor,
+				   EContentEditorBlockFormat value)
+{
+	g_return_if_fail (E_IS_CONTENT_EDITOR (editor));
+
+	g_object_set (G_OBJECT (editor), "block-format", value, NULL);
+}
+
+/**
+ * e_content_editor_get_block_format:
+ * @editor: an #EContentEditor
+ *
+ * Returns block format of the current paragraph.
+ *
+ * Returns: #EContentEditorBlockFormat
+ *
+ * Since: 3.22
+ **/
+EContentEditorBlockFormat
+e_content_editor_get_block_format (EContentEditor *editor)
+{
+	EContentEditorBlockFormat value = E_CONTENT_EDITOR_BLOCK_FORMAT_NONE;
+
+	g_return_val_if_fail (E_IS_CONTENT_EDITOR (editor), E_CONTENT_EDITOR_BLOCK_FORMAT_NONE);
+
+	g_object_get (G_OBJECT (editor), "block-format", &value, NULL);
+
+	return value;
+}
+
+/**
+ * e_content_editor_set_bold:
+ * @editor: an #EContentEditor
+ * @bold: %TRUE to enable bold, %FALSE to disable
+ *
+ * Changes bold formatting of current selection or letter at current
+ * cursor position.
+ *
+ * Since: 3.22
+ **/
+void
+e_content_editor_set_bold (EContentEditor *editor,
+			   gboolean bold)
+{
+	g_return_if_fail (E_IS_CONTENT_EDITOR (editor));
+
+	g_object_set (G_OBJECT (editor), "bold", bold, NULL);
+}
+
+/**
+ * e_content_editor_is_bold:
+ * @editor: an #EContentEditor
+ *
+ * Returns whether current selection or letter at current cursor position is bold.
+ *
+ * Returns: %TRUE when selection is bold, %FALSE otherwise.
+ *
+ * Since: 3.22
+ **/
+gboolean
+e_content_editor_is_bold (EContentEditor *editor)
+{
+	gboolean value = FALSE;
+
+	g_return_val_if_fail (E_IS_CONTENT_EDITOR (editor), FALSE);
+
+	g_object_get (G_OBJECT (editor), "bold", &value, NULL);
+
+	return value;
+}
+
+/**
+ * e_content_editor_set_italic:
+ * @editor: an #EContentEditor
+ * @italic: %TRUE to enable italic, %FALSE to disable
+ *
+ * Changes italic formatting of current selection or letter at current
+ * cursor position.
+ *
+ * Since: 3.22
+ **/
+void
+e_content_editor_set_italic (EContentEditor *editor,
+			     gboolean italic)
+{
+	g_return_if_fail (E_IS_CONTENT_EDITOR (editor));
+
+	g_object_set (G_OBJECT (editor), "italic", italic, NULL);
+}
+
+/**
+ * e_content_editor_is_italic:
+ * @editor: an #EContentEditor
+ *
+ * Returns whether current selection or letter at current cursor position
+ * is italic.
+ *
+ * Returns: %TRUE when selection is italic, %FALSE otherwise.
+ *
+ * Since: 3.22
+ **/
+gboolean
+e_content_editor_is_italic (EContentEditor *editor)
+{
+	gboolean value = FALSE;
+
+	g_return_val_if_fail (E_IS_CONTENT_EDITOR (editor), FALSE);
+
+	g_object_get (G_OBJECT (editor), "italic", &value, NULL);
+
+	return value;
+}
+
+/**
+ * e_content_editor_set_monospaced:
+ * @editor: an #EContentEditor
+ * @monospaced: %TRUE to enable monospaced, %FALSE to disable
+ *
+ * Changes monospaced formatting of current selection or letter
+ * at current cursor position.
+ *
+ * Since: 3.22
+ **/
+void
+e_content_editor_set_monospaced (EContentEditor *editor,
+				 gboolean monospaced)
+{
+	g_return_if_fail (E_IS_CONTENT_EDITOR (editor));
+
+	g_object_set (G_OBJECT (editor), "monospaced", monospaced, NULL);
+}
+
+/**
+ * e_content_editor_is_monospaced:
+ * @editor: an #EContentEditor
+ *
+ * Returns whether current selection or letter at current cursor position
+ * is monospaced.
+ *
+ * Returns: %TRUE when selection is monospaced, %FALSE otherwise.
+ *
+ * Since: 3.22
+ **/
+gboolean
+e_content_editor_is_monospaced (EContentEditor *editor)
+{
+	gboolean value = FALSE;
+
+	g_return_val_if_fail (E_IS_CONTENT_EDITOR (editor), FALSE);
+
+	g_object_get (G_OBJECT (editor), "monospaced", &value, NULL);
+
+	return value;
+}
+
+/**
+ * e_content_editor_set_strikethrough:
+ * @editor: an #EContentEditor
+ * @strikethrough: %TRUE to enable strikethrough, %FALSE to disable
+ *
+ * Changes strike through formatting of current selection or letter at current
+ * cursor position.
+ *
+ * Since: 3.22
+ **/
+void
+e_content_editor_set_strikethrough (EContentEditor *editor,
+				    gboolean strikethrough)
+{
+	g_return_if_fail (E_IS_CONTENT_EDITOR (editor));
+
+	g_object_set (G_OBJECT (editor), "strikethrough", strikethrough, NULL);
+}
+
+/**
+ * e_content_editor_is_strikethrough:
+ * @editor: an #EContentEditor
+ *
+ * Returns whether current selection or letter at current cursor position
+ * is striked through.
+ *
+ * Returns: %TRUE when selection is striked through, %FALSE otherwise.
+ *
+ * Since: 3.22
+ **/
+gboolean
+e_content_editor_is_strikethrough (EContentEditor *editor)
+{
+	gboolean value = FALSE;
+
+	g_return_val_if_fail (E_IS_CONTENT_EDITOR (editor), FALSE);
+
+	g_object_get (G_OBJECT (editor), "strikethrough", &value, NULL);
+
+	return value;
+}
+
+/**
+ * e_content_editor_set_subscript:
+ * @editor: an #EContentEditor
+ * @subscript: %TRUE to enable subscript, %FALSE to disable
+ *
+ * Changes subscript of current selection or letter at current
+ * cursor position.
+ *
+ * Since: 3.22
+ **/
+void
+e_content_editor_set_subscript (EContentEditor *editor,
+				gboolean subscript)
+{
+	g_return_if_fail (E_IS_CONTENT_EDITOR (editor));
+
+	g_object_set (G_OBJECT (editor), "subscript", subscript, NULL);
+}
+
+/**
+ * e_content_editor_is_subscript:
+ * @editor: an #EContentEditor
+ *
+ * Returns whether current selection or letter at current cursor position
+ * is in subscript.
+ *
+ * Returns: %TRUE when selection is in subscript, %FALSE otherwise.
+ *
+ * Since: 3.22
+ **/
+gboolean
+e_content_editor_is_subscript (EContentEditor *editor)
+{
+	gboolean value = FALSE;
+
+	g_return_val_if_fail (E_IS_CONTENT_EDITOR (editor), FALSE);
+
+	g_object_get (G_OBJECT (editor), "subscript", &value, NULL);
+
+	return value;
+}
+
+/**
+ * e_content_editor_set_superscript:
+ * @editor: an #EContentEditor
+ * @superscript: %TRUE to enable superscript, %FALSE to disable
+ *
+ * Changes superscript of the current selection or letter at current
+ * cursor position.
+ *
+ * Since: 3.22
+ **/
+void
+e_content_editor_set_superscript (EContentEditor *editor,
+				  gboolean superscript)
+{
+	g_return_if_fail (E_IS_CONTENT_EDITOR (editor));
+
+	g_object_set (G_OBJECT (editor), "superscript", superscript, NULL);
+}
+
+/**
+ * e_content_editor_is_superscript:
+ * @editor: an #EContentEditor
+ *
+ * Returns whether current selection or letter at current cursor position
+ * is in superscript.
+ *
+ * Returns: %TRUE when selection is in superscript, %FALSE otherwise.
+ *
+ * Since: 3.22
+ **/
+gboolean
+e_content_editor_is_superscript (EContentEditor *editor)
+{
+	gboolean value = FALSE;
+
+	g_return_val_if_fail (E_IS_CONTENT_EDITOR (editor), FALSE);
+
+	g_object_get (G_OBJECT (editor), "superscript", &value, NULL);
+
+	return value;
+}
+
+/**
+ * e_content_editor_set_underline:
+ * @editor: an #EContentEditor
+ * @underline: %TRUE to enable underline, %FALSE to disable
+ *
+ * Changes underline formatting of current selection or letter
+ * at current cursor position.
+ *
+ * Since: 3.22
+ **/
+void
+e_content_editor_set_underline (EContentEditor *editor,
+				gboolean underline)
+{
+	g_return_if_fail (E_IS_CONTENT_EDITOR (editor));
+
+	g_object_set (G_OBJECT (editor), "underline", underline, NULL);
+}
+
+/**
+ * e_content_editor_is_underline:
+ * @editor: an #EContentEditor
+ *
+ * Returns whether current selection or letter at current cursor position
+ * is underlined.
+ *
+ * Returns: %TRUE when selection is underlined, %FALSE otherwise.
+ *
+ * Since: 3.22
+ **/
+gboolean
+e_content_editor_is_underline (EContentEditor *editor)
+{
+	gboolean value = FALSE;
+
+	g_return_val_if_fail (E_IS_CONTENT_EDITOR (editor), FALSE);
+
+	g_object_get (G_OBJECT (editor), "underline", &value, NULL);
+
+	return value;
+}
+
+void
+e_content_editor_update_styles (EContentEditor *editor)
+{
+	EContentEditorInterface *iface;
+
+	g_return_if_fail (E_IS_CONTENT_EDITOR (editor));
+
+	iface = E_CONTENT_EDITOR_GET_IFACE (editor);
+	g_return_if_fail (iface != NULL);
+	g_return_if_fail (iface->update_styles != NULL);
+
+	iface->update_styles (editor);
+}
+
 void
 e_content_editor_insert_content (EContentEditor *editor,
                                  const gchar *content,
@@ -561,7 +1265,9 @@ e_content_editor_insert_image_from_mime_part (EContentEditor *editor,
  *
  * Inserts image at current cursor position using @uri as source. When a
  * text range is selected, it will be replaced by the image.
- */
+ *
+ * Since: 3.22
+ **/
 void
 e_content_editor_insert_image (EContentEditor *editor,
                                const gchar *uri)
@@ -643,35 +1349,6 @@ e_content_editor_move_caret_on_coordinates (EContentEditor *editor,
 }
 
 void
-e_content_editor_set_changed (EContentEditor *editor,
-                              gboolean changed)
-{
-	EContentEditorInterface *iface;
-
-	g_return_if_fail (E_IS_CONTENT_EDITOR (editor));
-
-	iface = E_CONTENT_EDITOR_GET_IFACE (editor);
-	g_return_if_fail (iface != NULL);
-	g_return_if_fail (iface->set_changed != NULL);
-
-	iface->set_changed (editor, changed);
-}
-
-gboolean
-e_content_editor_get_changed (EContentEditor *editor)
-{
-	EContentEditorInterface *iface;
-
-	g_return_val_if_fail (E_IS_CONTENT_EDITOR (editor), FALSE);
-
-	iface = E_CONTENT_EDITOR_GET_IFACE (editor);
-	g_return_val_if_fail (iface != NULL, FALSE);
-	g_return_val_if_fail (iface->get_changed != NULL, FALSE);
-
-	return iface->get_changed (editor);
-}
-
-void
 e_content_editor_cut (EContentEditor *editor)
 {
 	EContentEditorInterface *iface;
@@ -741,20 +1418,6 @@ e_content_editor_reconnect_paste_clipboard_signals (EContentEditor *editor)
 	iface->reconnect_paste_clipboard_signals (editor);
 }
 
-gboolean
-e_content_editor_can_undo (EContentEditor *editor)
-{
-	EContentEditorInterface *iface;
-
-	g_return_val_if_fail (E_IS_CONTENT_EDITOR (editor), FALSE);
-
-	iface = E_CONTENT_EDITOR_GET_IFACE (editor);
-	g_return_val_if_fail (iface != NULL, FALSE);
-	g_return_val_if_fail (iface->can_undo != NULL, FALSE);
-
-	return iface->can_undo (editor);
-}
-
 void
 e_content_editor_undo (EContentEditor *editor)
 {
@@ -767,20 +1430,6 @@ e_content_editor_undo (EContentEditor *editor)
 	g_return_if_fail (iface->undo != NULL);
 
 	iface->undo (editor);
-}
-
-gboolean
-e_content_editor_can_redo (EContentEditor *editor)
-{
-	EContentEditorInterface *iface;
-
-	g_return_val_if_fail (E_IS_CONTENT_EDITOR (editor), FALSE);
-
-	iface = E_CONTENT_EDITOR_GET_IFACE (editor);
-	g_return_val_if_fail (iface != NULL, FALSE);
-	g_return_val_if_fail (iface->can_redo != NULL, FALSE);
-
-	return iface->can_redo (editor);
 }
 
 void
@@ -809,35 +1458,6 @@ e_content_editor_clear_undo_redo_history (EContentEditor *editor)
 	g_return_if_fail (iface->clear_undo_redo_history != NULL);
 
 	iface->clear_undo_redo_history (editor);
-}
-
-void
-e_content_editor_set_html_mode (EContentEditor *editor,
-                                gboolean html_mode)
-{
-	EContentEditorInterface *iface;
-
-	g_return_if_fail (E_IS_CONTENT_EDITOR (editor));
-
-	iface = E_CONTENT_EDITOR_GET_IFACE (editor);
-	g_return_if_fail (iface != NULL);
-	g_return_if_fail (iface->set_html_mode != NULL);
-
-	iface->set_html_mode (editor, html_mode);
-}
-
-gboolean
-e_content_editor_get_html_mode (EContentEditor *editor)
-{
-	EContentEditorInterface *iface;
-
-	g_return_val_if_fail (E_IS_CONTENT_EDITOR (editor), FALSE);
-
-	iface = E_CONTENT_EDITOR_GET_IFACE (editor);
-	g_return_val_if_fail (iface != NULL, FALSE);
-	g_return_val_if_fail (iface->get_html_mode != NULL, FALSE);
-
-	return iface->get_html_mode (editor);
 }
 
 ESpellChecker *
@@ -913,16 +1533,17 @@ e_content_editor_select_all (EContentEditor *editor)
 }
 
 /**
- * e_content_editor_selection_get_text:
+ * e_content_editor_get_selected_text:
  * @editor: an #EContentEditor
  *
  * Returns currently selected string.
  *
- * Returns: A newly allocated string with the content of current selection.
- * [transfer-full].
- */
+ * Returns: (transfer-full): A newly allocated string with the content of current selection.
+ *
+ * Since: 3.22
+ **/
 gchar *
-e_content_editor_selection_get_text (EContentEditor *editor)
+e_content_editor_get_selected_text (EContentEditor *editor)
 {
 	EContentEditorInterface *iface;
 
@@ -930,9 +1551,9 @@ e_content_editor_selection_get_text (EContentEditor *editor)
 
 	iface = E_CONTENT_EDITOR_GET_IFACE (editor);
 	g_return_val_if_fail (iface != NULL, NULL);
-	g_return_val_if_fail (iface->selection_get_text != NULL, NULL);
+	g_return_val_if_fail (iface->get_selected_text != NULL, NULL);
 
-	return iface->selection_get_text (editor);
+	return iface->get_selected_text (editor);
 }
 
 /**
@@ -941,9 +1562,11 @@ e_content_editor_selection_get_text (EContentEditor *editor)
  *
  * Returns word under cursor.
  *
- * Returns: A newly allocated string with current caret word or @NULL when there
- * is no text under cursor or when selection is active. [transfer-full].
- */
+ * Returns: (transfer-full): A newly allocated string with current caret word or %NULL
+ * when there is no text under cursor or when selection is active.
+ *
+ * Since: 3.22
+ **/
 gchar *
 e_content_editor_get_caret_word (EContentEditor *editor)
 {
@@ -964,7 +1587,9 @@ e_content_editor_get_caret_word (EContentEditor *editor)
  * @replacement: a string to replace current caret word with
  *
  * Replaces current word under cursor with @replacement.
- */
+ *
+ * Since: 3.22
+ **/
 void
 e_content_editor_replace_caret_word (EContentEditor *editor,
                                      const gchar *replacement)
@@ -979,29 +1604,6 @@ e_content_editor_replace_caret_word (EContentEditor *editor,
 	g_return_if_fail (iface->replace_caret_word != NULL);
 
 	iface->replace_caret_word (editor, replacement);
-}
-
-/**
- * e_content_editor_is_indented:
- * @editor: an #EContentEditor
- *
- * Returns whether current paragraph is indented. This does not include
- * citations.
- *
- * Returns: @TRUE when current paragraph is indented, @FALSE otherwise.
- */
-gboolean
-e_content_editor_selection_is_indented (EContentEditor *editor)
-{
-	EContentEditorInterface *iface;
-
-	g_return_val_if_fail (E_IS_CONTENT_EDITOR (editor), FALSE);
-
-	iface = E_CONTENT_EDITOR_GET_IFACE (editor);
-	g_return_val_if_fail (iface != NULL, FALSE);
-	g_return_val_if_fail (iface->selection_is_indented != NULL, FALSE);
-
-	return iface->selection_is_indented (editor);
 }
 
 void
@@ -1038,7 +1640,9 @@ e_content_editor_selection_unindent (EContentEditor *editor)
  * @uri: destination of the new link
  *
  * Converts current selection into a link pointing to @url.
- */
+ *
+ * Since: 3.22
+ **/
 void
 e_content_editor_selection_create_link (EContentEditor *editor,
                                         const gchar *uri)
@@ -1061,7 +1665,9 @@ e_content_editor_selection_create_link (EContentEditor *editor,
  *
  * Removes any links (&lt;A&gt; elements) from current selection or at current
  * cursor position.
- */
+ *
+ * Since: 3.22
+ **/
 void
 e_content_editor_selection_unlink (EContentEditor *editor)
 {
@@ -1088,6 +1694,8 @@ e_content_editor_selection_unlink (EContentEditor *editor)
  *
  * Once the search is done, the "find-done" signal should be
  * emitted, by using e_content_editor_emit_find_done().
+ *
+ * Since: 3.22
  **/
 void
 e_content_editor_find (EContentEditor *editor,
@@ -1107,15 +1715,17 @@ e_content_editor_find (EContentEditor *editor,
 }
 
 /**
- * e_content_editor_selection_replace:
+ * e_content_editor_replace:
  * @editor: an #EContentEditor
  * @replacement: a string to replace current selection with
  *
  * Replaces currently selected text with @replacement.
- */
+ *
+ * Since: 3.22
+ **/
 void
-e_content_editor_selection_replace (EContentEditor *editor,
-                                    const gchar *replacement)
+e_content_editor_replace (EContentEditor *editor,
+			  const gchar *replacement)
 {
 	EContentEditorInterface *iface;
 
@@ -1124,9 +1734,9 @@ e_content_editor_selection_replace (EContentEditor *editor,
 
 	iface = E_CONTENT_EDITOR_GET_IFACE (editor);
 	g_return_if_fail (iface != NULL);
-	g_return_if_fail (iface->selection_replace != NULL);
+	g_return_if_fail (iface->replace != NULL);
 
-	iface->selection_replace (editor, replacement);
+	iface->replace (editor, replacement);
 }
 
 /**
@@ -1142,6 +1752,8 @@ e_content_editor_selection_replace (EContentEditor *editor,
  *
  * Once the replace is done, the "replace-all-done" signal should be
  * emitted, by using e_content_editor_emit_replace_all_done().
+ *
+ * Since: 3.22
  **/
 void
 e_content_editor_replace_all (EContentEditor *editor,
@@ -1183,7 +1795,9 @@ e_content_editor_replace_all (EContentEditor *editor,
  * It is recommended to use this method only when you are not planning to make
  * bigger changes to content or structure of the document (formatting changes
  * are usually OK).
- */
+ *
+ * Since: 3.22
+ **/
 void
 e_content_editor_selection_save (EContentEditor *editor)
 {
@@ -1207,7 +1821,9 @@ e_content_editor_selection_save (EContentEditor *editor)
  *
  * Note that calling this function without calling e_content_editor_selection_save()
  * before is a programming error and the behavior is undefined.
- */
+ *
+ * Since: 3.22
+ **/
 void
 e_content_editor_selection_restore (EContentEditor *editor)
 {
@@ -1278,49 +1894,6 @@ e_content_editor_get_caret_offset (EContentEditor *editor)
 	return iface->get_caret_offset (editor);
 }
 
-void
-e_content_editor_update_fonts (EContentEditor *editor)
-{
-	EContentEditorInterface *iface;
-
-	g_return_if_fail (E_IS_CONTENT_EDITOR (editor));
-
-	iface = E_CONTENT_EDITOR_GET_IFACE (editor);
-	g_return_if_fail (iface != NULL);
-	g_return_if_fail (iface->update_fonts != NULL);
-
-	iface->update_fonts (editor);
-}
-
-gboolean
-e_content_editor_is_editable (EContentEditor *editor)
-{
-	EContentEditorInterface *iface;
-
-	g_return_val_if_fail (E_IS_CONTENT_EDITOR (editor), FALSE);
-
-	iface = E_CONTENT_EDITOR_GET_IFACE (editor);
-	g_return_val_if_fail (iface != NULL, FALSE);
-	g_return_val_if_fail (iface->is_editable != NULL, FALSE);
-
-	return iface->is_editable (editor);
-}
-
-void
-e_content_editor_set_editable (EContentEditor *editor,
-                               gboolean editable)
-{
-	EContentEditorInterface *iface;
-
-	g_return_if_fail (E_IS_CONTENT_EDITOR (editor));
-
-	iface = E_CONTENT_EDITOR_GET_IFACE (editor);
-	g_return_if_fail (iface != NULL);
-	g_return_if_fail (iface->set_editable != NULL);
-
-	iface->set_editable (editor, editable);
-}
-
 gchar *
 e_content_editor_get_current_signature_uid (EContentEditor *editor)
 {
@@ -1374,605 +1947,6 @@ e_content_editor_insert_signature (EContentEditor *editor,
 		set_signature_from_message,
 		check_if_signature_is_changed,
 		ignore_next_signature_change);
-}
-
-/**
- * e_content_editor_set_alignment:
- * @editor: an #EContentEditor
- * @alignment: an #EContentEditorAlignment value to apply
- *
- * Sets alignment of current paragraph to @alignment.
- */
-void
-e_content_editor_set_alignment (EContentEditor *editor,
-                                EContentEditorAlignment value)
-{
-	EContentEditorInterface *iface;
-
-	g_return_if_fail (E_IS_CONTENT_EDITOR (editor));
-
-	iface = E_CONTENT_EDITOR_GET_IFACE (editor);
-	g_return_if_fail (iface != NULL);
-	g_return_if_fail (iface->set_alignment != NULL);
-
-	iface->set_alignment (editor, value);
-}
-
-/**
- * e_content_editor_get_alignment:
- * @editor: #an EContentEditor
- *
- * Returns alignment of the current paragraph.
- *
- * Returns: #EContentEditorAlignment
- */
-EContentEditorAlignment
-e_content_editor_get_alignment (EContentEditor *editor)
-{
-	EContentEditorInterface *iface;
-
-	g_return_val_if_fail (
-		E_IS_CONTENT_EDITOR (editor), E_CONTENT_EDITOR_ALIGNMENT_LEFT);
-
-	iface = E_CONTENT_EDITOR_GET_IFACE (editor);
-	g_return_val_if_fail (iface != NULL, E_CONTENT_EDITOR_ALIGNMENT_LEFT);
-	g_return_val_if_fail (iface->get_alignment != NULL, E_CONTENT_EDITOR_ALIGNMENT_LEFT);
-
-	return iface->get_alignment (editor);
-}
-
-/**
- * e_content_editor_set_block_format:
- * @editor: an #EContentEditor
- * @format: an #EContentEditorBlockFormat value
- *
- * Changes block format of current paragraph to @format.
- */
-void
-e_content_editor_set_block_format (EContentEditor *editor,
-                                   EContentEditorBlockFormat value)
-{
-	EContentEditorInterface *iface;
-
-	g_return_if_fail (E_IS_CONTENT_EDITOR (editor));
-
-	iface = E_CONTENT_EDITOR_GET_IFACE (editor);
-	g_return_if_fail (iface != NULL);
-	g_return_if_fail (iface->set_block_format != NULL);
-
-	iface->set_block_format (editor, value);
-}
-
-/**
- * e_content_editor_get_block_format:
- * @editor: an #EContentEditor
- *
- * Returns block format of current paragraph.
- *
- * Returns: #EContentEditorBlockFormat
- */
-EContentEditorBlockFormat
-e_content_editor_get_block_format (EContentEditor *editor)
-{
-	EContentEditorInterface *iface;
-
-	g_return_val_if_fail (
-		E_IS_CONTENT_EDITOR (editor),
-		E_CONTENT_EDITOR_BLOCK_FORMAT_PARAGRAPH);
-
-	iface = E_CONTENT_EDITOR_GET_IFACE (editor);
-	g_return_val_if_fail (
-		iface != NULL, E_CONTENT_EDITOR_BLOCK_FORMAT_PARAGRAPH);
-	g_return_val_if_fail (
-		iface->get_block_format != NULL,
-		E_CONTENT_EDITOR_BLOCK_FORMAT_PARAGRAPH);
-
-	return iface->get_block_format (editor);
-}
-
-/**
- * e_content_editor_set_font_color:
- * @editor: an #EContentEditor
- * @rgba: a #GdkRGBA
- *
- * Sets font color of current selection or letter at current cursor position to
- * color defined in @rgba.
- */
-void
-e_content_editor_set_background_color (EContentEditor *editor,
-                                       const GdkRGBA *value)
-{
-	EContentEditorInterface *iface;
-
-	g_return_if_fail (E_IS_CONTENT_EDITOR (editor));
-	g_return_if_fail (value != NULL);
-
-	iface = E_CONTENT_EDITOR_GET_IFACE (editor);
-	g_return_if_fail (iface != NULL);
-	g_return_if_fail (iface->set_background_color != NULL);
-
-	iface->set_background_color (editor, value);
-}
-
-/**
- * e_content_editor_get_font_color:
- * @editor: an #EContentEditor
- * @rgba: a #GdkRGBA object to be set to current font color
- *
- * Returns: A color of current text selection or letter at current cursor
- * position. [transfer-none]
- */
-const GdkRGBA *
-e_content_editor_get_background_color (EContentEditor *editor)
-{
-	EContentEditorInterface *iface;
-
-	g_return_val_if_fail (E_IS_CONTENT_EDITOR (editor), NULL);
-
-	iface = E_CONTENT_EDITOR_GET_IFACE (editor);
-	g_return_val_if_fail (iface != NULL, NULL);
-	g_return_val_if_fail (iface->get_background_color != NULL, NULL);
-
-	return iface->get_background_color (editor);
-}
-
-/**
- * e_content_editor_set_font_name:
- * @editor: an #EContentEditor
- * @font_name: a font name to apply
- *
- * Sets font name of current selection or of letter at current cursor position
- * to @font_name.
- */
-void
-e_content_editor_set_font_name (EContentEditor *editor,
-                                const gchar *value)
-{
-	EContentEditorInterface *iface;
-
-	g_return_if_fail (E_IS_CONTENT_EDITOR (editor));
-
-	iface = E_CONTENT_EDITOR_GET_IFACE (editor);
-	g_return_if_fail (iface != NULL);
-	g_return_if_fail (iface->set_font_name != NULL);
-
-	iface->set_font_name (editor, value);
-}
-
-/**
- * e_content_editor_get_font_name:
- * @editor: an #EContentEditor
- *
- * Returns name of font used in current selection or at letter at current cursor
- * position.
- *
- * Returns: A string with font name. [transfer-none]
- */
-const gchar *
-e_content_editor_get_font_name (EContentEditor *editor)
-{
-	EContentEditorInterface *iface;
-
-	g_return_val_if_fail (E_IS_CONTENT_EDITOR (editor), NULL);
-
-	iface = E_CONTENT_EDITOR_GET_IFACE (editor);
-	g_return_val_if_fail (iface != NULL, NULL);
-	g_return_val_if_fail (iface->get_font_name != NULL, NULL);
-
-	return iface->get_font_name (editor);
-}
-
-/**
- * e_content_editor_set_font_color:
- * @editor: an #EContentEditor
- * @rgba: a #GdkRGBA
- *
- * Sets font color of current selection or letter at current cursor position to
- * color defined in @rgba.
- *
- */
-void
-e_content_editor_set_font_color (EContentEditor *editor,
-                                 const GdkRGBA *value)
-{
-	EContentEditorInterface *iface;
-
-	g_return_if_fail (E_IS_CONTENT_EDITOR (editor));
-
-	iface = E_CONTENT_EDITOR_GET_IFACE (editor);
-	g_return_if_fail (iface != NULL);
-	g_return_if_fail (iface->set_font_color != NULL);
-
-	iface->set_font_color (editor, value);
-}
-
-/**
- * e_content_editor_get_font_color:
- * @editor: an #EContentEditor
- *
- * Returns color of font used in current selection or at letter at current cursor
- * position.
- *
- * Returns: A #GdkRGBA object with current font color. [transfer-none]
- */
-const GdkRGBA *
-e_content_editor_get_font_color (EContentEditor *editor)
-{
-	EContentEditorInterface *iface;
-
-	g_return_val_if_fail (E_IS_CONTENT_EDITOR (editor), NULL);
-
-	iface = E_CONTENT_EDITOR_GET_IFACE (editor);
-	g_return_val_if_fail (iface != NULL, NULL);
-	g_return_val_if_fail (iface->get_font_color != NULL, NULL);
-
-	return iface->get_font_color (editor);
-}
-
-/**
- * e_content_editor_set_font_size:
- * @editor: an #EContentEditor
- * @font_size: point size to apply
- *
- * Sets font size of current selection or of letter at current cursor position
- * to @font_size.
- */
-void
-e_content_editor_set_font_size (EContentEditor *editor,
-                                guint value)
-{
-	EContentEditorInterface *iface;
-
-	g_return_if_fail (E_IS_CONTENT_EDITOR (editor));
-
-	iface = E_CONTENT_EDITOR_GET_IFACE (editor);
-	g_return_if_fail (iface != NULL);
-	g_return_if_fail (iface->set_font_size != NULL);
-
-	iface->set_font_size (editor, value);
-}
-
-/**
- * e_content_editor_is_citation:
- * @editor: an #EContentEditor
- *
- * Returns whether current paragraph is a citation.
- *
- * Returns: @TRUE when current paragraph is a citation, @FALSE otherwise.
- */
-guint
-e_content_editor_get_font_size (EContentEditor *editor)
-{
-	EContentEditorInterface *iface;
-
-	g_return_val_if_fail (E_IS_CONTENT_EDITOR (editor), 3);
-
-	iface = E_CONTENT_EDITOR_GET_IFACE (editor);
-	g_return_val_if_fail (iface != NULL, 3);
-	g_return_val_if_fail (iface->get_font_size != NULL, 3);
-
-	return iface->get_font_size (editor);
-}
-
-/**
- * e_content_editor_set_bold:
- * @editor: an #EContentEditor
- * @bold: @TRUE to enable bold, @FALSE to disable
- *
- * Toggles bold formatting of current selection or letter at current cursor
- * position, depending on whether @bold is @TRUE or @FALSE.
- */
-void
-e_content_editor_set_bold (EContentEditor *editor,
-                           gboolean bold)
-{
-	EContentEditorInterface *iface;
-
-	g_return_if_fail (E_IS_CONTENT_EDITOR (editor));
-
-	iface = E_CONTENT_EDITOR_GET_IFACE (editor);
-	g_return_if_fail (iface != NULL);
-	g_return_if_fail (iface->set_bold != NULL);
-
-	iface->set_bold (editor, bold);
-}
-
-/**
- * e_content_editor_is_bold:
- * @editor: an #EContentEditor
- *
- * Returns whether current selection or letter at current cursor position is bold.
- *
- * Returns @TRUE when selection is bold, @FALSE otherwise.
- */
-gboolean
-e_content_editor_is_bold (EContentEditor *editor)
-{
-	EContentEditorInterface *iface;
-
-	g_return_val_if_fail (E_IS_CONTENT_EDITOR (editor), FALSE);
-
-	iface = E_CONTENT_EDITOR_GET_IFACE (editor);
-	g_return_val_if_fail (iface != NULL, FALSE);
-	g_return_val_if_fail (iface->is_bold != NULL, FALSE);
-
-	return iface->is_bold (editor);
-}
-
-/**
- * e_content_editor_set_bold:
- * @editor: an #EContentEditor
- * @bold: @TRUE to enable bold, @FALSE to disable
- *
- * Toggles bold formatting of current editor or letter at current cursor
- * position, depending on whether @bold is @TRUE or @FALSE.
- */
-void
-e_content_editor_set_italic (EContentEditor *editor,
-                             gboolean italic)
-{
-	EContentEditorInterface *iface;
-
-	g_return_if_fail (E_IS_CONTENT_EDITOR (editor));
-
-	iface = E_CONTENT_EDITOR_GET_IFACE (editor);
-	g_return_if_fail (iface != NULL);
-	g_return_if_fail (iface->set_italic != NULL);
-
-	iface->set_italic (editor, italic);
-}
-
-/**
- * e_content_editor_is_italic:
- * @editor: an #EContentEditor
- *
- * Returns whether current selection or letter at current cursor position
- * is italic.
- *
- * Returns @TRUE when selection is italic, @FALSE otherwise.
- */
-gboolean
-e_content_editor_is_italic (EContentEditor *editor)
-{
-	EContentEditorInterface *iface;
-
-	g_return_val_if_fail (E_IS_CONTENT_EDITOR (editor), FALSE);
-
-	iface = E_CONTENT_EDITOR_GET_IFACE (editor);
-	g_return_val_if_fail (iface != NULL, FALSE);
-	g_return_val_if_fail (iface->is_italic != NULL, FALSE);
-
-	return iface->is_italic (editor);
-}
-
-/**
- * e_content_editor_set_monospaced:
- * @editor: an #EContentEditor
- * @monospaced: @TRUE to enable monospaced, @FALSE to disable
- *
- * Toggles monospaced formatting of current selection or letter at current cursor
- * position, depending on whether @monospaced is @TRUE or @FALSE.
- */
-void
-e_content_editor_set_monospaced (EContentEditor *editor,
-                                 gboolean monospaced)
-{
-	EContentEditorInterface *iface;
-
-	g_return_if_fail (E_IS_CONTENT_EDITOR (editor));
-
-	iface = E_CONTENT_EDITOR_GET_IFACE (editor);
-	g_return_if_fail (iface != NULL);
-	g_return_if_fail (iface->set_monospaced != NULL);
-
-	iface->set_monospaced (editor, monospaced);
-}
-
-/**
- * e_content_editor_is_monospaced:
- * @editor: an #EContentEditor
- *
- * Returns whether current selection or letter at current cursor position
- * is monospaced.
- *
- * Returns @TRUE when selection is monospaced, @FALSE otherwise.
- */
-gboolean
-e_content_editor_is_monospaced (EContentEditor *editor)
-{
-	EContentEditorInterface *iface;
-
-	g_return_val_if_fail (E_IS_CONTENT_EDITOR (editor), FALSE);
-
-	iface = E_CONTENT_EDITOR_GET_IFACE (editor);
-	g_return_val_if_fail (iface != NULL, FALSE);
-	g_return_val_if_fail (iface->is_monospaced != NULL, FALSE);
-
-	return iface->is_monospaced (editor);
-}
-
-/**
- * e_content_editor_set_strikethrough:
- * @editor: an #EContentEditor
- * @strikethrough: @TRUE to enable strikethrough, @FALSE to disable
- *
- * Toggles strike through formatting of current selection or letter at current
- * cursor position, depending on whether @strikethrough is @TRUE or @FALSE.
- */
-void
-e_content_editor_set_strikethrough (EContentEditor *editor,
-                                    gboolean strikethrough)
-{
-	EContentEditorInterface *iface;
-
-	g_return_if_fail (E_IS_CONTENT_EDITOR (editor));
-
-	iface = E_CONTENT_EDITOR_GET_IFACE (editor);
-	g_return_if_fail (iface != NULL);
-	g_return_if_fail (iface->set_strikethrough != NULL);
-
-	iface->set_strikethrough (editor, strikethrough);
-}
-
-/**
- * e_content_editor_is_strikethrough:
- * @editor: an #EContentEditor
- *
- * Returns whether current selection or letter at current cursor position
- * is striked through.
- *
- * Returns @TRUE when selection is striked through, @FALSE otherwise.
- */
-gboolean
-e_content_editor_is_strikethrough (EContentEditor *editor)
-{
-	EContentEditorInterface *iface;
-
-	g_return_val_if_fail (E_IS_CONTENT_EDITOR (editor), FALSE);
-
-	iface = E_CONTENT_EDITOR_GET_IFACE (editor);
-	g_return_val_if_fail (iface != NULL, FALSE);
-	g_return_val_if_fail (iface->is_strikethrough != NULL, FALSE);
-
-	return iface->is_strikethrough (editor);
-}
-
-/**
- * e_content_editor_set_subscript:
- * @editor: an #EContentEditor
- * @subscript: @TRUE to enable subscript, @FALSE to disable
- *
- * Toggles subscript of current selection or letter at current cursor position,
- * depending on whether @subscript is @TRUE or @FALSE.
- */
-void
-e_content_editor_set_subscript (EContentEditor *editor,
-                                gboolean subscript)
-{
-	EContentEditorInterface *iface;
-
-	g_return_if_fail (E_IS_CONTENT_EDITOR (editor));
-
-	iface = E_CONTENT_EDITOR_GET_IFACE (editor);
-	g_return_if_fail (iface != NULL);
-	g_return_if_fail (iface->set_subscript != NULL);
-
-	iface->set_subscript (editor, subscript);
-}
-
-/**
- * e_content_editor_is_subscript:
- * @editor: an #EContentEditor
- *
- * Returns whether current selection or letter at current cursor position
- * is in subscript.
- *
- * Returns @TRUE when selection is in subscript, @FALSE otherwise.
- */
-gboolean
-e_content_editor_is_subscript (EContentEditor *editor)
-{
-	EContentEditorInterface *iface;
-
-	g_return_val_if_fail (E_IS_CONTENT_EDITOR (editor), FALSE);
-
-	iface = E_CONTENT_EDITOR_GET_IFACE (editor);
-	g_return_val_if_fail (iface != NULL, FALSE);
-	g_return_val_if_fail (iface->is_subscript != NULL, FALSE);
-
-	return iface->is_subscript (editor);
-}
-
-/**
- * e_content_editor_set_superscript:
- * @editor: an #EContentEditor
- * @superscript: @TRUE to enable superscript, @FALSE to disable
- *
- * Toggles superscript of current selection or letter at current cursor position,
- * depending on whether @superscript is @TRUE or @FALSE.
- */
-void
-e_content_editor_set_superscript (EContentEditor *editor,
-                                  gboolean superscript)
-{
-	EContentEditorInterface *iface;
-
-	g_return_if_fail (E_IS_CONTENT_EDITOR (editor));
-
-	iface = E_CONTENT_EDITOR_GET_IFACE (editor);
-	g_return_if_fail (iface != NULL);
-	g_return_if_fail (iface->set_superscript != NULL);
-
-	iface->set_superscript (editor, superscript);
-}
-
-/**
- * e_content_editor_is_superscript:
- * @editor: an #EContentEditor
- *
- * Returns whether current selection or letter at current cursor position
- * is in superscript.
- *
- * Returns @TRUE when selection is in superscript, @FALSE otherwise.
- */
-gboolean
-e_content_editor_is_superscript (EContentEditor *editor)
-{
-	EContentEditorInterface *iface;
-
-	g_return_val_if_fail (E_IS_CONTENT_EDITOR (editor), FALSE);
-
-	iface = E_CONTENT_EDITOR_GET_IFACE (editor);
-	g_return_val_if_fail (iface != NULL, FALSE);
-	g_return_val_if_fail (iface->is_superscript != NULL, FALSE);
-
-	return iface->is_superscript (editor);
-}
-
-/**
- * e_content_editor_set_underline:
- * @editor: an #EContentEditor
- * @underline: @TRUE to enable underline, @FALSE to disable
- *
- * Toggles underline formatting of current editor or letter at current cursor
- * position, depending on whether @underline is @TRUE or @FALSE.
- */
-void
-e_content_editor_set_underline (EContentEditor *editor,
-                                gboolean underline)
-{
-	EContentEditorInterface *iface;
-
-	g_return_if_fail (E_IS_CONTENT_EDITOR (editor));
-
-	iface = E_CONTENT_EDITOR_GET_IFACE (editor);
-	g_return_if_fail (iface != NULL);
-	g_return_if_fail (iface->set_underline != NULL);
-
-	iface->set_underline (editor, underline);
-}
-
-/**
- * e_content_editor_is_underline:
- * @editor: an #EContentEditor
- *
- * Returns whether current selection or letter at current cursor position
- * is underlined.
- *
- * Returns @TRUE when selection is underlined, @FALSE otherwise.
- */
-gboolean
-e_content_editor_is_underline (EContentEditor *editor)
-{
-	EContentEditorInterface *iface;
-
-	g_return_val_if_fail (E_IS_CONTENT_EDITOR (editor), FALSE);
-
-	iface = E_CONTENT_EDITOR_GET_IFACE (editor);
-	g_return_val_if_fail (iface != NULL, FALSE);
-	g_return_val_if_fail (iface->is_underline != NULL, FALSE);
-
-	return iface->is_underline (editor);
 }
 
 void
