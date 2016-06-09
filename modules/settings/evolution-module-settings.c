@@ -19,6 +19,7 @@
 #include "e-settings-calendar-item.h"
 #include "e-settings-calendar-view.h"
 #include "e-settings-client-cache.h"
+#include "e-settings-content-editor.h"
 #include "e-settings-date-edit.h"
 #include "e-settings-deprecated.h"
 #include "e-settings-content-editor.h"
@@ -46,6 +47,7 @@ e_module_load (GTypeModule *type_module)
 	e_settings_calendar_item_type_register (type_module);
 	e_settings_calendar_view_type_register (type_module);
 	e_settings_client_cache_type_register (type_module);
+	e_settings_content_editor_type_register (type_module);
 	e_settings_date_edit_type_register (type_module);
 	e_settings_deprecated_type_register (type_module);
 	e_settings_content_editor_type_register (type_module);

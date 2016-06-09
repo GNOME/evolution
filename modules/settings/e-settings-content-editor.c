@@ -75,32 +75,12 @@ settings_content_editor_changed_cb (GSettings *settings,
 }
 
 static void
-settings_content_editor_realize (GtkWidget *widget,
-                                 ESettingsContentEditor *extension)
+settings_content_editor_html_editor_realize_cb (GtkWidget *html_editor,
+						ESettingsContentEditor *extension)
 {
 	GSettings *settings;
 
 	settings = extension->priv->settings;
-
-	g_settings_bind (
-		settings, "composer-inline-spelling",
-		widget, "inline-spelling",
-		G_SETTINGS_BIND_DEFAULT);
-
-	g_settings_bind (
-		settings, "composer-magic-links",
-		widget, "magic-links",
-		G_SETTINGS_BIND_DEFAULT);
-
-	g_settings_bind (
-		settings, "composer-magic-smileys",
-		widget, "magic-smileys",
-		G_SETTINGS_BIND_DEFAULT);
-
-	g_settings_bind (
-		settings, "composer-unicode-smileys",
-		widget, "unicode-smileys",
-		G_SETTINGS_BIND_DEFAULT);
 
 	settings_content_editor_load_style (extension);
 
@@ -166,17 +146,15 @@ static void
 settings_content_editor_constructed (GObject *object)
 {
 	EExtensible *extensible;
-	EContentEditor *cnt_editor;
+
+	/* Chain up to parent's method. */
+	G_OBJECT_CLASS (e_settings_content_editor_parent_class)->constructed (object);
 
 	extensible = e_extension_get_extensible (E_EXTENSION (object));
-	cnt_editor = e_html_editor_get_content_editor (E_HTML_EDITOR (extensible));
 
 	g_signal_connect (
-		cnt_editor, "realize",
-		G_CALLBACK (settings_content_editor_realize), object);
-
-	/* Chain up to parent's constructed() method. */
-	G_OBJECT_CLASS (e_settings_content_editor_parent_class)->constructed (object);
+		extensible, "realize",
+		G_CALLBACK (settings_content_editor_html_editor_realize_cb), object);
 }
 
 static void
