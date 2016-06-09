@@ -1616,9 +1616,9 @@ modules/startup-wizard/Makefile
 modules/text-highlight/Makefile
 modules/tnef-attachment/Makefile
 modules/vcard-inline/Makefile
-modules/web-inspector/Makefile
 modules/webkit-editor/Makefile
 modules/webkit-editor/web-extension/Makefile
+modules/webkit-inspector/Makefile
 plugins/Makefile
 plugins/attachment-reminder/Makefile
 plugins/bbdb/Makefile
