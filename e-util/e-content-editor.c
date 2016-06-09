@@ -395,6 +395,21 @@ e_content_editor_default_init (EContentEditorInterface *iface)
 			G_PARAM_STATIC_STRINGS));
 
 	/**
+	 * EContentEditor:spell-check-enabled
+	 *
+	 * Holds whether the spell checking is enabled.
+	 */
+	g_object_interface_install_property (
+		iface,
+		g_param_spec_boolean (
+			"spell-check-enabled",
+			NULL,
+			NULL,
+			FALSE,
+			G_PARAM_READWRITE |
+			G_PARAM_STATIC_STRINGS));
+
+	/**
 	 * EContentEditor:spell-checker:
 	 *
 	 * The #ESpellChecker used for spell checking.
@@ -498,6 +513,18 @@ e_content_editor_default_init (EContentEditorInterface *iface)
 		G_TYPE_UINT);
 }
 
+ESpellChecker *
+e_content_editor_ref_spell_checker (EContentEditor *editor)
+{
+	ESpellChecker *spell_checker = NULL;
+
+	g_return_val_if_fail (E_IS_CONTENT_EDITOR (editor), NULL);
+
+	g_object_get (G_OBJECT (editor), "spell-checker", &spell_checker, NULL);
+
+	return spell_checker;
+}
+
 gboolean
 e_content_editor_can_cut (EContentEditor *editor)
 {
@@ -579,6 +606,27 @@ e_content_editor_is_indented (EContentEditor *editor)
 	g_object_get (G_OBJECT (editor), "indented", &value, NULL);
 
 	return value;
+}
+
+gboolean
+e_content_editor_get_spell_check_enabled (EContentEditor *editor)
+{
+	gboolean value = FALSE;
+
+	g_return_val_if_fail (E_IS_CONTENT_EDITOR (editor), FALSE);
+
+	g_object_get (G_OBJECT (editor), "spell-check-enabled", &value, NULL);
+
+	return value;
+}
+
+void
+e_content_editor_set_spell_check_enabled (EContentEditor *editor,
+					  gboolean enable)
+{
+	g_return_if_fail (E_IS_CONTENT_EDITOR (editor));
+
+	g_object_set (G_OBJECT (editor), "spell-check-enabled", enable, NULL);
 }
 
 gboolean
@@ -1446,20 +1494,6 @@ e_content_editor_clear_undo_redo_history (EContentEditor *editor)
 	iface->clear_undo_redo_history (editor);
 }
 
-ESpellChecker *
-e_content_editor_get_spell_checker (EContentEditor *editor)
-{
-	EContentEditorInterface *iface;
-
-	g_return_val_if_fail (E_IS_CONTENT_EDITOR (editor), FALSE);
-
-	iface = E_CONTENT_EDITOR_GET_IFACE (editor);
-	g_return_val_if_fail (iface != NULL, FALSE);
-	g_return_val_if_fail (iface->get_spell_checker != NULL, FALSE);
-
-	return iface->get_spell_checker (editor);
-}
-
 void
 e_content_editor_set_spell_checking_languages (EContentEditor *editor,
                                                const gchar **languages)
@@ -1473,35 +1507,6 @@ e_content_editor_set_spell_checking_languages (EContentEditor *editor,
 	g_return_if_fail (iface->set_spell_checking_languages != NULL);
 
 	iface->set_spell_checking_languages (editor, languages);
-}
-
-void
-e_content_editor_set_spell_check (EContentEditor *editor,
-                                  gboolean enable)
-{
-	EContentEditorInterface *iface;
-
-	g_return_if_fail (E_IS_CONTENT_EDITOR (editor));
-
-	iface = E_CONTENT_EDITOR_GET_IFACE (editor);
-	g_return_if_fail (iface != NULL);
-	g_return_if_fail (iface->set_spell_check != NULL);
-
-	iface->set_spell_check (editor, enable);
-}
-
-gboolean
-e_content_editor_get_spell_check (EContentEditor *editor)
-{
-	EContentEditorInterface *iface;
-
-	g_return_val_if_fail (E_IS_CONTENT_EDITOR (editor), FALSE);
-
-	iface = E_CONTENT_EDITOR_GET_IFACE (editor);
-	g_return_val_if_fail (iface != NULL, FALSE);
-	g_return_val_if_fail (iface->get_spell_check != NULL, FALSE);
-
-	return iface->get_spell_check (editor);
 }
 
 void

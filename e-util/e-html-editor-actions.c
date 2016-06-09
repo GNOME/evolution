@@ -215,11 +215,12 @@ action_context_spell_add_cb (GtkAction *action,
 	gchar *word;
 
 	cnt_editor = e_html_editor_get_content_editor (editor);
-	spell_checker = e_content_editor_get_spell_checker (cnt_editor);
+	spell_checker = e_content_editor_ref_spell_checker (cnt_editor);
 	word = e_content_editor_get_caret_word (cnt_editor);
 	if (word && *word)
 		e_spell_checker_learn_word (spell_checker, word);
 	g_free (word);
+	g_clear_object (&spell_checker);
 }
 
 static void
@@ -231,11 +232,12 @@ action_context_spell_ignore_cb (GtkAction *action,
 	gchar *word;
 
 	cnt_editor = e_html_editor_get_content_editor (editor);
-	spell_checker = e_content_editor_get_spell_checker (cnt_editor);
+	spell_checker = e_content_editor_ref_spell_checker (cnt_editor);
 	word = e_content_editor_get_caret_word (cnt_editor);
 	if (word && *word)
 		e_spell_checker_ignore_word (spell_checker, word);
 	g_free (word);
+	g_clear_object (&spell_checker);
 }
 
 static void
@@ -413,7 +415,7 @@ static void
 action_language_cb (GtkToggleAction *toggle_action,
                     EHTMLEditor *editor)
 {
-	ESpellChecker *checker;
+	ESpellChecker *spell_checker;
 	EContentEditor *cnt_editor;
 	const gchar *language_code;
 	GtkAction *add_action;
@@ -421,11 +423,12 @@ action_language_cb (GtkToggleAction *toggle_action,
 	gboolean active;
 
 	cnt_editor = e_html_editor_get_content_editor (editor);
-	checker = e_content_editor_get_spell_checker (cnt_editor);
+	spell_checker = e_content_editor_ref_spell_checker (cnt_editor);
 	language_code = gtk_action_get_name (GTK_ACTION (toggle_action));
 
 	active = gtk_toggle_action_get_active (toggle_action);
-	e_spell_checker_set_language_active (checker, language_code, active);
+	e_spell_checker_set_language_active (spell_checker, language_code, active);
+	g_clear_object (&spell_checker);
 
 	/* Update "Add Word To" context menu item visibility. */
 	action_name = g_strdup_printf ("context-spell-add-%s", language_code);
@@ -1562,7 +1565,7 @@ static GtkActionEntry spell_context_entries[] = {
 static void
 editor_actions_setup_languages_menu (EHTMLEditor *editor)
 {
-	ESpellChecker *checker;
+	ESpellChecker *spell_checker;
 	EContentEditor *cnt_editor;
 	GtkUIManager *manager;
 	GtkActionGroup *action_group;
@@ -1572,10 +1575,10 @@ editor_actions_setup_languages_menu (EHTMLEditor *editor)
 	manager = editor->priv->manager;
 	action_group = editor->priv->language_actions;
 	cnt_editor = e_html_editor_get_content_editor (editor);
-	checker = e_content_editor_get_spell_checker (cnt_editor);
+	spell_checker = e_content_editor_ref_spell_checker (cnt_editor);
 	merge_id = gtk_ui_manager_new_merge_id (manager);
 
-	list = e_spell_checker_list_available_dicts (checker);
+	list = e_spell_checker_list_available_dicts (spell_checker);
 
 	for (link = list; link != NULL; link = g_list_next (link)) {
 		ESpellDictionary *dictionary = link->data;
@@ -1600,7 +1603,7 @@ editor_actions_setup_languages_menu (EHTMLEditor *editor)
 		 * We're not prepared to invoke the signal handler yet.
 		 * The "Add Word To" actions have not yet been added. */
 		active = e_spell_checker_get_language_active (
-			checker, e_spell_dictionary_get_code (dictionary));
+			spell_checker, e_spell_dictionary_get_code (dictionary));
 		gtk_toggle_action_set_active (action, active);
 
 		g_signal_connect (
@@ -1621,13 +1624,14 @@ editor_actions_setup_languages_menu (EHTMLEditor *editor)
 	}
 
 	g_list_free (list);
+	g_clear_object (&spell_checker);
 }
 
 static void
 editor_actions_setup_spell_check_menu (EHTMLEditor *editor)
 {
 	EContentEditor *cnt_editor;
-	ESpellChecker *checker;
+	ESpellChecker *spell_checker;
 	GtkUIManager *manager;
 	GtkActionGroup *action_group;
 	GList *available_dicts = NULL, *iter;
@@ -1636,8 +1640,8 @@ editor_actions_setup_spell_check_menu (EHTMLEditor *editor)
 	manager = editor->priv->manager;
 	action_group = editor->priv->spell_check_actions;;
 	cnt_editor = e_html_editor_get_content_editor (editor);
-	checker = e_content_editor_get_spell_checker (cnt_editor);
-	available_dicts = e_spell_checker_list_available_dicts (checker);
+	spell_checker = e_content_editor_ref_spell_checker (cnt_editor);
+	available_dicts = e_spell_checker_list_available_dicts (spell_checker);
 	merge_id = gtk_ui_manager_new_merge_id (manager);
 
 	for (iter = available_dicts; iter; iter = iter->next) {
@@ -1707,6 +1711,7 @@ editor_actions_setup_spell_check_menu (EHTMLEditor *editor)
 	}
 
 	g_list_free (available_dicts);
+	g_clear_object (&spell_checker);
 }
 
 void

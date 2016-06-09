@@ -525,7 +525,7 @@ e_html_editor_spell_check_dialog_update_dictionaries (EHTMLEditorSpellCheckDialo
 
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
 	cnt_editor = e_html_editor_get_content_editor (editor);
-	spell_checker = e_content_editor_get_spell_checker (cnt_editor);
+	spell_checker = e_content_editor_ref_spell_checker (cnt_editor);
 
 	languages = e_spell_checker_list_active_languages (
 		spell_checker, &n_languages);
@@ -573,5 +573,6 @@ e_html_editor_spell_check_dialog_update_dictionaries (EHTMLEditorSpellCheckDialo
 	gtk_combo_box_set_active (combo_box, 0);
 
 	g_object_unref (store);
+	g_clear_object (&spell_checker);
 }
 

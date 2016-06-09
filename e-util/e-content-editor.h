@@ -89,15 +89,8 @@ struct _EContentEditorInterface {
 
 	void		(*clear_undo_redo_history)	(EContentEditor *editor);
 
-	ESpellChecker *	(*get_spell_checker)		(EContentEditor *editor);
-
 	void		(*set_spell_checking_languages)	(EContentEditor *editor,
 							 const gchar **languages);
-
-	void		(*set_spell_check)		(EContentEditor *editor,
-							 gboolean enable);
-
-	gboolean	(*get_spell_check)		(EContentEditor *editor);
 
 	gchar *		(*get_selected_text)		(EContentEditor *editor);
 
@@ -446,12 +439,19 @@ struct _EContentEditorInterface {
 
 /* Properties */
 
+ESpellChecker *	e_content_editor_ref_spell_checker
+						(EContentEditor *editor);
 gboolean	e_content_editor_can_cut	(EContentEditor *editor);
 gboolean	e_content_editor_can_copy	(EContentEditor *editor);
 gboolean	e_content_editor_can_paste	(EContentEditor *editor);
 gboolean	e_content_editor_can_undo	(EContentEditor *editor);
 gboolean	e_content_editor_can_redo	(EContentEditor *editor);
 gboolean	e_content_editor_is_indented	(EContentEditor *editor);
+gboolean	e_content_editor_get_spell_check_enabled
+						(EContentEditor *editor);
+void		e_content_editor_set_spell_check_enabled
+						(EContentEditor *editor,
+						 gboolean enable);
 gboolean	e_content_editor_is_editable	(EContentEditor *editor);
 void		e_content_editor_set_editable	(EContentEditor *editor,
 						 gboolean editable);
@@ -562,19 +562,9 @@ void		e_content_editor_redo		(EContentEditor *editor);
 void		e_content_editor_clear_undo_redo_history
 						(EContentEditor *editor);
 
-ESpellChecker *	e_content_editor_get_spell_checker
-						(EContentEditor *editor);
-
 void		e_content_editor_set_spell_checking_languages
 						(EContentEditor *editor,
 						 const gchar **languages);
-
-void		e_content_editor_set_spell_check
-						(EContentEditor *editor,
-						 gboolean enable);
-
-gboolean	e_content_editor_get_spell_check
-						(EContentEditor *editor);
 
 void		e_content_editor_select_all	(EContentEditor *editor);
 

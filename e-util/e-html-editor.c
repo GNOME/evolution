@@ -130,7 +130,7 @@ html_editor_inline_spelling_suggestions (EHTMLEditor *editor)
 	if (word == NULL || *word == '\0')
 		return;
 
-	spell_checker = e_content_editor_get_spell_checker (cnt_editor);
+	spell_checker = e_content_editor_ref_spell_checker (cnt_editor);
 	suggestions = e_spell_checker_get_guesses_for_word (spell_checker, word);
 
 	path = "/context-menu/context-spell-suggest/";
@@ -201,6 +201,7 @@ html_editor_inline_spelling_suggestions (EHTMLEditor *editor)
 
 	g_free (word);
 	g_strfreev (suggestions);
+	g_clear_object (&spell_checker);
 }
 
 /* Helper for html_editor_update_actions() */
@@ -224,7 +225,7 @@ html_editor_spell_checkers_foreach (EHTMLEditor *editor,
 	if (word == NULL || *word == '\0')
 		return;
 
-	spell_checker = e_content_editor_get_spell_checker (cnt_editor);
+	spell_checker = e_content_editor_ref_spell_checker (cnt_editor);
 
 	dictionary = e_spell_checker_ref_dictionary (
 		spell_checker, language_code);
@@ -292,7 +293,7 @@ html_editor_spell_checkers_foreach (EHTMLEditor *editor,
 	}
 
 	g_list_free_full (list, (GDestroyNotify) g_free);
-
+	g_clear_object (&spell_checker);
 	g_free (path);
 	g_free (word);
 }
@@ -300,21 +301,23 @@ html_editor_spell_checkers_foreach (EHTMLEditor *editor,
 void
 e_html_editor_update_spell_actions (EHTMLEditor *editor)
 {
-	ESpellChecker *checker;
+	ESpellChecker *spell_checker;
 	EContentEditor *cnt_editor;
 	guint count;
 
 	cnt_editor = e_html_editor_get_content_editor (editor);
-	checker = e_content_editor_get_spell_checker (cnt_editor);
+	spell_checker = e_content_editor_ref_spell_checker (cnt_editor);
 
-	count = e_spell_checker_count_active_languages (checker);
+	count = e_spell_checker_count_active_languages (spell_checker);
 
 	gtk_action_set_visible (ACTION (CONTEXT_SPELL_ADD), count == 1);
 	gtk_action_set_visible (ACTION (CONTEXT_SPELL_ADD_MENU), count > 1);
 	gtk_action_set_visible (ACTION (CONTEXT_SPELL_IGNORE), count > 0);
 
 	gtk_action_set_sensitive (ACTION (SPELL_CHECK), count > 0);
-	gtk_action_set_sensitive (ACTION (LANGUAGE_MENU), e_spell_checker_count_available_dicts (checker) > 0);
+	gtk_action_set_sensitive (ACTION (LANGUAGE_MENU), e_spell_checker_count_available_dicts (spell_checker) > 0);
+
+	g_clear_object (&spell_checker);
 }
 
 static void
@@ -401,7 +404,7 @@ html_editor_update_actions (EHTMLEditor *editor)
 		list = g_list_delete_link (list, list);
 	}
 
-	spell_checker = e_content_editor_get_spell_checker (cnt_editor);
+	spell_checker = e_content_editor_ref_spell_checker (cnt_editor);
 	languages = e_spell_checker_list_active_languages (
 		spell_checker, &n_languages);
 
@@ -419,6 +422,8 @@ html_editor_update_actions (EHTMLEditor *editor)
 
 	action_group = editor->priv->spell_check_actions;
 	gtk_action_group_set_visible (action_group, visible);
+
+	g_clear_object (&spell_checker);
 
 	/* Exit early if spell checking items are invisible. */
 	if (!visible) {
@@ -455,7 +460,7 @@ html_editor_spell_languages_changed (EHTMLEditor *editor)
 	gchar **languages;
 
 	cnt_editor = e_html_editor_get_content_editor (editor);
-	spell_checker = e_content_editor_get_spell_checker (cnt_editor);
+	spell_checker = e_content_editor_ref_spell_checker (cnt_editor);
 
 	languages = e_spell_checker_list_active_languages (spell_checker, NULL);
 
@@ -467,8 +472,9 @@ html_editor_spell_languages_changed (EHTMLEditor *editor)
 			E_HTML_EDITOR_SPELL_CHECK_DIALOG (
 			editor->priv->spell_check_dialog));
 
-	e_content_editor_set_spell_check (cnt_editor, languages && *languages);
+	e_content_editor_set_spell_check_enabled (cnt_editor, languages && *languages);
 
+	g_clear_object (&spell_checker);
 	g_strfreev (languages);
 }
 

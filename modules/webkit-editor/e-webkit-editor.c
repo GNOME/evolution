@@ -44,6 +44,7 @@ enum {
 	PROP_CHANGED,
 	PROP_EDITABLE,
 	PROP_HTML_MODE,
+	PROP_SPELL_CHECK_ENABLED,
 	PROP_SPELL_CHECKER,
 
 	PROP_ALIGNMENT,
@@ -117,6 +118,7 @@ struct _EWebKitEditorPrivate {
 	EContentEditorContentFlags content_flags;
 
 	ESpellChecker *spell_checker;
+	gboolean spell_check_enabled;
 
 	gulong owner_change_primary_clipboard_cb_id;
 	gulong owner_change_clipboard_cb_id;
@@ -1760,11 +1762,9 @@ webkit_editor_copy (EContentEditor *editor)
 }
 
 static ESpellChecker *
-webkit_editor_get_spell_checker (EContentEditor *editor)
+webkit_editor_get_spell_checker (EWebKitEditor *wk_editor)
 {
-	EWebKitEditor *wk_editor;
-
-	wk_editor = E_WEBKIT_EDITOR (editor);
+	g_return_val_if_fail (E_IS_WEBKIT_EDITOR (wk_editor), NULL);
 
 	return wk_editor->priv->spell_checker;
 }
@@ -1810,26 +1810,28 @@ webkit_editor_set_spell_checking_languages (EContentEditor *editor,
 }
 
 static void
-webkit_editor_set_spell_check (EContentEditor *editor,
-                                       gboolean enable)
+webkit_editor_set_spell_check_enabled (EWebKitEditor *wk_editor,
+				       gboolean enable)
 {
-	EWebKitEditor *wk_editor;
+	g_return_if_fail (E_IS_WEBKIT_EDITOR (wk_editor));
 
-	wk_editor = E_WEBKIT_EDITOR (editor);
+	if ((wk_editor->priv->spell_check_enabled ? 1 : 0) == (enable ? 1 : 0))
+		return;
+
+	wk_editor->priv->spell_check_enabled = enable;
 
 	webkit_editor_call_simple_extension_function (
 		wk_editor, enable ? "DOMForceSpellCheck" : "DOMTurnSpellCheckOff");
+
+	g_object_notify (G_OBJECT (wk_editor), "spell-check-enabled");
 }
 
 static gboolean
-webkit_editor_get_spell_check (EContentEditor *editor)
+webkit_editor_get_spell_check_enabled (EWebKitEditor *wk_editor)
 {
-	EWebKitEditor *wk_editor;
+	g_return_val_if_fail (E_IS_WEBKIT_EDITOR (wk_editor), FALSE);
 
-	wk_editor = E_WEBKIT_EDITOR (editor);
-
-	return g_settings_get_boolean (
-		wk_editor->priv->mail_settings, "composer-inline-spelling");
+	return wk_editor->priv->spell_check_enabled;
 }
 
 static gboolean
@@ -5169,6 +5171,12 @@ webkit_editor_set_property (GObject *object,
 				E_WEBKIT_EDITOR (object),
 				g_value_get_boolean (value));
 			return;
+
+		case PROP_SPELL_CHECK_ENABLED:
+			webkit_editor_set_spell_check_enabled (
+				E_WEBKIT_EDITOR (object),
+				g_value_get_boolean (value));
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -5327,11 +5335,18 @@ webkit_editor_get_property (GObject *object,
 					E_WEBKIT_EDITOR (object)));
 			return;
 
+		case PROP_SPELL_CHECK_ENABLED:
+			g_value_set_boolean (
+				value,
+				webkit_editor_get_spell_check_enabled (
+					E_WEBKIT_EDITOR (object)));
+			return;
+
 		case PROP_SPELL_CHECKER:
 			g_value_set_object (
 				value,
 				webkit_editor_get_spell_checker (
-					E_CONTENT_EDITOR (object)));
+					E_WEBKIT_EDITOR (object)));
 			return;
 	}
 
@@ -5761,6 +5776,8 @@ e_webkit_editor_class_init (EWebKitEditorClass *class)
 	g_object_class_override_property (
 		object_class, PROP_UNDERLINE, "underline");
 	g_object_class_override_property (
+		object_class, PROP_SPELL_CHECK_ENABLED, "spell-check-enabled");
+	g_object_class_override_property (
 		object_class, PROP_SPELL_CHECKER, "spell-checker");
 }
 
@@ -5772,6 +5789,7 @@ e_webkit_editor_init (EWebKitEditor *wk_editor)
 
 	wk_editor->priv = E_WEBKIT_EDITOR_GET_PRIVATE (wk_editor);
 
+	wk_editor->priv->spell_check_enabled = TRUE;
 	wk_editor->priv->spell_checker = e_spell_checker_new ();
 	wk_editor->priv->old_settings = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, (GDestroyNotify) g_variant_unref);
 
@@ -5870,10 +5888,7 @@ e_webkit_editor_content_editor_init (EContentEditorInterface *iface)
 	iface->undo = webkit_editor_undo;
 	iface->redo = webkit_editor_redo;
 	iface->clear_undo_redo_history = webkit_editor_clear_undo_redo_history;
-	iface->get_spell_checker = webkit_editor_get_spell_checker;
 	iface->set_spell_checking_languages = webkit_editor_set_spell_checking_languages;
-	iface->set_spell_check = webkit_editor_set_spell_check;
-	iface->get_spell_check = webkit_editor_get_spell_check;
 //	iface->get_selected_text = webkit_editor_get_selected_text; /* FIXME WK2 */
 	iface->get_caret_word = webkit_editor_get_caret_word;
 	iface->replace_caret_word = webkit_editor_replace_caret_word;
