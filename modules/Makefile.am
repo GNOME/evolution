@@ -52,7 +52,7 @@ SUBDIRS = \
 	startup-wizard \
 	vcard-inline \
 	web-inspector \
-	webkit-content-editor \
+	webkit-editor \
 	$(BOGOFILTER_DIR) \
 	$(SPAMASSASSIN_DIR) \
 	$(TNEF_ATTACHMENT_DIR) \

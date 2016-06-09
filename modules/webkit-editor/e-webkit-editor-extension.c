@@ -19,7 +19,7 @@
 #endif
 
 #include "e-webkit-editor-extension.h"
-#include "e-webkit-content-editor.h"
+#include "e-webkit-editor.h"
 
 #include <e-util/e-util.h>
 
@@ -28,7 +28,7 @@
 	((obj), E_TYPE_WEBKIT_EDITOR_EXTENSION, EWebKitEditorExtensionPrivate))
 
 struct _EWebKitEditorExtensionPrivate {
-	EWebKitContentEditor *wk_editor;
+	EWebKitEditor *wk_editor;
 };
 
 G_DEFINE_DYNAMIC_TYPE (
@@ -41,7 +41,7 @@ e_webkit_editor_extension_init (EWebKitEditorExtension *editor_extension)
 {
 	editor_extension->priv = E_WEBKIT_EDITOR_EXTENSION_GET_PRIVATE (editor_extension);
 
-	editor_extension->priv->wk_editor = g_object_ref_sink (e_webkit_content_editor_new ());
+	editor_extension->priv->wk_editor = g_object_ref_sink (e_webkit_editor_new ());
 }
 
 static void
