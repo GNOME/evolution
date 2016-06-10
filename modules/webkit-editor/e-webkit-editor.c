@@ -162,8 +162,8 @@ e_webkit_editor_new (void)
 
 static void
 webkit_editor_can_paste_cb (WebKitWebView *view,
-                                    GAsyncResult *result,
-                                    EWebKitEditor *wk_editor)
+                            GAsyncResult *result,
+                            EWebKitEditor *wk_editor)
 {
 	gboolean value;
 
@@ -208,8 +208,8 @@ webkit_editor_can_cut (EWebKitEditor *wk_editor)
 
 static void
 webkit_editor_can_copy_cb (WebKitWebView *view,
-                                   GAsyncResult *result,
-                                   EWebKitEditor *wk_editor)
+                           GAsyncResult *result,
+                           EWebKitEditor *wk_editor)
 {
 	gboolean value;
 
@@ -498,7 +498,7 @@ current_page_id (EWebKitEditor *wk_editor)
 
 static void
 webkit_editor_call_simple_extension_function (EWebKitEditor *wk_editor,
-                                                      const gchar *function)
+                                              const gchar *function)
 {
 	if (!wk_editor->priv->web_extension)
 		return;
@@ -516,8 +516,8 @@ webkit_editor_call_simple_extension_function (EWebKitEditor *wk_editor,
 
 static GVariant *
 webkit_editor_get_element_attribute (EWebKitEditor *wk_editor,
-                                             const gchar *selector,
-                                             const gchar *attribute)
+                                     const gchar *selector,
+                                     const gchar *attribute)
 {
 	if (!wk_editor->priv->web_extension)
 		return NULL;
@@ -534,9 +534,9 @@ webkit_editor_get_element_attribute (EWebKitEditor *wk_editor,
 
 static void
 webkit_editor_set_element_attribute (EWebKitEditor *wk_editor,
-                                             const gchar *selector,
-                                             const gchar *attribute,
-                                             const gchar *value)
+                                     const gchar *selector,
+                                     const gchar *attribute,
+                                     const gchar *value)
 {
 	if (!wk_editor->priv->web_extension)
 		return;
@@ -555,8 +555,8 @@ webkit_editor_set_element_attribute (EWebKitEditor *wk_editor,
 
 static void
 webkit_editor_remove_element_attribute (EWebKitEditor *wk_editor,
-                                                const gchar *selector,
-                                                const gchar *attribute)
+                                        const gchar *selector,
+                                        const gchar *attribute)
 {
 	if (!wk_editor->priv->web_extension)
 		return;
@@ -574,8 +574,8 @@ webkit_editor_remove_element_attribute (EWebKitEditor *wk_editor,
 
 static void
 webkit_editor_set_format_boolean (EWebKitEditor *wk_editor,
-                                          const gchar *format_dom_function,
-                                          gboolean format_value)
+                                  const gchar *format_dom_function,
+                                  gboolean format_value)
 {
 	if (!wk_editor->priv->web_extension)
 		return;
@@ -593,8 +593,8 @@ webkit_editor_set_format_boolean (EWebKitEditor *wk_editor,
 
 static void
 webkit_editor_set_format_int (EWebKitEditor *wk_editor,
-                                      const gchar *format_dom_function,
-                                      gint32 format_value)
+                              const gchar *format_dom_function,
+                              gint32 format_value)
 {
 	if (!wk_editor->priv->web_extension)
 		return;
@@ -612,9 +612,9 @@ webkit_editor_set_format_int (EWebKitEditor *wk_editor,
 
 static void
 webkit_editor_set_format_string (EWebKitEditor *wk_editor,
-                                         const gchar *format_name,
-                                         const gchar *format_dom_function,
-                                         const gchar *format_value)
+                                 const gchar *format_name,
+                                 const gchar *format_dom_function,
+                                 const gchar *format_value)
 {
 	if (!wk_editor->priv->web_extension)
 		return;
@@ -639,10 +639,10 @@ webkit_editor_set_format_string (EWebKitEditor *wk_editor,
 
 static void
 webkit_editor_queue_post_reload_operation (EWebKitEditor *wk_editor,
-                                                   PostReloadOperationFunc func,
-                                                   gpointer data,
-                                                   GDestroyNotify data_free_func,
-						   EContentEditorInsertContentFlags flags)
+                                           PostReloadOperationFunc func,
+                                           gpointer data,
+                                           GDestroyNotify data_free_func,
+                                           EContentEditorInsertContentFlags flags)
 {
 	PostReloadOperation *op;
 
@@ -1136,7 +1136,7 @@ show_lose_formatting_dialog (EWebKitEditor *wk_editor)
 
 static void
 webkit_editor_set_html_mode (EWebKitEditor *wk_editor,
-                                     gboolean html_mode)
+                             gboolean html_mode)
 {
 	gboolean convert = FALSE;
 	GVariant *result;
@@ -1205,8 +1205,8 @@ set_convert_in_situ (EWebKitEditor *wk_editor,
 
 static void
 webkit_editor_insert_content (EContentEditor *editor,
-                                      const gchar *content,
-                                      EContentEditorInsertContentFlags flags)
+                              const gchar *content,
+                              EContentEditorInsertContentFlags flags)
 {
 	EWebKitEditor *wk_editor;
 
@@ -1427,8 +1427,8 @@ webkit_editor_get_parts_for_inline_images (GVariant *images)
 
 static gchar *
 webkit_editor_get_content (EContentEditor *editor,
-                                   EContentEditorGetContentFlags flags,
-                                   EContentEditorInlineImages **inline_images)
+                           EContentEditorGetContentFlags flags,
+                           EContentEditorInlineImages **inline_images)
 {
 	EWebKitEditor *wk_editor;
 	GVariant *result;
@@ -1527,9 +1527,9 @@ webkit_editor_redo (EContentEditor *editor)
 
 static void
 webkit_editor_move_caret_on_coordinates (EContentEditor *editor,
-                                                 gint x,
-                                                 gint y,
-                                                 gboolean cancel_if_not_collapsed)
+                                         gint x,
+                                         gint y,
+                                         gboolean cancel_if_not_collapsed)
 {
 	EWebKitEditor *wk_editor;
 
@@ -1550,7 +1550,7 @@ webkit_editor_move_caret_on_coordinates (EContentEditor *editor,
 
 static void
 webkit_editor_insert_emoticon (EContentEditor *editor,
-                                       EEmoticon *emoticon)
+                               EEmoticon *emoticon)
 {
 	EWebKitEditor *wk_editor;
 
@@ -1572,7 +1572,7 @@ webkit_editor_insert_emoticon (EContentEditor *editor,
 
 static void
 webkit_editor_insert_image_from_mime_part (EContentEditor *editor,
-                                                   CamelMimePart *part)
+                                           CamelMimePart *part)
 {
 	CamelDataWrapper *dw;
 	CamelStream *stream;
@@ -1638,7 +1638,7 @@ webkit_editor_get_current_content_flags (EContentEditor *editor)
 
 static void
 webkit_editor_set_current_content_flags (EContentEditor *editor,
-                                                 EContentEditorContentFlags flags)
+                                         EContentEditorContentFlags flags)
 {
 	EWebKitEditor *wk_editor;
 
@@ -1799,7 +1799,7 @@ webkit_editor_get_caret_word (EContentEditor *editor)
 
 static void
 webkit_editor_set_spell_checking_languages (EContentEditor *editor,
-                                                    const gchar **languages)
+                                            const gchar **languages)
 {
 	EWebKitEditor *wk_editor;
 	WebKitWebContext *web_context;
@@ -1892,12 +1892,12 @@ webkit_editor_is_ready (EContentEditor *editor)
 
 static char *
 webkit_editor_insert_signature (EContentEditor *editor,
-                                        const gchar *content,
-                                        gboolean is_html,
-                                        const gchar *signature_id,
-                                        gboolean *set_signature_from_message,
-                                        gboolean *check_if_signature_is_changed,
-                                        gboolean *ignore_next_signature_change)
+                                const gchar *content,
+                                gboolean is_html,
+                                const gchar *signature_id,
+                                gboolean *set_signature_from_message,
+                                gboolean *check_if_signature_is_changed,
+                                gboolean *ignore_next_signature_change)
 {
 	EWebKitEditor *wk_editor;
 	gchar *ret_val = NULL;
@@ -2020,7 +2020,7 @@ webkit_editor_clear_undo_redo_history (EContentEditor *editor)
 
 static void
 webkit_editor_replace_caret_word (EContentEditor *editor,
-                                          const gchar *replacement)
+                                  const gchar *replacement)
 {
 	EWebKitEditor *wk_editor;
 
@@ -2145,8 +2145,8 @@ webkit_editor_prepare_find_controller (EWebKitEditor *wk_editor)
 
 static void
 webkit_editor_find (EContentEditor *editor,
-			    guint32 flags,
-			    const gchar *text)
+                    guint32 flags,
+                    const gchar *text)
 {
 	EWebKitEditor *wk_editor;
 	guint32 wk_options;
@@ -2178,7 +2178,7 @@ webkit_editor_find (EContentEditor *editor,
 
 static void
 webkit_editor_replace (EContentEditor *editor,
-			       const gchar *replacement)
+                       const gchar *replacement)
 {
 	EWebKitEditor *wk_editor;
 
@@ -2199,9 +2199,9 @@ webkit_editor_replace (EContentEditor *editor,
 
 static void
 webkit_editor_replace_all (EContentEditor *editor,
-				   guint32 flags,
-				   const gchar *find_text,
-				   const gchar *replace_with)
+                           guint32 flags,
+                           const gchar *find_text,
+                           const gchar *replace_with)
 {
 	EWebKitEditor *wk_editor;
 	guint32 wk_options;
@@ -2377,7 +2377,7 @@ webkit_editor_on_h_rule_dialog_close (EContentEditor *editor)
 
 static void
 webkit_editor_h_rule_set_align (EContentEditor *editor,
-                                        const gchar *value)
+                                const gchar *value)
 {
 	EWebKitEditor *wk_editor;
 
@@ -2408,7 +2408,7 @@ webkit_editor_h_rule_get_align (EContentEditor *editor)
 
 static void
 webkit_editor_h_rule_set_size (EContentEditor *editor,
-                                       gint value)
+                               gint value)
 {
 	EWebKitEditor *wk_editor;
 	gchar *size;
@@ -2452,8 +2452,8 @@ webkit_editor_h_rule_get_size (EContentEditor *editor)
 
 static void
 webkit_editor_h_rule_set_width (EContentEditor *editor,
-                                        gint value,
-                                        EContentEditorUnit unit)
+                                gint value,
+                                EContentEditorUnit unit)
 {
 	EWebKitEditor *wk_editor;
 	gchar *width;
@@ -2473,7 +2473,7 @@ webkit_editor_h_rule_set_width (EContentEditor *editor,
 
 static gint
 webkit_editor_h_rule_get_width (EContentEditor *editor,
-                                        EContentEditorUnit *unit)
+                                EContentEditorUnit *unit)
 {
 	EWebKitEditor *wk_editor;
 	gint value = 0;
@@ -2501,7 +2501,7 @@ webkit_editor_h_rule_get_width (EContentEditor *editor,
 
 static void
 webkit_editor_h_rule_set_no_shade (EContentEditor *editor,
-                                           gboolean value)
+                                   gboolean value)
 {
 	EWebKitEditor *wk_editor;
 
@@ -2574,7 +2574,7 @@ webkit_editor_on_image_dialog_close (EContentEditor *editor)
 
 static void
 webkit_editor_insert_image (EContentEditor *editor,
-                                    const gchar *image_uri)
+                            const gchar *image_uri)
 {
 	EWebKitEditor *wk_editor;
 
@@ -2596,8 +2596,8 @@ webkit_editor_insert_image (EContentEditor *editor,
 
 static void
 webkit_editor_replace_image_src (EWebKitEditor *wk_editor,
-                                         const gchar *selector,
-                                         const gchar *image_uri)
+                                 const gchar *selector,
+                                 const gchar *image_uri)
 {
 
 	if (!wk_editor->priv->web_extension)
@@ -2616,7 +2616,7 @@ webkit_editor_replace_image_src (EWebKitEditor *wk_editor,
 
 static void
 webkit_editor_image_set_src (EContentEditor *editor,
-                                     const gchar *value)
+                             const gchar *value)
 {
 	EWebKitEditor *wk_editor;
 
@@ -2648,7 +2648,7 @@ webkit_editor_image_get_src (EContentEditor *editor)
 
 static void
 webkit_editor_image_set_alt (EContentEditor *editor,
-                                     const gchar *value)
+                             const gchar *value)
 {
 	EWebKitEditor *wk_editor;
 
@@ -2680,7 +2680,7 @@ webkit_editor_image_get_alt (EContentEditor *editor)
 
 static void
 webkit_editor_image_set_url (EContentEditor *editor,
-                                     const gchar *value)
+                             const gchar *value)
 {
 	EWebKitEditor *wk_editor;
 
@@ -2731,7 +2731,7 @@ webkit_editor_image_get_url (EContentEditor *editor)
 
 static void
 webkit_editor_image_set_vspace (EContentEditor *editor,
-                                        gint value)
+                                gint value)
 {
 	EWebKitEditor *wk_editor;
 
@@ -2835,7 +2835,7 @@ webkit_editor_image_get_hspace (EContentEditor *editor)
 
 static void
 webkit_editor_image_set_border (EContentEditor *editor,
-                                        gint value)
+                                gint value)
 {
 	EWebKitEditor *wk_editor;
 	gchar *border;
@@ -2875,7 +2875,7 @@ webkit_editor_image_get_border (EContentEditor *editor)
 
 static void
 webkit_editor_image_set_align (EContentEditor *editor,
-                                       const gchar *value)
+                               const gchar *value)
 {
 	EWebKitEditor *wk_editor;
 
@@ -2965,7 +2965,7 @@ webkit_editor_image_get_natural_height (EContentEditor *editor)
 
 static void
 webkit_editor_image_set_height (EContentEditor *editor,
-                                        gint value)
+                                gint value)
 {
 	EWebKitEditor *wk_editor;
 
@@ -2988,7 +2988,7 @@ webkit_editor_image_set_height (EContentEditor *editor,
 
 static void
 webkit_editor_image_set_width (EContentEditor *editor,
-                                       gint value)
+                               gint value)
 {
 	EWebKitEditor *wk_editor;
 
@@ -3011,7 +3011,7 @@ webkit_editor_image_set_width (EContentEditor *editor,
 
 static void
 webkit_editor_image_set_height_follow (EContentEditor *editor,
-                                              gboolean value)
+                                      gboolean value)
 {
 	EWebKitEditor *wk_editor;
 
@@ -3027,7 +3027,7 @@ webkit_editor_image_set_height_follow (EContentEditor *editor,
 
 static void
 webkit_editor_image_set_width_follow (EContentEditor *editor,
-                                             gboolean value)
+                                     gboolean value)
 {
 	EWebKitEditor *wk_editor;
 
@@ -3112,8 +3112,8 @@ webkit_editor_selection_unlink (EContentEditor *editor)
 
 static void
 webkit_editor_link_set_values (EContentEditor *editor,
-                                       const gchar *href,
-                                       const gchar *text)
+                               const gchar *href,
+                               const gchar *text)
 {
 	EWebKitEditor *wk_editor;
 
@@ -3135,8 +3135,8 @@ webkit_editor_link_set_values (EContentEditor *editor,
 
 static void
 webkit_editor_link_get_values (EContentEditor *editor,
-                                       gchar **href,
-                                       gchar **text)
+                               gchar **href,
+                               gchar **text)
 {
 	EWebKitEditor *wk_editor;
 	GVariant *result;
@@ -3166,7 +3166,7 @@ webkit_editor_link_get_values (EContentEditor *editor,
 
 static void
 webkit_editor_set_alignment (EWebKitEditor *wk_editor,
-                                     EContentEditorAlignment value)
+                             EContentEditorAlignment value)
 {
 	g_return_if_fail (E_IS_WEBKIT_EDITOR (wk_editor));
 
@@ -3184,7 +3184,7 @@ webkit_editor_get_alignment (EWebKitEditor *wk_editor)
 
 static void
 webkit_editor_set_block_format (EWebKitEditor *wk_editor,
-                                        EContentEditorBlockFormat value)
+                                EContentEditorBlockFormat value)
 {
 	g_return_if_fail (E_IS_WEBKIT_EDITOR (wk_editor));
 
@@ -3202,7 +3202,7 @@ webkit_editor_get_block_format (EWebKitEditor *wk_editor)
 
 static void
 webkit_editor_set_background_color (EWebKitEditor *wk_editor,
-                                            const GdkRGBA *value)
+                                    const GdkRGBA *value)
 {
 	gchar *color;
 
@@ -3243,7 +3243,7 @@ webkit_editor_get_background_color (EWebKitEditor *wk_editor)
 
 static void
 webkit_editor_set_font_name (EWebKitEditor *wk_editor,
-                                     const gchar *value)
+                             const gchar *value)
 {
 	g_return_if_fail (E_IS_WEBKIT_EDITOR (wk_editor));
 
@@ -3263,7 +3263,7 @@ webkit_editor_get_font_name (EWebKitEditor *wk_editor)
 
 static void
 webkit_editor_set_font_color (EWebKitEditor *wk_editor,
-                                      const GdkRGBA *value)
+                              const GdkRGBA *value)
 {
 	gchar *color;
 
@@ -3304,7 +3304,7 @@ webkit_editor_get_font_color (EWebKitEditor *wk_editor)
 
 static void
 webkit_editor_set_font_size (EWebKitEditor *wk_editor,
-                                     gint value)
+                             gint value)
 {
 	g_return_if_fail (E_IS_WEBKIT_EDITOR (wk_editor));
 
@@ -3327,7 +3327,7 @@ webkit_editor_get_font_size (EWebKitEditor *wk_editor)
 
 static void
 webkit_editor_set_bold (EWebKitEditor *wk_editor,
-                                gboolean bold)
+                        gboolean bold)
 {
 	g_return_if_fail (E_IS_WEBKIT_EDITOR (wk_editor));
 
@@ -3350,7 +3350,7 @@ webkit_editor_is_bold (EWebKitEditor *wk_editor)
 
 static void
 webkit_editor_set_italic (EWebKitEditor *wk_editor,
-                                  gboolean italic)
+                          gboolean italic)
 {
 	g_return_if_fail (E_IS_WEBKIT_EDITOR (wk_editor));
 
@@ -3373,7 +3373,7 @@ webkit_editor_is_italic (EWebKitEditor *wk_editor)
 
 static void
 webkit_editor_set_monospaced (EWebKitEditor *wk_editor,
-                                      gboolean monospaced)
+                              gboolean monospaced)
 {
 	g_return_if_fail (E_IS_WEBKIT_EDITOR (wk_editor));
 
@@ -3396,7 +3396,7 @@ webkit_editor_is_monospaced (EWebKitEditor *wk_editor)
 
 static void
 webkit_editor_set_strikethrough (EWebKitEditor *wk_editor,
-                                         gboolean strikethrough)
+                                 gboolean strikethrough)
 {
 	g_return_if_fail (E_IS_WEBKIT_EDITOR (wk_editor));
 
@@ -3419,7 +3419,7 @@ webkit_editor_is_strikethrough (EWebKitEditor *wk_editor)
 
 static void
 webkit_editor_set_subscript (EWebKitEditor *wk_editor,
-                                     gboolean subscript)
+                             gboolean subscript)
 {
 	g_return_if_fail (E_IS_WEBKIT_EDITOR (wk_editor));
 
@@ -3442,7 +3442,7 @@ webkit_editor_is_subscript (EWebKitEditor *wk_editor)
 
 static void
 webkit_editor_set_superscript (EWebKitEditor *wk_editor,
-                                       gboolean superscript)
+                               gboolean superscript)
 {
 	g_return_if_fail (E_IS_WEBKIT_EDITOR (wk_editor));
 
@@ -3465,7 +3465,7 @@ webkit_editor_is_superscript (EWebKitEditor *wk_editor)
 
 static void
 webkit_editor_set_underline (EWebKitEditor *wk_editor,
-                                     gboolean underline)
+                             gboolean underline)
 {
 	g_return_if_fail (E_IS_WEBKIT_EDITOR (wk_editor));
 
@@ -3488,7 +3488,7 @@ webkit_editor_is_underline (EWebKitEditor *wk_editor)
 
 static void
 webkit_editor_page_set_text_color (EContentEditor *editor,
-                                           const GdkRGBA *value)
+                                   const GdkRGBA *value)
 {
 	EWebKitEditor *wk_editor;
 	gchar *color;
@@ -3504,7 +3504,7 @@ webkit_editor_page_set_text_color (EContentEditor *editor,
 
 static void
 webkit_editor_page_get_text_color (EContentEditor *editor,
-                                           GdkRGBA *color)
+                                   GdkRGBA *color)
 {
 	EWebKitEditor *wk_editor;
 	GVariant *result;
@@ -3537,7 +3537,7 @@ webkit_editor_page_get_text_color (EContentEditor *editor,
 
 static void
 webkit_editor_page_set_background_color (EContentEditor *editor,
-                                                 const GdkRGBA *value)
+                                         const GdkRGBA *value)
 {
 	EWebKitEditor *wk_editor;
 	gchar *color;
@@ -3556,7 +3556,7 @@ webkit_editor_page_set_background_color (EContentEditor *editor,
 
 static void
 webkit_editor_page_get_background_color (EContentEditor *editor,
-                                                 GdkRGBA *color)
+                                         GdkRGBA *color)
 {
 	EWebKitEditor *wk_editor;
 	GVariant *result;
@@ -3589,7 +3589,7 @@ webkit_editor_page_get_background_color (EContentEditor *editor,
 
 static void
 webkit_editor_page_set_link_color (EContentEditor *editor,
-                                           const GdkRGBA *value)
+                                   const GdkRGBA *value)
 {
 	EWebKitEditor *wk_editor;
 	gchar *color;
@@ -3605,7 +3605,7 @@ webkit_editor_page_set_link_color (EContentEditor *editor,
 
 static void
 webkit_editor_page_get_link_color (EContentEditor *editor,
-                                           GdkRGBA *color)
+                                   GdkRGBA *color)
 {
 	EWebKitEditor *wk_editor;
 	GVariant *result;
@@ -3637,7 +3637,7 @@ webkit_editor_page_get_link_color (EContentEditor *editor,
 
 static void
 webkit_editor_page_set_visited_link_color (EContentEditor *editor,
-                                                   const GdkRGBA *value)
+                                           const GdkRGBA *value)
 {
 	EWebKitEditor *wk_editor;
 	gchar *color;
@@ -3653,7 +3653,7 @@ webkit_editor_page_set_visited_link_color (EContentEditor *editor,
 
 static void
 webkit_editor_page_get_visited_link_color (EContentEditor *editor,
-                                                   GdkRGBA *color)
+                                           GdkRGBA *color)
 {
 	EWebKitEditor *wk_editor;
 	GVariant *result;
@@ -3729,7 +3729,7 @@ webkit_editor_page_get_background_image_uri (EContentEditor *editor)
 
 static void
 webkit_editor_page_set_background_image_uri (EContentEditor *editor,
-                                                     const gchar *uri)
+                                             const gchar *uri)
 {
 	EWebKitEditor *wk_editor;
 
@@ -3787,8 +3787,8 @@ webkit_editor_on_cell_dialog_close (EContentEditor *editor)
 
 static void
 webkit_editor_cell_set_v_align (EContentEditor *editor,
-                                        const gchar *value,
-                                        EContentEditorScope scope)
+                                const gchar *value,
+                                EContentEditorScope scope)
 {
 	EWebKitEditor *wk_editor;
 
@@ -3835,8 +3835,8 @@ webkit_editor_cell_get_v_align (EContentEditor *editor)
 
 static void
 webkit_editor_cell_set_align (EContentEditor *editor,
-                                      const gchar *value,
-                                      EContentEditorScope scope)
+                              const gchar *value,
+                              EContentEditorScope scope)
 {
 	EWebKitEditor *wk_editor;
 
@@ -3883,8 +3883,8 @@ webkit_editor_cell_get_align (EContentEditor *editor)
 
 static void
 webkit_editor_cell_set_wrap (EContentEditor *editor,
-                                     gboolean value,
-                                     EContentEditorScope scope)
+                             gboolean value,
+                             EContentEditorScope scope)
 {
 	EWebKitEditor *wk_editor;
 
@@ -3942,8 +3942,8 @@ webkit_editor_cell_get_wrap (EContentEditor *editor)
 
 static void
 webkit_editor_cell_set_header_style (EContentEditor *editor,
-                                             gboolean value,
-                                             EContentEditorScope scope)
+                                     gboolean value,
+                                     EContentEditorScope scope)
 {
 	EWebKitEditor *wk_editor;
 
@@ -4003,7 +4003,7 @@ webkit_editor_cell_is_header (EContentEditor *editor)
 
 static gint
 webkit_editor_cell_get_width (EContentEditor *editor,
-                                      EContentEditorUnit *unit)
+                              EContentEditorUnit *unit)
 {
 	EWebKitEditor *wk_editor;
 	gint value = 0;
@@ -4125,7 +4125,7 @@ webkit_editor_cell_get_background_image_uri (EContentEditor *editor)
 
 static void
 webkit_editor_cell_get_background_color (EContentEditor *editor,
-                                                 GdkRGBA *color)
+                                         GdkRGBA *color)
 {
 	EWebKitEditor *wk_editor;
 	GVariant *result;
@@ -4155,8 +4155,8 @@ webkit_editor_cell_get_background_color (EContentEditor *editor,
 
 static void
 webkit_editor_cell_set_row_span (EContentEditor *editor,
-                                         gint value,
-                                         EContentEditorScope scope)
+                                 gint value,
+                                 EContentEditorScope scope)
 {
 	EWebKitEditor *wk_editor;
 
@@ -4181,8 +4181,8 @@ webkit_editor_cell_set_row_span (EContentEditor *editor,
 
 static void
 webkit_editor_cell_set_col_span (EContentEditor *editor,
-                                         gint value,
-                                         EContentEditorScope scope)
+                                 gint value,
+                                 EContentEditorScope scope)
 {
 	EWebKitEditor *wk_editor;
 
@@ -4207,9 +4207,9 @@ webkit_editor_cell_set_col_span (EContentEditor *editor,
 
 static void
 webkit_editor_cell_set_width (EContentEditor *editor,
-                                      gint value,
-                                      EContentEditorUnit unit,
-                                      EContentEditorScope scope)
+                              gint value,
+                              EContentEditorUnit unit,
+                              EContentEditorScope scope)
 {
 	EWebKitEditor *wk_editor;
 	gchar *width;
@@ -4245,8 +4245,8 @@ webkit_editor_cell_set_width (EContentEditor *editor,
 
 static void
 webkit_editor_cell_set_background_color (EContentEditor *editor,
-                                                 const GdkRGBA *value,
-                                                 EContentEditorScope scope)
+                                         const GdkRGBA *value,
+                                         EContentEditorScope scope)
 {
 	EWebKitEditor *wk_editor;
 	gchar *color;
@@ -4276,7 +4276,7 @@ webkit_editor_cell_set_background_color (EContentEditor *editor,
 
 static void
 webkit_editor_cell_set_background_image_uri (EContentEditor *editor,
-                                                     const gchar *uri)
+                                             const gchar *uri)
 {
 	EWebKitEditor *wk_editor;
 
@@ -4305,7 +4305,7 @@ webkit_editor_cell_set_background_image_uri (EContentEditor *editor,
 
 static void
 webkit_editor_table_set_row_count (EContentEditor *editor,
-                                           guint value)
+                                   guint value)
 {
 	EWebKitEditor *wk_editor;
 
@@ -4362,7 +4362,7 @@ webkit_editor_table_get_row_count (EContentEditor *editor)
 
 static void
 webkit_editor_table_set_column_count (EContentEditor *editor,
-                                              guint value)
+                                      guint value)
 {
 	EWebKitEditor *wk_editor;
 
@@ -4419,8 +4419,8 @@ webkit_editor_table_get_column_count (EContentEditor *editor)
 
 static void
 webkit_editor_table_set_width (EContentEditor *editor,
-                                       gint value,
-                                       EContentEditorUnit unit)
+                               gint value,
+                               EContentEditorUnit unit)
 {
 	EWebKitEditor *wk_editor;
 	gchar *width;
@@ -4449,7 +4449,7 @@ webkit_editor_table_set_width (EContentEditor *editor,
 
 static guint
 webkit_editor_table_get_width (EContentEditor *editor,
-                                       EContentEditorUnit *unit)
+                               EContentEditorUnit *unit)
 {
 	EWebKitEditor *wk_editor;
 	guint value = 0;
@@ -4484,7 +4484,7 @@ webkit_editor_table_get_width (EContentEditor *editor,
 
 static void
 webkit_editor_table_set_align (EContentEditor *editor,
-                                       const gchar *value)
+                               const gchar *value)
 {
 	EWebKitEditor *wk_editor;
 
@@ -4521,7 +4521,7 @@ webkit_editor_table_get_align (EContentEditor *editor)
 
 static void
 webkit_editor_table_set_padding (EContentEditor *editor,
-                                         gint value)
+                                 gint value)
 {
 	EWebKitEditor *wk_editor;
 	gchar *padding;
@@ -4562,7 +4562,7 @@ webkit_editor_table_get_padding (EContentEditor *editor)
 
 static void
 webkit_editor_table_set_spacing (EContentEditor *editor,
-                                         gint value)
+                                 gint value)
 {
 	EWebKitEditor *wk_editor;
 	gchar *spacing;
@@ -4603,7 +4603,7 @@ webkit_editor_table_get_spacing (EContentEditor *editor)
 
 static void
 webkit_editor_table_set_border (EContentEditor *editor,
-                                        gint value)
+                                gint value)
 {
 	EWebKitEditor *wk_editor;
 	gchar *border;
@@ -4644,7 +4644,7 @@ webkit_editor_table_get_border (EContentEditor *editor)
 
 static void
 webkit_editor_table_get_background_color (EContentEditor *editor,
-                                                 GdkRGBA *color)
+                                          GdkRGBA *color)
 {
 	EWebKitEditor *wk_editor;
 	GVariant *result;
@@ -4674,7 +4674,7 @@ webkit_editor_table_get_background_color (EContentEditor *editor,
 
 static void
 webkit_editor_table_set_background_color (EContentEditor *editor,
-                                                  const GdkRGBA *value)
+                                          const GdkRGBA *value)
 {
 	EWebKitEditor *wk_editor;
 	gchar *color;
@@ -4719,7 +4719,7 @@ webkit_editor_table_get_background_image_uri (EContentEditor *editor)
 
 static void
 webkit_editor_table_set_background_image_uri (EContentEditor *editor,
-                                                     const gchar *uri)
+                                              const gchar *uri)
 {
 	EWebKitEditor *wk_editor;
 
@@ -4841,14 +4841,14 @@ move_to_another_word (EContentEditor *editor,
 
 static gchar *
 webkit_editor_spell_check_next_word (EContentEditor *editor,
-                                             const gchar *word)
+                                     const gchar *word)
 {
 	return move_to_another_word (editor, word, "EHTMLEditorSpellCheckDialogNext");
 }
 
 static gchar *
 webkit_editor_spell_check_prev_word (EContentEditor *editor,
-                                             const gchar *word)
+                                     const gchar *word)
 {
 	return move_to_another_word (editor, word, "EHTMLEditorSpellCheckDialogPrev");
 }
@@ -4923,8 +4923,8 @@ find_property (guint n_properties,
 
 static GObject *
 webkit_editor_constructor (GType type,
-                                   guint n_construct_properties,
-                                   GObjectConstructParam *construct_properties)
+                           guint n_construct_properties,
+                           GObjectConstructParam *construct_properties)
 {
 	GObjectClass* object_class;
 	GParamSpec* param_spec;
@@ -5071,9 +5071,9 @@ webkit_editor_finalize (GObject *object)
 
 static void
 webkit_editor_set_property (GObject *object,
-                                    guint property_id,
-                                    const GValue *value,
-                                    GParamSpec *pspec)
+                            guint property_id,
+                            const GValue *value,
+                            GParamSpec *pspec)
 {
 	switch (property_id) {
 		case PROP_CHANGED:
@@ -5184,9 +5184,9 @@ webkit_editor_set_property (GObject *object,
 
 static void
 webkit_editor_get_property (GObject *object,
-                                    guint property_id,
-                                    GValue *value,
-                                    GParamSpec *pspec)
+                            guint property_id,
+                            GValue *value,
+                            GParamSpec *pspec)
 {
 	switch (property_id) {
 		case PROP_CAN_COPY:
@@ -5370,8 +5370,8 @@ webkit_editor_move_caret_on_current_coordinates (GtkWidget *widget)
 
 static void
 webkit_editor_settings_changed_cb (GSettings *settings,
-                                           const gchar *key,
-                                           EWebKitEditor *wk_editor)
+                                   const gchar *key,
+                                   EWebKitEditor *wk_editor)
 {
 	GVariant *new_value, *old_value;
 
@@ -5411,8 +5411,8 @@ webkit_editor_load_changed_cb (EWebKitEditor *wk_editor,
 
 static void
 webkit_editor_clipboard_owner_change_cb (GtkClipboard *clipboard,
-                                                 GdkEventOwnerChange *event,
-                                                 EWebKitEditor *wk_editor)
+                                         GdkEventOwnerChange *event,
+                                         EWebKitEditor *wk_editor)
 {
 	if (!E_IS_WEBKIT_EDITOR (wk_editor))
 		return;
@@ -5440,8 +5440,8 @@ webkit_editor_clipboard_owner_change_cb (GtkClipboard *clipboard,
 
 static void
 webkit_editor_primary_clipboard_owner_change_cb (GtkClipboard *clipboard,
-                                                         GdkEventOwnerChange *event,
-                                                         EWebKitEditor *wk_editor)
+                                                 GdkEventOwnerChange *event,
+                                                 EWebKitEditor *wk_editor)
 {
 	if (!E_IS_WEBKIT_EDITOR (wk_editor))
 		return;
@@ -5474,9 +5474,9 @@ webkit_editor_paste_prefer_text_html (EWebKitEditor *wk_editor)
 
 static void
 webkit_editor_paste_clipboard_targets_cb (GtkClipboard *clipboard,
-                                                  GdkAtom *targets,
-                                                  gint n_targets,
-                                                  EWebKitEditor *wk_editor)
+                                          GdkAtom *targets,
+                                          gint n_targets,
+                                          EWebKitEditor *wk_editor)
 {
 	if (targets == NULL || n_targets < 0)
 		return;
@@ -5603,9 +5603,9 @@ webkit_editor_paste (EContentEditor *editor)
 
 static void
 webkit_editor_mouse_target_changed_cb (EWebKitEditor *wk_editor,
-                                               WebKitHitTestResult *hit_test_result,
-                                               guint modifiers,
-                                               gpointer user_data)
+                                       WebKitHitTestResult *hit_test_result,
+                                       guint modifiers,
+                                       gpointer user_data)
 {
 	/* Ctrl + Left Click on link opens it. */
 	if (webkit_hit_test_result_context_is_link (hit_test_result) &&
@@ -5625,9 +5625,9 @@ webkit_editor_mouse_target_changed_cb (EWebKitEditor *wk_editor,
 
 static gboolean
 webkit_editor_context_menu_cb (EWebKitEditor *wk_editor,
-                                       WebKitContextMenu *context_menu,
-                                       GdkEvent *event,
-                                       WebKitHitTestResult *hit_test_result)
+                               WebKitContextMenu *context_menu,
+                               GdkEvent *event,
+                               WebKitHitTestResult *hit_test_result)
 {
 	GVariant *result;
 	EContentEditorNodeFlags flags = 0;
@@ -5645,14 +5645,14 @@ webkit_editor_context_menu_cb (EWebKitEditor *wk_editor,
 
 static void
 webkit_editor_drag_end_cb (EWebKitEditor *editor,
-                                   GdkDragContext *context)
+                           GdkDragContext *context)
 {
 	webkit_editor_call_simple_extension_function (editor, "DOMDragAndDropEnd");
 }
 
 static gboolean
 webkit_editor_button_press_event (GtkWidget *widget,
-                                          GdkEventButton *event)
+                                  GdkEventButton *event)
 {
 	if (event->button == 2) {
 		if (!e_content_editor_emit_paste_primary_clipboard (E_CONTENT_EDITOR (widget)))
@@ -5667,7 +5667,7 @@ webkit_editor_button_press_event (GtkWidget *widget,
 
 static gboolean
 webkit_editor_key_press_event (GtkWidget *widget,
-                                       GdkEventKey *event)
+                               GdkEventKey *event)
 {
 	EWebKitEditor *wk_editor;
 
