@@ -932,6 +932,9 @@ e_html_editor_get_content_editor (EHTMLEditor *editor)
 				editor->priv->use_content_editor = value;
 			}
 		}
+
+		if (editor->priv->use_content_editor)
+			e_content_editor_initialize (editor->priv->use_content_editor, editor);
 	}
 
 	return editor->priv->use_content_editor;

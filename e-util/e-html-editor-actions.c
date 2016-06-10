@@ -797,16 +797,6 @@ action_wrap_lines_cb (GtkAction *action,
 		e_content_editor_selection_wrap (cnt_editor);
 }
 
-static void
-action_show_webkit_inspector_cb (GtkAction *action,
-                                 EHTMLEditor *editor)
-{
-	EContentEditor *cnt_editor;
-
-	cnt_editor = e_html_editor_get_content_editor (editor);
-	e_content_editor_show_inspector (cnt_editor);
-}
-
 /*****************************************************************************
  * Core Actions
  *
@@ -986,14 +976,7 @@ static GtkActionEntry core_editor_entries[] = {
 	  N_("_Wrap Lines"),
 	  "<Control>k",
 	  NULL,
-	  G_CALLBACK (action_wrap_lines_cb) },
-
-	{ "webkit-inspector",
-          NULL,
-          N_("Open Inspector"),
-          NULL,
-          NULL,
-          G_CALLBACK (action_show_webkit_inspector_cb) },
+	  G_CALLBACK (action_wrap_lines_cb) }
 };
 
 static GtkRadioActionEntry core_justify_entries[] = {
@@ -1721,7 +1704,6 @@ editor_actions_init (EHTMLEditor *editor)
 	GtkActionGroup *action_group;
 	GtkUIManager *manager;
 	const gchar *domain;
-	GSettings *settings;
 
 	g_return_if_fail (E_IS_HTML_EDITOR (editor));
 
@@ -1846,12 +1828,6 @@ editor_actions_init (EHTMLEditor *editor)
 
 	gtk_action_set_sensitive (ACTION (UNINDENT), FALSE);
 	gtk_action_set_sensitive (ACTION (FIND_AGAIN), FALSE);
-
-	settings = e_util_ref_settings ("org.gnome.evolution.mail");
-	gtk_action_set_visible (
-		ACTION (WEBKIT_INSPECTOR),
-		g_settings_get_boolean (settings, "composer-developer-mode"));
-	g_object_unref (settings);
 }
 
 void

@@ -34,6 +34,8 @@
 
 G_BEGIN_DECLS
 
+struct _EHTMLEditor;
+
 #define E_TYPE_CONTENT_EDITOR e_content_editor_get_type ()
 G_DECLARE_INTERFACE (EContentEditor, e_content_editor, E, CONTENT_EDITOR, GtkWidget)
 
@@ -45,6 +47,8 @@ typedef struct {
 struct _EContentEditorInterface {
 	GTypeInterface parent_interface;
 
+	void		(*initialize)			(EContentEditor *content_editor,
+							 struct _EHTMLEditor *html_editor);
 	void		(*update_styles)		(EContentEditor *editor);
 	void		(*insert_content)		(EContentEditor *editor,
 							 const gchar *content,
@@ -128,8 +132,6 @@ struct _EContentEditorInterface {
 
 	void		(*selection_wrap)		(EContentEditor *editor);
 
-	void		(*show_inspector)		(EContentEditor *editor);
-
 	guint		(*get_caret_position)		(EContentEditor *editor);
 
 	guint		(*get_caret_offset)		(EContentEditor *editor);
@@ -138,7 +140,7 @@ struct _EContentEditorInterface {
 
 	gboolean	(*is_ready)			(EContentEditor *editor);
 
-	char *		(*insert_signature)		(EContentEditor *editor,
+	gchar *		(*insert_signature)		(EContentEditor *editor,
 							 const gchar *content,
 							 gboolean is_html,
 							 const gchar *signature_id,
@@ -513,6 +515,8 @@ gboolean	e_content_editor_is_underline	(EContentEditor *editor);
 
 /* Methods */
 
+void		e_content_editor_initialize	(EContentEditor *content_editor,
+						 struct _EHTMLEditor *html_editor);
 void		e_content_editor_update_styles	(EContentEditor *editor);
 void		e_content_editor_insert_content	(EContentEditor *editor,
 						 const gchar *content,
@@ -608,8 +612,6 @@ void		e_content_editor_selection_restore
 						(EContentEditor *editor);
 
 void		e_content_editor_selection_wrap	(EContentEditor *editor);
-
-void		e_content_editor_show_inspector (EContentEditor *editor);
 
 guint		e_content_editor_get_caret_position
 						(EContentEditor *editor);

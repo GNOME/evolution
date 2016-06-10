@@ -24,6 +24,7 @@
 
 #include <libedataserver/libedataserver.h>
 
+#include "e-html-editor.h"
 #include "e-util-enumtypes.h"
 #include "e-content-editor.h"
 
@@ -1241,6 +1242,33 @@ e_content_editor_is_underline (EContentEditor *editor)
 	return value;
 }
 
+/**
+ * e_content_editor_initialize:
+ * @content_editor: an #EContentEditor
+ * @html_editor: an #EHTMLEditor
+ *
+ * Called the first time the @content_editor is picked to be used within
+ * the @html_editor. This is typically used to modify the UI
+ * of the @html_editor. This method implementation is optional.
+ *
+ * Since: 3.22
+ **/
+void
+e_content_editor_initialize (EContentEditor *content_editor,
+			     EHTMLEditor *html_editor)
+{
+	EContentEditorInterface *iface;
+
+	g_return_if_fail (E_IS_CONTENT_EDITOR (content_editor));
+	g_return_if_fail (E_IS_HTML_EDITOR (html_editor));
+
+	iface = E_CONTENT_EDITOR_GET_IFACE (content_editor);
+	g_return_if_fail (iface != NULL);
+
+	if (iface->initialize)
+		iface->initialize (content_editor, html_editor);
+}
+
 void
 e_content_editor_update_styles (EContentEditor *editor)
 {
@@ -1843,20 +1871,6 @@ e_content_editor_selection_wrap (EContentEditor *editor)
 	iface->selection_wrap (editor);
 }
 
-void
-e_content_editor_show_inspector (EContentEditor *editor)
-{
-	EContentEditorInterface *iface;
-
-	g_return_if_fail (E_IS_CONTENT_EDITOR (editor));
-
-	iface = E_CONTENT_EDITOR_GET_IFACE (editor);
-	g_return_if_fail (iface != NULL);
-	g_return_if_fail (iface->show_inspector != NULL);
-
-	iface->show_inspector (editor);
-}
-
 guint
 e_content_editor_get_caret_position (EContentEditor *editor)
 {
@@ -1913,7 +1927,7 @@ e_content_editor_is_ready (EContentEditor *editor)
 	return iface->is_ready (editor);
 }
 
-char *
+gchar *
 e_content_editor_insert_signature (EContentEditor *editor,
                                    const gchar *content,
                                    gboolean is_html,

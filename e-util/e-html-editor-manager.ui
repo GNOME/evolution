@@ -27,7 +27,7 @@
     <placeholder name='pre-insert-menu'>
       <menu action='view-menu'>
         <placeholder name='view-menu-top'/>
-        <menuitem action='webkit-inspector'/>
+        <placeholder name='view-menu-custom'/>
         <separator/>
       </menu>
     </placeholder>

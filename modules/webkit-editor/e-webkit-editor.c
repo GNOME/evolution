@@ -661,6 +661,18 @@ webkit_editor_queue_post_reload_operation (EWebKitEditor *wk_editor,
 }
 
 static void
+webkit_editor_show_inspector (EWebKitEditor *wk_editor)
+{
+	WebKitWebInspector *inspector;
+
+	g_return_if_fail (E_IS_WEBKIT_EDITOR (wk_editor));
+
+	inspector = webkit_web_view_get_inspector (WEBKIT_WEB_VIEW (wk_editor));
+
+	webkit_web_inspector_show (inspector);
+}
+
+static void
 webkit_editor_update_styles (EContentEditor *editor)
 {
 	EWebKitEditor *wk_editor;
@@ -1669,19 +1681,6 @@ webkit_editor_select_all (EContentEditor *editor)
 
 	webkit_web_view_execute_editing_command (
 		WEBKIT_WEB_VIEW (wk_editor), WEBKIT_EDITING_COMMAND_SELECT_ALL);
-}
-
-static void
-webkit_editor_show_inspector (EContentEditor *editor)
-{
-	EWebKitEditor *wk_editor;
-	WebKitWebInspector *inspector;
-
-	wk_editor = E_WEBKIT_EDITOR (editor);
-
-	inspector = webkit_web_view_get_inspector (WEBKIT_WEB_VIEW (wk_editor));
-
-	webkit_web_inspector_show (inspector);
 }
 
 static void
@@ -4901,6 +4900,7 @@ webkit_editor_constructed (GObject *object)
 
 	web_settings = webkit_web_view_get_settings (web_view);
 	webkit_settings_set_allow_file_access_from_file_urls (web_settings, TRUE);
+	webkit_settings_set_enable_developer_extras (web_settings, TRUE);
 
 	/* Make WebKit think we are displaying a local file, so that it
 	 * does not block loading resources from file:// protocol */
@@ -5707,6 +5707,13 @@ webkit_editor_key_press_event (GtkWidget *widget,
 		return TRUE;
 	}
 
+	if (((event)->state & GDK_CONTROL_MASK) &&
+	    ((event)->state & GDK_SHIFT_MASK) &&
+	    ((event)->keyval == GDK_KEY_I)) {
+		webkit_editor_show_inspector (wk_editor);
+		return TRUE;
+	}
+
 	/* Chain up to parent's key_press_event() method. */
 	return GTK_WIDGET_CLASS (e_webkit_editor_parent_class)->key_press_event (widget, event);
 }
@@ -5903,7 +5910,6 @@ e_webkit_editor_content_editor_init (EContentEditorInterface *iface)
 	iface->selection_save = webkit_editor_selection_save;
 	iface->selection_restore = webkit_editor_selection_restore;
 	iface->selection_wrap = webkit_editor_selection_wrap;
-	iface->show_inspector = webkit_editor_show_inspector;
 	iface->get_caret_position = webkit_editor_get_caret_position;
 	iface->get_caret_offset = webkit_editor_get_caret_offset;
 	iface->get_current_signature_uid =  webkit_editor_get_current_signature_uid;

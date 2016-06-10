@@ -155,7 +155,5 @@
 	E_HTML_EDITOR_ACTION ((editor), "undo")
 #define E_HTML_EDITOR_ACTION_UNINDENT(editor) \
 	E_HTML_EDITOR_ACTION ((editor), "unindent")
-#define E_HTML_EDITOR_ACTION_WEBKIT_INSPECTOR(editor) \
-	E_HTML_EDITOR_ACTION ((editor), "webkit-inspector")
 
 #endif /* E_HTML_EDITOR_ACTIONS_H */
