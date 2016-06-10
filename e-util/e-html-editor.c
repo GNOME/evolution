@@ -645,7 +645,23 @@ html_editor_constructed (GObject *object)
 
 	/* Construct the main editing area. */
 	widget = GTK_WIDGET (e_html_editor_get_content_editor (editor));
-	gtk_grid_attach (GTK_GRID (editor), widget, 0, 4, 1, 1);
+
+	/* Pack editors which implement GtkScrollable in a scrolled window */
+	if (GTK_IS_SCROLLABLE (widget)) {
+		GtkWidget *scrolled_window;
+
+		scrolled_window = gtk_scrolled_window_new (NULL, NULL);
+		gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_window),
+			GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+		gtk_widget_show (scrolled_window);
+
+		gtk_grid_attach (GTK_GRID (editor), scrolled_window, 0, 4, 1, 1);
+
+		gtk_container_add (GTK_CONTAINER (scrolled_window), widget);
+	} else {
+		gtk_grid_attach (GTK_GRID (editor), widget, 0, 4, 1, 1);
+	}
+
 	gtk_widget_show (widget);
 
 	g_signal_connect (

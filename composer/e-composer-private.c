@@ -255,6 +255,11 @@ e_composer_private_constructed (EMsgComposer *composer)
 	gtk_widget_show (widget);
 
 	widget = GTK_WIDGET (cnt_editor);
+	if (GTK_IS_SCROLLABLE (cnt_editor)) {
+		/* Scrollables are packed in a scrolled window */
+		widget = gtk_widget_get_parent (widget);
+		g_warn_if_fail (GTK_IS_SCROLLED_WINDOW (widget));
+	}
 	gtk_widget_reparent (widget, container);
 
 	/* Construct the picture gallery. */
