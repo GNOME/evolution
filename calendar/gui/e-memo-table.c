@@ -394,7 +394,7 @@ memo_table_query_tooltip (GtkWidget *widget,
 	EMemoTable *memo_table;
 	ECalModel *model;
 	ECalModelComponent *comp_data;
-	gint row = -1, col = -1;
+	gint row = -1, col = -1, row_y = -1, row_height = -1;
 	GtkWidget *box, *l, *w;
 	GdkRGBA sel_bg, sel_fg, norm_bg, norm_text;
 	gchar *tmp;
@@ -610,6 +610,41 @@ memo_table_query_tooltip (GtkWidget *widget,
 	gtk_tooltip_set_custom (tooltip, box);
 
 	g_object_unref (new_comp);
+
+	if (esm && esm->sorter && e_sorter_needs_sorting (esm->sorter))
+		row = e_sorter_model_to_sorted (esm->sorter, row);
+
+	e_table_get_cell_geometry (E_TABLE (memo_table), row, 0, NULL, &row_y, NULL, &row_height);
+
+	if (row_y != -1 && row_height != -1) {
+		ETable *etable;
+		GdkRectangle rect;
+		GtkAllocation allocation;
+
+		etable = E_TABLE (memo_table);
+
+		if (etable && etable->table_canvas) {
+			gtk_widget_get_allocation (GTK_WIDGET (etable->table_canvas), &allocation);
+		} else {
+			allocation.x = 0;
+			allocation.y = 0;
+			allocation.width = 0;
+			allocation.height = 0;
+		}
+
+		rect.x = allocation.x;
+		rect.y = allocation.y + row_y - BUTTON_PADDING;
+		rect.width = allocation.width;
+		rect.height = row_height + 2 * BUTTON_PADDING;
+
+		if (etable && etable->header_canvas) {
+			gtk_widget_get_allocation (GTK_WIDGET (etable->header_canvas), &allocation);
+
+			rect.y += allocation.height;
+		}
+
+		gtk_tooltip_set_tip_area (tooltip, &rect);
+	}
 
 	return TRUE;
 }
