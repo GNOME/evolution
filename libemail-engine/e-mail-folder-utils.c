@@ -793,6 +793,9 @@ e_mail_folder_find_duplicate_messages_sync (CamelFolder *folder,
 		const gchar *digest;
 
 		info = camel_folder_get_message_info (folder, key);
+		if (!info)
+			continue;
+
 		message_id = camel_message_info_message_id (info);
 		flags = camel_message_info_flags (info);
 
