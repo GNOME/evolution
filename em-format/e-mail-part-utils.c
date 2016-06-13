@@ -80,12 +80,15 @@ e_mail_part_get_frame_security_style (EMailPart *part)
 			} else if (frame_style == NULL &&
 				pair->validity->sign.status == CAMEL_CIPHER_VALIDITY_SIGN_NEED_PUBLIC_KEY) {
 				frame_style = "-e-mail-formatter-frame-security-need-key";
+			} else if (frame_style == NULL &&
+				pair->validity->sign.status == CAMEL_CIPHER_VALIDITY_SIGN_GOOD) {
+				frame_style = "-e-mail-formatter-frame-security-good";
 			}
 		}
 	}
 
 	if (frame_style == NULL)
-		frame_style = "-e-mail-formatter-frame-security-good";
+		frame_style = "-e-mail-formatter-frame-security-none";
 
 	return frame_style;
 }
