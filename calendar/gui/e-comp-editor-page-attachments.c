@@ -231,8 +231,8 @@ ecep_attachments_sensitize_widgets (ECompEditorPage *page,
 
 	page_attachments = E_COMP_EDITOR_PAGE_ATTACHMENTS (page);
 
-	gtk_widget_set_sensitive (page_attachments->priv->controls_container, !force_insensitive && is_organizer);
-	gtk_widget_set_sensitive (page_attachments->priv->notebook, !force_insensitive && is_organizer);
+	gtk_widget_set_sensitive (page_attachments->priv->controls_container, !force_insensitive);
+	gtk_widget_set_sensitive (page_attachments->priv->notebook, !force_insensitive);
 
 	action = e_comp_editor_get_action (comp_editor, "attachments-attach");
 	gtk_action_set_sensitive (action, !force_insensitive && is_organizer);
@@ -654,6 +654,7 @@ static void
 ecep_attachments_constructed (GObject *object)
 {
 	ECompEditorPageAttachments *page_attachments;
+	ECompEditor *comp_editor;
 	GSettings *settings;
 	GtkSizeGroup *size_group;
 	GtkWidget *container;
@@ -821,6 +822,21 @@ ecep_attachments_constructed (GObject *object)
 	g_clear_object (&settings);
 
 	ecep_attachments_setup_ui (page_attachments);
+
+	comp_editor = e_comp_editor_page_ref_editor (E_COMP_EDITOR_PAGE (page_attachments));
+	action = e_comp_editor_get_action (comp_editor, "attachments-attach");
+
+	e_binding_bind_property (
+		action, "sensitive",
+		e_attachment_view_get_action (E_ATTACHMENT_VIEW (page_attachments->priv->icon_view), "add"), "sensitive",
+		G_BINDING_SYNC_CREATE);
+
+	e_binding_bind_property (
+		action, "sensitive",
+		e_attachment_view_get_action (E_ATTACHMENT_VIEW (page_attachments->priv->tree_view), "add"), "sensitive",
+		G_BINDING_SYNC_CREATE);
+
+	g_clear_object (&comp_editor);
 }
 
 static void
