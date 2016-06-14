@@ -264,7 +264,7 @@ shell_searchbar_update_search_widgets (EShellSearchbar *searchbar)
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = E_SHELL_WINDOW_ACTION_SEARCH_SAVE (shell_window);
-	gtk_action_set_sensitive (action, sensitive);
+	gtk_action_set_visible (action, sensitive && e_shell_view_get_search_rule (shell_view) != NULL);
 }
 
 static void
