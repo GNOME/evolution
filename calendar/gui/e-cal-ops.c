@@ -1504,7 +1504,7 @@ new_component_data_free (gpointer ptr)
 			}
 
 			comp_editor = e_comp_editor_open_for_component (NULL, ncd->shell,
-				ncd->is_new_component ? NULL : e_client_get_source (E_CLIENT (ncd->client)),
+				ncd->client ? e_client_get_source (E_CLIENT (ncd->client)) : NULL,
 				e_cal_component_get_icalcomponent (ncd->comp), flags);
 
 			if (comp_editor) {
@@ -1813,7 +1813,7 @@ e_cal_ops_new_component_editor_from_model (ECalModel *model,
 	if (!for_client_uid)
 		for_client_uid = e_cal_model_get_default_source_uid (model);
 
-	if (for_client_uid && !for_client_uid)
+	if (for_client_uid && !*for_client_uid)
 		for_client_uid = NULL;
 
 	e_cal_ops_new_component_ex (NULL, model, source_type, for_client_uid, is_assigned, all_day, dtstart, dtend,
