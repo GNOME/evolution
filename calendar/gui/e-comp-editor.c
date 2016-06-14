@@ -673,9 +673,12 @@ ece_save_component_attachments_sync (ECalClient *cal_client,
 			if (g_ascii_strncasecmp (uri, "file://", 7) == 0 &&
 			    !g_str_has_prefix (uri + 7, target_filename_prefix)) {
 				GFile *source, *destination;
+				gchar *decoded_filename;
 				gchar *target_filename;
 
-				target_filename = g_strconcat (target_filename_prefix, strrchr (uri, '/') + 1, NULL);
+				decoded_filename = g_uri_unescape_string (strrchr (uri, '/') + 1, NULL);
+				target_filename = g_strconcat (target_filename_prefix, decoded_filename, NULL);
+				g_free (decoded_filename);
 
 				source = g_file_new_for_uri (uri);
 				destination = g_file_new_for_path (target_filename);
