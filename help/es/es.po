@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution-help.master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-06-07 09:59+0000\n"
-"PO-Revision-Date: 2016-06-09 21:41-0500\n"
+"POT-Creation-Date: 2016-06-13 21:40+0000\n"
+"PO-Revision-Date: 2016-06-13 22:52-0500\n"
 "Last-Translator: Yolanda Alvarez Perez <yolandaa.alvarez.perez@gmail.com>\n"
 "Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
 "Language: \n"
@@ -3853,7 +3853,6 @@ msgstr "Logo de Evolution"
 
 #. (itstool) path: page/title
 #: C/index.page:23
-#| msgid "<_:media-1/> Evolution Mail and Calendar"
 msgid "<_:media-1/> <app>Evolution</app> Mail and Calendar"
 msgstr "<_:media-1/> Correo y calendario de <app>Evolution</app>"
 
@@ -3951,15 +3950,11 @@ msgstr "Lecturas recomendadas"
 
 #. (itstool) path: info/desc
 #: C/intro-application.page:5
-#| msgid "An introduction to Evolution."
 msgid "An introduction to <app>Evolution</app>."
 msgstr "Una introducción a <app>Evolution</app>."
 
 #. (itstool) path: page/p
 #: C/intro-application.page:25
-#| msgid ""
-#| "Evolution allows you to access your personal information like your "
-#| "calendars, mail, address books and tasks in one place."
 msgid ""
 "<app>Evolution</app> allows you to access your personal information like "
 "your calendars, mail, address books and tasks in one place."
@@ -3969,12 +3964,6 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/intro-application.page:27
-#| msgid ""
-#| "By default Evolution opens the mail view. This is were you can view all "
-#| "your mail. You can change to other views of the application by going to "
-#| "the bottom of the left pane in the window (the so-called \"switcher\") "
-#| "and selecting the desired view. <link xref=\"intro-main-window\">Learn "
-#| "more about the elements of the main window.</link>"
 msgid ""
 "By default <app>Evolution</app> opens the mail view. This is were you can "
 "view all your mail. You can change to other views of the application by "
@@ -3991,12 +3980,6 @@ msgstr ""
 
 #. (itstool) path: note/p
 #: C/intro-application.page:29
-#| msgid ""
-#| "When Evolution starts, it remembers the last view that you used. However "
-#| "you can also explicitly start Evolution in a specific view. For the "
-#| "calendar view, use the command <cmd>evolution --component=calendar</cmd> "
-#| "in the <app>Terminal</app> application. Other available options are \"mail"
-#| "\", \"contacts\", \"tasks\", and \"memos\"."
 msgid ""
 "When <app>Evolution</app> starts, it remembers the last view that you used. "
 "However you can also explicitly start <app>Evolution</app> in a specific "
@@ -4012,7 +3995,6 @@ msgstr ""
 
 #. (itstool) path: info/desc
 #: C/intro-first-run.page:8
-#| msgid "Running Evolution for the very first time."
 msgid "Running <app>Evolution</app> for the very first time."
 msgstr "Inicio de <app>Evolution</app> por primera vez."
 
@@ -4023,10 +4005,6 @@ msgstr "Iniciar <app>Evolution</app> por primera vez"
 
 #. (itstool) path: page/p
 #: C/intro-first-run.page:25
-#| msgid ""
-#| "The first time you run Evolution, it opens the First-Run Assistant to "
-#| "help you set up email accounts and <link xref=\"import-data\">import data "
-#| "from other applications.</link>"
 msgid ""
 "The first time you run <app>Evolution</app>, it opens the First-Run "
 "Assistant to help you set up email accounts and <link xref=\"import-data"
@@ -4331,7 +4309,6 @@ msgstr "Ninguno"
 
 #. (itstool) path: section/p
 #: C/intro-first-run.page:231
-#| msgid "If you do not plan to use Evolution for receiving email."
 msgid "If you do not plan to use <app>Evolution</app> for receiving email."
 msgstr ""
 "Si no tiene intención de usar <app>Evolution</app> para recibir correo."
@@ -4422,7 +4399,6 @@ msgstr ""
 
 #. (itstool) path: info/desc
 #: C/intro-main-window.page:5
-#| msgid "An explanation of the areas shown in the Evolution window."
 msgid "An explanation of the areas shown in the <app>Evolution</app> window."
 msgstr ""
 "Una explicación de las áreas mostradas en la ventana de <app>Evolution</app>."
@@ -4434,11 +4410,6 @@ msgstr "La ventana principal de <app>Evolution</app>"
 
 #. (itstool) path: page/p
 #: C/intro-main-window.page:32
-#| msgid ""
-#| "Evolution provides functionality for Email, Calendar, Contacts, Tasks, "
-#| "and Memos. You can switch to another functionality by using the \"Switcher"
-#| "\" buttons in the lower left corner. Depending on the displayed "
-#| "functionality also the displayed elements in the window differ."
 msgid ""
 "<app>Evolution</app> provides functionality for Email, Calendar, Contacts, "
 "Tasks, and Memos. You can switch to another functionality by using the "
@@ -4452,7 +4423,6 @@ msgstr ""
 
 #. (itstool) path: media/p
 #: C/intro-main-window.page:38
-#| msgid "The <app>Evolution</app> main window"
 msgid "The <app>Evolution</app> mail main window"
 msgstr "La ventana principal de correo de <app>Evolution</app>"
 
@@ -4553,9 +4523,6 @@ msgstr "Selector"
 
 #. (itstool) path: item/p
 #: C/intro-main-window.page:77
-#| msgid ""
-#| "The switcher at the bottom of the side bar lets you switch between the "
-#| "Evolution tools: Mail, Contacts, Calendars, Memos and Tasks."
 msgid ""
 "The switcher at the bottom of the side bar lets you switch between the "
 "<app>Evolution</app> tools: Mail, Contacts, Calendars, Memos and Tasks."
@@ -4733,7 +4700,6 @@ msgstr "Cómo configurar una cuenta IMAP de GMail."
 
 #. (itstool) path: page/title
 #: C/mail-access-gmail-imap-account.page:24
-#| msgid "Access a Gmail IMAP Account via Evolution"
 msgid "Access a Gmail IMAP Account via <app>Evolution</app>"
 msgstr "Acceder a una cuenta IMAP de GMail a través de <app>Evolution</app>"
 
@@ -4779,13 +4745,11 @@ msgstr "Cómo configurar una cuenta POP de GMail."
 
 #. (itstool) path: page/title
 #: C/mail-access-gmail-pop-account.page:28
-#| msgid "Access a Gmail POP Account via Evolution"
 msgid "Access a Gmail POP Account via <app>Evolution</app>"
 msgstr "Acceder a una cuenta POP de GMail a través de <app>Evolution</app>"
 
 #. (itstool) path: page/p
 #: C/mail-access-gmail-pop-account.page:30
-#| msgid "Follow these steps to set up your Gmail POP Account in Evolution:"
 msgid ""
 "Follow these steps to set up your Gmail POP Account in <app>Evolution</app>:"
 msgstr ""
@@ -4845,10 +4809,6 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/mail-access-gmail-pop-account.page:43
-#| msgid ""
-#| "On your Evolution client, go to <guiseq><gui>Edit</gui><gui>Preferences</"
-#| "gui><gui>Mail Accounts</gui></guiseq>. Click <gui style=\"button\">Add</"
-#| "gui>."
 msgid ""
 "On your <app>Evolution</app> client, go to <guiseq><gui>Edit</"
 "gui><gui>Preferences</gui><gui>Mail Accounts</gui></guiseq>. Click <gui "
@@ -4868,7 +4828,6 @@ msgstr ""
 
 #. (itstool) path: info/desc
 #: C/mail-account-manage-imap-plus.page:5
-#| msgid "Add and edit an IMAP+ mail account in Evolution."
 msgid "Add and edit an IMAP+ mail account in <app>Evolution</app>."
 msgstr "Añadir y editar una cuenta de correo IMAP+ en <app>Evolution</app>."
 
@@ -5050,7 +5009,6 @@ msgstr "Otros ajustes "
 
 #. (itstool) path: info/desc
 #: C/mail-account-manage-local-delivery.page:5
-#| msgid "Add and edit a Local Delivery account in Evolution."
 msgid "Add and edit a Local Delivery account in <app>Evolution</app>."
 msgstr "Añadir y editar una cuenta de envío local en <app>Evolution</app>."
 
@@ -5100,7 +5058,6 @@ msgstr "Seguridad (cuentas de envío local)"
 
 #. (itstool) path: info/desc
 #: C/mail-account-manage-maildir-format-directories.page:5
-#| msgid "Add and edit a Maildir Format Mail Directories account in Evolution."
 msgid ""
 "Add and edit a Maildir Format Mail Directories account in <app>Evolution</"
 "app>."
@@ -5115,7 +5072,6 @@ msgstr "Configuración de cuenta para directorios de correo en formato Maildir"
 
 #. (itstool) path: section/p
 #: C/mail-account-manage-maildir-format-directories.page:24
-#| msgid "Evolution supports the Maildir++ specification."
 msgid "<app>Evolution</app> supports the Maildir++ specification."
 msgstr "<app>Evolution</app> soporta la especificación Maildir++."
 
@@ -5177,7 +5133,6 @@ msgstr "Tipos de cuenta corporativos"
 
 #. (itstool) path: info/desc
 #: C/mail-account-manage-mh-format-directories.page:5
-#| msgid "Add and edit a MH Format Mail Directories account in Evolution."
 msgid ""
 "Add and edit a MH Format Mail Directories account in <app>Evolution</app>."
 msgstr ""
@@ -5219,7 +5174,6 @@ msgstr "Seguridad (cuentas para directorios de correo en formato MH)"
 
 #. (itstool) path: info/desc
 #: C/mail-account-manage-microsoft-exchange-evo-ews.page:5
-#| msgid "Add and edit a Microsoft Exchange 2007 or 2010 account in Evolution."
 msgid ""
 "Add and edit a Microsoft Exchange 2007 or 2010 account in <app>Evolution</"
 "app>."
@@ -5253,7 +5207,6 @@ msgstr "Seguridad (cuentas Exchange Web Services)"
 
 #. (itstool) path: info/desc
 #: C/mail-account-manage-microsoft-exchange-evo-mapi.page:5
-#| msgid "Add and edit a Microsoft Exchange MAPI account in Evolution."
 msgid "Add and edit a Microsoft Exchange MAPI account in <app>Evolution</app>."
 msgstr ""
 "Añadir y editar una cuenta de Microsoft Exchange MAPI en <app>Evolution</"
@@ -5294,7 +5247,6 @@ msgstr "Seguridad (cuentas Exchange MAPI)"
 
 #. (itstool) path: info/desc
 #: C/mail-account-manage-microsoft-exchange.page:5
-#| msgid "Add and edit a Microsoft Exchange account in Evolution."
 msgid "Add and edit a Microsoft Exchange account in <app>Evolution</app>."
 msgstr ""
 "Añadir y editar una cuenta de Microsoft Exchange en <app>Evolution</app>."
@@ -5316,7 +5268,6 @@ msgstr ""
 
 #. (itstool) path: info/desc
 #: C/mail-account-manage-pop.page:5
-#| msgid "Add and edit a POP mail account in Evolution."
 msgid "Add and edit a POP mail account in <app>Evolution</app>."
 msgstr "Añadir y editar una cuenta de correo POP en <app>Evolution</app>."
 
@@ -5351,8 +5302,6 @@ msgstr "Seguridad (cuentas POP)"
 
 #. (itstool) path: info/desc
 #: C/mail-account-manage-unix-mbox-spool-directory.page:5
-#| msgid ""
-#| "Add and edit a Standard Unix mbox Spool Directory account in Evolution."
 msgid ""
 "Add and edit a Standard Unix mbox Spool Directory account in <app>Evolution</"
 "app>."
@@ -5402,7 +5351,6 @@ msgstr ""
 
 #. (itstool) path: info/desc
 #: C/mail-account-manage-unix-mbox-spool-file.page:5
-#| msgid "Add and edit a Standard Unix mbox Spool File account in Evolution."
 msgid ""
 "Add and edit a Standard Unix mbox Spool File account in <app>Evolution</app>."
 msgstr ""
@@ -5445,7 +5393,6 @@ msgstr "Seguridad (cuentas de Archivo spool mbox estándar de Unix)"
 
 #. (itstool) path: info/desc
 #: C/mail-account-manage-usenet-news.page:5
-#| msgid "Add and edit a Usenet news account in Evolution."
 msgid "Add and edit a Usenet news account in <app>Evolution</app>."
 msgstr ""
 "Añadir y editar una cuenta de noticias de Usenet en <app>Evolution</app>."
@@ -5508,11 +5455,6 @@ msgstr "Gestionar adjuntos en correos recibidos"
 
 #. (itstool) path: page/p
 #: C/mail-attachments-received.page:26
-#| msgid ""
-#| "If you receive an email message with one or more file attachments, "
-#| "Evolution displays the number of attachments and a <gui style=\"button"
-#| "\">Save</gui> or <gui style=\"button\">Save All</gui> button between the "
-#| "email header and the content of the email."
 msgid ""
 "If you receive an email message with one or more file attachments, "
 "<app>Evolution</app> displays the number of attachments and a <gui style="
@@ -5526,9 +5468,6 @@ msgstr ""
 
 #. (itstool) path: note/p
 #: C/mail-attachments-received.page:27
-#| msgid ""
-#| "Evolution does not support saving all attachments of all messages in one "
-#| "folder at once."
 msgid ""
 "<app>Evolution</app> does not support saving all attachments of all messages "
 "in one folder at once."
@@ -5633,10 +5572,6 @@ msgstr "Recuerdo de adjuntos"
 
 #. (itstool) path: section/p
 #: C/mail-attachments-sending.page:42
-#| msgid ""
-#| "Evolution has an Attachment Reminder plugin you can use to remind "
-#| "yourself to attach a file to an email. If it determines that you have not "
-#| "attached the file, it displays a reminder window before the email is sent."
 msgid ""
 "<app>Evolution</app> has an Attachment Reminder plugin you can use to remind "
 "yourself to attach a file to an email. If it determines that you have not "
@@ -5682,11 +5617,6 @@ msgstr ""
 
 #. (itstool) path: section/p
 #: C/mail-attachments-sending.page:51
-#| msgid ""
-#| "Based on the keywords you have added, Evolution searches the text of "
-#| "every mail you are going to send. If it finds any of the keywords in your "
-#| "email and there is no actual attached file, the reminder window is "
-#| "displayed."
 msgid ""
 "Based on the keywords you have added, <app>Evolution</app> searches the text "
 "of every mail you are going to send. If it finds any of the keywords in your "
@@ -5712,10 +5642,6 @@ msgstr "Enviar invitaciones por correo-e"
 
 #. (itstool) path: page/p
 #: C/mail-calendar-sending-invitations.page:23
-#| msgid ""
-#| "If you create an event in the calendar component, you can then send "
-#| "invitations to the attendee list through the Evolution email tool. The "
-#| "invitation card is sent as an attachment in iCal format."
 msgid ""
 "If you create an event in the calendar component, you can then send "
 "invitations to the attendee list through the <app>Evolution</app> email "
@@ -5846,9 +5772,6 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/mail-cannot-see.page:33
-#| msgid ""
-#| "Look in the <gui>Junk</gui> folder. Messages that are marked as Junk "
-#| "disappear from the original folder and are moved to the Junk folder."
 msgid ""
 "Look in the <gui>Junk</gui> folder. Messages that are marked as Junk "
 "disappear from the original folder and are moved to the <gui>Junk</gui> "
@@ -7299,11 +7222,6 @@ msgstr ""
 
 #. (itstool) path: section/p
 #: C/mail-composer-plain-text.page:29
-#| msgid ""
-#| "For instance, instead of using asterisks to mark a bulleted list, you can "
-#| "use the <gui>Bulleted List</gui> style from the style dropdown list. "
-#| "Evolution uses different bullet styles, and handles word wrap and "
-#| "multiple levels of indentation."
 msgid ""
 "For instance, instead of using asterisks to mark a bulleted list, you can "
 "use the <gui>Bulleted List</gui> style from the style dropdown list. "
@@ -7373,10 +7291,6 @@ msgstr ""
 
 #. (itstool) path: note/p
 #: C/mail-composer-priority.page:27
-#| msgid ""
-#| "Evolution will ignore the message priority of incoming messages because "
-#| "the recipient should decide whether the message is important or not. You "
-#| "can set the \"Important\" flag for any messages."
 msgid ""
 "<app>Evolution</app> will ignore the message priority of incoming messages "
 "because the recipient should decide whether the message is important or not. "
@@ -7556,7 +7470,6 @@ msgstr "<gui>Buscar</gui>:"
 
 #. (itstool) path: item/p
 #: C/mail-composer-search.page:27
-#| msgid "Enter a word or phrase, and Evolution finds it in your message."
 msgid ""
 "Enter a word or phrase, and <app>Evolution</app> finds it in your message."
 msgstr ""
@@ -7586,10 +7499,6 @@ msgstr "Buscar una palabra o una frase y sustituirla por otra cosa."
 
 #. (itstool) path: page/p
 #: C/mail-composer-search.page:39
-#| msgid ""
-#| "For all of these menu items you can choose whether to search backwards in "
-#| "the document from the point where your cursor is. You can also determine "
-#| "whether the search is to be case sensitive in determining a match"
 msgid ""
 "For all of these menu items you can choose whether to search backwards in "
 "the document from the point where your cursor is. You can also determine "
@@ -7728,10 +7637,6 @@ msgstr "Autocompletado"
 
 #. (itstool) path: section/p
 #: C/mail-composer-several-recipients.page:41
-#| msgid ""
-#| "It is recommended to use the <link xref=\"contacts-autocompletion"
-#| "\">Autocompletion</link> feature of the Evolution address book for "
-#| "entering addresses. By using this you avoid typos and save time."
 msgid ""
 "It is recommended to use the <link xref=\"contacts-autocompletion"
 "\">Autocompletion</link> feature of the <app>Evolution</app> address book "
@@ -7941,7 +7846,6 @@ msgstr ""
 
 #. (itstool) path: info/desc
 #: C/mail-default-folder-locations.page:5
-#| msgid "Changing the location of Draft, Sent, Trash and Junk folders."
 msgid ""
 "Changing the location of <gui>Draft</gui>, <gui>Sent</gui>, <gui>Trash</gui> "
 "and <gui>Junk</gui> folders."
@@ -7956,12 +7860,6 @@ msgstr "Ubicaciones de las carpetas de correo"
 
 #. (itstool) path: page/p
 #: C/mail-default-folder-locations.page:31
-#| msgid ""
-#| "You can set a different place where to store messages in your Draft "
-#| "folder and Sent folder in the <gui>Defaults</gui> section of the mail "
-#| "account editor (<guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail "
-#| "Accounts</gui><gui style=\"button\">Edit</gui><gui>Defaults</gui></"
-#| "guiseq>)."
 msgid ""
 "You can set a different place where to store messages in your <gui>Draft</"
 "gui> folder and <gui>Sent</gui> folder in the <gui>Defaults</gui> section of "
@@ -7990,12 +7888,6 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/mail-default-folder-locations.page:33
-#| msgid ""
-#| "For remote account types (accounts such as IMAP) you can also use folders "
-#| "on the mail server for Junk and Trash by selecting the corresponding "
-#| "<gui>Use a Real Folder</gui> option. In this case, Evolution's local "
-#| "<link xref=\"mail-search-folders\">virtual folders</link> will not be "
-#| "used."
 msgid ""
 "For remote account types (accounts such as IMAP) you can also use folders on "
 "the mail server for Junk and Trash by selecting the corresponding <gui>Use a "
@@ -8038,7 +7930,6 @@ msgstr ""
 
 #. (itstool) path: section/p
 #: C/mail-delete-and-undelete.page:32
-#, fuzzy
 #| msgid ""
 #| "When you press Delete or click the Trash folder, your mail is not "
 #| "actually deleted, but is marked for deletion. You can see all message "
@@ -8052,12 +7943,12 @@ msgid ""
 "<guiseq><gui>View</gui><gui>Show Deleted Messages</gui></guiseq>. You can "
 "view the messages stricken off for later deletion."
 msgstr ""
-"Cuando pulsa Eliminar o pulsa en el la carpeta de la Papelera, su correo no "
-"se eliminar realmente sino que se marca para ser eliminado. Puede ver los "
-"mensajes marcados para ser eliminados en la carpeta Papelera. Para mostrar "
-"los mensajes eliminados, pulse <guiseq><gui>Ver</gui><gui>Mostrar mensajes "
-"eliminados</gui></guiseq>. Puede ver los mensajes marcados para ser "
-"eliminados más tarde."
+"Cuando pulsa Eliminar o pulsa en el la carpeta de la <gui>Papelera</gui>, su "
+"correo no se eliminar realmente sino que se marca para ser eliminado. Puede "
+"ver los mensajes marcados para ser eliminados en la carpeta <gui>Papelera</"
+"gui>. Para mostrar los mensajes eliminados, pulse <guiseq><gui>Ver</"
+"gui><gui>Mostrar mensajes eliminados</gui></guiseq>. Puede ver los mensajes "
+"marcados para ser eliminados más tarde."
 
 #. (itstool) path: section/p
 #: C/mail-delete-and-undelete.page:34
@@ -8077,7 +7968,6 @@ msgstr "Recuperar mensajes"
 
 #. (itstool) path: section/p
 #: C/mail-delete-and-undelete.page:40
-#, fuzzy
 #| msgid ""
 #| "You can undelete a message that has been deleted but not expunged yet. To "
 #| "undelete a message, select the message, click <guiseq><gui>Edit</"
@@ -8094,11 +7984,10 @@ msgstr ""
 "todavía. Para recuperar un mensaje, seleccione el mensaje, pulse "
 "<guiseq><gui>Editar</gui><gui>Recuperar mensaje</gui></guiseq>. Tenga en "
 "cuenta que que <guiseq><gui>Ver</gui><gui>Mostrar mensajes eliminados</gui></"
-"guiseq> debe estar activado para esto."
+"guiseq> debe estar activado para que esto funcione."
 
 #. (itstool) path: section/p
 #: C/mail-delete-and-undelete.page:42
-#, fuzzy
 #| msgid ""
 #| "If you have marked a message for deletion, undeleting it unmarks it, and "
 #| "the message is not shown anymore in the Trash folder."
@@ -8107,7 +7996,7 @@ msgid ""
 "message is not shown anymore in the <gui>Trash</gui> folder."
 msgstr ""
 "Si ha marcado un mensaje para su eliminación, recuperándolo eliminará la "
-"marca y el mensaje ya no será visible en la carpeta Papelera."
+"marca y el mensaje ya no será visible en la carpeta <gui>Papelera</gui>."
 
 #. (itstool) path: info/desc
 #: C/mail-displaying-character-encodings.page:5
@@ -8193,7 +8082,6 @@ msgstr "Cabeceras de mensajes contraíbles"
 
 #. (itstool) path: page/p
 #: C/mail-displaying-collapsible-headers.page:25
-#, fuzzy
 #| msgid ""
 #| "Evolution compresses the To, Cc and Bcc headers of received mail and "
 #| "shows only five addresses in the message preview."
@@ -8201,8 +8089,8 @@ msgid ""
 "<app>Evolution</app> compresses the To, Cc and Bcc headers of received mail "
 "and shows only five addresses in the message preview."
 msgstr ""
-"Evolution comprime las cabeceras Para, Cc, Cco recibidas en los correos y "
-"muestra sólo direcciones limitadas."
+"<app>Evolution</app> comprime las cabeceras Para, Cc, Cco recibidas en los "
+"correos y muestra sólo direcciones limitadas."
 
 #. (itstool) path: page/p
 #: C/mail-displaying-collapsible-headers.page:27
@@ -8238,7 +8126,6 @@ msgstr "Imágenes en mensajes HTML"
 
 #. (itstool) path: page/p
 #: C/mail-displaying-images-in-html.page:29
-#, fuzzy
 #| msgid ""
 #| "When someone sends you HTML mail that includes an image in the body of "
 #| "the message (for example, the welcome message in your Inbox), Evolution "
@@ -8250,7 +8137,7 @@ msgid ""
 msgstr ""
 "Cuando alguien le envía un mensaje HTML que una imagen en su interior (por "
 "ejemplo el mensaje de bienvenida que encontrará en la Bandeja de entrada) "
-"Evolution mostrará la imagen dentro del mensaje."
+"<app>Evolution</app> mostrará la imagen dentro del mensaje."
 
 #. (itstool) path: section/title
 #: C/mail-displaying-images-in-html.page:32
@@ -8259,7 +8146,6 @@ msgstr "Cargar imágenes"
 
 #. (itstool) path: section/p
 #: C/mail-displaying-images-in-html.page:33
-#, fuzzy
 #| msgid ""
 #| "Some images are links in a message, rather than being part of the "
 #| "message. Evolution can download those images from the Internet, but does "
@@ -8275,12 +8161,12 @@ msgid ""
 "reads the email. Not automatically loading images helps protect your privacy."
 msgstr ""
 "Algunas imágenes son enlaces dentro de un mensaje, más que una parte del "
-"mensaje. Evolution puede descargar esas imágenes desde internet, pero no lo "
-"hace a menos que se lo pida explícitamente. Esto es porque las imágenes "
-"servidas remotamente pueden ser muy lentas al cargarse y mostrarse, e "
-"incluso pueden ser usadas por «spammers» para llevar un seguimiento de quién "
-"lee los mensajes. No cargar automáticamente las imágenes ayuda a proteger su "
-"privacidad."
+"mensaje. <app>Evolution</app> puede descargar esas imágenes desde internet, "
+"pero no lo hace a menos que se lo pida explícitamente. Esto es porque las "
+"imágenes servidas remotamente pueden ser muy lentas al cargarse y mostrarse, "
+"e incluso pueden ser usadas por «spammers» para llevar un seguimiento de "
+"quién lee los mensajes. No cargar automáticamente las imágenes ayuda a "
+"proteger su privacidad."
 
 #. (itstool) path: section/p
 #: C/mail-displaying-images-in-html.page:35
@@ -8377,7 +8263,6 @@ msgstr "Cabecera de mensaje con fotografía"
 
 #. (itstool) path: page/p
 #: C/mail-displaying-sender-photograph.page:26
-#, fuzzy
 #| msgid ""
 #| "Evolution automatically displays photographs of the sender of an email at "
 #| "the right side of the message header if the sender already embedded a "
@@ -8387,9 +8272,9 @@ msgid ""
 "email at the right side of the message header if the sender already embedded "
 "a photograph in the message."
 msgstr ""
-"Evolution muestra automáticamente la fotografía del remitente en la parte "
-"derecha de la vista previa del correo, si el remitente ya ha empotrado una "
-"foto en el mensaje."
+"<app>Evolution</app> muestra automáticamente la fotografía del remitente en "
+"la parte derecha de la vista previa del correo, si el remitente ya ha "
+"empotrado una foto en el mensaje."
 
 #. (itstool) path: page/p
 #: C/mail-displaying-sender-photograph.page:29
@@ -8516,10 +8401,9 @@ msgstr "Existen diversas copias del mismo mensaje en el buzón de correo"
 
 #. (itstool) path: item/p
 #: C/mail-duplicates.page:37
-#, fuzzy
 #| msgid "Evolution is having a problem with the UIDL extension."
 msgid "<app>Evolution</app> is having a problem with the UIDL extension."
-msgstr "Evolution está sufriendo un problema con la extensión UIDL."
+msgstr "<app>Evolution</app> está sufriendo un problema con la extensión UIDL."
 
 #. (itstool) path: item/p
 #: C/mail-duplicates.page:38
@@ -8532,10 +8416,9 @@ msgstr ""
 
 #. (itstool) path: info/desc
 #: C/mail-encryption-gpg-create-key.page:5
-#, fuzzy
 #| msgid "Signing or encrypting messages via GPG that you send."
 msgid "Signing or encrypting messages that you send via GPG/OpenPGP."
-msgstr "Firmar o cifrarlos correos que envía usando GPG."
+msgstr "Firmar o cifrar los correos que envía usando GPG/OpenPGP."
 
 # index.docbook:41, index.docbook:293
 #. (itstool) path: page/title
@@ -8545,7 +8428,6 @@ msgstr "Crear una clave GPG"
 
 #. (itstool) path: page/p
 #: C/mail-encryption-gpg-create-key.page:24
-#, fuzzy
 #| msgid ""
 #| "Before you can get or send GPG encrypted mail, you need to <link xref="
 #| "\"help:seahorse/pgp-create\" href=\"https://help.gnome.org/users/seahorse/"
@@ -8569,10 +8451,10 @@ msgstr ""
 "\"help:seahorse/pgp-create\" href=\"https://help.gnome.org/users/seahorse/"
 "stable/pgp-create\">generar sus claves pública y privada con GPG</link>. "
 "Después de hacerlo y de <link xref=\"mail-encryption-gpg-set-up\">configurar "
-"Evolution para usar la clave</link>, debe <link xref=\"help:seahorse/pgp-"
-"publish\" href=\"https://help.gnome.org/users/seahorse/stable/pgp-publish"
-"\">compartir su clave pública con sus amigos para que puedan enviarle "
-"correos cifrados</link>."
+"<app>Evolution</app> para usar la clave</link>, debe <link xref=\"help:"
+"seahorse/pgp-publish\" href=\"https://help.gnome.org/users/seahorse/stable/"
+"pgp-publish\">compartir su clave pública con sus amigos para que puedan "
+"enviarle correos cifrados</link>."
 
 #. (itstool) path: info/desc
 #: C/mail-encryption-gpg-decrypting.page:5
@@ -8599,7 +8481,6 @@ msgstr ""
 
 #. (itstool) path: section/p
 #: C/mail-encryption-gpg-decrypting.page:28
-#, fuzzy
 #| msgid ""
 #| "When you view the message, Evolution prompts you for your PGP password. "
 #| "Enter it, and the unencrypted message is displayed."
@@ -8607,8 +8488,8 @@ msgid ""
 "When you view the message, <app>Evolution</app> prompts you for your PGP "
 "password. Enter it, and the unencrypted message is displayed."
 msgstr ""
-"Cuando vea el mensaje, Evolution le pedirá que escriba su contraseña PGP. "
-"Escríbala y el mensaje se mostrará apropiadamente."
+"Cuando vea el mensaje, <app>Evolution</app> le pedirá que escriba su "
+"contraseña PGP. Escríbala y el mensaje se mostrará apropiadamente."
 
 #. (itstool) path: note/p
 #: C/mail-encryption-gpg-decrypting.page:29
@@ -8626,7 +8507,6 @@ msgstr "Comprobar la firma de un correo recibido"
 
 #. (itstool) path: section/p
 #: C/mail-encryption-gpg-decrypting.page:34
-#, fuzzy
 #| msgid ""
 #| "To check the sender's signature of a received message, scroll down to the "
 #| "bottom of the message and click the logo. Evolution will display "
@@ -8638,7 +8518,8 @@ msgid ""
 msgstr ""
 "Para comprobar la forma del remitente de un correo recibido, desplácese "
 "hacia abajo hasta la parte inferior del mensaje y pulse en el logotipo. "
-"Evolution mostrará la <gui>Información de seguridad</gui> para ese correo."
+"<app>Evolution</app> mostrará la <gui>Información de seguridad</gui> para "
+"ese correo."
 
 #. (itstool) path: info/desc
 #: C/mail-encryption-gpg-getting-keys.page:5
@@ -8652,7 +8533,6 @@ msgstr "Obtener y usar claves GPG públicas"
 
 #. (itstool) path: page/p
 #: C/mail-encryption-gpg-getting-keys.page:25
-#, fuzzy
 #| msgid ""
 #| "To send an encrypted message, you need to use the recipient's public key "
 #| "in combination with your private key. Evolution handles the encryption, "
@@ -8667,10 +8547,10 @@ msgid ""
 "key and add it to your keyring</link>."
 msgstr ""
 "Para enviar un mensaje cifrado necesita la clave pública del destinatario "
-"junto con su clave privada. Evolution maneja el cifrado, pero necesita <link "
-"xref=\"help:seahorse/pgp-import\" href=\"https://help.gnome.org/users/"
-"seahorse/stable/pgp-import\">obtener la clave pública y añadira a su "
-"depósito de claves</link>."
+"junto con su clave privada. <app>Evolution</app> maneja el cifrado, pero "
+"necesita <link xref=\"help:seahorse/pgp-import\" href=\"https://help.gnome."
+"org/users/seahorse/stable/pgp-import\">obtener la clave pública y añadira a "
+"su depósito de claves</link>."
 
 #. (itstool) path: info/desc
 #: C/mail-encryption-gpg-set-up.page:5
@@ -8745,7 +8625,6 @@ msgstr "Pulse <gui style=\"button\">Cerrar</gui>."
 
 #. (itstool) path: page/p
 #: C/mail-encryption-gpg-set-up.page:38
-#, fuzzy
 #| msgid ""
 #| "Evolution requires that you know your key ID. If you do not remember it, "
 #| "start <app>Passwords and Keys</app>, go to <gui>GnuPG Keys</gui>, select "
@@ -8759,11 +8638,12 @@ msgid ""
 "<gui>Properties</gui> and copy the <gui>Key ID</gui>. Your key ID is an "
 "eight-character string with random numbers and letters."
 msgstr ""
-"Evolution necesita que conozca el ID de su clave. Si no lo recuerda, inicie "
-"<app>Contraseñas y claves</app>, vaya a <gui>Claves GnuPG</gui>, elija su "
-"clave GPG preferida, pulse sobre ella con el botón derecho, seleccione "
-"<gui>Propiedades</gui> y copie el <gui>ID de la clave</gui>. El ID de su "
-"clave es una cadea de ocho caracteres con números y letras aleatorias."
+"<app>Evolution</app> necesita que conozca el ID de su clave. Si no lo "
+"recuerda, inicie <app>Contraseñas y claves</app>, vaya a <gui>Claves GnuPG</"
+"gui>, elija su clave GPG preferida, pulse sobre ella con el botón derecho, "
+"seleccione <gui>Propiedades</gui> y copie el <gui>ID de la clave</gui>. El "
+"ID de su clave es una cadea de ocho caracteres con números y letras "
+"aleatorias."
 
 #. (itstool) path: info/desc
 #: C/mail-encryption-gpg-signing-encrypting.page:5
@@ -8839,7 +8719,6 @@ msgstr "Cifrado de correo y certificados"
 
 #. (itstool) path: page/p
 #: C/mail-encryption.page:32
-#, fuzzy
 #| msgid ""
 #| "Evolution offers GPG Encryption and S/MIME Encryption for signing and "
 #| "encrypting email messages. S/MIME is used most often in corporate "
@@ -8849,8 +8728,8 @@ msgid ""
 "and encrypting email messages. S/MIME is used most often in corporate "
 "environments."
 msgstr ""
-"Evolution ofrece cifrado GPG y S/MIME para firmar y cifrar mensajes de "
-"correo electrónico. En entornos corporativos S/MIME se usa más."
+"<app>Evolution</app> ofrece cifrado GPG y S/MIME para firmar y cifrar "
+"mensajes de correo electrónico. En entornos corporativos S/MIME se usa más."
 
 #. (itstool) path: section/title
 #: C/mail-encryption.page:35
@@ -9126,10 +9005,10 @@ msgstr "Reproducir un sonido:"
 
 #. (itstool) path: item/p
 #: C/mail-filters-actions.page:60
-#, fuzzy
 #| msgid "Select a sound file for Evolution to play."
 msgid "Select a sound file for <app>Evolution</app> to play."
-msgstr "Seleccione un archivo de sonido para que Evolution lo reproduzca."
+msgstr ""
+"Seleccione un archivo de sonido para que <app>Evolution</app> lo reproduzca."
 
 #. (itstool) path: item/p
 #: C/mail-filters-actions.page:62
@@ -9138,10 +9017,9 @@ msgstr "Ejecutar programa:"
 
 #. (itstool) path: item/p
 #: C/mail-filters-actions.page:63
-#, fuzzy
 #| msgid "Evolution runs an application."
 msgid "<app>Evolution</app> runs an application."
-msgstr "Evolution ejecutar una aplicación."
+msgstr "<app>Evolution</app> ejecutar una aplicación."
 
 #. (itstool) path: item/p
 #: C/mail-filters-actions.page:65 C/mail-filters-conditions.page:36
@@ -9150,7 +9028,6 @@ msgstr "Encauzar al programa:"
 
 #. (itstool) path: item/p
 #: C/mail-filters-actions.page:66
-#, fuzzy
 #| msgid ""
 #| "Sends the message to an application of your choice. No return value is "
 #| "expected. This feature can be used to create automatic Web postings from "
@@ -9165,7 +9042,7 @@ msgstr ""
 "Envía el mensaje al programa que elija. No se espera que devuelva ningún "
 "valor. Esta característica se puede usar para crear entradas automáticas en "
 "una web desde mensajes de correo o para realizar procesados posteriores "
-"adicionales que no estén soportados por Evolution."
+"adicionales que no estén soportados por <app>Evolution</app>."
 
 #. (itstool) path: item/p
 #: C/mail-filters-actions.page:68
@@ -9203,7 +9080,6 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/mail-filters-conditions.page:37
-#, fuzzy
 #| msgid ""
 #| "Evolution can use an external command to process a message, then process "
 #| "it based on the return value. Commands used in this way must return an "
@@ -9213,10 +9089,10 @@ msgid ""
 "process it based on the return value. Commands used in this way must return "
 "an integer. This is most commonly used to add an external junk mail filter."
 msgstr ""
-"Evolution puede usar un comando externo para procesar un mensaje y después "
-"procesarlo basándose en el valor devuelto. Los comandos que se suelen usar "
-"deben devolver un entero. Generalmente esto se suele usar para añadir un "
-"filtro de correo spam."
+"<app>Evolution</app> puede usar un comando externo para procesar un mensaje "
+"y después procesarlo basándose en el valor devuelto. Los comandos que se "
+"suelen usar deben devolver un entero. Generalmente esto se suele usar para "
+"añadir un filtro de correo spam."
 
 #. (itstool) path: item/p
 #: C/mail-filters-conditions.page:39
@@ -9323,7 +9199,6 @@ msgstr "Usar varios clientes de correo"
 
 #. (itstool) path: section/p
 #: C/mail-filters-not-working.page:37
-#, fuzzy
 #| msgid ""
 #| "Another thing you have to keep in mind is that filters depend on the \"new"
 #| "\" flag that is set on the server when a particular email message is "
@@ -9338,7 +9213,7 @@ msgstr ""
 "También debe tener en cuenta que los filtros dependen del estado de «nuevo» "
 "que se establece cuando un correo en particular se obtiene del servidor. "
 "Puede que sus filtros no funcionen correctamente si usa otro cliente de "
-"correo además de Evolution."
+"correo además de <app>Evolution</app>."
 
 #. (itstool) path: section/title
 #: C/mail-filters-not-working.page:41
@@ -9356,10 +9231,9 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/mail-filters-not-working.page:44
-#, fuzzy
 #| msgid "Close Evolution."
 msgid "Close <app>Evolution</app>."
-msgstr "Cerrar Evolution."
+msgstr "Cerrar <app>Evolution</app>."
 
 #. (itstool) path: item/p
 #: C/mail-filters-not-working.page:45 C/mail-localized-re-subjects.page:24
@@ -9450,7 +9324,6 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/mail-filters.page:27
-#, fuzzy
 #| msgid ""
 #| "Filters will be automatically applied to incoming messages for local "
 #| "accounts (such as POP). Mail servers for remote accounts (such as IMAP) "
@@ -9473,11 +9346,11 @@ msgstr ""
 "Los filtros se aplicarán automáticamente a los correos entrantes para las "
 "cuentas locales (tales como POP). A menudo el correo en cuentas de "
 "servidores remotos (tales como IMAP) se filtra directamente en el servidor "
-"ya que es más rápido. Si quiere aplicar sus filtros de Evolution en cuentas "
-"remotas puede hacerlo en <guiseq><gui>Editar</gui><gui>Preferencias</"
-"gui><gui>Cuentas de correo</gui><gui>Editar</gui><gui>Opciones de recepción</"
-"gui><gui>Opciones</gui><gui>Aplicar filtros en mensajes nuevos en la Bandeja "
-"de entrada en este servidor</gui></guiseq>."
+"ya que es más rápido. Si quiere aplicar sus filtros de <app>Evolution</app> "
+"en cuentas remotas puede hacerlo en <guiseq><gui>Editar</"
+"gui><gui>Preferencias</gui><gui>Cuentas de correo</gui><gui>Editar</"
+"gui><gui>Opciones de recepción</gui><gui>Opciones</gui><gui>Aplicar filtros "
+"en mensajes nuevos en la Bandeja de entrada en este servidor</gui></guiseq>."
 
 #. (itstool) path: page/p
 #: C/mail-filters.page:29
@@ -9497,7 +9370,6 @@ msgstr "Crear un filtro"
 
 #. (itstool) path: item/p
 #: C/mail-filters.page:36
-#, fuzzy
 #| msgid ""
 #| "Click <guiseq><gui>Edit</gui><gui>Message Filters</gui></guiseq>, or "
 #| "click <guiseq><gui>Message</gui><gui>Create Rule</gui></guiseq> and "
@@ -9508,7 +9380,7 @@ msgid ""
 "criterion the filter will be based on."
 msgstr ""
 "Pulse <guiseq><gui>Editar</gui><gui>Filtros de mensajes</gui></guiseq> o "
-"pulse <guiseq><gui>Mensaje</gui><gui>Crear regla</gui></guiseq> y elija el "
+"pulse <guiseq><gui>Mensaje</gui><gui>Crear</gui></guiseq> y elija el "
 "criterio en que se basará el filtro."
 
 #. (itstool) path: item/p
@@ -9645,7 +9517,6 @@ msgstr "Usar las carpetas"
 
 #. (itstool) path: page/p
 #: C/mail-folders.page:30
-#, fuzzy
 #| msgid ""
 #| "Evolution, like most mail systems, uses folders to store email messages. "
 #| "You start out with a few mail folders such as the Inbox, Outbox, and "
@@ -9655,10 +9526,10 @@ msgid ""
 "messages. You start out with a few mail folders such as the Inbox, Outbox, "
 "and Drafts. You can, however, create more folders if required."
 msgstr ""
-"Evolution, al igual que muchos otros sistemas de correo, almacena el correo "
-"en carpetas. Al comenzar a usar Evolution existen unas pocas carpetas, como "
-"la Bandeja de entrada y la carpeta Borradores, pero puede crear tantas como "
-"desee."
+"<app>Evolution</app>, al igual que muchos otros sistemas de correo, almacena "
+"el correo en carpetas. Al comenzar a usar <app>Evolution</app> existen unas "
+"pocas carpetas, como la Bandeja de entrada y la carpeta Borradores, pero "
+"puede crear tantas como desee."
 
 #. (itstool) path: section/title
 #: C/mail-folders.page:33
@@ -9702,7 +9573,6 @@ msgstr ""
 
 #. (itstool) path: note/p
 #: C/mail-folders.page:43
-#, fuzzy
 #| msgid ""
 #| "The Inbox folders on most IMAP servers cannot contain both messages and "
 #| "subfolders. When creating additional folders on your IMAP mail server, "
@@ -9718,9 +9588,9 @@ msgid ""
 "messages that exist in the Inbox. If this happens, move the folders to the "
 "IMAP account."
 msgstr ""
-"El Buzón de entrada de la mayoría de los servidores IMAP no puede contener a "
-"la vez subcarpetas y mensajes. Cuando crea carpetas adicionales en su "
-"servidor de correo IMAP, debe hacerlas partir de la raíz del árbol de "
+"El <gui>Buzón de entrada</gui> de la mayoría de los servidores IMAP no puede "
+"contener a la vez subcarpetas y mensajes. Cuando crea carpetas adicionales "
+"en su servidor de correo IMAP, debe hacerlas partir de la raíz del árbol de "
 "carpetas de cuentas IMAP, y no desde el buzón de entrada. Si crea "
 "subcarpetas en el buzón de entrada es posible que no pueda leer los mensajes "
 "que existen en esta carpeta. Si esto sucede, mueva las carpetas a la cuenta "
@@ -9912,7 +9782,6 @@ msgstr "Suscripciones IMAP"
 
 #. (itstool) path: page/p
 #: C/mail-imap-subscriptions.page:27
-#, fuzzy
 #| msgid ""
 #| "As opening many IMAP folders on the server takes time you can define "
 #| "which IMAP folders to check and display in Evolution, and which ones to "
@@ -9923,8 +9792,9 @@ msgid ""
 "ignore for the time being, via the <gui>IMAP Subscriptions Manager</gui>."
 msgstr ""
 "Ya que abrir muchas carpetas IMAP en el servidor lleva mucho tiempo, puede "
-"definir qué carpetas IMAP comprobar y mostrar en Evolution y cuáles ignorar "
-"por el momento, a través del <gui>Gestor de suscripciones IMAP</gui>."
+"definir qué carpetas IMAP comprobar y mostrar en <app>Evolution</app> y "
+"cuáles ignorar por el momento, a través del <gui>Gestor de suscripciones "
+"IMAP</gui>."
 
 #. (itstool) path: item/p
 #: C/mail-imap-subscriptions.page:29
@@ -9949,7 +9819,6 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/mail-imap-subscriptions.page:31
-#, fuzzy
 #| msgid ""
 #| "Evolution displays a list of files and folders available on the IMAP "
 #| "server."
@@ -9957,8 +9826,8 @@ msgid ""
 "<app>Evolution</app> displays a list of files and folders available on the "
 "IMAP server."
 msgstr ""
-"Evolution mostrará la lista de archivos y carpetas disponibles en el "
-"servidor IMAP."
+"<app>Evolution</app> mostrará la lista de archivos y carpetas disponibles en "
+"el servidor IMAP."
 
 #. (itstool) path: item/p
 #: C/mail-imap-subscriptions.page:32
@@ -9967,7 +9836,6 @@ msgstr "Seleccione un archivo o carpeta pulsando sobre él."
 
 #. (itstool) path: item/p
 #: C/mail-imap-subscriptions.page:33
-#, fuzzy
 #| msgid ""
 #| "You should select at least the Inbox folder. Depending upon the way your "
 #| "IMAP server is configured, the list of available files might include non-"
@@ -9977,10 +9845,10 @@ msgid ""
 "way your IMAP server is configured, the list of available files might "
 "include non-mail folders. If it does, you can ignore them."
 msgstr ""
-"Necesitará seleccionar, al menos, la carpeta Bandeja de entrada. En función "
-"de cómo esté configurado su servidor IMAP la lista de archivos disponibles "
-"puede incluir carpetas que no son de correo, que puede ignorar sin mayor "
-"problema."
+"Necesitará seleccionar, al menos, la carpeta <gui>Bandeja de entrada</gui>. "
+"En función de cómo esté configurado su servidor IMAP la lista de archivos "
+"disponibles puede incluir carpetas que no son de correo, que puede ignorar "
+"sin mayor problema."
 
 #. (itstool) path: item/p
 #: C/mail-imap-subscriptions.page:34
@@ -10003,7 +9871,6 @@ msgstr "Usar etiquetas"
 
 #. (itstool) path: page/p
 #: C/mail-labels.page:23
-#, fuzzy
 #| msgid ""
 #| "You can add colored labels to emails in order to categorize them. This is "
 #| "similar to <link xref=\"using-categories\">Categories</link> in the other "
@@ -10015,7 +9882,7 @@ msgid ""
 msgstr ""
 "Puede añadir etiquetas coloreadas a correos para categorizarlos. Es similar "
 "a <link xref=\"using-categories\">Categorías</link> en las otras ventanas de "
-"Evolution."
+"<app>Evolution</app>."
 
 #. (itstool) path: page/p
 #: C/mail-labels.page:25
@@ -10130,7 +9997,6 @@ msgstr "Los correos movidos aún se muestran en la carpeta original"
 
 #. (itstool) path: page/p
 #: C/mail-moving-emails.page:26
-#, fuzzy
 #| msgid ""
 #| "If your IMAP mail server does not yet support <link href=\"http://tools."
 #| "ietf.org/html/rfc6851\">IMAP's \"move\" feature</link> which was "
@@ -10148,10 +10014,10 @@ msgid ""
 msgstr ""
 "Si su servidor todavía no soporta la<link href=\"http://tools.ietf.org/html/"
 "rfc6851\">característica «mover» de IMAP</link>, que se introdujo en enero "
-"de 2013, Evolution «mueve» los mensajes copiando y eliminando correos. "
-"Eliminar significa «marcar correos para eliminar» de tal forma que los "
-"correos originales se mantienen hasta que purgue los correos marcados para "
-"eliminar."
+"de 2013, <app>Evolution</app> «mueve» los mensajes copiando y eliminando "
+"correos. Eliminar significa «marcar correos para eliminar» de tal forma que "
+"los correos originales se mantienen hasta que purgue los correos marcados "
+"para eliminar."
 
 #. (itstool) path: page/p
 #: C/mail-moving-emails.page:28
@@ -10193,7 +10059,6 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/mail-not-sent.page:26
-#, fuzzy
 #| msgid ""
 #| "Incorrect SMTP settings. Verify if the settings used for outgoing "
 #| "messages is correct. Using the incorrect server address or authentication "
@@ -10209,7 +10074,6 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/mail-not-sent.page:27
-#, fuzzy
 #| msgid ""
 #| "Offline status. Evolution may be offline. Check on the <gui style=\"button"
 #| "\">Send and Receive</gui> button; if it is greyed out, then you are "
@@ -10223,9 +10087,9 @@ msgid ""
 "guiseq>. You should now be able to use the <gui style=\"button\">Send and "
 "Receive</gui> button."
 msgstr ""
-"Estado desconectado. Evolution puede estar desconectado. Compruebe el botón "
-"<gui style=\"button\">Enviar y recibir</gui>; si está en gris es que está "
-"desconectado. Para conectarse, vaya a <guiseq><gui>Archivo</"
+"Estado desconectado. <app>Evolution</app> puede estar desconectado. "
+"Compruebe el botón <gui style=\"button\">Enviar y recibir</gui>; si está en "
+"gris es que está desconectado. Para conectarse, vaya a <guiseq><gui>Archivo</"
 "gui><gui>Trabajar conectado</gui></guiseq>. Ahora debería poder usar el "
 "botón <gui style=\"button\">Enviar y recibir</gui>."
 
@@ -10243,7 +10107,6 @@ msgstr "Ordenar y orgranizar el correo"
 
 #. (itstool) path: page/p
 #: C/mail-organizing.page:23
-#, fuzzy
 #| msgid ""
 #| "Evolution provides several options to organize your mail according to "
 #| "your needs."
@@ -10251,8 +10114,8 @@ msgid ""
 "<app>Evolution</app> provides several options to organize your mail "
 "according to your needs."
 msgstr ""
-"Evolution proporciona varias opciones para gestionar su correo según sus "
-"necesidades."
+"<app>Evolution</app> proporciona varias opciones para gestionar su correo "
+"según sus necesidades."
 
 #. (itstool) path: section/title
 #: C/mail-organizing.page:26
@@ -10469,7 +10332,6 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/mail-read-receipts.page:38
-#, fuzzy
 #| msgid ""
 #| "For read receipts that you receive you can define Evolution's behavior "
 #| "under <gui>Message Receipts</gui> under the account's <link xref=\"mail-"
@@ -10480,9 +10342,9 @@ msgid ""
 "\"mail-default-folder-locations\"><gui>Defaults</gui></link>."
 msgstr ""
 "Para las confirmaciones de lectura que reciba puede definir el "
-"comportamiento de Evolution en <gui>Destinatarios del mensaje</gui> en las "
-"opciones <link xref=\"mail-default-folder-locations\"><gui>Predeterminadas</"
-"gui></link> de la cuenta."
+"comportamiento de <app>Evolution</app> en <gui>Destinatarios del mensaje</"
+"gui> en las opciones <link xref=\"mail-default-folder-locations"
+"\"><gui>Predeterminadas</gui></link> de la cuenta."
 
 #. (itstool) path: media
 #. This is a reference to an external file such as an image or video. When
@@ -10524,7 +10386,6 @@ msgstr "Notificar la recepción de correo nuevo"
 
 #. (itstool) path: page/p
 #: C/mail-received-notification.page:23
-#, fuzzy
 #| msgid ""
 #| "Evolution always notifies you of new messages by adding a yellow star to "
 #| "the mailer icon in the window <link xref=\"change-switcher-appearance"
@@ -10534,9 +10395,9 @@ msgid ""
 "star to the mailer icon in the window <link xref=\"change-switcher-appearance"
 "\">switcher</link>."
 msgstr ""
-"Evolution siempre le notifica nuevos correos añadiendo una estrella amarilla "
-"al icono del correo en la ventana del <link xref=\"change-switcher-appearance"
-"\">selector</link>."
+"<app>Evolution</app> siempre le notifica nuevos correos añadiendo una "
+"estrella amarilla al icono del correo en la ventana del <link xref=\"change-"
+"switcher-appearance\">selector</link>."
 
 #. (itstool) path: media/p
 #: C/mail-received-notification.page:26 C/mail-received-notification.page:32
@@ -10615,7 +10476,6 @@ msgstr ""
 #: C/mail-receiving-options-imap-plus.page:34
 #: C/mail-receiving-options-pop.page:38
 #: C/mail-receiving-options-usenet-news.page:34
-#, fuzzy
 #| msgid ""
 #| "Select your authentication type in the Authentication list, or click <gui "
 #| "style=\"button\">Check for Supported Types</gui> to have Evolution check "
@@ -10630,10 +10490,11 @@ msgid ""
 "is not a guarantee that available mechanisms actually work."
 msgstr ""
 "Seleccione el tipo de autenticación en la lista de Autenticación o pulse "
-"<gui style=\"button\">Comprobar tipos soportados</gui> para que Evolution "
-"compruebe qué tipos están soportados. Algunos servidores no informan de qué "
-"mecanismos de autenticación soportan esto, así que pulsar este botón no "
-"garantiza que los mecanismos disponibles actualmente funcionen."
+"<gui style=\"button\">Comprobar tipos soportados</gui> para que "
+"<app>Evolution</app> compruebe qué tipos están soportados. Algunos "
+"servidores no informan de qué mecanismos de autenticación soportan esto, así "
+"que pulsar este botón no garantiza que los mecanismos disponibles "
+"actualmente funcionen."
 
 #. (itstool) path: section/title
 #: C/mail-receiving-options-exchange-ews.page:37
@@ -10680,7 +10541,6 @@ msgstr ""
 #: C/mail-receiving-options-pop.page:50
 #: C/mail-receiving-options-unix-mbox-spool-file.page:39
 #: C/mail-receiving-options-usenet-news.page:46
-#, fuzzy
 #| msgid ""
 #| "If you want Evolution to check automatically for new messages, click the "
 #| "<gui>Check for new messages every … minutes</gui> option and select the "
@@ -10690,22 +10550,21 @@ msgid ""
 "click the <gui>Check for new messages every … minutes</gui> option and "
 "select the frequency in minutes."
 msgstr ""
-"Si quiere que Evolution compruebe automáticamente si hay correo nuevo, "
-"seleccione la opción <gui>Comprobar si hay mensajes nuevos cada … minutos</"
-"gui> y seleccione la frecuencia en minutos."
+"Si quiere que <app>Evolution</app> compruebe automáticamente si hay correo "
+"nuevo, seleccione la opción <gui>Comprobar si hay mensajes nuevos cada … "
+"minutos</gui> y seleccione la frecuencia en minutos."
 
 #. (itstool) path: item/p
 #: C/mail-receiving-options-exchange-ews.page:43
 #: C/mail-receiving-options-exchange-mapi.page:45
-#, fuzzy
 #| msgid ""
 #| "You can also define if Evolution checks for new messages in all folders."
 msgid ""
 "You can also define if <app>Evolution</app> checks for new messages in all "
 "folders."
 msgstr ""
-"También puede definir si quiere que Evolution compruebe si hay mensajes "
-"nuevos en todas las carpetas."
+"También puede definir si quiere que <app>Evolution</app> compruebe si hay "
+"mensajes nuevos en todas las carpetas."
 
 #. (itstool) path: item/p
 #: C/mail-receiving-options-exchange-ews.page:44
@@ -10804,10 +10663,9 @@ msgstr ""
 #: C/mail-receiving-options-imap-plus.page:35
 #: C/mail-receiving-options-pop.page:39
 #: C/mail-receiving-options-usenet-news.page:35
-#, fuzzy
 #| msgid "Select if you want Evolution to remember your password."
 msgid "Select if you want <app>Evolution</app> to remember your password."
-msgstr "Marque si quiere que Evolution recuerde su contraseña."
+msgstr "Marque si quiere que <app>Evolution</app> recuerde su contraseña."
 
 #. (itstool) path: item/p
 #: C/mail-receiving-options-imap-plus.page:47
@@ -10822,7 +10680,6 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/mail-receiving-options-imap-plus.page:49
-#, fuzzy
 #| msgid ""
 #| "If the mail server does not allow multiple connections from Evolution to "
 #| "the server at the same time (for example when you have more than one "
@@ -10834,13 +10691,13 @@ msgid ""
 "account on that server), set <gui>Number of concurrent connections to use</"
 "gui> to 1."
 msgstr ""
-"Si el servidor no permite varias conexiones simultáneas de Evolution al "
-"servidor (por ejemplo, cuando tiene más de una cuenta en ese servidor, "
-"establezca el <gui>Número de conexiones simultáneas que usar</gui> a 1."
+"Si el servidor no permite varias conexiones simultáneas de <app>Evolution</"
+"app> al servidor (por ejemplo, cuando tiene más de una cuenta en ese "
+"servidor, establezca el <gui>Número de conexiones simultáneas que usar</gui> "
+"a 1."
 
 #. (itstool) path: item/p
 #: C/mail-receiving-options-imap-plus.page:50
-#, fuzzy
 #| msgid ""
 #| "You can also define if Evolution checks for new messages in all folders, "
 #| "or only in subscribed folders."
@@ -10848,12 +10705,11 @@ msgid ""
 "You can also define if <app>Evolution</app> checks for new messages in all "
 "folders, or only in subscribed folders."
 msgstr ""
-"También puede definir si Evolution debe comprobar si existe correo nuevo en "
-"todas sus carpetas o solo en las carpetas suscritas."
+"También puede definir si <app>Evolution</app> debe comprobar si existe "
+"correo nuevo en todas sus carpetas o solo en las carpetas suscritas."
 
 #. (itstool) path: item/p
 #: C/mail-receiving-options-imap-plus.page:51
-#, fuzzy
 #| msgid ""
 #| "Select if you want Evolution to show only <link xref=\"mail-imap-"
 #| "subscriptions\">subscribed folders</link>."
@@ -10861,8 +10717,8 @@ msgid ""
 "Select if you want <app>Evolution</app> to show only <link xref=\"mail-imap-"
 "subscriptions\">subscribed folders</link>."
 msgstr ""
-"Seleccione si quiere que Evolution sólo muestre las <link xref=\"mail-imap-"
-"subscriptions\">carpetas suscritas</link>."
+"Seleccione si quiere que <app>Evolution</app> sólo muestre las <link xref="
+"\"mail-imap-subscriptions\">carpetas suscritas</link>."
 
 #. (itstool) path: info/desc
 #: C/mail-receiving-options-local-delivery.page:5
@@ -11041,24 +10897,24 @@ msgstr ""
 
 #. (itstool) path: info/desc
 #: C/mail-recognized-thread-related-headers.page:5
-#, fuzzy
 #| msgid "Which thread-related headers are recognized by Evolution."
 msgid "Which thread-related headers are recognized by <app>Evolution</app>."
-msgstr "Qué cabeceras relacionadas con conversaciones reconoce Evolution."
+msgstr ""
+"Qué cabeceras relacionadas con conversaciones reconoce <app>Evolution</app>."
 
 #. (itstool) path: page/title
 #: C/mail-recognized-thread-related-headers.page:20
-#, fuzzy
 #| msgid "Thread related headers recognized by Evolution"
 msgid "Thread related headers recognized by <app>Evolution</app>"
-msgstr "Cabeceras relacionadas con conversaciones reconocidas por Evolution"
+msgstr ""
+"Cabeceras relacionadas con conversaciones reconocidas por <app>Evolution</"
+"app>"
 
 #. (itstool) path: page/p
 #: C/mail-recognized-thread-related-headers.page:22
-#, fuzzy
 #| msgid "Evolution supports the following headers:"
 msgid "<app>Evolution</app> supports the following headers:"
-msgstr "Evolution soporta las siguientes cabeceras:"
+msgstr "<app>Evolution</app> soporta las siguientes cabeceras:"
 
 #. (itstool) path: item/p
 #: C/mail-recognized-thread-related-headers.page:24
@@ -11081,10 +10937,9 @@ msgstr ""
 
 #. (itstool) path: info/desc
 #: C/mail-refresh-folders.page:5
-#, fuzzy
 #| msgid "Ways to update your Evolution folders."
 msgid "Ways to update your <app>Evolution</app> folders."
-msgstr "Formas de actualizar sus carpetas de Evolution."
+msgstr "Formas de actualizar sus carpetas de <app>Evolution</app>."
 
 #. (itstool) path: page/title
 #: C/mail-refresh-folders.page:20
@@ -11270,10 +11125,9 @@ msgstr "Condiciones disponibles para configurar carpetas de búsqueda."
 
 #. (itstool) path: page/title
 #: C/mail-search-folders-conditions.page:23
-#, fuzzy
 #| msgid "Available Search folder conditions"
 msgid "Available <gui>Search</gui> folder conditions"
-msgstr "Condiciones disponibles para las Carpetas de búsqueda"
+msgstr "Condiciones disponibles para las <gui>Carpetas de búsqueda</gui>"
 
 #. (itstool) path: item/p
 #: C/mail-search-folders-conditions.page:33
@@ -11287,7 +11141,6 @@ msgstr "Comprueba si el mensaje se encuentra en una carpeta específica."
 
 #. (itstool) path: item/p
 #: C/mail-search-folders-conditions.page:34
-#, fuzzy
 #| msgid ""
 #| "Note that by default, Evolution's <gui>Trash</gui> and <gui>Junk</gui> "
 #| "folders are <link xref=\"mail-search-folders\">Search folders</link> so "
@@ -11298,8 +11151,8 @@ msgid ""
 "folders</link> so they cannot be selected here."
 msgstr ""
 "De manera predeterminada, las carpeta de <gui>Papelera</gui> y <gui>Spam</"
-"gui> son <link xref=\"mail-search-folders\">Carpeta de búsqueda</link> y no "
-"se pueden seleccionar aquí."
+"gui> de <app>Evolution</app> son <link xref=\"mail-search-folders"
+"\"><gui>Carpeta de búsqueda</gui></link> y no se pueden seleccionar aquí."
 
 #. (itstool) path: item/p
 #: C/mail-search-folders-conditions.page:37
@@ -11350,10 +11203,9 @@ msgstr ""
 
 #. (itstool) path: page/title
 #: C/mail-search-folders.page:22
-#, fuzzy
 #| msgid "Using Search folders"
 msgid "Using <gui>Search</gui> folders"
-msgstr "Usar Carpetas de búsqueda"
+msgstr "Usar <gui>Carpetas de búsqueda</gui>"
 
 #. (itstool) path: page/p
 #: C/mail-search-folders.page:24
@@ -11389,7 +11241,6 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/mail-search-folders.page:28
-#, fuzzy
 #| msgid ""
 #| "Evolution automatically updates the search folder contents when new "
 #| "messages are received or message are deleted."
@@ -11397,8 +11248,8 @@ msgid ""
 "<app>Evolution</app> automatically updates the search folder contents when "
 "new messages are received or message are deleted."
 msgstr ""
-"Evolution automáticamente actualiza el contenido de la carpeta de búsqueda "
-"cuando se reciben mensajes nuevos o al eliminar mensajes."
+"<app>Evolution</app> automáticamente actualiza el contenido de la carpeta de "
+"búsqueda cuando se reciben mensajes nuevos o al eliminar mensajes."
 
 #. (itstool) path: page/p
 #: C/mail-search-folders.page:30
