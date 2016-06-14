@@ -27,6 +27,7 @@
 #include <calendar/gui/e-cal-ops.h>
 
 #include "e-cal-base-shell-backend.h"
+#include "e-cal-base-shell-sidebar.h"
 #include "e-memo-shell-view.h"
 #include "e-memo-shell-backend.h"
 
@@ -44,9 +45,24 @@ static void
 action_memo_new_cb (GtkAction *action,
                     EShellWindow *shell_window)
 {
+	EShellView *shell_view;
+	ESource *selected_source = NULL;
+
+	shell_view = e_shell_window_peek_shell_view (shell_window, "memos");
+	if (shell_view != NULL) {
+		EShellSidebar *shell_sidebar;
+		ESourceSelector *selector;
+
+		shell_sidebar = e_shell_view_get_shell_sidebar (shell_view);
+		selector = e_cal_base_shell_sidebar_get_selector (E_CAL_BASE_SHELL_SIDEBAR (shell_sidebar));
+		selected_source = e_source_selector_ref_primary_selection (selector);
+	}
+
 	e_cal_ops_new_component_editor (shell_window,
-		E_CAL_CLIENT_SOURCE_TYPE_MEMOS, NULL,
+		E_CAL_CLIENT_SOURCE_TYPE_MEMOS, selected_source ? e_source_get_uid (selected_source) : NULL,
 		g_strcmp0 (gtk_action_get_name (action), "memo-shared-new") == 0);
+
+	g_clear_object (&selected_source);
 }
 
 static void

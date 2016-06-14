@@ -25,6 +25,7 @@
 #include <calendar/gui/comp-util.h>
 #include <calendar/gui/e-cal-ops.h>
 
+#include "e-cal-base-shell-sidebar.h"
 #include "e-task-shell-view.h"
 #include "e-task-shell-backend.h"
 
@@ -42,9 +43,24 @@ static void
 action_task_new_cb (GtkAction *action,
                     EShellWindow *shell_window)
 {
+	EShellView *shell_view;
+	ESource *selected_source = NULL;
+
+	shell_view = e_shell_window_peek_shell_view (shell_window, "tasks");
+	if (shell_view != NULL) {
+		EShellSidebar *shell_sidebar;
+		ESourceSelector *selector;
+
+		shell_sidebar = e_shell_view_get_shell_sidebar (shell_view);
+		selector = e_cal_base_shell_sidebar_get_selector (E_CAL_BASE_SHELL_SIDEBAR (shell_sidebar));
+		selected_source = e_source_selector_ref_primary_selection (selector);
+	}
+
 	e_cal_ops_new_component_editor (shell_window,
-		E_CAL_CLIENT_SOURCE_TYPE_TASKS, NULL,
+		E_CAL_CLIENT_SOURCE_TYPE_TASKS, selected_source ? e_source_get_uid (selected_source) : NULL,
 		g_strcmp0 (gtk_action_get_name (action), "task-assigned-new") == 0);
+
+	g_clear_object (&selected_source);
 }
 
 static void
