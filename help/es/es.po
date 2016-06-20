@@ -4,29 +4,30 @@
 #
 # Jorge González <jorgegonz@svn.gnome.org>, 2007, 2009, 2010, 2011, 2012.
 #
-# Daniel Mustieles <daniel.mustieles@gmail.com>, 2011, 2012.
 # Yolanda Alvarez Perez <yolandaa.alvarez.perez@gmail.com>, 2016.
+# Daniel Mustieles <daniel.mustieles@gmail.com>, 2011, 2012, 2016.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution-help.master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-06-14 13:26+0000\n"
-"PO-Revision-Date: 2016-06-15 12:33-0500\n"
-"Last-Translator: Yolanda Alvarez Perez <yolandaa.alvarez.perez@gmail.com>\n"
+"POT-Creation-Date: 2016-06-16 09:04+0000\n"
+"PO-Revision-Date: 2016-06-20 08:44+0200\n"
+"Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Gtranslator 2.91.7\n"
+"X-Generator: Gtranslator 2.91.6\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
 msgid "translator-credits"
 msgstr ""
-"Daniel Mustieles <daniel.mustieles@gmail.com>, 2012 - 2015\n"
+"Yolanda Álvarez Pérez <yolandaa.alvarez.perez@gmail.com>, 2016\n"
+"Daniel Mustieles <daniel.mustieles@gmail.com>, 2012 - 2016\n"
 "Jorge González <jorgegonz@svn.gnome.org>, 2007-2011\n"
 "Francisco Javier F. Serrador <serrador@openshine.com>, 2005, 2006"
 
@@ -288,13 +289,11 @@ msgstr "Escriba la dirección en el campo <gui>URL</gui>."
 #: C/calendar-webdav.page:48 C/contacts-google.page:45
 #: C/mail-sending-options-smtp.page:38 C/tasks-caldav.page:30
 #: C/tasks-webdav.page:32
-#, fuzzy
-#| msgid ""
-#| "Choose <gui>Use secure connection</gui> if you want to connect securely."
 msgid ""
 "Choose <gui>Use a secure connection</gui> if you want to connect securely."
 msgstr ""
-"Elija <gui>Usar conexión segura</gui> si quiere conectar de forma segura."
+"Elija <gui>Usar una conexión segura</gui> si se quiere conectar de forma "
+"segura."
 
 #. (itstool) path: item/p
 #: C/calendar-caldav.page:56 C/tasks-caldav.page:31
@@ -3332,6 +3331,8 @@ msgid ""
 "<link href=\"https://support.mozilla.org/kb/profiles-tb#w_how-to-find-your-"
 "profile\">Find your <app>Thunderbird</app> profile folder.</link>"
 msgstr ""
+"<link href=\"https://support.mozilla.org/kb/profiles-tb#w_how-to-find-your-"
+"profile\">Buscar su carpeta de perfil <app>Thunderbird</app>.</link>"
 
 #. (itstool) path: item/p
 #: C/import-apps-mozilla.page:26 C/import-apps-outlook.page:60
@@ -3350,28 +3351,16 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/import-apps-mozilla.page:28
-#, fuzzy
-#| msgid ""
-#| "Go to the folder in which Thunderbird stores its data. On a Linux system, "
-#| "Thunderbird's files are located in the hidden folder <file>$HOME/."
-#| "thunderbird/12345678</file>. <file>12345678</file> will be a random "
-#| "string. If you cannot see the <file>.thunderbird</file> folder, make sure "
-#| "to <link xref=\"help:gnome-help/files-hidden#show-hidden\" href=\"https://"
-#| "help.gnome.org/users/gnome-help/stable/files-hidden#show-hidden\">show "
-#| "hidden files</link> in the file selector dialog."
 msgid ""
 "Go to the folder in which <app>Thunderbird</app> stores its data. You will "
 "have to make sure to <link xref=\"help:gnome-help/files-hidden#show-hidden\" "
 "href=\"https://help.gnome.org/users/gnome-help/stable/files-hidden#show-"
 "hidden\">show hidden files</link> in the file selector dialog."
 msgstr ""
-"Vaya a la carpeta en la que Thunderbird guarda sus datos. En un sistema GNU/"
-"Linux los archivos de Thunderbird se guardan en la carpeta oculta <file>"
-"$HOME/.thunderbird/12345678</file>. <file>12345678</file> será una cadena "
-"aleatoria. Si no puede ver la carpeta <file>.thunderbird</file>, asegúrese "
-"de que <link xref=\"help:gnome-help/files-hidden#show-hidden\" href="
-"\"https://help.gnome.org/users/gnome-help/stable/files-hidden#show-hidden"
-"\">muestra los archivos ocultos</link> en el diálogo del selector de "
+"Vaya a la carpeta en la que <app>Thunderbird</app> guarda sus datos. "
+"Asegúrese de que <link xref=\"help:gnome-help/files-hidden#show-hidden\" "
+"href=\"https://help.gnome.org/users/gnome-help/stable/files-hidden#show-"
+"hidden\">muestra los archivos ocultos</link> en el diálogo del selector de "
 "archivos."
 
 #. (itstool) path: item/p
@@ -11091,22 +11080,16 @@ msgstr ""
 
 #. (itstool) path: info/desc
 #: C/mail-search-folders-refresh.page:5
-#| msgid "Ways of updating Search folders."
 msgid "Ways of updating <gui>Search</gui> folders."
 msgstr "Formas de actualizar las <gui>Carpetas de búsqueda</gui>."
 
 #. (itstool) path: page/title
 #: C/mail-search-folders-refresh.page:24
-#| msgid "Updating/refreshing Search folders"
 msgid "Updating/refreshing <gui>Search</gui> folders"
 msgstr "Actualizar las <gui>Carpetas de búsqueda</gui>"
 
 #. (itstool) path: page/p
 #: C/mail-search-folders-refresh.page:26
-#| msgid ""
-#| "It might happen that one of your Search folders has not updated since "
-#| "some new email arrived or since an email was deleted, for example. This "
-#| "will mean that the list of emails in the folder is not up-to-date."
 msgid ""
 "It might happen that one of your <gui>Search</gui> folders has not updated "
 "since some new email arrived or since an email was deleted, for example. "
@@ -11252,13 +11235,6 @@ msgstr "Comprobar automáticamente si hay correo nuevo"
 
 #. (itstool) path: page/p
 #: C/mail-send-and-receive-automatically.page:21
-#| msgid ""
-#| "If you want Evolution to check automatically for new messages, enable the "
-#| "option <gui>Check for new messages every … minutes</gui> in the "
-#| "<gui>Receiving Options</gui> page of the mail account settings "
-#| "(accessible via <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail "
-#| "Accounts</gui><gui style=\"button\">Edit</gui><gui>Receiving Options</"
-#| "gui></guiseq>) and select the frequency in minutes."
 msgid ""
 "If you want <app>Evolution</app> to check automatically for new messages, "
 "enable the option <gui>Check for new messages every … minutes</gui> in the "
@@ -11277,11 +11253,6 @@ msgstr ""
 
 #. (itstool) path: note/p
 #: C/mail-send-and-receive-automatically.page:23
-#| msgid ""
-#| "Evolution supports <link href=\"https://en.wikipedia.org/wiki/IMAP_IDLE"
-#| "\">IMAP IDLE</link> on the currently selected folder and partially "
-#| "supports the <link href=\"http://tools.ietf.org/search/rfc5465\">IMAP "
-#| "NOTIFY</link> extension."
 msgid ""
 "<app>Evolution</app> supports <link href=\"https://en.wikipedia.org/wiki/"
 "IMAP_IDLE\">IMAP IDLE</link> on the currently selected folder and partially "
@@ -11388,11 +11359,6 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/mail-sending-options-smtp.page:34
-#| msgid ""
-#| "Select the authentication type in the Authentication list, or click "
-#| "<gui>Check for Supported Types</gui> to have Evolution check. Some "
-#| "servers do not support this, so clicking this button is not a guarantee "
-#| "that available mechanisms actually work."
 msgid ""
 "Select the authentication type in the Authentication list, or click "
 "<gui>Check for Supported Types</gui> to have <app>Evolution</app> check. "
@@ -11416,9 +11382,6 @@ msgstr "Separar correo POP de más de una cuenta"
 
 #. (itstool) path: page/p
 #: C/mail-several-pop-accounts.page:24
-#| msgid ""
-#| "It is not possible to have separate accounts in the accounts and folder "
-#| "list pane. Evolution only has one unique inbox for incoming email."
 msgid ""
 "It is not possible to have separate accounts in the accounts and folder list "
 "pane. <app>Evolution</app> only has one unique inbox for incoming email."
@@ -11463,9 +11426,6 @@ msgstr "Ordenar la lista de mensajes"
 
 #. (itstool) path: page/p
 #: C/mail-sorting-message-list.page:30
-#| msgid ""
-#| "Evolution lets you organize your emails by letting you sort messages in "
-#| "the <link xref=\"intro-main-window#e-mail\">message list</link>."
 msgid ""
 "<app>Evolution</app> lets you organize your emails by letting you sort "
 "messages in the <link xref=\"intro-main-window#e-mail\">message list</link>."
@@ -11576,10 +11536,6 @@ msgstr ""
 
 #. (itstool) path: section/p
 #: C/mail-sorting-message-list.page:54
-#| msgid ""
-#| "Evolution allows you to sort your messages using these columns. Just "
-#| "click on the column label to sort the emails. The direction of the arrow "
-#| "next to the label indicates the direction of the sort."
 msgid ""
 "<app>Evolution</app> allows you to sort your messages using these columns. "
 "Just click on the column label to sort the emails. The direction of the "
@@ -11597,17 +11553,13 @@ msgstr "Usar otras opciones de ordenación"
 
 #. (itstool) path: section/p
 #: C/mail-sorting-message-list.page:59
-#, fuzzy
-#| msgid ""
-#| "Evolution provides other ways for sorting email messages. You can use "
-#| "Sort By, Sort Ascending, Sort Descending, or Unsort."
 msgid ""
 "<app>Evolution</app> provides other ways for sorting email messages. You can "
 "use Sort By, Sort Ascending, Sort Descending, or Reset sort."
 msgstr ""
-"Evolution proporciona otras formas de ordenar mensajes de correo "
+"<app>Evolution</app> proporciona otras formas de ordenar mensajes de correo "
 "electrónico. Puede usar Ordenar por, Ordenar ascendentemente, Ordenar "
-"descendentemente o Desordenar."
+"descendentemente o Restablecer ordenación."
 
 #. (itstool) path: section/title
 #: C/mail-sorting-message-list.page:61
@@ -11773,14 +11725,12 @@ msgstr ""
 #. (itstool) path: section/title
 #: C/mail-sorting-message-list.page:110
 msgid "Reset sort"
-msgstr ""
+msgstr "Restablecer ordenación"
 
 #. (itstool) path: item/p
 #: C/mail-sorting-message-list.page:113
-#, fuzzy
-#| msgid "Select the <gui>Unsort</gui> option."
 msgid "Select the <gui>Reset sort</gui> option."
-msgstr "Seleccione la opción <gui>Desordenar</gui>."
+msgstr "Seleccione la opción <gui>Restablecer ordenación</gui>."
 
 #. (itstool) path: section/p
 #: C/mail-sorting-message-list.page:115
@@ -11829,12 +11779,6 @@ msgstr "Marcar correo manualmente como SPAM"
 
 #. (itstool) path: section/p
 #: C/mail-spam-marking.page:36
-#| msgid ""
-#| "If Evolution misses junk mail, right-click the message, then click "
-#| "<gui>Mark as Junk</gui>, or mark the message and press <keyseq><key>Ctrl</"
-#| "key><key>J</key></keyseq> or click the <gui>Junk</gui> button in the tool "
-#| "bar. When you correct it, the filter can recognize similar messages in "
-#| "the future, and becomes more accurate as time goes on."
 msgid ""
 "If <app>Evolution</app> misses junk mail, right-click the message, then "
 "click <gui>Mark as Junk</gui>, or mark the message and press "
@@ -11965,12 +11909,6 @@ msgstr "Opciones de correo spam"
 
 #. (itstool) path: note/p
 #: C/mail-spam-settings.page:62
-#| msgid ""
-#| "The junk mail options discussed in this page refer only to POP and Local "
-#| "Delivery accounts. For handling junk mail on IMAP accounts, see the "
-#| "Evolution settings under <guiseq><gui>Edit</gui><gui>Preferences</"
-#| "gui><gui>Mail Accounts</gui><gui style=\"button\">Edit</"
-#| "gui><gui>Receiving Options</gui></guiseq>."
 msgid ""
 "The junk mail options discussed in this page refer only to POP and Local "
 "Delivery accounts. For handling junk mail on IMAP accounts, see the "
@@ -11986,9 +11924,6 @@ msgstr ""
 
 #. (itstool) path: section/p
 #: C/mail-spam-settings.page:63
-#| msgid ""
-#| "You can modify how Evolution handles junk mail by changing the Junk Mail "
-#| "Preferences:"
 msgid ""
 "You can modify how <app>Evolution</app> handles junk mail by changing the "
 "Junk Mail Preferences:"
@@ -12067,16 +12002,12 @@ msgstr ""
 
 #. (itstool) path: page/title
 #: C/mail-two-trash-folders.page:25
-#| msgid "Two Trash or Junk folders shown for the same account"
 msgid "Two Trash or <gui>Junk</gui> folders shown for the same account"
 msgstr ""
 "Dos carpetas de Papelera o <gui>Spam</gui> mostradas para la misma cuenta"
 
 #. (itstool) path: page/p
 #: C/mail-two-trash-folders.page:27
-#| msgid ""
-#| "If you use a remote mail account that also has Junk and/or Trash folders "
-#| "on the server you might face duplicated folders in Evolution."
 msgid ""
 "If you use a remote mail account that also has Junk and/or <gui>Trash</gui> "
 "folders on the server you might face duplicated folders in <app>Evolution</"
@@ -12088,10 +12019,6 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/mail-two-trash-folders.page:28
-#| msgid ""
-#| "You can easily tell the two Trash folders apart by looking at their "
-#| "icons. The Evolution <gui>Trash</gui> folder has a special icon whereas "
-#| "the other physical Trash folder looks like any other folder."
 msgid ""
 "You can easily tell the two <gui>Trash</gui> folders apart by looking at "
 "their icons. The <app>Evolution</app> <gui>Trash</gui> folder has a special "
@@ -12105,11 +12032,6 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/mail-two-trash-folders.page:30
-#| msgid ""
-#| "By default, Evolution's <gui>Trash</gui> and <gui>Junk</gui> folders are "
-#| "<link xref=\"mail-search-folders\">Search folders</link>. They do not "
-#| "really exist but simply display all the messages that are marked as junk "
-#| "or for deletion in any folders of that account."
 msgid ""
 "By default, <app>Evolution</app>'s <gui>Trash</gui> and <gui>Junk</gui> "
 "folders are <link xref=\"mail-search-folders\">Search folders</link>. They "
@@ -12123,12 +12045,6 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/mail-two-trash-folders.page:32
-#| msgid ""
-#| "In order to only use the folders for Junk and Trash on the mail server, "
-#| "select the corresponding <gui>Use a Real Folder</gui> option under "
-#| "<guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</gui><gui "
-#| "style=\"button\">Edit</gui><gui>Defaults</gui></guiseq>. In this case, "
-#| "Evolution's local virtual folders will not be used."
 msgid ""
 "In order to only use the folders for Junk and Trash on the mail server, "
 "select the corresponding <gui>Use a Real Folder</gui> option under "
@@ -12186,12 +12102,6 @@ msgstr "Vista vertical"
 
 #. (itstool) path: page/p
 #: C/mail-vertical-view.page:24
-#| msgid ""
-#| "Evolution provides a vertical view in addition to the classical view. In "
-#| "the vertical view, the message preview pane is located at the right side "
-#| "of the message list when compared to the classical view where the message "
-#| "preview pane is placed below the message list. Vertical view enables you "
-#| "to use the extra width of wide screen monitors."
 msgid ""
 "<app>Evolution</app> provides a vertical view in addition to the classical "
 "view. In the vertical view, the message preview pane is located at the right "
@@ -12280,12 +12190,6 @@ msgstr "Trabar desconectado"
 
 #. (itstool) path: page/p
 #: C/mail-working-offline.page:25
-#| msgid ""
-#| "Forced offline mode helps you communicate with remote mail storage "
-#| "systems like GroupWise, IMAP or Exchange, in situations where you are not "
-#| "connected to the network at all times. Evolution keeps a local copy of "
-#| "one or more folders to allow you to compose messages, storing them in "
-#| "your Outbox to be sent the next time you connect."
 msgid ""
 "Forced offline mode helps you communicate with remote mail storage systems "
 "like GroupWise, IMAP or Exchange, in situations where you are not connected "
@@ -12301,9 +12205,6 @@ msgstr ""
 
 #. (itstool) path: note/p
 #: C/mail-working-offline.page:27 C/offline.page:40
-#| msgid ""
-#| "Evolution's forced offline mode only refers to mail and does not apply to "
-#| "contacts and calendars."
 msgid ""
 "<app>Evolution</app>'s forced offline mode only refers to mail and does not "
 "apply to contacts and calendars."
@@ -12313,12 +12214,6 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/mail-working-offline.page:29
-#| msgid ""
-#| "POP mail downloads all messages to your local system, but other "
-#| "connections usually download just the headers, and get the rest only when "
-#| "you want to read the message. Before you force Evolution to be offline, "
-#| "Evolution downloads the unread messages from the folders you have chosen "
-#| "to store."
 msgid ""
 "POP mail downloads all messages to your local system, but other connections "
 "usually download just the headers, and get the rest only when you want to "
@@ -12363,13 +12258,6 @@ msgstr "Sincronizar mensajes para su uso desconectado"
 
 #. (itstool) path: section/p
 #: C/mail-working-offline.page:42
-#| msgid ""
-#| "Your connection status is shown by the small icon in the lower left "
-#| "corner of the Evolution main window. When you are online, it displays two "
-#| "connected cables. When you force offline mode via clicking the icon or "
-#| "via <guiseq><gui>File</gui><gui>Work Offline</gui></guiseq>, the cables "
-#| "separate. You will be asked whether you want to go offline immediately or "
-#| "synchronize folders locally before you go offline."
 msgid ""
 "Your connection status is shown by the small icon in the lower left corner "
 "of the <app>Evolution</app> main window. When you are online, it displays "
@@ -12404,11 +12292,6 @@ msgstr "Gestión automática del estado de la red"
 
 #. (itstool) path: section/p
 #: C/mail-working-offline.page:48
-#| msgid ""
-#| "Evolution automatically understands the network state and acts "
-#| "accordingly. For instance, Evolution switches to offline mode when the "
-#| "network goes down and automatically switches on when the network is up "
-#| "again."
 msgid ""
 "<app>Evolution</app> automatically understands the network state and acts "
 "accordingly. For instance, <app>Evolution</app> switches to offline mode "
@@ -12652,22 +12535,17 @@ msgstr ""
 
 #. (itstool) path: info/desc
 #: C/offline.page:5
-#| msgid "Make Evolution mail be online again."
 msgid "Make <app>Evolution</app> mail be online again."
 msgstr "Conectar <app>Evolution</app> otra vez."
 
 #. (itstool) path: page/title
 #: C/offline.page:27
-#| msgid "Why is Evolution's mail component offline?"
 msgid "Why is <app>Evolution</app>'s mail component offline?"
 msgstr ""
 "¿Por qué el componente de correo de <app>Evolution</app> está desconectado?"
 
 #. (itstool) path: page/p
 #: C/offline.page:28
-#| msgid ""
-#| "You may have started Evolution with the <cmd>--offline</cmd> commandline "
-#| "option to enforce offline mode."
 msgid ""
 "You may have started <app>Evolution</app> with the <cmd>--offline</cmd> "
 "commandline option to enforce offline mode."
@@ -12677,14 +12555,6 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/offline.page:30
-#| msgid ""
-#| "If this is not the case and Evolution normally works but has suddenly "
-#| "stopped connecting to your mail accounts, you may have unintentionally "
-#| "clicked on the connection icon in the lower left corner. When connected, "
-#| "the icon resembles a pair of sockets joined together. If the sockets are "
-#| "open, there is no connection to your mail accounts (and the <gui style="
-#| "\"button\">Send/Receive</gui> button is grayed out). Click on the icon to "
-#| "change its state."
 msgid ""
 "If this is not the case and <app>Evolution</app> normally works but has "
 "suddenly stopped connecting to your mail accounts, you may have "
@@ -12722,10 +12592,6 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/offline.page:35
-#| msgid ""
-#| "If you want to force Evolution to be in online mode, make sure that "
-#| "Evolution is not running and open a <app>Terminal</app> window and type "
-#| "the following command:"
 msgid ""
 "If you want to force <app>Evolution</app> to be in online mode, make sure "
 "that <app>Evolution</app> is not running and open a <app>Terminal</app> "
@@ -12737,7 +12603,6 @@ msgstr ""
 
 #. (itstool) path: info/desc
 #: C/organizing.page:5
-#| msgid "On organizing and finding your data in Evolution."
 msgid "On organizing and finding your data in <app>Evolution</app>."
 msgstr "Acerca de organizar y buscar sus datos en <app>Evolution</app>."
 
@@ -12767,10 +12632,6 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/problems-debug-how-to.page:25
-#| msgid ""
-#| "To further track down a problem, some debug options are listed on the "
-#| "<link href=\"https://wiki.gnome.org/Apps/Evolution/Debugging\">Evolution "
-#| "project website</link>."
 msgid ""
 "To further track down a problem, some debug options are listed on the <link "
 "href=\"https://wiki.gnome.org/Apps/Evolution/Debugging\"><app>Evolution</"
@@ -12783,9 +12644,6 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/problems-debug-how-to.page:27
-#| msgid ""
-#| "To contact the Evolution community for help, please see <link xref="
-#| "\"problems-getting-help\">How to get help</link>."
 msgid ""
 "To contact the <app>Evolution</app> community for help, please see <link "
 "xref=\"problems-getting-help\">How to get help</link>."
@@ -12805,14 +12663,6 @@ msgstr "Cómo obtener ayuda"
 
 #. (itstool) path: page/p
 #: C/problems-getting-help.page:24
-#| msgid ""
-#| "To receive help on problems you can send an email to the <link href="
-#| "\"http://mail.gnome.org/mailman/listinfo/evolution-list\">Evolution "
-#| "mailing list</link> or talk to developers and other users in the IRC chat "
-#| "channel #evolution on the server irc.gimp.net. To connect to an IRC "
-#| "server you can for example <link xref=\"help:empathy/irc-manage\" href="
-#| "\"https://help.gnome.org/users/empathy/stable/irc-manage\">use the "
-#| "internet messenger application <app>Empathy</app></link>."
 msgid ""
 "To receive help on problems you can send an email to the <link href=\"http://"
 "mail.gnome.org/mailman/listinfo/evolution-list\"><app>Evolution</app> "
@@ -12843,14 +12693,6 @@ msgstr "Cómo informar de un error"
 
 #. (itstool) path: page/p
 #: C/problems-reporting-bugs.page:23
-#| msgid ""
-#| "If you do not need help for configuration but you are sure that you have "
-#| "found a mistake or wrong behavior in the Evolution software, or if you "
-#| "want to request a feature, you can file a report in the <link href="
-#| "\"http://bugzilla.gnome.org\">GNOME bug tracking system</link>. Note that "
-#| "this requires registration first. Please try to avoid filing duplicates "
-#| "and check the <link href=\"https://bugzilla.gnome.org/page.cgi?id=bug-"
-#| "writing.html\">bug writing guidelines</link> first."
 msgid ""
 "If you do not need help for configuration but you are sure that you have "
 "found a mistake or wrong behavior in the <app>Evolution</app> software, or "
@@ -12871,13 +12713,6 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/problems-reporting-bugs.page:23
-#| msgid ""
-#| "Also note that GNOME distributions sometimes introduce their own changes "
-#| "in Evolution that are not included in GNOME Evolution. This is hard to "
-#| "recognize for users but if you are aware of it please file a bug report "
-#| "in <link href=\"https://wiki.gnome.org/Bugsquad/TriageGuide/"
-#| "NonGnome#Bug_trackers_for_distributions\">the bug tracker of your GNOME "
-#| "distribution</link> instead."
 msgid ""
 "Also note that GNOME distributions sometimes introduce their own changes in "
 "<app>Evolution</app> that are not included in GNOME <app>Evolution</app>. "
@@ -12896,14 +12731,6 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/problems-reporting-bugs.page:25
-#| msgid ""
-#| "When reporting bugs exact information is welcome as it makes it easier "
-#| "for others to reproduce and fix the issue. If possible please include "
-#| "information such as the Evolution version (under <guiseq><gui>Help</"
-#| "gui><gui>About</gui></guiseq>), your distribution, and exact steps to "
-#| "reproduce the problem, click by click. See the <link href=\"https://"
-#| "bugzilla.gnome.org/page.cgi?id=bug-writing.html\">Bug Writing Guidelines</"
-#| "link> for more information."
 msgid ""
 "When reporting bugs exact information is welcome as it makes it easier for "
 "others to reproduce and fix the issue. If possible please include "
@@ -12933,7 +12760,6 @@ msgstr "Buscar elementos"
 
 #. (itstool) path: info/desc
 #: C/sync-with-other-devices.page:5
-#| msgid "Synchronize Evolution data with handheld devices and mobile phones."
 msgid ""
 "Synchronize <app>Evolution</app> data with handheld devices and mobile "
 "phones."
@@ -13004,9 +12830,6 @@ msgstr "Usar una lista de tareas o notas CalDAV"
 
 #. (itstool) path: page/p
 #: C/tasks-caldav.page:22 C/tasks-webdav.page:24
-#| msgid ""
-#| "To add such a task list or memo list to Evolution, perform the following "
-#| "steps:"
 msgid ""
 "To add such a task list or memo list to <app>Evolution</app>, perform the "
 "following steps:"
@@ -13032,7 +12855,6 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/tasks-caldav.page:35 C/tasks-local.page:31
-#| msgid "The task list will be added to the list of task lists in Evolution."
 msgid ""
 "The task list will be added to the list of task lists in <app>Evolution</"
 "app>."
@@ -13108,8 +12930,6 @@ msgstr "Añadir otra lista de tareas o notas local"
 
 #. (itstool) path: page/p
 #: C/tasks-local.page:22
-#| msgid ""
-#| "To add another local task list to Evolution, perform the following steps:"
 msgid ""
 "To add another local task list to <app>Evolution</app>, perform the "
 "following steps:"
@@ -13222,7 +13042,6 @@ msgstr "Tareas asignadas"
 
 #. (itstool) path: section/p
 #: C/tasks-usage-add-task.page:39
-#| msgid "Evolution can be used to assign a task to multiple people."
 msgid "<app>Evolution</app> can be used to assign a task to multiple people."
 msgstr ""
 "<app>Evolution</app> se puede usar para asignar una tarea a varias personas."
@@ -13251,9 +13070,6 @@ msgstr ""
 
 #. (itstool) path: section/p
 #: C/tasks-usage-add-task.page:42
-#| msgid ""
-#| "To create an Assigned Task, click <guiseq><gui>File</gui><gui>New</"
-#| "gui><gui>Assigned Task</gui></guiseq>."
 msgid ""
 "To create an assigned task, click <guiseq><gui>File</gui><gui>New</"
 "gui><gui>Assigned Task</gui></guiseq>."
@@ -13382,7 +13198,6 @@ msgstr "Este tipo de listas son de sólo lectura."
 
 #. (itstool) path: page/p
 #: C/tasks-webdav.page:37
-#| msgid "The list will be added in Evolution."
 msgid "The list will be added in <app>Evolution</app>."
 msgstr "Se añadirá la lista en <app>Evolution</app>."
 
@@ -13608,14 +13423,6 @@ msgstr "Evolution"
 
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:23
-#| msgid ""
-#| "If a message uses a header more than once, Evolution pays attention only "
-#| "to the first instance, even if the message defines the header differently "
-#| "the second time. For example, if a message declares the Resent-From: "
-#| "header as \"engineering@example.com\" and then restates it as "
-#| "\"marketing@example.com\", Evolution filters as though the second "
-#| "declaration did not occur. To filter on messages that use headers "
-#| "multiple times, use a regular expression."
 msgid ""
 "If a message uses a header more than once, <_:app-1/> pays attention only to "
 "the first instance, even if the message defines the header differently the "
@@ -13655,9 +13462,6 @@ msgstr "filtros"
 
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:29
-#| msgid ""
-#| "(For programmers only) Match a message according to an expression you "
-#| "write in the Scheme language used to define <_:link-1/> in Evolution."
 msgid ""
 "(For programmers only) Match a message according to an expression you write "
 "in the Scheme language used to define <_:link-1/> in <_:app-2/>."
@@ -13690,15 +13494,6 @@ msgstr "Fecha de envío:"
 
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:35
-#, fuzzy
-#| msgid ""
-#| "Filters messages according to the date on which they were sent. First, "
-#| "choose the conditions you want a message to meet, such as before a given "
-#| "time or after a given time. Then choose the time. The filter compares the "
-#| "message's time stamp to the system clock when the filter is run, or to a "
-#| "specific time and date you choose from a calendar. You can also have it "
-#| "look for a message within a range of time relative to the filter, such as "
-#| "two to four days ago."
 msgid ""
 "Filters messages according to the date on which they were sent. First, "
 "choose the conditions you want a message to meet, such as before a given "
@@ -13710,7 +13505,7 @@ msgid ""
 msgstr ""
 "Filtra los mensajes en función de la fecha de envío. En primer lugar, defina "
 "las condiciones que desea ver cumplidas con un mensaje, tales como antes de "
-"una hora determinada o después de de ella, etc. A continuación, especifique "
+"una fecha determinada o después de de ella, etc. A continuación, especifique "
 "la fecha y hora. La fecha y hora del mensaje se compara con la hora del "
 "sistema al ejecutarse el filtro, o con una hora y fecha específica elegida "
 "en el calendario. Es posible incluso buscar mensajes dentro de un intervalo "
@@ -13869,13 +13664,6 @@ msgstr "la página del manual de <_:cmd-1/>"
 
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:65
-#| msgid ""
-#| "(For programmers only) If you know your way around a <_:link-1/>, or "
-#| "regular expression, this option allows you to search for complex patterns "
-#| "of letters, so that you can find, for example, all words that start with "
-#| "a and end with m, and are between six and fifteen letters long, or all "
-#| "messages that declare a particular header twice. For information about "
-#| "how to use regular expressions, check <_:link-2/> command."
 msgid ""
 "(For programmers only) If you know your way around a <_:link-1/>, or regular "
 "expression, this option allows you to search for complex patterns of "
