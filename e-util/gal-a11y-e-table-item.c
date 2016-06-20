@@ -848,6 +848,25 @@ eti_rows_deleted (ETableModel *model,
 }
 
 static void
+eti_model_changed (ETableModel *model,
+		   AtkObject *table_item)
+{
+	GalA11yETableItemPrivate *priv;
+	gint row_count;
+
+	g_return_if_fail (GAL_A11Y_IS_E_TABLE_ITEM (table_item));
+
+	priv = GET_PRIVATE (table_item);
+
+	row_count = e_table_model_row_count (model);
+
+	if (priv->rows != row_count) {
+		priv->rows = row_count;
+		g_signal_emit_by_name (table_item, "visible-data-changed");
+	}
+}
+
+static void
 eti_tree_model_node_changed_cb (ETreeModel *model,
                                 ETreePath node,
                                 ETableItem *eti)
@@ -1014,6 +1033,9 @@ eti_real_initialize (AtkObject *obj,
 	g_signal_connect_object (
 		model, "model-rows-deleted",
 		G_CALLBACK (eti_rows_deleted), obj, 0);
+	g_signal_connect_object (
+		model, "model-changed",
+		G_CALLBACK (eti_model_changed), obj, 0);
 	g_signal_connect_object (
 		eti->header, "structure_change",
 		G_CALLBACK (eti_header_structure_changed), obj, 0);
