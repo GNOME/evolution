@@ -222,8 +222,8 @@ mdn_notify_sender (ESource *identity_source,
 	EMailBackend *backend;
 	EMailSession *session;
 	ESourceExtension *extension;
-	const gchar *message_id;
-	const gchar *message_date;
+	gchar *message_id;
+	gchar *message_date;
 	const gchar *message_subject;
 	const gchar *extension_name;
 	const gchar *transport_uid;
@@ -236,6 +236,8 @@ mdn_notify_sender (ESource *identity_source,
 	gchar *content;
 	gchar *ua;
 
+	g_return_if_fail (identity_source != NULL);
+
 	backend = e_mail_reader_get_backend (reader);
 	session = e_mail_backend_get_session (backend);
 
@@ -245,19 +247,17 @@ mdn_notify_sender (ESource *identity_source,
 	camel_message_info_set_user_flag (info, MDN_USER_FLAG, TRUE);
 
 	medium = CAMEL_MEDIUM (message);
-	message_id = camel_medium_get_header (medium, "Message-ID");
-	message_date = camel_medium_get_header (medium, "Date");
+	message_id = camel_header_unfold (camel_medium_get_header (medium, "Message-ID"));
+	message_date = camel_header_unfold (camel_medium_get_header (medium, "Date"));
 	message_subject = camel_mime_message_get_subject (message);
 
 	if (message_id == NULL)
-		message_id = "";
+		message_id = g_strdup ("");
 
 	if (message_date == NULL)
-		message_date = "";
+		message_date = g_strdup ("");
 
 	/* Collect information for the receipt. */
-
-	g_return_if_fail (identity_source != NULL);
 
 	extension_name = E_SOURCE_EXTENSION_MAIL_IDENTITY;
 	extension = e_source_get_extension (identity_source, extension_name);
@@ -416,6 +416,9 @@ mdn_notify_sender (ESource *identity_source,
 		g_object_ref (session));
 
 	camel_message_info_unref (receipt_info);
+
+	g_free (message_date);
+	g_free (message_id);
 }
 
 static void

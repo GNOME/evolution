@@ -3968,7 +3968,7 @@ e_msg_composer_new_with_message (EShell *shell,
 				g_strdup (headers->name));
 			g_ptr_array_add (
 				composer->priv->extra_hdr_values,
-				g_strdup (headers->value));
+				camel_header_unfold (headers->value));
 		}
 
 		headers = headers->next;
