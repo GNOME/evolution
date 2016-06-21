@@ -468,7 +468,7 @@ modules/text-highlight/languages.c
 modules/vcard-inline/e-mail-formatter-vcard.c
 modules/vcard-inline/e-mail-parser-vcard.c
 modules/vcard-inline/e-mail-part-vcard.c
-modules/web-inspector/evolution-web-inspector.c
+modules/webkit-inspector/evolution-webkit-inspector.c
 plugins/attachment-reminder/attachment-reminder.c
 plugins/attachment-reminder/org-gnome-attachment-reminder.error.xml
 plugins/attachment-reminder/org-gnome-evolution-attachment-reminder.eplug.xml
