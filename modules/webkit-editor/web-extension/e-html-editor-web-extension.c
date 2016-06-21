@@ -40,6 +40,7 @@
 #include "e-html-editor-selection-dom-functions.h"
 #include "e-html-editor-spell-check-dialog-dom-functions.h"
 #include "e-html-editor-table-dialog-dom-functions.h"
+#include "e-html-editor-test-dom-functions.h"
 #include "e-html-editor-view-dom-functions.h"
 #include "e-msg-composer-dom-functions.h"
 
@@ -128,6 +129,15 @@ static const char introspection_xml[] =
 "<!-- ********************************************************* -->"
 "<!--                          METHODS                          -->"
 "<!-- ********************************************************* -->"
+"<!-- ********************************************************* -->"
+"<!--                       FOR TESTING ONLY                    -->"
+"<!-- ********************************************************* -->"
+"    <method name='TestHtmlEqual'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"      <arg type='s' name='html1' direction='in'/>"
+"      <arg type='s' name='html2' direction='in'/>"
+"      <arg type='b' name='equal' direction='out'/>"
+"    </method>"
 "<!-- ********************************************************* -->"
 "<!--                          GENERIC                          -->"
 "<!-- ********************************************************* -->"
@@ -675,7 +685,22 @@ handle_method_call (GDBusConnection *connection,
 	if (g_strcmp0 (interface_name, E_HTML_EDITOR_WEB_EXTENSION_INTERFACE) != 0)
 		return;
 
-	if (g_strcmp0 (method_name, "ElementHasAttribute") == 0) {
+	if (g_strcmp0 (method_name, "TestHtmlEqual") == 0) {
+		gboolean equal = FALSE;
+		const gchar *html1 = NULL, *html2 = NULL;
+
+		g_variant_get (parameters, "(t&s&s)", &page_id, &html1, &html2);
+
+		web_page = get_webkit_web_page_or_return_dbus_error (
+			invocation, web_extension, page_id);
+		if (!web_page)
+			goto error;
+
+		document = webkit_web_page_get_dom_document (web_page);
+		equal = dom_test_html_equal (document, html1, html2);
+
+		g_dbus_method_invocation_return_value (invocation, g_variant_new ("(b)", equal));
+	} else if (g_strcmp0 (method_name, "ElementHasAttribute") == 0) {
 		gboolean value = FALSE;
 		const gchar *element_id, *attribute;
 		WebKitDOMElement *element;

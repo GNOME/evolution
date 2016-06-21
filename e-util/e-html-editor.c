@@ -956,6 +956,29 @@ e_html_editor_get_content_editor (EHTMLEditor *editor)
 	return editor->priv->use_content_editor;
 }
 
+/* Private function */
+const gchar *
+e_html_editor_get_content_editor_name (EHTMLEditor *editor)
+{
+	EContentEditor *cnt_editor;
+	GHashTableIter iter;
+	gpointer key, value;
+
+	g_return_val_if_fail (E_IS_HTML_EDITOR (editor), NULL);
+
+	cnt_editor = e_html_editor_get_content_editor (editor);
+	if (!cnt_editor)
+		return NULL;
+
+	g_hash_table_iter_init (&iter, editor->priv->content_editors);
+	if (g_hash_table_iter_next (&iter, &key, &value)) {
+		if (value == cnt_editor)
+			return key;
+	}
+
+	return NULL;
+}
+
 void
 e_html_editor_register_content_editor (EHTMLEditor *editor,
 				       const gchar *name,

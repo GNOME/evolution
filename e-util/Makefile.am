@@ -61,6 +61,7 @@ noinst_PROGRAMS = \
 	test-category-completion \
 	test-contact-store \
 	test-dateedit \
+	test-html-editor-units \
 	test-mail-signatures \
 	test-name-selector \
 	test-preferences-window \
@@ -689,6 +690,14 @@ test_dateedit_LDADD = $(TEST_LDADD)
 #test_html_editor_CPPFLAGS = $(TEST_CPPFLAGS)
 #test_html_editor_SOURCES = test-html-editor.c
 #test_html_editor_LDADD = $(TEST_LDADD)
+
+test_html_editor_units_CPPFLAGS = $(TEST_CPPFLAGS) -DTEST_TOP_SRCDIR=\""$(top_srcdir)"\"
+test_html_editor_units_SOURCES = \
+	test-html-editor-units-utils.h \
+	test-html-editor-units-utils.c \
+	test-html-editor-units.c \
+	$(NULL)
+test_html_editor_units_LDADD = $(TEST_LDADD)
 
 test_mail_signatures_CPPFLAGS = $(TEST_CPPFLAGS)
 test_mail_signatures_SOURCES = test-mail-signatures.c

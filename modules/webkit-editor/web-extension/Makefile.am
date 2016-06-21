@@ -12,6 +12,7 @@ libewebkiteditorwebextension_la_SOURCES =	\
 	e-html-editor-selection-dom-functions.h		\
 	e-html-editor-spell-check-dialog-dom-functions.h\
 	e-html-editor-table-dialog-dom-functions.h	\
+	e-html-editor-test-dom-functions.h		\
 	e-html-editor-undo-redo-manager.h		\
 	e-html-editor-view-dom-functions.h		\
 	e-msg-composer-dom-functions.h			\
@@ -25,6 +26,7 @@ libewebkiteditorwebextension_la_SOURCES =	\
 	e-html-editor-selection-dom-functions.c		\
 	e-html-editor-spell-check-dialog-dom-functions.c\
 	e-html-editor-table-dialog-dom-functions.c	\
+	e-html-editor-test-dom-functions.c		\
 	e-html-editor-undo-redo-manager.c		\
 	e-html-editor-view-dom-functions.c		\
 	e-msg-composer-dom-functions.c			\

@@ -93,10 +93,14 @@ struct _EHTMLEditorPrivate {
 	guint spell_suggestions_merge_id;
 
 	gint editor_layout_row;
+
+	gboolean is_testing;
 };
 
 void		editor_actions_init		(EHTMLEditor *editor);
 void		editor_actions_bind		(EHTMLEditor *editor);
+const gchar *	e_html_editor_get_content_editor_name
+						(EHTMLEditor *editor);
 
 G_END_DECLS
 

@@ -36,6 +36,7 @@
 
 enum {
 	PROP_0,
+	PROP_WEB_EXTENSION, /* for test purposes */
 	PROP_CAN_COPY,
 	PROP_CAN_CUT,
 	PROP_CAN_PASTE,
@@ -447,6 +448,8 @@ web_extension_proxy_created_cb (GDBusProxy *proxy,
 
 		wk_editor->priv->emit_load_finished_when_extension_is_ready = FALSE;
 	}
+
+	g_object_notify (G_OBJECT (wk_editor), "web-extension");
 }
 
 static void
@@ -4874,6 +4877,14 @@ webkit_editor_on_find_dialog_close (EContentEditor *editor)
 	webkit_editor_finish_search (E_WEBKIT_EDITOR (editor));
 }
 
+static GDBusProxy *
+webkit_editor_get_web_extension (EWebKitEditor *editor)
+{
+	g_return_val_if_fail (E_IS_WEBKIT_EDITOR (editor), NULL);
+
+	return editor->priv->web_extension;
+}
+
 static void
 webkit_editor_constructed (GObject *object)
 {
@@ -5189,6 +5200,12 @@ webkit_editor_get_property (GObject *object,
                             GParamSpec *pspec)
 {
 	switch (property_id) {
+		case PROP_WEB_EXTENSION:
+			g_value_set_object (
+				value, webkit_editor_get_web_extension (
+				E_WEBKIT_EDITOR (object)));
+			return;
+
 		case PROP_CAN_COPY:
 			g_value_set_boolean (
 				value, webkit_editor_can_copy (
@@ -5443,7 +5460,8 @@ webkit_editor_primary_clipboard_owner_change_cb (GtkClipboard *clipboard,
                                                  GdkEventOwnerChange *event,
                                                  EWebKitEditor *wk_editor)
 {
-	if (!E_IS_WEBKIT_EDITOR (wk_editor))
+	if (!E_IS_WEBKIT_EDITOR (wk_editor) ||
+	    !wk_editor->priv->web_extension)
 		return;
 
 	if (!event->owner || !wk_editor->priv->can_copy)
@@ -5737,6 +5755,17 @@ e_webkit_editor_class_init (EWebKitEditorClass *class)
 	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->button_press_event = webkit_editor_button_press_event;
 	widget_class->key_press_event = webkit_editor_key_press_event;
+
+	g_object_class_install_property (
+		object_class,
+		PROP_WEB_EXTENSION,
+		g_param_spec_object (
+			"web-extension",
+			"Web Extension",
+			"The Web Extension to use to talk to the WebProcess",
+			G_TYPE_DBUS_PROXY,
+			G_PARAM_READABLE |
+			G_PARAM_STATIC_STRINGS));
 
 	g_object_class_override_property (
 		object_class, PROP_CAN_COPY, "can-copy");
