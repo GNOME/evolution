@@ -1990,6 +1990,7 @@ emu_add_composer_references_from_message (EMsgComposer *composer,
 		GString *references = g_string_new ("");
 		gint ii = 0;
 		const gchar *value;
+		gchar *unfolded;
 
 		while (value = e_msg_composer_get_header (composer, "References", ii), value) {
 			ii++;
@@ -2010,9 +2011,12 @@ emu_add_composer_references_from_message (EMsgComposer *composer,
 		if (*message_id_header != '<')
 			g_string_append_c (references, '>');
 
-		e_msg_composer_set_header (composer, "References", references->str);
+		unfolded = camel_header_unfold (references->str);
+
+		e_msg_composer_set_header (composer, "References", unfolded);
 
 		g_string_free (references, TRUE);
+		g_free (unfolded);
 	}
 }
 
@@ -2455,7 +2459,7 @@ reply_get_composer (EShell *shell,
 		    const gchar *message_uid,
                     CamelNNTPAddress *postto)
 {
-	const gchar *message_id, *references;
+	gchar *message_id, *references;
 	EDestination **tov, **ccv;
 	EMsgComposer *composer;
 	EComposerHeaderTable *table;
@@ -2544,8 +2548,8 @@ reply_get_composer (EShell *shell,
 	/* Add In-Reply-To and References. */
 
 	medium = CAMEL_MEDIUM (message);
-	message_id = camel_medium_get_header (medium, "Message-ID");
-	references = camel_medium_get_header (medium, "References");
+	message_id = camel_header_unfold (camel_medium_get_header (medium, "Message-ID"));
+	references = camel_header_unfold (camel_medium_get_header (medium, "References"));
 
 	if (message_id != NULL) {
 		gchar *reply_refs;
@@ -2567,6 +2571,9 @@ reply_get_composer (EShell *shell,
 		e_msg_composer_add_header (
 			composer, "References", references);
 	}
+
+	g_free (message_id);
+	g_free (references);
 
 	return composer;
 }
