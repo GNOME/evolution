@@ -331,7 +331,7 @@ e_mail_notes_editor_encode_text_to_message (EMailNotesEditor *notes_editor)
 		CamelMultipart *multipart_alternative;
 		CamelMultipart *multipart_body;
 		CamelMimePart *part;
-		EContentEditorInlineImages *inline_images = NULL;
+		GSList *inline_images_parts = NULL;
 		gchar *text;
 
 		multipart_alternative = camel_multipart_new ();
@@ -342,7 +342,7 @@ e_mail_notes_editor_encode_text_to_message (EMailNotesEditor *notes_editor)
 			cnt_editor,
 			E_CONTENT_EDITOR_GET_TEXT_PLAIN |
 			E_CONTENT_EDITOR_GET_PROCESSED,
-			NULL);
+			NULL, NULL);
 
 		if (text && *text) {
 			part = camel_mime_part_new ();
@@ -356,14 +356,13 @@ e_mail_notes_editor_encode_text_to_message (EMailNotesEditor *notes_editor)
 
 		g_free (text);
 
-		inline_images = g_new0 (EContentEditorInlineImages, 1);
-		inline_images->from_domain = (gchar *) g_get_host_name ();
-
 		text = e_content_editor_get_content (
 			cnt_editor,
+			E_CONTENT_EDITOR_GET_PROCESSED |
 			E_CONTENT_EDITOR_GET_TEXT_HTML |
-			E_CONTENT_EDITOR_GET_PROCESSED,
-			&inline_images);
+			E_CONTENT_EDITOR_GET_INLINE_IMAGES,
+			g_get_host_name (),
+			&inline_images_parts);
 
 		if (has_attachments && !has_text && (!text || !*text)) {
 			/* Text is required, thus if there are attachments,
@@ -381,15 +380,14 @@ e_mail_notes_editor_encode_text_to_message (EMailNotesEditor *notes_editor)
 
 			has_text = TRUE;
 		} else {
-			g_list_free_full (inline_images->images, g_object_unref);
-			g_free (inline_images);
-			inline_images = NULL;
+			g_slist_free_full (inline_images_parts, g_object_unref);
+			inline_images_parts = NULL;
 		}
 
 		g_free (text);
 
-		if (inline_images) {
-			GList *link = inline_images->images;
+		if (inline_images_parts) {
+			GSList *link;
 
 			multipart_body = camel_multipart_new ();
 			camel_data_wrapper_set_mime_type (CAMEL_DATA_WRAPPER (multipart_body), "multipart/related");
@@ -400,7 +398,7 @@ e_mail_notes_editor_encode_text_to_message (EMailNotesEditor *notes_editor)
 			camel_multipart_add_part (multipart_body, part);
 			g_object_unref (part);
 
-			for (; link; link = g_list_next (link)) {
+			for (link = inline_images_parts; link; link = g_slist_next (link)) {
 				CamelMimePart *part = link->data;
 
 				if (!part)
@@ -433,8 +431,7 @@ e_mail_notes_editor_encode_text_to_message (EMailNotesEditor *notes_editor)
 
 		camel_medium_set_content (CAMEL_MEDIUM (message), CAMEL_DATA_WRAPPER (multipart_body));
 
-		g_list_free_full (inline_images->images, g_object_unref);
-		g_free (inline_images);
+		g_slist_free_full (inline_images_parts, g_object_unref);
 		g_clear_object (&multipart_alternative);
 		g_clear_object (&multipart_body);
 	} else {
@@ -444,7 +441,7 @@ e_mail_notes_editor_encode_text_to_message (EMailNotesEditor *notes_editor)
 			cnt_editor,
 			E_CONTENT_EDITOR_GET_TEXT_PLAIN |
 			E_CONTENT_EDITOR_GET_PROCESSED,
-			NULL);
+			NULL, NULL);
 
 		if (has_attachments && !has_text && (!text || !*text)) {
 			/* Text is required, thus if there are attachments,

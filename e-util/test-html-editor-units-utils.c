@@ -42,8 +42,8 @@ undo_content_new (TestFixture *fixture)
 	cnt_editor = e_html_editor_get_content_editor (fixture->editor);
 
 	uc = g_new0 (UndoContent, 1);
-	uc->html = e_content_editor_get_content (cnt_editor, E_CONTENT_EDITOR_GET_PROCESSED | E_CONTENT_EDITOR_GET_TEXT_HTML, NULL);
-	uc->plain = e_content_editor_get_content (cnt_editor, E_CONTENT_EDITOR_GET_PROCESSED | E_CONTENT_EDITOR_GET_TEXT_PLAIN, NULL);
+	uc->html = e_content_editor_get_content (cnt_editor, E_CONTENT_EDITOR_GET_PROCESSED | E_CONTENT_EDITOR_GET_TEXT_HTML, NULL, NULL);
+	uc->plain = e_content_editor_get_content (cnt_editor, E_CONTENT_EDITOR_GET_PROCESSED | E_CONTENT_EDITOR_GET_TEXT_PLAIN, NULL, NULL);
 
 	g_warn_if_fail (uc->html != NULL);
 	g_warn_if_fail (uc->plain != NULL);
@@ -76,7 +76,7 @@ undo_content_test (TestFixture *fixture,
 
 	cnt_editor = e_html_editor_get_content_editor (fixture->editor);
 
-	text = e_content_editor_get_content (cnt_editor, E_CONTENT_EDITOR_GET_PROCESSED | E_CONTENT_EDITOR_GET_TEXT_HTML, NULL);
+	text = e_content_editor_get_content (cnt_editor, E_CONTENT_EDITOR_GET_PROCESSED | E_CONTENT_EDITOR_GET_TEXT_HTML, NULL, NULL);
 	g_return_val_if_fail (text != NULL, FALSE);
 
 	if (!test_utils_html_equal (fixture, text, uc->html)) {
@@ -87,7 +87,7 @@ undo_content_test (TestFixture *fixture,
 
 	g_free (text);
 
-	text = e_content_editor_get_content (cnt_editor, E_CONTENT_EDITOR_GET_PROCESSED | E_CONTENT_EDITOR_GET_TEXT_PLAIN, NULL);
+	text = e_content_editor_get_content (cnt_editor, E_CONTENT_EDITOR_GET_PROCESSED | E_CONTENT_EDITOR_GET_TEXT_PLAIN, NULL, NULL);
 	g_return_val_if_fail (text != NULL, FALSE);
 
 	if (!test_utils_html_equal (fixture, text, uc->plain)) {
@@ -738,7 +738,7 @@ test_utils_run_simple_test (TestFixture *fixture,
 		return FALSE;
 
 	if (expected_html) {
-		text = e_content_editor_get_content (cnt_editor, E_CONTENT_EDITOR_GET_PROCESSED | E_CONTENT_EDITOR_GET_TEXT_HTML, NULL);
+		text = e_content_editor_get_content (cnt_editor, E_CONTENT_EDITOR_GET_PROCESSED | E_CONTENT_EDITOR_GET_TEXT_HTML, NULL, NULL);
 		g_return_val_if_fail (text != NULL, FALSE);
 
 		if (!test_utils_html_equal (fixture, text, expected_html)) {
@@ -751,7 +751,7 @@ test_utils_run_simple_test (TestFixture *fixture,
 	}
 
 	if (expected_plain) {
-		text = e_content_editor_get_content (cnt_editor, E_CONTENT_EDITOR_GET_PROCESSED | E_CONTENT_EDITOR_GET_TEXT_PLAIN, NULL);
+		text = e_content_editor_get_content (cnt_editor, E_CONTENT_EDITOR_GET_PROCESSED | E_CONTENT_EDITOR_GET_TEXT_PLAIN, NULL, NULL);
 		g_return_val_if_fail (text != NULL, FALSE);
 
 		if (!test_utils_html_equal (fixture, text, expected_plain)) {

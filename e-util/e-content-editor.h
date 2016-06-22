@@ -39,11 +39,6 @@ struct _EHTMLEditor;
 #define E_TYPE_CONTENT_EDITOR e_content_editor_get_type ()
 G_DECLARE_INTERFACE (EContentEditor, e_content_editor, E, CONTENT_EDITOR, GtkWidget)
 
-typedef struct {
-	const gchar *from_domain;
-	GList *images;
-} EContentEditorInlineImages;
-
 struct _EContentEditorInterface {
 	GTypeInterface parent_interface;
 
@@ -56,7 +51,8 @@ struct _EContentEditorInterface {
 
 	gchar *		(*get_content)			(EContentEditor *editor,
 							 EContentEditorGetContentFlags flags,
-							 EContentEditorInlineImages **inline_images);
+							 const gchar *inline_images_from_domain,
+							 GSList **inline_images_parts /* newly created CamelMimePart * */);
 
 	void		(*insert_image)			(EContentEditor *editor,
 							 const gchar *uri);
@@ -524,7 +520,8 @@ void		e_content_editor_insert_content	(EContentEditor *editor,
 
 gchar *		e_content_editor_get_content	(EContentEditor *editor,
 						 EContentEditorGetContentFlags flags,
-						 EContentEditorInlineImages **inline_images);
+						 const gchar *inline_images_from_domain,
+						 GSList **inline_images_parts /* newly created CamelMimePart * */);
 
 void            e_content_editor_insert_image_from_mime_part
 						(EContentEditor *editor,

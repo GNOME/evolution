@@ -1270,7 +1270,7 @@ composer_build_message (EMsgComposer *composer,
 			cnt_editor,
 			E_CONTENT_EDITOR_GET_TEXT_PLAIN |
 			E_CONTENT_EDITOR_GET_PROCESSED,
-			NULL);
+			NULL, NULL);
 
 		g_byte_array_append (data, (guint8 *) text, strlen (text));
 		g_free (text);
@@ -1334,18 +1334,14 @@ composer_build_message (EMsgComposer *composer,
 	if ((flags & COMPOSER_FLAG_HTML_CONTENT) != 0 &&
 	    !(flags & COMPOSER_FLAG_SAVE_DRAFT)) {
 		gchar *text;
-		guint count;
 		gsize length;
 		gboolean pre_encode;
 		EHTMLEditor *editor;
 		EContentEditor *cnt_editor;
-		EContentEditorInlineImages *inline_images;
+		GSList *inline_images_parts = NULL, *link;
 
 		editor = e_msg_composer_get_editor (composer);
 		cnt_editor = e_html_editor_get_content_editor (editor);
-
-		inline_images = g_new0 (EContentEditorInlineImages, 1);
-		inline_images->from_domain = (gchar *) from_domain;
 
 		data = g_byte_array_new ();
 		if ((flags & COMPOSER_FLAG_SAVE_DRAFT) != 0) {
@@ -1361,14 +1357,15 @@ composer_build_message (EMsgComposer *composer,
 				cnt_editor,
 				E_CONTENT_EDITOR_GET_TEXT_HTML |
 				E_CONTENT_EDITOR_GET_INLINE_IMAGES,
-				&inline_images);
-		} else
+				from_domain, &inline_images_parts);
+		} else {
 			text = e_content_editor_get_content (
 				cnt_editor,
 				E_CONTENT_EDITOR_GET_TEXT_HTML |
 				E_CONTENT_EDITOR_GET_PROCESSED |
 				E_CONTENT_EDITOR_GET_INLINE_IMAGES,
-				&inline_images);
+				from_domain, &inline_images_parts);
+		}
 
 		length = strlen (text);
 		g_byte_array_append (data, (guint8 *) text, (guint) length);
@@ -1424,9 +1421,7 @@ composer_build_message (EMsgComposer *composer,
 
 		/* If there are inlined images, construct a multipart/related
 		 * containing the multipart/alternative and the images. */
-		count = g_list_length (inline_images->images);
-		if (count > 0) {
-			guint ii;
+		if (inline_images_parts) {
 			CamelMultipart *html_with_images;
 
 			html_with_images = camel_multipart_new ();
@@ -1445,10 +1440,10 @@ composer_build_message (EMsgComposer *composer,
 
 			g_object_unref (body);
 
-			for (ii = 0; ii < count; ii++) {
-				CamelMimePart *part = g_list_nth_data (inline_images->images, ii);
-				camel_multipart_add_part (
-					html_with_images, part);
+			for (link = inline_images_parts; link; link = g_slist_next (link)) {
+				CamelMimePart *part = link->data;
+
+				camel_multipart_add_part (html_with_images, part);
 			}
 
 			context->top_level_part =
@@ -1457,8 +1452,7 @@ composer_build_message (EMsgComposer *composer,
 			context->top_level_part =
 				CAMEL_DATA_WRAPPER (body);
 		}
-		g_list_free_full (inline_images->images, g_object_unref);
-		g_free (inline_images);
+		g_slist_free_full (inline_images_parts, g_object_unref);
 	}
 
 	/* If there are attachments, wrap what we've built so far
@@ -5289,7 +5283,7 @@ e_msg_composer_get_raw_message_text_without_signature (EMsgComposer *composer)
 		E_CONTENT_EDITOR_GET_BODY |
 		E_CONTENT_EDITOR_GET_TEXT_PLAIN |
 		E_CONTENT_EDITOR_GET_EXCLUDE_SIGNATURE,
-		NULL);
+		NULL, NULL);
 
 	return g_byte_array_new_take ((guint8 *) content, strlen (content));
 }
@@ -5315,7 +5309,7 @@ e_msg_composer_get_raw_message_text (EMsgComposer *composer)
 		cnt_editor,
 		E_CONTENT_EDITOR_GET_BODY |
 		E_CONTENT_EDITOR_GET_TEXT_PLAIN,
-		NULL);
+		NULL, NULL);
 
 	return g_byte_array_new_take ((guint8 *) content, strlen (content));
 }

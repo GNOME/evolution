@@ -1303,19 +1303,22 @@ e_content_editor_insert_content (EContentEditor *editor,
 gchar *
 e_content_editor_get_content (EContentEditor *editor,
                               EContentEditorGetContentFlags flags,
-                              EContentEditorInlineImages **inline_images)
+			      const gchar *inline_images_from_domain,
+			      GSList **inline_images_parts /* newly created CamelMimePart * */)
 {
 	EContentEditorInterface *iface;
 
 	g_return_val_if_fail (E_IS_CONTENT_EDITOR (editor), NULL);
-	if ((flags & E_CONTENT_EDITOR_GET_INLINE_IMAGES))
-		g_return_val_if_fail (inline_images != NULL, NULL);
+	if ((flags & E_CONTENT_EDITOR_GET_INLINE_IMAGES)) {
+		g_return_val_if_fail (inline_images_from_domain != NULL, NULL);
+		g_return_val_if_fail (inline_images_parts != NULL, NULL);
+	}
 
 	iface = E_CONTENT_EDITOR_GET_IFACE (editor);
 	g_return_val_if_fail (iface != NULL, NULL);
 	g_return_val_if_fail (iface->get_content != NULL, NULL);
 
-	return iface->get_content (editor, flags, inline_images);
+	return iface->get_content (editor, flags, inline_images_from_domain, inline_images_parts);
 }
 
 void

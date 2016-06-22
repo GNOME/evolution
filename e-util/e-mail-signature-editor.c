@@ -853,7 +853,7 @@ e_mail_signature_editor_commit (EMailSignatureEditor *window,
 		cnt_editor,
 		E_CONTENT_EDITOR_GET_TEXT_HTML |
 		E_CONTENT_EDITOR_GET_BODY,
-		NULL);
+		NULL, NULL);
 
 	extension_name = E_SOURCE_EXTENSION_MAIL_SIGNATURE;
 	extension = e_source_get_extension (source, extension_name);

@@ -283,7 +283,7 @@ external_editor_thread (gpointer user_data)
 			cnt_editor,
 			E_CONTENT_EDITOR_GET_TEXT_PLAIN |
 			E_CONTENT_EDITOR_GET_PROCESSED,
-			NULL);
+			NULL, NULL);
 		if (content && *content)
 			g_file_set_contents (filename, content, strlen (content), NULL);
 	} else {

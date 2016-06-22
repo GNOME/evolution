@@ -1242,13 +1242,13 @@ e_html_editor_save (EHTMLEditor *editor,
 			cnt_editor,
 			E_CONTENT_EDITOR_GET_TEXT_HTML |
 			E_CONTENT_EDITOR_GET_PROCESSED,
-			NULL);
+			NULL, NULL);
 	else
 		content = e_content_editor_get_content (
 			cnt_editor,
 			E_CONTENT_EDITOR_GET_TEXT_PLAIN |
 			E_CONTENT_EDITOR_GET_PROCESSED,
-			NULL);
+			NULL, NULL);
 
 	if (!content || !*content) {
 		g_set_error (

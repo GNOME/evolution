@@ -1420,12 +1420,12 @@ out:
 	return part;
 }
 
-static GList *
+static GSList *
 webkit_editor_get_parts_for_inline_images (GVariant *images)
 {
 	const gchar *element_src, *name, *id;
 	GVariantIter *iter;
-	GList *parts = NULL;
+	GSList *parts = NULL;
 
 	g_variant_get (images, "asss", &iter);
 	while (g_variant_iter_loop (iter, "&s&s&s", &element_src, &name, &id)) {
@@ -1433,17 +1433,18 @@ webkit_editor_get_parts_for_inline_images (GVariant *images)
 
 		part = create_part_for_inline_image_from_element_data (
 			element_src, name, id);
-		parts = g_list_append (parts, part);
+		parts = g_slist_prepend (parts, part);
 	}
 	g_variant_iter_free (iter);
 
-	return parts;
+	return g_slist_reverse (parts);
 }
 
 static gchar *
 webkit_editor_get_content (EContentEditor *editor,
                            EContentEditorGetContentFlags flags,
-                           EContentEditorInlineImages **inline_images)
+                           const gchar *inline_images_from_domain,
+			   GSList **inline_images_parts)
 {
 	EWebKitEditor *wk_editor;
 	GVariant *result;
@@ -1474,7 +1475,7 @@ webkit_editor_get_content (EContentEditor *editor,
 		g_variant_new (
 			"(tsi)",
 			current_page_id (wk_editor),
-			inline_images ?  (*inline_images)->from_domain : "",
+			inline_images_from_domain ? inline_images_from_domain : "",
 			(gint32) flags),
 		G_DBUS_CALL_FLAGS_NONE,
 		-1,
@@ -1488,12 +1489,16 @@ webkit_editor_get_content (EContentEditor *editor,
 			wk_editor, "DOMRemoveEmbeddedStyleSheet");
 
 	if (result) {
-		GVariant *images;
-		gchar *value;
+		GVariant *images = NULL;
+		gchar *value = NULL;
 
 		g_variant_get (result, "(sv)", &value, &images);
-		if (inline_images)
-			(*inline_images)->images = webkit_editor_get_parts_for_inline_images (images);
+		if (inline_images_parts)
+			*inline_images_parts = webkit_editor_get_parts_for_inline_images (images);
+
+		if (images)
+			g_variant_unref (images);
+
 		g_variant_unref (result);
 
 		return value;
