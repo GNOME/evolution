@@ -264,14 +264,61 @@ test_utils_wait_milliseconds (guint milliseconds)
 	return test_utils_async_call_wait (async_data, milliseconds / 1000 + 1);
 }
 
+static void
+test_utils_send_key_event (GtkWidget *widget,
+			   GdkEventType type,
+			   guint keyval,
+			   guint state)
+{
+	GdkKeymap *keymap;
+	GdkKeymapKey *keys = NULL;
+	gint n_keys;
+	GdkEvent *event;
+
+	g_return_if_fail (GTK_IS_WIDGET (widget));
+
+	event = gdk_event_new (type);
+	event->key.is_modifier =
+		keyval == GDK_KEY_Shift_L ||
+		keyval == GDK_KEY_Shift_R ||
+		keyval == GDK_KEY_Control_L ||
+		keyval == GDK_KEY_Control_R ||
+		keyval == GDK_KEY_Alt_L ||
+		keyval == GDK_KEY_Alt_R;
+	event->key.keyval = keyval;
+	event->key.state = state;
+	event->key.window = g_object_ref (gtk_widget_get_window (widget));
+	event->key.send_event = TRUE;
+	event->key.length = 0;
+	event->key.string = NULL;
+	event->key.hardware_keycode = 0;
+	event->key.group = 0;
+	event->key.time = GDK_CURRENT_TIME;
+
+	gdk_event_set_device (event, gdk_seat_get_keyboard (gdk_display_get_default_seat (gtk_widget_get_display (widget))));
+
+	keymap = gdk_keymap_get_for_display (gtk_widget_get_display (widget));
+	if (gdk_keymap_get_entries_for_keyval (keymap, keyval, &keys, &n_keys)) {
+		if (n_keys > 0) {
+			event->key.hardware_keycode = keys[0].keycode;
+			event->key.group = keys[0].group;
+		}
+
+		g_free (keys);
+	}
+
+	gtk_main_do_event (event);
+
+	test_utils_wait_milliseconds (5);
+
+	gdk_event_free (event);
+}
+
 gboolean
 test_utils_type_text (TestFixture *fixture,
 		      const gchar *text)
 {
 	GtkWidget *widget;
-	GdkKeymap *keymap;
-	GdkEvent event;
-	gboolean none_failed = TRUE;
 
 	g_return_val_if_fail (fixture != NULL, FALSE);
 	g_return_val_if_fail (E_IS_HTML_EDITOR (fixture->editor), FALSE);
@@ -282,63 +329,22 @@ test_utils_type_text (TestFixture *fixture,
 	g_return_val_if_fail (text != NULL, FALSE);
 	g_return_val_if_fail (g_utf8_validate (text, -1, NULL), FALSE);
 
-	event.key.window = gtk_widget_get_window (widget);
-	event.key.send_event = TRUE;
-	event.key.length = 0;
-	event.key.string = NULL;
-	event.key.is_modifier = FALSE;
-
-	keymap = gdk_keymap_get_for_display (gtk_widget_get_display (widget));
-
-	while (*text && none_failed) {
-		GdkKeymapKey *keys = NULL;
-		gint n_keys;
+	while (*text) {
+		guint keyval;
 		gunichar unichar;
 
 		unichar = g_utf8_get_char (text);
 		text = g_utf8_next_char (text);
 
-		event.key.keyval = gdk_unicode_to_keyval (unichar);
+		keyval = gdk_unicode_to_keyval (unichar);
 
-		if (gdk_keymap_get_entries_for_keyval (keymap, event.key.keyval, &keys, &n_keys) && n_keys > 0) {
-			GdkEvent *nevent;
-
-			nevent = gdk_event_new (GDK_KEY_PRESS);
-			nevent->key.keyval = event.key.keyval;
-			nevent->key.state = event.key.state;
-			nevent->key.window = g_object_ref (event.key.window);
-			nevent->key.send_event = event.key.send_event;
-			nevent->key.length = event.key.length;
-			nevent->key.string = event.key.string;
-			nevent->key.is_modifier = event.key.is_modifier;
-			gdk_event_set_device (nevent, gdk_seat_get_keyboard (gdk_display_get_default_seat (gtk_widget_get_display (widget))));
-			nevent->key.hardware_keycode = keys[0].keycode;
-			nevent->key.group = keys[0].group;
-
-			nevent->key.type = GDK_KEY_PRESS;
-			nevent->key.time = GDK_CURRENT_TIME;
-			gtk_main_do_event (nevent);
-
-			test_utils_wait_milliseconds (5);
-
-			nevent->key.type = GDK_KEY_RELEASE;
-			nevent->key.time = GDK_CURRENT_TIME;
-			gtk_main_do_event (nevent);
-
-			test_utils_wait_milliseconds (5);
-
-			gdk_event_free (nevent);
-		} else {
-			none_failed = FALSE;
-			g_warning ("%s: Nothing found for unichar '%x'", G_STRFUNC, unichar);
-		}
-
-		g_free (keys);
+		test_utils_send_key_event (widget, GDK_KEY_PRESS, keyval, 0);
+		test_utils_send_key_event (widget, GDK_KEY_RELEASE, keyval, 0);
 	}
 
 	test_utils_wait_milliseconds (5);
 
-	return none_failed;
+	return TRUE;
 }
 
 gboolean
@@ -389,9 +395,8 @@ test_utils_process_sequence (TestFixture *fixture,
 			     const gchar *sequence)
 {
 	GtkWidget *widget;
-	GdkKeymap *keymap;
-	GdkEvent event;
 	const gchar *seq;
+	guint keyval, state;
 	gboolean success = TRUE;
 
 	g_return_val_if_fail (fixture != NULL, FALSE);
@@ -401,26 +406,17 @@ test_utils_process_sequence (TestFixture *fixture,
 	widget = GTK_WIDGET (e_html_editor_get_content_editor (fixture->editor));
 	g_return_val_if_fail (GTK_IS_WIDGET (widget), FALSE);
 
-	keymap = gdk_keymap_get_for_display (gtk_widget_get_display (widget));
-
-	event.key.window = gtk_widget_get_window (widget);
-	event.key.send_event = FALSE;
-	event.key.state = 0;
-	event.key.length = 0;
-	event.key.string = NULL;
+	state = 0;
 
 	for (seq = sequence; *seq && success; seq++) {
 		gboolean call_press = TRUE, call_release = TRUE;
-		guint32 change_state = event.key.state;
-
-		event.key.is_modifier = FALSE;
+		guint change_state = state;
 
 		switch (*seq) {
 		case 'S': /* Shift key press */
-			event.key.keyval = GDK_KEY_Shift_L;
-			event.key.is_modifier = TRUE;
+			keyval = GDK_KEY_Shift_L;
 
-			if ((event.key.state & GDK_SHIFT_MASK) != 0) {
+			if ((state & GDK_SHIFT_MASK) != 0) {
 				success = FALSE;
 				g_warning ("%s: Shift is already pressed", G_STRFUNC);
 			} else {
@@ -429,10 +425,9 @@ test_utils_process_sequence (TestFixture *fixture,
 			call_release = FALSE;
 			break;
 		case 's': /* Shift key release */
-			event.key.keyval = GDK_KEY_Shift_L;
-			event.key.is_modifier = TRUE;
+			keyval = GDK_KEY_Shift_L;
 
-			if ((event.key.state & GDK_SHIFT_MASK) == 0) {
+			if ((state & GDK_SHIFT_MASK) == 0) {
 				success = FALSE;
 				g_warning ("%s: Shift is already released", G_STRFUNC);
 			} else {
@@ -441,10 +436,9 @@ test_utils_process_sequence (TestFixture *fixture,
 			call_press = FALSE;
 			break;
 		case 'C': /* Ctrl key press */
-			event.key.keyval = GDK_KEY_Control_L;
-			event.key.is_modifier = TRUE;
+			keyval = GDK_KEY_Control_L;
 
-			if ((event.key.state & GDK_CONTROL_MASK) != 0) {
+			if ((state & GDK_CONTROL_MASK) != 0) {
 				success = FALSE;
 				g_warning ("%s: Control is already pressed", G_STRFUNC);
 			} else {
@@ -453,10 +447,9 @@ test_utils_process_sequence (TestFixture *fixture,
 			call_release = FALSE;
 			break;
 		case 'c': /* Ctrl key release */
-			event.key.keyval = GDK_KEY_Control_L;
-			event.key.is_modifier = TRUE;
+			keyval = GDK_KEY_Control_L;
 
-			if ((event.key.state & GDK_CONTROL_MASK) == 0) {
+			if ((state & GDK_CONTROL_MASK) == 0) {
 				success = FALSE;
 				g_warning ("%s: Control is already released", G_STRFUNC);
 			} else {
@@ -465,40 +458,40 @@ test_utils_process_sequence (TestFixture *fixture,
 			call_press = FALSE;
 			break;
 		case 'h': /* Home key press + release */
-			event.key.keyval = GDK_KEY_Home;
+			keyval = GDK_KEY_Home;
 			break;
 		case 'e': /* End key press + release */
-			event.key.keyval = GDK_KEY_End;
+			keyval = GDK_KEY_End;
 			break;
 		case 'P': /* Page-Up key press + release */
-			event.key.keyval = GDK_KEY_Page_Up;
+			keyval = GDK_KEY_Page_Up;
 			break;
 		case 'p': /* Page-Down key press + release */
-			event.key.keyval = GDK_KEY_Page_Down;
+			keyval = GDK_KEY_Page_Down;
 			break;
 		case 'l': /* Arrow-Left key press + release */
-			event.key.keyval = GDK_KEY_Left;
+			keyval = GDK_KEY_Left;
 			break;
 		case 'r': /* Arrow-Right key press + release */
-			event.key.keyval = GDK_KEY_Right;
+			keyval = GDK_KEY_Right;
 			break;
 		case 'u': /* Arrow-Up key press + release */
-			event.key.keyval = GDK_KEY_Up;
+			keyval = GDK_KEY_Up;
 			break;
 		case 'd': /* Arrow-Down key press + release */
-			event.key.keyval = GDK_KEY_Down;
+			keyval = GDK_KEY_Down;
 			break;
 		case 'D': /* Delete key press + release */
-			event.key.keyval = GDK_KEY_Delete;
+			keyval = GDK_KEY_Delete;
 			break;
 		case 'b': /* Backspace key press + release */
-			event.key.keyval = GDK_KEY_BackSpace;
+			keyval = GDK_KEY_BackSpace;
 			break;
 		case 't': /* Tab key press + release */
-			event.key.keyval = GDK_KEY_Tab;
+			keyval = GDK_KEY_Tab;
 			break;
 		case 'n': /* Return key press + release */
-			event.key.keyval = GDK_KEY_Return;
+			keyval = GDK_KEY_Return;
 			break;
 		default:
 			success = FALSE;
@@ -506,51 +499,15 @@ test_utils_process_sequence (TestFixture *fixture,
 			break;
 		}
 
-		if (success && (call_press || call_release)) {
-			GdkKeymapKey *keys = NULL;
-			gint n_keys;
+		if (success) {
+			if (call_press)
+				test_utils_send_key_event (widget, GDK_KEY_PRESS, keyval, state);
 
-			if (gdk_keymap_get_entries_for_keyval (keymap, event.key.keyval, &keys, &n_keys) && n_keys > 0) {
-				GdkEvent *nevent;
-
-				nevent = gdk_event_new (GDK_KEY_PRESS);
-				nevent->key.keyval = event.key.keyval;
-				nevent->key.state = event.key.state;
-				nevent->key.window = g_object_ref (event.key.window);
-				nevent->key.send_event = event.key.send_event;
-				nevent->key.length = event.key.length;
-				nevent->key.string = event.key.string;
-				nevent->key.is_modifier = event.key.is_modifier;
-				gdk_event_set_device (nevent, gdk_seat_get_keyboard (gdk_display_get_default_seat (gtk_widget_get_display (widget))));
-				nevent->key.hardware_keycode = keys[0].keycode;
-				nevent->key.group = keys[0].group;
-
-				if (call_press) {
-					nevent->key.type = GDK_KEY_PRESS;
-					nevent->key.time = GDK_CURRENT_TIME;
-					gtk_main_do_event (nevent);
-
-					test_utils_wait_milliseconds (5);
-				}
-
-				if (call_release) {
-					nevent->key.type = GDK_KEY_RELEASE;
-					nevent->key.time = GDK_CURRENT_TIME;
-					gtk_main_do_event (nevent);
-
-					test_utils_wait_milliseconds (5);
-				}
-
-				gdk_event_free (nevent);
-			} else {
-				success = FALSE;
-				g_warning ("%s: Failed to get keymap entries for sequence command '%c'", G_STRFUNC, *seq);
-			}
-
-			g_free (keys);
+			if (call_release)
+				test_utils_send_key_event (widget, GDK_KEY_RELEASE, keyval, state);
 		}
 
-		event.key.state = change_state;
+		state = change_state;
 	}
 
 	test_utils_wait_milliseconds (5);
