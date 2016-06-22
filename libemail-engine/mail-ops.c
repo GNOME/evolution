@@ -977,8 +977,8 @@ send_queue_exec (struct _send_queue_msg *m,
 
 		info = camel_folder_get_message_info (m->queue, uids->pdata[i]);
 		if (info) {
-			if ((camel_message_info_flags (info) & CAMEL_MESSAGE_DELETED) == 0 &&
-			    (!delay_send || camel_message_info_date_sent (info) <= delay_send))
+			if ((camel_message_info_get_flags (info) & CAMEL_MESSAGE_DELETED) == 0 &&
+			    (!delay_send || camel_message_info_get_date_sent (info) <= delay_send))
 				send_uids->pdata[j++] = uids->pdata[i];
 			camel_message_info_unref (info);
 		}

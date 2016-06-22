@@ -260,8 +260,8 @@ em_utils_flag_for_followup (EMailReader *reader,
 
 		e_mail_tag_editor_add_message (
 			E_MAIL_TAG_EDITOR (editor),
-			camel_message_info_from (info),
-			camel_message_info_subject (info));
+			camel_message_info_get_from (info),
+			camel_message_info_get_subject (info));
 
 		camel_message_info_unref (info);
 	}
@@ -274,7 +274,7 @@ em_utils_flag_for_followup (EMailReader *reader,
 		message_uid = g_ptr_array_index (uids, 0);
 		info = camel_folder_get_message_info (folder, message_uid);
 		if (info) {
-			tags = (CamelTag *) camel_message_info_user_tags (info);
+			tags = (CamelTag *) camel_message_info_get_user_tags (info);
 
 			if (tags)
 				e_mail_tag_editor_set_tag_list (
@@ -382,7 +382,7 @@ em_utils_flag_for_followup_completed (GtkWindow *parent,
 		CamelMessageInfo *mi = camel_folder_get_message_info (folder, uids->pdata[i]);
 
 		if (mi) {
-			tag = camel_message_info_user_tag (mi, "follow-up");
+			tag = camel_message_info_get_user_tag (mi, "follow-up");
 			if (tag && tag[0])
 				camel_message_info_set_user_tag (mi, "completed-on", now);
 			camel_message_info_unref (mi);
@@ -850,8 +850,8 @@ em_utils_build_export_basename (CamelFolder *folder,
 	/* Try to get the drop filename from the message or folder. */
 	info = camel_folder_get_message_info (folder, uid);
 	if (info != NULL) {
-		subject = camel_message_info_subject (info);
-		reftime = camel_message_info_date_sent (info);
+		subject = camel_message_info_get_subject (info);
+		reftime = camel_message_info_get_date_sent (info);
 	}
 
 	ts = localtime (&reftime);

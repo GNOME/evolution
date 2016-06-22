@@ -991,7 +991,7 @@ mark_ignore_thread_traverse_uids (CamelFolder *folder,
 		g_hash_table_insert (checked_uids, (gpointer) camel_pstring_strdup (uid), GINT_TO_POINTER (1));
 
 		mi = camel_folder_get_message_info (folder, uid);
-		if (!mi || !camel_message_info_message_id (mi)) {
+		if (!mi || !camel_message_info_get_message_id (mi)) {
 			if (mi)
 				camel_message_info_unref (mi);
 			camel_pstring_free (uid);
@@ -1000,12 +1000,12 @@ mark_ignore_thread_traverse_uids (CamelFolder *folder,
 
 		camel_message_info_set_user_flag (mi, "ignore-thread", ignore_thread);
 
-		msgid = camel_message_info_message_id (mi);
+		msgid = camel_message_info_get_message_id (mi);
 		insert_to_checked_msgids (checked_msgids, msgid);
 
 		if (whole_thread) {
 			/* Search for parents */
-			references = camel_message_info_references (mi);
+			references = camel_message_info_get_references (mi);
 			if (references) {
 				GString *expr = NULL;
 
@@ -1062,10 +1062,10 @@ mark_ignore_thread_traverse_uids (CamelFolder *folder,
 				if (refruid && !g_hash_table_contains (checked_uids, refruid)) {
 					CamelMessageInfo *refrmi = camel_folder_get_message_info (folder, refruid);
 
-					if (refrmi && camel_message_info_message_id (refrmi) &&
-					    !g_hash_table_contains (checked_msgids, camel_message_info_message_id (refrmi))) {
+					if (refrmi && camel_message_info_get_message_id (refrmi) &&
+					    !g_hash_table_contains (checked_msgids, camel_message_info_get_message_id (refrmi))) {
 						/* The 'references' filter search can return false positives */
-						references = camel_message_info_references (refrmi);
+						references = camel_message_info_get_references (refrmi);
 						if (references) {
 							gint jj;
 
@@ -2491,7 +2491,7 @@ e_mail_reader_save_messages (EMailReader *reader)
 	if (info != NULL) {
 		const gchar *subject;
 
-		subject = camel_message_info_subject (info);
+		subject = camel_message_info_get_subject (info);
 		if (subject != NULL)
 			suggestion = g_strconcat (subject, ".mbox", NULL);
 		camel_message_info_unref (info);

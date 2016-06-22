@@ -870,7 +870,7 @@ folder_cache_check_ignore_thread (CamelFolder *folder,
 	g_return_val_if_fail (CAMEL_IS_FOLDER (folder), FALSE);
 	g_return_val_if_fail (info != NULL, FALSE);
 
-	references = camel_message_info_references (info);
+	references = camel_message_info_get_references (info);
 	if (!references || references->size <= 0)
 		return FALSE;
 
@@ -903,17 +903,17 @@ folder_cache_check_ignore_thread (CamelFolder *folder,
 				if (!refrinfo)
 					continue;
 
-				if (first_msgid && camel_message_info_message_id (refrinfo) &&
-				    camel_message_info_message_id (refrinfo)->id.id == first_msgid) {
+				if (first_msgid && camel_message_info_get_message_id (refrinfo) &&
+				    camel_message_info_get_message_id (refrinfo)->id.id == first_msgid) {
 					/* The first msgid in the references is In-ReplyTo, which is the master;
 					   the rest is just a guess. */
 					found_first_msgid = TRUE;
-					first_ignore_thread = camel_message_info_user_flag (refrinfo, "ignore-thread");
+					first_ignore_thread = camel_message_info_get_user_flag (refrinfo, "ignore-thread");
 					camel_message_info_unref (refrinfo);
 					break;
 				}
 
-				has_ignore_thread = has_ignore_thread || camel_message_info_user_flag (refrinfo, "ignore-thread");
+				has_ignore_thread = has_ignore_thread || camel_message_info_get_user_flag (refrinfo, "ignore-thread");
 
 				camel_message_info_unref (refrinfo);
 			}
@@ -990,7 +990,7 @@ folder_cache_process_folder_changes_thread (CamelFolder *folder,
 			if (info) {
 				GError *local_error = NULL;
 
-				flags = camel_message_info_flags (info);
+				flags = camel_message_info_get_flags (info);
 				if (((flags & CAMEL_MESSAGE_SEEN) == 0) &&
 				    ((flags & CAMEL_MESSAGE_DELETED) == 0) &&
 				    folder_cache_check_ignore_thread (folder, info, cancellable, &local_error)) {
@@ -1002,14 +1002,14 @@ folder_cache_process_folder_changes_thread (CamelFolder *folder,
 				if (((flags & CAMEL_MESSAGE_SEEN) == 0) &&
 				    ((flags & CAMEL_MESSAGE_JUNK) == 0) &&
 				    ((flags & CAMEL_MESSAGE_DELETED) == 0) &&
-				    (camel_message_info_date_received (info) > latest_received)) {
-					if (camel_message_info_date_received (info) > new_latest_received)
-						new_latest_received = camel_message_info_date_received (info);
+				    (camel_message_info_get_date_received (info) > latest_received)) {
+					if (camel_message_info_get_date_received (info) > new_latest_received)
+						new_latest_received = camel_message_info_get_date_received (info);
 					new++;
 					if (new == 1) {
-						uid = g_strdup (camel_message_info_uid (info));
-						sender = g_strdup (camel_message_info_from (info));
-						subject = g_strdup (camel_message_info_subject (info));
+						uid = g_strdup (camel_message_info_get_uid (info));
+						sender = g_strdup (camel_message_info_get_from (info));
+						subject = g_strdup (camel_message_info_get_subject (info));
 					} else {
 						g_free (uid);
 						g_free (sender);

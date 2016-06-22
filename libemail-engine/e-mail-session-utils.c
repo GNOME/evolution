@@ -669,7 +669,7 @@ skip_send:
 			g_clear_error (&error);
 		}
 
-		message_flags = camel_message_info_flags (context->info);
+		message_flags = camel_message_info_get_flags (context->info);
 
 		if (message_flags & CAMEL_MESSAGE_DELETED)
 			copy_to_sent = FALSE;

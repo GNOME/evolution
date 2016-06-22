@@ -127,8 +127,8 @@ tmpl_message_data_new (CamelMessageInfo *info)
 	g_return_val_if_fail (info != NULL, NULL);
 
 	tmd = g_new0 (TmplMessageData, 1);
-	tmd->subject = camel_pstring_strdup (tmpl_sanitized_subject (camel_message_info_subject (info)));
-	tmd->uid = camel_pstring_strdup (camel_message_info_uid (info));
+	tmd->subject = camel_pstring_strdup (tmpl_sanitized_subject (camel_message_info_get_subject (info)));
+	tmd->uid = camel_pstring_strdup (camel_message_info_get_uid (info));
 
 	return tmd;
 }
@@ -333,9 +333,9 @@ tmpl_folder_data_change_message (TmplFolderData *tfd,
 	g_return_val_if_fail (tfd != NULL, FALSE);
 	g_return_val_if_fail (info != NULL, FALSE);
 
-	tmd = tmpl_folder_data_find_message (tfd, camel_message_info_uid (info));
+	tmd = tmpl_folder_data_find_message (tfd, camel_message_info_get_uid (info));
 	if (!tmd) {
-		if (!(camel_message_info_flags (info) & (CAMEL_MESSAGE_JUNK | CAMEL_MESSAGE_DELETED))) {
+		if (!(camel_message_info_get_flags (info) & (CAMEL_MESSAGE_JUNK | CAMEL_MESSAGE_DELETED))) {
 			tmpl_folder_data_add_message (tfd, info);
 			return TRUE;
 		}
@@ -343,11 +343,11 @@ tmpl_folder_data_change_message (TmplFolderData *tfd,
 		return FALSE;
 	}
 
-	if ((camel_message_info_flags (info) & (CAMEL_MESSAGE_JUNK | CAMEL_MESSAGE_DELETED)) != 0) {
-		return tmpl_folder_data_remove_message (tfd, camel_message_info_uid (info));
+	if ((camel_message_info_get_flags (info) & (CAMEL_MESSAGE_JUNK | CAMEL_MESSAGE_DELETED)) != 0) {
+		return tmpl_folder_data_remove_message (tfd, camel_message_info_get_uid (info));
 	}
 
-	subject = tmpl_sanitized_subject (camel_message_info_subject (info));
+	subject = tmpl_sanitized_subject (camel_message_info_get_subject (info));
 
 	if (g_strcmp0 (subject, tmd->subject) != 0) {
 		tmpl_message_data_change_subject (tmd, subject);
@@ -461,12 +461,12 @@ tmpl_folder_data_update_sync (TmplFolderData *tfd,
 
 		info = camel_folder_summary_get (tfd->folder->summary, uid);
 		if (info) {
-			if (!(camel_message_info_flags (info) & (CAMEL_MESSAGE_JUNK | CAMEL_MESSAGE_DELETED))) {
+			if (!(camel_message_info_get_flags (info) & (CAMEL_MESSAGE_JUNK | CAMEL_MESSAGE_DELETED))) {
 				/* Sometimes the 'add' notification can come after the 'change',
 				   thus use the change_message() which covers both cases. */
 				changed = tmpl_folder_data_change_message (tfd, info) || changed;
 			} else {
-				changed = tmpl_folder_data_remove_message (tfd, camel_message_info_uid (info)) || changed;
+				changed = tmpl_folder_data_remove_message (tfd, camel_message_info_get_uid (info)) || changed;
 			}
 
 			camel_message_info_unref (info);
