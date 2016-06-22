@@ -484,7 +484,7 @@ mdn_message_loaded_cb (EMailReader *reader,
 	if (info == NULL)
 		goto exit;
 
-	if (camel_message_info_user_flag (info, MDN_USER_FLAG))
+	if (camel_message_info_get_user_flag (info, MDN_USER_FLAG))
 		goto exit;
 
 	notify_to = mdn_get_notify_to (message);
@@ -591,7 +591,7 @@ mdn_message_seen_cb (EMailReader *reader,
 	if (info == NULL)
 		goto exit;
 
-	if (camel_message_info_user_flag (info, MDN_USER_FLAG))
+	if (camel_message_info_get_user_flag (info, MDN_USER_FLAG))
 		goto exit;
 
 	notify_to = mdn_get_notify_to (message);

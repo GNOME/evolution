@@ -250,7 +250,7 @@ mail_folder_expunge_pop3_stores (CamelFolder *folder,
 			folder, uids->pdata[ii]);
 
 		if (info != NULL) {
-			flags = camel_message_info_flags (info);
+			flags = camel_message_info_get_flags (info);
 			camel_message_info_unref (info);
 		}
 
@@ -796,8 +796,8 @@ e_mail_folder_find_duplicate_messages_sync (CamelFolder *folder,
 		if (!info)
 			continue;
 
-		message_id = camel_message_info_message_id (info);
-		flags = camel_message_info_flags (info);
+		message_id = camel_message_info_get_message_id (info);
+		flags = camel_message_info_get_flags (info);
 
 		/* Skip messages marked for deletion. */
 		if (flags & CAMEL_MESSAGE_DELETED) {

@@ -283,7 +283,7 @@ mail_browser_message_selected_cb (EMailBrowser *browser,
 
 		display = e_mail_reader_get_mail_display (reader);
 
-		title = camel_message_info_subject (info);
+		title = camel_message_info_get_subject (info);
 		if (title == NULL || *title == '\0')
 			title = _("(No Subject)");
 
@@ -906,7 +906,7 @@ mail_browser_set_message (EMailReader *reader,
 	if (info != NULL) {
 		gtk_window_set_title (
 			GTK_WINDOW (reader),
-			camel_message_info_subject (info));
+			camel_message_info_get_subject (info));
 		camel_message_info_unref (info);
 	}
 

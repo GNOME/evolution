@@ -722,7 +722,7 @@ get_message_uid (MessageList *message_list,
 	g_return_val_if_fail (node != NULL, NULL);
 	g_return_val_if_fail (node->data != NULL, NULL);
 
-	return camel_message_info_uid (node->data);
+	return camel_message_info_get_uid (node->data);
 }
 
 /* Gets the CamelMessageInfo for the message displayed at the given
@@ -750,15 +750,15 @@ get_normalised_string (MessageList *message_list,
 
 	switch (col) {
 	case COL_SUBJECT_NORM:
-		string = camel_message_info_subject (info);
+		string = camel_message_info_get_subject (info);
 		index = NORMALISED_SUBJECT;
 		break;
 	case COL_FROM_NORM:
-		string = camel_message_info_from (info);
+		string = camel_message_info_get_from (info);
 		index = NORMALISED_FROM;
 		break;
 	case COL_TO_NORM:
-		string = camel_message_info_to (info);
+		string = camel_message_info_get_to (info);
 		index = NORMALISED_TO;
 		break;
 	default:
@@ -771,10 +771,10 @@ get_normalised_string (MessageList *message_list,
 	if (string == NULL || string[0] == '\0')
 		return "";
 
-	poolv = g_hash_table_lookup (message_list->normalised_hash, camel_message_info_uid (info));
+	poolv = g_hash_table_lookup (message_list->normalised_hash, camel_message_info_get_uid (info));
 	if (poolv == NULL) {
 		poolv = e_poolv_new (NORMALISED_LAST);
-		g_hash_table_insert (message_list->normalised_hash, (gchar *) camel_message_info_uid (info), poolv);
+		g_hash_table_insert (message_list->normalised_hash, (gchar *) camel_message_info_get_uid (info), poolv);
 	} else {
 		str = e_poolv_get (poolv, index);
 		if (*str)
@@ -946,7 +946,7 @@ ml_search_forward (MessageList *message_list,
 		node = e_tree_table_adapter_node_at_row (etta, row);
 		if (node != NULL && !skip_first
 		    && (info = get_message_info (message_list, node))
-		    && (camel_message_info_flags (info) & mask) == flags)
+		    && (camel_message_info_get_flags (info) & mask) == flags)
 			return node;
 
 		skip_first = FALSE;
@@ -956,7 +956,7 @@ ml_search_forward (MessageList *message_list,
 
 			while (subnode = ml_get_next_node (subnode, node), subnode && subnode != node) {
 				if ((info = get_message_info (message_list, subnode)) &&
-				    (camel_message_info_flags (info) & mask) == flags)
+				    (camel_message_info_get_flags (info) & mask) == flags)
 					return subnode;
 			}
 		}
@@ -985,13 +985,13 @@ ml_search_backward (MessageList *message_list,
 		node = e_tree_table_adapter_node_at_row (etta, row);
 		if (node != NULL && !skip_first
 		    && (info = get_message_info (message_list, node))
-		    && (camel_message_info_flags (info) & mask) == flags) {
+		    && (camel_message_info_get_flags (info) & mask) == flags) {
 			if (include_collapsed && !e_tree_table_adapter_node_is_expanded (etta, node) && g_node_first_child (node)) {
 				GNode *subnode = ml_get_last_tree_node (g_node_first_child (node), node);
 
 				while (subnode && subnode != node) {
 					if ((info = get_message_info (message_list, subnode)) &&
-					    (camel_message_info_flags (info) & mask) == flags)
+					    (camel_message_info_get_flags (info) & mask) == flags)
 						return subnode;
 
 					subnode = ml_get_prev_node (subnode, node);
@@ -1006,7 +1006,7 @@ ml_search_backward (MessageList *message_list,
 
 			while (subnode && subnode != node) {
 				if ((info = get_message_info (message_list, subnode)) &&
-				    (camel_message_info_flags (info) & mask) == flags)
+				    (camel_message_info_get_flags (info) & mask) == flags)
 					return subnode;
 
 				subnode = ml_get_prev_node (subnode, node);
@@ -1556,7 +1556,7 @@ unread_foreach (ETreeModel *etm,
 		info = ((GNode *) path)->data;
 	g_return_val_if_fail (info != NULL, FALSE);
 
-	if (!(camel_message_info_flags (info) & CAMEL_MESSAGE_SEEN))
+	if (!(camel_message_info_get_flags (info) & CAMEL_MESSAGE_SEEN))
 		*saw_unread = TRUE;
 
 	return FALSE;
@@ -1582,8 +1582,8 @@ latest_foreach (ETreeModel *etm,
 		info = ((GNode *) path)->data;
 	g_return_val_if_fail (info != NULL, FALSE);
 
-	date = ld->sent ? camel_message_info_date_sent (info)
-			: camel_message_info_date_received (info);
+	date = ld->sent ? camel_message_info_get_date_sent (info)
+			: camel_message_info_get_date_received (info);
 
 	if (ld->latest == 0 || date > ld->latest)
 		ld->latest = date;
@@ -1671,10 +1671,10 @@ add_all_labels_foreach (ETreeModel *etm,
 		msg_info = ((GNode *) path)->data;
 	g_return_val_if_fail (msg_info != NULL, FALSE);
 
-	for (flag = camel_message_info_user_flags (msg_info); flag; flag = flag->next)
+	for (flag = camel_message_info_get_user_flags (msg_info); flag; flag = flag->next)
 		add_label_if_known (ld, flag->name);
 
-	old_label = camel_message_info_user_tag (msg_info, "label");
+	old_label = camel_message_info_get_user_tag (msg_info, "label");
 	if (old_label != NULL) {
 		/* Convert old-style labels ("<name>") to "$Label<name>". */
 		new_label = g_alloca (strlen (old_label) + 10);
@@ -1695,11 +1695,11 @@ get_trimmed_subject (CamelMessageInfo *info,
 	gint mlist_len = 0;
 	gboolean found_mlist;
 
-	subject = camel_message_info_subject (info);
+	subject = camel_message_info_get_subject (info);
 	if (!subject || !*subject)
 		return subject;
 
-	mlist = camel_message_info_mlist (info);
+	mlist = camel_message_info_get_mlist (info);
 
 	if (mlist && *mlist) {
 		const gchar *mlist_end;
@@ -1769,7 +1769,7 @@ ml_tree_value_at_ex (ETreeModel *etm,
 
 	switch (col) {
 	case COL_MESSAGE_STATUS:
-		flags = camel_message_info_flags (msg_info);
+		flags = camel_message_info_get_flags (msg_info);
 		if (flags & CAMEL_MESSAGE_ANSWERED)
 			return GINT_TO_POINTER (2);
 		else if (flags & CAMEL_MESSAGE_FORWARDED)
@@ -1779,12 +1779,12 @@ ml_tree_value_at_ex (ETreeModel *etm,
 		else
 			return GINT_TO_POINTER (0);
 	case COL_FLAGGED:
-		return GINT_TO_POINTER ((camel_message_info_flags (msg_info) & CAMEL_MESSAGE_FLAGGED) != 0);
+		return GINT_TO_POINTER ((camel_message_info_get_flags (msg_info) & CAMEL_MESSAGE_FLAGGED) != 0);
 	case COL_SCORE: {
 		const gchar *tag;
 		gint score = 0;
 
-		tag = camel_message_info_user_tag (msg_info, "score");
+		tag = camel_message_info_get_user_tag (msg_info, "score");
 		if (tag)
 			score = atoi (tag);
 
@@ -1795,8 +1795,8 @@ ml_tree_value_at_ex (ETreeModel *etm,
 
 		/* FIXME: this all should be methods off of message-tag-followup class,
 		 * FIXME: the tag names should be namespaced :( */
-		tag = camel_message_info_user_tag (msg_info, "follow-up");
-		cmp = camel_message_info_user_tag (msg_info, "completed-on");
+		tag = camel_message_info_get_user_tag (msg_info, "follow-up");
+		cmp = camel_message_info_get_user_tag (msg_info, "completed-on");
 		if (tag && tag[0]) {
 			if (cmp && cmp[0])
 				return GINT_TO_POINTER (2);
@@ -1809,7 +1809,7 @@ ml_tree_value_at_ex (ETreeModel *etm,
 		const gchar *tag;
 		time_t due_by;
 
-		tag = camel_message_info_user_tag (msg_info, "due-by");
+		tag = camel_message_info_get_user_tag (msg_info, "due-by");
 		if (tag && *tag) {
 			gint64 *res;
 
@@ -1823,23 +1823,23 @@ ml_tree_value_at_ex (ETreeModel *etm,
 		}
 	}
 	case COL_FOLLOWUP_FLAG:
-		str = camel_message_info_user_tag (msg_info, "follow-up");
+		str = camel_message_info_get_user_tag (msg_info, "follow-up");
 		return (gpointer)(str ? str : "");
 	case COL_ATTACHMENT:
-		if (camel_message_info_flags (msg_info) & CAMEL_MESSAGE_JUNK)
+		if (camel_message_info_get_flags (msg_info) & CAMEL_MESSAGE_JUNK)
 			return GINT_TO_POINTER (4);
-		if (camel_message_info_user_flag (msg_info, E_MAIL_NOTES_USER_FLAG))
+		if (camel_message_info_get_user_flag (msg_info, E_MAIL_NOTES_USER_FLAG))
 			return GINT_TO_POINTER (3);
-		if (camel_message_info_user_flag (msg_info, "$has_cal"))
+		if (camel_message_info_get_user_flag (msg_info, "$has_cal"))
 			return GINT_TO_POINTER (2);
-		return GINT_TO_POINTER ((camel_message_info_flags (msg_info) & CAMEL_MESSAGE_ATTACHMENTS) != 0);
+		return GINT_TO_POINTER ((camel_message_info_get_flags (msg_info) & CAMEL_MESSAGE_ATTACHMENTS) != 0);
 	case COL_FROM:
-		str = camel_message_info_from (msg_info);
+		str = camel_message_info_get_from (msg_info);
 		return (gpointer)(str ? str : "");
 	case COL_FROM_NORM:
 		return (gpointer) get_normalised_string (message_list, msg_info, col);
 	case COL_SUBJECT:
-		str = camel_message_info_subject (msg_info);
+		str = camel_message_info_get_subject (msg_info);
 		return (gpointer)(str ? str : "");
 	case COL_SUBJECT_TRIMMED:
 		str = get_trimmed_subject (msg_info, message_list);
@@ -1875,20 +1875,20 @@ ml_tree_value_at_ex (ETreeModel *etm,
 		return res;
 	}
 	case COL_TO:
-		str = camel_message_info_to (msg_info);
+		str = camel_message_info_get_to (msg_info);
 		return (gpointer)(str ? str : "");
 	case COL_TO_NORM:
 		return (gpointer) get_normalised_string (message_list, msg_info, col);
 	case COL_SIZE:
-		return GINT_TO_POINTER (camel_message_info_size (msg_info));
+		return GINT_TO_POINTER (camel_message_info_get_size (msg_info));
 	case COL_DELETED:
-		return GINT_TO_POINTER ((camel_message_info_flags (msg_info) & CAMEL_MESSAGE_DELETED) != 0);
+		return GINT_TO_POINTER ((camel_message_info_get_flags (msg_info) & CAMEL_MESSAGE_DELETED) != 0);
 	case COL_DELETED_OR_JUNK:
-		return GINT_TO_POINTER ((camel_message_info_flags (msg_info) & (CAMEL_MESSAGE_DELETED | CAMEL_MESSAGE_JUNK)) != 0);
+		return GINT_TO_POINTER ((camel_message_info_get_flags (msg_info) & (CAMEL_MESSAGE_DELETED | CAMEL_MESSAGE_JUNK)) != 0);
 	case COL_JUNK:
-		return GINT_TO_POINTER ((camel_message_info_flags (msg_info) & CAMEL_MESSAGE_JUNK) != 0);
+		return GINT_TO_POINTER ((camel_message_info_get_flags (msg_info) & CAMEL_MESSAGE_JUNK) != 0);
 	case COL_JUNK_STRIKEOUT_COLOR:
-		return GUINT_TO_POINTER (((camel_message_info_flags (msg_info) & CAMEL_MESSAGE_JUNK) != 0) ? 0xFF0000 : 0x0);
+		return GUINT_TO_POINTER (((camel_message_info_get_flags (msg_info) & CAMEL_MESSAGE_JUNK) != 0) ? 0xFF0000 : 0x0);
 	case COL_UNREAD: {
 		gboolean saw_unread = FALSE;
 
@@ -1907,9 +1907,9 @@ ml_tree_value_at_ex (ETreeModel *etm,
 		Don't say that I need to have the new labels[with subject] column visible always */
 
 		colour = NULL;
-		due_by = camel_message_info_user_tag (msg_info, "due-by");
-		completed = camel_message_info_user_tag (msg_info, "completed-on");
-		followup = camel_message_info_user_tag (msg_info, "follow-up");
+		due_by = camel_message_info_get_user_tag (msg_info, "due-by");
+		completed = camel_message_info_get_user_tag (msg_info, "completed-on");
+		followup = camel_message_info_get_user_tag (msg_info, "follow-up");
 		if (colour == NULL) {
 			/* Get all applicable labels. */
 			struct LabelsData ld;
@@ -1935,7 +1935,7 @@ ml_tree_value_at_ex (ETreeModel *etm,
 					colour = g_intern_string (colour_alloced);
 					g_free (colour_alloced);
 				}
-			} else if (camel_message_info_flags (msg_info) & CAMEL_MESSAGE_FLAGGED) {
+			} else if (camel_message_info_get_flags (msg_info) & CAMEL_MESSAGE_FLAGGED) {
 				/* FIXME: extract from the important.xpm somehow. */
 				colour = "#A7453E";
 			} else if (((followup && *followup) || (due_by && *due_by)) && !(completed && *completed)) {
@@ -1949,12 +1949,12 @@ ml_tree_value_at_ex (ETreeModel *etm,
 		}
 
 		if (!colour)
-			colour = camel_message_info_user_tag (msg_info, "color");
+			colour = camel_message_info_get_user_tag (msg_info, "color");
 
 		return (gpointer) colour;
 	}
 	case COL_ITALIC: {
-		return GINT_TO_POINTER (camel_message_info_user_flag (msg_info, "ignore-thread") ? 1 : 0);
+		return GINT_TO_POINTER (camel_message_info_get_user_flag (msg_info, "ignore-thread") ? 1 : 0);
 	}
 	case COL_LOCATION: {
 		/* Fixme : freeing memory stuff (mem leaks) */
@@ -1981,14 +1981,14 @@ ml_tree_value_at_ex (ETreeModel *etm,
 	}
 	case COL_MIXED_RECIPIENTS:
 	case COL_RECIPIENTS:{
-		str = camel_message_info_to (msg_info);
+		str = camel_message_info_get_to (msg_info);
 
 		return sanitize_recipients (str);
 	}
 	case COL_MIXED_SENDER:
 	case COL_SENDER:{
 		gchar **sender_name = NULL;
-		str = camel_message_info_from (msg_info);
+		str = camel_message_info_get_from (msg_info);
 		if (str && str[0] != '\0') {
 			gchar *res;
 			sender_name = g_strsplit (str,"<",2);
@@ -2033,7 +2033,7 @@ ml_tree_value_at_ex (ETreeModel *etm,
 		return (gpointer) g_string_free (result, FALSE);
 	}
 	case COL_UID: {
-		return (gpointer) camel_pstring_strdup (camel_message_info_uid (msg_info));
+		return (gpointer) camel_pstring_strdup (camel_message_info_get_uid (msg_info));
 	}
 	default:
 		g_warning ("%s: This shouldn't be reached (col:%d)", G_STRFUNC, col);
@@ -3110,7 +3110,7 @@ message_list_get_save_id (ETreeModel *tree_model,
 	if (info == NULL)
 		return NULL;
 
-	return g_strdup (camel_message_info_uid (info));
+	return g_strdup (camel_message_info_get_uid (info));
 }
 
 static ETreePath
@@ -3996,7 +3996,7 @@ is_node_selectable (MessageList *message_list,
 	g_object_unref (folder);
 
 	/* check flags set on current message */
-	flags = camel_message_info_flags (info);
+	flags = camel_message_info_get_flags (info);
 	flag_junk = store_has_vjunk && (flags & CAMEL_MESSAGE_JUNK) != 0;
 	flag_deleted = flags & CAMEL_MESSAGE_DELETED;
 
@@ -4060,7 +4060,7 @@ find_next_selectable (MessageList *message_list)
 		node = e_tree_table_adapter_node_at_row (adapter, vrow);
 		info = get_message_info (message_list, node);
 		if (info && is_node_selectable (message_list, info))
-			return g_strdup (camel_message_info_uid (info));
+			return g_strdup (camel_message_info_get_uid (info));
 		vrow++;
 	}
 
@@ -4072,7 +4072,7 @@ find_next_selectable (MessageList *message_list)
 		node = e_tree_table_adapter_node_at_row (adapter, vrow);
 		info = get_message_info (message_list, node);
 		if (info && is_node_selectable (message_list, info))
-			return g_strdup (camel_message_info_uid (info));
+			return g_strdup (camel_message_info_get_uid (info));
 		vrow--;
 	}
 
@@ -4100,9 +4100,9 @@ ml_uid_nodemap_insert (MessageList *message_list,
 	node = message_list_tree_model_insert (
 		message_list, parent, row, info);
 
-	uid = camel_message_info_uid (info);
-	flags = camel_message_info_flags (info);
-	date = camel_message_info_date_received (info);
+	uid = camel_message_info_get_uid (info);
+	flags = camel_message_info_get_flags (info);
+	date = camel_message_info_get_date_received (info);
 
 	camel_message_info_ref (info);
 	g_hash_table_insert (message_list->uid_nodemap, (gpointer) uid, node);
@@ -4139,7 +4139,7 @@ ml_uid_nodemap_remove (MessageList *message_list,
 	folder = message_list_ref_folder (message_list);
 	g_return_if_fail (folder != NULL);
 
-	uid = camel_message_info_uid (info);
+	uid = camel_message_info_get_uid (info);
 
 	if (uid == message_list->priv->newest_read_uid) {
 		message_list->priv->newest_read_date = 0;
@@ -4266,7 +4266,7 @@ node_equal (ETreeModel *etm,
             GNode *ap,
             CamelFolderThreadNode *bp)
 {
-	if (bp->message && strcmp (camel_message_info_uid (ap->data), camel_message_info_uid (bp->message)) == 0)
+	if (bp->message && strcmp (camel_message_info_get_uid (ap->data), camel_message_info_get_uid (bp->message)) == 0)
 		return 1;
 
 	return 0;
@@ -4539,7 +4539,7 @@ mail_folder_hide_by_flag (CamelFolder *folder,
 		info = camel_folder_get_message_info (
 			folder, changes->uid_changed->pdata[i]);
 		if (info)
-			flags = camel_message_info_flags (info);
+			flags = camel_message_info_get_flags (info);
 
 		if (node != NULL && info != NULL && (flags & flag) != 0)
 			camel_folder_change_info_remove_uid (
@@ -5041,7 +5041,7 @@ on_selection_changed_cmd (ETree *tree,
 		else
 			newuid = NULL;
 	} else if ((cursor = e_tree_get_cursor (tree)))
-		newuid = (gchar *) camel_message_info_uid (cursor->data);
+		newuid = (gchar *) camel_message_info_get_uid (cursor->data);
 	else
 		newuid = NULL;
 
@@ -5098,8 +5098,8 @@ on_click (ETree *tree,
 	if (col == COL_FOLLOWUP_FLAG_STATUS) {
 		const gchar *tag, *cmp;
 
-		tag = camel_message_info_user_tag (info, "follow-up");
-		cmp = camel_message_info_user_tag (info, "completed-on");
+		tag = camel_message_info_get_user_tag (info, "follow-up");
+		cmp = camel_message_info_get_user_tag (info, "completed-on");
 		if (tag && tag[0]) {
 			if (cmp && cmp[0]) {
 				camel_message_info_set_user_tag (info, "follow-up", NULL);
@@ -5121,7 +5121,7 @@ on_click (ETree *tree,
 		return TRUE;
 	}
 
-	flags = camel_message_info_flags (info);
+	flags = camel_message_info_get_flags (info);
 
 	folder_is_trash =
 		((folder->folder_flags & CAMEL_FOLDER_IS_TRASH) != 0);
@@ -5140,7 +5140,7 @@ on_click (ETree *tree,
 			flag |= CAMEL_MESSAGE_DELETED;
 	}
 
-	uid = camel_message_info_uid (info);
+	uid = camel_message_info_get_uid (info);
 	camel_folder_set_message_flags (folder, uid, flag, ~flags);
 
 	/* Notify the folder tree model that the user has marked a message
@@ -5700,7 +5700,7 @@ message_list_regen_tweak_search_results (MessageList *message_list,
 	if (info == NULL)
 		return;
 
-	flags = camel_message_info_flags (info);
+	flags = camel_message_info_get_flags (info);
 	uid_is_deleted = ((flags & CAMEL_MESSAGE_DELETED) != 0);
 	uid_is_junk = ((flags & CAMEL_MESSAGE_JUNK) != 0);
 

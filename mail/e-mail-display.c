@@ -2058,7 +2058,7 @@ e_mail_display_claim_attachment (EMailFormatter *formatter,
 
 				info = camel_folder_get_message_info (folder, message_uid);
 				if (info) {
-					if (!camel_message_info_user_flag (info, E_MAIL_NOTES_USER_FLAG))
+					if (!camel_message_info_get_user_flag (info, E_MAIL_NOTES_USER_FLAG))
 						camel_message_info_set_user_flag (info, E_MAIL_NOTES_USER_FLAG, TRUE);
 					camel_message_info_unref (info);
 				}

@@ -184,7 +184,7 @@ action_mail_add_sender_cb (GtkAction *action,
 	if (info == NULL)
 		goto exit;
 
-	address = camel_message_info_from (info);
+	address = camel_message_info_get_from (info);
 	if (address == NULL || *address == '\0')
 		goto exit;
 
@@ -2972,14 +2972,14 @@ mail_reader_manage_followup_flag (EMailReader *reader,
 	if (!info)
 		return;
 
-	followup = camel_message_info_user_tag (info, "follow-up");
+	followup = camel_message_info_get_user_tag (info, "follow-up");
 	if (followup && *followup) {
 		EPreviewPane *preview_pane;
 		const gchar *alert_tag;
 		EAlert *alert;
 
-		completed_on = camel_message_info_user_tag (info, "completed-on");
-		due_by = camel_message_info_user_tag (info, "due-by");
+		completed_on = camel_message_info_get_user_tag (info, "completed-on");
+		due_by = camel_message_info_get_user_tag (info, "due-by");
 
 		if (completed_on && *completed_on) {
 			alert_tag = "mail:follow-up-completed-info";
@@ -4540,10 +4540,10 @@ e_mail_reader_check_state (EMailReader *reader)
 		if (info == NULL)
 			continue;
 
-		if (camel_message_info_user_flag (info, E_MAIL_NOTES_USER_FLAG))
+		if (camel_message_info_get_user_flag (info, E_MAIL_NOTES_USER_FLAG))
 			has_mail_note = TRUE;
 
-		flags = camel_message_info_flags (info);
+		flags = camel_message_info_get_flags (info);
 
 		if (flags & CAMEL_MESSAGE_SEEN)
 			has_read = TRUE;
@@ -4595,23 +4595,23 @@ e_mail_reader_check_state (EMailReader *reader)
 		else
 			has_unimportant = TRUE;
 
-		tag = camel_message_info_user_tag (info, "follow-up");
+		tag = camel_message_info_get_user_tag (info, "follow-up");
 		if (tag != NULL && *tag != '\0') {
 			can_clear_flags = TRUE;
-			tag = camel_message_info_user_tag (
+			tag = camel_message_info_get_user_tag (
 				info, "completed-on");
 			if (tag == NULL || *tag == '\0')
 				can_flag_completed = TRUE;
 		} else
 			can_flag_for_followup = TRUE;
 
-		string = camel_message_info_mlist (info);
+		string = camel_message_info_get_mlist (info);
 		is_mailing_list &= (string != NULL && *string != '\0');
 
 		has_ignore_thread = has_ignore_thread ||
-			camel_message_info_user_flag (info, "ignore-thread");
+			camel_message_info_get_user_flag (info, "ignore-thread");
 		has_notignore_thread = has_notignore_thread ||
-			!camel_message_info_user_flag (info, "ignore-thread");
+			!camel_message_info_get_user_flag (info, "ignore-thread");
 
 		camel_message_info_unref (info);
 	}
