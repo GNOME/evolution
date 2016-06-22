@@ -25,6 +25,20 @@
 
 #include "test-html-editor-units-utils.h"
 
+static guint event_processing_delay_ms = 5;
+
+void
+test_utils_set_event_processing_delay_ms (guint value)
+{
+	event_processing_delay_ms = value;
+}
+
+guint
+test_utils_get_event_processing_delay_ms (void)
+{
+	return event_processing_delay_ms;
+}
+
 typedef struct _UndoContent {
 	gchar *html;
 	gchar *plain;
@@ -309,7 +323,7 @@ test_utils_send_key_event (GtkWidget *widget,
 
 	gtk_main_do_event (event);
 
-	test_utils_wait_milliseconds (5);
+	test_utils_wait_milliseconds (event_processing_delay_ms);
 
 	gdk_event_free (event);
 }
@@ -342,7 +356,7 @@ test_utils_type_text (TestFixture *fixture,
 		test_utils_send_key_event (widget, GDK_KEY_RELEASE, keyval, 0);
 	}
 
-	test_utils_wait_milliseconds (5);
+	test_utils_wait_milliseconds (event_processing_delay_ms);
 
 	return TRUE;
 }
@@ -510,7 +524,7 @@ test_utils_process_sequence (TestFixture *fixture,
 		state = change_state;
 	}
 
-	test_utils_wait_milliseconds (5);
+	test_utils_wait_milliseconds (event_processing_delay_ms);
 
 	return success;
 }
@@ -700,20 +714,20 @@ test_utils_process_commands (TestFixture *fixture,
 				success = FALSE;
 			}
 
-			test_utils_wait_milliseconds (500);
+			test_utils_wait_milliseconds (event_processing_delay_ms);
 		} else if (*command) {
 			g_warning ("%s: Unknown command '%s'", G_STRFUNC, command);
 			success = FALSE;
 		}
 
-		test_utils_wait_milliseconds (5);
+		test_utils_wait_milliseconds (event_processing_delay_ms);
 	}
 
 	g_strfreev (cmds);
 
 	if (success) {
 		/* Give the editor some time to finish any ongoing async operations */
-		test_utils_wait_milliseconds (100);
+		test_utils_wait_milliseconds (MAX (event_processing_delay_ms, 100));
 	}
 
 	return success;

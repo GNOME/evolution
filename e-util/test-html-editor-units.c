@@ -188,6 +188,16 @@ gint
 main (gint argc,
       gchar *argv[])
 {
+	gint cmd_delay = -1;
+	GOptionEntry entries[] = {
+		{ "cmd-delay", '\0', 0,
+		  G_OPTION_ARG_INT, &cmd_delay,
+		  "Specify delay, in milliseconds, to use during processing commands. Default is 5 ms.",
+		  NULL },
+		{ NULL }
+	};
+	GOptionContext *context;
+	GError *error = NULL;
 	GList *modules;
 	gint res;
 
@@ -197,6 +207,20 @@ main (gint argc,
 	g_test_bug_base ("http://bugzilla.gnome.org/show_bug.cgi?id=");
 
 	gtk_init (&argc, &argv);
+
+	context = g_option_context_new (NULL);
+	g_option_context_add_main_entries (context, entries, GETTEXT_PACKAGE);
+	if (!g_option_context_parse (context, &argc, &argv, &error)) {
+		g_warning ("Failed to parse arguments: %s\n", error ? error->message : "Unknown error");
+		g_option_context_free (context);
+		g_clear_error (&error);
+		return -1;
+	}
+
+	g_option_context_free (context);
+
+	if (cmd_delay > 0)
+		test_utils_set_event_processing_delay_ms ((guint) cmd_delay);
 
 	e_util_init_main_thread (NULL);
 	e_passwords_init ();

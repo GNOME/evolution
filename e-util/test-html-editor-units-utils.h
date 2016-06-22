@@ -28,6 +28,10 @@ typedef struct _TestFixture {
 	GSList *undo_stack; /* UndoContent * */
 } TestFixture;
 
+void		test_utils_set_event_processing_delay_ms
+						(guint value);
+guint		test_utils_get_event_processing_delay_ms
+						(void);
 void		test_utils_fixture_set_up	(TestFixture *fixture,
 						 gconstpointer user_data);
 void		test_utils_fixture_tear_down	(TestFixture *fixture,
@@ -37,7 +41,6 @@ gboolean	test_utils_async_call_wait	(gpointer async_data,
 						 guint timeout_seconds);
 gboolean	test_utils_async_call_finish	(gpointer async_data);
 gboolean	test_utils_wait_milliseconds	(guint milliseconds);
-
 gboolean	test_utils_type_text		(TestFixture *fixture,
 						 const gchar *text);
 gboolean	test_utils_html_equal		(TestFixture *fixture,
