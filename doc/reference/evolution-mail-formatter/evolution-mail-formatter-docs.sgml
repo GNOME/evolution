@@ -23,6 +23,7 @@
     <xi:include href="xml/e-mail-part-list.xml"/>
     <xi:include href="xml/e-mail-part-attachment.xml"/>
     <xi:include href="xml/e-mail-part-attachment-bar.xml"/>
+    <xi:include href="xml/e-mail-part-audio.xml"/>
     <xi:include href="xml/e-mail-part-headers.xml"/>
     <xi:include href="xml/e-mail-part-image.xml"/>
   </chapter>
@@ -38,6 +39,9 @@
     <title>Miscellaneous</title>
     <xi:include href="xml/e-mail-inline-filter.xml"/>
     <xi:include href="xml/e-mail-stripsig-filter.xml"/>
+    <xi:include href="xml/e-mail-formatter-enums.xml"/>
+    <xi:include href="xml/e-mail-formatter-utils.xml"/>
+    <xi:include href="xml/e-mail-part-utils.xml"/>
   </chapter>
 
   <chapter id="object-tree">
@@ -50,4 +54,8 @@
     <xi:include href="xml/api-index-full.xml"><xi:fallback /></xi:include>
   </index>
 
+  <index id="api-index-3.8" role="3.8">
+    <title>Index of new symbols in 3.8</title>
+    <xi:include href="xml/api-index-3.8.xml"><xi:fallback /></xi:include>
+  </index>
 </book>

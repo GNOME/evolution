@@ -54,6 +54,7 @@
     <xi:include href="xml/e-attachment-icon-view.xml"/>
     <xi:include href="xml/e-attachment-tree-view.xml"/>
     <xi:include href="xml/e-attachment-handler.xml"/>
+    <xi:include href="xml/e-attachment-handler-image.xml"/>
   </chapter>
 
   <chapter>
@@ -111,6 +112,7 @@
     <xi:include href="xml/e-html-editor-cell-dialog.xml"/>
     <xi:include href="xml/e-html-editor-dialog.xml"/>
     <xi:include href="xml/e-html-editor-find-dialog.xml"/>
+    <xi:include href="xml/e-html-editor-hrule-dialog.xml"/>
     <xi:include href="xml/e-html-editor-image-dialog.xml"/>
     <xi:include href="xml/e-html-editor-link-dialog.xml"/>
     <xi:include href="xml/e-html-editor-page-dialog.xml"/>
@@ -120,6 +122,7 @@
     <xi:include href="xml/e-html-editor-spell-check-dialog.xml"/>
     <xi:include href="xml/e-html-editor-table-dialog.xml"/>
     <xi:include href="xml/e-html-editor-text-dialog.xml"/>
+    <xi:include href="xml/e-html-editor-view.xml"/>
     <xi:include href="xml/e-image-chooser-dialog.xml"/>
     <xi:include href="xml/e-spell-checker.xml"/>
     <xi:include href="xml/e-spell-dictionary.xml"/>
@@ -159,8 +162,9 @@
     <xi:include href="xml/e-table-group-container.xml"/>
     <xi:include href="xml/e-table-group-leaf.xml"/>
     <xi:include href="xml/e-table-group.xml"/>
-    <xi:include href="xml/e-table-header-item.xml"/>
     <xi:include href="xml/e-table-header.xml"/>
+    <xi:include href="xml/e-table-header-item.xml"/>
+    <xi:include href="xml/e-table-header-utils.xml"/>
     <xi:include href="xml/e-table-item.xml"/>
     <xi:include href="xml/e-table-model.xml"/>
     <xi:include href="xml/e-table-one.xml"/>
@@ -183,8 +187,9 @@
     <xi:include href="xml/e-cell.xml"/>
     <xi:include href="xml/e-cell-checkbox.xml"/>
     <xi:include href="xml/e-cell-combo.xml"/>
-    <xi:include href="xml/e-cell-date-edit.xml"/>
     <xi:include href="xml/e-cell-date.xml"/>
+    <xi:include href="xml/e-cell-date-edit.xml"/>
+    <xi:include href="xml/e-cell-date-int.xml"/>
     <xi:include href="xml/e-cell-hbox.xml"/>
     <xi:include href="xml/e-cell-number.xml"/>
     <xi:include href="xml/e-cell-percent.xml"/>
@@ -205,6 +210,7 @@
     <xi:include href="xml/e-cal-source-config.xml"/>
     <xi:include href="xml/e-source-config-backend.xml"/>
     <xi:include href="xml/e-source-config-dialog.xml"/>
+    <xi:include href="xml/e-source-conflict-search.xml"/>
     <xi:include href="xml/e-source-selector.xml"/>
     <xi:include href="xml/e-alarm-selector.xml"/>
     <xi:include href="xml/e-autocomplete-selector.xml"/>
@@ -252,11 +258,15 @@
     <xi:include href="xml/e-buffer-tagger.xml"/>
     <xi:include href="xml/e-calendar-item.xml"/>
     <xi:include href="xml/e-calendar.xml"/>
+    <xi:include href="xml/e-charset.xml"/>
     <xi:include href="xml/e-charset-combo-box.xml"/>
+    <xi:include href="xml/e-conflict-search-selector.xml"/>
     <xi:include href="xml/e-contact-store.xml"/>
     <xi:include href="xml/e-data-capture.xml"/>
     <xi:include href="xml/e-dateedit.xml"/>
     <xi:include href="xml/e-destination-store.xml"/>
+    <xi:include href="xml/e-dialog-widgets.xml"/>
+    <xi:include href="xml/e-file-utils.xml"/>
     <xi:include href="xml/e-focus-tracker.xml"/>
     <xi:include href="xml/e-image-chooser.xml"/>
     <xi:include href="xml/e-import-assistant.xml"/>
@@ -265,6 +275,7 @@
     <xi:include href="xml/e-map.xml"/>
     <xi:include href="xml/e-menu-tool-action.xml"/>
     <xi:include href="xml/e-menu-tool-button.xml"/>
+    <xi:include href="xml/e-mktemp.xml"/>
     <xi:include href="xml/e-name-selector-dialog.xml"/>
     <xi:include href="xml/e-name-selector-entry.xml"/>
     <xi:include href="xml/e-name-selector-list.xml"/>
@@ -291,10 +302,15 @@
     <xi:include href="xml/e-sorter.xml"/>
     <xi:include href="xml/e-spell-entry.xml"/>
     <xi:include href="xml/e-spell-text-view.xml"/>
+    <xi:include href="xml/e-spinner.xml"/>
+    <xi:include href="xml/e-text-event-processor-types.xml"/>
+    <xi:include href="xml/e-text-model-repos.xml"/>
     <xi:include href="xml/e-timezone-dialog.xml"/>
     <xi:include href="xml/e-tree-model-generator.xml"/>
     <xi:include href="xml/e-tree-view-frame.xml"/>
     <xi:include href="xml/e-url-entry.xml"/>
+    <xi:include href="xml/e-util-enums.xml"/>
+    <xi:include href="xml/e-widget-undo.xml"/>
   </chapter>
 
   <chapter id="object-tree">
@@ -305,6 +321,66 @@
   <index id="api-index-full">
     <title>Index</title>
     <xi:include href="xml/api-index-full.xml"><xi:fallback /></xi:include>
+  </index>
+  <index id="api-index-3.22" role="3.22">
+    <title>Index of new symbols in 3.22</title>
+    <xi:include href="xml/api-index-3.22.xml"><xi:fallback /></xi:include>
+  </index>
+  <index id="api-index-3.20" role="3.20">
+    <title>Index of new symbols in 3.20</title>
+    <xi:include href="xml/api-index-3.20.xml"><xi:fallback /></xi:include>
+  </index>
+  <index id="api-index-3.18" role="3.18">
+    <title>Index of new symbols in 3.18</title>
+    <xi:include href="xml/api-index-3.18.xml"><xi:fallback /></xi:include>
+  </index>
+  <index id="api-index-3.16" role="3.16">
+    <title>Index of new symbols in 3.16</title>
+    <xi:include href="xml/api-index-3.16.xml"><xi:fallback /></xi:include>
+  </index>
+  <index id="api-index-3.12" role="3.12">
+    <title>Index of new symbols in 3.12</title>
+    <xi:include href="xml/api-index-3.12.xml"><xi:fallback /></xi:include>
+  </index>
+  <index id="api-index-3.10" role="3.10">
+    <title>Index of new symbols in 3.10</title>
+    <xi:include href="xml/api-index-3.10.xml"><xi:fallback /></xi:include>
+  </index>
+  <index id="api-index-3.8" role="3.8">
+    <title>Index of new symbols in 3.8</title>
+    <xi:include href="xml/api-index-3.8.xml"><xi:fallback /></xi:include>
+  </index>
+  <index id="api-index-3.6" role="3.6">
+    <title>Index of new symbols in 3.6</title>
+    <xi:include href="xml/api-index-3.6.xml"><xi:fallback /></xi:include>
+  </index>
+  <index id="api-index-3.4" role="3.4">
+    <title>Index of new symbols in 3.4</title>
+    <xi:include href="xml/api-index-3.4.xml"><xi:fallback /></xi:include>
+  </index>
+  <index id="api-index-3.2" role="3.2">
+    <title>Index of new symbols in 3.2</title>
+    <xi:include href="xml/api-index-3.2.xml"><xi:fallback /></xi:include>
+  </index>
+  <index id="api-index-2.32" role="2.32">
+    <title>Index of new symbols in 2.32</title>
+    <xi:include href="xml/api-index-2.32.xml"><xi:fallback /></xi:include>
+  </index>
+  <index id="api-index-2.30" role="2.30">
+    <title>Index of new symbols in 2.30</title>
+    <xi:include href="xml/api-index-2.30.xml"><xi:fallback /></xi:include>
+  </index>
+  <index id="api-index-2.26" role="2.26">
+    <title>Index of new symbols in 2.26</title>
+    <xi:include href="xml/api-index-2.26.xml"><xi:fallback /></xi:include>
+  </index>
+  <index id="api-index-2.24" role="2.24">
+    <title>Index of new symbols in 2.24</title>
+    <xi:include href="xml/api-index-2.24.xml"><xi:fallback /></xi:include>
+  </index>
+  <index id="api-index-2.22" role="2.22">
+    <title>Index of new symbols in 2.22</title>
+    <xi:include href="xml/api-index-2.22.xml"><xi:fallback /></xi:include>
   </index>
 
   <xi:include href="xml/annotation-glossary.xml"><xi:fallback /></xi:include>

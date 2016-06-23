@@ -7,6 +7,9 @@ DOC_MAIN_SGML_FILE=$(DOC_MODULE)-docs.sgml
 # The directory containing the source code. Relative to $(srcdir).
 DOC_SOURCE_DIR=$(top_srcdir)/composer
 
+# Extra options to supply to gtkdoc-scan
+SCAN_OPTIONS = --rebuild-sections --rebuild-types
+
 # Used for dependencies. The docs will be rebuilt if any of these change.
 HFILE_GLOB=$(top_srcdir)/composer/*.h
 CFILE_GLOB=$(top_srcdir)/composer/*.c
@@ -15,6 +18,13 @@ CFILE_GLOB=$(top_srcdir)/composer/*.c
 IGNORE_HFILES= \
 	e-composer-actions.h \
 	e-composer-private.h \
+	$(NULL)
+
+GITIGNOREFILES = \
+	$(DOC_MODULE)-overrides.txt \
+	$(DOC_MODULE)-sections.txt \
+	$(DOC_MODULE).hierarchy \
+	$(DOC_MODULE).types \
 	$(NULL)
 
 GTKDOC_CFLAGS= \
@@ -29,6 +39,8 @@ GTKDOC_LIBS=								\
 	$(EVOLUTION_DATA_SERVER_LIBS)					\
 	$(GNOME_PLATFORM_LIBS)						\
 	$(NULL)
+
+DISTCLEANFILES = $(GITIGNOREFILES)
 
 # This includes the standard gtk-doc make rules, copied by gtkdocize.
 include $(top_srcdir)/gtk-doc.make

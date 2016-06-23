@@ -29,8 +29,12 @@
 
   <chapter>
     <title>Actions</title>
-    <xi:include href="xml/shell-actions.xml"/>
-    <xi:include href="xml/action-groups.xml"/>
+    <xi:include href="xml/e-shell-window-actions.xml"/>
+  </chapter>
+
+  <chapter>
+    <title>Miscellaneous</title>
+    <xi:include href="xml/e-shell-migrate.xml"/>
   </chapter>
 
   <chapter id="object-tree">
@@ -42,5 +46,18 @@
     <title>Index</title>
     <xi:include href="xml/api-index-full.xml"><xi:fallback /></xi:include>
   </index>
+  <index id="api-index-3.16" role="3.16">
+    <title>Index of new symbols in 3.16</title>
+    <xi:include href="xml/api-index-3.16.xml"><xi:fallback /></xi:include>
+  </index>
+  <index id="api-index-3.10" role="3.10">
+    <title>Index of new symbols in 3.10</title>
+    <xi:include href="xml/api-index-3.10.xml"><xi:fallback /></xi:include>
+  </index>
+  <index id="api-index-3.4" role="3.4">
+    <title>Index of new symbols in 3.4</title>
+    <xi:include href="xml/api-index-3.4.xml"><xi:fallback /></xi:include>
+  </index>
 
+  <xi:include href="xml/annotation-glossary.xml"><xi:fallback /></xi:include>
 </book>
