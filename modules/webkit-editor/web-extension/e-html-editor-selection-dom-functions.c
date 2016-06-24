@@ -157,7 +157,7 @@ dom_insert_base64_image (WebKitDOMDocument *document,
 	WebKitDOMElement *element, *selection_start_marker, *resizable_wrapper;
 	WebKitDOMText *text;
 
-	manager = e_html_editor_web_extension_get_undo_redo_manager (extension);
+	manager = e_html_editor_web_extension_get_undo_redo_manager (extension, document);
 
 	if (!dom_selection_is_collapsed (document)) {
 		EHTMLEditorHistoryEvent *ev;
@@ -638,7 +638,7 @@ dom_selection_unlink (WebKitDOMDocument *document,
 	if (!link)
 		return;
 
-	manager = e_html_editor_web_extension_get_undo_redo_manager (extension);
+	manager = e_html_editor_web_extension_get_undo_redo_manager (extension, document);
 	if (!e_html_editor_undo_redo_manager_is_operation_in_progress (manager)) {
 		EHTMLEditorHistoryEvent *ev;
 		WebKitDOMDocumentFragment *fragment;
@@ -1300,7 +1300,7 @@ dom_selection_indent (WebKitDOMDocument *document,
 
 	dom_selection_save (document);
 
-	manager = e_html_editor_web_extension_get_undo_redo_manager (extension);
+	manager = e_html_editor_web_extension_get_undo_redo_manager (extension, document);
 
 	selection_start_marker = webkit_dom_document_query_selector (
 		document, "span#-x-evo-selection-start-marker", NULL);
@@ -1657,7 +1657,7 @@ dom_selection_unindent (WebKitDOMDocument *document,
 			&selection_end_marker);
 	}
 
-	manager = e_html_editor_web_extension_get_undo_redo_manager (extension);
+	manager = e_html_editor_web_extension_get_undo_redo_manager (extension, document);
 	if (!e_html_editor_undo_redo_manager_is_operation_in_progress (manager)) {
 		ev = g_new0 (EHTMLEditorHistoryEvent, 1);
 		ev->type = HISTORY_INDENT;
@@ -3367,7 +3367,7 @@ dom_selection_wrap (WebKitDOMDocument *document,
 			&selection_end_marker);
 	}
 
-	manager = e_html_editor_web_extension_get_undo_redo_manager (extension);
+	manager = e_html_editor_web_extension_get_undo_redo_manager (extension, document);
 	if (!e_html_editor_undo_redo_manager_is_operation_in_progress (manager)) {
 		ev = g_new0 (EHTMLEditorHistoryEvent, 1);
 		ev->type = HISTORY_WRAP;
@@ -3917,7 +3917,7 @@ selection_set_font_style (WebKitDOMDocument *document,
 
 	dom_selection_save (document);
 
-	manager = e_html_editor_web_extension_get_undo_redo_manager (extension);
+	manager = e_html_editor_web_extension_get_undo_redo_manager (extension, document);
 	if (!e_html_editor_undo_redo_manager_is_operation_in_progress (manager)) {
 		ev = g_new0 (EHTMLEditorHistoryEvent, 1);
 		if (command == E_CONTENT_EDITOR_COMMAND_BOLD)
@@ -4573,7 +4573,7 @@ dom_selection_set_monospaced (WebKitDOMDocument *document,
 	if (!range)
 		return;
 
-	manager = e_html_editor_web_extension_get_undo_redo_manager (extension);
+	manager = e_html_editor_web_extension_get_undo_redo_manager (extension, document);
 	if (!e_html_editor_undo_redo_manager_is_operation_in_progress (manager)) {
 		ev = g_new0 (EHTMLEditorHistoryEvent, 1);
 		ev->type = HISTORY_MONOSPACE;
@@ -4991,7 +4991,7 @@ dom_selection_set_font_size (WebKitDOMDocument *document,
 
 	dom_selection_save (document);
 
-	manager = e_html_editor_web_extension_get_undo_redo_manager (extension);
+	manager = e_html_editor_web_extension_get_undo_redo_manager (extension, document);
 	if (!e_html_editor_undo_redo_manager_is_operation_in_progress (manager)) {
 		ev = g_new0 (EHTMLEditorHistoryEvent, 1);
 		ev->type = HISTORY_FONT_SIZE;
@@ -5119,7 +5119,7 @@ dom_selection_set_font_color (WebKitDOMDocument *document,
 	EHTMLEditorUndoRedoManager *manager;
 	EHTMLEditorHistoryEvent *ev = NULL;
 
-	manager = e_html_editor_web_extension_get_undo_redo_manager (extension);
+	manager = e_html_editor_web_extension_get_undo_redo_manager (extension, document);
 	if (!e_html_editor_undo_redo_manager_is_operation_in_progress (manager)) {
 		ev = g_new0 (EHTMLEditorHistoryEvent, 1);
 		ev->type = HISTORY_FONT_COLOR;
@@ -6075,7 +6075,7 @@ dom_selection_set_block_format (WebKitDOMDocument *document,
 
 	dom_selection_save (document);
 
-	manager = e_html_editor_web_extension_get_undo_redo_manager (extension);
+	manager = e_html_editor_web_extension_get_undo_redo_manager (extension, document);
 	if (!e_html_editor_undo_redo_manager_is_operation_in_progress (manager)) {
 		ev = g_new0 (EHTMLEditorHistoryEvent, 1);
 		ev->type = HISTORY_BLOCK_FORMAT;
@@ -6322,7 +6322,7 @@ dom_selection_set_alignment (WebKitDOMDocument *document,
 	if (!selection_start_marker)
 		return;
 
-	manager = e_html_editor_web_extension_get_undo_redo_manager (extension);
+	manager = e_html_editor_web_extension_get_undo_redo_manager (extension, document);
 	if (!e_html_editor_undo_redo_manager_is_operation_in_progress (manager)) {
 		ev = g_new0 (EHTMLEditorHistoryEvent, 1);
 		ev->type = HISTORY_ALIGNMENT;
@@ -6408,7 +6408,7 @@ dom_selection_replace (WebKitDOMDocument *document,
 	EHTMLEditorHistoryEvent *ev = NULL;
 	EHTMLEditorUndoRedoManager *manager;
 
-	manager = e_html_editor_web_extension_get_undo_redo_manager (extension);
+	manager = e_html_editor_web_extension_get_undo_redo_manager (extension, document);
 
 	if (!e_html_editor_undo_redo_manager_is_operation_in_progress (manager)) {
 		WebKitDOMDOMWindow *dom_window;

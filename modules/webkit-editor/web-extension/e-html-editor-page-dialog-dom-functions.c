@@ -33,7 +33,7 @@ e_html_editor_page_dialog_save_history (WebKitDOMDocument *document,
 {
 	EHTMLEditorUndoRedoManager *manager;
 
-	manager = e_html_editor_web_extension_get_undo_redo_manager (extension);
+	manager = e_html_editor_web_extension_get_undo_redo_manager (extension, document);
 	if (!e_html_editor_undo_redo_manager_is_operation_in_progress (manager)) {
 		EHTMLEditorHistoryEvent *ev;
 		WebKitDOMHTMLElement *body;
@@ -58,7 +58,7 @@ e_html_editor_page_dialog_save_history_on_exit (WebKitDOMDocument *document,
 	EHTMLEditorUndoRedoManager *manager;
 	WebKitDOMHTMLElement *body;
 
-	manager = e_html_editor_web_extension_get_undo_redo_manager (extension);
+	manager = e_html_editor_web_extension_get_undo_redo_manager (extension, document);
 	ev = e_html_editor_undo_redo_manager_get_current_history_event (manager);
 	body = webkit_dom_document_get_body (document);
 	ev->data.dom.to = webkit_dom_node_clone_node_with_error (WEBKIT_DOM_NODE (body), FALSE, NULL);

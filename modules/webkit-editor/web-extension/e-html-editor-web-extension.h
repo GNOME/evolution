@@ -50,8 +50,6 @@
 
 G_BEGIN_DECLS
 
-struct _EHTMLEditorUndoRedoManager;
-
 typedef struct _EHTMLEditorWebExtension EHTMLEditorWebExtension;
 typedef struct _EHTMLEditorWebExtensionClass EHTMLEditorWebExtensionClass;
 typedef struct _EHTMLEditorWebExtensionPrivate EHTMLEditorWebExtensionPrivate;
@@ -217,10 +215,13 @@ gboolean	e_html_editor_web_extension_get_renew_history_after_coordinates
 void		e_html_editor_web_extension_set_renew_history_after_coordinates
 						(EHTMLEditorWebExtension *extension,
 						 gboolean renew_history_after_coordinates);
-
-struct _EHTMLEditorUndoRedoManager *
+guint64		e_html_editor_web_extension_get_undo_redo_manager_page_id
+						(EHTMLEditorWebExtension *extension,
+						 EHTMLEditorUndoRedoManager *manager);
+EHTMLEditorUndoRedoManager *
 		e_html_editor_web_extension_get_undo_redo_manager
-						(EHTMLEditorWebExtension *extension);
+						(EHTMLEditorWebExtension *extension,
+						 WebKitDOMDocument *document);
 
 gboolean	e_html_editor_web_extension_is_composition_in_progress
 						(EHTMLEditorWebExtension *extension);

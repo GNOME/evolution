@@ -44,6 +44,8 @@
 
 G_BEGIN_DECLS
 
+struct _EHTMLEditorWebExtension;
+
 typedef struct _EHTMLEditorUndoRedoManager EHTMLEditorUndoRedoManager;
 typedef struct _EHTMLEditorUndoRedoManagerClass EHTMLEditorUndoRedoManagerClass;
 typedef struct _EHTMLEditorUndoRedoManagerPrivate EHTMLEditorUndoRedoManagerPrivate;
@@ -61,6 +63,9 @@ struct _EHTMLEditorUndoRedoManagerClass
 GType		e_html_editor_undo_redo_manager_get_type
 						(void) G_GNUC_CONST;
 
+EHTMLEditorUndoRedoManager *
+		e_html_editor_undo_redo_manager_new
+						(struct _EHTMLEditorWebExtension *extension);
 void		e_html_editor_undo_redo_manager_set_document
 						(EHTMLEditorUndoRedoManager *manager,
 						 WebKitDOMDocument *document);

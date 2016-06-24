@@ -97,7 +97,9 @@ struct _EHTMLEditorWebExtensionPrivate {
 
 	EContentEditorContentFlags content_flags;
 
-	EHTMLEditorUndoRedoManager *undo_redo_manager;
+	GHashTable *undo_redo_managers /* EHTMLEditorUndoRedoManager * ~> WebKitWebPage * */;
+	GSList *web_pages;
+
 	ESpellChecker *spell_checker;
 };
 
@@ -125,6 +127,11 @@ static const char introspection_xml[] =
 "      <arg type='s' name='font_color' direction='out'/>"
 "    </signal>"
 "    <signal name='ContentChanged'>"
+"    </signal>"
+"    <signal name='UndoRedoStateChanged'>"
+"      <arg type='t' name='page_id' direction='out'/>"
+"      <arg type='b' name='can_undo' direction='out'/>"
+"      <arg type='b' name='can_redo' direction='out'/>"
 "    </signal>"
 "<!-- ********************************************************* -->"
 "<!--                          METHODS                          -->"
@@ -481,6 +488,12 @@ static const char introspection_xml[] =
 "      <arg type='t' name='page_id' direction='in'/>"
 "    </method>"
 "    <method name='DOMRestoreSelection'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"    </method>"
+"    <method name='DOMUndo'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"    </method>"
+"    <method name='DOMRedo'>"
 "      <arg type='t' name='page_id' direction='in'/>"
 "    </method>"
 "    <method name='DOMQuoteAndInsertTextIntoSelection'>"
@@ -1780,6 +1793,36 @@ handle_method_call (GDBusConnection *connection,
 		document = webkit_web_page_get_dom_document (web_page);
 		dom_selection_restore (document);
 		g_dbus_method_invocation_return_value (invocation, NULL);
+	} else if (g_strcmp0 (method_name, "DOMUndo") == 0) {
+		EHTMLEditorUndoRedoManager *manager;
+
+		g_variant_get (parameters, "(t)", &page_id);
+
+		web_page = get_webkit_web_page_or_return_dbus_error (invocation, web_extension, page_id);
+		if (!web_page)
+			goto error;
+
+		document = webkit_web_page_get_dom_document (web_page);
+		manager = e_html_editor_web_extension_get_undo_redo_manager (extension, document);
+
+		e_html_editor_undo_redo_manager_undo (manager);
+
+		g_dbus_method_invocation_return_value (invocation, NULL);
+	} else if (g_strcmp0 (method_name, "DOMRedo") == 0) {
+		EHTMLEditorUndoRedoManager *manager;
+
+		g_variant_get (parameters, "(t)", &page_id);
+
+		web_page = get_webkit_web_page_or_return_dbus_error (invocation, web_extension, page_id);
+		if (!web_page)
+			goto error;
+
+		document = webkit_web_page_get_dom_document (web_page);
+		manager = e_html_editor_web_extension_get_undo_redo_manager (extension, document);
+
+		e_html_editor_undo_redo_manager_redo (manager);
+
+		g_dbus_method_invocation_return_value (invocation, NULL);
 	} else if (g_strcmp0 (method_name, "DOMTurnSpellCheckOff") == 0) {
 		g_variant_get (parameters, "(t)", &page_id);
 
@@ -2455,14 +2498,18 @@ handle_method_call (GDBusConnection *connection,
 			invocation,
 			value ? g_variant_new_uint32 (value) : NULL);
 	} else if (g_strcmp0 (method_name, "DOMClearUndoRedoHistory") == 0) {
+		EHTMLEditorUndoRedoManager *manager;
+
 		g_variant_get (parameters, "(t)", &page_id);
 
-		web_page = get_webkit_web_page_or_return_dbus_error (
-			invocation, web_extension, page_id);
+		web_page = get_webkit_web_page_or_return_dbus_error (invocation, web_extension, page_id);
 		if (!web_page)
 			goto error;
 
-		e_html_editor_undo_redo_manager_clean_history (extension->priv->undo_redo_manager);
+		manager = e_html_editor_web_extension_get_undo_redo_manager (extension,
+			webkit_web_page_get_dom_document (web_page));
+		if (manager)
+			e_html_editor_undo_redo_manager_clean_history (manager);
 
 		g_dbus_method_invocation_return_value (invocation, NULL);
 	} else {
@@ -2473,6 +2520,27 @@ handle_method_call (GDBusConnection *connection,
 
  error:
 	g_warning ("Cannot obtain WebKitWebPage for '%ld'", page_id);
+}
+
+static void
+web_page_gone_cb (gpointer user_data,
+		  GObject *gone_web_page)
+{
+	EHTMLEditorWebExtension *extension = user_data;
+	GHashTableIter iter;
+	gpointer key, value;
+
+	g_return_if_fail (E_IS_HTML_EDITOR_WEB_EXTENSION (extension));
+
+	extension->priv->web_pages = g_slist_remove (extension->priv->web_pages, gone_web_page);
+
+	g_hash_table_iter_init (&iter, extension->priv->undo_redo_managers);
+	while (g_hash_table_iter_next (&iter, &key, &value)) {
+		if (value == gone_web_page) {
+			g_hash_table_remove (extension->priv->undo_redo_managers, key);
+			break;
+		}
+	}
 }
 
 static const GDBusInterfaceVTable interface_vtable = {
@@ -2519,9 +2587,25 @@ e_html_editor_web_extension_dispose (GObject *object)
 		extension->priv->text = NULL;
 	}
 
-	if (extension->priv->undo_redo_manager != NULL) {
-		g_object_unref (extension->priv->undo_redo_manager);
-		extension->priv->undo_redo_manager = NULL;
+	if (extension->priv->undo_redo_managers != NULL) {
+		g_hash_table_destroy (extension->priv->undo_redo_managers);
+		extension->priv->undo_redo_managers = NULL;
+	}
+
+	if (extension->priv->web_pages) {
+		GSList *link;
+
+		for (link = extension->priv->web_pages; link; link = g_slist_next (link)) {
+			WebKitWebPage *page = link->data;
+
+			if (!page)
+				continue;
+
+			g_object_weak_unref (G_OBJECT (page), web_page_gone_cb, extension);
+		}
+
+		g_slist_free (extension->priv->web_pages);
+		extension->priv->web_pages = NULL;
 	}
 
 	if (extension->priv->mail_settings != NULL) {
@@ -2605,10 +2689,7 @@ e_html_editor_web_extension_init (EHTMLEditorWebExtension *extension)
 	extension->priv->word_wrap_length = g_settings_get_int (
 		extension->priv->mail_settings, "composer-word-wrap-length");
 
-	extension->priv->undo_redo_manager = g_object_new (
-		E_TYPE_HTML_EDITOR_UNDO_REDO_MANAGER,
-		"html-editor-web-extension", extension,
-		NULL);
+	extension->priv->undo_redo_managers = g_hash_table_new_full (g_direct_hash, g_direct_equal, g_object_unref, NULL);
 
 	extension->priv->inline_images = g_hash_table_new_full (
 		g_str_hash, g_str_equal,
@@ -2744,11 +2825,13 @@ web_page_document_loaded_cb (WebKitWebPage *web_page,
                              EHTMLEditorWebExtension *web_extension)
 {
 	WebKitDOMDocument *document;
+	EHTMLEditorUndoRedoManager *manager;
 
 	document = webkit_web_page_get_dom_document (web_page);
+	manager = e_html_editor_web_extension_get_undo_redo_manager (web_extension, document);
 
-	e_html_editor_undo_redo_manager_set_document (
-		web_extension->priv->undo_redo_manager, document);
+	g_warn_if_fail (manager != NULL);
+	e_html_editor_undo_redo_manager_set_document (manager, document);
 
 	web_extension->priv->body_input_event_removed = TRUE;
 
@@ -2881,11 +2964,52 @@ web_editor_selection_changed_cb (WebKitWebEditor *editor,
 }
 
 static void
+web_editor_can_undo_redo_notify_cb (EHTMLEditorUndoRedoManager *manager,
+				    GParamSpec *param,
+				    EHTMLEditorWebExtension *extension)
+{
+	GError *error = NULL;
+
+	g_return_if_fail (E_IS_HTML_EDITOR_WEB_EXTENSION (extension));
+
+	g_dbus_connection_emit_signal (
+		extension->priv->dbus_connection,
+		NULL,
+		E_HTML_EDITOR_WEB_EXTENSION_OBJECT_PATH,
+		E_HTML_EDITOR_WEB_EXTENSION_INTERFACE,
+		"UndoRedoStateChanged",
+		g_variant_new ("(tbb)",
+			e_html_editor_web_extension_get_undo_redo_manager_page_id (extension, manager),
+			e_html_editor_undo_redo_manager_can_undo (manager),
+			e_html_editor_undo_redo_manager_can_redo (manager)),
+		&error);
+
+	if (error)
+		g_warning ("%s: Failed to emit signal: %s", G_STRFUNC, error->message);
+	g_clear_error (&error);
+}
+
+static void
 web_page_created_cb (WebKitWebExtension *wk_extension,
                      WebKitWebPage *web_page,
                      EHTMLEditorWebExtension *extension)
 {
+	EHTMLEditorUndoRedoManager *manager;
 	WebKitWebEditor *web_editor;
+
+	extension->priv->web_pages = g_slist_prepend (extension->priv->web_pages, web_page);
+	g_object_weak_ref (G_OBJECT (web_page), web_page_gone_cb, extension);
+
+	manager = e_html_editor_undo_redo_manager_new (extension);
+	g_hash_table_insert (extension->priv->undo_redo_managers, manager, web_page);
+
+	g_signal_connect (
+		manager, "notify::can-undo",
+		G_CALLBACK (web_editor_can_undo_redo_notify_cb), extension);
+
+	g_signal_connect (
+		manager, "notify::can-redo",
+		G_CALLBACK (web_editor_can_undo_redo_notify_cb), extension);
 
 	g_signal_connect (
 		web_page, "send-request",
@@ -3223,12 +3347,44 @@ e_html_editor_web_extension_set_renew_history_after_coordinates (EHTMLEditorWebE
 	extension->priv->renew_history_after_coordinates = renew_history_after_coordinates;
 }
 
-EHTMLEditorUndoRedoManager *
-e_html_editor_web_extension_get_undo_redo_manager (EHTMLEditorWebExtension *extension)
+guint64
+e_html_editor_web_extension_get_undo_redo_manager_page_id (EHTMLEditorWebExtension *extension,
+							   EHTMLEditorUndoRedoManager *manager)
 {
-	g_return_val_if_fail (E_IS_HTML_EDITOR_WEB_EXTENSION (extension), NULL);
+	WebKitWebPage *web_page;
 
-	return extension->priv->undo_redo_manager;
+	g_return_val_if_fail (E_IS_HTML_EDITOR_WEB_EXTENSION (extension), 0);
+	g_return_val_if_fail (E_IS_HTML_EDITOR_UNDO_REDO_MANAGER (manager), 0);
+
+	web_page = g_hash_table_lookup (extension->priv->undo_redo_managers, manager);
+	g_return_val_if_fail (web_page != NULL, 0);
+	g_return_val_if_fail (WEBKIT_IS_WEB_PAGE (web_page), 0);
+
+	return webkit_web_page_get_id (web_page);
+}
+
+EHTMLEditorUndoRedoManager *
+e_html_editor_web_extension_get_undo_redo_manager (EHTMLEditorWebExtension *extension,
+						   WebKitDOMDocument *document)
+{
+	GHashTableIter iter;
+	gpointer key, value;
+
+	g_return_val_if_fail (E_IS_HTML_EDITOR_WEB_EXTENSION (extension), NULL);
+	g_return_val_if_fail (WEBKIT_DOM_IS_DOCUMENT (document), NULL);
+
+	g_hash_table_iter_init (&iter, extension->priv->undo_redo_managers);
+	while (g_hash_table_iter_next (&iter, &key, &value)) {
+		g_warn_if_fail (E_IS_HTML_EDITOR_UNDO_REDO_MANAGER (key));
+		g_warn_if_fail (WEBKIT_IS_WEB_PAGE (value));
+
+		if (document == webkit_web_page_get_dom_document (value))
+			return key;
+	}
+
+	g_warn_if_reached ();
+
+	return NULL;
 }
 
 gboolean

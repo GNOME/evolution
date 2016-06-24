@@ -43,8 +43,6 @@ struct _EHTMLEditorUndoRedoManagerPrivate {
 	WebKitDOMDocument *document;
 	GWeakRef extension;
 
-	gboolean can_undo;
-	gboolean can_redo;
 	gboolean operation_in_progress;
 
 	GList *history;
@@ -67,6 +65,16 @@ G_DEFINE_TYPE (
 	e_html_editor_undo_redo_manager,
 	G_TYPE_OBJECT
 );
+
+EHTMLEditorUndoRedoManager *
+e_html_editor_undo_redo_manager_new (EHTMLEditorWebExtension *extension)
+{
+	g_return_val_if_fail (E_IS_HTML_EDITOR_WEB_EXTENSION (extension), NULL);
+
+	return g_object_new (E_TYPE_HTML_EDITOR_UNDO_REDO_MANAGER,
+		"html-editor-web-extension", extension,
+		NULL);
+}
 
 void
 e_html_editor_undo_redo_manager_set_document (EHTMLEditorUndoRedoManager *manager,
@@ -895,7 +903,7 @@ redo_delete (WebKitDOMDocument *document,
 	WebKitDOMDocumentFragment *fragment = event->data.fragment;
 	WebKitDOMNode *node;
 
-	manager = e_html_editor_web_extension_get_undo_redo_manager (extension);
+	manager = e_html_editor_web_extension_get_undo_redo_manager (extension, document);
 	restore_selection_to_history_event_state (document, event->before);
 
 	delete_key = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (event->data.fragment), "history-delete-key"));
@@ -2200,7 +2208,6 @@ e_html_editor_undo_redo_manager_insert_history_event (EHTMLEditorUndoRedoManager
 
 	manager->priv->history = g_list_prepend (manager->priv->history, event);
 	manager->priv->history_size++;
-	manager->priv->can_undo = TRUE;
 
 	d (print_history (manager));
 
@@ -2438,6 +2445,9 @@ e_html_editor_undo_redo_manager_undo (EHTMLEditorUndoRedoManager *manager)
 	manager->priv->operation_in_progress = FALSE;
 
 	g_object_unref (extension);
+
+	g_object_notify (G_OBJECT (manager), "can-undo");
+	g_object_notify (G_OBJECT (manager), "can-redo");
 }
 
 gboolean
@@ -2584,6 +2594,9 @@ e_html_editor_undo_redo_manager_redo (EHTMLEditorUndoRedoManager *manager)
 	manager->priv->operation_in_progress = FALSE;
 
 	g_object_unref (extension);
+
+	g_object_notify (G_OBJECT (manager), "can-undo");
+	g_object_notify (G_OBJECT (manager), "can-redo");
 }
 
 void
@@ -2610,9 +2623,7 @@ e_html_editor_undo_redo_manager_clean_history (EHTMLEditorUndoRedoManager *manag
 	ev->type = HISTORY_START;
 	manager->priv->history = g_list_append (manager->priv->history, ev);
 
-	manager->priv->can_undo = FALSE;
 	g_object_notify (G_OBJECT (manager), "can-undo");
-	manager->priv->can_redo = FALSE;
 	g_object_notify (G_OBJECT (manager), "can-redo");
 }
 
@@ -2629,7 +2640,6 @@ static void
 html_editor_undo_redo_manager_dispose (GObject *object)
 {
 	EHTMLEditorUndoRedoManagerPrivate *priv;
-	EHTMLEditorWebExtension *extension;
 
 	priv = E_HTML_EDITOR_UNDO_REDO_MANAGER_GET_PRIVATE (object);
 
@@ -2638,8 +2648,6 @@ html_editor_undo_redo_manager_dispose (GObject *object)
 		priv->history = NULL;
 	}
 
-	extension = g_weak_ref_get (&priv->extension);
-	g_clear_object (&extension);
 	g_weak_ref_set (&priv->extension, NULL);
 
 	/* Chain up to parent's dispose() method. */
@@ -2753,6 +2761,4 @@ e_html_editor_undo_redo_manager_init (EHTMLEditorUndoRedoManager *manager)
 	manager->priv->operation_in_progress = FALSE;
 	manager->priv->history = NULL;
 	manager->priv->history_size = 0;
-	manager->priv->can_undo = FALSE;
-	manager->priv->can_redo = FALSE;
 }

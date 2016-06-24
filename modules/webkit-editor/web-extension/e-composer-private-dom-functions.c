@@ -650,7 +650,7 @@ dom_save_drag_and_drop_history (WebKitDOMDocument *document,
 	WebKitDOMRange *beginning_of_line = NULL;
 	WebKitDOMRange *range = NULL, *range_clone = NULL;
 
-	manager = e_html_editor_web_extension_get_undo_redo_manager (extension);
+	manager = e_html_editor_web_extension_get_undo_redo_manager (extension, document);
 
 	if (!(dom_window = webkit_dom_document_get_default_view (document)))
 		return;

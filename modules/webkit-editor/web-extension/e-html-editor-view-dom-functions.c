@@ -1253,7 +1253,7 @@ insert_delete_event (WebKitDOMDocument *document,
 	WebKitDOMDocumentFragment *fragment;
 	EHTMLEditorUndoRedoManager *manager;
 
-	manager = e_html_editor_web_extension_get_undo_redo_manager (extension);
+	manager = e_html_editor_web_extension_get_undo_redo_manager (extension, document);
 
 	if (e_html_editor_undo_redo_manager_is_operation_in_progress (manager))
 		return;
@@ -1378,7 +1378,7 @@ emoticon_insert_span (EEmoticon *emoticon,
 	WebKitDOMRange *range;
 
 	smiley_written = e_html_editor_web_extension_get_is_smiley_written (extension);
-	manager = e_html_editor_web_extension_get_undo_redo_manager (extension);
+	manager = e_html_editor_web_extension_get_undo_redo_manager (extension, document);
 
 	if (dom_selection_is_collapsed (document)) {
 		dom_selection_save (document);
@@ -2176,7 +2176,7 @@ save_history_before_event_in_table (WebKitDOMDocument *document,
 			&ev->before.end.x,
 			&ev->before.end.y);
 
-		manager = e_html_editor_web_extension_get_undo_redo_manager (extension);
+		manager = e_html_editor_web_extension_get_undo_redo_manager (extension, document);
 		e_html_editor_undo_redo_manager_insert_history_event (manager, ev);
 
 		return TRUE;
@@ -2193,7 +2193,7 @@ insert_tabulator (WebKitDOMDocument *document,
 	EHTMLEditorHistoryEvent *ev = NULL;
 	gboolean success;
 
-	manager = e_html_editor_web_extension_get_undo_redo_manager (extension);
+	manager = e_html_editor_web_extension_get_undo_redo_manager (extension, document);
 
 	if (!e_html_editor_undo_redo_manager_is_operation_in_progress (manager)) {
 		ev = g_new0 (EHTMLEditorHistoryEvent, 1);
@@ -2399,7 +2399,7 @@ body_keydown_event_cb (WebKitDOMElement *element,
 		ev = g_new0 (EHTMLEditorHistoryEvent, 1);
 		ev->type = HISTORY_INPUT;
 
-		manager = e_html_editor_web_extension_get_undo_redo_manager (extension);
+		manager = e_html_editor_web_extension_get_undo_redo_manager (extension, document);
 
 		dom_selection_get_coordinates (
 			document,
@@ -2445,7 +2445,7 @@ save_history_after_event_in_table (WebKitDOMDocument *document,
 	g_object_unref (dom_selection);
 	g_object_unref (range);
 
-	manager = e_html_editor_web_extension_get_undo_redo_manager (extension);
+	manager = e_html_editor_web_extension_get_undo_redo_manager (extension, document);
 	/* If writing to table we have to create different history event. */
 	if (WEBKIT_DOM_IS_HTML_TABLE_CELL_ELEMENT (element)) {
 		ev = e_html_editor_undo_redo_manager_get_current_history_event (manager);
@@ -2483,7 +2483,7 @@ save_history_for_input (WebKitDOMDocument *document,
 	WebKitDOMRange *range, *range_clone;
 	WebKitDOMNode *start_container;
 
-	manager = e_html_editor_web_extension_get_undo_redo_manager (extension);
+	manager = e_html_editor_web_extension_get_undo_redo_manager (extension, document);
 
 	dom_window = webkit_dom_document_get_default_view (document);
 	dom_selection = webkit_dom_dom_window_get_selection (dom_window);
@@ -2682,7 +2682,7 @@ body_input_event_process (WebKitDOMDocument *document,
 
 	range = dom_get_current_range (document);
 
-	manager = e_html_editor_web_extension_get_undo_redo_manager (extension);
+	manager = e_html_editor_web_extension_get_undo_redo_manager (extension, document);
 
 	html_mode = e_html_editor_web_extension_get_html_mode (extension);
 	e_html_editor_web_extension_set_content_changed (extension);
@@ -3381,7 +3381,7 @@ body_keyup_event_cb (WebKitDOMElement *element,
 			EHTMLEditorHistoryEvent *ev = NULL;
 			EHTMLEditorUndoRedoManager *manager;
 
-			manager = e_html_editor_web_extension_get_undo_redo_manager (extension);
+			manager = e_html_editor_web_extension_get_undo_redo_manager (extension, document);
 			ev = e_html_editor_undo_redo_manager_get_current_history_event (manager);
 			dom_selection_get_coordinates (
 				document,
@@ -3449,7 +3449,7 @@ delete_hidden_space (WebKitDOMDocument *document,
 		WebKitDOMNode *node;
 		WebKitDOMDocumentFragment *fragment;
 
-		manager = e_html_editor_web_extension_get_undo_redo_manager (extension);
+		manager = e_html_editor_web_extension_get_undo_redo_manager (extension, document);
 
 		node = webkit_dom_node_get_previous_sibling (WEBKIT_DOM_NODE (selection_start_marker));
 		if (!(WEBKIT_DOM_IS_ELEMENT (node) &&
@@ -3506,7 +3506,7 @@ dom_move_quoted_block_level_up (WebKitDOMDocument *document,
 	WebKitDOMNode *block;
 	EHTMLEditorUndoRedoManager *manager;
 
-	manager = e_html_editor_web_extension_get_undo_redo_manager (extension);
+	manager = e_html_editor_web_extension_get_undo_redo_manager (extension, document);
 	html_mode = e_html_editor_web_extension_get_html_mode (extension);
 
 	selection_start_marker = webkit_dom_document_query_selector (
@@ -5057,7 +5057,7 @@ dom_quote_and_insert_text_into_selection (WebKitDOMDocument *document,
 
 	dom_selection_save (document);
 
-	manager = e_html_editor_web_extension_get_undo_redo_manager (extension);
+	manager = e_html_editor_web_extension_get_undo_redo_manager (extension, document);
 	if (!e_html_editor_undo_redo_manager_is_operation_in_progress (manager)) {
 		ev = g_new0 (EHTMLEditorHistoryEvent, 1);
 		ev->type = HISTORY_PASTE_QUOTED;
@@ -5666,7 +5666,7 @@ dom_convert_and_insert_html_into_selection (WebKitDOMDocument *document,
 	if (WEBKIT_DOM_IS_HTML_BODY_ELEMENT (current_block))
 		current_block = NULL;
 
-	manager = e_html_editor_web_extension_get_undo_redo_manager (extension);
+	manager = e_html_editor_web_extension_get_undo_redo_manager (extension, document);
 	if (!e_html_editor_undo_redo_manager_is_operation_in_progress (manager)) {
 		gboolean collapsed;
 
@@ -8196,7 +8196,7 @@ dom_insert_html (WebKitDOMDocument *document,
 
 	g_return_if_fail (html_text != NULL);
 
-	manager = e_html_editor_web_extension_get_undo_redo_manager (extension);
+	manager = e_html_editor_web_extension_get_undo_redo_manager (extension, document);
 	if (!e_html_editor_undo_redo_manager_is_operation_in_progress (manager)) {
 		gboolean collapsed;
 
@@ -8762,7 +8762,7 @@ save_history_for_delete_or_backspace (WebKitDOMDocument *document,
 
 	ev->data.fragment = fragment;
 
-	manager = e_html_editor_web_extension_get_undo_redo_manager (extension);
+	manager = e_html_editor_web_extension_get_undo_redo_manager (extension, document);
 	e_html_editor_undo_redo_manager_insert_history_event (manager, ev);
 }
 
@@ -8915,7 +8915,7 @@ split_citation (WebKitDOMDocument *document,
 	EHTMLEditorUndoRedoManager *manager;
 	WebKitDOMElement *element;
 
-	manager = e_html_editor_web_extension_get_undo_redo_manager (extension);
+	manager = e_html_editor_web_extension_get_undo_redo_manager (extension, document);
 
 	if (!e_html_editor_undo_redo_manager_is_operation_in_progress (manager)) {
 		WebKitDOMElement *selection_end;
@@ -9098,7 +9098,7 @@ delete_last_character_from_previous_line_in_quoted_block (WebKitDOMDocument *doc
 
 		ev->data.fragment = fragment;
 
-		manager = e_html_editor_web_extension_get_undo_redo_manager (extension);
+		manager = e_html_editor_web_extension_get_undo_redo_manager (extension, document);
 		e_html_editor_undo_redo_manager_insert_history_event (manager, ev);
 	}
 
@@ -9247,7 +9247,7 @@ return_pressed_in_image_wrapper (WebKitDOMDocument *document,
 		return FALSE;
 	}
 
-	manager = e_html_editor_web_extension_get_undo_redo_manager (extension);
+	manager = e_html_editor_web_extension_get_undo_redo_manager (extension, document);
 
 	if (!e_html_editor_undo_redo_manager_is_operation_in_progress (manager)) {
 		ev = g_new0 (EHTMLEditorHistoryEvent, 1);
@@ -9332,7 +9332,7 @@ return_pressed_in_empty_list_item (WebKitDOMDocument *document,
 		WebKitDOMElement *paragraph;
 		WebKitDOMNode *list;
 
-		manager = e_html_editor_web_extension_get_undo_redo_manager (extension);
+		manager = e_html_editor_web_extension_get_undo_redo_manager (extension, document);
 
 		if (!e_html_editor_undo_redo_manager_is_operation_in_progress (manager)) {
 			ev = g_new0 (EHTMLEditorHistoryEvent, 1);
@@ -9537,7 +9537,7 @@ remove_empty_bulleted_list_item (WebKitDOMDocument *document,
 	WebKitDOMElement *selection_start;
 	WebKitDOMNode *parent;
 
-	manager = e_html_editor_web_extension_get_undo_redo_manager (extension);
+	manager = e_html_editor_web_extension_get_undo_redo_manager (extension, document);
 	dom_selection_save (document);
 
 	selection_start = webkit_dom_document_get_element_by_id (
@@ -9966,7 +9966,7 @@ dom_process_content_after_mode_change (WebKitDOMDocument *document,
 
 	set_monospace_font_family_on_body (WEBKIT_DOM_ELEMENT (webkit_dom_document_get_body (document)), html_mode);
 
-	manager = e_html_editor_web_extension_get_undo_redo_manager (extension);
+	manager = e_html_editor_web_extension_get_undo_redo_manager (extension, document);
 	e_html_editor_undo_redo_manager_clean_history (manager);
 }
 
@@ -10074,7 +10074,7 @@ dom_save_history_for_drop (WebKitDOMDocument *document,
 	WebKitDOMNodeList *list;
 	WebKitDOMRange *range;
 
-	manager = e_html_editor_web_extension_get_undo_redo_manager (extension);
+	manager = e_html_editor_web_extension_get_undo_redo_manager (extension, document);
 
 	/* When the image is DnD inside the view WebKit removes the wrapper that
 	 * is used for resizing the image, so we have to recreate it again. */

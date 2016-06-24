@@ -71,7 +71,7 @@ save_history_for_table (WebKitDOMDocument *document,
 	dom_selection_get_coordinates (
 		document, &ev->after.start.x, &ev->after.start.y, &ev->after.end.x, &ev->after.end.y);
 
-	manager = e_html_editor_web_extension_get_undo_redo_manager (extension);
+	manager = e_html_editor_web_extension_get_undo_redo_manager (extension, document);
 	e_html_editor_undo_redo_manager_insert_history_event (manager, ev);
 }
 
@@ -411,6 +411,6 @@ dom_save_history_for_cut (WebKitDOMDocument *document,
 	g_object_unref (dom_selection);
 	ev->data.fragment = g_object_ref (fragment);
 
-	manager = e_html_editor_web_extension_get_undo_redo_manager (extension);
+	manager = e_html_editor_web_extension_get_undo_redo_manager (extension, document);
 	e_html_editor_undo_redo_manager_insert_history_event (manager, ev);
 }

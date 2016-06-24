@@ -264,7 +264,7 @@ e_html_editor_table_dialog_show (WebKitDOMDocument *document,
 		}
 	}
 
-	manager = e_html_editor_web_extension_get_undo_redo_manager (extension);
+	manager = e_html_editor_web_extension_get_undo_redo_manager (extension, document);
 	if (!e_html_editor_undo_redo_manager_is_operation_in_progress (manager)) {
 		EHTMLEditorHistoryEvent *ev;
 
@@ -300,7 +300,7 @@ e_html_editor_table_dialog_save_history_on_exit (WebKitDOMDocument *document,
 
 	webkit_dom_element_remove_attribute (element, "id");
 
-	manager = e_html_editor_web_extension_get_undo_redo_manager (extension);
+	manager = e_html_editor_web_extension_get_undo_redo_manager (extension, document);
 	ev = e_html_editor_undo_redo_manager_get_current_history_event (manager);
 	ev->data.dom.to = webkit_dom_node_clone_node_with_error (
 		WEBKIT_DOM_NODE (element), TRUE, NULL);

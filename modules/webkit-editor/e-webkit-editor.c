@@ -69,6 +69,7 @@ struct _EWebKitEditorPrivate {
 	guint web_extension_watch_name_id;
 	guint web_extension_selection_changed_cb_id;
 	guint web_extension_content_changed_cb_id;
+	guint web_extension_undo_redo_state_changed_cb_id;
 
 	gboolean html_mode;
 	gboolean changed;
@@ -258,6 +259,34 @@ webkit_editor_set_changed (EWebKitEditor *wk_editor,
 }
 
 static void
+webkit_editor_set_can_undo (EWebKitEditor *wk_editor,
+			    gboolean can_undo)
+{
+	g_return_if_fail (E_IS_WEBKIT_EDITOR (wk_editor));
+
+	if ((wk_editor->priv->can_undo ? 1 : 0) == (can_undo ? 1 : 0))
+		return;
+
+	wk_editor->priv->can_undo = can_undo;
+
+	g_object_notify (G_OBJECT (wk_editor), "can-undo");
+}
+
+static void
+webkit_editor_set_can_redo (EWebKitEditor *wk_editor,
+			    gboolean can_redo)
+{
+	g_return_if_fail (E_IS_WEBKIT_EDITOR (wk_editor));
+
+	if ((wk_editor->priv->can_redo ? 1 : 0) == (can_redo ? 1 : 0))
+		return;
+
+	wk_editor->priv->can_redo = can_redo;
+
+	g_object_notify (G_OBJECT (wk_editor), "can-redo");
+}
+
+static void
 web_extension_content_changed_cb (GDBusConnection *connection,
                                   const gchar *sender_name,
                                   const gchar *object_path,
@@ -363,6 +392,29 @@ web_extension_selection_changed_cb (GDBusConnection *connection,
 }
 
 static void
+web_extension_undo_redo_state_changed_cb (GDBusConnection *connection,
+					  const gchar *sender_name,
+					  const gchar *object_path,
+					  const gchar *interface_name,
+					  const gchar *signal_name,
+					  GVariant *parameters,
+					  EWebKitEditor *wk_editor)
+{
+	guint64 page_id = 0;
+	gboolean can_undo = FALSE, can_redo = FALSE;
+
+	if (g_strcmp0 (signal_name, "UndoRedoStateChanged") != 0)
+		return;
+
+	g_variant_get (parameters, "(tbb)", &page_id, &can_undo, &can_redo);
+
+	if (page_id == webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (wk_editor))) {
+		webkit_editor_set_can_undo (wk_editor, can_undo);
+		webkit_editor_set_can_redo (wk_editor, can_redo);
+	}
+}
+
+static void
 dispatch_pending_operations (EWebKitEditor *wk_editor)
 {
 	if (!wk_editor->priv->web_extension)
@@ -437,6 +489,21 @@ web_extension_proxy_created_cb (GDBusProxy *proxy,
 				NULL,
 				G_DBUS_SIGNAL_FLAGS_NONE,
 				(GDBusSignalCallback) web_extension_content_changed_cb,
+				wk_editor,
+				NULL);
+	}
+
+	if (wk_editor->priv->web_extension_undo_redo_state_changed_cb_id == 0) {
+		wk_editor->priv->web_extension_undo_redo_state_changed_cb_id =
+			g_dbus_connection_signal_subscribe (
+				g_dbus_proxy_get_connection (wk_editor->priv->web_extension),
+				g_dbus_proxy_get_name (wk_editor->priv->web_extension),
+				E_HTML_EDITOR_WEB_EXTENSION_INTERFACE,
+				"UndoRedoStateChanged",
+				E_HTML_EDITOR_WEB_EXTENSION_OBJECT_PATH,
+				NULL,
+				G_DBUS_SIGNAL_FLAGS_NONE,
+				(GDBusSignalCallback) web_extension_undo_redo_state_changed_cb,
 				wk_editor,
 				NULL);
 	}
@@ -5021,6 +5088,13 @@ webkit_editor_dispose (GObject *object)
 		priv->web_extension_selection_changed_cb_id = 0;
 	}
 
+	if (priv->web_extension_undo_redo_state_changed_cb_id > 0) {
+		g_dbus_connection_signal_unsubscribe (
+			g_dbus_proxy_get_connection (priv->web_extension),
+			priv->web_extension_undo_redo_state_changed_cb_id);
+		priv->web_extension_undo_redo_state_changed_cb_id = 0;
+	}
+
 	if (priv->web_extension_watch_name_id > 0) {
 		g_bus_unwatch_name (priv->web_extension_watch_name_id);
 		priv->web_extension_watch_name_id = 0;
@@ -5908,6 +5982,7 @@ e_webkit_editor_init (EWebKitEditor *wk_editor)
 
 	wk_editor->priv->web_extension_selection_changed_cb_id = 0;
 	wk_editor->priv->web_extension_content_changed_cb_id = 0;
+	wk_editor->priv->web_extension_undo_redo_state_changed_cb_id = 0;
 }
 
 static void
