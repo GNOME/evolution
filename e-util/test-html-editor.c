@@ -487,6 +487,8 @@ main (gint argc,
 	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
 	gtk_widget_show (widget);
 
+	gtk_widget_grab_focus (GTK_WIDGET (cnt_editor));
+
 	manager = e_html_editor_get_ui_manager (editor);
 
 	gtk_ui_manager_add_ui_from_string (manager, file_ui, -1, &error);
