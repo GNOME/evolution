@@ -1499,8 +1499,6 @@ addressbook/gui/contact-list-editor/Makefile
 addressbook/gui/widgets/Makefile
 addressbook/importers/Makefile
 addressbook/printing/Makefile
-addressbook/tools/Makefile
-addressbook/tools/csv2vcard
 addressbook/util/Makefile
 art/Makefile
 data/Makefile

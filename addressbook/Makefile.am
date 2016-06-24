@@ -1,5 +1,5 @@
 
-SUBDIRS = util printing importers gui tools
+SUBDIRS = util printing importers gui
 
 error_DATA = addressbook.error
 errordir = $(privdatadir)/errors
