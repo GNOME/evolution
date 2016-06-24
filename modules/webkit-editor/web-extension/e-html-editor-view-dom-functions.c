@@ -2410,8 +2410,8 @@ body_keydown_event_cb (WebKitDOMElement *element,
 		e_html_editor_undo_redo_manager_insert_history_event (manager, ev);
 	}
  out:
-	g_object_unref (range);
-	g_object_unref (dom_selection);
+	g_clear_object (&range);
+	g_clear_object (&dom_selection);
 }
 
 static gboolean
