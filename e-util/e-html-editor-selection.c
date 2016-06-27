@@ -1270,7 +1270,7 @@ e_html_editor_selection_get_alignment (EHTMLEditorSelection *selection)
 	if (WEBKIT_DOM_IS_ELEMENT (node))
 		element = WEBKIT_DOM_ELEMENT (node);
 	else
-		element = webkit_dom_node_get_parent_element (node);
+		element = WEBKIT_DOM_ELEMENT (e_html_editor_get_parent_block_node_from_child (node));
 
 	if (element_has_class (element, "-x-evo-align-right")) {
 		alignment = E_HTML_EDITOR_SELECTION_ALIGNMENT_RIGHT;
