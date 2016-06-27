@@ -5974,7 +5974,7 @@ e_webkit_editor_init (EWebKitEditor *wk_editor)
 	wk_editor->priv->emit_load_finished_when_extension_is_ready = FALSE;
 
 	wk_editor->priv->font_color = gdk_rgba_copy (&black);
-	wk_editor->priv->font_color = gdk_rgba_copy (&white);
+	wk_editor->priv->background_color = gdk_rgba_copy (&white);
 	wk_editor->priv->font_name = NULL;
 	wk_editor->priv->font_size = E_CONTENT_EDITOR_FONT_SIZE_NORMAL;
 	wk_editor->priv->block_format = E_CONTENT_EDITOR_BLOCK_FORMAT_PARAGRAPH;
