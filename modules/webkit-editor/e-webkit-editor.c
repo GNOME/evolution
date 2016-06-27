@@ -5025,15 +5025,20 @@ webkit_editor_constructor (GType type,
 			g_value_take_object (param->value, webkit_user_content_manager_new ());
 		param_spec = g_object_class_find_property (object_class, "web-context");
 		if ((param = find_property (n_construct_properties, construct_properties, param_spec))) {
-			WebKitWebContext *web_context;
+			/* Share one web_context between all editors, thus there is one WebProcess
+			   for all the editors (and one for the preview). */
+			static gpointer web_context = NULL;
 
-			web_context = webkit_web_context_new ();
+			if (!web_context) {
+				web_context = webkit_web_context_new ();
 
-			webkit_web_context_set_cache_model (
-				web_context, WEBKIT_CACHE_MODEL_DOCUMENT_VIEWER);
+				webkit_web_context_set_cache_model (web_context, WEBKIT_CACHE_MODEL_DOCUMENT_VIEWER);
+				webkit_web_context_set_web_extensions_directory (web_context, EVOLUTION_WEB_EXTENSIONS_WEBKIT_EDITOR_DIR);
 
-			webkit_web_context_set_web_extensions_directory (
-				web_context, EVOLUTION_WEB_EXTENSIONS_WEBKIT_EDITOR_DIR);
+				g_object_add_weak_pointer (G_OBJECT (web_context), &web_context);
+			} else {
+				g_object_ref (web_context);
+			}
 
 			g_value_take_object (param->value, web_context);
 		}
