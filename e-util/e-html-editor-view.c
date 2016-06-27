@@ -5599,6 +5599,8 @@ return_pressed_in_empty_list_item (EHTMLEditorView *view)
 
 		list = split_node_into_two (parent, -1);
 
+		remove_node_if_empty (list);
+
 		if (ev) {
 			webkit_dom_node_append_child (
 				WEBKIT_DOM_NODE (fragment),
