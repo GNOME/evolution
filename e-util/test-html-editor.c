@@ -37,6 +37,8 @@ static const gchar *file_ui =
 "<ui>\n"
 "  <menubar name='main-menu'>\n"
 "    <menu action='file-menu'>\n"
+"     <menuitem action='new-editor'/>\n"
+"     <separator/>\n"
 "     <menuitem action='save'/>\n"
 "     <menuitem action='save-as'/>\n"
 #ifdef ENABLE_PRINT
@@ -64,6 +66,8 @@ static const gchar *view_ui =
 "    </menu>\n"
 "  </menubar>\n"
 "</ui>";
+
+static void create_new_editor (void);
 
 static void
 handle_error (GError **error)
@@ -210,6 +214,13 @@ view_source_dialog (EHTMLEditor *editor,
 	gtk_widget_destroy (dialog);
 }
 
+static void
+action_new_editor_cb (GtkAction *action,
+		      EHTMLEditor *editor)
+{
+	create_new_editor ();
+}
+
 #ifdef ENABLE_PRINT
 static void
 action_print_cb (GtkAction *action,
@@ -318,6 +329,12 @@ action_view_inspector (GtkAction *action,
 }
 
 static GtkActionEntry file_entries[] = {
+	{ "new-editor",
+	  "document-new",
+	  N_("_New editor"),
+	  "<Control>N",
+	  NULL,
+	  G_CALLBACK (action_new_editor_cb) },
 
 #ifdef ENABLE_PRINT
 	{ "print",
@@ -409,9 +426,21 @@ static GtkActionEntry view_entries[] = {
 	  NULL }
 };
 
-gint
-main (gint argc,
-      gchar **argv)
+static guint glob_editors = 0;
+
+static void
+editor_destroyed_cb (GtkWidget *editor)
+{
+	g_return_if_fail (glob_editors > 0);
+
+	glob_editors--;
+
+	if (!glob_editors)
+		gtk_main_quit ();
+}
+
+static void
+create_new_editor (void)
 {
 	GtkActionGroup *action_group;
 	GtkUIManager *manager;
@@ -419,22 +448,11 @@ main (gint argc,
 	GtkWidget *widget;
 	EHTMLEditor *editor;
 	EContentEditor *cnt_editor;
-	GList *modules;
 	GError *error = NULL;
 
-	bindtextdomain (GETTEXT_PACKAGE, EVOLUTION_LOCALEDIR);
-	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
-	textdomain (GETTEXT_PACKAGE);
+	glob_editors++;
 
-	gtk_init (&argc, &argv);
-
-	e_util_init_main_thread (NULL);
-	e_passwords_init ();
-
-	modules = e_module_load_all_in_directory (EVOLUTION_MODULEDIR);
-	g_list_free_full (modules, (GDestroyNotify) g_type_module_unuse);
-
-	editor = g_object_ref_sink (e_html_editor_new ());
+	editor = E_HTML_EDITOR (e_html_editor_new ());
 	cnt_editor = e_html_editor_get_content_editor (editor);
 
 	g_object_set (G_OBJECT (editor),
@@ -465,7 +483,7 @@ main (gint argc,
 
 	g_signal_connect_swapped (
 		widget, "destroy",
-		G_CALLBACK (gtk_main_quit), NULL);
+		G_CALLBACK (editor_destroyed_cb), NULL);
 
 	container = widget;
 
@@ -521,10 +539,30 @@ main (gint argc,
 	}
 
 	gtk_ui_manager_ensure_update (manager);
+}
+
+gint
+main (gint argc,
+      gchar **argv)
+{
+	GList *modules;
+
+	bindtextdomain (GETTEXT_PACKAGE, EVOLUTION_LOCALEDIR);
+	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
+	textdomain (GETTEXT_PACKAGE);
+
+	gtk_init (&argc, &argv);
+
+	e_util_init_main_thread (NULL);
+	e_passwords_init ();
+
+	modules = e_module_load_all_in_directory (EVOLUTION_MODULEDIR);
+	g_list_free_full (modules, (GDestroyNotify) g_type_module_unuse);
+
+	create_new_editor ();
 
 	gtk_main ();
 
-	g_object_unref (editor);
 	e_util_cleanup_settings ();
 	e_spell_checker_free_global_memory ();
 
