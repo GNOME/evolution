@@ -735,7 +735,8 @@ e_html_editor_view_force_spell_check_in_viewport (EHTMLEditorView *view)
 	/* We have to add 10 px offset as otherwise just the HTML element will be returned */
 	viewport_height = webkit_dom_dom_window_get_inner_height (dom_window);
 	last_element = webkit_dom_document_element_from_point (document, 10, viewport_height - 10);
-	if (last_element && !WEBKIT_DOM_IS_HTML_HTML_ELEMENT (last_element)) {
+	if (last_element && !WEBKIT_DOM_IS_HTML_HTML_ELEMENT (last_element) &&
+	    !WEBKIT_DOM_IS_HTML_BODY_ELEMENT (last_element)) {
 		WebKitDOMElement *parent;
 
 		parent = get_parent_block_element (WEBKIT_DOM_NODE (last_element));
