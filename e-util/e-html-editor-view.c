@@ -11125,8 +11125,7 @@ html_editor_view_load_status_changed (EHTMLEditorView *view)
 	e_html_editor_view_register_input_event_listener_on_body (view);
 	register_html_events_handlers (view, body);
 
-	if (view->priv->html_mode)
-		change_cid_images_src_to_base64 (view);
+	change_cid_images_src_to_base64 (view);
 
 	if (view->priv->inline_spelling)
 		e_html_editor_view_force_spell_check (view);
