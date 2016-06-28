@@ -10466,7 +10466,7 @@ static gchar *
 process_content_for_plain_text (EHTMLEditorView *view)
 {
 	EHTMLEditorSelection *selection;
-	gboolean wrap = FALSE, quote = FALSE, clean = FALSE;
+	gboolean wrap = FALSE, quote = FALSE;
 	gboolean converted, is_from_new_message;
 	gint length, ii;
 	GString *plain_text;
@@ -10498,22 +10498,14 @@ process_content_for_plain_text (EHTMLEditorView *view)
 			remove_background_images_in_element (
 				WEBKIT_DOM_ELEMENT (source));
 		} else {
-			gchar *inner_html;
 			WebKitDOMElement *div;
+			WebKitDOMNode *child;
 
-			inner_html = webkit_dom_html_element_get_inner_html (
-				WEBKIT_DOM_HTML_ELEMENT (body));
-
-			div = webkit_dom_document_create_element (
-				document, "div", NULL);
-
-			webkit_dom_html_element_set_inner_html (
-				WEBKIT_DOM_HTML_ELEMENT (div), inner_html, NULL);
-
-			webkit_dom_node_append_child (
-				WEBKIT_DOM_NODE (body),
-				WEBKIT_DOM_NODE (div),
-				NULL);
+			div = webkit_dom_document_create_element (document, "div", NULL);
+			while ((child = webkit_dom_node_get_first_child (source))) {
+				webkit_dom_node_append_child (
+					WEBKIT_DOM_NODE (div), child, NULL);
+			}
 
 			paragraphs = webkit_dom_element_query_selector_all (
 				div, "#-x-evo-input-start", NULL);
@@ -10530,14 +10522,11 @@ process_content_for_plain_text (EHTMLEditorView *view)
 			}
 			g_object_unref (paragraphs);
 
-			convert_element_from_html_to_plain_text (
-				view, div, &wrap, &quote);
+			remove_images_in_element (view, div);
 
-			g_object_unref (source);
+			convert_element_from_html_to_plain_text (view, div, &wrap, &quote);
 
 			source = WEBKIT_DOM_NODE (div);
-
-			clean = TRUE;
 		}
 	}
 
@@ -10598,11 +10587,6 @@ process_content_for_plain_text (EHTMLEditorView *view)
 	}
 
 	process_elements (view, source, FALSE, TRUE, plain_text);
-
-	if (clean)
-		remove_node (source);
-	else
-		g_object_unref (source);
 
 	e_html_editor_selection_restore (selection);
 
