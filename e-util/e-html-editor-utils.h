@@ -106,6 +106,10 @@ WebKitDOMElement *
 void		dom_element_rename_attribute	(WebKitDOMElement *element,
 						 const gchar *from,
 						 const gchar *to);
+
+void		dom_element_swap_attributes	(WebKitDOMElement *element,
+						 const gchar *from,
+						 const gchar *to);
 G_END_DECLS
 
 #endif /* E_HTML_EDITOR_UTILS_H */

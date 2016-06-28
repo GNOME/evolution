@@ -7100,12 +7100,23 @@ e_html_editor_selection_set_indented_style (EHTMLEditorSelection *selection,
 
 	webkit_dom_element_set_class_name (element, "-x-evo-indented");
 
-	if (is_in_html_mode (selection) || word_wrap_length == 0)
+	if (is_in_html_mode (selection) || word_wrap_length == 0) {
+		gchar *plain_text_style;
+
 		style = g_strdup_printf ("margin-left: %dch;", SPACES_PER_INDENTATION);
-	else
+
+		plain_text_style = g_strdup_printf (
+			"margin-left: %dch; word-wrap: normal; width: %dch;",
+			SPACES_PER_INDENTATION, word_wrap_length);
+
+		webkit_dom_element_set_attribute (
+			element, "data-plain-text-style", plain_text_style, NULL);
+		g_free (plain_text_style);
+	} else {
 		style = g_strdup_printf (
 			"margin-left: %dch; word-wrap: normal; width: %dch;",
 			SPACES_PER_INDENTATION, word_wrap_length);
+	}
 
 	webkit_dom_element_set_attribute (element, "style", style, NULL);
 	g_free (style);

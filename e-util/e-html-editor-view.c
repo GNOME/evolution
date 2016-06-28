@@ -7282,12 +7282,8 @@ create_and_append_new_block (EHTMLEditorSelection *selection,
 {
 	WebKitDOMElement *block;
 
-	if (WEBKIT_DOM_IS_HTML_DIV_ELEMENT (block_template))
-		block = e_html_editor_selection_get_paragraph_element (
-			selection, document, -1, 0);
-	else
-		block = WEBKIT_DOM_ELEMENT (webkit_dom_node_clone_node (
-			WEBKIT_DOM_NODE (block_template), FALSE));
+	block = WEBKIT_DOM_ELEMENT (webkit_dom_node_clone_node (
+		WEBKIT_DOM_NODE (block_template), FALSE));
 
 	webkit_dom_html_element_set_inner_html (
 		WEBKIT_DOM_HTML_ELEMENT (block),
@@ -9534,6 +9530,7 @@ remove_evolution_attributes (WebKitDOMElement *element)
 	webkit_dom_element_remove_attribute (element, "data-new-message");
 	webkit_dom_element_remove_attribute (element, "data-user-wrapped");
 	webkit_dom_element_remove_attribute (element, "data-evo-plain-text");
+	webkit_dom_element_remove_attribute (element, "data-plain-text-style");
 	webkit_dom_element_remove_attribute (element, "data-style");
 	webkit_dom_element_remove_attribute (element, "spellcheck");
 }
@@ -9883,6 +9880,7 @@ process_elements (EHTMLEditorView *view,
 			if (!to_plain_text && !changing_mode) {
 				process_blockquote (WEBKIT_DOM_ELEMENT (child), FALSE);
 				element_remove_class (WEBKIT_DOM_ELEMENT (child), "-x-evo-indented");
+				remove_evolution_attributes (WEBKIT_DOM_ELEMENT (child));
 			} else
 				process_blockquote (WEBKIT_DOM_ELEMENT (child), TRUE);
 
@@ -11159,6 +11157,29 @@ e_html_editor_view_clear_history (EHTMLEditorView *view)
 }
 
 static void
+toggle_indented_elements (EHTMLEditorView *view)
+{
+	WebKitDOMDocument *document;
+	WebKitDOMNodeList *list;
+	gint ii, length;
+
+	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
+	list = webkit_dom_document_query_selector_all (document, ".-x-evo-indented", NULL);
+	length = webkit_dom_node_list_get_length (list);
+
+	for (ii = 0; ii < length; ii++) {
+		WebKitDOMNode *node = webkit_dom_node_list_item (list, ii);
+
+		if (view->priv->html_mode)
+			dom_element_swap_attributes (WEBKIT_DOM_ELEMENT (node), "style", "data-plain-text-style");
+		else
+			dom_element_swap_attributes (WEBKIT_DOM_ELEMENT (node), "data-plain-text-style", "style");
+		g_object_unref (node);
+	}
+	g_object_unref (list);
+}
+
+static void
 toggle_tables (EHTMLEditorView *view)
 {
 	WebKitDOMDocument *document;
@@ -11311,6 +11332,7 @@ e_html_editor_view_set_html_mode (EHTMLEditorView *view,
 		toggle_paragraphs_style (view);
 		toggle_smileys (view);
 		toggle_tables (view);
+		toggle_indented_elements (view);
 		toggle_unordered_lists (view);
 		remove_wrapping_from_element (WEBKIT_DOM_ELEMENT (body));
 
@@ -11329,6 +11351,7 @@ e_html_editor_view_set_html_mode (EHTMLEditorView *view,
 		toggle_paragraphs_style (view);
 		toggle_smileys (view);
 		toggle_tables (view);
+		toggle_indented_elements (view);
 		toggle_unordered_lists (view);
 		remove_images (view);
 		body = webkit_dom_document_get_body (document);
