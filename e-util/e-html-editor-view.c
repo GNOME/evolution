@@ -10436,7 +10436,7 @@ process_content_for_plain_text (EHTMLEditorView *view)
 			}
 			g_object_unref (paragraphs);
 
-			remove_images_in_element (view, div);
+			remove_images_in_element (div);
 
 			convert_element_from_html_to_plain_text (view, div, &wrap, &quote);
 
