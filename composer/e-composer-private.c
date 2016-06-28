@@ -1149,8 +1149,10 @@ composer_load_signature_cb (EMailSignatureComboBox *combo_box,
 			WebKitDOMElement *pre_delimiter;
 
 			pre_delimiter = webkit_dom_document_create_element (document, "pre", NULL);
+			/* Always use the HTML delimiter as we are never in anything
+			 * like a strict plain text mode. */
 			webkit_dom_html_element_set_inner_html (
-				WEBKIT_DOM_HTML_ELEMENT (pre_delimiter), delim, NULL);
+				WEBKIT_DOM_HTML_ELEMENT (pre_delimiter), "-- <br>", NULL);
 			webkit_dom_node_append_child (
 				WEBKIT_DOM_NODE (insert_signature_in),
 				WEBKIT_DOM_NODE (pre_delimiter),

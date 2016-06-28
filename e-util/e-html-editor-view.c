@@ -9674,7 +9674,6 @@ process_elements (EHTMLEditorView *view,
 	WebKitDOMNodeList *nodes;
 	gulong ii, length;
 	gchar *content = NULL;
-	gboolean skip_nl = FALSE;
 
 	if (to_plain_text && !buffer)
 		return;
@@ -9973,46 +9972,11 @@ process_elements (EHTMLEditorView *view,
 				g_string_append (buffer, content);
 				g_free (content);
 			} else {
-				g_string_append (buffer, "\n");
-
 				if (view->priv->html_mode) {
 					convert_element_from_html_to_plain_text (
 						view, WEBKIT_DOM_ELEMENT (first_child), NULL, NULL);
-				} else {
-					WebKitDOMNode *signature_node;
-
-					signature_node = webkit_dom_node_get_last_child (first_child);
-					if (WEBKIT_DOM_IS_HTML_PRE_ELEMENT (signature_node)) {
-						WebKitDOMNode *last_child;
-
-						/* Remove a line break on the end of the last
-						 * PRE element. It is not showed by the WebKit,
-						 * but it is still there are will be added to
-						 * the output. */
-						last_child = webkit_dom_node_get_last_child (signature_node);
-						if (WEBKIT_DOM_IS_CHARACTER_DATA (last_child)) {
-							WebKitDOMCharacterData *data;
-							glong length;
-
-							data = WEBKIT_DOM_CHARACTER_DATA (last_child);
-							length = webkit_dom_character_data_get_length (data);
-							if (length > 0) {
-								gchar *last_char;
-
-								last_char = webkit_dom_character_data_substring_data (
-									data, length - 1, 1, NULL);
-
-								if (last_char && *last_char == '\n')
-									webkit_dom_character_data_delete_data (
-										data, length -1, 1, NULL);
-
-								g_free (last_char);
-							}
-						}
-					}
 				}
 				skip_node = FALSE;
-				skip_nl = TRUE;
 			}
 
 			goto next;
@@ -10065,31 +10029,9 @@ process_elements (EHTMLEditorView *view,
 		}
 
 		if (WEBKIT_DOM_IS_HTMLBR_ELEMENT (child)) {
-			if (to_plain_text) {
-				if (element_has_class (WEBKIT_DOM_ELEMENT (child), "-x-evo-wrap-br")) {
-					g_string_append (buffer, changing_mode ? "<br>" : "\n");
-					goto next;
-				}
-
-				/* Insert new line when we hit the BR element that is
-				 * not the last element in the block */
-				if (!webkit_dom_node_is_same_node (
-					child, webkit_dom_node_get_last_child (node))) {
-					g_string_append (buffer, changing_mode ? "<br>" : "\n");
-				} else {
-					/* In citations in the empty lines the BR element
-					 * is on the end and we have to put NL there */
-					WebKitDOMNode *parent;
-
-					parent = webkit_dom_node_get_parent_node (child);
-					if (webkit_dom_node_get_next_sibling (parent)) {
-						parent = webkit_dom_node_get_parent_node (parent);
-
-						if (is_citation_node (parent))
-							g_string_append (buffer, changing_mode ? "<br>" : "\n");
-					}
-				}
-			}
+			if (to_plain_text)
+				g_string_append (buffer, changing_mode ? "<br>" : "\n");
+			goto next;
 		}
 
 		if (WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (child)) {
@@ -10124,32 +10066,23 @@ process_elements (EHTMLEditorView *view,
 	    WEBKIT_DOM_IS_HTML_PRE_ELEMENT (node) ||
 	    WEBKIT_DOM_IS_HTML_QUOTE_ELEMENT (node))) {
 
-		gboolean add_br = TRUE;
-		WebKitDOMNode *next_sibling = webkit_dom_node_get_next_sibling (node);
-		WebKitDOMNode *last_child = webkit_dom_node_get_last_child (node);
-
-		if (last_child && WEBKIT_DOM_IS_HTMLBR_ELEMENT (last_child))
-			if (webkit_dom_node_get_previous_sibling (last_child))
-				add_br = FALSE;
-
-		/* If we don't have next sibling (last element in body) or next element is
-		 * signature we are not adding the BR element */
-		if (!next_sibling)
-			add_br = FALSE;
-		else if (next_sibling && WEBKIT_DOM_IS_HTML_DIV_ELEMENT (next_sibling)) {
-			if (webkit_dom_element_query_selector (
-				WEBKIT_DOM_ELEMENT (next_sibling),
-				"span.-x-evo-signature", NULL)) {
-
-				add_br = FALSE;
-			}
-		}
-
-		if (add_br && !skip_nl)
-			g_string_append (buffer, changing_mode ? "<br>" : "\n");
+		if (changing_mode) {
+			if (!g_str_has_suffix (buffer->str, "<br>"))
+				g_string_append (buffer, "<br>");
+		} else if (!g_str_has_suffix (buffer->str, "\n"))
+			g_string_append (buffer, "\n");
 	}
 
 	g_object_unref (nodes);
+
+	/* We don't want an extra new line on the end of the message. */
+	if (to_plain_text && WEBKIT_DOM_IS_HTML_BODY_ELEMENT (node)) {
+		if (changing_mode) {
+			if (g_str_has_suffix (buffer->str, "<br>"))
+				g_string_truncate (buffer, buffer->len - 4);
+		} else if (g_str_has_suffix (buffer->str, "\n"))
+			g_string_truncate (buffer, buffer->len - 1);
+	}
 }
 
 void
