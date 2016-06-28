@@ -3234,27 +3234,11 @@ remove_node_and_parents_if_empty (WebKitDOMNode *node)
 	remove_node (WEBKIT_DOM_NODE (node));
 
 	while (parent && !WEBKIT_DOM_IS_HTML_BODY_ELEMENT (parent)) {
-		WebKitDOMNode *prev_sibling, *next_sibling;
+		WebKitDOMNode *tmp;
 
-		prev_sibling = webkit_dom_node_get_previous_sibling (parent);
-		next_sibling = webkit_dom_node_get_next_sibling (parent);
-		/* Empty or BR as sibling, but no sibling after it. */
-		if ((!prev_sibling ||
-		     (WEBKIT_DOM_IS_HTMLBR_ELEMENT (prev_sibling) &&
-		      !webkit_dom_node_get_previous_sibling (prev_sibling))) &&
-		    (!next_sibling ||
-		     (WEBKIT_DOM_IS_HTMLBR_ELEMENT (next_sibling) &&
-		      !webkit_dom_node_get_next_sibling (next_sibling)))) {
-			WebKitDOMNode *tmp;
-
-			tmp = webkit_dom_node_get_parent_node (parent);
-			remove_node (parent);
-			parent = tmp;
-		} else {
-			if (!webkit_dom_node_get_first_child (parent))
-				remove_node (parent);
-			return;
-		}
+		tmp = webkit_dom_node_get_parent_node (parent);
+		remove_node_if_empty (parent);
+		parent = tmp;
 	}
 }
 
@@ -10202,8 +10186,7 @@ remove_background_images_in_element (WebKitDOMElement *element)
 }
 
 static void
-remove_images_in_element (EHTMLEditorView *view,
-                          WebKitDOMElement *element)
+remove_images_in_element (WebKitDOMElement *element)
 {
 	gint length, ii;
 	WebKitDOMNodeList *images;
@@ -10214,7 +10197,7 @@ remove_images_in_element (EHTMLEditorView *view,
 	length = webkit_dom_node_list_get_length (images);
 	for (ii = 0; ii < length; ii++) {
 		WebKitDOMNode *node = webkit_dom_node_list_item (images, ii);
-		remove_node (node);
+		remove_node_and_parents_if_empty (node);
 		g_object_unref (node);
 	}
 
@@ -10229,7 +10212,7 @@ remove_images (EHTMLEditorView *view)
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
 
 	remove_images_in_element (
-		view, WEBKIT_DOM_ELEMENT (webkit_dom_document_get_body (document)));
+		WEBKIT_DOM_ELEMENT (webkit_dom_document_get_body (document)));
 }
 
 static void
@@ -10494,7 +10477,7 @@ process_content_for_plain_text (EHTMLEditorView *view)
 			toggle_paragraphs_style_in_element (
 				view, WEBKIT_DOM_ELEMENT (source), FALSE);
 			remove_images_in_element (
-				view, WEBKIT_DOM_ELEMENT (source));
+				WEBKIT_DOM_ELEMENT (source));
 			remove_background_images_in_element (
 				WEBKIT_DOM_ELEMENT (source));
 		} else {
