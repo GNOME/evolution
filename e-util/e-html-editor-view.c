@@ -11324,6 +11324,8 @@ e_html_editor_view_set_html_mode (EHTMLEditorView *view,
 		style_updated_cb (view);
 		e_html_editor_selection_scroll_to_caret (selection);
 
+		e_html_editor_view_set_changed (view, TRUE);
+
 		goto out;
 	}
 
