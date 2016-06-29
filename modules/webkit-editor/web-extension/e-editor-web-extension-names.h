@@ -1,5 +1,5 @@
 /*
- * e-msg-composer-dom-functions.h
+ * e-editor-web-extension-names.h
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -16,20 +16,11 @@
  *
  */
 
-#ifndef E_MSG_COMPOSER_DOM_FUNCTIONS_H
-#define E_MSG_COMPOSER_DOM_FUNCTIONS_H
+#ifndef E_EDITOR_WEB_EXTENSION_NAMES_H
+#define E_EDITOR_WEB_EXTENSION_NAMES_H
 
-#include <webkitdom/webkitdom.h>
+#define E_WEBKIT_EDITOR_WEB_EXTENSION_SERVICE_NAME "org.gnome.Evolution.WebExtension.EWebKitEditor"
+#define E_WEBKIT_EDITOR_WEB_EXTENSION_OBJECT_PATH  "/org/gnome/Evolution/WebExtension/EWebKitEditor"
+#define E_WEBKIT_EDITOR_WEB_EXTENSION_INTERFACE    "org.gnome.Evolution.WebExtension.EWebKitEditor"
 
-G_BEGIN_DECLS
-
-gchar *		dom_get_active_signature_uid 	(WebKitDOMDocument *document);
-
-gchar *		dom_get_raw_body_content_without_signature
-						(WebKitDOMDocument *document);
-
-gchar *		dom_get_raw_body_content	(WebKitDOMDocument *document);
-
-G_END_DECLS
-
-#endif /* E_MSG_COMPOSER_DOM_FUNCTIONS_H */
+#endif /* E_EDITOR_WEB_EXTENSION_NAMES_H */

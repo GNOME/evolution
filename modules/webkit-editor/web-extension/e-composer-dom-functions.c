@@ -22,32 +22,34 @@
 
 #include <string.h>
 
-#include "e-composer-private-dom-functions.h"
-
-#include "e-html-editor-web-extension.h"
-#include "e-html-editor-selection-dom-functions.h"
-#include "e-html-editor-view-dom-functions.h"
-
 #define WEBKIT_DOM_USE_UNSTABLE_API
 #include <webkitdom/WebKitDOMDOMSelection.h>
 #include <webkitdom/WebKitDOMDOMWindowUnstable.h>
 #include <webkitdom/WebKitDOMHTMLElementUnstable.h>
-
-#include <web-extensions/e-dom-utils.h>
+#undef WEBKIT_DOM_USE_UNSTABLE_API
 
 #include <camel/camel.h>
 
+#include "web-extensions/e-dom-utils.h"
+
+#include "e-editor-page.h"
+#include "e-editor-dom-functions.h"
+#include "e-editor-undo-redo-manager.h"
+
+#include "e-composer-dom-functions.h"
+
 gchar *
-dom_remove_signatures (WebKitDOMDocument *document,
-                       EHTMLEditorWebExtension *extension,
-                       gboolean top_signature)
+e_composer_dom_remove_signatures (EEditorPage *editor_page,
+				  gboolean top_signature)
 {
+	WebKitDOMDocument *document;
+	WebKitDOMHTMLCollection *signatures;
 	gchar *ret_val = NULL;
 	gulong length, ii;
-	WebKitDOMHTMLCollection *signatures;
 
-	g_return_val_if_fail (WEBKIT_DOM_IS_HTML_DOCUMENT (document), NULL);
-	g_return_val_if_fail (E_IS_HTML_EDITOR_WEB_EXTENSION (extension), NULL);
+	g_return_val_if_fail (E_IS_EDITOR_PAGE (editor_page), NULL);
+
+	document = e_editor_page_get_document (editor_page);
 
 	signatures = webkit_dom_document_get_elements_by_class_name_as_html_collection (
 		document, "-x-evo-signature-wrapper");
@@ -95,12 +97,11 @@ dom_remove_signatures (WebKitDOMDocument *document,
 }
 
 static WebKitDOMElement *
-prepare_top_signature_spacer (WebKitDOMDocument *document,
-                              EHTMLEditorWebExtension *extension)
+prepare_top_signature_spacer (EEditorPage *editor_page)
 {
 	WebKitDOMElement *element;
 
-	element = dom_prepare_paragraph (document, extension, FALSE);
+	element = e_editor_dom_prepare_paragraph (editor_page, FALSE);
 	webkit_dom_element_remove_attribute (element, "id");
 	element_add_class (element, "-x-evo-top-signature-spacer");
 
@@ -147,9 +148,12 @@ start_typing_at_bottom (void)
 }
 
 static void
-move_caret_after_signature_inserted (WebKitDOMDocument *document,
-                                     EHTMLEditorWebExtension *extension)
+move_caret_after_signature_inserted (EEditorPage *editor_page)
 {
+	WebKitDOMDocument *document;
+	WebKitDOMElement *element, *signature;
+	WebKitDOMHTMLElement *body;
+	WebKitDOMNodeList *paragraphs;
 	EContentEditorContentFlags flags;
 	gboolean is_message_from_draft;
 	gboolean is_message_from_edit_as_new;
@@ -157,11 +161,11 @@ move_caret_after_signature_inserted (WebKitDOMDocument *document,
 	gboolean top_signature;
 	gboolean start_bottom;
 	gboolean has_paragraphs_in_body = TRUE;
-	WebKitDOMElement *element, *signature;
-	WebKitDOMHTMLElement *body;
-	WebKitDOMNodeList *paragraphs;
 
-	flags = e_html_editor_web_extension_get_current_content_flags (extension);
+	g_return_if_fail (E_IS_EDITOR_PAGE (editor_page));
+
+	document = e_editor_page_get_document (editor_page);
+	flags = e_editor_page_get_current_content_flags (editor_page);
 
 	is_message_from_draft = (flags & E_CONTENT_EDITOR_MESSAGE_DRAFT);
 	is_message_from_edit_as_new = (flags & E_CONTENT_EDITOR_MESSAGE_EDIT_AS_NEW);
@@ -189,14 +193,14 @@ move_caret_after_signature_inserted (WebKitDOMDocument *document,
 
 		if (is_message_from_edit_as_new && !is_message_from_draft) {
 			element = WEBKIT_DOM_ELEMENT (body);
-			e_html_editor_web_extension_block_selection_changed_callback (extension);
+			e_editor_page_block_selection_changed (editor_page);
 			goto move_caret;
 		} else
-			dom_scroll_to_caret (document);
+			e_editor_dom_scroll_to_caret (editor_page);
 
 		return;
 	}
-	e_html_editor_web_extension_block_selection_changed_callback (extension);
+	e_editor_page_block_selection_changed (editor_page);
 
 	/* When the new message is written from the beginning - note it into body */
 	if (is_from_new_message)
@@ -226,7 +230,7 @@ move_caret_after_signature_inserted (WebKitDOMDocument *document,
 	if (signature && top_signature) {
 		WebKitDOMElement *spacer;
 
-		spacer = prepare_top_signature_spacer (document, extension);
+		spacer = prepare_top_signature_spacer (editor_page);
 		webkit_dom_node_insert_before (
 			WEBKIT_DOM_NODE (body),
 			WEBKIT_DOM_NODE (spacer),
@@ -241,7 +245,7 @@ move_caret_after_signature_inserted (WebKitDOMDocument *document,
 	if (!signature) {
 		if (start_bottom) {
 			if (!element) {
-				element = dom_prepare_paragraph (document, extension, FALSE);
+				element = e_editor_dom_prepare_paragraph (editor_page, FALSE);
 				webkit_dom_element_set_id (element, "-x-evo-input-start");
 				webkit_dom_node_append_child (
 					WEBKIT_DOM_NODE (body),
@@ -258,7 +262,7 @@ move_caret_after_signature_inserted (WebKitDOMDocument *document,
 	/* When there is an option composer-reply-start-bottom set we have
 	 * to move the caret between reply and signature. */
 	if (!has_paragraphs_in_body) {
-		element = dom_prepare_paragraph (document, extension, FALSE);
+		element = e_editor_dom_prepare_paragraph (editor_page, FALSE);
 		webkit_dom_element_set_id (element, "-x-evo-input-start");
 		if (top_signature) {
 			if (start_bottom) {
@@ -285,7 +289,7 @@ move_caret_after_signature_inserted (WebKitDOMDocument *document,
 		}
 	} else {
 		if (!element && top_signature) {
-			element = dom_prepare_paragraph (document, extension, FALSE);
+			element = e_editor_dom_prepare_paragraph (editor_page, FALSE);
 			webkit_dom_element_set_id (element, "-x-evo-input-start");
 			if (start_bottom) {
 					webkit_dom_node_append_child (
@@ -334,42 +338,42 @@ move_caret_after_signature_inserted (WebKitDOMDocument *document,
 	}
 
 	if (start_bottom)
-		dom_scroll_to_caret (document);
+		e_editor_dom_scroll_to_caret (editor_page);
 
-	dom_force_spell_check_in_viewport (document, extension);
-	e_html_editor_web_extension_unblock_selection_changed_callback (extension);
+	e_editor_dom_force_spell_check_in_viewport (editor_page);
+	e_editor_page_unblock_selection_changed (editor_page);
 }
 
 gchar *
-dom_insert_signature (WebKitDOMDocument *document,
-                      EHTMLEditorWebExtension *extension,
-                      const gchar *content,
-		      gboolean is_html,
-		      const gchar *id,
-		      gboolean *set_signature_from_message,
-		      gboolean *check_if_signature_is_changed,
-		      gboolean *ignore_next_signature_change)
+e_composer_dom_insert_signature (EEditorPage *editor_page,
+				 const gchar *content,
+				 gboolean is_html,
+				 const gchar *id,
+				 gboolean *set_signature_from_message,
+				 gboolean *check_if_signature_is_changed,
+				 gboolean *ignore_next_signature_change)
 {
-	EContentEditorContentFlags flags;
-	gchar *new_signature_id = NULL;
-	gchar *signature_text = NULL;
-	gboolean top_signature, html_mode, is_message_from_edit_as_new;
-	gboolean is_message_from_draft, is_from_new_message;
-	gulong list_length, ii;
+	WebKitDOMDocument *document;
 	WebKitDOMElement *signature_to_insert;
 	WebKitDOMElement *insert_signature_in = NULL;
 	WebKitDOMElement *signature_wrapper;
 	WebKitDOMElement *element, *converted_signature = NULL;
 	WebKitDOMHTMLElement *body;
 	WebKitDOMHTMLCollection *signatures;
+	EContentEditorContentFlags flags;
+	gchar *new_signature_id = NULL;
+	gchar *signature_text = NULL;
+	gboolean top_signature, html_mode, is_message_from_edit_as_new;
+	gboolean is_message_from_draft, is_from_new_message;
+	gulong list_length, ii;
 
-	g_return_val_if_fail (WEBKIT_DOM_IS_HTML_DOCUMENT (document), NULL);
-	g_return_val_if_fail (E_IS_HTML_EDITOR_WEB_EXTENSION (extension), NULL);
+	g_return_val_if_fail (E_IS_EDITOR_PAGE (editor_page), NULL);
 	g_return_val_if_fail (set_signature_from_message != NULL, NULL);
 	g_return_val_if_fail (check_if_signature_is_changed != NULL, NULL);
 	g_return_val_if_fail (ignore_next_signature_change != NULL, NULL);
 
-	flags = e_html_editor_web_extension_get_current_content_flags (extension);
+	document = e_editor_page_get_document (editor_page);
+	flags = e_editor_page_get_current_content_flags (editor_page);
 
 	is_message_from_draft = (flags & E_CONTENT_EDITOR_MESSAGE_DRAFT);
 	is_message_from_edit_as_new = (flags & E_CONTENT_EDITOR_MESSAGE_EDIT_AS_NEW);
@@ -382,7 +386,7 @@ dom_insert_signature (WebKitDOMDocument *document,
 		!is_message_from_edit_as_new &&
 		!is_from_new_message;
 
-	html_mode = e_html_editor_web_extension_get_html_mode (extension);
+	html_mode = e_editor_page_get_html_mode (editor_page);
 
 	/* Create the DOM signature that is the same across all types of signatures. */
 	signature_to_insert = webkit_dom_document_create_element (document, "span", NULL);
@@ -421,7 +425,7 @@ dom_insert_signature (WebKitDOMDocument *document,
 		 * while inserting it into the view. */
 		converted_signature = webkit_dom_document_create_element (document, "pre", NULL);
 		webkit_dom_element_set_inner_html (converted_signature, signature_text, NULL);
-		dom_convert_element_from_html_to_plain_text (document, extension, converted_signature);
+		e_editor_dom_convert_element_from_html_to_plain_text (editor_page, converted_signature);
 		inner_text = webkit_dom_html_element_get_inner_text (WEBKIT_DOM_HTML_ELEMENT (converted_signature));
 
 		g_free (signature_text);
@@ -581,11 +585,11 @@ insert:
 			NULL);
 	}
 
-/* FIXME WK2 - dom_fix_file_uri_images
+/* FIXME WK2 - e_editor_dom_fix_file_uri_images
 	if (is_html && html_mode) {
 		e_html_editor_view_fix_file_uri_images (view);*/
 
-	move_caret_after_signature_inserted (document, extension);
+	move_caret_after_signature_inserted (editor_page);
 
 	/* Make sure the flag will be unset and won't influence user's choice */
 	*set_signature_from_message = FALSE;
@@ -593,19 +597,88 @@ insert:
 	return NULL;
 }
 
+gchar *
+e_composer_dom_get_active_signature_uid (EEditorPage *editor_page)
+{
+	WebKitDOMDocument *document;
+	WebKitDOMElement *element;
+	gchar *uid = NULL;
+
+	g_return_val_if_fail (E_IS_EDITOR_PAGE (editor_page), NULL);
+
+	document = e_editor_page_get_document (editor_page);
+
+	if ((element = webkit_dom_document_query_selector (document, ".-x-evo-signature[id]", NULL)))
+		uid = webkit_dom_element_get_id (element);
+
+	return uid;
+}
+
+gchar *
+e_composer_dom_get_raw_body_content_without_signature (EEditorPage *editor_page)
+{
+	WebKitDOMDocument *document;
+	WebKitDOMNodeList *list;
+	GString* content;
+	gulong ii, length;
+
+	g_return_val_if_fail (E_IS_EDITOR_PAGE (editor_page), NULL);
+
+	document = e_editor_page_get_document (editor_page);
+
+	content = g_string_new (NULL);
+
+	list = webkit_dom_document_query_selector_all (
+		document, "body > *:not(.-x-evo-signature-wrapper)", NULL);
+	length = webkit_dom_node_list_get_length (list);
+	for (ii = 0; ii < length; ii++) {
+		WebKitDOMNode *node = webkit_dom_node_list_item (list, ii);
+
+		if (!WEBKIT_DOM_IS_HTML_QUOTE_ELEMENT (node)) {
+			gchar *text;
+
+			text = webkit_dom_html_element_get_inner_text (WEBKIT_DOM_HTML_ELEMENT (node));
+			g_string_append (content, text);
+			g_free (text);
+
+			if (WEBKIT_DOM_IS_HTML_DIV_ELEMENT (node))
+				g_string_append (content, "\n");
+			else
+				g_string_append (content, " ");
+		}
+	}
+
+	return g_string_free (content, FALSE);
+}
+
+gchar *
+e_composer_dom_get_raw_body_content (EEditorPage *editor_page)
+{
+	WebKitDOMDocument *document;
+	WebKitDOMHTMLElement *body;
+
+	g_return_val_if_fail (E_IS_EDITOR_PAGE (editor_page), NULL);
+
+	document = e_editor_page_get_document (editor_page);
+
+	body = webkit_dom_document_get_body (document);
+
+	return  webkit_dom_html_element_get_inner_text (body);
+}
+
 static void
 insert_nbsp_history_event (WebKitDOMDocument *document,
-			   EHTMLEditorUndoRedoManager *manager,
+			   EEditorUndoRedoManager *manager,
                            gboolean delete,
                            guint x,
                            guint y)
 {
-	EHTMLEditorHistoryEvent *event;
+	EEditorHistoryEvent *event;
 	WebKitDOMDocumentFragment *fragment;
 
-	event = g_new0 (EHTMLEditorHistoryEvent, 1);
+	event = g_new0 (EEditorHistoryEvent, 1);
 	event->type = HISTORY_AND;
-	e_html_editor_undo_redo_manager_insert_history_event (manager, event);
+	e_editor_undo_redo_manager_insert_history_event (manager, event);
 
 	fragment = webkit_dom_document_create_document_fragment (document);
 	webkit_dom_node_append_child (
@@ -614,7 +687,7 @@ insert_nbsp_history_event (WebKitDOMDocument *document,
 			webkit_dom_document_create_text_node (document, UNICODE_NBSP)),
 		NULL);
 
-	event = g_new0 (EHTMLEditorHistoryEvent, 1);
+	event = g_new0 (EEditorHistoryEvent, 1);
 	event->type = HISTORY_DELETE;
 
 	if (delete)
@@ -632,25 +705,28 @@ insert_nbsp_history_event (WebKitDOMDocument *document,
 	event->after.end.x = x;
 	event->after.end.y = y;
 
-	e_html_editor_undo_redo_manager_insert_history_event (manager, event);
+	e_editor_undo_redo_manager_insert_history_event (manager, event);
 }
 
 void
-dom_save_drag_and_drop_history (WebKitDOMDocument *document,
-				EHTMLEditorWebExtension *extension)
+e_composer_dom_save_drag_and_drop_history (EEditorPage *editor_page)
 {
-	EHTMLEditorHistoryEvent *event;
-	EHTMLEditorUndoRedoManager *manager;
-	gboolean start_to_start, end_to_end;
-	gchar *range_text;
-	guint x, y;
+	WebKitDOMDocument *document;
 	WebKitDOMDocumentFragment *fragment;
 	WebKitDOMDOMSelection *dom_selection;
 	WebKitDOMDOMWindow *dom_window;
 	WebKitDOMRange *beginning_of_line = NULL;
 	WebKitDOMRange *range = NULL, *range_clone = NULL;
+	EEditorHistoryEvent *event;
+	EEditorUndoRedoManager *manager;
+	gboolean start_to_start, end_to_end;
+	gchar *range_text;
+	guint x, y;
 
-	manager = e_html_editor_web_extension_get_undo_redo_manager (extension, document);
+	g_return_if_fail (E_IS_EDITOR_PAGE (editor_page));
+
+	document = e_editor_page_get_document (editor_page);
+	manager = e_editor_page_get_undo_redo_manager (editor_page);
 
 	if (!(dom_window = webkit_dom_document_get_default_view (document)))
 		return;
@@ -672,11 +748,10 @@ dom_save_drag_and_drop_history (WebKitDOMDocument *document,
 
 	/* Create the history event for the content that will
 	 * be removed by DnD. */
-	event = g_new0 (EHTMLEditorHistoryEvent, 1);
+	event = g_new0 (EEditorHistoryEvent, 1);
 	event->type = HISTORY_DELETE;
 
-	dom_selection_get_coordinates (
-		document,
+	e_editor_dom_selection_get_coordinates (editor_page,
 		&event->before.start.x,
 		&event->before.start.y,
 		&event->before.end.x,
@@ -739,12 +814,11 @@ dom_save_drag_and_drop_history (WebKitDOMDocument *document,
 		beginning_of_line = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
 
 		container = webkit_dom_range_get_end_container (range, NULL);
-		actual_block = get_parent_block_node_from_child (container);
+		actual_block = e_editor_dom_get_parent_block_node_from_child (container);
 
 		tmp_block = webkit_dom_range_get_end_container (beginning_of_line, NULL);
-		if ((tmp_block = get_parent_block_node_from_child (tmp_block))) {
-			dom_selection_get_coordinates (
-				document,
+		if ((tmp_block = e_editor_dom_get_parent_block_node_from_child (tmp_block))) {
+			e_editor_dom_selection_get_coordinates (editor_page,
 				&event->before.start.x,
 				&event->before.start.y,
 				&event->before.end.x,
@@ -775,7 +849,7 @@ dom_save_drag_and_drop_history (WebKitDOMDocument *document,
 	}
 
 	event->data.fragment = fragment;
-	e_html_editor_undo_redo_manager_insert_history_event (manager, event);
+	e_editor_undo_redo_manager_insert_history_event (manager, event);
 
 	/* Selection is ending on the end of the line, check if
 	 * there is a space before the selection start. If so, it
@@ -816,9 +890,9 @@ dom_save_drag_and_drop_history (WebKitDOMDocument *document,
 	/* All the things above were about removing the content,
 	 * create an AND event to continue later with inserting
 	 * the dropped content. */
-	event = g_new0 (EHTMLEditorHistoryEvent, 1);
+	event = g_new0 (EEditorHistoryEvent, 1);
 	event->type = HISTORY_AND;
-	e_html_editor_undo_redo_manager_insert_history_event (manager, event);
+	e_editor_undo_redo_manager_insert_history_event (manager, event);
 
 	g_object_unref (dom_selection);
 	g_object_unref (dom_window);
@@ -828,9 +902,10 @@ dom_save_drag_and_drop_history (WebKitDOMDocument *document,
 }
 
 void
-dom_clean_after_drag_and_drop (WebKitDOMDocument *document,
-                               EHTMLEditorWebExtension *extension)
+e_composer_dom_clean_after_drag_and_drop (EEditorPage *editor_page)
 {
-	dom_save_history_for_drop (document, extension);
-	dom_check_magic_links (document, extension, FALSE);
+	g_return_if_fail (E_IS_EDITOR_PAGE (editor_page));
+
+	e_editor_dom_save_history_for_drop (editor_page);
+	e_editor_dom_check_magic_links (editor_page, FALSE);
 }

@@ -1,5 +1,5 @@
 /*
- * e-html-editor-undo-redo-manager.c
+ * e-editor-undo-redo-manager.c
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -27,21 +27,20 @@
 #include <webkitdom/WebKitDOMDOMWindowUnstable.h>
 #include <webkitdom/WebKitDOMHTMLElementUnstable.h>
 #include <webkitdom/WebKitDOMDocumentUnstable.h>
+#undef WEBKIT_DOM_USE_UNSTABLE_API
 
-#include <web-extensions/e-dom-utils.h>
+#include "web-extensions/e-dom-utils.h"
 
-#include "e-html-editor-undo-redo-manager.h"
-#include "e-html-editor-web-extension.h"
-#include "e-html-editor-selection-dom-functions.h"
-#include "e-html-editor-view-dom-functions.h"
+#include "e-editor-page.h"
+#include "e-editor-dom-functions.h"
+#include "e-editor-undo-redo-manager.h"
 
-#define E_HTML_EDITOR_UNDO_REDO_MANAGER_GET_PRIVATE(obj) \
+#define E_EDITOR_UNDO_REDO_MANAGER_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_HTML_EDITOR_UNDO_REDO_MANAGER, EHTMLEditorUndoRedoManagerPrivate))
+	((obj), E_TYPE_EDITOR_UNDO_REDO_MANAGER, EEditorUndoRedoManagerPrivate))
 
-struct _EHTMLEditorUndoRedoManagerPrivate {
-	WebKitDOMDocument *document;
-	GWeakRef extension;
+struct _EEditorUndoRedoManagerPrivate {
+	GWeakRef editor_page;
 
 	gboolean operation_in_progress;
 
@@ -53,52 +52,36 @@ enum {
 	PROP_0,
 	PROP_CAN_REDO,
 	PROP_CAN_UNDO,
-	PROP_HTML_EDITOR_WEB_EXTENSION
+	PROP_EDITOR_PAGE
 };
 
 #define HISTORY_SIZE_LIMIT 30
 
 #define d(x)
 
-G_DEFINE_TYPE (
-	EHTMLEditorUndoRedoManager,
-	e_html_editor_undo_redo_manager,
-	G_TYPE_OBJECT
-);
+G_DEFINE_TYPE (EEditorUndoRedoManager, e_editor_undo_redo_manager, G_TYPE_OBJECT)
 
-EHTMLEditorUndoRedoManager *
-e_html_editor_undo_redo_manager_new (EHTMLEditorWebExtension *extension)
+EEditorUndoRedoManager *
+e_editor_undo_redo_manager_new (EEditorPage *editor_page)
 {
-	g_return_val_if_fail (E_IS_HTML_EDITOR_WEB_EXTENSION (extension), NULL);
+	g_return_val_if_fail (E_IS_EDITOR_PAGE (editor_page), NULL);
 
-	return g_object_new (E_TYPE_HTML_EDITOR_UNDO_REDO_MANAGER,
-		"html-editor-web-extension", extension,
+	return g_object_new (E_TYPE_EDITOR_UNDO_REDO_MANAGER,
+		"editor-page", editor_page,
 		NULL);
 }
 
-void
-e_html_editor_undo_redo_manager_set_document (EHTMLEditorUndoRedoManager *manager,
-                                              WebKitDOMDocument *document)
+static EEditorPage *
+editor_undo_redo_manager_ref_editor_page (EEditorUndoRedoManager *manager)
 {
-	g_return_if_fail (E_IS_HTML_EDITOR_UNDO_REDO_MANAGER (manager));
+	g_return_val_if_fail (E_IS_EDITOR_UNDO_REDO_MANAGER (manager), NULL);
 
-	manager->priv->document = document;
-
-	/* The history is not valid if document is changed. */
-	e_html_editor_undo_redo_manager_clean_history (manager);
-}
-
-static EHTMLEditorWebExtension *
-html_editor_undo_redo_manager_ref_extension (EHTMLEditorUndoRedoManager *manager)
-{
-	g_return_val_if_fail (E_IS_HTML_EDITOR_UNDO_REDO_MANAGER (manager), NULL);
-
-	return g_weak_ref_get (&manager->priv->extension);
+	return g_weak_ref_get (&manager->priv->editor_page);
 }
 
 static WebKitDOMRange *
 get_range_for_point (WebKitDOMDocument *document,
-                     EHTMLEditorSelectionPoint point)
+                     EEditorSelectionPoint point)
 {
 	glong scroll_left, scroll_top;
 	WebKitDOMHTMLElement *body;
@@ -129,15 +112,19 @@ get_range_for_point (WebKitDOMDocument *document,
 }
 
 static void
-restore_selection_to_history_event_state (WebKitDOMDocument *document,
-                                          EHTMLEditorSelection selection_state)
+restore_selection_to_history_event_state (EEditorPage *editor_page,
+                                          EEditorSelection selection_state)
 {
-	gboolean was_collapsed = FALSE;
+	WebKitDOMDocument *document;
 	WebKitDOMDOMWindow *dom_window;
 	WebKitDOMDOMSelection *dom_selection;
 	WebKitDOMElement *element, *tmp;
 	WebKitDOMRange *range;
+	gboolean was_collapsed = FALSE;
 
+	g_return_if_fail (E_IS_EDITOR_PAGE (editor_page));
+
+	document = e_editor_page_get_document (editor_page);
 	dom_window = webkit_dom_document_get_default_view (document);
 	dom_selection = webkit_dom_dom_window_get_selection (dom_window);
 	g_object_unref (dom_window);
@@ -155,7 +142,7 @@ restore_selection_to_history_event_state (WebKitDOMDocument *document,
 		return;
 	}
 
-	dom_selection_save (document);
+	e_editor_dom_selection_save (editor_page);
 
 	element = webkit_dom_document_get_element_by_id (
 		document, "-x-evo-selection-end-marker");
@@ -172,7 +159,7 @@ restore_selection_to_history_event_state (WebKitDOMDocument *document,
 	webkit_dom_dom_selection_add_range (dom_selection, range);
 	g_object_unref (range);
 
-	dom_selection_save (document);
+	e_editor_dom_selection_save (editor_page);
 
 	tmp = webkit_dom_document_get_element_by_id (
 		document, "-x-evo-selection-start-marker");
@@ -182,7 +169,7 @@ restore_selection_to_history_event_state (WebKitDOMDocument *document,
 	webkit_dom_element_set_id (
 		element, "-x-evo-selection-start-marker");
 
-	dom_selection_restore (document);
+	e_editor_dom_selection_restore (editor_page);
 
 	g_object_unref (dom_selection);
 }
@@ -206,7 +193,7 @@ print_node_inner_html (WebKitDOMNode *node)
 }
 
 static void
-print_history_event (EHTMLEditorHistoryEvent *event)
+print_history_event (EEditorHistoryEvent *event)
 {
 	if (event->type != HISTORY_START && event->type != HISTORY_AND) {
 		printf ("  HISTORY EVENT: %d ; \n", event->type);
@@ -269,7 +256,7 @@ print_history_event (EHTMLEditorHistoryEvent *event)
 }
 
 static void
-print_history (EHTMLEditorUndoRedoManager *manager)
+print_history (EEditorUndoRedoManager *manager)
 {
 	printf ("-------------------\nWHOLE HISTORY STACK\n");
 	if (manager->priv->history) {
@@ -280,7 +267,7 @@ print_history (EHTMLEditorUndoRedoManager *manager)
 }
 
 static void
-print_undo_events (EHTMLEditorUndoRedoManager *manager)
+print_undo_events (EEditorUndoRedoManager *manager)
 {
 	GList *item = manager->priv->history;
 
@@ -301,7 +288,7 @@ print_undo_events (EHTMLEditorUndoRedoManager *manager)
 }
 
 static void
-print_redo_events (EHTMLEditorUndoRedoManager *manager)
+print_redo_events (EEditorUndoRedoManager *manager)
 {
 	GList *item = manager->priv->history;
 
@@ -322,7 +309,7 @@ print_redo_events (EHTMLEditorUndoRedoManager *manager)
 #endif
 
 static gboolean
-event_selection_was_collapsed (EHTMLEditorHistoryEvent *ev)
+event_selection_was_collapsed (EEditorHistoryEvent *ev)
 {
 	return (ev->before.start.x == ev->before.end.x) && (ev->before.start.y == ev->before.end.y);
 }
@@ -392,18 +379,19 @@ split_node_into_two (WebKitDOMNode *item,
 }
 
 static void
-undo_delete (WebKitDOMDocument *document,
-             EHTMLEditorWebExtension *extension,
-             EHTMLEditorHistoryEvent *event)
+undo_delete (EEditorPage *editor_page,
+             EEditorHistoryEvent *event)
 {
 	gboolean empty, single_block;
 	gchar *content;
+	WebKitDOMDocument *document;
 	WebKitDOMDOMWindow *dom_window;
 	WebKitDOMDOMSelection *dom_selection;
 	WebKitDOMRange *range;
 	WebKitDOMElement *element;
 	WebKitDOMNode *first_child, *fragment;
 
+	document = e_editor_page_get_document (editor_page);
 	dom_window = webkit_dom_document_get_default_view (document);
 	dom_selection = webkit_dom_dom_window_get_selection (dom_window);
 	g_object_unref (dom_window);
@@ -437,14 +425,14 @@ undo_delete (WebKitDOMDocument *document,
 		webkit_dom_dom_selection_add_range (dom_selection, range);
 
 		node = webkit_dom_range_get_end_container (range, NULL);
-		block = get_parent_block_node_from_child (node);
+		block = e_editor_dom_get_parent_block_node_from_child (node);
 
 		if (webkit_dom_document_fragment_query_selector (event->data.fragment, ".-x-evo-quoted", NULL)) {
 			while ((node = webkit_dom_node_get_first_child (fragment))) {
 				if (WEBKIT_DOM_IS_ELEMENT (node) &&
 				    webkit_dom_element_query_selector (WEBKIT_DOM_ELEMENT (node), ".-x-evo-quoted", NULL))
 
-					if (get_citation_level (block, FALSE) > 0) {
+					if (e_editor_dom_get_citation_level (block, FALSE) > 0) {
 						webkit_dom_node_insert_before (
 							webkit_dom_node_get_parent_node (block),
 							node,
@@ -454,7 +442,7 @@ undo_delete (WebKitDOMDocument *document,
 						WebKitDOMNode *next_block;
 
 						next_block = webkit_dom_node_get_next_sibling (block);
-						while (next_block && dom_node_is_citation_node (next_block))
+						while (next_block && e_editor_dom_node_is_citation_node (next_block))
 							next_block = webkit_dom_node_get_first_child (next_block);
 
 						webkit_dom_node_insert_before (
@@ -464,7 +452,7 @@ undo_delete (WebKitDOMDocument *document,
 							NULL);
 					}
 				else {
-					if (get_citation_level (block, FALSE) > 0) {
+					if (e_editor_dom_get_citation_level (block, FALSE) > 0) {
 						WebKitDOMNode *next_node;
 
 						if ((next_node = split_node_into_two (block, -1)))
@@ -499,9 +487,9 @@ undo_delete (WebKitDOMDocument *document,
 
 		remove_node (block);
 
-		restore_selection_to_history_event_state (document, event->before);
+		restore_selection_to_history_event_state (editor_page, event->before);
 
-		dom_force_spell_check_in_viewport (document, extension);
+		e_editor_dom_force_spell_check_in_viewport (editor_page);
 
 		return;
 	}
@@ -509,8 +497,8 @@ undo_delete (WebKitDOMDocument *document,
 	/* Redoing Return key press */
 	if (event->type == HISTORY_INPUT && (empty ||
 	    g_object_get_data (G_OBJECT (event->data.fragment), "history-return-key"))) {
-		if (key_press_event_process_return_key (document, extension)) {
-			body_key_up_event_process_return_key (document, extension);
+		if (e_editor_dom_key_press_event_process_return_key (editor_page)) {
+			e_editor_dom_body_key_up_event_process_return_key (editor_page);
 		} else {
 			WebKitDOMElement *element;
 			WebKitDOMNode *next_sibling;
@@ -521,7 +509,7 @@ undo_delete (WebKitDOMDocument *document,
 			g_object_unref (dom_selection);
 			g_object_unref (range);
 
-			dom_selection_save (document);
+			e_editor_dom_selection_save (editor_page);
 
 			element = webkit_dom_document_get_element_by_id (
 				document, "-x-evo-selection-end-marker");
@@ -532,7 +520,7 @@ undo_delete (WebKitDOMDocument *document,
 			} else {
 				WebKitDOMNode *block;
 
-				block = get_parent_block_node_from_child (
+				block = e_editor_dom_get_parent_block_node_from_child (
 					WEBKIT_DOM_NODE (element));
 				dom_remove_selection_markers (document);
 				webkit_dom_node_insert_before (
@@ -541,13 +529,13 @@ undo_delete (WebKitDOMDocument *document,
 					webkit_dom_node_get_next_sibling (block),
 					NULL);
 			}
-			dom_selection_restore (document);
+			e_editor_dom_selection_restore (editor_page);
 		}
 
-		e_html_editor_web_extension_set_return_key_pressed (extension, TRUE);
-		dom_check_magic_links (document, extension, FALSE);
-		e_html_editor_web_extension_set_return_key_pressed (extension, FALSE);
-		dom_force_spell_check_in_viewport (document, extension);
+		e_editor_page_set_return_key_pressed (editor_page, TRUE);
+		e_editor_dom_check_magic_links (editor_page, FALSE);
+		e_editor_page_set_return_key_pressed (editor_page, FALSE);
+		e_editor_dom_force_spell_check_in_viewport (editor_page);
 
 		return;
 	}
@@ -571,7 +559,7 @@ undo_delete (WebKitDOMDocument *document,
 		webkit_dom_dom_selection_remove_all_ranges (dom_selection);
 		webkit_dom_dom_selection_add_range (dom_selection, range);
 		g_object_unref (range);
-		dom_selection_save (document);
+		e_editor_dom_selection_save (editor_page);
 
 		if ((element = webkit_dom_document_get_element_by_id (document, "-x-evo-selection-end-marker"))) {
 			WebKitDOMNode *next_sibling;
@@ -626,7 +614,7 @@ undo_delete (WebKitDOMDocument *document,
 				element_has_class (WEBKIT_DOM_ELEMENT (tmp_node), "-x-evo-signature-wrapper");
 		}
 
-		current_block = get_parent_block_node_from_child (WEBKIT_DOM_NODE (element));
+		current_block = e_editor_dom_get_parent_block_node_from_child (WEBKIT_DOM_NODE (element));
 
 		while (node) {
 			WebKitDOMNode *next_sibling, *parent_node;
@@ -652,7 +640,7 @@ undo_delete (WebKitDOMDocument *document,
 				if (tmp_element)
 					remove_node (WEBKIT_DOM_NODE (tmp_element));
 
-				dom_merge_siblings_if_necessary (document, event->data.fragment);
+				e_editor_dom_merge_siblings_if_necessary (editor_page, event->data.fragment);
 
 				tmp_node = webkit_dom_node_get_last_child (last_child);
 				if (tmp_node && WEBKIT_DOM_IS_ELEMENT (tmp_node) &&
@@ -667,9 +655,9 @@ undo_delete (WebKitDOMDocument *document,
 
 				dom_remove_selection_markers (document);
 
-				restore_selection_to_history_event_state (document, event->before);
+				restore_selection_to_history_event_state (editor_page, event->before);
 
-				dom_force_spell_check_in_viewport (document, extension);
+				e_editor_dom_force_spell_check_in_viewport (editor_page);
 
 				g_object_unref (dom_selection);
 
@@ -712,7 +700,7 @@ undo_delete (WebKitDOMDocument *document,
 		if (insert_before &&
 		    WEBKIT_DOM_IS_HTML_QUOTE_ELEMENT (
 			webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (fragment))) &&
-		    get_citation_level (insert_before, FALSE > 0))
+		    e_editor_dom_get_citation_level (insert_before, FALSE > 0))
 			insert_before = split_node_into_two (insert_before, -1);
 
 		/* Remove the first block from deleted content as its content was already
@@ -733,12 +721,12 @@ undo_delete (WebKitDOMDocument *document,
 				WEBKIT_DOM_NODE (fragment),
 				NULL);
 
-		wrap_and_quote_element (document, extension, WEBKIT_DOM_ELEMENT (current_block));
+		e_editor_dom_wrap_and_quote_element (editor_page, WEBKIT_DOM_ELEMENT (current_block));
 
 		if (WEBKIT_DOM_IS_ELEMENT (last_child))
-			wrap_and_quote_element (document, extension, WEBKIT_DOM_ELEMENT (last_child));
+			e_editor_dom_wrap_and_quote_element (editor_page, WEBKIT_DOM_ELEMENT (last_child));
 
-		dom_merge_siblings_if_necessary (document, event->data.fragment);
+		e_editor_dom_merge_siblings_if_necessary (editor_page, event->data.fragment);
 
 		/* If undoing drag and drop where the whole line was moved we need
 		 * to correct the selection. */
@@ -752,8 +740,8 @@ undo_delete (WebKitDOMDocument *document,
 					prev_block, WEBKIT_DOM_NODE (element), NULL);
 		}
 
-		dom_selection_restore (document);
-		dom_force_spell_check_in_viewport (document, extension);
+		e_editor_dom_selection_restore (editor_page);
+		e_editor_dom_force_spell_check_in_viewport (editor_page);
 	} else {
 		gboolean empty_text = FALSE, was_link = FALSE;
 		WebKitDOMNode *prev_sibling, *next_sibling, *nd;
@@ -863,56 +851,55 @@ undo_delete (WebKitDOMDocument *document,
 
 		remove_node (WEBKIT_DOM_NODE (element));
 
-		if (event->type == HISTORY_DELETE && !e_html_editor_web_extension_get_html_mode (extension)) {
+		if (event->type == HISTORY_DELETE && !e_editor_page_get_html_mode (editor_page)) {
 			WebKitDOMNode *current_block;
 
-			current_block = get_parent_block_node_from_child (parent);
-			if (get_citation_level (current_block, FALSE) > 0)
-				wrap_and_quote_element (document, extension, WEBKIT_DOM_ELEMENT (current_block));
+			current_block = e_editor_dom_get_parent_block_node_from_child (parent);
+			if (e_editor_dom_get_citation_level (current_block, FALSE) > 0)
+				e_editor_dom_wrap_and_quote_element (editor_page, WEBKIT_DOM_ELEMENT (current_block));
 		}
 
 		/* If the selection markers are presented restore the selection,
 		 * otherwise the selection was not collapsed so select the deleted
 		 * content as it was before the delete occurred. */
 		if (webkit_dom_document_fragment_query_selector (event->data.fragment, "span#-x-evo-selection-start-marker", NULL))
-			dom_selection_restore (document);
+			e_editor_dom_selection_restore (editor_page);
 		else
-			restore_selection_to_history_event_state (document, event->before);
+			restore_selection_to_history_event_state (editor_page, event->before);
 
 		if (event->type != HISTORY_INPUT) {
-			if (e_html_editor_web_extension_get_magic_smileys_enabled (extension))
-				dom_check_magic_smileys (document, extension);
-			if (!was_link && e_html_editor_web_extension_get_magic_links_enabled (extension))
-				dom_check_magic_links (document, extension, FALSE);
+			if (e_editor_page_get_magic_smileys_enabled (editor_page))
+				e_editor_dom_check_magic_smileys (editor_page);
+			if (!was_link && e_editor_page_get_magic_links_enabled (editor_page))
+				e_editor_dom_check_magic_links (editor_page, FALSE);
 		}
-		dom_force_spell_check_for_current_paragraph (document, extension);
+		e_editor_dom_force_spell_check_for_current_paragraph (editor_page);
 	}
 
 	g_object_unref (dom_selection);
 }
 
 static void
-redo_delete (WebKitDOMDocument *document,
-             EHTMLEditorWebExtension *extension,
-             EHTMLEditorHistoryEvent *event)
+redo_delete (EEditorPage *editor_page,
+             EEditorHistoryEvent *event)
 {
-	EHTMLEditorUndoRedoManager *manager;
+	EEditorUndoRedoManager *manager;
+	WebKitDOMDocumentFragment *fragment = event->data.fragment;
+	WebKitDOMNode *node;
 	gboolean delete_key, control_key;
 	glong length = 1;
 	gint ii;
-	WebKitDOMDocumentFragment *fragment = event->data.fragment;
-	WebKitDOMNode *node;
 
-	manager = e_html_editor_web_extension_get_undo_redo_manager (extension, document);
-	restore_selection_to_history_event_state (document, event->before);
+	manager = e_editor_page_get_undo_redo_manager (editor_page);
+	restore_selection_to_history_event_state (editor_page, event->before);
 
 	delete_key = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (event->data.fragment), "history-delete-key"));
 	control_key = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (event->data.fragment), "history-control-key"));
 
-	if (!delete_key && key_press_event_process_backspace_key (document, extension))
+	if (!delete_key && e_editor_dom_key_press_event_process_backspace_key (editor_page))
 		goto out;
 
-	if (key_press_event_process_delete_or_backspace_key (document, extension, ~0, 0, delete_key))
+	if (e_editor_dom_key_press_event_process_delete_or_backspace_key (editor_page, ~0, 0, delete_key))
 		goto out;
 
 	if (control_key) {
@@ -935,20 +922,19 @@ redo_delete (WebKitDOMDocument *document,
 		WebKitDOMNode *current_block, *next_block, *node;
 		WebKitDOMRange *range;
 
-		range = dom_get_current_range (document);
+		range = e_editor_dom_get_current_range (editor_page);
 		node = webkit_dom_range_get_end_container (range, NULL);
 		g_object_unref (range);
-		current_block = get_parent_block_node_from_child (node);
-		if (get_citation_level (current_block, FALSE) > 0 &&
+		current_block = e_editor_dom_get_parent_block_node_from_child (node);
+		if (e_editor_dom_get_citation_level (current_block, FALSE) > 0 &&
 		    (next_block = webkit_dom_node_get_next_sibling (current_block))) {
-			dom_remove_wrapping_from_element (WEBKIT_DOM_ELEMENT (next_block));
-			dom_remove_quoting_from_element (WEBKIT_DOM_ELEMENT (next_block));
+			e_editor_dom_remove_wrapping_from_element (WEBKIT_DOM_ELEMENT (next_block));
+			e_editor_dom_remove_quoting_from_element (WEBKIT_DOM_ELEMENT (next_block));
 		}
 	}
 
 	for (ii = 0; ii < length; ii++) {
-		dom_exec_command (
-			document, extension,
+		e_editor_dom_exec_command (editor_page,
 			delete_key ? E_CONTENT_EDITOR_COMMAND_FORWARD_DELETE :
 				     E_CONTENT_EDITOR_COMMAND_DELETE,
 			NULL);
@@ -960,8 +946,7 @@ redo_delete (WebKitDOMDocument *document,
 	node = webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (fragment));
 	while ((node = webkit_dom_node_get_first_child (node))) {
 		if (WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (node)) {
-			dom_exec_command (
-				document, extension,
+			e_editor_dom_exec_command (editor_page,
 				E_CONTENT_EDITOR_COMMAND_FORWARD_DELETE,
 				NULL);
 			break;
@@ -971,8 +956,7 @@ redo_delete (WebKitDOMDocument *document,
 	node = webkit_dom_node_get_last_child (WEBKIT_DOM_NODE (fragment));
 	while ((node = webkit_dom_node_get_last_child (node))) {
 		if (WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (node)) {
-			dom_exec_command (
-				document, extension,
+			e_editor_dom_exec_command (editor_page,
 				E_CONTENT_EDITOR_COMMAND_FORWARD_DELETE,
 				NULL);
 			break;
@@ -980,150 +964,145 @@ redo_delete (WebKitDOMDocument *document,
 	}
 
  out:
-	e_html_editor_web_extension_set_dont_save_history_in_body_input (extension, TRUE);
-	e_html_editor_undo_redo_manager_set_operation_in_progress (manager, FALSE);
-	body_input_event_process (document, extension, NULL);
-	e_html_editor_web_extension_set_dont_save_history_in_body_input (extension, FALSE);
-	e_html_editor_undo_redo_manager_set_operation_in_progress (manager, TRUE);
-	e_html_editor_web_extension_set_renew_history_after_coordinates (extension, FALSE);
-	body_key_up_event_process_backspace_or_delete (document, extension, delete_key);
-	e_html_editor_web_extension_set_renew_history_after_coordinates (extension, TRUE);
+	e_editor_page_set_dont_save_history_in_body_input (editor_page, TRUE);
+	e_editor_undo_redo_manager_set_operation_in_progress (manager, FALSE);
+	e_editor_dom_body_input_event_process (editor_page, NULL);
+	e_editor_page_set_dont_save_history_in_body_input (editor_page, FALSE);
+	e_editor_undo_redo_manager_set_operation_in_progress (manager, TRUE);
+	e_editor_page_set_renew_history_after_coordinates (editor_page, FALSE);
+	e_editor_dom_body_key_up_event_process_backspace_or_delete (editor_page, delete_key);
+	e_editor_page_set_renew_history_after_coordinates (editor_page, TRUE);
 
-	restore_selection_to_history_event_state (document, event->after);
+	restore_selection_to_history_event_state (editor_page, event->after);
 
-	dom_force_spell_check_for_current_paragraph (document, extension);
+	e_editor_dom_force_spell_check_for_current_paragraph (editor_page);
 }
 
-typedef void (*SelectionStyleChangeFunc) (WebKitDOMDocument *document, EHTMLEditorWebExtension *extension, gint style);
+typedef void (*SelectionStyleChangeFunc) (EEditorPage *editor_page, gint style);
 
 static void
-undo_redo_style_change (WebKitDOMDocument *document,
-                        EHTMLEditorWebExtension *extension,
-                        EHTMLEditorHistoryEvent *event,
+undo_redo_style_change (EEditorPage *editor_page,
+                        EEditorHistoryEvent *event,
                         gboolean undo)
 {
 	SelectionStyleChangeFunc func;
 
 	switch (event->type) {
 		case HISTORY_ALIGNMENT:
-			func = (SelectionStyleChangeFunc) dom_selection_set_alignment;
+			func = (SelectionStyleChangeFunc) e_editor_dom_selection_set_alignment;
 			break;
 		case HISTORY_BOLD:
-			func = dom_selection_set_bold;
+			func = e_editor_dom_selection_set_bold;
 			break;
 		case HISTORY_BLOCK_FORMAT:
-			func = (SelectionStyleChangeFunc) dom_selection_set_block_format;
+			func = (SelectionStyleChangeFunc) e_editor_dom_selection_set_block_format;
 			break;
 		case HISTORY_FONT_SIZE:
-			func = (SelectionStyleChangeFunc) dom_selection_set_font_size;
+			func = (SelectionStyleChangeFunc) e_editor_dom_selection_set_font_size;
 			break;
 		case HISTORY_ITALIC:
-			func = dom_selection_set_italic;
+			func = e_editor_dom_selection_set_italic;
 			break;
 		case HISTORY_MONOSPACE:
-			func = dom_selection_set_monospaced;
+			func = e_editor_dom_selection_set_monospace;
 			break;
 		case HISTORY_STRIKETHROUGH:
-			func = dom_selection_set_strikethrough;
+			func = e_editor_dom_selection_set_strikethrough;
 			break;
 		case HISTORY_UNDERLINE:
-			func = dom_selection_set_underline;
+			func = e_editor_dom_selection_set_underline;
 			break;
 		default:
 			return;
 	}
 
-	restore_selection_to_history_event_state (document, undo ? event->after : event->before);
+	restore_selection_to_history_event_state (editor_page, undo ? event->after : event->before);
 
-	func (document, extension, undo ? event->data.style.from : event->data.style.to);
+	func (editor_page, undo ? event->data.style.from : event->data.style.to);
 
-	restore_selection_to_history_event_state (document, undo ? event->before : event->after);
+	restore_selection_to_history_event_state (editor_page, undo ? event->before : event->after);
 }
 
 static void
-undo_redo_indent (WebKitDOMDocument *document,
-                  EHTMLEditorWebExtension *extension,
-                  EHTMLEditorHistoryEvent *event,
+undo_redo_indent (EEditorPage *editor_page,
+                  EEditorHistoryEvent *event,
                   gboolean undo)
 {
 	gboolean was_indent = FALSE;
 
 	if (undo)
-		restore_selection_to_history_event_state (document, event->after);
+		restore_selection_to_history_event_state (editor_page, event->after);
 
 	was_indent = event->data.style.from && event->data.style.to;
 
 	if ((undo && was_indent) || (!undo && !was_indent))
-		dom_selection_unindent (document, extension);
+		e_editor_dom_selection_unindent (editor_page);
 	else
-		dom_selection_indent (document, extension);
+		e_editor_dom_selection_indent (editor_page);
 
 	if (undo)
-		restore_selection_to_history_event_state (document, event->before);
+		restore_selection_to_history_event_state (editor_page, event->before);
 }
 
 static void
-undo_redo_font_color (WebKitDOMDocument *document,
-                      EHTMLEditorWebExtension *extension,
-                      EHTMLEditorHistoryEvent *event,
+undo_redo_font_color (EEditorPage *editor_page,
+                      EEditorHistoryEvent *event,
                       gboolean undo)
 {
 	if (undo)
-		restore_selection_to_history_event_state (document, event->after);
+		restore_selection_to_history_event_state (editor_page, event->after);
 
-	dom_exec_command (
-		document,
-		extension,
+	e_editor_dom_exec_command (editor_page,
 		E_CONTENT_EDITOR_COMMAND_FORE_COLOR,
 		undo ? event->data.string.from : event->data.string.to);
 
 	if (undo)
-		restore_selection_to_history_event_state (document, event->before);
+		restore_selection_to_history_event_state (editor_page, event->before);
 }
 
 static void
-undo_redo_wrap (WebKitDOMDocument *document,
-                EHTMLEditorWebExtension *extension,
-                EHTMLEditorHistoryEvent *event,
+undo_redo_wrap (EEditorPage *editor_page,
+                EEditorHistoryEvent *event,
                 gboolean undo)
 {
 	if (undo)
-		restore_selection_to_history_event_state (document, event->after);
+		restore_selection_to_history_event_state (editor_page, event->after);
 
 	if (undo) {
 		WebKitDOMNode *node;
 		WebKitDOMElement *element;
 		WebKitDOMRange *range;
 
-		range = dom_get_current_range (document);
+		range = e_editor_dom_get_current_range (editor_page);
 		node = webkit_dom_range_get_common_ancestor_container (range, NULL);
 		g_object_unref (range);
 		element = get_parent_block_element (WEBKIT_DOM_NODE (node));
 		webkit_dom_element_remove_attribute (element, "data-user-wrapped");
-		dom_remove_wrapping_from_element (WEBKIT_DOM_ELEMENT (element));
+		e_editor_dom_remove_wrapping_from_element (WEBKIT_DOM_ELEMENT (element));
 
-		dom_force_spell_check_for_current_paragraph (document, extension);
+		e_editor_dom_force_spell_check_for_current_paragraph (editor_page);
 	} else
-		dom_selection_wrap (document, extension);
+		e_editor_dom_selection_wrap (editor_page);
 
 	if (undo)
-		restore_selection_to_history_event_state (document, event->before);
+		restore_selection_to_history_event_state (editor_page, event->before);
 }
 
 static void
-undo_redo_page_dialog (WebKitDOMDocument *document,
-                       EHTMLEditorWebExtension *extension,
-                       EHTMLEditorHistoryEvent *event,
+undo_redo_page_dialog (EEditorPage *editor_page,
+                       EEditorHistoryEvent *event,
                        gboolean undo)
 {
+	WebKitDOMDocument *document;
 	WebKitDOMHTMLElement *body;
 	WebKitDOMNamedNodeMap *attributes, *attributes_history;
 	gint length, length_history, ii, jj;
 
+	document = e_editor_page_get_document (editor_page);
 	body = webkit_dom_document_get_body (document);
 
 	if (undo)
-		restore_selection_to_history_event_state (document, event->after);
+		restore_selection_to_history_event_state (editor_page, event->after);
 
 	if (undo) {
 		attributes = webkit_dom_element_get_attributes (WEBKIT_DOM_ELEMENT (body));
@@ -1166,13 +1145,13 @@ undo_redo_page_dialog (WebKitDOMDocument *document,
 					gchar *value;
 
 					value = webkit_dom_node_get_node_value (attr_clone);
-					dom_set_link_color (document, value);
+					e_editor_dom_set_link_color (editor_page, value);
 					g_free (value);
 				} else if (g_strcmp0 (name, "vlink") == 0) {
 					gchar *value;
 
 					value = webkit_dom_node_get_node_value (attr_clone);
-					dom_set_visited_link_color (document, value);
+					e_editor_dom_set_visited_link_color (editor_page, value);
 					g_free (value);
 				}
 				replaced = TRUE;
@@ -1204,21 +1183,23 @@ undo_redo_page_dialog (WebKitDOMDocument *document,
 	g_object_unref (attributes_history);
 
 	if (undo)
-		restore_selection_to_history_event_state (document, event->before);
+		restore_selection_to_history_event_state (editor_page, event->before);
 }
 
 static void
-undo_redo_hrule_dialog (WebKitDOMDocument *document,
-                        EHTMLEditorWebExtension *extension,
-                        EHTMLEditorHistoryEvent *event,
+undo_redo_hrule_dialog (EEditorPage *editor_page,
+                        EEditorHistoryEvent *event,
                         gboolean undo)
 {
+	WebKitDOMDocument *document;
 	WebKitDOMElement *element;
 
-	if (undo)
-		restore_selection_to_history_event_state (document, event->after);
+	document = e_editor_page_get_document (editor_page);
 
-	dom_selection_save (document);
+	if (undo)
+		restore_selection_to_history_event_state (editor_page, event->after);
+
+	e_editor_dom_selection_save (editor_page);
 	element = webkit_dom_document_get_element_by_id (
 		document, "-x-evo-selection-start-marker");
 
@@ -1267,24 +1248,26 @@ undo_redo_hrule_dialog (WebKitDOMDocument *document,
 	}
 
 	if (undo)
-		restore_selection_to_history_event_state (document, event->before);
+		restore_selection_to_history_event_state (editor_page, event->before);
 	else
-		dom_selection_restore (document);
+		e_editor_dom_selection_restore (editor_page);
 }
 
 static void
-undo_redo_image_dialog (WebKitDOMDocument *document,
-                        EHTMLEditorWebExtension *extension,
-                        EHTMLEditorHistoryEvent *event,
+undo_redo_image_dialog (EEditorPage *editor_page,
+                        EEditorHistoryEvent *event,
                         gboolean undo)
 {
+	WebKitDOMDocument *document;
 	WebKitDOMElement *element;
 	WebKitDOMNode *sibling, *image = NULL;
 
-	if (undo)
-		restore_selection_to_history_event_state (document, event->after);
+	document = e_editor_page_get_document (editor_page);
 
-	dom_selection_save (document);
+	if (undo)
+		restore_selection_to_history_event_state (editor_page, event->after);
+
+	e_editor_dom_selection_save (editor_page);
 	element = webkit_dom_document_get_element_by_id (
 		document, "-x-evo-selection-start-marker");
 	sibling = webkit_dom_node_get_previous_sibling (WEBKIT_DOM_NODE (element));
@@ -1316,25 +1299,27 @@ undo_redo_image_dialog (WebKitDOMDocument *document,
 		NULL);
 
 	if (undo)
-		restore_selection_to_history_event_state (document, event->before);
+		restore_selection_to_history_event_state (editor_page, event->before);
 	else
-		dom_selection_restore (document);
+		e_editor_dom_selection_restore (editor_page);
 }
 
 static void
-undo_redo_link_dialog (WebKitDOMDocument *document,
-                       EHTMLEditorWebExtension *extension,
-                       EHTMLEditorHistoryEvent *event,
+undo_redo_link_dialog (EEditorPage *editor_page,
+                       EEditorHistoryEvent *event,
                        gboolean undo)
 {
+	WebKitDOMDocument *document;
 	WebKitDOMElement *anchor, *element;
 
-	if (undo)
-		restore_selection_to_history_event_state (document, event->after);
-	else
-		restore_selection_to_history_event_state (document, event->before);
+	document = e_editor_page_get_document (editor_page);
 
-	dom_selection_save (document);
+	if (undo)
+		restore_selection_to_history_event_state (editor_page, event->after);
+	else
+		restore_selection_to_history_event_state (editor_page, event->before);
+
+	e_editor_dom_selection_save (editor_page);
 
 	element = webkit_dom_document_get_element_by_id (document, "-x-evo-selection-start-marker");
 	if (!element)
@@ -1371,30 +1356,32 @@ undo_redo_link_dialog (WebKitDOMDocument *document,
 					NULL);
 
 				if (event->data.dom.from)
-					dom_exec_command (document, extension,
+					e_editor_dom_exec_command (editor_page,
 						E_CONTENT_EDITOR_COMMAND_DELETE, NULL);
 			}
 		}
 	}
 
 	if (undo)
-		restore_selection_to_history_event_state (document, event->before);
+		restore_selection_to_history_event_state (editor_page, event->before);
 	else
-		dom_selection_restore (document);
+		e_editor_dom_selection_restore (editor_page);
 }
 
 static void
-undo_redo_table_dialog (WebKitDOMDocument *document,
-                        EHTMLEditorWebExtension *extension,
-                        EHTMLEditorHistoryEvent *event,
+undo_redo_table_dialog (EEditorPage *editor_page,
+                        EEditorHistoryEvent *event,
                         gboolean undo)
 {
+	WebKitDOMDocument *document;
 	WebKitDOMElement *table, *element;
 
-	if (undo)
-		restore_selection_to_history_event_state (document, event->after);
+	document = e_editor_page_get_document (editor_page);
 
-	dom_selection_save (document);
+	if (undo)
+		restore_selection_to_history_event_state (editor_page, event->after);
+
+	e_editor_dom_selection_save (editor_page);
 	element = webkit_dom_document_get_element_by_id (document, "-x-evo-selection-start-marker");
 	if (!element)
 		return;
@@ -1411,7 +1398,7 @@ undo_redo_table_dialog (WebKitDOMDocument *document,
 				webkit_dom_node_clone_node_with_error (undo ? event->data.dom.from : event->data.dom.to, TRUE, NULL),
 				WEBKIT_DOM_NODE (parent),
 				NULL);
-			restore_selection_to_history_event_state (document, event->before);
+			restore_selection_to_history_event_state (editor_page, event->before);
 			return;
 		} else
 			return;
@@ -1438,25 +1425,27 @@ undo_redo_table_dialog (WebKitDOMDocument *document,
 	}
 
 	if (undo)
-		restore_selection_to_history_event_state (document, event->before);
+		restore_selection_to_history_event_state (editor_page, event->before);
 	else
-		dom_selection_restore (document);
+		e_editor_dom_selection_restore (editor_page);
 }
 
 static void
-undo_redo_table_input (WebKitDOMDocument *document,
-                       EHTMLEditorWebExtension *extension,
-                       EHTMLEditorHistoryEvent *event,
+undo_redo_table_input (EEditorPage *editor_page,
+                       EEditorHistoryEvent *event,
                        gboolean undo)
 {
+	WebKitDOMDocument *document;
 	WebKitDOMDOMWindow *dom_window;
 	WebKitDOMDOMSelection *dom_selection;
 	WebKitDOMElement *element;
 	WebKitDOMNode *node;
 	WebKitDOMRange *range;
 
+	document = e_editor_page_get_document (editor_page);
+
 	if (undo)
-		restore_selection_to_history_event_state (document, event->after);
+		restore_selection_to_history_event_state (editor_page, event->after);
 
 	dom_window = webkit_dom_document_get_default_view (document);
 	dom_selection = webkit_dom_dom_window_get_selection (dom_window);
@@ -1488,23 +1477,26 @@ undo_redo_table_input (WebKitDOMDocument *document,
 		WEBKIT_DOM_NODE (element),
 		NULL);
 
-	dom_selection_restore (document);
+	e_editor_dom_selection_restore (editor_page);
 }
 
 static void
-undo_redo_paste (WebKitDOMDocument *document,
-                 EHTMLEditorWebExtension *extension,
-                 EHTMLEditorHistoryEvent *event,
+undo_redo_paste (EEditorPage *editor_page,
+                 EEditorHistoryEvent *event,
                  gboolean undo)
 {
+	WebKitDOMDocument *document;
+
+	document = e_editor_page_get_document (editor_page);
+
 	if (undo) {
 		if (event->type == HISTORY_PASTE_QUOTED) {
 			WebKitDOMElement *tmp;
 			WebKitDOMNode *parent;
 
-			restore_selection_to_history_event_state (document, event->after);
+			restore_selection_to_history_event_state (editor_page, event->after);
 
-			dom_selection_save (document);
+			e_editor_dom_selection_save (editor_page);
 			tmp = webkit_dom_document_get_element_by_id (
 				document, "-x-evo-selection-start-marker");
 			if (!tmp)
@@ -1516,11 +1508,11 @@ undo_redo_paste (WebKitDOMDocument *document,
 
 			webkit_dom_node_replace_child (
 				webkit_dom_node_get_parent_node (parent),
-				WEBKIT_DOM_NODE (dom_prepare_paragraph (document, extension, TRUE)),
+				WEBKIT_DOM_NODE (e_editor_dom_prepare_paragraph (editor_page, TRUE)),
 				parent,
 				NULL);
 
-			dom_selection_restore (document);
+			e_editor_dom_selection_restore (editor_page);
 		} else {
 			WebKitDOMDOMWindow *dom_window;
 			WebKitDOMDOMSelection *dom_selection;
@@ -1537,7 +1529,7 @@ undo_redo_paste (WebKitDOMDocument *document,
 			webkit_dom_dom_selection_add_range (dom_selection, range);
 			g_object_unref (range);
 
-			dom_selection_save (document);
+			e_editor_dom_selection_save (editor_page);
 
 			element = webkit_dom_document_get_element_by_id (
 				document, "-x-evo-selection-end-marker");
@@ -1555,7 +1547,7 @@ undo_redo_paste (WebKitDOMDocument *document,
 			g_object_unref (range);
 			g_object_unref (dom_selection);
 
-			dom_selection_save (document);
+			e_editor_dom_selection_save (editor_page);
 
 			tmp = webkit_dom_document_get_element_by_id (
 				document, "-x-evo-selection-start-marker");
@@ -1565,37 +1557,38 @@ undo_redo_paste (WebKitDOMDocument *document,
 			webkit_dom_element_set_id (
 				element, "-x-evo-selection-start-marker");
 
-			dom_selection_restore (document);
+			e_editor_dom_selection_restore (editor_page);
 
-			dom_exec_command (document, extension, E_CONTENT_EDITOR_COMMAND_DELETE, NULL);
+			e_editor_dom_exec_command (editor_page, E_CONTENT_EDITOR_COMMAND_DELETE, NULL);
 
-			dom_force_spell_check_for_current_paragraph (document, extension);
+			e_editor_dom_force_spell_check_for_current_paragraph (editor_page);
 		}
 	} else {
-		restore_selection_to_history_event_state (document, event->before);
+		restore_selection_to_history_event_state (editor_page, event->before);
 
 		if (event->type == HISTORY_PASTE)
-			dom_convert_and_insert_html_into_selection (document, extension, event->data.string.to, FALSE);
+			e_editor_dom_convert_and_insert_html_into_selection (editor_page, event->data.string.to, FALSE);
 		else if (event->type == HISTORY_PASTE_QUOTED)
-			dom_quote_and_insert_text_into_selection (document, extension, event->data.string.to);
+			e_editor_dom_quote_and_insert_text_into_selection (editor_page, event->data.string.to);
 		else if (event->type == HISTORY_INSERT_HTML)
-			dom_insert_html (document, extension, event->data.string.to);
+			e_editor_dom_insert_html (editor_page, event->data.string.to);
 		else
-			dom_convert_and_insert_html_into_selection (document, extension, event->data.string.to, FALSE);
-			//e_html_editor_selection_insert_as_text (selection, event->data.string.to);
+			e_editor_dom_convert_and_insert_html_into_selection (editor_page, event->data.string.to, FALSE);
+			//e_editor_selection_insert_as_text (selection, event->data.string.to);
 	}
 }
 
 static void
-undo_redo_image (WebKitDOMDocument *document,
-                 EHTMLEditorWebExtension *extension,
-                 EHTMLEditorHistoryEvent *event,
+undo_redo_image (EEditorPage *editor_page,
+                 EEditorHistoryEvent *event,
                  gboolean undo)
 {
+	WebKitDOMDocument *document;
 	WebKitDOMDOMWindow *dom_window;
 	WebKitDOMDOMSelection *dom_selection;
 	WebKitDOMRange *range;
 
+	document = e_editor_page_get_document (editor_page);
 	dom_window = webkit_dom_document_get_default_view (document);
 	dom_selection = webkit_dom_dom_window_get_selection (dom_window);
 	g_object_unref (dom_window);
@@ -1609,7 +1602,7 @@ undo_redo_image (WebKitDOMDocument *document,
 		webkit_dom_dom_selection_add_range (dom_selection, range);
 		g_object_unref (range);
 
-		dom_selection_save (document);
+		e_editor_dom_selection_save (editor_page);
 		element = webkit_dom_document_get_element_by_id (
 			document, "-x-evo-selection-end-marker");
 
@@ -1619,7 +1612,7 @@ undo_redo_image (WebKitDOMDocument *document,
 			if (element_has_class (WEBKIT_DOM_ELEMENT (node), "-x-evo-resizable-wrapper") ||
 			    element_has_class (WEBKIT_DOM_ELEMENT (node), "-x-evo-smiley-wrapper"))
 				remove_node (node);
-		dom_selection_restore (document);
+		e_editor_dom_selection_restore (editor_page);
 	} else {
 		WebKitDOMElement *element;
 
@@ -1629,7 +1622,7 @@ undo_redo_image (WebKitDOMDocument *document,
 		webkit_dom_dom_selection_add_range (dom_selection, range);
 		g_object_unref (range);
 
-		dom_selection_save (document);
+		e_editor_dom_selection_save (editor_page);
 		element = webkit_dom_document_get_element_by_id (
 			document, "-x-evo-selection-start-marker");
 
@@ -1640,20 +1633,23 @@ undo_redo_image (WebKitDOMDocument *document,
 			WEBKIT_DOM_NODE (element),
 			NULL);
 
-		dom_selection_restore (document);
-		dom_force_spell_check_for_current_paragraph (document, extension);
+		e_editor_dom_selection_restore (editor_page);
+		e_editor_dom_force_spell_check_for_current_paragraph (editor_page);
 	}
 
 	g_object_unref (dom_selection);
 }
 
 static void
-undo_redo_replace (WebKitDOMDocument *document,
-                   EHTMLEditorWebExtension *extension,
-                   EHTMLEditorHistoryEvent *event,
+undo_redo_replace (EEditorPage *editor_page,
+                   EEditorHistoryEvent *event,
                    gboolean undo)
 {
-	restore_selection_to_history_event_state (document, undo ? event->after : event->before);
+	WebKitDOMDocument *document;
+
+	document = e_editor_page_get_document (editor_page);
+
+	restore_selection_to_history_event_state (editor_page, undo ? event->after : event->before);
 
 	if (undo) {
 		WebKitDOMDOMWindow *dom_window;
@@ -1667,30 +1663,31 @@ undo_redo_replace (WebKitDOMDocument *document,
 		g_object_unref (dom_selection);
 	}
 
-	dom_exec_command (
-		document,
-		extension,
+	e_editor_dom_exec_command (editor_page,
 		E_CONTENT_EDITOR_COMMAND_INSERT_TEXT,
 		undo ? event->data.string.from : event->data.string.to);
 
-	dom_force_spell_check_for_current_paragraph (document, extension);
+	e_editor_dom_force_spell_check_for_current_paragraph (editor_page);
 
-	restore_selection_to_history_event_state (document, undo ? event->before : event->after);
+	restore_selection_to_history_event_state (editor_page, undo ? event->before : event->after);
 }
 
 static void
-undo_redo_replace_all (EHTMLEditorUndoRedoManager *manager,
-                       WebKitDOMDocument *document,
-                       EHTMLEditorWebExtension *extension,
-                       EHTMLEditorHistoryEvent *event,
+undo_redo_replace_all (EEditorUndoRedoManager *manager,
+                       EEditorPage *editor_page,
+                       EEditorHistoryEvent *event,
                        gboolean undo)
 {
+	WebKitDOMDocument *document;
+
+	document = e_editor_page_get_document (editor_page);
+
 	if (undo) {
 		if (event->type == HISTORY_REPLACE) {
-			undo_redo_replace (document, extension, event, undo);
+			undo_redo_replace (editor_page, event, undo);
 			return;
 		} else {
-			EHTMLEditorHistoryEvent *next_event;
+			EEditorHistoryEvent *next_event;
 			GList *next_item;
 			WebKitDOMDOMWindow *dom_window;
 			WebKitDOMDOMSelection *dom_selection;
@@ -1709,7 +1706,7 @@ undo_redo_replace_all (EHTMLEditorUndoRedoManager *manager,
 				if (g_strcmp0 (next_event->data.string.to, event->data.string.to) != 0)
 					break;
 
-				undo_redo_replace (document, extension, next_event, undo);
+				undo_redo_replace (editor_page, next_event, undo);
 
 				next_item = next_item->next;
 			}
@@ -1724,7 +1721,7 @@ undo_redo_replace_all (EHTMLEditorUndoRedoManager *manager,
 		}
 	} else {
 		/* Find if this history item is part of HISTORY_REPLACE_ALL. */
-		EHTMLEditorHistoryEvent *prev_event;
+		EEditorHistoryEvent *prev_event;
 		GList *prev_item;
 		gboolean replace_all = FALSE;
 
@@ -1742,7 +1739,7 @@ undo_redo_replace_all (EHTMLEditorUndoRedoManager *manager,
 		}
 
 		if (!replace_all) {
-			undo_redo_replace (document, extension, event, undo);
+			undo_redo_replace (editor_page, event, undo);
 			return;
 		}
 
@@ -1751,7 +1748,7 @@ undo_redo_replace_all (EHTMLEditorUndoRedoManager *manager,
 			prev_event = prev_item->data;
 
 			if (prev_event->type == HISTORY_REPLACE) {
-				undo_redo_replace (document, extension, prev_event, undo);
+				undo_redo_replace (editor_page, prev_event, undo);
 				prev_item = prev_item->prev;
 			} else
 				break;
@@ -1762,13 +1759,16 @@ undo_redo_replace_all (EHTMLEditorUndoRedoManager *manager,
 }
 
 static void
-undo_redo_remove_link (WebKitDOMDocument *document,
-                       EHTMLEditorWebExtension *extension,
-                       EHTMLEditorHistoryEvent *event,
+undo_redo_remove_link (EEditorPage *editor_page,
+                       EEditorHistoryEvent *event,
                        gboolean undo)
 {
+	WebKitDOMDocument *document;
+
+	document = e_editor_page_get_document (editor_page);
+
 	if (undo)
-		restore_selection_to_history_event_state (document, event->after);
+		restore_selection_to_history_event_state (editor_page, event->after);
 
 	if (undo) {
 		WebKitDOMDOMWindow *dom_window;
@@ -1782,7 +1782,7 @@ undo_redo_remove_link (WebKitDOMDocument *document,
 		webkit_dom_dom_selection_modify (dom_selection, "move", "left", "word");
 		webkit_dom_dom_selection_modify (dom_selection, "extend", "right", "word");
 
-		range = dom_get_current_range (document);
+		range = e_editor_dom_get_current_range (editor_page);
 		element = webkit_dom_document_create_element (document, "SPAN", NULL);
 		webkit_dom_range_surround_contents (range, WEBKIT_DOM_NODE (element), NULL);
 		g_object_unref (range);
@@ -1795,21 +1795,22 @@ undo_redo_remove_link (WebKitDOMDocument *document,
 		g_object_unref (dom_window);
 		g_object_unref (dom_selection);
 	} else
-		dom_selection_unlink (document, extension);
+		e_editor_dom_selection_unlink (editor_page);
 
 	if (undo)
-		restore_selection_to_history_event_state (document, event->before);
+		restore_selection_to_history_event_state (editor_page, event->before);
 }
 
 static void
-undo_return_in_empty_list_item (WebKitDOMDocument *document,
-				EHTMLEditorWebExtension *extension,
-				EHTMLEditorHistoryEvent *event)
+undo_return_in_empty_list_item (EEditorPage *editor_page,
+				EEditorHistoryEvent *event)
 {
+	WebKitDOMDocument *document;
 	WebKitDOMElement *selection_start_marker;
 	WebKitDOMNode *parent;
 
-	dom_selection_save (document);
+	document = e_editor_page_get_document (editor_page);
+	e_editor_dom_selection_save (editor_page);
 
 	selection_start_marker = webkit_dom_document_get_element_by_id (document, "-x-evo-selection-start-marker");
 	parent = webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (selection_start_marker));
@@ -1831,30 +1832,31 @@ undo_return_in_empty_list_item (WebKitDOMDocument *document,
 		merge_lists_if_possible (parent_list);
 	}
 
-	dom_selection_restore (document);
+	e_editor_dom_selection_restore (editor_page);
 }
 
 static void
-undo_input (EHTMLEditorUndoRedoManager *manager,
-            WebKitDOMDocument *document,
-            EHTMLEditorWebExtension *extension,
-            EHTMLEditorHistoryEvent *event)
+undo_input (EEditorUndoRedoManager *manager,
+            EEditorPage *editor_page,
+            EEditorHistoryEvent *event)
 {
-	gboolean remove_anchor;
+	WebKitDOMDocument *document;
 	WebKitDOMDOMWindow *dom_window;
 	WebKitDOMDOMSelection *dom_selection;
 	WebKitDOMNode *node, *tmp_node;
+	gboolean remove_anchor;
 
+	document = e_editor_page_get_document (editor_page);
 	dom_window = webkit_dom_document_get_default_view (document);
 	dom_selection = webkit_dom_dom_window_get_selection (dom_window);
 
-	restore_selection_to_history_event_state (document, event->after);
+	restore_selection_to_history_event_state (editor_page, event->after);
 
 	webkit_dom_dom_selection_modify (dom_selection, "extend", "left", "character");
-	if (dom_selection_is_citation (document)) {
+	if (e_editor_dom_selection_is_citation (editor_page)) {
 		/* Post processing of quoted text in body_input_event_cb needs to be called. */
 		manager->priv->operation_in_progress = FALSE;
-		e_html_editor_web_extension_set_dont_save_history_in_body_input (extension, TRUE);
+		e_editor_page_set_dont_save_history_in_body_input (editor_page, TRUE);
 	}
 
 	/* If we are undoing the text that was appended to the link we have to
@@ -1874,7 +1876,7 @@ undo_input (EHTMLEditorUndoRedoManager *manager,
 		g_free (text_content);
 	}
 
-	dom_exec_command (document, extension, E_CONTENT_EDITOR_COMMAND_DELETE, NULL);
+	e_editor_dom_exec_command (editor_page, E_CONTENT_EDITOR_COMMAND_DELETE, NULL);
 
 	if (remove_anchor) {
 		WebKitDOMNode *child;
@@ -1895,19 +1897,21 @@ undo_input (EHTMLEditorUndoRedoManager *manager,
 	tmp_node = webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (event->data.fragment));
 	if (WEBKIT_DOM_IS_HTML_LI_ELEMENT (tmp_node) &&
 	    WEBKIT_DOM_IS_HTML_BR_ELEMENT (webkit_dom_node_get_last_child (tmp_node)))
-		undo_return_in_empty_list_item (document, extension, event);
+		undo_return_in_empty_list_item (editor_page, event);
 
 	g_object_unref (dom_window);
 	g_object_unref (dom_selection);
 }
 
 static void
-undo_redo_citation_split (WebKitDOMDocument *document,
-                          EHTMLEditorWebExtension *extension,
-                          EHTMLEditorHistoryEvent *event,
+undo_redo_citation_split (EEditorPage *editor_page,
+                          EEditorHistoryEvent *event,
                           gboolean undo)
 {
+	WebKitDOMDocument *document;
 	gboolean in_situ = FALSE;
+
+	document = e_editor_page_get_document (editor_page);
 
 	if (event->before.start.x == event->after.start.x &&
 	    event->before.start.y == event->after.start.y &&
@@ -1919,9 +1923,9 @@ undo_redo_citation_split (WebKitDOMDocument *document,
 		WebKitDOMElement *selection_start, *parent;
 		WebKitDOMNode *citation_before, *citation_after, *child, *last_child, *tmp;
 
-		restore_selection_to_history_event_state (document, event->after);
+		restore_selection_to_history_event_state (editor_page, event->after);
 
-		dom_selection_save (document);
+		e_editor_dom_selection_save (editor_page);
 		selection_start = webkit_dom_document_get_element_by_id (
 			document, "-x-evo-selection-start-marker");
 		if (!selection_start)
@@ -1930,25 +1934,25 @@ undo_redo_citation_split (WebKitDOMDocument *document,
 		parent = get_parent_block_element (WEBKIT_DOM_NODE (selection_start));
 
 		citation_before = webkit_dom_node_get_previous_sibling (WEBKIT_DOM_NODE (parent));
-		if (!dom_node_is_citation_node (citation_before)) {
-			dom_selection_restore (document);
+		if (!e_editor_dom_node_is_citation_node (citation_before)) {
+			e_editor_dom_selection_restore (editor_page);
 			return;
 		}
 
 		citation_after = webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (parent));
-		if (!dom_node_is_citation_node (citation_after)) {
-			dom_selection_restore (document);
+		if (!e_editor_dom_node_is_citation_node (citation_after)) {
+			e_editor_dom_selection_restore (editor_page);
 			return;
 		}
 
 		/* Get first block in next citation. */
 		child = webkit_dom_node_get_first_child (citation_after);
-		while (child && dom_node_is_citation_node (child))
+		while (child && e_editor_dom_node_is_citation_node (child))
 			child = webkit_dom_node_get_first_child (child);
 
 		/* Get last block in previous citation. */
 		last_child = webkit_dom_node_get_last_child (citation_before);
-		while (last_child && dom_node_is_citation_node (last_child))
+		while (last_child && e_editor_dom_node_is_citation_node (last_child))
 			last_child = webkit_dom_node_get_last_child (last_child);
 
 		/* Before appending any content to the block, check that the
@@ -1964,18 +1968,18 @@ undo_redo_citation_split (WebKitDOMDocument *document,
 					WEBKIT_DOM_NODE (event->data.fragment), TRUE, NULL),
 				NULL);
 		} else {
-			dom_remove_quoting_from_element (WEBKIT_DOM_ELEMENT (child));
-			dom_remove_wrapping_from_element (WEBKIT_DOM_ELEMENT (child));
+			e_editor_dom_remove_quoting_from_element (WEBKIT_DOM_ELEMENT (child));
+			e_editor_dom_remove_wrapping_from_element (WEBKIT_DOM_ELEMENT (child));
 
-			dom_remove_quoting_from_element (WEBKIT_DOM_ELEMENT (last_child));
-			dom_remove_wrapping_from_element (WEBKIT_DOM_ELEMENT (last_child));
+			e_editor_dom_remove_quoting_from_element (WEBKIT_DOM_ELEMENT (last_child));
+			e_editor_dom_remove_wrapping_from_element (WEBKIT_DOM_ELEMENT (last_child));
 
 			/* Copy the content of the first block to the last block to get
 			 * to the state how the block looked like before it was split. */
 			while ((tmp = webkit_dom_node_get_first_child (child)))
 				webkit_dom_node_append_child (last_child, tmp, NULL);
 
-			wrap_and_quote_element (document, extension, WEBKIT_DOM_ELEMENT (last_child));
+			e_editor_dom_wrap_and_quote_element (editor_page, WEBKIT_DOM_ELEMENT (last_child));
 
 			remove_node (child);
 		}
@@ -1991,51 +1995,53 @@ undo_redo_citation_split (WebKitDOMDocument *document,
 
 		/* If enter was pressed when some text was selected, restore it. */
 		if (event->data.fragment != NULL && !in_situ)
-			undo_delete (document, extension, event);
+			undo_delete (editor_page, event);
 
-		dom_merge_siblings_if_necessary (document, NULL);
+		e_editor_dom_merge_siblings_if_necessary (editor_page, NULL);
 
-		restore_selection_to_history_event_state (document, event->before);
+		restore_selection_to_history_event_state (editor_page, event->before);
 
-		dom_force_spell_check_in_viewport (document, extension);
+		e_editor_dom_force_spell_check_in_viewport (editor_page);
 	} else {
-		restore_selection_to_history_event_state (document, event->before);
+		restore_selection_to_history_event_state (editor_page, event->before);
 
 		if (in_situ) {
 			WebKitDOMElement *selection_start_marker;
 			WebKitDOMNode *block;
 
-			dom_selection_save (document);
+			e_editor_dom_selection_save (editor_page);
 
 			selection_start_marker = webkit_dom_document_get_element_by_id (
 				document, "-x-evo-selection-start-marker");
 
-			block = get_parent_block_node_from_child (
+			block = e_editor_dom_get_parent_block_node_from_child (
 				WEBKIT_DOM_NODE (selection_start_marker));
 			dom_remove_selection_markers (document);
 
 			/* Remove current block (and all of its parents if they
 			 * are empty) as it will be replaced by a new block that
 			 * will be in the body and not in the blockquote. */
-			dom_remove_node_and_parents_if_empty (block);
+			e_editor_dom_remove_node_and_parents_if_empty (block);
 		}
 
-		dom_insert_new_line_into_citation (document, extension, "");
+		e_editor_dom_insert_new_line_into_citation (editor_page, "");
 	}
 }
 
 static void
-undo_redo_unquote (WebKitDOMDocument *document,
-		   EHTMLEditorWebExtension *extension,
-		   EHTMLEditorHistoryEvent *event,
+undo_redo_unquote (EEditorPage *editor_page,
+		   EEditorHistoryEvent *event,
                    gboolean undo)
 {
+	WebKitDOMDocument *document;
 	WebKitDOMElement *element;
 
-	if (undo)
-		restore_selection_to_history_event_state (document, event->after);
+	document = e_editor_page_get_document (editor_page);
 
-	dom_selection_save (document);
+	if (undo)
+		restore_selection_to_history_event_state (editor_page, event->after);
+
+	e_editor_dom_selection_save (editor_page);
 	element = webkit_dom_document_get_element_by_id (
 		document, "-x-evo-selection-start-marker");
 
@@ -2048,13 +2054,13 @@ undo_redo_unquote (WebKitDOMDocument *document,
 		next_sibling = webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (block));
 		prev_sibling = webkit_dom_node_get_previous_sibling (WEBKIT_DOM_NODE (block));
 
-		if (prev_sibling && dom_node_is_citation_node (prev_sibling)) {
+		if (prev_sibling && e_editor_dom_node_is_citation_node (prev_sibling)) {
 			webkit_dom_node_append_child (
 				prev_sibling,
 				webkit_dom_node_clone_node_with_error (event->data.dom.from, TRUE, NULL),
 				NULL);
 
-			if (next_sibling && dom_node_is_citation_node (next_sibling)) {
+			if (next_sibling && e_editor_dom_node_is_citation_node (next_sibling)) {
 				WebKitDOMNode *child;
 
 				while  ((child = webkit_dom_node_get_first_child (next_sibling)))
@@ -2063,7 +2069,7 @@ undo_redo_unquote (WebKitDOMDocument *document,
 
 				remove_node (next_sibling);
 			}
-		} else if (next_sibling && dom_node_is_citation_node (next_sibling)) {
+		} else if (next_sibling && e_editor_dom_node_is_citation_node (next_sibling)) {
 			webkit_dom_node_insert_before (
 				next_sibling,
 				webkit_dom_node_clone_node_with_error (event->data.dom.from, TRUE, NULL),
@@ -2073,35 +2079,35 @@ undo_redo_unquote (WebKitDOMDocument *document,
 
 		remove_node (WEBKIT_DOM_NODE (block));
 	} else
-		dom_move_quoted_block_level_up (document, extension);
+		e_editor_dom_move_quoted_block_level_up (editor_page);
 
 	if (undo)
-		restore_selection_to_history_event_state (document, event->before);
+		restore_selection_to_history_event_state (editor_page, event->before);
 	else
-		dom_selection_restore (document);
+		e_editor_dom_selection_restore (editor_page);
 
-	dom_force_spell_check_for_current_paragraph (document, extension);
+	e_editor_dom_force_spell_check_for_current_paragraph (editor_page);
 }
 
 gboolean
-e_html_editor_undo_redo_manager_is_operation_in_progress (EHTMLEditorUndoRedoManager *manager)
+e_editor_undo_redo_manager_is_operation_in_progress (EEditorUndoRedoManager *manager)
 {
-	g_return_val_if_fail (E_IS_HTML_EDITOR_UNDO_REDO_MANAGER (manager), FALSE);
+	g_return_val_if_fail (E_IS_EDITOR_UNDO_REDO_MANAGER (manager), FALSE);
 
 	return manager->priv->operation_in_progress;
 }
 
 void
-e_html_editor_undo_redo_manager_set_operation_in_progress (EHTMLEditorUndoRedoManager *manager,
+e_editor_undo_redo_manager_set_operation_in_progress (EEditorUndoRedoManager *manager,
                                                            gboolean value)
 {
-	g_return_if_fail (E_IS_HTML_EDITOR_UNDO_REDO_MANAGER (manager));
+	g_return_if_fail (E_IS_EDITOR_UNDO_REDO_MANAGER (manager));
 
 	manager->priv->operation_in_progress = value;
 }
 
 static void
-free_history_event_content (EHTMLEditorHistoryEvent *event)
+free_history_event_content (EEditorHistoryEvent *event)
 {
 	switch (event->type) {
 		case HISTORY_INPUT:
@@ -2144,7 +2150,7 @@ free_history_event_content (EHTMLEditorHistoryEvent *event)
 }
 
 static void
-free_history_event (EHTMLEditorHistoryEvent *event)
+free_history_event (EEditorHistoryEvent *event)
 {
 	if (event == NULL)
 		return;
@@ -2155,7 +2161,7 @@ free_history_event (EHTMLEditorHistoryEvent *event)
 }
 
 static void
-remove_history_event (EHTMLEditorUndoRedoManager *manager,
+remove_history_event (EEditorUndoRedoManager *manager,
                       GList *item)
 {
 	free_history_event_content (item->data);
@@ -2165,7 +2171,7 @@ remove_history_event (EHTMLEditorUndoRedoManager *manager,
 }
 
 static void
-remove_forward_redo_history_events_if_needed (EHTMLEditorUndoRedoManager *manager)
+remove_forward_redo_history_events_if_needed (EEditorUndoRedoManager *manager)
 {
 	GList *history = manager->priv->history;
 	GList *item;
@@ -2183,10 +2189,10 @@ remove_forward_redo_history_events_if_needed (EHTMLEditorUndoRedoManager *manage
 }
 
 void
-e_html_editor_undo_redo_manager_insert_history_event (EHTMLEditorUndoRedoManager *manager,
-                                                      EHTMLEditorHistoryEvent *event)
+e_editor_undo_redo_manager_insert_history_event (EEditorUndoRedoManager *manager,
+						 EEditorHistoryEvent *event)
 {
-	g_return_if_fail (E_IS_HTML_EDITOR_UNDO_REDO_MANAGER (manager));
+	g_return_if_fail (E_IS_EDITOR_UNDO_REDO_MANAGER (manager));
 
 	if (manager->priv->operation_in_progress)
 		return;
@@ -2199,7 +2205,7 @@ e_html_editor_undo_redo_manager_insert_history_event (EHTMLEditorUndoRedoManager
 	if (manager->priv->history_size >= HISTORY_SIZE_LIMIT) {
 		remove_history_event (manager, g_list_last (manager->priv->history)->prev);
 		/* FIXME WK2 - what if g_list_last (manager->priv->history) returns NULL? */
-		while (((EHTMLEditorHistoryEvent *) (g_list_last (manager->priv->history)->prev))->type == HISTORY_AND) {
+		while (((EEditorHistoryEvent *) (g_list_last (manager->priv->history)->prev))->type == HISTORY_AND) {
 			remove_history_event (manager, g_list_last (manager->priv->history)->prev);
 			remove_history_event (manager, g_list_last (manager->priv->history)->prev);
 		}
@@ -2214,10 +2220,10 @@ e_html_editor_undo_redo_manager_insert_history_event (EHTMLEditorUndoRedoManager
 	g_object_notify (G_OBJECT (manager), "can-undo");
 }
 
-EHTMLEditorHistoryEvent *
-e_html_editor_undo_redo_manager_get_current_history_event (EHTMLEditorUndoRedoManager *manager)
+EEditorHistoryEvent *
+e_editor_undo_redo_manager_get_current_history_event (EEditorUndoRedoManager *manager)
 {
-	g_return_val_if_fail (E_IS_HTML_EDITOR_UNDO_REDO_MANAGER (manager), NULL);
+	g_return_val_if_fail (E_IS_EDITOR_UNDO_REDO_MANAGER (manager), NULL);
 
 	if (manager->priv->history)
 		return manager->priv->history->data;
@@ -2226,9 +2232,9 @@ e_html_editor_undo_redo_manager_get_current_history_event (EHTMLEditorUndoRedoMa
 }
 
 void
-e_html_editor_undo_redo_manager_remove_current_history_event (EHTMLEditorUndoRedoManager *manager)
+e_editor_undo_redo_manager_remove_current_history_event (EEditorUndoRedoManager *manager)
 {
-	g_return_if_fail (E_IS_HTML_EDITOR_UNDO_REDO_MANAGER (manager));
+	g_return_if_fail (E_IS_EDITOR_UNDO_REDO_MANAGER (manager));
 
 	if (!manager->priv->history)
 		return;
@@ -2237,19 +2243,23 @@ e_html_editor_undo_redo_manager_remove_current_history_event (EHTMLEditorUndoRed
 }
 
 void
-e_html_editor_undo_redo_manager_insert_dash_history_event (EHTMLEditorUndoRedoManager *manager)
+e_editor_undo_redo_manager_insert_dash_history_event (EEditorUndoRedoManager *manager)
 {
-	EHTMLEditorHistoryEvent *event, *last;
-	GList *history;
-	WebKitDOMDocumentFragment *fragment;
 	WebKitDOMDocument *document;
+	WebKitDOMDocumentFragment *fragment;
+	EEditorPage *editor_page;
+	EEditorHistoryEvent *event, *last;
+	GList *history;
 
-	g_return_if_fail (E_IS_HTML_EDITOR_UNDO_REDO_MANAGER (manager));
+	g_return_if_fail (E_IS_EDITOR_UNDO_REDO_MANAGER (manager));
 
-	event = g_new0 (EHTMLEditorHistoryEvent, 1);
+	editor_page = editor_undo_redo_manager_ref_editor_page (manager);
+	g_return_if_fail (editor_page != NULL);
+
+	event = g_new0 (EEditorHistoryEvent, 1);
 	event->type = HISTORY_INPUT;
 
-	document = manager->priv->document;
+	document = e_editor_page_get_document (editor_page);
 	fragment = webkit_dom_document_create_document_fragment (document);
 	webkit_dom_node_append_child (
 		WEBKIT_DOM_NODE (fragment),
@@ -2268,7 +2278,7 @@ e_html_editor_undo_redo_manager_insert_dash_history_event (EHTMLEditorUndoRedoMa
 		NULL);
 	event->data.fragment = fragment;
 
-	last = e_html_editor_undo_redo_manager_get_current_history_event (manager);
+	last = e_editor_undo_redo_manager_get_current_history_event (manager);
 	/* The dash event needs to have the same coordinates as the character
 	 * that is right after it. */
 	event->after.start.x = last->after.start.x;
@@ -2278,13 +2288,15 @@ e_html_editor_undo_redo_manager_insert_dash_history_event (EHTMLEditorUndoRedoMa
 
 	history = manager->priv->history;
 	if (history) {
-		EHTMLEditorHistoryEvent *item;
+		EEditorHistoryEvent *item;
 		WebKitDOMNode *first_child;
 
 		item = history->data;
 
-		if (item->type != HISTORY_INPUT)
+		if (item->type != HISTORY_INPUT) {
+			g_object_unref (editor_page);
 			return;
+		}
 
 		first_child = webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (item->data.fragment));
 		if (WEBKIT_DOM_IS_TEXT (first_child)) {
@@ -2301,15 +2313,17 @@ e_html_editor_undo_redo_manager_insert_dash_history_event (EHTMLEditorUndoRedoMa
 				manager->priv->history, history, event);
 		}
 	}
+
+	g_object_unref (editor_page);
 }
 
 gboolean
-e_html_editor_undo_redo_manager_can_undo (EHTMLEditorUndoRedoManager *manager)
+e_editor_undo_redo_manager_can_undo (EEditorUndoRedoManager *manager)
 {
-	g_return_val_if_fail (E_IS_HTML_EDITOR_UNDO_REDO_MANAGER (manager), FALSE);
+	g_return_val_if_fail (E_IS_EDITOR_UNDO_REDO_MANAGER (manager), FALSE);
 
 	if (manager->priv->history) {
-		EHTMLEditorHistoryEvent *event;
+		EEditorHistoryEvent *event;
 
 		event = manager->priv->history->data;
 
@@ -2319,16 +2333,15 @@ e_html_editor_undo_redo_manager_can_undo (EHTMLEditorUndoRedoManager *manager)
 }
 
 void
-e_html_editor_undo_redo_manager_undo (EHTMLEditorUndoRedoManager *manager)
+e_editor_undo_redo_manager_undo (EEditorUndoRedoManager *manager)
 {
-	EHTMLEditorHistoryEvent *event;
-	EHTMLEditorWebExtension *extension;
+	EEditorHistoryEvent *event;
+	EEditorPage *editor_page;
 	GList *history;
-	WebKitDOMDocument *document;
 
-	g_return_if_fail (E_IS_HTML_EDITOR_UNDO_REDO_MANAGER (manager));
+	g_return_if_fail (E_IS_EDITOR_UNDO_REDO_MANAGER (manager));
 
-	if (!e_html_editor_undo_redo_manager_can_undo (manager))
+	if (!e_editor_undo_redo_manager_can_undo (manager))
 		return;
 
 	history = manager->priv->history;
@@ -2339,9 +2352,8 @@ e_html_editor_undo_redo_manager_undo (EHTMLEditorUndoRedoManager *manager)
 
 	manager->priv->operation_in_progress = TRUE;
 
-	document = manager->priv->document;
-	extension = html_editor_undo_redo_manager_ref_extension (manager);
-	g_return_if_fail (extension != NULL);
+	editor_page = editor_undo_redo_manager_ref_editor_page (manager);
+	g_return_if_fail (editor_page != NULL);
 
 	switch (event->type) {
 		case HISTORY_BOLD:
@@ -2352,78 +2364,78 @@ e_html_editor_undo_redo_manager_undo (EHTMLEditorUndoRedoManager *manager)
 			if (event_selection_was_collapsed (event)) {
 				if (history->next) {
 					manager->priv->history = history->next;
-					e_html_editor_undo_redo_manager_undo (manager);
+					e_editor_undo_redo_manager_undo (manager);
 				}
 				manager->priv->operation_in_progress = FALSE;
-				g_object_unref (extension);
+				g_object_unref (editor_page);
 				return;
 			}
 		case HISTORY_ALIGNMENT:
 		case HISTORY_BLOCK_FORMAT:
 		case HISTORY_MONOSPACE:
-			undo_redo_style_change (document, extension, event, TRUE);
+			undo_redo_style_change (editor_page, event, TRUE);
 			break;
 		case HISTORY_DELETE:
-			undo_delete (document, extension, event);
+			undo_delete (editor_page, event);
 			break;
 		case HISTORY_INDENT:
-			undo_redo_indent (document, extension, event, TRUE);
+			undo_redo_indent (editor_page, event, TRUE);
 			break;
 		case HISTORY_INPUT:
-			undo_input (manager, document, extension, event);
+			undo_input (manager, editor_page, event);
 			break;
 		case HISTORY_REMOVE_LINK:
-			undo_redo_remove_link (document, extension, event, TRUE);
+			undo_redo_remove_link (editor_page, event, TRUE);
 			break;
 		case HISTORY_FONT_COLOR:
-			undo_redo_font_color (document, extension, event, TRUE);
+			undo_redo_font_color (editor_page, event, TRUE);
 			break;
 		case HISTORY_CITATION_SPLIT:
-			undo_redo_citation_split (document, extension, event, TRUE);
+			undo_redo_citation_split (editor_page, event, TRUE);
 			break;
 		case HISTORY_PASTE:
 		case HISTORY_PASTE_AS_TEXT:
 		case HISTORY_PASTE_QUOTED:
 		case HISTORY_INSERT_HTML:
-			undo_redo_paste (document, extension, event, TRUE);
+			undo_redo_paste (editor_page, event, TRUE);
 			break;
 		case HISTORY_IMAGE:
 		case HISTORY_SMILEY:
-			undo_redo_image (document, extension, event, TRUE);
+			undo_redo_image (editor_page, event, TRUE);
 			break;
 		case HISTORY_WRAP:
-			undo_redo_wrap (document, extension, event, TRUE);
+			undo_redo_wrap (editor_page, event, TRUE);
 			break;
 		case HISTORY_IMAGE_DIALOG:
-			undo_redo_image_dialog (document, extension, event, TRUE);
+			undo_redo_image_dialog (editor_page, event, TRUE);
 			break;
 		case HISTORY_LINK_DIALOG:
-			undo_redo_link_dialog (document, extension, event, TRUE);
+			undo_redo_link_dialog (editor_page, event, TRUE);
 			break;
 		case HISTORY_TABLE_DIALOG:
-			undo_redo_table_dialog (document, extension, event, TRUE);
+			undo_redo_table_dialog (editor_page, event, TRUE);
 			break;
 		case HISTORY_TABLE_INPUT:
-			undo_redo_table_input (document, extension, event, TRUE);
+			undo_redo_table_input (editor_page, event, TRUE);
 			break;
 		case HISTORY_PAGE_DIALOG:
-			undo_redo_page_dialog (document, extension, event, TRUE);
+			undo_redo_page_dialog (editor_page, event, TRUE);
 			break;
 		case HISTORY_HRULE_DIALOG:
-			undo_redo_hrule_dialog (document, extension, event, TRUE);
+			undo_redo_hrule_dialog (editor_page, event, TRUE);
 			break;
 		case HISTORY_REPLACE:
 		case HISTORY_REPLACE_ALL:
-			undo_redo_replace_all (manager, document, extension, event, TRUE);
+			undo_redo_replace_all (manager, editor_page, event, TRUE);
 			break;
 		case HISTORY_UNQUOTE:
-			undo_redo_unquote (document, extension, event, TRUE);
+			undo_redo_unquote (editor_page, event, TRUE);
 			break;
 		case HISTORY_AND:
 			g_warning ("Unhandled HISTORY_AND event!");
 			break;
 		default:
-			g_object_unref (extension);
+			g_object_unref (editor_page);
 			return;
 	}
 
@@ -2431,7 +2443,8 @@ e_html_editor_undo_redo_manager_undo (EHTMLEditorUndoRedoManager *manager)
 	event = history->next->data;
 	if (event->type == HISTORY_AND) {
 		manager->priv->history = history->next->next;
-		e_html_editor_undo_redo_manager_undo (manager);
+		e_editor_undo_redo_manager_undo (manager);
+		g_object_unref (editor_page);
 		return;
 	}
 
@@ -2444,16 +2457,16 @@ e_html_editor_undo_redo_manager_undo (EHTMLEditorUndoRedoManager *manager)
 
 	manager->priv->operation_in_progress = FALSE;
 
-	g_object_unref (extension);
+	g_object_unref (editor_page);
 
 	g_object_notify (G_OBJECT (manager), "can-undo");
 	g_object_notify (G_OBJECT (manager), "can-redo");
 }
 
 gboolean
-e_html_editor_undo_redo_manager_can_redo (EHTMLEditorUndoRedoManager *manager)
+e_editor_undo_redo_manager_can_redo (EEditorUndoRedoManager *manager)
 {
-	g_return_val_if_fail (E_IS_HTML_EDITOR_UNDO_REDO_MANAGER (manager), FALSE);
+	g_return_val_if_fail (E_IS_EDITOR_UNDO_REDO_MANAGER (manager), FALSE);
 
 	if (manager->priv->history && manager->priv->history->prev)
 		return TRUE;
@@ -2462,14 +2475,13 @@ e_html_editor_undo_redo_manager_can_redo (EHTMLEditorUndoRedoManager *manager)
 }
 
 void
-e_html_editor_undo_redo_manager_redo (EHTMLEditorUndoRedoManager *manager)
+e_editor_undo_redo_manager_redo (EEditorUndoRedoManager *manager)
 {
-	EHTMLEditorWebExtension *extension;
-	EHTMLEditorHistoryEvent *event;
+	EEditorPage *editor_page;
+	EEditorHistoryEvent *event;
 	GList *history;
-	WebKitDOMDocument *document;
 
-	if (!e_html_editor_undo_redo_manager_can_redo (manager))
+	if (!e_editor_undo_redo_manager_can_redo (manager))
 		return;
 
 	history = manager->priv->history;
@@ -2478,9 +2490,8 @@ e_html_editor_undo_redo_manager_redo (EHTMLEditorUndoRedoManager *manager)
 	d (printf ("\nREDOING EVENT:\n"));
 	d (print_history_event (event));
 
-	document = manager->priv->document;
-	extension = html_editor_undo_redo_manager_ref_extension (manager);
-	g_return_if_fail (extension != NULL);
+	editor_page = editor_undo_redo_manager_ref_editor_page (manager);
+	g_return_if_fail (editor_page != NULL);
 
 	manager->priv->operation_in_progress = TRUE;
 
@@ -2493,17 +2504,17 @@ e_html_editor_undo_redo_manager_redo (EHTMLEditorUndoRedoManager *manager)
 		case HISTORY_BLOCK_FORMAT:
 		case HISTORY_FONT_SIZE:
 		case HISTORY_ITALIC:
-			undo_redo_style_change (document, extension, event, FALSE);
+			undo_redo_style_change (editor_page, event, FALSE);
 			break;
 		case HISTORY_DELETE:
-			redo_delete (document, extension, event);
+			redo_delete (editor_page, event);
 			break;
 		case HISTORY_INDENT:
-			undo_redo_indent (document, extension, event, FALSE);
+			undo_redo_indent (editor_page, event, FALSE);
 			break;
 		case HISTORY_INPUT:
-			undo_delete (document, extension, event);
-			dom_check_magic_smileys (document, extension);
+			undo_delete (editor_page, event);
+			e_editor_dom_check_magic_smileys (editor_page);
 			{
 				gchar *text_content;
 				WebKitDOMNode *first_child;
@@ -2513,65 +2524,65 @@ e_html_editor_undo_redo_manager_redo (EHTMLEditorUndoRedoManager *manager)
 				text_content = webkit_dom_node_get_text_content (first_child);
 				/* Call magic links when the space was pressed. */
 				if (g_str_has_prefix (text_content, UNICODE_NBSP)) {
-					e_html_editor_web_extension_set_space_key_pressed (extension, TRUE);
-					dom_check_magic_links (document, extension, FALSE);
-					e_html_editor_web_extension_set_space_key_pressed (extension, FALSE);
+					e_editor_page_set_space_key_pressed (editor_page, TRUE);
+					e_editor_dom_check_magic_links (editor_page, FALSE);
+					e_editor_page_set_space_key_pressed (editor_page, FALSE);
 				}
 				g_free (text_content);
 			}
 			break;
 		case HISTORY_REMOVE_LINK:
-			undo_redo_remove_link (document, extension, event, FALSE);
+			undo_redo_remove_link (editor_page, event, FALSE);
 			break;
 		case HISTORY_FONT_COLOR:
-			undo_redo_font_color (document, extension, event, FALSE);
+			undo_redo_font_color (editor_page, event, FALSE);
 			break;
 		case HISTORY_CITATION_SPLIT:
-			undo_redo_citation_split (document, extension, event, FALSE);
+			undo_redo_citation_split (editor_page, event, FALSE);
 			break;
 		case HISTORY_PASTE:
 		case HISTORY_PASTE_AS_TEXT:
 		case HISTORY_PASTE_QUOTED:
 		case HISTORY_INSERT_HTML:
-			undo_redo_paste (document, extension, event, FALSE);
+			undo_redo_paste (editor_page, event, FALSE);
 			break;
 		case HISTORY_IMAGE:
 		case HISTORY_SMILEY:
-			undo_redo_image (document, extension, event, FALSE);
+			undo_redo_image (editor_page, event, FALSE);
 			break;
 		case HISTORY_WRAP:
-			undo_redo_wrap (document, extension, event, FALSE);
+			undo_redo_wrap (editor_page, event, FALSE);
 			break;
 		case HISTORY_IMAGE_DIALOG:
-			undo_redo_image_dialog (document, extension, event, FALSE);
+			undo_redo_image_dialog (editor_page, event, FALSE);
 			break;
 		case HISTORY_LINK_DIALOG:
-			undo_redo_link_dialog (document, extension, event, FALSE);
+			undo_redo_link_dialog (editor_page, event, FALSE);
 			break;
 		case HISTORY_TABLE_DIALOG:
-			undo_redo_table_dialog (document, extension, event, FALSE);
+			undo_redo_table_dialog (editor_page, event, FALSE);
 			break;
 		case HISTORY_TABLE_INPUT:
-			undo_redo_table_input (document, extension, event, FALSE);
+			undo_redo_table_input (editor_page, event, FALSE);
 			break;
 		case HISTORY_PAGE_DIALOG:
-			undo_redo_page_dialog (document, extension, event, FALSE);
+			undo_redo_page_dialog (editor_page, event, FALSE);
 			break;
 		case HISTORY_HRULE_DIALOG:
-			undo_redo_hrule_dialog (document, extension, event, FALSE);
+			undo_redo_hrule_dialog (editor_page, event, FALSE);
 			break;
 		case HISTORY_REPLACE:
 		case HISTORY_REPLACE_ALL:
-			undo_redo_replace_all (manager, document, extension, event, FALSE);
+			undo_redo_replace_all (manager, editor_page, event, FALSE);
 			break;
 		case HISTORY_UNQUOTE:
-			undo_redo_unquote (document, extension, event, FALSE);
+			undo_redo_unquote (editor_page, event, FALSE);
 			break;
 		case HISTORY_AND:
 			g_warning ("Unhandled HISTORY_AND event!");
 			break;
 		default:
-			g_object_unref (extension);
+			g_object_unref (editor_page);
 			return;
 	}
 
@@ -2580,7 +2591,8 @@ e_html_editor_undo_redo_manager_redo (EHTMLEditorUndoRedoManager *manager)
 		event = history->prev->prev->data;
 		if (event->type == HISTORY_AND) {
 			manager->priv->history = manager->priv->history->prev->prev;
-			e_html_editor_undo_redo_manager_redo (manager);
+			e_editor_undo_redo_manager_redo (manager);
+			g_object_unref (editor_page);
 			return;
 		}
 	}
@@ -2593,19 +2605,19 @@ e_html_editor_undo_redo_manager_redo (EHTMLEditorUndoRedoManager *manager)
 
 	manager->priv->operation_in_progress = FALSE;
 
-	g_object_unref (extension);
+	g_object_unref (editor_page);
 
 	g_object_notify (G_OBJECT (manager), "can-undo");
 	g_object_notify (G_OBJECT (manager), "can-redo");
 }
 
 void
-e_html_editor_undo_redo_manager_clean_history (EHTMLEditorUndoRedoManager *manager)
+e_editor_undo_redo_manager_clean_history (EEditorUndoRedoManager *manager)
 {
-	EHTMLEditorWebExtension *extension;
-	EHTMLEditorHistoryEvent *ev;
+	EEditorPage *editor_page;
+	EEditorHistoryEvent *ev;
 
-	g_return_if_fail (E_IS_HTML_EDITOR_UNDO_REDO_MANAGER (manager));
+	g_return_if_fail (E_IS_EDITOR_UNDO_REDO_MANAGER (manager));
 
 	if (manager->priv->history != NULL) {
 		g_list_free_full (manager->priv->history, (GDestroyNotify) free_history_event);
@@ -2613,13 +2625,13 @@ e_html_editor_undo_redo_manager_clean_history (EHTMLEditorUndoRedoManager *manag
 	}
 
 	manager->priv->history_size = 0;
-	extension = html_editor_undo_redo_manager_ref_extension (manager);
-	g_return_if_fail (extension != NULL);
-	e_html_editor_web_extension_set_dont_save_history_in_body_input (extension, FALSE);
-	g_object_unref (extension);
+	editor_page = editor_undo_redo_manager_ref_editor_page (manager);
+	g_return_if_fail (editor_page != NULL);
+	e_editor_page_set_dont_save_history_in_body_input (editor_page, FALSE);
+	g_object_unref (editor_page);
 	manager->priv->operation_in_progress = FALSE;
 
-	ev = g_new0 (EHTMLEditorHistoryEvent, 1);
+	ev = g_new0 (EEditorHistoryEvent, 1);
 	ev->type = HISTORY_START;
 	manager->priv->history = g_list_append (manager->priv->history, ev);
 
@@ -2628,49 +2640,49 @@ e_html_editor_undo_redo_manager_clean_history (EHTMLEditorUndoRedoManager *manag
 }
 
 static void
-html_editor_undo_redo_manager_set_extension (EHTMLEditorUndoRedoManager *manager,
-                                             EHTMLEditorWebExtension *extension)
+editor_undo_redo_manager_set_editor_page (EEditorUndoRedoManager *manager,
+					  EEditorPage *editor_page)
 {
-	g_return_if_fail (E_IS_HTML_EDITOR_WEB_EXTENSION (extension));
+	g_return_if_fail (E_IS_EDITOR_PAGE (editor_page));
 
-	g_weak_ref_set (&manager->priv->extension, extension);
+	g_weak_ref_set (&manager->priv->editor_page, editor_page);
 }
 
 static void
-html_editor_undo_redo_manager_dispose (GObject *object)
+editor_undo_redo_manager_dispose (GObject *object)
 {
-	EHTMLEditorUndoRedoManagerPrivate *priv;
+	EEditorUndoRedoManagerPrivate *priv;
 
-	priv = E_HTML_EDITOR_UNDO_REDO_MANAGER_GET_PRIVATE (object);
+	priv = E_EDITOR_UNDO_REDO_MANAGER_GET_PRIVATE (object);
 
 	if (priv->history != NULL) {
 		g_list_free_full (priv->history, (GDestroyNotify) free_history_event);
 		priv->history = NULL;
 	}
 
-	g_weak_ref_set (&priv->extension, NULL);
+	g_weak_ref_set (&priv->editor_page, NULL);
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (e_html_editor_undo_redo_manager_parent_class)->dispose (object);
+	G_OBJECT_CLASS (e_editor_undo_redo_manager_parent_class)->dispose (object);
 }
 
 static void
-html_editor_undo_redo_manager_get_property (GObject *object,
-                                            guint property_id,
-                                            GValue *value,
-                                            GParamSpec *pspec)
+editor_undo_redo_manager_get_property (GObject *object,
+				       guint property_id,
+				       GValue *value,
+				       GParamSpec *pspec)
 {
 	switch (property_id) {
 		case PROP_CAN_REDO:
 			g_value_set_boolean (
-				value, e_html_editor_undo_redo_manager_can_redo (
-				E_HTML_EDITOR_UNDO_REDO_MANAGER (object)));
+				value, e_editor_undo_redo_manager_can_redo (
+				E_EDITOR_UNDO_REDO_MANAGER (object)));
 			return;
 
 		case PROP_CAN_UNDO:
 			g_value_set_boolean (
-				value, e_html_editor_undo_redo_manager_can_undo (
-				E_HTML_EDITOR_UNDO_REDO_MANAGER (object)));
+				value, e_editor_undo_redo_manager_can_undo (
+				E_EDITOR_UNDO_REDO_MANAGER (object)));
 			return;
 	}
 
@@ -2678,15 +2690,15 @@ html_editor_undo_redo_manager_get_property (GObject *object,
 }
 
 static void
-html_editor_undo_redo_manager_set_property (GObject *object,
+editor_undo_redo_manager_set_property (GObject *object,
                                             guint property_id,
                                             const GValue *value,
                                             GParamSpec *pspec)
 {
 	switch (property_id) {
-		case PROP_HTML_EDITOR_WEB_EXTENSION:
-			html_editor_undo_redo_manager_set_extension (
-				E_HTML_EDITOR_UNDO_REDO_MANAGER (object),
+		case PROP_EDITOR_PAGE:
+			editor_undo_redo_manager_set_editor_page (
+				E_EDITOR_UNDO_REDO_MANAGER (object),
 				g_value_get_object (value));
 			return;
 	}
@@ -2695,19 +2707,19 @@ html_editor_undo_redo_manager_set_property (GObject *object,
 }
 
 static void
-e_html_editor_undo_redo_manager_class_init (EHTMLEditorUndoRedoManagerClass *class)
+e_editor_undo_redo_manager_class_init (EEditorUndoRedoManagerClass *class)
 {
 	GObjectClass *object_class;
 
-	g_type_class_add_private (class, sizeof (EHTMLEditorUndoRedoManagerPrivate));
+	g_type_class_add_private (class, sizeof (EEditorUndoRedoManagerPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
-	object_class->dispose = html_editor_undo_redo_manager_dispose;
-	object_class->get_property = html_editor_undo_redo_manager_get_property;
-	object_class->set_property = html_editor_undo_redo_manager_set_property;
+	object_class->dispose = editor_undo_redo_manager_dispose;
+	object_class->get_property = editor_undo_redo_manager_get_property;
+	object_class->set_property = editor_undo_redo_manager_set_property;
 
 	/**
-	 * EHTMLEditorUndoRedoManager:can-redo
+	 * EEditorUndoRedoManager:can-redo
 	 *
 	 * Determines whether it's possible to redo previous action. The action
 	 * is usually disabled when there is no action to redo.
@@ -2724,7 +2736,7 @@ e_html_editor_undo_redo_manager_class_init (EHTMLEditorUndoRedoManagerClass *cla
 			G_PARAM_STATIC_STRINGS));
 
 	/**
-	 * EHTMLEditorUndoRedoManager:can-undo
+	 * EEditorUndoRedoManager:can-undo
 	 *
 	 * Determines whether it's possible to undo last action. The action
 	 * is usually disabled when there is no previous action to undo.
@@ -2742,21 +2754,21 @@ e_html_editor_undo_redo_manager_class_init (EHTMLEditorUndoRedoManagerClass *cla
 
 	g_object_class_install_property (
 		object_class,
-		PROP_HTML_EDITOR_WEB_EXTENSION,
+		PROP_EDITOR_PAGE,
 		g_param_spec_object (
-			"html-editor-web-extension",
+			"editor-page",
 			NULL,
 			NULL,
-			E_TYPE_HTML_EDITOR_WEB_EXTENSION,
+			E_TYPE_EDITOR_PAGE,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY |
 			G_PARAM_STATIC_STRINGS));
 }
 
 static void
-e_html_editor_undo_redo_manager_init (EHTMLEditorUndoRedoManager *manager)
+e_editor_undo_redo_manager_init (EEditorUndoRedoManager *manager)
 {
-	manager->priv = E_HTML_EDITOR_UNDO_REDO_MANAGER_GET_PRIVATE (manager);
+	manager->priv = E_EDITOR_UNDO_REDO_MANAGER_GET_PRIVATE (manager);
 
 	manager->priv->operation_in_progress = FALSE;
 	manager->priv->history = NULL;

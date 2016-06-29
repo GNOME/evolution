@@ -20,7 +20,7 @@
 
 #include "e-webkit-editor.h"
 
-#include "web-extension/e-html-editor-web-extension-names.h"
+#include "web-extension/e-editor-web-extension-names.h"
 
 #include <e-util/e-util.h>
 #include <string.h>
@@ -86,14 +86,8 @@ struct _EWebKitEditorPrivate {
 	gboolean copy_cut_actions_triggered;
 	gboolean pasting_primary_clipboard;
 
-	gboolean is_bold;
-	gboolean is_italic;
-	gboolean is_underline;
-	gboolean is_monospaced;
-	gboolean is_strikethrough;
+	guint32 style_flags;
 	gboolean is_indented;
-	gboolean is_superscript;
-	gboolean is_subscript;
 
 	GdkRGBA *background_color;
 	GdkRGBA *font_color;
@@ -298,7 +292,14 @@ web_extension_content_changed_cb (GDBusConnection *connection,
 	if (g_strcmp0 (signal_name, "ContentChanged") != 0)
 		return;
 
-	webkit_editor_set_changed (wk_editor, TRUE);
+	if (parameters) {
+		guint64 page_id = 0;
+
+		g_variant_get (parameters, "(t)", &page_id);
+
+		if (page_id == webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (wk_editor)))
+			webkit_editor_set_changed (wk_editor, TRUE);
+	}
 }
 
 static void
@@ -310,13 +311,32 @@ web_extension_selection_changed_cb (GDBusConnection *connection,
                                     GVariant *parameters,
                                     EWebKitEditor *wk_editor)
 {
+	guint64 page_id = 0;
 	gchar *font_color = NULL;
+	guint32 alignment, block_format, style_flags, font_size;
+	gboolean is_indented;
 
 	if (g_strcmp0 (signal_name, "SelectionChanged") != 0)
 		return;
 
 	if (!parameters)
 		return;
+
+	g_variant_get (
+		parameters,
+		"(tiibiis)",
+		&page_id,
+		&alignment,
+		&block_format,
+		&is_indented,
+		&style_flags,
+		&font_size,
+		&font_color);
+
+	if (page_id != webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (wk_editor))) {
+		g_free (font_color);
+		return;
+	}
 
 	webkit_web_view_can_execute_editing_command (
 		WEBKIT_WEB_VIEW (wk_editor),
@@ -341,23 +361,11 @@ web_extension_selection_changed_cb (GDBusConnection *connection,
 
 	g_object_freeze_notify (G_OBJECT (wk_editor));
 
-	g_variant_get (
-		parameters,
-		"(iibbbbbbbbbis)",
-		&wk_editor->priv->alignment,
-		&wk_editor->priv->block_format,
-		&wk_editor->priv->is_indented,
-		&wk_editor->priv->is_bold,
-		&wk_editor->priv->is_italic,
-		&wk_editor->priv->is_underline,
-		&wk_editor->priv->is_strikethrough,
-		&wk_editor->priv->is_monospaced,
-		&wk_editor->priv->is_subscript,
-		&wk_editor->priv->is_superscript,
-		&wk_editor->priv->is_underline,
-		&wk_editor->priv->font_size,
-		&font_color);
-
+	wk_editor->priv->alignment = alignment;
+	wk_editor->priv->block_format = block_format;
+	wk_editor->priv->is_indented = is_indented;
+	wk_editor->priv->style_flags = style_flags;
+	wk_editor->priv->font_size = font_size;
 
 	if (wk_editor->priv->html_mode) {
 		GdkRGBA color;
@@ -468,9 +476,9 @@ web_extension_proxy_created_cb (GDBusProxy *proxy,
 			g_dbus_connection_signal_subscribe (
 				g_dbus_proxy_get_connection (wk_editor->priv->web_extension),
 				g_dbus_proxy_get_name (wk_editor->priv->web_extension),
-				E_HTML_EDITOR_WEB_EXTENSION_INTERFACE,
+				E_WEBKIT_EDITOR_WEB_EXTENSION_INTERFACE,
 				"SelectionChanged",
-				E_HTML_EDITOR_WEB_EXTENSION_OBJECT_PATH,
+				E_WEBKIT_EDITOR_WEB_EXTENSION_OBJECT_PATH,
 				NULL,
 				G_DBUS_SIGNAL_FLAGS_NONE,
 				(GDBusSignalCallback) web_extension_selection_changed_cb,
@@ -483,9 +491,9 @@ web_extension_proxy_created_cb (GDBusProxy *proxy,
 			g_dbus_connection_signal_subscribe (
 				g_dbus_proxy_get_connection (wk_editor->priv->web_extension),
 				g_dbus_proxy_get_name (wk_editor->priv->web_extension),
-				E_HTML_EDITOR_WEB_EXTENSION_INTERFACE,
+				E_WEBKIT_EDITOR_WEB_EXTENSION_INTERFACE,
 				"ContentChanged",
-				E_HTML_EDITOR_WEB_EXTENSION_OBJECT_PATH,
+				E_WEBKIT_EDITOR_WEB_EXTENSION_OBJECT_PATH,
 				NULL,
 				G_DBUS_SIGNAL_FLAGS_NONE,
 				(GDBusSignalCallback) web_extension_content_changed_cb,
@@ -498,9 +506,9 @@ web_extension_proxy_created_cb (GDBusProxy *proxy,
 			g_dbus_connection_signal_subscribe (
 				g_dbus_proxy_get_connection (wk_editor->priv->web_extension),
 				g_dbus_proxy_get_name (wk_editor->priv->web_extension),
-				E_HTML_EDITOR_WEB_EXTENSION_INTERFACE,
+				E_WEBKIT_EDITOR_WEB_EXTENSION_INTERFACE,
 				"UndoRedoStateChanged",
-				E_HTML_EDITOR_WEB_EXTENSION_OBJECT_PATH,
+				E_WEBKIT_EDITOR_WEB_EXTENSION_OBJECT_PATH,
 				NULL,
 				G_DBUS_SIGNAL_FLAGS_NONE,
 				(GDBusSignalCallback) web_extension_undo_redo_state_changed_cb,
@@ -531,8 +539,8 @@ web_extension_appeared_cb (GDBusConnection *connection,
 		G_DBUS_PROXY_FLAGS_DO_NOT_CONNECT_SIGNALS,
 		NULL,
 		name,
-		E_HTML_EDITOR_WEB_EXTENSION_OBJECT_PATH,
-		E_HTML_EDITOR_WEB_EXTENSION_INTERFACE,
+		E_WEBKIT_EDITOR_WEB_EXTENSION_OBJECT_PATH,
+		E_WEBKIT_EDITOR_WEB_EXTENSION_INTERFACE,
 		NULL,
 		(GAsyncReadyCallback) web_extension_proxy_created_cb,
 		wk_editor);
@@ -552,7 +560,7 @@ webkit_editor_watch_web_extension (EWebKitEditor *wk_editor)
 	wk_editor->priv->web_extension_watch_name_id =
 		g_bus_watch_name (
 			G_BUS_TYPE_SESSION,
-			E_HTML_EDITOR_WEB_EXTENSION_SERVICE_NAME,
+			E_WEBKIT_EDITOR_WEB_EXTENSION_SERVICE_NAME,
 			G_BUS_NAME_WATCHER_FLAGS_NONE,
 			(GBusNameAppearedCallback) web_extension_appeared_cb,
 			(GBusNameVanishedCallback) web_extension_vanished_cb,
@@ -2307,7 +2315,7 @@ webkit_editor_selection_save (EContentEditor *editor)
 	wk_editor = E_WEBKIT_EDITOR (editor);
 
 	webkit_editor_call_simple_extension_function (
-		wk_editor, "DOMSelectionSave");
+		wk_editor, "DOMSaveSelection");
 }
 
 static void
@@ -2318,7 +2326,7 @@ webkit_editor_selection_restore (EContentEditor *editor)
 	wk_editor = E_WEBKIT_EDITOR (editor);
 
 	webkit_editor_call_simple_extension_function (
-		wk_editor, "DOMSelectionRestore");
+		wk_editor, "DOMRestoreSelection");
 }
 
 static void
@@ -3400,164 +3408,28 @@ webkit_editor_get_font_size (EWebKitEditor *wk_editor)
 }
 
 static void
-webkit_editor_set_bold (EWebKitEditor *wk_editor,
-                        gboolean bold)
+webkit_editor_set_style_flag (EWebKitEditor *wk_editor,
+			      EContentEditorStyleFlags flag,
+			      gboolean do_set,
+			      const gchar *dom_function_name)
 {
 	g_return_if_fail (E_IS_WEBKIT_EDITOR (wk_editor));
 
-	if (wk_editor->priv->is_bold == bold)
+	if (((wk_editor->priv->style_flags & flag) != 0 ? 1 : 0) == (do_set ? 1 : 0))
 		return;
 
-	wk_editor->priv->is_bold = bold;
+	wk_editor->priv->style_flags = (wk_editor->priv->style_flags & ~flag) | (do_set ? flag : 0);
 
-	webkit_editor_set_format_boolean (
-		wk_editor, "DOMSelectionSetBold", bold);
+	webkit_editor_set_format_boolean (wk_editor, dom_function_name, do_set);
 }
 
 static gboolean
-webkit_editor_is_bold (EWebKitEditor *wk_editor)
+webkit_editor_get_style_flag (EWebKitEditor *wk_editor,
+			      EContentEditorStyleFlags flag)
 {
 	g_return_val_if_fail (E_IS_WEBKIT_EDITOR (wk_editor), FALSE);
 
-	return wk_editor->priv->is_bold;
-}
-
-static void
-webkit_editor_set_italic (EWebKitEditor *wk_editor,
-                          gboolean italic)
-{
-	g_return_if_fail (E_IS_WEBKIT_EDITOR (wk_editor));
-
-	if (wk_editor->priv->is_italic == italic)
-		return;
-
-	wk_editor->priv->is_italic = italic;
-
-	webkit_editor_set_format_boolean (
-		wk_editor, "DOMSelectionSetItalic", italic);
-}
-
-static gboolean
-webkit_editor_is_italic (EWebKitEditor *wk_editor)
-{
-	g_return_val_if_fail (E_IS_WEBKIT_EDITOR (wk_editor), FALSE);
-
-	return wk_editor->priv->is_italic;
-}
-
-static void
-webkit_editor_set_monospaced (EWebKitEditor *wk_editor,
-                              gboolean monospaced)
-{
-	g_return_if_fail (E_IS_WEBKIT_EDITOR (wk_editor));
-
-	if (wk_editor->priv->is_monospaced == monospaced)
-		return;
-
-	wk_editor->priv->is_monospaced = monospaced;
-
-	webkit_editor_set_format_boolean (
-		wk_editor, "DOMSelectionSetMonospaced", monospaced);
-}
-
-static gboolean
-webkit_editor_is_monospaced (EWebKitEditor *wk_editor)
-{
-	g_return_val_if_fail (E_IS_WEBKIT_EDITOR (wk_editor), FALSE);
-
-	return wk_editor->priv->is_monospaced;
-}
-
-static void
-webkit_editor_set_strikethrough (EWebKitEditor *wk_editor,
-                                 gboolean strikethrough)
-{
-	g_return_if_fail (E_IS_WEBKIT_EDITOR (wk_editor));
-
-	if (wk_editor->priv->is_strikethrough == strikethrough)
-		return;
-
-	wk_editor->priv->is_strikethrough = strikethrough;
-
-	webkit_editor_set_format_boolean (
-		wk_editor, "DOMSelectionSetStrikethrough", strikethrough);
-}
-
-static gboolean
-webkit_editor_is_strikethrough (EWebKitEditor *wk_editor)
-{
-	g_return_val_if_fail (E_IS_WEBKIT_EDITOR (wk_editor), FALSE);
-
-	return wk_editor->priv->is_strikethrough;
-}
-
-static void
-webkit_editor_set_subscript (EWebKitEditor *wk_editor,
-                             gboolean subscript)
-{
-	g_return_if_fail (E_IS_WEBKIT_EDITOR (wk_editor));
-
-	if (wk_editor->priv->is_subscript == subscript)
-		return;
-
-	wk_editor->priv->is_subscript = subscript;
-
-	webkit_editor_set_format_boolean (
-		wk_editor, "DOMSelectionSetSubscript", subscript);
-}
-
-static gboolean
-webkit_editor_is_subscript (EWebKitEditor *wk_editor)
-{
-	g_return_val_if_fail (E_IS_WEBKIT_EDITOR (wk_editor), FALSE);
-
-	return wk_editor->priv->is_subscript;
-}
-
-static void
-webkit_editor_set_superscript (EWebKitEditor *wk_editor,
-                               gboolean superscript)
-{
-	g_return_if_fail (E_IS_WEBKIT_EDITOR (wk_editor));
-
-	if (wk_editor->priv->is_superscript == superscript)
-		return;
-
-	wk_editor->priv->is_superscript = superscript;
-
-	webkit_editor_set_format_boolean (
-		wk_editor, "DOMSelectionSetSuperscript", superscript);
-}
-
-static gboolean
-webkit_editor_is_superscript (EWebKitEditor *wk_editor)
-{
-	g_return_val_if_fail (E_IS_WEBKIT_EDITOR (wk_editor), FALSE);
-
-	return wk_editor->priv->is_superscript;
-}
-
-static void
-webkit_editor_set_underline (EWebKitEditor *wk_editor,
-                             gboolean underline)
-{
-	g_return_if_fail (E_IS_WEBKIT_EDITOR (wk_editor));
-
-	if (wk_editor->priv->is_underline == underline)
-		return;
-
-	wk_editor->priv->is_underline = underline;
-
-	webkit_editor_set_format_boolean (
-		wk_editor, "DOMSelectionSetUnderline", underline);
-}
-
-static gboolean
-webkit_editor_is_underline (EWebKitEditor *wk_editor)
-{
-	g_return_val_if_fail (E_IS_WEBKIT_EDITOR (wk_editor), FALSE);
-
-	return wk_editor->priv->is_underline;
+	return (wk_editor->priv->style_flags & flag) != 0;
 }
 
 static void
@@ -5202,9 +5074,11 @@ webkit_editor_set_property (GObject *object,
 			return;
 
 		case PROP_BOLD:
-			webkit_editor_set_bold (
+			webkit_editor_set_style_flag (
 				E_WEBKIT_EDITOR (object),
-				g_value_get_boolean (value));
+				E_CONTENT_EDITOR_STYLE_IS_BOLD,
+				g_value_get_boolean (value),
+				"DOMSelectionSetBold");
 			return;
 
 		case PROP_FONT_COLOR:
@@ -5232,39 +5106,51 @@ webkit_editor_set_property (GObject *object,
 			return;
 
 		case PROP_ITALIC:
-			webkit_editor_set_italic (
+			webkit_editor_set_style_flag (
 				E_WEBKIT_EDITOR (object),
-				g_value_get_boolean (value));
+				E_CONTENT_EDITOR_STYLE_IS_ITALIC,
+				g_value_get_boolean (value),
+				"DOMSelectionSetItalic");
 			return;
 
 		case PROP_MONOSPACED:
-			webkit_editor_set_monospaced (
+			webkit_editor_set_style_flag (
 				E_WEBKIT_EDITOR (object),
-				g_value_get_boolean (value));
+				E_CONTENT_EDITOR_STYLE_IS_MONOSPACE,
+				g_value_get_boolean (value),
+				"DOMSelectionSetMonospaced");
 			return;
 
 		case PROP_STRIKETHROUGH:
-			webkit_editor_set_strikethrough (
+			webkit_editor_set_style_flag (
 				E_WEBKIT_EDITOR (object),
-				g_value_get_boolean (value));
+				E_CONTENT_EDITOR_STYLE_IS_STRIKETHROUGH,
+				g_value_get_boolean (value),
+				"DOMSelectionSetStrikethrough");
 			return;
 
 		case PROP_SUBSCRIPT:
-			webkit_editor_set_subscript (
+			webkit_editor_set_style_flag (
 				E_WEBKIT_EDITOR (object),
-				g_value_get_boolean (value));
+				E_CONTENT_EDITOR_STYLE_IS_SUBSCRIPT,
+				g_value_get_boolean (value),
+				"DOMSelectionSetSubscript");
 			return;
 
 		case PROP_SUPERSCRIPT:
-			webkit_editor_set_superscript (
+			webkit_editor_set_style_flag (
 				E_WEBKIT_EDITOR (object),
-				g_value_get_boolean (value));
+				E_CONTENT_EDITOR_STYLE_IS_SUPERSCRIPT,
+				g_value_get_boolean (value),
+				"DOMSelectionSetSuperscript");
 			return;
 
 		case PROP_UNDERLINE:
-			webkit_editor_set_underline (
+			webkit_editor_set_style_flag (
 				E_WEBKIT_EDITOR (object),
-				g_value_get_boolean (value));
+				E_CONTENT_EDITOR_STYLE_IS_UNDERLINE,
+				g_value_get_boolean (value),
+				"DOMSelectionSetUnderline");
 			return;
 
 		case PROP_SPELL_CHECK_ENABLED:
@@ -5362,8 +5248,9 @@ webkit_editor_get_property (GObject *object,
 		case PROP_BOLD:
 			g_value_set_boolean (
 				value,
-				webkit_editor_is_bold (
-					E_WEBKIT_EDITOR (object)));
+				webkit_editor_get_style_flag (
+					E_WEBKIT_EDITOR (object),
+					E_CONTENT_EDITOR_STYLE_IS_BOLD));
 			return;
 
 		case PROP_FONT_COLOR:
@@ -5397,43 +5284,49 @@ webkit_editor_get_property (GObject *object,
 		case PROP_ITALIC:
 			g_value_set_boolean (
 				value,
-				webkit_editor_is_italic (
-					E_WEBKIT_EDITOR (object)));
+				webkit_editor_get_style_flag (
+					E_WEBKIT_EDITOR (object),
+					E_CONTENT_EDITOR_STYLE_IS_ITALIC));
 			return;
 
 		case PROP_MONOSPACED:
 			g_value_set_boolean (
 				value,
-				webkit_editor_is_monospaced (
-					E_WEBKIT_EDITOR (object)));
+				webkit_editor_get_style_flag (
+					E_WEBKIT_EDITOR (object),
+					E_CONTENT_EDITOR_STYLE_IS_MONOSPACE));
 			return;
 
 		case PROP_STRIKETHROUGH:
 			g_value_set_boolean (
 				value,
-				webkit_editor_is_strikethrough (
-					E_WEBKIT_EDITOR (object)));
+				webkit_editor_get_style_flag (
+					E_WEBKIT_EDITOR (object),
+					E_CONTENT_EDITOR_STYLE_IS_STRIKETHROUGH));
 			return;
 
 		case PROP_SUBSCRIPT:
 			g_value_set_boolean (
 				value,
-				webkit_editor_is_subscript (
-					E_WEBKIT_EDITOR (object)));
+				webkit_editor_get_style_flag (
+					E_WEBKIT_EDITOR (object),
+					E_CONTENT_EDITOR_STYLE_IS_SUBSCRIPT));
 			return;
 
 		case PROP_SUPERSCRIPT:
 			g_value_set_boolean (
 				value,
-				webkit_editor_is_superscript (
-					E_WEBKIT_EDITOR (object)));
+				webkit_editor_get_style_flag (
+					E_WEBKIT_EDITOR (object),
+					E_CONTENT_EDITOR_STYLE_IS_SUPERSCRIPT));
 			return;
 
 		case PROP_UNDERLINE:
 			g_value_set_boolean (
 				value,
-				webkit_editor_is_underline (
-					E_WEBKIT_EDITOR (object)));
+				webkit_editor_get_style_flag (
+					E_WEBKIT_EDITOR (object),
+					E_CONTENT_EDITOR_STYLE_IS_UNDERLINE));
 			return;
 
 		case PROP_SPELL_CHECK_ENABLED:

@@ -1,41 +1,23 @@
 webextensionswebkiteditor_LTLIBRARIES = libewebkiteditorwebextension.la
 
-libewebkiteditorwebextension_la_SOURCES =	\
-	e-composer-private-dom-functions.h		\
-	e-html-editor-actions-dom-functions.h		\
-	e-html-editor-cell-dialog-dom-functions.h	\
-	e-html-editor-history-event.h			\
-	e-html-editor-hrule-dialog-dom-functions.h	\
-	e-html-editor-image-dialog-dom-functions.h	\
-	e-html-editor-link-dialog-dom-functions.h	\
-	e-html-editor-page-dialog-dom-functions.h	\
-	e-html-editor-selection-dom-functions.h		\
-	e-html-editor-spell-check-dialog-dom-functions.h\
-	e-html-editor-table-dialog-dom-functions.h	\
-	e-html-editor-test-dom-functions.h		\
-	e-html-editor-undo-redo-manager.h		\
-	e-html-editor-view-dom-functions.h		\
-	e-msg-composer-dom-functions.h			\
-	e-composer-private-dom-functions.c		\
-	e-html-editor-actions-dom-functions.c		\
-	e-html-editor-cell-dialog-dom-functions.c	\
-	e-html-editor-hrule-dialog-dom-functions.c	\
-	e-html-editor-image-dialog-dom-functions.c	\
-	e-html-editor-link-dialog-dom-functions.c	\
-	e-html-editor-page-dialog-dom-functions.c	\
-	e-html-editor-selection-dom-functions.c		\
-	e-html-editor-spell-check-dialog-dom-functions.c\
-	e-html-editor-table-dialog-dom-functions.c	\
-	e-html-editor-test-dom-functions.c		\
-	e-html-editor-undo-redo-manager.c		\
-	e-html-editor-view-dom-functions.c		\
-	e-msg-composer-dom-functions.c			\
-	e-html-editor-web-extension.c			\
-	e-html-editor-web-extension.h			\
-	e-html-editor-web-extension-names.h		\
-	e-html-editor-web-extension-main.c
+libewebkiteditorwebextension_la_SOURCES = \
+	e-composer-dom-functions.c	\
+	e-composer-dom-functions.h	\
+	e-dialogs-dom-functions.c	\
+	e-dialogs-dom-functions.h	\
+	e-editor-dom-functions.c	\
+	e-editor-dom-functions.h	\
+	e-editor-page.c			\
+	e-editor-page.h			\
+	e-editor-undo-redo-manager.c	\
+	e-editor-undo-redo-manager.h	\
+	e-editor-web-extension.c	\
+	e-editor-web-extension.h	\
+	e-editor-web-extension-main.c	\
+	e-editor-web-extension-names.h	\
+	$(NULL)
 
-libewebkiteditorwebextension_la_CPPFLAGS =	\
+libewebkiteditorwebextension_la_CPPFLAGS = \
 	$(AM_CPPFLAGS)					\
 	-I$(top_srcdir)					\
 	-DEVOLUTION_IMAGESDIR=\""$(imagesdir)"\"	\
@@ -50,7 +32,7 @@ libewebkiteditorwebextension_la_LIBADD =		\
 	$(GNOME_PLATFORM_LIBS)				\
 	$(WEB_EXTENSIONS_LIBS)
 
-libewebkiteditorwebextension_la_LDFLAGS =	\
+libewebkiteditorwebextension_la_LDFLAGS = \
 	-module -avoid-version -no-undefined
 
 -include $(top_srcdir)/git.mk

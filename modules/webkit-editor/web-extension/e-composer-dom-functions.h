@@ -1,5 +1,5 @@
 /*
- * e-composer-private-dom-functions.h
+ * e-composer-dom-functions.h
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -16,31 +16,36 @@
  *
  */
 
-#ifndef E_COMPOSER_PRIVATE_DOM_FUNCTIONS_H
-#define E_COMPOSER_PRIVATE_DOM_FUNCTIONS_H
+#ifndef E_COMPOSER_DOM_FUNCTIONS_H
+#define E_COMPOSER_DOM_FUNCTIONS_H
 
 #include <webkitdom/webkitdom.h>
 
-#include "e-html-editor-web-extension.h"
+#include "e-editor-page.h"
 
 G_BEGIN_DECLS
 
-gchar *		dom_remove_signatures		(WebKitDOMDocument *document,
-						 EHTMLEditorWebExtension *extension,
+gchar *		e_composer_dom_remove_signatures
+						(EEditorPage *editor_page,
 						 gboolean top_signature);
-gchar *		dom_insert_signature		(WebKitDOMDocument *document,
-						 EHTMLEditorWebExtension *extension,
+gchar *		e_composer_dom_insert_signature	(EEditorPage *editor_page,
 						 const gchar *content,
 						 gboolean is_html,
 						 const gchar *id,
 						 gboolean *set_signature_from_message,
 						 gboolean *check_if_signature_is_changed,
 						 gboolean *ignore_next_signature_change);
-void		dom_save_drag_and_drop_history	(WebKitDOMDocument *document,
-						 EHTMLEditorWebExtension *extension);
-void		dom_clean_after_drag_and_drop	(WebKitDOMDocument *document,
-						 EHTMLEditorWebExtension *extension);
+gchar *		e_composer_dom_get_active_signature_uid
+						(EEditorPage *editor_page);
+gchar *		e_composer_dom_get_raw_body_content_without_signature
+						(EEditorPage *editor_page);
+gchar *		e_composer_dom_get_raw_body_content
+						(EEditorPage *editor_page);
+void		e_composer_dom_save_drag_and_drop_history
+						(EEditorPage *editor_page);
+void		e_composer_dom_clean_after_drag_and_drop
+						(EEditorPage *editor_page);
 
 G_END_DECLS
 
-#endif /* E_COMPOSER_PRIVATE_DOM_FUNCTIONS_H */
+#endif /* E_COMPOSER_DOM_FUNCTIONS_H */

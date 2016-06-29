@@ -22,14 +22,14 @@
 
 #include <camel/camel.h>
 
-#include "e-html-editor-web-extension.h"
+#include "e-editor-web-extension.h"
 
 static void
 bus_acquired_cb (GDBusConnection *connection,
                  const gchar *name,
-                 EHTMLEditorWebExtension *extension)
+                 EEditorWebExtension *extension)
 {
-	e_html_editor_web_extension_dbus_register (extension, connection);
+	e_editor_web_extension_dbus_register (extension, connection);
 }
 
 /* Forward declaration */
@@ -38,16 +38,16 @@ G_MODULE_EXPORT void webkit_web_extension_initialize (WebKitWebExtension *wk_ext
 G_MODULE_EXPORT void
 webkit_web_extension_initialize (WebKitWebExtension *wk_extension)
 {
-	EHTMLEditorWebExtension *extension;
+	EEditorWebExtension *extension;
 
 	camel_debug_init ();
 
-	extension = e_html_editor_web_extension_get ();
-	e_html_editor_web_extension_initialize (extension, wk_extension);
+	extension = e_editor_web_extension_get_default ();
+	e_editor_web_extension_initialize (extension, wk_extension);
 
 	g_bus_own_name (
 		G_BUS_TYPE_SESSION,
-		E_HTML_EDITOR_WEB_EXTENSION_SERVICE_NAME,
+		E_WEBKIT_EDITOR_WEB_EXTENSION_SERVICE_NAME,
 		G_BUS_NAME_OWNER_FLAGS_NONE,
 		(GBusAcquiredCallback) bus_acquired_cb,
 		NULL, /* GBusNameAcquiredCallback */
