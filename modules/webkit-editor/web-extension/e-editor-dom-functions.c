@@ -12148,7 +12148,7 @@ e_editor_dom_selection_indent (EEditorPage *editor_page)
 				}
 			}
 
-			if (webkit_dom_element_has_attribute (WEBKIT_DOM_ELEMENT (block), "data-evo-paragraph")) {
+			if (webkit_dom_element_has_attribute (WEBKIT_DOM_ELEMENT (block_to_process), "data-evo-paragraph")) {
 				level = get_indentation_level (
 					WEBKIT_DOM_ELEMENT (block_to_process));
 
