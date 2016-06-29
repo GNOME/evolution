@@ -9260,6 +9260,7 @@ process_list_to_plain_text (EHTMLEditorView *view,
 	EHTMLEditorSelectionBlockFormat format;
 	EHTMLEditorSelectionAlignment alignment;
 	gint counter = 1;
+	gboolean empty = TRUE;
 	gchar *indent_per_level = g_strnfill (SPACES_PER_LIST_LEVEL, ' ');
 	WebKitDOMNode *item;
 	gint word_wrap_length = e_html_editor_selection_get_word_wrap_length (
@@ -9278,6 +9279,8 @@ process_list_to_plain_text (EHTMLEditorView *view,
 			gint ii = 0;
 			WebKitDOMElement *wrapped;
 			GString *item_value = g_string_new ("");
+
+			empty = FALSE;
 
 			alignment = e_html_editor_selection_get_list_alignment_from_node (
 				WEBKIT_DOM_NODE (item));
@@ -9476,7 +9479,7 @@ process_list_to_plain_text (EHTMLEditorView *view,
 		}
 	}
 
-	if (webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (element)))
+	if (webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (element)) && !empty)
 		g_string_append (output, "\n");
 
 	g_free (indent_per_level);
