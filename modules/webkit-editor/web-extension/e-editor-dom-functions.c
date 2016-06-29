@@ -6564,7 +6564,8 @@ e_editor_dom_convert_and_insert_html_into_selection (EEditorPage *editor_page,
 		clone1 = webkit_dom_node_clone_node_with_error (WEBKIT_DOM_NODE (block), FALSE, NULL);
 		clone2 = webkit_dom_node_clone_node_with_error (WEBKIT_DOM_NODE (parent), FALSE, NULL);
 		if (webkit_dom_node_is_equal_node (clone1, clone2) ||
-		    (WEBKIT_DOM_IS_HTML_DIV_ELEMENT (clone1) && WEBKIT_DOM_IS_HTML_DIV_ELEMENT (clone2))) {
+		    (WEBKIT_DOM_IS_HTML_DIV_ELEMENT (clone1) && WEBKIT_DOM_IS_HTML_DIV_ELEMENT (clone2) &&
+		     !element_has_class (WEBKIT_DOM_ELEMENT (clone2), "-x-evo-indented"))) {
 			fix_structure_after_pasting_multiline_content (block);
 			if (g_strcmp0 (html, "\n") == 0) {
 				WebKitDOMElement *br;
