@@ -79,7 +79,8 @@ undo_content_free (gpointer ptr)
 
 static gboolean
 undo_content_test (TestFixture *fixture,
-		   const UndoContent *uc)
+		   const UndoContent *uc,
+		   gint cmd_index)
 {
 	EContentEditor *cnt_editor;
 	gchar *text;
@@ -94,7 +95,7 @@ undo_content_test (TestFixture *fixture,
 	g_return_val_if_fail (text != NULL, FALSE);
 
 	if (!test_utils_html_equal (fixture, text, uc->html)) {
-		g_warning ("%s: returned HTML\n---%s---\n and expected HTML\n---%s---\n do not match", G_STRFUNC, text, uc->html);
+		g_warning ("%s: returned HTML\n---%s---\n and expected HTML\n---%s---\n do not match at command %d", G_STRFUNC, text, uc->html, cmd_index);
 		g_free (text);
 		return FALSE;
 	}
@@ -105,7 +106,7 @@ undo_content_test (TestFixture *fixture,
 	g_return_val_if_fail (text != NULL, FALSE);
 
 	if (!test_utils_html_equal (fixture, text, uc->plain)) {
-		g_warning ("%s: returned Plain\n---%s---\n and expected Plain\n---%s---\n do not match", G_STRFUNC, text, uc->plain);
+		g_warning ("%s: returned Plain\n---%s---\n and expected Plain\n---%s---\n do not match at command %d", G_STRFUNC, text, uc->plain, cmd_index);
 		g_free (text);
 		return FALSE;
 	}
@@ -577,6 +578,7 @@ test_utils_pick_undo_content (const GSList *undo_stack,
 
 	g_return_val_if_fail (undo_stack != NULL, NULL);
 
+	number--;
 	for (link = undo_stack; link && number > 0; link = g_slist_next (link)) {
 		number--;
 	}
@@ -708,7 +710,7 @@ test_utils_process_commands (TestFixture *fixture,
 
 				number = test_utils_maybe_extract_undo_number (command);
 				uc = test_utils_pick_undo_content (fixture->undo_stack, number);
-				success = uc && undo_content_test (fixture, uc);
+				success = uc && undo_content_test (fixture, uc, cc);
 			} else {
 				g_warning ("%s: Unknown command 'undo:%s'", G_STRFUNC, command);
 				success = FALSE;

@@ -158,29 +158,21 @@ test_undo_text_type (TestFixture *fixture)
 {
 	if (!test_utils_run_simple_test	(fixture,
 		"mode:html\n"
+		"type:some te\n"
 		"undo:save\n"	/* 1 */
-		"type:some text corretC\n"
+		"type:tz\n"
 		"undo:save\n"	/* 2 */
-		"seq:CSlcsD\n"	/* delete the last word */
-		"undo:save\n"	/* 3 */
-		"type:broken\n" /* and write 'broken' there */
-		"undo:save\n"	/* 4 */
-		"undo:undo:2\n"	/* undo the 'broken' word write */
+		"undo:undo\n"
+		"undo:undo\n"
 		"undo:test:2\n"
-		"undo:redo\n" /* redo 'broken' word write */
+		"undo:redo\n"
+		"undo:redo\n"
 		"undo:test\n"
-		"undo:undo\n" /* undo 'broken' word write */
-		"undo:test:2\n"
-		"undo:redo\n" /* redo 'broken' word write */
-		"undo:test\n"
-		"undo:drop:2\n"	/* 2 */
-		"undo:undo:2\n" /* undo 'broken' word write and word delete*/
-		"undo:test\n"
-		"undo:undo:3\n" /* undo text typing */
-		"undo:test\n"
-		"undo:drop\n",	/* 1 */
-		HTML_PREFIX "" HTML_SUFFIX,
-		""))
+		"undo:undo:2\n"
+		"undo:drop\n"
+		"type:xt\n"
+		, HTML_PREFIX "some text" HTML_SUFFIX,
+		"some text"))
 		g_test_fail ();
 }
 
