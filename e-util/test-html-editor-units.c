@@ -195,6 +195,11 @@ main (gint argc,
 
 	setlocale (LC_ALL, "");
 
+	/* Force the memory GSettings backend, to not overwrite user settings
+	   when playing with them. It also ensures that the test will run with
+	   default settings, until changed. */
+	g_setenv ("GSETTINGS_BACKEND", "memory", TRUE);
+
 	g_test_init (&argc, &argv, NULL);
 	g_test_bug_base ("http://bugzilla.gnome.org/show_bug.cgi?id=");
 
