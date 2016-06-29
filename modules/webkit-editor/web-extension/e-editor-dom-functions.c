@@ -6785,6 +6785,7 @@ process_list_to_plain_text (EEditorPage *editor_page,
 	EContentEditorBlockFormat format;
 	EContentEditorAlignment alignment;
 	gint counter = 1;
+	gboolean empty = TRUE;
 	gchar *indent_per_level;
 	WebKitDOMNode *item;
 	gint word_wrap_length;
@@ -6807,6 +6808,8 @@ process_list_to_plain_text (EEditorPage *editor_page,
 			gint ii = 0;
 			WebKitDOMElement *wrapped;
 			GString *item_value = g_string_new ("");
+
+			empty = FALSE;
 
 			alignment = e_editor_dom_get_list_alignment_from_node (
 				WEBKIT_DOM_NODE (item));
@@ -7005,7 +7008,7 @@ process_list_to_plain_text (EEditorPage *editor_page,
 		}
 	}
 
-	if (webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (element)))
+	if (webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (element)) && !empty)
 		g_string_append (output, "\n");
 
 	g_free (indent_per_level);
