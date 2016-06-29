@@ -3889,7 +3889,7 @@ e_html_editor_selection_indent (EHTMLEditorSelection *selection)
 				}
 			}
 
-			if (element_has_class (WEBKIT_DOM_ELEMENT (block), "-x-evo-paragraph")) {
+			if (element_has_class (WEBKIT_DOM_ELEMENT (block_to_process), "-x-evo-paragraph")) {
 				level = get_indentation_level (
 					WEBKIT_DOM_ELEMENT (block_to_process));
 
