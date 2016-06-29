@@ -108,6 +108,9 @@ void		e_editor_dom_insert_smiley_by_name
 						 const gchar *name);
 void		e_editor_dom_check_magic_smileys
 						(EEditorPage *editor_page);
+void		e_editor_dom_set_monospace_font_family_on_body
+						(WebKitDOMElement *body,
+						 gboolean html_mode);
 void		e_editor_dom_convert_content	(EEditorPage *editor_page,
 						 const gchar *preferred_text);
 void		e_editor_dom_convert_and_insert_html_into_selection

@@ -884,17 +884,26 @@ redo_delete (EEditorPage *editor_page,
              EEditorHistoryEvent *event)
 {
 	EEditorUndoRedoManager *manager;
+	WebKitDOMDocument *document;
 	WebKitDOMDocumentFragment *fragment = event->data.fragment;
 	WebKitDOMNode *node;
-	gboolean delete_key, control_key;
+	WebKitDOMHTMLElement *body;
+	gboolean delete_key, control_key, html_mode;
 	glong length = 1;
 	gint ii;
 
 	manager = e_editor_page_get_undo_redo_manager (editor_page);
+	document = e_editor_page_get_document (editor_page);
+	html_mode = e_editor_page_get_html_mode (editor_page);
 	restore_selection_to_history_event_state (editor_page, event->before);
 
 	delete_key = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (event->data.fragment), "history-delete-key"));
 	control_key = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (event->data.fragment), "history-control-key"));
+
+	body = webkit_dom_document_get_body (document);
+
+	if (!html_mode)
+		e_editor_dom_set_monospace_font_family_on_body (WEBKIT_DOM_ELEMENT (body), TRUE);
 
 	if (!delete_key && e_editor_dom_key_press_event_process_backspace_key (editor_page))
 		goto out;
@@ -972,6 +981,8 @@ redo_delete (EEditorPage *editor_page,
 	e_editor_page_set_renew_history_after_coordinates (editor_page, FALSE);
 	e_editor_dom_body_key_up_event_process_backspace_or_delete (editor_page, delete_key);
 	e_editor_page_set_renew_history_after_coordinates (editor_page, TRUE);
+	if (!html_mode)
+		e_editor_dom_set_monospace_font_family_on_body (WEBKIT_DOM_ELEMENT (body), FALSE);
 
 	restore_selection_to_history_event_state (editor_page, event->after);
 

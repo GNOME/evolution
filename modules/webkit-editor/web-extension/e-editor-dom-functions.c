@@ -2833,9 +2833,9 @@ body_keypress_event_cb (WebKitDOMElement *element,
 		insert_delete_event (editor_page, range);
 }
 
-static void
-set_monospace_font_family_on_body (WebKitDOMElement *body,
-                                   gboolean html_mode)
+void
+e_editor_dom_set_monospace_font_family_on_body (WebKitDOMElement *body,
+                                                gboolean html_mode)
 {
 	/* If copying some content in view, WebKit adds various information about
 	 * the content's style (such as color, font size, ..) to the resulting HTML
@@ -2929,7 +2929,7 @@ body_keydown_event_cb (WebKitDOMElement *element,
 		if (e_editor_dom_key_press_event_process_delete_or_backspace_key (editor_page, key_code, control_key, delete_key))
 			webkit_dom_event_prevent_default (WEBKIT_DOM_EVENT (event));
 		else if (!e_editor_page_get_html_mode (editor_page))
-			set_monospace_font_family_on_body (element, TRUE);
+			e_editor_dom_set_monospace_font_family_on_body (element, TRUE);
 		goto out;
 	}
 
@@ -3942,7 +3942,7 @@ body_keyup_event_cb (WebKitDOMElement *element,
 
 			body = webkit_dom_document_get_body (document);
 
-			set_monospace_font_family_on_body (WEBKIT_DOM_ELEMENT (body), FALSE);
+			e_editor_dom_set_monospace_font_family_on_body (WEBKIT_DOM_ELEMENT (body), FALSE);
 		}
 		e_editor_dom_body_key_up_event_process_backspace_or_delete (editor_page, key_code == HTML_KEY_CODE_DELETE);
 
@@ -6169,7 +6169,8 @@ e_editor_dom_convert_content (EEditorPage *editor_page,
 		editor_page);
 
 	register_html_events_handlers (editor_page, body);
-	set_monospace_font_family_on_body (WEBKIT_DOM_ELEMENT (body), e_editor_page_get_html_mode (editor_page));
+	e_editor_dom_set_monospace_font_family_on_body (
+		WEBKIT_DOM_ELEMENT (body), e_editor_page_get_html_mode (editor_page));
 
 	g_free (inner_html);
 }
@@ -8586,7 +8587,8 @@ e_editor_dom_process_content_after_load (EEditorPage *editor_page)
 	else
 		e_editor_dom_turn_spell_check_off (editor_page);
 
-	set_monospace_font_family_on_body (WEBKIT_DOM_ELEMENT (body), e_editor_page_get_html_mode (editor_page));
+	e_editor_dom_set_monospace_font_family_on_body (
+		WEBKIT_DOM_ELEMENT (body), e_editor_page_get_html_mode (editor_page));
 
 	dom_window = webkit_dom_document_get_default_view (document);
 
@@ -10545,7 +10547,8 @@ e_editor_dom_process_content_after_mode_change (EEditorPage *editor_page)
 		g_free (plain);
 	}
 
-	set_monospace_font_family_on_body (WEBKIT_DOM_ELEMENT (webkit_dom_document_get_body (document)), html_mode);
+	e_editor_dom_set_monospace_font_family_on_body (
+		WEBKIT_DOM_ELEMENT (webkit_dom_document_get_body (document)), html_mode);
 
 	manager = e_editor_page_get_undo_redo_manager (editor_page);
 	e_editor_undo_redo_manager_clean_history (manager);
