@@ -47,12 +47,36 @@
 
 /* ******************** Tests ******************** */
 
+static gchar *
+workaround_spaces (const gchar *text)
+{
+	GString *tmp;
+	gchar *str = NULL;
+
+	tmp = e_str_replace_string (text, "&nbsp;", " ");
+	if (tmp) {
+		str = g_string_free (tmp, FALSE);
+		text = str;
+	}
+
+	tmp = e_str_replace_string (text, " ", " ");
+	if (tmp) {
+		g_free (str);
+		str = g_string_free (tmp, FALSE);
+	} else if (!str) {
+		str = g_strdup (text);
+	}
+
+	return str;
+}
+
 gboolean
 e_editor_dom_test_html_equal (WebKitDOMDocument *document,
 			      const gchar *html1,
 			      const gchar *html2)
 {
 	WebKitDOMElement *elem1, *elem2;
+	gchar *str1, *str2;
 	gboolean res = FALSE;
 	GError *error = NULL;
 
@@ -74,9 +98,13 @@ e_editor_dom_test_html_equal (WebKitDOMDocument *document,
 		return FALSE;
 	}
 
-	webkit_dom_element_set_inner_html (elem1, html1, &error);
+	/* FIXME WK2: Workaround when &nbsp; is used instead of regular spaces. (Placed by WebKit?) */
+	str1 = workaround_spaces (html1);
+	str2 = workaround_spaces (html2);
+
+	webkit_dom_element_set_inner_html (elem1, str1, &error);
 	if (!error) {
-		webkit_dom_element_set_inner_html (elem2, html2, &error);
+		webkit_dom_element_set_inner_html (elem2, str2, &error);
 
 		if (!error) {
 			webkit_dom_node_normalize (WEBKIT_DOM_NODE (elem1));
@@ -90,7 +118,12 @@ e_editor_dom_test_html_equal (WebKitDOMDocument *document,
 		g_warning ("%s: Failed to set inner html1: %s", G_STRFUNC, error->message);
 	}
 
+	if (res && (g_strcmp0 (html1, str1) != 0 || g_strcmp0 (html2, str2) != 0))
+		g_warning ("%s: Applied the '&nbsp;' workaround", G_STRFUNC);
+
 	g_clear_error (&error);
+	g_free (str1);
+	g_free (str2);
 
 	return res;
 }
