@@ -116,6 +116,15 @@ undo_content_test (TestFixture *fixture,
 	return TRUE;
 }
 
+static gboolean
+test_utils_web_process_crashed_cb (WebKitWebView *web_view,
+				   gpointer user_data)
+{
+	g_warning ("%s:", G_STRFUNC);
+
+	return FALSE;
+}
+
 void
 test_utils_fixture_set_up (TestFixture *fixture,
 			   gconstpointer user_data)
@@ -156,6 +165,8 @@ test_utils_fixture_set_up (TestFixture *fixture,
 
 	async_data = test_utils_async_call_prepare ();
 
+	g_signal_connect (cnt_editor, "web-process-crashed",
+		G_CALLBACK (test_utils_web_process_crashed_cb), NULL);
 	g_signal_connect_swapped (cnt_editor, "notify::web-extension",
 		G_CALLBACK (test_utils_async_call_finish), async_data);
 
