@@ -149,7 +149,7 @@ test_utils_fixture_set_up (TestFixture *fixture,
 	gtk_widget_show (GTK_WIDGET (fixture->editor));
 	gtk_container_add (GTK_CONTAINER (fixture->window), GTK_WIDGET (fixture->editor));
 
-	/* Turn this off; it may be left off on test failures */
+	/* Make sure this is off */
 	g_settings_set_boolean (settings, "prompt-on-composer-mode-switch", FALSE);
 
 	g_clear_object (&settings);
