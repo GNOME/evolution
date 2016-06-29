@@ -482,6 +482,7 @@ action_mode_cb (GtkRadioAction *action,
 
 	action_group = editor->priv->html_actions;
 	gtk_action_group_set_visible (action_group, is_html);
+	gtk_action_group_set_sensitive (action_group, is_html);
 
 	action_group = editor->priv->html_context_actions;
 	gtk_action_group_set_visible (action_group, is_html);
