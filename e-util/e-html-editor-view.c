@@ -11206,6 +11206,20 @@ toggle_unordered_lists (EHTMLEditorView *view)
 	g_object_unref (list);
 }
 
+static gboolean
+needs_conversion (WebKitDOMDocument *document)
+{
+	WebKitDOMElement *element;
+
+	element = webkit_dom_document_query_selector (
+		document,
+		"b, i , u, table, hr, tt, font, sub, sup, h1, h2, h3, h4, h5, h6, "
+		"address, img:not([data-inline])",
+		NULL);
+
+	return element ? TRUE : FALSE;
+}
+
 /**
  * e_html_editor_view_set_html_mode:
  * @view: an #EHTMLEditorView
@@ -11229,6 +11243,9 @@ e_html_editor_view_set_html_mode (EHTMLEditorView *view,
 
 	g_return_if_fail (E_IS_HTML_EDITOR_VIEW (view));
 
+	if (html_mode == view->priv->html_mode)
+		return;
+
 	selection = e_html_editor_view_get_selection (view);
 
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
@@ -11249,7 +11266,8 @@ e_html_editor_view_set_html_mode (EHTMLEditorView *view,
 	convert = convert && !is_new_message;
 
 	/* If toggling from HTML to plain text mode, ask user first */
-	if (convert && view->priv->html_mode && !html_mode) {
+	if (!html_mode && (needs_conversion (document) ||
+	     (convert && !view->priv->is_message_from_draft))) {
 		if (!show_lose_formatting_dialog (view))
 			return;
 
@@ -11261,9 +11279,6 @@ e_html_editor_view_set_html_mode (EHTMLEditorView *view,
 
 		goto out;
 	}
-
-	if (html_mode == view->priv->html_mode)
-		return;
 
 	view->priv->html_mode = html_mode;
 
