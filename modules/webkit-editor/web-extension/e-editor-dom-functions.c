@@ -11529,7 +11529,7 @@ dom_get_alignment (EEditorPage *editor_page)
 	if (WEBKIT_DOM_IS_ELEMENT (node))
 		element = WEBKIT_DOM_ELEMENT (node);
 	else
-		element = webkit_dom_node_get_parent_element (node);
+		element = WEBKIT_DOM_ELEMENT (e_editor_dom_get_parent_block_node_from_child (node));
 
 	if (WEBKIT_DOM_IS_HTML_LI_ELEMENT (element)) {
 		if (element_has_class (element, "-x-evo-align-right"))
