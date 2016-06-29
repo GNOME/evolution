@@ -10445,7 +10445,7 @@ process_content_for_plain_text (EHTMLEditorView *view)
 
 	/* If composer is in HTML mode we have to move the content to plain version */
 	if (view->priv->html_mode) {
-		if (converted || view->priv->is_new_message) {
+		if (converted || view->priv->is_new_message || view->priv->is_message_from_draft) {
 			toggle_paragraphs_style_in_element (
 				view, WEBKIT_DOM_ELEMENT (source), FALSE);
 			remove_images_in_element (
