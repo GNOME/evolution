@@ -7689,9 +7689,9 @@ remove_background_images_in_element (WebKitDOMElement *element)
 		remove_image_attributes_from_element (image);
 		g_object_unref (image);
 	}
+	g_object_unref (images);
 
 	remove_image_attributes_from_element (element);
-	g_object_unref (element);
 }
 
 static void
