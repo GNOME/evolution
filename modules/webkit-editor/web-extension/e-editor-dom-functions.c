@@ -16163,6 +16163,7 @@ process_block_to_block (EEditorPage *editor_page,
 		gboolean quoted = FALSE;
 		gboolean empty = FALSE;
 		gchar *content;
+		gint citation_level = 0;
 		WebKitDOMNode *child;
 		WebKitDOMElement *element;
 
@@ -16255,8 +16256,6 @@ process_block_to_block (EEditorPage *editor_page,
 		remove_node (block);
 
 		if (!next_block && !after_selection_end) {
-			gint citation_level;
-
 			citation_level = selection_get_citation_level (WEBKIT_DOM_NODE (element));
 
 			if (citation_level > 0) {
@@ -16268,8 +16267,6 @@ process_block_to_block (EEditorPage *editor_page,
 		block = next_block;
 
 		if (!html_mode && format == E_CONTENT_EDITOR_BLOCK_FORMAT_PARAGRAPH) {
-			gint citation_level;
-
 			citation_level = selection_get_citation_level (WEBKIT_DOM_NODE (element));
 
 			if (citation_level > 0) {
@@ -16285,8 +16282,13 @@ process_block_to_block (EEditorPage *editor_page,
 			}
 		}
 
-		if (!html_mode && quoted)
-			e_editor_dom_quote_plain_text_element (editor_page, element);
+		if (!html_mode && quoted) {
+			if (citation_level > 0)
+				e_editor_dom_quote_plain_text_element_after_wrapping (
+					editor_page, element, citation_level);
+			else
+				e_editor_dom_quote_plain_text_element (editor_page, element);
+		}
 	}
 
 	return after_selection_end;
