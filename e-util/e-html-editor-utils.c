@@ -296,23 +296,41 @@ remove_node (WebKitDOMNode *node)
 void
 remove_node_if_empty (WebKitDOMNode *node)
 {
+	WebKitDOMNode *child;
+
 	if (!WEBKIT_DOM_IS_NODE (node))
 		return;
 
-	if (!webkit_dom_node_get_first_child (node)) {
+	if ((child = webkit_dom_node_get_first_child (node))) {
+		WebKitDOMNode *prev_sibling, *next_sibling;
+
+		prev_sibling = webkit_dom_node_get_previous_sibling (child);
+		next_sibling = webkit_dom_node_get_next_sibling (child);
+		/* Empty or BR as sibling, but no sibling after it. */
+		if (!webkit_dom_node_get_first_child (child) &&
+		    !WEBKIT_DOM_IS_TEXT (child) &&
+		    (!prev_sibling ||
+		     (WEBKIT_DOM_IS_HTMLBR_ELEMENT (prev_sibling) &&
+		      !webkit_dom_node_get_previous_sibling (prev_sibling))) &&
+		    (!next_sibling ||
+		     (WEBKIT_DOM_IS_HTMLBR_ELEMENT (next_sibling) &&
+		      !webkit_dom_node_get_next_sibling (next_sibling)))) {
+
+			remove_node (node);
+		} else {
+			gchar *text_content;
+
+			text_content = webkit_dom_node_get_text_content (node);
+			if (!text_content)
+				remove_node (node);
+
+			if (text_content && !*text_content)
+				remove_node (node);
+
+			g_free (text_content);
+		}
+	} else
 		remove_node (node);
-	} else {
-		gchar *text_content;
-
-		text_content = webkit_dom_node_get_text_content (node);
-		if (!text_content)
-			remove_node (node);
-
-		if (text_content && !*text_content)
-			remove_node (node);
-
-		g_free (text_content);
-	}
 }
 
 WebKitDOMNode *
@@ -343,11 +361,12 @@ split_node_into_two (WebKitDOMNode *item,
 		while (first_child && (sibling = webkit_dom_node_get_next_sibling (first_child)))
 			webkit_dom_node_insert_before (first_child, sibling, insert_before, NULL);
 
-		while ((sibling = webkit_dom_node_get_next_sibling (tmp)))
+		while (tmp && (sibling = webkit_dom_node_get_next_sibling (tmp)))
 			webkit_dom_node_append_child (clone, sibling, NULL);
 
-		webkit_dom_node_insert_before (
-			clone, tmp, webkit_dom_node_get_first_child (clone), NULL);
+		if (tmp)
+			webkit_dom_node_insert_before (
+				clone, tmp, webkit_dom_node_get_first_child (clone), NULL);
 
 		prev_parent = parent;
 		tmp = webkit_dom_node_get_next_sibling (parent);

@@ -5620,6 +5620,8 @@ return_pressed_in_empty_list_item (EHTMLEditorView *view)
 			list,
 			NULL);
 
+		remove_node_if_empty (list);
+
 		if (ev) {
 			e_html_editor_selection_get_selection_coordinates (
 				selection,
