@@ -2651,17 +2651,17 @@ folder_tree_drop_target (EMFolderTree *folder_tree,
 			targets = targets->next;
 		}
 	} else {
-		gint i;
+		GList *link;
+		gint ii;
 
-		while (targets != NULL) {
-			for (i = 0; i < NUM_DROP_TYPES; i++) {
-				if (targets->data == (gpointer) drop_atoms[i]) {
-					atom = drop_atoms[i];
+		/* The drop_atoms[] is sorted in the preference order. */
+		for (ii = 0; ii < NUM_DROP_TYPES; ii++) {
+			for (link = targets; link; link = g_list_next (link)) {
+				if (link->data == (gpointer) drop_atoms[ii]) {
+					atom = drop_atoms[ii];
 					goto done;
 				}
 			}
-
-			targets = targets->next;
 		}
 	}
 
