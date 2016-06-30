@@ -88,7 +88,6 @@
     <menuitem action='mail-popup-flush-outbox'/>
     <menuitem action='mail-popup-account-refresh'/>
     <menuitem action='mail-popup-manage-subscriptions'/>
-    <menuitem action='mail-popup-account-expunge'/>
     <menuitem action='mail-popup-account-disable'/>
     <menuitem action='mail-vfolder-unmatched-enable'/>
     <separator/>
@@ -96,6 +95,8 @@
     <separator/>
     <menuitem action='mail-popup-account-properties'/>
     <menuitem action='mail-popup-folder-properties'/>
+    <separator/>
+    <menuitem action='mail-popup-account-expunge'/>
   </popup>
   <popup name='mail-message-popup'>
     <placeholder name='mail-message-popup-common-actions'/>
