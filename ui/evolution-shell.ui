@@ -1,4 +1,4 @@
-<ui>
+<ui evolution-ui-version="1.0">
   <menubar name='main-menu'>
     <menu action='file-menu'>
       <menu action='new-menu'/>

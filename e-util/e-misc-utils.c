@@ -55,8 +55,9 @@
 #include "e-alert-sink.h"
 #include "e-client-cache.h"
 #include "e-filter-option.h"
-#include "e-util-private.h"
 #include "e-mktemp.h"
+#include "e-util-private.h"
+#include "e-xml-utils.h"
 
 typedef struct _WindowData WindowData;
 
@@ -762,6 +763,66 @@ e_load_ui_builder_definition (GtkBuilder *builder,
 	}
 }
 
+static gdouble
+e_get_ui_manager_definition_file_version (const gchar *filename)
+{
+	xmlDocPtr doc;
+	xmlNode *root;
+	gdouble version = -1.0;
+
+	g_return_val_if_fail (filename != NULL, version);
+
+	doc = e_xml_parse_file (filename);
+	if (!doc)
+		return version;
+
+	root = xmlDocGetRootElement (doc);
+	if (root && g_strcmp0 ((const gchar *) root->name, "ui") == 0) {
+		version = e_xml_get_double_prop_by_name_with_default (root, (const xmlChar *) "evolution-ui-version", -1.0);
+	}
+
+	xmlFreeDoc (doc);
+
+	return version;
+}
+
+static gchar *
+e_pick_ui_manager_definition_file (const gchar *basename)
+{
+	gchar *system_filename, *user_filename;
+	gdouble system_version, user_version;
+
+	g_return_val_if_fail (basename != NULL, NULL);
+
+	system_filename = g_build_filename (EVOLUTION_UIDIR, basename, NULL);
+	user_filename = g_build_filename (e_get_user_config_dir (), "ui", basename, NULL);
+
+	if (!g_file_test (user_filename, G_FILE_TEST_EXISTS | G_FILE_TEST_IS_REGULAR)) {
+		g_free (user_filename);
+
+		return system_filename;
+	}
+
+	user_version = e_get_ui_manager_definition_file_version (user_filename);
+	system_version = e_get_ui_manager_definition_file_version (system_filename);
+
+	/* Versions are equal and the system version is a positive number */
+	if (user_version - system_version >= -1e-9 &&
+	    user_version - system_version <= 1e-9 &&
+	    system_version > 1e-9) {
+		g_free (system_filename);
+
+		return user_filename;
+	}
+
+	g_warning ("User's UI file '%s' version (%.1f) doesn't match expected version (%.1f), skipping it. Either correct the version or remove the file.",
+		user_filename, user_version, system_version);
+
+	g_free (user_filename);
+
+	return system_filename;
+}
+
 /**
  * e_load_ui_manager_definition:
  * @ui_manager: a #GtkUIManager
@@ -785,7 +846,7 @@ e_load_ui_manager_definition (GtkUIManager *ui_manager,
 	g_return_val_if_fail (GTK_IS_UI_MANAGER (ui_manager), 0);
 	g_return_val_if_fail (basename != NULL, 0);
 
-	filename = g_build_filename (EVOLUTION_UIDIR, basename, NULL);
+	filename = e_pick_ui_manager_definition_file (basename);
 	merge_id = gtk_ui_manager_add_ui_from_file (
 		ui_manager, filename, &error);
 	g_free (filename);
