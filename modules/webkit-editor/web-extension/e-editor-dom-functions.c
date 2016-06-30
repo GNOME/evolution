@@ -9890,6 +9890,8 @@ e_editor_dom_return_pressed_in_empty_list_item (EEditorPage *editor_page)
 			list,
 			NULL);
 
+		remove_node_if_empty (list);
+
 		if (ev) {
 			e_editor_dom_selection_get_coordinates (editor_page,
 				&ev->after.start.x,
