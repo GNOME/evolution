@@ -7973,17 +7973,19 @@ process_content_for_mode_change (EEditorPage *editor_page)
 gchar *
 e_editor_dom_process_content_for_plain_text (EEditorPage *editor_page)
 {
+	EContentEditorContentFlags flags;
 	WebKitDOMDocument *document;
 	WebKitDOMNode *body, *source;
 	WebKitDOMNodeList *paragraphs;
 	gboolean wrap = FALSE, quote = FALSE, clean = FALSE;
-	gboolean converted, is_from_new_message;
+	gboolean converted, is_from_new_message, is_message_draft;
 	gint length, ii;
 	GString *plain_text;
 
 	g_return_val_if_fail (E_IS_EDITOR_PAGE (editor_page), NULL);
 
 	document = e_editor_page_get_document (editor_page);
+	flags = e_editor_page_get_current_content_flags (editor_page);
 	plain_text = g_string_sized_new (1024);
 
 	body = WEBKIT_DOM_NODE (webkit_dom_document_get_body (document));
@@ -7991,13 +7993,15 @@ e_editor_dom_process_content_for_plain_text (EEditorPage *editor_page)
 		WEBKIT_DOM_ELEMENT (body), "data-converted");
 	is_from_new_message = webkit_dom_element_has_attribute (
 		WEBKIT_DOM_ELEMENT (body), "data-new-message");
+	is_message_draft = (flags & E_CONTENT_EDITOR_MESSAGE_DRAFT);
+
 	source = webkit_dom_node_clone_node_with_error (WEBKIT_DOM_NODE (body), TRUE, NULL);
 
 	e_editor_dom_selection_save (editor_page);
 
 	/* If composer is in HTML mode we have to move the content to plain version */
 	if (e_editor_page_get_html_mode (editor_page)) {
-		if (converted || is_from_new_message) {
+		if (converted || is_from_new_message || is_message_draft) {
 			toggle_paragraphs_style_in_element (
 				editor_page, WEBKIT_DOM_ELEMENT (source), FALSE);
 			remove_images_in_element (
