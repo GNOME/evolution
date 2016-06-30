@@ -482,7 +482,6 @@ action_mode_cb (GtkRadioAction *action,
 
 	action_group = editor->priv->html_actions;
 	gtk_action_group_set_visible (action_group, is_html);
-	gtk_action_group_set_sensitive (action_group, is_html);
 
 	action_group = editor->priv->html_context_actions;
 	gtk_action_group_set_visible (action_group, is_html);
@@ -1915,6 +1914,11 @@ editor_actions_bind (EHTMLEditor *editor)
 		cnt_editor, "underline",
 		ACTION (UNDERLINE), "active",
 		G_BINDING_SYNC_CREATE | G_BINDING_BIDIRECTIONAL);
+
+	e_binding_bind_property (
+		cnt_editor, "html-mode",
+		editor->priv->html_actions, "sensitive",
+		G_BINDING_SYNC_CREATE);
 
 	/* Disable all actions and toolbars when editor is not editable */
 	e_binding_bind_property (
