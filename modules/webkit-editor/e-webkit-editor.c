@@ -240,7 +240,7 @@ webkit_editor_get_changed (EWebKitEditor *wk_editor)
 
 static void
 webkit_editor_set_changed (EWebKitEditor *wk_editor,
-                                   gboolean changed)
+                           gboolean changed)
 {
 	g_return_if_fail (E_IS_WEBKIT_EDITOR (wk_editor));
 
@@ -1255,9 +1255,12 @@ webkit_editor_set_html_mode (EWebKitEditor *wk_editor,
 
 	/* If toggling from HTML to the plain text mode, ask the user first if
 	 * he wants to convert the content. */
-	if (convert)
+	if (convert) {
 		if (!show_lose_formatting_dialog (wk_editor))
 			return;
+
+		webkit_editor_set_changed (wk_editor, TRUE);
+	}
 
 	wk_editor->priv->html_mode = html_mode;
 
