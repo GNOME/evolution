@@ -1807,11 +1807,11 @@ handle_method_call (GDBusConnection *connection,
 		} else if ((flags & E_CONTENT_EDITOR_GET_TEXT_HTML) &&
 			   (flags & E_CONTENT_EDITOR_GET_PROCESSED) &&
 			   !(flags & E_CONTENT_EDITOR_GET_BODY)) {
-			value = e_editor_dom_process_content_for_html (editor_page);
+			value = e_editor_dom_process_content_to_html_for_exporting (editor_page);
 		} else if ((flags & E_CONTENT_EDITOR_GET_TEXT_PLAIN) &&
 			   (flags & E_CONTENT_EDITOR_GET_PROCESSED) &&
 			   !(flags & E_CONTENT_EDITOR_GET_BODY)) {
-			value = e_editor_dom_process_content_for_plain_text (editor_page);
+			value = e_editor_dom_process_content_to_plain_text_for_exporting (editor_page);
 		} else if ((flags & E_CONTENT_EDITOR_GET_TEXT_PLAIN) &&
 		           (flags & E_CONTENT_EDITOR_GET_BODY) &&
 		           !(flags & E_CONTENT_EDITOR_GET_PROCESSED)) {

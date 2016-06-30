@@ -459,7 +459,9 @@ e_composer_dom_insert_signature (EEditorPage *editor_page,
 			WebKitDOMElement *pre_delimiter;
 
 			pre_delimiter = webkit_dom_document_create_element (document, "pre", NULL);
-			webkit_dom_element_set_inner_html (pre_delimiter, delim, NULL);
+                       /* Always use the HTML delimiter as we are never in anything
+                        * like a strict plain text mode. */
+			webkit_dom_element_set_inner_html (pre_delimiter, "-- <br>", NULL);
 			webkit_dom_node_append_child (
 				WEBKIT_DOM_NODE (insert_signature_in),
 				WEBKIT_DOM_NODE (pre_delimiter),

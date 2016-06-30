@@ -1995,3 +1995,22 @@ e_dom_utils_find_document_with_uri (WebKitDOMDocument *root_document,
 
 	return res_document;
 }
+
+void
+dom_element_swap_attributes (WebKitDOMElement *element,
+                             const gchar *from,
+                             const gchar *to)
+{
+	gchar *value_from, *value_to;
+
+	if (!webkit_dom_element_has_attribute (element, from) ||
+	    !webkit_dom_element_has_attribute (element, to))
+		return;
+
+	value_from = webkit_dom_element_get_attribute (element, from);
+	value_to = webkit_dom_element_get_attribute (element, to);
+	webkit_dom_element_set_attribute (element, to, (value_from && *value_from) ? value_from : "", NULL);
+	webkit_dom_element_set_attribute (element, from, (value_to && *value_to) ? value_to : "", NULL);
+	g_free (value_from);
+	g_free (value_to);
+}

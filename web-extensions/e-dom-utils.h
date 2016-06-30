@@ -131,46 +131,38 @@ void		remove_node			(WebKitDOMNode *node);
 void		remove_node_if_empty		(WebKitDOMNode *node);
 WebKitDOMNode *	split_list_into_two		(WebKitDOMNode *item,
 						 gint level);
-
 WebKitDOMElement *
 		dom_create_selection_marker	(WebKitDOMDocument *document,
 						 gboolean start);
-
 void		dom_add_selection_markers_into_element_start
 						(WebKitDOMDocument *document,
 						 WebKitDOMElement *element,
 						 WebKitDOMElement **selection_start_marker,
 						 WebKitDOMElement **selection_end_marker);
-
 void		dom_add_selection_markers_into_element_end
 						(WebKitDOMDocument *document,
 						 WebKitDOMElement *element,
 						 WebKitDOMElement **selection_start_marker,
 						 WebKitDOMElement **selection_end_marker);
-
 void		dom_remove_selection_markers	(WebKitDOMDocument *document);
-
 gboolean	node_is_list			(WebKitDOMNode *node);
-
 gboolean	node_is_list_or_item		(WebKitDOMNode *node);
-
 EContentEditorBlockFormat
 		dom_get_list_format_from_node	(WebKitDOMNode *node);
-
 void		merge_list_into_list		(WebKitDOMNode *from,
 						 WebKitDOMNode *to,
 						 gboolean insert_before);
-
 void		merge_lists_if_possible		(WebKitDOMNode *list);
 WebKitDOMElement *
 		get_parent_block_element	(WebKitDOMNode *node);
-
 gchar *		dom_get_node_inner_html		(WebKitDOMNode *node);
-
 WebKitDOMDocument *
 		e_dom_utils_find_document_with_uri
 						(WebKitDOMDocument *root_document,
 						 const gchar *find_document_uri);
+void           dom_element_swap_attributes	(WebKitDOMElement *element,
+                                                 const gchar *from,
+                                                 const gchar *to);
 
 G_END_DECLS
 

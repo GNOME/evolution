@@ -148,11 +148,11 @@ void		e_editor_dom_convert_element_from_html_to_plain_text
 gchar *		e_editor_dom_process_content_for_draft
 						(EEditorPage *editor_page,
 						 gboolean only_inner_body);
-gchar *		e_editor_dom_process_content_for_plain_text
+gchar *		e_editor_dom_process_content_to_plain_text_for_exporting
 						(EEditorPage *editor_page);
 void		e_editor_dom_restore_images	(EEditorPage *editor_page,
 						 GVariant *inline_images_to_restore);
-gchar *		e_editor_dom_process_content_for_html
+gchar *		e_editor_dom_process_content_to_html_for_exporting
 						(EEditorPage *editor_page);
 gboolean	e_editor_dom_check_if_conversion_needed
 						(EEditorPage *editor_page);
