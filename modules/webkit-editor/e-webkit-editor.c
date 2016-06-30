@@ -1255,7 +1255,7 @@ webkit_editor_set_html_mode (EWebKitEditor *wk_editor,
 
 	/* If toggling from HTML to the plain text mode, ask the user first if
 	 * he wants to convert the content. */
-	if (convert && wk_editor->priv->html_mode && !html_mode)
+	if (convert)
 		if (!show_lose_formatting_dialog (wk_editor))
 			return;
 

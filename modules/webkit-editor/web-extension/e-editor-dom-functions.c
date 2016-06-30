@@ -10348,17 +10348,35 @@ e_editor_dom_key_press_event_process_delete_or_backspace_key (EEditorPage *edito
 	return TRUE;
 }
 
+static gboolean
+contains_forbidden_elements (WebKitDOMDocument *document)
+{
+	WebKitDOMElement *element;
+
+	element = webkit_dom_document_query_selector (
+		document,
+		"b, i , u, table, hr, tt, font, sub, sup, h1, h2, h3, h4, h5, h6, "
+		"address, img:not([data-inline])",
+		NULL);
+
+	return element ? TRUE : FALSE;
+}
+
 gboolean
 e_editor_dom_check_if_conversion_needed (EEditorPage *editor_page)
 {
+	EContentEditorContentFlags flags;
 	WebKitDOMDocument *document;
 	WebKitDOMHTMLElement *body;
 	gboolean is_from_new_message, converted, edit_as_new, message, convert;
-	gboolean reply, hide;
+	gboolean reply, hide, html_mode, message_from_draft;
 
 	g_return_val_if_fail (E_IS_EDITOR_PAGE (editor_page), FALSE);
 
 	document = e_editor_page_get_document (editor_page);
+	html_mode = e_editor_page_get_html_mode (editor_page);
+	flags = e_editor_page_get_current_content_flags (editor_page);
+	message_from_draft = (flags & E_CONTENT_EDITOR_MESSAGE_DRAFT);
 	body = webkit_dom_document_get_body (document);
 
 	is_from_new_message = webkit_dom_element_has_attribute (
@@ -10376,7 +10394,7 @@ e_editor_dom_check_if_conversion_needed (EEditorPage *editor_page)
 	convert = message && ((!hide && reply && !converted) || (edit_as_new && !converted));
 	convert = convert && !is_from_new_message;
 
-	return convert;
+	return !html_mode && (contains_forbidden_elements (document) || (convert && !message_from_draft));
 }
 
 static void
