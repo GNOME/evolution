@@ -1532,8 +1532,9 @@ void
 element_remove_class (WebKitDOMElement *element,
                       const gchar* class)
 {
-	gchar *element_class;
-	GString *result;
+	gchar *element_class, *final_class;
+	GRegex *regex;
+	gchar *pattern = NULL;
 
 	if (!WEBKIT_DOM_IS_ELEMENT (element))
 		return;
@@ -1543,19 +1544,19 @@ element_remove_class (WebKitDOMElement *element,
 
 	element_class = webkit_dom_element_get_class_name (element);
 
-	if (g_strcmp0 (element_class, class) == 0) {
-		webkit_dom_element_remove_attribute (element, "class");
-		g_free (element_class);
-		return;
-	}
+	pattern = g_strconcat ("[\\s]*", class, "[\\s]*", NULL);
+	regex = g_regex_new (pattern, 0, 0, NULL);
+	final_class = g_regex_replace (regex, element_class, -1, 0, " ", 0, NULL);
 
-	result = e_str_replace_string (element_class, class, "");
-	if (result) {
-		webkit_dom_element_set_class_name (element, result->str);
-		g_string_free (result, TRUE);
-	}
+	if (g_strcmp0 (final_class, " ") != 0)
+		webkit_dom_element_set_class_name (element, final_class);
+	else
+		webkit_dom_element_remove_attribute (element, "class");
 
 	g_free (element_class);
+	g_free (final_class);
+	g_free (pattern);
+	g_regex_unref (regex);
 }
 
 void
