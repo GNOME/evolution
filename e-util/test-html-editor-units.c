@@ -25,6 +25,8 @@
 #include "test-html-editor-units-utils.h"
 
 #define HTML_PREFIX "<html><head></head><body><p data-evo-paragraph=\"\">"
+#define HTML_PREFIX_PLAIN "<html><head></head><body style=\"font-family: Monospace;\">" \
+	"<p data-evo-paragraph=\"\" style=\"width: 71ch; word-wrap: break-word; word-break: break-word; \">"
 #define HTML_SUFFIX "</p></body></html>"
 
 /* The tests do not use the 'user_data' argument, thus the functions avoid them and the typecast is needed. */
@@ -154,7 +156,7 @@ test_style_monospace_typed (TestFixture *fixture)
 }
 
 static void
-test_undo_text_type (TestFixture *fixture)
+test_undo_text_typed (TestFixture *fixture)
 {
 	if (!test_utils_run_simple_test	(fixture,
 		"mode:html\n"
@@ -170,9 +172,143 @@ test_undo_text_type (TestFixture *fixture)
 		"undo:test\n"
 		"undo:undo:2\n"
 		"undo:drop\n"
-		"type:xt\n"
-		, HTML_PREFIX "some text" HTML_SUFFIX,
+		"type:xt\n",
+		HTML_PREFIX "some text" HTML_SUFFIX,
 		"some text"))
+		g_test_fail ();
+}
+
+static void
+test_justify_selection (TestFixture *fixture)
+{
+	if (!test_utils_run_simple_test	(fixture,
+		"mode:html\n"
+		"seq:n\n" /* new line, to be able to use HTML_PREFIX macro */
+		"type:center\\n\n"
+		"type:right\\n\n"
+		"type:left\\n\n"
+		"seq:uuu\n"
+		"action:justify-center\n"
+		"seq:d\n"
+		"action:justify-right\n"
+		"seq:d\n"
+		"action:justify-left\n",
+		HTML_PREFIX "<br></p>"
+			"<p data-evo-paragraph=\"\" style=\"text-align: center\">center</p>"
+			"<p data-evo-paragraph=\"\" style=\"text-align: right\">right</p>"
+			"<p data-evo-paragraph=\"\">left</p><p data-evo-paragraph=\"\"><br>"
+		HTML_SUFFIX,
+		"\ncenter\nright\nleft\n"))
+		g_test_fail ();
+}
+
+static void
+test_justify_typed (TestFixture *fixture)
+{
+	if (!test_utils_run_simple_test	(fixture,
+		"mode:html\n"
+		"seq:n\n" /* new line, to be able to use HTML_PREFIX macro */
+		"action:justify-center\n"
+		"type:center\\n\n"
+		"action:justify-right\n"
+		"type:right\\n\n"
+		"action:justify-left\n"
+		"type:left\\n\n",
+		HTML_PREFIX "<br></p>"
+			"<p data-evo-paragraph=\"\" style=\"text-align: center\">center</p>"
+			"<p data-evo-paragraph=\"\" style=\"text-align: right\">right</p>"
+			"<p data-evo-paragraph=\"\">left</p><p data-evo-paragraph=\"\"><br>"
+		HTML_SUFFIX,
+		"\ncenter\nright\nleft\n"))
+		g_test_fail ();
+}
+
+static void
+test_indent_selection (TestFixture *fixture)
+{
+	if (!test_utils_run_simple_test	(fixture,
+		"mode:html\n"
+		"type:level 0\\n\n"
+		"type:level 1\\n\n"
+		"type:level 2\\n\n"
+		"type:level 1\\n\n"
+		"seq:uuu\n"
+		"action:indent\n"
+		"seq:d\n"
+		"action:indent\n"
+		"action:indent\n"
+		"seq:d\n"
+		"action:indent\n"
+		"action:indent\n" /* just to try whether the unindent will work too */
+		"action:unindent\n",
+		HTML_PREFIX
+			"level 0</p>"
+			"<div style=\"margin-left: 3ch;\">"
+				"<p data-evo-paragraph=\"\">level 1</p>"
+				"<div style=\"margin-left: 3ch;\"><p data-evo-paragraph=\"\">level 2</p></div>"
+				"<p data-evo-paragraph=\"\">level 1</p>"
+			"</div><p data-evo-paragraph=\"\"><br>"
+		HTML_SUFFIX,
+		"level 0\n"
+		"    level 1\n"
+		"        level 2\n"
+		"    level 1\n"))
+		g_test_fail ();
+}
+
+static void
+test_indent_typed (TestFixture *fixture)
+{
+	if (!test_utils_run_simple_test	(fixture,
+		"mode:html\n"
+		"type:level 0\\n\n"
+		"action:indent\n"
+		"type:level 1\\n\n"
+		"action:indent\n"
+		"type:level 2\\n\n"
+		"action:unindent\n"
+		"type:level 1\\n\n"
+		"action:unindent\n",
+		HTML_PREFIX
+			"level 0</p>"
+			"<div style=\"margin-left: 3ch;\">"
+				"<p data-evo-paragraph=\"\">level 1</p>"
+				"<div style=\"margin-left: 3ch;\"><p data-evo-paragraph=\"\">level 2</p></div>"
+				"<p data-evo-paragraph=\"\">level 1</p>"
+			"</div><p data-evo-paragraph=\"\"><br>"
+		HTML_SUFFIX,
+		"level 0\n"
+		"    level 1\n"
+		"        level 2\n"
+		"    level 1\n"))
+		g_test_fail ();
+}
+
+static void
+test_font_size_selection (TestFixture *fixture)
+{
+	if (!test_utils_run_simple_test	(fixture,
+		"mode:html\n"
+		"type:some monospace text\n"
+		"seq:hCrcrCSrsc\n"
+		"action:monospaced\n",
+		HTML_PREFIX "some <font face=\"monospace\" size=\"3\">monospace</font> text" HTML_SUFFIX,
+		"some monospace text"))
+		g_test_fail ();
+}
+
+static void
+test_font_size_typed (TestFixture *fixture)
+{
+	if (!test_utils_run_simple_test	(fixture,
+		"mode:html\n"
+		"type:some \n"
+		"action:monospaced\n"
+		"type:monospace\n"
+		"action:monospaced\n"
+		"type: text\n",
+		HTML_PREFIX "some <font face=\"monospace\" size=\"3\">monospace</font> text" HTML_SUFFIX,
+		"some monospace text"))
 		g_test_fail ();
 }
 
@@ -230,15 +366,21 @@ main (gint argc,
 			test_utils_fixture_set_up, (ETestFixtureFunc) _func, test_utils_fixture_tear_down)
 
 	add_test ("/create/editor", test_create_editor);
-	add_test ("/style/bold-selection", test_style_bold_selection);
-	add_test ("/style/bold-typed", test_style_bold_typed);
-	add_test ("/style/italic-selection", test_style_italic_selection);
-	add_test ("/style/italic-typed", test_style_italic_typed);
-	add_test ("/style/underline-selection", test_style_underline_selection);
-	add_test ("/style/underline-typed", test_style_underline_typed);
-	add_test ("/style/monospace-selection", test_style_monospace_selection);
-	add_test ("/style/monospace-typed", test_style_monospace_typed);
-	add_test ("/undo/text-type", test_undo_text_type);
+	add_test ("/style/bold/selection", test_style_bold_selection);
+	add_test ("/style/bold/typed", test_style_bold_typed);
+	add_test ("/style/italic/selection", test_style_italic_selection);
+	add_test ("/style/italic/typed", test_style_italic_typed);
+	add_test ("/style/underline/selection", test_style_underline_selection);
+	add_test ("/style/underline/typed", test_style_underline_typed);
+	add_test ("/style/monospace/selection", test_style_monospace_selection);
+	add_test ("/style/monospace/typed", test_style_monospace_typed);
+	add_test ("/undo/text-typed", test_undo_text_typed);
+	add_test ("/justify/selection", test_justify_selection);
+	add_test ("/justify/typed", test_justify_typed);
+	add_test ("/indent/selection", test_indent_selection);
+	add_test ("/indent/typed", test_indent_typed);
+	add_test ("/font/size/selection", test_font_size_selection);
+	add_test ("/font/size/typed", test_font_size_typed);
 
 	#undef add_test
 

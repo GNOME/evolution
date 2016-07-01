@@ -362,7 +362,20 @@ test_utils_type_text (TestFixture *fixture,
 		unichar = g_utf8_get_char (text);
 		text = g_utf8_next_char (text);
 
-		keyval = gdk_unicode_to_keyval (unichar);
+		switch (unichar) {
+		case '\n':
+			keyval = GDK_KEY_Return;
+			break;
+		case '\t':
+			keyval = GDK_KEY_Tab;
+			break;
+		case '\b':
+			keyval = GDK_KEY_BackSpace;
+			break;
+		default:
+			keyval = gdk_unicode_to_keyval (unichar);
+			break;
+		}
 
 		test_utils_send_key_event (widget, GDK_KEY_PRESS, keyval, 0);
 		test_utils_send_key_event (widget, GDK_KEY_RELEASE, keyval, 0);
