@@ -36,15 +36,75 @@ struct _EMailConfigSmtpBackendPrivate {
 	GtkWidget *port_entry;			/* not referenced */
 	GtkWidget *port_error_image;		/* not referenced */
 	GtkWidget *user_entry;			/* not referenced */
+	GtkWidget *forget_password_button;	/* not referenced */
 	GtkWidget *security_combo_box;		/* not referenced */
 	GtkWidget *auth_required_toggle;	/* not referenced */
 	GtkWidget *auth_check;			/* not referenced */
+
+	GCancellable *cancellable;
 };
 
 G_DEFINE_DYNAMIC_TYPE (
 	EMailConfigSmtpBackend,
 	e_mail_config_smtp_backend,
 	E_TYPE_MAIL_CONFIG_SERVICE_BACKEND)
+
+static void
+source_lookup_password_done (GObject *source,
+			     GAsyncResult *result,
+			     gpointer user_data)
+{
+	gchar *password = NULL;
+
+	g_return_if_fail (E_IS_SOURCE (source));
+	g_return_if_fail (result != NULL);
+
+	if (e_source_lookup_password_finish (E_SOURCE (source), result, &password, NULL)) {
+		if (password && *password && E_IS_MAIL_CONFIG_SMTP_BACKEND (user_data)) {
+			EMailConfigSmtpBackend *smtp_backend = user_data;
+
+			gtk_widget_show (smtp_backend->priv->forget_password_button);
+		}
+
+		e_util_safe_free_string (password);
+	}
+}
+
+static void
+source_delete_password_done (GObject *source,
+			     GAsyncResult *result,
+			     gpointer user_data)
+{
+	GError *error = NULL;
+
+	g_return_if_fail (E_IS_SOURCE (source));
+	g_return_if_fail (result != NULL);
+
+	if (e_source_delete_password_finish (E_SOURCE (source), result, &error)) {
+		if (E_IS_MAIL_CONFIG_SMTP_BACKEND (user_data)) {
+			EMailConfigSmtpBackend *smtp_backend = user_data;
+
+			gtk_widget_set_sensitive (smtp_backend->priv->forget_password_button, FALSE);
+		}
+	} else if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+		g_warning ("%s: Failed to forget password: %s", G_STRFUNC, error ? error->message : "Unknown error");
+	}
+
+	g_clear_error (&error);
+}
+
+static void
+smtp_backend_forget_password_cb (GtkWidget *button,
+				 EMailConfigSmtpBackend *smtp_backend)
+{
+	ESource *source;
+
+	g_return_if_fail (E_IS_MAIL_CONFIG_SMTP_BACKEND (smtp_backend));
+
+	source = e_mail_config_service_backend_get_source (E_MAIL_CONFIG_SERVICE_BACKEND (smtp_backend));
+
+	e_source_delete_password (source, smtp_backend->priv->cancellable, source_delete_password_done, smtp_backend);
+}
 
 static void
 server_requires_auth_toggled_cb (GtkToggleButton *toggle,
@@ -263,6 +323,16 @@ mail_config_smtp_backend_insert_widgets (EMailConfigServiceBackend *backend,
 	priv->user_entry = widget;  /* do not reference */
 	gtk_widget_show (widget);
 
+	widget = gtk_button_new_with_mnemonic (_("_Forget password"));
+	gtk_widget_set_halign (widget, GTK_ALIGN_START);
+	gtk_widget_set_hexpand (widget, FALSE);
+	gtk_grid_attach (GTK_GRID (container), widget, 1, 2, 3, 1);
+	priv->forget_password_button = widget; /* do not reference */
+	gtk_widget_hide (widget);
+
+	g_signal_connect (priv->forget_password_button, "clicked",
+		G_CALLBACK (smtp_backend_forget_password_cb), backend);
+
 	port = camel_network_settings_get_port (
 		CAMEL_NETWORK_SETTINGS (settings));
 
@@ -308,6 +378,8 @@ mail_config_smtp_backend_insert_widgets (EMailConfigServiceBackend *backend,
 	gtk_toggle_button_set_active (
 		GTK_TOGGLE_BUTTON (priv->auth_required_toggle),
 		(mechanism != NULL && *mechanism != '\0'));
+
+	e_source_lookup_password (source, priv->cancellable, source_lookup_password_done, backend);
 }
 
 static gboolean
@@ -425,12 +497,26 @@ mail_config_smtp_backend_commit_changes (EMailConfigServiceBackend *backend)
 }
 
 static void
+mail_config_smtp_backend_dispose (GObject *object)
+{
+	EMailConfigSmtpBackend *smtp_backend = E_MAIL_CONFIG_SMTP_BACKEND (object);
+
+	if (smtp_backend->priv->cancellable) {
+		g_cancellable_cancel (smtp_backend->priv->cancellable);
+		g_clear_object (&smtp_backend->priv->cancellable);
+	}
+
+	/* Chain up to parent's method. */
+	G_OBJECT_CLASS (e_mail_config_smtp_backend_parent_class)->dispose (object);
+}
+
+static void
 e_mail_config_smtp_backend_class_init (EMailConfigSmtpBackendClass *class)
 {
 	EMailConfigServiceBackendClass *backend_class;
+	GObjectClass *object_class;
 
-	g_type_class_add_private (
-		class, sizeof (EMailConfigSmtpBackendPrivate));
+	g_type_class_add_private (class, sizeof (EMailConfigSmtpBackendPrivate));
 
 	backend_class = E_MAIL_CONFIG_SERVICE_BACKEND_CLASS (class);
 	backend_class->backend_name = "smtp";
@@ -438,6 +524,9 @@ e_mail_config_smtp_backend_class_init (EMailConfigSmtpBackendClass *class)
 	backend_class->auto_configure = mail_config_smtp_backend_auto_configure;
 	backend_class->check_complete = mail_config_smtp_backend_check_complete;
 	backend_class->commit_changes = mail_config_smtp_backend_commit_changes;
+
+	object_class = G_OBJECT_CLASS (class);
+	object_class->dispose = mail_config_smtp_backend_dispose;
 }
 
 static void
@@ -449,6 +538,7 @@ static void
 e_mail_config_smtp_backend_init (EMailConfigSmtpBackend *backend)
 {
 	backend->priv = E_MAIL_CONFIG_SMTP_BACKEND_GET_PRIVATE (backend);
+	backend->priv->cancellable = g_cancellable_new ();
 }
 
 void
