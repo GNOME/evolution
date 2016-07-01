@@ -425,8 +425,10 @@ web_extension_undo_redo_state_changed_cb (GDBusConnection *connection,
 static void
 dispatch_pending_operations (EWebKitEditor *wk_editor)
 {
-	if (!wk_editor->priv->web_extension)
+	if (!wk_editor->priv->web_extension) {
+		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return;
+	}
 
 	if (wk_editor->priv->webkit_load_event != WEBKIT_LOAD_FINISHED)
 		return;
@@ -578,8 +580,10 @@ static void
 webkit_editor_call_simple_extension_function (EWebKitEditor *wk_editor,
                                               const gchar *function)
 {
-	if (!wk_editor->priv->web_extension)
+	if (!wk_editor->priv->web_extension) {
+		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return;
+	}
 
 	g_dbus_proxy_call (
 		wk_editor->priv->web_extension,
@@ -597,8 +601,10 @@ webkit_editor_get_element_attribute (EWebKitEditor *wk_editor,
                                      const gchar *selector,
                                      const gchar *attribute)
 {
-	if (!wk_editor->priv->web_extension)
+	if (!wk_editor->priv->web_extension) {
+		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return NULL;
+	}
 
 	return g_dbus_proxy_call_sync (
 		wk_editor->priv->web_extension,
@@ -616,8 +622,10 @@ webkit_editor_set_element_attribute (EWebKitEditor *wk_editor,
                                      const gchar *attribute,
                                      const gchar *value)
 {
-	if (!wk_editor->priv->web_extension)
+	if (!wk_editor->priv->web_extension) {
+		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return;
+	}
 
 	g_dbus_proxy_call (
 		wk_editor->priv->web_extension,
@@ -636,8 +644,10 @@ webkit_editor_remove_element_attribute (EWebKitEditor *wk_editor,
                                         const gchar *selector,
                                         const gchar *attribute)
 {
-	if (!wk_editor->priv->web_extension)
+	if (!wk_editor->priv->web_extension) {
+		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return;
+	}
 
 	g_dbus_proxy_call (
 		wk_editor->priv->web_extension,
@@ -655,8 +665,10 @@ webkit_editor_set_format_boolean (EWebKitEditor *wk_editor,
                                   const gchar *format_dom_function,
                                   gboolean format_value)
 {
-	if (!wk_editor->priv->web_extension)
+	if (!wk_editor->priv->web_extension) {
+		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return;
+	}
 
 	g_dbus_proxy_call (
 		wk_editor->priv->web_extension,
@@ -674,8 +686,10 @@ webkit_editor_set_format_int (EWebKitEditor *wk_editor,
                               const gchar *format_dom_function,
                               gint32 format_value)
 {
-	if (!wk_editor->priv->web_extension)
+	if (!wk_editor->priv->web_extension) {
+		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return;
+	}
 
 	g_dbus_proxy_call (
 		wk_editor->priv->web_extension,
@@ -694,8 +708,10 @@ webkit_editor_set_format_string (EWebKitEditor *wk_editor,
                                  const gchar *format_dom_function,
                                  const gchar *format_value)
 {
-	if (!wk_editor->priv->web_extension)
+	if (!wk_editor->priv->web_extension) {
+		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return;
+	}
 
 	if (!wk_editor->priv->html_mode)
 		return;
@@ -1233,8 +1249,10 @@ webkit_editor_set_html_mode (EWebKitEditor *wk_editor,
 
 	g_return_if_fail (E_IS_WEBKIT_EDITOR (wk_editor));
 
-	if (!wk_editor->priv->web_extension)
+	if (!wk_editor->priv->web_extension) {
+		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return;
+	}
 
 	if (html_mode == wk_editor->priv->html_mode)
 		return;
@@ -1632,8 +1650,10 @@ webkit_editor_move_caret_on_coordinates (EContentEditor *editor,
 	EWebKitEditor *wk_editor;
 
 	wk_editor = E_WEBKIT_EDITOR (editor);
-	if (!wk_editor->priv->web_extension)
+	if (!wk_editor->priv->web_extension) {
+		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return;
+	}
 
 	g_dbus_proxy_call_sync (
 		wk_editor->priv->web_extension,
@@ -1653,8 +1673,10 @@ webkit_editor_insert_emoticon (EContentEditor *editor,
 	EWebKitEditor *wk_editor;
 
 	wk_editor = E_WEBKIT_EDITOR (editor);
-	if (!wk_editor->priv->web_extension)
+	if (!wk_editor->priv->web_extension) {
+		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return;
+	}
 
 	g_dbus_proxy_call (
 		wk_editor->priv->web_extension,
@@ -1680,8 +1702,10 @@ webkit_editor_insert_image_from_mime_part (EContentEditor *editor,
 	const gchar *cid, *name;
 
 	wk_editor = E_WEBKIT_EDITOR (editor);
-	if (!wk_editor->priv->web_extension)
+	if (!wk_editor->priv->web_extension) {
+		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return;
+	}
 
 	stream = camel_stream_mem_new ();
 	dw = camel_medium_get_content (CAMEL_MEDIUM (part));
@@ -1744,8 +1768,10 @@ webkit_editor_set_current_content_flags (EContentEditor *editor,
 
 	wk_editor->priv->content_flags = flags;
 
-	if (!wk_editor->priv->web_extension)
+	if (!wk_editor->priv->web_extension) {
+		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return;
+	}
 
 	g_dbus_proxy_call (
 		wk_editor->priv->web_extension,
@@ -1862,8 +1888,10 @@ webkit_editor_get_caret_word (EContentEditor *editor)
 	GVariant *result;
 
 	wk_editor = E_WEBKIT_EDITOR (editor);
-	if (!wk_editor->priv->web_extension)
+	if (!wk_editor->priv->web_extension) {
+		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return NULL;
+	}
 
 	result = g_dbus_proxy_call_sync (
 		wk_editor->priv->web_extension,
@@ -1945,8 +1973,10 @@ webkit_editor_get_current_signature_uid (EContentEditor *editor)
 
 	wk_editor = E_WEBKIT_EDITOR (editor);
 
-	if (!wk_editor->priv->web_extension)
+	if (!wk_editor->priv->web_extension) {
+		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return NULL;
+	}
 
 	result = g_dbus_proxy_call_sync (
 		wk_editor->priv->web_extension,
@@ -1990,8 +2020,10 @@ webkit_editor_insert_signature (EContentEditor *editor,
 
 	wk_editor = E_WEBKIT_EDITOR (editor);
 
-	if (!wk_editor->priv->web_extension)
+	if (!wk_editor->priv->web_extension) {
+		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return NULL;
+	}
 
 	result = g_dbus_proxy_call_sync (
 		wk_editor->priv->web_extension,
@@ -2033,8 +2065,10 @@ webkit_editor_get_caret_position (EContentEditor *editor)
 
 	wk_editor = E_WEBKIT_EDITOR (editor);
 
-	if (!wk_editor->priv->web_extension)
+	if (!wk_editor->priv->web_extension) {
+		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return 0;
+	}
 
 	result = g_dbus_proxy_call_sync (
 		wk_editor->priv->web_extension,
@@ -2062,8 +2096,10 @@ webkit_editor_get_caret_offset (EContentEditor *editor)
 
 	wk_editor = E_WEBKIT_EDITOR (editor);
 
-	if (!wk_editor->priv->web_extension)
+	if (!wk_editor->priv->web_extension) {
+		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return 0;
+	}
 
 	result = g_dbus_proxy_call_sync (
 		wk_editor->priv->web_extension,
@@ -2089,8 +2125,10 @@ webkit_editor_clear_undo_redo_history (EContentEditor *editor)
 
 	wk_editor = E_WEBKIT_EDITOR (editor);
 
-	if (!wk_editor->priv->web_extension)
+	if (!wk_editor->priv->web_extension) {
+		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return;
+	}
 
 	g_dbus_proxy_call (
 		wk_editor->priv->web_extension,
@@ -2110,8 +2148,10 @@ webkit_editor_replace_caret_word (EContentEditor *editor,
 	EWebKitEditor *wk_editor;
 
 	wk_editor = E_WEBKIT_EDITOR (editor);
-	if (!wk_editor->priv->web_extension)
+	if (!wk_editor->priv->web_extension) {
+		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return;
+	}
 
 	g_dbus_proxy_call (
 		wk_editor->priv->web_extension,
@@ -2268,8 +2308,10 @@ webkit_editor_replace (EContentEditor *editor,
 	EWebKitEditor *wk_editor;
 
 	wk_editor = E_WEBKIT_EDITOR (editor);
-	if (!wk_editor->priv->web_extension)
+	if (!wk_editor->priv->web_extension) {
+		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return;
+	}
 
 	g_dbus_proxy_call (
 		wk_editor->priv->web_extension,
@@ -2429,8 +2471,10 @@ webkit_editor_on_h_rule_dialog_open (EContentEditor *editor)
 	GVariant *result;
 
 	wk_editor = E_WEBKIT_EDITOR (editor);
-	if (!wk_editor->priv->web_extension)
+	if (!wk_editor->priv->web_extension) {
+		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return FALSE;
+	}
 
 	result = g_dbus_proxy_call_sync (
 		wk_editor->priv->web_extension,
@@ -2591,8 +2635,10 @@ webkit_editor_h_rule_set_no_shade (EContentEditor *editor,
 	EWebKitEditor *wk_editor;
 
 	wk_editor = E_WEBKIT_EDITOR (editor);
-	if (!wk_editor->priv->web_extension)
+	if (!wk_editor->priv->web_extension) {
+		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return;
+	}
 
 	g_dbus_proxy_call (
 		wk_editor->priv->web_extension,
@@ -2614,8 +2660,10 @@ webkit_editor_h_rule_get_no_shade (EContentEditor *editor)
 	GVariant *result;
 
 	wk_editor = E_WEBKIT_EDITOR (editor);
-	if (!wk_editor->priv->web_extension)
+	if (!wk_editor->priv->web_extension) {
+		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return FALSE;
+	}
 
 	result = g_dbus_proxy_call_sync (
 		wk_editor->priv->web_extension,
@@ -2665,8 +2713,10 @@ webkit_editor_insert_image (EContentEditor *editor,
 
 	wk_editor = E_WEBKIT_EDITOR (editor);
 
-	if (!wk_editor->priv->web_extension)
+	if (!wk_editor->priv->web_extension) {
+		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return;
+	}
 
 	g_dbus_proxy_call (
 		wk_editor->priv->web_extension,
@@ -2685,8 +2735,10 @@ webkit_editor_replace_image_src (EWebKitEditor *wk_editor,
                                  const gchar *image_uri)
 {
 
-	if (!wk_editor->priv->web_extension)
+	if (!wk_editor->priv->web_extension) {
+		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return;
+	}
 
 	g_dbus_proxy_call (
 		wk_editor->priv->web_extension,
@@ -2771,8 +2823,10 @@ webkit_editor_image_set_url (EContentEditor *editor,
 
 	wk_editor = E_WEBKIT_EDITOR (editor);
 
-	if (!wk_editor->priv->web_extension)
+	if (!wk_editor->priv->web_extension) {
+		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return;
+	}
 
 	g_dbus_proxy_call (
 		wk_editor->priv->web_extension,
@@ -2794,8 +2848,10 @@ webkit_editor_image_get_url (EContentEditor *editor)
 
 	wk_editor = E_WEBKIT_EDITOR (editor);
 
-	if (!wk_editor->priv->web_extension)
+	if (!wk_editor->priv->web_extension) {
+		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return NULL;
+	}
 
 	result = g_dbus_proxy_call_sync (
 		wk_editor->priv->web_extension,
@@ -2822,8 +2878,10 @@ webkit_editor_image_set_vspace (EContentEditor *editor,
 
 	wk_editor = E_WEBKIT_EDITOR (editor);
 
-	if (!wk_editor->priv->web_extension)
+	if (!wk_editor->priv->web_extension) {
+		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return;
+	}
 
 	g_dbus_proxy_call (
 		wk_editor->priv->web_extension,
@@ -2846,8 +2904,10 @@ webkit_editor_image_get_vspace (EContentEditor *editor)
 
 	wk_editor = E_WEBKIT_EDITOR (editor);
 
-	if (!wk_editor->priv->web_extension)
+	if (!wk_editor->priv->web_extension) {
+		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return 0;
+	}
 
 	result = g_dbus_proxy_call_sync (
 		wk_editor->priv->web_extension,
@@ -2874,8 +2934,10 @@ webkit_editor_image_set_hspace (EContentEditor *editor,
 
 	wk_editor = E_WEBKIT_EDITOR (editor);
 
-	if (!wk_editor->priv->web_extension)
+	if (!wk_editor->priv->web_extension) {
+		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return;
+	}
 
 	g_dbus_proxy_call (
 		wk_editor->priv->web_extension,
@@ -2898,8 +2960,10 @@ webkit_editor_image_get_hspace (EContentEditor *editor)
 
 	wk_editor = E_WEBKIT_EDITOR (editor);
 
-	if (!wk_editor->priv->web_extension)
+	if (!wk_editor->priv->web_extension) {
+		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return 0;
+	}
 
 	result = g_dbus_proxy_call_sync (
 		wk_editor->priv->web_extension,
@@ -2999,8 +3063,10 @@ webkit_editor_image_get_natural_width (EContentEditor *editor)
 
 	wk_editor = E_WEBKIT_EDITOR (editor);
 
-	if (!wk_editor->priv->web_extension)
+	if (!wk_editor->priv->web_extension) {
+		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return 0;
+	}
 
 	result = g_dbus_proxy_call_sync (
 		wk_editor->priv->web_extension,
@@ -3028,8 +3094,10 @@ webkit_editor_image_get_natural_height (EContentEditor *editor)
 
 	wk_editor = E_WEBKIT_EDITOR (editor);
 
-	if (!wk_editor->priv->web_extension)
+	if (!wk_editor->priv->web_extension) {
+		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return 0;
+	}
 
 	result = g_dbus_proxy_call_sync (
 		wk_editor->priv->web_extension,
@@ -3056,8 +3124,10 @@ webkit_editor_image_set_height (EContentEditor *editor,
 
 	wk_editor = E_WEBKIT_EDITOR (editor);
 
-	if (!wk_editor->priv->web_extension)
+	if (!wk_editor->priv->web_extension) {
+		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return;
+	}
 
 	g_dbus_proxy_call (
 		wk_editor->priv->web_extension,
@@ -3079,8 +3149,10 @@ webkit_editor_image_set_width (EContentEditor *editor,
 
 	wk_editor = E_WEBKIT_EDITOR (editor);
 
-	if (!wk_editor->priv->web_extension)
+	if (!wk_editor->priv->web_extension) {
+		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return;
+	}
 
 	g_dbus_proxy_call (
 		wk_editor->priv->web_extension,
@@ -3135,8 +3207,10 @@ webkit_editor_image_get_width (EContentEditor *editor)
 
 	wk_editor = E_WEBKIT_EDITOR (editor);
 
-	if (!wk_editor->priv->web_extension)
+	if (!wk_editor->priv->web_extension) {
+		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return 0;
+	}
 
 	result = g_dbus_proxy_call_sync (
 		wk_editor->priv->web_extension,
@@ -3164,8 +3238,10 @@ webkit_editor_image_get_height (EContentEditor *editor)
 
 	wk_editor = E_WEBKIT_EDITOR (editor);
 
-	if (!wk_editor->priv->web_extension)
+	if (!wk_editor->priv->web_extension) {
+		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return 0;
+	}
 
 	result = g_dbus_proxy_call_sync (
 		wk_editor->priv->web_extension,
@@ -3204,8 +3280,10 @@ webkit_editor_link_set_values (EContentEditor *editor,
 
 	wk_editor = E_WEBKIT_EDITOR (editor);
 
-	if (!wk_editor->priv->web_extension)
+	if (!wk_editor->priv->web_extension) {
+		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return;
+	}
 
 	g_dbus_proxy_call (
 		wk_editor->priv->web_extension,
@@ -3228,8 +3306,10 @@ webkit_editor_link_get_values (EContentEditor *editor,
 
 	wk_editor = E_WEBKIT_EDITOR (editor);
 
-	if (!wk_editor->priv->web_extension)
+	if (!wk_editor->priv->web_extension) {
+		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return;
+	}
 
 	result = g_dbus_proxy_call_sync (
 		wk_editor->priv->web_extension,
@@ -3317,8 +3397,10 @@ webkit_editor_get_background_color (EWebKitEditor *wk_editor)
 {
 	g_return_val_if_fail (E_IS_WEBKIT_EDITOR (wk_editor), NULL);
 
-	if (!wk_editor->priv->web_extension)
+	if (!wk_editor->priv->web_extension) {
+		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return NULL;
+	}
 
 	if (!wk_editor->priv->html_mode || !wk_editor->priv->background_color)
 		return &white;
@@ -3378,8 +3460,10 @@ webkit_editor_get_font_color (EWebKitEditor *wk_editor)
 {
 	g_return_val_if_fail (E_IS_WEBKIT_EDITOR (wk_editor), NULL);
 
-	if (!wk_editor->priv->web_extension)
+	if (!wk_editor->priv->web_extension) {
+		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return NULL;
+	}
 
 	if (!wk_editor->priv->html_mode || !wk_editor->priv->font_color)
 		return &black;
@@ -3709,8 +3793,10 @@ webkit_editor_on_cell_dialog_open (EContentEditor *editor)
 
 	wk_editor = E_WEBKIT_EDITOR (editor);
 
-	if (!wk_editor->priv->web_extension)
+	if (!wk_editor->priv->web_extension) {
+		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return;
+	}
 
 	g_dbus_proxy_call (
 		wk_editor->priv->web_extension,
@@ -3746,8 +3832,10 @@ webkit_editor_cell_set_v_align (EContentEditor *editor,
 	if (!wk_editor->priv->html_mode)
 		return;
 
-	if (!wk_editor->priv->web_extension)
+	if (!wk_editor->priv->web_extension) {
+		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return;
+	}
 
 	g_dbus_proxy_call (
 		wk_editor->priv->web_extension,
@@ -3794,8 +3882,10 @@ webkit_editor_cell_set_align (EContentEditor *editor,
 	if (!wk_editor->priv->html_mode)
 		return;
 
-	if (!wk_editor->priv->web_extension)
+	if (!wk_editor->priv->web_extension) {
+		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return;
+	}
 
 	g_dbus_proxy_call (
 		wk_editor->priv->web_extension,
@@ -3842,8 +3932,10 @@ webkit_editor_cell_set_wrap (EContentEditor *editor,
 	if (!wk_editor->priv->html_mode)
 		return;
 
-	if (!wk_editor->priv->web_extension)
+	if (!wk_editor->priv->web_extension) {
+		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return;
+	}
 
 	g_dbus_proxy_call (
 		wk_editor->priv->web_extension,
@@ -3868,8 +3960,10 @@ webkit_editor_cell_get_wrap (EContentEditor *editor)
 	if (!wk_editor->priv->html_mode)
 		return FALSE;
 
-	if (!wk_editor->priv->web_extension)
+	if (!wk_editor->priv->web_extension) {
+		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return FALSE;
+	}
 
 	result = g_dbus_proxy_call_sync (
 		wk_editor->priv->web_extension,
@@ -3898,8 +3992,10 @@ webkit_editor_cell_set_header_style (EContentEditor *editor,
 
 	wk_editor = E_WEBKIT_EDITOR (editor);
 
-	if (!wk_editor->priv->web_extension)
+	if (!wk_editor->priv->web_extension) {
+		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return;
+	}
 
 	if (!wk_editor->priv->html_mode)
 		return;
@@ -3927,8 +4023,10 @@ webkit_editor_cell_is_header (EContentEditor *editor)
 	if (!wk_editor->priv->html_mode)
 		return FALSE;
 
-	if (!wk_editor->priv->web_extension)
+	if (!wk_editor->priv->web_extension) {
+		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return FALSE;
+	}
 
 	result = g_dbus_proxy_call_sync (
 		wk_editor->priv->web_extension,
@@ -3997,8 +4095,10 @@ webkit_editor_cell_get_row_span (EContentEditor *editor)
 	if (!wk_editor->priv->html_mode)
 		return 0;
 
-	if (!wk_editor->priv->web_extension)
+	if (!wk_editor->priv->web_extension) {
+		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return 0;
+	}
 
 	result = g_dbus_proxy_call_sync (
 		wk_editor->priv->web_extension,
@@ -4029,8 +4129,10 @@ webkit_editor_cell_get_col_span (EContentEditor *editor)
 	if (!wk_editor->priv->html_mode)
 		return 0;
 
-	if (!wk_editor->priv->web_extension)
+	if (!wk_editor->priv->web_extension) {
+		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return 0;
+	}
 
 	result = g_dbus_proxy_call_sync (
 		wk_editor->priv->web_extension,
@@ -4114,8 +4216,10 @@ webkit_editor_cell_set_row_span (EContentEditor *editor,
 	if (!wk_editor->priv->html_mode)
 		return;
 
-	if (!wk_editor->priv->web_extension)
+	if (!wk_editor->priv->web_extension) {
+		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return;
+	}
 
 	g_dbus_proxy_call (
 		wk_editor->priv->web_extension,
@@ -4140,8 +4244,10 @@ webkit_editor_cell_set_col_span (EContentEditor *editor,
 	if (!wk_editor->priv->html_mode)
 		return;
 
-	if (!wk_editor->priv->web_extension)
+	if (!wk_editor->priv->web_extension) {
+		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return;
+	}
 
 	g_dbus_proxy_call (
 		wk_editor->priv->web_extension,
@@ -4168,8 +4274,10 @@ webkit_editor_cell_set_width (EContentEditor *editor,
 	if (!wk_editor->priv->html_mode)
 		return;
 
-	if (!wk_editor->priv->web_extension)
+	if (!wk_editor->priv->web_extension) {
+		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return;
+	}
 
 	if (unit == E_CONTENT_EDITOR_UNIT_AUTO)
 		width = g_strdup ("auto");
@@ -4202,8 +4310,10 @@ webkit_editor_cell_set_background_color (EContentEditor *editor,
 
 	wk_editor = E_WEBKIT_EDITOR (editor);
 
-	if (!wk_editor->priv->web_extension)
+	if (!wk_editor->priv->web_extension) {
+		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return;
+	}
 
 	if (value->alpha != 0.0)
 		color = g_strdup_printf ("#%06x", e_rgba_to_value (value));
@@ -4231,8 +4341,10 @@ webkit_editor_cell_set_background_image_uri (EContentEditor *editor,
 
 	wk_editor = E_WEBKIT_EDITOR (editor);
 
-	if (!wk_editor->priv->web_extension)
+	if (!wk_editor->priv->web_extension) {
+		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return;
+	}
 
 	if (!wk_editor->priv->html_mode)
 		return;
@@ -4263,8 +4375,10 @@ webkit_editor_table_set_row_count (EContentEditor *editor,
 	if (!wk_editor->priv->html_mode)
 		return;
 
-	if (!wk_editor->priv->web_extension)
+	if (!wk_editor->priv->web_extension) {
+		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return;
+	}
 
 	g_dbus_proxy_call (
 		wk_editor->priv->web_extension,
@@ -4289,8 +4403,10 @@ webkit_editor_table_get_row_count (EContentEditor *editor)
 	if (!wk_editor->priv->html_mode)
 		return 0;
 
-	if (!wk_editor->priv->web_extension)
+	if (!wk_editor->priv->web_extension) {
+		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return 0;
+	}
 
 	result = g_dbus_proxy_call_sync (
 		wk_editor->priv->web_extension,
@@ -4320,8 +4436,10 @@ webkit_editor_table_set_column_count (EContentEditor *editor,
 	if (!wk_editor->priv->html_mode)
 		return;
 
-	if (!wk_editor->priv->web_extension)
+	if (!wk_editor->priv->web_extension) {
+		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return;
+	}
 
 	g_dbus_proxy_call (
 		wk_editor->priv->web_extension,
@@ -4346,8 +4464,10 @@ webkit_editor_table_get_column_count (EContentEditor *editor)
 	if (!wk_editor->priv->html_mode)
 		return 0;
 
-	if (!wk_editor->priv->web_extension)
+	if (!wk_editor->priv->web_extension) {
+		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return 0;
+	}
 
 	result = g_dbus_proxy_call_sync (
 		wk_editor->priv->web_extension,
@@ -4379,8 +4499,10 @@ webkit_editor_table_set_width (EContentEditor *editor,
 	if (!wk_editor->priv->html_mode)
 		return;
 
-	if (!wk_editor->priv->web_extension)
+	if (!wk_editor->priv->web_extension) {
+		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return;
+	}
 
 	if (unit == E_CONTENT_EDITOR_UNIT_AUTO)
 		width = g_strdup ("auto");
@@ -4630,8 +4752,10 @@ webkit_editor_table_set_background_color (EContentEditor *editor,
 
 	wk_editor = E_WEBKIT_EDITOR (editor);
 
-	if (!wk_editor->priv->web_extension)
+	if (!wk_editor->priv->web_extension) {
+		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return;
+	}
 
 	if (value->alpha != 0.0)
 		color = g_strdup_printf ("#%06x", e_rgba_to_value (value));
@@ -4674,8 +4798,10 @@ webkit_editor_table_set_background_image_uri (EContentEditor *editor,
 
 	wk_editor = E_WEBKIT_EDITOR (editor);
 
-	if (!wk_editor->priv->web_extension)
+	if (!wk_editor->priv->web_extension) {
+		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return;
+	}
 
 	if (!wk_editor->priv->html_mode)
 		return;
@@ -4704,8 +4830,10 @@ webkit_editor_on_table_dialog_open (EContentEditor *editor)
 
 	wk_editor = E_WEBKIT_EDITOR (editor);
 
-	if (!wk_editor->priv->web_extension)
+	if (!wk_editor->priv->web_extension) {
+		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return FALSE;
+	}
 
 	result = g_dbus_proxy_call_sync (
 		wk_editor->priv->web_extension,
@@ -4760,8 +4888,10 @@ move_to_another_word (EContentEditor *editor,
 
 	wk_editor = E_WEBKIT_EDITOR (editor);
 
-	if (!wk_editor->priv->web_extension)
+	if (!wk_editor->priv->web_extension) {
+		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return NULL;
+	}
 
 	active_languages = e_spell_checker_list_active_languages (
 		wk_editor->priv->spell_checker, NULL);
