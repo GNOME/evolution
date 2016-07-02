@@ -21,16 +21,16 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2016-07-01 10:32+0000\n"
-"PO-Revision-Date: 2016-07-02 21:19+0800\n"
-"Last-Translator: Sebastian Rasmussen <sebras@gmail.com>\n"
+"POT-Creation-Date: 2016-07-02 20:08+0000\n"
+"PO-Revision-Date: 2016-07-03 00:45+0200\n"
+"Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.8.7.1\n"
+"X-Generator: Poedit 1.8.8\n"
 "X-DamnedLies-Scope: partial\n"
 "X-Poedit-Bookmarks: -1,348,-1,-1,-1,-1,-1,-1,-1,-1\n"
 
@@ -10416,7 +10416,7 @@ msgid ""
 "List of clues for the attachment reminder plugin to look for in a message "
 "body"
 msgstr ""
-"Lista över ledtrådar som insticksmodulen för bilagspåminnelse letar efter i "
+"Lista över ledtrådar som insticksmodulen för bilagepåminnelse letar efter i "
 "en meddelandetext"
 
 #: ../data/org.gnome.evolution.plugin.attachment-reminder.gschema.xml.in.h:6
@@ -10424,7 +10424,7 @@ msgid ""
 "List of clues for the attachment reminder plugin to look for in a message "
 "body."
 msgstr ""
-"Lista över ledtrådar som insticksmodulen för bilagspåminnelse letar efter i "
+"Lista över ledtrådar som insticksmodulen för bilagepåminnelse letar efter i "
 "meddelandetexten."
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:1
@@ -10681,13 +10681,13 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:3
 msgid "Initial attachment view"
-msgstr "Initial bilagsvy"
+msgstr "Initial bilagevy"
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:4
 msgid ""
 "Initial view for attachment bar widgets. \"0\" is Icon View, \"1\" is List "
 "View."
-msgstr "Initial vy för bilagsradswidgetar. \"0\" är ikonvy, \"1\" är listvy."
+msgstr "Initial vy för bilageradswidgetar. \"0\" är ikonvy, \"1\" är listvy."
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:5
 msgid "Initial file chooser folder"
@@ -11351,11 +11351,11 @@ msgstr "Sparar"
 
 #: ../e-util/e-attachment-paned.c:107
 msgid "Hide Attachment _Bar"
-msgstr "Dölj _bilagsraden"
+msgstr "Dölj _bilageraden"
 
 #: ../e-util/e-attachment-paned.c:116 ../e-util/e-attachment-paned.c:751
 msgid "Show Attachment _Bar"
-msgstr "Visa _bilagsraden"
+msgstr "Visa _bilageraden"
 
 #: ../e-util/e-attachment-store.c:491
 msgid "Add Attachment"
@@ -23016,7 +23016,7 @@ msgstr "_Redigera meddelande"
 
 #: ../plugins/attachment-reminder/org-gnome-evolution-attachment-reminder.eplug.xml.h:1
 msgid "Attachment Reminder"
-msgstr "Bilagspåminnelse"
+msgstr "Bilagepåminnelse"
 
 #: ../plugins/attachment-reminder/org-gnome-evolution-attachment-reminder.eplug.xml.h:2
 msgid "Reminds you when you forgot to add an attachment to a mail message."
