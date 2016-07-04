@@ -220,6 +220,43 @@ ece_event_sensitize_widgets (ECompEditor *comp_editor,
 	}
 }
 
+static icaltimezone *
+ece_event_get_timezone_from_property (ECompEditor *comp_editor,
+				      icalproperty *property)
+{
+	ECalClient *client;
+	icalparameter *param;
+	icaltimezone *zone = NULL;
+	const gchar *tzid;
+
+	g_return_val_if_fail (E_IS_COMP_EDITOR (comp_editor), NULL);
+
+	if (!property)
+		return NULL;
+
+	param = icalproperty_get_first_parameter (property, ICAL_TZID_PARAMETER);
+	if (!param)
+		return NULL;
+
+	tzid = icalparameter_get_tzid (param);
+	if (!tzid || !*tzid)
+		return NULL;
+
+	if (g_ascii_strcasecmp (tzid, "UTC") == 0)
+		return icaltimezone_get_utc_timezone ();
+
+	client = e_comp_editor_get_source_client (comp_editor);
+	/* It should be already fetched for the UI, thus this should be non-blocking. */
+	if (client && e_cal_client_get_timezone_sync (client, tzid, &zone, NULL, NULL) && zone)
+		return zone;
+
+	zone = icaltimezone_get_builtin_timezone_from_tzid (tzid);
+	if (!zone)
+		zone = icaltimezone_get_builtin_timezone (tzid);
+
+	return zone;
+}
+
 static void
 ece_event_fill_widgets (ECompEditor *comp_editor,
 			icalcomponent *component)
@@ -245,22 +282,37 @@ ece_event_fill_widgets (ECompEditor *comp_editor,
 
 	if (icalcomponent_get_first_property (component, ICAL_DTSTART_PROPERTY)) {
 		dtstart = icalcomponent_get_dtstart (component);
-		if (icaltime_is_valid_time (dtstart))
-			zone = (icaltimezone *) dtstart.zone;
+		if (icaltime_is_valid_time (dtstart)) {
+			if (dtstart.is_utc)
+				zone = icaltimezone_get_utc_timezone ();
+			else
+				zone = ece_event_get_timezone_from_property (comp_editor,
+					icalcomponent_get_first_property (component, ICAL_DTSTART_PROPERTY));
+		}
 	}
 
 	if (icalcomponent_get_first_property (component, ICAL_DTEND_PROPERTY)) {
 		dtend = icalcomponent_get_dtend (component);
-		if (!zone && icaltime_is_valid_time (dtend))
-			zone = (icaltimezone *) dtend.zone;
+		if (!zone && icaltime_is_valid_time (dtend)) {
+			if (dtend.is_utc)
+				zone = icaltimezone_get_utc_timezone ();
+			else
+				zone = ece_event_get_timezone_from_property (comp_editor,
+					icalcomponent_get_first_property (component, ICAL_DTEND_PROPERTY));
+		}
 	}
 
 	if (!zone) {
 		struct icaltimetype itt;
 
 		itt = icalcomponent_get_due (component);
-		if (icaltime_is_valid_time (itt))
-			zone = (icaltimezone *) itt.zone;
+		if (icaltime_is_valid_time (itt)) {
+			if (itt.is_utc)
+				zone = icaltimezone_get_utc_timezone ();
+			else
+				zone = ece_event_get_timezone_from_property (comp_editor,
+					icalcomponent_get_first_property (component, ICAL_DUE_PROPERTY));
+		}
 	}
 
 	if (zone) {
@@ -270,12 +322,12 @@ ece_event_fill_widgets (ECompEditor *comp_editor,
 
 		e_timezone_entry_set_timezone (E_TIMEZONE_ENTRY (edit_widget), zone);
 
-		if (zone == calendar_config_get_icaltimezone ()) {
-			/* Hide timezone part */
+		if (zone != calendar_config_get_icaltimezone ()) {
+			/* Show timezone part */
 			GtkAction *action;
 
 			action = e_comp_editor_get_action (comp_editor, "view-timezone");
-			gtk_toggle_action_set_active (GTK_TOGGLE_ACTION (action), FALSE);
+			gtk_toggle_action_set_active (GTK_TOGGLE_ACTION (action), TRUE);
 		}
 	}
 
