@@ -486,6 +486,7 @@ mail_backend_quit_requested_cb (EShell *shell,
 	EMailSession *session;
 	CamelFolder *folder;
 	GtkWindow *window;
+	GList *app_windows;
 	gint response;
 
 	window = e_shell_get_active_window (shell);
@@ -514,8 +515,21 @@ mail_backend_quit_requested_cb (EShell *shell,
 	if (camel_folder_summary_get_visible_count (folder->summary) == 0)
 		return;
 
+	app_windows = gtk_application_get_windows (GTK_APPLICATION (shell));
+	while (app_windows) {
+		if (E_IS_SHELL_WINDOW (app_windows->data))
+			break;
+
+		app_windows = g_list_next (app_windows);
+	}
+
+	/* Either there is any EShellWindow available, then the quit can be
+	   truly cancelled, or there is none and the question is useless. */
+	if (!app_windows)
+		return;
+
 	response = e_alert_run_dialog_for_args (
-		window, "mail:exit-unsaved", NULL);
+		window, "mail:exit-unsent-question", NULL);
 
 	if (response == GTK_RESPONSE_YES)
 		return;
