@@ -56,11 +56,13 @@ get_tag (const gchar *utf8_string,
 
 	c = '\0';
 	t = g_utf8_find_prev_char (utf8_string, closing);
-	while (t != opening) {
+	while (t && t > opening) {
 
 		c = g_utf8_get_char (t);
 		if (!g_unichar_isspace (c))
 			break;
+
+		t = g_utf8_find_prev_char (utf8_string, t);
 	}
 
 	/* Not a pair tag */
