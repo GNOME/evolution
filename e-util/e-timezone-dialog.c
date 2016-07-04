@@ -68,6 +68,7 @@ struct _ETimezoneDialogPrivate {
 	EMapPoint *point_hover;
 
 	EMap *map;
+	GHashTable *index; /* const gchar *location ~> GtkTreeIter * */
 
 	/* The timeout used to flash the nearest point. */
 	guint timeout_id;
@@ -106,7 +107,7 @@ static void	on_combo_changed		(GtkComboBox	*combo,
 
 static void timezone_combo_get_active_text	(GtkComboBox *combo,
 						 gchar **zone_name);
-static gboolean timezone_combo_set_active_text	(GtkComboBox *combo,
+static gboolean timezone_combo_set_active_text	(ETimezoneDialog *etd,
 						 const gchar *zone_name);
 
 static void	map_destroy_cb			(gpointer data,
@@ -131,6 +132,7 @@ static void
 e_timezone_dialog_init (ETimezoneDialog *etd)
 {
 	etd->priv = E_TIMEZONE_DIALOG_GET_PRIVATE (etd);
+	etd->priv->index = g_hash_table_new_full (g_str_hash, g_str_equal, NULL, g_free);
 }
 
 /* Dispose handler for the event editor */
@@ -157,8 +159,62 @@ e_timezone_dialog_dispose (GObject *object)
 		priv->builder = NULL;
 	}
 
+	if (priv->index) {
+		g_hash_table_destroy (priv->index);
+		priv->index = NULL;
+	}
+
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_timezone_dialog_parent_class)->dispose (object);
+}
+
+static GtkTreeIter *
+e_timezone_dialog_ensure_parent (GtkTreeStore *tree_store,
+				 GHashTable *parents,
+				 const gchar *location,
+				 const gchar **name)
+{
+	GtkTreeIter *parent = NULL;
+	const gchar *slash, *lookup_from;
+	gchar *part;
+
+	g_return_val_if_fail (GTK_IS_TREE_STORE (tree_store), NULL);
+	g_return_val_if_fail (parents != NULL, NULL);
+	g_return_val_if_fail (name != NULL, NULL);
+
+	if (!location)
+		return NULL;
+
+	*name = location;
+	lookup_from = location;
+
+	while (slash = strchr (lookup_from, '/'), slash) {
+		GtkTreeIter *new_parent;
+		gchar *full_part;
+
+		*name = slash + 1;
+		full_part = g_strndup (location, slash - location);
+		part = g_strndup (lookup_from, slash - lookup_from);
+
+		new_parent = g_hash_table_lookup (parents, full_part);
+		if (!new_parent) {
+			new_parent = g_new (GtkTreeIter, 1);
+
+			gtk_tree_store_append (tree_store, new_parent, parent);
+			gtk_tree_store_set (tree_store, new_parent, 0, part, -1);
+
+			g_hash_table_insert (parents, full_part, new_parent);
+		} else {
+			g_free (full_part);
+		}
+
+		g_free (part);
+
+		parent = new_parent;
+		lookup_from = slash + 1;
+	}
+
+	return parent;
 }
 
 static void
@@ -168,17 +224,19 @@ e_timezone_dialog_add_timezones (ETimezoneDialog *etd)
 	icalarray *zones;
 	GtkComboBox *combo;
 	GList *l, *list_items = NULL;
-	GtkListStore *list_store;
+	GtkTreeStore *tree_store;
 	GtkTreeIter iter;
 	GtkCellRenderer *cell;
 	GtkCssProvider *css_provider;
 	GtkStyleContext *style_context;
-	GHashTable *index;
+	GHashTable *parents;
 	const gchar *css;
 	gint i;
 	GError *error = NULL;
 
 	priv = etd->priv;
+
+	g_hash_table_remove_all (priv->index);
 
 	/* Get the array of builtin timezones. */
 	zones = icaltimezone_get_builtin_timezones ();
@@ -207,23 +265,41 @@ e_timezone_dialog_add_timezones (ETimezoneDialog *etd)
 
 	combo = GTK_COMBO_BOX (priv->timezone_combo);
 
-	cell = gtk_cell_renderer_text_new ();
-	gtk_cell_layout_pack_start ((GtkCellLayout *) combo, cell, TRUE);
-	gtk_cell_layout_set_attributes ((GtkCellLayout *) combo, cell, "text", 0, NULL);
+	gtk_cell_layout_clear (GTK_CELL_LAYOUT (combo));
 
-	list_store = gtk_list_store_new (1, G_TYPE_STRING);
-	index = g_hash_table_new (g_str_hash, g_str_equal);
+	cell = gtk_cell_renderer_text_new ();
+	gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (combo), cell, TRUE);
+	gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (combo), cell, "text", 0, NULL);
+
+	e_binding_bind_property (combo, "popup-shown", cell, "visible", G_BINDING_SYNC_CREATE);
+
+	cell = gtk_cell_renderer_text_new ();
+	gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (combo), cell, TRUE);
+	gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (combo), cell, "text", 1, NULL);
+
+	e_binding_bind_property (combo, "popup-shown", cell, "visible", G_BINDING_SYNC_CREATE | G_BINDING_INVERT_BOOLEAN);
+
+	parents = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
+
+	tree_store = gtk_tree_store_new (2, G_TYPE_STRING, G_TYPE_STRING);
 	for (l = list_items, i = 0; l != NULL; l = l->next, ++i) {
-		gtk_list_store_append (list_store, &iter);
-		gtk_list_store_set (list_store, &iter, 0, (gchar *)(l->data), -1);
-		g_hash_table_insert (index, (gchar *)(l->data), GINT_TO_POINTER (i));
+		GtkTreeIter *piter, *parent = NULL;
+		const gchar *name = NULL;
+		const gchar *location = l->data;
+
+		parent = e_timezone_dialog_ensure_parent (tree_store, parents, location, &name);
+		gtk_tree_store_append (tree_store, &iter, parent);
+		gtk_tree_store_set (tree_store, &iter, 0, (gchar *) name, 1, (gchar *) location, -1);
+
+		piter = g_new (GtkTreeIter, 1);
+		*piter = iter;
+
+		g_hash_table_insert (priv->index, (gchar *) location, piter);
 	}
 
-	g_object_set_data_full (
-		G_OBJECT (list_store), "index", index,
-		(GDestroyNotify) g_hash_table_destroy);
+	g_hash_table_destroy (parents);
 
-	gtk_combo_box_set_model (combo, (GtkTreeModel *) list_store);
+	gtk_combo_box_set_model (combo, GTK_TREE_MODEL (tree_store));
 
 	css_provider = gtk_css_provider_new ();
 	css = "GtkComboBox { -GtkComboBox-appears-as-list: 1; }";
@@ -561,9 +637,7 @@ on_map_leave (GtkWidget *widget,
 			priv->map, priv->point_hover,
 			E_TIMEZONE_DIALOG_MAP_POINT_NORMAL_RGBA);
 
-	timezone_combo_set_active_text (
-		GTK_COMBO_BOX (priv->timezone_combo),
-		zone_display_name (priv->zone));
+	timezone_combo_set_active_text (etd, zone_display_name (priv->zone));
 	gtk_label_set_text (GTK_LABEL (priv->preview_label), "");
 
 	priv->point_hover = NULL;
@@ -636,9 +710,7 @@ on_map_button_pressed (GtkWidget *w,
 		priv->point_selected = priv->point_hover;
 
 		priv->zone = get_zone_from_point (etd, priv->point_selected);
-		timezone_combo_set_active_text (
-			GTK_COMBO_BOX (priv->timezone_combo),
-			zone_display_name (priv->zone));
+		timezone_combo_set_active_text (etd, zone_display_name (priv->zone));
 	}
 
 	return TRUE;
@@ -733,9 +805,7 @@ e_timezone_dialog_set_timezone (ETimezoneDialog *etd,
 	gtk_label_set_text (
 		GTK_LABEL (priv->preview_label),
 		zone ? display : "");
-	timezone_combo_set_active_text (
-		GTK_COMBO_BOX (priv->timezone_combo),
-		zone ? zone_display_name (zone) : "");
+	timezone_combo_set_active_text (etd, zone ? zone_display_name (zone) : "");
 
 	set_map_timezone (etd, zone);
 	g_free (display);
@@ -826,35 +896,36 @@ static void
 timezone_combo_get_active_text (GtkComboBox *combo,
                                 gchar **zone_name)
 {
-	GtkTreeModel *list_store;
+	GtkTreeModel *tree_store;
 	GtkTreeIter iter;
 
-	list_store = gtk_combo_box_get_model (combo);
+	tree_store = gtk_combo_box_get_model (combo);
 
 	/* Get the active iter in the list */
 	if (gtk_combo_box_get_active_iter (combo, &iter))
-		gtk_tree_model_get (list_store, &iter, 0, zone_name, -1);
+		gtk_tree_model_get (tree_store, &iter, 1, zone_name, -1);
 	else
 		*zone_name = NULL;
 }
 
 static gboolean
-timezone_combo_set_active_text (GtkComboBox *combo,
+timezone_combo_set_active_text (ETimezoneDialog *etd,
                                 const gchar *zone_name)
 {
-	GtkTreeModel *list_store;
-	GHashTable *index;
-	gpointer id = NULL;
+	GtkTreeIter *piter = NULL;
+	GtkComboBox *combo;
 
-	list_store = gtk_combo_box_get_model (combo);
-	index = (GHashTable *) g_object_get_data (G_OBJECT (list_store), "index");
+	combo = GTK_COMBO_BOX (etd->priv->timezone_combo);
 
 	if (zone_name && *zone_name)
-		id = g_hash_table_lookup (index, zone_name);
+		piter = g_hash_table_lookup (etd->priv->index, zone_name);
 
-	gtk_combo_box_set_active (combo, GPOINTER_TO_INT (id));
+	if (piter)
+		gtk_combo_box_set_active_iter (combo, piter);
+	else
+		gtk_combo_box_set_active (combo, 0);
 
-	return (id != NULL);
+	return piter != NULL;
 }
 
 static void
