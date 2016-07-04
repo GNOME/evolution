@@ -123,7 +123,7 @@ Many email systems add an Apparently-To header to messages that only have BCC re
     <button _label="_Open Messages" response="GTK_RESPONSE_YES"/>
   </error>
 
-  <error id="exit-unsaved" type="warning" default="GTK_RESPONSE_NO">
+  <error id="exit-unsent-question" type="warning" default="GTK_RESPONSE_NO">
     <_primary>You have unsent messages, do you wish to quit anyway?</_primary>
     <_secondary xml:space="preserve">If you quit, these messages will not be sent until Evolution is started again.</_secondary>
     <button stock="gtk-cancel" response="GTK_RESPONSE_NO"/>
