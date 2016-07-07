@@ -1333,8 +1333,8 @@ composer_build_message (EMsgComposer *composer,
 	 *        ...
 	 */
 
-	if ((flags & COMPOSER_FLAG_HTML_CONTENT) != 0 &&
-	    !(flags & COMPOSER_FLAG_SAVE_DRAFT)) {
+	if ((flags & COMPOSER_FLAG_HTML_CONTENT) != 0 ||
+	    (flags & COMPOSER_FLAG_SAVE_DRAFT) != 0) {
 		gchar *text;
 		gsize length;
 		gboolean pre_encode;
