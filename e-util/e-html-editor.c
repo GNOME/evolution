@@ -34,6 +34,7 @@
 #include "e-html-editor-private.h"
 #include "e-content-editor.h"
 #include "e-misc-utils.h"
+#include "e-simple-async-result.h"
 
 #define E_HTML_EDITOR_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -592,7 +593,6 @@ static void
 html_editor_constructed (GObject *object)
 {
 	EHTMLEditor *editor = E_HTML_EDITOR (object);
-	EContentEditor *cnt_editor;
 	EHTMLEditorPrivate *priv = editor->priv;
 	GtkWidget *widget;
 	GtkToolbar *toolbar;
@@ -707,17 +707,6 @@ html_editor_constructed (GObject *object)
 	gtk_toolbar_insert (toolbar, tool_item, 0);
 	priv->color_combo_box = g_object_ref (widget);
 	gtk_widget_show_all (GTK_WIDGET (tool_item));
-
-	cnt_editor = e_html_editor_get_content_editor (editor);
-	e_binding_bind_property (
-		priv->color_combo_box, "current-color",
-		cnt_editor, "font-color",
-		G_BINDING_SYNC_CREATE | G_BINDING_BIDIRECTIONAL);
-	e_binding_bind_property (
-		cnt_editor, "editable",
-		priv->color_combo_box, "sensitive",
-		G_BINDING_SYNC_CREATE);
-	editor_actions_bind (editor);
 
 	tool_item = gtk_tool_item_new ();
 	widget = e_action_combo_box_new_with_action (
@@ -909,6 +898,74 @@ e_html_editor_new (void)
 	return g_object_new (E_TYPE_HTML_EDITOR, NULL);
 }
 
+static void
+e_html_editor_content_editor_initialized (EContentEditor *content_editor,
+					  gpointer user_data)
+{
+	ESimpleAsyncResult *async_result = user_data;
+	EHTMLEditor *html_editor;
+
+	g_return_if_fail (E_IS_SIMPLE_ASYNC_RESULT (async_result));
+
+	html_editor = e_simple_async_result_get_user_data (async_result);
+	g_return_if_fail (E_IS_HTML_EDITOR (html_editor));
+	g_return_if_fail (content_editor == e_html_editor_get_content_editor (html_editor));
+
+	e_binding_bind_property (
+		html_editor->priv->color_combo_box, "current-color",
+		content_editor, "font-color",
+		G_BINDING_SYNC_CREATE | G_BINDING_BIDIRECTIONAL);
+	e_binding_bind_property (
+		content_editor, "editable",
+		html_editor->priv->color_combo_box, "sensitive",
+		G_BINDING_SYNC_CREATE);
+	editor_actions_bind (html_editor);
+
+	g_object_set (G_OBJECT (content_editor),
+		"halign", GTK_ALIGN_FILL,
+		"hexpand", TRUE,
+		"valign", GTK_ALIGN_FILL,
+		"vexpand", TRUE,
+		"changed", FALSE,
+		NULL);
+
+	e_simple_async_result_complete (async_result);
+
+	g_object_unref (async_result);
+}
+
+void
+e_html_editor_new_async (GAsyncReadyCallback callback,
+			 gpointer user_data)
+{
+	EHTMLEditor *html_editor;
+	EContentEditor *content_editor;
+	ESimpleAsyncResult *async_result;
+
+	g_return_if_fail (callback != NULL);
+
+	html_editor = g_object_new (E_TYPE_HTML_EDITOR, NULL);
+	async_result = e_simple_async_result_new (NULL, callback, user_data, e_html_editor_new_async);
+	e_simple_async_result_set_user_data (async_result, html_editor, g_object_unref);
+
+	content_editor = e_html_editor_get_content_editor (html_editor);
+	e_content_editor_initialize (content_editor, e_html_editor_content_editor_initialized, async_result);
+}
+
+GtkWidget *
+e_html_editor_new_finish (GAsyncResult *result,
+			  GError **error)
+{
+	ESimpleAsyncResult *eresult;
+
+	g_return_val_if_fail (E_IS_SIMPLE_ASYNC_RESULT (result), NULL);
+	g_return_val_if_fail (g_async_result_is_tagged (result, e_html_editor_new_async), NULL);
+
+	eresult = E_SIMPLE_ASYNC_RESULT (result);
+
+	return e_simple_async_result_steal_user_data (eresult);
+}
+
 /**
  * e_html_editor_get_content_editor:
  * @editor: an #EHTMLEditor
@@ -950,7 +1007,7 @@ e_html_editor_get_content_editor (EHTMLEditor *editor)
 		}
 
 		if (editor->priv->use_content_editor)
-			e_content_editor_initialize (editor->priv->use_content_editor, editor);
+			e_content_editor_setup_editor (editor->priv->use_content_editor, editor);
 	}
 
 	return editor->priv->use_content_editor;

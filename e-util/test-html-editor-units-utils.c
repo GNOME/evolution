@@ -125,20 +125,38 @@ test_utils_web_process_crashed_cb (WebKitWebView *web_view,
 	return FALSE;
 }
 
-void
-test_utils_fixture_set_up (TestFixture *fixture,
-			   gconstpointer user_data)
+typedef struct _CreateData {
+	gpointer async_data;
+	TestFixture *fixture;
+} CreateData;
+
+static void
+test_utils_html_editor_created_cb (GObject *source_object,
+				   GAsyncResult *result,
+				   gpointer user_data)
 {
+	CreateData *create_data = user_data;
+	TestFixture *fixture;
 	EContentEditor *cnt_editor;
 	GSettings *settings;
-	gpointer async_data;
+	GtkWidget *html_editor;
+	GError *error = NULL;
+
+	g_return_if_fail (create_data != NULL);
+
+	fixture = create_data->fixture;
+
+	html_editor = e_html_editor_new_finish (result, &error);
+	if (error) {
+		g_warning ("%s: Failed to create editor: %s", G_STRFUNC, error->message);
+		g_clear_error (&error);
+		return;
+	}
 
 	settings = e_util_ref_settings ("org.gnome.evolution.mail");
 
+	fixture->editor = E_HTML_EDITOR (html_editor);
 	fixture->prompt_on_composer_mode_switch = g_settings_get_boolean (settings, "prompt-on-composer-mode-switch");
-	fixture->window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-	fixture->editor = E_HTML_EDITOR (e_html_editor_new ());
-	fixture->undo_stack = NULL;
 
 	g_object_set (G_OBJECT (fixture->editor),
 		"halign", GTK_ALIGN_FILL,
@@ -163,17 +181,31 @@ test_utils_fixture_set_up (TestFixture *fixture,
 		"height-request", 150,
 		NULL);
 
-	async_data = test_utils_async_call_prepare ();
-
 	g_signal_connect (cnt_editor, "web-process-crashed",
 		G_CALLBACK (test_utils_web_process_crashed_cb), NULL);
-	g_signal_connect_swapped (cnt_editor, "notify::web-extension",
-		G_CALLBACK (test_utils_async_call_finish), async_data);
 
 	gtk_window_set_focus (GTK_WINDOW (fixture->window), GTK_WIDGET (cnt_editor));
 	gtk_widget_show (fixture->window);
 
-	test_utils_async_call_wait (async_data, 5);
+	test_utils_async_call_finish (create_data->async_data);
+}
+
+void
+test_utils_fixture_set_up (TestFixture *fixture,
+			   gconstpointer user_data)
+{
+	CreateData create_data;
+
+	fixture->window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+	fixture->editor = E_HTML_EDITOR (e_html_editor_new ());
+	fixture->undo_stack = NULL;
+
+	create_data.async_data = test_utils_async_call_prepare ();
+	create_data.fixture = fixture;
+
+	e_html_editor_new_async (test_utils_html_editor_created_cb, &create_data);
+
+	test_utils_async_call_wait (create_data.async_data, 5);
 }
 
 void

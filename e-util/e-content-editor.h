@@ -39,10 +39,16 @@ struct _EHTMLEditor;
 #define E_TYPE_CONTENT_EDITOR e_content_editor_get_type ()
 G_DECLARE_INTERFACE (EContentEditor, e_content_editor, E, CONTENT_EDITOR, GtkWidget)
 
+typedef void (*EContentEditorInitializedCallback)	(EContentEditor *content_editor,
+							 gpointer user_data);
+
 struct _EContentEditorInterface {
 	GTypeInterface parent_interface;
 
 	void		(*initialize)			(EContentEditor *content_editor,
+							 EContentEditorInitializedCallback callback,
+							 gpointer user_data);
+	void		(*setup_editor)			(EContentEditor *content_editor,
 							 struct _EHTMLEditor *html_editor);
 	void		(*update_styles)		(EContentEditor *editor);
 	void		(*insert_content)		(EContentEditor *editor,
@@ -510,8 +516,10 @@ void		e_content_editor_set_underline	(EContentEditor *editor,
 gboolean	e_content_editor_is_underline	(EContentEditor *editor);
 
 /* Methods */
-
 void		e_content_editor_initialize	(EContentEditor *content_editor,
+						 EContentEditorInitializedCallback callback,
+						 gpointer user_data);
+void		e_content_editor_setup_editor	(EContentEditor *content_editor,
 						 struct _EHTMLEditor *html_editor);
 void		e_content_editor_update_styles	(EContentEditor *editor);
 void		e_content_editor_insert_content	(EContentEditor *editor,

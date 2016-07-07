@@ -385,25 +385,46 @@ mail_signature_manager_constructed (GObject *object)
 }
 
 static void
-mail_signature_manager_add_signature (EMailSignatureManager *manager)
+mail_signature_manager_editor_created_add_signature_cb (GObject *source_object,
+							GAsyncResult *result,
+							gpointer user_data)
 {
+	EMailSignatureManager *manager = user_data;
 	EHTMLEditor *editor;
 	EContentEditor *cnt_editor;
-	ESourceRegistry *registry;
 	GtkWidget *widget;
+	GError *error = NULL;
 
-	registry = e_mail_signature_manager_get_registry (manager);
+	g_return_if_fail (E_IS_MAIL_SIGNATURE_MANAGER (manager));
 
-	widget = e_mail_signature_editor_new (registry, NULL);
+	widget = e_mail_signature_editor_new_finish (result, &error);
+	if (error) {
+		g_warning ("%s: Failed to create signature editor: %s", G_STRFUNC, error->message);
+		g_clear_error (&error);
+		g_clear_object (&manager);
+		return;
+	}
 
-	editor = e_mail_signature_editor_get_editor (
-		E_MAIL_SIGNATURE_EDITOR (widget));
+	editor = e_mail_signature_editor_get_editor (E_MAIL_SIGNATURE_EDITOR (widget));
 	cnt_editor = e_html_editor_get_content_editor (editor);
 	e_content_editor_set_html_mode (cnt_editor, manager->priv->prefer_html);
 
 	mail_signature_manager_emit_editor_created (manager, widget);
 
 	gtk_widget_grab_focus (manager->priv->tree_view);
+
+	g_clear_object (&manager);
+}
+
+static void
+mail_signature_manager_add_signature (EMailSignatureManager *manager)
+{
+	ESourceRegistry *registry;
+
+	registry = e_mail_signature_manager_get_registry (manager);
+
+	e_mail_signature_editor_new (registry, NULL,
+		mail_signature_manager_editor_created_add_signature_cb, g_object_ref (manager));
 }
 
 static void
@@ -435,12 +456,35 @@ mail_signature_manager_editor_created (EMailSignatureManager *manager,
 }
 
 static void
+mail_signature_manager_editor_created_edit_signature_cb (GObject *source_object,
+							 GAsyncResult *result,
+							 gpointer user_data)
+{
+	EMailSignatureManager *manager = user_data;
+	GtkWidget *widget;
+	GError *error = NULL;
+
+	g_return_if_fail (E_IS_MAIL_SIGNATURE_MANAGER (manager));
+
+	widget = e_mail_signature_editor_new_finish (result, &error);
+	if (error) {
+		g_warning ("%s: Failed to create signature editor: %s", G_STRFUNC, error->message);
+		g_clear_error (&error);
+		g_clear_object (&manager);
+		return;
+	}
+
+	mail_signature_manager_emit_editor_created (manager, widget);
+
+	g_clear_object (&manager);
+}
+
+static void
 mail_signature_manager_edit_signature (EMailSignatureManager *manager)
 {
 	EMailSignatureTreeView *tree_view;
 	ESourceMailSignature *extension;
 	ESourceRegistry *registry;
-	GtkWidget *editor;
 	ESource *source;
 	GFileInfo *file_info;
 	GFile *file;
@@ -476,8 +520,8 @@ mail_signature_manager_edit_signature (EMailSignatureManager *manager)
 	if (g_file_info_get_attribute_boolean (file_info, attribute))
 		goto script;
 
-	editor = e_mail_signature_editor_new (registry, source);
-	mail_signature_manager_emit_editor_created (manager, editor);
+	e_mail_signature_editor_new (registry, source,
+		mail_signature_manager_editor_created_edit_signature_cb, g_object_ref (manager));
 
 	goto exit;
 

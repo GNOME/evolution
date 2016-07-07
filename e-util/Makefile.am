@@ -272,6 +272,7 @@ evolution_util_include_HEADERS =  \
 	e-selection-model.h \
 	e-selection.h \
 	e-send-options.h \
+	e-simple-async-result.h \
 	e-sorter-array.h \
 	e-sorter.h \
 	e-source-combo-box.h \
@@ -546,6 +547,7 @@ libevolution_util_la_SOURCES = \
 	e-selection-model.c \
 	e-selection.c \
 	e-send-options.c \
+	e-simple-async-result.c \
 	e-sorter-array.c \
 	e-sorter.c \
 	e-source-combo-box.c \

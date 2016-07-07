@@ -440,7 +440,9 @@ editor_destroyed_cb (GtkWidget *editor)
 }
 
 static void
-create_new_editor (void)
+create_new_editor_cb (GObject *source_object,
+		      GAsyncResult *result,
+		      gpointer user_data)
 {
 	GtkActionGroup *action_group;
 	GtkUIManager *manager;
@@ -450,9 +452,15 @@ create_new_editor (void)
 	EContentEditor *cnt_editor;
 	GError *error = NULL;
 
-	glob_editors++;
+	widget = e_html_editor_new_finish (result, &error);
+	if (error) {
+		g_warning ("%s: Failed to create HTML editor: %s", G_STRFUNC, error->message);
+		g_clear_error (&error);
+		editor_destroyed_cb (NULL);
+		return;
+	}
 
-	editor = E_HTML_EDITOR (e_html_editor_new ());
+	editor = E_HTML_EDITOR (widget);
 	cnt_editor = e_html_editor_get_content_editor (editor);
 
 	g_object_set (G_OBJECT (editor),
@@ -539,6 +547,14 @@ create_new_editor (void)
 	}
 
 	gtk_ui_manager_ensure_update (manager);
+}
+
+static void
+create_new_editor (void)
+{
+	glob_editors++;
+
+	e_html_editor_new_async (create_new_editor_cb, NULL);
 }
 
 gint

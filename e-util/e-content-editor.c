@@ -20,7 +20,6 @@
 
 #include <glib.h>
 #include <glib-object.h>
-#include <glib/gi18n-lib.h>
 
 #include <libedataserver/libedataserver.h>
 
@@ -55,7 +54,7 @@ e_content_editor_default_init (EContentEditorInterface *iface)
 		iface,
 		g_param_spec_boolean (
 			"can-copy",
-			_("Can Copy"),
+			"Can Copy",
 			NULL,
 			FALSE,
 			G_PARAM_READABLE |
@@ -71,7 +70,7 @@ e_content_editor_default_init (EContentEditorInterface *iface)
 		iface,
 		g_param_spec_boolean (
 			"can-cut",
-			_("Can Cut"),
+			"Can Cut",
 			NULL,
 			FALSE,
 			G_PARAM_READABLE |
@@ -88,7 +87,7 @@ e_content_editor_default_init (EContentEditorInterface *iface)
 		iface,
 		g_param_spec_boolean (
 			"can-paste",
-			_("Can Paste"),
+			"Can Paste",
 			NULL,
 			FALSE,
 			G_PARAM_READABLE |
@@ -104,7 +103,7 @@ e_content_editor_default_init (EContentEditorInterface *iface)
 		iface,
 		g_param_spec_boolean (
 			"can-redo",
-			_("Can Redo"),
+			"Can Redo",
 			NULL,
 			FALSE,
 			G_PARAM_READABLE |
@@ -120,7 +119,7 @@ e_content_editor_default_init (EContentEditorInterface *iface)
 		iface,
 		g_param_spec_boolean (
 			"can-undo",
-			_("Can Undo"),
+			"Can Undo",
 			NULL,
 			FALSE,
 			G_PARAM_READABLE |
@@ -135,11 +134,10 @@ e_content_editor_default_init (EContentEditorInterface *iface)
 		iface,
 		g_param_spec_boolean (
 			"editable",
-			_("Editable"),
-			_("Wheter editor is editable"),
+			"Editable",
+			"Wheter editor is editable",
 			TRUE,
 			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT |
 			G_PARAM_STATIC_STRINGS));
 
 	/**
@@ -151,8 +149,8 @@ e_content_editor_default_init (EContentEditorInterface *iface)
 		iface,
 		g_param_spec_boolean (
 			"changed",
-			_("Changed property"),
-			_("Whether editor changed"),
+			"Changed property",
+			"Whether editor changed",
 			FALSE,
 			G_PARAM_READWRITE |
 			G_PARAM_STATIC_STRINGS));
@@ -166,11 +164,10 @@ e_content_editor_default_init (EContentEditorInterface *iface)
 		iface,
 		g_param_spec_boolean (
 			"html-mode",
-			_("HTML Mode"),
-			_("Edit HTML or plain text"),
+			"HTML Mode",
+			"Edit HTML or plain text",
 			TRUE,
 			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT |
 			G_PARAM_STATIC_STRINGS));
 
 	/**
@@ -454,9 +451,9 @@ e_content_editor_default_init (EContentEditorInterface *iface)
 		G_TYPE_BOOLEAN, 0);
 
 	/**
-	 * EContentEditor:is-ready
+	 * EContentEditor:load-finished
 	 *
-	 * Emitted when the content editor is ready.
+	 * Emitted when the content editor has finished loading.
 	 */
 	signals[LOAD_FINISHED] = g_signal_new (
 		"load-finished",
@@ -1243,7 +1240,35 @@ e_content_editor_is_underline (EContentEditor *editor)
 }
 
 /**
- * e_content_editor_initialize:
+ * e_content_editor_setup_editor:
+ * @content_editor: an #EContentEditor
+ * @callback: an #EContentEditorInitializedCallback function
+ * @user_data: data to pass to @callback
+ *
+ * Initilizes the @content_editor. Once the initialization is done,
+ * the @callback is called with the passed @user_data.
+ *
+ * Since: 3.22
+ **/
+void
+e_content_editor_initialize (EContentEditor *content_editor,
+			     EContentEditorInitializedCallback callback,
+			     gpointer user_data)
+{
+	EContentEditorInterface *iface;
+
+	g_return_if_fail (E_IS_CONTENT_EDITOR (content_editor));
+	g_return_if_fail (callback != NULL);
+
+	iface = E_CONTENT_EDITOR_GET_IFACE (content_editor);
+	g_return_if_fail (iface != NULL);
+	g_return_if_fail (iface->initialize != NULL);
+
+	iface->initialize (content_editor, callback, user_data);
+}
+
+/**
+ * e_content_editor_setup_editor:
  * @content_editor: an #EContentEditor
  * @html_editor: an #EHTMLEditor
  *
@@ -1254,8 +1279,8 @@ e_content_editor_is_underline (EContentEditor *editor)
  * Since: 3.22
  **/
 void
-e_content_editor_initialize (EContentEditor *content_editor,
-			     EHTMLEditor *html_editor)
+e_content_editor_setup_editor (EContentEditor *content_editor,
+			       EHTMLEditor *html_editor)
 {
 	EContentEditorInterface *iface;
 
@@ -1265,8 +1290,8 @@ e_content_editor_initialize (EContentEditor *content_editor,
 	iface = E_CONTENT_EDITOR_GET_IFACE (content_editor);
 	g_return_if_fail (iface != NULL);
 
-	if (iface->initialize)
-		iface->initialize (content_editor, html_editor);
+	if (iface->setup_editor)
+		iface->setup_editor (content_editor, html_editor);
 }
 
 void

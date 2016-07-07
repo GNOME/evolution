@@ -901,9 +901,10 @@ e_mail_notes_editor_init (EMailNotesEditor *notes_editor)
 }
 
 static EMailNotesEditor *
-e_mail_notes_editor_new (GtkWindow *parent,
-			 CamelFolder *folder,
-			 const gchar *uid)
+e_mail_notes_editor_new_with_editor (EHTMLEditor *html_editor,
+				     GtkWindow *parent,
+				     CamelFolder *folder,
+				     const gchar *uid)
 {
 	const gchar *ui =
 		"<ui>\n"
@@ -975,9 +976,9 @@ e_mail_notes_editor_new (GtkWindow *parent,
 
 	content = widget;
 
-	widget = e_html_editor_new ();
+	widget = GTK_WIDGET (html_editor);
 
-	notes_editor->editor = E_HTML_EDITOR (widget);
+	notes_editor->editor = html_editor;
 	cnt_editor = e_html_editor_get_content_editor (notes_editor->editor);
 	ui_manager = e_html_editor_get_ui_manager (notes_editor->editor);
 
@@ -1014,6 +1015,12 @@ e_mail_notes_editor_new (GtkWindow *parent,
 	gtk_widget_show (widget);
 
 	widget = GTK_WIDGET (notes_editor->editor);
+	g_object_set (G_OBJECT (widget),
+		"halign", GTK_ALIGN_FILL,
+		"hexpand", TRUE,
+		"valign", GTK_ALIGN_FILL,
+		"vexpand", TRUE,
+		NULL);
 	gtk_box_pack_start (GTK_BOX (content), widget, TRUE, TRUE, 0);
 	gtk_widget_show (widget);
 
@@ -1067,29 +1074,79 @@ e_mail_notes_editor_new (GtkWindow *parent,
 	return notes_editor;
 }
 
+typedef struct _AsyncData {
+	GtkWindow *parent;
+	CamelFolder *folder;
+	gchar *uid;
+} AsyncData;
+
+static void
+async_data_free (gpointer ptr)
+{
+	AsyncData *ad = ptr;
+
+	if (ad) {
+		g_clear_object (&ad->parent);
+		g_clear_object (&ad->folder);
+		g_free (ad->uid);
+		g_free (ad);
+	}
+}
+
+static void
+e_mail_notes_editor_ready_cb (GObject *source_object,
+			      GAsyncResult *result,
+			      gpointer user_data)
+{
+	AsyncData *ad = user_data;
+	GtkWidget *html_editor;
+	GError *error = NULL;
+
+	g_return_if_fail (result != NULL);
+	g_return_if_fail (ad != NULL);
+
+	html_editor = e_html_editor_new_finish (result, &error);
+	if (error) {
+		g_warning ("%s: Failed to create HTML editor: %s", G_STRFUNC, error->message);
+		g_clear_error (&error);
+	} else {
+		EMailNotesEditor *notes_editor;
+		EActivityBar *activity_bar;
+		EActivity *activity;
+
+		notes_editor = e_mail_notes_editor_new_with_editor (E_HTML_EDITOR (html_editor),
+			ad->parent, ad->folder, ad->uid);
+
+		activity_bar = e_html_editor_get_activity_bar (notes_editor->editor);
+		activity = e_alert_sink_submit_thread_job (E_ALERT_SINK (notes_editor->editor),
+			_("Retrieving message..."), "mail:no-retrieve-message", NULL,
+			e_mail_notes_retrieve_message_thread,
+			g_object_ref (notes_editor), e_mail_notes_retrieve_message_done);
+		e_activity_bar_set_activity (activity_bar, activity);
+		g_clear_object (&activity);
+
+		gtk_widget_show (GTK_WIDGET (notes_editor));
+	}
+
+	async_data_free (ad);
+}
+
 void
 e_mail_notes_edit (GtkWindow *parent,
 		   CamelFolder *folder,
 		   const gchar *uid)
 {
-	EMailNotesEditor *notes_editor;
-	EActivityBar *activity_bar;
-	EActivity *activity;
+	AsyncData *ad;
 
 	g_return_if_fail (CAMEL_IS_FOLDER (folder));
 	g_return_if_fail (uid != NULL);
 
-	notes_editor = e_mail_notes_editor_new (parent, folder, uid);
+	ad = g_new0 (AsyncData, 1);
+	ad->parent = parent ? g_object_ref (parent) : NULL;
+	ad->folder = g_object_ref (folder);
+	ad->uid = g_strdup (uid);
 
-	activity_bar = e_html_editor_get_activity_bar (notes_editor->editor);
-	activity = e_alert_sink_submit_thread_job (E_ALERT_SINK (notes_editor->editor),
-		_("Retrieving message..."), "mail:no-retrieve-message", NULL,
-		e_mail_notes_retrieve_message_thread,
-		g_object_ref (notes_editor), e_mail_notes_retrieve_message_done);
-	e_activity_bar_set_activity (activity_bar, activity);
-	g_clear_object (&activity);
-
-	gtk_widget_show (GTK_WIDGET (notes_editor));
+	e_html_editor_new_async (e_mail_notes_editor_ready_cb, ad);
 }
 
 gboolean

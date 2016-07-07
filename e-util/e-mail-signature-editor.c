@@ -24,6 +24,7 @@
 #include "e-alert-dialog.h"
 #include "e-alert-sink.h"
 #include "e-alert-bar.h"
+#include "e-simple-async-result.h"
 
 #define E_MAIL_SIGNATURE_EDITOR_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -330,6 +331,16 @@ static GtkActionEntry entries[] = {
 };
 
 static void
+mail_signature_editor_set_editor (EMailSignatureEditor *editor,
+				  EHTMLEditor *html_editor)
+{
+	g_return_if_fail (E_IS_HTML_EDITOR (html_editor));
+	g_return_if_fail (editor->priv->editor == NULL);
+
+	editor->priv->editor = g_object_ref (html_editor);
+}
+
+static void
 mail_signature_editor_set_registry (EMailSignatureEditor *editor,
                                     ESourceRegistry *registry)
 {
@@ -379,6 +390,12 @@ mail_signature_editor_set_property (GObject *object,
                                     GParamSpec *pspec)
 {
 	switch (property_id) {
+		case PROP_EDITOR:
+			mail_signature_editor_set_editor (
+				E_MAIL_SIGNATURE_EDITOR (object),
+				g_value_get_object (value));
+			return;
+
 		case PROP_REGISTRY:
 			mail_signature_editor_set_registry (
 				E_MAIL_SIGNATURE_EDITOR (object),
@@ -672,7 +689,8 @@ e_mail_signature_editor_class_init (EMailSignatureEditorClass *class)
 			NULL,
 			NULL,
 			E_TYPE_HTML_EDITOR,
-			G_PARAM_READABLE |
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT_ONLY |
 			G_PARAM_STATIC_STRINGS));
 
 	g_object_class_install_property (
@@ -715,23 +733,95 @@ static void
 e_mail_signature_editor_init (EMailSignatureEditor *editor)
 {
 	editor->priv = E_MAIL_SIGNATURE_EDITOR_GET_PRIVATE (editor);
+}
 
-	editor->priv->editor = g_object_ref_sink (e_html_editor_new ());
+typedef struct _CreateEditorData {
+	ESourceRegistry *registry;
+	ESource *source;
+} CreateEditorData;
+
+static void
+create_editor_data_free (gpointer ptr)
+{
+	CreateEditorData *ced = ptr;
+
+	if (ced) {
+		g_clear_object (&ced->registry);
+		g_clear_object (&ced->source);
+		g_free (ced);
+	}
+}
+
+static void
+mail_signature_editor_html_editor_created_cb (GObject *source_object,
+					      GAsyncResult *async_result,
+					      gpointer user_data)
+{
+	GtkWidget *html_editor, *signature_editor;
+	ESimpleAsyncResult *eresult = user_data;
+	CreateEditorData *ced;
+	GError *error = NULL;
+
+	g_return_if_fail (E_IS_SIMPLE_ASYNC_RESULT (eresult));
+
+	ced = e_simple_async_result_get_user_data (eresult);
+	g_return_if_fail (ced != NULL);
+
+	html_editor = e_html_editor_new_finish (async_result, &error);
+	if (error) {
+		g_warning ("%s: Failed to create HTML editor: %s", G_STRFUNC, error->message);
+		g_clear_error (&error);
+	}
+
+	signature_editor = g_object_new (E_TYPE_MAIL_SIGNATURE_EDITOR,
+		"registry", ced->registry,
+		"source", ced->source,
+		"editor", html_editor,
+		NULL);
+
+	e_simple_async_result_set_op_pointer (eresult, signature_editor);
+
+	e_simple_async_result_complete (eresult);
+
+	g_object_unref (eresult);
+}
+
+void
+e_mail_signature_editor_new (ESourceRegistry *registry,
+			     ESource *source,
+			     GAsyncReadyCallback callback,
+			     gpointer user_data)
+{
+	ESimpleAsyncResult *eresult;
+	CreateEditorData *ced;
+
+	g_return_if_fail (E_IS_SOURCE_REGISTRY (registry));
+
+	if (source != NULL)
+		g_return_if_fail (E_IS_SOURCE (source));
+
+	ced = g_new0 (CreateEditorData, 1);
+	ced->registry = g_object_ref (registry);
+	ced->source = source ? g_object_ref (source) : NULL;
+
+	eresult = e_simple_async_result_new (NULL, callback, user_data, e_mail_signature_editor_new);
+	e_simple_async_result_set_user_data (eresult, ced, create_editor_data_free);
+
+	e_html_editor_new_async (mail_signature_editor_html_editor_created_cb, eresult);
 }
 
 GtkWidget *
-e_mail_signature_editor_new (ESourceRegistry *registry,
-                             ESource *source)
+e_mail_signature_editor_new_finish (GAsyncResult *result,
+				    GError **error)
 {
-	g_return_val_if_fail (E_IS_SOURCE_REGISTRY (registry), NULL);
+	ESimpleAsyncResult *eresult;
 
-	if (source != NULL)
-		g_return_val_if_fail (E_IS_SOURCE (source), NULL);
+	g_return_val_if_fail (E_IS_SIMPLE_ASYNC_RESULT (result), NULL);
+	g_return_val_if_fail (g_async_result_is_tagged (result, e_mail_signature_editor_new), NULL);
 
-	return g_object_new (
-		E_TYPE_MAIL_SIGNATURE_EDITOR,
-		"registry", registry,
-		"source", source, NULL);
+	eresult = E_SIMPLE_ASYNC_RESULT (result);
+
+	return e_simple_async_result_get_op_pointer (eresult);
 }
 
 EHTMLEditor *

@@ -65,6 +65,9 @@ enum {
 };
 
 struct _EWebKitEditorPrivate {
+	EContentEditorInitializedCallback initialized_callback;
+	gpointer initialized_user_data;
+
 	GDBusProxy *web_extension;
 	guint web_extension_watch_name_id;
 	guint web_extension_selection_changed_cb_id;
@@ -470,6 +473,13 @@ web_extension_proxy_created_cb (GDBusProxy *proxy,
 		g_warning ("Error creating web extension proxy: %s\n", error->message);
 		g_error_free (error);
 
+		if (wk_editor->priv->initialized_callback) {
+			wk_editor->priv->initialized_callback (E_CONTENT_EDITOR (wk_editor), wk_editor->priv->initialized_user_data);
+
+			wk_editor->priv->initialized_callback = NULL;
+			wk_editor->priv->initialized_user_data = NULL;
+		}
+
 		return;
 	}
 
@@ -527,6 +537,13 @@ web_extension_proxy_created_cb (GDBusProxy *proxy,
 	}
 
 	g_object_notify (G_OBJECT (wk_editor), "web-extension");
+
+	if (wk_editor->priv->initialized_callback) {
+		wk_editor->priv->initialized_callback (E_CONTENT_EDITOR (wk_editor), wk_editor->priv->initialized_user_data);
+
+		wk_editor->priv->initialized_callback = NULL;
+		wk_editor->priv->initialized_user_data = NULL;
+	}
 }
 
 static void
@@ -764,6 +781,28 @@ webkit_editor_show_inspector (EWebKitEditor *wk_editor)
 	inspector = webkit_web_view_get_inspector (WEBKIT_WEB_VIEW (wk_editor));
 
 	webkit_web_inspector_show (inspector);
+}
+
+static void
+webkit_editor_initialize (EContentEditor *content_editor,
+			  EContentEditorInitializedCallback callback,
+			  gpointer user_data)
+{
+	EWebKitEditor *wk_editor;
+
+	g_return_if_fail (E_IS_WEBKIT_EDITOR (content_editor));
+	g_return_if_fail (callback != NULL);
+
+	wk_editor = E_WEBKIT_EDITOR (content_editor);
+
+	if (wk_editor->priv->web_extension) {
+		callback (content_editor, user_data);
+	} else {
+		g_return_if_fail (wk_editor->priv->initialized_callback == NULL);
+
+		wk_editor->priv->initialized_callback = callback;
+		wk_editor->priv->initialized_user_data = user_data;
+	}
 }
 
 static void
@@ -6021,6 +6060,7 @@ e_webkit_editor_init (EWebKitEditor *wk_editor)
 static void
 e_webkit_editor_content_editor_init (EContentEditorInterface *iface)
 {
+	iface->initialize = webkit_editor_initialize;
 	iface->update_styles = webkit_editor_update_styles;
 	iface->insert_content = webkit_editor_insert_content;
 	iface->get_content = webkit_editor_get_content;
