@@ -1523,17 +1523,19 @@ webkit_editor_get_parts_for_inline_images (GVariant *images)
 	GVariantIter *iter;
 	GSList *parts = NULL;
 
-	g_variant_get (images, "asss", &iter);
-	while (g_variant_iter_loop (iter, "&s&s&s", &element_src, &name, &id)) {
-		CamelMimePart *part;
+	if (g_variant_check_format_string (images, "a(sss)", FALSE)) {
+		g_variant_get (images, "a(sss)", &iter);
+		while (g_variant_iter_loop (iter, "(&s&s&s)", &element_src, &name, &id)) {
+			CamelMimePart *part;
 
-		part = create_part_for_inline_image_from_element_data (
-			element_src, name, id);
-		parts = g_slist_prepend (parts, part);
+			part = create_part_for_inline_image_from_element_data (
+				element_src, name, id);
+			parts = g_slist_prepend (parts, part);
+		}
+		g_variant_iter_free (iter);
 	}
-	g_variant_iter_free (iter);
 
-	return g_slist_reverse (parts);
+	return parts ? g_slist_reverse (parts) : NULL;
 }
 
 static gchar *

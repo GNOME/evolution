@@ -230,9 +230,9 @@ void		e_editor_dom_move_caret_into_element
 						 gboolean to_start);
 void		e_editor_dom_insert_base64_image
 						(EEditorPage *editor_page,
+						 const gchar *base64_content,
 						 const gchar *filename,
-						 const gchar *uri,
-						 const gchar *base64_content);
+						 const gchar *uri);
 void		e_editor_dom_insert_image	(EEditorPage *editor_page,
 						 const gchar *uri);
 void		e_editor_dom_replace_image_src	(EEditorPage *editor_page,

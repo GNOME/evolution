@@ -8266,9 +8266,11 @@ e_editor_dom_restore_images (EEditorPage *editor_page,
 
 	document = e_editor_page_get_document (editor_page);
 
-	g_variant_get (inline_images_to_restore, "asss", &iter);
-	while (g_variant_iter_loop (iter, "&s&s&s", &element_src, &name, &id))
+	g_variant_get (inline_images_to_restore, "a(sss)", &iter);
+	while (g_variant_iter_loop (iter, "(&s&s&s)", &element_src, &name, &id))
 		restore_image (document, id, element_src);
+
+	g_variant_iter_free (iter);
 }
 
 gchar *
@@ -8640,7 +8642,7 @@ e_editor_dom_get_inline_images_data (EEditorPage *editor_page,
 {
 	WebKitDOMDocument *document;
 	WebKitDOMNodeList *list;
-	GVariant *result;
+	GVariant *result = NULL;
 	GVariantBuilder *builder = NULL;
 	GHashTable *added = NULL;
 	gint length, ii;
@@ -8656,7 +8658,7 @@ e_editor_dom_get_inline_images_data (EEditorPage *editor_page,
 		goto background;
 	}
 
-	builder = g_variant_builder_new (G_VARIANT_TYPE ("asss"));
+	builder = g_variant_builder_new (G_VARIANT_TYPE ("a(sss)"));
 
 	added = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
 	for (ii = 0; ii < length; ii++) {
@@ -8681,11 +8683,10 @@ e_editor_dom_get_inline_images_data (EEditorPage *editor_page,
 
 				new_id = camel_header_msgid_generate (uid_domain);
 				g_variant_builder_add (
-					builder, "sss", src, data_name, new_id);
+					builder, "(sss)", src, data_name, new_id);
 				cid = g_strdup_printf ("cid:%s", new_id);
 
 				g_hash_table_insert (added, src, new_id);
-				g_free (new_id);
 			}
 			g_free (data_name);
 		}
@@ -8703,7 +8704,9 @@ e_editor_dom_get_inline_images_data (EEditorPage *editor_page,
 	if (length == 0)
 		goto out;
 	if (!builder)
-		builder = g_variant_builder_new (G_VARIANT_TYPE ("asss"));
+		builder = g_variant_builder_new (G_VARIANT_TYPE ("a(sss)"));
+	if (!added)
+		added = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
 
 	for (ii = 0; ii < length; ii++) {
 		const gchar *id;
@@ -8729,11 +8732,10 @@ e_editor_dom_get_inline_images_data (EEditorPage *editor_page,
 
 				new_id = camel_header_msgid_generate (uid_domain);
 				g_variant_builder_add (
-					builder, "sss", src, data_name, new_id);
+					builder, "(sss)", src, data_name, new_id);
 				cid = g_strdup_printf ("cid:%s", new_id);
 
 				g_hash_table_insert (added, src, new_id);
-				g_free (new_id);
 
 				webkit_dom_element_set_attribute (
 					WEBKIT_DOM_ELEMENT (node), "background", cid, NULL);
@@ -8748,8 +8750,10 @@ e_editor_dom_get_inline_images_data (EEditorPage *editor_page,
 	if (added)
 		g_hash_table_destroy (added);
 
-	result = g_variant_new ("asss", builder);
-	g_variant_builder_unref (builder);
+	if (builder) {
+		result = g_variant_new ("a(sss)", builder);
+		g_variant_builder_unref (builder);
+	}
 
 	return result;
 }
@@ -10915,9 +10919,9 @@ e_editor_dom_move_caret_into_element (EEditorPage *editor_page,
 
 void
 e_editor_dom_insert_base64_image (EEditorPage *editor_page,
+				  const gchar *base64_content,
 				  const gchar *filename,
-				  const gchar *uri,
-				  const gchar *base64_content)
+				  const gchar *uri)
 {
 	WebKitDOMDocument *document;
 	WebKitDOMElement *element, *selection_start_marker, *resizable_wrapper;

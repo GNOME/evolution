@@ -1834,10 +1834,8 @@ handle_method_call (GDBusConnection *connection,
 
 		g_free (value);
 
-		if ((flags & E_CONTENT_EDITOR_GET_INLINE_IMAGES) && from_domain && *from_domain && inline_images) {
+		if ((flags & E_CONTENT_EDITOR_GET_INLINE_IMAGES) && from_domain && *from_domain && inline_images)
 			e_editor_dom_restore_images (editor_page, inline_images);
-			g_object_unref (inline_images);
-		}
 	} else if (g_strcmp0 (method_name, "DOMInsertHTML") == 0) {
 		const gchar *html;
 
