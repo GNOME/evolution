@@ -597,7 +597,7 @@ e_attachment_bar_init (EAttachmentBar *bar)
 	EAttachmentView *view;
 	GtkSizeGroup *size_group;
 	GtkWidget *container;
-	GtkWidget *widget;
+	GtkWidget *widget, *scrolled_window;
 	GtkAction *action;
 
 	bar->priv = E_ATTACHMENT_BAR_GET_PRIVATE (bar);
@@ -627,10 +627,15 @@ e_attachment_bar_init (EAttachmentBar *bar)
 
 	container = widget;
 
+	scrolled_window = gtk_scrolled_window_new (NULL, NULL);
+	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_window), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+	gtk_container_add (GTK_CONTAINER (container), scrolled_window);
+	gtk_widget_show (scrolled_window);
+
 	widget = e_attachment_icon_view_new ();
 	gtk_widget_set_can_focus (widget, TRUE);
 	gtk_icon_view_set_model (GTK_ICON_VIEW (widget), bar->priv->model);
-	gtk_container_add (GTK_CONTAINER (container), widget);
+	gtk_container_add (GTK_CONTAINER (scrolled_window), widget);
 	bar->priv->icon_view = g_object_ref (widget);
 	gtk_widget_show (widget);
 
@@ -644,10 +649,15 @@ e_attachment_bar_init (EAttachmentBar *bar)
 
 	container = widget;
 
+	scrolled_window = gtk_scrolled_window_new (NULL, NULL);
+	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_window), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+	gtk_container_add (GTK_CONTAINER (container), scrolled_window);
+	gtk_widget_show (scrolled_window);
+
 	widget = e_attachment_tree_view_new ();
 	gtk_widget_set_can_focus (widget, TRUE);
 	gtk_tree_view_set_model (GTK_TREE_VIEW (widget), bar->priv->model);
-	gtk_container_add (GTK_CONTAINER (container), widget);
+	gtk_container_add (GTK_CONTAINER (scrolled_window), widget);
 	bar->priv->tree_view = g_object_ref (widget);
 	gtk_widget_show (widget);
 

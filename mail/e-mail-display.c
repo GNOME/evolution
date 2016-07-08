@@ -58,7 +58,7 @@ typedef enum {
 
 struct _EMailDisplayPrivate {
 	EAttachmentStore *attachment_store;
-	GWeakRef *attachment_view; /* EAttachmentView * */
+	EAttachmentView *attachment_view;
 	GHashTable *attachment_flags; /* EAttachment * ~> guint bit-or of EAttachmentFlags */
 	guint attachment_inline_ui_id;
 
@@ -618,7 +618,7 @@ mail_display_change_attachment_visibility (EMailDisplay *display,
 
 	g_return_if_fail (E_IS_MAIL_DISPLAY (display));
 
-	view = e_mail_display_ref_attachment_view (display);
+	view = e_mail_display_get_attachment_view (display);
 	g_return_if_fail (view != NULL);
 
 	if (all)
@@ -634,7 +634,6 @@ mail_display_change_attachment_visibility (EMailDisplay *display,
 	}
 
 	g_list_free_full (attachments, g_object_unref);
-	g_clear_object (&view);
 }
 
 static void
@@ -646,7 +645,7 @@ mail_attachment_change_zoom (EMailDisplay *display,
 
 	g_return_if_fail (E_IS_MAIL_DISPLAY (display));
 
-	view = e_mail_display_ref_attachment_view (display);
+	view = e_mail_display_get_attachment_view (display);
 	g_return_if_fail (view != NULL);
 
 	attachments = view ? e_attachment_view_get_selected_attachments (view) : NULL;
@@ -684,7 +683,6 @@ mail_attachment_change_zoom (EMailDisplay *display,
 	}
 
 	g_list_free_full (attachments, g_object_unref);
-	g_clear_object (&view);
 }
 
 static void
@@ -894,7 +892,7 @@ mail_display_attachment_inline_update_actions (EMailDisplay *display)
 
 	g_list_free_full (attachments, g_object_unref);
 
-	view = e_mail_display_ref_attachment_view (display);
+	view = e_mail_display_get_attachment_view (display);
 	attachments = view ? e_attachment_view_get_selected_attachments (view) : NULL;
 	n_selected = g_list_length (attachments);
 
@@ -915,8 +913,6 @@ mail_display_attachment_inline_update_actions (EMailDisplay *display)
 		g_free (mime_type);
 	}
 	g_list_free_full (attachments, g_object_unref);
-
-	g_clear_object (&view);
 
 	action = gtk_action_group_get_action (action_group, "show");
 	gtk_action_set_visible (action, can_show && !shown);
@@ -1040,7 +1036,7 @@ mail_display_attachment_menu_clicked_cb (EWebView *web_view,
 	g_return_if_fail (element_position != NULL);
 
 	display = E_MAIL_DISPLAY (web_view);
-	view = e_mail_display_ref_attachment_view (display);
+	view = e_mail_display_get_attachment_view (display);
 	attachment = mail_display_ref_attachment_from_element (display, element_value);
 
 	if (view && attachment) {
@@ -1063,7 +1059,6 @@ mail_display_attachment_menu_clicked_cb (EWebView *web_view,
 	}
 
 	g_clear_object (&attachment);
-	g_clear_object (&view);
 }
 
 static void
@@ -1213,12 +1208,6 @@ mail_display_set_property (GObject *object,
                            GParamSpec *pspec)
 {
 	switch (property_id) {
-		case PROP_ATTACHMENT_VIEW:
-			e_mail_display_set_attachment_view (
-				E_MAIL_DISPLAY (object),
-				g_value_get_object (value));
-			return;
-
 		case PROP_HEADERS_COLLAPSABLE:
 			e_mail_display_set_headers_collapsable (
 				E_MAIL_DISPLAY (object),
@@ -1268,9 +1257,9 @@ mail_display_get_property (GObject *object,
 			return;
 
 		case PROP_ATTACHMENT_VIEW:
-			g_value_take_object (
+			g_value_set_object (
 				value,
-				e_mail_display_ref_attachment_view (
+				e_mail_display_get_attachment_view (
 				E_MAIL_DISPLAY (object)));
 			return;
 
@@ -1356,12 +1345,11 @@ mail_display_dispose (GObject *object)
 			G_CALLBACK (mail_display_attachment_removed_cb), object);
 	}
 
-	e_mail_display_set_attachment_view (E_MAIL_DISPLAY (object), NULL);
-
 	g_clear_object (&priv->part_list);
 	g_clear_object (&priv->formatter);
 	g_clear_object (&priv->settings);
 	g_clear_object (&priv->attachment_store);
+	g_clear_object (&priv->attachment_view);
 	g_clear_object (&priv->attachment_inline_group);
 
 	/* Chain up to parent's dispose() method. */
@@ -1390,7 +1378,6 @@ mail_display_finalize (GObject *object)
 	g_clear_object (&priv->remote_content);
 	g_mutex_unlock (&priv->remote_content_lock);
 	g_mutex_clear (&priv->remote_content_lock);
-	e_weak_ref_free (priv->attachment_view);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_mail_display_parent_class)->finalize (object);
@@ -1454,6 +1441,8 @@ mail_display_constructed (GObject *object)
 {
 	EContentRequest *content_request;
 	EWebView *web_view;
+	EMailDisplay *display;
+	GtkUIManager *ui_manager;
 
 	e_extensible_load_extensions (E_EXTENSIBLE (object));
 
@@ -1462,6 +1451,7 @@ mail_display_constructed (GObject *object)
 
 	mail_display_web_view_initialize (WEBKIT_WEB_VIEW (object));
 
+	display = E_MAIL_DISPLAY (object);
 	web_view = E_WEB_VIEW (object);
 
 	e_web_view_update_fonts (web_view);
@@ -1478,6 +1468,23 @@ mail_display_constructed (GObject *object)
 	content_request = e_cid_request_new ();
 	e_web_view_register_content_request_for_scheme (web_view, "cid", content_request);
 	g_object_unref (content_request);
+
+	display->priv->attachment_view = g_object_ref_sink (e_attachment_bar_new (display->priv->attachment_store));
+
+	ui_manager = e_attachment_view_get_ui_manager (display->priv->attachment_view);
+	if (ui_manager) {
+		GError *error = NULL;
+
+		gtk_ui_manager_insert_action_group (ui_manager, display->priv->attachment_inline_group, -1);
+
+		display->priv->attachment_inline_ui_id = gtk_ui_manager_add_ui_from_string (ui_manager,
+			attachment_popup_ui, -1, &error);
+
+		if (error) {
+			g_warning ("%s: Failed to read attachment_popup_ui: %s", G_STRFUNC, error->message);
+			g_clear_error (&error);
+		}
+	}
 }
 
 static void
@@ -1842,7 +1849,7 @@ e_mail_display_class_init (EMailDisplayClass *class)
 			"Attachment View",
 			NULL,
 			E_TYPE_ATTACHMENT_VIEW,
-			G_PARAM_READWRITE |
+			G_PARAM_READABLE |
 			G_PARAM_STATIC_STRINGS));
 
 	g_object_class_install_property (
@@ -1920,7 +1927,6 @@ e_mail_display_init (EMailDisplay *display)
 	display->priv = E_MAIL_DISPLAY_GET_PRIVATE (display);
 
 	display->priv->attachment_store = E_ATTACHMENT_STORE (e_attachment_store_new ());
-	display->priv->attachment_view = e_weak_ref_new (NULL);
 	display->priv->attachment_flags = g_hash_table_new (g_direct_hash, g_direct_equal);
 	display->priv->attachment_inline_group = gtk_action_group_new ("e-mail-display-attachment-inline");
 
@@ -2085,61 +2091,12 @@ e_mail_display_get_attachment_store (EMailDisplay *display)
 	return display->priv->attachment_store;
 }
 
-void
-e_mail_display_set_attachment_view (EMailDisplay *display,
-				    EAttachmentView *view)
-{
-	EAttachmentView *previous_view;
-
-	g_return_if_fail (E_IS_MAIL_DISPLAY (display));
-	if (view)
-		g_return_if_fail (E_IS_ATTACHMENT_VIEW (view));
-
-	previous_view = g_weak_ref_get (display->priv->attachment_view);
-	if (previous_view) {
-		GtkUIManager *ui_manager;
-
-		ui_manager = e_attachment_view_get_ui_manager (previous_view);
-		if (ui_manager) {
-			gtk_ui_manager_remove_ui (ui_manager, display->priv->attachment_inline_ui_id);
-			display->priv->attachment_inline_ui_id = 0;
-
-			gtk_ui_manager_remove_action_group (ui_manager, display->priv->attachment_inline_group);
-		}
-
-		g_clear_object (&previous_view);
-	}
-
-	g_weak_ref_set (display->priv->attachment_view, view);
-
-	if (view) {
-		GtkUIManager *ui_manager;
-
-		ui_manager = e_attachment_view_get_ui_manager (view);
-		if (ui_manager) {
-			GError *error = NULL;
-
-			gtk_ui_manager_insert_action_group (ui_manager, display->priv->attachment_inline_group, -1);
-
-			display->priv->attachment_inline_ui_id = gtk_ui_manager_add_ui_from_string (ui_manager,
-				attachment_popup_ui, -1, &error);
-
-			if (error) {
-				g_warning ("%s: Failed to read attachment_popup_ui: %s", G_STRFUNC, error->message);
-				g_clear_error (&error);
-			}
-		}
-	}
-
-	g_object_notify (G_OBJECT (display), "attachment-view");
-}
-
 EAttachmentView *
-e_mail_display_ref_attachment_view (EMailDisplay *display)
+e_mail_display_get_attachment_view (EMailDisplay *display)
 {
 	g_return_val_if_fail (E_IS_MAIL_DISPLAY (display), NULL);
 
-	return g_weak_ref_get (display->priv->attachment_view);
+	return display->priv->attachment_view;
 }
 
 EMailFormatterMode

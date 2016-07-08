@@ -754,8 +754,7 @@ mail_browser_constructed (GObject *object)
 		TRUE, TRUE, 0);
 
 	attachment_store = e_mail_display_get_attachment_store (E_MAIL_DISPLAY (display));
-	widget = e_attachment_bar_new (attachment_store);
-	e_mail_display_set_attachment_view (E_MAIL_DISPLAY (display), E_ATTACHMENT_VIEW (widget));
+	widget = GTK_WIDGET (e_mail_display_get_attachment_view (E_MAIL_DISPLAY (display)));
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 

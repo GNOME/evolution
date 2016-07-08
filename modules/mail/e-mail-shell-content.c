@@ -43,7 +43,6 @@
 
 struct _EMailShellContentPrivate {
 	EMailView *mail_view;
-	GtkWidget *attachment_bar; /* not referenced */
 };
 
 enum {
@@ -238,11 +237,7 @@ mail_shell_content_constructed (GObject *object)
 
 	display = e_mail_reader_get_mail_display (E_MAIL_READER (object));
 	attachment_store = e_mail_display_get_attachment_store (display);
-	widget = e_attachment_bar_new (attachment_store);
-	e_mail_display_set_attachment_view (display, E_ATTACHMENT_VIEW (widget));
-	gtk_box_pack_start (vbox, widget, FALSE, FALSE, 0);
-
-	priv->attachment_bar = widget;
+	widget = GTK_WIDGET (e_mail_display_get_attachment_view (display));
 
 	e_binding_bind_property_full (
 		attachment_store, "num-attachments",
@@ -553,14 +548,6 @@ e_mail_shell_content_get_mail_view (EMailShellContent *mail_shell_content)
 		E_IS_MAIL_SHELL_CONTENT (mail_shell_content), NULL);
 
 	return mail_shell_content->priv->mail_view;
-}
-
-GtkWidget *
-e_mail_shell_content_get_attachment_bar (EMailShellContent *mail_shell_content)
-{
-	g_return_val_if_fail (E_IS_MAIL_SHELL_CONTENT (mail_shell_content), NULL);
-
-	return mail_shell_content->priv->attachment_bar;
 }
 
 EShellSearchbar *
