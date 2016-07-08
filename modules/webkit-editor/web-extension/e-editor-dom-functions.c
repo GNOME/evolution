@@ -8850,8 +8850,7 @@ e_editor_dom_insert_html (EEditorPage *editor_page,
 		}
 
 		e_editor_dom_exec_command (editor_page, E_CONTENT_EDITOR_COMMAND_INSERT_HTML, html_text);
-		/* FIXME WK2 - e_editor_dom_fix_file_uri_images
-		e_html_editor_view_fix_file_uri_images (view);*/
+		e_editor_dom_fix_file_uri_images (editor_page);
 		if (strstr (html_text, "id=\"-x-evo-selection-start-marker\""))
 			e_editor_dom_selection_restore (editor_page);
 
