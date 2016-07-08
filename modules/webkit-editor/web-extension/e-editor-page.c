@@ -246,7 +246,7 @@ e_editor_page_init (EEditorPage *editor_page)
 	editor_page->priv->alignment = E_CONTENT_EDITOR_ALIGNMENT_LEFT;
 	editor_page->priv->block_format = E_CONTENT_EDITOR_BLOCK_FORMAT_PARAGRAPH;
 	editor_page->priv->force_image_load = FALSE;
-	editor_page->priv->html_mode = FALSE;
+	editor_page->priv->html_mode = TRUE;
 	editor_page->priv->return_key_pressed = FALSE;
 	editor_page->priv->space_key_pressed = FALSE;
 	editor_page->priv->smiley_written = FALSE;
