@@ -116,6 +116,39 @@ create_snapshot_file (EMsgComposer *composer,
 	return snapshot_file;
 }
 
+typedef struct _CreateComposerData {
+	LoadContext *context;
+	CamelMimeMessage *message;
+	GFile *snapshot_file;
+} CreateComposerData;
+
+static void
+autosave_composer_created_cb (GObject *source_object,
+			      GAsyncResult *result,
+			      gpointer user_data)
+{
+	CreateComposerData *ccd = user_data;
+	EMsgComposer *composer;
+	GError *error = NULL;
+
+	composer = e_msg_composer_new_finish (result, &error);
+	if (error) {
+		g_warning ("%s: Failed to create msg composer: %s", G_STRFUNC, error->message);
+		g_clear_error (&error);
+	} else {
+		e_msg_composer_setup_with_message (composer, ccd->message, TRUE, NULL, NULL);
+		g_object_set_data_full (
+			G_OBJECT (composer),
+			SNAPSHOT_FILE_KEY, g_object_ref (ccd->snapshot_file),
+			(GDestroyNotify) delete_snapshot_file);
+		ccd->context->composer = g_object_ref_sink (composer);
+	}
+
+	g_clear_object (&ccd->message);
+	g_clear_object (&ccd->snapshot_file);
+	g_free (ccd);
+}
+
 static void
 load_snapshot_loaded_cb (GFile *snapshot_file,
                          GAsyncResult *result,
@@ -124,11 +157,11 @@ load_snapshot_loaded_cb (GFile *snapshot_file,
 	EShell *shell;
 	GObject *object;
 	LoadContext *context;
-	EMsgComposer *composer;
 	CamelMimeMessage *message;
 	CamelStream *camel_stream;
 	gchar *contents = NULL;
 	gsize length;
+	CreateComposerData *ccd;
 	GError *local_error = NULL;
 
 	context = g_simple_async_result_get_op_res_gpointer (simple);
@@ -167,14 +200,13 @@ load_snapshot_loaded_cb (GFile *snapshot_file,
 	 * restore its snapshot file so it continues auto-saving to
 	 * the same file. */
 	shell = E_SHELL (object);
-	g_object_ref (snapshot_file);
-	composer = e_msg_composer_new_with_message (shell, message, TRUE, NULL, NULL);
-	g_object_set_data_full (
-		G_OBJECT (composer),
-		SNAPSHOT_FILE_KEY, snapshot_file,
-		(GDestroyNotify) delete_snapshot_file);
-	context->composer = g_object_ref_sink (composer);
-	g_object_unref (message);
+
+	ccd = g_new0 (CreateComposerData, 1);
+	ccd->context = context;
+	ccd->message = message;
+	ccd->snapshot_file = g_object_ref (snapshot_file);
+
+	e_msg_composer_new (shell, autosave_composer_created_cb, ccd);
 
 	g_object_unref (object);
 

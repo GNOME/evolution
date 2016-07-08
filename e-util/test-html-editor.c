@@ -557,7 +557,7 @@ create_new_editor (void)
 {
 	glob_editors++;
 
-	e_html_editor_new_async (create_new_editor_cb, NULL);
+	e_html_editor_new (create_new_editor_cb, NULL);
 }
 
 gint

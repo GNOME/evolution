@@ -70,8 +70,7 @@ struct _EHTMLEditorClass {
 };
 
 GType		e_html_editor_get_type		(void) G_GNUC_CONST;
-GtkWidget *	e_html_editor_new		(void);
-void		e_html_editor_new_async		(GAsyncReadyCallback callback,
+void		e_html_editor_new		(GAsyncReadyCallback callback,
 						 gpointer user_data);
 GtkWidget *	e_html_editor_new_finish	(GAsyncResult *result,
 						 GError **error);

@@ -1146,7 +1146,7 @@ e_mail_notes_edit (GtkWindow *parent,
 	ad->folder = g_object_ref (folder);
 	ad->uid = g_strdup (uid);
 
-	e_html_editor_new_async (e_mail_notes_editor_ready_cb, ad);
+	e_html_editor_new (e_mail_notes_editor_ready_cb, ad);
 }
 
 gboolean

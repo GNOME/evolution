@@ -1291,19 +1291,16 @@ em_utils_composer_print_cb (EMsgComposer *composer,
 
 /* Composing messages... */
 
-static EMsgComposer *
-create_new_composer (EShell *shell,
-                     const gchar *subject,
-                     CamelFolder *folder)
+static void
+set_up_new_composer (EMsgComposer *composer,
+		     const gchar *subject,
+		     CamelFolder *folder)
 {
-	EMsgComposer *composer;
 	EClientCache *client_cache;
 	ESourceRegistry *registry;
 	EComposerHeaderTable *table;
 	ESource *source = NULL;
 	gchar *identity = NULL;
-
-	composer = e_msg_composer_new (shell);
 
 	table = e_msg_composer_get_header_table (composer);
 
@@ -1335,41 +1332,37 @@ create_new_composer (EShell *shell,
 	e_composer_header_table_set_subject (table, subject);
 	e_composer_header_table_set_identity_uid (table, identity);
 
-	em_utils_apply_send_account_override_to_composer (composer, shell, folder);
+	em_utils_apply_send_account_override_to_composer (composer, folder);
 
 	g_free (identity);
 
 	g_object_unref (client_cache);
 	g_object_unref (registry);
-
-	return composer;
 }
 
 /**
  * em_utils_compose_new_message:
- * @shell: an #EShell
- * @folder: a #CamelFolder, or %NULL
+ * @composer: an #EMsgComposer
+ * @folder: (nullable): a #CamelFolder, or %NULL
  *
- * Opens a new composer window as a child window of @parent's toplevel
- * window.
+ * Sets up a new @composer window.
  *
- * Returns: the resulting #EMsgComposer
+ * Since: 3.22
  **/
-EMsgComposer *
-em_utils_compose_new_message (EShell *shell,
+void
+em_utils_compose_new_message (EMsgComposer *composer,
                               CamelFolder *folder)
 {
-	EMsgComposer *composer;
 	EHTMLEditor *editor;
 	EContentEditor *cnt_editor;
 	EContentEditorContentFlags flags;
 
-	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
+	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 
 	if (folder != NULL)
-		g_return_val_if_fail (CAMEL_IS_FOLDER (folder), NULL);
+		g_return_if_fail (CAMEL_IS_FOLDER (folder));
 
-	composer = create_new_composer (shell, "", folder);
+	set_up_new_composer (composer, "", folder);
 	composer_set_no_change (composer);
 	editor = e_msg_composer_get_editor (composer);
 	cnt_editor = e_html_editor_get_content_editor (editor);
@@ -1379,8 +1372,6 @@ em_utils_compose_new_message (EShell *shell,
 	e_content_editor_set_current_content_flags (cnt_editor, flags);
 
 	gtk_widget_show (GTK_WIDGET (composer));
-
-	return composer;
 }
 
 static CamelMimeMessage *
@@ -1460,37 +1451,50 @@ em_utils_get_composer_recipients_as_message (EMsgComposer *composer)
 	return message;
 }
 
-/**
- * em_utils_compose_new_message_with_mailto:
- * @shell: an #EShell
- * @mailto: a mailto URL
- * @folder: a #CamelFolder, or %NULL
- *
- * Opens a new composer window as a child window of @parent's toplevel
- * window. If @mailto is non-NULL, the composer fields will be filled in
- * according to the values in the mailto URL.
- **/
-EMsgComposer *
-em_utils_compose_new_message_with_mailto (EShell *shell,
-                                          const gchar *mailto,
-                                          CamelFolder *folder)
+typedef struct _CreateComposerData {
+	gchar *mailto;
+	CamelFolder *folder;
+} CreateComposerData;
+
+static void
+create_composer_data_free (gpointer ptr)
 {
+	CreateComposerData *ccd = ptr;
+
+	if (ccd) {
+		g_clear_object (&ccd->folder);
+		g_free (ccd->mailto);
+		g_free (ccd);
+	}
+}
+
+static void
+msg_composer_created_with_mailto_cb (GObject *source_object,
+				     GAsyncResult *result,
+				     gpointer user_data)
+{
+	CreateComposerData *ccd = user_data;
 	EMsgComposer *composer;
 	EComposerHeaderTable *table;
 	EClientCache *client_cache;
 	ESourceRegistry *registry;
+	GError *error = NULL;
 
-	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
+	g_return_if_fail (ccd != NULL);
 
-	if (folder != NULL)
-		g_return_val_if_fail (CAMEL_IS_FOLDER (folder), NULL);
+	composer = e_msg_composer_new_finish (result, &error);
+	if (error) {
+		g_warning ("%s: Failed to create msg composer: %s", G_STRFUNC, error->message);
+		g_clear_error (&error);
+		create_composer_data_free (ccd);
 
-	if (mailto != NULL)
-		composer = e_msg_composer_new_from_url (shell, mailto);
-	else
-		composer = e_msg_composer_new (shell);
+		return;
+	}
 
-	em_utils_apply_send_account_override_to_composer (composer, shell, folder);
+	if (ccd->mailto)
+		e_msg_composer_setup_from_url (composer, ccd->mailto);
+
+	em_utils_apply_send_account_override_to_composer (composer, ccd->folder);
 
 	table = e_msg_composer_get_header_table (composer);
 
@@ -1502,11 +1506,11 @@ em_utils_compose_new_message_with_mailto (EShell *shell,
 	/* If a CamelFolder was given, we need to backtrack and find
 	 * the corresponding ESource with a Mail Identity extension. */
 
-	if (folder != NULL) {
+	if (ccd->folder) {
 		ESource *source;
 		CamelStore *store;
 
-		store = camel_folder_get_parent_store (folder);
+		store = camel_folder_get_parent_store (ccd->folder);
 		source = em_utils_ref_mail_identity_for_store (registry, store);
 
 		if (source != NULL) {
@@ -1521,7 +1525,36 @@ em_utils_compose_new_message_with_mailto (EShell *shell,
 
 	gtk_window_present (GTK_WINDOW (composer));
 
-	return composer;
+	create_composer_data_free (ccd);
+}
+
+/**
+ * em_utils_compose_new_message_with_mailto:
+ * @shell: an #EShell
+ * @mailto: a mailto URL
+ * @folder: a #CamelFolder, or %NULL
+ *
+ * Opens a new composer window as a child window of @parent's toplevel
+ * window. If @mailto is non-NULL, the composer fields will be filled in
+ * according to the values in the mailto URL.
+ **/
+void
+em_utils_compose_new_message_with_mailto (EShell *shell,
+                                          const gchar *mailto,
+                                          CamelFolder *folder)
+{
+	CreateComposerData *ccd;
+
+	g_return_if_fail (E_IS_SHELL (shell));
+
+	if (folder != NULL)
+		g_return_if_fail (CAMEL_IS_FOLDER (folder));
+
+	ccd = g_new0 (CreateComposerData, 1);
+	ccd->folder = folder ? g_object_ref (folder) : NULL;
+	ccd->mailto = g_strdup (mailto);
+
+	e_msg_composer_new (shell, msg_composer_created_with_mailto_cb, ccd);
 }
 
 static gboolean
@@ -1726,22 +1759,22 @@ quoting_text (QuotingTextEnum type)
 
 /**
  * em_utils_edit_message:
- * @shell: an #EShell
+ * @composer: an #EMsgComposer
  * @folder: a #CamelFolder
  * @message: a #CamelMimeMessage
  * @message_uid: UID of @message, or %NULL
  *
- * Opens a composer filled in with the headers/mime-parts/etc of
- * @message.
+ * Sets up the @composer with the headers/mime-parts/etc of the @message.
+ *
+ * Since: 3.22
  **/
-EMsgComposer *
-em_utils_edit_message (EShell *shell,
+void
+em_utils_edit_message (EMsgComposer *composer,
                        CamelFolder *folder,
                        CamelMimeMessage *message,
                        const gchar *message_uid,
                        gboolean keep_signature)
 {
-	EMsgComposer *composer;
 	ESourceRegistry *registry;
 	ESource *source;
 	gboolean folder_is_sent;
@@ -1750,12 +1783,12 @@ em_utils_edit_message (EShell *shell,
 	gboolean folder_is_templates;
 	gchar *override_identity_uid = NULL;
 
-	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
-	g_return_val_if_fail (CAMEL_IS_MIME_MESSAGE (message), NULL);
+	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
+	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (message));
 	if (folder)
-		g_return_val_if_fail (CAMEL_IS_FOLDER (folder), NULL);
+		g_return_if_fail (CAMEL_IS_FOLDER (folder));
 
-	registry = e_shell_get_registry (shell);
+	registry = e_shell_get_registry (e_msg_composer_get_shell (composer));
 
 	if (folder) {
 		folder_is_sent = em_utils_folder_is_sent (registry, folder);
@@ -1807,7 +1840,7 @@ em_utils_edit_message (EShell *shell,
 			}
 		}
 
-		source = em_utils_check_send_account_override (shell, message, folder);
+		source = em_utils_check_send_account_override (e_msg_composer_get_shell (composer), message, folder);
 		if (source) {
 			g_free (override_identity_uid);
 			override_identity_uid = e_source_dup_uid (source);
@@ -1815,7 +1848,7 @@ em_utils_edit_message (EShell *shell,
 		}
 	}
 
-	composer = e_msg_composer_new_with_message (shell, message, keep_signature, override_identity_uid, NULL);
+	e_msg_composer_setup_with_message (composer, message, keep_signature, override_identity_uid, NULL);
 
 	g_free (override_identity_uid);
 
@@ -1858,8 +1891,6 @@ em_utils_edit_message (EShell *shell,
 	composer_set_no_change (composer);
 
 	gtk_widget_show (GTK_WIDGET (composer));
-
-	return composer;
 }
 
 static void
@@ -2075,39 +2106,36 @@ setup_forward_attached_callbacks (EMsgComposer *composer,
 		(GDestroyNotify) forward_data_free);
 }
 
-static EMsgComposer *
-forward_non_attached (EMailBackend *backend,
+static void
+forward_non_attached (EMsgComposer *composer,
                       CamelFolder *folder,
                       const gchar *uid,
                       CamelMimeMessage *message,
                       EMailForwardStyle style)
 {
-	EMsgComposer *composer = NULL;
-	EMailSession *session;
-	EShell *shell;
+	CamelSession *session;
 	gchar *text, *forward;
 	guint32 validity_found = 0;
 	guint32 flags;
+
+	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
+
+	session = e_msg_composer_ref_session (composer);
 
 	flags = E_MAIL_FORMATTER_QUOTE_FLAG_HEADERS |
 		E_MAIL_FORMATTER_QUOTE_FLAG_KEEP_SIG;
 	if (style == E_MAIL_FORWARD_STYLE_QUOTED)
 		flags |= E_MAIL_FORMATTER_QUOTE_FLAG_CITE;
 
-	session = e_mail_backend_get_session (backend);
-	shell = e_shell_backend_get_shell (E_SHELL_BACKEND (backend));
-
 	forward = quoting_text (QUOTING_FORWARD);
-	text = em_utils_message_to_html (
-		CAMEL_SESSION (session), message,
-		forward, flags, NULL, NULL, NULL, &validity_found);
+	text = em_utils_message_to_html (session, message, forward, flags, NULL, NULL, NULL, &validity_found);
 
 	if (text != NULL) {
 		CamelDataWrapper *content;
 		gchar *subject;
 
 		subject = mail_tool_generate_forward_subject (message);
-		composer = create_new_composer (shell, subject, folder);
+		set_up_new_composer (composer, subject, folder);
 		g_free (subject);
 
 		content = camel_medium_get_content (CAMEL_MEDIUM (message));
@@ -2134,26 +2162,24 @@ forward_non_attached (EMailBackend *backend,
 			g_free (tmp_message_uid);
 		}
 
-		emu_update_composers_security (
-			composer, validity_found);
+		emu_update_composers_security (composer, validity_found);
 		composer_set_no_change (composer);
 		gtk_widget_show (GTK_WIDGET (composer));
 
 		g_free (text);
 	}
 
+	g_clear_object (&session);
 	g_free (forward);
-
-	return composer;
 }
 
 /**
  * em_utils_forward_message:
- * @backend: an #EMailBackend
+ * @composer: an #EMsgComposer
  * @message: a #CamelMimeMessage to forward
  * @style: the forward style to use
- * @folder: a #CamelFolder, or %NULL
- * @uid: the UID of %message, or %NULL
+ * @folder: (nullable):  a #CamelFolder, or %NULL
+ * @uid: (nullable): the UID of %message, or %NULL
  *
  * Forwards @message in the given @style.
  *
@@ -2171,8 +2197,8 @@ forward_non_attached (EMailBackend *backend,
  * in its own composer window in 'quoted' form (each line starting with
  * a "> ").
  **/
-EMsgComposer *
-em_utils_forward_message (EMailBackend *backend,
+void
+em_utils_forward_message (EMsgComposer *composer,
                           CamelMimeMessage *message,
                           EMailForwardStyle style,
                           CamelFolder *folder,
@@ -2180,10 +2206,9 @@ em_utils_forward_message (EMailBackend *backend,
 {
 	CamelMimePart *part;
 	gchar *subject;
-	EMsgComposer *composer = NULL;
 
-	g_return_val_if_fail (E_IS_MAIL_BACKEND (backend), NULL);
-	g_return_val_if_fail (CAMEL_IS_MIME_MESSAGE (message), NULL);
+	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
+	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (message));
 
 	switch (style) {
 		case E_MAIL_FORWARD_STYLE_ATTACHED:
@@ -2191,8 +2216,7 @@ em_utils_forward_message (EMailBackend *backend,
 			part = mail_tool_make_message_attachment (message);
 			subject = mail_tool_generate_forward_subject (message);
 
-			composer = em_utils_forward_attachment (
-				backend, part, subject, NULL, NULL);
+			em_utils_forward_attachment (composer, part, subject, NULL, NULL);
 
 			g_object_unref (part);
 			g_free (subject);
@@ -2200,34 +2224,27 @@ em_utils_forward_message (EMailBackend *backend,
 
 		case E_MAIL_FORWARD_STYLE_INLINE:
 		case E_MAIL_FORWARD_STYLE_QUOTED:
-			composer = forward_non_attached (
-				backend, folder, uid, message, style);
+			forward_non_attached (composer, folder, uid, message, style);
 			break;
 	}
-
-	return composer;
 }
 
-EMsgComposer *
-em_utils_forward_attachment (EMailBackend *backend,
+void
+em_utils_forward_attachment (EMsgComposer *composer,
                              CamelMimePart *part,
                              const gchar *subject,
                              CamelFolder *folder,
                              GPtrArray *uids)
 {
-	EShell *shell;
 	CamelDataWrapper *content;
-	EMsgComposer *composer;
 
-	g_return_val_if_fail (E_IS_MAIL_BACKEND (backend), NULL);
-	g_return_val_if_fail (CAMEL_IS_MIME_PART (part), NULL);
+	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
+	g_return_if_fail (CAMEL_IS_MIME_PART (part));
 
 	if (folder != NULL)
-		g_return_val_if_fail (CAMEL_IS_FOLDER (folder), NULL);
+		g_return_if_fail (CAMEL_IS_FOLDER (folder));
 
-	shell = e_shell_backend_get_shell (E_SHELL_BACKEND (backend));
-
-	composer = create_new_composer (shell, subject, folder);
+	set_up_new_composer (composer, subject, folder);
 
 	e_msg_composer_attach (composer, part);
 
@@ -2268,8 +2285,6 @@ em_utils_forward_attachment (EMailBackend *backend,
 	composer_set_no_change (composer);
 
 	gtk_widget_show (GTK_WIDGET (composer));
-
-	return composer;
 }
 
 static gint
@@ -2345,18 +2360,30 @@ sort_sources_by_ui (GList **psources,
 	g_hash_table_destroy (uids_order);
 }
 
-/* Redirecting messages... */
-
-static EMsgComposer *
-redirect_get_composer (EShell *shell,
-                       CamelMimeMessage *message)
+/**
+ * em_utils_redirect_message:
+ * @composer: an #EMsgComposer
+ * @message: message to redirect
+ *
+ * Sets up the @composer to redirect @message (Note: only headers will be
+ * editable). Adds Resent-From/Resent-To/etc headers.
+ *
+ * Since: 3.22
+ **/
+void
+em_utils_redirect_message (EMsgComposer *composer,
+                           CamelMimeMessage *message)
 {
-	EMsgComposer *composer;
 	ESourceRegistry *registry;
-	CamelMedium *medium;
 	ESource *source;
+	EShell *shell;
+	CamelMedium *medium;
 	gchar *identity_uid = NULL;
 
+	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
+	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (message));
+
+	shell = e_msg_composer_get_shell (composer);
 	medium = CAMEL_MEDIUM (message);
 
 	/* QMail will refuse to send a message if it finds one of
@@ -2384,40 +2411,13 @@ redirect_get_composer (EShell *shell,
 		g_object_unref (source);
 	}
 
-	composer = e_msg_composer_new_redirect (
-		shell, message, identity_uid, NULL);
+	e_msg_composer_setup_redirect (composer, message, identity_uid, NULL);
 
 	g_free (identity_uid);
-
-	return composer;
-}
-
-/**
- * em_utils_redirect_message:
- * @shell: an #EShell
- * @message: message to redirect
- *
- * Opens a composer to redirect @message (Note: only headers will be
- * editable). Adds Resent-From/Resent-To/etc headers.
- *
- * Returns: the resulting #EMsgComposer
- **/
-EMsgComposer *
-em_utils_redirect_message (EShell *shell,
-                           CamelMimeMessage *message)
-{
-	EMsgComposer *composer;
-
-	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
-	g_return_val_if_fail (CAMEL_IS_MIME_MESSAGE (message), NULL);
-
-	composer = redirect_get_composer (shell, message);
 
 	gtk_widget_show (GTK_WIDGET (composer));
 
 	composer_set_no_change (composer);
-
-	return composer;
 }
 
 /* Replying to messages... */
@@ -2457,33 +2457,30 @@ em_utils_camel_address_to_destination (CamelInternetAddress *iaddr)
 	return destv;
 }
 
-static EMsgComposer *
-reply_get_composer (EShell *shell,
-                    CamelMimeMessage *message,
-                    const gchar *identity_uid,
-                    CamelInternetAddress *to,
-                    CamelInternetAddress *cc,
-                    CamelFolder *folder,
-		    const gchar *message_uid,
-                    CamelNNTPAddress *postto)
+static void
+reply_setup_composer (EMsgComposer *composer,
+		      CamelMimeMessage *message,
+		      const gchar *identity_uid,
+		      CamelInternetAddress *to,
+		      CamelInternetAddress *cc,
+		      CamelFolder *folder,
+		      const gchar *message_uid,
+		     CamelNNTPAddress *postto)
 {
 	gchar *message_id, *references;
 	EDestination **tov, **ccv;
-	EMsgComposer *composer;
 	EComposerHeaderTable *table;
 	CamelMedium *medium;
 	gchar *subject;
 
-	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
-	g_return_val_if_fail (CAMEL_IS_MIME_MESSAGE (message), NULL);
+	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
+	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (message));
 
 	if (to != NULL)
-		g_return_val_if_fail (CAMEL_IS_INTERNET_ADDRESS (to), NULL);
+		g_return_if_fail (CAMEL_IS_INTERNET_ADDRESS (to));
 
 	if (cc != NULL)
-		g_return_val_if_fail (CAMEL_IS_INTERNET_ADDRESS (cc), NULL);
-
-	composer = e_msg_composer_new (shell);
+		g_return_if_fail (CAMEL_IS_INTERNET_ADDRESS (cc));
 
 	/* construct the tov/ccv */
 	tov = em_utils_camel_address_to_destination (to);
@@ -2582,8 +2579,6 @@ reply_get_composer (EShell *shell,
 
 	g_free (message_id);
 	g_free (references);
-
-	return composer;
 }
 
 static gboolean
@@ -3304,8 +3299,8 @@ emcu_folder_is_inbox (CamelFolder *folder)
  * @folder and @message_uid may be supplied in order to update the message
  * flags once it has been replied to.
  **/
-EMsgComposer *
-em_utils_reply_to_message (EShell *shell,
+void
+em_utils_reply_to_message (EMsgComposer *composer,
                            CamelMimeMessage *message,
                            CamelFolder *folder,
                            const gchar *message_uid,
@@ -3317,19 +3312,20 @@ em_utils_reply_to_message (EShell *shell,
 	ESourceRegistry *registry;
 	CamelInternetAddress *to, *cc;
 	CamelNNTPAddress *postto = NULL;
-	EMsgComposer *composer;
+	EShell *shell;
 	ESourceMailCompositionReplyStyle prefer_reply_style = E_SOURCE_MAIL_COMPOSITION_REPLY_STYLE_DEFAULT;
 	ESource *source;
 	gchar *identity_uid = NULL;
 	const gchar *evo_source_header;
 	guint32 flags;
 
-	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
-	g_return_val_if_fail (CAMEL_IS_MIME_MESSAGE (message), NULL);
+	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
+	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (message));
 
 	to = camel_internet_address_new ();
 	cc = camel_internet_address_new ();
 
+	shell = e_msg_composer_get_shell (composer);
 	registry = e_shell_get_registry (shell);
 
 	/* This returns a new ESource reference. */
@@ -3388,8 +3384,7 @@ em_utils_reply_to_message (EShell *shell,
 		break;
 	}
 
-	composer = reply_get_composer (
-		shell, message, identity_uid, to, cc, folder, message_uid, postto);
+	reply_setup_composer (composer, message, identity_uid, to, cc, folder, message_uid, postto);
 	e_msg_composer_add_message_attachments (composer, message, TRUE);
 
 	if (postto)
@@ -3468,15 +3463,13 @@ em_utils_reply_to_message (EShell *shell,
 	}
 
 	/* because some reply types can change recipients after the composer is populated */
-	em_utils_apply_send_account_override_to_composer (composer, shell, folder);
+	em_utils_apply_send_account_override_to_composer (composer, folder);
 
 	composer_set_no_change (composer);
 
 	gtk_widget_show (GTK_WIDGET (composer));
 
 	g_free (identity_uid);
-
-	return composer;
 }
 
 static void
@@ -3664,15 +3657,16 @@ em_utils_check_send_account_override (EShell *shell,
 
 void
 em_utils_apply_send_account_override_to_composer (EMsgComposer *composer,
-                                                  EShell *shell,
                                                   CamelFolder *folder)
 {
 	CamelMimeMessage *message;
 	EComposerHeaderTable *header_table;
+	EShell *shell;
 	ESource *source;
 
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 
+	shell = e_msg_composer_get_shell (composer);
 	message = em_utils_get_composer_recipients_as_message (composer);
 	source = em_utils_check_send_account_override (shell, message, folder);
 	g_clear_object (&message);

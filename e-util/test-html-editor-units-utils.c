@@ -202,7 +202,7 @@ test_utils_fixture_set_up (TestFixture *fixture,
 	create_data.async_data = test_utils_async_call_prepare ();
 	create_data.fixture = fixture;
 
-	e_html_editor_new_async (test_utils_html_editor_created_cb, &create_data);
+	e_html_editor_new (test_utils_html_editor_created_cb, &create_data);
 
 	test_utils_async_call_wait (create_data.async_data, 5);
 }

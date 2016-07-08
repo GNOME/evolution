@@ -133,7 +133,7 @@ static void	add_attachments_from_multipart	(EMsgComposer *composer,
 						 gboolean just_inlines,
 						 gint depth);
 
-/* used by e_msg_composer_new_with_message () */
+/* used by e_msg_composer_setup_with_message () */
 static void	handle_multipart		(EMsgComposer *composer,
 						 CamelMultipart *multipart,
 						 gboolean keep_signature,
@@ -2226,6 +2226,16 @@ msg_composer_quit_requested_cb (EShell *shell,
 }
 
 static void
+msg_composer_set_editor (EMsgComposer *composer,
+			 EHTMLEditor *editor)
+{
+	g_return_if_fail (E_IS_HTML_EDITOR (editor));
+	g_return_if_fail (composer->priv->editor == NULL);
+
+	composer->priv->editor = g_object_ref_sink (editor);
+}
+
+static void
 msg_composer_set_shell (EMsgComposer *composer,
                         EShell *shell)
 {
@@ -2245,6 +2255,12 @@ msg_composer_set_property (GObject *object,
                            GParamSpec *pspec)
 {
 	switch (property_id) {
+		case PROP_EDITOR:
+			msg_composer_set_editor (
+				E_MSG_COMPOSER (object),
+				g_value_get_object (value));
+			return;
+
 		case PROP_SHELL:
 			msg_composer_set_shell (
 				E_MSG_COMPOSER (object),
@@ -2265,6 +2281,12 @@ msg_composer_get_property (GObject *object,
 		case PROP_BUSY:
 			g_value_set_boolean (
 				value, e_msg_composer_is_busy (
+				E_MSG_COMPOSER (object)));
+			return;
+
+		case PROP_EDITOR:
+			g_value_set_object (
+				value, e_msg_composer_get_editor (
 				E_MSG_COMPOSER (object)));
 			return;
 
@@ -2375,6 +2397,7 @@ msg_composer_constructed (GObject *object)
 	EComposerHeaderTable *table;
 	EHTMLEditor *editor;
 	EContentEditor *cnt_editor;
+	EContentEditorContentFlags flags;
 	GtkUIManager *ui_manager;
 	GtkToggleAction *action;
 	GtkTargetList *target_list;
@@ -2384,7 +2407,12 @@ msg_composer_constructed (GObject *object)
 	const gchar *id;
 	gboolean active;
 
+	/* Chain up to parent's constructed() method. */
+	G_OBJECT_CLASS (e_msg_composer_parent_class)->constructed (object);
+
 	composer = E_MSG_COMPOSER (object);
+
+	g_return_if_fail (E_IS_HTML_EDITOR (composer->priv->editor));
 
 	shell = e_msg_composer_get_shell (composer);
 
@@ -2395,6 +2423,10 @@ msg_composer_constructed (GObject *object)
 	ui_manager = e_html_editor_get_ui_manager (editor);
 	attachment_view = e_msg_composer_get_attachment_view (composer);
 	table = E_COMPOSER_HEADER_TABLE (composer->priv->header_table);
+
+	flags = e_content_editor_get_current_content_flags (cnt_editor);
+	flags |= E_CONTENT_EDITOR_MESSAGE_EDITTING;
+	e_content_editor_set_current_content_flags (cnt_editor, flags);
 
 	gtk_window_set_title (GTK_WINDOW (composer), _("Compose Message"));
 	gtk_window_set_icon_name (GTK_WINDOW (composer), "mail-message-new");
@@ -2538,8 +2570,6 @@ msg_composer_constructed (GObject *object)
 	e_extensible_load_extensions (E_EXTENSIBLE (composer));
 
 	e_msg_composer_set_body_text (composer, "", TRUE);
-	/* Chain up to parent's constructed() method. */
-	G_OBJECT_CLASS (e_msg_composer_parent_class)->constructed (object);
 }
 
 static void
@@ -2756,6 +2786,17 @@ e_msg_composer_class_init (EMsgComposerClass *class)
 
 	g_object_class_install_property (
 		object_class,
+		PROP_EDITOR,
+		g_param_spec_object (
+			"editor",
+			NULL,
+			NULL,
+			E_TYPE_HTML_EDITOR,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT_ONLY));
+
+	g_object_class_install_property (
+		object_class,
 		PROP_FOCUS_TRACKER,
 		g_param_spec_object (
 			"focus-tracker",
@@ -2833,35 +2874,87 @@ e_msg_composer_class_init (EMsgComposerClass *class)
 static void
 e_msg_composer_init (EMsgComposer *composer)
 {
-	EContentEditor *cnt_editor;
-	EContentEditorContentFlags flags;
-
 	composer->priv = E_MSG_COMPOSER_GET_PRIVATE (composer);
+}
 
-	composer->priv->editor = g_object_ref_sink (e_html_editor_new ());
-	cnt_editor = e_html_editor_get_content_editor (composer->priv->editor);
+static void
+e_msg_composer_editor_created_cb (GObject *source_object,
+				  GAsyncResult *result,
+				  gpointer user_data)
+{
+	GtkWidget *editor;
+	ESimpleAsyncResult *eresult = user_data;
+	GError *error = NULL;
 
-	flags = e_content_editor_get_current_content_flags (cnt_editor);
-	flags |= E_CONTENT_EDITOR_MESSAGE_EDITTING;
-	e_content_editor_set_current_content_flags (cnt_editor, flags);
+	g_return_if_fail (E_IS_SIMPLE_ASYNC_RESULT (eresult));
+
+	editor = e_html_editor_new_finish (result, &error);
+	if (error) {
+		g_warning ("%s: Failed to create HTML editor: %s", G_STRFUNC, error->message);
+		g_clear_error (&error);
+	} else {
+		e_simple_async_result_set_op_pointer (eresult, editor);
+		e_simple_async_result_complete (eresult);
+	}
+
+	g_object_unref (eresult);
 }
 
 /**
  * e_msg_composer_new:
  * @shell: an #EShell
+ * @callback: called when the composer is ready
+ * @user_data: user data passed to @callback
  *
- * Create a new message composer widget.
+ * Asynchronously creates an #EMsgComposer. The operation is finished
+ * with e_msg_composer_new_finish() called from within the @callback.
  *
- * Returns: A pointer to the newly created widget
+ * Since: 3.22
+ **/
+void
+e_msg_composer_new (EShell *shell,
+		    GAsyncReadyCallback callback,
+		    gpointer user_data)
+{
+	ESimpleAsyncResult *eresult;
+
+	g_return_if_fail (E_IS_SHELL (shell));
+	g_return_if_fail (callback != NULL);
+
+	eresult = e_simple_async_result_new (NULL, callback, user_data, e_msg_composer_new);
+	e_simple_async_result_set_user_data (eresult, g_object_ref (shell), g_object_unref);
+
+	e_html_editor_new (e_msg_composer_editor_created_cb, eresult);
+}
+
+/**
+ * e_msg_composer_new_finish:
+ * @result: a #GAsyncResult provided by the callback from e_msg_composer_new()
+ * @error: optional #GError for errors
+ *
+ * Finishes call of e_msg_composer_new().
+ *
+ * Since: 3.22
  **/
 EMsgComposer *
-e_msg_composer_new (EShell *shell)
+e_msg_composer_new_finish (GAsyncResult *result,
+			   GError **error)
 {
-	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
+	ESimpleAsyncResult *eresult;
+	EHTMLEditor *html_editor;
 
-	return g_object_new (
-		E_TYPE_MSG_COMPOSER,
-		"shell", shell, NULL);
+	g_return_val_if_fail (E_IS_SIMPLE_ASYNC_RESULT (result), NULL);
+	g_return_val_if_fail (g_async_result_is_tagged (result, e_msg_composer_new), NULL);
+
+	eresult = E_SIMPLE_ASYNC_RESULT (result);
+
+	html_editor = e_simple_async_result_get_op_pointer (eresult);
+	g_return_val_if_fail (E_IS_HTML_EDITOR (html_editor), NULL);
+
+	return g_object_new (E_TYPE_MSG_COMPOSER,
+		"shell", e_simple_async_result_get_user_data (eresult),
+		"editor", html_editor,
+		NULL);
 }
 
 /**
@@ -3473,25 +3566,25 @@ composer_add_auto_recipients (ESource *source,
 }
 
 /**
- * e_msg_composer_new_with_message:
- * @shell: an #EShell
+ * e_msg_composer_setup_with_message:
+ * @composer: an #EMsgComposer
  * @message: The message to use as the source
  * @keep_signature: Keep message signature, if any
  * @override_identity_uid: (allow none): Optional identity UID to use, or %NULL
  * @cancellable: optional #GCancellable object, or %NULL
  *
- * Create a new message composer widget.
+ * Sets up the message @composer with a specific @message.
  *
  * Note: Designed to work only for messages constructed using Evolution.
  *
- * Returns: A pointer to the newly created widget
+ * Since: 3.22
  **/
-EMsgComposer *
-e_msg_composer_new_with_message (EShell *shell,
-                                 CamelMimeMessage *message,
-                                 gboolean keep_signature,
-				 const gchar *override_identity_uid,
-                                 GCancellable *cancellable)
+void
+e_msg_composer_setup_with_message (EMsgComposer *composer,
+				   CamelMimeMessage *message,
+				   gboolean keep_signature,
+				   const gchar *override_identity_uid,
+				   GCancellable *cancellable)
 {
 	CamelInternetAddress *from, *to, *cc, *bcc;
 	GList *To = NULL, *Cc = NULL, *Bcc = NULL, *postto = NULL;
@@ -3501,7 +3594,6 @@ e_msg_composer_new_with_message (EShell *shell,
 	CamelContentType *content_type;
 	struct _camel_header_raw *headers;
 	CamelDataWrapper *content;
-	EMsgComposer *composer;
 	EMsgComposerPrivate *priv;
 	EComposerHeaderTable *table;
 	ESource *source = NULL;
@@ -3514,7 +3606,7 @@ e_msg_composer_new_with_message (EShell *shell,
 	gint len, i;
 	gboolean is_message_from_draft = FALSE;
 
-	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
+	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 
 	headers = CAMEL_MIME_PART (message)->headers;
 	while (headers != NULL) {
@@ -3528,7 +3620,6 @@ e_msg_composer_new_with_message (EShell *shell,
 		headers = headers->next;
 	}
 
-	composer = e_msg_composer_new (shell);
 	priv = E_MSG_COMPOSER_GET_PRIVATE (composer);
 	table = e_msg_composer_get_header_table (composer);
 	editor = e_msg_composer_get_editor (composer);
@@ -3554,7 +3645,7 @@ e_msg_composer_new_with_message (EShell *shell,
 		}
 		if (!identity_uid) {
 			source = em_utils_guess_mail_identity_with_recipients (
-				e_shell_get_registry (shell), message, NULL, NULL);
+				e_shell_get_registry (e_msg_composer_get_shell (composer)), message, NULL, NULL);
 			if (source)
 				identity_uid = e_source_dup_uid (source);
 		}
@@ -3862,38 +3953,36 @@ e_msg_composer_new_with_message (EShell *shell,
 	e_msg_composer_flush_pending_body (composer);
 
 	set_signature_gui (composer);
-
-	return composer;
 }
 
 /**
- * e_msg_composer_new_redirect:
- * @shell: an #EShell
+ * e_msg_composer_setup_redirect:
+ * @composer: an #EMsgComposer
  * @message: The message to use as the source
+ * @identity_uid: (nullable): an identity UID to use, if any
+ * @cancellable: an optional #GCancellable
  *
- * Create a new message composer widget.
+ * Sets up the message @composer as a redirect of the @message.
  *
- * Returns: A pointer to the newly created widget
+ * Since: 3.22
  **/
-EMsgComposer *
-e_msg_composer_new_redirect (EShell *shell,
-                             CamelMimeMessage *message,
-                             const gchar *identity_uid,
-                             GCancellable *cancellable)
+void
+e_msg_composer_setup_redirect (EMsgComposer *composer,
+			       CamelMimeMessage *message,
+			       const gchar *identity_uid,
+			       GCancellable *cancellable)
 {
-	EMsgComposer *composer;
 	EComposerHeaderTable *table;
 	EHTMLEditor *editor;
 	EContentEditor *cnt_editor;
 	const gchar *subject;
 
-	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
-	g_return_val_if_fail (CAMEL_IS_MIME_MESSAGE (message), NULL);
+	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
+	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (message));
 
-	composer = e_msg_composer_new_with_message (
-		shell, message, TRUE, identity_uid, cancellable);
+	e_msg_composer_setup_with_message (composer, message, TRUE, identity_uid, cancellable);
+
 	table = e_msg_composer_get_header_table (composer);
-
 	subject = camel_mime_message_get_subject (message);
 
 	composer->priv->redirect = message;
@@ -3904,8 +3993,6 @@ e_msg_composer_new_redirect (EShell *shell,
 	editor = e_msg_composer_get_editor (composer);
 	cnt_editor = e_html_editor_get_content_editor (editor);
 	e_content_editor_set_editable (cnt_editor, FALSE);
-
-	return composer;
 }
 
 /**
@@ -4611,27 +4698,22 @@ handle_mailto (EMsgComposer *composer,
 }
 
 /**
- * e_msg_composer_new_from_url:
- * @shell: an #EShell
+ * e_msg_composer_setup_from_url:
+ * @composer: an #EMsgComposer
  * @url: a mailto URL
  *
- * Create a new message composer widget, and fill in fields as
- * defined by the provided URL.
+ * Sets up the message @composer content as defined by the provided URL.
+ *
+ * Since: 3.22
  **/
-EMsgComposer *
-e_msg_composer_new_from_url (EShell *shell,
-                             const gchar *url)
+void
+e_msg_composer_setup_from_url (EMsgComposer *composer,
+			       const gchar *url)
 {
-	EMsgComposer *composer;
-
-	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
-	g_return_val_if_fail (g_ascii_strncasecmp (url, "mailto:", 7) == 0, NULL);
-
-	composer = e_msg_composer_new (shell);
+	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
+	g_return_if_fail (g_ascii_strncasecmp (url, "mailto:", 7) == 0);
 
 	handle_mailto (composer, url);
-
-	return composer;
 }
 
 /**

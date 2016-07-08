@@ -1639,17 +1639,18 @@ find_enabled_identity (ESourceRegistry *registry,
 	return mail_identity;
 }
 
-static void
-setup_from (ECalComponentItipMethod method,
-            ECalComponent *comp,
-            ECalClient *cal_client,
-            EComposerHeaderTable *table)
+static gchar *
+get_identity_uid_for_from (EShell *shell,
+			   ECalComponentItipMethod method,
+			   ECalComponent *comp,
+			   ECalClient *cal_client)
 {
 	EClientCache *client_cache;
 	ESourceRegistry *registry;
 	ESource *source = NULL;
+	gchar *identity_uid = NULL;
 
-	client_cache = e_composer_header_table_ref_client_cache (table);
+	client_cache = e_shell_get_client_cache (shell);
 	registry = e_client_cache_ref_registry (client_cache);
 
 	/* always use organizer's email when user is an organizer */
@@ -1673,16 +1674,14 @@ setup_from (ECalComponentItipMethod method,
 	}
 
 	if (source != NULL) {
-		const gchar *uid;
-
-		uid = e_source_get_uid (source);
-		e_composer_header_table_set_identity_uid (table, uid);
+		identity_uid = g_strdup (e_source_get_uid (source));
 
 		g_object_unref (source);
 	}
 
-	g_object_unref (client_cache);
 	g_object_unref (registry);
+
+	return identity_uid;
 }
 
 typedef struct {
@@ -1771,20 +1770,111 @@ itip_send_component_begin (ItipSendComponentData *isc,
 	}
 }
 
+typedef struct _CreateComposerData {
+	gchar *identity_uid;
+	EDestination **destinations;
+	gchar *subject;
+	gchar *ical_string;
+	gchar *content_type;
+	gchar *event_body_text;
+	GSList *attachments_list;
+	ECalComponent *comp;
+	gboolean show_only;
+} CreateComposerData;
+
+static void
+itip_send_component_composer_created_cb (GObject *source_object,
+					 GAsyncResult *result,
+					 gpointer user_data)
+{
+	CreateComposerData *ccd = user_data;
+	EComposerHeaderTable *table;
+	EMsgComposer *composer;
+	GSettings *settings;
+	gboolean use_24hour_format;
+	GError *error = NULL;
+
+	g_return_if_fail (ccd != NULL);
+
+	composer = e_msg_composer_new_finish (result, &error);
+	if (error) {
+		g_warning ("%s: Failed to create msg composer: %s", G_STRFUNC, error->message);
+		g_clear_error (&error);
+		return;
+	}
+
+	settings = e_util_ref_settings ("org.gnome.evolution.calendar");
+	use_24hour_format = g_settings_get_boolean (settings, "use-24hour-format");
+	g_object_unref (settings);
+
+	table = e_msg_composer_get_header_table (composer);
+
+	if (ccd->identity_uid)
+		e_composer_header_table_set_identity_uid (table, ccd->identity_uid);
+
+	e_composer_header_table_set_subject (table, ccd->subject);
+	e_composer_header_table_set_destinations_to (table, ccd->destinations);
+
+	if (e_cal_component_get_vtype (ccd->comp) == E_CAL_COMPONENT_EVENT) {
+		if (ccd->event_body_text)
+			e_msg_composer_set_body_text (composer, ccd->event_body_text, TRUE);
+		else
+			e_msg_composer_set_body (composer, ccd->ical_string, ccd->content_type);
+	} else {
+		CamelMimePart *attachment;
+		const gchar *filename;
+		gchar *description;
+		gchar *body;
+
+		filename = comp_filename (ccd->comp);
+		description = comp_description (ccd->comp, use_24hour_format);
+
+		body = camel_text_to_html (description, CAMEL_MIME_FILTER_TOHTML_PRE, 0);
+		e_msg_composer_set_body_text (composer, body, TRUE);
+		g_free (body);
+
+		attachment = camel_mime_part_new ();
+		camel_mime_part_set_content (
+			attachment, ccd->ical_string,
+			strlen (ccd->ical_string), ccd->content_type);
+		if (filename != NULL && *filename != '\0')
+			camel_mime_part_set_filename (attachment, filename);
+		if (description != NULL && *description != '\0')
+			camel_mime_part_set_description (attachment, description);
+		camel_mime_part_set_disposition (attachment, "inline");
+		e_msg_composer_attach (composer, attachment);
+		g_object_unref (attachment);
+
+		g_free (description);
+	}
+
+	append_cal_attachments (composer, ccd->comp, ccd->attachments_list);
+	ccd->attachments_list = NULL;
+
+	if (ccd->show_only)
+		gtk_widget_show (GTK_WIDGET (composer));
+	else
+		e_msg_composer_send (composer);
+
+	e_destination_freev (ccd->destinations);
+	g_clear_object (&ccd->comp);
+	g_free (ccd->identity_uid);
+	g_free (ccd->subject);
+	g_free (ccd->ical_string);
+	g_free (ccd->content_type);
+	g_free (ccd->event_body_text);
+	g_free (ccd);
+}
+
 static void
 itip_send_component_complete (ItipSendComponentData *isc)
 {
-	GSettings *settings;
-	EMsgComposer *composer;
-	EComposerHeaderTable *table;
+	CreateComposerData *ccd;
 	EDestination **destinations;
 	ECalComponent *comp = NULL;
+	EShell *shell;
 	icalcomponent *top_level = NULL;
 	icaltimezone *default_zone;
-	gchar *ical_string = NULL;
-	gchar *content_type = NULL;
-	gchar *subject = NULL;
-	gboolean use_24hour_format;
 
 	g_return_if_fail (isc != NULL);
 
@@ -1792,10 +1882,6 @@ itip_send_component_complete (ItipSendComponentData *isc)
 		return;
 
 	isc->success = FALSE;
-
-	settings = e_util_ref_settings ("org.gnome.evolution.calendar");
-	use_24hour_format = g_settings_get_boolean (settings, "use-24hour-format");
-	g_object_unref (settings);
 
 	default_zone = calendar_config_get_icaltimezone ();
 
@@ -1820,61 +1906,24 @@ itip_send_component_complete (ItipSendComponentData *isc)
 		}
 	}
 
-	/* Subject information */
-	subject = comp_subject (isc->registry, isc->method, comp);
-
-	composer = e_msg_composer_new (e_shell_get_default ());
-	table = e_msg_composer_get_header_table (composer);
-
-	setup_from (isc->method, isc->send_comp, isc->cal_client, table);
-	e_composer_header_table_set_subject (table, subject);
-	e_composer_header_table_set_destinations_to (table, destinations);
-
-	e_destination_freev (destinations);
-
-	/* Content type */
-	content_type = comp_content_type (comp, isc->method);
-
+	shell = e_shell_get_default ();
 	top_level = comp_toplevel_with_zones (isc->method, comp, isc->cal_client, isc->zones);
-	ical_string = icalcomponent_as_ical_string_r (top_level);
 
-	if (e_cal_component_get_vtype (comp) == E_CAL_COMPONENT_EVENT) {
-		e_msg_composer_set_body (composer, ical_string, content_type);
-	} else {
-		CamelMimePart *attachment;
-		const gchar *filename;
-		gchar *description;
-		gchar *body;
+	ccd = g_new0 (CreateComposerData, 1);
+	ccd->identity_uid = get_identity_uid_for_from (shell, isc->method, isc->send_comp, isc->cal_client);
+	ccd->destinations = destinations;
+	ccd->subject = comp_subject (isc->registry, isc->method, comp);
+	ccd->ical_string = icalcomponent_as_ical_string_r (top_level);
+	ccd->content_type = comp_content_type (comp, isc->method);
+	ccd->event_body_text = NULL;
+	ccd->attachments_list = isc->attachments_list;
+	ccd->comp = comp;
+	ccd->show_only = isc->method == E_CAL_COMPONENT_METHOD_PUBLISH && !isc->users;
 
-		filename = comp_filename (comp);
-		description = comp_description (comp, use_24hour_format);
-
-		body = camel_text_to_html (description, CAMEL_MIME_FILTER_TOHTML_PRE, 0);
-		e_msg_composer_set_body_text (composer, body, TRUE);
-		g_free (body);
-
-		attachment = camel_mime_part_new ();
-		camel_mime_part_set_content (
-			attachment, ical_string,
-			strlen (ical_string), content_type);
-		if (filename != NULL && *filename != '\0')
-			camel_mime_part_set_filename (attachment, filename);
-		if (description != NULL && *description != '\0')
-			camel_mime_part_set_description (attachment, description);
-		camel_mime_part_set_disposition (attachment, "inline");
-		e_msg_composer_attach (composer, attachment);
-		g_object_unref (attachment);
-
-		g_free (description);
-	}
-
-	append_cal_attachments (composer, comp, isc->attachments_list);
 	isc->attachments_list = NULL;
+	comp = NULL;
 
-	if (isc->method == E_CAL_COMPONENT_METHOD_PUBLISH && !isc->users)
-		gtk_widget_show (GTK_WIDGET (composer));
-	else
-		e_msg_composer_send (composer);
+	e_msg_composer_new (shell, itip_send_component_composer_created_cb, ccd);
 
 	isc->success = TRUE;
 
@@ -1882,9 +1931,6 @@ itip_send_component_complete (ItipSendComponentData *isc)
 	g_clear_object (&comp);
 	if (top_level != NULL)
 		icalcomponent_free (top_level);
-	g_free (content_type);
-	g_free (subject);
-	g_free (ical_string);
 }
 
 static void
@@ -2119,15 +2165,11 @@ reply_to_calendar_comp (ESourceRegistry *registry,
                         GSList *attachments_list)
 {
 	EShell *shell;
-	EMsgComposer *composer;
-	EComposerHeaderTable *table;
-	EDestination **destinations;
 	ECalComponent *comp = NULL;
 	icalcomponent *top_level = NULL;
 	icaltimezone *default_zone;
-	gchar *subject = NULL;
-	gchar *ical_string = NULL;
 	gboolean retval = FALSE;
+	CreateComposerData *ccd;
 
 	g_return_val_if_fail (E_IS_SOURCE_REGISTRY (registry), FALSE);
 
@@ -2143,24 +2185,15 @@ reply_to_calendar_comp (ESourceRegistry *registry,
 	if (comp == NULL)
 		goto cleanup;
 
-	/* Recipients */
-	destinations = comp_to_list (
-		registry, method, comp, NULL, reply_all, NULL);
-
-	/* Subject information */
-	subject = comp_subject (registry, method, comp);
-
-	composer = e_msg_composer_new (shell);
-	table = e_msg_composer_get_header_table (composer);
-
-	setup_from (method, send_comp, cal_client, table);
-	e_composer_header_table_set_subject (table, subject);
-	e_composer_header_table_set_destinations_to (table, destinations);
-
-	e_destination_freev (destinations);
-
 	top_level = comp_toplevel_with_zones (method, comp, cal_client, zones);
-	ical_string = icalcomponent_as_ical_string_r (top_level);
+
+	ccd = g_new0 (CreateComposerData, 1);
+	ccd->identity_uid = get_identity_uid_for_from (shell, method, send_comp, cal_client);
+	ccd->destinations = comp_to_list (registry, method, comp, NULL, reply_all, NULL);
+	ccd->subject = comp_subject (registry, method, comp);
+	ccd->ical_string = icalcomponent_as_ical_string_r (top_level);
+	ccd->comp = comp;
+	ccd->show_only = TRUE;
 
 	if (e_cal_component_get_vtype (comp) == E_CAL_COMPONENT_EVENT) {
 
@@ -2268,11 +2301,12 @@ reply_to_calendar_comp (ESourceRegistry *registry,
 		g_string_append (body, html_description);
 		g_free (html_description);
 
-		e_msg_composer_set_body_text (composer, body->str, TRUE);
-		g_string_free (body, TRUE);
+		ccd->event_body_text = g_string_free (body, FALSE);
 	}
 
-	gtk_widget_show (GTK_WIDGET (composer));
+	comp = NULL;
+
+	e_msg_composer_new (shell, itip_send_component_composer_created_cb, ccd);
 
 	retval = TRUE;
 
@@ -2283,8 +2317,6 @@ reply_to_calendar_comp (ESourceRegistry *registry,
 	if (top_level != NULL)
 		icalcomponent_free (top_level);
 
-	g_free (subject);
-	g_free (ical_string);
 	return retval;
 }
 

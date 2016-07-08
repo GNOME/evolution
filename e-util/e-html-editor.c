@@ -885,19 +885,6 @@ e_html_editor_init (EHTMLEditor *editor)
 	g_free (filename);
 }
 
-/**
- * e_html_editor_new:
- *
- * Constructs a new #EHTMLEditor.
- *
- * Returns: (transfer-full): A newly created widget.
- */
-GtkWidget *
-e_html_editor_new (void)
-{
-	return g_object_new (E_TYPE_HTML_EDITOR, NULL);
-}
-
 static void
 e_html_editor_content_editor_initialized (EContentEditor *content_editor,
 					  gpointer user_data)
@@ -934,9 +921,19 @@ e_html_editor_content_editor_initialized (EContentEditor *content_editor,
 	g_object_unref (async_result);
 }
 
+/**
+ * e_html_editor_new:
+ * @callback: a callback to be called when the editor is ready
+ * @user_data: a used data passed into the @callback
+ *
+ * Constructs a new #EHTMLEditor asynchronously. The result is returned
+ * by e_html_editor_new_finish(), which should be called inside @callback.
+ *
+ * Since: 3.22
+ **/
 void
-e_html_editor_new_async (GAsyncReadyCallback callback,
-			 gpointer user_data)
+e_html_editor_new (GAsyncReadyCallback callback,
+		   gpointer user_data)
 {
 	EHTMLEditor *html_editor;
 	EContentEditor *content_editor;
@@ -945,13 +942,24 @@ e_html_editor_new_async (GAsyncReadyCallback callback,
 	g_return_if_fail (callback != NULL);
 
 	html_editor = g_object_new (E_TYPE_HTML_EDITOR, NULL);
-	async_result = e_simple_async_result_new (NULL, callback, user_data, e_html_editor_new_async);
+	async_result = e_simple_async_result_new (NULL, callback, user_data, e_html_editor_new);
 	e_simple_async_result_set_user_data (async_result, html_editor, g_object_unref);
 
 	content_editor = e_html_editor_get_content_editor (html_editor);
 	e_content_editor_initialize (content_editor, e_html_editor_content_editor_initialized, async_result);
 }
 
+/**
+ * e_html_editor_new_finish:
+ * @result: a #GAsyncResult passed to callback from e_html_editor_new()
+ * @error: an optional #GError
+ *
+ * Finishes the call of e_html_editor_new().
+ *
+ * Returns: (transfer-full): A newly created #EHTMLEditor.
+ *
+ * Since: 3.22
+ **/
 GtkWidget *
 e_html_editor_new_finish (GAsyncResult *result,
 			  GError **error)
@@ -959,7 +967,7 @@ e_html_editor_new_finish (GAsyncResult *result,
 	ESimpleAsyncResult *eresult;
 
 	g_return_val_if_fail (E_IS_SIMPLE_ASYNC_RESULT (result), NULL);
-	g_return_val_if_fail (g_async_result_is_tagged (result, e_html_editor_new_async), NULL);
+	g_return_val_if_fail (g_async_result_is_tagged (result, e_html_editor_new), NULL);
 
 	eresult = E_SIMPLE_ASYNC_RESULT (result);
 

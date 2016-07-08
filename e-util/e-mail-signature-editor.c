@@ -807,7 +807,7 @@ e_mail_signature_editor_new (ESourceRegistry *registry,
 	eresult = e_simple_async_result_new (NULL, callback, user_data, e_mail_signature_editor_new);
 	e_simple_async_result_set_user_data (eresult, ced, create_editor_data_free);
 
-	e_html_editor_new_async (mail_signature_editor_html_editor_created_cb, eresult);
+	e_html_editor_new (mail_signature_editor_html_editor_created_cb, eresult);
 }
 
 GtkWidget *

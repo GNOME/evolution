@@ -51,6 +51,7 @@ struct _AsyncContext {
 	EActivity *activity;
 	EMailReader *reader;
 	CamelMimeMessage *message;
+	CamelMimeMessage *template;
 	CamelFolder *template_folder;
 	gchar *source_folder_uri;
 	gchar *message_uid;
@@ -123,17 +124,11 @@ static gboolean plugin_enabled;
 static void
 async_context_free (AsyncContext *context)
 {
-	if (context->activity != NULL)
-		g_object_unref (context->activity);
-
-	if (context->reader != NULL)
-		g_object_unref (context->reader);
-
-	if (context->message != NULL)
-		g_object_unref (context->message);
-
-	if (context->template_folder != NULL)
-		g_object_unref (context->template_folder);
+	g_clear_object (&context->activity);
+	g_clear_object (&context->reader);
+	g_clear_object (&context->message);
+	g_clear_object (&context->template);
+	g_clear_object (&context->template_folder);
 
 	g_free (context->source_folder_uri);
 	g_free (context->message_uid);
@@ -846,10 +841,11 @@ find_template_part_in_multipart (CamelMultipart *multipart,
 }
 
 static void
-create_new_message (CamelFolder *folder,
-                    GAsyncResult *result,
-                    AsyncContext *context)
+create_new_message_composer_created_cb (GObject *source_object,
+					GAsyncResult *result,
+					gpointer user_data)
 {
+	AsyncContext *context = user_data;
 	EAlertSink *alert_sink;
 	CamelMimeMessage *new;
 	CamelMimeMessage *message;
@@ -859,24 +855,26 @@ create_new_message (CamelFolder *folder,
 	struct _camel_header_raw *header;
 	EMailBackend *backend;
 	EMailSession *session;
-	EShell *shell;
 	const gchar *message_uid;
 	EMsgComposer *composer;
 	GError *error = NULL;
 	CamelMimePart *template_part = NULL;
+	CamelFolder *folder;
+
+	g_return_if_fail (context != NULL);
 
 	alert_sink = e_activity_get_alert_sink (context->activity);
 
-	template = camel_folder_get_message_finish (folder, result, &error);
+	composer = e_msg_composer_new_finish (result, &error);
 
 	if (e_activity_handle_cancellation (context->activity, error)) {
-		g_warn_if_fail (template == NULL);
+		g_warn_if_fail (context->template == NULL);
 		async_context_free (context);
 		g_error_free (error);
 		return;
 
 	} else if (error != NULL) {
-		g_warn_if_fail (template == NULL);
+		g_warn_if_fail (context->template == NULL);
 		e_alert_submit (
 			alert_sink, "mail:no-retrieve-message",
 			error->message, NULL);
@@ -885,17 +883,16 @@ create_new_message (CamelFolder *folder,
 		return;
 	}
 
-	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (template));
+	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 
 	message = context->message;
 	message_uid = context->message_uid;
+	template = context->template;
 
 	backend = e_mail_reader_get_backend (context->reader);
 	session = e_mail_backend_get_session (backend);
-	shell = e_shell_backend_get_shell (E_SHELL_BACKEND (backend));
 
-	folder = e_mail_session_get_local_folder (
-		session, E_MAIL_LOCAL_FOLDER_TEMPLATES);
+	folder = e_mail_session_get_local_folder (session, E_MAIL_LOCAL_FOLDER_TEMPLATES);
 
 	new = camel_mime_message_new ();
 	new_multipart = camel_multipart_new ();
@@ -989,18 +986,61 @@ create_new_message (CamelFolder *folder,
 			template, CAMEL_RECIPIENT_TYPE_BCC));
 
 	/* Create the composer */
-	composer = em_utils_edit_message (
-		shell, folder, new, message_uid, TRUE);
+	em_utils_edit_message (composer, folder, new, message_uid, TRUE);
 	if (composer && context->source_folder_uri && context->message_uid)
 		e_msg_composer_set_source_headers (
 			composer, context->source_folder_uri,
 			context->message_uid, CAMEL_MESSAGE_ANSWERED | CAMEL_MESSAGE_SEEN);
 
-	g_object_unref (template);
 	g_object_unref (new_multipart);
 	g_object_unref (new);
 
 	async_context_free (context);
+}
+
+static void
+create_new_message (GObject *source_object,
+                    GAsyncResult *result,
+                    gpointer user_data)
+{
+	AsyncContext *context = user_data;
+	EAlertSink *alert_sink;
+	EMailBackend *backend;
+	EShell *shell;
+	CamelFolder *folder;
+	GError *error = NULL;
+
+	g_return_if_fail (CAMEL_IS_FOLDER (source_object));
+	g_return_if_fail (context != NULL);
+
+	folder = CAMEL_FOLDER (source_object);
+
+	alert_sink = e_activity_get_alert_sink (context->activity);
+
+	context->template = camel_folder_get_message_finish (folder, result, &error);
+
+	if (e_activity_handle_cancellation (context->activity, error)) {
+		g_warn_if_fail (context->template == NULL);
+		async_context_free (context);
+		g_error_free (error);
+		return;
+
+	} else if (error != NULL) {
+		g_warn_if_fail (context->template == NULL);
+		e_alert_submit (
+			alert_sink, "mail:no-retrieve-message",
+			error->message, NULL);
+		async_context_free (context);
+		g_error_free (error);
+		return;
+	}
+
+	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (context->template));
+
+	backend = e_mail_reader_get_backend (context->reader);
+	shell = e_shell_backend_get_shell (E_SHELL_BACKEND (backend));
+
+	e_msg_composer_new (shell, create_new_message_composer_created_cb, context);
 }
 
 static void
@@ -1044,8 +1084,7 @@ template_got_source_message (CamelFolder *folder,
 		context->template_folder,
 		context->template_message_uid,
 		G_PRIORITY_DEFAULT, cancellable,
-		(GAsyncReadyCallback) create_new_message,
-		context);
+		create_new_message, context);
 }
 
 static void

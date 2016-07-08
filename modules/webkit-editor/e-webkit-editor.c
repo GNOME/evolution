@@ -428,12 +428,8 @@ web_extension_undo_redo_state_changed_cb (GDBusConnection *connection,
 static void
 dispatch_pending_operations (EWebKitEditor *wk_editor)
 {
-	if (!wk_editor->priv->web_extension) {
-		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
-		return;
-	}
-
-	if (wk_editor->priv->webkit_load_event != WEBKIT_LOAD_FINISHED)
+	if (wk_editor->priv->webkit_load_event != WEBKIT_LOAD_FINISHED ||
+	    !wk_editor->priv->web_extension)
 		return;
 
 	/* Dispatch queued operations - as we are using this just for load
@@ -1394,8 +1390,6 @@ webkit_editor_insert_content (EContentEditor *editor,
 		}
 	}
 
-	wk_editor->priv->reload_in_progress = TRUE;
-
 	if ((flags & E_CONTENT_EDITOR_INSERT_CONVERT) &&
 	    !(flags & E_CONTENT_EDITOR_INSERT_REPLACE_ALL)) {
 		// e_html_editor_view_convert_and_insert_plain_text
@@ -1417,6 +1411,7 @@ webkit_editor_insert_content (EContentEditor *editor,
 	} else if ((flags & E_CONTENT_EDITOR_INSERT_REPLACE_ALL) &&
 		   (flags & E_CONTENT_EDITOR_INSERT_TEXT_HTML)) {
 		if (wk_editor->priv->content_flags & E_CONTENT_EDITOR_MESSAGE_DRAFT) {
+			wk_editor->priv->reload_in_progress = TRUE;
 			webkit_web_view_load_html (WEBKIT_WEB_VIEW (wk_editor), content, "file://");
 			return;
 		}
@@ -1425,6 +1420,7 @@ webkit_editor_insert_content (EContentEditor *editor,
 		    !(wk_editor->priv->html_mode)) {
 			if (content && *content)
 				set_convert_in_situ (wk_editor, TRUE);
+			wk_editor->priv->reload_in_progress = TRUE;
 			webkit_web_view_load_html (WEBKIT_WEB_VIEW (wk_editor), content, "file://");
 			return;
 		}
@@ -1433,6 +1429,7 @@ webkit_editor_insert_content (EContentEditor *editor,
 		if (!(wk_editor->priv->html_mode)) {
 			if (strstr (content, "<!-- text/html -->")) {
 				if (!show_lose_formatting_dialog (wk_editor)) {
+					wk_editor->priv->reload_in_progress = TRUE;
 					webkit_editor_set_html_mode (wk_editor, TRUE);
 					webkit_web_view_load_html (
 						WEBKIT_WEB_VIEW (wk_editor), content, "file://");
@@ -1443,6 +1440,7 @@ webkit_editor_insert_content (EContentEditor *editor,
 				set_convert_in_situ (wk_editor, TRUE);
 		}
 
+		wk_editor->priv->reload_in_progress = TRUE;
 		webkit_web_view_load_html (WEBKIT_WEB_VIEW (wk_editor), content, "file://");
 	} else if ((flags & E_CONTENT_EDITOR_INSERT_REPLACE_ALL) &&
 		   (flags & E_CONTENT_EDITOR_INSERT_TEXT_PLAIN)) {
@@ -5572,9 +5570,9 @@ webkit_editor_load_changed_cb (EWebKitEditor *wk_editor,
 	else
 		wk_editor->priv->emit_load_finished_when_extension_is_ready = TRUE;
 
-	dispatch_pending_operations (wk_editor);
-
 	wk_editor->priv->reload_in_progress = FALSE;
+
+	dispatch_pending_operations (wk_editor);
 }
 
 static void

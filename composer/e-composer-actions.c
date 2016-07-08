@@ -65,16 +65,31 @@ action_close_cb (GtkAction *action,
 }
 
 static void
+action_new_message_composer_created_cb (GObject *source_object,
+					GAsyncResult *result,
+					gpointer user_data)
+{
+	EMsgComposer *composer;
+	GError *error = NULL;
+
+	composer = e_msg_composer_new_finish (result, &error);
+	if (error) {
+		g_warning ("%s: Failed to create msg composer: %s", G_STRFUNC, error->message);
+		g_clear_error (&error);
+	} else {
+		gtk_widget_show (GTK_WIDGET (composer));
+	}
+}
+
+static void
 action_new_message_cb (GtkAction *action,
                        EMsgComposer *composer)
 {
-	EMsgComposer *new_composer;
 	EShell *shell;
 
 	shell = e_msg_composer_get_shell (composer);
 
-	new_composer = e_msg_composer_new (shell);
-	gtk_widget_show (GTK_WIDGET (new_composer));
+	e_msg_composer_new (shell, action_new_message_composer_created_cb, NULL);
 }
 
 static void

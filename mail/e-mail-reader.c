@@ -915,6 +915,43 @@ action_mail_message_edit_cb (GtkAction *action,
 	g_ptr_array_unref (uids);
 }
 
+typedef struct _CreateComposerData {
+	EMailReader *reader;
+	CamelMimeMessage *message;
+	CamelFolder *folder;
+	gboolean is_redirect;
+} CreateComposerData;
+
+static void
+mail_reader_new_composer_created_cb (GObject *source_object,
+				     GAsyncResult *result,
+				     gpointer user_data)
+{
+	CreateComposerData *ccd = user_data;
+	EMsgComposer *composer;
+	GError *error = NULL;
+
+	g_return_if_fail (ccd != NULL);
+
+	composer = e_msg_composer_new_finish (result, &error);
+	if (error) {
+		g_warning ("%s: Failed to create msg composer: %s", G_STRFUNC, error->message);
+		g_clear_error (&error);
+	} else {
+		if (ccd->is_redirect)
+			em_utils_redirect_message (composer, ccd->message);
+		else
+			em_utils_compose_new_message (composer, ccd->folder);
+
+		e_mail_reader_composer_created (ccd->reader, composer, ccd->message);
+	}
+
+	g_clear_object (&ccd->reader);
+	g_clear_object (&ccd->message);
+	g_clear_object (&ccd->folder);
+	g_free (ccd);
+}
+
 static void
 action_mail_message_new_cb (GtkAction *action,
                             EMailReader *reader)
@@ -923,7 +960,7 @@ action_mail_message_new_cb (GtkAction *action,
 	EMailBackend *backend;
 	EShellBackend *shell_backend;
 	CamelFolder *folder;
-	EMsgComposer *composer;
+	CreateComposerData *ccd;
 
 	folder = e_mail_reader_ref_folder (reader);
 	backend = e_mail_reader_get_backend (reader);
@@ -931,11 +968,12 @@ action_mail_message_new_cb (GtkAction *action,
 	shell_backend = E_SHELL_BACKEND (backend);
 	shell = e_shell_backend_get_shell (shell_backend);
 
-	composer = em_utils_compose_new_message (shell, folder);
+	ccd = g_new0 (CreateComposerData, 1);
+	ccd->reader = g_object_ref (reader);
+	ccd->folder = folder;
+	ccd->is_redirect = FALSE;
 
-	e_mail_reader_composer_created (reader, composer, NULL);
-
-	g_clear_object (&folder);
+	e_msg_composer_new (shell, mail_reader_new_composer_created_cb, ccd);
 }
 
 static void
@@ -1140,7 +1178,7 @@ mail_reader_redirect_cb (CamelFolder *folder,
 	EMailBackend *backend;
 	EAlertSink *alert_sink;
 	CamelMimeMessage *message;
-	EMsgComposer *composer;
+	CreateComposerData *ccd;
 	GError *error = NULL;
 
 	alert_sink = e_activity_get_alert_sink (closure->activity);
@@ -1168,11 +1206,12 @@ mail_reader_redirect_cb (CamelFolder *folder,
 	backend = e_mail_reader_get_backend (closure->reader);
 	shell = e_shell_backend_get_shell (E_SHELL_BACKEND (backend));
 
-	composer = em_utils_redirect_message (shell, message);
+	ccd = g_new0 (CreateComposerData, 1);
+	ccd->reader = g_object_ref (closure->reader);
+	ccd->message = message;
+	ccd->is_redirect = TRUE;
 
-	e_mail_reader_composer_created (closure->reader, composer, message);
-
-	g_object_unref (message);
+	e_msg_composer_new (shell, mail_reader_new_composer_created_cb, ccd);
 
 	mail_reader_closure_free (closure);
 }
