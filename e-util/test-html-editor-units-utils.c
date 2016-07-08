@@ -197,7 +197,6 @@ test_utils_fixture_set_up (TestFixture *fixture,
 	CreateData create_data;
 
 	fixture->window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-	fixture->editor = E_HTML_EDITOR (e_html_editor_new ());
 	fixture->undo_stack = NULL;
 
 	create_data.async_data = test_utils_async_call_prepare ();
