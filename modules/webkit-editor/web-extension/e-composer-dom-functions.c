@@ -587,7 +587,7 @@ insert:
 			NULL);
 	}
 
-	if (is_html && html_mode) {
+	if (is_html && html_mode)
 		e_editor_dom_fix_file_uri_images (editor_page);
 
 	move_caret_after_signature_inserted (editor_page);
