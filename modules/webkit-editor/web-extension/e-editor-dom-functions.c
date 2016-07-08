@@ -6053,9 +6053,9 @@ e_editor_dom_convert_content (EEditorPage *editor_page,
 		remove_node (WEBKIT_DOM_NODE (content_wrapper));
 	}
 
-	/* If not editting a message, don't add any new block and just place
-	 * the carret in the beginning of content. We want to have the same
-	 * behaviour when editting message as new or we start replying on top. */
+	/* If not editing a message, don't add any new block and just place
+	 * the caret in the beginning of content. We want to have the same
+	 * behaviour when editing message as new or we start replying on top. */
 	if ((flags & E_CONTENT_EDITOR_MESSAGE_EDIT_AS_NEW) ||
 	    !(flags & E_CONTENT_EDITOR_MESSAGE_EDITTING) ||
             !start_bottom) {
@@ -8091,7 +8091,7 @@ e_editor_dom_process_content_to_plain_text_for_exporting (EEditorPage *editor_pa
 	WebKitDOMNode *body, *source;
 	WebKitDOMNodeList *paragraphs;
 	gboolean wrap = FALSE, quote = FALSE;
-	gboolean converted, is_from_new_message, is_message_draft;
+	gboolean converted, is_new_message, is_message_draft;
 	gint length, ii;
 	GString *plain_text;
 
@@ -8104,8 +8104,7 @@ e_editor_dom_process_content_to_plain_text_for_exporting (EEditorPage *editor_pa
 	body = WEBKIT_DOM_NODE (webkit_dom_document_get_body (document));
 	converted = webkit_dom_element_has_attribute (
 		WEBKIT_DOM_ELEMENT (body), "data-converted");
-	is_from_new_message = webkit_dom_element_has_attribute (
-		WEBKIT_DOM_ELEMENT (body), "data-new-message");
+	is_new_message = (flags & E_CONTENT_EDITOR_MESSAGE_NEW);
 	is_message_draft = (flags & E_CONTENT_EDITOR_MESSAGE_DRAFT);
 
 	source = webkit_dom_node_clone_node_with_error (WEBKIT_DOM_NODE (body), TRUE, NULL);
@@ -8114,7 +8113,7 @@ e_editor_dom_process_content_to_plain_text_for_exporting (EEditorPage *editor_pa
 
 	/* If composer is in HTML mode we have to move the content to plain version */
 	if (e_editor_page_get_html_mode (editor_page)) {
-		if (converted || is_from_new_message || is_message_draft) {
+		if (converted || is_new_message || is_message_draft) {
 			toggle_paragraphs_style_in_element (
 				editor_page, WEBKIT_DOM_ELEMENT (source), FALSE);
 			remove_images_in_element (
@@ -8567,8 +8566,6 @@ e_editor_dom_process_content_after_load (EEditorPage *editor_page)
 	body = webkit_dom_document_get_body (document);
 
 	webkit_dom_element_remove_attribute (WEBKIT_DOM_ELEMENT (body), "style");
-	webkit_dom_element_set_attribute (
-		WEBKIT_DOM_ELEMENT (body), "data-message", "", NULL);
 
 	if (e_editor_page_get_convert_in_situ (editor_page)) {
 		e_editor_dom_convert_content (editor_page, NULL);
@@ -10453,33 +10450,32 @@ e_editor_dom_check_if_conversion_needed (EEditorPage *editor_page)
 	EContentEditorContentFlags flags;
 	WebKitDOMDocument *document;
 	WebKitDOMHTMLElement *body;
-	gboolean is_from_new_message, converted, edit_as_new, message, convert;
+	gboolean is_new_message, converted, edit_as_new, message, convert;
 	gboolean reply, hide, html_mode, message_from_draft;
 
 	g_return_val_if_fail (E_IS_EDITOR_PAGE (editor_page), FALSE);
 
 	document = e_editor_page_get_document (editor_page);
 	html_mode = e_editor_page_get_html_mode (editor_page);
+
 	flags = e_editor_page_get_current_content_flags (editor_page);
 	message_from_draft = (flags & E_CONTENT_EDITOR_MESSAGE_DRAFT);
-	body = webkit_dom_document_get_body (document);
+	is_new_message = (flags & E_CONTENT_EDITOR_MESSAGE_NEW);
+	edit_as_new = (flags & E_CONTENT_EDITOR_MESSAGE_EDIT_AS_NEW);
+	message = (flags & E_CONTENT_EDITOR_MESSAGE_EDITTING);
 
-	is_from_new_message = webkit_dom_element_has_attribute (
-		WEBKIT_DOM_ELEMENT (body), "data-new-message");
+	body = webkit_dom_document_get_body (document);
 	converted = webkit_dom_element_has_attribute (
 		WEBKIT_DOM_ELEMENT (body), "data-converted");
-	edit_as_new = webkit_dom_element_has_attribute (
-		WEBKIT_DOM_ELEMENT (body), "data-edit-as-new");
-	message = webkit_dom_element_has_attribute (
-		WEBKIT_DOM_ELEMENT (body), "data-message");
 
-	reply = !is_from_new_message && !edit_as_new && message;
+	reply = !is_new_message && !edit_as_new && message;
 	hide = !reply && !converted;
 
 	convert = message && ((!hide && reply && !converted) || (edit_as_new && !converted));
-	convert = convert && !is_from_new_message;
+	convert = convert && !is_new_message;
 
-	return !html_mode && (contains_forbidden_elements (document) || (convert && !message_from_draft));
+	/* We need to count with the opposite value of html_mode as we are changing the mode. */
+	return html_mode && (contains_forbidden_elements (document) || (convert && !message_from_draft));
 }
 
 void
