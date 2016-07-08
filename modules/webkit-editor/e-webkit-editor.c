@@ -6030,7 +6030,7 @@ e_webkit_editor_init (EWebKitEditor *wk_editor)
 		wk_editor->priv->aliasing_settings = g_settings;
 	}
 
-	wk_editor->priv->html_mode = FALSE;
+	wk_editor->priv->html_mode = TRUE;
 	wk_editor->priv->changed = FALSE;
 	wk_editor->priv->can_copy = FALSE;
 	wk_editor->priv->can_cut = FALSE;
