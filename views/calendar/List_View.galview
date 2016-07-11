@@ -3,5 +3,7 @@
   <column source="2"/>
   <column source="0"/>
   <column source="1"/>
-  <grouping/>
+  <grouping>
+    <leaf column="0" ascending="true"/>
+  </grouping>
 </ETableState>
