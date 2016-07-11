@@ -116,14 +116,14 @@ void		e_attachment_set_save_self	(EAttachment *attachment,
 gboolean	e_attachment_get_save_extracted	(EAttachment *attachment);
 void		e_attachment_set_save_extracted	(EAttachment *attachment,
 						 gboolean save_extracted);
-camel_cipher_validity_encrypt_t
+CamelCipherValidityEncrypt
 		e_attachment_get_encrypted	(EAttachment *attachment);
 void		e_attachment_set_encrypted	(EAttachment *attachment,
-						 camel_cipher_validity_encrypt_t encrypted);
-camel_cipher_validity_sign_t
+						 CamelCipherValidityEncrypt encrypted);
+CamelCipherValiditySign
 		e_attachment_get_signed		(EAttachment *attachment);
 void		e_attachment_set_signed		(EAttachment *attachment,
-						 camel_cipher_validity_sign_t signed_);
+						 CamelCipherValiditySign signed_);
 gchar *		e_attachment_dup_description	(EAttachment *attachment);
 gchar *		e_attachment_dup_thumbnail_path	(EAttachment *attachment);
 gboolean	e_attachment_is_rfc822		(EAttachment *attachment);

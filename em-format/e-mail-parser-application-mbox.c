@@ -52,7 +52,7 @@ empe_app_mbox_parse (EMailParserExtension *extension,
 {
 	CamelMimeParser *mime_parser;
 	CamelStream *mem_stream;
-	camel_mime_parser_state_t state;
+	CamelMimeParserState state;
 	gint old_len;
 	gint messages;
 	GError *error = NULL;
