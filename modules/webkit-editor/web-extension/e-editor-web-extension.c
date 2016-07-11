@@ -1870,8 +1870,6 @@ handle_method_call (GDBusConnection *connection,
 		e_editor_page_add_new_inline_image_into_list (
 			editor_page, cid_uri, src);
 
-		e_editor_dom_insert_base64_image (editor_page, filename, cid_uri, src);
-
 		g_dbus_method_invocation_return_value (invocation, NULL);
 	} else if (g_strcmp0 (method_name, "DOMReplaceImageSrc") == 0) {
 		const gchar *selector, *uri;
