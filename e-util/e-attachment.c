@@ -83,8 +83,8 @@ struct _EAttachmentPrivate {
 	guint save_self      : 1;
 	guint save_extracted : 1;
 
-	camel_cipher_validity_encrypt_t encrypted;
-	camel_cipher_validity_sign_t signed_;
+	CamelCipherValidityEncrypt encrypted;
+	CamelCipherValiditySign signed_;
 
 	/* This is a reference to our row in an EAttachmentStore,
 	 * serving as a means of broadcasting "row-changed" signals.
@@ -1722,7 +1722,7 @@ e_attachment_set_save_extracted (EAttachment *attachment,
 	attachment->priv->save_extracted = save_extracted;
 }
 
-camel_cipher_validity_encrypt_t
+CamelCipherValidityEncrypt
 e_attachment_get_encrypted (EAttachment *attachment)
 {
 	g_return_val_if_fail (
@@ -1734,7 +1734,7 @@ e_attachment_get_encrypted (EAttachment *attachment)
 
 void
 e_attachment_set_encrypted (EAttachment *attachment,
-                            camel_cipher_validity_encrypt_t encrypted)
+                            CamelCipherValidityEncrypt encrypted)
 {
 	g_return_if_fail (E_IS_ATTACHMENT (attachment));
 
@@ -1743,7 +1743,7 @@ e_attachment_set_encrypted (EAttachment *attachment,
 	g_object_notify (G_OBJECT (attachment), "encrypted");
 }
 
-camel_cipher_validity_sign_t
+CamelCipherValiditySign
 e_attachment_get_signed (EAttachment *attachment)
 {
 	g_return_val_if_fail (
@@ -1755,7 +1755,7 @@ e_attachment_get_signed (EAttachment *attachment)
 
 void
 e_attachment_set_signed (EAttachment *attachment,
-                         camel_cipher_validity_sign_t signed_)
+                         CamelCipherValiditySign signed_)
 {
 	g_return_if_fail (E_IS_ATTACHMENT (attachment));
 
