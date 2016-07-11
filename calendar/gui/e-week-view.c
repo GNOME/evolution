@@ -1615,10 +1615,6 @@ e_week_view_class_init (EWeekViewClass *class)
 	widget_class->focus = week_view_focus;
 	widget_class->popup_menu = week_view_popup_menu;
 
-	#if GTK_CHECK_VERSION (3, 20, 0)
-	gtk_widget_class_set_css_name (widget_class, G_OBJECT_CLASS_NAME (class));
-	#endif
-
 	view_class = E_CALENDAR_VIEW_CLASS (class);
 	view_class->get_selected_events = week_view_get_selected_events;
 	view_class->get_selected_time_range = week_view_get_selected_time_range;

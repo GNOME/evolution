@@ -133,10 +133,6 @@ e_html_editor_find_dialog_class_init (EHTMLEditorFindDialogClass *class)
 
 	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->show = html_editor_find_dialog_show;
-
-	#if GTK_CHECK_VERSION (3, 20, 0)
-	gtk_widget_class_set_css_name (widget_class, G_OBJECT_CLASS_NAME (class));
-	#endif
 }
 
 static void

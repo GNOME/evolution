@@ -324,10 +324,6 @@ e_mail_shell_sidebar_class_init (EMailShellSidebarClass *class)
 	widget_class->get_preferred_width = mail_shell_sidebar_get_preferred_width;
 	widget_class->get_preferred_height = mail_shell_sidebar_get_preferred_height;
 
-	#if GTK_CHECK_VERSION (3, 20, 0)
-	gtk_widget_class_set_css_name (widget_class, G_OBJECT_CLASS_NAME (class));
-	#endif
-
 	shell_sidebar_class = E_SHELL_SIDEBAR_CLASS (class);
 	shell_sidebar_class->check_state = mail_shell_sidebar_check_state;
 

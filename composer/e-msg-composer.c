@@ -2944,10 +2944,6 @@ e_msg_composer_class_init (EMsgComposerClass *class)
 	widget_class->map = msg_composer_map;
 	widget_class->key_press_event = msg_composer_key_press_event;
 
-	#if GTK_CHECK_VERSION (3, 20, 0)
-	gtk_widget_class_set_css_name (widget_class, G_OBJECT_CLASS_NAME (class));
-	#endif
-
 	class->presend = msg_composer_presend;
 
 	g_object_class_install_property (

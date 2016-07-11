@@ -592,10 +592,6 @@ e_attachment_tree_view_class_init (EAttachmentTreeViewClass *class)
 	widget_class->drag_data_received = attachment_tree_view_drag_data_received;
 	widget_class->popup_menu = attachment_tree_view_popup_menu;
 
-	#if GTK_CHECK_VERSION (3, 20, 0)
-	gtk_widget_class_set_css_name (widget_class, G_OBJECT_CLASS_NAME (class));
-	#endif
-
 	tree_view_class = GTK_TREE_VIEW_CLASS (class);
 	tree_view_class->row_activated = attachment_tree_view_row_activated;
 

@@ -110,10 +110,6 @@ e_cal_base_shell_view_class_init (ECalBaseShellViewClass *class)
 	object_class->dispose = cal_base_shell_view_dispose;
 	object_class->constructed = cal_base_shell_view_constructed;
 
-	#if GTK_CHECK_VERSION (3, 20, 0)
-	gtk_widget_class_set_css_name (GTK_WIDGET_CLASS (class), G_OBJECT_CLASS_NAME (class));
-	#endif
-
 	class->source_type = E_CAL_CLIENT_SOURCE_TYPE_LAST;
 }
 

@@ -1351,10 +1351,6 @@ e_task_table_class_init (ETaskTableClass *class)
 	widget_class->popup_menu = task_table_popup_menu;
 	widget_class->query_tooltip = task_table_query_tooltip;
 
-	#if GTK_CHECK_VERSION (3, 20, 0)
-	gtk_widget_class_set_css_name (widget_class, G_OBJECT_CLASS_NAME (class));
-	#endif
-
 	table_class = E_TABLE_CLASS (class);
 	table_class->double_click = task_table_double_click;
 	table_class->right_click = task_table_right_click;

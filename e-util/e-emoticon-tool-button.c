@@ -498,10 +498,6 @@ e_emoticon_tool_button_class_init (EEmoticonToolButtonClass *class)
 	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->button_press_event = emoticon_tool_button_press_event;
 
-	#if GTK_CHECK_VERSION (3, 20, 0)
-	gtk_widget_class_set_css_name (widget_class, G_OBJECT_CLASS_NAME (class));
-	#endif
-
 	toggle_tool_button_class = GTK_TOGGLE_TOOL_BUTTON_CLASS (class);
 	toggle_tool_button_class->toggled = emoticon_tool_button_toggled;
 

@@ -611,10 +611,6 @@ e_canvas_class_init (ECanvasClass *class)
 	widget_class->focus_in_event = canvas_focus_in_event;
 	widget_class->focus_out_event = canvas_focus_out_event;
 
-	#if GTK_CHECK_VERSION (3, 20, 0)
-	gtk_widget_class_set_css_name (widget_class, G_OBJECT_CLASS_NAME (class));
-	#endif
-
 	class->reflow = canvas_reflow;
 
 	signals[REFLOW] = g_signal_new (

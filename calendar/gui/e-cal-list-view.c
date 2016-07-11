@@ -90,19 +90,16 @@ e_cal_list_view_class_init (ECalListViewClass *class)
 	GtkWidgetClass *widget_class;
 	ECalendarViewClass *view_class;
 
+	object_class = (GObjectClass *) class;
+	widget_class = (GtkWidgetClass *) class;
+	view_class = (ECalendarViewClass *) class;
+
 	/* Method override */
-	object_class = G_OBJECT_CLASS (class);
 	object_class->dispose = e_cal_list_view_dispose;
 	object_class->get_property = e_cal_list_view_get_property;
 
-	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->popup_menu = e_cal_list_view_popup_menu;
 
-	#if GTK_CHECK_VERSION (3, 20, 0)
-	gtk_widget_class_set_css_name (widget_class, G_OBJECT_CLASS_NAME (class));
-	#endif
-
-	view_class = E_CALENDAR_VIEW_CLASS (class);
 	view_class->get_selected_events = e_cal_list_view_get_selected_events;
 	view_class->get_selected_time_range = e_cal_list_view_get_selected_time_range;
 	view_class->get_visible_time_range = e_cal_list_view_get_visible_time_range;

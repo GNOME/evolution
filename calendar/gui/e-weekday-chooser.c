@@ -370,10 +370,6 @@ e_weekday_chooser_class_init (EWeekdayChooserClass *class)
 	widget_class->get_preferred_width = weekday_chooser_get_preferred_width;
 	widget_class->focus = weekday_chooser_focus;
 
-	#if GTK_CHECK_VERSION (3, 20, 0)
-	gtk_widget_class_set_css_name (widget_class, G_OBJECT_CLASS_NAME (class));
-	#endif
-
 	g_object_class_install_property (
 		object_class,
 		PROP_WEEK_START_DAY,

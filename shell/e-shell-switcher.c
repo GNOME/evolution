@@ -530,10 +530,6 @@ e_shell_switcher_class_init (EShellSwitcherClass *class)
 	widget_class->size_allocate = shell_switcher_size_allocate;
 	widget_class->screen_changed = shell_switcher_screen_changed;
 
-	#if GTK_CHECK_VERSION (3, 20, 0)
-	gtk_widget_class_set_css_name (widget_class, G_OBJECT_CLASS_NAME (class));
-	#endif
-
 	container_class = GTK_CONTAINER_CLASS (class);
 	container_class->remove = shell_switcher_remove;
 	container_class->forall = shell_switcher_forall;

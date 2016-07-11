@@ -502,10 +502,6 @@ e_html_editor_spell_check_dialog_class_init (EHTMLEditorSpellCheckDialogClass *c
 
 	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->show = html_editor_spell_check_dialog_show;
-
-	#if GTK_CHECK_VERSION (3, 20, 0)
-	gtk_widget_class_set_css_name (widget_class, G_OBJECT_CLASS_NAME (class));
-	#endif
 }
 
 static void

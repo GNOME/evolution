@@ -534,10 +534,6 @@ e_attachment_bar_class_init (EAttachmentBarClass *class)
 	widget_class->button_release_event = attachment_bar_button_release_event;
 	widget_class->motion_notify_event = attachment_bar_motion_notify_event;
 
-	#if GTK_CHECK_VERSION (3, 20, 0)
-	gtk_widget_class_set_css_name (widget_class, G_OBJECT_CLASS_NAME (class));
-	#endif
-
 	g_object_class_install_property (
 		object_class,
 		PROP_ACTIVE_VIEW,

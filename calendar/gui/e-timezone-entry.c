@@ -281,10 +281,6 @@ e_timezone_entry_class_init (ETimezoneEntryClass *class)
 	widget_class->mnemonic_activate = timezone_entry_mnemonic_activate;
 	widget_class->focus = timezone_entry_focus;
 
-	#if GTK_CHECK_VERSION (3, 20, 0)
-	gtk_widget_class_set_css_name (widget_class, G_OBJECT_CLASS_NAME (class));
-	#endif
-
 	g_object_class_install_property (
 		object_class,
 		PROP_TIMEZONE,

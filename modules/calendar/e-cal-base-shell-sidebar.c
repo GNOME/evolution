@@ -851,10 +851,6 @@ e_cal_base_shell_sidebar_class_init (ECalBaseShellSidebarClass *class)
 	object_class->dispose = cal_base_shell_sidebar_dispose;
 	object_class->finalize = cal_base_shell_sidebar_finalize;
 
-	#if GTK_CHECK_VERSION (3, 20, 0)
-	gtk_widget_class_set_css_name (GTK_WIDGET_CLASS (class), G_OBJECT_CLASS_NAME (class));
-	#endif
-
 	shell_sidebar_class = E_SHELL_SIDEBAR_CLASS (class);
 	shell_sidebar_class->check_state = cal_base_shell_sidebar_check_state;
 

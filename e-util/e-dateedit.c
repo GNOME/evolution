@@ -379,10 +379,6 @@ e_date_edit_class_init (EDateEditClass *class)
 	widget_class->mnemonic_activate = e_date_edit_mnemonic_activate;
 	widget_class->grab_focus = e_date_edit_grab_focus;
 
-	#if GTK_CHECK_VERSION (3, 20, 0)
-	gtk_widget_class_set_css_name (widget_class, G_OBJECT_CLASS_NAME (class));
-	#endif
-
 	g_object_class_install_property (
 		object_class,
 		PROP_ALLOW_NO_DATE_SET,

@@ -1991,10 +1991,6 @@ e_day_view_class_init (EDayViewClass *class)
 	widget_class->focus_out_event = day_view_focus_out;
 	widget_class->popup_menu = day_view_popup_menu;
 
-	#if GTK_CHECK_VERSION (3, 20, 0)
-	gtk_widget_class_set_css_name (widget_class, G_OBJECT_CLASS_NAME (class));
-	#endif
-
 	view_class = E_CALENDAR_VIEW_CLASS (class);
 	view_class->get_selected_events = day_view_get_selected_events;
 	view_class->get_selected_time_range = day_view_get_selected_time_range;

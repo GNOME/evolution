@@ -703,10 +703,6 @@ e_name_selector_list_class_init (ENameSelectorListClass *class)
 
 	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->realize = name_selector_list_realize;
-
-	#if GTK_CHECK_VERSION (3, 20, 0)
-	gtk_widget_class_set_css_name (widget_class, G_OBJECT_CLASS_NAME (class));
-	#endif
 }
 
 static void

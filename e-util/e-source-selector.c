@@ -1716,10 +1716,6 @@ e_source_selector_class_init (ESourceSelectorClass *class)
 	widget_class->drag_data_received = source_selector_drag_data_received;
 	widget_class->popup_menu = source_selector_popup_menu;
 
-	#if GTK_CHECK_VERSION (3, 20, 0)
-	gtk_widget_class_set_css_name (widget_class, G_OBJECT_CLASS_NAME (class));
-	#endif
-
 	tree_view_class = GTK_TREE_VIEW_CLASS (class);
 	tree_view_class->test_collapse_row = source_selector_test_collapse_row;
 	tree_view_class->row_expanded = source_selector_row_expanded;

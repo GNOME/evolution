@@ -1248,10 +1248,6 @@ e_import_assistant_class_init (EImportAssistantClass *class)
 	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->key_press_event = import_assistant_key_press_event;
 
-	#if GTK_CHECK_VERSION (3, 20, 0)
-	gtk_widget_class_set_css_name (widget_class, G_OBJECT_CLASS_NAME (class));
-	#endif
-
 	assistant_class = GTK_ASSISTANT_CLASS (class);
 	assistant_class->prepare = import_assistant_prepare;
 

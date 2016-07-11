@@ -532,10 +532,6 @@ e_attachment_icon_view_class_init (EAttachmentIconViewClass *class)
 	widget_class->drag_data_received = attachment_icon_view_drag_data_received;
 	widget_class->popup_menu = attachment_icon_view_popup_menu;
 
-	#if GTK_CHECK_VERSION (3, 20, 0)
-	gtk_widget_class_set_css_name (widget_class, G_OBJECT_CLASS_NAME (class));
-	#endif
-
 	icon_view_class = GTK_ICON_VIEW_CLASS (class);
 	icon_view_class->item_activated = attachment_icon_view_item_activated;
 

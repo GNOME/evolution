@@ -747,10 +747,6 @@ e_html_editor_table_dialog_class_init (EHTMLEditorTableDialogClass *class)
 	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->show = html_editor_table_dialog_show;
 	widget_class->hide = html_editor_table_dialog_hide;
-
-	#if GTK_CHECK_VERSION (3, 20, 0)
-	gtk_widget_class_set_css_name (widget_class, G_OBJECT_CLASS_NAME (class));
-	#endif
 }
 
 static void

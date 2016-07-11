@@ -1713,10 +1713,6 @@ em_subscription_editor_class_init (EMSubscriptionEditorClass *class)
 	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->realize = subscription_editor_realize;
 
-	#if GTK_CHECK_VERSION (3, 20, 0)
-	gtk_widget_class_set_css_name (widget_class, G_OBJECT_CLASS_NAME (class));
-	#endif
-
 	g_object_class_install_property (
 		object_class,
 		PROP_SESSION,

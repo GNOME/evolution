@@ -330,10 +330,6 @@ e_name_selector_entry_class_init (ENameSelectorEntryClass *class)
 	widget_class->realize = name_selector_entry_realize;
 	widget_class->drag_data_received = name_selector_entry_drag_data_received;
 
-	#if GTK_CHECK_VERSION (3, 20, 0)
-	gtk_widget_class_set_css_name (widget_class, G_OBJECT_CLASS_NAME (class));
-	#endif
-
 	/**
 	 * ENameSelectorEntry:client-cache:
 	 *

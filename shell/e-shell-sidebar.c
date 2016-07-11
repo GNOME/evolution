@@ -352,10 +352,6 @@ e_shell_sidebar_class_init (EShellSidebarClass *class)
 	widget_class->get_preferred_height = shell_sidebar_get_preferred_height;
 	widget_class->size_allocate = shell_sidebar_size_allocate;
 
-	#if GTK_CHECK_VERSION (3, 20, 0)
-	gtk_widget_class_set_css_name (widget_class, G_OBJECT_CLASS_NAME (class));
-	#endif
-
 	container_class = GTK_CONTAINER_CLASS (class);
 	container_class->forall = shell_sidebar_forall;
 

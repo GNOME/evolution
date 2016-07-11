@@ -200,10 +200,10 @@ e_calendar_class_init (ECalendarClass *class)
 
 	g_type_class_add_private (class, sizeof (ECalendarPrivate));
 
-	object_class = G_OBJECT_CLASS (class);
+	object_class = (GObjectClass *) class;
 	object_class->dispose = e_calendar_dispose;
 
-	widget_class = GTK_WIDGET_CLASS (class);
+	widget_class = (GtkWidgetClass *) class;
 	widget_class->realize = e_calendar_realize;
 	widget_class->style_updated = e_calendar_style_updated;
 	widget_class->get_preferred_width = e_calendar_get_preferred_width;
@@ -212,10 +212,6 @@ e_calendar_class_init (ECalendarClass *class)
 	widget_class->drag_motion = e_calendar_drag_motion;
 	widget_class->drag_leave = e_calendar_drag_leave;
 	widget_class->focus = e_calendar_focus;
-
-	#if GTK_CHECK_VERSION (3, 20, 0)
-	gtk_widget_class_set_css_name (widget_class, G_OBJECT_CLASS_NAME (class));
-	#endif
 }
 
 static void
