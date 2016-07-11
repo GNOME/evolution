@@ -1,3 +1,51 @@
+Evolution 3.20.4 2016-07-11
+---------------------------
+
+Bug Fixes:
+	Bug 767283 - "Add a Column" dialog: drag and drop broken on Wayland (Milan Crha)
+	Bug 767236 - quick correction spell check in context menu is gone (Tomas Popela)
+	Bug 767334 - Unable to open attachments when I am not the organiser (Milan Crha)
+	Bug 767542 - Correct encrypted-only message formatter color and icon (Milan Crha)
+	Bug 767364 - Tooltips over task/memo list are misplaced (Milan Crha)
+	Bug 767335 - Attachment names are not URL-decoded (Milan Crha)
+	Bug 767780 - The "References" header folded twice (Milan Crha)
+	Bug 767681 - regression: Evolution 3.20.3-1 inserts blank line at the start of the signature (Tomas Popela)
+	Bug 768013 - [Wayland] Drag and drop copies emails instead of moving them (Milan Crha)
+	Bug 768369 - Avoid "Quit with unsent messages" question without shell window (Milan Crha)
+
+Miscellaneous:
+	Crash under e_mail_folder_find_duplicate_messages_sync() (Milan Crha)
+	Create new events in the selected calendar in the left tree of calendars (Milan Crha)
+	When pressing the Return key to end a list a new empty list is created (Tomas Popela)
+	Don't create unnecessary wrappers when quoting a text (Tomas Popela)
+	Busy-loop when printing specifically formatted HTML message (Milan Crha)
+	GalA11yETableItem can have stored incorrect row count sometimes (Milan Crha)
+	EHTMLEditorActions - Disable HTML actions in plain text mode (Tomas Popela)
+	EHTMLEditorSelection - List alignment not detected properly (Tomas Popela)
+	EHTMLEditorSelection - Indented block style could not be set properly (Tomas Popela)
+	EHTMLEditorSelection - Use a faster way of quoting an element in the plain text mode (Tomas Popela)
+	EHTMLEditorView - Opening a draft that was not created in composer should respect the wrap/don't wrap preference (Tomas Popela)
+	EHTMLEditorView - Critical warning could be seen in console after pasting the content (Tomas Popela)
+	EHTMLEditorView - Don't leak a WebKitDOMNodeList instance (Tomas Popela)
+	EHTMLEditorView - Pasting content into the indented block will not preserve formatting (Tomas Popela)
+	EHTMLEditorView - Don't add a new line for the empty list when generating a plain text version of the content (Tomas Popela)
+	EHTMLEditorView - Don't leak a WebKitODMNodeList instance (Tomas Popela)
+	EHTMLEditorView - Always try to process the CID images when loading a content (Tomas Popela)
+	EHTMLEditorView - Correct the situations when the 'Lose formatting' dialog is showed (Tomas Popela)
+	EHTMLEditorView - When the content is converted set the editor as changed (Tomas Popela)
+	EHTMLEditorView - Plain text version of draft could lose formatting (Tomas Popela)
+	EHTMLEditorView - Improve how the content is processed to plain text (Tomas Popela)
+	EHTMLEditorView - Correctly remove images and its wrappers (Tomas Popela)
+	EHTMLEditorView - Indented elements should be preserved when switching between composer modes (Tomas Popela)
+	EHTMLEditorView - Fix the build after doing a mistake in commits (Tomas Popela)
+	EHTMLEditorView - Redoing a delete operation in a PRE element could wrap the content in SPAN element (Tomas Popela)
+	EHTMLEditorView - Some empty new lines in a quoted content could be lost (Tomas Popela)
+	EHTMLEditorView - Don't modify a variable from arguments (Tomas Popela)
+	EHTMLEditorView - Simplify how an element is quoted (Tomas Popela)
+
+Translations:
+	Anders Jonsson (sv)
+
 Evolution 3.20.3 2016-06-06
 ---------------------------
 
