@@ -322,6 +322,10 @@ e_paned_class_init (EPanedClass *class)
 	widget_class->realize = paned_realize;
 	widget_class->size_allocate = paned_size_allocate;
 
+	#if GTK_CHECK_VERSION (3, 20, 0)
+	gtk_widget_class_set_css_name (widget_class, G_OBJECT_CLASS_NAME (class));
+	#endif
+
 	g_object_class_install_property (
 		object_class,
 		PROP_HPOSITION,

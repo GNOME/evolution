@@ -369,6 +369,10 @@ e_cal_base_shell_content_class_init (ECalBaseShellContentClass *class)
 	object_class->finalize = cal_base_shell_content_finalize;
 	object_class->constructed = cal_base_shell_content_constructed;
 
+	#if GTK_CHECK_VERSION (3, 20, 0)
+	gtk_widget_class_set_css_name (GTK_WIDGET_CLASS (class), G_OBJECT_CLASS_NAME (class));
+	#endif
+
 	g_object_class_install_property (
 		object_class,
 		PROP_DATA_MODEL,

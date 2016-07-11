@@ -1576,6 +1576,10 @@ e_web_view_class_init (EWebViewClass *class)
 	widget_class->map = web_view_map;
 	widget_class->unmap = web_view_unmap;
 
+	#if GTK_CHECK_VERSION (3, 20, 0)
+	gtk_widget_class_set_css_name (widget_class, G_OBJECT_CLASS_NAME (class));
+	#endif
+
 	class->create_plugin_widget = web_view_create_plugin_widget;
 	class->hovering_over_link = web_view_hovering_over_link;
 	class->link_clicked = web_view_link_clicked;

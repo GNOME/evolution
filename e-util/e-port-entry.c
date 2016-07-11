@@ -292,6 +292,10 @@ e_port_entry_class_init (EPortEntryClass *class)
 	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->get_preferred_width = port_entry_get_preferred_width;
 
+	#if GTK_CHECK_VERSION (3, 20, 0)
+	gtk_widget_class_set_css_name (widget_class, G_OBJECT_CLASS_NAME (class));
+	#endif
+
 	g_object_class_install_property (
 		object_class,
 		PROP_IS_VALID,

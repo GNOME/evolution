@@ -615,6 +615,10 @@ e_name_selector_dialog_class_init (ENameSelectorDialogClass *class)
 	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->realize = name_selector_dialog_realize;
 
+	#if GTK_CHECK_VERSION (3, 20, 0)
+	gtk_widget_class_set_css_name (widget_class, G_OBJECT_CLASS_NAME (class));
+	#endif
+
 	/**
 	 * ENameSelectorDialog:client-cache:
 	 *

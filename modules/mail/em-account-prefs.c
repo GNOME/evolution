@@ -205,6 +205,10 @@ em_account_prefs_class_init (EMAccountPrefsClass *class)
 	object_class->dispose = account_prefs_dispose;
 	object_class->constructed = account_prefs_constructed;
 
+	#if GTK_CHECK_VERSION (3, 20, 0)
+	gtk_widget_class_set_css_name (GTK_WIDGET_CLASS (class), G_OBJECT_CLASS_NAME (class));
+	#endif
+
 	account_manager_class = E_MAIL_ACCOUNT_MANAGER_CLASS (class);
 	account_manager_class->add_account = account_prefs_add_account;
 	account_manager_class->edit_account = account_prefs_edit_account;

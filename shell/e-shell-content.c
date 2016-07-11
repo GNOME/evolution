@@ -442,6 +442,10 @@ e_shell_content_class_init (EShellContentClass *class)
 	widget_class->get_preferred_height = shell_content_get_preferred_height;
 	widget_class->size_allocate = shell_content_size_allocate;
 
+	#if GTK_CHECK_VERSION (3, 20, 0)
+	gtk_widget_class_set_css_name (widget_class, G_OBJECT_CLASS_NAME (class));
+	#endif
+
 	container_class = GTK_CONTAINER_CLASS (class);
 	container_class->remove = shell_content_remove;
 	container_class->forall = shell_content_forall;

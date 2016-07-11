@@ -2377,6 +2377,10 @@ e_comp_editor_class_init (ECompEditorClass *klass)
 	widget_class->delete_event = comp_editor_delete_event;
 	widget_class->key_press_event = comp_editor_key_press_event;
 
+	#if GTK_CHECK_VERSION (3, 20, 0)
+	gtk_widget_class_set_css_name (widget_class, G_OBJECT_CLASS_NAME (klass));
+	#endif
+
 	object_class = G_OBJECT_CLASS (klass);
 	object_class->set_property = e_comp_editor_set_property;
 	object_class->get_property = e_comp_editor_get_property;

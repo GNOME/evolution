@@ -284,6 +284,10 @@ e_attachment_dialog_class_init (EAttachmentDialogClass *class)
 	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->map = attachment_dialog_map;
 
+	#if GTK_CHECK_VERSION (3, 20, 0)
+	gtk_widget_class_set_css_name (widget_class, G_OBJECT_CLASS_NAME (class));
+	#endif
+
 	dialog_class = GTK_DIALOG_CLASS (class);
 	dialog_class->response = attachment_dialog_response;
 

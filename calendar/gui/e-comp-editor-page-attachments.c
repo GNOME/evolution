@@ -875,6 +875,10 @@ e_comp_editor_page_attachments_class_init (ECompEditorPageAttachmentsClass *klas
 	widget_class->drag_motion = ecep_attachments_drag_motion;
 	widget_class->drag_data_received = ecep_attachments_drag_data_received;
 
+	#if GTK_CHECK_VERSION (3, 20, 0)
+	gtk_widget_class_set_css_name (widget_class, G_OBJECT_CLASS_NAME (klass));
+	#endif
+
 	object_class = G_OBJECT_CLASS (klass);
 	object_class->set_property = ecep_attachments_set_property;
 	object_class->get_property = ecep_attachments_get_property;

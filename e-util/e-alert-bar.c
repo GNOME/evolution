@@ -347,6 +347,10 @@ e_alert_bar_class_init (EAlertBarClass *class)
 	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->get_request_mode = alert_bar_get_request_mode;
 
+	#if GTK_CHECK_VERSION (3, 20, 0)
+	gtk_widget_class_set_css_name (widget_class, G_OBJECT_CLASS_NAME (class));
+	#endif
+
 	info_bar_class = GTK_INFO_BAR_CLASS (class);
 	info_bar_class->close = alert_bar_close;
 }

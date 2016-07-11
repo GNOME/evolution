@@ -1741,6 +1741,10 @@ e_cal_shell_content_class_init (ECalShellContentClass *class)
 	object_class->dispose = cal_shell_content_dispose;
 	object_class->constructed = cal_shell_content_constructed;
 
+	#if GTK_CHECK_VERSION (3, 20, 0)
+	gtk_widget_class_set_css_name (GTK_WIDGET_CLASS (class), G_OBJECT_CLASS_NAME (class));
+	#endif
+
 	shell_content_class = E_SHELL_CONTENT_CLASS (class);
 	shell_content_class->check_state = cal_shell_content_check_state;
 	shell_content_class->focus_search_results = cal_shell_content_focus_search_results;

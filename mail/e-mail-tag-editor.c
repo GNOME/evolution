@@ -203,6 +203,10 @@ e_mail_tag_editor_class_init (EMailTagEditorClass *class)
 	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->realize = mail_tag_editor_realize;
 
+	#if GTK_CHECK_VERSION (3, 20, 0)
+	gtk_widget_class_set_css_name (widget_class, G_OBJECT_CLASS_NAME (class));
+	#endif
+
 	class->get_tag_list = mail_tag_editor_get_tag_list;
 	class->set_tag_list = mail_tag_editor_set_tag_list;
 

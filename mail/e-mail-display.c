@@ -1881,6 +1881,10 @@ e_mail_display_class_init (EMailDisplayClass *class)
 	widget_class->style_updated = mail_display_style_updated;
 	widget_class->button_press_event = mail_display_button_press_event;
 
+	#if GTK_CHECK_VERSION (3, 20, 0)
+	gtk_widget_class_set_css_name (widget_class, G_OBJECT_CLASS_NAME (class));
+	#endif
+
 	web_view_class = E_WEB_VIEW_CLASS (class);
 	web_view_class->redirect_uri = mail_display_redirect_uri;
 	web_view_class->suggest_filename = mail_display_suggest_filename;

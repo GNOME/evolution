@@ -94,6 +94,10 @@ e_minicard_view_widget_class_init (EMinicardViewWidgetClass *class)
 	widget_class->size_allocate = e_minicard_view_widget_size_allocate;
 	widget_class->focus_in_event = e_minicard_view_widget_real_focus_in_event;
 
+	#if GTK_CHECK_VERSION (3, 20, 0)
+	gtk_widget_class_set_css_name (widget_class, G_OBJECT_CLASS_NAME (class));
+	#endif
+
 	canvas_class = E_CANVAS_CLASS (class);
 	canvas_class->reflow = e_minicard_view_widget_reflow;
 

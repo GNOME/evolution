@@ -1863,13 +1863,12 @@ gnome_canvas_class_init (GnomeCanvasClass *class)
 	GObjectClass   *object_class;
 	GtkWidgetClass *widget_class;
 
-	object_class = (GObjectClass *) class;
-	widget_class = (GtkWidgetClass *) class;
-
+	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = gnome_canvas_set_property;
 	object_class->get_property = gnome_canvas_get_property;
 	object_class->dispose = gnome_canvas_dispose;
 
+	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->map = gnome_canvas_map;
 	widget_class->unmap = gnome_canvas_unmap;
 	widget_class->realize = gnome_canvas_realize;
@@ -1886,6 +1885,10 @@ gnome_canvas_class_init (GnomeCanvasClass *class)
 	widget_class->leave_notify_event = gnome_canvas_crossing;
 	widget_class->focus_in_event = gnome_canvas_focus_in;
 	widget_class->focus_out_event = gnome_canvas_focus_out;
+
+	#if GTK_CHECK_VERSION (3, 20, 0)
+	gtk_widget_class_set_css_name (widget_class, G_OBJECT_CLASS_NAME (class));
+	#endif
 
 	class->draw_background = gnome_canvas_draw_background;
 	class->request_update = gnome_canvas_request_update_real;

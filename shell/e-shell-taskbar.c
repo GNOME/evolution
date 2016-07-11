@@ -436,6 +436,10 @@ e_shell_taskbar_class_init (EShellTaskbarClass *class)
 	widget_class->get_preferred_height = shell_taskbar_get_preferred_height;
 	widget_class->get_preferred_width = shell_taskbar_get_preferred_width;
 
+	#if GTK_CHECK_VERSION (3, 20, 0)
+	gtk_widget_class_set_css_name (widget_class, G_OBJECT_CLASS_NAME (class));
+	#endif
+
 	/**
 	 * EShellTaskbar:message
 	 *

@@ -954,6 +954,10 @@ e_spell_entry_class_init (ESpellEntryClass *class)
 	widget_class->draw = spell_entry_draw;
 	widget_class->button_press_event = spell_entry_button_press;
 
+	#if GTK_CHECK_VERSION (3, 20, 0)
+	gtk_widget_class_set_css_name (widget_class, G_OBJECT_CLASS_NAME (class));
+	#endif
+
 	g_object_class_install_property (
 		object_class,
 		PROP_CHECKING_ENABLED,

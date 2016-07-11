@@ -815,6 +815,10 @@ e_addressbook_view_class_init (EAddressbookViewClass *class)
 	object_class->dispose = addressbook_view_dispose;
 	object_class->constructed = addressbook_view_constructed;
 
+	#if GTK_CHECK_VERSION (3, 20, 0)
+	gtk_widget_class_set_css_name (GTK_WIDGET_CLASS (class), G_OBJECT_CLASS_NAME (class));
+	#endif
+
 	/* Inherited from ESelectableInterface */
 	g_object_class_override_property (
 		object_class,

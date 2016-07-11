@@ -241,6 +241,10 @@ e_spinner_class_init (ESpinnerClass *klass)
 	widget_class->realize = e_spinner_realize;
 	widget_class->unrealize = e_spinner_unrealize;
 
+	#if GTK_CHECK_VERSION (3, 20, 0)
+	gtk_widget_class_set_css_name (widget_class, G_OBJECT_CLASS_NAME (klass));
+	#endif
+
 	/**
 	 * ESpinner:active:
 	 *

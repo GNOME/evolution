@@ -196,6 +196,10 @@ e_mail_account_tree_view_class_init (EMailAccountTreeViewClass *class)
 	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->drag_end = mail_account_tree_view_drag_end;
 
+	#if GTK_CHECK_VERSION (3, 20, 0)
+	gtk_widget_class_set_css_name (widget_class, G_OBJECT_CLASS_NAME (class));
+	#endif
+
 	signals[ENABLE] = g_signal_new (
 		"enable",
 		G_TYPE_FROM_CLASS (class),

@@ -233,6 +233,10 @@ e_preview_pane_class_init (EPreviewPaneClass *class)
 	object_class->dispose = preview_pane_dispose;
 	object_class->constructed = preview_pane_constructed;
 
+	#if GTK_CHECK_VERSION (3, 20, 0)
+	gtk_widget_class_set_css_name (GTK_WIDGET_CLASS (class), G_OBJECT_CLASS_NAME (class));
+	#endif
+
 	class->show_search_bar = preview_pane_show_search_bar;
 
 	g_object_class_install_property (

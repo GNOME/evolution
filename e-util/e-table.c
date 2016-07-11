@@ -3196,21 +3196,23 @@ e_table_class_init (ETableClass *class)
 	GObjectClass *object_class;
 	GtkWidgetClass *widget_class;
 
-	object_class = (GObjectClass *) class;
-	widget_class = (GtkWidgetClass *) class;
-
+	object_class = G_OBJECT_CLASS (class);
 	object_class->dispose = et_dispose;
 	object_class->finalize = et_finalize;
 	object_class->set_property = et_set_property;
 	object_class->get_property = et_get_property;
 
+	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->grab_focus = et_grab_focus;
 	widget_class->unrealize = et_unrealize;
 	widget_class->get_preferred_width = et_get_preferred_width;
 	widget_class->get_preferred_height = et_get_preferred_height;
 	widget_class->style_updated = et_canvas_style_updated;
-
 	widget_class->focus = et_focus;
+
+	#if GTK_CHECK_VERSION (3, 20, 0)
+	gtk_widget_class_set_css_name (widget_class, G_OBJECT_CLASS_NAME (class));
+	#endif
 
 	class->cursor_change = NULL;
 	class->cursor_activated = NULL;

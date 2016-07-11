@@ -1056,6 +1056,10 @@ e_mail_config_assistant_class_init (EMailConfigAssistantClass *class)
 	object_class->finalize = mail_config_assistant_finalize;
 	object_class->constructed = mail_config_assistant_constructed;
 
+	#if GTK_CHECK_VERSION (3, 20, 0)
+	gtk_widget_class_set_css_name (GTK_WIDGET_CLASS (class), G_OBJECT_CLASS_NAME (class));
+	#endif
+
 	container_class = GTK_CONTAINER_CLASS (class);
 	container_class->remove = mail_config_assistant_remove;
 

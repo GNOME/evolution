@@ -6312,6 +6312,10 @@ e_html_editor_view_class_init (EHTMLEditorViewClass *class)
 	widget_class->button_release_event = html_editor_view_button_release_event;
 	widget_class->key_press_event = html_editor_view_key_press_event;
 
+	#if GTK_CHECK_VERSION (3, 20, 0)
+	gtk_widget_class_set_css_name (widget_class, G_OBJECT_CLASS_NAME (class));
+	#endif
+
 	class->paste_clipboard_quoted = html_editor_view_paste_clipboard_quoted;
 
 	/**

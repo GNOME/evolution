@@ -293,6 +293,10 @@ e_meeting_time_selector_class_init (EMeetingTimeSelectorClass *class)
 	widget_class->style_updated = e_meeting_time_selector_style_updated;
 	widget_class->draw = e_meeting_time_selector_draw;
 
+	#if GTK_CHECK_VERSION (3, 20, 0)
+	gtk_widget_class_set_css_name (widget_class, G_OBJECT_CLASS_NAME (class));
+	#endif
+
 	g_object_class_install_property (
 		object_class,
 		PROP_USE_24_HOUR_FORMAT,

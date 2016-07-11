@@ -481,6 +481,10 @@ e_search_bar_class_init (ESearchBarClass *class)
 	widget_class->hide = search_bar_hide;
 	widget_class->key_press_event = search_bar_key_press_event;
 
+	#if GTK_CHECK_VERSION (3, 20, 0)
+	gtk_widget_class_set_css_name (widget_class, G_OBJECT_CLASS_NAME (class));
+	#endif
+
 	class->clear = search_bar_clear;
 
 	g_object_class_install_property (

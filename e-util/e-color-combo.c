@@ -610,6 +610,10 @@ e_color_combo_class_init (EColorComboClass *class)
 	widget_class->get_preferred_width = color_combo_get_preferred_width;
 	widget_class->button_press_event = color_combo_button_press_event_cb;
 
+	#if GTK_CHECK_VERSION (3, 20, 0)
+	gtk_widget_class_set_css_name (widget_class, G_OBJECT_CLASS_NAME (class));
+	#endif
+
 	class->popup = color_combo_popup;
 	class->popdown = color_combo_popdown;
 

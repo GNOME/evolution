@@ -81,10 +81,19 @@ static const char *css =
 EMailBrowser EPreviewPane GtkScrolledWindow {\
     border: none;\
 }\
+EMailBrowser EPreviewPane scrolledwindow {\
+    border: none;\
+}\
 EPaned.horizontal EPreviewPane GtkScrolledWindow {\
     border-width: 1px 0 0 0;\
 }\
+EPaned.horizontal EPreviewPane scrolledwindow {\
+    border-width: 1px 0 0 0;\
+}\
 EPaned.vertical EPreviewPane GtkScrolledWindow {\
+    border: none;\
+}\
+EPaned.vertical EPreviewPane scrolledwindow {\
     border: none;\
 }\
 EAddressbookView {\
@@ -93,13 +102,25 @@ EAddressbookView {\
 ECalShellContent GtkSeparator {\
    color: @borders;\
 }\
+ECalShellContent separator {\
+   color: @borders;\
+}\
 ECalShellContent GtkNotebook {\
+   border-width: 1px 0 0 0;\
+}\
+ECalShellContent notebook {\
    border-width: 1px 0 0 0;\
 }\
 EShellSidebar GtkScrolledWindow {\
    border-width: 1px 0 0 0;\
 }\
+EShellSidebar scrolledwindow {\
+   border-width: 1px 0 0 0;\
+}\
 .switcher-visible EShellSidebar GtkScrolledWindow {\
+   border-width: 1px 0;\
+}\
+.switcher-visible EShellSidebar scrolledwindow {\
    border-width: 1px 0;\
 }\
 .switcher-visible ECalBaseShellSidebar EPaned {\
@@ -108,7 +129,13 @@ EShellSidebar GtkScrolledWindow {\
 EMAccountPrefs GtkFrame {\
    border: none;\
 }\
+EMAccountPrefs frame {\
+   border: none;\
+}\
 EAttachmentPaned > GtkBox > GtkPaned > GtkScrolledWindow {\
+   border-width: 1px 0;\
+}\
+EAttachmentPaned > box > paned > scrolledwindow {\
    border-width: 1px 0;\
 }\
 EHTMLEditor .toolbar {\
@@ -885,6 +912,10 @@ e_shell_window_class_init (EShellWindowClass *class)
 
 	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->get_preferred_width = shell_window_get_preferred_width;
+
+	#if GTK_CHECK_VERSION (3, 20, 0)
+	gtk_widget_class_set_css_name (widget_class, G_OBJECT_CLASS_NAME (class));
+	#endif
 
 	class->close_alert = shell_window_close_alert;
 	class->construct_menubar = shell_window_construct_menubar;

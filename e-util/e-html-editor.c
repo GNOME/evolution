@@ -855,6 +855,10 @@ e_html_editor_class_init (EHTMLEditorClass *class)
 	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->parent_set = html_editor_parent_changed;
 
+	#if GTK_CHECK_VERSION (3, 20, 0)
+	gtk_widget_class_set_css_name (widget_class, G_OBJECT_CLASS_NAME (class));
+	#endif
+
 	class->update_actions = html_editor_update_actions;
 	class->spell_languages_changed = html_editor_spell_languages_changed;
 

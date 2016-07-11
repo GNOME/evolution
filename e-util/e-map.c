@@ -835,6 +835,10 @@ e_map_class_init (EMapClass *class)
 	widget_class->button_release_event = e_map_button_release;
 	widget_class->motion_notify_event = e_map_motion;
 	widget_class->key_press_event = e_map_key_press;
+
+	#if GTK_CHECK_VERSION (3, 20, 0)
+	gtk_widget_class_set_css_name (widget_class, G_OBJECT_CLASS_NAME (class));
+	#endif
 }
 
 static void

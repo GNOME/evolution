@@ -986,6 +986,10 @@ e_mail_browser_class_init (EMailBrowserClass *class)
 	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->key_press_event = mail_browser_key_press_event;
 
+	#if GTK_CHECK_VERSION (3, 20, 0)
+	gtk_widget_class_set_css_name (widget_class, G_OBJECT_CLASS_NAME (class));
+	#endif
+
 	g_object_class_install_property (
 		object_class,
 		PROP_BACKEND,

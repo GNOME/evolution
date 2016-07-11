@@ -1586,6 +1586,10 @@ em_folder_tree_class_init (EMFolderTreeClass *class)
 	widget_class->key_press_event = folder_tree_key_press_event;
 	widget_class->popup_menu = folder_tree_popup_menu;
 
+	#if GTK_CHECK_VERSION (3, 20, 0)
+	gtk_widget_class_set_css_name (widget_class, G_OBJECT_CLASS_NAME (class));
+	#endif
+
 	tree_view_class = GTK_TREE_VIEW_CLASS (class);
 	tree_view_class->row_activated = folder_tree_row_activated;
 	tree_view_class->test_collapse_row = folder_tree_test_collapse_row;
