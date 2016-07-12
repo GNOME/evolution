@@ -2895,14 +2895,14 @@ body_keydown_event_cb (WebKitDOMElement *element,
 
 	e_editor_page_set_dont_save_history_in_body_input (editor_page, delete_key || backspace_key);
 
+	e_editor_page_set_return_key_pressed (editor_page, return_key);
+	e_editor_page_set_space_key_pressed (editor_page, space_key);
+
 	if (!(delete_key || return_key || backspace_key || space_key))
 		return;
 
 	shift_key = webkit_dom_keyboard_event_get_shift_key (WEBKIT_DOM_KEYBOARD_EVENT (event));
 	control_key = webkit_dom_keyboard_event_get_ctrl_key (WEBKIT_DOM_KEYBOARD_EVENT (event));
-
-	e_editor_page_set_return_key_pressed (editor_page, return_key);
-	e_editor_page_set_space_key_pressed (editor_page, space_key);
 
 	if (key_code == HTML_KEY_CODE_TABULATOR) {
 		if (jump_to_next_table_cell (document, shift_key)) {
