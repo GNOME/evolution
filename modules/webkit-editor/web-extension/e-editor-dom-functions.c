@@ -5896,7 +5896,7 @@ e_editor_dom_convert_content (EEditorPage *editor_page,
 	top_signature = webkit_dom_document_query_selector (
 		document, ".-x-evo-top-signature", NULL);
 	signature = webkit_dom_document_query_selector (
-		document, ".-x-evo-signature-content_wrapper", NULL);
+		document, ".-x-evo-signature-wrapper", NULL);
 	if (signature) {
 		if (top_signature) {
 			WebKitDOMElement *spacer;
