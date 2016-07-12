@@ -8510,7 +8510,6 @@ change_cid_images_src_to_base64 (EEditorPage *editor_page)
 		g_object_unref (node);
 	}
 	g_object_unref (list);
-	g_hash_table_remove_all (inline_images);
 }
 
 static void
@@ -8614,6 +8613,7 @@ e_editor_dom_process_content_after_load (EEditorPage *editor_page)
 	e_editor_dom_register_input_event_listener_on_body (editor_page);
 	register_html_events_handlers (editor_page, body);
 
+	e_editor_dom_fix_file_uri_images (editor_page);
 	change_cid_images_src_to_base64 (editor_page);
 
 	if (e_editor_page_get_inline_spelling_enabled (editor_page))

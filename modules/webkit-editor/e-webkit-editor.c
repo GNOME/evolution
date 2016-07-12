@@ -1775,7 +1775,7 @@ webkit_editor_insert_image_from_mime_part (EContentEditor *editor,
 	g_dbus_proxy_call (
 		wk_editor->priv->web_extension,
 		"DOMAddNewInlineImageIntoList",
-		g_variant_new ("(tss)", current_page_id (wk_editor), name, cid_uri, src),
+		g_variant_new ("(tsss)", current_page_id (wk_editor), name, cid_uri, src),
 		G_DBUS_CALL_FLAGS_NONE,
 		-1,
 		NULL,
