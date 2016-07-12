@@ -1471,7 +1471,7 @@ e_editor_dom_check_magic_links (EEditorPage *editor_page,
 	if (include_space_by_user)
 		include_space = TRUE;
 	else
-		include_space = e_editor_page_get_return_key_pressed (editor_page);
+		include_space = e_editor_page_get_space_key_pressed (editor_page);
 
 	range = e_editor_dom_get_current_range (editor_page);
 	node = webkit_dom_range_get_end_container (range, NULL);
