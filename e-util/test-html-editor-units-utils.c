@@ -442,7 +442,7 @@ test_utils_html_equal (TestFixture *fixture,
 
 	result = g_dbus_proxy_call_sync (
 		web_extension,
-		"TestHtmlEqual",
+		"TestHTMLEqual",
 		g_variant_new ("(tss)", webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (cnt_editor)), html1, html2),
 		G_DBUS_CALL_FLAGS_NONE,
 		-1,

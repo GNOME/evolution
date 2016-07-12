@@ -82,7 +82,7 @@ static const gchar *introspection_xml =
 "<!-- ********************************************************* -->"
 "<!--                       FOR TESTING ONLY                    -->"
 "<!-- ********************************************************* -->"
-"    <method name='TestHtmlEqual'>"
+"    <method name='TestHTMLEqual'>"
 "      <arg type='t' name='page_id' direction='in'/>"
 "      <arg type='s' name='html1' direction='in'/>"
 "      <arg type='s' name='html2' direction='in'/>"
