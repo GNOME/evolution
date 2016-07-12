@@ -11723,17 +11723,19 @@ dom_set_indented_style (EEditorPage *editor_page,
 	webkit_dom_element_set_class_name (element, "-x-evo-indented");
 
 	if (e_editor_page_get_html_mode (editor_page) || word_wrap_length == 0) {
-		gchar *plain_text_style;
-
 		style = g_strdup_printf ("margin-left: %dch;", SPACES_PER_INDENTATION);
 
-		plain_text_style = g_strdup_printf (
+		if (word_wrap_length != 0) {
+			gchar *plain_text_style;
+
+			plain_text_style = g_strdup_printf (
 				"margin-left: %dch; word-wrap: normal; width: %dch;",
 				SPACES_PER_INDENTATION, word_wrap_length);
 
-		webkit_dom_element_set_attribute (
+			webkit_dom_element_set_attribute (
 				element, "data-plain-text-style", plain_text_style, NULL);
-		g_free (plain_text_style);
+			g_free (plain_text_style);
+		}
 	} else {
 		style = g_strdup_printf (
 			"margin-left: %dch; word-wrap: normal; width: %dch;",
