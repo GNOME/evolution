@@ -24,10 +24,10 @@
 #include "e-html-editor-private.h"
 #include "test-html-editor-units-utils.h"
 
-#define HTML_PREFIX "<html><head></head><body><p data-evo-paragraph=\"\">"
+#define HTML_PREFIX "<html><head></head><body>"
 #define HTML_PREFIX_PLAIN "<html><head></head><body style=\"font-family: Monospace;\">" \
-	"<p data-evo-paragraph=\"\" style=\"width: 71ch; word-wrap: break-word; word-break: break-word; \">"
-#define HTML_SUFFIX "</p></body></html>"
+	"<p style=\"width: 71ch; word-wrap: break-word; word-break: break-word; \">"
+#define HTML_SUFFIX "</body></html>"
 
 /* The tests do not use the 'user_data' argument, thus the functions avoid them and the typecast is needed. */
 typedef void (* ETestFixtureFunc) (TestFixture *fixture, gconstpointer user_data);
@@ -46,12 +46,12 @@ test_create_editor (TestFixture *fixture)
 static void
 test_style_bold_selection (TestFixture *fixture)
 {
-	if (!test_utils_run_simple_test	(fixture,
+	if (!test_utils_run_simple_test (fixture,
 		"mode:html\n"
 		"type:some bold text\n"
 		"seq:hCrcrCSrsc\n"
 		"action:bold\n",
-		HTML_PREFIX "some <b>bold</b> text" HTML_SUFFIX,
+		HTML_PREFIX "<p>some <b>bold</b> text</p>" HTML_SUFFIX,
 		"some bold text"))
 		g_test_fail ();
 }
@@ -59,14 +59,14 @@ test_style_bold_selection (TestFixture *fixture)
 static void
 test_style_bold_typed (TestFixture *fixture)
 {
-	if (!test_utils_run_simple_test	(fixture,
+	if (!test_utils_run_simple_test (fixture,
 		"mode:html\n"
 		"type:some \n"
 		"action:bold\n"
 		"type:bold\n"
 		"action:bold\n"
 		"type: text\n",
-		HTML_PREFIX "some <b>bold</b> text" HTML_SUFFIX,
+		HTML_PREFIX "<p>some <b>bold</b> text</p>" HTML_SUFFIX,
 		"some bold text"))
 		g_test_fail ();
 }
@@ -74,12 +74,12 @@ test_style_bold_typed (TestFixture *fixture)
 static void
 test_style_italic_selection (TestFixture *fixture)
 {
-	if (!test_utils_run_simple_test	(fixture,
+	if (!test_utils_run_simple_test (fixture,
 		"mode:html\n"
 		"type:some italic text\n"
 		"seq:hCrcrCSrsc\n"
 		"action:italic\n",
-		HTML_PREFIX "some <i>italic</i> text" HTML_SUFFIX,
+		HTML_PREFIX "<p>some <i>italic</i> text</p>" HTML_SUFFIX,
 		"some italic text"))
 		g_test_fail ();
 }
@@ -87,14 +87,14 @@ test_style_italic_selection (TestFixture *fixture)
 static void
 test_style_italic_typed (TestFixture *fixture)
 {
-	if (!test_utils_run_simple_test	(fixture,
+	if (!test_utils_run_simple_test (fixture,
 		"mode:html\n"
 		"type:some \n"
 		"action:italic\n"
 		"type:italic\n"
 		"action:italic\n"
 		"type: text\n",
-		HTML_PREFIX "some <i>italic</i> text" HTML_SUFFIX,
+		HTML_PREFIX "<p>some <i>italic</i> text</p>" HTML_SUFFIX,
 		"some italic text"))
 		g_test_fail ();
 }
@@ -102,12 +102,12 @@ test_style_italic_typed (TestFixture *fixture)
 static void
 test_style_underline_selection (TestFixture *fixture)
 {
-	if (!test_utils_run_simple_test	(fixture,
+	if (!test_utils_run_simple_test (fixture,
 		"mode:html\n"
 		"type:some underline text\n"
 		"seq:hCrcrCSrsc\n"
 		"action:underline\n",
-		HTML_PREFIX "some <u>underline</u> text" HTML_SUFFIX,
+		HTML_PREFIX "<p>some <u>underline</u> text</p>" HTML_SUFFIX,
 		"some underline text"))
 		g_test_fail ();
 }
@@ -115,14 +115,14 @@ test_style_underline_selection (TestFixture *fixture)
 static void
 test_style_underline_typed (TestFixture *fixture)
 {
-	if (!test_utils_run_simple_test	(fixture,
+	if (!test_utils_run_simple_test (fixture,
 		"mode:html\n"
 		"type:some \n"
 		"action:underline\n"
 		"type:underline\n"
 		"action:underline\n"
 		"type: text\n",
-		HTML_PREFIX "some <u>underline</u> text" HTML_SUFFIX,
+		HTML_PREFIX "<p>some <u>underline</u> text</p>" HTML_SUFFIX,
 		"some underline text"))
 		g_test_fail ();
 }
@@ -130,12 +130,12 @@ test_style_underline_typed (TestFixture *fixture)
 static void
 test_style_monospace_selection (TestFixture *fixture)
 {
-	if (!test_utils_run_simple_test	(fixture,
+	if (!test_utils_run_simple_test (fixture,
 		"mode:html\n"
 		"type:some monospace text\n"
 		"seq:hCrcrCSrsc\n"
 		"action:monospaced\n",
-		HTML_PREFIX "some <font face=\"monospace\" size=\"3\">monospace</font> text" HTML_SUFFIX,
+		HTML_PREFIX "<p>some <font face=\"monospace\" size=\"3\">monospace</font> text</p>" HTML_SUFFIX,
 		"some monospace text"))
 		g_test_fail ();
 }
@@ -143,14 +143,14 @@ test_style_monospace_selection (TestFixture *fixture)
 static void
 test_style_monospace_typed (TestFixture *fixture)
 {
-	if (!test_utils_run_simple_test	(fixture,
+	if (!test_utils_run_simple_test (fixture,
 		"mode:html\n"
 		"type:some \n"
 		"action:monospaced\n"
 		"type:monospace\n"
 		"action:monospaced\n"
 		"type: text\n",
-		HTML_PREFIX "some <font face=\"monospace\" size=\"3\">monospace</font> text" HTML_SUFFIX,
+		HTML_PREFIX "<p>some <font face=\"monospace\" size=\"3\">monospace</font> text</p>" HTML_SUFFIX,
 		"some monospace text"))
 		g_test_fail ();
 }
@@ -158,7 +158,7 @@ test_style_monospace_typed (TestFixture *fixture)
 static void
 test_undo_text_typed (TestFixture *fixture)
 {
-	if (!test_utils_run_simple_test	(fixture,
+	if (!test_utils_run_simple_test (fixture,
 		"mode:html\n"
 		"type:some te\n"
 		"undo:save\n"	/* 1 */
@@ -173,7 +173,7 @@ test_undo_text_typed (TestFixture *fixture)
 		"undo:undo:2\n"
 		"undo:drop\n"
 		"type:xt\n",
-		HTML_PREFIX "some text" HTML_SUFFIX,
+		HTML_PREFIX "<p>some text</p>" HTML_SUFFIX,
 		"some text"))
 		g_test_fail ();
 }
@@ -181,9 +181,8 @@ test_undo_text_typed (TestFixture *fixture)
 static void
 test_justify_selection (TestFixture *fixture)
 {
-	if (!test_utils_run_simple_test	(fixture,
+	if (!test_utils_run_simple_test (fixture,
 		"mode:html\n"
-		"seq:n\n" /* new line, to be able to use HTML_PREFIX macro */
 		"type:center\\n\n"
 		"type:right\\n\n"
 		"type:left\\n\n"
@@ -193,40 +192,43 @@ test_justify_selection (TestFixture *fixture)
 		"action:justify-right\n"
 		"seq:d\n"
 		"action:justify-left\n",
-		HTML_PREFIX "<br></p>"
-			"<p data-evo-paragraph=\"\" style=\"text-align: center\">center</p>"
-			"<p data-evo-paragraph=\"\" style=\"text-align: right\">right</p>"
-			"<p data-evo-paragraph=\"\">left</p><p data-evo-paragraph=\"\"><br>"
+		HTML_PREFIX
+			"<p style=\"text-align: center\">center</p>"
+			"<p style=\"text-align: right\">right</p>"
+			"<p>left</p><p><br></p>"
 		HTML_SUFFIX,
-		"\ncenter\nright\nleft\n"))
+		"                                center\n"
+		"                                                                  right\n"
+		"left\n"))
 		g_test_fail ();
 }
 
 static void
 test_justify_typed (TestFixture *fixture)
 {
-	if (!test_utils_run_simple_test	(fixture,
+	if (!test_utils_run_simple_test (fixture,
 		"mode:html\n"
-		"seq:n\n" /* new line, to be able to use HTML_PREFIX macro */
 		"action:justify-center\n"
 		"type:center\\n\n"
 		"action:justify-right\n"
 		"type:right\\n\n"
 		"action:justify-left\n"
 		"type:left\\n\n",
-		HTML_PREFIX "<br></p>"
-			"<p data-evo-paragraph=\"\" style=\"text-align: center\">center</p>"
-			"<p data-evo-paragraph=\"\" style=\"text-align: right\">right</p>"
-			"<p data-evo-paragraph=\"\">left</p><p data-evo-paragraph=\"\"><br>"
+		HTML_PREFIX
+			"<p style=\"text-align: center\">center</p>"
+			"<p style=\"text-align: right\">right</p>"
+			"<p>left</p><p><br></p>"
 		HTML_SUFFIX,
-		"\ncenter\nright\nleft\n"))
+		"                                center\n"
+		"                                                                  right\n"
+		"left\n"))
 		g_test_fail ();
 }
 
 static void
 test_indent_selection (TestFixture *fixture)
 {
-	if (!test_utils_run_simple_test	(fixture,
+	if (!test_utils_run_simple_test (fixture,
 		"mode:html\n"
 		"type:level 0\\n\n"
 		"type:level 1\\n\n"
@@ -242,12 +244,12 @@ test_indent_selection (TestFixture *fixture)
 		"action:indent\n" /* just to try whether the unindent will work too */
 		"action:unindent\n",
 		HTML_PREFIX
-			"level 0</p>"
+			"<p>level 0</p>"
 			"<div style=\"margin-left: 3ch;\">"
-				"<p data-evo-paragraph=\"\">level 1</p>"
-				"<div style=\"margin-left: 3ch;\"><p data-evo-paragraph=\"\">level 2</p></div>"
-				"<p data-evo-paragraph=\"\">level 1</p>"
-			"</div><p data-evo-paragraph=\"\"><br>"
+				"<p>level 1</p>"
+				"<div style=\"margin-left: 3ch;\"><p>level 2</p></div>"
+				"<p>level 1</p>"
+			"</div><p><br></p>"
 		HTML_SUFFIX,
 		"level 0\n"
 		"    level 1\n"
@@ -259,7 +261,7 @@ test_indent_selection (TestFixture *fixture)
 static void
 test_indent_typed (TestFixture *fixture)
 {
-	if (!test_utils_run_simple_test	(fixture,
+	if (!test_utils_run_simple_test (fixture,
 		"mode:html\n"
 		"type:level 0\\n\n"
 		"action:indent\n"
@@ -270,12 +272,12 @@ test_indent_typed (TestFixture *fixture)
 		"type:level 1\\n\n"
 		"action:unindent\n",
 		HTML_PREFIX
-			"level 0</p>"
+			"<p>level 0</p>"
 			"<div style=\"margin-left: 3ch;\">"
-				"<p data-evo-paragraph=\"\">level 1</p>"
-				"<div style=\"margin-left: 3ch;\"><p data-evo-paragraph=\"\">level 2</p></div>"
-				"<p data-evo-paragraph=\"\">level 1</p>"
-			"</div><p data-evo-paragraph=\"\"><br>"
+				"<p>level 1</p>"
+				"<div style=\"margin-left: 3ch;\"><p>level 2</p></div>"
+				"<p>level 1</p>"
+			"</div><p><br></p>"
 		HTML_SUFFIX,
 		"level 0\n"
 		"    level 1\n"
@@ -287,12 +289,12 @@ test_indent_typed (TestFixture *fixture)
 static void
 test_font_size_selection (TestFixture *fixture)
 {
-	if (!test_utils_run_simple_test	(fixture,
+	if (!test_utils_run_simple_test (fixture,
 		"mode:html\n"
 		"type:some monospace text\n"
 		"seq:hCrcrCSrsc\n"
 		"action:monospaced\n",
-		HTML_PREFIX "some <font face=\"monospace\" size=\"3\">monospace</font> text" HTML_SUFFIX,
+		HTML_PREFIX "<p>some <font face=\"monospace\" size=\"3\">monospace</font> text</p>" HTML_SUFFIX,
 		"some monospace text"))
 		g_test_fail ();
 }
@@ -300,14 +302,14 @@ test_font_size_selection (TestFixture *fixture)
 static void
 test_font_size_typed (TestFixture *fixture)
 {
-	if (!test_utils_run_simple_test	(fixture,
+	if (!test_utils_run_simple_test (fixture,
 		"mode:html\n"
 		"type:some \n"
 		"action:monospaced\n"
 		"type:monospace\n"
 		"action:monospaced\n"
 		"type: text\n",
-		HTML_PREFIX "some <font face=\"monospace\" size=\"3\">monospace</font> text" HTML_SUFFIX,
+		HTML_PREFIX "<p>some <font face=\"monospace\" size=\"3\">monospace</font> text</p>" HTML_SUFFIX,
 		"some monospace text"))
 		g_test_fail ();
 }

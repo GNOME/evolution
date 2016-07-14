@@ -7014,6 +7014,7 @@ remove_base_attributes (WebKitDOMElement *element)
 static void
 remove_evolution_attributes (WebKitDOMElement *element)
 {
+	webkit_dom_element_remove_attribute (element, "data-evo-paragraph");
 	webkit_dom_element_remove_attribute (element, "data-converted");
 	webkit_dom_element_remove_attribute (element, "data-edit-as-new");
 	webkit_dom_element_remove_attribute (element, "data-evo-draft");
@@ -7428,23 +7429,23 @@ process_node_to_html_for_exporting (EEditorPage *editor_page,
 	remove_evolution_attributes (WEBKIT_DOM_ELEMENT (source));
 
 	/* Aligned elements */
-	list = webkit_dom_element_query_selector_all (WEBKIT_DOM_ELEMENT (source), "[class^=\"-x-evo-align\"]", NULL);
+	list = webkit_dom_element_query_selector_all (WEBKIT_DOM_ELEMENT (source), "[class*=\"-x-evo-align\"]", NULL);
 	length = webkit_dom_node_list_get_length (list);
 
 	for (ii = 0; ii < length; ii++) {
 		gchar *class = NULL;
-		const gchar *align_type;
 		WebKitDOMNode *node;
+		gboolean center = FALSE;
 
 		node = webkit_dom_node_list_item (list, ii);
 		class = webkit_dom_element_get_class_name (WEBKIT_DOM_ELEMENT (node));
-		align_type = class + 13;
-		if (!g_str_has_prefix (align_type, "left")) {
+		center = g_strrstr (class, "center") != NULL;
+		if (center || g_strrstr (class, "right")) {
 			if (WEBKIT_DOM_IS_HTML_LI_ELEMENT (node))
 				webkit_dom_element_set_attribute (
 					WEBKIT_DOM_ELEMENT (node),
 					"style",
-					g_str_has_prefix (align_type, "center") ?
+					center ?
 						"list-style-position: inside; text-align: center" :
 						"list-style-position: inside; text-align: right",
 					NULL);
@@ -7452,7 +7453,7 @@ process_node_to_html_for_exporting (EEditorPage *editor_page,
 				webkit_dom_element_set_attribute (
 					WEBKIT_DOM_ELEMENT (node),
 					"style",
-					g_str_has_prefix (align_type + 13, "center") ?
+					center ?
 						"text-align: center" :
 						"text-align: right",
 					NULL);
@@ -7597,13 +7598,14 @@ process_node_to_html_for_exporting (EEditorPage *editor_page,
 	g_object_unref (collection);
 
 	list = webkit_dom_element_query_selector_all (
-		WEBKIT_DOM_ELEMENT (source), ".-x-evo-paragraph", NULL);
+		WEBKIT_DOM_ELEMENT (source), "p[data-evo-paragraph]", NULL);
 	length = webkit_dom_node_list_get_length (list);
 	for (ii = 0; ii < length; ii++) {
 		WebKitDOMNode *node;
 
 		node = webkit_dom_node_list_item (list, ii);
-		element_remove_class (WEBKIT_DOM_ELEMENT (node), "-x-evo-paragraph");
+		remove_evolution_attributes (WEBKIT_DOM_ELEMENT (node));
+		remove_base_attributes (WEBKIT_DOM_ELEMENT (node));
 		g_object_unref (node);
 	}
 	g_object_unref (list);
@@ -8172,9 +8174,9 @@ e_editor_dom_process_content_to_plain_text_for_exporting (EEditorPage *editor_pa
 				WebKitDOMNode *next_item =
 					webkit_dom_node_get_next_sibling (item);
 
-				if (WEBKIT_DOM_IS_HTML_LI_ELEMENT (item)) {
+				if (WEBKIT_DOM_IS_HTML_LI_ELEMENT (item))
 					e_editor_dom_wrap_paragraph (editor_page, WEBKIT_DOM_ELEMENT (item));
-				}
+
 				item = next_item;
 			}
 		} else if (!webkit_dom_element_query_selector (WEBKIT_DOM_ELEMENT (paragraph), ".-x-evo-wrap-br,.-x-evo-quoted", NULL)) {
@@ -8211,6 +8213,11 @@ e_editor_dom_process_content_to_plain_text_for_exporting (EEditorPage *editor_pa
 	}
 
 	process_node_to_plain_text_for_exporting (editor_page, source, plain_text);
+	/* Truncate the extra new line on the end of generated text as the
+	 * check inside the previous function is based on whether the processed
+	 * node is BODY or not, but in this case the content is wrapped in DIV. */
+	if (remove_last_new_line)
+		g_string_truncate (plain_text, plain_text->len - 1);
 
 	e_editor_dom_selection_restore (editor_page);
 
@@ -8528,6 +8535,8 @@ adapt_to_editor_dom_changes (WebKitDOMDocument *document)
 
 		node = webkit_dom_html_collection_item (collection, ii);
 		element = webkit_dom_document_create_element (document, "p", NULL);
+		webkit_dom_element_set_attribute (element, "data-evo-paragraph", "", NULL);
+
 		webkit_dom_node_insert_before (
 			webkit_dom_node_get_parent_node (node),
 			WEBKIT_DOM_NODE (element),
@@ -13510,7 +13519,7 @@ wrap_lines (EEditorPage *editor_page,
 				newline = strstr (text_content, "\n");
 			}
 			g_free (text_content);
-		} else {
+		} else if (WEBKIT_DOM_IS_ELEMENT (node)) {
 			if (e_editor_dom_is_selection_position_node (node)) {
 				if (line_length == 0) {
 					WebKitDOMNode *tmp_node;
@@ -13607,6 +13616,12 @@ wrap_lines (EEditorPage *editor_page,
 				}
 			}
 			goto next_node;
+		} else {
+			WebKitDOMNode *sibling;
+
+			sibling = webkit_dom_node_get_next_sibling (node);
+			node = sibling;
+			continue;
 		}
 
 		/* If length of this node + what we already have is still less

@@ -658,7 +658,7 @@ handle_method_call (GDBusConnection *connection,
 	if (g_strcmp0 (interface_name, E_WEBKIT_EDITOR_WEB_EXTENSION_INTERFACE) != 0)
 		return;
 
-	if (g_strcmp0 (method_name, "TestHtmlEqual") == 0) {
+	if (g_strcmp0 (method_name, "TestHTMLEqual") == 0) {
 		gboolean equal = FALSE;
 		const gchar *html1 = NULL, *html2 = NULL;
 
@@ -2267,7 +2267,7 @@ handle_method_call (GDBusConnection *connection,
 
 		g_dbus_method_invocation_return_value (invocation, NULL);
 	} else {
-		g_warning ("UNKNOWN METHOD '%s:i'", method_name);
+		g_warning ("UNKNOWN METHOD '%s'", method_name);
 	}
 
 	return;
