@@ -1258,7 +1258,7 @@ insert:
 			NULL);
 
 		/* Insert a spacer below the top signature */
-		if (top_signature) {
+		if (top_signature && contents) {
 			WebKitDOMElement *spacer;
 			EHTMLEditorSelection *editor_selection;
 
