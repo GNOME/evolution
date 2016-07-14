@@ -317,7 +317,7 @@ e_composer_dom_insert_signature (EEditorPage *editor_page,
 	WebKitDOMDocument *document;
 	WebKitDOMElement *signature_to_insert;
 	WebKitDOMElement *insert_signature_in = NULL;
-	WebKitDOMElement *signature_wrapper;
+	WebKitDOMElement *signature_wrapper = NULL;
 	WebKitDOMElement *element, *converted_signature = NULL;
 	WebKitDOMHTMLElement *body;
 	WebKitDOMHTMLCollection *signatures;
@@ -332,6 +332,7 @@ e_composer_dom_insert_signature (EEditorPage *editor_page,
 	g_return_val_if_fail (ignore_next_signature_change != NULL, NULL);
 
 	document = e_editor_page_get_document (editor_page);
+	body = webkit_dom_document_get_body (document);
 
 	/* "Edit as New Message" sets is_message_from_edit_as_new.
 	 * Always put the signature at the bottom for that case. */
@@ -366,7 +367,6 @@ e_composer_dom_insert_signature (EEditorPage *editor_page,
 			NULL);
 	} else
 		signature_text = g_strdup (content);
-
 
 	/* If inserting HTML signature in the plain text composer we have to convert it. */
 	if (is_html && !html_mode && !strstr (signature_text, "data-evo-signature-plain-text-mode")) {
@@ -458,7 +458,7 @@ insert:
 		/* When we are editing a message with signature, we need to unset the
 		 * active signature id as if the signature in the message was edited
 		 * by the user we would discard these changes. */
-		if (*set_signature_from_message) {
+		if (*set_signature_from_message && content) {
 			if (*check_if_signature_is_changed) {
 				/* Normalize the signature that we want to insert as the one in the
 				 * message already is normalized. */
@@ -496,51 +496,78 @@ insert:
 			if (spacer)
 				remove_node_if_empty (WEBKIT_DOM_NODE (spacer));
 		}
-		/* We have to remove the div containing the span with signature */
-		remove_node (wrapper);
-		g_object_unref (wrapper);
+
+		/* Leave just one signature wrapper there as it will be reused. */
+		if (ii != list_length - 1) {
+			g_object_unref (wrapper);
+			remove_node (wrapper);
+		} else {
+			remove_node (signature);
+			signature_wrapper = WEBKIT_DOM_ELEMENT (wrapper);
+		}
+	}
+
+	if (signature_wrapper) {
+		webkit_dom_node_append_child (
+			WEBKIT_DOM_NODE (signature_wrapper),
+			WEBKIT_DOM_NODE (signature_to_insert),
+			NULL);
+
+		/* Insert a spacer below the top signature */
+		if (top_signature) {
+			WebKitDOMElement *spacer;
+
+			spacer = prepare_top_signature_spacer (editor_page);
+			webkit_dom_node_insert_before (
+				WEBKIT_DOM_NODE (body),
+				WEBKIT_DOM_NODE (spacer),
+				webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (signature_wrapper)),
+				NULL);
+		}
+
+		g_object_unref (signature_wrapper);
+	} else {
+		signature_wrapper = webkit_dom_document_create_element (document, "div", NULL);
+		webkit_dom_element_set_class_name (signature_wrapper, "-x-evo-signature-wrapper");
+
+		webkit_dom_node_append_child (
+			WEBKIT_DOM_NODE (signature_wrapper),
+			WEBKIT_DOM_NODE (signature_to_insert),
+			NULL);
+
+		if (top_signature) {
+			WebKitDOMNode *child;
+
+			child = webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (body));
+
+			if (start_typing_at_bottom ()) {
+				webkit_dom_node_insert_before (
+					WEBKIT_DOM_NODE (body),
+					WEBKIT_DOM_NODE (signature_wrapper),
+					child,
+					NULL);
+			} else {
+				/* When we are using signature on top the caret
+				 * should be before the signature */
+				webkit_dom_node_insert_before (
+					WEBKIT_DOM_NODE (body),
+					WEBKIT_DOM_NODE (signature_wrapper),
+					child,
+					NULL);
+			}
+		} else {
+			webkit_dom_node_append_child (
+				WEBKIT_DOM_NODE (body),
+				WEBKIT_DOM_NODE (signature_wrapper),
+				NULL);
+		}
+
+		move_caret_after_signature_inserted (editor_page);
 	}
 	g_object_unref (signatures);
 
-	body = webkit_dom_document_get_body (document);
-	signature_wrapper = webkit_dom_document_create_element (document, "div", NULL);
-	webkit_dom_node_append_child (
-		WEBKIT_DOM_NODE (signature_wrapper),
-		WEBKIT_DOM_NODE (signature_to_insert),
-		NULL);
-	webkit_dom_element_set_class_name (signature_wrapper, "-x-evo-signature-wrapper");
-
-	if (top_signature) {
-		WebKitDOMNode *child;
-
-		child = webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (body));
-
-		if (start_typing_at_bottom ()) {
-			webkit_dom_node_insert_before (
-				WEBKIT_DOM_NODE (body),
-				WEBKIT_DOM_NODE (signature_wrapper),
-				child,
-				NULL);
-		} else {
-			/* When we are using signature on top the caret
-			 * should be before the signature */
-			webkit_dom_node_insert_before (
-				WEBKIT_DOM_NODE (body),
-				WEBKIT_DOM_NODE (signature_wrapper),
-				child,
-				NULL);
-		}
-	} else {
-		webkit_dom_node_append_child (
-			WEBKIT_DOM_NODE (body),
-			WEBKIT_DOM_NODE (signature_wrapper),
-			NULL);
-	}
-
 	if (is_html && html_mode)
 		e_editor_dom_fix_file_uri_images (editor_page);
-
-	move_caret_after_signature_inserted (editor_page);
 
 	/* Make sure the flag will be unset and won't influence user's choice */
 	*set_signature_from_message = FALSE;
