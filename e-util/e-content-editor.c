@@ -1405,35 +1405,6 @@ e_content_editor_insert_emoticon (EContentEditor *editor,
 }
 
 void
-e_content_editor_set_current_content_flags (EContentEditor *editor,
-                                            EContentEditorContentFlags flags)
-{
-	EContentEditorInterface *iface;
-
-	g_return_if_fail (E_IS_CONTENT_EDITOR (editor));
-
-	iface = E_CONTENT_EDITOR_GET_IFACE (editor);
-	g_return_if_fail (iface != NULL);
-	g_return_if_fail (iface->set_current_content_flags != NULL);
-
-	iface->set_current_content_flags (editor, flags);
-}
-
-EContentEditorContentFlags
-e_content_editor_get_current_content_flags (EContentEditor *editor)
-{
-	EContentEditorInterface *iface;
-
-	g_return_val_if_fail (E_IS_CONTENT_EDITOR (editor), 0);
-
-	iface = E_CONTENT_EDITOR_GET_IFACE (editor);
-	g_return_val_if_fail (iface != NULL, 0);
-	g_return_val_if_fail (iface->get_current_content_flags != NULL, 0);
-
-	return iface->get_current_content_flags (editor);
-}
-
-void
 e_content_editor_move_caret_on_coordinates (EContentEditor *editor,
                                             gint x,
                                             gint y,

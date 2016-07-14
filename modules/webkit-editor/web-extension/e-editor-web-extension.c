@@ -394,10 +394,6 @@ static const gchar *introspection_xml =
 "<!-- ********************************************************* -->"
 "<!--     Functions that are used in EEditorView            -->"
 "<!-- ********************************************************* -->"
-"    <method name='SetCurrentContentFlags'>"
-"      <arg type='t' name='page_id' direction='in'/>"
-"      <arg type='i' name='content_flags' direction='in'/>"
-"    </method>"
 "    <method name='SetPastingContentFromItself'>"
 "      <arg type='t' name='page_id' direction='in'/>"
 "      <arg type='b' name='value' direction='in'/>"
@@ -1709,17 +1705,6 @@ handle_method_call (GDBusConnection *connection,
 			goto error;
 
 		e_editor_dom_remove_embedded_style_sheet (editor_page);
-		g_dbus_method_invocation_return_value (invocation, NULL);
-	} else if (g_strcmp0 (method_name, "SetCurrentContentFlags") == 0) {
-		guint content_flags = 0;
-
-		g_variant_get (parameters, "(ti)", &page_id, &content_flags);
-
-		editor_page = get_editor_page_or_return_dbus_error (invocation, extension, page_id);
-		if (!editor_page)
-			goto error;
-
-		e_editor_page_set_current_content_flags (editor_page, content_flags);
 		g_dbus_method_invocation_return_value (invocation, NULL);
 	} else if (g_strcmp0 (method_name, "SetPastingContentFromItself") == 0) {
 		gboolean value = FALSE;

@@ -112,12 +112,6 @@ void		e_editor_page_set_alignment	(EEditorPage *editor_page,
 						 EContentEditorAlignment value);
 gint		e_editor_page_get_word_wrap_length
 						(EEditorPage *editor_page);
-EContentEditorContentFlags
-		e_editor_page_get_current_content_flags
-						(EEditorPage *editor_page);
-void		e_editor_page_set_current_content_flags
-						(EEditorPage *editor_page,
-						 guint flags);
 gboolean	e_editor_page_get_return_key_pressed
 						(EEditorPage *editor_page);
 void		e_editor_page_set_return_key_pressed

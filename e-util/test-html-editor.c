@@ -463,9 +463,6 @@ create_new_editor_cb (GObject *source_object,
 	editor = E_HTML_EDITOR (widget);
 	cnt_editor = e_html_editor_get_content_editor (editor);
 
-	e_content_editor_set_current_content_flags (
-		  cnt_editor, E_CONTENT_EDITOR_MESSAGE_NEW);
-
 	g_object_set (G_OBJECT (editor),
 		"halign", GTK_ALIGN_FILL,
 		"hexpand", TRUE,

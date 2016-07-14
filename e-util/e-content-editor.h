@@ -70,12 +70,6 @@ struct _EContentEditorInterface {
 	void		(*insert_emoticon)		(EContentEditor *editor,
 							 EEmoticon *emoticon);
 
-	void		(*set_current_content_flags)	(EContentEditor *editor,
-							 EContentEditorContentFlags flags);
-
-	EContentEditorContentFlags
-			(*get_current_content_flags)	(EContentEditor *editor);
-
 	void		(*move_caret_on_coordinates)	(EContentEditor *editor,
 							 gint x,
 							 gint y,
@@ -541,14 +535,6 @@ void		e_content_editor_insert_image	(EContentEditor *editor,
 void		e_content_editor_insert_emoticon
 						(EContentEditor *editor,
 						 EEmoticon *emoticon);
-
-void		e_content_editor_set_current_content_flags
-						(EContentEditor *editor,
-						 EContentEditorContentFlags flags);
-
-EContentEditorContentFlags
-		e_content_editor_get_current_content_flags
-						(EContentEditor *editor);
 
 void		e_content_editor_move_caret_on_coordinates
 						(EContentEditor *editor,

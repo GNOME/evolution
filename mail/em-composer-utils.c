@@ -1353,10 +1353,6 @@ void
 em_utils_compose_new_message (EMsgComposer *composer,
                               CamelFolder *folder)
 {
-	EHTMLEditor *editor;
-	EContentEditor *cnt_editor;
-	EContentEditorContentFlags flags;
-
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 
 	if (folder != NULL)
@@ -1364,12 +1360,6 @@ em_utils_compose_new_message (EMsgComposer *composer,
 
 	set_up_new_composer (composer, "", folder);
 	composer_set_no_change (composer);
-	editor = e_msg_composer_get_editor (composer);
-	cnt_editor = e_html_editor_get_content_editor (editor);
-
-	flags = e_content_editor_get_current_content_flags (cnt_editor);
-	flags |= E_CONTENT_EDITOR_MESSAGE_NEW;
-	e_content_editor_set_current_content_flags (cnt_editor, flags);
 
 	gtk_widget_show (GTK_WIDGET (composer));
 }
@@ -3316,7 +3306,6 @@ em_utils_reply_to_message (EMsgComposer *composer,
 	ESourceMailCompositionReplyStyle prefer_reply_style = E_SOURCE_MAIL_COMPOSITION_REPLY_STYLE_DEFAULT;
 	ESource *source;
 	gchar *identity_uid = NULL;
-	const gchar *evo_source_header;
 	guint32 flags;
 
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
@@ -3391,21 +3380,6 @@ em_utils_reply_to_message (EMsgComposer *composer,
 		g_object_unref (postto);
 	g_object_unref (to);
 	g_object_unref (cc);
-
-	evo_source_header = camel_medium_get_header (
-		CAMEL_MEDIUM (message), "X-Evolution-Content-Source");
-	if (g_strcmp0 (evo_source_header, "selection") == 0) {
-		EHTMLEditor *editor;
-		EContentEditor *cnt_editor;
-		EContentEditorContentFlags flags;
-
-		editor = e_msg_composer_get_editor (composer);
-		cnt_editor = e_html_editor_get_content_editor (editor);
-
-		flags = e_content_editor_get_current_content_flags (cnt_editor);
-		flags |= E_CONTENT_EDITOR_MESSAGE_FROM_SELECTION;
-		e_content_editor_set_current_content_flags (cnt_editor, flags);
-	}
 
 	/* If there was no send-account override */
 	if (!identity_uid) {

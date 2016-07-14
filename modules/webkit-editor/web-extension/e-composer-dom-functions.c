@@ -154,10 +154,6 @@ move_caret_after_signature_inserted (EEditorPage *editor_page)
 	WebKitDOMElement *element, *signature;
 	WebKitDOMHTMLElement *body;
 	WebKitDOMNodeList *paragraphs;
-	EContentEditorContentFlags flags;
-	gboolean is_message_from_draft;
-	gboolean is_message_from_edit_as_new;
-	gboolean is_from_new_message;
 	gboolean top_signature;
 	gboolean start_bottom;
 	gboolean has_paragraphs_in_body = TRUE;
@@ -165,47 +161,12 @@ move_caret_after_signature_inserted (EEditorPage *editor_page)
 	g_return_if_fail (E_IS_EDITOR_PAGE (editor_page));
 
 	document = e_editor_page_get_document (editor_page);
-	flags = e_editor_page_get_current_content_flags (editor_page);
 
-	is_message_from_draft = (flags & E_CONTENT_EDITOR_MESSAGE_DRAFT);
-	is_message_from_edit_as_new = (flags & E_CONTENT_EDITOR_MESSAGE_EDIT_AS_NEW);
-	is_from_new_message = (flags & E_CONTENT_EDITOR_MESSAGE_NEW);
-
-	top_signature =
-		use_top_signature () &&
-		!is_message_from_edit_as_new &&
-		!is_from_new_message;
-
+	top_signature = use_top_signature ();
 	start_bottom = start_typing_at_bottom ();
 
 	body = webkit_dom_document_get_body (document);
-	webkit_dom_element_set_attribute (
-		WEBKIT_DOM_ELEMENT (body), "data-message", "", NULL);
-
-	/* If editing message as new don't handle with caret */
-	if (is_message_from_edit_as_new || is_message_from_draft) {
-		if (is_message_from_edit_as_new)
-			webkit_dom_element_set_attribute (
-				WEBKIT_DOM_ELEMENT (body),
-				"data-edit-as-new",
-				"",
-				NULL);
-
-		if (is_message_from_edit_as_new && !is_message_from_draft) {
-			element = WEBKIT_DOM_ELEMENT (body);
-			e_editor_page_block_selection_changed (editor_page);
-			goto move_caret;
-		} else
-			e_editor_dom_scroll_to_caret (editor_page);
-
-		return;
-	}
 	e_editor_page_block_selection_changed (editor_page);
-
-	/* When the new message is written from the beginning - note it into body */
-	if (is_from_new_message)
-		webkit_dom_element_set_attribute (
-			WEBKIT_DOM_ELEMENT (body), "data-new-message", "", NULL);
 
 	paragraphs = webkit_dom_document_query_selector_all (document, "[data-evo-paragraph]", NULL);
 	signature = webkit_dom_document_query_selector (document, ".-x-evo-signature-wrapper", NULL);
@@ -360,11 +321,9 @@ e_composer_dom_insert_signature (EEditorPage *editor_page,
 	WebKitDOMElement *element, *converted_signature = NULL;
 	WebKitDOMHTMLElement *body;
 	WebKitDOMHTMLCollection *signatures;
-	EContentEditorContentFlags flags;
 	gchar *new_signature_id = NULL;
 	gchar *signature_text = NULL;
-	gboolean top_signature, html_mode, is_message_from_edit_as_new;
-	gboolean is_message_from_draft, is_from_new_message;
+	gboolean top_signature, html_mode;
 	gulong list_length, ii;
 
 	g_return_val_if_fail (E_IS_EDITOR_PAGE (editor_page), NULL);
@@ -373,18 +332,10 @@ e_composer_dom_insert_signature (EEditorPage *editor_page,
 	g_return_val_if_fail (ignore_next_signature_change != NULL, NULL);
 
 	document = e_editor_page_get_document (editor_page);
-	flags = e_editor_page_get_current_content_flags (editor_page);
-
-	is_message_from_draft = (flags & E_CONTENT_EDITOR_MESSAGE_DRAFT);
-	is_message_from_edit_as_new = (flags & E_CONTENT_EDITOR_MESSAGE_EDIT_AS_NEW);
-	is_from_new_message = (flags & E_CONTENT_EDITOR_MESSAGE_NEW);
 
 	/* "Edit as New Message" sets is_message_from_edit_as_new.
 	 * Always put the signature at the bottom for that case. */
-	top_signature =
-		use_top_signature () &&
-		!is_message_from_edit_as_new &&
-		!is_from_new_message;
+	top_signature = use_top_signature ();
 
 	html_mode = e_editor_page_get_html_mode (editor_page);
 
@@ -507,8 +458,7 @@ insert:
 		/* When we are editing a message with signature, we need to unset the
 		 * active signature id as if the signature in the message was edited
 		 * by the user we would discard these changes. */
-		if (*set_signature_from_message &&
-		    (is_message_from_edit_as_new || is_message_from_draft)) {
+		if (*set_signature_from_message) {
 			if (*check_if_signature_is_changed) {
 				/* Normalize the signature that we want to insert as the one in the
 				 * message already is normalized. */

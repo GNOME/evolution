@@ -2397,7 +2397,6 @@ msg_composer_constructed (GObject *object)
 	EComposerHeaderTable *table;
 	EHTMLEditor *editor;
 	EContentEditor *cnt_editor;
-	EContentEditorContentFlags flags;
 	GtkUIManager *ui_manager;
 	GtkToggleAction *action;
 	GtkTargetList *target_list;
@@ -2423,10 +2422,6 @@ msg_composer_constructed (GObject *object)
 	ui_manager = e_html_editor_get_ui_manager (editor);
 	attachment_view = e_msg_composer_get_attachment_view (composer);
 	table = E_COMPOSER_HEADER_TABLE (composer->priv->header_table);
-
-	flags = e_content_editor_get_current_content_flags (cnt_editor);
-	flags |= E_CONTENT_EDITOR_MESSAGE_EDITTING;
-	e_content_editor_set_current_content_flags (cnt_editor, flags);
 
 	gtk_window_set_title (GTK_WINDOW (composer), _("Compose Message"));
 	gtk_window_set_icon_name (GTK_WINDOW (composer), "mail-message-new");
@@ -3436,50 +3431,15 @@ handle_multipart (EMsgComposer *composer,
 			}
 
 		} else if (depth == 0 && i == 0) {
-			EHTMLEditor *editor;
-			EContentEditor *cnt_editor;
-			EContentEditorContentFlags flags;
-			gboolean is_message_from_draft, is_html = FALSE;
 			gchar *html = NULL;
 			gssize length = 0;
 
-			editor = e_msg_composer_get_editor (composer);
-			cnt_editor = e_html_editor_get_content_editor (editor);
-
-			flags = e_content_editor_get_current_content_flags (cnt_editor);
-			is_message_from_draft = (flags & E_CONTENT_EDITOR_MESSAGE_DRAFT);
-			is_html = camel_content_type_is (content_type, "text", "html");
-
 			/* Since the first part is not multipart/alternative,
 			 * this must be the body. */
+			html = emcu_part_to_html (
+				composer, mime_part, &length, keep_signature, cancellable);
 
-			/* If we are opening message from Drafts */
-			if (is_message_from_draft) {
-				/* Extract the body */
-				CamelDataWrapper *dw;
-
-				dw = camel_medium_get_content ((CamelMedium *) mime_part);
-				if (dw) {
-					CamelStream *mem = camel_stream_mem_new ();
-					GByteArray *bytes;
-
-					camel_data_wrapper_decode_to_stream_sync (dw, mem, cancellable, NULL);
-					camel_stream_close (mem, cancellable, NULL);
-
-					bytes = camel_stream_mem_get_byte_array (CAMEL_STREAM_MEM (mem));
-					if (bytes && bytes->len)
-						html = g_strndup ((const gchar *) bytes->data, bytes->len);
-
-					g_object_unref (mem);
-				}
-			} else {
-				is_html = TRUE;
-				html = emcu_part_to_html (
-					composer, mime_part, &length, keep_signature, cancellable);
-			}
-
-			if (html)
-				e_msg_composer_set_pending_body (composer, html, length, is_html);
+			e_msg_composer_set_pending_body (composer, html, length, TRUE);
 
 		} else if (camel_mime_part_get_content_id (mime_part) ||
 			   camel_mime_part_get_content_location (mime_part)) {
@@ -3599,7 +3559,6 @@ e_msg_composer_setup_with_message (EMsgComposer *composer,
 	ESource *source = NULL;
 	EHTMLEditor *editor;
 	EContentEditor *cnt_editor;
-	EContentEditorContentFlags flags;
 	GtkToggleAction *action;
 	struct _camel_header_raw *xev;
 	gchar *identity_uid;
@@ -3786,14 +3745,8 @@ e_msg_composer_setup_with_message (EMsgComposer *composer,
 	composer_mode = camel_medium_get_header (
 		CAMEL_MEDIUM (message), "X-Evolution-Composer-Mode");
 
-	flags = e_content_editor_get_current_content_flags (cnt_editor);
-
-	if (composer_mode && *composer_mode) {
+	if (composer_mode && *composer_mode)
 		is_message_from_draft = TRUE;
-
-		flags |= E_CONTENT_EDITOR_MESSAGE_DRAFT;
-		e_content_editor_set_current_content_flags (cnt_editor, flags);
-	}
 
 	if (format != NULL) {
 		gchar **flags;
@@ -3941,9 +3894,6 @@ e_msg_composer_setup_with_message (EMsgComposer *composer,
 		}
 		e_msg_composer_set_pending_body (composer, html, length, is_html);
 	}
-
-	flags |= E_CONTENT_EDITOR_MESSAGE_EDIT_AS_NEW;
-	e_content_editor_set_current_content_flags (cnt_editor, flags);
 
 	priv->set_signature_from_message = TRUE;
 

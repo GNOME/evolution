@@ -69,8 +69,6 @@ struct _EEditorPagePrivate {
 	WebKitDOMNode *node_under_mouse_click;
 
 	GSettings *mail_settings;
-
-	EContentEditorContentFlags content_flags;
 };
 
 G_DEFINE_TYPE (EEditorPage, e_editor_page, G_TYPE_OBJECT)
@@ -256,7 +254,6 @@ e_editor_page_init (EEditorPage *editor_page)
 	editor_page->priv->pasting_content_from_itself = FALSE;
 	editor_page->priv->composition_in_progress = FALSE;
 	editor_page->priv->renew_history_after_coordinates = TRUE;
-	editor_page->priv->content_flags = 0;
 	editor_page->priv->spell_check_on_scroll_event_source_id = 0;
 	editor_page->priv->mail_settings = e_util_ref_settings ("org.gnome.evolution.mail");
 	editor_page->priv->word_wrap_length = g_settings_get_int (editor_page->priv->mail_settings, "composer-word-wrap-length");
@@ -547,23 +544,6 @@ e_editor_page_set_alignment (EEditorPage *editor_page,
 	g_return_if_fail (E_IS_EDITOR_PAGE (editor_page));
 
 	editor_page->priv->alignment = value;
-}
-
-EContentEditorContentFlags
-e_editor_page_get_current_content_flags (EEditorPage *editor_page)
-{
-	g_return_val_if_fail (E_IS_EDITOR_PAGE (editor_page), 0);
-
-	return editor_page->priv->content_flags;
-}
-
-void
-e_editor_page_set_current_content_flags (EEditorPage *editor_page,
-					 guint flags)
-{
-	g_return_if_fail (E_IS_EDITOR_PAGE (editor_page));
-
-	editor_page->priv->content_flags = flags;
 }
 
 gboolean

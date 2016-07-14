@@ -114,8 +114,6 @@ struct _EWebKitEditorPrivate {
 
 	GHashTable *old_settings;
 
-	EContentEditorContentFlags content_flags;
-
 	ESpellChecker *spell_checker;
 	gboolean spell_check_enabled;
 
@@ -1379,7 +1377,8 @@ webkit_editor_insert_content (EContentEditor *editor,
 		 * when the extension is ready */
 		if (!((flags & E_CONTENT_EDITOR_INSERT_REPLACE_ALL) &&
 		      (flags & E_CONTENT_EDITOR_INSERT_TEXT_HTML) &&
-		      (wk_editor->priv->content_flags & E_CONTENT_EDITOR_MESSAGE_DRAFT))) {
+		      (strstr (content, "data-evo-draft") ||
+		       strstr (content, "data-evo-signature-plain-text-mode")))) {
 			webkit_editor_queue_post_reload_operation (
 				wk_editor,
 				(PostReloadOperationFunc) webkit_editor_insert_content,
@@ -1410,14 +1409,14 @@ webkit_editor_insert_content (EContentEditor *editor,
 			NULL);
 	} else if ((flags & E_CONTENT_EDITOR_INSERT_REPLACE_ALL) &&
 		   (flags & E_CONTENT_EDITOR_INSERT_TEXT_HTML)) {
-		if (wk_editor->priv->content_flags & E_CONTENT_EDITOR_MESSAGE_DRAFT) {
+		if ((strstr (content, "data-evo-draft") ||
+		     strstr (content, "data-evo-signature-plain-text-mode"))) {
 			wk_editor->priv->reload_in_progress = TRUE;
 			webkit_web_view_load_html (WEBKIT_WEB_VIEW (wk_editor), content, "file://");
 			return;
 		}
 
-		if ((wk_editor->priv->content_flags & E_CONTENT_EDITOR_MESSAGE_DRAFT) &&
-		    !(wk_editor->priv->html_mode)) {
+		if (strstr (content, "data-evo-draft") && !(wk_editor->priv->html_mode)) {
 			if (content && *content)
 				set_convert_in_situ (wk_editor, TRUE);
 			wk_editor->priv->reload_in_progress = TRUE;
@@ -1785,42 +1784,6 @@ webkit_editor_insert_image_from_mime_part (EContentEditor *editor,
 	g_free (base64_encoded);
 	g_free (mime_type);
 	g_object_unref (stream);
-}
-
-static EContentEditorContentFlags
-webkit_editor_get_current_content_flags (EContentEditor *editor)
-{
-	EWebKitEditor *wk_editor;
-
-	wk_editor = E_WEBKIT_EDITOR (editor);
-
-	return wk_editor->priv->content_flags;
-}
-
-static void
-webkit_editor_set_current_content_flags (EContentEditor *editor,
-                                         EContentEditorContentFlags flags)
-{
-	EWebKitEditor *wk_editor;
-
-	wk_editor = E_WEBKIT_EDITOR (editor);
-
-	wk_editor->priv->content_flags = flags;
-
-	if (!wk_editor->priv->web_extension) {
-		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
-		return;
-	}
-
-	g_dbus_proxy_call (
-		wk_editor->priv->web_extension,
-		"SetCurrentContentFlags",
-		g_variant_new ("(ti)", current_page_id (wk_editor), (gint32) flags),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL,
-		NULL);
 }
 
 static void
@@ -6039,7 +6002,6 @@ e_webkit_editor_init (EWebKitEditor *wk_editor)
 	wk_editor->priv->copy_paste_primary_in_view = FALSE;
 	wk_editor->priv->copy_cut_actions_triggered = FALSE;
 	wk_editor->priv->pasting_primary_clipboard = FALSE;
-	wk_editor->priv->content_flags = 0;
 	wk_editor->priv->current_user_stylesheet = NULL;
 	wk_editor->priv->emit_load_finished_when_extension_is_ready = FALSE;
 
@@ -6065,8 +6027,6 @@ e_webkit_editor_content_editor_init (EContentEditorInterface *iface)
 	iface->insert_image = webkit_editor_insert_image;
 	iface->insert_image_from_mime_part = webkit_editor_insert_image_from_mime_part;
 	iface->insert_emoticon = webkit_editor_insert_emoticon;
-	iface->set_current_content_flags = webkit_editor_set_current_content_flags;
-	iface->get_current_content_flags = webkit_editor_get_current_content_flags;
 	iface->move_caret_on_coordinates = webkit_editor_move_caret_on_coordinates;
 	iface->cut = webkit_editor_cut;
 	iface->copy = webkit_editor_copy;

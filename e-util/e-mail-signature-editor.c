@@ -149,14 +149,9 @@ mail_signature_editor_loaded_cb (GObject *object,
 	e_content_editor_set_html_mode (cnt_editor, is_html);
 
 	if (is_html) {
-		if (strstr (contents, "data-evo-signature-plain-text-mode")) {
-			EContentEditorContentFlags flags;
+		if (strstr (contents, "data-evo-signature-plain-text-mode"))
+			e_content_editor_set_html_mode (cnt_editor, FALSE);
 
-			flags = e_content_editor_get_current_content_flags (cnt_editor);
-			flags |= E_CONTENT_EDITOR_MESSAGE_DRAFT;
-
-			e_content_editor_set_html_mode (cnt_editor, TRUE);
-		}
 		e_content_editor_insert_content (
 			cnt_editor,
 			contents,

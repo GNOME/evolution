@@ -5389,10 +5389,6 @@ parse_html_into_blocks (EEditorPage *editor_page,
 			child = webkit_dom_node_get_last_child (
 				WEBKIT_DOM_NODE (parent));
 			if (child) {
-				EContentEditorContentFlags flags;
-
-				flags = e_editor_page_get_current_content_flags (editor_page);
-
 				child = webkit_dom_node_get_first_child (child);
 				if (child && WEBKIT_DOM_IS_HTML_BR_ELEMENT (child)) {
 					/* If the processed HTML contained just
@@ -5401,7 +5397,7 @@ parse_html_into_blocks (EEditorPage *editor_page,
 						webkit_dom_element_set_id (
 							WEBKIT_DOM_ELEMENT (child),
 							"-x-evo-last-br");
-				} else if (!(flags & E_CONTENT_EDITOR_MESSAGE_EDITTING))
+				} else if (!webkit_dom_document_query_selector (document, ".-x-evo-signature-wrapper", NULL))
 					create_and_append_new_block (editor_page, parent, block_template, "<br>");
 			} else
 				create_and_append_new_block (editor_page, parent, block_template, "<br>");
@@ -5833,7 +5829,6 @@ e_editor_dom_convert_content (EEditorPage *editor_page,
 	WebKitDOMNodeList *list;
 	WebKitDOMNode *node;
 	WebKitDOMDOMWindow *dom_window;
-	EContentEditorContentFlags flags;
 	gboolean start_bottom, empty = FALSE;
 	gchar *inner_html;
 	gint ii, length;
@@ -5846,15 +5841,10 @@ e_editor_dom_convert_content (EEditorPage *editor_page,
 	start_bottom = g_settings_get_boolean (settings, "composer-reply-start-bottom");
 	g_object_unref (settings);
 
-	flags = e_editor_page_get_current_content_flags (editor_page);
-
 	dom_window = webkit_dom_document_get_default_view (document);
 	body = webkit_dom_document_get_body (document);
 	/* Wrapper that will represent the new body. */
 	wrapper = webkit_dom_document_create_element (document, "div", NULL);
-
-	webkit_dom_element_set_attribute (
-		WEBKIT_DOM_ELEMENT (body), "data-converted", "", NULL);
 
 	cite_body = webkit_dom_document_query_selector (
 		document, "span.-x-evo-cite-body", NULL);
@@ -6057,9 +6047,7 @@ e_editor_dom_convert_content (EEditorPage *editor_page,
 	/* If not editing a message, don't add any new block and just place
 	 * the caret in the beginning of content. We want to have the same
 	 * behaviour when editing message as new or we start replying on top. */
-	if ((flags & E_CONTENT_EDITOR_MESSAGE_EDIT_AS_NEW) ||
-	    !(flags & E_CONTENT_EDITOR_MESSAGE_EDITTING) ||
-            !start_bottom) {
+	if (!signature && !start_bottom) {
 		WebKitDOMNode *child;
 
 		remove_node (WEBKIT_DOM_NODE (paragraph));
@@ -8089,41 +8077,26 @@ process_content_to_plain_text_changing_composer_mode (EEditorPage *editor_page)
 gchar *
 e_editor_dom_process_content_to_plain_text_for_exporting (EEditorPage *editor_page)
 {
-	EContentEditorContentFlags flags;
 	WebKitDOMDocument *document;
 	WebKitDOMNode *body, *source;
 	WebKitDOMNodeList *paragraphs;
-	gboolean wrap = FALSE, quote = FALSE;
-	gboolean converted, is_new_message, is_message_draft;
+	gboolean wrap = FALSE, quote = FALSE, remove_last_new_line = FALSE;
 	gint length, ii;
 	GString *plain_text;
 
 	g_return_val_if_fail (E_IS_EDITOR_PAGE (editor_page), NULL);
 
 	document = e_editor_page_get_document (editor_page);
-	flags = e_editor_page_get_current_content_flags (editor_page);
 	plain_text = g_string_sized_new (1024);
 
 	body = WEBKIT_DOM_NODE (webkit_dom_document_get_body (document));
-	converted = webkit_dom_element_has_attribute (
-		WEBKIT_DOM_ELEMENT (body), "data-converted");
-	is_new_message = (flags & E_CONTENT_EDITOR_MESSAGE_NEW);
-	is_message_draft = (flags & E_CONTENT_EDITOR_MESSAGE_DRAFT);
-
 	source = webkit_dom_node_clone_node_with_error (WEBKIT_DOM_NODE (body), TRUE, NULL);
 
 	e_editor_dom_selection_save (editor_page);
 
 	/* If composer is in HTML mode we have to move the content to plain version */
 	if (e_editor_page_get_html_mode (editor_page)) {
-		if (converted || is_new_message || is_message_draft) {
-			toggle_paragraphs_style_in_element (
-				editor_page, WEBKIT_DOM_ELEMENT (source), FALSE);
-			remove_images_in_element (
-				WEBKIT_DOM_ELEMENT (source));
-			remove_background_images_in_element (
-				WEBKIT_DOM_ELEMENT (source));
-		} else {
+		if (e_editor_dom_check_if_conversion_needed (editor_page)) {
 			WebKitDOMElement *div;
 			WebKitDOMNode *child;
 
@@ -8155,6 +8128,15 @@ e_editor_dom_process_content_to_plain_text_for_exporting (EEditorPage *editor_pa
 				editor_page, div, &wrap, &quote);
 
 			source = WEBKIT_DOM_NODE (div);
+
+			remove_last_new_line = TRUE;
+		} else {
+			toggle_paragraphs_style_in_element (
+				editor_page, WEBKIT_DOM_ELEMENT (source), FALSE);
+			remove_images_in_element (
+				WEBKIT_DOM_ELEMENT (source));
+			remove_background_images_in_element (
+				WEBKIT_DOM_ELEMENT (source));
 		}
 	}
 
@@ -8407,9 +8389,6 @@ e_editor_dom_convert_when_changing_composer_mode (EEditorPage *editor_page)
 	remove_background_images_in_element (WEBKIT_DOM_ELEMENT (body));
 
 	clear_attributes (editor_page);
-
-	webkit_dom_element_set_attribute (
-		WEBKIT_DOM_ELEMENT (body), "data-converted", "", NULL);
 
 	e_editor_dom_force_spell_check_in_viewport (editor_page);
 	e_editor_dom_scroll_to_caret (editor_page);
@@ -10442,12 +10421,51 @@ e_editor_dom_key_press_event_process_delete_or_backspace_key (EEditorPage *edito
 static gboolean
 contains_forbidden_elements (WebKitDOMDocument *document)
 {
-	WebKitDOMElement *element;
+	WebKitDOMElement *body, *element;
 
-	element = webkit_dom_document_query_selector (
-		document,
-		"b, i , u, table, hr, tt, font, sub, sup, h1, h2, h3, h4, h5, h6, "
-		"address, img:not([data-inline])",
+	body = WEBKIT_DOM_ELEMENT (webkit_dom_document_get_body (document));
+
+	/* Try to find disallowed elements in the plain text mode */
+	element = webkit_dom_element_query_selector (
+		body,
+		":not("
+		/* Basic elements used as blocks allowed in the plain text mode */
+		"p[data-evo-paragraph], pre, ul, ol, li, blockquote[type=cite], "
+		/* Other elements */
+		"br, a, "
+		/* Indented elements */
+		".-x-evo-indented, "
+		/* Signature */
+		".-x-evo-signature-wrapper, .-x-evo-signature, "
+		/* Smileys */
+		".-x-evo-smiley-wrapper, .-x-evo-smiley-img, .-x-evo-smiley-text, "
+		/* Selection markers */
+		"#-x-evo-selection-start-marker, #-x-evo-selection-end-marker"
+		")",
+		NULL);
+
+	if (element)
+		return TRUE;
+
+	/* Try to find disallowed elements relationship in the plain text */
+	element = webkit_dom_element_query_selector (
+		body,
+		":not("
+		/* Body descendants */
+		"body > :matches(blockquote[type=cite], .-x-evo-signature-wrapper), "
+		/* Main blocks and indented blocks */
+		":matches(body, .-x-evo-indented) > :matches(pre, p, ul, ol, .-x-evo-indented), "
+		/* Blockquote descendants */
+		"blockquote[type=cite] > :matches(pre, p, blockquote[type=cite]), "
+		/* Block descendants */
+		":matches(pre, p, li) > :matches(br, span, a), "
+		/* Lists */
+		":matches(ul, ol) > :matches(ul, ol, li), "
+		/* Smileys */
+		".-x-evo-smiley-wrapper > :matches(.-x-evo-smiley-img, .-x-evo-smiley-text), "
+		/* Signature */
+		".-x-evo-signature-wrapper > .-x-evo-signature"
+		")",
 		NULL);
 
 	return element ? TRUE : FALSE;
@@ -10456,35 +10474,18 @@ contains_forbidden_elements (WebKitDOMDocument *document)
 gboolean
 e_editor_dom_check_if_conversion_needed (EEditorPage *editor_page)
 {
-	EContentEditorContentFlags flags;
 	WebKitDOMDocument *document;
-	WebKitDOMHTMLElement *body;
-	gboolean is_new_message, converted, edit_as_new, message, convert;
-	gboolean reply, hide, html_mode, message_from_draft;
+	gboolean html_mode, convert = FALSE;
 
 	g_return_val_if_fail (E_IS_EDITOR_PAGE (editor_page), FALSE);
 
 	document = e_editor_page_get_document (editor_page);
 	html_mode = e_editor_page_get_html_mode (editor_page);
 
-	flags = e_editor_page_get_current_content_flags (editor_page);
-	message_from_draft = (flags & E_CONTENT_EDITOR_MESSAGE_DRAFT);
-	is_new_message = (flags & E_CONTENT_EDITOR_MESSAGE_NEW);
-	edit_as_new = (flags & E_CONTENT_EDITOR_MESSAGE_EDIT_AS_NEW);
-	message = (flags & E_CONTENT_EDITOR_MESSAGE_EDITTING);
+	if (html_mode)
+		convert = contains_forbidden_elements (document);
 
-	body = webkit_dom_document_get_body (document);
-	converted = webkit_dom_element_has_attribute (
-		WEBKIT_DOM_ELEMENT (body), "data-converted");
-
-	reply = !is_new_message && !edit_as_new && message;
-	hide = !reply && !converted;
-
-	convert = message && ((!hide && reply && !converted) || (edit_as_new && !converted));
-	convert = convert && !is_new_message;
-
-	/* We need to count with the opposite value of html_mode as we are changing the mode. */
-	return html_mode && (contains_forbidden_elements (document) || (convert && !message_from_draft));
+	return convert;
 }
 
 void
