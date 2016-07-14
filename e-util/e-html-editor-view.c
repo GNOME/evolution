@@ -15738,7 +15738,7 @@ insert:
 			NULL);
 
 		/* Insert a spacer below the top signature */
-		if (top_signature) {
+		if (top_signature && content) {
 			WebKitDOMElement *spacer;
 
 			spacer = prepare_top_signature_spacer (view->priv->selection, document);
