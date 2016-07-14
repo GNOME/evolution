@@ -1041,7 +1041,7 @@ composer_load_signature_cb (EMailSignatureComboBox *combo_box,
 	WebKitDOMDocument *document;
 	WebKitDOMElement *signature_to_insert;
 	WebKitDOMElement *insert_signature_in = NULL;
-	WebKitDOMElement *signature_wrapper;
+	WebKitDOMElement *signature_wrapper = NULL;
 	WebKitDOMElement *element, *converted_signature = NULL;
 	WebKitDOMHTMLElement *body;
 	WebKitDOMNodeList *signatures;
@@ -1075,6 +1075,7 @@ composer_load_signature_cb (EMailSignatureComboBox *combo_box,
 
 	/* Create the DOM signature that is the same across all types of signatures. */
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
+	body = webkit_dom_document_get_body (document);
 	signature_to_insert = webkit_dom_document_create_element (document, "span", NULL);
 	webkit_dom_element_set_class_name (signature_to_insert, "-x-evo-signature");
 	/* The combo box active ID is the signature's ESource UID. */
@@ -1195,7 +1196,7 @@ insert:
 		/* When we are editing a message with signature, we need to unset the
 		 * active signature id as if the signature in the message was edited
 		 * by the user we would discard these changes. */
-		if (composer->priv->set_signature_from_message &&
+		if (composer->priv->set_signature_from_message && contents &&
 		    (is_message_from_edit_as_new || e_html_editor_view_is_message_from_draft (view))) {
 			if (composer->priv->check_if_signature_is_changed) {
 				/* Normalize the signature that we want to insert as the one in the
@@ -1240,54 +1241,81 @@ insert:
 			if (spacer)
 				remove_node_if_empty (WEBKIT_DOM_NODE (spacer));
 		}
-		/* We have to remove the div containing the span with signature */
-		remove_node (wrapper);
-		g_object_unref (wrapper);
+		/* Leave just one signature wrapper there as it will be reused. */
+		if (ii != list_length - 1) {
+			g_object_unref (wrapper);
+			remove_node (wrapper);
+		} else {
+			remove_node (signature);
+			signature_wrapper = WEBKIT_DOM_ELEMENT (wrapper);
+		}
+	}
+
+	if (signature_wrapper) {
+		webkit_dom_node_append_child (
+			WEBKIT_DOM_NODE (signature_wrapper),
+			WEBKIT_DOM_NODE (signature_to_insert),
+			NULL);
+
+		/* Insert a spacer below the top signature */
+		if (top_signature) {
+			WebKitDOMElement *spacer;
+			EHTMLEditorSelection *editor_selection;
+
+			editor_selection = e_html_editor_view_get_selection (view);
+			spacer = prepare_top_signature_spacer (editor_selection, document);
+			webkit_dom_node_insert_before (
+				WEBKIT_DOM_NODE (body),
+				WEBKIT_DOM_NODE (spacer),
+				webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (signature_wrapper)),
+				NULL);
+		}
+
+		g_object_unref (signature_wrapper);
+	} else {
+		signature_wrapper = webkit_dom_document_create_element (document, "div", NULL);
+		webkit_dom_element_set_class_name (signature_wrapper, "-x-evo-signature-wrapper");
+
+		webkit_dom_node_append_child (
+			WEBKIT_DOM_NODE (signature_wrapper),
+			WEBKIT_DOM_NODE (signature_to_insert),
+			NULL);
+
+		if (top_signature) {
+			GSettings *settings;
+			WebKitDOMNode *child;
+
+			child = webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (body));
+
+			settings = e_util_ref_settings ("org.gnome.evolution.mail");
+			if (g_settings_get_boolean (settings, "composer-reply-start-bottom")) {
+				webkit_dom_node_insert_before (
+					WEBKIT_DOM_NODE (body),
+					WEBKIT_DOM_NODE (signature_wrapper),
+					child,
+					NULL);
+			} else {
+				/* When we are using signature on top the caret
+				 * should be before the signature */
+				webkit_dom_node_insert_before (
+					WEBKIT_DOM_NODE (body),
+					WEBKIT_DOM_NODE (signature_wrapper),
+					child,
+					NULL);
+			}
+			g_object_unref (settings);
+		} else {
+			webkit_dom_node_append_child (
+				WEBKIT_DOM_NODE (body),
+				WEBKIT_DOM_NODE (signature_wrapper),
+				NULL);
+		}
+		composer_move_caret (composer);
 	}
 	g_object_unref (signatures);
 
-	body = webkit_dom_document_get_body (document);
-	signature_wrapper = webkit_dom_document_create_element (document, "div", NULL);
-	webkit_dom_node_append_child (
-		WEBKIT_DOM_NODE (signature_wrapper),
-		WEBKIT_DOM_NODE (signature_to_insert),
-		NULL);
-	webkit_dom_element_set_class_name (signature_wrapper, "-x-evo-signature-wrapper");
-
-	if (top_signature) {
-		GSettings *settings;
-		WebKitDOMNode *child;
-
-		child = webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (body));
-
-		settings = e_util_ref_settings ("org.gnome.evolution.mail");
-		if (g_settings_get_boolean (settings, "composer-reply-start-bottom")) {
-			webkit_dom_node_insert_before (
-				WEBKIT_DOM_NODE (body),
-				WEBKIT_DOM_NODE (signature_wrapper),
-				child,
-				NULL);
-		} else {
-			/* When we are using signature on top the caret
-			 * should be before the signature */
-			webkit_dom_node_insert_before (
-				WEBKIT_DOM_NODE (body),
-				WEBKIT_DOM_NODE (signature_wrapper),
-				child,
-				NULL);
-		}
-		g_object_unref (settings);
-	} else {
-		webkit_dom_node_append_child (
-			WEBKIT_DOM_NODE (body),
-			WEBKIT_DOM_NODE (signature_wrapper),
-			NULL);
-	}
-
 	if (is_html && html_mode)
 		e_html_editor_view_fix_file_uri_images (view);
-
-	composer_move_caret (composer);
 
  exit:
 	/* Make sure the flag will be unset and won't influence user's choice */
