@@ -966,15 +966,8 @@ e_editor_dom_get_citation_level (WebKitDOMNode *node,
 
 	while (parent && !WEBKIT_DOM_IS_HTML_BODY_ELEMENT (parent)) {
 		if (WEBKIT_DOM_IS_HTML_QUOTE_ELEMENT (parent) &&
-		    webkit_dom_element_has_attribute (WEBKIT_DOM_ELEMENT (parent), "type")) {
+		    webkit_dom_element_has_attribute (WEBKIT_DOM_ELEMENT (parent), "type"))
 			level++;
-
-			if (set_plaintext_quoted) {
-				element_add_class (
-					WEBKIT_DOM_ELEMENT (parent),
-					"-x-evo-plaintext-quoted");
-			}
-		}
 
 		parent = webkit_dom_node_get_parent_node (parent);
 	}
@@ -2247,15 +2240,11 @@ emoticon_read_async_cb (GFile *file,
 	webkit_dom_element_set_attribute (image, "data-name", load_context->name, NULL);
 	webkit_dom_element_set_attribute (image, "alt", emoticon->text_face, NULL);
 	webkit_dom_element_set_attribute (image, "class", "-x-evo-smiley-img", NULL);
-	if (!html_mode)
-		webkit_dom_element_set_attribute (image, "style", "display: none;", NULL);
 	webkit_dom_node_append_child (
 		WEBKIT_DOM_NODE (wrapper), WEBKIT_DOM_NODE (image), NULL);
 
 	smiley_text = webkit_dom_document_create_element (document, "SPAN", NULL);
 	webkit_dom_element_set_attribute (smiley_text, "class", "-x-evo-smiley-text", NULL);
-	if (html_mode)
-		webkit_dom_element_set_attribute (smiley_text, "style", "display: none;", NULL);
 	webkit_dom_html_element_set_inner_text (
 		WEBKIT_DOM_HTML_ELEMENT (smiley_text), emoticon->text_face, NULL);
 	webkit_dom_node_append_child (
@@ -2466,6 +2455,7 @@ static gboolean
 fix_paragraph_structure_after_pressing_enter (EEditorPage *editor_page)
 {
 	WebKitDOMDocument *document;
+	WebKitDOMNode *body;
 	WebKitDOMNodeList *list;
 	gboolean prev_is_heading = FALSE;
 	gint ii, length;
@@ -2473,6 +2463,7 @@ fix_paragraph_structure_after_pressing_enter (EEditorPage *editor_page)
 	g_return_val_if_fail (E_IS_EDITOR_PAGE (editor_page), FALSE);
 
 	document = e_editor_page_get_document (editor_page);
+	body = WEBKIT_DOM_NODE (webkit_dom_document_get_body (document));
 
 	/* When pressing Enter on empty line in the list (or after heading elements)
 	 * WebKit will end that list and inserts <div><br></div> so mark it for wrapping. */
@@ -2488,7 +2479,13 @@ fix_paragraph_structure_after_pressing_enter (EEditorPage *editor_page)
 		prev_sibling = webkit_dom_node_get_previous_sibling (node);
 		if (prev_sibling && WEBKIT_DOM_IS_HTML_HEADING_ELEMENT (prev_sibling))
 			prev_is_heading = TRUE;
-		e_editor_dom_set_paragraph_style (editor_page, WEBKIT_DOM_ELEMENT (node), -1, 0, "");
+
+		webkit_dom_node_replace_child (
+			body,
+			WEBKIT_DOM_NODE (e_editor_dom_prepare_paragraph (editor_page, FALSE)),
+			node,
+			NULL);
+
 		g_object_unref (node);
 	}
 	g_object_unref (list);
@@ -3254,7 +3251,7 @@ e_editor_dom_body_input_event_process (EEditorPage *editor_page,
 		WebKitDOMElement *element;
 
 		element = webkit_dom_document_query_selector (
-			document, "ul[data-evo-plain-text] > li > br + br", NULL);
+			document, "ul > li > br + br", NULL);
 
 		if (element)
 			remove_node (WEBKIT_DOM_NODE (element));
@@ -3387,7 +3384,7 @@ e_editor_dom_body_input_event_process (EEditorPage *editor_page,
 					NULL);
 			else
 				e_editor_dom_set_paragraph_style (
-					editor_page, WEBKIT_DOM_ELEMENT (parent), -1, 0, "");
+					editor_page, WEBKIT_DOM_ELEMENT (parent), -1, 0, NULL);
 		}
 
 		/* When new smiley is added we have to use UNICODE_HIDDEN_SPACE to set the
@@ -4545,10 +4542,6 @@ quote_plain_text_recursive (WebKitDOMDocument *document,
 		if (e_editor_dom_node_is_citation_node (node)) {
 			/* Citation with just text inside */
 			quote_node (document, node, quote_level + 1);
-			/* Set citation as quoted */
-			element_add_class (
-				WEBKIT_DOM_ELEMENT (node),
-				"-x-evo-plaintext-quoted");
 
 			move_next = TRUE;
 			goto next_node;
@@ -4627,10 +4620,6 @@ quote_plain_text_recursive (WebKitDOMDocument *document,
 			/* Go deeper and increase level */
 			quote_plain_text_recursive (
 				document, node, start_node, quote_level + 1);
-			/* set citation as quoted */
-			element_add_class (
-				WEBKIT_DOM_ELEMENT (node),
-				"-x-evo-plaintext-quoted");
 			move_next = TRUE;
 		} else {
 			quote_plain_text_recursive (
@@ -4689,12 +4678,6 @@ e_editor_dom_quote_plain_text_element (EEditorPage *editor_page,
 	quote_plain_text_recursive (
 		document, element_clone, element_clone, level);
 
-	/* Set citation as quoted */
-	if (e_editor_dom_node_is_citation_node (element_clone))
-		element_add_class (
-			WEBKIT_DOM_ELEMENT (element_clone),
-			"-x-evo-plaintext-quoted");
-
 	/* Replace old element with one, that is quoted */
 	webkit_dom_node_replace_child (
 		webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (element)),
@@ -4726,7 +4709,7 @@ dom_quote_plain_text (WebKitDOMDocument *document)
 
 	/* Check if the document is already quoted */
 	element = webkit_dom_document_query_selector (
-		document, ".-x-evo-plaintext-quoted", NULL);
+		document, ".-x-evo-quoted", NULL);
 	if (element)
 		return NULL;
 
@@ -4803,17 +4786,16 @@ dom_dequote_plain_text (WebKitDOMDocument *document)
 	gint length, ii;
 
 	paragraphs = webkit_dom_document_query_selector_all (
-		document, "blockquote.-x-evo-plaintext-quoted", NULL);
+		document, "blockquote[type=cite]", NULL);
 	length = webkit_dom_node_list_get_length (paragraphs);
 	for (ii = 0; ii < length; ii++) {
 		WebKitDOMElement *element;
 
 		element = WEBKIT_DOM_ELEMENT (webkit_dom_node_list_item (paragraphs, ii));
 
-		if (e_editor_dom_node_is_citation_node (WEBKIT_DOM_NODE (element))) {
-			element_remove_class (element, "-x-evo-plaintext-quoted");
+		if (e_editor_dom_node_is_citation_node (WEBKIT_DOM_NODE (element)))
 			e_editor_dom_remove_quoting_from_element (element);
-		}
+
 		g_object_unref (element);
 	}
 	g_object_unref (paragraphs);
@@ -5565,8 +5547,6 @@ e_editor_dom_quote_and_insert_text_into_selection (EEditorPage *editor_page,
 	} else {
 		gint word_wrap_length;
 
-		element_add_class (blockquote, "-x-evo-plaintext-quoted");
-
 		word_wrap_length = e_editor_page_get_word_wrap_length (editor_page);
 		node = webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (blockquote));
 		while (node) {
@@ -5953,7 +5933,7 @@ e_editor_dom_convert_content (EEditorPage *editor_page,
 		node = webkit_dom_node_list_item (list, ii);
 		webkit_dom_element_remove_attribute (
 			WEBKIT_DOM_ELEMENT (node), "data-headers");
-		e_editor_dom_set_paragraph_style (editor_page, WEBKIT_DOM_ELEMENT (node), -1, 0, "");
+		e_editor_dom_set_paragraph_style (editor_page, WEBKIT_DOM_ELEMENT (node), -1, 0, NULL);
 		webkit_dom_node_insert_before (
 			WEBKIT_DOM_NODE (wrapper),
 			node,
@@ -7674,17 +7654,7 @@ toggle_smileys (EEditorPage *editor_page)
 	length = webkit_dom_node_list_get_length (smileys);
 	for (ii = 0; ii < length; ii++) {
 		WebKitDOMNode *img = webkit_dom_node_list_item (smileys, ii);
-		WebKitDOMNode *text = webkit_dom_node_get_next_sibling (img);
 		WebKitDOMElement *parent = webkit_dom_node_get_parent_element (img);
-
-		webkit_dom_element_set_attribute (
-			WEBKIT_DOM_ELEMENT (html_mode ? text : img),
-			"style",
-			"display: none",
-			NULL);
-
-		webkit_dom_element_remove_attribute (
-			WEBKIT_DOM_ELEMENT (html_mode ? img : text), "style");
 
 		if (html_mode)
 			element_add_class (parent, "-x-evo-resizable-wrapper");
@@ -7692,7 +7662,6 @@ toggle_smileys (EEditorPage *editor_page)
 			element_remove_class (parent, "-x-evo-resizable-wrapper");
 		g_object_unref (img);
 	}
-
 	g_object_unref (smileys);
 }
 
@@ -7745,7 +7714,7 @@ toggle_paragraphs_style_in_element (EEditorPage *editor_page,
 					SPACES_PER_LIST_LEVEL : SPACES_ORDERED_LIST_FIRST_LEVEL;
 				/* In plain text mode the paragraphs have width limit */
 				e_editor_dom_set_paragraph_style (
-					editor_page, WEBKIT_DOM_ELEMENT (node), -1, -offset, "");
+					editor_page, WEBKIT_DOM_ELEMENT (node), -1, -offset, NULL);
 			} else if (!element_has_class (WEBKIT_DOM_ELEMENT (parent), "-x-evo-indented")) {
 				const gchar *style_to_add = "";
 				style = webkit_dom_element_get_attribute (
@@ -7908,75 +7877,6 @@ toggle_indented_elements (EEditorPage *editor_page)
 }
 
 static void
-toggle_tables (EEditorPage *editor_page)
-{
-	gboolean html_mode;
-	gint ii, length;
-	WebKitDOMDocument *document;
-	WebKitDOMNodeList *list;
-
-	g_return_if_fail (E_IS_EDITOR_PAGE (editor_page));
-
-	document = e_editor_page_get_document (editor_page);
-	html_mode = e_editor_page_get_html_mode (editor_page);
-	list = webkit_dom_document_query_selector_all (document, "table", NULL);
-	length = webkit_dom_node_list_get_length (list);
-
-	for (ii = 0; ii < length; ii++) {
-		WebKitDOMNode *table = webkit_dom_node_list_item (list, ii);
-
-		if (html_mode) {
-			element_remove_class (WEBKIT_DOM_ELEMENT (table), "-x-evo-plaintext-table");
-			element_rename_attribute (WEBKIT_DOM_ELEMENT (table), "data-width", "width");
-			element_rename_attribute (WEBKIT_DOM_ELEMENT (table), "data-cellspacing", "cellspacing");
-			element_rename_attribute (WEBKIT_DOM_ELEMENT (table), "data-cellpadding", "cellpadding");
-			element_rename_attribute (WEBKIT_DOM_ELEMENT (table), "data-border", "border");
-		} else {
-			element_add_class (WEBKIT_DOM_ELEMENT (table), "-x-evo-plaintext-table");
-			element_rename_attribute (WEBKIT_DOM_ELEMENT (table), "width", "data-width");
-			element_rename_attribute (WEBKIT_DOM_ELEMENT (table), "cellspacing", "data-cellspacing");
-			webkit_dom_element_set_attribute (WEBKIT_DOM_ELEMENT (table), "cellspacing", "0", NULL);
-			element_rename_attribute (WEBKIT_DOM_ELEMENT (table), "cellpadding", "data-cellpadding");
-			webkit_dom_element_set_attribute (WEBKIT_DOM_ELEMENT (table), "cellpadding", "0", NULL);
-			element_rename_attribute (WEBKIT_DOM_ELEMENT (table), "border", "data-border");
-			webkit_dom_element_set_attribute (WEBKIT_DOM_ELEMENT (table), "border", "0", NULL);
-		}
-		g_object_unref (table);
-	}
-	g_object_unref (list);
-}
-
-static void
-toggle_unordered_lists (EEditorPage *editor_page)
-{
-	gboolean html_mode;
-	gint ii, length;
-	WebKitDOMDocument *document;
-	WebKitDOMNodeList *list;
-
-	g_return_if_fail (E_IS_EDITOR_PAGE (editor_page));
-
-	document = e_editor_page_get_document (editor_page);
-	html_mode = e_editor_page_get_html_mode (editor_page);
-	list = webkit_dom_document_query_selector_all (document, "ul", NULL);
-	length = webkit_dom_node_list_get_length (list);
-
-	for (ii = 0; ii < length; ii++) {
-		WebKitDOMNode *node = webkit_dom_node_list_item (list, ii);
-
-		if (html_mode) {
-			webkit_dom_element_remove_attribute (
-				WEBKIT_DOM_ELEMENT (node), "data-evo-plain-text");
-		} else {
-			webkit_dom_element_set_attribute (
-				WEBKIT_DOM_ELEMENT (node), "data-evo-plain-text", "", NULL);
-		}
-		g_object_unref (node);
-	}
-	g_object_unref (list);
-}
-
-static void
 process_content_to_html_changing_composer_mode (EEditorPage *editor_page)
 {
 	WebKitDOMDocument *document;
@@ -7988,6 +7888,8 @@ process_content_to_html_changing_composer_mode (EEditorPage *editor_page)
 	document = e_editor_page_get_document (editor_page);
 	body = WEBKIT_DOM_NODE (webkit_dom_document_get_body (document));
 
+	webkit_dom_element_remove_attribute (
+		WEBKIT_DOM_ELEMENT (body), "data-evo-plain-text");
 	blockquote = webkit_dom_document_query_selector (
 		document, "blockquote[type|=cite]", NULL);
 
@@ -7996,8 +7898,6 @@ process_content_to_html_changing_composer_mode (EEditorPage *editor_page)
 
 	toggle_paragraphs_style (editor_page);
 	toggle_smileys (editor_page);
-	toggle_tables (editor_page);
-	toggle_unordered_lists (editor_page);
 	remove_images (document);
 	e_editor_dom_remove_wrapping_from_element (WEBKIT_DOM_ELEMENT (body));
 
@@ -8051,6 +7951,9 @@ process_content_to_plain_text_changing_composer_mode (EEditorPage *editor_page)
 	webkit_dom_element_remove_attribute (
 		WEBKIT_DOM_ELEMENT (body), "data-user-colors");
 
+	webkit_dom_element_set_attribute (
+		WEBKIT_DOM_ELEMENT (body), "data-evo-plain-text", "", NULL);
+
 	blockquote = webkit_dom_document_query_selector (
 		document, "blockquote[type|=cite]", NULL);
 
@@ -8061,9 +7964,7 @@ process_content_to_plain_text_changing_composer_mode (EEditorPage *editor_page)
 
 	toggle_paragraphs_style (editor_page);
 	toggle_smileys (editor_page);
-	toggle_tables (editor_page);
 	toggle_indented_elements (editor_page);
-	toggle_unordered_lists (editor_page);
 	remove_images (document);
 	remove_background_images_in_element (WEBKIT_DOM_ELEMENT (body));
 
@@ -8537,6 +8438,7 @@ adapt_to_editor_dom_changes (WebKitDOMDocument *document)
 void
 e_editor_dom_process_content_after_load (EEditorPage *editor_page)
 {
+	gboolean html_mode;
 	WebKitDOMDocument *document;
 	WebKitDOMHTMLElement *body;
 	WebKitDOMDOMWindow *dom_window;
@@ -8553,6 +8455,10 @@ e_editor_dom_process_content_after_load (EEditorPage *editor_page)
 	body = webkit_dom_document_get_body (document);
 
 	webkit_dom_element_remove_attribute (WEBKIT_DOM_ELEMENT (body), "style");
+	html_mode = e_editor_page_get_html_mode (editor_page);
+	if (!html_mode)
+		webkit_dom_element_set_attribute (
+			WEBKIT_DOM_ELEMENT (body), "data-evo-plain-text", "", NULL);
 
 	if (e_editor_page_get_convert_in_situ (editor_page)) {
 		e_editor_dom_convert_content (editor_page, NULL);
@@ -10552,8 +10458,7 @@ e_editor_dom_get_caret_offset (EEditorPage *editor_page)
 		WebKitDOMNode *parent = anchor;
 
 		while (parent && !WEBKIT_DOM_IS_HTML_BODY_ELEMENT (parent)) {
-			if (WEBKIT_DOM_IS_HTML_QUOTE_ELEMENT (parent) &&
-			    element_has_class (WEBKIT_DOM_ELEMENT (parent), "-x-evo-plaintext-quoted"))
+			if (WEBKIT_DOM_IS_HTML_QUOTE_ELEMENT (parent))
 				ret_val += 2;
 
 			parent = webkit_dom_node_get_parent_node (parent);
@@ -11612,12 +11517,12 @@ e_editor_dom_set_paragraph_style (EEditorPage *editor_page,
 	if (!e_editor_page_get_html_mode (editor_page) &&
 	    (!parent || WEBKIT_DOM_IS_HTML_BODY_ELEMENT (parent))) {
 		style = g_strdup_printf (
-			"width: %dch; "
-			"word-wrap: break-word; "
-			"word-break: break-word; %s",
-			(word_wrap_length + offset), style_to_add);
+			"width: %dch;%s%s",
+			(word_wrap_length + offset),
+			style_to_add && *style_to_add ? " " : "",
+			style_to_add && *style_to_add ? style_to_add : "");
 	} else {
-		if (*style_to_add)
+		if (style_to_add && *style_to_add)
 			style = g_strdup_printf ("%s", style_to_add);
 	}
 	if (style) {
@@ -11655,7 +11560,7 @@ create_list_element (EEditorPage *editor_page,
 		offset += !inserting_unordered_list ?
 			SPACES_ORDERED_LIST_FIRST_LEVEL - SPACES_PER_LIST_LEVEL: 0;
 
-		e_editor_dom_set_paragraph_style (editor_page, list, -1, -offset, "");
+		e_editor_dom_set_paragraph_style (editor_page, list, -1, -offset, NULL);
 
 		if (inserting_unordered_list)
 			webkit_dom_element_set_attribute (list, "data-evo-plain-text", "", NULL);
@@ -12345,7 +12250,7 @@ unindent_block (EEditorPage *editor_page,
 
 		if (level == 1 && webkit_dom_element_has_attribute (WEBKIT_DOM_ELEMENT (node_clone), "data-evo-paragraph")) {
 			e_editor_dom_set_paragraph_style (
-				editor_page, WEBKIT_DOM_ELEMENT (node_clone), word_wrap_length, 0, "");
+				editor_page, WEBKIT_DOM_ELEMENT (node_clone), word_wrap_length, 0, NULL);
 			element_add_class (
 				WEBKIT_DOM_ELEMENT (node_clone),
 				get_css_alignment_value_class (alignment));
@@ -14037,7 +13942,7 @@ e_editor_dom_get_paragraph_element (EEditorPage *editor_page,
 
 	document = e_editor_page_get_document (editor_page);
 	element = webkit_dom_document_create_element (document, "p", NULL);
-	e_editor_dom_set_paragraph_style (editor_page, element, width, offset, "");
+	e_editor_dom_set_paragraph_style (editor_page, element, width, offset, NULL);
 
 	return element;
 }

@@ -940,6 +940,22 @@ webkit_editor_update_styles (EContentEditor *editor)
 		"  outline: 1px dotted red;\n"
 		"}\n");
 
+	g_string_append (
+		stylesheet,
+		"body[data-evo-plain-text] img.-x-evo-smiley-img, "
+		"body:not([data-evo-plain-text]) span.-x-evo-smiley-text "
+		"{\n"
+		"  display: none \n"
+		"}\n");
+
+	g_string_append (
+		stylesheet,
+		"body[data-evo-plain-text] [data-evo-paragraph] "
+		"{\n"
+		"  word-wrap: break-word; \n"
+		"  word-break: break-all; \n"
+		"}\n");
+
 	g_string_append_printf (
 		stylesheet,
 		".-x-evo-plaintext-table "
@@ -951,21 +967,21 @@ webkit_editor_update_styles (EContentEditor *editor)
 
 	g_string_append (
 		stylesheet,
-		".-x-evo-plaintext-table td"
+		".-x-evo-plaintext-table td "
 		"{\n"
 		"  vertical-align: top;\n"
 		"}\n");
 
 	g_string_append (
 		stylesheet,
-		"td > *"
+		"td > * "
 		"{\n"
 		"  display : inline-block;\n"
 		"}\n");
 
 	g_string_append_printf (
 		stylesheet,
-		"ul[data-evo-plain-text]"
+		"body[data-evo-plain-text] ul "
 		"{\n"
 		"  list-style: outside none;\n"
 		"  -webkit-padding-start: %dch; \n"
@@ -973,7 +989,7 @@ webkit_editor_update_styles (EContentEditor *editor)
 
 	g_string_append_printf (
 		stylesheet,
-		"ul[data-evo-plain-text] > li"
+		"body[data-evo-plain-text] ul > li "
 		"{\n"
 		"  list-style-position: outside;\n"
 		"  text-indent: -%dch;\n"
@@ -981,42 +997,42 @@ webkit_editor_update_styles (EContentEditor *editor)
 
 	g_string_append (
 		stylesheet,
-		"ul[data-evo-plain-text] > li::before "
+		"body[data-evo-plain-text] ul > li::before "
 		"{\n"
 		"  content: \"*"UNICODE_NBSP"\";\n"
 		"}\n");
 
 	g_string_append_printf (
 		stylesheet,
-		"ul[data-evo-plain-text].-x-evo-indented "
+		"body[data-evo-plain-text] ul.-x-evo-indented "
 		"{\n"
 		"  -webkit-padding-start: %dch; \n"
 		"}\n", SPACES_PER_LIST_LEVEL);
 
 	g_string_append (
 		stylesheet,
-		"ul:not([data-evo-plain-text]) > li.-x-evo-align-center,ol > li.-x-evo-align-center"
+		"body:not([data-evo-plain-text]) ul > li.-x-evo-align-center,ol > li.-x-evo-align-center "
 		"{\n"
 		"  list-style-position: inside;\n"
 		"}\n");
 
 	g_string_append (
 		stylesheet,
-		"ul:not([data-evo-plain-text]) > li.-x-evo-align-right, ol > li.-x-evo-align-right"
+		"body:not([data-evo-plain-text]) ul > li.-x-evo-align-right, ol > li.-x-evo-align-right "
 		"{\n"
 		"  list-style-position: inside;\n"
 		"}\n");
 
 	g_string_append_printf (
 		stylesheet,
-		"ol"
+		"ol "
 		"{\n"
 		"  -webkit-padding-start: %dch; \n"
 		"}\n", SPACES_ORDERED_LIST_FIRST_LEVEL);
 
 	g_string_append_printf (
 		stylesheet,
-		"ol.-x-evo-indented"
+		"ol.-x-evo-indented "
 		"{\n"
 		"  -webkit-padding-start: %dch; \n"
 		"}\n", SPACES_PER_LIST_LEVEL);
@@ -1143,7 +1159,8 @@ webkit_editor_update_styles (EContentEditor *editor)
 
 	g_string_append (
 		stylesheet,
-		"blockquote[type=cite]:not(.-x-evo-plaintext-quoted) "
+		"body:not([data-evo-plain-text]) "
+		"blockquote[type=cite] "
 		"{\n"
 		"  padding: 0ch 1ch 0ch 1ch;\n"
 		"  margin: 0ch;\n"
@@ -1154,7 +1171,8 @@ webkit_editor_update_styles (EContentEditor *editor)
 
 	g_string_append_printf (
 		stylesheet,
-		"blockquote[type=cite]:not(.-x-evo-plaintext-quoted) "
+		"body:not([data-evo-plain-text]) "
+		"blockquote[type=cite] "
 		"{\n"
 		"  border-color: %s;\n"
 		"}\n",
@@ -1162,8 +1180,9 @@ webkit_editor_update_styles (EContentEditor *editor)
 
 	g_string_append_printf (
 		stylesheet,
-		"blockquote[type=cite]:not(.-x-evo-plaintext-quoted) "
-		"blockquote[type=cite]:not(.-x-evo-plaintext-quoted) "
+		"body:not([data-evo-plain-text]) "
+		"blockquote[type=cite] "
+		"blockquote[type=cite] "
 		"{\n"
 		"  border-color: %s;\n"
 		"}\n",
@@ -1171,9 +1190,10 @@ webkit_editor_update_styles (EContentEditor *editor)
 
 	g_string_append_printf (
 		stylesheet,
-		"blockquote[type=cite]:not(.-x-evo-plaintext-quoted) "
-		"blockquote[type=cite]:not(.-x-evo-plaintext-quoted) "
-		"blockquote[type=cite]:not(.-x-evo-plaintext-quoted) "
+		"body:not([data-evo-plain-text]) "
+		"blockquote[type=cite] "
+		"blockquote[type=cite] "
+		"blockquote[type=cite] "
 		"{\n"
 		"  border-color: %s;\n"
 		"}\n",
@@ -1181,10 +1201,11 @@ webkit_editor_update_styles (EContentEditor *editor)
 
 	g_string_append_printf (
 		stylesheet,
-		"blockquote[type=cite]:not(.-x-evo-plaintext-quoted) "
-		"blockquote[type=cite]:not(.-x-evo-plaintext-quoted) "
-		"blockquote[type=cite]:not(.-x-evo-plaintext-quoted) "
-		"blockquote[type=cite]:not(.-x-evo-plaintext-quoted) "
+		"body:not([data-evo-plain-text]) "
+		"blockquote[type=cite] "
+		"blockquote[type=cite] "
+		"blockquote[type=cite] "
+		"blockquote[type=cite] "
 		"{\n"
 		"  border-color: %s;\n"
 		"}\n",
@@ -1192,11 +1213,12 @@ webkit_editor_update_styles (EContentEditor *editor)
 
 	g_string_append_printf (
 		stylesheet,
-		"blockquote[type=cite]:not(.-x-evo-plaintext-quoted) "
-		"blockquote[type=cite]:not(.-x-evo-plaintext-quoted) "
-		"blockquote[type=cite]:not(.-x-evo-plaintext-quoted) "
-		"blockquote[type=cite]:not(.-x-evo-plaintext-quoted) "
-		"blockquote[type=cite]:not(.-x-evo-plaintext-quoted) "
+		"body:not([data-evo-plain-text]) "
+		"blockquote[type=cite] "
+		"blockquote[type=cite] "
+		"blockquote[type=cite] "
+		"blockquote[type=cite] "
+		"blockquote[type=cite] "
 		"{\n"
 		"  border-color: %s;\n"
 		"}\n",

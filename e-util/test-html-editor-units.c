@@ -25,8 +25,7 @@
 #include "test-html-editor-units-utils.h"
 
 #define HTML_PREFIX "<html><head></head><body>"
-#define HTML_PREFIX_PLAIN "<html><head></head><body style=\"font-family: Monospace;\">" \
-	"<p style=\"width: 71ch; word-wrap: break-word; word-break: break-word; \">"
+#define HTML_PREFIX_PLAIN "<html><head></head><body style=\"font-family: Monospace;\" data-evo-plain-text>"
 #define HTML_SUFFIX "</body></html>"
 
 /* The tests do not use the 'user_data' argument, thus the functions avoid them and the typecast is needed. */
