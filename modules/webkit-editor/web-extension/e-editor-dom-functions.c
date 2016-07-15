@@ -6760,7 +6760,7 @@ process_list_to_plain_text (EEditorPage *editor_page,
 			g_string_append (output, "\n");
 
 		if (WEBKIT_DOM_IS_HTML_LI_ELEMENT (item)) {
-			gchar *space, *item_str = NULL;
+			gchar *space = NULL, *item_str = NULL;
 			gint ii = 0;
 			WebKitDOMElement *wrapped;
 			GString *item_value = g_string_new ("");
@@ -6853,7 +6853,7 @@ process_list_to_plain_text (EEditorPage *editor_page,
 			}
 
 			if (format == E_CONTENT_EDITOR_BLOCK_FORMAT_ORDERED_LIST) {
-				gint length = 1, tmp = counter;
+				gint length = 1, tmp = counter, spaces_count;
 
 				while ((tmp = tmp / 10) > 1)
 					length++;
@@ -6861,23 +6861,28 @@ process_list_to_plain_text (EEditorPage *editor_page,
 				if (tmp == 1)
 					length++;
 
-				space = g_strnfill (SPACES_ORDERED_LIST_FIRST_LEVEL - 2 - length, ' ');
+				spaces_count = SPACES_ORDERED_LIST_FIRST_LEVEL - 2 - length;
+				if (spaces_count > 0)
+					space = g_strnfill (spaces_count, ' ');
+
 				item_str = g_strdup_printf (
-					"%s%d. %s", space, counter, item_value->str);
+					"%s%d. %s", space && *space ? space : "", counter, item_value->str);
 				g_free (space);
 			}
 
 			if (format > E_CONTENT_EDITOR_BLOCK_FORMAT_ORDERED_LIST) {
-				gchar *value;
+				gchar *value, spaces_count;
 
 				if (format == E_CONTENT_EDITOR_BLOCK_FORMAT_ORDERED_LIST_ALPHA)
 					value = get_alpha_value (counter, FALSE);
 				else
 					value = get_roman_value (counter, FALSE);
 
-				space = g_strnfill (SPACES_ORDERED_LIST_FIRST_LEVEL - strlen (value), ' ');
+				spaces_count = SPACES_ORDERED_LIST_FIRST_LEVEL - strlen (value);
+				if (spaces_count > 0)
+					space = g_strnfill (spaces_count, ' ');
 				item_str = g_strdup_printf (
-					"%s%s%s", space, value, item_value->str);
+					"%s%s%s", space && *space ? space : "" , value, item_value->str);
 				g_free (space);
 				g_free (value);
 			}
