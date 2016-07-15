@@ -555,11 +555,6 @@ static const gchar *introspection_xml =
 "<!-- ********************************************************* -->"
 "<!--     Functions that are used in EComposerPrivate           -->"
 "<!-- ********************************************************* -->"
-"    <method name='DOMRemoveSignatures'>"
-"      <arg type='t' name='page_id' direction='in'/>"
-"      <arg type='b' name='top_signature' direction='in'/>"
-"      <arg type='s' name='active_signature' direction='out'/>"
-"    </method>"
 "    <method name='DOMInsertSignature'>"
 "      <arg type='t' name='page_id' direction='in'/>"
 "      <arg type='s' name='content' direction='in'/>"
@@ -2112,24 +2107,6 @@ handle_method_call (GDBusConnection *connection,
 				"(@s)",
 				g_variant_new_take_string (
 					word ? word : g_strdup (""))));
-	} else if (g_strcmp0 (method_name, "DOMRemoveSignatures") == 0) {
-		gboolean top_signature;
-		gchar *active_signature;
-
-		g_variant_get (parameters, "(tb)", &page_id, &top_signature);
-
-		editor_page = get_editor_page_or_return_dbus_error (invocation, extension, page_id);
-		if (!editor_page)
-			goto error;
-
-		active_signature = e_composer_dom_remove_signatures (editor_page, top_signature);
-
-		g_dbus_method_invocation_return_value (
-			invocation,
-			g_variant_new (
-				"(@s)",
-				g_variant_new_take_string (
-					active_signature ? active_signature : g_strdup (""))));
 	} else if (g_strcmp0 (method_name, "DOMInsertSignature") == 0) {
 		gboolean is_html, set_signature_from_message;
 		gboolean check_if_signature_is_changed, ignore_next_signature_change;

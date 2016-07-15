@@ -38,64 +38,6 @@
 
 #include "e-composer-dom-functions.h"
 
-gchar *
-e_composer_dom_remove_signatures (EEditorPage *editor_page,
-				  gboolean top_signature)
-{
-	WebKitDOMDocument *document;
-	WebKitDOMHTMLCollection *signatures;
-	gchar *ret_val = NULL;
-	gulong length, ii;
-
-	g_return_val_if_fail (E_IS_EDITOR_PAGE (editor_page), NULL);
-
-	document = e_editor_page_get_document (editor_page);
-
-	signatures = webkit_dom_document_get_elements_by_class_name_as_html_collection (
-		document, "-x-evo-signature-wrapper");
-	length = webkit_dom_html_collection_get_length (signatures);
-	for (ii = 0; ii < length; ii++) {
-		WebKitDOMNode *wrapper, *signature;
-		gchar *id;
-
-		wrapper = webkit_dom_html_collection_item (signatures, ii);
-		signature = webkit_dom_node_get_first_child (wrapper);
-		id = webkit_dom_element_get_id (WEBKIT_DOM_ELEMENT (signature));
-
-		/* When we are editing a message with signature we need to set active
-		 * signature id in signature combo box otherwise no signature will be
-		 * added but we have to do it just once when the composer opens */
-		if (ret_val)
-			g_free (ret_val);
-		ret_val = webkit_dom_element_get_attribute (WEBKIT_DOM_ELEMENT (signature), "name");
-
-		if (id && (strlen (id) == 1) && (*id == '1')) {
-			/* If the top signature was set we have to remove the NL
-			 * that was inserted after it */
-			if (top_signature) {
-				WebKitDOMElement *spacer;
-
-				spacer = webkit_dom_document_query_selector (
-				document, ".-x-evo-top-signature-spacer", NULL);
-				if (spacer)
-					remove_node_if_empty (WEBKIT_DOM_NODE (spacer));
-			}
-			/* We have to remove the div containing the span with signature */
-			remove_node (wrapper);
-			g_object_unref (wrapper);
-
-			g_free (id);
-			break;
-		}
-
-		g_object_unref (wrapper);
-		g_free (id);
-	}
-	g_object_unref (signatures);
-
-	return ret_val;
-}
-
 static WebKitDOMElement *
 prepare_top_signature_spacer (EEditorPage *editor_page)
 {

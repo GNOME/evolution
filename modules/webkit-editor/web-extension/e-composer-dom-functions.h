@@ -25,9 +25,6 @@
 
 G_BEGIN_DECLS
 
-gchar *		e_composer_dom_remove_signatures
-						(EEditorPage *editor_page,
-						 gboolean top_signature);
 gchar *		e_composer_dom_insert_signature	(EEditorPage *editor_page,
 						 const gchar *content,
 						 gboolean is_html,
