@@ -8321,6 +8321,13 @@ e_editor_dom_convert_when_changing_composer_mode (EEditorPage *editor_page)
 
 	clear_attributes (editor_page);
 
+	if (!e_editor_page_get_html_mode (editor_page))
+		webkit_dom_element_set_attribute (
+			WEBKIT_DOM_ELEMENT (body), "data-evo-plain-text", "", NULL);
+	else
+		webkit_dom_element_remove_attribute (
+			WEBKIT_DOM_ELEMENT (body), "data-evo-plain-text");
+
 	e_editor_dom_force_spell_check_in_viewport (editor_page);
 	e_editor_dom_scroll_to_caret (editor_page);
 }
