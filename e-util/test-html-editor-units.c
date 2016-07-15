@@ -339,22 +339,133 @@ test_list_bullet_html (TestFixture *fixture)
 		"mode:html\n"
 		"action:style-list-bullet\n"
 		"type:item 1\\n\n"
+		"action:indent\n"
 		"type:item 2\\n\n"
+		"action:unindent\n"
 		"type:item 3\\n\n"
 		"type:\\n\n"
 		"type:text\n",
 		HTML_PREFIX
 			"<ul>"
-			      "<li>item 1</li>"
-			      "<li>item 2</li>"
-			      "<li>item 3</li>"
+				"<li>item 1</li>"
+				"<ul>"
+					"<li>item 2</li>"
+				"</ul>"
+				"<li>item 3</li>"
 			"</ul>"
 			"<p>text</p>"
 		HTML_SUFFIX,
 		" * item 1\n"
-		" * item 2\n"
+		"    * item 2\n"
 		" * item 3\n"
 		"text"))
+		g_test_fail ();
+}
+
+static void
+test_list_alpha_html (TestFixture *fixture)
+{
+	if (!test_utils_run_simple_test (fixture,
+		"mode:html\n"
+		"action:style-list-alpha\n"
+		"type:item 1\\n\n"
+		"action:indent\n"
+		"type:item 2\\n\n"
+		"action:unindent\n"
+		"type:item 3\\n\n"
+		"type:\\n\n"
+		"type:text\n",
+		HTML_PREFIX
+			"<ol type=\"A\">"
+				"<li>item 1</li>"
+				"<ol type=\"A\">"
+					"<li>item 2</li>"
+				"</ol>"
+				"<li>item 3</li>"
+			"</ol>"
+			"<p>text</p>"
+		HTML_SUFFIX,
+		"   A. item 1\n"
+		"      A. item 2\n"
+		"   B. item 3\n"
+		"text"))
+		g_test_fail ();
+}
+
+static void
+test_list_roman_plain (TestFixture *fixture)
+{
+	if (!test_utils_run_simple_test (fixture,
+		"mode:plain\n"
+		"action:style-list-roman\n"
+		"type:1\\n\n"
+		"type:2\\n\n"
+		"type:3\\n\n"
+		"type:4\\n\n"
+		"type:5\\n\n"
+		"type:6\\n\n"
+		"type:7\\n\n"
+		"type:8\\n\n"
+		"type:9\\n\n"
+		"type:10\\n\n"
+		"type:11\\n\n"
+		"type:12\\n\n"
+		"type:13\\n\n"
+		"type:14\\n\n"
+		"type:15\\n\n"
+		"type:16\\n\n"
+		"type:17\\n\n"
+		"type:18\n",
+		NULL,
+		"   I. 1\n"
+		"  II. 2\n"
+		" III. 3\n"
+		"  IV. 4\n"
+		"   V. 5\n"
+		"  VI. 6\n"
+		" VII. 7\n"
+		"VIII. 8\n"
+		"  IX. 9\n"
+		"   X. 10\n"
+		"  XI. 11\n"
+		" XII. 12\n"
+		"XIII. 13\n"
+		" XIV. 14\n"
+		"  XV. 15\n"
+		" XVI. 16\n"
+		"XVII. 17\n"
+		"XVIII. 18"))
+		g_test_fail ();
+}
+
+static void
+test_list_multi_html (TestFixture *fixture)
+{
+	if (!test_utils_run_simple_test (fixture,
+		"mode:html\n"
+		"action:style-list-bullet\n"
+		"type:item 1\\n\n"
+		"type:item 2\\n\n"
+		"type:\\n\n"
+		"action:style-list-roman\n"
+		"type:item 3\\n\n"
+		"type:item 4\\n\n",
+		HTML_PREFIX
+			"<ul>"
+				  "<li>item 1</li>"
+				  "<li>item 2</li>"
+			"</ul>"
+			"<ol type=\"I\">"
+				"<li>item 3</li>"
+				"<li>item 4</li>"
+				"<li><br></li>"
+			"</ol>"
+		HTML_SUFFIX,
+		" * item 1\n"
+		" * item 2\n"
+		"   I. item 3\n"
+		"  II. item 4\n"
+		" III. "))
 		g_test_fail ();
 }
 
@@ -429,6 +540,9 @@ main (gint argc,
 	add_test ("/font/size/typed", test_font_size_typed);
 	add_test ("/list/bullet/plain", test_list_bullet_plain);
 	add_test ("/list/bullet/html", test_list_bullet_html);
+	add_test ("/list/alpha/html", test_list_alpha_html);
+	add_test ("/list/roman/plain", test_list_roman_plain);
+	add_test ("/list/multi/html", test_list_multi_html);
 
 	#undef add_test
 
