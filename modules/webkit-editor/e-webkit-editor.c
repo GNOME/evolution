@@ -1501,8 +1501,8 @@ webkit_editor_insert_content (EContentEditor *editor,
 			NULL,
 			NULL,
 			NULL);
-	} else if ((flags & E_CONTENT_EDITOR_INSERT_CONVERT) &&
-		    !(flags & E_CONTENT_EDITOR_INSERT_REPLACE_ALL)) {
+	} else if (!(flags & E_CONTENT_EDITOR_INSERT_CONVERT) &&
+		   !(flags & E_CONTENT_EDITOR_INSERT_REPLACE_ALL)) {
 		// e_html_editor_view_insert_html
 		g_dbus_proxy_call (
 			wk_editor->priv->web_extension,
@@ -1863,7 +1863,6 @@ static void
 webkit_editor_cut (EContentEditor *editor)
 {
 	EWebKitEditor *wk_editor;
-	gboolean handled = FALSE;
 
 	wk_editor = E_WEBKIT_EDITOR (editor);
 
@@ -1872,28 +1871,21 @@ webkit_editor_cut (EContentEditor *editor)
 	webkit_editor_call_simple_extension_function (
 		wk_editor, "EEditorActionsSaveHistoryForCut");
 
-	g_signal_emit_by_name (editor, "cut-clipboard", editor, &handled);
-
-	if (!handled)
-		webkit_web_view_execute_editing_command (
-			WEBKIT_WEB_VIEW (wk_editor), WEBKIT_EDITING_COMMAND_CUT);
+	webkit_web_view_execute_editing_command (
+		WEBKIT_WEB_VIEW (wk_editor), WEBKIT_EDITING_COMMAND_CUT);
 }
 
 static void
 webkit_editor_copy (EContentEditor *editor)
 {
 	EWebKitEditor *wk_editor;
-	gboolean handled = FALSE;
 
 	wk_editor = E_WEBKIT_EDITOR (editor);
 
 	wk_editor->priv->copy_cut_actions_triggered = TRUE;
 
-	g_signal_emit_by_name (editor, "copy-clipboard", editor, &handled);
-
-	if (!handled)
-		webkit_web_view_execute_editing_command (
-			WEBKIT_WEB_VIEW (wk_editor), WEBKIT_EDITING_COMMAND_COPY);
+	webkit_web_view_execute_editing_command (
+		WEBKIT_WEB_VIEW (wk_editor), WEBKIT_EDITING_COMMAND_COPY);
 }
 
 static ESpellChecker *
