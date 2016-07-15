@@ -313,6 +313,51 @@ test_font_size_typed (TestFixture *fixture)
 		g_test_fail ();
 }
 
+static void
+test_list_bullet_plain (TestFixture *fixture)
+{
+	if (!test_utils_run_simple_test (fixture,
+		"mode:plain\n"
+		"action:style-list-bullet\n"
+		"type:item 1\\n\n"
+		"type:item 2\\n\n"
+		"type:item 3\\n\n"
+		"type:\\n\n"
+		"type:text\n",
+		NULL,
+		" * item 1\n"
+		" * item 2\n"
+		" * item 3\n"
+		"text"))
+		g_test_fail ();
+}
+
+static void
+test_list_bullet_html (TestFixture *fixture)
+{
+	if (!test_utils_run_simple_test (fixture,
+		"mode:html\n"
+		"action:style-list-bullet\n"
+		"type:item 1\\n\n"
+		"type:item 2\\n\n"
+		"type:item 3\\n\n"
+		"type:\\n\n"
+		"type:text\n",
+		HTML_PREFIX
+			"<ul>"
+			      "<li>item 1</li>"
+			      "<li>item 2</li>"
+			      "<li>item 3</li>"
+			"</ul>"
+			"<p>text</p>"
+		HTML_SUFFIX,
+		" * item 1\n"
+		" * item 2\n"
+		" * item 3\n"
+		"text"))
+		g_test_fail ();
+}
+
 gint
 main (gint argc,
       gchar *argv[])
@@ -382,6 +427,8 @@ main (gint argc,
 	add_test ("/indent/typed", test_indent_typed);
 	add_test ("/font/size/selection", test_font_size_selection);
 	add_test ("/font/size/typed", test_font_size_typed);
+	add_test ("/list/bullet/plain", test_list_bullet_plain);
+	add_test ("/list/bullet/html", test_list_bullet_html);
 
 	#undef add_test
 

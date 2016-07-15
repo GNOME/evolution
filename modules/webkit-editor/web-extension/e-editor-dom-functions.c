@@ -7979,7 +7979,7 @@ e_editor_dom_process_content_to_plain_text_for_exporting (EEditorPage *editor_pa
 {
 	WebKitDOMDocument *document;
 	WebKitDOMNode *body, *source;
-	WebKitDOMNodeList *paragraphs;
+	WebKitDOMNodeList *list;
 	gboolean wrap = FALSE, quote = FALSE, remove_last_new_line = FALSE;
 	gint length, ii;
 	GString *plain_text;
@@ -7997,37 +7997,68 @@ e_editor_dom_process_content_to_plain_text_for_exporting (EEditorPage *editor_pa
 	/* If composer is in HTML mode we have to move the content to plain version */
 	if (e_editor_page_get_html_mode (editor_page)) {
 		if (e_editor_dom_check_if_conversion_needed (editor_page)) {
-			WebKitDOMElement *div;
+			WebKitDOMElement *wrapper;
 			WebKitDOMNode *child;
 
-			div = webkit_dom_document_create_element (document, "div", NULL);
+			wrapper = webkit_dom_document_create_element (document, "div", NULL);
+			webkit_dom_element_set_id (wrapper, "-x-evo-html-to-plain-text-wrapper");
 			while ((child = webkit_dom_node_get_first_child (source))) {
 				webkit_dom_node_append_child (
-					WEBKIT_DOM_NODE (div),
+					WEBKIT_DOM_NODE (wrapper),
 					child,
 					NULL);
 			}
 
-			paragraphs = webkit_dom_element_query_selector_all (
-				div, "#-x-evo-input-start", NULL);
+			list = webkit_dom_element_query_selector_all (
+				wrapper, "#-x-evo-input-start", NULL);
 
-			length = webkit_dom_node_list_get_length (paragraphs);
+			length = webkit_dom_node_list_get_length (list);
 			for (ii = 0; ii < length; ii++) {
 				WebKitDOMNode *paragraph;
 
-				paragraph = webkit_dom_node_list_item (paragraphs, ii);
+				paragraph = webkit_dom_node_list_item (list, ii);
 
 				webkit_dom_element_remove_attribute (
 					WEBKIT_DOM_ELEMENT (paragraph), "id");
 			}
-			g_object_unref (paragraphs);
+			g_object_unref (list);
 
-			remove_images_in_element (div);
+			remove_images_in_element (wrapper);
+
+			list = webkit_dom_element_query_selector_all (
+				wrapper, "#-x-evo-html-to-plain-text-wrapper > :matches(ul, ol)", NULL);
+
+			length = webkit_dom_node_list_get_length (list);
+			for (ii = 0; ii < length; ii++) {
+				WebKitDOMElement *list_pre;
+				WebKitDOMNode *item;
+				GString *list_plain_text;
+
+				item = webkit_dom_node_list_item (list, ii);
+
+				list_plain_text = g_string_new ("");
+
+				process_list_to_plain_text (
+					editor_page, WEBKIT_DOM_ELEMENT (item), 1, list_plain_text);
+
+				list_pre = webkit_dom_document_create_element (document, "pre", NULL);
+				webkit_dom_html_element_set_inner_text (
+					WEBKIT_DOM_HTML_ELEMENT (list_pre),
+					g_string_free (list_plain_text, FALSE),
+					NULL);
+				webkit_dom_node_replace_child (
+					WEBKIT_DOM_NODE (wrapper),
+					WEBKIT_DOM_NODE (list_pre),
+					item,
+					NULL);
+				g_object_unref (item);
+			}
+			g_object_unref (list);
 
 			convert_element_from_html_to_plain_text (
-				editor_page, div, &wrap, &quote);
+				editor_page, wrapper, &wrap, &quote);
 
-			source = WEBKIT_DOM_NODE (div);
+			source = WEBKIT_DOM_NODE (wrapper);
 
 			remove_last_new_line = TRUE;
 		} else {
@@ -8040,14 +8071,14 @@ e_editor_dom_process_content_to_plain_text_for_exporting (EEditorPage *editor_pa
 		}
 	}
 
-	paragraphs = webkit_dom_element_query_selector_all (
+	list = webkit_dom_element_query_selector_all (
 		WEBKIT_DOM_ELEMENT (source), "[data-evo-paragraph]", NULL);
 
-	length = webkit_dom_node_list_get_length (paragraphs);
+	length = webkit_dom_node_list_get_length (list);
 	for (ii = 0; ii < length; ii++) {
 		WebKitDOMNode *paragraph;
 
-		paragraph = webkit_dom_node_list_item (paragraphs, ii);
+		paragraph = webkit_dom_node_list_item (list, ii);
 
 		if (node_is_list (paragraph)) {
 			WebKitDOMNode *item = webkit_dom_node_get_first_child (paragraph);
@@ -8067,21 +8098,21 @@ e_editor_dom_process_content_to_plain_text_for_exporting (EEditorPage *editor_pa
 		}
 		g_object_unref (paragraph);
 	}
-	g_object_unref (paragraphs);
+	g_object_unref (list);
 
-	paragraphs = webkit_dom_element_query_selector_all (
+	list = webkit_dom_element_query_selector_all (
 		WEBKIT_DOM_ELEMENT (source), "#-x-evo-selection-start-marker, #-x-evo-selection-end-marker", NULL);
 
-	length = webkit_dom_node_list_get_length (paragraphs);
+	length = webkit_dom_node_list_get_length (list);
 	for (ii = 0; ii < length; ii++) {
-		WebKitDOMNode *node = webkit_dom_node_list_item (paragraphs, ii);
+		WebKitDOMNode *node = webkit_dom_node_list_item (list, ii);
 		WebKitDOMNode *parent = webkit_dom_node_get_parent_node (node);
 
 		remove_node (node);
 		g_object_unref (node);
 		webkit_dom_node_normalize (parent);
 	}
-	g_object_unref (paragraphs);
+	g_object_unref (list);
 
 	if (quote)
 		quote_plain_text_recursive (document, source, source, 0);
