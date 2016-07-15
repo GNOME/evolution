@@ -1089,8 +1089,7 @@ e_editor_dom_get_parent_block_node_from_child (WebKitDOMNode *node)
 	    e_editor_dom_is_selection_position_node (parent))
 		parent = webkit_dom_node_get_parent_node (parent);
 
-	if (element_has_class (WEBKIT_DOM_ELEMENT (parent), "-x-evo-temp-text-wrapper") ||
-	    element_has_class (WEBKIT_DOM_ELEMENT (parent), "-x-evo-quoted") ||
+	if (element_has_class (WEBKIT_DOM_ELEMENT (parent), "-x-evo-quoted") ||
 	    element_has_class (WEBKIT_DOM_ELEMENT (parent), "-x-evo-quote-character") ||
 	    element_has_class (WEBKIT_DOM_ELEMENT (parent), "-x-evo-signature") ||
 	    element_has_class (WEBKIT_DOM_ELEMENT (parent), "-x-evo-resizable-wrapper") ||
