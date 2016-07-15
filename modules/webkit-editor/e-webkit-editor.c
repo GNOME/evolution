@@ -1848,7 +1848,7 @@ webkit_editor_cut (EContentEditor *editor)
 	wk_editor->priv->copy_cut_actions_triggered = TRUE;
 
 	webkit_editor_call_simple_extension_function (
-		wk_editor, "EHTMLEditorActionsSaveHistoryForCut");
+		wk_editor, "EEditorActionsSaveHistoryForCut");
 
 	g_signal_emit_by_name (editor, "cut-clipboard", editor, &handled);
 
@@ -2384,7 +2384,7 @@ webkit_editor_delete_cell_contents (EContentEditor *editor)
 	wk_editor = E_WEBKIT_EDITOR (editor);
 
 	webkit_editor_call_simple_extension_function (
-		wk_editor, "EHTMLEditorDialogDeleteCellContents");
+		wk_editor, "EEditorDialogDeleteCellContents");
 }
 
 static void
@@ -2395,7 +2395,7 @@ webkit_editor_delete_column (EContentEditor *editor)
 	wk_editor = E_WEBKIT_EDITOR (editor);
 
 	webkit_editor_call_simple_extension_function (
-		wk_editor, "EHTMLEditorDialogDeleteColumn");
+		wk_editor, "EEditorDialogDeleteColumn");
 }
 
 static void
@@ -2406,7 +2406,7 @@ webkit_editor_delete_row (EContentEditor *editor)
 	wk_editor = E_WEBKIT_EDITOR (editor);
 
 	webkit_editor_call_simple_extension_function (
-		wk_editor, "EHTMLEditorDialogDeleteRow");
+		wk_editor, "EEditorDialogDeleteRow");
 }
 
 static void
@@ -2417,7 +2417,7 @@ webkit_editor_delete_table (EContentEditor *editor)
 	wk_editor = E_WEBKIT_EDITOR (editor);
 
 	webkit_editor_call_simple_extension_function (
-		wk_editor, "EHTMLEditorDialogDeleteTable");
+		wk_editor, "EEditorDialogDeleteTable");
 }
 
 static void
@@ -2428,7 +2428,7 @@ webkit_editor_insert_column_after (EContentEditor *editor)
 	wk_editor = E_WEBKIT_EDITOR (editor);
 
 	webkit_editor_call_simple_extension_function (
-		wk_editor, "EHTMLEditorDialogInsertColumnAfter");
+		wk_editor, "EEditorDialogInsertColumnAfter");
 }
 
 static void
@@ -2439,7 +2439,7 @@ webkit_editor_insert_column_before (EContentEditor *editor)
 	wk_editor = E_WEBKIT_EDITOR (editor);
 
 	webkit_editor_call_simple_extension_function (
-		wk_editor, "EHTMLEditorDialogInsertColumnBefore");
+		wk_editor, "EEditorDialogInsertColumnBefore");
 }
 
 
@@ -2451,7 +2451,7 @@ webkit_editor_insert_row_above (EContentEditor *editor)
 	wk_editor = E_WEBKIT_EDITOR (editor);
 
 	webkit_editor_call_simple_extension_function (
-		wk_editor, "EHTMLEditorDialogInsertRowAbove");
+		wk_editor, "EEditorDialogInsertRowAbove");
 }
 
 static void
@@ -2462,7 +2462,7 @@ webkit_editor_insert_row_below (EContentEditor *editor)
 	wk_editor = E_WEBKIT_EDITOR (editor);
 
 	webkit_editor_call_simple_extension_function (
-		wk_editor, "EHTMLEditorDialogInsertRowBelow");
+		wk_editor, "EEditorDialogInsertRowBelow");
 }
 
 static gboolean
@@ -2480,7 +2480,7 @@ webkit_editor_on_h_rule_dialog_open (EContentEditor *editor)
 
 	result = g_dbus_proxy_call_sync (
 		wk_editor->priv->web_extension,
-		"EHTMLEditorHRuleDialogFindHRule",
+		"EEditorHRuleDialogFindHRule",
 		g_variant_new ("(t)", current_page_id (wk_editor)),
 		G_DBUS_CALL_FLAGS_NONE,
 		-1,
@@ -2503,7 +2503,7 @@ webkit_editor_on_h_rule_dialog_close (EContentEditor *editor)
 	wk_editor = E_WEBKIT_EDITOR (editor);
 
 	webkit_editor_call_simple_extension_function (
-		wk_editor, "EHTMLEditorHRuleDialogSaveHistoryOnExit");
+		wk_editor, "EEditorHRuleDialogSaveHistoryOnExit");
 }
 
 static void
@@ -2693,7 +2693,7 @@ webkit_editor_on_image_dialog_open (EContentEditor *editor)
 	wk_editor = E_WEBKIT_EDITOR (editor);
 
 	webkit_editor_call_simple_extension_function (
-		wk_editor, "EHTMLEditorImageDialogMarkImage");
+		wk_editor, "EEditorImageDialogMarkImage");
 }
 
 static void
@@ -2704,7 +2704,7 @@ webkit_editor_on_image_dialog_close (EContentEditor *editor)
 	wk_editor = E_WEBKIT_EDITOR (editor);
 
 	webkit_editor_call_simple_extension_function (
-		wk_editor, "EHTMLEditorImageDialogSaveHistoryOnExit");
+		wk_editor, "EEditorImageDialogSaveHistoryOnExit");
 }
 
 static void
@@ -2832,7 +2832,7 @@ webkit_editor_image_set_url (EContentEditor *editor,
 
 	g_dbus_proxy_call (
 		wk_editor->priv->web_extension,
-		"EHTMLEditorImageDialogSetElementUrl",
+		"EEditorImageDialogSetElementUrl",
 		g_variant_new ("(ts)", current_page_id (wk_editor), value),
 		G_DBUS_CALL_FLAGS_NONE,
 		-1,
@@ -2857,7 +2857,7 @@ webkit_editor_image_get_url (EContentEditor *editor)
 
 	result = g_dbus_proxy_call_sync (
 		wk_editor->priv->web_extension,
-		"EHTMLEditorImageDialogGetElementUrl",
+		"EEditorImageDialogGetElementUrl",
 		g_variant_new ("(t)", current_page_id (wk_editor)),
 		G_DBUS_CALL_FLAGS_NONE,
 		-1,
@@ -3270,7 +3270,7 @@ webkit_editor_selection_unlink (EContentEditor *editor)
 	wk_editor = E_WEBKIT_EDITOR (editor);
 
 	webkit_editor_call_simple_extension_function (
-		wk_editor, "EHTMLEditorSelectionUnlink");
+		wk_editor, "EEditorSelectionUnlink");
 }
 
 static void
@@ -3289,7 +3289,7 @@ webkit_editor_link_set_values (EContentEditor *editor,
 
 	g_dbus_proxy_call (
 		wk_editor->priv->web_extension,
-		"EHTMLEditorLinkDialogOk",
+		"EEditorLinkDialogOk",
 		g_variant_new ("(tss)", current_page_id (wk_editor), href, text),
 		G_DBUS_CALL_FLAGS_NONE,
 		-1,
@@ -3315,7 +3315,7 @@ webkit_editor_link_get_values (EContentEditor *editor,
 
 	result = g_dbus_proxy_call_sync (
 		wk_editor->priv->web_extension,
-		"EHTMLEditorLinkDialogShow",
+		"EEditorLinkDialogShow",
 		g_variant_new ("(t)", current_page_id (wk_editor)),
 		G_DBUS_CALL_FLAGS_NONE,
 		-1,
@@ -3726,7 +3726,7 @@ webkit_editor_on_page_dialog_open (EContentEditor *editor)
 	wk_editor = E_WEBKIT_EDITOR (editor);
 
 	webkit_editor_call_simple_extension_function (
-		wk_editor, "EHTMLEditorPageDialogSaveHistory");
+		wk_editor, "EEditorPageDialogSaveHistory");
 }
 
 static void
@@ -3737,7 +3737,7 @@ webkit_editor_on_page_dialog_close (EContentEditor *editor)
 	wk_editor = E_WEBKIT_EDITOR (editor);
 
 	webkit_editor_call_simple_extension_function (
-		wk_editor, "EHTMLEditorPageDialogSaveHistoryOnExit");
+		wk_editor, "EEditorPageDialogSaveHistoryOnExit");
 }
 
 static gchar *
@@ -3802,7 +3802,7 @@ webkit_editor_on_cell_dialog_open (EContentEditor *editor)
 
 	g_dbus_proxy_call (
 		wk_editor->priv->web_extension,
-		"EHTMLEditorCellDialogMarkCurrentCellElement",
+		"EEditorCellDialogMarkCurrentCellElement",
 		g_variant_new ("(ts)", current_page_id (wk_editor), "-x-evo-table-cell"),
 		G_DBUS_CALL_FLAGS_NONE,
 		-1,
@@ -3819,7 +3819,7 @@ webkit_editor_on_cell_dialog_close (EContentEditor *editor)
 	wk_editor = E_WEBKIT_EDITOR (editor);
 
 	webkit_editor_call_simple_extension_function (
-		wk_editor, "EHTMLEditorCellDialogSaveHistoryOnExit");
+		wk_editor, "EEditorCellDialogSaveHistoryOnExit");
 }
 
 static void
@@ -3841,7 +3841,7 @@ webkit_editor_cell_set_v_align (EContentEditor *editor,
 
 	g_dbus_proxy_call (
 		wk_editor->priv->web_extension,
-		"EHTMLEditorCellDialogSetElementVAlign",
+		"EEditorCellDialogSetElementVAlign",
 		g_variant_new ("(tsi)", current_page_id (wk_editor), value, (gint32) scope),
 		G_DBUS_CALL_FLAGS_NONE,
 		-1,
@@ -3891,7 +3891,7 @@ webkit_editor_cell_set_align (EContentEditor *editor,
 
 	g_dbus_proxy_call (
 		wk_editor->priv->web_extension,
-		"EHTMLEditorCellDialogSetElementAlign",
+		"EEditorCellDialogSetElementAlign",
 		g_variant_new ("(tsi)", current_page_id (wk_editor), value, (gint32) scope),
 		G_DBUS_CALL_FLAGS_NONE,
 		-1,
@@ -3941,7 +3941,7 @@ webkit_editor_cell_set_wrap (EContentEditor *editor,
 
 	g_dbus_proxy_call (
 		wk_editor->priv->web_extension,
-		"EHTMLEditorCellDialogSetElementNoWrap",
+		"EEditorCellDialogSetElementNoWrap",
 		g_variant_new ("(tbi)", current_page_id (wk_editor), !value, (gint32) scope),
 		G_DBUS_CALL_FLAGS_NONE,
 		-1,
@@ -4004,7 +4004,7 @@ webkit_editor_cell_set_header_style (EContentEditor *editor,
 
 	g_dbus_proxy_call (
 		wk_editor->priv->web_extension,
-		"EHTMLEditorCellDialogSetElementHeaderStyle",
+		"EEditorCellDialogSetElementHeaderStyle",
 		g_variant_new ("(tbi)", current_page_id (wk_editor), value, (gint32) scope),
 		G_DBUS_CALL_FLAGS_NONE,
 		-1,
@@ -4225,7 +4225,7 @@ webkit_editor_cell_set_row_span (EContentEditor *editor,
 
 	g_dbus_proxy_call (
 		wk_editor->priv->web_extension,
-		"EHTMLEditorCellDialogSetElementRowSpan",
+		"EEditorCellDialogSetElementRowSpan",
 		g_variant_new ("(tii)", current_page_id (wk_editor), value, (gint32) scope),
 		G_DBUS_CALL_FLAGS_NONE,
 		-1,
@@ -4253,7 +4253,7 @@ webkit_editor_cell_set_col_span (EContentEditor *editor,
 
 	g_dbus_proxy_call (
 		wk_editor->priv->web_extension,
-		"EHTMLEditorCellDialogSetElementColSpan",
+		"EEditorCellDialogSetElementColSpan",
 		g_variant_new ("(tii)", current_page_id (wk_editor), value, (gint32) scope),
 		G_DBUS_CALL_FLAGS_NONE,
 		-1,
@@ -4291,7 +4291,7 @@ webkit_editor_cell_set_width (EContentEditor *editor,
 
 	g_dbus_proxy_call (
 		wk_editor->priv->web_extension,
-		"EHTMLEditorCellDialogSetElementWidth",
+		"EEditorCellDialogSetElementWidth",
 		g_variant_new ("(tsi)", current_page_id (wk_editor), width, (gint32) scope),
 		G_DBUS_CALL_FLAGS_NONE,
 		-1,
@@ -4324,7 +4324,7 @@ webkit_editor_cell_set_background_color (EContentEditor *editor,
 
 	g_dbus_proxy_call (
 		wk_editor->priv->web_extension,
-		"EHTMLEditorCellDialogSetElementBgColor",
+		"EEditorCellDialogSetElementBgColor",
 		g_variant_new ("(tsi)", current_page_id (wk_editor), color, (gint32) scope),
 		G_DBUS_CALL_FLAGS_NONE,
 		-1,
@@ -4384,7 +4384,7 @@ webkit_editor_table_set_row_count (EContentEditor *editor,
 
 	g_dbus_proxy_call (
 		wk_editor->priv->web_extension,
-		"EHTMLEditorTableDialogSetRowCount",
+		"EEditorTableDialogSetRowCount",
 		g_variant_new ("(tu)", current_page_id (wk_editor), value),
 		G_DBUS_CALL_FLAGS_NONE,
 		-1,
@@ -4412,7 +4412,7 @@ webkit_editor_table_get_row_count (EContentEditor *editor)
 
 	result = g_dbus_proxy_call_sync (
 		wk_editor->priv->web_extension,
-		"EHTMLEditorTableDialogGetRowCount",
+		"EEditorTableDialogGetRowCount",
 		g_variant_new ("(t)", current_page_id (wk_editor)),
 		G_DBUS_CALL_FLAGS_NONE,
 		-1,
@@ -4445,7 +4445,7 @@ webkit_editor_table_set_column_count (EContentEditor *editor,
 
 	g_dbus_proxy_call (
 		wk_editor->priv->web_extension,
-		"EHTMLEditorTableDialogSetColumnCount",
+		"EEditorTableDialogSetColumnCount",
 		g_variant_new ("(tu)", current_page_id (wk_editor), value),
 		G_DBUS_CALL_FLAGS_NONE,
 		-1,
@@ -4473,7 +4473,7 @@ webkit_editor_table_get_column_count (EContentEditor *editor)
 
 	result = g_dbus_proxy_call_sync (
 		wk_editor->priv->web_extension,
-		"EHTMLEditorTableDialogGetColumnCount",
+		"EEditorTableDialogGetColumnCount",
 		g_variant_new ("(t)", current_page_id (wk_editor)),
 		G_DBUS_CALL_FLAGS_NONE,
 		-1,
@@ -4839,7 +4839,7 @@ webkit_editor_on_table_dialog_open (EContentEditor *editor)
 
 	result = g_dbus_proxy_call_sync (
 		wk_editor->priv->web_extension,
-		"EHTMLEditorTableDialogShow",
+		"EEditorTableDialogShow",
 		g_variant_new ("(t)", current_page_id (wk_editor)),
 		G_DBUS_CALL_FLAGS_NONE,
 		-1,
@@ -4862,7 +4862,7 @@ webkit_editor_on_table_dialog_close (EContentEditor *editor)
 	wk_editor = E_WEBKIT_EDITOR (editor);
 
 	webkit_editor_call_simple_extension_function (
-		wk_editor, "EHTMLEditorTableDialogSaveHistoryOnExit");
+		wk_editor, "EEditorTableDialogSaveHistoryOnExit");
 
 	webkit_editor_finish_search (E_WEBKIT_EDITOR (editor));
 }
@@ -4924,14 +4924,14 @@ static gchar *
 webkit_editor_spell_check_next_word (EContentEditor *editor,
                                      const gchar *word)
 {
-	return move_to_another_word (editor, word, "EHTMLEditorSpellCheckDialogNext");
+	return move_to_another_word (editor, word, "EEditorSpellCheckDialogNext");
 }
 
 static gchar *
 webkit_editor_spell_check_prev_word (EContentEditor *editor,
                                      const gchar *word)
 {
-	return move_to_another_word (editor, word, "EHTMLEditorSpellCheckDialogPrev");
+	return move_to_another_word (editor, word, "EEditorSpellCheckDialogPrev");
 }
 
 static void
