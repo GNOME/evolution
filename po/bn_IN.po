@@ -26,7 +26,7 @@ msgstr ""
 "Language-Team: Bengali INDIA <anubad@lists.ankur.org.in>\n"
 "X-Generator: Zanata 3.2.1\n"
 "Plural-Forms: nplurals=2; plural=(n!= 1);\n"
-"Language: bn-IN\n"
+"Language: bn_IN\n"
 
 #: ../addressbook/addressbook.error.xml.h:1
 msgid "This address book could not be opened."
