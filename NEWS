@@ -1,3 +1,54 @@
+Evolution 3.21.4 2016-07-18
+---------------------------
+
+Bug Fixes:
+	Bug 767780 - The "References" header folded twice (Milan Crha)
+	Bug 764065 - [Camel] Use get methods for CamelMessageInfo fields (Corentin Noël)
+	Bug 443716 - Move evolution-addressbook-export to e-d-s (Milan Crha)
+	Bug 768013 - [Wayland] Drag and drop copies emails instead of moving them (Milan Crha)
+	Bug 767990 - Reposition 'Empty Trash' folder context menu item (Milan Crha)
+	Bug 754848 - Provide 'Forget password' in Properties of remote mail accounts (Milan Crha)
+	Bug 768369 - Avoid "Quit with unsent messages" question without shell window (Milan Crha)
+	Bug 768496 - Fix some Camel annotations and rename structures (Corentin Noël)
+	Bug 438062 - Sort calendar's List View by Start Date by default (Milan Crha)
+	Bug 768438 - Include CCBYSA and GFDL COPYING-DOCS files in the tarball (Koop Mast)
+
+Miscellaneous:
+	GalA11yETableItem can have stored incorrect row count sometimes (Milan Crha)
+	Build developer documentation sections and types on the fly (Milan Crha)
+	When pressing the Return key to end a list a new empty list is created (Tomas Popela)
+	Make it easier to change evolution .ui files by the users (Milan Crha)
+	Updated Swedish translation (Sebastian Rasmussen)
+	Busy-loop when printing specifically formatted HTML message (Milan Crha)
+	Enhance timezone lookup for the event editor (Milan Crha)
+	[ETimezoneDialog] Show timezones as a tree, not as a flat list (Milan Crha)
+	EHTMLEditorActions - Disable HTML actions in plain text mode (Tomas Popela)
+	EHTMLEditorSelection - List alignment not detected properly (Tomas Popela)
+	EHTMLEditorSelection - Indented block style could not be set properly (Tomas Popela)
+	EHTMLEditorUtils - Correctly remove class when it is surrounded by spaces (Tomas Popela)
+	EHTMLEditorView - Critical warning could be seen in console after pasting the content (Tomas Popela)
+	EHTMLEditorView - Don't leak a WebKitDOMNodeList instance (Tomas Popela)
+	EHTMLEditorView - Pasting content into the indented block will not preserve formatting (Tomas Popela)
+	EHTMLEditorView - Don't add a new line for the empty list when generating a plain text version of the content (Tomas Popela)
+	EHTMLEditorView - Don't leak a WebKitODMNodeList instance (Tomas Popela)
+	EHTMLEditorView - Always try to process the CID images when loading a content (Tomas Popela)
+	EHTMLEditorView - Correct the situations when the 'Lose formatting' dialog is showed (Tomas Popela)
+	EHTMLEditorView - When the content is converted set the editor as changed (Tomas Popela)
+	EHTMLEditorView - Plain text version of draft could lose formatting (Tomas Popela)
+	EHTMLEditorView - Improve how the content is processed (Tomas Popela)
+	EHTMLEditorView - Changing a top signature to another one will place it on different position (Tomas Popela)
+	EHTMLEditorView - Unneeded spacer left when setting a top signature from an existing one to None (Tomas Popela)
+	Add Language headers to po files (Piotr Drąg)
+
+Translations:
+	Andika Triwidada (id)
+	Daniel Mustieles (es)
+	Sebastian Rasmussen (sv)
+	Anders Jonsson (sv)
+	Tiago Santos (pt)
+	Kjartan Maraas (nb)
+	Chao-Hsiung Liao (zh_TW)
+
 Evolution 3.21.3 2016-06-20
 ---------------------------
 
