@@ -488,6 +488,7 @@ ethi_add_drop_marker (ETableHeaderItem *ethi,
 	GnomeCanvas *canvas;
 	GtkAdjustment *adjustment;
 	GdkWindow *window;
+	GtkWidget *toplevel;
 	gint rx, ry;
 	gint x;
 
@@ -506,6 +507,12 @@ ethi_add_drop_marker (ETableHeaderItem *ethi,
 	}
 
 	canvas = GNOME_CANVAS_ITEM (ethi)->canvas;
+	toplevel = gtk_widget_get_toplevel (GTK_WIDGET (canvas));
+	if (GTK_IS_WINDOW (toplevel)) {
+		gtk_window_set_transient_for (GTK_WINDOW (arrow_up), GTK_WINDOW (toplevel));
+		gtk_window_set_transient_for (GTK_WINDOW (arrow_down), GTK_WINDOW (toplevel));
+	}
+
 	window = gtk_widget_get_window (GTK_WIDGET (canvas));
 	gdk_window_get_origin (window, &rx, &ry);
 
@@ -1503,6 +1510,7 @@ ethi_popup_field_chooser (GtkWidget *widget,
                           EthiHeaderInfo *info)
 {
 	GtkWidget *etfcd = info->ethi->etfcd.widget;
+	GtkWidget *toplevel;
 
 	if (etfcd) {
 		gtk_window_present (GTK_WINDOW (etfcd));
@@ -1512,6 +1520,10 @@ ethi_popup_field_chooser (GtkWidget *widget,
 
 	info->ethi->etfcd.widget = e_table_field_chooser_dialog_new ();
 	etfcd = info->ethi->etfcd.widget;
+
+	toplevel = gtk_widget_get_toplevel (widget);
+	if (GTK_IS_WINDOW (toplevel))
+		gtk_window_set_transient_for (GTK_WINDOW (etfcd), GTK_WINDOW (toplevel));
 
 	g_object_add_weak_pointer (G_OBJECT (etfcd), &info->ethi->etfcd.pointer);
 
