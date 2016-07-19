@@ -87,8 +87,10 @@ void		e_dialogs_dom_link_commit	(EEditorPage *editor_page,
 						 const gchar *url,
 						 const gchar *inner_text);
 GVariant *	e_dialogs_dom_link_show		(EEditorPage *editor_page);
-void		e_dialogs_dom_link_open		(EEditorPage *editor_page);
-void		e_dialogs_dom_link_close	(EEditorPage *editor_page);
+void		e_dialogs_dom_link_dialog_on_open
+						(EEditorPage *editor_page);
+void		e_dialogs_dom_link_dialog_on_close
+						(EEditorPage *editor_page);
 
 /* ******************** Page Dialog ***************** */
 

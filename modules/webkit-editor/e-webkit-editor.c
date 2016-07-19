@@ -3290,7 +3290,7 @@ webkit_editor_on_link_dialog_open (EContentEditor *editor)
 	wk_editor = E_WEBKIT_EDITOR (editor);
 
 	webkit_editor_call_simple_extension_function (
-		wk_editor, "EEditorLinkDialogOpen");
+		wk_editor, "EEditorLinkDialogOnOpen");
 }
 
 static void
@@ -3301,7 +3301,7 @@ webkit_editor_on_link_dialog_close (EContentEditor *editor)
 	wk_editor = E_WEBKIT_EDITOR (editor);
 
 	webkit_editor_call_simple_extension_function (
-		wk_editor, "EEditorLinkDialogClose");
+		wk_editor, "EEditorLinkDialogOnClose");
 }
 
 static void

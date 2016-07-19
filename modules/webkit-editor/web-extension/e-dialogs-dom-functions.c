@@ -774,7 +774,7 @@ e_dialogs_dom_link_commit (EEditorPage *editor_page,
 }
 
 void
-e_dialogs_dom_link_close (EEditorPage *editor_page)
+e_dialogs_dom_link_dialog_on_close (EEditorPage *editor_page)
 {
 	WebKitDOMDocument *document;
 	WebKitDOMElement *link;
@@ -805,7 +805,7 @@ e_dialogs_dom_link_close (EEditorPage *editor_page)
 }
 
 void
-e_dialogs_dom_link_open (EEditorPage *editor_page)
+e_dialogs_dom_link_dialog_on_open (EEditorPage *editor_page)
 {
 	EEditorUndoRedoManager *manager;
 	WebKitDOMDocument *document;
