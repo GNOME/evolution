@@ -16341,7 +16341,7 @@ format_change_block_to_list (EEditorPage *editor_page,
 
 	/* Process all blocks that are in the selection one by one */
 	while (block && !after_selection_end) {
-		gboolean empty = FALSE;
+		gboolean empty = FALSE, block_is_list;
 		gchar *content;
 		WebKitDOMNode *child, *parent;
 
@@ -16363,26 +16363,30 @@ format_change_block_to_list (EEditorPage *editor_page,
 		change_leading_space_to_nbsp (block);
 		change_trailing_space_in_block_to_nbsp (block);
 
+		block_is_list = node_is_list_or_item (block);
+
 		while ((child = webkit_dom_node_get_first_child (block))) {
 			if (WEBKIT_DOM_IS_HTML_BR_ELEMENT (child))
 				empty = FALSE;
 
 			webkit_dom_node_append_child (
-				WEBKIT_DOM_NODE (item), child, NULL);
+				WEBKIT_DOM_NODE (block_is_list ? list : item), child, NULL);
 		}
 
-		/* We have to use again the hidden space to move caret into newly inserted list */
-		if (empty) {
-			WebKitDOMElement *br;
+		if (!block_is_list) {
+			/* We have to use again the hidden space to move caret into newly inserted list */
+			if (empty) {
+				WebKitDOMElement *br;
 
-			br = webkit_dom_document_create_element (
-				document, "BR", NULL);
+				br = webkit_dom_document_create_element (
+					document, "BR", NULL);
+				webkit_dom_node_append_child (
+					WEBKIT_DOM_NODE (item), WEBKIT_DOM_NODE (br), NULL);
+			}
+
 			webkit_dom_node_append_child (
-				WEBKIT_DOM_NODE (item), WEBKIT_DOM_NODE (br), NULL);
+				WEBKIT_DOM_NODE (list), WEBKIT_DOM_NODE (item), NULL);
 		}
-
-		webkit_dom_node_append_child (
-			WEBKIT_DOM_NODE (list), WEBKIT_DOM_NODE (item), NULL);
 
 		parent = webkit_dom_node_get_parent_node (block);
 		remove_node (block);

@@ -393,6 +393,34 @@ test_list_bullet_html (TestFixture *fixture)
 }
 
 static void
+test_list_bullet_html_from_block (TestFixture *fixture)
+{
+	if (!test_utils_run_simple_test (fixture,
+		"mode:html\n"
+		"type:item 1\\n\n"
+		"type:item 2\n"
+		"action:style-list-roman\n"
+		"type:\\n\n"
+		"action:style-preformat\n"
+		"type:item 3\\n\n"
+		"action:select-all\n"
+		"action:style-list-bullet\n",
+		HTML_PREFIX
+			"<ul>"
+				"<li>item 1</li>"
+				"<li>item 2</li>"
+				"<li>item 3</li>"
+				"<li><br></li>"
+			"</ul>"
+		HTML_SUFFIX,
+		" * item 1\n"
+		" * item 2\n"
+		" * item 3\n"
+		" * "))
+		g_test_fail ();
+}
+
+static void
 test_list_alpha_html (TestFixture *fixture)
 {
 	if (!test_utils_run_simple_test (fixture,
@@ -667,6 +695,7 @@ main (gint argc,
 	add_test ("/font/size/typed", test_font_size_typed);
 	add_test ("/list/bullet/plain", test_list_bullet_plain);
 	add_test ("/list/bullet/html", test_list_bullet_html);
+	add_test ("/list/bullet/html/from-block", test_list_bullet_html_from_block);
 	add_test ("/list/alpha/html", test_list_alpha_html);
 	add_test ("/list/roman/plain", test_list_roman_plain);
 	add_test ("/list/multi/html", test_list_multi_html);
