@@ -2517,7 +2517,7 @@ webkit_editor_on_h_rule_dialog_close (EContentEditor *editor)
 	wk_editor = E_WEBKIT_EDITOR (editor);
 
 	webkit_editor_call_simple_extension_function (
-		wk_editor, "EEditorHRuleDialogSaveHistoryOnExit");
+		wk_editor, "EEditorHRuleDialogOnClose");
 }
 
 static void
@@ -2656,24 +2656,20 @@ webkit_editor_h_rule_set_no_shade (EContentEditor *editor,
 		return;
 	}
 
-	g_dbus_proxy_call (
-		wk_editor->priv->web_extension,
-		"HRElementSetNoShade",
-		g_variant_new (
-			"(tsb)", current_page_id (wk_editor), "-x-evo-current-hr", value),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL,
-		NULL);
+	if (value)
+		webkit_editor_set_element_attribute (
+			wk_editor, "#-x-evo-current-hr", "noshade", "");
+	else
+		webkit_editor_remove_element_attribute (
+			wk_editor, "#-x-evo-current-hr", "noshade");
 }
 
 static gboolean
 webkit_editor_h_rule_get_no_shade (EContentEditor *editor)
 {
 	EWebKitEditor *wk_editor;
-	gboolean value = FALSE;
 	GVariant *result;
+	gboolean no_shade = FALSE;
 
 	wk_editor = E_WEBKIT_EDITOR (editor);
 	if (!wk_editor->priv->web_extension) {
@@ -2683,20 +2679,19 @@ webkit_editor_h_rule_get_no_shade (EContentEditor *editor)
 
 	result = g_dbus_proxy_call_sync (
 		wk_editor->priv->web_extension,
-		"HRElementGetNoShade",
-		g_variant_new (
-			"(ts)", current_page_id (wk_editor), "-x-evo-current-hr"),
+		"ElementHasAttribute",
+		g_variant_new ("(tss)", current_page_id (wk_editor), "-x-evo-current-hr", "noshade"),
 		G_DBUS_CALL_FLAGS_NONE,
 		-1,
 		NULL,
 		NULL);
 
 	if (result) {
-		g_variant_get (result, "(b)", &value);
+		g_variant_get (result, "(b)", &no_shade);
 		g_variant_unref (result);
 	}
 
-	return value;
+	return no_shade;
 }
 
 static void

@@ -200,18 +200,8 @@ static const gchar *introspection_xml =
 "      <arg type='t' name='page_id' direction='in'/>"
 "      <arg type='b' name='created_new_hr' direction='out'/>"
 "    </method>"
-"    <method name='EEditorHRuleDialogSaveHistoryOnExit'>"
+"    <method name='EEditorHRuleDialogOnClose'>"
 "      <arg type='t' name='page_id' direction='in'/>"
-"    </method>"
-"    <method name='HRElementSetNoShade'>"
-"      <arg type='t' name='page_id' direction='in'/>"
-"      <arg type='s' name='element_id' direction='in'/>"
-"      <arg type='b' name='value' direction='in'/>"
-"    </method>"
-"    <method name='HRElementGetNoShade'>"
-"      <arg type='t' name='page_id' direction='in'/>"
-"      <arg type='s' name='element_id' direction='in'/>"
-"      <arg type='b' name='value' direction='out'/>"
 "    </method>"
 "<!-- ********************************************************* -->"
 "<!--     Functions that are used in EEditorImageDialog     -->"
@@ -991,59 +981,20 @@ handle_method_call (GDBusConnection *connection,
 		if (!editor_page)
 			goto error;
 
-		created_new_hr = e_dialogs_dom_hrule_find_hrule (editor_page);
+		created_new_hr = e_dialogs_dom_h_rule_find_hrule (editor_page);
 
 		g_dbus_method_invocation_return_value (
 			invocation, g_variant_new ("(b)", created_new_hr));
-	} else if (g_strcmp0 (method_name, "EEditorHRuleDialogSaveHistoryOnExit") == 0) {
+	} else if (g_strcmp0 (method_name, "EEditorHRuleDialogOnClose") == 0) {
 		g_variant_get (parameters, "(t)", &page_id);
 
 		editor_page = get_editor_page_or_return_dbus_error (invocation, extension, page_id);
 		if (!editor_page)
 			goto error;
 
-		e_dialogs_dom_save_history_on_exit (editor_page);
+		e_dialogs_dom_h_rule_dialog_on_close (editor_page);
 
 		g_dbus_method_invocation_return_value (invocation, NULL);
-	} else if (g_strcmp0 (method_name, "HRElementSetNoShade") == 0) {
-		gboolean value = FALSE;
-		const gchar *element_id;
-		WebKitDOMElement *element;
-
-		g_variant_get (
-			parameters, "(t&sb)", &page_id, &element_id, &value);
-
-		editor_page = get_editor_page_or_return_dbus_error (invocation, extension, page_id);
-		if (!editor_page)
-			goto error;
-
-		document = e_editor_page_get_document (editor_page);
-		element = webkit_dom_document_get_element_by_id (document, element_id);
-		if (element)
-			webkit_dom_html_hr_element_set_no_shade (
-				WEBKIT_DOM_HTML_HR_ELEMENT (element), value);
-
-		g_dbus_method_invocation_return_value (invocation, NULL);
-	} else if (g_strcmp0 (method_name, "HRElementGetNoShade") == 0) {
-		gboolean value = FALSE;
-		const gchar *element_id;
-		WebKitDOMElement *element;
-
-		g_variant_get (
-			parameters, "(t&s)", &page_id, &element_id);
-
-		editor_page = get_editor_page_or_return_dbus_error (invocation, extension, page_id);
-		if (!editor_page)
-			goto error;
-
-		document = e_editor_page_get_document (editor_page);
-		element = webkit_dom_document_get_element_by_id (document, element_id);
-		if (element)
-			value = webkit_dom_html_hr_element_get_no_shade (
-				WEBKIT_DOM_HTML_HR_ELEMENT (element));
-
-		g_dbus_method_invocation_return_value (
-			invocation, g_variant_new ("(b)", value));
 	} else if (g_strcmp0 (method_name, "EEditorImageDialogMarkImage") == 0) {
 		g_variant_get (parameters, "(t)", &page_id);
 

@@ -66,8 +66,8 @@ void		e_dialogs_dom_cell_set_element_bg_color
 
 /* ******************** HRule Dialog ***************** */
 
-gboolean	e_dialogs_dom_hrule_find_hrule	(EEditorPage *editor_page);
-void		e_dialogs_dom_save_history_on_exit
+gboolean	e_dialogs_dom_h_rule_find_hrule	(EEditorPage *editor_page);
+void		e_dialogs_dom_h_rule_dialog_on_close
 						(EEditorPage *editor_page);
 
 /* ******************** Image Dialog ***************** */

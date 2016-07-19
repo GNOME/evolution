@@ -622,6 +622,20 @@ test_insert_link_typed_remove (TestFixture *fixture)
 		g_test_fail ();
 }
 
+static void
+test_insert_hrule (TestFixture *fixture)
+{
+	if (!test_utils_run_simple_test (fixture,
+		"mode:html\n"
+		"type:text\n"
+		"action:insert-rule\n"
+		"seq:ttttt\n" /* Move to the Close button */
+		"type:\\n\n",
+		HTML_PREFIX "<p>text</p><hr align=\"left\" size=\"2\" noshade=\"\">" HTML_SUFFIX,
+		"text"))
+		g_test_fail ();
+}
+
 gint
 main (gint argc,
       gchar *argv[])
@@ -705,6 +719,7 @@ main (gint argc,
 	add_test ("/insert/link/typed", test_insert_link_typed);
 	add_test ("/insert/link/typed/change-description", test_insert_link_typed_change_description);
 	add_test ("/insert/link/typed/remove", test_insert_link_typed_remove);
+	add_test ("/insert/h-rule", test_insert_hrule);
 
 	#undef add_test
 

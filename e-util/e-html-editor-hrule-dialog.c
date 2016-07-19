@@ -200,15 +200,15 @@ html_editor_hrule_dialog_show (GtkWidget *widget)
 	EHTMLEditorHRuleDialog *dialog;
 	EHTMLEditor *editor;
 	EContentEditor *cnt_editor;
-	gboolean h_rule_found = FALSE;
+	gboolean created_new_h_rule = FALSE;
 
 	dialog = E_HTML_EDITOR_HRULE_DIALOG (widget);
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
 	cnt_editor = e_html_editor_get_content_editor (editor);
 
-	h_rule_found = e_content_editor_on_h_rule_dialog_open (cnt_editor);
+	created_new_h_rule = e_content_editor_on_h_rule_dialog_open (cnt_editor);
 
-	if (h_rule_found) {
+	if (!created_new_h_rule) {
 		html_editor_hrule_dialog_get_alignment (dialog);
 		html_editor_hrule_dialog_get_size (dialog);
 		html_editor_hrule_dialog_get_width (dialog);

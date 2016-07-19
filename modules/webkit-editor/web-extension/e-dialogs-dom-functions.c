@@ -457,7 +457,7 @@ get_current_hrule_element (WebKitDOMDocument *document)
 }
 
 gboolean
-e_dialogs_dom_hrule_find_hrule (EEditorPage *editor_page)
+e_dialogs_dom_h_rule_find_hrule (EEditorPage *editor_page)
 {
 	EEditorUndoRedoManager *manager;
 	gboolean created = FALSE;
@@ -521,7 +521,7 @@ e_dialogs_dom_hrule_find_hrule (EEditorPage *editor_page)
 }
 
 void
-e_dialogs_dom_save_history_on_exit (EEditorPage *editor_page)
+e_dialogs_dom_h_rule_dialog_on_close (EEditorPage *editor_page)
 {
 	EEditorUndoRedoManager *manager;
 	EEditorHistoryEvent *ev = NULL;
@@ -541,7 +541,7 @@ e_dialogs_dom_save_history_on_exit (EEditorPage *editor_page)
 	ev->data.dom.to = webkit_dom_node_clone_node_with_error (
 		WEBKIT_DOM_NODE (element), TRUE, NULL);
 
-	if (!webkit_dom_node_is_equal_node (ev->data.dom.from, ev->data.dom.to)) {
+	if (ev->data.dom.from && !webkit_dom_node_is_equal_node (ev->data.dom.from, ev->data.dom.to)) {
 		e_editor_dom_selection_get_coordinates (editor_page, &ev->after.start.x, &ev->after.start.y, &ev->after.end.x, &ev->after.end.y);
 	} else {
 		e_editor_undo_redo_manager_remove_current_history_event (manager);
