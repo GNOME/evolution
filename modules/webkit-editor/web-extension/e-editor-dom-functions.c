@@ -16608,6 +16608,7 @@ format_change_list_from_list (EEditorPage *editor_page,
 
 		if (selection_end) {
 			source_list_clone = webkit_dom_node_clone_node_with_error (current_list, FALSE, NULL);
+			remove_node_if_empty (current_list);
 			after_selection_end = TRUE;
 		}
 
@@ -16641,13 +16642,12 @@ format_change_list_from_list (EEditorPage *editor_page,
 		webkit_dom_node_insert_before (
 			webkit_dom_node_get_parent_node (source_list_clone),
 			WEBKIT_DOM_NODE (new_list),
-			source_list_clone, NULL);
+			source_list_clone,
+			NULL);
 
-	if (!webkit_dom_node_has_child_nodes (source_list))
-		remove_node (source_list);
+	remove_node_if_empty (source_list);
 
-	if (!webkit_dom_node_has_child_nodes (source_list_clone))
-		remove_node (source_list_clone);
+	remove_node_if_empty (source_list_clone);
 
 	merge_lists_if_possible (WEBKIT_DOM_NODE (new_list));
 }

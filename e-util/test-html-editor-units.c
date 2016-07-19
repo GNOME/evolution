@@ -452,8 +452,8 @@ test_list_multi_html (TestFixture *fixture)
 		"type:item 4\\n\n",
 		HTML_PREFIX
 			"<ul>"
-				  "<li>item 1</li>"
-				  "<li>item 2</li>"
+				"<li>item 1</li>"
+				"<li>item 2</li>"
 			"</ul>"
 			"<ol type=\"I\">"
 				"<li>item 3</li>"
@@ -466,6 +466,37 @@ test_list_multi_html (TestFixture *fixture)
 		"   I. item 3\n"
 		"  II. item 4\n"
 		" III. "))
+		g_test_fail ();
+}
+
+static void
+test_list_multi_change_html (TestFixture *fixture)
+{
+	if (!test_utils_run_simple_test (fixture,
+		"mode:html\n"
+		"action:style-list-bullet\n"
+		"type:item 1\\n\n"
+		"type:item 2\\n\n"
+		"type:\\n\n"
+		"action:style-list-roman\n"
+		"type:item 3\\n\n"
+		"type:item 4\\n\n"
+		"action:select-all\n"
+		"action:style-list-number\n",
+		HTML_PREFIX
+			"<ol>"
+				"<li>item 1</li>"
+				"<li>item 2</li>"
+				"<li>item 3</li>"
+				"<li>item 4</li>"
+				"<li><br></li>"
+			"</ol>"
+		HTML_SUFFIX,
+		"   1. item 1\n"
+		"   2. item 2\n"
+		"   3. item 3\n"
+		"   4. item 4\n"
+		"   5. "))
 		g_test_fail ();
 }
 
@@ -543,6 +574,7 @@ main (gint argc,
 	add_test ("/list/alpha/html", test_list_alpha_html);
 	add_test ("/list/roman/plain", test_list_roman_plain);
 	add_test ("/list/multi/html", test_list_multi_html);
+	add_test ("/list/multi/change/html", test_list_multi_change_html);
 
 	#undef add_test
 
