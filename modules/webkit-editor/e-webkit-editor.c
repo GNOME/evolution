@@ -3284,7 +3284,29 @@ webkit_editor_selection_unlink (EContentEditor *editor)
 	wk_editor = E_WEBKIT_EDITOR (editor);
 
 	webkit_editor_call_simple_extension_function (
-		wk_editor, "EEditorSelectionUnlink");
+		wk_editor, "EEditorLinkDialogUnlink");
+}
+
+static void
+webkit_editor_on_link_dialog_open (EContentEditor *editor)
+{
+	EWebKitEditor *wk_editor;
+
+	wk_editor = E_WEBKIT_EDITOR (editor);
+
+	webkit_editor_call_simple_extension_function (
+		wk_editor, "EEditorLinkDialogOpen");
+}
+
+static void
+webkit_editor_on_link_dialog_close (EContentEditor *editor)
+{
+	EWebKitEditor *wk_editor;
+
+	wk_editor = E_WEBKIT_EDITOR (editor);
+
+	webkit_editor_call_simple_extension_function (
+		wk_editor, "EEditorLinkDialogClose");
 }
 
 static void
@@ -6111,6 +6133,8 @@ e_webkit_editor_content_editor_init (EContentEditorInterface *iface)
 	iface->image_set_width_follow = webkit_editor_image_set_width_follow;
 	iface->image_get_width = webkit_editor_image_get_width;
 	iface->image_get_height = webkit_editor_image_get_height;
+	iface->on_link_dialog_open = webkit_editor_on_link_dialog_open;
+	iface->on_link_dialog_close = webkit_editor_on_link_dialog_close;
 	iface->link_set_values = webkit_editor_link_set_values;
 	iface->link_get_values = webkit_editor_link_get_values;
 	iface->page_set_text_color = webkit_editor_page_set_text_color;

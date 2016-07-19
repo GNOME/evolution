@@ -91,6 +91,8 @@ html_editor_link_dialog_remove_link (EHTMLEditorLinkDialog *dialog)
 	cnt_editor = e_html_editor_get_content_editor (editor);
 
 	e_content_editor_selection_unlink (cnt_editor);
+
+	gtk_widget_hide (GTK_WIDGET (dialog));
 }
 
 static void
@@ -114,7 +116,7 @@ static gboolean
 html_editor_link_dialog_entry_key_pressed (EHTMLEditorLinkDialog *dialog,
                                            GdkEventKey *event)
 {
-	/* We can't do thins in key_released, because then you could not open
+	/* We can't do things in key_released, because then you could not open
 	 * this dialog from main menu by pressing enter on Insert->Link action */
 	if (event->keyval == GDK_KEY_Return) {
 		html_editor_link_dialog_ok (dialog);
@@ -122,6 +124,23 @@ html_editor_link_dialog_entry_key_pressed (EHTMLEditorLinkDialog *dialog,
 	}
 
 	return FALSE;
+}
+
+static void
+html_editor_link_dialog_hide (GtkWidget *widget)
+{
+	EHTMLEditor *editor;
+	EHTMLEditorLinkDialog *dialog;
+	EContentEditor *cnt_editor;
+
+	dialog = E_HTML_EDITOR_LINK_DIALOG (widget);
+	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
+	cnt_editor = e_html_editor_get_content_editor (editor);
+
+	e_content_editor_on_link_dialog_close (cnt_editor);
+
+	/* Chain up to parent implementation */
+	GTK_WIDGET_CLASS (e_html_editor_link_dialog_parent_class)->hide (widget);
 }
 
 static void
@@ -144,19 +163,22 @@ html_editor_link_dialog_show (GtkWidget *widget)
 
 	dialog->priv->label_autofill = TRUE;
 
+	e_content_editor_on_link_dialog_open (cnt_editor);
+
 	e_content_editor_link_get_values (cnt_editor, &href, &text);
 	if (href && *href)
 		gtk_entry_set_text (
 			GTK_ENTRY (dialog->priv->url_edit), href);
-	else {
+	else
 		gtk_widget_set_sensitive (
 			dialog->priv->remove_link_button, FALSE);
-	}
+
 	g_free (href);
 
 	if (text && *text) {
 		gtk_entry_set_text (
 			GTK_ENTRY (dialog->priv->label_edit), text);
+		dialog->priv->label_autofill = FALSE;
 	}
 	g_free (text);
 
@@ -173,6 +195,7 @@ e_html_editor_link_dialog_class_init (EHTMLEditorLinkDialogClass *class)
 
 	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->show = html_editor_link_dialog_show;
+	widget_class->hide = html_editor_link_dialog_hide;
 }
 
 static void

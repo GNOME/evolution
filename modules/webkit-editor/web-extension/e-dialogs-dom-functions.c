@@ -457,17 +457,19 @@ get_current_hrule_element (WebKitDOMDocument *document)
 }
 
 gboolean
-e_dialogs_dom_hrule_find_hrule (EEditorPage *editor_page,
-				WebKitDOMNode *node_under_mouse_click)
+e_dialogs_dom_hrule_find_hrule (EEditorPage *editor_page)
 {
 	EEditorUndoRedoManager *manager;
 	gboolean created = FALSE;
 	WebKitDOMDocument *document;
 	WebKitDOMElement *rule;
+	WebKitDOMNode *node_under_mouse_click;
 
 	g_return_val_if_fail (E_IS_EDITOR_PAGE (editor_page), FALSE);
 
 	document = e_editor_page_get_document (editor_page);
+
+	node_under_mouse_click = e_editor_page_get_node_under_mouse_click (editor_page);
 
 	if (node_under_mouse_click && WEBKIT_DOM_IS_HTML_HR_ELEMENT (node_under_mouse_click)) {
 		rule = WEBKIT_DOM_ELEMENT (node_under_mouse_click);
@@ -555,12 +557,15 @@ get_current_image_element (WebKitDOMDocument *document)
 }
 
 void
-e_dialogs_dom_image_mark_image (EEditorPage *editor_page,
-				WebKitDOMNode *node_under_mouse_click)
+e_dialogs_dom_image_mark_image (EEditorPage *editor_page)
 {
 	EEditorUndoRedoManager *manager;
+	WebKitDOMNode *node_under_mouse_click;
 
 	g_return_if_fail (E_IS_EDITOR_PAGE (editor_page));
+
+	node_under_mouse_click = e_editor_page_get_node_under_mouse_click (editor_page);
+
 	g_return_if_fail (node_under_mouse_click && WEBKIT_DOM_IS_HTML_IMAGE_ELEMENT (node_under_mouse_click));
 
 	webkit_dom_element_set_id (WEBKIT_DOM_ELEMENT (node_under_mouse_click), "-x-evo-current-img");
@@ -673,7 +678,6 @@ e_dialogs_dom_image_get_element_url (EEditorPage *editor_page)
 
 /* ******************** Link Dialog ***************** */
 
-/* FIXME WK2 apply changes from commit 18c5e81 */
 void
 e_dialogs_dom_link_commit (EEditorPage *editor_page,
 			   const gchar *url,
@@ -688,11 +692,198 @@ e_dialogs_dom_link_commit (EEditorPage *editor_page,
 	link = webkit_dom_document_get_element_by_id (document, "-x-evo-current-anchor");
 
 	if (link) {
+		WebKitDOMElement *element;
+
 		webkit_dom_html_anchor_element_set_href (
 			WEBKIT_DOM_HTML_ANCHOR_ELEMENT (link), url);
 		webkit_dom_html_element_set_inner_text (
 			WEBKIT_DOM_HTML_ELEMENT (link), inner_text, NULL);
+
+		element = webkit_dom_document_create_element (document, "SPAN", NULL);
+		webkit_dom_element_set_id (element, "-x-evo-selection-end-marker");
+		webkit_dom_node_insert_before (
+			webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (link)),
+			WEBKIT_DOM_NODE (element),
+			webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (link)),
+			NULL);
+
+		element = webkit_dom_document_create_element (document, "SPAN", NULL);
+		webkit_dom_element_set_id (element, "-x-evo-selection-start-marker");
+		webkit_dom_node_insert_before (
+			webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (link)),
+			WEBKIT_DOM_NODE (element),
+			webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (link)),
+			NULL);
+
+		e_editor_dom_selection_restore (editor_page);
+	} else {
+		WebKitDOMDOMWindow *dom_window;
+		WebKitDOMDOMSelection *dom_selection;
+		WebKitDOMRange *range;
+
+		dom_window = webkit_dom_document_get_default_view (document);
+		dom_selection = webkit_dom_dom_window_get_selection (dom_window);
+		g_object_unref (dom_window);
+
+		e_editor_dom_selection_restore (editor_page);
+		range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
+		if (webkit_dom_range_get_collapsed (range, NULL)) {
+			WebKitDOMElement *selection_marker;
+			WebKitDOMElement *anchor;
+
+			e_editor_dom_selection_save (editor_page);
+			selection_marker = webkit_dom_document_get_element_by_id (
+				document, "-x-evo-selection-start-marker");
+			anchor = webkit_dom_document_create_element (document, "A", NULL);
+			webkit_dom_element_set_attribute (anchor, "href", url, NULL);
+			webkit_dom_element_set_id (anchor, "-x-evo-current-anchor");
+			webkit_dom_html_element_set_inner_text (
+				WEBKIT_DOM_HTML_ELEMENT (anchor), inner_text, NULL);
+
+			webkit_dom_node_insert_before (
+				webkit_dom_node_get_parent_node (
+					WEBKIT_DOM_NODE (selection_marker)),
+				WEBKIT_DOM_NODE (anchor),
+				WEBKIT_DOM_NODE (selection_marker),
+				NULL);
+			e_editor_dom_selection_restore (editor_page);
+		} else {
+			gchar *text;
+
+			text = webkit_dom_range_get_text (range);
+			if (text && *text) {
+				EEditorUndoRedoManager *manager;
+				EEditorHistoryEvent *ev;
+
+				e_editor_dom_create_link (editor_page, url);
+
+				manager = e_editor_page_get_undo_redo_manager (editor_page);
+				ev = e_editor_undo_redo_manager_get_current_history_event (manager);
+
+				ev->data.dom.from =
+					WEBKIT_DOM_NODE (webkit_dom_document_create_text_node (document, text));
+
+				webkit_dom_dom_selection_collapse_to_end (dom_selection, NULL);
+			}
+			g_free (text);
+		}
+
+		g_object_unref (range);
+		g_object_unref (dom_selection);
+	}
+}
+
+void
+e_dialogs_dom_link_close (EEditorPage *editor_page)
+{
+	WebKitDOMDocument *document;
+	WebKitDOMElement *link;
+
+	g_return_if_fail (E_IS_EDITOR_PAGE (editor_page));
+
+	document = e_editor_page_get_document (editor_page);
+
+	link = webkit_dom_document_get_element_by_id (document, "-x-evo-current-anchor");
+	if (link) {
+		EEditorUndoRedoManager *manager;
+		EEditorHistoryEvent *ev;
+
+		manager = e_editor_page_get_undo_redo_manager (editor_page);
+		ev = e_editor_undo_redo_manager_get_current_history_event (manager);
+		if (ev->type == HISTORY_LINK_DIALOG) {
+			ev->data.dom.to = webkit_dom_node_clone_node_with_error (
+				WEBKIT_DOM_NODE (link), TRUE, NULL);
+
+			if (ev->data.dom.from && webkit_dom_node_is_equal_node (ev->data.dom.from, ev->data.dom.to))
+				e_editor_undo_redo_manager_remove_current_history_event (manager);
+			else
+				e_editor_dom_selection_get_coordinates (
+					editor_page, &ev->after.start.x, &ev->after.start.y, &ev->after.end.x, &ev->after.end.y);
+		}
 		webkit_dom_element_remove_attribute (link, "id");
+	}
+}
+
+void
+e_dialogs_dom_link_open (EEditorPage *editor_page)
+{
+	EEditorUndoRedoManager *manager;
+	WebKitDOMDocument *document;
+	WebKitDOMElement *link = NULL;
+	WebKitDOMNode *node_under_mouse_click;
+
+	g_return_if_fail (E_IS_EDITOR_PAGE (editor_page));
+
+	document = e_editor_page_get_document (editor_page);
+
+	node_under_mouse_click = e_editor_page_get_node_under_mouse_click (editor_page);
+	if (node_under_mouse_click && WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (node_under_mouse_click)) {
+		link = WEBKIT_DOM_ELEMENT (node_under_mouse_click);
+	} else {
+		if (!(link = webkit_dom_document_get_element_by_id (document, "-x-evo-current-anchor"))) {
+			if (node_under_mouse_click) {
+				link = dom_node_find_parent_element (node_under_mouse_click, "A");
+			} else {
+				WebKitDOMElement *selection_start;
+
+				e_editor_dom_selection_save (editor_page);
+
+				selection_start = webkit_dom_document_get_element_by_id (
+					document, "-x-evo-selection-start-marker");
+
+				link = dom_node_find_parent_element (WEBKIT_DOM_NODE (selection_start), "A");
+
+				e_editor_dom_selection_restore (editor_page);
+			}
+		}
+	}
+
+	if (link)
+		webkit_dom_element_set_id (link, "-x-evo-current-anchor");
+
+	manager = e_editor_page_get_undo_redo_manager (editor_page);
+	if (!e_editor_undo_redo_manager_is_operation_in_progress (manager)) {
+		EEditorHistoryEvent *ev;
+
+		ev = g_new0 (EEditorHistoryEvent, 1);
+		ev->type = HISTORY_LINK_DIALOG;
+
+		e_editor_dom_selection_get_coordinates (
+			editor_page, &ev->before.start.x, &ev->before.start.y, &ev->before.end.x, &ev->before.end.y);
+		if (link)
+			ev->data.dom.from = webkit_dom_node_clone_node_with_error (
+				WEBKIT_DOM_NODE (link), TRUE, NULL);
+		else
+			ev->data.dom.from = NULL;
+		e_editor_undo_redo_manager_insert_history_event (manager, ev);
+	}
+}
+
+GVariant *
+e_dialogs_dom_link_show (EEditorPage *editor_page)
+{
+	GVariant *result = NULL;
+	WebKitDOMDocument *document;
+	WebKitDOMElement *link;
+
+	g_return_val_if_fail (E_IS_EDITOR_PAGE (editor_page), NULL);
+
+	document = e_editor_page_get_document (editor_page);
+
+	e_editor_dom_selection_save (editor_page);
+
+	link = webkit_dom_document_get_element_by_id (document, "-x-evo-current-anchor");
+	if (link) {
+		gchar *href, *text;
+
+		href = webkit_dom_element_get_attribute (link, "href");
+		text = webkit_dom_html_element_get_inner_text (
+			WEBKIT_DOM_HTML_ELEMENT (link));
+
+		result = g_variant_new ("(ss)", href, text);
+
+		g_free (text);
+		g_free (href);
 	} else {
 		gchar *text;
 		WebKitDOMDOMWindow *dom_window;
@@ -703,110 +894,20 @@ e_dialogs_dom_link_commit (EEditorPage *editor_page,
 		dom_selection = webkit_dom_dom_window_get_selection (dom_window);
 		g_object_unref (dom_window);
 
-		if (!dom_selection ||
-		    (webkit_dom_dom_selection_get_range_count (dom_selection) == 0)) {
-			g_object_unref (dom_selection);
-			return;
-		}
+		/* No selection at all */
+		if (!dom_selection || webkit_dom_dom_selection_get_range_count (dom_selection) < 1)
+			result = g_variant_new ("(ss)", "", "");
 
 		range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
-
-		/* Check whether a text is selected or not */
 		text = webkit_dom_range_get_text (range);
-		if (text && *text) {
-			e_editor_dom_create_link (editor_page, url);
-		} else {
-			gchar *html = g_strdup_printf (
-				"<a href=\"%s\">%s</a>", url, inner_text);
-
-			e_editor_dom_exec_command (editor_page, E_CONTENT_EDITOR_COMMAND_INSERT_HTML, html);
-			g_free (html);
-		}
+		if (text)
+			result = g_variant_new ("(ss)", "", text);
 
 		g_free (text);
 
 		g_object_unref (range);
 		g_object_unref (dom_selection);
 	}
-}
-
-GVariant *
-e_dialogs_dom_link_show (EEditorPage *editor_page)
-{
-	GVariant *result = NULL;
-	WebKitDOMDocument *document;
-	WebKitDOMDOMWindow *dom_window;
-	WebKitDOMDOMSelection *dom_selection;
-	WebKitDOMRange *range;
-	WebKitDOMElement *link;
-
-	g_return_val_if_fail (E_IS_EDITOR_PAGE (editor_page), NULL);
-
-	document = e_editor_page_get_document (editor_page);
-	dom_window = webkit_dom_document_get_default_view (document);
-	dom_selection = webkit_dom_dom_window_get_selection (dom_window);
-	g_object_unref (dom_window);
-
-	/* No selection at all */
-	if (!dom_selection ||
-	    webkit_dom_dom_selection_get_range_count (dom_selection) < 1) {
-		result = g_variant_new ("(ss)", "", "");
-		return result;
-	}
-
-	range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
-	link = dom_node_find_parent_element (
-		webkit_dom_range_get_start_container (range, NULL), "A");
-	if (!link) {
-		if ((webkit_dom_range_get_start_container (range, NULL) !=
-			webkit_dom_range_get_end_container (range, NULL)) ||
-		    (webkit_dom_range_get_start_offset (range, NULL) !=
-			webkit_dom_range_get_end_offset (range, NULL))) {
-
-			WebKitDOMDocumentFragment *fragment;
-			fragment = webkit_dom_range_clone_contents (range, NULL);
-			link = dom_node_find_child_element (WEBKIT_DOM_NODE (fragment), "A");
-		} else {
-			/* get element that was clicked on */
-			WebKitDOMNode *node;
-
-			node = webkit_dom_range_get_common_ancestor_container (range, NULL);
-			if (node && !WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (node)) {
-				link = dom_node_find_parent_element (node, "A");
-				if (link && !WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (link))
-					link = NULL;
-			} else
-				link = WEBKIT_DOM_ELEMENT (node);
-		}
-	}
-
-	if (link) {
-		gchar *href, *text;
-
-		href = webkit_dom_html_anchor_element_get_href (
-				WEBKIT_DOM_HTML_ANCHOR_ELEMENT (link));
-		text = webkit_dom_html_element_get_inner_text (
-				WEBKIT_DOM_HTML_ELEMENT (link));
-
-		webkit_dom_element_set_id (
-			WEBKIT_DOM_ELEMENT (link), "-x-evo-current-anchor");
-
-		result = g_variant_new ("(ss)", href, text);
-
-		g_free (text);
-		g_free (href);
-	} else {
-		gchar *text;
-
-		text = webkit_dom_range_get_text (range);
-		if (text && *text)
-			result = g_variant_new ("(ss)", "", text);
-
-		g_free (text);
-	}
-
-	g_object_unref (range);
-	g_object_unref (dom_selection);
 
 	return result;
 }

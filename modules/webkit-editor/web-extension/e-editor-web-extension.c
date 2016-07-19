@@ -385,7 +385,13 @@ static const gchar *introspection_xml =
 "    <method name='EEditorDialogInsertRowBelow'>"
 "      <arg type='t' name='page_id' direction='in'/>"
 "    </method>"
-"    <method name='EEditorDialogDOMUnlink'>"
+"    <method name='EEditorLinkDialogOpen'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"    </method>"
+"    <method name='EEditorLinkDialogClose'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"    </method>"
+"    <method name='EEditorLinkDialogUnlink'>"
 "      <arg type='t' name='page_id' direction='in'/>"
 "    </method>"
 "    <method name='EEditorDialogSaveHistoryForCut'>"
@@ -985,7 +991,7 @@ handle_method_call (GDBusConnection *connection,
 		if (!editor_page)
 			goto error;
 
-		created_new_hr = e_dialogs_dom_hrule_find_hrule (editor_page, e_editor_page_get_node_under_mouse_click (editor_page));
+		created_new_hr = e_dialogs_dom_hrule_find_hrule (editor_page);
 
 		g_dbus_method_invocation_return_value (
 			invocation, g_variant_new ("(b)", created_new_hr));
@@ -1045,7 +1051,7 @@ handle_method_call (GDBusConnection *connection,
 		if (!editor_page)
 			goto error;
 
-		e_dialogs_dom_image_mark_image (editor_page, e_editor_page_get_node_under_mouse_click (editor_page));
+		e_dialogs_dom_image_mark_image (editor_page);
 
 		g_dbus_method_invocation_return_value (invocation, NULL);
 	} else if (g_strcmp0 (method_name, "EEditorImageDialogSaveHistoryOnExit") == 0) {
@@ -1303,8 +1309,7 @@ handle_method_call (GDBusConnection *connection,
 			goto error;
 
 		g_dbus_method_invocation_return_value (
-			invocation,
-			e_dialogs_dom_link_show (editor_page));
+			invocation, e_dialogs_dom_link_show (editor_page));
 	} else if (g_strcmp0 (method_name, "EEditorPageDialogSaveHistory") == 0) {
 		g_variant_get (parameters, "(t)", &page_id);
 
@@ -1516,12 +1521,38 @@ handle_method_call (GDBusConnection *connection,
 		e_editor_dom_insert_row_below (editor_page);
 
 		g_dbus_method_invocation_return_value (invocation, NULL);
-	} else if (g_strcmp0 (method_name, "EEditorDialogDOMUnlink") == 0) {
+	} else if (g_strcmp0 (method_name, "EEditorLinkDialogOpen") == 0) {
 		g_variant_get (parameters, "(t)", &page_id);
 
 		editor_page = get_editor_page_or_return_dbus_error (invocation, extension, page_id);
 		if (!editor_page)
 			goto error;
+
+		e_dialogs_dom_link_open (editor_page);
+
+		g_dbus_method_invocation_return_value (invocation, NULL);
+	} else if (g_strcmp0 (method_name, "EEditorLinkDialogClose") == 0) {
+		g_variant_get (parameters, "(t)", &page_id);
+
+		editor_page = get_editor_page_or_return_dbus_error (invocation, extension, page_id);
+		if (!editor_page)
+			goto error;
+
+		e_dialogs_dom_link_close (editor_page);
+
+		g_dbus_method_invocation_return_value (invocation, NULL);
+	} else if (g_strcmp0 (method_name, "EEditorLinkDialogUnlink") == 0) {
+		EEditorUndoRedoManager *manager;
+
+		g_variant_get (parameters, "(t)", &page_id);
+
+		editor_page = get_editor_page_or_return_dbus_error (invocation, extension, page_id);
+		if (!editor_page)
+			goto error;
+
+		manager = e_editor_page_get_undo_redo_manager (editor_page);
+		/* Remove the history event that was saved when the dialog was opened */
+		e_editor_undo_redo_manager_remove_current_history_event (manager);
 
 		e_editor_dom_selection_unlink (editor_page);
 

@@ -344,6 +344,8 @@ html_editor_update_actions (EHTMLEditor *editor)
 	gtk_action_set_visible (ACTION (CONTEXT_PROPERTIES_IMAGE), visible);
 
 	visible = (flags & E_CONTENT_EDITOR_NODE_IS_ANCHOR);
+	if (visible)
+		gtk_action_set_visible (ACTION (CONTEXT_INSERT_LINK), FALSE);
 	gtk_action_set_visible (ACTION (CONTEXT_PROPERTIES_LINK), visible);
 
 	visible = (flags & E_CONTENT_EDITOR_NODE_IS_H_RULE);

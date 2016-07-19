@@ -11350,8 +11350,6 @@ e_editor_dom_selection_unlink (EEditorPage *editor_page)
 			} else
 				link = WEBKIT_DOM_ELEMENT (node);
 		}
-	} else {
-		e_editor_dom_exec_command (editor_page, E_CONTENT_EDITOR_COMMAND_UNLINK, NULL);
 	}
 
 	g_object_unref (range);

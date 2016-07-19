@@ -245,6 +245,10 @@ struct _EContentEditorInterface {
 
 	gchar *		(*image_get_align)		(EContentEditor *editor);
 
+	void		(*on_link_dialog_open)		(EContentEditor *editor);
+
+	void		(*on_link_dialog_close)		(EContentEditor *editor);
+
 	void		(*link_get_values)		(EContentEditor *editor,
 							 gchar **href,
 							 gchar **text);
@@ -756,6 +760,12 @@ gint32		e_content_editor_image_get_natural_height
 void		e_content_editor_image_set_height_follow
 						(EContentEditor *editor,
 						 gboolean value);
+
+void		e_content_editor_on_link_dialog_open
+						(EContentEditor *editor);
+
+void		e_content_editor_on_link_dialog_close
+						(EContentEditor *editor);
 
 void		e_content_editor_link_get_values
 						(EContentEditor *editor,

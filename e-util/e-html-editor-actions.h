@@ -41,6 +41,8 @@
 	E_HTML_EDITOR_ACTION ((editor), "context-insert-column-after")
 #define E_HTML_EDITOR_ACTION_CONTEXT_INSERT_COLUMN_BEFORE(editor) \
 	E_HTML_EDITOR_ACTION ((editor), "context-insert-column-before")
+#define E_HTML_EDITOR_ACTION_CONTEXT_INSERT_LINK(editor) \
+	E_HTML_EDITOR_ACTION ((editor), "context-insert-link")
 #define E_HTML_EDITOR_ACTION_CONTEXT_INSERT_ROW_ABOVE(editor) \
 	E_HTML_EDITOR_ACTION ((editor), "context-insert-row-above")
 #define E_HTML_EDITOR_ACTION_CONTEXT_INSERT_ROW_BELOW(editor) \

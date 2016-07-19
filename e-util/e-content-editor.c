@@ -2562,6 +2562,34 @@ e_content_editor_image_set_height_follow (EContentEditor *editor,
 }
 
 void
+e_content_editor_on_link_dialog_open (EContentEditor *editor)
+{
+	EContentEditorInterface *iface;
+
+	g_return_if_fail (E_IS_CONTENT_EDITOR (editor));
+
+	iface = E_CONTENT_EDITOR_GET_IFACE (editor);
+	g_return_if_fail (iface != NULL);
+	g_return_if_fail (iface->on_link_dialog_open != NULL);
+
+	iface->on_link_dialog_open (editor);
+}
+
+void
+e_content_editor_on_link_dialog_close (EContentEditor *editor)
+{
+	EContentEditorInterface *iface;
+
+	g_return_if_fail (E_IS_CONTENT_EDITOR (editor));
+
+	iface = E_CONTENT_EDITOR_GET_IFACE (editor);
+	g_return_if_fail (iface != NULL);
+	g_return_if_fail (iface->on_link_dialog_close != NULL);
+
+	iface->on_link_dialog_close (editor);
+}
+
+void
 e_content_editor_link_get_values (EContentEditor *editor,
                                   gchar **href,
                                   gchar **text)

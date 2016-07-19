@@ -66,15 +66,13 @@ void		e_dialogs_dom_cell_set_element_bg_color
 
 /* ******************** HRule Dialog ***************** */
 
-gboolean	e_dialogs_dom_hrule_find_hrule	(EEditorPage *editor_page,
-						 WebKitDOMNode *node_under_mouse_click);
+gboolean	e_dialogs_dom_hrule_find_hrule	(EEditorPage *editor_page);
 void		e_dialogs_dom_save_history_on_exit
 						(EEditorPage *editor_page);
 
 /* ******************** Image Dialog ***************** */
 
-void		e_dialogs_dom_image_mark_image	(EEditorPage *editor_page,
-						 WebKitDOMNode *node_under_mouse_click);
+void		e_dialogs_dom_image_mark_image	(EEditorPage *editor_page);
 void		e_dialogs_dom_image_save_history_on_exit
 						(EEditorPage *editor_page);
 void		e_dialogs_dom_image_set_element_url
@@ -89,6 +87,8 @@ void		e_dialogs_dom_link_commit	(EEditorPage *editor_page,
 						 const gchar *url,
 						 const gchar *inner_text);
 GVariant *	e_dialogs_dom_link_show		(EEditorPage *editor_page);
+void		e_dialogs_dom_link_open		(EEditorPage *editor_page);
+void		e_dialogs_dom_link_close	(EEditorPage *editor_page);
 
 /* ******************** Page Dialog ***************** */
 
