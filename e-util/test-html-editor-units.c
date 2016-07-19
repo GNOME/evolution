@@ -530,6 +530,70 @@ test_list_multi_change_html (TestFixture *fixture)
 		g_test_fail ();
 }
 
+static void
+test_insert_link_dialog (TestFixture *fixture)
+{
+	if (!test_utils_run_simple_test (fixture,
+		"mode:html\n"
+		"type:a link example: \n"
+		"action:insert-link\n"
+		"type:http://www.gnome.org\\n\n",
+		HTML_PREFIX "<p>a link example: <a href=\"http://www.gnome.org\">http://www.gnome.org</a></p>" HTML_SUFFIX,
+		"a link example: http://www.gnome.org"))
+		g_test_fail ();
+}
+
+static void
+test_insert_link_dialog_selection (TestFixture *fixture)
+{
+	if (!test_utils_run_simple_test (fixture,
+		"mode:html\n"
+		"type:a link example: GNOME\n"
+		"seq:CSlsc\n"
+		"action:insert-link\n"
+		"type:http://www.gnome.org\\n\n",
+		HTML_PREFIX "<p>a link example: <a href=\"http://www.gnome.org\">GNOME</a></p>" HTML_SUFFIX,
+		"a link example: GNOME"))
+		g_test_fail ();
+}
+
+static void
+test_insert_link_typed (TestFixture *fixture)
+{
+	if (!test_utils_run_simple_test (fixture,
+		"mode:html\n"
+		"type:www.gnome.org \n",
+		HTML_PREFIX "<p><a href=\"http://www.gnome.org\">www.gnome.org</a> </p>" HTML_SUFFIX,
+		"www.gnome.org "))
+		g_test_fail ();
+}
+
+static void
+test_insert_link_typed_change_description (TestFixture *fixture)
+{
+	if (!test_utils_run_simple_test (fixture,
+		"mode:html\n"
+		"type:www.gnome.org \n"
+		"seq:ll\n"
+		"action:insert-link\n"
+		"seq:tt\n" /* Jump to the description */
+		"type:GNOME\\n\n",
+		HTML_PREFIX "<p><a href=\"http://www.gnome.org\">GNOME</a> </p>" HTML_SUFFIX,
+		"GNOME "))
+		g_test_fail ();
+}
+
+static void
+test_insert_link_typed_remove (TestFixture *fixture)
+{
+	if (!test_utils_run_simple_test (fixture,
+		"mode:html\n"
+		"type:www.gnome.org \n",
+		HTML_PREFIX "<p><a href=\"http://www.gnome.org\">www.gnome.org</a> </p>" HTML_SUFFIX,
+		"www.gnome.org "))
+		g_test_fail ();
+}
+
 gint
 main (gint argc,
       gchar *argv[])
@@ -607,6 +671,11 @@ main (gint argc,
 	add_test ("/list/roman/plain", test_list_roman_plain);
 	add_test ("/list/multi/html", test_list_multi_html);
 	add_test ("/list/multi/change/html", test_list_multi_change_html);
+	add_test ("/insert/link/dialog", test_insert_link_dialog);
+	add_test ("/insert/link/dialog/selection", test_insert_link_dialog_selection);
+	add_test ("/insert/link/typed", test_insert_link_typed);
+	add_test ("/insert/link/typed/change-description", test_insert_link_typed_change_description);
+	add_test ("/insert/link/typed/remove", test_insert_link_typed_remove);
 
 	#undef add_test
 
