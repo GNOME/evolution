@@ -565,7 +565,8 @@ test_insert_link_dialog (TestFixture *fixture)
 		"mode:html\n"
 		"type:a link example: \n"
 		"action:insert-link\n"
-		"type:http://www.gnome.org\\n\n",
+		"type:http://www.gnome.org\n"
+		"seq:n\n",
 		HTML_PREFIX "<p>a link example: <a href=\"http://www.gnome.org\">http://www.gnome.org</a></p>" HTML_SUFFIX,
 		"a link example: http://www.gnome.org"))
 		g_test_fail ();
@@ -579,7 +580,8 @@ test_insert_link_dialog_selection (TestFixture *fixture)
 		"type:a link example: GNOME\n"
 		"seq:CSlsc\n"
 		"action:insert-link\n"
-		"type:http://www.gnome.org\\n\n",
+		"type:http://www.gnome.org\n"
+		"seq:n\n",
 		HTML_PREFIX "<p>a link example: <a href=\"http://www.gnome.org\">GNOME</a></p>" HTML_SUFFIX,
 		"a link example: GNOME"))
 		g_test_fail ();
@@ -605,7 +607,8 @@ test_insert_link_typed_change_description (TestFixture *fixture)
 		"seq:ll\n"
 		"action:insert-link\n"
 		"seq:tt\n" /* Jump to the description */
-		"type:GNOME\\n\n",
+		"type:GNOME\n"
+		"seq:n\n",
 		HTML_PREFIX "<p><a href=\"http://www.gnome.org\">GNOME</a> </p>" HTML_SUFFIX,
 		"GNOME "))
 		g_test_fail ();
@@ -623,14 +626,13 @@ test_insert_link_typed_remove (TestFixture *fixture)
 }
 
 static void
-test_insert_hrule (TestFixture *fixture)
+test_h_rule_insert (TestFixture *fixture)
 {
 	if (!test_utils_run_simple_test (fixture,
 		"mode:html\n"
 		"type:text\n"
 		"action:insert-rule\n"
-		"seq:ttttt\n" /* Move to the Close button */
-		"type:\\n\n",
+		"seq:tttttn\n", /* Move to the Close button and press it */
 		HTML_PREFIX "<p>text</p><hr align=\"left\" size=\"2\" noshade=\"\">" HTML_SUFFIX,
 		"text"))
 		g_test_fail ();
@@ -719,7 +721,7 @@ main (gint argc,
 	add_test ("/insert/link/typed", test_insert_link_typed);
 	add_test ("/insert/link/typed/change-description", test_insert_link_typed_change_description);
 	add_test ("/insert/link/typed/remove", test_insert_link_typed_remove);
-	add_test ("/insert/h-rule", test_insert_hrule);
+	add_test ("/h-rule/insert", test_h_rule_insert);
 
 	#undef add_test
 
