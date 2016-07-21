@@ -2950,10 +2950,10 @@ body_keydown_event_cb (WebKitDOMElement *element,
 		manager = e_editor_page_get_undo_redo_manager (editor_page);
 
 		e_editor_dom_selection_get_coordinates (editor_page,
-			&ev->after.start.x,
-			&ev->after.start.y,
-			&ev->after.end.x,
-			&ev->after.end.y);
+			&ev->before.start.x,
+			&ev->before.start.y,
+			&ev->before.end.x,
+			&ev->before.end.y);
 		e_editor_undo_redo_manager_insert_history_event (manager, ev);
 	}
  out:
