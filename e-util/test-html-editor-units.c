@@ -638,6 +638,21 @@ test_h_rule_insert (TestFixture *fixture)
 		g_test_fail ();
 }
 
+static void
+test_h_rule_insert_text_after (TestFixture *fixture)
+{
+	if (!test_utils_run_simple_test (fixture,
+		"mode:html\n"
+		"type:above\n"
+		"action:insert-rule\n"
+		"seq:tttttn\n" /* Move to the Close button and press it */
+		"seq:den\n"
+		"type:below\n",
+		HTML_PREFIX "<p>above</p><hr align=\"left\" size=\"2\" noshade=\"\"><p>below</p>" HTML_SUFFIX,
+		"above\nbelow"))
+		g_test_fail ();
+}
+
 gint
 main (gint argc,
       gchar *argv[])
@@ -722,6 +737,7 @@ main (gint argc,
 	add_test ("/insert/link/typed/change-description", test_insert_link_typed_change_description);
 	add_test ("/insert/link/typed/remove", test_insert_link_typed_remove);
 	add_test ("/h-rule/insert", test_h_rule_insert);
+	add_test ("/h-rule/insert-text-after", test_h_rule_insert_text_after);
 
 	#undef add_test
 

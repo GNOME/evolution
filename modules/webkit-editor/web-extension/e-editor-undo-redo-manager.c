@@ -1258,9 +1258,10 @@ undo_redo_hrule_dialog (EEditorPage *editor_page,
 		}
 	}
 
-	if (undo)
+	if (undo) {
+		dom_remove_selection_markers (document);
 		restore_selection_to_history_event_state (editor_page, event->before);
-	else
+	} else
 		e_editor_dom_selection_restore (editor_page);
 }
 
@@ -1846,6 +1847,36 @@ undo_return_in_empty_list_item (EEditorPage *editor_page,
 	e_editor_dom_selection_restore (editor_page);
 }
 
+static gboolean
+undo_return_press_after_h_rule (EEditorPage *editor_page,
+                                EEditorHistoryEvent *event)
+{
+	WebKitDOMDocument *document;
+	WebKitDOMElement *selection_start_marker, *block;
+	WebKitDOMNode *node;
+
+	document = e_editor_page_get_document (editor_page);
+
+	e_editor_dom_selection_save (editor_page);
+
+	selection_start_marker = webkit_dom_document_get_element_by_id (
+		document, "-x-evo-selection-start-marker");
+
+	block = get_parent_block_element (WEBKIT_DOM_NODE (selection_start_marker));
+	node = webkit_dom_node_get_previous_sibling (WEBKIT_DOM_NODE( block));
+
+	if (!webkit_dom_node_get_previous_sibling (WEBKIT_DOM_NODE (selection_start_marker)) &&
+	     WEBKIT_DOM_IS_HTML_HR_ELEMENT (node)) {
+
+		remove_node_if_empty (WEBKIT_DOM_NODE (block));
+		restore_selection_to_history_event_state (editor_page, event->before);
+
+		return TRUE;
+	}
+
+	return FALSE;
+}
+
 static void
 undo_input (EEditorUndoRedoManager *manager,
             EEditorPage *editor_page,
@@ -1862,6 +1893,16 @@ undo_input (EEditorUndoRedoManager *manager,
 	dom_selection = webkit_dom_dom_window_get_selection (dom_window);
 
 	restore_selection_to_history_event_state (editor_page, event->after);
+
+	/* Undoing Return press after the HR element */
+	if (e_editor_page_get_html_mode (editor_page) &&
+	    g_object_get_data (G_OBJECT (event->data.fragment), "history-return-key")) {
+		if (undo_return_press_after_h_rule (editor_page, event)) {
+			g_object_unref (dom_window);
+			g_object_unref (dom_selection);
+			return;
+		}
+	}
 
 	webkit_dom_dom_selection_modify (dom_selection, "extend", "left", "character");
 	if (e_editor_dom_selection_is_citation (editor_page)) {

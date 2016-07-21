@@ -9837,6 +9837,117 @@ return_pressed_in_image_wrapper (EEditorPage *editor_page)
 	return TRUE;
 }
 
+static gboolean
+return_pressed_after_h_rule (EEditorPage *editor_page)
+{
+	WebKitDOMDocument *document;
+	WebKitDOMDocumentFragment *fragment;
+	WebKitDOMElement *selection_marker;
+	WebKitDOMNode *node, *block, *clone, *hr, *insert_before = NULL;
+	EEditorHistoryEvent *ev = NULL;
+	EEditorUndoRedoManager *manager;
+
+	g_return_val_if_fail (E_IS_EDITOR_PAGE (editor_page), FALSE);
+
+	document = e_editor_page_get_document (editor_page);
+
+	if (!e_editor_dom_selection_is_collapsed (editor_page))
+		return FALSE;
+
+	e_editor_dom_selection_save (editor_page);
+
+	manager = e_editor_page_get_undo_redo_manager (editor_page);
+
+	if (e_editor_undo_redo_manager_is_operation_in_progress (manager)) {
+		selection_marker = webkit_dom_document_get_element_by_id (
+			document, "-x-evo-selection-end-marker");
+
+		hr = webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (selection_marker));
+		hr = webkit_dom_node_get_next_sibling (hr);
+		node = webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (selection_marker));
+		if (node && !WEBKIT_DOM_IS_HTML_BR_ELEMENT (node) &&
+		    !WEBKIT_DOM_IS_HTML_HR_ELEMENT (hr)) {
+			e_editor_dom_selection_restore (editor_page);
+			return FALSE;
+		}
+
+		insert_before = webkit_dom_node_get_next_sibling (hr);
+	} else {
+		selection_marker = webkit_dom_document_get_element_by_id (
+			document, "-x-evo-selection-start-marker");
+
+		node = webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (selection_marker));
+		hr = webkit_dom_node_get_previous_sibling (WEBKIT_DOM_NODE (selection_marker));
+		if (!WEBKIT_DOM_IS_HTML_BODY_ELEMENT (node) ||
+		    !WEBKIT_DOM_IS_HTML_HR_ELEMENT (hr)) {
+			e_editor_dom_selection_restore (editor_page);
+			return FALSE;
+		}
+
+		insert_before = WEBKIT_DOM_NODE (selection_marker);
+
+		ev = g_new0 (EEditorHistoryEvent, 1);
+		ev->type = HISTORY_INPUT;
+
+		e_editor_dom_selection_get_coordinates (editor_page,
+			&ev->before.start.x,
+			&ev->before.start.y,
+			&ev->before.end.x,
+			&ev->before.end.y);
+
+		fragment = webkit_dom_document_create_document_fragment (document);
+
+		g_object_set_data (
+			G_OBJECT (fragment), "history-return-key", GINT_TO_POINTER (1));
+	}
+
+	block = webkit_dom_node_get_previous_sibling (hr);
+
+	clone = webkit_dom_node_clone_node_with_error (block, FALSE, NULL);
+
+	webkit_dom_node_append_child (
+		clone, WEBKIT_DOM_NODE (webkit_dom_document_create_element (document, "br", NULL)), NULL);
+
+	webkit_dom_node_insert_before (
+		webkit_dom_node_get_parent_node (hr), clone, insert_before, NULL);
+
+	dom_remove_selection_markers (document);
+
+	webkit_dom_node_append_child (
+		WEBKIT_DOM_NODE (clone),
+		WEBKIT_DOM_NODE (
+			dom_create_selection_marker (document, TRUE)),
+		NULL);
+	webkit_dom_node_append_child (
+		WEBKIT_DOM_NODE (clone),
+		WEBKIT_DOM_NODE (
+			dom_create_selection_marker (document, FALSE)),
+		NULL);
+
+	if (ev) {
+		webkit_dom_node_append_child (
+			WEBKIT_DOM_NODE (fragment),
+			webkit_dom_node_clone_node_with_error (clone, TRUE, NULL),
+			NULL);
+
+		e_editor_dom_selection_get_coordinates (editor_page,
+			&ev->after.start.x,
+			&ev->after.start.y,
+			&ev->after.end.x,
+			&ev->after.end.y);
+
+		ev->data.fragment = fragment;
+
+		e_editor_undo_redo_manager_insert_history_event (manager, ev);
+	}
+
+	e_editor_page_emit_content_changed (editor_page);
+
+	e_editor_dom_selection_restore (editor_page);
+
+	return TRUE;
+}
+
 gboolean
 e_editor_dom_return_pressed_in_empty_list_item (EEditorPage *editor_page)
 {
@@ -10067,6 +10178,9 @@ e_editor_dom_key_press_event_process_return_key (EEditorPage *editor_page)
 		return TRUE;
 
 	if (return_pressed_in_image_wrapper (editor_page))
+		return TRUE;
+
+	if (return_pressed_after_h_rule (editor_page))
 		return TRUE;
 
 	return FALSE;
