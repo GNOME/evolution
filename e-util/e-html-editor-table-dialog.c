@@ -158,10 +158,8 @@ html_editor_table_dialog_width_units_changed (GtkWidget *widget,
                                               EHTMLEditorTableDialog *dialog)
 {
 	if (gtk_combo_box_get_active (GTK_COMBO_BOX (dialog->priv->width_units)) == 0) {
-		/* FIXME WK2 - is it even possible to remove the max limitation
-		 * from the GtkSpinButton? If not 10000 will be hopefully enough, */
 		gtk_spin_button_set_range (
-			GTK_SPIN_BUTTON (dialog->priv->width_edit), 0, 10000);
+			GTK_SPIN_BUTTON (dialog->priv->width_edit), 0, G_MAXUINT);
 	} else
 		gtk_spin_button_set_range (
 			GTK_SPIN_BUTTON (dialog->priv->width_edit), 0, 100);
