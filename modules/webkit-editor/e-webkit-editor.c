@@ -4988,7 +4988,7 @@ webkit_editor_on_find_dialog_close (EContentEditor *editor)
 }
 
 static GDBusProxy *
-webkit_editor_get_web_extension (EWebKitEditor *editor)
+webkit_editor_get_web_extension (EWebKitEditor *wk_editor)
 {
 	g_return_val_if_fail (E_IS_WEBKIT_EDITOR (editor), NULL);
 
@@ -5805,10 +5805,10 @@ webkit_editor_context_menu_cb (EWebKitEditor *wk_editor,
 }
 
 static void
-webkit_editor_drag_end_cb (EWebKitEditor *editor,
+webkit_editor_drag_end_cb (EWebKitEditor *wk_editor,
                            GdkDragContext *context)
 {
-	webkit_editor_call_simple_extension_function (editor, "DOMDragAndDropEnd");
+	webkit_editor_call_simple_extension_function (wk_editor, "DOMDragAndDropEnd");
 }
 
 static gboolean
