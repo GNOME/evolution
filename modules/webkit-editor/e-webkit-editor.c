@@ -3834,7 +3834,7 @@ webkit_editor_on_cell_dialog_open (EContentEditor *editor)
 	g_dbus_proxy_call (
 		wk_editor->priv->web_extension,
 		"EEditorCellDialogMarkCurrentCellElement",
-		g_variant_new ("(ts)", current_page_id (wk_editor), "-x-evo-table-cell"),
+		g_variant_new ("(ts)", current_page_id (wk_editor), "-x-evo-current-cell"),
 		G_DBUS_CALL_FLAGS_NONE,
 		-1,
 		NULL,

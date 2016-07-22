@@ -34,7 +34,7 @@
 /* ******************** Cell Dialog ***************** */
 
 typedef void (*DOMStrFunc) (WebKitDOMHTMLTableCellElement *cell, const gchar *val, gpointer user_data);
-typedef void (*DOMUlongFunc) (WebKitDOMHTMLTableCellElement *cell, gulong val, gpointer user_data);
+typedef void (*DOMLongFunc) (WebKitDOMHTMLTableCellElement *cell, glong val, gpointer user_data);
 typedef void (*DOMBoolFunc) (WebKitDOMHTMLTableCellElement *cell, gboolean val, gpointer user_data);
 
 static WebKitDOMElement *
@@ -53,8 +53,8 @@ call_cell_dom_func (WebKitDOMHTMLTableCellElement *cell,
 		DOMStrFunc f = func;
 		f (cell, g_value_get_string (value), user_data);
 	} else if (G_VALUE_HOLDS_LONG (value)) {
-		DOMUlongFunc f = func;
-		f (cell, g_value_get_ulong (value), user_data);
+		DOMLongFunc f = func;
+		f (cell, g_value_get_long (value), user_data);
 	} else if (G_VALUE_HOLDS_BOOLEAN (value)) {
 		DOMBoolFunc f = func;
 		f (cell, g_value_get_boolean (value), user_data);
@@ -240,23 +240,38 @@ e_dialogs_dom_cell_mark_current_cell_element (EEditorPage *editor_page,
 					      const gchar *id)
 {
 	EEditorUndoRedoManager *manager;
-	WebKitDOMElement *element, *parent = NULL;
+	WebKitDOMElement *cell;
 	WebKitDOMDocument *document;
+	WebKitDOMNode *node_under_mouse_click;
 
 	g_return_if_fail (E_IS_EDITOR_PAGE (editor_page));
 	g_return_if_fail (id != NULL);
 
 	document = e_editor_page_get_document (editor_page);
 
-	element = webkit_dom_document_get_element_by_id (document, id);
+	node_under_mouse_click = e_editor_page_get_node_under_mouse_click (editor_page);
 
-	parent = dom_node_find_parent_element (WEBKIT_DOM_NODE (element), "TD");
-	if (!parent)
-		parent = dom_node_find_parent_element (WEBKIT_DOM_NODE (element), "TH");
+	if (node_under_mouse_click && WEBKIT_DOM_IS_HTML_TABLE_CELL_ELEMENT (node_under_mouse_click)) {
+		cell = WEBKIT_DOM_ELEMENT (node_under_mouse_click);
+	} else {
+		WebKitDOMElement *selection_start;
 
-	element = webkit_dom_document_get_element_by_id (document, "-x-evo-current-cell");
-	if (element)
-		webkit_dom_element_remove_attribute (element, "id");
+		e_editor_dom_selection_save (editor_page);
+
+		selection_start = webkit_dom_document_get_element_by_id (
+			document, "-x-evo-selection-start-marker");
+
+		cell = dom_node_find_parent_element (WEBKIT_DOM_NODE (selection_start), "TD");
+		if (!cell)
+			cell = dom_node_find_parent_element (WEBKIT_DOM_NODE (selection_start), "TH");
+
+		e_editor_dom_selection_restore (editor_page);
+	}
+
+	if (cell)
+		webkit_dom_element_set_id (cell, "-x-evo-current-cell");
+	else
+		return;
 
 	manager = e_editor_page_get_undo_redo_manager (editor_page);
 	if (!e_editor_undo_redo_manager_is_operation_in_progress (manager)) {
@@ -273,14 +288,13 @@ e_dialogs_dom_cell_mark_current_cell_element (EEditorPage *editor_page,
 			&ev->before.end.y);
 
 		table = dom_node_find_parent_element (
-			WEBKIT_DOM_NODE (parent), "TABLE");
-		ev->data.dom.from = webkit_dom_node_clone_node_with_error (
-			WEBKIT_DOM_NODE (table), TRUE, NULL);
+			WEBKIT_DOM_NODE (cell), "TABLE");
+		if (table)
+			ev->data.dom.from = webkit_dom_node_clone_node_with_error (
+				WEBKIT_DOM_NODE (table), TRUE, NULL);
 
 		e_editor_undo_redo_manager_insert_history_event (manager, ev);
 	}
-
-	webkit_dom_element_set_id (parent, "-x-evo-current-cell");
 }
 
 void

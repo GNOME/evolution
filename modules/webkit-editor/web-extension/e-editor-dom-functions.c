@@ -133,7 +133,7 @@ e_editor_dom_test_html_equal (WebKitDOMDocument *document,
 static WebKitDOMElement *
 get_table_cell_element (WebKitDOMDocument *document)
 {
-	return webkit_dom_document_get_element_by_id (document, "-x-evo-table-cell");
+	return webkit_dom_document_get_element_by_id (document, "-x-evo-current-cell");
 }
 
 static void

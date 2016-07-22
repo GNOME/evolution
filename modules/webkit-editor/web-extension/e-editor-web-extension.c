@@ -885,7 +885,7 @@ handle_method_call (GDBusConnection *connection,
 		const gchar *value;
 		EContentEditorScope scope;
 
-		g_variant_get (parameters, "(t&su)", &page_id, &value, &scope);
+		g_variant_get (parameters, "(t&si)", &page_id, &value, &scope);
 
 		editor_page = get_editor_page_or_return_dbus_error (invocation, extension, page_id);
 		if (!editor_page)
@@ -898,7 +898,7 @@ handle_method_call (GDBusConnection *connection,
 		gboolean value;
 		EContentEditorScope scope;
 
-		g_variant_get (parameters, "(tbu)", &page_id, &value, &scope);
+		g_variant_get (parameters, "(tbi)", &page_id, &value, &scope);
 
 		editor_page = get_editor_page_or_return_dbus_error (invocation, extension, page_id);
 		if (!editor_page)
@@ -911,7 +911,7 @@ handle_method_call (GDBusConnection *connection,
 		gboolean value;
 		EContentEditorScope scope;
 
-		g_variant_get (parameters, "(tbu)", &page_id, &value, &scope);
+		g_variant_get (parameters, "(tbi)", &page_id, &value, &scope);
 
 		editor_page = get_editor_page_or_return_dbus_error (invocation, extension, page_id);
 		if (!editor_page)
@@ -924,7 +924,7 @@ handle_method_call (GDBusConnection *connection,
 		const gchar *value;
 		EContentEditorScope scope;
 
-		g_variant_get (parameters, "(t&su)", &page_id, &value, &scope);
+		g_variant_get (parameters, "(t&si)", &page_id, &value, &scope);
 
 		editor_page = get_editor_page_or_return_dbus_error (invocation, extension, page_id);
 		if (!editor_page)
@@ -937,7 +937,7 @@ handle_method_call (GDBusConnection *connection,
 		glong value;
 		EContentEditorScope scope;
 
-		g_variant_get (parameters, "(tiu)", &page_id, &value, &scope);
+		g_variant_get (parameters, "(tii)", &page_id, &value, &scope);
 
 		editor_page = get_editor_page_or_return_dbus_error (invocation, extension, page_id);
 		if (!editor_page)
@@ -950,7 +950,7 @@ handle_method_call (GDBusConnection *connection,
 		glong value;
 		EContentEditorScope scope;
 
-		g_variant_get (parameters, "(tiu)", &page_id, &value, &scope);
+		g_variant_get (parameters, "(tii)", &page_id, &value, &scope);
 
 		editor_page = get_editor_page_or_return_dbus_error (invocation, extension, page_id);
 		if (!editor_page)
@@ -963,7 +963,7 @@ handle_method_call (GDBusConnection *connection,
 		const gchar *value;
 		EContentEditorScope scope;
 
-		g_variant_get (parameters, "(t&su)", &page_id, &value, &scope);
+		g_variant_get (parameters, "(t&si)", &page_id, &value, &scope);
 
 		editor_page = get_editor_page_or_return_dbus_error (invocation, extension, page_id);
 		if (!editor_page)

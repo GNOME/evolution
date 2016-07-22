@@ -146,8 +146,8 @@ html_editor_cell_dialog_set_wrap_text (EHTMLEditorCellDialog *dialog)
 
 	e_content_editor_cell_set_wrap (
 		cnt_editor,
-		gtk_combo_box_get_active (
-			GTK_COMBO_BOX (dialog->priv->wrap_text_check)),
+		gtk_toggle_button_get_active (
+			GTK_TOGGLE_BUTTON (dialog->priv->wrap_text_check)),
 		dialog->priv->scope);
 }
 
@@ -191,6 +191,20 @@ html_editor_cell_dialog_set_width (EHTMLEditorCellDialog *dialog)
 	} else
 		e_content_editor_cell_set_width (
 			cnt_editor, 0, E_CONTENT_EDITOR_UNIT_AUTO, dialog->priv->scope);
+}
+
+static void
+html_editor_cell_dialog_width_units_changed (GtkWidget *widget,
+                                             EHTMLEditorCellDialog *dialog)
+{
+	if (gtk_combo_box_get_active (GTK_COMBO_BOX (dialog->priv->width_units)) == 0) {
+		gtk_spin_button_set_range (
+			GTK_SPIN_BUTTON (dialog->priv->width_edit), 0, G_MAXUINT);
+	} else
+		gtk_spin_button_set_range (
+			GTK_SPIN_BUTTON (dialog->priv->width_edit), 0, 100);
+
+	html_editor_cell_dialog_set_width (dialog);
 }
 
 static void
@@ -540,7 +554,8 @@ e_html_editor_cell_dialog_init (EHTMLEditorCellDialog *dialog)
 	gtk_grid_attach (grid, widget, 0, 0, 1, 1);
 	dialog->priv->width_check = widget;
 
-	widget = gtk_spin_button_new_with_range (0, G_MAXUINT, 1);
+	widget = gtk_spin_button_new_with_range (1, 100, 1);
+	gtk_spin_button_set_digits (GTK_SPIN_BUTTON (widget), 0);
 	gtk_grid_attach (grid, widget, 1, 0, 1, 1);
 	dialog->priv->width_edit = widget;
 
@@ -558,9 +573,9 @@ e_html_editor_cell_dialog_init (EHTMLEditorCellDialog *dialog)
 	gtk_grid_attach (grid, widget, 2, 0, 1, 1);
 	dialog->priv->width_units = widget;
 
-	g_signal_connect_swapped (
+	g_signal_connect (
 		widget, "changed",
-		G_CALLBACK (html_editor_cell_dialog_set_width), dialog);
+		G_CALLBACK (html_editor_cell_dialog_width_units_changed), dialog);
 	e_binding_bind_property (
 		dialog->priv->width_check, "active",
 		widget, "sensitive",
