@@ -322,6 +322,14 @@ e_html_editor_update_spell_actions (EHTMLEditor *editor)
 }
 
 static void
+action_set_visible_and_sensitive (GtkAction *action,
+                                  gboolean value)
+{
+	gtk_action_set_visible (action, value);
+	gtk_action_set_sensitive (action, value);
+}
+
+static void
 html_editor_update_actions (EHTMLEditor *editor)
 {
 	EContentEditor *cnt_editor;
@@ -341,19 +349,19 @@ html_editor_update_actions (EHTMLEditor *editor)
 		printf ("%s: flags:%d(%x)\n", G_STRFUNC, flags, flags);
 
 	visible = (flags & E_CONTENT_EDITOR_NODE_IS_IMAGE);
-	gtk_action_set_visible (ACTION (CONTEXT_PROPERTIES_IMAGE), visible);
+	action_set_visible_and_sensitive (ACTION (CONTEXT_PROPERTIES_IMAGE), visible);
 
 	visible = (flags & E_CONTENT_EDITOR_NODE_IS_ANCHOR);
 	if (visible)
-		gtk_action_set_visible (ACTION (CONTEXT_INSERT_LINK), FALSE);
-	gtk_action_set_visible (ACTION (CONTEXT_PROPERTIES_LINK), visible);
+		action_set_visible_and_sensitive (ACTION (CONTEXT_INSERT_LINK), visible);
+	action_set_visible_and_sensitive (ACTION (CONTEXT_PROPERTIES_LINK), visible);
 
 	visible = (flags & E_CONTENT_EDITOR_NODE_IS_H_RULE);
-	gtk_action_set_visible (ACTION (CONTEXT_PROPERTIES_RULE), visible);
+	action_set_visible_and_sensitive (ACTION (CONTEXT_PROPERTIES_RULE), visible);
 
 	visible = (flags & E_CONTENT_EDITOR_NODE_IS_TEXT);
 	/* Only display the text properties dialog when some text is selected. */
-	gtk_action_set_visible (
+	action_set_visible_and_sensitive (
 		ACTION (CONTEXT_PROPERTIES_TEXT),
 		visible && !(flags & E_CONTENT_EDITOR_NODE_IS_TEXT_COLLAPSED));
 
@@ -361,7 +369,7 @@ html_editor_update_actions (EHTMLEditor *editor)
 		gtk_action_get_visible (ACTION (CONTEXT_PROPERTIES_IMAGE)) ||
 		gtk_action_get_visible (ACTION (CONTEXT_PROPERTIES_LINK)) ||
 		visible; /* text node under caret */
-	gtk_action_set_visible (ACTION (CONTEXT_PROPERTIES_PARAGRAPH), visible);
+	action_set_visible_and_sensitive (ACTION (CONTEXT_PROPERTIES_PARAGRAPH), visible);
 
 	/* Set to visible if any of these are true:
 	 *   - Selection is active and contains a link.
@@ -369,21 +377,21 @@ html_editor_update_actions (EHTMLEditor *editor)
 	 *   - Cursor is on an image that has a URL or target.
 	 */
 	visible = (flags & E_CONTENT_EDITOR_NODE_IS_ANCHOR);
-	gtk_action_set_visible (ACTION (CONTEXT_REMOVE_LINK), visible);
+	action_set_visible_and_sensitive (ACTION (CONTEXT_REMOVE_LINK), visible);
 
 	visible = (flags & E_CONTENT_EDITOR_NODE_IS_TABLE_CELL);
-	gtk_action_set_visible (ACTION (CONTEXT_DELETE_CELL), visible);
-	gtk_action_set_visible (ACTION (CONTEXT_DELETE_COLUMN), visible);
-	gtk_action_set_visible (ACTION (CONTEXT_DELETE_ROW), visible);
-	gtk_action_set_visible (ACTION (CONTEXT_DELETE_TABLE), visible);
-	gtk_action_set_visible (ACTION (CONTEXT_INSERT_COLUMN_AFTER), visible);
-	gtk_action_set_visible (ACTION (CONTEXT_INSERT_COLUMN_BEFORE), visible);
-	gtk_action_set_visible (ACTION (CONTEXT_INSERT_ROW_ABOVE), visible);
-	gtk_action_set_visible (ACTION (CONTEXT_INSERT_ROW_BELOW), visible);
-	gtk_action_set_visible (ACTION (CONTEXT_PROPERTIES_CELL), visible);
+	action_set_visible_and_sensitive (ACTION (CONTEXT_DELETE_CELL), visible);
+	action_set_visible_and_sensitive (ACTION (CONTEXT_DELETE_COLUMN), visible);
+	action_set_visible_and_sensitive (ACTION (CONTEXT_DELETE_ROW), visible);
+	action_set_visible_and_sensitive (ACTION (CONTEXT_DELETE_TABLE), visible);
+	action_set_visible_and_sensitive (ACTION (CONTEXT_INSERT_COLUMN_AFTER), visible);
+	action_set_visible_and_sensitive (ACTION (CONTEXT_INSERT_COLUMN_BEFORE), visible);
+	action_set_visible_and_sensitive (ACTION (CONTEXT_INSERT_ROW_ABOVE), visible);
+	action_set_visible_and_sensitive (ACTION (CONTEXT_INSERT_ROW_BELOW), visible);
+	action_set_visible_and_sensitive (ACTION (CONTEXT_PROPERTIES_CELL), visible);
 
 	visible = (flags & E_CONTENT_EDITOR_NODE_IS_TABLE);
-	gtk_action_set_visible (ACTION (CONTEXT_PROPERTIES_TABLE), visible);
+	action_set_visible_and_sensitive (ACTION (CONTEXT_PROPERTIES_TABLE), visible);
 
 	/********************** Spell Check Suggestions **********************/
 
