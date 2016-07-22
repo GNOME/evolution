@@ -380,7 +380,6 @@ html_editor_update_actions (EHTMLEditor *editor)
 	gtk_action_set_visible (ACTION (CONTEXT_INSERT_COLUMN_BEFORE), visible);
 	gtk_action_set_visible (ACTION (CONTEXT_INSERT_ROW_ABOVE), visible);
 	gtk_action_set_visible (ACTION (CONTEXT_INSERT_ROW_BELOW), visible);
-	gtk_action_set_visible (ACTION (CONTEXT_INSERT_TABLE), visible);
 	gtk_action_set_visible (ACTION (CONTEXT_PROPERTIES_CELL), visible);
 
 	visible = (flags & E_CONTENT_EDITOR_NODE_IS_TABLE);

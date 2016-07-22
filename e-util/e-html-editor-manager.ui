@@ -163,8 +163,6 @@
     </menu>
     <separator/>
     <menu action='context-insert-table-menu'>
-      <menuitem action='context-insert-table'/>
-      <separator/>
       <menuitem action='context-insert-row-above'/>
       <menuitem action='context-insert-row-below'/>
       <separator/>

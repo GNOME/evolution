@@ -47,8 +47,6 @@
 	E_HTML_EDITOR_ACTION ((editor), "context-insert-row-above")
 #define E_HTML_EDITOR_ACTION_CONTEXT_INSERT_ROW_BELOW(editor) \
 	E_HTML_EDITOR_ACTION ((editor), "context-insert-row-below")
-#define E_HTML_EDITOR_ACTION_CONTEXT_INSERT_TABLE(editor) \
-	E_HTML_EDITOR_ACTION ((editor), "context-insert-table")
 #define E_HTML_EDITOR_ACTION_CONTEXT_PROPERTIES_CELL(editor) \
 	E_HTML_EDITOR_ACTION ((editor), "context-properties-cell")
 #define E_HTML_EDITOR_ACTION_CONTEXT_PROPERTIES_IMAGE(editor) \

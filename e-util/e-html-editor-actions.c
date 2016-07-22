@@ -1433,13 +1433,6 @@ static GtkActionEntry html_context_entries[] = {
 	  NULL,
 	  G_CALLBACK (action_context_insert_row_below_cb) },
 
-	{ "context-insert-table",
-	  NULL,
-	  N_("Table"),
-	  NULL,
-	  NULL,
-	  G_CALLBACK (action_insert_table_cb) },
-
 	{ "context-properties-cell",
 	  NULL,
 	  N_("Cell..."),
