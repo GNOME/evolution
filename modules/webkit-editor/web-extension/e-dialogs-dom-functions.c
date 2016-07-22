@@ -1118,9 +1118,10 @@ e_dialogs_dom_table_set_row_count (EEditorPage *editor_page,
 				   gulong expected_count)
 {
 	WebKitDOMDocument *document;
+	WebKitDOMHTMLCollection *rows, *cells;
 	WebKitDOMHTMLTableElement *table_element;
-	WebKitDOMHTMLCollection *rows;
-	gulong ii, current_count;
+	WebKitDOMHTMLTableRowElement *row;
+	gulong ii, rows_current_count, cells_current_count;
 
 	g_return_if_fail (E_IS_EDITOR_PAGE (editor_page));
 
@@ -1131,19 +1132,37 @@ e_dialogs_dom_table_set_row_count (EEditorPage *editor_page,
 		return;
 
 	rows = webkit_dom_html_table_element_get_rows (table_element);
-	current_count = webkit_dom_html_collection_get_length (rows);
+	rows_current_count = webkit_dom_html_collection_get_length (rows);
 
-	if (current_count < expected_count) {
-		for (ii = 0; ii < expected_count - current_count; ii++) {
-			webkit_dom_html_table_element_insert_row (
+	if (rows_current_count < 1) {
+		g_object_unref (rows);
+		return;
+	}
+
+	row = WEBKIT_DOM_HTML_TABLE_ROW_ELEMENT (webkit_dom_html_collection_item (rows, 0));
+	cells = webkit_dom_html_table_row_element_get_cells (row);
+	cells_current_count = webkit_dom_html_collection_get_length (cells);
+	g_object_unref (row);
+
+	if (rows_current_count < expected_count) {
+		for (ii = 0; ii < expected_count - rows_current_count; ii++) {
+			WebKitDOMHTMLElement *new_row;
+			gulong jj;
+
+			new_row = webkit_dom_html_table_element_insert_row (
 				table_element, -1, NULL);
+
+			for (jj = 0; jj < cells_current_count; jj++)
+				webkit_dom_html_table_row_element_insert_cell (
+					WEBKIT_DOM_HTML_TABLE_ROW_ELEMENT (new_row), -1, NULL);
 		}
-	} else if (current_count > expected_count) {
-		for (ii = 0; ii < current_count - expected_count; ii++) {
+	} else if (rows_current_count > expected_count) {
+		for (ii = 0; ii < rows_current_count - expected_count; ii++) {
 			webkit_dom_html_table_element_delete_row (
 				table_element, -1, NULL);
 		}
 	}
+	g_object_unref (cells);
 	g_object_unref (rows);
 }
 
