@@ -4110,7 +4110,7 @@ webkit_editor_cell_get_width (EContentEditor *editor,
 			else if (g_ascii_strncasecmp (width, "auto", 4) != 0)
 				*unit = E_CONTENT_EDITOR_UNIT_PIXEL;
 		}
-		g_object_unref (result);
+		g_variant_unref (result);
 	}
 
 	return value;
@@ -4580,7 +4580,7 @@ webkit_editor_table_get_width (EContentEditor *editor,
 			else if (g_ascii_strncasecmp (width, "auto", 4) != 0)
 				*unit = E_CONTENT_EDITOR_UNIT_PIXEL;
 		}
-		g_object_unref (result);
+		g_variant_unref (result);
 	}
 
 	return value;
