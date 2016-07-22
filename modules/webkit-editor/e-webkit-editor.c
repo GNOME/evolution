@@ -4990,9 +4990,9 @@ webkit_editor_on_find_dialog_close (EContentEditor *editor)
 static GDBusProxy *
 webkit_editor_get_web_extension (EWebKitEditor *wk_editor)
 {
-	g_return_val_if_fail (E_IS_WEBKIT_EDITOR (editor), NULL);
+	g_return_val_if_fail (E_IS_WEBKIT_EDITOR (wk_editor), NULL);
 
-	return editor->priv->web_extension;
+	return wk_editor->priv->web_extension;
 }
 
 static void
