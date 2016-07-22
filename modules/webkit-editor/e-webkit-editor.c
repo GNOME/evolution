@@ -5811,6 +5811,18 @@ webkit_editor_drag_end_cb (EWebKitEditor *wk_editor,
 	webkit_editor_call_simple_extension_function (wk_editor, "DOMDragAndDropEnd");
 }
 
+static void
+webkit_editor_web_process_crashed_cb (EWebKitEditor *wk_editor)
+{
+	g_warning (
+		"WebKitWebProcess (page id %ld) for EWebKitEditor crashed",
+		webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (wk_editor)));
+
+	wk_editor->priv->web_extension_selection_changed_cb_id = 0;
+	wk_editor->priv->web_extension_content_changed_cb_id = 0;
+	wk_editor->priv->web_extension_undo_redo_state_changed_cb_id = 0;
+}
+
 static gboolean
 webkit_editor_button_press_event (GtkWidget *widget,
                                   GdkEventButton *event)
@@ -5989,6 +6001,10 @@ e_webkit_editor_init (EWebKitEditor *wk_editor)
 	g_signal_connect (
 		wk_editor, "drag-end",
 		G_CALLBACK (webkit_editor_drag_end_cb), NULL);
+
+	g_signal_connect (
+		wk_editor, "web-process-crashed",
+		G_CALLBACK (webkit_editor_web_process_crashed_cb), NULL);
 
 	wk_editor->priv->owner_change_primary_clipboard_cb_id = g_signal_connect (
 		gtk_clipboard_get (GDK_SELECTION_PRIMARY), "owner-change",
