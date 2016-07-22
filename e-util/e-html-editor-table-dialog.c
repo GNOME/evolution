@@ -154,6 +154,22 @@ html_editor_table_dialog_set_width (EHTMLEditorTableDialog *dialog)
 }
 
 static void
+html_editor_table_dialog_width_units_changed (GtkWidget *widget,
+                                              EHTMLEditorTableDialog *dialog)
+{
+	if (gtk_combo_box_get_active (GTK_COMBO_BOX (dialog->priv->width_units)) == 0) {
+		/* FIXME WK2 - is it even possible to remove the max limitation
+		 * from the GtkSpinButton? If not 10000 will be hopefully enough, */
+		gtk_spin_button_set_range (
+			GTK_SPIN_BUTTON (dialog->priv->width_edit), 0, 10000);
+	} else
+		gtk_spin_button_set_range (
+			GTK_SPIN_BUTTON (dialog->priv->width_edit), 0, 100);
+
+	html_editor_table_dialog_set_width (dialog);
+}
+
+static void
 html_editor_table_dialog_get_width (EHTMLEditorTableDialog *dialog)
 {
 	EHTMLEditor *editor;
@@ -576,9 +592,9 @@ e_html_editor_table_dialog_init (EHTMLEditorTableDialog *dialog)
 	gtk_combo_box_text_append (GTK_COMBO_BOX_TEXT (widget), "units-px", "px");
 	gtk_combo_box_text_append (GTK_COMBO_BOX_TEXT (widget), "units-percent", "%");
 	gtk_grid_attach (grid, widget, 2, 0, 1, 1);
-	g_signal_connect_swapped (
+	g_signal_connect (
 		widget, "changed",
-		G_CALLBACK (html_editor_table_dialog_set_width), dialog);
+		G_CALLBACK (html_editor_table_dialog_width_units_changed), dialog);
 	dialog->priv->width_units = widget;
 
 	/* Spacing */
