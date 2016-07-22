@@ -830,8 +830,7 @@ handle_method_call (GDBusConnection *connection,
 		const gchar *selector;
 		WebKitDOMElement *element;
 
-		g_variant_get (
-			parameters, "(t&s)", &selector);
+		g_variant_get (parameters, "(t&s)", &page_id, &selector);
 
 		editor_page = get_editor_page_or_return_dbus_error (invocation, extension, page_id);
 		if (!editor_page)
@@ -1320,7 +1319,7 @@ handle_method_call (GDBusConnection *connection,
 				g_variant_new_take_string (
 					value ? value : g_strdup (""))));
 	} else if (g_strcmp0 (method_name, "EEditorTableDialogSetRowCount") == 0) {
-		gulong value;
+		guint32 value;
 
 		g_variant_get (parameters, "(tu)", &page_id, &value);
 
@@ -1345,7 +1344,7 @@ handle_method_call (GDBusConnection *connection,
 		g_dbus_method_invocation_return_value (
 			invocation, g_variant_new ("(u)", value));
 	} else if (g_strcmp0 (method_name, "EEditorTableDialogSetColumnCount") == 0) {
-		gulong value;
+		guint32 value;
 
 		g_variant_get (parameters, "(tu)", &page_id, &value);
 
