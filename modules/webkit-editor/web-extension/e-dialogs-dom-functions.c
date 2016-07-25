@@ -321,11 +321,10 @@ e_dialogs_dom_cell_save_history_on_exit (EEditorPage *editor_page)
 	ev->data.dom.to = webkit_dom_node_clone_node_with_error (
 		WEBKIT_DOM_NODE (table), TRUE, NULL);
 
-	if (!webkit_dom_node_is_equal_node (ev->data.dom.from, ev->data.dom.to)) {
-		e_editor_dom_selection_get_coordinates (editor_page, &ev->after.start.x, &ev->after.start.y, &ev->after.end.x, &ev->after.end.y);
-	} else {
+	if (ev->data.dom.from && webkit_dom_node_is_equal_node (ev->data.dom.from, ev->data.dom.to))
 		e_editor_undo_redo_manager_remove_current_history_event (manager);
-	}
+	else
+		e_editor_dom_selection_get_coordinates (editor_page, &ev->after.start.x, &ev->after.start.y, &ev->after.end.x, &ev->after.end.y);
 }
 
 void
