@@ -384,7 +384,7 @@ static const gchar *introspection_xml =
 "    <method name='EEditorDialogInsertRowBelow'>"
 "      <arg type='t' name='page_id' direction='in'/>"
 "    </method>"
-"    <method name='EEditorDialogSaveHistoryForCut'>"
+"    <method name='EEditorActionsSaveHistoryForCut'>"
 "      <arg type='t' name='page_id' direction='in'/>"
 "    </method>"
 "<!-- ********************************************************* -->"
@@ -1507,17 +1507,7 @@ handle_method_call (GDBusConnection *connection,
 		e_editor_dom_selection_unlink (editor_page);
 
 		g_dbus_method_invocation_return_value (invocation, NULL);
-	} else if (g_strcmp0 (method_name, "EEditorDialogSaveHistoryForCut") == 0) {
-		g_variant_get (parameters, "(t)", &page_id);
-
-		editor_page = get_editor_page_or_return_dbus_error (invocation, extension, page_id);
-		if (!editor_page)
-			goto error;
-
-		e_editor_dom_selection_unlink (editor_page);
-
-		g_dbus_method_invocation_return_value (invocation, NULL);
-	} else if (g_strcmp0 (method_name, "EEditorDialogSaveHistoryForCut") == 0) {
+	} else if (g_strcmp0 (method_name, "EEditorActionsSaveHistoryForCut") == 0) {
 		g_variant_get (parameters, "(t)", &page_id);
 
 		editor_page = get_editor_page_or_return_dbus_error (invocation, extension, page_id);
