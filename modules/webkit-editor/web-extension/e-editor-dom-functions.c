@@ -1093,7 +1093,8 @@ e_editor_dom_get_parent_block_node_from_child (WebKitDOMNode *node)
 		parent = webkit_dom_node_get_parent_node (parent);
 
 	if (element_has_class (WEBKIT_DOM_ELEMENT (parent), "-x-evo-quoted") ||
-	    element_has_class (WEBKIT_DOM_ELEMENT (parent), "Apple-tab-span"))
+	    element_has_class (WEBKIT_DOM_ELEMENT (parent), "Apple-tab-span") ||
+	    element_has_class (WEBKIT_DOM_ELEMENT (parent), "-x-evo-resizable-wrapper"))
 		parent = webkit_dom_node_get_parent_node (parent);
 
 	return parent;

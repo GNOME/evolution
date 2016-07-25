@@ -1045,7 +1045,7 @@ handle_method_call (GDBusConnection *connection,
 					value ? value : g_strdup (""))));
 	} else if (g_strcmp0 (method_name, "ImageElementSetWidth") == 0) {
 		const gchar *element_id;
-		glong value;
+		gint32 value;
 		WebKitDOMElement *element;
 
 		g_variant_get (
@@ -1084,7 +1084,7 @@ handle_method_call (GDBusConnection *connection,
 			invocation, g_variant_new ("(i)", value));
 	} else if (g_strcmp0 (method_name, "ImageElementSetHeight") == 0) {
 		const gchar *element_id;
-		glong value;
+		gint32 value;
 		WebKitDOMElement *element;
 
 		g_variant_get (
@@ -1163,7 +1163,7 @@ handle_method_call (GDBusConnection *connection,
 			invocation, g_variant_new ("(i)", value));
 	} else if (g_strcmp0 (method_name, "ImageElementSetHSpace") == 0) {
 		const gchar *element_id;
-		glong value;
+		gint32 value;
 		WebKitDOMElement *element;
 
 		g_variant_get (
@@ -1202,7 +1202,7 @@ handle_method_call (GDBusConnection *connection,
 			invocation, g_variant_new ("(i)", value));
 	} else if (g_strcmp0 (method_name, "ImageElementSetVSpace") == 0) {
 		const gchar *element_id;
-		glong value;
+		gint32 value;
 		WebKitDOMElement *element;
 
 		g_variant_get (

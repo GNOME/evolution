@@ -619,7 +619,10 @@ e_dialogs_dom_image_save_history_on_exit (EEditorPage *editor_page)
 	ev->data.dom.to = webkit_dom_node_clone_node_with_error (
 		WEBKIT_DOM_NODE (element), TRUE, NULL);
 
-	e_editor_dom_selection_get_coordinates (editor_page, &ev->after.start.x, &ev->after.start.y, &ev->after.end.x, &ev->after.end.y);
+	if (ev->data.dom.from && webkit_dom_node_is_equal_node (ev->data.dom.from, ev->data.dom.to))
+		e_editor_undo_redo_manager_remove_current_history_event (manager);
+	else
+		e_editor_dom_selection_get_coordinates (editor_page, &ev->after.start.x, &ev->after.start.y, &ev->after.end.x, &ev->after.end.y);
 }
 
 void
@@ -676,7 +679,7 @@ e_dialogs_dom_image_set_element_url (EEditorPage *editor_page,
 gchar *
 e_dialogs_dom_image_get_element_url (EEditorPage *editor_page)
 {
-	gchar *value;
+	gchar *value = NULL;
 	WebKitDOMElement *image, *link;
 
 	g_return_val_if_fail (E_IS_EDITOR_PAGE (editor_page), NULL);
@@ -684,8 +687,8 @@ e_dialogs_dom_image_get_element_url (EEditorPage *editor_page)
 	image = get_current_image_element (e_editor_page_get_document (editor_page));
 	link = dom_node_find_parent_element (WEBKIT_DOM_NODE (image), "A");
 
-	value = webkit_dom_html_anchor_element_get_href (
-		WEBKIT_DOM_HTML_ANCHOR_ELEMENT (link));
+	if (link)
+		value = webkit_dom_element_get_attribute (link, "href");
 
 	return value;
 }
