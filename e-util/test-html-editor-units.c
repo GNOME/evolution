@@ -629,7 +629,7 @@ test_link_insert_typed_change_description (TestFixture *fixture)
 }
 
 static void
-test_link_insert_dialog_remove (TestFixture *fixture)
+test_link_insert_dialog_remove_link (TestFixture *fixture)
 {
 	if (!test_utils_run_simple_test (fixture,
 		"mode:html\n"
@@ -653,6 +653,18 @@ test_link_insert_typed_append (TestFixture *fixture)
 		"type:/about\n",
 		HTML_PREFIX "<p><a href=\"http://www.gnome.org/about\">www.gnome.org/about</a> </p>" HTML_SUFFIX,
 		"www.gnome.org/about "))
+		g_test_fail ();
+}
+
+static void
+test_link_insert_typed_remove (TestFixture *fixture)
+{
+	if (!test_utils_run_simple_test (fixture,
+		"mode:html\n"
+		"type:www.gnome.org \n"
+		"seq:bbb\n",
+		HTML_PREFIX "<p><a href=\"http://www.gnome.org\">www.gnome.o</a></p>" HTML_SUFFIX,
+		"www.gnome.o"))
 		g_test_fail ();
 }
 
@@ -765,10 +777,11 @@ main (gint argc,
 	add_test ("/list/multi/change/html", test_list_multi_change_html);
 	add_test ("/link/insert/dialog", test_link_insert_dialog);
 	add_test ("/link/insert/dialog/selection", test_link_insert_dialog_selection);
-	add_test ("/link/insert/dialog/remove", test_link_insert_dialog_remove);
+	add_test ("/link/insert/dialog/remove-link", test_link_insert_dialog_remove_link);
 	add_test ("/link/insert/typed", test_link_insert_typed);
 	add_test ("/link/insert/typed/change-description", test_link_insert_typed_change_description);
 	add_test ("/link/insert/typed/append", test_link_insert_typed_append);
+	add_test ("/link/insert/typed/remove", test_link_insert_typed_remove);
 	add_test ("/h-rule/insert", test_h_rule_insert);
 	add_test ("/h-rule/insert-text-after", test_h_rule_insert_text_after);
 
