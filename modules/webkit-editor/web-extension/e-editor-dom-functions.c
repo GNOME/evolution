@@ -7987,6 +7987,8 @@ e_editor_dom_process_content_to_plain_text_for_exporting (EEditorPage *editor_pa
 	WebKitDOMDocument *document;
 	WebKitDOMNode *body, *source;
 	WebKitDOMNodeList *list;
+	WebKitDOMDOMWindow *dom_window;
+	WebKitDOMDOMSelection *dom_selection;
 	gboolean wrap = FALSE, quote = FALSE, remove_last_new_line = FALSE;
 	gint length, ii;
 	GString *plain_text;
@@ -8080,6 +8082,12 @@ e_editor_dom_process_content_to_plain_text_for_exporting (EEditorPage *editor_pa
 
 	list = webkit_dom_element_query_selector_all (
 		WEBKIT_DOM_ELEMENT (source), "[data-evo-paragraph]", NULL);
+
+	dom_window = webkit_dom_document_get_default_view (document);
+	dom_selection = webkit_dom_dom_window_get_selection (dom_window);
+	webkit_dom_dom_selection_collapse_to_end (dom_selection, NULL);
+	g_object_unref (dom_window);
+	g_object_unref (dom_selection);
 
 	length = webkit_dom_node_list_get_length (list);
 	for (ii = 0; ii < length; ii++) {
