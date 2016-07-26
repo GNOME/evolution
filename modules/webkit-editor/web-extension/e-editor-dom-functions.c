@@ -542,6 +542,7 @@ e_editor_dom_save_history_for_cut (EEditorPage *editor_page)
 
 	manager = e_editor_page_get_undo_redo_manager (editor_page);
 	e_editor_undo_redo_manager_insert_history_event (manager, ev);
+	e_editor_page_set_dont_save_history_in_body_input (editor_page, TRUE);
 }
 
 /* ******************** View ******************** */

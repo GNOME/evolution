@@ -588,6 +588,25 @@ current_page_id (EWebKitEditor *wk_editor)
 }
 
 static void
+webkit_editor_call_simple_extension_function_sync (EWebKitEditor *wk_editor,
+                                                   const gchar *function)
+{
+	if (!wk_editor->priv->web_extension) {
+		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
+		return;
+	}
+
+	g_dbus_proxy_call_sync (
+		wk_editor->priv->web_extension,
+		function,
+		g_variant_new ("(t)", current_page_id (wk_editor)),
+		G_DBUS_CALL_FLAGS_NONE,
+		-1,
+		NULL,
+		NULL);
+}
+
+static void
 webkit_editor_call_simple_extension_function (EWebKitEditor *wk_editor,
                                               const gchar *function)
 {
@@ -1868,7 +1887,7 @@ webkit_editor_cut (EContentEditor *editor)
 
 	wk_editor->priv->copy_cut_actions_triggered = TRUE;
 
-	webkit_editor_call_simple_extension_function (
+	webkit_editor_call_simple_extension_function_sync (
 		wk_editor, "EEditorActionsSaveHistoryForCut");
 
 	webkit_web_view_execute_editing_command (

@@ -208,6 +208,20 @@ test_undo_text_backward_delete (TestFixture *fixture)
 }
 
 static void
+test_undo_text_cut (TestFixture *fixture)
+{
+	if (!test_utils_run_simple_test (fixture,
+		"mode:plain\n"
+		"type:some text to delete\n"
+		"seq:CSllsc\n"
+		"action:cut\n"
+		"undo:undo\n",
+		NULL,
+		"some text to delete"))
+		g_test_fail ();
+}
+
+static void
 test_justify_selection (TestFixture *fixture)
 {
 	if (!test_utils_run_simple_test (fixture,
@@ -735,6 +749,7 @@ main (gint argc,
 	add_test ("/undo/text-typed", test_undo_text_typed);
 	add_test ("/undo/text/forward-delete", test_undo_text_forward_delete);
 	add_test ("/undo/text/backward-delete", test_undo_text_backward_delete);
+	add_test ("/undo/text/cut", test_undo_text_cut);
 	add_test ("/justify/selection", test_justify_selection);
 	add_test ("/justify/typed", test_justify_typed);
 	add_test ("/indent/selection", test_indent_selection);
