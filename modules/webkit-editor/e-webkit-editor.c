@@ -5596,6 +5596,9 @@ webkit_editor_clipboard_owner_change_cb (GtkClipboard *clipboard,
 	if (!E_IS_WEBKIT_EDITOR (wk_editor))
 		return;
 
+	if (!wk_editor->priv->web_extension)
+		return;
+
 	if (wk_editor->priv->copy_cut_actions_triggered && event->owner)
 		wk_editor->priv->copy_paste_clipboard_in_view = TRUE;
 	else
