@@ -559,7 +559,7 @@ test_list_multi_change_html (TestFixture *fixture)
 }
 
 static void
-test_insert_link_dialog (TestFixture *fixture)
+test_link_insert_dialog (TestFixture *fixture)
 {
 	if (!test_utils_run_simple_test (fixture,
 		"mode:html\n"
@@ -573,7 +573,7 @@ test_insert_link_dialog (TestFixture *fixture)
 }
 
 static void
-test_insert_link_dialog_selection (TestFixture *fixture)
+test_link_insert_dialog_selection (TestFixture *fixture)
 {
 	if (!test_utils_run_simple_test (fixture,
 		"mode:html\n"
@@ -588,7 +588,7 @@ test_insert_link_dialog_selection (TestFixture *fixture)
 }
 
 static void
-test_insert_link_typed (TestFixture *fixture)
+test_link_insert_typed (TestFixture *fixture)
 {
 	if (!test_utils_run_simple_test (fixture,
 		"mode:html\n"
@@ -599,7 +599,7 @@ test_insert_link_typed (TestFixture *fixture)
 }
 
 static void
-test_insert_link_typed_change_description (TestFixture *fixture)
+test_link_insert_typed_change_description (TestFixture *fixture)
 {
 	if (!test_utils_run_simple_test (fixture,
 		"mode:html\n"
@@ -615,13 +615,30 @@ test_insert_link_typed_change_description (TestFixture *fixture)
 }
 
 static void
-test_insert_link_typed_remove (TestFixture *fixture)
+test_link_insert_dialog_remove (TestFixture *fixture)
 {
 	if (!test_utils_run_simple_test (fixture,
 		"mode:html\n"
-		"type:www.gnome.org \n",
-		HTML_PREFIX "<p><a href=\"http://www.gnome.org\">www.gnome.org</a> </p>" HTML_SUFFIX,
+		"type:www.gnome.org \n"
+		"seq:ll\n"
+		"action:insert-link\n"
+		"seq:tttt\n" /* Jump to 'Remove Link' */
+		"seq:n\n", /* Press the button */
+		HTML_PREFIX "<p>www.gnome.org </p>" HTML_SUFFIX,
 		"www.gnome.org "))
+		g_test_fail ();
+}
+
+static void
+test_link_insert_typed_append (TestFixture *fixture)
+{
+	if (!test_utils_run_simple_test (fixture,
+		"mode:html\n"
+		"type:www.gnome.org \n"
+		"seq:l\n"
+		"type:/about\n",
+		HTML_PREFIX "<p><a href=\"http://www.gnome.org/about\">www.gnome.org/about</a> </p>" HTML_SUFFIX,
+		"www.gnome.org/about "))
 		g_test_fail ();
 }
 
@@ -731,11 +748,12 @@ main (gint argc,
 	add_test ("/list/roman/plain", test_list_roman_plain);
 	add_test ("/list/multi/html", test_list_multi_html);
 	add_test ("/list/multi/change/html", test_list_multi_change_html);
-	add_test ("/insert/link/dialog", test_insert_link_dialog);
-	add_test ("/insert/link/dialog/selection", test_insert_link_dialog_selection);
-	add_test ("/insert/link/typed", test_insert_link_typed);
-	add_test ("/insert/link/typed/change-description", test_insert_link_typed_change_description);
-	add_test ("/insert/link/typed/remove", test_insert_link_typed_remove);
+	add_test ("/link/insert/dialog", test_link_insert_dialog);
+	add_test ("/link/insert/dialog/selection", test_link_insert_dialog_selection);
+	add_test ("/link/insert/dialog/remove", test_link_insert_dialog_remove);
+	add_test ("/link/insert/typed", test_link_insert_typed);
+	add_test ("/link/insert/typed/change-description", test_link_insert_typed_change_description);
+	add_test ("/link/insert/typed/append", test_link_insert_typed_append);
 	add_test ("/h-rule/insert", test_h_rule_insert);
 	add_test ("/h-rule/insert-text-after", test_h_rule_insert_text_after);
 
