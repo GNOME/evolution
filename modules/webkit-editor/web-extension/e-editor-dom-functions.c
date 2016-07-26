@@ -7044,26 +7044,40 @@ convert_element_from_html_to_plain_text (EEditorPage *editor_page,
 		from = WEBKIT_DOM_NODE (element);
 	}
 
-	/* Add the missing BR elements on the end of all DIV elements to correctly
-	 * preserve the line breaks. */
-	list = webkit_dom_element_query_selector_all (WEBKIT_DOM_ELEMENT (from), "div", NULL);
+	blockquotes_count = create_text_markers_for_citations_in_element (WEBKIT_DOM_ELEMENT (from));
+	create_text_markers_for_selection_in_element (WEBKIT_DOM_ELEMENT (from));
+
+	/* Add the missing BR elements on the end of DIV and P elements to
+	 * preserve the line breaks. But we need to do that just in case that
+	 * there is another element that contains text. */
+	list = webkit_dom_element_query_selector_all (WEBKIT_DOM_ELEMENT (from), "div, p", NULL);
 	length = webkit_dom_node_list_get_length (list);
 	for (ii = 0; ii < length; ii++) {
-		WebKitDOMNode *node;
+		gboolean insert = TRUE;
+		WebKitDOMNode *node, *next_sibling;
 
 		node = webkit_dom_node_list_item (list, ii);
-		if (!WEBKIT_DOM_IS_HTML_BR_ELEMENT (webkit_dom_node_get_last_child (node))) {
+		next_sibling = webkit_dom_node_get_next_sibling (node);
+
+		if (!next_sibling)
+			insert = FALSE;
+
+		while (insert && next_sibling) {
+			if (!webkit_dom_node_has_child_nodes (next_sibling) &&
+			    !webkit_dom_node_get_next_sibling (next_sibling))
+				insert = FALSE;
+			next_sibling = webkit_dom_node_get_next_sibling (next_sibling);
+		}
+
+		if (insert && !WEBKIT_DOM_IS_HTML_BR_ELEMENT (webkit_dom_node_get_last_child (node)))
 			webkit_dom_node_append_child (
 				node,
 				WEBKIT_DOM_NODE (webkit_dom_document_create_element (document, "br", NULL)),
 				NULL);
-		}
+
 		g_object_unref (node);
 	}
 	g_object_unref (list);
-
-	blockquotes_count = create_text_markers_for_citations_in_element (WEBKIT_DOM_ELEMENT (from));
-	create_text_markers_for_selection_in_element (WEBKIT_DOM_ELEMENT (from));
 
 	inner_text = webkit_dom_html_element_get_inner_text (
 		WEBKIT_DOM_HTML_ELEMENT (from));
