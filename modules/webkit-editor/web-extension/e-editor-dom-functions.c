@@ -9735,6 +9735,9 @@ selection_is_in_empty_list_item (WebKitDOMNode *selection_start_marker)
 
 	sibling = webkit_dom_node_get_previous_sibling (WEBKIT_DOM_NODE (selection_start_marker));
 
+	if (!sibling)
+		return TRUE;
+
 	/* Only text node with the zero width space character is allowed. */
 	if (!WEBKIT_DOM_IS_TEXT (sibling))
 		return FALSE;
