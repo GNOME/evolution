@@ -696,6 +696,76 @@ test_h_rule_insert_text_after (TestFixture *fixture)
 		g_test_fail ();
 }
 
+static void
+test_emoticon_insert_typed (TestFixture *fixture)
+{
+	if (!test_utils_run_simple_test (fixture,
+		"mode:html\n"
+		"type:before :)after\n",
+		HTML_PREFIX "<p>before <img src=\"data:image/png;base64,"
+		"iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABHNCSVQICAgIfA"
+		"hkiAAAAAlwSFlzAAAN1wAADdcBQiibeAAAABl0RVh0U29mdHdhcmUAd3d3Lmlu"
+		"a3NjYXBlLm9yZ5vuPBoAAAAXdEVYdEF1dGhvcgBMYXBvIENhbGFtYW5kcmVp35"
+		"EaKgAAACl0RVh0RGVzY3JpcHRpb24AQmFzZWQgb2YgSmFrdWIgU3RlaW5lciBk"
+		"ZXNpZ26ghAVzAAADRklEQVQ4jWWTXWiVdQCHn//7ec4+zmrbcZ+usT4wy23ilj"
+		"K3cmIRIl10GYGgVCMovOjjMsSrwGEFSXohMchCKBBUWEFqrQ10yTbHNh2bp03n"
+		"vrdztvN+/t/330U3C3/XD8/FDx6hlGLrLnzeXq0L/R1bVwfQxB4AYvW3H4kbkY"
+		"ouHvuyb24rL7YKej7rOJYsKv7m5Vf22eW1VUZheRqUIr+8yNLsYzk00O/nNzc/"
+		"fu9M/4UnBD982nat9oXdnS0HX08I/w7CWgRLAgp8E8JKIrOJvt6rXmZ8+HrXt7"
+		"cPA2gA33/S3lXz3K7O1vb9iWj6PFd+vcaVgQxaugyRLoMSxenvfuTu72d47eCh"
+		"RE3Diwe632/pAtDOn+io061k9562NxLe3XPE0QK3J/LcHllH2UmwCxAFRfw1km"
+		"Po3gze6FlePXQkqZt298mjLXVaKMPjzc177XjmOnHuAQJI2BoJWwcVI5QCFZOw"
+		"DCxLIHMZePgH+/d12FEkjxuRDDrLKrbrwUQvQsTg+xxpT6OltyG83H9PbWZ596"
+		"16GlPrCG+N4NEtKp49qkcy6DQCpTcWPVXB+uI0q2jUFHrsrHLRyx3ihVkEArWx"
+		"wZsvScIFH5mTLMxPUbwjRSC1RiOUwvCyC+ihz9OFNlf716mtlWyvd6moKsQ0BM"
+		"r1eTiT5d5Ejrl5l+ZSRaWlEUTKMFzXGc3cH9pba5RgyU0O7ypnaDnBz79lWd2Y"
+		"oyChIaRCKEFjXQmdO1OkYsnU2C183xs1vIib45P3W9OFBZrlriCyKzSlK9nd2A"
+		"ZFNfjuBpZdjB75+JkB5KNxfLue4fHx2JPcNGSkekamFj+qbtCTOyIF+KhonnC1"
+		"F19LEGOioggt2MCWEt2PeSBN+kcyfiC1Hn1gbHHpcs/X1j8rbmupuW6mlESPFF"
+		"ocEwcBkesifAc7DFFOQMaBS2Oak3Pj0z/dmL6kAVTkq09lA3Py8ly1M7hmMJ8L"
+		"8bMu5qZDgeti5F3WciF3VjUuTpY6yw6TS/rMqf+18EFLi5lPrZxUSp14piiXqE"
+		"n6ojLpA/DYsZh1bDWVLfIU4qtyb9sX5wYHwydqBHi7o6FJI/xQINqjWDwPoGtq"
+		"UqH6Ysyzv/w5PbyV/xd0ZaEGG/mx/wAAAABJRU5ErkJggg==\" alt=\":-)\">"
+		"after</p>" HTML_SUFFIX,
+		"before :-)after"))
+		g_test_fail ();
+}
+
+static void
+test_emoticon_insert_typed_dash (TestFixture *fixture)
+{
+	if (!test_utils_run_simple_test (fixture,
+		"mode:html\n"
+		"type:before :-)after\n",
+		HTML_PREFIX "<p>before <img src=\"data:image/png;base64,"
+		"iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABHNCSVQICAgIfA"
+		"hkiAAAAAlwSFlzAAAN1wAADdcBQiibeAAAABl0RVh0U29mdHdhcmUAd3d3Lmlu"
+		"a3NjYXBlLm9yZ5vuPBoAAAAXdEVYdEF1dGhvcgBMYXBvIENhbGFtYW5kcmVp35"
+		"EaKgAAACl0RVh0RGVzY3JpcHRpb24AQmFzZWQgb2YgSmFrdWIgU3RlaW5lciBk"
+		"ZXNpZ26ghAVzAAADRklEQVQ4jWWTXWiVdQCHn//7ec4+zmrbcZ+usT4wy23ilj"
+		"K3cmIRIl10GYGgVCMovOjjMsSrwGEFSXohMchCKBBUWEFqrQ10yTbHNh2bp03n"
+		"vrdztvN+/t/330U3C3/XD8/FDx6hlGLrLnzeXq0L/R1bVwfQxB4AYvW3H4kbkY"
+		"ouHvuyb24rL7YKej7rOJYsKv7m5Vf22eW1VUZheRqUIr+8yNLsYzk00O/nNzc/"
+		"fu9M/4UnBD982nat9oXdnS0HX08I/w7CWgRLAgp8E8JKIrOJvt6rXmZ8+HrXt7"
+		"cPA2gA33/S3lXz3K7O1vb9iWj6PFd+vcaVgQxaugyRLoMSxenvfuTu72d47eCh"
+		"RE3Diwe632/pAtDOn+io061k9562NxLe3XPE0QK3J/LcHllH2UmwCxAFRfw1km"
+		"Po3gze6FlePXQkqZt298mjLXVaKMPjzc177XjmOnHuAQJI2BoJWwcVI5QCFZOw"
+		"DCxLIHMZePgH+/d12FEkjxuRDDrLKrbrwUQvQsTg+xxpT6OltyG83H9PbWZ596"
+		"16GlPrCG+N4NEtKp49qkcy6DQCpTcWPVXB+uI0q2jUFHrsrHLRyx3ihVkEArWx"
+		"wZsvScIFH5mTLMxPUbwjRSC1RiOUwvCyC+ihz9OFNlf716mtlWyvd6moKsQ0BM"
+		"r1eTiT5d5Ejrl5l+ZSRaWlEUTKMFzXGc3cH9pba5RgyU0O7ypnaDnBz79lWd2Y"
+		"oyChIaRCKEFjXQmdO1OkYsnU2C183xs1vIib45P3W9OFBZrlriCyKzSlK9nd2A"
+		"ZFNfjuBpZdjB75+JkB5KNxfLue4fHx2JPcNGSkekamFj+qbtCTOyIF+KhonnC1"
+		"F19LEGOioggt2MCWEt2PeSBN+kcyfiC1Hn1gbHHpcs/X1j8rbmupuW6mlESPFF"
+		"ocEwcBkesifAc7DFFOQMaBS2Oak3Pj0z/dmL6kAVTkq09lA3Py8ly1M7hmMJ8L"
+		"8bMu5qZDgeti5F3WciF3VjUuTpY6yw6TS/rMqf+18EFLi5lPrZxUSp14piiXqE"
+		"n6ojLpA/DYsZh1bDWVLfIU4qtyb9sX5wYHwydqBHi7o6FJI/xQINqjWDwPoGtq"
+		"UqH6Ysyzv/w5PbyV/xd0ZaEGG/mx/wAAAABJRU5ErkJggg==\" alt=\":-)\">"
+		"after</p>" HTML_SUFFIX,
+		"before :-)after"))
+		g_test_fail ();
+}
+
 gint
 main (gint argc,
       gchar *argv[])
@@ -784,6 +854,8 @@ main (gint argc,
 	add_test ("/link/insert/typed/remove", test_link_insert_typed_remove);
 	add_test ("/h-rule/insert", test_h_rule_insert);
 	add_test ("/h-rule/insert-text-after", test_h_rule_insert_text_after);
+	add_test ("/emoticon/insert/typed", test_emoticon_insert_typed);
+	add_test ("/emoticon/insert/typed-dash", test_emoticon_insert_typed_dash);
 
 	#undef add_test
 
