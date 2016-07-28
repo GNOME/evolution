@@ -85,7 +85,7 @@ get_range_for_point (WebKitDOMDocument *document,
 {
 	glong scroll_left, scroll_top;
 	WebKitDOMHTMLElement *body;
-	WebKitDOMRange *range;
+	WebKitDOMRange *range = NULL;
 
 	body = webkit_dom_document_get_body (document);
 	scroll_left = webkit_dom_element_get_scroll_left (WEBKIT_DOM_ELEMENT (body));
@@ -116,10 +116,10 @@ restore_selection_to_history_event_state (EEditorPage *editor_page,
                                           EEditorSelection selection_state)
 {
 	WebKitDOMDocument *document;
-	WebKitDOMDOMWindow *dom_window;
-	WebKitDOMDOMSelection *dom_selection;
+	WebKitDOMDOMWindow *dom_window = NULL;
+	WebKitDOMDOMSelection *dom_selection = NULL;
 	WebKitDOMElement *element, *tmp;
-	WebKitDOMRange *range;
+	WebKitDOMRange *range = NULL;
 	gboolean was_collapsed = FALSE;
 
 	g_return_if_fail (E_IS_EDITOR_PAGE (editor_page));
@@ -127,18 +127,18 @@ restore_selection_to_history_event_state (EEditorPage *editor_page,
 	document = e_editor_page_get_document (editor_page);
 	dom_window = webkit_dom_document_get_default_view (document);
 	dom_selection = webkit_dom_dom_window_get_selection (dom_window);
-	g_object_unref (dom_window);
+	g_clear_object (&dom_window);
 
 	/* Restore the selection how it was before the event occured. */
 	range = get_range_for_point (document, selection_state.start);
 	webkit_dom_dom_selection_remove_all_ranges (dom_selection);
 	webkit_dom_dom_selection_add_range (dom_selection, range);
-	g_object_unref (range);
+	g_clear_object (&range);
 
 	was_collapsed = selection_state.start.x == selection_state.end.x;
 	was_collapsed = was_collapsed && selection_state.start.y == selection_state.end.y;
 	if (was_collapsed) {
-		g_object_unref (dom_selection);
+		g_clear_object (&dom_selection);
 		return;
 	}
 
@@ -157,7 +157,7 @@ restore_selection_to_history_event_state (EEditorPage *editor_page,
 	range = get_range_for_point (document, selection_state.end);
 	webkit_dom_dom_selection_remove_all_ranges (dom_selection);
 	webkit_dom_dom_selection_add_range (dom_selection, range);
-	g_object_unref (range);
+	g_clear_object (&range);
 
 	e_editor_dom_selection_save (editor_page);
 
@@ -171,7 +171,7 @@ restore_selection_to_history_event_state (EEditorPage *editor_page,
 
 	e_editor_dom_selection_restore (editor_page);
 
-	g_object_unref (dom_selection);
+	g_clear_object (&dom_selection);
 }
 
 #if d(1)+0
@@ -385,16 +385,16 @@ undo_delete (EEditorPage *editor_page,
 	gboolean empty, single_block;
 	gchar *content;
 	WebKitDOMDocument *document;
-	WebKitDOMDOMWindow *dom_window;
-	WebKitDOMDOMSelection *dom_selection;
-	WebKitDOMRange *range;
+	WebKitDOMDOMWindow *dom_window = NULL;
+	WebKitDOMDOMSelection *dom_selection = NULL;
+	WebKitDOMRange *range = NULL;
 	WebKitDOMElement *element;
 	WebKitDOMNode *first_child, *fragment;
 
 	document = e_editor_page_get_document (editor_page);
 	dom_window = webkit_dom_document_get_default_view (document);
 	dom_selection = webkit_dom_dom_window_get_selection (dom_window);
-	g_object_unref (dom_window);
+	g_clear_object (&dom_window);
 
 	fragment = webkit_dom_node_clone_node_with_error (WEBKIT_DOM_NODE (event->data.fragment), TRUE, NULL);
 	first_child = webkit_dom_node_get_first_child (fragment);
@@ -487,6 +487,9 @@ undo_delete (EEditorPage *editor_page,
 
 		remove_node (block);
 
+		g_clear_object (&range);
+		g_clear_object (&dom_selection);
+
 		restore_selection_to_history_event_state (editor_page, event->before);
 
 		e_editor_dom_force_spell_check_in_viewport (editor_page);
@@ -506,8 +509,7 @@ undo_delete (EEditorPage *editor_page,
 			range = get_range_for_point (document, event->before.start);
 			webkit_dom_dom_selection_remove_all_ranges (dom_selection);
 			webkit_dom_dom_selection_add_range (dom_selection, range);
-			g_object_unref (dom_selection);
-			g_object_unref (range);
+			g_clear_object (&range);
 
 			e_editor_dom_selection_save (editor_page);
 
@@ -537,6 +539,8 @@ undo_delete (EEditorPage *editor_page,
 		e_editor_page_set_return_key_pressed (editor_page, FALSE);
 		e_editor_dom_force_spell_check_in_viewport (editor_page);
 
+		g_clear_object (&dom_selection);
+
 		return;
 	}
 
@@ -558,7 +562,7 @@ undo_delete (EEditorPage *editor_page,
 		range = get_range_for_point (document, event->after.start);
 		webkit_dom_dom_selection_remove_all_ranges (dom_selection);
 		webkit_dom_dom_selection_add_range (dom_selection, range);
-		g_object_unref (range);
+		g_clear_object (&range);
 		e_editor_dom_selection_save (editor_page);
 
 		if ((element = webkit_dom_document_get_element_by_id (document, "-x-evo-selection-end-marker"))) {
@@ -758,7 +762,7 @@ undo_delete (EEditorPage *editor_page,
 		webkit_dom_range_surround_contents (range, WEBKIT_DOM_NODE (element), NULL);
 		webkit_dom_dom_selection_remove_all_ranges (dom_selection);
 		webkit_dom_dom_selection_add_range (dom_selection, range);
-		g_object_unref (range);
+		g_clear_object (&range);
 
 		nd = webkit_dom_node_get_previous_sibling (WEBKIT_DOM_NODE (element));
 		if (nd && WEBKIT_DOM_IS_TEXT (nd)) {
@@ -929,11 +933,11 @@ redo_delete (EEditorPage *editor_page,
 	if (delete_key &&
 	    GPOINTER_TO_INT (g_object_get_data (G_OBJECT (event->data.fragment), "history-concatenating-blocks"))) {
 		WebKitDOMNode *current_block, *next_block, *node;
-		WebKitDOMRange *range;
+		WebKitDOMRange *range = NULL;
 
 		range = e_editor_dom_get_current_range (editor_page);
 		node = webkit_dom_range_get_end_container (range, NULL);
-		g_object_unref (range);
+		g_clear_object (&range);
 		current_block = e_editor_dom_get_parent_block_node_from_child (node);
 		if (e_editor_dom_get_citation_level (current_block, FALSE) > 0 &&
 		    (next_block = webkit_dom_node_get_next_sibling (current_block))) {
@@ -1082,11 +1086,11 @@ undo_redo_wrap (EEditorPage *editor_page,
 	if (undo) {
 		WebKitDOMNode *node;
 		WebKitDOMElement *element;
-		WebKitDOMRange *range;
+		WebKitDOMRange *range = NULL;
 
 		range = e_editor_dom_get_current_range (editor_page);
 		node = webkit_dom_range_get_common_ancestor_container (range, NULL);
-		g_object_unref (range);
+		g_clear_object (&range);
 		element = get_parent_block_element (WEBKIT_DOM_NODE (node));
 		webkit_dom_element_remove_attribute (element, "data-user-wrapped");
 		e_editor_dom_remove_wrapping_from_element (WEBKIT_DOM_ELEMENT (element));
@@ -1106,7 +1110,7 @@ undo_redo_page_dialog (EEditorPage *editor_page,
 {
 	WebKitDOMDocument *document;
 	WebKitDOMHTMLElement *body;
-	WebKitDOMNamedNodeMap *attributes, *attributes_history;
+	WebKitDOMNamedNodeMap *attributes = NULL, *attributes_history = NULL;
 	gint length, length_history, ii, jj;
 
 	document = e_editor_page_get_document (editor_page);
@@ -1168,7 +1172,7 @@ undo_redo_page_dialog (EEditorPage *editor_page,
 				replaced = TRUE;
 			}
 			g_free (name_history);
-			g_object_unref (attr_history);
+			g_clear_object (&attr_history);
 			if (replaced)
 				break;
 		}
@@ -1190,8 +1194,8 @@ undo_redo_page_dialog (EEditorPage *editor_page,
 		g_free (name);
 		g_object_unref (attr);
 	}
-	g_object_unref (attributes);
-	g_object_unref (attributes_history);
+	g_clear_object (&attributes);
+	g_clear_object (&attributes_history);
 
 	if (undo)
 		restore_selection_to_history_event_state (editor_page, event->before);
@@ -1448,11 +1452,11 @@ undo_redo_table_input (EEditorPage *editor_page,
                        gboolean undo)
 {
 	WebKitDOMDocument *document;
-	WebKitDOMDOMWindow *dom_window;
-	WebKitDOMDOMSelection *dom_selection;
+	WebKitDOMDOMWindow *dom_window = NULL;
+	WebKitDOMDOMSelection *dom_selection = NULL;
 	WebKitDOMElement *element;
 	WebKitDOMNode *node;
-	WebKitDOMRange *range;
+	WebKitDOMRange *range = NULL;
 
 	document = e_editor_page_get_document (editor_page);
 
@@ -1461,14 +1465,14 @@ undo_redo_table_input (EEditorPage *editor_page,
 
 	dom_window = webkit_dom_document_get_default_view (document);
 	dom_selection = webkit_dom_dom_window_get_selection (dom_window);
-	g_object_unref (dom_window);
+	g_clear_object (&dom_window);
 
 	if (!webkit_dom_dom_selection_get_range_count (dom_selection)) {
-		g_object_unref (dom_selection);
+		g_clear_object (&dom_selection);
 		return;
 	}
 	range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
-	g_object_unref (dom_selection);
+	g_clear_object (&dom_selection);
 
 	/* Find if writing into table. */
 	node = webkit_dom_range_get_start_container (range, NULL);
@@ -1477,7 +1481,7 @@ undo_redo_table_input (EEditorPage *editor_page,
 	else
 		element = get_parent_block_element (node);
 
-	g_object_unref (range);
+	g_clear_object (&range);
 
 	/* If writing to table we have to create different history event. */
 	if (!WEBKIT_DOM_IS_HTML_TABLE_CELL_ELEMENT (element))
@@ -1526,20 +1530,20 @@ undo_redo_paste (EEditorPage *editor_page,
 
 			e_editor_dom_selection_restore (editor_page);
 		} else {
-			WebKitDOMDOMWindow *dom_window;
-			WebKitDOMDOMSelection *dom_selection;
+			WebKitDOMDOMWindow *dom_window = NULL;
+			WebKitDOMDOMSelection *dom_selection = NULL;
 			WebKitDOMElement *element, *tmp;
-			WebKitDOMRange *range;
+			WebKitDOMRange *range = NULL;
 
 			dom_window = webkit_dom_document_get_default_view (document);
 			dom_selection = webkit_dom_dom_window_get_selection (dom_window);
-			g_object_unref (dom_window);
+			g_clear_object (&dom_window);
 
 			/* Restore the selection how it was before the event occured. */
 			range = get_range_for_point (document, event->before.start);
 			webkit_dom_dom_selection_remove_all_ranges (dom_selection);
 			webkit_dom_dom_selection_add_range (dom_selection, range);
-			g_object_unref (range);
+			g_clear_object (&range);
 
 			e_editor_dom_selection_save (editor_page);
 
@@ -1556,8 +1560,8 @@ undo_redo_paste (EEditorPage *editor_page,
 			range = get_range_for_point (document, event->after.start);
 			webkit_dom_dom_selection_remove_all_ranges (dom_selection);
 			webkit_dom_dom_selection_add_range (dom_selection, range);
-			g_object_unref (range);
-			g_object_unref (dom_selection);
+			g_clear_object (&range);
+			g_clear_object (&dom_selection);
 
 			e_editor_dom_selection_save (editor_page);
 
@@ -1596,14 +1600,14 @@ undo_redo_image (EEditorPage *editor_page,
                  gboolean undo)
 {
 	WebKitDOMDocument *document;
-	WebKitDOMDOMWindow *dom_window;
-	WebKitDOMDOMSelection *dom_selection;
-	WebKitDOMRange *range;
+	WebKitDOMDOMWindow *dom_window = NULL;
+	WebKitDOMDOMSelection *dom_selection = NULL;
+	WebKitDOMRange *range = NULL;
 
 	document = e_editor_page_get_document (editor_page);
 	dom_window = webkit_dom_document_get_default_view (document);
 	dom_selection = webkit_dom_dom_window_get_selection (dom_window);
-	g_object_unref (dom_window);
+	g_clear_object (&dom_window);
 
 	if (undo) {
 		WebKitDOMElement *element;
@@ -1612,7 +1616,7 @@ undo_redo_image (EEditorPage *editor_page,
 		range = get_range_for_point (document, event->before.start);
 		webkit_dom_dom_selection_remove_all_ranges (dom_selection);
 		webkit_dom_dom_selection_add_range (dom_selection, range);
-		g_object_unref (range);
+		g_clear_object (&range);
 
 		e_editor_dom_selection_save (editor_page);
 		element = webkit_dom_document_get_element_by_id (
@@ -1632,7 +1636,7 @@ undo_redo_image (EEditorPage *editor_page,
 		/* Create temporary node on the selection where the delete occured. */
 		webkit_dom_dom_selection_remove_all_ranges (dom_selection);
 		webkit_dom_dom_selection_add_range (dom_selection, range);
-		g_object_unref (range);
+		g_clear_object (&range);
 
 		e_editor_dom_selection_save (editor_page);
 		element = webkit_dom_document_get_element_by_id (
@@ -1649,7 +1653,7 @@ undo_redo_image (EEditorPage *editor_page,
 		e_editor_dom_force_spell_check_for_current_paragraph (editor_page);
 	}
 
-	g_object_unref (dom_selection);
+	g_clear_object (&dom_selection);
 }
 
 static void
@@ -1664,15 +1668,15 @@ undo_redo_replace (EEditorPage *editor_page,
 	restore_selection_to_history_event_state (editor_page, undo ? event->after : event->before);
 
 	if (undo) {
-		WebKitDOMDOMWindow *dom_window;
-		WebKitDOMDOMSelection *dom_selection;
+		WebKitDOMDOMWindow *dom_window = NULL;
+		WebKitDOMDOMSelection *dom_selection = NULL;
 
 		dom_window = webkit_dom_document_get_default_view (document);
 		dom_selection = webkit_dom_dom_window_get_selection (dom_window);
-		g_object_unref (dom_window);
+		g_clear_object (&dom_window);
 
 		webkit_dom_dom_selection_modify (dom_selection, "extend", "left", "word");
-		g_object_unref (dom_selection);
+		g_clear_object (&dom_selection);
 	}
 
 	e_editor_dom_exec_command (editor_page,
@@ -1701,8 +1705,8 @@ undo_redo_replace_all (EEditorUndoRedoManager *manager,
 		} else {
 			EEditorHistoryEvent *next_event;
 			GList *next_item;
-			WebKitDOMDOMWindow *dom_window;
-			WebKitDOMDOMSelection *dom_selection;
+			WebKitDOMDOMWindow *dom_window = NULL;
+			WebKitDOMDOMSelection *dom_selection = NULL;
 
 			next_item = manager->priv->history->next;
 
@@ -1728,8 +1732,8 @@ undo_redo_replace_all (EEditorUndoRedoManager *manager,
 			dom_window = webkit_dom_document_get_default_view (document);
 			dom_selection = webkit_dom_dom_window_get_selection (dom_window);
 			webkit_dom_dom_selection_collapse_to_end (dom_selection, NULL);
-			g_object_unref (dom_window);
-			g_object_unref (dom_selection);
+			g_clear_object (&dom_window);
+			g_clear_object (&dom_selection);
 		}
 	} else {
 		/* Find if this history item is part of HISTORY_REPLACE_ALL. */
@@ -1783,10 +1787,10 @@ undo_redo_remove_link (EEditorPage *editor_page,
 		restore_selection_to_history_event_state (editor_page, event->after);
 
 	if (undo) {
-		WebKitDOMDOMWindow *dom_window;
-		WebKitDOMDOMSelection *dom_selection;
+		WebKitDOMDOMWindow *dom_window = NULL;
+		WebKitDOMDOMSelection *dom_selection = NULL;
 		WebKitDOMElement *element;
-		WebKitDOMRange *range;
+		WebKitDOMRange *range = NULL;
 
 		dom_window = webkit_dom_document_get_default_view (document);
 		dom_selection = webkit_dom_dom_window_get_selection (dom_window);
@@ -1797,15 +1801,15 @@ undo_redo_remove_link (EEditorPage *editor_page,
 		range = e_editor_dom_get_current_range (editor_page);
 		element = webkit_dom_document_create_element (document, "SPAN", NULL);
 		webkit_dom_range_surround_contents (range, WEBKIT_DOM_NODE (element), NULL);
-		g_object_unref (range);
+		g_clear_object (&range);
 		webkit_dom_node_insert_before (
 			webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (element)),
 			webkit_dom_node_clone_node_with_error (WEBKIT_DOM_NODE (event->data.fragment), TRUE, NULL),
 			WEBKIT_DOM_NODE (element),
 			NULL);
 		remove_node (WEBKIT_DOM_NODE (element));
-		g_object_unref (dom_window);
-		g_object_unref (dom_selection);
+		g_clear_object (&dom_window);
+		g_clear_object (&dom_selection);
 	} else
 		e_editor_dom_selection_unlink (editor_page);
 
@@ -1883,8 +1887,8 @@ undo_input (EEditorUndoRedoManager *manager,
             EEditorHistoryEvent *event)
 {
 	WebKitDOMDocument *document;
-	WebKitDOMDOMWindow *dom_window;
-	WebKitDOMDOMSelection *dom_selection;
+	WebKitDOMDOMWindow *dom_window = NULL;
+	WebKitDOMDOMSelection *dom_selection = NULL;
 	WebKitDOMNode *node, *tmp_node;
 	gboolean remove_anchor;
 
@@ -1898,8 +1902,8 @@ undo_input (EEditorUndoRedoManager *manager,
 	if (e_editor_page_get_html_mode (editor_page) &&
 	    g_object_get_data (G_OBJECT (event->data.fragment), "history-return-key")) {
 		if (undo_return_press_after_h_rule (editor_page, event)) {
-			g_object_unref (dom_window);
-			g_object_unref (dom_selection);
+			g_clear_object (&dom_window);
+			g_clear_object (&dom_selection);
 			return;
 		}
 	}
@@ -1951,8 +1955,8 @@ undo_input (EEditorUndoRedoManager *manager,
 	    WEBKIT_DOM_IS_HTML_BR_ELEMENT (webkit_dom_node_get_last_child (tmp_node)))
 		undo_return_in_empty_list_item (editor_page, event);
 
-	g_object_unref (dom_window);
-	g_object_unref (dom_selection);
+	g_clear_object (&dom_window);
+	g_clear_object (&dom_selection);
 }
 
 static void

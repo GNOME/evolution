@@ -67,8 +67,9 @@ for_each_cell_do (WebKitDOMElement *row,
                   GValue *value,
                   gpointer user_data)
 {
-	WebKitDOMHTMLCollection *cells;
+	WebKitDOMHTMLCollection *cells = NULL;
 	gulong ii, length;
+
 	cells = webkit_dom_html_table_row_element_get_cells (
 			WEBKIT_DOM_HTML_TABLE_ROW_ELEMENT (row));
 	length = webkit_dom_html_collection_get_length (cells);
@@ -83,7 +84,7 @@ for_each_cell_do (WebKitDOMElement *row,
 			WEBKIT_DOM_HTML_TABLE_CELL_ELEMENT (cell), func, value, user_data);
 		g_object_unref (cell);
 	}
-	g_object_unref (cells);
+	g_clear_object (&cells);
 }
 
 static void
@@ -104,7 +105,7 @@ cell_dialog_set_attribute (WebKitDOMDocument *document,
 	} else if (scope == E_CONTENT_EDITOR_SCOPE_COLUMN) {
 		gulong index, ii, length;
 		WebKitDOMElement *table;
-		WebKitDOMHTMLCollection *rows;
+		WebKitDOMHTMLCollection *rows = NULL;
 
 		index = webkit_dom_html_table_cell_element_get_cell_index (
 				WEBKIT_DOM_HTML_TABLE_CELL_ELEMENT (cell));
@@ -118,7 +119,7 @@ cell_dialog_set_attribute (WebKitDOMDocument *document,
 		length = webkit_dom_html_collection_get_length (rows);
 		for (ii = 0; ii < length; ii++) {
 			WebKitDOMNode *row, *cell;
-			WebKitDOMHTMLCollection *cells;
+			WebKitDOMHTMLCollection *cells = NULL;
 
 			row = webkit_dom_html_collection_item (rows, ii);
 			cells = webkit_dom_html_table_row_element_get_cells (
@@ -126,7 +127,7 @@ cell_dialog_set_attribute (WebKitDOMDocument *document,
 			cell = webkit_dom_html_collection_item (cells, index);
 			if (!cell) {
 				g_object_unref (row);
-				g_object_unref (cells);
+				g_clear_object (&cells);
 				continue;
 			}
 
@@ -134,10 +135,10 @@ cell_dialog_set_attribute (WebKitDOMDocument *document,
 				WEBKIT_DOM_HTML_TABLE_CELL_ELEMENT (cell),
 				func, value, user_data);
 			g_object_unref (row);
-			g_object_unref (cells);
+			g_clear_object (&cells);
 			g_object_unref (cell);
 		}
-		g_object_unref (rows);
+		g_clear_object (&rows);
 
 	} else if (scope == E_CONTENT_EDITOR_SCOPE_ROW) {
 		WebKitDOMElement *row;
@@ -152,7 +153,7 @@ cell_dialog_set_attribute (WebKitDOMDocument *document,
 	} else if (scope == E_CONTENT_EDITOR_SCOPE_TABLE) {
 		gulong ii, length;
 		WebKitDOMElement *table;
-		WebKitDOMHTMLCollection *rows;
+		WebKitDOMHTMLCollection *rows = NULL;
 
 		table = dom_node_find_parent_element (WEBKIT_DOM_NODE (cell), "TABLE");
 		if (!table) {
@@ -175,7 +176,7 @@ cell_dialog_set_attribute (WebKitDOMDocument *document,
 				WEBKIT_DOM_ELEMENT (row), func, value, user_data);
 			g_object_unref (row);
 		}
-		g_object_unref (rows);
+		g_clear_object (&rows);
 	}
 }
 
@@ -185,7 +186,7 @@ cell_set_header_style (WebKitDOMHTMLTableCellElement *cell,
 		       gpointer user_data)
 {
 	WebKitDOMDocument *document;
-	WebKitDOMNodeList *nodes;
+	WebKitDOMNodeList *nodes = NULL;
 	WebKitDOMElement *new_cell;
 	gulong length, ii;
 	gchar *tagname;
@@ -219,7 +220,7 @@ cell_set_header_style (WebKitDOMHTMLTableCellElement *cell,
 			WEBKIT_DOM_NODE (new_cell), node, NULL);
 		g_object_unref (node);
 	}
-	g_object_unref (nodes);
+	g_clear_object (&nodes);
 
 	/* Insert new_cell before cell and remove cell */
 	webkit_dom_node_insert_before (
@@ -733,13 +734,13 @@ e_dialogs_dom_link_commit (EEditorPage *editor_page,
 
 		e_editor_dom_selection_restore (editor_page);
 	} else {
-		WebKitDOMDOMWindow *dom_window;
-		WebKitDOMDOMSelection *dom_selection;
-		WebKitDOMRange *range;
+		WebKitDOMDOMWindow *dom_window = NULL;
+		WebKitDOMDOMSelection *dom_selection = NULL;
+		WebKitDOMRange *range = NULL;
 
 		dom_window = webkit_dom_document_get_default_view (document);
 		dom_selection = webkit_dom_dom_window_get_selection (dom_window);
-		g_object_unref (dom_window);
+		g_clear_object (&dom_window);
 
 		e_editor_dom_selection_restore (editor_page);
 		range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
@@ -784,8 +785,8 @@ e_dialogs_dom_link_commit (EEditorPage *editor_page,
 			g_free (text);
 		}
 
-		g_object_unref (range);
-		g_object_unref (dom_selection);
+		g_clear_object (&range);
+		g_clear_object (&dom_selection);
 	}
 }
 
@@ -902,13 +903,13 @@ e_dialogs_dom_link_show (EEditorPage *editor_page)
 		g_free (href);
 	} else {
 		gchar *text;
-		WebKitDOMDOMWindow *dom_window;
-		WebKitDOMDOMSelection *dom_selection;
-		WebKitDOMRange *range;
+		WebKitDOMDOMWindow *dom_window = NULL;
+		WebKitDOMDOMSelection *dom_selection = NULL;
+		WebKitDOMRange *range = NULL;
 
 		dom_window = webkit_dom_document_get_default_view (document);
 		dom_selection = webkit_dom_dom_window_get_selection (dom_window);
-		g_object_unref (dom_window);
+		g_clear_object (&dom_window);
 
 		/* No selection at all */
 		if (!dom_selection || webkit_dom_dom_selection_get_range_count (dom_selection) < 1)
@@ -921,8 +922,8 @@ e_dialogs_dom_link_show (EEditorPage *editor_page)
 
 		g_free (text);
 
-		g_object_unref (range);
-		g_object_unref (dom_selection);
+		g_clear_object (&range);
+		g_clear_object (&dom_selection);
 	}
 
 	return result;
@@ -1045,8 +1046,8 @@ e_dialogs_dom_spell_check_run (EEditorPage *editor_page,
 {
 	gulong start_offset = 0, end_offset = 0;
 	WebKitDOMDocument *document;
-	WebKitDOMDOMSelection *dom_selection;
-	WebKitDOMDOMWindow *dom_window;
+	WebKitDOMDOMSelection *dom_selection = NULL;
+	WebKitDOMDOMWindow *dom_window = NULL;
 	WebKitDOMNode *start = NULL, *end = NULL;
 
 	g_return_val_if_fail (E_IS_EDITOR_PAGE (editor_page), NULL);
@@ -1054,7 +1055,7 @@ e_dialogs_dom_spell_check_run (EEditorPage *editor_page,
 	document = e_editor_page_get_document (editor_page);
 	dom_window = webkit_dom_document_get_default_view (document);
 	dom_selection = webkit_dom_dom_window_get_selection (dom_window);
-	g_object_unref (dom_window);
+	g_clear_object (&dom_window);
 
 	if (!from_word || !*from_word) {
 		if (run_next) {
@@ -1075,12 +1076,12 @@ e_dialogs_dom_spell_check_run (EEditorPage *editor_page,
 	}
 
 	while ((run_next ? select_next_word (dom_selection) : select_previous_word (dom_selection))) {
-		WebKitDOMRange *range;
+		WebKitDOMRange *range = NULL;
 		gchar *word;
 
 		range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
 		word = webkit_dom_range_get_text (range);
-		g_object_unref (range);
+		g_clear_object (&range);
 
 		if (!e_editor_page_check_word_spelling (editor_page, word, languages)) {
 			/* Found misspelled word! */
@@ -1096,7 +1097,7 @@ e_dialogs_dom_spell_check_run (EEditorPage *editor_page,
 		webkit_dom_dom_selection_set_base_and_extent (
 			dom_selection, start, start_offset, end, end_offset, NULL);
 
-	g_object_unref (dom_selection);
+	g_clear_object (&dom_selection);
 
 	return NULL;
 }
@@ -1134,7 +1135,7 @@ e_dialogs_dom_table_set_row_count (EEditorPage *editor_page,
 				   gulong expected_count)
 {
 	WebKitDOMDocument *document;
-	WebKitDOMHTMLCollection *rows, *cells;
+	WebKitDOMHTMLCollection *rows = NULL, *cells = NULL;
 	WebKitDOMHTMLTableElement *table_element;
 	WebKitDOMHTMLTableRowElement *row;
 	gulong ii, rows_current_count, cells_current_count;
@@ -1151,7 +1152,7 @@ e_dialogs_dom_table_set_row_count (EEditorPage *editor_page,
 	rows_current_count = webkit_dom_html_collection_get_length (rows);
 
 	if (rows_current_count < 1) {
-		g_object_unref (rows);
+		g_clear_object (&rows);
 		return;
 	}
 
@@ -1178,8 +1179,8 @@ e_dialogs_dom_table_set_row_count (EEditorPage *editor_page,
 				table_element, -1, NULL);
 		}
 	}
-	g_object_unref (cells);
-	g_object_unref (rows);
+	g_clear_object (&cells);
+	g_clear_object (&rows);
 }
 
 gulong
@@ -1187,7 +1188,7 @@ e_dialogs_dom_table_get_row_count (EEditorPage *editor_page)
 {
 	WebKitDOMDocument *document;
 	WebKitDOMHTMLTableElement *table_element;
-	WebKitDOMHTMLCollection *rows;
+	WebKitDOMHTMLCollection *rows = NULL;
 	glong count;
 
 	g_return_val_if_fail (E_IS_EDITOR_PAGE (editor_page), 0);
@@ -1201,7 +1202,7 @@ e_dialogs_dom_table_get_row_count (EEditorPage *editor_page)
 	rows = webkit_dom_html_table_element_get_rows (table_element);
 
 	count = webkit_dom_html_collection_get_length (rows);
-	g_object_unref (rows);
+	g_clear_object (&rows);
 
 	return count;
 }
@@ -1212,7 +1213,7 @@ e_dialogs_dom_table_set_column_count (EEditorPage *editor_page,
 {
 	WebKitDOMDocument *document;
 	WebKitDOMHTMLTableElement *table_element;
-	WebKitDOMHTMLCollection *rows;
+	WebKitDOMHTMLCollection *rows = NULL;
 	gulong ii, row_count;
 
 	g_return_if_fail (E_IS_EDITOR_PAGE (editor_page));
@@ -1228,7 +1229,7 @@ e_dialogs_dom_table_set_column_count (EEditorPage *editor_page,
 
 	for (ii = 0; ii < row_count; ii++) {
 		WebKitDOMHTMLTableRowElement *row;
-		WebKitDOMHTMLCollection *cells;
+		WebKitDOMHTMLCollection *cells = NULL;
 		gulong jj, current_columns;
 
 		row = WEBKIT_DOM_HTML_TABLE_ROW_ELEMENT (
@@ -1249,9 +1250,9 @@ e_dialogs_dom_table_set_column_count (EEditorPage *editor_page,
 			}
 		}
 		g_object_unref (row);
-		g_object_unref (cells);
+		g_clear_object (&cells);
 	}
-	g_object_unref (rows);
+	g_clear_object (&rows);
 }
 
 gulong
@@ -1259,7 +1260,7 @@ e_dialogs_dom_table_get_column_count (EEditorPage *editor_page)
 {
 	WebKitDOMDocument *document;
 	WebKitDOMHTMLTableElement *table_element;
-	WebKitDOMHTMLCollection *rows, *columns;
+	WebKitDOMHTMLCollection *rows = NULL, *columns = NULL;
 	WebKitDOMNode *row;
 	glong count;
 
@@ -1280,8 +1281,8 @@ e_dialogs_dom_table_get_column_count (EEditorPage *editor_page)
 	count = webkit_dom_html_collection_get_length (columns);
 
 	g_object_unref (row);
-	g_object_unref (rows);
-	g_object_unref (columns);
+	g_clear_object (&rows);
+	g_clear_object (&columns);
 
 	return count;
 }
@@ -1375,8 +1376,8 @@ gboolean
 e_dialogs_dom_table_show (EEditorPage *editor_page)
 {
 	WebKitDOMDocument *document;
-	WebKitDOMDOMWindow *dom_window;
-	WebKitDOMDOMSelection *dom_selection;
+	WebKitDOMDOMWindow *dom_window = NULL;
+	WebKitDOMDOMSelection *dom_selection = NULL;
 	WebKitDOMElement *table = NULL;
 	EEditorUndoRedoManager *manager;
 	gboolean created = FALSE;
@@ -1386,14 +1387,14 @@ e_dialogs_dom_table_show (EEditorPage *editor_page)
 	document = e_editor_page_get_document (editor_page);
 	dom_window = webkit_dom_document_get_default_view (document);
 	dom_selection = webkit_dom_dom_window_get_selection (dom_window);
-	g_object_unref (dom_window);
+	g_clear_object (&dom_window);
 	if (dom_selection && (webkit_dom_dom_selection_get_range_count (dom_selection) > 0)) {
-		WebKitDOMRange *range;
+		WebKitDOMRange *range = NULL;
 
 		range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
 		table = dom_node_find_parent_element (
 			webkit_dom_range_get_start_container (range, NULL), "TABLE");
-		g_object_unref (range);
+		g_clear_object (&range);
 
 		if (table) {
 			webkit_dom_element_set_id (table, "-x-evo-current-table");
@@ -1420,7 +1421,7 @@ e_dialogs_dom_table_show (EEditorPage *editor_page)
 		e_editor_undo_redo_manager_insert_history_event (manager, ev);
 	}
 
-	g_object_unref (dom_selection);
+	g_clear_object (&dom_selection);
 
 	return created;
 }

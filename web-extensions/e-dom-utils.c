@@ -293,11 +293,14 @@ get_frame_selection_content_text (WebKitDOMElement *iframe)
 	window = webkit_dom_document_get_default_view (content_document);
 	selection = webkit_dom_dom_window_get_selection (window);
 	if (selection && (webkit_dom_dom_selection_get_range_count (selection) > 0)) {
-		WebKitDOMRange *range;
+		WebKitDOMRange *range = NULL;
+		gchar *text = NULL;
 
 		range = webkit_dom_dom_selection_get_range_at (selection, 0, NULL);
-		if (range != NULL)
-			return webkit_dom_range_to_string (range, NULL);
+		if (range)
+			text = webkit_dom_range_to_string (range, NULL);
+		g_clear_object (&range);
+		return text;
 	}
 
 	frames = webkit_dom_document_get_elements_by_tag_name_as_html_collection (content_document, "iframe");
@@ -696,7 +699,7 @@ e_dom_utils_bind_dom (WebKitDOMDocument *document,
                       gpointer callback,
                       gpointer user_data)
 {
-	WebKitDOMNodeList *nodes;
+	WebKitDOMNodeList *nodes = NULL;
 	gulong ii, length;
 
 	nodes = webkit_dom_document_query_selector_all (
@@ -711,7 +714,7 @@ e_dom_utils_bind_dom (WebKitDOMDocument *document,
 			WEBKIT_DOM_EVENT_TARGET (node), event,
 			G_CALLBACK (callback), FALSE, user_data);
 	}
-	g_object_unref (nodes);
+	g_clear_object (&nodes);
 }
 
 static void
@@ -721,8 +724,8 @@ e_dom_utils_bind_elements_recursively (WebKitDOMDocument *document,
                                        gpointer callback,
                                        gpointer user_data)
 {
-	WebKitDOMNodeList *nodes;
-	WebKitDOMHTMLCollection *frames;
+	WebKitDOMNodeList *nodes = NULL;
+	WebKitDOMHTMLCollection *frames = NULL;
 	gulong ii, length;
 
 	nodes = webkit_dom_document_query_selector_all (
@@ -737,7 +740,7 @@ e_dom_utils_bind_elements_recursively (WebKitDOMDocument *document,
 			WEBKIT_DOM_EVENT_TARGET (node), event,
 			G_CALLBACK (callback), FALSE, user_data);
 	}
-	g_object_unref (nodes);
+	g_clear_object (&nodes);
 
 	frames = webkit_dom_document_get_elements_by_tag_name_as_html_collection (document, "iframe");
 	length = webkit_dom_html_collection_get_length (frames);
@@ -762,7 +765,7 @@ e_dom_utils_bind_elements_recursively (WebKitDOMDocument *document,
 			callback,
 			user_data);
 	}
-	g_object_unref (frames);
+	g_clear_object (&frames);
 }
 
 static void
@@ -871,7 +874,7 @@ WebKitDOMElement *
 e_dom_utils_find_element_by_selector (WebKitDOMDocument *document,
                                       const gchar *selector)
 {
-	WebKitDOMHTMLCollection *frames;
+	WebKitDOMHTMLCollection *frames = NULL;
 	WebKitDOMElement *element;
 	gulong ii, length;
 
@@ -901,7 +904,7 @@ e_dom_utils_find_element_by_selector (WebKitDOMDocument *document,
 			break;
 	}
 
-	g_object_unref (frames);
+	g_clear_object (&frames);
 	return element;
 }
 
@@ -910,7 +913,7 @@ WebKitDOMElement *
 e_dom_utils_find_element_by_id (WebKitDOMDocument *document,
                                 const gchar *id)
 {
-	WebKitDOMHTMLCollection *frames;
+	WebKitDOMHTMLCollection *frames = NULL;
 	WebKitDOMElement *element;
 	gulong ii, length;
 
@@ -940,7 +943,7 @@ e_dom_utils_find_element_by_id (WebKitDOMDocument *document,
 			break;
 	}
 
-	g_object_unref (frames);
+	g_clear_object (&frames);
 	return element;
 }
 
@@ -1951,7 +1954,7 @@ e_dom_utils_find_document_with_uri (WebKitDOMDocument *root_document,
 
 	while (todo) {
 		WebKitDOMDocument *document;
-		WebKitDOMHTMLCollection *frames;
+		WebKitDOMHTMLCollection *frames = NULL;
 		gchar *document_uri;
 		gint ii, length;
 
@@ -1988,7 +1991,7 @@ e_dom_utils_find_document_with_uri (WebKitDOMDocument *root_document,
 			g_object_unref (node);
 		}
 
-		g_object_unref (frames);
+		g_clear_object (&frames);
 	}
 
 	g_slist_free (todo);

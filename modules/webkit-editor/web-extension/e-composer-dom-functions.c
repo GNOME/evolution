@@ -95,7 +95,7 @@ move_caret_after_signature_inserted (EEditorPage *editor_page)
 	WebKitDOMDocument *document;
 	WebKitDOMElement *element, *signature;
 	WebKitDOMHTMLElement *body;
-	WebKitDOMNodeList *paragraphs;
+	WebKitDOMNodeList *paragraphs = NULL;
 	gboolean top_signature;
 	gboolean start_bottom;
 	gboolean has_paragraphs_in_body = TRUE;
@@ -158,7 +158,6 @@ move_caret_after_signature_inserted (EEditorPage *editor_page)
 		} else
 			element = WEBKIT_DOM_ELEMENT (body);
 
-		g_object_unref (paragraphs);
 		goto move_caret;
 	}
 
@@ -218,12 +217,11 @@ move_caret_after_signature_inserted (EEditorPage *editor_page)
 			element = WEBKIT_DOM_ELEMENT (body);
 	}
 
-	g_object_unref (paragraphs);
  move_caret:
 	if (element) {
-		WebKitDOMDOMSelection *dom_selection;
-		WebKitDOMDOMWindow *dom_window;
-		WebKitDOMRange *range;
+		WebKitDOMDOMSelection *dom_selection = NULL;
+		WebKitDOMDOMWindow *dom_window = NULL;
+		WebKitDOMRange *range = NULL;
 
 		dom_window = webkit_dom_document_get_default_view (document);
 		dom_selection = webkit_dom_dom_window_get_selection (dom_window);
@@ -242,6 +240,8 @@ move_caret_after_signature_inserted (EEditorPage *editor_page)
 
 	if (start_bottom)
 		e_editor_dom_scroll_to_caret (editor_page);
+
+	g_clear_object (&paragraphs);
 
 	e_editor_dom_force_spell_check_in_viewport (editor_page);
 	e_editor_page_unblock_selection_changed (editor_page);
@@ -262,7 +262,7 @@ e_composer_dom_insert_signature (EEditorPage *editor_page,
 	WebKitDOMElement *signature_wrapper = NULL;
 	WebKitDOMElement *element, *converted_signature = NULL;
 	WebKitDOMHTMLElement *body;
-	WebKitDOMHTMLCollection *signatures;
+	WebKitDOMHTMLCollection *signatures = NULL;
 	gchar *new_signature_id = NULL;
 	gchar *signature_text = NULL;
 	gboolean top_signature, html_mode;
@@ -423,7 +423,7 @@ insert:
 				*check_if_signature_is_changed = TRUE;
 			}
 			g_object_unref (wrapper);
-			g_object_unref (signatures);
+			g_clear_object (&signatures);
 
 			return new_signature_id;
 		}
@@ -506,7 +506,7 @@ insert:
 
 		move_caret_after_signature_inserted (editor_page);
 	}
-	g_object_unref (signatures);
+	g_clear_object (&signatures);
 
 	if (is_html && html_mode)
 		e_editor_dom_fix_file_uri_images (editor_page);
@@ -538,7 +538,7 @@ gchar *
 e_composer_dom_get_raw_body_content_without_signature (EEditorPage *editor_page)
 {
 	WebKitDOMDocument *document;
-	WebKitDOMNodeList *list;
+	WebKitDOMNodeList *list = NULL;
 	GString* content;
 	gulong ii, length;
 
@@ -567,6 +567,7 @@ e_composer_dom_get_raw_body_content_without_signature (EEditorPage *editor_page)
 				g_string_append (content, " ");
 		}
 	}
+	g_clear_object (&list);
 
 	return g_string_free (content, FALSE);
 }
@@ -633,8 +634,8 @@ e_composer_dom_save_drag_and_drop_history (EEditorPage *editor_page)
 {
 	WebKitDOMDocument *document;
 	WebKitDOMDocumentFragment *fragment;
-	WebKitDOMDOMSelection *dom_selection;
-	WebKitDOMDOMWindow *dom_window;
+	WebKitDOMDOMSelection *dom_selection = NULL;
+	WebKitDOMDOMWindow *dom_window = NULL;
 	WebKitDOMRange *beginning_of_line = NULL;
 	WebKitDOMRange *range = NULL, *range_clone = NULL;
 	EEditorHistoryEvent *event;
@@ -652,13 +653,14 @@ e_composer_dom_save_drag_and_drop_history (EEditorPage *editor_page)
 		return;
 
 	if (!(dom_selection = webkit_dom_dom_window_get_selection (dom_window))) {
-		g_object_unref (dom_window);
+		g_clear_object (&dom_window);
 		return;
 	}
 
+	g_clear_object (&dom_window);
+
 	if (webkit_dom_dom_selection_get_range_count (dom_selection) < 1) {
-		g_object_unref (dom_selection);
-		g_object_unref (dom_window);
+		g_clear_object (&dom_selection);
 		return;
 	}
 
@@ -709,7 +711,7 @@ e_composer_dom_save_drag_and_drop_history (EEditorPage *editor_page)
 	/* Restore the selection to state before the check. */
 	webkit_dom_dom_selection_remove_all_ranges (dom_selection);
 	webkit_dom_dom_selection_add_range (dom_selection, range);
-	g_object_unref (beginning_of_line);
+	g_clear_object (&beginning_of_line);
 
 	/* Check if the current selection end on the end of the line. */
 	webkit_dom_dom_selection_modify (
@@ -730,7 +732,7 @@ e_composer_dom_save_drag_and_drop_history (EEditorPage *editor_page)
 		 * line will be selected as well. */
 		webkit_dom_dom_selection_modify (
 			dom_selection, "extend", "right", "character");
-		g_object_unref (beginning_of_line);
+		g_clear_object (&beginning_of_line);
 		beginning_of_line = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
 
 		container = webkit_dom_range_get_end_container (range, NULL);
@@ -805,7 +807,7 @@ e_composer_dom_save_drag_and_drop_history (EEditorPage *editor_page)
 	/* Restore the selection to original state. */
 	webkit_dom_dom_selection_remove_all_ranges (dom_selection);
 	webkit_dom_dom_selection_add_range (dom_selection, range);
-	g_object_unref (beginning_of_line);
+	g_clear_object (&beginning_of_line);
 
 	/* All the things above were about removing the content,
 	 * create an AND event to continue later with inserting
@@ -814,11 +816,10 @@ e_composer_dom_save_drag_and_drop_history (EEditorPage *editor_page)
 	event->type = HISTORY_AND;
 	e_editor_undo_redo_manager_insert_history_event (manager, event);
 
-	g_object_unref (dom_selection);
-	g_object_unref (dom_window);
+	g_clear_object (&dom_selection);
 
-	g_object_unref (range);
-	g_object_unref (range_clone);
+	g_clear_object (&range);
+	g_clear_object (&range_clone);
 }
 
 void

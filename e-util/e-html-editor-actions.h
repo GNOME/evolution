@@ -83,6 +83,8 @@
 	E_HTML_EDITOR_ACTION ((editor), "format-menu")
 #define E_HTML_EDITOR_ACTION_FORMAT_TEXT(editor) \
 	E_HTML_EDITOR_ACTION ((editor), "format-text")
+#define E_HTML_EDITOR_ACTION_INSERT_EMOTICON(editor) \
+	E_HTML_EDITOR_ACTION ((editor), "insert-emoticon")
 #define E_HTML_EDITOR_ACTION_INSERT_IMAGE(editor) \
 	E_HTML_EDITOR_ACTION ((editor), "insert-image")
 #define E_HTML_EDITOR_ACTION_INSERT_LINK(editor) \

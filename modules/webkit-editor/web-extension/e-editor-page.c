@@ -801,7 +801,7 @@ void
 e_editor_page_emit_selection_changed (EEditorPage *editor_page)
 {
 	WebKitDOMDocument *document;
-	WebKitDOMRange *range;
+	WebKitDOMRange *range = NULL;
 	GDBusConnection *connection;
 	GError *error = NULL;
 
@@ -825,7 +825,7 @@ e_editor_page_emit_selection_changed (EEditorPage *editor_page)
 	if (!range)
 		return;
 
-	g_object_unref (range);
+	g_clear_object (&range);
 
 	editor_page->priv->alignment = e_editor_dom_selection_get_alignment (editor_page);
 	editor_page->priv->block_format = e_editor_dom_selection_get_block_format (editor_page);
