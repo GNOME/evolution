@@ -44,6 +44,7 @@ struct _EMailSignatureManagerPrivate {
 	GtkWidget *edit_button;		/* not referenced */
 	GtkWidget *remove_button;	/* not referenced */
 	GtkWidget *preview;		/* not referenced */
+	GtkWidget *preview_frame;	/* not referenced */
 
 	gboolean prefer_html;
 };
@@ -376,8 +377,16 @@ mail_signature_manager_constructed (GObject *object)
 
 	container = GTK_WIDGET (manager);
 
-	widget = e_mail_signature_preview_new (registry);
+	widget = gtk_frame_new (NULL);
+	gtk_frame_set_shadow_type (GTK_FRAME (widget), GTK_SHADOW_IN);
 	gtk_paned_pack2 (GTK_PANED (container), widget, FALSE, FALSE);
+	manager->priv->preview_frame = widget;  /* not referenced */
+	gtk_widget_show (widget);
+
+	container = widget;
+
+	widget = e_mail_signature_preview_new (registry);
+	gtk_container_add (GTK_CONTAINER (container), widget);
 	manager->priv->preview = widget;  /* not referenced */
 	gtk_widget_show (widget);
 
