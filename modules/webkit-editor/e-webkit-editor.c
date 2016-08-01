@@ -88,6 +88,7 @@ struct _EWebKitEditorPrivate {
 	gboolean copy_paste_primary_in_view;
 	gboolean copy_cut_actions_triggered;
 	gboolean pasting_primary_clipboard;
+	gboolean pasting_from_itself_extension_value;
 
 	guint32 style_flags;
 	gboolean is_indented;
@@ -5604,6 +5605,9 @@ webkit_editor_clipboard_owner_change_cb (GtkClipboard *clipboard,
 	else
 		wk_editor->priv->copy_paste_clipboard_in_view = FALSE;
 
+	if (wk_editor->priv->copy_paste_clipboard_in_view == wk_editor->priv->pasting_from_itself_extension_value)
+		return;
+
 	g_dbus_proxy_call (
 		wk_editor->priv->web_extension,
 		"SetPastingContentFromItself",
@@ -5618,6 +5622,8 @@ webkit_editor_clipboard_owner_change_cb (GtkClipboard *clipboard,
 		NULL);
 
 	wk_editor->priv->copy_cut_actions_triggered = FALSE;
+
+	wk_editor->priv->pasting_from_itself_extension_value = wk_editor->priv->copy_paste_clipboard_in_view;
 }
 
 static void
@@ -5632,6 +5638,9 @@ webkit_editor_primary_clipboard_owner_change_cb (GtkClipboard *clipboard,
 	if (!event->owner || !wk_editor->priv->can_copy)
 		wk_editor->priv->copy_paste_clipboard_in_view = FALSE;
 
+	if (wk_editor->priv->copy_paste_clipboard_in_view == wk_editor->priv->pasting_from_itself_extension_value)
+		return;
+
 	g_dbus_proxy_call (
 		wk_editor->priv->web_extension,
 		"SetPastingContentFromItself",
@@ -5644,6 +5653,8 @@ webkit_editor_primary_clipboard_owner_change_cb (GtkClipboard *clipboard,
 		NULL,
 		NULL,
 		NULL);
+
+	wk_editor->priv->pasting_from_itself_extension_value = wk_editor->priv->copy_paste_clipboard_in_view;
 }
 
 static gboolean
@@ -6071,6 +6082,7 @@ e_webkit_editor_init (EWebKitEditor *wk_editor)
 	wk_editor->priv->copy_paste_primary_in_view = FALSE;
 	wk_editor->priv->copy_cut_actions_triggered = FALSE;
 	wk_editor->priv->pasting_primary_clipboard = FALSE;
+	wk_editor->priv->pasting_from_itself_extension_value = FALSE;
 	wk_editor->priv->current_user_stylesheet = NULL;
 	wk_editor->priv->emit_load_finished_when_extension_is_ready = FALSE;
 
