@@ -4333,7 +4333,7 @@ insert_quote_symbols (WebKitDOMDocument *document,
 	quotation = get_quotation_for_level (quote_level);
 
 	quote_element = webkit_dom_document_create_element (document, "span", NULL);
-	element_add_class (quote_element, "-x-evo-quote");
+	element_add_class (quote_element, "-x-evo-quoted");
 
 	webkit_dom_element_set_inner_html (quote_element, quotation, NULL);
 	webkit_dom_node_insert_before (
