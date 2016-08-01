@@ -196,7 +196,7 @@ element_clicked_cb (WebKitDOMElement *element,
 {
 	EWebExtension *extension = user_data;
 	WebKitDOMElement *offset_parent;
-	WebKitDOMDOMWindow *dom_window;
+	WebKitDOMDOMWindow *dom_window = NULL;
 	gchar *attr_class, *attr_value;
 	const guint64 *ppage_id;
 	gdouble with_parents_left, with_parents_top;
@@ -258,7 +258,7 @@ web_extension_register_element_clicked_in_document (EWebExtension *extension,
 						    WebKitDOMDocument *document,
 						    const gchar *element_class)
 {
-	WebKitDOMHTMLCollection *collection;
+	WebKitDOMHTMLCollection *collection = NULL;
 	gulong ii, len;
 
 	g_return_if_fail (E_IS_WEB_EXTENSION (extension));
@@ -729,14 +729,15 @@ handle_method_call (GDBusConnection *connection,
 		iframe_document = e_dom_utils_find_document_with_uri (document, document_uri);
 
 		if (iframe_document) {
-			WebKitDOMDOMWindow *window;
+			WebKitDOMDOMWindow *dom_window;
 			WebKitDOMElement *frame_element;
 
 			/* Get frame's window and from the window the actual <iframe> element */
-			window = webkit_dom_document_get_default_view (iframe_document);
-			frame_element = webkit_dom_dom_window_get_frame_element (window);
+			dom_window = webkit_dom_document_get_default_view (iframe_document);
+			frame_element = webkit_dom_dom_window_get_frame_element (dom_window);
 			webkit_dom_html_iframe_element_set_src (
 				WEBKIT_DOM_HTML_IFRAME_ELEMENT (frame_element), new_iframe_src);
+			g_clear_object (&dom_window);
 		}
 
 		g_dbus_method_invocation_return_value (invocation, NULL);

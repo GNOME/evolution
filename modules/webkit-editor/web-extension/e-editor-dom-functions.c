@@ -3559,7 +3559,7 @@ e_editor_dom_body_input_event_process (EEditorPage *editor_page,
 	if (do_spell_check)
 		e_editor_dom_force_spell_check_for_current_paragraph (editor_page);
 
-	g_object_unref (range);
+	g_clear_object (&range);
 }
 
 static void
@@ -12713,13 +12713,13 @@ e_editor_dom_selection_save (EEditorPage *editor_page)
 	g_clear_object (&dom_window);
 
 	if (webkit_dom_dom_selection_get_range_count (dom_selection) < 1) {
-		g_object_unref (dom_selection);
+		g_clear_object (&dom_selection);
 		return;
 	}
 
 	range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
 	if (!range) {
-		g_object_unref (dom_selection);
+		g_clear_object (&dom_selection);
 		return;
 	}
 
@@ -15447,7 +15447,7 @@ e_editor_dom_selection_set_monospace (EEditorPage *editor_page,
 			tt_element = dom_node_find_parent_element (node, "FONT");
 
 			if (!is_monospace_element (tt_element)) {
-				g_object_unref (range);
+				g_clear_object (&range);
 				g_free (ev);
 				return;
 			}
@@ -15492,7 +15492,7 @@ e_editor_dom_selection_set_monospace (EEditorPage *editor_page,
 
 	e_editor_dom_force_spell_check_for_current_paragraph (editor_page);
 
-	g_object_unref (range);
+	g_clear_object (&range);
 }
 
 static gboolean
@@ -17368,18 +17368,19 @@ gchar *
 e_editor_dom_get_caret_word (EEditorPage *editor_page)
 {
 	gchar *word;
-	WebKitDOMRange *range = NULL;
+	WebKitDOMRange *range = NULL, *range_clone = NULL;
 
 	g_return_val_if_fail (E_IS_EDITOR_PAGE (editor_page), NULL);
 
 	range = e_editor_dom_get_current_range (editor_page);
 
 	/* Don't operate on the visible selection */
-	range = webkit_dom_range_clone_range (range, NULL);
-	webkit_dom_range_expand (range, "word", NULL);
-	word = webkit_dom_range_to_string (range, NULL);
+	range_clone = webkit_dom_range_clone_range (range, NULL);
+	webkit_dom_range_expand (range_clone, "word", NULL);
+	word = webkit_dom_range_to_string (range_clone, NULL);
 
 	g_clear_object (&range);
+	g_clear_object (&range_clone);
 
 	return word;
 }

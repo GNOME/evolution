@@ -96,7 +96,7 @@ get_range_for_point (WebKitDOMDocument *document,
 
 	/* The point is outside the viewport, scroll to it. */
 	if (!range) {
-		WebKitDOMDOMWindow *dom_window;
+		WebKitDOMDOMWindow *dom_window = NULL;
 
 		dom_window = webkit_dom_document_get_default_view (document);
 		webkit_dom_dom_window_scroll_to (dom_window, point.x, point.y);
@@ -105,7 +105,7 @@ get_range_for_point (WebKitDOMDocument *document,
 		scroll_top = webkit_dom_element_get_scroll_top (WEBKIT_DOM_ELEMENT (body));
 		range = webkit_dom_document_caret_range_from_point (
 			document, point.x - scroll_left, point.y - scroll_top);
-		g_object_unref (dom_window);
+		g_clear_object (&dom_window);
 	}
 
 	return range;
@@ -663,7 +663,7 @@ undo_delete (EEditorPage *editor_page,
 
 				e_editor_dom_force_spell_check_in_viewport (editor_page);
 
-				g_object_unref (dom_selection);
+				g_clear_object (&dom_selection);
 
 				return;
 			} else if (!next_sibling && !webkit_dom_node_is_same_node (parent_node, current_block))
@@ -880,7 +880,7 @@ undo_delete (EEditorPage *editor_page,
 		e_editor_dom_force_spell_check_for_current_paragraph (editor_page);
 	}
 
-	g_object_unref (dom_selection);
+	g_clear_object (&dom_selection);
 }
 
 static void
