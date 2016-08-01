@@ -7728,7 +7728,7 @@ e_html_editor_view_insert_quoted_text (EHTMLEditorView *view,
 {
 	EHTMLEditorSelection *selection;
 	EHTMLEditorViewHistoryEvent *ev = NULL;
-	gchar *escaped_text, *inner_html;
+	gchar *inner_html;
 	WebKitDOMDocument *document;
 	WebKitDOMElement *blockquote, *element, *selection_start;
 	WebKitDOMNode *node;
@@ -7746,12 +7746,6 @@ e_html_editor_view_insert_quoted_text (EHTMLEditorView *view,
 	element = webkit_dom_document_create_element (document, "textarea", NULL);
 	webkit_dom_html_element_set_inner_html (
 		WEBKIT_DOM_HTML_ELEMENT (element), text, NULL);
-	escaped_text = webkit_dom_html_element_get_inner_html (
-		WEBKIT_DOM_HTML_ELEMENT (element));
-
-	webkit_dom_html_element_set_inner_text (
-		WEBKIT_DOM_HTML_ELEMENT (element), escaped_text, NULL);
-
 	inner_html = webkit_dom_html_element_get_inner_html (
 		WEBKIT_DOM_HTML_ELEMENT (element));
 
@@ -7849,7 +7843,6 @@ e_html_editor_view_insert_quoted_text (EHTMLEditorView *view,
 
 	e_html_editor_view_set_changed (view, TRUE);
 
-	g_free (escaped_text);
 	g_free (inner_html);
 }
 
