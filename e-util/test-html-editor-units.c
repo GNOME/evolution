@@ -766,6 +766,22 @@ test_emoticon_insert_typed_dash (TestFixture *fixture)
 		g_test_fail ();
 }
 
+static void
+test_wrap_lines (TestFixture *fixture)
+{
+	if (!test_utils_run_simple_test (fixture,
+		"mode:html\n"
+		"type:Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero.\\n\n"
+		"type:Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero.\n"
+		"action:select-all\n"
+		"action:wrap-lines\n",
+		HTML_PREFIX "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec<br>odio. Praesent libero.</p>"
+		"<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec<br>odio. Praesent libero.</p>" HTML_SUFFIX,
+		"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec\n" "odio. Praesent libero.\n"
+		"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec\n" "odio. Praesent libero."))
+		g_test_fail ();
+}
+
 gint
 main (gint argc,
       gchar *argv[])
@@ -856,6 +872,7 @@ main (gint argc,
 	add_test ("/h-rule/insert-text-after", test_h_rule_insert_text_after);
 	add_test ("/emoticon/insert/typed", test_emoticon_insert_typed);
 	add_test ("/emoticon/insert/typed-dash", test_emoticon_insert_typed_dash);
+	add_test ("/wrap-lines", test_wrap_lines);
 
 	#undef add_test
 

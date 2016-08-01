@@ -157,5 +157,7 @@
 	E_HTML_EDITOR_ACTION ((editor), "undo")
 #define E_HTML_EDITOR_ACTION_UNINDENT(editor) \
 	E_HTML_EDITOR_ACTION ((editor), "unindent")
+#define E_HTML_EDITOR_ACTION_WRAP_LINES(editor) \
+	E_HTML_EDITOR_ACTION ((editor), "wrap-lines")
 
 #endif /* E_HTML_EDITOR_ACTIONS_H */
