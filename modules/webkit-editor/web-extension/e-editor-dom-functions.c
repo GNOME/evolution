@@ -725,6 +725,7 @@ e_editor_dom_force_spell_check_for_current_paragraph (EEditorPage *editor_page)
 	webkit_dom_range_collapse (actual, TRUE, NULL);
 	webkit_dom_dom_selection_remove_all_ranges (dom_selection);
 	webkit_dom_dom_selection_add_range (dom_selection, actual);
+	g_clear_object (&actual);
 
 	actual = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
 	perform_spell_check (dom_selection, actual, end_range);
@@ -1066,7 +1067,7 @@ return_pressed_in_empty_line (EEditorPage *editor_page)
 				gboolean collapsed;
 
 				collapsed = webkit_dom_range_get_collapsed (range, NULL);
-				g_object_unref (range);
+				g_clear_object (&range);
 				return collapsed;
 			}
 		}
@@ -2230,7 +2231,7 @@ emoticon_read_async_cb (GFile *file,
 	document = e_editor_page_get_document (editor_page);
 
 	/* Insert span with image representation and another one with text
-	 * represetation and hide/show them dependant on active composer mode */
+	 * representation and hide/show them dependant on active composer mode */
 	wrapper = webkit_dom_document_create_element (document, "SPAN", NULL);
 	if (html_mode)
 		webkit_dom_element_set_attribute (
