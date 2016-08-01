@@ -5494,7 +5494,7 @@ e_editor_dom_quote_and_insert_text_into_selection (EEditorPage *editor_page,
 	WebKitDOMNode *node;
 	EEditorHistoryEvent *ev = NULL;
 	EEditorUndoRedoManager *manager;
-	gchar *escaped_text, *inner_html;
+	gchar *inner_html;
 
 	g_return_if_fail (E_IS_EDITOR_PAGE (editor_page));
 
@@ -5507,11 +5507,7 @@ e_editor_dom_quote_and_insert_text_into_selection (EEditorPage *editor_page,
 	 * <textarea> automatically replaces all these unsafe characters
 	 * by &lt;, &gt; etc. */
 	element = webkit_dom_document_create_element (document, "textarea", NULL);
-	webkit_dom_element_set_inner_html (element, text, NULL);
-	escaped_text = webkit_dom_element_get_inner_html (element);
-
-	webkit_dom_html_element_set_inner_text (
-		WEBKIT_DOM_HTML_ELEMENT (element), escaped_text, NULL);
+	webkit_dom_html_element_set_inner_text (WEBKIT_DOM_HTML_ELEMENT (element), text, NULL);
 
 	inner_html = webkit_dom_element_get_inner_html (element);
 
@@ -5605,7 +5601,6 @@ e_editor_dom_quote_and_insert_text_into_selection (EEditorPage *editor_page,
 	e_editor_dom_force_spell_check_in_viewport (editor_page);
 	e_editor_page_emit_content_changed (editor_page);
 
-	g_free (escaped_text);
 	g_free (inner_html);
 }
 
