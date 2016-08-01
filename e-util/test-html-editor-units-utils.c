@@ -193,6 +193,7 @@ test_utils_fixture_set_up (TestFixture *fixture,
 
 	fixture->window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
 	fixture->undo_stack = NULL;
+	fixture->key_state = 0;
 
 	create_data.async_data = test_utils_async_call_prepare ();
 	create_data.fixture = fixture;
@@ -479,8 +480,8 @@ test_utils_type_text (TestFixture *fixture,
 			break;
 		}
 
-		test_utils_send_key_event (widget, GDK_KEY_PRESS, keyval, 0);
-		test_utils_send_key_event (widget, GDK_KEY_RELEASE, keyval, 0);
+		test_utils_send_key_event (widget, GDK_KEY_PRESS, keyval, fixture->key_state);
+		test_utils_send_key_event (widget, GDK_KEY_RELEASE, keyval, fixture->key_state);
 	}
 
 	test_utils_wait_milliseconds (event_processing_delay_ms);
@@ -537,7 +538,7 @@ test_utils_process_sequence (TestFixture *fixture,
 {
 	GtkWidget *widget;
 	const gchar *seq;
-	guint keyval, state;
+	guint keyval;
 	gboolean success = TRUE;
 
 	g_return_val_if_fail (fixture != NULL, FALSE);
@@ -547,17 +548,15 @@ test_utils_process_sequence (TestFixture *fixture,
 	widget = GTK_WIDGET (e_html_editor_get_content_editor (fixture->editor));
 	g_return_val_if_fail (GTK_IS_WIDGET (widget), FALSE);
 
-	state = 0;
-
 	for (seq = sequence; *seq && success; seq++) {
 		gboolean call_press = TRUE, call_release = TRUE;
-		guint change_state = state;
+		guint change_state = fixture->key_state;
 
 		switch (*seq) {
 		case 'S': /* Shift key press */
 			keyval = GDK_KEY_Shift_L;
 
-			if ((state & GDK_SHIFT_MASK) != 0) {
+			if ((fixture->key_state & GDK_SHIFT_MASK) != 0) {
 				success = FALSE;
 				g_warning ("%s: Shift is already pressed", G_STRFUNC);
 			} else {
@@ -568,7 +567,7 @@ test_utils_process_sequence (TestFixture *fixture,
 		case 's': /* Shift key release */
 			keyval = GDK_KEY_Shift_L;
 
-			if ((state & GDK_SHIFT_MASK) == 0) {
+			if ((fixture->key_state & GDK_SHIFT_MASK) == 0) {
 				success = FALSE;
 				g_warning ("%s: Shift is already released", G_STRFUNC);
 			} else {
@@ -579,7 +578,7 @@ test_utils_process_sequence (TestFixture *fixture,
 		case 'C': /* Ctrl key press */
 			keyval = GDK_KEY_Control_L;
 
-			if ((state & GDK_CONTROL_MASK) != 0) {
+			if ((fixture->key_state & GDK_CONTROL_MASK) != 0) {
 				success = FALSE;
 				g_warning ("%s: Control is already pressed", G_STRFUNC);
 			} else {
@@ -590,7 +589,7 @@ test_utils_process_sequence (TestFixture *fixture,
 		case 'c': /* Ctrl key release */
 			keyval = GDK_KEY_Control_L;
 
-			if ((state & GDK_CONTROL_MASK) == 0) {
+			if ((fixture->key_state & GDK_CONTROL_MASK) == 0) {
 				success = FALSE;
 				g_warning ("%s: Control is already released", G_STRFUNC);
 			} else {
@@ -642,13 +641,13 @@ test_utils_process_sequence (TestFixture *fixture,
 
 		if (success) {
 			if (call_press)
-				test_utils_send_key_event (widget, GDK_KEY_PRESS, keyval, state);
+				test_utils_send_key_event (widget, GDK_KEY_PRESS, keyval, fixture->key_state);
 
 			if (call_release)
-				test_utils_send_key_event (widget, GDK_KEY_RELEASE, keyval, state);
+				test_utils_send_key_event (widget, GDK_KEY_RELEASE, keyval, fixture->key_state);
 		}
 
-		state = change_state;
+		fixture->key_state = change_state;
 	}
 
 	test_utils_wait_milliseconds (event_processing_delay_ms);

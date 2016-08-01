@@ -30,6 +30,7 @@ typedef struct _TestFixture {
 	GtkWidget *window;
 	EHTMLEditor *editor;
 	GSList *settings; /* TestSettings * */
+	guint key_state;
 
 	GSList *undo_stack; /* UndoContent * */
 } TestFixture;
