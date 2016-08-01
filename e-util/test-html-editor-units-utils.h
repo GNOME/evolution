@@ -20,10 +20,16 @@
 #include <glib.h>
 #include <e-util/e-util.h>
 
+typedef struct _TestSettings {
+	gchar *schema;
+	gchar *key;
+	GVariant *old_value;
+} TestSettings;
+
 typedef struct _TestFixture {
 	GtkWidget *window;
 	EHTMLEditor *editor;
-	gboolean prompt_on_composer_mode_switch;
+	GSList *settings; /* TestSettings * */
 
 	GSList *undo_stack; /* UndoContent * */
 } TestFixture;
@@ -36,6 +42,26 @@ void		test_utils_fixture_set_up	(TestFixture *fixture,
 						 gconstpointer user_data);
 void		test_utils_fixture_tear_down	(TestFixture *fixture,
 						 gconstpointer user_data);
+void		test_utils_fixture_change_setting
+						(TestFixture *fixture,
+						 const gchar *schema,
+						 const gchar *key,
+						 GVariant *value);
+void		test_utils_fixture_change_setting_boolean
+						(TestFixture *fixture,
+						 const gchar *schema,
+						 const gchar *key,
+						 gboolean value);
+void		test_utils_fixture_change_setting_int32
+						(TestFixture *fixture,
+						 const gchar *schema,
+						 const gchar *key,
+						 gint value);
+void		test_utils_fixture_change_setting_string
+						(TestFixture *fixture,
+						 const gchar *schema,
+						 const gchar *key,
+						 const gchar *value);
 gpointer	test_utils_async_call_prepare	(void);
 gboolean	test_utils_async_call_wait	(gpointer async_data,
 						 guint timeout_seconds);

@@ -138,7 +138,6 @@ test_utils_html_editor_created_cb (GObject *source_object,
 	CreateData *create_data = user_data;
 	TestFixture *fixture;
 	EContentEditor *cnt_editor;
-	GSettings *settings;
 	GtkWidget *html_editor;
 	GError *error = NULL;
 
@@ -153,10 +152,7 @@ test_utils_html_editor_created_cb (GObject *source_object,
 		return;
 	}
 
-	settings = e_util_ref_settings ("org.gnome.evolution.mail");
-
 	fixture->editor = E_HTML_EDITOR (html_editor);
-	fixture->prompt_on_composer_mode_switch = g_settings_get_boolean (settings, "prompt-on-composer-mode-switch");
 
 	g_object_set (G_OBJECT (fixture->editor),
 		"halign", GTK_ALIGN_FILL,
@@ -168,9 +164,8 @@ test_utils_html_editor_created_cb (GObject *source_object,
 	gtk_container_add (GTK_CONTAINER (fixture->window), GTK_WIDGET (fixture->editor));
 
 	/* Make sure this is off */
-	g_settings_set_boolean (settings, "prompt-on-composer-mode-switch", FALSE);
-
-	g_clear_object (&settings);
+	test_utils_fixture_change_setting_boolean (fixture,
+		"org.gnome.evolution.mail", "prompt-on-composer-mode-switch", FALSE);
 
 	cnt_editor = e_html_editor_get_content_editor (fixture->editor);
 	g_object_set (G_OBJECT (cnt_editor),
@@ -207,21 +202,97 @@ test_utils_fixture_set_up (TestFixture *fixture,
 	test_utils_async_call_wait (create_data.async_data, 5);
 }
 
+static void
+free_old_settings (gpointer ptr)
+{
+	TestSettings *data = ptr;
+
+	if (data) {
+		GSettings *settings;
+
+		settings = e_util_ref_settings (data->schema);
+		g_settings_set_value (settings, data->key, data->old_value);
+		g_clear_object (&settings);
+
+		g_variant_unref (data->old_value);
+		g_free (data->schema);
+		g_free (data->key);
+		g_free (data);
+	}
+}
+
 void
 test_utils_fixture_tear_down (TestFixture *fixture,
 			      gconstpointer user_data)
 {
-	GSettings *settings;
-
 	gtk_widget_destroy (GTK_WIDGET (fixture->window));
 	fixture->editor = NULL;
 
-	settings = e_util_ref_settings ("org.gnome.evolution.mail");
-	g_settings_set_boolean (settings, "prompt-on-composer-mode-switch", fixture->prompt_on_composer_mode_switch);
-	g_clear_object (&settings);
+	g_slist_free_full (fixture->settings, free_old_settings);
+	fixture->settings = NULL;
 
 	g_slist_free_full (fixture->undo_stack, undo_content_free);
 	fixture->undo_stack = NULL;
+}
+
+void
+test_utils_fixture_change_setting (TestFixture *fixture,
+				   const gchar *schema,
+				   const gchar *key,
+				   GVariant *value)
+{
+	TestSettings *data;
+	GSettings *settings;
+
+	g_return_if_fail (fixture != NULL);
+	g_return_if_fail (schema != NULL);
+	g_return_if_fail (key != NULL);
+	g_return_if_fail (value != NULL);
+
+	g_variant_ref_sink (value);
+
+	settings = e_util_ref_settings (schema);
+
+	data = g_new0 (TestSettings, 1);
+	data->schema = g_strdup (schema);
+	data->key = g_strdup (key);
+	data->old_value = g_variant_ref_sink (g_settings_get_value (settings, key));
+
+	/* Use prepend, thus the restore comes in the opposite order, thus a change
+	   of the same key is not a problem. */
+	fixture->settings = g_slist_prepend (fixture->settings, data);
+
+	g_settings_set_value (settings, key, value);
+
+	g_clear_object (&settings);
+	g_variant_unref (value);
+}
+
+void
+test_utils_fixture_change_setting_boolean (TestFixture *fixture,
+					   const gchar *schema,
+					   const gchar *key,
+					   gboolean value)
+{
+	test_utils_fixture_change_setting (fixture, schema, key, g_variant_new_boolean (value));
+}
+
+void
+test_utils_fixture_change_setting_int32 (TestFixture *fixture,
+					 const gchar *schema,
+					 const gchar *key,
+					 gint value)
+{
+	test_utils_fixture_change_setting (fixture, schema, key, g_variant_new_int32 (value));
+}
+
+void
+test_utils_fixture_change_setting_string (TestFixture *fixture,
+					  const gchar *schema,
+					  const gchar *key,
+					  const gchar *value)
+{
+	test_utils_fixture_change_setting (fixture, schema, key, g_variant_new_string (value));
 }
 
 static void
