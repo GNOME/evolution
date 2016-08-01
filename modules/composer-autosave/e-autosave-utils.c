@@ -117,6 +117,7 @@ create_snapshot_file (EMsgComposer *composer,
 }
 
 typedef struct _CreateComposerData {
+	GSimpleAsyncResult *simple;
 	LoadContext *context;
 	CamelMimeMessage *message;
 	GFile *snapshot_file;
@@ -134,7 +135,7 @@ autosave_composer_created_cb (GObject *source_object,
 	composer = e_msg_composer_new_finish (result, &error);
 	if (error) {
 		g_warning ("%s: Failed to create msg composer: %s", G_STRFUNC, error->message);
-		g_clear_error (&error);
+		g_simple_async_result_take_error (ccd->simple, error);
 	} else {
 		e_msg_composer_setup_with_message (composer, ccd->message, TRUE, NULL, NULL);
 		g_object_set_data_full (
@@ -144,6 +145,9 @@ autosave_composer_created_cb (GObject *source_object,
 		ccd->context->composer = g_object_ref_sink (composer);
 	}
 
+	g_simple_async_result_complete (ccd->simple);
+
+	g_clear_object (&ccd->simple);
 	g_clear_object (&ccd->message);
 	g_clear_object (&ccd->snapshot_file);
 	g_free (ccd);
@@ -173,6 +177,7 @@ load_snapshot_loaded_cb (GFile *snapshot_file,
 		g_warn_if_fail (contents == NULL);
 		g_simple_async_result_take_error (simple, local_error);
 		g_simple_async_result_complete (simple);
+		g_object_unref (simple);
 		return;
 	}
 
@@ -190,6 +195,7 @@ load_snapshot_loaded_cb (GFile *snapshot_file,
 		g_simple_async_result_take_error (simple, local_error);
 		g_simple_async_result_complete (simple);
 		g_object_unref (message);
+		g_object_unref (simple);
 		return;
 	}
 
@@ -202,6 +208,7 @@ load_snapshot_loaded_cb (GFile *snapshot_file,
 	shell = E_SHELL (object);
 
 	ccd = g_new0 (CreateComposerData, 1);
+	ccd->simple = simple;
 	ccd->context = context;
 	ccd->message = message;
 	ccd->snapshot_file = g_object_ref (snapshot_file);
@@ -209,9 +216,6 @@ load_snapshot_loaded_cb (GFile *snapshot_file,
 	e_msg_composer_new (shell, autosave_composer_created_cb, ccd);
 
 	g_object_unref (object);
-
-	g_simple_async_result_complete (simple);
-	g_object_unref (simple);
 }
 
 static void
