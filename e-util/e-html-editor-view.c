@@ -6577,7 +6577,7 @@ insert_quote_symbols (WebKitDOMDocument *document,
 	quotation = get_quotation_for_level (quote_level);
 
 	quote_element = webkit_dom_document_create_element (document, "span", NULL);
-	element_add_class (quote_element, "-x-evo-quote");
+	element_add_class (quote_element, "-x-evo-quoted");
 
 	webkit_dom_html_element_set_inner_html (
 		WEBKIT_DOM_HTML_ELEMENT (quote_element), quotation, NULL);
