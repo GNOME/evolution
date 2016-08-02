@@ -201,6 +201,9 @@ test_utils_fixture_set_up (TestFixture *fixture,
 	e_html_editor_new (test_utils_html_editor_created_cb, &create_data);
 
 	test_utils_async_call_wait (create_data.async_data, 5);
+
+	g_warn_if_fail (fixture->editor != NULL);
+	g_warn_if_fail (E_IS_HTML_EDITOR (fixture->editor));
 }
 
 static void
@@ -489,6 +492,52 @@ test_utils_type_text (TestFixture *fixture,
 	return TRUE;
 }
 
+static void
+sync_wrapper_result_callback (GObject *source_object,
+			      GAsyncResult *result,
+			      gpointer user_data)
+{
+	GAsyncResult **out_async_result = user_data;
+
+	g_return_if_fail (out_async_result != NULL);
+	g_return_if_fail (*out_async_result == NULL);
+
+	*out_async_result = g_object_ref (result);
+}
+
+/* Wraps GDBusProxy synchronous call into an asynchronous without blocking
+   the main context, thus there is no freeze when this is called in the UI
+   process and the WebProcess also does its own IPC call. */
+static GVariant *
+g_dbus_proxy_call_sync_wrapper (GDBusProxy *proxy,
+				const gchar *method_name,
+				GVariant *parameters,
+				GDBusCallFlags flags,
+				gint timeout_msec,
+				GCancellable *cancellable,
+				GError **error)
+{
+	GAsyncResult *async_result = NULL;
+	GVariant *var_result;
+
+	g_return_val_if_fail (G_IS_DBUS_PROXY (proxy), NULL);
+	g_return_val_if_fail (method_name != NULL, NULL);
+
+	g_dbus_proxy_call (
+		proxy, method_name, parameters, flags, timeout_msec, cancellable,
+		sync_wrapper_result_callback, &async_result);
+
+	while (!async_result) {
+		g_main_context_iteration (NULL, TRUE);
+	}
+
+	var_result = g_dbus_proxy_call_finish (proxy, async_result, error);
+
+	g_clear_object (&async_result);
+
+	return var_result;
+}
+
 gboolean
 test_utils_html_equal (TestFixture *fixture,
 		       const gchar *html1,
@@ -512,7 +561,7 @@ test_utils_html_equal (TestFixture *fixture,
 
 	g_return_val_if_fail (G_IS_DBUS_PROXY (web_extension), FALSE);
 
-	result = g_dbus_proxy_call_sync (
+	result = g_dbus_proxy_call_sync_wrapper (
 		web_extension,
 		"TestHTMLEqual",
 		g_variant_new ("(tss)", webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (cnt_editor)), html1, html2),

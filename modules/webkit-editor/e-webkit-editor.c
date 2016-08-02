@@ -589,6 +589,52 @@ current_page_id (EWebKitEditor *wk_editor)
 }
 
 static void
+sync_wrapper_result_callback (GObject *source_object,
+			      GAsyncResult *result,
+			      gpointer user_data)
+{
+	GAsyncResult **out_async_result = user_data;
+
+	g_return_if_fail (out_async_result != NULL);
+	g_return_if_fail (*out_async_result == NULL);
+
+	*out_async_result = g_object_ref (result);
+}
+
+/* Wraps GDBusProxy synchronous call into an asynchronous without blocking
+   the main context, thus there is no freeze when this is called in the UI
+   process and the WebProcess also does its own IPC call. */
+static GVariant *
+g_dbus_proxy_call_sync_wrapper (GDBusProxy *proxy,
+				const gchar *method_name,
+				GVariant *parameters,
+				GDBusCallFlags flags,
+				gint timeout_msec,
+				GCancellable *cancellable,
+				GError **error)
+{
+	GAsyncResult *async_result = NULL;
+	GVariant *var_result;
+
+	g_return_val_if_fail (G_IS_DBUS_PROXY (proxy), NULL);
+	g_return_val_if_fail (method_name != NULL, NULL);
+
+	g_dbus_proxy_call (
+		proxy, method_name, parameters, flags, timeout_msec, cancellable,
+		sync_wrapper_result_callback, &async_result);
+
+	while (!async_result) {
+		g_main_context_iteration (NULL, TRUE);
+	}
+
+	var_result = g_dbus_proxy_call_finish (proxy, async_result, error);
+
+	g_clear_object (&async_result);
+
+	return var_result;
+}
+
+static void
 webkit_editor_call_simple_extension_function_sync (EWebKitEditor *wk_editor,
                                                    const gchar *function)
 {
@@ -597,7 +643,7 @@ webkit_editor_call_simple_extension_function_sync (EWebKitEditor *wk_editor,
 		return;
 	}
 
-	g_dbus_proxy_call_sync (
+	g_dbus_proxy_call_sync_wrapper (
 		wk_editor->priv->web_extension,
 		function,
 		g_variant_new ("(t)", current_page_id (wk_editor)),
@@ -637,7 +683,7 @@ webkit_editor_get_element_attribute (EWebKitEditor *wk_editor,
 		return NULL;
 	}
 
-	return g_dbus_proxy_call_sync (
+	return g_dbus_proxy_call_sync_wrapper (
 		wk_editor->priv->web_extension,
 		"ElementGetAttributeBySelector",
 		g_variant_new ("(tss)", current_page_id (wk_editor), selector, attribute),
@@ -1332,7 +1378,7 @@ webkit_editor_set_html_mode (EWebKitEditor *wk_editor,
 	if (html_mode == wk_editor->priv->html_mode)
 		return;
 
-	result = g_dbus_proxy_call_sync (
+	result = g_dbus_proxy_call_sync_wrapper (
 		wk_editor->priv->web_extension,
 		"DOMCheckIfConversionNeeded",
 		g_variant_new ("(t)", current_page_id (wk_editor)),
@@ -1645,7 +1691,7 @@ webkit_editor_get_content (EContentEditor *editor,
 			NULL,
 			NULL);
 
-	result = g_dbus_proxy_call_sync (
+	result = g_dbus_proxy_call_sync_wrapper (
 		wk_editor->priv->web_extension,
 		"DOMGetContent",
 		g_variant_new (
@@ -1735,7 +1781,7 @@ webkit_editor_move_caret_on_coordinates (EContentEditor *editor,
 		return;
 	}
 
-	g_dbus_proxy_call_sync (
+	g_dbus_proxy_call_sync_wrapper (
 		wk_editor->priv->web_extension,
 		"DOMMoveSelectionOnPoint",
 		g_variant_new (
@@ -1929,7 +1975,7 @@ webkit_editor_get_caret_word (EContentEditor *editor)
 		return NULL;
 	}
 
-	result = g_dbus_proxy_call_sync (
+	result = g_dbus_proxy_call_sync_wrapper (
 		wk_editor->priv->web_extension,
 		"DOMGetCaretWord",
 		g_variant_new ("(t)", current_page_id (wk_editor)),
@@ -2014,7 +2060,7 @@ webkit_editor_get_current_signature_uid (EContentEditor *editor)
 		return NULL;
 	}
 
-	result = g_dbus_proxy_call_sync (
+	result = g_dbus_proxy_call_sync_wrapper (
 		wk_editor->priv->web_extension,
 		"DOMGetActiveSignatureUid",
 		g_variant_new ("(t)", current_page_id (wk_editor)),
@@ -2061,7 +2107,7 @@ webkit_editor_insert_signature (EContentEditor *editor,
 		return NULL;
 	}
 
-	result = g_dbus_proxy_call_sync (
+	result = g_dbus_proxy_call_sync_wrapper (
 		wk_editor->priv->web_extension,
 		"DOMInsertSignature",
 		g_variant_new (
@@ -2106,7 +2152,7 @@ webkit_editor_get_caret_position (EContentEditor *editor)
 		return 0;
 	}
 
-	result = g_dbus_proxy_call_sync (
+	result = g_dbus_proxy_call_sync_wrapper (
 		wk_editor->priv->web_extension,
 		"DOMGetCaretPosition",
 		g_variant_new ("(t)", current_page_id (wk_editor)),
@@ -2137,7 +2183,7 @@ webkit_editor_get_caret_offset (EContentEditor *editor)
 		return 0;
 	}
 
-	result = g_dbus_proxy_call_sync (
+	result = g_dbus_proxy_call_sync_wrapper (
 		wk_editor->priv->web_extension,
 		"DOMGetCaretOffset",
 		g_variant_new ("(t)", current_page_id (wk_editor)),
@@ -2512,7 +2558,7 @@ webkit_editor_on_h_rule_dialog_open (EContentEditor *editor)
 		return FALSE;
 	}
 
-	result = g_dbus_proxy_call_sync (
+	result = g_dbus_proxy_call_sync_wrapper (
 		wk_editor->priv->web_extension,
 		"EEditorHRuleDialogFindHRule",
 		g_variant_new ("(t)", current_page_id (wk_editor)),
@@ -2697,7 +2743,7 @@ webkit_editor_h_rule_get_no_shade (EContentEditor *editor)
 		return FALSE;
 	}
 
-	result = g_dbus_proxy_call_sync (
+	result = g_dbus_proxy_call_sync_wrapper (
 		wk_editor->priv->web_extension,
 		"ElementHasAttribute",
 		g_variant_new ("(tss)", current_page_id (wk_editor), "-x-evo-current-hr", "noshade"),
@@ -2884,7 +2930,7 @@ webkit_editor_image_get_url (EContentEditor *editor)
 		return NULL;
 	}
 
-	result = g_dbus_proxy_call_sync (
+	result = g_dbus_proxy_call_sync_wrapper (
 		wk_editor->priv->web_extension,
 		"EEditorImageDialogGetElementUrl",
 		g_variant_new ("(t)", current_page_id (wk_editor)),
@@ -2940,7 +2986,7 @@ webkit_editor_image_get_vspace (EContentEditor *editor)
 		return 0;
 	}
 
-	result = g_dbus_proxy_call_sync (
+	result = g_dbus_proxy_call_sync_wrapper (
 		wk_editor->priv->web_extension,
 		"ImageElementGetVSpace",
 		g_variant_new ("(ts)", current_page_id (wk_editor), "-x-evo-current-img"),
@@ -2996,7 +3042,7 @@ webkit_editor_image_get_hspace (EContentEditor *editor)
 		return 0;
 	}
 
-	result = g_dbus_proxy_call_sync (
+	result = g_dbus_proxy_call_sync_wrapper (
 		wk_editor->priv->web_extension,
 		"ImageElementGetHSpace",
 		g_variant_new ("(ts)", current_page_id (wk_editor), "-x-evo-current-img"),
@@ -3099,7 +3145,7 @@ webkit_editor_image_get_natural_width (EContentEditor *editor)
 		return 0;
 	}
 
-	result = g_dbus_proxy_call_sync (
+	result = g_dbus_proxy_call_sync_wrapper (
 		wk_editor->priv->web_extension,
 		"ImageElementGetNaturalWidth",
 		g_variant_new ("(ts)", current_page_id (wk_editor), "-x-evo-current-img"),
@@ -3130,7 +3176,7 @@ webkit_editor_image_get_natural_height (EContentEditor *editor)
 		return 0;
 	}
 
-	result = g_dbus_proxy_call_sync (
+	result = g_dbus_proxy_call_sync_wrapper (
 		wk_editor->priv->web_extension,
 		"ImageElementGetNaturalHeight",
 		g_variant_new ("(ts)", current_page_id (wk_editor), "-x-evo-current-img"),
@@ -3243,7 +3289,7 @@ webkit_editor_image_get_width (EContentEditor *editor)
 		return 0;
 	}
 
-	result = g_dbus_proxy_call_sync (
+	result = g_dbus_proxy_call_sync_wrapper (
 		wk_editor->priv->web_extension,
 		"ImageElementGetWidth",
 		g_variant_new ("(ts)", current_page_id (wk_editor), "-x-evo-current-img"),
@@ -3274,7 +3320,7 @@ webkit_editor_image_get_height (EContentEditor *editor)
 		return 0;
 	}
 
-	result = g_dbus_proxy_call_sync (
+	result = g_dbus_proxy_call_sync_wrapper (
 		wk_editor->priv->web_extension,
 		"ImageElementGetHeight",
 		g_variant_new ("(ts)", current_page_id (wk_editor), "-x-evo-current-img"),
@@ -3364,7 +3410,7 @@ webkit_editor_link_get_values (EContentEditor *editor,
 		return;
 	}
 
-	result = g_dbus_proxy_call_sync (
+	result = g_dbus_proxy_call_sync_wrapper (
 		wk_editor->priv->web_extension,
 		"EEditorLinkDialogShow",
 		g_variant_new ("(t)", current_page_id (wk_editor)),
@@ -4018,7 +4064,7 @@ webkit_editor_cell_get_wrap (EContentEditor *editor)
 		return FALSE;
 	}
 
-	result = g_dbus_proxy_call_sync (
+	result = g_dbus_proxy_call_sync_wrapper (
 		wk_editor->priv->web_extension,
 		"TableCellElementGetNoWrap",
 		g_variant_new ("(ts)", current_page_id (wk_editor), "-x-evo-current-cell"),
@@ -4081,7 +4127,7 @@ webkit_editor_cell_is_header (EContentEditor *editor)
 		return FALSE;
 	}
 
-	result = g_dbus_proxy_call_sync (
+	result = g_dbus_proxy_call_sync_wrapper (
 		wk_editor->priv->web_extension,
 		"ElementGetTagName",
 		g_variant_new ("(ts)", current_page_id (wk_editor), "-x-evo-current-cell"),
@@ -4153,7 +4199,7 @@ webkit_editor_cell_get_row_span (EContentEditor *editor)
 		return 0;
 	}
 
-	result = g_dbus_proxy_call_sync (
+	result = g_dbus_proxy_call_sync_wrapper (
 		wk_editor->priv->web_extension,
 		"TableCellElementGetRowSpan",
 		g_variant_new ("(ts)", current_page_id (wk_editor), "-x-evo-current-cell"),
@@ -4187,7 +4233,7 @@ webkit_editor_cell_get_col_span (EContentEditor *editor)
 		return 0;
 	}
 
-	result = g_dbus_proxy_call_sync (
+	result = g_dbus_proxy_call_sync_wrapper (
 		wk_editor->priv->web_extension,
 		"TableCellElementGetColSpan",
 		g_variant_new ("(ts)", current_page_id (wk_editor), "-x-evo-current-cell"),
@@ -4461,7 +4507,7 @@ webkit_editor_table_get_row_count (EContentEditor *editor)
 		return 0;
 	}
 
-	result = g_dbus_proxy_call_sync (
+	result = g_dbus_proxy_call_sync_wrapper (
 		wk_editor->priv->web_extension,
 		"EEditorTableDialogGetRowCount",
 		g_variant_new ("(t)", current_page_id (wk_editor)),
@@ -4522,7 +4568,7 @@ webkit_editor_table_get_column_count (EContentEditor *editor)
 		return 0;
 	}
 
-	result = g_dbus_proxy_call_sync (
+	result = g_dbus_proxy_call_sync_wrapper (
 		wk_editor->priv->web_extension,
 		"EEditorTableDialogGetColumnCount",
 		g_variant_new ("(t)", current_page_id (wk_editor)),
@@ -4888,7 +4934,7 @@ webkit_editor_on_table_dialog_open (EContentEditor *editor)
 		return FALSE;
 	}
 
-	result = g_dbus_proxy_call_sync (
+	result = g_dbus_proxy_call_sync_wrapper (
 		wk_editor->priv->web_extension,
 		"EEditorTableDialogShow",
 		g_variant_new ("(t)", current_page_id (wk_editor)),
@@ -4951,7 +4997,7 @@ move_to_another_word (EContentEditor *editor,
 	if (!active_languages)
 		return NULL;
 
-	result = g_dbus_proxy_call_sync (
+	result = g_dbus_proxy_call_sync_wrapper (
 		wk_editor->priv->web_extension,
 		dom_function,
 		g_variant_new (
