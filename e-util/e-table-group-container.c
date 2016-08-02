@@ -835,16 +835,27 @@ etgc_get_cell_geometry (ETableGroup *etg,
 		for (list = etgc->children; list; list = list->next) {
 			ETableGroupContainerChildNode *child_node = (ETableGroupContainerChildNode *) list->data;
 			ETableGroup *child = child_node->child;
-			gint thisy;
+			gint thisy = 0;
+			gdouble group_header_y1 = 0.0, group_header_y2 = 0.0;
 
 			e_table_group_get_cell_geometry (child, row, col, x, &thisy, width, height);
 			ypos += thisy;
 			if ((*row == -1) || (*col == -1)) {
 				ypos += TITLE_HEIGHT;
-				*x += GROUP_INDENT;
-				*y = ypos;
+				if (x)
+					*x += GROUP_INDENT;
+				if (y)
+					*y = ypos;
 				return;
 			}
+
+			g_object_get (
+				child_node->rect,
+				"y1", &group_header_y1,
+				"y2", &group_header_y2,
+				NULL);
+
+			ypos += group_header_y2 - group_header_y1;
 		}
 	}
 }
