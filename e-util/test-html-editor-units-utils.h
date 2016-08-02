@@ -79,5 +79,8 @@ gboolean	test_utils_run_simple_test	(TestFixture *fixture,
 						 const gchar *commands,
 						 const gchar *expected_html,
 						 const gchar *expected_plain);
+void		test_utils_insert_content	(TestFixture *fixture,
+						 const gchar *content,
+						 EContentEditorInsertContentFlags flags);
 
 #endif /* TEST_HTML_EDITOR_UNITS_UTILS_H */

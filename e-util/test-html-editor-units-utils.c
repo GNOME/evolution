@@ -930,3 +930,18 @@ test_utils_run_simple_test (TestFixture *fixture,
 
 	return TRUE;
 }
+
+void
+test_utils_insert_content (TestFixture *fixture,
+			   const gchar *content,
+			   EContentEditorInsertContentFlags flags)
+{
+	EContentEditor *cnt_editor;
+
+	g_return_if_fail (fixture != NULL);
+	g_return_if_fail (E_IS_HTML_EDITOR (fixture->editor));
+	g_return_if_fail (content != NULL);
+
+	cnt_editor = e_html_editor_get_content_editor (fixture->editor);
+	e_content_editor_insert_content (cnt_editor, content, flags);
+}
