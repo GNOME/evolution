@@ -973,7 +973,7 @@ webkit_editor_update_styles (EContentEditor *editor)
 		"body[data-evo-plain-text] [data-evo-paragraph] "
 		"{\n"
 		"  word-wrap: break-word; \n"
-		"  word-break: break-all; \n"
+		"  word-break: break-word; \n"
 		"}\n");
 
 	g_string_append_printf (
