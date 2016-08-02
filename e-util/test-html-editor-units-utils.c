@@ -597,6 +597,28 @@ test_utils_process_sequence (TestFixture *fixture,
 			}
 			call_press = FALSE;
 			break;
+		case 'A': /* Alt key press */
+			keyval = GDK_KEY_Alt_L;
+
+			if ((fixture->key_state & GDK_MOD1_MASK) != 0) {
+				success = FALSE;
+				g_warning ("%s: Alt is already pressed", G_STRFUNC);
+			} else {
+				change_state |= GDK_MOD1_MASK;
+			}
+			call_release = FALSE;
+			break;
+		case 'a': /* Alt key release */
+			keyval = GDK_KEY_Alt_L;
+
+			if ((fixture->key_state & GDK_MOD1_MASK) == 0) {
+				success = FALSE;
+				g_warning ("%s: Alt is already released", G_STRFUNC);
+			} else {
+				change_state &= ~GDK_MOD1_MASK;
+			}
+			call_press = FALSE;
+			break;
 		case 'h': /* Home key press + release */
 			keyval = GDK_KEY_Home;
 			break;
@@ -734,6 +756,8 @@ test_utils_pick_undo_content (const GSList *undo_stack,
              / "s" ; Shift key release
              / "C" ; Ctrl key press
              / "c" ; Ctrl key release
+             / "A" ; Alt key press
+             / "a" ; Alt key release
              / "h" ; Home key press + release
              / "e" ; End key press + release
              / "P" ; Page-Up key press + release
