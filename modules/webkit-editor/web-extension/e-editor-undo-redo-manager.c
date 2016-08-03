@@ -2094,8 +2094,7 @@ undo_redo_unquote (EEditorPage *editor_page,
 
 	document = e_editor_page_get_document (editor_page);
 
-	if (undo)
-		restore_selection_to_history_event_state (editor_page, event->after);
+	restore_selection_to_history_event_state (editor_page, undo ? event->after : event->before);
 
 	e_editor_dom_selection_save (editor_page);
 	element = webkit_dom_document_get_element_by_id (
@@ -2138,9 +2137,9 @@ undo_redo_unquote (EEditorPage *editor_page,
 		e_editor_dom_move_quoted_block_level_up (editor_page);
 
 	if (undo)
-		restore_selection_to_history_event_state (editor_page, event->before);
-	else
 		e_editor_dom_selection_restore (editor_page);
+	else
+		restore_selection_to_history_event_state (editor_page, event->after);
 
 	e_editor_dom_force_spell_check_for_current_paragraph (editor_page);
 }
