@@ -13,8 +13,8 @@ msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2016-07-18 16:34+0000\n"
-"PO-Revision-Date: 2016-07-24 16:53+0300\n"
+"POT-Creation-Date: 2016-08-03 12:44+0000\n"
+"PO-Revision-Date: 2016-08-03 21:40+0300\n"
 "Last-Translator: Aurimas Černius <aurisc4@gmail.com>\n"
 "Language-Team: Lietuvių <gnome-lt@lists.akl.lt>\n"
 "Language: lt\n"
@@ -9328,18 +9328,30 @@ msgid "If set to 'true' quoted text in replies will be wrapped."
 msgstr "Nustačius teigiamai cituojamas tekstas atsakymuose bus laužomas."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:67
+msgid "Whether to obey Content-Disposition:inline message header hint"
+msgstr "Ar laikytis laiško antraštės užuominos Content-Disposition:inline"
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:68
+msgid ""
+"Set to 'false' to block automatic display of attachments with Content-"
+"Disposition: inline."
+msgstr ""
+"Nustatykite neigiamą automatinio priedų rodymo blokavimui kai naudojama "
+"Content-Disposition: inline."
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:69
 msgid "Save file format for drag-and-drop operation"
 msgstr "Failo įrašymo formatas tempimo ir numetimo veiksmui"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:68
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:70
 msgid "Can be either 'mbox' or 'pdf'."
 msgstr "Gali būti „mbox“ arba „pdf“."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:69
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:71
 msgid "Show image animations"
 msgstr "Rodyti paveikslėlių animacijas"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:70
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:72
 msgid ""
 "Enable animated images in HTML mail. Many users find animated images "
 "annoying and prefer to see a static image instead."
@@ -9348,11 +9360,11 @@ msgstr ""
 "paveikslėliai erzina ir jie pageidauja verčiau matyti statinius "
 "paveikslėlius."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:71
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:73
 msgid "Enable or disable type ahead search feature"
 msgstr "Įjungti arba išjungti rinkimo priekyje paieškos funkciją"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:72
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:74
 msgid ""
 "Enable the side bar search feature to allow interactive searching of folder "
 "names."
@@ -9360,11 +9372,11 @@ msgstr ""
 "Įjungti šoninės juostos paieškos funkciją įgalinant interaktyviai ieškoti "
 "aplankų vardų."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:73
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:75
 msgid "Enable or disable magic space bar"
 msgstr "Įjungti arba išjungti stebuklingąjį tarpo klavišą"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:74
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:76
 msgid ""
 "Enable this to use Space bar key to scroll in message preview, message list "
 "and folders."
@@ -9372,60 +9384,60 @@ msgstr ""
 "Įjunkite, jei norite naudoti tarpo klavišą slinkimui žinučių peržiūroje, "
 "sąraše ir aplankuose."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:75
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:77
 msgid "Enable to use a similar message list view settings for all folders"
 msgstr ""
 "Įjunkite norėdami naudoti panašius laiškų sąrašo rodymo nustatymus visiems "
 "aplankams"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:76
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:78
 msgid "Enable to use a similar message list view settings for all folders."
 msgstr ""
 "Įjunkite norėdami naudoti panašius laiškų sąrašo rodymo nustatymus visiems "
 "aplankams."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:77
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:79
 msgid "Mark citations in the message \"Preview\""
 msgstr "Laiško „Peržiūroje“ pažymėti citatas"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:78
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:80
 msgid "Mark citations in the message \"Preview\"."
 msgstr "Laiško „Peržiūroje“ pažymėti citatas."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:79
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:81
 msgid "Citation highlight color"
 msgstr "Citatų išskyrimo spalva"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:80
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:82
 msgid "Citation highlight color."
 msgstr "Citatų išskyrimo spalva."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:81
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:83
 msgid "Enable/disable caret mode"
 msgstr "Perjungia žymeklio veikseną"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:82
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:84
 msgid "Enable caret mode, so that you can see a cursor when reading mail."
 msgstr ""
 "Įjungti žymeklio veikseną, kad skaitant laišką būtų galima matyti žymeklį."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:83
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:85
 msgid "Default charset in which to display messages"
 msgstr "Koduotė, kuri yra naudojama skaitant laiškus"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:84
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:86
 msgid "Default charset in which to display messages."
 msgstr "Koduotė, kuri yra naudojama skaitant laiškus"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:85
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:87
 msgid "Automatically load images for HTML messages over HTTP"
 msgstr "Automatiškai įkelti HTML laiškų paveikslėlius per HTTP"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:86
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:88
 msgid "Show notification about missing remote content"
 msgstr "Rodyti pranešimus apie trūkstamą nuotolinį turinį"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:87
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:89
 msgid ""
 "When the message preview shows a message which requires to download remote "
 "content, while the download is not allowed for the user or the site, then "
@@ -9435,27 +9447,27 @@ msgstr ""
 "o parsiuntimas nėra leidžiamas naudotojui ar tinklalapiui, tuomet rodyti "
 "pranešimą apie tai peržiūros skydelio viršuje."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:88
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:90
 msgid "Show Animations"
 msgstr "Rodyti animacijas"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:89
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:91
 msgid "Show animated images as animations."
 msgstr "Rodyti animuotus paveikslėlius kaip animacijas"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:90
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:92
 msgid "Show all message headers"
 msgstr "Rodyti visas laiško antraštes"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:91
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:93
 msgid "Show all the headers when viewing a messages."
 msgstr "Peržiūrint laišką rodyti visas antraštes."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:92
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:94
 msgid "List of headers to show when viewing a message."
 msgstr "Antraštės, rodomos peržiūrint laišką."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:93
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:95
 msgid ""
 "Each header is represented as a pair: the header name, and a boolean "
 "indicating whether the header is enabled. Disabled headers are not shown "
@@ -9465,35 +9477,35 @@ msgstr ""
 "nurodanti, ar antraštė yra įjungta. Išjungtos antraštės nerodomos peržiūrint "
 "laišką, bet vis dar yra išvardintos nuostatose."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:94
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:96
 msgid "Show photo of the sender"
 msgstr "Rodyti siuntėjo nuotrauką"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:95
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:97
 msgid "Show the photo of the sender in the message reading pane."
 msgstr "Rodyti siuntėjo nuotrauką laiško skaitymo dalyje."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:96
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:98
 msgid "Search gravatar.com for photo of the sender"
 msgstr "Rodyti siuntėjo gravatas.com nuotrauką"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:97
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:99
 msgid "Allow searching also at gravatar.com for photo of the sender."
 msgstr "Leisti ieškoti siuntėjo nuotraukos gravatar.com"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:98
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:100
 msgid "Mark as Seen after specified timeout"
 msgstr "Pažymėti perskaitytu po nurodyto laiko tarpo"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:99
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:101
 msgid "Mark as Seen after specified timeout."
 msgstr "Pažymėti perskaitytu po nurodyto laiko tarpo."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:100
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:102
 msgid "Mark as Seen always after specified timeout"
 msgstr "Visada pažymėti matytu po nurodyto laiko tarpo"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:101
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:103
 msgid ""
 "If set to true, the selected message will be set as unread after the timeout "
 "also after the folder change."
@@ -9501,46 +9513,46 @@ msgstr ""
 "Jei nustatyta teigiama, pažymėtas laiškas bus nustatytas neperskaitytu po "
 "nurodyto laiko bei po aplanko pakeitimo."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:102
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:104
 msgid "Timeout for marking messages as seen"
 msgstr "Laiko tarpas, skirtas pažymėti laiškus kaip perskaitytus"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:103
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:105
 msgid "Timeout in milliseconds for marking messages as seen."
 msgstr ""
 "Laiko tarpas milisekundėmis, skirtas pažymėti laiškus kaip perskaitytus."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:104
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:106
 msgid "Sender email-address column in the message list"
 msgstr "Siuntėjo el. pašto stulpelis laiškų sąraše"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:105
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:107
 msgid ""
 "Show the email-address of the sender in a separate column in the message "
 "list."
 msgstr "Rodyti siuntėjo el. paštą atskirame stulpelyje laiškų sąraše."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:106
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:108
 msgid "Show deleted messages in the message-list"
 msgstr "Laiškų sąraše rodyti ištrintus laiškus"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:107
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:109
 msgid "Show deleted messages (with a strike-through) in the message-list."
 msgstr "Laiškų sąraše rodyti ištrintus laiškus (juos perbraukiant)."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:108
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:110
 msgid "Show junk messages in the message-list"
 msgstr "Laiškų sąraše rodyti šlamštą"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:109
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:111
 msgid "Show junk messages (with a red strike-through) in the message-list."
 msgstr "Laiškų sąraše rodyti šlamštą laiškus (juos perbraukiant raudonai)."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:110
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:112
 msgid "Enable Unmatched search folder"
 msgstr "Įjungti paieškos aplanką „Neatitinkantys“"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:111
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:113
 msgid ""
 "Enable Unmatched search folder within Search Folders. It does nothing if "
 "Search Folders are disabled."
@@ -9548,11 +9560,11 @@ msgstr ""
 "Įjungti paieškos aplanką Neatitiko. Nieko nedaro, jei paieškos aplankai yra "
 "išjungti."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:112
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:114
 msgid "Hides the per-folder preview and removes the selection"
 msgstr "Paslepia laiškų peržiūrą šiame aplanke ir atžymi visus laiškus"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:113
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:115
 msgid ""
 "This key is read only once and reset to \"false\" after read. This unselects "
 "the mail in the list and removes the preview for that folder."
@@ -9560,31 +9572,31 @@ msgstr ""
 "Šis raktas perskaitomas tik kartą, tuomet jo reikšmė nustatoma į neigiamą. "
 "Taip atžymimi laiškai sąraše ir paslepiama to aplanko peržiūra."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:114
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:116
 msgid "Height of the message-list pane"
 msgstr "Laiškų sąrašo skydelio aukštis"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:115
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:117
 msgid "Height of the message-list pane."
 msgstr "Laiškų sąrašo skydelio aukštis."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:116
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:118
 msgid "Whether message headers are collapsed in the user interface"
 msgstr "Ar laiškų antraštės yra sutrauktos naudotojo sąsajoje"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:117
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:119
 msgid "Width of the message-list pane"
 msgstr "Laiškų sąrašo polangio plotis"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:118
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:120
 msgid "Width of the message-list pane."
 msgstr "Laiškų sąrašo polangio plotis."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:119
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:121
 msgid "Layout style"
 msgstr "Išdėstymo stilius"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:120
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:122
 msgid ""
 "The layout style determines where to place the preview pane in relation to "
 "the message list. \"0\" (Classic View) places the preview pane below the "
@@ -9595,35 +9607,35 @@ msgstr ""
 "„0“ (klasikinis rodinys) – peržiūros polangis yra po laiškų sąrašu. "
 "„1“ (vertikalus rodinys) – peržiūros polangis yra šalia laiškų sąrašo."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:121
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:123
 msgid "Variable width font"
 msgstr "Kintamo pločio šriftas"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:122
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:124
 msgid "The variable width font for mail display."
 msgstr "Pašto rodymui naudojamas kintamo pločio šriftas."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:123
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:125
 msgid "Terminal font"
 msgstr "Terminalo šriftas"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:124
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:126
 msgid "The terminal font for mail display."
 msgstr "Pašto rodymui naudojamas terminalo šriftas."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:125
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:127
 msgid "Use custom fonts"
 msgstr "Naudoti savo šriftus"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:126
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:128
 msgid "Use custom fonts for displaying mail."
 msgstr "Laiško rodymui naudoti pasirinktinius šriftus."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:127
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:129
 msgid "Compress display of addresses in TO/CC/BCC"
 msgstr "Suglaudinti adresų rodymą laukeliuose Kam/kopija/slapta kopija"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:128
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:130
 msgid ""
 "Compress display of addresses in TO/CC/BCC to the number specified in "
 "address_count."
@@ -9631,11 +9643,11 @@ msgstr ""
 "Suglaudinti adresų rodymą  laukeliuose Kam/kopija/slapta kopija iki "
 "skaičiaus, nurodyto address_count rakte."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:129
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:131
 msgid "Number of addresses to display in TO/CC/BCC"
 msgstr "Adresų skaičius rodomas Kam/kopija/slapta kopija laukelyje"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:130
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:132
 msgid ""
 "This sets the number of addresses to show in default message list view, "
 "beyond which a '...' is shown."
@@ -9643,11 +9655,11 @@ msgstr ""
 "Čia nurodomas adresų, rodomų numatytame laiškų sąrašo rodinyje, skaičių, po "
 "kurio rodomas „...“."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:131
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:133
 msgid "Thread the message-list based on Subject"
 msgstr "Kurti laiškų sąrašo gijas remiantis laiškų temomis"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:132
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:134
 msgid ""
 "Whether or not to fall back on threading by subjects when the messages do "
 "not contain In-Reply-To or References headers."
@@ -9655,11 +9667,11 @@ msgstr ""
 "Ar naudoti gijų rūšiavimą pagal antraštes, jei laiškai neturi In-Reply-To "
 "arba Reference antraščių."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:133
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:135
 msgid "Default value for thread expand state"
 msgstr "Numatytoji gijų išplėtimo reikšmė"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:134
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:136
 msgid ""
 "This setting specifies whether the threads should be in expanded or "
 "collapsed state by default. Evolution requires a restart."
@@ -9667,11 +9679,11 @@ msgstr ""
 "Nurodo, ar gijos pagal numatytuosius nustatymus turėtų būti išplėstos, ar "
 "sutrauktos. Pakeitus reikės paleisti Evolution iš naujo."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:135
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:137
 msgid "Whether sort threads based on latest message in that thread"
 msgstr "Ar rikiuoti gijas pagal kiekvienos gijos naujausią pranešimą."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:136
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:138
 msgid ""
 "This setting specifies whether the threads should be sorted based on latest "
 "message in each thread, rather than by message's date. Evolution requires a "
@@ -9681,11 +9693,11 @@ msgstr ""
 "kiekvienoje gijoje, o ne pagal žinutės datą. Pakeitus reikės paleisti "
 "Evolution iš naujo."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:137
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:139
 msgid "Whether sort thread children always ascending"
 msgstr "Ar visada rikiuoti gijos narius didėjimo tvarka"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:138
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:140
 msgid ""
 "This setting specifies whether the thread children should be sorted always "
 "ascending, rather than using the same sort order as in the thread root level."
@@ -9693,11 +9705,11 @@ msgstr ""
 "Nurodo, ar gijos visada turėtų būti surikiuotos remiantis didėjimo tvarka, o "
 "ne ta pačia tvarka, kaip viršutiniame lygyje."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:139
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:141
 msgid "Sort accounts alphabetically in a folder tree"
 msgstr "Aplanko medyje paskyras rikiuoti abėcėlės tvarka"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:140
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:142
 msgid ""
 "Tells how to sort accounts in a folder tree used in a Mail view. When set to "
 "true accounts are sorted alphabetically, with an exception of On This "
@@ -9709,27 +9721,27 @@ msgstr ""
 "kompiuterio ir paieškos aplankus, kitais atvejais paskyros rikiuojamos "
 "remiantis tvarka, kurią paskyrė naudotojas"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:141
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:143
 msgid "Log filter actions"
 msgstr "Registruoti filtro veiksmus"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:142
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:144
 msgid "Log filter actions to the specified log file."
 msgstr "Registruoti filtrų veiksmus į nurodytą žurnalo failą."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:143
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:145
 msgid "Logfile to log filter actions"
 msgstr "Failas, kuriame registruojami filtrų veiksmai"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:144
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:146
 msgid "Logfile to log filter actions."
 msgstr "Failas, kuriame registruojami filtrų veiksmai."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:145
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:147
 msgid "Flush Outbox after filtering"
 msgstr "Išvalyti paruoštų siųsti laiškų aplanką po filtravimo"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:146
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:148
 msgid ""
 "Whether to flush Outbox after filtering is done. Outbox flush will happen "
 "only when there was used any 'Forward to' filter action and approximately "
@@ -9739,57 +9751,57 @@ msgstr ""
 "laiškų aplankas bus išvalytas tik po to, kai bus panaudotas filtras "
 "„Persiųsti“ ir nuo to bus praėjusi maždaug viena minutė."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:147
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:149
 msgid "Default forward style"
 msgstr "Numatytasis persiuntimo stilius"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:148
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:150
 msgid "Default reply style"
 msgstr "Numatytasis atsakymo stilius"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:149
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:151
 msgid "Prompt on send when using key accelerator (Ctrl+Enter)"
 msgstr "Klausti siunčiant naudojant klaviatūros trumpinį (Vald+Enter)"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:150
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:152
 msgid ""
 "Prompt the user when he or she tries to send a message with a key "
 "accelerator."
 msgstr ""
 "Užklausti patvirtinimo, kai bandoma siųsti laišką naudojant klavišų trumpinį."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:151
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:153
 msgid "Prompt on empty subject"
 msgstr "Užklausti, kai tema nenurodyta"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:152
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:154
 msgid ""
 "Prompt the user when he or she tries to send a message without a Subject."
 msgstr "Užklausti patvirtinimo, kai bandoma siųsti laišką nenurodžius temos."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:153
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:155
 msgid "Prompt when emptying the trash"
 msgstr "Įspėti, kai išvaloma šiukšlinė"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:154
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:156
 msgid "Prompt the user when he or she tries to empty the trash."
 msgstr "Užklausti patvirtinimo, kai bandoma išvalyti šiukšlinę."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:155
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:157
 msgid "Prompt when user expunges"
 msgstr "Įspėti naudotoją išvalymo metu"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:156
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:158
 msgid "Prompt the user when he or she tries to expunge a folder."
 msgstr "Užklausti patvirtinimo, kai bandoma išvalyti aplanką."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:157
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:159
 msgid "Prompt before sending to recipients not entered as mail addresses"
 msgstr ""
 "Atsiklausti siunčiant laiškus gavėjams, kurie nenurodyti el. pašto adresų "
 "forma"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:158
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:160
 msgid ""
 "It disables/enables the repeated prompts to warn that you are trying to send "
 "a message to recipients not entered as mail addresses"
@@ -9797,23 +9809,23 @@ msgstr ""
 "Įjungia/išjungia pakartotinius perspėjimus apie tai, jog siunčiate laišką "
 "gavėjams, kurie nurodyti ne el. pašto adresų forma"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:159
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:161
 msgid "Prompt when user only fills Bcc"
 msgstr ""
 "Paklausti patvirtinimo, kai užpildomi tik slaptos kopijos gavėjų laukai"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:160
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:162
 msgid "Prompt when user tries to send a message with no To or Cc recipients."
 msgstr ""
 "Paklausti prieš siunčiant laiškus, kuriuose yra tik slaptos kopijos gavėjai."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:161
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:163
 msgid "Prompt when user tries to send unwanted HTML"
 msgstr ""
 "Paklausti patvirtinimo, kai bandoma siųsti HTML laišką to nenorintiems "
 "adresatams"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:162
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:164
 msgid ""
 "Prompt when user tries to send HTML mail to recipients that may not want to "
 "receive HTML mail."
@@ -9821,12 +9833,12 @@ msgstr ""
 "Paklausti, kai siunčiamas HTML laiškas adresatams, kurie gali nenorėti gauti "
 "HTML formato laiškų."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:163
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:165
 msgid "Prompt when user tries to open 10 or more messages at once"
 msgstr ""
 "Paklausti patvirtinimo, kai bandoma išsiųsti 10 ar daugiau laiškų vienu metu"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:164
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:166
 msgid ""
 "If a user tries to open 10 or more messages at one time, ask the user if "
 "they really want to do it."
@@ -9834,19 +9846,19 @@ msgstr ""
 "Jeigu naudotojas bando tuo pačiu metu atverti 10 ar daugiau laiškų, "
 "paklausti jo ar jis tikrai nori tai padaryti."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:165
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:167
 msgid "Prompt while marking multiple messages"
 msgstr "Įspėti naudotoją pažymint keletą laiškų"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:166
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:168
 msgid "Enable or disable the prompt whilst marking multiple messages."
 msgstr "Išjungia/įjungia paklausimą žymint keletą laiškų vienu metu."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:167
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:169
 msgid "Prompt when deleting messages in search folder"
 msgstr "Paklausti patvirtinimo trinant paieškos aplanke esančius laiškus"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:168
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:170
 msgid ""
 "It disables/enables the repeated prompts to warn that deleting messages from "
 "a search folder permanently deletes the message, not simply removing it from "
@@ -9856,11 +9868,11 @@ msgstr ""
 "iš paieškos aplanko visam laiko ištrina žinutę, o ne tik pašalina ją iš "
 "paieškos rezultatų."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:169
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:171
 msgid "Asks whether to copy a folder by drag &amp; drop in the folder tree"
 msgstr "Klausia, ar kopijuoti aplanką tempiant ir numetant aplankų medyje"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:170
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:172
 msgid ""
 "Possible values are: 'never' - do not allow copy with drag &amp; drop of "
 "folders in folder tree, 'always' - allow copy with drag &amp; drop of "
@@ -9871,11 +9883,11 @@ msgstr ""
 "„always“ - leisti kopijuoti tempiant ir numetant arba „ask“ - (ar bet kokia "
 "kita reikšmė) – klausti naudotojo."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:171
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:173
 msgid "Asks whether to move a folder by drag &amp; drop in the folder tree"
 msgstr "Klausia, ar perkelti aplanką tempiant ir numetant aplankų medyje"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:172
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:174
 msgid ""
 "Possible values are: 'never' - do not allow move with drag &amp; drop of "
 "folders in folder tree, 'always' - allow move with drag &amp; drop of "
@@ -9886,11 +9898,11 @@ msgstr ""
 "- leisti perkelti tempiant ir numetant arba „ask“ - (ar bet kokia kita "
 "reikšmė) – klausti naudotojo."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:173
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:175
 msgid "Prompt when replying privately to list messages"
 msgstr "Įspėti, kai rašomas asmeninis atsakymas į pašto konferencijos laiškus"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:174
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:176
 msgid ""
 "It disables/enables the repeated prompts to warn that you are sending a "
 "private reply to a message which arrived via a mailing list."
@@ -9898,11 +9910,11 @@ msgstr ""
 "Įjungia/išjungia kartotinius pranešimus, įspėjančius, kad siunčiate asmeninį "
 "atsakymą į laišką, gautą pašto konferencijoje."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:175
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:177
 msgid "Prompt when mailing list hijacks private replies"
 msgstr "Įspėti, kai pašto konferencija siekia perimti asmeninius atsakymus"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:176
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:178
 msgid ""
 "It disables/enables the repeated prompts to warn that you are trying sending "
 "a private reply to a message which arrived via a mailing list, but the list "
@@ -9913,11 +9925,11 @@ msgstr ""
 "tarpu konferencijoje yra nustatyta atgalinio adreso antraštė, nukreipianti "
 "jūsų atsakymą atgal į šią konferenciją"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:177
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:179
 msgid "Prompt when replying to many recipients"
 msgstr "Įspėti, kuomet atsakinėjama daugeliui gavėjų"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:178
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:180
 msgid ""
 "It disables/enables the repeated prompts to warn that you are sending a "
 "reply to many people."
@@ -9925,14 +9937,14 @@ msgstr ""
 "Įjungia/išjungia kartotinius pranešimus, įspėjančius, kad siunčiate atsakymą "
 "daugeliui žmonių."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:179
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:181
 msgid ""
 "Prompt when switching composer mode and the content needs to lose its "
 "formatting"
 msgstr ""
 "Klausti perjungiant redaktoriaus veikseną ir turinys praras formatavimą"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:180
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:182
 msgid ""
 "It disables/enables the repeated prompts to warn that you are switching "
 "composer mode and the content needs to lose its formatting."
@@ -9940,11 +9952,11 @@ msgstr ""
 "Įjungia/išjungia pakartotinius perspėjimus apie perjungiamą redaktoriaus "
 "veikseną ir kad turinys praras formatavimą."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:181
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:183
 msgid "Prompt when sending to many To and CC recipients"
 msgstr "Įspėti, kuomet atsakinėjama daugeliui gavėjų (kam ir kopija)"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:182
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:184
 msgid ""
 "Enable or disable the prompt when sending to many To and CC recipients. The "
 "'composer-many-to-cc-recips-num' defines the threshold."
@@ -9952,7 +9964,7 @@ msgstr ""
 "Įjungia arba išjungia pranešimą, kai siunčiama daugeliui kam ir kopija "
 "gavėjų. Ribą nustato raktas „composer-many-to-cc-recips-num“."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:183
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:185
 msgid ""
 "Policy for automatically closing the message browser window when forwarding "
 "or replying to the displayed message."
@@ -9960,54 +9972,54 @@ msgstr ""
 "Automatinio laiškų naršymo lango užvertimo tvarką persiunčiant ar atsakant į "
 "rodomą laišką."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:184
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:186
 msgid "Empty Trash folders on exit"
 msgstr "Išeinant ištuštinti šiukšlių aplankus"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:185
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:187
 msgid "Empty all Trash folders when exiting Evolution."
 msgstr "Išvalyti visus šiukšlių aplankus išeinant iš Evolution."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:186
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:188
 msgid "Minimum days between emptying the trash on exit"
 msgstr "Mažiausias dienų skaičius tarp šiukšlinės išvalymų uždarant programą"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:187
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:189
 msgid "Minimum time between emptying the trash on exit, in days."
 msgstr ""
 "Mažiausias laikotarpis tarp šiukšlinės išvalymų uždarant programą, dienomis."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:188
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:190
 msgid "Last time Empty Trash was run"
 msgstr "Kada paskutinį kartą buvo išvalyta šiukšlinė"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:189
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:191
 msgid ""
 "The last time Empty Trash was run, in days since January 1st, 1970 (Epoch)."
 msgstr ""
 "Kada paskutinį kartą buvo išvalyta šiukšlinė, dienomis nuo 1970 m. sausio 1 "
 "d. (epochos)."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:190
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:192
 msgid "Amount of time in seconds the error should be shown on the status bar."
 msgstr "Trukmė sekundėmis, kiek būsenos juostoje turi būti rodoma klaida"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:191
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:193
 msgid "Level beyond which the message should be logged."
 msgstr "Lygmuo, po kurio žinutė turėtų būti užregistruota žurnale."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:192
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:194
 msgid ""
 "This can have three possible values. \"0\" for errors. \"1\" for warnings. "
 "\"2\" for debug messages."
 msgstr ""
 "Galimos trys reikšmės: 0 – klaidos; 1 – įspėjimai; 2 – derinimo pranešimai."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:193
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:195
 msgid "Show original \"Date\" header value."
 msgstr "Rodyti pradinę antraštės „Data“ reikšmę."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:194
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:196
 msgid ""
 "Show the original \"Date\" header (with a local time only if the time zone "
 "differs). Otherwise always show \"Date\" header value in a user preferred "
@@ -10017,11 +10029,11 @@ msgstr ""
 "juosta). Kitu atveju, visada rodyti antraštės „Data“ reikšmę naudotojo "
 "pageidaujamu formatu ir vietinę laiko juostą."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:195
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:197
 msgid "List of Labels and their associated colors"
 msgstr "Etikečių ir su jomis susijusių spalvų sąrašas"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:196
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:198
 msgid ""
 "List of labels known to the mail component of Evolution. The list contains "
 "strings containing name:color where color uses the HTML hex encoding."
@@ -10029,47 +10041,47 @@ msgstr ""
 "Evolution pašto komponentui žinomų žymių sąrašas. Sąraše yra eilutės, "
 "kuriose yra name:color, kur spalvai naudojama HTML šešioliktainis kodas."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:197
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:199
 msgid "Check incoming mail being junk"
 msgstr "Filtruoti brukalą tarp gaunamų laiškų"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:198
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:200
 msgid "Run junk test on incoming mail."
 msgstr "Vykdyti brukalo testą gaunamiems laiškams."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:199
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:201
 msgid "Empty Junk folders on exit"
 msgstr "Išeinant ištuštinti brukalo aplankus"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:200
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:202
 msgid "Empty all Junk folders when exiting Evolution."
 msgstr "Išvalyti visus brukalo aplankus išeinant iš Evolution."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:201
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:203
 msgid "Minimum days between emptying the junk on exit"
 msgstr "Mažiausias dienų skaičius tarp brukalo išvalymų uždarant programą"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:202
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:204
 msgid "Minimum time between emptying the junk on exit, in days."
 msgstr ""
 "Mažiausias laikotarpis tarp brukalo išvalymų uždarant programą, dienomis."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:203
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:205
 msgid "Last time Empty Junk was run"
 msgstr "Kada paskutinį kartą buvo išvalytas brukalas"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:204
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:206
 msgid ""
 "The last time Empty Junk was run, in days since January 1st, 1970 (Epoch)."
 msgstr ""
 "Kada paskutinį kartą buvo išvalytas brukalas, dienomis nuo 1970 m. sausio 1 "
 "d. (epochos)."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:205
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:207
 msgid "The default plugin for Junk hook"
 msgstr "Numatytasis brukalo tikrinimo įskiepis"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:206
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:208
 msgid ""
 "This is the default junk plugin, even though there are multiple plugins "
 "enabled. If the default listed plugin is disabled, then it won't fall back "
@@ -10079,11 +10091,11 @@ msgstr ""
 "įskiepis, nurodytas numatytuoju, būtų išjungtas, kiti prieinami įskiepiai "
 "nebūtų automatiškai naudojami vietoj jo."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:207
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:209
 msgid "Determines whether to lookup in address book for sender email"
 msgstr "Nurodo, ar ieškoti adresų knygoje siuntėjo el. pašto adreso"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:208
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:210
 msgid ""
 "Determines whether to lookup the sender email in address book. If found, it "
 "shouldn't be a spam. It looks up in the books marked for autocompletion. It "
@@ -10095,14 +10107,14 @@ msgstr ""
 "automatiniam užbaigimui. Jei naudojamos nutolusios užrašų knygutės, pvz., "
 "LDAP, paieška gali užtrukti."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:209
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:211
 msgid ""
 "Determines whether to look up addresses for junk filtering in local address "
 "book only"
 msgstr ""
 "Nurodo, ar ieškoti adresų brukalo filtravimui tik vietinėje adresų knygoje"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:210
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:212
 msgid ""
 "This option is related to the key lookup_addressbook and is used to "
 "determine whether to look up addresses in local address book only to exclude "
@@ -10112,11 +10124,11 @@ msgstr ""
 "nustatyti, ar ieškoti adresų vietinėje adresų knygoje tik tam, kad laiškuose "
 "nuo žinomų siuntėjų nebūtų ieškoma brukalo."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:211
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:213
 msgid "Determines whether to use custom headers to check for junk"
 msgstr "Nurodo, ar naudoti pasirinktines antraštes brukalo atfiltravimui"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:212
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:214
 msgid ""
 "Determines whether to use custom headers to check for junk. If this option "
 "is enabled and the headers are mentioned, it will be improve the junk "
@@ -10125,11 +10137,11 @@ msgstr ""
 "Nustato, ar naudoti pasirinktines antraštes brukalo filtravimui. Jei ši "
 "parinktis įjungta ir nurodytos antraštės, brukalo filtravimas pagreitės."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:213
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:215
 msgid "Custom headers to use while checking for junk."
 msgstr "Ieškant brukalo naudojamos pasirinktines antraštės."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:214
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:216
 msgid ""
 "Custom headers to use while checking for junk. The list elements are string "
 "in the format \"headername=value\"."
@@ -10137,31 +10149,31 @@ msgstr ""
 "Ieškant brukalo naudojamos pasirinktines antraštės. Sąrašo elementai yra "
 "tokio formato eilutė: „antraštėsvardas=reikšmė“."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:215
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:217
 msgid "UID string of the default account."
 msgstr "Numatytosios paskyros UID simbolių seka."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:216
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:218
 msgid "Save directory"
 msgstr "Įrašymo aplankas"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:217
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:219
 msgid "Directory for saving mail component files."
 msgstr "Laiško komponentų failų saugojimo aplankas."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:218
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:220
 msgid "Composer load/attach directory"
 msgstr "Rašyklės įkėlimo/prikabinimo katalogas"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:219
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:221
 msgid "Directory for loading/attaching files to composer."
 msgstr "Failų įkėlimo/prijungimo aplankas."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:220
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:222
 msgid "Check for new messages on start"
 msgstr "Ieškoti naujo pašto paleidus programą"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:221
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:223
 msgid ""
 "Whether to check for new messages when Evolution is started. This includes "
 "also sending messages from Outbox."
@@ -10169,11 +10181,11 @@ msgstr ""
 "Ar ieškoti naujų laiškų paleidus Evolution. Tuo pačiu išsiunčiami laiškai, "
 "laukiantys siunčiamųjų laiškų aplanke."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:222
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:224
 msgid "Check for new messages in all active accounts"
 msgstr "Automatiškai ieškoti naujų laiškų visose suaktyvintose paskyrose"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:223
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:225
 msgid ""
 "Whether to check for new messages in all active accounts regardless of the "
 "account \"Check for new messages every X minutes\" option when Evolution is "
@@ -10183,11 +10195,11 @@ msgstr ""
 "parinkties „Ieškoti naujų laiškų kas X minutes“. Ši parinktis naudojama tik "
 "kartu su parinktimi „send_recv_on_start“."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:224
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:226
 msgid "Server synchronization interval"
 msgstr "Serverio sinchronizacijos intervalas"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:225
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:227
 msgid ""
 "Controls how frequently local changes are synchronized with the remote mail "
 "server. The interval must be at least 30 seconds."
@@ -10195,11 +10207,11 @@ msgstr ""
 "Nurodo kaip dažnai vietiniai pakeitimai sinchronizuojami su nutolusiu pašto "
 "serveriu. Intervalas turi būti bent 30 sekundžių."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:226
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:228
 msgid "Allow expunge in virtual folders"
 msgstr "Leisti sutraukti virtualius aplankus"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:227
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:229
 msgid ""
 "Enables Expunge in virtual folders, which means that the Folder->Expunge "
 "will be callable in virtual folders, while the expunge itself will be done "
@@ -10211,12 +10223,12 @@ msgstr ""
 "atliktas visiems laiškams visuose aplankuose virtualaus aplanko viduje, ne "
 "tik ištrintiems laiškams tame aplanke."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:228
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:230
 #: ../mail/mail-config.ui.h:9
 msgid "Inherit theme colors in HTML mode"
 msgstr "Paveldėti temos spalvas HTML veiksenoje"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:229
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:231
 msgid ""
 "When enabled the theme colors for background, text and links are sent in "
 "resulting HTML formatted message."
@@ -10224,11 +10236,11 @@ msgstr ""
 "Kai įjungta, temos fono, teksto ir saitų spalvos siunčiamos rezultato HTML "
 "laiške."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:230
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:232
 msgid "An Archive folder for On This Computer folders."
 msgstr "Archyvo aplankas šio kompiuterio aplankams."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:231
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:233
 msgid ""
 "An Archive folder to use for Messages|Archive... feature when in an On This "
 "Computer folder."
@@ -10236,11 +10248,11 @@ msgstr ""
 "Archyvo aplankas, naudojamas Laiškai|Archyvas... savybei, kai esama šio "
 "kompiuterio aplanke."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:232
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:234
 msgid "(Deprecated) Default forward style"
 msgstr "(Pasenęs) Numatytasis persiuntimo stilius"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:233
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:235
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "\"forward-style-name\" instead."
@@ -10248,11 +10260,11 @@ msgstr ""
 "Šis raktas yra pasenęs nuo 3.10 versijos ir nebeturėtų būti naudojamas. "
 "Vietoj to naudokite „forward-style-name“"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:234
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:236
 msgid "(Deprecated) Default reply style"
 msgstr "(Pasenęs) Numatytasis atsakymo stilius"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:235
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:237
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "\"reply-style-name\" instead."
@@ -10260,12 +10272,12 @@ msgstr ""
 "Šis raktas yra pasenęs nuo 3.10 versijos ir nebeturėtų būti naudojamas. "
 "Vietoj to naudokite „reply-style-name“."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:236
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:238
 msgid "(Deprecated) List of custom headers and whether they are enabled."
 msgstr ""
 "(Pasenęs) Pasirinktinių antraščių sąrašas ir jų įjungimas / išjungimas."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:237
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:239
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "\"show-headers\" instead."
@@ -10273,11 +10285,11 @@ msgstr ""
 "Šis raktas yra pasenęs nuo 3.10 versijos ir nebeturėtų būti naudojamas. "
 "Vietoj to naudokite „show-headers“."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:238
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:240
 msgid "(Deprecated) Load images for HTML messages over HTTP"
 msgstr "(Pasenęs) Įkelti HTML laiškų paveikslėlius per HTTP"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:239
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:241
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "\"image-loading-policy\" instead."
@@ -10285,7 +10297,7 @@ msgstr ""
 "Šis raktas yra pasenęs nuo 3.10 versijos ir nebeturėtų būti naudojamas. "
 "Vietoj to naudokite „image-loading-policy“."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:240
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:242
 msgid ""
 "(Deprecated) Asks whether to close the message window when the user forwards "
 "or replies to the message shown in the window"
@@ -10293,7 +10305,7 @@ msgstr ""
 "(Pasenęs) Klausia, ar užverti laiško langą, kai naudotojas persiunčia ar "
 "atsako į lange rodomą laišką"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:241
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:243
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "\"browser-close-on-reply-policy\" instead."
@@ -10878,20 +10890,31 @@ msgstr ""
 "patikrintas."
 
 #: ../em-format/e-mail-formatter-secure-button.c:55
-msgid "Signature exists, but need public key"
-msgstr "Parašas yra, bet trūksta viešojo rakto"
+#| msgid ""
+#| "This message is signed with a signature, but there is no corresponding "
+#| "public key."
+msgid "This message is signed, but the public key is not in your keyring"
+msgstr "Laiškas pasirašytas, bet nėra atitinkamo viešojo rakto jūsų raktinėje"
 
 #: ../em-format/e-mail-formatter-secure-button.c:55
 msgid ""
-"This message is signed with a signature, but there is no corresponding "
-"public key."
-msgstr "Laiškas pasirašytas, bet nėra atitinkamo viešojo rakto."
+"This message was digitally signed, but the corresponding public key is not "
+"present in your keyring. If you want to be able to verify the authenticity "
+"of messages from this person, you should obtain the public key through a "
+"trusted method and add it to your keyring. Until then, there is no guarantee "
+"that this message truly came from that person and that it arrived unaltered."
+msgstr ""
+"Šis laiškas buvo pasirašytas skaitmeniniu būdu, bet jūsų raktinėje nėra "
+"atitinkamo viešojo rakto. Jei norite patikrinti šio asmens laiškų "
+"autentiškumą, turite gauti viešąjį raktą patikimu būdu ir pridėti jį į savo "
+"raktinę. Iki tol nėra garantijos, kad šis laiškas tikrai gautas nuo to "
+"asmens ar kad jis gautas nepakeistas."
 
-#: ../em-format/e-mail-formatter-secure-button.c:62
+#: ../em-format/e-mail-formatter-secure-button.c:64
 msgid "Unencrypted"
 msgstr "Neužšifruotas"
 
-#: ../em-format/e-mail-formatter-secure-button.c:62
+#: ../em-format/e-mail-formatter-secure-button.c:64
 msgid ""
 "This message is not encrypted. Its content may be viewed in transit across "
 "the Internet."
@@ -10899,11 +10922,11 @@ msgstr ""
 "Šis laiškas neužšifruotas. Jo turinys gali būti perskaitytas siuntimo "
 "Internetu metu."
 
-#: ../em-format/e-mail-formatter-secure-button.c:63
+#: ../em-format/e-mail-formatter-secure-button.c:65
 msgid "Encrypted, weak"
 msgstr "Silpnai šifruotas"
 
-#: ../em-format/e-mail-formatter-secure-button.c:63
+#: ../em-format/e-mail-formatter-secure-button.c:65
 msgid ""
 "This message is encrypted, but with a weak encryption algorithm. It would be "
 "difficult, but not impossible for an outsider to view the content of this "
@@ -10913,11 +10936,11 @@ msgstr ""
 "žmogui būtų sunku, bet įmanoma pamatyti šio laiško turinį per pakankamai "
 "trumpą laiko tarpą."
 
-#: ../em-format/e-mail-formatter-secure-button.c:64
+#: ../em-format/e-mail-formatter-secure-button.c:66
 msgid "Encrypted"
 msgstr "Užšifruotas"
 
-#: ../em-format/e-mail-formatter-secure-button.c:64
+#: ../em-format/e-mail-formatter-secure-button.c:66
 msgid ""
 "This message is encrypted.  It would be difficult for an outsider to view "
 "the content of this message."
@@ -10925,11 +10948,11 @@ msgstr ""
 "Šis laiškas yra užšifruotas. Įsilaužėliui būtų sunku perskaityti laiško "
 "turinį."
 
-#: ../em-format/e-mail-formatter-secure-button.c:65
+#: ../em-format/e-mail-formatter-secure-button.c:67
 msgid "Encrypted, strong"
 msgstr "Stipriai užšifruotas"
 
-#: ../em-format/e-mail-formatter-secure-button.c:65
+#: ../em-format/e-mail-formatter-secure-button.c:67
 msgid ""
 "This message is encrypted, with a strong encryption algorithm. It would be "
 "very difficult for an outsider to view the content of this message in a "
@@ -10939,12 +10962,12 @@ msgstr ""
 "žmogui būtų labai sunku pamatyti šio laiško turinį neskiriant iššifravimui "
 "daug laiko."
 
-#: ../em-format/e-mail-formatter-secure-button.c:187
+#: ../em-format/e-mail-formatter-secure-button.c:189
 #: ../shell/shell.error.xml.h:28 ../smime/gui/smime-ui.ui.h:22
 msgid "_View Certificate"
 msgstr "_Peržiūrėti liudijimą"
 
-#: ../em-format/e-mail-formatter-secure-button.c:202
+#: ../em-format/e-mail-formatter-secure-button.c:204
 msgid "This certificate is not viewable"
 msgstr "Negalima peržiūrėti šio liudijimo"
 
@@ -11799,7 +11822,7 @@ msgstr "balta"
 
 #: ../e-util/e-color-combo.c:644 ../mail/e-mail-account-tree-view.c:134
 #: ../mail/e-mail-config-security-page.c:426
-#: ../mail/e-mail-config-security-page.c:590 ../mail/e-mail-reader.c:4037
+#: ../mail/e-mail-config-security-page.c:590 ../mail/e-mail-reader.c:4035
 #: ../mail/mail-config.ui.h:73
 msgid "Default"
 msgstr "Numatytasis"
@@ -14200,7 +14223,6 @@ msgid "Sort _Descending"
 msgstr "Rikiuoti _mažėjančiai"
 
 #: ../e-util/e-table-header-item.c:1648
-#| msgid "_Reset Order"
 msgid "_Reset sort"
 msgstr "_Atstatyti rikiavimą"
 
@@ -15152,7 +15174,6 @@ msgid "_Templates Folder:"
 msgstr "Ša_blonų aplankas:"
 
 #: ../mail/e-mail-config-defaults-page.c:942
-#| msgid "Choose a folder to use for template messages to."
 msgid "Choose a folder to use for template messages."
 msgstr "Pasirinkite aplanką laiškų šablonams."
 
@@ -16321,60 +16342,60 @@ msgstr "Rodyti laiškus su visomis pašto antraštėmis"
 msgid "Retrieving message"
 msgstr "Parsiunčiamas laiškas"
 
-#: ../mail/e-mail-reader.c:4216 ../modules/mail/e-mail-attachment-handler.c:322
+#: ../mail/e-mail-reader.c:4214 ../modules/mail/e-mail-attachment-handler.c:322
 msgid "_Forward"
 msgstr "P_ersiųsti"
 
-#: ../mail/e-mail-reader.c:4217 ../modules/mail/e-mail-attachment-handler.c:324
+#: ../mail/e-mail-reader.c:4215 ../modules/mail/e-mail-attachment-handler.c:324
 msgid "Forward the selected message to someone"
 msgstr "Persiųsti pasirinktą laišką kažkam"
 
-#: ../mail/e-mail-reader.c:4236
+#: ../mail/e-mail-reader.c:4234
 msgid "Group Reply"
 msgstr "Grupinis atsakymas"
 
-#: ../mail/e-mail-reader.c:4237
+#: ../mail/e-mail-reader.c:4235
 msgid "Reply to the mailing list, or to all recipients"
 msgstr "Atsakyti į pašto konferenciją arba visiems gavėjams"
 
-#: ../mail/e-mail-reader.c:4303 ../mail/filtertypes.xml.in.h:67
+#: ../mail/e-mail-reader.c:4301 ../mail/filtertypes.xml.in.h:67
 msgid "Delete"
 msgstr "Ištrinti"
 
-#: ../mail/e-mail-reader.c:4315
+#: ../mail/e-mail-reader.c:4313
 #: ../modules/calendar/e-cal-shell-view-actions.c:1243
 msgid "Next"
 msgstr "Kitas"
 
-#: ../mail/e-mail-reader.c:4319
+#: ../mail/e-mail-reader.c:4317
 #: ../modules/calendar/e-cal-shell-view-actions.c:1236
 msgid "Previous"
 msgstr "Praeitas"
 
-#: ../mail/e-mail-reader.c:4328 ../mail/mail-dialogs.ui.h:16
+#: ../mail/e-mail-reader.c:4326 ../mail/mail-dialogs.ui.h:16
 msgid "Reply"
 msgstr "Atsakyti"
 
-#: ../mail/e-mail-reader.c:5406
+#: ../mail/e-mail-reader.c:5398
 #, c-format
 msgid "Allow remote content for anyone from %s"
 msgstr "Leisti nuotolinį turinį visiems iš %s"
 
-#: ../mail/e-mail-reader.c:5408
+#: ../mail/e-mail-reader.c:5400
 #, c-format
 msgid "Allow remote content for %s"
 msgstr "Leisti nuotolinį turinį %s"
 
-#: ../mail/e-mail-reader.c:5425
+#: ../mail/e-mail-reader.c:5417
 #, c-format
 msgid "Allow remote content from %s"
 msgstr "Leisti nuotolinį turinį iš %s"
 
-#: ../mail/e-mail-reader.c:5442
+#: ../mail/e-mail-reader.c:5434
 msgid "Do not show this message again"
 msgstr "Daugiau neberodyti šios žinutės"
 
-#: ../mail/e-mail-reader.c:5490
+#: ../mail/e-mail-reader.c:5482
 msgid "Load remote content"
 msgstr "Įkelti nuotolinį turinį"
 
@@ -19668,7 +19689,6 @@ msgid "Server address cannot be empty"
 msgstr "Serverio adresas negali būti tuščias"
 
 #: ../modules/book-config-webdav/evolution-book-config-webdav.c:92
-#| msgid "New Address Book"
 msgid "Choose an Address Book"
 msgstr "Pasirinkite adresų knyga"
 
@@ -19679,7 +19699,6 @@ msgid "URL:"
 msgstr "URL:"
 
 #: ../modules/book-config-webdav/evolution-book-config-webdav.c:249
-#| msgid "Address Book"
 msgid "Find Address Books"
 msgstr "Rasti adresų knygas"
 
@@ -21751,7 +21770,6 @@ msgstr "Naudotojo _vardas:"
 
 #: ../modules/mail-config/e-mail-config-remote-accounts.c:264
 #: ../modules/mail-config/e-mail-config-smtp-backend.c:326
-#| msgid "Enter password"
 msgid "_Forget password"
 msgstr "_Pamiršti slaptažodį"
 
@@ -21884,14 +21902,12 @@ msgstr "_Metodas prisijungimo prie tinklo būsenai nustatyti:"
 
 #. Always as the first
 #: ../modules/mail/e-mail-shell-backend.c:734
-#| msgid "Default"
 msgctxt "NetworkMonitor"
 msgid "Default"
 msgstr "Numatytasis"
 
 #. Always as the last
 #: ../modules/mail/e-mail-shell-backend.c:748
-#| msgid "_Always move"
 msgctxt "NetworkMonitor"
 msgid "Always Online"
 msgstr "Visada prisijungęs"
@@ -25109,6 +25125,9 @@ msgstr "Su _pabaigos data"
 #: ../views/tasks/galview.xml.h:3
 msgid "With _Status"
 msgstr "Su _būsena"
+
+#~ msgid "Signature exists, but need public key"
+#~ msgstr "Parašas yra, bet trūksta viešojo rakto"
 
 #~ msgid "Specify the output file instead of standard output"
 #~ msgstr "Nurodykite išvedimo failą vietoj standartinės išvesties"
