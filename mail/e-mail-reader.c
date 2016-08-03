@@ -3841,9 +3841,7 @@ mail_reader_update_actions (EMailReader *reader,
 	gtk_action_set_sensitive (action, sensitive);
 
 	action_name = "mail-mark-junk";
-	sensitive =
-		selection_has_not_junk_messages &&
-		!(state & E_MAIL_READER_FOLDER_IS_JUNK);
+	sensitive = selection_has_not_junk_messages;
 	action = e_mail_reader_get_action (reader, action_name);
 	gtk_action_set_sensitive (action, sensitive);
 
@@ -4498,7 +4496,6 @@ e_mail_reader_check_state (EMailReader *reader)
 	gboolean has_mail_note = FALSE;
 	gboolean have_enabled_account = FALSE;
 	gboolean drafts_or_outbox = FALSE;
-	gboolean store_supports_vjunk = FALSE;
 	gboolean is_mailing_list;
 	gboolean is_junk_folder = FALSE;
 	gboolean is_vtrash_folder = FALSE;
@@ -4522,7 +4519,6 @@ e_mail_reader_check_state (EMailReader *reader)
 		gchar *archive_folder;
 
 		store = camel_folder_get_parent_store (folder);
-		store_supports_vjunk = (store->flags & CAMEL_STORE_VJUNK);
 		is_junk_folder =
 			(folder->folder_flags & CAMEL_FOLDER_IS_JUNK) != 0;
 		is_vtrash_folder = (store->flags & CAMEL_STORE_VTRASH) != 0 && (folder->folder_flags & CAMEL_FOLDER_IS_TRASH) != 0;
@@ -4567,7 +4563,7 @@ e_mail_reader_check_state (EMailReader *reader)
 		if (drafts_or_outbox) {
 			has_junk = FALSE;
 			has_not_junk = FALSE;
-		} else if (store_supports_vjunk) {
+		} else {
 			guint32 bitmask;
 
 			/* XXX Strictly speaking, this logic is correct.
@@ -4590,10 +4586,6 @@ e_mail_reader_check_state (EMailReader *reader)
 				has_junk = TRUE;
 				has_not_junk = TRUE;
 			}
-
-		} else {
-			has_junk = TRUE;
-			has_not_junk = TRUE;
 		}
 
 		if (flags & CAMEL_MESSAGE_DELETED)
