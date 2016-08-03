@@ -14710,8 +14710,7 @@ undo_redo_unquote (EHTMLEditorView *view,
 	selection = e_html_editor_view_get_selection (view);
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
 
-	if (undo)
-		restore_selection_to_history_event_state (view, event->after);
+	restore_selection_to_history_event_state (view, undo ? event->after : event->before);
 
 	e_html_editor_selection_save (selection);
 	element = webkit_dom_document_get_element_by_id (
@@ -14754,9 +14753,9 @@ undo_redo_unquote (EHTMLEditorView *view,
 		move_quoted_block_level_up (view);
 
 	if (undo)
-		restore_selection_to_history_event_state (view, event->before);
-	else
 		e_html_editor_selection_restore (selection);
+	else
+		restore_selection_to_history_event_state (view, event->after);
 
 	e_html_editor_view_force_spell_check_for_current_paragraph (view);
 }
