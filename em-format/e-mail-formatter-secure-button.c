@@ -52,8 +52,10 @@ static const struct {
 	{ "stock_signature-ok", N_("Valid signature"), N_("This message is signed and is valid meaning that it is very likely that this message is authentic.") },
 	{ "stock_signature-bad", N_("Invalid signature"), N_("The signature of this message cannot be verified, it may have been altered in transit.") },
 	{ "stock_signature", N_("Valid signature, but cannot verify sender"), N_("This message is signed with a valid signature, but the sender of the message cannot be verified.") },
-	{ "stock_signature-bad", N_("Signature exists, but need public key"), N_("This message is signed with a signature, but there is no corresponding public key.") },
-
+	{ "stock_signature-bad", N_("This message is signed, but the public key is not in your keyring"), N_("This message was digitally signed, but the corresponding"
+				" public key is not present in your keyring. If you want to be able to verify the authenticity of messages from this person, you should"
+				" obtain the public key through a trusted method and add it to your keyring. Until then, there is no guarantee that this message truly"
+				" came from that person and that it arrived unaltered.") }
 };
 
 static const struct {
@@ -283,6 +285,7 @@ secure_button_clicked_cb (GtkWidget *widget,
 	w = gtk_label_new (_(smime_sign_table[validity->sign.status].description));
 	gtk_misc_set_alignment ((GtkMisc *) w, 0.0, 0.5);
 	gtk_label_set_line_wrap ((GtkLabel *) w, TRUE);
+	gtk_label_set_max_width_chars (GTK_LABEL (w), 80);
 	gtk_container_add (GTK_CONTAINER (grid), w);
 	if (validity->sign.description) {
 		GtkTextBuffer *buffer;
@@ -320,6 +323,7 @@ secure_button_clicked_cb (GtkWidget *widget,
 	w = gtk_label_new (_(smime_encrypt_table[validity->encrypt.status].description));
 	gtk_misc_set_alignment ((GtkMisc *) w, 0.0, 0.5);
 	gtk_label_set_line_wrap ((GtkLabel *) w, TRUE);
+	gtk_label_set_max_width_chars (GTK_LABEL (w), 80);
 	gtk_container_add (GTK_CONTAINER (grid), w);
 	if (validity->encrypt.description) {
 		GtkTextBuffer *buffer;
