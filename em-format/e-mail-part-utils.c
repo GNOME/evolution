@@ -589,8 +589,16 @@ e_mail_part_is_inline (CamelMimePart *mime_part,
 
 	disposition = camel_mime_part_get_disposition (mime_part);
 
-	if (disposition != NULL)
+	if (disposition != NULL) {
 		is_inline = (g_ascii_strcasecmp (disposition, "inline") == 0);
+		if (is_inline) {
+			GSettings *settings;
+
+			settings = e_util_ref_settings ("org.gnome.evolution.mail");
+			is_inline = g_settings_get_boolean (settings, "display-content-disposition-inline");
+			g_clear_object (&settings);
+		}
+	}
 
 	if ((extensions == NULL) || g_queue_is_empty (extensions))
 		return is_inline;

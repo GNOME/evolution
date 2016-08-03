@@ -526,8 +526,13 @@ e_mail_part_should_show_inline (EMailPart *part)
 
 	disposition = camel_mime_part_get_content_disposition (mime_part);
 	if (disposition && disposition->disposition &&
-	    g_ascii_strncasecmp (disposition->disposition, "inline", 6) == 0)
-		res = TRUE;
+	    g_ascii_strncasecmp (disposition->disposition, "inline", 6) == 0) {
+		GSettings *settings;
+
+		settings = e_util_ref_settings ("org.gnome.evolution.mail");
+		res = g_settings_get_boolean (settings, "display-content-disposition-inline");
+		g_clear_object (&settings);
+	}
 
 	g_object_unref (mime_part);
 

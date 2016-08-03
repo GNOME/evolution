@@ -200,6 +200,11 @@
       <_summary>Wrap quoted text in replies</_summary>
       <_description>If set to 'true' quoted text in replies will be wrapped.</_description>
     </key>
+    <key name="display-content-disposition-inline" type="b">
+      <default>true</default>
+      <_summary>Whether to obey Content-Disposition:inline message header hint</_summary>
+      <_description>Set to 'false' to block automatic display of attachments with Content-Disposition: inline.</_description>
+    </key>
     <key name="drag-and-drop-save-file-format" type="s">
       <default>'mbox'</default>
       <_summary>Save file format for drag-and-drop operation</_summary>
