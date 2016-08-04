@@ -258,27 +258,32 @@ ece_event_get_timezone_from_property (ECompEditor *comp_editor,
 }
 
 static void
-ece_event_fill_widgets (ECompEditor *comp_editor,
-			icalcomponent *component)
+ece_event_update_timezone (ECompEditorEvent *event_editor,
+			   struct icaltimetype *out_dtstart,
+			   struct icaltimetype *out_dtend)
 {
-	ECompEditorEvent *event_editor;
+	ECompEditor *comp_editor;
 	struct icaltimetype dtstart, dtend;
-	icalproperty *prop;
+	icalcomponent *component;
 	icaltimezone *zone = NULL;
-	gboolean all_day_event = FALSE;
-	GtkAction *action;
-	guint32 flags;
 
-	g_return_if_fail (E_IS_COMP_EDITOR_EVENT (comp_editor));
-	g_return_if_fail (component != NULL);
+	g_return_if_fail (E_IS_COMP_EDITOR_EVENT (event_editor));
 
-	E_COMP_EDITOR_CLASS (e_comp_editor_event_parent_class)->fill_widgets (comp_editor, component);
+	comp_editor = E_COMP_EDITOR (event_editor);
 
-	event_editor = E_COMP_EDITOR_EVENT (comp_editor);
-
-	flags = e_comp_editor_get_flags (comp_editor);
 	dtstart = icaltime_null_time ();
 	dtend = icaltime_null_time ();
+
+	component = e_comp_editor_get_component (comp_editor);
+	if (!component) {
+		if (out_dtstart)
+			*out_dtstart = dtstart;
+
+		if (out_dtend)
+			*out_dtend = dtend;
+
+		return;
+	}
 
 	if (icalcomponent_get_first_property (component, ICAL_DTSTART_PROPERTY)) {
 		dtstart = icalcomponent_get_dtstart (component);
@@ -330,6 +335,37 @@ ece_event_fill_widgets (ECompEditor *comp_editor,
 			gtk_toggle_action_set_active (GTK_TOGGLE_ACTION (action), TRUE);
 		}
 	}
+
+	if (out_dtstart)
+		*out_dtstart = dtstart;
+
+	if (out_dtend)
+		*out_dtend = dtend;
+}
+
+static void
+ece_event_fill_widgets (ECompEditor *comp_editor,
+			icalcomponent *component)
+{
+	ECompEditorEvent *event_editor;
+	struct icaltimetype dtstart, dtend;
+	icalproperty *prop;
+	gboolean all_day_event = FALSE;
+	GtkAction *action;
+	guint32 flags;
+
+	g_return_if_fail (E_IS_COMP_EDITOR_EVENT (comp_editor));
+	g_return_if_fail (component != NULL);
+
+	E_COMP_EDITOR_CLASS (e_comp_editor_event_parent_class)->fill_widgets (comp_editor, component);
+
+	event_editor = E_COMP_EDITOR_EVENT (comp_editor);
+
+	flags = e_comp_editor_get_flags (comp_editor);
+	dtstart = icaltime_null_time ();
+	dtend = icaltime_null_time ();
+
+	ece_event_update_timezone (event_editor, &dtstart, &dtend);
 
 	if (icaltime_is_valid_time (dtstart) && !icaltime_is_null_time (dtstart) &&
 	    (!icaltime_is_valid_time (dtend) || icaltime_is_null_time (dtend))) {
@@ -502,6 +538,16 @@ ece_event_fill_component (ECompEditor *comp_editor,
 	}
 
 	return TRUE;
+}
+
+static void
+ece_event_notify_source_client_cb (GObject *object,
+				   GParamSpec *param,
+				   gpointer user_data)
+{
+	g_return_if_fail (E_IS_COMP_EDITOR_EVENT (object));
+
+	ece_event_update_timezone (E_COMP_EDITOR_EVENT (object), NULL, NULL);
 }
 
 static void
@@ -786,6 +832,9 @@ e_comp_editor_event_constructed (GObject *object)
 	e_binding_bind_property (widget, "text", comp_editor, "title-suffix", 0);
 	/* Do this as the last thing, because some widgets can call the function as well */
 	gtk_widget_grab_focus (widget);
+
+	g_signal_connect (comp_editor, "notify::source-client",
+		G_CALLBACK (ece_event_notify_source_client_cb), NULL);
 }
 
 static void

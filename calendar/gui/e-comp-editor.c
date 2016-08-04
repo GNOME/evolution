@@ -1396,7 +1396,7 @@ ece_print_or_preview (ECompEditor *comp_editor,
 	g_return_if_fail (E_IS_COMP_EDITOR (comp_editor));
 	g_return_if_fail (e_comp_editor_get_component (comp_editor) != NULL);
 
-	component = icalcomponent_new_clone ((icalcomponent *) e_comp_editor_get_component (comp_editor));
+	component = icalcomponent_new_clone (e_comp_editor_get_component (comp_editor));
 	if (!e_comp_editor_fill_component (comp_editor, component)) {
 		icalcomponent_free (component);
 		return;
@@ -1865,7 +1865,7 @@ e_comp_editor_get_property (GObject *object,
 		case PROP_COMPONENT:
 			g_value_set_pointer (
 				value,
-				(gpointer) e_comp_editor_get_component (
+				e_comp_editor_get_component (
 				E_COMP_EDITOR (object)));
 			return;
 
@@ -2692,7 +2692,7 @@ e_comp_editor_get_origin_source (ECompEditor *comp_editor)
 	return comp_editor->priv->origin_source;
 }
 
-const icalcomponent *
+icalcomponent *
 e_comp_editor_get_component (ECompEditor *comp_editor)
 {
 	g_return_val_if_fail (E_IS_COMP_EDITOR (comp_editor), NULL);
