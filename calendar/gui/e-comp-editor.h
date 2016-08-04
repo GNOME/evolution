@@ -104,8 +104,7 @@ void		e_comp_editor_set_validation_error
 EShell *	e_comp_editor_get_shell		(ECompEditor *comp_editor);
 GSettings *	e_comp_editor_get_settings	(ECompEditor *comp_editor);
 ESource *	e_comp_editor_get_origin_source	(ECompEditor *comp_editor);
-const icalcomponent *
-		e_comp_editor_get_component	(ECompEditor *comp_editor);
+icalcomponent *	e_comp_editor_get_component	(ECompEditor *comp_editor);
 guint32		e_comp_editor_get_flags		(ECompEditor *comp_editor);
 void		e_comp_editor_set_flags		(ECompEditor *comp_editor,
 						 guint32 flags);

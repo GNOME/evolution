@@ -62,6 +62,9 @@ struct _ETimezoneDialogPrivate {
 	 * the displayed name is ""). */
 	icaltimezone *zone;
 
+	/* In case a non-builtin timezone is used. */
+	GSList *custom_zones; /* icaltimezone * */
+
 	GtkBuilder *builder;
 
 	EMapPoint *point_selected;
@@ -163,6 +166,9 @@ e_timezone_dialog_dispose (GObject *object)
 		g_hash_table_destroy (priv->index);
 		priv->index = NULL;
 	}
+
+	g_slist_free (priv->custom_zones);
+	priv->custom_zones = NULL;
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_timezone_dialog_parent_class)->dispose (object);
@@ -798,6 +804,27 @@ e_timezone_dialog_set_timezone (ETimezoneDialog *etd,
 	if (zone)
 		display = zone_display_name_with_offset (zone);
 
+	/* Add any unknown/custom timezone with defined location */
+	if (zone && icaltimezone_get_location (zone) &&
+	    !g_hash_table_lookup (etd->priv->index, icaltimezone_get_location (zone))) {
+		GtkTreeStore *tree_store;
+		GtkTreeIter *piter, iter;
+		const gchar *location;
+
+		location = icaltimezone_get_location (zone);
+		tree_store = GTK_TREE_STORE (gtk_combo_box_get_model (GTK_COMBO_BOX (etd->priv->timezone_combo)));
+
+		gtk_tree_store_prepend (tree_store, &iter, NULL);
+		gtk_tree_store_set (tree_store, &iter, 0, (gchar *) location, 1, (gchar *) location, -1);
+
+		piter = g_new (GtkTreeIter, 1);
+		*piter = iter;
+
+		g_hash_table_insert (etd->priv->index, (gchar *) location, piter);
+
+		etd->priv->custom_zones = g_slist_prepend (etd->priv->custom_zones, zone);
+	}
+
 	priv = etd->priv;
 
 	priv->zone = zone;
@@ -883,6 +910,20 @@ on_combo_changed (GtkComboBox *combo_box,
 			if (!g_utf8_collate (new_zone_name, location)) {
 				priv->zone = map_zone;
 				break;
+			}
+		}
+
+		if (!priv->zone) {
+			GSList *link;
+
+			for (link = priv->custom_zones; link; link = g_slist_next (link)) {
+				icaltimezone *zone = link->data;
+
+				if (zone && g_utf8_collate (new_zone_name, _(icaltimezone_get_location (zone))) == 0) {
+					map_zone = zone;
+					priv->zone = zone;
+					break;
+				}
 			}
 		}
 	}
