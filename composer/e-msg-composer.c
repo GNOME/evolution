@@ -2290,29 +2290,12 @@ msg_composer_notify_header_cb (EMsgComposer *composer)
 static gboolean
 msg_composer_delete_event_cb (EMsgComposer *composer)
 {
-	EShell *shell;
-	GtkApplication *application;
-	GList *windows;
-
-	shell = e_msg_composer_get_shell (composer);
-
 	/* If the "async" action group is insensitive, it means an
 	 * asynchronous operation is in progress.  Block the event. */
 	if (!gtk_action_group_get_sensitive (composer->priv->async_actions))
 		return TRUE;
 
-	application = GTK_APPLICATION (shell);
-	windows = gtk_application_get_windows (application);
-
-	if (g_list_length (windows) == 1) {
-		/* This is the last watched window, use the quit
-		 * mechanism to have a draft saved properly */
-		e_shell_quit (shell, E_SHELL_QUIT_ACTION);
-	} else {
-		/* There are more watched windows opened,
-		 * invoke only a close action */
-		gtk_action_activate (ACTION (CLOSE));
-	}
+	gtk_action_activate (ACTION (CLOSE));
 
 	return TRUE;
 }
@@ -4253,6 +4236,29 @@ e_msg_composer_send (EMsgComposer *composer)
 }
 
 static void
+msg_composer_save_to_drafts_done_cb (gpointer user_data,
+				     GObject *gone_object)
+{
+	EMsgComposer *composer = user_data;
+	EHTMLEditor *editor;
+	EHTMLEditorView *view;
+
+	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
+
+	editor = e_msg_composer_get_editor (composer);
+	view = e_html_editor_get_view (editor);
+
+	if (e_msg_composer_is_exiting (composer) &&
+	    !e_html_editor_view_get_changed (view)) {
+		gtk_widget_destroy (GTK_WIDGET (composer));
+	} else if (e_msg_composer_is_exiting (composer)) {
+		gtk_widget_set_sensitive (GTK_WIDGET (composer), TRUE);
+		gtk_window_present (GTK_WINDOW (composer));
+		composer->priv->application_exiting = FALSE;
+	}
+}
+
+static void
 msg_composer_save_to_drafts_cb (EMsgComposer *composer,
                                 GAsyncResult *result,
                                 AsyncContext *context)
@@ -4314,7 +4320,7 @@ msg_composer_save_to_drafts_cb (EMsgComposer *composer,
 	if (e_msg_composer_is_exiting (composer))
 		g_object_weak_ref (
 			G_OBJECT (context->activity),
-			(GWeakNotify) gtk_widget_destroy, composer);
+			msg_composer_save_to_drafts_done_cb, composer);
 
 	async_context_free (context);
 }
@@ -5611,7 +5617,6 @@ e_msg_composer_can_close (EMsgComposer *composer,
 
 	switch (response) {
 		case GTK_RESPONSE_YES:
-			gtk_widget_hide (widget);
 			e_msg_composer_request_close (composer);
 			if (can_save_draft)
 				gtk_action_activate (ACTION (SAVE_DRAFT));

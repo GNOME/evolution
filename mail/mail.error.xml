@@ -97,7 +97,9 @@ Many email systems add an Apparently-To header to messages that only have BCC re
 
   <error id="ask-default-drafts" type="question" default="GTK_RESPONSE_YES">
     <_primary>Use default drafts folder?</_primary>
-    <_secondary xml:space="preserve">Unable to open the drafts folder for this account. Use the system drafts folder instead?</_secondary>
+    <_secondary xml:space="preserve">Unable to open the drafts folder for this account. Use the system drafts folder instead?
+
+The reported error was &quot;{0}&quot;.</_secondary>
     <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
     <button _label="Use _Default" response="GTK_RESPONSE_YES"/>
   </error>

@@ -894,6 +894,10 @@ composer_save_to_drafts_complete (GObject *source_object,
 }
 
 static void
+composer_save_to_drafts_append_mail (AsyncContext *async_context,
+                                     CamelFolder *drafts_folder);
+
+static void
 composer_save_to_drafts_cleanup (GObject *source_object,
                                  GAsyncResult *result,
                                  gpointer user_data)
@@ -929,6 +933,27 @@ composer_save_to_drafts_cleanup (GObject *source_object,
 
 	} else if (local_error != NULL) {
 		g_warn_if_fail (async_context->message_uid == NULL);
+
+		if (e_msg_composer_is_exiting (async_context->composer)) {
+			gint response;
+
+			/* If we can't retrieve the Drafts folder for the
+			 * selected account, ask the user if he wants to
+			 * save to the local Drafts folder instead. */
+			response = e_alert_run_dialog_for_args (
+				GTK_WINDOW (async_context->composer),
+				"mail:ask-default-drafts", local_error->message, NULL);
+			if (response != GTK_RESPONSE_YES) {
+				e_html_editor_view_set_changed (view, TRUE);
+				async_context_free (async_context);
+			} else {
+				composer_save_to_drafts_append_mail (async_context, NULL);
+			}
+
+			g_error_free (local_error);
+			return;
+		}
+
 		e_alert_submit (
 			alert_sink,
 			"mail-composer:save-to-drafts-error",
@@ -1026,15 +1051,15 @@ composer_save_to_drafts_got_folder (GObject *source_object,
 	} else if (local_error != NULL) {
 		gint response;
 
-		/* XXX Not showing the error message in the dialog? */
-		g_error_free (local_error);
-
 		/* If we can't retrieve the Drafts folder for the
 		 * selected account, ask the user if he wants to
 		 * save to the local Drafts folder instead. */
 		response = e_alert_run_dialog_for_args (
 			GTK_WINDOW (async_context->composer),
-			"mail:ask-default-drafts", NULL);
+			"mail:ask-default-drafts", local_error->message, NULL);
+
+		g_error_free (local_error);
+
 		if (response != GTK_RESPONSE_YES) {
 			e_html_editor_view_set_changed (view, TRUE);
 			async_context_free (async_context);
