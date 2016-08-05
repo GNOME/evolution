@@ -1114,8 +1114,8 @@ em_utils_composer_save_to_drafts_cb (EMsgComposer *composer,
 		session, E_MAIL_LOCAL_FOLDER_DRAFTS);
 
 	if (drafts_folder_uri == NULL) {
-		composer_save_to_drafts_append_mail (async_context, NULL);
 		async_context->folder_uri = g_strdup (local_drafts_folder_uri);
+		composer_save_to_drafts_append_mail (async_context, NULL);
 	} else {
 		GCancellable *cancellable;
 
