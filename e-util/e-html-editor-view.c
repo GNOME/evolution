@@ -7336,6 +7336,40 @@ remove_new_lines_around_citations (const gchar *input)
 	return str;
 }
 
+static GString *
+replace_citation_marks_to_citations (const gchar *input)
+{
+	GString *str = NULL;
+	const gchar *p, *next;
+
+	str = g_string_new ("");
+
+	/* Replaces text markers with actual HTML blockquotes */
+	p = input;
+	while (next = strstr (p, "##CITATION_"), next) {
+		gchar citation_type = 0;
+
+		if (p < next)
+			g_string_append_len (str, p, next - p);
+
+		if (next + 11)
+			citation_type = next[11];
+		/* ##CITATION_START## */
+		if (citation_type == 'S') {
+			g_string_append (str, "<blockquote type=\"cite\">");
+			p = next + 18;
+		} else if (citation_type == 'E') {
+			g_string_append (str, "</blockquote>");
+			p = next + 16;
+		} else
+			p = next + 11;
+	}
+
+	g_string_append (str, p);
+
+	return str;
+}
+
 /* This parses the HTML code (that contains just text, &nbsp; and BR elements)
  * into blocks.
  * HTML code in that format we can get by taking innerText from some element,
@@ -7529,21 +7563,17 @@ parse_html_into_blocks (EHTMLEditorView *view,
 
 	if (has_citation) {
 		gchar *inner_html;
-		GString *start, *end;
+		GString *parsed;
 
 		/* Replace text markers with actual HTML blockquotes */
 		inner_html = webkit_dom_html_element_get_inner_html (
 			WEBKIT_DOM_HTML_ELEMENT (parent));
-		start = e_str_replace_string (
-			inner_html, "##CITATION_START##","<blockquote type=\"cite\">");
-		end = e_str_replace_string (
-			start->str, "##CITATION_END##", "</blockquote>");
+		parsed = replace_citation_marks_to_citations (inner_html);
 		webkit_dom_html_element_set_inner_html (
-			WEBKIT_DOM_HTML_ELEMENT (parent), end->str, NULL);
+			WEBKIT_DOM_HTML_ELEMENT (parent), parsed->str, NULL);
 
 		g_free (inner_html);
-		g_string_free (start, TRUE);
-		g_string_free (end, TRUE);
+		g_string_free (parsed, TRUE);
 	}
 
 	g_string_free (html, TRUE);
