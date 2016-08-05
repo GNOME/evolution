@@ -5039,7 +5039,8 @@ remove_new_lines_around_citations (const gchar *input)
 			citation_type = next[11];
 		/* ##CITATION_START## */
 		if (citation_type == 'S') {
-			if (g_str_has_suffix (str->str, "<br><br>"))
+			if (g_str_has_suffix (str->str, "<br><br>") ||
+			    g_str_has_suffix (str->str, "<br><br>"))
 				g_string_truncate (str, str->len - 4);
 
 			if (g_str_has_prefix (next + 11, "START##<br><br>")) {
@@ -5129,10 +5130,15 @@ parse_html_into_blocks (EEditorPage *editor_page,
 		}
 		to_insert_end = g_utf8_strlen (to_process, -1);
 
-		if ((with_br = strstr (to_process, "<br>")))
-			to_insert_start += 4;
+		if ((with_br = strstr (to_process, "<br>"))) {
+			if (with_br == to_process)
+				to_insert_start += 4;
+		}
 		if ((citation_start = strstr (to_process, "##CITATION_START"))) {
-			to_insert_start += 18; /* + ## */
+			if (with_br && citation_start == with_br + 4)
+				to_insert_start += 18; /* + ## */
+			else
+				to_insert_end -= 18; /* + ## */
 			has_citation = TRUE;
 		}
 		if ((citation_end = strstr (to_process, "##CITATION_END")))
@@ -5143,12 +5149,12 @@ parse_html_into_blocks (EEditorPage *editor_page,
 			create_and_append_new_block (
 				editor_page, parent, block_template, "<br id=\"-x-evo-first-br\">");
 
-		if (with_br && citation_start)
+		if (with_br && citation_start && citation_start == with_br + 4) {
 			create_and_append_new_block (
 				editor_page, parent, block_template, "<br>");
 
-		if (citation_start)
 			append_citation_mark (document, parent, "##CITATION_START##");
+		}
 
 		if ((to_insert = g_utf8_substring (to_process, to_insert_start, to_insert_end)) && *to_insert) {
 			gboolean empty = FALSE;
@@ -5203,6 +5209,9 @@ parse_html_into_blocks (EEditorPage *editor_page,
 				editor_page, parent, block_template, "<br>");
 
 		g_free (to_insert);
+
+		if (with_br && citation_start && citation_start != with_br + 4)
+			append_citation_mark (document, parent, "##CITATION_START##");
 
 		if (citation_end)
 			append_citation_mark (document, parent, "##CITATION_END##");
