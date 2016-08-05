@@ -214,6 +214,13 @@ The reported error was &quot;{0}&quot;.</_secondary>
     <button stock="gtk-delete" response="GTK_RESPONSE_OK"/>
   </error>
 
+  <error id="ask-unsubscribe-folder" type="question" default="GTK_RESPONSE_NO">
+    <_primary>Really unsubscribe folder "{0}"?</_primary>
+    <_secondary xml:space="preserve">If you unsubscribe the folder, it might not be visible in the Evolution, while still being available on the server. You can re-subscribe in Folder->Subscriptions... menu.</_secondary>
+    <button _label="Do _Not Unsubscribe" response="GTK_RESPONSE_NO"/>
+    <button _label="_Unsubscribe" response="GTK_RESPONSE_YES"/>
+  </error>
+
   <error id="ask-delete-vfolder" type="question" default="GTK_RESPONSE_CANCEL">
     <_primary>Really delete folder "{0}" and all of its subfolders?</_primary>
     <button _label="Do _Not Delete" response="GTK_RESPONSE_CANCEL"/>
