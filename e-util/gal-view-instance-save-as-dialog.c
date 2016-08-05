@@ -23,12 +23,12 @@
 #include <config.h>
 #endif
 
-#include "gal-view-instance-save-as-dialog.h"
-
 #include <glib/gi18n.h>
 
 #include "e-misc-utils.h"
 #include "e-util-private.h"
+#include "gal-view-etable.h"
+#include "gal-view-instance-save-as-dialog.h"
 
 G_DEFINE_TYPE (GalViewInstanceSaveAsDialog, gal_view_instance_save_as_dialog, GTK_TYPE_DIALOG)
 
@@ -326,6 +326,7 @@ gal_view_instance_save_as_dialog_save (GalViewInstanceSaveAsDialog *dialog)
 	view_count = gal_view_collection_get_count (collection);
 
 	view = gal_view_clone (view);
+
 	switch (dialog->toggle) {
 	case GAL_VIEW_INSTANCE_SAVE_AS_DIALOG_TOGGLE_REPLACE:
 		if (dialog->treeview) {
@@ -359,7 +360,14 @@ gal_view_instance_save_as_dialog_save (GalViewInstanceSaveAsDialog *dialog)
 		break;
 	}
 
+	/* The view stored in the collection should not be left attached, but detach it
+	   only after it's saved, to have data to save. */
+	if (GAL_IS_VIEW_ETABLE (view))
+		gal_view_etable_detach (GAL_VIEW_ETABLE (view));
+
 	if (id) {
 		gal_view_instance_set_current_view_id (dialog->instance, id);
 	}
+
+	g_clear_object (&view);
 }
