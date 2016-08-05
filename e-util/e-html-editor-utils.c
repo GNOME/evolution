@@ -308,6 +308,7 @@ remove_node_if_empty (WebKitDOMNode *node)
 		next_sibling = webkit_dom_node_get_next_sibling (child);
 		/* Empty or BR as sibling, but no sibling after it. */
 		if (!webkit_dom_node_get_first_child (child) &&
+		    !WEBKIT_DOM_IS_TEXT (child) &&
 		    (!prev_sibling ||
 		     (WEBKIT_DOM_IS_HTMLBR_ELEMENT (prev_sibling) &&
 		      !webkit_dom_node_get_previous_sibling (prev_sibling))) &&
