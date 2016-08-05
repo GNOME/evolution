@@ -983,6 +983,34 @@ action_mail_folder_select_subthread_cb (GtkAction *action,
 	message_list_select_subthread (MESSAGE_LIST (message_list));
 }
 
+static gboolean
+ask_can_unsubscribe_folder (GtkWindow *parent,
+			    EMailSession *session,
+			    CamelStore *store,
+			    const gchar *folder_name)
+{
+	CamelFolder *folder;
+	gchar *full_display_name;
+	gboolean res;
+
+	g_return_val_if_fail (E_IS_MAIL_SESSION (session), FALSE);
+	g_return_val_if_fail (CAMEL_IS_STORE (store), FALSE);
+	g_return_val_if_fail (folder_name != NULL, FALSE);
+
+	folder = mail_folder_cache_ref_folder (e_mail_session_get_folder_cache (session), store, folder_name);
+	g_return_val_if_fail (CAMEL_IS_FOLDER (folder), FALSE);
+
+	full_display_name = e_mail_folder_to_full_display_name (folder, NULL);
+
+	res = GTK_RESPONSE_YES == e_alert_run_dialog_for_args (parent,
+		"mail:ask-unsubscribe-folder", full_display_name ? full_display_name : folder_name, NULL);
+
+	g_clear_object (&folder);
+	g_free (full_display_name);
+
+	return res;
+}
+
 static void
 action_mail_folder_unsubscribe_cb (GtkAction *action,
                                    EMailShellView *mail_shell_view)
@@ -991,6 +1019,8 @@ action_mail_folder_unsubscribe_cb (GtkAction *action,
 	EMailShellSidebar *mail_shell_sidebar;
 	EMailView *mail_view;
 	EMFolderTree *folder_tree;
+	EShellWindow *shell_window;
+	EMailSession *session;
 	CamelStore *selected_store = NULL;
 	gchar *selected_folder_name = NULL;
 
@@ -1005,9 +1035,13 @@ action_mail_folder_unsubscribe_cb (GtkAction *action,
 	g_return_if_fail (CAMEL_IS_STORE (selected_store));
 	g_return_if_fail (selected_folder_name != NULL);
 
-	e_mail_reader_unsubscribe_folder_name (
-		E_MAIL_READER (mail_view),
-		selected_store, selected_folder_name);
+	shell_window = e_shell_view_get_shell_window (E_SHELL_VIEW (mail_shell_view));
+	session = em_folder_tree_get_session (folder_tree);
+
+	if (ask_can_unsubscribe_folder (GTK_WINDOW (shell_window), session, selected_store, selected_folder_name))
+		e_mail_reader_unsubscribe_folder_name (
+			E_MAIL_READER (mail_view),
+			selected_store, selected_folder_name);
 
 	g_object_unref (selected_store);
 	g_free (selected_folder_name);
