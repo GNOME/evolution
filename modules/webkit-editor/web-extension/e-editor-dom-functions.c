@@ -43,8 +43,6 @@
 #define HTML_KEY_CODE_DELETE 46
 #define HTML_KEY_CODE_TABULATOR 9
 
-#define TRY_TO_PRESERVE_BLOCKS 0
-
 /* ******************** Tests ******************** */
 
 static gchar *
@@ -4987,73 +4985,6 @@ append_citation_mark (WebKitDOMDocument *document,
 		NULL);
 }
 
-static glong
-get_decoded_line_length (WebKitDOMDocument *document,
-                         const gchar *line_text)
-{
-	glong total_length = 0, length = 0;
-	WebKitDOMElement *decode;
-	WebKitDOMNode *node;
-
-	decode = webkit_dom_document_create_element (document, "DIV", NULL);
-	webkit_dom_element_set_inner_html (decode, line_text, NULL);
-
-	node = webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (decode));
-	while (node) {
-		if (WEBKIT_DOM_IS_TEXT (node)) {
-			gulong text_length = 0;
-
-			text_length = webkit_dom_character_data_get_length (WEBKIT_DOM_CHARACTER_DATA (node));
-			total_length += text_length;
-			length += text_length;
-		} else if (WEBKIT_DOM_IS_ELEMENT (node)) {
-			if (element_has_class (WEBKIT_DOM_ELEMENT (node), "Apple-tab-span")) {
-				total_length += TAB_LENGTH - length % TAB_LENGTH;
-				length = 0;
-			}
-		}
-		node = webkit_dom_node_get_next_sibling (node);
-	}
-
-	g_object_unref (decode);
-
-	return total_length;
-}
-
-static gboolean
-check_if_end_block (const gchar *input,
-                    glong length,
-                    gboolean preserve_next_line)
-{
-	const gchar *next_space;
-
-	next_space = strstr (input, " ");
-	if (next_space) {
-		const gchar *next_br;
-		glong length_next_word =
-			next_space - input - 4;
-
-		if (g_str_has_prefix (input + 4, "<br>"))
-			length_next_word = 0;
-
-		if (length_next_word > 0)
-			next_br = strstr (input + 4, "<br>");
-
-		if (length_next_word > 0 && next_br < next_space)
-			length_next_word = 0;
-
-		if (length_next_word + length < 72)
-			return TRUE;
-	} else {
-		/* If the current text to insert doesn't contain space we
-		 * have to look on the previous line if we were preserving
-		 * the block or not */
-		return !preserve_next_line;
-	}
-
-	return FALSE;
-}
-
 static void
 replace_selection_markers (gchar **text)
 {
@@ -5085,6 +5016,52 @@ replace_selection_markers (gchar **text)
 	}
 }
 
+static GString *
+remove_new_lines_around_citations (const gchar *input)
+{
+	GString *str = NULL;
+	const gchar *p, *next;
+
+	str = g_string_new ("");
+
+	/* Remove the new lines around citations:
+	 * Replace <br><br>##CITATION_START## with <br>##CITATION_START##
+	 * Replace ##CITATION_START##<br><br> with ##CITATION_START##<br>
+	 * Replace <br>##CITATION_END## with ##CITATION_END## */
+	p = input;
+	while (next = strstr (p, "##CITATION_"), next) {
+		gchar citation_type = 0;
+
+		if (p < next)
+			g_string_append_len (str, p, next - p);
+
+		if (next + 11)
+			citation_type = next[11];
+		/* ##CITATION_START## */
+		if (citation_type == 'S') {
+			if (g_str_has_suffix (str->str, "<br><br>"))
+				g_string_truncate (str, str->len - 4);
+
+			if (g_str_has_prefix (next + 11, "START##<br><br>")) {
+				g_string_append (str, "##CITATION_START##<br>");
+				p = next + 26;
+				continue;
+			}
+		} else if (citation_type == 'E') {
+			if (g_str_has_suffix (str->str, "<br>"))
+				g_string_truncate (str, str->len - 4);
+		}
+
+		g_string_append (str, "##CITATION_");
+
+		p = next + 11;
+	}
+
+	g_string_append (str, p);
+
+	return str;
+}
+
 /* This parses the HTML code (that contains just text, &nbsp; and BR elements)
  * into blocks.
  * HTML code in that format we can get by taking innerText from some element,
@@ -5093,18 +5070,14 @@ static void
 parse_html_into_blocks (EEditorPage *editor_page,
                         WebKitDOMElement *parent,
                         WebKitDOMElement *passed_block_template,
-                        const gchar *html)
+                        const gchar *input)
 {
-	WebKitDOMDocument *document;
-	WebKitDOMElement *block = NULL, *block_template = passed_block_template;
-	gboolean ignore_next_br = FALSE;
-	gboolean first_element = TRUE;
-	gboolean citation_was_first_element = FALSE;
-	gboolean preserve_next_line = FALSE;
-	gboolean has_citation = FALSE;
-	gboolean previously_had_empty_citation_start = FALSE;
+	gboolean has_citation = FALSE, processing_last = FALSE;
 	const gchar *prev_br, *next_br;
+	GString *html = NULL;
 	GRegex *regex_nbsp = NULL, *regex_link = NULL, *regex_email = NULL;
+	WebKitDOMDocument *document;
+	WebKitDOMElement *block_template = passed_block_template;
 
 	g_return_if_fail (E_IS_EDITOR_PAGE (editor_page));
 
@@ -5128,9 +5101,6 @@ parse_html_into_blocks (EEditorPage *editor_page,
 		g_object_unref (settings);
 	}
 
-	prev_br = html;
-	next_br = strstr (prev_br, "<br>");
-
 	/* Replace the tabulators with SPAN elements that corresponds to them.
 	 * If not inserting the content into the PRE element also replace single
 	 * spaces on the beginning of line, 2+ spaces and with non breaking
@@ -5140,97 +5110,52 @@ parse_html_into_blocks (EEditorPage *editor_page,
 	else
 		regex_nbsp = g_regex_new ("^\\s{1}|\\s{2,}|\x9|\\s$", 0, 0, NULL);
 
+
+	html = remove_new_lines_around_citations (input);
+
+	prev_br = html->str;
+	next_br = strstr (prev_br, "<br>");
+
 	while (next_br) {
-		gboolean local_ignore_next_br = ignore_next_br;
-		gboolean local_preserve_next_line = preserve_next_line;
-		gboolean local_previously_had_empty_citation_start =
-			previously_had_empty_citation_start;
-		gboolean preserve_block = TRY_TO_PRESERVE_BLOCKS;
-		const gchar *citation = NULL, *citation_end = NULL;
+		const gchar *citation_start = NULL, *citation_end = NULL;
 		const gchar *rest = NULL, *with_br = NULL;
-		gchar *to_insert = NULL;
+		gchar *to_process = NULL, *to_insert = NULL;
+		guint to_insert_start = 0, to_insert_end = 0;
 
-		ignore_next_br = FALSE;
-		preserve_next_line = TRUE;
-
-		to_insert = g_utf8_substring (
-			prev_br, 0, g_utf8_pointer_to_offset (prev_br, next_br));
-
-		with_br = strstr (to_insert, "<br>");
-		citation = strstr (to_insert, "##CITATION_");
-		if (citation) {
-			gboolean processed = FALSE;
-
-			while (!processed) {
-				gchar *citation_mark;
-				gboolean citation_start = TRUE;
-
-				has_citation = TRUE;
-				if (g_str_has_prefix (citation + 11, "END##")) {
-					citation_start = FALSE;
-					if (block)
-						append_new_block (parent, &block);
-				} else
-					previously_had_empty_citation_start = TRUE;
-
-				citation_end = strstr (citation + 2, "##");
-				if (citation_end)
-					rest = citation_end + 2;
-
-				if (rest && *rest && !g_str_has_prefix (rest, "##CITATION_"))
-					previously_had_empty_citation_start = FALSE;
-
-				if (first_element)
-					citation_was_first_element = TRUE;
-
-				if (block)
-					append_new_block (parent, &block);
-				else if (with_br && rest && !*rest &&
-				         previously_had_empty_citation_start &&
-					 ignore_next_br) {
-					/* Insert an empty block for an empty blockquote */
-					block = create_and_append_new_block (
-						editor_page, parent, block_template, "<br>");
-					previously_had_empty_citation_start = FALSE;
-				}
-
-				if (citation_start)
-					ignore_next_br = TRUE;
-
-				citation_mark = g_utf8_substring (
-					citation,
-					0,
-					g_utf8_pointer_to_offset (citation, rest));
-
-				append_citation_mark (document, parent, citation_mark);
-
-				g_free (citation_mark);
-
-				if (rest && *rest) {
-					if (g_str_has_prefix (rest, "##CITATION_"))
-						citation = rest;
-					else
-						processed = TRUE;
-				} else
-					processed = TRUE;
-			}
-		} else {
-			rest = with_br ?
-				to_insert + 4 + (with_br - to_insert) : to_insert;
-			previously_had_empty_citation_start = FALSE;
+		if ((to_process = g_utf8_substring (prev_br, 0, g_utf8_pointer_to_offset (prev_br, next_br))) && !*to_process && !processing_last) {
+			g_free (to_process);
+			to_process = g_strdup (next_br);
+			processing_last = TRUE;
 		}
+		to_insert_end = g_utf8_strlen (to_process, -1);
 
-		if (!rest) {
-			preserve_next_line = FALSE;
-			goto next;
+		if ((with_br = strstr (to_process, "<br>")))
+			to_insert_start += 4;
+		if ((citation_start = strstr (to_process, "##CITATION_START"))) {
+			to_insert_start += 18; /* + ## */
+			has_citation = TRUE;
 		}
+		if ((citation_end = strstr (to_process, "##CITATION_END")))
+			to_insert_end -= 16; /* + ## */
 
-		if (*rest) {
+		/* First BR */
+		if (with_br && prev_br == html->str)
+			create_and_append_new_block (
+				editor_page, parent, block_template, "<br id=\"-x-evo-first-br\">");
+
+		if (with_br && citation_start)
+			create_and_append_new_block (
+				editor_page, parent, block_template, "<br>");
+
+		if (citation_start)
+			append_citation_mark (document, parent, "##CITATION_START##");
+
+		if ((to_insert = g_utf8_substring (to_process, to_insert_start, to_insert_end)) && *to_insert) {
 			gboolean empty = FALSE;
-			gchar *truncated = g_strdup (rest);
+			gchar *truncated = g_strdup (to_insert);
 			gchar *rest_to_insert;
 
-			empty = !*truncated && strlen (rest) > 0;
+			empty = !*truncated && strlen (to_insert) > 0;
 
 			rest_to_insert = g_regex_replace_eval (
 				regex_nbsp,
@@ -5244,9 +5169,6 @@ parse_html_into_blocks (EEditorPage *editor_page,
 			g_free (truncated);
 
 			replace_selection_markers (&rest_to_insert);
-
-			if (strchr (" +-@*=\t;#", *rest))
-				preserve_block = FALSE;
 
 			if (surround_links_with_anchor (rest_to_insert)) {
 				gboolean is_email_address =
@@ -5272,195 +5194,57 @@ parse_html_into_blocks (EEditorPage *editor_page,
 				rest_to_insert = truncated;
 			}
 
-			if (g_strcmp0 (rest_to_insert, UNICODE_ZERO_WIDTH_SPACE) == 0) {
-				if (block)
-					append_new_block (parent, &block);
-
-				block = create_and_append_new_block (
-					editor_page, parent, block_template, "<br>");
-			} else if (preserve_block) {
-				gchar *html;
-				gchar *content_to_append;
-
-			       if (!block) {
-				      if (WEBKIT_DOM_IS_HTML_DIV_ELEMENT (block_template))
-					       block = e_editor_dom_get_paragraph_element (editor_page, -1, 0);
-				       else
-					       block = WEBKIT_DOM_ELEMENT (webkit_dom_node_clone_node_with_error (WEBKIT_DOM_NODE (block_template), FALSE, NULL));
-			       }
-
-				html = webkit_dom_element_get_inner_html (block);
-
-				content_to_append = g_strconcat (
-					html && *html ? " " : "",
-					rest_to_insert ? rest_to_insert : "<br>",
-					NULL),
-
-				webkit_dom_html_element_insert_adjacent_html (
-					WEBKIT_DOM_HTML_ELEMENT (block),
-					"beforeend",
-					content_to_append,
-					NULL);
-
-				g_free (html);
-				g_free (content_to_append);
-			} else {
-				if (block)
-					append_new_block (parent, &block);
-
-				block = create_and_append_new_block (
-					editor_page, parent, block_template, rest_to_insert);
-			}
-
-			if (rest_to_insert && *rest_to_insert && preserve_block && block) {
-				glong length = 0;
-
-				/* If the line contains some encoded chracters (i.e. &gt;)
-				 * we can't use the strlen functions. */
-				if (strstr (rest_to_insert, "&"))
-					length = get_decoded_line_length (document, rest_to_insert);
-				else
-					length = g_utf8_strlen (rest_to_insert, -1);
-
-				/* End the block if there is line with less that 62 characters. */
-				/* The shorter line can also mean that there is a long word on next
-				 * line (and the line was wrapped). So look at it and decide what to do. */
-				if (length < 62 && check_if_end_block (next_br, length, local_preserve_next_line)) {
-					append_new_block (parent, &block);
-					preserve_next_line = FALSE;
-				}
-
-				if (length > 72) {
-					append_new_block (parent, &block);
-					preserve_next_line = FALSE;
-				}
-			}
-
-			citation_was_first_element = FALSE;
+			create_and_append_new_block (
+				editor_page, parent, block_template, rest_to_insert);
 
 			g_free (rest_to_insert);
-		} else if (with_br) {
-			if (!citation && (!local_ignore_next_br || citation_was_first_element)) {
-				if (block)
-					append_new_block (parent, &block);
+		} else if (to_insert && !citation_start)
+			create_and_append_new_block (
+				editor_page, parent, block_template, "<br>");
 
-				block = create_and_append_new_block (
-					editor_page, parent, block_template, "<br>");
+		g_free (to_insert);
 
-				citation_was_first_element = FALSE;
-			} else if (first_element && !citation_was_first_element) {
-				block = create_and_append_new_block (editor_page,
-					parent,
-					block_template,
-					"<br id=\"-x-evo-first-br\">");
-			} else if (local_previously_had_empty_citation_start &&
-			           !citation && with_br && rest && !*rest) {
-				/* Empty citation */
-				if (block)
-					append_new_block (parent, &block);
+		if (citation_end)
+			append_citation_mark (document, parent, "##CITATION_END##");
 
-				block = create_and_append_new_block (
-					editor_page, parent, block_template, "<br>");
-			} else
-				preserve_next_line = FALSE;
-		} else if (first_element && !citation_was_first_element) {
-			block = create_and_append_new_block (editor_page,
-				parent,
-				block_template,
-				"<br id=\"-x-evo-first-br\">");
-		} else
-			preserve_next_line = FALSE;
- next:
-		first_element = FALSE;
 		prev_br = next_br;
 		next_br = strstr (prev_br + 4, "<br>");
-		g_free (to_insert);
+		if (!next_br && !processing_last) {
+			if (g_utf8_strlen (prev_br, -1) > 4)
+				next_br = prev_br;
+			else {
+				WebKitDOMNode *child;
+
+				child = webkit_dom_node_get_last_child (
+					WEBKIT_DOM_NODE (parent));
+				if (child) {
+					child = webkit_dom_node_get_first_child (child);
+					if (child && WEBKIT_DOM_IS_HTML_BR_ELEMENT (child)) {
+						/* If the processed HTML contained just
+						 * the BR don't overwrite its id. */
+						if (!element_has_id (WEBKIT_DOM_ELEMENT (child), "-x-evo-first-br"))
+							webkit_dom_element_set_id (
+								WEBKIT_DOM_ELEMENT (child),
+								"-x-evo-last-br");
+					} else if (!webkit_dom_document_query_selector (document, ".-x-evo-signature-wrapper", NULL)) {
+						/* FIXME WK2 - the signature could not be inserted at this point
+						 * this is the reason why there is an extra NL on the very end of
+						 * quoted text in reply. */
+						create_and_append_new_block (
+							editor_page, parent, block_template, "<br>");
+					}
+				} else {
+					create_and_append_new_block (
+						editor_page, parent, block_template, "<br>");
+				}
+				g_free (to_process);
+				break;
+			}
+			processing_last = TRUE;
+		}
+		g_free (to_process);
 	}
 
-	if (block)
-		append_new_block (parent, &block);
-
-	if (g_utf8_strlen (prev_br, -1) > 0) {
-		gchar *rest_to_insert;
-		gchar *truncated = g_strdup (
-			g_str_has_prefix (prev_br, "<br>") ? prev_br + 4 : prev_br);
-
-		/* On the end on the HTML there is always an extra BR element,
-		 * so skip it and if there was another BR element before it mark it. */
-		if (truncated && !*truncated) {
-			WebKitDOMNode *child;
-
-			child = webkit_dom_node_get_last_child (
-				WEBKIT_DOM_NODE (parent));
-			if (child) {
-				child = webkit_dom_node_get_first_child (child);
-				if (child && WEBKIT_DOM_IS_HTML_BR_ELEMENT (child)) {
-					/* If the processed HTML contained just
-					 * the BR don't overwrite its id. */
-					if (!element_has_id (WEBKIT_DOM_ELEMENT (child), "-x-evo-first-br"))
-						webkit_dom_element_set_id (
-							WEBKIT_DOM_ELEMENT (child),
-							"-x-evo-last-br");
-				} else if (!webkit_dom_document_query_selector (document, ".-x-evo-signature-wrapper", NULL))
-					create_and_append_new_block (editor_page, parent, block_template, "<br>");
-			} else
-				create_and_append_new_block (editor_page, parent, block_template, "<br>");
-			g_free (truncated);
-			goto end;
-		}
-
-		if (g_ascii_strncasecmp (truncated, "##CITATION_END##", 16) == 0) {
-			append_citation_mark (document, parent, truncated);
-			g_free (truncated);
-			goto end;
-		}
-
-		rest_to_insert = g_regex_replace_eval (
-			regex_nbsp,
-			truncated,
-			-1,
-			0,
-			0,
-			(GRegexEvalCallback) replace_to_nbsp,
-			NULL,
-			NULL);
-		g_free (truncated);
-
-		replace_selection_markers (&rest_to_insert);
-
-		if (surround_links_with_anchor (rest_to_insert)) {
-			gboolean is_email_address =
-				strstr (rest_to_insert, "@") &&
-				!strstr (rest_to_insert, "://");
-
-			if (is_email_address && !regex_email)
-				regex_email = g_regex_new (E_MAIL_PATTERN, 0, 0, NULL);
-			if (!is_email_address && !regex_link)
-				regex_link = g_regex_new (URL_PATTERN, 0, 0, NULL);
-
-			truncated = g_regex_replace_eval (
-				is_email_address ? regex_email : regex_link,
-				rest_to_insert,
-				-1,
-				0,
-				G_REGEX_MATCH_NOTEMPTY,
-				create_anchor_for_link,
-				NULL,
-				NULL);
-
-			g_free (rest_to_insert);
-			rest_to_insert = truncated;
-		}
-
-		if (g_strcmp0 (rest_to_insert, UNICODE_ZERO_WIDTH_SPACE) == 0)
-			create_and_append_new_block (editor_page, parent, block_template, "<br>");
-		else
-			create_and_append_new_block (editor_page, parent, block_template, rest_to_insert);
-
-		g_free (rest_to_insert);
-	}
-
- end:
 	if (has_citation) {
 		gchar *inner_html;
 		GString *start, *end;
@@ -5477,6 +5261,8 @@ parse_html_into_blocks (EEditorPage *editor_page,
 		g_string_free (start, TRUE);
 		g_string_free (end, TRUE);
 	}
+
+	g_string_free (html, TRUE);
 
 	if (regex_email != NULL)
 		g_regex_unref (regex_email);
