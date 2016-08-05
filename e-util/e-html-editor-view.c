@@ -7297,7 +7297,6 @@ remove_new_lines_around_citations (const gchar *input)
 
 	str = g_string_new ("");
 
-	printf ("%s\n", input);
 	/* Remove the new lines around citations:
 	 * Replace <br><br>##CITATION_START## with <br>##CITATION_START##
 	 * Replace ##CITATION_START##<br><br> with ##CITATION_START##<br>
@@ -7333,7 +7332,6 @@ remove_new_lines_around_citations (const gchar *input)
 
 	g_string_append (str, p);
 
-	printf ("%s\n", str->str);
 	return str;
 }
 
