@@ -1213,6 +1213,96 @@ test_paragraph_wrap_lines (TestFixture *fixture)
 		g_test_fail ();
 }
 
+static void
+test_paste_html2html (TestFixture *fixture)
+{
+	test_utils_set_clipboard_text ("<html><body>some <b>bold</b> text</body></html>", TRUE);
+
+	if (!test_utils_run_simple_test (fixture,
+		"mode:html\n"
+		"type:text before \n"
+		"action:paste\n"
+		"type: text after\n",
+		HTML_PREFIX "<p>text before some <b>bold</b> text text after</p>" HTML_SUFFIX,
+		"text before some bold text text after\n"))
+		g_test_fail ();
+}
+
+static void
+test_paste_html2plain (TestFixture *fixture)
+{
+	test_utils_set_clipboard_text ("<html><body>some <b>bold</b> text</body></html>", TRUE);
+
+	if (!test_utils_run_simple_test (fixture,
+		"mode:plain\n"
+		"type:text before \n"
+		"action:paste\n"
+		"type: text after\n",
+		HTML_PREFIX_PLAIN "<p style=\"width: 71ch;\">text before some bold text text after</p>" HTML_SUFFIX,
+		"text before some bold text text after\n"))
+		g_test_fail ();
+}
+
+static void
+test_paste_plain2html (TestFixture *fixture)
+{
+	test_utils_set_clipboard_text ("some plain text", FALSE);
+
+	if (!test_utils_run_simple_test (fixture,
+		"mode:html\n"
+		"type:text before \n"
+		"action:paste\n"
+		"type: text after\n",
+		HTML_PREFIX "<p>text before some plain text text after</p>" HTML_SUFFIX,
+		"text before some plain text text after\n"))
+		g_test_fail ();
+}
+
+static void
+test_paste_plain2plain (TestFixture *fixture)
+{
+	test_utils_set_clipboard_text ("some plain text", FALSE);
+
+	if (!test_utils_run_simple_test (fixture,
+		"mode:plain\n"
+		"type:text before \n"
+		"action:paste\n"
+		"type: text after\n",
+		HTML_PREFIX_PLAIN "<p style=\"width: 71ch;\">text before some plain text text after</p>" HTML_SUFFIX,
+		"text before some plain text text after\n"))
+		g_test_fail ();
+}
+
+static void
+test_paste_quoted_html (TestFixture *fixture)
+{
+	test_utils_set_clipboard_text ("<html><body>some <b>bold</b> text</body></html>", TRUE);
+
+	if (!test_utils_run_simple_test (fixture,
+		"mode:html\n"
+		"type:text before \n"
+		"action:paste-quote\n"
+		"type: text after\n",
+		HTML_PREFIX "<p>text before some <b>bold</b> text text after</p>" HTML_SUFFIX,
+		"text before some bold text text after\n"))
+		g_test_fail ();
+}
+
+static void
+test_paste_quoted_plain (TestFixture *fixture)
+{
+	test_utils_set_clipboard_text ("some plain text", FALSE);
+
+	if (!test_utils_run_simple_test (fixture,
+		"mode:plain\n"
+		"type:text before \n"
+		"action:paste-quote\n"
+		"type: text after\n",
+		HTML_PREFIX_PLAIN "<p style=\"width: 71ch;\">text before some plain text text after</p>" HTML_SUFFIX,
+		"text before some plain text text after\n"))
+		g_test_fail ();
+}
+
 gint
 main (gint argc,
       gchar *argv[])
@@ -1322,6 +1412,12 @@ main (gint argc,
 	add_test ("/paragraph/header6/selection", test_paragraph_header6_selection);
 	add_test ("/paragraph/header6/typed", test_paragraph_header6_typed);
 	add_test ("/paragraph/wrap-lines", test_paragraph_wrap_lines);
+	add_test ("/paste/html2html", test_paste_html2html);
+	add_test ("/paste/html2plain", test_paste_html2plain);
+	add_test ("/paste/plain2html", test_paste_plain2html);
+	add_test ("/paste/plain2plain", test_paste_plain2plain);
+	add_test ("/paste/quoted/html", test_paste_quoted_html);
+	add_test ("/paste/quoted/plain", test_paste_quoted_plain);
 
 	#undef add_test
 

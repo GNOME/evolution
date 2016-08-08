@@ -82,5 +82,7 @@ gboolean	test_utils_run_simple_test	(TestFixture *fixture,
 void		test_utils_insert_content	(TestFixture *fixture,
 						 const gchar *content,
 						 EContentEditorInsertContentFlags flags);
+void		test_utils_set_clipboard_text	(const gchar *text,
+						 gboolean is_html);
 
 #endif /* TEST_HTML_EDITOR_UNITS_UTILS_H */

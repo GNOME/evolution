@@ -794,6 +794,7 @@ test_utils_pick_undo_content (const GSList *undo_stack,
              / seqcmd    ; Sequence of special key strokes
              / typecmd   ; Type a text
              / undocmd   ; Undo/redo commands
+             / waitcmd   ; Wait command
 
    actioncmd = "action:" name
 
@@ -830,6 +831,8 @@ test_utils_pick_undo_content (const GSList *undo_stack,
 	     / "drop" [ ":" number ] ; Forgets saved content, if 'number' is provided, then top number saves are forgotten
 	     / "test" [ ":" number ] ; Tests current editor content against any previously saved state; the optional
                                      ; 'number' argument can be used to specify which exact previous state to use
+
+   waitcmd   = "wait:" milliseconds  ; waits for 'milliseconds'
  */
 gboolean
 test_utils_process_commands (TestFixture *fixture,
@@ -915,6 +918,8 @@ test_utils_process_commands (TestFixture *fixture,
 			}
 
 			test_utils_wait_milliseconds (event_processing_delay_ms);
+		} else if (g_str_has_prefix (command, "wait:")) {
+			test_utils_wait_milliseconds (atoi (command + 5));
 		} else if (*command) {
 			g_warning ("%s: Unknown command '%s'", G_STRFUNC, command);
 			success = FALSE;
@@ -993,4 +998,23 @@ test_utils_insert_content (TestFixture *fixture,
 
 	cnt_editor = e_html_editor_get_content_editor (fixture->editor);
 	e_content_editor_insert_content (cnt_editor, content, flags);
+}
+
+void
+test_utils_set_clipboard_text (const gchar *text,
+			       gboolean is_html)
+{
+	GtkClipboard *clipboard;
+
+	g_return_if_fail (text != NULL);
+
+	clipboard = gtk_clipboard_get (GDK_SELECTION_CLIPBOARD);
+
+	gtk_clipboard_clear (clipboard);
+
+	if (is_html) {
+		e_clipboard_set_html (clipboard, text, -1);
+	} else {
+		gtk_clipboard_set_text (clipboard, text, -1);
+	}
 }
