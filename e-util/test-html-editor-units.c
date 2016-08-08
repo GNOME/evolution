@@ -25,7 +25,7 @@
 #include "test-html-editor-units-utils.h"
 
 #define HTML_PREFIX "<html><head></head><body>"
-#define HTML_PREFIX_PLAIN "<html><head></head><body style=\"font-family: Monospace;\" data-evo-plain-text>"
+#define HTML_PREFIX_PLAIN "<html><head></head><body style=\"font-family: Monospace;\">"
 #define HTML_SUFFIX "</body></html>"
 
 /* The tests do not use the 'user_data' argument, thus the functions avoid them and the typecast is needed. */
@@ -767,7 +767,438 @@ test_emoticon_insert_typed_dash (TestFixture *fixture)
 }
 
 static void
-test_wrap_lines (TestFixture *fixture)
+test_paragraph_normal_selection (TestFixture *fixture)
+{
+	if (!test_utils_run_simple_test (fixture,
+		"mode:html\n"
+		"action:style-preformat\n"
+		"type:Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero.\\n\n"
+		"type:Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero.\n"
+		"seq:hu\n"
+		"action:style-normal\n",
+		HTML_PREFIX "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero.</p>"
+		"<pre>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero.</pre>" HTML_SUFFIX,
+		"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec\n"
+		"odio. Praesent libero.\n"
+		"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero.")) {
+		g_test_fail ();
+		return;
+	}
+
+	if (!test_utils_run_simple_test (fixture,
+		"mode:plain\n",
+		HTML_PREFIX_PLAIN "<p style=\"width: 71ch;\">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero.</p>"
+		"<pre>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero.</pre>" HTML_SUFFIX,
+		"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec\n"
+		"odio. Praesent libero.\n"
+		"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero.")) {
+		g_test_fail ();
+		return;
+	}
+
+	if (!test_utils_run_simple_test (fixture,
+		"mode:html\n",
+		HTML_PREFIX "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero.</p>"
+		"<pre>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero.</pre>" HTML_SUFFIX,
+		"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec\n"
+		"odio. Praesent libero.\n"
+		"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero.")) {
+		g_test_fail ();
+		return;
+	}
+}
+
+static void
+test_paragraph_normal_typed (TestFixture *fixture)
+{
+	if (!test_utils_run_simple_test (fixture,
+		"mode:html\n"
+		"action:style-normal\n"
+		"type:Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero.\\n\n"
+		"type:Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero.\n",
+		HTML_PREFIX "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero.</p>"
+		"<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero.</p>" HTML_SUFFIX,
+		"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec\n"
+		"odio. Praesent libero.\n"
+		"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec\n"
+		"odio. Praesent libero.")) {
+		g_test_fail ();
+		return;
+	}
+
+	if (!test_utils_run_simple_test (fixture,
+		"mode:plain\n",
+		HTML_PREFIX_PLAIN "<p style=\"width: 71ch;\">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero.</p>"
+		"<p style=\"width: 71ch;\">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero.</p>" HTML_SUFFIX,
+		"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec\n"
+		"odio. Praesent libero.\n"
+		"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec\n"
+		"odio. Praesent libero.")) {
+		g_test_fail ();
+		return;
+	}
+
+	if (!test_utils_run_simple_test (fixture,
+		"mode:html\n",
+		HTML_PREFIX "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero.</p>"
+		"<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero.</p>" HTML_SUFFIX,
+		"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec\n"
+		"odio. Praesent libero.\n"
+		"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec\n"
+		"odio. Praesent libero.")) {
+		g_test_fail ();
+		return;
+	}
+}
+
+static void
+test_paragraph_preformatted_selection (TestFixture *fixture)
+{
+	if (!test_utils_run_simple_test (fixture,
+		"mode:html\n"
+		"action:style-normal\n"
+		"type:Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero.\\n\n"
+		"type:Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero.\n"
+		"seq:Chc\n"
+		"action:style-preformat\n",
+		HTML_PREFIX "<pre>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero.</pre>"
+		"<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero.</p>" HTML_SUFFIX,
+		"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero.\n"
+		"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec\n"
+		"odio. Praesent libero.")) {
+		g_test_fail ();
+		return;
+	}
+
+	if (!test_utils_run_simple_test (fixture,
+		"mode:plain\n",
+		HTML_PREFIX_PLAIN "<pre>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero.</pre>"
+		"<p style=\"width: 71ch;\">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero.</p>" HTML_SUFFIX,
+		"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero.\n"
+		"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec\n"
+		"odio. Praesent libero.")) {
+		g_test_fail ();
+		return;
+	}
+
+	if (!test_utils_run_simple_test (fixture,
+		"mode:html\n",
+		HTML_PREFIX "<pre>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero.</pre>"
+		"<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero.</p>" HTML_SUFFIX,
+		"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero.\n"
+		"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec\n"
+		"odio. Praesent libero.")) {
+		g_test_fail ();
+		return;
+	}
+}
+
+static void
+test_paragraph_preformatted_typed (TestFixture *fixture)
+{
+	if (!test_utils_run_simple_test (fixture,
+		"mode:html\n"
+		"action:style-preformat\n"
+		"type:Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. \n"
+		"type:Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero.\n",
+		HTML_PREFIX "<pre>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero."
+		" Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero.</pre>" HTML_SUFFIX,
+		"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. "
+		"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero.")) {
+		g_test_fail ();
+		return;
+	}
+
+	if (!test_utils_run_simple_test (fixture,
+		"mode:plain\n",
+		HTML_PREFIX_PLAIN "<pre>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero."
+		" Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero.</pre>" HTML_SUFFIX,
+		"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. "
+		"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero.")) {
+		g_test_fail ();
+		return;
+	}
+
+	if (!test_utils_run_simple_test (fixture,
+		"mode:html\n",
+		HTML_PREFIX "<pre>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero."
+		" Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero.</pre>" HTML_SUFFIX,
+		"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. "
+		"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero.")) {
+		g_test_fail ();
+		return;
+	}
+}
+
+static void
+test_paragraph_address_selection (TestFixture *fixture)
+{
+	if (!test_utils_run_simple_test (fixture,
+		"mode:html\n"
+		"action:style-normal\n"
+		"type:normal text\\n\n"
+		"type:address line 1\\n\n"
+		"type:address line 2\\n\n"
+		"type:address line 3\\n\n"
+		"type:\\n\n"
+		"type:normal text\n"
+		"seq:huuuuSddrs\n"
+		"action:style-address\n",
+		HTML_PREFIX "<p>normal text</p>"
+		"<address>address line 1</address>"
+		"<address>address line 2</address>"
+		"<address>address line 3</address>"
+		"<p><br></p>"
+		"<p>normal text</p>" HTML_SUFFIX,
+		"normal text\n"
+		"address line 1\n"
+		"address line 2\n"
+		"address line 3\n"
+		"\n"
+		"normal text"))
+		g_test_fail ();
+}
+
+static void
+test_paragraph_address_typed (TestFixture *fixture)
+{
+	if (!test_utils_run_simple_test (fixture,
+		"mode:html\n"
+		"action:style-normal\n"
+		"type:normal text\\n\n"
+		"action:style-address\n"
+		"type:address line 1\\n\n"
+		"type:address line 2\\n\n"
+		"type:address line 3\\n\n"
+		"action:style-normal\n"
+		"type:\\n\n"
+		"type:normal text\n",
+		HTML_PREFIX "<p>normal text</p>"
+		"<address>address line 1</address>"
+		"<address>address line 2</address>"
+		"<address>address line 3</address>"
+		"<p><br></p>"
+		"<p>normal text</p>" HTML_SUFFIX,
+		"normal text\n"
+		"address line 1\n"
+		"address line 2\n"
+		"address line 3\n"
+		"normal text"))
+		g_test_fail ();
+}
+
+static gboolean
+test_paragraph_header_n_selection (TestFixture *fixture,
+				   gint header_n)
+{
+	gchar *actions, *expected_html, *expected_plain;
+	gboolean success;
+
+	actions = g_strdup_printf (
+		"mode:html\n"
+		"action:style-normal\n"
+		"type:normal text\\n\n"
+		"type:header %d\\n\n"
+		"type:normal text\n"
+		"seq:hu\n"
+		"action:style-h%d\n",
+		header_n, header_n);
+
+	expected_html = g_strdup_printf (
+		HTML_PREFIX "<p>normal text</p>"
+		"<h%d>header %d</h%d>"
+		"<p>normal text</p>" HTML_SUFFIX,
+		header_n, header_n, header_n);
+
+	expected_plain = g_strdup_printf (
+		"normal text\n"
+		"header %d\n"
+		"normal text",
+		header_n);
+
+	success = test_utils_run_simple_test (fixture, actions, expected_html, expected_plain);
+
+	g_free (expected_plain);
+	g_free (expected_html);
+	g_free (actions);
+
+	if (!success)
+		return success;
+
+	expected_html = g_strdup_printf (
+		HTML_PREFIX "<p>normal text</p>"
+		"<h%d>header %d</h%d>"
+		"<p><br></p>"
+		"<p>normal text</p>" HTML_SUFFIX,
+		header_n, header_n, header_n);
+
+	expected_plain = g_strdup_printf (
+		"normal text\n"
+		"header %d\n"
+		"\n"
+		"normal text",
+		header_n);
+
+	success = test_utils_run_simple_test (fixture,
+		"seq:h\n"
+		"type:\\n\n",
+		expected_html, expected_plain);
+
+	g_free (expected_plain);
+	g_free (expected_html);
+
+	return success;
+}
+
+static gboolean
+test_paragraph_header_n_typed (TestFixture *fixture,
+			       gint header_n)
+{
+	gchar *actions, *expected_html, *expected_plain;
+	gboolean success;
+
+	actions = g_strdup_printf (
+		"mode:html\n"
+		"action:style-normal\n"
+		"type:normal text\\n\n"
+		"action:style-h%d\n"
+		"type:header %d\\n\n"
+		"action:style-normal\n"
+		"type:normal text\n",
+		header_n, header_n);
+
+	expected_html = g_strdup_printf (
+		HTML_PREFIX "<p>normal text</p>"
+		"<h%d>header %d</h%d>"
+		"<p>normal text</p>" HTML_SUFFIX,
+		header_n, header_n, header_n);
+
+	expected_plain = g_strdup_printf (
+		"normal text\n"
+		"header %d\n"
+		"normal text",
+		header_n);
+
+	success = test_utils_run_simple_test (fixture, actions, expected_html, expected_plain);
+
+	g_free (expected_plain);
+	g_free (expected_html);
+	g_free (actions);
+
+	if (!success)
+		return success;
+
+	expected_html = g_strdup_printf (
+		HTML_PREFIX "<p>normal text</p>"
+		"<h%d>header %d</h%d>"
+		"<p><br></p>"
+		"<p>normal text</p>" HTML_SUFFIX,
+		header_n, header_n, header_n);
+
+	expected_plain = g_strdup_printf (
+		"normal text\n"
+		"header %d\n"
+		"\n"
+		"normal text",
+		header_n);
+
+	success = test_utils_run_simple_test (fixture,
+		"seq:h\n"
+		"type:\\n\n",
+		expected_html, expected_plain);
+
+	g_free (expected_plain);
+	g_free (expected_html);
+
+	return success;
+}
+
+static void
+test_paragraph_header1_selection (TestFixture *fixture)
+{
+	if (!test_paragraph_header_n_selection (fixture, 1))
+		g_test_fail ();
+}
+
+static void
+test_paragraph_header1_typed (TestFixture *fixture)
+{
+	if (!test_paragraph_header_n_typed (fixture, 1))
+		g_test_fail ();
+}
+
+static void
+test_paragraph_header2_selection (TestFixture *fixture)
+{
+	if (!test_paragraph_header_n_selection (fixture, 2))
+		g_test_fail ();
+}
+
+static void
+test_paragraph_header2_typed (TestFixture *fixture)
+{
+	if (!test_paragraph_header_n_typed (fixture, 2))
+		g_test_fail ();
+}
+
+static void
+test_paragraph_header3_selection (TestFixture *fixture)
+{
+	if (!test_paragraph_header_n_selection (fixture, 3))
+		g_test_fail ();
+}
+
+static void
+test_paragraph_header3_typed (TestFixture *fixture)
+{
+	if (!test_paragraph_header_n_typed (fixture, 3))
+		g_test_fail ();
+}
+
+static void
+test_paragraph_header4_selection (TestFixture *fixture)
+{
+	if (!test_paragraph_header_n_selection (fixture, 4))
+		g_test_fail ();
+}
+
+static void
+test_paragraph_header4_typed (TestFixture *fixture)
+{
+	if (!test_paragraph_header_n_typed (fixture, 4))
+		g_test_fail ();
+}
+
+static void
+test_paragraph_header5_selection (TestFixture *fixture)
+{
+	if (!test_paragraph_header_n_selection (fixture, 5))
+		g_test_fail ();
+}
+
+static void
+test_paragraph_header5_typed (TestFixture *fixture)
+{
+	if (!test_paragraph_header_n_typed (fixture, 5))
+		g_test_fail ();
+}
+
+static void
+test_paragraph_header6_selection (TestFixture *fixture)
+{
+	if (!test_paragraph_header_n_selection (fixture, 6))
+		g_test_fail ();
+}
+
+static void
+test_paragraph_header6_typed (TestFixture *fixture)
+{
+	if (!test_paragraph_header_n_typed (fixture, 6))
+		g_test_fail ();
+}
+
+static void
+test_paragraph_wrap_lines (TestFixture *fixture)
 {
 	if (!test_utils_run_simple_test (fixture,
 		"mode:html\n"
@@ -872,7 +1303,25 @@ main (gint argc,
 	add_test ("/h-rule/insert-text-after", test_h_rule_insert_text_after);
 	add_test ("/emoticon/insert/typed", test_emoticon_insert_typed);
 	add_test ("/emoticon/insert/typed-dash", test_emoticon_insert_typed_dash);
-	add_test ("/wrap-lines", test_wrap_lines);
+	add_test ("/paragraph/normal/selection", test_paragraph_normal_selection);
+	add_test ("/paragraph/normal/typed", test_paragraph_normal_typed);
+	add_test ("/paragraph/preformatted/selection", test_paragraph_preformatted_selection);
+	add_test ("/paragraph/preformatted/typed", test_paragraph_preformatted_typed);
+	add_test ("/paragraph/address/selection", test_paragraph_address_selection);
+	add_test ("/paragraph/address/typed", test_paragraph_address_typed);
+	add_test ("/paragraph/header1/selection", test_paragraph_header1_selection);
+	add_test ("/paragraph/header1/typed", test_paragraph_header1_typed);
+	add_test ("/paragraph/header2/selection", test_paragraph_header2_selection);
+	add_test ("/paragraph/header2/typed", test_paragraph_header2_typed);
+	add_test ("/paragraph/header3/selection", test_paragraph_header3_selection);
+	add_test ("/paragraph/header3/typed", test_paragraph_header3_typed);
+	add_test ("/paragraph/header4/selection", test_paragraph_header4_selection);
+	add_test ("/paragraph/header4/typed", test_paragraph_header4_typed);
+	add_test ("/paragraph/header5/selection", test_paragraph_header5_selection);
+	add_test ("/paragraph/header5/typed", test_paragraph_header5_typed);
+	add_test ("/paragraph/header6/selection", test_paragraph_header6_selection);
+	add_test ("/paragraph/header6/typed", test_paragraph_header6_typed);
+	add_test ("/paragraph/wrap-lines", test_paragraph_wrap_lines);
 
 	#undef add_test
 
