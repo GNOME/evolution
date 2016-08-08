@@ -1,3 +1,23 @@
+Evolution 3.20.5 2016-08-08
+---------------------------
+
+Bug Fixes:
+	Bug 768449 - “Message/Open in New Window” marks message as read when shouldn't (Milan Crha)
+	Bug 767283 - [Wayland] "Add a Column" dialog: drag and drop broken ][ (Milan Crha)
+	Bug 769338 - Pasting < > & as a quotation pastes their html entities (Tomas Popela)
+	Bug 769354 - Quotation level changed when deleting one character in quoted line (Tomas Popela)
+	Bug 769062 - Crash on mouse over task when tasks are grouped (Milan Crha)
+	Bug 768683 - Cannot mark as spam non-spam message in a real Junk folder (Milan Crha)
+	Bug 769072 - Silently discards message when save to draft fails on quit (Milan Crha)
+	Bug 769523 - bold key/button erases text (Tomas Popela)
+	Bug 769288 - Crash after saving view and changing folder (Milan Crha)
+
+Miscellaneous:
+	EComposerPrivate - Changing a top signature to another one will place it on different position (Tomas Popela)
+	EComposerPrivate - Unneeded spacer left when setting a top signature from an existing one to None (Tomas Popela)
+	EHTMLEditorView - Redoing unquoting does not work (Tomas Popela)
+	Correct order of "assign value" and "call function" when saving to drafts (Milan Crha)
+
 Evolution 3.20.4 2016-07-11
 ---------------------------
 
