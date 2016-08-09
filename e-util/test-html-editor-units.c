@@ -1818,6 +1818,63 @@ test_paste_quoted_multiline_plain2plain (TestFixture *fixture)
 }
 
 static void
+test_cite_html2plain (TestFixture *fixture)
+{
+	if (!test_utils_process_commands (fixture,
+		"mode:html\n")) {
+		g_test_fail ();
+		return;
+	}
+
+	test_utils_insert_content (fixture,
+		"<html><head></head><body>"
+		"<blockquote type=\"cite\">"
+		"<p>level 1</p>"
+		"<p><br></p>"
+		"<p>level 1</p>"
+		"<blockquote type=\"cite\">"
+		"<p>level 2</p>"
+		"</blockquote>"
+		"<p>back in level 1</p>"
+		"</blockquote>"
+		"<p><br></p>"
+		"<p>out of the citation</p>"
+		"</body></html>",
+		E_CONTENT_EDITOR_INSERT_REPLACE_ALL | E_CONTENT_EDITOR_INSERT_TEXT_HTML
+	);
+
+	/* Just check the content was read properly */
+	if (!test_utils_run_simple_test (fixture,
+		"",
+		HTML_PREFIX "<blockquote type=\"cite\"><p>level 1</p><p><br></p><p>level 1</p>"
+		"<blockquote type=\"cite\"><p>level 2</p></blockquote><p>back in level 1</p></blockquote>"
+		"<p><br></p><p>out of the citation</p>" HTML_SUFFIX,
+		"> level 1\n"
+		">\n"
+		"> level 1\n"
+		"> > level 2\n"
+		"> back in level 1\n"
+		"\n"
+		"out of the citation")) {
+		g_test_fail ();
+		return;
+	}
+
+	if (!test_utils_run_simple_test (fixture,
+		"mode:plain\n",
+		HTML_PREFIX_PLAIN ,
+		"> level 1\n"
+		">\n"
+		"> level 1\n"
+		"> > level 2\n"
+		"> back in level 1\n"
+		"\n"
+		"out of the citation")) {
+		g_test_fail ();
+	}
+}
+
+static void
 test_undo_text_typed (TestFixture *fixture)
 {
 	if (!test_utils_run_simple_test (fixture,
@@ -2332,6 +2389,7 @@ main (gint argc,
 	add_test ("/paste/quoted/multiline/html2plain", test_paste_quoted_multiline_html2plain);
 	add_test ("/paste/quoted/multiline/plain2html", test_paste_quoted_multiline_plain2html);
 	add_test ("/paste/quoted/multiline/plain2plain", test_paste_quoted_multiline_plain2plain);
+	add_test ("/cite/html2plain", test_cite_html2plain);
 	add_test ("/undo/text/typed", test_undo_text_typed);
 	add_test ("/undo/text/forward-delete", test_undo_text_forward_delete);
 	add_test ("/undo/text/backward-delete", test_undo_text_backward_delete);
