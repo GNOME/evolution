@@ -354,6 +354,131 @@ test_font_size_typed (TestFixture *fixture)
 }
 
 static void
+test_font_color_selection (TestFixture *fixture)
+{
+	EContentEditor *cnt_editor;
+	GdkRGBA rgba;
+
+	g_return_if_fail (fixture != NULL);
+	g_return_if_fail (E_IS_HTML_EDITOR (fixture->editor));
+
+	cnt_editor = e_html_editor_get_content_editor (fixture->editor);
+	g_return_if_fail (cnt_editor != NULL);
+
+	if (!test_utils_process_commands (fixture,
+		"mode:html\n"
+		"type:default red green blue\n"
+		"seq:hCrcrCSrsc\n")) {
+		g_test_fail ();
+		return;
+	}
+
+	rgba.red = 1.0;
+	rgba.green = 0.0;
+	rgba.blue = 0.0;
+	rgba.alpha = 1.0;
+
+	e_content_editor_set_font_color (cnt_editor, &rgba);
+
+	if (!test_utils_process_commands (fixture,
+		"seq:rrCSrcs\n")) {
+		g_test_fail ();
+		return;
+	}
+
+	rgba.red = 0.0;
+	rgba.green = 1.0;
+	rgba.blue = 0.0;
+	rgba.alpha = 1.0;
+
+	e_content_editor_set_font_color (cnt_editor, &rgba);
+
+	if (!test_utils_process_commands (fixture,
+		"seq:rrCSrcs\n")) {
+		g_test_fail ();
+		return;
+	}
+
+	rgba.red = 0.0;
+	rgba.green = 0.0;
+	rgba.blue = 1.0;
+	rgba.alpha = 1.0;
+
+	e_content_editor_set_font_color (cnt_editor, &rgba);
+
+	if (!test_utils_run_simple_test (fixture, "",
+		HTML_PREFIX "<p>default <font color=\"#ff0000\">red</font> <font color=\"#00ff00\">green</font> "
+		"<font color=\"#0000ff\">blue</font></p>" HTML_SUFFIX,
+		"default red green blue"))
+		g_test_fail ();
+}
+
+static void
+test_font_color_typed (TestFixture *fixture)
+{
+	EContentEditor *cnt_editor;
+	GdkRGBA rgba;
+
+	g_return_if_fail (fixture != NULL);
+	g_return_if_fail (E_IS_HTML_EDITOR (fixture->editor));
+
+	cnt_editor = e_html_editor_get_content_editor (fixture->editor);
+	g_return_if_fail (cnt_editor != NULL);
+
+	if (!test_utils_process_commands (fixture,
+		"mode:html\n"
+		"type:default \n")) {
+		g_test_fail ();
+		return;
+	}
+
+	rgba.red = 1.0;
+	rgba.green = 0.0;
+	rgba.blue = 0.0;
+	rgba.alpha = 1.0;
+
+	e_content_editor_set_font_color (cnt_editor, &rgba);
+
+	if (!test_utils_process_commands (fixture,
+		"type:red \n")) {
+		g_test_fail ();
+		return;
+	}
+
+	rgba.red = 0.0;
+	rgba.green = 1.0;
+	rgba.blue = 0.0;
+	rgba.alpha = 1.0;
+
+	e_content_editor_set_font_color (cnt_editor, &rgba);
+
+	if (!test_utils_process_commands (fixture,
+		"type:green \n")) {
+		g_test_fail ();
+		return;
+	}
+
+	rgba.red = 0.0;
+	rgba.green = 0.0;
+	rgba.blue = 1.0;
+	rgba.alpha = 1.0;
+
+	e_content_editor_set_font_color (cnt_editor, &rgba);
+
+	if (!test_utils_process_commands (fixture,
+		"type:blue\n")) {
+		g_test_fail ();
+		return;
+	}
+
+	if (!test_utils_run_simple_test (fixture, "",
+		HTML_PREFIX "<p>default <font color=\"#ff0000\">red </font><font color=\"#00ff00\">green </font>"
+		"<font color=\"#0000ff\">blue</font></p>" HTML_SUFFIX,
+		"default red green blue"))
+		g_test_fail ();
+}
+
+static void
 test_list_bullet_plain (TestFixture *fixture)
 {
 	if (!test_utils_run_simple_test (fixture,
@@ -2103,6 +2228,8 @@ main (gint argc,
 	add_test ("/indent/typed", test_indent_typed);
 	add_test ("/font/size/selection", test_font_size_selection);
 	add_test ("/font/size/typed", test_font_size_typed);
+	add_test ("/font/color/selection", test_font_color_selection);
+	add_test ("/font/color/typed", test_font_color_typed);
 	add_test ("/list/bullet/plain", test_list_bullet_plain);
 	add_test ("/list/bullet/html", test_list_bullet_html);
 	add_test ("/list/bullet/html/from-block", test_list_bullet_html_from_block);
