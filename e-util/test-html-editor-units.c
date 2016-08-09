@@ -295,11 +295,24 @@ test_font_size_selection (TestFixture *fixture)
 {
 	if (!test_utils_run_simple_test (fixture,
 		"mode:html\n"
-		"type:some monospace text\n"
-		"seq:hCrcrCSrsc\n"
-		"action:monospaced\n",
-		HTML_PREFIX "<p>some <font face=\"monospace\" size=\"3\">monospace</font> text</p>" HTML_SUFFIX,
-		"some monospace text"))
+		"type:FontM2 FontM1 Font0 FontP1 FontP2 FontP3 FontP4\n"
+		"seq:hCSrsc\n"
+		"action:size-minus-two\n"
+		"seq:rrCSrcs\n"
+		"action:size-minus-one\n"
+		"seq:rrCSrcs\n"
+		"action:size-plus-zero\n"
+		"seq:rrCSrcs\n"
+		"action:size-plus-one\n"
+		"seq:rrCSrcs\n"
+		"action:size-plus-two\n"
+		"seq:rrCSrcs\n"
+		"action:size-plus-three\n"
+		"seq:rrCSrcs\n"
+		"action:size-plus-four\n",
+		HTML_PREFIX "<p><font size=\"1\">FontM2</font> <font size=\"2\">FontM1</font> Font0 <font size=\"4\">FontP1</font> "
+		"<font size=\"5\">FontP2</font> <font size=\"6\">FontP3</font> <font size=\"7\">FontP4</font></p>" HTML_SUFFIX,
+		"FontM2 FontM1 Font0 FontP1 FontP2 FontP3 FontP4"))
 		g_test_fail ();
 }
 
@@ -308,13 +321,35 @@ test_font_size_typed (TestFixture *fixture)
 {
 	if (!test_utils_run_simple_test (fixture,
 		"mode:html\n"
-		"type:some \n"
-		"action:monospaced\n"
-		"type:monospace\n"
-		"action:monospaced\n"
-		"type: text\n",
-		HTML_PREFIX "<p>some <font face=\"monospace\" size=\"3\">monospace</font> text</p>" HTML_SUFFIX,
-		"some monospace text"))
+		"action:size-minus-two\n"
+		"type:FontM2\n"
+		"action:size-plus-zero\n"
+		"type: \n"
+		"action:size-minus-one\n"
+		"type:FontM1\n"
+		"action:size-plus-zero\n"
+		"type: \n"
+		"type:Font0\n"
+		"action:size-plus-zero\n"
+		"type: \n"
+		"action:size-plus-one\n"
+		"type:FontP1\n"
+		"action:size-plus-zero\n"
+		"type: \n"
+		"action:size-plus-two\n"
+		"type:FontP2\n"
+		"action:size-plus-zero\n"
+		"type: \n"
+		"action:size-plus-three\n"
+		"type:FontP3\n"
+		"action:size-plus-zero\n"
+		"type: \n"
+		"action:size-plus-four\n"
+		"type:FontP4\n"
+		"action:size-plus-zero\n",
+		HTML_PREFIX "<p><font size=\"1\">FontM2</font> <font size=\"2\">FontM1</font> Font0 <font size=\"4\">FontP1</font> "
+		"<font size=\"5\">FontP2</font> <font size=\"6\">FontP3</font> <font size=\"7\">FontP4</font></p>" HTML_SUFFIX,
+		"FontM2 FontM1 Font0 FontP1 FontP2 FontP3 FontP4"))
 		g_test_fail ();
 }
 
