@@ -1214,7 +1214,7 @@ test_paragraph_wrap_lines (TestFixture *fixture)
 }
 
 static void
-test_paste_html2html (TestFixture *fixture)
+test_paste_singleline_html2html (TestFixture *fixture)
 {
 	test_utils_set_clipboard_text ("<html><body>some <b>bold</b> text</body></html>", TRUE);
 
@@ -1224,12 +1224,12 @@ test_paste_html2html (TestFixture *fixture)
 		"action:paste\n"
 		"type: text after\n",
 		HTML_PREFIX "<p>text before some <b>bold</b> text text after</p>" HTML_SUFFIX,
-		"text before some bold text text after\n"))
+		"text before some bold text text after"))
 		g_test_fail ();
 }
 
 static void
-test_paste_html2plain (TestFixture *fixture)
+test_paste_singleline_html2plain (TestFixture *fixture)
 {
 	test_utils_set_clipboard_text ("<html><body>some <b>bold</b> text</body></html>", TRUE);
 
@@ -1239,12 +1239,12 @@ test_paste_html2plain (TestFixture *fixture)
 		"action:paste\n"
 		"type: text after\n",
 		HTML_PREFIX_PLAIN "<p style=\"width: 71ch;\">text before some bold text text after</p>" HTML_SUFFIX,
-		"text before some bold text text after\n"))
+		"text before some bold text text after"))
 		g_test_fail ();
 }
 
 static void
-test_paste_plain2html (TestFixture *fixture)
+test_paste_singleline_plain2html (TestFixture *fixture)
 {
 	test_utils_set_clipboard_text ("some plain text", FALSE);
 
@@ -1254,12 +1254,12 @@ test_paste_plain2html (TestFixture *fixture)
 		"action:paste\n"
 		"type: text after\n",
 		HTML_PREFIX "<p>text before some plain text text after</p>" HTML_SUFFIX,
-		"text before some plain text text after\n"))
+		"text before some plain text text after"))
 		g_test_fail ();
 }
 
 static void
-test_paste_plain2plain (TestFixture *fixture)
+test_paste_singleline_plain2plain (TestFixture *fixture)
 {
 	test_utils_set_clipboard_text ("some plain text", FALSE);
 
@@ -1269,12 +1269,144 @@ test_paste_plain2plain (TestFixture *fixture)
 		"action:paste\n"
 		"type: text after\n",
 		HTML_PREFIX_PLAIN "<p style=\"width: 71ch;\">text before some plain text text after</p>" HTML_SUFFIX,
-		"text before some plain text text after\n"))
+		"text before some plain text text after"))
 		g_test_fail ();
 }
 
 static void
-test_paste_quoted_html (TestFixture *fixture)
+test_paste_multiline_html2html (TestFixture *fixture)
+{
+	test_utils_set_clipboard_text ("<html><body><b>bold</b> text<br><i>italic</i> text<br><u>underline</u> text<br></body></html>", TRUE);
+
+	if (!test_utils_run_simple_test (fixture,
+		"mode:html\n"
+		"type:text before \n"
+		"action:paste\n"
+		"type:text after\n",
+		HTML_PREFIX "<p>text before <b>bold</b> text</p><p><i>italic</i> text</p><p><u>underline</u> text</p><p>text after</p>" HTML_SUFFIX,
+		"text before bold text\nitalic text\nunderline text\ntext after"))
+		g_test_fail ();
+}
+
+static void
+test_paste_multiline_html2plain (TestFixture *fixture)
+{
+	test_utils_set_clipboard_text ("<html><body><b>bold</b> text<br><i>italic</i> text<br><u>underline</u> text</body></html>", TRUE);
+
+	if (!test_utils_run_simple_test (fixture,
+		"mode:plain\n"
+		"type:text before \n"
+		"action:paste\n"
+		"type:\\ntext after\n",
+		HTML_PREFIX_PLAIN "<p style=\"width: 71ch;\">text before bold text</p>"
+		"<p style=\"width: 71ch;\">italic text</p>"
+		"<p style=\"width: 71ch;\">underline text</p>"
+		"<p style=\"width: 71ch;\">text after</p>" HTML_SUFFIX,
+		"text before bold text\nitalic text\nunderline text\ntext after"))
+		g_test_fail ();
+}
+
+static void
+test_paste_multiline_div_html2html (TestFixture *fixture)
+{
+	test_utils_set_clipboard_text ("<html><body><div><b>bold</b> text</div><div><i>italic</i> text</div><div><u>underline</u> text</div><div></div></body></html>", TRUE);
+
+	if (!test_utils_run_simple_test (fixture,
+		"mode:html\n"
+		"type:text before \n"
+		"action:paste\n"
+		"type:text after\n",
+		HTML_PREFIX "<p>text before <b>bold</b> text</p><p><i>italic</i> text</p><p><u>underline</u> text</p><p>text after</p>" HTML_SUFFIX,
+		"text before bold text\nitalic text\nunderline text\ntext after"))
+		g_test_fail ();
+}
+
+static void
+test_paste_multiline_div_html2plain (TestFixture *fixture)
+{
+	test_utils_set_clipboard_text ("<html><body><div><b>bold</b> text</div><div><i>italic</i> text</div><div><u>underline</u> text</div></body></html>", TRUE);
+
+	if (!test_utils_run_simple_test (fixture,
+		"mode:plain\n"
+		"type:text before \n"
+		"action:paste\n"
+		"type:\\ntext after\n",
+		HTML_PREFIX_PLAIN "<p style=\"width: 71ch;\">text before bold text</p>"
+		"<p style=\"width: 71ch;\">italic text</p>"
+		"<p style=\"width: 71ch;\">underline text</p>"
+		"<p style=\"width: 71ch;\">text after</p>" HTML_SUFFIX,
+		"text before bold text\nitalic text\nunderline text\ntext after"))
+		g_test_fail ();
+}
+
+static void
+test_paste_multiline_p_html2html (TestFixture *fixture)
+{
+	test_utils_set_clipboard_text ("<html><body><p><b>bold</b> text</p><p><i>italic</i> text</p><p><u>underline</u> text</p><p></p></body></html>", TRUE);
+
+	if (!test_utils_run_simple_test (fixture,
+		"mode:html\n"
+		"type:text before \n"
+		"action:paste\n"
+		"type:text after\n",
+		HTML_PREFIX "<p>text before <b>bold</b> text</p><p><i>italic</i> text</p><p><u>underline</u> text</p><p>text after</p>" HTML_SUFFIX,
+		"text before bold text\nitalic text\nunderline text\ntext after"))
+		g_test_fail ();
+}
+
+static void
+test_paste_multiline_p_html2plain (TestFixture *fixture)
+{
+	test_utils_set_clipboard_text ("<html><body><p><b>bold</b> text</p><p><i>italic</i> text</p><p><u>underline</u> text</p></body></html>", TRUE);
+
+	if (!test_utils_run_simple_test (fixture,
+		"mode:plain\n"
+		"type:text before \n"
+		"action:paste\n"
+		"type:\\ntext after\n",
+		HTML_PREFIX_PLAIN "<p style=\"width: 71ch;\">text before bold text</p>"
+		"<p style=\"width: 71ch;\">italic text</p>"
+		"<p style=\"width: 71ch;\">underline text</p>"
+		"<p style=\"width: 71ch;\">text after</p>" HTML_SUFFIX,
+		"text before bold text\nitalic text\nunderline text\ntext after"))
+		g_test_fail ();
+}
+
+static void
+test_paste_multiline_plain2html (TestFixture *fixture)
+{
+	test_utils_set_clipboard_text ("line 1\nline 2\nline 3\n", FALSE);
+
+	if (!test_utils_run_simple_test (fixture,
+		"mode:html\n"
+		"type:text before \n"
+		"action:paste\n"
+		"type:text after\n",
+		HTML_PREFIX "<p>text before line 1</p><p>line 2</p><p>line 3</p><p>text after</p>" HTML_SUFFIX,
+		"text before line 1\nline 2\nline 3\ntext after"))
+		g_test_fail ();
+}
+
+static void
+test_paste_multiline_plain2plain (TestFixture *fixture)
+{
+	test_utils_set_clipboard_text ("line 1\nline 2\nline 3", FALSE);
+
+	if (!test_utils_run_simple_test (fixture,
+		"mode:plain\n"
+		"type:text before \n"
+		"action:paste\n"
+		"type:\\ntext after\n",
+		HTML_PREFIX_PLAIN "<p style=\"width: 71ch;\">text before line 1</p>"
+		"<p style=\"width: 71ch;\">line 2</p>"
+		"<p style=\"width: 71ch;\">line 3</p>"
+		"<p style=\"width: 71ch;\">text after</p>" HTML_SUFFIX,
+		"text before line 1\nline 2\nline 3\ntext after"))
+		g_test_fail ();
+}
+
+static void
+test_paste_quoted_singleline_html (TestFixture *fixture)
 {
 	test_utils_set_clipboard_text ("<html><body>some <b>bold</b> text</body></html>", TRUE);
 
@@ -1284,12 +1416,12 @@ test_paste_quoted_html (TestFixture *fixture)
 		"action:paste-quote\n"
 		"type: text after\n",
 		HTML_PREFIX "<p>text before some <b>bold</b> text text after</p>" HTML_SUFFIX,
-		"text before some bold text text after\n"))
+		"text before some bold text text after"))
 		g_test_fail ();
 }
 
 static void
-test_paste_quoted_plain (TestFixture *fixture)
+test_paste_quoted_singleline_plain (TestFixture *fixture)
 {
 	test_utils_set_clipboard_text ("some plain text", FALSE);
 
@@ -1412,12 +1544,20 @@ main (gint argc,
 	add_test ("/paragraph/header6/selection", test_paragraph_header6_selection);
 	add_test ("/paragraph/header6/typed", test_paragraph_header6_typed);
 	add_test ("/paragraph/wrap-lines", test_paragraph_wrap_lines);
-	add_test ("/paste/html2html", test_paste_html2html);
-	add_test ("/paste/html2plain", test_paste_html2plain);
-	add_test ("/paste/plain2html", test_paste_plain2html);
-	add_test ("/paste/plain2plain", test_paste_plain2plain);
-	add_test ("/paste/quoted/html", test_paste_quoted_html);
-	add_test ("/paste/quoted/plain", test_paste_quoted_plain);
+	add_test ("/paste/singleline/html2html", test_paste_singleline_html2html);
+	add_test ("/paste/singleline/html2plain", test_paste_singleline_html2plain);
+	add_test ("/paste/singleline/plain2html", test_paste_singleline_plain2html);
+	add_test ("/paste/singleline/plain2plain", test_paste_singleline_plain2plain);
+	add_test ("/paste/multiline/html2html", test_paste_multiline_html2html);
+	add_test ("/paste/multiline/html2plain", test_paste_multiline_html2plain);
+	add_test ("/paste/multiline/div/html2html", test_paste_multiline_div_html2html);
+	add_test ("/paste/multiline/div/html2plain", test_paste_multiline_div_html2plain);
+	add_test ("/paste/multiline/p/html2html", test_paste_multiline_p_html2html);
+	add_test ("/paste/multiline/p/html2plain", test_paste_multiline_p_html2plain);
+	add_test ("/paste/multiline/plain2html", test_paste_multiline_plain2html);
+	add_test ("/paste/multiline/plain2plain", test_paste_multiline_plain2plain);
+	add_test ("/paste/quoted/singleline/html", test_paste_quoted_singleline_html);
+	add_test ("/paste/quoted/singleline/plain", test_paste_quoted_singleline_plain);
 
 	#undef add_test
 

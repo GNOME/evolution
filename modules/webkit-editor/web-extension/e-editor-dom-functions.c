@@ -5150,14 +5150,18 @@ parse_html_into_blocks (EEditorPage *editor_page,
 
 	prev_br = html->str;
 	next_br = strstr (prev_br, "<br>");
+	processing_last = !next_br;
 
-	while (next_br) {
+	while (next_br || processing_last) {
 		const gchar *citation_start = NULL, *citation_end = NULL;
 		const gchar *rest = NULL, *with_br = NULL;
 		gchar *to_process = NULL, *to_insert = NULL;
 		guint to_insert_start = 0, to_insert_end = 0;
 
-		if ((to_process = g_utf8_substring (prev_br, 0, g_utf8_pointer_to_offset (prev_br, next_br))) && !*to_process && !processing_last) {
+		if (!next_br) {
+			to_process = g_strdup (prev_br);
+			processing_last = TRUE;
+		} else if ((to_process = g_utf8_substring (prev_br, 0, g_utf8_pointer_to_offset (prev_br, next_br))) && !*to_process && !processing_last) {
 			g_free (to_process);
 			to_process = g_strdup (next_br);
 			processing_last = TRUE;
@@ -5250,12 +5254,17 @@ parse_html_into_blocks (EEditorPage *editor_page,
 		if (citation_end)
 			append_citation_mark (document, parent, "##CITATION_END##");
 
+		g_free (to_process);
+
 		prev_br = next_br;
-		next_br = strstr (prev_br + 4, "<br>");
+		next_br = (prev_br && *prev_br) ? strstr (prev_br + 1, "<br>") : NULL;
 		if (!next_br && !processing_last) {
-			if (g_utf8_strlen (prev_br, -1) > 4)
+			if (!prev_br)
+				break;
+
+			if (g_utf8_strlen (prev_br, -1) > 4) {
 				next_br = prev_br;
-			else {
+			} else {
 				WebKitDOMNode *child;
 
 				child = webkit_dom_node_get_last_child (
@@ -5280,12 +5289,12 @@ parse_html_into_blocks (EEditorPage *editor_page,
 					create_and_append_new_block (
 						editor_page, parent, block_template, "<br>");
 				}
-				g_free (to_process);
 				break;
 			}
 			processing_last = TRUE;
+		} else if (processing_last && !prev_br && !next_br) {
+			break;
 		}
-		g_free (to_process);
 	}
 
 	if (has_citation) {
