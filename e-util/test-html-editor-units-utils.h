@@ -84,5 +84,6 @@ void		test_utils_insert_content	(TestFixture *fixture,
 						 EContentEditorInsertContentFlags flags);
 void		test_utils_set_clipboard_text	(const gchar *text,
 						 gboolean is_html);
+gchar *		test_utils_get_clipboard_text	(gboolean request_html);
 
 #endif /* TEST_HTML_EDITOR_UNITS_UTILS_H */

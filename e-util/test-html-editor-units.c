@@ -2158,6 +2158,47 @@ test_undo_indent (TestFixture *fixture)
 		g_test_fail ();
 }
 
+static void
+test_bug_726548 (TestFixture *fixture)
+{
+	gboolean success;
+	gchar *text;
+	const gchar *expected_plain =
+		"aaa\n"
+		"   1. a\n"
+		"   2. b\n"
+		"   3. c\n";
+
+	if (!test_utils_run_simple_test (fixture,
+		"mode:plain\n"
+		"type:aaa\\n\n"
+		"action:style-list-number\n"
+		"type:a\\nb\\nc\\n\\n\n"
+		"seq:C\n"
+		"type:ac\n"
+		"seq:c\n",
+		HTML_PREFIX_PLAIN "<p style=\"width: 71ch;\">aaa</p>"
+		"<ol data-evo-paragraph=\"\" style=\"width: 65ch;\">"
+		"<li>a</li><li>b</li><li>c</li></ol>"
+		"<p style=\"width: 71ch;\"><br></p>" HTML_SUFFIX,
+		expected_plain)) {
+		g_test_fail ();
+		return;
+	}
+
+	text = test_utils_get_clipboard_text (FALSE);
+	success = test_utils_html_equal (fixture, text, expected_plain);
+
+	if (!success) {
+		g_warning ("%s: clipboard Plain text \n---%s---\n does not match expected Plain\n---%s---",
+			G_STRFUNC, text, expected_plain);
+		g_free (text);
+		g_test_fail ();
+	} else {
+		g_free (text);
+	}
+}
+
 gint
 main (gint argc,
       gchar *argv[])
@@ -2298,6 +2339,7 @@ main (gint argc,
 	add_test ("/undo/style", test_undo_style);
 	add_test ("/undo/justify", test_undo_justify);
 	add_test ("/undo/indent", test_undo_indent);
+	add_test ("/bug/726548", test_bug_726548);
 
 	#undef add_test
 

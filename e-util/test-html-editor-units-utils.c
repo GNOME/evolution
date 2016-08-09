@@ -925,7 +925,9 @@ test_utils_process_commands (TestFixture *fixture,
 			success = FALSE;
 		}
 
-		test_utils_wait_milliseconds (event_processing_delay_ms);
+		/* Wait at least 100 ms, to give a chance to move the cursor and
+		   other things for WebKit, for example before executing actions. */
+		test_utils_wait_milliseconds (MAX (event_processing_delay_ms, 100));
 	}
 
 	g_strfreev (cmds);
@@ -1009,6 +1011,7 @@ test_utils_set_clipboard_text (const gchar *text,
 	g_return_if_fail (text != NULL);
 
 	clipboard = gtk_clipboard_get (GDK_SELECTION_CLIPBOARD);
+	g_return_if_fail (clipboard != NULL);
 
 	gtk_clipboard_clear (clipboard);
 
@@ -1017,4 +1020,26 @@ test_utils_set_clipboard_text (const gchar *text,
 	} else {
 		gtk_clipboard_set_text (clipboard, text, -1);
 	}
+}
+
+gchar *
+test_utils_get_clipboard_text (gboolean request_html)
+{
+	GtkClipboard *clipboard;
+	gchar *text;
+
+	clipboard = gtk_clipboard_get (GDK_SELECTION_CLIPBOARD);
+	g_return_val_if_fail (clipboard != NULL, NULL);
+
+	if (request_html) {
+		g_return_val_if_fail (e_clipboard_wait_is_html_available (clipboard), NULL);
+		text = e_clipboard_wait_for_html (clipboard);
+	} else {
+		g_return_val_if_fail (gtk_clipboard_wait_is_text_available (clipboard), NULL);
+		text = gtk_clipboard_wait_for_text (clipboard);
+	}
+
+	g_return_val_if_fail (text != NULL, NULL);
+
+	return text;
 }
