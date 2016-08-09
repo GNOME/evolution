@@ -34,6 +34,7 @@
 #include "e-image-chooser-dialog.h"
 #include "e-spell-checker.h"
 #include "e-misc-utils.h"
+#include "e-selection.h"
 #include "e-content-editor.h"
 
 static void
@@ -562,18 +563,47 @@ action_paste_as_text_cb (GtkAction *action,
 }
 
 static void
-clipboard_text_received_for_paste_quote (GtkClipboard *clipboard,
-                                         const gchar *text,
-                                         EHTMLEditor *editor)
+paste_quote_text (EHTMLEditor *editor,
+		  const gchar *text,
+		  gboolean is_html)
 {
 	EContentEditor *cnt_editor;
+
+	g_return_if_fail (E_IS_HTML_EDITOR (editor));
+	g_return_if_fail (text != NULL);
 
 	cnt_editor = e_html_editor_get_content_editor (editor);
 	e_content_editor_insert_content (
 		cnt_editor,
 		text,
 		E_CONTENT_EDITOR_INSERT_QUOTE_CONTENT |
-		E_CONTENT_EDITOR_INSERT_TEXT_PLAIN);
+		(is_html ? E_CONTENT_EDITOR_INSERT_TEXT_HTML : E_CONTENT_EDITOR_INSERT_TEXT_PLAIN));
+}
+
+static void
+clipboard_html_received_for_paste_quote (GtkClipboard *clipboard,
+                                         const gchar *text,
+                                         gpointer user_data)
+{
+	EHTMLEditor *editor = user_data;
+
+	g_return_if_fail (E_IS_HTML_EDITOR (editor));
+	g_return_if_fail (text != NULL);
+
+	paste_quote_text (editor, text, TRUE);
+}
+
+static void
+clipboard_text_received_for_paste_quote (GtkClipboard *clipboard,
+                                         const gchar *text,
+                                         gpointer user_data)
+{
+	EHTMLEditor *editor = user_data;
+
+	g_return_if_fail (E_IS_HTML_EDITOR (editor));
+	g_return_if_fail (text != NULL);
+
+	paste_quote_text (editor, text, FALSE);
 }
 
 static void
@@ -591,10 +621,10 @@ action_paste_quote_cb (GtkAction *action,
 		gdk_display_get_default (),
 		GDK_SELECTION_CLIPBOARD);
 
-	gtk_clipboard_request_text (
-		clipboard,
-		(GtkClipboardTextReceivedFunc) clipboard_text_received_for_paste_quote,
-		editor);
+	if (e_clipboard_wait_is_html_available (clipboard))
+		e_clipboard_request_html (clipboard, clipboard_html_received_for_paste_quote, editor);
+	else if (gtk_clipboard_wait_is_text_available (clipboard))
+		gtk_clipboard_request_text (clipboard, clipboard_text_received_for_paste_quote, editor);
 }
 
 static void

@@ -434,6 +434,7 @@ static const gchar *introspection_xml =
 "    <method name='DOMQuoteAndInsertTextIntoSelection'>"
 "      <arg type='t' name='page_id' direction='in'/>"
 "      <arg type='s' name='text' direction='in'/>"
+"      <arg type='b' name='is_html' direction='in'/>"
 "    </method>"
 "    <method name='DOMConvertAndInsertHTMLIntoSelection'>"
 "      <arg type='t' name='page_id' direction='in'/>"
@@ -1633,15 +1634,16 @@ handle_method_call (GDBusConnection *connection,
 		e_editor_dom_turn_spell_check_off (editor_page);
 		g_dbus_method_invocation_return_value (invocation, NULL);
 	} else if (g_strcmp0 (method_name, "DOMQuoteAndInsertTextIntoSelection") == 0) {
+		gboolean is_html = FALSE;
 		const gchar *text;
 
-		g_variant_get (parameters, "(t&s)", &page_id, &text);
+		g_variant_get (parameters, "(t&sb)", &page_id, &text, &is_html);
 
 		editor_page = get_editor_page_or_return_dbus_error (invocation, extension, page_id);
 		if (!editor_page)
 			goto error;
 
-		e_editor_dom_quote_and_insert_text_into_selection (editor_page, text);
+		e_editor_dom_quote_and_insert_text_into_selection (editor_page, text, is_html);
 		g_dbus_method_invocation_return_value (invocation, NULL);
 	} else if (g_strcmp0 (method_name, "DOMConvertAndInsertHTMLIntoSelection") == 0) {
 		gboolean is_html;

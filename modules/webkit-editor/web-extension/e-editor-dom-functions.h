@@ -98,7 +98,8 @@ void		e_editor_dom_remove_input_event_listener_from_body
 						(EEditorPage *editor_page);
 void		e_editor_dom_quote_and_insert_text_into_selection
 						(EEditorPage *editor_page,
-						 const gchar *text);
+						 const gchar *text,
+						 gboolean is_html);
 void		e_editor_dom_check_magic_links	(EEditorPage *editor_page,
 						 gboolean include_space_by_user);
 void		e_editor_dom_insert_smiley	(EEditorPage *editor_page,

@@ -1585,7 +1585,7 @@ undo_redo_paste (EEditorPage *editor_page,
 		if (event->type == HISTORY_PASTE)
 			e_editor_dom_convert_and_insert_html_into_selection (editor_page, event->data.string.to, FALSE);
 		else if (event->type == HISTORY_PASTE_QUOTED)
-			e_editor_dom_quote_and_insert_text_into_selection (editor_page, event->data.string.to);
+			e_editor_dom_quote_and_insert_text_into_selection (editor_page, event->data.string.to, FALSE);
 		else if (event->type == HISTORY_INSERT_HTML)
 			e_editor_dom_insert_html (editor_page, event->data.string.to);
 		else

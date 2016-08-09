@@ -1561,7 +1561,7 @@ webkit_editor_insert_content (EContentEditor *editor,
 			wk_editor->priv->web_extension,
 			"DOMQuoteAndInsertTextIntoSelection",
 			g_variant_new (
-				"(ts)", current_page_id (wk_editor), content),
+				"(tsb)", current_page_id (wk_editor), content, (flags & E_CONTENT_EDITOR_INSERT_TEXT_HTML) != 0),
 			G_DBUS_CALL_FLAGS_NONE,
 			-1,
 			NULL,

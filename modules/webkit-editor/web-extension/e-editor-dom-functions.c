@@ -5321,7 +5321,8 @@ parse_html_into_blocks (EEditorPage *editor_page,
 
 void
 e_editor_dom_quote_and_insert_text_into_selection (EEditorPage *editor_page,
-						   const gchar *text)
+						   const gchar *text,
+						   gboolean is_html)
 {
 	WebKitDOMDocument *document;
 	WebKitDOMElement *blockquote, *element, *selection_start;
@@ -5337,11 +5338,29 @@ e_editor_dom_quote_and_insert_text_into_selection (EEditorPage *editor_page,
 
 	document = e_editor_page_get_document (editor_page);
 
-	/* This is a trick to escape any HTML characters (like <, > or &).
-	 * <textarea> automatically replaces all these unsafe characters
-	 * by &lt;, &gt; etc. */
-	element = webkit_dom_document_create_element (document, "textarea", NULL);
-	webkit_dom_html_element_set_inner_text (WEBKIT_DOM_HTML_ELEMENT (element), text, NULL);
+	if (is_html) {
+		element = webkit_dom_document_create_element (document, "div", NULL);
+
+		if (strstr (text, "\n")) {
+			GRegex *regex;
+			gchar *tmp;
+
+			/* Strip new lines between tags to avoid unwanted line breaks. */
+			regex = g_regex_new ("\\>[\\s]+\\<", 0, 0, NULL);
+			tmp = g_regex_replace (regex, text, -1, 0, "> <", 0, NULL);
+			webkit_dom_element_set_inner_html (element, tmp, NULL);
+			g_free (tmp);
+			g_regex_unref (regex);
+		} else {
+			webkit_dom_element_set_inner_html (element, text, NULL);
+		}
+	} else {
+		/* This is a trick to escape any HTML characters (like <, > or &).
+		 * <textarea> automatically replaces all these unsafe characters
+		 * by &lt;, &gt; etc. */
+		element = webkit_dom_document_create_element (document, "textarea", NULL);
+		webkit_dom_html_element_set_inner_text (WEBKIT_DOM_HTML_ELEMENT (element), text, NULL);
+	}
 
 	inner_html = webkit_dom_element_get_inner_html (element);
 
