@@ -2435,6 +2435,48 @@ test_bug_726548 (TestFixture *fixture)
 	}
 }
 
+static void
+test_bug_750657 (TestFixture *fixture)
+{
+	if (!test_utils_process_commands (fixture,
+		"mode:html\n")) {
+		g_test_fail ();
+		return;
+	}
+
+	test_utils_insert_content (fixture,
+		"<html><head></head><body>\n"
+		"<blockquote type=\"cite\">\n"
+		"<p>This is the first paragraph of a quoted text which has some long text to test. It has the second sentence as well.</p>\n"
+		"<p><br></p>\n"
+		"<p>This is the third paragraph of a quoted text which has some long text to test. It has the second sentence as well.</p>\n"
+		"<blockquote type=\"cite\">\n"
+		"<p>This is the first paragraph of a sub-quoted text which has some long text to test. It has the second sentence as well.</p>\n"
+		"<br>\n"
+		"</blockquote>\n"
+		"<p>This is the fourth paragraph of a quoted text which has some long text to test. It has the second sentence as well.</p>\n"
+		"</blockquote>\n"
+		"<p><br></p>\n"
+		"</body></html>\n",
+		E_CONTENT_EDITOR_INSERT_TEXT_HTML);
+
+	if (!test_utils_run_simple_test (fixture,
+		"seq:uuuSuusD\n",
+		HTML_PREFIX "\n"
+		"<blockquote type=\"cite\">\n"
+		"<p>This is the first paragraph of a quoted text which has some long text to test. It has the second sentence as well.</p>\n"
+		"<p><br></p>\n"
+		"<p>This is the third paragraph of a quoted text which has some long text to test. It has the second sentence as well.</p>\n"
+		"<p>This is the fourth paragraph of a quoted text which has some long text to test. It has the second sentence as well.</p>\n"
+		"</blockquote>\n"
+		"<p><br></p>\n"
+		HTML_SUFFIX,
+		NULL)) {
+		g_test_fail ();
+		return;
+	}
+}
+
 gint
 main (gint argc,
       gchar *argv[])
@@ -2579,6 +2621,7 @@ main (gint argc,
 	add_test ("/undo/justify", test_undo_justify);
 	add_test ("/undo/indent", test_undo_indent);
 	add_test ("/bug/726548", test_bug_726548);
+	add_test ("/bug/750657", test_bug_750657);
 
 	#undef add_test
 
