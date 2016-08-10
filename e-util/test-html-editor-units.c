@@ -2395,6 +2395,52 @@ test_undo_indent (TestFixture *fixture)
 }
 
 static void
+test_undo_link_paste_html (TestFixture *fixture)
+{
+	test_utils_set_clipboard_text ("http://www.gnome.org", FALSE);
+
+	if (!test_utils_run_simple_test (fixture,
+		"mode:html\n"
+		"type:URL:\\n\n"
+		"undo:save\n" /* 1 */
+		"action:paste\n"
+		"type:\\n\n"
+		"undo:save\n" /* 2 */
+		"undo:undo:2\n"
+		"undo:test:2\n"
+		"undo:undo:5\n"
+		"undo:redo:7\n"
+		"undo:test\n",
+		HTML_PREFIX "<p>URL:</p><p><a href=\"http://www.gnome.org\">http://www.gnome.org</a></p><p><br></p>" HTML_SUFFIX,
+		"URL:\nhttp://www.gnome.org\n"))
+		g_test_fail ();
+}
+
+static void
+test_undo_link_paste_plain (TestFixture *fixture)
+{
+	test_utils_set_clipboard_text ("http://www.gnome.org", FALSE);
+
+	if (!test_utils_run_simple_test (fixture,
+		"mode:plain\n"
+		"type:URL:\\n\n"
+		"undo:save\n" /* 1 */
+		"action:paste\n"
+		"type:\\n\n"
+		"undo:save\n" /* 2 */
+		"undo:undo:2\n"
+		"undo:test:2\n"
+		"undo:undo:5\n"
+		"undo:redo:7\n"
+		"undo:test\n",
+		HTML_PREFIX_PLAIN "<p style=\"width: 71ch;\">URL:</p>"
+		"<p style=\"width: 71ch;\"><a href=\"http://www.gnome.org\">http://www.gnome.org</a></p>"
+		"<p style=\"width: 71ch;\"><br></p>" HTML_SUFFIX,
+		"URL:\nhttp://www.gnome.org\n"))
+		g_test_fail ();
+}
+
+static void
 test_bug_726548 (TestFixture *fixture)
 {
 	gboolean success;
@@ -2620,6 +2666,8 @@ main (gint argc,
 	add_test ("/undo/style", test_undo_style);
 	add_test ("/undo/justify", test_undo_justify);
 	add_test ("/undo/indent", test_undo_indent);
+	add_test ("/undo/link-paste/html", test_undo_link_paste_html);
+	add_test ("/undo/link-paste/plain", test_undo_link_paste_plain);
 	add_test ("/bug/726548", test_bug_726548);
 	add_test ("/bug/750657", test_bug_750657);
 
