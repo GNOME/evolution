@@ -1840,8 +1840,7 @@ test_cite_html2plain (TestFixture *fixture)
 		"<p><br></p>"
 		"<p>out of the citation</p>"
 		"</body></html>",
-		E_CONTENT_EDITOR_INSERT_REPLACE_ALL | E_CONTENT_EDITOR_INSERT_TEXT_HTML
-	);
+		E_CONTENT_EDITOR_INSERT_REPLACE_ALL | E_CONTENT_EDITOR_INSERT_TEXT_HTML);
 
 	/* Just check the content was read properly */
 	if (!test_utils_run_simple_test (fixture,
@@ -1871,6 +1870,186 @@ test_cite_html2plain (TestFixture *fixture)
 		"\n"
 		"out of the citation")) {
 		g_test_fail ();
+	}
+}
+
+static void
+test_cite_shortline (TestFixture *fixture)
+{
+	if (!test_utils_process_commands (fixture,
+		"mode:html\n")) {
+		g_test_fail ();
+		return;
+	}
+
+	test_utils_insert_content (fixture,
+		"<html><head></head><body><blockquote type=\"cite\">"
+		"<p>Just one short line.</p>"
+		"</blockquote></body></html>",
+		E_CONTENT_EDITOR_INSERT_REPLACE_ALL | E_CONTENT_EDITOR_INSERT_TEXT_HTML);
+
+	if (!test_utils_run_simple_test (fixture,
+		"",
+		HTML_PREFIX "<blockquote type=\"cite\">"
+		"<p>Just one short line.</p>"
+		"</blockquote>" HTML_SUFFIX,
+		"> Just one short line.")) {
+		g_test_fail ();
+		return;
+	}
+
+	if (!test_utils_process_commands (fixture,
+		"seq:C\n"
+		"type:a\n"
+		"seq:cD\n")) {
+		g_test_fail ();
+		return;
+	}
+
+	test_utils_insert_content (fixture,
+		"<html><head></head><body><blockquote type=\"cite\">"
+		"<p>Just one short line.</p>"
+		"</blockquote></body></html>",
+		E_CONTENT_EDITOR_INSERT_TEXT_HTML);
+
+	if (!test_utils_run_simple_test (fixture,
+		"",
+		HTML_PREFIX "<blockquote type=\"cite\">"
+		"<p>Just one short line.</p>"
+		"</blockquote>" HTML_SUFFIX,
+		"> Just one short line.")) {
+		g_test_fail ();
+		return;
+	}
+
+	test_utils_insert_content (fixture,
+		"<html><head></head><body><blockquote type=\"cite\">"
+		"<p>short line 1</p>"
+		"<p>short line 2</p>"
+		"<p>short line 3</p>"
+		"</blockquote></body></html>",
+		E_CONTENT_EDITOR_INSERT_REPLACE_ALL | E_CONTENT_EDITOR_INSERT_TEXT_HTML);
+
+	if (!test_utils_run_simple_test (fixture,
+		"",
+		HTML_PREFIX "<blockquote type=\"cite\">"
+		"<p>short line 1</p>"
+		"<p>short line 2</p>"
+		"<p>short line 3</p>"
+		"</blockquote>" HTML_SUFFIX,
+		"> short line 1\n"
+		"> short line 2\n"
+		"> short line 3")) {
+		g_test_fail ();
+		return;
+	}
+
+	if (!test_utils_process_commands (fixture,
+		"seq:C\n"
+		"type:a\n"
+		"seq:cD\n")) {
+		g_test_fail ();
+		return;
+	}
+
+	test_utils_insert_content (fixture,
+		"<html><head></head><body><blockquote type=\"cite\">"
+		"<p>short line 1</p>"
+		"<p>short line 2</p>"
+		"<p>short line 3</p>"
+		"</blockquote></body></html>",
+		E_CONTENT_EDITOR_INSERT_TEXT_HTML);
+
+	if (!test_utils_run_simple_test (fixture,
+		"",
+		HTML_PREFIX "<blockquote type=\"cite\">"
+		"<p>short line 1</p>"
+		"<p>short line 2</p>"
+		"<p>short line 3</p>"
+		"</blockquote>" HTML_SUFFIX,
+		"> short line 1\n"
+		"> short line 2\n"
+		"> short line 3")) {
+		g_test_fail ();
+		return;
+	}
+}
+
+static void
+test_cite_longline (TestFixture *fixture)
+{
+	if (!test_utils_process_commands (fixture,
+		"mode:html\n")) {
+		g_test_fail ();
+		return;
+	}
+
+	test_utils_insert_content (fixture,
+		"<html><head></head><body><blockquote type=\"cite\">"
+		"<p>This is the first paragraph of a quoted text which has some long text to test. It has the second sentence as well.</p>"
+		"</blockquote></body></html>",
+		E_CONTENT_EDITOR_INSERT_REPLACE_ALL | E_CONTENT_EDITOR_INSERT_TEXT_HTML);
+
+	if (!test_utils_run_simple_test (fixture,
+		"",
+		HTML_PREFIX "<blockquote type=\"cite\">"
+		"<p>This is the first paragraph of a quoted text which has some long text to test. It has the second sentence as well.</p>"
+		"</blockquote>" HTML_SUFFIX,
+		"> This is the first paragraph of a quoted text which has some long\n"
+		"> text to test. It has the second sentence as well.\n")) {
+		g_test_fail ();
+		return;
+	}
+
+	if (!test_utils_process_commands (fixture,
+		"seq:C\n"
+		"type:a\n"
+		"seq:cD\n")) {
+		g_test_fail ();
+		return;
+	}
+
+	test_utils_insert_content (fixture,
+		"<html><head></head><body><blockquote type=\"cite\">"
+		"<p>This is the first paragraph of a quoted text which has some long text to test. It has the second sentence as well.</p>"
+		"</blockquote></body></html>",
+		E_CONTENT_EDITOR_INSERT_TEXT_HTML);
+
+	if (!test_utils_run_simple_test (fixture,
+		"",
+		HTML_PREFIX "<blockquote type=\"cite\">"
+		"<p>This is the first paragraph of a quoted text which has some long text to test. It has the second sentence as well.</p>"
+		"</blockquote>" HTML_SUFFIX,
+		"> This is the first paragraph of a quoted text which has some long\n"
+		"> text to test. It has the second sentence as well.\n")) {
+		g_test_fail ();
+		return;
+	}
+
+	test_utils_insert_content (fixture,
+		"<html><head></head><body><blockquote type=\"cite\">"
+		"<p>This is the first paragraph of a quoted text which has some long text to test. It has the second sentence as well.</p>"
+		"<p>This is the second paragraph of a quoted text which has some long text to test. It has the second sentence as well.</p>"
+		"<p>This is the third paragraph of a quoted text which has some long text to test. It has the second sentence as well.</p>"
+		"</blockquote><br>after quote</body></html>",
+		E_CONTENT_EDITOR_INSERT_REPLACE_ALL | E_CONTENT_EDITOR_INSERT_TEXT_HTML);
+
+	if (!test_utils_run_simple_test (fixture,
+		"",
+		HTML_PREFIX "<blockquote type=\"cite\">"
+		"<p>This is the first paragraph of a quoted text which has some long text to test. It has the second sentence as well.</p>"
+		"<p>This is the second paragraph of a quoted text which has some long text to test. It has the second sentence as well.</p>"
+		"<p>This is the third paragraph of a quoted text which has some long text to test. It has the second sentence as well.</p>"
+		"</blockquote><br>after quote" HTML_SUFFIX,
+		"> This is the first paragraph of a quoted text which has some long\n"
+		"> text to test. It has the second sentence as well.\n"
+		"> This is the econd paragraph of a quoted text which has some long\n"
+		"> text to test. It has the second sentence as well.\n"
+		"> This is the third paragraph of a quoted text which has some long\n"
+		"> text to test. It has the second sentence as well.\n"
+		"\nafter quote")) {
+		g_test_fail ();
+		return;
 	}
 }
 
@@ -2390,6 +2569,8 @@ main (gint argc,
 	add_test ("/paste/quoted/multiline/plain2html", test_paste_quoted_multiline_plain2html);
 	add_test ("/paste/quoted/multiline/plain2plain", test_paste_quoted_multiline_plain2plain);
 	add_test ("/cite/html2plain", test_cite_html2plain);
+	add_test ("/cite/shortline", test_cite_shortline);
+	add_test ("/cite/longline", test_cite_longline);
 	add_test ("/undo/text/typed", test_undo_text_typed);
 	add_test ("/undo/text/forward-delete", test_undo_text_forward_delete);
 	add_test ("/undo/text/backward-delete", test_undo_text_backward_delete);
