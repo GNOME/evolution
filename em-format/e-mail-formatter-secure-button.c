@@ -47,8 +47,10 @@ static const struct {
 	{ "stock_signature-ok", N_("Valid signature"), N_("This message is signed and is valid meaning that it is very likely that this message is authentic.") },
 	{ "stock_signature-bad", N_("Invalid signature"), N_("The signature of this message cannot be verified, it may have been altered in transit.") },
 	{ "stock_signature", N_("Valid signature, but cannot verify sender"), N_("This message is signed with a valid signature, but the sender of the message cannot be verified.") },
-	{ "stock_signature-bad", N_("Signature exists, but need public key"), N_("This message is signed with a signature, but there is no corresponding public key.") },
-
+	{ "stock_signature-bad", N_("This message is signed, but the public key is not in your keyring"), N_("This message was digitally signed, but the corresponding"
+				" public key is not present in your keyring. If you want to be able to verify the authenticity of messages from this person, you should"
+				" obtain the public key through a trusted method and add it to your keyring. Until then, there is no guarantee that this message truly"
+				" came from that person and that it arrived unaltered.") }
 };
 
 static const struct {
