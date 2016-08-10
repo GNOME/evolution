@@ -2523,6 +2523,50 @@ test_bug_750657 (TestFixture *fixture)
 	}
 }
 
+static void
+test_bug_760989 (TestFixture *fixture)
+{
+	if (!test_utils_process_commands (fixture,
+		"mode:html\n"
+		"type:a\n")) {
+		g_test_fail ();
+		return;
+	}
+
+	test_utils_insert_content (fixture,
+		"<html><head></head><body>\n"
+		"One line before quotation<br>\n"
+		"<blockquote type=\"cite\">\n"
+		"<p>Single line quoted.</p>\n"
+		"</blockquote>\n"
+		"</body></html>",
+		E_CONTENT_EDITOR_INSERT_TEXT_HTML);
+
+	if (!test_utils_run_simple_test (fixture,
+		"seq:ChcD\n",
+		HTML_PREFIX "<p>One line before quotation</p>\n"
+		"<blockquote type=\"cite\">\n"
+		"<p>Single line quoted.</p>\n"
+		"</blockquote>" HTML_SUFFIX,
+		"One line before quotation\n"
+		"> Single line quoted.")) {
+		g_test_fail ();
+		return;
+	}
+
+	if (!test_utils_run_simple_test (fixture,
+		"seq:Cecb\n",
+		HTML_PREFIX "<p>One line before quotation</p>\n"
+		"<blockquote type=\"cite\">\n"
+		"<p>Single line quoted</p>\n"
+		"</blockquote>" HTML_SUFFIX,
+		"One line before quotation\n"
+		"> Single line quoted")) {
+		g_test_fail ();
+		return;
+	}
+}
+
 gint
 main (gint argc,
       gchar *argv[])
@@ -2670,6 +2714,7 @@ main (gint argc,
 	add_test ("/undo/link-paste/plain", test_undo_link_paste_plain);
 	add_test ("/bug/726548", test_bug_726548);
 	add_test ("/bug/750657", test_bug_750657);
+	add_test ("/bug/760989", test_bug_760989);
 
 	#undef add_test
 
