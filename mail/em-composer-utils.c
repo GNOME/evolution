@@ -944,7 +944,7 @@ composer_save_to_drafts_cleanup (GObject *source_object,
 				GTK_WINDOW (async_context->composer),
 				"mail:ask-default-drafts", local_error->message, NULL);
 			if (response != GTK_RESPONSE_YES) {
-				e_html_editor_view_set_changed (view, TRUE);
+				e_content_editor_set_changed (cnt_editor, TRUE);
 				async_context_free (async_context);
 			} else {
 				composer_save_to_drafts_append_mail (async_context, NULL);

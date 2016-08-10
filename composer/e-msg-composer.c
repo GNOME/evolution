@@ -4074,15 +4074,15 @@ msg_composer_save_to_drafts_done_cb (gpointer user_data,
 {
 	EMsgComposer *composer = user_data;
 	EHTMLEditor *editor;
-	EHTMLEditorView *view;
+	EContentEditor *cnt_editor;
 
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 
 	editor = e_msg_composer_get_editor (composer);
-	view = e_html_editor_get_view (editor);
+	cnt_editor = e_html_editor_get_content_editor (editor);
 
 	if (e_msg_composer_is_exiting (composer) &&
-	    !e_html_editor_view_get_changed (view)) {
+	    !e_content_editor_get_changed (cnt_editor)) {
 		gtk_widget_destroy (GTK_WIDGET (composer));
 	} else if (e_msg_composer_is_exiting (composer)) {
 		gtk_widget_set_sensitive (GTK_WIDGET (composer), TRUE);
