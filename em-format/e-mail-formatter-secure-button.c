@@ -71,11 +71,11 @@ static const GdkRGBA smime_sign_colour[6] = {
 
 /* This is awkward, but there is no header file for it. On the other hand,
    the functions are meant private, where they really are, being defined this way. */
-const gchar *e_mail_formatter_secure_button_get_encrypt_description (camel_cipher_validity_encrypt_t status);
-const gchar *e_mail_formatter_secure_button_get_sign_description (camel_cipher_validity_sign_t status);
+const gchar *e_mail_formatter_secure_button_get_encrypt_description (CamelCipherValidityEncrypt status);
+const gchar *e_mail_formatter_secure_button_get_sign_description (CamelCipherValiditySign status);
 
 const gchar *
-e_mail_formatter_secure_button_get_sign_description (camel_cipher_validity_sign_t status)
+e_mail_formatter_secure_button_get_sign_description (CamelCipherValiditySign status)
 {
 	g_return_val_if_fail (status >= 0 && status < G_N_ELEMENTS (smime_sign_table), NULL);
 
@@ -83,7 +83,7 @@ e_mail_formatter_secure_button_get_sign_description (camel_cipher_validity_sign_
 }
 
 const gchar *
-e_mail_formatter_secure_button_get_encrypt_description (camel_cipher_validity_encrypt_t status)
+e_mail_formatter_secure_button_get_encrypt_description (CamelCipherValidityEncrypt status)
 {
 	g_return_val_if_fail (status >= 0 && status < G_N_ELEMENTS (smime_encrypt_table), NULL);
 

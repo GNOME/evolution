@@ -30,8 +30,8 @@
 
 G_DEFINE_TYPE (EMailPartSecureButton, e_mail_part_secure_button, E_TYPE_MAIL_PART)
 
-const gchar *e_mail_formatter_secure_button_get_encrypt_description (camel_cipher_validity_encrypt_t status);
-const gchar *e_mail_formatter_secure_button_get_sign_description (camel_cipher_validity_sign_t status);
+const gchar *e_mail_formatter_secure_button_get_encrypt_description (CamelCipherValidityEncrypt status);
+const gchar *e_mail_formatter_secure_button_get_sign_description (CamelCipherValiditySign status);
 
 
 #if defined (HAVE_NSS) && defined (ENABLE_SMIME)
