@@ -510,6 +510,14 @@ static GtkToggleActionEntry toggle_entries[] = {
 	  NULL,
 	  FALSE },
 
+	{ "unicode-smileys",
+	  NULL,
+	  N_("Unicode smilyes"),
+	  NULL,
+	  N_("Use Unicode characters for smileys."),
+	  NULL,  /* Handled by property bindings */
+	  FALSE },
+
 	{ "view-bcc",
 	  NULL,
 	  N_("_Bcc Field"),

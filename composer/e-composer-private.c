@@ -290,7 +290,6 @@ e_composer_private_constructed (EMsgComposer *composer)
 	for (ii = 0; ii < E_COMPOSER_NUM_HEADERS; ii++) {
 		EComposerHeaderTable *table;
 		EComposerHeader *header;
-		GtkAction *action;
 
 		table = E_COMPOSER_HEADER_TABLE (priv->header_table);
 		header = e_composer_header_table_get_header (table, ii);
