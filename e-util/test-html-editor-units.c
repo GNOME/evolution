@@ -2054,6 +2054,64 @@ test_cite_longline (TestFixture *fixture)
 }
 
 static void
+test_cite_reply_html (TestFixture *fixture)
+{
+	if (!test_utils_process_commands (fixture,
+		"mode:html\n")) {
+		g_test_fail ();
+		return;
+	}
+
+	test_utils_insert_content (fixture,
+		"<pre>line 1\n"
+		"line 2\n"
+		"</pre><span class=\"-x-evo-to-body\" data-credits=\"On Today, User wrote:\"></span>"
+		"<span class=\"-x-evo-cite-body\"></span>",
+		E_CONTENT_EDITOR_INSERT_REPLACE_ALL | E_CONTENT_EDITOR_INSERT_TEXT_HTML);
+
+	if (!test_utils_run_simple_test (fixture,
+		"",
+		HTML_PREFIX "<p>On Today, User wrote:</p>"
+		"<blockquote type=\"cite\"><pre>line 1\n"
+		"line 2\n"
+		"</pre></blockquote>" HTML_SUFFIX,
+		"On Today, Use wrote:\n"
+		"> line 1\n"
+		"> line 2\n"))
+		g_test_fail ();
+
+}
+
+static void
+test_cite_reply_plain (TestFixture *fixture)
+{
+	if (!test_utils_process_commands (fixture,
+		"mode:plain\n")) {
+		g_test_fail ();
+		return;
+	}
+
+	test_utils_insert_content (fixture,
+		"<pre>line 1\n"
+		"line 2\n"
+		"</pre><span class=\"-x-evo-to-body\" data-credits=\"On Today, User wrote:\"></span>"
+		"<span class=\"-x-evo-cite-body\"></span>",
+		E_CONTENT_EDITOR_INSERT_REPLACE_ALL | E_CONTENT_EDITOR_INSERT_TEXT_HTML);
+
+	if (!test_utils_run_simple_test (fixture,
+		"",
+		HTML_PREFIX_PLAIN "<p style=\"width: 71ch;\">On Today, User wrote:</p>"
+		"<blockquote type=\"cite\"><p style=\"width: 71ch;\">&gt; line 1</p>"
+		"<p style=\"width: 71ch;\">&gt; line 2</p>"
+		"<p style=\"width: 71ch;\">&gt; <br></p></blockquote>" HTML_SUFFIX,
+		"On Today, Use wrote:\n"
+		"> line 1\n"
+		"> line 2\n"
+		"> "))
+		g_test_fail ();
+}
+
+static void
 test_undo_text_typed (TestFixture *fixture)
 {
 	if (!test_utils_run_simple_test (fixture,
@@ -2738,6 +2796,8 @@ main (gint argc,
 	add_test ("/cite/html2plain", test_cite_html2plain);
 	add_test ("/cite/shortline", test_cite_shortline);
 	add_test ("/cite/longline", test_cite_longline);
+	add_test ("/cite/reply/html", test_cite_reply_html);
+	add_test ("/cite/reply/plain", test_cite_reply_plain);
 	add_test ("/undo/text/typed", test_undo_text_typed);
 	add_test ("/undo/text/forward-delete", test_undo_text_forward_delete);
 	add_test ("/undo/text/backward-delete", test_undo_text_backward_delete);
