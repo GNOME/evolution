@@ -23,6 +23,7 @@
 
 #include <e-util/e-util.h>
 
+#include "e-mail-part-secure-button.h"
 #include "e-mail-parser-extension.h"
 
 typedef EMailParserExtension EMailParserSecureButton;
@@ -36,7 +37,7 @@ G_DEFINE_TYPE (
 	E_TYPE_MAIL_PARSER_EXTENSION)
 
 static const gchar *parser_mime_types[] = {
-	"application/vnd.evolution.widget.secure-button",
+	"application/vnd.evolution.secure-button",
 	NULL
 };
 
@@ -53,7 +54,7 @@ empe_secure_button_parse (EMailParserExtension *extension,
 
 	len = part_id->len;
 	g_string_append (part_id, ".secure_button");
-	mail_part = e_mail_part_new (part, part_id->str);
+	mail_part = e_mail_part_secure_button_new (part, part_id->str);
 	e_mail_part_set_mime_type (mail_part, parser_mime_types[0]);
 	g_string_truncate (part_id, len);
 

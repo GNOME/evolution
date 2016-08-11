@@ -81,15 +81,20 @@ struct _EMsgComposerClass {
 };
 
 GType		e_msg_composer_get_type		(void);
-EMsgComposer *	e_msg_composer_new		(EShell *shell);
-EMsgComposer *	e_msg_composer_new_with_message	(EShell *shell,
+void		e_msg_composer_new		(EShell *shell,
+						 GAsyncReadyCallback callback,
+						 gpointer user_data);
+EMsgComposer *	e_msg_composer_new_finish	(GAsyncResult *result,
+						 GError **error);
+void		e_msg_composer_setup_with_message
+						(EMsgComposer *composer,
 						 CamelMimeMessage *message,
 						 gboolean keep_signature,
 						 const gchar *override_identity_uid,
 						 GCancellable *cancellable);
-EMsgComposer *	e_msg_composer_new_from_url	(EShell *shell,
+void		e_msg_composer_setup_from_url	(EMsgComposer *composer,
 						 const gchar *url);
-EMsgComposer *	e_msg_composer_new_redirect	(EShell *shell,
+void		e_msg_composer_setup_redirect	(EMsgComposer *composer,
 						 CamelMimeMessage *message,
 						 const gchar *identity_uid,
 						 GCancellable *cancellable);

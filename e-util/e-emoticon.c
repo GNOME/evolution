@@ -121,3 +121,9 @@ e_emoticon_get_uri (EEmoticon *emoticon)
 
 	return uri;
 }
+
+const gchar *
+e_emoticon_get_name (EEmoticon *emoticon)
+{
+	return emoticon->icon_name;
+}

@@ -56,78 +56,6 @@ G_DEFINE_TYPE (
 	E_TYPE_WEB_VIEW)
 
 static void
-replace_local_image_links (WebKitDOMDocument *document)
-{
-	gint ii, length;
-	WebKitDOMNodeList *list;
-
-	list = webkit_dom_document_query_selector_all (
-		document, "img[src^=\"file://\"]", NULL);
-	length = webkit_dom_node_list_get_length (list);
-
-	for (ii = 0; ii < length; ii++) {
-		gchar *src, *new_src;
-		WebKitDOMHTMLImageElement *img;
-
-		img = WEBKIT_DOM_HTML_IMAGE_ELEMENT (
-			webkit_dom_node_list_item (list, ii));
-		src = webkit_dom_html_image_element_get_src (img);
-
-		/* this forms "evo-file://", which can be loaded,
-		 * while "file://" cannot be, due to WebKit policy */
-		new_src = g_strconcat ("evo-", src, NULL);
-		webkit_dom_html_image_element_set_src (img, new_src);
-		g_free (new_src);
-		g_free (src);
-		g_object_unref (img);
-	}
-	g_object_unref (list);
-
-	list = webkit_dom_document_get_elements_by_tag_name ( document, "iframe");
-	length = webkit_dom_node_list_get_length (list);
-	for (ii = 0; ii < length; ii++) {
-		WebKitDOMDocument *content_document;
-		WebKitDOMHTMLIFrameElement *iframe;
-
-		iframe = WEBKIT_DOM_HTML_IFRAME_ELEMENT (
-			webkit_dom_node_list_item (list, ii));
-
-		content_document =
-			webkit_dom_html_iframe_element_get_content_document (iframe);
-
-		if (content_document && WEBKIT_DOM_IS_DOCUMENT (content_document))
-			replace_local_image_links (content_document);
-		g_object_unref (iframe);
-	}
-	g_object_unref (list);
-}
-
-static void
-signature_preview_document_loaded_cb (WebKitWebView *web_view,
-                                      WebKitWebFrame *web_frame,
-                                      gpointer user_data)
-{
-	WebKitDOMDocument *document;
-
-	document = webkit_web_view_get_dom_document (web_view);
-	replace_local_image_links (document);
-
-	if ((webkit_dom_document_query_selector (
-		document, "[data-evo-signature-plain-text-mode]", NULL))) {
-
-		WebKitDOMHTMLElement *body;
-
-		body = webkit_dom_document_get_body (document);
-
-		webkit_dom_element_set_attribute (
-			WEBKIT_DOM_ELEMENT (body),
-			"style",
-			"font-family: Monospace;",
-			NULL);
-	}
-}
-
-static void
 mail_signature_preview_load_cb (ESource *source,
                                 GAsyncResult *result,
                                 EMailSignaturePreview *preview)
@@ -166,16 +94,14 @@ mail_signature_preview_load_cb (ESource *source,
 	mime_type = e_source_mail_signature_get_mime_type (extension);
 
 	if (g_strcmp0 (mime_type, "text/html") == 0) {
-		webkit_web_view_load_string (
-			WEBKIT_WEB_VIEW (preview), contents,
-			"text/html", "UTF-8", "file:///");
+		webkit_web_view_load_html (
+			WEBKIT_WEB_VIEW (preview), contents, "file:///");
 	} else {
 		gchar *string;
 
 		string = g_markup_printf_escaped ("<pre>%s</pre>", contents);
-		webkit_web_view_load_string (
-			WEBKIT_WEB_VIEW (preview), string,
-			"text/html", "UTF-8", "file:///");
+		webkit_web_view_load_html (
+			WEBKIT_WEB_VIEW (preview), string, "file:///");
 		g_free (string);
 	}
 
@@ -378,10 +304,6 @@ static void
 e_mail_signature_preview_init (EMailSignaturePreview *preview)
 {
 	preview->priv = E_MAIL_SIGNATURE_PREVIEW_GET_PRIVATE (preview);
-
-	g_signal_connect (
-		preview, "document-load-finished",
-		G_CALLBACK (signature_preview_document_loaded_cb), NULL);
 }
 
 GtkWidget *

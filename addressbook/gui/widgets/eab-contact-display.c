@@ -28,7 +28,7 @@
 #include <string.h>
 #include <glib/gi18n.h>
 
-#include <webkit/webkit.h>
+#include <webkit2/webkit2.h>
 
 #include "e-contact-map.h"
 #include "eab-contact-formatter.h"
@@ -386,19 +386,31 @@ contact_display_object_requested (WebKitWebView *web_view,
 #endif
 
 static void
-contact_display_load_status_changed (WebKitWebView *web_view,
-                                     GParamSpec *pspec,
-                                     gpointer user_data)
+contact_display_load_changed (WebKitWebView *web_view,
+                              WebKitLoadEvent load_event,
+                              gpointer user_data)
 {
-	WebKitLoadStatus load_status;
-	WebKitDOMDocument *document;
+	GDBusProxy *web_extension;
+	GVariant* result;
 
-	load_status = webkit_web_view_get_load_status (web_view);
-	if (load_status != WEBKIT_LOAD_FINISHED)
+	if (load_event != WEBKIT_LOAD_FINISHED)
 		return;
 
-	document = webkit_web_view_get_dom_document (web_view);
-	eab_contact_formatter_bind_dom (document);
+	web_extension = e_web_view_get_web_extension_proxy (E_WEB_VIEW (web_view));
+	if (web_extension) {
+		result = g_dbus_proxy_call_sync (
+				web_extension,
+				"EABContactFormatterBindDOM",
+				g_variant_new (
+					"(t)",
+					webkit_web_view_get_page_id (web_view)),
+				G_DBUS_CALL_FLAGS_NONE,
+				-1,
+				NULL, /* cancellable */
+				NULL);
+		if (result)
+			g_variant_unref (result);
+	}
 }
 
 static void
@@ -514,14 +526,11 @@ eab_contact_display_init (EABContactDisplay *display)
 		G_CALLBACK (contact_display_object_requested), display);
 #endif
 	e_signal_connect_notify (
-		web_view, "notify::load-status",
-		G_CALLBACK (contact_display_load_status_changed), NULL);
+		web_view, "notify::load-changed",
+		G_CALLBACK (contact_display_load_changed), NULL);
 	g_signal_connect (
 		web_view, "style-updated",
 		G_CALLBACK (load_contact), NULL);
-
-	e_web_view_install_request_handler (E_WEB_VIEW (display), E_TYPE_FILE_REQUEST);
-	e_web_view_install_request_handler (E_WEB_VIEW (display), E_TYPE_STOCK_REQUEST);
 
 	action_group = gtk_action_group_new ("internal-mailto");
 	gtk_action_group_set_translation_domain (action_group, domain);

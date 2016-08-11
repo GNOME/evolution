@@ -71,6 +71,7 @@ SUBDIRS = 			\
 	mail			\
 	calendar		\
 	art			\
+	web-extensions		\
 	plugins			\
 	modules			\
 	$(MAINT_SUBDIR)		\

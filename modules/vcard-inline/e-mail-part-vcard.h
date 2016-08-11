@@ -21,7 +21,6 @@
 #include <em-format/e-mail-part.h>
 
 #include <addressbook/gui/widgets/eab-contact-formatter.h>
-#include <webkit/webkitdom.h>
 
 /* Standard GObject macros */
 #define E_TYPE_MAIL_PART_VCARD \
@@ -57,9 +56,6 @@ struct _EMailPartVCard {
 	GtkWidget *message_label;
 
 	EABContactFormatter *formatter;
-	WebKitDOMElement *iframe;
-	WebKitDOMElement *toggle_button;
-	WebKitDOMElement *save_button;
 
 	CamelFolder *folder;
 	gchar *message_uid;

@@ -36,7 +36,6 @@
 #include <e-html-editor-spell-check-dialog.h>
 #include <e-html-editor-table-dialog.h>
 #include <e-html-editor-text-dialog.h>
-#include <e-html-editor-view.h>
 
 #ifdef HAVE_XFREE
 #include <X11/XF86keysym.h>
@@ -84,21 +83,24 @@ struct _EHTMLEditorPrivate {
 	GtkWidget *style_combo_box;
 	GtkWidget *scrolled_window;
 
-	EHTMLEditorView *html_editor_view;
-	EHTMLEditorSelection *selection;
+	GHashTable *content_editors;
+	EContentEditor *use_content_editor;
+
+	EContentEditorNodeFlags node_flags;
 
 	gchar *filename;
 
 	guint spell_suggestions_merge_id;
 
-	WebKitDOMNode *image;
-	WebKitDOMNode *table_cell;
-	WebKitDOMNode *current_node;
-
 	gint editor_layout_row;
+
+	gboolean is_testing;
 };
 
 void		editor_actions_init		(EHTMLEditor *editor);
+void		editor_actions_bind		(EHTMLEditor *editor);
+const gchar *	e_html_editor_get_content_editor_name
+						(EHTMLEditor *editor);
 
 G_END_DECLS
 

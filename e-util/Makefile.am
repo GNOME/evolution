@@ -62,6 +62,7 @@ noinst_PROGRAMS = \
 	test-contact-store \
 	test-dateedit \
 	test-html-editor \
+	test-html-editor-units \
 	test-mail-signatures \
 	test-name-selector \
 	test-preferences-window \
@@ -97,6 +98,7 @@ libevolution_util_la_CPPFLAGS = \
 	-DEVOLUTION_TOOLSDIR=\""$(privlibexecdir)"\" \
 	-DEVOLUTION_UIDIR=\""$(uidir)"\" \
 	-DEVOLUTION_RULEDIR=\"$(ruledir)\" \
+	-DEVOLUTION_WEB_EXTENSIONS_DIR=\""$(webextensionsdir)"\" \
 	-DG_LOG_DOMAIN=\"evolution-util\" \
 	$(EVOLUTION_DATA_SERVER_CFLAGS) \
 	$(GNOME_PLATFORM_CFLAGS) \
@@ -119,7 +121,6 @@ evolution_util_include_HEADERS =  \
 	e-alert-sink.h \
 	e-alert.h \
 	e-attachment-bar.h \
-	e-attachment-button.h \
 	e-attachment-dialog.h \
 	e-attachment-handler-image.h \
 	e-attachment-handler.h \
@@ -173,6 +174,8 @@ evolution_util_include_HEADERS =  \
 	e-config.h \
 	e-conflict-search-selector.h \
 	e-contact-store.h \
+	e-content-editor.h \
+	e-content-request.h \
 	e-data-capture.h \
 	e-dateedit.h \
 	e-datetime-format.h \
@@ -208,12 +211,9 @@ evolution_util_include_HEADERS =  \
 	e-html-editor-page-dialog.h \
 	e-html-editor-paragraph-dialog.h \
 	e-html-editor-replace-dialog.h \
-	e-html-editor-selection.h \
 	e-html-editor-spell-check-dialog.h \
 	e-html-editor-table-dialog.h \
 	e-html-editor-text-dialog.h \
-	e-html-editor-utils.h \
-	e-html-editor-view.h \
 	e-html-editor.h \
 	e-html-utils.h \
 	e-icon-factory.h \
@@ -272,6 +272,7 @@ evolution_util_include_HEADERS =  \
 	e-selection-model.h \
 	e-selection.h \
 	e-send-options.h \
+	e-simple-async-result.h \
 	e-sorter-array.h \
 	e-sorter.h \
 	e-source-combo-box.h \
@@ -394,7 +395,6 @@ libevolution_util_la_SOURCES = \
 	e-alert-sink.c \
 	e-alert.c \
 	e-attachment-bar.c \
-	e-attachment-button.c \
 	e-attachment-dialog.c \
 	e-attachment-handler-image.c \
 	e-attachment-handler.c \
@@ -448,6 +448,8 @@ libevolution_util_la_SOURCES = \
 	e-config.c \
 	e-conflict-search-selector.c \
 	e-contact-store.c \
+	e-content-editor.c \
+	e-content-request.c \
 	e-data-capture.c \
 	e-dateedit.c \
 	e-datetime-format.c \
@@ -484,12 +486,9 @@ libevolution_util_la_SOURCES = \
 	e-html-editor-paragraph-dialog.c \
 	e-html-editor-private.h \
 	e-html-editor-replace-dialog.c \
-	e-html-editor-selection.c \
 	e-html-editor-spell-check-dialog.c \
 	e-html-editor-table-dialog.c \
 	e-html-editor-text-dialog.c \
-	e-html-editor-utils.c \
-	e-html-editor-view.c \
 	e-html-editor.c \
 	e-html-utils.c \
 	e-icon-factory.c \
@@ -548,6 +547,7 @@ libevolution_util_la_SOURCES = \
 	e-selection-model.c \
 	e-selection.c \
 	e-send-options.c \
+	e-simple-async-result.c \
 	e-sorter-array.c \
 	e-sorter.c \
 	e-source-combo-box.c \
@@ -693,6 +693,14 @@ test_dateedit_LDADD = $(TEST_LDADD)
 test_html_editor_CPPFLAGS = $(TEST_CPPFLAGS)
 test_html_editor_SOURCES = test-html-editor.c
 test_html_editor_LDADD = $(TEST_LDADD)
+
+test_html_editor_units_CPPFLAGS = $(TEST_CPPFLAGS) -DTEST_TOP_SRCDIR=\""$(top_srcdir)"\"
+test_html_editor_units_SOURCES = \
+	test-html-editor-units-utils.h \
+	test-html-editor-units-utils.c \
+	test-html-editor-units.c \
+	$(NULL)
+test_html_editor_units_LDADD = $(TEST_LDADD)
 
 test_mail_signatures_CPPFLAGS = $(TEST_CPPFLAGS)
 test_mail_signatures_SOURCES = test-mail-signatures.c

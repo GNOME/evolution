@@ -44,9 +44,11 @@ struct _ESearchBarPrivate {
 	GtkWidget *prev_button;
 	GtkWidget *next_button;
 
+	WebKitFindController *find_controller;
+
 	gchar *active_search;
 
-	guint rerun_search : 1;
+	gboolean search_forward;
 };
 
 enum {
@@ -77,7 +79,6 @@ search_bar_update_matches (ESearchBar *search_bar,
 	GtkWidget *matches_label;
 	gchar *text;
 
-	search_bar->priv->rerun_search = FALSE;
 	matches_label = search_bar->priv->matches_label;
 
 	text = g_strdup_printf (_("Matches: %u"), matches);
@@ -86,14 +87,88 @@ search_bar_update_matches (ESearchBar *search_bar,
 	g_free (text);
 }
 
+ static void
+webkit_find_controller_found_text_cb (WebKitFindController *find_controller,
+                                      guint match_count,
+                                      ESearchBar *search_bar)
+{
+	GtkWidget *widget;
+	WebKitFindOptions options;
+	gboolean wrapped = FALSE;
+
+	search_bar_update_matches (search_bar, match_count);
+
+	g_free (search_bar->priv->active_search);
+	search_bar->priv->active_search =
+		g_strdup (webkit_find_controller_get_search_text (find_controller));
+
+	gtk_widget_set_sensitive (search_bar->priv->next_button, TRUE);
+	gtk_widget_set_sensitive (search_bar->priv->prev_button, TRUE);
+
+	g_object_notify (G_OBJECT (search_bar), "active-search");
+
+	options = webkit_find_controller_get_options (find_controller);
+
+	if (options & WEBKIT_FIND_OPTIONS_WRAP_AROUND)
+		wrapped = TRUE;
+
+	/* Update wrapped label visibility. */
+	widget = search_bar->priv->wrapped_next_box;
+
+	if (wrapped && search_bar->priv->search_forward)
+		gtk_widget_show (widget);
+	else
+		gtk_widget_hide (widget);
+
+	widget = search_bar->priv->wrapped_prev_box;
+
+	if (wrapped && !search_bar->priv->search_forward)
+		gtk_widget_show (widget);
+	else
+		gtk_widget_hide (widget);
+}
+
+static void
+webkit_find_controller_failed_to_found_text_cb (WebKitFindController *find_controller,
+                                                ESearchBar *search_bar)
+{
+	WebKitFindOptions options;
+	GtkWidget *widget;
+
+	options = webkit_find_controller_get_options (find_controller);
+
+	/* If we didn't find anything, try from the beggining with WRAP_AROUND option */
+	if (!(options & WEBKIT_FIND_OPTIONS_WRAP_AROUND)) {
+		webkit_find_controller_search (
+			find_controller,
+			webkit_find_controller_get_search_text (find_controller),
+			options | WEBKIT_FIND_OPTIONS_WRAP_AROUND,
+			G_MAXUINT);
+	}
+
+	search_bar_update_matches (search_bar, 0);
+
+	g_free (search_bar->priv->active_search);
+	search_bar->priv->active_search =
+		g_strdup (webkit_find_controller_get_search_text (find_controller));
+
+	gtk_widget_set_sensitive (search_bar->priv->next_button, FALSE);
+	gtk_widget_set_sensitive (search_bar->priv->prev_button, FALSE);
+
+	g_object_notify (G_OBJECT (search_bar), "active-search");
+
+	/* Update wrapped label visibility. */
+	widget = search_bar->priv->wrapped_next_box;
+	gtk_widget_hide (widget);
+
+	widget = search_bar->priv->wrapped_prev_box;
+	gtk_widget_hide (widget);
+}
+
 static void
 search_bar_update_highlights (ESearchBar *search_bar)
 {
-	EWebView *web_view;
-
-	web_view = e_search_bar_get_web_view (search_bar);
-
-	webkit_web_view_unmark_text_matches (WEBKIT_WEB_VIEW (web_view));
+	webkit_find_controller_search_finish (search_bar->priv->find_controller);
 
 	e_search_bar_changed (search_bar);
 }
@@ -102,15 +177,13 @@ static void
 search_bar_find (ESearchBar *search_bar,
                  gboolean search_forward)
 {
-	EWebView *web_view;
-	GtkWidget *widget;
+	WebKitFindController *find_controller;
 	gboolean case_sensitive;
-	gboolean wrapped = FALSE;
-	gboolean success;
 	gchar *text;
-	guint matches;
 
-	web_view = e_search_bar_get_web_view (search_bar);
+	find_controller = search_bar->priv->find_controller;
+	search_bar->priv->search_forward = search_forward;
+
 	case_sensitive = e_search_bar_get_case_sensitive (search_bar);
 	text = e_search_bar_get_text (search_bar);
 
@@ -120,46 +193,14 @@ search_bar_find (ESearchBar *search_bar,
 		return;
 	}
 
-	webkit_web_view_unmark_text_matches (
-		WEBKIT_WEB_VIEW (web_view));
-	matches = webkit_web_view_mark_text_matches (
-		WEBKIT_WEB_VIEW (web_view),
-		text, case_sensitive, 0);
-	webkit_web_view_set_highlight_text_matches (
-		WEBKIT_WEB_VIEW (web_view), TRUE);
-	search_bar_update_matches (search_bar, matches);
+	webkit_find_controller_search_finish (find_controller);
+	webkit_find_controller_search (
+		find_controller,
+		text,
+		case_sensitive ? WEBKIT_FIND_OPTIONS_NONE : WEBKIT_FIND_OPTIONS_CASE_INSENSITIVE,
+		G_MAXUINT);
 
-	success = webkit_web_view_search_text (
-		WEBKIT_WEB_VIEW (web_view),
-		text, case_sensitive, search_forward, FALSE);
-
-	if (!success)
-		wrapped = webkit_web_view_search_text (
-			WEBKIT_WEB_VIEW (web_view),
-			text, case_sensitive, search_forward, TRUE);
-
-	g_free (search_bar->priv->active_search);
-	search_bar->priv->active_search = text;
-
-	gtk_widget_set_sensitive (search_bar->priv->next_button, matches != 0);
-	gtk_widget_set_sensitive (search_bar->priv->prev_button, matches != 0);
-
-	g_object_notify (G_OBJECT (search_bar), "active-search");
-
-	/* Update wrapped label visibility. */
-	widget = search_bar->priv->wrapped_next_box;
-
-	if (wrapped && search_forward)
-		gtk_widget_show (widget);
-	else
-		gtk_widget_hide (widget);
-
-	widget = search_bar->priv->wrapped_prev_box;
-
-	if (wrapped && !search_forward)
-		gtk_widget_show (widget);
-	else
-		gtk_widget_hide (widget);
+	g_free (text);
 }
 
 static void
@@ -205,43 +246,48 @@ search_bar_toggled_cb (ESearchBar *search_bar)
 }
 
 static void
-web_view_load_status_changed_cb (WebKitWebView *webkit_web_view,
-                                 GParamSpec *pspec,
-                                 gpointer user_data)
+web_view_load_changed_cb (WebKitWebView *webkit_web_view,
+                          WebKitLoadEvent load_event,
+                          ESearchBar *search_bar)
 {
-	WebKitLoadStatus status;
-	ESearchBar *search_bar;
-
-	status = webkit_web_view_get_load_status (webkit_web_view);
-	if (status != WEBKIT_LOAD_FINISHED)
+	if (load_event != WEBKIT_LOAD_FINISHED)
 		return;
-
-	if (!user_data)
-		return;
-
-	search_bar = E_SEARCH_BAR (user_data);
 
 	if (gtk_widget_get_visible (GTK_WIDGET (search_bar))) {
 		if (search_bar->priv->active_search != NULL) {
 		       search_bar_find (search_bar, TRUE);
 		}
-	} else {
+	} else
 		e_web_view_update_highlights (search_bar->priv->web_view);
-	}
 }
 
 static void
 search_bar_set_web_view (ESearchBar *search_bar,
                          EWebView *web_view)
 {
+	WebKitFindController *find_controller;
+
 	g_return_if_fail (E_IS_WEB_VIEW (web_view));
 	g_return_if_fail (search_bar->priv->web_view == NULL);
 
 	search_bar->priv->web_view = g_object_ref (web_view);
 
-	e_signal_connect_notify (
-		web_view, "notify::load-status",
-		G_CALLBACK (web_view_load_status_changed_cb), search_bar);
+	find_controller =
+		webkit_web_view_get_find_controller (WEBKIT_WEB_VIEW (web_view));
+
+	search_bar->priv->find_controller = find_controller;
+
+	g_signal_connect (
+		web_view, "load-changed",
+		G_CALLBACK (web_view_load_changed_cb), search_bar);
+
+	g_signal_connect (
+		find_controller, "found-text",
+		G_CALLBACK (webkit_find_controller_found_text_cb), search_bar);
+
+	g_signal_connect (
+		find_controller, "failed-to-find-text",
+		G_CALLBACK (webkit_find_controller_failed_to_found_text_cb), search_bar);
 }
 
 static void
@@ -393,7 +439,6 @@ static void
 search_bar_show (GtkWidget *widget)
 {
 	ESearchBar *search_bar;
-	EWebView *web_view;
 
 	search_bar = E_SEARCH_BAR (widget);
 
@@ -402,8 +447,7 @@ search_bar_show (GtkWidget *widget)
 
 	gtk_widget_grab_focus (search_bar->priv->entry);
 
-	web_view = e_search_bar_get_web_view (search_bar);
-	webkit_web_view_unmark_text_matches (WEBKIT_WEB_VIEW (web_view));
+	webkit_find_controller_search_finish (search_bar->priv->find_controller);
 
 	search_bar_find (search_bar, TRUE);
 }
@@ -442,8 +486,6 @@ search_bar_key_press_event (GtkWidget *widget,
 static void
 search_bar_clear (ESearchBar *search_bar)
 {
-	WebKitWebView *web_view;
-
 	g_free (search_bar->priv->active_search);
 	search_bar->priv->active_search = NULL;
 
@@ -454,9 +496,6 @@ search_bar_clear (ESearchBar *search_bar)
 	gtk_widget_hide (search_bar->priv->matches_label);
 
 	search_bar_update_highlights (search_bar);
-
-	web_view = WEBKIT_WEB_VIEW (search_bar->priv->web_view);
-	webkit_web_view_unmark_text_matches (web_view);
 
 	g_object_notify (G_OBJECT (search_bar), "active-search");
 }

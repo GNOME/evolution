@@ -27,7 +27,7 @@
     <placeholder name='pre-insert-menu'>
       <menu action='view-menu'>
         <placeholder name='view-menu-top'/>
-        <menuitem action='webkit-inspector'/>
+        <placeholder name='view-menu-custom'/>
         <separator/>
       </menu>
     </placeholder>
@@ -69,7 +69,6 @@
         <menuitem action='style-normal'/>
         <menuitem action='style-preformat'/>
         <menuitem action='style-address'/>
-        <menuitem action='style-blockquote'/>
         <separator/>
         <menuitem action='style-h1'/>
         <menuitem action='style-h2'/>
@@ -164,8 +163,6 @@
     </menu>
     <separator/>
     <menu action='context-insert-table-menu'>
-      <menuitem action='context-insert-table'/>
-      <separator/>
       <menuitem action='context-insert-row-above'/>
       <menuitem action='context-insert-row-below'/>
       <separator/>
@@ -178,7 +175,5 @@
       <menuitem action='context-delete-column'/>
       <menuitem action='context-delete-cell'/>
     </menu>
-    <separator/>
-    <menu action='context-input-methods-menu'/>
   </popup>
 </ui>

@@ -1628,13 +1628,13 @@ shell_initable_init (GInitable *initable,
 	/* Configure WebKit's default SoupSession. */
 
 	proxy_source = e_source_registry_ref_builtin_proxy (registry);
-
+/* FIXME WK2
 	g_object_set (
 		webkit_get_default_session (),
 		SOUP_SESSION_PROXY_RESOLVER,
 		G_PROXY_RESOLVER (proxy_source),
 		NULL);
-
+*/
 	g_object_unref (proxy_source);
 	g_object_unref (registry);
 

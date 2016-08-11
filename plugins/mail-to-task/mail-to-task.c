@@ -799,7 +799,7 @@ typedef struct {
 	ECalClientSourceType source_type;
 	CamelFolder *folder;
 	GPtrArray *uids;
-	gchar *selected_text;
+	const gchar *selected_text;
 	gboolean with_attendees;
 }AsyncData;
 
@@ -1009,7 +1009,6 @@ do_mail_to_event (AsyncData *data)
 
 	g_object_unref (data->client_cache);
 	g_object_unref (data->source);
-	g_free (data->selected_text);
 	g_free (data);
 	data = NULL;
 
@@ -1045,24 +1044,21 @@ text_contains_nonwhitespace (const gchar *text,
 	return p - text < len - 1 && c != 0;
 }
 
-/* should be freed with g_free after done with it */
-static gchar *
+static const gchar *
 get_selected_text (EMailReader *reader)
 {
 	EMailDisplay *display;
-	gchar *text = NULL;
+	const gchar *text = NULL;
 
 	display = e_mail_reader_get_mail_display (reader);
 
 	if (!e_web_view_is_selection_active (E_WEB_VIEW (display)))
 		return NULL;
 
-	text = e_mail_display_get_selection_plain_text (display);
+	text = e_mail_display_get_selection_plain_text_sync (display, NULL, NULL);
 
-	if (text == NULL || !text_contains_nonwhitespace (text, strlen (text))) {
-		g_free (text);
+	if (text == NULL || !text_contains_nonwhitespace (text, strlen (text)))
 		return NULL;
-	}
 
 	return text;
 }

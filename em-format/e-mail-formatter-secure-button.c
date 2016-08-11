@@ -23,11 +23,6 @@
 
 #include <e-util/e-util.h>
 
-#if defined (HAVE_NSS) && defined (ENABLE_SMIME)
-#include "certificate-manager.h"
-#include "e-cert-db.h"
-#endif
-
 #include "e-mail-formatter-extension.h"
 
 typedef EMailFormatterExtension EMailFormatterSecureButton;
@@ -41,7 +36,7 @@ G_DEFINE_TYPE (
 	E_TYPE_MAIL_FORMATTER_EXTENSION)
 
 static const gchar *formatter_mime_types[] = {
-	"application/vnd.evolution.widget.secure-button",
+	"application/vnd.evolution.secure-button",
 	NULL
 };
 
@@ -76,139 +71,25 @@ static const GdkRGBA smime_sign_colour[6] = {
 	{ 0.0, 0.0, 0.0, 1.0 }
 };
 
-static gboolean
-emfe_secure_button_format (EMailFormatterExtension *extension,
-                           EMailFormatter *formatter,
-                           EMailFormatterContext *context,
-                           EMailPart *part,
-                           GOutputStream *stream,
-                           GCancellable *cancellable)
+/* This is awkward, but there is no header file for it. On the other hand,
+   the functions are meant private, where they really are, being defined this way. */
+const gchar *e_mail_formatter_secure_button_get_encrypt_description (CamelCipherValidityEncrypt status);
+const gchar *e_mail_formatter_secure_button_get_sign_description (CamelCipherValiditySign status);
+
+const gchar *
+e_mail_formatter_secure_button_get_sign_description (CamelCipherValiditySign status)
 {
-	gchar *str;
+	g_return_val_if_fail (status >= 0 && status < G_N_ELEMENTS (smime_sign_table), NULL);
 
-	if ((context->mode != E_MAIL_FORMATTER_MODE_NORMAL) &&
-	    (context->mode != E_MAIL_FORMATTER_MODE_RAW) &&
-	    (context->mode != E_MAIL_FORMATTER_MODE_ALL_HEADERS))
-		return FALSE;
-
-	str = g_strdup_printf (
-		"<object type=\"application/vnd.evolution.widget.secure-button\" "
-		"height=\"20\" width=\"100%%\" data=\"%s\" id=\"%s\"></object>",
-		e_mail_part_get_id (part),
-		e_mail_part_get_id (part));
-
-	g_output_stream_write_all (
-		stream, str, strlen (str), NULL, cancellable, NULL);
-
-	g_free (str);
-
-	return TRUE;
+	return _(smime_sign_table[status].description);
 }
 
-#if defined (HAVE_NSS) && defined (ENABLE_SMIME)
-static void
-viewcert_clicked (GtkWidget *button,
-                  GtkWidget *grid)
+const gchar *
+e_mail_formatter_secure_button_get_encrypt_description (CamelCipherValidityEncrypt status)
 {
-	CamelCipherCertInfo *info = g_object_get_data ((GObject *) button, "e-cert-info");
-	ECert *ec = NULL;
+	g_return_val_if_fail (status >= 0 && status < G_N_ELEMENTS (smime_encrypt_table), NULL);
 
-	if (info->cert_data)
-		ec = e_cert_new (CERT_DupCertificate (info->cert_data));
-
-	if (ec != NULL) {
-		GtkWidget *dialog, *parent;
-
-		parent = gtk_widget_get_toplevel (grid);
-		if (!parent || !GTK_IS_WINDOW (parent))
-			parent = NULL;
-
-		dialog = e_cert_manager_new_certificate_viewer ((GtkWindow *) parent, ec);
-
-		gtk_widget_show (dialog);
-		g_signal_connect (
-			dialog, "response",
-			G_CALLBACK (gtk_widget_destroy), NULL);
-
-		g_object_unref (ec);
-	} else {
-		g_warning (
-			"can't find certificate for %s <%s>",
-			info->name ? info->name : "",
-			info->email ? info->email : "");
-	}
-}
-#endif
-
-static void
-info_response (GtkWidget *widget,
-               guint button,
-               gpointer user_data)
-{
-	gtk_widget_destroy (widget);
-}
-
-static void
-add_cert_table (GtkWidget *grid,
-                GQueue *certlist,
-                gpointer user_data)
-{
-	GList *head, *link;
-	GtkTable *table;
-	gint n = 0;
-
-	table = (GtkTable *) gtk_table_new (certlist->length, 2, FALSE);
-
-	head = g_queue_peek_head_link (certlist);
-
-	for (link = head; link != NULL; link = g_list_next (link)) {
-		CamelCipherCertInfo *info = link->data;
-		gchar *la = NULL;
-		const gchar *l = NULL;
-
-		if (info->name) {
-			if (info->email && strcmp (info->name, info->email) != 0)
-				l = la = g_strdup_printf ("%s <%s>", info->name, info->email);
-			else
-				l = info->name;
-		} else {
-			if (info->email)
-				l = info->email;
-		}
-
-		if (l) {
-			GtkWidget *w;
-#if defined (HAVE_NSS) && defined (ENABLE_SMIME)
-			ECert *ec = NULL;
-#endif
-			w = gtk_label_new (l);
-			gtk_misc_set_alignment ((GtkMisc *) w, 0.0, 0.5);
-			g_free (la);
-			gtk_table_attach (table, w, 0, 1, n, n + 1, GTK_FILL, GTK_FILL, 3, 3);
-#if defined (HAVE_NSS) && defined (ENABLE_SMIME)
-			w = gtk_button_new_with_mnemonic (_("_View Certificate"));
-			gtk_table_attach (table, w, 1, 2, n, n + 1, 0, 0, 3, 3);
-			g_object_set_data ((GObject *) w, "e-cert-info", info);
-			g_signal_connect (
-				w, "clicked",
-				G_CALLBACK (viewcert_clicked), grid);
-
-			if (info->cert_data)
-				ec = e_cert_new (CERT_DupCertificate (info->cert_data));
-
-			if (ec == NULL)
-				gtk_widget_set_sensitive (w, FALSE);
-			else
-				g_object_unref (ec);
-#else
-			w = gtk_label_new (_("This certificate is not viewable"));
-			gtk_table_attach (table, w, 1, 2, n, n + 1, 0, 0, 3, 3);
-#endif
-			n++;
-		}
-	}
-
-	gtk_container_add (GTK_CONTAINER (grid), GTK_WIDGET (table));
+	return _(smime_encrypt_table[status].description);
 }
 
 static void
@@ -246,9 +127,9 @@ format_cert_infos (GQueue *cert_infos,
 			g_string_append (output_buffer, cinfo->name);
 
 			if (cinfo->email != NULL && *cinfo->email != '\0') {
-				g_string_append (output_buffer, " <");
+				g_string_append (output_buffer, " &lt;");
 				g_string_append (output_buffer, cinfo->email);
-				g_string_append (output_buffer, ">");
+				g_string_append (output_buffer, "&gt;");
 			}
 
 		} else if (cinfo->email != NULL && *cinfo->email != '\0') {
@@ -263,128 +144,20 @@ format_cert_infos (GQueue *cert_infos,
 }
 
 static void
-secure_button_clicked_cb (GtkWidget *widget,
-                          CamelCipherValidity *validity)
-{
-	GtkBuilder *builder;
-	GtkWidget *grid, *w;
-	GtkWidget *dialog;
-
-	g_return_if_fail (validity != NULL);
-
-	/* Make sure our custom widget classes are registered with
-	 * GType before we load the GtkBuilder definition file. */
-	g_type_ensure (E_TYPE_DATE_EDIT);
-
-	builder = gtk_builder_new ();
-	e_load_ui_builder_definition (builder, "mail-dialogs.ui");
-
-	dialog = e_builder_get_widget (builder, "message_security_dialog");
-
-	grid = e_builder_get_widget (builder, "signature_grid");
-	w = gtk_label_new (_(smime_sign_table[validity->sign.status].description));
-	gtk_misc_set_alignment ((GtkMisc *) w, 0.0, 0.5);
-	gtk_label_set_line_wrap ((GtkLabel *) w, TRUE);
-	gtk_label_set_max_width_chars (GTK_LABEL (w), 80);
-	gtk_container_add (GTK_CONTAINER (grid), w);
-	if (validity->sign.description) {
-		GtkTextBuffer *buffer;
-
-		buffer = gtk_text_buffer_new (NULL);
-		gtk_text_buffer_set_text (
-			buffer, validity->sign.description,
-			strlen (validity->sign.description));
-		w = g_object_new (
-			gtk_scrolled_window_get_type (),
-			"hscrollbar_policy", GTK_POLICY_AUTOMATIC,
-			"vscrollbar_policy", GTK_POLICY_AUTOMATIC,
-			"shadow_type", GTK_SHADOW_IN,
-			"expand", TRUE,
-			"child", g_object_new (gtk_text_view_get_type (),
-			"buffer", buffer,
-			"cursor_visible", FALSE,
-			"editable", FALSE,
-			NULL),
-			"width_request", 500,
-			"height_request", 80,
-			NULL);
-		g_object_unref (buffer);
-
-		gtk_container_add (GTK_CONTAINER (grid), w);
-	}
-
-	if (!g_queue_is_empty (&validity->sign.signers))
-		add_cert_table (
-			grid, &validity->sign.signers, NULL);
-
-	gtk_widget_show_all (grid);
-
-	grid = e_builder_get_widget (builder, "encryption_grid");
-	w = gtk_label_new (_(smime_encrypt_table[validity->encrypt.status].description));
-	gtk_misc_set_alignment ((GtkMisc *) w, 0.0, 0.5);
-	gtk_label_set_line_wrap ((GtkLabel *) w, TRUE);
-	gtk_label_set_max_width_chars (GTK_LABEL (w), 80);
-	gtk_container_add (GTK_CONTAINER (grid), w);
-	if (validity->encrypt.description) {
-		GtkTextBuffer *buffer;
-
-		buffer = gtk_text_buffer_new (NULL);
-		gtk_text_buffer_set_text (
-			buffer, validity->encrypt.description,
-			strlen (validity->encrypt.description));
-		w = g_object_new (
-			gtk_scrolled_window_get_type (),
-			"hscrollbar_policy", GTK_POLICY_AUTOMATIC,
-			"vscrollbar_policy", GTK_POLICY_AUTOMATIC,
-			"shadow_type", GTK_SHADOW_IN,
-			"expand", TRUE,
-			"child", g_object_new (gtk_text_view_get_type (),
-			"buffer", buffer,
-			"cursor_visible", FALSE,
-			"editable", FALSE,
-			NULL),
-			"width_request", 500,
-			"height_request", 80,
-			NULL);
-		g_object_unref (buffer);
-
-		gtk_container_add (GTK_CONTAINER (grid), w);
-	}
-
-	if (!g_queue_is_empty (&validity->encrypt.encrypters))
-		add_cert_table (grid, &validity->encrypt.encrypters, NULL);
-
-	gtk_widget_show_all (grid);
-
-	g_object_unref (builder);
-
-	g_signal_connect (
-		dialog, "response",
-		G_CALLBACK (info_response), NULL);
-
-	gtk_widget_show (dialog);
-}
-
-static void
 add_photo_cb (gpointer data,
 	      gpointer user_data)
 {
 	CamelCipherCertInfo *cert_info = data;
 	gint width, height;
-	GtkWidget *image;
-	GdkPixbuf *pixbuf, *scaled;
-	GtkBox *box = user_data;
+	GString *html = user_data;
 	const gchar *photo_filename;
+	gchar *uri;
 
 	g_return_if_fail (cert_info != NULL);
-	g_return_if_fail (GTK_IS_BOX (box));
+	g_return_if_fail (html != NULL);
 
 	photo_filename = camel_cipher_certinfo_get_property (cert_info, CAMEL_CIPHER_CERT_INFO_PROPERTY_PHOTO_FILENAME);
 	if (!photo_filename || !g_file_test (photo_filename, G_FILE_TEST_EXISTS | G_FILE_TEST_IS_REGULAR))
-		return;
-
-	pixbuf = gdk_pixbuf_new_from_file (photo_filename, NULL);
-	if (!pixbuf)
 		return;
 
 	if (!gtk_icon_size_lookup (GTK_ICON_SIZE_DND, &width, &height)) {
@@ -397,30 +170,25 @@ add_photo_cb (gpointer data,
 	if (height < 32)
 		height = 32;
 
-	scaled = e_icon_factory_pixbuf_scale (pixbuf, width, height);
-	g_object_unref (pixbuf);
+	uri = g_filename_to_uri (photo_filename, NULL, NULL);
 
-	if (!scaled)
-		return;
+	g_string_append_printf (html, "<img src=\"evo-%s\" width=\"%dpx\" height=\"%dpx\" style=\"vertical-align:middle; margin-right:4px;\">",
+		uri, width, height);
 
-	image = gtk_image_new_from_pixbuf (scaled);
-	g_object_unref (scaled);
-
-	if (!image)
-		return;
-
-	gtk_box_pack_start (box, image, FALSE, FALSE, 0);
+	g_free (uri);
 }
 
-static GtkWidget *
-secure_button_get_widget_for_validity (CamelCipherValidity *validity)
+static void
+secure_button_format_validity (EMailPart *part,
+			       CamelCipherValidity *validity,
+			       GString *html)
 {
-	GtkWidget *box, *button, *layout, *widget;
 	const gchar *icon_name;
 	gchar *description;
+	gint icon_width, icon_height;
 	GString *buffer;
 
-	g_return_val_if_fail (validity != NULL, NULL);
+	g_return_if_fail (validity != NULL);
 
 	buffer = g_string_new ("");
 
@@ -441,7 +209,7 @@ secure_button_get_widget_for_validity (CamelCipherValidity *validity)
 		gint status;
 
 		if (validity->sign.status != CAMEL_CIPHER_VALIDITY_SIGN_NONE)
-			g_string_append (buffer, "\n");
+			g_string_append (buffer, "<br>\n");
 
 		status = validity->encrypt.status;
 		desc = smime_encrypt_table[status].shortdesc;
@@ -451,90 +219,70 @@ secure_button_get_widget_for_validity (CamelCipherValidity *validity)
 	description = g_string_free (buffer, FALSE);
 
 	/* FIXME: need to have it based on encryption and signing too */
-	if (validity->sign.status != 0)
+	if (validity->sign.status != CAMEL_CIPHER_VALIDITY_SIGN_NONE)
 		icon_name = smime_sign_table[validity->sign.status].icon;
 	else
 		icon_name = smime_encrypt_table[validity->encrypt.status].icon;
 
-	box = gtk_event_box_new ();
-	if (validity->sign.status != 0)
-		gtk_widget_override_background_color (
-			box, GTK_STATE_FLAG_NORMAL,
-			&smime_sign_colour[validity->sign.status]);
+	if (!gtk_icon_size_lookup (GTK_ICON_SIZE_LARGE_TOOLBAR, &icon_width, &icon_height)) {
+		icon_width = 24;
+		icon_height = 24;
+	}
 
-	layout = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 5);
-	gtk_container_add (GTK_CONTAINER (box), layout);
+	g_string_append (html, "<table width=\"100%\" style=\"vertical-align:middle;");
+	if (validity->sign.status != CAMEL_CIPHER_VALIDITY_SIGN_NONE &&
+	    smime_sign_colour[validity->sign.status].alpha > 1e-9)
+		g_string_append_printf (html, " background:#%06x;",
+			e_rgba_to_value (&smime_sign_colour[validity->sign.status]));
+	g_string_append (html, "\"><tr>");
 
-	button = gtk_button_new ();
-	gtk_box_pack_start (GTK_BOX (layout), button, FALSE, FALSE, 0);
-	g_signal_connect (
-		button, "clicked",
-		G_CALLBACK (secure_button_clicked_cb), validity);
+	g_string_append_printf (html,
+		"<td style=\"width:1px;\"><button type=\"button\" class=\"secure-button\" id=\"secure-button\" value=\"%p:%p\" accesskey=\"\" style=\"vertical-align:middle;\">"
+		"<img src=\"gtk-stock://%s?size=%d\" width=\"%dpx\" height=\"%dpx\" style=\"vertical-align:middle;\"></button></td><td><span style=\"color:#%06x; vertical-align:middle;\">",
+		part, validity, icon_name, GTK_ICON_SIZE_LARGE_TOOLBAR,
+		icon_width, icon_height, e_rgba_to_value (&smime_sign_colour[5]));
 
-	widget = gtk_image_new_from_icon_name (
-			icon_name, GTK_ICON_SIZE_LARGE_TOOLBAR);
-	gtk_button_set_image (GTK_BUTTON (button), widget);
+	g_queue_foreach (&validity->sign.signers, add_photo_cb, html);
+	g_queue_foreach (&validity->encrypt.encrypters, add_photo_cb, html);
 
-	g_queue_foreach (&validity->sign.signers, add_photo_cb, layout);
-	g_queue_foreach (&validity->encrypt.encrypters, add_photo_cb, layout);
-
-	widget = gtk_label_new (description);
-	g_object_set (G_OBJECT (widget),
-		"wrap", TRUE,
-		"width-chars", 20,
-		"max-width-chars", 80,
-		"xalign", 0.0,
-		"halign", GTK_ALIGN_FILL,
-		"hexpand", TRUE,
-		NULL);
-	/* make sure the text color doesn't change with theme */
-	gtk_widget_override_color (widget, GTK_STATE_FLAG_NORMAL, &smime_sign_colour[5]);
-	gtk_box_pack_start (GTK_BOX (layout), widget, TRUE, TRUE, 0);
+	g_string_append_printf (html, "%s</span></td></tr></table>\n", description);
 
 	g_free (description);
-
-	return box;
 }
 
-static GtkWidget *
-emfe_secure_button_get_widget (EMailFormatterExtension *extension,
-                               EMailPartList *context,
-                               EMailPart *part,
-                               GHashTable *params)
+static gboolean
+emfe_secure_button_format (EMailFormatterExtension *extension,
+                           EMailFormatter *formatter,
+                           EMailFormatterContext *context,
+                           EMailPart *part,
+                           GOutputStream *stream,
+                           GCancellable *cancellable)
 {
-	GtkWidget *grid;
 	GList *head, *link;
+	GString *html;
 
-	g_return_val_if_fail (part != NULL, NULL);
+	if ((context->mode != E_MAIL_FORMATTER_MODE_NORMAL) &&
+	    (context->mode != E_MAIL_FORMATTER_MODE_RAW) &&
+	    (context->mode != E_MAIL_FORMATTER_MODE_ALL_HEADERS))
+		return FALSE;
 
-	grid = g_object_new (
-		GTK_TYPE_GRID,
-		"orientation", GTK_ORIENTATION_VERTICAL,
-		"row-spacing", 2,
-		"halign", GTK_ALIGN_FILL,
-		"hexpand", TRUE,
-		NULL);
-
+	html = g_string_new ("");
 	head = g_queue_peek_head_link (&part->validities);
 
 	for (link = head; link != NULL; link = g_list_next (link)) {
 		EMailPartValidityPair *pair = link->data;
-		GtkWidget *widget;
 
-		if (pair == NULL)
+		if (!pair)
 			continue;
 
-		widget = secure_button_get_widget_for_validity (pair->validity);
-		if (widget != NULL) {
-			gtk_widget_set_halign (widget, GTK_ALIGN_FILL);
-			gtk_widget_set_hexpand (widget, TRUE);
-			gtk_container_add (GTK_CONTAINER (grid), widget);
-		}
+		secure_button_format_validity (part, pair->validity, html);
 	}
 
-	gtk_widget_show_all (grid);
+	g_output_stream_write_all (stream, html->str, html->len, NULL, cancellable, NULL);
 
-	return grid;
+	g_string_free (html, TRUE);
+
+	return TRUE;
 }
 
 static void
@@ -543,7 +291,6 @@ e_mail_formatter_secure_button_class_init (EMailFormatterExtensionClass *class)
 	class->mime_types = formatter_mime_types;
 	class->priority = G_PRIORITY_LOW;
 	class->format = emfe_secure_button_format;
-	class->get_widget = emfe_secure_button_get_widget;
 }
 
 static void

@@ -44,8 +44,6 @@ struct _EHTMLEditorPageDialogPrivate {
 	GtkWidget *background_image_filechooser;
 
 	GtkWidget *remove_image_button;
-
-	EHTMLEditorViewHistoryEvent *history_event;
 };
 
 typedef struct _Template {
@@ -150,85 +148,64 @@ static void
 html_editor_page_dialog_set_text_color (EHTMLEditorPageDialog *dialog)
 {
 	EHTMLEditor *editor;
-	EHTMLEditorView *view;
-	WebKitDOMDocument *document;
-	WebKitDOMHTMLElement *body;
+	EContentEditor *cnt_editor;
 	GdkRGBA rgba;
-	gchar *color;
 
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
-	view = e_html_editor_get_view (editor);
-	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
-	body = webkit_dom_document_get_body (document);
+	cnt_editor = e_html_editor_get_content_editor (editor);
 
 	e_color_combo_get_current_color (
 		E_COLOR_COMBO (dialog->priv->text_color_picker), &rgba);
 
-	color = g_strdup_printf ("#%06x", e_rgba_to_value (&rgba));
-	webkit_dom_html_body_element_set_text (
-		WEBKIT_DOM_HTML_BODY_ELEMENT (body), color);
-
-	g_free (color);
+	e_content_editor_page_set_text_color (cnt_editor, &rgba);
 }
 
 static void
 html_editor_page_dialog_set_link_color (EHTMLEditorPageDialog *dialog)
 {
 	EHTMLEditor *editor;
-	EHTMLEditorView *view;
+	EContentEditor *cnt_editor;
 	GdkRGBA rgba;
 
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
-	view = e_html_editor_get_view (editor);
+	cnt_editor = e_html_editor_get_content_editor (editor);
 
 	e_color_combo_get_current_color (
 		E_COLOR_COMBO (dialog->priv->link_color_picker), &rgba);
 
-	e_html_editor_view_set_link_color (view, &rgba);
+	e_content_editor_page_set_link_color (cnt_editor, &rgba);
 }
 
 static void
 html_editor_page_dialog_set_visited_link_color (EHTMLEditorPageDialog *dialog)
 {
 	EHTMLEditor *editor;
-	EHTMLEditorView *view;
+	EContentEditor *cnt_editor;
 	GdkRGBA rgba;
 
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
-	view = e_html_editor_get_view (editor);
+	cnt_editor = e_html_editor_get_content_editor (editor);
 
 	e_color_combo_get_current_color (
 		E_COLOR_COMBO (dialog->priv->visited_link_color_picker), &rgba);
 
-	e_html_editor_view_set_visited_link_color (view, &rgba);
+	e_content_editor_page_set_visited_link_color (cnt_editor, &rgba);
 }
 
 static void
 html_editor_page_dialog_set_background_color (EHTMLEditorPageDialog *dialog)
 {
 	EHTMLEditor *editor;
-	EHTMLEditorView *view;
-	WebKitDOMDocument *document;
-	WebKitDOMHTMLElement *body;
+	EContentEditor *cnt_editor;
 	GdkRGBA rgba;
-	gchar *color;
 
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
-	view = e_html_editor_get_view (editor);
-	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
-	body = webkit_dom_document_get_body (document);
+	cnt_editor = e_html_editor_get_content_editor (editor);
 
 	e_color_combo_get_current_color (
 		E_COLOR_COMBO (dialog->priv->background_color_picker), &rgba);
-	if (rgba.alpha != 0.0)
-		color = g_strdup_printf ("#%06x", e_rgba_to_value (&rgba));
-	else
-		color = g_strdup ("");
 
-	webkit_dom_html_body_element_set_bg_color (
-		WEBKIT_DOM_HTML_BODY_ELEMENT (body), color);
-
-	g_free (color);
+	e_content_editor_page_set_background_color (cnt_editor, &rgba);
 }
 
 static void
@@ -271,28 +248,16 @@ static void
 html_editor_page_dialog_set_background_image (EHTMLEditorPageDialog *dialog)
 {
 	EHTMLEditor *editor;
-	EHTMLEditorView *view;
-	WebKitDOMDocument *document;
-	WebKitDOMHTMLElement *body;
+	EContentEditor *cnt_editor;
 	gchar *uri;
 
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
-	view = e_html_editor_get_view (editor);
-	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
-	body = webkit_dom_document_get_body (document);
+	cnt_editor = e_html_editor_get_content_editor (editor);
 
 	uri = gtk_file_chooser_get_uri (
-			GTK_FILE_CHOOSER (
-				dialog->priv->background_image_filechooser));
+		GTK_FILE_CHOOSER (dialog->priv->background_image_filechooser));
 
-	if (uri && *uri)
-		e_html_editor_selection_replace_image_src (
-			e_html_editor_view_get_selection (view),
-			WEBKIT_DOM_ELEMENT (body),
-			uri);
-	else
-		remove_image_attributes_from_element (
-			WEBKIT_DOM_ELEMENT (body));
+	e_content_editor_page_set_background_image_uri (cnt_editor, uri);
 
 	gtk_widget_set_sensitive (dialog->priv->remove_image_button, uri && *uri);
 
@@ -303,16 +268,12 @@ static void
 html_editor_page_dialog_remove_image (EHTMLEditorPageDialog *dialog)
 {
 	EHTMLEditor *editor;
-	EHTMLEditorView *view;
-	WebKitDOMDocument *document;
-	WebKitDOMHTMLElement *body;
+	EContentEditor *cnt_editor;
 
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
-	view = e_html_editor_get_view (editor);
-	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
-	body = webkit_dom_document_get_body (document);
+	cnt_editor = e_html_editor_get_content_editor (editor);
 
-	remove_image_attributes_from_element (WEBKIT_DOM_ELEMENT (body));
+	e_content_editor_page_set_background_image_uri (cnt_editor, NULL);
 
 	gtk_file_chooser_unselect_all (
 		GTK_FILE_CHOOSER (dialog->priv->background_image_filechooser));
@@ -324,44 +285,21 @@ static void
 html_editor_page_dialog_show (GtkWidget *widget)
 {
 	EHTMLEditor *editor;
-	EHTMLEditorView *view;
+	EContentEditor *cnt_editor;
 	EHTMLEditorPageDialog *dialog;
-	WebKitDOMDocument *document;
-	WebKitDOMHTMLElement *body;
-	gchar *tmp;
 	GdkRGBA rgba;
+	gchar *uri;
 
 	dialog = E_HTML_EDITOR_PAGE_DIALOG (widget);
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
-	view = e_html_editor_get_view (editor);
+	cnt_editor = e_html_editor_get_content_editor (editor);
 
-	/* We have to block the style changes of the view as otherwise the colors
-	 * will be changed when this dialog will be shown (as the view will be
-	 * unfocused). */
-	e_html_editor_view_block_style_updated_callbacks (view);
+	e_content_editor_on_page_dialog_open (cnt_editor);
 
-	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
-	body = webkit_dom_document_get_body (document);
-
-	if (!e_html_editor_view_is_undo_redo_in_progress (view)) {
-		EHTMLEditorSelection *selection;
-		EHTMLEditorViewHistoryEvent *ev;
-
-		ev = g_new0 (EHTMLEditorViewHistoryEvent, 1);
-		ev->type = HISTORY_PAGE_DIALOG;
-
-		selection = e_html_editor_view_get_selection (view);
-		e_html_editor_selection_get_selection_coordinates (
-			selection, &ev->before.start.x, &ev->before.start.y, &ev->before.end.x, &ev->before.end.y);
-		ev->data.dom.from = webkit_dom_node_clone_node (WEBKIT_DOM_NODE (body), FALSE);
-		dialog->priv->history_event = ev;
-	}
-
-	tmp = webkit_dom_element_get_attribute (
-		WEBKIT_DOM_ELEMENT (body), "data-uri");
-	if (tmp && *tmp) {
+	uri = e_content_editor_page_get_background_image_uri (cnt_editor);
+	if (uri && *uri) {
 		gint ii;
-		gchar *fname = g_filename_from_uri (tmp, NULL, NULL);
+		gchar *fname = g_filename_from_uri (uri, NULL, NULL);
 		for (ii = 0; ii < G_N_ELEMENTS (templates); ii++) {
 			const Template *tmplt = &templates[ii];
 
@@ -377,140 +315,39 @@ html_editor_page_dialog_show (GtkWidget *widget)
 		gtk_combo_box_set_active (
 			GTK_COMBO_BOX (dialog->priv->background_template_combo), 0);
 	}
-	g_free (tmp);
+	g_free (uri);
 
-	tmp = webkit_dom_html_body_element_get_text (
-			WEBKIT_DOM_HTML_BODY_ELEMENT (body));
-	if (!tmp || !*tmp || !gdk_rgba_parse (&rgba, tmp))
-		e_utils_get_theme_color (widget, "theme_text_color,theme_fg_color", E_UTILS_DEFAULT_THEME_TEXT_COLOR, &rgba);
-	g_free (tmp);
+	e_content_editor_page_get_text_color (cnt_editor, &rgba);
 	e_color_combo_set_current_color (
 		E_COLOR_COMBO (dialog->priv->text_color_picker), &rgba);
 
-	tmp = webkit_dom_html_body_element_get_link (
-			WEBKIT_DOM_HTML_BODY_ELEMENT (body));
-	if (!gdk_rgba_parse (&rgba, tmp)) {
-		rgba.alpha = 1;
-		rgba.red = 0;
-		rgba.green = 0;
-		rgba.blue = 1;
-	}
-	g_free (tmp);
+	e_content_editor_page_get_link_color (cnt_editor, &rgba);
 	e_color_combo_set_current_color (
 		E_COLOR_COMBO (dialog->priv->link_color_picker), &rgba);
 
-	tmp = webkit_dom_html_body_element_get_v_link (
-			WEBKIT_DOM_HTML_BODY_ELEMENT (body));
-	if (!gdk_rgba_parse (&rgba, tmp)) {
-		rgba.alpha = 1;
-		rgba.red = 1;
-		rgba.green = 0;
-		rgba.blue = 0;
-	}
-	g_free (tmp);
+	e_content_editor_page_get_visited_link_color (cnt_editor, &rgba);
 	e_color_combo_set_current_color (
 		E_COLOR_COMBO (dialog->priv->visited_link_color_picker), &rgba);
 
-	tmp = webkit_dom_html_body_element_get_bg_color (
-			WEBKIT_DOM_HTML_BODY_ELEMENT (body));
-	if (!tmp || !*tmp || !gdk_rgba_parse (&rgba, tmp))
-		e_utils_get_theme_color (widget, "theme_base_color", E_UTILS_DEFAULT_THEME_BASE_COLOR, &rgba);
-	g_free (tmp);
+	e_content_editor_page_get_background_color (cnt_editor, &rgba);
 	e_color_combo_set_current_color (
 		E_COLOR_COMBO (dialog->priv->background_color_picker), &rgba);
 
 	GTK_WIDGET_CLASS (e_html_editor_page_dialog_parent_class)->show (widget);
 }
 
-static gboolean
-user_changed_content (EHTMLEditorViewHistoryEvent *event)
-{
-	WebKitDOMElement *original, *current;
-	gchar *original_value, *current_value;
-	gboolean changed = TRUE;
-
-	original = WEBKIT_DOM_ELEMENT (event->data.dom.from);
-	current = WEBKIT_DOM_ELEMENT (event->data.dom.to);
-
-	original_value = webkit_dom_element_get_attribute (original, "bgcolor");
-	current_value = webkit_dom_element_get_attribute (current, "bgcolor");
-	changed = g_strcmp0 (original_value, current_value) != 0;
-	g_free (original_value);
-	g_free (current_value);
-	if (changed)
-		return TRUE;
-
-	original_value = webkit_dom_element_get_attribute (original, "text");
-	current_value = webkit_dom_element_get_attribute (current, "text");
-	changed = g_strcmp0 (original_value, current_value) != 0;
-	g_free (original_value);
-	g_free (current_value);
-	if (changed)
-		return TRUE;
-
-	original_value = webkit_dom_element_get_attribute (original, "link");
-	current_value = webkit_dom_element_get_attribute (current, "link");
-	changed = g_strcmp0 (original_value, current_value) != 0;
-	g_free (original_value);
-	g_free (current_value);
-	if (changed)
-		return TRUE;
-
-	original_value = webkit_dom_element_get_attribute (original, "vlink");
-	current_value = webkit_dom_element_get_attribute (current, "vlink");
-	changed = g_strcmp0 (original_value, current_value) != 0;
-	g_free (original_value);
-	g_free (current_value);
-
-	return changed;
-}
-
 static void
 html_editor_page_dialog_hide (GtkWidget *widget)
 {
-	EHTMLEditorPageDialogPrivate *priv;
-	EHTMLEditorViewHistoryEvent *ev;
-	EHTMLEditorPageDialog *dialog;
 	EHTMLEditor *editor;
-	EHTMLEditorView *view;
+	EContentEditor *cnt_editor;
+	EHTMLEditorPageDialog *dialog;
 
 	dialog = E_HTML_EDITOR_PAGE_DIALOG (widget);
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
-	view = e_html_editor_get_view (editor);
-	priv = E_HTML_EDITOR_PAGE_DIALOG_GET_PRIVATE (widget);
-	ev = priv->history_event;
+	cnt_editor = e_html_editor_get_content_editor (editor);
 
-	if (ev) {
-		EHTMLEditorSelection *selection;
-		WebKitDOMDocument *document;
-		WebKitDOMHTMLElement *body;
-
-		selection = e_html_editor_view_get_selection (view);
-
-		document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
-		body = webkit_dom_document_get_body (document);
-
-		ev->data.dom.to = webkit_dom_node_clone_node (WEBKIT_DOM_NODE (body), FALSE);
-
-		/* If user changed any of page colors we have to mark it to send
-		 * the correct colors and to disable the color changes when the
-		 * view i.e. not focused (at it would overwrite these user set colors. */
-		if (user_changed_content (ev))
-			webkit_dom_element_set_attribute (
-				WEBKIT_DOM_ELEMENT (body), "data-user-colors", "", NULL);
-
-		if (!webkit_dom_node_is_equal_node (ev->data.dom.from, ev->data.dom.to)) {
-			e_html_editor_selection_get_selection_coordinates (
-				selection, &ev->after.start.x, &ev->after.start.y, &ev->after.end.x, &ev->after.end.y);
-			e_html_editor_view_insert_new_history_event (view, ev);
-		} else {
-			g_object_unref (ev->data.dom.from);
-			g_object_unref (ev->data.dom.to);
-			g_free (ev);
-		}
-	}
-
-	e_html_editor_view_unblock_style_updated_callbacks (view);
+	e_content_editor_on_page_dialog_close (cnt_editor);
 
 	GTK_WIDGET_CLASS (e_html_editor_page_dialog_parent_class)->hide (widget);
 }

@@ -185,7 +185,7 @@ empe_text_plain_parse (EMailParserExtension *extension,
 
 				empa->shown = FALSE;
 				attachment = e_mail_part_attachment_ref_attachment (empa);
-				e_attachment_set_shown (attachment, FALSE);
+				e_attachment_set_initially_shown (attachment, FALSE);
 				e_attachment_set_can_show (attachment, FALSE);
 
 				att_part = e_attachment_ref_mime_part (attachment);

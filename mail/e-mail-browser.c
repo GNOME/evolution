@@ -607,6 +607,7 @@ mail_browser_constructed (GObject *object)
 	EShellBackend *shell_backend;
 	EShell *shell;
 	EFocusTracker *focus_tracker;
+	EAttachmentStore *attachment_store;
 	GtkAccelGroup *accel_group;
 	GtkActionGroup *action_group;
 	GtkAction *action;
@@ -755,6 +756,18 @@ mail_browser_constructed (GObject *object)
 		browser->priv->preview_pane,
 		TRUE, TRUE, 0);
 
+	attachment_store = e_mail_display_get_attachment_store (E_MAIL_DISPLAY (display));
+	widget = GTK_WIDGET (e_mail_display_get_attachment_view (E_MAIL_DISPLAY (display)));
+	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	gtk_widget_show (widget);
+
+	e_binding_bind_property_full (
+		attachment_store, "num-attachments",
+		widget, "visible",
+		G_BINDING_SYNC_CREATE,
+		e_attachment_store_transform_num_attachments_to_visible_boolean,
+		NULL, NULL, NULL);
+
 	id = "org.gnome.evolution.mail.browser";
 	e_plugin_ui_register_manager (ui_manager, id, object);
 	e_plugin_ui_enable_manager (ui_manager, id);
@@ -766,47 +779,9 @@ static gboolean
 mail_browser_key_press_event (GtkWidget *widget,
                               GdkEventKey *event)
 {
-	EMailDisplay *mail_display;
-
-	g_return_val_if_fail (E_IS_MAIL_BROWSER (widget), FALSE);
-
-	mail_display = e_mail_reader_get_mail_display (E_MAIL_READER (widget));
-
-	switch (event->keyval) {
-		case GDK_KEY_Escape:
-			e_mail_browser_close (E_MAIL_BROWSER (widget));
-			return TRUE;
-
-		case GDK_KEY_Home:
-		case GDK_KEY_Left:
-		case GDK_KEY_Up:
-		case GDK_KEY_Right:
-		case GDK_KEY_Down:
-		case GDK_KEY_Next:
-		case GDK_KEY_End:
-		case GDK_KEY_Begin:
-			/* If Caret mode is enabled don't try to process these keys */
-			if (e_web_view_get_caret_mode (E_WEB_VIEW (mail_display)))
-				break;
-		case GDK_KEY_Prior:
-			if (!e_mail_display_needs_key (mail_display, FALSE) &&
-			    webkit_web_view_get_main_frame (WEBKIT_WEB_VIEW (mail_display)) !=
-			    webkit_web_view_get_focused_frame (WEBKIT_WEB_VIEW (mail_display))) {
-				WebKitDOMDocument *document;
-				WebKitDOMDOMWindow *window;
-
-				document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (mail_display));
-				window = webkit_dom_document_get_default_view (document);
-
-				/* Workaround WebKit bug for key navigation, when inner IFRAME is focused.
-				 * EMailView's inner IFRAMEs have disabled scrolling, but WebKit doesn't post
-				 * key navigation events to parent's frame, thus the view doesn't scroll.
-				 * This is a poor workaround for this issue, the main frame is focused,
-				 * which has scrolling enabled.
-				*/
-				webkit_dom_dom_window_focus (window);
-			}
-			break;
+	if (event->keyval == GDK_KEY_Escape) {
+		e_mail_browser_close (E_MAIL_BROWSER (widget));
+		return TRUE;
 	}
 
 	/* Chain up to parent's key_press_event() method. */

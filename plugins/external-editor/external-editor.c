@@ -150,16 +150,16 @@ enable_disable_composer (EMsgComposer *composer,
                          gboolean enable)
 {
 	EHTMLEditor *editor;
-	EHTMLEditorView *view;
+	EContentEditor *cnt_editor;
 	GtkAction *action;
 	GtkActionGroup *action_group;
 
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 
 	editor = e_msg_composer_get_editor (composer);
-	view = e_html_editor_get_view (editor);
+	cnt_editor = e_html_editor_get_content_editor (editor);
 
-	webkit_web_view_set_editable (WEBKIT_WEB_VIEW (view), enable);
+	e_content_editor_set_editable (cnt_editor, enable);
 
 	action = E_HTML_EDITOR_ACTION_EDIT_MENU (editor);
 	gtk_action_set_sensitive (action, enable);
@@ -192,20 +192,20 @@ update_composer_text (GArray *array)
 {
 	EMsgComposer *composer;
 	EHTMLEditor *editor;
-	EHTMLEditorView *view;
+	EContentEditor *cnt_editor;
 	gchar *text;
 
 	composer = g_array_index (array, gpointer, 0);
 	text = g_array_index (array, gpointer, 1);
 
 	editor = e_msg_composer_get_editor (composer);
-	view = e_html_editor_get_view (editor);
+	cnt_editor = e_html_editor_get_content_editor (editor);
 
 	e_msg_composer_set_body_text (composer, text, FALSE);
 
 	enable_composer (composer);
 
-	e_html_editor_view_set_changed (view, TRUE);
+	e_content_editor_set_changed (cnt_editor, TRUE);
 
 	g_free (text);
 
@@ -239,117 +239,19 @@ numlines (const gchar *text,
 	gint ctr = 0;
 	gint lineno = 0;
 
-	while (text && *text && ctr < pos) {
-		if (*text == '\n') {
-			/* Because the get_caret_position is returning a position
-			 * without new lines, we can't increment the counter when
-			 * we hit the new line. */
+	while (text && *text && ctr <= pos) {
+		if (*text == '\n')
 			lineno++;
-		} else {
-			ctr++;
-		}
-		text++;
 
+		text++;
+		ctr++;
 	}
 
-	if (lineno > 0)
+	if (lineno > 0) {
 		lineno++;
+	}
 
 	return lineno;
-}
-
-static gint
-get_caret_offset (EHTMLEditorView *view)
-{
-	gint ret_val;
-	gchar *text;
-	WebKitDOMDocument *document;
-	WebKitDOMDOMWindow *dom_window;
-	WebKitDOMDOMSelection *dom_selection;
-	WebKitDOMNode *anchor;
-	WebKitDOMRange *range;
-
-	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
-	dom_window = webkit_dom_document_get_default_view (document);
-	dom_selection = webkit_dom_dom_window_get_selection (dom_window);
-	g_object_unref (dom_window);
-
-	if (webkit_dom_dom_selection_get_range_count (dom_selection) < 1) {
-		g_object_unref (dom_selection);
-		return 0;
-	}
-
-	webkit_dom_dom_selection_collapse_to_start (dom_selection, NULL);
-	/* Select the text from the current caret position to the beginning of the line. */
-	webkit_dom_dom_selection_modify (dom_selection, "extend", "left", "lineBoundary");
-
-	range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
-	anchor = webkit_dom_dom_selection_get_anchor_node (dom_selection);
-	text = webkit_dom_range_to_string (range, NULL);
-	ret_val = strlen (text);
-	g_free (text);
-
-	webkit_dom_dom_selection_collapse_to_end (dom_selection, NULL);
-
-	/* In the plain text mode we need to increase the return value by 2 per
-	 * citation level because of "> ". */
-	if (!e_html_editor_view_get_html_mode (view)) {
-		WebKitDOMNode *parent = anchor;
-
-		while (parent && !WEBKIT_DOM_IS_HTML_BODY_ELEMENT (parent)) {
-			if (WEBKIT_DOM_IS_HTML_QUOTE_ELEMENT (parent) &&
-			    element_has_class (WEBKIT_DOM_ELEMENT (parent), "-x-evo-plaintext-quoted"))
-				ret_val += 2;
-
-			parent = webkit_dom_node_get_parent_node (parent);
-		}
-	}
-
-	g_object_unref (range);
-	g_object_unref (dom_selection);
-
-	return ret_val;
-}
-
-static gint
-get_caret_position (EHTMLEditorView *view)
-{
-	gint ret_val;
-	gchar *text;
-	WebKitDOMDocument *document;
-	WebKitDOMHTMLElement *body;
-	WebKitDOMDOMWindow *dom_window;
-	WebKitDOMDOMSelection *dom_selection;
-	WebKitDOMRange *range, *range_clone;
-
-	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
-	dom_window = webkit_dom_document_get_default_view (document);
-	dom_selection = webkit_dom_dom_window_get_selection (dom_window);
-	g_object_unref (dom_window);
-
-	if (webkit_dom_dom_selection_get_range_count (dom_selection) < 1) {
-		g_object_unref (dom_selection);
-		return 0;
-	}
-
-	range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
-	range_clone = webkit_dom_range_clone_range (range, NULL);
-
-	body = webkit_dom_document_get_body (document);
-	/* Select the text from the beginning of the body to the current caret. */
-	webkit_dom_range_set_start_before (
-		range_clone, webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (body)), NULL);
-
-	/* This is returning a text without new lines! */
-	text = webkit_dom_range_to_string (range_clone, NULL);
-	ret_val = strlen (text);
-	g_free (text);
-
-	g_object_unref (range_clone);
-	g_object_unref (range);
-	g_object_unref (dom_selection);
-
-	return ret_val;
 }
 
 static gboolean external_editor_running = FALSE;
@@ -365,10 +267,10 @@ external_editor_thread (gpointer user_data)
 	gchar *editor_cmd_line = NULL, *editor_cmd = NULL, *content;
 	gint fd, position = -1, offset = -1;
 	EHTMLEditor *editor;
-	EHTMLEditorView *view;
+	EContentEditor *cnt_editor;
 
 	editor = e_msg_composer_get_editor (composer);
-	view = e_html_editor_get_view (editor);
+	cnt_editor = e_html_editor_get_content_editor (editor);
 
 	/* prefix temp files with evo so .*vimrc can be setup to recognize them */
 	fd = g_file_open_tmp ("evoXXXXXX", &filename, NULL);
@@ -377,8 +279,13 @@ external_editor_thread (gpointer user_data)
 		d (printf ("\n\aTemporary-file Name is : [%s] \n\a", filename));
 
 		/* Push the text (if there is one) from the composer to the file */
-		content = e_html_editor_view_get_text_plain (view);
-		g_file_set_contents (filename, content, strlen (content), NULL);
+		content = e_content_editor_get_content (
+			cnt_editor,
+			E_CONTENT_EDITOR_GET_TEXT_PLAIN |
+			E_CONTENT_EDITOR_GET_PROCESSED,
+			NULL, NULL);
+		if (content && *content)
+			g_file_set_contents (filename, content, strlen (content), NULL);
 	} else {
 		struct run_error_dialog_data *data;
 
@@ -406,14 +313,14 @@ external_editor_thread (gpointer user_data)
 	g_object_unref (settings);
 
 	if (g_strrstr (editor_cmd, "vim") != NULL &&
-	    ((position = get_caret_position (view)) > 0)) {
+	    ((position = e_content_editor_get_caret_position (cnt_editor)) > 0)) {
 		gchar *tmp = editor_cmd;
 		gint lineno;
 		gboolean set_nofork;
 
 		set_nofork = g_strrstr (editor_cmd, "gvim") != NULL;
 
-		offset = get_caret_offset (view);
+		offset = e_content_editor_get_caret_offset (cnt_editor);
 		/* Increment by 1 so that entering vim insert mode places you
 		 * in the same entry position you were at in the html. */
 		offset++;
@@ -500,7 +407,7 @@ finished:
 static void launch_editor (GtkAction *action, EMsgComposer *composer)
 {
 	EHTMLEditor *editor;
-	EHTMLEditorView *view;
+	EContentEditor *cnt_editor;
 
 	d (printf ("\n\nexternal_editor plugin is launched \n\n"));
 
@@ -510,9 +417,9 @@ static void launch_editor (GtkAction *action, EMsgComposer *composer)
 	}
 
 	editor = e_msg_composer_get_editor (composer);
-	view = e_html_editor_get_view (editor);
+	cnt_editor = e_html_editor_get_content_editor (editor);
 
-	e_html_editor_view_clear_history (view);
+	e_content_editor_clear_undo_redo_history (cnt_editor);
 	disable_composer (composer);
 
 	g_mutex_lock (&external_editor_running_lock);
@@ -596,10 +503,10 @@ e_plugin_ui_init (GtkUIManager *manager,
                   EMsgComposer *composer)
 {
 	EHTMLEditor *editor;
-	EHTMLEditorView *view;
+	EContentEditor *cnt_editor;
 
 	editor = e_msg_composer_get_editor (composer);
-	view = e_html_editor_get_view (editor);
+	cnt_editor = e_html_editor_get_content_editor (editor);
 
 	/* Add actions to the "composer" action group. */
 	gtk_action_group_add_actions (
@@ -607,11 +514,11 @@ e_plugin_ui_init (GtkUIManager *manager,
 		entries, G_N_ELEMENTS (entries), composer);
 
 	g_signal_connect (
-		view, "key_press_event",
+		cnt_editor, "key_press_event",
 		G_CALLBACK (key_press_cb), composer);
 
 	g_signal_connect (
-		view, "delete-event",
+		cnt_editor, "delete-event",
 		G_CALLBACK (delete_cb), composer);
 
 	return TRUE;

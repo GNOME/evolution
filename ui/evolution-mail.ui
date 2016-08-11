@@ -19,6 +19,7 @@
       <placeholder name='view-custom-menus'>
         <menu action='mail-preview-menu'>
           <menuitem action='mail-preview'/>
+          <menuitem action='mail-attachment-bar'/>
           <separator/>
           <menuitem action='mail-view-classic'/>
           <menuitem action='mail-view-vertical'/>

@@ -40,7 +40,7 @@ G_DEFINE_TYPE (
 	E_TYPE_MAIL_FORMATTER_EXTENSION)
 
 static const gchar *formatter_mime_types[] = {
-	"application/vnd.evolution.widget.audio",
+	"application/vnd.evolution.audio",
 	"audio/ac3",
 	"audio/x-ac3",
 	"audio/basic",

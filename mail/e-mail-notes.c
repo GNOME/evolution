@@ -94,12 +94,12 @@ e_mail_notes_extract_text_content (CamelMimePart *part)
 }
 
 static void
-e_mail_notes_extract_text_from_multipart_alternative (EHTMLEditorView *view,
+e_mail_notes_extract_text_from_multipart_alternative (EContentEditor *cnt_editor,
 						      CamelMultipart *in_multipart)
 {
 	guint ii, nparts;
 
-	g_return_if_fail (E_IS_HTML_EDITOR_VIEW (view));
+	g_return_if_fail (E_IS_CONTENT_EDITOR (cnt_editor));
 	g_return_if_fail (CAMEL_IS_MULTIPART (in_multipart));
 
 	nparts = camel_multipart_get_number (in_multipart);
@@ -122,8 +122,12 @@ e_mail_notes_extract_text_from_multipart_alternative (EHTMLEditorView *view,
 
 			text = e_mail_notes_extract_text_content (part);
 			if (text) {
-				e_html_editor_view_set_html_mode (view, TRUE);
-				e_html_editor_view_set_text_html (view, text);
+				e_content_editor_set_html_mode (cnt_editor, TRUE);
+				e_content_editor_insert_content (
+					cnt_editor,
+					text,
+					E_CONTENT_EDITOR_INSERT_TEXT_HTML |
+					E_CONTENT_EDITOR_INSERT_REPLACE_ALL);
 				g_free (text);
 				break;
 			}
@@ -132,7 +136,11 @@ e_mail_notes_extract_text_from_multipart_alternative (EHTMLEditorView *view,
 
 			text = e_mail_notes_extract_text_content (part);
 			if (text) {
-				e_html_editor_view_set_text_plain (view, text);
+				e_content_editor_insert_content (
+					cnt_editor,
+					text,
+					E_CONTENT_EDITOR_INSERT_TEXT_PLAIN |
+					E_CONTENT_EDITOR_INSERT_REPLACE_ALL);
 				g_free (text);
 			}
 			break;
@@ -144,13 +152,13 @@ static void
 e_mail_notes_editor_extract_text_from_multipart_related (EMailNotesEditor *notes_editor,
 							 CamelMultipart *multipart)
 {
-	EHTMLEditorView *view;
+	EContentEditor *cnt_editor;
 	guint ii, nparts;
 
 	g_return_if_fail (E_IS_MAIL_NOTES_EDITOR (notes_editor));
 	g_return_if_fail (CAMEL_IS_MULTIPART (multipart));
 
-	view = e_html_editor_get_view (notes_editor->editor);
+	cnt_editor = e_html_editor_get_content_editor (notes_editor->editor);
 	nparts = camel_multipart_get_number (multipart);
 
 	for (ii = 0; ii < nparts; ii++) {
@@ -167,12 +175,11 @@ e_mail_notes_editor_extract_text_from_multipart_related (EMailNotesEditor *notes
 			continue;
 
 		if (camel_content_type_is (ct, "image", "*")) {
-			e_html_editor_view_add_inline_image_from_mime_part (view, part);
+			e_content_editor_insert_image_from_mime_part (cnt_editor, part);
 		} else if (camel_content_type_is (ct, "multipart", "alternative")) {
 			content = camel_medium_get_content (CAMEL_MEDIUM (part));
-			if (CAMEL_IS_MULTIPART (content)) {
-				e_mail_notes_extract_text_from_multipart_alternative (view, CAMEL_MULTIPART (content));
-			}
+			if (CAMEL_IS_MULTIPART (content))
+				e_mail_notes_extract_text_from_multipart_alternative (cnt_editor, CAMEL_MULTIPART (content));
 		}
 	}
 }
@@ -183,7 +190,7 @@ e_mail_notes_editor_extract_text_from_part (EMailNotesEditor *notes_editor,
 {
 	CamelContentType *ct;
 	CamelDataWrapper *content;
-	EHTMLEditorView *view;
+	EContentEditor *cnt_editor;
 
 	g_return_if_fail (E_IS_MAIL_NOTES_EDITOR (notes_editor));
 	g_return_if_fail (CAMEL_IS_MIME_PART (part));
@@ -194,7 +201,7 @@ e_mail_notes_editor_extract_text_from_part (EMailNotesEditor *notes_editor,
 	g_return_if_fail (content != NULL);
 	g_return_if_fail (ct != NULL);
 
-	view = e_html_editor_get_view (notes_editor->editor);
+	cnt_editor = e_html_editor_get_content_editor (notes_editor->editor);
 
 	if (camel_content_type_is (ct, "multipart", "related")) {
 		g_return_if_fail (CAMEL_IS_MULTIPART (content));
@@ -202,14 +209,18 @@ e_mail_notes_editor_extract_text_from_part (EMailNotesEditor *notes_editor,
 		e_mail_notes_editor_extract_text_from_multipart_related (notes_editor, CAMEL_MULTIPART (content));
 	} else if (camel_content_type_is (ct, "multipart", "alternative")) {
 		if (CAMEL_IS_MULTIPART (content)) {
-			e_mail_notes_extract_text_from_multipart_alternative (view, CAMEL_MULTIPART (content));
+			e_mail_notes_extract_text_from_multipart_alternative (cnt_editor, CAMEL_MULTIPART (content));
 		}
 	} else if (camel_content_type_is (ct, "text", "plain")) {
 		gchar *text;
 
 		text = e_mail_notes_extract_text_content (part);
 		if (text) {
-			e_html_editor_view_set_text_plain (view, text);
+			e_content_editor_insert_content (
+				cnt_editor,
+				text,
+				E_CONTENT_EDITOR_INSERT_TEXT_PLAIN |
+				E_CONTENT_EDITOR_INSERT_REPLACE_ALL);
 			g_free (text);
 		}
 	}
@@ -221,7 +232,7 @@ e_mail_notes_editor_extract_text_from_message (EMailNotesEditor *notes_editor,
 {
 	CamelContentType *ct;
 	CamelDataWrapper *content;
-	EHTMLEditorView *view;
+	EContentEditor *cnt_editor;
 
 	g_return_if_fail (E_IS_MAIL_NOTES_EDITOR (notes_editor));
 	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (message));
@@ -232,7 +243,7 @@ e_mail_notes_editor_extract_text_from_message (EMailNotesEditor *notes_editor,
 	g_return_if_fail (content != NULL);
 	g_return_if_fail (ct != NULL);
 
-	view = e_html_editor_get_view (notes_editor->editor);
+	cnt_editor = e_html_editor_get_content_editor (notes_editor->editor);
 
 	if (camel_content_type_is (ct, "multipart", "mixed")) {
 		EAttachmentStore *attachment_store;
@@ -276,13 +287,13 @@ e_mail_notes_editor_extract_text_from_message (EMailNotesEditor *notes_editor,
 		e_mail_notes_editor_extract_text_from_part (notes_editor, CAMEL_MIME_PART (message));
 	}
 
-	e_html_editor_view_set_changed (view, FALSE);
+	e_content_editor_set_changed (cnt_editor, FALSE);
 }
 
 static CamelMimeMessage *
 e_mail_notes_editor_encode_text_to_message (EMailNotesEditor *notes_editor)
 {
-	EHTMLEditorView *view;
+	EContentEditor *cnt_editor;
 	EAttachmentStore *attachment_store;
 	CamelMimeMessage *message = NULL;
 	gchar *message_uid;
@@ -293,8 +304,8 @@ e_mail_notes_editor_encode_text_to_message (EMailNotesEditor *notes_editor)
 	g_return_val_if_fail (E_IS_MAIL_NOTES_EDITOR (notes_editor), NULL);
 	g_return_val_if_fail (notes_editor->editor, NULL);
 
-	view = e_html_editor_get_view (notes_editor->editor);
-	g_return_val_if_fail (E_IS_HTML_EDITOR_VIEW (view), NULL);
+	cnt_editor = e_html_editor_get_content_editor (notes_editor->editor);
+	g_return_val_if_fail (E_IS_CONTENT_EDITOR (cnt_editor), NULL);
 
 	message = camel_mime_message_new ();
 	username = g_get_user_name ();
@@ -316,18 +327,23 @@ e_mail_notes_editor_encode_text_to_message (EMailNotesEditor *notes_editor)
 	attachment_store = e_attachment_view_get_store (E_ATTACHMENT_VIEW (notes_editor->attachment_paned));
 	has_attachments = e_attachment_store_get_num_attachments (attachment_store) > 0;
 
-	if (e_html_editor_view_get_html_mode (view)) {
+	if (e_content_editor_get_html_mode (cnt_editor)) {
 		CamelMultipart *multipart_alternative;
 		CamelMultipart *multipart_body;
 		CamelMimePart *part;
-		GList *inline_images = NULL;
+		GSList *inline_images_parts = NULL;
 		gchar *text;
 
 		multipart_alternative = camel_multipart_new ();
 		camel_data_wrapper_set_mime_type (CAMEL_DATA_WRAPPER (multipart_alternative), "multipart/alternative");
 		camel_multipart_set_boundary (multipart_alternative, NULL);
 
-		text = e_html_editor_view_get_text_plain (view);
+		text = e_content_editor_get_content (
+			cnt_editor,
+			E_CONTENT_EDITOR_GET_TEXT_PLAIN |
+			E_CONTENT_EDITOR_GET_PROCESSED,
+			NULL, NULL);
+
 		if (text && *text) {
 			part = camel_mime_part_new ();
 			camel_mime_part_set_content (part, text, strlen (text), "text/plain");
@@ -340,7 +356,14 @@ e_mail_notes_editor_encode_text_to_message (EMailNotesEditor *notes_editor)
 
 		g_free (text);
 
-		text = e_html_editor_view_get_text_html (view, g_get_host_name (), &inline_images);
+		text = e_content_editor_get_content (
+			cnt_editor,
+			E_CONTENT_EDITOR_GET_PROCESSED |
+			E_CONTENT_EDITOR_GET_TEXT_HTML |
+			E_CONTENT_EDITOR_GET_INLINE_IMAGES,
+			g_get_host_name (),
+			&inline_images_parts);
+
 		if (has_attachments && !has_text && (!text || !*text)) {
 			/* Text is required, thus if there are attachments,
 			   but no text, then store at least a space. */
@@ -357,14 +380,14 @@ e_mail_notes_editor_encode_text_to_message (EMailNotesEditor *notes_editor)
 
 			has_text = TRUE;
 		} else {
-			g_list_free_full (inline_images, g_object_unref);
-			inline_images = NULL;
+			g_slist_free_full (inline_images_parts, g_object_unref);
+			inline_images_parts = NULL;
 		}
 
 		g_free (text);
 
-		if (inline_images) {
-			GList *link;
+		if (inline_images_parts) {
+			GSList *link;
 
 			multipart_body = camel_multipart_new ();
 			camel_data_wrapper_set_mime_type (CAMEL_DATA_WRAPPER (multipart_body), "multipart/related");
@@ -375,7 +398,7 @@ e_mail_notes_editor_encode_text_to_message (EMailNotesEditor *notes_editor)
 			camel_multipart_add_part (multipart_body, part);
 			g_object_unref (part);
 
-			for (link = inline_images; link; link = g_list_next (link)) {
+			for (link = inline_images_parts; link; link = g_slist_next (link)) {
 				CamelMimePart *part = link->data;
 
 				if (!part)
@@ -408,13 +431,17 @@ e_mail_notes_editor_encode_text_to_message (EMailNotesEditor *notes_editor)
 
 		camel_medium_set_content (CAMEL_MEDIUM (message), CAMEL_DATA_WRAPPER (multipart_body));
 
-		g_list_free_full (inline_images, g_object_unref);
+		g_slist_free_full (inline_images_parts, g_object_unref);
 		g_clear_object (&multipart_alternative);
 		g_clear_object (&multipart_body);
 	} else {
 		gchar *text;
 
-		text = e_html_editor_view_get_text_plain (view);
+		text = e_content_editor_get_content (
+			cnt_editor,
+			E_CONTENT_EDITOR_GET_TEXT_PLAIN |
+			E_CONTENT_EDITOR_GET_PROCESSED,
+			NULL, NULL);
 
 		if (has_attachments && !has_text && (!text || !*text)) {
 			/* Text is required, thus if there are attachments,
@@ -560,17 +587,17 @@ notes_editor_activity_notify_cb (EActivityBar *activity_bar,
 				 GParamSpec *param,
 				 EMailNotesEditor *notes_editor)
 {
-	EHTMLEditorView *view;
+	EContentEditor *cnt_editor;
 	GtkAction *action;
 	gboolean can_edit;
 
 	g_return_if_fail (E_IS_ACTIVITY_BAR (activity_bar));
 	g_return_if_fail (E_IS_MAIL_NOTES_EDITOR (notes_editor));
 
-	view = e_html_editor_get_view (notes_editor->editor);
+	cnt_editor = e_html_editor_get_content_editor (notes_editor->editor);
 	can_edit = notes_editor->had_message && !e_activity_bar_get_activity (activity_bar);
 
-	webkit_web_view_set_editable (WEBKIT_WEB_VIEW (view), can_edit);
+	g_object_set (cnt_editor, "editable", can_edit, NULL);
 
 	action = gtk_action_group_get_action (notes_editor->action_group, "save-and-close");
 	gtk_action_set_sensitive (action, can_edit);
@@ -711,12 +738,12 @@ static void
 action_close_cb (GtkAction *action,
 		 EMailNotesEditor *notes_editor)
 {
-	EHTMLEditorView *view;
+	EContentEditor *cnt_editor;
 	gboolean something_changed = FALSE;
 
-	view = e_html_editor_get_view (notes_editor->editor);
+	cnt_editor = e_html_editor_get_content_editor (notes_editor->editor);
 
-	something_changed = webkit_web_view_can_undo (WEBKIT_WEB_VIEW (view));
+	something_changed = e_content_editor_get_changed (cnt_editor);
 
 	if (something_changed) {
 		gint response;
@@ -874,9 +901,10 @@ e_mail_notes_editor_init (EMailNotesEditor *notes_editor)
 }
 
 static EMailNotesEditor *
-e_mail_notes_editor_new (GtkWindow *parent,
-			 CamelFolder *folder,
-			 const gchar *uid)
+e_mail_notes_editor_new_with_editor (EHTMLEditor *html_editor,
+				     GtkWindow *parent,
+				     CamelFolder *folder,
+				     const gchar *uid)
 {
 	const gchar *ui =
 		"<ui>\n"
@@ -921,7 +949,7 @@ e_mail_notes_editor_new (GtkWindow *parent,
 	};
 
 	EMailNotesEditor *notes_editor;
-	EHTMLEditorView *view;
+	EContentEditor *cnt_editor;
 	EFocusTracker *focus_tracker;
 	EActivityBar *activity_bar;
 	GtkUIManager *ui_manager;
@@ -948,10 +976,10 @@ e_mail_notes_editor_new (GtkWindow *parent,
 
 	content = widget;
 
-	widget = e_html_editor_new ();
+	widget = GTK_WIDGET (html_editor);
 
-	notes_editor->editor = E_HTML_EDITOR (widget);
-	view = e_html_editor_get_view (notes_editor->editor);
+	notes_editor->editor = html_editor;
+	cnt_editor = e_html_editor_get_content_editor (notes_editor->editor);
 	ui_manager = e_html_editor_get_ui_manager (notes_editor->editor);
 
 	/* Because we are loading from a hard-coded string, there is
@@ -987,6 +1015,12 @@ e_mail_notes_editor_new (GtkWindow *parent,
 	gtk_widget_show (widget);
 
 	widget = GTK_WIDGET (notes_editor->editor);
+	g_object_set (G_OBJECT (widget),
+		"halign", GTK_ALIGN_FILL,
+		"hexpand", TRUE,
+		"valign", GTK_ALIGN_FILL,
+		"vexpand", TRUE,
+		NULL);
 	gtk_box_pack_start (GTK_BOX (content), widget, TRUE, TRUE, 0);
 	gtk_widget_show (widget);
 
@@ -996,7 +1030,7 @@ e_mail_notes_editor_new (GtkWindow *parent,
 	gtk_widget_show (widget);
 
 	e_binding_bind_property (
-		view, "editable",
+		cnt_editor, "editable",
 		widget, "sensitive",
 		G_BINDING_SYNC_CREATE);
 
@@ -1017,10 +1051,11 @@ e_mail_notes_editor_new (GtkWindow *parent,
 
 	notes_editor->focus_tracker = focus_tracker;
 
-	gtk_widget_grab_focus (GTK_WIDGET (view));
+	gtk_widget_grab_focus (GTK_WIDGET (cnt_editor));
 
 	settings = e_util_ref_settings ("org.gnome.evolution.mail");
-	e_html_editor_view_set_html_mode (view, g_settings_get_boolean (settings, "composer-send-html"));
+	e_content_editor_set_html_mode (
+		cnt_editor, g_settings_get_boolean (settings, "composer-send-html"));
 	g_object_unref (settings);
 
 	g_signal_connect (
@@ -1039,29 +1074,79 @@ e_mail_notes_editor_new (GtkWindow *parent,
 	return notes_editor;
 }
 
+typedef struct _AsyncData {
+	GtkWindow *parent;
+	CamelFolder *folder;
+	gchar *uid;
+} AsyncData;
+
+static void
+async_data_free (gpointer ptr)
+{
+	AsyncData *ad = ptr;
+
+	if (ad) {
+		g_clear_object (&ad->parent);
+		g_clear_object (&ad->folder);
+		g_free (ad->uid);
+		g_free (ad);
+	}
+}
+
+static void
+e_mail_notes_editor_ready_cb (GObject *source_object,
+			      GAsyncResult *result,
+			      gpointer user_data)
+{
+	AsyncData *ad = user_data;
+	GtkWidget *html_editor;
+	GError *error = NULL;
+
+	g_return_if_fail (result != NULL);
+	g_return_if_fail (ad != NULL);
+
+	html_editor = e_html_editor_new_finish (result, &error);
+	if (error) {
+		g_warning ("%s: Failed to create HTML editor: %s", G_STRFUNC, error->message);
+		g_clear_error (&error);
+	} else {
+		EMailNotesEditor *notes_editor;
+		EActivityBar *activity_bar;
+		EActivity *activity;
+
+		notes_editor = e_mail_notes_editor_new_with_editor (E_HTML_EDITOR (html_editor),
+			ad->parent, ad->folder, ad->uid);
+
+		activity_bar = e_html_editor_get_activity_bar (notes_editor->editor);
+		activity = e_alert_sink_submit_thread_job (E_ALERT_SINK (notes_editor->editor),
+			_("Retrieving message..."), "mail:no-retrieve-message", NULL,
+			e_mail_notes_retrieve_message_thread,
+			g_object_ref (notes_editor), e_mail_notes_retrieve_message_done);
+		e_activity_bar_set_activity (activity_bar, activity);
+		g_clear_object (&activity);
+
+		gtk_widget_show (GTK_WIDGET (notes_editor));
+	}
+
+	async_data_free (ad);
+}
+
 void
 e_mail_notes_edit (GtkWindow *parent,
 		   CamelFolder *folder,
 		   const gchar *uid)
 {
-	EMailNotesEditor *notes_editor;
-	EActivityBar *activity_bar;
-	EActivity *activity;
+	AsyncData *ad;
 
 	g_return_if_fail (CAMEL_IS_FOLDER (folder));
 	g_return_if_fail (uid != NULL);
 
-	notes_editor = e_mail_notes_editor_new (parent, folder, uid);
+	ad = g_new0 (AsyncData, 1);
+	ad->parent = parent ? g_object_ref (parent) : NULL;
+	ad->folder = g_object_ref (folder);
+	ad->uid = g_strdup (uid);
 
-	activity_bar = e_html_editor_get_activity_bar (notes_editor->editor);
-	activity = e_alert_sink_submit_thread_job (E_ALERT_SINK (notes_editor->editor),
-		_("Retrieving message..."), "mail:no-retrieve-message", NULL,
-		e_mail_notes_retrieve_message_thread,
-		g_object_ref (notes_editor), e_mail_notes_retrieve_message_done);
-	e_activity_bar_set_activity (activity_bar, activity);
-	g_clear_object (&activity);
-
-	gtk_widget_show (GTK_WIDGET (notes_editor));
+	e_html_editor_new (e_mail_notes_editor_ready_cb, ad);
 }
 
 gboolean

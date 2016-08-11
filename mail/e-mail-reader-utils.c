@@ -1729,6 +1729,76 @@ e_mail_reader_remove_duplicates (EMailReader *reader)
 	g_ptr_array_unref (uids);
 }
 
+typedef struct _CreateComposerData {
+	EMailReader *reader;
+	CamelFolder *folder;
+	CamelMimeMessage *message;
+	gchar *message_uid;
+	gboolean keep_signature;
+
+	EMailPartList *part_list;
+	EMailReplyType reply_type;
+	EMailReplyStyle reply_style;
+	CamelInternetAddress *address;
+	EMailPartValidityFlags validity_pgp_sum;
+	EMailPartValidityFlags validity_smime_sum;
+
+	EMailForwardStyle forward_style;
+
+	CamelMimePart *attached_part;
+	gchar *attached_subject;
+	GPtrArray *attached_uids;
+} CreateComposerData;
+
+static void
+create_composer_data_free (CreateComposerData *ccd)
+{
+	if (ccd) {
+		if (ccd->attached_uids)
+			g_ptr_array_unref (ccd->attached_uids);
+
+		g_clear_object (&ccd->reader);
+		g_clear_object (&ccd->folder);
+		g_clear_object (&ccd->message);
+		g_clear_object (&ccd->part_list);
+		g_clear_object (&ccd->address);
+		g_clear_object (&ccd->attached_part);
+		g_free (ccd->message_uid);
+		g_free (ccd->attached_subject);
+		g_free (ccd);
+	}
+}
+
+static void
+mail_reader_edit_messages_composer_created_cb (GObject *source_object,
+					       GAsyncResult *result,
+					       gpointer user_data)
+{
+	CreateComposerData *ccd = user_data;
+	EMsgComposer *composer;
+	GError *error = NULL;
+
+	g_return_if_fail (ccd != NULL);
+
+	composer = e_msg_composer_new_finish (result, &error);
+	if (error) {
+		g_warning ("%s: Failed to create msg composer: %s", G_STRFUNC, error->message);
+		g_clear_error (&error);
+	} else {
+		camel_medium_remove_header (
+			CAMEL_MEDIUM (ccd->message), "X-Mailer");
+
+		em_utils_edit_message (
+			composer, ccd->folder, ccd->message, ccd->message_uid,
+			ccd->keep_signature);
+
+		e_mail_reader_composer_created (
+			ccd->reader, composer, ccd->message);
+	}
+
+	create_composer_data_free (ccd);
+}
+
 static void
 mail_reader_edit_messages_cb (GObject *source_object,
                               GAsyncResult *result,
@@ -1780,24 +1850,17 @@ mail_reader_edit_messages_cb (GObject *source_object,
 	g_hash_table_iter_init (&iter, hash_table);
 
 	while (g_hash_table_iter_next (&iter, &key, &value)) {
-		EMsgComposer *composer;
-		CamelMimeMessage *message;
-		const gchar *message_uid = NULL;
+		CreateComposerData *ccd;
+
+		ccd = g_new0 (CreateComposerData, 1);
+		ccd->reader = g_object_ref (async_context->reader);
+		ccd->folder = g_object_ref (folder);
+		ccd->message = g_object_ref (CAMEL_MIME_MESSAGE (value));
 
 		if (async_context->replace)
-			message_uid = (const gchar *) key;
+			ccd->message_uid = g_strdup ((const gchar *) key);
 
-		message = CAMEL_MIME_MESSAGE (value);
-
-		camel_medium_remove_header (
-			CAMEL_MEDIUM (message), "X-Mailer");
-
-		composer = em_utils_edit_message (
-			shell, folder, message, message_uid,
-			async_context->keep_signature);
-
-		e_mail_reader_composer_created (
-			async_context->reader, composer, message);
+		e_msg_composer_new (shell, mail_reader_edit_messages_composer_created_cb, ccd);
 	}
 
 	g_hash_table_unref (hash_table);
@@ -1843,6 +1906,44 @@ e_mail_reader_edit_messages (EMailReader *reader,
 }
 
 static void
+mail_reader_forward_attached_composer_created_cb (GObject *source_object,
+						  GAsyncResult *result,
+						  gpointer user_data)
+{
+	CreateComposerData *ccd = user_data;
+	EMsgComposer *composer;
+	GError *error = NULL;
+
+	composer = e_msg_composer_new_finish (result, &error);
+	if (error) {
+		g_warning ("%s: Failed to create msg composer: %s", G_STRFUNC, error->message);
+		g_clear_error (&error);
+	} else {
+		CamelDataWrapper *content;
+
+		em_utils_forward_attachment (composer, ccd->attached_part, ccd->attached_subject, ccd->folder, ccd->attached_uids);
+
+		content = camel_medium_get_content (CAMEL_MEDIUM (ccd->attached_part));
+		if (CAMEL_IS_MIME_MESSAGE (content)) {
+			e_mail_reader_composer_created (ccd->reader, composer, CAMEL_MIME_MESSAGE (content));
+		} else {
+			/* XXX What to do for the multipart/digest case?
+			 *     Extract the first message from the digest, or
+			 *     change the argument type to CamelMimePart and
+			 *     just pass the whole digest through?
+			 *
+			 *     This signal is primarily serving EMailBrowser,
+			 *     which can only forward one message at a time.
+			 *     So for the moment it doesn't matter, but still
+			 *     something to consider. */
+			e_mail_reader_composer_created (ccd->reader, composer, NULL);
+		}
+	}
+
+	create_composer_data_free (ccd);
+}
+
+static void
 mail_reader_forward_attachment_cb (GObject *source_object,
                                    GAsyncResult *result,
                                    gpointer user_data)
@@ -1851,9 +1952,9 @@ mail_reader_forward_attachment_cb (GObject *source_object,
 	EMailBackend *backend;
 	EActivity *activity;
 	EAlertSink *alert_sink;
+	EShell *shell;
 	CamelMimePart *part;
-	CamelDataWrapper *content;
-	EMsgComposer *composer;
+	CreateComposerData *ccd;
 	gchar *subject = NULL;
 	AsyncContext *async_context;
 	GError *local_error = NULL;
@@ -1887,37 +1988,50 @@ mail_reader_forward_attachment_cb (GObject *source_object,
 		goto exit;
 	}
 
+	ccd = g_new0 (CreateComposerData, 1);
+	ccd->reader = g_object_ref (async_context->reader);
+	ccd->folder = g_object_ref (folder);
+	ccd->attached_part = part;
+	ccd->attached_subject = subject;
+	ccd->attached_uids = async_context->uids ? g_ptr_array_ref (async_context->uids) : NULL;
+
 	backend = e_mail_reader_get_backend (async_context->reader);
+	shell = e_shell_backend_get_shell (E_SHELL_BACKEND (backend));
 
-	composer = em_utils_forward_attachment (
-		backend, part, subject, folder, async_context->uids);
-
-	content = camel_medium_get_content (CAMEL_MEDIUM (part));
-	if (CAMEL_IS_MIME_MESSAGE (content)) {
-		e_mail_reader_composer_created (
-			async_context->reader, composer,
-			CAMEL_MIME_MESSAGE (content));
-	} else {
-		/* XXX What to do for the multipart/digest case?
-		 *     Extract the first message from the digest, or
-		 *     change the argument type to CamelMimePart and
-		 *     just pass the whole digest through?
-		 *
-		 *     This signal is primarily serving EMailBrowser,
-		 *     which can only forward one message at a time.
-		 *     So for the moment it doesn't matter, but still
-		 *     something to consider. */
-		e_mail_reader_composer_created (
-			async_context->reader, composer, NULL);
-	}
+	e_msg_composer_new (shell, mail_reader_forward_attached_composer_created_cb, ccd);
 
 	e_activity_set_state (activity, E_ACTIVITY_COMPLETED);
 
-	g_object_unref (part);
-	g_free (subject);
-
 exit:
 	async_context_free (async_context);
+}
+
+static void
+mail_reader_forward_message_composer_created_cb (GObject *source_object,
+						 GAsyncResult *result,
+						 gpointer user_data)
+{
+	CreateComposerData *ccd = user_data;
+	EMsgComposer *composer;
+	GError *error = NULL;
+
+	g_return_if_fail (ccd != NULL);
+
+	composer = e_msg_composer_new_finish (result, &error);
+	if (error) {
+		g_warning ("%s: Failed to create msg composer: %s", G_STRFUNC, error->message);
+		g_clear_error (&error);
+	} else {
+		em_utils_forward_message (
+			composer, ccd->message,
+			ccd->forward_style,
+			ccd->folder, ccd->message_uid);
+
+		e_mail_reader_composer_created (
+			ccd->reader, composer, ccd->message);
+	}
+
+	create_composer_data_free (ccd);
 }
 
 static void
@@ -1929,6 +2043,7 @@ mail_reader_forward_messages_cb (GObject *source_object,
 	EMailBackend *backend;
 	EActivity *activity;
 	EAlertSink *alert_sink;
+	EShell *shell;
 	GHashTable *hash_table;
 	GHashTableIter iter;
 	gpointer key, value;
@@ -1942,6 +2057,7 @@ mail_reader_forward_messages_cb (GObject *source_object,
 	alert_sink = e_activity_get_alert_sink (activity);
 
 	backend = e_mail_reader_get_backend (async_context->reader);
+	shell = e_shell_backend_get_shell (E_SHELL_BACKEND (backend));
 
 	hash_table = e_mail_folder_get_multiple_messages_finish (
 		folder, result, &local_error);
@@ -1969,20 +2085,21 @@ mail_reader_forward_messages_cb (GObject *source_object,
 	g_hash_table_iter_init (&iter, hash_table);
 
 	while (g_hash_table_iter_next (&iter, &key, &value)) {
-		EMsgComposer *composer;
+		CreateComposerData *ccd;
 		CamelMimeMessage *message;
 		const gchar *message_uid;
 
 		message_uid = (const gchar *) key;
 		message = CAMEL_MIME_MESSAGE (value);
 
-		composer = em_utils_forward_message (
-			backend, message,
-			async_context->forward_style,
-			folder, message_uid);
+		ccd = g_new0 (CreateComposerData, 1);
+		ccd->reader = g_object_ref (async_context->reader);
+		ccd->folder = g_object_ref (folder);
+		ccd->message = g_object_ref (message);
+		ccd->message_uid = g_strdup (message_uid);
+		ccd->forward_style = async_context->forward_style;
 
-		e_mail_reader_composer_created (
-			async_context->reader, composer, message);
+		e_msg_composer_new (shell, mail_reader_forward_message_composer_created_cb, ccd);
 	}
 
 	g_hash_table_unref (hash_table);
@@ -2087,6 +2204,41 @@ html_contains_nonwhitespace (const gchar *html,
 }
 
 static void
+mail_reader_reply_composer_created_cb (GObject *object,
+				       GAsyncResult *result,
+				       gpointer user_data)
+{
+	AsyncContext *async_context = user_data;
+	EMsgComposer *composer;
+	GError *error = NULL;
+
+	g_return_if_fail (async_context != NULL);
+
+	composer = e_msg_composer_new_finish (result, &error);
+	if (error) {
+		g_warning ("%s: Failed to create msg composer: %s", G_STRFUNC, error->message);
+		g_clear_error (&error);
+	} else {
+		CamelMimeMessage *message;
+
+		message = e_mail_part_list_get_message (async_context->part_list);
+
+		em_utils_reply_to_message (
+			composer, message,
+			async_context->folder,
+			async_context->message_uid,
+			async_context->reply_type,
+			async_context->reply_style,
+			async_context->part_list,
+			async_context->address);
+
+		e_mail_reader_composer_created (async_context->reader, composer, message);
+	}
+
+	async_context_free (async_context);
+}
+
+static void
 mail_reader_reply_message_parsed (GObject *object,
                                   GAsyncResult *result,
                                   gpointer user_data)
@@ -2094,15 +2246,12 @@ mail_reader_reply_message_parsed (GObject *object,
 	EShell *shell;
 	EMailBackend *backend;
 	EMailReader *reader = E_MAIL_READER (object);
-	EMailPartList *part_list;
-	EMsgComposer *composer;
-	CamelMimeMessage *message;
 	AsyncContext *async_context;
 	GError *local_error = NULL;
 
 	async_context = (AsyncContext *) user_data;
 
-	part_list = e_mail_reader_parse_message_finish (reader, result, &local_error);
+	async_context->part_list = e_mail_reader_parse_message_finish (reader, result, &local_error);
 
 	if (local_error) {
 		g_warn_if_fail (g_error_matches (local_error, G_IO_ERROR, G_IO_ERROR_CANCELLED));
@@ -2113,25 +2262,10 @@ mail_reader_reply_message_parsed (GObject *object,
 		return;
 	}
 
-	message = e_mail_part_list_get_message (part_list);
-
 	backend = e_mail_reader_get_backend (async_context->reader);
 	shell = e_shell_backend_get_shell (E_SHELL_BACKEND (backend));
 
-	composer = em_utils_reply_to_message (
-		shell, message,
-		async_context->folder,
-		async_context->message_uid,
-		async_context->reply_type,
-		async_context->reply_style,
-		part_list,
-		async_context->address);
-
-	e_mail_reader_composer_created (reader, composer, message);
-
-	g_object_unref (part_list);
-
-	async_context_free (async_context);
+	e_msg_composer_new (shell, mail_reader_reply_composer_created_cb, async_context);
 }
 
 static void
@@ -2186,6 +2320,60 @@ mail_reader_get_message_ready_cb (GObject *source_object,
 	g_object_unref (message);
 }
 
+static void
+mail_reader_reply_to_message_composer_created_cb (GObject *source_object,
+						  GAsyncResult *result,
+						  gpointer user_data)
+{
+	CreateComposerData *ccd = user_data;
+	EMsgComposer *composer;
+	GError *error = NULL;
+
+	g_return_if_fail (ccd != NULL);
+
+	composer = e_msg_composer_new_finish (result, &error);
+	if (error) {
+		g_warning ("%s: failed to create msg composer: %s", G_STRFUNC, error->message);
+		g_clear_error (&error);
+	} else {
+		em_utils_reply_to_message (
+			composer, ccd->message, ccd->folder, ccd->message_uid,
+			ccd->reply_type, ccd->reply_style, ccd->part_list, ccd->address);
+
+		if (ccd->validity_pgp_sum != 0 || ccd->validity_smime_sum != 0) {
+			GtkToggleAction *action;
+
+			if ((ccd->validity_pgp_sum & E_MAIL_PART_VALIDITY_PGP) != 0) {
+				if ((ccd->validity_pgp_sum & E_MAIL_PART_VALIDITY_SIGNED) != 0) {
+					action = GTK_TOGGLE_ACTION (E_COMPOSER_ACTION_PGP_SIGN (composer));
+					gtk_toggle_action_set_active (action, TRUE);
+				}
+
+				if ((ccd->validity_pgp_sum & E_MAIL_PART_VALIDITY_ENCRYPTED) != 0) {
+					action = GTK_TOGGLE_ACTION (E_COMPOSER_ACTION_PGP_ENCRYPT (composer));
+					gtk_toggle_action_set_active (action, TRUE);
+				}
+			}
+
+			if ((ccd->validity_smime_sum & E_MAIL_PART_VALIDITY_SMIME) != 0) {
+				if ((ccd->validity_smime_sum & E_MAIL_PART_VALIDITY_SIGNED) != 0) {
+					action = GTK_TOGGLE_ACTION (E_COMPOSER_ACTION_SMIME_SIGN (composer));
+					gtk_toggle_action_set_active (action, TRUE);
+				}
+
+				if ((ccd->validity_smime_sum & E_MAIL_PART_VALIDITY_ENCRYPTED) != 0) {
+					action = GTK_TOGGLE_ACTION (E_COMPOSER_ACTION_SMIME_ENCRYPT (composer));
+					gtk_toggle_action_set_active (action, TRUE);
+				}
+			}
+		}
+
+		e_mail_reader_composer_created (ccd->reader, composer, ccd->message);
+	}
+
+	create_composer_data_free (ccd);
+}
+
 void
 e_mail_reader_reply_to_message (EMailReader *reader,
                                 CamelMimeMessage *src_message,
@@ -2208,7 +2396,7 @@ e_mail_reader_reply_to_message (EMailReader *reader,
 	gint length;
 	gchar *mail_uri;
 	CamelObjectBag *registry;
-	EMsgComposer *composer;
+	CreateComposerData *ccd;
 	EMailPartValidityFlags validity_pgp_sum = 0;
 	EMailPartValidityFlags validity_smime_sum = 0;
 
@@ -2305,7 +2493,7 @@ e_mail_reader_reply_to_message (EMailReader *reader,
 	if (!e_web_view_is_selection_active (web_view))
 		goto whole_message;
 
-	selection = e_web_view_get_selection_html (web_view);
+	selection = e_web_view_get_selection_content_html_sync (web_view, NULL, NULL);
 	if (selection == NULL || *selection == '\0')
 		goto whole_message;
 
@@ -2338,42 +2526,16 @@ e_mail_reader_reply_to_message (EMailReader *reader,
 		CAMEL_MIME_PART (new_message),
 		selection, length, "text/html; charset=utf-8");
 
-	composer = em_utils_reply_to_message (
-		shell, new_message, folder, uid,
-		reply_type, reply_style, NULL, address);
-	if (validity_pgp_sum != 0 || validity_smime_sum != 0) {
-		GtkToggleAction *action;
+	ccd = g_new0 (CreateComposerData, 1);
+	ccd->reader = g_object_ref (reader);
+	ccd->folder = g_object_ref (folder);
+	ccd->message_uid = g_strdup (uid);
+	ccd->message = new_message;
+	ccd->reply_type = reply_type;
+	ccd->reply_style = reply_style;
+	ccd->address = address ? g_object_ref (address) : NULL;
 
-		if ((validity_pgp_sum & E_MAIL_PART_VALIDITY_PGP) != 0) {
-			if ((validity_pgp_sum & E_MAIL_PART_VALIDITY_SIGNED) != 0) {
-				action = GTK_TOGGLE_ACTION (E_COMPOSER_ACTION_PGP_SIGN (composer));
-				gtk_toggle_action_set_active (action, TRUE);
-			}
-
-			if ((validity_pgp_sum & E_MAIL_PART_VALIDITY_ENCRYPTED) != 0) {
-				action = GTK_TOGGLE_ACTION (E_COMPOSER_ACTION_PGP_ENCRYPT (composer));
-				gtk_toggle_action_set_active (action, TRUE);
-			}
-		}
-
-		if ((validity_smime_sum & E_MAIL_PART_VALIDITY_SMIME) != 0) {
-			if ((validity_smime_sum & E_MAIL_PART_VALIDITY_SIGNED) != 0) {
-				action = GTK_TOGGLE_ACTION (E_COMPOSER_ACTION_SMIME_SIGN (composer));
-				gtk_toggle_action_set_active (action, TRUE);
-			}
-
-			if ((validity_smime_sum & E_MAIL_PART_VALIDITY_ENCRYPTED) != 0) {
-				action = GTK_TOGGLE_ACTION (E_COMPOSER_ACTION_SMIME_ENCRYPT (composer));
-				gtk_toggle_action_set_active (action, TRUE);
-			}
-		}
-	}
-
-	e_mail_reader_composer_created (reader, composer, new_message);
-
-	g_object_unref (new_message);
-
-	g_free (selection);
+	e_msg_composer_new (shell, mail_reader_reply_to_message_composer_created_cb, ccd);
 
 	goto exit;
 
@@ -2408,14 +2570,21 @@ whole_message:
 		g_object_unref (activity);
 
 	} else {
-		composer = em_utils_reply_to_message (
-			shell, src_message, folder, uid,
-			reply_type, reply_style, part_list, address);
+		ccd = g_new0 (CreateComposerData, 1);
+		ccd->reader = g_object_ref (reader);
+		ccd->folder = g_object_ref (folder);
+		ccd->message_uid = g_strdup (uid);
+		ccd->message = g_object_ref (src_message);
+		ccd->reply_type = reply_type;
+		ccd->reply_style = reply_style;
+		ccd->part_list = part_list ? g_object_ref (part_list) : NULL;
+		ccd->address = address ? g_object_ref (address) : NULL;
 
-		e_mail_reader_composer_created (reader, composer, src_message);
+		e_msg_composer_new (shell, mail_reader_reply_to_message_composer_created_cb, ccd);
 	}
 
 exit:
+	g_free (selection);
 	g_clear_object (&address);
 	g_clear_object (&folder);
 }

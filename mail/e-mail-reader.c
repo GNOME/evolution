@@ -915,6 +915,43 @@ action_mail_message_edit_cb (GtkAction *action,
 	g_ptr_array_unref (uids);
 }
 
+typedef struct _CreateComposerData {
+	EMailReader *reader;
+	CamelMimeMessage *message;
+	CamelFolder *folder;
+	gboolean is_redirect;
+} CreateComposerData;
+
+static void
+mail_reader_new_composer_created_cb (GObject *source_object,
+				     GAsyncResult *result,
+				     gpointer user_data)
+{
+	CreateComposerData *ccd = user_data;
+	EMsgComposer *composer;
+	GError *error = NULL;
+
+	g_return_if_fail (ccd != NULL);
+
+	composer = e_msg_composer_new_finish (result, &error);
+	if (error) {
+		g_warning ("%s: Failed to create msg composer: %s", G_STRFUNC, error->message);
+		g_clear_error (&error);
+	} else {
+		if (ccd->is_redirect)
+			em_utils_redirect_message (composer, ccd->message);
+		else
+			em_utils_compose_new_message (composer, ccd->folder);
+
+		e_mail_reader_composer_created (ccd->reader, composer, ccd->message);
+	}
+
+	g_clear_object (&ccd->reader);
+	g_clear_object (&ccd->message);
+	g_clear_object (&ccd->folder);
+	g_free (ccd);
+}
+
 static void
 action_mail_message_new_cb (GtkAction *action,
                             EMailReader *reader)
@@ -923,7 +960,7 @@ action_mail_message_new_cb (GtkAction *action,
 	EMailBackend *backend;
 	EShellBackend *shell_backend;
 	CamelFolder *folder;
-	EMsgComposer *composer;
+	CreateComposerData *ccd;
 
 	folder = e_mail_reader_ref_folder (reader);
 	backend = e_mail_reader_get_backend (reader);
@@ -931,11 +968,12 @@ action_mail_message_new_cb (GtkAction *action,
 	shell_backend = E_SHELL_BACKEND (backend);
 	shell = e_shell_backend_get_shell (shell_backend);
 
-	composer = em_utils_compose_new_message (shell, folder);
+	ccd = g_new0 (CreateComposerData, 1);
+	ccd->reader = g_object_ref (reader);
+	ccd->folder = folder;
+	ccd->is_redirect = FALSE;
 
-	e_mail_reader_composer_created (reader, composer, NULL);
-
-	g_clear_object (&folder);
+	e_msg_composer_new (shell, mail_reader_new_composer_created_cb, ccd);
 }
 
 static void
@@ -1140,7 +1178,7 @@ mail_reader_redirect_cb (CamelFolder *folder,
 	EMailBackend *backend;
 	EAlertSink *alert_sink;
 	CamelMimeMessage *message;
-	EMsgComposer *composer;
+	CreateComposerData *ccd;
 	GError *error = NULL;
 
 	alert_sink = e_activity_get_alert_sink (closure->activity);
@@ -1168,11 +1206,12 @@ mail_reader_redirect_cb (CamelFolder *folder,
 	backend = e_mail_reader_get_backend (closure->reader);
 	shell = e_shell_backend_get_shell (E_SHELL_BACKEND (backend));
 
-	composer = em_utils_redirect_message (shell, message);
+	ccd = g_new0 (CreateComposerData, 1);
+	ccd->reader = g_object_ref (closure->reader);
+	ccd->message = message;
+	ccd->is_redirect = TRUE;
 
-	e_mail_reader_composer_created (closure->reader, composer, message);
-
-	g_object_unref (message);
+	e_msg_composer_new (shell, mail_reader_new_composer_created_cb, ccd);
 
 	mail_reader_closure_free (closure);
 }
@@ -2640,33 +2679,22 @@ mail_reader_key_press_event_cb (EMailReader *reader,
 	const gchar *action_name;
 
 	if (!gtk_widget_has_focus (GTK_WIDGET (reader))) {
-		WebKitWebFrame *frame;
-		WebKitDOMDocument *dom;
-		WebKitDOMElement *element;
 		EMailDisplay *display;
-		gchar *name = NULL;
+		GDBusProxy *web_extension;
 
 		display = e_mail_reader_get_mail_display (reader);
-		frame = webkit_web_view_get_focused_frame (WEBKIT_WEB_VIEW (display));
+		web_extension = e_web_view_get_web_extension_proxy (E_WEB_VIEW (display));
+		if (web_extension) {
+			GVariant *result;
 
-		if (frame != NULL) {
-			dom = webkit_web_frame_get_dom_document (frame);
-			element = webkit_dom_html_document_get_active_element (WEBKIT_DOM_HTML_DOCUMENT (dom));
+			result = g_dbus_proxy_get_cached_property (web_extension, "NeedInput");
+			if (result) {
+				gboolean need_input = g_variant_get_boolean (result);
+				g_variant_unref (result);
 
-			if (element != NULL) {
-				name = webkit_dom_node_get_node_name (WEBKIT_DOM_NODE (element));
-				g_object_unref (element);
+				if (need_input)
+					return FALSE;
 			}
-
-			/* If INPUT or TEXTAREA has focus,
-			 * then any key press should go there. */
-			if (name != NULL &&
-			    (g_ascii_strcasecmp (name, "INPUT") == 0 ||
-			     g_ascii_strcasecmp (name, "TEXTAREA") == 0)) {
-				g_free (name);
-				return FALSE;
-			}
-			g_free (name);
 		}
 	}
 
@@ -2849,13 +2877,13 @@ schedule_timeout_mark_seen (EMailReader *reader)
 }
 
 static void
-mail_reader_load_status_changed_cb (EMailReader *reader,
-                                    GParamSpec *pspec,
-                                    EMailDisplay *display)
+mail_reader_load_changed_cb (EMailReader *reader,
+                             WebKitLoadEvent event,
+                             EMailDisplay *display)
 {
 	EMailReaderPrivate *priv;
 
-	if (webkit_web_view_get_load_status (WEBKIT_WEB_VIEW (display)) != WEBKIT_LOAD_FINISHED)
+	if (event != WEBKIT_LOAD_FINISHED)
 		return;
 
 	priv = E_MAIL_READER_GET_PRIVATE (reader);
@@ -4405,9 +4433,9 @@ connect_signals:
 		display, "key-press-event",
 		G_CALLBACK (mail_reader_key_press_event_cb), reader);
 
-	e_signal_connect_notify_swapped (
-		display, "notify::load-status",
-		G_CALLBACK (mail_reader_load_status_changed_cb), reader);
+	g_signal_connect_swapped (
+		display, "load-changed",
+		G_CALLBACK (mail_reader_load_changed_cb), reader);
 
 	g_signal_connect_swapped (
 		message_list, "message-selected",
@@ -5500,36 +5528,26 @@ e_mail_reader_create_remote_content_alert_button (EMailReader *reader)
 }
 
 static void
-e_mail_reader_load_status_notify_cb (WebKitWebFrame *frame,
-				     GParamSpec *param,
+mail_reader_display_load_changed_cb (EMailDisplay *mail_display,
+				     WebKitLoadEvent load_event,
 				     EMailReader *reader)
 {
-	WebKitLoadStatus load_status;
-	EMailDisplay *mail_display;
 	EMailReaderPrivate *priv;
 
-	g_return_if_fail (WEBKIT_IS_WEB_FRAME (frame));
+	g_return_if_fail (E_IS_MAIL_DISPLAY (mail_display));
 	g_return_if_fail (E_IS_MAIL_READER (reader));
 
 	priv = E_MAIL_READER_GET_PRIVATE (reader);
 	g_return_if_fail (priv != NULL);
 
-	load_status = webkit_web_frame_get_load_status (frame);
-	if (load_status == WEBKIT_LOAD_PROVISIONAL) {
-		WebKitWebView *web_view;
-
-		web_view = webkit_web_frame_get_web_view (frame);
-
-		if (priv->remote_content_alert && webkit_web_view_get_main_frame (web_view) == frame)
+	if (load_event == WEBKIT_LOAD_STARTED) {
+		if (priv->remote_content_alert)
 			e_alert_response (priv->remote_content_alert, GTK_RESPONSE_CLOSE);
 		return;
 	}
 
-	if (load_status != WEBKIT_LOAD_FINISHED)
+	if (load_event != WEBKIT_LOAD_FINISHED)
 		return;
-
-	mail_display = e_mail_reader_get_mail_display (reader);
-	g_return_if_fail (E_IS_MAIL_DISPLAY (mail_display));
 
 	if (!e_mail_display_has_skipped_remote_content_sites (mail_display))
 		return;
@@ -5552,18 +5570,6 @@ e_mail_reader_load_status_notify_cb (WebKitWebFrame *frame,
 	}
 }
 
-static void
-mail_reader_display_frame_created_cb (WebKitWebView *web_view,
-				      WebKitWebFrame *frame,
-				      EMailReader *reader)
-{
-	g_return_if_fail (E_IS_MAIL_DISPLAY (web_view));
-	g_return_if_fail (E_IS_MAIL_READER (reader));
-
-	e_signal_connect_notify (frame, "notify::load-status",
-		G_CALLBACK (e_mail_reader_load_status_notify_cb), reader);
-}
-
 /**
  * e_mail_reader_connect_remote_content:
  * @reader: an #EMailReader
@@ -5575,18 +5581,12 @@ void
 e_mail_reader_connect_remote_content (EMailReader *reader)
 {
 	EMailDisplay *mail_display;
-	WebKitWebFrame *frame;
 
 	g_return_if_fail (E_IS_MAIL_READER (reader));
 
 	mail_display = e_mail_reader_get_mail_display (reader);
 	g_return_if_fail (E_IS_MAIL_DISPLAY (mail_display));
 
-	frame = webkit_web_view_get_main_frame (WEBKIT_WEB_VIEW (mail_display));
-
-	e_signal_connect_notify (frame, "notify::load-status",
-		G_CALLBACK (e_mail_reader_load_status_notify_cb), reader);
-
-	g_signal_connect (mail_display, "frame-created",
-		G_CALLBACK (mail_reader_display_frame_created_cb), reader);
+	g_signal_connect (mail_display, "load-changed",
+		G_CALLBACK (mail_reader_display_load_changed_cb), reader);
 }

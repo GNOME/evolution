@@ -34,7 +34,7 @@
 
 #define E_MAIL_FORMATTER_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_MAIL_FORMATTER, EMailFormatterPrivate))\
+	((obj), E_TYPE_MAIL_FORMATTER, EMailFormatterPrivate))
 
 #define STYLESHEET_URI \
 	"evo-file://" EVOLUTION_PRIVDATADIR "/theme/webview.css"
@@ -63,7 +63,6 @@ struct _AsyncContext {
 
 /* internal formatter extensions */
 GType e_mail_formatter_attachment_get_type (void);
-GType e_mail_formatter_attachment_bar_get_type (void);
 GType e_mail_formatter_audio_get_type (void);
 GType e_mail_formatter_error_get_type (void);
 GType e_mail_formatter_headers_get_type (void);
@@ -96,6 +95,7 @@ enum {
 
 enum {
 	NEED_REDRAW,
+	CLAIM_ATTACHMENT,
 	LAST_SIGNAL
 };
 
@@ -451,8 +451,7 @@ mail_formatter_run (EMailFormatter *formatter,
 
 		if (!ok) {
 			/* We don't want to source these */
-			if (e_mail_part_id_has_suffix (part, ".headers") ||
-			    e_mail_part_id_has_suffix (part, "attachment-bar"))
+			if (e_mail_part_id_has_suffix (part, ".headers"))
 				continue;
 
 			e_mail_formatter_format_as (
@@ -560,7 +559,6 @@ e_mail_formatter_base_init (EMailFormatterClass *class)
 
 	/* Register internal extensions. */
 	g_type_ensure (e_mail_formatter_attachment_get_type ());
-	g_type_ensure (e_mail_formatter_attachment_bar_get_type ());
 	g_type_ensure (e_mail_formatter_audio_get_type ());
 	g_type_ensure (e_mail_formatter_error_get_type ());
 	g_type_ensure (e_mail_formatter_headers_get_type ());
@@ -773,6 +771,14 @@ e_mail_formatter_class_init (EMailFormatterClass *class)
 			G_PARAM_READWRITE |
 			G_PARAM_STATIC_STRINGS));
 
+	signals[CLAIM_ATTACHMENT] = g_signal_new (
+		"claim-attachment",
+		E_TYPE_MAIL_FORMATTER,
+		G_SIGNAL_RUN_FIRST,
+		G_STRUCT_OFFSET (EMailFormatterClass, claim_attachment),
+		NULL, NULL, NULL,
+		G_TYPE_NONE, 1, E_TYPE_ATTACHMENT);
+
 	signals[NEED_REDRAW] = g_signal_new (
 		"need-redraw",
 		E_TYPE_MAIL_FORMATTER,
@@ -834,6 +840,16 @@ e_mail_formatter_get_type (void)
 	}
 
 	return type;
+}
+
+void
+e_mail_formatter_claim_attachment (EMailFormatter *formatter,
+				   EAttachment *attachment)
+{
+	g_return_if_fail (E_IS_MAIL_FORMATTER (formatter));
+	g_return_if_fail (E_IS_ATTACHMENT (attachment));
+
+	g_signal_emit (formatter, signals[CLAIM_ATTACHMENT], 0, attachment);
 }
 
 void
@@ -1117,7 +1133,6 @@ e_mail_formatter_format_text (EMailFormatter *formatter,
 	g_output_stream_flush (stream, cancellable, NULL);
 
 	g_object_unref (stream);
-
 	g_clear_object (&windows);
 	g_clear_object (&mime_part);
 }
@@ -1131,9 +1146,9 @@ e_mail_formatter_get_sub_html_header (EMailFormatter *formatter)
 		"<meta name=\"generator\" content=\"Evolution Mail\"/>\n"
 		"<title>Evolution Mail Display</title>\n"
 		"<link type=\"text/css\" rel=\"stylesheet\" "
-		"      href=\"" STYLESHEET_URI "\"/>\n"
+		" href=\"" STYLESHEET_URI "\"/>\n"
 		"<style type=\"text/css\">\n"
-		"  table th { font-weight: bold; }\n"
+		" table th { font-weight: bold; }\n"
 		"</style>\n"
 		"</head>"
 		"<body class=\"-e-web-view-background-color -e-web-view-text-color\">";
@@ -1149,9 +1164,9 @@ e_mail_formatter_get_html_header (EMailFormatter *formatter)
 		"<meta name=\"generator\" content=\"Evolution Mail\"/>\n"
 		"<title>Evolution Mail Display</title>\n"
 		"<link type=\"text/css\" rel=\"stylesheet\" "
-		"      href=\"" STYLESHEET_URI "\"/>\n"
+		" href=\"" STYLESHEET_URI "\"/>\n"
 		"<style type=\"text/css\">\n"
-		"  table th { font-weight: bold; }\n"
+		" table th { font-weight: bold; }\n"
 		"</style>\n"
 		"</head>"
 		"<body class=\"-e-mail-formatter-body-color "

@@ -32,7 +32,6 @@
 #include <e-util/e-alert-sink.h>
 #include <e-util/e-alert.h>
 #include <e-util/e-attachment-bar.h>
-#include <e-util/e-attachment-button.h>
 #include <e-util/e-attachment-dialog.h>
 #include <e-util/e-attachment-handler-image.h>
 #include <e-util/e-attachment-handler.h>
@@ -86,6 +85,8 @@
 #include <e-util/e-config.h>
 #include <e-util/e-conflict-search-selector.h>
 #include <e-util/e-contact-store.h>
+#include <e-util/e-content-editor.h>
+#include <e-util/e-content-request.h>
 #include <e-util/e-data-capture.h>
 #include <e-util/e-dateedit.h>
 #include <e-util/e-datetime-format.h>
@@ -111,6 +112,7 @@
 #include <e-util/e-filter-part.h>
 #include <e-util/e-filter-rule.h>
 #include <e-util/e-focus-tracker.h>
+#ifndef E_UTIL_INCLUDE_WITHOUT_WEBKIT
 #include <e-util/e-html-editor-actions.h>
 #include <e-util/e-html-editor-cell-dialog.h>
 #include <e-util/e-html-editor-dialog.h>
@@ -121,13 +123,11 @@
 #include <e-util/e-html-editor-page-dialog.h>
 #include <e-util/e-html-editor-paragraph-dialog.h>
 #include <e-util/e-html-editor-replace-dialog.h>
-#include <e-util/e-html-editor-selection.h>
 #include <e-util/e-html-editor-spell-check-dialog.h>
 #include <e-util/e-html-editor-table-dialog.h>
 #include <e-util/e-html-editor-text-dialog.h>
-#include <e-util/e-html-editor-utils.h>
-#include <e-util/e-html-editor-view.h>
 #include <e-util/e-html-editor.h>
+#endif
 #include <e-util/e-html-utils.h>
 #include <e-util/e-icon-factory.h>
 #include <e-util/e-image-chooser.h>
@@ -137,9 +137,11 @@
 #include <e-util/e-interval-chooser.h>
 #include <e-util/e-mail-identity-combo-box.h>
 #include <e-util/e-mail-signature-combo-box.h>
+#ifndef E_UTIL_INCLUDE_WITHOUT_WEBKIT
 #include <e-util/e-mail-signature-editor.h>
 #include <e-util/e-mail-signature-manager.h>
 #include <e-util/e-mail-signature-preview.h>
+#endif
 #include <e-util/e-mail-signature-script-dialog.h>
 #include <e-util/e-mail-signature-tree-view.h>
 #include <e-util/e-map.h>
@@ -165,7 +167,9 @@
 #include <e-util/e-popup-menu.h>
 #include <e-util/e-port-entry.h>
 #include <e-util/e-preferences-window.h>
+#ifndef E_UTIL_INCLUDE_WITHOUT_WEBKIT
 #include <e-util/e-preview-pane.h>
+#endif
 #include <e-util/e-print.h>
 #include <e-util/e-printable.h>
 #include <e-util/e-proxy-combo-box.h>
@@ -177,13 +181,16 @@
 #include <e-util/e-reflow.h>
 #include <e-util/e-rule-context.h>
 #include <e-util/e-rule-editor.h>
+#ifndef E_UTIL_INCLUDE_WITHOUT_WEBKIT
 #include <e-util/e-search-bar.h>
+#endif
 #include <e-util/e-selectable.h>
 #include <e-util/e-selection-model-array.h>
 #include <e-util/e-selection-model-simple.h>
 #include <e-util/e-selection-model.h>
 #include <e-util/e-selection.h>
 #include <e-util/e-send-options.h>
+#include <e-util/e-simple-async-result.h>
 #include <e-util/e-sorter-array.h>
 #include <e-util/e-sorter.h>
 #include <e-util/e-source-combo-box.h>
@@ -194,6 +201,8 @@
 #include <e-util/e-source-selector-dialog.h>
 #include <e-util/e-source-selector.h>
 #include <e-util/e-source-util.h>
+#include <e-util/e-spell-checker.h>
+#include <e-util/e-spell-dictionary.h>
 #include <e-util/e-spell-entry.h>
 #include <e-util/e-spell-text-view.h>
 #include <e-util/e-spinner.h>
@@ -248,8 +257,10 @@
 #include <e-util/e-url-entry.h>
 #include <e-util/e-util-enums.h>
 #include <e-util/e-util-enumtypes.h>
+#ifndef E_UTIL_INCLUDE_WITHOUT_WEBKIT
 #include <e-util/e-web-view-preview.h>
 #include <e-util/e-web-view.h>
+#endif
 #include <e-util/e-widget-undo.h>
 #include <e-util/e-xml-utils.h>
 #include <e-util/ea-cell-table.h>

@@ -50,7 +50,7 @@ m4_define([gcr_minimum_version], [3.4])
 m4_define([enchant_minimum_version], [1.1.7])
 m4_define([gnome_desktop_minimum_version], [2.91.3])
 m4_define([gsettings_desktop_schemas_minimum_version], [2.91.92])
-m4_define([webkitgtk_minimum_version], [2.2.0])
+m4_define([webkit2gtk_minimum_version], [2.13.0])
 m4_define([libxml_minimum_version], [2.7.3])
 m4_define([shared_mime_info_minimum_version], [0.22])
 m4_define([libpst_minimum_version], [0.6.54])
@@ -287,7 +287,7 @@ PKG_CHECK_MODULES([GNOME_PLATFORM],
 	 libxml-2.0 >= libxml_minimum_version
 	 shared-mime-info >= shared_mime_info_minimum_version
 	 gsettings-desktop-schemas >= gsettings_desktop_schemas_minimum_version
-	 webkitgtk-3.0 >= webkitgtk_minimum_version
+	 webkit2gtk-4.0 >= webkitgtk_minimum_version
 	 $GIO_UNIX_REQUIREMENT])
 
 GNOME_DESKTOP_DEPENDENCY=""
@@ -1269,6 +1269,18 @@ AC_SUBST(viewsdir)
 dnl For evolution-alarm-notify.desktop
 AS_AC_EXPAND(PRIVLIBEXECDIR, "$privlibexecdir")
 
+dnl **********************************
+dnl WebKit2 Web Extensions
+dnl **********************************
+webextensionsdir="$privlibdir/web-extensions"
+webextensionswebkiteditordir="$privlibdir/web-extensions/webkit-editor"
+AC_SUBST(webextensionsdir)
+AC_SUBST(webextensionswebkiteditordir)
+
+PKG_CHECK_MODULES(WEB_EXTENSION, [webkit2gtk-4.0 >= webkit2gtk_minimum_version])
+AC_SUBST(WEB_EXTENSIONS_CFLAGS)
+AC_SUBST(WEB_EXTENSIONS_LIBS)
+
 dnl ************************
 dnl Plugins
 dnl ************************
@@ -1592,6 +1604,7 @@ modules/composer-autosave/Makefile
 modules/contact-photos/Makefile
 modules/gravatar/Makefile
 modules/itip-formatter/Makefile
+modules/itip-formatter/web-extension/Makefile
 modules/mail-config/Makefile
 modules/mail/Makefile
 modules/mailto-handler/Makefile
@@ -1607,7 +1620,9 @@ modules/startup-wizard/Makefile
 modules/text-highlight/Makefile
 modules/tnef-attachment/Makefile
 modules/vcard-inline/Makefile
-modules/web-inspector/Makefile
+modules/webkit-editor/Makefile
+modules/webkit-editor/web-extension/Makefile
+modules/webkit-inspector/Makefile
 plugins/Makefile
 plugins/attachment-reminder/Makefile
 plugins/bbdb/Makefile
@@ -1622,6 +1637,7 @@ plugins/pst-import/Makefile
 plugins/publish-calendar/Makefile
 plugins/save-calendar/Makefile
 plugins/templates/Makefile
+web-extensions/Makefile
 smime/Makefile
 smime/lib/Makefile
 smime/gui/Makefile

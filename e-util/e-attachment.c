@@ -35,7 +35,6 @@
 
 #include <libedataserver/libedataserver.h>
 
-#include "e-attachment-store.h"
 #include "e-icon-factory.h"
 #include "e-mktemp.h"
 #include "e-misc-utils.h"
@@ -77,20 +76,13 @@ struct _EAttachmentPrivate {
 	guint can_show : 1;
 	guint loading : 1;
 	guint saving : 1;
-	guint shown : 1;
-	guint zoom_to_window : 1;
+	guint initially_shown : 1;
 
 	guint save_self      : 1;
 	guint save_extracted : 1;
 
 	CamelCipherValidityEncrypt encrypted;
 	CamelCipherValiditySign signed_;
-
-	/* This is a reference to our row in an EAttachmentStore,
-	 * serving as a means of broadcasting "row-changed" signals.
-	 * If we are removed from the store, we lazily free the
-	 * reference when it is found to be to be invalid. */
-	GtkTreeRowReference *reference;
 
 	/* These are IDs for idle callbacks,
 	 * protected by the idle_lock mutex. */
@@ -111,14 +103,22 @@ enum {
 	PROP_LOADING,
 	PROP_MIME_PART,
 	PROP_PERCENT,
-	PROP_REFERENCE,
 	PROP_SAVE_SELF,
 	PROP_SAVE_EXTRACTED,
 	PROP_SAVING,
-	PROP_SHOWN,
-	PROP_SIGNED,
-	PROP_ZOOM_TO_WINDOW
+	PROP_INITIALLY_SHOWN,
+	PROP_SIGNED
 };
+
+enum {
+	LOAD_FAILED,
+	UPDATE_FILE_INFO,
+	UPDATE_ICON,
+	UPDATE_PROGRESS,
+	LAST_SIGNAL
+};
+
+static guint signals[LAST_SIGNAL];
 
 G_DEFINE_TYPE (
 	EAttachment,
@@ -250,10 +250,6 @@ static gboolean
 attachment_update_file_info_columns_idle_cb (gpointer weak_ref)
 {
 	EAttachment *attachment;
-	GtkTreeRowReference *reference;
-	GtkTreeModel *model;
-	GtkTreePath *path;
-	GtkTreeIter iter;
 	GFileInfo *file_info;
 	const gchar *content_type;
 	const gchar *display_name;
@@ -271,18 +267,9 @@ attachment_update_file_info_columns_idle_cb (gpointer weak_ref)
 	attachment->priv->update_file_info_columns_idle_id = 0;
 	g_mutex_unlock (&attachment->priv->idle_lock);
 
-	reference = e_attachment_get_reference (attachment);
-	if (!gtk_tree_row_reference_valid (reference))
-		goto exit;
-
 	file_info = e_attachment_ref_file_info (attachment);
 	if (file_info == NULL)
 		goto exit;
-
-	model = gtk_tree_row_reference_get_model (reference);
-	path = gtk_tree_row_reference_get_path (reference);
-	gtk_tree_model_get_iter (model, &iter, path);
-	gtk_tree_path_free (path);
 
 	content_type = g_file_info_get_content_type (file_info);
 	display_name = g_file_info_get_display_name (file_info);
@@ -298,18 +285,11 @@ attachment_update_file_info_columns_idle_cb (gpointer weak_ref)
 	}
 
 	if (size > 0)
-		caption = g_strdup_printf (
-			"%s\n(%s)", description, display_size);
+		caption = g_strdup_printf ("%s\n(%s)", description, display_size);
 	else
 		caption = g_strdup (description);
 
-	gtk_list_store_set (
-		GTK_LIST_STORE (model), &iter,
-		E_ATTACHMENT_STORE_COLUMN_CAPTION, caption,
-		E_ATTACHMENT_STORE_COLUMN_CONTENT_TYPE, content_desc,
-		E_ATTACHMENT_STORE_COLUMN_DESCRIPTION, description,
-		E_ATTACHMENT_STORE_COLUMN_SIZE, size,
-		-1);
+	g_signal_emit (attachment, signals[UPDATE_FILE_INFO], 0, caption, content_desc, description, (gint64) size);
 
 	g_free (content_desc);
 	g_free (display_size);
@@ -347,10 +327,6 @@ static gboolean
 attachment_update_icon_column_idle_cb (gpointer weak_ref)
 {
 	EAttachment *attachment;
-	GtkTreeRowReference *reference;
-	GtkTreeModel *model;
-	GtkTreePath *path;
-	GtkTreeIter iter;
 	GFileInfo *file_info;
 	GCancellable *cancellable;
 	GIcon *icon = NULL;
@@ -364,15 +340,6 @@ attachment_update_icon_column_idle_cb (gpointer weak_ref)
 	g_mutex_lock (&attachment->priv->idle_lock);
 	attachment->priv->update_icon_column_idle_id = 0;
 	g_mutex_unlock (&attachment->priv->idle_lock);
-
-	reference = e_attachment_get_reference (attachment);
-	if (!gtk_tree_row_reference_valid (reference))
-		goto exit;
-
-	model = gtk_tree_row_reference_get_model (reference);
-	path = gtk_tree_row_reference_get_path (reference);
-	gtk_tree_model_get_iter (model, &iter, path);
-	gtk_tree_path_free (path);
 
 	cancellable = attachment->priv->cancellable;
 	file_info = e_attachment_ref_file_info (attachment);
@@ -475,10 +442,7 @@ attachment_update_icon_column_idle_cb (gpointer weak_ref)
 		icon = emblemed_icon;
 	}
 
-	gtk_list_store_set (
-		GTK_LIST_STORE (model), &iter,
-		E_ATTACHMENT_STORE_COLUMN_ICON, icon,
-		-1);
+	g_signal_emit (attachment, signals[UPDATE_ICON], 0, icon);
 
 	/* Cache the icon to reuse for things like drag-n-drop. */
 	if (attachment->priv->icon != NULL)
@@ -517,10 +481,6 @@ static gboolean
 attachment_update_progress_columns_idle_cb (gpointer weak_ref)
 {
 	EAttachment *attachment;
-	GtkTreeRowReference *reference;
-	GtkTreeModel *model;
-	GtkTreePath *path;
-	GtkTreeIter iter;
 	gboolean loading;
 	gboolean saving;
 	gint percent;
@@ -533,26 +493,12 @@ attachment_update_progress_columns_idle_cb (gpointer weak_ref)
 	attachment->priv->update_progress_columns_idle_id = 0;
 	g_mutex_unlock (&attachment->priv->idle_lock);
 
-	reference = e_attachment_get_reference (attachment);
-	if (!gtk_tree_row_reference_valid (reference))
-		goto exit;
-
-	model = gtk_tree_row_reference_get_model (reference);
-	path = gtk_tree_row_reference_get_path (reference);
-	gtk_tree_model_get_iter (model, &iter, path);
-	gtk_tree_path_free (path);
-
 	/* Don't show progress bars until we have progress to report. */
 	percent = e_attachment_get_percent (attachment);
 	loading = e_attachment_get_loading (attachment) && (percent > 0);
 	saving = e_attachment_get_saving (attachment) && (percent > 0);
 
-	gtk_list_store_set (
-		GTK_LIST_STORE (model), &iter,
-		E_ATTACHMENT_STORE_COLUMN_LOADING, loading,
-		E_ATTACHMENT_STORE_COLUMN_PERCENT, percent,
-		E_ATTACHMENT_STORE_COLUMN_SAVING, saving,
-		-1);
+	g_signal_emit (attachment, signals[UPDATE_PROGRESS], 0, loading, saving, percent);
 
 exit:
 	g_clear_object (&attachment);
@@ -583,10 +529,6 @@ static void
 attachment_set_loading (EAttachment *attachment,
                         gboolean loading)
 {
-	GtkTreeRowReference *reference;
-
-	reference = e_attachment_get_reference (attachment);
-
 	attachment->priv->percent = 0;
 	attachment->priv->loading = loading;
 	attachment->priv->last_percent_notify = 0;
@@ -595,12 +537,6 @@ attachment_set_loading (EAttachment *attachment,
 	g_object_notify (G_OBJECT (attachment), "percent");
 	g_object_notify (G_OBJECT (attachment), "loading");
 	g_object_thaw_notify (G_OBJECT (attachment));
-
-	if (gtk_tree_row_reference_valid (reference)) {
-		GtkTreeModel *model;
-		model = gtk_tree_row_reference_get_model (reference);
-		g_object_notify (G_OBJECT (model), "num-loading");
-	}
 }
 
 static void
@@ -696,8 +632,8 @@ attachment_set_property (GObject *object,
 				g_value_get_object (value));
 			return;
 
-		case PROP_SHOWN:
-			e_attachment_set_shown (
+		case PROP_INITIALLY_SHOWN:
+			e_attachment_set_initially_shown (
 				E_ATTACHMENT (object),
 				g_value_get_boolean (value));
 			return;
@@ -706,12 +642,6 @@ attachment_set_property (GObject *object,
 			e_attachment_set_mime_part (
 				E_ATTACHMENT (object),
 				g_value_get_object (value));
-			return;
-
-		case PROP_REFERENCE:
-			e_attachment_set_reference (
-				E_ATTACHMENT (object),
-				g_value_get_boxed (value));
 			return;
 
 		case PROP_SIGNED:
@@ -728,12 +658,6 @@ attachment_set_property (GObject *object,
 
 		case PROP_SAVE_EXTRACTED:
 			e_attachment_set_save_extracted (
-				E_ATTACHMENT (object),
-				g_value_get_boolean (value));
-			return;
-
-		case PROP_ZOOM_TO_WINDOW:
-			e_attachment_set_zoom_to_window (
 				E_ATTACHMENT (object),
 				g_value_get_boolean (value));
 			return;
@@ -791,10 +715,10 @@ attachment_get_property (GObject *object,
 				E_ATTACHMENT (object)));
 			return;
 
-		case PROP_SHOWN:
+		case PROP_INITIALLY_SHOWN:
 			g_value_set_boolean (
 				value,
-				e_attachment_get_shown (
+				e_attachment_get_initially_shown (
 				E_ATTACHMENT (object)));
 			return;
 
@@ -816,13 +740,6 @@ attachment_get_property (GObject *object,
 			g_value_set_int (
 				value,
 				e_attachment_get_percent (
-				E_ATTACHMENT (object)));
-			return;
-
-		case PROP_REFERENCE:
-			g_value_set_boxed (
-				value,
-				e_attachment_get_reference (
 				E_ATTACHMENT (object)));
 			return;
 
@@ -853,13 +770,6 @@ attachment_get_property (GObject *object,
 				e_attachment_get_signed (
 				E_ATTACHMENT (object)));
 			return;
-
-		case PROP_ZOOM_TO_WINDOW:
-			g_value_set_boolean (
-				value,
-				e_attachment_get_zoom_to_window (
-				E_ATTACHMENT (object)));
-			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -882,10 +792,6 @@ attachment_dispose (GObject *object)
 		g_source_remove (priv->emblem_timeout_id);
 		priv->emblem_timeout_id = 0;
 	}
-
-	/* This accepts NULL arguments. */
-	gtk_tree_row_reference_free (priv->reference);
-	priv->reference = NULL;
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_attachment_parent_class)->dispose (object);
@@ -1030,16 +936,6 @@ e_attachment_class_init (EAttachmentClass *class)
 
 	g_object_class_install_property (
 		object_class,
-		PROP_REFERENCE,
-		g_param_spec_boxed (
-			"reference",
-			"Reference",
-			NULL,
-			GTK_TYPE_TREE_ROW_REFERENCE,
-			G_PARAM_READWRITE));
-
-	g_object_class_install_property (
-		object_class,
 		PROP_SAVE_SELF,
 		g_param_spec_boolean (
 			"save-self",
@@ -1070,10 +966,10 @@ e_attachment_class_init (EAttachmentClass *class)
 
 	g_object_class_install_property (
 		object_class,
-		PROP_SHOWN,
+		PROP_INITIALLY_SHOWN,
 		g_param_spec_boolean (
-			"shown",
-			"Shown",
+			"initially-shown",
+			"Initially Shown",
 			NULL,
 			FALSE,
 			G_PARAM_READWRITE |
@@ -1093,16 +989,46 @@ e_attachment_class_init (EAttachmentClass *class)
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT));
 
-	g_object_class_install_property (
-		object_class,
-		PROP_ZOOM_TO_WINDOW,
-		g_param_spec_boolean (
-			"zoom-to-window",
-			"Zoom to window",
-			NULL,
-			TRUE,
-			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT));
+	signals[UPDATE_FILE_INFO] = g_signal_new (
+		"update-file-info",
+		G_TYPE_FROM_CLASS (class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (EAttachmentClass, update_file_info),
+		NULL, NULL, NULL,
+		G_TYPE_NONE, 4,
+		G_TYPE_STRING,
+		G_TYPE_STRING,
+		G_TYPE_STRING,
+		G_TYPE_INT64);
+
+	signals[UPDATE_ICON] = g_signal_new (
+		"update-icon",
+		G_TYPE_FROM_CLASS (class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (EAttachmentClass, update_icon),
+		NULL, NULL, NULL,
+		G_TYPE_NONE, 1,
+		G_TYPE_ICON);
+
+	signals[UPDATE_PROGRESS] = g_signal_new (
+		"update-progress",
+		G_TYPE_FROM_CLASS (class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (EAttachmentClass, update_progress),
+		NULL, NULL, NULL,
+		G_TYPE_NONE, 3,
+		G_TYPE_BOOLEAN,
+		G_TYPE_BOOLEAN,
+		G_TYPE_INT);
+
+	signals[LOAD_FAILED] = g_signal_new (
+		"load-failed",
+		G_TYPE_FROM_CLASS (class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (EAttachmentClass, load_failed),
+		NULL, NULL, NULL,
+		G_TYPE_NONE, 0,
+		G_TYPE_NONE);
 }
 
 static void
@@ -1138,18 +1064,6 @@ e_attachment_init (EAttachment *attachment)
 
 	e_signal_connect_notify (
 		attachment, "notify::percent",
-		G_CALLBACK (attachment_update_progress_columns), NULL);
-
-	g_signal_connect (
-		attachment, "notify::reference",
-		G_CALLBACK (attachment_update_file_info_columns), NULL);
-
-	g_signal_connect (
-		attachment, "notify::reference",
-		G_CALLBACK (attachment_update_icon_column), NULL);
-
-	g_signal_connect (
-		attachment, "notify::reference",
 		G_CALLBACK (attachment_update_progress_columns), NULL);
 
 	e_signal_connect_notify (
@@ -1476,7 +1390,6 @@ void
 e_attachment_set_file_info (EAttachment *attachment,
                             GFileInfo *file_info)
 {
-	GtkTreeRowReference *reference;
 	GIcon *icon;
 
 	g_return_if_fail (E_IS_ATTACHMENT (attachment));
@@ -1501,14 +1414,6 @@ e_attachment_set_file_info (EAttachment *attachment,
 	g_mutex_unlock (&attachment->priv->property_lock);
 
 	g_object_notify (G_OBJECT (attachment), "file-info");
-
-	/* Tell the EAttachmentStore its total size changed. */
-	reference = e_attachment_get_reference (attachment);
-	if (gtk_tree_row_reference_valid (reference)) {
-		GtkTreeModel *model;
-		model = gtk_tree_row_reference_get_model (reference);
-		g_object_notify (G_OBJECT (model), "total-size");
-	}
 }
 
 /**
@@ -1616,29 +1521,6 @@ e_attachment_get_percent (EAttachment *attachment)
 	return attachment->priv->percent;
 }
 
-GtkTreeRowReference *
-e_attachment_get_reference (EAttachment *attachment)
-{
-	g_return_val_if_fail (E_IS_ATTACHMENT (attachment), NULL);
-
-	return attachment->priv->reference;
-}
-
-void
-e_attachment_set_reference (EAttachment *attachment,
-                            GtkTreeRowReference *reference)
-{
-	g_return_if_fail (E_IS_ATTACHMENT (attachment));
-
-	if (reference != NULL)
-		reference = gtk_tree_row_reference_copy (reference);
-
-	gtk_tree_row_reference_free (attachment->priv->reference);
-	attachment->priv->reference = reference;
-
-	g_object_notify (G_OBJECT (attachment), "reference");
-}
-
 gboolean
 e_attachment_get_saving (EAttachment *attachment)
 {
@@ -1648,44 +1530,22 @@ e_attachment_get_saving (EAttachment *attachment)
 }
 
 gboolean
-e_attachment_get_shown (EAttachment *attachment)
+e_attachment_get_initially_shown (EAttachment *attachment)
 {
 	g_return_val_if_fail (E_IS_ATTACHMENT (attachment), FALSE);
 
-	return attachment->priv->shown;
+	return attachment->priv->initially_shown;
 }
 
 void
-e_attachment_set_shown (EAttachment *attachment,
-                        gboolean shown)
+e_attachment_set_initially_shown (EAttachment *attachment,
+				  gboolean initially_shown)
 {
 	g_return_if_fail (E_IS_ATTACHMENT (attachment));
 
-	attachment->priv->shown = shown;
+	attachment->priv->initially_shown = initially_shown;
 
-	g_object_notify (G_OBJECT (attachment), "shown");
-}
-
-gboolean
-e_attachment_get_zoom_to_window (EAttachment *attachment)
-{
-	g_return_val_if_fail (E_IS_ATTACHMENT (attachment), FALSE);
-
-	return attachment->priv->zoom_to_window;
-}
-
-void
-e_attachment_set_zoom_to_window (EAttachment *attachment,
-				 gboolean zoom_to_window)
-{
-	g_return_if_fail (E_IS_ATTACHMENT (attachment));
-
-	if ((attachment->priv->zoom_to_window ? 1 : 0) == (zoom_to_window ? 1 : 0))
-		return;
-
-	attachment->priv->zoom_to_window = zoom_to_window;
-
-	g_object_notify (G_OBJECT (attachment), "zoom-to-window");
+	g_object_notify (G_OBJECT (attachment), "initially-shown");
 }
 
 gboolean
@@ -1866,6 +1726,16 @@ exit:
 	g_clear_object (&file_info);
 
 	return app_info_list;
+}
+
+void
+e_attachment_update_store_columns (EAttachment *attachment)
+{
+	g_return_if_fail (E_IS_ATTACHMENT (attachment));
+
+	attachment_update_file_info_columns (attachment);
+	attachment_update_icon_column (attachment);
+	attachment_update_progress_columns (attachment);
 }
 
 /************************* e_attachment_load_async() *************************/
@@ -2500,7 +2370,6 @@ e_attachment_load_handle_error (EAttachment *attachment,
 {
 	GtkWidget *dialog;
 	GFileInfo *file_info;
-	GtkTreeRowReference *reference;
 	const gchar *display_name;
 	const gchar *primary_text;
 	GError *error = NULL;
@@ -2512,17 +2381,7 @@ e_attachment_load_handle_error (EAttachment *attachment,
 	if (e_attachment_load_finish (attachment, result, &error))
 		return;
 
-	/* XXX Calling EAttachmentStore functions from here violates
-	 *     the abstraction, but for now it's not hurting anything. */
-	reference = e_attachment_get_reference (attachment);
-	if (gtk_tree_row_reference_valid (reference)) {
-		GtkTreeModel *model;
-
-		model = gtk_tree_row_reference_get_model (reference);
-
-		e_attachment_store_remove_attachment (
-			E_ATTACHMENT_STORE (model), attachment);
-	}
+	g_signal_emit (attachment, signals[LOAD_FAILED], 0, NULL);
 
 	/* Ignore cancellations. */
 	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {

@@ -64,14 +64,14 @@ static void
 composer_update_gallery_visibility (EMsgComposer *composer)
 {
 	EHTMLEditor *editor;
-	EHTMLEditorView *view;
+	EContentEditor *cnt_editor;
 	GtkToggleAction *toggle_action;
 	gboolean gallery_active;
 	gboolean is_html;
 
 	editor = e_msg_composer_get_editor (composer);
-	view = e_html_editor_get_view (editor);
-	is_html = e_html_editor_view_get_html_mode (view);
+	cnt_editor = e_html_editor_get_content_editor (editor);
+	is_html = e_content_editor_get_html_mode (cnt_editor);
 
 	toggle_action = GTK_TOGGLE_ACTION (ACTION (PICTURE_GALLERY));
 	gallery_active = gtk_toggle_action_get_active (toggle_action);
@@ -94,7 +94,7 @@ e_composer_private_constructed (EMsgComposer *composer)
 	EShell *shell;
 	EClientCache *client_cache;
 	EHTMLEditor *editor;
-	EHTMLEditorView *view;
+	EContentEditor *cnt_editor;
 	GtkUIManager *ui_manager;
 	GtkAction *action;
 	GtkWidget *container;
@@ -109,7 +109,7 @@ e_composer_private_constructed (EMsgComposer *composer)
 
 	editor = e_msg_composer_get_editor (composer);
 	ui_manager = e_html_editor_get_ui_manager (editor);
-	view = e_html_editor_get_view (editor);
+	cnt_editor = e_html_editor_get_content_editor (editor);
 
 	settings = e_util_ref_settings ("org.gnome.evolution.mail");
 
@@ -136,10 +136,9 @@ e_composer_private_constructed (EMsgComposer *composer)
 	priv->saved_editable = FALSE;
 	priv->drop_occured = FALSE;
 	priv->dnd_is_uri = FALSE;
+	priv->dnd_history_saved = FALSE;
 	priv->check_if_signature_is_changed = FALSE;
 	priv->ignore_next_signature_change = FALSE;
-	priv->dnd_history_saved = FALSE;
-	priv->ignore_next_paste_clipboard_signals_emission = FALSE;
 
 	priv->focused_entry = NULL;
 
@@ -214,7 +213,7 @@ e_composer_private_constructed (EMsgComposer *composer)
 		E_COMPOSER_HEADER_TABLE (widget),
 		E_COMPOSER_HEADER_SUBJECT);
 	e_binding_bind_property (
-		view, "spell-checker",
+		cnt_editor, "spell-checker",
 		header->input_widget, "spell-checker",
 		G_BINDING_SYNC_CREATE);
 
@@ -233,7 +232,7 @@ e_composer_private_constructed (EMsgComposer *composer)
 	gtk_widget_show (widget);
 
 	e_binding_bind_property (
-		view, "editable",
+		cnt_editor, "editable",
 		widget, "sensitive",
 		G_BINDING_SYNC_CREATE);
 
@@ -255,11 +254,12 @@ e_composer_private_constructed (EMsgComposer *composer)
 	priv->gallery_scrolled_window = g_object_ref (widget);
 	gtk_widget_show (widget);
 
-	/* Reparent the scrolled window containing the web view
-	 * widget into the content area of the top attachment pane. */
-
-	widget = GTK_WIDGET (view);
-	widget = gtk_widget_get_parent (widget);
+	widget = GTK_WIDGET (cnt_editor);
+	if (GTK_IS_SCROLLABLE (cnt_editor)) {
+		/* Scrollables are packed in a scrolled window */
+		widget = gtk_widget_get_parent (widget);
+		g_warn_if_fail (GTK_IS_SCROLLED_WINDOW (widget));
+	}
 	gtk_widget_reparent (widget, container);
 
 	/* Construct the picture gallery. */
@@ -275,7 +275,7 @@ e_composer_private_constructed (EMsgComposer *composer)
 	g_free (gallery_path);
 
 	e_signal_connect_notify_swapped (
-		view, "notify::html-mode",
+		cnt_editor, "notify::html-mode",
 		G_CALLBACK (composer_update_gallery_visibility), composer);
 
 	g_signal_connect_swapped (
@@ -290,7 +290,6 @@ e_composer_private_constructed (EMsgComposer *composer)
 	for (ii = 0; ii < E_COMPOSER_NUM_HEADERS; ii++) {
 		EComposerHeaderTable *table;
 		EComposerHeader *header;
-		GtkAction *action;
 
 		table = E_COMPOSER_HEADER_TABLE (priv->header_table);
 		header = e_composer_header_table_get_header (table, ii);
@@ -520,6 +519,7 @@ e_composer_paste_image (EMsgComposer *composer,
 		e_attachment_load_handle_error, composer);
 	g_object_unref (attachment);
 
+
 	g_free (uri);
 
 	return TRUE;
@@ -670,7 +670,7 @@ composer_load_signature_cb (EMailSignatureComboBox *combo_box,
 	gboolean is_html;
 	GError *error = NULL;
 	EHTMLEditor *editor;
-	EHTMLEditorView *view;
+	EContentEditor *cnt_editor;
 
 	e_mail_signature_combo_box_load_selected_finish (
 		combo_box, result, &contents, &length, &is_html, &error);
@@ -690,10 +690,10 @@ composer_load_signature_cb (EMailSignatureComboBox *combo_box,
 	}
 
 	editor = e_msg_composer_get_editor (composer);
-	view = e_html_editor_get_view (editor);
+	cnt_editor = e_html_editor_get_content_editor (editor);
 
-	new_signature_id = e_html_editor_view_insert_signature (
-		view,
+	new_signature_id = e_content_editor_insert_signature (
+		cnt_editor,
 		contents,
 		is_html,
 		gtk_combo_box_get_active_id (GTK_COMBO_BOX (combo_box)),
@@ -710,13 +710,11 @@ composer_load_signature_cb (EMailSignatureComboBox *combo_box,
 }
 
 static void
-html_editor_view_is_ready_cb (EHTMLEditorView *view,
-                              EMsgComposer *composer)
+content_editor_load_finished_cb (EContentEditor *cnt_editor,
+                                 EMsgComposer *composer)
 {
 	g_signal_handlers_disconnect_by_func (
-		view,
-		G_CALLBACK (html_editor_view_is_ready_cb),
-		composer);
+		cnt_editor, G_CALLBACK (content_editor_load_finished_cb), composer);
 
 	e_composer_update_signature (composer);
 }
@@ -727,7 +725,7 @@ e_composer_update_signature (EMsgComposer *composer)
 	EComposerHeaderTable *table;
 	EMailSignatureComboBox *combo_box;
 	EHTMLEditor *editor;
-	EHTMLEditorView *view;
+	EContentEditor *cnt_editor;
 
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 
@@ -739,13 +737,13 @@ e_composer_update_signature (EMsgComposer *composer)
 	table = e_msg_composer_get_header_table (composer);
 	combo_box = e_composer_header_table_get_signature_combo_box (table);
 	editor = e_msg_composer_get_editor (composer);
-	view = e_html_editor_get_view (editor);
+	cnt_editor = e_html_editor_get_content_editor (editor);
 
-	if (!e_html_editor_view_is_ready (view)) {
+	if (!e_content_editor_is_ready (cnt_editor)) {
 		g_signal_connect (
-			view, "is-ready",
-			G_CALLBACK (html_editor_view_is_ready_cb), composer);
-
+			cnt_editor, "load-finished",
+			G_CALLBACK (content_editor_load_finished_cb),
+			composer);
 		return;
 	}
 

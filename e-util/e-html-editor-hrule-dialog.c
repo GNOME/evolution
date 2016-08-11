@@ -23,11 +23,8 @@
 #endif
 
 #include "e-html-editor-hrule-dialog.h"
-#include "e-html-editor-utils.h"
-#include "e-html-editor-view.h"
 
 #include <glib/gi18n-lib.h>
-#include <webkit/webkitdom.h>
 #include <stdlib.h>
 
 #define E_HTML_EDITOR_HRULE_DIALOG_GET_PRIVATE(obj) \
@@ -41,10 +38,6 @@ struct _EHTMLEditorHRuleDialogPrivate {
 
 	GtkWidget *alignment_combo;
 	GtkWidget *shaded_check;
-
-	WebKitDOMHTMLHRElement *hr_element;
-
-	EHTMLEditorViewHistoryEvent *history_event;
 };
 
 G_DEFINE_TYPE (
@@ -55,185 +48,148 @@ G_DEFINE_TYPE (
 static void
 html_editor_hrule_dialog_set_alignment (EHTMLEditorHRuleDialog *dialog)
 {
-	const gchar *alignment;
+	EHTMLEditor *editor;
+	EContentEditor *cnt_editor;
+	const gchar *value;
 
-	g_return_if_fail (WEBKIT_DOM_IS_HTMLHR_ELEMENT (dialog->priv->hr_element));
+	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
+	cnt_editor = e_html_editor_get_content_editor (editor);
 
-	alignment = gtk_combo_box_get_active_id (
-			GTK_COMBO_BOX (dialog->priv->alignment_combo));
+	value = gtk_combo_box_get_active_id (
+		GTK_COMBO_BOX (dialog->priv->alignment_combo));
 
-	webkit_dom_htmlhr_element_set_align (dialog->priv->hr_element, alignment);
+	e_content_editor_h_rule_set_align (cnt_editor, value);
 }
 
 static void
 html_editor_hrule_dialog_get_alignment (EHTMLEditorHRuleDialog *dialog)
 {
-	gchar *alignment;
+	EHTMLEditor *editor;
+	EContentEditor *cnt_editor;
+	gchar *value;
 
-	g_return_if_fail (WEBKIT_DOM_IS_HTMLHR_ELEMENT (dialog->priv->hr_element));
+	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
+	cnt_editor = e_html_editor_get_content_editor (editor);
 
-	alignment = webkit_dom_htmlhr_element_get_align (dialog->priv->hr_element);
-
-	gtk_combo_box_set_active_id (
-		GTK_COMBO_BOX (dialog->priv->alignment_combo), alignment);
-	g_free (alignment);
+	value = e_content_editor_h_rule_get_align (cnt_editor);
+	if (value && *value)
+		gtk_combo_box_set_active_id (
+			GTK_COMBO_BOX (dialog->priv->alignment_combo), value);
+	g_free (value);
 }
 
 static void
 html_editor_hrule_dialog_set_size (EHTMLEditorHRuleDialog *dialog)
 {
-	gchar *size;
+	EHTMLEditor *editor;
+	EContentEditor *cnt_editor;
+	gint value;
 
-	g_return_if_fail (WEBKIT_DOM_IS_HTMLHR_ELEMENT (dialog->priv->hr_element));
+	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
+	cnt_editor = e_html_editor_get_content_editor (editor);
 
-	size = g_strdup_printf (
-		"%d",
-		(gint) gtk_spin_button_get_value (
-			GTK_SPIN_BUTTON (dialog->priv->size_edit)));
-
-	webkit_dom_htmlhr_element_set_size (dialog->priv->hr_element, size);
-
-	g_free (size);
+	value = gtk_spin_button_get_value_as_int  GTK_SPIN_BUTTON (dialog->priv->size_edit);
+	e_content_editor_h_rule_set_size (cnt_editor, value);
 }
 
 static void
 html_editor_hrule_dialog_get_size (EHTMLEditorHRuleDialog *dialog)
 {
-	gchar *size;
-	gint size_int = 0;
+	EHTMLEditor *editor;
+	EContentEditor *cnt_editor;
+	gint value;
 
-	g_return_if_fail (WEBKIT_DOM_IS_HTMLHR_ELEMENT (dialog->priv->hr_element));
+	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
+	cnt_editor = e_html_editor_get_content_editor (editor);
 
-	size = webkit_dom_htmlhr_element_get_size (dialog->priv->hr_element);
-	if (size && *size) {
-		size_int = atoi (size);
-	}
-
-	if (size_int == 0) {
-		size_int = 2;
-	}
+	value = e_content_editor_h_rule_get_size (cnt_editor);
 
 	gtk_spin_button_set_value (
-		GTK_SPIN_BUTTON (dialog->priv->size_edit), (gdouble) size_int);
-
-	g_free (size);
+		GTK_SPIN_BUTTON (dialog->priv->size_edit), (gdouble) value);
 }
 
 static void
 html_editor_hrule_dialog_set_width (EHTMLEditorHRuleDialog *dialog)
 {
-	gchar *width, *units;
+	EHTMLEditor *editor;
+	EContentEditor *cnt_editor;
 
-	g_return_if_fail (WEBKIT_DOM_IS_HTMLHR_ELEMENT (dialog->priv->hr_element));
+	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
+	cnt_editor = e_html_editor_get_content_editor (editor);
 
-	units = gtk_combo_box_text_get_active_text (
-			GTK_COMBO_BOX_TEXT (dialog->priv->unit_combo));
-	width = g_strdup_printf (
-		"%d%s",
-		(gint) gtk_spin_button_get_value (
+	e_content_editor_h_rule_set_width (
+		cnt_editor,
+		gtk_spin_button_get_value_as_int (
 			GTK_SPIN_BUTTON (dialog->priv->width_edit)),
-		units);
-
-	webkit_dom_htmlhr_element_set_width (dialog->priv->hr_element, width);
-
-	g_free (units);
-	g_free (width);
+		(gtk_combo_box_get_active (
+			GTK_COMBO_BOX (dialog->priv->unit_combo)) == 0) ?
+				E_CONTENT_EDITOR_UNIT_PIXEL :
+				E_CONTENT_EDITOR_UNIT_PERCENTAGE);
 }
 
 static void
 html_editor_hrule_dialog_get_width (EHTMLEditorHRuleDialog *dialog)
 {
-	gchar *width;
-	const gchar *units;
-	gint width_int = 0;
+	EHTMLEditor *editor;
+	EContentEditor *cnt_editor;
+	EContentEditorUnit unit;
+	gint value;
 
-	g_return_if_fail (WEBKIT_DOM_IS_HTMLHR_ELEMENT (dialog->priv->hr_element));
+	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
+	cnt_editor = e_html_editor_get_content_editor (editor);
 
-	width = webkit_dom_htmlhr_element_get_width (dialog->priv->hr_element);
-	if (width && *width) {
-		width_int = atoi (width);
-
-		if (strstr (width, "%") != NULL) {
-			units = "units-percent";
-		} else {
-			units = "units-px";
-		}
-	}
-
-	if (width_int == 0) {
-		width_int = 100;
-		units = "units-percent";
-	}
-
+	value = e_content_editor_h_rule_get_width (cnt_editor, &unit);
 	gtk_spin_button_set_value (
-		GTK_SPIN_BUTTON (dialog->priv->width_edit), (gdouble) width_int);
+		GTK_SPIN_BUTTON (dialog->priv->width_edit),
+		value == 0 && unit == E_CONTENT_EDITOR_UNIT_PERCENTAGE ? 100 : value);
 	gtk_combo_box_set_active_id (
-		GTK_COMBO_BOX (dialog->priv->unit_combo), units);
-
-	g_free (width);
+		GTK_COMBO_BOX (dialog->priv->unit_combo),
+		unit == E_CONTENT_EDITOR_UNIT_PIXEL ? "units-px" : "units-percent");
 }
 
 static void
 html_editor_hrule_dialog_set_shading (EHTMLEditorHRuleDialog *dialog)
 {
-	gboolean no_shade;
+	EHTMLEditor *editor;
+	EContentEditor *cnt_editor;
+	gboolean value;
 
-	g_return_if_fail (WEBKIT_DOM_IS_HTMLHR_ELEMENT (dialog->priv->hr_element));
+	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
+	cnt_editor = e_html_editor_get_content_editor (editor);
 
-	no_shade = !gtk_toggle_button_get_active (
-			GTK_TOGGLE_BUTTON (dialog->priv->shaded_check));
+	value = !gtk_toggle_button_get_active (
+		GTK_TOGGLE_BUTTON (dialog->priv->shaded_check));
 
-	webkit_dom_htmlhr_element_set_no_shade (dialog->priv->hr_element, no_shade);
+	e_content_editor_h_rule_set_no_shade (cnt_editor, value);
 }
 
 static void
 html_editor_hrule_dialog_get_shading (EHTMLEditorHRuleDialog *dialog)
 {
-	g_return_if_fail (WEBKIT_DOM_IS_HTMLHR_ELEMENT (dialog->priv->hr_element));
+	EHTMLEditor *editor;
+	EContentEditor *cnt_editor;
+	gboolean value = FALSE;
 
+	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
+	cnt_editor = e_html_editor_get_content_editor (editor);
+
+	value = e_content_editor_h_rule_get_no_shade (cnt_editor);
 	gtk_toggle_button_set_active (
-		GTK_TOGGLE_BUTTON (dialog->priv->shaded_check),
-		!webkit_dom_htmlhr_element_get_no_shade (dialog->priv->hr_element));
+		GTK_TOGGLE_BUTTON (dialog->priv->shaded_check), !value);
 }
 
 static void
 html_editor_hrule_dialog_hide (GtkWidget *widget)
 {
-	EHTMLEditorHRuleDialogPrivate *priv;
-	EHTMLEditorViewHistoryEvent *ev;
+	EHTMLEditor *editor;
+	EHTMLEditorHRuleDialog *dialog;
+	EContentEditor *cnt_editor;
 
-	priv = E_HTML_EDITOR_HRULE_DIALOG_GET_PRIVATE (widget);
-	ev = priv->history_event;
+	dialog = E_HTML_EDITOR_HRULE_DIALOG (widget);
+	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
+	cnt_editor = e_html_editor_get_content_editor (editor);
 
-	if (ev) {
-		EHTMLEditorHRuleDialog *dialog;
-		EHTMLEditor *editor;
-		EHTMLEditorSelection *selection;
-		EHTMLEditorView *view;
-
-		dialog = E_HTML_EDITOR_HRULE_DIALOG (widget);
-		editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
-		view = e_html_editor_get_view (editor);
-		selection = e_html_editor_view_get_selection (view);
-
-		ev->data.dom.to = webkit_dom_node_clone_node (
-			WEBKIT_DOM_NODE (priv->hr_element), FALSE);
-
-		if (!webkit_dom_node_is_equal_node (ev->data.dom.from, ev->data.dom.to)) {
-			e_html_editor_selection_get_selection_coordinates (
-				selection, &ev->after.start.x, &ev->after.start.y, &ev->after.end.x, &ev->after.end.y);
-			e_html_editor_view_insert_new_history_event (view, ev);
-
-			if (!ev->data.dom.from)
-				g_object_unref (priv->hr_element);
-		} else {
-			g_object_unref (ev->data.dom.from);
-			g_object_unref (ev->data.dom.to);
-			g_free (ev);
-		}
-	}
-
-	priv->hr_element = NULL;
+	e_content_editor_on_h_rule_dialog_close (cnt_editor);
 
 	GTK_WIDGET_CLASS (e_html_editor_hrule_dialog_parent_class)->hide (widget);
 }
@@ -243,55 +199,21 @@ html_editor_hrule_dialog_show (GtkWidget *widget)
 {
 	EHTMLEditorHRuleDialog *dialog;
 	EHTMLEditor *editor;
-	EHTMLEditorSelection *selection;
-	EHTMLEditorView *view;
-
-	WebKitDOMDocument *document;
+	EContentEditor *cnt_editor;
+	gboolean created_new_h_rule = FALSE;
 
 	dialog = E_HTML_EDITOR_HRULE_DIALOG (widget);
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
-	view = e_html_editor_get_view (editor);
-	selection = e_html_editor_view_get_selection (view);
+	cnt_editor = e_html_editor_get_content_editor (editor);
 
-	if (!e_html_editor_view_is_undo_redo_in_progress (view)) {
-		EHTMLEditorViewHistoryEvent *ev;
+	created_new_h_rule = e_content_editor_on_h_rule_dialog_open (cnt_editor);
 
-		ev = g_new0 (EHTMLEditorViewHistoryEvent, 1);
-		ev->type = HISTORY_HRULE_DIALOG;
-
-		e_html_editor_selection_get_selection_coordinates (
-			selection, &ev->before.start.x, &ev->before.start.y, &ev->before.end.x, &ev->before.end.y);
-		if (dialog->priv->hr_element)
-			ev->data.dom.from = webkit_dom_node_clone_node (
-				WEBKIT_DOM_NODE (dialog->priv->hr_element), FALSE);
-		else
-			ev->data.dom.from = NULL;
-		dialog->priv->history_event = ev;
-	}
-
-	if (!dialog->priv->hr_element) {
-		WebKitDOMElement *selection_start, *parent, *rule;
-
-		document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
-		e_html_editor_selection_save (selection);
-
-		selection_start = webkit_dom_document_get_element_by_id (
-			document, "-x-evo-selection-start-marker");
-		parent = get_parent_block_element (WEBKIT_DOM_NODE (selection_start));
-
-		rule = webkit_dom_document_create_element (document, "HR", NULL);
-
-		/* Insert horizontal rule into body below the caret */
-		webkit_dom_node_insert_before (
-			webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (parent)),
-			WEBKIT_DOM_NODE (rule),
-			webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (parent)),
-			NULL);
-
-		e_html_editor_selection_restore (selection);
-
-		dialog->priv->hr_element = WEBKIT_DOM_HTMLHR_ELEMENT (rule);
-
+	if (!created_new_h_rule) {
+		html_editor_hrule_dialog_get_alignment (dialog);
+		html_editor_hrule_dialog_get_size (dialog);
+		html_editor_hrule_dialog_get_width (dialog);
+		html_editor_hrule_dialog_get_shading (dialog);
+	} else {
 		/* For new rule reset the values to default */
 		gtk_spin_button_set_value (
 			GTK_SPIN_BUTTON (dialog->priv->width_edit), 100.0);
@@ -309,12 +231,7 @@ html_editor_hrule_dialog_show (GtkWidget *widget)
 		html_editor_hrule_dialog_set_alignment (dialog);
 		html_editor_hrule_dialog_set_shading (dialog);
 
-		e_html_editor_view_set_changed (view, TRUE);
-	} else {
-		html_editor_hrule_dialog_get_alignment (dialog);
-		html_editor_hrule_dialog_get_size (dialog);
-		html_editor_hrule_dialog_get_width (dialog);
-		html_editor_hrule_dialog_get_shading (dialog);
+		e_content_editor_set_changed (cnt_editor, TRUE);
 	}
 
 	/* Chain up to parent implementation */
@@ -447,18 +364,4 @@ e_html_editor_hrule_dialog_new (EHTMLEditor *editor)
 			"editor", editor,
 			"title", _("Rule properties"),
 			NULL));
-}
-
-void
-e_html_editor_hrule_dialog_show (EHTMLEditorHRuleDialog *dialog,
-                                 WebKitDOMNode *rule)
-{
-	EHTMLEditorHRuleDialogClass *class;
-
-	g_return_if_fail (E_IS_HTML_EDITOR_HRULE_DIALOG (dialog));
-
-	dialog->priv->hr_element = rule ? WEBKIT_DOM_HTMLHR_ELEMENT (rule) : NULL;
-
-	class = E_HTML_EDITOR_HRULE_DIALOG_GET_CLASS (dialog);
-	GTK_WIDGET_CLASS (class)->show (GTK_WIDGET (dialog));
 }

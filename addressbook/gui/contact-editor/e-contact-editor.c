@@ -995,7 +995,7 @@ fill_in_email (EContactEditor *editor)
 		email_location = eab_get_email_type_index (attr);
 		slot = get_ui_slot (attr);
 		if (slot < 1)
-			slot = EMAIL_SLOTS + 1; //add at the end
+			slot = EMAIL_SLOTS + 1; /* add at the end */
 
 		gtk_list_store_append (data_store, &iter);
 		gtk_list_store_set (data_store, &iter,
@@ -2103,7 +2103,7 @@ fill_in_im (EContactEditor *editor)
 
 		slot = get_ui_slot (attr);
 		if (slot < 0)
-			slot = IM_SLOTS + 1; //attach at the end
+			slot = IM_SLOTS + 1; /* attach at the end */
 
 		gtk_list_store_append (data_store, &iter);
 		gtk_list_store_set (data_store, &iter,

@@ -145,6 +145,7 @@ em-format/e-mail-parser-message-external.c
 em-format/e-mail-parser-multipart-encrypted.c
 em-format/e-mail-parser-multipart-signed.c
 em-format/e-mail-part-headers.c
+em-format/e-mail-part-secure-button.c
 em-format/e-mail-part-utils.c
 e-util/ea-calendar-item.c
 e-util/e-action-combo-box.c
@@ -213,7 +214,6 @@ e-util/e-html-editor-replace-dialog.c
 e-util/e-html-editor-spell-check-dialog.c
 e-util/e-html-editor-table-dialog.c
 e-util/e-html-editor-text-dialog.c
-e-util/e-html-editor-view.c
 e-util/e-image-chooser.c
 e-util/e-image-chooser-dialog.c
 e-util/e-import-assistant.c
@@ -463,7 +463,7 @@ modules/text-highlight/languages.c
 modules/vcard-inline/e-mail-formatter-vcard.c
 modules/vcard-inline/e-mail-parser-vcard.c
 modules/vcard-inline/e-mail-part-vcard.c
-modules/web-inspector/evolution-web-inspector.c
+modules/webkit-inspector/evolution-webkit-inspector.c
 plugins/attachment-reminder/attachment-reminder.c
 plugins/attachment-reminder/org-gnome-attachment-reminder.error.xml
 plugins/attachment-reminder/org-gnome-evolution-attachment-reminder.eplug.xml

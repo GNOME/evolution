@@ -80,17 +80,35 @@ mail_config_identity_page_is_email (const gchar *email_address)
 }
 
 static void
+mail_config_identity_page_signature_editor_created_cb (GObject *source_object,
+						       GAsyncResult *result,
+						       gpointer user_data)
+{
+	GtkWidget *editor;
+	GError *error = NULL;
+
+	g_return_if_fail (result != NULL);
+
+	editor = e_mail_signature_editor_new_finish (result, &error);
+	if (error) {
+		g_warning ("%s: Failed to create signature editor: %s", G_STRFUNC, error->message);
+		g_clear_error (&error);
+	} else {
+		gtk_window_set_position (GTK_WINDOW (editor), GTK_WIN_POS_CENTER);
+		gtk_widget_show (editor);
+	}
+}
+
+static void
 mail_config_identity_page_add_signature_cb (GtkButton *button,
                                             EMailConfigIdentityPage *page)
 {
 	ESourceRegistry *registry;
-	GtkWidget *editor;
 
 	registry = e_mail_config_identity_page_get_registry (page);
 
-	editor = e_mail_signature_editor_new (registry, NULL);
-	gtk_window_set_position (GTK_WINDOW (editor), GTK_WIN_POS_CENTER);
-	gtk_widget_show (editor);
+	e_mail_signature_editor_new (registry, NULL,
+		mail_config_identity_page_signature_editor_created_cb, NULL);
 }
 
 static void

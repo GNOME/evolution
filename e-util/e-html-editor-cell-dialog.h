@@ -64,8 +64,6 @@ struct _EHTMLEditorCellDialogClass {
 GType		e_html_editor_cell_dialog_get_type
 						(void) G_GNUC_CONST;
 GtkWidget *	e_html_editor_cell_dialog_new	(EHTMLEditor *editor);
-void		e_html_editor_cell_dialog_show	(EHTMLEditorCellDialog *dialog,
-						 WebKitDOMNode *cell);
 
 G_END_DECLS
 

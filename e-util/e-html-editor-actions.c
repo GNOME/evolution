@@ -29,20 +29,20 @@
 #include "e-html-editor.h"
 #include "e-html-editor-private.h"
 #include "e-html-editor-actions.h"
-#include "e-html-editor-utils.h"
 #include "e-emoticon-action.h"
 #include "e-emoticon-chooser.h"
 #include "e-image-chooser-dialog.h"
 #include "e-spell-checker.h"
 #include "e-misc-utils.h"
-#include "e-web-view.h"
+#include "e-selection.h"
+#include "e-content-editor.h"
 
 static void
 insert_html_file_ready_cb (GFile *file,
                            GAsyncResult *result,
                            EHTMLEditor *editor)
 {
-	EHTMLEditorSelection *selection;
+	EContentEditor *cnt_editor;
 	gchar *contents = NULL;
 	gsize length;
 	GError *error = NULL;
@@ -66,9 +66,10 @@ insert_html_file_ready_cb (GFile *file,
 		return;
 	}
 
-	selection = e_html_editor_view_get_selection (
-		e_html_editor_get_view (editor));
-	e_html_editor_selection_insert_html (selection, contents);
+	cnt_editor = e_html_editor_get_content_editor (editor);
+	e_content_editor_insert_content (
+		cnt_editor, contents, E_CONTENT_EDITOR_INSERT_TEXT_HTML);
+
 	g_free (contents);
 
 	g_object_unref (editor);
@@ -79,7 +80,7 @@ insert_text_file_ready_cb (GFile *file,
                            GAsyncResult *result,
                            EHTMLEditor *editor)
 {
-	EHTMLEditorSelection *selection;
+	EContentEditor *cnt_editor;
 	gchar *contents;
 	gsize length;
 	GError *error = NULL;
@@ -103,9 +104,10 @@ insert_text_file_ready_cb (GFile *file,
 		return;
 	}
 
-	selection = e_html_editor_view_get_selection (
-		e_html_editor_get_view (editor));
-	e_html_editor_selection_insert_text (selection, contents);
+	cnt_editor = e_html_editor_get_content_editor (editor);
+	e_content_editor_insert_content (
+		cnt_editor, contents, E_CONTENT_EDITOR_INSERT_TEXT_PLAIN);
+
 	g_free (contents);
 
 	g_object_unref (editor);
@@ -116,464 +118,172 @@ insert_text_file_ready_cb (GFile *file,
  *****************************************************************************/
 
 static void
-prepare_history_for_table (EHTMLEditor *editor,
-                           WebKitDOMElement *table,
-                           EHTMLEditorViewHistoryEvent *ev)
-{
-	EHTMLEditorSelection *selection;
-	EHTMLEditorView *view;
-
-	view = e_html_editor_get_view (editor);
-	selection = e_html_editor_view_get_selection (view);
-
-	ev->type = HISTORY_TABLE_DIALOG;
-
-	e_html_editor_selection_get_selection_coordinates (
-		selection, &ev->before.start.x, &ev->before.start.y, &ev->before.end.x, &ev->before.end.y);
-	ev->data.dom.from = webkit_dom_node_clone_node (
-		WEBKIT_DOM_NODE (table), TRUE);
-}
-
-static void
-save_history_for_table (EHTMLEditor *editor,
-                        WebKitDOMElement *table,
-                        EHTMLEditorViewHistoryEvent *ev)
-{
-	EHTMLEditorSelection *selection;
-	EHTMLEditorView *view;
-
-	view = e_html_editor_get_view (editor);
-	selection = e_html_editor_view_get_selection (view);
-
-	if (table)
-		ev->data.dom.to = webkit_dom_node_clone_node (
-			WEBKIT_DOM_NODE (table), TRUE);
-	else
-		ev->data.dom.to = NULL;
-	e_html_editor_selection_get_selection_coordinates (
-		selection, &ev->after.start.x, &ev->after.start.y, &ev->after.end.x, &ev->after.end.y);
-	e_html_editor_view_insert_new_history_event (view, ev);
-}
-
-static void
 action_context_delete_cell_contents_cb (GtkAction *action,
-                                        EHTMLEditor *editor)
+                               EHTMLEditor *editor)
 {
-	EHTMLEditorViewHistoryEvent *ev = NULL;
-	WebKitDOMNode *node;
-	WebKitDOMElement *cell, *table;
+	EContentEditor *cnt_editor;
 
-	g_return_if_fail (editor->priv->table_cell != NULL);
-
-	cell = e_html_editor_dom_node_find_parent_element (editor->priv->table_cell, "TD");
-	if (!cell) {
-		cell = e_html_editor_dom_node_find_parent_element (
-					editor->priv->table_cell, "TH");
-	}
-	g_return_if_fail (cell != NULL);
-
-	table = e_html_editor_dom_node_find_parent_element (WEBKIT_DOM_NODE (cell), "TABLE");
-	g_return_if_fail (table != NULL);
-
-	ev = g_new0 (EHTMLEditorViewHistoryEvent, 1);
-	prepare_history_for_table (editor, table, ev);
-
-	while ((node = webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (cell))))
-		remove_node (node);
-
-	save_history_for_table (editor, table, ev);
+	cnt_editor = e_html_editor_get_content_editor (editor);
+	e_content_editor_delete_cell_contents (cnt_editor);
 }
 
 static void
 action_context_delete_column_cb (GtkAction *action,
                                  EHTMLEditor *editor)
 {
-	EHTMLEditorViewHistoryEvent *ev = NULL;
-	WebKitDOMElement *cell, *table;
-	WebKitDOMHTMLCollection *rows;
-	gulong index, length, ii;
+	EContentEditor *cnt_editor;
 
-	g_return_if_fail (editor->priv->table_cell != NULL);
-
-	/* Find TD in which the selection starts */
-	cell = e_html_editor_dom_node_find_parent_element (editor->priv->table_cell, "TD");
-	if (!cell) {
-		cell = e_html_editor_dom_node_find_parent_element (
-					editor->priv->table_cell, "TH");
-	}
-	g_return_if_fail (cell != NULL);
-
-	table = e_html_editor_dom_node_find_parent_element (WEBKIT_DOM_NODE (cell), "TABLE");
-	g_return_if_fail (table != NULL);
-
-	ev = g_new0 (EHTMLEditorViewHistoryEvent, 1);
-	prepare_history_for_table (editor, table, ev);
-
-	rows = webkit_dom_html_table_element_get_rows (
-			WEBKIT_DOM_HTML_TABLE_ELEMENT (table));
-	length = webkit_dom_html_collection_get_length (rows);
-
-	index = webkit_dom_html_table_cell_element_get_cell_index (
-			WEBKIT_DOM_HTML_TABLE_CELL_ELEMENT (cell));
-
-	for (ii = 0; ii < length; ii++) {
-		WebKitDOMNode *row;
-
-		row = webkit_dom_html_collection_item (rows, ii);
-
-		webkit_dom_html_table_row_element_delete_cell (
-			WEBKIT_DOM_HTML_TABLE_ROW_ELEMENT (row), index, NULL);
-		g_object_unref (row);
-	}
-	g_object_unref (rows);
-
-	save_history_for_table (editor, table, ev);
+	cnt_editor = e_html_editor_get_content_editor (editor);
+	e_content_editor_delete_column (cnt_editor);
 }
 
 static void
 action_context_delete_row_cb (GtkAction *action,
                               EHTMLEditor *editor)
 {
-	EHTMLEditorViewHistoryEvent *ev = NULL;
-	WebKitDOMElement *row, *table;
+	EContentEditor *cnt_editor;
 
-	g_return_if_fail (editor->priv->table_cell != NULL);
-
-	row = e_html_editor_dom_node_find_parent_element (editor->priv->table_cell, "TR");
-	g_return_if_fail (row != NULL);
-
-	table = e_html_editor_dom_node_find_parent_element (editor->priv->table_cell, "TABLE");
-	g_return_if_fail (table != NULL);
-
-	ev = g_new0 (EHTMLEditorViewHistoryEvent, 1);
-	prepare_history_for_table (editor, table, ev);
-
-	remove_node (WEBKIT_DOM_NODE (row));
-
-	save_history_for_table (editor, table, ev);
+	cnt_editor = e_html_editor_get_content_editor (editor);
+	e_content_editor_delete_row (cnt_editor);
 }
 
 static void
 action_context_delete_table_cb (GtkAction *action,
                                 EHTMLEditor *editor)
 {
-	WebKitDOMElement *table;
-	EHTMLEditorViewHistoryEvent *ev = NULL;
+	EContentEditor *cnt_editor;
 
-	g_return_if_fail (editor->priv->table_cell != NULL);
-
-	table = e_html_editor_dom_node_find_parent_element (editor->priv->table_cell, "TABLE");
-	g_return_if_fail (table != NULL);
-
-	ev = g_new0 (EHTMLEditorViewHistoryEvent, 1);
-	prepare_history_for_table (editor, table, ev);
-
-	remove_node (WEBKIT_DOM_NODE (table));
-
-	save_history_for_table (editor, NULL, ev);
+	cnt_editor = e_html_editor_get_content_editor (editor);
+	e_content_editor_delete_table (cnt_editor);
 }
 
 static void
 action_context_insert_column_after_cb (GtkAction *action,
                                        EHTMLEditor *editor)
 {
-	EHTMLEditorViewHistoryEvent *ev = NULL;
-	WebKitDOMElement *cell, *row, *table;
-	gulong index;
+	EContentEditor *cnt_editor;
 
-	g_return_if_fail (editor->priv->table_cell != NULL);
-
-	cell = e_html_editor_dom_node_find_parent_element (editor->priv->table_cell, "TD");
-	if (!cell) {
-		cell = e_html_editor_dom_node_find_parent_element (
-					editor->priv->table_cell, "TH");
-	}
-	g_return_if_fail (cell != NULL);
-
-	row = e_html_editor_dom_node_find_parent_element (WEBKIT_DOM_NODE (cell), "TR");
-	g_return_if_fail (row != NULL);
-
-	table = e_html_editor_dom_node_find_parent_element (editor->priv->table_cell, "TABLE");
-	g_return_if_fail (table != NULL);
-
-	ev = g_new0 (EHTMLEditorViewHistoryEvent, 1);
-	prepare_history_for_table (editor, table, ev);
-
-	/* Get the first row in the table */
-	row = WEBKIT_DOM_ELEMENT (
-		webkit_dom_node_get_first_child (
-			webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (row))));
-
-	index = webkit_dom_html_table_cell_element_get_cell_index (
-			WEBKIT_DOM_HTML_TABLE_CELL_ELEMENT (cell));
-
-	while (row) {
-		webkit_dom_html_table_row_element_insert_cell (
-			WEBKIT_DOM_HTML_TABLE_ROW_ELEMENT (row), index + 1, NULL);
-
-		row = WEBKIT_DOM_ELEMENT (
-			webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (row)));
-	}
-
-	save_history_for_table (editor, table, ev);
+	cnt_editor = e_html_editor_get_content_editor (editor);
+	e_content_editor_insert_column_after (cnt_editor);
 }
 
 static void
 action_context_insert_column_before_cb (GtkAction *action,
                                         EHTMLEditor *editor)
 {
-	EHTMLEditorViewHistoryEvent *ev = NULL;
-	WebKitDOMElement *cell, *row, *table;
-	gulong index;
+	EContentEditor *cnt_editor;
 
-	g_return_if_fail (editor->priv->table_cell != NULL);
-
-	cell = e_html_editor_dom_node_find_parent_element (editor->priv->table_cell, "TD");
-	if (!cell) {
-		cell = e_html_editor_dom_node_find_parent_element (
-				editor->priv->table_cell, "TH");
-	}
-	g_return_if_fail (cell != NULL);
-
-	row = e_html_editor_dom_node_find_parent_element (WEBKIT_DOM_NODE (cell), "TR");
-	g_return_if_fail (row != NULL);
-
-	table = e_html_editor_dom_node_find_parent_element (editor->priv->table_cell, "TABLE");
-	g_return_if_fail (table != NULL);
-
-	ev = g_new0 (EHTMLEditorViewHistoryEvent, 1);
-	prepare_history_for_table (editor, table, ev);
-
-	/* Get the first row in the table */
-	row = WEBKIT_DOM_ELEMENT (
-		webkit_dom_node_get_first_child (
-			webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (row))));
-
-	index = webkit_dom_html_table_cell_element_get_cell_index (
-			WEBKIT_DOM_HTML_TABLE_CELL_ELEMENT (cell));
-
-	while (row) {
-		webkit_dom_html_table_row_element_insert_cell (
-			WEBKIT_DOM_HTML_TABLE_ROW_ELEMENT (row), index - 1, NULL);
-
-		row = WEBKIT_DOM_ELEMENT (
-			webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (row)));
-	}
-
-	save_history_for_table (editor, table, ev);
+	cnt_editor = e_html_editor_get_content_editor (editor);
+	e_content_editor_insert_column_before (cnt_editor);
 }
 
 static void
 action_context_insert_row_above_cb (GtkAction *action,
                                     EHTMLEditor *editor)
 {
-	EHTMLEditorViewHistoryEvent *ev = NULL;
-	WebKitDOMElement *row, *table;
-	WebKitDOMHTMLCollection *cells;
-	WebKitDOMHTMLElement *new_row;
-	gulong index, cell_count, ii;
+	EContentEditor *cnt_editor;
 
-	g_return_if_fail (editor->priv->table_cell != NULL);
-
-	row = e_html_editor_dom_node_find_parent_element (editor->priv->table_cell, "TR");
-	g_return_if_fail (row != NULL);
-
-	table = e_html_editor_dom_node_find_parent_element (WEBKIT_DOM_NODE (row), "TABLE");
-	g_return_if_fail (table != NULL);
-
-	ev = g_new0 (EHTMLEditorViewHistoryEvent, 1);
-	prepare_history_for_table (editor, table, ev);
-
-	index = webkit_dom_html_table_row_element_get_row_index (
-			WEBKIT_DOM_HTML_TABLE_ROW_ELEMENT (row));
-
-	new_row = webkit_dom_html_table_element_insert_row (
-			WEBKIT_DOM_HTML_TABLE_ELEMENT (table), index, NULL);
-
-	cells = webkit_dom_html_table_row_element_get_cells (
-			WEBKIT_DOM_HTML_TABLE_ROW_ELEMENT (row));
-	cell_count = webkit_dom_html_collection_get_length (cells);
-	for (ii = 0; ii < cell_count; ii++) {
-		webkit_dom_html_table_row_element_insert_cell (
-			WEBKIT_DOM_HTML_TABLE_ROW_ELEMENT (new_row), -1, NULL);
-	}
-	g_object_unref (cells);
-
-	save_history_for_table (editor, table, ev);
+	cnt_editor = e_html_editor_get_content_editor (editor);
+	e_content_editor_insert_row_above (cnt_editor);
 }
 
 static void
 action_context_insert_row_below_cb (GtkAction *action,
                                     EHTMLEditor *editor)
 {
-	EHTMLEditorViewHistoryEvent *ev = NULL;
-	WebKitDOMElement *row, *table;
-	WebKitDOMHTMLCollection *cells;
-	WebKitDOMHTMLElement *new_row;
-	gulong index, cell_count, ii;
+	EContentEditor *cnt_editor;
 
-	g_return_if_fail (editor->priv->table_cell != NULL);
-
-	row = e_html_editor_dom_node_find_parent_element (editor->priv->table_cell, "TR");
-	g_return_if_fail (row != NULL);
-
-	table = e_html_editor_dom_node_find_parent_element (WEBKIT_DOM_NODE (row), "TABLE");
-	g_return_if_fail (table != NULL);
-
-	ev = g_new0 (EHTMLEditorViewHistoryEvent, 1);
-	prepare_history_for_table (editor, table, ev);
-
-	index = webkit_dom_html_table_row_element_get_row_index (
-			WEBKIT_DOM_HTML_TABLE_ROW_ELEMENT (row));
-
-	new_row = webkit_dom_html_table_element_insert_row (
-			WEBKIT_DOM_HTML_TABLE_ELEMENT (table), index + 1, NULL);
-
-	cells = webkit_dom_html_table_row_element_get_cells (
-			WEBKIT_DOM_HTML_TABLE_ROW_ELEMENT (row));
-	cell_count = webkit_dom_html_collection_get_length (cells);
-	for (ii = 0; ii < cell_count; ii++) {
-		webkit_dom_html_table_row_element_insert_cell (
-			WEBKIT_DOM_HTML_TABLE_ROW_ELEMENT (new_row), -1, NULL);
-	}
-	g_object_unref (cells);
-
-	save_history_for_table (editor, table, ev);
+	cnt_editor = e_html_editor_get_content_editor (editor);
+	e_content_editor_insert_row_below (cnt_editor);
 }
 
 static void
 action_context_remove_link_cb (GtkAction *action,
                                EHTMLEditor *editor)
 {
-	EHTMLEditorView *view;
-	EHTMLEditorSelection *selection;
+	EContentEditor *cnt_editor;
 
-	view = e_html_editor_get_view (editor);
-	selection = e_html_editor_view_get_selection (view);
-
-	e_html_editor_selection_unlink (selection);
+	cnt_editor = e_html_editor_get_content_editor (editor);
+	e_content_editor_selection_unlink (cnt_editor);
 }
 
 static void
 action_context_spell_add_cb (GtkAction *action,
                              EHTMLEditor *editor)
 {
+	EContentEditor *cnt_editor;
 	ESpellChecker *spell_checker;
-	EHTMLEditorSelection *selection;
 	gchar *word;
 
-	spell_checker = e_html_editor_view_get_spell_checker (
-		editor->priv->html_editor_view);
-	selection = e_html_editor_view_get_selection (editor->priv->html_editor_view);
-
-	word = e_html_editor_selection_get_caret_word (selection);
-	if (word && *word) {
+	cnt_editor = e_html_editor_get_content_editor (editor);
+	spell_checker = e_content_editor_ref_spell_checker (cnt_editor);
+	word = e_content_editor_get_caret_word (cnt_editor);
+	if (word && *word)
 		e_spell_checker_learn_word (spell_checker, word);
-	}
+	g_free (word);
+	g_clear_object (&spell_checker);
 }
 
 static void
 action_context_spell_ignore_cb (GtkAction *action,
                                 EHTMLEditor *editor)
 {
+	EContentEditor *cnt_editor;
 	ESpellChecker *spell_checker;
-	EHTMLEditorSelection *selection;
 	gchar *word;
 
-	spell_checker = e_html_editor_view_get_spell_checker (
-		editor->priv->html_editor_view);
-	selection = e_html_editor_view_get_selection (editor->priv->html_editor_view);
-
-	word = e_html_editor_selection_get_caret_word (selection);
-	if (word && *word) {
+	cnt_editor = e_html_editor_get_content_editor (editor);
+	spell_checker = e_content_editor_ref_spell_checker (cnt_editor);
+	word = e_content_editor_get_caret_word (cnt_editor);
+	if (word && *word)
 		e_spell_checker_ignore_word (spell_checker, word);
-	}
+	g_free (word);
+	g_clear_object (&spell_checker);
 }
 
 static void
 action_copy_cb (GtkAction *action,
                 EHTMLEditor *editor)
 {
-	EHTMLEditorView *view = e_html_editor_get_view (editor);
+	EContentEditor *cnt_editor;
 
-	webkit_web_view_copy_clipboard (WEBKIT_WEB_VIEW (view));
+	cnt_editor = e_html_editor_get_content_editor (editor);
+	e_content_editor_copy (cnt_editor);
 }
 
 static void
 action_cut_cb (GtkAction *action,
                EHTMLEditor *editor)
 {
-	EHTMLEditorView *view = e_html_editor_get_view (editor);
-	EHTMLEditorSelection *selection;
-	EHTMLEditorViewHistoryEvent *ev;
-	WebKitDOMDocument *document;
-	WebKitDOMDocumentFragment *fragment;
-	WebKitDOMDOMWindow *dom_window;
-	WebKitDOMDOMSelection *dom_selection;
-	WebKitDOMRange *range;
+	EContentEditor *cnt_editor;
 
-	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
-	dom_window = webkit_dom_document_get_default_view (document);
-	dom_selection = webkit_dom_dom_window_get_selection (dom_window);
-	g_object_unref (dom_window);
-
-	if (!webkit_dom_dom_selection_get_range_count (dom_selection) ||
-	    webkit_dom_dom_selection_get_is_collapsed (dom_selection)) {
-		g_object_unref (dom_selection);
-		return;
-	}
-
-	range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
-
-	selection = e_html_editor_view_get_selection (view);
-
-	ev = g_new0 (EHTMLEditorViewHistoryEvent, 1);
-	ev->type = HISTORY_DELETE;
-
-	e_html_editor_selection_get_selection_coordinates (
-		selection, &ev->before.start.x, &ev->before.start.y, &ev->before.end.x, &ev->before.end.y);
-
-	/* Save the fragment. */
-	fragment = webkit_dom_range_clone_contents (range, NULL);
-	g_object_unref (range);
-	g_object_unref (dom_selection);
-	ev->data.fragment = g_object_ref (fragment);
-
-	webkit_web_view_cut_clipboard (WEBKIT_WEB_VIEW (view));
-
-	ev->after.start.x = ev->before.start.x;
-	ev->after.start.y = ev->before.start.y;
-	ev->after.end.x = ev->before.start.x;
-	ev->after.end.y = ev->before.start.y;
-
-	e_html_editor_view_insert_new_history_event (view, ev);
-
-	e_html_editor_view_force_spell_check_for_current_paragraph (view);
+	cnt_editor = e_html_editor_get_content_editor (editor);
+	e_content_editor_cut (cnt_editor);
 }
 
 static void
 action_indent_cb (GtkAction *action,
                   EHTMLEditor *editor)
 {
-	EHTMLEditorView *view = e_html_editor_get_view (editor);
+	EContentEditor *cnt_editor;
 
-	if (gtk_widget_has_focus (GTK_WIDGET (view)))
-		e_html_editor_selection_indent (editor->priv->selection);
+	cnt_editor = e_html_editor_get_content_editor (editor);
+	if (gtk_widget_has_focus (GTK_WIDGET (cnt_editor)))
+		e_content_editor_selection_indent (cnt_editor);
 }
 
 static void
 action_insert_emoticon_cb (GtkAction *action,
                            EHTMLEditor *editor)
 {
-	EHTMLEditorView *view;
+	EContentEditor *cnt_editor;
 	EEmoticon *emoticon;
 
-	emoticon = e_emoticon_chooser_get_current_emoticon (
-					E_EMOTICON_CHOOSER (action));
+	emoticon = e_emoticon_chooser_get_current_emoticon (E_EMOTICON_CHOOSER (action));
 	g_return_if_fail (emoticon != NULL);
 
-	view = e_html_editor_get_view (editor);
-	e_html_editor_view_insert_smiley (view, emoticon);
+	cnt_editor = e_html_editor_get_content_editor (editor);
+	e_content_editor_insert_emoticon (cnt_editor, emoticon);
 }
 
 static void
@@ -620,15 +330,13 @@ action_insert_image_cb (GtkAction *action,
 	dialog = e_image_chooser_dialog_new (C_("dialog-title", "Insert Image"), NULL);
 
 	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT) {
-		EHTMLEditorView *view;
-		EHTMLEditorSelection *selection;
+		EContentEditor *cnt_editor;
 		gchar *uri;
 
 		uri = gtk_file_chooser_get_uri (GTK_FILE_CHOOSER (dialog));
 
-		view = e_html_editor_get_view (editor);
-		selection = e_html_editor_view_get_selection (view);
-		e_html_editor_selection_insert_image (selection, uri);
+		cnt_editor = e_html_editor_get_content_editor (editor);
+		e_content_editor_insert_image (cnt_editor, uri);
 
 		g_free (uri);
 	}
@@ -644,8 +352,7 @@ action_insert_link_cb (GtkAction *action,
 		editor->priv->link_dialog =
 			e_html_editor_link_dialog_new (editor);
 
-	e_html_editor_link_dialog_show (
-		E_HTML_EDITOR_LINK_DIALOG (editor->priv->link_dialog), NULL);
+	gtk_window_present (GTK_WINDOW (editor->priv->link_dialog));
 }
 
 static void
@@ -656,8 +363,7 @@ action_insert_rule_cb (GtkAction *action,
 		editor->priv->hrule_dialog =
 			e_html_editor_hrule_dialog_new (editor);
 
-	e_html_editor_hrule_dialog_show (
-		E_HTML_EDITOR_HRULE_DIALOG (editor->priv->hrule_dialog), NULL);
+	gtk_window_present (GTK_WINDOW (editor->priv->hrule_dialog));
 }
 
 static void
@@ -710,19 +416,20 @@ static void
 action_language_cb (GtkToggleAction *toggle_action,
                     EHTMLEditor *editor)
 {
-	ESpellChecker *checker;
-	EHTMLEditorView *view;
+	ESpellChecker *spell_checker;
+	EContentEditor *cnt_editor;
 	const gchar *language_code;
 	GtkAction *add_action;
 	gchar *action_name;
 	gboolean active;
 
-	view = e_html_editor_get_view (editor);
-	checker = e_html_editor_view_get_spell_checker (view);
+	cnt_editor = e_html_editor_get_content_editor (editor);
+	spell_checker = e_content_editor_ref_spell_checker (cnt_editor);
 	language_code = gtk_action_get_name (GTK_ACTION (toggle_action));
 
 	active = gtk_toggle_action_get_active (toggle_action);
-	e_spell_checker_set_language_active (checker, language_code, active);
+	e_spell_checker_set_language_active (spell_checker, language_code, active);
+	g_clear_object (&spell_checker);
 
 	/* Update "Add Word To" context menu item visibility. */
 	action_name = g_strdup_printf ("context-spell-add-%s", language_code);
@@ -739,15 +446,15 @@ static gboolean
 update_mode_combobox (gpointer data)
 {
 	EHTMLEditor *editor = data;
-	EHTMLEditorView *view;
+	EContentEditor *cnt_editor;
 	GtkAction *action;
 	gboolean is_html;
 
 	if (!E_IS_HTML_EDITOR (editor))
 		return FALSE;
 
-	view = e_html_editor_get_view (editor);
-	is_html = e_html_editor_view_get_html_mode (view);
+	cnt_editor = e_html_editor_get_content_editor (editor);
+	is_html = e_content_editor_get_html_mode (cnt_editor);
 
 	action = gtk_action_group_get_action (
 		editor->priv->core_editor_actions, "mode-html");
@@ -762,13 +469,13 @@ action_mode_cb (GtkRadioAction *action,
                 GtkRadioAction *current,
                 EHTMLEditor *editor)
 {
+	EContentEditor *cnt_editor;
 	GtkActionGroup *action_group;
-	EHTMLEditorView *view;
 	GtkWidget *style_combo_box;
 	gboolean is_html;
 
-	view = e_html_editor_get_view (editor);
-	is_html = e_html_editor_view_get_html_mode (view);
+	cnt_editor = e_html_editor_get_content_editor (editor);
+	is_html = e_content_editor_get_html_mode (cnt_editor);
 
 	/* This must be done from idle callback, because apparently we can change
 	 * current value in callback of current value change */
@@ -776,7 +483,6 @@ action_mode_cb (GtkRadioAction *action,
 
 	action_group = editor->priv->html_actions;
 	gtk_action_group_set_visible (action_group, is_html);
-	gtk_action_group_set_sensitive (action_group, is_html);
 
 	action_group = editor->priv->html_context_actions;
 	gtk_action_group_set_visible (action_group, is_html);
@@ -814,36 +520,111 @@ static void
 action_paste_cb (GtkAction *action,
                  EHTMLEditor *editor)
 {
-	EHTMLEditorView *view = e_html_editor_get_view (editor);
+	EContentEditor *cnt_editor;
 
-	webkit_web_view_paste_clipboard (WEBKIT_WEB_VIEW (view));
-	e_html_editor_view_force_spell_check_in_viewport (view);
+	cnt_editor = e_html_editor_get_content_editor (editor);
+	e_content_editor_paste (cnt_editor);
+}
+
+static void
+clipboard_text_received_for_paste_as_text (GtkClipboard *clipboard,
+                                           const gchar *text,
+                                           EHTMLEditor *editor)
+{
+	EContentEditor *cnt_editor;
+
+	cnt_editor = e_html_editor_get_content_editor (editor);
+	e_content_editor_insert_content (
+		cnt_editor,
+		text,
+		E_CONTENT_EDITOR_INSERT_CONVERT |
+		E_CONTENT_EDITOR_INSERT_TEXT_PLAIN);
 }
 
 static void
 action_paste_as_text_cb (GtkAction *action,
                          EHTMLEditor *editor)
 {
-	EHTMLEditorView *view = e_html_editor_get_view (editor);
+	EContentEditor *cnt_editor;
+	GtkClipboard *clipboard;
 
-	if (!gtk_widget_has_focus (GTK_WIDGET (view)))
-		gtk_widget_grab_focus (GTK_WIDGET (view));
+	cnt_editor = e_html_editor_get_content_editor (editor);
+	if (!gtk_widget_has_focus (GTK_WIDGET (cnt_editor)))
+		gtk_widget_grab_focus (GTK_WIDGET (cnt_editor));
 
-	e_html_editor_view_paste_as_text (view);
-	e_html_editor_view_force_spell_check_in_viewport (view);
+	clipboard = gtk_clipboard_get_for_display (
+		gdk_display_get_default (),
+		GDK_SELECTION_CLIPBOARD);
+
+	gtk_clipboard_request_text (
+		clipboard,
+		(GtkClipboardTextReceivedFunc) clipboard_text_received_for_paste_as_text,
+		editor);
+}
+
+static void
+paste_quote_text (EHTMLEditor *editor,
+		  const gchar *text,
+		  gboolean is_html)
+{
+	EContentEditor *cnt_editor;
+
+	g_return_if_fail (E_IS_HTML_EDITOR (editor));
+	g_return_if_fail (text != NULL);
+
+	cnt_editor = e_html_editor_get_content_editor (editor);
+	e_content_editor_insert_content (
+		cnt_editor,
+		text,
+		E_CONTENT_EDITOR_INSERT_QUOTE_CONTENT |
+		(is_html ? E_CONTENT_EDITOR_INSERT_TEXT_HTML : E_CONTENT_EDITOR_INSERT_TEXT_PLAIN));
+}
+
+static void
+clipboard_html_received_for_paste_quote (GtkClipboard *clipboard,
+                                         const gchar *text,
+                                         gpointer user_data)
+{
+	EHTMLEditor *editor = user_data;
+
+	g_return_if_fail (E_IS_HTML_EDITOR (editor));
+	g_return_if_fail (text != NULL);
+
+	paste_quote_text (editor, text, TRUE);
+}
+
+static void
+clipboard_text_received_for_paste_quote (GtkClipboard *clipboard,
+                                         const gchar *text,
+                                         gpointer user_data)
+{
+	EHTMLEditor *editor = user_data;
+
+	g_return_if_fail (E_IS_HTML_EDITOR (editor));
+	g_return_if_fail (text != NULL);
+
+	paste_quote_text (editor, text, FALSE);
 }
 
 static void
 action_paste_quote_cb (GtkAction *action,
                        EHTMLEditor *editor)
 {
-	EHTMLEditorView *view = e_html_editor_get_view (editor);
+	EContentEditor *cnt_editor;
+	GtkClipboard *clipboard;
 
-	if (!gtk_widget_has_focus (GTK_WIDGET (view)))
-		gtk_widget_grab_focus (GTK_WIDGET (view));
+	cnt_editor = e_html_editor_get_content_editor (editor);
+	if (!gtk_widget_has_focus (GTK_WIDGET (cnt_editor)))
+		gtk_widget_grab_focus (GTK_WIDGET (cnt_editor));
 
-	e_html_editor_view_paste_clipboard_quoted (view);
-	e_html_editor_view_force_spell_check_in_viewport (view);
+	clipboard = gtk_clipboard_get_for_display (
+		gdk_display_get_default (),
+		GDK_SELECTION_CLIPBOARD);
+
+	if (e_clipboard_wait_is_html_available (clipboard))
+		e_clipboard_request_html (clipboard, clipboard_html_received_for_paste_quote, editor);
+	else if (gtk_clipboard_wait_is_text_available (clipboard))
+		gtk_clipboard_request_text (clipboard, clipboard_text_received_for_paste_quote, editor);
 }
 
 static void
@@ -855,9 +636,7 @@ action_properties_cell_cb (GtkAction *action,
 			e_html_editor_cell_dialog_new (editor);
 	}
 
-	e_html_editor_cell_dialog_show (
-		E_HTML_EDITOR_CELL_DIALOG (editor->priv->cell_dialog),
-		editor->priv->table_cell);
+	gtk_window_present (GTK_WINDOW (editor->priv->cell_dialog));
 }
 
 static void
@@ -870,8 +649,7 @@ action_properties_image_cb (GtkAction *action,
 	}
 
 	e_html_editor_image_dialog_show (
-		E_HTML_EDITOR_IMAGE_DIALOG (editor->priv->image_dialog),
-		editor->priv->image);
+		E_HTML_EDITOR_IMAGE_DIALOG (editor->priv->image_dialog));
 }
 
 static void
@@ -883,9 +661,7 @@ action_properties_link_cb (GtkAction *action,
 			e_html_editor_link_dialog_new (editor);
 	}
 
-	e_html_editor_link_dialog_show (
-		E_HTML_EDITOR_LINK_DIALOG (editor->priv->link_dialog),
-		editor->priv->current_node);
+	gtk_window_present (GTK_WINDOW (editor->priv->link_dialog));
 }
 
 static void
@@ -921,9 +697,7 @@ action_properties_rule_cb (GtkAction *action,
 			e_html_editor_hrule_dialog_new (editor);
 	}
 
-	e_html_editor_hrule_dialog_show (
-		E_HTML_EDITOR_HRULE_DIALOG (editor->priv->hrule_dialog),
-		editor->priv->current_node);
+	gtk_window_present (GTK_WINDOW (editor->priv->hrule_dialog));
 }
 
 static void
@@ -954,20 +728,22 @@ static void
 action_redo_cb (GtkAction *action,
                 EHTMLEditor *editor)
 {
-	EHTMLEditorView *view = e_html_editor_get_view (editor);
+	EContentEditor *cnt_editor;
 
-	if (gtk_widget_has_focus (GTK_WIDGET (view)))
-		e_html_editor_view_redo (view);
+	cnt_editor = e_html_editor_get_content_editor (editor);
+	if (gtk_widget_has_focus (GTK_WIDGET (cnt_editor)))
+		e_content_editor_redo (cnt_editor);
 }
 
 static void
 action_select_all_cb (GtkAction *action,
                       EHTMLEditor *editor)
 {
-	EHTMLEditorView *view = e_html_editor_get_view (editor);
+	EContentEditor *cnt_editor;
 
-	if (gtk_widget_has_focus (GTK_WIDGET (view)))
-		webkit_web_view_select_all (WEBKIT_WEB_VIEW (view));
+	cnt_editor = e_html_editor_get_content_editor (editor);
+	if (gtk_widget_has_focus (GTK_WIDGET (cnt_editor)))
+		e_content_editor_select_all (cnt_editor);
 }
 
 static void
@@ -1021,43 +797,34 @@ static void
 action_undo_cb (GtkAction *action,
                 EHTMLEditor *editor)
 {
-	EHTMLEditorView *view = e_html_editor_get_view (editor);
+	EContentEditor *cnt_editor;
 
-	if (gtk_widget_has_focus (GTK_WIDGET (view)))
-		e_html_editor_view_undo (view);
+	cnt_editor = e_html_editor_get_content_editor (editor);
+	if (gtk_widget_has_focus (GTK_WIDGET (cnt_editor))) {
+		e_content_editor_undo (cnt_editor);
+	}
 }
 
 static void
 action_unindent_cb (GtkAction *action,
                     EHTMLEditor *editor)
 {
-	EHTMLEditorView *view = e_html_editor_get_view (editor);
+	EContentEditor *cnt_editor;
 
-	if (gtk_widget_has_focus (GTK_WIDGET (view)))
-		e_html_editor_selection_unindent (editor->priv->selection);
+	cnt_editor = e_html_editor_get_content_editor (editor);
+	if (gtk_widget_has_focus (GTK_WIDGET (cnt_editor)))
+		e_content_editor_selection_unindent (cnt_editor);
 }
 
 static void
 action_wrap_lines_cb (GtkAction *action,
                       EHTMLEditor *editor)
 {
-	EHTMLEditorView *view = e_html_editor_get_view (editor);
+	EContentEditor *cnt_editor;
 
-	if (gtk_widget_has_focus (GTK_WIDGET (view)))
-		e_html_editor_selection_wrap_lines (editor->priv->selection);
-}
-
-static void
-action_show_webkit_inspector_cb (GtkAction *action,
-                                 EHTMLEditor *editor)
-{
-	WebKitWebInspector *inspector;
-	EHTMLEditorView *view;
-
-	view = e_html_editor_get_view (editor);
-	inspector = webkit_web_view_get_inspector (WEBKIT_WEB_VIEW (view));
-
-	webkit_web_inspector_show (inspector);
+	cnt_editor = e_html_editor_get_content_editor (editor);
+	if (gtk_widget_has_focus (GTK_WIDGET (cnt_editor)))
+		e_content_editor_selection_wrap (cnt_editor);
 }
 
 /*****************************************************************************
@@ -1239,14 +1006,7 @@ static GtkActionEntry core_editor_entries[] = {
 	  N_("_Wrap Lines"),
 	  "<Control>k",
 	  NULL,
-	  G_CALLBACK (action_wrap_lines_cb) },
-
-	{ "webkit-inspector",
-          NULL,
-          N_("Open Inspector"),
-          NULL,
-          NULL,
-          G_CALLBACK (action_show_webkit_inspector_cb) },
+	  G_CALLBACK (action_wrap_lines_cb) }
 };
 
 static GtkRadioActionEntry core_justify_entries[] = {
@@ -1256,21 +1016,21 @@ static GtkRadioActionEntry core_justify_entries[] = {
 	  N_("_Center"),
 	  "<Control>e",
 	  N_("Center Alignment"),
-	  E_HTML_EDITOR_SELECTION_ALIGNMENT_CENTER },
+	  E_CONTENT_EDITOR_ALIGNMENT_CENTER },
 
 	{ "justify-left",
 	  "format-justify-left",
 	  N_("_Left"),
 	  "<Control>l",
 	  N_("Left Alignment"),
-	  E_HTML_EDITOR_SELECTION_ALIGNMENT_LEFT },
+	  E_CONTENT_EDITOR_ALIGNMENT_LEFT },
 
 	{ "justify-right",
 	  "format-justify-right",
 	  N_("_Right"),
 	  "<Control>r",
 	  N_("Right Alignment"),
-	  E_HTML_EDITOR_SELECTION_ALIGNMENT_RIGHT }
+	  E_CONTENT_EDITOR_ALIGNMENT_RIGHT }
 };
 
 static GtkRadioActionEntry core_mode_entries[] = {
@@ -1280,14 +1040,14 @@ static GtkRadioActionEntry core_mode_entries[] = {
 	  N_("_HTML"),
 	  NULL,
 	  N_("HTML editing mode"),
-	  TRUE },	/* e_html_editor_view_set_html_mode */
+	  TRUE },	/* e_content_editor_set_html_mode */
 
 	{ "mode-plain",
 	  NULL,
 	  N_("Plain _Text"),
 	  NULL,
 	  N_("Plain text editing mode"),
-	  FALSE }	/* e_html_editor_view_set_html_mode */
+	  FALSE }	/* e_content_editor_set_html_mode */
 };
 
 static GtkRadioActionEntry core_style_entries[] = {
@@ -1297,98 +1057,91 @@ static GtkRadioActionEntry core_style_entries[] = {
 	  N_("_Normal"),
 	  "<Control>0",
 	  NULL,
-	  E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_PARAGRAPH },
+	  E_CONTENT_EDITOR_BLOCK_FORMAT_PARAGRAPH },
 
 	{ "style-h1",
 	  NULL,
 	  N_("Header _1"),
 	  "<Control>1",
 	  NULL,
-	  E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_H1 },
+	  E_CONTENT_EDITOR_BLOCK_FORMAT_H1 },
 
 	{ "style-h2",
 	  NULL,
 	  N_("Header _2"),
 	  "<Control>2",
 	  NULL,
-	  E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_H2 },
+	  E_CONTENT_EDITOR_BLOCK_FORMAT_H2 },
 
 	{ "style-h3",
 	  NULL,
 	  N_("Header _3"),
 	  "<Control>3",
 	  NULL,
-	  E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_H3 },
+	  E_CONTENT_EDITOR_BLOCK_FORMAT_H3 },
 
 	{ "style-h4",
 	  NULL,
 	  N_("Header _4"),
 	  "<Control>4",
 	  NULL,
-	  E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_H4 },
+	  E_CONTENT_EDITOR_BLOCK_FORMAT_H4 },
 
 	{ "style-h5",
 	  NULL,
 	  N_("Header _5"),
 	  "<Control>5",
 	  NULL,
-	  E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_H5 },
+	  E_CONTENT_EDITOR_BLOCK_FORMAT_H5 },
 
 	{ "style-h6",
 	  NULL,
 	  N_("Header _6"),
 	  "<Control>6",
 	  NULL,
-	  E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_H6 },
+	  E_CONTENT_EDITOR_BLOCK_FORMAT_H6 },
 
         { "style-preformat",
           NULL,
           N_("_Preformatted"),
           "<Control>7",
           NULL,
-          E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_PRE },
+          E_CONTENT_EDITOR_BLOCK_FORMAT_PRE },
 
 	{ "style-address",
 	  NULL,
 	  N_("A_ddress"),
 	  "<Control>8",
 	  NULL,
-	  E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_ADDRESS },
-
-        { "style-blockquote",
-          NULL,
-          N_("_Blockquote"),
-          "<Control>9",
-          NULL,
-          E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_BLOCKQUOTE },
+	  E_CONTENT_EDITOR_BLOCK_FORMAT_ADDRESS },
 
 	{ "style-list-bullet",
 	  NULL,
 	  N_("_Bulleted List"),
 	  NULL,
 	  NULL,
-	  E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_UNORDERED_LIST },
+	  E_CONTENT_EDITOR_BLOCK_FORMAT_UNORDERED_LIST },
 
 	{ "style-list-roman",
 	  NULL,
 	  N_("_Roman Numeral List"),
 	  NULL,
 	  NULL,
-	  E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_ORDERED_LIST_ROMAN },
+	  E_CONTENT_EDITOR_BLOCK_FORMAT_ORDERED_LIST_ROMAN },
 
 	{ "style-list-number",
 	  NULL,
 	  N_("Numbered _List"),
 	  NULL,
 	  NULL,
-	  E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_ORDERED_LIST },
+	  E_CONTENT_EDITOR_BLOCK_FORMAT_ORDERED_LIST },
 
 	{ "style-list-alpha",
 	  NULL,
 	  N_("_Alphabetical List"),
 	  NULL,
 	  NULL,
-	  E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_ORDERED_LIST_ALPHA }
+	  E_CONTENT_EDITOR_BLOCK_FORMAT_ORDERED_LIST_ALPHA }
 };
 
 /*****************************************************************************
@@ -1549,7 +1302,7 @@ static GtkRadioActionEntry html_size_entries[] = {
 	  N_("-2"),
 	  NULL,
 	  NULL,
-	  E_HTML_EDITOR_SELECTION_FONT_SIZE_TINY },
+	  E_CONTENT_EDITOR_FONT_SIZE_TINY },
 
 	{ "size-minus-one",
 	  NULL,
@@ -1557,7 +1310,7 @@ static GtkRadioActionEntry html_size_entries[] = {
 	  N_("-1"),
 	  NULL,
 	  NULL,
-	  E_HTML_EDITOR_SELECTION_FONT_SIZE_SMALL },
+	  E_CONTENT_EDITOR_FONT_SIZE_SMALL },
 
 	{ "size-plus-zero",
 	  NULL,
@@ -1565,7 +1318,7 @@ static GtkRadioActionEntry html_size_entries[] = {
 	  N_("+0"),
 	  NULL,
 	  NULL,
-	  E_HTML_EDITOR_SELECTION_FONT_SIZE_NORMAL },
+	  E_CONTENT_EDITOR_FONT_SIZE_NORMAL },
 
 	{ "size-plus-one",
 	  NULL,
@@ -1573,7 +1326,7 @@ static GtkRadioActionEntry html_size_entries[] = {
 	  N_("+1"),
 	  NULL,
 	  NULL,
-	  E_HTML_EDITOR_SELECTION_FONT_SIZE_BIG },
+	  E_CONTENT_EDITOR_FONT_SIZE_BIG },
 
 	{ "size-plus-two",
 	  NULL,
@@ -1581,7 +1334,7 @@ static GtkRadioActionEntry html_size_entries[] = {
 	  N_("+2"),
 	  NULL,
 	  NULL,
-	  E_HTML_EDITOR_SELECTION_FONT_SIZE_BIGGER },
+	  E_CONTENT_EDITOR_FONT_SIZE_BIGGER },
 
 	{ "size-plus-three",
 	  NULL,
@@ -1589,7 +1342,7 @@ static GtkRadioActionEntry html_size_entries[] = {
 	  N_("+3"),
 	  NULL,
 	  NULL,
-	  E_HTML_EDITOR_SELECTION_FONT_SIZE_LARGE },
+	  E_CONTENT_EDITOR_FONT_SIZE_LARGE },
 
 	{ "size-plus-four",
 	  NULL,
@@ -1597,7 +1350,7 @@ static GtkRadioActionEntry html_size_entries[] = {
 	  N_("+4"),
 	  NULL,
 	  NULL,
-	  E_HTML_EDITOR_SELECTION_FONT_SIZE_VERY_LARGE }
+	  E_CONTENT_EDITOR_FONT_SIZE_VERY_LARGE }
 };
 
 /*****************************************************************************
@@ -1645,13 +1398,6 @@ static GtkActionEntry context_entries[] = {
 	  NULL,
 	  /* Translators: Popup menu item caption, containing all the Delete options for a table */
 	  N_("Table Delete"),
-	  NULL,
-	  NULL,
-	  NULL },
-
-	{ "context-input-methods-menu",
-	  NULL,
-	  N_("Input Methods"),
 	  NULL,
 	  NULL,
 	  NULL },
@@ -1716,13 +1462,6 @@ static GtkActionEntry html_context_entries[] = {
 	  NULL,
 	  NULL,
 	  G_CALLBACK (action_context_insert_row_below_cb) },
-
-	{ "context-insert-table",
-	  NULL,
-	  N_("Table"),
-	  NULL,
-	  NULL,
-	  G_CALLBACK (action_insert_table_cb) },
 
 	{ "context-properties-cell",
 	  NULL,
@@ -1832,27 +1571,27 @@ static GtkActionEntry spell_context_entries[] = {
 static void
 editor_actions_setup_languages_menu (EHTMLEditor *editor)
 {
-	ESpellChecker *checker;
-	EHTMLEditorView *view;
+	ESpellChecker *spell_checker;
+	EContentEditor *cnt_editor;
 	GtkUIManager *manager;
 	GtkActionGroup *action_group;
-	GList *list, *link;
+	GList *list = NULL, *link;
 	guint merge_id;
 
 	manager = editor->priv->manager;
 	action_group = editor->priv->language_actions;
-	view = e_html_editor_get_view (editor);
-	checker = e_html_editor_view_get_spell_checker (view);
+	cnt_editor = e_html_editor_get_content_editor (editor);
+	spell_checker = e_content_editor_ref_spell_checker (cnt_editor);
 	merge_id = gtk_ui_manager_new_merge_id (manager);
 
-	list = e_spell_checker_list_available_dicts (checker);
+	list = e_spell_checker_list_available_dicts (spell_checker);
 
 	for (link = list; link != NULL; link = g_list_next (link)) {
 		ESpellDictionary *dictionary = link->data;
 		GtkToggleAction *action;
 		const gchar *language_name;
 		GString *escaped_name = NULL;
-		gboolean active;
+		gboolean active = FALSE;
 
 		language_name = e_spell_dictionary_get_name (dictionary);
 		if (language_name && strchr (language_name, '_') != NULL)
@@ -1870,7 +1609,7 @@ editor_actions_setup_languages_menu (EHTMLEditor *editor)
 		 * We're not prepared to invoke the signal handler yet.
 		 * The "Add Word To" actions have not yet been added. */
 		active = e_spell_checker_get_language_active (
-			checker, e_spell_dictionary_get_code (dictionary));
+			spell_checker, e_spell_dictionary_get_code (dictionary));
 		gtk_toggle_action_set_active (action, active);
 
 		g_signal_connect (
@@ -1891,21 +1630,24 @@ editor_actions_setup_languages_menu (EHTMLEditor *editor)
 	}
 
 	g_list_free (list);
+	g_clear_object (&spell_checker);
 }
 
 static void
 editor_actions_setup_spell_check_menu (EHTMLEditor *editor)
 {
-	ESpellChecker *checker;
+	EContentEditor *cnt_editor;
+	ESpellChecker *spell_checker;
 	GtkUIManager *manager;
 	GtkActionGroup *action_group;
-	GList *available_dicts, *iter;
+	GList *available_dicts = NULL, *iter;
 	guint merge_id;
 
 	manager = editor->priv->manager;
 	action_group = editor->priv->spell_check_actions;;
-	checker = e_html_editor_view_get_spell_checker (editor->priv->html_editor_view);
-	available_dicts = e_spell_checker_list_available_dicts (checker);
+	cnt_editor = e_html_editor_get_content_editor (editor);
+	spell_checker = e_content_editor_ref_spell_checker (cnt_editor);
+	available_dicts = e_spell_checker_list_available_dicts (spell_checker);
 	merge_id = gtk_ui_manager_new_merge_id (manager);
 
 	for (iter = available_dicts; iter; iter = iter->next) {
@@ -1955,7 +1697,7 @@ editor_actions_setup_spell_check_menu (EHTMLEditor *editor)
 
 		/* Visibility is dependent on whether the
 		 * corresponding language action is active. */
-		gtk_action_set_visible (action, e_spell_checker_get_language_active (checker, code));
+		gtk_action_set_visible (action, FALSE);
 
 		gtk_action_group_add_action (action_group, action);
 
@@ -1975,6 +1717,7 @@ editor_actions_setup_spell_check_menu (EHTMLEditor *editor)
 	}
 
 	g_list_free (available_dicts);
+	g_clear_object (&spell_checker);
 }
 
 void
@@ -1984,14 +1727,11 @@ editor_actions_init (EHTMLEditor *editor)
 	GtkActionGroup *action_group;
 	GtkUIManager *manager;
 	const gchar *domain;
-	EHTMLEditorView *view;
-	GSettings *settings;
 
 	g_return_if_fail (E_IS_HTML_EDITOR (editor));
 
 	manager = e_html_editor_get_ui_manager (editor);
 	domain = GETTEXT_PACKAGE;
-	view = e_html_editor_get_view (editor);
 
 	/* Core Actions */
 	action_group = editor->priv->core_actions;
@@ -2009,7 +1749,7 @@ editor_actions_init (EHTMLEditor *editor)
 	gtk_action_group_add_radio_actions (
 		action_group, core_justify_entries,
 		G_N_ELEMENTS (core_justify_entries),
-		E_HTML_EDITOR_SELECTION_ALIGNMENT_LEFT,
+		E_CONTENT_EDITOR_ALIGNMENT_LEFT,
 		NULL, NULL);
 	gtk_action_group_add_radio_actions (
 		action_group, core_mode_entries,
@@ -2019,18 +1759,9 @@ editor_actions_init (EHTMLEditor *editor)
 	gtk_action_group_add_radio_actions (
 		action_group, core_style_entries,
 		G_N_ELEMENTS (core_style_entries),
-		E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_PARAGRAPH,
+		E_CONTENT_EDITOR_BLOCK_FORMAT_PARAGRAPH,
 		NULL, NULL);
 	gtk_ui_manager_insert_action_group (manager, action_group, 0);
-
-	action = gtk_action_group_get_action (action_group, "mode-html");
-	e_binding_bind_property (
-		view, "html-mode",
-		action, "current-value",
-		G_BINDING_BIDIRECTIONAL | G_BINDING_SYNC_CREATE);
-
-	/* Synchronize wiget mode with the buttons */
-	e_html_editor_view_set_html_mode (view, TRUE);
 
 	/* Face Action */
 	action = e_emoticon_action_new (
@@ -2055,7 +1786,7 @@ editor_actions_init (EHTMLEditor *editor)
 	gtk_action_group_add_radio_actions (
 		action_group, html_size_entries,
 		G_N_ELEMENTS (html_size_entries),
-		E_HTML_EDITOR_SELECTION_FONT_SIZE_NORMAL,
+		E_CONTENT_EDITOR_FONT_SIZE_NORMAL,
 		NULL, NULL);
 	gtk_ui_manager_insert_action_group (manager, action_group, 0);
 
@@ -2120,92 +1851,113 @@ editor_actions_init (EHTMLEditor *editor)
 
 	gtk_action_set_sensitive (ACTION (UNINDENT), FALSE);
 	gtk_action_set_sensitive (ACTION (FIND_AGAIN), FALSE);
+}
+
+void
+editor_actions_bind (EHTMLEditor *editor)
+{
+	GtkAction *action;
+	GtkActionGroup *action_group;
+	EContentEditor *cnt_editor;
+
+	g_return_if_fail (E_IS_HTML_EDITOR (editor));
+
+	cnt_editor = e_html_editor_get_content_editor (editor);
+
+	action_group = editor->priv->core_editor_actions;
+	action = gtk_action_group_get_action (action_group, "mode-html");
+	e_binding_bind_property (
+		cnt_editor, "html-mode",
+		action, "current-value",
+		G_BINDING_BIDIRECTIONAL | G_BINDING_SYNC_CREATE);
+
+	/* Synchronize widget mode with the buttons */
+	e_content_editor_set_html_mode (cnt_editor, TRUE);
 
 	e_binding_bind_property (
-		view, "can-redo",
+		cnt_editor, "can-redo",
 		ACTION (REDO), "sensitive",
 		G_BINDING_SYNC_CREATE);
 	e_binding_bind_property (
-		view, "can-undo",
+		cnt_editor, "can-undo",
 		ACTION (UNDO), "sensitive",
 		G_BINDING_SYNC_CREATE);
 	e_binding_bind_property (
-		view, "can-copy",
+		cnt_editor, "can-copy",
 		ACTION (COPY), "sensitive",
 		G_BINDING_SYNC_CREATE);
 	e_binding_bind_property (
-		view, "can-cut",
+		cnt_editor, "can-cut",
 		ACTION (CUT), "sensitive",
 		G_BINDING_SYNC_CREATE);
 	e_binding_bind_property (
-		view, "can-paste",
+		cnt_editor, "can-paste",
 		ACTION (PASTE), "sensitive",
 		G_BINDING_SYNC_CREATE);
 	e_binding_bind_property (
-		view, "can-paste",
+		cnt_editor, "can-paste",
 		ACTION (PASTE_QUOTE), "sensitive",
 		G_BINDING_SYNC_CREATE);
 
 	/* This is connected to JUSTIFY_LEFT action only, but
 	 * it automatically applies on all actions in the group. */
 	e_binding_bind_property (
-		editor->priv->selection, "alignment",
+		cnt_editor, "alignment",
 		ACTION (JUSTIFY_LEFT), "current-value",
 		G_BINDING_SYNC_CREATE | G_BINDING_BIDIRECTIONAL);
 	e_binding_bind_property (
-		editor->priv->selection, "bold",
+		cnt_editor, "bold",
 		ACTION (BOLD), "active",
 		G_BINDING_SYNC_CREATE | G_BINDING_BIDIRECTIONAL);
 	e_binding_bind_property (
-		editor->priv->selection, "font-size",
+		cnt_editor, "font-size",
 		ACTION (FONT_SIZE_GROUP), "current-value",
 		G_BINDING_SYNC_CREATE | G_BINDING_BIDIRECTIONAL);
 	e_binding_bind_property (
-		editor->priv->selection, "block-format",
+		cnt_editor, "block-format",
 		ACTION (STYLE_NORMAL), "current-value",
 		G_BINDING_SYNC_CREATE | G_BINDING_BIDIRECTIONAL);
 	e_binding_bind_property (
-		editor->priv->selection, "indented",
+		cnt_editor, "indented",
 		ACTION (UNINDENT), "sensitive",
 		G_BINDING_SYNC_CREATE);
 	e_binding_bind_property (
-		editor->priv->selection, "italic",
+		cnt_editor, "italic",
 		ACTION (ITALIC), "active",
 		G_BINDING_SYNC_CREATE | G_BINDING_BIDIRECTIONAL);
 	e_binding_bind_property (
-		editor->priv->selection, "monospaced",
+		cnt_editor, "monospaced",
 		ACTION (MONOSPACED), "active",
 		G_BINDING_SYNC_CREATE | G_BINDING_BIDIRECTIONAL);
 	e_binding_bind_property (
-		editor->priv->selection, "strikethrough",
+		cnt_editor, "strikethrough",
 		ACTION (STRIKETHROUGH), "active",
 		G_BINDING_SYNC_CREATE | G_BINDING_BIDIRECTIONAL);
 	e_binding_bind_property (
-		editor->priv->selection, "underline",
+		cnt_editor, "underline",
 		ACTION (UNDERLINE), "active",
 		G_BINDING_SYNC_CREATE | G_BINDING_BIDIRECTIONAL);
 
+	e_binding_bind_property (
+		cnt_editor, "html-mode",
+		editor->priv->html_actions, "sensitive",
+		G_BINDING_SYNC_CREATE);
+
 	/* Disable all actions and toolbars when editor is not editable */
 	e_binding_bind_property (
-		view, "editable",
+		cnt_editor, "editable",
 		editor->priv->core_editor_actions, "sensitive",
 		G_BINDING_SYNC_CREATE);
 	e_binding_bind_property (
-		view, "editable",
+		cnt_editor, "editable",
 		editor->priv->html_actions, "sensitive",
 		G_BINDING_SYNC_CREATE);
 	e_binding_bind_property (
-		view, "editable",
+		cnt_editor, "editable",
 		editor->priv->spell_check_actions, "sensitive",
 		G_BINDING_SYNC_CREATE);
 	e_binding_bind_property (
-		view, "editable",
+		cnt_editor, "editable",
 		editor->priv->suggestion_actions, "sensitive",
 		G_BINDING_SYNC_CREATE);
-
-	settings = e_util_ref_settings ("org.gnome.evolution.mail");
-	gtk_action_set_visible (
-		ACTION (WEBKIT_INSPECTOR),
-		g_settings_get_boolean (settings, "composer-developer-mode"));
-	g_object_unref (settings);
 }

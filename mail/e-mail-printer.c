@@ -23,7 +23,7 @@
 #include <glib/gi18n.h>
 #include <gtk/gtk.h>
 
-#include <webkit/webkitdom.h>
+#include <camel/camel.h>
 
 #include "e-util/e-util.h"
 
@@ -49,9 +49,6 @@ struct _EMailPrinterPrivate {
 
 	gchar *export_filename;
 
-	WebKitWebView *web_view; /* WebView to print from */
-
-	GtkPrintOperation *operation;
 	GtkPrintOperationAction print_action;
 };
 
@@ -101,8 +98,9 @@ async_context_free (AsyncContext *async_context)
 	g_slice_free (AsyncContext, async_context);
 }
 
+#if 0 /* FIXME WK2 */
 static GtkWidget *
-mail_printer_create_custom_widget_cb (GtkPrintOperation *operation,
+mail_printer_create_custom_widget_cb (WebKitPrintOperation *operation,
                                       AsyncContext *async_context)
 {
 	EMailDisplay *display;
@@ -110,7 +108,7 @@ mail_printer_create_custom_widget_cb (GtkPrintOperation *operation,
 	EMailPart *part;
 	GtkWidget *widget;
 
-	gtk_print_operation_set_custom_tab_label (operation, _("Headers"));
+	webkit_print_operation_set_custom_tab_label (operation, _("Headers"));
 
 	display = E_MAIL_DISPLAY (async_context->web_view);
 	part_list = e_mail_display_get_part_list (display);
@@ -128,7 +126,7 @@ mail_printer_create_custom_widget_cb (GtkPrintOperation *operation,
 }
 
 static void
-mail_printer_custom_widget_apply_cb (GtkPrintOperation *operation,
+mail_printer_custom_widget_apply_cb (WebKitPrintOperation *operation,
                                      GtkWidget *widget,
                                      AsyncContext *async_context)
 {
@@ -171,6 +169,33 @@ mail_printer_draw_footer_cb (GtkPrintOperation *operation,
 	g_object_unref (layout);
 	g_free (text);
 }
+#endif
+static void
+mail_printer_print_finished_cb (WebKitPrintOperation *print_operation,
+                                GSimpleAsyncResult *simple)
+{
+	if (camel_debug ("wex"))
+		printf ("%s\n", G_STRFUNC);
+}
+
+static void
+mail_printer_print_failed_cb (WebKitPrintOperation *print_operation,
+                              GError *error,
+                              GSimpleAsyncResult *simple)
+{
+	AsyncContext *async_context;
+
+	if (camel_debug ("wex"))
+		printf ("%s\n", G_STRFUNC);
+	async_context = g_simple_async_result_get_op_res_gpointer (simple);
+
+	if (error != NULL)
+		g_simple_async_result_take_error (simple, error);
+	else
+		g_warning ("WebKit print operation returned ERROR result without setting a GError");
+
+	async_context->print_result = GTK_PRINT_OPERATION_RESULT_ERROR;
+}
 
 static gboolean
 mail_printer_print_timeout_cb (gpointer user_data)
@@ -178,34 +203,32 @@ mail_printer_print_timeout_cb (gpointer user_data)
 	GSimpleAsyncResult *simple;
 	AsyncContext *async_context;
 	GCancellable *cancellable;
-	GtkPrintOperation *print_operation;
+	WebKitPrintOperation *print_operation;
+/* FIXME WK2	EMailPrinter *printer;
 	GtkPrintOperationAction print_action;
-	EMailPrinter *printer;
-	WebKitWebFrame *web_frame;
-	gulong create_custom_widget_handler_id;
-	gulong custom_widget_apply_handler_id;
 	gulong draw_page_handler_id;
+	gulong create_custom_widget_handler_id;
+	gulong custom_widget_apply_handler_id;*/
 	GError *error = NULL;
 
 	simple = G_SIMPLE_ASYNC_RESULT (user_data);
 	async_context = g_simple_async_result_get_op_res_gpointer (simple);
 
 	cancellable = async_context->cancellable;
+	/*
 	print_action = async_context->print_action;
-
+*/
 	/* Check for cancellation one last time before printing. */
 	if (g_cancellable_set_error_if_cancelled (cancellable, &error))
 		goto exit;
 
 	/* This returns a new reference. */
+/*
 	printer = (EMailPrinter *) g_async_result_get_source_object (
 		G_ASYNC_RESULT (simple));
-
-	print_operation = e_print_operation_new ();
-
-	gtk_print_operation_set_show_progress (print_operation, TRUE);
-	gtk_print_operation_set_unit (print_operation, GTK_UNIT_PIXEL);
-
+*/
+	print_operation = webkit_print_operation_new (async_context->web_view);
+/*
 	if (async_context->print_action == GTK_PRINT_OPERATION_ACTION_EXPORT) {
 		const gchar *export_filename;
 
@@ -214,7 +237,8 @@ mail_printer_print_timeout_cb (gpointer user_data)
 		gtk_print_operation_set_export_filename (
 			print_operation, export_filename);
 	}
-
+*/
+/*
 	create_custom_widget_handler_id = g_signal_connect (
 		print_operation, "create-custom-widget",
 		G_CALLBACK (mail_printer_create_custom_widget_cb),
@@ -224,42 +248,29 @@ mail_printer_print_timeout_cb (gpointer user_data)
 		print_operation, "custom-widget-apply",
 		G_CALLBACK (mail_printer_custom_widget_apply_cb),
 		async_context);
+*/
+	g_signal_connect (
+		print_operation, "failed",
+		G_CALLBACK (mail_printer_print_failed_cb),
+		async_context);
 
+	g_signal_connect (
+		print_operation, "finished",
+		G_CALLBACK (mail_printer_print_finished_cb),
+		async_context);
+
+/* FIXME WK2 - this will be hard to add back to WK2 API.. There is a CSS draft
+ * that can be used to add a page numbers, but it is not in WebKit yet.
+ * http://www.w3.org/TR/css3-page/
 	draw_page_handler_id = g_signal_connect (
 		print_operation, "draw-page",
 		G_CALLBACK (mail_printer_draw_footer_cb),
 		async_context->cancellable);
-
-	web_frame = webkit_web_view_get_main_frame (async_context->web_view);
-
-	async_context->print_result = webkit_web_frame_print_full (
-		web_frame, print_operation, print_action, &error);
-
-	/* Sanity check. */
-	switch (async_context->print_result) {
-		case GTK_PRINT_OPERATION_RESULT_ERROR:
-			if (error == NULL)
-				g_warning (
-					"WebKit print operation returned "
-					"ERROR result without setting a "
-					"GError");
-			break;
-		case GTK_PRINT_OPERATION_RESULT_APPLY:
-			if (error != NULL)
-				g_warning (
-					"WebKit print operation returned "
-					"APPLY result but also set a GError");
-			break;
-		case GTK_PRINT_OPERATION_RESULT_CANCEL:
-			if (error != NULL)
-				g_warning (
-					"WebKit print operation returned "
-					"CANCEL result but also set a GError");
-			break;
-		default:
-			g_warn_if_reached ();
-	}
-
+*/
+	webkit_print_operation_run_dialog (
+		print_operation,
+		GTK_WINDOW (gtk_widget_get_toplevel (gtk_widget_get_toplevel (GTK_WIDGET (async_context->web_view)))));
+/* FIXME WK2
 	g_signal_handler_disconnect (
 		print_operation, create_custom_widget_handler_id);
 
@@ -268,10 +279,11 @@ mail_printer_print_timeout_cb (gpointer user_data)
 
 	g_signal_handler_disconnect (
 		print_operation, draw_page_handler_id);
-
+*/
 	g_object_unref (print_operation);
 
-	g_object_unref (printer);
+/*
+	g_object_unref (printer);*/
 
 exit:
 	if (error != NULL)
@@ -283,18 +295,16 @@ exit:
 }
 
 static void
-mail_printer_load_status_cb (WebKitWebView *web_view,
-                             GParamSpec *pspec,
-                             GSimpleAsyncResult *simple)
+mail_printer_load_changed_cb (WebKitWebView *web_view,
+                              WebKitLoadEvent load_event,
+                              GSimpleAsyncResult *simple)
 {
 	AsyncContext *async_context;
-	WebKitLoadStatus load_status;
 	GCancellable *cancellable;
 	GError *error = NULL;
 
 	/* Note: we disregard WEBKIT_LOAD_FAILED and print what we can. */
-	load_status = webkit_web_view_get_load_status (web_view);
-	if (load_status != WEBKIT_LOAD_FINISHED)
+	if (load_event != WEBKIT_LOAD_FINISHED)
 		return;
 
 	/* Signal handlers are holding the only GSimpleAsyncResult
@@ -341,7 +351,7 @@ mail_printer_new_web_view (const gchar *charset,
                            const gchar *default_charset)
 {
 	WebKitWebView *web_view;
-	WebKitWebSettings *web_settings;
+	WebKitSettings *web_settings;
 	EMailFormatter *formatter;
 
 	web_view = g_object_new (
@@ -446,8 +456,6 @@ mail_printer_dispose (GObject *object)
 	g_clear_object (&priv->formatter);
 	g_clear_object (&priv->part_list);
 	g_clear_object (&priv->remote_content);
-	g_clear_object (&priv->web_view);
-	g_clear_object (&priv->operation);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_mail_printer_parent_class)->dispose (object);
@@ -587,8 +595,8 @@ e_mail_printer_print (EMailPrinter *printer,
 	async_context->web_view = g_object_ref_sink (web_view);
 
 	handler_id = g_signal_connect_data (
-		web_view, "notify::load-status",
-		G_CALLBACK (mail_printer_load_status_cb),
+		web_view, "load-changed",
+		G_CALLBACK (mail_printer_load_changed_cb),
 		g_object_ref (simple),
 		(GClosureNotify) g_object_unref, 0);
 	async_context->load_status_handler_id = handler_id;

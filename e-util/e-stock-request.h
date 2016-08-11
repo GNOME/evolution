@@ -22,10 +22,7 @@
 #ifndef E_STOCK_REQUEST_H
 #define E_STOCK_REQUEST_H
 
-#define LIBSOUP_USE_UNSTABLE_REQUEST_API
-
-#include <libsoup/soup.h>
-#include <libsoup/soup-request.h>
+#include <e-util/e-content-request.h>
 
 /* Standard GObject macros */
 #define E_TYPE_STOCK_REQUEST \
@@ -53,15 +50,17 @@ typedef struct _EStockRequestClass EStockRequestClass;
 typedef struct _EStockRequestPrivate EStockRequestPrivate;
 
 struct _EStockRequest {
-	SoupRequest parent;
+	GObject parent;
 	EStockRequestPrivate *priv;
 };
 
 struct _EStockRequestClass {
-	SoupRequestClass parent;
+	GObjectClass parent;
 };
 
 GType		e_stock_request_get_type	(void) G_GNUC_CONST;
+EContentRequest *
+		e_stock_request_new		(void);
 
 G_END_DECLS
 

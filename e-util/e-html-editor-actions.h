@@ -47,8 +47,6 @@
 	E_HTML_EDITOR_ACTION ((editor), "context-insert-row-above")
 #define E_HTML_EDITOR_ACTION_CONTEXT_INSERT_ROW_BELOW(editor) \
 	E_HTML_EDITOR_ACTION ((editor), "context-insert-row-below")
-#define E_HTML_EDITOR_ACTION_CONTEXT_INSERT_TABLE(editor) \
-	E_HTML_EDITOR_ACTION ((editor), "context-insert-table")
 #define E_HTML_EDITOR_ACTION_CONTEXT_PROPERTIES_CELL(editor) \
 	E_HTML_EDITOR_ACTION ((editor), "context-properties-cell")
 #define E_HTML_EDITOR_ACTION_CONTEXT_PROPERTIES_IMAGE(editor) \
@@ -85,6 +83,8 @@
 	E_HTML_EDITOR_ACTION ((editor), "format-menu")
 #define E_HTML_EDITOR_ACTION_FORMAT_TEXT(editor) \
 	E_HTML_EDITOR_ACTION ((editor), "format-text")
+#define E_HTML_EDITOR_ACTION_INSERT_EMOTICON(editor) \
+	E_HTML_EDITOR_ACTION ((editor), "insert-emoticon")
 #define E_HTML_EDITOR_ACTION_INSERT_IMAGE(editor) \
 	E_HTML_EDITOR_ACTION ((editor), "insert-image")
 #define E_HTML_EDITOR_ACTION_INSERT_LINK(editor) \
@@ -157,7 +157,7 @@
 	E_HTML_EDITOR_ACTION ((editor), "undo")
 #define E_HTML_EDITOR_ACTION_UNINDENT(editor) \
 	E_HTML_EDITOR_ACTION ((editor), "unindent")
-#define E_HTML_EDITOR_ACTION_WEBKIT_INSPECTOR(editor) \
-	E_HTML_EDITOR_ACTION ((editor), "webkit-inspector")
+#define E_HTML_EDITOR_ACTION_WRAP_LINES(editor) \
+	E_HTML_EDITOR_ACTION ((editor), "wrap-lines")
 
 #endif /* E_HTML_EDITOR_ACTIONS_H */

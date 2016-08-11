@@ -32,6 +32,12 @@
 
 struct _EMailPartVCardPrivate {
 	gint placeholder;
+
+	guint display_mode_toggled_signal_id;
+	guint save_vcard_button_pressed_signal_id;
+
+	GDBusProxy *web_extension;
+	guint64 page_id;
 };
 
 G_DEFINE_DYNAMIC_TYPE (
@@ -85,8 +91,12 @@ client_connect_cb (GObject *source_object,
 }
 
 static void
-save_vcard_cb (WebKitDOMEventTarget *button,
-               WebKitDOMEvent *event,
+save_vcard_cb (GDBusConnection *connection,
+               const gchar *sender_name,
+               const gchar *object_path,
+               const gchar *interface_name,
+               const gchar *signal_name,
+               GVariant *parameters,
                EMailPartVCard *vcard_part)
 {
 	EShell *shell;
@@ -94,8 +104,18 @@ save_vcard_cb (WebKitDOMEventTarget *button,
 	ESourceRegistry *registry;
 	ESourceSelector *selector;
 	GSList *contact_list;
-	const gchar *extension_name;
+	const gchar *extension_name, *button_value, *part_id;
 	GtkWidget *dialog;
+
+	if (g_strcmp0 (signal_name, "VCardInlineSaveButtonPressed") != 0)
+		return;
+
+	g_variant_get (parameters, "(&s)", &button_value);
+
+	part_id = e_mail_part_get_id (E_MAIL_PART (vcard_part));
+
+	if (!strstr (part_id, button_value))
+		return;
 
 	shell = e_shell_get_default ();
 	registry = e_shell_get_registry (shell);
@@ -131,8 +151,12 @@ save_vcard_cb (WebKitDOMEventTarget *button,
 }
 
 static void
-display_mode_toggle_cb (WebKitDOMEventTarget *button,
-                        WebKitDOMEvent *event,
+display_mode_toggle_cb (GDBusConnection *connection,
+                        const gchar *sender_name,
+                        const gchar *object_path,
+                        const gchar *interface_name,
+                        const gchar *signal_name,
+                        GVariant *parameters,
                         EMailPartVCard *vcard_part)
 {
 	EABContactDisplayMode mode;
@@ -140,8 +164,20 @@ display_mode_toggle_cb (WebKitDOMEventTarget *button,
 	gchar *html_label;
 	gchar *access_key;
 	const gchar *part_id;
+	const gchar *button_id;
+
+	if (g_strcmp0 (signal_name, "VCardInlineDisplayModeToggled") != 0)
+		return;
+
+	if (!vcard_part->priv->web_extension)
+		return;
+
+	g_variant_get (parameters, "(&s)", &button_id);
 
 	part_id = e_mail_part_get_id (E_MAIL_PART (vcard_part));
+
+	if (!strstr (part_id, button_id))
+		return;
 
 	mode = eab_contact_formatter_get_display_mode (vcard_part->formatter);
 	if (mode == EAB_CONTACT_DISPLAY_RENDER_NORMAL) {
@@ -149,37 +185,32 @@ display_mode_toggle_cb (WebKitDOMEventTarget *button,
 
 		html_label = e_mail_formatter_parse_html_mnemonics (
 				_("Show F_ull vCard"), &access_key);
-
-		webkit_dom_html_element_set_inner_html (
-			WEBKIT_DOM_HTML_ELEMENT (button),
-			html_label, NULL);
-		if (access_key) {
-			webkit_dom_html_element_set_access_key (
-				WEBKIT_DOM_HTML_ELEMENT (button),
-				access_key);
-			g_free (access_key);
-		}
-
-		g_free (html_label);
-
 	} else {
 		mode = EAB_CONTACT_DISPLAY_RENDER_NORMAL;
 
 		html_label = e_mail_formatter_parse_html_mnemonics (
 				_("Show Com_pact vCard"), &access_key);
-
-		webkit_dom_html_element_set_inner_html (
-			WEBKIT_DOM_HTML_ELEMENT (button),
-			html_label, NULL);
-		if (access_key) {
-			webkit_dom_html_element_set_access_key (
-				WEBKIT_DOM_HTML_ELEMENT (button),
-				access_key);
-			g_free (access_key);
-		}
-
-		g_free (html_label);
 	}
+
+	g_dbus_proxy_call (
+		vcard_part->priv->web_extension,
+		"VCardInlineUpdateButton",
+		g_variant_new (
+			"(tsss)",
+			vcard_part->priv->page_id,
+			button_id,
+			html_label,
+			access_key),
+		G_DBUS_CALL_FLAGS_NONE,
+		-1,
+		NULL,
+		NULL,
+		NULL);
+
+	if (access_key)
+		g_free (access_key);
+
+	g_free (html_label);
 
 	eab_contact_formatter_set_display_mode (vcard_part->formatter, mode);
 
@@ -188,8 +219,19 @@ display_mode_toggle_cb (WebKitDOMEventTarget *button,
 		"part_id", G_TYPE_STRING, part_id,
 		"mode", G_TYPE_INT, E_MAIL_FORMATTER_MODE_RAW, NULL);
 
-	webkit_dom_html_iframe_element_set_src (
-		WEBKIT_DOM_HTML_IFRAME_ELEMENT (vcard_part->iframe), uri);
+	g_dbus_proxy_call (
+		vcard_part->priv->web_extension,
+		"VCardInlineSetIFrameSrc",
+		g_variant_new (
+			"(tss)",
+			vcard_part->priv->page_id,
+			button_id,
+			uri),
+		G_DBUS_CALL_FLAGS_NONE,
+		-1,
+		NULL,
+		NULL,
+		NULL);
 
 	g_free (uri);
 }
@@ -202,10 +244,21 @@ mail_part_vcard_dispose (GObject *object)
 	g_clear_object (&part->contact_display);
 	g_clear_object (&part->message_label);
 	g_clear_object (&part->formatter);
-	g_clear_object (&part->iframe);
-	g_clear_object (&part->save_button);
-	g_clear_object (&part->toggle_button);
 	g_clear_object (&part->folder);
+
+	if (part->priv->display_mode_toggled_signal_id > 0) {
+		g_dbus_connection_signal_unsubscribe (
+			g_dbus_proxy_get_connection (part->priv->web_extension),
+			part->priv->display_mode_toggled_signal_id);
+		part->priv->display_mode_toggled_signal_id = 0;
+	}
+
+	if (part->priv->save_vcard_button_pressed_signal_id > 0) {
+		g_dbus_connection_signal_unsubscribe (
+			g_dbus_proxy_get_connection (part->priv->web_extension),
+			part->priv->save_vcard_button_pressed_signal_id);
+		part->priv->save_vcard_button_pressed_signal_id = 0;
+	}
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_mail_part_vcard_parent_class)->dispose (object);
@@ -249,66 +302,55 @@ mail_part_vcard_constructed (GObject *object)
 
 static void
 mail_part_vcard_bind_dom_element (EMailPart *part,
-                                  WebKitDOMElement *element)
+                                  GDBusProxy *evolution_web_extension,
+                                  guint64 page_id,
+                                  const gchar *element_id)
 {
 	EMailPartVCard *vcard_part;
-	WebKitDOMNodeList *list;
-	WebKitDOMElement *iframe;
-	WebKitDOMElement *toggle_button;
-	WebKitDOMElement *save_button;
 
 	vcard_part = E_MAIL_PART_VCARD (part);
 
-	/* IFRAME */
-	list = webkit_dom_element_get_elements_by_tag_name (
-		element, "iframe");
-	if (webkit_dom_node_list_get_length (list) != 1) {
-		g_object_unref (list);
-		return;
-	}
-	iframe = WEBKIT_DOM_ELEMENT (webkit_dom_node_list_item (list, 0));
-	g_clear_object (&vcard_part->iframe);
-	vcard_part->iframe = iframe;
-	g_object_unref (list);
+	vcard_part->priv->web_extension = evolution_web_extension;
+	vcard_part->priv->page_id = page_id;
 
-	/* TOGGLE DISPLAY MODE BUTTON */
-	list = webkit_dom_element_get_elements_by_class_name (
-		element, "org-gnome-vcard-display-mode-button");
-	if (webkit_dom_node_list_get_length (list) != 1) {
-		g_object_unref (list);
-		return;
-	}
-	toggle_button = WEBKIT_DOM_ELEMENT (webkit_dom_node_list_item (list, 0));
-	g_clear_object (&vcard_part->toggle_button);
-	vcard_part->toggle_button = toggle_button;
-	g_object_unref (list);
+	vcard_part->priv->display_mode_toggled_signal_id =
+		g_dbus_connection_signal_subscribe (
+			g_dbus_proxy_get_connection (evolution_web_extension),
+			g_dbus_proxy_get_name (evolution_web_extension),
+			g_dbus_proxy_get_interface_name (evolution_web_extension),
+			"VCardInlineDisplayModeToggled",
+			g_dbus_proxy_get_object_path (evolution_web_extension),
+			NULL,
+			G_DBUS_SIGNAL_FLAGS_NONE,
+			(GDBusSignalCallback) display_mode_toggle_cb,
+			vcard_part,
+			NULL);
 
-	/* SAVE TO ADDRESSBOOK BUTTON */
-	list = webkit_dom_element_get_elements_by_class_name (
-		element, "org-gnome-vcard-save-button");
-	if (webkit_dom_node_list_get_length (list) != 1) {
-		g_object_unref (list);
-		return;
-	}
-	save_button = WEBKIT_DOM_ELEMENT (webkit_dom_node_list_item (list, 0));
-	g_clear_object (&vcard_part->save_button);
-	vcard_part->save_button = save_button;
-	g_object_unref (list);
+	vcard_part->priv->save_vcard_button_pressed_signal_id =
+		g_dbus_connection_signal_subscribe (
+			g_dbus_proxy_get_connection (evolution_web_extension),
+			g_dbus_proxy_get_name (evolution_web_extension),
+			g_dbus_proxy_get_interface_name (evolution_web_extension),
+			"VCardInlineSaveButtonPressed",
+			g_dbus_proxy_get_object_path (evolution_web_extension),
+			NULL,
+			G_DBUS_SIGNAL_FLAGS_NONE,
+			(GDBusSignalCallback) save_vcard_cb,
+			vcard_part,
+			NULL);
 
-	webkit_dom_event_target_add_event_listener (
-		WEBKIT_DOM_EVENT_TARGET (toggle_button),
-		"click", G_CALLBACK (display_mode_toggle_cb),
-		FALSE, vcard_part);
-
-	webkit_dom_event_target_add_event_listener (
-		WEBKIT_DOM_EVENT_TARGET (save_button),
-		"click", G_CALLBACK (save_vcard_cb),
-		FALSE, vcard_part);
-
-	/* Bind collapse buttons for contact lists. */
-	eab_contact_formatter_bind_dom (
-		webkit_dom_html_iframe_element_get_content_document (
-			WEBKIT_DOM_HTML_IFRAME_ELEMENT (iframe)));
+	g_dbus_proxy_call (
+		vcard_part->priv->web_extension,
+		"VCardInlineBindDOM",
+		g_variant_new (
+			"(ts)",
+			vcard_part->priv->page_id,
+			element_id),
+		G_DBUS_CALL_FLAGS_NONE,
+		-1,
+		NULL,
+		NULL,
+		NULL);
 }
 
 static void

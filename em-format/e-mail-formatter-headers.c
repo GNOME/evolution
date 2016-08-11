@@ -522,7 +522,7 @@ emfe_headers_format (EMailFormatterExtension *extension,
 	g_string_append_printf (
 		buffer,
 		"%s id=\"%s\"><table class=\"-e-mail-formatter-header-color\" border=\"0\" width=\"100%%\" "
-		"style=\"direction: %s\">"
+		"style=\"direction: %s; border-spacing: 0px\">"
 		"<tr>",
 		(context->mode != E_MAIL_FORMATTER_MODE_PRINTING) ?
 			"<div class=\"headers -e-mail-formatter-body-color\"" :
@@ -533,7 +533,7 @@ emfe_headers_format (EMailFormatterExtension *extension,
 	if (is_collapsable)
 		g_string_append_printf (
 			buffer,
-			"<td valign=\"top\" width=\"16\">"
+			"<td valign=\"top\" width=\"16\" style=\"padding-left: 0px\">"
 			"<img src=\"evo-file://%s/%s\" class=\"navigable\" "
 			"     id=\"__evo-collapse-headers-img\" />"
 			"</td>",

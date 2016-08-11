@@ -3202,6 +3202,42 @@ e_util_cleanup_settings (void)
 	g_mutex_unlock (&settings_hash_lock);
 }
 
+static gdouble
+get_screen_dpi (GdkScreen *screen)
+{
+	gdouble dpi;
+	gdouble dp, di;
+
+	dpi = gdk_screen_get_resolution (screen);
+	if (dpi != -1)
+		return dpi;
+
+	dp = hypot (gdk_screen_get_width (screen), gdk_screen_get_height (screen));
+	di = hypot (gdk_screen_get_width_mm (screen), gdk_screen_get_height_mm (screen)) / 25.4;
+
+	return dp / di;
+}
+
+guint
+e_util_normalize_font_size (GtkWidget *widget,
+                            gdouble font_size)
+{
+	/* WebKit2 uses font sizes in pixels. */
+	GdkScreen *screen;
+	gdouble dpi;
+
+	if (widget) {
+		screen = gtk_widget_has_screen (widget) ?
+			gtk_widget_get_screen (widget) : gdk_screen_get_default ();
+	} else {
+		screen = gdk_screen_get_default ();
+	}
+
+	dpi = screen ? get_screen_dpi (screen) : 96;
+
+	return font_size / 72.0 * dpi;
+}
+
 /**
  * e_util_prompt_user:
  * @parent: parent window
@@ -3405,6 +3441,22 @@ e_util_set_entry_issue_hint (GtkWidget *entry,
 	}
 }
 
+static GThread *main_thread = NULL;
+
+void
+e_util_init_main_thread (GThread *thread)
+{
+	g_return_if_fail (main_thread == NULL);
+
+	main_thread = thread ? thread : g_thread_self ();
+}
+
+gboolean
+e_util_is_main_thread (GThread *thread)
+{
+	return thread ? thread == main_thread : g_thread_self () == main_thread;
+}
+
 /**
  * e_util_save_image_from_clipboard:
  * @clipboard: a #GtkClipboard
@@ -3446,7 +3498,7 @@ e_util_save_image_from_clipboard (GtkClipboard *clipboard)
 	/* Convert the filename to a URI. */
 	uri = g_filename_to_uri (filename, NULL, &error);
 
-exit:
+ exit:
 	if (error != NULL) {
 		g_warning ("%s", error->message);
 		g_error_free (error);

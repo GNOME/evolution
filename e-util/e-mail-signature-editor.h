@@ -63,8 +63,13 @@ struct _EMailSignatureEditorClass {
 
 GType		e_mail_signature_editor_get_type
 						(void) G_GNUC_CONST;
-GtkWidget *	e_mail_signature_editor_new	(ESourceRegistry *registry,
-						 ESource *source);
+void		e_mail_signature_editor_new	(ESourceRegistry *registry,
+						 ESource *source,
+						 GAsyncReadyCallback callback,
+						 gpointer user_data);
+GtkWidget *	e_mail_signature_editor_new_finish
+						(GAsyncResult *result,
+						 GError **error);
 EHTMLEditor *	e_mail_signature_editor_get_editor
 						(EMailSignatureEditor *editor);
 EFocusTracker *	e_mail_signature_editor_get_focus_tracker

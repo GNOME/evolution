@@ -41,6 +41,9 @@ struct _EHTMLEditorFindDialogPrivate {
 	GtkWidget *find_button;
 
 	GtkWidget *result_label;
+
+	EContentEditor *cnt_editor;
+	gulong find_done_handler_id;
 };
 
 G_DEFINE_TYPE (
@@ -56,6 +59,17 @@ reset_dialog (EHTMLEditorFindDialog *dialog)
 }
 
 static void
+html_editor_find_dialog_hide (GtkWidget *widget)
+{
+	EHTMLEditorFindDialog *dialog = E_HTML_EDITOR_FIND_DIALOG (widget);
+
+	e_content_editor_on_find_dialog_close (dialog->priv->cnt_editor);
+
+	/* Chain up to parent's implementation */
+	GTK_WIDGET_CLASS (e_html_editor_find_dialog_parent_class)->hide (widget);
+}
+
+static void
 html_editor_find_dialog_show (GtkWidget *widget)
 {
 	EHTMLEditorFindDialog *dialog = E_HTML_EDITOR_FIND_DIALOG (widget);
@@ -63,48 +77,45 @@ html_editor_find_dialog_show (GtkWidget *widget)
 	reset_dialog (dialog);
 	gtk_widget_grab_focus (dialog->priv->entry);
 
+	e_content_editor_on_find_dialog_open (dialog->priv->cnt_editor);
+
 	/* Chain up to parent's implementation */
 	GTK_WIDGET_CLASS (e_html_editor_find_dialog_parent_class)->show (widget);
 }
 
 static void
-html_editor_find_dialog_find_cb (EHTMLEditorFindDialog *dialog)
+content_editor_find_done_cb (EContentEditor *cnt_editor,
+			     guint match_count,
+			     EHTMLEditorFindDialog *dialog)
 {
-	gboolean found;
-	EHTMLEditor *editor;
-	EHTMLEditorView *view;
-
-	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
-	view = e_html_editor_get_view (editor);
-	found = webkit_web_view_search_text (
-			WEBKIT_WEB_VIEW (view),
-			gtk_entry_get_text (
-				GTK_ENTRY (dialog->priv->entry)),
-			gtk_toggle_button_get_active (
-				GTK_TOGGLE_BUTTON (
-					dialog->priv->case_sensitive)),
-			!gtk_toggle_button_get_active (
-				GTK_TOGGLE_BUTTON (
-					dialog->priv->backwards)),
-			gtk_toggle_button_get_active (
-				GTK_TOGGLE_BUTTON (
-					dialog->priv->wrap_search)));
-
-	gtk_widget_set_sensitive (dialog->priv->find_button, found);
-
-	/* We give focus to WebKit so that the selection is highlited.
-	 * Without focus selection is not visible (at least with my default
-	 * color scheme). The focus in fact is not given to WebKit, because
-	 * this dialog is modal, but it satisfies it in a way that it paints
-	 * the selection :) */
-	gtk_widget_grab_focus (GTK_WIDGET (view));
-
-	if (!found) {
-		gtk_label_set_label (
-			GTK_LABEL (dialog->priv->result_label),
-			N_("No match found"));
+	if (match_count) {
+		gtk_widget_hide (dialog->priv->result_label);
+	} else {
+		gtk_label_set_label (GTK_LABEL (dialog->priv->result_label), _("No match found"));
 		gtk_widget_show (dialog->priv->result_label);
 	}
+
+	gtk_widget_set_sensitive (dialog->priv->find_button, match_count > 0);
+}
+
+static void
+html_editor_find_dialog_find_cb (EHTMLEditorFindDialog *dialog)
+{
+	guint32 flags = E_CONTENT_EDITOR_FIND_NEXT;
+
+	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (dialog->priv->backwards)))
+		flags |= E_CONTENT_EDITOR_FIND_MODE_BACKWARDS;
+
+	if (!gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (dialog->priv->case_sensitive)))
+		flags |= E_CONTENT_EDITOR_FIND_CASE_INSENSITIVE;
+
+	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (dialog->priv->wrap_search)))
+		flags |= E_CONTENT_EDITOR_FIND_WRAP_AROUND;
+
+	e_content_editor_find (
+		dialog->priv->cnt_editor,
+		flags,
+		gtk_entry_get_text (GTK_ENTRY (dialog->priv->entry)));
 }
 
 static gboolean
@@ -125,13 +136,59 @@ entry_key_release_event (GtkWidget *widget,
 }
 
 static void
+html_editor_find_dialog_dispose (GObject *object)
+{
+	EHTMLEditorFindDialogPrivate *priv;
+
+	priv = E_HTML_EDITOR_FIND_DIALOG_GET_PRIVATE (object);
+
+	if (priv->find_done_handler_id > 0) {
+		g_signal_handler_disconnect (
+			priv->cnt_editor,
+			priv->find_done_handler_id);
+		priv->find_done_handler_id = 0;
+	}
+
+	/* Chain up to parent's dispose() method. */
+	G_OBJECT_CLASS (e_html_editor_find_dialog_parent_class)->dispose (object);
+}
+
+static void
+html_editor_find_dialog_constructed (GObject *object)
+{
+	EHTMLEditor *editor;
+	EHTMLEditorFindDialog *dialog;
+	EContentEditor *cnt_editor;
+
+	dialog = E_HTML_EDITOR_FIND_DIALOG (object);
+	dialog->priv = E_HTML_EDITOR_FIND_DIALOG_GET_PRIVATE (dialog);
+
+	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
+	cnt_editor = e_html_editor_get_content_editor (editor);
+
+	dialog->priv->find_done_handler_id = g_signal_connect (
+		cnt_editor, "find-done",
+		G_CALLBACK (content_editor_find_done_cb), dialog);
+
+	dialog->priv->cnt_editor = cnt_editor;
+
+	G_OBJECT_CLASS (e_html_editor_find_dialog_parent_class)->constructed (object);
+}
+
+static void
 e_html_editor_find_dialog_class_init (EHTMLEditorFindDialogClass *class)
 {
+	GObjectClass *object_class;
 	GtkWidgetClass *widget_class;
 
 	g_type_class_add_private (class, sizeof (EHTMLEditorFindDialogPrivate));
 
+	object_class = G_OBJECT_CLASS (class);
+	object_class->constructed = html_editor_find_dialog_constructed;
+	object_class->dispose = html_editor_find_dialog_dispose;
+
 	widget_class = GTK_WIDGET_CLASS (class);
+	widget_class->hide = html_editor_find_dialog_hide;
 	widget_class->show = html_editor_find_dialog_show;
 }
 
@@ -217,9 +274,8 @@ e_html_editor_find_dialog_new (EHTMLEditor *editor)
 void
 e_html_editor_find_dialog_find_next (EHTMLEditorFindDialog *dialog)
 {
-	if (gtk_entry_get_text_length (GTK_ENTRY (dialog->priv->entry)) == 0) {
+	if (gtk_entry_get_text_length (GTK_ENTRY (dialog->priv->entry)) == 0)
 		return;
-	}
 
 	html_editor_find_dialog_find_cb (dialog);
 }

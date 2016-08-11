@@ -141,11 +141,10 @@ spell_language_save (EMComposerPrefs *prefs)
 static void
 spell_setup (EMComposerPrefs *prefs)
 {
-	GList *list, *link;
+	GList *list = NULL, *link;
 	GtkListStore *store;
 
 	store = GTK_LIST_STORE (prefs->language_model);
-
 	list = e_spell_checker_list_available_dicts (prefs->spell_checker);
 
 	/* Populate the GtkListStore. */

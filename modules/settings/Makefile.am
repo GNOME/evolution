@@ -25,8 +25,8 @@ module_settings_la_SOURCES = \
 	e-settings-date-edit.h \
 	e-settings-deprecated.c \
 	e-settings-deprecated.h \
-	e-settings-html-editor-view.c \
-	e-settings-html-editor-view.h \
+	e-settings-content-editor.c \
+	e-settings-content-editor.h \
 	e-settings-mail-browser.c \
 	e-settings-mail-browser.h \
 	e-settings-mail-formatter.c \

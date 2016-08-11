@@ -27,15 +27,25 @@
 
 #include <glib/gi18n-lib.h>
 
+/* Enable it, once printing is implemented (it doesn't work to do it
+   on a WebKit side, because the EContentEditor can be a different
+   structure. That might be why EMsgComposer uses a "print" signal,
+   which prints a constructed message, like within the message preview. */
+/* #define ENABLE_PRINT */
+
 static const gchar *file_ui =
 "<ui>\n"
 "  <menubar name='main-menu'>\n"
 "    <menu action='file-menu'>\n"
+"     <menuitem action='new-editor'/>\n"
+"     <separator/>\n"
 "     <menuitem action='save'/>\n"
 "     <menuitem action='save-as'/>\n"
+#ifdef ENABLE_PRINT
 "     <separator/>\n"
 "     <menuitem action='print-preview'/>\n"
 "     <menuitem action='print'/>\n"
+#endif /* ENABLE_PRINT */
 "     <separator/>\n"
 "     <menuitem action='disable-editor'/>\n"
 "     <separator/>\n"
@@ -51,10 +61,13 @@ static const gchar *view_ui =
 "     <menuitem action='view-html-output'/>\n"
 "     <menuitem action='view-html-source'/>\n"
 "     <menuitem action='view-plain-source'/>\n"
-"     <menuitem action='view-inspector'/>\n"
+"     <separator/>\n"
+"     <menuitem action='view-webkit-inspector'/>\n"
 "    </menu>\n"
 "  </menubar>\n"
 "</ui>";
+
+static void create_new_editor (void);
 
 static void
 handle_error (GError **error)
@@ -65,7 +78,8 @@ handle_error (GError **error)
 	}
 }
 
-static GtkPrintOperationResult
+#ifdef ENABLE_PRINT
+static void
 print (EHTMLEditor *editor,
        GtkPrintOperationAction action)
 {
@@ -78,13 +92,12 @@ print (EHTMLEditor *editor,
 
 	frame = webkit_web_view_get_main_frame (
 		WEBKIT_WEB_VIEW (e_html_editor_get_view (editor)));
-	result = webkit_web_frame_print_full (frame, operation, action, NULL);
+	webkit_web_frame_print_full (frame, operation, action, NULL);
 
 	g_object_unref (operation);
 	handle_error (&error);
-
-	return result;
 }
+#endif
 
 static gint
 save_dialog (EHTMLEditor *editor)
@@ -139,7 +152,10 @@ view_source_dialog (EHTMLEditor *editor,
 	GtkWidget *content;
 	GtkWidget *content_area;
 	GtkWidget *scrolled_window;
+	EContentEditor *cnt_editor;
 	gchar * html;
+
+	cnt_editor = e_html_editor_get_content_editor (editor);
 
 	dialog = gtk_dialog_new_with_buttons (
 		title,
@@ -165,15 +181,17 @@ view_source_dialog (EHTMLEditor *editor,
 	gtk_window_set_default_size (GTK_WINDOW (dialog), 400, 300);
 
 	if (plain_text) {
-		html = e_html_editor_view_get_text_plain (
-			e_html_editor_get_view (editor));
+		html = e_content_editor_get_content (cnt_editor,
+			E_CONTENT_EDITOR_GET_PROCESSED | E_CONTENT_EDITOR_GET_TEXT_PLAIN,
+			NULL, NULL);
 	} else {
-		GList *inline_images;
+		GSList *inline_images = NULL;
 
-		html = e_html_editor_view_get_text_html (
-			e_html_editor_get_view (editor), "test-domain", &inline_images);
+		html = e_content_editor_get_content (cnt_editor,
+			E_CONTENT_EDITOR_GET_PROCESSED | E_CONTENT_EDITOR_GET_TEXT_HTML | E_CONTENT_EDITOR_GET_INLINE_IMAGES,
+			"test-domain", &inline_images);
 
-		g_list_free_full (inline_images, g_object_unref);
+		g_slist_free_full (inline_images, g_object_unref);
 	}
 
 	if (show_source || plain_text) {
@@ -185,8 +203,7 @@ view_source_dialog (EHTMLEditor *editor,
 		gtk_text_view_set_editable (GTK_TEXT_VIEW (content), FALSE);
 	} else {
 		content = webkit_web_view_new ();
-		webkit_web_view_load_string (
-			WEBKIT_WEB_VIEW (content), html, NULL, NULL, NULL);
+		webkit_web_view_load_html (WEBKIT_WEB_VIEW (content), html, "evo-file://");
 	}
 	g_free (html);
 
@@ -197,6 +214,14 @@ view_source_dialog (EHTMLEditor *editor,
 	gtk_widget_destroy (dialog);
 }
 
+static void
+action_new_editor_cb (GtkAction *action,
+		      EHTMLEditor *editor)
+{
+	create_new_editor ();
+}
+
+#ifdef ENABLE_PRINT
 static void
 action_print_cb (GtkAction *action,
                  EHTMLEditor *editor)
@@ -210,6 +235,7 @@ action_print_preview_cb (GtkAction *action,
 {
 	print (editor, GTK_PRINT_OPERATION_ACTION_PREVIEW);
 }
+#endif /* ENABLE_PRINT */
 
 static void
 action_quit_cb (GtkAction *action,
@@ -231,7 +257,7 @@ action_save_cb (GtkAction *action,
 			return;
 
 	filename = e_html_editor_get_filename (editor);
-	as_html = (e_html_editor_view_get_html_mode (e_html_editor_get_view (editor)));
+	as_html = (e_content_editor_get_html_mode (e_html_editor_get_content_editor (editor)));
 
 	e_html_editor_save (editor, filename, as_html, &error);
 	handle_error (&error);
@@ -249,7 +275,7 @@ action_save_as_cb (GtkAction *action,
 		return;
 
 	filename = e_html_editor_get_filename (editor);
-	as_html = (e_html_editor_view_get_html_mode (e_html_editor_get_view (editor)));
+	as_html = (e_content_editor_get_html_mode (e_html_editor_get_content_editor (editor)));
 
 	e_html_editor_save (editor, filename, as_html, &error);
 	handle_error (&error);
@@ -259,12 +285,10 @@ static void
 action_toggle_editor (GtkAction *action,
                       EHTMLEditor *editor)
 {
-	EHTMLEditorView *view;
+	EContentEditor *cnt_editor;
 
-	view = e_html_editor_get_view (editor);
-	webkit_web_view_set_editable (
-		WEBKIT_WEB_VIEW (view),
-		! webkit_web_view_get_editable (WEBKIT_WEB_VIEW (view)));
+	cnt_editor = e_html_editor_get_content_editor (editor);
+	e_content_editor_set_editable (cnt_editor, !e_content_editor_is_editable (cnt_editor));
 }
 
 static void
@@ -293,16 +317,26 @@ action_view_inspector (GtkAction *action,
                        EHTMLEditor *editor)
 {
 	WebKitWebInspector *inspector;
-	EHTMLEditorView *view;
+	EContentEditor *cnt_editor;
 
-	view = e_html_editor_get_view (editor);
-	inspector = webkit_web_view_get_inspector (WEBKIT_WEB_VIEW (view));
-
-	webkit_web_inspector_show (inspector);
+	cnt_editor = e_html_editor_get_content_editor (editor);
+	if (WEBKIT_IS_WEB_VIEW (cnt_editor)) {
+		inspector = webkit_web_view_get_inspector (WEBKIT_WEB_VIEW (cnt_editor));
+		webkit_web_inspector_show (inspector);
+	} else {
+		g_print ("Cannot show the inspector, the content editor is not a WebKitWebView descendant\n");
+	}
 }
 
 static GtkActionEntry file_entries[] = {
+	{ "new-editor",
+	  "document-new",
+	  N_("_New editor"),
+	  "<Control>N",
+	  NULL,
+	  G_CALLBACK (action_new_editor_cb) },
 
+#ifdef ENABLE_PRINT
 	{ "print",
 	  "document-print",
 	  N_("_Print..."),
@@ -316,6 +350,7 @@ static GtkActionEntry file_entries[] = {
 	  "<Control><Shift>p",
 	  NULL,
 	  G_CALLBACK (action_print_preview_cb) },
+#endif /* ENABLE_PRINT */
 
 	{ "quit",
 	  "application-exit",
@@ -376,11 +411,11 @@ static GtkActionEntry view_entries[] = {
 	  NULL,
 	  G_CALLBACK (action_view_plain_source) },
 
-	{ "view-inspector",
+	{ "view-webkit-inspector",
 	  NULL,
 	  N_("Inspector"),
 	  NULL,
-	  NULL,
+	  "<Control><Shift>I",
 	  G_CALLBACK (action_view_inspector) },
 
 	{ "view-menu",
@@ -391,53 +426,64 @@ static GtkActionEntry view_entries[] = {
 	  NULL }
 };
 
-static WebKitWebView *
-open_inspector (WebKitWebInspector *inspector,
-                WebKitWebView *webview,
-                gpointer user_data)
+static guint glob_editors = 0;
+
+static void
+editor_destroyed_cb (GtkWidget *editor)
 {
-	GtkWidget *window;
-	GtkWidget *inspector_view;
+	g_return_if_fail (glob_editors > 0);
 
-	window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-	inspector_view = webkit_web_view_new ();
+	glob_editors--;
 
-	gtk_container_add (GTK_CONTAINER (window), GTK_WIDGET (inspector_view));
-
-	gtk_widget_set_size_request (window, 600, 480);
-	gtk_widget_show (window);
-
-	return WEBKIT_WEB_VIEW (inspector_view);
+	if (!glob_editors)
+		gtk_main_quit ();
 }
 
-gint
-main (gint argc,
-      gchar **argv)
+static void
+create_new_editor_cb (GObject *source_object,
+		      GAsyncResult *result,
+		      gpointer user_data)
 {
 	GtkActionGroup *action_group;
 	GtkUIManager *manager;
 	GtkWidget *container;
 	GtkWidget *widget;
 	EHTMLEditor *editor;
-	EHTMLEditorView *view;
-	WebKitWebInspector *inspector;
-
+	EContentEditor *cnt_editor;
 	GError *error = NULL;
 
-	bindtextdomain (GETTEXT_PACKAGE, EVOLUTION_LOCALEDIR);
-	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
-	textdomain (GETTEXT_PACKAGE);
+	widget = e_html_editor_new_finish (result, &error);
+	if (error) {
+		g_warning ("%s: Failed to create HTML editor: %s", G_STRFUNC, error->message);
+		g_clear_error (&error);
+		editor_destroyed_cb (NULL);
+		return;
+	}
 
-	gtk_init (&argc, &argv);
+	editor = E_HTML_EDITOR (widget);
+	cnt_editor = e_html_editor_get_content_editor (editor);
 
-	editor = g_object_ref_sink (e_html_editor_new ());
-	view = e_html_editor_get_view (editor);
+	g_object_set (G_OBJECT (editor),
+		"halign", GTK_ALIGN_FILL,
+		"hexpand", TRUE,
+		"valign", GTK_ALIGN_FILL,
+		"vexpand", TRUE,
+		NULL);
 
-	inspector = webkit_web_view_get_inspector (
-		WEBKIT_WEB_VIEW (view));
-	g_signal_connect (
-		inspector, "inspect-web-view",
-		G_CALLBACK (open_inspector), NULL);
+	g_object_set (G_OBJECT (cnt_editor),
+		"halign", GTK_ALIGN_FILL,
+		"hexpand", TRUE,
+		"valign", GTK_ALIGN_FILL,
+		"vexpand", TRUE,
+		NULL);
+
+	if (WEBKIT_IS_WEB_VIEW (cnt_editor)) {
+		WebKitSettings *web_settings;
+
+		web_settings = webkit_web_view_get_settings (WEBKIT_WEB_VIEW (cnt_editor));
+		webkit_settings_set_allow_file_access_from_file_urls (web_settings, TRUE);
+		webkit_settings_set_enable_developer_extras (web_settings, TRUE);
+	}
 
 	widget = gtk_window_new (GTK_WINDOW_TOPLEVEL);
 	gtk_widget_set_size_request (widget, 600, 400);
@@ -445,7 +491,7 @@ main (gint argc,
 
 	g_signal_connect_swapped (
 		widget, "destroy",
-		G_CALLBACK (gtk_main_quit), NULL);
+		G_CALLBACK (editor_destroyed_cb), NULL);
 
 	container = widget;
 
@@ -466,6 +512,8 @@ main (gint argc,
 	widget = GTK_WIDGET (editor);
 	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
 	gtk_widget_show (widget);
+
+	gtk_widget_grab_focus (GTK_WIDGET (cnt_editor));
 
 	manager = e_html_editor_get_ui_manager (editor);
 
@@ -491,16 +539,48 @@ main (gint argc,
 		G_N_ELEMENTS (view_entries), editor);
 	gtk_ui_manager_insert_action_group (manager, action_group, 0);
 
-	gtk_ui_manager_ensure_update (manager);
+	if (!WEBKIT_IS_WEB_VIEW (cnt_editor)) {
+		GtkAction *action;
 
-	g_signal_connect (
-		editor, "destroy",
-		G_CALLBACK (gtk_main_quit), NULL);
+		action = e_html_editor_get_action (editor, "view-webkit-inspector");
+		gtk_action_set_visible (action, FALSE);
+	}
+
+	gtk_ui_manager_ensure_update (manager);
+}
+
+static void
+create_new_editor (void)
+{
+	glob_editors++;
+
+	e_html_editor_new (create_new_editor_cb, NULL);
+}
+
+gint
+main (gint argc,
+      gchar **argv)
+{
+	GList *modules;
+
+	bindtextdomain (GETTEXT_PACKAGE, EVOLUTION_LOCALEDIR);
+	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
+	textdomain (GETTEXT_PACKAGE);
+
+	gtk_init (&argc, &argv);
+
+	e_util_init_main_thread (NULL);
+	e_passwords_init ();
+
+	modules = e_module_load_all_in_directory (EVOLUTION_MODULEDIR);
+	g_list_free_full (modules, (GDestroyNotify) g_type_module_unuse);
+
+	create_new_editor ();
 
 	gtk_main ();
 
-	g_object_unref (editor);
 	e_util_cleanup_settings ();
+	e_spell_checker_free_global_memory ();
 
 	return 0;
 }

@@ -27,7 +27,6 @@
 #include <unistd.h>
 
 #include <gtk/gtk.h>
-#include <webkit/webkitdom.h>
 
 #include <libecal/libecal.h>
 
@@ -58,8 +57,6 @@ G_BEGIN_DECLS
 typedef struct _ItipView ItipView;
 typedef struct _ItipViewClass ItipViewClass;
 typedef struct _ItipViewPrivate ItipViewPrivate;
-
-struct _EMailPartItip;
 
 typedef enum {
 	ITIP_VIEW_MODE_NONE,
@@ -109,17 +106,24 @@ struct _ItipViewClass {
 };
 
 GType		itip_view_get_type		(void);
-ItipView *	itip_view_new			(struct _EMailPartItip *puri,
-						 EClientCache *client_cache);
+ItipView *	itip_view_new			(guint64 page_id,
+						 const gchar *part_id,
+						 gpointer itip_part_ptr,
+						 CamelFolder *folder,
+						 const gchar *message_uid,
+						 CamelMimeMessage *message,
+						 CamelMimePart *itip_mime_part,
+						 const gchar *vcalendar,
+						 GCancellable *cancellable);
 void		itip_view_init_view		(ItipView *view);
-void		itip_view_write			(EMailFormatter *formatter,
+void		itip_view_set_web_view		(ItipView *view,
+						 EWebView *web_view);
+EWebView *	itip_view_ref_web_view		(ItipView *view);
+void		itip_view_write			(gpointer itip_part,
+						 EMailFormatter *formatter,
 						 GString *buffer);
 void		itip_view_write_for_printing	(ItipView *view,
 						 GString *buffer);
-void		itip_view_create_dom_bindings	(ItipView *view,
-						 WebKitDOMElement *element);
-struct _EMailPartItip *
-		itip_view_get_mail_part		(ItipView *view);
 EClientCache *	itip_view_get_client_cache	(ItipView *view);
 const gchar *	itip_view_get_extension_name	(ItipView *view);
 void		itip_view_set_extension_name	(ItipView *view,
@@ -246,6 +250,8 @@ void		itip_view_set_show_inherit_alarm_check
 void		itip_view_set_error		(ItipView *view,
 						 const gchar *error_html,
 						 gboolean show_save_btn);
+GDBusProxy *	itip_view_get_web_extension_proxy
+						(ItipView *view);
 
 G_END_DECLS
 

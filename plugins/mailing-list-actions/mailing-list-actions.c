@@ -116,6 +116,44 @@ async_context_free (AsyncContext *context)
 	g_slice_free (AsyncContext, context);
 }
 
+typedef struct _SendMessageData {
+	gchar *url;
+	gchar *uid;
+} SendMessageData;
+
+static void
+send_message_composer_created_cb (GObject *source_object,
+				  GAsyncResult *result,
+				  gpointer user_data)
+{
+	SendMessageData *smd = user_data;
+	EMsgComposer *composer;
+	GError *error = NULL;
+
+	g_return_if_fail (smd != NULL);
+
+	composer = e_msg_composer_new_finish (result, &error);
+	if (error) {
+		g_warning ("%s: Failed to create msg composer: %s", G_STRFUNC, error->message);
+		g_clear_error (&error);
+	} else {
+		EComposerHeaderTable *table;
+
+		/* directly send message */
+		e_msg_composer_setup_from_url (composer, smd->url);
+		table = e_msg_composer_get_header_table (composer);
+
+		if (smd->uid)
+			e_composer_header_table_set_identity_uid (table, smd->uid);
+
+		e_msg_composer_send (composer);
+	}
+
+	g_free (smd->url);
+	g_free (smd->uid);
+	g_free (smd);
+}
+
 static void
 emla_list_action_cb (CamelFolder *folder,
                      GAsyncResult *result,
@@ -124,7 +162,6 @@ emla_list_action_cb (CamelFolder *folder,
 	const gchar *header = NULL, *headerpos;
 	gchar *end, *url = NULL;
 	gint t;
-	EMsgComposer *composer;
 	EAlertSink *alert_sink;
 	CamelMimeMessage *message;
 	gint send_message_response;
@@ -239,15 +276,13 @@ emla_list_action_cb (CamelFolder *folder,
 					url, NULL);
 
 			if (send_message_response == GTK_RESPONSE_YES) {
-				EComposerHeaderTable *table;
+				SendMessageData *smd;
 
-				/* directly send message */
-				composer = e_msg_composer_new_from_url (shell, url);
-				table = e_msg_composer_get_header_table (composer);
+				smd = g_new0 (SendMessageData, 1);
+				smd->url = g_strdup (url);
+				smd->uid = g_strdup (uid);
 
-				if (uid != NULL)
-					e_composer_header_table_set_identity_uid (table, uid);
-				e_msg_composer_send (composer);
+				e_msg_composer_new (shell, send_message_composer_created_cb, smd);
 			} else if (send_message_response == GTK_RESPONSE_NO) {
 				/* show composer */
 				em_utils_compose_new_message_with_mailto (shell, url, folder);

@@ -218,29 +218,21 @@ mail_part_headers_constructed (GObject *object)
 
 static void
 mail_part_headers_bind_dom_element (EMailPart *part,
-                                    WebKitDOMElement *element)
+                                    GDBusProxy *web_extension,
+                                    guint64 page_id,
+                                    const gchar *element_id)
 {
-	WebKitDOMDocument *document;
-	WebKitDOMElement *photo;
-	gchar *addr, *uri;
-
-	document = webkit_dom_node_get_owner_document (
-		WEBKIT_DOM_NODE (element));
-	photo = webkit_dom_document_get_element_by_id (
-		document, "__evo-contact-photo");
-
-	/* Contact photos disabled, the <img> tag is not there. */
-	if (photo == NULL)
-		return;
-
-	addr = webkit_dom_element_get_attribute (photo, "data-mailaddr");
-	uri = g_strdup_printf ("mail://contact-photo?mailaddr=%s", addr);
-
-	webkit_dom_html_image_element_set_src (
-		WEBKIT_DOM_HTML_IMAGE_ELEMENT (photo), uri);
-
-	g_free (addr);
-	g_free (uri);
+	if (web_extension) {
+		g_dbus_proxy_call (
+			web_extension,
+			"EMailPartHeadersBindDOMElement",
+			g_variant_new ("(ts)", page_id, element_id),
+			G_DBUS_CALL_FLAGS_NONE,
+			-1,
+			NULL,
+			NULL,
+			NULL);
+	}
 }
 
 static void

@@ -53,7 +53,6 @@ enum {
 
 /* internal parser extensions */
 GType e_mail_parser_application_mbox_get_type (void);
-GType e_mail_parser_attachment_bar_get_type (void);
 GType e_mail_parser_audio_get_type (void);
 GType e_mail_parser_headers_get_type (void);
 GType e_mail_parser_message_get_type (void);
@@ -221,7 +220,6 @@ e_mail_parser_base_init (EMailParserClass *class)
 
 	/* Register internal extensions. */
 	g_type_ensure (e_mail_parser_application_mbox_get_type ());
-	g_type_ensure (e_mail_parser_attachment_bar_get_type ());
 	g_type_ensure (e_mail_parser_audio_get_type ());
 	g_type_ensure (e_mail_parser_headers_get_type ());
 	g_type_ensure (e_mail_parser_message_get_type ());
@@ -714,13 +712,13 @@ e_mail_parser_wrap_as_attachment (EMailParser *parser,
 	first_part = g_queue_peek_head (parts_queue);
 	if (first_part != NULL) {
 		const gchar *id = e_mail_part_get_id (first_part);
-		empa->attachment_view_part_id = g_strdup (id);
+		empa->part_id_with_attachment = g_strdup (id);
 		first_part->is_hidden = TRUE;
 	}
 
 	attachment = e_mail_part_attachment_ref_attachment (empa);
 
-	e_attachment_set_shown (attachment, empa->shown);
+	e_attachment_set_initially_shown (attachment, empa->shown);
 	e_attachment_set_can_show (
 		attachment,
 		extensions && !g_queue_is_empty (extensions));

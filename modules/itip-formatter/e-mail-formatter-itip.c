@@ -66,18 +66,25 @@ emfe_itip_format (EMailFormatterExtension *extension,
 	itip_part = (EMailPartItip *) part;
 
 	if (context->mode == E_MAIL_FORMATTER_MODE_PRINTING) {
+		ItipView *itip_view;
+
 		buffer = g_string_sized_new (1024);
 
-		itip_part->view = itip_view_new (
-			itip_part, itip_part->client_cache);
-
-		itip_view_init_view (itip_part->view);
-		itip_view_write_for_printing (itip_part->view, buffer);
+		itip_view = itip_view_new (0, e_mail_part_get_id (part),
+			itip_part,
+			itip_part->folder,
+			itip_part->message_uid,
+			itip_part->message,
+			itip_part->itip_mime_part,
+			itip_part->vcalendar,
+			itip_part->cancellable);
+		itip_view_init_view (itip_view);
+		itip_view_write_for_printing (itip_view, buffer);
 
 	} else if (context->mode == E_MAIL_FORMATTER_MODE_RAW) {
 		buffer = g_string_sized_new (2048);
 
-		itip_view_write (formatter, buffer);
+		itip_view_write (itip_part, formatter, buffer);
 
 	} else {
 		CamelFolder *folder;
@@ -101,8 +108,8 @@ emfe_itip_format (EMailFormatterExtension *extension,
 		}
 
 		itip_part->folder = g_object_ref (folder);
-		itip_part->uid = g_strdup (message_uid);
-		itip_part->msg = g_object_ref (message);
+		itip_part->message_uid = g_strdup (message_uid);
+		itip_part->message = g_object_ref (message);
 
 		default_charset = e_mail_formatter_get_default_charset (formatter);
 		charset = e_mail_formatter_get_charset (formatter);

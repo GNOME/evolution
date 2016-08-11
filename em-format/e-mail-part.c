@@ -585,17 +585,36 @@ e_mail_part_set_is_attachment (EMailPart *part,
 
 void
 e_mail_part_bind_dom_element (EMailPart *part,
-                              WebKitDOMElement *element)
+                              GDBusProxy *web_extension,
+                              guint64 page_id,
+                              const gchar *element_id)
 {
 	EMailPartClass *class;
 
 	g_return_if_fail (E_IS_MAIL_PART (part));
-	g_return_if_fail (WEBKIT_DOM_IS_ELEMENT (element));
+	g_return_if_fail (web_extension);
+	g_return_if_fail (page_id != 0);
+	g_return_if_fail (element_id && *element_id);
 
 	class = E_MAIL_PART_GET_CLASS (part);
 
 	if (class->bind_dom_element != NULL)
-		class->bind_dom_element (part, element);
+		class->bind_dom_element (part, web_extension, page_id, element_id);
+}
+
+void
+e_mail_part_web_view_loaded (EMailPart *part,
+			     EWebView *web_view)
+{
+	EMailPartClass *klass;
+
+	g_return_if_fail (E_IS_MAIL_PART (part));
+	g_return_if_fail (E_IS_WEB_VIEW (web_view));
+
+	klass = E_MAIL_PART_GET_CLASS (part);
+
+	if (klass->web_view_loaded)
+		klass->web_view_loaded (part, web_view);
 }
 
 static EMailPartValidityPair *

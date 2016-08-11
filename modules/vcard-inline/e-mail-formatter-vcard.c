@@ -146,9 +146,12 @@ mail_formatter_vcard_format (EMailFormatterExtension *extension,
 		str = g_strdup_printf (
 			"<button type=\"button\" "
 				"name=\"set-display-mode\" "
+				"id=\"%s\" "
 				"class=\"org-gnome-vcard-display-mode-button\" "
 				"value=\"%d\" "
+				"style=\"margin-left: 0px\""
 				"accesskey=\"%s\">%s</button>",
+			e_mail_part_get_id (part),
 			mode, access_key, html_label);
 		g_output_stream_write_all (
 			stream, str, strlen (str), NULL, cancellable, NULL);
@@ -166,8 +169,10 @@ mail_formatter_vcard_format (EMailFormatterExtension *extension,
 				"class=\"org-gnome-vcard-save-button\" "
 				"value=\"%s\" "
 				"accesskey=\"%s\">%s</button><br>"
-			"<iframe width=\"100%%\" height=\"auto\" frameborder=\"0\""
-				"src=\"%s\" name=\"%s\"></iframe>"
+				"<iframe width=\"100%%\" height=\"auto\" "
+				" class=\"-e-mail-formatter-frame-color -e-web-view-background-color\" "
+				" style=\"border: 1px solid;\""
+				" src=\"%s\" name=\"%s\"></iframe>"
 			"</div>",
 			e_mail_part_get_id (part),
 			access_key, html_label, uri,

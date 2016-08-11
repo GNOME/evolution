@@ -250,6 +250,33 @@ mail_shell_view_folder_tree_popup_event_cb (EShellView *shell_view,
 }
 
 static gboolean
+mail_shell_view_mail_display_needs_key (EMailShellView *mail_shell_view,
+                                        EMailDisplay *mail_display)
+{
+	if (gtk_widget_has_focus (GTK_WIDGET (mail_display))) {
+		GDBusProxy *web_extension;
+
+		/* Intentionally use Evolution Web Extension */
+		web_extension = e_web_view_get_web_extension_proxy (E_WEB_VIEW (mail_display));
+		if (web_extension) {
+			GVariant *result;
+
+			result = g_dbus_proxy_get_cached_property (web_extension, "NeedInput");
+			if (result) {
+				gboolean need_input;
+
+				need_input = g_variant_get_boolean (result);
+				g_variant_unref (result);
+
+				return need_input;
+			}
+		}
+	}
+
+	return FALSE;
+}
+
+static gboolean
 mail_shell_view_key_press_event_cb (EMailShellView *mail_shell_view,
                                     GdkEventKey *event)
 {
@@ -281,42 +308,11 @@ mail_shell_view_key_press_event_cb (EMailShellView *mail_shell_view,
 			action = ACTION (MAIL_SMART_BACKWARD);
 			break;
 
-		case GDK_KEY_Home:
-		case GDK_KEY_Left:
-		case GDK_KEY_Up:
-		case GDK_KEY_Right:
-		case GDK_KEY_Down:
-		case GDK_KEY_Next:
-		case GDK_KEY_End:
-		case GDK_KEY_Begin:
-			/* If Caret mode is enabled don't try to process these keys */
-			if (e_web_view_get_caret_mode (E_WEB_VIEW (mail_display)))
-				return FALSE;
-		case GDK_KEY_Prior:
-			if (!e_mail_display_needs_key (mail_display, FALSE) &&
-			    webkit_web_view_get_main_frame (WEBKIT_WEB_VIEW (mail_display)) !=
-			    webkit_web_view_get_focused_frame (WEBKIT_WEB_VIEW (mail_display))) {
-				WebKitDOMDocument *document;
-				WebKitDOMDOMWindow *window;
-
-				document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (mail_display));
-				window = webkit_dom_document_get_default_view (document);
-
-				/* Workaround WebKit bug for key navigation, when inner IFRAME is focused.
-				 * EMailView's inner IFRAMEs have disabled scrolling, but WebKit doesn't post
-				 * key navigation events to parent's frame, thus the view doesn't scroll.
-				 * This is a poor workaround for this issue, the main frame is focused,
-				 * which has scrolling enabled.
-				*/
-				webkit_dom_dom_window_focus (window);
-			}
-
-			return FALSE;
 		default:
 			return FALSE;
 	}
 
-	if (e_mail_display_needs_key (mail_display, TRUE))
+	if (mail_shell_view_mail_display_needs_key (mail_shell_view, mail_display))
 		return FALSE;
 
 	gtk_action_activate (action);

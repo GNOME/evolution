@@ -26,7 +26,6 @@
 
 #include "e-mail-formatter-extension.h"
 #include "e-mail-inline-filter.h"
-#include "e-mail-part-attachment-bar.h"
 #include "e-mail-part-attachment.h"
 #include "e-mail-part-utils.h"
 
@@ -44,69 +43,9 @@ G_DEFINE_TYPE (
 
 static const gchar *formatter_mime_types[] = {
 	E_MAIL_PART_ATTACHMENT_MIME_TYPE,
-	"application/vnd.evolution.widget.attachment-button",
+	"application/vnd.evolution.attachment-button",
 	NULL
 };
-
-static EAttachmentStore *
-find_attachment_store (EMailPartList *part_list,
-                       EMailPart *start)
-{
-	EAttachmentStore *store = NULL;
-	GQueue queue = G_QUEUE_INIT;
-	GList *head, *link;
-	const gchar *start_id;
-	gchar *tmp, *pos;
-	EMailPart *part;
-	gchar *id;
-
-	start_id = e_mail_part_get_id (start);
-
-	e_mail_part_list_queue_parts (part_list, NULL, &queue);
-
-	head = g_queue_peek_head_link (&queue);
-
-	id = g_strconcat (start_id, ".attachment-bar", NULL);
-	tmp = g_strdup (id);
-	part = NULL;
-	do {
-		d (printf ("Looking up attachment bar as %s\n", id));
-
-		for (link = head; link != NULL; link = g_list_next (link)) {
-			EMailPart *p = link->data;
-			const gchar *p_id;
-
-			p_id = e_mail_part_get_id (p);
-
-			if (g_strcmp0 (p_id, id) == 0) {
-				part = p;
-				break;
-			}
-		}
-
-		pos = g_strrstr (tmp, ".");
-		if (!pos)
-			break;
-
-		g_free (id);
-		g_free (tmp);
-		tmp = g_strndup (start_id, pos - tmp);
-		id = g_strdup_printf ("%s.attachment-bar", tmp);
-
-	} while (pos && !part);
-
-	g_free (id);
-	g_free (tmp);
-
-	if (part != NULL)
-		store = e_mail_part_attachment_bar_get_store (
-			E_MAIL_PART_ATTACHMENT_BAR (part));
-
-	while (!g_queue_is_empty (&queue))
-		g_object_unref (g_queue_pop_head (&queue));
-
-	return store;
-}
 
 static gboolean
 emfe_attachment_format (EMailFormatterExtension *extension,
@@ -118,13 +57,16 @@ emfe_attachment_format (EMailFormatterExtension *extension,
 {
 	gchar *text, *html;
 	gchar *button_id;
-	EAttachmentStore *store;
 	EMailExtensionRegistry *registry;
 	GQueue *extensions;
 	EMailPartAttachment *empa;
 	CamelMimePart *mime_part;
 	CamelMimeFilterToHTMLFlags flags;
+	GOutputStream *content_stream = NULL;
 	GString *buffer;
+	gint icon_width, icon_height;
+	gchar *icon_uri;
+	gpointer attachment_ptr = NULL;
 	const gchar *attachment_part_id;
 	const gchar *part_id;
 
@@ -139,8 +81,8 @@ emfe_attachment_format (EMailFormatterExtension *extension,
 		EAttachment *attachment;
 		GList *head, *link;
 
-		attachment = e_mail_part_attachment_ref_attachment (
-			E_MAIL_PART_ATTACHMENT (part));
+		attachment = e_mail_part_attachment_ref_attachment (E_MAIL_PART_ATTACHMENT (part));
+		attachment_ptr = attachment;
 
 		head = g_queue_peek_head_link (&part->validities);
 
@@ -161,17 +103,9 @@ emfe_attachment_format (EMailFormatterExtension *extension,
 					pair->validity->encrypt.status);
 		}
 
-		store = find_attachment_store (context->part_list, part);
-		if (store) {
-			GList *attachments = e_attachment_store_get_attachments (store);
-			if (!g_list_find (attachments, attachment)) {
-				e_attachment_store_add_attachment (
-					store, attachment);
-			}
-			g_list_free_full (attachments, g_object_unref);
-		} else {
-			g_warning ("Failed to locate attachment-bar for %s", part_id);
-		}
+		e_attachment_set_initially_shown (attachment, e_mail_part_should_show_inline (part));
+
+		e_mail_formatter_claim_attachment (formatter, attachment);
 
 		g_object_unref (attachment);
 	}
@@ -255,43 +189,29 @@ emfe_attachment_format (EMailFormatterExtension *extension,
 	g_free (text);
 	g_object_unref (mime_part);
 
-	if (empa->attachment_view_part_id)
-		attachment_part_id = empa->attachment_view_part_id;
+	if (empa->part_id_with_attachment)
+		attachment_part_id = empa->part_id_with_attachment;
 	else
 		attachment_part_id = part_id;
 
 	button_id = g_strconcat (attachment_part_id, ".attachment_button", NULL);
 
-	/* XXX Wild guess at the initial size. */
-	buffer = g_string_sized_new (8192);
-
-	g_string_append_printf (
-		buffer,
-		"<div class=\"attachment\">"
-		"<table width=\"100%%\" border=\"0\">"
-		"<tr valign=\"middle\">"
-		"<td align=\"left\" width=\"100\">"
-		"<object type=\"application/vnd.evolution.widget.attachment-button\" "
-		"height=\"20\" width=\"100\" data=\"%s\" id=\"%s\"></object>"
-		"</td>"
-		"<td align=\"left\">%s</td>"
-		"</tr>", part_id, button_id, html);
-
-	g_free (button_id);
-	g_free (html);
+	if (!gtk_icon_size_lookup (GTK_ICON_SIZE_BUTTON, &icon_width, &icon_height)) {
+		icon_width = 16;
+		icon_height = 16;
+	}
 
 	if (extensions != NULL) {
-		GOutputStream *content_stream;
 		gboolean success = FALSE;
 
 		content_stream = g_memory_output_stream_new_resizable ();
 
-		if (empa->attachment_view_part_id != NULL) {
+		if (empa->part_id_with_attachment != NULL) {
 			EMailPart *attachment_view_part;
 
 			attachment_view_part = e_mail_part_list_ref_part (
 				context->part_list,
-				empa->attachment_view_part_id);
+				empa->part_id_with_attachment);
 
 			/* Avoid recursion. */
 			if (attachment_view_part == part)
@@ -322,50 +242,84 @@ emfe_attachment_format (EMailFormatterExtension *extension,
 			}
 		}
 
-		if (success) {
-			gchar *wrapper_element_id;
-			gconstpointer data;
-			gsize size;
+		e_mail_part_attachment_set_expandable (empa, success);
+	}
 
-			wrapper_element_id = g_strconcat (
-				attachment_part_id, ".wrapper", NULL);
+	icon_uri = e_mail_part_build_uri (
+		e_mail_part_list_get_folder (context->part_list),
+		e_mail_part_list_get_message_uid (context->part_list),
+		"part_id", G_TYPE_STRING, part_id,
+		"attachment_icon", G_TYPE_POINTER, attachment_ptr,
+		"size", G_TYPE_INT, icon_width,
+		NULL);
 
-			data = g_memory_output_stream_get_data (
-				G_MEMORY_OUTPUT_STREAM (content_stream));
-			size = g_memory_output_stream_get_data_size (
-				G_MEMORY_OUTPUT_STREAM (content_stream));
+	/* XXX Wild guess at the initial size. */
+	buffer = g_string_sized_new (8192);
+
+	g_string_append_printf (
+		buffer,
+		"<div class=\"attachment\">"
+		"<table width=\"100%%\" border=\"0\">"
+		"<tr valign=\"middle\">"
+		"<td align=\"left\" width=\"1px\" style=\"white-space:pre;\">"
+		"<button type=\"button\" class=\"attachment-expander\" id=\"%s\" value=\"%p\" data=\"%s\" style=\"vertical-align:middle; margin:0px;\" %s>"
+		"<img id=\"attachment-expander-img-%p\" src=\"gtk-stock://%s?size=%d\" width=\"%dpx\" height=\"%dpx\" style=\"vertical-align:middle;\">"
+		"<img src=\"%s\" width=\"%dpx\" height=\"%dpx\" style=\"vertical-align:middle;\">"
+		"</button>"
+		"<button type=\"button\" class=\"attachment-menu\" id=\"%s\" value=\"%p\" style=\"vertical-align:middle; margin:0px;\">"
+		"<img src=\"gtk-stock://x-evolution-arrow-down?size=%d\" width=\"%dpx\" height=\"%dpx\" style=\"vertical-align:middle;\">"
+		"</button>"
+		"</td><td align=\"left\">%s</td></tr>",
+		part_id, attachment_ptr, html, e_mail_part_attachment_get_expandable (empa) ? "" : "disabled",
+		attachment_ptr, e_mail_part_should_show_inline (part) ? "go-down" : "go-next", GTK_ICON_SIZE_BUTTON, icon_width, icon_height,
+		icon_uri, icon_width, icon_height,
+		part_id, attachment_ptr, GTK_ICON_SIZE_BUTTON, icon_width, icon_height,
+		html);
+
+	g_free (icon_uri);
+	g_free (button_id);
+	g_free (html);
+
+	if (content_stream && e_mail_part_attachment_get_expandable (empa)) {
+		gchar *wrapper_element_id;
+		gconstpointer data;
+		gsize size;
+
+		wrapper_element_id = g_strdup_printf ("attachment-wrapper-%p", attachment_ptr);
+
+		data = g_memory_output_stream_get_data (
+			G_MEMORY_OUTPUT_STREAM (content_stream));
+		size = g_memory_output_stream_get_data_size (
+			G_MEMORY_OUTPUT_STREAM (content_stream));
+
+		g_string_append_printf (
+			buffer,
+			"<tr><td colspan=\"2\">"
+			"<div class=\"attachment-wrapper\" id=\"%s\"",
+			wrapper_element_id);
+
+		if (e_mail_part_should_show_inline (part)) {
+			g_string_append (buffer, ">");
+			g_string_append_len (buffer, data, size);
+		} else {
+			gchar *inner_html_data;
+
+			inner_html_data = g_markup_escape_text (data, size);
 
 			g_string_append_printf (
 				buffer,
-				"<tr><td colspan=\"2\">"
-				"<div class=\"attachment-wrapper\" id=\"%s\"",
-				wrapper_element_id);
+				" inner-html-data=\"%s\">",
+				inner_html_data);
 
-			if (e_mail_part_should_show_inline (part)) {
-				g_string_append (buffer, ">");
-				g_string_append_len (buffer, data, size);
-			} else {
-				gchar *inner_html_data;
-
-				inner_html_data = g_markup_escape_text (data, size);
-
-				g_string_append_printf (
-					buffer,
-					" inner-html-data=\"%s\">",
-					inner_html_data);
-
-				g_free (inner_html_data);
-			}
-
-			g_string_append (buffer, "</div></td></tr>");
-
-			e_mail_part_attachment_set_expandable (empa, TRUE);
-
-			g_free (wrapper_element_id);
+			g_free (inner_html_data);
 		}
 
-		g_object_unref (content_stream);
+		g_string_append (buffer, "</div></td></tr>");
+
+		g_free (wrapper_element_id);
 	}
+
+	g_clear_object (&content_stream);
 
 	g_string_append (buffer, "</table></div>");
 
@@ -377,47 +331,6 @@ emfe_attachment_format (EMailFormatterExtension *extension,
 	return TRUE;
 }
 
-static GtkWidget *
-emfe_attachment_get_widget (EMailFormatterExtension *extension,
-                            EMailPartList *context,
-                            EMailPart *part,
-                            GHashTable *params)
-{
-	EAttachment *attachment;
-	EAttachmentStore *store;
-	EAttachmentView *view;
-	GtkWidget *widget;
-	const gchar *part_id;
-
-	g_return_val_if_fail (E_IS_MAIL_PART_ATTACHMENT (part), NULL);
-
-	attachment = e_mail_part_attachment_ref_attachment (
-		E_MAIL_PART_ATTACHMENT (part));
-
-	part_id = e_mail_part_get_id (part);
-
-	store = find_attachment_store (context, part);
-	widget = e_attachment_button_new ();
-	g_object_set_data_full (
-		G_OBJECT (widget),
-		"uri", g_strdup (part_id),
-		(GDestroyNotify) g_free);
-	e_attachment_button_set_attachment (
-		E_ATTACHMENT_BUTTON (widget), attachment);
-
-	view = g_object_get_data (G_OBJECT (store), "attachment-bar");
-	if (view != NULL)
-		e_attachment_button_set_view (
-			E_ATTACHMENT_BUTTON (widget), view);
-
-	gtk_widget_set_can_focus (widget, TRUE);
-	gtk_widget_show (widget);
-
-	g_object_unref (attachment);
-
-	return widget;
-}
-
 static void
 e_mail_formatter_attachment_class_init (EMailFormatterExtensionClass *class)
 {
@@ -426,7 +339,6 @@ e_mail_formatter_attachment_class_init (EMailFormatterExtensionClass *class)
 	class->mime_types = formatter_mime_types;
 	class->priority = G_PRIORITY_LOW;
 	class->format = emfe_attachment_format;
-	class->get_widget = emfe_attachment_get_widget;
 }
 
 static void

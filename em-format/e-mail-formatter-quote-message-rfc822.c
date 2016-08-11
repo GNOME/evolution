@@ -89,10 +89,6 @@ emfqe_message_rfc822_format (EMailFormatterExtension *extension,
 
 		p_id = e_mail_part_get_id (p);
 
-		/* Skip attachment bar */
-		if (e_mail_part_id_has_suffix (p, ".attachment-bar"))
-			continue;
-
 		if (e_mail_part_id_has_suffix (p, ".headers.")) {
 			if (qc->qf_flags & E_MAIL_FORMATTER_QUOTE_FLAG_HEADERS) {
 				e_mail_formatter_format_as (

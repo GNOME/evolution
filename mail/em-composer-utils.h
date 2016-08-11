@@ -33,28 +33,28 @@
 
 G_BEGIN_DECLS
 
-EMsgComposer *	em_utils_compose_new_message	(EShell *shell,
+void		em_utils_compose_new_message	(EMsgComposer *composer,
 						 CamelFolder *folder);
-EMsgComposer *	em_utils_compose_new_message_with_mailto
+void		em_utils_compose_new_message_with_mailto
 						(EShell *shell,
 						 const gchar *mailto,
 						 CamelFolder *folder);
-EMsgComposer *	em_utils_edit_message		(EShell *shell,
+void		em_utils_edit_message		(EMsgComposer *composer,
 						 CamelFolder *folder,
 						 CamelMimeMessage *message,
 						 const gchar *message_uid,
 						 gboolean keep_signature);
-EMsgComposer *	em_utils_forward_message	(EMailBackend *backend,
+void		em_utils_forward_message	(EMsgComposer *composer,
 						 CamelMimeMessage *message,
 						 EMailForwardStyle style,
 						 CamelFolder *folder,
 						 const gchar *uid);
-EMsgComposer *	em_utils_forward_attachment	(EMailBackend *backend,
+void		em_utils_forward_attachment	(EMsgComposer *composer,
 						 CamelMimePart *part,
 						 const gchar *subject,
 						 CamelFolder *folder,
 						 GPtrArray *uids);
-EMsgComposer *	em_utils_redirect_message	(EShell *shell,
+void		em_utils_redirect_message	(EMsgComposer *composer,
 						 CamelMimeMessage *message);
 gchar *		em_utils_construct_composer_text
 						(CamelSession *session,
@@ -69,7 +69,7 @@ void		em_utils_get_reply_all		(ESourceRegistry *registry,
 						 CamelInternetAddress *to,
 						 CamelInternetAddress *cc,
 						 CamelNNTPAddress *postto);
-EMsgComposer *	em_utils_reply_to_message	(EShell *shell,
+void		em_utils_reply_to_message	(EMsgComposer *composer,
 						 CamelMimeMessage *message,
 						 CamelFolder *folder,
 						 const gchar *message_uid,
@@ -92,7 +92,6 @@ ESource *	em_utils_check_send_account_override
 						 CamelFolder *folder);
 void		em_utils_apply_send_account_override_to_composer
 						(EMsgComposer *composer,
-						 EShell *shell,
 						 CamelFolder *folder);
 
 G_END_DECLS

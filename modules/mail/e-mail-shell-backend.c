@@ -293,6 +293,29 @@ action_mail_account_new_cb (GtkAction *action,
 }
 
 static void
+action_mail_message_new_composer_created_cb (GObject *source_object,
+					     GAsyncResult *result,
+					     gpointer user_data)
+{
+	CamelFolder *folder = user_data;
+	EMsgComposer *composer;
+	GError *error = NULL;
+
+	if (folder)
+		g_return_if_fail (CAMEL_IS_FOLDER (folder));
+
+	composer = e_msg_composer_new_finish (result, &error);
+	if (error) {
+		g_warning ("%s: Failed to create msg composer: %s", G_STRFUNC, error->message);
+		g_clear_error (&error);
+	} else {
+		em_utils_compose_new_message (composer, folder);
+	}
+
+	g_clear_object (&folder);
+}
+
+static void
 action_mail_message_new_cb (GtkAction *action,
                             EShellWindow *shell_window)
 {
@@ -342,8 +365,9 @@ action_mail_message_new_cb (GtkAction *action,
 		g_free (folder_name);
 	}
 
-exit:
-	em_utils_compose_new_message (shell, folder);
+ exit:
+	e_msg_composer_new (shell, action_mail_message_new_composer_created_cb,
+		folder ? g_object_ref (folder) : NULL);
 }
 
 static GtkActionEntry item_entries[] = {
@@ -495,11 +519,11 @@ mail_shell_backend_window_added_cb (GtkApplication *application,
 
 	/* This applies to both the composer and signature editor. */
 	if (editor != NULL) {
-		EHTMLEditorView *view;
+		EContentEditor *cnt_editor;
 		GSettings *settings;
 		gboolean active = TRUE;
 
-		view = e_html_editor_get_view (editor);
+		cnt_editor = e_html_editor_get_content_editor (editor);
 
 		settings = e_util_ref_settings ("org.gnome.evolution.mail");
 
@@ -508,7 +532,7 @@ mail_shell_backend_window_added_cb (GtkApplication *application,
 
 		g_object_unref (settings);
 
-		e_html_editor_view_set_html_mode (view, active);
+		e_content_editor_set_html_mode (cnt_editor, active);
 	}
 
 	if (E_IS_MSG_COMPOSER (window)) {

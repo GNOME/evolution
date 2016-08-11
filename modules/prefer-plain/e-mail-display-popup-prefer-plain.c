@@ -35,12 +35,11 @@ typedef struct _EMailDisplayPopupPreferPlainClass EMailDisplayPopupPreferPlainCl
 struct _EMailDisplayPopupPreferPlain {
 	EExtension parent;
 
-	WebKitDOMDocument *document;
 	gchar *text_plain_id;
 	gchar *text_html_id;
+	gchar *document_uri;
 
 	GtkActionGroup *action_group;
-
 };
 
 struct _EMailDisplayPopupPreferPlainClass {
@@ -94,16 +93,20 @@ toggle_part (GtkAction *action,
              EMailDisplayPopupExtension *extension)
 {
 	EMailDisplayPopupPreferPlain *pp_extension = (EMailDisplayPopupPreferPlain *) extension;
-	WebKitDOMDocument *doc = pp_extension->document;
-	WebKitDOMDOMWindow *window;
-	WebKitDOMElement *frame_element;
 	SoupURI *soup_uri;
 	GHashTable *query;
 	gchar *uri;
 
-	uri = webkit_dom_document_get_document_uri (doc);
-	soup_uri = soup_uri_new (uri);
-	g_free (uri);
+	if (!pp_extension->document_uri)
+		return;
+
+	soup_uri = soup_uri_new (pp_extension->document_uri);
+
+	if (!soup_uri || !soup_uri->query) {
+		if (soup_uri)
+			soup_uri_free (soup_uri);
+		return;
+	}
 
 	query = soup_form_decode (soup_uri->query);
 	g_hash_table_replace (
@@ -123,11 +126,8 @@ toggle_part (GtkAction *action,
 	uri = soup_uri_to_string (soup_uri, FALSE);
 	soup_uri_free (soup_uri);
 
-	/* Get frame's window and from the window the actual <iframe> element */
-	window = webkit_dom_document_get_default_view (doc);
-	frame_element = webkit_dom_dom_window_get_frame_element (window);
-	webkit_dom_html_iframe_element_set_src (
-		WEBKIT_DOM_HTML_IFRAME_ELEMENT (frame_element), uri);
+	e_web_view_set_document_iframe_src (E_WEB_VIEW (e_extension_get_extensible (E_EXTENSION (extension))),
+		pp_extension->document_uri, uri);
 
 	g_free (uri);
 }
@@ -167,6 +167,17 @@ set_text_html_id (EMailDisplayPopupPreferPlain *extension,
 {
 	g_free (extension->text_html_id);
 	extension->text_html_id = g_strdup (id);
+}
+
+static void
+set_document_uri (EMailDisplayPopupPreferPlain *extension,
+                  const gchar *document_uri)
+{
+	if (extension->document_uri == document_uri)
+		return;
+
+	g_free (extension->document_uri);
+	extension->document_uri = g_strdup (document_uri);
 }
 
 static GtkActionGroup *
@@ -218,18 +229,17 @@ create_group (EMailDisplayPopupExtension *extension)
 
 static void
 mail_display_popup_prefer_plain_update_actions (EMailDisplayPopupExtension *extension,
-                                                WebKitHitTestResult *context)
+						const gchar *popup_document_uri)
 {
 	EMailDisplay *display;
+	EMailDisplayPopupPreferPlain *pp_extension;
 	GtkAction *action;
-	WebKitDOMNode *node;
-	gchar *uri, *part_id, *pos, *prefix;
+	gchar *part_id, *pos, *prefix;
 	SoupURI *soup_uri;
 	GHashTable *query;
 	EMailPartList *part_list;
 	gboolean is_text_plain;
 	const gchar *action_name;
-	EMailDisplayPopupPreferPlain *pp_extension;
 	GQueue queue = G_QUEUE_INIT;
 	GList *head, *link;
 
@@ -241,22 +251,17 @@ mail_display_popup_prefer_plain_update_actions (EMailDisplayPopupExtension *exte
 	if (!pp_extension->action_group)
 		pp_extension->action_group = create_group (extension);
 
-	g_object_get (context, "inner-node", &node, NULL);
+	set_document_uri (pp_extension, popup_document_uri);
 
-	if (!node) {
-		gtk_action_group_set_visible (pp_extension->action_group, FALSE);
-		return;
-	}
+	if (pp_extension->document_uri)
+		soup_uri = soup_uri_new (pp_extension->document_uri);
+	else
+		soup_uri = NULL;
 
-	pp_extension->document = webkit_dom_node_get_owner_document (node);
-	uri = webkit_dom_document_get_document_uri (pp_extension->document);
-
-	soup_uri = soup_uri_new (uri);
 	if (!soup_uri || !soup_uri->query) {
 		gtk_action_group_set_visible (pp_extension->action_group, FALSE);
 		if (soup_uri)
 			soup_uri_free (soup_uri);
-		g_free (uri);
 		return;
 	}
 
@@ -264,28 +269,19 @@ mail_display_popup_prefer_plain_update_actions (EMailDisplayPopupExtension *exte
 	part_id = g_hash_table_lookup (query, "part_id");
 	if (part_id == NULL) {
 		gtk_action_group_set_visible (pp_extension->action_group, FALSE);
-		g_hash_table_destroy (query);
-		soup_uri_free (soup_uri);
-		g_free (uri);
-		return;
+		goto out;
 	}
 
 	pos = strstr (part_id, ".alternative-prefer-plain.");
 	if (!pos) {
 		gtk_action_group_set_visible (pp_extension->action_group, FALSE);
-		g_hash_table_destroy (query);
-		soup_uri_free (soup_uri);
-		g_free (uri);
-		return;
+		goto out;
 	}
 
 	/* Don't display the actions on any other than text/plain or text/html parts */
 	if (!strstr (pos, "plain_text") && !strstr (pos, "text_html")) {
 		gtk_action_group_set_visible (pp_extension->action_group, FALSE);
-		g_hash_table_destroy (query);
-		soup_uri_free (soup_uri);
-		g_free (uri);
-		return;
+		goto out;
 	}
 
 	/* Check whether the displayed part is text_plain */
@@ -353,9 +349,9 @@ mail_display_popup_prefer_plain_update_actions (EMailDisplayPopupExtension *exte
 	}
 
 	g_free (prefix);
+ out:
 	g_hash_table_destroy (query);
 	soup_uri_free (soup_uri);
-	g_free (uri);
 }
 
 void
@@ -377,8 +373,7 @@ e_mail_display_popup_prefer_plain_dispose (GObject *object)
 	}
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (e_mail_display_popup_prefer_plain_parent_class)->
-		dispose (object);
+	G_OBJECT_CLASS (e_mail_display_popup_prefer_plain_parent_class)->dispose (object);
 }
 
 static void
@@ -390,10 +385,10 @@ e_mail_display_popup_prefer_plain_finalize (GObject *object)
 
 	g_free (extension->text_html_id);
 	g_free (extension->text_plain_id);
+	g_free (extension->document_uri);
 
 	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (e_mail_display_popup_prefer_plain_parent_class)->
-		finalize (object);
+	G_OBJECT_CLASS (e_mail_display_popup_prefer_plain_parent_class)->finalize (object);
 }
 
 static void
@@ -419,7 +414,6 @@ e_mail_display_popup_extension_interface_init (EMailDisplayPopupExtensionInterfa
 void
 e_mail_display_popup_prefer_plain_class_finalize (EMailDisplayPopupPreferPlainClass *class)
 {
-
 }
 
 static void
@@ -428,5 +422,5 @@ e_mail_display_popup_prefer_plain_init (EMailDisplayPopupPreferPlain *extension)
 	extension->action_group = NULL;
 	extension->text_html_id = NULL;
 	extension->text_plain_id = NULL;
-	extension->document = NULL;
+	extension->document_uri = NULL;
 }

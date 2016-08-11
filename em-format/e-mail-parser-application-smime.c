@@ -120,7 +120,7 @@ empe_app_smime_parse (EMailParserExtension *extension,
 
 			e_mail_parser_parse_part_as (
 				parser, part, part_id,
-				"application/vnd.evolution.widget.secure-button",
+				"application/vnd.evolution.secure-button",
 				cancellable, &work_queue);
 
 			mail_part = g_queue_peek_head (&work_queue);

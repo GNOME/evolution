@@ -167,6 +167,65 @@ exit:
 	return message;
 }
 
+typedef struct _CreateComposerData {
+	CamelMimeMessage *message;
+	CamelFolder *folder;
+	gboolean is_redirect;
+
+	gboolean is_reply;
+	EMailReplyType reply_type;
+
+	gboolean is_forward;
+	EMailForwardStyle forward_style;
+} CreateComposerData;
+
+static void
+create_composer_data_free (CreateComposerData *ccd)
+{
+	if (ccd) {
+		g_clear_object (&ccd->message);
+		g_clear_object (&ccd->folder);
+		g_free (ccd);
+	}
+}
+
+static void
+mail_attachment_handler_composer_created_cb (GObject *source_object,
+					     GAsyncResult *result,
+					     gpointer user_data)
+{
+	CreateComposerData *ccd = user_data;
+	EMsgComposer *composer;
+	GError *error = NULL;
+
+	g_return_if_fail (ccd != NULL);
+
+	composer = e_msg_composer_new_finish (result, &error);
+	if (error) {
+		g_warning ("%s: Failed to create msg composer: %s", G_STRFUNC, error->message);
+		g_clear_error (&error);
+	} else {
+		if (ccd->is_redirect) {
+			em_utils_redirect_message (composer, ccd->message);
+		} else if (ccd->is_reply) {
+			GSettings *settings;
+			EMailReplyStyle style;
+
+			settings = e_util_ref_settings ("org.gnome.evolution.mail");
+			style = g_settings_get_enum (settings, "reply-style-name");
+			g_object_unref (settings);
+
+			em_utils_reply_to_message (composer, ccd->message, NULL, NULL, ccd->reply_type, style, NULL, NULL);
+		} else if (ccd->is_forward) {
+			em_utils_forward_message (composer, ccd->message, ccd->forward_style, ccd->folder, NULL);
+		} else {
+			em_utils_edit_message (composer, ccd->folder, ccd->message, NULL, TRUE);
+		}
+	}
+
+	create_composer_data_free (ccd);
+}
+
 static void
 mail_attachment_handler_forward_with_style (EAttachmentHandler *handler,
 					    EMailForwardStyle style)
@@ -174,6 +233,8 @@ mail_attachment_handler_forward_with_style (EAttachmentHandler *handler,
 	EMailAttachmentHandlerPrivate *priv;
 	CamelMimeMessage *message;
 	CamelFolder *folder;
+	CreateComposerData *ccd;
+	EShell *shell;
 
 	priv = E_MAIL_ATTACHMENT_HANDLER_GET_PRIVATE (handler);
 
@@ -181,11 +242,15 @@ mail_attachment_handler_forward_with_style (EAttachmentHandler *handler,
 	g_return_if_fail (message != NULL);
 
 	folder = mail_attachment_handler_guess_folder_ref (handler);
+	shell = e_shell_backend_get_shell (E_SHELL_BACKEND (priv->backend));
 
-	em_utils_forward_message (priv->backend, message, style, folder, NULL);
+	ccd = g_new0 (CreateComposerData, 1);
+	ccd->message = message;
+	ccd->folder = folder;
+	ccd->is_forward = TRUE;
+	ccd->forward_style = style;
 
-	g_clear_object (&folder);
-	g_object_unref (message);
+	e_msg_composer_new (shell, mail_attachment_handler_composer_created_cb, ccd);
 }
 
 static void
@@ -207,9 +272,8 @@ mail_attachment_handler_reply (EAttachmentHandler *handler,
                                EMailReplyType reply_type)
 {
 	EMailAttachmentHandlerPrivate *priv;
-	GSettings *settings;
-	EMailReplyStyle style;
 	CamelMimeMessage *message;
+	CreateComposerData *ccd;
 	EShellBackend *shell_backend;
 	EShell *shell;
 
@@ -218,17 +282,15 @@ mail_attachment_handler_reply (EAttachmentHandler *handler,
 	message = mail_attachment_handler_get_selected_message (handler);
 	g_return_if_fail (message != NULL);
 
-	settings = e_util_ref_settings ("org.gnome.evolution.mail");
-	style = g_settings_get_enum (settings, "reply-style-name");
-	g_object_unref (settings);
-
 	shell_backend = E_SHELL_BACKEND (priv->backend);
 	shell = e_shell_backend_get_shell (shell_backend);
 
-	em_utils_reply_to_message (
-		shell, message, NULL, NULL, reply_type, style, NULL, NULL);
+	ccd = g_new0 (CreateComposerData, 1);
+	ccd->message = message;
+	ccd->reply_type = reply_type;
+	ccd->is_reply = TRUE;
 
-	g_object_unref (message);
+	e_msg_composer_new (shell, mail_attachment_handler_composer_created_cb, ccd);
 }
 
 static void
@@ -259,6 +321,7 @@ mail_attachment_handler_message_edit (GtkAction *action,
 	EMailAttachmentHandlerPrivate *priv;
 	CamelMimeMessage *message;
 	CamelFolder *folder;
+	CreateComposerData *ccd;
 	EShell *shell;
 
 	priv = E_MAIL_ATTACHMENT_HANDLER_GET_PRIVATE (handler);
@@ -269,10 +332,11 @@ mail_attachment_handler_message_edit (GtkAction *action,
 	shell = e_shell_backend_get_shell (E_SHELL_BACKEND (priv->backend));
 	folder = mail_attachment_handler_guess_folder_ref (handler);
 
-	em_utils_edit_message (shell, folder, message, NULL, TRUE);
+	ccd = g_new0 (CreateComposerData, 1);
+	ccd->message = message;
+	ccd->folder = folder;
 
-	g_clear_object (&folder);
-	g_object_unref (message);
+	e_msg_composer_new (shell, mail_attachment_handler_composer_created_cb, ccd);
 }
 
 static void
@@ -301,6 +365,7 @@ mail_attachment_handler_redirect (GtkAction *action,
 {
 	EMailAttachmentHandlerPrivate *priv;
 	CamelMimeMessage *message;
+	CreateComposerData *ccd;
 	EShell *shell;
 
 	priv = E_MAIL_ATTACHMENT_HANDLER_GET_PRIVATE (handler);
@@ -310,9 +375,12 @@ mail_attachment_handler_redirect (GtkAction *action,
 
 	shell = e_shell_backend_get_shell (E_SHELL_BACKEND (priv->backend));
 
-	em_utils_redirect_message (shell, message);
+	ccd = g_new0 (CreateComposerData, 1);
+	ccd->message = message;
+	ccd->folder = NULL;
+	ccd->is_redirect = TRUE;
 
-	g_object_unref (message);
+	e_msg_composer_new (shell, mail_attachment_handler_composer_created_cb, ccd);
 }
 
 static GtkActionEntry standard_entries[] = {

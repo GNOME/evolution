@@ -36,7 +36,8 @@ typedef struct _EMailDisplayPopupTextHighlight {
 
 	GtkActionGroup *action_group;
 
-	WebKitDOMDocument *document;
+	volatile gint updating;
+	gchar *document_uri;
 } EMailDisplayPopupTextHighlight;
 
 typedef struct _EMailDisplayPopupTextHighlightClass {
@@ -107,33 +108,42 @@ static GtkActionEntry entries[] = {
 };
 
 static void
+set_document_uri (EMailDisplayPopupTextHighlight *extension,
+                  const gchar *document_uri)
+{
+	if (extension->document_uri == document_uri)
+		return;
+
+	g_free (extension->document_uri);
+	extension->document_uri = g_strdup (document_uri);
+}
+
+static void
 reformat (GtkAction *old,
           GtkAction *action,
           gpointer user_data)
 {
 	EMailDisplayPopupTextHighlight *th_extension;
-	WebKitDOMDocument *doc;
-	WebKitDOMDOMWindow *window;
-	WebKitDOMElement *frame_element;
 	SoupURI *soup_uri;
 	GHashTable *query;
 	gchar *uri;
 
 	th_extension = E_MAIL_DISPLAY_POPUP_TEXT_HIGHLIGHT (user_data);
-	doc = th_extension->document;
-	if (!doc)
+
+	if (g_atomic_int_get (&th_extension->updating))
 		return;
 
-	uri = webkit_dom_document_get_document_uri (doc);
-	soup_uri = soup_uri_new (uri);
-	g_free (uri);
+	if (th_extension->document_uri)
+		soup_uri = soup_uri_new (th_extension->document_uri);
+	else
+		soup_uri = NULL;
 
 	if (!soup_uri)
-		goto exit;
+		return;
 
 	if (!soup_uri->query) {
 		soup_uri_free (soup_uri);
-		goto exit;
+		return;
 	}
 
 	query = soup_form_decode (soup_uri->query);
@@ -148,17 +158,10 @@ reformat (GtkAction *old,
 	uri = soup_uri_to_string (soup_uri, FALSE);
 	soup_uri_free (soup_uri);
 
-	/* Get frame's window and from the window the actual <iframe> element */
-	window = webkit_dom_document_get_default_view (doc);
-	frame_element = webkit_dom_dom_window_get_frame_element (window);
-	webkit_dom_html_iframe_element_set_src (
-		WEBKIT_DOM_HTML_IFRAME_ELEMENT (frame_element), uri);
+	e_web_view_set_document_iframe_src (E_WEB_VIEW (e_extension_get_extensible (E_EXTENSION (th_extension))),
+		th_extension->document_uri, uri);
 
 	g_free (uri);
-
-	/* The frame has been reloaded, the document pointer is invalid now */
-exit:
-	th_extension->document = NULL;
 }
 
 static GtkActionGroup *
@@ -215,10 +218,12 @@ create_group (EMailDisplayPopupExtension *extension)
 				NULL, NULL, action_index);
 		action_index++;
 		gtk_action_group_add_action (group, GTK_ACTION (action));
-		g_signal_connect (
-			action, "changed",
-			G_CALLBACK (reformat), extension);
-		gtk_radio_action_set_group (action, radio_group);
+		if (radio_group)
+			gtk_radio_action_set_group (action, radio_group);
+		else
+			g_signal_connect (
+				action, "changed",
+				G_CALLBACK (reformat), extension);
 		radio_group = gtk_radio_action_get_group (action);
 
 		g_object_unref (action);
@@ -246,11 +251,13 @@ create_group (EMailDisplayPopupExtension *extension)
 				NULL, NULL, action_index);
 		action_index++;
 		gtk_action_group_add_action (group, GTK_ACTION (action));
-		g_signal_connect (
-			action, "changed",
-			G_CALLBACK (reformat), extension);
 
-		gtk_radio_action_set_group (action, radio_group);
+		if (radio_group)
+			gtk_radio_action_set_group (action, radio_group);
+		else
+			g_signal_connect (
+				action, "changed",
+				G_CALLBACK (reformat), extension);
 		radio_group = gtk_radio_action_get_group (action);
 
 		g_object_unref (action);
@@ -273,33 +280,26 @@ create_group (EMailDisplayPopupExtension *extension)
 
 static void
 update_actions (EMailDisplayPopupExtension *extension,
-                WebKitHitTestResult *context)
+		const gchar *popup_document_uri)
 {
 	EMailDisplayPopupTextHighlight *th_extension;
-	WebKitDOMNode *node;
-	WebKitDOMDocument *document;
-	gchar *uri;
 
 	th_extension = E_MAIL_DISPLAY_POPUP_TEXT_HIGHLIGHT (extension);
 
-	if (th_extension->action_group == NULL) {
+	if (!th_extension->action_group)
 		th_extension->action_group = create_group (extension);
-	}
 
-	th_extension->document = NULL;
-	g_object_get (G_OBJECT (context), "inner-node", &node, NULL);
-	document = webkit_dom_node_get_owner_document (node);
-	uri = webkit_dom_document_get_document_uri (document);
+	set_document_uri (th_extension, popup_document_uri);
 
 	/* If the part below context menu was made by text-highlight formatter,
 	 * then try to check what formatter it's using at the moment and set
 	 * it as active in the popup menu */
-	if (uri && strstr (uri, ".text-highlight") != NULL) {
+	if (th_extension->document_uri && strstr (th_extension->document_uri, ".text-highlight") != NULL) {
 		SoupURI *soup_uri;
 		gtk_action_group_set_visible (
 			th_extension->action_group, TRUE);
 
-		soup_uri = soup_uri_new (uri);
+		soup_uri = soup_uri_new (th_extension->document_uri);
 		if (soup_uri && soup_uri->query) {
 			GHashTable *query = soup_form_decode (soup_uri->query);
 			gchar *highlighter;
@@ -310,31 +310,23 @@ update_actions (EMailDisplayPopupExtension *extension,
 					th_extension->action_group, highlighter);
 				if (action) {
 					gint value;
+					g_atomic_int_add (&th_extension->updating, 1);
 					g_object_get (
 						G_OBJECT (action), "value",
 						&value, NULL);
 					gtk_radio_action_set_current_value (
 						GTK_RADIO_ACTION (action), value);
+					g_atomic_int_add (&th_extension->updating, -1);
 				}
 			}
 			g_hash_table_destroy (query);
 		}
 
-		if (soup_uri) {
+		if (soup_uri)
 			soup_uri_free (soup_uri);
-		}
-
 	} else {
-		gtk_action_group_set_visible (
-			th_extension->action_group, FALSE);
+		gtk_action_group_set_visible (th_extension->action_group, FALSE);
 	}
-
-	/* Set the th_extension->document AFTER changing the active action to
-	 * prevent the reformat() from doing some crazy reformatting
-	 * (reformat() returns immediatelly when th_extension->document is NULL) */
-	th_extension->document = document;
-
-	g_free (uri);
 }
 
 void
@@ -363,11 +355,11 @@ e_mail_display_popup_extension_interface_init (EMailDisplayPopupExtensionInterfa
 void
 e_mail_display_popup_text_highlight_class_finalize (EMailDisplayPopupTextHighlightClass *klass)
 {
-
 }
 
 static void
 e_mail_display_popup_text_highlight_init (EMailDisplayPopupTextHighlight *extension)
 {
 	extension->action_group = NULL;
+	extension->document_uri = NULL;
 }

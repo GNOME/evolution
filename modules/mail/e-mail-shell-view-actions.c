@@ -256,6 +256,29 @@ action_mail_create_search_folder_cb (GtkAction *action,
 }
 
 static void
+action_mail_attachment_bar_cb (GtkAction *action,
+			       EMailShellView *mail_shell_view)
+{
+	EMailDisplay *mail_display;
+	EAttachmentView *attachment_view;
+
+	g_return_if_fail (E_IS_MAIL_SHELL_VIEW (mail_shell_view));
+
+	mail_display = e_mail_reader_get_mail_display (E_MAIL_READER (mail_shell_view->priv->mail_shell_content));
+	attachment_view = e_mail_display_get_attachment_view (mail_display);
+	if (gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action))) {
+		EAttachmentStore *store;
+		guint num_attachments;
+
+		store = e_attachment_bar_get_store (E_ATTACHMENT_BAR (attachment_view));
+		num_attachments = e_attachment_store_get_num_attachments (store);
+		gtk_widget_set_visible (GTK_WIDGET (attachment_view), num_attachments > 0);
+	} else {
+		gtk_widget_hide (GTK_WIDGET (attachment_view));
+	}
+}
+
+static void
 action_mail_download_finished_cb (CamelStore *store,
                                   GAsyncResult *result,
                                   EActivity *activity)
@@ -2025,6 +2048,14 @@ static GtkToggleActionEntry mail_toggle_entries[] = {
 	  NULL,  /* Handled by property bindings */
 	  TRUE },
 
+	{ "mail-attachment-bar",
+	  NULL,
+	  N_("Show _Attachment Bar"),
+	  NULL,
+	  N_("Show Attachment Bar below the message preview pane when the message has attachments"),
+	  G_CALLBACK (action_mail_attachment_bar_cb),
+	  TRUE },
+
 	{ "mail-show-deleted",
 	  NULL,
 	  N_("Show _Deleted Messages"),
@@ -2332,6 +2363,11 @@ e_mail_shell_view_actions_init (EMailShellView *mail_shell_view)
 	g_settings_bind (
 		settings, "enable-unmatched",
 		ACTION (MAIL_VFOLDER_UNMATCHED_ENABLE), "active",
+		G_SETTINGS_BIND_DEFAULT);
+
+	g_settings_bind (
+		settings, "show-attachment-bar",
+		ACTION (MAIL_ATTACHMENT_BAR), "active",
 		G_SETTINGS_BIND_DEFAULT);
 
 	g_object_unref (settings);

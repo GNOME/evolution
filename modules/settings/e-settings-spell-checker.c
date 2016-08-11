@@ -62,8 +62,7 @@ settings_spell_checker_constructed (GObject *object)
 		E_SETTINGS_SPELL_CHECKER (object));
 
 	/* Make sure there are no active languages at this point. */
-	g_warn_if_fail (
-		e_spell_checker_count_active_languages (spell_checker) == 0);
+	g_warn_if_fail (e_spell_checker_count_active_languages (spell_checker) == 0);
 
 	settings = e_util_ref_settings ("org.gnome.evolution.mail");
 	strv = g_settings_get_strv (settings, "composer-spell-languages");
