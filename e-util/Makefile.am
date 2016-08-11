@@ -73,6 +73,31 @@ noinst_PROGRAMS = \
 	test-tree-view-frame \
 	$(NULL)
 
+privbuilddir = $(abs_builddir)
+privbuild_LTLIBRARIES = libevolutiontestsettings.la
+
+GITIGNOREFILES = libevolutiontestsettings.so
+
+libevolutiontestsettings_la_SOURCES = \
+	test-keyfile-settings-backend.h \
+	test-keyfile-settings-backend.c \
+	$(PLATFORM_SOURCES) \
+	$(NULL)
+
+libevolutiontestsettings_la_CPPFLAGS = \
+	$(AM_CPPFLAGS) \
+	-I$(top_srcdir) \
+	-I$(top_builddir) \
+	-DG_LOG_DOMAIN=\"evolution-test-settings\" \
+	$(EVOLUTION_DATA_SERVER_CFLAGS) \
+	$(NULL)
+
+libevolutiontestsettings_la_LDFLAGS = -no-install -module -avoid-version $(NO_UNDEFINED) $(CODE_COVERAGE_LDFLAGS)
+
+libevolutiontestsettings_la_LIBADD =  \
+	$(EVOLUTION_DATA_SERVER_LIBS) \
+	$(NULL)
+
 libevolution_util_la_CPPFLAGS = \
 	$(AM_CPPFLAGS) \
 	-I$(top_srcdir) \
@@ -99,6 +124,7 @@ libevolution_util_la_CPPFLAGS = \
 	-DEVOLUTION_UIDIR=\""$(uidir)"\" \
 	-DEVOLUTION_RULEDIR=\"$(ruledir)\" \
 	-DEVOLUTION_WEB_EXTENSIONS_DIR=\""$(webextensionsdir)"\" \
+	-DABS_BUILDDIR=\"$(abs_builddir)\" \
 	-DG_LOG_DOMAIN=\"evolution-util\" \
 	$(EVOLUTION_DATA_SERVER_CFLAGS) \
 	$(GNOME_PLATFORM_CFLAGS) \

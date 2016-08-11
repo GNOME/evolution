@@ -49,6 +49,7 @@ IGNORE_HFILES = \
 	gal-a11y-factory.h \
 	gal-a11y-util.h \
 	test-html-editor-units-utils.h \
+	test-keyfile-settings-backend.h \
 	$(NULL)
 
 GITIGNOREFILES = \

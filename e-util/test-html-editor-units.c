@@ -18,11 +18,15 @@
 #include <config.h>
 #endif
 
+#include <glib.h>
+#include <glib/gstdio.h>
+
 #include <locale.h>
 #include <e-util/e-util.h>
 
 #include "e-html-editor-private.h"
 #include "test-html-editor-units-utils.h"
+#include "test-keyfile-settings-backend.h"
 
 #define HTML_PREFIX "<html><head></head><body>"
 #define HTML_PREFIX_PLAIN "<html><head></head><body style=\"font-family: Monospace;\">"
@@ -935,6 +939,9 @@ test_h_rule_insert_text_after (TestFixture *fixture)
 static void
 test_emoticon_insert_typed (TestFixture *fixture)
 {
+	test_utils_fixture_change_setting_boolean (fixture, "org.gnome.evolution.mail", "composer-magic-smileys", TRUE);
+	test_utils_fixture_change_setting_boolean (fixture, "org.gnome.evolution.mail", "composer-unicode-smileys", FALSE);
+
 	if (!test_utils_run_simple_test (fixture,
 		"mode:html\n"
 		"type:before :)after\n",
@@ -970,6 +977,9 @@ test_emoticon_insert_typed (TestFixture *fixture)
 static void
 test_emoticon_insert_typed_dash (TestFixture *fixture)
 {
+	test_utils_fixture_change_setting_boolean (fixture, "org.gnome.evolution.mail", "composer-magic-smileys", TRUE);
+	test_utils_fixture_change_setting_boolean (fixture, "org.gnome.evolution.mail", "composer-unicode-smileys", FALSE);
+
 	if (!test_utils_run_simple_test (fixture,
 		"mode:html\n"
 		"type:before :-)after\n",
@@ -2664,6 +2674,7 @@ gint
 main (gint argc,
       gchar *argv[])
 {
+	gchar *test_keyfile_filename;
 	gint cmd_delay = -1;
 	GOptionEntry entries[] = {
 		{ "cmd-delay", '\0', 0,
@@ -2679,10 +2690,17 @@ main (gint argc,
 
 	setlocale (LC_ALL, "");
 
-	/* Force the memory GSettings backend, to not overwrite user settings
-	   when playing with them. It also ensures that the test will run with
-	   default settings, until changed. */
-	g_setenv ("GSETTINGS_BACKEND", "memory", TRUE);
+	test_keyfile_filename = e_mktemp ("evolution-XXXXXX.settings");
+	g_return_val_if_fail (test_keyfile_filename != NULL, -1);
+
+	/* Start with clean settings file, to run with default settings. */
+	g_unlink (test_keyfile_filename);
+
+	/* Force the Evolution's test-keyfile GSettings backend, to not overwrite
+	   user settings when playing with them. */
+	g_setenv ("GIO_EXTRA_MODULES", ABS_BUILDDIR, TRUE);
+	g_setenv ("GSETTINGS_BACKEND", TEST_KEYFILE_SETTINGS_BACKEND_NAME, TRUE);
+	g_setenv (TEST_KEYFILE_SETTINGS_FILENAME_ENVVAR, test_keyfile_filename, TRUE);
 
 	g_test_init (&argc, &argv, NULL);
 	g_test_bug_base ("http://bugzilla.gnome.org/show_bug.cgi?id=");
@@ -2818,6 +2836,9 @@ main (gint argc,
 
 	e_util_cleanup_settings ();
 	e_spell_checker_free_global_memory ();
+
+	g_unlink (test_keyfile_filename);
+	g_free (test_keyfile_filename);
 
 	return res;
 }
