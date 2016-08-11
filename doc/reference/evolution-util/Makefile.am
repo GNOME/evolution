@@ -48,6 +48,7 @@ IGNORE_HFILES = \
 	gal-a11y-e-tree.h \
 	gal-a11y-factory.h \
 	gal-a11y-util.h \
+	test-html-editor-units-utils.h \
 	$(NULL)
 
 GITIGNOREFILES = \

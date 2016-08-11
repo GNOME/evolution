@@ -276,7 +276,7 @@ typedef enum {
  * @E_CONTENT_EDITOR_FONT_SIZE_LARGE:
  * @E_CONTENT_EDITOR_FONT_SIZE_VERY_LARGE:
  *
- * Note: The values match the actual size in <font size="n">
+ * Note: The values match the actual size in &lt;font size="n"&gt;
  *
  * Since: 3.22
  **/

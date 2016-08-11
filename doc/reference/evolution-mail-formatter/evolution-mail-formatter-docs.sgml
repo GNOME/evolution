@@ -22,10 +22,10 @@
     <xi:include href="xml/e-mail-part.xml"/>
     <xi:include href="xml/e-mail-part-list.xml"/>
     <xi:include href="xml/e-mail-part-attachment.xml"/>
-    <xi:include href="xml/e-mail-part-attachment-bar.xml"/>
     <xi:include href="xml/e-mail-part-audio.xml"/>
     <xi:include href="xml/e-mail-part-headers.xml"/>
     <xi:include href="xml/e-mail-part-image.xml"/>
+    <xi:include href="xml/e-mail-part-secure-button.xml"/>
   </chapter>
 
   <chapter>

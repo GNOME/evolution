@@ -46,7 +46,6 @@
     <title>Attachments</title>
     <xi:include href="xml/e-attachment.xml"/>
     <xi:include href="xml/e-attachment-bar.xml"/>
-    <xi:include href="xml/e-attachment-button.xml"/>
     <xi:include href="xml/e-attachment-dialog.xml"/>
     <xi:include href="xml/e-attachment-paned.xml"/>
     <xi:include href="xml/e-attachment-store.xml"/>
@@ -95,6 +94,7 @@
     <title>HTML Rendering</title>
     <xi:include href="xml/e-web-view.xml"/>
     <xi:include href="xml/e-web-view-preview.xml"/>
+    <xi:include href="xml/e-content-request.xml"/>
     <xi:include href="xml/e-file-request.xml"/>
     <xi:include href="xml/e-stock-request.xml"/>
   </chapter>
@@ -103,6 +103,7 @@
     <title>HTML Editing</title>
     <xi:include href="xml/e-color-chooser-widget.xml"/>
     <xi:include href="xml/e-color-combo.xml"/>
+    <xi:include href="xml/e-content-editor.xml"/>
     <xi:include href="xml/e-emoticon.xml"/>
     <xi:include href="xml/e-emoticon-action.xml"/>
     <xi:include href="xml/e-emoticon-chooser.xml"/>
@@ -118,11 +119,9 @@
     <xi:include href="xml/e-html-editor-page-dialog.xml"/>
     <xi:include href="xml/e-html-editor-paragraph-dialog.xml"/>
     <xi:include href="xml/e-html-editor-replace-dialog.xml"/>
-    <xi:include href="xml/e-html-editor-selection.xml"/>
     <xi:include href="xml/e-html-editor-spell-check-dialog.xml"/>
     <xi:include href="xml/e-html-editor-table-dialog.xml"/>
     <xi:include href="xml/e-html-editor-text-dialog.xml"/>
-    <xi:include href="xml/e-html-editor-view.xml"/>
     <xi:include href="xml/e-image-chooser-dialog.xml"/>
     <xi:include href="xml/e-spell-checker.xml"/>
     <xi:include href="xml/e-spell-dictionary.xml"/>
@@ -298,6 +297,7 @@
     <xi:include href="xml/e-selection-model-simple.xml"/>
     <xi:include href="xml/e-selection-model.xml"/>
     <xi:include href="xml/e-send-options.xml"/>
+    <xi:include href="xml/e-simple-async-result.xml"/>
     <xi:include href="xml/e-sorter-array.xml"/>
     <xi:include href="xml/e-sorter.xml"/>
     <xi:include href="xml/e-spell-entry.xml"/>
