@@ -570,6 +570,7 @@ toggle_headers_visibility (WebKitDOMElement *button,
 {
 	WebKitDOMElement *short_headers = NULL, *full_headers = NULL;
 	WebKitDOMCSSStyleDeclaration *css_short = NULL, *css_full = NULL;
+	GSettings *settings;
 	gboolean expanded;
 	const gchar *path;
 	gchar *css_value;
@@ -606,6 +607,11 @@ toggle_headers_visibility (WebKitDOMElement *button,
 
 	webkit_dom_html_image_element_set_src (
 		WEBKIT_DOM_HTML_IMAGE_ELEMENT (button), path);
+
+	settings = e_util_ref_settings ("org.gnome.evolution.mail");
+	g_settings_set_boolean (settings, "headers-collapsed", expanded);
+	g_clear_object (&settings);
+
  clean:
 	g_clear_object (&short_headers);
 	g_clear_object (&css_short);
