@@ -2698,7 +2698,7 @@ main (gint argc,
 
 	/* Force the Evolution's test-keyfile GSettings backend, to not overwrite
 	   user settings when playing with them. */
-	g_setenv ("GIO_EXTRA_MODULES", ABS_BUILDDIR, TRUE);
+	g_setenv ("GIO_EXTRA_MODULES", EVOLUTION_TESTGIOMODULESDIR, TRUE);
 	g_setenv ("GSETTINGS_BACKEND", TEST_KEYFILE_SETTINGS_BACKEND_NAME, TRUE);
 	g_setenv (TEST_KEYFILE_SETTINGS_FILENAME_ENVVAR, test_keyfile_filename, TRUE);
 

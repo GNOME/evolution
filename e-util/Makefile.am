@@ -73,8 +73,10 @@ noinst_PROGRAMS = \
 	test-tree-view-frame \
 	$(NULL)
 
-privbuilddir = $(abs_builddir)
-privbuild_LTLIBRARIES = libevolutiontestsettings.la
+# This is not meant to be distributed to end users, unless test-html-editor-units
+# is also distributed, but even then it can work without it
+privsolibtestgiomodulesdir = $(privsolibdir)/test-gio-modules
+privsolibtestgiomodules_LTLIBRARIES = libevolutiontestsettings.la
 
 GITIGNOREFILES = libevolutiontestsettings.so
 
@@ -124,7 +126,7 @@ libevolution_util_la_CPPFLAGS = \
 	-DEVOLUTION_UIDIR=\""$(uidir)"\" \
 	-DEVOLUTION_RULEDIR=\"$(ruledir)\" \
 	-DEVOLUTION_WEB_EXTENSIONS_DIR=\""$(webextensionsdir)"\" \
-	-DABS_BUILDDIR=\"$(abs_builddir)\" \
+	-DEVOLUTION_TESTGIOMODULESDIR=\"$(privsolibtestgiomodulesdir)\" \
 	-DG_LOG_DOMAIN=\"evolution-util\" \
 	$(EVOLUTION_DATA_SERVER_CFLAGS) \
 	$(GNOME_PLATFORM_CFLAGS) \
