@@ -18,7 +18,7 @@
       the "Exchange Web Services" (EWS) extension.
     </_p>
   </description>
-  <url type="homepage">https://live.gnome.org/Apps/Evolution</url>
+  <url type="homepage">https://wiki.gnome.org/Apps/Evolution</url>
   <url type="bugtracker">https://bugzilla.gnome.org/enter_bug.cgi?product=evolution</url>
   <url type="donation">http://www.gnome.org/friends/</url>
   <url type="help">https://help.gnome.org/users/evolution/stable/</url>
