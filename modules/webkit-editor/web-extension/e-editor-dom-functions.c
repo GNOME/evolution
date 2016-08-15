@@ -2888,7 +2888,7 @@ body_keydown_event_cb (WebKitDOMElement *element,
                        EEditorPage *editor_page)
 {
 	gboolean backspace_key, delete_key, space_key, return_key;
-	gboolean shift_key, control_key;
+	gboolean shift_key, control_key, tabulator_key;
 	glong key_code;
 	WebKitDOMDocument *document;
 	WebKitDOMDOMWindow *dom_window = NULL;
@@ -2904,6 +2904,7 @@ body_keydown_event_cb (WebKitDOMElement *element,
 	return_key = key_code == HTML_KEY_CODE_RETURN;
 	backspace_key = key_code == HTML_KEY_CODE_BACKSPACE;
 	space_key = key_code == HTML_KEY_CODE_SPACE;
+	tabulator_key = key_code == HTML_KEY_CODE_TABULATOR;
 
 	if (key_code == HTML_KEY_CODE_CONTROL) {
 		dom_set_links_active (document, TRUE);
@@ -2915,13 +2916,13 @@ body_keydown_event_cb (WebKitDOMElement *element,
 	e_editor_page_set_return_key_pressed (editor_page, return_key);
 	e_editor_page_set_space_key_pressed (editor_page, space_key);
 
-	if (!(delete_key || return_key || backspace_key || space_key))
+	if (!(delete_key || return_key || backspace_key || space_key || tabulator_key))
 		return;
 
 	shift_key = webkit_dom_keyboard_event_get_shift_key (WEBKIT_DOM_KEYBOARD_EVENT (event));
 	control_key = webkit_dom_keyboard_event_get_ctrl_key (WEBKIT_DOM_KEYBOARD_EVENT (event));
 
-	if (key_code == HTML_KEY_CODE_TABULATOR) {
+	if (tabulator_key) {
 		if (jump_to_next_table_cell (document, shift_key)) {
 			webkit_dom_event_prevent_default (WEBKIT_DOM_EVENT (event));
 			goto out;
