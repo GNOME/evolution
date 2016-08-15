@@ -2670,6 +2670,97 @@ test_bug_769708 (TestFixture *fixture)
 		g_test_fail ();
 }
 
+static void
+test_bug_769913 (TestFixture *fixture)
+{
+	if (!test_utils_process_commands (fixture,
+		"mode:html\n")) {
+		g_test_fail ();
+		return;
+	}
+
+	if (!test_utils_run_simple_test (fixture,
+		"type:ab\n"
+		"seq:ltlD\n",
+		HTML_PREFIX_PLAIN "<p>ab</p>" HTML_SUFFIX,
+		"ab")) {
+		g_test_fail ();
+		return;
+	}
+
+	if (!test_utils_run_simple_test (fixture,
+		"seq:ttllDD\n",
+		HTML_PREFIX_PLAIN "<p>ab</p>" HTML_SUFFIX,
+		"ab")) {
+		g_test_fail ();
+		return;
+	}
+
+	if (!test_utils_run_simple_test (fixture,
+		"seq:ttlDlD\n",
+		HTML_PREFIX_PLAIN "<p>ab</p>" HTML_SUFFIX,
+		"ab")) {
+		g_test_fail ();
+		return;
+	}
+
+	if (!test_utils_run_simple_test (fixture,
+		"seq:tttlllDDD\n",
+		HTML_PREFIX_PLAIN "<p>ab</p>" HTML_SUFFIX,
+		"ab")) {
+		g_test_fail ();
+		return;
+	}
+
+	if (!test_utils_run_simple_test (fixture,
+		"seq:tttlDlDlD\n",
+		HTML_PREFIX_PLAIN "<p>ab</p>" HTML_SUFFIX,
+		"ab")) {
+		g_test_fail ();
+		return;
+	}
+
+	if (!test_utils_run_simple_test (fixture,
+		"seq:tb\n",
+		HTML_PREFIX_PLAIN "<p>ab</p>" HTML_SUFFIX,
+		"ab")) {
+		g_test_fail ();
+		return;
+	}
+
+	if (!test_utils_run_simple_test (fixture,
+		"seq:ttbb\n",
+		HTML_PREFIX_PLAIN "<p>ab</p>" HTML_SUFFIX,
+		"ab")) {
+		g_test_fail ();
+		return;
+	}
+
+	if (!test_utils_run_simple_test (fixture,
+		"seq:ttlbrb\n",
+		HTML_PREFIX_PLAIN "<p>ab</p>" HTML_SUFFIX,
+		"ab")) {
+		g_test_fail ();
+		return;
+	}
+
+	if (!test_utils_run_simple_test (fixture,
+		"seq:tttbbb\n",
+		HTML_PREFIX_PLAIN "<p>ab</p>" HTML_SUFFIX,
+		"ab")) {
+		g_test_fail ();
+		return;
+	}
+
+	if (!test_utils_run_simple_test (fixture,
+		"seq:tttllbrbrb\n",
+		HTML_PREFIX_PLAIN "<p>ab</p>" HTML_SUFFIX,
+		"ab")) {
+		g_test_fail ();
+		return;
+	}
+}
+
 gint
 main (gint argc,
       gchar *argv[])
@@ -2829,6 +2920,7 @@ main (gint argc,
 	add_test ("/bug/750657", test_bug_750657);
 	add_test ("/bug/760989", test_bug_760989);
 	add_test ("/bug/769708", test_bug_769708);
+	add_test ("/bug/769913", test_bug_769913);
 
 	#undef add_test
 
