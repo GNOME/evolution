@@ -8415,6 +8415,8 @@ e_editor_dom_process_content_after_load (EEditorPage *editor_page)
 		dom_set_links_active (document, FALSE);
 		e_editor_page_set_convert_in_situ (editor_page, FALSE);
 
+		e_editor_dom_scroll_to_caret (editor_page);
+
 		e_editor_dom_register_input_event_listener_on_body (editor_page);
 		register_html_events_handlers (editor_page, body);
 
@@ -8464,6 +8466,8 @@ e_editor_dom_process_content_after_load (EEditorPage *editor_page)
 
 	e_editor_dom_set_monospace_font_family_on_body (
 		WEBKIT_DOM_ELEMENT (body), e_editor_page_get_html_mode (editor_page));
+
+	e_editor_dom_scroll_to_caret (editor_page);
 
 	dom_window = webkit_dom_document_get_default_view (document);
 
