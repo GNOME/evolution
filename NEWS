@@ -1,3 +1,50 @@
+Evolution 3.21.90 2016-08-15
+----------------------------
+
+* Evolution now uses WebKit2 instead of WebKit1 to display emails, contacts,
+  tasks, memos and to compose messages. A huge thanks to Tomáš Popela, whom
+  led this effort.
+
+Bug Fixes:
+	Bug 768449 - “Message/Open in New Window” marks message as read when shouldn't (Milan Crha)
+	Bug 767283 - [Wayland] "Add a Column" dialog: drag and drop broken ][ (Milan Crha)
+	Bug 769354 - Quotation level changed when deleting one character in quoted line (Tomas Popela)
+	Bug 769338 - Pasting < > & as a quotation pastes their html entities (Tomas Popela)
+	Bug 769062 - Crash on mouse over task when tasks are grouped (Milan Crha)
+	Bug 768683 - Cannot mark as spam non-spam message in a real Junk folder (Milan Crha)
+	Bug 624604 - Clarify signature warnings when a pubkey is absent (Jean-François Fortin Tam)
+	Bug 769388 - Add option to not display Content-Disposition:inline parts (Leonard den Ottolander)
+	Bug 769044 - Customized timezones not recognized (Milan Crha)
+	Bug 769072 - Silently discards message when save to draft fails on quit (Milan Crha)
+	Bug 769152 - Confirm folder Unsubscribe before doing so (Milan Crha)
+	Bug 769288 - Crash after saving view and changing folder (Milan Crha)
+	Bug 751588 - Port to WebKit2 (Tomas Popela)
+	Bug 769707 - [WK2] Signature lost on send (Tomas Popela)
+	Bug 769908 - [WK2] Scroll to cursor on composer open (Tomas Popela)
+
+Miscellaneous:
+	Correct order of "assign value" and "call function" when saving to drafts (Milan Crha)
+	Simplify and fix how the HTML is parsed into composer's DOM structure (Tomas Popela)
+	Update devel-doc build scripts to work after the WebKit2 port merge (Milan Crha)
+	The "headers-collapsed" change not propagated into the settings (Milan Crha)
+	Add TestKeyfileSettingsBackend for test-html-editor-units (Milan Crha)
+	Update homepage GNOME wiki URL to save us a redirect (Andre Klapper)
+	Make translation type value more generic; no need for branch numbers (Andre Klapper)
+	test-html-editor-units: Increase default command delay to 25ms (Milan Crha)
+	EHTMLEditorView - Redoing unquoting does not work (Tomas Popela)
+	EHTMLEditorView - Extra new line could be added to the quoted text when parsing HTML (Tomas Popela)
+	EHTMLEditorView - Replace citation marks to actual citation in one round (Tomas Popela)
+	EHTMLEditorView - Remove accidentally committed debug prints (Tomas Popela)
+	EWebKitEditor - Tabulator key does not insert the tabulator, but changes focus (Tomas Popela)
+
+Translations:
+	Aurimas Černius (lt)
+	Jordi Mas (ca)
+	Daniel Mustieles (es)
+	Balázs Úr (hu)
+	Dušan Kazik (sk)
+	Gustavo Marques (pt_BR)
+
 Evolution 3.21.4 2016-07-18
 ---------------------------
 
