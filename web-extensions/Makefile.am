@@ -16,6 +16,8 @@ libedomutils_la_LIBADD =				\
 	$(EVOLUTION_DATA_SERVER_LIBS)			\
 	$(GNOME_PLATFORM_LIBS)
 
+libedomutils_la_LDFLAGS = -avoid-version $(NO_UNDEFINED) $(CODE_COVERAGE_LDFLAGS)
+
 libewebextension_la_SOURCES =				\
 	e-web-extension.h				\
 	e-web-extension-names.h				\
@@ -38,7 +40,6 @@ libewebextension_la_LIBADD =				\
 	$(GNOME_PLATFORM_LIBS)				\
 	$(WEB_EXTENSIONS_LIBS)
 
-libewebextension_la_LDFLAGS =				\
-	-module -avoid-version -no-undefined
+libewebextension_la_LDFLAGS = -module -avoid-version $(NO_UNDEFINED) $(CODE_COVERAGE_LDFLAGS)
 
 -include $(top_srcdir)/git.mk

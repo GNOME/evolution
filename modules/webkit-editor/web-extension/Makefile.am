@@ -33,6 +33,6 @@ libewebkiteditorwebextension_la_LIBADD =		\
 	$(WEB_EXTENSIONS_LIBS)
 
 libewebkiteditorwebextension_la_LDFLAGS = \
-	-module -avoid-version -no-undefined
+	-module -avoid-version $(NO_UNDEFINED) $(CODE_COVERAGE_LDFLAGS)
 
 -include $(top_srcdir)/git.mk
