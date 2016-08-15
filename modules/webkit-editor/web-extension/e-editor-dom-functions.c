@@ -7204,22 +7204,20 @@ process_node_to_plain_text_for_exporting (EEditorPage *editor_page,
 
 			first_child = webkit_dom_node_get_first_child (child);
 
-			skip_node = TRUE;
 			/* Don't generate any text if the signature is set to None. */
 			id = webkit_dom_element_get_id (WEBKIT_DOM_ELEMENT (first_child));
 			if (g_strcmp0 (id, "none") == 0) {
 				g_free (id);
 
 				remove_node (child);
+				skip_node = TRUE;
 				goto next;
 			}
 			g_free (id);
 
-			if (html_mode) {
+			if (html_mode)
 				convert_element_from_html_to_plain_text (
 					editor_page, WEBKIT_DOM_ELEMENT (first_child), NULL, NULL);
-				skip_node = FALSE;
-			}
 
 			goto next;
 		}
