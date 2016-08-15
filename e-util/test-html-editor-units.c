@@ -2763,6 +2763,26 @@ test_bug_769913 (TestFixture *fixture)
 	}
 }
 
+static void
+test_bug_769955 (TestFixture *fixture)
+{
+	test_utils_set_clipboard_text ("http://www.example.com/this-is-a-very-long-link-which-should-not-be-wrapped-into-multiple-lines", FALSE);
+
+	if (!test_utils_run_simple_test (fixture,
+		"mode:plain\n"
+		"action:paste\n"
+		"seq:nll\n"
+		"action:style-preformat\n",
+		HTML_PREFIX_PLAIN "<p style=\"width: 71ch;\"><pre>"
+		"<a href=\"http://www.example.com/this-is-a-very-long-link-which-should-not-be-wrapped-into-multiple-lines\">"
+		"http://www.example.com/this-is-a-very-long-link-which-should-not-be-wrapped-into-multiple-lines</a></pre></p>"
+		"<p style=\"width: 71ch;\"><br></p>" HTML_SUFFIX,
+		"http://www.example.com/this-is-a-very-long-link-which-should-not-be-wrapped-into-multiple-lines")) {
+		g_test_fail ();
+		return;
+	}
+}
+
 gint
 main (gint argc,
       gchar *argv[])
@@ -2923,6 +2943,7 @@ main (gint argc,
 	add_test ("/bug/760989", test_bug_760989);
 	add_test ("/bug/769708", test_bug_769708);
 	add_test ("/bug/769913", test_bug_769913);
+	add_test ("/bug/769955", test_bug_769955);
 
 	#undef add_test
 
