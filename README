@@ -51,7 +51,7 @@ dependencies should be compiled in the order they are listed here):
 
              ftp://ftp.gnome.org/pub/gnome/sources/libsoup
 
-        * WebKitGTK+ 2.4.9
+        * WebKitGTK+ 2.13.0
 
              http://webkitgtk.org/releases/
 
