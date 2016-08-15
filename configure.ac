@@ -287,7 +287,7 @@ PKG_CHECK_MODULES([GNOME_PLATFORM],
 	 libxml-2.0 >= libxml_minimum_version
 	 shared-mime-info >= shared_mime_info_minimum_version
 	 gsettings-desktop-schemas >= gsettings_desktop_schemas_minimum_version
-	 webkit2gtk-4.0 >= webkitgtk_minimum_version
+	 webkit2gtk-4.0 >= webkit2gtk_minimum_version
 	 $GIO_UNIX_REQUIREMENT])
 
 GNOME_DESKTOP_DEPENDENCY=""
