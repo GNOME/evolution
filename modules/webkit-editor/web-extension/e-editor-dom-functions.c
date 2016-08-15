@@ -3891,9 +3891,6 @@ e_editor_dom_body_key_up_event_process_return_key (EEditorPage *editor_page)
 	if (e_editor_page_get_html_mode (editor_page))
 		return;
 
-	/* FIXME WK2 this is called twice */
-	/* e_editor_dom_selection_save (editor_page); */
-
 	document = e_editor_page_get_document (editor_page);
 	e_editor_dom_selection_save (editor_page);
 
@@ -10640,8 +10637,8 @@ e_editor_dom_save_history_for_drop (EEditorPage *editor_page)
 	 * body_input_event_cb and is wrong as its type is HISTORY_INPUT. */
 	/* FIXME we could probably disable the HTML input event callback while
 	 * doing DnD within the view */
-	/* FIXME WK2 - what if e_editor_undo_redo_manager_get_current_history_event() returns NULL? */
-	if (((EEditorHistoryEvent *) (e_editor_undo_redo_manager_get_current_history_event (manager)))->type == HISTORY_INPUT)
+	event = e_editor_undo_redo_manager_get_current_history_event (manager);
+	if (event && event->type == HISTORY_INPUT)
 		e_editor_undo_redo_manager_remove_current_history_event (manager);
 
 	event = g_new0 (EEditorHistoryEvent, 1);
