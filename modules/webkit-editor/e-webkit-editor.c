@@ -2084,7 +2084,13 @@ webkit_editor_is_ready (EContentEditor *editor)
 
 	wk_editor = E_WEBKIT_EDITOR (editor);
 
-	return !webkit_web_view_is_loading (WEBKIT_WEB_VIEW (wk_editor)) && wk_editor->priv->web_extension;
+	/* Editor is ready just in case that the web view is not loading, there
+	 * is no reload in progress and there is no pending post reload operation
+	 * and the web extension for the editor is created. */
+	return !webkit_web_view_is_loading (WEBKIT_WEB_VIEW (wk_editor)) &&
+		!wk_editor->priv->reload_in_progress &&
+		wk_editor->priv->web_extension &&
+		(!wk_editor->priv->post_reload_operations || g_queue_is_empty (wk_editor->priv->post_reload_operations));
 }
 
 static char *
@@ -5618,19 +5624,19 @@ webkit_editor_settings_changed_cb (GSettings *settings,
 
 static void
 webkit_editor_load_changed_cb (EWebKitEditor *wk_editor,
-                                       WebKitLoadEvent load_event)
+                               WebKitLoadEvent load_event)
 {
 	wk_editor->priv->webkit_load_event = load_event;
 
 	if (load_event != WEBKIT_LOAD_FINISHED)
 		return;
 
-	if (wk_editor->priv->web_extension)
+	wk_editor->priv->reload_in_progress = FALSE;
+
+	if (webkit_editor_is_ready (E_CONTENT_EDITOR (wk_editor)))
 		e_content_editor_emit_load_finished (E_CONTENT_EDITOR (wk_editor));
 	else
 		wk_editor->priv->emit_load_finished_when_extension_is_ready = TRUE;
-
-	wk_editor->priv->reload_in_progress = FALSE;
 
 	dispatch_pending_operations (wk_editor);
 }
