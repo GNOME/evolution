@@ -178,8 +178,8 @@ html_editor_inline_spelling_suggestions (EHTMLEditor *editor)
 			g_strdup (suggestion), g_free);
 
 		g_signal_connect (
-			action, "activate", G_CALLBACK (
-			action_context_spell_suggest_cb), editor);
+			action, "activate",
+			G_CALLBACK (action_context_spell_suggest_cb), editor);
 
 		gtk_action_group_add_action (action_group, action);
 
@@ -269,8 +269,8 @@ html_editor_spell_checkers_foreach (EHTMLEditor *editor,
 			g_strdup (suggestion), g_free);
 
 		g_signal_connect (
-			action, "activate", G_CALLBACK (
-			action_context_spell_suggest_cb), editor);
+			action, "activate",
+			G_CALLBACK (action_context_spell_suggest_cb), editor);
 
 		gtk_action_group_add_action (action_group, action);
 

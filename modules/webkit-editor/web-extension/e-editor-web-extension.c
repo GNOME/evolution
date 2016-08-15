@@ -552,6 +552,10 @@ static const gchar *introspection_xml =
 "      <arg type='t' name='page_id' direction='in'/>"
 "      <arg type='s' name='word' direction='out'/>"
 "    </method>"
+"    <method name='DOMReplaceCaretWord'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"      <arg type='s' name='replacement' direction='out'/>"
+"    </method>"
 "<!-- ********************************************************* -->"
 "<!--     Functions that are used in EComposerPrivate           -->"
 "<!-- ********************************************************* -->"
@@ -2083,6 +2087,18 @@ handle_method_call (GDBusConnection *connection,
 				"(@s)",
 				g_variant_new_take_string (
 					word ? word : g_strdup (""))));
+	} else if (g_strcmp0 (method_name, "DOMReplaceCaretWord") == 0) {
+		const gchar *replacement = NULL;
+
+		g_variant_get (parameters, "(t&s)", &page_id, &replacement);
+
+		editor_page = get_editor_page_or_return_dbus_error (invocation, extension, page_id);
+		if (!editor_page)
+			goto error;
+
+		e_editor_dom_replace_caret_word (editor_page, replacement);
+
+		g_dbus_method_invocation_return_value (invocation, NULL);
 	} else if (g_strcmp0 (method_name, "DOMInsertSignature") == 0) {
 		gboolean is_html, set_signature_from_message;
 		gboolean check_if_signature_is_changed, ignore_next_signature_change;
