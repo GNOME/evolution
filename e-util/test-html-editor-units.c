@@ -2663,7 +2663,9 @@ test_bug_769708 (TestFixture *fixture)
 	if (!test_utils_run_simple_test (fixture,
 		"",
 		HTML_PREFIX_PLAIN "<p style=\"width: 71ch;\">aaa</p><div><span><p style=\"width: 71ch;\">--&nbsp;</p>"
-		"<p style=\"width: 71ch;\"<br></p><p style=\"width: 71ch;\">user &lt;user@no.where&gt;</p></span></div>" HTML_SUFFIX,
+		"<p style=\"width: 71ch;\"><br></p>"
+		"<p style=\"width: 71ch;\">user &lt;<a href=\"mailto:user@no.where\">user@no.where</a>&gt;</p>"
+		"</span></div>" HTML_SUFFIX,
 		"aaa\n"
 		"-- \n"
 		"user <user@no.where>"))
