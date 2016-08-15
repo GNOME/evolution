@@ -2679,7 +2679,7 @@ main (gint argc,
 	GOptionEntry entries[] = {
 		{ "cmd-delay", '\0', 0,
 		  G_OPTION_ARG_INT, &cmd_delay,
-		  "Specify delay, in milliseconds, to use during processing commands. Default is 5 ms.",
+		  "Specify delay, in milliseconds, to use during processing commands. Default is 25 ms.",
 		  NULL },
 		{ NULL }
 	};

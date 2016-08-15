@@ -25,7 +25,7 @@
 
 #include "test-html-editor-units-utils.h"
 
-static guint event_processing_delay_ms = 5;
+static guint event_processing_delay_ms = 25;
 
 void
 test_utils_set_event_processing_delay_ms (guint value)
