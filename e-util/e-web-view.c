@@ -539,7 +539,7 @@ web_view_context_menu_cb (WebKitWebView *webkit_web_view,
 	g_signal_emit (
 		web_view,
 		signals[POPUP_EVENT], 0,
-		link_uri, &event_handled);
+		link_uri, event, &event_handled);
 
 	g_free (link_uri);
 
@@ -1401,10 +1401,11 @@ web_view_suggest_filename (EWebView *web_view,
 
 static gboolean
 web_view_popup_event (EWebView *web_view,
-                      const gchar *uri)
+                      const gchar *uri,
+		      GdkEvent *event)
 {
 	e_web_view_set_selected_uri (web_view, uri);
-	e_web_view_show_popup_menu (web_view);
+	e_web_view_show_popup_menu (web_view, event);
 
 	return TRUE;
 }
@@ -2080,8 +2081,8 @@ e_web_view_class_init (EWebViewClass *class)
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (EWebViewClass, popup_event),
 		g_signal_accumulator_true_handled, NULL,
-		e_marshal_BOOLEAN__STRING,
-		G_TYPE_BOOLEAN, 1, G_TYPE_STRING);
+		NULL,
+		G_TYPE_BOOLEAN, 2, G_TYPE_STRING, GDK_TYPE_EVENT | G_SIGNAL_TYPE_STATIC_SCOPE);
 
 	signals[STATUS_MESSAGE] = g_signal_new (
 		"status-message",
@@ -3025,9 +3026,11 @@ e_web_view_get_popup_menu (EWebView *web_view)
 }
 
 void
-e_web_view_show_popup_menu (EWebView *web_view)
+e_web_view_show_popup_menu (EWebView *web_view,
+			    GdkEvent *event)
 {
 	GtkWidget *menu;
+	guint button;
 
 	g_return_if_fail (E_IS_WEB_VIEW (web_view));
 
@@ -3035,9 +3038,12 @@ e_web_view_show_popup_menu (EWebView *web_view)
 
 	menu = e_web_view_get_popup_menu (web_view);
 
+	if (!event || !gdk_event_get_button (event, &button))
+		button = 0;
+
 	gtk_menu_popup (
 		GTK_MENU (menu), NULL, NULL, NULL, NULL,
-		0, gtk_get_current_event_time ());
+		button, event ? gdk_event_get_time (event) : gtk_get_current_event_time ());
 }
 
 /**

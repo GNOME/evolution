@@ -325,12 +325,14 @@ mail_browser_message_list_built_cb (EMailBrowser *browser,
 
 static gboolean
 mail_browser_popup_event_cb (EMailBrowser *browser,
-                             const gchar *uri)
+                             const gchar *uri,
+			     GdkEvent *event)
 {
 	EMailReader *reader;
 	EWebView *web_view;
 	GtkMenu *menu;
 	guint32 state;
+	guint button;
 
 	if (uri != NULL)
 		return FALSE;
@@ -346,9 +348,12 @@ mail_browser_popup_event_cb (EMailBrowser *browser,
 	state = e_mail_reader_check_state (reader);
 	e_mail_reader_update_actions (reader, state);
 
+	if (!event || !gdk_event_get_button (event, &button))
+		button = 0;
+
 	gtk_menu_popup (
 		menu, NULL, NULL, NULL, NULL,
-		0, gtk_get_current_event_time ());
+		button, event ? gdk_event_get_time (event) : gtk_get_current_event_time ());
 
 	return TRUE;
 }

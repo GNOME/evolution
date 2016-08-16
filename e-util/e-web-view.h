@@ -104,7 +104,8 @@ struct _EWebViewClass {
 	void		(*new_activity)		(EWebView *web_view,
 						 EActivity *activity);
 	gboolean	(*popup_event)		(EWebView *web_view,
-						 const gchar *uri);
+						 const gchar *uri,
+						 GdkEvent *event);
 	void		(*status_message)	(EWebView *web_view,
 						 const gchar *status_message);
 	void		(*stop_loading)		(EWebView *web_view);
@@ -215,7 +216,8 @@ void		e_web_view_zoom_in		(EWebView *web_view);
 void		e_web_view_zoom_out		(EWebView *web_view);
 GtkUIManager *	e_web_view_get_ui_manager	(EWebView *web_view);
 GtkWidget *	e_web_view_get_popup_menu	(EWebView *web_view);
-void		e_web_view_show_popup_menu	(EWebView *web_view);
+void		e_web_view_show_popup_menu	(EWebView *web_view,
+						 GdkEvent *event);
 EActivity *	e_web_view_new_activity		(EWebView *web_view);
 void		e_web_view_status_message	(EWebView *web_view,
 						 const gchar *status_message);

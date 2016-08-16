@@ -359,7 +359,8 @@ mail_shell_view_message_list_right_click_cb (EShellView *shell_view,
 
 static gboolean
 mail_shell_view_popup_event_cb (EMailShellView *mail_shell_view,
-                                const gchar *uri)
+                                const gchar *uri,
+				GdkEvent *event)
 {
 	EMailShellContent *mail_shell_content;
 	EMailDisplay *display;
@@ -367,6 +368,7 @@ mail_shell_view_popup_event_cb (EMailShellView *mail_shell_view,
 	EMailReader *reader;
 	EMailView *mail_view;
 	GtkMenu *menu;
+	guint button;
 
 	if (uri != NULL)
 		return FALSE;
@@ -384,9 +386,12 @@ mail_shell_view_popup_event_cb (EMailShellView *mail_shell_view,
 	shell_view = E_SHELL_VIEW (mail_shell_view);
 	e_shell_view_update_actions (shell_view);
 
+	if (!event || !gdk_event_get_button (event, &button))
+		button = 0;
+
 	gtk_menu_popup (
 		menu, NULL, NULL, NULL, NULL,
-		0, gtk_get_current_event_time ());
+		button, event ? gdk_event_get_time (event) : gtk_get_current_event_time ());
 
 	return TRUE;
 }
