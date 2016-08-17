@@ -5491,19 +5491,17 @@ create_text_markers_for_selection_in_element (WebKitDOMElement *element)
 }
 
 static void
-quote_plain_text_elements_after_wrapping_in_document (EEditorPage *editor_page)
+quote_plain_text_elements_after_wrapping_in_element (EEditorPage *editor_page,
+                                                     WebKitDOMElement *element)
 {
-	WebKitDOMDocument *document;
 	WebKitDOMNodeList *list = NULL;
 	gint length, ii;
 
 	g_return_if_fail (E_IS_EDITOR_PAGE (editor_page));
 
-	document = e_editor_page_get_document (editor_page);
-
 	/* Also quote the PRE elements as well. */
-	list = webkit_dom_document_query_selector_all (
-		document, "blockquote[type=cite] > p[data-evo-paragraph], blockquote[type=cite] > pre", NULL);
+	list = webkit_dom_element_query_selector_all (
+		element, "blockquote[type=cite] > p[data-evo-paragraph], blockquote[type=cite] > pre", NULL);
 
 	length = webkit_dom_node_list_get_length (list);
 	for (ii = 0; ii < length; ii++) {
@@ -5515,6 +5513,18 @@ quote_plain_text_elements_after_wrapping_in_document (EEditorPage *editor_page)
 		e_editor_dom_quote_plain_text_element_after_wrapping (editor_page, WEBKIT_DOM_ELEMENT (child), citation_level);
 	}
 	g_clear_object (&list);
+}
+
+static void
+quote_plain_text_elements_after_wrapping_in_document (EEditorPage *editor_page)
+{
+	WebKitDOMDocument *document;
+	WebKitDOMHTMLElement *body;
+
+	document = e_editor_page_get_document (editor_page);
+	body = webkit_dom_document_get_body (document);
+
+	quote_plain_text_elements_after_wrapping_in_element (editor_page, WEBKIT_DOM_ELEMENT (body));
 }
 
 static void
@@ -7951,9 +7961,14 @@ e_editor_dom_process_content_to_plain_text_for_exporting (EEditorPage *editor_pa
 		remove_node (webkit_dom_node_list_item (list, ii));
 	g_clear_object (&list);
 
-	if (quote)
-		quote_plain_text_recursive (document, source, source, 0);
-	else if (e_editor_page_get_html_mode (editor_page)) {
+	webkit_dom_node_normalize (source);
+
+	if (quote) {
+		if (wrap)
+			quote_plain_text_elements_after_wrapping_in_element (editor_page, WEBKIT_DOM_ELEMENT (source));
+		else
+			quote_plain_text_recursive (document, source, source, 0);
+	} else if (e_editor_page_get_html_mode (editor_page)) {
 		WebKitDOMElement *citation;
 
 		citation = webkit_dom_element_query_selector (
