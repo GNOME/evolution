@@ -704,6 +704,9 @@ test_utils_process_sequence (TestFixture *fixture,
 		case 'n': /* Return key press + release */
 			keyval = GDK_KEY_Return;
 			break;
+		case 'i': /* Insert key press + release */
+			keyval = GDK_KEY_Insert;
+			break;
 		default:
 			success = FALSE;
 			g_warning ("%s: Unknown sequence command '%c' in sequence '%s'", G_STRFUNC, *seq, sequence);
@@ -820,6 +823,7 @@ test_utils_pick_undo_content (const GSList *undo_stack,
              / "b" ; Backspace key press + release
              / "t" ; Tab key press + release
              / "n" ; Return key press + release
+             / "i" ; Insert key press + release
 
    typecmd   = "type:" text ; the 'text' can contain escaped letters with a backslash, like "\\n" transforms into "\n"
 

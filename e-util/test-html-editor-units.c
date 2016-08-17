@@ -2768,6 +2768,8 @@ test_bug_769955 (TestFixture *fixture)
 {
 	test_utils_set_clipboard_text ("http://www.example.com/this-is-a-very-long-link-which-should-not-be-wrapped-into-multiple-lines", FALSE);
 
+	/* Use paste action, pretty the same as Ctrl+V */
+
 	if (!test_utils_run_simple_test (fixture,
 		"mode:plain\n"
 		"action:paste\n"
@@ -2778,6 +2780,159 @@ test_bug_769955 (TestFixture *fixture)
 		"http://www.example.com/this-is-a-very-long-link-which-should-not-be-wrapped-into-multiple-lines</a></pre></p>"
 		"<p style=\"width: 71ch;\"><br></p>" HTML_SUFFIX,
 		"http://www.example.com/this-is-a-very-long-link-which-should-not-be-wrapped-into-multiple-lines")) {
+		g_test_fail ();
+		return;
+	}
+
+	if (!test_utils_run_simple_test (fixture,
+		"seq:C\n"
+		"type:a\n"
+		"action:style-normal\n"
+		"seq:Dc\n"
+		"type:[1] \n"
+		"action:paste\n"
+		"action:style-preformat\n",
+		HTML_PREFIX_PLAIN "<pre>"
+		"[1] <a href=\"http://www.example.com/this-is-a-very-long-link-which-should-not-be-wrapped-into-multiple-lines\">"
+		"http://www.example.com/this-is-a-very-long-link-which-should-not-be-wrapped-into-multiple-lines</a></pre>" HTML_SUFFIX,
+		"[1] http://www.example.com/this-is-a-very-long-link-which-should-not-be-wrapped-into-multiple-lines")) {
+		g_test_fail ();
+		return;
+	}
+
+	if (!test_utils_run_simple_test (fixture,
+		"seq:C\n"
+		"type:a\n"
+		"action:style-normal\n"
+		"seq:Dc\n"
+		"type:[2] \n"
+		"action:paste\n"
+		"seq:h\n"
+		"action:style-preformat\n",
+		HTML_PREFIX_PLAIN "<pre>"
+		"[2] <a href=\"http://www.example.com/this-is-a-very-long-link-which-should-not-be-wrapped-into-multiple-lines\">"
+		"http://www.example.com/this-is-a-very-long-link-which-should-not-be-wrapped-into-multiple-lines</a></pre>" HTML_SUFFIX,
+		"[2] http://www.example.com/this-is-a-very-long-link-which-should-not-be-wrapped-into-multiple-lines")) {
+		g_test_fail ();
+		return;
+	}
+
+	if (!test_utils_run_simple_test (fixture,
+		"seq:C\n"
+		"type:a\n"
+		"action:style-normal\n"
+		"seq:Dc\n"
+		"type:[3] \n"
+		"action:paste\n"
+		"seq:Chc\n"
+		"action:style-preformat\n",
+		HTML_PREFIX_PLAIN "<pre>"
+		"[3] <a href=\"http://www.example.com/this-is-a-very-long-link-which-should-not-be-wrapped-into-multiple-lines\">"
+		"http://www.example.com/this-is-a-very-long-link-which-should-not-be-wrapped-into-multiple-lines</a></pre>" HTML_SUFFIX,
+		"[3] http://www.example.com/this-is-a-very-long-link-which-should-not-be-wrapped-into-multiple-lines")) {
+		g_test_fail ();
+		return;
+	}
+
+	if (!test_utils_run_simple_test (fixture,
+		"seq:C\n"
+		"type:a\n"
+		"action:style-normal\n"
+		"seq:Dc\n"
+		"type:[4] \n"
+		"action:paste\n"
+		"seq:l\n"
+		"action:style-preformat\n",
+		HTML_PREFIX_PLAIN "<pre>"
+		"[4] <a href=\"http://www.example.com/this-is-a-very-long-link-which-should-not-be-wrapped-into-multiple-lines\">"
+		"http://www.example.com/this-is-a-very-long-link-which-should-not-be-wrapped-into-multiple-lines</a></pre>" HTML_SUFFIX,
+		"[4] http://www.example.com/this-is-a-very-long-link-which-should-not-be-wrapped-into-multiple-lines")) {
+		g_test_fail ();
+		return;
+	}
+
+	/* Use Shift+Insert instead of paste action */
+
+	if (!test_utils_run_simple_test (fixture,
+		"seq:C\n"
+		"type:a\n"
+		"action:style-normal\n"
+		"seq:Dc\n"
+		"seq:Sis\n"
+		"seq:nll\n"
+		"action:style-preformat\n",
+		HTML_PREFIX_PLAIN "<p style=\"width: 71ch;\"><pre>"
+		"<a href=\"http://www.example.com/this-is-a-very-long-link-which-should-not-be-wrapped-into-multiple-lines\">"
+		"http://www.example.com/this-is-a-very-long-link-which-should-not-be-wrapped-into-multiple-lines</a></pre></p>"
+		"<p style=\"width: 71ch;\"><br></p>" HTML_SUFFIX,
+		"http://www.example.com/this-is-a-very-long-link-which-should-not-be-wrapped-into-multiple-lines")) {
+		g_test_fail ();
+		return;
+	}
+
+	if (!test_utils_run_simple_test (fixture,
+		"seq:C\n"
+		"type:a\n"
+		"action:style-normal\n"
+		"seq:Dc\n"
+		"type:[5] \n"
+		"seq:Sis\n"
+		"action:style-preformat\n",
+		HTML_PREFIX_PLAIN "<pre>"
+		"[5] <a href=\"http://www.example.com/this-is-a-very-long-link-which-should-not-be-wrapped-into-multiple-lines\">"
+		"http://www.example.com/this-is-a-very-long-link-which-should-not-be-wrapped-into-multiple-lines</a></pre>" HTML_SUFFIX,
+		"[5] http://www.example.com/this-is-a-very-long-link-which-should-not-be-wrapped-into-multiple-lines")) {
+		g_test_fail ();
+		return;
+	}
+
+	if (!test_utils_run_simple_test (fixture,
+		"seq:C\n"
+		"type:a\n"
+		"action:style-normal\n"
+		"seq:Dc\n"
+		"type:[6] \n"
+		"seq:Sis\n"
+		"seq:h\n"
+		"action:style-preformat\n",
+		HTML_PREFIX_PLAIN "<pre>"
+		"[6] <a href=\"http://www.example.com/this-is-a-very-long-link-which-should-not-be-wrapped-into-multiple-lines\">"
+		"http://www.example.com/this-is-a-very-long-link-which-should-not-be-wrapped-into-multiple-lines</a></pre>" HTML_SUFFIX,
+		"[6] http://www.example.com/this-is-a-very-long-link-which-should-not-be-wrapped-into-multiple-lines")) {
+		g_test_fail ();
+		return;
+	}
+
+	if (!test_utils_run_simple_test (fixture,
+		"seq:C\n"
+		"type:a\n"
+		"action:style-normal\n"
+		"seq:Dc\n"
+		"type:[7] \n"
+		"seq:Sis\n"
+		"seq:Chc\n"
+		"action:style-preformat\n",
+		HTML_PREFIX_PLAIN "<pre>"
+		"[7] <a href=\"http://www.example.com/this-is-a-very-long-link-which-should-not-be-wrapped-into-multiple-lines\">"
+		"http://www.example.com/this-is-a-very-long-link-which-should-not-be-wrapped-into-multiple-lines</a></pre>" HTML_SUFFIX,
+		"[7] http://www.example.com/this-is-a-very-long-link-which-should-not-be-wrapped-into-multiple-lines")) {
+		g_test_fail ();
+		return;
+	}
+
+	if (!test_utils_run_simple_test (fixture,
+		"seq:C\n"
+		"type:a\n"
+		"action:style-normal\n"
+		"seq:Dc\n"
+		"type:[8] \n"
+		"seq:Sis\n"
+		"seq:l\n"
+		"action:style-preformat\n",
+		HTML_PREFIX_PLAIN "<pre>"
+		"[8] <a href=\"http://www.example.com/this-is-a-very-long-link-which-should-not-be-wrapped-into-multiple-lines\">"
+		"http://www.example.com/this-is-a-very-long-link-which-should-not-be-wrapped-into-multiple-lines</a></pre>" HTML_SUFFIX,
+		"[8] http://www.example.com/this-is-a-very-long-link-which-should-not-be-wrapped-into-multiple-lines")) {
 		g_test_fail ();
 		return;
 	}
