@@ -4600,7 +4600,11 @@ quote_plain_text_recursive (WebKitDOMDocument *document,
 		}
 
 		if (WEBKIT_DOM_IS_HTML_BR_ELEMENT (node)) {
-			move_next = TRUE;
+			if (!prev_sibling && !next_sibling) {
+				insert_quote_symbols_before_node (
+					document, node, quote_level, FALSE);
+			} else
+				move_next = TRUE;
 			goto next_node;
 		}
 
