@@ -4507,7 +4507,7 @@ quote_plain_text_recursive (WebKitDOMDocument *document,
 
 		/* Even in plain text mode we can have some basic html element
 		 * like anchor and others. When Forwaring e-mail as Quoted EMFormat
-		 * generates header that contatains <b> tags (bold font).
+		 * generates header that contains <b> tags (bold font).
 		 * We have to treat these elements separately to avoid
 		 * modifications of theirs inner texts */
 		is_html_node =
