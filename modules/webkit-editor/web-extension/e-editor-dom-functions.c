@@ -4609,14 +4609,6 @@ quote_plain_text_recursive (WebKitDOMDocument *document,
 		}
 
  not_br:
-		text_content = webkit_dom_node_get_text_content (node);
-		if (text_content && !*text_content) {
-			g_free (text_content);
-			move_next = TRUE;
-			goto next_node;
-		}
-		g_free (text_content);
-
 		quote_node (document, node, quote_level);
 
 		move_next = TRUE;
