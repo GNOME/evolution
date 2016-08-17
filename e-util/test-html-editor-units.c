@@ -352,7 +352,7 @@ test_font_size_typed (TestFixture *fixture)
 		"type:FontP4\n"
 		"action:size-plus-zero\n",
 		HTML_PREFIX "<p><font size=\"1\">FontM2</font> <font size=\"2\">FontM1</font> Font0 <font size=\"4\">FontP1</font> "
-		"<font size=\"5\">FontP2</font> <font size=\"6\">FontP3</font> <font size=\"7\">FontP4</font></p>" HTML_SUFFIX,
+		"<font size=\"5\">FontP2</font> <font size=\"6\">FontP3</font> <font size=\"7\">FontP4</font><br></p>" HTML_SUFFIX,
 		"FontM2 FontM1 Font0 FontP1 FontP2 FontP3 FontP4"))
 		g_test_fail ();
 }
@@ -1229,6 +1229,7 @@ test_paragraph_address_typed (TestFixture *fixture)
 		"address line 1\n"
 		"address line 2\n"
 		"address line 3\n"
+		"\n"
 		"normal text"))
 		g_test_fail ();
 }
@@ -1273,15 +1274,15 @@ test_paragraph_header_n_selection (TestFixture *fixture,
 
 	expected_html = g_strdup_printf (
 		HTML_PREFIX "<p>normal text</p>"
+		"<h%d><br></h%d>"
 		"<h%d>header %d</h%d>"
-		"<p><br></p>"
 		"<p>normal text</p>" HTML_SUFFIX,
-		header_n, header_n, header_n);
+		header_n, header_n, header_n, header_n, header_n);
 
 	expected_plain = g_strdup_printf (
 		"normal text\n"
-		"header %d\n"
 		"\n"
+		"header %d\n"
 		"normal text",
 		header_n);
 
@@ -1839,16 +1840,16 @@ test_cite_html2plain (TestFixture *fixture)
 	test_utils_insert_content (fixture,
 		"<html><head></head><body>"
 		"<blockquote type=\"cite\">"
-		"<p>level 1</p>"
-		"<p><br></p>"
-		"<p>level 1</p>"
+		"<p data-evo-paragraph=\"\">level 1</p>"
+		"<p data-evo-paragraph=\"\"><br></p>"
+		"<p data-evo-paragraph=\"\">level 1</p>"
 		"<blockquote type=\"cite\">"
-		"<p>level 2</p>"
+		"<p data-evo-paragraph=\"\">level 2</p>"
 		"</blockquote>"
-		"<p>back in level 1</p>"
+		"<p data-evo-paragraph=\"\">back in level 1</p>"
 		"</blockquote>"
-		"<p><br></p>"
-		"<p>out of the citation</p>"
+		"<p data-evo-paragraph=\"\"><br></p>"
+		"<p data-evo-paragraph=\"\">out of the citation</p>"
 		"</body></html>",
 		E_CONTENT_EDITOR_INSERT_REPLACE_ALL | E_CONTENT_EDITOR_INSERT_TEXT_HTML);
 
@@ -1859,7 +1860,7 @@ test_cite_html2plain (TestFixture *fixture)
 		"<blockquote type=\"cite\"><p>level 2</p></blockquote><p>back in level 1</p></blockquote>"
 		"<p><br></p><p>out of the citation</p>" HTML_SUFFIX,
 		"> level 1\n"
-		">\n"
+		"> \n"
 		"> level 1\n"
 		"> > level 2\n"
 		"> back in level 1\n"
@@ -1871,9 +1872,9 @@ test_cite_html2plain (TestFixture *fixture)
 
 	if (!test_utils_run_simple_test (fixture,
 		"mode:plain\n",
-		HTML_PREFIX_PLAIN ,
+		NULL,
 		"> level 1\n"
-		">\n"
+		"> \n"
 		"> level 1\n"
 		"> > level 2\n"
 		"> back in level 1\n"
@@ -1920,7 +1921,7 @@ test_cite_shortline (TestFixture *fixture)
 		"<html><head></head><body><blockquote type=\"cite\">"
 		"<p>Just one short line.</p>"
 		"</blockquote></body></html>",
-		E_CONTENT_EDITOR_INSERT_TEXT_HTML);
+		E_CONTENT_EDITOR_INSERT_REPLACE_ALL | E_CONTENT_EDITOR_INSERT_TEXT_HTML);
 
 	if (!test_utils_run_simple_test (fixture,
 		"",
@@ -1968,7 +1969,7 @@ test_cite_shortline (TestFixture *fixture)
 		"<p>short line 2</p>"
 		"<p>short line 3</p>"
 		"</blockquote></body></html>",
-		E_CONTENT_EDITOR_INSERT_TEXT_HTML);
+		E_CONTENT_EDITOR_INSERT_REPLACE_ALL | E_CONTENT_EDITOR_INSERT_TEXT_HTML);
 
 	if (!test_utils_run_simple_test (fixture,
 		"",
