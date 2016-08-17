@@ -143,8 +143,8 @@ prepare_history_for_table (EEditorPage *editor_page,
 
 	e_editor_dom_selection_get_coordinates (editor_page, &ev->before.start.x, &ev->before.start.y, &ev->before.end.x, &ev->before.end.y);
 
-	ev->data.dom.from = webkit_dom_node_clone_node_with_error (
-		WEBKIT_DOM_NODE (table), TRUE, NULL);
+	ev->data.dom.from = g_object_ref (webkit_dom_node_clone_node_with_error (
+		WEBKIT_DOM_NODE (table), TRUE, NULL));
 }
 
 
@@ -156,8 +156,8 @@ save_history_for_table (EEditorPage *editor_page,
 	EEditorUndoRedoManager *manager;
 
 	if (table)
-		ev->data.dom.to = webkit_dom_node_clone_node_with_error (
-			WEBKIT_DOM_NODE (table), TRUE, NULL);
+		ev->data.dom.to = g_object_ref (webkit_dom_node_clone_node_with_error (
+			WEBKIT_DOM_NODE (table), TRUE, NULL));
 	else
 		ev->data.dom.to = NULL;
 
@@ -242,7 +242,6 @@ e_editor_dom_delete_column (EEditorPage *editor_page)
 
 		webkit_dom_html_table_row_element_delete_cell (
 			WEBKIT_DOM_HTML_TABLE_ROW_ELEMENT (row), index, NULL);
-		g_object_unref (row);
 	}
 
 	g_clear_object (&rows);
@@ -1034,7 +1033,6 @@ e_editor_dom_quote_plain_text_element_after_wrapping (EEditorPage *editor_page,
 			webkit_dom_node_clone_node_with_error (quoted_node, TRUE, NULL),
 			webkit_dom_node_get_next_sibling (br),
 			NULL);
-		g_object_unref (br);
 	}
 
 	g_clear_object (&list);
@@ -1370,7 +1368,6 @@ move_elements_to_body (EEditorPage *editor_page)
 				WEBKIT_DOM_NODE (body)),
 			NULL);
 
-		g_object_unref (node);
 	}
 	g_clear_object (&list);
 
@@ -1395,7 +1392,6 @@ move_elements_to_body (EEditorPage *editor_page)
 			NULL);
 
 		remove_node (node);
-		g_object_unref (node);
 	}
 	g_clear_object (&list);
 }
@@ -1423,7 +1419,6 @@ repair_gmail_blockquotes (WebKitDOMDocument *document)
 					webkit_dom_document_create_element (
 						document, "br", NULL)),
 				NULL);
-		g_object_unref (node);
 	}
 	g_clear_object (&list);
 }
@@ -1801,7 +1796,7 @@ insert_delete_event (EEditorPage *editor_page,
 	ev->type = HISTORY_DELETE;
 
 	fragment = webkit_dom_range_clone_contents (range, NULL);
-	ev->data.fragment = fragment;
+	ev->data.fragment = g_object_ref (fragment);
 
 	e_editor_dom_selection_get_coordinates (editor_page,
 		&ev->before.start.x,
@@ -2118,7 +2113,7 @@ emoticon_insert_span (EEmoticon *emoticon,
 		} else
 			webkit_dom_html_element_insert_adjacent_html (
 				WEBKIT_DOM_HTML_ELEMENT (node), "afterend", "&#8203;", NULL);
-		ev->data.fragment = fragment;
+		ev->data.fragment = g_object_ref (fragment);
 	}
 
 	/* Remove the text that represents the text version of smiley that was
@@ -2466,7 +2461,7 @@ fix_paragraph_structure_after_pressing_enter (EEditorPage *editor_page)
 {
 	WebKitDOMDocument *document;
 	WebKitDOMNode *body;
-	WebKitDOMNodeList *list;
+	WebKitDOMNodeList *list = NULL;
 	gboolean prev_is_heading = FALSE;
 	gint ii, length;
 
@@ -2495,10 +2490,8 @@ fix_paragraph_structure_after_pressing_enter (EEditorPage *editor_page)
 			WEBKIT_DOM_NODE (e_editor_dom_prepare_paragraph (editor_page, FALSE)),
 			node,
 			NULL);
-
-		g_object_unref (node);
 	}
-	g_object_unref (list);
+	g_clear_object (&list);
 
 	return prev_is_heading;
 }
@@ -2725,7 +2718,7 @@ save_history_before_event_in_table (EEditorPage *editor_page,
 
 		if (block) {
 			e_editor_dom_selection_save (editor_page);
-			ev->data.dom.from = webkit_dom_node_clone_node_with_error (WEBKIT_DOM_NODE (block), TRUE, NULL);
+			ev->data.dom.from = g_object_ref (webkit_dom_node_clone_node_with_error (WEBKIT_DOM_NODE (block), TRUE, NULL));
 			e_editor_dom_selection_restore (editor_page);
 		} else
 			ev->data.dom.from = NULL;
@@ -2812,7 +2805,7 @@ insert_tabulator (EEditorPage *editor_page)
 				WEBKIT_DOM_NODE (fragment),
 				WEBKIT_DOM_NODE (dom_create_selection_marker (document, FALSE)),
 				NULL);
-			ev->data.fragment = fragment;
+			ev->data.fragment = g_object_ref (fragment);
 
 			e_editor_undo_redo_manager_insert_history_event (manager, ev);
 			e_editor_page_emit_content_changed (editor_page);
@@ -3035,7 +3028,7 @@ save_history_after_event_in_table (EEditorPage *editor_page)
 		&ev->after.end.x,
 		&ev->after.end.y);
 
-	ev->data.dom.to = webkit_dom_node_clone_node_with_error (WEBKIT_DOM_NODE (element), TRUE, NULL);
+	ev->data.dom.to = g_object_ref (webkit_dom_node_clone_node_with_error (WEBKIT_DOM_NODE (element), TRUE, NULL));
 
 	e_editor_dom_selection_restore (editor_page);
 
@@ -3182,7 +3175,7 @@ save_history_for_input (EEditorPage *editor_page)
 
 	e_editor_page_unblock_selection_changed (editor_page);
 
-	ev->data.fragment = fragment;
+	ev->data.fragment = g_object_ref (fragment);
 
 	if (!e_editor_page_get_return_key_pressed (editor_page))
 		e_editor_undo_redo_manager_insert_history_event (manager, ev);
@@ -3622,22 +3615,16 @@ remove_empty_blocks (WebKitDOMDocument *document)
 	document, "blockquote[type=cite] > :empty", NULL);
 
 	length = webkit_dom_node_list_get_length (list);
-	for (ii = 0; ii < length; ii++) {
-		WebKitDOMNode *node = webkit_dom_node_list_item (list, ii);
-		remove_node (node);
-		g_object_unref (node);
-	}
+	for (ii = 0; ii < length; ii++)
+		remove_node (webkit_dom_node_list_item (list, ii));
 	g_clear_object (&list);
 
 	list = webkit_dom_document_query_selector_all (
 		document, "blockquote[type=cite]:empty", NULL);
 
 	length = webkit_dom_node_list_get_length (list);
-	for  (ii = 0; ii < length; ii++) {
-		WebKitDOMNode *node = webkit_dom_node_list_item (list, ii);
-		remove_node (node);
-		g_object_unref (node);
-	}
+	for (ii = 0; ii < length; ii++)
+		remove_node (webkit_dom_node_list_item (list, ii));
 	g_clear_object (&list);
 }
 
@@ -3763,7 +3750,6 @@ e_editor_dom_merge_siblings_if_necessary (EEditorPage *editor_page,
 		WebKitDOMNode *node = webkit_dom_node_list_item (list, ii);
 		webkit_dom_element_remove_attribute (
 			WEBKIT_DOM_ELEMENT (node), "data-evo-query-skip");
-		g_object_unref (node);
 	}
 	g_clear_object (&list);
 
@@ -4057,7 +4043,7 @@ delete_hidden_space (EEditorPage *editor_page)
 			WEBKIT_DOM_NODE (
 				webkit_dom_document_create_text_node (document, " ")),
 			NULL);
-		ev->data.fragment = fragment;
+		ev->data.fragment = g_object_ref (fragment);
 
 		e_editor_dom_selection_get_coordinates (editor_page, &ev->after.start.x, &ev->after.start.y, &ev->after.end.x, &ev->after.end.y);
 
@@ -4142,7 +4128,7 @@ e_editor_dom_move_quoted_block_level_up (EEditorPage *editor_page)
 		ev->type = HISTORY_UNQUOTE;
 
 		e_editor_dom_selection_get_coordinates (editor_page, &ev->before.start.x, &ev->before.start.y, &ev->before.end.x, &ev->before.end.y);
-		ev->data.dom.from = webkit_dom_node_clone_node_with_error (block, TRUE, NULL);
+		ev->data.dom.from = g_object_ref (webkit_dom_node_clone_node_with_error (block, TRUE, NULL));
 	}
 
 	if (citation_level == 1) {
@@ -4470,8 +4456,6 @@ quote_plain_text_recursive (WebKitDOMDocument *document,
 	node = webkit_dom_node_get_first_child (block);
 
 	while (node) {
-		gchar *text_content;
-
 		skip_node = FALSE;
 		move_next = FALSE;
 		is_html_node = FALSE;
@@ -4686,11 +4670,8 @@ e_editor_dom_quote_plain_text_element (EEditorPage *editor_page,
 	list = webkit_dom_element_query_selector_all (
 		WEBKIT_DOM_ELEMENT (element_clone), "span.-x-evo-quoted", NULL);
 	length = webkit_dom_node_list_get_length (list);
-	for (ii = 0; ii < length; ii++) {
-		WebKitDOMNode *node = webkit_dom_node_list_item (list, ii);
-		remove_node (node);
-		g_object_unref (node);
-	}
+	for (ii = 0; ii < length; ii++)
+		remove_node (webkit_dom_node_list_item (list, ii));
 	g_clear_object (&list);
 
 	webkit_dom_node_normalize (element_clone);
@@ -4755,7 +4736,6 @@ dom_quote_plain_text (WebKitDOMDocument *document)
 			if (WEBKIT_DOM_IS_HTML_BR_ELEMENT (child))
 				remove_node (child);
 		}
-		g_object_unref (blockquote);
 	}
 	g_clear_object (&list);
 
@@ -4775,7 +4755,6 @@ dom_quote_plain_text (WebKitDOMDocument *document)
 		webkit_dom_element_set_attribute (
 			WEBKIT_DOM_ELEMENT (body_clone), name, value, NULL);
 
-		g_object_unref (node);
 		g_free (name);
 		g_free (value);
 	}
@@ -4814,8 +4793,6 @@ dom_dequote_plain_text (WebKitDOMDocument *document)
 
 		if (e_editor_dom_node_is_citation_node (WEBKIT_DOM_NODE (element)))
 			e_editor_dom_remove_quoting_from_element (element);
-
-		g_object_unref (element);
 	}
 	g_clear_object (&paragraphs);
 }
@@ -5540,7 +5517,6 @@ quote_plain_text_elements_after_wrapping_in_document (EEditorPage *editor_page)
 		child = webkit_dom_node_list_item (list, ii);
 		citation_level = e_editor_dom_get_citation_level (child, TRUE);
 		e_editor_dom_quote_plain_text_element_after_wrapping (editor_page, WEBKIT_DOM_ELEMENT (child), citation_level);
-		g_object_unref (child);
 	}
 	g_clear_object (&list);
 }
@@ -5565,13 +5541,11 @@ clear_attributes (EEditorPage *editor_page)
 	/* Remove all attributes from HTML element */
 	attributes = webkit_dom_element_get_attributes (document_element);
 	length = webkit_dom_named_node_map_get_length (attributes);
-	for (ii = length - 1; ii >= 0; ii--) {
-		WebKitDOMNode *node = webkit_dom_named_node_map_item (attributes, ii);
-
+	for (ii = length - 1; ii >= 0; ii--)
 		webkit_dom_element_remove_attribute_node (
-			document_element, WEBKIT_DOM_ATTR (node), NULL);
-		g_object_unref (node);
-	}
+			document_element,
+			WEBKIT_DOM_ATTR (webkit_dom_named_node_map_item (attributes, ii)),
+			NULL);
 	g_clear_object (&attributes);
 
 	/* Remove everything from HEAD element */
@@ -5596,7 +5570,6 @@ clear_attributes (EEditorPage *editor_page)
 				WEBKIT_DOM_ATTR (node),
 				NULL);
 
-		g_object_unref (node);
 		g_free (name);
 	}
 	g_clear_object (&attributes);
@@ -5712,11 +5685,8 @@ e_editor_dom_convert_content (EEditorPage *editor_page,
 	list = webkit_dom_document_query_selector_all (
 		document, "p[data-evo-paragraph]:not([data-headers])", NULL);
 	length = webkit_dom_node_list_get_length (list);
-	for (ii = 0; ii < length; ii++) {
-		WebKitDOMNode *node = webkit_dom_node_list_item (list, ii);
-		remove_node (node);
-		g_object_unref (node);
-	}
+	for (ii = 0; ii < length; ii++)
+		remove_node (webkit_dom_node_list_item (list, ii));
 	g_clear_object (&list);
 
 	/* Insert the paragraph where the caret will be. */
@@ -5788,7 +5758,6 @@ e_editor_dom_convert_content (EEditorPage *editor_page,
 			NULL);
 
 		remove_node (node);
-		g_object_unref (node);
 	}
 	g_clear_object (&list);
 
@@ -5808,8 +5777,6 @@ e_editor_dom_convert_content (EEditorPage *editor_page,
 			node,
 			WEBKIT_DOM_NODE (content_wrapper),
 			NULL);
-
-		g_object_unref (node);
 	}
 	g_clear_object (&list);
 
@@ -6130,7 +6097,6 @@ e_editor_dom_convert_and_insert_html_into_selection (EEditorPage *editor_page,
 
 			e_editor_dom_selection_restore (editor_page);
 
-			g_object_unref (element);
 			goto out;
 		}
 
@@ -6238,7 +6204,6 @@ e_editor_dom_convert_and_insert_html_into_selection (EEditorPage *editor_page,
 
 		e_editor_dom_selection_restore (editor_page);
 
-		g_object_unref (element);
 		goto out;
 	}
 
@@ -6261,7 +6226,6 @@ e_editor_dom_convert_and_insert_html_into_selection (EEditorPage *editor_page,
 
 	g_free (inner_html);
 
-	g_object_unref (element);
 	e_editor_dom_selection_save (editor_page);
 
 	element = webkit_dom_document_query_selector (
@@ -6531,7 +6495,6 @@ process_quote_nodes (WebKitDOMElement *blockquote)
 			WEBKIT_DOM_ELEMENT (quoted_node), text_content, NULL);
 
 		g_free (text_content);
-		g_object_unref (quoted_node);
 	}
 	g_clear_object (&list);
 }
@@ -7056,7 +7019,6 @@ process_node_to_plain_text_changing_composer_mode (EEditorPage *editor_page,
 			length--;
 		}
 		g_free (name);
-		g_object_unref (attribute);
 	}
 	g_clear_object (&attributes);
 
@@ -7247,7 +7209,6 @@ process_node_to_plain_text_for_exporting (EEditorPage *editor_page,
  next:
 		if (!skip_node && webkit_dom_node_has_child_nodes (child))
 			process_node_to_plain_text_for_exporting (editor_page, child, buffer);
-		g_object_unref (child);
 	}
 	g_clear_object (&nodes);
 
@@ -7317,7 +7278,6 @@ process_node_to_html_for_exporting (EEditorPage *editor_page,
 		element_remove_class (WEBKIT_DOM_ELEMENT (node), "-x-evo-align-center");
 		element_remove_class (WEBKIT_DOM_ELEMENT (node), "-x-evo-align-right");
 		g_free (class);
-		g_object_unref (node);
 	}
 	g_clear_object (&list);
 
@@ -7331,8 +7291,6 @@ process_node_to_html_for_exporting (EEditorPage *editor_page,
 		node = webkit_dom_node_list_item (list, ii);
 		element_remove_class (WEBKIT_DOM_ELEMENT (node), "-x-evo-indented");
 		remove_evolution_attributes (WEBKIT_DOM_ELEMENT (node));
-
-		g_object_unref (node);
 	}
 	g_clear_object (&list);
 
@@ -7353,7 +7311,6 @@ process_node_to_html_for_exporting (EEditorPage *editor_page,
 			NULL);
 
 		remove_node (node);
-		g_object_unref (node);
 	}
 	g_clear_object (&list);
 
@@ -7370,7 +7327,6 @@ process_node_to_html_for_exporting (EEditorPage *editor_page,
 			WEBKIT_DOM_ELEMENT (quoted_node), text_content, NULL);
 
 		g_free (text_content);
-		g_object_unref (quoted_node);
 	}
 	g_clear_object (&list);
 
@@ -7391,8 +7347,6 @@ process_node_to_html_for_exporting (EEditorPage *editor_page,
 			webkit_dom_node_replace_child (
 				webkit_dom_node_get_parent_node (node), image, node, NULL);
 		}
-
-		g_object_unref (node);
 	}
 	g_clear_object (&list);
 
@@ -7435,8 +7389,6 @@ process_node_to_html_for_exporting (EEditorPage *editor_page,
 			WEBKIT_DOM_NODE (img),
 			node,
 			NULL);
-
-		g_object_unref (node);
 	}
 	g_clear_object (&list);
 
@@ -7448,7 +7400,6 @@ process_node_to_html_for_exporting (EEditorPage *editor_page,
 
 		node = webkit_dom_html_collection_item (collection, ii);
 		remove_evolution_attributes (WEBKIT_DOM_ELEMENT (node));
-		g_object_unref (node);
 	}
 	g_clear_object (&collection);
 
@@ -7461,7 +7412,6 @@ process_node_to_html_for_exporting (EEditorPage *editor_page,
 		node = webkit_dom_node_list_item (list, ii);
 		remove_evolution_attributes (WEBKIT_DOM_ELEMENT (node));
 		remove_base_attributes (WEBKIT_DOM_ELEMENT (node));
-		g_object_unref (node);
 	}
 	g_clear_object (&list);
 
@@ -7473,7 +7423,6 @@ process_node_to_html_for_exporting (EEditorPage *editor_page,
 
 		node = webkit_dom_node_list_item (list, ii);
 		webkit_dom_element_remove_attribute (WEBKIT_DOM_ELEMENT (node), "class");
-		g_object_unref (node);
 	}
 	g_clear_object (&list);
 }
@@ -7502,7 +7451,6 @@ remove_background_images_in_element (WebKitDOMElement *element)
 			webkit_dom_node_list_item (images, ii));
 
 		remove_image_attributes_from_element (image);
-		g_object_unref (image);
 	}
 	g_clear_object (&images);
 
@@ -7519,11 +7467,8 @@ remove_images_in_element (WebKitDOMElement *element)
 		element, "img:not(.-x-evo-smiley-img)", NULL);
 
 	length = webkit_dom_node_list_get_length (images);
-	for (ii = 0; ii < length; ii++) {
-		WebKitDOMNode *node = webkit_dom_node_list_item (images, ii);
-		remove_node (node);
-		g_object_unref (node);
-	}
+	for (ii = 0; ii < length; ii++)
+		remove_node (webkit_dom_node_list_item (images, ii));
 	g_clear_object (&images);
 }
 
@@ -7560,7 +7505,6 @@ toggle_smileys (EEditorPage *editor_page)
 			element_add_class (parent, "-x-evo-resizable-wrapper");
 		else
 			element_remove_class (parent, "-x-evo-resizable-wrapper");
-		g_object_unref (img);
 	}
 	g_clear_object (&smileys);
 }
@@ -7634,7 +7578,6 @@ toggle_paragraphs_style_in_element (EEditorPage *editor_page,
 				g_free (style);
 			}
 		}
-		g_object_unref (node);
 	}
 	g_clear_object (&paragraphs);
 }
@@ -7694,7 +7637,6 @@ e_editor_dom_process_content_for_draft (EEditorPage *editor_page,
 
 		anchor = webkit_dom_node_list_item (list, ii);
 		webkit_dom_element_remove_attribute (WEBKIT_DOM_ELEMENT (anchor), "class");
-		g_object_unref (anchor);
 	}
 	g_clear_object (&list);
 
@@ -7706,7 +7648,6 @@ e_editor_dom_process_content_for_draft (EEditorPage *editor_page,
 
 		node = webkit_dom_node_list_item (list, ii);
 		webkit_dom_element_remove_attribute (WEBKIT_DOM_ELEMENT (node), "id");
-		g_object_unref (node);
 	}
 	g_clear_object (&list);
 
@@ -7770,7 +7711,6 @@ toggle_indented_elements (EEditorPage *editor_page)
 			dom_element_swap_attributes (WEBKIT_DOM_ELEMENT (node), "style", "data-plain-text-style");
 		else
 			dom_element_swap_attributes (WEBKIT_DOM_ELEMENT (node), "data-plain-text-style", "style");
-		g_object_unref (node);
 	}
 	g_clear_object (&list);
 }
@@ -7823,8 +7763,6 @@ wrap_paragraphs_in_quoted_content (EEditorPage *editor_page)
 		paragraph = webkit_dom_node_list_item (paragraphs, ii);
 
 		e_editor_dom_wrap_paragraph (editor_page, WEBKIT_DOM_ELEMENT (paragraph));
-
-		g_object_unref (paragraph);
 	}
 	g_clear_object (&paragraphs);
 }
@@ -7952,7 +7890,6 @@ e_editor_dom_process_content_to_plain_text_for_exporting (EEditorPage *editor_pa
 					WEBKIT_DOM_NODE (list_pre),
 					item,
 					NULL);
-				g_object_unref (item);
 			}
 			g_clear_object (&list);
 
@@ -8003,7 +7940,6 @@ e_editor_dom_process_content_to_plain_text_for_exporting (EEditorPage *editor_pa
 			/* Dont't try to wrap the already wrapped content. */
 			e_editor_dom_wrap_paragraph (editor_page, WEBKIT_DOM_ELEMENT (paragraph));
 		}
-		g_object_unref (paragraph);
 	}
 	g_clear_object (&list);
 
@@ -8011,14 +7947,8 @@ e_editor_dom_process_content_to_plain_text_for_exporting (EEditorPage *editor_pa
 		WEBKIT_DOM_ELEMENT (source), "#-x-evo-selection-start-marker, #-x-evo-selection-end-marker", NULL);
 
 	length = webkit_dom_node_list_get_length (list);
-	for (ii = 0; ii < length; ii++) {
-		WebKitDOMNode *node = webkit_dom_node_list_item (list, ii);
-		WebKitDOMNode *parent = webkit_dom_node_get_parent_node (node);
-
-		remove_node (node);
-		g_object_unref (node);
-		webkit_dom_node_normalize (parent);
-	}
+	for (ii = 0; ii < length; ii++)
+		remove_node (webkit_dom_node_list_item (list, ii));
 	g_clear_object (&list);
 
 	if (quote)
@@ -8062,7 +7992,6 @@ restore_image (WebKitDOMDocument *document,
 			webkit_dom_node_list_item (list, ii));
 
 		webkit_dom_element_set_attribute (element, "background", element_src, NULL);
-		g_object_unref (element);
 	}
 	g_free (selector);
 	g_clear_object (&list);
@@ -8075,7 +8004,6 @@ restore_image (WebKitDOMDocument *document,
 			webkit_dom_node_list_item (list, ii));
 
 		webkit_dom_element_set_attribute (element, "src", element_src, NULL);
-		g_object_unref (element);
 	}
 	g_free (selector);
 	g_clear_object (&list);
@@ -8162,13 +8090,8 @@ e_editor_dom_process_content_to_html_for_exporting (EEditorPage *editor_page)
 	list = webkit_dom_element_query_selector_all (
 		WEBKIT_DOM_ELEMENT (node), "span[data-hidden-space]", NULL);
 	length = webkit_dom_node_list_get_length (list);
-	for (ii = 0; ii < length; ii++) {
-		WebKitDOMNode *hidden_space_node;
-
-		hidden_space_node = webkit_dom_node_list_item (list, ii);
-		remove_node (hidden_space_node);
-		g_object_unref (hidden_space_node);
-	}
+	for (ii = 0; ii < length; ii++)
+		remove_node (webkit_dom_node_list_item (list, ii));
 	g_clear_object (&list);
 
 	list = webkit_dom_element_query_selector_all (
@@ -8180,7 +8103,6 @@ e_editor_dom_process_content_to_html_for_exporting (EEditorPage *editor_page)
 		data_style_node = webkit_dom_node_list_item (list, ii);
 
 		element_rename_attribute (WEBKIT_DOM_ELEMENT (data_style_node), "data-style", "style");
-		g_object_unref (data_style_node);
 	}
 	g_clear_object (&list);
 
@@ -8189,7 +8111,6 @@ e_editor_dom_process_content_to_html_for_exporting (EEditorPage *editor_page)
 	html_content = webkit_dom_element_get_outer_html (
 		WEBKIT_DOM_ELEMENT (document_clone));
 
-	g_object_unref (document_clone);
 
 	return html_content;
 }
@@ -8291,7 +8212,6 @@ change_cid_images_src_to_base64 (EEditorPage *editor_page)
 		WebKitDOMNode *node = webkit_dom_node_list_item (list, ii);
 
 		set_base64_to_element_attribute (inline_images, WEBKIT_DOM_ELEMENT (node), "src");
-		g_object_unref (node);
 	}
 	g_clear_object (&list);
 
@@ -8318,14 +8238,12 @@ change_cid_images_src_to_base64 (EEditorPage *editor_page)
 
 				set_base64_to_element_attribute (
 					inline_images, WEBKIT_DOM_ELEMENT (node), attribute_ns);
-				g_object_unref (node);
 			}
 
 			g_clear_object (&list);
 			g_free (attribute_ns);
 			g_free (selector);
 		}
-		g_object_unref (node);
 		g_free (name);
 	}
 	g_clear_object (&attributes);
@@ -8338,7 +8256,6 @@ change_cid_images_src_to_base64 (EEditorPage *editor_page)
 
 		set_base64_to_element_attribute (
 			inline_images, WEBKIT_DOM_ELEMENT (node), "background");
-		g_object_unref (node);
 	}
 	g_clear_object (&list);
 }
@@ -8375,7 +8292,6 @@ adapt_to_editor_dom_changes (WebKitDOMDocument *document)
 			webkit_dom_element_set_attribute (element, "style", style, NULL);
 
 		remove_node (node);
-		g_object_unref (node);
 	}
 	g_clear_object (&collection);
 }
@@ -8535,7 +8451,6 @@ e_editor_dom_get_inline_images_data (EEditorPage *editor_page,
 		}
 		webkit_dom_element_set_attribute (
 			WEBKIT_DOM_ELEMENT (node), "src", cid, NULL);
-		g_object_unref (node);
 		g_free (cid);
 	}
 	g_clear_object (&list);
@@ -8586,7 +8501,6 @@ e_editor_dom_get_inline_images_data (EEditorPage *editor_page,
 			g_free (data_name);
 		}
 		g_free (cid);
-		g_object_unref (node);
 	}
  out:
 	g_clear_object (&list);
@@ -8674,7 +8588,7 @@ e_editor_dom_insert_html (EEditorPage *editor_page,
 			range = e_editor_dom_get_current_range (editor_page);
 			fragment = webkit_dom_range_clone_contents (range, NULL);
 			g_clear_object (&range);
-			event->data.fragment = fragment;
+			event->data.fragment = g_object_ref (fragment);
 
 			e_editor_dom_selection_get_coordinates (editor_page,
 				&event->before.start.x,
@@ -8722,7 +8636,6 @@ e_editor_dom_insert_html (EEditorPage *editor_page,
 						NULL);
 
 				remove_node (span);
-				g_object_unref (span);
 			}
 			g_clear_object (&list);
 
@@ -9196,7 +9109,7 @@ save_history_for_delete_or_backspace (EEditorPage *editor_page,
 	g_object_set_data (G_OBJECT (fragment), "history-delete-key", GINT_TO_POINTER (delete_key));
 	g_object_set_data (G_OBJECT (fragment), "history-control-key", GINT_TO_POINTER (control_key));
 
-	ev->data.fragment = fragment;
+	ev->data.fragment = g_object_ref (fragment);
 
 	manager = e_editor_page_get_undo_redo_manager (editor_page);
 	e_editor_undo_redo_manager_insert_history_event (manager, ev);
@@ -9387,7 +9300,7 @@ split_citation (EEditorPage *editor_page)
 			WebKitDOMDocumentFragment *fragment;
 
 			fragment = webkit_dom_document_create_document_fragment (document);
-			ev->data.fragment = fragment;
+			ev->data.fragment = g_object_ref (fragment);
 		} else
 			ev->data.fragment = NULL;
 
@@ -9534,7 +9447,7 @@ delete_last_character_from_previous_line_in_quoted_block (EEditorPage *editor_pa
 			&ev->after.end.x,
 			&ev->after.end.y);
 
-		ev->data.fragment = fragment;
+		ev->data.fragment = g_object_ref (fragment);
 
 		manager = e_editor_page_get_undo_redo_manager (editor_page);
 		e_editor_undo_redo_manager_insert_history_event (manager, ev);
@@ -9739,7 +9652,7 @@ return_pressed_in_image_wrapper (EEditorPage *editor_page)
 			&ev->after.end.x,
 			&ev->after.end.y);
 
-		ev->data.fragment = fragment;
+		ev->data.fragment = g_object_ref (fragment);
 
 		e_editor_undo_redo_manager_insert_history_event (manager, ev);
 	}
@@ -9850,7 +9763,7 @@ return_pressed_after_h_rule (EEditorPage *editor_page)
 			&ev->after.end.x,
 			&ev->after.end.y);
 
-		ev->data.fragment = fragment;
+		ev->data.fragment = g_object_ref (fragment);
 
 		e_editor_undo_redo_manager_insert_history_event (manager, ev);
 	}
@@ -9940,7 +9853,7 @@ e_editor_dom_return_pressed_in_empty_list_item (EEditorPage *editor_page)
 				&ev->after.end.x,
 				&ev->after.end.y);
 
-			ev->data.fragment = fragment;
+			ev->data.fragment = g_object_ref (fragment);
 
 			e_editor_undo_redo_manager_insert_history_event (manager, ev);
 		}
@@ -10171,7 +10084,7 @@ remove_empty_bulleted_list_item (EEditorPage *editor_page)
 				&ev->after.end.x,
 				&ev->after.end.y);
 
-			ev->data.fragment = fragment;
+			ev->data.fragment = g_object_ref (fragment);
 
 			e_editor_undo_redo_manager_insert_history_event (manager, ev);
 		}
@@ -10621,7 +10534,6 @@ e_editor_dom_save_history_for_drop (EEditorPage *editor_page)
 			NULL);
 
 		webkit_dom_node_append_child (WEBKIT_DOM_NODE (element), node, NULL);
-		g_object_unref (node);
 	}
 	g_clear_object (&list);
 
@@ -10691,7 +10603,6 @@ e_editor_dom_save_history_for_drop (EEditorPage *editor_page)
 					NULL);
 
 			remove_node (span);
-			g_object_unref (span);
 		}
 		g_clear_object (&list);
 
@@ -10923,7 +10834,7 @@ e_editor_dom_insert_base64_image (EEditorPage *editor_page,
 		range = e_editor_dom_get_current_range (editor_page);
 		fragment = webkit_dom_range_clone_contents (range, NULL);
 		g_clear_object (&range);
-		ev->data.fragment = fragment;
+		ev->data.fragment = g_object_ref (fragment);
 
 		e_editor_dom_selection_get_coordinates (editor_page,
 			&ev->before.start.x,
@@ -11012,7 +10923,7 @@ e_editor_dom_insert_base64_image (EEditorPage *editor_page,
 
 		webkit_dom_html_element_insert_adjacent_html (
 			WEBKIT_DOM_HTML_ELEMENT (node), "afterend", "&#8203;", NULL);
-		ev->data.fragment = fragment;
+		ev->data.fragment = g_object_ref (fragment);
 
 		e_editor_dom_selection_get_coordinates (editor_page,
 			&ev->after.start.x,
@@ -11401,7 +11312,7 @@ e_editor_dom_selection_unlink (EEditorPage *editor_page)
 			WEBKIT_DOM_NODE (fragment),
 			webkit_dom_node_clone_node_with_error (WEBKIT_DOM_NODE (link), TRUE, NULL),
 			NULL);
-		ev->data.fragment = fragment;
+		ev->data.fragment = g_object_ref (fragment);
 
 		e_editor_undo_redo_manager_insert_history_event (manager, ev);
 	}
@@ -12131,10 +12042,8 @@ e_editor_dom_selection_indent (EEditorPage *editor_page)
 				after_selection_start = webkit_dom_node_contains (
 					block_to_process,
 					WEBKIT_DOM_NODE (selection_start_marker));
-				if (!after_selection_start) {
-					g_object_unref (block_to_process);
+				if (!after_selection_start)
 					continue;
-				}
 			}
 
 			if (webkit_dom_element_has_attribute (WEBKIT_DOM_ELEMENT (block_to_process), "data-evo-paragraph")) {
@@ -12143,15 +12052,12 @@ e_editor_dom_selection_indent (EEditorPage *editor_page)
 
 				final_width = word_wrap_length - SPACES_PER_INDENTATION * (level + 1);
 				if (final_width < MINIMAL_PARAGRAPH_WIDTH &&
-				    !e_editor_page_get_html_mode (editor_page)) {
-					g_object_unref (block_to_process);
+				    !e_editor_page_get_html_mode (editor_page))
 					continue;
-				}
 			}
 
 			indent_block (editor_page, block_to_process, final_width);
 
-			g_object_unref (block_to_process);
 			if (after_selection_end)
 				break;
 		}
@@ -12454,15 +12360,12 @@ e_editor_dom_selection_unindent (EEditorPage *editor_page)
 				after_selection_start = webkit_dom_node_contains (
 					block_to_process,
 					WEBKIT_DOM_NODE (selection_start_marker));
-				if (!after_selection_start) {
-					g_object_unref (block_to_process);
+				if (!after_selection_start)
 					continue;
-				}
 			}
 
 			unindent_block (editor_page, block_to_process);
 
-			g_object_unref (block_to_process);
 			if (after_selection_end)
 				break;
 		}
@@ -13314,7 +13217,6 @@ wrap_lines (EEditorPage *editor_page,
 			hidden_space_node = webkit_dom_node_list_item (list, ii);
 			webkit_dom_html_element_set_outer_text (
 				WEBKIT_DOM_HTML_ELEMENT (hidden_space_node), " ", NULL);
-			g_object_unref (hidden_space_node);
 		}
 		g_clear_object (&list);
 	}
@@ -13864,7 +13766,6 @@ e_editor_dom_remove_wrapping_from_element (WebKitDOMElement *element)
 		parent = e_editor_dom_get_parent_block_node_from_child (node);
 		if (!webkit_dom_element_has_attribute (WEBKIT_DOM_ELEMENT (parent), "data-user-wrapped"))
 			remove_node (node);
-		g_object_unref (node);
 	}
 
 	g_clear_object (&list);
@@ -13882,7 +13783,6 @@ e_editor_dom_remove_wrapping_from_element (WebKitDOMElement *element)
 			webkit_dom_html_element_set_outer_text (
 				WEBKIT_DOM_HTML_ELEMENT (hidden_space_node), " ", NULL);
 		}
-		g_object_unref (hidden_space_node);
 	}
 	g_clear_object (&list);
 
@@ -13900,21 +13800,15 @@ e_editor_dom_remove_quoting_from_element (WebKitDOMElement *element)
 	list = webkit_dom_element_query_selector_all (
 		element, "span.-x-evo-quoted", NULL);
 	length = webkit_dom_node_list_get_length (list);
-	for (ii = 0; ii < length; ii++) {
-		WebKitDOMNode *node = webkit_dom_node_list_item (list, ii);
-		remove_node (node);
-		g_object_unref (node);
-	}
+	for (ii = 0; ii < length; ii++)
+		remove_node (webkit_dom_node_list_item (list, ii));
 	g_clear_object (&list);
 
 	list = webkit_dom_element_query_selector_all (
 		element, "br.-x-evo-temp-br", NULL);
 	length = webkit_dom_node_list_get_length (list);
-	for (ii = 0; ii < length; ii++) {
-		WebKitDOMNode *node = webkit_dom_node_list_item (list, ii);
-		remove_node (node);
-		g_object_unref (node);
-	}
+	for (ii = 0; ii < length; ii++)
+		remove_node (webkit_dom_node_list_item (list, ii));
 	g_clear_object (&list);
 
 	webkit_dom_node_normalize (WEBKIT_DOM_NODE (element));
@@ -14148,7 +14042,6 @@ e_editor_dom_wrap_paragraphs_in_document (EEditorPage *editor_page)
 			e_editor_dom_wrap_paragraph_length (
 				editor_page, WEBKIT_DOM_ELEMENT (node), word_wrap_length - quote);
 		}
-		g_object_unref (node);
 	}
 	g_clear_object (&list);
 }
@@ -14946,7 +14839,6 @@ monospace_selection (EEditorPage *editor_page,
 				NULL);
 		}
 		remove_node (item);
-		g_object_unref (item);
 	}
 	g_clear_object (&list);
 
@@ -14971,7 +14863,6 @@ monospace_selection (EEditorPage *editor_page,
 			}
 			remove_node (item);
 		}
-		g_object_unref (item);
 	}
 	g_clear_object (&list);
 
@@ -17057,7 +16948,6 @@ e_editor_dom_selection_set_alignment (EEditorPage *editor_page,
 
 				after_selection_end = webkit_dom_node_contains (
 					item, WEBKIT_DOM_NODE (selection_end_marker));
-				g_object_unref (item);
 				if (after_selection_end)
 					break;
 			}

@@ -422,7 +422,6 @@ insert:
 				new_signature_id = webkit_dom_element_get_id (WEBKIT_DOM_ELEMENT (signature));
 				*check_if_signature_is_changed = TRUE;
 			}
-			g_object_unref (wrapper);
 			g_clear_object (&signatures);
 
 			return new_signature_id;
@@ -441,7 +440,6 @@ insert:
 
 		/* Leave just one signature wrapper there as it will be reused. */
 		if (ii != list_length - 1) {
-			g_object_unref (wrapper);
 			remove_node (wrapper);
 		} else {
 			remove_node (signature);
@@ -466,8 +464,6 @@ insert:
 				webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (signature_wrapper)),
 				NULL);
 		}
-
-		g_object_unref (signature_wrapper);
 	} else {
 		signature_wrapper = webkit_dom_document_create_element (document, "div", NULL);
 		webkit_dom_element_set_class_name (signature_wrapper, "-x-evo-signature-wrapper");

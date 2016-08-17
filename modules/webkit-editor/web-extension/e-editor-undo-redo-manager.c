@@ -1192,7 +1192,6 @@ undo_redo_page_dialog (EEditorPage *editor_page,
 			}
 		}
 		g_free (name);
-		g_object_unref (attr);
 	}
 	g_clear_object (&attributes);
 	g_clear_object (&attributes_history);

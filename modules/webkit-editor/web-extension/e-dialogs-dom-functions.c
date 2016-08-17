@@ -82,7 +82,6 @@ for_each_cell_do (WebKitDOMElement *row,
 
 		call_cell_dom_func (
 			WEBKIT_DOM_HTML_TABLE_CELL_ELEMENT (cell), func, value, user_data);
-		g_object_unref (cell);
 	}
 	g_clear_object (&cells);
 }
@@ -126,7 +125,6 @@ cell_dialog_set_attribute (WebKitDOMDocument *document,
 					WEBKIT_DOM_HTML_TABLE_ROW_ELEMENT (row));
 			cell = webkit_dom_html_collection_item (cells, index);
 			if (!cell) {
-				g_object_unref (row);
 				g_clear_object (&cells);
 				continue;
 			}
@@ -134,9 +132,7 @@ cell_dialog_set_attribute (WebKitDOMDocument *document,
 			call_cell_dom_func (
 				WEBKIT_DOM_HTML_TABLE_CELL_ELEMENT (cell),
 				func, value, user_data);
-			g_object_unref (row);
 			g_clear_object (&cells);
-			g_object_unref (cell);
 		}
 		g_clear_object (&rows);
 
@@ -167,14 +163,11 @@ cell_dialog_set_attribute (WebKitDOMDocument *document,
 			WebKitDOMNode *row;
 
 			row = webkit_dom_html_collection_item (rows, ii);
-			if (!row) {
-				g_object_unref (row);
+			if (!row)
 				continue;
-			}
 
 			for_each_cell_do (
 				WEBKIT_DOM_ELEMENT (row), func, value, user_data);
-			g_object_unref (row);
 		}
 		g_clear_object (&rows);
 	}
@@ -218,7 +211,6 @@ cell_set_header_style (WebKitDOMHTMLTableCellElement *cell,
 		node = webkit_dom_node_list_item (nodes, ii);
 		webkit_dom_node_append_child (
 			WEBKIT_DOM_NODE (new_cell), node, NULL);
-		g_object_unref (node);
 	}
 	g_clear_object (&nodes);
 
@@ -291,8 +283,8 @@ e_dialogs_dom_cell_mark_current_cell_element (EEditorPage *editor_page,
 		table = dom_node_find_parent_element (
 			WEBKIT_DOM_NODE (cell), "TABLE");
 		if (table)
-			ev->data.dom.from = webkit_dom_node_clone_node_with_error (
-				WEBKIT_DOM_NODE (table), TRUE, NULL);
+			ev->data.dom.from = g_object_ref (webkit_dom_node_clone_node_with_error (
+				WEBKIT_DOM_NODE (table), TRUE, NULL));
 
 		e_editor_undo_redo_manager_insert_history_event (manager, ev);
 	}
@@ -319,8 +311,8 @@ e_dialogs_dom_cell_save_history_on_exit (EEditorPage *editor_page)
 
 	manager = e_editor_page_get_undo_redo_manager (editor_page);
 	ev = e_editor_undo_redo_manager_get_current_history_event (manager);
-	ev->data.dom.to = webkit_dom_node_clone_node_with_error (
-		WEBKIT_DOM_NODE (table), TRUE, NULL);
+	ev->data.dom.to = g_object_ref (webkit_dom_node_clone_node_with_error (
+		WEBKIT_DOM_NODE (table), TRUE, NULL));
 
 	if (ev->data.dom.from && webkit_dom_node_is_equal_node (ev->data.dom.from, ev->data.dom.to))
 		e_editor_undo_redo_manager_remove_current_history_event (manager);
@@ -523,8 +515,8 @@ e_dialogs_dom_h_rule_find_hrule (EEditorPage *editor_page)
 
 		e_editor_dom_selection_get_coordinates (editor_page, &ev->before.start.x, &ev->before.start.y, &ev->before.end.x, &ev->before.end.y);
 		if (!created)
-			ev->data.dom.from = webkit_dom_node_clone_node_with_error (
-				WEBKIT_DOM_NODE (rule), FALSE, NULL);
+			ev->data.dom.from = g_object_ref (webkit_dom_node_clone_node_with_error (
+				WEBKIT_DOM_NODE (rule), FALSE, NULL));
 		else
 			ev->data.dom.from = NULL;
 
@@ -553,8 +545,8 @@ e_dialogs_dom_h_rule_dialog_on_close (EEditorPage *editor_page)
 	manager = e_editor_page_get_undo_redo_manager (editor_page);
 	ev = e_editor_undo_redo_manager_get_current_history_event (manager);
 
-	ev->data.dom.to = webkit_dom_node_clone_node_with_error (
-		WEBKIT_DOM_NODE (element), TRUE, NULL);
+	ev->data.dom.to = g_object_ref (webkit_dom_node_clone_node_with_error (
+		WEBKIT_DOM_NODE (element), TRUE, NULL));
 
 	if (ev->data.dom.from && webkit_dom_node_is_equal_node (ev->data.dom.from, ev->data.dom.to))
 		e_editor_undo_redo_manager_remove_current_history_event (manager);
@@ -592,7 +584,7 @@ e_dialogs_dom_image_mark_image (EEditorPage *editor_page)
 		ev->type = HISTORY_IMAGE_DIALOG;
 
 		e_editor_dom_selection_get_coordinates (editor_page, &ev->before.start.x, &ev->before.start.y, &ev->before.end.x, &ev->before.end.y);
-		ev->data.dom.from = webkit_dom_node_clone_node_with_error (node_under_mouse_click, FALSE, NULL);
+		ev->data.dom.from = g_object_ref (webkit_dom_node_clone_node_with_error (node_under_mouse_click, FALSE, NULL));
 
 		e_editor_undo_redo_manager_insert_history_event (manager, ev);
 	}
@@ -616,8 +608,8 @@ e_dialogs_dom_image_save_history_on_exit (EEditorPage *editor_page)
 
 	manager = e_editor_page_get_undo_redo_manager (editor_page);
 	ev = e_editor_undo_redo_manager_get_current_history_event (manager);
-	ev->data.dom.to = webkit_dom_node_clone_node_with_error (
-		WEBKIT_DOM_NODE (element), TRUE, NULL);
+	ev->data.dom.to = g_object_ref (webkit_dom_node_clone_node_with_error (
+		WEBKIT_DOM_NODE (element), TRUE, NULL));
 
 	if (ev->data.dom.from && webkit_dom_node_is_equal_node (ev->data.dom.from, ev->data.dom.to))
 		e_editor_undo_redo_manager_remove_current_history_event (manager);
@@ -808,8 +800,8 @@ e_dialogs_dom_link_dialog_on_close (EEditorPage *editor_page)
 		manager = e_editor_page_get_undo_redo_manager (editor_page);
 		ev = e_editor_undo_redo_manager_get_current_history_event (manager);
 		if (ev->type == HISTORY_LINK_DIALOG) {
-			ev->data.dom.to = webkit_dom_node_clone_node_with_error (
-				WEBKIT_DOM_NODE (link), TRUE, NULL);
+			ev->data.dom.to = g_object_ref (webkit_dom_node_clone_node_with_error (
+				WEBKIT_DOM_NODE (link), TRUE, NULL));
 
 			if (ev->data.dom.from && webkit_dom_node_is_equal_node (ev->data.dom.from, ev->data.dom.to))
 				e_editor_undo_redo_manager_remove_current_history_event (manager);
@@ -868,8 +860,8 @@ e_dialogs_dom_link_dialog_on_open (EEditorPage *editor_page)
 		e_editor_dom_selection_get_coordinates (
 			editor_page, &ev->before.start.x, &ev->before.start.y, &ev->before.end.x, &ev->before.end.y);
 		if (link)
-			ev->data.dom.from = webkit_dom_node_clone_node_with_error (
-				WEBKIT_DOM_NODE (link), TRUE, NULL);
+			ev->data.dom.from = g_object_ref (webkit_dom_node_clone_node_with_error (
+				WEBKIT_DOM_NODE (link), TRUE, NULL));
 		else
 			ev->data.dom.from = NULL;
 		e_editor_undo_redo_manager_insert_history_event (manager, ev);
@@ -951,7 +943,7 @@ e_dialogs_dom_page_save_history (EEditorPage *editor_page)
 
 		e_editor_dom_selection_get_coordinates (editor_page, &ev->before.start.x, &ev->before.start.y, &ev->before.end.x, &ev->before.end.y);
 		body = webkit_dom_document_get_body (document);
-		ev->data.dom.from = webkit_dom_node_clone_node_with_error (WEBKIT_DOM_NODE (body), FALSE, NULL);
+		ev->data.dom.from = g_object_ref (webkit_dom_node_clone_node_with_error (WEBKIT_DOM_NODE (body), FALSE, NULL));
 
 		e_editor_undo_redo_manager_insert_history_event (manager, ev);
 	}
@@ -972,7 +964,7 @@ e_dialogs_dom_page_save_history_on_exit (EEditorPage *editor_page)
 	manager = e_editor_page_get_undo_redo_manager (editor_page);
 	ev = e_editor_undo_redo_manager_get_current_history_event (manager);
 	body = webkit_dom_document_get_body (document);
-	ev->data.dom.to = webkit_dom_node_clone_node_with_error (WEBKIT_DOM_NODE (body), FALSE, NULL);
+	ev->data.dom.to = g_object_ref (webkit_dom_node_clone_node_with_error (WEBKIT_DOM_NODE (body), FALSE, NULL));
 
 	if (!webkit_dom_node_is_equal_node (ev->data.dom.from, ev->data.dom.to)) {
 		e_editor_dom_selection_get_coordinates (editor_page, &ev->after.start.x, &ev->after.start.y, &ev->after.end.x, &ev->after.end.y);
@@ -1159,7 +1151,6 @@ e_dialogs_dom_table_set_row_count (EEditorPage *editor_page,
 	row = WEBKIT_DOM_HTML_TABLE_ROW_ELEMENT (webkit_dom_html_collection_item (rows, 0));
 	cells = webkit_dom_html_table_row_element_get_cells (row);
 	cells_current_count = webkit_dom_html_collection_get_length (cells);
-	g_object_unref (row);
 
 	if (rows_current_count < expected_count) {
 		for (ii = 0; ii < expected_count - rows_current_count; ii++) {
@@ -1249,7 +1240,6 @@ e_dialogs_dom_table_set_column_count (EEditorPage *editor_page,
 					row, -1, NULL);
 			}
 		}
-		g_object_unref (row);
 		g_clear_object (&cells);
 	}
 	g_clear_object (&rows);
@@ -1280,7 +1270,6 @@ e_dialogs_dom_table_get_column_count (EEditorPage *editor_page)
 
 	count = webkit_dom_html_collection_get_length (columns);
 
-	g_object_unref (row);
 	g_clear_object (&rows);
 	g_clear_object (&columns);
 
@@ -1413,8 +1402,8 @@ e_dialogs_dom_table_show (EEditorPage *editor_page)
 
 		e_editor_dom_selection_get_coordinates (editor_page, &ev->before.start.x, &ev->before.start.y, &ev->before.end.x, &ev->before.end.y);
 		if (!created)
-			ev->data.dom.from = webkit_dom_node_clone_node_with_error (
-				WEBKIT_DOM_NODE (table), TRUE, NULL);
+			ev->data.dom.from = g_object_ref (webkit_dom_node_clone_node_with_error (
+				WEBKIT_DOM_NODE (table), TRUE, NULL));
 		else
 			ev->data.dom.from = NULL;
 
@@ -1445,8 +1434,8 @@ e_dialogs_dom_table_save_history_on_exit (EEditorPage *editor_page)
 
 	manager = e_editor_page_get_undo_redo_manager (editor_page);
 	ev = e_editor_undo_redo_manager_get_current_history_event (manager);
-	ev->data.dom.to = webkit_dom_node_clone_node_with_error (
-		WEBKIT_DOM_NODE (element), TRUE, NULL);
+	ev->data.dom.to = g_object_ref (webkit_dom_node_clone_node_with_error (
+		WEBKIT_DOM_NODE (element), TRUE, NULL));
 
 	if (ev->data.dom.from && webkit_dom_node_is_equal_node (ev->data.dom.from, ev->data.dom.to))
 		e_editor_undo_redo_manager_remove_current_history_event (manager);

@@ -56,7 +56,6 @@ e_dom_utils_replace_local_image_links (WebKitDOMDocument *document)
 		webkit_dom_html_image_element_set_src (img, new_src);
 		g_free (new_src);
 		g_free (src);
-		g_object_unref (img);
 	}
 	g_clear_object (&list);
 
@@ -75,7 +74,6 @@ e_dom_utils_replace_local_image_links (WebKitDOMDocument *document)
 
 		if (content_document && WEBKIT_DOM_IS_DOCUMENT (content_document))
 			e_dom_utils_replace_local_image_links (content_document);
-		g_object_unref (iframe);
 	}
 	g_clear_object (&list);
 }
@@ -120,12 +118,8 @@ e_dom_utils_document_has_selection (WebKitDOMDocument *document)
 			content_document = webkit_dom_html_iframe_element_get_content_document (
 				WEBKIT_DOM_HTML_IFRAME_ELEMENT (node));
 
-			if ((ret_val = e_dom_utils_document_has_selection (content_document))) {
-				g_object_unref (node);
+			if ((ret_val = e_dom_utils_document_has_selection (content_document)))
 				break;
-			}
-
-			g_object_unref (node);
 		}
 
 		g_clear_object (&frames);
@@ -231,7 +225,6 @@ get_frame_selection_html (WebKitDOMElement *iframe)
 		text = get_frame_selection_html (
 			WEBKIT_DOM_ELEMENT (node));
 
-		g_object_unref (node);
 		if (text != NULL) {
 			g_clear_object (&frames);
 			return text;
@@ -264,7 +257,6 @@ e_dom_utils_get_selection_content_html (WebKitDOMDocument *document)
 		text = get_frame_selection_html (
 			WEBKIT_DOM_ELEMENT (node));
 
-		g_object_unref (node);
 		if (text != NULL) {
 			g_clear_object (&frames);
 			return text;
@@ -317,7 +309,6 @@ get_frame_selection_content_text (WebKitDOMElement *iframe)
 		text = get_frame_selection_content_text (
 			WEBKIT_DOM_ELEMENT (node));
 
-		g_object_unref (node);
 		if (text != NULL) {
 			g_clear_object (&frames);
 			return text;
@@ -346,7 +337,6 @@ e_dom_utils_get_selection_content_text (WebKitDOMDocument *document)
 		text = get_frame_selection_content_text (
 			WEBKIT_DOM_ELEMENT (node));
 
-		g_object_unref (node);
 		if (text != NULL) {
 			g_clear_object (&frames);
 			return text;
@@ -391,10 +381,6 @@ e_dom_utils_create_and_add_css_style_sheet (WebKitDOMDocument *document,
 			WEBKIT_DOM_NODE (head),
 			WEBKIT_DOM_NODE (style_element),
 			NULL);
-
-		g_object_unref (head);
-		g_object_unref (dom_text);
-		g_object_unref (style_element);
 	}
 }
 
@@ -459,7 +445,6 @@ add_css_rule_into_style_sheet (WebKitDOMDocument *document,
 		WEBKIT_DOM_CSS_STYLE_SHEET (sheet), selector, style, length, NULL);
 
 	g_clear_object (&sheet);
-	g_object_unref (style_element);
 }
 
 static void
@@ -499,7 +484,6 @@ add_css_rule_into_style_sheet_recursive (WebKitDOMDocument *document,
 			style_sheet_id,
 			selector,
 			style);
-		g_object_unref (node);
 	}
 	g_clear_object (&frames);
 }
@@ -636,7 +620,6 @@ toggle_address_visibility (WebKitDOMElement *button,
 	bold = webkit_dom_node_get_parent_element (WEBKIT_DOM_NODE (button));
 	/* <td> element */
 	parent = webkit_dom_node_get_parent_element (WEBKIT_DOM_NODE (bold));
-	g_object_unref (bold);
 
 	full_addr = webkit_dom_element_query_selector (parent, "#__evo-moreaddr", NULL);
 
@@ -674,8 +657,6 @@ toggle_address_visibility (WebKitDOMElement *button,
 			goto clean;
 
 		webkit_dom_html_image_element_set_src (WEBKIT_DOM_HTML_IMAGE_ELEMENT (element), path);
-
-		g_object_unref (element);
 	} else
 		webkit_dom_html_image_element_set_src (WEBKIT_DOM_HTML_IMAGE_ELEMENT (button), path);
 
@@ -908,7 +889,6 @@ e_dom_utils_find_element_by_selector (WebKitDOMDocument *document,
 
 		element = e_dom_utils_find_element_by_id (content_document, selector);
 
-		g_object_unref (iframe);
 		if (element != NULL)
 			break;
 	}
@@ -947,7 +927,6 @@ e_dom_utils_find_element_by_id (WebKitDOMDocument *document,
 
 		element = e_dom_utils_find_element_by_id (content_document, id);
 
-		g_object_unref (iframe);
 		if (element != NULL)
 			break;
 	}
@@ -1592,13 +1571,8 @@ remove_node (WebKitDOMNode *node)
 {
 	WebKitDOMNode *parent = webkit_dom_node_get_parent_node (node);
 
-	/* Check if the parent exists, if so it means that the node is still
-	 * in the DOM or at least the parent is. If it doesn't exists it is not
-	 * in the DOM and we can free it. */
 	if (parent)
 		webkit_dom_node_remove_child (parent, node, NULL);
-	else
-		g_object_unref (node);
 }
 
 void
@@ -1899,7 +1873,6 @@ merge_lists_if_possible (WebKitDOMNode *list)
 
 		node = webkit_dom_node_list_item (lists, ii);
 		merge_lists_if_possible (node);
-		g_object_unref (node);
 	}
 	g_clear_object (&lists);
 }
@@ -1996,8 +1969,6 @@ e_dom_utils_find_document_with_uri (WebKitDOMDocument *root_document,
 				continue;
 
 			todo = g_slist_prepend (todo, content_document);
-
-			g_object_unref (node);
 		}
 
 		g_clear_object (&frames);
