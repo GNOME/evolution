@@ -4998,7 +4998,8 @@ remove_new_lines_around_citations (const gchar *input)
 	/* Remove the new lines around citations:
 	 * Replace <br><br>##CITATION_START## with <br>##CITATION_START##
 	 * Replace ##CITATION_START##<br><br> with ##CITATION_START##<br>
-	 * Replace <br>##CITATION_END## with ##CITATION_END## */
+	 * Replace <br>##CITATION_END## with ##CITATION_END##
+	 * Replace <br>##CITATION_START## with ##CITATION_START## */
 	p = input;
 	while (next = strstr (p, "##CITATION_"), next) {
 		gchar citation_type = 0;
@@ -5011,7 +5012,8 @@ remove_new_lines_around_citations (const gchar *input)
 		/* ##CITATION_START## */
 		if (citation_type == 'S') {
 			if (g_str_has_suffix (str->str, "<br><br>") ||
-			    g_str_has_suffix (str->str, "<br><br>"))
+			    g_str_has_suffix (str->str, "<br><br>") ||
+			    g_str_has_suffix (str->str, "<br>"))
 				g_string_truncate (str, str->len - 4);
 
 			if (g_str_has_prefix (next + 11, "START##<br><br>")) {
@@ -5079,13 +5081,16 @@ parse_html_into_blocks (EEditorPage *editor_page,
                         const gchar *input)
 {
 	gboolean has_citation = FALSE, processing_last = FALSE;
-	const gchar *prev_br, *next_br;
+	const gchar *prev_token, *next_token;
 	GString *html = NULL;
 	GRegex *regex_nbsp = NULL, *regex_link = NULL, *regex_email = NULL;
 	WebKitDOMDocument *document;
 	WebKitDOMElement *block_template = passed_block_template;
 
 	g_return_if_fail (E_IS_EDITOR_PAGE (editor_page));
+
+	if (!(input && *input))
+		return;
 
 	document = e_editor_page_get_document (editor_page);
 	webkit_dom_element_set_inner_html (parent, "", NULL);
@@ -5116,45 +5121,62 @@ parse_html_into_blocks (EEditorPage *editor_page,
 	else
 		regex_nbsp = g_regex_new ("^\\s{1}|\\s{2,}|\x9|\\s$", 0, 0, NULL);
 
-
 	html = remove_new_lines_around_citations (input);
 
-	prev_br = html->str;
-	next_br = strstr (prev_br, "<br>");
-	processing_last = !next_br;
+	prev_token = html->str;
+	next_token = strstr (prev_token, "<br>");
+	processing_last = !next_token;
 
-	while (next_br || processing_last) {
+	while (next_token || processing_last) {
 		const gchar *citation_start = NULL, *citation_end = NULL;
 		const gchar *rest = NULL, *with_br = NULL;
+		const gchar *next_br_token = NULL, *next_citation_token = NULL;
 		gchar *to_process = NULL, *to_insert = NULL;
 		guint to_insert_start = 0, to_insert_end = 0;
 
-		if (!next_br) {
-			to_process = g_strdup (prev_br);
+		if (!next_token) {
+			to_process = g_strdup (prev_token);
 			processing_last = TRUE;
-		} else if ((to_process = g_utf8_substring (prev_br, 0, g_utf8_pointer_to_offset (prev_br, next_br))) && !*to_process && !processing_last) {
+		} else if ((to_process = g_utf8_substring (prev_token, 0, g_utf8_pointer_to_offset (prev_token, next_token))) &&
+		           !*to_process && !processing_last) {
 			g_free (to_process);
-			to_process = g_strdup (next_br);
+			to_process = g_strdup (next_token);
+			next_token = NULL;
 			processing_last = TRUE;
 		}
+
+		if (!*to_process && processing_last) {
+			g_free (to_process);
+			to_process = g_strdup (next_token);
+			next_token = NULL;
+		}
+
 		to_insert_end = g_utf8_strlen (to_process, -1);
 
 		if ((with_br = strstr (to_process, "<br>"))) {
 			if (with_br == to_process)
 				to_insert_start += 4;
 		}
+
 		if ((citation_start = strstr (to_process, "##CITATION_START"))) {
 			if (with_br && citation_start == with_br + 4)
+				to_insert_start += 18; /* + ## */
+			else if (!with_br && citation_start == to_process)
 				to_insert_start += 18; /* + ## */
 			else
 				to_insert_end -= 18; /* + ## */
 			has_citation = TRUE;
 		}
-		if ((citation_end = strstr (to_process, "##CITATION_END")))
-			to_insert_end -= 16; /* + ## */
+
+		if ((citation_end = strstr (to_process, "##CITATION_END"))) {
+			if (citation_end == to_process)
+				to_insert_start += 16;
+			else
+				to_insert_end -= 16; /* + ## */
+		}
 
 		/* First BR */
-		if (with_br && prev_br == html->str)
+		if (with_br && prev_token == html->str)
 			create_and_append_new_block (
 				editor_page, parent, block_template, "<br id=\"-x-evo-first-br\">");
 
@@ -5163,6 +5185,12 @@ parse_html_into_blocks (EEditorPage *editor_page,
 				editor_page, parent, block_template, "<br>");
 
 			append_citation_mark (document, parent, "##CITATION_START##");
+		} else if (!with_br && citation_start == to_process) {
+			append_citation_mark (document, parent, "##CITATION_START##");
+		}
+
+		if (citation_end && citation_end == to_process) {
+			append_citation_mark (document, parent, "##CITATION_END##");
 		}
 
 		if ((to_insert = g_utf8_substring (to_process, to_insert_start, to_insert_end)) && *to_insert) {
@@ -5213,28 +5241,45 @@ parse_html_into_blocks (EEditorPage *editor_page,
 				editor_page, parent, block_template, rest_to_insert);
 
 			g_free (rest_to_insert);
-		} else if (to_insert && !citation_start)
-			create_and_append_new_block (
-				editor_page, parent, block_template, "<br>");
+		} else if (to_insert) {
+			if (!citation_start && (with_br || !citation_end))
+				create_and_append_new_block (
+					editor_page, parent, block_template, "<br>");
+			else if (citation_end && citation_end == to_process &&
+			         next_token && g_str_has_prefix (next_token, "<br>")) {
+				create_and_append_new_block (
+					editor_page, parent, block_template, "<br>");
+			}
+		}
 
 		g_free (to_insert);
 
 		if (with_br && citation_start && citation_start != with_br + 4)
 			append_citation_mark (document, parent, "##CITATION_START##");
 
-		if (citation_end)
+		if (citation_end && citation_end != to_process)
 			append_citation_mark (document, parent, "##CITATION_END##");
 
 		g_free (to_process);
 
-		prev_br = next_br;
-		next_br = (prev_br && *prev_br) ? strstr (prev_br + 1, "<br>") : NULL;
-		if (!next_br && !processing_last) {
-			if (!prev_br)
+		prev_token = next_token;
+		next_br_token = (prev_token && *prev_token) ? strstr (prev_token + 1, "<br>") : NULL;
+		next_citation_token = (prev_token && *prev_token) ? strstr (prev_token + 1, "##CITATION_") : NULL;
+		if (next_br_token) {
+			if (next_citation_token)
+				next_token = next_br_token < next_citation_token ? next_br_token : next_citation_token;
+			else
+				next_token = next_br_token;
+		} else {
+			next_token = next_citation_token;
+		}
+
+		if (!next_token && !processing_last) {
+			if (!prev_token)
 				break;
 
-			if (g_utf8_strlen (prev_br, -1) > 4) {
-				next_br = prev_br;
+			if (g_utf8_strlen (prev_token, -1) > 4) {
+				next_token = prev_token;
 			} else {
 				WebKitDOMNode *child;
 
@@ -5249,12 +5294,6 @@ parse_html_into_blocks (EEditorPage *editor_page,
 							webkit_dom_element_set_id (
 								WEBKIT_DOM_ELEMENT (child),
 								"-x-evo-last-br");
-					} else if (!webkit_dom_document_query_selector (document, ".-x-evo-signature-wrapper", NULL)) {
-						/* FIXME WK2 - the signature could not be inserted at this point
-						 * this is the reason why there is an extra NL on the very end of
-						 * quoted text in reply. */
-						create_and_append_new_block (
-							editor_page, parent, block_template, "<br>");
 					}
 				} else {
 					create_and_append_new_block (
@@ -5263,7 +5302,7 @@ parse_html_into_blocks (EEditorPage *editor_page,
 				break;
 			}
 			processing_last = TRUE;
-		} else if (processing_last && !prev_br && !next_br) {
+		} else if (processing_last && !prev_token && !next_token) {
 			break;
 		}
 	}
