@@ -7027,11 +7027,15 @@ process_node_to_plain_text_changing_composer_mode (EEditorPage *editor_page,
 		WEBKIT_DOM_ELEMENT (source), "div.-x-evo-signature-wrapper", NULL);
 	if (element) {
 		WebKitDOMNode *first_child;
+		gchar *id = NULL;
 
 		first_child = webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (element));
+		id = webkit_dom_element_get_id (WEBKIT_DOM_ELEMENT (first_child));
 
-		convert_element_from_html_to_plain_text (
-			editor_page, WEBKIT_DOM_ELEMENT (first_child), NULL, NULL);
+		if (g_strcmp0 (id, "none") != 0)
+			convert_element_from_html_to_plain_text (
+				editor_page, WEBKIT_DOM_ELEMENT (first_child), NULL, NULL);
+		g_free (id);
 	}
 }
 
