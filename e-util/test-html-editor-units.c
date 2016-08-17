@@ -2636,6 +2636,39 @@ test_bug_760989 (TestFixture *fixture)
 }
 
 static void
+test_bug_767903 (TestFixture *fixture)
+{
+	if (!test_utils_run_simple_test (fixture,
+		"mode:plain\n"
+		"type:This is the first line:\\n\n"
+		"action:style-list-bullet\n"
+		"type:First item\\n\n"
+		"type:Second item\n",
+		HTML_PREFIX_PLAIN "<p style=\"width: 71ch;\">This is the first line:</p>"
+		"<ul data-evo-paragraph=\"\" style=\"width: 68ch;\" data-evo-plain-text=\"\">"
+		"<li>First item</li><li>Second item<br></li></ul>" HTML_SUFFIX,
+		"This is the first line:\n"
+		" * First item\n"
+		" * Second item")) {
+		g_test_fail ();
+		return;
+	}
+
+	if (!test_utils_run_simple_test (fixture,
+		"seq:uhb\n"
+		"undo:undo\n",
+		HTML_PREFIX_PLAIN "<p style=\"width: 71ch;\">This is the first line:</p>"
+		"<ul data-evo-paragraph=\"\" style=\"width: 68ch;\" data-evo-plain-text=\"\">"
+		"<li>First item</li><li>Second item<br></li></ul>" HTML_SUFFIX,
+		"This is the first line:\n"
+		" * First item\n"
+		" * Second item")) {
+		g_test_fail ();
+		return;
+	}
+}
+
+static void
 test_bug_769708 (TestFixture *fixture)
 {
 	if (!test_utils_process_commands (fixture,
@@ -3096,6 +3129,7 @@ main (gint argc,
 	add_test ("/bug/726548", test_bug_726548);
 	add_test ("/bug/750657", test_bug_750657);
 	add_test ("/bug/760989", test_bug_760989);
+	add_test ("/bug/767903", test_bug_767903);
 	add_test ("/bug/769708", test_bug_769708);
 	add_test ("/bug/769913", test_bug_769913);
 	add_test ("/bug/769955", test_bug_769955);
