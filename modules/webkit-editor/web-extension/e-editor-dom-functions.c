@@ -8126,6 +8126,13 @@ e_editor_dom_process_content_to_html_for_exporting (EEditorPage *editor_page)
 	html_content = webkit_dom_element_get_outer_html (
 		WEBKIT_DOM_ELEMENT (document_clone));
 
+	if (strstr (html_content, UNICODE_ZERO_WIDTH_SPACE)) {
+		GString *processed;
+
+		processed = e_str_replace_string (html_content, UNICODE_ZERO_WIDTH_SPACE, "");
+		g_free (html_content);
+		html_content = g_string_free (processed, FALSE);
+	}
 
 	return html_content;
 }
