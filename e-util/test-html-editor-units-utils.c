@@ -200,7 +200,7 @@ test_utils_fixture_set_up (TestFixture *fixture,
 
 	e_html_editor_new (test_utils_html_editor_created_cb, &create_data);
 
-	test_utils_async_call_wait (create_data.async_data, 5);
+	test_utils_async_call_wait (create_data.async_data, 60);
 
 	g_warn_if_fail (fixture->editor != NULL);
 	g_warn_if_fail (E_IS_HTML_EDITOR (fixture->editor));
