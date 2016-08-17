@@ -6843,6 +6843,44 @@ remove_evolution_attributes (WebKitDOMElement *element)
 }
 
 static void
+preserve_line_breaks_in_element (WebKitDOMDocument *document,
+                                 WebKitDOMElement *element,
+                                 const gchar *selector)
+{
+	WebKitDOMNodeList *list = NULL;
+	gint ii, length;
+
+	if (!(list = webkit_dom_element_query_selector_all (element, selector, NULL)))
+		return;
+
+	length = webkit_dom_node_list_get_length (list);
+	for (ii = 0; ii < length; ii++) {
+		gboolean insert = TRUE;
+		WebKitDOMNode *node, *next_sibling;
+
+		node = webkit_dom_node_list_item (list, ii);
+		next_sibling = webkit_dom_node_get_next_sibling (node);
+
+		if (!next_sibling)
+			insert = FALSE;
+
+		while (insert && next_sibling) {
+			if (!webkit_dom_node_has_child_nodes (next_sibling) &&
+			    !webkit_dom_node_get_next_sibling (next_sibling))
+				insert = FALSE;
+			next_sibling = webkit_dom_node_get_next_sibling (next_sibling);
+		}
+
+		if (insert && !WEBKIT_DOM_IS_HTML_BR_ELEMENT (webkit_dom_node_get_last_child (node)))
+			webkit_dom_node_append_child (
+				node,
+				WEBKIT_DOM_NODE (webkit_dom_document_create_element (document, "br", NULL)),
+				NULL);
+	}
+	g_clear_object (&list);
+}
+
+static void
 convert_element_from_html_to_plain_text (EEditorPage *editor_page,
                                          WebKitDOMElement *element,
                                          gboolean *wrap,
@@ -6851,8 +6889,7 @@ convert_element_from_html_to_plain_text (EEditorPage *editor_page,
 	WebKitDOMDocument *document;
 	WebKitDOMElement *top_signature, *signature, *blockquote, *main_blockquote;
 	WebKitDOMNode *signature_clone, *from;
-	WebKitDOMNodeList *list = NULL;
-	gint blockquotes_count, ii, length;
+	gint blockquotes_count;
 	gchar *inner_text, *inner_html;
 
 	g_return_if_fail (E_IS_EDITOR_PAGE (editor_page));
@@ -6884,38 +6921,23 @@ convert_element_from_html_to_plain_text (EEditorPage *editor_page,
 
 	blockquotes_count = create_text_markers_for_citations_in_element (WEBKIT_DOM_ELEMENT (from));
 	create_text_markers_for_selection_in_element (WEBKIT_DOM_ELEMENT (from));
+	webkit_dom_element_set_attribute (
+		WEBKIT_DOM_ELEMENT (from),
+		"data-evo-html-to-plain-text-wrapper",
+		"",
+		NULL);
 
 	/* Add the missing BR elements on the end of DIV and P elements to
 	 * preserve the line breaks. But we need to do that just in case that
 	 * there is another element that contains text. */
-	list = webkit_dom_element_query_selector_all (WEBKIT_DOM_ELEMENT (from), "div, p", NULL);
-	length = webkit_dom_node_list_get_length (list);
-	for (ii = 0; ii < length; ii++) {
-		gboolean insert = TRUE;
-		WebKitDOMNode *node, *next_sibling;
+	preserve_line_breaks_in_element (document, WEBKIT_DOM_ELEMENT (from), "p, div, address");
+	preserve_line_breaks_in_element (
+		document,
+		WEBKIT_DOM_ELEMENT (from),
+		"[data-evo-html-to-plain-text-wrapper] > :matches(h1, h2, h3, h4, h5, h6)");
 
-		node = webkit_dom_node_list_item (list, ii);
-		next_sibling = webkit_dom_node_get_next_sibling (node);
-
-		if (!next_sibling)
-			insert = FALSE;
-
-		while (insert && next_sibling) {
-			if (!webkit_dom_node_has_child_nodes (next_sibling) &&
-			    !webkit_dom_node_get_next_sibling (next_sibling))
-				insert = FALSE;
-			next_sibling = webkit_dom_node_get_next_sibling (next_sibling);
-		}
-
-		if (insert && !WEBKIT_DOM_IS_HTML_BR_ELEMENT (webkit_dom_node_get_last_child (node)))
-			webkit_dom_node_append_child (
-				node,
-				WEBKIT_DOM_NODE (webkit_dom_document_create_element (document, "br", NULL)),
-				NULL);
-
-		g_object_unref (node);
-	}
-	g_clear_object (&list);
+	webkit_dom_element_remove_attribute (
+		WEBKIT_DOM_ELEMENT (from), "data-evo-html-to-plain-text-wrapper");
 
 	inner_text = webkit_dom_html_element_get_inner_text (
 		WEBKIT_DOM_HTML_ELEMENT (from));
@@ -7850,7 +7872,11 @@ e_editor_dom_process_content_to_plain_text_for_exporting (EEditorPage *editor_pa
 			WebKitDOMNode *child;
 
 			wrapper = webkit_dom_document_create_element (document, "div", NULL);
-			webkit_dom_element_set_id (wrapper, "-x-evo-html-to-plain-text-wrapper");
+			webkit_dom_element_set_attribute (
+				WEBKIT_DOM_ELEMENT (wrapper),
+				"data-evo-html-to-plain-text-wrapper",
+				"",
+				NULL);
 			while ((child = webkit_dom_node_get_first_child (source))) {
 				webkit_dom_node_append_child (
 					WEBKIT_DOM_NODE (wrapper),
@@ -7875,7 +7901,7 @@ e_editor_dom_process_content_to_plain_text_for_exporting (EEditorPage *editor_pa
 			remove_images_in_element (wrapper);
 
 			list = webkit_dom_element_query_selector_all (
-				wrapper, "#-x-evo-html-to-plain-text-wrapper > :matches(ul, ol)", NULL);
+				wrapper, "[data-evo-html-to-plain-text-wrapper] > :matches(ul, ol)", NULL);
 
 			length = webkit_dom_node_list_get_length (list);
 			for (ii = 0; ii < length; ii++) {
