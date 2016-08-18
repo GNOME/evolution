@@ -51,6 +51,8 @@
 #include <camel/camel.h>
 #include <libedataserver/libedataserver.h>
 
+#include <webkit2/webkit2.h>
+
 #include "e-alert-dialog.h"
 #include "e-alert-sink.h"
 #include "e-client-cache.h"
@@ -3508,4 +3510,76 @@ e_util_save_image_from_clipboard (GtkClipboard *clipboard)
 	g_free (filename);
 
 	return uri;
+}
+
+/**
+ * e_util_check_gtk_bindings_in_key_press_event_cb:
+ * @widget: a #GtkWidget, most often a #GtkWindow
+ * @event: a #GdkEventKey
+ *
+ * A callback function for GtkWidget::key-press-event signal,
+ * which checks whether currently focused widget inside @widget,
+ * if it's a #GtkWindow, or a toplevel window containing the @widget,
+ * will consume the @event due to gtk+ bindings and if so, then
+ * it'll stop processing the event further. When it's connected
+ * on a #GtkWindow, then it can prevent the event to be used
+ * for shortcuts of actions.
+ *
+ * Returns: %TRUE to stop other handlers from being invoked for
+ *    the event, %FALSE to propagate the event further.
+ *
+ * Since: 3.22
+ **/
+gboolean
+e_util_check_gtk_bindings_in_key_press_event_cb (GtkWidget *widget,
+						 GdkEvent *event)
+{
+	GdkEventKey *key_event = (GdkEventKey *) event;
+	GtkWindow *window = NULL;
+	GtkWidget *focused;
+
+	g_return_val_if_fail (GTK_IS_WIDGET (widget), FALSE);
+	g_return_val_if_fail (event != NULL, FALSE);
+	g_return_val_if_fail (event->type == GDK_KEY_PRESS, FALSE);
+
+	if (GTK_IS_WINDOW (widget)) {
+		window = GTK_WINDOW (widget);
+	} else {
+		GtkWidget *toplevel;
+
+		toplevel = gtk_widget_get_toplevel (widget);
+		if (GTK_IS_WINDOW (toplevel))
+			window = GTK_WINDOW (toplevel);
+	}
+
+	if (!window)
+		return FALSE;
+
+	focused = gtk_window_get_focus (window);
+	if (!focused)
+		return FALSE;
+
+	if (gtk_bindings_activate_event (G_OBJECT (focused), key_event))
+		return TRUE;
+
+	if (WEBKIT_IS_WEB_VIEW (focused) &&
+	    (key_event->state & (GDK_CONTROL_MASK | GDK_MOD1_MASK)) != 0) {
+		GtkWidget *text_view;
+		gboolean may_use;
+
+		/* WebKit uses GtkTextView to process key bindings. Do the same. */
+		text_view = gtk_text_view_new ();
+		may_use = gtk_bindings_activate_event (G_OBJECT (text_view), key_event);
+		gtk_widget_destroy (text_view);
+
+		if (may_use) {
+			gboolean result = FALSE;
+
+			g_signal_emit_by_name (focused, "key-press-event", event, &result);
+
+			return result;
+		}
+	}
+
+	return FALSE;
 }

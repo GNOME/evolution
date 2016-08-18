@@ -296,6 +296,9 @@ void		e_util_init_main_thread		(GThread *thread);
 gboolean	e_util_is_main_thread		(GThread *thread);
 gchar *		e_util_save_image_from_clipboard
 						(GtkClipboard *clipboard);
+gboolean	e_util_check_gtk_bindings_in_key_press_event_cb
+						(GtkWidget *widget,
+						 GdkEvent *event);
 
 G_END_DECLS
 

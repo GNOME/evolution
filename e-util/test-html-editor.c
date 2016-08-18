@@ -493,6 +493,9 @@ create_new_editor_cb (GObject *source_object,
 		widget, "destroy",
 		G_CALLBACK (editor_destroyed_cb), NULL);
 
+	g_signal_connect (widget, "key-press-event",
+		G_CALLBACK (e_util_check_gtk_bindings_in_key_press_event_cb), NULL);
+
 	container = widget;
 
 	widget = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);

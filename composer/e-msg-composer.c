@@ -2689,6 +2689,9 @@ msg_composer_key_press_event (GtkWidget *widget,
 		}
 	}
 
+	if (e_util_check_gtk_bindings_in_key_press_event_cb (widget, (GdkEvent *) event))
+		return TRUE;
+
 	/* Chain up to parent's key_press_event() method. */
 	return GTK_WIDGET_CLASS (e_msg_composer_parent_class)->
 		key_press_event (widget, event);

@@ -2126,6 +2126,9 @@ e_comp_editor_constructed (GObject *object)
 
 	G_OBJECT_CLASS (e_comp_editor_parent_class)->constructed (object);
 
+	g_signal_connect (comp_editor, "key-press-event",
+		G_CALLBACK (e_util_check_gtk_bindings_in_key_press_event_cb), NULL);
+
 	comp_editor->priv->calendar_settings = e_util_ref_settings ("org.gnome.evolution.calendar");
 	comp_editor->priv->ui_manager = gtk_ui_manager_new ();
 
