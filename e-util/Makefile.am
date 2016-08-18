@@ -724,6 +724,8 @@ test_html_editor_LDADD = $(TEST_LDADD)
 
 test_html_editor_units_CPPFLAGS = $(TEST_CPPFLAGS) -DTEST_TOP_SRCDIR=\""$(top_srcdir)"\"
 test_html_editor_units_SOURCES = \
+	test-html-editor-units-bugs.h \
+	test-html-editor-units-bugs.c \
 	test-html-editor-units-utils.h \
 	test-html-editor-units-utils.c \
 	test-html-editor-units.c \

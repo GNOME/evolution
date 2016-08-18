@@ -20,6 +20,8 @@
 #include <glib.h>
 #include <e-util/e-util.h>
 
+G_BEGIN_DECLS
+
 typedef struct _TestSettings {
 	gchar *schema;
 	gchar *key;
@@ -35,10 +37,14 @@ typedef struct _TestFixture {
 	GSList *undo_stack; /* UndoContent * */
 } TestFixture;
 
+typedef void (* ETestFixtureSimpleFunc) (TestFixture *fixture);
+
 void		test_utils_set_event_processing_delay_ms
 						(guint value);
 guint		test_utils_get_event_processing_delay_ms
 						(void);
+void		test_utils_add_test		(const gchar *name,
+						 ETestFixtureSimpleFunc func);
 void		test_utils_fixture_set_up	(TestFixture *fixture,
 						 gconstpointer user_data);
 void		test_utils_fixture_tear_down	(TestFixture *fixture,
@@ -85,5 +91,7 @@ void		test_utils_insert_content	(TestFixture *fixture,
 void		test_utils_set_clipboard_text	(const gchar *text,
 						 gboolean is_html);
 gchar *		test_utils_get_clipboard_text	(gboolean request_html);
+
+G_END_DECLS
 
 #endif /* TEST_HTML_EDITOR_UNITS_UTILS_H */

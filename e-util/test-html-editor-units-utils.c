@@ -185,6 +185,17 @@ test_utils_html_editor_created_cb (GObject *source_object,
 	test_utils_async_call_finish (create_data->async_data);
 }
 
+/* The tests do not use the 'user_data' argument, thus the functions avoid them and the typecast is needed. */
+typedef void (* ETestFixtureFunc) (TestFixture *fixture, gconstpointer user_data);
+
+void
+test_utils_add_test (const gchar *name,
+		     ETestFixtureSimpleFunc func)
+{
+	g_test_add (name, TestFixture, NULL,
+		test_utils_fixture_set_up, (ETestFixtureFunc) func, test_utils_fixture_tear_down);
+}
+
 void
 test_utils_fixture_set_up (TestFixture *fixture,
 			   gconstpointer user_data)

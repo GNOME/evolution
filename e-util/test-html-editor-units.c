@@ -25,15 +25,9 @@
 #include <e-util/e-util.h>
 
 #include "e-html-editor-private.h"
+#include "test-html-editor-units-bugs.h"
 #include "test-html-editor-units-utils.h"
 #include "test-keyfile-settings-backend.h"
-
-#define HTML_PREFIX "<html><head></head><body>"
-#define HTML_PREFIX_PLAIN "<html><head></head><body style=\"font-family: Monospace;\">"
-#define HTML_SUFFIX "</body></html>"
-
-/* The tests do not use the 'user_data' argument, thus the functions avoid them and the typecast is needed. */
-typedef void (* ETestFixtureFunc) (TestFixture *fixture, gconstpointer user_data);
 
 static void
 test_create_editor (TestFixture *fixture)
@@ -2509,560 +2503,6 @@ test_undo_link_paste_plain (TestFixture *fixture)
 		g_test_fail ();
 }
 
-static void
-test_bug_726548 (TestFixture *fixture)
-{
-	gboolean success;
-	gchar *text;
-	const gchar *expected_plain =
-		"aaa\n"
-		"   1. a\n"
-		"   2. b\n"
-		"   3. c\n";
-
-	if (!test_utils_run_simple_test (fixture,
-		"mode:plain\n"
-		"type:aaa\\n\n"
-		"action:style-list-number\n"
-		"type:a\\nb\\nc\\n\\n\n"
-		"seq:C\n"
-		"type:ac\n"
-		"seq:c\n",
-		HTML_PREFIX_PLAIN "<p style=\"width: 71ch;\">aaa</p>"
-		"<ol data-evo-paragraph=\"\" style=\"width: 65ch;\">"
-		"<li>a</li><li>b</li><li>c</li></ol>"
-		"<p style=\"width: 71ch;\"><br></p>" HTML_SUFFIX,
-		expected_plain)) {
-		g_test_fail ();
-		return;
-	}
-
-	text = test_utils_get_clipboard_text (FALSE);
-	success = test_utils_html_equal (fixture, text, expected_plain);
-
-	if (!success) {
-		g_warning ("%s: clipboard Plain text \n---%s---\n does not match expected Plain\n---%s---",
-			G_STRFUNC, text, expected_plain);
-		g_free (text);
-		g_test_fail ();
-	} else {
-		g_free (text);
-	}
-}
-
-static void
-test_bug_750657 (TestFixture *fixture)
-{
-	if (!test_utils_process_commands (fixture,
-		"mode:html\n")) {
-		g_test_fail ();
-		return;
-	}
-
-	test_utils_insert_content (fixture,
-		"<html><head></head><body>\n"
-		"<blockquote type=\"cite\">\n"
-		"<p>This is the first paragraph of a quoted text which has some long text to test. It has the second sentence as well.</p>\n"
-		"<p><br></p>\n"
-		"<p>This is the third paragraph of a quoted text which has some long text to test. It has the second sentence as well.</p>\n"
-		"<blockquote type=\"cite\">\n"
-		"<p>This is the first paragraph of a sub-quoted text which has some long text to test. It has the second sentence as well.</p>\n"
-		"<br>\n"
-		"</blockquote>\n"
-		"<p>This is the fourth paragraph of a quoted text which has some long text to test. It has the second sentence as well.</p>\n"
-		"</blockquote>\n"
-		"<p><br></p>\n"
-		"</body></html>\n",
-		E_CONTENT_EDITOR_INSERT_TEXT_HTML);
-
-	if (!test_utils_run_simple_test (fixture,
-		"seq:uuuSuusD\n",
-		HTML_PREFIX "\n"
-		"<blockquote type=\"cite\">\n"
-		"<p>This is the first paragraph of a quoted text which has some long text to test. It has the second sentence as well.</p>\n"
-		"<p><br></p>\n"
-		"<p>This is the third paragraph of a quoted text which has some long text to test. It has the second sentence as well.</p>\n"
-		"<p>This is the fourth paragraph of a quoted text which has some long text to test. It has the second sentence as well.</p>\n"
-		"</blockquote>\n"
-		"<p><br></p>\n"
-		HTML_SUFFIX,
-		NULL)) {
-		g_test_fail ();
-		return;
-	}
-}
-
-static void
-test_bug_760989 (TestFixture *fixture)
-{
-	if (!test_utils_process_commands (fixture,
-		"mode:html\n"
-		"type:a\n")) {
-		g_test_fail ();
-		return;
-	}
-
-	test_utils_insert_content (fixture,
-		"<html><head></head><body>\n"
-		"One line before quotation<br>\n"
-		"<blockquote type=\"cite\">\n"
-		"<p>Single line quoted.</p>\n"
-		"</blockquote>\n"
-		"</body></html>",
-		E_CONTENT_EDITOR_INSERT_TEXT_HTML);
-
-	if (!test_utils_run_simple_test (fixture,
-		"seq:ChcD\n",
-		HTML_PREFIX "<p>One line before quotation</p>\n"
-		"<blockquote type=\"cite\">\n"
-		"<p>Single line quoted.</p>\n"
-		"</blockquote>" HTML_SUFFIX,
-		"One line before quotation\n"
-		"> Single line quoted.")) {
-		g_test_fail ();
-		return;
-	}
-
-	if (!test_utils_run_simple_test (fixture,
-		"seq:Cecb\n",
-		HTML_PREFIX "<p>One line before quotation</p>\n"
-		"<blockquote type=\"cite\">\n"
-		"<p>Single line quoted</p>\n"
-		"</blockquote>" HTML_SUFFIX,
-		"One line before quotation\n"
-		"> Single line quoted")) {
-		g_test_fail ();
-		return;
-	}
-}
-
-static void
-test_bug_767903 (TestFixture *fixture)
-{
-	if (!test_utils_run_simple_test (fixture,
-		"mode:plain\n"
-		"type:This is the first line:\\n\n"
-		"action:style-list-bullet\n"
-		"type:First item\\n\n"
-		"type:Second item\n",
-		HTML_PREFIX_PLAIN "<p style=\"width: 71ch;\">This is the first line:</p>"
-		"<ul data-evo-paragraph=\"\" style=\"width: 68ch;\" data-evo-plain-text=\"\">"
-		"<li>First item</li><li>Second item<br></li></ul>" HTML_SUFFIX,
-		"This is the first line:\n"
-		" * First item\n"
-		" * Second item")) {
-		g_test_fail ();
-		return;
-	}
-
-	if (!test_utils_run_simple_test (fixture,
-		"seq:uhb\n"
-		"undo:undo\n",
-		HTML_PREFIX_PLAIN "<p style=\"width: 71ch;\">This is the first line:</p>"
-		"<ul data-evo-paragraph=\"\" style=\"width: 68ch;\" data-evo-plain-text=\"\">"
-		"<li>First item</li><li>Second item<br></li></ul>" HTML_SUFFIX,
-		"This is the first line:\n"
-		" * First item\n"
-		" * Second item")) {
-		g_test_fail ();
-		return;
-	}
-}
-
-static void
-test_bug_769708 (TestFixture *fixture)
-{
-	if (!test_utils_process_commands (fixture,
-		"mode:html\n")) {
-		g_test_fail ();
-		return;
-	}
-
-	test_utils_insert_content (fixture,
-		"<html><head><style id=\"-x-evo-quote-style\" type=\"text/css\">.-x-evo-quoted { -webkit-user-select: none; }</style>"
-		"<style id=\"-x-evo-style-a\" type=\"text/css\">a { cursor: text; }</style></head>"
-		"<body data-evo-plain-text=\"\" spellcheck=\"true\">"
-		"<p data-evo-paragraph=\"\" class=\"\" id=\"-x-evo-input-start\">aaa</p>"
-		"<div class=\"-x-evo-signature-wrapper\"><span class=\"-x-evo-signature\" id=\"autogenerated\"><pre>-- <br></pre>"
-		"<p data-evo-paragraph=\"\" class=\"\">user &lt;user@no.where&gt;</p>"
-		"</span></div></body></html>",
-		E_CONTENT_EDITOR_INSERT_REPLACE_ALL | E_CONTENT_EDITOR_INSERT_TEXT_HTML);
-
-	if (!test_utils_process_commands (fixture,
-		"mode:plain\n")) {
-		g_test_fail ();
-		return;
-	}
-
-	if (!test_utils_run_simple_test (fixture,
-		"",
-		HTML_PREFIX_PLAIN "<p style=\"width: 71ch;\">aaa</p><div><span><p style=\"width: 71ch;\">--&nbsp;</p>"
-		"<p style=\"width: 71ch;\"><br></p>"
-		"<p style=\"width: 71ch;\">user &lt;<a href=\"mailto:user@no.where\">user@no.where</a>&gt;</p>"
-		"</span></div>" HTML_SUFFIX,
-		"aaa\n"
-		"-- \n"
-		"user <user@no.where>"))
-		g_test_fail ();
-}
-
-static void
-test_bug_769913 (TestFixture *fixture)
-{
-	if (!test_utils_process_commands (fixture,
-		"mode:html\n")) {
-		g_test_fail ();
-		return;
-	}
-
-	if (!test_utils_run_simple_test (fixture,
-		"type:ab\n"
-		"seq:ltlD\n",
-		HTML_PREFIX_PLAIN "<p>ab</p>" HTML_SUFFIX,
-		"ab")) {
-		g_test_fail ();
-		return;
-	}
-
-	if (!test_utils_run_simple_test (fixture,
-		"seq:ttllDD\n",
-		HTML_PREFIX_PLAIN "<p>ab</p>" HTML_SUFFIX,
-		"ab")) {
-		g_test_fail ();
-		return;
-	}
-
-	if (!test_utils_run_simple_test (fixture,
-		"seq:ttlDlD\n",
-		HTML_PREFIX_PLAIN "<p>ab</p>" HTML_SUFFIX,
-		"ab")) {
-		g_test_fail ();
-		return;
-	}
-
-	if (!test_utils_run_simple_test (fixture,
-		"seq:tttlllDDD\n",
-		HTML_PREFIX_PLAIN "<p>ab</p>" HTML_SUFFIX,
-		"ab")) {
-		g_test_fail ();
-		return;
-	}
-
-	if (!test_utils_run_simple_test (fixture,
-		"seq:tttlDlDlD\n",
-		HTML_PREFIX_PLAIN "<p>ab</p>" HTML_SUFFIX,
-		"ab")) {
-		g_test_fail ();
-		return;
-	}
-
-	if (!test_utils_run_simple_test (fixture,
-		"seq:tb\n",
-		HTML_PREFIX_PLAIN "<p>ab</p>" HTML_SUFFIX,
-		"ab")) {
-		g_test_fail ();
-		return;
-	}
-
-	if (!test_utils_run_simple_test (fixture,
-		"seq:ttbb\n",
-		HTML_PREFIX_PLAIN "<p>ab</p>" HTML_SUFFIX,
-		"ab")) {
-		g_test_fail ();
-		return;
-	}
-
-	if (!test_utils_run_simple_test (fixture,
-		"seq:ttlbrb\n",
-		HTML_PREFIX_PLAIN "<p>ab</p>" HTML_SUFFIX,
-		"ab")) {
-		g_test_fail ();
-		return;
-	}
-
-	if (!test_utils_run_simple_test (fixture,
-		"seq:tttbbb\n",
-		HTML_PREFIX_PLAIN "<p>ab</p>" HTML_SUFFIX,
-		"ab")) {
-		g_test_fail ();
-		return;
-	}
-
-	if (!test_utils_run_simple_test (fixture,
-		"seq:tttllbrbrb\n",
-		HTML_PREFIX_PLAIN "<p>ab</p>" HTML_SUFFIX,
-		"ab")) {
-		g_test_fail ();
-		return;
-	}
-}
-
-static void
-test_bug_769955 (TestFixture *fixture)
-{
-	test_utils_set_clipboard_text ("http://www.example.com/this-is-a-very-long-link-which-should-not-be-wrapped-into-multiple-lines", FALSE);
-
-	/* Use paste action, pretty the same as Ctrl+V */
-
-	if (!test_utils_run_simple_test (fixture,
-		"mode:plain\n"
-		"action:paste\n"
-		"seq:nll\n"
-		"action:style-preformat\n",
-		HTML_PREFIX_PLAIN "<p style=\"width: 71ch;\"><pre>"
-		"<a href=\"http://www.example.com/this-is-a-very-long-link-which-should-not-be-wrapped-into-multiple-lines\">"
-		"http://www.example.com/this-is-a-very-long-link-which-should-not-be-wrapped-into-multiple-lines</a></pre></p>"
-		"<p style=\"width: 71ch;\"><br></p>" HTML_SUFFIX,
-		"http://www.example.com/this-is-a-very-long-link-which-should-not-be-wrapped-into-multiple-lines")) {
-		g_test_fail ();
-		return;
-	}
-
-	if (!test_utils_run_simple_test (fixture,
-		"seq:C\n"
-		"type:a\n"
-		"action:style-normal\n"
-		"seq:Dc\n"
-		"type:[1] \n"
-		"action:paste\n"
-		"action:style-preformat\n",
-		HTML_PREFIX_PLAIN "<pre>"
-		"[1] <a href=\"http://www.example.com/this-is-a-very-long-link-which-should-not-be-wrapped-into-multiple-lines\">"
-		"http://www.example.com/this-is-a-very-long-link-which-should-not-be-wrapped-into-multiple-lines</a></pre>" HTML_SUFFIX,
-		"[1] http://www.example.com/this-is-a-very-long-link-which-should-not-be-wrapped-into-multiple-lines")) {
-		g_test_fail ();
-		return;
-	}
-
-	if (!test_utils_run_simple_test (fixture,
-		"seq:C\n"
-		"type:a\n"
-		"action:style-normal\n"
-		"seq:Dc\n"
-		"type:[2] \n"
-		"action:paste\n"
-		"seq:h\n"
-		"action:style-preformat\n",
-		HTML_PREFIX_PLAIN "<pre>"
-		"[2] <a href=\"http://www.example.com/this-is-a-very-long-link-which-should-not-be-wrapped-into-multiple-lines\">"
-		"http://www.example.com/this-is-a-very-long-link-which-should-not-be-wrapped-into-multiple-lines</a></pre>" HTML_SUFFIX,
-		"[2] http://www.example.com/this-is-a-very-long-link-which-should-not-be-wrapped-into-multiple-lines")) {
-		g_test_fail ();
-		return;
-	}
-
-	if (!test_utils_run_simple_test (fixture,
-		"seq:C\n"
-		"type:a\n"
-		"action:style-normal\n"
-		"seq:Dc\n"
-		"type:[3] \n"
-		"action:paste\n"
-		"seq:Chc\n"
-		"action:style-preformat\n",
-		HTML_PREFIX_PLAIN "<pre>"
-		"[3] <a href=\"http://www.example.com/this-is-a-very-long-link-which-should-not-be-wrapped-into-multiple-lines\">"
-		"http://www.example.com/this-is-a-very-long-link-which-should-not-be-wrapped-into-multiple-lines</a></pre>" HTML_SUFFIX,
-		"[3] http://www.example.com/this-is-a-very-long-link-which-should-not-be-wrapped-into-multiple-lines")) {
-		g_test_fail ();
-		return;
-	}
-
-	if (!test_utils_run_simple_test (fixture,
-		"seq:C\n"
-		"type:a\n"
-		"action:style-normal\n"
-		"seq:Dc\n"
-		"type:[4] \n"
-		"action:paste\n"
-		"seq:l\n"
-		"action:style-preformat\n",
-		HTML_PREFIX_PLAIN "<pre>"
-		"[4] <a href=\"http://www.example.com/this-is-a-very-long-link-which-should-not-be-wrapped-into-multiple-lines\">"
-		"http://www.example.com/this-is-a-very-long-link-which-should-not-be-wrapped-into-multiple-lines</a></pre>" HTML_SUFFIX,
-		"[4] http://www.example.com/this-is-a-very-long-link-which-should-not-be-wrapped-into-multiple-lines")) {
-		g_test_fail ();
-		return;
-	}
-
-	/* Use Shift+Insert instead of paste action */
-
-	if (!test_utils_run_simple_test (fixture,
-		"seq:C\n"
-		"type:a\n"
-		"action:style-normal\n"
-		"seq:Dc\n"
-		"seq:Sis\n"
-		"seq:nll\n"
-		"action:style-preformat\n",
-		HTML_PREFIX_PLAIN "<p style=\"width: 71ch;\"><pre>"
-		"<a href=\"http://www.example.com/this-is-a-very-long-link-which-should-not-be-wrapped-into-multiple-lines\">"
-		"http://www.example.com/this-is-a-very-long-link-which-should-not-be-wrapped-into-multiple-lines</a></pre></p>"
-		"<p style=\"width: 71ch;\"><br></p>" HTML_SUFFIX,
-		"http://www.example.com/this-is-a-very-long-link-which-should-not-be-wrapped-into-multiple-lines")) {
-		g_test_fail ();
-		return;
-	}
-
-	if (!test_utils_run_simple_test (fixture,
-		"seq:C\n"
-		"type:a\n"
-		"action:style-normal\n"
-		"seq:Dc\n"
-		"type:[5] \n"
-		"seq:Sis\n"
-		"action:style-preformat\n",
-		HTML_PREFIX_PLAIN "<pre>"
-		"[5] <a href=\"http://www.example.com/this-is-a-very-long-link-which-should-not-be-wrapped-into-multiple-lines\">"
-		"http://www.example.com/this-is-a-very-long-link-which-should-not-be-wrapped-into-multiple-lines</a></pre>" HTML_SUFFIX,
-		"[5] http://www.example.com/this-is-a-very-long-link-which-should-not-be-wrapped-into-multiple-lines")) {
-		g_test_fail ();
-		return;
-	}
-
-	if (!test_utils_run_simple_test (fixture,
-		"seq:C\n"
-		"type:a\n"
-		"action:style-normal\n"
-		"seq:Dc\n"
-		"type:[6] \n"
-		"seq:Sis\n"
-		"seq:h\n"
-		"action:style-preformat\n",
-		HTML_PREFIX_PLAIN "<pre>"
-		"[6] <a href=\"http://www.example.com/this-is-a-very-long-link-which-should-not-be-wrapped-into-multiple-lines\">"
-		"http://www.example.com/this-is-a-very-long-link-which-should-not-be-wrapped-into-multiple-lines</a></pre>" HTML_SUFFIX,
-		"[6] http://www.example.com/this-is-a-very-long-link-which-should-not-be-wrapped-into-multiple-lines")) {
-		g_test_fail ();
-		return;
-	}
-
-	if (!test_utils_run_simple_test (fixture,
-		"seq:C\n"
-		"type:a\n"
-		"action:style-normal\n"
-		"seq:Dc\n"
-		"type:[7] \n"
-		"seq:Sis\n"
-		"seq:Chc\n"
-		"action:style-preformat\n",
-		HTML_PREFIX_PLAIN "<pre>"
-		"[7] <a href=\"http://www.example.com/this-is-a-very-long-link-which-should-not-be-wrapped-into-multiple-lines\">"
-		"http://www.example.com/this-is-a-very-long-link-which-should-not-be-wrapped-into-multiple-lines</a></pre>" HTML_SUFFIX,
-		"[7] http://www.example.com/this-is-a-very-long-link-which-should-not-be-wrapped-into-multiple-lines")) {
-		g_test_fail ();
-		return;
-	}
-
-	if (!test_utils_run_simple_test (fixture,
-		"seq:C\n"
-		"type:a\n"
-		"action:style-normal\n"
-		"seq:Dc\n"
-		"type:[8] \n"
-		"seq:Sis\n"
-		"seq:l\n"
-		"action:style-preformat\n",
-		HTML_PREFIX_PLAIN "<pre>"
-		"[8] <a href=\"http://www.example.com/this-is-a-very-long-link-which-should-not-be-wrapped-into-multiple-lines\">"
-		"http://www.example.com/this-is-a-very-long-link-which-should-not-be-wrapped-into-multiple-lines</a></pre>" HTML_SUFFIX,
-		"[8] http://www.example.com/this-is-a-very-long-link-which-should-not-be-wrapped-into-multiple-lines")) {
-		g_test_fail ();
-		return;
-	}
-}
-
-static void
-test_bug_770073 (TestFixture *fixture)
-{
-	if (!test_utils_process_commands (fixture,
-		"mode:plain\n")) {
-		g_test_fail ();
-		return;
-	}
-
-	test_utils_insert_content (fixture,
-		"<!-- text/html -->"
-		"<p><span>the 1st line text</span></p>"
-		"<br>"
-		"<p><span>the 3rd line text</span></p>"
-		"<span class=\"-x-evo-to-body\" data-credits=\"On Today, User wrote:\"></span><span class=\"-x-evo-cite-body\"></span>",
-		E_CONTENT_EDITOR_INSERT_REPLACE_ALL | E_CONTENT_EDITOR_INSERT_TEXT_HTML);
-
-	if (!test_utils_run_simple_test (fixture,
-		"seq:Chcddbb\n",
-		HTML_PREFIX_PLAIN "<p style=\"width: 71ch;\">On Today, User wrote:</p>"
-		"<blockquote type=\"cite\">"
-		"<p style=\"width: 71ch;\">&gt; the 1st line text</p>"
-		"<p style=\"width: 71ch;\">&gt; the 3rd line text</p>"
-		"</blockquote>" HTML_SUFFIX,
-		"On Today, User wrote:\n"
-		"> the 1st line text\n"
-		"> the 3rd line text")) {
-		g_test_fail ();
-		return;
-	}
-
-	if (!test_utils_process_commands (fixture,
-		"mode:html\n")) {
-		g_test_fail ();
-		return;
-	}
-
-	test_utils_insert_content (fixture,
-		"<!-- text/html -->"
-		"<p><span>the first line text</span></p>"
-		"<br>"
-		"<p><span>the third line text</span></p>"
-		"<span class=\"-x-evo-to-body\" data-credits=\"On Today, User wrote:\"></span><span class=\"-x-evo-cite-body\"></span>",
-		E_CONTENT_EDITOR_INSERT_REPLACE_ALL | E_CONTENT_EDITOR_INSERT_TEXT_HTML);
-
-	if (!test_utils_run_simple_test (fixture,
-		"seq:Chcddbb\n",
-		HTML_PREFIX "<p>On Today, User wrote:</p>"
-		"<blockquote id=\"-x-evo-main-cite\" type=\"cite\">"
-		"<p><span>the first line text</span></p>"
-		"<p><span>the third line text</span></p>"
-		"</blockquote>" HTML_SUFFIX,
-		"On Today, User wrote:\n"
-		"> the first line text\n"
-		"> the third line text"))
-		g_test_fail ();
-
-}
-
-static void
-test_bug_770074 (TestFixture *fixture)
-{
-	if (!test_utils_process_commands (fixture,
-		"mode:plain\n")) {
-		g_test_fail ();
-		return;
-	}
-
-	test_utils_insert_content (fixture,
-		"<!-- text/html -->"
-		"<p><span>the 1st line text</span></p>"
-		"<br>"
-		"<p><span>the 3rd line text</span></p>"
-		"<span class=\"-x-evo-to-body\" data-credits=\"On Today, User wrote:\"></span><span class=\"-x-evo-cite-body\"></span>",
-		E_CONTENT_EDITOR_INSERT_REPLACE_ALL | E_CONTENT_EDITOR_INSERT_TEXT_HTML);
-
-	if (!test_utils_run_simple_test (fixture,
-		"seq:Chcddbb\n"
-		"seq:n\n"
-		"undo:undo\n",
-		HTML_PREFIX_PLAIN "<p style=\"width: 71ch;\">On Today, User wrote:</p>"
-		"<blockquote type=\"cite\">"
-		"<p style=\"width: 71ch;\">&gt; the 1st line text</p>"
-		"<p style=\"width: 71ch;\">&gt; the 3rd line text</p>"
-		"</blockquote>" HTML_SUFFIX,
-		"On Today, User wrote:\n"
-		"> the 1st line text\n"
-		"> the 3rd line text"))
-		g_test_fail ();
-}
-
 gint
 main (gint argc,
       gchar *argv[])
@@ -3120,115 +2560,102 @@ main (gint argc,
 	modules = e_module_load_all_in_directory (EVOLUTION_MODULEDIR);
 	g_list_free_full (modules, (GDestroyNotify) g_type_module_unuse);
 
-	#define add_test(_name, _func)	\
-		g_test_add (_name, TestFixture, NULL, \
-			test_utils_fixture_set_up, (ETestFixtureFunc) _func, test_utils_fixture_tear_down)
+	test_utils_add_test ("/create/editor", test_create_editor);
+	test_utils_add_test ("/style/bold/selection", test_style_bold_selection);
+	test_utils_add_test ("/style/bold/typed", test_style_bold_typed);
+	test_utils_add_test ("/style/italic/selection", test_style_italic_selection);
+	test_utils_add_test ("/style/italic/typed", test_style_italic_typed);
+	test_utils_add_test ("/style/underline/selection", test_style_underline_selection);
+	test_utils_add_test ("/style/underline/typed", test_style_underline_typed);
+	test_utils_add_test ("/style/strikethrough/selection", test_style_strikethrough_selection);
+	test_utils_add_test ("/style/strikethrough/typed", test_style_strikethrough_typed);
+	test_utils_add_test ("/style/monospace/selection", test_style_monospace_selection);
+	test_utils_add_test ("/style/monospace/typed", test_style_monospace_typed);
+	test_utils_add_test ("/justify/selection", test_justify_selection);
+	test_utils_add_test ("/justify/typed", test_justify_typed);
+	test_utils_add_test ("/indent/selection", test_indent_selection);
+	test_utils_add_test ("/indent/typed", test_indent_typed);
+	test_utils_add_test ("/font/size/selection", test_font_size_selection);
+	test_utils_add_test ("/font/size/typed", test_font_size_typed);
+	test_utils_add_test ("/font/color/selection", test_font_color_selection);
+	test_utils_add_test ("/font/color/typed", test_font_color_typed);
+	test_utils_add_test ("/list/bullet/plain", test_list_bullet_plain);
+	test_utils_add_test ("/list/bullet/html", test_list_bullet_html);
+	test_utils_add_test ("/list/bullet/html/from-block", test_list_bullet_html_from_block);
+	test_utils_add_test ("/list/alpha/html", test_list_alpha_html);
+	test_utils_add_test ("/list/alpha/plain", test_list_alpha_plain);
+	test_utils_add_test ("/list/roman/html", test_list_roman_html);
+	test_utils_add_test ("/list/roman/plain", test_list_roman_plain);
+	test_utils_add_test ("/list/multi/html", test_list_multi_html);
+	test_utils_add_test ("/list/multi/plain", test_list_multi_plain);
+	test_utils_add_test ("/list/multi/change/html", test_list_multi_change_html);
+	test_utils_add_test ("/list/multi/change/plain", test_list_multi_change_plain);
+	test_utils_add_test ("/link/insert/dialog", test_link_insert_dialog);
+	test_utils_add_test ("/link/insert/dialog/selection", test_link_insert_dialog_selection);
+	test_utils_add_test ("/link/insert/dialog/remove-link", test_link_insert_dialog_remove_link);
+	test_utils_add_test ("/link/insert/typed", test_link_insert_typed);
+	test_utils_add_test ("/link/insert/typed/change-description", test_link_insert_typed_change_description);
+	test_utils_add_test ("/link/insert/typed/append", test_link_insert_typed_append);
+	test_utils_add_test ("/link/insert/typed/remove", test_link_insert_typed_remove);
+	test_utils_add_test ("/h-rule/insert", test_h_rule_insert);
+	test_utils_add_test ("/h-rule/insert-text-after", test_h_rule_insert_text_after);
+	test_utils_add_test ("/emoticon/insert/typed", test_emoticon_insert_typed);
+	test_utils_add_test ("/emoticon/insert/typed-dash", test_emoticon_insert_typed_dash);
+	test_utils_add_test ("/paragraph/normal/selection", test_paragraph_normal_selection);
+	test_utils_add_test ("/paragraph/normal/typed", test_paragraph_normal_typed);
+	test_utils_add_test ("/paragraph/preformatted/selection", test_paragraph_preformatted_selection);
+	test_utils_add_test ("/paragraph/preformatted/typed", test_paragraph_preformatted_typed);
+	test_utils_add_test ("/paragraph/address/selection", test_paragraph_address_selection);
+	test_utils_add_test ("/paragraph/address/typed", test_paragraph_address_typed);
+	test_utils_add_test ("/paragraph/header1/selection", test_paragraph_header1_selection);
+	test_utils_add_test ("/paragraph/header1/typed", test_paragraph_header1_typed);
+	test_utils_add_test ("/paragraph/header2/selection", test_paragraph_header2_selection);
+	test_utils_add_test ("/paragraph/header2/typed", test_paragraph_header2_typed);
+	test_utils_add_test ("/paragraph/header3/selection", test_paragraph_header3_selection);
+	test_utils_add_test ("/paragraph/header3/typed", test_paragraph_header3_typed);
+	test_utils_add_test ("/paragraph/header4/selection", test_paragraph_header4_selection);
+	test_utils_add_test ("/paragraph/header4/typed", test_paragraph_header4_typed);
+	test_utils_add_test ("/paragraph/header5/selection", test_paragraph_header5_selection);
+	test_utils_add_test ("/paragraph/header5/typed", test_paragraph_header5_typed);
+	test_utils_add_test ("/paragraph/header6/selection", test_paragraph_header6_selection);
+	test_utils_add_test ("/paragraph/header6/typed", test_paragraph_header6_typed);
+	test_utils_add_test ("/paragraph/wrap-lines", test_paragraph_wrap_lines);
+	test_utils_add_test ("/paste/singleline/html2html", test_paste_singleline_html2html);
+	test_utils_add_test ("/paste/singleline/html2plain", test_paste_singleline_html2plain);
+	test_utils_add_test ("/paste/singleline/plain2html", test_paste_singleline_plain2html);
+	test_utils_add_test ("/paste/singleline/plain2plain", test_paste_singleline_plain2plain);
+	test_utils_add_test ("/paste/multiline/html2html", test_paste_multiline_html2html);
+	test_utils_add_test ("/paste/multiline/html2plain", test_paste_multiline_html2plain);
+	test_utils_add_test ("/paste/multiline/div/html2html", test_paste_multiline_div_html2html);
+	test_utils_add_test ("/paste/multiline/div/html2plain", test_paste_multiline_div_html2plain);
+	test_utils_add_test ("/paste/multiline/p/html2html", test_paste_multiline_p_html2html);
+	test_utils_add_test ("/paste/multiline/p/html2plain", test_paste_multiline_p_html2plain);
+	test_utils_add_test ("/paste/multiline/plain2html", test_paste_multiline_plain2html);
+	test_utils_add_test ("/paste/multiline/plain2plain", test_paste_multiline_plain2plain);
+	test_utils_add_test ("/paste/quoted/singleline/html2html", test_paste_quoted_singleline_html2html);
+	test_utils_add_test ("/paste/quoted/singleline/html2plain", test_paste_quoted_singleline_html2plain);
+	test_utils_add_test ("/paste/quoted/singleline/plain2html", test_paste_quoted_singleline_plain2html);
+	test_utils_add_test ("/paste/quoted/singleline/plain2plain", test_paste_quoted_singleline_plain2plain);
+	test_utils_add_test ("/paste/quoted/multiline/html2html", test_paste_quoted_multiline_html2html);
+	test_utils_add_test ("/paste/quoted/multiline/html2plain", test_paste_quoted_multiline_html2plain);
+	test_utils_add_test ("/paste/quoted/multiline/plain2html", test_paste_quoted_multiline_plain2html);
+	test_utils_add_test ("/paste/quoted/multiline/plain2plain", test_paste_quoted_multiline_plain2plain);
+	test_utils_add_test ("/cite/html2plain", test_cite_html2plain);
+	test_utils_add_test ("/cite/shortline", test_cite_shortline);
+	test_utils_add_test ("/cite/longline", test_cite_longline);
+	test_utils_add_test ("/cite/reply/html", test_cite_reply_html);
+	test_utils_add_test ("/cite/reply/plain", test_cite_reply_plain);
+	test_utils_add_test ("/undo/text/typed", test_undo_text_typed);
+	test_utils_add_test ("/undo/text/forward-delete", test_undo_text_forward_delete);
+	test_utils_add_test ("/undo/text/backward-delete", test_undo_text_backward_delete);
+	test_utils_add_test ("/undo/text/cut", test_undo_text_cut);
+	test_utils_add_test ("/undo/style", test_undo_style);
+	test_utils_add_test ("/undo/justify", test_undo_justify);
+	test_utils_add_test ("/undo/indent", test_undo_indent);
+	test_utils_add_test ("/undo/link-paste/html", test_undo_link_paste_html);
+	test_utils_add_test ("/undo/link-paste/plain", test_undo_link_paste_plain);
 
-	add_test ("/create/editor", test_create_editor);
-	add_test ("/style/bold/selection", test_style_bold_selection);
-	add_test ("/style/bold/typed", test_style_bold_typed);
-	add_test ("/style/italic/selection", test_style_italic_selection);
-	add_test ("/style/italic/typed", test_style_italic_typed);
-	add_test ("/style/underline/selection", test_style_underline_selection);
-	add_test ("/style/underline/typed", test_style_underline_typed);
-	add_test ("/style/strikethrough/selection", test_style_strikethrough_selection);
-	add_test ("/style/strikethrough/typed", test_style_strikethrough_typed);
-	add_test ("/style/monospace/selection", test_style_monospace_selection);
-	add_test ("/style/monospace/typed", test_style_monospace_typed);
-	add_test ("/justify/selection", test_justify_selection);
-	add_test ("/justify/typed", test_justify_typed);
-	add_test ("/indent/selection", test_indent_selection);
-	add_test ("/indent/typed", test_indent_typed);
-	add_test ("/font/size/selection", test_font_size_selection);
-	add_test ("/font/size/typed", test_font_size_typed);
-	add_test ("/font/color/selection", test_font_color_selection);
-	add_test ("/font/color/typed", test_font_color_typed);
-	add_test ("/list/bullet/plain", test_list_bullet_plain);
-	add_test ("/list/bullet/html", test_list_bullet_html);
-	add_test ("/list/bullet/html/from-block", test_list_bullet_html_from_block);
-	add_test ("/list/alpha/html", test_list_alpha_html);
-	add_test ("/list/alpha/plain", test_list_alpha_plain);
-	add_test ("/list/roman/html", test_list_roman_html);
-	add_test ("/list/roman/plain", test_list_roman_plain);
-	add_test ("/list/multi/html", test_list_multi_html);
-	add_test ("/list/multi/plain", test_list_multi_plain);
-	add_test ("/list/multi/change/html", test_list_multi_change_html);
-	add_test ("/list/multi/change/plain", test_list_multi_change_plain);
-	add_test ("/link/insert/dialog", test_link_insert_dialog);
-	add_test ("/link/insert/dialog/selection", test_link_insert_dialog_selection);
-	add_test ("/link/insert/dialog/remove-link", test_link_insert_dialog_remove_link);
-	add_test ("/link/insert/typed", test_link_insert_typed);
-	add_test ("/link/insert/typed/change-description", test_link_insert_typed_change_description);
-	add_test ("/link/insert/typed/append", test_link_insert_typed_append);
-	add_test ("/link/insert/typed/remove", test_link_insert_typed_remove);
-	add_test ("/h-rule/insert", test_h_rule_insert);
-	add_test ("/h-rule/insert-text-after", test_h_rule_insert_text_after);
-	add_test ("/emoticon/insert/typed", test_emoticon_insert_typed);
-	add_test ("/emoticon/insert/typed-dash", test_emoticon_insert_typed_dash);
-	add_test ("/paragraph/normal/selection", test_paragraph_normal_selection);
-	add_test ("/paragraph/normal/typed", test_paragraph_normal_typed);
-	add_test ("/paragraph/preformatted/selection", test_paragraph_preformatted_selection);
-	add_test ("/paragraph/preformatted/typed", test_paragraph_preformatted_typed);
-	add_test ("/paragraph/address/selection", test_paragraph_address_selection);
-	add_test ("/paragraph/address/typed", test_paragraph_address_typed);
-	add_test ("/paragraph/header1/selection", test_paragraph_header1_selection);
-	add_test ("/paragraph/header1/typed", test_paragraph_header1_typed);
-	add_test ("/paragraph/header2/selection", test_paragraph_header2_selection);
-	add_test ("/paragraph/header2/typed", test_paragraph_header2_typed);
-	add_test ("/paragraph/header3/selection", test_paragraph_header3_selection);
-	add_test ("/paragraph/header3/typed", test_paragraph_header3_typed);
-	add_test ("/paragraph/header4/selection", test_paragraph_header4_selection);
-	add_test ("/paragraph/header4/typed", test_paragraph_header4_typed);
-	add_test ("/paragraph/header5/selection", test_paragraph_header5_selection);
-	add_test ("/paragraph/header5/typed", test_paragraph_header5_typed);
-	add_test ("/paragraph/header6/selection", test_paragraph_header6_selection);
-	add_test ("/paragraph/header6/typed", test_paragraph_header6_typed);
-	add_test ("/paragraph/wrap-lines", test_paragraph_wrap_lines);
-	add_test ("/paste/singleline/html2html", test_paste_singleline_html2html);
-	add_test ("/paste/singleline/html2plain", test_paste_singleline_html2plain);
-	add_test ("/paste/singleline/plain2html", test_paste_singleline_plain2html);
-	add_test ("/paste/singleline/plain2plain", test_paste_singleline_plain2plain);
-	add_test ("/paste/multiline/html2html", test_paste_multiline_html2html);
-	add_test ("/paste/multiline/html2plain", test_paste_multiline_html2plain);
-	add_test ("/paste/multiline/div/html2html", test_paste_multiline_div_html2html);
-	add_test ("/paste/multiline/div/html2plain", test_paste_multiline_div_html2plain);
-	add_test ("/paste/multiline/p/html2html", test_paste_multiline_p_html2html);
-	add_test ("/paste/multiline/p/html2plain", test_paste_multiline_p_html2plain);
-	add_test ("/paste/multiline/plain2html", test_paste_multiline_plain2html);
-	add_test ("/paste/multiline/plain2plain", test_paste_multiline_plain2plain);
-	add_test ("/paste/quoted/singleline/html2html", test_paste_quoted_singleline_html2html);
-	add_test ("/paste/quoted/singleline/html2plain", test_paste_quoted_singleline_html2plain);
-	add_test ("/paste/quoted/singleline/plain2html", test_paste_quoted_singleline_plain2html);
-	add_test ("/paste/quoted/singleline/plain2plain", test_paste_quoted_singleline_plain2plain);
-	add_test ("/paste/quoted/multiline/html2html", test_paste_quoted_multiline_html2html);
-	add_test ("/paste/quoted/multiline/html2plain", test_paste_quoted_multiline_html2plain);
-	add_test ("/paste/quoted/multiline/plain2html", test_paste_quoted_multiline_plain2html);
-	add_test ("/paste/quoted/multiline/plain2plain", test_paste_quoted_multiline_plain2plain);
-	add_test ("/cite/html2plain", test_cite_html2plain);
-	add_test ("/cite/shortline", test_cite_shortline);
-	add_test ("/cite/longline", test_cite_longline);
-	add_test ("/cite/reply/html", test_cite_reply_html);
-	add_test ("/cite/reply/plain", test_cite_reply_plain);
-	add_test ("/undo/text/typed", test_undo_text_typed);
-	add_test ("/undo/text/forward-delete", test_undo_text_forward_delete);
-	add_test ("/undo/text/backward-delete", test_undo_text_backward_delete);
-	add_test ("/undo/text/cut", test_undo_text_cut);
-	add_test ("/undo/style", test_undo_style);
-	add_test ("/undo/justify", test_undo_justify);
-	add_test ("/undo/indent", test_undo_indent);
-	add_test ("/undo/link-paste/html", test_undo_link_paste_html);
-	add_test ("/undo/link-paste/plain", test_undo_link_paste_plain);
-	add_test ("/bug/726548", test_bug_726548);
-	add_test ("/bug/750657", test_bug_750657);
-	add_test ("/bug/760989", test_bug_760989);
-	add_test ("/bug/767903", test_bug_767903);
-	add_test ("/bug/769708", test_bug_769708);
-	add_test ("/bug/769913", test_bug_769913);
-	add_test ("/bug/769955", test_bug_769955);
-	add_test ("/bug/770073", test_bug_770073);
-	add_test ("/bug/770074", test_bug_770074);
-
-	#undef add_test
+	test_add_html_editor_bug_tests ();
 
 	res = g_test_run ();
 
