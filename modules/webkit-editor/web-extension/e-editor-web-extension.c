@@ -28,6 +28,12 @@
 #include <webkit2/webkit-web-extension.h>
 #include <camel/camel.h>
 
+#define WEBKIT_DOM_USE_UNSTABLE_API
+#include <webkitdom/WebKitDOMDocumentUnstable.h>
+#include <webkitdom/WebKitDOMDOMSelection.h>
+#include <webkitdom/WebKitDOMDOMWindowUnstable.h>
+#undef WEBKIT_DOM_USE_UNSTABLE_API
+
 #include "web-extensions/e-dom-utils.h"
 
 #include "e-editor-page.h"
@@ -2423,6 +2429,37 @@ web_page_send_request_cb (WebKitWebPage *web_page,
 }
 
 static void
+web_page_document_loaded_cb (WebKitWebPage *web_page,
+			     gpointer user_data)
+{
+	WebKitDOMDocument *document;
+	WebKitDOMRange *range = NULL;
+	WebKitDOMDOMWindow *dom_window;
+	WebKitDOMDOMSelection *dom_selection;
+
+	g_return_if_fail (WEBKIT_IS_WEB_PAGE (web_page));
+
+	document = webkit_web_page_get_dom_document (web_page);
+	if (!document)
+		return;
+
+	dom_window = webkit_dom_document_get_default_view (document);
+	dom_selection = webkit_dom_dom_window_get_selection (dom_window);
+
+	/* Make sure there is a cursor located in the body after the document loads. */
+	if (!webkit_dom_dom_selection_get_anchor_node (dom_selection) &&
+	    !webkit_dom_dom_selection_get_focus_node (dom_selection)) {
+		range = webkit_dom_document_caret_range_from_point (document, 0, 0);
+		webkit_dom_dom_selection_remove_all_ranges (dom_selection);
+		webkit_dom_dom_selection_add_range (dom_selection, range);
+	}
+
+	g_clear_object (&range);
+	g_clear_object (&dom_selection);
+	g_clear_object (&dom_window);
+}
+
+static void
 web_page_created_cb (WebKitWebExtension *wk_extension,
                      WebKitWebPage *web_page,
                      EEditorWebExtension *extension)
@@ -2444,6 +2481,10 @@ web_page_created_cb (WebKitWebExtension *wk_extension,
 	g_signal_connect (
 		web_page, "send-request",
 		G_CALLBACK (web_page_send_request_cb), extension);
+
+	g_signal_connect (
+		web_page, "document-loaded",
+		G_CALLBACK (web_page_document_loaded_cb), NULL);
 }
 
 void
