@@ -2998,8 +2998,10 @@ test_bug_770073 (TestFixture *fixture)
 		"</blockquote>" HTML_SUFFIX,
 		"On Today, User wrote:\n"
 		"> the 1st line text\n"
-		"> the 3rd line text"))
+		"> the 3rd line text")) {
 		g_test_fail ();
+		return;
+	}
 
 	if (!test_utils_process_commands (fixture,
 		"mode:html\n")) {
@@ -3027,6 +3029,38 @@ test_bug_770073 (TestFixture *fixture)
 		"> the third line text"))
 		g_test_fail ();
 
+}
+
+static void
+test_bug_770074 (TestFixture *fixture)
+{
+	if (!test_utils_process_commands (fixture,
+		"mode:plain\n")) {
+		g_test_fail ();
+		return;
+	}
+
+	test_utils_insert_content (fixture,
+		"<!-- text/html -->"
+		"<p><span>the 1st line text</span></p>"
+		"<br>"
+		"<p><span>the 3rd line text</span></p>"
+		"<span class=\"-x-evo-to-body\" data-credits=\"On Today, User wrote:\"></span><span class=\"-x-evo-cite-body\"></span>",
+		E_CONTENT_EDITOR_INSERT_REPLACE_ALL | E_CONTENT_EDITOR_INSERT_TEXT_HTML);
+
+	if (!test_utils_run_simple_test (fixture,
+		"seq:Chcddbb\n"
+		"seq:n\n"
+		"undo:undo\n",
+		HTML_PREFIX_PLAIN "<p style=\"width: 71ch;\">On Today, User wrote:</p>"
+		"<blockquote type=\"cite\">"
+		"<p style=\"width: 71ch;\">&gt; the 1st line text</p>"
+		"<p style=\"width: 71ch;\">&gt; the 3rd line text</p>"
+		"</blockquote>" HTML_SUFFIX,
+		"On Today, User wrote:\n"
+		"> the 1st line text\n"
+		"> the 3rd line text"))
+		g_test_fail ();
 }
 
 gint
@@ -3192,6 +3226,7 @@ main (gint argc,
 	add_test ("/bug/769913", test_bug_769913);
 	add_test ("/bug/769955", test_bug_769955);
 	add_test ("/bug/770073", test_bug_770073);
+	add_test ("/bug/770074", test_bug_770074);
 
 	#undef add_test
 
