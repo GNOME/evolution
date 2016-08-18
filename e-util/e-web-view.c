@@ -656,18 +656,11 @@ style_updated_cb (EWebView *web_view)
 	GdkRGBA color;
 	gchar *color_value;
 	gchar *style;
-	GtkStateFlags state_flags;
 	GtkStyleContext *style_context;
-	gboolean backdrop;
 
-	state_flags = gtk_widget_get_state_flags (GTK_WIDGET (web_view));
 	style_context = gtk_widget_get_style_context (GTK_WIDGET (web_view));
-	backdrop = (state_flags & GTK_STATE_FLAG_BACKDROP) != 0;
 
-	if (gtk_style_context_lookup_color (
-			style_context,
-			backdrop ? "theme_unfocused_base_color" : "theme_base_color",
-			&color))
+	if (gtk_style_context_lookup_color (style_context, "theme_base_color", &color))
 		color_value = g_strdup_printf ("#%06x", e_rgba_to_value (&color));
 	else
 		color_value = g_strdup (E_UTILS_DEFAULT_THEME_BASE_COLOR);
@@ -683,10 +676,7 @@ style_updated_cb (EWebView *web_view)
 	g_free (color_value);
 	g_free (style);
 
-	if (gtk_style_context_lookup_color (
-			style_context,
-			backdrop ? "theme_unfocused_fg_color" : "theme_fg_color",
-			&color))
+	if (gtk_style_context_lookup_color (style_context, "theme_fg_color", &color))
 		color_value = g_strdup_printf ("#%06x", e_rgba_to_value (&color));
 	else
 		color_value = g_strdup (E_UTILS_DEFAULT_THEME_FG_COLOR);
