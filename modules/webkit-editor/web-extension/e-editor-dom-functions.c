@@ -4279,6 +4279,8 @@ e_editor_dom_move_quoted_block_level_up (EEditorPage *editor_page)
 		e_editor_dom_wrap_and_quote_element (editor_page, WEBKIT_DOM_ELEMENT (block));
 	}
 
+	remove_empty_blocks (document);
+
 	if (ev) {
 		e_editor_dom_selection_get_coordinates (editor_page,
 			&ev->after.start.x,
@@ -9116,11 +9118,7 @@ save_history_for_delete_or_backspace (EEditorPage *editor_page,
 		if (tmp_element)
 			remove_node (WEBKIT_DOM_NODE (tmp_element));
 
-		/* If any empty blockquote is presented, remove it. */
-		tmp_element = webkit_dom_document_query_selector (
-			document, "blockquote[type=cite]:empty", NULL);
-		if (tmp_element)
-			remove_node (WEBKIT_DOM_NODE (tmp_element));
+		remove_empty_blocks (document);
 
 		/* Selection starts in the beginning of blockquote. */
 		tmp_element = webkit_dom_document_get_element_by_id (
