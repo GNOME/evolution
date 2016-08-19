@@ -1814,7 +1814,7 @@ test_paste_quoted_multiline_plain2plain (TestFixture *fixture)
 		"<p style=\"width: 71ch;\">&gt; line 2</p>"
 		"<p style=\"width: 71ch;\">&gt; line 3</p></blockquote>"
 		"<p style=\"width: 71ch;\">text after</p>" HTML_SUFFIX,
-		"text before\n"
+		"text before \n"
 		"> line 1\n"
 		"> line 2\n"
 		"> line 3\n"
@@ -2000,8 +2000,8 @@ test_cite_longline (TestFixture *fixture)
 		HTML_PREFIX "<blockquote type=\"cite\">"
 		"<p>This is the first paragraph of a quoted text which has some long text to test. It has the second sentence as well.</p>"
 		"</blockquote>" HTML_SUFFIX,
-		"> This is the first paragraph of a quoted text which has some long\n"
-		"> text to test. It has the second sentence as well.\n")) {
+		"> This is the first paragraph of a quoted text which has some long text\n"
+		"> to test. It has the second sentence as well.")) {
 		g_test_fail ();
 		return;
 	}
@@ -2009,7 +2009,7 @@ test_cite_longline (TestFixture *fixture)
 	if (!test_utils_process_commands (fixture,
 		"seq:C\n"
 		"type:a\n"
-		"seq:cD\n")) {
+		"seq:cDb\n")) {
 		g_test_fail ();
 		return;
 	}
@@ -2025,8 +2025,8 @@ test_cite_longline (TestFixture *fixture)
 		HTML_PREFIX "<blockquote type=\"cite\">"
 		"<p>This is the first paragraph of a quoted text which has some long text to test. It has the second sentence as well.</p>"
 		"</blockquote>" HTML_SUFFIX,
-		"> This is the first paragraph of a quoted text which has some long\n"
-		"> text to test. It has the second sentence as well.\n")) {
+		"> This is the first paragraph of a quoted text which has some long text\n"
+		"> to test. It has the second sentence as well.")) {
 		g_test_fail ();
 		return;
 	}
@@ -2046,12 +2046,12 @@ test_cite_longline (TestFixture *fixture)
 		"<p>This is the second paragraph of a quoted text which has some long text to test. It has the second sentence as well.</p>"
 		"<p>This is the third paragraph of a quoted text which has some long text to test. It has the second sentence as well.</p>"
 		"</blockquote><br>after quote" HTML_SUFFIX,
-		"> This is the first paragraph of a quoted text which has some long\n"
+		"> This is the first paragraph of a quoted text which has some long text\n"
+		"> to test. It has the second sentence as well.\n"
+		"> This is the second paragraph of a quoted text which has some long\n"
 		"> text to test. It has the second sentence as well.\n"
-		"> This is the econd paragraph of a quoted text which has some long\n"
-		"> text to test. It has the second sentence as well.\n"
-		"> This is the third paragraph of a quoted text which has some long\n"
-		"> text to test. It has the second sentence as well.\n"
+		"> This is the third paragraph of a quoted text which has some long text\n"
+		"> to test. It has the second sentence as well.\n"
 		"\nafter quote")) {
 		g_test_fail ();
 		return;
@@ -2109,7 +2109,7 @@ test_cite_reply_plain (TestFixture *fixture)
 		"<blockquote type=\"cite\"><p style=\"width: 71ch;\">&gt; line 1</p>"
 		"<p style=\"width: 71ch;\">&gt; line 2</p>"
 		"<p style=\"width: 71ch;\">&gt; <br></p></blockquote>" HTML_SUFFIX,
-		"On Today, Use wrote:\n"
+		"On Today, User wrote:\n"
 		"> line 1\n"
 		"> line 2\n"
 		"> "))
