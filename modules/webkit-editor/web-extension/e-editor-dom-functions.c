@@ -5302,6 +5302,10 @@ parse_html_into_blocks (EEditorPage *editor_page,
 			} else {
 				WebKitDOMNode *child;
 
+				if (g_strcmp0 (prev_token, "<br>") == 0)
+					create_and_append_new_block (
+						editor_page, parent, block_template, "<br>");
+
 				child = webkit_dom_node_get_last_child (
 					WEBKIT_DOM_NODE (parent));
 				if (child) {
@@ -5979,6 +5983,44 @@ e_editor_dom_convert_content (EEditorPage *editor_page,
 	g_free (inner_html);
 }
 
+static void
+preserve_line_breaks_in_element (WebKitDOMDocument *document,
+                                 WebKitDOMElement *element,
+                                 const gchar *selector)
+{
+	WebKitDOMNodeList *list = NULL;
+	gint ii, length;
+
+	if (!(list = webkit_dom_element_query_selector_all (element, selector, NULL)))
+		return;
+
+	length = webkit_dom_node_list_get_length (list);
+	for (ii = 0; ii < length; ii++) {
+		gboolean insert = TRUE;
+		WebKitDOMNode *node, *next_sibling;
+
+		node = webkit_dom_node_list_item (list, ii);
+		next_sibling = webkit_dom_node_get_next_sibling (node);
+
+		if (!next_sibling)
+			insert = FALSE;
+
+		while (insert && next_sibling) {
+			if (!webkit_dom_node_has_child_nodes (next_sibling) &&
+			    !webkit_dom_node_get_next_sibling (next_sibling))
+				insert = FALSE;
+			next_sibling = webkit_dom_node_get_next_sibling (next_sibling);
+		}
+
+		if (insert && !WEBKIT_DOM_IS_HTML_BR_ELEMENT (webkit_dom_node_get_last_child (node)))
+			webkit_dom_node_append_child (
+				node,
+				WEBKIT_DOM_NODE (webkit_dom_document_create_element (document, "br", NULL)),
+				NULL);
+	}
+	g_clear_object (&list);
+}
+
 void
 e_editor_dom_convert_and_insert_html_into_selection (EEditorPage *editor_page,
 						     const gchar *html,
@@ -6052,6 +6094,21 @@ e_editor_dom_convert_and_insert_html_into_selection (EEditorPage *editor_page,
 		} else {
 			webkit_dom_element_set_inner_html (element, html, NULL);
 		}
+
+		webkit_dom_element_set_attribute (
+			WEBKIT_DOM_ELEMENT (element),
+			"data-evo-html-to-plain-text-wrapper",
+			"",
+			NULL);
+
+		/* Add the missing BR elements on the end of DIV and P elements to
+		 * preserve the line breaks. But we need to do that just in case that
+		 * there is another element that contains text. */
+		preserve_line_breaks_in_element (document, WEBKIT_DOM_ELEMENT (element), "p, div, address");
+		preserve_line_breaks_in_element (
+			document,
+			WEBKIT_DOM_ELEMENT (element),
+			"[data-evo-html-to-plain-text-wrapper] > :matches(h1, h2, h3, h4, h5, h6)");
 
 		inner_text = webkit_dom_html_element_get_inner_text (
 			WEBKIT_DOM_HTML_ELEMENT (element));
@@ -6897,44 +6954,6 @@ remove_evolution_attributes (WebKitDOMElement *element)
 	webkit_dom_element_remove_attribute (element, "data-plain-text-style");
 	webkit_dom_element_remove_attribute (element, "data-style");
 	webkit_dom_element_remove_attribute (element, "spellcheck");
-}
-
-static void
-preserve_line_breaks_in_element (WebKitDOMDocument *document,
-                                 WebKitDOMElement *element,
-                                 const gchar *selector)
-{
-	WebKitDOMNodeList *list = NULL;
-	gint ii, length;
-
-	if (!(list = webkit_dom_element_query_selector_all (element, selector, NULL)))
-		return;
-
-	length = webkit_dom_node_list_get_length (list);
-	for (ii = 0; ii < length; ii++) {
-		gboolean insert = TRUE;
-		WebKitDOMNode *node, *next_sibling;
-
-		node = webkit_dom_node_list_item (list, ii);
-		next_sibling = webkit_dom_node_get_next_sibling (node);
-
-		if (!next_sibling)
-			insert = FALSE;
-
-		while (insert && next_sibling) {
-			if (!webkit_dom_node_has_child_nodes (next_sibling) &&
-			    !webkit_dom_node_get_next_sibling (next_sibling))
-				insert = FALSE;
-			next_sibling = webkit_dom_node_get_next_sibling (next_sibling);
-		}
-
-		if (insert && !WEBKIT_DOM_IS_HTML_BR_ELEMENT (webkit_dom_node_get_last_child (node)))
-			webkit_dom_node_append_child (
-				node,
-				WEBKIT_DOM_NODE (webkit_dom_document_create_element (document, "br", NULL)),
-				NULL);
-	}
-	g_clear_object (&list);
 }
 
 static void
@@ -7937,7 +7956,7 @@ e_editor_dom_process_content_to_plain_text_for_exporting (EEditorPage *editor_pa
 	if (e_editor_page_get_html_mode (editor_page)) {
 		if (e_editor_dom_check_if_conversion_needed (editor_page)) {
 			WebKitDOMElement *wrapper;
-			WebKitDOMNode *child;
+			WebKitDOMNode *child, *last_child;
 
 			wrapper = webkit_dom_document_create_element (document, "div", NULL);
 			webkit_dom_element_set_attribute (
@@ -7996,6 +8015,16 @@ e_editor_dom_process_content_to_plain_text_for_exporting (EEditorPage *editor_pa
 					NULL);
 			}
 			g_clear_object (&list);
+
+			/* BR on the end of the last element would cause an extra
+			 * new line, remove it if there are some nodes before it. */
+			last_child = webkit_dom_node_get_last_child (WEBKIT_DOM_NODE (wrapper));
+			while (webkit_dom_node_get_last_child (last_child))
+				last_child = webkit_dom_node_get_last_child (last_child);
+
+			if (WEBKIT_DOM_IS_HTML_BR_ELEMENT (last_child) &&
+			    webkit_dom_node_get_previous_sibling (last_child))
+				remove_node (last_child);
 
 			convert_element_from_html_to_plain_text (
 				editor_page, wrapper, &wrap, &quote);
