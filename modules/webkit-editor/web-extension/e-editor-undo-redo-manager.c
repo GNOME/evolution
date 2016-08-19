@@ -1888,7 +1888,7 @@ undo_input (EEditorUndoRedoManager *manager,
 	WebKitDOMDocument *document;
 	WebKitDOMDOMWindow *dom_window = NULL;
 	WebKitDOMDOMSelection *dom_selection = NULL;
-	WebKitDOMNode *node, *tmp_node;
+	WebKitDOMNode *node, *anchor_node, *tmp_node;
 	gboolean remove_anchor;
 
 	document = e_editor_page_get_document (editor_page);
@@ -1916,8 +1916,8 @@ undo_input (EEditorUndoRedoManager *manager,
 
 	/* If we are undoing the text that was appended to the link we have to
 	 * remove the link and make just the plain text from it. */
-	node = webkit_dom_dom_selection_get_anchor_node (dom_selection);
-	node = webkit_dom_node_get_parent_node (node);
+	anchor_node = webkit_dom_dom_selection_get_anchor_node (dom_selection);
+	node = webkit_dom_node_get_parent_node (anchor_node);
 	remove_anchor = WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (node);
 	if (remove_anchor) {
 		gchar *text_content;
@@ -1928,6 +1928,14 @@ undo_input (EEditorUndoRedoManager *manager,
 		remove_anchor =
 			g_utf8_strlen (text_content, -1) ==
 			webkit_dom_dom_selection_get_anchor_offset (dom_selection);
+		g_free (text_content);
+	} else if (WEBKIT_DOM_IS_TEXT (anchor_node)) {
+		gchar *text_content;
+
+		text_content = webkit_dom_node_get_text_content (anchor_node);
+		if (g_strcmp0 (text_content, UNICODE_ZERO_WIDTH_SPACE) == 0)
+			webkit_dom_dom_selection_modify (dom_selection, "extend", "left", "character");
+
 		g_free (text_content);
 	}
 

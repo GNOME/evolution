@@ -3231,6 +3231,123 @@ body_scroll_event_cb (WebKitDOMElement *element,
 	e_editor_page_set_spell_check_on_scroll_event_source_id (editor_page, id);
 }
 
+static void
+remove_zero_width_spaces_on_body_input (EEditorPage *editor_page,
+                                        WebKitDOMNode *node)
+{
+	gboolean html_mode;
+
+	html_mode = e_editor_page_get_html_mode (editor_page);
+	/* After toggling monospaced format, we are using UNICODE_ZERO_WIDTH_SPACE
+	 * to move caret into right space. When this callback is called it is not
+	 * necessary anymore so remove it */
+	if (html_mode) {
+		WebKitDOMElement *parent = webkit_dom_node_get_parent_element (node);
+
+		if (parent) {
+			WebKitDOMNode *prev_sibling;
+
+			prev_sibling = webkit_dom_node_get_previous_sibling (
+				WEBKIT_DOM_NODE (parent));
+
+			if (prev_sibling && WEBKIT_DOM_IS_TEXT (prev_sibling)) {
+				gchar *text = webkit_dom_node_get_text_content (
+					prev_sibling);
+
+				if (g_strcmp0 (text, UNICODE_ZERO_WIDTH_SPACE) == 0)
+					remove_node (prev_sibling);
+
+				g_free (text);
+			}
+
+		}
+	}
+
+	/* If text before caret includes UNICODE_ZERO_WIDTH_SPACE character, remove it */
+	if (WEBKIT_DOM_IS_TEXT (node)) {
+		gchar *text = webkit_dom_character_data_get_data (WEBKIT_DOM_CHARACTER_DATA (node));
+		glong length = webkit_dom_character_data_get_length (WEBKIT_DOM_CHARACTER_DATA (node));
+		WebKitDOMNode *parent;
+
+		/* We have to preserve empty paragraphs with just UNICODE_ZERO_WIDTH_SPACE
+		 * character as when we will remove it it will collapse */
+		if (length > 1) {
+			if (g_str_has_prefix (text, UNICODE_ZERO_WIDTH_SPACE))
+				webkit_dom_character_data_replace_data (
+					WEBKIT_DOM_CHARACTER_DATA (node), 0, 1, "", NULL);
+			else if (g_str_has_suffix (text, UNICODE_ZERO_WIDTH_SPACE))
+				webkit_dom_character_data_replace_data (
+					WEBKIT_DOM_CHARACTER_DATA (node), length - 1, 1, "", NULL);
+		}
+		g_free (text);
+
+		parent = webkit_dom_node_get_parent_node (node);
+		if (WEBKIT_DOM_IS_HTML_PARAGRAPH_ELEMENT (parent) &&
+		    !webkit_dom_element_has_attribute (WEBKIT_DOM_ELEMENT (parent), "data-evo-paragraph")) {
+			if (html_mode)
+				webkit_dom_element_set_attribute (
+					WEBKIT_DOM_ELEMENT (parent),
+					"data-evo-paragraph",
+					"",
+					NULL);
+			else
+				e_editor_dom_set_paragraph_style (
+					editor_page, WEBKIT_DOM_ELEMENT (parent), -1, 0, NULL);
+		}
+
+		/* When new smiley is added we have to use UNICODE_HIDDEN_SPACE to set the
+		 * caret position to right place. It is removed when user starts typing. But
+		 * when the user will press left arrow he will move the caret into
+		 * smiley wrapper. If he will start to write there we have to move the written
+		 * text out of the wrapper and move caret to right place */
+		if (WEBKIT_DOM_IS_ELEMENT (parent) &&
+		    element_has_class (WEBKIT_DOM_ELEMENT (parent), "-x-evo-smiley-text")) {
+			gchar *text;
+			WebKitDOMCharacterData *data;
+			WebKitDOMText *text_node;
+			WebKitDOMDocument *document;
+
+			document = e_editor_page_get_document (editor_page);
+
+			/* Split out the newly written character to its own text node, */
+			data = WEBKIT_DOM_CHARACTER_DATA (node);
+			parent = webkit_dom_node_get_parent_node (parent);
+			text = webkit_dom_character_data_substring_data (
+				data,
+				webkit_dom_character_data_get_length (data) - 1,
+				1,
+				NULL);
+			webkit_dom_character_data_delete_data (
+				data,
+				webkit_dom_character_data_get_length (data) - 1,
+				1,
+				NULL);
+			text_node = webkit_dom_document_create_text_node (document, text);
+			g_free (text);
+
+			webkit_dom_node_insert_before (
+				webkit_dom_node_get_parent_node (parent),
+				WEBKIT_DOM_NODE (
+					dom_create_selection_marker (document, FALSE)),
+				webkit_dom_node_get_next_sibling (parent),
+				NULL);
+			webkit_dom_node_insert_before (
+				webkit_dom_node_get_parent_node (parent),
+				WEBKIT_DOM_NODE (
+					dom_create_selection_marker (document, TRUE)),
+				webkit_dom_node_get_next_sibling (parent),
+				NULL);
+			/* Move the text node outside of smiley. */
+			webkit_dom_node_insert_before (
+				webkit_dom_node_get_parent_node (parent),
+				WEBKIT_DOM_NODE (text_node),
+				webkit_dom_node_get_next_sibling (parent),
+				NULL);
+			e_editor_dom_selection_restore (editor_page);
+		}
+	}
+}
+
 void
 e_editor_dom_body_input_event_process (EEditorPage *editor_page,
 				       WebKitDOMEvent *event)
@@ -3246,6 +3363,7 @@ e_editor_dom_body_input_event_process (EEditorPage *editor_page,
 
 	document = e_editor_page_get_document (editor_page);
 	range = e_editor_dom_get_current_range (editor_page);
+	node = webkit_dom_range_get_end_container (range, NULL);
 
 	manager = e_editor_page_get_undo_redo_manager (editor_page);
 
@@ -3255,6 +3373,7 @@ e_editor_dom_body_input_event_process (EEditorPage *editor_page,
 	if (e_editor_undo_redo_manager_is_operation_in_progress (manager)) {
 		e_editor_undo_redo_manager_set_operation_in_progress (manager, FALSE);
 		e_editor_page_set_dont_save_history_in_body_input (editor_page, FALSE);
+		remove_zero_width_spaces_on_body_input (editor_page, node);
 		do_spell_check = TRUE;
 		goto out;
 	}
@@ -3343,113 +3462,7 @@ e_editor_dom_body_input_event_process (EEditorPage *editor_page,
 		}
 	}
 
-	node = webkit_dom_range_get_end_container (range, NULL);
-
-	/* After toggling monospaced format, we are using UNICODE_ZERO_WIDTH_SPACE
-	 * to move caret into right space. When this callback is called it is not
-	 * necessary anymore so remove it */
-	if (html_mode) {
-		WebKitDOMElement *parent = webkit_dom_node_get_parent_element (node);
-
-		if (parent) {
-			WebKitDOMNode *prev_sibling;
-
-			prev_sibling = webkit_dom_node_get_previous_sibling (
-				WEBKIT_DOM_NODE (parent));
-
-			if (prev_sibling && WEBKIT_DOM_IS_TEXT (prev_sibling)) {
-				gchar *text = webkit_dom_node_get_text_content (
-					prev_sibling);
-
-				if (g_strcmp0 (text, UNICODE_ZERO_WIDTH_SPACE) == 0)
-					remove_node (prev_sibling);
-
-				g_free (text);
-			}
-
-		}
-	}
-
-	/* If text before caret includes UNICODE_ZERO_WIDTH_SPACE character, remove it */
-	if (WEBKIT_DOM_IS_TEXT (node)) {
-		gchar *text = webkit_dom_character_data_get_data (WEBKIT_DOM_CHARACTER_DATA (node));
-		glong length = webkit_dom_character_data_get_length (WEBKIT_DOM_CHARACTER_DATA (node));
-		WebKitDOMNode *parent;
-
-		/* We have to preserve empty paragraphs with just UNICODE_ZERO_WIDTH_SPACE
-		 * character as when we will remove it it will collapse */
-		if (length > 1) {
-			if (g_str_has_prefix (text, UNICODE_ZERO_WIDTH_SPACE))
-				webkit_dom_character_data_replace_data (
-					WEBKIT_DOM_CHARACTER_DATA (node), 0, 1, "", NULL);
-			else if (g_str_has_suffix (text, UNICODE_ZERO_WIDTH_SPACE))
-				webkit_dom_character_data_replace_data (
-					WEBKIT_DOM_CHARACTER_DATA (node), length - 1, 1, "", NULL);
-		}
-		g_free (text);
-
-		parent = webkit_dom_node_get_parent_node (node);
-		if (WEBKIT_DOM_IS_HTML_PARAGRAPH_ELEMENT (parent) &&
-		    !webkit_dom_element_has_attribute (WEBKIT_DOM_ELEMENT (parent), "data-evo-paragraph")) {
-			if (html_mode)
-				webkit_dom_element_set_attribute (
-					WEBKIT_DOM_ELEMENT (parent),
-					"data-evo-paragraph",
-					"",
-					NULL);
-			else
-				e_editor_dom_set_paragraph_style (
-					editor_page, WEBKIT_DOM_ELEMENT (parent), -1, 0, NULL);
-		}
-
-		/* When new smiley is added we have to use UNICODE_HIDDEN_SPACE to set the
-		 * caret position to right place. It is removed when user starts typing. But
-		 * when the user will press left arrow he will move the caret into
-		 * smiley wrapper. If he will start to write there we have to move the written
-		 * text out of the wrapper and move caret to right place */
-		if (WEBKIT_DOM_IS_ELEMENT (parent) &&
-		    element_has_class (WEBKIT_DOM_ELEMENT (parent), "-x-evo-smiley-text")) {
-			gchar *text;
-			WebKitDOMCharacterData *data;
-			WebKitDOMText *text_node;
-
-			/* Split out the newly written character to its own text node, */
-			data = WEBKIT_DOM_CHARACTER_DATA (node);
-			parent = webkit_dom_node_get_parent_node (parent);
-			text = webkit_dom_character_data_substring_data (
-				data,
-				webkit_dom_character_data_get_length (data) - 1,
-				1,
-				NULL);
-			webkit_dom_character_data_delete_data (
-				data,
-				webkit_dom_character_data_get_length (data) - 1,
-				1,
-				NULL);
-			text_node = webkit_dom_document_create_text_node (document, text);
-			g_free (text);
-
-			webkit_dom_node_insert_before (
-				webkit_dom_node_get_parent_node (parent),
-				WEBKIT_DOM_NODE (
-					dom_create_selection_marker (document, FALSE)),
-				webkit_dom_node_get_next_sibling (parent),
-				NULL);
-			webkit_dom_node_insert_before (
-				webkit_dom_node_get_parent_node (parent),
-				WEBKIT_DOM_NODE (
-					dom_create_selection_marker (document, TRUE)),
-				webkit_dom_node_get_next_sibling (parent),
-				NULL);
-			/* Move the text node outside of smiley. */
-			webkit_dom_node_insert_before (
-				webkit_dom_node_get_parent_node (parent),
-				WEBKIT_DOM_NODE (text_node),
-				webkit_dom_node_get_next_sibling (parent),
-				NULL);
-			e_editor_dom_selection_restore (editor_page);
-		}
-	}
+	remove_zero_width_spaces_on_body_input (editor_page, node);
 
 	/* Writing into quoted content */
 	if (html_mode) {
