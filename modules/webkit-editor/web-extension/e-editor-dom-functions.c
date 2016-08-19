@@ -7514,6 +7514,17 @@ process_node_to_html_for_exporting (EEditorPage *editor_page,
 		webkit_dom_element_remove_attribute (WEBKIT_DOM_ELEMENT (node), "class");
 	}
 	g_clear_object (&list);
+
+	list = webkit_dom_element_query_selector_all (
+		WEBKIT_DOM_ELEMENT (source), "#-x-evo-main-cite", NULL);
+	length = webkit_dom_node_list_get_length (list);
+	for (ii = 0; ii < length; ii++) {
+		WebKitDOMNode *node;
+
+		node = webkit_dom_node_list_item (list, ii);
+		webkit_dom_element_remove_attribute (WEBKIT_DOM_ELEMENT (node), "id");
+	}
+	g_clear_object (&list);
 }
 
 static void
