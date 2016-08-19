@@ -9801,7 +9801,7 @@ return_pressed_after_h_rule (EEditorPage *editor_page)
 		hr = webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (selection_marker));
 		hr = webkit_dom_node_get_next_sibling (hr);
 		node = webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (selection_marker));
-		if (node && !WEBKIT_DOM_IS_HTML_BR_ELEMENT (node) &&
+		if (!node || !WEBKIT_DOM_IS_HTML_BR_ELEMENT (node) || !hr ||
 		    !WEBKIT_DOM_IS_HTML_HR_ELEMENT (hr)) {
 			e_editor_dom_selection_restore (editor_page);
 			return FALSE;
