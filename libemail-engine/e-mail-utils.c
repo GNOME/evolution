@@ -760,3 +760,55 @@ em_utils_expand_groups (CamelInternetAddress *addresses)
 		}
 	}
 }
+
+void
+em_utils_get_real_folder_and_message_uid (CamelFolder *folder,
+					  const gchar *uid,
+					  CamelFolder **out_real_folder,
+					  gchar **folder_uri,
+					  gchar **message_uid)
+{
+	g_return_if_fail (folder != NULL);
+	g_return_if_fail (uid != NULL);
+
+	if (out_real_folder)
+		*out_real_folder = NULL;
+
+	if (CAMEL_IS_VEE_FOLDER (folder)) {
+		CamelMessageInfo *mi;
+
+		mi = camel_folder_get_message_info (folder, uid);
+		if (mi) {
+			CamelFolder *real_folder;
+			gchar *real_uid = NULL;
+
+			real_folder = camel_vee_folder_get_location (
+				CAMEL_VEE_FOLDER (folder),
+				(CamelVeeMessageInfo *) mi,
+				&real_uid);
+
+			if (real_folder) {
+				if (folder_uri)
+					*folder_uri = e_mail_folder_uri_from_folder (real_folder);
+				if (message_uid)
+					*message_uid = real_uid;
+				else
+					g_free (real_uid);
+
+				camel_message_info_unref (mi);
+
+				if (out_real_folder)
+					*out_real_folder = g_object_ref (real_folder);
+
+				return;
+			}
+
+			camel_message_info_unref (mi);
+		}
+	}
+
+	if (folder_uri)
+		*folder_uri = e_mail_folder_uri_from_folder (folder);
+	if (message_uid)
+		*message_uid = g_strdup (uid);
+}

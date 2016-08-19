@@ -1414,26 +1414,34 @@ e_mail_folder_remove_attachments_sync (CamelFolder *folder,
 
 	for (ii = 0; success && ii < message_uids->len; ii++) {
 		CamelMimeMessage *message;
-		const gchar *uid;
+		CamelFolder *real_folder = NULL, *use_folder;
+		gchar *real_message_uid = NULL;
+		const gchar *uid, *use_message_uid;
 		gint percent;
 
 		uid = g_ptr_array_index (message_uids, ii);
 
-		message = camel_folder_get_message_sync (
-			folder, uid, cancellable, error);
+		em_utils_get_real_folder_and_message_uid (folder, uid, &real_folder, NULL, &real_message_uid);
+
+		use_folder = real_folder ? real_folder : folder;
+		use_message_uid = real_message_uid ? real_message_uid : uid;
+		message = camel_folder_get_message_sync (use_folder, use_message_uid, cancellable, error);
 
 		if (message == NULL) {
+			g_clear_object (&real_folder);
+			g_free (real_message_uid);
 			success = FALSE;
 			break;
 		}
 
-		success = mail_folder_strip_message (
-			folder, message, uid, cancellable, error);
+		success = mail_folder_strip_message (use_folder, message, use_message_uid, cancellable, error);
 
 		percent = ((ii + 1) * 100) / message_uids->len;
 		camel_operation_progress (cancellable, percent);
 
-		g_object_unref (message);
+		g_clear_object (&real_folder);
+		g_clear_object (&message);
+		g_free (real_message_uid);
 	}
 
 	camel_operation_pop_message (cancellable);
