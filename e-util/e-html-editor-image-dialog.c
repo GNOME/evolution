@@ -22,12 +22,13 @@
 #include <config.h>
 #endif
 
-#include "e-html-editor-image-dialog.h"
-
 #include <stdlib.h>
 #include <glib/gi18n-lib.h>
 
 #include "e-image-chooser-dialog.h"
+#include "e-misc-utils.h"
+
+#include "e-html-editor-image-dialog.h"
 
 #define E_HTML_EDITOR_IMAGE_DIALOG_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -343,11 +344,9 @@ html_editor_image_dialog_set_url (EHTMLEditorImageDialog *dialog)
 static void
 html_editor_image_dialog_test_url (EHTMLEditorImageDialog *dialog)
 {
-	gtk_show_uri (
-		gtk_window_get_screen (GTK_WINDOW (dialog)),
-		gtk_entry_get_text (GTK_ENTRY (dialog->priv->url_edit)),
-		GDK_CURRENT_TIME,
-		NULL);
+	e_show_uri (
+		GTK_WINDOW (dialog),
+		gtk_entry_get_text (GTK_ENTRY (dialog->priv->url_edit)));
 }
 
 static void

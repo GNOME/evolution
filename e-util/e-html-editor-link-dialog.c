@@ -22,9 +22,11 @@
 #include <config.h>
 #endif
 
-#include "e-html-editor-link-dialog.h"
-
 #include <glib/gi18n-lib.h>
+
+#include "e-misc-utils.h"
+
+#include "e-html-editor-link-dialog.h"
 
 #define E_HTML_EDITOR_LINK_DIALOG_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -49,11 +51,8 @@ struct _EHTMLEditorLinkDialogPrivate {
 static void
 html_editor_link_dialog_test_link (EHTMLEditorLinkDialog *dialog)
 {
-	gtk_show_uri (
-		gtk_window_get_screen (GTK_WINDOW (dialog)),
-		gtk_entry_get_text (GTK_ENTRY (dialog->priv->url_edit)),
-		GDK_CURRENT_TIME,
-		NULL);
+	e_show_uri (GTK_WINDOW (dialog),
+		gtk_entry_get_text (GTK_ENTRY (dialog->priv->url_edit)));
 }
 
 static void

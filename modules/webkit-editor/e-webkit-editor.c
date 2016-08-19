@@ -127,6 +127,8 @@ struct _EWebKitEditorPrivate {
 	gchar *replace_with;
 	gulong found_text_handler_id;
 	gulong failed_to_find_text_handler_id;
+
+	gchar *last_hover_uri;
 };
 
 static const GdkRGBA black = { 0, 0, 0, 1 };
@@ -5266,6 +5268,9 @@ webkit_editor_finalize (GObject *object)
 		priv->font_color = NULL;
 	}
 
+	g_free (priv->last_hover_uri);
+	priv->last_hover_uri = NULL;
+
 	g_clear_object (&priv->spell_checker);
 
 	g_free (priv->font_name);
@@ -5853,20 +5858,13 @@ webkit_editor_mouse_target_changed_cb (EWebKitEditor *wk_editor,
                                        guint modifiers,
                                        gpointer user_data)
 {
-	/* Ctrl + Left Click on link opens it. */
-	if (webkit_hit_test_result_context_is_link (hit_test_result) &&
-	    (modifiers & GDK_CONTROL_MASK)) {
-		GdkScreen *screen;
-		const gchar *uri;
-		GtkWidget *toplevel;
+	g_return_if_fail (E_IS_WEBKIT_EDITOR (wk_editor));
 
-		toplevel = gtk_widget_get_toplevel (GTK_WIDGET (wk_editor));
-		screen = gtk_window_get_screen (GTK_WINDOW (toplevel));
+	g_free (wk_editor->priv->last_hover_uri);
+	wk_editor->priv->last_hover_uri = NULL;
 
-		uri = webkit_hit_test_result_get_link_uri (hit_test_result);
-
-		gtk_show_uri (screen, uri, GDK_CURRENT_TIME, NULL);
-	}
+	if (webkit_hit_test_result_context_is_link (hit_test_result))
+		wk_editor->priv->last_hover_uri = g_strdup (webkit_hit_test_result_get_link_uri (hit_test_result));
 }
 
 static gboolean
@@ -5912,11 +5910,29 @@ static gboolean
 webkit_editor_button_press_event (GtkWidget *widget,
                                   GdkEventButton *event)
 {
+	EWebKitEditor *wk_editor;
+
+	g_return_val_if_fail (E_IS_WEBKIT_EDITOR (widget), FALSE);
+
+	wk_editor = E_WEBKIT_EDITOR (widget);
+
 	if (event->button == 2) {
 		if (!e_content_editor_emit_paste_primary_clipboard (E_CONTENT_EDITOR (widget)))
 			webkit_editor_paste_primary (E_CONTENT_EDITOR( (widget)));
 
 		return TRUE;
+	}
+
+	/* Ctrl + Left Click on link opens it. */
+	if (event->button == 1 && wk_editor->priv->last_hover_uri &&
+	    (event->state & GDK_CONTROL_MASK) != 0 &&
+	    (event->state & GDK_SHIFT_MASK) == 0 &&
+	    (event->state & GDK_MOD1_MASK) == 0) {
+		GtkWidget *toplevel;
+
+		toplevel = gtk_widget_get_toplevel (GTK_WIDGET (wk_editor));
+
+		e_show_uri (GTK_WINDOW (toplevel), wk_editor->priv->last_hover_uri);
 	}
 
 	/* Chain up to parent's button_press_event() method. */
