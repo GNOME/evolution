@@ -12129,7 +12129,7 @@ e_editor_dom_selection_indent (EEditorPage *editor_page)
 
 				final_width = word_wrap_length - SPACES_PER_INDENTATION * (level + 1);
 				if (final_width < MINIMAL_PARAGRAPH_WIDTH &&
-				!e_editor_page_get_html_mode (editor_page))
+				    !e_editor_page_get_html_mode (editor_page))
 					goto next;
 			}
 
@@ -15373,7 +15373,6 @@ e_editor_dom_selection_is_bold (EEditorPage *editor_page)
 	g_return_val_if_fail (E_IS_EDITOR_PAGE (editor_page), FALSE);
 
 	is_bold = e_editor_page_get_bold (editor_page);
-
 	is_bold = dom_selection_is_font_format (
 		editor_page, (IsRightFormatNodeFunc) is_bold_element, &is_bold);
 
