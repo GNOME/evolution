@@ -3465,7 +3465,7 @@ e_editor_dom_body_input_event_process (EEditorPage *editor_page,
 	remove_zero_width_spaces_on_body_input (editor_page, node);
 
 	/* Writing into quoted content */
-	if (html_mode) {
+	if (!html_mode) {
 		gint citation_level;
 		WebKitDOMElement *selection_start_marker, *selection_end_marker;
 		WebKitDOMNode *node, *parent;
