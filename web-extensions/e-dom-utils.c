@@ -1883,7 +1883,7 @@ get_parent_block_element (WebKitDOMNode *node)
 	WebKitDOMElement *parent = webkit_dom_node_get_parent_element (node);
 
 	if (WEBKIT_DOM_IS_HTML_BODY_ELEMENT (parent))
-		return WEBKIT_DOM_ELEMENT (node);
+		return WEBKIT_DOM_IS_ELEMENT (node) ? WEBKIT_DOM_ELEMENT (node) : NULL;
 
 	while (parent &&
 	       !WEBKIT_DOM_IS_HTML_PARAGRAPH_ELEMENT (parent) &&
