@@ -4156,18 +4156,21 @@ e_editor_dom_move_quoted_block_level_up (EEditorPage *editor_page)
 		g_free (inner_html);
 
 		if (paragraph) {
-			webkit_dom_node_insert_before (
-				WEBKIT_DOM_NODE (paragraph),
-				WEBKIT_DOM_NODE (selection_start_marker),
-				webkit_dom_node_get_first_child (
-					WEBKIT_DOM_NODE (paragraph)),
-				NULL);
-			webkit_dom_node_insert_before (
-				WEBKIT_DOM_NODE (paragraph),
-				WEBKIT_DOM_NODE (selection_end_marker),
-				webkit_dom_node_get_first_child (
-					WEBKIT_DOM_NODE (paragraph)),
-				NULL);
+			if (!(webkit_dom_element_query_selector (paragraph, "#-x-evo-selection-start-marker", NULL)))
+				webkit_dom_node_insert_before (
+					WEBKIT_DOM_NODE (paragraph),
+					WEBKIT_DOM_NODE (selection_start_marker),
+					webkit_dom_node_get_first_child (
+						WEBKIT_DOM_NODE (paragraph)),
+					NULL);
+
+			if (!(webkit_dom_element_query_selector (paragraph, "#-x-evo-selection-end-marker", NULL)))
+				webkit_dom_node_insert_before (
+					WEBKIT_DOM_NODE (paragraph),
+					WEBKIT_DOM_NODE (selection_end_marker),
+					webkit_dom_node_get_first_child (
+						WEBKIT_DOM_NODE (paragraph)),
+					NULL);
 
 			e_editor_dom_remove_quoting_from_element (paragraph);
 			e_editor_dom_remove_wrapping_from_element (paragraph);
