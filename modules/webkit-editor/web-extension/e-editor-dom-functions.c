@@ -7919,7 +7919,7 @@ e_editor_dom_process_content_to_plain_text_for_exporting (EEditorPage *editor_pa
 	WebKitDOMNodeList *list = NULL;
 	WebKitDOMDOMWindow *dom_window = NULL;
 	WebKitDOMDOMSelection *dom_selection = NULL;
-	gboolean wrap = FALSE, quote = FALSE, remove_last_new_line = FALSE;
+	gboolean wrap = TRUE, quote = FALSE, remove_last_new_line = FALSE;
 	gint length, ii;
 	GString *plain_text;
 
@@ -8058,17 +8058,14 @@ e_editor_dom_process_content_to_plain_text_for_exporting (EEditorPage *editor_pa
 	webkit_dom_node_normalize (source);
 
 	if (quote) {
-		if (wrap)
-			quote_plain_text_elements_after_wrapping_in_element (editor_page, WEBKIT_DOM_ELEMENT (source));
-		else
-			quote_plain_text_recursive (document, source, source, 0);
+		quote_plain_text_elements_after_wrapping_in_element (editor_page, WEBKIT_DOM_ELEMENT (source));
 	} else if (e_editor_page_get_html_mode (editor_page)) {
 		WebKitDOMElement *citation;
 
 		citation = webkit_dom_element_query_selector (
 			WEBKIT_DOM_ELEMENT (source), "blockquote[type=cite]", NULL);
 		if (citation)
-			quote_plain_text_recursive (document, source, source, 0);
+			quote_plain_text_elements_after_wrapping_in_element (editor_page, WEBKIT_DOM_ELEMENT (source));
 	}
 
 	process_node_to_plain_text_for_exporting (editor_page, source, plain_text);
