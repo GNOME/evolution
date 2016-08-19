@@ -3107,7 +3107,8 @@ save_history_for_input (EEditorPage *editor_page)
 		parent_start = webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (element_start));
 		parent_end = webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (element_end));
 
-		while (parent_start && parent_end && !webkit_dom_node_is_same_node (parent_start, parent_end)) {
+		while (parent_start && parent_end && !webkit_dom_node_is_same_node (parent_start, parent_end) &&
+		       !WEBKIT_DOM_IS_HTML_BODY_ELEMENT (parent_start) && !WEBKIT_DOM_IS_HTML_BODY_ELEMENT (parent_end)) {
 			webkit_dom_node_insert_before (
 				WEBKIT_DOM_NODE (fragment),
 				webkit_dom_node_clone_node_with_error (parent_start, FALSE, NULL),
