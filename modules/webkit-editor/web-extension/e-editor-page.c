@@ -425,8 +425,10 @@ e_editor_page_set_bold (EEditorPage *editor_page,
 {
 	g_return_if_fail (E_IS_EDITOR_PAGE (editor_page));
 
-	if (e_editor_page_set_style_flag (editor_page, E_CONTENT_EDITOR_STYLE_IS_BOLD, value))
+	if (e_editor_page_get_bold (editor_page) != value) {
 		e_editor_dom_selection_set_bold (editor_page, value);
+	        e_editor_page_set_style_flag (editor_page, E_CONTENT_EDITOR_STYLE_IS_BOLD, value);
+	}
 }
 
 gboolean
@@ -443,8 +445,10 @@ e_editor_page_set_italic (EEditorPage *editor_page,
 {
 	g_return_if_fail (E_IS_EDITOR_PAGE (editor_page));
 
-	if (e_editor_page_set_style_flag (editor_page, E_CONTENT_EDITOR_STYLE_IS_ITALIC, value))
+	if (e_editor_page_get_italic (editor_page) != value) {
 		e_editor_dom_selection_set_italic (editor_page, value);
+		e_editor_page_set_style_flag (editor_page, E_CONTENT_EDITOR_STYLE_IS_ITALIC, value);
+	}
 }
 
 gboolean
@@ -461,8 +465,10 @@ e_editor_page_set_underline (EEditorPage *editor_page,
 {
 	g_return_if_fail (E_IS_EDITOR_PAGE (editor_page));
 
-	if (e_editor_page_set_style_flag (editor_page, E_CONTENT_EDITOR_STYLE_IS_UNDERLINE, value))
+	if (e_editor_page_get_underline (editor_page) != value) {
 		e_editor_dom_selection_set_underline (editor_page, value);
+		e_editor_page_set_style_flag (editor_page, E_CONTENT_EDITOR_STYLE_IS_UNDERLINE, value);
+	}
 }
 
 gboolean
@@ -479,8 +485,10 @@ e_editor_page_set_monospace (EEditorPage *editor_page,
 {
 	g_return_if_fail (E_IS_EDITOR_PAGE (editor_page));
 
-	if (e_editor_page_set_style_flag (editor_page, E_CONTENT_EDITOR_STYLE_IS_MONOSPACE, value))
+	if (e_editor_page_get_monospace (editor_page) != value) {
 		e_editor_dom_selection_set_monospace (editor_page, value);
+		e_editor_page_set_style_flag (editor_page, E_CONTENT_EDITOR_STYLE_IS_MONOSPACE, value);
+	}
 }
 
 gboolean
@@ -497,8 +505,10 @@ e_editor_page_set_strikethrough (EEditorPage *editor_page,
 {
 	g_return_if_fail (E_IS_EDITOR_PAGE (editor_page));
 
-	if (e_editor_page_set_style_flag (editor_page, E_CONTENT_EDITOR_STYLE_IS_STRIKETHROUGH, value))
+	if (e_editor_page_get_strikethrough (editor_page) != value) {
 		e_editor_dom_selection_set_strikethrough (editor_page, value);
+		e_editor_page_set_style_flag (editor_page, E_CONTENT_EDITOR_STYLE_IS_STRIKETHROUGH, value);
+	}
 }
 
 guint
