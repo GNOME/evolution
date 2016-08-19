@@ -6449,7 +6449,6 @@ e_editor_dom_convert_and_insert_html_into_selection (EEditorPage *editor_page,
 
 	e_editor_dom_selection_restore (editor_page);
  out:
-	e_editor_dom_check_magic_links (editor_page, FALSE);
 	e_editor_dom_force_spell_check_in_viewport (editor_page);
 	e_editor_dom_scroll_to_caret (editor_page);
 
