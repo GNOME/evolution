@@ -2257,13 +2257,15 @@ e_editor_undo_redo_manager_insert_history_event (EEditorUndoRedoManager *manager
 	remove_forward_redo_history_events_if_needed (manager);
 
 	if (manager->priv->history_size >= HISTORY_SIZE_LIMIT) {
+		EEditorHistoryEvent *prev_event;
+		GList *item;
+
 		remove_history_event (manager, g_list_last (manager->priv->history)->prev);
-		/* FIXME WK2 - what if g_list_last (manager->priv->history) returns NULL? */
-		while (((EEditorHistoryEvent *) (g_list_last (manager->priv->history)->prev))->type == HISTORY_AND) {
+		while ((item = g_list_last (manager->priv->history)) && (item = item->prev) &&
+		       (prev_event = item->data) && prev_event->type == HISTORY_AND) {
 			remove_history_event (manager, g_list_last (manager->priv->history)->prev);
 			remove_history_event (manager, g_list_last (manager->priv->history)->prev);
 		}
-
 	}
 
 	manager->priv->history = g_list_prepend (manager->priv->history, event);
@@ -2493,21 +2495,19 @@ e_editor_undo_redo_manager_undo (EEditorUndoRedoManager *manager)
 			return;
 	}
 
-	/* FIXME WK2 - history->next can be NULL! */
-	event = history->next->data;
-	if (event->type == HISTORY_AND) {
-		manager->priv->history = history->next->next;
-		e_editor_undo_redo_manager_undo (manager);
-		g_object_unref (editor_page);
-		return;
+	if (history->next) {
+		event = history->next->data;
+		if (event->type == HISTORY_AND) {
+			manager->priv->history = history->next->next;
+			e_editor_undo_redo_manager_undo (manager);
+			g_object_unref (editor_page);
+			return;
+		}
+
+		manager->priv->history = manager->priv->history->next;
 	}
 
-	if (history->next)
-		manager->priv->history = manager->priv->history->next;
-
 	d (print_undo_events (manager));
-/* FIXME WK2
-	html_editor_view_user_changed_contents_cb (view);*/
 
 	manager->priv->operation_in_progress = FALSE;
 
@@ -2640,8 +2640,7 @@ e_editor_undo_redo_manager_redo (EEditorUndoRedoManager *manager)
 			return;
 	}
 
-	/* FIXME WK2 - what if history->prev is NULL? */
-	if (history->prev->prev) {
+	if (history->prev && history->prev->prev) {
 		event = history->prev->prev->data;
 		if (event->type == HISTORY_AND) {
 			manager->priv->history = manager->priv->history->prev->prev;
@@ -2654,8 +2653,6 @@ e_editor_undo_redo_manager_redo (EEditorUndoRedoManager *manager)
 	manager->priv->history = manager->priv->history->prev;
 
 	d (print_redo_events (manager));
-/* FIXME WK2
-	html_editor_view_user_changed_contents_cb (view);*/
 
 	manager->priv->operation_in_progress = FALSE;
 
