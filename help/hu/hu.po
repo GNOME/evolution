@@ -3,17 +3,17 @@
 # This file is distributed under the same license as the evolution help.
 #
 # Bence Lukács <lukacs.bence1 at gmail dot com>, 2011.
-# Gabor Kelemen <kelemeng at gnome dot hu>, 2011, 2012, 2013, 2014, 2015.
+# Gabor Kelemen <kelemeng at gnome dot hu>, 2011, 2012, 2013, 2014, 2015, 2016.
 # Nagy Zoltán <dzodzie at gmail dot com>, 2011.
 # Balázs Úr <urbalazs at gmail dot com>, 2014.
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution_help master\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2015-08-18 04:34+0000\n"
-"PO-Revision-Date: 2015-08-19 08:20+0200\n"
-"Last-Translator: Gabor Kelemen <kelemeng at gnome dot hu>\n"
-"Language-Team: Hungarian <openscope at gmail dot com>\n"
+"POT-Creation-Date: 2016-05-19 05:06+0000\n"
+"PO-Revision-Date: 2016-08-20 11:36+0200\n"
+"Last-Translator: Gabor Kelemen <kelemeng at ubuntu dot com>\n"
+"Language-Team: Hungarian <openscope at googlegroups dot com>\n"
 "Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -238,9 +238,8 @@ msgstr ""
 "Tegye a következőket egy ilyen naptár felvételéhez az <app>Evolutionbe</app>:"
 
 #. (itstool) path: item/p
-#: C/calendar-caldav.page:32 C/calendar-google.page:34
-#: C/calendar-local.page:27 C/calendar-weather.page:29
-#: C/calendar-webdav.page:28
+#: C/calendar-caldav.page:32 C/calendar-google.page:34 C/calendar-local.page:27
+#: C/calendar-weather.page:29 C/calendar-webdav.page:28
 msgid ""
 "Click <guiseq><gui>File</gui><gui>New</gui><gui>Calendar</gui></guiseq>."
 msgstr ""
@@ -253,19 +252,18 @@ msgid "Select the type <gui>CalDAV</gui>."
 msgstr "Válassza a <gui>CalDAV</gui> típust."
 
 #. (itstool) path: item/p
-#: C/calendar-caldav.page:39 C/calendar-google.page:40
-#: C/calendar-local.page:34 C/calendar-weather.page:36
-#: C/calendar-webdav.page:35 C/contacts-google.page:35 C/contacts-ldap.page:48
-#: C/contacts-local.page:34 C/contacts-using-contact-lists.page:48
-#: C/tasks-caldav.page:26 C/tasks-local.page:26 C/tasks-webdav.page:28
+#: C/calendar-caldav.page:39 C/calendar-google.page:40 C/calendar-local.page:34
+#: C/calendar-weather.page:36 C/calendar-webdav.page:35
+#: C/contacts-google.page:35 C/contacts-ldap.page:48 C/contacts-local.page:34
+#: C/contacts-using-contact-lists.page:48 C/tasks-caldav.page:26
+#: C/tasks-local.page:26 C/tasks-webdav.page:28
 msgid "Enter a name that you prefer."
 msgstr "Írjon be egy nevet."
 
 #. (itstool) path: item/p
-#: C/calendar-caldav.page:42 C/calendar-google.page:43
-#: C/calendar-local.page:37 C/calendar-weather.page:39
-#: C/calendar-webdav.page:38 C/tasks-caldav.page:27 C/tasks-local.page:27
-#: C/tasks-webdav.page:29
+#: C/calendar-caldav.page:42 C/calendar-google.page:43 C/calendar-local.page:37
+#: C/calendar-weather.page:39 C/calendar-webdav.page:38 C/tasks-caldav.page:27
+#: C/tasks-local.page:27 C/tasks-webdav.page:29
 msgid "Optionally choose a color that you prefer."
 msgstr "Kiválaszthat egy Ön által kedvelt színt is."
 
@@ -289,8 +287,10 @@ msgstr "Adja meg a címet az <gui>URL</gui> mezőben."
 #: C/calendar-webdav.page:48 C/contacts-google.page:45
 #: C/mail-sending-options-smtp.page:38 C/tasks-caldav.page:30
 #: C/tasks-webdav.page:32
+#| msgid ""
+#| "Choose <gui>Use secure connection</gui> if you want to connect securely."
 msgid ""
-"Choose <gui>Use secure connection</gui> if you want to connect securely."
+"Choose <gui>Use a secure connection</gui> if you want to connect securely."
 msgstr ""
 "Válassza a <gui>Biztonságos kapcsolat használata</gui> lehetőséget, "
 "amennyiben biztonságosan szeretne kapcsolódni."
@@ -301,18 +301,16 @@ msgid "Enter your username and your email address."
 msgstr "Írja be a felhasználói nevét és az e-mail címét."
 
 #. (itstool) path: item/p
-#: C/calendar-caldav.page:59 C/calendar-google.page:55
-#: C/calendar-local.page:46 C/calendar-weather.page:56
-#: C/calendar-webdav.page:55 C/contacts-google.page:49 C/contacts-ldap.page:58
-#: C/contacts-local.page:37 C/tasks-caldav.page:32 C/tasks-local.page:28
-#: C/tasks-webdav.page:34
+#: C/calendar-caldav.page:59 C/calendar-google.page:55 C/calendar-local.page:46
+#: C/calendar-weather.page:56 C/calendar-webdav.page:55
+#: C/contacts-google.page:49 C/contacts-ldap.page:58 C/contacts-local.page:37
+#: C/tasks-caldav.page:32 C/tasks-local.page:28 C/tasks-webdav.page:34
 msgid "Click <gui style=\"button\">Apply</gui>."
 msgstr "Kattintson az <gui style=\"button\">Alkalmaz</gui> gombra."
 
 #. (itstool) path: page/p
-#: C/calendar-caldav.page:63 C/calendar-google.page:59
-#: C/calendar-local.page:50 C/calendar-weather.page:60
-#: C/calendar-webdav.page:59
+#: C/calendar-caldav.page:63 C/calendar-google.page:59 C/calendar-local.page:50
+#: C/calendar-weather.page:60 C/calendar-webdav.page:59
 msgid ""
 "The calendar will be added to the list of calendars in <app>Evolution</app>."
 msgstr "A naptár hozzáadásra kerül az <app>Evolution</app> naptárlistájához."
@@ -339,16 +337,23 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/calendar-classifications.page:31
+#| msgid ""
+#| "To set a classification for an appointment or a task, click "
+#| "<guiseq><gui>Options</gui><gui>Classifications</gui></guiseq> and select "
+#| "a classification in the editor. <gui>Public</gui> is the default "
+#| "category, and a public appointment can be viewed by anyone on the "
+#| "calendar-sharing network. <gui>Private</gui> denotes one level of "
+#| "security, and <gui>Confidential</gui> an even higher level."
 msgid ""
 "To set a classification for an appointment or a task, click "
-"<guiseq><gui>Options</gui><gui>Classifications</gui></guiseq> and select a "
+"<guiseq><gui>Options</gui><gui>Classification</gui></guiseq> and select a "
 "classification in the editor. <gui>Public</gui> is the default category, and "
 "a public appointment can be viewed by anyone on the calendar-sharing "
 "network. <gui>Private</gui> denotes one level of security, and "
 "<gui>Confidential</gui> an even higher level."
 msgstr ""
 "Értekezlet vagy feladat besorolásának megadásához kattintson a "
-"<guiseq><gui>Beállítások</gui><gui>Besorolások</gui></guiseq> menüpontra, és "
+"<guiseq><gui>Beállítások</gui><gui>Besorolás</gui></guiseq> menüpontra, és "
 "a szerkesztőben válasszon egy besorolást. Az alapértelmezett kategória a "
 "<gui>Nyilvános</gui>, ebben az esetben egy nyilvános értekezletet bárki "
 "láthat a naptármegosztó hálózaton. A <gui>Személyes</gui> egy biztonságosabb "
@@ -504,10 +509,15 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/calendar-free-busy.page:94
+#| msgid ""
+#| "In corporate environments you can publish Calendar and Free/Busy "
+#| "information to an Exchange or Groupwise server. Note that you must use "
+#| "the top-level Exchange calendar if you want others to be able to access "
+#| "your Free / Busy information when inviting you to a meeting."
 msgid ""
 "In corporate environments you can publish Calendar and Free/Busy information "
 "to an Exchange or Groupwise server. Note that you must use the top-level "
-"Exchange calendar if you want others to be able to access your Free / Busy "
+"Exchange calendar if you want others to be able to access your Free/Busy "
 "information when inviting you to a meeting."
 msgstr ""
 "Vállalati környezetekben közzéteheti naptár- és időbeosztás-információit egy "
@@ -977,8 +987,8 @@ msgstr "Válassza ki a résztvevőket, akikre át szeretné ruházni a találkoz
 
 #. (itstool) path: item/p
 #: C/calendar-meetings-delegating.page:41 C/contacts-usage-add-contact.page:43
-#: C/contacts-usage-edit-contact.page:34
-#: C/contacts-using-contact-lists.page:69 C/mail-attachments-sending.page:32
+#: C/contacts-usage-edit-contact.page:34 C/contacts-using-contact-lists.page:69
+#: C/mail-attachments-sending.page:32
 #: C/mail-composer-custom-header-lines.page:45
 #: C/mail-encryption-gpg-set-up.page:35
 #: C/mail-encryption-gpg-signing-encrypting.page:40
@@ -1105,13 +1115,21 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/calendar-meetings-sending-invitation.page:33
+#| msgid ""
+#| "If you do not need to collect attendance information when you're "
+#| "scheduling an event, and would rather just announce the event, right-"
+#| "click the meeting and select <gui>Forward as iCalendar</gui>. This opens "
+#| "a new email message with the event notification attached as an "
+#| "announcement. Recipients can add the event to their calendars with one "
+#| "click, but it will not automatically send you email about whether they "
+#| "plan to attend."
 msgid ""
 "If you do not need to collect attendance information when you're scheduling "
 "an event, and would rather just announce the event, right-click the meeting "
-"and select <gui>Forward as iCalendar</gui>. This opens a new email message "
-"with the event notification attached as an announcement. Recipients can add "
-"the event to their calendars with one click, but it will not automatically "
-"send you email about whether they plan to attend."
+"and select <gui>Forward as iCalendar...</gui>. This opens a new email "
+"message with the event notification attached as an announcement. Recipients "
+"can add the event to their calendars with one click, but it will not "
+"automatically send you email about whether they plan to attend."
 msgstr ""
 "Ha nincs szüksége a részvételi visszajelzésre az esemény tervezésekor, és "
 "inkább csak bejelenti az eseményt, akkor kattintson jobb gombbal a "
@@ -1353,8 +1371,7 @@ msgstr "Naptári elemek keresése"
 
 #. (itstool) path: section/title
 #: C/calendar-searching.page:33 C/contacts-searching.page:43
-#: C/mail-searching.page:39 C/memos-searching.page:39
-#: C/tasks-searching.page:39
+#: C/mail-searching.page:39 C/memos-searching.page:39 C/tasks-searching.page:39
 msgid "Quick Search"
 msgstr "Gyors keresés"
 
@@ -1382,15 +1399,13 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/calendar-searching.page:47 C/contacts-searching.page:55
-#: C/mail-searching.page:43 C/memos-searching.page:44
-#: C/tasks-searching.page:44
+#: C/mail-searching.page:43 C/memos-searching.page:44 C/tasks-searching.page:44
 msgid "Select the search condition from the list."
 msgstr "Válassza ki a keresési feltételt a listából."
 
 #. (itstool) path: item/p
 #: C/calendar-searching.page:50 C/contacts-searching.page:58
-#: C/mail-searching.page:49 C/memos-searching.page:45
-#: C/tasks-searching.page:45
+#: C/mail-searching.page:49 C/memos-searching.page:45 C/tasks-searching.page:45
 msgid "Enter the text you want to search for and press <key>Enter</key>."
 msgstr ""
 "Adja meg a keresendő szöveget, és nyomja meg az <key>Enter</key> billentyűt."
@@ -1398,6 +1413,8 @@ msgstr ""
 #. (itstool) path: item/p
 #: C/calendar-searching.page:53 C/calendar-searching.page:67
 #: C/contacts-searching.page:62 C/contacts-searching.page:76
+#: C/mail-searching.page:50 C/memos-searching.page:46 C/memos-searching.page:52
+#: C/tasks-searching.page:46 C/tasks-searching.page:52
 msgid "<app>Evolution</app> displays the search results."
 msgstr "Az <app>Evolution</app> megjeleníti a találatokat."
 
@@ -1434,8 +1451,7 @@ msgstr ""
 
 #. (itstool) path: section/p
 #: C/calendar-searching.page:76 C/contacts-searching.page:80
-#: C/mail-searching.page:54 C/memos-searching.page:54
-#: C/tasks-searching.page:54
+#: C/mail-searching.page:54 C/memos-searching.page:54 C/tasks-searching.page:54
 msgid ""
 "If you want to set several search conditions, you should use an Advanced "
 "search, which is described below."
@@ -2129,15 +2145,20 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/contacts-ldap.page:137
+#| msgid ""
+#| "You can also mark the network folder for offline usage. To mark the "
+#| "folder, right-click the folder, click Properties and select Copy Folder "
+#| "Content Locally for Offline Operation."
 msgid ""
 "You can also mark the network folder for offline usage. To mark the folder, "
-"right-click the folder, click Properties and select Copy Folder Content "
-"Locally for Offline Operation."
+"right-click the folder, click <gui>Properties</gui> and select <gui>Copy "
+"folder content locally for offline operation</gui>."
 msgstr ""
 "A hálózati mappát megjelölheti kapcsolat nélküli használatra is. A "
 "megjelöléshez kattintson a jobb egérgombbal a mappára, válassza a "
-"Tulajdonságok menüpontot, és jelölje be az „A mappa tartalmáról helyi "
-"másolat készítése kapcsolat nélküli munkához” jelölőnégyzetet."
+"<gui>Tulajdonságok</gui> menüpontot, és jelölje be <gui>A mappa tartalmáról "
+"helyi "
+"másolat készítése kapcsolat nélküli munkához</gui> jelölőnégyzetet."
 
 #. (itstool) path: item/p
 #: C/contacts-ldap.page:142
@@ -2718,8 +2739,9 @@ msgstr ""
 
 #. (itstool) path: info/desc
 #: C/data-storage.page:5
-msgid "Where does Evolution store my data on the harddisk?"
-msgstr "Hol tárolja az Evolution az adataimat a merevlemezen?"
+#| msgid "Where does Evolution store my data on the harddisk?"
+msgid "Where does <app>Evolution</app> store my data on the harddisk?"
+msgstr "Hol tárolja az <app>Evolution</app> az adataimat a merevlemezen?"
 
 #. (itstool) path: page/title
 #: C/data-storage.page:20
@@ -2735,12 +2757,17 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/data-storage.page:26
+#| msgid ""
+#| "Evolution 3.6 and later stores its data according to the <link href="
+#| "\"http://www.freedesktop.org/wiki/Specifications/basedir-spec\">XDG Base "
+#| "Directory Specification</link>. By default this means:"
 msgid ""
-"Evolution 3.6 and later stores its data according to the <link href=\"http://"
-"www.freedesktop.org/wiki/Specifications/basedir-spec\">XDG Base Directory "
-"Specification</link>. By default this means:"
+"<app>Evolution</app> 3.6 and later stores its data according to the <link "
+"href=\"http://www.freedesktop.org/wiki/Specifications/basedir-spec\">XDG "
+"Base Directory Specification</link>. By default this means:"
 msgstr ""
-"Az Evolution 3.6 vagy újabb verziói az adatokat az <link href=\"http://www."
+"Az <app>Evolution</app> 3.6 vagy újabb verziói az adatokat az <link "
+"href=\"http://www."
 "freedesktop.org/wiki/Specifications/basedir-spec\">XDG Base Directory "
 "Specificationnek</link> megfelelő helyen tárolják. Alapesetben ez a "
 "következőket jelenti:"
@@ -2816,8 +2843,11 @@ msgstr "A webhelyeket megnyitó webböngésző megváltoztatása"
 
 #. (itstool) path: when/p
 #: C/default-browser.page:31
-msgid "In case you use Evolution under a different environment from GNOME,"
-msgstr "Ha az Evolutiont nem GNOME környezetben használja,"
+#| msgid "In case you use Evolution under a different environment from GNOME,"
+msgid ""
+"In case you use <app>Evolution</app> under a different environment from "
+"GNOME,"
+msgstr "Ha az <app>Evolutiont</app> nem GNOME környezetben használja,"
 
 #. (itstool) path: item/p
 #: C/default-browser.page:34
@@ -2852,9 +2882,13 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/default-browser.page:52
-msgid "Evolution may need to be restarted for the settings to take effect."
+#| msgid "Evolution may need to be restarted for the settings to take effect."
+msgid ""
+"<app>Evolution</app> may need to be restarted for the settings to take "
+"effect."
 msgstr ""
-"Az Evolutiont lehet, hogy újra kell indítani a beállítások életbe lépéséhez."
+"Az <app>Evolutiont</app> lehet, hogy újra kell indítani a beállítások életbe "
+"lépéséhez."
 
 #. (itstool) path: note/p
 #: C/default-browser.page:56
@@ -2989,12 +3023,16 @@ msgstr "Levelezés"
 
 #. (itstool) path: section/p
 #: C/deleting-emails.page:30
+#| msgid ""
+#| "Evolution deletes emails on IMAP servers by <em>marking</em> the messages "
+#| "for deletion; space is not freed until you <em>expunge</em> the marked "
+#| "emails."
 msgid ""
-"Evolution deletes emails on IMAP servers by <em>marking</em> the messages "
-"for deletion; space is not freed until you <em>expunge</em> the marked "
-"emails."
+"<app>Evolution</app> deletes emails on IMAP servers by <em>marking</em> the "
+"messages for deletion; space is not freed until you <em>expunge</em> the "
+"marked emails."
 msgstr ""
-"Az Evolution az e-maileket IMAP-kiszolgálókon törlésre való "
+"Az <app>Evolution</app> az e-maileket IMAP-kiszolgálókon törlésre való "
 "<em>megjelöléssel</em> törli, a lemezterület addig nem szabadul fel, amíg "
 "<em>ki nem tisztítja</em> a megjelölt e-maileket."
 
@@ -3029,11 +3067,15 @@ msgstr ""
 
 #. (itstool) path: info/desc
 #: C/deleting-to-free-disk-space.page:5
+#| msgid ""
+#| "Deleting emails and calendar entries to reduce the size of the files used "
+#| "by Evolution."
 msgid ""
 "Deleting emails and calendar entries to reduce the size of the files used by "
-"Evolution."
+"<app>Evolution</app>."
 msgstr ""
-"E-mailek és naptárbejegyzések törlése az Evolution által használt fájlok "
+"E-mailek és naptárbejegyzések törlése az <app>Evolution</app> által használt "
+"fájlok "
 "méretének csökkentéséhez."
 
 #. (itstool) path: page/title
@@ -3130,14 +3172,18 @@ msgstr "Kapcsolódás Exchange kiszolgálókhoz"
 
 #. (itstool) path: page/p
 #: C/exchange-placeholder.page:22
+#| msgid ""
+#| "For topics not covered here please refer to the <link href=\"https://help."
+#| "gnome.org/users/evolution/2.32/usage-exchange.html\">old Evolution "
+#| "manual</link>."
 msgid ""
 "For topics not covered here please refer to the <link href=\"https://help."
-"gnome.org/users/evolution/2.32/usage-exchange.html\">old Evolution manual</"
-"link>."
+"gnome.org/users/evolution/2.32/usage-exchange.html\">old <app>Evolution</"
+"app> manual</link>."
 msgstr ""
-"Az itt nem ismertetett lépésekkel kapcsolatban nézze meg a <link href="
-"\"https://help.gnome.org/users/evolution/2.32/usage-exchange.html\">régi "
-"Evolution kézikönyvet</link>."
+"Az itt nem ismertetett lépésekkel kapcsolatban nézze meg a <link "
+"href=\"https://help.gnome.org/users/evolution/2.32/usage-exchange.html\">régi "
+"<app>Evolution</app> kézikönyvet</link>."
 
 #. (itstool) path: info/desc
 #: C/exporting-data-calendar.page:5
@@ -3264,8 +3310,9 @@ msgstr "Adatok exportálásának módja az <app>Evolutionből</app>."
 
 #. (itstool) path: page/title
 #: C/exporting-data.page:20
-msgid "Exporting data from <em>Evolution</em>"
-msgstr "Adatok exportálása az <em>Evolutionből</em>"
+#| msgid "Exporting data from <em>Evolution</em>"
+msgid "Exporting data from <app>Evolution</app>"
+msgstr "Adatok exportálása az <app>Evolutionből</app>"
 
 #. (itstool) path: info/desc
 #: C/google-services.page:5
@@ -3279,8 +3326,9 @@ msgstr "Google szolgáltatások használata"
 
 #. (itstool) path: info/desc
 #: C/import-apps-mozilla.page:5
-msgid "Importing data from Mozilla Thunderbird."
-msgstr "Adatok importálása Mozilla Thunderbirdből."
+#| msgid "Importing data from Mozilla Thunderbird."
+msgid "Importing data from Mozilla <app>Thunderbird</app>."
+msgstr "Adatok importálása Mozilla <app>Thunderbirdből</app>."
 
 #. (itstool) path: page/title
 #: C/import-apps-mozilla.page:20
@@ -3288,14 +3336,23 @@ msgid "Mozilla"
 msgstr "Mozilla"
 
 #. (itstool) path: item/p
-#: C/import-apps-mozilla.page:25 C/import-apps-outlook.page:60
+#: C/import-apps-mozilla.page:25
+msgid ""
+"<link href=\"https://support.mozilla.org/kb/profiles-tb#w_how-to-find-your-"
+"profile\">Find your <app>Thunderbird</app> profile folder.</link>"
+msgstr ""
+"<link href=\"https://support.mozilla.org/kb/profiles-tb#w_how-to-find-your-"
+"profile\">Keresse meg a <app>Thunderbird</app> profil mappáját.</link>"
+
+#. (itstool) path: item/p
+#: C/import-apps-mozilla.page:26 C/import-apps-outlook.page:60
 #: C/import-single-files.page:24
 msgid "Click <guiseq><gui>File</gui><gui>Import</gui></guiseq>."
 msgstr ""
 "Válassza a <guiseq><gui>Fájl</gui><gui>Importálás</gui></guiseq> menüpontot."
 
 #. (itstool) path: item/p
-#: C/import-apps-mozilla.page:26 C/import-apps-outlook.page:61
+#: C/import-apps-mozilla.page:27 C/import-apps-outlook.page:61
 #: C/import-single-files.page:25
 msgid ""
 "In the <gui>Importer Type</gui> tab, click <gui>Import a single file</gui>."
@@ -3304,35 +3361,44 @@ msgstr ""
 "importálása</gui> menüpontot."
 
 #. (itstool) path: item/p
-#: C/import-apps-mozilla.page:27
+#: C/import-apps-mozilla.page:28
+#| msgid ""
+#| "Go to the folder in which Thunderbird stores its data. On a Linux system, "
+#| "Thunderbird's files are located in the hidden folder <file>$HOME/."
+#| "thunderbird/12345678</file>. <file>12345678</file> will be a random "
+#| "string. If you cannot see the <file>.thunderbird</file> folder, make sure "
+#| "to <link xref=\"help:gnome-help/files-hidden#show-hidden\" href=\"https://"
+#| "help.gnome.org/users/gnome-help/stable/files-hidden#show-hidden\">show "
+#| "hidden files</link> in the file selector dialog."
 msgid ""
-"Go to the folder in which Thunderbird stores its data. On a Linux system, "
-"Thunderbird's files are located in the hidden folder <file>$HOME/."
-"thunderbird/12345678</file>. <file>12345678</file> will be a random string. "
-"If you cannot see the <file>.thunderbird</file> folder, make sure to <link "
-"xref=\"help:gnome-help/files-hidden#show-hidden\" href=\"https://help.gnome."
-"org/users/gnome-help/stable/files-hidden#show-hidden\">show hidden files</"
-"link> in the file selector dialog."
+"Go to the folder in which <app>Thunderbird</app> stores its data. You will "
+"have to make sure to <link xref=\"help:gnome-help/files-hidden#show-hidden\" "
+"href=\"https://help.gnome.org/users/gnome-help/stable/files-hidden#show-"
+"hidden\">show hidden files</link> in the file selector dialog."
 msgstr ""
-"Nyissa meg azt a mappát, ahol a Thunderbird az adatait tárolja. Linux "
-"rendszereken a Thunderbird fájljai a rejtett <file>$HOME/."
-"thunderbird/12345678</file> könyvtárban találhatók. Az <file>12345678</file> "
-"egy véletlen karaktersorozatot jelöl. Ha nem látja a <file>.thunderbird</"
-"file> könyvtárat, akkor kapcsolja be a <link xref=\"help:gnome-help/files-"
+"Nyissa meg azt a mappát, ahol a <app>Thunderbird</app> az adatait tárolja. "
+"Ehhez be kell kapcsolni a <link xref=\"help:gnome-help/files-"
 "hidden#show-hidden\" href=\"https://help.gnome.org/users/gnome-help/stable/"
 "files-hidden#show-hidden\">rejtett fájlok megjelenítését</link> a "
 "fájlválasztó ablakban."
 
 #. (itstool) path: item/p
-#: C/import-apps-mozilla.page:30
+#: C/import-apps-mozilla.page:31
+#| msgid ""
+#| "If you would like to import Thunderbird mail, go to <file>Mail/Local "
+#| "Folders</file> (for local mail accounts) or <file>ImapMail/servername</"
+#| "file> (for remote mail accounts). <file>servername</file> will be the "
+#| "address of your remote mail server. Files without a file ending include "
+#| "your messages (not the <file>.msf</file> files)."
 msgid ""
-"If you would like to import Thunderbird mail, go to <file>Mail/Local "
-"Folders</file> (for local mail accounts) or <file>ImapMail/servername</file> "
-"(for remote mail accounts). <file>servername</file> will be the address of "
-"your remote mail server. Files without a file ending include your messages "
-"(not the <file>.msf</file> files)."
+"If you would like to import <app>Thunderbird</app> mail, go to <file>Mail/"
+"Local Folders</file> (for local mail accounts) or <file>ImapMail/servername</"
+"file> (for remote mail accounts). <file>servername</file> will be the "
+"address of your remote mail server. Files without a file ending include your "
+"messages (not the <file>.msf</file> files)."
 msgstr ""
-"Ha leveleket szeretne importálni a Thunderbirdből, akkor nyissa meg a "
+"Ha leveleket szeretne importálni a <app>Thunderbirdből</app>, akkor nyissa "
+"meg a "
 "<file>Mail/Local Folders</file> (helyi postafiókok esetén) vagy az "
 "<file>ImapMail/kiszolgálónév</file> (távoli postafiókok esetén) könyvtárat. "
 "A <file>kiszolgálónév</file> a távoli levélkiszolgáló címe lesz. A "
@@ -3340,36 +3406,50 @@ msgstr ""
 "file> fájlok)."
 
 #. (itstool) path: item/p
-#: C/import-apps-mozilla.page:31
+#: C/import-apps-mozilla.page:32
+#| msgid ""
+#| "If you would like to import Thunderbird/Lightning calendar data, you may "
+#| "be able to export your Thunderbird events as an <file>.ical</file>/<file>."
+#| "ics</file> file first, and import these files into Evolution. This is "
+#| "required as Thunderbird stores its calendar data in a non-standard "
+#| "database format."
 msgid ""
-"If you would like to import Thunderbird/Lightning calendar data, you may be "
-"able to export your Thunderbird events as an <file>.ical</file>/<file>.ics</"
-"file> file first, and import these files into Evolution. This is required as "
-"Thunderbird stores its calendar data in a non-standard database format."
+"If you would like to import <app>Thunderbird/Lightning</app> calendar data, "
+"you may be able to export your <app>Thunderbird</app> events as an <file>."
+"ical</file>/<file>.ics</file> file first, and import these files into "
+"<app>Evolution</app>. This is required as <app>Thunderbird</app> stores its "
+"calendar data in a non-standard database format."
 msgstr ""
-"Ha szeretne Thunderbird/Lightning naptáradatokat importálni, akkor előbb "
-"exportálja a Thunderbirdből az eseményeket <file>.ical</file>/<file>.ics</"
-"file> fájlként, majd importálja ezeket a fájlokat az Evolutionbe. Ez azért "
-"szükséges, mert a Thunderbird a naptáradatokat nem szabványos formátumú "
+"Ha szeretne <app>Thunderbird/Lightning</app> naptáradatokat importálni, akkor "
+"előbb "
+"exportálja a <app>Thunderbirdből</app> az eseményeket <file>.ical</file>/<"
+"file>.ics</"
+"file> fájlként, majd importálja ezeket a fájlokat az <app>Evolutionbe</app>. "
+"Ez azért "
+"szükséges, mert a <app>Thunderbird</app> a naptáradatokat nem szabványos "
+"formátumú "
 "adatbázisban tárolja."
 
 #. (itstool) path: item/p
-#: C/import-apps-mozilla.page:33 C/import-apps-outlook.page:62
+#: C/import-apps-mozilla.page:34 C/import-apps-outlook.page:62
 #: C/import-single-files.page:26
 msgid "The file type will be automatically determined."
 msgstr "A fájl típusa automatikusan meghatározásra kerül."
 
 #. (itstool) path: item/p
-#: C/import-apps-mozilla.page:34
+#: C/import-apps-mozilla.page:35
+#| msgid ""
+#| "Choose the destination (e.g. the folder or calendar in Evolution) for the "
+#| "imported data."
 msgid ""
-"Choose the destination (e.g. the folder or calendar in Evolution) for the "
-"imported data."
+"Choose the destination (e.g. the folder or calendar in <app>Evolution</app>) "
+"for the imported data."
 msgstr ""
 "Válassza ki az importált adatok célját (például a mappát vagy naptárat az "
-"Evolutionben)."
+"<app>Evolutionben</app>)."
 
 #. (itstool) path: item/p
-#: C/import-apps-mozilla.page:35 C/import-apps-outlook.page:66
+#: C/import-apps-mozilla.page:36 C/import-apps-outlook.page:66
 msgid "Repeat the import steps until you have imported all your data."
 msgstr ""
 "Ismételje az importálási lépéseket, amíg nem importálta az összes adatát."
@@ -3389,19 +3469,20 @@ msgstr "Outlook"
 #| msgid ""
 #| "These steps refer to locally stored data such as POP accounts. For remote "
 #| "data (like IMAP) this is not necessary, since the data is still on the "
-#| "server and does not need to be manually transfered. You can set up the "
+#| "server and does not need to be manually transferred. You can set up the "
 #| "corresponding account in Evolution and the data will be downloaded."
 msgid ""
 "These steps refer to locally stored data such as POP accounts. For remote "
 "data (like IMAP) this is not necessary, since the data is still on the "
 "server and does not need to be manually transferred. You can set up the "
-"corresponding account in Evolution and the data will be downloaded."
+"corresponding account in <app>Evolution</app> and the data will be "
+"downloaded."
 msgstr ""
 "Ezek a lépések helyileg tárolt adatokra, például POP postafiókokra "
 "vonatkoznak. Távoli adatok (például IMAP) esetén ez nem szükséges, mivel az "
 "adatok még mindig a kiszolgálón vannak, és nincs szükség a saját kezűleg "
 "történő átvitelükre. Ilyen esetben csak állítsa be a megfelelő fiókot az "
-"Evolutionben, és az adatok letöltésre kerülnek."
+"<app>Evolutionben</app>, és az adatok letöltésre kerülnek."
 
 #. (itstool) path: section/title
 #: C/import-apps-outlook.page:29
@@ -3480,12 +3561,15 @@ msgstr "(A „felhasználónév” helyett saját felhasználónevét használja
 
 #. (itstool) path: item/p
 #: C/import-apps-outlook.page:47
+#| msgid ""
+#| "Copy the Outlook files to the system or partition that Evolution is "
+#| "installed on."
 msgid ""
-"Copy the Outlook files to the system or partition that Evolution is "
-"installed on."
+"Copy the Outlook files to the system or partition that <app>Evolution</app> "
+"is installed on."
 msgstr ""
 "Másolja az Outlook fájlokat arra a rendszerre vagy partícióra, amelyen az "
-"Evolution telepítve van."
+"<app>Evolution</app> telepítve van."
 
 #. (itstool) path: item/p
 #: C/import-apps-outlook.page:48
@@ -3500,8 +3584,9 @@ msgstr ""
 
 #. (itstool) path: section/title
 #: C/import-apps-outlook.page:53
-msgid "Importing into Evolution"
-msgstr "Importálás az Evolutionbe"
+#| msgid "Importing into Evolution"
+msgid "Importing into <app>Evolution</app>"
+msgstr "Importálás az <app>Evolutionbe</app>"
 
 #. (itstool) path: item/p
 #: C/import-apps-outlook.page:55
@@ -3524,8 +3609,9 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/import-apps-outlook.page:57 C/mail-filters-not-working.page:48
-msgid "Start Evolution."
-msgstr "Indítsa el az Evolutiont."
+#| msgid "Start Evolution."
+msgid "Start <app>Evolution</app>."
+msgstr "Indítsa el az <app>Evolutiont</app>."
 
 #. (itstool) path: item/p
 #: C/import-apps-outlook.page:58
@@ -3560,10 +3646,15 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/import-apps-outlook.page:65 C/import-single-files.page:27
+#| msgid ""
+#| "Choose the destination (e.g. the folder in Evolution) for the imported "
+#| "data."
 msgid ""
-"Choose the destination (e.g. the folder in Evolution) for the imported data."
+"Choose the destination (e.g. the folder in <app>Evolution</app>) for the "
+"imported data."
 msgstr ""
-"Válassza ki az importált adatok célját (például a mappát az Evolutionben)."
+"Válassza ki az importált adatok célját (például a mappát az <app>"
+"Evolutionben</app>)."
 
 #. (itstool) path: info/desc
 #: C/import-data.page:5
@@ -3623,8 +3714,9 @@ msgstr "Támogatott fájlformátumok"
 
 #. (itstool) path: page/p
 #: C/import-supported-file-formats.page:25
-msgid "Evolution can import the following types of files:"
-msgstr "Az Evolution a következő fájltípusokat tudja importálni:"
+#| msgid "Evolution can import the following types of files:"
+msgid "<app>Evolution</app> can import the following types of files:"
+msgstr "Az <app>Evolution</app> a következő fájltípusokat tudja importálni:"
 
 #. (itstool) path: item/p
 #: C/import-supported-file-formats.page:30
@@ -3633,12 +3725,17 @@ msgstr "Berkeley Mailbox (.mbox vagy nincs kiterjesztése):"
 
 #. (itstool) path: item/p
 #: C/import-supported-file-formats.page:32
+#| msgid ""
+#| "The email format used by Mozilla, Netscape, Evolution (for local folders "
+#| "until version 2.32), Eudora, and many other email clients."
 msgid ""
-"The email format used by Mozilla, Netscape, Evolution (for local folders "
-"until version 2.32), Eudora, and many other email clients."
+"The email format used by <app>Mozilla</app>, <app>Netscape</app>, "
+"<app>Evolution</app> (for local folders until version 2.32), <app>Eudora</"
+"app>, and many other email clients."
 msgstr ""
-"A Mozilla, Netscape, Evolution (helyi mappák esetén a 2.32-es verzióig), "
-"Eudora és sok más levelezőkliens által használt e-mail formátum."
+"A <app>Mozilla</app>, <app>Netscape</app>, <app>Evolution</app> (helyi mappák "
+"esetén a 2.32-es verzióig), "
+"<app>Eudora</app> és sok más levelezőkliens által használt e-mail formátum."
 
 #. (itstool) path: item/p
 #: C/import-supported-file-formats.page:34
@@ -3647,16 +3744,23 @@ msgstr "Maildir (nincs kiterjesztése):"
 
 #. (itstool) path: item/p
 #: C/import-supported-file-formats.page:36
+#| msgid ""
+#| "The format used by Evolution (for local folders since version 3.0). There "
+#| "is no need to import Maildir files as you can <link xref=\"mail-account-"
+#| "manage-maildir-format-directories\">configure a Maildir account</link> in "
+#| "Evolution and point to the folder where the Maildir files are stored."
 msgid ""
-"The format used by Evolution (for local folders since version 3.0). There is "
-"no need to import Maildir files as you can <link xref=\"mail-account-manage-"
-"maildir-format-directories\">configure a Maildir account</link> in Evolution "
-"and point to the folder where the Maildir files are stored."
+"The format used by <app>Evolution</app> (for local folders since version "
+"3.0). There is no need to import Maildir files as you can <link xref=\"mail-"
+"account-manage-maildir-format-directories\">configure a Maildir account</"
+"link> in <app>Evolution</app> and point to the folder where the Maildir "
+"files are stored."
 msgstr ""
-"Az Evolution által (helyi mappákhoz a 3.0 verzió óta) használt formátum. A "
+"Az <app>Evolution</app> által (helyi mappákhoz a 3.0 verzió óta) használt "
+"formátum. A "
 "Maildir fájlok importálása nem szükséges, mivel <link xref=\"mail-account-"
 "manage-maildir-format-directories\">beállíthat egy Maildir fiókot</link> az "
-"Evolutionben, és megadhatja hozzá a Maildir fájlokat tároló mappát."
+"<app>Evolutionben</app>, és megadhatja hozzá a Maildir fájlokat tároló mappát."
 
 #. (itstool) path: item/p
 #: C/import-supported-file-formats.page:38
@@ -3665,11 +3769,15 @@ msgstr "Outlook Express 5/6 személyes mappák (.dbx):"
 
 #. (itstool) path: item/p
 #: C/import-supported-file-formats.page:40
+#| msgid ""
+#| "The email file format used by Microsoft Outlook Express 5/6. For newer "
+#| "versions PST import is recommended."
 msgid ""
-"The email file format used by Microsoft Outlook Express 5/6. For newer "
-"versions PST import is recommended."
+"The email file format used by <app>Microsoft Outlook Express 5/6</app>. For "
+"newer versions PST import is recommended."
 msgstr ""
-"A Microsoft Outlook Express 5/6 által használt e-mail fájlformátum. Újabb "
+"A <app>Microsoft Outlook Express 5/6</app> által használt e-mail "
+"fájlformátum. Újabb "
 "verziókhoz a PST-importálás szükséges."
 
 #. (itstool) path: section/title
@@ -3684,12 +3792,18 @@ msgstr "vCalendar (.vcs):"
 
 #. (itstool) path: item/p
 #: C/import-supported-file-formats.page:50
+#| msgid ""
+#| "A format for storing calendar files, which is generally used by "
+#| "Evolution, Microsoft Outlook, Sunbird, and Korganizer."
 msgid ""
-"A format for storing calendar files, which is generally used by Evolution, "
-"Microsoft Outlook, Sunbird, and Korganizer."
+"A format for storing calendar files, which is generally used by "
+"<app>Evolution</app>, <app>Microsoft Outlook</app>, <app>Sunbird</app>, and "
+"<app>Korganizer</app>."
 msgstr ""
-"Naptárfájlok tárolására használt formátum, amelyet az Evolution, Microsoft "
-"Outlook, Sunbird és Korganizer szoftverek használnak."
+"Naptárfájlok tárolására használt formátum, amelyet az <app>Evolution</app>, <"
+"app>Microsoft "
+"Outlook</app>, <app>Sunbird</app> és <app>Korganizer</app> szoftverek "
+"használnak."
 
 #. (itstool) path: item/p
 #: C/import-supported-file-formats.page:52
@@ -3698,11 +3812,15 @@ msgstr "iCalendar vagy iCal (.ics):"
 
 #. (itstool) path: item/p
 #: C/import-supported-file-formats.page:54
+#| msgid ""
+#| "A format for storing calendar files. iCalendar is used by Evolution, "
+#| "Microsoft Outlook, Palm OS handhelds, and others."
 msgid ""
-"A format for storing calendar files. iCalendar is used by Evolution, "
-"Microsoft Outlook, Palm OS handhelds, and others."
+"A format for storing calendar files. iCalendar is used by <app>Evolution</"
+"app>, <app>Microsoft Outlook</app>, Palm OS handhelds, and others."
 msgstr ""
-"Naptárfájlok tárolására használt formátum. Az Evolution, Microsoft Outlook, "
+"Naptárfájlok tárolására használt formátum. Az <app>Evolution</app>, <app>"
+"Microsoft Outlook</app>, "
 "Palm OS kéziszámítógépek és mások használnak."
 
 #. (itstool) path: section/title
@@ -3743,16 +3861,21 @@ msgstr "Egyebek"
 
 #. (itstool) path: item/p
 #: C/import-supported-file-formats.page:76
-msgid "Evolution/Mozilla/Outlook CSV/Tab (.csv, .tab):"
-msgstr "Evolution/Mozilla/Outlook CSV/Tab (.csv, .tab):"
+#| msgid "Evolution/Mozilla/Outlook CSV/Tab (.csv, .tab):"
+msgid "<app>Evolution</app>/Mozilla/Outlook CSV/Tab (.csv, .tab):"
+msgstr "<app>Evolution</app>/Mozilla/Outlook CSV/Tab (.csv, .tab):"
 
 #. (itstool) path: item/p
 #: C/import-supported-file-formats.page:78
+#| msgid ""
+#| "CSV (Comma-separated values) or Tabulator files saved by using Evolution, "
+#| "Microsoft Outlook and Mozilla."
 msgid ""
-"CSV (Comma-separated values) or Tabulator files saved by using Evolution, "
-"Microsoft Outlook and Mozilla."
+"CSV (Comma-separated values) or Tabulator files saved by using "
+"<app>Evolution</app>, <app>Microsoft Outlook</app> and <app>Mozilla</app>."
 msgstr ""
-"Az Evolution, Microsoft Outlook és Mozilla által mentett CSV (Vesszőkkel "
+"Az <app>Evolution</app>, <app>Microsoft Outlook</app> és <app>Mozilla</app> "
+"által mentett CSV (Vesszőkkel "
 "elválasztott értéklista) vagy Tabulator fájlok."
 
 #. (itstool) path: item/p
@@ -3762,15 +3885,22 @@ msgstr "Outlook személyes mappák (.pst):"
 
 #. (itstool) path: item/p
 #: C/import-supported-file-formats.page:82
+#| msgid ""
+#| "A file format used to store local copies of messages, calendar events, "
+#| "and other items within Microsoft software such as Microsoft Exchange "
+#| "Client, Windows Messaging, and Microsoft Outlook. It is also called "
+#| "\"Personal Storage Table\"."
 msgid ""
 "A file format used to store local copies of messages, calendar events, and "
-"other items within Microsoft software such as Microsoft Exchange Client, "
-"Windows Messaging, and Microsoft Outlook. It is also called \"Personal "
-"Storage Table\"."
+"other items within Microsoft software such as <app>Microsoft Exchange "
+"Client</app>, <app>Windows Messaging</app>, and <app>Microsoft Outlook</"
+"app>. It is also called \"Personal Storage Table\"."
 msgstr ""
 "Üzenetek, naptáresemények és más elemek helyi másolatainak Microsoft "
-"szoftverekben (például Microsoft Exchange Client, Windows Messaging és "
-"Microsoft Outlook) való tárolására használt fájlformátum. „Personal Storage "
+"szoftverekben (például <app>Microsoft Exchange Client</app>, <app>Windows "
+"Messaging</app> és "
+"<app>Microsoft Outlook</app>) való tárolására használt fájlformátum. "
+"„Personal Storage "
 "Table néven is ismert."
 
 #. (itstool) path: info/desc
@@ -3780,9 +3910,11 @@ msgstr "E-mailek, névjegyek és határidők kezelése"
 
 #. (itstool) path: info/title
 #: C/index.page:7
+#| msgctxt "text"
+#| msgid "Evolution Mail and Calendar"
 msgctxt "text"
-msgid "Evolution Mail and Calendar"
-msgstr "Evolution levelező és naptár"
+msgid "<app>Evolution</app> Mail and Calendar"
+msgstr "<app>Evolution</app> levelező és naptár"
 
 #. (itstool) path: media/span
 #: C/index.page:25
@@ -3791,8 +3923,9 @@ msgstr "Evolution logó"
 
 #. (itstool) path: page/title
 #: C/index.page:23
-msgid "<_:media-1/> Evolution Mail and Calendar"
-msgstr "<_:media-1/> Evolution levelező és naptár"
+#| msgid "<_:media-1/> Evolution Mail and Calendar"
+msgid "<_:media-1/> <app>Evolution</app> Mail and Calendar"
+msgstr "<_:media-1/> <app>Evolution</app> levelező és naptár"
 
 #. (itstool) path: section/title
 #. (itstool) path: page/title
@@ -3888,29 +4021,41 @@ msgstr "További olvasnivaló"
 
 #. (itstool) path: info/desc
 #: C/intro-application.page:5
-msgid "An introduction to Evolution."
-msgstr "Az Evolution bemutatása."
+#| msgid "An introduction to Evolution."
+msgid "An introduction to <app>Evolution</app>."
+msgstr "Az <app>Evolution</app> bemutatása."
 
 #. (itstool) path: page/p
 #: C/intro-application.page:25
+#| msgid ""
+#| "Evolution allows you to access your personal information like your "
+#| "calendars, mail, address books and tasks in one place."
 msgid ""
-"Evolution allows you to access your personal information like your "
-"calendars, mail, address books and tasks in one place."
+"<app>Evolution</app> allows you to access your personal information like "
+"your calendars, mail, address books and tasks in one place."
 msgstr ""
-"Az Evolution lehetővé teszi személyes információinak, mint például a "
+"Az <app>Evolution</app> lehetővé teszi személyes információinak, mint például "
+"a "
 "naptárainak, leveleinek, címjegyzékeinek és feladatainak egy helyről történő "
 "kezelését."
 
 #. (itstool) path: page/p
 #: C/intro-application.page:27
+#| msgid ""
+#| "By default Evolution opens the mail view. This is were you can view all "
+#| "your mail. You can change to other views of the application by going to "
+#| "the bottom of the left pane in the window (the so-called \"switcher\") "
+#| "and selecting the desired view. <link xref=\"intro-main-window\">Learn "
+#| "more about the elements of the main window.</link>"
 msgid ""
-"By default Evolution opens the mail view. This is were you can view all your "
-"mail. You can change to other views of the application by going to the "
-"bottom of the left pane in the window (the so-called \"switcher\") and "
-"selecting the desired view. <link xref=\"intro-main-window\">Learn more "
-"about the elements of the main window.</link>"
+"By default <app>Evolution</app> opens the mail view. This is were you can "
+"view all your mail. You can change to other views of the application by "
+"going to the bottom of the left pane in the window (the so-called \"switcher"
+"\") and selecting the desired view. <link xref=\"intro-main-window\">Learn "
+"more about the elements of the main window</link>."
 msgstr ""
-"Alapértelmezésben az Evolution a levelező nézetben nyílik meg, itt jelennek "
+"Alapértelmezésben az <app>Evolution</app> a levelező nézetben nyílik meg, itt "
+"jelennek "
 "meg a levelei. Az alkalmazás további nézeteit a bal alsó sarokban lévő "
 "gombokkal érheti el (ez a terület a „váltó”). Az ablak elemeivel kapcsolatos "
 "további információkért <link xref=\"intro-main-window\">Tudjon meg többet a "
@@ -3918,14 +4063,21 @@ msgstr ""
 
 #. (itstool) path: note/p
 #: C/intro-application.page:29
+#| msgid ""
+#| "When Evolution starts, it remembers the last view that you used. However "
+#| "you can also explicitly start Evolution in a specific view. For the "
+#| "calendar view, use the command <cmd>evolution --component=calendar</cmd> "
+#| "in the <app>Terminal</app> application. Other available options are \"mail"
+#| "\", \"contacts\", \"tasks\", and \"memos\"."
 msgid ""
-"When Evolution starts, it remembers the last view that you used. However you "
-"can also explicitly start Evolution in a specific view. For the calendar "
-"view, use the command <cmd>evolution --component=calendar</cmd> in the "
-"<app>Terminal</app> application. Other available options are \"mail\", "
-"\"contacts\", \"tasks\", and \"memos\"."
+"When <app>Evolution</app> starts, it remembers the last view that you used. "
+"However you can also explicitly start <app>Evolution</app> in a specific "
+"view. For the calendar view, use the command <cmd>evolution --"
+"component=calendar</cmd> in the <app>Terminal</app> application. Other "
+"available options are \"mail\", \"contacts\", \"tasks\", and \"memos\"."
 msgstr ""
-"Az Evolution induláskor az utoljára használt nézetet jeleníti meg. Azonban "
+"Az <app>Evolution</app> induláskor az utoljára használt nézetet jeleníti meg. "
+"Azonban "
 "az Evolutiont egy adott nézetben is elindíthatja.  A naptár nézethez "
 "használja az <cmd>evolution --component=calendar</cmd> parancsot a "
 "<app>Terminál</app> alkalmazásban. A további lehetőségek a "
@@ -3934,8 +4086,9 @@ msgstr ""
 
 #. (itstool) path: info/desc
 #: C/intro-first-run.page:8
-msgid "Running Evolution for the very first time."
-msgstr "Az Evolution futtatása a legelső alkalommal."
+#| msgid "Running Evolution for the very first time."
+msgid "Running <app>Evolution</app> for the very first time."
+msgstr "Az <app>Evolution</app> futtatása a legelső alkalommal."
 
 #. (itstool) path: page/title
 #: C/intro-first-run.page:23
@@ -3944,12 +4097,17 @@ msgstr "Az <app>Evolution</app> első indítása"
 
 #. (itstool) path: page/p
 #: C/intro-first-run.page:25
+#| msgid ""
+#| "The first time you run Evolution, it opens the First-Run Assistant to "
+#| "help you set up email accounts and <link xref=\"import-data\">import data "
+#| "from other applications.</link>"
 msgid ""
-"The first time you run Evolution, it opens the First-Run Assistant to help "
-"you set up email accounts and <link xref=\"import-data\">import data from "
-"other applications.</link>"
+"The first time you run <app>Evolution</app>, it opens the First-Run "
+"Assistant to help you set up email accounts and <link xref=\"import-data"
+"\">import data from other applications.</link>"
 msgstr ""
-"Az Evolution az első futtatásakor megnyílik a postafiók-varázsló, amely "
+"Az <app>Evolution</app> az első futtatásakor megnyílik a postafiók-varázsló, "
+"amely "
 "segíti az e-mail fiókok beállításában és az <link xref=\"import-data"
 "\">adatok importálásában más alkalmazásokból</link>."
 
@@ -4244,8 +4402,9 @@ msgstr "Nincs"
 
 #. (itstool) path: section/p
 #: C/intro-first-run.page:231
-msgid "If you do not plan to use Evolution for receiving email."
-msgstr "Ha nem szeretné az Evolutiont levelek fogadására használni."
+#| msgid "If you do not plan to use Evolution for receiving email."
+msgid "If you do not plan to use <app>Evolution</app> for receiving email."
+msgstr "Ha nem szeretné az <app>Evolutiont</app> levelek fogadására használni."
 
 #. (itstool) path: section/title
 #: C/intro-first-run.page:237 C/mail-displaying-character-encodings.page:32
@@ -4333,8 +4492,9 @@ msgstr ""
 
 #. (itstool) path: info/desc
 #: C/intro-main-window.page:5
-msgid "An explanation of the areas shown in the Evolution window."
-msgstr "Az Evolution ablakban látható területek ismertetése."
+#| msgid "An explanation of the areas shown in the Evolution window."
+msgid "An explanation of the areas shown in the <app>Evolution</app> window."
+msgstr "Az <app>Evolution</app> ablakban látható területek ismertetése."
 
 #. (itstool) path: page/title
 #: C/intro-main-window.page:29
@@ -4343,21 +4503,28 @@ msgstr "Az <app>Evolution</app> főablaka"
 
 #. (itstool) path: page/p
 #: C/intro-main-window.page:32
+#| msgid ""
+#| "Evolution provides functionality for Email, Calendar, Contacts, Tasks, "
+#| "and Memos. You can switch to another functionality by using the \"Switcher"
+#| "\" buttons in the lower left corner. Depending on the displayed "
+#| "functionality also the displayed elements in the window differ."
 msgid ""
-"Evolution provides functionality for Email, Calendar, Contacts, Tasks, and "
-"Memos. You can switch to another functionality by using the \"Switcher\" "
-"buttons in the lower left corner. Depending on the displayed functionality "
-"also the displayed elements in the window differ."
+"<app>Evolution</app> provides functionality for Email, Calendar, Contacts, "
+"Tasks, and Memos. You can switch to another functionality by using the "
+"\"Switcher\" buttons in the lower left corner. Depending on the displayed "
+"functionality also the displayed elements in the window differ."
 msgstr ""
-"Az Evolution e-mail, naptár, névjegy, feladat és feljegyzés funkciókat "
+"Az <app>Evolution</app> e-mail, naptár, névjegy, feladat és feljegyzés "
+"funkciókat "
 "biztosít. A bal alsó sarokban lévő váltógombok segítségével válthat az egyes "
 "funkciók között. A megjelenített funkciótól függően az ablakban "
 "megjelenített elemek eltérnek."
 
 #. (itstool) path: media/p
 #: C/intro-main-window.page:38
-msgid "The Evolution mail main window"
-msgstr "Az Evolution levelező főablaka"
+#| msgid "The <app>Evolution</app> main window"
+msgid "The <app>Evolution</app> mail main window"
+msgstr "Az <app>Evolution</app> levelező főablaka"
 
 #. (itstool) path: section/p
 #: C/intro-main-window.page:41
@@ -4456,11 +4623,15 @@ msgstr "Váltógombok"
 
 #. (itstool) path: item/p
 #: C/intro-main-window.page:77
+#| msgid ""
+#| "The switcher at the bottom of the side bar lets you switch between the "
+#| "Evolution tools: Mail, Contacts, Calendars, Memos and Tasks."
 msgid ""
 "The switcher at the bottom of the side bar lets you switch between the "
-"Evolution tools: Mail, Contacts, Calendars, Memos and Tasks."
+"<app>Evolution</app> tools: Mail, Contacts, Calendars, Memos and Tasks."
 msgstr ""
-"Az oldalsáv alján lévő váltógombok segítségével átválthat az Evolution "
+"Az oldalsáv alján lévő váltógombok segítségével átválthat az <app>Evolution<"
+"/app> "
 "eszközei között: Levelek, Névjegyek, Naptár, Feljegyzések és Feladatok."
 
 #. (itstool) path: item/p
@@ -4575,10 +4746,6 @@ msgstr "Feladatlista és feljegyzéslista"
 
 #. (itstool) path: item/p
 #: C/intro-main-window.page:128
-#| msgid ""
-#| "Tasks and memos are just displayed for your convience and are not "
-#| "associated to any appointments. Use the <gui>switcher</gui> to go to "
-#| "their main windows."
 msgid ""
 "Tasks and memos are just displayed for your convenience and are not "
 "associated to any appointments. Use the <gui>switcher</gui> to go to their "
@@ -4634,8 +4801,9 @@ msgstr "Hogyan állíthat be Gmail IMAP fiókot."
 
 #. (itstool) path: page/title
 #: C/mail-access-gmail-imap-account.page:24
-msgid "Access a Gmail IMAP Account via Evolution"
-msgstr "Gmail IMAP fiók elérése az Evolutionből"
+#| msgid "Access a Gmail IMAP Account via Evolution"
+msgid "Access a Gmail IMAP Account via <app>Evolution</app>"
+msgstr "Gmail IMAP fiók elérése az <app>Evolutionből</app>"
 
 #. (itstool) path: page/p
 #: C/mail-access-gmail-imap-account.page:26
@@ -4680,13 +4848,18 @@ msgstr "Hogyan állíthat be Gmail POP fiókot."
 
 #. (itstool) path: page/title
 #: C/mail-access-gmail-pop-account.page:28
-msgid "Access a Gmail POP Account via Evolution"
-msgstr "Gmail POP fiók elérése az Evolutionből"
+#| msgid "Access a Gmail POP Account via Evolution"
+msgid "Access a Gmail POP Account via <app>Evolution</app>"
+msgstr "Gmail POP fiók elérése az <app>Evolutionből</app>"
 
 #. (itstool) path: page/p
 #: C/mail-access-gmail-pop-account.page:30
-msgid "Follow these steps to set up your Gmail POP Account in Evolution:"
-msgstr "Tegye a következőket Gmail POP fiókjának eléréséhez az Evolutionből:"
+#| msgid "Follow these steps to set up your Gmail POP Account in Evolution:"
+msgid ""
+"Follow these steps to set up your Gmail POP Account in <app>Evolution</app>:"
+msgstr ""
+"Tegye a következőket Gmail POP fiókjának eléréséhez az <app>Evolutionből</app>"
+":"
 
 #. (itstool) path: item/p
 #: C/mail-access-gmail-pop-account.page:33
@@ -4740,11 +4913,16 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/mail-access-gmail-pop-account.page:43
+#| msgid ""
+#| "On your Evolution client, go to <guiseq><gui>Edit</gui><gui>Preferences</"
+#| "gui><gui>Mail Accounts</gui></guiseq>. Click <gui style=\"button\">Add</"
+#| "gui>."
 msgid ""
-"On your Evolution client, go to <guiseq><gui>Edit</gui><gui>Preferences</"
-"gui><gui>Mail Accounts</gui></guiseq>. Click <gui style=\"button\">Add</gui>."
+"On your <app>Evolution</app> client, go to <guiseq><gui>Edit</"
+"gui><gui>Preferences</gui><gui>Mail Accounts</gui></guiseq>. Click <gui "
+"style=\"button\">Add</gui>."
 msgstr ""
-"Az Evolution kliensben nyissa meg a <guiseq><gui>Szerkesztés</"
+"Az <app>Evolution</app> kliensben nyissa meg a <guiseq><gui>Szerkesztés</"
 "gui><gui>Beállítások</gui><gui>Postafiókok</gui></guiseq> ablakot. Nyomja "
 "meg a <gui style=\"button\">Hozzáadás</gui> gombot."
 
@@ -4758,7 +4936,8 @@ msgstr ""
 
 #. (itstool) path: info/desc
 #: C/mail-account-manage-imap-plus.page:5
-msgid "Add and edit an IMAP+ mail account in Evolution."
+#| msgid "Add and edit an IMAP+ mail account in Evolution."
+msgid "Add and edit an IMAP+ mail account in <app>Evolution</app>."
 msgstr "IMAP+ levelezőfiók hozzáadása és szerkesztése."
 
 #. (itstool) path: page/title
@@ -4939,7 +5118,8 @@ msgstr ""
 
 #. (itstool) path: info/desc
 #: C/mail-account-manage-local-delivery.page:5
-msgid "Add and edit a Local Delivery account in Evolution."
+#| msgid "Add and edit a Local Delivery account in Evolution."
+msgid "Add and edit a Local Delivery account in <app>Evolution</app>."
 msgstr "Helyi kézbesítésű levelezőfiók hozzáadása és szerkesztése."
 
 #. (itstool) path: page/title
@@ -4988,7 +5168,10 @@ msgstr "Biztonság (helyi kézbesítésű fiókok)"
 
 #. (itstool) path: info/desc
 #: C/mail-account-manage-maildir-format-directories.page:5
-msgid "Add and edit a Maildir Format Mail Directories account in Evolution."
+#| msgid "Add and edit a Maildir Format Mail Directories account in Evolution."
+msgid ""
+"Add and edit a Maildir Format Mail Directories account in <app>Evolution</"
+"app>."
 msgstr "Maildir formátumú levélkönyvtárak hozzáadása és szerkesztése."
 
 #. (itstool) path: page/title
@@ -4998,8 +5181,9 @@ msgstr "Maildir formátumú levélkönyvtárak fiókbeállításai"
 
 #. (itstool) path: section/p
 #: C/mail-account-manage-maildir-format-directories.page:24
-msgid "Evolution supports the Maildir++ specification."
-msgstr "Az Evolution támogatja a Maildir++ specifikációt."
+#| msgid "Evolution supports the Maildir++ specification."
+msgid "<app>Evolution</app> supports the Maildir++ specification."
+msgstr "Az <app>Evolution</app> támogatja a Maildir++ specifikációt."
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-maildir-format-directories.page:37
@@ -5056,7 +5240,9 @@ msgstr "Vállalati fióktípusok"
 
 #. (itstool) path: info/desc
 #: C/mail-account-manage-mh-format-directories.page:5
-msgid "Add and edit a MH Format Mail Directories account in Evolution."
+#| msgid "Add and edit a MH Format Mail Directories account in Evolution."
+msgid ""
+"Add and edit a MH Format Mail Directories account in <app>Evolution</app>."
 msgstr "MH formátumú levélkönyvtárak hozzáadása és szerkesztése."
 
 #. (itstool) path: page/title
@@ -5092,7 +5278,10 @@ msgstr "Biztonság (MH-formátumú levélkönyvtár fiókok)"
 
 #. (itstool) path: info/desc
 #: C/mail-account-manage-microsoft-exchange-evo-ews.page:5
-msgid "Add and edit a Microsoft Exchange 2007 or 2010 account in Evolution."
+#| msgid "Add and edit a Microsoft Exchange 2007 or 2010 account in Evolution."
+msgid ""
+"Add and edit a Microsoft Exchange 2007 or 2010 account in <app>Evolution</"
+"app>."
 msgstr "Microsoft Exchange 2007 vagy 2010 fiók hozzáadása és szerkesztése."
 
 #. (itstool) path: page/title
@@ -5122,7 +5311,8 @@ msgstr "Biztonság (Webes Exchange-szolgáltatások fiókok)"
 
 #. (itstool) path: info/desc
 #: C/mail-account-manage-microsoft-exchange-evo-mapi.page:5
-msgid "Add and edit a Microsoft Exchange MAPI account in Evolution."
+#| msgid "Add and edit a Microsoft Exchange MAPI account in Evolution."
+msgid "Add and edit a Microsoft Exchange MAPI account in <app>Evolution</app>."
 msgstr "Microsoft Exchange MAPI fiók hozzáadása és szerkesztése."
 
 #. (itstool) path: page/title
@@ -5160,7 +5350,8 @@ msgstr "Biztonság (Exchange MAPI fiókok)"
 
 #. (itstool) path: info/desc
 #: C/mail-account-manage-microsoft-exchange.page:5
-msgid "Add and edit a Microsoft Exchange account in Evolution."
+#| msgid "Add and edit a Microsoft Exchange account in Evolution."
+msgid "Add and edit a Microsoft Exchange account in <app>Evolution</app>."
 msgstr "Microsoft Exchange fiók hozzáadása és szerkesztése."
 
 #. (itstool) path: page/title
@@ -5181,7 +5372,8 @@ msgstr ""
 
 #. (itstool) path: info/desc
 #: C/mail-account-manage-pop.page:5
-msgid "Add and edit a POP mail account in Evolution."
+#| msgid "Add and edit a POP mail account in Evolution."
+msgid "Add and edit a POP mail account in <app>Evolution</app>."
 msgstr "POP levelezőfiók hozzáadása és szerkesztése."
 
 #. (itstool) path: page/title
@@ -5215,8 +5407,12 @@ msgstr "Biztonság (POP fiókok)"
 
 #. (itstool) path: info/desc
 #: C/mail-account-manage-unix-mbox-spool-directory.page:5
-msgid "Add and edit a Standard Unix mbox Spool Directory account in Evolution."
-msgstr "Szabványos Unix mbox tárolókönyvtár fiók hozzáadása Evolutionben."
+#| msgid ""
+#| "Add and edit a Standard Unix mbox Spool Directory account in Evolution."
+msgid ""
+"Add and edit a Standard Unix mbox Spool Directory account in <app>Evolution</"
+"app>."
+msgstr "Szabványos Unix mbox tárolókönyvtár fiók hozzáadása és szerkesztése."
 
 #. (itstool) path: page/title
 #: C/mail-account-manage-unix-mbox-spool-directory.page:20
@@ -5253,8 +5449,10 @@ msgstr "Biztonság (szabványos Unix mbox tárolókönyvtár fiókok)"
 
 #. (itstool) path: info/desc
 #: C/mail-account-manage-unix-mbox-spool-file.page:5
-msgid "Add and edit a Standard Unix mbox Spool File account in Evolution."
-msgstr "Szabványos Unix mbox tárolófájl fiók hozzáadása Evolutionben."
+#| msgid "Add and edit a Standard Unix mbox Spool File account in Evolution."
+msgid ""
+"Add and edit a Standard Unix mbox Spool File account in <app>Evolution</app>."
+msgstr "Szabványos Unix mbox tárolófájl fiók hozzáadása és szerkesztése."
 
 #. (itstool) path: page/title
 #: C/mail-account-manage-unix-mbox-spool-file.page:20
@@ -5291,7 +5489,8 @@ msgstr "Biztonság (szabványos Unix mbox tárolófájl fiókok)"
 
 #. (itstool) path: info/desc
 #: C/mail-account-manage-usenet-news.page:5
-msgid "Add and edit a Usenet news account in Evolution."
+#| msgid "Add and edit a Usenet news account in Evolution."
+msgid "Add and edit a Usenet news account in <app>Evolution</app>."
 msgstr "Usenet hírfiók hozzáadása és szerkesztése."
 
 #. (itstool) path: page/title
@@ -5351,24 +5550,34 @@ msgstr "Kapott levelek mellékleteinek kezelése"
 
 #. (itstool) path: page/p
 #: C/mail-attachments-received.page:26
+#| msgid ""
+#| "If you receive an email message with one or more file attachments, "
+#| "Evolution displays the number of attachments and a <gui style=\"button"
+#| "\">Save</gui> or <gui style=\"button\">Save All</gui> button between the "
+#| "email header and the content of the email."
 msgid ""
-"If you receive an email message with one or more file attachments, Evolution "
-"displays the number of attachments and a <gui style=\"button\">Save</gui> or "
-"<gui style=\"button\">Save All</gui> button between the email header and the "
-"content of the email."
+"If you receive an email message with one or more file attachments, "
+"<app>Evolution</app> displays the number of attachments and a <gui style="
+"\"button\">Save</gui> or <gui style=\"button\">Save All</gui> button between "
+"the email header and the content of the email."
 msgstr ""
-"Ha mellékleteket tartalmazó leveleket kap, akkor az Evolution az e-mail "
+"Ha mellékleteket tartalmazó leveleket kap, akkor az <app>Evolution</app> az "
+"e-mail "
 "fejléce és szövege között megjeleníti a mellékletek számát, és egy <gui "
 "style=\"button\">Mentés</gui> vagy <gui style=\"button\">Összes mentése</"
 "gui> gombot."
 
 #. (itstool) path: note/p
 #: C/mail-attachments-received.page:27
+#| msgid ""
+#| "Evolution does not support saving all attachments of all messages in one "
+#| "folder at once."
 msgid ""
-"Evolution does not support saving all attachments of all messages in one "
-"folder at once."
+"<app>Evolution</app> does not support saving all attachments of all messages "
+"in one folder at once."
 msgstr ""
-"Az Evolution nem támogatja az összes üzenet összes mellékletének egyszerre "
+"Az <app>Evolution</app> nem támogatja az összes üzenet összes mellékletének "
+"egyszerre "
 "történő mentését egy mappában."
 
 #. (itstool) path: page/p
@@ -5465,12 +5674,17 @@ msgstr "Mellékletemlékeztető"
 
 #. (itstool) path: section/p
 #: C/mail-attachments-sending.page:42
+#| msgid ""
+#| "Evolution has an Attachment Reminder plugin you can use to remind "
+#| "yourself to attach a file to an email. If it determines that you have not "
+#| "attached the file, it displays a reminder window before the email is sent."
 msgid ""
-"Evolution has an Attachment Reminder plugin you can use to remind yourself "
-"to attach a file to an email. If it determines that you have not attached "
-"the file, it displays a reminder window before the email is sent."
+"<app>Evolution</app> has an Attachment Reminder plugin you can use to remind "
+"yourself to attach a file to an email. If it determines that you have not "
+"attached the file, it displays a reminder window before the email is sent."
 msgstr ""
-"Az Evolution rendelkezik egy mellékletemlékeztető bővítménnyel, amely "
+"Az <app>Evolution</app> rendelkezik egy mellékletemlékeztető bővítménnyel, "
+"amely "
 "emlékezteti a fájl csatolására. Ha ez úgy találja, hogy noha említi a "
 "levélben, de nem csatolt fájlt, akkor az e-mail elküldése előtt megjelenít "
 "egy figyelmeztetést."
@@ -5512,12 +5726,18 @@ msgstr ""
 
 #. (itstool) path: section/p
 #: C/mail-attachments-sending.page:51
+#| msgid ""
+#| "Based on the keywords you have added, Evolution searches the text of "
+#| "every mail you are going to send. If it finds any of the keywords in your "
+#| "email and there is no actual attached file, the reminder window is "
+#| "displayed."
 msgid ""
-"Based on the keywords you have added, Evolution searches the text of every "
-"mail you are going to send. If it finds any of the keywords in your email "
-"and there is no actual attached file, the reminder window is displayed."
+"Based on the keywords you have added, <app>Evolution</app> searches the text "
+"of every mail you are going to send. If it finds any of the keywords in your "
+"email and there is no actual attached file, the reminder window is displayed."
 msgstr ""
-"Az itt felvett kulcsszavakat az Evolution minden elküldeni kívánt levél "
+"Az itt felvett kulcsszavakat az <app>Evolution</app> minden elküldeni kívánt "
+"levél "
 "szövegében megkeresi. Ha megtalálja valamelyik kulcsszót, de nincs csatolva "
 "fájl, akkor megjelenik az emlékeztető ablak."
 
@@ -5533,13 +5753,18 @@ msgstr "Meghívók küldése e-mailben"
 
 #. (itstool) path: page/p
 #: C/mail-calendar-sending-invitations.page:23
+#| msgid ""
+#| "If you create an event in the calendar component, you can then send "
+#| "invitations to the attendee list through the Evolution email tool. The "
+#| "invitation card is sent as an attachment in iCal format."
 msgid ""
 "If you create an event in the calendar component, you can then send "
-"invitations to the attendee list through the Evolution email tool. The "
-"invitation card is sent as an attachment in iCal format."
+"invitations to the attendee list through the <app>Evolution</app> email "
+"tool. The invitation card is sent as an attachment in iCal format."
 msgstr ""
 "Ha létrehoz egy eseményt a naptárban, akkor meghívókat küldhet a "
-"résztvevőlista tagjainak az Evolution levelező összetevője használatával. A "
+"résztvevőlista tagjainak az <app>Evolution</app> levelező összetevője "
+"használatával. A "
 "meghívó mellékletként kerül elküldésre, iCal formátumban."
 
 #. (itstool) path: page/p
@@ -5664,12 +5889,17 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/mail-cannot-see.page:33
+#| msgid ""
+#| "Look in the <gui>Junk</gui> folder. Messages that are marked as Junk "
+#| "disappear from the original folder and are moved to the Junk folder."
 msgid ""
 "Look in the <gui>Junk</gui> folder. Messages that are marked as Junk "
-"disappear from the original folder and are moved to the Junk folder."
+"disappear from the original folder and are moved to the <gui>Junk</gui> "
+"folder."
 msgstr ""
 "Nézze meg a <gui>Levélszemét</gui> mappát. A levélszemétként megjelölt "
-"üzenetek eltűnnek az eredeti mappájukból, és a Levélszemét mappába kerülnek "
+"üzenetek eltűnnek az eredeti mappájukból, és a <gui>Levélszemét</gui> mappába "
+"kerülnek "
 "áthelyezésre."
 
 #. (itstool) path: item/p
@@ -7099,14 +7329,20 @@ msgstr ""
 
 #. (itstool) path: section/p
 #: C/mail-composer-plain-text.page:29
+#| msgid ""
+#| "For instance, instead of using asterisks to mark a bulleted list, you can "
+#| "use the <gui>Bulleted List</gui> style from the style dropdown list. "
+#| "Evolution uses different bullet styles, and handles word wrap and "
+#| "multiple levels of indentation."
 msgid ""
 "For instance, instead of using asterisks to mark a bulleted list, you can "
 "use the <gui>Bulleted List</gui> style from the style dropdown list. "
-"Evolution uses different bullet styles, and handles word wrap and multiple "
-"levels of indentation."
+"<app>Evolution</app> uses different bullet styles, and handles word wrap and "
+"multiple levels of indentation."
 msgstr ""
 "A felsorolások jelölésére csillagok helyett például használhatja a "
-"<gui>Felsorolás</gui> stílust a legördülő dobozból. Az Evolution különböző "
+"<gui>Felsorolás</gui> stílust a legördülő dobozból. Az <app>Evolution</app> "
+"különböző "
 "felsorolásstílusokat használ, és képes a sortörések és többszintű behúzás "
 "kezelésére."
 
@@ -7166,12 +7402,17 @@ msgstr ""
 
 #. (itstool) path: note/p
 #: C/mail-composer-priority.page:27
+#| msgid ""
+#| "Evolution will ignore the message priority of incoming messages because "
+#| "the recipient should decide whether the message is important or not. You "
+#| "can set the \"Important\" flag for any messages."
 msgid ""
-"Evolution will ignore the message priority of incoming messages because the "
-"recipient should decide whether the message is important or not. You can set "
-"the \"Important\" flag for any messages."
+"<app>Evolution</app> will ignore the message priority of incoming messages "
+"because the recipient should decide whether the message is important or not. "
+"You can set the \"Important\" flag for any messages."
 msgstr ""
-"Az Evolution figyelmen kívül hagyja a fogadott üzenetek prioritását, mert a "
+"Az <app>Evolution</app> figyelmen kívül hagyja a fogadott üzenetek "
+"prioritását, mert a "
 "címzettnek kell eldöntenie, hogy az üzenet fontos-e. Bármely üzenetre "
 "beállíthatja a „Fontos” jelölőt."
 
@@ -7344,9 +7585,12 @@ msgstr "<gui>Keresés</gui>:"
 
 #. (itstool) path: item/p
 #: C/mail-composer-search.page:27
-msgid "Enter a word or phrase, and Evolution finds it in your message."
+#| msgid "Enter a word or phrase, and Evolution finds it in your message."
+msgid ""
+"Enter a word or phrase, and <app>Evolution</app> finds it in your message."
 msgstr ""
-"Írjon be egy szót vagy kifejezést, és az Evolution megkeresi a leveleiben."
+"Írjon be egy szót vagy kifejezést, és az <app>Evolution</app> megkeresi a "
+"leveleiben."
 
 #. (itstool) path: item/p
 #: C/mail-composer-search.page:30
@@ -7370,10 +7614,14 @@ msgstr "Szó vagy kifejezés keresése, és lecserélése valami másra."
 
 #. (itstool) path: page/p
 #: C/mail-composer-search.page:39
+#| msgid ""
+#| "For all of these menu items you can choose whether to search backwards in "
+#| "the document from the point where your cursor is. You can also determine "
+#| "whether the search is to be case sensitive in determining a match"
 msgid ""
 "For all of these menu items you can choose whether to search backwards in "
 "the document from the point where your cursor is. You can also determine "
-"whether the search is to be case sensitive in determining a match"
+"whether the search is to be case sensitive in determining a match."
 msgstr ""
 "Ezen menüpontok esetén kiválaszthatja a keresés irányát a kurzor "
 "pozíciójához képest. Megadhatja azt is, hogy a keresés megkülönböztesse-e "
@@ -7507,12 +7755,17 @@ msgstr "Automatikus kiegészítés"
 
 #. (itstool) path: section/p
 #: C/mail-composer-several-recipients.page:41
+#| msgid ""
+#| "It is recommended to use the <link xref=\"contacts-autocompletion"
+#| "\">Autocompletion</link> feature of the Evolution address book for "
+#| "entering addresses. By using this you avoid typos and save time."
 msgid ""
 "It is recommended to use the <link xref=\"contacts-autocompletion"
-"\">Autocompletion</link> feature of the Evolution address book for entering "
-"addresses. By using this you avoid typos and save time."
+"\">Autocompletion</link> feature of the <app>Evolution</app> address book "
+"for entering addresses. By using this you avoid typos and save time."
 msgstr ""
-"A címek megadásához javasoljuk az Evolution címjegyzékének <link xref="
+"A címek megadásához javasoljuk az <app>Evolution</app> címjegyzékének <link "
+"xref="
 "\"contacts-autocompletion\">Automatikus kiegészítés</link> szolgáltatásának "
 "használatát. Ezzel gyorsabban és pontosabban adhatja meg a címeket."
 
@@ -7714,9 +7967,13 @@ msgstr ""
 
 #. (itstool) path: info/desc
 #: C/mail-default-folder-locations.page:5
-msgid "Changing the location of Draft, Sent, Trash and Junk folders."
+#| msgid "Changing the location of Draft, Sent, Trash and Junk folders."
+msgid ""
+"Changing the location of <gui>Draft</gui>, <gui>Sent</gui>, <gui>Trash</gui> "
+"and <gui>Junk</gui> folders."
 msgstr ""
-"A Piszkozatok, Elküldött, Kuka és Levélszemét mappák helyének "
+"A <gui>Piszkozatok</gui>, <gui>Elküldött</gui>, <gui>Kuka</gui> és <gui>"
+"Levélszemét</gui> mappák helyének "
 "megváltoztatása."
 
 #. (itstool) path: page/title
@@ -7726,14 +7983,22 @@ msgstr "Levélmappák helye"
 
 #. (itstool) path: page/p
 #: C/mail-default-folder-locations.page:31
+#| msgid ""
+#| "You can set a different place where to store messages in your Draft "
+#| "folder and Sent folder in the <gui>Defaults</gui> section of the mail "
+#| "account editor (<guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail "
+#| "Accounts</gui><gui style=\"button\">Edit</gui><gui>Defaults</gui></"
+#| "guiseq>)."
 msgid ""
-"You can set a different place where to store messages in your Draft folder "
-"and Sent folder in the <gui>Defaults</gui> section of the mail account "
-"editor (<guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</"
-"gui><gui style=\"button\">Edit</gui><gui>Defaults</gui></guiseq>)."
+"You can set a different place where to store messages in your <gui>Draft</"
+"gui> folder and <gui>Sent</gui> folder in the <gui>Defaults</gui> section of "
+"the mail account editor (<guiseq><gui>Edit</gui><gui>Preferences</"
+"gui><gui>Mail Accounts</gui><gui style=\"button\">Edit</gui><gui>Defaults</"
+"gui></guiseq>)."
 msgstr ""
 "A postafiók-szerkesztő <gui>Alapértékek</gui> lapján másik helyet állíthat "
-"be a Piszkozatok és az Elküldött mappákban lévő üzenetek tárolására "
+"be a <gui>Piszkozatok</gui> és az <gui>Elküldött</gui> mappákban lévő "
+"üzenetek tárolására "
 "(<guiseq><gui>Szerkesztés</gui><gui>Beállítások</gui><gui>Postafiókok</"
 "gui><gui style=\"button\">Szerkesztés</gui><gui>Alapértékek</gui></guiseq>)."
 
@@ -7752,16 +8017,23 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/mail-default-folder-locations.page:33
+#| msgid ""
+#| "For remote account types (accounts such as IMAP) you can also use folders "
+#| "on the mail server for Junk and Trash by selecting the corresponding "
+#| "<gui>Use a Real Folder</gui> option. In this case, Evolution's local "
+#| "<link xref=\"mail-search-folders\">virtual folders</link> will not be "
+#| "used."
 msgid ""
 "For remote account types (accounts such as IMAP) you can also use folders on "
 "the mail server for Junk and Trash by selecting the corresponding <gui>Use a "
-"Real Folder</gui> option. In this case, Evolution's local <link xref=\"mail-"
-"search-folders\">virtual folders</link> will not be used."
+"Real Folder</gui> option. In this case, <app>Evolution</app>'s local <link "
+"xref=\"mail-search-folders\">virtual folders</link> will not be used."
 msgstr ""
 "Távoli fióktípusok (például IMAP) esetén beállíthatja a Kuka és a "
 "Levélszemét mappák helyét is a levélkiszolgálón a megfelelő <gui>Valódi "
 "mappa használata</gui> lehetőség használatával. Ebben az esetben nem az "
-"Evolution helyi <link xref=\"mail-search-folders\">virtuális mappái</link> "
+"<app>Evolution</app> helyi <link xref=\"mail-search-folders\">virtuális "
+"mappái</link> "
 "lesznek ezekhez felhasználva."
 
 #. (itstool) path: info/desc
@@ -7794,16 +8066,24 @@ msgstr ""
 
 #. (itstool) path: section/p
 #: C/mail-delete-and-undelete.page:32
+#| msgid ""
+#| "When you press Delete or click the Trash folder, your mail is not "
+#| "actually deleted, but is marked for deletion. You can see all message "
+#| "marked for deletion in the Trash folder. To show deleted messages, click "
+#| "<guiseq><gui>View</gui><gui>Show Deleted Messages</gui></guiseq>. You can "
+#| "view the messages striken off for later deletion."
 msgid ""
-"When you press Delete or click the Trash folder, your mail is not actually "
-"deleted, but is marked for deletion. You can see all message marked for "
-"deletion in the Trash folder. To show deleted messages, click "
+"When you press Delete or click the <gui>Trash</gui> folder, your mail is not "
+"actually deleted, but is marked for deletion. You can see all message marked "
+"for deletion in the <gui>Trash</gui> folder. To show deleted messages, click "
 "<guiseq><gui>View</gui><gui>Show Deleted Messages</gui></guiseq>. You can "
-"view the messages striken off for later deletion."
+"view the messages stricken off for later deletion."
 msgstr ""
-"A Delete megnyomásakor vagy a Kuka mappába dobáskor a levél ténylegesen nem "
+"A Delete megnyomásakor vagy a <gui>Kuka</gui> mappába dobáskor a levél "
+"ténylegesen nem "
 "kerül törlésre, csupán törlésre lesz megjelölve. A törlésre megjelölt összes "
-"üzenetet a Kuka mappában láthatja. A törölt üzenetek megjelenítéséhez "
+"üzenetet a <gui>Kuka</gui> mappában láthatja. A törölt üzenetek "
+"megjelenítéséhez "
 "válassza a <guiseq><gui>Nézet</gui><gui>Törölt üzenetek megjelenítése</gui></"
 "guiseq> menüpontot. Ekkor áthúzva megjelennek a későbbi törlésre megjelölt "
 "üzenetek."
@@ -7826,11 +8106,17 @@ msgstr "Levelek visszaállítása"
 
 #. (itstool) path: section/p
 #: C/mail-delete-and-undelete.page:40
+#| msgid ""
+#| "You can undelete a message that has been deleted but not expunged yet. To "
+#| "undelete a message, select the message, click <guiseq><gui>Edit</"
+#| "gui><gui>Undelete message</gui></guiseq>. Note that <guiseq><gui>View</"
+#| "gui><gui>Show Deleted Messages</gui></guiseq> must be enabled for this."
 msgid ""
 "You can undelete a message that has been deleted but not expunged yet. To "
 "undelete a message, select the message, click <guiseq><gui>Edit</"
 "gui><gui>Undelete message</gui></guiseq>. Note that <guiseq><gui>View</"
-"gui><gui>Show Deleted Messages</gui></guiseq> must be enabled for this."
+"gui><gui>Show Deleted Messages</gui></guiseq> must be enabled for this to "
+"work."
 msgstr ""
 "A törölt, de még nem tisztított üzeneteket visszaállíthatja. Egy üzenet "
 "visszaállításához válassza ki az üzenetet és válassza a "
@@ -7840,12 +8126,15 @@ msgstr ""
 
 #. (itstool) path: section/p
 #: C/mail-delete-and-undelete.page:42
+#| msgid ""
+#| "If you have marked a message for deletion, undeleting it unmarks it, and "
+#| "the message is not shown anymore in the Trash folder."
 msgid ""
 "If you have marked a message for deletion, undeleting it unmarks it, and the "
-"message is not shown anymore in the Trash folder."
+"message is not shown anymore in the <gui>Trash</gui> folder."
 msgstr ""
 "Ha egy üzenetet megjelölt törlésre, akkor a visszaállítása megszünteti ezt, "
-"és az üzenet nem jelenik meg többé a Kuka mappában."
+"és az üzenet nem jelenik meg többé a <gui>Kuka</gui> mappában."
 
 #. (itstool) path: info/desc
 #: C/mail-displaying-character-encodings.page:5
@@ -7928,11 +8217,15 @@ msgstr "Összecsukható üzenetfejlécek"
 
 #. (itstool) path: page/p
 #: C/mail-displaying-collapsible-headers.page:25
+#| msgid ""
+#| "Evolution compresses the To, Cc and Bcc headers of received mail and "
+#| "shows only five addresses in the message preview."
 msgid ""
-"Evolution compresses the To, Cc and Bcc headers of received mail and shows "
-"only five addresses in the message preview."
+"<app>Evolution</app> compresses the To, Cc and Bcc headers of received mail "
+"and shows only five addresses in the message preview."
 msgstr ""
-"Az Evolution a kapott levelek Címzett, Másolat és Rejtett másolat fejléceit "
+"Az <app>Evolution</app> a kapott levelek Címzett, Másolat és Rejtett másolat "
+"fejléceit "
 "tömöríti, és csak öt címet jelenít meg az üzenet-előnézetben."
 
 #. (itstool) path: page/p
@@ -7969,14 +8262,18 @@ msgstr "Képek a HTML-levelekben"
 
 #. (itstool) path: page/p
 #: C/mail-displaying-images-in-html.page:29
+#| msgid ""
+#| "When someone sends you HTML mail that includes an image in the body of "
+#| "the message (for example, the welcome message in your Inbox), Evolution "
+#| "displays the image inside the message."
 msgid ""
 "When someone sends you HTML mail that includes an image in the body of the "
-"message (for example, the welcome message in your Inbox), Evolution displays "
-"the image inside the message."
+"message (for example, the welcome message in your Inbox), <app>Evolution</"
+"app> displays the image inside the message."
 msgstr ""
 "Ha valaki olyan HTML-levelet küld, amely a törzsében képet tartalmaz (mint "
 "például az üdvözlő üzenet a Beérkezett üzenetek mappában), akkor az "
-"Evolution a képet az üzeneten belül jeleníti meg."
+"<app>Evolution</app> a képet az üzeneten belül jeleníti meg."
 
 #. (itstool) path: section/title
 #: C/mail-displaying-images-in-html.page:32
@@ -7985,15 +8282,22 @@ msgstr "Képek betöltése"
 
 #. (itstool) path: section/p
 #: C/mail-displaying-images-in-html.page:33
+#| msgid ""
+#| "Some images are links in a message, rather than being part of the "
+#| "message. Evolution can download those images from the Internet, but does "
+#| "not do so unless you request it. This is because remotely hosted images "
+#| "can be slow to load and display, and can even be used by spammers to "
+#| "track who reads the email. Not automatically loading images helps protect "
+#| "your privacy."
 msgid ""
 "Some images are links in a message, rather than being part of the message. "
-"Evolution can download those images from the Internet, but does not do so "
-"unless you request it. This is because remotely hosted images can be slow to "
-"load and display, and can even be used by spammers to track who reads the "
-"email. Not automatically loading images helps protect your privacy."
+"<app>Evolution</app> can download those images from the Internet, but does "
+"not do so unless you request it. This is because remotely hosted images can "
+"be slow to load and display, and can even be used by spammers to track who "
+"reads the email. Not automatically loading images helps protect your privacy."
 msgstr ""
 "Egyes képek az üzenetben hivatkozásként és nem az üzenet részeként "
-"szerepelnek. Az Evolution képes letölteni ezeket az üzeneteket az "
+"szerepelnek. Az <app>Evolution</app> képes letölteni ezeket az üzeneteket az "
 "internetről, de ezt csak akkor teszi meg, ha Ön kéri. Ennek az az oka, hogy "
 "a távolról elérhető képek letöltése és megjelenítése lassú lehet, és a "
 "levélszemétküldők felhasználhatják a levélszemét olvasóinak követésére. A "
@@ -8093,12 +8397,17 @@ msgstr "Fényképes üzenetfejlécek"
 
 #. (itstool) path: page/p
 #: C/mail-displaying-sender-photograph.page:26
+#| msgid ""
+#| "Evolution automatically displays photographs of the sender of an email at "
+#| "the right side of the message header if the sender already embedded a "
+#| "photograph in the message."
 msgid ""
-"Evolution automatically displays photographs of the sender of an email at "
-"the right side of the message header if the sender already embedded a "
-"photograph in the message."
+"<app>Evolution</app> automatically displays photographs of the sender of an "
+"email at the right side of the message header if the sender already embedded "
+"a photograph in the message."
 msgstr ""
-"Az Evolution automatikusan megjeleníti a levelek feladójának képét az üzenet "
+"Az <app>Evolution</app> automatikusan megjeleníti a levelek feladójának képét "
+"az üzenet "
 "előnézetének jobb oldalán, ha a feladó beágyazott egy képet az üzenetbe."
 
 #. (itstool) path: page/p
@@ -8227,8 +8536,9 @@ msgstr "A postafiókjában ugyanaz a levél több példányban is megvan"
 
 #. (itstool) path: item/p
 #: C/mail-duplicates.page:37
-msgid "Evolution is having a problem with the UIDL extension."
-msgstr "Az Evolution UIDL kiterjesztése hibás."
+#| msgid "Evolution is having a problem with the UIDL extension."
+msgid "<app>Evolution</app> is having a problem with the UIDL extension."
+msgstr "Az <app>Evolution</app> UIDL kiterjesztése hibás."
 
 #. (itstool) path: item/p
 #: C/mail-duplicates.page:38
@@ -8241,7 +8551,8 @@ msgstr ""
 
 #. (itstool) path: info/desc
 #: C/mail-encryption-gpg-create-key.page:5
-msgid "Signing or encrypting messages via GPG/OpenPGP that you send."
+#| msgid "Signing or encrypting messages via GPG that you send."
+msgid "Signing or encrypting messages that you send via GPG/OpenPGP."
 msgstr "Elküldött levelek aláírása vagy titkosítása GPG-vel/OpenPGP-vel."
 
 #. (itstool) path: page/title
@@ -8251,21 +8562,31 @@ msgstr "GPG-kulcs létrehozása"
 
 #. (itstool) path: page/p
 #: C/mail-encryption-gpg-create-key.page:24
+#| msgid ""
+#| "Before you can get or send GPG encrypted mail, you need to <link xref="
+#| "\"help:seahorse/pgp-create\" href=\"https://help.gnome.org/users/seahorse/"
+#| "stable/pgp-create\">generate your public and private keys with GPG</"
+#| "link>. After doing so and <link xref=\"mail-encryption-gpg-set-up"
+#| "\">setting up Evolution to use the key</link>, you need to <link xref="
+#| "\"help:seahorse/pgp-publish\" href=\"https://help.gnome.org/users/"
+#| "seahorse/stable/pgp-publish\">share your public key with your friends to "
+#| "allow them sending you encrypted messages</link>."
 msgid ""
 "Before you can get or send GPG encrypted mail, you need to <link xref=\"help:"
 "seahorse/pgp-create\" href=\"https://help.gnome.org/users/seahorse/stable/"
 "pgp-create\">generate your public and private keys with GPG</link>. After "
-"doing so and <link xref=\"mail-encryption-gpg-set-up\">setting up Evolution "
-"to use the key</link>, you need to <link xref=\"help:seahorse/pgp-publish\" "
-"href=\"https://help.gnome.org/users/seahorse/stable/pgp-publish\">share your "
-"public key with your friends to allow them sending you encrypted messages</"
-"link>."
+"doing so and <link xref=\"mail-encryption-gpg-set-up\">setting up "
+"<app>Evolution</app> to use the key</link>, you need to <link xref=\"help:"
+"seahorse/pgp-publish\" href=\"https://help.gnome.org/users/seahorse/stable/"
+"pgp-publish\">share your public key with your friends to allow them sending "
+"you encrypted messages</link>."
 msgstr ""
 "Mielőtt fogadhatna vagy küldhetne GPG-vel titkosított leveleket, <link xref="
 "\"help:seahorse/pgp-create\" href=\"https://help.gnome.org/users/seahorse/"
 "stable/pgp-create\">létre kell hoznia nyilvános és személyes kulcsait GPG-"
 "vel</link>. Ezután <link xref=\"mail-encryption-gpg-set-up\">be kell "
-"állítania az Evolutiont a kulcs használatára</link>, és <link xref=\"help:"
+"állítania az <app>Evolutiont</app> a kulcs használatára</link>, és <link "
+"xref=\"help:"
 "seahorse/pgp-publish\" href=\"https://help.gnome.org/users/seahorse/stable/"
 "pgp-publish\">meg kell osztania ismerőseivel a nyilvános kulcsát, hogy "
 "titkosított üzeneteket küldhessenek</link>."
@@ -8294,11 +8615,15 @@ msgstr "A kapott titkosított leveleket vissza kell fejtenie az elolvasásukhoz.
 
 #. (itstool) path: section/p
 #: C/mail-encryption-gpg-decrypting.page:28
+#| msgid ""
+#| "When you view the message, Evolution prompts you for your PGP password. "
+#| "Enter it, and the unencrypted message is displayed."
 msgid ""
-"When you view the message, Evolution prompts you for your PGP password. "
-"Enter it, and the unencrypted message is displayed."
+"When you view the message, <app>Evolution</app> prompts you for your PGP "
+"password. Enter it, and the unencrypted message is displayed."
 msgstr ""
-"A levél megjelenítésekor az Evolution bekéri az Ön PGP jelszavát. Ennek "
+"A levél megjelenítésekor az <app>Evolution</app> bekéri az Ön PGP jelszavát. "
+"Ennek "
 "megadása után megjelenik a titkosítatlan üzenet."
 
 #. (itstool) path: note/p
@@ -8317,13 +8642,18 @@ msgstr "Kapott levél aláírásának ellenőrzése"
 
 #. (itstool) path: section/p
 #: C/mail-encryption-gpg-decrypting.page:34
+#| msgid ""
+#| "To check the sender's signature of a received message, scroll down to the "
+#| "bottom of the message and click the logo. Evolution will display "
+#| "<gui>Security Information</gui> for the message."
 msgid ""
 "To check the sender's signature of a received message, scroll down to the "
-"bottom of the message and click the logo. Evolution will display "
+"bottom of the message and click the logo. <app>Evolution</app> will display "
 "<gui>Security Information</gui> for the message."
 msgstr ""
 "A feladó aláírásának ellenőrzéséhez görgessen le az üzenet aljáig, és "
-"kattintson a logóra. Az Evolution megjeleníti az üzenet <gui>Biztonsági "
+"kattintson a logóra. Az <app>Evolution</app> megjeleníti az üzenet <gui>"
+"Biztonsági "
 "információit</gui>."
 
 #. (itstool) path: info/desc
@@ -8338,15 +8668,22 @@ msgstr "Nyilvános GPG-kulcsok beszerzése és használata"
 
 #. (itstool) path: page/p
 #: C/mail-encryption-gpg-getting-keys.page:25
+#| msgid ""
+#| "To send an encrypted message, you need to use the recipient's public key "
+#| "in combination with your private key. Evolution handles the encryption, "
+#| "but you need to <link xref=\"help:seahorse/pgp-import\" href=\"https://"
+#| "help.gnome.org/users/seahorse/stable/pgp-import\">get the public key and "
+#| "add it to your keyring</link>."
 msgid ""
 "To send an encrypted message, you need to use the recipient's public key in "
-"combination with your private key. Evolution handles the encryption, but you "
-"need to <link xref=\"help:seahorse/pgp-import\" href=\"https://help.gnome."
-"org/users/seahorse/stable/pgp-import\">get the public key and add it to your "
-"keyring</link>."
+"combination with your private key. <app>Evolution</app> handles the "
+"encryption, but you need to <link xref=\"help:seahorse/pgp-import\" href="
+"\"https://help.gnome.org/users/seahorse/stable/pgp-import\">get the public "
+"key and add it to your keyring</link>."
 msgstr ""
 "Titkosított üzenet küldéséhez a címzett nyilvános kulcsát együtt kell a "
-"saját személyes kulcsával használnia. Az Evolution kezeli a titkosítást, de "
+"saját személyes kulcsával használnia. Az <app>Evolution</app> kezeli a "
+"titkosítást, de "
 "<link xref=\"help:seahorse/pgp-import\" href=\"https://help.gnome.org/users/"
 "seahorse/stable/pgp-import\">a nyilvános kulcsot be kell szereznie, és hozzá "
 "kell adnia a kulcstartójához</link>."
@@ -8425,14 +8762,21 @@ msgstr "Nyomja meg a <gui style=\"button\">Bezárás</gui> gombot."
 
 #. (itstool) path: page/p
 #: C/mail-encryption-gpg-set-up.page:38
+#| msgid ""
+#| "Evolution requires that you know your key ID. If you do not remember it, "
+#| "start <app>Passwords and Keys</app>, go to <gui>GnuPG Keys</gui>, select "
+#| "the preferred GPG key, right-click on it, select <gui>Properties</gui> "
+#| "and copy the <gui>Key ID</gui>. Your key ID is an eight-character string "
+#| "with random numbers and letters."
 msgid ""
-"Evolution requires that you know your key ID. If you do not remember it, "
-"start <app>Passwords and Keys</app>, go to <gui>GnuPG Keys</gui>, select the "
-"preferred GPG key, right-click on it, select <gui>Properties</gui> and copy "
-"the <gui>Key ID</gui>. Your key ID is an eight-character string with random "
-"numbers and letters."
+"<app>Evolution</app> requires that you know your key ID. If you do not "
+"remember it, start <app>Passwords and Keys</app>, go to <gui>GnuPG Keys</"
+"gui>, select the preferred GPG key, right-click on it, select "
+"<gui>Properties</gui> and copy the <gui>Key ID</gui>. Your key ID is an "
+"eight-character string with random numbers and letters."
 msgstr ""
-"Az Evolution megköveteli, hogy ismerje kulcsazonosítóját. Ha nem emlékszik "
+"Az <app>Evolution</app> megköveteli, hogy ismerje kulcsazonosítóját. Ha nem "
+"emlékszik "
 "rá, akkor a <app>Jelszavak és kulcsok</app> alkalmazásban nyissa meg a "
 "<gui>GnuPG kulcsok</gui> szakaszt, jelölje ki a kívánt GPG kulcsot, "
 "kattintson rá a jobb egérgombbal, a helyi menüből válassza a "
@@ -8515,12 +8859,17 @@ msgstr "Levéltitkosítás és tanúsítványok"
 
 #. (itstool) path: page/p
 #: C/mail-encryption.page:32
+#| msgid ""
+#| "Evolution offers GPG Encryption and S/MIME Encryption for signing and "
+#| "encrypting email messages. S/MIME is used most often in corporate "
+#| "environments."
 msgid ""
-"Evolution offers GPG Encryption and S/MIME Encryption for signing and "
-"encrypting email messages. S/MIME is used most often in corporate "
+"<app>Evolution</app> offers GPG Encryption and S/MIME Encryption for signing "
+"and encrypting email messages. S/MIME is used most often in corporate "
 "environments."
 msgstr ""
-"Az Evolution GPG titkosítást és S/MIME titkosítást tud használni az e-mailek "
+"Az <app>Evolution</app> GPG titkosítást és S/MIME titkosítást tud használni "
+"az e-mailek "
 "aláírására és titkosítására. Az S/MIME leggyakrabban vállalati környezetben "
 "használatos."
 
@@ -8801,8 +9150,9 @@ msgstr "Hangfájl lejátszása:"
 
 #. (itstool) path: item/p
 #: C/mail-filters-actions.page:60
-msgid "Select a sound file for Evolution to play."
-msgstr "Az Evolution lejátssza a kiválasztott hangfájlt."
+#| msgid "Select a sound file for Evolution to play."
+msgid "Select a sound file for <app>Evolution</app> to play."
+msgstr "Az <app>Evolution</app> lejátssza a kiválasztott hangfájlt."
 
 #. (itstool) path: item/p
 #: C/mail-filters-actions.page:62
@@ -8811,8 +9161,9 @@ msgstr "Program futtatása:"
 
 #. (itstool) path: item/p
 #: C/mail-filters-actions.page:63
-msgid "Evolution runs an application."
-msgstr "Az Evolution lefuttat egy alkalmazást."
+#| msgid "Evolution runs an application."
+msgid "<app>Evolution</app> runs an application."
+msgstr "Az <app>Evolution</app> lefuttat egy alkalmazást."
 
 #. (itstool) path: item/p
 #: C/mail-filters-actions.page:65 C/mail-filters-conditions.page:36
@@ -8821,15 +9172,21 @@ msgstr "Átirányítás programhoz:"
 
 #. (itstool) path: item/p
 #: C/mail-filters-actions.page:66
+#| msgid ""
+#| "Sends the message to an application of your choice. No return value is "
+#| "expected. This feature can be used to create automatic Web postings from "
+#| "email messages or to perform additional message post processing not "
+#| "supported by Evolution."
 msgid ""
 "Sends the message to an application of your choice. No return value is "
 "expected. This feature can be used to create automatic Web postings from "
 "email messages or to perform additional message post processing not "
-"supported by Evolution."
+"supported by <app>Evolution</app>."
 msgstr ""
 "Elküldi az üzenetet egy Ön által kiválasztott alkalmazásnak. Nem vár "
 "visszatérési értéket. Ez a szolgáltatás az e-mail üzenetekből webes "
-"bejegyzések automatikus létrehozására használható, vagy az Evolution által "
+"bejegyzések automatikus létrehozására használható, vagy az <app>Evolution<"
+"/app> által "
 "nem támogatott további üzenet-utófeldolgozás végrehajtására."
 
 #. (itstool) path: item/p
@@ -8868,12 +9225,17 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/mail-filters-conditions.page:37
+#| msgid ""
+#| "Evolution can use an external command to process a message, then process "
+#| "it based on the return value. Commands used in this way must return an "
+#| "integer. This is most commonly used to add an external junk mail filter."
 msgid ""
-"Evolution can use an external command to process a message, then process it "
-"based on the return value. Commands used in this way must return an integer. "
-"This is most commonly used to add an external junk mail filter."
+"<app>Evolution</app> can use an external command to process a message, then "
+"process it based on the return value. Commands used in this way must return "
+"an integer. This is most commonly used to add an external junk mail filter."
 msgstr ""
-"Az Evolution képes külső parancsot is használni az üzenetek feldolgozására, "
+"Az <app>Evolution</app> képes külső parancsot is használni az üzenetek "
+"feldolgozására, "
 "majd a visszatérési érték alapján folytatni a feldolgozást. Az így használt "
 "parancsoknak egész számot kell visszaadniuk. Ez leggyakrabban külső "
 "levélszemét-szűrők hozzáadására használatos."
@@ -8982,15 +9344,21 @@ msgstr "Több levelezőkliens használata"
 
 #. (itstool) path: section/p
 #: C/mail-filters-not-working.page:37
+#| msgid ""
+#| "Another thing you have to keep in mind is that filters depend on the \"new"
+#| "\" flag that is set on the server when a particular email message is "
+#| "initially fetched from the server. If you use another email client aside "
+#| "from Evolution, your filters may not work automatically."
 msgid ""
 "Another thing you have to keep in mind is that filters depend on the \"new\" "
 "flag that is set on the server when a particular email message is initially "
 "fetched from the server. If you use another email client aside from "
-"Evolution, your filters may not work automatically."
+"<app>Evolution</app>, your filters may not work automatically."
 msgstr ""
 "Másik fontos dolog, hogy a szűrők az „új” jelzőre támaszkodnak, amely akkor "
 "kerül beállításra a kiszolgálón, amikor egy adott e-mail először letöltésre "
-"kerül a kiszolgálóról. Ha másik levelezőklienst is használ az Evolution "
+"kerül a kiszolgálóról. Ha másik levelezőklienst is használ az <app>Evolution<"
+"/app> "
 "mellett, akkor a szűrők nem biztos, hogy automatikusan működni fognak."
 
 #. (itstool) path: section/title
@@ -9009,8 +9377,9 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/mail-filters-not-working.page:44
-msgid "Close Evolution."
-msgstr "Zárja be az Evolutiont."
+#| msgid "Close Evolution."
+msgid "Close <app>Evolution</app>."
+msgstr "Zárja be az <app>Evolutiont</app>."
 
 #. (itstool) path: item/p
 #: C/mail-filters-not-working.page:45 C/mail-localized-re-subjects.page:24
@@ -9098,19 +9467,29 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/mail-filters.page:27
+#| msgid ""
+#| "Filters will be automatically applied to incoming messages for local "
+#| "accounts (such as POP). Mail servers for remote accounts (such as IMAP) "
+#| "often already filter mail directly on the server as this is faster. If "
+#| "you want to apply your Evolution filters to remote accounts, you can "
+#| "enable this under <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail "
+#| "Accounts</gui><gui style=\"button\">Edit</gui><gui>Receiving Options</"
+#| "gui><gui>Options</gui><gui>Apply filters to new messages in Inbox on this "
+#| "server</gui></guiseq>."
 msgid ""
 "Filters will be automatically applied to incoming messages for local "
 "accounts (such as POP). Mail servers for remote accounts (such as IMAP) "
 "often already filter mail directly on the server as this is faster. If you "
-"want to apply your Evolution filters to remote accounts, you can enable this "
-"under <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</"
-"gui><gui style=\"button\">Edit</gui><gui>Receiving Options</"
+"want to apply your <app>Evolution</app> filters to remote accounts, you can "
+"enable this under <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail "
+"Accounts</gui><gui style=\"button\">Edit</gui><gui>Receiving Options</"
 "gui><gui>Options</gui><gui>Apply filters to new messages in Inbox on this "
 "server</gui></guiseq>."
 msgstr ""
 "A szűrők automatikusan alkalmazásra kerülnek a helyi fiókokba (például POP) "
 "érkező levelekre. A távoli fiókokat (például IMAP) használó levélkiszolgálók "
-"ezt közvetlenül a kiszolgálón végzik, mivel így gyorsabb. Ha az Evolution "
+"ezt közvetlenül a kiszolgálón végzik, mivel így gyorsabb. Ha az <app>"
+"Evolution</app> "
 "szűrőit távoli fiókokra is szeretné alkalmazni, akkor ezt a "
 "<guiseq><gui>Szerkesztés</gui><gui>Beállítások</gui><gui>Postafiókok</"
 "gui><gui style=\"button\">Szerkesztés</gui><gui>Fogadás beállításai</"
@@ -9137,13 +9516,17 @@ msgstr "Szűrő létrehozása"
 
 #. (itstool) path: item/p
 #: C/mail-filters.page:36
+#| msgid ""
+#| "Click <guiseq><gui>Edit</gui><gui>Message Filters</gui></guiseq>, or "
+#| "click <guiseq><gui>Message</gui><gui>Create Rule</gui></guiseq> and "
+#| "select the criterion the filter will be based on."
 msgid ""
 "Click <guiseq><gui>Edit</gui><gui>Message Filters</gui></guiseq>, or click "
-"<guiseq><gui>Message</gui><gui>Create Rule</gui></guiseq> and select the "
+"<guiseq><gui>Message</gui><gui>Create</gui></guiseq> and select the "
 "criterion the filter will be based on."
 msgstr ""
 "Válassza a <guiseq><gui>Szerkesztés</gui><gui>Üzenetszűrők</gui></guiseq>, "
-"vagy az <guiseq><gui>Üzenet</gui><gui>Szabály létrehozása</gui></guiseq> "
+"vagy az <guiseq><gui>Üzenet</gui><gui>Létrehozás</gui></guiseq> "
 "menüpontot, és adja meg a szűrő alapjául szolgáló feltételeket."
 
 #. (itstool) path: item/p
@@ -9281,12 +9664,17 @@ msgstr "Mappák használata"
 
 #. (itstool) path: page/p
 #: C/mail-folders.page:30
+#| msgid ""
+#| "Evolution, like most mail systems, uses folders to store email messages. "
+#| "You start out with a few mail folders such as the Inbox, Outbox, and "
+#| "Drafts. You can, however, create more folders if required."
 msgid ""
-"Evolution, like most mail systems, uses folders to store email messages. You "
-"start out with a few mail folders such as the Inbox, Outbox, and Drafts. You "
-"can, however, create more folders if required."
+"<app>Evolution</app>, like most mail systems, uses folders to store email "
+"messages. You start out with a few mail folders such as the Inbox, Outbox, "
+"and Drafts. You can, however, create more folders if required."
 msgstr ""
-"Az Evolution a legtöbb levelezőrendszerhez hasonlóan mappákat használ az e-"
+"Az <app>Evolution</app> a legtöbb levelezőrendszerhez hasonlóan mappákat "
+"használ az e-"
 "mailek tárolására. Kezdetben néhány levélmappája van, például Beérkezett "
 "üzenetek, Postázandó és Piszkozatok. Szükség esetén további mappákat is "
 "létrehozhat."
@@ -9333,14 +9721,23 @@ msgstr ""
 
 #. (itstool) path: note/p
 #: C/mail-folders.page:43
+#| msgid ""
+#| "The Inbox folders on most IMAP servers cannot contain both messages and "
+#| "subfolders. When creating additional folders on your IMAP mail server, "
+#| "branch the folders from the root of the IMAP account and not from the "
+#| "Inbox. Creating subfolders in your Inbox may prevent you from reading "
+#| "messages that exist in the Inbox. If this happens, move the folders to "
+#| "the IMAP account."
 msgid ""
-"The Inbox folders on most IMAP servers cannot contain both messages and "
-"subfolders. When creating additional folders on your IMAP mail server, "
-"branch the folders from the root of the IMAP account and not from the Inbox. "
-"Creating subfolders in your Inbox may prevent you from reading messages that "
-"exist in the Inbox. If this happens, move the folders to the IMAP account."
+"The <gui>Inbox</gui> folders on most IMAP servers cannot contain both "
+"messages and subfolders. When creating additional folders on your IMAP mail "
+"server, branch the folders from the root of the IMAP account and not from "
+"the Inbox. Creating subfolders in your Inbox may prevent you from reading "
+"messages that exist in the Inbox. If this happens, move the folders to the "
+"IMAP account."
 msgstr ""
-"A Beérkezett üzenetek mappa a legtöbb IMAP-kiszolgálón nem tartalmazhat "
+"A <gui>Beérkezett</gui> üzenetek mappa a legtöbb IMAP-kiszolgálón nem "
+"tartalmazhat "
 "egyidejűleg üzeneteket és almappákat is. Az IMAP levélkiszolgálón további "
 "mappák létrehozásakor ügyeljen arra, hogy a mappákat az IMAP-fiók gyökerében "
 "és ne a Beérkezett üzenetek mappában hozza létre. Az almappák létrehozása a "
@@ -9533,14 +9930,19 @@ msgstr "IMAP feliratkozások"
 
 #. (itstool) path: page/p
 #: C/mail-imap-subscriptions.page:27
+#| msgid ""
+#| "As opening many IMAP folders on the server takes time you can define "
+#| "which IMAP folders to check and display in Evolution, and which ones to "
+#| "ignore for the time being, via the <gui>IMAP Subscriptions Manager</gui>."
 msgid ""
 "As opening many IMAP folders on the server takes time you can define which "
-"IMAP folders to check and display in Evolution, and which ones to ignore for "
-"the time being, via the <gui>IMAP Subscriptions Manager</gui>."
+"IMAP folders to check and display in <app>Evolution</app>, and which ones to "
+"ignore for the time being, via the <gui>IMAP Subscriptions Manager</gui>."
 msgstr ""
 "Mivel számos IMAP mappa megnyitása a kiszolgálón sokáig tarthat, az "
 "<gui>IMAP feliratkozáskezelő</gui> használatával megadhatja az ellenőrzendő "
-"és az Evolutionben megjelenítendő IMAP mappákat, valamint az egyelőre "
+"és az <app>Evolutionben</app> megjelenítendő IMAP mappákat, valamint az "
+"egyelőre "
 "figyelmen kívül hagyandókat is."
 
 #. (itstool) path: item/p
@@ -9566,10 +9968,15 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/mail-imap-subscriptions.page:31
+#| msgid ""
+#| "Evolution displays a list of files and folders available on the IMAP "
+#| "server."
 msgid ""
-"Evolution displays a list of files and folders available on the IMAP server."
+"<app>Evolution</app> displays a list of files and folders available on the "
+"IMAP server."
 msgstr ""
-"Az Evolution megjeleníti az IMAP-kiszolgálón elérhető fájlok és mappák "
+"Az <app>Evolution</app> megjeleníti az IMAP-kiszolgálón elérhető fájlok és "
+"mappák "
 "listáját."
 
 #. (itstool) path: item/p
@@ -9579,12 +9986,17 @@ msgstr "Kattintással válasszon ki egy fájlt vagy mappát."
 
 #. (itstool) path: item/p
 #: C/mail-imap-subscriptions.page:33
+#| msgid ""
+#| "You should select at least the Inbox folder. Depending upon the way your "
+#| "IMAP server is configured, the list of available files might include non-"
+#| "mail folders. If it does, you can ignore them."
 msgid ""
-"You should select at least the Inbox folder. Depending upon the way your "
-"IMAP server is configured, the list of available files might include non-"
-"mail folders. If it does, you can ignore them."
+"You should select at least the <gui>Inbox</gui> folder. Depending upon the "
+"way your IMAP server is configured, the list of available files might "
+"include non-mail folders. If it does, you can ignore them."
 msgstr ""
-"A Beérkezett mappát mindenképp ki kell választania. Az IMAP-kiszolgáló "
+"A <gui>Beérkezett</gui> mappát mindenképp ki kell választania. Az "
+"IMAP-kiszolgáló "
 "beállításaitól függően az elérhető fájlok listája tartalmazhat nem "
 "levélmappákat is. Ebben az esetben figyelmen kívül hagyhatja azokat."
 
@@ -9608,13 +10020,18 @@ msgstr "Címkék használata"
 
 #. (itstool) path: page/p
 #: C/mail-labels.page:23
+#| msgid ""
+#| "You can add colored labels to emails in order to categorize them. This is "
+#| "similar to <link xref=\"using-categories\">Categories</link> in the other "
+#| "Evolution windows."
 msgid ""
 "You can add colored labels to emails in order to categorize them. This is "
 "similar to <link xref=\"using-categories\">Categories</link> in the other "
-"Evolution windows."
+"<app>Evolution</app> windows."
 msgstr ""
 "Az e-maileket színes címkék segítségével kategorizálhatja. Ez hasonló a "
-"többi Evolution ablak <link xref=\"using-categories\">kategóriáihoz</link>."
+"többi <app>Evolution</app> ablak <link xref=\"using-categories\">"
+"kategóriáihoz</link>."
 
 #. (itstool) path: page/p
 #: C/mail-labels.page:25
@@ -9724,16 +10141,24 @@ msgstr "Az áthelyezett levelek továbbra is megjelennek az eredeti mappában"
 
 #. (itstool) path: page/p
 #: C/mail-moving-emails.page:26
+#| msgid ""
+#| "If your IMAP mail server does not yet support <link href=\"http://tools."
+#| "ietf.org/html/rfc6851\">IMAP's \"move\" feature</link> which was "
+#| "introduced in January 2013, Evolution \"moves\" messages by copying and "
+#| "deleting emails. Deleting means \"marking messages for deletion\" so all "
+#| "the original messages are retained until you expunge the emails marked "
+#| "for deletion."
 msgid ""
 "If your IMAP mail server does not yet support <link href=\"http://tools.ietf."
 "org/html/rfc6851\">IMAP's \"move\" feature</link> which was introduced in "
-"January 2013, Evolution \"moves\" messages by copying and deleting emails. "
-"Deleting means \"marking messages for deletion\" so all the original "
-"messages are retained until you expunge the emails marked for deletion."
+"January 2013, <app>Evolution</app> \"moves\" messages by copying and "
+"deleting emails. Deleting means \"marking messages for deletion\" so all the "
+"original messages are retained until you expunge the emails marked for "
+"deletion."
 msgstr ""
 "Ha az IMAP levélkiszolgálója még nem támogatja az <link href=\"http://tools."
 "ietf.org/html/rfc6851\">IMAP „áthelyezés” szolgáltatását</link>, amely 2013 "
-"januárban jelent meg, akkor az Evolution az üzeneteket az e-mailek "
+"januárban jelent meg, akkor az <app>Evolution</app> az üzeneteket az e-mailek "
 "másolásával és törlésével „helyezi át”. A törlés azt jelenti, hogy "
 "„megjelöli az üzeneteket törlésre”, így az eredeti levelek megmaradnak amíg "
 "nem törli véglegesen („Tisztítja”) a törlésre megjelölt e-maileket."
@@ -9777,10 +10202,14 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/mail-not-sent.page:26
+#| msgid ""
+#| "Incorrect SMTP settings. Verify if the settings used for outgoing "
+#| "messages is correct. Using the incorrect server address or authentication "
+#| "method may prevent emails from being sent"
 msgid ""
 "Incorrect SMTP settings. Verify if the settings used for outgoing messages "
-"is correct. Using the incorrect server address or authentication method may "
-"prevent emails from being sent"
+"are correct. Using the incorrect server address or authentication method may "
+"prevent emails from being sent."
 msgstr ""
 "Helytelen SMTP-beállítások. Ellenőrizze, hogy a kimenő levelekhez használt "
 "beállítások helyesek-e. Hibás kiszolgálócím vagy hitelesítési módszer "
@@ -9788,14 +10217,21 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/mail-not-sent.page:27
+#| msgid ""
+#| "Offline status. Evolution may be offline. Check on the <gui style=\"button"
+#| "\">Send and Receive</gui> button; if it is greyed out, then you are "
+#| "offline. To go online, go to <guiseq><gui>File</gui><gui>Work online</"
+#| "gui></guiseq>. You should now be able to use the <gui style=\"button"
+#| "\">Send and Receive</gui> button."
 msgid ""
-"Offline status. Evolution may be offline. Check on the <gui style=\"button"
-"\">Send and Receive</gui> button; if it is greyed out, then you are offline. "
-"To go online, go to <guiseq><gui>File</gui><gui>Work online</gui></guiseq>. "
-"You should now be able to use the <gui style=\"button\">Send and Receive</"
-"gui> button."
+"Offline status. <app>Evolution</app> may be offline. Check on the <gui style="
+"\"button\">Send and Receive</gui> button; if it is greyed out, then you are "
+"offline. To go online, go to <guiseq><gui>File</gui><gui>Work online</gui></"
+"guiseq>. You should now be able to use the <gui style=\"button\">Send and "
+"Receive</gui> button."
 msgstr ""
-"Kapcsolat nélküli állapot. Lehet, hogy az Evolution kapcsolat nélküli módban "
+"Kapcsolat nélküli állapot. Lehet, hogy az <app>Evolution</app> kapcsolat "
+"nélküli módban "
 "van. Ellenőrizze a <gui style=\"button\">Küldés / Fogadás</gui> gombot: ha "
 "ki van szürkítve, akkor kapcsolat nélküli módban van. Az online módba "
 "váltáshoz válassza a <guiseq><gui>Fájl</gui><gui>Munka a hálózatban</gui></"
@@ -9814,11 +10250,14 @@ msgstr "Levelek rendezése és rendszerezése"
 
 #. (itstool) path: page/p
 #: C/mail-organizing.page:23
+#| msgid ""
+#| "Evolution provides several options to organize your mail according to "
+#| "your needs."
 msgid ""
-"Evolution provides several options to organize your mail according to your "
-"needs."
+"<app>Evolution</app> provides several options to organize your mail "
+"according to your needs."
 msgstr ""
-"Az Evolution számos beállítást kínál levelei igényeinek megfelelő "
+"Az <app>Evolution</app> számos beállítást kínál levelei igényeinek megfelelő "
 "rendszerezésére."
 
 #. (itstool) path: section/title
@@ -10030,12 +10469,17 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/mail-read-receipts.page:38
+#| msgid ""
+#| "For read receipts that you receive you can define Evolution's behavior "
+#| "under <gui>Message Receipts</gui> under the account's <link xref=\"mail-"
+#| "default-folder-locations\"><gui>Defaults</gui></link>."
 msgid ""
-"For read receipts that you receive you can define Evolution's behavior under "
-"<gui>Message Receipts</gui> under the account's <link xref=\"mail-default-"
-"folder-locations\"><gui>Defaults</gui></link>."
+"For read receipts that you receive you can define <app>Evolution</app>'s "
+"behavior under <gui>Message Receipts</gui> under the account's <link xref="
+"\"mail-default-folder-locations\"><gui>Defaults</gui></link>."
 msgstr ""
-"A kapott tértivevényekkel kapcsolatosan megadhatja az Evolution viselkedését "
+"A kapott tértivevényekkel kapcsolatosan megadhatja az <app>Evolution</app> "
+"viselkedését "
 "a <gui>Tértivevények</gui> szakaszban a fiók <link xref=\"mail-default-"
 "folder-locations\"><gui>Alapértékek</gui></link> beállításai közt."
 
@@ -10079,12 +10523,16 @@ msgstr "Értesítés új levelekről"
 
 #. (itstool) path: page/p
 #: C/mail-received-notification.page:23
+#| msgid ""
+#| "Evolution always notifies you of new messages by adding a yellow star to "
+#| "the mailer icon in the window <link xref=\"change-switcher-appearance"
+#| "\">switcher</link>."
 msgid ""
-"Evolution always notifies you of new messages by adding a yellow star to the "
-"mailer icon in the window <link xref=\"change-switcher-appearance"
+"<app>Evolution</app> always notifies you of new messages by adding a yellow "
+"star to the mailer icon in the window <link xref=\"change-switcher-appearance"
 "\">switcher</link>."
 msgstr ""
-"Az Evolution mindig értesíti az új levelekről egy sárga csillag "
+"Az <app>Evolution</app> mindig értesíti az új levelekről egy sárga csillag "
 "hozzáadásával a levelezőikonhoz az <link xref=\"change-switcher-appearance"
 "\">ablakváltóban</link>."
 
@@ -10164,16 +10612,23 @@ msgstr ""
 #: C/mail-receiving-options-imap-plus.page:34
 #: C/mail-receiving-options-pop.page:38
 #: C/mail-receiving-options-usenet-news.page:34
+#| msgid ""
+#| "Select your authentication type in the Authentication list, or click <gui "
+#| "style=\"button\">Check for Supported Types</gui> to have Evolution check "
+#| "for supported authentication mechanisms. Some servers do not announce the "
+#| "authentication mechanisms they support, so clicking this button is not a "
+#| "guarantee that available mechanisms actually work."
 msgid ""
 "Select your authentication type in the Authentication list, or click <gui "
-"style=\"button\">Check for Supported Types</gui> to have Evolution check for "
-"supported authentication mechanisms. Some servers do not announce the "
-"authentication mechanisms they support, so clicking this button is not a "
-"guarantee that available mechanisms actually work."
+"style=\"button\">Check for Supported Types</gui> to have <app>Evolution</"
+"app> check for supported authentication mechanisms. Some servers do not "
+"announce the authentication mechanisms they support, so clicking this button "
+"is not a guarantee that available mechanisms actually work."
 msgstr ""
 "Válassza ki a hitelesítés típusát a Hitelesítés listából, vagy nyomja meg a "
 "<gui style=\"button\">Támogatott típusok lekérdezése</gui> gombot, és az "
-"Evolution meghatározza a támogatott hitelesítési mechanizmusokat. Egyes "
+"<app>Evolution</app> meghatározza a támogatott hitelesítési mechanizmusokat. "
+"Egyes "
 "kiszolgálók nem teszik közzé az általuk támogatott hitelesítési "
 "mechanizmusokat, így a gomb megnyomása nem garantálja, hogy az elérhető "
 "mechanizmusok ténylegesen működni fognak."
@@ -10222,22 +10677,31 @@ msgstr ""
 #: C/mail-receiving-options-pop.page:50
 #: C/mail-receiving-options-unix-mbox-spool-file.page:39
 #: C/mail-receiving-options-usenet-news.page:46
+#| msgid ""
+#| "If you want Evolution to check automatically for new messages, click the "
+#| "<gui>Check for new messages every … minutes</gui> option and select the "
+#| "frequency in minutes."
 msgid ""
-"If you want Evolution to check automatically for new messages, click the "
-"<gui>Check for new messages every … minutes</gui> option and select the "
-"frequency in minutes."
+"If you want <app>Evolution</app> to check automatically for new messages, "
+"click the <gui>Check for new messages every … minutes</gui> option and "
+"select the frequency in minutes."
 msgstr ""
-"Ha azt szeretné, hogy az Evolution automatikusan keresse az új üzeneteket, "
+"Ha azt szeretné, hogy az <app>Evolution</app> automatikusan keresse az új "
+"üzeneteket, "
 "akkor jelölje be az <gui>Új levelek automatikus lekérdezése … percenként</"
 "gui> négyzetet, és adja meg a gyakoriságot percben."
 
 #. (itstool) path: item/p
 #: C/mail-receiving-options-exchange-ews.page:43
 #: C/mail-receiving-options-exchange-mapi.page:45
+#| msgid ""
+#| "You can also define if Evolution checks for new messages in all folders."
 msgid ""
-"You can also define if Evolution checks for new messages in all folders."
+"You can also define if <app>Evolution</app> checks for new messages in all "
+"folders."
 msgstr ""
-"Megadhatja azt is, hogy az Evolution minden mappában keressen-e új leveleket."
+"Megadhatja azt is, hogy az <app>Evolution</app> minden mappában keressen-e új "
+"leveleket."
 
 #. (itstool) path: item/p
 #: C/mail-receiving-options-exchange-ews.page:44
@@ -10337,8 +10801,9 @@ msgstr ""
 #: C/mail-receiving-options-imap-plus.page:35
 #: C/mail-receiving-options-pop.page:39
 #: C/mail-receiving-options-usenet-news.page:35
-msgid "Select if you want Evolution to remember your password."
-msgstr "Döntse el, hogy az Evolution megjegyezze-e a jelszavát."
+#| msgid "Select if you want Evolution to remember your password."
+msgid "Select if you want <app>Evolution</app> to remember your password."
+msgstr "Döntse el, hogy az <app>Evolution</app> megjegyezze-e a jelszavát."
 
 #. (itstool) path: item/p
 #: C/mail-receiving-options-imap-plus.page:47
@@ -10354,31 +10819,46 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/mail-receiving-options-imap-plus.page:49
+#| msgid ""
+#| "If the mail server does not allow multiple connections from Evolution to "
+#| "the server at the same time (for example when you have more than one "
+#| "account on that server), set <gui>Number of concurrent connections to "
+#| "use</gui> to 1."
 msgid ""
-"If the mail server does not allow multiple connections from Evolution to the "
-"server at the same time (for example when you have more than one account on "
-"that server), set <gui>Number of concurrent connections to use</gui> to 1."
+"If the mail server does not allow multiple connections from <app>Evolution</"
+"app> to the server at the same time (for example when you have more than one "
+"account on that server), set <gui>Number of concurrent connections to use</"
+"gui> to 1."
 msgstr ""
 "Ha a levélkiszolgáló nem engedélyez több egyidejű kapcsolatot az "
-"Evolutiontől (például ha több fiókja van azon a kiszolgálón), akkor állítsa "
+"<app>Evolutiontől</app> (például ha több fiókja van azon a kiszolgálón), "
+"akkor állítsa "
 "a <gui>Használandó egyidejű kapcsolatok számát</gui> 1-re."
 
 #. (itstool) path: item/p
 #: C/mail-receiving-options-imap-plus.page:50
+#| msgid ""
+#| "You can also define if Evolution checks for new messages in all folders, "
+#| "or only in subscribed folders."
 msgid ""
-"You can also define if Evolution checks for new messages in all folders, or "
-"only in subscribed folders."
+"You can also define if <app>Evolution</app> checks for new messages in all "
+"folders, or only in subscribed folders."
 msgstr ""
-"Megadhatja azt is, hogy az Evolution az új üzeneteket az összes mappában, "
+"Megadhatja azt is, hogy az <app>Evolution</app> az új üzeneteket az összes "
+"mappában, "
 "vagy csak a feliratkozottakban keresse-e."
 
 #. (itstool) path: item/p
 #: C/mail-receiving-options-imap-plus.page:51
+#| msgid ""
+#| "Select if you want Evolution to show only <link xref=\"mail-imap-"
+#| "subscriptions\">subscribed folders</link>."
 msgid ""
-"Select if you want Evolution to show only <link xref=\"mail-imap-"
+"Select if you want <app>Evolution</app> to show only <link xref=\"mail-imap-"
 "subscriptions\">subscribed folders</link>."
 msgstr ""
-"Döntse el, hogy az Evolution csak a <link xref=\"mail-imap-subscriptions"
+"Döntse el, hogy az <app>Evolution</app> csak a <link "
+"xref=\"mail-imap-subscriptions"
 "\">feliratkozott mappákat</link> jelenítse-e meg."
 
 #. (itstool) path: info/desc
@@ -10553,18 +11033,22 @@ msgstr ""
 
 #. (itstool) path: info/desc
 #: C/mail-recognized-thread-related-headers.page:5
-msgid "Which thread-related headers are recognized by Evolution."
-msgstr "Az Evolution milyen szálakkal kapcsolatos fejléceket ismer."
+#| msgid "Which thread-related headers are recognized by Evolution."
+msgid "Which thread-related headers are recognized by <app>Evolution</app>."
+msgstr "Az <app>Evolution</app> milyen szálakkal kapcsolatos fejléceket ismer."
 
 #. (itstool) path: page/title
 #: C/mail-recognized-thread-related-headers.page:20
-msgid "Thread related headers recognized by Evolution"
-msgstr "Az Evolution által felismert, szálakkal kapcsolatos fejlécek"
+#| msgid "Thread related headers recognized by Evolution"
+msgid "Thread related headers recognized by <app>Evolution</app>"
+msgstr ""
+"Az <app>Evolution</app> által felismert, szálakkal kapcsolatos fejlécek"
 
 #. (itstool) path: page/p
 #: C/mail-recognized-thread-related-headers.page:22
-msgid "Evolution supports the following headers:"
-msgstr "Az Evolution a következő fejléceket támogatja:"
+#| msgid "Evolution supports the following headers:"
+msgid "<app>Evolution</app> supports the following headers:"
+msgstr "Az <app>Evolution</app> a következő fejléceket támogatja:"
 
 #. (itstool) path: item/p
 #: C/mail-recognized-thread-related-headers.page:24
@@ -10587,8 +11071,9 @@ msgstr ""
 
 #. (itstool) path: info/desc
 #: C/mail-refresh-folders.page:5
-msgid "Ways to update your Evolution folders."
-msgstr "Módszerek az Evolution mappáinak frissítésére."
+#| msgid "Ways to update your Evolution folders."
+msgid "Ways to update your <app>Evolution</app> folders."
+msgstr "Módszerek az <app>Evolution</app> mappáinak frissítésére."
 
 #. (itstool) path: page/title
 #: C/mail-refresh-folders.page:20
@@ -10773,8 +11258,9 @@ msgstr "Keresőmappák készítéséhez használható feltételek."
 
 #. (itstool) path: page/title
 #: C/mail-search-folders-conditions.page:23
-msgid "Available Search folder conditions"
-msgstr "Használható keresőmappa-feltételek"
+#| msgid "Available Search folder conditions"
+msgid "Available <gui>Search</gui> folder conditions"
+msgstr "Használható <gui>keresőmappa</gui>-feltételek"
 
 #. (itstool) path: item/p
 #: C/mail-search-folders-conditions.page:33
@@ -10788,14 +11274,18 @@ msgstr "Ellenőrzi, hogy a levél egy adott mappában van-e."
 
 #. (itstool) path: item/p
 #: C/mail-search-folders-conditions.page:34
+#| msgid ""
+#| "Note that by default, Evolution's <gui>Trash</gui> and <gui>Junk</gui> "
+#| "folders are <link xref=\"mail-search-folders\">Search folders</link> so "
+#| "they cannot be selected here."
 msgid ""
-"Note that by default, Evolution's <gui>Trash</gui> and <gui>Junk</gui> "
-"folders are <link xref=\"mail-search-folders\">Search folders</link> so they "
-"cannot be selected here."
+"Note that by default, <app>Evolution</app>'s <gui>Trash</gui> and <gui>Junk</"
+"gui> folders are <link xref=\"mail-search-folders\"><gui>Search</gui> "
+"folders</link> so they cannot be selected here."
 msgstr ""
-"Ne feledje, hogy alapesetben az Evolution <gui>Kuka</gui> és "
+"Ne feledje, hogy alapesetben az <app>Evolution</app> <gui>Kuka</gui> és "
 "<gui>Levélszemét</gui> mappái <link xref=\"mail-search-folders"
-"\">keresőmappák</link>, így itt nem választhatók ki."
+"\"><gui>keresőmappák</gui></link>, így itt nem választhatók ki."
 
 #. (itstool) path: item/p
 #: C/mail-search-folders-conditions.page:37
@@ -10845,8 +11335,9 @@ msgstr ""
 
 #. (itstool) path: page/title
 #: C/mail-search-folders.page:22
-msgid "Using Search folders"
-msgstr "Keresőmappák használata"
+#| msgid "Using Search folders"
+msgid "Using <gui>Search</gui> folders"
+msgstr "<gui>Keresőmappák</gui> használata"
 
 #. (itstool) path: page/p
 #: C/mail-search-folders.page:24
@@ -10880,11 +11371,15 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/mail-search-folders.page:28
+#| msgid ""
+#| "Evolution automatically updates the search folder contents when new "
+#| "messages are received or message are deleted."
 msgid ""
-"Evolution automatically updates the search folder contents when new messages "
-"are received or message are deleted."
+"<app>Evolution</app> automatically updates the search folder contents when "
+"new messages are received or message are deleted."
 msgstr ""
-"Az Evolution automatikusan frissíti a keresőmappák tartalmát új levelek "
+"Az <app>Evolution</app> automatikusan frissíti a keresőmappák tartalmát új "
+"levelek "
 "érkezésekor vagy levelek törlésekor."
 
 #. (itstool) path: page/p
@@ -10913,22 +11408,29 @@ msgstr ""
 
 #. (itstool) path: info/desc
 #: C/mail-search-folders-refresh.page:5
-msgid "Ways of updating Search folders."
-msgstr "Módszerek keresőmappák frissítésére."
+#| msgid "Ways of updating Search folders."
+msgid "Ways of updating <gui>Search</gui> folders."
+msgstr "Módszerek <gui>keresőmappák</gui> frissítésére."
 
 #. (itstool) path: page/title
 #: C/mail-search-folders-refresh.page:24
-msgid "Updating/refreshing Search folders"
-msgstr "Keresőmappák frissítése"
+#| msgid "Updating/refreshing Search folders"
+msgid "Updating/refreshing <gui>Search</gui> folders"
+msgstr "<gui>Keresőmappák</gui> frissítése"
 
 #. (itstool) path: page/p
 #: C/mail-search-folders-refresh.page:26
+#| msgid ""
+#| "It might happen that one of your Search folders has not updated since "
+#| "some new email arrived or since an email was deleted, for example. This "
+#| "will mean that the list of emails in the folder is not up-to-date."
 msgid ""
-"It might happen that one of your Search folders has not updated since some "
-"new email arrived or since an email was deleted, for example. This will mean "
-"that the list of emails in the folder is not up-to-date."
+"It might happen that one of your <gui>Search</gui> folders has not updated "
+"since some new email arrived or since an email was deleted, for example. "
+"This will mean that the list of emails in the folder is not up-to-date."
 msgstr ""
-"Előfordulhat, hogy valamelyik keresőmappája nem került frissítésre, például "
+"Előfordulhat, hogy valamelyik <gui>keresőmappája</gui> nem került "
+"frissítésre, például "
 "mióta új e-mailek érkeztek vagy e-mailek törlésre kerültek. Ez azt jelenti, "
 "hogy az adott mappában lévő e-mailek listája nem lesz naprakész."
 
@@ -11034,13 +11536,6 @@ msgstr ""
 "csomópontjaira vonatkozik, mint például „Ezen a számítógépen” és a távoli "
 "postafiókok."
 
-#. (itstool) path: item/p
-#: C/mail-searching.page:50 C/memos-searching.page:46
-#: C/memos-searching.page:52 C/tasks-searching.page:46
-#: C/tasks-searching.page:52
-msgid "Evolution displays the search results."
-msgstr "Az Evolution megjeleníti a találatokat."
-
 #. (itstool) path: note/p
 #: C/mail-searching.page:52
 msgid ""
@@ -11073,15 +11568,23 @@ msgstr "Új levelek automatikus keresése"
 
 #. (itstool) path: page/p
 #: C/mail-send-and-receive-automatically.page:21
+#| msgid ""
+#| "If you want Evolution to check automatically for new messages, enable the "
+#| "option <gui>Check for new messages every … minutes</gui> in the "
+#| "<gui>Receiving Options</gui> page of the mail account settings "
+#| "(accessible via <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail "
+#| "Accounts</gui><gui style=\"button\">Edit</gui><gui>Receiving Options</"
+#| "gui></guiseq>) and select the frequency in minutes."
 msgid ""
-"If you want Evolution to check automatically for new messages, enable the "
-"option <gui>Check for new messages every … minutes</gui> in the "
+"If you want <app>Evolution</app> to check automatically for new messages, "
+"enable the option <gui>Check for new messages every … minutes</gui> in the "
 "<gui>Receiving Options</gui> page of the mail account settings (accessible "
 "via <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</"
 "gui><gui style=\"button\">Edit</gui><gui>Receiving Options</gui></guiseq>) "
 "and select the frequency in minutes."
 msgstr ""
-"Ha azt szeretné, hogy az Evolution automatikusan keresse az új üzeneteket, "
+"Ha azt szeretné, hogy az <app>Evolution</app> automatikusan keresse az új "
+"üzeneteket, "
 "akkor jelölje be az <gui>Új levelek automatikus lekérdezése … percenként</"
 "gui> négyzetet a Postafiók-szerkesztő ablak <gui>Fogadás beállításai</gui> "
 "lapján (ez elérhető a <guiseq><gui>Szerkesztés</gui><gui>Beállítások</"
@@ -11091,13 +11594,19 @@ msgstr ""
 
 #. (itstool) path: note/p
 #: C/mail-send-and-receive-automatically.page:23
+#| msgid ""
+#| "Evolution supports <link href=\"https://en.wikipedia.org/wiki/IMAP_IDLE"
+#| "\">IMAP IDLE</link> on the currently selected folder and partially "
+#| "supports the <link href=\"http://tools.ietf.org/search/rfc5465\">IMAP "
+#| "NOTIFY</link> extension."
 msgid ""
-"Evolution supports <link href=\"https://en.wikipedia.org/wiki/IMAP_IDLE"
-"\">IMAP IDLE</link> on the currently selected folder and partially supports "
-"the <link href=\"http://tools.ietf.org/search/rfc5465\">IMAP NOTIFY</link> "
-"extension."
+"<app>Evolution</app> supports <link href=\"https://en.wikipedia.org/wiki/"
+"IMAP_IDLE\">IMAP IDLE</link> on the currently selected folder and partially "
+"supports the <link href=\"http://tools.ietf.org/search/rfc5465\">IMAP "
+"NOTIFY</link> extension."
 msgstr ""
-"Az Evolution támogatja az <link href=\"https://en.wikipedia.org/wiki/"
+"Az <app>Evolution</app> támogatja az <link "
+"href=\"https://en.wikipedia.org/wiki/"
 "IMAP_IDLE\">IMAP IDLE</link>-t az aktuálisan kijelölt mappán, és részlegesen "
 "támogatja az <link href=\"http://tools.ietf.org/search/rfc5465\">IMAP "
 "NOTIFY</link> kiterjesztést."
@@ -11196,14 +11705,19 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/mail-sending-options-smtp.page:34
+#| msgid ""
+#| "Select the authentication type in the Authentication list, or click "
+#| "<gui>Check for Supported Types</gui> to have Evolution check. Some "
+#| "servers do not support this, so clicking this button is not a guarantee "
+#| "that available mechanisms actually work."
 msgid ""
 "Select the authentication type in the Authentication list, or click "
-"<gui>Check for Supported Types</gui> to have Evolution check. Some servers "
-"do not support this, so clicking this button is not a guarantee that "
-"available mechanisms actually work."
+"<gui>Check for Supported Types</gui> to have <app>Evolution</app> check. "
+"Some servers do not support this, so clicking this button is not a guarantee "
+"that available mechanisms actually work."
 msgstr ""
 "Válassza ki a hitelesítés típusát a Hitelesítés listából, vagy nyomja meg a "
-"<gui>Támogatott típusok lekérdezése</gui> gombot, és az Evolution "
+"<gui>Támogatott típusok lekérdezése</gui> gombot, és az <app>Evolution</app> "
 "meghatározza azokat. Egyes kiszolgálók nem támogatják ezt, így a gomb "
 "megnyomása nem garantálja, hogy az elérhető mechanizmusok ténylegesen "
 "működni fognak."
@@ -11220,12 +11734,15 @@ msgstr "POP levelek szétválogatása több fiókhoz"
 
 #. (itstool) path: page/p
 #: C/mail-several-pop-accounts.page:24
+#| msgid ""
+#| "It is not possible to have separate accounts in the accounts and folder "
+#| "list pane. Evolution only has one unique inbox for incoming email."
 msgid ""
 "It is not possible to have separate accounts in the accounts and folder list "
-"pane. Evolution only has one unique inbox for incoming email."
+"pane. <app>Evolution</app> only has one unique inbox for incoming email."
 msgstr ""
 "A fiók- és mappalista ablaktáblán nem használhat több önálló fiókot. Az "
-"Evolution egyetlen érkezett mappát használ a bejövő e-mailekhez."
+"<app>Evolution</app> egyetlen érkezett mappát használ a bejövő e-mailekhez."
 
 #. (itstool) path: page/p
 #: C/mail-several-pop-accounts.page:25
@@ -11262,11 +11779,14 @@ msgstr "Üzenetlista rendezése"
 
 #. (itstool) path: page/p
 #: C/mail-sorting-message-list.page:30
+#| msgid ""
+#| "Evolution lets you organize your emails by letting you sort messages in "
+#| "the <link xref=\"intro-main-window#e-mail\">message list</link>."
 msgid ""
-"Evolution lets you organize your emails by letting you sort messages in the "
-"<link xref=\"intro-main-window#e-mail\">message list</link>."
+"<app>Evolution</app> lets you organize your emails by letting you sort "
+"messages in the <link xref=\"intro-main-window#e-mail\">message list</link>."
 msgstr ""
-"Az Evolution lehetővé teszi e-mailjeinek rendszerezését a levelek "
+"Az <app>Evolution</app> lehetővé teszi e-mailjeinek rendszerezését a levelek "
 "rendezésével az <link xref=\"intro-main-window#e-mail\">üzenetlistában</"
 "link>."
 
@@ -11369,12 +11889,17 @@ msgstr ""
 
 #. (itstool) path: section/p
 #: C/mail-sorting-message-list.page:54
+#| msgid ""
+#| "Evolution allows you to sort your messages using these columns. Just "
+#| "click on the column label to sort the emails. The direction of the arrow "
+#| "next to the label indicates the direction of the sort."
 msgid ""
-"Evolution allows you to sort your messages using these columns. Just click "
-"on the column label to sort the emails. The direction of the arrow next to "
-"the label indicates the direction of the sort."
+"<app>Evolution</app> allows you to sort your messages using these columns. "
+"Just click on the column label to sort the emails. The direction of the "
+"arrow next to the label indicates the direction of the sort."
 msgstr ""
-"Az Evolution lehetővé teszi a levelek rendezését az oszlopok használatával. "
+"Az <app>Evolution</app> lehetővé teszi a levelek rendezését az oszlopok "
+"használatával. "
 "Kattintson az oszlopcímkére az e-mailek rendezéséhez. A címke melletti nyíl "
 "jelzi a rendezés irányát."
 
@@ -11385,13 +11910,16 @@ msgstr "Más rendezési beállítások használata"
 
 #. (itstool) path: section/p
 #: C/mail-sorting-message-list.page:59
+#| msgid ""
+#| "Evolution provides other ways for sorting email messages. You can use "
+#| "Sort By, Sort Ascending, Sort Descending, or Unsort."
 msgid ""
-"Evolution provides other ways for sorting email messages. You can use Sort "
-"By, Sort Ascending, Sort Descending, or Unsort."
+"<app>Evolution</app> provides other ways for sorting email messages. You can "
+"use Sort By, Sort Ascending, Sort Descending, or Reset sort."
 msgstr ""
-"Az Evolution más módszereket is biztosít az e-mailek rendezésére. "
-"Használhatja a Rendezés, Növekvő sorrend, Csökkenő sorrend vagy Rendezetlen "
-"menüpontokat is."
+"Az <app>Evolution</app> más módszereket is biztosít az e-mailek rendezésére. "
+"Használhatja a Rendezés, Növekvő sorrend, Csökkenő sorrend vagy a Sorrend "
+"visszaállítása menüpontokat is."
 
 #. (itstool) path: section/title
 #: C/mail-sorting-message-list.page:61
@@ -11547,13 +12075,14 @@ msgstr "Az üzenetek megjelenítésekor a legújabb kerül felülre."
 
 #. (itstool) path: section/title
 #: C/mail-sorting-message-list.page:110
-msgid "Unsort"
-msgstr "Rendezetlen"
+msgid "Reset sort"
+msgstr "Sorrend visszaállítása"
 
 #. (itstool) path: item/p
 #: C/mail-sorting-message-list.page:113
-msgid "Select the <gui>Unsort</gui> option."
-msgstr "Válassza a <gui>Rendezetlen</gui> menüpontot."
+#| msgid "Select the <gui>Unsort</gui> option."
+msgid "Select the <gui>Reset sort</gui> option."
+msgstr "Válassza a <gui>Sorrend visszaállítása</gui> menüpontot."
 
 #. (itstool) path: section/p
 #: C/mail-sorting-message-list.page:115
@@ -11602,14 +12131,21 @@ msgstr "Levélszemét megjelölése saját kezűleg"
 
 #. (itstool) path: section/p
 #: C/mail-spam-marking.page:36
+#| msgid ""
+#| "If Evolution misses junk mail, right-click the message, then click "
+#| "<gui>Mark as Junk</gui>, or mark the message and press <keyseq><key>Ctrl</"
+#| "key><key>J</key></keyseq> or click the <gui>Junk</gui> button in the tool "
+#| "bar. When you correct it, the filter can recognize similar messages in "
+#| "the future, and becomes more accurate as time goes on."
 msgid ""
-"If Evolution misses junk mail, right-click the message, then click <gui>Mark "
-"as Junk</gui>, or mark the message and press <keyseq><key>Ctrl</key><key>J</"
-"key></keyseq> or click the <gui>Junk</gui> button in the tool bar. When you "
-"correct it, the filter can recognize similar messages in the future, and "
-"becomes more accurate as time goes on."
+"If <app>Evolution</app> misses junk mail, right-click the message, then "
+"click <gui>Mark as Junk</gui>, or mark the message and press "
+"<keyseq><key>Ctrl</key><key>J</key></keyseq> or click the <gui>Junk</gui> "
+"button in the tool bar. When you correct it, the filter can recognize "
+"similar messages in the future, and becomes more accurate as time goes on."
 msgstr ""
-"Ha az Evolution elvét egy levélszemetet, akkor kattintson a jobb egérgombbal "
+"Ha az <app>Evolution</app> elvét egy levélszemetet, akkor kattintson a jobb "
+"egérgombbal "
 "a levélre, majd válassza a <gui>Megjelölés levélszemétként</gui> menüpontot, "
 "vagy nyomja meg a <keyseq><key>Ctrl</key><key>J</key></keyseq> "
 "billentyűkombinációt, vagy az eszköztár <gui>Levélszemét</gui> gombját. Ha "
@@ -11733,26 +12269,36 @@ msgstr "Levélszemét beállításai"
 
 #. (itstool) path: note/p
 #: C/mail-spam-settings.page:62
+#| msgid ""
+#| "The junk mail options discussed in this page refer only to POP and Local "
+#| "Delivery accounts. For handling junk mail on IMAP accounts, see the "
+#| "Evolution settings under <guiseq><gui>Edit</gui><gui>Preferences</"
+#| "gui><gui>Mail Accounts</gui><gui style=\"button\">Edit</"
+#| "gui><gui>Receiving Options</gui></guiseq>."
 msgid ""
 "The junk mail options discussed in this page refer only to POP and Local "
 "Delivery accounts. For handling junk mail on IMAP accounts, see the "
-"Evolution settings under <guiseq><gui>Edit</gui><gui>Preferences</"
+"<app>Evolution</app> settings under <guiseq><gui>Edit</gui><gui>Preferences</"
 "gui><gui>Mail Accounts</gui><gui style=\"button\">Edit</gui><gui>Receiving "
 "Options</gui></guiseq>."
 msgstr ""
 "A jelen oldalon ismertetett levélszemét-kezelési lehetőségek csak a POP és "
 "helyi kézbesítésű fiókok esetén érhetők el. IMAP fiókok használata esetén "
-"nézze meg az Evolution beállításait a <guiseq><gui>Szerkesztés</"
+"nézze meg az <app>Evolution</app> beállításait a <guiseq><gui>Szerkesztés</"
 "gui><gui>Beállítások</gui><gui>Postafiókok</gui><gui style=\"button"
 "\">Szerkesztés</gui><gui>Fogadás beállításai</gui></guiseq> alatt."
 
 #. (itstool) path: section/p
 #: C/mail-spam-settings.page:63
+#| msgid ""
+#| "You can modify how Evolution handles junk mail by changing the Junk Mail "
+#| "Preferences:"
 msgid ""
-"You can modify how Evolution handles junk mail by changing the Junk Mail "
-"Preferences:"
+"You can modify how <app>Evolution</app> handles junk mail by changing the "
+"Junk Mail Preferences:"
 msgstr ""
-"A levélszemét beállításaival módosíthatja, hogy az Evolution hogyan kezeli a "
+"A levélszemét beállításaival módosíthatja, hogy az <app>Evolution</app> "
+"hogyan kezeli a "
 "levélszemetet:"
 
 #. (itstool) path: item/p
@@ -11822,56 +12368,83 @@ msgstr "Egy Kuka vagy Levélszemét mappa használata fiókonként."
 
 #. (itstool) path: page/title
 #: C/mail-two-trash-folders.page:25
-msgid "Two Trash or Junk folders shown for the same account"
-msgstr "Két Kuka vagy Levélszemét mappa ugyanahhoz a fiókhoz"
+#| msgid "Two Trash or Junk folders shown for the same account"
+msgid "Two Trash or <gui>Junk</gui> folders shown for the same account"
+msgstr "Két Kuka vagy <gui>Levélszemét</gui> mappa ugyanahhoz a fiókhoz"
 
 #. (itstool) path: page/p
 #: C/mail-two-trash-folders.page:27
+#| msgid ""
+#| "If you use a remote mail account that also has Junk and/or Trash folders "
+#| "on the server you might face duplicated folders in Evolution."
 msgid ""
-"If you use a remote mail account that also has Junk and/or Trash folders on "
-"the server you might face duplicated folders in Evolution."
+"If you use a remote mail account that also has Junk and/or <gui>Trash</gui> "
+"folders on the server you might face duplicated folders in <app>Evolution</"
+"app>."
 msgstr ""
-"Ha távoli postafiókot használ, amely a kiszolgálón lévő Levélszemét és/vagy "
-"Kuka mappával "
+"Ha távoli postafiókot használ, amely a kiszolgálón lévő <gui>Levélszemét</gui>"
+" és/vagy "
+"Kuka mappával rendelkezik, akkor a mappák többször is megjelenhetnek az <app>"
+"Evolutionben</app>."
 
 #. (itstool) path: page/p
 #: C/mail-two-trash-folders.page:28
+#| msgid ""
+#| "You can easily tell the two Trash folders apart by looking at their "
+#| "icons. The Evolution <gui>Trash</gui> folder has a special icon whereas "
+#| "the other physical Trash folder looks like any other folder."
 msgid ""
-"You can easily tell the two Trash folders apart by looking at their icons. "
-"The Evolution <gui>Trash</gui> folder has a special icon whereas the other "
-"physical Trash folder looks like any other folder."
+"You can easily tell the two <gui>Trash</gui> folders apart by looking at "
+"their icons. The <app>Evolution</app> <gui>Trash</gui> folder has a special "
+"icon whereas the other physical <gui>Trash</gui> folder looks like any other "
+"folder."
 msgstr ""
-"A két Kuka mappát egyszerűen megkülönböztetheti az ikonjaik alapján. Az "
-"Evolution <gui>Kuka</gui> mappája speciális ikonnal rendelkezik, míg a másik "
-"fizikailag létező Kuka mappa ikonja a többi mappáéval azonos."
+"A két <gui>Kuka</gui> mappát egyszerűen megkülönböztetheti az ikonjaik "
+"alapján. Az "
+"<app>Evolution</app> <gui>Kuka</gui> mappája speciális ikonnal rendelkezik, "
+"míg a másik "
+"fizikailag létező <gui>Kuka</gui> mappa ikonja a többi mappáéval azonos."
 
 #. (itstool) path: page/p
 #: C/mail-two-trash-folders.page:30
+#| msgid ""
+#| "By default, Evolution's <gui>Trash</gui> and <gui>Junk</gui> folders are "
+#| "<link xref=\"mail-search-folders\">Search folders</link>. They do not "
+#| "really exist but simply display all the messages that are marked as junk "
+#| "or for deletion in any folders of that account."
 msgid ""
-"By default, Evolution's <gui>Trash</gui> and <gui>Junk</gui> folders are "
-"<link xref=\"mail-search-folders\">Search folders</link>. They do not really "
-"exist but simply display all the messages that are marked as junk or for "
-"deletion in any folders of that account."
+"By default, <app>Evolution</app>'s <gui>Trash</gui> and <gui>Junk</gui> "
+"folders are <link xref=\"mail-search-folders\">Search folders</link>. They "
+"do not really exist but simply display all the messages that are marked as "
+"junk or for deletion in any folders of that account."
 msgstr ""
-"Az Evolution <gui>Kuka</gui> és <gui>Levélszemét</gui> mappái <link xref="
+"Az <app>Evolution</app> <gui>Kuka</gui> és <gui>Levélszemét</gui> mappái <"
+"link xref="
 "\"mail-search-folders\">keresőmappák</link>. Valójában nem léteznek, hanem "
 "csak megjelenítik az összes olyan üzenetet, amely az adott fiók bármely "
 "mappájában levélszemétként vagy törlésre van megjelölve."
 
 #. (itstool) path: page/p
 #: C/mail-two-trash-folders.page:32
+#| msgid ""
+#| "In order to only use the folders for Junk and Trash on the mail server, "
+#| "select the corresponding <gui>Use a Real Folder</gui> option under "
+#| "<guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</gui><gui "
+#| "style=\"button\">Edit</gui><gui>Defaults</gui></guiseq>. In this case, "
+#| "Evolution's local virtual folders will not be used."
 msgid ""
 "In order to only use the folders for Junk and Trash on the mail server, "
 "select the corresponding <gui>Use a Real Folder</gui> option under "
 "<guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</gui><gui "
 "style=\"button\">Edit</gui><gui>Defaults</gui></guiseq>. In this case, "
-"Evolution's local virtual folders will not be used."
+"<app>Evolution</app>'s local virtual folders will not be used."
 msgstr ""
 "A levélkiszolgálón lévő Levélszemét és Kuka mappák kizárólagos használatához "
 "válassza ki a megfelelő <gui>Valódi mappa használata</gui> beállítást a "
 "<guiseq><gui>Szerkesztés</gui><gui>Beállítások</gui><gui>Postafiókok</"
 "gui><gui style=\"button\">Szerkesztés</gui><gui>Alapértékek</gui></guiseq> "
-"alatt. Ebben az esetben az Evolution helyi virtuális mappái nem lesznek "
+"alatt. Ebben az esetben az <app>Evolution</app> helyi virtuális mappái nem "
+"lesznek "
 "felhasználva."
 
 #. (itstool) path: info/desc
@@ -11919,14 +12492,21 @@ msgstr "Függőleges nézet"
 
 #. (itstool) path: page/p
 #: C/mail-vertical-view.page:24
+#| msgid ""
+#| "Evolution provides a vertical view in addition to the classical view. In "
+#| "the vertical view, the message preview pane is located at the right side "
+#| "of the message list when compared to the classical view where the message "
+#| "preview pane is placed below the message list. Vertical view enables you "
+#| "to use the extra width of wide screen monitors."
 msgid ""
-"Evolution provides a vertical view in addition to the classical view. In the "
-"vertical view, the message preview pane is located at the right side of the "
-"message list when compared to the classical view where the message preview "
-"pane is placed below the message list. Vertical view enables you to use the "
-"extra width of wide screen monitors."
+"<app>Evolution</app> provides a vertical view in addition to the classical "
+"view. In the vertical view, the message preview pane is located at the right "
+"side of the message list when compared to the classical view where the "
+"message preview pane is placed below the message list. Vertical view enables "
+"you to use the extra width of wide screen monitors."
 msgstr ""
-"Az Evolution a klasszikus nézet mellett egy függőleges nézetet is tartalmaz. "
+"Az <app>Evolution</app> a klasszikus nézet mellett egy függőleges nézetet is "
+"tartalmaz. "
 "A függőleges nézetben az üzenet-előnézeti ablaktábla az üzenetlista jobb "
 "oldalán van, szemben a klasszikus nézettel, amelyben az üzenet-előnézeti "
 "ablaktábla az üzenetlista alatt látható. A függőleges nézet lehetővé teszi a "
@@ -12005,40 +12585,59 @@ msgstr "Kapcsolat nélküli munka"
 
 #. (itstool) path: page/p
 #: C/mail-working-offline.page:25
+#| msgid ""
+#| "Forced offline mode helps you communicate with remote mail storage "
+#| "systems like GroupWise, IMAP or Exchange, in situations where you are not "
+#| "connected to the network at all times. Evolution keeps a local copy of "
+#| "one or more folders to allow you to compose messages, storing them in "
+#| "your Outbox to be sent the next time you connect."
 msgid ""
 "Forced offline mode helps you communicate with remote mail storage systems "
 "like GroupWise, IMAP or Exchange, in situations where you are not connected "
-"to the network at all times. Evolution keeps a local copy of one or more "
-"folders to allow you to compose messages, storing them in your Outbox to be "
-"sent the next time you connect."
+"to the network at all times. <app>Evolution</app> keeps a local copy of one "
+"or more folders to allow you to compose messages, storing them in your "
+"Outbox to be sent the next time you connect."
 msgstr ""
 "A kényszerített kapcsolat nélküli módban akkor is kommunikálhat távoli "
 "levéltároló rendszerekkel, mint például a GroupWise, IMAP vagy Exchange, "
-"amikor nincs folyamatosan kapcsolódva a hálózatra. Az Evolution helyi "
+"amikor nincs folyamatosan kapcsolódva a hálózatra. Az <app>Evolution</app> "
+"helyi "
 "másolatot tárol több mappáról, ami lehetővé teszi a levelek szerkesztését és "
 "a Postázandó mappában tárolt levelek elküldését a következő kapcsolódáskor."
 
 #. (itstool) path: note/p
 #: C/mail-working-offline.page:27 C/offline.page:40
+#| msgid ""
+#| "Evolution's forced offline mode only refers to mail and does not apply to "
+#| "contacts and calendars."
 msgid ""
-"Evolution's forced offline mode only refers to mail and does not apply to "
-"contacts and calendars."
+"<app>Evolution</app>'s forced offline mode only refers to mail and does not "
+"apply to contacts and calendars."
 msgstr ""
-"Az Evolution kényszerített kapcsolat nélküli módja csak a levelezésre "
+"Az <app>Evolution</app> kényszerített kapcsolat nélküli módja csak a "
+"levelezésre "
 "vonatkozik, és nem érvényes a névjegyekre és naptárakra."
 
 #. (itstool) path: page/p
 #: C/mail-working-offline.page:29
+#| msgid ""
+#| "POP mail downloads all messages to your local system, but other "
+#| "connections usually download just the headers, and get the rest only when "
+#| "you want to read the message. Before you force Evolution to be offline, "
+#| "Evolution downloads the unread messages from the folders you have chosen "
+#| "to store."
 msgid ""
 "POP mail downloads all messages to your local system, but other connections "
 "usually download just the headers, and get the rest only when you want to "
-"read the message. Before you force Evolution to be offline, Evolution "
-"downloads the unread messages from the folders you have chosen to store."
+"read the message. Before you force <app>Evolution</app> to be offline, "
+"<app>Evolution</app> downloads the unread messages from the folders you have "
+"chosen to store."
 msgstr ""
 "A POP levelezés minden levelet letölt a helyi rendszerre, de más kapcsolatok "
 "általában csak a fejléceket töltik le, a levelek többi részét pedig csak "
 "akkor, amikor megkísérli elolvasni a levelet. Mielőtt kapcsolat nélküli "
-"módba kényszeríti, az Evolution letölti az olvasatlan leveleket a helyi "
+"módba kényszeríti, az <app>Evolution</app> letölti az olvasatlan leveleket a "
+"helyi "
 "tárolásra kiválasztott mappákban."
 
 #. (itstool) path: section/title
@@ -12072,15 +12671,23 @@ msgstr "Üzenetek szinkronizálása kapcsolat nélküli használathoz"
 
 #. (itstool) path: section/p
 #: C/mail-working-offline.page:42
+#| msgid ""
+#| "Your connection status is shown by the small icon in the lower left "
+#| "corner of the Evolution main window. When you are online, it displays two "
+#| "connected cables. When you force offline mode via clicking the icon or "
+#| "via <guiseq><gui>File</gui><gui>Work Offline</gui></guiseq>, the cables "
+#| "separate. You will be asked whether you want to go offline immediately or "
+#| "synchronize folders locally before you go offline."
 msgid ""
 "Your connection status is shown by the small icon in the lower left corner "
-"of the Evolution main window. When you are online, it displays two connected "
-"cables. When you force offline mode via clicking the icon or via "
-"<guiseq><gui>File</gui><gui>Work Offline</gui></guiseq>, the cables "
+"of the <app>Evolution</app> main window. When you are online, it displays "
+"two connected cables. When you force offline mode via clicking the icon or "
+"via <guiseq><gui>File</gui><gui>Work Offline</gui></guiseq>, the cables "
 "separate. You will be asked whether you want to go offline immediately or "
 "synchronize folders locally before you go offline."
 msgstr ""
-"Kapcsolati állapotát az Evolution főablakának bal alsó sarkában lévő kis "
+"Kapcsolati állapotát az <app>Evolution</app> főablakának bal alsó sarkában "
+"lévő kis "
 "ikon jelzi. Amikor online állapotban van, akkor két összekötött kábelt "
 "jelenít meg. Amikor az ikonra kattintva vagy a <guiseq><gui>Fájl</"
 "gui><gui>Kapcsolat nélküli munka</gui></guiseq> menüpont kiválasztásával a "
@@ -12107,13 +12714,21 @@ msgstr "Hálózati állapot automatikus kezelése"
 
 #. (itstool) path: section/p
 #: C/mail-working-offline.page:48
+#| msgid ""
+#| "Evolution automatically understands the network state and acts "
+#| "accordingly. For instance, Evolution switches to offline mode when the "
+#| "network goes down and automatically switches on when the network is up "
+#| "again."
 msgid ""
-"Evolution automatically understands the network state and acts accordingly. "
-"For instance, Evolution switches to offline mode when the network goes down "
-"and automatically switches on when the network is up again."
+"<app>Evolution</app> automatically understands the network state and acts "
+"accordingly. For instance, <app>Evolution</app> switches to offline mode "
+"when the network goes down and automatically switches on when the network is "
+"up again."
 msgstr ""
-"Az Evolution automatikusan felismeri a hálózati állapotot, és ennek "
-"megfelelően működik. Az Evolution például képes kapcsolat nélküli módba "
+"Az <app>Evolution</app> automatikusan felismeri a hálózati állapotot, és "
+"ennek "
+"megfelelően működik. Az <app>Evolution</app> például képes kapcsolat nélküli "
+"módba "
 "váltani, amikor a hálózat elérhetetlenné válik, automatikusan és online "
 "módba váltani, amikor a hálózat újra elérhetővé válik."
 
@@ -12355,35 +12970,50 @@ msgstr ""
 
 #. (itstool) path: info/desc
 #: C/offline.page:5
-msgid "Make Evolution mail be online again."
-msgstr "Az Evolution levelező visszaállítása online módba."
+#| msgid "Make Evolution mail be online again."
+msgid "Make <app>Evolution</app> mail be online again."
+msgstr "Az <app>Evolution</app> levelező visszaállítása online módba."
 
 #. (itstool) path: page/title
 #: C/offline.page:27
-msgid "Why is Evolution's mail component offline?"
-msgstr "Miért van az Evolution levelező kapcsolat nélküli módban?"
+#| msgid "Why is Evolution's mail component offline?"
+msgid "Why is <app>Evolution</app>'s mail component offline?"
+msgstr "Miért van az <app>Evolution</app> levelező kapcsolat nélküli módban?"
 
 #. (itstool) path: page/p
 #: C/offline.page:28
+#| msgid ""
+#| "You may have started Evolution with the <cmd>--offline</cmd> commandline "
+#| "option to enforce offline mode."
 msgid ""
-"You may have started Evolution with the <cmd>--offline</cmd> commandline "
-"option to enforce offline mode."
+"You may have started <app>Evolution</app> with the <cmd>--offline</cmd> "
+"commandline option to enforce offline mode."
 msgstr ""
-"Lehet, hogy az Evolutiont a <cmd>--offline</cmd> parancssori kapcsolóval "
+"Lehet, hogy az <app>Evolutiont</app> a <cmd>--offline</cmd> parancssori "
+"kapcsolóval "
 "indította a kapcsolat nélküli mód kikényszerítéséhez."
 
 #. (itstool) path: page/p
 #: C/offline.page:30
+#| msgid ""
+#| "If this is not the case and Evolution normally works but has suddenly "
+#| "stopped connecting to your mail accounts, you may have unintentionally "
+#| "clicked on the connection icon in the lower left corner. When connected, "
+#| "the icon resembles a pair of sockets joined together. If the sockets are "
+#| "open, there is no connection to your mail accounts (and the <gui style="
+#| "\"button\">Send/Receive</gui> button is grayed out). Click on the icon to "
+#| "change its state."
 msgid ""
-"If this is not the case and Evolution normally works but has suddenly "
-"stopped connecting to your mail accounts, you may have unintentionally "
-"clicked on the connection icon in the lower left corner. When connected, the "
-"icon resembles a pair of sockets joined together. If the sockets are open, "
-"there is no connection to your mail accounts (and the <gui style=\"button"
-"\">Send/Receive</gui> button is grayed out). Click on the icon to change its "
-"state."
+"If this is not the case and <app>Evolution</app> normally works but has "
+"suddenly stopped connecting to your mail accounts, you may have "
+"unintentionally clicked on the connection icon in the lower left corner. "
+"When connected, the icon resembles a pair of sockets joined together. If the "
+"sockets are open, there is no connection to your mail accounts (and the <gui "
+"style=\"button\">Send/Receive</gui> button is grayed out). Click on the icon "
+"to change its state."
 msgstr ""
-"Ha nem ezt tette, és az Evolution normális működése során hirtelen nem "
+"Ha nem ezt tette, és az <app>Evolution</app> normális működése során hirtelen "
+"nem "
 "csatlakozik a postafiókjaihoz, akkor lehet, hogy véletlenül rákattintott a "
 "bal alsó sarokban lévő ikonra. A hálózathoz csatlakozva ez az ikon "
 "csatlakoztatott dugaljakhoz hasonlít. Ha a dugaljak nincsenek "
@@ -12412,19 +13042,26 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/offline.page:35
+#| msgid ""
+#| "If you want to force Evolution to be in online mode, make sure that "
+#| "Evolution is not running and open a <app>Terminal</app> window and type "
+#| "the following command:"
 msgid ""
-"If you want to force Evolution to be in online mode, make sure that "
-"Evolution is not running and open a <app>Terminal</app> window and type the "
-"following command:"
+"If you want to force <app>Evolution</app> to be in online mode, make sure "
+"that <app>Evolution</app> is not running and open a <app>Terminal</app> "
+"window and type the following command:"
 msgstr ""
-"Ha szeretné az Evolutiont online módra kényszeríteni, akkor győződjön meg "
-"róla, hogy az Evolution nem fut, és nyisson egy <app>Terminál</app> ablakot, "
+"Ha szeretné az <app>Evolutiont</app> online módra kényszeríteni, akkor "
+"győződjön meg "
+"róla, hogy az <app>Evolution</app> nem fut, és nyisson egy <app>Terminál</app>"
+" ablakot, "
 "majd adja ki a következő parancsot:"
 
 #. (itstool) path: info/desc
 #: C/organizing.page:5
-msgid "On organizing and finding your data in Evolution."
-msgstr "Adatok rendszerezése és keresése az Evolutionben."
+#| msgid "On organizing and finding your data in Evolution."
+msgid "On organizing and finding your data in <app>Evolution</app>."
+msgstr "Adatok rendszerezése és keresése az <app>Evolutionben</app>."
 
 #. (itstool) path: page/title
 #: C/organizing.page:18
@@ -12452,22 +13089,31 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/problems-debug-how-to.page:25
+#| msgid ""
+#| "To further track down a problem, some debug options are listed on the "
+#| "<link href=\"https://wiki.gnome.org/Apps/Evolution/Debugging\">Evolution "
+#| "project website</link>."
 msgid ""
 "To further track down a problem, some debug options are listed on the <link "
-"href=\"https://wiki.gnome.org/Apps/Evolution/Debugging\">Evolution project "
-"website</link>."
+"href=\"https://wiki.gnome.org/Apps/Evolution/Debugging\"><app>Evolution</"
+"app> project website</link>."
 msgstr ""
 "A probléma további felderítéséhez további hibaelhárítási lehetőségeket talál "
-"az <link href=\"https://wiki.gnome.org/Apps/Evolution/Debugging\">Evolution "
+"az <link href=\"https://wiki.gnome.org/Apps/Evolution/Debugging\"><app>"
+"Evolution</app> "
 "projekt weboldalán</link>."
 
 #. (itstool) path: page/p
 #: C/problems-debug-how-to.page:27
+#| msgid ""
+#| "To contact the Evolution community for help, please see <link xref="
+#| "\"problems-getting-help\">How to get help</link>."
 msgid ""
-"To contact the Evolution community for help, please see <link xref="
-"\"problems-getting-help\">How to get help</link>."
+"To contact the <app>Evolution</app> community for help, please see <link "
+"xref=\"problems-getting-help\">How to get help</link>."
 msgstr ""
-"Az Evolution közösségtől is kaphat segítséget, ehhez nézze meg a <link xref="
+"Az <app>Evolution</app> közösségtől is kaphat segítséget, ehhez nézze meg a <"
+"link xref="
 "\"problems-getting-help\">Hogyan kaphat segítséget</link> oldalt."
 
 #. (itstool) path: info/desc
@@ -12482,17 +13128,26 @@ msgstr "Hogyan kaphat segítséget"
 
 #. (itstool) path: page/p
 #: C/problems-getting-help.page:24
+#| msgid ""
+#| "To receive help on problems you can send an email to the <link href="
+#| "\"http://mail.gnome.org/mailman/listinfo/evolution-list\">Evolution "
+#| "mailing list</link> or talk to developers and other users in the IRC chat "
+#| "channel #evolution on the server irc.gimp.net. To connect to an IRC "
+#| "server you can for example <link xref=\"help:empathy/irc-manage\" href="
+#| "\"https://help.gnome.org/users/empathy/stable/irc-manage\">use the "
+#| "internet messenger application <app>Empathy</app></link>."
 msgid ""
 "To receive help on problems you can send an email to the <link href=\"http://"
-"mail.gnome.org/mailman/listinfo/evolution-list\">Evolution mailing list</"
-"link> or talk to developers and other users in the IRC chat channel "
-"#evolution on the server irc.gimp.net. To connect to an IRC server you can "
-"for example <link xref=\"help:empathy/irc-manage\" href=\"https://help.gnome."
-"org/users/empathy/stable/irc-manage\">use the internet messenger application "
-"<app>Empathy</app></link>."
+"mail.gnome.org/mailman/listinfo/evolution-list\"><app>Evolution</app> "
+"mailing list</link> or talk to developers and other users in the IRC chat "
+"channel #evolution on the server irc.gimp.net. To connect to an IRC server "
+"you can for example <link xref=\"help:empathy/irc-manage\" href=\"https://"
+"help.gnome.org/users/empathy/stable/irc-manage\">use the internet messenger "
+"application <app>Empathy</app></link>."
 msgstr ""
 "A problémái megoldásához segítséget kérhet e-mailben az <link href=\"http://"
-"mail.gnome.org/mailman/listinfo/evolution-list\">Evolution levelezőlistán</"
+"mail.gnome.org/mailman/listinfo/evolution-list\"><app>Evolution</app> "
+"levelezőlistán</"
 "link>, vagy az irc.gimp.net #evolution csatornáján. Az IRC-kiszolgálóhoz "
 "való csatlakozáshoz <link xref=\"help:empathy/irc-manage\" href=\"https://"
 "help.gnome.org/users/empathy/stable/irc-manage\">használhatja például az "
@@ -12510,17 +13165,26 @@ msgstr "Hibák jelentése"
 
 #. (itstool) path: page/p
 #: C/problems-reporting-bugs.page:23
+#| msgid ""
+#| "If you do not need help for configuration but you are sure that you have "
+#| "found a mistake or wrong behavior in the Evolution software, or if you "
+#| "want to request a feature, you can file a report in the <link href="
+#| "\"http://bugzilla.gnome.org\">GNOME bug tracking system</link>. Note that "
+#| "this requires registration first. Please try to avoid filing duplicates "
+#| "and check the <link href=\"https://bugzilla.gnome.org/page.cgi?id=bug-"
+#| "writing.html\">bug writing guidelines</link> first."
 msgid ""
 "If you do not need help for configuration but you are sure that you have "
-"found a mistake or wrong behavior in the Evolution software, or if you want "
-"to request a feature, you can file a report in the <link href=\"http://"
-"bugzilla.gnome.org\">GNOME bug tracking system</link>. Note that this "
-"requires registration first. Please try to avoid filing duplicates and check "
-"the <link href=\"https://bugzilla.gnome.org/page.cgi?id=bug-writing.html"
-"\">bug writing guidelines</link> first."
+"found a mistake or wrong behavior in the <app>Evolution</app> software, or "
+"if you want to request a feature, you can file a report in the <link href="
+"\"http://bugzilla.gnome.org\">GNOME bug tracking system</link>. Note that "
+"this requires registration first. Please try to avoid filing duplicates and "
+"check the <link href=\"https://bugzilla.gnome.org/page.cgi?id=bug-writing."
+"html\">bug writing guidelines</link> first."
 msgstr ""
 "Ha nincs szüksége a beállításokkal kapcsolatos segítségre, de biztos benne, "
-"hogy hibát vagy hibás viselkedést észlelt az Evolution szoftverben, vagy ha "
+"hogy hibát vagy hibás viselkedést észlelt az <app>Evolution</app> "
+"szoftverben, vagy ha "
 "új funkciót szeretne kérni, akkor beküldhet egy jelentést a <link href="
 "\"http://bugzilla.gnome.org\">GNOME hibakövető rendszerébe</link>. Ne "
 "feledje, hogy ehhez először regisztrálnia kell. Kerülje a már meglévő hibák "
@@ -12530,17 +13194,26 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/problems-reporting-bugs.page:23
+#| msgid ""
+#| "Also note that GNOME distributions sometimes introduce their own changes "
+#| "in Evolution that are not included in GNOME Evolution. This is hard to "
+#| "recognize for users but if you are aware of it please file a bug report "
+#| "in <link href=\"https://wiki.gnome.org/Bugsquad/TriageGuide/"
+#| "NonGnome#Bug_trackers_for_distributions\">the bug tracker of your GNOME "
+#| "distribution</link> instead."
 msgid ""
 "Also note that GNOME distributions sometimes introduce their own changes in "
-"Evolution that are not included in GNOME Evolution. This is hard to "
-"recognize for users but if you are aware of it please file a bug report in "
-"<link href=\"https://wiki.gnome.org/Bugsquad/TriageGuide/"
+"<app>Evolution</app> that are not included in GNOME <app>Evolution</app>. "
+"This is hard to recognize for users but if you are aware of it please file a "
+"bug report in <link href=\"https://wiki.gnome.org/Bugsquad/TriageGuide/"
 "NonGnome#Bug_trackers_for_distributions\">the bug tracker of your GNOME "
 "distribution</link> instead."
 msgstr ""
 "Ne feledje azt sem, hogy a GNOME asztali környezet terjesztői néha saját "
-"változtatásokat hajtanak végre az Evolutionbe, amelyek nem részei a GNOME "
-"által kiadott Evolutionnek. Ezt a felhasználók nehezen veszik észre, de ha "
+"változtatásokat hajtanak végre az <app>Evolutionbe</app>, amelyek nem részei "
+"a GNOME "
+"által kiadott <app>Evolutionnek</app>. Ezt a felhasználók nehezen veszik "
+"észre, de ha "
 "tudja, hogy egy ilyen változtatás okozza a hibát, akkor inkább <link href="
 "\"https://wiki.gnome.org/Bugsquad/TriageGuide/"
 "NonGnome#Bug_trackers_for_distributions\">a megfelelő GNOME terjesztés "
@@ -12548,18 +13221,27 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/problems-reporting-bugs.page:25
+#| msgid ""
+#| "When reporting bugs exact information is welcome as it makes it easier "
+#| "for others to reproduce and fix the issue. If possible please include "
+#| "information such as the Evolution version (under <guiseq><gui>Help</"
+#| "gui><gui>About</gui></guiseq>), your distribution, and exact steps to "
+#| "reproduce the problem, click by click. See the <link href=\"https://"
+#| "bugzilla.gnome.org/page.cgi?id=bug-writing.html\">Bug Writing Guidelines</"
+#| "link> for more information."
 msgid ""
 "When reporting bugs exact information is welcome as it makes it easier for "
 "others to reproduce and fix the issue. If possible please include "
-"information such as the Evolution version (under <guiseq><gui>Help</"
-"gui><gui>About</gui></guiseq>), your distribution, and exact steps to "
-"reproduce the problem, click by click. See the <link href=\"https://bugzilla."
-"gnome.org/page.cgi?id=bug-writing.html\">Bug Writing Guidelines</link> for "
-"more information."
+"information such as the <app>Evolution</app> version (under "
+"<guiseq><gui>Help</gui><gui>About</gui></guiseq>), your distribution, and "
+"exact steps to reproduce the problem, click by click. See the <link href="
+"\"https://bugzilla.gnome.org/page.cgi?id=bug-writing.html\">Bug Writing "
+"Guidelines</link> for more information."
 msgstr ""
 "Hibák jelentésekor próbálja pontosan megfogalmazni a problémát, mivel ez "
 "segít másoknak reprodukálni és javítani a hibát. Ha lehet, akkor adja meg az "
-"Evolution verzióját (lásd: <guiseq><gui>Súgó</gui><gui>Névjegy</gui></"
+"<app>Evolution</app> verzióját (lásd: <guiseq><gui>Súgó</gui><gui>Névjegy<"
+"/gui></"
 "guiseq>, a disztribúciója nevét (Például: Debian, Fedora, OpenSUSE, Ubuntu), "
 "és a probléma reprodukálásának pontos lépéseit, kattintásról kattintásra. "
 "További információkért lásd a <link href=\"https://bugzilla.gnome.org/page."
@@ -12577,8 +13259,12 @@ msgstr "Elemek keresése"
 
 #. (itstool) path: info/desc
 #: C/sync-with-other-devices.page:5
-msgid "Synchronize Evolution data with handheld devices and mobile phones."
-msgstr "Szinkronizálja az Evolution adatait PDA-kkal és mobiltelefonokkal."
+#| msgid "Synchronize Evolution data with handheld devices and mobile phones."
+msgid ""
+"Synchronize <app>Evolution</app> data with handheld devices and mobile "
+"phones."
+msgstr ""
+"Szinkronizálja az <app>Evolution</app> adatait PDA-kkal és mobiltelefonokkal."
 
 #. (itstool) path: page/title
 #: C/sync-with-other-devices.page:20
@@ -12644,12 +13330,15 @@ msgstr "CalDAV feladat- vagy feljegyzéslista használata"
 
 #. (itstool) path: page/p
 #: C/tasks-caldav.page:22 C/tasks-webdav.page:24
+#| msgid ""
+#| "To add such a task list or memo list to Evolution, perform the following "
+#| "steps:"
 msgid ""
-"To add such a task list or memo list to Evolution, perform the following "
-"steps:"
+"To add such a task list or memo list to <app>Evolution</app>, perform the "
+"following steps:"
 msgstr ""
 "Tegye a következőket egy ilyen feladat- vagy feljegyzéslista felvételéhez az "
-"Evolutionbe:"
+"<app>Evolutionbe</app>:"
 
 #. (itstool) path: item/p
 #: C/tasks-caldav.page:24 C/tasks-local.page:24 C/tasks-webdav.page:26
@@ -12668,9 +13357,13 @@ msgstr "Válassza ki, hogy kapcsolat nélkül is szeretné-e látni a tartalmat.
 
 #. (itstool) path: page/p
 #: C/tasks-caldav.page:35 C/tasks-local.page:31
-msgid "The task list will be added to the list of task lists in Evolution."
+#| msgid "The task list will be added to the list of task lists in Evolution."
+msgid ""
+"The task list will be added to the list of task lists in <app>Evolution</"
+"app>."
 msgstr ""
-"A feladatlista hozzáadásra kerül a feladatlisták listájához az Evolutionben."
+"A feladatlista hozzáadásra kerül a feladatlisták listájához az <app>"
+"Evolutionben</app>."
 
 #. (itstool) path: info/desc
 #: C/tasks-display-settings.page:5
@@ -12743,10 +13436,14 @@ msgstr "Másik helyi feladat- vagy feljegyzéslista hozzáadása"
 
 #. (itstool) path: page/p
 #: C/tasks-local.page:22
+#| msgid ""
+#| "To add another local task list to Evolution, perform the following steps:"
 msgid ""
-"To add another local task list to Evolution, perform the following steps:"
+"To add another local task list to <app>Evolution</app>, perform the "
+"following steps:"
 msgstr ""
-"Egy másik helyi feladatlista Evolutionhöz adásához tegye a következőket:"
+"Egy másik helyi feladatlista <app>Evolutionhöz</app> adásához tegye a "
+"következőket:"
 
 #. (itstool) path: info/desc
 #: C/tasks-organizing.page:5
@@ -12855,8 +13552,11 @@ msgstr "Kiosztott feladatok"
 
 #. (itstool) path: section/p
 #: C/tasks-usage-add-task.page:39
-msgid "Evolution can be used to assign a task to multiple people."
-msgstr "Az Evolution segítségével egy feladat több személynek is kiosztható."
+#| msgid "Evolution can be used to assign a task to multiple people."
+msgid "<app>Evolution</app> can be used to assign a task to multiple people."
+msgstr ""
+"Az <app>Evolution</app> segítségével egy feladat több személynek is "
+"kiosztható."
 
 #. (itstool) path: section/p
 #: C/tasks-usage-add-task.page:40
@@ -12882,8 +13582,11 @@ msgstr ""
 
 #. (itstool) path: section/p
 #: C/tasks-usage-add-task.page:42
+#| msgid ""
+#| "To create an Assigned Task, click <guiseq><gui>File</gui><gui>New</"
+#| "gui><gui>Assigned Task</gui></guiseq>."
 msgid ""
-"To create an Assigned Task, click <guiseq><gui>File</gui><gui>New</"
+"To create an assigned task, click <guiseq><gui>File</gui><gui>New</"
 "gui><gui>Assigned Task</gui></guiseq>."
 msgstr ""
 "Kiosztott feladat létrehozásához válassza a <guiseq><gui>Fájl</gui><gui>Új</"
@@ -13010,8 +13713,9 @@ msgstr "Az ilyen listák csak olvashatók."
 
 #. (itstool) path: page/p
 #: C/tasks-webdav.page:37
-msgid "The list will be added in Evolution."
-msgstr "A lista hozzáadásra kerül az Evolutionben."
+#| msgid "The list will be added in Evolution."
+msgid "The list will be added in <app>Evolution</app>."
+msgstr "A lista hozzáadásra kerül az <app>Evolutionben</app>."
 
 #. (itstool) path: info/desc
 #: C/using-categories.page:5
@@ -13219,21 +13923,35 @@ msgstr "egyénieket"
 msgid "Any header including <_:link-1/>."
 msgstr "Bármely fejléc, beleértve az <_:link-1/> is."
 
+#. (itstool) path: p/app
+#: C/xinclude-filter-vfolder-conditions.xml:23
+#: C/xinclude-filter-vfolder-conditions.xml:29
+msgid "Evolution"
+msgstr "Evolution"
+
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:23
+#| msgid ""
+#| "If a message uses a header more than once, Evolution pays attention only "
+#| "to the first instance, even if the message defines the header differently "
+#| "the second time. For example, if a message declares the Resent-From: "
+#| "header as \"engineering@example.com\" and then restates it as "
+#| "\"marketing@example.com\", Evolution filters as though the second "
+#| "declaration did not occur. To filter on messages that use headers "
+#| "multiple times, use a regular expression."
 msgid ""
-"If a message uses a header more than once, Evolution pays attention only to "
+"If a message uses a header more than once, <_:app-1/> pays attention only to "
 "the first instance, even if the message defines the header differently the "
 "second time. For example, if a message declares the Resent-From: header as "
 "\"engineering@example.com\" and then restates it as \"marketing@example.com"
-"\", Evolution filters as though the second declaration did not occur. To "
+"\", <_:app-2/> filters as though the second declaration did not occur. To "
 "filter on messages that use headers multiple times, use a regular expression."
 msgstr ""
-"Ha egy levél többször is használ egy fejlécet, akkor az Evolution csak az "
+"Ha egy levél többször is használ egy fejlécet, akkor az <_:app-1/> csak az "
 "elsőt veszi figyelembe, még ha a levél a másodikat másképp is adja meg. Ha "
 "például egy üzenet a Resent-From: fejlécet a „fejlesztes@példa.hu” értékkel "
 "adja meg, majd újra megadja a „marketing@példa.hu” értékkel, akkor az "
-"Evolution úgy szűri a levelet, mintha a második megadás nem is lenne ott. A "
+"<_:app-2/> úgy szűri a levelet, mintha a második megadás nem is lenne ott. A "
 "fejléceket többször is megadó levelek szűréséhez használjon reguláris "
 "kifejezéseket."
 
@@ -13259,11 +13977,14 @@ msgstr "szűrőinek"
 
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:29
+#| msgid ""
+#| "(For programmers only) Match a message according to an expression you "
+#| "write in the Scheme language used to define <_:link-1/> in Evolution."
 msgid ""
 "(For programmers only) Match a message according to an expression you write "
-"in the Scheme language used to define <_:link-1/> in Evolution."
+"in the Scheme language used to define <_:link-1/> in <_:app-2/>."
 msgstr ""
-"(Csak programozóknak) Üzenet szűrése az Evolution <_:link-1/> megadására "
+"(Csak programozóknak) Üzenet szűrése az <_:app-2/> <_:link-1/> megadására "
 "használt Scheme nyelven írt kifejezéssel."
 
 #. (itstool) path: item/p
@@ -13291,10 +14012,18 @@ msgstr "Küldés dátuma:"
 
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:35
+#| msgid ""
+#| "Filters messages according to the date on which they were sent. First, "
+#| "choose the conditions you want a message to meet, such as before a given "
+#| "time or after a given time. Then choose the time. The filter compares the "
+#| "message's time stamp to the system clock when the filter is run, or to a "
+#| "specific time and date you choose from a calendar. You can also have it "
+#| "look for a message within a range of time relative to the filter, such as "
+#| "two to four days ago."
 msgid ""
 "Filters messages according to the date on which they were sent. First, "
 "choose the conditions you want a message to meet, such as before a given "
-"time or after a given time. Then choose the time. The filter compares the "
+"date or after a given date. Then choose the time. The filter compares the "
 "message's time stamp to the system clock when the filter is run, or to a "
 "specific time and date you choose from a calendar. You can also have it look "
 "for a message within a range of time relative to the filter, such as two to "
@@ -13458,13 +14187,20 @@ msgstr "<_:cmd-1/> parancs kézikönyvoldalát"
 
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:65
+#| msgid ""
+#| "(For programmers only) If you know your way around a <_:link-1/>, or "
+#| "regular expression, this option allows you to search for complex patterns "
+#| "of letters, so that you can find, for example, all words that start with "
+#| "a and end with m, and are between six and fifteen letters long, or all "
+#| "messages that declare a particular header twice. For information about "
+#| "how to use regular expressions, check <_:link-2/> command."
 msgid ""
 "(For programmers only) If you know your way around a <_:link-1/>, or regular "
 "expression, this option allows you to search for complex patterns of "
-"letters, so that you can find, for example, all words that start with a and "
-"end with m, and are between six and fifteen letters long, or all messages "
-"that declare a particular header twice. For information about how to use "
-"regular expressions, check <_:link-2/> command."
+"letters, so that you can find, for example, all words that start with \"a\" "
+"and end with \"m\", and are between six and fifteen letters long, or all "
+"messages that declare a particular header twice. For information about how "
+"to use regular expressions, check <_:link-2/> command."
 msgstr ""
 "(Csak programozóknak) Ha eligazodik a <_:link-1/> vagy reguláris kifejezések "
 "világában, akkor ez a beállítás lehetővé teszi összetett karakterminták "
@@ -13661,6 +14397,18 @@ msgstr "Szerkessze a címet vagy a keresési feltételeket az ablakban."
 #: C/xinclude-searching.xml:30
 msgid "Click <_:gui-1/>."
 msgstr "Kattintson az <_:gui-1/> gombra."
+
+#~ msgid "The Evolution mail main window"
+#~ msgstr "Az Evolution levelező főablaka"
+
+#~ msgid "Signing or encrypting messages via GPG/OpenPGP that you send."
+#~ msgstr "Elküldött levelek aláírása vagy titkosítása GPG-vel/OpenPGP-vel."
+
+#~ msgid "Evolution displays the search results."
+#~ msgstr "Az Evolution megjeleníti a találatokat."
+
+#~ msgid "Unsort"
+#~ msgstr "Rendezetlen"
 
 #~| msgid ""
 #~| "These steps are very technical. For average users we recommend using the "
@@ -14070,6 +14818,3 @@ msgstr "Kattintson az <_:gui-1/> gombra."
 
 #~ msgid "Enter the address of the list in the <gui>URL</gui> field."
 #~ msgstr "Adja meg a lista címét az <gui>URL</gui> mezőben."
-
-#~ msgid "Evolution"
-#~ msgstr "Evolution"
