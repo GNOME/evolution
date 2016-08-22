@@ -23,6 +23,7 @@
 #include <libedataserver/libedataserver.h>
 
 #include <e-util/e-marshal.h>
+#include <e-util/e-util.h>
 
 enum {
 	CHANGED,
@@ -200,12 +201,31 @@ e_mail_config_page_compare (GtkWidget *page_a,
 	return 0;
 }
 
+static gboolean
+mail_config_page_emit_changed_idle (gpointer user_data)
+{
+	EMailConfigPage *page = user_data;
+
+	g_return_val_if_fail (E_IS_MAIL_CONFIG_PAGE (page), FALSE);
+
+	g_signal_emit (page, signals[CHANGED], 0);
+
+	return FALSE;
+}
+
 void
 e_mail_config_page_changed (EMailConfigPage *page)
 {
 	g_return_if_fail (E_IS_MAIL_CONFIG_PAGE (page));
 
-	g_signal_emit (page, signals[CHANGED], 0);
+	if (e_util_is_main_thread (NULL)) {
+		g_signal_emit (page, signals[CHANGED], 0);
+	} else {
+		/* Ensure the signal is emitted in the main/UI thread. */
+		g_idle_add_full (G_PRIORITY_DEFAULT_IDLE,
+			mail_config_page_emit_changed_idle,
+			g_object_ref (page), g_object_unref);
+	}
 }
 
 void
