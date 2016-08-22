@@ -105,7 +105,8 @@ static GSList *opened_editors = NULL;
 static void e_comp_editor_alert_sink_iface_init (EAlertSinkInterface *iface);
 
 G_DEFINE_ABSTRACT_TYPE_WITH_CODE (ECompEditor, e_comp_editor, GTK_TYPE_WINDOW,
-	G_IMPLEMENT_INTERFACE (E_TYPE_ALERT_SINK, e_comp_editor_alert_sink_iface_init))
+	G_IMPLEMENT_INTERFACE (E_TYPE_ALERT_SINK, e_comp_editor_alert_sink_iface_init)
+	G_IMPLEMENT_INTERFACE (E_TYPE_EXTENSIBLE, NULL))
 
 static void
 ece_restore_focus (ECompEditor *comp_editor)
@@ -2299,6 +2300,8 @@ e_comp_editor_constructed (GObject *object)
 	g_signal_connect (comp_editor, "unrealize", G_CALLBACK (comp_editor_unrealize_cb), NULL);
 
 	gtk_application_add_window (GTK_APPLICATION (comp_editor->priv->shell), GTK_WINDOW (comp_editor));
+
+	e_extensible_load_extensions (E_EXTENSIBLE (comp_editor));
 }
 
 static void
