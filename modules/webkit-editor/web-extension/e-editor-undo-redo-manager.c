@@ -2458,15 +2458,6 @@ e_editor_undo_redo_manager_undo (EEditorUndoRedoManager *manager)
 		case HISTORY_STRIKETHROUGH:
 		case HISTORY_UNDERLINE:
 		case HISTORY_FONT_SIZE:
-			if (event_selection_was_collapsed (event)) {
-				if (history->next) {
-					manager->priv->history = history->next;
-					e_editor_undo_redo_manager_undo (manager);
-				}
-				manager->priv->operation_in_progress = FALSE;
-				g_object_unref (editor_page);
-				return;
-			}
 		case HISTORY_ALIGNMENT:
 		case HISTORY_BLOCK_FORMAT:
 		case HISTORY_MONOSPACE:
