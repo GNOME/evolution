@@ -1017,7 +1017,7 @@ undo_redo_style_change (EEditorPage *editor_page,
 			func = (SelectionStyleChangeFunc) e_editor_dom_selection_set_alignment;
 			break;
 		case HISTORY_BOLD:
-			func = e_editor_dom_selection_set_bold;
+			func = e_editor_page_set_bold;
 			break;
 		case HISTORY_BLOCK_FORMAT:
 			func = (SelectionStyleChangeFunc) e_editor_dom_selection_set_block_format;
@@ -1026,16 +1026,16 @@ undo_redo_style_change (EEditorPage *editor_page,
 			func = (SelectionStyleChangeFunc) e_editor_dom_selection_set_font_size;
 			break;
 		case HISTORY_ITALIC:
-			func = e_editor_dom_selection_set_italic;
+			func = e_editor_page_set_italic;
 			break;
 		case HISTORY_MONOSPACE:
-			func = e_editor_dom_selection_set_monospace;
+			func = e_editor_page_set_monospace;
 			break;
 		case HISTORY_STRIKETHROUGH:
-			func = e_editor_dom_selection_set_strikethrough;
+			func = e_editor_page_set_strikethrough;
 			break;
 		case HISTORY_UNDERLINE:
-			func = e_editor_dom_selection_set_underline;
+			func = e_editor_page_set_underline;
 			break;
 		default:
 			return;
