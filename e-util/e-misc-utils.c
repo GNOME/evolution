@@ -3512,6 +3512,13 @@ e_util_save_image_from_clipboard (GtkClipboard *clipboard)
 	return uri;
 }
 
+static void
+e_util_stop_signal_emission_cb (gpointer instance,
+				const gchar *signal_name)
+{
+	g_signal_stop_emission_by_name (instance, signal_name);
+}
+
 /**
  * e_util_check_gtk_bindings_in_key_press_event_cb:
  * @widget: a #GtkWidget, most often a #GtkWindow
@@ -3569,6 +3576,12 @@ e_util_check_gtk_bindings_in_key_press_event_cb (GtkWidget *widget,
 
 		/* WebKit uses GtkTextView to process key bindings. Do the same. */
 		text_view = gtk_text_view_new ();
+
+		/* Stop emissing for clipboard signals, to not populate the text_view */
+		g_signal_connect (text_view, "copy-clipboard", G_CALLBACK (e_util_stop_signal_emission_cb), (gpointer) "copy-clipboard");
+		g_signal_connect (text_view, "cut-clipboard", G_CALLBACK (e_util_stop_signal_emission_cb), (gpointer) "cut-clipboard");
+		g_signal_connect (text_view, "paste-clipboard", G_CALLBACK (e_util_stop_signal_emission_cb), (gpointer) "paste-clipboard");
+
 		may_use = gtk_bindings_activate_event (G_OBJECT (text_view), key_event);
 		gtk_widget_destroy (text_view);
 
