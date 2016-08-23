@@ -853,6 +853,16 @@ undo_delete (EEditorPage *editor_page,
 			}
 		}
 
+		if (event->type == HISTORY_INPUT) {
+			WebKitDOMNode *sibling;
+
+			sibling = webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (element));
+			if (sibling && WEBKIT_DOM_IS_HTML_BR_ELEMENT (sibling) &&
+			    !webkit_dom_node_get_next_sibling (sibling)) {
+				remove_node (sibling);
+			}
+		}
+
 		remove_node (WEBKIT_DOM_NODE (element));
 
 		if (event->type == HISTORY_DELETE && !e_editor_page_get_html_mode (editor_page)) {
