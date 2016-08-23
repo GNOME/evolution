@@ -206,6 +206,9 @@ test_utils_fixture_set_up (TestFixture *fixture,
 	fixture->undo_stack = NULL;
 	fixture->key_state = 0;
 
+	gtk_window_set_keep_below (GTK_WINDOW (fixture->window), TRUE);
+	gtk_window_set_focus_on_map (GTK_WINDOW (fixture->window), FALSE);
+
 	create_data.async_data = test_utils_async_call_prepare ();
 	create_data.fixture = fixture;
 
