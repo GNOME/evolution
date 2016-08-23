@@ -251,6 +251,9 @@ do_grab_focus_cb (GtkWidget *widget,
 	}
 }
 
+static void parts_mapped_cb (GtkWidget *widget,
+			     GtkScrolledWindow *scrolled_window);
+
 static void
 more_parts (GtkWidget *button,
             FilterRuleData *data)
@@ -308,6 +311,7 @@ more_parts (GtkWidget *button,
 				gtk_adjustment_set_value (adjustment, upper);
 			}
 
+			parts_mapped_cb (NULL, GTK_SCROLLED_WINDOW (w));
 		}
 	}
 }

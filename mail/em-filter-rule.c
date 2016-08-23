@@ -466,6 +466,8 @@ do_grab_focus_cb (GtkWidget *widget,
 	}
 }
 
+static void ensure_scrolled_height (GtkScrolledWindow *scrolled_window);
+
 static void
 more_parts (GtkWidget *button,
             struct _rule_data *data)
@@ -507,14 +509,14 @@ more_parts (GtkWidget *button,
 				upper = gtk_adjustment_get_upper (adjustment);
 				gtk_adjustment_set_value (adjustment, upper);
 			}
+
+			ensure_scrolled_height (GTK_SCROLLED_WINDOW (w));
 		}
 	}
 }
 
 static void
-ensure_scrolled_height_cb (GtkAdjustment *adj,
-                           GParamSpec *param_spec,
-                           GtkScrolledWindow *scrolled_window)
+ensure_scrolled_height (GtkScrolledWindow *scrolled_window)
 {
 	GtkWidget *toplevel;
 	GdkScreen *screen;
@@ -562,6 +564,14 @@ ensure_scrolled_height_cb (GtkAdjustment *adj,
 		return;
 
 	gtk_scrolled_window_set_min_content_height (scrolled_window, require_scw_height);
+}
+
+static void
+ensure_scrolled_height_cb (GtkAdjustment *adj,
+                           GParamSpec *param_spec,
+                           GtkScrolledWindow *scrolled_window)
+{
+	ensure_scrolled_height (scrolled_window);
 }
 
 static GtkWidget *
@@ -662,6 +672,8 @@ get_widget (EFilterRule *fr,
 	e_signal_connect_notify (
 		vadj, "notify::upper",
 		G_CALLBACK (ensure_scrolled_height_cb), scrolledwindow);
+
+	g_signal_connect (scrolledwindow, "map", G_CALLBACK (ensure_scrolled_height), NULL);
 
 	gtk_widget_show_all (widget);
 
