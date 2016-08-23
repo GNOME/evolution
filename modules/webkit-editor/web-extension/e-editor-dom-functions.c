@@ -1017,7 +1017,7 @@ e_editor_dom_quote_plain_text_element_after_wrapping (EEditorPage *editor_page,
 		WEBKIT_DOM_ELEMENT (quoted_node), quotation, NULL);
 
 	list = webkit_dom_element_query_selector_all (
-		element, "br.-x-evo-wrap-br", NULL);
+		element, "br.-x-evo-wrap-br, pre > br:not(.-x-evo-quoted)", NULL);
 	webkit_dom_node_insert_before (
 		WEBKIT_DOM_NODE (element),
 		quoted_node,
@@ -6021,6 +6021,32 @@ preserve_line_breaks_in_element (WebKitDOMDocument *document,
 	g_clear_object (&list);
 }
 
+static void
+preserve_pre_line_breaks_in_element (WebKitDOMDocument *document,
+                                     WebKitDOMElement *element)
+{
+	WebKitDOMHTMLCollection *collection = NULL;
+	gint ii, length;
+
+	if (!(collection = webkit_dom_element_get_elements_by_tag_name_as_html_collection (element, "pre")))
+		return;
+
+	length = webkit_dom_html_collection_get_length (collection);
+	for (ii = 0; ii < length; ii++) {
+		WebKitDOMNode *node;
+		gchar *inner_html;
+		GString *string;
+
+		node = webkit_dom_html_collection_item (collection, ii);
+		inner_html = webkit_dom_element_get_inner_html (WEBKIT_DOM_ELEMENT (node));
+		string = e_str_replace_string (inner_html, "\n", "<br>");
+		webkit_dom_element_set_inner_html (WEBKIT_DOM_ELEMENT (node), string->str, NULL);
+		g_string_free (string, TRUE);
+		g_free (inner_html);
+	}
+	g_clear_object (&collection);
+}
+
 void
 e_editor_dom_convert_and_insert_html_into_selection (EEditorPage *editor_page,
 						     const gchar *html,
@@ -6109,6 +6135,7 @@ e_editor_dom_convert_and_insert_html_into_selection (EEditorPage *editor_page,
 			document,
 			WEBKIT_DOM_ELEMENT (element),
 			"[data-evo-html-to-plain-text-wrapper] > :matches(h1, h2, h3, h4, h5, h6)");
+		preserve_pre_line_breaks_in_element (document, WEBKIT_DOM_ELEMENT (element));
 
 		inner_text = webkit_dom_html_element_get_inner_text (
 			WEBKIT_DOM_HTML_ELEMENT (element));
@@ -7011,6 +7038,7 @@ convert_element_from_html_to_plain_text (EEditorPage *editor_page,
 		document,
 		WEBKIT_DOM_ELEMENT (from),
 		"[data-evo-html-to-plain-text-wrapper] > :matches(h1, h2, h3, h4, h5, h6)");
+	preserve_pre_line_breaks_in_element (document, WEBKIT_DOM_ELEMENT (element));
 
 	webkit_dom_element_remove_attribute (
 		WEBKIT_DOM_ELEMENT (from), "data-evo-html-to-plain-text-wrapper");
@@ -8093,8 +8121,10 @@ e_editor_dom_process_content_to_plain_text_for_exporting (EEditorPage *editor_pa
 
 		citation = webkit_dom_element_query_selector (
 			WEBKIT_DOM_ELEMENT (source), "blockquote[type=cite]", NULL);
-		if (citation)
+		if (citation) {
+			preserve_pre_line_breaks_in_element (document, WEBKIT_DOM_ELEMENT (source));
 			quote_plain_text_elements_after_wrapping_in_element (editor_page, WEBKIT_DOM_ELEMENT (source));
+		}
 	}
 
 	process_node_to_plain_text_for_exporting (editor_page, source, plain_text);
