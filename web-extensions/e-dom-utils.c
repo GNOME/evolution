@@ -1609,6 +1609,9 @@ remove_node_if_empty (WebKitDOMNode *node)
 			if (text_content && !*text_content)
 				remove_node (node);
 
+			if (g_strcmp0 (text_content, UNICODE_ZERO_WIDTH_SPACE) == 0)
+				remove_node (node);
+
 			g_free (text_content);
 		}
 	} else

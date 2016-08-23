@@ -27,6 +27,9 @@
 
 #include <gtk/gtk.h>
 
+#define UNICODE_ZERO_WIDTH_SPACE "\xe2\x80\x8b"
+#define UNICODE_NBSP "\xc2\xa0"
+
 G_BEGIN_DECLS
 
 void 		e_dom_utils_replace_local_image_links

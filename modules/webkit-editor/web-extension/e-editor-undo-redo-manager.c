@@ -1889,7 +1889,7 @@ undo_input (EEditorUndoRedoManager *manager,
 	WebKitDOMDOMWindow *dom_window = NULL;
 	WebKitDOMDOMSelection *dom_selection = NULL;
 	WebKitDOMNode *node, *anchor_node, *tmp_node;
-	gboolean remove_anchor;
+	gboolean remove_anchor, remove_last_character_from_font_style = FALSE;
 
 	document = e_editor_page_get_document (editor_page);
 	dom_window = webkit_dom_document_get_default_view (document);
@@ -1931,15 +1931,38 @@ undo_input (EEditorUndoRedoManager *manager,
 		g_free (text_content);
 	} else if (WEBKIT_DOM_IS_TEXT (anchor_node)) {
 		gchar *text_content;
+		glong length;
 
 		text_content = webkit_dom_node_get_text_content (anchor_node);
-		if (g_strcmp0 (text_content, UNICODE_ZERO_WIDTH_SPACE) == 0)
+		length = g_utf8_strlen (text_content, -1);
+		if (g_strcmp0 (text_content, UNICODE_ZERO_WIDTH_SPACE) == 0) {
+			length -= 1;
 			webkit_dom_dom_selection_modify (dom_selection, "extend", "left", "character");
+		}
 
 		g_free (text_content);
+
+		node = webkit_dom_node_get_parent_node (anchor_node);
+		if (length == 1 &&
+		    ((element_has_tag (WEBKIT_DOM_ELEMENT (node), "b")) ||
+		    (element_has_tag (WEBKIT_DOM_ELEMENT (node), "i")) ||
+		    (element_has_tag (WEBKIT_DOM_ELEMENT (node), "u")) ||
+		    (element_has_tag (WEBKIT_DOM_ELEMENT (node), "tt")) ||
+		    (element_has_tag (WEBKIT_DOM_ELEMENT (node), "strike"))))
+			remove_last_character_from_font_style = TRUE;
 	}
 
-	e_editor_dom_exec_command (editor_page, E_CONTENT_EDITOR_COMMAND_DELETE, NULL);
+	if (remove_last_character_from_font_style) {
+		WebKitDOMText *text;
+
+		text = webkit_dom_document_create_text_node (document, UNICODE_ZERO_WIDTH_SPACE);
+		webkit_dom_node_replace_child (
+			node,
+			WEBKIT_DOM_NODE (text),
+			anchor_node,
+			NULL);
+	} else
+		e_editor_dom_exec_command (editor_page, E_CONTENT_EDITOR_COMMAND_DELETE, NULL);
 
 	if (remove_anchor) {
 		WebKitDOMNode *child;

@@ -25,9 +25,6 @@
 
 #include "e-editor-page.h"
 
-#define UNICODE_ZERO_WIDTH_SPACE "\xe2\x80\x8b"
-#define UNICODE_NBSP "\xc2\xa0"
-
 /* stephenhay from https://mathiasbynens.be/demo/url-regex */
 #define URL_PROTOCOLS "news|telnet|nntp|file|https?|s?ftp|webcal|localhost|ssh"
 #define URL_PATTERN_BASE "(?=((?:(?:(?:" URL_PROTOCOLS ")\\:\\/\\/)|(?:www\\.|ftp\\.))[^\\s\\/\\$\\.\\?#].[^\\s]*)"
