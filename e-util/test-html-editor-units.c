@@ -2194,85 +2194,55 @@ test_undo_style (TestFixture *fixture)
 		"action:bold\n"
 		"type:bold\n"
 		"undo:save\n" /* 2 */
-		"undo:undo:4\n"
+		"undo:undo:5\n"
 		"undo:test:2\n"
-		"undo:redo:4\n"
+		"undo:redo:5\n"
 		"undo:test\n"
 		"undo:drop\n" /* drop the save 2 */
-		"undo:undo:4\n"
+		"undo:undo:5\n"
 		"type:bold\n"
 		"seq:CSlsc\n"
 		"action:bold\n"
-		"undo:save:\n" /* 2 */
-		"undo:undo:4\n"
+		"undo:save\n" /* 2 */
+		"undo:undo:5\n"
 		"undo:test:2\n"
-		"undo:redo:4\n"
+		"undo:redo:5\n"
 		"undo:test\n"
 		"undo:drop\n" /* drop the save 2 */
-		"undo:undo:4\n"
+		"undo:undo:5\n"
 
 		"action:italic\n"
 		"type:italic\n"
 		"undo:save\n" /* 2 */
-		"undo:undo:6\n"
+		"undo:undo:7\n"
 		"undo:test:2\n"
-		"undo:redo:6\n"
+		"undo:redo:7\n"
 		"undo:test\n"
 		"undo:drop\n" /* drop the save 2 */
-		"undo:undo:6\n"
+		"undo:undo:7\n"
 		"type:italic\n"
 		"seq:CSlsc\n"
 		"action:italic\n"
-		"undo:save:\n" /* 2 */
-		"undo:undo:6\n"
+		"undo:save\n" /* 2 */
+		"undo:undo:7\n"
 		"undo:test:2\n"
-		"undo:redo:6\n"
+		"undo:redo:7\n"
 		"undo:test\n"
 		"undo:drop\n" /* drop the save 2 */
-		"undo:undo:6\n"
+		"undo:undo:7\n"
 
 		"action:underline\n"
 		"type:underline\n"
 		"undo:save\n" /* 2 */
-		"undo:undo:9\n"
+		"undo:undo:10\n"
 		"undo:test:2\n"
-		"undo:redo:9\n"
+		"undo:redo:10\n"
 		"undo:test\n"
 		"undo:drop\n" /* drop the save 2 */
-		"undo:undo:9\n"
-		"type:italic\n"
+		"undo:undo:10\n"
+		"type:underline\n"
 		"seq:CSlsc\n"
 		"action:underline\n"
-		"undo:save:\n" /* 2 */
-		"undo:undo:9\n"
-		"undo:test:2\n"
-		"undo:redo:9\n"
-		"undo:test\n"
-		"undo:drop\n" /* drop the save 2 */
-		"undo:undo:9\n"
-
-		"action:strikethrough\n"
-		"type:strikethrough\n"
-		"undo:save\n" /* 2 */
-		"undo:undo:13\n"
-		"undo:test:2\n"
-		"undo:redo:13\n"
-		"undo:test\n"
-		"undo:drop\n" /* drop the save 2 */
-		"undo:undo:13\n"
-		"type:strikethrough\n"
-		"seq:CSlsc\n"
-		"action:strikethrough\n"
-		"undo:save:\n" /* 2 */
-		"undo:undo:13\n"
-		"undo:test:2\n"
-		"undo:redo:13\n"
-		"undo:test\n"
-		"undo:drop\n" /* drop the save 2 */
-		"undo:undo:13\n"
-
-		"action:monospaced\n"
-		"type:monospaced\n"
 		"undo:save\n" /* 2 */
 		"undo:undo:10\n"
 		"undo:test:2\n"
@@ -2280,18 +2250,48 @@ test_undo_style (TestFixture *fixture)
 		"undo:test\n"
 		"undo:drop\n" /* drop the save 2 */
 		"undo:undo:10\n"
+
+		"action:strikethrough\n"
+		"type:strikethrough\n"
+		"undo:save\n" /* 2 */
+		"undo:undo:14\n"
+		"undo:test:2\n"
+		"undo:redo:14\n"
+		"undo:test\n"
+		"undo:drop\n" /* drop the save 2 */
+		"undo:undo:14\n"
+		"type:strikethrough\n"
+		"seq:CSlsc\n"
+		"action:strikethrough\n"
+		"undo:save\n" /* 2 */
+		"undo:undo:14\n"
+		"undo:test:2\n"
+		"undo:redo:14\n"
+		"undo:test\n"
+		"undo:drop\n" /* drop the save 2 */
+		"undo:undo:14\n"
+
+		"action:monospaced\n"
+		"type:monospaced\n"
+		"undo:save\n" /* 2 */
+		"undo:undo:11\n"
+		"undo:test:2\n"
+		"undo:redo:11\n"
+		"undo:test\n"
+		"undo:drop\n" /* drop the save 2 */
+		"undo:undo:11\n"
 		"type:monospaced\n"
 		"seq:CSlsc\n"
 		"action:monospaced\n"
-		"undo:save:\n" /* 2 */
-		"undo:undo:10\n"
+		"undo:save\n" /* 2 */
+		"undo:undo:11\n"
 		"undo:test:2\n"
-		"undo:redo:10\n"
+		"undo:redo:11\n"
 		"undo:test\n"
 		"undo:drop\n" /* drop the save 2 */
-		"undo:undo:10\n",
-		HTML_PREFIX "<p>The first paragraph</p><p><br></p>" HTML_SUFFIX,
-		"The first paragraph\n"))
+		"undo:undo:11\n",
+		HTML_PREFIX "<p>The first paragraph text</p><p><br></p>" HTML_SUFFIX,
+		"The first paragraph text\n"))
 		g_test_fail ();
 }
 
@@ -2315,7 +2315,7 @@ test_undo_justify (TestFixture *fixture)
 		"type:left\n"
 		"seq:CSlsc\n"
 		"action:justify-left\n"
-		"undo:save:\n" /* 2 */
+		"undo:save\n" /* 2 */
 		"undo:undo:4\n"
 		"undo:test:2\n"
 		"undo:redo:4\n"
@@ -2335,7 +2335,7 @@ test_undo_justify (TestFixture *fixture)
 		"type:center\n"
 		"seq:CSlsc\n"
 		"action:justify-center\n"
-		"undo:save:\n" /* 2 */
+		"undo:save\n" /* 2 */
 		"undo:undo:6\n"
 		"undo:test:2\n"
 		"undo:redo:6\n"
@@ -2355,7 +2355,7 @@ test_undo_justify (TestFixture *fixture)
 		"type:right\n"
 		"seq:CSlsc\n"
 		"action:justify-right\n"
-		"undo:save:\n" /* 2 */
+		"undo:save\n" /* 2 */
 		"undo:undo:5\n"
 		"undo:test:2\n"
 		"undo:redo:5\n"
@@ -2388,7 +2388,7 @@ test_undo_indent (TestFixture *fixture)
 		"type:text\n"
 		"seq:CSlsc\n"
 		"action:indent\n"
-		"undo:save:\n" /* 2 */
+		"undo:save\n" /* 2 */
 		"undo:undo:5\n"
 		"undo:test:2\n"
 		"undo:redo:5\n"
