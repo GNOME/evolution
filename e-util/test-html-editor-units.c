@@ -2080,9 +2080,10 @@ test_cite_reply_html (TestFixture *fixture)
 		"<blockquote type=\"cite\"><pre>line 1\n"
 		"line 2\n"
 		"</pre></blockquote>" HTML_SUFFIX,
-		"On Today, Use wrote:\n"
+		"On Today, User wrote:\n"
 		"> line 1\n"
-		"> line 2\n"))
+		"> line 2\n"
+		"> "))
 		g_test_fail ();
 
 }
@@ -2326,9 +2327,9 @@ test_undo_justify (TestFixture *fixture)
 		"action:justify-center\n"
 		"type:center\n"
 		"undo:save\n" /* 2 */
-		"undo:undo:6\n"
+		"undo:undo:7\n"
 		"undo:test:2\n"
-		"undo:redo:6\n"
+		"undo:redo:7\n"
 		"undo:test\n"
 		"undo:drop\n" /* drop the save 2 */
 		"undo:undo:6\n"
@@ -2336,35 +2337,35 @@ test_undo_justify (TestFixture *fixture)
 		"seq:CSlsc\n"
 		"action:justify-center\n"
 		"undo:save\n" /* 2 */
+		"undo:undo:7\n"
+		"undo:test:2\n"
+		"undo:redo:7\n"
+		"undo:test\n"
+		"undo:drop\n" /* drop the save 2 */
+		"undo:undo:7\n"
+
+		"action:justify-right\n"
+		"type:right\n"
+		"undo:save\n" /* 2 */
 		"undo:undo:6\n"
 		"undo:test:2\n"
 		"undo:redo:6\n"
 		"undo:test\n"
 		"undo:drop\n" /* drop the save 2 */
 		"undo:undo:6\n"
-
-		"action:justify-right\n"
-		"type:right\n"
-		"undo:save\n" /* 2 */
-		"undo:undo:5\n"
-		"undo:test:2\n"
-		"undo:redo:5\n"
-		"undo:test\n"
-		"undo:drop\n" /* drop the save 2 */
-		"undo:undo:5\n"
 		"type:right\n"
 		"seq:CSlsc\n"
 		"action:justify-right\n"
 		"undo:save\n" /* 2 */
-		"undo:undo:5\n"
+		"undo:undo:6\n"
 		"undo:test:2\n"
-		"undo:redo:5\n"
+		"undo:redo:6\n"
 		"undo:test\n"
 		"undo:drop\n" /* drop the save 2 */
-		"undo:undo:5\n",
+		"undo:undo:6\n",
 
-		HTML_PREFIX "<p>The first paragraph</p><p><br></p>" HTML_SUFFIX,
-		"The first paragraph\n"))
+		HTML_PREFIX "<p>The first paragraph text</p><p><br></p>" HTML_SUFFIX,
+		"The first paragraph text\n"))
 		g_test_fail ();
 }
 
@@ -2452,8 +2453,8 @@ test_undo_indent (TestFixture *fixture)
 		"undo:drop\n" /* drop the save 2 */
 		"undo:undo:30\n",
 
-		HTML_PREFIX "<p>The first paragraph</p><p><br></p>" HTML_SUFFIX,
-		"The first paragraph\n"))
+		HTML_PREFIX "<p>The first paragraph text</p><p><br></p>" HTML_SUFFIX,
+		"The first paragraph text\n"))
 		g_test_fail ();
 }
 
