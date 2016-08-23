@@ -2526,6 +2526,8 @@ e_editor_undo_redo_manager_undo (EEditorUndoRedoManager *manager)
 
 	manager->priv->operation_in_progress = FALSE;
 
+	e_editor_page_emit_selection_changed (editor_page);
+
 	g_object_unref (editor_page);
 
 	g_object_notify (G_OBJECT (manager), "can-undo");
@@ -2670,6 +2672,8 @@ e_editor_undo_redo_manager_redo (EEditorUndoRedoManager *manager)
 	d (print_redo_events (manager));
 
 	manager->priv->operation_in_progress = FALSE;
+
+	e_editor_page_emit_selection_changed (editor_page);
 
 	g_object_unref (editor_page);
 
