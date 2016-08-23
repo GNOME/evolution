@@ -1055,8 +1055,7 @@ undo_redo_indent (EEditorPage *editor_page,
 {
 	gboolean was_indent = FALSE;
 
-	if (undo)
-		restore_selection_to_history_event_state (editor_page, event->after);
+	restore_selection_to_history_event_state (editor_page, undo ? event->after : event->before);
 
 	was_indent = event->data.style.from && event->data.style.to;
 
@@ -1065,8 +1064,7 @@ undo_redo_indent (EEditorPage *editor_page,
 	else
 		e_editor_dom_selection_indent (editor_page);
 
-	if (undo)
-		restore_selection_to_history_event_state (editor_page, event->before);
+	restore_selection_to_history_event_state (editor_page, undo ? event->before : event->after);
 }
 
 static void
@@ -1074,15 +1072,13 @@ undo_redo_font_color (EEditorPage *editor_page,
                       EEditorHistoryEvent *event,
                       gboolean undo)
 {
-	if (undo)
-		restore_selection_to_history_event_state (editor_page, event->after);
+	restore_selection_to_history_event_state (editor_page, undo ? event->after : event->before);
 
 	e_editor_dom_exec_command (editor_page,
 		E_CONTENT_EDITOR_COMMAND_FORE_COLOR,
 		undo ? event->data.string.from : event->data.string.to);
 
-	if (undo)
-		restore_selection_to_history_event_state (editor_page, event->before);
+	restore_selection_to_history_event_state (editor_page, undo ? event->before : event->after);
 }
 
 static void
@@ -1090,8 +1086,7 @@ undo_redo_wrap (EEditorPage *editor_page,
                 EEditorHistoryEvent *event,
                 gboolean undo)
 {
-	if (undo)
-		restore_selection_to_history_event_state (editor_page, event->after);
+	restore_selection_to_history_event_state (editor_page, undo ? event->after : event->before);
 
 	if (undo) {
 		WebKitDOMNode *node;
@@ -1109,8 +1104,7 @@ undo_redo_wrap (EEditorPage *editor_page,
 	} else
 		e_editor_dom_selection_wrap (editor_page);
 
-	if (undo)
-		restore_selection_to_history_event_state (editor_page, event->before);
+	restore_selection_to_history_event_state (editor_page, undo ? event->before : event->after);
 }
 
 static void
@@ -1126,8 +1120,7 @@ undo_redo_page_dialog (EEditorPage *editor_page,
 	document = e_editor_page_get_document (editor_page);
 	body = webkit_dom_document_get_body (document);
 
-	if (undo)
-		restore_selection_to_history_event_state (editor_page, event->after);
+	restore_selection_to_history_event_state (editor_page, undo ? event->after : event->before);
 
 	if (undo) {
 		attributes = webkit_dom_element_get_attributes (WEBKIT_DOM_ELEMENT (body));
@@ -1206,8 +1199,7 @@ undo_redo_page_dialog (EEditorPage *editor_page,
 	g_clear_object (&attributes);
 	g_clear_object (&attributes_history);
 
-	if (undo)
-		restore_selection_to_history_event_state (editor_page, event->before);
+	restore_selection_to_history_event_state (editor_page, undo ? event->before : event->after);
 }
 
 static void
@@ -1220,8 +1212,7 @@ undo_redo_hrule_dialog (EEditorPage *editor_page,
 
 	document = e_editor_page_get_document (editor_page);
 
-	if (undo)
-		restore_selection_to_history_event_state (editor_page, event->after);
+	restore_selection_to_history_event_state (editor_page, undo ? event->after : event->before);
 
 	e_editor_dom_selection_save (editor_page);
 	element = webkit_dom_document_get_element_by_id (
@@ -1289,8 +1280,7 @@ undo_redo_image_dialog (EEditorPage *editor_page,
 
 	document = e_editor_page_get_document (editor_page);
 
-	if (undo)
-		restore_selection_to_history_event_state (editor_page, event->after);
+	restore_selection_to_history_event_state (editor_page, undo ? event->after : event->before);
 
 	e_editor_dom_selection_save (editor_page);
 	element = webkit_dom_document_get_element_by_id (
@@ -1339,10 +1329,7 @@ undo_redo_link_dialog (EEditorPage *editor_page,
 
 	document = e_editor_page_get_document (editor_page);
 
-	if (undo)
-		restore_selection_to_history_event_state (editor_page, event->after);
-	else
-		restore_selection_to_history_event_state (editor_page, event->before);
+	restore_selection_to_history_event_state (editor_page, undo ? event->after : event->before);
 
 	e_editor_dom_selection_save (editor_page);
 
@@ -1403,8 +1390,7 @@ undo_redo_table_dialog (EEditorPage *editor_page,
 
 	document = e_editor_page_get_document (editor_page);
 
-	if (undo)
-		restore_selection_to_history_event_state (editor_page, event->after);
+	restore_selection_to_history_event_state (editor_page, undo ? event->after : event->before);
 
 	e_editor_dom_selection_save (editor_page);
 	element = webkit_dom_document_get_element_by_id (document, "-x-evo-selection-start-marker");
@@ -1469,8 +1455,7 @@ undo_redo_table_input (EEditorPage *editor_page,
 
 	document = e_editor_page_get_document (editor_page);
 
-	if (undo)
-		restore_selection_to_history_event_state (editor_page, event->after);
+	restore_selection_to_history_event_state (editor_page, undo ? event->after : event->before);
 
 	dom_window = webkit_dom_document_get_default_view (document);
 	dom_selection = webkit_dom_dom_window_get_selection (dom_window);
@@ -1792,8 +1777,7 @@ undo_redo_remove_link (EEditorPage *editor_page,
 
 	document = e_editor_page_get_document (editor_page);
 
-	if (undo)
-		restore_selection_to_history_event_state (editor_page, event->after);
+	restore_selection_to_history_event_state (editor_page, undo ? event->after : event->before);
 
 	if (undo) {
 		WebKitDOMDOMWindow *dom_window = NULL;
@@ -1822,8 +1806,7 @@ undo_redo_remove_link (EEditorPage *editor_page,
 	} else
 		e_editor_dom_selection_unlink (editor_page);
 
-	if (undo)
-		restore_selection_to_history_event_state (editor_page, event->before);
+	restore_selection_to_history_event_state (editor_page, undo ? event->before : event->after);
 }
 
 static void
