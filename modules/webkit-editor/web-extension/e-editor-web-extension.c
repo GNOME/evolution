@@ -560,7 +560,7 @@ static const gchar *introspection_xml =
 "    </method>"
 "    <method name='DOMReplaceCaretWord'>"
 "      <arg type='t' name='page_id' direction='in'/>"
-"      <arg type='s' name='replacement' direction='out'/>"
+"      <arg type='s' name='replacement' direction='in'/>"
 "    </method>"
 "<!-- ********************************************************* -->"
 "<!--     Functions that are used in EComposerPrivate           -->"
