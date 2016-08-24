@@ -26,6 +26,7 @@
 #include "test-html-editor-units-utils.h"
 
 static guint event_processing_delay_ms = 25;
+static gboolean in_background = FALSE;
 
 void
 test_utils_set_event_processing_delay_ms (guint value)
@@ -37,6 +38,18 @@ guint
 test_utils_get_event_processing_delay_ms (void)
 {
 	return event_processing_delay_ms;
+}
+
+void
+test_utils_set_background (gboolean background)
+{
+	in_background = background;
+}
+
+gboolean
+test_utils_get_background (void)
+{
+	return in_background;
 }
 
 typedef struct _UndoContent {
@@ -206,8 +219,10 @@ test_utils_fixture_set_up (TestFixture *fixture,
 	fixture->undo_stack = NULL;
 	fixture->key_state = 0;
 
-	gtk_window_set_keep_below (GTK_WINDOW (fixture->window), TRUE);
-	gtk_window_set_focus_on_map (GTK_WINDOW (fixture->window), FALSE);
+	if (test_utils_get_background ()) {
+		gtk_window_set_keep_below (GTK_WINDOW (fixture->window), TRUE);
+		gtk_window_set_focus_on_map (GTK_WINDOW (fixture->window), FALSE);
+	}
 
 	create_data.async_data = test_utils_async_call_prepare ();
 	create_data.fixture = fixture;

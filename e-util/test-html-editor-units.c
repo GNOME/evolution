@@ -2565,10 +2565,15 @@ main (gint argc,
 {
 	gchar *test_keyfile_filename;
 	gint cmd_delay = -1;
+	gboolean background = FALSE;
 	GOptionEntry entries[] = {
 		{ "cmd-delay", '\0', 0,
 		  G_OPTION_ARG_INT, &cmd_delay,
 		  "Specify delay, in milliseconds, to use during processing commands. Default is 25 ms.",
+		  NULL },
+		{ "background", '\0', 0,
+		  G_OPTION_ARG_NONE, &background,
+		  "Use to run tests in the background, not stealing focus and such.",
 		  NULL },
 		{ NULL }
 	};
@@ -2609,6 +2614,7 @@ main (gint argc,
 
 	if (cmd_delay > 0)
 		test_utils_set_event_processing_delay_ms ((guint) cmd_delay);
+	test_utils_set_background (background);
 
 	e_util_init_main_thread (NULL);
 	e_passwords_init ();
