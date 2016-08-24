@@ -931,6 +931,58 @@ test_h_rule_insert_text_after (TestFixture *fixture)
 }
 
 static void
+test_image_insert (TestFixture *fixture)
+{
+	EContentEditor *cnt_editor;
+	gchar *expected_html;
+	gchar *filename;
+	gchar *uri;
+	gchar *image_data;
+	gchar *image_data_base64;
+	gsize image_data_length;
+	GError *error = NULL;
+
+	if (!test_utils_process_commands (fixture,
+		"mode:html\n"
+		"type:before*\n")) {
+		g_test_fail ();
+		return;
+	}
+
+	filename = g_build_filename (EVOLUTION_TESTTOPSRCDIR, "data", "icons", "hicolor_actions_24x24_stock_people.png", NULL);
+	uri = g_filename_to_uri (filename, NULL, &error);
+	g_assert_no_error (error);
+
+	g_file_get_contents (filename, &image_data, &image_data_length, &error);
+	g_assert_no_error (error);
+
+	g_free (filename);
+
+	/* Mimic what the action:insert-image does, without invoking the image chooser dialog */
+	cnt_editor = e_html_editor_get_content_editor (fixture->editor);
+	e_content_editor_insert_image (cnt_editor, uri);
+
+	g_free (uri);
+
+	image_data_base64 = g_base64_encode ((const guchar *) image_data, image_data_length);
+	g_return_if_fail (image_data_base64 != NULL);
+
+	expected_html = g_strconcat (HTML_PREFIX "<p>before*<img src=\"data:image/png;base64,",
+		image_data_base64, "\">+after</p>" HTML_SUFFIX, NULL);
+
+	g_free (image_data_base64);
+	g_free (image_data);
+
+	if (!test_utils_run_simple_test (fixture,
+		"type:+after\n",
+		expected_html,
+		"before*+after"))
+		g_test_fail ();
+
+	g_free (expected_html);
+}
+
+static void
 test_emoticon_insert_typed (TestFixture *fixture)
 {
 	test_utils_fixture_change_setting_boolean (fixture, "org.gnome.evolution.mail", "composer-magic-smileys", TRUE);
@@ -2600,6 +2652,7 @@ main (gint argc,
 	test_utils_add_test ("/link/insert/typed/remove", test_link_insert_typed_remove);
 	test_utils_add_test ("/h-rule/insert", test_h_rule_insert);
 	test_utils_add_test ("/h-rule/insert-text-after", test_h_rule_insert_text_after);
+	test_utils_add_test ("/image/insert", test_image_insert);
 	test_utils_add_test ("/emoticon/insert/typed", test_emoticon_insert_typed);
 	test_utils_add_test ("/emoticon/insert/typed-dash", test_emoticon_insert_typed_dash);
 	test_utils_add_test ("/paragraph/normal/selection", test_paragraph_normal_selection);

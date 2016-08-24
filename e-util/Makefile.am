@@ -127,6 +127,7 @@ libevolution_util_la_CPPFLAGS = \
 	-DEVOLUTION_RULEDIR=\"$(ruledir)\" \
 	-DEVOLUTION_WEB_EXTENSIONS_DIR=\""$(webextensionsdir)"\" \
 	-DEVOLUTION_TESTGIOMODULESDIR=\"$(privsolibtestgiomodulesdir)\" \
+	-DEVOLUTION_TESTTOPSRCDIR=\"$(abs_top_srcdir)\" \
 	-DG_LOG_DOMAIN=\"evolution-util\" \
 	$(EVOLUTION_DATA_SERVER_CFLAGS) \
 	$(GNOME_PLATFORM_CFLAGS) \
