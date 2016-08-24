@@ -274,7 +274,7 @@ test_utils_fixture_change_setting (TestFixture *fixture,
 	data = g_new0 (TestSettings, 1);
 	data->schema = g_strdup (schema);
 	data->key = g_strdup (key);
-	data->old_value = g_variant_ref_sink (g_settings_get_value (settings, key));
+	data->old_value = g_settings_get_value (settings, key);
 
 	/* Use prepend, thus the restore comes in the opposite order, thus a change
 	   of the same key is not a problem. */
