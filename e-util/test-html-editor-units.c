@@ -854,7 +854,9 @@ test_link_insert_typed_change_description (TestFixture *fixture)
 		"type:www.gnome.org \n"
 		"seq:ll\n"
 		"action:insert-link\n"
-		"seq:tt\n" /* Jump to the description */
+		"seq:A\n" /* Alt+D to jump to the Description */
+		"type:D\n"
+		"seq:a\n"
 		"type:GNOME\n"
 		"seq:n\n",
 		HTML_PREFIX "<p><a href=\"http://www.gnome.org\">GNOME</a> </p>" HTML_SUFFIX,
@@ -870,8 +872,9 @@ test_link_insert_dialog_remove_link (TestFixture *fixture)
 		"type:www.gnome.org \n"
 		"seq:ll\n"
 		"action:insert-link\n"
-		"seq:tttt\n" /* Jump to 'Remove Link' */
-		"seq:n\n", /* Press the button */
+		"seq:A\n" /* Alt+R to press the 'Remove Link' */
+		"type:R\n"
+		"seq:a\n",
 		HTML_PREFIX "<p>www.gnome.org </p>" HTML_SUFFIX,
 		"www.gnome.org "))
 		g_test_fail ();
@@ -909,7 +912,7 @@ test_h_rule_insert (TestFixture *fixture)
 		"mode:html\n"
 		"type:text\n"
 		"action:insert-rule\n"
-		"seq:tttttn\n", /* Move to the Close button and press it */
+		"seq:^\n",  /* Escape key press to close the dialog */
 		HTML_PREFIX "<p>text</p><hr align=\"left\" size=\"2\" noshade=\"\">" HTML_SUFFIX,
 		"text"))
 		g_test_fail ();
