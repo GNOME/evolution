@@ -37,6 +37,30 @@
 #include "e-selection.h"
 #include "e-content-editor.h"
 
+static gboolean
+e_html_editor_action_can_run (GtkWidget *widget)
+{
+	GtkWidget *toplevel, *focused;
+
+	g_return_val_if_fail (GTK_IS_WIDGET (widget), FALSE);
+
+	/* The action can be run if the widget is focused... */
+	if (gtk_widget_has_focus (widget))
+		return TRUE;
+
+	toplevel = gtk_widget_get_toplevel (widget);
+	if (!toplevel || !gtk_widget_is_toplevel (toplevel) || !GTK_IS_WINDOW (toplevel))
+		return TRUE;
+
+	focused = gtk_window_get_focus (GTK_WINDOW (toplevel));
+
+	/* ..., or if there is no other widget focused. Eventually the window
+	   can have set the widget as focused, but the widget doesn't have
+	   the flag saet, because the window itself is in the background,
+	   like during the unit tests of the HTML editor.*/
+	return !focused || focused == widget;
+}
+
 static void
 insert_html_file_ready_cb (GFile *file,
                            GAsyncResult *result,
@@ -268,7 +292,7 @@ action_indent_cb (GtkAction *action,
 	EContentEditor *cnt_editor;
 
 	cnt_editor = e_html_editor_get_content_editor (editor);
-	if (gtk_widget_has_focus (GTK_WIDGET (cnt_editor)))
+	if (e_html_editor_action_can_run (GTK_WIDGET (cnt_editor)))
 		e_content_editor_selection_indent (cnt_editor);
 }
 
@@ -731,7 +755,7 @@ action_redo_cb (GtkAction *action,
 	EContentEditor *cnt_editor;
 
 	cnt_editor = e_html_editor_get_content_editor (editor);
-	if (gtk_widget_has_focus (GTK_WIDGET (cnt_editor)))
+	if (e_html_editor_action_can_run (GTK_WIDGET (cnt_editor)))
 		e_content_editor_redo (cnt_editor);
 }
 
@@ -742,7 +766,7 @@ action_select_all_cb (GtkAction *action,
 	EContentEditor *cnt_editor;
 
 	cnt_editor = e_html_editor_get_content_editor (editor);
-	if (gtk_widget_has_focus (GTK_WIDGET (cnt_editor)))
+	if (e_html_editor_action_can_run (GTK_WIDGET (cnt_editor)))
 		e_content_editor_select_all (cnt_editor);
 }
 
@@ -800,7 +824,7 @@ action_undo_cb (GtkAction *action,
 	EContentEditor *cnt_editor;
 
 	cnt_editor = e_html_editor_get_content_editor (editor);
-	if (gtk_widget_has_focus (GTK_WIDGET (cnt_editor))) {
+	if (e_html_editor_action_can_run (GTK_WIDGET (cnt_editor))) {
 		e_content_editor_undo (cnt_editor);
 	}
 }
@@ -812,7 +836,7 @@ action_unindent_cb (GtkAction *action,
 	EContentEditor *cnt_editor;
 
 	cnt_editor = e_html_editor_get_content_editor (editor);
-	if (gtk_widget_has_focus (GTK_WIDGET (cnt_editor)))
+	if (e_html_editor_action_can_run (GTK_WIDGET (cnt_editor)))
 		e_content_editor_selection_unindent (cnt_editor);
 }
 
@@ -823,7 +847,7 @@ action_wrap_lines_cb (GtkAction *action,
 	EContentEditor *cnt_editor;
 
 	cnt_editor = e_html_editor_get_content_editor (editor);
-	if (gtk_widget_has_focus (GTK_WIDGET (cnt_editor)))
+	if (e_html_editor_action_can_run (GTK_WIDGET (cnt_editor)))
 		e_content_editor_selection_wrap (cnt_editor);
 }
 
