@@ -12,7 +12,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
 "POT-Creation-Date: 2016-08-18 22:59+0200\n"
-"PO-Revision-Date: 2016-08-18 23:01+0200\n"
+"PO-Revision-Date: 2016-08-25 21:29+0200\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenščina <gnome-si@googlegroups.com>\n"
 "Language: sl\n"
@@ -8662,6 +8662,8 @@ msgid ""
 "Whether to show reminders for completed tasks. When set to false, reminders "
 "for completed tasks are suppressed."
 msgstr ""
+"Ali naj bodo prikazani opomniki za že končane naloge. Neizbrana možnost "
+"prezre prikazovanje."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:129
 msgid "Highlight overdue tasks"
@@ -9199,11 +9201,14 @@ msgstr "Omogoči prelom vrstic po določenem številu vpisanih znakov"
 msgid ""
 "Number of To and CC recipients to ask 'prompt-on-many-to-cc-recips' from"
 msgstr ""
+"Število prejemnikov Za in Kp, preden se pokaže opozorilo o večjem številu "
+"prejemnikov"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:62
 msgid ""
 "When to ask, when the number of To and CC recipients reaches this value."
 msgstr ""
+"Po koliko dodanih stikih naj se pokaže opozorilo o številu prejemnikov."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:63
 msgid "Whether to always show Sign and Encrypt buttons on the toolbar"
@@ -9371,8 +9376,8 @@ msgid ""
 "If set to true, the selected message will be set as unread after the timeout "
 "also after the folder change."
 msgstr ""
-"Izbrana možnost določa, da bodo izbrana sporočila označena kot neprebrana po "
-"določenem času in po spremembi mape."
+"Izbrana možnost omogoči označevanje sporočila kot neprebranega po preteku "
+"časovne omejitve tudi po spremembi mape."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:98
 msgid "Timeout for marking messages as seen"
@@ -9557,6 +9562,8 @@ msgid ""
 "This setting specifies whether the thread children should be sorted always "
 "ascending, rather than using the same sort order as in the thread root level."
 msgstr ""
+"Nastavitev določa, ali naj bo podrejena nit sporočil razvrščena naraščajoče "
+"in ne enako kot korenska raven niti."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:133
 msgid "Sort accounts alphabetically in a folder tree"
@@ -9796,12 +9803,16 @@ msgid ""
 "Prompt when switching composer mode and the content needs to lose its "
 "formatting"
 msgstr ""
+"Opomni na preklop načina sestavljalnika, pri čemer se počisti celotno "
+"oblikovanje sporočila."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:174
 msgid ""
 "It disables/enables the repeated prompts to warn that you are switching "
 "composer mode and the content needs to lose its formatting."
 msgstr ""
+"Omogoči oziroma onemogoči ponavljajoča se opozorila pri preklopu načina "
+"sestavljalnika, pri čemer se počisti celotno oblikovanje sporočila."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:175
 msgid "Prompt when sending to many To and CC recipients"
@@ -9812,6 +9823,8 @@ msgid ""
 "Enable or disable the prompt when sending to many To and CC recipients. The "
 "'composer-many-to-cc-recips-num' defines the threshold."
 msgstr ""
+"Možnost omogoči opozorilo pri pošiljanju sporočila več prejemnikom Za in Kp. "
+"Prag določa vrednost omejitve števila."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:177
 msgid ""
@@ -10079,6 +10092,8 @@ msgid ""
 "When enabled the theme colors for background, text and links are sent in "
 "resulting HTML formatted message."
 msgstr ""
+"Izbrana možnost omogoči, da se barve, ozadje, besedilo in povezave pošljejo "
+"kot HTML oblikovano sporočilo."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:224
 msgid "An Archive folder for On This Computer folders."
@@ -17625,6 +17640,11 @@ msgid ""
 "other or if privacy is a concern. Consider adding recipients to the BCC "
 "field instead."
 msgstr ""
+"Poskušate poslati sporočilo več prejemnikom {0} Za in Kp. Pri takem "
+"pošiljanju vsi prejemniki vidijo elektronske naslove vseh drugih "
+"prejemnikov. V nekaterih primerih tak način ni zaželen; če se na primer ne "
+"poznajo, ali pa so posredi vprašanja zasebnosti. Priporočljivo je dodati "
+"stike kot prejemnike skrite kopoje SKp."
 
 #: ../mail/mail.error.xml.h:19
 msgid "Are you sure you want to send a message with invalid address?"
