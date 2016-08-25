@@ -725,13 +725,21 @@ emfu_get_messages_hash_sync (CamelFolder *folder,
 					content, stream, cancellable, error);
 
 				if (n_bytes >= 0) {
+					guint data_len;
+
 					/* The CamelStreamMem owns the buffer. */
 					buffer = camel_stream_mem_get_byte_array (
 						CAMEL_STREAM_MEM (stream));
 					g_return_val_if_fail (buffer != NULL, NULL);
 
-					digest = g_compute_checksum_for_data (
-						G_CHECKSUM_SHA256, buffer->data, buffer->len);
+					data_len = buffer->len;
+
+					/* Strip trailing white-spaces and empty lines */
+					while (data_len > 0 && g_ascii_isspace (buffer->data[data_len - 1]))
+						data_len--;
+
+					if (data_len > 0)
+						digest = g_compute_checksum_for_data (G_CHECKSUM_SHA256, buffer->data, data_len);
 				}
 
 				g_object_unref (stream);
