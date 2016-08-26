@@ -3767,6 +3767,7 @@ sync_wrapper_result_callback (GObject *source_object,
 }
 
 /**
+ * e_util_invoke_g_dbus_proxy_call_sync_wrapper_full:
  * @dbus_proxy: a #GDBusProxy instance
  * @method_name: a method name to invoke
  * @parameters: (allow-none): parameters of the method, or %NULL
