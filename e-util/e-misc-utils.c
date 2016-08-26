@@ -3596,3 +3596,224 @@ e_util_check_gtk_bindings_in_key_press_event_cb (GtkWidget *widget,
 
 	return FALSE;
 }
+
+/**
+ * e_util_claim_dbus_proxy_call_error:
+ * @dbus_proxy: a #GDBusProxy instance
+ * @method_name: a method name of the @dbus_proxy
+ * @in_error: (allow-none): a #GError with the failure, or %NULL
+ *
+ * Claims the @in_error on the console as a failure to call
+ * method @method_name of the @dbus_proxy. It's safe to call this
+ * with a %NULL @in_error, then the function does nothing.
+ * Some errors can be ignored, like the G_IO_ERROR_CANCELLED is.
+ *
+ * Since: 3.22
+ **/
+void
+e_util_claim_dbus_proxy_call_error (GDBusProxy *dbus_proxy,
+				    const gchar *method_name,
+				    const GError *in_error)
+{
+	g_return_if_fail (G_IS_DBUS_PROXY (dbus_proxy));
+	g_return_if_fail (method_name != NULL);
+
+	if (in_error && !g_error_matches (in_error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
+		g_warning ("Failed to call a DBus Proxy method %s::%s: %s",
+			g_dbus_proxy_get_name (dbus_proxy), method_name, in_error->message);
+}
+
+static void
+e_util_finish_dbus_proxy_call_cb (GObject *source_object,
+				  GAsyncResult *result,
+				  gpointer user_data)
+{
+	gchar *method_name = user_data;
+	GDBusProxy *dbus_proxy;
+	GVariant *ret;
+	GError *error = NULL;
+
+	g_return_if_fail (G_IS_DBUS_PROXY (source_object));
+
+	dbus_proxy = G_DBUS_PROXY (source_object);
+
+	ret = g_dbus_proxy_call_finish (dbus_proxy, result, &error);
+
+	if (ret)
+		g_variant_unref (ret);
+
+	if (error)
+		g_dbus_error_strip_remote_error (error);
+
+	e_util_claim_dbus_proxy_call_error (dbus_proxy, method_name, error);
+
+	g_clear_error (&error);
+	g_free (method_name);
+}
+
+/**
+ * e_util_invoke_g_dbus_proxy_call_with_error_check:
+ * @dbus_proxy: a #GDBusProxy instance
+ * @method_name: a method name to invoke
+ * @parameters: (allow-none): parameters of the method, or %NULL
+ * @cancellable: (allow-none): a #GCancellable, or %NULL
+ *
+ * Calls g_dbus_proxy_call() on the @dbus_proxy for the @method_name with @parameters
+ * and adds its own callback for the result. Then, if an error is returned, passes this
+ * error into e_util_claim_dbus_proxy_call_error().
+ *
+ * See: e_util_invoke_g_dbus_proxy_call_with_error_check_full()
+ *
+ * Since: 3.22
+ **/
+void
+e_util_invoke_g_dbus_proxy_call_with_error_check (GDBusProxy *dbus_proxy,
+						  const gchar *method_name,
+						  GVariant *parameters,
+						  GCancellable *cancellable)
+{
+	g_return_if_fail (G_IS_DBUS_PROXY (dbus_proxy));
+	g_return_if_fail (method_name != NULL);
+
+	e_util_invoke_g_dbus_proxy_call_with_error_check_full (
+		dbus_proxy, method_name, parameters,
+		G_DBUS_CALL_FLAGS_NONE, -1, cancellable);
+}
+
+/**
+ * e_util_invoke_g_dbus_proxy_call_with_error_check_full:
+ * @dbus_proxy: a #GDBusProxy instance
+ * @method_name: a method name to invoke
+ * @parameters: (allow-none): parameters of the method, or %NULL
+ * @flags: a bit-or of #GDBusCallFlags, with the same meaning as in the g_dbus_proxy_call()
+ * @timeout_msec: timeout in milliseconds, with the same meaning as in the g_dbus_proxy_call().
+ * @cancellable: (allow-none): a #GCancellable, or %NULL
+ *
+ * Calls g_dbus_proxy_call() on the @dbus_proxy for the @method_name with @parameters
+ * and adds its own callback for the result. Then, if an error is returned, passes this
+ * error into e_util_claim_dbus_proxy_call_error().
+ *
+ * See: e_util_invoke_g_dbus_proxy_call_with_error_check()
+ *
+ * Since: 3.22
+ **/
+void
+e_util_invoke_g_dbus_proxy_call_with_error_check_full (GDBusProxy *dbus_proxy,
+						       const gchar *method_name,
+						       GVariant *parameters,
+						       GDBusCallFlags flags,
+						       gint timeout_msec,
+						       GCancellable *cancellable)
+{
+	g_return_if_fail (G_IS_DBUS_PROXY (dbus_proxy));
+	g_return_if_fail (method_name != NULL);
+
+	g_dbus_proxy_call (dbus_proxy, method_name, parameters,
+		flags, timeout_msec, cancellable,
+		e_util_finish_dbus_proxy_call_cb, g_strdup (method_name));
+}
+
+/**
+ * e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check:
+ * @dbus_proxy: a #GDBusProxy instance
+ * @method_name: a method name to invoke
+ * @parameters: (allow-none): parameters of the method, or %NULL
+ * @cancellable: (allow-none): a #GCancellable, or %NULL
+ *
+ * Calls e_util_invoke_g_dbus_proxy_call_sync_wrapper_full() with some default
+ * values for flags and timeout_msec, while also providing its own GError and
+ * after the call is finished it calls e_util_claim_dbus_proxy_call_error()
+ * with the returned error, if any.
+ *
+ * Returns: The result of the method call, or %NULL on error. Free with g_variant_unref().
+ *
+ * Since: 3.22
+ **/
+GVariant *
+e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (GDBusProxy *dbus_proxy,
+							       const gchar *method_name,
+							       GVariant *parameters,
+							       GCancellable *cancellable)
+{
+	GVariant *result;
+	GError *error = NULL;
+
+	g_return_val_if_fail (G_IS_DBUS_PROXY (dbus_proxy), NULL);
+	g_return_val_if_fail (method_name != NULL, NULL);
+
+	result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_full (dbus_proxy, method_name, parameters,
+		G_DBUS_CALL_FLAGS_NONE, -1, cancellable, &error);
+
+	if (error)
+		g_dbus_error_strip_remote_error (error);
+
+	e_util_claim_dbus_proxy_call_error (dbus_proxy, method_name, error);
+	g_clear_error (&error);
+
+	return result;
+}
+
+static void
+sync_wrapper_result_callback (GObject *source_object,
+			      GAsyncResult *result,
+			      gpointer user_data)
+{
+	GAsyncResult **out_async_result = user_data;
+
+	g_return_if_fail (out_async_result != NULL);
+	g_return_if_fail (*out_async_result == NULL);
+
+	*out_async_result = g_object_ref (result);
+}
+
+/**
+ * @dbus_proxy: a #GDBusProxy instance
+ * @method_name: a method name to invoke
+ * @parameters: (allow-none): parameters of the method, or %NULL
+ * @flags: a bit-or of #GDBusCallFlags, with the same meaning as in the g_dbus_proxy_call()
+ * @timeout_msec: timeout in milliseconds, with the same meaning as in the g_dbus_proxy_call().
+ * @cancellable: (allow-none): a #GCancellable, or %NULL
+ * @error: (allow-none): Return location for error, or %NULL
+ *
+ * Wraps GDBusProxy synchronous call into an asynchronous without blocking
+ * the main context. This can be useful when doing calls on a WebExtension,
+ * because it can avoid freeze when this is called in the UI process and
+ * the WebProcess also does its own IPC call.
+ *
+ * This function should be called only from the main thread.
+ *
+ * Returns: The result of the method call, or %NULL on error. Free with g_variant_unref().
+ *
+ * Since: 3.22
+ **/
+GVariant *
+e_util_invoke_g_dbus_proxy_call_sync_wrapper_full (GDBusProxy *dbus_proxy,
+						   const gchar *method_name,
+						   GVariant *parameters,
+						   GDBusCallFlags flags,
+						   gint timeout_msec,
+						   GCancellable *cancellable,
+						   GError **error)
+{
+	GAsyncResult *async_result = NULL;
+	GVariant *var_result;
+
+	g_return_val_if_fail (G_IS_DBUS_PROXY (dbus_proxy), NULL);
+	g_return_val_if_fail (method_name != NULL, NULL);
+
+	g_warn_if_fail (e_util_is_main_thread (g_thread_self ()));
+
+	g_dbus_proxy_call (
+		dbus_proxy, method_name, parameters, flags, timeout_msec, cancellable,
+		sync_wrapper_result_callback, &async_result);
+
+	while (!async_result) {
+		g_main_context_iteration (NULL, TRUE);
+	}
+
+	var_result = g_dbus_proxy_call_finish (dbus_proxy, async_result, error);
+
+	g_clear_object (&async_result);
+
+	return var_result;
+}

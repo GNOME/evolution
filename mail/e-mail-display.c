@@ -554,16 +554,12 @@ setup_dom_bindings (EMailDisplay *display)
 					NULL);
 		}
 
-		g_dbus_proxy_call (
+		e_util_invoke_g_dbus_proxy_call_with_error_check (
 			web_extension,
 			"EMailDisplayBindDOM",
 			g_variant_new (
 				"(t)",
 				webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (display))),
-			G_DBUS_CALL_FLAGS_NONE,
-			-1,
-			NULL,
-			NULL,
 			NULL);
 	}
 }
@@ -1093,15 +1089,22 @@ mail_display_attachment_removed_cb (EAttachmentStore *store,
 }
 
 static void
-mail_element_exists_cb (GDBusProxy *web_extension,
+mail_element_exists_cb (GObject *source_object,
                         GAsyncResult *result,
-                        EMailPart *part)
+                        gpointer user_data)
 {
+	GDBusProxy *web_extension;
+	EMailPart *part = user_data;
 	gboolean element_exists = FALSE;
 	GVariant *result_variant;
 	guint64 page_id;
+	GError *error = NULL;
 
-	result_variant = g_dbus_proxy_call_finish (web_extension, result, NULL);
+	g_return_if_fail (G_IS_DBUS_PROXY (source_object));
+
+	web_extension = G_DBUS_PROXY (source_object);
+
+	result_variant = g_dbus_proxy_call_finish (web_extension, result, &error);
 	if (result_variant) {
 		g_variant_get (result_variant, "(bt)", &element_exists, &page_id);
 		g_variant_unref (result_variant);
@@ -1115,6 +1118,12 @@ mail_element_exists_cb (GDBusProxy *web_extension,
 			e_mail_part_get_id (part));
 
 	g_object_unref (part);
+
+	if (error)
+		g_dbus_error_strip_remote_error (error);
+
+	e_util_claim_dbus_proxy_call_error (web_extension, "ElementExists", error);
+	g_clear_error (&error);
 }
 
 static void
@@ -1163,7 +1172,7 @@ mail_parts_bind_dom (EMailDisplay *display)
 			G_DBUS_CALL_FLAGS_NONE,
 			-1,
 			NULL,
-			(GAsyncReadyCallback)mail_element_exists_cb,
+			mail_element_exists_cb,
 			g_object_ref (part));
 	}
 
@@ -2464,7 +2473,7 @@ e_mail_display_get_selection_plain_text_sync (EMailDisplay *display,
 		GVariant *result;
 		const gchar *text_content = NULL;
 
-		result = g_dbus_proxy_call_sync (
+		result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_full (
 				web_extension,
 				"GetDocumentContentText",
 				g_variant_new (

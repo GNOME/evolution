@@ -223,14 +223,10 @@ mail_part_headers_bind_dom_element (EMailPart *part,
                                     const gchar *element_id)
 {
 	if (web_extension) {
-		g_dbus_proxy_call (
+		e_util_invoke_g_dbus_proxy_call_with_error_check (
 			web_extension,
 			"EMailPartHeadersBindDOMElement",
 			g_variant_new ("(ts)", page_id, element_id),
-			G_DBUS_CALL_FLAGS_NONE,
-			-1,
-			NULL,
-			NULL,
 			NULL);
 	}
 }

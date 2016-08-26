@@ -299,6 +299,35 @@ gchar *		e_util_save_image_from_clipboard
 gboolean	e_util_check_gtk_bindings_in_key_press_event_cb
 						(GtkWidget *widget,
 						 GdkEvent *event);
+void		e_util_claim_dbus_proxy_call_error
+						(GDBusProxy *dbus_proxy,
+						 const gchar *method_name,
+						 const GError *in_error);
+void		e_util_invoke_g_dbus_proxy_call_with_error_check
+						(GDBusProxy *dbus_proxy,
+						 const gchar *method_name,
+						 GVariant *parameters,
+						 GCancellable *cancellable);
+void		e_util_invoke_g_dbus_proxy_call_with_error_check_full
+						(GDBusProxy *dbus_proxy,
+						 const gchar *method_name,
+						 GVariant *parameters,
+						 GDBusCallFlags flags,
+						 gint timeout_msec,
+						 GCancellable *cancellable);
+GVariant *	e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check
+						(GDBusProxy *dbus_proxy,
+						 const gchar *method_name,
+						 GVariant *parameters,
+						 GCancellable *cancellable);
+GVariant *	e_util_invoke_g_dbus_proxy_call_sync_wrapper_full
+						(GDBusProxy *dbus_proxy,
+						 const gchar *method_name,
+						 GVariant *parameters,
+						 GDBusCallFlags flags,
+						 gint timeout_msec,
+						 GCancellable *cancellable,
+						 GError **error);
 
 G_END_DECLS
 

@@ -1828,15 +1828,12 @@ msg_composer_drag_drop_cb (GtkWidget *widget,
 
 			web_extension = e_html_editor_view_get_web_extension_proxy (editor_view);
 			if (web_extension) {
-				g_dbus_proxy_call_sync (
+				e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (
 					web_extension,
 					"DOMSaveDragAndDropHistory",
 					g_variant_new (
 						"(t)",
 						webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (editor_view))),
-					G_DBUS_CALL_FLAGS_NONE,
-					-1,
-					NULL,
 					NULL);
 			}
 			return FALSE;
@@ -1896,15 +1893,12 @@ msg_composer_drag_data_received_after_cb (GtkWidget *widget,
 	if (!web_extension)
 		goto out;
 
-	g_dbus_proxy_call_sync (
+	e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (
 		web_extension,
 		"DOMCleanAfterDragAndDrop",
 		g_variant_new (
 			"(t)",
 			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view))),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
 		NULL);
 
  out:

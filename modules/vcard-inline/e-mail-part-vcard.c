@@ -192,7 +192,7 @@ display_mode_toggle_cb (GDBusConnection *connection,
 				_("Show Com_pact vCard"), &access_key);
 	}
 
-	g_dbus_proxy_call (
+	e_util_invoke_g_dbus_proxy_call_with_error_check (
 		vcard_part->priv->web_extension,
 		"VCardInlineUpdateButton",
 		g_variant_new (
@@ -201,10 +201,6 @@ display_mode_toggle_cb (GDBusConnection *connection,
 			button_id,
 			html_label,
 			access_key),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL,
 		NULL);
 
 	if (access_key)
@@ -219,7 +215,7 @@ display_mode_toggle_cb (GDBusConnection *connection,
 		"part_id", G_TYPE_STRING, part_id,
 		"mode", G_TYPE_INT, E_MAIL_FORMATTER_MODE_RAW, NULL);
 
-	g_dbus_proxy_call (
+	e_util_invoke_g_dbus_proxy_call_with_error_check (
 		vcard_part->priv->web_extension,
 		"VCardInlineSetIFrameSrc",
 		g_variant_new (
@@ -227,10 +223,6 @@ display_mode_toggle_cb (GDBusConnection *connection,
 			vcard_part->priv->page_id,
 			button_id,
 			uri),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL,
 		NULL);
 
 	g_free (uri);
@@ -339,17 +331,13 @@ mail_part_vcard_bind_dom_element (EMailPart *part,
 			vcard_part,
 			NULL);
 
-	g_dbus_proxy_call (
+	e_util_invoke_g_dbus_proxy_call_with_error_check (
 		vcard_part->priv->web_extension,
 		"VCardInlineBindDOM",
 		g_variant_new (
 			"(ts)",
 			vcard_part->priv->page_id,
 			element_id),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL,
 		NULL);
 }
 

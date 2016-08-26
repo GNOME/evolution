@@ -653,14 +653,10 @@ enable_button (ItipView *view,
 	if (!view->priv->web_extension)
 		return;
 
-	g_dbus_proxy_call (
+	e_util_invoke_g_dbus_proxy_call_with_error_check (
 		view->priv->web_extension,
 		"EnableButton",
 		g_variant_new ("(tssb)", view->priv->page_id, view->priv->part_id, button_id, enable),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL,
 		NULL);
 }
 
@@ -671,14 +667,10 @@ show_button (ItipView *view,
 	if (!view->priv->web_extension)
 		return;
 
-	g_dbus_proxy_call (
+	e_util_invoke_g_dbus_proxy_call_with_error_check (
 		view->priv->web_extension,
 		"ShowButton",
 		g_variant_new ("(tss)", view->priv->page_id, view->priv->part_id, id),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL,
 		NULL);
 }
 
@@ -690,14 +682,10 @@ hide_element (ItipView *view,
 	if (!view->priv->web_extension)
 		return;
 
-	g_dbus_proxy_call (
+	e_util_invoke_g_dbus_proxy_call_with_error_check (
 		view->priv->web_extension,
 		"HideElement",
 		g_variant_new ("(tssb)", view->priv->page_id, view->priv->part_id, element_id, hide),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL,
 		NULL);
 }
 
@@ -711,13 +699,10 @@ element_is_hidden (ItipView *view,
 	if (!view->priv->web_extension)
 		return FALSE;
 
-	result = g_dbus_proxy_call_sync (
+	result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (
 			view->priv->web_extension,
 			"ElementIsHidden",
 			g_variant_new ("(tss)", view->priv->page_id, view->priv->part_id, element_id),
-			G_DBUS_CALL_FLAGS_NONE,
-			-1,
-			NULL,
 			NULL);
 
 	if (result) {
@@ -737,14 +722,10 @@ set_inner_html (ItipView *view,
 	if (!view->priv->web_extension)
 		return;
 
-	g_dbus_proxy_call (
+	e_util_invoke_g_dbus_proxy_call_with_error_check (
 		view->priv->web_extension,
 		"ElementSetInnerHTML",
 		g_variant_new ("(tsss)", view->priv->page_id, view->priv->part_id, element_id, inner_html),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL,
 		NULL);
 }
 
@@ -756,14 +737,10 @@ input_set_checked (ItipView *view,
 	if (!view->priv->web_extension)
 		return;
 
-	g_dbus_proxy_call (
+	e_util_invoke_g_dbus_proxy_call_with_error_check (
 		view->priv->web_extension,
 		"InputSetChecked",
 		g_variant_new ("(tssb)", view->priv->page_id, view->priv->part_id, input_id, checked),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL,
 		NULL);
 }
 
@@ -777,13 +754,10 @@ input_is_checked (ItipView *view,
 	if (!view->priv->web_extension)
 		return FALSE;
 
-	result = g_dbus_proxy_call_sync (
+	result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (
 			view->priv->web_extension,
 			"InputIsChecked",
 			g_variant_new ("(tss)", view->priv->page_id, view->priv->part_id, input_id),
-			G_DBUS_CALL_FLAGS_NONE,
-			-1,
-			NULL,
 			NULL);
 
 	if (result) {
@@ -806,14 +780,10 @@ show_checkbox (ItipView *view,
 	if (!view->priv->web_extension)
 		return;
 
-	g_dbus_proxy_call (
+	e_util_invoke_g_dbus_proxy_call_with_error_check (
 		view->priv->web_extension,
 		"ShowCheckbox",
 		g_variant_new ("(tssbb)", view->priv->page_id, view->priv->part_id, id, show, update_second),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL,
 		NULL);
 }
 
@@ -827,14 +797,10 @@ set_area_text (ItipView *view,
 	if (!view->priv->web_extension)
 		return;
 
-	g_dbus_proxy_call (
+	e_util_invoke_g_dbus_proxy_call_with_error_check (
 		view->priv->web_extension,
 		"SetAreaText",
 		g_variant_new ("(tsss)", view->priv->page_id, view->priv->part_id, id, text ? text : ""),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL,
 		NULL);
 }
 
@@ -918,7 +884,7 @@ update_start_end_times (ItipView *view)
 		return;
 
 	if (priv->start_header && priv->start_label) {
-		g_dbus_proxy_call (
+		e_util_invoke_g_dbus_proxy_call_with_error_check (
 			priv->web_extension,
 			"UpdateTimes",
 			g_variant_new (
@@ -928,16 +894,12 @@ update_start_end_times (ItipView *view)
 				TABLE_ROW_START_DATE,
 				priv->start_header,
 				priv->start_label),
-			G_DBUS_CALL_FLAGS_NONE,
-			-1,
-			NULL,
-			NULL,
 			NULL);
 	} else
 		hide_element (view, TABLE_ROW_START_DATE, TRUE);
 
 	if (priv->end_header && priv->end_label) {
-		g_dbus_proxy_call (
+		e_util_invoke_g_dbus_proxy_call_with_error_check (
 			priv->web_extension,
 			"UpdateTimes",
 			g_variant_new (
@@ -947,10 +909,6 @@ update_start_end_times (ItipView *view)
 				TABLE_ROW_END_DATE,
 				priv->end_header,
 				priv->end_label),
-			G_DBUS_CALL_FLAGS_NONE,
-			-1,
-			NULL,
-			NULL,
 			NULL);
 	} else
 		hide_element (view, TABLE_ROW_END_DATE, TRUE);
@@ -1155,7 +1113,7 @@ append_info_item_row (ItipView *view,
 	if (!view->priv->web_extension)
 		return;
 
-	g_dbus_proxy_call (
+	e_util_invoke_g_dbus_proxy_call_with_error_check (
 		view->priv->web_extension,
 		"AppendInfoItemRow",
 		g_variant_new (
@@ -1166,10 +1124,6 @@ append_info_item_row (ItipView *view,
 			row_id,
 			icon_name,
 			item->message),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL,
 		NULL);
 
 	g_free (row_id);
@@ -1189,14 +1143,10 @@ remove_info_item_row (ItipView *view,
 	if (!view->priv->web_extension)
 		return;
 
-	g_dbus_proxy_call (
+	e_util_invoke_g_dbus_proxy_call_with_error_check (
 		view->priv->web_extension,
 		"RemoveElement",
 		g_variant_new ("(tss)", view->priv->page_id, view->priv->part_id, row_id),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL,
 		NULL);
 
 	g_free (row_id);
@@ -1303,14 +1253,10 @@ itip_view_rebuild_source_list (ItipView *view)
 	if (extension_name == NULL)
 		return;
 
-	g_dbus_proxy_call (
+	e_util_invoke_g_dbus_proxy_call_with_error_check (
 		view->priv->web_extension,
 		"ElementRemoveChildNodes",
 		g_variant_new ("(tss)", view->priv->page_id, view->priv->part_id, SELECT_ESOURCE),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL,
 		NULL);
 
 	list = e_source_registry_list_enabled (registry, extension_name);
@@ -1322,7 +1268,7 @@ itip_view_rebuild_source_list (ItipView *view)
 		parent = e_source_registry_ref_source (
 			registry, e_source_get_parent (source));
 
-		g_dbus_proxy_call (
+		e_util_invoke_g_dbus_proxy_call_with_error_check (
 			view->priv->web_extension,
 			"RebuildSourceList",
 			g_variant_new (
@@ -1334,10 +1280,6 @@ itip_view_rebuild_source_list (ItipView *view)
 				e_source_get_uid (source),
 				e_source_get_display_name (source),
 				e_source_get_writable (source)),
-			G_DBUS_CALL_FLAGS_NONE,
-			-1,
-			NULL,
-			NULL,
 			NULL);
 
 		g_object_unref (parent);
@@ -1899,14 +1841,10 @@ web_extension_proxy_created_cb (GDBusProxy *proxy,
 			view,
 			NULL);
 
-	g_dbus_proxy_call (
+	e_util_invoke_g_dbus_proxy_call_with_error_check (
 		view->priv->web_extension,
 		"CreateDOMBindings",
 		g_variant_new ("(ts)", view->priv->page_id, view->priv->part_id),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL,
 		NULL);
 
 	itip_view_init_view (view);
@@ -2018,14 +1956,10 @@ itip_view_set_mode (ItipView *view,
 	if (!view->priv->web_extension)
 		return;
 
-	g_dbus_proxy_call (
+	e_util_invoke_g_dbus_proxy_call_with_error_check (
 		view->priv->web_extension,
 		"ElementHideChildNodes",
 		g_variant_new ("(tss)", view->priv->page_id, view->priv->part_id, TABLE_ROW_BUTTONS),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL,
 		NULL);
 
 	view->priv->is_recur_set = itip_view_get_recur_check_state (view);
@@ -2116,14 +2050,10 @@ itip_view_set_item_type (ItipView *view,
 
 	html_label = e_mail_formatter_parse_html_mnemonics (header, &access_key);
 
-	g_dbus_proxy_call (
+	e_util_invoke_g_dbus_proxy_call_with_error_check (
 		view->priv->web_extension,
 		"ElementSetAccessKey",
 		g_variant_new ("(tsss)", view->priv->page_id, view->priv->part_id, TABLE_ROW_ESCB_LABEL, access_key),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL,
 		NULL);
 
 	set_inner_html (view, TABLE_ROW_ESCB_LABEL, html_label);
@@ -2696,24 +2626,16 @@ itip_view_set_source (ItipView *view,
 	if (!view->priv->web_extension)
 		return;
 
-	g_dbus_proxy_call (
+	e_util_invoke_g_dbus_proxy_call_with_error_check (
 		view->priv->web_extension,
 		"EnableSelect",
 		g_variant_new ("(tssb)", view->priv->page_id, view->priv->part_id, SELECT_ESOURCE, TRUE),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL,
 		NULL);
 
-	g_dbus_proxy_call (
+	e_util_invoke_g_dbus_proxy_call_with_error_check (
 		view->priv->web_extension,
 		"SelectSetSelected",
 		g_variant_new ("(tsss)", view->priv->page_id, view->priv->part_id, SELECT_ESOURCE, e_source_get_uid (source)),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL,
 		NULL);
 
 	source_changed_cb (view);
@@ -2731,13 +2653,10 @@ itip_view_ref_source (ItipView *view)
 	if (!view->priv->web_extension)
 		return NULL;
 
-	result = g_dbus_proxy_call_sync (
+	result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (
 			view->priv->web_extension,
 			"SelectIsEnabled",
 			g_variant_new ("(tss)", view->priv->page_id, view->priv->part_id, SELECT_ESOURCE),
-			G_DBUS_CALL_FLAGS_NONE,
-			-1,
-			NULL,
 			NULL);
 
 	if (result) {
@@ -2746,26 +2665,19 @@ itip_view_ref_source (ItipView *view)
 	}
 
 	if (enabled) {
-		g_dbus_proxy_call (
+		e_util_invoke_g_dbus_proxy_call_with_error_check (
 			view->priv->web_extension,
 			"EnableSelect",
 			g_variant_new ("(tssb)", view->priv->page_id, view->priv->part_id, SELECT_ESOURCE, TRUE),
-			G_DBUS_CALL_FLAGS_NONE,
-			-1,
-			NULL,
-			NULL,
 			NULL);
 
 		disable = TRUE;
 	}
 
-	result = g_dbus_proxy_call_sync (
+	result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (
 		view->priv->web_extension,
 		"SelectGetValue",
 		g_variant_new ("(tss)", view->priv->page_id, view->priv->part_id, SELECT_ESOURCE),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
 		NULL);
 
 	if (result) {
@@ -2777,14 +2689,10 @@ itip_view_ref_source (ItipView *view)
 	}
 
 	if (disable) {
-		g_dbus_proxy_call (
+		e_util_invoke_g_dbus_proxy_call_with_error_check (
 			view->priv->web_extension,
 			"EnableSelect",
 			g_variant_new ("(tssb)", view->priv->page_id, view->priv->part_id, SELECT_ESOURCE, FALSE),
-			G_DBUS_CALL_FLAGS_NONE,
-			-1,
-			NULL,
-			NULL,
 			NULL);
 	}
 
@@ -2802,14 +2710,10 @@ itip_view_set_rsvp (ItipView *view,
 
 	input_set_checked (view, CHECKBOX_RSVP, rsvp);
 
-	g_dbus_proxy_call (
+	e_util_invoke_g_dbus_proxy_call_with_error_check (
 		view->priv->web_extension,
 		"EnableTextArea",
 		g_variant_new ("(tssb)", view->priv->page_id, view->priv->part_id, TEXTAREA_RSVP_COMMENT, !rsvp),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL,
 		NULL);
 }
 
@@ -2883,14 +2787,10 @@ itip_view_set_rsvp_comment (ItipView *view,
 		return;
 
 	if (comment) {
-		g_dbus_proxy_call (
+		e_util_invoke_g_dbus_proxy_call_with_error_check (
 			view->priv->web_extension,
 			"TextAreaSetValue",
 			g_variant_new ("(tsss)", view->priv->page_id, view->priv->part_id, TEXTAREA_RSVP_COMMENT, comment),
-			G_DBUS_CALL_FLAGS_NONE,
-			-1,
-			NULL,
-			NULL,
 			NULL);
 	}
 }
@@ -2908,13 +2808,10 @@ itip_view_get_rsvp_comment (ItipView *view)
 	if (element_is_hidden (view, TEXTAREA_RSVP_COMMENT))
 		return NULL;
 
-	result = g_dbus_proxy_call_sync (
+	result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (
 		view->priv->web_extension,
 		"TextAreaGetValue",
 		g_variant_new ("(tss)", view->priv->page_id, view->priv->part_id, TEXTAREA_RSVP_COMMENT),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
 		NULL);
 
 	if (result) {
@@ -2950,14 +2847,10 @@ itip_view_set_buttons_sensitive (ItipView *view,
 	if (!view->priv->web_extension)
 		return;
 
-	g_dbus_proxy_call (
+	e_util_invoke_g_dbus_proxy_call_with_error_check (
 		view->priv->web_extension,
 		"SetButtonsSensitive",
 		g_variant_new ("(tsb)", view->priv->page_id, view->priv->part_id, sensitive),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL,
 		NULL);
 }
 

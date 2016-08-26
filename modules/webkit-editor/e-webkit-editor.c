@@ -589,70 +589,25 @@ current_page_id (EWebKitEditor *wk_editor)
 {
 	return webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (wk_editor));
 }
-
-static void
-sync_wrapper_result_callback (GObject *source_object,
-			      GAsyncResult *result,
-			      gpointer user_data)
-{
-	GAsyncResult **out_async_result = user_data;
-
-	g_return_if_fail (out_async_result != NULL);
-	g_return_if_fail (*out_async_result == NULL);
-
-	*out_async_result = g_object_ref (result);
-}
-
-/* Wraps GDBusProxy synchronous call into an asynchronous without blocking
-   the main context, thus there is no freeze when this is called in the UI
-   process and the WebProcess also does its own IPC call. */
-static GVariant *
-g_dbus_proxy_call_sync_wrapper (GDBusProxy *proxy,
-				const gchar *method_name,
-				GVariant *parameters,
-				GDBusCallFlags flags,
-				gint timeout_msec,
-				GCancellable *cancellable,
-				GError **error)
-{
-	GAsyncResult *async_result = NULL;
-	GVariant *var_result;
-
-	g_return_val_if_fail (G_IS_DBUS_PROXY (proxy), NULL);
-	g_return_val_if_fail (method_name != NULL, NULL);
-
-	g_dbus_proxy_call (
-		proxy, method_name, parameters, flags, timeout_msec, cancellable,
-		sync_wrapper_result_callback, &async_result);
-
-	while (!async_result) {
-		g_main_context_iteration (NULL, TRUE);
-	}
-
-	var_result = g_dbus_proxy_call_finish (proxy, async_result, error);
-
-	g_clear_object (&async_result);
-
-	return var_result;
-}
-
 static void
 webkit_editor_call_simple_extension_function_sync (EWebKitEditor *wk_editor,
                                                    const gchar *function)
 {
+	GVariant *result;
+
 	if (!wk_editor->priv->web_extension) {
 		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return;
 	}
 
-	g_dbus_proxy_call_sync_wrapper (
+	result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (
 		wk_editor->priv->web_extension,
 		function,
 		g_variant_new ("(t)", current_page_id (wk_editor)),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
 		NULL);
+
+	if (result)
+		g_variant_unref (result);
 }
 
 static void
@@ -664,14 +619,10 @@ webkit_editor_call_simple_extension_function (EWebKitEditor *wk_editor,
 		return;
 	}
 
-	g_dbus_proxy_call (
+	e_util_invoke_g_dbus_proxy_call_with_error_check (
 		wk_editor->priv->web_extension,
 		function,
 		g_variant_new ("(t)", current_page_id (wk_editor)),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL,
 		NULL);
 }
 
@@ -680,19 +631,20 @@ webkit_editor_get_element_attribute (EWebKitEditor *wk_editor,
                                      const gchar *selector,
                                      const gchar *attribute)
 {
+	GVariant *result;
+
 	if (!wk_editor->priv->web_extension) {
 		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return NULL;
 	}
 
-	return g_dbus_proxy_call_sync_wrapper (
+	result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (
 		wk_editor->priv->web_extension,
 		"ElementGetAttributeBySelector",
 		g_variant_new ("(tss)", current_page_id (wk_editor), selector, attribute),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
 		NULL);
+
+	return result;
 }
 
 static void
@@ -706,15 +658,11 @@ webkit_editor_set_element_attribute (EWebKitEditor *wk_editor,
 		return;
 	}
 
-	g_dbus_proxy_call (
+	e_util_invoke_g_dbus_proxy_call_with_error_check (
 		wk_editor->priv->web_extension,
 		"ElementSetAttributeBySelector",
 		g_variant_new (
 			"(tsss)", current_page_id (wk_editor), selector, attribute, value),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL,
 		NULL);
 }
 
@@ -728,14 +676,10 @@ webkit_editor_remove_element_attribute (EWebKitEditor *wk_editor,
 		return;
 	}
 
-	g_dbus_proxy_call (
+	e_util_invoke_g_dbus_proxy_call_with_error_check (
 		wk_editor->priv->web_extension,
 		"ElementRemoveAttributeBySelector",
 		g_variant_new ("(tss)", current_page_id (wk_editor), selector, attribute),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL,
 		NULL);
 }
 
@@ -749,14 +693,10 @@ webkit_editor_set_format_boolean (EWebKitEditor *wk_editor,
 		return;
 	}
 
-	g_dbus_proxy_call (
+	e_util_invoke_g_dbus_proxy_call_with_error_check (
 		wk_editor->priv->web_extension,
 		format_dom_function,
 		g_variant_new ("(tb)", current_page_id (wk_editor), format_value),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL,
 		NULL);
 }
 
@@ -770,14 +710,10 @@ webkit_editor_set_format_int (EWebKitEditor *wk_editor,
 		return;
 	}
 
-	g_dbus_proxy_call (
+	e_util_invoke_g_dbus_proxy_call_with_error_check (
 		wk_editor->priv->web_extension,
 		format_dom_function,
 		g_variant_new ("(ti)", current_page_id (wk_editor), format_value),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL,
 		NULL);
 }
 
@@ -797,14 +733,10 @@ webkit_editor_set_format_string (EWebKitEditor *wk_editor,
 
 	webkit_editor_set_changed (wk_editor, TRUE);
 
-	g_dbus_proxy_call (
+	e_util_invoke_g_dbus_proxy_call_with_error_check (
 		wk_editor->priv->web_extension,
 		format_dom_function,
 		g_variant_new ("(ts)", current_page_id (wk_editor), format_value),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL,
 		NULL);
 
 	g_object_notify (G_OBJECT (wk_editor), format_name);
@@ -1380,13 +1312,10 @@ webkit_editor_set_html_mode (EWebKitEditor *wk_editor,
 	if (html_mode == wk_editor->priv->html_mode)
 		return;
 
-	result = g_dbus_proxy_call_sync_wrapper (
+	result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (
 		wk_editor->priv->web_extension,
 		"DOMCheckIfConversionNeeded",
 		g_variant_new ("(t)", current_page_id (wk_editor)),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
 		NULL);
 
 	if (result) {
@@ -1405,14 +1334,10 @@ webkit_editor_set_html_mode (EWebKitEditor *wk_editor,
 
 	wk_editor->priv->html_mode = html_mode;
 
-	g_dbus_proxy_call (
+	e_util_invoke_g_dbus_proxy_call_with_error_check (
 		wk_editor->priv->web_extension,
 		"SetEditorHTMLMode",
 		g_variant_new ("(tbb)", current_page_id (wk_editor), html_mode, convert),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL,
 		NULL);
 
 	/* Update fonts - in plain text we only want monospaced */
@@ -1425,14 +1350,10 @@ static void
 set_convert_in_situ (EWebKitEditor *wk_editor,
                      gboolean value)
 {
-	g_dbus_proxy_call (
+	e_util_invoke_g_dbus_proxy_call_with_error_check (
 		wk_editor->priv->web_extension,
 		"SetConvertInSitu",
 		g_variant_new ("(tb)", current_page_id (wk_editor), value),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL,
 		NULL);
 
 }
@@ -1484,7 +1405,7 @@ webkit_editor_insert_content (EContentEditor *editor,
 		/* e_html_editor_view_convert_and_insert_plain_text
 		   e_html_editor_view_convert_and_insert_html_to_plain_text
 		   e_html_editor_view_insert_text */
-		g_dbus_proxy_call (
+		e_util_invoke_g_dbus_proxy_call_with_error_check (
 			wk_editor->priv->web_extension,
 			"DOMConvertAndInsertHTMLIntoSelection",
 			g_variant_new (
@@ -1492,10 +1413,6 @@ webkit_editor_insert_content (EContentEditor *editor,
 				current_page_id (wk_editor),
 				content,
 				(flags & E_CONTENT_EDITOR_INSERT_TEXT_HTML)),
-			G_DBUS_CALL_FLAGS_NONE,
-			-1,
-			NULL,
-			NULL,
 			NULL);
 	} else if ((flags & E_CONTENT_EDITOR_INSERT_REPLACE_ALL) &&
 		   (flags & E_CONTENT_EDITOR_INSERT_TEXT_HTML)) {
@@ -1533,54 +1450,38 @@ webkit_editor_insert_content (EContentEditor *editor,
 		webkit_web_view_load_html (WEBKIT_WEB_VIEW (wk_editor), content, "file://");
 	} else if ((flags & E_CONTENT_EDITOR_INSERT_REPLACE_ALL) &&
 		   (flags & E_CONTENT_EDITOR_INSERT_TEXT_PLAIN)) {
-		g_dbus_proxy_call (
+		e_util_invoke_g_dbus_proxy_call_with_error_check (
 			wk_editor->priv->web_extension,
 			"DOMConvertContent",
 			g_variant_new ("(ts)", current_page_id (wk_editor), content),
-			G_DBUS_CALL_FLAGS_NONE,
-			-1,
-			NULL,
-			NULL,
 			NULL);
 	} else if ((flags & E_CONTENT_EDITOR_INSERT_CONVERT) &&
 		    !(flags & E_CONTENT_EDITOR_INSERT_REPLACE_ALL) &&
 		    !(flags & E_CONTENT_EDITOR_INSERT_QUOTE_CONTENT)) {
 		/* e_html_editor_view_paste_as_text */
-		g_dbus_proxy_call (
+		e_util_invoke_g_dbus_proxy_call_with_error_check (
 			wk_editor->priv->web_extension,
 			"DOMConvertAndInsertHTMLIntoSelection",
 			g_variant_new (
 				"(tsb)", current_page_id (wk_editor), content, TRUE),
-			G_DBUS_CALL_FLAGS_NONE,
-			-1,
-			NULL,
-			NULL,
 			NULL);
 	} else if ((flags & E_CONTENT_EDITOR_INSERT_QUOTE_CONTENT) &&
 		   !(flags & E_CONTENT_EDITOR_INSERT_REPLACE_ALL)) {
 		/* e_html_editor_view_paste_clipboard_quoted */
-		g_dbus_proxy_call (
+		e_util_invoke_g_dbus_proxy_call_with_error_check (
 			wk_editor->priv->web_extension,
 			"DOMQuoteAndInsertTextIntoSelection",
 			g_variant_new (
 				"(tsb)", current_page_id (wk_editor), content, (flags & E_CONTENT_EDITOR_INSERT_TEXT_HTML) != 0),
-			G_DBUS_CALL_FLAGS_NONE,
-			-1,
-			NULL,
-			NULL,
 			NULL);
 	} else if (!(flags & E_CONTENT_EDITOR_INSERT_CONVERT) &&
 		   !(flags & E_CONTENT_EDITOR_INSERT_REPLACE_ALL)) {
 		/* e_html_editor_view_insert_html */
-		g_dbus_proxy_call (
+		e_util_invoke_g_dbus_proxy_call_with_error_check (
 			wk_editor->priv->web_extension,
 			"DOMInsertHTML",
 			g_variant_new (
 				"(ts)", current_page_id (wk_editor), content),
-			G_DBUS_CALL_FLAGS_NONE,
-			-1,
-			NULL,
-			NULL,
 			NULL);
 	} else
 		g_warning ("Unsupported flags combination (%d) in (%s)", flags, G_STRFUNC);
@@ -1680,20 +1581,16 @@ webkit_editor_get_content (EContentEditor *editor,
 	if ((flags & E_CONTENT_EDITOR_GET_TEXT_HTML) &&
 	    !(flags & E_CONTENT_EDITOR_GET_PROCESSED) &&
             !(flags & E_CONTENT_EDITOR_GET_BODY))
-		g_dbus_proxy_call (
+		e_util_invoke_g_dbus_proxy_call_with_error_check (
 			wk_editor->priv->web_extension,
 			"DOMEmbedStyleSheet",
 			g_variant_new (
 				"(ts)",
 				current_page_id (wk_editor),
 				wk_editor->priv->current_user_stylesheet),
-			G_DBUS_CALL_FLAGS_NONE,
-			-1,
-			NULL,
-			NULL,
 			NULL);
 
-	result = g_dbus_proxy_call_sync_wrapper (
+	result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (
 		wk_editor->priv->web_extension,
 		"DOMGetContent",
 		g_variant_new (
@@ -1701,9 +1598,6 @@ webkit_editor_get_content (EContentEditor *editor,
 			current_page_id (wk_editor),
 			inline_images_from_domain ? inline_images_from_domain : "",
 			(gint32) flags),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
 		NULL);
 
 	if ((flags & E_CONTENT_EDITOR_GET_TEXT_HTML) &&
@@ -1776,6 +1670,7 @@ webkit_editor_move_caret_on_coordinates (EContentEditor *editor,
                                          gboolean cancel_if_not_collapsed)
 {
 	EWebKitEditor *wk_editor;
+	GVariant *result;
 
 	wk_editor = E_WEBKIT_EDITOR (editor);
 	if (!wk_editor->priv->web_extension) {
@@ -1783,15 +1678,15 @@ webkit_editor_move_caret_on_coordinates (EContentEditor *editor,
 		return;
 	}
 
-	g_dbus_proxy_call_sync_wrapper (
+	result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (
 		wk_editor->priv->web_extension,
 		"DOMMoveSelectionOnPoint",
 		g_variant_new (
 			"(tiib)", current_page_id (wk_editor), x, y, cancel_if_not_collapsed),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
 		NULL);
+
+	if (result)
+		g_variant_unref (result);
 }
 
 static void
@@ -1806,15 +1701,11 @@ webkit_editor_insert_emoticon (EContentEditor *editor,
 		return;
 	}
 
-	g_dbus_proxy_call (
+	e_util_invoke_g_dbus_proxy_call_with_error_check (
 		wk_editor->priv->web_extension,
 		"DOMInsertSmiley",
 		g_variant_new (
 			"(ts)", current_page_id (wk_editor), e_emoticon_get_name (emoticon)),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL,
 		NULL);
 }
 
@@ -1861,14 +1752,10 @@ webkit_editor_insert_image_from_mime_part (EContentEditor *editor,
 	}
 	cid_uri = g_strdup_printf ("cid:%s", cid);
 
-	g_dbus_proxy_call (
+	e_util_invoke_g_dbus_proxy_call_with_error_check (
 		wk_editor->priv->web_extension,
 		"DOMAddNewInlineImageIntoList",
 		g_variant_new ("(tsss)", current_page_id (wk_editor), name, cid_uri, src),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL,
 		NULL);
 
 	g_free (base64_encoded);
@@ -1977,13 +1864,10 @@ webkit_editor_get_caret_word (EContentEditor *editor)
 		return NULL;
 	}
 
-	result = g_dbus_proxy_call_sync_wrapper (
+	result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (
 		wk_editor->priv->web_extension,
 		"DOMGetCaretWord",
 		g_variant_new ("(t)", current_page_id (wk_editor)),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
 		NULL);
 
 	if (result) {
@@ -2062,13 +1946,10 @@ webkit_editor_get_current_signature_uid (EContentEditor *editor)
 		return NULL;
 	}
 
-	result = g_dbus_proxy_call_sync_wrapper (
+	result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (
 		wk_editor->priv->web_extension,
 		"DOMGetActiveSignatureUid",
 		g_variant_new ("(t)", current_page_id (wk_editor)),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
 		NULL);
 
 	if (result) {
@@ -2115,7 +1996,7 @@ webkit_editor_insert_signature (EContentEditor *editor,
 		return NULL;
 	}
 
-	result = g_dbus_proxy_call_sync_wrapper (
+	result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (
 		wk_editor->priv->web_extension,
 		"DOMInsertSignature",
 		g_variant_new (
@@ -2127,9 +2008,6 @@ webkit_editor_insert_signature (EContentEditor *editor,
 			*set_signature_from_message,
 			*check_if_signature_is_changed,
 			*ignore_next_signature_change),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
 		NULL);
 
 	if (result) {
@@ -2160,13 +2038,10 @@ webkit_editor_get_caret_position (EContentEditor *editor)
 		return 0;
 	}
 
-	result = g_dbus_proxy_call_sync_wrapper (
+	result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (
 		wk_editor->priv->web_extension,
 		"DOMGetCaretPosition",
 		g_variant_new ("(t)", current_page_id (wk_editor)),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
 		NULL);
 
 	if (result) {
@@ -2191,13 +2066,10 @@ webkit_editor_get_caret_offset (EContentEditor *editor)
 		return 0;
 	}
 
-	result = g_dbus_proxy_call_sync_wrapper (
+	result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (
 		wk_editor->priv->web_extension,
 		"DOMGetCaretOffset",
 		g_variant_new ("(t)", current_page_id (wk_editor)),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
 		NULL);
 
 	if (result) {
@@ -2220,14 +2092,10 @@ webkit_editor_clear_undo_redo_history (EContentEditor *editor)
 		return;
 	}
 
-	g_dbus_proxy_call (
+	e_util_invoke_g_dbus_proxy_call_with_error_check (
 		wk_editor->priv->web_extension,
 		"DOMClearUndoRedoHistory",
 		g_variant_new ("(t)", current_page_id (wk_editor)),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL,
 		NULL);
 }
 
@@ -2243,14 +2111,10 @@ webkit_editor_replace_caret_word (EContentEditor *editor,
 		return;
 	}
 
-	g_dbus_proxy_call (
+	e_util_invoke_g_dbus_proxy_call_with_error_check (
 		wk_editor->priv->web_extension,
 		"DOMReplaceCaretWord",
 		g_variant_new ("(ts)", current_page_id (wk_editor), replacement),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL,
 		NULL);
 }
 
@@ -2403,14 +2267,10 @@ webkit_editor_replace (EContentEditor *editor,
 		return;
 	}
 
-	g_dbus_proxy_call (
+	e_util_invoke_g_dbus_proxy_call_with_error_check (
 		wk_editor->priv->web_extension,
 		"DOMSelectionReplace",
 		g_variant_new ("(ts)", current_page_id (wk_editor), replacement),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL,
 		NULL);
 }
 
@@ -2566,13 +2426,10 @@ webkit_editor_on_h_rule_dialog_open (EContentEditor *editor)
 		return FALSE;
 	}
 
-	result = g_dbus_proxy_call_sync_wrapper (
+	result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (
 		wk_editor->priv->web_extension,
 		"EEditorHRuleDialogFindHRule",
 		g_variant_new ("(t)", current_page_id (wk_editor)),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
 		NULL);
 
 	if (result) {
@@ -2751,13 +2608,10 @@ webkit_editor_h_rule_get_no_shade (EContentEditor *editor)
 		return FALSE;
 	}
 
-	result = g_dbus_proxy_call_sync_wrapper (
+	result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (
 		wk_editor->priv->web_extension,
 		"ElementHasAttribute",
 		g_variant_new ("(tss)", current_page_id (wk_editor), "-x-evo-current-hr", "noshade"),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
 		NULL);
 
 	if (result) {
@@ -2803,14 +2657,10 @@ webkit_editor_insert_image (EContentEditor *editor,
 		return;
 	}
 
-	g_dbus_proxy_call (
+	e_util_invoke_g_dbus_proxy_call_with_error_check (
 		wk_editor->priv->web_extension,
 		"DOMSelectionInsertImage",
 		g_variant_new ("(ts)", current_page_id (wk_editor), image_uri),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL,
 		NULL);
 }
 
@@ -2825,14 +2675,10 @@ webkit_editor_replace_image_src (EWebKitEditor *wk_editor,
 		return;
 	}
 
-	g_dbus_proxy_call (
+	e_util_invoke_g_dbus_proxy_call_with_error_check (
 		wk_editor->priv->web_extension,
 		"DOMReplaceImageSrc",
 		g_variant_new ("(tss)", current_page_id (wk_editor), selector, image_uri),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL,
 		NULL);
 }
 
@@ -2913,14 +2759,10 @@ webkit_editor_image_set_url (EContentEditor *editor,
 		return;
 	}
 
-	g_dbus_proxy_call (
+	e_util_invoke_g_dbus_proxy_call_with_error_check (
 		wk_editor->priv->web_extension,
 		"EEditorImageDialogSetElementUrl",
 		g_variant_new ("(ts)", current_page_id (wk_editor), value),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL,
 		NULL);
 }
 
@@ -2938,13 +2780,10 @@ webkit_editor_image_get_url (EContentEditor *editor)
 		return NULL;
 	}
 
-	result = g_dbus_proxy_call_sync_wrapper (
+	result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (
 		wk_editor->priv->web_extension,
 		"EEditorImageDialogGetElementUrl",
 		g_variant_new ("(t)", current_page_id (wk_editor)),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
 		NULL);
 
 	if (result) {
@@ -2968,15 +2807,11 @@ webkit_editor_image_set_vspace (EContentEditor *editor,
 		return;
 	}
 
-	g_dbus_proxy_call (
+	e_util_invoke_g_dbus_proxy_call_with_error_check (
 		wk_editor->priv->web_extension,
 		"ImageElementSetVSpace",
 		g_variant_new (
 			"(tsi)", current_page_id (wk_editor), "-x-evo-current-img", value),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL,
 		NULL);
 }
 
@@ -2994,13 +2829,10 @@ webkit_editor_image_get_vspace (EContentEditor *editor)
 		return 0;
 	}
 
-	result = g_dbus_proxy_call_sync_wrapper (
+	result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (
 		wk_editor->priv->web_extension,
 		"ImageElementGetVSpace",
 		g_variant_new ("(ts)", current_page_id (wk_editor), "-x-evo-current-img"),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
 		NULL);
 
 	if (result) {
@@ -3024,15 +2856,11 @@ webkit_editor_image_set_hspace (EContentEditor *editor,
 		return;
 	}
 
-	g_dbus_proxy_call (
+	e_util_invoke_g_dbus_proxy_call_with_error_check (
 		wk_editor->priv->web_extension,
 		"ImageElementSetHSpace",
 		g_variant_new (
 			"(tsi)", current_page_id (wk_editor), "-x-evo-current-img", value),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL,
 		NULL);
 }
 
@@ -3050,13 +2878,10 @@ webkit_editor_image_get_hspace (EContentEditor *editor)
 		return 0;
 	}
 
-	result = g_dbus_proxy_call_sync_wrapper (
+	result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (
 		wk_editor->priv->web_extension,
 		"ImageElementGetHSpace",
 		g_variant_new ("(ts)", current_page_id (wk_editor), "-x-evo-current-img"),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
 		NULL);
 
 	if (result) {
@@ -3153,13 +2978,10 @@ webkit_editor_image_get_natural_width (EContentEditor *editor)
 		return 0;
 	}
 
-	result = g_dbus_proxy_call_sync_wrapper (
+	result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (
 		wk_editor->priv->web_extension,
 		"ImageElementGetNaturalWidth",
 		g_variant_new ("(ts)", current_page_id (wk_editor), "-x-evo-current-img"),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
 		NULL);
 
 	if (result) {
@@ -3184,13 +3006,10 @@ webkit_editor_image_get_natural_height (EContentEditor *editor)
 		return 0;
 	}
 
-	result = g_dbus_proxy_call_sync_wrapper (
+	result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (
 		wk_editor->priv->web_extension,
 		"ImageElementGetNaturalHeight",
 		g_variant_new ("(ts)", current_page_id (wk_editor), "-x-evo-current-img"),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
 		NULL);
 
 	if (result) {
@@ -3214,15 +3033,11 @@ webkit_editor_image_set_height (EContentEditor *editor,
 		return;
 	}
 
-	g_dbus_proxy_call (
+	e_util_invoke_g_dbus_proxy_call_with_error_check (
 		wk_editor->priv->web_extension,
 		"ImageElementSetHeight",
 		g_variant_new (
 			"(tsi)", current_page_id (wk_editor), "-x-evo-current-img", value),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL,
 		NULL);
 }
 
@@ -3239,15 +3054,11 @@ webkit_editor_image_set_width (EContentEditor *editor,
 		return;
 	}
 
-	g_dbus_proxy_call (
+	e_util_invoke_g_dbus_proxy_call_with_error_check (
 		wk_editor->priv->web_extension,
 		"ImageElementSetWidth",
 		g_variant_new (
 			"(tsi)", current_page_id (wk_editor), "-x-evo-current-img", value),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL,
 		NULL);
 }
 
@@ -3297,13 +3108,10 @@ webkit_editor_image_get_width (EContentEditor *editor)
 		return 0;
 	}
 
-	result = g_dbus_proxy_call_sync_wrapper (
+	result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (
 		wk_editor->priv->web_extension,
 		"ImageElementGetWidth",
 		g_variant_new ("(ts)", current_page_id (wk_editor), "-x-evo-current-img"),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
 		NULL);
 
 	if (result) {
@@ -3328,13 +3136,10 @@ webkit_editor_image_get_height (EContentEditor *editor)
 		return 0;
 	}
 
-	result = g_dbus_proxy_call_sync_wrapper (
+	result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (
 		wk_editor->priv->web_extension,
 		"ImageElementGetHeight",
 		g_variant_new ("(ts)", current_page_id (wk_editor), "-x-evo-current-img"),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
 		NULL);
 
 	if (result) {
@@ -3392,14 +3197,10 @@ webkit_editor_link_set_values (EContentEditor *editor,
 		return;
 	}
 
-	g_dbus_proxy_call (
+	e_util_invoke_g_dbus_proxy_call_with_error_check (
 		wk_editor->priv->web_extension,
 		"EEditorLinkDialogOk",
 		g_variant_new ("(tss)", current_page_id (wk_editor), href, text),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL,
 		NULL);
 }
 
@@ -3418,13 +3219,10 @@ webkit_editor_link_get_values (EContentEditor *editor,
 		return;
 	}
 
-	result = g_dbus_proxy_call_sync_wrapper (
+	result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (
 		wk_editor->priv->web_extension,
 		"EEditorLinkDialogShow",
 		g_variant_new ("(t)", current_page_id (wk_editor)),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
 		NULL);
 
 	if (result) {
@@ -3881,14 +3679,10 @@ webkit_editor_page_set_background_image_uri (EContentEditor *editor,
 	if (uri && *uri)
 		webkit_editor_replace_image_src (wk_editor, "body", uri);
 	else {
-		g_dbus_proxy_call (
+		e_util_invoke_g_dbus_proxy_call_with_error_check (
 			wk_editor->priv->web_extension,
 			"RemoveImageAttributesFromElementBySelector",
 			g_variant_new ("(ts)", current_page_id (wk_editor), "body"),
-			G_DBUS_CALL_FLAGS_NONE,
-			-1,
-			NULL,
-			NULL,
 			NULL);
 	}
 }
@@ -3905,14 +3699,10 @@ webkit_editor_on_cell_dialog_open (EContentEditor *editor)
 		return;
 	}
 
-	g_dbus_proxy_call (
+	e_util_invoke_g_dbus_proxy_call_with_error_check (
 		wk_editor->priv->web_extension,
 		"EEditorCellDialogMarkCurrentCellElement",
 		g_variant_new ("(ts)", current_page_id (wk_editor), "-x-evo-current-cell"),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL,
 		NULL);
 }
 
@@ -3944,14 +3734,10 @@ webkit_editor_cell_set_v_align (EContentEditor *editor,
 		return;
 	}
 
-	g_dbus_proxy_call (
+	e_util_invoke_g_dbus_proxy_call_with_error_check (
 		wk_editor->priv->web_extension,
 		"EEditorCellDialogSetElementVAlign",
 		g_variant_new ("(tsi)", current_page_id (wk_editor), value, (gint32) scope),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL,
 		NULL);
 }
 
@@ -3994,14 +3780,10 @@ webkit_editor_cell_set_align (EContentEditor *editor,
 		return;
 	}
 
-	g_dbus_proxy_call (
+	e_util_invoke_g_dbus_proxy_call_with_error_check (
 		wk_editor->priv->web_extension,
 		"EEditorCellDialogSetElementAlign",
 		g_variant_new ("(tsi)", current_page_id (wk_editor), value, (gint32) scope),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL,
 		NULL);
 }
 
@@ -4044,14 +3826,10 @@ webkit_editor_cell_set_wrap (EContentEditor *editor,
 		return;
 	}
 
-	g_dbus_proxy_call (
+	e_util_invoke_g_dbus_proxy_call_with_error_check (
 		wk_editor->priv->web_extension,
 		"EEditorCellDialogSetElementNoWrap",
 		g_variant_new ("(tbi)", current_page_id (wk_editor), !value, (gint32) scope),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL,
 		NULL);
 }
 
@@ -4072,13 +3850,10 @@ webkit_editor_cell_get_wrap (EContentEditor *editor)
 		return FALSE;
 	}
 
-	result = g_dbus_proxy_call_sync_wrapper (
+	result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (
 		wk_editor->priv->web_extension,
 		"TableCellElementGetNoWrap",
 		g_variant_new ("(ts)", current_page_id (wk_editor), "-x-evo-current-cell"),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
 		NULL);
 
 	if (result) {
@@ -4107,14 +3882,10 @@ webkit_editor_cell_set_header_style (EContentEditor *editor,
 	if (!wk_editor->priv->html_mode)
 		return;
 
-	g_dbus_proxy_call (
+	e_util_invoke_g_dbus_proxy_call_with_error_check (
 		wk_editor->priv->web_extension,
 		"EEditorCellDialogSetElementHeaderStyle",
 		g_variant_new ("(tbi)", current_page_id (wk_editor), value, (gint32) scope),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL,
 		NULL);
 }
 
@@ -4135,13 +3906,10 @@ webkit_editor_cell_is_header (EContentEditor *editor)
 		return FALSE;
 	}
 
-	result = g_dbus_proxy_call_sync_wrapper (
+	result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (
 		wk_editor->priv->web_extension,
 		"ElementGetTagName",
 		g_variant_new ("(ts)", current_page_id (wk_editor), "-x-evo-current-cell"),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
 		NULL);
 
 	if (result) {
@@ -4207,13 +3975,10 @@ webkit_editor_cell_get_row_span (EContentEditor *editor)
 		return 0;
 	}
 
-	result = g_dbus_proxy_call_sync_wrapper (
+	result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (
 		wk_editor->priv->web_extension,
 		"TableCellElementGetRowSpan",
 		g_variant_new ("(ts)", current_page_id (wk_editor), "-x-evo-current-cell"),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
 		NULL);
 
 	if (result) {
@@ -4241,13 +4006,10 @@ webkit_editor_cell_get_col_span (EContentEditor *editor)
 		return 0;
 	}
 
-	result = g_dbus_proxy_call_sync_wrapper (
+	result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (
 		wk_editor->priv->web_extension,
 		"TableCellElementGetColSpan",
 		g_variant_new ("(ts)", current_page_id (wk_editor), "-x-evo-current-cell"),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
 		NULL);
 
 	if (result) {
@@ -4328,14 +4090,10 @@ webkit_editor_cell_set_row_span (EContentEditor *editor,
 		return;
 	}
 
-	g_dbus_proxy_call (
+	e_util_invoke_g_dbus_proxy_call_with_error_check (
 		wk_editor->priv->web_extension,
 		"EEditorCellDialogSetElementRowSpan",
 		g_variant_new ("(tii)", current_page_id (wk_editor), value, (gint32) scope),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL,
 		NULL);
 }
 
@@ -4356,14 +4114,10 @@ webkit_editor_cell_set_col_span (EContentEditor *editor,
 		return;
 	}
 
-	g_dbus_proxy_call (
+	e_util_invoke_g_dbus_proxy_call_with_error_check (
 		wk_editor->priv->web_extension,
 		"EEditorCellDialogSetElementColSpan",
 		g_variant_new ("(tii)", current_page_id (wk_editor), value, (gint32) scope),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL,
 		NULL);
 }
 
@@ -4394,14 +4148,10 @@ webkit_editor_cell_set_width (EContentEditor *editor,
 			value,
 			(unit == E_CONTENT_EDITOR_UNIT_PIXEL) ? "px" : "%");
 
-	g_dbus_proxy_call (
+	e_util_invoke_g_dbus_proxy_call_with_error_check (
 		wk_editor->priv->web_extension,
 		"EEditorCellDialogSetElementWidth",
 		g_variant_new ("(tsi)", current_page_id (wk_editor), width, (gint32) scope),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL,
 		NULL);
 
 	g_free (width);
@@ -4427,14 +4177,10 @@ webkit_editor_cell_set_background_color (EContentEditor *editor,
 	else
 		color = g_strdup ("");
 
-	g_dbus_proxy_call (
+	e_util_invoke_g_dbus_proxy_call_with_error_check (
 		wk_editor->priv->web_extension,
 		"EEditorCellDialogSetElementBgColor",
 		g_variant_new ("(tsi)", current_page_id (wk_editor), color, (gint32) scope),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL,
 		NULL);
 
 	g_free (color);
@@ -4459,14 +4205,10 @@ webkit_editor_cell_set_background_image_uri (EContentEditor *editor,
 	if (uri && *uri)
 		webkit_editor_replace_image_src (wk_editor, "#-x-evo-current-cell", uri);
 	else {
-		g_dbus_proxy_call (
+		e_util_invoke_g_dbus_proxy_call_with_error_check (
 			wk_editor->priv->web_extension,
 			"RemoveImageAttributesFromElementBySelector",
 			g_variant_new ("(ts)", current_page_id (wk_editor), "#-x-evo-current-cell"),
-			G_DBUS_CALL_FLAGS_NONE,
-			-1,
-			NULL,
-			NULL,
 			NULL);
 	}
 }
@@ -4487,14 +4229,10 @@ webkit_editor_table_set_row_count (EContentEditor *editor,
 		return;
 	}
 
-	g_dbus_proxy_call (
+	e_util_invoke_g_dbus_proxy_call_with_error_check (
 		wk_editor->priv->web_extension,
 		"EEditorTableDialogSetRowCount",
 		g_variant_new ("(tu)", current_page_id (wk_editor), value),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL,
 		NULL);
 }
 
@@ -4515,13 +4253,10 @@ webkit_editor_table_get_row_count (EContentEditor *editor)
 		return 0;
 	}
 
-	result = g_dbus_proxy_call_sync_wrapper (
+	result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (
 		wk_editor->priv->web_extension,
 		"EEditorTableDialogGetRowCount",
 		g_variant_new ("(t)", current_page_id (wk_editor)),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
 		NULL);
 
 	if (result) {
@@ -4548,14 +4283,10 @@ webkit_editor_table_set_column_count (EContentEditor *editor,
 		return;
 	}
 
-	g_dbus_proxy_call (
+	e_util_invoke_g_dbus_proxy_call_with_error_check (
 		wk_editor->priv->web_extension,
 		"EEditorTableDialogSetColumnCount",
 		g_variant_new ("(tu)", current_page_id (wk_editor), value),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL,
 		NULL);
 }
 
@@ -4576,13 +4307,10 @@ webkit_editor_table_get_column_count (EContentEditor *editor)
 		return 0;
 	}
 
-	result = g_dbus_proxy_call_sync_wrapper (
+	result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (
 		wk_editor->priv->web_extension,
 		"EEditorTableDialogGetColumnCount",
 		g_variant_new ("(t)", current_page_id (wk_editor)),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
 		NULL);
 
 	if (result) {
@@ -4916,14 +4644,10 @@ webkit_editor_table_set_background_image_uri (EContentEditor *editor,
 	if (uri && *uri)
 		webkit_editor_replace_image_src (wk_editor, "#-x-evo-current-table", uri);
 	else {
-		g_dbus_proxy_call (
+		e_util_invoke_g_dbus_proxy_call_with_error_check (
 			wk_editor->priv->web_extension,
 			"RemoveImageAttributesFromElementBySelector",
 			g_variant_new ("(ts)", current_page_id (wk_editor), "#-x-evo-current-table"),
-			G_DBUS_CALL_FLAGS_NONE,
-			-1,
-			NULL,
-			NULL,
 			NULL);
 	}
 }
@@ -4942,13 +4666,10 @@ webkit_editor_on_table_dialog_open (EContentEditor *editor)
 		return FALSE;
 	}
 
-	result = g_dbus_proxy_call_sync_wrapper (
+	result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (
 		wk_editor->priv->web_extension,
 		"EEditorTableDialogShow",
 		g_variant_new ("(t)", current_page_id (wk_editor)),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
 		NULL);
 
 	if (result) {
@@ -5005,14 +4726,11 @@ move_to_another_word (EContentEditor *editor,
 	if (!active_languages)
 		return NULL;
 
-	result = g_dbus_proxy_call_sync_wrapper (
+	result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (
 		wk_editor->priv->web_extension,
 		dom_function,
 		g_variant_new (
 			"(ts^as)", current_page_id (wk_editor), word ? word : "", active_languages),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
 		NULL);
 
 	g_strfreev (active_languages);
@@ -5665,17 +5383,13 @@ webkit_editor_clipboard_owner_change_cb (GtkClipboard *clipboard,
 	if (wk_editor->priv->copy_paste_clipboard_in_view == wk_editor->priv->pasting_from_itself_extension_value)
 		return;
 
-	g_dbus_proxy_call (
+	e_util_invoke_g_dbus_proxy_call_with_error_check (
 		wk_editor->priv->web_extension,
 		"SetPastingContentFromItself",
 		g_variant_new (
 			"(tb)",
 			current_page_id (wk_editor),
 			wk_editor->priv->copy_paste_clipboard_in_view),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL,
 		NULL);
 
 	wk_editor->priv->copy_cut_actions_triggered = FALSE;
@@ -5698,17 +5412,13 @@ webkit_editor_primary_clipboard_owner_change_cb (GtkClipboard *clipboard,
 	if (wk_editor->priv->copy_paste_clipboard_in_view == wk_editor->priv->pasting_from_itself_extension_value)
 		return;
 
-	g_dbus_proxy_call (
+	e_util_invoke_g_dbus_proxy_call_with_error_check (
 		wk_editor->priv->web_extension,
 		"SetPastingContentFromItself",
 		g_variant_new (
 			"(tb)",
 			current_page_id (wk_editor),
 			wk_editor->priv->copy_paste_clipboard_in_view),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL,
 		NULL);
 
 	wk_editor->priv->pasting_from_itself_extension_value = wk_editor->priv->copy_paste_clipboard_in_view;
