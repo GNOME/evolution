@@ -29,7 +29,7 @@
 #include <glib/gi18n.h>
 
 #ifdef HAVE_AUTOAR
-#include <gnome-autoar/autoar.h>
+#include <gnome-autoar/gnome-autoar.h>
 #include <gnome-autoar/autoar-gtk.h>
 #endif
 
@@ -648,8 +648,10 @@ e_attachment_store_run_load_dialog (EAttachmentStore *store,
 
 #ifdef HAVE_AUTOAR
 	GSettings *settings;
-	AutoarPref *arpref;
-	gint format, filter;
+	char *format_string;
+	char *filter_string;
+	gint format;
+	gint filter;
 #endif
 
 	g_return_if_fail (E_IS_ATTACHMENT_STORE (store));
@@ -699,14 +701,23 @@ e_attachment_store_run_load_dialog (EAttachmentStore *store,
 	option_format_box = GTK_BOX (option_format_box_widget);
 	gtk_box_pack_start (extra_box, option_format_box_widget, FALSE, FALSE, 0);
 
-	settings = e_util_ref_settings (AUTOAR_PREF_DEFAULT_GSCHEMA_ID);
-	arpref = autoar_pref_new_with_gsettings (settings);
+	settings = e_util_ref_settings ("org.gnome.evolution.shell");
+
+	format_string = g_settings_get_string (settings, "autoar-format");
+	filter_string = g_settings_get_string (settings, "autoar-filter");
+
+	if (!e_enum_from_string (AUTOAR_TYPE_FORMAT, format_string, &format)) {
+		format = AUTOAR_FORMAT_ZIP;
+	}
+	if (!e_enum_from_string (AUTOAR_TYPE_FILTER, filter_string, &filter)) {
+		filter = AUTOAR_FILTER_NONE;
+	}
 
 	option_format_label = gtk_label_new (
 		_("Archive selected directories using this format:"));
 	option_format_combo = autoar_gtk_chooser_simple_new (
-		autoar_pref_get_default_format (arpref),
-		autoar_pref_get_default_filter (arpref));
+		format,
+		filter);
 	gtk_box_pack_start (option_format_box, option_format_label, FALSE, FALSE, 0);
 	gtk_box_pack_start (option_format_box, option_format_combo, FALSE, FALSE, 0);
 #endif
@@ -729,8 +740,23 @@ e_attachment_store_run_load_dialog (EAttachmentStore *store,
 
 #ifdef HAVE_AUTOAR
 	autoar_gtk_chooser_simple_get (option_format_combo, &format, &filter);
-	autoar_pref_set_default_format (arpref, format);
-	autoar_pref_set_default_filter (arpref, filter);
+
+	if (!e_enum_to_string (AUTOAR_TYPE_FORMAT, format)) {
+		format = AUTOAR_FORMAT_ZIP;
+	}
+
+	if (!e_enum_to_string (AUTOAR_TYPE_FORMAT, filter)) {
+		filter = AUTOAR_FILTER_NONE;
+	}
+
+	g_settings_set_string (
+		settings,
+		"autoar-format",
+		e_enum_to_string (AUTOAR_TYPE_FORMAT, format));
+	g_settings_set_string (
+		settings,
+		"autoar-filter",
+		e_enum_to_string (AUTOAR_TYPE_FILTER, filter));
 #endif
 
 	for (iter = files; iter != NULL; iter = g_slist_next (iter)) {
@@ -741,11 +767,6 @@ e_attachment_store_run_load_dialog (EAttachmentStore *store,
 		e_attachment_set_file (attachment, file);
 		e_attachment_set_disposition (attachment, disposition);
 		e_attachment_store_add_attachment (store, attachment);
-
-#ifdef HAVE_AUTOAR
-		g_object_set_data_full (G_OBJECT (attachment),
-			"autoar-pref", g_object_ref (arpref), g_object_unref);
-#endif
 
 		e_attachment_load_async (
 			attachment, (GAsyncReadyCallback)
@@ -760,7 +781,8 @@ exit:
 	gtk_widget_destroy (dialog);
 #ifdef HAVE_AUTOAR
 	g_object_unref (settings);
-	g_object_unref (arpref);
+	g_free (format_string);
+	g_free (filter_string);
 #endif
 }
 
@@ -848,8 +870,6 @@ e_attachment_store_run_save_dialog (EAttachmentStore *store,
 		const gchar *name = NULL;
 
 #ifdef HAVE_AUTOAR
-		AutoarPref *arpref;
-		GSettings *settings;
 		gchar *mime_type;
 #endif
 
@@ -867,15 +887,10 @@ e_attachment_store_run_save_dialog (EAttachmentStore *store,
 
 #ifdef HAVE_AUTOAR
 		mime_type = e_attachment_dup_mime_type (attachment);
-		settings = e_util_ref_settings (AUTOAR_PREF_DEFAULT_GSCHEMA_ID);
-		arpref = autoar_pref_new_with_gsettings (settings);
-		if (!autoar_pref_check_file_name (arpref, name) &&
-		    !autoar_pref_check_mime_type_d (arpref, mime_type)) {
+		if (!autoar_check_mime_type_supported (mime_type)) {
 			gtk_widget_hide (extra_box_widget);
 		}
 
-		g_clear_object (&settings);
-		g_clear_object (&arpref);
 		g_free (mime_type);
 #endif
 
@@ -903,27 +918,16 @@ e_attachment_store_run_save_dialog (EAttachmentStore *store,
 			e_attachment_set_save_self (attachment_list->data, save_self);
 			e_attachment_set_save_extracted (attachment_list->data, save_extracted);
 		} else {
-			AutoarPref *arpref;
-			GSettings *settings;
 			GList *iter;
-
-			settings = e_util_ref_settings (AUTOAR_PREF_DEFAULT_GSCHEMA_ID);
-			arpref = autoar_pref_new_with_gsettings (settings);
 
 			for (iter = attachment_list; iter != NULL; iter = iter->next) {
 				EAttachment *attachment;
-				GFileInfo *file_info;
-				const gchar *name;
 				gchar *mime_type;
 
 				attachment = iter->data;
-				file_info = e_attachment_ref_file_info (attachment);
-				name = g_file_info_get_display_name (file_info);
 				mime_type = e_attachment_dup_mime_type (attachment);
 
-				if ((name != NULL &&
-				    autoar_pref_check_file_name (arpref, name)) ||
-				    autoar_pref_check_mime_type_d (arpref, mime_type)) {
+				if (autoar_check_mime_type_supported (mime_type)) {
 					e_attachment_set_save_self (attachment, save_self);
 					e_attachment_set_save_extracted (attachment, save_extracted);
 				} else {
@@ -931,12 +935,8 @@ e_attachment_store_run_save_dialog (EAttachmentStore *store,
 					e_attachment_set_save_extracted (attachment, FALSE);
 				}
 
-				g_object_unref (file_info);
 				g_free (mime_type);
 			}
-
-			g_object_unref (settings);
-			g_object_unref (arpref);
 		}
 #endif
 	} else {

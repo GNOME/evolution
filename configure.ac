@@ -368,8 +368,8 @@ AC_ARG_ENABLE([autoar],
 if test x"$enable_autoar" = xyes; then
 	PKG_CHECK_MODULES(
 		[AUTOAR],
-		[gnome-autoar >= gnome_autoar_minimum_version
-		 gnome-autoar-gtk >= gnome_autoar_minimum_version],,
+		[gnome-autoar-0 >= gnome_autoar_minimum_version
+		 gnome-autoar-gtk-0 >= gnome_autoar_minimum_version],,
 		[AC_MSG_ERROR([
 
 	gnome-autoar or gnome-autoar-gtk not found
