@@ -15,6 +15,16 @@
       <_summary>Initial file chooser folder</_summary>
       <_description>Initial folder for GtkFileChooser dialogs.</_description>
     </key>
+    <key name="autoar-format" type="s">
+      <default>''</default>
+      <_summary>Compression format used by autoar</_summary>
+      <_description>Compression format used when compressing attached directories with autoar.</_description>
+    </key>
+    <key name="autoar-filter" type="s">
+      <default>''</default>
+      <_summary>Compression filter used by autoar</_summary>
+      <_description>Compression filter used when compressing attached directories with autoar.</_description>
+    </key>
     <key name="start-offline" type="b">
       <default>false</default>
       <_summary>Start in offline mode</_summary>
