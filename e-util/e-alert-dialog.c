@@ -344,12 +344,19 @@ e_alert_run_dialog (GtkWindow *parent,
 	GtkWidget *dialog;
 	gint response;
 	gulong signal_id = 0;
+	gulong parent_destroyed_signal_id = 0;
 
 	g_return_val_if_fail (E_IS_ALERT (alert), 0);
 
 	dialog = e_alert_dialog_new (parent, alert);
 
 	if (parent != NULL) {
+		/* Since we'll be in a nested main loop, the widgets may be destroyed
+		 * before we get back from gtk_dialog_run(). In practice, this can happen
+		 * if Evolution exits while the dialog is up. Make sure we don't try
+		 * to access destroyed widgets. */
+		parent_destroyed_signal_id = g_signal_connect (parent, "destroy", G_CALLBACK (gtk_widget_destroyed), &parent);
+
 		gtk_window_set_urgency_hint (parent, TRUE);
 		signal_id = g_signal_connect (
 			dialog, "focus-in-event",
@@ -358,14 +365,21 @@ e_alert_run_dialog (GtkWindow *parent,
 		gtk_window_set_urgency_hint (GTK_WINDOW (dialog), TRUE);
 	}
 
+	g_signal_connect (dialog, "destroy", G_CALLBACK (gtk_widget_destroyed), &dialog);
+
 	response = gtk_dialog_run (GTK_DIALOG (dialog));
 
 	if (signal_id > 0) {
-		gtk_window_set_urgency_hint (parent, FALSE);
-		g_signal_handler_disconnect (dialog, signal_id);
+		if (parent)
+			gtk_window_set_urgency_hint (parent, FALSE);
+		if (dialog)
+			g_signal_handler_disconnect (dialog, signal_id);
 	}
 
-	gtk_widget_destroy (dialog);
+	if (dialog)
+		gtk_widget_destroy (dialog);
+	if (parent && parent_destroyed_signal_id)
+		g_signal_handler_disconnect (parent, parent_destroyed_signal_id);
 
 	return response;
 }
