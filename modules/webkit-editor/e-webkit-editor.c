@@ -1743,7 +1743,7 @@ webkit_editor_insert_image_from_mime_part (EContentEditor *editor,
 
 	name = camel_mime_part_get_filename (part);
 	/* Insert file name before new src */
-	src = g_strconcat (name, ";data:", mime_type, ";base64,", base64_encoded, NULL);
+	src = g_strconcat (name ? name : "", name ? ";data:" : "", mime_type, ";base64,", base64_encoded, NULL);
 
 	cid = camel_mime_part_get_content_id (part);
 	if (!cid) {
@@ -1755,7 +1755,7 @@ webkit_editor_insert_image_from_mime_part (EContentEditor *editor,
 	e_util_invoke_g_dbus_proxy_call_with_error_check (
 		wk_editor->priv->web_extension,
 		"DOMAddNewInlineImageIntoList",
-		g_variant_new ("(tsss)", current_page_id (wk_editor), name, cid_uri, src),
+		g_variant_new ("(tsss)", current_page_id (wk_editor), name ? name : "", cid_uri, src),
 		NULL);
 
 	g_free (base64_encoded);
