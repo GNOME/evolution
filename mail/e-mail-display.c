@@ -1330,16 +1330,20 @@ mail_display_dispose (GObject *object)
 		priv->scheduled_reload = 0;
 	}
 
-	if (priv->settings != NULL)
+	if (priv->settings != NULL) {
 		g_signal_handlers_disconnect_matched (
 			priv->settings, G_SIGNAL_MATCH_DATA,
 			0, 0, NULL, NULL, object);
+	}
 
 	if (priv->web_extension_headers_collapsed_signal_id > 0) {
-		g_dbus_connection_signal_unsubscribe (
-			g_dbus_proxy_get_connection (
-				e_web_view_get_web_extension_proxy (E_WEB_VIEW (object))),
-			priv->web_extension_headers_collapsed_signal_id);
+		GDBusProxy *web_extension = e_web_view_get_web_extension_proxy (E_WEB_VIEW (object));
+
+		if (web_extension != NULL) {
+			g_dbus_connection_signal_unsubscribe (
+				g_dbus_proxy_get_connection (web_extension),
+				priv->web_extension_headers_collapsed_signal_id);
+		}
 		priv->web_extension_headers_collapsed_signal_id = 0;
 	}
 
