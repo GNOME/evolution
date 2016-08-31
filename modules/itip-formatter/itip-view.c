@@ -5720,6 +5720,29 @@ in_proper_folder (CamelFolder *folder)
 	return res;
 }
 
+static icaltimezone *
+itip_view_guess_timezone (const gchar *tzid)
+{
+	icaltimezone *zone;
+
+	if (!tzid || !*tzid)
+		return NULL;
+
+	zone = icaltimezone_get_builtin_timezone (tzid);
+	if (zone)
+		return zone;
+
+	zone = icaltimezone_get_builtin_timezone_from_tzid (tzid);
+	if (zone)
+		return zone;
+
+	tzid = e_cal_match_tzid (tzid);
+	if (tzid)
+		zone = icaltimezone_get_builtin_timezone_from_tzid (tzid);
+
+	return zone;
+}
+
 void
 itip_view_init_view (ItipView *view)
 {
@@ -5979,9 +6002,12 @@ itip_view_init_view (ItipView *view)
                 /* Should we guess if the timezone is an olsen name somehow? */
 		if (datetime.value->is_utc)
 			from_zone = icaltimezone_get_utc_timezone ();
-		else if (!datetime.value->is_utc && datetime.tzid)
+		else if (!datetime.value->is_utc && datetime.tzid) {
 			from_zone = icalcomponent_get_timezone (view->priv->top_level, datetime.tzid);
-		else
+
+			if (!from_zone)
+				from_zone = itip_view_guess_timezone (datetime.tzid);
+		} else
 			from_zone = NULL;
 
 		start_tm = icaltimetype_to_tm_with_zone (datetime.value, from_zone, to_zone);
@@ -6015,9 +6041,12 @@ itip_view_init_view (ItipView *view)
                 /* Should we guess if the timezone is an olsen name somehow? */
 		if (datetime.value->is_utc)
 			from_zone = icaltimezone_get_utc_timezone ();
-		else if (!datetime.value->is_utc && datetime.tzid)
+		else if (!datetime.value->is_utc && datetime.tzid) {
 			from_zone = icalcomponent_get_timezone (view->priv->top_level, datetime.tzid);
-		else
+
+			if (!from_zone)
+				from_zone = itip_view_guess_timezone (datetime.tzid);
+		} else
 			from_zone = NULL;
 
 		if (datetime.value->is_date) {
