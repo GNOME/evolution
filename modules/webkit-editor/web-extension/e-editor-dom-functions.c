@@ -1774,7 +1774,8 @@ e_editor_dom_remove_embedded_style_sheet (EEditorPage *editor_page)
 	sheet = webkit_dom_document_get_element_by_id (
 		document, "-x-evo-composer-sheet");
 
-	remove_node (WEBKIT_DOM_NODE (sheet));
+	if (sheet)
+		remove_node (WEBKIT_DOM_NODE (sheet));
 }
 
 static void
