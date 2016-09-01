@@ -26,6 +26,7 @@
 #include <webkitdom/WebKitDOMDOMSelection.h>
 #include <webkitdom/WebKitDOMDOMWindowUnstable.h>
 #include <webkitdom/WebKitDOMHTMLElementUnstable.h>
+#include <webkitdom/WebKitDOMElementUnstable.h>
 #include <webkitdom/WebKitDOMRangeUnstable.h>
 #undef WEBKIT_DOM_USE_UNSTABLE_API
 
@@ -1677,8 +1678,8 @@ e_editor_dom_check_magic_links (EEditorPage *editor_page,
 					new_href);
 
 				if (appending_to_link) {
-					webkit_dom_html_element_insert_adjacent_html (
-						WEBKIT_DOM_HTML_ELEMENT (parent),
+					webkit_dom_element_insert_adjacent_html (
+						WEBKIT_DOM_ELEMENT (parent),
 						"beforeend",
 						text_to_append,
 						NULL);
@@ -1710,8 +1711,8 @@ e_editor_dom_check_magic_links (EEditorPage *editor_page,
 					new_href);
 
 				if (appending_to_link) {
-					webkit_dom_html_element_insert_adjacent_html (
-						WEBKIT_DOM_HTML_ELEMENT (parent),
+					webkit_dom_element_insert_adjacent_html (
+						WEBKIT_DOM_ELEMENT (parent),
 						"beforeend",
 						text_to_append,
 						NULL);
@@ -2087,8 +2088,8 @@ emoticon_insert_span (EEmoticon *emoticon,
 
 	if (!e_editor_page_get_unicode_smileys_enabled (editor_page)) {
 		/* &#8203 == UNICODE_ZERO_WIDTH_SPACE */
-		webkit_dom_html_element_insert_adjacent_html (
-			WEBKIT_DOM_HTML_ELEMENT (span), "afterend", "&#8203;", NULL);
+		webkit_dom_element_insert_adjacent_html (
+			WEBKIT_DOM_ELEMENT (span), "afterend", "&#8203;", NULL);
 	}
 
 	if (ev) {
@@ -2112,8 +2113,8 @@ emoticon_insert_span (EEmoticon *emoticon,
 					dom_create_selection_marker (document, FALSE)),
 				NULL);
 		} else
-			webkit_dom_html_element_insert_adjacent_html (
-				WEBKIT_DOM_HTML_ELEMENT (node), "afterend", "&#8203;", NULL);
+			webkit_dom_element_insert_adjacent_html (
+				WEBKIT_DOM_ELEMENT (node), "afterend", "&#8203;", NULL);
 		ev->data.fragment = g_object_ref (fragment);
 	}
 
@@ -3910,8 +3911,8 @@ e_editor_dom_body_key_up_event_process_return_key (EEditorPage *editor_page)
 	if (!webkit_dom_node_get_previous_sibling (WEBKIT_DOM_NODE (selection_start_marker)) &&
 	    (!webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (selection_end_marker)) ||
 	     WEBKIT_DOM_IS_HTML_BR_ELEMENT (webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (selection_end_marker)))))
-		webkit_dom_html_element_insert_adjacent_text (
-			WEBKIT_DOM_HTML_ELEMENT (parent),
+		webkit_dom_element_insert_adjacent_text (
+			WEBKIT_DOM_ELEMENT (parent),
 			"afterbegin",
 			UNICODE_ZERO_WIDTH_SPACE,
 			NULL);
@@ -5494,14 +5495,14 @@ e_editor_dom_quote_and_insert_text_into_selection (EEditorPage *editor_page,
 static void
 mark_citation (WebKitDOMElement *citation)
 {
-	webkit_dom_html_element_insert_adjacent_text (
-		WEBKIT_DOM_HTML_ELEMENT (citation),
+	webkit_dom_element_insert_adjacent_text (
+		citation,
 		"beforebegin",
 		"##CITATION_START##",
 		NULL);
 
-	webkit_dom_html_element_insert_adjacent_text (
-		WEBKIT_DOM_HTML_ELEMENT (citation),
+	webkit_dom_element_insert_adjacent_text (
+		citation,
 		"afterend",
 		"##CITATION_END##",
 		NULL);
@@ -5537,8 +5538,8 @@ create_text_markers_for_selection_in_element (WebKitDOMElement *element)
 	selection_marker = webkit_dom_element_query_selector (
 		element, "#-x-evo-selection-start-marker", NULL);
 	if (selection_marker)
-		webkit_dom_html_element_insert_adjacent_text (
-			WEBKIT_DOM_HTML_ELEMENT (selection_marker),
+		webkit_dom_element_insert_adjacent_text (
+			selection_marker,
 			"afterend",
 			"##SELECTION_START##",
 			NULL);
@@ -5546,8 +5547,8 @@ create_text_markers_for_selection_in_element (WebKitDOMElement *element)
 	selection_marker = webkit_dom_element_query_selector (
 		element, "#-x-evo-selection-end-marker", NULL);
 	if (selection_marker)
-		webkit_dom_html_element_insert_adjacent_text (
-			WEBKIT_DOM_HTML_ELEMENT (selection_marker),
+		webkit_dom_element_insert_adjacent_text (
+			selection_marker,
 			"afterend",
 			"##SELECTION_END##",
 			NULL);
@@ -11090,8 +11091,8 @@ e_editor_dom_insert_base64_image (EEditorPage *editor_page,
 			webkit_dom_node_clone_node_with_error (WEBKIT_DOM_NODE (resizable_wrapper), TRUE, NULL),
 			NULL);
 
-		webkit_dom_html_element_insert_adjacent_html (
-			WEBKIT_DOM_HTML_ELEMENT (node), "afterend", "&#8203;", NULL);
+		webkit_dom_element_insert_adjacent_html (
+			WEBKIT_DOM_ELEMENT (node), "afterend", "&#8203;", NULL);
 		ev->data.fragment = g_object_ref (fragment);
 
 		e_editor_dom_selection_get_coordinates (editor_page,
@@ -14617,8 +14618,8 @@ set_font_style (WebKitDOMDocument *document,
 				text_content = webkit_dom_node_get_text_content (first_child);
 
 				if (g_strcmp0 (text_content, UNICODE_ZERO_WIDTH_SPACE) != 0)
-					webkit_dom_html_element_insert_adjacent_text (
-						WEBKIT_DOM_HTML_ELEMENT (parent),
+					webkit_dom_element_insert_adjacent_text (
+						WEBKIT_DOM_ELEMENT (parent),
 						"afterend",
 						UNICODE_ZERO_WIDTH_SPACE,
 						NULL);

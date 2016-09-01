@@ -1087,7 +1087,7 @@ e_dialogs_dom_spell_check_run (EEditorPage *editor_page,
 	 * reached only when we reach the beginning/end of the document */
 	if (start && end)
 		webkit_dom_dom_selection_set_base_and_extent (
-			dom_selection, start, start_offset, end, end_offset, NULL);
+			dom_selection, start, start_offset, end, end_offset);
 
 	g_clear_object (&dom_selection);
 

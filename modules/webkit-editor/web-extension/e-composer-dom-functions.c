@@ -25,7 +25,7 @@
 #define WEBKIT_DOM_USE_UNSTABLE_API
 #include <webkitdom/WebKitDOMDOMSelection.h>
 #include <webkitdom/WebKitDOMDOMWindowUnstable.h>
-#include <webkitdom/WebKitDOMHTMLElementUnstable.h>
+#include <webkitdom/WebKitDOMElementUnstable.h>
 #undef WEBKIT_DOM_USE_UNSTABLE_API
 
 #include <camel/camel.h>
@@ -370,8 +370,8 @@ e_composer_dom_insert_signature (EEditorPage *editor_page,
 				WEBKIT_DOM_NODE (insert_signature_in), node, NULL);
 		remove_node (WEBKIT_DOM_NODE (converted_signature));
 	} else
-		webkit_dom_html_element_insert_adjacent_html (
-			WEBKIT_DOM_HTML_ELEMENT (insert_signature_in),
+		webkit_dom_element_insert_adjacent_html (
+			insert_signature_in,
 			"beforeend",
 			signature_text,
 			NULL);
