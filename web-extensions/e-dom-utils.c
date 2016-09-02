@@ -969,7 +969,7 @@ e_dom_utils_get_active_element_name (WebKitDOMDocument *document)
 		element = webkit_dom_document_get_active_element (content_document);
 	}
 
-	return webkit_dom_node_get_local_name (WEBKIT_DOM_NODE (element));
+	return webkit_dom_element_get_local_name (element);
 }
 
 void
@@ -1459,7 +1459,7 @@ element_has_tag (WebKitDOMElement *element,
 	if (!WEBKIT_DOM_IS_ELEMENT (element))
 		return FALSE;
 
-	element_tag = webkit_dom_node_get_local_name (WEBKIT_DOM_NODE (element));
+	element_tag = webkit_dom_element_get_tag_name (element);
 
 	if (g_ascii_strcasecmp (element_tag, tag) != 0) {
 		g_free (element_tag);

@@ -4766,7 +4766,7 @@ dom_quote_plain_text (WebKitDOMDocument *document)
 		gchar *name, *value;
 		WebKitDOMNode *node = webkit_dom_named_node_map_item (attributes, ii);
 
-		name = webkit_dom_node_get_local_name (node);
+		name = webkit_dom_attr_get_name (WEBKIT_DOM_ATTR (node));
 		value = webkit_dom_node_get_node_value (node);
 
 		webkit_dom_element_set_attribute (
@@ -5630,15 +5630,13 @@ clear_attributes (EEditorPage *editor_page)
 	length = webkit_dom_named_node_map_get_length (attributes);
 	for (ii = length - 1; ii >= 0; ii--) {
 		gchar *name;
-		WebKitDOMNode *node = webkit_dom_named_node_map_item (attributes, ii);
+		WebKitDOMAttr *attribute = WEBKIT_DOM_ATTR (webkit_dom_named_node_map_item (attributes, ii));
 
-		name = webkit_dom_node_get_local_name (node);
+		name = webkit_dom_attr_get_name (attribute);
 
 		if (!g_str_has_prefix (name, "data-") && (g_strcmp0 (name, "spellcheck") != 0))
 			webkit_dom_element_remove_attribute_node (
-				WEBKIT_DOM_ELEMENT (body),
-				WEBKIT_DOM_ATTR (node),
-				NULL);
+				WEBKIT_DOM_ELEMENT (body), attribute, NULL);
 
 		g_free (name);
 	}
@@ -6590,11 +6588,11 @@ process_indented_element (WebKitDOMElement *element)
 			gchar *text_content;
 			gchar *indented_text;
 
-			text_content = webkit_dom_text_get_whole_text (WEBKIT_DOM_TEXT (child));
+			text_content = webkit_dom_character_data_get_data (WEBKIT_DOM_CHARACTER_DATA (child));
 			indented_text = g_strconcat (spaces, text_content, NULL);
 
-			webkit_dom_text_replace_whole_text (
-				WEBKIT_DOM_TEXT (child),
+			webkit_dom_character_data_set_data (
+				WEBKIT_DOM_CHARACTER_DATA (child),
 				indented_text,
 				NULL);
 
@@ -7135,11 +7133,11 @@ process_node_to_plain_text_changing_composer_mode (EEditorPage *editor_page,
 	length = webkit_dom_named_node_map_get_length (attributes);
 	for (ii = 0; ii < length; ii++) {
 		gchar *name = NULL;
-		WebKitDOMNode *attribute;
+		WebKitDOMAttr *attribute;
 
-		attribute = webkit_dom_named_node_map_item (attributes, ii);
+		attribute = WEBKIT_DOM_ATTR (webkit_dom_named_node_map_item (attributes, ii));
 
-		name = webkit_dom_node_get_local_name (attribute);
+		name = webkit_dom_attr_get_name (attribute);
 
 		if (g_strcmp0 (name, "bgcolor") == 0 ||
 		    g_strcmp0 (name, "text") == 0 ||
@@ -7147,9 +7145,7 @@ process_node_to_plain_text_changing_composer_mode (EEditorPage *editor_page,
 		    g_strcmp0 (name, "link") == 0) {
 
 			webkit_dom_element_remove_attribute_node (
-				WEBKIT_DOM_ELEMENT (source),
-				WEBKIT_DOM_ATTR (attribute),
-				NULL);
+				WEBKIT_DOM_ELEMENT (source), attribute, NULL);
 			length--;
 		}
 		g_free (name);
@@ -8394,9 +8390,9 @@ change_cid_images_src_to_base64 (EEditorPage *editor_page)
 	length = webkit_dom_named_node_map_get_length (attributes);
 	for (ii = 0; ii < length; ii++) {
 		gchar *name;
-		WebKitDOMNode *node = webkit_dom_named_node_map_item (attributes, ii);
+		WebKitDOMAttr *attribute = WEBKIT_DOM_ATTR( webkit_dom_named_node_map_item (attributes, ii));
 
-		name = webkit_dom_node_get_local_name (node);
+		name = webkit_dom_attr_get_name (attribute);
 
 		if (g_str_has_prefix (name, "xmlns:")) {
 			const gchar *ns = name + 6;
