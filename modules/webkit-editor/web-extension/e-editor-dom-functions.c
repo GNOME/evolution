@@ -3628,7 +3628,7 @@ remove_empty_blocks (WebKitDOMDocument *document)
 	WebKitDOMNodeList *list = NULL;
 
 	list = webkit_dom_document_query_selector_all (
-	document, "blockquote[type=cite] > :empty", NULL);
+	document, "blockquote[type=cite] > :empty:not(br)", NULL);
 
 	length = webkit_dom_node_list_get_length (list);
 	for (ii = 0; ii < length; ii++)
