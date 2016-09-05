@@ -5713,12 +5713,12 @@ e_editor_dom_convert_content (EEditorPage *editor_page,
 {
 	WebKitDOMDocument *document;
 	WebKitDOMElement *paragraph, *content_wrapper, *top_signature;
-	WebKitDOMElement *cite_body, *signature, *wrapper;
+	WebKitDOMElement *cite_body_element, *signature, *wrapper;
 	WebKitDOMHTMLElement *body;
 	WebKitDOMNodeList *list = NULL;
 	WebKitDOMNode *node;
 	WebKitDOMDOMWindow *dom_window = NULL;
-	gboolean start_bottom, empty = FALSE;
+	gboolean start_bottom, empty = FALSE, cite_body = FALSE;
 	gchar *inner_html;
 	gint ii, length;
 	GSettings *settings;
@@ -5735,15 +5735,17 @@ e_editor_dom_convert_content (EEditorPage *editor_page,
 	/* Wrapper that will represent the new body. */
 	wrapper = webkit_dom_document_create_element (document, "div", NULL);
 
-	cite_body = webkit_dom_document_query_selector (
+	cite_body_element = webkit_dom_document_query_selector (
 		document, "span.-x-evo-cite-body", NULL);
 
 	/* content_wrapper when the processed text will be placed. */
 	content_wrapper = webkit_dom_document_create_element (
-		document, cite_body ? "blockquote" : "div", NULL);
-	if (cite_body) {
+		document, cite_body_element ? "blockquote" : "div", NULL);
+	if (cite_body_element) {
+		cite_body = TRUE;
 		webkit_dom_element_set_attribute (content_wrapper, "type", "cite", NULL);
 		webkit_dom_element_set_attribute (content_wrapper, "id", "-x-evo-main-cite", NULL);
+		remove_node (WEBKIT_DOM_NODE (cite_body_element));
 	}
 
 	webkit_dom_node_append_child (
@@ -5884,10 +5886,11 @@ e_editor_dom_convert_content (EEditorPage *editor_page,
 			webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (body)),
 			NULL);
 	}
-	remove_node (WEBKIT_DOM_NODE (wrapper));
 
 	if (inner_html && !*inner_html)
 		empty = TRUE;
+
+	remove_node (WEBKIT_DOM_NODE (wrapper));
 
 	length = webkit_dom_element_get_child_element_count (WEBKIT_DOM_ELEMENT (body));
 	if (length <= 1) {
