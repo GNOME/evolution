@@ -12882,8 +12882,11 @@ e_editor_dom_selection_save (EEditorPage *editor_page)
 		           !WEBKIT_DOM_IS_HTML_BODY_ELEMENT (parent_node)) {
 			split_node = parent_node;
 			split_node = webkit_dom_node_get_next_sibling (split_node);
-		} else
-			split_node = container;
+		} else {
+			webkit_dom_node_append_child (
+				container, WEBKIT_DOM_NODE (end_marker), NULL);
+			goto out;
+		}
 	}
 
 	/* Don't save selection straight into body */
