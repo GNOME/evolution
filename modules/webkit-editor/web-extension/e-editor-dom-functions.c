@@ -8891,6 +8891,8 @@ save_history_for_delete_or_backspace (EEditorPage *editor_page,
 	ev = g_new0 (EEditorHistoryEvent, 1);
 	ev->type = HISTORY_DELETE;
 
+	e_editor_dom_selection_save (editor_page);
+
 	e_editor_dom_selection_get_coordinates (editor_page, &ev->before.start.x, &ev->before.start.y, &ev->before.end.x, &ev->before.end.y);
 	g_clear_object (&range);
 	range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
@@ -9331,9 +9333,12 @@ e_editor_dom_fix_structure_after_delete_before_quoted_content (EEditorPage *edit
 		if (node && !WEBKIT_DOM_IS_HTML_BR_ELEMENT (node))
 			goto restore;
 		else {
-			if (key_code != ~0)
+			if (key_code != ~0) {
+				e_editor_dom_selection_restore (editor_page);
 				save_history_for_delete_or_backspace (
 					editor_page, key_code == HTML_KEY_CODE_DELETE, control_key);
+				e_editor_dom_selection_save (editor_page);
+			}
 
 			/* Remove the empty block and move caret to the right place. */
 			remove_node (block);
@@ -9415,11 +9420,11 @@ e_editor_dom_fix_structure_after_delete_before_quoted_content (EEditorPage *edit
 	}
 
  restore:
+	e_editor_dom_selection_restore (editor_page);
+
 	if (key_code != ~0)
 		save_history_for_delete_or_backspace (
 			editor_page, key_code == HTML_KEY_CODE_DELETE, control_key);
-
-	e_editor_dom_selection_restore (editor_page);
 
 	return FALSE;
 }
@@ -9688,9 +9693,12 @@ e_editor_dom_delete_last_character_on_line_in_quoted_block (EEditorPage *editor_
 	if (!webkit_dom_node_get_previous_sibling (beginning))
 		goto out;
 
-	if (key_code != ~0)
+	if (key_code != ~0) {
+		e_editor_dom_selection_restore (editor_page);
 		save_history_for_delete_or_backspace (
 			editor_page, key_code == HTML_KEY_CODE_DELETE, control_key);
+		e_editor_dom_selection_save (editor_page);
+	}
 
 	element = webkit_dom_node_get_parent_element (beginning);
 	remove_node (WEBKIT_DOM_NODE (element));
