@@ -1140,14 +1140,14 @@ undo_redo_page_dialog (EEditorPage *editor_page,
 		gboolean replaced = FALSE;
 
 		attr = webkit_dom_named_node_map_item (attributes, ii);
-		name = webkit_dom_node_get_local_name (attr);
+		name = webkit_dom_attr_get_name (WEBKIT_DOM_ATTR (attr));
 
 		for (jj = length_history - 1; jj >= 0; jj--) {
 			gchar *name_history;
 			WebKitDOMNode *attr_history;
 
 			attr_history = webkit_dom_named_node_map_item (attributes_history, jj);
-			name_history = webkit_dom_node_get_local_name (attr_history);
+			name_history = webkit_dom_attr_get_name (WEBKIT_DOM_ATTR (attr_history));
 			if (g_strcmp0 (name, name_history) == 0) {
 				WebKitDOMNode *attr_clone;
 
@@ -2012,6 +2012,13 @@ undo_redo_citation_split (EEditorPage *editor_page,
 
 		parent = get_parent_block_element (WEBKIT_DOM_NODE (selection_start));
 
+		if (!in_situ && event->data.fragment &&
+		    !webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (event->data.fragment))) {
+			remove_node (WEBKIT_DOM_NODE (parent));
+
+			goto out;
+		}
+
 		citation_before = webkit_dom_node_get_previous_sibling (WEBKIT_DOM_NODE (parent));
 		if (!e_editor_dom_node_is_citation_node (citation_before)) {
 			e_editor_dom_selection_restore (editor_page);
@@ -2076,6 +2083,7 @@ undo_redo_citation_split (EEditorPage *editor_page,
 		if (event->data.fragment != NULL && !in_situ)
 			undo_delete (editor_page, event);
 
+ out:
 		e_editor_dom_merge_siblings_if_necessary (editor_page, NULL);
 
 		restore_selection_to_history_event_state (editor_page, event->before);
