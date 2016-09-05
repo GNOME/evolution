@@ -382,7 +382,7 @@ static void
 undo_delete (EEditorPage *editor_page,
              EEditorHistoryEvent *event)
 {
-	gboolean empty, single_block;
+	gboolean empty, single_block, delete_key;
 	gchar *content;
 	WebKitDOMDocument *document;
 	WebKitDOMDOMWindow *dom_window = NULL;
@@ -395,6 +395,8 @@ undo_delete (EEditorPage *editor_page,
 	dom_window = webkit_dom_document_get_default_view (document);
 	dom_selection = webkit_dom_dom_window_get_selection (dom_window);
 	g_clear_object (&dom_window);
+
+	delete_key = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (event->data.fragment), "history-delete-key"));
 
 	fragment = webkit_dom_node_clone_node_with_error (WEBKIT_DOM_NODE (event->data.fragment), TRUE, NULL);
 	first_child = webkit_dom_node_get_first_child (fragment);
@@ -484,6 +486,10 @@ undo_delete (EEditorPage *editor_page,
 					NULL);
 			}
 		}
+
+		if (!delete_key && (node = webkit_dom_node_get_last_child (WEBKIT_DOM_NODE (event->data.fragment))) &&
+		    node_is_list_or_item (node))
+			remove_node (webkit_dom_node_get_next_sibling (block));
 
 		remove_node (block);
 

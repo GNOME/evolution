@@ -8994,6 +8994,9 @@ save_history_for_delete_or_backspace (EEditorPage *editor_page,
 							dom_selection, "move", delete_key ? "left" : "right", "character");
 
 						if (tmp_block) {
+							if (WEBKIT_DOM_IS_HTML_LI_ELEMENT (actual_block))
+								actual_block = webkit_dom_node_get_parent_node (actual_block);
+
 							fragment = webkit_dom_document_create_document_fragment (document);
 							if (delete_key) {
 								webkit_dom_node_append_child (
