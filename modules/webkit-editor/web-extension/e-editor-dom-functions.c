@@ -4131,9 +4131,24 @@ e_editor_dom_move_quoted_block_level_up (EEditorPage *editor_page)
 				success = FALSE;
 		}
 
-		if (html_mode)
-			success = WEBKIT_DOM_IS_HTML_QUOTE_ELEMENT (
-				webkit_dom_node_get_parent_element (block));
+		if (html_mode) {
+			WebKitDOMNode *prev_sibling;
+
+			webkit_dom_node_normalize (block);
+
+			prev_sibling = webkit_dom_node_get_previous_sibling (
+				WEBKIT_DOM_NODE (selection_start_marker));
+
+			if (prev_sibling)
+				success = FALSE;
+			else {
+				WebKitDOMElement *parent;
+
+				parent = webkit_dom_node_get_parent_element (block);
+				success = WEBKIT_DOM_IS_HTML_QUOTE_ELEMENT (parent);
+				success = success && webkit_dom_element_has_attribute (parent, "type");
+			}
+		}
 	}
 
 	if (!success)
