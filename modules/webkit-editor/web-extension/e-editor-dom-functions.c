@@ -5390,20 +5390,7 @@ e_editor_dom_quote_and_insert_text_into_selection (EEditorPage *editor_page,
 
 	if (is_html) {
 		element = webkit_dom_document_create_element (document, "div", NULL);
-
-		if (strstr (text, "\n")) {
-			GRegex *regex;
-			gchar *tmp;
-
-			/* Strip new lines between tags to avoid unwanted line breaks. */
-			regex = g_regex_new ("\\>[\\s]+\\<", 0, 0, NULL);
-			tmp = g_regex_replace (regex, text, -1, 0, "> <", 0, NULL);
-			webkit_dom_element_set_inner_html (element, tmp, NULL);
-			g_free (tmp);
-			g_regex_unref (regex);
-		} else {
-			webkit_dom_element_set_inner_html (element, text, NULL);
-		}
+		webkit_dom_element_set_inner_html (element, text, NULL);
 	} else {
 		/* This is a trick to escape any HTML characters (like <, > or &).
 		 * <textarea> automatically replaces all these unsafe characters
@@ -6124,20 +6111,7 @@ e_editor_dom_convert_and_insert_html_into_selection (EEditorPage *editor_page,
 	if (is_html) {
 		gchar *inner_text;
 
-		if (strstr (html, "\n")) {
-			GRegex *regex;
-			gchar *tmp;
-
-			/* Strip new lines between tags to avoid unwanted line breaks. */
-			regex = g_regex_new ("\\>[\\s]+\\<", 0, 0, NULL);
-			tmp = g_regex_replace (
-				regex, html, -1, 0, "> <", 0, NULL);
-			webkit_dom_element_set_inner_html (element, tmp, NULL);
-			g_free (tmp);
-			g_regex_unref (regex);
-		} else {
-			webkit_dom_element_set_inner_html (element, html, NULL);
-		}
+		webkit_dom_element_set_inner_html (element, html, NULL);
 
 		webkit_dom_element_set_attribute (
 			WEBKIT_DOM_ELEMENT (element),
@@ -7218,6 +7192,17 @@ process_node_to_plain_text_for_exporting (EEditorPage *editor_page,
 			GRegex *regex;
 
 			content = webkit_dom_node_get_text_content (child);
+			/* The text nodes with only '\n' are reflected only in
+			 * PRE elements, otherwise skip them. */
+			/* FIXME wrong for "white-space: pre", but we don't use
+			 * that in editor in our expected DOM structure */
+			if (strlen (content) == 1 && *content == '\n' &&
+			    !WEBKIT_DOM_IS_HTML_PRE_ELEMENT (source)) {
+				g_free (content);
+				skip_node = TRUE;
+				goto next;
+			}
+
 			if (strstr (content, UNICODE_ZERO_WIDTH_SPACE)) {
 				gchar *tmp;
 
@@ -8728,10 +8713,11 @@ void
 e_editor_dom_insert_html (EEditorPage *editor_page,
 			  const gchar *html_text)
 {
-	WebKitDOMDocument *document;
 	EEditorHistoryEvent *ev = NULL;
 	EEditorUndoRedoManager *manager;
 	gboolean html_mode;
+	WebKitDOMDocument *document;
+	WebKitDOMNode *block = NULL;
 
 	g_return_if_fail (E_IS_EDITOR_PAGE (editor_page));
 	g_return_if_fail (html_text != NULL);
@@ -8795,10 +8781,39 @@ e_editor_dom_insert_html (EEditorPage *editor_page,
 			event->type = HISTORY_AND;
 
 			e_editor_undo_redo_manager_insert_history_event (manager, event);
+		} else {
+			WebKitDOMElement *selection_marker;
+
+			e_editor_dom_selection_save (editor_page);
+
+			/* If current block contains just the BR element, remove
+			 * it otherwise WebKit will create a new block (with
+			 * text node that will contain '\n') on the end of inserted
+			 * content. Also remember the block and remove it if it's
+			 * empty after we insert the content. */
+			selection_marker = webkit_dom_document_get_element_by_id (
+				document, "-x-evo-selection-start-marker");
+			if (!webkit_dom_node_get_previous_sibling (WEBKIT_DOM_NODE (selection_marker))) {
+				WebKitDOMNode *sibling;
+
+				sibling = webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (selection_marker));
+				sibling = webkit_dom_node_get_next_sibling (sibling);
+				if (WEBKIT_DOM_IS_HTML_BR_ELEMENT (sibling)) {
+					block = e_editor_dom_get_parent_block_node_from_child (WEBKIT_DOM_NODE (selection_marker));
+					remove_node (sibling);
+				}
+			}
+
+			e_editor_dom_selection_restore (editor_page);
 		}
 
 		e_editor_dom_exec_command (editor_page, E_CONTENT_EDITOR_COMMAND_INSERT_HTML, html_text);
+
+		if (block)
+			remove_node_if_empty (block);
+
 		e_editor_dom_fix_file_uri_images (editor_page);
+
 		if (strstr (html_text, "id=\"-x-evo-selection-start-marker\""))
 			e_editor_dom_selection_restore (editor_page);
 
