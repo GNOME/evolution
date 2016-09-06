@@ -27,8 +27,8 @@
 
 /* stephenhay from https://mathiasbynens.be/demo/url-regex */
 #define URL_PROTOCOLS "news|telnet|nntp|file|https?|s?ftp|webcal|localhost|ssh"
-#define URL_PATTERN_BASE "(?=((?:(?:(?:" URL_PROTOCOLS ")\\:\\/\\/)|(?:www\\.|ftp\\.))[^\\s\\/\\$\\.\\?#].[^\\s]*)"
-#define URL_PATTERN_NO_NBSP ")((?:(?!&nbsp;).)*)"
+#define URL_PATTERN_BASE "(?=((?:(?:(?:" URL_PROTOCOLS ")\\:\\/\\/)|(?:www\\.|ftp\\.))[^\\s\\/\\$\\.\\?#].[^\\s]*+)"
+#define URL_PATTERN_NO_NBSP ")((?:(?!&nbsp;).)*+)"
 #define URL_PATTERN URL_PATTERN_BASE URL_PATTERN_NO_NBSP
 #define URL_PATTERN_SPACE URL_PATTERN_BASE "\\s$" URL_PATTERN_NO_NBSP
 /* Taken from camel-url-scanner.c */
@@ -37,7 +37,7 @@
 /* http://www.w3.org/TR/html5/forms.html#valid-e-mail-address */
 #define E_MAIL_PATTERN \
 	"[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}"\
-	"[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*"
+	"[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*+"
 
 #define E_MAIL_PATTERN_SPACE E_MAIL_PATTERN "\\s"
 
