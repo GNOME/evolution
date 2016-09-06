@@ -2073,7 +2073,7 @@ test_cite_longline (TestFixture *fixture)
 		"<html><head></head><body><blockquote type=\"cite\">"
 		"<p>This is the first paragraph of a quoted text which has some long text to test. It has the second sentence as well.</p>"
 		"</blockquote></body></html>",
-		E_CONTENT_EDITOR_INSERT_TEXT_HTML);
+		E_CONTENT_EDITOR_INSERT_TEXT_HTML | E_CONTENT_EDITOR_INSERT_REPLACE_ALL);
 
 	if (!test_utils_run_simple_test (fixture,
 		"",
