@@ -138,9 +138,26 @@ mail_config_google_summary_commit_changes_cb (EMailConfigSummaryPage *page,
 		contacts_active = FALSE;
 	}
 
-	/* If the user declined both Calendar and Contacts, do nothing. */
-	if (!calendar_active && !contacts_active)
+	/* If the user declined both Calendar and Contacts, do nothing,
+	   but set the Google/OAuth2 authentication for the sources. */
+	if (!calendar_active && !contacts_active) {
+		if (e_source_credentials_google_is_supported ()) {
+			source = e_mail_config_summary_page_get_account_source (page);
+			auth_extension = e_source_get_extension (source, E_SOURCE_EXTENSION_AUTHENTICATION);
+			e_source_authentication_set_method (auth_extension, "Google");
+
+			head = g_queue_peek_head_link (source_queue);
+			for (link = head; link != NULL; link = g_list_next (link)) {
+				source = link->data;
+
+				if (e_source_has_extension (source, E_SOURCE_EXTENSION_AUTHENTICATION)) {
+					auth_extension = e_source_get_extension (source, E_SOURCE_EXTENSION_AUTHENTICATION);
+					e_source_authentication_set_method (auth_extension, "Google");
+				}
+			}
+		}
 		return;
+	}
 
 	source = e_mail_config_summary_page_get_account_source (page);
 	display_name = e_source_get_display_name (source);
