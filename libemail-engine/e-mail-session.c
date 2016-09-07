@@ -32,7 +32,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include <glib/gi18n.h>
+#include <glib/gi18n-lib.h>
 #include <glib/gstdio.h>
 
 #include <gtk/gtk.h>
@@ -1200,6 +1200,7 @@ mail_session_add_service (CamelSession *session,
 	if (CAMEL_IS_SERVICE (service)) {
 		ESource *source;
 		ESource *tmp_source;
+		gboolean is_google = FALSE;
 
 		/* Each CamelService has a corresponding ESource. */
 		source = e_source_registry_ref_source (registry, uid);
@@ -1228,7 +1229,35 @@ mail_session_add_service (CamelSession *session,
 		 * if necessary. */
 		camel_service_migrate_files (service);
 
+		if (e_source_has_extension (source, E_SOURCE_EXTENSION_AUTHENTICATION)) {
+			ESourceAuthentication *auth_extension;
+			const gchar *host;
+
+			auth_extension = e_source_get_extension (source, E_SOURCE_EXTENSION_AUTHENTICATION);
+			host = e_source_authentication_get_host (auth_extension);
+
+			is_google = host && (
+				e_util_utf8_strstrcase (host, "gmail.com") != NULL ||
+				e_util_utf8_strstrcase (host, "googlemail.com") != NULL);
+		}
+
 		g_object_unref (source);
+
+		/* Kind of hack for the custom SASL authentication unknown to Camel. */
+		if (is_google) {
+			CamelProvider *provider;
+			CamelSaslOAuth2GoogleClass *oauth2_google_class;
+
+			oauth2_google_class = g_type_class_ref (CAMEL_TYPE_SASL_OAUTH2_GOOGLE);
+			provider = camel_service_get_provider (service);
+
+			if (provider && oauth2_google_class) {
+				CamelServiceAuthType *auth_type = oauth2_google_class->parent_class.auth_type;
+
+				if (!g_list_find (provider->authtypes, auth_type))
+					provider->authtypes = g_list_append (provider->authtypes, auth_type);
+			}
+		}
 	}
 
 	return service;
