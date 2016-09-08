@@ -17,8 +17,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-02 22:49+0200\n"
-"PO-Revision-Date: 2016-09-02 22:50+0200\n"
+"POT-Creation-Date: 2016-09-08 02:44+0200\n"
+"PO-Revision-Date: 2016-09-08 02:45+0200\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <community-poland@mozilla.org>\n"
 "Language: pl\n"
@@ -57,7 +57,7 @@ msgstr ""
 #: ../addressbook/addressbook.error.xml.h:5
 msgid "This address book server does not have any suggested search bases."
 msgstr ""
-"Ten serwer książki adresowej nie posiada żadnych bazy wyszukiwania elementów "
+"Ten serwer książki adresowej nie ma żadnych bazy wyszukiwania elementów "
 "sugerowanych."
 
 #: ../addressbook/addressbook.error.xml.h:6
@@ -192,8 +192,8 @@ msgid ""
 "A contact already exists with this address. Would you like to add a new card "
 "with the same address anyway?"
 msgstr ""
-"Istnieje już kontakt z tym adresem. Dodać nową kartę z takim samym adresem "
-"mimo to?"
+"Istnieje już kontakt z tym adresem. Dodać nową wizytówkę z takim samym "
+"adresem mimo to?"
 
 #: ../addressbook/addressbook.error.xml.h:34
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.ui.h:8
@@ -213,7 +213,7 @@ msgstr "_Dodaj"
 
 #: ../addressbook/addressbook.error.xml.h:35
 msgid "Some addresses already exist in this contact list."
-msgstr "Niektóre adresy już istniejąc na tej liście kontaktów."
+msgstr "Niektóre adresy już istnieją na tej liście kontaktów."
 
 #: ../addressbook/addressbook.error.xml.h:36
 msgid ""
@@ -1315,7 +1315,7 @@ msgstr ""
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:172
 msgid "Detailed error message:"
-msgstr "Szczegółowy komunikat błędu:"
+msgstr "Szczegółowy komunikat o błędzie:"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:211
 msgid ""
@@ -1324,7 +1324,8 @@ msgid ""
 "Please make your search more specific or raise the result limit in\n"
 "the directory server preferences for this address book."
 msgstr ""
-"Odpowiedź na to zapytanie zawiera więcej kart, niż serwer może zwrócić, lub\n"
+"Odpowiedź na to zapytanie zawiera więcej wizytówek, niż serwer może zwrócić, "
+"lub\n"
 "więcej, niż ich skonfigurowana liczba dla programu Evolution. Proszę\n"
 "doprecyzować zapytanie lub zwiększyć ograniczenie w ustawieniach serwera\n"
 "katalogowego, powiązanego z tą książką adresową."
@@ -1364,7 +1365,7 @@ msgstr "To zapytanie nie zostało ukończone pomyślnie. %s"
 #. This is a filename. Translators take note.
 #: ../addressbook/gui/widgets/eab-gui-util.c:265
 msgid "card.vcf"
-msgstr "karta.vcf"
+msgstr "wizytówka.vcf"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:316
 msgid "Select Address Book"
@@ -1412,7 +1413,7 @@ msgstr "Wyszukiwanie przerwane"
 
 #: ../addressbook/gui/widgets/e-addressbook-table-adapter.c:221
 msgid "Error modifying card"
-msgstr "Błąd podczas modyfikowania karty"
+msgstr "Błąd podczas modyfikowania wizytówki"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:682
 msgid "Cut selected contacts to the clipboard"
@@ -1642,7 +1643,7 @@ msgstr "Kontakt: "
 
 #: ../addressbook/gui/widgets/ea-minicard.c:182
 msgid "evolution minicard"
-msgstr "minikarta programu Evolution"
+msgstr "miniwizytówka programu Evolution"
 
 #: ../addressbook/gui/widgets/ea-minicard-view.c:35
 msgid "New Contact"
@@ -1656,9 +1657,9 @@ msgstr "Nowa lista kontaktów"
 #, c-format
 msgid "current address book folder %s has %d card"
 msgid_plural "current address book folder %s has %d cards"
-msgstr[0] "bieżący katalog książki adresowej %s zawiera %d kartę"
-msgstr[1] "bieżący katalog książki adresowej %s zawiera %d karty"
-msgstr[2] "bieżący katalog książki adresowej %s zawiera %d kart"
+msgstr[0] "bieżący katalog książki adresowej %s zawiera %d wizytówkę"
+msgstr[1] "bieżący katalog książki adresowej %s zawiera %d wizytówki"
+msgstr[2] "bieżący katalog książki adresowej %s zawiera %d wizytówek"
 
 #: ../addressbook/gui/widgets/e-contact-map-window.c:377
 msgid "Contacts Map"
@@ -4029,7 +4030,7 @@ msgstr "Nie można odnaleźć załącznika „%s”, proszę usunąć go z list
 #, c-format
 msgid "Attachment '%s' doesn't have valid URI, remove it from the list, please"
 msgstr ""
-"Załącznik „%s” nie posiada prawidłowego adresu URI, proszę usunąć go z listy"
+"Załącznik „%s” nie ma prawidłowego adresu URI, proszę usunąć go z listy"
 
 #: ../calendar/gui/e-comp-editor-page-attachments.c:608
 #: ../composer/e-composer-actions.c:319
@@ -6306,7 +6307,7 @@ msgstr "Ameryka/Goose_Bay"
 
 #: ../calendar/zones.h:116
 msgid "America/Grand_Turk"
-msgstr "Ameryka/Wielki_Turk"
+msgstr "Ameryka/Grand_Turk"
 
 #: ../calendar/zones.h:117
 msgid "America/Grenada"
@@ -6650,7 +6651,7 @@ msgstr "Antarktyka/Palmer"
 
 #: ../calendar/zones.h:202
 msgid "Antarctica/South_Pole"
-msgstr "Antarktyka/Biegun_Południowy"
+msgstr "Antarktyka/Biegun_południowy"
 
 #: ../calendar/zones.h:203
 msgid "Antarctica/Syowa"
@@ -8455,7 +8456,7 @@ msgid ""
 "task list when not in the month view, in pixels"
 msgstr ""
 "Położenie panelu poziomego pomiędzy nawigatorem dat kalendarza a listą "
-"zadań, gdy nie jest to widok miesiąca (w pikselach)"
+"zadań, gdy nie jest to widok miesiąca (w pikselach)"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:72
 msgid "Last reminder time"
@@ -8534,7 +8535,7 @@ msgid ""
 "calendar and task list in the month view, in pixels"
 msgstr ""
 "Położenie panelu poziomego pomiędzy widokiem a nawigatorem dat kalendarza "
-"oraz listą zadań, w widoku miesiąca (w pikselach)"
+"oraz listą zadań, w widoku miesiąca (w pikselach)"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:88
 msgid "Scroll Month View by a week, not by a month"
@@ -8626,7 +8627,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:107
 msgid "Search range for time-based searching in years"
-msgstr "Zakres wyszukiwania w latach dla wyszukiwań opartych na czasie"
+msgstr "Zakres wyszukiwania w latach dla wyszukiwań na podstawie czasu"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:108
 msgid ""
@@ -8780,7 +8781,7 @@ msgstr "Przedziały czasu"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:136
 msgid "Intervals shown in Day and Work Week views, in minutes"
-msgstr "Przedziały czasu w widoku dnia oraz tygodnia roboczego (w minutach)"
+msgstr "Przedziały czasu w widoku dnia oraz tygodnia roboczego (w minutach)"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:137
 msgid "Timezone"
@@ -9286,7 +9287,7 @@ msgid ""
 "Post: header, if there is one."
 msgstr ""
 "Niektóre listy dyskusyjne ustawiają nagłówek Reply-To:, aby użytkownicy "
-"wysyłali odpowiedzi na listę nawet, jeśli ustawiono program Evolution na "
+"wysyłali odpowiedzi na listę, nawet jeśli ustawiono program Evolution na "
 "odpowiadanie prywatnie. Ustawienie tej opcji na „true” spowoduje próby "
 "zignorowania takich nagłówków Reply-To:, aby program Evolution zachowywał "
 "się zgodnie ze swoimi ustawieniami. Jeśli zostanie wysłana odpowiedź "
@@ -9327,7 +9328,7 @@ msgstr ""
 msgid ""
 "When to ask, when the number of To and CC recipients reaches this value."
 msgstr ""
-"Kiedy pytać, jeśli liczba odbiorców i odbiorców kopii osiągnie tą wartość."
+"Kiedy pytać, jeśli liczba odbiorców i odbiorców kopii osiągnie tę wartość."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:63
 msgid "Whether to always show Sign and Encrypt buttons on the toolbar"
@@ -9367,7 +9368,7 @@ msgid ""
 "Disposition: inline."
 msgstr ""
 "Ustawienie na wartość „false” blokuje automatyczne wyświetlanie załączników "
-"z nagłówiem „Content-Disposition: inline”."
+"z nagłówkiem „Content-Disposition: inline”."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:69
 msgid "Save file format for drag-and-drop operation"
@@ -9554,8 +9555,8 @@ msgstr "Czas, po jakim wiadomość zostanie oznaczona jako przeczytana"
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:105
 msgid "Timeout in milliseconds for marking messages as seen."
 msgstr ""
-"Czas, po jakim wiadomość zostanie oznaczona jako przeczytana (w "
-"milisekundach)."
+"Czas, po jakim wiadomość zostanie oznaczona jako przeczytana "
+"(w milisekundach)."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:106
 msgid "Show Attachment Bar"
@@ -9852,7 +9853,7 @@ msgstr "Potwierdzenie podczas oczyszczania katalogu przez użytkownika."
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:161
 msgid "Prompt before sending to recipients not entered as mail addresses"
 msgstr ""
-"Potwierdzenie przed wysłaniem do odbiorców nie podanych jako adresy e-mail"
+"Potwierdzenie przed wysłaniem do odbiorców niepodanych jako adresy e-mail"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:162
 msgid ""
@@ -9860,7 +9861,7 @@ msgid ""
 "a message to recipients not entered as mail addresses"
 msgstr ""
 "Włączenie/wyłączenie powtarzanych ostrzeżeń o wysyłaniu wiadomości do "
-"odbiorców nie podanych jako adresy e-mail"
+"odbiorców niepodanych jako adresy e-mail"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:163
 msgid "Prompt when user only fills Bcc"
@@ -9936,7 +9937,7 @@ msgstr ""
 "Możliwe wartości: „never” — aby nie zezwalać na kopiowanie za pomocą "
 "przeciągania katalogów w drzewie katalogów, „always” — aby zezwolić na "
 "kopiowanie za pomocą przeciągania katalogów w drzewie katalogów bez pytania, "
-"„ask” — (lub dowolna inna wartość) aby pytać użytkownika."
+"„ask” — (lub dowolna inna wartość), aby pytać użytkownika."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:175
 msgid "Asks whether to move a folder by drag &amp; drop in the folder tree"
@@ -9953,7 +9954,7 @@ msgstr ""
 "Możliwe wartości: „never” — aby nie zezwalać na przenoszenie za pomocą "
 "przeciągania katalogów w drzewie katalogów, „always” — aby zezwolić na "
 "przenoszenie za pomocą przeciągania katalogów w drzewie katalogów bez "
-"pytania, „ask” — (lub dowolna inna wartość) aby pytać użytkownika."
+"pytania, „ask” — (lub dowolna inna wartość), aby pytać użytkownika."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:177
 msgid "Prompt when replying privately to list messages"
@@ -10045,8 +10046,7 @@ msgstr "Minimalna liczba dni pomiędzy opróżnieniami kosza podczas wyjścia"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:191
 msgid "Minimum time between emptying the trash on exit, in days."
-msgstr ""
-"Minimalny okres czasu w dniach, pomiędzy opróżnieniami kosza podczas wyjścia."
+msgstr "Minimalny czas w dniach pomiędzy opróżnieniami kosza podczas wyjścia."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:192
 msgid "Last time Empty Trash was run"
@@ -10060,7 +10060,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:194
 msgid "Amount of time in seconds the error should be shown on the status bar."
-msgstr "Czas wyświetlania błędu na pasku statusu (w sekundach)."
+msgstr "Czas wyświetlania błędu na pasku statusu (w sekundach)."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:195
 msgid "Level beyond which the message should be logged."
@@ -10129,8 +10129,8 @@ msgstr ""
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:206
 msgid "Minimum time between emptying the junk on exit, in days."
 msgstr ""
-"Minimalny okres czasu w dniach, pomiędzy usuwaniem niechcianych wiadomości "
-"podczas wyjścia."
+"Minimalny czas w dniach pomiędzy usuwaniem niechcianych wiadomości podczas "
+"wyjścia."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:207
 msgid "Last time Empty Junk was run"
@@ -10153,7 +10153,7 @@ msgid ""
 "enabled. If the default listed plugin is disabled, then it won't fall back "
 "to the other available plugins."
 msgstr ""
-"To jest domyślna wtyczka niechcianych, włączona nawet, gdy włączonych jest "
+"To jest domyślna wtyczka niechcianych, włączona nawet gdy włączonych jest "
 "więcej wtyczek. Jeśli domyślna wtyczka jest wyłączona, to inne wtyczki nie "
 "zostaną włączone."
 
@@ -10457,8 +10457,7 @@ msgstr "Odstęp między sprawdzaniami kontaktów programu Pidgin"
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:10
 msgid "Check interval for Pidgin syncing of contacts."
-msgstr ""
-"Okres czasu między sprawdzaniami synchronizowania kontaktów programu Pidgin."
+msgstr "Czas między sprawdzaniami synchronizowania kontaktów programu Pidgin."
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:11
 msgid "Pidgin last sync MD5"
@@ -10634,7 +10633,7 @@ msgid ""
 msgstr ""
 "Tryb używany do wyświetlania poczty. Wartość „normal” powoduje automatyczny "
 "wybór najlepszej części do wyświetlenia, wartość „prefer_plain” powoduje "
-"użycie części tekstowej, jeśli jest obecna (w przeciwnym przypadku wyświetla "
+"użycie części tekstowej, jeśli jest obecna (w przeciwnym przypadku wyświetla "
 "kod źródłowy HTML), a wartość „only_plain” wymusza wyświetlanie zwykłego "
 "tekstu"
 
@@ -11393,7 +11392,7 @@ msgstr "Z_ałącz"
 
 #: ../e-util/e-attachment-store.c:717
 msgid "Archive selected directories using this format:"
-msgstr "Archiwizowanie zaznaczonych katalogów używając tego formatu:"
+msgstr "Archiwizowanie zaznaczonych katalogów za pomocą tego formatu:"
 
 #: ../e-util/e-attachment-store.c:821
 msgid "Save Attachment"
@@ -13366,7 +13365,7 @@ msgstr "_Anuluj import"
 
 #: ../e-util/e-import-assistant.c:924
 msgid "Preview data to be imported"
-msgstr "Podgląd danych w zaimportowania"
+msgstr "Podgląd danych do zaimportowania"
 
 #: ../e-util/e-import-assistant.c:930 ../e-util/e-import-assistant.c:943
 #: ../e-util/e-import-assistant.c:1296 ../e-util/e-import-assistant.c:1372
@@ -13587,14 +13586,14 @@ msgstr "_Usuń %s"
 #: ../e-util/e-online-button.c:32
 msgid "Evolution is currently online.  Click this button to work offline."
 msgstr ""
-"Program Evolution jest w trybie online. Kliknięcie na tym przycisku "
-"przełącza w tryb offline."
+"Program Evolution jest w trybie online. Kliknięcie tego przycisku przełącza "
+"w tryb offline."
 
 #: ../e-util/e-online-button.c:35
 msgid "Evolution is currently offline.  Click this button to work online."
 msgstr ""
-"Program Evolution jest w trybie offline. Kliknięcie na tym przycisku "
-"przełącza w tryb online."
+"Program Evolution jest w trybie offline. Kliknięcie tego przycisku przełącza "
+"w tryb online."
 
 #: ../e-util/e-online-button.c:38
 msgid "Evolution is currently offline because the network is unavailable."
@@ -14172,7 +14171,7 @@ msgstr "Wyświetlanie pól"
 
 #: ../e-util/e-table-config.c:559
 msgid "Choose the order of information to appear in the message list."
-msgstr "Klejność informacji pojawiających się na liście wiadomości."
+msgstr "Kolejność informacji pojawiających się na liście wiadomości."
 
 #: ../e-util/e-table-config.ui.h:2
 msgid "_Apply"
@@ -14851,12 +14850,12 @@ msgstr "Wysłane"
 msgid "Templates"
 msgstr "Szablony"
 
-#: ../libemail-engine/e-mail-session.c:1305
+#: ../libemail-engine/e-mail-session.c:1334
 #, c-format
 msgid "User cancelled operation"
 msgstr "Działanie anulowane przez użytkownika"
 
-#: ../libemail-engine/e-mail-session.c:1362
+#: ../libemail-engine/e-mail-session.c:1391
 #, c-format
 msgid ""
 "No destination address provided, forwarding of the message has been "
@@ -14864,13 +14863,13 @@ msgid ""
 msgstr ""
 "Nie podano adresu docelowego; przekazywanie tej wiadomości zostało anulowane."
 
-#: ../libemail-engine/e-mail-session.c:1375
+#: ../libemail-engine/e-mail-session.c:1404
 #, c-format
 msgid "No identity found to use, forwarding of the message has been cancelled."
 msgstr ""
 "Nie odnaleziono tożsamości; przekazywanie tej wiadomości zostało anulowane."
 
-#: ../libemail-engine/e-mail-session.c:2405
+#: ../libemail-engine/e-mail-session.c:2434
 #, c-format
 msgid "Waiting for '%s'"
 msgstr "Oczekiwanie na „%s”"
@@ -15033,7 +15032,7 @@ msgstr "Nie można utworzyć katalogu kolejki „%s”: %s"
 #: ../libemail-engine/mail-tools.c:110
 #, c-format
 msgid "Trying to movemail a non-mbox source '%s'"
-msgstr "Próba przeniesienia movemail do źródła nie będącego mbox „%s”"
+msgstr "Próba przeniesienia movemail do źródła niebędącego mbox „%s”"
 
 #: ../libemail-engine/mail-tools.c:236
 #, c-format
@@ -15366,7 +15365,8 @@ msgstr "Dodaj no_wy podpis…"
 #: ../mail/e-mail-config-identity-page.c:585
 msgid "_Look up mail server details based on the entered e-mail address"
 msgstr ""
-"_Wyszukanie informacji o serwerze pocztowym w oparciu o podany adres e-mail"
+"_Wyszukanie informacji o serwerze pocztowym na podstawie podanego adresu e-"
+"mail"
 
 #. This is only a warning, not a blocker
 #. complete = complete && correct;
@@ -17629,12 +17629,12 @@ msgstr ""
 #. This is in the context of: Ask for confirmation before...
 #: ../mail/mail-config.ui.h:54
 msgid "Sending a message with _recipients not entered as mail addresses"
-msgstr "Wysyłanie wiadomości z _odbiorcami nie wpisanymi jako adresy e-mail"
+msgstr "Wysyłanie wiadomości z _odbiorcami niewpisanymi jako adresy e-mail"
 
 #. This is in the context of: Ask for confirmation before...
 #: ../mail/mail-config.ui.h:56
 msgid "Sending a message using _key accelerator (Ctrl+Enter)"
-msgstr "Wysyłanie wiadomości używając _klawisza skrótu (Ctrl+Enter)"
+msgstr "Wysyłanie wiadomości za pomocą _klawisza skrótu (Ctrl+Enter)"
 
 #: ../mail/mail-config.ui.h:57
 msgid "Confirmations"
@@ -18037,7 +18037,7 @@ msgstr ""
 "Wysyłana lista kontaktów ma skonfigurowane ukrywanie listy odbiorców.\n"
 "\n"
 "Wiele systemów pocztowych dodaje nagłówek Apparently-To (Najwyraźniej-Do) do "
-"listów które posiadają tylko odbiorców BCC (ukryta kopia). Nagłówek może "
+"listów, które mają tylko odbiorców BCC (ukryta kopia). Nagłówek może "
 "zawierać wszystkich odbiorców. Aby temu zapobiec, należy dodać przynajmniej "
 "jednego odbiorcę do pola Do: lub Kopia: (CC). "
 
@@ -18049,7 +18049,7 @@ msgid ""
 "recipient."
 msgstr ""
 "Wiele systemów pocztowych dodaje nagłówek Apparently-To (Najwyraźniej-Do) do "
-"listów które posiadają tylko odbiorców BCC (ukryta kopia). Nagłówek może "
+"listów, które mają tylko odbiorców BCC (ukryta kopia). Nagłówek może "
 "zawierać wszystkich odbiorców. Aby temu zapobiec, należy dodać przynajmniej "
 "jednego odbiorcę do pola Do: lub Kopia: (CC)."
 
@@ -18127,7 +18127,7 @@ msgid ""
 "email addresses by clicking on the To: button next to the entry box."
 msgstr ""
 "Proszę podać prawidłowy adres e-mail w polu Do. Można wyszukać adresy e-mail "
-"klikając na przycisku Do: obok pola tekstowego."
+"klikając przycisk Do: obok pola tekstowego."
 
 #: ../mail/mail.error.xml.h:33
 msgid "Use default drafts folder?"
@@ -18159,7 +18159,7 @@ msgstr ""
 #: ../mail/mail.error.xml.h:39
 msgid "If you continue, you will not be able to recover these messages."
 msgstr ""
-"W przypadku kontynuacji, nie będzie możliwości odtworzenia tej wiadomości."
+"W przypadku kontynuacji nie będzie możliwości odtworzenia tej wiadomości."
 
 #: ../mail/mail.error.xml.h:40
 msgid "_Expunge"
@@ -18194,7 +18194,7 @@ msgid ""
 "If you quit, these messages will not be sent until Evolution is started "
 "again."
 msgstr ""
-"W przypadku zakończenia, te wiadomości nie będą wysłane do czasu następnego "
+"W przypadku zakończenia te wiadomości nie będą wysłane do czasu następnego "
 "uruchomienia programu Evolution."
 
 #. Translators: the {0} is replaced with an operation name, which failed.
@@ -18373,7 +18373,7 @@ msgstr "Na pewno usunąć to konto?"
 
 #: ../mail/mail.error.xml.h:90
 msgid "If you proceed, the account information will be deleted permanently."
-msgstr "W przypadku kontynuacji, informacje o koncie zostaną trwale usunięte."
+msgstr "W przypadku kontynuacji informacje o koncie zostaną trwale usunięte."
 
 #: ../mail/mail.error.xml.h:91
 msgid "Are you sure you want to delete this account and all its proxies?"
@@ -18384,7 +18384,7 @@ msgid ""
 "If you proceed, the account information and\n"
 "all proxy information will be deleted permanently."
 msgstr ""
-"W przypadku kontynuacji, informacje o koncie\n"
+"W przypadku kontynuacji informacje o koncie\n"
 "i pełnomocniku zostaną trwale usunięte."
 
 #: ../mail/mail.error.xml.h:94
@@ -18395,7 +18395,7 @@ msgstr "Na pewno wyłączyć to konto i usunąć wszystkie jego pełnomocników
 #: ../mail/mail.error.xml.h:95
 msgid "If you proceed, all proxy accounts will be deleted permanently."
 msgstr ""
-"W przypadku kontynuacji, wszystkie dane konta pełnomocnika zostaną usunięte."
+"W przypadku kontynuacji wszystkie dane konta pełnomocnika zostaną usunięte."
 
 #: ../mail/mail.error.xml.h:96
 msgid "Do _Not Disable"
@@ -18458,7 +18458,7 @@ msgid ""
 "folders, all remote folders, or both."
 msgstr ""
 "Należy podać przynajmniej jeden katalog jako źródło.\n"
-"Albo przez indywidualny wybór katalogów, albo przez wybór \n"
+"Albo przez indywidualny wybór katalogów, albo przez wybór\n"
 "wszystkich lokalnych katalogów, wszystkich zdalnych, albo obu możliwości."
 
 #: ../mail/mail.error.xml.h:112
@@ -19676,7 +19676,7 @@ msgstr "Bogofilter"
 
 #: ../modules/bogofilter/evolution-bogofilter.metainfo.xml.in.h:2
 msgid "Junk filter using Bogofilter"
-msgstr "Filtrowanie niechcianych wiadomości używając Bogofilter"
+msgstr "Filtrowanie niechcianych wiadomości za pomocą Bogofilter"
 
 #: ../modules/book-config-google/evolution-book-config-google.c:92
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:993
@@ -19743,11 +19743,11 @@ msgstr "Anonimowo"
 
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:686
 msgid "Using email address"
-msgstr "Używając adresu e-mail"
+msgstr "Za pomocą adresu e-mail"
 
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:689
 msgid "Using distinguished name (DN)"
-msgstr "Używając nazwy wyróżniającej (DN)"
+msgstr "Za pomocą nazwy wyróżniającej (DN)"
 
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:691
 msgid "Method:"
@@ -19800,7 +19800,7 @@ msgid ""
 "below your search base.  A search scope of \"One Level\" will only include "
 "the entries one level beneath your search base."
 msgstr ""
-"Zakres wyszukiwania określa głębokość wyszukiwania wgłąb drzewa katalogów. "
+"Zakres wyszukiwania określa głębokość wyszukiwania w głąb drzewa katalogów. "
 "Zakres wyszukiwania „Poddrzewo” dołączy wszystkie poniższe wpisy do podstawy "
 "wyszukiwania. Zakres wyszukiwania „Jeden poziom” dołączy tylko wpisy leżące "
 "jeden poziom ponad podstawą wyszukiwania."
@@ -20317,7 +20317,7 @@ msgstr "przed każdą rocznicą/urodzinami"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:77
 msgid "Default _snooze time (in minutes)"
-msgstr "Domyślny czas _drzemki (w minutach)"
+msgstr "Domyślny czas _drzemki (w minutach)"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:78
 msgid "Select the calendars for reminder notification"
@@ -20394,8 +20394,8 @@ msgid ""
 "events."
 msgstr ""
 "Działanie to bezpowrotnie usunie wszystkie wydarzenia starsze niż zaznaczony "
-"okres czasu. W przypadku kontynuowania późniejsze odzyskanie zadań nie "
-"będzie możliwe."
+"czas. W przypadku kontynuowania późniejsze odzyskanie zadań nie będzie "
+"możliwe."
 
 #. Translators: This is the first part of the sentence:
 #. * "Purge events older than <<spin-button>> days"
@@ -21336,12 +21336,12 @@ msgstr "%s chce otrzymać najświeższe informacje o następującym zebraniu:"
 #: ../modules/itip-formatter/itip-view.c:470
 #, c-format
 msgid "%s through %s has sent back the following meeting response:"
-msgstr "%s przez %s odesłał następującą odpowiedź odnośnie zebrania:"
+msgstr "%s przez %s odesłał następującą odpowiedź odnośnie do zebrania:"
 
 #: ../modules/itip-formatter/itip-view.c:472
 #, c-format
 msgid "%s has sent back the following meeting response:"
-msgstr "%s odesłał następującą odpowiedź odnośnie zebrania:"
+msgstr "%s odesłał następującą odpowiedź odnośnie do zebrania:"
 
 #: ../modules/itip-formatter/itip-view.c:476
 #, c-format
@@ -21391,12 +21391,12 @@ msgstr "%s zwraca się o przypisanie %s do następującego zadania:"
 #: ../modules/itip-formatter/itip-view.c:540
 #, c-format
 msgid "%s through %s has assigned you a task:"
-msgstr "%s przez %s przypisał Tobie zadanie:"
+msgstr "%s przez %s przypisał Ci zadanie:"
 
 #: ../modules/itip-formatter/itip-view.c:542
 #, c-format
 msgid "%s has assigned you a task:"
-msgstr "%s przypisał Tobie zadanie:"
+msgstr "%s przypisał Ci zadanie:"
 
 #: ../modules/itip-formatter/itip-view.c:548
 #, c-format
@@ -21818,19 +21818,19 @@ msgstr "To zebranie zostało oddelegowane"
 msgid "'{0}' has delegated the meeting. Do you want to add the delegate '{1}'?"
 msgstr "„{0}” wydelegował zebranie. Dodać delegata „{1}”?"
 
-#: ../modules/mail-config/e-mail-config-google-summary.c:265
+#: ../modules/mail-config/e-mail-config-google-summary.c:282
 msgid "Google Features"
 msgstr "Funkcje serwisu Google"
 
-#: ../modules/mail-config/e-mail-config-google-summary.c:274
+#: ../modules/mail-config/e-mail-config-google-summary.c:291
 msgid "Add Google Ca_lendar to this account"
 msgstr "Dodanie ka_lendarza serwisu Google do tego konta"
 
-#: ../modules/mail-config/e-mail-config-google-summary.c:283
+#: ../modules/mail-config/e-mail-config-google-summary.c:300
 msgid "Add Google Con_tacts to this account"
 msgstr "Dodanie kon_taktów serwisu Google do tego konta"
 
-#: ../modules/mail-config/e-mail-config-google-summary.c:292
+#: ../modules/mail-config/e-mail-config-google-summary.c:309
 msgid "You may need to enable IMAP access"
 msgstr "Należy włączyć dostęp IMAP"
 
@@ -22788,7 +22788,7 @@ msgstr "SpamAssassin"
 
 #: ../modules/spamassassin/evolution-spamassassin.metainfo.xml.in.h:2
 msgid "Junk filter using SpamAssassin"
-msgstr "Filtrowanie niechcianych wiadomości używając SpamAssassin"
+msgstr "Filtrowanie niechcianych wiadomości za pomocą SpamAssassin"
 
 #. Keep the title identical to EMailConfigImportPage
 #. * so it's only shown once in the assistant sidebar.
@@ -23090,7 +23090,7 @@ msgstr "Słowa kluczowe"
 
 #: ../plugins/attachment-reminder/org-gnome-attachment-reminder.error.xml.h:1
 msgid "Message has no attachments"
-msgstr "Wiadomość nie posiada załączników"
+msgstr "Wiadomość nie ma załączników"
 
 #: ../plugins/attachment-reminder/org-gnome-attachment-reminder.error.xml.h:2
 msgid ""
@@ -23464,7 +23464,7 @@ msgstr "Listy dyskusyjne"
 msgid "Perform common mailing list actions (subscribe, unsubscribe, etc.)."
 msgstr ""
 "Działania dla typowych poleceń listy pocztowej (subskrypcja, usunięcie "
-"subskrypcji, itp.)."
+"subskrypcji itp.)."
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:1
 msgid "Action not available"
@@ -23503,9 +23503,9 @@ msgid ""
 "has been sent."
 msgstr ""
 "Wiadomość e-mail zostanie wysłana na adres URL „{0}”. Można wysłać wiadomość "
-"automatycznie, albo przejrzeć i zmienić ją.\n"
+"automatycznie albo ją przejrzeć i zmienić.\n"
 "\n"
-"W krótkim czasie po wysłaniu wiadomości, powinna nadejść odpowiedź z listy "
+"W krótkim czasie po wysłaniu wiadomości powinna nadejść odpowiedź z listy "
 "dyskusyjnej."
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:9
@@ -24328,7 +24328,7 @@ msgstr "Zarządzanie zapisanymi wyszukiwaniami"
 
 #: ../shell/e-shell-window-actions.c:892
 msgid "Click here to change the search type"
-msgstr "Kliknięcie — zmiana typu wyszukiwania"
+msgstr "Kliknięcie spowoduje zmianę typu wyszukiwania"
 
 #: ../shell/e-shell-window-actions.c:897
 msgid "_Find Now"
@@ -24453,7 +24453,7 @@ msgstr "Styl paska _narzędziowego"
 
 #: ../shell/e-shell-window-actions.c:1098
 msgid "Display window buttons using the desktop toolbar setting"
-msgstr "Wyświetla przyciski okna używając ustawień środowiska"
+msgstr "Wyświetla przyciski okna za pomocą ustawień środowiska"
 
 #: ../shell/e-shell-window-actions.c:1106
 msgid "Delete Current View"
@@ -24543,12 +24543,12 @@ msgstr ""
 "programu do pracy grupowej Evolution.\n"
 "\n"
 "Ta wersja programu Evolution nie jest jeszcze ukończona. Niedługo będzie,\n"
-"lecz niektóre funkcje są albo nieukończone albo nie działają poprawnie.\n"
+"lecz niektóre funkcje są albo nieukończone, albo nie działają poprawnie.\n"
 "\n"
 "Jeśli potrzebna jest stabilna wersja programu Evolution, lepiej jest\n"
 "odinstalować tę wersję i zainstalować zamiast niej wersję %s.\n"
 "\n"
-"W przypadku znalezienia błędu, należy go zgłosić do nas pod adresem\n"
+"W przypadku znalezienia błędu należy go zgłosić do nas pod adresem\n"
 "bugzilla.gnome.org. Ten produkt jest dostarczany bez gwarancji i nie\n"
 "odpowiadamy za nerwy stracone w przypadku napotkania problemów.\n"
 "\n"
@@ -25091,8 +25091,7 @@ msgstr "Wybór certyfikatu"
 
 #: ../smime/gui/smime-ui.ui.h:3
 msgid "You have certificates from these organizations that identify you:"
-msgstr ""
-"Użytkownik posiada certyfikaty identyfikujące z następujących instytucji:"
+msgstr "Użytkownik ma certyfikaty identyfikujące z następujących instytucji:"
 
 #: ../smime/gui/smime-ui.ui.h:4
 msgid "Certificates Table"
@@ -25231,7 +25230,7 @@ msgstr "Zaimportowany certyfikat"
 
 #: ../views/addressbook/galview.xml.h:1
 msgid "_Address Cards"
-msgstr "Karty _adresowe"
+msgstr "_Wizytówki"
 
 #: ../views/addressbook/galview.xml.h:2 ../views/calendar/galview.xml.h:5
 msgid "_List View"
