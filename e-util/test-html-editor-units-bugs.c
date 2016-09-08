@@ -574,6 +574,20 @@ test_bug_770074 (TestFixture *fixture)
 		g_test_fail ();
 }
 
+static void
+test_bug_771044 (TestFixture *fixture)
+{
+	if (!test_utils_run_simple_test (fixture,
+		"type:123 456\\n789 abc\\n\n"
+		"seq:uuhSdsD\n",
+		HTML_PREFIX
+		"<p>789 abc</p>"
+		"<p><br></p>"
+		HTML_SUFFIX,
+		"789 abc\n"))
+		g_test_fail ();
+}
+
 void
 test_add_html_editor_bug_tests (void)
 {
@@ -586,4 +600,5 @@ test_add_html_editor_bug_tests (void)
 	test_utils_add_test ("/bug/769955", test_bug_769955);
 	test_utils_add_test ("/bug/770073", test_bug_770073);
 	test_utils_add_test ("/bug/770074", test_bug_770074);
+	test_utils_add_test ("/bug/771044", test_bug_771044);
 }

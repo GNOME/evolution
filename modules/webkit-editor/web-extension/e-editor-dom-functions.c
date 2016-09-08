@@ -12802,6 +12802,11 @@ e_editor_dom_selection_save (EEditorPage *editor_page)
 					WEBKIT_DOM_NODE (start_marker),
 					NULL);
 			goto insert_end_marker;
+		} else if (offset != 0 && WEBKIT_DOM_IS_ELEMENT (container) &&
+			   offset == webkit_dom_element_get_child_element_count (WEBKIT_DOM_ELEMENT (container)) + 1) {
+			webkit_dom_node_append_child (
+				container, WEBKIT_DOM_NODE (start_marker), NULL);
+			goto insert_end_marker;
 		} else {
 			if (webkit_dom_node_get_first_child (container)) {
 				marker_node = webkit_dom_node_insert_before (
@@ -12915,10 +12920,13 @@ e_editor_dom_selection_save (EEditorPage *editor_page)
 		           !WEBKIT_DOM_IS_HTML_BODY_ELEMENT (parent_node)) {
 			split_node = parent_node;
 			split_node = webkit_dom_node_get_next_sibling (split_node);
-		} else {
+		} else if (offset != 0 && WEBKIT_DOM_IS_ELEMENT (container) &&
+			   offset == webkit_dom_element_get_child_element_count (WEBKIT_DOM_ELEMENT (container)) + 1) {
 			webkit_dom_node_append_child (
 				container, WEBKIT_DOM_NODE (end_marker), NULL);
 			goto out;
+		} else {
+			split_node = container;
 		}
 	}
 
