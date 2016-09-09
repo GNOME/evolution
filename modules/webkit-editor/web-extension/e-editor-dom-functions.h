@@ -201,6 +201,7 @@ void		e_editor_dom_body_key_up_event_process_backspace_or_delete
 						 gboolean delete);
 gboolean	e_editor_dom_key_press_event_process_return_key
 						(EEditorPage *editor_page);
+gboolean	e_editor_dom_node_is_paragraph	(WebKitDOMNode *node);
 WebKitDOMElement *
 		e_editor_dom_wrap_and_quote_element
 						(EEditorPage *editor_page,

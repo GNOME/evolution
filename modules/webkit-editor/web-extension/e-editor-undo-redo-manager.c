@@ -554,6 +554,7 @@ undo_delete (EEditorPage *editor_page,
 		if (WEBKIT_DOM_IS_ELEMENT (first_child) &&
 		    !(WEBKIT_DOM_IS_HTML_QUOTE_ELEMENT (first_child) ||
 		      WEBKIT_DOM_IS_HTML_PRE_ELEMENT (first_child) ||
+		      e_editor_dom_node_is_paragraph (first_child) ||
 		      WEBKIT_DOM_IS_HTML_PARAGRAPH_ELEMENT (first_child)))
 			single_block = TRUE;
 	}

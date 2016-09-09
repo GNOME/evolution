@@ -43,10 +43,10 @@ test_bug_726548 (TestFixture *fixture)
 		"seq:C\n"
 		"type:ac\n"
 		"seq:c\n",
-		HTML_PREFIX_PLAIN "<p style=\"width: 71ch;\">aaa</p>"
-		"<ol data-evo-paragraph=\"\" style=\"width: 65ch;\">"
+		HTML_PREFIX_PLAIN "<div style=\"width: 71ch;\">aaa</div>"
+		"<ol style=\"width: 65ch;\">"
 		"<li>a</li><li>b</li><li>c</li></ol>"
-		"<p style=\"width: 71ch;\"><br></p>" HTML_SUFFIX,
+		"<div style=\"width: 71ch;\"><br></div>" HTML_SUFFIX,
 		expected_plain)) {
 		g_test_fail ();
 		return;
@@ -77,16 +77,16 @@ test_bug_750657 (TestFixture *fixture)
 	test_utils_insert_content (fixture,
 		"<html><head></head><body>\n"
 		"<blockquote type=\"cite\">\n"
-		"<p>This is the first paragraph of a quoted text which has some long text to test. It has the second sentence as well.</p>\n"
-		"<p><br></p>\n"
-		"<p>This is the third paragraph of a quoted text which has some long text to test. It has the second sentence as well.</p>\n"
+		"<div>This is the first paragraph of a quoted text which has some long text to test. It has the second sentence as well.</div>\n"
+		"<div><br></div>\n"
+		"<div>This is the third paragraph of a quoted text which has some long text to test. It has the second sentence as well.</div>\n"
 		"<blockquote type=\"cite\">\n"
-		"<p>This is the first paragraph of a sub-quoted text which has some long text to test. It has the second sentence as well.</p>\n"
+		"<div>This is the first paragraph of a sub-quoted text which has some long text to test. It has the second sentence as well.</div>\n"
 		"<br>\n"
 		"</blockquote>\n"
-		"<p>This is the fourth paragraph of a quoted text which has some long text to test. It has the second sentence as well.</p>\n"
+		"<div>This is the fourth paragraph of a quoted text which has some long text to test. It has the second sentence as well.</div>\n"
 		"</blockquote>\n"
-		"<p><br></p>\n"
+		"<div><br></div>\n"
 		"</body></html>",
 		E_CONTENT_EDITOR_INSERT_TEXT_HTML);
 
@@ -94,15 +94,15 @@ test_bug_750657 (TestFixture *fixture)
 		"seq:uuuSuusD\n",
 		HTML_PREFIX
 		"<blockquote type=\"cite\">\n"
-		"<p>This is the first paragraph of a quoted text which has some long text to test. It has the second sentence as well.</p>\n"
-		"<p><br></p>\n"
-		"<p>This is the third paragraph of a quoted text which has some long text to test. It has the second sentence as well.</p>\n"
+		"<div>This is the first paragraph of a quoted text which has some long text to test. It has the second sentence as well.</div>\n"
+		"<div><br></div>\n"
+		"<div>This is the third paragraph of a quoted text which has some long text to test. It has the second sentence as well.</div>\n"
 		"<blockquote type=\"cite\">\n"
-		"<p><br></p>\n"
+		"<div><br></div>\n"
 		"</blockquote>\n"
-		"<p>This is the fourth paragraph of a quoted text which has some long text to test. It has the second sentence as well.</p>\n"
+		"<div>This is the fourth paragraph of a quoted text which has some long text to test. It has the second sentence as well.</div>\n"
 		"</blockquote>\n"
-		"<p><br></p>"
+		"<div><br></div>"
 		HTML_SUFFIX,
 		NULL)) {
 		g_test_fail ();
@@ -124,16 +124,16 @@ test_bug_760989 (TestFixture *fixture)
 		"<html><head></head><body>\n"
 		"One line before quotation<br>\n"
 		"<blockquote type=\"cite\">\n"
-		"<p>Single line quoted.</p>\n"
+		"<div>Single line quoted.</div>\n"
 		"</blockquote>\n"
 		"</body></html>",
 		E_CONTENT_EDITOR_INSERT_TEXT_HTML);
 
 	if (!test_utils_run_simple_test (fixture,
 		"seq:ChcD\n",
-		HTML_PREFIX "<p>One line before quotation</p>\n"
+		HTML_PREFIX "<div>One line before quotation</div>\n"
 		"<blockquote type=\"cite\">\n"
-		"<p>Single line quoted.</p>\n"
+		"<div>Single line quoted.</div>\n"
 		"</blockquote>" HTML_SUFFIX,
 		"One line before quotation\n"
 		"> Single line quoted.")) {
@@ -143,9 +143,9 @@ test_bug_760989 (TestFixture *fixture)
 
 	if (!test_utils_run_simple_test (fixture,
 		"seq:Cecb\n",
-		HTML_PREFIX "<p>One line before quotation</p>\n"
+		HTML_PREFIX "<div>One line before quotation</div>\n"
 		"<blockquote type=\"cite\">\n"
-		"<p>Single line quoted</p>\n"
+		"<div>Single line quoted</div>\n"
 		"</blockquote>" HTML_SUFFIX,
 		"One line before quotation\n"
 		"> Single line quoted")) {
@@ -163,8 +163,8 @@ test_bug_767903 (TestFixture *fixture)
 		"action:style-list-bullet\n"
 		"type:First item\\n\n"
 		"type:Second item\n",
-		HTML_PREFIX_PLAIN "<p style=\"width: 71ch;\">This is the first line:</p>"
-		"<ul data-evo-paragraph=\"\" style=\"width: 68ch;\" data-evo-plain-text=\"\">"
+		HTML_PREFIX_PLAIN "<div style=\"width: 71ch;\">This is the first line:</div>"
+		"<ul style=\"width: 68ch;\">"
 		"<li>First item</li><li>Second item<br></li></ul>" HTML_SUFFIX,
 		"This is the first line:\n"
 		" * First item\n"
@@ -176,8 +176,8 @@ test_bug_767903 (TestFixture *fixture)
 	if (!test_utils_run_simple_test (fixture,
 		"seq:uhb\n"
 		"undo:undo\n",
-		HTML_PREFIX_PLAIN "<p style=\"width: 71ch;\">This is the first line:</p>"
-		"<ul data-evo-paragraph=\"\" style=\"width: 68ch;\" data-evo-plain-text=\"\">"
+		HTML_PREFIX_PLAIN "<div style=\"width: 71ch;\">This is the first line:</div>"
+		"<ul style=\"width: 68ch;\">"
 		"<li>First item</li><li>Second item<br></li></ul>" HTML_SUFFIX,
 		"This is the first line:\n"
 		" * First item\n"
@@ -200,16 +200,16 @@ test_bug_769708 (TestFixture *fixture)
 		"<html><head><style id=\"-x-evo-quote-style\" type=\"text/css\">.-x-evo-quoted { -webkit-user-select: none; }</style>"
 		"<style id=\"-x-evo-style-a\" type=\"text/css\">a { cursor: text; }</style></head>"
 		"<body data-evo-draft=\"\" data-evo-plain-text=\"\" spellcheck=\"true\">"
-		"<p data-evo-paragraph=\"\" class=\"\" id=\"-x-evo-input-start\">aaa</p>"
+		"<div data-evo-paragraph=\"\" id=\"-x-evo-input-start\">aaa</div>"
 		"<div class=\"-x-evo-signature-wrapper\"><span class=\"-x-evo-signature\" id=\"autogenerated\"><pre>-- <br></pre>"
-		"<p data-evo-paragraph=\"\" class=\"\">user &lt;user@no.where&gt;</p>"
+		"<div data-evo-paragraph=\"\">user &lt;user@no.where&gt;</div>"
 		"</span></div></body></html>",
 		E_CONTENT_EDITOR_INSERT_REPLACE_ALL | E_CONTENT_EDITOR_INSERT_TEXT_HTML);
 
 	if (!test_utils_run_simple_test (fixture,
 		"",
-		HTML_PREFIX_PLAIN "<p>aaa</p><div><span><pre>-- <br></pre>"
-		"<p>user &lt;user@no.where&gt;</p>"
+		HTML_PREFIX_PLAIN "<div>aaa</div><div><span><pre>-- <br></pre>"
+		"<div>user &lt;user@no.where&gt;</div>"
 		"</span></div>" HTML_SUFFIX,
 		"aaa\n"
 		"-- \n"
@@ -229,7 +229,7 @@ test_bug_769913 (TestFixture *fixture)
 	if (!test_utils_run_simple_test (fixture,
 		"type:ab\n"
 		"seq:ltlD\n",
-		HTML_PREFIX_PLAIN "<p>ab</p>" HTML_SUFFIX,
+		HTML_PREFIX_PLAIN "<div>ab</div>" HTML_SUFFIX,
 		"ab")) {
 		g_test_fail ();
 		return;
@@ -237,7 +237,7 @@ test_bug_769913 (TestFixture *fixture)
 
 	if (!test_utils_run_simple_test (fixture,
 		"seq:ttllDD\n",
-		HTML_PREFIX_PLAIN "<p>ab</p>" HTML_SUFFIX,
+		HTML_PREFIX_PLAIN "<div>ab</div>" HTML_SUFFIX,
 		"ab")) {
 		g_test_fail ();
 		return;
@@ -245,7 +245,7 @@ test_bug_769913 (TestFixture *fixture)
 
 	if (!test_utils_run_simple_test (fixture,
 		"seq:ttlDlD\n",
-		HTML_PREFIX_PLAIN "<p>ab</p>" HTML_SUFFIX,
+		HTML_PREFIX_PLAIN "<div>ab</div>" HTML_SUFFIX,
 		"ab")) {
 		g_test_fail ();
 		return;
@@ -253,7 +253,7 @@ test_bug_769913 (TestFixture *fixture)
 
 	if (!test_utils_run_simple_test (fixture,
 		"seq:tttlllDDD\n",
-		HTML_PREFIX_PLAIN "<p>ab</p>" HTML_SUFFIX,
+		HTML_PREFIX_PLAIN "<div>ab</div>" HTML_SUFFIX,
 		"ab")) {
 		g_test_fail ();
 		return;
@@ -261,7 +261,7 @@ test_bug_769913 (TestFixture *fixture)
 
 	if (!test_utils_run_simple_test (fixture,
 		"seq:tttlDlDlD\n",
-		HTML_PREFIX_PLAIN "<p>ab</p>" HTML_SUFFIX,
+		HTML_PREFIX_PLAIN "<div>ab</div>" HTML_SUFFIX,
 		"ab")) {
 		g_test_fail ();
 		return;
@@ -269,7 +269,7 @@ test_bug_769913 (TestFixture *fixture)
 
 	if (!test_utils_run_simple_test (fixture,
 		"seq:tb\n",
-		HTML_PREFIX_PLAIN "<p>ab</p>" HTML_SUFFIX,
+		HTML_PREFIX_PLAIN "<div>ab</div>" HTML_SUFFIX,
 		"ab")) {
 		g_test_fail ();
 		return;
@@ -277,7 +277,7 @@ test_bug_769913 (TestFixture *fixture)
 
 	if (!test_utils_run_simple_test (fixture,
 		"seq:ttbb\n",
-		HTML_PREFIX_PLAIN "<p>ab</p>" HTML_SUFFIX,
+		HTML_PREFIX_PLAIN "<div>ab</div>" HTML_SUFFIX,
 		"ab")) {
 		g_test_fail ();
 		return;
@@ -285,7 +285,7 @@ test_bug_769913 (TestFixture *fixture)
 
 	if (!test_utils_run_simple_test (fixture,
 		"seq:ttlbrb\n",
-		HTML_PREFIX_PLAIN "<p>ab</p>" HTML_SUFFIX,
+		HTML_PREFIX_PLAIN "<div>ab</div>" HTML_SUFFIX,
 		"ab")) {
 		g_test_fail ();
 		return;
@@ -293,7 +293,7 @@ test_bug_769913 (TestFixture *fixture)
 
 	if (!test_utils_run_simple_test (fixture,
 		"seq:tttbbb\n",
-		HTML_PREFIX_PLAIN "<p>ab</p>" HTML_SUFFIX,
+		HTML_PREFIX_PLAIN "<div>ab</div>" HTML_SUFFIX,
 		"ab")) {
 		g_test_fail ();
 		return;
@@ -301,7 +301,7 @@ test_bug_769913 (TestFixture *fixture)
 
 	if (!test_utils_run_simple_test (fixture,
 		"seq:tttllbrbrb\n",
-		HTML_PREFIX_PLAIN "<p>ab</p>" HTML_SUFFIX,
+		HTML_PREFIX_PLAIN "<div>ab</div>" HTML_SUFFIX,
 		"ab")) {
 		g_test_fail ();
 		return;
@@ -494,18 +494,18 @@ test_bug_770073 (TestFixture *fixture)
 
 	test_utils_insert_content (fixture,
 		"<!-- text/html -->"
-		"<p><span>the 1st line text</span></p>"
+		"<div><span>the 1st line text</span></div>"
 		"<br>"
-		"<p><span>the 3rd line text</span></p>"
+		"<div><span>the 3rd line text</span></div>"
 		"<span class=\"-x-evo-to-body\" data-credits=\"On Today, User wrote:\"></span><span class=\"-x-evo-cite-body\"></span>",
 		E_CONTENT_EDITOR_INSERT_REPLACE_ALL | E_CONTENT_EDITOR_INSERT_TEXT_HTML);
 
 	if (!test_utils_run_simple_test (fixture,
 		"seq:Chcddbb\n",
-		HTML_PREFIX_PLAIN "<p style=\"width: 71ch;\">On Today, User wrote:</p>"
+		HTML_PREFIX_PLAIN "<div style=\"width: 71ch;\">On Today, User wrote:</div>"
 		"<blockquote type=\"cite\">"
-		"<p style=\"width: 71ch;\">&gt; the 1st line text</p>"
-		"<p style=\"width: 71ch;\">&gt; the 3rd line text</p>"
+		"<div style=\"width: 71ch;\">&gt; the 1st line text</div>"
+		"<div style=\"width: 71ch;\">&gt; the 3rd line text</div>"
 		"</blockquote>" HTML_SUFFIX,
 		"On Today, User wrote:\n"
 		"> the 1st line text\n"
@@ -522,18 +522,18 @@ test_bug_770073 (TestFixture *fixture)
 
 	test_utils_insert_content (fixture,
 		"<!-- text/html -->"
-		"<p><span>the first line text</span></p>"
+		"<div><span>the first line text</span></div>"
 		"<br>"
-		"<p><span>the third line text</span></p>"
+		"<div><span>the third line text</span></div>"
 		"<span class=\"-x-evo-to-body\" data-credits=\"On Today, User wrote:\"></span><span class=\"-x-evo-cite-body\"></span>",
 		E_CONTENT_EDITOR_INSERT_REPLACE_ALL | E_CONTENT_EDITOR_INSERT_TEXT_HTML);
 
 	if (!test_utils_run_simple_test (fixture,
 		"seq:Chcddbb\n",
-		HTML_PREFIX "<p>On Today, User wrote:</p>"
+		HTML_PREFIX "<div>On Today, User wrote:</div>"
 		"<blockquote type=\"cite\">"
-		"<p><span>the first line text</span></p>"
-		"<p><span>the third line text</span></p>"
+		"<div><span>the first line text</span></div>"
+		"<div><span>the third line text</span></div>"
 		"</blockquote>" HTML_SUFFIX,
 		"On Today, User wrote:\n"
 		"> the first line text\n"
@@ -553,9 +553,9 @@ test_bug_770074 (TestFixture *fixture)
 
 	test_utils_insert_content (fixture,
 		"<!-- text/html -->"
-		"<p><span>the 1st line text</span></p>"
+		"<div><span>the 1st line text</span></div>"
 		"<br>"
-		"<p><span>the 3rd line text</span></p>"
+		"<div><span>the 3rd line text</span></div>"
 		"<span class=\"-x-evo-to-body\" data-credits=\"On Today, User wrote:\"></span><span class=\"-x-evo-cite-body\"></span>",
 		E_CONTENT_EDITOR_INSERT_REPLACE_ALL | E_CONTENT_EDITOR_INSERT_TEXT_HTML);
 
@@ -563,10 +563,10 @@ test_bug_770074 (TestFixture *fixture)
 		"seq:Chcddbb\n"
 		"seq:n\n"
 		"undo:undo\n",
-		HTML_PREFIX_PLAIN "<p style=\"width: 71ch;\">On Today, User wrote:</p>"
+		HTML_PREFIX_PLAIN "<div style=\"width: 71ch;\">On Today, User wrote:</div>"
 		"<blockquote type=\"cite\">"
-		"<p style=\"width: 71ch;\">&gt; the 1st line text</p>"
-		"<p style=\"width: 71ch;\">&gt; the 3rd line text</p>"
+		"<div style=\"width: 71ch;\">&gt; the 1st line text</div>"
+		"<div style=\"width: 71ch;\">&gt; the 3rd line text</div>"
 		"</blockquote>" HTML_SUFFIX,
 		"On Today, User wrote:\n"
 		"> the 1st line text\n"
@@ -581,8 +581,8 @@ test_bug_771044 (TestFixture *fixture)
 		"type:123 456\\n789 abc\\n\n"
 		"seq:uuhSdsD\n",
 		HTML_PREFIX
-		"<p>789 abc</p>"
-		"<p><br></p>"
+		"<div>789 abc</div>"
+		"<div><br></div>"
 		HTML_SUFFIX,
 		"789 abc\n"))
 		g_test_fail ();

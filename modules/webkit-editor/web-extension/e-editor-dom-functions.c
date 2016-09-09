@@ -1102,6 +1102,15 @@ e_editor_dom_get_parent_block_node_from_child (WebKitDOMNode *node)
 	return parent;
 }
 
+gboolean
+e_editor_dom_node_is_paragraph (WebKitDOMNode *node)
+{
+	if (!WEBKIT_DOM_IS_HTML_DIV_ELEMENT (node))
+		return FALSE;
+
+	return webkit_dom_element_has_attribute (WEBKIT_DOM_ELEMENT (node), "data-evo-paragraph");
+}
+
 WebKitDOMElement *
 e_editor_dom_wrap_and_quote_element (EEditorPage *editor_page,
 				     WebKitDOMElement *element)
@@ -1119,8 +1128,7 @@ e_editor_dom_wrap_and_quote_element (EEditorPage *editor_page,
 	e_editor_dom_remove_quoting_from_element (element);
 	e_editor_dom_remove_wrapping_from_element (element);
 
-	if (WEBKIT_DOM_IS_HTML_PARAGRAPH_ELEMENT (element) &&
-	    webkit_dom_element_has_attribute (element, "data-evo-paragraph")) {
+	if (e_editor_dom_node_is_paragraph (WEBKIT_DOM_NODE (element))) {
 		gint word_wrap_length, length;
 
 		word_wrap_length = e_editor_page_get_word_wrap_length (editor_page);
@@ -3285,7 +3293,7 @@ remove_zero_width_spaces_on_body_input (EEditorPage *editor_page,
 		g_free (text);
 
 		parent = webkit_dom_node_get_parent_node (node);
-		if (WEBKIT_DOM_IS_HTML_PARAGRAPH_ELEMENT (parent) &&
+		if (WEBKIT_DOM_IS_HTML_DIV_ELEMENT (parent) &&
 		    !webkit_dom_element_has_attribute (WEBKIT_DOM_ELEMENT (parent), "data-evo-paragraph")) {
 			if (html_mode)
 				webkit_dom_element_set_attribute (
@@ -5567,7 +5575,7 @@ quote_plain_text_elements_after_wrapping_in_element (EEditorPage *editor_page,
 
 	/* Also quote the PRE elements as well. */
 	list = webkit_dom_element_query_selector_all (
-		element, "blockquote[type=cite] > p[data-evo-paragraph], blockquote[type=cite] > pre", NULL);
+		element, "blockquote[type=cite] > [data-evo-paragraph], blockquote[type=cite] > pre", NULL);
 
 	length = webkit_dom_node_list_get_length (list);
 	for (ii = 0; ii < length; ii++) {
@@ -5755,7 +5763,7 @@ e_editor_dom_convert_content (EEditorPage *editor_page,
 
 	/* Remove all previously inserted paragraphs. */
 	list = webkit_dom_document_query_selector_all (
-		document, "p[data-evo-paragraph]:not([data-headers])", NULL);
+		document, "[data-evo-paragraph]:not([data-headers])", NULL);
 	length = webkit_dom_node_list_get_length (list);
 	for (ii = 0; ii < length; ii++)
 		remove_node (webkit_dom_node_list_item (list, ii));
@@ -7541,7 +7549,7 @@ process_node_to_html_for_exporting (EEditorPage *editor_page,
 	g_clear_object (&collection);
 
 	list = webkit_dom_element_query_selector_all (
-		WEBKIT_DOM_ELEMENT (source), "p[data-evo-paragraph]", NULL);
+		WEBKIT_DOM_ELEMENT (source), "[data-evo-paragraph]", NULL);
 	length = webkit_dom_node_list_get_length (list);
 	for (ii = 0; ii < length; ii++) {
 		WebKitDOMNode *node;
@@ -8439,32 +8447,15 @@ adapt_to_editor_dom_changes (WebKitDOMDocument *document)
 	WebKitDOMHTMLCollection *collection = NULL;
 	gint ii, length;
 
-	/* Normal block code div.-x-evo-paragraph replaced by p[data-evo-paragraph] */
+	/* Normal block code div.-x-evo-paragraph replaced by div[data-evo-paragraph] */
 	collection = webkit_dom_document_get_elements_by_class_name_as_html_collection (document, "-x-evo-paragraph");
 	length = webkit_dom_html_collection_get_length (collection);
 	for (ii = 0; ii < length; ii++) {
-		WebKitDOMNode *node, *child;
-		WebKitDOMElement *element;
-		gchar *style;
+		WebKitDOMNode *node;
 
 		node = webkit_dom_html_collection_item (collection, ii);
-		element = webkit_dom_document_create_element (document, "p", NULL);
-		webkit_dom_element_set_attribute (element, "data-evo-paragraph", "", NULL);
-
-		webkit_dom_node_insert_before (
-			webkit_dom_node_get_parent_node (node),
-			WEBKIT_DOM_NODE (element),
-			node,
-			NULL);
-
-		while ((child = webkit_dom_node_get_first_child (node)))
-			webkit_dom_node_append_child (WEBKIT_DOM_NODE (element), child, NULL);
-
-		style = webkit_dom_element_get_attribute (WEBKIT_DOM_ELEMENT (node), "style");
-		if (style)
-			webkit_dom_element_set_attribute (element, "style", style, NULL);
-
-		remove_node (node);
+		element_remove_class (WEBKIT_DOM_ELEMENT (node), "-x-evo-paragraph");
+		webkit_dom_element_set_attribute (WEBKIT_DOM_ELEMENT (node), "data-evo-paragraph", "", NULL);
 	}
 	g_clear_object (&collection);
 }
@@ -8484,7 +8475,7 @@ e_editor_dom_process_content_after_load (EEditorPage *editor_page)
 	/* Don't use CSS when possible to preserve compatibility with older
 	 * versions of Evolution or other MUAs */
 	e_editor_dom_exec_command (editor_page, E_CONTENT_EDITOR_COMMAND_STYLE_WITH_CSS, "false");
-	e_editor_dom_exec_command (editor_page, E_CONTENT_EDITOR_COMMAND_DEFAULT_PARAGRAPH_SEPARATOR, "p");
+	e_editor_dom_exec_command (editor_page, E_CONTENT_EDITOR_COMMAND_DEFAULT_PARAGRAPH_SEPARATOR, "div");
 
 	body = webkit_dom_document_get_body (document);
 
@@ -10529,7 +10520,7 @@ contains_forbidden_elements (WebKitDOMDocument *document)
 		body,
 		":not("
 		/* Basic elements used as blocks allowed in the plain text mode */
-		"p[data-evo-paragraph], pre, ul, ol, li, blockquote[type=cite], "
+		"[data-evo-paragraph], pre, ul, ol, li, blockquote[type=cite], "
 		/* Other elements */
 		"br, a, "
 		/* Indented elements */
@@ -10553,11 +10544,11 @@ contains_forbidden_elements (WebKitDOMDocument *document)
 		/* Body descendants */
 		"body > :matches(blockquote[type=cite], .-x-evo-signature-wrapper), "
 		/* Main blocks and indented blocks */
-		":matches(body, .-x-evo-indented) > :matches(pre, p, ul, ol, .-x-evo-indented), "
+		":matches(body, .-x-evo-indented) > :matches(pre, ul, ol, .-x-evo-indented, [data-evo-paragraph]), "
 		/* Blockquote descendants */
-		"blockquote[type=cite] > :matches(pre, p, blockquote[type=cite]), "
+		"blockquote[type=cite] > :matches(pre, [data-evo-paragraph], blockquote[type=cite]), "
 		/* Block descendants */
-		":matches(pre, p, li) > :matches(br, span, a), "
+		":matches(pre, [data-evo-paragraph], li) > :matches(br, span, a), "
 		/* Lists */
 		":matches(ul, ol) > :matches(ul, ol, li), "
 		/* Smileys */
@@ -11676,10 +11667,10 @@ set_word_wrap_length (EEditorPage *editor_page,
 
 void
 e_editor_dom_set_paragraph_style (EEditorPage *editor_page,
-				  WebKitDOMElement *element,
-				  gint width,
-				  gint offset,
-				  const gchar *style_to_add)
+                                  WebKitDOMElement *element,
+                                  gint width,
+                                  gint offset,
+                                  const gchar *style_to_add)
 {
 	WebKitDOMNode *parent;
 	gchar *style = NULL;
@@ -11748,9 +11739,6 @@ create_list_element (EEditorPage *editor_page,
 			SPACES_ORDERED_LIST_FIRST_LEVEL - SPACES_PER_LIST_LEVEL: 0;
 
 		e_editor_dom_set_paragraph_style (editor_page, list, -1, -offset, NULL);
-
-		if (inserting_unordered_list)
-			webkit_dom_element_set_attribute (list, "data-evo-plain-text", "", NULL);
 	}
 
 	return list;
@@ -14046,7 +14034,7 @@ e_editor_dom_get_paragraph_element (EEditorPage *editor_page,
 	g_return_val_if_fail (E_IS_EDITOR_PAGE (editor_page), NULL);
 
 	document = e_editor_page_get_document (editor_page);
-	element = webkit_dom_document_create_element (document, "p", NULL);
+	element = webkit_dom_document_create_element (document, "DIV", NULL);
 	e_editor_dom_set_paragraph_style (editor_page, element, width, offset, NULL);
 
 	return element;
@@ -16037,11 +16025,8 @@ e_editor_dom_selection_get_block_format (EEditorPage *editor_page)
 		result = E_CONTENT_EDITOR_BLOCK_FORMAT_H5;
 	} else if (dom_node_find_parent_element (node, "H6")) {
 		result = E_CONTENT_EDITOR_BLOCK_FORMAT_H6;
-	} else if ((element = dom_node_find_parent_element (node, "BLOCKQUOTE")) != NULL) {
-		result = E_CONTENT_EDITOR_BLOCK_FORMAT_PARAGRAPH;
-	} else if (dom_node_find_parent_element (node, "P")) {
-		result = E_CONTENT_EDITOR_BLOCK_FORMAT_PARAGRAPH;
 	} else {
+		/* Everything else is a paragraph (normal block) for us */
 		result = E_CONTENT_EDITOR_BLOCK_FORMAT_PARAGRAPH;
 	}
 
@@ -16861,7 +16846,7 @@ e_editor_dom_selection_set_block_format (EEditorPage *editor_page,
 			value = "H6";
 			break;
 		case E_CONTENT_EDITOR_BLOCK_FORMAT_PARAGRAPH:
-			value = "P";
+			value = "DIV";
 			break;
 		case E_CONTENT_EDITOR_BLOCK_FORMAT_PRE:
 			value = "PRE";
