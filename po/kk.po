@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2016-09-02 20:32+0000\n"
-"PO-Revision-Date: 2016-09-03 21:36+0500\n"
+"POT-Creation-Date: 2016-09-03 16:37+0000\n"
+"PO-Revision-Date: 2016-09-10 21:18+0500\n"
 "Last-Translator: Baurzhan Muftakhidinov <baurthefirst@gmail.com>\n"
 "Language-Team: Kazakh <kk_KZ@googlegroups.com>\n"
 "Language: kk\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 1.8.8\n"
+"X-Generator: Poedit 1.8.9\n"
 
 #: ../addressbook/addressbook.error.xml.h:1
 msgid "This address book could not be opened."
@@ -127,7 +127,7 @@ msgstr "_Елемеу"
 
 #: ../addressbook/addressbook.error.xml.h:24
 msgid "Cannot move contact."
-msgstr ""
+msgstr "Контактты жылжыту мүмкін емес."
 
 #: ../addressbook/addressbook.error.xml.h:25
 msgid ""
@@ -150,7 +150,7 @@ msgstr ""
 
 #: ../addressbook/addressbook.error.xml.h:29
 msgid "_Do not save"
-msgstr ""
+msgstr "_Сақтамау"
 
 #: ../addressbook/addressbook.error.xml.h:30
 msgid "Unable to save {0}."
@@ -1981,11 +1981,11 @@ msgstr ""
 
 #: ../calendar/alarm-notify/alarm-queue.c:2076
 msgid "Do not ask me about this program again."
-msgstr ""
+msgstr "Мені бұл бағдарлама жөнінде келесіде сұрамау."
 
 #: ../calendar/alarm-notify/util.c:67
 msgid "invalid time"
-msgstr ""
+msgstr "жарамсыз уақыт"
 
 #. Translator: Entire string is like "Pop up an alert %d days before start"
 #: ../calendar/alarm-notify/util.c:93 ../calendar/gui/e-alarm-list.c:370
@@ -13212,7 +13212,7 @@ msgstr ""
 
 #: ../e-util/e-source-config.c:1475
 msgid "User"
-msgstr ""
+msgstr "Пайдаланушы"
 
 #: ../e-util/e-source-selector.c:3214
 msgid "Show"
@@ -13220,7 +13220,7 @@ msgstr "Көрсету"
 
 #: ../e-util/e-source-selector.c:3221
 msgid "Group name"
-msgstr ""
+msgstr "Топ аты"
 
 #: ../e-util/e-source-selector.c:3376 ../mail/e-mail-display.c:742
 msgid "_Hide"
@@ -14311,15 +14311,15 @@ msgstr "Іске қосулы"
 
 #: ../mail/e-mail-account-tree-view.c:107
 msgid "Account Name"
-msgstr ""
+msgstr "Тіркелгі аты"
 
 #: ../mail/e-mail-autoconfig.c:619
 msgid "No email address provided"
-msgstr ""
+msgstr "Эл. пошта адресі көрсетілмеген"
 
 #: ../mail/e-mail-autoconfig.c:628
 msgid "Missing domain in email address"
-msgstr ""
+msgstr "Эл. пошта адресінде домен жетіспейді"
 
 #: ../mail/e-mail-browser.c:131 ../shell/e-shell-window-actions.c:773
 #: ../shell/e-shell-window-actions.c:780 ../shell/e-shell-window-actions.c:787
@@ -14328,7 +14328,7 @@ msgstr "Бұл терезені жабу"
 
 #: ../mail/e-mail-browser.c:289
 msgid "(No Subject)"
-msgstr ""
+msgstr "(Тақырыбы жоқ)"
 
 #. GtkAssistant's back button label.
 #: ../mail/e-mail-config-assistant.c:46
@@ -14346,15 +14346,15 @@ msgstr ""
 
 #: ../mail/e-mail-config-assistant.c:954
 msgid "_Revise Details"
-msgstr ""
+msgstr "Ақпаратты ба_птау"
 
 #: ../mail/e-mail-config-auth-check.c:177
 msgid "Querying authentication types..."
-msgstr ""
+msgstr "Аутентификация түрлерін сұрау..."
 
 #: ../mail/e-mail-config-auth-check.c:340
 msgid "Check for Supported Types"
-msgstr ""
+msgstr "Қолдауы бар тәсілдерді тексеру"
 
 #: ../mail/e-mail-config-confirm-page.c:155
 msgid ""
@@ -14364,6 +14364,11 @@ msgid ""
 "\n"
 "Click \"Apply\" to save your settings."
 msgstr ""
+"Құттықтаймыз, сіздің пошта баптауларыңыз дайын.\n"
+"\n"
+"Сіз енді Evolution көмегімен поштаны жіберіп, қабылдай аласыз.\n"
+"\n"
+"Баптауларды сақтау үшін \"Іске асыру\" батырмасын басыңыз."
 
 #: ../mail/e-mail-config-confirm-page.c:167
 msgid "Done"
@@ -14371,7 +14376,7 @@ msgstr "Болды"
 
 #: ../mail/e-mail-config-defaults-page.c:377
 msgid "Checking server settings..."
-msgstr ""
+msgstr "Сервер баптауларын тексеру..."
 
 #: ../mail/e-mail-config-defaults-page.c:495
 msgctxt "ReplyForward"
@@ -14400,7 +14405,7 @@ msgstr ""
 
 #: ../mail/e-mail-config-defaults-page.c:829
 msgid "Special Folders"
-msgstr ""
+msgstr "Арнайы бумалар"
 
 #: ../mail/e-mail-config-defaults-page.c:838
 msgid "Draft Messages _Folder:"
@@ -14432,7 +14437,6 @@ msgid "Choose a folder to archive messages to."
 msgstr ""
 
 #: ../mail/e-mail-config-defaults-page.c:932
-#| msgid "Create Folder"
 msgid "_Templates Folder:"
 msgstr "Үл_гілер бумасы:"
 
@@ -14498,7 +14502,7 @@ msgstr "Әрқашан"
 
 #: ../mail/e-mail-config-defaults-page.c:1174
 msgid "Ask for each message"
-msgstr ""
+msgstr "Әр хабарлама үшін сұрау"
 
 #: ../mail/e-mail-config-defaults-page.c:1281
 msgid "Defaults"
@@ -14510,6 +14514,9 @@ msgid ""
 "below do not need to be filled in, unless you wish to include this "
 "information in email you send."
 msgstr ""
+"Төменде толық аты-жөніңізді және эл. пошта адресіңізді енгізіңіз. Одан "
+"төменде орналасқан қосымша өрістерді толтыру міндетті емес, тек ол ақпарат "
+"жіберілетін хаттарда болуды таңдасаңыз, толтырыңыз."
 
 #: ../mail/e-mail-config-identity-page.c:332
 #: ../mail/e-mail-config-summary-page.c:323
@@ -14522,31 +14529,33 @@ msgid ""
 "The above name will be used to identify this account.\n"
 "Use for example, \"Work\" or \"Personal\"."
 msgstr ""
+"Жоғарыдағы атау бұл тіркелгіні сипаттайды.\n"
+"Мысалы, \"Жұмыс\" немесе \"Жеке\"."
 
 #: ../mail/e-mail-config-identity-page.c:387
 msgid "Required Information"
-msgstr ""
+msgstr "Міндетті толтыру керек ақпарат"
 
 #: ../mail/e-mail-config-identity-page.c:396
 msgid "Full Nam_e:"
-msgstr ""
+msgstr "Толық ат_ы-жөніңіз:"
 
 #: ../mail/e-mail-config-identity-page.c:425
 msgid "Email _Address:"
-msgstr ""
+msgstr "Эл. пошта _адресі:"
 
 #: ../mail/e-mail-config-identity-page.c:474
 #: ../plugins/publish-calendar/publish-calendar.ui.h:26
 msgid "Optional Information"
-msgstr ""
+msgstr "Қосымша ақпарат"
 
 #: ../mail/e-mail-config-identity-page.c:483
 msgid "Re_ply-To:"
-msgstr ""
+msgstr "Кімге жауап _беру (Reply-To):"
 
 #: ../mail/e-mail-config-identity-page.c:512
 msgid "Or_ganization:"
-msgstr ""
+msgstr "Ұ_йым:"
 
 #: ../mail/e-mail-config-identity-page.c:567
 msgid "Add Ne_w Signature..."
@@ -14554,38 +14563,38 @@ msgstr ""
 
 #: ../mail/e-mail-config-identity-page.c:585
 msgid "_Look up mail server details based on the entered e-mail address"
-msgstr ""
+msgstr "Пошта сервері ақпаратын енгізілген эл. пошта адресі негізінде і_здеу"
 
 #. This is only a warning, not a blocker
 #. complete = complete && correct;
 #: ../mail/e-mail-config-identity-page.c:630
 msgid "Full Name should not be empty"
-msgstr ""
+msgstr "Толық аты-жөні өрісі бос болмауы тиіс"
 
 #: ../mail/e-mail-config-identity-page.c:637
 msgid "Email Address cannot be empty"
-msgstr ""
+msgstr "Эл. пошта өрісі бос болмауы тиіс"
 
 #: ../mail/e-mail-config-identity-page.c:642
 msgid "Email Address is not a valid email"
-msgstr ""
+msgstr "Эл. пошта өрісі жарамды эл. пошта адресі емес"
 
 #: ../mail/e-mail-config-identity-page.c:654
 msgid "Reply To is not a valid email"
-msgstr ""
+msgstr "Кімге жауап беру өрісі жарамды эл. пошта адресі емес"
 
 #: ../mail/e-mail-config-identity-page.c:665
 #: ../mail/e-mail-config-summary-page.c:632
 msgid "Account Name cannot be empty"
-msgstr ""
+msgstr "Тіркелгі аты бос болмауы тиіс"
 
 #: ../mail/e-mail-config-lookup-page.c:70
 msgid "Looking up account details..."
-msgstr ""
+msgstr "Тіркелгі ақпаратын іздеу..."
 
 #: ../mail/e-mail-config-provider-page.c:484
 msgid "Checking for New Mail"
-msgstr ""
+msgstr "Жаңа хаттарға тексеру"
 
 #: ../mail/e-mail-config-provider-page.c:500
 msgid "Check for _new messages every"
@@ -14646,12 +14655,12 @@ msgstr "SHA256"
 #: ../mail/e-mail-config-security-page.c:435
 #: ../mail/e-mail-config-security-page.c:599 ../mail/mail-config.ui.h:76
 msgid "SHA384"
-msgstr ""
+msgstr "SHA384"
 
 #: ../mail/e-mail-config-security-page.c:438
 #: ../mail/e-mail-config-security-page.c:602 ../mail/mail-config.ui.h:77
 msgid "SHA512"
-msgstr ""
+msgstr "SHA512"
 
 #: ../mail/e-mail-config-security-page.c:454
 msgid "Al_ways sign outgoing messages when using this account"
@@ -14714,11 +14723,11 @@ msgstr ""
 
 #: ../mail/e-mail-config-sending-page.c:49
 msgid "Sending Email"
-msgstr ""
+msgstr "Эл. поштаны жіберу"
 
 #: ../mail/e-mail-config-service-page.c:638
 msgid "Server _Type:"
-msgstr ""
+msgstr "Сервер _түрі:"
 
 #: ../mail/e-mail-config-summary-page.c:142
 msgid "TLS"
@@ -14726,12 +14735,12 @@ msgstr "TLS"
 
 #: ../mail/e-mail-config-summary-page.c:145
 msgid "STARTTLS"
-msgstr ""
+msgstr "STARTTLS"
 
 #: ../mail/e-mail-config-summary-page.c:306
 msgid ""
 "This is a summary of the settings which will be used to access your mail."
-msgstr ""
+msgstr "Бұл - поштаңызға қатынауға қолданылатын баптаулар."
 
 #: ../mail/e-mail-config-summary-page.c:370
 msgid "Personal Details"
@@ -14739,15 +14748,15 @@ msgstr "Жеке ақпарат"
 
 #: ../mail/e-mail-config-summary-page.c:379
 msgid "Full Name:"
-msgstr ""
+msgstr "Толық аты-жөніңіз:"
 
 #: ../mail/e-mail-config-summary-page.c:393
 msgid "Email Address:"
-msgstr ""
+msgstr "Эл. пошта адресі:"
 
 #: ../mail/e-mail-config-summary-page.c:407
 msgid "Receiving"
-msgstr ""
+msgstr "Қабылдау"
 
 #: ../mail/e-mail-config-summary-page.c:419
 msgid "Sending"
@@ -14755,7 +14764,7 @@ msgstr "Жіберу"
 
 #: ../mail/e-mail-config-summary-page.c:431
 msgid "Server Type:"
-msgstr ""
+msgstr "Сервер түрі:"
 
 #: ../mail/e-mail-config-summary-page.c:452
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:605
@@ -14773,7 +14782,7 @@ msgstr "Қауіпсіздік:"
 
 #: ../mail/e-mail-config-summary-page.c:787
 msgid "Account Summary"
-msgstr ""
+msgstr "Тіркелгі ақпараты"
 
 #: ../mail/e-mail-config-welcome-page.c:156
 msgid ""
@@ -16991,15 +17000,15 @@ msgstr ""
 #: ../modules/mail-config/e-mail-config-remote-accounts.c:301
 #: ../modules/mail-config/e-mail-config-smtp-backend.c:244
 msgid "No encryption"
-msgstr ""
+msgstr "Шифрлеусіз"
 
 #: ../mail/mail-config.ui.h:132
 msgid "TLS encryption"
-msgstr ""
+msgstr "TLS шифрлеуі"
 
 #: ../mail/mail-config.ui.h:133
 msgid "SSL encryption"
-msgstr ""
+msgstr "SSL шифрлеуі"
 
 #: ../mail/mail-dialogs.ui.h:1
 msgid ""
@@ -18431,186 +18440,200 @@ msgid ""
 "\n"
 "This will restore all your personal data, settings mail filters, etc."
 msgstr ""
+"Evolution қолданбасына қор көшірме файлын қалпына келтіре аласыз.\n"
+"\n"
+"Бұл әрекет сіздің жеке деректеріңіз, баптаулар, эл. пошта сүзгілерін, т.б. "
+"қалпына келтіреді."
 
 #: ../modules/backup-restore/e-mail-config-restore-page.c:178
 msgid "_Restore from a backup file:"
-msgstr ""
+msgstr "Қор көшірме файлынан қал_пына келтіру:"
 
 #: ../modules/backup-restore/e-mail-config-restore-page.c:189
 msgid "Choose a backup file to restore"
-msgstr ""
+msgstr "Қалпына келтіру үшін қор көшірме файлын таңдаңыз"
 
 #. Keep the title identical to EMailConfigRestorePage
 #. * so it's only shown once in the assistant sidebar.
 #: ../modules/backup-restore/e-mail-config-restore-page.c:309
 #: ../modules/backup-restore/e-mail-config-restore-ready-page.c:56
 msgid "Restore from Backup"
-msgstr ""
+msgstr "Қор көшірмеден қалпына келтіру"
 
 #: ../modules/backup-restore/evolution-backup-restore.c:217
 msgid "Select name of the Evolution backup file"
-msgstr ""
+msgstr "Evolution қор көшірмесі файлының атын таңдаңыз"
 
 #: ../modules/backup-restore/evolution-backup-restore.c:250
 msgid "_Restart Evolution after backup"
-msgstr ""
+msgstr "Қор көшірмені жасағаннан кейін Evolution қолданбасын қа_йта іске қосу"
 
 #: ../modules/backup-restore/evolution-backup-restore.c:285
 msgid "Re_start Evolution after restore"
-msgstr ""
+msgstr "Қалпына келтіргеннен кейін Evolution қолданбасын қай_та іске қосу"
 
 #: ../modules/backup-restore/evolution-backup-restore.c:327
 msgid "Select name of the Evolution backup file to restore"
-msgstr ""
+msgstr "Қалпына келтіру үшін Evolution қор көшірме файлының атын таңдаңыз"
 
 #: ../modules/backup-restore/evolution-backup-restore.c:336
 #, c-format
 msgid "Checking content of backup file '%s', please wait..."
-msgstr ""
+msgstr "'%s' қор көшірме файлының құрамасы тексерілуде, күте тұрыңыз..."
 
 #: ../modules/backup-restore/evolution-backup-restore.c:357
 msgid "_Back up Evolution Data..."
-msgstr ""
+msgstr "Evolution деректерінің қор кө_шірмесін жасау..."
 
 #: ../modules/backup-restore/evolution-backup-restore.c:359
 msgid "Back up Evolution data and settings to an archive file"
-msgstr ""
+msgstr "Evolution деректерін және баптауларын қор көшірме файлына сақтау"
 
 #: ../modules/backup-restore/evolution-backup-restore.c:364
 msgid "R_estore Evolution Data..."
-msgstr ""
+msgstr "Evolution деректерін қал_пына келтіру..."
 
 #: ../modules/backup-restore/evolution-backup-restore.c:366
 msgid "Restore Evolution data and settings from an archive file"
 msgstr ""
+"Evolution деректерін және баптауларын қор көшірме файлынан қалпына келтіру"
 
 #: ../modules/backup-restore/evolution-backup-tool.c:75
 msgid "Back up Evolution directory"
-msgstr ""
+msgstr "Evolution бумасының қор көшірмесін жасау"
 
 #: ../modules/backup-restore/evolution-backup-tool.c:77
 msgid "Restore Evolution directory"
-msgstr ""
+msgstr "Evolution бумасын қалпына келтіру"
 
 #: ../modules/backup-restore/evolution-backup-tool.c:79
 msgid "Check Evolution Back up"
-msgstr ""
+msgstr "Evolution қор көшірмесін тексеру"
 
 #: ../modules/backup-restore/evolution-backup-tool.c:81
 msgid "Restart Evolution"
-msgstr ""
+msgstr "Evolution қолданбасын қайта іске қосу"
 
 #: ../modules/backup-restore/evolution-backup-tool.c:83
 msgid "With Graphical User Interface"
-msgstr ""
+msgstr "Графикалық пайдаланушы интерфейсімен"
 
 #. FIXME Will the versioned setting always work?
 #: ../modules/backup-restore/evolution-backup-tool.c:281
 #: ../modules/backup-restore/evolution-backup-tool.c:485
 msgid "Shutting down Evolution"
-msgstr ""
+msgstr "Evolution сөндіру"
 
 #: ../modules/backup-restore/evolution-backup-tool.c:290
 msgid "Backing Evolution accounts and settings"
-msgstr ""
+msgstr "Evolution тіркелгілері және баптауларын қор көшірмеге салу"
 
 #: ../modules/backup-restore/evolution-backup-tool.c:307
 msgid "Backing Evolution data (Mails, Contacts, Calendar, Tasks, Memos)"
 msgstr ""
+"Evolution деректерін қор көшірмеге сақтау (пошта, контакттар, күнтізбе, "
+"тапсырмалар, естеліктер)"
 
 #: ../modules/backup-restore/evolution-backup-tool.c:323
 msgid "Back up complete"
-msgstr ""
+msgstr "Қор көшірмені жасау аяқталды"
 
 #: ../modules/backup-restore/evolution-backup-tool.c:330
 #: ../modules/backup-restore/evolution-backup-tool.c:679
 msgid "Restarting Evolution"
-msgstr ""
+msgstr "Evolution қайта іске қосылуда"
 
 #: ../modules/backup-restore/evolution-backup-tool.c:491
 msgid "Back up current Evolution data"
-msgstr ""
+msgstr "Evolution ағымдағы деректерінің қор көшірмесін жасау"
 
 #: ../modules/backup-restore/evolution-backup-tool.c:498
 msgid "Extracting files from back up"
-msgstr ""
+msgstr "Файлдарды қор көшірмеден тарқату"
 
 #: ../modules/backup-restore/evolution-backup-tool.c:580
 msgid "Loading Evolution settings"
-msgstr ""
+msgstr "Evolution баптауларын жүктеу"
 
 #: ../modules/backup-restore/evolution-backup-tool.c:650
 msgid "Removing temporary back up files"
-msgstr ""
+msgstr "Уақытша қор көшірме файлдарын өшіру"
 
 #: ../modules/backup-restore/evolution-backup-tool.c:664
 msgid "Reloading registry service"
-msgstr ""
+msgstr "Реестр қызметін қайта жүктеу"
 
 #: ../modules/backup-restore/evolution-backup-tool.c:866
 msgid "Evolution Back Up"
-msgstr ""
+msgstr "Evolution қор көшірмесін жасау"
 
 #: ../modules/backup-restore/evolution-backup-tool.c:867
 #, c-format
 msgid "Backing up to the folder %s"
-msgstr ""
+msgstr "%s бумасының қор көшірмесін жасау"
 
 #: ../modules/backup-restore/evolution-backup-tool.c:871
 msgid "Evolution Restore"
-msgstr ""
+msgstr "Evolution қалпына келтіру"
 
 #: ../modules/backup-restore/evolution-backup-tool.c:872
 #, c-format
 msgid "Restoring from the folder %s"
-msgstr ""
+msgstr "%s бумасынан қалпына келтіру"
 
 #: ../modules/backup-restore/evolution-backup-tool.c:941
 msgid "Backing up Evolution Data"
-msgstr ""
+msgstr "Evolution деректерін қор көшірмеге сақтау"
 
 #: ../modules/backup-restore/evolution-backup-tool.c:942
 msgid "Please wait while Evolution is backing up your data."
-msgstr ""
+msgstr "Evolution деректеріңіздің қор көшірмесін жасап болғанша күте тұрыңыз."
 
 #: ../modules/backup-restore/evolution-backup-tool.c:944
 msgid "Restoring Evolution Data"
-msgstr ""
+msgstr "Evolution деректерін қалпына келтіру"
 
 #: ../modules/backup-restore/evolution-backup-tool.c:945
 msgid "Please wait while Evolution is restoring your data."
 msgstr ""
+"Evolution деректеріңізді қор көшірмеден қалпына келтіріп болғанша күте "
+"тұрыңыз."
 
 #: ../modules/backup-restore/evolution-backup-tool.c:967
 msgid "This may take a while depending on the amount of data in your account."
 msgstr ""
+"Бұл әрекет тіркелгіңіздегі деректер санына байланысты ұзақ уақыт алуы мүмкін."
 
 #: ../modules/backup-restore/org-gnome-backup-restore.error.xml.h:1
 msgid "Invalid Evolution backup file"
-msgstr ""
+msgstr "Жарамсыз Evolution қор көшірме файлы"
 
 #: ../modules/backup-restore/org-gnome-backup-restore.error.xml.h:2
 msgid "File '{0}' is not a valid Evolution backup file."
-msgstr ""
+msgstr "'{0}' файлы жарамды Evolution қор көшірме файлы емес."
 
 #: ../modules/backup-restore/org-gnome-backup-restore.error.xml.h:3
 msgid "Are you sure you want to close Evolution?"
-msgstr ""
+msgstr "Evolution жабуды шынымен қалайсыз ба?"
 
 #: ../modules/backup-restore/org-gnome-backup-restore.error.xml.h:4
 msgid ""
 "To back up your data and settings, you must first close Evolution. Please "
 "make sure that you save any unsaved data before proceeding."
 msgstr ""
+"Деректер және баптаулардың қор көшірмесін жасау үшін, Evolution жабуыңыз "
+"керек. Жалғастыру алдында барлық сақталмаған деректерді сақтаңыз."
 
 #: ../modules/backup-restore/org-gnome-backup-restore.error.xml.h:5
 msgid "Close and _Back up Evolution"
-msgstr ""
+msgstr "Evolution жабу және қор кө_шірмесін жасау"
 
 #: ../modules/backup-restore/org-gnome-backup-restore.error.xml.h:6
 msgid ""
 "Are you sure you want to restore Evolution from the selected backup file?"
 msgstr ""
+"Evolution қолданбасын таңдалған қор көшірме файлынан қалпына келтіруді "
+"шынымен қалайсыз ба?"
 
 #: ../modules/backup-restore/org-gnome-backup-restore.error.xml.h:7
 msgid ""
@@ -18619,18 +18642,22 @@ msgid ""
 "all your current Evolution data and settings and restore them from your "
 "backup."
 msgstr ""
+"Деректер және баптауларды қалпына келтіру алдында Evolution жабу керек. "
+"Жалғастыру алдында барлық сақталмаған деректерді сақтаңыз. Бұл әрекет барлық "
+"ағымдағы Evolution деректер және баптауларын өшіріп, оларды қор көшірме "
+"файлынан қалпына келтіреді."
 
 #: ../modules/backup-restore/org-gnome-backup-restore.error.xml.h:8
 msgid "Close and _Restore Evolution"
-msgstr ""
+msgstr "Evolution жабу және қал_пына келтіру"
 
 #: ../modules/backup-restore/org-gnome-backup-restore.error.xml.h:9
 msgid "Insufficient Permissions"
-msgstr ""
+msgstr "Рұқсаттар жеткіліксіз"
 
 #: ../modules/backup-restore/org-gnome-backup-restore.error.xml.h:10
 msgid "The selected folder is not writable."
-msgstr ""
+msgstr "Таңдалған бумаға жазу құқығы жоқ."
 
 #: ../modules/bogofilter/evolution-bogofilter.c:160
 #, c-format
@@ -18673,7 +18700,7 @@ msgstr ""
 
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:442
 msgid "Standard LDAP Port"
-msgstr ""
+msgstr "Қалыпты LDAP порты"
 
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:448
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:631
@@ -18735,7 +18762,7 @@ msgstr ""
 
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:691
 msgid "Method:"
-msgstr ""
+msgstr "Тәсіл:"
 
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:696
 msgid ""
@@ -18747,7 +18774,7 @@ msgstr ""
 #. Page 2
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:711
 msgid "Using LDAP"
-msgstr ""
+msgstr "LDAP қолданылуда"
 
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:728
 #: ../modules/mail/e-mail-shell-view.c:120
@@ -18764,7 +18791,7 @@ msgstr ""
 
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:776
 msgid "One Level"
-msgstr ""
+msgstr "Бір деңгей"
 
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:778
 msgid "Subtree"
@@ -20869,7 +20896,7 @@ msgstr "Парольді ұм_ыту"
 #: ../modules/mail-config/e-mail-config-remote-accounts.c:290
 #: ../modules/mail-config/e-mail-config-smtp-backend.c:233
 msgid "Encryption _method:"
-msgstr ""
+msgstr "Шифрлеу _тәсілі:"
 
 #: ../modules/mail-config/e-mail-config-remote-accounts.c:305
 #: ../modules/mail-config/e-mail-config-smtp-backend.c:248
@@ -20879,7 +20906,7 @@ msgstr "Байланысудан кейінгі STARTTLS"
 #: ../modules/mail-config/e-mail-config-remote-accounts.c:309
 #: ../modules/mail-config/e-mail-config-smtp-backend.c:252
 msgid "TLS on a dedicated port"
-msgstr ""
+msgstr "Бөлек порттағы TLS"
 
 #: ../modules/mail-config/e-mail-config-sendmail-backend.c:77
 msgid "_Use custom binary, instead of 'sendmail'"
@@ -20915,15 +20942,15 @@ msgstr ""
 #. do not reference
 #: ../modules/mail-config/e-mail-config-smtp-backend.c:205
 msgid "Ser_ver requires authentication"
-msgstr ""
+msgstr "Сер_вер аутентификацияны талап етеді"
 
 #: ../modules/mail-config/e-mail-config-smtp-backend.c:294
 msgid "T_ype:"
-msgstr ""
+msgstr "Тү_рі:"
 
 #: ../modules/mail-config/e-mail-config-yahoo-summary.c:251
 msgid "Yahoo! Features"
-msgstr ""
+msgstr "Yahoo! мүмкіндіктері"
 
 #: ../modules/mail-config/e-mail-config-yahoo-summary.c:260
 msgid "Add Yahoo! Ca_lendar and Tasks to this account"
@@ -21702,11 +21729,11 @@ msgstr ""
 #: ../modules/startup-wizard/e-mail-config-import-page.c:270
 #: ../modules/startup-wizard/e-mail-config-import-progress-page.c:339
 msgid "Importing Files"
-msgstr ""
+msgstr "Файлдарды импорттау"
 
 #: ../modules/startup-wizard/e-mail-config-import-progress-page.c:258
 msgid "Import cancelled."
-msgstr ""
+msgstr "Импорттаудан бас тартылды."
 
 #: ../modules/startup-wizard/e-mail-config-import-progress-page.c:275
 msgid "Import complete."
@@ -21719,22 +21746,26 @@ msgid ""
 "The next few screens will allow Evolution to connect to your email accounts, "
 "and to import files from other applications."
 msgstr ""
+"Evolution қолданбасына қош келдіңіз.\n"
+"\n"
+"Келесі қадамдарда Evolution қолданбасын эл. пошта тіркелгілеріңізге "
+"байланыстыру және басқа қолданбалардан файлдарды импорттай аласыз."
 
 #: ../modules/startup-wizard/evolution-startup-wizard.c:228
 msgid "Loading accounts..."
-msgstr ""
+msgstr "Тіркелгілерді жүктеу..."
 
 #: ../modules/text-highlight/e-mail-display-popup-text-highlight.c:95
 msgid "_Format as..."
-msgstr ""
+msgstr "Қалай_ша пішімдеу..."
 
 #: ../modules/text-highlight/e-mail-display-popup-text-highlight.c:103
 msgid "_Other languages"
-msgstr ""
+msgstr "Б_асқа тілдер"
 
 #: ../modules/text-highlight/e-mail-formatter-text-highlight.c:438
 msgid "Text Highlight"
-msgstr ""
+msgstr "Мәтінді түспен ерекшелеу"
 
 #: ../modules/text-highlight/e-mail-formatter-text-highlight.c:439
 msgid "Syntax highlighting of mail parts"
