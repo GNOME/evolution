@@ -21,8 +21,8 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2016-08-26 21:02+0000\n"
-"PO-Revision-Date: 2016-08-29 14:29+0200\n"
+"POT-Creation-Date: 2016-09-08 09:14+0000\n"
+"PO-Revision-Date: 2016-09-08 12:20+0200\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -560,7 +560,7 @@ msgstr "_Läs in X.509"
 #: ../addressbook/gui/widgets/eab-contact-merging.c:721
 #: ../calendar/calendar.error.xml.h:47 ../calendar/gui/e-comp-editor.c:2107
 #: ../composer/e-composer-actions.c:230 ../composer/e-composer-actions.c:347
-#: ../e-util/e-attachment-store.c:809
+#: ../e-util/e-attachment-store.c:831
 #: ../e-util/e-mail-signature-script-dialog.c:369 ../e-util/e-web-view.c:3863
 #: ../e-util/gal-view-instance-save-as-dialog.c:270
 #: ../shell/e-shell-content.c:660 ../shell/e-shell-utils.c:137
@@ -605,8 +605,8 @@ msgstr "Alternativ"
 #: ../calendar/gui/e-cal-dialogs.c:689
 #: ../calendar/gui/e-comp-editor-page-recurrence.c:303
 #: ../composer/e-composer-actions.c:229 ../e-util/e-activity-bar.c:359
-#: ../e-util/e-attachment-dialog.c:311 ../e-util/e-attachment-store.c:664
-#: ../e-util/e-attachment-store.c:808 ../e-util/e-attachment-view.c:303
+#: ../e-util/e-attachment-dialog.c:311 ../e-util/e-attachment-store.c:666
+#: ../e-util/e-attachment-store.c:830 ../e-util/e-attachment-view.c:303
 #: ../e-util/e-categories-dialog.c:82 ../e-util/e-category-editor.c:138
 #: ../e-util/e-category-editor.c:208 ../e-util/e-charset-combo-box.c:101
 #: ../e-util/e-color-chooser-widget.c:127 ../e-util/e-filter-datespec.c:291
@@ -748,7 +748,7 @@ msgstr "Öppna X.509-certifikat"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:3274
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:4322
-#: ../e-util/e-attachment-store.c:662 ../e-util/e-category-editor.c:146
+#: ../e-util/e-attachment-store.c:664 ../e-util/e-category-editor.c:146
 #: ../e-util/e-html-editor-actions.c:324 ../e-util/e-html-editor-actions.c:415
 #: ../e-util/e-image-chooser-dialog.c:174 ../plugins/face/face.c:298
 #: ../shell/e-shell-utils.c:73 ../smime/gui/certificate-manager.c:969
@@ -3488,7 +3488,7 @@ msgstr "Källkod"
 #: ../calendar/gui/e-meeting-store.c:232 ../calendar/gui/print.c:1249
 #: ../calendar/gui/print.c:1266 ../e-util/e-charset.c:51
 #: ../modules/itip-formatter/itip-view.c:3318
-#: ../modules/itip-formatter/itip-view.c:5892
+#: ../modules/itip-formatter/itip-view.c:5915
 #: ../modules/plugin-manager/evolution-plugin-manager.c:99
 msgid "Unknown"
 msgstr "Okänd"
@@ -3538,13 +3538,13 @@ msgstr "Nej"
 
 #: ../calendar/gui/e-cal-model.c:3820 ../calendar/gui/e-meeting-list-view.c:221
 #: ../calendar/gui/e-meeting-store.c:196 ../calendar/gui/e-meeting-store.c:219
-#: ../modules/itip-formatter/itip-view.c:5880
+#: ../modules/itip-formatter/itip-view.c:5903
 msgid "Accepted"
 msgstr "Accepterat"
 
 #: ../calendar/gui/e-cal-model.c:3821 ../calendar/gui/e-meeting-list-view.c:222
 #: ../calendar/gui/e-meeting-store.c:198 ../calendar/gui/e-meeting-store.c:221
-#: ../modules/itip-formatter/itip-view.c:5886
+#: ../modules/itip-formatter/itip-view.c:5909
 msgid "Declined"
 msgstr "Avslaget"
 
@@ -3556,7 +3556,7 @@ msgstr "Preliminärt"
 
 #: ../calendar/gui/e-cal-model.c:3823 ../calendar/gui/e-meeting-list-view.c:224
 #: ../calendar/gui/e-meeting-store.c:202 ../calendar/gui/e-meeting-store.c:225
-#: ../modules/itip-formatter/itip-view.c:5889
+#: ../modules/itip-formatter/itip-view.c:5912
 msgid "Delegated"
 msgstr "Delegerat"
 
@@ -3819,7 +3819,7 @@ msgstr "Starttid är inte en giltig tid"
 #: ../calendar/gui/e-comp-editor-event.c:444
 #: ../calendar/gui/e-comp-editor-event.c:460
 #: ../calendar/gui/e-comp-editor-page-attachments.c:201
-#: ../calendar/gui/e-comp-editor.c:340 ../mail/e-mail-display.c:2017
+#: ../calendar/gui/e-comp-editor.c:340 ../mail/e-mail-display.c:2021
 #: ../mail/e-mail-reader-utils.c:648 ../mail/mail-send-recv.c:489
 #: ../mail/mail-send-recv.c:1289 ../plugins/face/face.c:176
 #: ../shell/e-shell.c:992 ../shell/e-shell.c:1014
@@ -3999,13 +3999,13 @@ msgstr[0] "Bilaga"
 msgstr[1] "Bilagor"
 
 #: ../calendar/gui/e-comp-editor-page-attachments.c:196
-#: ../e-util/e-attachment.c:2401
+#: ../e-util/e-attachment.c:2424
 #, c-format
 msgid "Could not load '%s'"
 msgstr "Kunde inte läsa in ”%s”"
 
 #: ../calendar/gui/e-comp-editor-page-attachments.c:198
-#: ../e-util/e-attachment.c:2404
+#: ../e-util/e-attachment.c:2427
 #, c-format
 msgid "Could not load the attachment"
 msgstr "Kunde inte läsa in bilagan"
@@ -10719,40 +10719,62 @@ msgstr "Initial mapp för filväljare"
 msgid "Initial folder for GtkFileChooser dialogs."
 msgstr "Initial mapp för GtkFileChooser-dialoger."
 
-#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:7 ../shell/main.c:320
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:7
+msgid "Compression format used by autoar"
+msgstr "Komprimeringsformat som används av autoar"
+
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:8
+msgid ""
+"Compression format used when compressing attached directories with autoar."
+msgstr ""
+"Komprimeringsformat som används när bifogade kataloger komprimeras med "
+"autoar."
+
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:9
+msgid "Compression filter used by autoar"
+msgstr "Komprimeringsfilter som används av autoar"
+
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:10
+msgid ""
+"Compression filter used when compressing attached directories with autoar."
+msgstr ""
+"Komprimeringsfilter som används när bifogade kataloger komprimeras med "
+"autoar."
+
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:11 ../shell/main.c:320
 msgid "Start in offline mode"
 msgstr "Starta i frånkopplat läge"
 
-#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:8
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:12
 msgid "Whether Evolution will start up in offline mode instead of online mode."
 msgstr ""
 "Huruvida Evolution kommer att starta i frånkopplat läge istället för "
 "anslutet läge."
 
-#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:9
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:13
 msgid "Offline folder paths"
 msgstr "Sökvägar för frånkopplade mappar"
 
-#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:10
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:14
 msgid ""
 "List of paths for the folders to be synchronized to disk for offline usage."
 msgstr ""
 "Lista med sökvägar till de mappar som ska synkroniseras till disk för "
 "frånkopplad användning."
 
-#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:11
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:15
 msgid "Enable express mode"
 msgstr "Aktivera expressläge"
 
-#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:12
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:16
 msgid "Flag that enables a much simplified user interface."
 msgstr "Flagga som aktiverar ett mycket enklare användargränssnitt."
 
-#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:13
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:17
 msgid "List of button names to hide in the window switcher"
 msgstr "Lista över knappnamn som ska gömmas i fönsterväxlaren"
 
-#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:14
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:18
 msgid ""
 "Valid values are 'mail', 'addressbook', 'calendar', 'tasks' and 'memos'. "
 "Change of this requires restart of the application."
@@ -10760,19 +10782,19 @@ msgstr ""
 "Giltiga värden är 'mail', 'addressbook', 'calendar', 'tasks' och 'memos'. "
 "Att ändra detta kräver en omstart av programmet."
 
-#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:15
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:19
 msgid "Window buttons are visible"
 msgstr "Fönsterknapparna är synliga"
 
-#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:16
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:20
 msgid "Whether the window buttons should be visible."
 msgstr "Huruvida fönsterknapparna ska vara synliga."
 
-#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:17
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:21
 msgid "Window button style"
 msgstr "Stil på fönsterknappar"
 
-#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:18
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:22
 msgid ""
 "The style of the window buttons. Can be \"text\", \"icons\", \"both\", "
 "\"toolbar\". If \"toolbar\" is set, the style of the buttons is determined "
@@ -10782,40 +10804,40 @@ msgstr ""
 "\" (både och), \"toolbar\" (verktygsfält). Om \"toolbar\" är angivet kommer "
 "stilen på knapparna att avgöras utifrån verktygsfältsinställningen i GNOME."
 
-#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:19
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:23
 msgid "Toolbar is visible"
 msgstr "Verktygsfältet är synligt"
 
-#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:20
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:24
 msgid "Whether the toolbar should be visible."
 msgstr "Huruvida verktygsfältet ska vara synligt."
 
-#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:21
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:25
 msgid "Sidebar is visible"
 msgstr "Sidopanelen är synlig"
 
-#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:22
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:26
 msgid "Whether the sidebar should be visible."
 msgstr "Huruvida sidopanelen ska vara synlig."
 
-#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:23
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:27
 msgid "Statusbar is visible"
 msgstr "Statusraden är synlig"
 
-#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:24
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:28
 msgid "Whether the status bar should be visible."
 msgstr "Huruvida statusraden ska vara synlig."
 
-#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:25
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:29
 msgid "ID or alias of the component to be shown by default at start-up."
 msgstr ""
 "Id eller alias för den komponent som ska visas som standard vid uppstart."
 
-#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:26
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:30
 msgid "Default sidebar width"
 msgstr "Standardbredd på sidopanel"
 
-#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:27
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:31
 msgid "The default width for the sidebar, in pixels."
 msgstr "Standardbredd för sidopanelen, i bildpunkter."
 
@@ -11293,49 +11315,49 @@ msgstr "Misslyckades med att skapa en tråd: "
 #. * message when, for example, attaching it to a composer. When the
 #. * message to be attached has also filled Subject, then this text is
 #. * of form "Attached message - Subject", otherwise it's left as is.
-#: ../e-util/e-attachment.c:1141
+#: ../e-util/e-attachment.c:1140
 msgid "Attached message"
 msgstr "Bifogat meddelande"
 
 # Outlook kallar det för Prioritet (Låg, Normal, Hög)
-#: ../e-util/e-attachment.c:2043 ../e-util/e-attachment.c:3029
+#: ../e-util/e-attachment.c:2042 ../e-util/e-attachment.c:3098
 msgid "Operation was cancelled"
 msgstr "Åtgärden avbröts"
 
 #. Translators: Default attachment filename.
-#: ../e-util/e-attachment.c:2203 ../e-util/e-attachment.c:2891
-#: ../e-util/e-attachment.c:3262 ../e-util/e-attachment-store.c:864
+#: ../e-util/e-attachment.c:2226 ../e-util/e-attachment.c:2945
+#: ../e-util/e-attachment.c:3388 ../e-util/e-attachment-store.c:884
 msgid "attachment.dat"
 msgstr "attachment.dat"
 
-#: ../e-util/e-attachment.c:2284 ../e-util/e-attachment.c:3322
+#: ../e-util/e-attachment.c:2307 ../e-util/e-attachment.c:3448
 msgid "A load operation is already in progress"
 msgstr "En inläsningsåtgärd pågår"
 
-#: ../e-util/e-attachment.c:2292 ../e-util/e-attachment.c:3330
+#: ../e-util/e-attachment.c:2315 ../e-util/e-attachment.c:3456
 msgid "A save operation is already in progress"
 msgstr "En sparningsåtgärd pågår"
 
-#: ../e-util/e-attachment.c:2689
+#: ../e-util/e-attachment.c:2712
 #, c-format
 msgid "Could not open '%s'"
 msgstr "Kunde inte öppna ”%s”"
 
-#: ../e-util/e-attachment.c:2692
+#: ../e-util/e-attachment.c:2715
 #, c-format
 msgid "Could not open the attachment"
 msgstr "Kunde inte öppna bilagan"
 
-#: ../e-util/e-attachment.c:3339
+#: ../e-util/e-attachment.c:3465
 msgid "Attachment contents not loaded"
 msgstr "Bilagornas innehåll har inte lästs in"
 
-#: ../e-util/e-attachment.c:3430
+#: ../e-util/e-attachment.c:3556
 #, c-format
 msgid "Could not save '%s'"
 msgstr "Kunde inte spara ”%s”"
 
-#: ../e-util/e-attachment.c:3433
+#: ../e-util/e-attachment.c:3559
 #, c-format
 msgid "Could not save the attachment"
 msgstr "Kunde inte spara bilagan"
@@ -11358,7 +11380,7 @@ msgstr "_Beskrivning:"
 msgid "MIME Type:"
 msgstr "MIME-typ:"
 
-#: ../e-util/e-attachment-dialog.c:382 ../e-util/e-attachment-store.c:694
+#: ../e-util/e-attachment-dialog.c:382 ../e-util/e-attachment-store.c:696
 msgid "_Suggest automatic display of attachment"
 msgstr "_Föreslå automatisk visning av bilaga"
 
@@ -11388,33 +11410,33 @@ msgstr "Dölj _bilageraden"
 msgid "Show Attachment _Bar"
 msgstr "Visa _bilageraden"
 
-#: ../e-util/e-attachment-store.c:659
+#: ../e-util/e-attachment-store.c:661
 msgid "Add Attachment"
 msgstr "Lägg till bilaga"
 
-#: ../e-util/e-attachment-store.c:666 ../e-util/e-attachment-store.c:668
+#: ../e-util/e-attachment-store.c:668 ../e-util/e-attachment-store.c:670
 msgid "A_ttach"
 msgstr "_Bifoga"
 
-#: ../e-util/e-attachment-store.c:706
+#: ../e-util/e-attachment-store.c:717
 msgid "Archive selected directories using this format:"
 msgstr "Arkivera markerade kataloger med detta format:"
 
-#: ../e-util/e-attachment-store.c:799
+#: ../e-util/e-attachment-store.c:821
 msgid "Save Attachment"
 msgid_plural "Save Attachments"
 msgstr[0] "Spara bilaga"
 msgstr[1] "Spara bilagor"
 
-#: ../e-util/e-attachment-store.c:826
+#: ../e-util/e-attachment-store.c:848
 msgid "Do _not extract files from the attachment"
 msgstr "Extrahera i_nte filer från bilagan"
 
-#: ../e-util/e-attachment-store.c:831
+#: ../e-util/e-attachment-store.c:853
 msgid "Save extracted files _only"
 msgstr "Spara endast e_xtraherade filer"
 
-#: ../e-util/e-attachment-store.c:836
+#: ../e-util/e-attachment-store.c:858
 msgid "Save extracted files and the original _archive"
 msgstr "Spara extraherade filer och det ursprungliga _arkivet"
 
@@ -14835,26 +14857,26 @@ msgstr "Skickat"
 msgid "Templates"
 msgstr "Mallar"
 
-#: ../libemail-engine/e-mail-session.c:1305
+#: ../libemail-engine/e-mail-session.c:1334
 #, c-format
 msgid "User cancelled operation"
 msgstr "Användaren avbröt åtgärden"
 
-#: ../libemail-engine/e-mail-session.c:1362
+#: ../libemail-engine/e-mail-session.c:1391
 #, c-format
 msgid ""
 "No destination address provided, forwarding of the message has been "
 "cancelled."
 msgstr "Ingen måladress angavs, vidarebefordring av meddelandet har avbrutits."
 
-#: ../libemail-engine/e-mail-session.c:1375
+#: ../libemail-engine/e-mail-session.c:1404
 #, c-format
 msgid "No identity found to use, forwarding of the message has been cancelled."
 msgstr ""
 "Ingen identitet hittades att använda, vidarebefordring av meddelandet har "
 "avbrutits."
 
-#: ../libemail-engine/e-mail-session.c:2405
+#: ../libemail-engine/e-mail-session.c:2434
 #, c-format
 msgid "Waiting for '%s'"
 msgstr "Väntar på ”%s”"
@@ -21752,24 +21774,24 @@ msgstr ""
 "För att kunna behandla alla dessa objekt bör filen sparas och kalendern "
 "importeras"
 
-#: ../modules/itip-formatter/itip-view.c:5867
+#: ../modules/itip-formatter/itip-view.c:5890
 msgctxt "cal-itip"
 msgid "None"
 msgstr "Ingen"
 
-#: ../modules/itip-formatter/itip-view.c:5883
+#: ../modules/itip-formatter/itip-view.c:5906
 msgid "Tentatively Accepted"
 msgstr "Preliminärt accepterat"
 
-#: ../modules/itip-formatter/itip-view.c:6043
+#: ../modules/itip-formatter/itip-view.c:6072
 msgid "This meeting recurs"
 msgstr "Detta möte upprepas"
 
-#: ../modules/itip-formatter/itip-view.c:6046
+#: ../modules/itip-formatter/itip-view.c:6075
 msgid "This task recurs"
 msgstr "Denna uppgift upprepas"
 
-#: ../modules/itip-formatter/itip-view.c:6049
+#: ../modules/itip-formatter/itip-view.c:6078
 msgid "This memo recurs"
 msgstr "Detta memo upprepas"
 
@@ -21789,19 +21811,19 @@ msgstr "Detta sammanträde har delegerats"
 msgid "'{0}' has delegated the meeting. Do you want to add the delegate '{1}'?"
 msgstr "”{0}” har delegerat sammanträdet. Vill du lägga till delegaten ”{1}”?"
 
-#: ../modules/mail-config/e-mail-config-google-summary.c:265
+#: ../modules/mail-config/e-mail-config-google-summary.c:282
 msgid "Google Features"
 msgstr "Google-funktioner"
 
-#: ../modules/mail-config/e-mail-config-google-summary.c:274
+#: ../modules/mail-config/e-mail-config-google-summary.c:291
 msgid "Add Google Ca_lendar to this account"
 msgstr "Lägg till Google-ka_lendrar till detta konto"
 
-#: ../modules/mail-config/e-mail-config-google-summary.c:283
+#: ../modules/mail-config/e-mail-config-google-summary.c:300
 msgid "Add Google Con_tacts to this account"
 msgstr "Lägg till Google-kon_takter till detta konto"
 
-#: ../modules/mail-config/e-mail-config-google-summary.c:292
+#: ../modules/mail-config/e-mail-config-google-summary.c:309
 msgid "You may need to enable IMAP access"
 msgstr "Du kan behöva att aktivera IMAP-åtkomst"
 
