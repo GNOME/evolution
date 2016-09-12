@@ -1,3 +1,59 @@
+Evolution 3.21.92 2016-09-12
+----------------------------
+
+Bug Fixes:
+	Bug 770496 - Accessing NULL GDBusProxy on shutdown (Hans Petter Jansson)
+	Bug 771044 - [WK2] Composer deletes too much text (Tomas Popela)
+	Bug 770380 - Correct minimum version of gnome-autoar to 0.1.1 (Ting-Wei Lan)
+	Bug 771131 - Replying in plain text to plain text ignores quotation level (Tomas Popela)
+
+Miscellaneous:
+	[itip-formatter] Guess meeting time zone when not provided in the invitation (Milan Crha)
+	Remove CSS sheet from the DOM only when it exists (Tomas Popela)
+	Critical warning could be printed when replying on message with inline images (Tomas Popela)
+	Adapt to WebKit Unstable DOM API changes in WebKitGTK+ 2.13.90 (Tomas Popela)
+	Replace usage of deprecated WebKit DOM API functions (Tomas Popela)
+	Replace last usage of deprecated WebKit DOM API functions (Tomas Popela)
+	Fix archives support in attachments (Razvan Chitu)
+	Undoing a citation split could fail (Tomas Popela)
+	When removing empty blocks from citations, don't remove BR elements (Tomas Popela)
+	Extra new line is inserted on the end of converted content (Tomas Popela)
+	Save selection in save_history_for_delete_or_backspace() (Tomas Popela)
+	Selection end marker could be saved wrong in the quoted content (Tomas Popela)
+	Correctly handle the undo operation the Backspace was pressed in the beginning of LI element (Tomas Popela)
+	e_editor_dom_move_quoted_block_level_up() is wrong for HTML mode (Tomas Popela)
+	Try to fix the "NL between tags" when inserting HTML into the editor (Tomas Popela)
+	Update the tests expectations (Tomas Popela)
+	Change URL and e-mail pattern regular expressions (Milan Crha)
+	Prefer OAuth2 authentication for Mail-only Google accounts (Milan Crha)
+	Add 'OAuth2 Google' authentication type to Google-based accounts (Milan Crha)
+	Use DIV instead of P element for 'Normal' block (Tomas Popela)
+	After pressing the return key, caret is moved to a wrong place (Tomas Popela)
+	An extra quote character is inserted on the end of an empty PRE element (Tomas Popela)
+
+Translations:
+	Bruce Cowan (en_GB)
+	Мирослав Николић (sr)
+	Мирослав Николић (sr@latin)
+	Piotr Drąg (pl)
+	Enrico Nicoletto (pt_BR)
+	Baurzhan Muftakhidinov (kk)
+	Changwoo Ryu (ko)
+	Jeremy Bicha (es)
+	Jiri Grönroos (fi)
+	Mario Blättermann (de)
+	David King (en_GB)
+	Jordi Mas (ca)
+	Balázs Meskó (hu)
+	Marek Černocký (cs)
+	Aurimas Černius (lt)
+	Reinout van Schouwen (nl)
+	Alexandre Franke (fr)
+	Anders Jonsson (sv)
+	Rūdolfs Mazurs (lv)
+	Fran Dieguez (gl)
+	Ask Hjorth Larsen (da)
+
 Evolution 3.21.91 2016-08-29
 ----------------------------
 
