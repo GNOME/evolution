@@ -75,8 +75,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-26 03:44+0200\n"
-"PO-Revision-Date: 2016-03-20 22:53+0100\n"
+"POT-Creation-Date: 2016-09-12 02:40+0200\n"
+"PO-Revision-Date: 2016-09-12 02:39+0200\n"
 "Last-Translator: Ask Hjorth Larsen <asklarsen@gmail.com>\n"
 "Language-Team: Danish <dansk@dansk-gruppen.dk>\n"
 "Language: da\n"
@@ -239,7 +239,7 @@ msgstr "Kan ikke gemme {0}."
 
 #: ../addressbook/addressbook.error.xml.h:31
 msgid "Error saving {0} to {1}: {2}"
-msgstr "Fejl ved gemning af {0} til {1}: {2}"
+msgstr "Fejl ved forsøg på at gemme {0} til {1}: {2}"
 
 #: ../addressbook/addressbook.error.xml.h:32
 msgid "Address '{0}' already exists."
@@ -406,7 +406,7 @@ msgstr "_Hjemmeside:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:15
 #: ../calendar/gui/e-comp-editor-event.c:729
-#: ../modules/itip-formatter/itip-view.c:2099
+#: ../modules/itip-formatter/itip-view.c:2033
 msgid "_Calendar:"
 msgstr "_Kalender:"
 
@@ -613,8 +613,8 @@ msgstr "_Indlæs X.509"
 #: ../addressbook/gui/widgets/eab-contact-merging.c:721
 #: ../calendar/calendar.error.xml.h:47 ../calendar/gui/e-comp-editor.c:2107
 #: ../composer/e-composer-actions.c:230 ../composer/e-composer-actions.c:347
-#: ../e-util/e-attachment-store.c:809
-#: ../e-util/e-mail-signature-script-dialog.c:369 ../e-util/e-web-view.c:3842
+#: ../e-util/e-attachment-store.c:831
+#: ../e-util/e-mail-signature-script-dialog.c:369 ../e-util/e-web-view.c:3863
 #: ../e-util/gal-view-instance-save-as-dialog.c:270
 #: ../shell/e-shell-content.c:660 ../shell/e-shell-utils.c:137
 #: ../smime/gui/certificate-manager.c:668
@@ -658,8 +658,8 @@ msgstr "Indstillinger"
 #: ../calendar/gui/e-cal-dialogs.c:689
 #: ../calendar/gui/e-comp-editor-page-recurrence.c:303
 #: ../composer/e-composer-actions.c:229 ../e-util/e-activity-bar.c:359
-#: ../e-util/e-attachment-dialog.c:311 ../e-util/e-attachment-store.c:664
-#: ../e-util/e-attachment-store.c:808 ../e-util/e-attachment-view.c:303
+#: ../e-util/e-attachment-dialog.c:311 ../e-util/e-attachment-store.c:666
+#: ../e-util/e-attachment-store.c:830 ../e-util/e-attachment-view.c:303
 #: ../e-util/e-categories-dialog.c:82 ../e-util/e-category-editor.c:138
 #: ../e-util/e-category-editor.c:208 ../e-util/e-charset-combo-box.c:101
 #: ../e-util/e-color-chooser-widget.c:127 ../e-util/e-filter-datespec.c:291
@@ -671,7 +671,7 @@ msgstr "Indstillinger"
 #: ../e-util/e-send-options.ui.h:42 ../e-util/e-source-config-dialog.c:379
 #: ../e-util/e-source-selector-dialog.c:372 ../e-util/e-table-config.c:548
 #: ../e-util/e-table-config.ui.h:1 ../e-util/e-timezone-dialog.ui.h:2
-#: ../e-util/evolution-source-viewer.c:834 ../e-util/e-web-view.c:3841
+#: ../e-util/evolution-source-viewer.c:834 ../e-util/e-web-view.c:3862
 #: ../e-util/gal-view-instance-save-as-dialog.c:269
 #: ../mail/e-mail-config-window.c:330 ../mail/e-mail-label-dialog.c:196
 #: ../mail/e-mail-tag-editor.c:242 ../mail/em-folder-selector.c:317
@@ -802,7 +802,7 @@ msgstr "Åbn X-509-certifikat"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:3274
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:4322
-#: ../e-util/e-attachment-store.c:662 ../e-util/e-category-editor.c:146
+#: ../e-util/e-attachment-store.c:664 ../e-util/e-category-editor.c:146
 #: ../e-util/e-html-editor-actions.c:324 ../e-util/e-html-editor-actions.c:415
 #: ../e-util/e-image-chooser-dialog.c:174 ../plugins/face/face.c:298
 #: ../shell/e-shell-utils.c:73 ../smime/gui/certificate-manager.c:969
@@ -1815,9 +1815,8 @@ msgid "Importing..."
 msgstr "Importerer..."
 
 #: ../addressbook/importers/evolution-csv-importer.c:929
-#, fuzzy
 msgid "Can't open .csv file"
-msgstr "Kan ikke åbne filen"
+msgstr "Kan ikke åbne .csv-fil"
 
 #: ../addressbook/importers/evolution-csv-importer.c:1098
 msgid "Outlook Contacts CSV or Tab (.csv, .tab)"
@@ -1844,9 +1843,8 @@ msgid "Evolution Contacts CSV and Tab Importer"
 msgstr "Evolution kontakpersoner CSV- og Tab-importør"
 
 #: ../addressbook/importers/evolution-ldif-importer.c:719
-#, fuzzy
 msgid "Can't open .ldif file"
-msgstr "Kan ikke åbne filen"
+msgstr "Kan ikke åbne .ldif-fil"
 
 #: ../addressbook/importers/evolution-ldif-importer.c:821
 msgid "LDAP Data Interchange Format (.ldif)"
@@ -2051,8 +2049,8 @@ msgstr "_Forkast"
 #: ../calendar/alarm-notify/alarm-queue.c:1914
 #: ../calendar/alarm-notify/alarm-queue.c:1924
 #: ../modules/cal-config-weather/evolution-cal-config-weather.c:248
-#: ../modules/itip-formatter/itip-view.c:1724
-#: ../modules/itip-formatter/itip-view.c:1835
+#: ../modules/itip-formatter/itip-view.c:1666
+#: ../modules/itip-formatter/itip-view.c:1777
 msgid "Location:"
 msgstr "Sted:"
 
@@ -3191,8 +3189,8 @@ msgid "Due Date:"
 msgstr "Forfaldsdato:"
 
 #: ../calendar/gui/e-cal-component-preview.c:298
-#: ../modules/itip-formatter/itip-view.c:1727
-#: ../modules/itip-formatter/itip-view.c:1844
+#: ../modules/itip-formatter/itip-view.c:1669
+#: ../modules/itip-formatter/itip-view.c:1786
 msgid "Status:"
 msgstr "Status:"
 
@@ -3545,8 +3543,8 @@ msgstr "Kilde"
 #: ../calendar/gui/e-meeting-store.c:134 ../calendar/gui/e-meeting-store.c:169
 #: ../calendar/gui/e-meeting-store.c:232 ../calendar/gui/print.c:1249
 #: ../calendar/gui/print.c:1266 ../e-util/e-charset.c:51
-#: ../modules/itip-formatter/itip-view.c:3425
-#: ../modules/itip-formatter/itip-view.c:5999
+#: ../modules/itip-formatter/itip-view.c:3318
+#: ../modules/itip-formatter/itip-view.c:5915
 #: ../modules/plugin-manager/evolution-plugin-manager.c:99
 msgid "Unknown"
 msgstr "Ukendt"
@@ -3597,14 +3595,14 @@ msgstr "Nej"
 #: ../calendar/gui/e-cal-model.c:3820
 #: ../calendar/gui/e-meeting-list-view.c:221
 #: ../calendar/gui/e-meeting-store.c:196 ../calendar/gui/e-meeting-store.c:219
-#: ../modules/itip-formatter/itip-view.c:5987
+#: ../modules/itip-formatter/itip-view.c:5903
 msgid "Accepted"
 msgstr "Accepteret"
 
 #: ../calendar/gui/e-cal-model.c:3821
 #: ../calendar/gui/e-meeting-list-view.c:222
 #: ../calendar/gui/e-meeting-store.c:198 ../calendar/gui/e-meeting-store.c:221
-#: ../modules/itip-formatter/itip-view.c:5993
+#: ../modules/itip-formatter/itip-view.c:5909
 msgid "Declined"
 msgstr "Afslået"
 
@@ -3618,7 +3616,7 @@ msgstr "Forsøgsvis"
 #: ../calendar/gui/e-cal-model.c:3823
 #: ../calendar/gui/e-meeting-list-view.c:224
 #: ../calendar/gui/e-meeting-store.c:202 ../calendar/gui/e-meeting-store.c:225
-#: ../modules/itip-formatter/itip-view.c:5996
+#: ../modules/itip-formatter/itip-view.c:5912
 msgid "Delegated"
 msgstr "Uddelegeret"
 
@@ -3881,7 +3879,7 @@ msgstr "Starttidspunkt er ikke et gyldigt klokkeslæt"
 #: ../calendar/gui/e-comp-editor-event.c:444
 #: ../calendar/gui/e-comp-editor-event.c:460
 #: ../calendar/gui/e-comp-editor-page-attachments.c:201
-#: ../calendar/gui/e-comp-editor.c:340 ../mail/e-mail-display.c:2008
+#: ../calendar/gui/e-comp-editor.c:340 ../mail/e-mail-display.c:2021
 #: ../mail/e-mail-reader-utils.c:648 ../mail/mail-send-recv.c:489
 #: ../mail/mail-send-recv.c:1289 ../plugins/face/face.c:176
 #: ../shell/e-shell.c:992 ../shell/e-shell.c:1014
@@ -4058,13 +4056,13 @@ msgstr[0] "Bilag"
 msgstr[1] "Bilag"
 
 #: ../calendar/gui/e-comp-editor-page-attachments.c:196
-#: ../e-util/e-attachment.c:2401
+#: ../e-util/e-attachment.c:2424
 #, c-format
 msgid "Could not load '%s'"
 msgstr "Kunne ikke indlæse \"%s\""
 
 #: ../calendar/gui/e-comp-editor-page-attachments.c:198
-#: ../e-util/e-attachment.c:2404
+#: ../e-util/e-attachment.c:2427
 #, c-format
 msgid "Could not load the attachment"
 msgstr "Kunne ikke indlæse bilag"
@@ -4713,7 +4711,6 @@ msgid "Completed"
 msgstr "Fuldført"
 
 #: ../calendar/gui/e-comp-editor-property-parts.c:1173
-#, fuzzy
 msgctxt "ECompEditor"
 msgid "Cancelled"
 msgstr "Afbrudt"
@@ -4854,7 +4851,7 @@ msgstr "_Kopiér"
 #: ../calendar/gui/e-comp-editor.c:1985 ../e-util/e-focus-tracker.c:175
 #: ../e-util/e-focus-tracker.c:231 ../e-util/e-focus-tracker.c:284
 #: ../e-util/e-focus-tracker.c:776 ../e-util/e-web-view.c:400
-#: ../e-util/e-web-view.c:1815 ../mail/e-mail-browser.c:138
+#: ../e-util/e-web-view.c:1811 ../mail/e-mail-browser.c:138
 #: ../shell/e-shell-window-actions.c:801
 msgid "Copy the selection"
 msgstr "Kopier det valgte"
@@ -4868,7 +4865,7 @@ msgstr "Klip u_d"
 
 #: ../calendar/gui/e-comp-editor.c:1992 ../e-util/e-focus-tracker.c:168
 #: ../e-util/e-focus-tracker.c:224 ../e-util/e-focus-tracker.c:278
-#: ../e-util/e-focus-tracker.c:771 ../e-util/e-web-view.c:1805
+#: ../e-util/e-focus-tracker.c:771 ../e-util/e-web-view.c:1801
 #: ../mail/e-mail-browser.c:145 ../shell/e-shell-window-actions.c:808
 msgid "Cut the selection"
 msgstr "Klip det markerede ud"
@@ -4892,7 +4889,7 @@ msgstr "_Indsæt"
 
 #: ../calendar/gui/e-comp-editor.c:2013 ../e-util/e-focus-tracker.c:182
 #: ../e-util/e-focus-tracker.c:238 ../e-util/e-focus-tracker.c:290
-#: ../e-util/e-focus-tracker.c:781 ../e-util/e-web-view.c:1825
+#: ../e-util/e-focus-tracker.c:781 ../e-util/e-web-view.c:1821
 #: ../mail/e-mail-browser.c:152 ../shell/e-shell-window-actions.c:836
 msgid "Paste the clipboard"
 msgstr "Indsæt fra udklipsholderen"
@@ -7758,12 +7755,12 @@ msgid ""
 msgstr ""
 "Kan ikke kryptere udgående brev: Intet krypteringscertifikat for denne konto"
 
-#: ../composer/e-msg-composer.c:1621 ../composer/e-msg-composer.c:2409
+#: ../composer/e-msg-composer.c:1621 ../composer/e-msg-composer.c:2403
 #: ../data/evolution.desktop.in.in.h:7
 msgid "Compose Message"
 msgstr "Skriv brev"
 
-#: ../composer/e-msg-composer.c:4734
+#: ../composer/e-msg-composer.c:4728
 msgid "The composer contains a non-text message body, which cannot be edited."
 msgstr ""
 "Redigeringsvinduet indeholder et brev, som ikke er tekst, og som ikke kan "
@@ -7954,9 +7951,8 @@ msgid "Lose _formatting"
 msgstr "Mist _formattering"
 
 #: ../composer/mail-composer.error.xml.h:41
-#, fuzzy
 msgid "An error occurred while saving to your Templates folder."
-msgstr "Der opstod en fejl under gemning til din Kladde-mappe."
+msgstr "Der opstod en fejl under gemning til din Skabeloner-mappe."
 
 #: ../data/evolution-alarm-notify.desktop.in.in.h:1
 msgid "Evolution Alarm Notify"
@@ -9035,15 +9031,16 @@ msgstr ""
 "Standardtegnkodning ved skrivning af breve. Bruger UTF-8 hvis ikke angivet."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:5
-#, fuzzy
 msgid "Name of the editor to prefer in the message composer"
-msgstr "_Vis afsenderens foto i forhåndsvisning af e-breve"
+msgstr "Navn på det foretrukne redigeringsprogram til breve"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:6
 msgid ""
 "If the name doesn't correspond to any known editor, then the built-in WebKit "
 "editor is used."
 msgstr ""
+"Hvis navnet ikke svarer til noget kendt redigeringsprogram, bruges den "
+"indbyggede WebKit-redigering."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:7
 msgid "Path where picture gallery should search for its content"
@@ -9407,13 +9404,15 @@ msgstr "Hvis sat til \"true\", vil citeret tekst i svar blive ombrudt."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:67
 msgid "Whether to obey Content-Disposition:inline message header hint"
-msgstr ""
+msgstr "Om fiffet Content-Disposition:inline i brevhovedet skal adlydes"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:68
 msgid ""
 "Set to 'false' to block automatic display of attachments with Content-"
 "Disposition: inline."
 msgstr ""
+"Slå fra for at blokere automatisk visning af bilag med Content-Disposition: "
+"inline."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:69
 msgid "Save file format for drag-and-drop operation"
@@ -9597,15 +9596,15 @@ msgid "Timeout in milliseconds for marking messages as seen."
 msgstr "Tidsgrænse i millisekunder for at markere brev som set."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:106
-#, fuzzy
 msgid "Show Attachment Bar"
-msgstr "_Vis bilagslinje"
+msgstr "Vis bilagslinje"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:107
 msgid ""
 "Show Attachment Bar below the message preview pane when the message has "
 "attachments."
 msgstr ""
+"Vis bilagslinje under forhåndsvisningsruden til breve, når brevet har bilag."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:108
 msgid "Sender email-address column in the message list"
@@ -10684,7 +10683,7 @@ msgid ""
 "Initial view for attachment bar widgets. \"0\" is Icon View, \"1\" is List "
 "View."
 msgstr ""
-"Indledende visning for bilagsbjælke-kontroller. \"0\" er ikonvisning, \"1\" "
+"Indledende visning for bilagslinje-kontroller. \"0\" er ikonvisning, \"1\" "
 "er listevisning."
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:5
@@ -10695,38 +10694,58 @@ msgstr "Indledende filvælgermappe"
 msgid "Initial folder for GtkFileChooser dialogs."
 msgstr "Indledende mappe til GtkFileChooser-dialoger."
 
-#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:7 ../shell/main.c:320
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:7
+msgid "Compression format used by autoar"
+msgstr "Komprimeringsformat som bruges af autoar"
+
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:8
+msgid ""
+"Compression format used when compressing attached directories with autoar."
+msgstr ""
+"Komprimeringsformat til komprimering af vedhæftede kataloger med autoar."
+
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:9
+msgid "Compression filter used by autoar"
+msgstr "Komprimeringsfilter til autoar"
+
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:10
+msgid ""
+"Compression filter used when compressing attached directories with autoar."
+msgstr ""
+"Komprimeringsfilter til komprimering af vedhæftede kataloger med autoar."
+
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:11 ../shell/main.c:320
 msgid "Start in offline mode"
 msgstr "Start i offlinetilstand"
 
-#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:8
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:12
 msgid "Whether Evolution will start up in offline mode instead of online mode."
 msgstr "Om Evolution starter i offlinetilstand i stedet for onlinetilstand."
 
-#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:9
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:13
 msgid "Offline folder paths"
 msgstr "Sti til offline-mapper"
 
-#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:10
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:14
 msgid ""
 "List of paths for the folders to be synchronized to disk for offline usage."
 msgstr ""
 "Liste over stier til mapper, der skal synkroniseres til disken til offline "
 "brug."
 
-#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:11
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:15
 msgid "Enable express mode"
 msgstr "Slå eksprestilstand til"
 
-#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:12
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:16
 msgid "Flag that enables a much simplified user interface."
 msgstr "Statusflag som aktiverer en meget simplificeret brugegrænseflade."
 
-#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:13
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:17
 msgid "List of button names to hide in the window switcher"
 msgstr "Liste af knapnavne, som skal skjules i vinduesskifteren"
 
-#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:14
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:18
 msgid ""
 "Valid values are 'mail', 'addressbook', 'calendar', 'tasks' and 'memos'. "
 "Change of this requires restart of the application."
@@ -10734,19 +10753,19 @@ msgstr ""
 "Gyldige værdier er \"mail\", \"addressbook\", \"calendar\", \"tasks\" and "
 "\"memos\". Ændring af dette kræver at programmet genstartes."
 
-#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:15
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:19
 msgid "Window buttons are visible"
 msgstr "Vinduesknapper er synlige"
 
-#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:16
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:20
 msgid "Whether the window buttons should be visible."
 msgstr "Vælg om vinduesknapperne skal være synlige."
 
-#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:17
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:21
 msgid "Window button style"
 msgstr "Vinduesknap-stil"
 
-#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:18
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:22
 msgid ""
 "The style of the window buttons. Can be \"text\", \"icons\", \"both\", "
 "\"toolbar\". If \"toolbar\" is set, the style of the buttons is determined "
@@ -10756,39 +10775,39 @@ msgstr ""
 "\". Hvis \"toolbar\" er sat, vil knappernes stil blive afgjort af "
 "indstillingerne for Gnomes værktøjslinje."
 
-#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:19
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:23
 msgid "Toolbar is visible"
 msgstr "Værktøjslinjen er synlig"
 
-#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:20
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:24
 msgid "Whether the toolbar should be visible."
 msgstr "Vælg om værktøjslinjen skal være synlig."
 
-#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:21
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:25
 msgid "Sidebar is visible"
 msgstr "Sidepanel er synlig"
 
-#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:22
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:26
 msgid "Whether the sidebar should be visible."
 msgstr "Vælg om sidepanelet skal være synligt."
 
-#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:23
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:27
 msgid "Statusbar is visible"
 msgstr "Statuslinjen er synlig"
 
-#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:24
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:28
 msgid "Whether the status bar should be visible."
 msgstr "Vælg om statuslinjen skal være synlig."
 
-#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:25
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:29
 msgid "ID or alias of the component to be shown by default at start-up."
 msgstr "Identifikation eller alias for komponenten der skal vises ved opstart."
 
-#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:26
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:30
 msgid "Default sidebar width"
 msgstr "Standardbredde på sidepanel"
 
-#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:27
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:31
 msgid "The default width for the sidebar, in pixels."
 msgstr "Standardbredden på sidepanelet, i billedpunkter."
 
@@ -10838,7 +10857,7 @@ msgstr "Lydafspiller"
 
 #: ../em-format/e-mail-formatter-audio.c:153
 msgid "Play the attachment in embedded audio player"
-msgstr "Spil den vedhæftede fil i den indlejrede lydafspiller"
+msgstr "Afspil den vedhæftede fil i den indlejrede lydafspiller"
 
 #: ../em-format/e-mail-formatter-headers.c:102
 #: ../em-format/e-mail-part-headers.c:46 ../mail/e-mail-tag-editor.c:277
@@ -10979,11 +10998,10 @@ msgstr ""
 "ikke verificeres."
 
 #: ../em-format/e-mail-formatter-secure-button.c:50
-#, fuzzy
 msgid "This message is signed, but the public key is not in your keyring"
 msgstr ""
-"Dette brev er signeret med en signatur, men der er ikke nogen tilsvarende "
-"offentlig nøgle."
+"Dette brev er digitalt underskrevet, men den offentlige nøgle findes ikke i "
+"din nøglering."
 
 #: ../em-format/e-mail-formatter-secure-button.c:50
 msgid ""
@@ -10993,6 +11011,11 @@ msgid ""
 "trusted method and add it to your keyring. Until then, there is no guarantee "
 "that this message truly came from that person and that it arrived unaltered."
 msgstr ""
+"Dette brev er digitalt signeret, men den tilsvarende offentlige nøgle findes "
+"ikke i din nøglering. Hvis du vil kunne verificere at breve fra denne person "
+"er ægte, skal du hente nøglen på en betroet måde og føje den til "
+"nøgleringen. Indtil da er der ingen garanti for at brevet nødvendigvis kom "
+"fra den person, og at den er modtaget uændret."
 
 #: ../em-format/e-mail-formatter-secure-button.c:59
 msgid "Unencrypted"
@@ -11265,48 +11288,48 @@ msgstr "Kunne ikke oprette en tråd: "
 #. * message when, for example, attaching it to a composer. When the
 #. * message to be attached has also filled Subject, then this text is
 #. * of form "Attached message - Subject", otherwise it's left as is.
-#: ../e-util/e-attachment.c:1141
+#: ../e-util/e-attachment.c:1140
 msgid "Attached message"
 msgstr "Vedhæftet besked"
 
-#: ../e-util/e-attachment.c:2043 ../e-util/e-attachment.c:3029
+#: ../e-util/e-attachment.c:2042 ../e-util/e-attachment.c:3098
 msgid "Operation was cancelled"
 msgstr "Operationen blev annulleret"
 
 #. Translators: Default attachment filename.
-#: ../e-util/e-attachment.c:2203 ../e-util/e-attachment.c:2891
-#: ../e-util/e-attachment.c:3262 ../e-util/e-attachment-store.c:864
+#: ../e-util/e-attachment.c:2226 ../e-util/e-attachment.c:2945
+#: ../e-util/e-attachment.c:3388 ../e-util/e-attachment-store.c:884
 msgid "attachment.dat"
 msgstr "bilag.dat"
 
-#: ../e-util/e-attachment.c:2284 ../e-util/e-attachment.c:3322
+#: ../e-util/e-attachment.c:2307 ../e-util/e-attachment.c:3448
 msgid "A load operation is already in progress"
 msgstr "En indlæsningshandling er allerede i gang"
 
-#: ../e-util/e-attachment.c:2292 ../e-util/e-attachment.c:3330
+#: ../e-util/e-attachment.c:2315 ../e-util/e-attachment.c:3456
 msgid "A save operation is already in progress"
 msgstr "En gemmehandling er allerede i gang"
 
-#: ../e-util/e-attachment.c:2689
+#: ../e-util/e-attachment.c:2712
 #, c-format
 msgid "Could not open '%s'"
 msgstr "Kunne ikke åbne \"%s\""
 
-#: ../e-util/e-attachment.c:2692
+#: ../e-util/e-attachment.c:2715
 #, c-format
 msgid "Could not open the attachment"
 msgstr "Kunne ikke åbne bilaget"
 
-#: ../e-util/e-attachment.c:3339
+#: ../e-util/e-attachment.c:3465
 msgid "Attachment contents not loaded"
 msgstr "Bilagsindhold ikke indlæst"
 
-#: ../e-util/e-attachment.c:3430
+#: ../e-util/e-attachment.c:3556
 #, c-format
 msgid "Could not save '%s'"
 msgstr "Kunne ikke gemme \"%s\""
 
-#: ../e-util/e-attachment.c:3433
+#: ../e-util/e-attachment.c:3559
 #, c-format
 msgid "Could not save the attachment"
 msgstr "Kunne ikke gemme bilaget"
@@ -11329,7 +11352,7 @@ msgstr "_Beskrivelse:"
 msgid "MIME Type:"
 msgstr "MIME-type:"
 
-#: ../e-util/e-attachment-dialog.c:382 ../e-util/e-attachment-store.c:694
+#: ../e-util/e-attachment-dialog.c:382 ../e-util/e-attachment-store.c:696
 msgid "_Suggest automatic display of attachment"
 msgstr "F_oreslå automatisk visning af bilag"
 
@@ -11359,33 +11382,33 @@ msgstr "_Skjul bilagslinje"
 msgid "Show Attachment _Bar"
 msgstr "_Vis bilagslinje"
 
-#: ../e-util/e-attachment-store.c:659
+#: ../e-util/e-attachment-store.c:661
 msgid "Add Attachment"
 msgstr "Tilføj bilag"
 
-#: ../e-util/e-attachment-store.c:666 ../e-util/e-attachment-store.c:668
+#: ../e-util/e-attachment-store.c:668 ../e-util/e-attachment-store.c:670
 msgid "A_ttach"
 msgstr "_Vedhæft"
 
-#: ../e-util/e-attachment-store.c:706
+#: ../e-util/e-attachment-store.c:717
 msgid "Archive selected directories using this format:"
 msgstr "Arkivér valgte kataloger med dette format:"
 
-#: ../e-util/e-attachment-store.c:799
+#: ../e-util/e-attachment-store.c:821
 msgid "Save Attachment"
 msgid_plural "Save Attachments"
 msgstr[0] "Gem bilag"
 msgstr[1] "Gem bilag"
 
-#: ../e-util/e-attachment-store.c:826
+#: ../e-util/e-attachment-store.c:848
 msgid "Do _not extract files from the attachment"
 msgstr "_Pak ikke filer ud fra bilaget"
 
-#: ../e-util/e-attachment-store.c:831
+#: ../e-util/e-attachment-store.c:853
 msgid "Save extracted files _only"
 msgstr "Gem _kun udpakkede filer"
 
-#: ../e-util/e-attachment-store.c:836
+#: ../e-util/e-attachment-store.c:858
 msgid "Save extracted files and the original _archive"
 msgstr "Gem udpakkede filer og original_arkivet"
 
@@ -13921,7 +13944,7 @@ msgstr "Vis"
 msgid "Group name"
 msgstr "Gruppenavn"
 
-#: ../e-util/e-source-selector.c:3376 ../mail/e-mail-display.c:746
+#: ../e-util/e-source-selector.c:3376 ../mail/e-mail-display.c:742
 msgid "_Hide"
 msgstr "_Skjul"
 
@@ -14236,7 +14259,6 @@ msgid "Sort _Descending"
 msgstr "Sortér _faldende"
 
 #: ../e-util/e-table-header-item.c:1648
-#, fuzzy
 msgid "_Reset sort"
 msgstr "_Nulstil rækkefølge"
 
@@ -14392,7 +14414,7 @@ msgstr "Gem _billede..."
 msgid "Save the image to a file"
 msgstr "Gem billedet til en fil"
 
-#: ../e-util/e-web-view.c:410 ../e-util/e-web-view.c:1830
+#: ../e-util/e-web-view.c:410 ../e-util/e-web-view.c:1826
 msgid "Select all text and images"
 msgstr "Vælg al tekst og billeder"
 
@@ -14419,23 +14441,23 @@ msgstr "Gå til brevets begyndelse"
 msgid "Click to open %s"
 msgstr "Klik for at åbne %s"
 
-#: ../e-util/e-web-view.c:3651
+#: ../e-util/e-web-view.c:3672
 msgid "Copying image to clipboard"
 msgstr "Kopierer billedet til udklipsholderen"
 
-#: ../e-util/e-web-view.c:3839
+#: ../e-util/e-web-view.c:3860
 msgid "Save Image"
 msgstr "Gem billede"
 
-#: ../e-util/e-web-view.c:3875
+#: ../e-util/e-web-view.c:3896
 #, c-format
 msgid "Saving image to '%s'"
 msgstr "Gemmer billede til \"%s\""
 
-#: ../e-util/e-web-view.c:3970
+#: ../e-util/e-web-view.c:3991
 #, c-format
 msgid "Cannot get URI '%s', do not know how to download it."
-msgstr ""
+msgstr "Kan ikke hente URI \"%s\". Ved ikke hvordan den skal downloades."
 
 #: ../e-util/e-widget-undo.c:430
 msgid "Undo 'Insert text'"
@@ -14811,12 +14833,12 @@ msgstr "Afsendte"
 msgid "Templates"
 msgstr "Skabeloner"
 
-#: ../libemail-engine/e-mail-session.c:1305
+#: ../libemail-engine/e-mail-session.c:1334
 #, c-format
 msgid "User cancelled operation"
 msgstr "Operation afbrudt af bruger"
 
-#: ../libemail-engine/e-mail-session.c:1362
+#: ../libemail-engine/e-mail-session.c:1391
 #, c-format
 msgid ""
 "No destination address provided, forwarding of the message has been "
@@ -14825,14 +14847,14 @@ msgstr ""
 "Ingen modtageradresse er angivet. Videresendelse af brevet er blevet "
 "annulleret."
 
-#: ../libemail-engine/e-mail-session.c:1375
+#: ../libemail-engine/e-mail-session.c:1404
 #, c-format
 msgid "No identity found to use, forwarding of the message has been cancelled."
 msgstr ""
 "Der blev ikke fundet en brugbar identitet. Videresendelse af brevet er "
 "blevet annulleret."
 
-#: ../libemail-engine/e-mail-session.c:2405
+#: ../libemail-engine/e-mail-session.c:2434
 #, c-format
 msgid "Waiting for '%s'"
 msgstr "Venter på \"%s\""
@@ -14944,9 +14966,8 @@ msgstr[0] "Det lykkedes ikke at sende et brev"
 msgstr[1] "Det lykkedes ikke at sende %d af %d breve"
 
 #: ../libemail-engine/mail-ops.c:1064
-#, fuzzy
 msgid "Cancelled."
-msgstr "Afbrudt"
+msgstr "Annulleret."
 
 #: ../libemail-engine/mail-ops.c:1066
 msgid "Complete."
@@ -15197,14 +15218,12 @@ msgid "Choose a folder to archive messages to."
 msgstr "Vælg en mappe, der skal arkiveres breve i."
 
 #: ../mail/e-mail-config-defaults-page.c:932
-#, fuzzy
 msgid "_Templates Folder:"
-msgstr "_Skabelon:"
+msgstr "_Skabelonmappe:"
 
 #: ../mail/e-mail-config-defaults-page.c:942
-#, fuzzy
 msgid "Choose a folder to use for template messages."
-msgstr "Vælg en mappe til slettede breve."
+msgstr "Vælg en mappe til brevskabeloner."
 
 #: ../mail/e-mail-config-defaults-page.c:964
 msgid "_Restore Defaults"
@@ -15346,7 +15365,6 @@ msgstr "_Slå postserverdetaljer op baseret på den indtastede e-mailadresse"
 #. This is only a warning, not a blocker
 #. complete = complete && correct;
 #: ../mail/e-mail-config-identity-page.c:630
-#, fuzzy
 msgid "Full Name should not be empty"
 msgstr "Fulde navn kan ikke være tomt"
 
@@ -15609,31 +15627,31 @@ msgstr "Send et svarbrev til denne adresse"
 msgid "Create Search _Folder"
 msgstr "Opret søge_mappe"
 
-#: ../mail/e-mail-display.c:753
+#: ../mail/e-mail-display.c:749
 msgid "Hid_e All"
 msgstr "_Skjul alle"
 
-#: ../mail/e-mail-display.c:760
+#: ../mail/e-mail-display.c:756
 msgid "_View Inline"
 msgstr "_Vis integreret"
 
-#: ../mail/e-mail-display.c:767
+#: ../mail/e-mail-display.c:763
 msgid "Vie_w All Inline"
 msgstr "_Vis alle integreret"
 
-#: ../mail/e-mail-display.c:774
+#: ../mail/e-mail-display.c:770
 msgid "_Zoom to 100%"
 msgstr "_Zoom til 100%"
 
-#: ../mail/e-mail-display.c:776
+#: ../mail/e-mail-display.c:772
 msgid "Zoom the image to its natural size"
 msgstr "Zoom billedet til den naturlige størrelse"
 
-#: ../mail/e-mail-display.c:781
+#: ../mail/e-mail-display.c:777
 msgid "_Zoom to window"
 msgstr "_Zoom til vindue"
 
-#: ../mail/e-mail-display.c:783
+#: ../mail/e-mail-display.c:779
 msgid "Zoom large images to not be wider than the window width"
 msgstr "Zoom således at store billeder ikke er bredere en vinduesbredden"
 
@@ -18107,7 +18125,6 @@ msgid "Use default drafts folder?"
 msgstr "Benyt standardkladdemappen?"
 
 #: ../mail/mail.error.xml.h:34
-#, fuzzy
 msgid ""
 "Unable to open the drafts folder for this account. Use the system drafts "
 "folder instead?\n"
@@ -18115,7 +18132,9 @@ msgid ""
 "The reported error was &quot;{0}&quot;."
 msgstr ""
 "Kan ikke åbne kladdemappen for denne konto. Vil du bruge systemkladdemappen "
-"i stedet?"
+"i stedet?\n"
+"\n"
+"Den rapporterede fejl var &quot;{0}&quot;."
 
 #: ../mail/mail.error.xml.h:37
 msgid "Use _Default"
@@ -18252,9 +18271,8 @@ msgid ""
 msgstr "Hvis du sletter mappen, vil alt indholdet i denne slettes permanent."
 
 #: ../mail/mail.error.xml.h:70
-#, fuzzy
 msgid "Really unsubscribe folder \"{0}\"?"
-msgstr "Sikker på at du vil slette mappen \"{0}\"?"
+msgstr "Er du sikker på at du vil afmelde mappen \"{0}\"?"
 
 #: ../mail/mail.error.xml.h:71
 msgid ""
@@ -18262,11 +18280,13 @@ msgid ""
 "while still being available on the server. You can re-subscribe in Folder-"
 ">Subscriptions... menu."
 msgstr ""
+"Hvis du afmelder mappen, vil den måske ikke være synlig i Evolution, men "
+"stadig være tilgængelig på serveren. Du kan gentilmelde i menuen Mappe-"
+">Abonnementer..."
 
 #: ../mail/mail.error.xml.h:72
-#, fuzzy
 msgid "Do _Not Unsubscribe"
-msgstr "_Afmeld abonnement"
+msgstr "Afmeld _ikke"
 
 #: ../mail/mail.error.xml.h:74
 msgid "Really delete folder \"{0}\"?"
@@ -19805,9 +19825,8 @@ msgid "Server address cannot be empty"
 msgstr "Serveradressen kan ikke være tom"
 
 #: ../modules/book-config-webdav/evolution-book-config-webdav.c:92
-#, fuzzy
 msgid "Choose an Address Book"
-msgstr "Ny adressebog"
+msgstr "Vælg en adressebog"
 
 #: ../modules/book-config-webdav/evolution-book-config-webdav.c:240
 #: ../modules/cal-config-caldav/evolution-cal-config-caldav.c:296
@@ -19816,9 +19835,8 @@ msgid "URL:"
 msgstr "URL:"
 
 #: ../modules/book-config-webdav/evolution-book-config-webdav.c:249
-#, fuzzy
 msgid "Find Address Books"
-msgstr "Tilføj adressebog"
+msgstr "Find adressebøger"
 
 #: ../modules/book-config-webdav/evolution-book-config-webdav.c:259
 msgid "Avoid IfMatch (needed on Apache < 2.2.8)"
@@ -20814,11 +20832,11 @@ msgstr "Mem_o"
 #: ../modules/calendar/e-memo-shell-backend.c:86
 msgctxt "New"
 msgid "_Shared Memo"
-msgstr "_Delt memo"
+msgstr "_Fælles memo"
 
 #: ../modules/calendar/e-memo-shell-backend.c:88
 msgid "Create a new shared memo"
-msgstr "Opret et nyt, delt memo"
+msgstr "Opret et nyt fælles memo"
 
 #: ../modules/calendar/e-memo-shell-backend.c:96
 msgctxt "New"
@@ -21316,12 +21334,12 @@ msgid "%s has sent back the following meeting response:"
 msgstr "%s har sendt følgende mødetilbagemelding:"
 
 #: ../modules/itip-formatter/itip-view.c:476
-#, fuzzy, c-format
+#, c-format
 msgid "%s through %s has cancelled the following meeting:"
 msgstr "%s har gennem %s aflyst følgende møde:"
 
 #: ../modules/itip-formatter/itip-view.c:478
-#, fuzzy, c-format
+#, c-format
 msgid "%s has cancelled the following meeting:"
 msgstr "%s har aflyst følgende møde:"
 
@@ -21408,12 +21426,12 @@ msgid "%s has sent back the following assigned task response:"
 msgstr "%s har sendt en tilbagemelding om følgende opgavetildeling:"
 
 #: ../modules/itip-formatter/itip-view.c:566
-#, fuzzy, c-format
+#, c-format
 msgid "%s through %s has cancelled the following assigned task:"
 msgstr "%s har gennem %s aflyst følgende opgavetildeling:"
 
 #: ../modules/itip-formatter/itip-view.c:568
-#, fuzzy, c-format
+#, c-format
 msgid "%s has cancelled the following assigned task:"
 msgstr "%s har aflyst følgende opgavetildeling:"
 
@@ -21458,269 +21476,269 @@ msgid "%s wishes to add to an existing memo:"
 msgstr "%s ønsker at føje noget til et eksisterende memo:"
 
 #: ../modules/itip-formatter/itip-view.c:632
-#, fuzzy, c-format
+#, c-format
 msgid "%s through %s has cancelled the following shared memo:"
 msgstr "%s har gennem %s aflyst følgende fælles memo:"
 
 #: ../modules/itip-formatter/itip-view.c:634
-#, fuzzy, c-format
+#, c-format
 msgid "%s has cancelled the following shared memo:"
 msgstr "%s har aflyst følgende fælles memo:"
 
-#: ../modules/itip-formatter/itip-view.c:893
+#: ../modules/itip-formatter/itip-view.c:859
 msgid "All day:"
 msgstr "Hele dagen:"
 
-#: ../modules/itip-formatter/itip-view.c:899
+#: ../modules/itip-formatter/itip-view.c:865
 msgid "Start day:"
 msgstr "Startdag:"
 
-#: ../modules/itip-formatter/itip-view.c:899
-#: ../modules/itip-formatter/itip-view.c:1725
+#: ../modules/itip-formatter/itip-view.c:865
+#: ../modules/itip-formatter/itip-view.c:1667
 msgid "Start time:"
 msgstr "Starttid:"
 
-#: ../modules/itip-formatter/itip-view.c:908
+#: ../modules/itip-formatter/itip-view.c:874
 msgid "End day:"
 msgstr "Slutdag:"
 
-#: ../modules/itip-formatter/itip-view.c:908
-#: ../modules/itip-formatter/itip-view.c:1726
+#: ../modules/itip-formatter/itip-view.c:874
+#: ../modules/itip-formatter/itip-view.c:1668
 msgid "End time:"
 msgstr "Sluttid:"
 
-#: ../modules/itip-formatter/itip-view.c:1255
+#: ../modules/itip-formatter/itip-view.c:1205
 msgid "Ope_n Calendar"
 msgstr "Åb_n kalender"
 
-#: ../modules/itip-formatter/itip-view.c:1258
+#: ../modules/itip-formatter/itip-view.c:1208
 msgid "_Decline all"
 msgstr "_Afslå alle"
 
-#: ../modules/itip-formatter/itip-view.c:1261
+#: ../modules/itip-formatter/itip-view.c:1211
 msgid "_Decline"
 msgstr "_Nægt"
 
-#: ../modules/itip-formatter/itip-view.c:1264
+#: ../modules/itip-formatter/itip-view.c:1214
 msgid "_Tentative all"
 msgstr "_Alle forsøgsvis"
 
-#: ../modules/itip-formatter/itip-view.c:1267
+#: ../modules/itip-formatter/itip-view.c:1217
 msgid "_Tentative"
 msgstr "_Forsøgsvis"
 
-#: ../modules/itip-formatter/itip-view.c:1270
+#: ../modules/itip-formatter/itip-view.c:1220
 msgid "Acce_pt all"
 msgstr "Acce_ptér alle"
 
-#: ../modules/itip-formatter/itip-view.c:1273
+#: ../modules/itip-formatter/itip-view.c:1223
 msgid "Acce_pt"
 msgstr "Acce_ptér"
 
-#: ../modules/itip-formatter/itip-view.c:1276
+#: ../modules/itip-formatter/itip-view.c:1226
 msgid "Send _Information"
 msgstr "Send _information"
 
-#: ../modules/itip-formatter/itip-view.c:1279
+#: ../modules/itip-formatter/itip-view.c:1229
 msgid "_Update Attendee Status"
 msgstr "_Opdatér status for deltager"
 
-#: ../modules/itip-formatter/itip-view.c:1282
+#: ../modules/itip-formatter/itip-view.c:1232
 #: ../smime/gui/certificate-manager.c:1679
 msgid "_Update"
 msgstr "_Opdatér"
 
-#: ../modules/itip-formatter/itip-view.c:1728
-#: ../modules/itip-formatter/itip-view.c:1776
-#: ../modules/itip-formatter/itip-view.c:1847
+#: ../modules/itip-formatter/itip-view.c:1670
+#: ../modules/itip-formatter/itip-view.c:1718
+#: ../modules/itip-formatter/itip-view.c:1789
 msgid "Comment:"
 msgstr "Kommentar:"
 
 #. RSVP area
-#: ../modules/itip-formatter/itip-view.c:1764
+#: ../modules/itip-formatter/itip-view.c:1706
 msgid "Send reply to sender"
 msgstr "Send svar til afsenderen"
 
 #. Updates
-#: ../modules/itip-formatter/itip-view.c:1779
+#: ../modules/itip-formatter/itip-view.c:1721
 msgid "Send _updates to attendees"
 msgstr "Send o_pdateringer til deltagere"
 
 #. The recurrence check button
-#: ../modules/itip-formatter/itip-view.c:1782
+#: ../modules/itip-formatter/itip-view.c:1724
 msgid "_Apply to all instances"
 msgstr "An_vend på alle forekomster"
 
-#: ../modules/itip-formatter/itip-view.c:1783
+#: ../modules/itip-formatter/itip-view.c:1725
 msgid "Show time as _free"
 msgstr "Vis tid som _fri"
 
-#: ../modules/itip-formatter/itip-view.c:1784
+#: ../modules/itip-formatter/itip-view.c:1726
 msgid "_Preserve my reminder"
 msgstr "_Bevar min påmindelse"
 
-#: ../modules/itip-formatter/itip-view.c:1785
+#: ../modules/itip-formatter/itip-view.c:1727
 msgid "_Inherit reminder"
 msgstr "_Nedarv påmindelse"
 
-#: ../modules/itip-formatter/itip-view.c:2102
+#: ../modules/itip-formatter/itip-view.c:2036
 msgid "_Tasks:"
 msgstr "_Opgaver:"
 
-#: ../modules/itip-formatter/itip-view.c:2105
+#: ../modules/itip-formatter/itip-view.c:2039
 msgid "_Memos:"
 msgstr "_Memoer:"
 
-#: ../modules/itip-formatter/itip-view.c:3059
+#: ../modules/itip-formatter/itip-view.c:2952
 msgid "Sa_ve"
 msgstr "_Gem"
 
-#: ../modules/itip-formatter/itip-view.c:3499
-#: ../modules/itip-formatter/itip-view.c:4955
+#: ../modules/itip-formatter/itip-view.c:3392
+#: ../modules/itip-formatter/itip-view.c:4848
 msgid "Attendee status updated"
 msgstr "Deltagerstatus opdateret"
 
-#: ../modules/itip-formatter/itip-view.c:3664
+#: ../modules/itip-formatter/itip-view.c:3557
 #, c-format
 msgid "An appointment in the calendar '%s' conflicts with this meeting"
 msgstr "En aftale i kalenderen \"%s\" er i konflikt med dette møde"
 
-#: ../modules/itip-formatter/itip-view.c:3694
+#: ../modules/itip-formatter/itip-view.c:3587
 #, c-format
 msgid "Found the appointment in the calendar '%s'"
 msgstr "Fandt aftalen i kalenderen \"%s\""
 
-#: ../modules/itip-formatter/itip-view.c:3828
+#: ../modules/itip-formatter/itip-view.c:3721
 msgid "Unable to find any calendars"
 msgstr "Kunne ikke finde nogen kalendere"
 
-#: ../modules/itip-formatter/itip-view.c:3836
+#: ../modules/itip-formatter/itip-view.c:3729
 msgid "Unable to find this meeting in any calendar"
 msgstr "Kunne ikke finde dette møde i nogen kalender"
 
-#: ../modules/itip-formatter/itip-view.c:3841
+#: ../modules/itip-formatter/itip-view.c:3734
 msgid "Unable to find this task in any task list"
 msgstr "Kunne ikke finde denne opgave i nogen opgaveliste"
 
-#: ../modules/itip-formatter/itip-view.c:3846
+#: ../modules/itip-formatter/itip-view.c:3739
 msgid "Unable to find this memo in any memo list"
 msgstr "Kunne ikke finde dette memo i nogen memoliste"
 
-#: ../modules/itip-formatter/itip-view.c:4190
+#: ../modules/itip-formatter/itip-view.c:4083
 msgid "Opening the calendar. Please wait..."
 msgstr "Åbner kalenderen. Vent venligst..."
 
-#: ../modules/itip-formatter/itip-view.c:4195
+#: ../modules/itip-formatter/itip-view.c:4088
 msgid "Searching for an existing version of this appointment"
 msgstr "Søger efter en eksisterende udgave af denne aftale"
 
-#: ../modules/itip-formatter/itip-view.c:4594
+#: ../modules/itip-formatter/itip-view.c:4487
 #, c-format
 msgid "Unable to send item to calendar '%s'.  %s"
 msgstr "Kan ikke sende elementet til kalenderen \"%s\". %s"
 
-#: ../modules/itip-formatter/itip-view.c:4609
+#: ../modules/itip-formatter/itip-view.c:4502
 #, c-format
 msgid "Sent to calendar '%s' as accepted"
 msgstr "Sendt til kalenderen \"%s\" som accepteret"
 
-#: ../modules/itip-formatter/itip-view.c:4614
+#: ../modules/itip-formatter/itip-view.c:4507
 #, c-format
 msgid "Sent to calendar '%s' as tentative"
 msgstr "Sendt til kalenderen \"%s\" som forsøgsvis"
 
-#: ../modules/itip-formatter/itip-view.c:4620
+#: ../modules/itip-formatter/itip-view.c:4513
 #, c-format
 msgid "Sent to calendar '%s' as declined"
 msgstr "Sendt til kalenderen \"%s\" som afslået"
 
-#: ../modules/itip-formatter/itip-view.c:4626
-#, fuzzy, c-format
+#: ../modules/itip-formatter/itip-view.c:4519
+#, c-format
 msgid "Sent to calendar '%s' as cancelled"
 msgstr "Sendt til kalenderen \"%s\" som annulleret"
 
-#: ../modules/itip-formatter/itip-view.c:4646
-#: ../modules/itip-formatter/itip-view.c:5092
-#: ../modules/itip-formatter/itip-view.c:5195
+#: ../modules/itip-formatter/itip-view.c:4539
+#: ../modules/itip-formatter/itip-view.c:4985
+#: ../modules/itip-formatter/itip-view.c:5088
 msgid "Saving changes to the calendar. Please wait..."
 msgstr "Gemmer ændringer i kalenderen. Vent venligst..."
 
-#: ../modules/itip-formatter/itip-view.c:4687
+#: ../modules/itip-formatter/itip-view.c:4580
 msgid "Unable to parse item"
 msgstr "Kan ikke fortolke elementet"
 
-#: ../modules/itip-formatter/itip-view.c:4879
+#: ../modules/itip-formatter/itip-view.c:4772
 #, c-format
 msgid "Organizer has removed the delegate %s "
 msgstr "Organisator har fjernet delegat %s "
 
-#: ../modules/itip-formatter/itip-view.c:4896
+#: ../modules/itip-formatter/itip-view.c:4789
 msgid "Sent a cancelation notice to the delegate"
 msgstr "Sendte en aflysningsnotits til delegaten"
 
-#: ../modules/itip-formatter/itip-view.c:4900
+#: ../modules/itip-formatter/itip-view.c:4793
 msgid "Could not send the cancelation notice to the delegate"
 msgstr "Kunne ikke sende en aflysningsnotits til delegaten"
 
-#: ../modules/itip-formatter/itip-view.c:4947
+#: ../modules/itip-formatter/itip-view.c:4840
 #, c-format
 msgid "Unable to update attendee. %s"
 msgstr "Kunne ikke opdatere deltager. %s"
 
-#: ../modules/itip-formatter/itip-view.c:4982
+#: ../modules/itip-formatter/itip-view.c:4875
 msgid "The meeting is invalid and cannot be updated"
 msgstr "Mødet er ugyldigt og kan ikke opdateres"
 
-#: ../modules/itip-formatter/itip-view.c:5057
+#: ../modules/itip-formatter/itip-view.c:4950
 msgid "Attendee status could not be updated because the status is invalid"
 msgstr "Deltagerstatus kunne ikke opdateres pga. ugyldig status"
 
-#: ../modules/itip-formatter/itip-view.c:5128
-#: ../modules/itip-formatter/itip-view.c:5166
+#: ../modules/itip-formatter/itip-view.c:5021
+#: ../modules/itip-formatter/itip-view.c:5059
 msgid "Attendee status can not be updated because the item no longer exists"
 msgstr ""
 "Deltagerstatus kan ikke opdateres, fordi elementet ikke længere eksisterer"
 
-#: ../modules/itip-formatter/itip-view.c:5227
+#: ../modules/itip-formatter/itip-view.c:5120
 msgid "Meeting information sent"
 msgstr "Mødeinformation afsendt"
 
-#: ../modules/itip-formatter/itip-view.c:5232
+#: ../modules/itip-formatter/itip-view.c:5125
 msgid "Task information sent"
 msgstr "Opgaveinformation afsendt"
 
-#: ../modules/itip-formatter/itip-view.c:5237
+#: ../modules/itip-formatter/itip-view.c:5130
 msgid "Memo information sent"
 msgstr "Memoinformation afsendt"
 
-#: ../modules/itip-formatter/itip-view.c:5248
+#: ../modules/itip-formatter/itip-view.c:5141
 msgid "Unable to send meeting information, the meeting does not exist"
 msgstr "Ude af stand til at sende mødeinformation, mødet eksisterer ikke"
 
-#: ../modules/itip-formatter/itip-view.c:5253
+#: ../modules/itip-formatter/itip-view.c:5146
 msgid "Unable to send task information, the task does not exist"
 msgstr "Ude af stand til at sende opgaveinformation, opgaven eksisterer ikke"
 
-#: ../modules/itip-formatter/itip-view.c:5258
+#: ../modules/itip-formatter/itip-view.c:5151
 msgid "Unable to send memo information, the memo does not exist"
 msgstr "Ude af stand til at sende memoinformation, memoet eksisterer ikke"
 
 #. Translators: This is a default filename for a calendar.
-#: ../modules/itip-formatter/itip-view.c:5323
+#: ../modules/itip-formatter/itip-view.c:5216
 msgid "calendar.ics"
 msgstr "kalender.ics"
 
-#: ../modules/itip-formatter/itip-view.c:5328
+#: ../modules/itip-formatter/itip-view.c:5221
 msgid "Save Calendar"
 msgstr "Gem kalender"
 
-#: ../modules/itip-formatter/itip-view.c:5376
-#: ../modules/itip-formatter/itip-view.c:5389
+#: ../modules/itip-formatter/itip-view.c:5269
+#: ../modules/itip-formatter/itip-view.c:5282
 msgid "The calendar attached is not valid"
 msgstr "Den vedlagte kalender er ikke gyldig"
 
-#: ../modules/itip-formatter/itip-view.c:5377
-#: ../modules/itip-formatter/itip-view.c:5390
+#: ../modules/itip-formatter/itip-view.c:5270
+#: ../modules/itip-formatter/itip-view.c:5283
 msgid ""
 "The message claims to contain a calendar, but the calendar is not a valid "
 "iCalendar."
@@ -21728,15 +21746,15 @@ msgstr ""
 "Brevet påstår at indeholde en kalender, men kalenderen er ikke i et gyldigt "
 "iCalender-format."
 
-#: ../modules/itip-formatter/itip-view.c:5432
-#: ../modules/itip-formatter/itip-view.c:5462
-#: ../modules/itip-formatter/itip-view.c:5565
+#: ../modules/itip-formatter/itip-view.c:5325
+#: ../modules/itip-formatter/itip-view.c:5355
+#: ../modules/itip-formatter/itip-view.c:5458
 msgid "The item in the calendar is not valid"
 msgstr "Posten i kalenderen er ikke gyldig"
 
-#: ../modules/itip-formatter/itip-view.c:5433
-#: ../modules/itip-formatter/itip-view.c:5463
-#: ../modules/itip-formatter/itip-view.c:5566
+#: ../modules/itip-formatter/itip-view.c:5326
+#: ../modules/itip-formatter/itip-view.c:5356
+#: ../modules/itip-formatter/itip-view.c:5459
 msgid ""
 "The message does contain a calendar, but the calendar contains no events, "
 "tasks or free/busy information"
@@ -21744,11 +21762,11 @@ msgstr ""
 "Brevet indeholder en kalender, men kalenderen indeholder ikke nogen "
 "begivenheder eller ledig/optaget-information"
 
-#: ../modules/itip-formatter/itip-view.c:5478
+#: ../modules/itip-formatter/itip-view.c:5371
 msgid "The calendar attached contains multiple items"
 msgstr "Den vedlagte kalender indeholder flere punkter"
 
-#: ../modules/itip-formatter/itip-view.c:5479
+#: ../modules/itip-formatter/itip-view.c:5372
 msgid ""
 "To process all of these items, the file should be saved and the calendar "
 "imported"
@@ -21757,24 +21775,24 @@ msgstr ""
 "importeres"
 
 # Intet fordi det drejer sig om et summary som er oversat til sammendrag
-#: ../modules/itip-formatter/itip-view.c:5974
+#: ../modules/itip-formatter/itip-view.c:5890
 msgctxt "cal-itip"
 msgid "None"
 msgstr "Intet"
 
-#: ../modules/itip-formatter/itip-view.c:5990
+#: ../modules/itip-formatter/itip-view.c:5906
 msgid "Tentatively Accepted"
 msgstr "Forsøgsvist godtaget"
 
-#: ../modules/itip-formatter/itip-view.c:6150
+#: ../modules/itip-formatter/itip-view.c:6072
 msgid "This meeting recurs"
 msgstr "Dette møde er tilbagevendende"
 
-#: ../modules/itip-formatter/itip-view.c:6153
+#: ../modules/itip-formatter/itip-view.c:6075
 msgid "This task recurs"
 msgstr "Denne opgave er tilbagevendende"
 
-#: ../modules/itip-formatter/itip-view.c:6156
+#: ../modules/itip-formatter/itip-view.c:6078
 msgid "This memo recurs"
 msgstr "Dette memo er tilbagevendende"
 
@@ -21793,19 +21811,19 @@ msgstr "Dette møde er blevet uddelegeret"
 msgid "'{0}' has delegated the meeting. Do you want to add the delegate '{1}'?"
 msgstr "\"{0}\" har uddelegeret mødet. Vil du tilføje delegaten \"{1}\"?"
 
-#: ../modules/mail-config/e-mail-config-google-summary.c:265
+#: ../modules/mail-config/e-mail-config-google-summary.c:282
 msgid "Google Features"
 msgstr "Google-funktioner"
 
-#: ../modules/mail-config/e-mail-config-google-summary.c:274
+#: ../modules/mail-config/e-mail-config-google-summary.c:291
 msgid "Add Google Ca_lendar to this account"
 msgstr "Tilføj Google-ka_lender til denne konto"
 
-#: ../modules/mail-config/e-mail-config-google-summary.c:283
+#: ../modules/mail-config/e-mail-config-google-summary.c:300
 msgid "Add Google Con_tacts to this account"
 msgstr "Tilføj Google-kon_takter til denne konto"
 
-#: ../modules/mail-config/e-mail-config-google-summary.c:292
+#: ../modules/mail-config/e-mail-config-google-summary.c:309
 msgid "You may need to enable IMAP access"
 msgstr "Det kan være nødvendigt at aktivere IMAP-adgang"
 
@@ -21892,9 +21910,8 @@ msgstr "Bruger_navn:"
 
 #: ../modules/mail-config/e-mail-config-remote-accounts.c:264
 #: ../modules/mail-config/e-mail-config-smtp-backend.c:326
-#, fuzzy
 msgid "_Forget password"
-msgstr "_Glem adgangskoder"
+msgstr "_Glem adgangskode"
 
 #: ../modules/mail-config/e-mail-config-remote-accounts.c:290
 #: ../modules/mail-config/e-mail-config-smtp-backend.c:233
@@ -22005,40 +22022,38 @@ msgstr "Opret en ny brevmappe"
 #: ../modules/mail/e-mail-shell-backend.c:711
 msgctxt "NetworkMonitor"
 msgid "base"
-msgstr ""
+msgstr "base"
 
 #. Translators: One of the known implementation names of the GNetworkMonitor. Either translate
 #. it to some user-frienly form, or keep it as is.
 #: ../modules/mail/e-mail-shell-backend.c:714
 msgctxt "NetworkMonitor"
 msgid "netlink"
-msgstr ""
+msgstr "netlink"
 
 #. Translators: One of the known implementation names of the GNetworkMonitor. Either translate
 #. it to some user-frienly form, or keep it as is.
 #: ../modules/mail/e-mail-shell-backend.c:717
 msgctxt "NetworkMonitor"
 msgid "networkmanager"
-msgstr ""
+msgstr "netværkshåndtering"
 
 #: ../modules/mail/e-mail-shell-backend.c:749
 msgctxt "NetworkMonitor"
 msgid "Method to detect _online state:"
-msgstr ""
+msgstr "Metode til at bestemme om _online:"
 
 #. Always as the first
 #: ../modules/mail/e-mail-shell-backend.c:758
-#, fuzzy
 msgctxt "NetworkMonitor"
 msgid "Default"
 msgstr "Standard"
 
 #. Always as the last
 #: ../modules/mail/e-mail-shell-backend.c:772
-#, fuzzy
 msgctxt "NetworkMonitor"
 msgid "Always Online"
-msgstr "Flyt _altid"
+msgstr "Altid online"
 
 #: ../modules/mail/e-mail-shell-backend.c:832
 msgid "Mail Accounts"
@@ -22311,11 +22326,11 @@ msgid "Show _Attachment Bar"
 msgstr "_Vis bilagspanel"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:2070
-#, fuzzy
 msgid ""
 "Show Attachment Bar below the message preview pane when the message has "
 "attachments"
-msgstr "Vis forhåndsvisningsruden til breve under brevlisten"
+msgstr ""
+"Vis bilagslinje under forhåndsvisningsruden til breve, når brevet har bilag"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:2076
 msgid "Show _Deleted Messages"
@@ -24098,9 +24113,8 @@ msgstr ""
 "erstattet med værdier fra et brev som du svarer på."
 
 #: ../plugins/templates/templates.c:1286
-#, fuzzy
 msgid "Saving message template"
-msgstr "Gemmer brev i udbakken."
+msgstr "Gemmer brevskabelon"
 
 #: ../plugins/templates/templates.c:1307
 msgid "Save as _Template"
