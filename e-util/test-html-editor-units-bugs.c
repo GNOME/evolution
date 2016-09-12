@@ -588,6 +588,50 @@ test_bug_771044 (TestFixture *fixture)
 		g_test_fail ();
 }
 
+static void
+test_bug_771131 (TestFixture *fixture)
+{
+	if (!test_utils_process_commands (fixture,
+		"mode:plain\n")) {
+		g_test_fail ();
+		return;
+	}
+
+	test_utils_insert_content (fixture,
+		"<body><pre>On &lt;date1&gt;, &lt;name1&gt; wrote:\n"
+		"<blockquote type=\"cite\">\n"
+		"Hello\n"
+		"\n"
+		"Goodbye</blockquote>"
+		"<div><span>the 3rd line text</span></div>"
+		"</pre><span class=\"-x-evo-to-body\" data-credits=\"On Sat, 2016-09-10 at 20:00 +0000, example@example.com wrote:\"></span>"
+		"<span class=\"-x-evo-cite-body\"></span></body>",
+		E_CONTENT_EDITOR_INSERT_REPLACE_ALL | E_CONTENT_EDITOR_INSERT_TEXT_HTML);
+
+	if (!test_utils_run_simple_test (fixture,
+		"",
+		HTML_PREFIX_PLAIN "<div style=\"width: 71ch;\">On Sat, 2016-09-10 at 20:00 +0000, example@example.com wrote:</div>"
+		"<blockquote type=\"cite\">"
+		"<div style=\"width: 71ch;\">&gt; On &lt;date1&gt;, &lt;name1&gt; wrote:</div>"
+		"<blockquote type=\"cite\">"
+		"<div style=\"width: 71ch;\">&gt; &gt; Hello</div>"
+		"<div style=\"width: 71ch;\">&gt; &gt; <br></div>"
+		"<div style=\"width: 71ch;\">&gt; &gt; Goodbye</div>"
+		"</blockquote>"
+		"<div style=\"width: 71ch;\">&gt; <br></div>"
+		"<div style=\"width: 71ch;\">&gt; the 3rd line text</div>"
+		"</blockquote>"
+		HTML_SUFFIX,
+		"On Sat, 2016-09-10 at 20:00 +0000, example@example.com wrote:\n"
+		"> On <date1>, <name1> wrote:\n"
+		"> > Hello\n"
+		"> > \n"
+		"> > Goodbye\n"
+		"> \n"
+		"> the 3rd line text"))
+		g_test_fail ();
+}
+
 void
 test_add_html_editor_bug_tests (void)
 {
@@ -601,4 +645,5 @@ test_add_html_editor_bug_tests (void)
 	test_utils_add_test ("/bug/770073", test_bug_770073);
 	test_utils_add_test ("/bug/770074", test_bug_770074);
 	test_utils_add_test ("/bug/771044", test_bug_771044);
+	test_utils_add_test ("/bug/771131", test_bug_771131);
 }

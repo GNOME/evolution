@@ -5305,6 +5305,9 @@ parse_html_into_blocks (EEditorPage *editor_page,
 		if (with_br && citation_start && citation_start != with_br + 4)
 			append_citation_mark (document, parent, "##CITATION_START##");
 
+		if (!with_br && citation_start && citation_start != to_process)
+			append_citation_mark (document, parent, "##CITATION_START##");
+
 		if (citation_end && citation_end != to_process)
 			append_citation_mark (document, parent, "##CITATION_END##");
 
