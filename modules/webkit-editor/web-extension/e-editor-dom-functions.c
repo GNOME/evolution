@@ -1018,7 +1018,7 @@ e_editor_dom_quote_plain_text_element_after_wrapping (EEditorPage *editor_page,
 		WEBKIT_DOM_ELEMENT (quoted_node), quotation, NULL);
 
 	list = webkit_dom_element_query_selector_all (
-		element, "br.-x-evo-wrap-br, pre > br:not(.-x-evo-quoted)", NULL);
+		element, "br.-x-evo-wrap-br, pre > br", NULL);
 	webkit_dom_node_insert_before (
 		WEBKIT_DOM_NODE (element),
 		quoted_node,
@@ -1028,12 +1028,17 @@ e_editor_dom_quote_plain_text_element_after_wrapping (EEditorPage *editor_page,
 	length = webkit_dom_node_list_get_length (list);
 	for (ii = 0; ii < length; ii++) {
 		WebKitDOMNode *br = webkit_dom_node_list_item (list, ii);
+		WebKitDOMNode *prev_sibling = webkit_dom_node_get_previous_sibling (br);
 
-		webkit_dom_node_insert_before (
-			webkit_dom_node_get_parent_node (br),
-			webkit_dom_node_clone_node_with_error (quoted_node, TRUE, NULL),
-			webkit_dom_node_get_next_sibling (br),
-			NULL);
+		if (!WEBKIT_DOM_IS_ELEMENT (prev_sibling) ||
+		     !element_has_class (WEBKIT_DOM_ELEMENT (prev_sibling), "-x-evo-quoted")) {
+
+			webkit_dom_node_insert_before (
+				webkit_dom_node_get_parent_node (br),
+				webkit_dom_node_clone_node_with_error (quoted_node, TRUE, NULL),
+				webkit_dom_node_get_next_sibling (br),
+				NULL);
+		}
 	}
 
 	g_clear_object (&list);
@@ -1138,7 +1143,6 @@ e_editor_dom_wrap_and_quote_element (EEditorPage *editor_page,
 	}
 
 	if (citation_level > 0) {
-
 		webkit_dom_node_normalize (WEBKIT_DOM_NODE (tmp_element));
 		e_editor_dom_quote_plain_text_element_after_wrapping (
 			editor_page, tmp_element, citation_level);
