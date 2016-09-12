@@ -2483,7 +2483,7 @@ fix_paragraph_structure_after_pressing_enter (EEditorPage *editor_page)
 	/* When pressing Enter on empty line in the list (or after heading elements)
 	 * WebKit will end that list and inserts <div><br></div> so mark it for wrapping. */
 	list = webkit_dom_document_query_selector_all (
-		document, "body > div > br", NULL);
+		document, "body > div:not([data-evo-paragraph]) > br", NULL);
 
 	length = webkit_dom_node_list_get_length (list);
 	for (ii = 0; ii < length; ii++) {
