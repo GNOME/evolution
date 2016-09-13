@@ -768,9 +768,6 @@ refresh_spell_check (EEditorPage *editor_page,
 		"spellcheck",
 		enable_spell_check ? "true" : "false",
 		NULL);
-	webkit_dom_html_element_set_spellcheck (body, FALSE);
-	webkit_dom_html_element_set_spellcheck (body, enable_spell_check);
-	return;
 
 	e_editor_dom_selection_save (editor_page);
 
@@ -8503,6 +8500,11 @@ e_editor_dom_process_content_after_load (EEditorPage *editor_page)
 
 		e_editor_dom_register_input_event_listener_on_body (editor_page);
 		register_html_events_handlers (editor_page, body);
+
+		if (e_editor_page_get_inline_spelling_enabled (editor_page))
+			e_editor_dom_force_spell_check (editor_page);
+		else
+			e_editor_dom_turn_spell_check_off (editor_page);
 
 		return;
 	}
