@@ -1480,9 +1480,19 @@ web_view_element_clicked_signal_cb (GDBusConnection *connection,
 static void
 web_extension_proxy_created_cb (GDBusProxy *proxy,
                                 GAsyncResult *result,
-                                EWebView *web_view)
+                                GWeakRef *web_view_ref)
 {
+	EWebView *web_view;
 	GError *error = NULL;
+
+	g_return_if_fail (web_view_ref != NULL);
+
+	web_view = g_weak_ref_get (web_view_ref);
+
+	if (!web_view) {
+		e_weak_ref_free (web_view_ref);
+		return;
+	}
 
 	web_view->priv->web_extension = g_dbus_proxy_new_finish (result, &error);
 	if (!web_view->priv->web_extension) {
@@ -1504,14 +1514,26 @@ web_extension_proxy_created_cb (GDBusProxy *proxy,
 
 		g_hash_table_foreach (web_view->priv->element_clicked_cbs, web_view_register_element_clicked_hfunc, web_view);
 	}
+
+	g_clear_object (&web_view);
+	e_weak_ref_free (web_view_ref);
 }
 
 static void
 web_extension_appeared_cb (GDBusConnection *connection,
                            const gchar *name,
                            const gchar *name_owner,
-                           EWebView *web_view)
+                           GWeakRef *web_view_ref)
 {
+	EWebView *web_view;
+
+	g_return_if_fail (web_view_ref != NULL);
+
+	web_view = g_weak_ref_get (web_view_ref);
+
+	if (!web_view)
+		return;
+
 	g_dbus_proxy_new (
 		connection,
 		G_DBUS_PROXY_FLAGS_DO_NOT_AUTO_START |
@@ -1522,15 +1544,27 @@ web_extension_appeared_cb (GDBusConnection *connection,
 		E_WEB_EXTENSION_INTERFACE,
 		NULL,
 		(GAsyncReadyCallback) web_extension_proxy_created_cb,
-		web_view);
+		e_weak_ref_new (web_view));
+
+	g_clear_object (&web_view);
 }
 
 static void
 web_extension_vanished_cb (GDBusConnection *connection,
                            const gchar *name,
-                           EWebView *web_view)
+                           GWeakRef *web_view_ref)
 {
+	EWebView *web_view;
+
+	g_return_if_fail (web_view_ref != NULL);
+
+	web_view = g_weak_ref_get (web_view_ref);
+
+	if (!web_view)
+		return;
+
 	g_clear_object (&web_view->priv->web_extension);
+	g_clear_object (&web_view);
 }
 
 static void
@@ -1543,8 +1577,8 @@ web_view_watch_web_extension (EWebView *web_view)
 			G_BUS_NAME_WATCHER_FLAGS_NONE,
 			(GBusNameAppearedCallback) web_extension_appeared_cb,
 			(GBusNameVanishedCallback) web_extension_vanished_cb,
-			web_view,
-			NULL);
+			e_weak_ref_new (web_view),
+			(GDestroyNotify) e_weak_ref_free);
 }
 
 GDBusProxy *

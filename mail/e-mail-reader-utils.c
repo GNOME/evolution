@@ -1388,6 +1388,7 @@ mail_reader_print_parse_message_cb (GObject *source_object,
 	EMailRemoteContent *remote_content;
 	AsyncContext *async_context;
 	GError *local_error = NULL;
+	gchar *export_basename;
 
 	reader = E_MAIL_READER (source_object);
 	async_context = (AsyncContext *) user_data;
@@ -1413,6 +1414,13 @@ mail_reader_print_parse_message_cb (GObject *source_object,
 	remote_content = e_mail_display_ref_remote_content (mail_display);
 
 	printer = e_mail_printer_new (part_list, remote_content);
+	export_basename = em_utils_build_export_basename (
+		CAMEL_FOLDER (async_context->folder),
+		e_mail_part_list_get_message_uid (part_list),
+		NULL);
+	e_filename_make_safe (export_basename);
+	e_mail_printer_set_export_filename (printer, export_basename);
+	g_free (export_basename);
 
 	g_clear_object (&remote_content);
 

@@ -833,7 +833,20 @@ em_utils_selection_get_uidlist (GtkSelectionData *selection_data,
 		g_propagate_error (error, local_error);
 }
 
-static gchar *
+/**
+ * em_utils_build_export_basename:
+ * @folder: a #CamelFolder where the message belongs
+ * @uid: a message UID
+ * @extension: (nullable): a filename extension
+ *
+ * Builds a name that consists of data and time when the message was received,
+ * message subject and extension.
+ *
+ * Returns: (transfer full): a newly allocated string with generated basename
+ *
+ * Since: 3.22
+ **/
+gchar *
 em_utils_build_export_basename (CamelFolder *folder,
                                 const gchar *uid,
                                 const gchar *extension)
@@ -844,6 +857,9 @@ em_utils_build_export_basename (CamelFolder *folder,
 	struct tm *ts;
 	time_t reftime;
 	gchar datetmp[15];
+
+	g_return_val_if_fail (CAMEL_IS_FOLDER (folder), NULL);
+	g_return_val_if_fail (uid != NULL, NULL);
 
 	reftime = time (NULL);
 

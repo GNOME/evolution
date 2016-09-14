@@ -92,6 +92,9 @@ gboolean	em_utils_process_autoarchive_sync
 						 GCancellable *cancellable,
 						 GError **error);
 
+gchar *		em_utils_build_export_basename	(CamelFolder *folder,
+						 const gchar *uid,
+						 const gchar *extension);
 
 G_END_DECLS
 
