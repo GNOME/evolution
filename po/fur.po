@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2016-09-15 15:38+0000\n"
-"PO-Revision-Date: 2016-09-16 18:42+0200\n"
+"PO-Revision-Date: 2016-09-16 22:45+0200\n"
 "Language-Team: Friulian <fur@li.org>\n"
 "Language: fur\n"
 "MIME-Version: 1.0\n"
@@ -637,72 +637,72 @@ msgstr "Mostre recapit di pueste di altri"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:71
 msgid "Show Notes"
-msgstr ""
+msgstr "Mostre notis"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:72
 msgid "Show Certificates"
-msgstr ""
+msgstr "Mostre certificâts"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:262
 #: ../calendar/gui/e-comp-editor.c:2039 ../e-util/e-html-editor-actions.c:899
 msgid "_Undo"
-msgstr ""
+msgstr "_Disfe"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:264
 #: ../calendar/gui/e-comp-editor.c:2041 ../e-util/e-focus-tracker.c:122
 msgid "Undo"
-msgstr ""
+msgstr "Disfe"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:269
 #: ../calendar/gui/e-comp-editor.c:2046 ../e-util/e-html-editor-actions.c:885
 msgid "_Redo"
-msgstr ""
+msgstr "_Torne fâs"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:271
 #: ../calendar/gui/e-comp-editor.c:2048 ../e-util/e-focus-tracker.c:138
 msgid "Redo"
-msgstr ""
+msgstr "Torne fâs"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:303
 #: ../addressbook/gui/widgets/eab-gui-util.c:503
 msgid "Error adding contact"
-msgstr ""
+msgstr "Erôr tal zontâ il contat"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:323
 msgid "Error modifying contact"
-msgstr ""
+msgstr "Erôr tal modificâ il contat"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:343
 msgid "Error removing contact"
-msgstr ""
+msgstr "Erôr tal gjavâ il contat"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:743
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:3104
 #, c-format
 msgid "Contact Editor - %s"
-msgstr ""
+msgstr "Editôr dai contats - %s"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:3240
 msgid "X.509 certificates"
-msgstr ""
+msgstr "Certificâts X.509"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:3245
 msgid "PGP keys"
-msgstr ""
+msgstr "Clâfs PGP"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:3251
 #: ../smime/gui/certificate-manager.c:691
 #: ../smime/gui/certificate-manager.c:980
 msgid "All files"
-msgstr ""
+msgstr "Ducj i file"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:3271
 msgid "Open PGP key"
-msgstr ""
+msgstr "Vierç clâf PGP"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:3271
 msgid "Open X.509 certificate"
-msgstr ""
+msgstr "Vierç certificât X.509"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:3274
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:4322
@@ -711,79 +711,81 @@ msgstr ""
 #: ../e-util/e-image-chooser-dialog.c:174 ../plugins/face/face.c:298
 #: ../shell/e-shell-utils.c:73 ../smime/gui/certificate-manager.c:969
 msgid "_Open"
-msgstr ""
+msgstr "_Vierç"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:3291
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:3522
 msgid "Chosen file is not a local file."
-msgstr ""
+msgstr "Il file sielt nol è un file locâl."
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:3304
 #, c-format
 msgid "Failed to load certificate: %s"
-msgstr ""
+msgstr "No si è rivâts a cjariâ il certificât: %s"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:3333
 msgctxt "cert-kind"
 msgid "X.509"
-msgstr ""
+msgstr "X.509"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:3333
 msgctxt "cert-kind"
 msgid "PGP"
-msgstr ""
+msgstr "PGP"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:3504
 msgid "Save PGP key"
-msgstr ""
+msgstr "Salve clâf PGP"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:3504
 msgid "Save X.509 certificate"
-msgstr ""
+msgstr "Salve certificât X.509"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:3534
 #, c-format
 msgid "Failed to save certificate: %s"
-msgstr ""
+msgstr "No si è rivâts a salvâ il certificât: %s"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:4318
 msgid "Please select an image for this contact"
-msgstr ""
+msgstr "Selezione une imagjin par chest contat"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:4323
 msgid "_No image"
-msgstr ""
+msgstr "_Nissune imagjin"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:4672
 msgid ""
 "The contact data is invalid:\n"
 "\n"
 msgstr ""
+"I dâts dal contat no son valits:\n"
+"\n"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:4678
 #, c-format
 msgid "'%s' has an invalid format"
-msgstr ""
+msgstr "'%s' nol à un formât valit"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:4686
 #, c-format
 msgid "'%s' cannot be a future date"
-msgstr ""
+msgstr "'%s' no pues jessi une date future"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:4694
 #, c-format
 msgid "%s'%s' has an invalid format"
-msgstr ""
+msgstr "%s'%s' al à un formât no valit"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:4707
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:4721
 #, c-format
 msgid "%s'%s' is empty"
-msgstr ""
+msgstr "%s'%s' al è vueit"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:4736
 msgid "Invalid contact."
-msgstr ""
+msgstr "Contat no valit."
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-fullname.c:223
 #: ../addressbook/gui/contact-editor/e-contact-quick-add.c:456
@@ -809,31 +811,31 @@ msgstr ""
 #: ../shell/main.c:180 ../smime/gui/certificate-manager.c:1351
 #: ../smime/gui/e-cert-selector.c:238 ../smime/gui/smime-ui.ui.h:24
 msgid "_OK"
-msgstr ""
+msgstr "_OK"
 
 #: ../addressbook/gui/contact-editor/e-contact-quick-add.c:451
 msgid "Contact Quick-Add"
-msgstr ""
+msgstr "Zonte veloce di un contat"
 
 #: ../addressbook/gui/contact-editor/e-contact-quick-add.c:454
 msgid "_Edit Full"
-msgstr ""
+msgstr "_Modifiche dal dut"
 
 #: ../addressbook/gui/contact-editor/e-contact-quick-add.c:505
 msgid "_Full name"
-msgstr ""
+msgstr "_Non complet"
 
 #: ../addressbook/gui/contact-editor/e-contact-quick-add.c:518
 msgid "E_mail"
-msgstr ""
+msgstr "E-_mail"
 
 #: ../addressbook/gui/contact-editor/e-contact-quick-add.c:531
 msgid "_Select Address Book"
-msgstr ""
+msgstr "_Selezione rubriche"
 
 #: ../addressbook/gui/contact-editor/fullname.ui.h:1
 msgid "Mr."
-msgstr ""
+msgstr "Siôr"
 
 #: ../addressbook/gui/contact-editor/fullname.ui.h:2
 msgid "Mrs."
@@ -849,7 +851,7 @@ msgstr ""
 
 #: ../addressbook/gui/contact-editor/fullname.ui.h:5
 msgid "Dr."
-msgstr ""
+msgstr "Dot."
 
 #: ../addressbook/gui/contact-editor/fullname.ui.h:6
 msgid "Sr."
@@ -861,15 +863,15 @@ msgstr ""
 
 #: ../addressbook/gui/contact-editor/fullname.ui.h:8
 msgid "I"
-msgstr ""
+msgstr "I"
 
 #: ../addressbook/gui/contact-editor/fullname.ui.h:9
 msgid "II"
-msgstr ""
+msgstr "II"
 
 #: ../addressbook/gui/contact-editor/fullname.ui.h:10
 msgid "III"
-msgstr ""
+msgstr "III"
 
 #: ../addressbook/gui/contact-editor/fullname.ui.h:11
 msgid "Esq."
@@ -878,41 +880,41 @@ msgstr ""
 #: ../addressbook/gui/contact-editor/fullname.ui.h:12
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:2
 msgid "Full Name"
-msgstr ""
+msgstr "Non complet"
 
 #: ../addressbook/gui/contact-editor/fullname.ui.h:15
 msgid "_First:"
-msgstr ""
+msgstr "_Non:"
 
 #: ../addressbook/gui/contact-editor/fullname.ui.h:16
 msgctxt "FullName"
 msgid "_Title:"
-msgstr ""
+msgstr "_Titul:"
 
 #: ../addressbook/gui/contact-editor/fullname.ui.h:17
 msgid "_Middle:"
-msgstr ""
+msgstr "_Secont non:"
 
 #: ../addressbook/gui/contact-editor/fullname.ui.h:18
 msgid "_Last:"
-msgstr ""
+msgstr "_Cognon:"
 
 #: ../addressbook/gui/contact-editor/fullname.ui.h:19
 msgid "_Suffix:"
-msgstr ""
+msgstr "S_ufìs:"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.ui.h:1
 #: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:817
 msgid "Contact List Editor"
-msgstr ""
+msgstr "Editôr di liste contats"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.ui.h:2
 msgid "_List name:"
-msgstr ""
+msgstr "Non de liste:"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.ui.h:4
 msgid "Members"
-msgstr ""
+msgstr "Membris"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.ui.h:5
 msgid "_Type an email address or drag a contact into the list below:"
@@ -936,57 +938,57 @@ msgstr ""
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.ui.h:12
 msgid "_Select..."
-msgstr ""
+msgstr "S_elezione..."
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.ui.h:13
 #: ../e-util/filter.ui.h:19
 msgid "_Top"
-msgstr ""
+msgstr "_Insom"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.ui.h:14
 #: ../e-util/e-source-selector.c:3471 ../e-util/filter.ui.h:20
 msgid "_Up"
-msgstr ""
+msgstr "_Sù"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.ui.h:15
 #: ../e-util/e-source-selector.c:3472 ../e-util/filter.ui.h:21
 msgid "_Down"
-msgstr ""
+msgstr "_Jù"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.ui.h:16
 #: ../e-util/filter.ui.h:22
 msgid "_Bottom"
-msgstr ""
+msgstr "_Da pît"
 
 #: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:942
 msgid "Contact List Members"
-msgstr ""
+msgstr "Membris liste contats"
 
 #: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:1487
 msgid "_Members"
-msgstr ""
+msgstr "_Membris"
 
 #: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:1627
 msgid "Error adding list"
-msgstr ""
+msgstr "Erôr tal zontâ la liste"
 
 #: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:1647
 msgid "Error modifying list"
-msgstr ""
+msgstr "Erôr tal modificâ la liste"
 
 #: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:1667
 msgid "Error removing list"
-msgstr ""
+msgstr "Erôr tal gjavâ la liste"
 
 #: ../addressbook/gui/widgets/addresstypes.xml.h:1
 #: ../modules/addressbook/e-book-shell-view-actions.c:1221
 msgid "Name contains"
-msgstr ""
+msgstr "Il non al à"
 
 #: ../addressbook/gui/widgets/addresstypes.xml.h:2
 #: ../modules/addressbook/e-book-shell-view-actions.c:1214
 msgid "Email begins with"
-msgstr ""
+msgstr "E-mail e tache par"
 
 #: ../addressbook/gui/widgets/addresstypes.xml.h:3
 #: ../calendar/gui/caltypes.xml.h:26 ../calendar/gui/memotypes.xml.h:19
@@ -996,50 +998,50 @@ msgstr ""
 #: ../modules/calendar/e-memo-shell-view-actions.c:784
 #: ../modules/calendar/e-task-shell-view-actions.c:985
 msgid "Any field contains"
-msgstr ""
+msgstr "Un cualsisei cjamp al à"
 
 #: ../addressbook/gui/widgets/ea-addressbook-view.c:94
 #: ../addressbook/gui/widgets/ea-addressbook-view.c:103
 #: ../addressbook/gui/widgets/ea-minicard-view.c:225
 msgid "evolution address book"
-msgstr ""
+msgstr "rubriche di evolution"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:149
 msgid "Copy _Email Address"
-msgstr ""
+msgstr "Copie direzion _e-mail"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:151
 #: ../e-util/e-web-view.c:359
 msgid "Copy the email address to the clipboard"
-msgstr ""
+msgstr "Al copie la direzion e-mail intes notis"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:156
 #: ../e-util/e-web-view.c:371
 msgid "_Send New Message To..."
-msgstr ""
+msgstr "Invie gnûf _messaç a..."
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:158
 #: ../e-util/e-web-view.c:373
 msgid "Send a mail message to this address"
-msgstr ""
+msgstr "Al invie un messaç di pueste a cheste direzion"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:290
 #: ../e-util/e-web-view.c:1279
 #, c-format
 msgid "Click to mail %s"
-msgstr ""
+msgstr "Fâs clic par inviâ e-mail a %s"
 
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:141
 msgid "Open map"
-msgstr ""
+msgstr "Vierç mape"
 
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:437
 msgid "SIP"
-msgstr ""
+msgstr "SIP"
 
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:681
 msgid "List Members:"
-msgstr ""
+msgstr "Membris liste:"
 
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:753
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:5
@@ -1048,75 +1050,75 @@ msgstr ""
 
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:754
 msgid "AIM"
-msgstr ""
+msgstr "AIM"
 
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:755
 msgid "GroupWise"
-msgstr ""
+msgstr "GroupWise"
 
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:756
 msgid "ICQ"
-msgstr ""
+msgstr "ICQ"
 
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:757
 msgid "Jabber"
-msgstr ""
+msgstr "Jabber"
 
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:758
 msgid "MSN"
-msgstr ""
+msgstr "MSN"
 
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:759
 msgid "Yahoo"
-msgstr ""
+msgstr "Yahoo"
 
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:760
 msgid "Gadu-Gadu"
-msgstr ""
+msgstr "Gadu-Gadu"
 
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:761
 msgid "Skype"
-msgstr ""
+msgstr "Skype"
 
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:762
 msgid "Twitter"
-msgstr ""
+msgstr "Twitter"
 
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:819
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:34
 msgid "Company"
-msgstr ""
+msgstr "Societât"
 
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:820
 msgid "Department"
-msgstr ""
+msgstr "Dipartiment"
 
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:821
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:36
 msgid "Office"
-msgstr ""
+msgstr "Ufizi"
 
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:822
 msgid "Profession"
-msgstr ""
+msgstr "Mistîr"
 
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:823
 msgid "Position"
-msgstr ""
+msgstr "Posizion"
 
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:824
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:39
 msgid "Manager"
-msgstr ""
+msgstr "Manager"
 
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:825
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:40
 msgid "Assistant"
-msgstr ""
+msgstr "Assistent"
 
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:826
 msgid "Video Chat"
-msgstr ""
+msgstr "Chat video"
 
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:827
 #: ../data/evolution.desktop.in.in.h:9 ../e-util/e-send-options.c:546
@@ -1124,70 +1126,70 @@ msgstr ""
 #: ../modules/calendar/e-cal-shell-view.c:579
 #: ../plugins/publish-calendar/publish-calendar.ui.h:21
 msgid "Calendar"
-msgstr ""
+msgstr "Calendari"
 
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:828
 #: ../plugins/publish-calendar/publish-calendar.ui.h:2
 msgid "Free/Busy"
-msgstr ""
+msgstr "Libar/Impegnât"
 
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:829
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:870
 msgid "Phone"
-msgstr ""
+msgstr "Telefon"
 
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:830
 msgid "Fax"
-msgstr ""
+msgstr "Fax"
 
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:832
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:873
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:899
 msgid "Address"
-msgstr ""
+msgstr "Direzion"
 
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:868
 msgid "Home Page"
-msgstr ""
+msgstr "Pagjine web"
 
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:869
 msgid "Web Log"
-msgstr ""
+msgstr "Diari web"
 
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:871
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:20
 msgid "Mobile Phone"
-msgstr ""
+msgstr "Celulâr"
 
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:876
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:44
 msgid "Spouse"
-msgstr ""
+msgstr "Coniugât"
 
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:886
 msgid "Personal"
-msgstr ""
+msgstr "Personâl"
 
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:931
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:45
 msgid "Note"
-msgstr ""
+msgstr "Notis"
 
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:1127
 msgid "List Members"
-msgstr ""
+msgstr "Membris liste"
 
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:1148
 msgid "Job Title"
-msgstr ""
+msgstr "Cualifiche"
 
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:1189
 msgid "Home page"
-msgstr ""
+msgstr "Pagjine web"
 
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:1199
 msgid "Blog"
-msgstr ""
+msgstr "Blog"
 
 #: ../addressbook/gui/widgets/eab-contact-merging.c:261
 #: ../calendar/gui/e-cal-component-preview.c:308
@@ -1197,48 +1199,52 @@ msgstr ""
 #: ../calendar/gui/print.c:3588 ../calendar/gui/tasktypes.xml.h:14
 #: ../mail/mail-send-recv.c:967
 msgid "Cancelled"
-msgstr ""
+msgstr "Anulade"
 
 #: ../addressbook/gui/widgets/eab-contact-merging.c:457
 msgid "Merge Contact"
-msgstr ""
+msgstr "Union contat"
 
 #: ../addressbook/gui/widgets/eab-contact-merging.c:475
 #: ../addressbook/gui/widgets/eab-contact-merging.c:724
 msgid "_Merge"
-msgstr ""
+msgstr "_Unìs"
 
 #: ../addressbook/gui/widgets/eab-contact-merging.c:713
 msgid "Duplicate Contact Detected"
-msgstr ""
+msgstr "Rilevât contat dopli"
 
 #: ../addressbook/gui/widgets/eab-contact-merging.c:771
 msgid ""
 "The name or email address of this contact already exists\n"
 "in this folder. Would you like to save the changes anyway?"
 msgstr ""
+"In cheste cartele al è za presint il non o la direzion e-mail di chest "
+"contat. Salvâ distès lis modifichis?"
 
 #: ../addressbook/gui/widgets/eab-contact-merging.c:774
 msgid ""
 "The name or email address of this contact already exists\n"
 "in this folder. Would you like to add it anyway?"
 msgstr ""
+"In cheste cartele al è za presint il non o la direzion e-mail di chest "
+"contat. Zontâlu distès?"
 
 #: ../addressbook/gui/widgets/eab-contact-merging.c:789
 msgid "Changed Contact:"
-msgstr ""
+msgstr "Contat modificât:"
 
 #: ../addressbook/gui/widgets/eab-contact-merging.c:791
 msgid "New Contact:"
-msgstr ""
+msgstr "Gnûf contat:"
 
 #: ../addressbook/gui/widgets/eab-contact-merging.c:830
 msgid "Conflicting Contact:"
-msgstr ""
+msgstr "Contat in conflit:"
 
 #: ../addressbook/gui/widgets/eab-contact-merging.c:832
 msgid "Old Contact:"
-msgstr ""
+msgstr "Contat vecjo:"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:121
 msgid ""
@@ -1246,6 +1252,9 @@ msgid ""
 "marked for offline usage or not yet downloaded for offline usage. Please "
 "load the address book once in online mode to download its contents."
 msgstr ""
+"Impussibil vierzi cheste rubriche. Al è pussibil che cheste no sedi segnade "
+"o no sedi stade discjariade par l'ûs fûr rêt. Cjarie la rubriche une volte "
+"cuant che si è in modalitât in rêt, in mût di discjariâ i siei contignûts."
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:140
 #, c-format
@@ -1308,42 +1317,42 @@ msgstr ""
 #. This is a filename. Translators take note.
 #: ../addressbook/gui/widgets/eab-gui-util.c:265
 msgid "card.vcf"
-msgstr ""
+msgstr "tessare.vcf"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:316
 msgid "Select Address Book"
-msgstr ""
+msgstr "Selezione rubriche"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:398
 msgid "list"
-msgstr ""
+msgstr "liste"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:587
 msgid "Move contact to"
-msgstr ""
+msgstr "Sposte contat su"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:589
 msgid "Copy contact to"
-msgstr ""
+msgstr "Copie contat su"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:592
 msgid "Move contacts to"
-msgstr ""
+msgstr "Sposte contats su"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:594
 msgid "Copy contacts to"
-msgstr ""
+msgstr "Copie contats su"
 
 #: ../addressbook/gui/widgets/e-addressbook-model.c:162
 msgid "No contacts"
-msgstr ""
+msgstr "Nissun contat"
 
 #: ../addressbook/gui/widgets/e-addressbook-model.c:166
 #, c-format
 msgid "%d contact"
 msgid_plural "%d contacts"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d contat"
+msgstr[1] "%d contats"
 
 #: ../addressbook/gui/widgets/e-addressbook-model.c:372
 msgid "Error getting book view"
@@ -1351,7 +1360,7 @@ msgstr ""
 
 #: ../addressbook/gui/widgets/e-addressbook-model.c:819
 msgid "Search Interrupted"
-msgstr ""
+msgstr "Ricercje interote"
 
 #: ../addressbook/gui/widgets/e-addressbook-table-adapter.c:221
 msgid "Error modifying card"
@@ -1415,7 +1424,7 @@ msgstr ""
 #: ../shell/e-shell-window-actions.c:813
 #: ../smime/gui/certificate-manager.c:1674 ../smime/gui/smime-ui.ui.h:10
 msgid "_Delete"
-msgstr ""
+msgstr "Eli_mine"
 
 #. Translators: This is shown for > 5 contacts.
 #: ../addressbook/gui/widgets/e-addressbook-view.c:1513
@@ -1431,99 +1440,99 @@ msgstr[1] ""
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:1521
 msgid "_Don't Display"
-msgstr ""
+msgstr "_No mostrâ"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:1522
 msgid "Display _All Contacts"
-msgstr ""
+msgstr "Mostre _ducj i contats"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:1
 msgid "File As"
-msgstr ""
+msgstr "Memorize come"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:3
 msgid "Given Name"
-msgstr ""
+msgstr "Non di batisim"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:4
 msgid "Family Name"
-msgstr ""
+msgstr "Cognon"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:7
 msgid "Email 2"
-msgstr ""
+msgstr "E-mail 2"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:8
 msgid "Email 3"
-msgstr ""
+msgstr "E-mail 3"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:9
 msgid "Assistant Phone"
-msgstr ""
+msgstr "Telefon assistent"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:10
 msgid "Business Phone"
-msgstr ""
+msgstr "Telefon ufizi"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:11
 msgid "Business Phone 2"
-msgstr ""
+msgstr "Telefon ufizi 2"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:12
 msgid "Business Fax"
-msgstr ""
+msgstr "Fax ufizi"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:13
 msgid "Callback Phone"
-msgstr ""
+msgstr "Telefon dulà tornâ a clamâ"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:14
 msgid "Car Phone"
-msgstr ""
+msgstr "Telefon machine"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:15
 msgid "Company Phone"
-msgstr ""
+msgstr "Telefon dite/imprese"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:16
 msgid "Home Phone"
-msgstr ""
+msgstr "Telefon di cjase"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:17
 msgid "Home Phone 2"
-msgstr ""
+msgstr "Telefon di cjase 2"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:18
 msgid "Home Fax"
-msgstr ""
+msgstr "Fax di cjase"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:19
 msgid "ISDN Phone"
-msgstr ""
+msgstr "Telefon ISDN"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:21
 msgid "Other Phone"
-msgstr ""
+msgstr "Altri telefon"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:22
 msgid "Other Fax"
-msgstr ""
+msgstr "Altri fax"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:23
 msgid "Pager"
-msgstr ""
+msgstr "Ciridôr/Bip"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:24
 msgid "Primary Phone"
-msgstr ""
+msgstr "Telefon principâl"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:25
 msgid "Radio"
-msgstr ""
+msgstr "Radio"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:26
 msgid "Telex"
-msgstr ""
+msgstr "Telex"
 
 #. Translators: This is a vcard standard and stands for the type of
 #. phone used by the hearing impaired. TTY stands for "teletype"
@@ -1533,60 +1542,60 @@ msgstr ""
 #. different and established translation for this in your language.
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:33
 msgid "TTYTDD"
-msgstr ""
+msgstr "TTYTDD"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:35
 msgid "Unit"
-msgstr ""
+msgstr "Unitât"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:37
 msgid "Title"
-msgstr ""
+msgstr "Cualifiche"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:38
 #: ../calendar/gui/e-meeting-list-view.c:660
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:5
 msgid "Role"
-msgstr ""
+msgstr "Rûl"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:41
 msgid "Web Site"
-msgstr ""
+msgstr "Sît web"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:42
 msgid "Journal"
-msgstr ""
+msgstr "Diari"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:43
 #: ../calendar/gui/e-cal-list-view.etspec.h:6
 #: ../calendar/gui/e-memo-table.etspec.h:4
 #: ../calendar/gui/e-task-table.etspec.h:12 ../e-util/e-categories-dialog.c:87
 msgid "Categories"
-msgstr ""
+msgstr "Categoriis"
 
 #: ../addressbook/gui/widgets/ea-minicard.c:33
 msgid "Open"
-msgstr ""
+msgstr "Vierç"
 
 #: ../addressbook/gui/widgets/ea-minicard.c:159
 msgid "Contact List: "
-msgstr ""
+msgstr "Liste contats: "
 
 #: ../addressbook/gui/widgets/ea-minicard.c:160
 msgid "Contact: "
-msgstr ""
+msgstr "Contat: "
 
 #: ../addressbook/gui/widgets/ea-minicard.c:182
 msgid "evolution minicard"
-msgstr ""
+msgstr "mini tessare di evolution"
 
 #: ../addressbook/gui/widgets/ea-minicard-view.c:35
 msgid "New Contact"
-msgstr ""
+msgstr "Gnûf contat"
 
 #: ../addressbook/gui/widgets/ea-minicard-view.c:36
 msgid "New Contact List"
-msgstr ""
+msgstr "Gnove liste contats"
 
 #: ../addressbook/gui/widgets/ea-minicard-view.c:208
 #, c-format
@@ -1597,18 +1606,18 @@ msgstr[1] ""
 
 #: ../addressbook/gui/widgets/e-contact-map-window.c:377
 msgid "Contacts Map"
-msgstr ""
+msgstr "Mape contats"
 
 #. Zoom-in button
 #: ../addressbook/gui/widgets/e-contact-map-window.c:412
 msgid "Zoom _In"
-msgstr ""
+msgstr "_Ingrandìs"
 
 #. Zoom-out button
 #: ../addressbook/gui/widgets/e-contact-map-window.c:420
 #: ../mail/e-mail-reader.c:2424
 msgid "Zoom _Out"
-msgstr ""
+msgstr "Im_piçulìs"
 
 #. Search button
 #: ../addressbook/gui/widgets/e-contact-map-window.c:450
@@ -1616,7 +1625,7 @@ msgstr ""
 #: ../e-util/e-html-editor-find-dialog.c:252
 #: ../shell/e-shell-window-actions.c:890
 msgid "_Find"
-msgstr ""
+msgstr "C_jate"
 
 #: ../addressbook/gui/widgets/e-minicard-view.c:188
 msgid ""
@@ -1624,6 +1633,9 @@ msgid ""
 "\n"
 "Searching for the Contacts..."
 msgstr ""
+"\n"
+"\n"
+"Daûr a cirî i contats..."
 
 #: ../addressbook/gui/widgets/e-minicard-view.c:191
 msgid ""
@@ -1633,6 +1645,11 @@ msgid ""
 "\n"
 "or double-click here to create a new Contact."
 msgstr ""
+"\n"
+"\n"
+"Cirî il contat\n"
+"\n"
+"o fâs dopli clic achì par creâ un gnûf contat."
 
 #: ../addressbook/gui/widgets/e-minicard-view.c:194
 msgid ""
@@ -1642,6 +1659,11 @@ msgid ""
 "\n"
 "Double-click here to create a new Contact."
 msgstr ""
+"\n"
+"\n"
+"Nol è nuie ce mostrâ in cheste viodude.\n"
+"\n"
+"Fâs dopli clic achì par creâ un gnûf contat."
 
 #: ../addressbook/gui/widgets/e-minicard-view.c:198
 msgid ""
@@ -1649,6 +1671,9 @@ msgid ""
 "\n"
 "Search for the Contact."
 msgstr ""
+"\n"
+"\n"
+"Cirî il contat."
 
 #: ../addressbook/gui/widgets/e-minicard-view.c:200
 msgid ""
@@ -1656,6 +1681,9 @@ msgid ""
 "\n"
 "There are no items to show in this view."
 msgstr ""
+"\n"
+"\n"
+"Nol è nuie ce mostrâ in cheste viodude."
 
 #: ../addressbook/importers/evolution-csv-importer.c:747
 #: ../addressbook/importers/evolution-ldif-importer.c:549
@@ -1664,15 +1692,15 @@ msgstr ""
 #: ../calendar/importers/icalendar-importer.c:978
 #: ../calendar/importers/icalendar-importer.c:1018 ../shell/shell.error.xml.h:1
 msgid "Importing..."
-msgstr ""
+msgstr "Daûr a impuartâ..."
 
 #: ../addressbook/importers/evolution-csv-importer.c:929
 msgid "Can't open .csv file"
-msgstr ""
+msgstr "Impussibil vierzi il file .csv"
 
 #: ../addressbook/importers/evolution-csv-importer.c:1098
 msgid "Outlook Contacts CSV or Tab (.csv, .tab)"
-msgstr ""
+msgstr "Contats Outlook CSV o Tab (.csv, .tab)"
 
 #: ../addressbook/importers/evolution-csv-importer.c:1099
 msgid "Outlook Contacts CSV and Tab Importer"
@@ -1680,7 +1708,7 @@ msgstr ""
 
 #: ../addressbook/importers/evolution-csv-importer.c:1107
 msgid "Mozilla Contacts CSV or Tab (.csv, .tab)"
-msgstr ""
+msgstr "Contats Mozilla CSV o Tab (.csv, .tab)"
 
 #: ../addressbook/importers/evolution-csv-importer.c:1108
 msgid "Mozilla Contacts CSV and Tab Importer"
@@ -1688,7 +1716,7 @@ msgstr ""
 
 #: ../addressbook/importers/evolution-csv-importer.c:1116
 msgid "Evolution Contacts CSV or Tab (.csv, .tab)"
-msgstr ""
+msgstr "Contats Evolution CSV oTab (.csv, .tab)"
 
 #: ../addressbook/importers/evolution-csv-importer.c:1117
 msgid "Evolution Contacts CSV and Tab Importer"
@@ -1696,11 +1724,11 @@ msgstr ""
 
 #: ../addressbook/importers/evolution-ldif-importer.c:719
 msgid "Can't open .ldif file"
-msgstr ""
+msgstr "Impussibil vierzi il file .ldif"
 
 #: ../addressbook/importers/evolution-ldif-importer.c:821
 msgid "LDAP Data Interchange Format (.ldif)"
-msgstr ""
+msgstr "Formât dâts di scambi LDAP (.ldif)"
 
 #: ../addressbook/importers/evolution-ldif-importer.c:822
 msgid "Evolution LDIF importer"
@@ -1708,7 +1736,7 @@ msgstr ""
 
 #: ../addressbook/importers/evolution-vcard-importer.c:646
 msgid "vCard (.vcf, .gcrd)"
-msgstr ""
+msgstr "vCard (.vcf, .gcrd)"
 
 #: ../addressbook/importers/evolution-vcard-importer.c:647
 msgid "Evolution vCard Importer"
@@ -1719,87 +1747,87 @@ msgstr ""
 #: ../addressbook/printing/e-contact-print.c:874
 #, c-format
 msgid "Page %d"
-msgstr ""
+msgstr "Pagjine %d"
 
 #: ../addressbook/util/eab-book-util.c:36
 msgctxt "addressbook-label"
 msgid "Work Email"
-msgstr ""
+msgstr "E-mail di lavôr"
 
 #: ../addressbook/util/eab-book-util.c:37
 msgctxt "addressbook-label"
 msgid "Home Email"
-msgstr ""
+msgstr "E-mail di cjase"
 
 #: ../addressbook/util/eab-book-util.c:38
 msgctxt "addressbook-label"
 msgid "Other Email"
-msgstr ""
+msgstr "Altre e-mail"
 
 #: ../addressbook/util/eab-book-util.c:44
 msgctxt "addressbook-label"
 msgid "Work SIP"
-msgstr ""
+msgstr "SIP di lavôr"
 
 #: ../addressbook/util/eab-book-util.c:45
 msgctxt "addressbook-label"
 msgid "Home SIP"
-msgstr ""
+msgstr "SIP di cjase"
 
 #: ../addressbook/util/eab-book-util.c:46
 msgctxt "addressbook-label"
 msgid "Other SIP"
-msgstr ""
+msgstr "Altri SIP"
 
 #: ../addressbook/util/eab-book-util.c:74
 msgctxt "addressbook-label"
 msgid "AIM"
-msgstr ""
+msgstr "AIM"
 
 #: ../addressbook/util/eab-book-util.c:75
 msgctxt "addressbook-label"
 msgid "Jabber"
-msgstr ""
+msgstr "Jabber"
 
 #: ../addressbook/util/eab-book-util.c:76
 msgctxt "addressbook-label"
 msgid "Yahoo"
-msgstr ""
+msgstr "Yahoo"
 
 #: ../addressbook/util/eab-book-util.c:77
 msgctxt "addressbook-label"
 msgid "Gadu-Gadu"
-msgstr ""
+msgstr "Gadu-Gadu"
 
 #: ../addressbook/util/eab-book-util.c:78
 msgctxt "addressbook-label"
 msgid "MSN"
-msgstr ""
+msgstr "MSN"
 
 #: ../addressbook/util/eab-book-util.c:79
 msgctxt "addressbook-label"
 msgid "ICQ"
-msgstr ""
+msgstr "ICQ"
 
 #: ../addressbook/util/eab-book-util.c:80
 msgctxt "addressbook-label"
 msgid "GroupWise"
-msgstr ""
+msgstr "GroupWise"
 
 #: ../addressbook/util/eab-book-util.c:81
 msgctxt "addressbook-label"
 msgid "Skype"
-msgstr ""
+msgstr "Skype"
 
 #: ../addressbook/util/eab-book-util.c:82
 msgctxt "addressbook-label"
 msgid "Twitter"
-msgstr ""
+msgstr "Twitter"
 
 #: ../addressbook/util/eab-book-util.c:83
 msgctxt "addressbook-label"
 msgid "Google Talk"
-msgstr ""
+msgstr "Google Talk"
 
 #. To Translators:
 #. * if an email address type is not one of the predefined types,
@@ -1808,7 +1836,7 @@ msgstr ""
 #: ../addressbook/util/eab-book-util.c:126
 msgctxt "addressbook-label"
 msgid "Email"
-msgstr ""
+msgstr "E-mail"
 
 #. To Translators:
 #. * if a SIP address type is not one of the predefined types,
@@ -1818,7 +1846,7 @@ msgstr ""
 #: ../addressbook/util/eab-book-util.c:173
 msgctxt "addressbook-label"
 msgid "SIP"
-msgstr ""
+msgstr "SIP"
 
 #. To Translators:
 #. * if an IM address type is not one of the predefined types,
@@ -1828,7 +1856,7 @@ msgstr ""
 #: ../addressbook/util/eab-book-util.c:216
 msgctxt "addressbook-label"
 msgid "IM"
-msgstr ""
+msgstr "Messaçs istantanis"
 
 #. To Translators:
 #. * if a phone number type is not one of the predefined types,
@@ -1837,25 +1865,25 @@ msgstr ""
 #: ../addressbook/util/eab-book-util.c:271
 msgctxt "addressbook-label"
 msgid "Phone"
-msgstr ""
+msgstr "Telefon"
 
 #: ../calendar/alarm-notify/alarm-notify-dialog.c:105
 msgid "minute"
 msgid_plural "minutes"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "minût"
+msgstr[1] "minûts"
 
 #: ../calendar/alarm-notify/alarm-notify-dialog.c:118
 msgid "hour"
 msgid_plural "hours"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "ore"
+msgstr[1] "oris"
 
 #: ../calendar/alarm-notify/alarm-notify-dialog.c:131
 msgid "day"
 msgid_plural "days"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "dì"
+msgstr[1] "dîs"
 
 #: ../calendar/alarm-notify/alarm-notify-dialog.c:358
 msgid "Start time"
