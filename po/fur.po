@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2016-09-15 15:38+0000\n"
-"PO-Revision-Date: 2016-09-17 23:07+0200\n"
+"PO-Revision-Date: 2016-09-17 23:34+0200\n"
 "Language-Team: Friulian <fur@li.org>\n"
 "Language: fur\n"
 "MIME-Version: 1.0\n"
@@ -39,10 +39,14 @@ msgid ""
 "a supported login method. Remember that many passwords are case sensitive; "
 "your caps lock might be on."
 msgstr ""
+"Controlâ di jessi sigûrs che la password e sedi scrite juste e che al sedi "
+"stât doprât un metodi di acès supuartât. Atenzion: tantis voltis lis "
+"password a fasin distinzion tra letaris maiusculis e minusculis; il tast "
+"BlocMaiusc al podarès jessi atîf."
 
 #: ../addressbook/addressbook.error.xml.h:5
 msgid "This address book server does not have any suggested search bases."
-msgstr ""
+msgstr "Chest servidôr di rubriche nol à nissune base di ricercje sugjeride."
 
 #: ../addressbook/addressbook.error.xml.h:6
 msgid ""
@@ -50,39 +54,41 @@ msgid ""
 "this functionality or it may be misconfigured. Ask your administrator for "
 "supported search bases."
 msgstr ""
+"Chest servidôr LDAP al podarès doprâ une vecje version di LDAP che no "
+"supuarte cheste funzionalitât, opûr al podarès jessi mal configurât."
 
 #: ../addressbook/addressbook.error.xml.h:7
 msgid "This server does not support LDAPv3 schema information."
-msgstr ""
+msgstr "Chest servidôr nol supuarte lis informazions scheme LDAPv3."
 
 #: ../addressbook/addressbook.error.xml.h:8
 msgid "Could not get schema information for LDAP server."
-msgstr ""
+msgstr "Impussibil otignî lis informazions scheme dal servidôr LDAP."
 
 #: ../addressbook/addressbook.error.xml.h:9
 msgid "LDAP server did not respond with valid schema information."
-msgstr ""
+msgstr "Il servidôr LDAP nol à rispuindût con informazions scheme validis."
 
 #: ../addressbook/addressbook.error.xml.h:10
 msgid "Could not remove address book."
-msgstr ""
+msgstr "Impussibil gjavâ la rubriche."
 
 #: ../addressbook/addressbook.error.xml.h:11
 msgid "Delete address book '{0}'?"
-msgstr ""
+msgstr "Eliminâ la rubriche «{0}»'?"
 
 #: ../addressbook/addressbook.error.xml.h:12
 msgid "This address book will be removed permanently."
-msgstr ""
+msgstr "Cheste rubriche e vignarà gjavade par simpri."
 
 #: ../addressbook/addressbook.error.xml.h:13 ../calendar/calendar.error.xml.h:7
 #: ../mail/mail.error.xml.h:69
 msgid "Do _Not Delete"
-msgstr ""
+msgstr "_No stâ eliminâ"
 
 #: ../addressbook/addressbook.error.xml.h:14
 msgid "Delete remote address book &quot;{0}&quot;?"
-msgstr ""
+msgstr "Eliminâ la rubriche rimote «{0}»?"
 
 #: ../addressbook/addressbook.error.xml.h:15
 msgid ""
@@ -93,7 +99,7 @@ msgstr ""
 #: ../addressbook/addressbook.error.xml.h:16
 #: ../calendar/calendar.error.xml.h:65
 msgid "_Delete From Server"
-msgstr ""
+msgstr "_Elimine dal servidôr"
 
 #: ../addressbook/addressbook.error.xml.h:17
 msgid "Category editor not available."
@@ -2652,77 +2658,82 @@ msgstr ""
 #: ../calendar/gui/e-task-table.etspec.h:4 ../calendar/gui/memotypes.xml.h:1
 #: ../calendar/gui/tasktypes.xml.h:1 ../plugins/save-calendar/csv-format.c:375
 msgid "Summary"
-msgstr ""
+msgstr "Sintesi"
 
 #: ../calendar/gui/caltypes.xml.h:2 ../calendar/gui/memotypes.xml.h:2
 #: ../calendar/gui/tasktypes.xml.h:2 ../mail/filtertypes.xml.in.h:2
 #: ../mail/searchtypes.xml.in.h:2 ../mail/vfoldertypes.xml.in.h:2
 msgid "contains"
-msgstr ""
+msgstr "al conten"
 
 #: ../calendar/gui/caltypes.xml.h:3 ../calendar/gui/memotypes.xml.h:3
 #: ../calendar/gui/tasktypes.xml.h:3 ../mail/filtertypes.xml.in.h:3
 #: ../mail/searchtypes.xml.in.h:3 ../mail/vfoldertypes.xml.in.h:3
 msgid "does not contain"
-msgstr ""
+msgstr "Nol conten"
 
 #: ../calendar/gui/caltypes.xml.h:4 ../calendar/gui/e-cal-list-view.etspec.h:4
 #: ../calendar/gui/memotypes.xml.h:4 ../calendar/gui/tasktypes.xml.h:4
 #: ../e-util/e-attachment-tree-view.c:149 ../e-util/e-table-config.ui.h:7
 #: ../modules/plugin-manager/evolution-plugin-manager.c:68
 msgid "Description"
-msgstr ""
+msgstr "Descrizion"
 
 #: ../calendar/gui/caltypes.xml.h:5 ../calendar/gui/memotypes.xml.h:5
 #: ../calendar/gui/tasktypes.xml.h:7
 msgid "Any Field"
-msgstr ""
+msgstr "Cualsisei cjamp"
 
 #: ../calendar/gui/caltypes.xml.h:6 ../calendar/gui/memotypes.xml.h:7
 msgid "Classification"
-msgstr ""
+msgstr "Classificazion"
 
+# maschile o femminile
 #: ../calendar/gui/caltypes.xml.h:7 ../calendar/gui/memotypes.xml.h:8
 #: ../calendar/gui/tasktypes.xml.h:9 ../mail/filtertypes.xml.in.h:4
 #: ../mail/searchtypes.xml.in.h:4 ../mail/vfoldertypes.xml.in.h:4
+#, fuzzy
 msgid "is"
-msgstr ""
+msgstr "al è"
 
 #: ../calendar/gui/caltypes.xml.h:8 ../calendar/gui/memotypes.xml.h:9
 #: ../calendar/gui/tasktypes.xml.h:10 ../mail/filtertypes.xml.in.h:5
 #: ../mail/searchtypes.xml.in.h:5 ../mail/vfoldertypes.xml.in.h:5
+#, fuzzy
 msgid "is not"
-msgstr ""
+msgstr "nol è"
 
 #: ../calendar/gui/caltypes.xml.h:9 ../calendar/gui/e-cal-list-view.c:241
 #: ../calendar/gui/e-cal-model.c:305 ../calendar/gui/e-cal-model.c:312
 #: ../calendar/gui/e-task-table.c:498 ../calendar/gui/memotypes.xml.h:10
+#, fuzzy
 msgid "Public"
-msgstr ""
+msgstr "Public"
 
 #: ../calendar/gui/caltypes.xml.h:10 ../calendar/gui/e-cal-list-view.c:242
 #: ../calendar/gui/e-cal-model.c:314 ../calendar/gui/e-task-table.c:499
 #: ../calendar/gui/memotypes.xml.h:11
+#, fuzzy
 msgid "Private"
-msgstr ""
+msgstr "Privât"
 
 #: ../calendar/gui/caltypes.xml.h:11 ../calendar/gui/e-cal-list-view.c:243
 #: ../calendar/gui/e-cal-model.c:316 ../calendar/gui/e-task-table.c:500
 #: ../calendar/gui/memotypes.xml.h:12 ../e-util/e-html-editor-page-dialog.c:115
 #: ../e-util/e-send-options.ui.h:7
 msgid "Confidential"
-msgstr ""
+msgstr "Confidenziâl"
 
 #: ../calendar/gui/caltypes.xml.h:12 ../calendar/gui/memotypes.xml.h:6
 #: ../calendar/gui/tasktypes.xml.h:5
 msgid "Organizer"
-msgstr ""
+msgstr "Organizadôr"
 
 #: ../calendar/gui/caltypes.xml.h:13
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:2
 #: ../calendar/gui/tasktypes.xml.h:6
 msgid "Attendee"
-msgstr ""
+msgstr "Partecipant"
 
 #: ../calendar/gui/caltypes.xml.h:14 ../calendar/gui/e-cal-list-view.etspec.h:5
 #: ../mail/message-list.etspec.h:14
@@ -2730,12 +2741,12 @@ msgstr ""
 #: ../plugins/publish-calendar/publish-calendar.ui.h:22
 #: ../plugins/save-calendar/csv-format.c:389
 msgid "Location"
-msgstr ""
+msgstr "Ubicazion"
 
 #: ../calendar/gui/caltypes.xml.h:15 ../calendar/gui/memotypes.xml.h:13
 #: ../calendar/gui/tasktypes.xml.h:23 ../e-util/e-categories-selector.c:327
 msgid "Category"
-msgstr ""
+msgstr "Categorie"
 
 #: ../calendar/gui/caltypes.xml.h:16 ../calendar/gui/memotypes.xml.h:14
 #: ../calendar/gui/tasktypes.xml.h:15 ../em-format/e-mail-formatter-print.c:51
@@ -2743,14 +2754,16 @@ msgstr ""
 #: ../mail/filtertypes.xml.in.h:47 ../mail/searchtypes.xml.in.h:49
 #: ../mail/vfoldertypes.xml.in.h:50
 msgid "Attachments"
-msgstr ""
+msgstr "Alegâts"
 
+# infinito?
 #: ../calendar/gui/caltypes.xml.h:17 ../calendar/gui/memotypes.xml.h:15
 #: ../calendar/gui/tasktypes.xml.h:16 ../mail/filtertypes.xml.in.h:48
 #: ../mail/searchtypes.xml.in.h:50 ../mail/vfoldertypes.xml.in.h:51
 msgid "Exist"
 msgstr ""
 
+# infinito?
 #: ../calendar/gui/caltypes.xml.h:18 ../calendar/gui/memotypes.xml.h:16
 #: ../calendar/gui/tasktypes.xml.h:17 ../mail/filtertypes.xml.in.h:49
 #: ../mail/searchtypes.xml.in.h:51 ../mail/vfoldertypes.xml.in.h:52
@@ -2760,7 +2773,7 @@ msgstr ""
 #: ../calendar/gui/caltypes.xml.h:19
 #: ../calendar/gui/e-comp-editor-page-recurrence.c:2005
 msgid "Recurrence"
-msgstr ""
+msgstr "Ricorence"
 
 #: ../calendar/gui/caltypes.xml.h:20
 msgid "Occurs"
@@ -2768,7 +2781,7 @@ msgstr ""
 
 #: ../calendar/gui/caltypes.xml.h:21
 msgid "Less Than"
-msgstr ""
+msgstr "Mancul di"
 
 #: ../calendar/gui/caltypes.xml.h:22
 msgid "Exactly"
@@ -2776,7 +2789,7 @@ msgstr ""
 
 #: ../calendar/gui/caltypes.xml.h:23
 msgid "More Than"
-msgstr ""
+msgstr "Plui di"
 
 #: ../calendar/gui/caltypes.xml.h:24 ../calendar/gui/memotypes.xml.h:17
 #: ../calendar/gui/tasktypes.xml.h:28
@@ -2790,35 +2803,35 @@ msgstr ""
 
 #: ../calendar/gui/ea-cal-view.c:283
 msgid "New Appointment"
-msgstr ""
+msgstr "Gnûf apontament"
 
 #: ../calendar/gui/ea-cal-view.c:284
 msgid "New All Day Event"
-msgstr ""
+msgstr "Gnûf event zornade interie"
 
 #: ../calendar/gui/ea-cal-view.c:285
 msgid "New Meeting"
-msgstr ""
+msgstr "Gnove riunion"
 
 #: ../calendar/gui/ea-cal-view.c:286
 msgid "Go to Today"
-msgstr ""
+msgstr "Va a vuê"
 
 #: ../calendar/gui/ea-cal-view.c:287
 msgid "Go to Date"
-msgstr ""
+msgstr "Va ae date"
 
 #: ../calendar/gui/ea-cal-view-event.c:234
 msgid "It has reminders."
-msgstr ""
+msgstr "Al à dai promemoriis."
 
 #: ../calendar/gui/ea-cal-view-event.c:237
 msgid "It has recurrences."
-msgstr ""
+msgstr "Al à ricorencis."
 
 #: ../calendar/gui/ea-cal-view-event.c:240
 msgid "It is a meeting."
-msgstr ""
+msgstr "E je une riunion."
 
 #: ../calendar/gui/ea-cal-view-event.c:247
 #, c-format
