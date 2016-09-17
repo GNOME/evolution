@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2016-09-15 15:38+0000\n"
-"PO-Revision-Date: 2016-09-16 22:45+0200\n"
+"PO-Revision-Date: 2016-09-17 23:07+0200\n"
 "Language-Team: Friulian <fur@li.org>\n"
 "Language: fur\n"
 "MIME-Version: 1.0\n"
@@ -1892,15 +1892,15 @@ msgstr ""
 #: ../calendar/alarm-notify/alarm-notify.ui.h:1
 #: ../calendar/alarm-notify/alarm-queue.c:1947
 msgid "Appointments"
-msgstr ""
+msgstr "Apontaments"
 
 #: ../calendar/alarm-notify/alarm-notify.ui.h:2
 msgid "Dismiss _All"
-msgstr ""
+msgstr "Scarte _ducj"
 
 #: ../calendar/alarm-notify/alarm-notify.ui.h:3
 msgid "_Snooze"
-msgstr ""
+msgstr "_Postponi"
 
 #: ../calendar/alarm-notify/alarm-notify.ui.h:4
 #: ../calendar/gui/e-comp-editor-page-general.c:1365
@@ -1915,15 +1915,15 @@ msgstr ""
 #: ../plugins/templates/templates.c:470 ../shell/e-shell-window-actions.c:941
 #: ../smime/gui/smime-ui.ui.h:13
 msgid "_Edit"
-msgstr ""
+msgstr "_Modifiche"
 
 #: ../calendar/alarm-notify/alarm-notify.ui.h:5
 msgid "_Print"
-msgstr ""
+msgstr "Stam_pe"
 
 #: ../calendar/alarm-notify/alarm-notify.ui.h:6 ../e-util/e-alert-dialog.c:164
 msgid "_Dismiss"
-msgstr ""
+msgstr "_Scarte"
 
 #: ../calendar/alarm-notify/alarm-notify.ui.h:7
 #: ../calendar/alarm-notify/alarm-queue.c:1914
@@ -1932,15 +1932,15 @@ msgstr ""
 #: ../modules/itip-formatter/itip-view.c:1666
 #: ../modules/itip-formatter/itip-view.c:1777
 msgid "Location:"
-msgstr ""
+msgstr "Ubicazion:"
 
 #: ../calendar/alarm-notify/alarm-notify.ui.h:8
 msgid "location of appointment"
-msgstr ""
+msgstr "lûc dal apontament"
 
 #: ../calendar/alarm-notify/alarm-notify.ui.h:9
 msgid "Snooze _time:"
-msgstr ""
+msgstr "_Timp di sprolungje sunarie:"
 
 #. Translators: This is the last part of the sentence:
 #. * "Purge events older than <<spin-button>> days"
@@ -1949,32 +1949,32 @@ msgstr ""
 #: ../modules/calendar/e-cal-shell-view-actions.c:344
 #: ../plugins/publish-calendar/publish-calendar.ui.h:6
 msgid "days"
-msgstr ""
+msgstr "dîs"
 
 #: ../calendar/alarm-notify/alarm-notify.ui.h:11
 #: ../e-util/e-interval-chooser.c:141 ../e-util/filter.ui.h:7
 msgid "hours"
-msgstr ""
+msgstr "oris"
 
 #: ../calendar/alarm-notify/alarm-notify.ui.h:12
 #: ../e-util/e-interval-chooser.c:139 ../e-util/filter.ui.h:6
 #: ../mail/e-mail-config-provider-page.c:526
 msgid "minutes"
-msgstr ""
+msgstr "minûts"
 
 #: ../calendar/alarm-notify/alarm-queue.c:1715
 #: ../calendar/alarm-notify/alarm-queue.c:1895
 msgid "No summary available."
-msgstr ""
+msgstr "Nissune sintesi disponibile."
 
 #: ../calendar/alarm-notify/alarm-queue.c:1724
 #: ../calendar/alarm-notify/alarm-queue.c:1726
 msgid "No description available."
-msgstr ""
+msgstr "Nissune descrizion disponibile."
 
 #: ../calendar/alarm-notify/alarm-queue.c:1734
 msgid "No location information available."
-msgstr ""
+msgstr "Nissune informazion su la ubicazion disponibile."
 
 #: ../calendar/alarm-notify/alarm-queue.c:1739
 #: ../calendar/alarm-notify/alarm-queue.c:1886
@@ -1991,17 +1991,17 @@ msgstr[1] ""
 
 #: ../calendar/alarm-notify/alarm-queue.c:2055
 msgid "Warning"
-msgstr ""
+msgstr "Avertiment"
 
 #: ../calendar/alarm-notify/alarm-queue.c:2056 ../mail/mail-dialogs.ui.h:21
 #: ../modules/mailto-handler/evolution-mailto-handler.c:114
 msgid "_No"
-msgstr ""
+msgstr "_No"
 
 #: ../calendar/alarm-notify/alarm-queue.c:2057
 #: ../modules/mailto-handler/evolution-mailto-handler.c:115
 msgid "_Yes"
-msgstr ""
+msgstr "_Sì"
 
 #: ../calendar/alarm-notify/alarm-queue.c:2061
 #, c-format
@@ -2016,11 +2016,11 @@ msgstr ""
 
 #: ../calendar/alarm-notify/alarm-queue.c:2076
 msgid "Do not ask me about this program again."
-msgstr ""
+msgstr "No stâ domandâmi plui su chest program."
 
 #: ../calendar/alarm-notify/util.c:67
 msgid "invalid time"
-msgstr ""
+msgstr "timp no valit"
 
 #. Translator: Entire string is like "Pop up an alert %d days before start"
 #: ../calendar/alarm-notify/util.c:93 ../calendar/gui/e-alarm-list.c:370
@@ -2028,8 +2028,8 @@ msgstr ""
 #, c-format
 msgid "%d day"
 msgid_plural "%d days"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d dì"
+msgstr[1] "%d dîs"
 
 #. Translator: Entire string is like "Pop up an alert %d hours before start"
 #: ../calendar/alarm-notify/util.c:99 ../calendar/gui/e-alarm-list.c:382
@@ -2037,8 +2037,8 @@ msgstr[1] ""
 #, c-format
 msgid "%d hour"
 msgid_plural "%d hours"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d ore"
+msgstr[1] "%d oris"
 
 #. Translator: Entire string is like "Pop up an alert %d minutes before start"
 #: ../calendar/alarm-notify/util.c:105 ../calendar/gui/e-alarm-list.c:388
@@ -2046,8 +2046,8 @@ msgstr[1] ""
 #, c-format
 msgid "%d minute"
 msgid_plural "%d minutes"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d minût"
+msgstr[1] "%d minûts"
 
 #. TRANSLATORS: here, "second" is the time division (like "minute"), not the ordinal number (like "third")
 #. Translator: Entire string is like "Pop up an alert %d seconds before start"
@@ -2057,42 +2057,48 @@ msgstr[1] ""
 #, c-format
 msgid "%d second"
 msgid_plural "%d seconds"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d secont"
+msgstr[1] "%d seconts"
 
 #: ../calendar/calendar.error.xml.h:1
 msgid "Would you like to send all the participants a cancelation notice?"
-msgstr ""
+msgstr "Inviâ a ducj i partecipants une notifiche di cancelazion?"
 
 #: ../calendar/calendar.error.xml.h:2
 msgid ""
 "If you do not send a cancelation notice, the other participants may not know "
 "the meeting is canceled."
 msgstr ""
+"Se no tu inviis une notifiche di cancelazion, chei altris partecipants a "
+"podaressin no vignî a savê che la riunion e je cancelade."
 
 #: ../calendar/calendar.error.xml.h:3
 msgid "Do _not Send"
-msgstr ""
+msgstr "_No stâ inviâ"
 
 #: ../calendar/calendar.error.xml.h:4
 msgid "_Send Notice"
-msgstr ""
+msgstr "_Invie notifiche"
 
 #: ../calendar/calendar.error.xml.h:5 ../calendar/gui/e-cal-dialogs.c:502
 #, c-format
 msgid "Are you sure you want to delete this meeting?"
-msgstr ""
+msgstr "Sigûrs di eliminâ cheste riunion?"
 
 #: ../calendar/calendar.error.xml.h:6
 msgid ""
 "All information on this meeting will be deleted and can not be restored."
 msgstr ""
+"Dutis lis informazions su cheste riunion a vegnaran eliminadis e no podaran "
+"jessi recuperadis."
 
 #: ../calendar/calendar.error.xml.h:8
 msgid ""
 "If you do not send a cancelation notice, the other participants may not know "
 "the task has been deleted."
 msgstr ""
+"Se no tu inviis une notifiche di cancelazion, chei altris partecipants a "
+"podaressin no vignî a savê che la ativitât e je stade eliminade."
 
 #: ../calendar/calendar.error.xml.h:9 ../calendar/gui/e-cal-dialogs.c:505
 #, c-format
