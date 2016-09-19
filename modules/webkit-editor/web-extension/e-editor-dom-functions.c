@@ -5169,7 +5169,7 @@ parse_html_into_blocks (EEditorPage *editor_page,
 	html = remove_new_lines_around_citations (input);
 
 	prev_token = html->str;
-	next_token = strstr (prev_token, "<br>");
+	next_token = strstr (prev_token + 1, "<br>");
 	processing_last = !next_token;
 
 	while (next_token || processing_last) {
