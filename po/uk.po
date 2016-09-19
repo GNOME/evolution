@@ -11,9 +11,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=evoluti"
-"on&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2016-09-02 20:32+0000\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
+"product=evolution&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2016-09-17 17:36+0000\n"
 "PO-Revision-Date: 2016-09-17 20:37+0300\n"
 "Last-Translator: Daniel Korostil <ted.korostiled@gmail.com>\n"
 "Language-Team: linux.org.ua\n"
@@ -21,8 +21,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
-"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Virtaal 0.7.1\n"
 "X-Project-Style: gnome\n"
 
@@ -548,7 +548,7 @@ msgstr "_Завантажити X.509"
 #: ../calendar/calendar.error.xml.h:47 ../calendar/gui/e-comp-editor.c:2107
 #: ../composer/e-composer-actions.c:230 ../composer/e-composer-actions.c:347
 #: ../e-util/e-attachment-store.c:831
-#: ../e-util/e-mail-signature-script-dialog.c:369 ../e-util/e-web-view.c:3863
+#: ../e-util/e-mail-signature-script-dialog.c:369 ../e-util/e-web-view.c:3897
 #: ../e-util/gal-view-instance-save-as-dialog.c:270
 #: ../shell/e-shell-content.c:660 ../shell/e-shell-utils.c:137
 #: ../smime/gui/certificate-manager.c:668
@@ -605,7 +605,7 @@ msgstr "Параметри"
 #: ../e-util/e-send-options.ui.h:42 ../e-util/e-source-config-dialog.c:379
 #: ../e-util/e-source-selector-dialog.c:372 ../e-util/e-table-config.c:548
 #: ../e-util/e-table-config.ui.h:1 ../e-util/e-timezone-dialog.ui.h:2
-#: ../e-util/evolution-source-viewer.c:834 ../e-util/e-web-view.c:3862
+#: ../e-util/evolution-source-viewer.c:834 ../e-util/e-web-view.c:3896
 #: ../e-util/gal-view-instance-save-as-dialog.c:269
 #: ../mail/e-mail-config-window.c:330 ../mail/e-mail-label-dialog.c:196
 #: ../mail/e-mail-tag-editor.c:242 ../mail/em-folder-selector.c:317
@@ -1749,7 +1749,6 @@ msgid "Importing..."
 msgstr "Імпортування..."
 
 #: ../addressbook/importers/evolution-csv-importer.c:929
-#| msgid "Can not open file"
 msgid "Can't open .csv file"
 msgstr "Не вдається відкрити файл .csv"
 
@@ -1778,7 +1777,6 @@ msgid "Evolution Contacts CSV and Tab Importer"
 msgstr "Evolution Contacts CSV та імпортер Tab"
 
 #: ../addressbook/importers/evolution-ldif-importer.c:719
-#| msgid "Can not open file"
 msgid "Can't open .ldif file"
 msgstr "Не вдається відкрити файл .ldif"
 
@@ -4648,7 +4646,6 @@ msgid "Completed"
 msgstr "Завершено"
 
 #: ../calendar/gui/e-comp-editor-property-parts.c:1173
-#| msgid "Cancelled"
 msgctxt "ECompEditor"
 msgid "Cancelled"
 msgstr "Скасовано"
@@ -4790,7 +4787,7 @@ msgstr "_Скопіювати"
 #: ../calendar/gui/e-comp-editor.c:1985 ../e-util/e-focus-tracker.c:175
 #: ../e-util/e-focus-tracker.c:231 ../e-util/e-focus-tracker.c:284
 #: ../e-util/e-focus-tracker.c:776 ../e-util/e-web-view.c:400
-#: ../e-util/e-web-view.c:1811 ../mail/e-mail-browser.c:138
+#: ../e-util/e-web-view.c:1845 ../mail/e-mail-browser.c:138
 #: ../shell/e-shell-window-actions.c:801
 msgid "Copy the selection"
 msgstr "Копіювати виділене"
@@ -4804,7 +4801,7 @@ msgstr "_Вирізати"
 
 #: ../calendar/gui/e-comp-editor.c:1992 ../e-util/e-focus-tracker.c:168
 #: ../e-util/e-focus-tracker.c:224 ../e-util/e-focus-tracker.c:278
-#: ../e-util/e-focus-tracker.c:771 ../e-util/e-web-view.c:1801
+#: ../e-util/e-focus-tracker.c:771 ../e-util/e-web-view.c:1835
 #: ../mail/e-mail-browser.c:145 ../shell/e-shell-window-actions.c:808
 msgid "Cut the selection"
 msgstr "Вирізати виділене"
@@ -4828,7 +4825,7 @@ msgstr "Вст_авити"
 
 #: ../calendar/gui/e-comp-editor.c:2013 ../e-util/e-focus-tracker.c:182
 #: ../e-util/e-focus-tracker.c:238 ../e-util/e-focus-tracker.c:290
-#: ../e-util/e-focus-tracker.c:781 ../e-util/e-web-view.c:1821
+#: ../e-util/e-focus-tracker.c:781 ../e-util/e-web-view.c:1855
 #: ../mail/e-mail-browser.c:152 ../shell/e-shell-window-actions.c:836
 msgid "Paste the clipboard"
 msgstr "Вставити з буфера обміну"
@@ -7887,7 +7884,6 @@ msgid "Lose _formatting"
 msgstr "Забрати _форматування"
 
 #: ../composer/mail-composer.error.xml.h:41
-#| msgid "An error occurred while saving to your Drafts folder."
 msgid "An error occurred while saving to your Templates folder."
 msgstr "Виникла помилка при збереженні теки шаблонів."
 
@@ -8954,7 +8950,6 @@ msgstr ""
 "вказано."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:5
-#| msgid "_Show the photograph of sender in the message preview"
 msgid "Name of the editor to prefer in the message composer"
 msgstr "Назва редактора листів, якому віддавати перевагу"
 
@@ -9513,7 +9508,6 @@ msgid "Timeout in milliseconds for marking messages as seen."
 msgstr "Час очікування в мілісекундах для позначення листів побаченими."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:106
-#| msgid "Show Attachment _Bar"
 msgid "Show Attachment Bar"
 msgstr "Показувати панель долучень"
 
@@ -10925,9 +10919,6 @@ msgstr ""
 "не може бути перевірений."
 
 #: ../em-format/e-mail-formatter-secure-button.c:50
-#| msgid ""
-#| "This message is signed with a signature, but there is no corresponding "
-#| "public key."
 msgid "This message is signed, but the public key is not in your keyring"
 msgstr "Цей лист підписано, проте відкритий ключ не є у вашому сховищі ключів"
 
@@ -14204,7 +14195,6 @@ msgid "Sort _Descending"
 msgstr "Сортування за с_паданням"
 
 #: ../e-util/e-table-header-item.c:1648
-#| msgid "_Reset Order"
 msgid "_Reset sort"
 msgstr "_Скинути впорядкування"
 
@@ -14359,7 +14349,7 @@ msgstr "Зберегти _зображення…"
 msgid "Save the image to a file"
 msgstr "Зберегти зображення у файл"
 
-#: ../e-util/e-web-view.c:410 ../e-util/e-web-view.c:1826
+#: ../e-util/e-web-view.c:410 ../e-util/e-web-view.c:1860
 msgid "Select all text and images"
 msgstr "Виділити весь текст та зображення"
 
@@ -14386,20 +14376,20 @@ msgstr "Перейти до початку повідомлення"
 msgid "Click to open %s"
 msgstr "Клацніть щоб відкрити %s"
 
-#: ../e-util/e-web-view.c:3672
+#: ../e-util/e-web-view.c:3706
 msgid "Copying image to clipboard"
 msgstr "Копіювати зображення в буфер"
 
-#: ../e-util/e-web-view.c:3860
+#: ../e-util/e-web-view.c:3894
 msgid "Save Image"
 msgstr "Зберегти зображення"
 
-#: ../e-util/e-web-view.c:3896
+#: ../e-util/e-web-view.c:3930
 #, c-format
 msgid "Saving image to '%s'"
 msgstr "Збереження зображення в «%s»"
 
-#: ../e-util/e-web-view.c:3991
+#: ../e-util/e-web-view.c:4025
 #, c-format
 msgid "Cannot get URI '%s', do not know how to download it."
 msgstr "Неможливо одержати URI «%s», невідомо, як це звантажити."
@@ -14778,24 +14768,24 @@ msgstr "Надіслані"
 msgid "Templates"
 msgstr "Шаблони"
 
-#: ../libemail-engine/e-mail-session.c:1305
+#: ../libemail-engine/e-mail-session.c:1334
 #, c-format
 msgid "User cancelled operation"
 msgstr "Користувач скасував операцію"
 
-#: ../libemail-engine/e-mail-session.c:1362
+#: ../libemail-engine/e-mail-session.c:1391
 #, c-format
 msgid ""
 "No destination address provided, forwarding of the message has been "
 "cancelled."
 msgstr "Пересилання листа скасовано, бо не вказано кінцеву адресу."
 
-#: ../libemail-engine/e-mail-session.c:1375
+#: ../libemail-engine/e-mail-session.c:1404
 #, c-format
 msgid "No identity found to use, forwarding of the message has been cancelled."
 msgstr "Пересилання листа скасовано, бо не знайдено тотожності."
 
-#: ../libemail-engine/e-mail-session.c:2405
+#: ../libemail-engine/e-mail-session.c:2434
 #, c-format
 msgid "Waiting for '%s'"
 msgstr "Очікування на «%s»"
@@ -14908,7 +14898,6 @@ msgstr[1] "Не вдалось надіслати %d з %d листів"
 msgstr[2] "Не вдалось надіслати %d з %d листів"
 
 #: ../libemail-engine/mail-ops.c:1064
-#| msgid "Cancelled"
 msgid "Cancelled."
 msgstr "Скасовано."
 
@@ -15163,12 +15152,10 @@ msgid "Choose a folder to archive messages to."
 msgstr "Виберіть теку, в яку архівувати листи."
 
 #: ../mail/e-mail-config-defaults-page.c:932
-#| msgid "_Template:"
 msgid "_Templates Folder:"
 msgstr "Тека _шаблонів:"
 
 #: ../mail/e-mail-config-defaults-page.c:942
-#| msgid "Choose a folder for deleted messages."
 msgid "Choose a folder to use for template messages."
 msgstr "Виберіть теку для шаблонів листів."
 
@@ -15297,7 +15284,6 @@ msgstr ""
 #. This is only a warning, not a blocker
 #. complete = complete && correct;
 #: ../mail/e-mail-config-identity-page.c:630
-#| msgid "Full Name cannot be empty"
 msgid "Full Name should not be empty"
 msgstr "Повне ім'я не може бути порожнє"
 
@@ -15746,11 +15732,11 @@ msgstr "Назва заголовка"
 msgid "Header Value"
 msgstr "Значення заголовка"
 
-#: ../mail/e-mail-printer.c:111 ../mail/mail-config.ui.h:123
+#: ../mail/e-mail-printer.c:102 ../mail/mail-config.ui.h:123
 msgid "Headers"
 msgstr "Заголовки"
 
-#: ../mail/e-mail-printer.c:153
+#: ../mail/e-mail-printer.c:144
 #, c-format
 msgid "Page %d of %d"
 msgstr "Сторінка %d з %d"
@@ -16450,13 +16436,13 @@ msgstr "Зазначення підгілки як нехтувану"
 msgid "Unmarking subthread from being ignored"
 msgstr "Зазначення підгілки як не нехтувану"
 
-#: ../mail/e-mail-reader-utils.c:1419
+#: ../mail/e-mail-reader-utils.c:1427
 msgid "Printing"
 msgstr "Друкування"
 
 #. Translators: %s is replaced with a folder
 #. * name %u with count of duplicate messages.
-#: ../mail/e-mail-reader-utils.c:1656
+#: ../mail/e-mail-reader-utils.c:1664
 #, c-format
 msgid ""
 "Folder '%s' contains %u duplicate message. Are you sure you want to delete "
@@ -16468,7 +16454,7 @@ msgstr[0] "Тека «%s» містить %u повторений лист. Ви
 msgstr[1] "Тека «%s» містить %u повторених листа. Вилучити їх?"
 msgstr[2] "Тека «%s» містить %u повторених листів. Вилучити їх?"
 
-#: ../mail/e-mail-reader-utils.c:2656
+#: ../mail/e-mail-reader-utils.c:2664
 msgid "Save Message"
 msgid_plural "Save Messages"
 msgstr[0] "Зберегти повідомлення"
@@ -16480,14 +16466,14 @@ msgstr[2] "Зберегти повідомлення"
 #. * mbox format, when the first message doesn't have a
 #. * subject.  The extension ".mbox" is appended to the
 #. * string; for example "Message.mbox".
-#: ../mail/e-mail-reader-utils.c:2677
+#: ../mail/e-mail-reader-utils.c:2685
 msgid "Message"
 msgid_plural "Messages"
 msgstr[0] "Повідомлення"
 msgstr[1] "Повідомлення"
 msgstr[2] "Повідомлення"
 
-#: ../mail/e-mail-reader-utils.c:3050
+#: ../mail/e-mail-reader-utils.c:3058
 msgid "Parsing message"
 msgstr "Розбирання листа"
 
@@ -16878,12 +16864,12 @@ msgstr[2] "Відкрити %d повідомлень одночасно?"
 msgid "Message Filters"
 msgstr "Фільтри повідомлень"
 
-#: ../mail/em-utils.c:923
+#: ../mail/em-utils.c:939
 #, c-format
 msgid "Messages from %s"
 msgstr "Повідомлення від %s"
 
-#: ../mail/em-utils.c:1680
+#: ../mail/em-utils.c:1696
 msgid "Deleting old messages"
 msgstr "Вилучення старих листів"
 
@@ -18047,9 +18033,6 @@ msgid "Use default drafts folder?"
 msgstr "Використовувати типову теку чернеток?"
 
 #: ../mail/mail.error.xml.h:34
-#| msgid ""
-#| "Unable to open the drafts folder for this account. Use the system drafts "
-#| "folder instead?"
 msgid ""
 "Unable to open the drafts folder for this account. Use the system drafts "
 "folder instead?\n"
@@ -18195,7 +18178,6 @@ msgstr ""
 "вилучено."
 
 #: ../mail/mail.error.xml.h:70
-#| msgid "Really delete folder \"{0}\"?"
 msgid "Really unsubscribe folder \"{0}\"?"
 msgstr "Справді відписатись від теки «{0}»?"
 
@@ -18209,7 +18191,6 @@ msgstr ""
 "сервері. Можете заново підписатись через меню Тека→Підписки…"
 
 #: ../mail/mail.error.xml.h:72
-#| msgid "_Unsubscribe"
 msgid "Do _Not Unsubscribe"
 msgstr "Не _відписуватись"
 
@@ -19732,7 +19713,6 @@ msgid "Server address cannot be empty"
 msgstr "Адреса сервера не може бути порожня"
 
 #: ../modules/book-config-webdav/evolution-book-config-webdav.c:92
-#| msgid "New Address Book"
 msgid "Choose an Address Book"
 msgstr "Вибрагти адресну книгу"
 
@@ -19743,7 +19723,6 @@ msgid "URL:"
 msgstr "URL:"
 
 #: ../modules/book-config-webdav/evolution-book-config-webdav.c:249
-#| msgid "Address Book"
 msgid "Find Address Books"
 msgstr "Знайти адресну книгу"
 
@@ -21243,13 +21222,11 @@ msgstr "%s надіслав такий відгук про засідання:"
 
 #: ../modules/itip-formatter/itip-view.c:476
 #, c-format
-#| msgid "%s through %s has canceled the following meeting:"
 msgid "%s through %s has cancelled the following meeting:"
 msgstr "%s через %s скасував таке засідання:"
 
 #: ../modules/itip-formatter/itip-view.c:478
 #, c-format
-#| msgid "%s has canceled the following meeting:"
 msgid "%s has cancelled the following meeting:"
 msgstr "%s скасував таке засідання:"
 
@@ -21334,13 +21311,11 @@ msgstr "%s надіслав назад таку відповідь на приз
 
 #: ../modules/itip-formatter/itip-view.c:566
 #, c-format
-#| msgid "%s through %s has canceled the following assigned task:"
 msgid "%s through %s has cancelled the following assigned task:"
 msgstr "%s через %s скасував таке призначене завдання:"
 
 #: ../modules/itip-formatter/itip-view.c:568
 #, c-format
-#| msgid "%s has canceled the following assigned task:"
 msgid "%s has cancelled the following assigned task:"
 msgstr "%s скасував таке призначене завдання:"
 
@@ -21386,13 +21361,11 @@ msgstr "%s бажає додати до наявної примітки:"
 
 #: ../modules/itip-formatter/itip-view.c:632
 #, c-format
-#| msgid "%s through %s has canceled the following shared memo:"
 msgid "%s through %s has cancelled the following shared memo:"
 msgstr "%s через %s скасував таку спільну примітку:"
 
 #: ../modules/itip-formatter/itip-view.c:634
 #, c-format
-#| msgid "%s has canceled the following shared memo:"
 msgid "%s has cancelled the following shared memo:"
 msgstr "%s скасував таку спільну примітку:"
 
@@ -21566,7 +21539,6 @@ msgstr "Надіслано у календар '%s' як відхилений"
 
 #: ../modules/itip-formatter/itip-view.c:4519
 #, c-format
-#| msgid "Sent to calendar '%s' as canceled"
 msgid "Sent to calendar '%s' as cancelled"
 msgstr "Надіслано у календар «%s» як скасований"
 
@@ -21719,19 +21691,19 @@ msgstr "Цю зустріч було направлено"
 msgid "'{0}' has delegated the meeting. Do you want to add the delegate '{1}'?"
 msgstr "«{0}» заявив про засідання. Додати заяву «{1}»?"
 
-#: ../modules/mail-config/e-mail-config-google-summary.c:265
+#: ../modules/mail-config/e-mail-config-google-summary.c:282
 msgid "Google Features"
 msgstr "Можливості Google"
 
-#: ../modules/mail-config/e-mail-config-google-summary.c:274
+#: ../modules/mail-config/e-mail-config-google-summary.c:291
 msgid "Add Google Ca_lendar to this account"
 msgstr "Додати _календар Google до цього облікового запису"
 
-#: ../modules/mail-config/e-mail-config-google-summary.c:283
+#: ../modules/mail-config/e-mail-config-google-summary.c:300
 msgid "Add Google Con_tacts to this account"
 msgstr "Додати кон_такти Google до цього облікового запису"
 
-#: ../modules/mail-config/e-mail-config-google-summary.c:292
+#: ../modules/mail-config/e-mail-config-google-summary.c:309
 msgid "You may need to enable IMAP access"
 msgstr "Можливо, потрібно ввімкнути доступ до IMAP"
 
@@ -21818,7 +21790,6 @@ msgstr "_Назва запису:"
 
 #: ../modules/mail-config/e-mail-config-remote-accounts.c:264
 #: ../modules/mail-config/e-mail-config-smtp-backend.c:326
-#| msgid "_Forget Passwords"
 msgid "_Forget password"
 msgstr "_Забути пароль"
 
@@ -21951,14 +21922,12 @@ msgstr "Спосіб визначення стану _мережі:"
 
 #. Always as the first
 #: ../modules/mail/e-mail-shell-backend.c:758
-#| msgid "Default"
 msgctxt "NetworkMonitor"
 msgid "Default"
 msgstr "Типовий"
 
 #. Always as the last
 #: ../modules/mail/e-mail-shell-backend.c:772
-#| msgid "_Always move"
 msgctxt "NetworkMonitor"
 msgid "Always Online"
 msgstr "Завжди в мережі"
@@ -22233,7 +22202,6 @@ msgid "Show _Attachment Bar"
 msgstr "показати панель в_кладень"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:2070
-#| msgid "Show message preview below the message list"
 msgid ""
 "Show Attachment Bar below the message preview pane when the message has "
 "attachments"
@@ -24013,7 +23981,6 @@ msgstr ""
 "замінено значеннями з пошти, на яку ви відповідаєте."
 
 #: ../plugins/templates/templates.c:1286
-#| msgid "Saving message to Outbox."
 msgid "Saving message template"
 msgstr "Збереження шаблонів листів"
 
