@@ -1,5 +1,5 @@
 # French translation of evolution.
-# Copyright (C) 2000-2015 Free Software Foundation, Inc.
+# Copyright (C) 2000-2016 Free Software Foundation, Inc.
 # This file is distributed under the same license as the evolution package.
 #
 # Vincent Renardias <vincent@debian.org>, 2000.
@@ -20,7 +20,7 @@
 # Myriam Malga <mmalga@redhat.com>, 2007.
 # Yannick Tailliez <ytdispatch-libre@yahoo.com>, 2008.
 # Rémi Peixoto <remi.peixoto@gmail.com>, 2009.
-# Claude Paroz <claude@2xlibre.net>, 2007-2011, 2015.
+# Claude Paroz <claude@2xlibre.net>, 2007-2011, 2015-2016.
 # Laurent Coudeur <laurentc@iol.ie>, 2010.
 # Bruno Brouard <annoa.b@gmail.com>, 2008-2012, 2012.
 # Alain Lojewski <allomervan@gmail.com>, 2012-2016.
@@ -33,16 +33,15 @@ msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2016-09-02 20:32+0000\n"
-"PO-Revision-Date: 2016-09-08 11:06+0200\n"
-"Last-Translator: Alain Lojewski <allomervan@gmail.com>\n"
+"POT-Creation-Date: 2016-09-16 20:52+0000\n"
+"PO-Revision-Date: 2016-09-19 09:17+0200\n"
+"Last-Translator: Claude Paroz <claude@2xlibre.net>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Poedit 1.8.4\n"
 
 #: ../addressbook/addressbook.error.xml.h:1
 msgid "This address book could not be opened."
@@ -583,7 +582,7 @@ msgstr "_Charger X.509"
 #: ../calendar/calendar.error.xml.h:47 ../calendar/gui/e-comp-editor.c:2107
 #: ../composer/e-composer-actions.c:230 ../composer/e-composer-actions.c:347
 #: ../e-util/e-attachment-store.c:831
-#: ../e-util/e-mail-signature-script-dialog.c:369 ../e-util/e-web-view.c:3863
+#: ../e-util/e-mail-signature-script-dialog.c:369 ../e-util/e-web-view.c:3897
 #: ../e-util/gal-view-instance-save-as-dialog.c:270
 #: ../shell/e-shell-content.c:660 ../shell/e-shell-utils.c:137
 #: ../smime/gui/certificate-manager.c:668
@@ -640,7 +639,7 @@ msgstr "Options"
 #: ../e-util/e-send-options.ui.h:42 ../e-util/e-source-config-dialog.c:379
 #: ../e-util/e-source-selector-dialog.c:372 ../e-util/e-table-config.c:548
 #: ../e-util/e-table-config.ui.h:1 ../e-util/e-timezone-dialog.ui.h:2
-#: ../e-util/evolution-source-viewer.c:834 ../e-util/e-web-view.c:3862
+#: ../e-util/evolution-source-viewer.c:834 ../e-util/e-web-view.c:3896
 #: ../e-util/gal-view-instance-save-as-dialog.c:269
 #: ../mail/e-mail-config-window.c:330 ../mail/e-mail-label-dialog.c:196
 #: ../mail/e-mail-tag-editor.c:242 ../mail/em-folder-selector.c:317
@@ -4851,7 +4850,7 @@ msgstr "Co_pier"
 #: ../calendar/gui/e-comp-editor.c:1985 ../e-util/e-focus-tracker.c:175
 #: ../e-util/e-focus-tracker.c:231 ../e-util/e-focus-tracker.c:284
 #: ../e-util/e-focus-tracker.c:776 ../e-util/e-web-view.c:400
-#: ../e-util/e-web-view.c:1811 ../mail/e-mail-browser.c:138
+#: ../e-util/e-web-view.c:1845 ../mail/e-mail-browser.c:138
 #: ../shell/e-shell-window-actions.c:801
 msgid "Copy the selection"
 msgstr "Copie la sélection"
@@ -4865,7 +4864,7 @@ msgstr "_Couper"
 
 #: ../calendar/gui/e-comp-editor.c:1992 ../e-util/e-focus-tracker.c:168
 #: ../e-util/e-focus-tracker.c:224 ../e-util/e-focus-tracker.c:278
-#: ../e-util/e-focus-tracker.c:771 ../e-util/e-web-view.c:1801
+#: ../e-util/e-focus-tracker.c:771 ../e-util/e-web-view.c:1835
 #: ../mail/e-mail-browser.c:145 ../shell/e-shell-window-actions.c:808
 msgid "Cut the selection"
 msgstr "Coupe la sélection"
@@ -4889,7 +4888,7 @@ msgstr "C_oller"
 
 #: ../calendar/gui/e-comp-editor.c:2013 ../e-util/e-focus-tracker.c:182
 #: ../e-util/e-focus-tracker.c:238 ../e-util/e-focus-tracker.c:290
-#: ../e-util/e-focus-tracker.c:781 ../e-util/e-web-view.c:1821
+#: ../e-util/e-focus-tracker.c:781 ../e-util/e-web-view.c:1855
 #: ../mail/e-mail-browser.c:152 ../shell/e-shell-window-actions.c:836
 msgid "Paste the clipboard"
 msgstr "Colle le contenu du presse-papiers"
@@ -8768,7 +8767,7 @@ msgstr "Afficher les icônes de rendez-vous dans le mode vues par mois"
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:112
 msgid "Whether to show icons of events in the month view"
 msgstr ""
-"Indique s'il faut afficher les icônes des événements dans le mode vues par "
+"Indique s'il faut afficher les icônes des évènements dans le mode vues par "
 "mois"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:113
@@ -8983,7 +8982,7 @@ msgstr "Dimanche est un jour ouvrable"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:155
 msgid "Create events, memos and tasks as Private by default"
-msgstr ""
+msgstr "Créer les évènements, les mémos et les tâches comme privés par défaut"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:156
 msgid "(Deprecated) First day of the week, from Sunday (0) to Saturday (6)"
@@ -9086,17 +9085,21 @@ msgstr "Jeu de caractère par défaut pour la rédaction des messages"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:4
 msgid "Default charset in which to compose messages. Uses UTF-8, if not set."
-msgstr "Jeu de caractère par défaut pour la rédaction des messages. Utilise UTF-8 si non configuré."
+msgstr ""
+"Jeu de caractère par défaut pour la rédaction des messages. Utilise UTF-8 si "
+"non configuré."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:5
 msgid "Name of the editor to prefer in the message composer"
-msgstr ""
+msgstr "Nom de l'éditeur préféré pour l'édition des messages"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:6
 msgid ""
 "If the name doesn't correspond to any known editor, then the built-in WebKit "
 "editor is used."
 msgstr ""
+"Si le nom ne correspond à aucun éditeur connu, c'est l'éditeur intégré basé "
+"sur WebKit qui sera utilisé."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:7
 msgid "Path where picture gallery should search for its content"
@@ -9475,12 +9478,16 @@ msgstr ""
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:67
 msgid "Whether to obey Content-Disposition:inline message header hint"
 msgstr ""
+"Indique s'il faut respecter l'indication de l'en-tête de message Content-"
+"Disposition:inline"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:68
 msgid ""
 "Set to 'false' to block automatic display of attachments with Content-"
 "Disposition: inline."
 msgstr ""
+"Définir à « false » (faux) pour bloquer l'affichage automatique des pièces "
+"jointes avec Content-Disposition: inline."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:69
 msgid "Save file format for drag-and-drop operation"
@@ -9677,6 +9684,8 @@ msgid ""
 "Show Attachment Bar below the message preview pane when the message has "
 "attachments."
 msgstr ""
+"Afficher la barre des pièces jointes au-dessous du panneau d'aperçu des "
+"messages lorsqu'un message possède des pièces jointes."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:108
 msgid "Sender email-address column in the message list"
@@ -10831,6 +10840,8 @@ msgstr "Format de compression utilisé par autoar"
 msgid ""
 "Compression format used when compressing attached directories with autoar."
 msgstr ""
+"Format de compression utilisé lors de la compression des répertoires joints "
+"avec autoar."
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:9
 msgid "Compression filter used by autoar"
@@ -10840,6 +10851,8 @@ msgstr "Filtre de compression utilisé par autoar"
 msgid ""
 "Compression filter used when compressing attached directories with autoar."
 msgstr ""
+"Filtre de compression utilisé lors de la compression des répertoires joints "
+"avec autoar."
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:11 ../shell/main.c:320
 msgid "Start in offline mode"
@@ -11141,6 +11154,12 @@ msgid ""
 "trusted method and add it to your keyring. Until then, there is no guarantee "
 "that this message truly came from that person and that it arrived unaltered."
 msgstr ""
+"Ce message a été signé numériquement, mais la clé publique correspondante ne "
+"se trouve pas dans votre trousseau de clés. Si vous souhaitez pouvoir "
+"vérifier l'authenticité des messages de cette personne, vous devriez obtenir "
+"la clé publique par une méthode fiable et l'ajouter à votre trousseau. En "
+"attendant, il n'est pas possible de garantir que ce message provient "
+"vraiment de cette personne et qu'il est arrivé intact."
 
 #: ../em-format/e-mail-formatter-secure-button.c:59
 msgid "Unencrypted"
@@ -14551,7 +14570,7 @@ msgstr "Enregistrer l'_image..."
 msgid "Save the image to a file"
 msgstr "Enregistre l'image dans un fichier"
 
-#: ../e-util/e-web-view.c:410 ../e-util/e-web-view.c:1826
+#: ../e-util/e-web-view.c:410 ../e-util/e-web-view.c:1860
 msgid "Select all text and images"
 msgstr "Sélectionne tout le texte et les images"
 
@@ -14578,24 +14597,25 @@ msgstr "Aller au début du message"
 msgid "Click to open %s"
 msgstr "Cliquez pour ouvrir %s"
 
-#: ../e-util/e-web-view.c:3672
+#: ../e-util/e-web-view.c:3706
 msgid "Copying image to clipboard"
 msgstr "Copie de l'image dans le presse-papiers"
 
 # Titre de fenêtre
-#: ../e-util/e-web-view.c:3860
+#: ../e-util/e-web-view.c:3894
 msgid "Save Image"
 msgstr "Enregistrement de l'image"
 
-#: ../e-util/e-web-view.c:3896
+#: ../e-util/e-web-view.c:3930
 #, c-format
 msgid "Saving image to '%s'"
 msgstr "Enregistrement de l'image dans « %s »"
 
-#: ../e-util/e-web-view.c:3991
+#: ../e-util/e-web-view.c:4025
 #, c-format
 msgid "Cannot get URI '%s', do not know how to download it."
 msgstr ""
+"Impossible d'obtenir l'URI « %s », ne sachant pas comment le télécharger."
 
 #: ../e-util/e-widget-undo.c:430
 msgid "Undo 'Insert text'"
@@ -14970,12 +14990,12 @@ msgstr "Envoyés"
 msgid "Templates"
 msgstr "Modèles"
 
-#: ../libemail-engine/e-mail-session.c:1305
+#: ../libemail-engine/e-mail-session.c:1334
 #, c-format
 msgid "User cancelled operation"
 msgstr "L'utilisateur a annulé l'opération"
 
-#: ../libemail-engine/e-mail-session.c:1362
+#: ../libemail-engine/e-mail-session.c:1391
 #, c-format
 msgid ""
 "No destination address provided, forwarding of the message has been "
@@ -14983,13 +15003,13 @@ msgid ""
 msgstr ""
 "Aucune adresse de destination fournie, le transfert du message a été annulé."
 
-#: ../libemail-engine/e-mail-session.c:1375
+#: ../libemail-engine/e-mail-session.c:1404
 #, c-format
 msgid "No identity found to use, forwarding of the message has been cancelled."
 msgstr ""
 "Aucun compte à utiliser n'a été trouvé, le transfert du message a été annulé."
 
-#: ../libemail-engine/e-mail-session.c:2405
+#: ../libemail-engine/e-mail-session.c:2434
 #, c-format
 msgid "Waiting for '%s'"
 msgstr "En attente de « %s »"
@@ -15944,11 +15964,11 @@ msgstr "Nom de l'en-tête"
 msgid "Header Value"
 msgstr "Valeur de l'en-tête"
 
-#: ../mail/e-mail-printer.c:111 ../mail/mail-config.ui.h:123
+#: ../mail/e-mail-printer.c:102 ../mail/mail-config.ui.h:123
 msgid "Headers"
 msgstr "En-têtes"
 
-#: ../mail/e-mail-printer.c:153
+#: ../mail/e-mail-printer.c:144
 #, c-format
 msgid "Page %d of %d"
 msgstr "Page %d sur %d"
@@ -16656,13 +16676,13 @@ msgstr "Marque le sous-fil de discussion pour être ignoré"
 msgid "Unmarking subthread from being ignored"
 msgstr "Enlève la marque du sous-fil de discussion ignoré"
 
-#: ../mail/e-mail-reader-utils.c:1419
+#: ../mail/e-mail-reader-utils.c:1427
 msgid "Printing"
 msgstr "Impression"
 
 #. Translators: %s is replaced with a folder
 #. * name %u with count of duplicate messages.
-#: ../mail/e-mail-reader-utils.c:1656
+#: ../mail/e-mail-reader-utils.c:1664
 #, c-format
 msgid ""
 "Folder '%s' contains %u duplicate message. Are you sure you want to delete "
@@ -16677,7 +16697,7 @@ msgstr[1] ""
 "Le dossier « %s » contient %u messages en double. Voulez-vous vraiment les "
 "supprimer ?"
 
-#: ../mail/e-mail-reader-utils.c:2656
+#: ../mail/e-mail-reader-utils.c:2664
 msgid "Save Message"
 msgid_plural "Save Messages"
 msgstr[0] "Enregistrer le message..."
@@ -16688,13 +16708,13 @@ msgstr[1] "Enregistrer les messages..."
 #. * mbox format, when the first message doesn't have a
 #. * subject.  The extension ".mbox" is appended to the
 #. * string; for example "Message.mbox".
-#: ../mail/e-mail-reader-utils.c:2677
+#: ../mail/e-mail-reader-utils.c:2685
 msgid "Message"
 msgid_plural "Messages"
 msgstr[0] "Message"
 msgstr[1] "Messages"
 
-#: ../mail/e-mail-reader-utils.c:3050
+#: ../mail/e-mail-reader-utils.c:3058
 msgid "Parsing message"
 msgstr "Analyse du message"
 
@@ -16743,17 +16763,17 @@ msgid_plural ""
 "other or if privacy is a concern. Consider adding recipients to the BCC "
 "field instead."
 msgstr[0] ""
-"Vous êtes en train d'envoyer un message à %d destinataire dans les champs "
-"À et Cc. Il s'en suivra que l'ensemble des destinataires auront accès à "
-"toutes les adresses des autres destinataires. Dans certains cas, ce n'est "
-"pas souhaitable, particulièrement s'ils ne se connaissent pas ou si la "
+"Vous êtes en train d'envoyer un message à %d destinataire dans les champs À "
+"et Cc. Il s'en suivra que l'ensemble des destinataires auront accès à toutes "
+"les adresses des autres destinataires. Dans certains cas, ce n'est pas "
+"souhaitable, particulièrement s'ils ne se connaissent pas ou si la "
 "confidentialité du contenu est requise. Vous pouvez envisager plutôt "
 "d'ajouter les destinataires au champs Cci."
 msgstr[1] ""
-"Vous êtes en train d'envoyer un message à %d destinataires dans les champs "
-"À et Cc. Il s'en suivra que l'ensemble des destinataires auront accès à "
-"toutes les adresses des autres destinataires. Dans certains cas, ce n'est "
-"pas souhaitable, particulièrement s'ils ne se connaissent pas ou si la "
+"Vous êtes en train d'envoyer un message à %d destinataires dans les champs À "
+"et Cc. Il s'en suivra que l'ensemble des destinataires auront accès à toutes "
+"les adresses des autres destinataires. Dans certains cas, ce n'est pas "
+"souhaitable, particulièrement s'ils ne se connaissent pas ou si la "
 "confidentialité du contenu est requise. Vous pouvez envisager plutôt "
 "d'ajouter les destinataires au champs Cci."
 
@@ -17078,12 +17098,12 @@ msgstr[1] "Voulez-vous vraiment ouvrir %d messages en une fois ?"
 msgid "Message Filters"
 msgstr "Filtres de messages"
 
-#: ../mail/em-utils.c:923
+#: ../mail/em-utils.c:939
 #, c-format
 msgid "Messages from %s"
 msgstr "Messages de %s"
 
-#: ../mail/em-utils.c:1680
+#: ../mail/em-utils.c:1696
 msgid "Deleting old messages"
 msgstr "Suppression des anciens messages"
 
@@ -18429,6 +18449,9 @@ msgid ""
 "while still being available on the server. You can re-subscribe in Folder-"
 ">Subscriptions... menu."
 msgstr ""
+"Si vous vous désabonnez du dossier, il pourrait ne plus être visible dans "
+"Evolution, tout en restant disponible sur le serveur. Vous pouvez vous "
+"réabonner à partir du menu Dossier->Abonnements…"
 
 #: ../mail/mail.error.xml.h:72
 msgid "Do _Not Unsubscribe"
@@ -20391,7 +20414,7 @@ msgstr "La journée se _termine à :"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:47
 msgid "Create events, memos and tasks as _Private by default"
-msgstr ""
+msgstr "Créer les évènements, les mémos et les tâches comme _privés par défaut"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:49
 msgid "View Options"
@@ -22010,19 +22033,19 @@ msgstr ""
 "« {0} » a délégué un représentant à cette réunion. Voulez-vous ajouter le "
 "délégué « {1} » ?"
 
-#: ../modules/mail-config/e-mail-config-google-summary.c:265
+#: ../modules/mail-config/e-mail-config-google-summary.c:282
 msgid "Google Features"
 msgstr "Fonctionnalités Google"
 
-#: ../modules/mail-config/e-mail-config-google-summary.c:274
+#: ../modules/mail-config/e-mail-config-google-summary.c:291
 msgid "Add Google Ca_lendar to this account"
 msgstr "Ajoute un ca_lendrier Google à ce compte"
 
-#: ../modules/mail-config/e-mail-config-google-summary.c:283
+#: ../modules/mail-config/e-mail-config-google-summary.c:300
 msgid "Add Google Con_tacts to this account"
 msgstr "Ajoute des con_tacts Google à ce compte"
 
-#: ../modules/mail-config/e-mail-config-google-summary.c:292
+#: ../modules/mail-config/e-mail-config-google-summary.c:309
 msgid "You may need to enable IMAP access"
 msgstr "Vous devez peut-être activer l'accès IMAP"
 
@@ -22528,6 +22551,8 @@ msgid ""
 "Show Attachment Bar below the message preview pane when the message has "
 "attachments"
 msgstr ""
+"Affiche la barre des pièces jointes au-dessous du panneau d'aperçu des "
+"messages lorsqu'un message possède des pièces jointes"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:2076
 msgid "Show _Deleted Messages"
@@ -25511,73 +25536,3 @@ msgstr "Avec _date d'échéance"
 #: ../views/tasks/galview.xml.h:3
 msgid "With _Status"
 msgstr "Avec l'é_tat"
-
-#~ msgid "Specify the output file instead of standard output"
-#~ msgstr "Indiquer un fichier de sortie au lieu de la sortie standard"
-
-#~ msgid "OUTPUTFILE"
-#~ msgstr "FICHIERSORTIE"
-
-#~ msgid "List local address book folders"
-#~ msgstr "Liste des dossiers locaux de carnet d'adresses"
-
-#~ msgid "Show cards as vcard or csv file"
-#~ msgstr "Afficher les cartes comme des vcards ou des fichiers csv"
-
-#~ msgid "[vcard|csv]"
-#~ msgstr "[vcard|csv]"
-
-#~ msgid ""
-#~ "Command line arguments error, please use --help option to see the usage."
-#~ msgstr ""
-#~ "Erreur avec les arguments de la ligne de commande, veuillez utiliser "
-#~ "l'option --help pour voir leur utilisation."
-
-#~ msgid "Only support csv or vcard format."
-#~ msgstr "Ne prend en charge que les formats csv et vcard."
-
-#~ msgid "Unhandled error"
-#~ msgstr "Erreur non gérée"
-
-#~ msgid "Failed to open client '%s': %s"
-#~ msgstr "Impossible d'ouvrir le client « %s » : %s"
-
-#~ msgid "Canceled"
-#~ msgstr "Annulée"
-
-#~ msgctxt "ECompEditor"
-#~ msgid "Canceled"
-#~ msgstr "Annulée"
-
-#~ msgid "Enable developer mode"
-#~ msgstr "Activer le mode développeur"
-
-#~ msgid ""
-#~ "Enables some hidden actions and tools aimed for development and debugging."
-#~ msgstr ""
-#~ "Active certaines actions et outils cachés destinés au développement et au "
-#~ "débogage."
-
-#~ msgid "Signature exists, but need public key"
-#~ msgstr "La signature existe, mais elle requiert une clé publique"
-
-#~ msgid "Open Inspector"
-#~ msgstr "Ouvrir l'inspecteur"
-
-#~ msgid "_Blockquote"
-#~ msgstr "_Bloc de citation"
-
-#~ msgid "Changed property"
-#~ msgstr "Propriété « modifié »"
-
-#~ msgid "Whether editor changed"
-#~ msgstr "Indique si l'éditeur a changé"
-
-#~ msgid "_Unsort"
-#~ msgstr "_Ne pas trier"
-
-#~ msgid "Canceled."
-#~ msgstr "Annulé."
-
-#~ msgid "Evolution Web Inspector"
-#~ msgstr "Inspecteur Web d'Evolution"
