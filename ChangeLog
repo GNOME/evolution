@@ -4,4 +4,4 @@
 	Get a clone of git repository and list changes with 'git log' there,
 	   $ git clone git://git.gnome.org/evolution
 	or browse changes online at
-	   http://git.gnome.org/browse/evolution/log/?h=gnome-3-22
+	   http://git.gnome.org/browse/evolution/log/?h=master
