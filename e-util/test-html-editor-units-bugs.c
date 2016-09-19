@@ -632,6 +632,43 @@ test_bug_771131 (TestFixture *fixture)
 		g_test_fail ();
 }
 
+static void
+test_bug_771493 (TestFixture *fixture)
+{
+	if (!test_utils_process_commands (fixture,
+		"mode:plain\n")) {
+		g_test_fail ();
+		return;
+	}
+
+	test_utils_insert_content (fixture,
+		"<body><pre><br>"
+		"----- Original Message -----\n"
+		"<blockquote type=\"cite\">\n"
+		"This week summary:"
+		"</blockquote>"
+		"</pre><span class=\"-x-evo-to-body\" data-credits=\"On Thu, 2016-09-15 at 08:08 -0400, user wrote:\"></span>"
+		"<span class=\"-x-evo-cite-body\"></span></body>",
+		E_CONTENT_EDITOR_INSERT_REPLACE_ALL | E_CONTENT_EDITOR_INSERT_TEXT_HTML);
+
+	if (!test_utils_run_simple_test (fixture,
+		"",
+		HTML_PREFIX_PLAIN "<div style=\"width: 71ch;\">On Thu, 2016-09-15 at 08:08 -0400, user wrote:</div>"
+		"<blockquote type=\"cite\">"
+		"<div style=\"width: 71ch;\">&gt; <br></div>"
+		"<div style=\"width: 71ch;\">&gt; ----- Original Message -----</div>"
+		"<blockquote type=\"cite\">"
+		"<div style=\"width: 71ch;\">&gt; &gt; This week summary:</div>"
+		"</blockquote>"
+		"</blockquote>"
+		HTML_SUFFIX,
+		"On Thu, 2016-09-15 at 08:08 -0400, user wrote:\n"
+		"> \n"
+		"> ----- Original Message -----\n"
+		"> > This week summary:"))
+		g_test_fail ();
+}
+
 void
 test_add_html_editor_bug_tests (void)
 {
@@ -646,4 +683,5 @@ test_add_html_editor_bug_tests (void)
 	test_utils_add_test ("/bug/770074", test_bug_770074);
 	test_utils_add_test ("/bug/771044", test_bug_771044);
 	test_utils_add_test ("/bug/771131", test_bug_771131);
+	test_utils_add_test ("/bug/771493", test_bug_771493);
 }
