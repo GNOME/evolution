@@ -1,3 +1,16 @@
+Evolution 3.22.0 2016-09-19
+---------------------------
+
+Bug Fixes:
+	Bug 771420 - [WK2] Printing an email does not work (Tomas Popela)
+
+Translations:
+	Daniel Mustieles (es)
+	Inaki Larranaga Murgoitio (eu)
+	Fabio Tomat (fu)
+	Daniel Korostil (uk)
+	Claude Paroz (fr)
+
 Evolution 3.21.92 2016-09-12
 ----------------------------
 
