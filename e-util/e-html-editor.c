@@ -345,7 +345,7 @@ html_editor_update_actions (EHTMLEditor *editor)
 
 	cnt_editor = e_html_editor_get_content_editor (editor);
 
-	if (camel_debug ("wex"))
+	if (camel_debug ("webkit") || camel_debug ("webkit:editor"))
 		printf ("%s: flags:%d(%x)\n", G_STRFUNC, flags, flags);
 
 	visible = (flags & E_CONTENT_EDITOR_NODE_IS_IMAGE);
