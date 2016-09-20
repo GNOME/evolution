@@ -2154,7 +2154,7 @@ test_cite_reply_plain (TestFixture *fixture)
 
 	test_utils_insert_content (fixture,
 		"<pre>line 1\n"
-		"line 2\n"
+		"line 2\n\n"
 		"</pre><span class=\"-x-evo-to-body\" data-credits=\"On Today, User wrote:\"></span>"
 		"<span class=\"-x-evo-cite-body\"></span>",
 		E_CONTENT_EDITOR_INSERT_REPLACE_ALL | E_CONTENT_EDITOR_INSERT_TEXT_HTML);

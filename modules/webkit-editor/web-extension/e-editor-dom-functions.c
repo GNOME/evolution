@@ -5043,6 +5043,7 @@ remove_new_lines_around_citations (const gchar *input)
 	/* Remove the new lines around citations:
 	 * Replace <br><br>##CITATION_START## with <br>##CITATION_START##
 	 * Replace ##CITATION_START##<br><br> with ##CITATION_START##<br>
+	 * Replace ##CITATION_END##<br><br> with ##CITATION_END##<br>
 	 * Replace <br>##CITATION_END## with ##CITATION_END##
 	 * Replace <br>##CITATION_START## with ##CITATION_START## */
 	p = input;
@@ -5057,7 +5058,6 @@ remove_new_lines_around_citations (const gchar *input)
 		/* ##CITATION_START## */
 		if (citation_type == 'S') {
 			if (g_str_has_suffix (str->str, "<br><br>") ||
-			    g_str_has_suffix (str->str, "<br><br>") ||
 			    g_str_has_suffix (str->str, "<br>"))
 				g_string_truncate (str, str->len - 4);
 
@@ -5069,6 +5069,12 @@ remove_new_lines_around_citations (const gchar *input)
 		} else if (citation_type == 'E') {
 			if (g_str_has_suffix (str->str, "<br>"))
 				g_string_truncate (str, str->len - 4);
+
+			if (g_str_has_prefix (next + 11, "END##<br><br>")) {
+				g_string_append (str, "##CITATION_END##<br>");
+				p = next + 24;
+				continue;
+			}
 		}
 
 		g_string_append (str, "##CITATION_");
