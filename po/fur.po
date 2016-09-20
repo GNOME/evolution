@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2016-09-15 15:38+0000\n"
-"PO-Revision-Date: 2016-09-17 23:34+0200\n"
+"PO-Revision-Date: 2016-09-20 22:52+0200\n"
 "Language-Team: Friulian <fur@li.org>\n"
 "Language: fur\n"
 "MIME-Version: 1.0\n"
@@ -75,7 +75,7 @@ msgstr "Impussibil gjavâ la rubriche."
 
 #: ../addressbook/addressbook.error.xml.h:11
 msgid "Delete address book '{0}'?"
-msgstr "Eliminâ la rubriche «{0}»'?"
+msgstr "Eliminâ la rubriche «{0}»?"
 
 #: ../addressbook/addressbook.error.xml.h:12
 msgid "This address book will be removed permanently."
@@ -103,29 +103,30 @@ msgstr "_Elimine dal servidôr"
 
 #: ../addressbook/addressbook.error.xml.h:17
 msgid "Category editor not available."
-msgstr ""
+msgstr "Editôr des categoriis no disponibil."
 
 #: ../addressbook/addressbook.error.xml.h:18
 msgid "Unable to open address book '{0}'"
-msgstr ""
+msgstr "Impussibil vierzi la rubriche «{0}»"
 
 #: ../addressbook/addressbook.error.xml.h:19
 msgid "Unable to perform search."
-msgstr ""
+msgstr "Impussibil fâ la ricercje."
 
 #: ../addressbook/addressbook.error.xml.h:20
 msgid "Failed to refresh address book '{0}'"
-msgstr ""
+msgstr "No si è rivâts a inzornâ la rubriche «{0}»"
 
 #: ../addressbook/addressbook.error.xml.h:21
 msgid "Would you like to save your changes?"
-msgstr ""
+msgstr "Vûstu salvâ lis modifichis fatis?"
 
 #: ../addressbook/addressbook.error.xml.h:22
 msgid ""
 "You have made modifications to this contact. Do you want to save these "
 "changes?"
 msgstr ""
+"A son stadis fatis des modifichis a chest contat. Salvâ chescj cambiaments?"
 
 #: ../addressbook/addressbook.error.xml.h:23
 msgid "_Discard"
@@ -133,18 +134,23 @@ msgstr "_Scarte"
 
 #: ../addressbook/addressbook.error.xml.h:24
 msgid "Cannot move contact."
-msgstr ""
+msgstr "Impussibil spostâ il contat."
 
 #: ../addressbook/addressbook.error.xml.h:25
 msgid ""
 "You are attempting to move a contact from one address book to another but it "
 "cannot be removed from the source. Do you want to save a copy instead?"
 msgstr ""
+"Si sta cirint di spostâ un contat di une rubriche a une altre, ma il contat "
+"nol pues jessi gjavât de origjin. Salvâ invezit une copie?"
 
 #: ../addressbook/addressbook.error.xml.h:26
+#, fuzzy
 msgid ""
 "The image you have selected is large. Do you want to resize and store it?"
 msgstr ""
+"La imagjin che tu âs sielt e je masse largje. Cambiâ la sô dimension e "
+"memorizâle?"
 
 #: ../addressbook/addressbook.error.xml.h:27
 msgid "_Resize"
@@ -168,13 +174,15 @@ msgstr "Erôr tal salvâ {0} su {1}: {2}"
 
 #: ../addressbook/addressbook.error.xml.h:32
 msgid "Address '{0}' already exists."
-msgstr ""
+msgstr "Il recapit «{0}» al esist za."
 
 #: ../addressbook/addressbook.error.xml.h:33
 msgid ""
 "A contact already exists with this address. Would you like to add a new card "
 "with the same address anyway?"
 msgstr ""
+"Un contat cun chest recapit al esist za. Zontâ distès une gnove tessare cul "
+"stes recapit?"
 
 #: ../addressbook/addressbook.error.xml.h:34
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.ui.h:8
@@ -194,25 +202,27 @@ msgstr "_Zonte"
 
 #: ../addressbook/addressbook.error.xml.h:35
 msgid "Some addresses already exist in this contact list."
-msgstr ""
+msgstr "Cualchi recapit al esist za in cheste liste contats."
 
 #: ../addressbook/addressbook.error.xml.h:36
 msgid ""
 "You are trying to add addresses that are part of this list already. Would "
 "you like to add them anyway?"
 msgstr ""
+"Si sta cirint di zontâ recapits che a son za part di cheste liste. Zontâju "
+"distès?"
 
 #: ../addressbook/addressbook.error.xml.h:37
 msgid "Skip duplicates"
-msgstr ""
+msgstr "Salte duplicâts"
 
 #: ../addressbook/addressbook.error.xml.h:38
 msgid "Add with duplicates"
-msgstr ""
+msgstr "Zonte cun duplicâts"
 
 #: ../addressbook/addressbook.error.xml.h:39
 msgid "List '{0}' is already in this contact list."
-msgstr ""
+msgstr "La liste «{0}» e je za in cheste liste contats."
 
 #: ../addressbook/addressbook.error.xml.h:40
 msgid ""
@@ -223,15 +233,15 @@ msgstr ""
 #: ../addressbook/addressbook.error.xml.h:41
 #: ../addressbook/gui/widgets/e-addressbook-view.c:1285
 msgid "Failed to delete contact"
-msgstr ""
+msgstr "No si è rivâts a eliminâ il contat"
 
 #: ../addressbook/addressbook.error.xml.h:42
 msgid "You do not have permission to delete contacts in this address book."
-msgstr ""
+msgstr "No tu âs i permès par eliminâ contats in cheste rubriche."
 
 #: ../addressbook/addressbook.error.xml.h:43
 msgid "Cannot add new contact"
-msgstr ""
+msgstr "Impussibil zontâ un gnûf contat"
 
 #. For Translators: {0} is the name of the address book source
 #: ../addressbook/addressbook.error.xml.h:45
@@ -239,10 +249,12 @@ msgid ""
 "'{0}' is a read-only address book and cannot be modified. Please select a "
 "different address book from the side bar in the Contacts view."
 msgstr ""
+"«{0}» e je une rubriche in dome leture e no pues jessi modificade. Selezionâ "
+"une divierse rubriche tal ricuadri laterâl inte viodude contats."
 
 #: ../addressbook/addressbook.error.xml.h:46
 msgid "Cannot save a contact, address book is still opening"
-msgstr ""
+msgstr "Impussibil salvâ un contat, la rubriche si sta ancjemò vierzint"
 
 #. For Translators: {0} is the name of the address book source
 #: ../addressbook/addressbook.error.xml.h:48
@@ -250,13 +262,15 @@ msgid ""
 "Cannot save a contact to the address book '{0}', because it is still "
 "opening. Either wait till it's opened, or select a different address book."
 msgstr ""
+"Impussibil salvâ un contat te rubriche «{0}» parcè che si sta ancjemò "
+"vierzint. Spiete che si vierzi o selezione une rubriche diferente."
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:1
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:727
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:749
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:3110
 msgid "Contact Editor"
-msgstr ""
+msgstr "Editôr dai contats"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:2
 msgid "Image"
@@ -292,7 +306,7 @@ msgstr "E-mail"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:9
 msgid "_Wants to receive HTML mail"
-msgstr ""
+msgstr "_Al vûl ricevi pueste in HTML"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:10
 msgid "Telephone"
@@ -924,23 +938,23 @@ msgstr "Membris"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.ui.h:5
 msgid "_Type an email address or drag a contact into the list below:"
-msgstr ""
+msgstr "_Scrîf une direzion e-mail o strissine un contat inte liste chi sot:"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.ui.h:6
 msgid "_Hide addresses when sending mail to this list"
-msgstr ""
+msgstr "_Platâ lis direzions cuant che si invie pueste a cheste liste"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.ui.h:7
 msgid "Add an email to the List"
-msgstr ""
+msgstr "Zonte une e-mail ae liste"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.ui.h:9
 msgid "Remove an email address from the List"
-msgstr ""
+msgstr "Gjave une direzion e-mail de liste"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.ui.h:11
 msgid "Insert email addresses from Address Book"
-msgstr ""
+msgstr "Inserìs une direzion e-mail de rubriche"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.ui.h:12
 msgid "_Select..."
