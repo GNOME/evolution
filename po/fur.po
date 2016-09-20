@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2016-09-15 15:38+0000\n"
-"PO-Revision-Date: 2016-09-20 22:52+0200\n"
+"PO-Revision-Date: 2016-09-20 23:28+0200\n"
 "Language-Team: Friulian <fur@li.org>\n"
 "Language: fur\n"
 "MIME-Version: 1.0\n"
@@ -1272,8 +1272,8 @@ msgid ""
 "marked for offline usage or not yet downloaded for offline usage. Please "
 "load the address book once in online mode to download its contents."
 msgstr ""
-"Impussibil vierzi cheste rubriche. Al è pussibil che cheste no sedi segnade "
-"o no sedi stade discjariade par l'ûs fûr rêt. Cjarie la rubriche une volte "
+"Impussibil vierzi cheste rubriche. Al è pussibil che cheste no sedi segnade, "
+"o no sedi stade discjariade, par l'ûs fûr rêt. Cjarie la rubriche une volte "
 "cuant che si è in modalitât in rêt, in mût di discjariâ i siei contignûts."
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:140
@@ -1282,22 +1282,29 @@ msgid ""
 "This address book cannot be opened.  Please check that the path %s exists "
 "and that permissions are set to access it."
 msgstr ""
+"Impussibil vierzi cheste rubriche. Controlâ che il percors %s al esisti e di "
+"vê vonde permès par podê acedi lì."
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:153
 msgid ""
 "This version of Evolution does not have LDAP support compiled in to it.  To "
 "use LDAP in Evolution an LDAP-enabled Evolution package must be installed."
 msgstr ""
+"Cheste version di Evolution no je stade compilade cul supuart a LDAP. Par "
+"doprâ LDAP al è necessari instalâ une version di Evolution abilitade a "
+"lavorâ cun LDAP."
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:162
 msgid ""
 "This address book cannot be opened.  This either means that an incorrect URI "
 "was entered, or the server is unreachable."
 msgstr ""
+"Impussibil vierzi cheste rubriche. Chest al significhe che al è stât inserît "
+"un URI sbaliât o che no si rive a contatâ il servidôr."
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:172
 msgid "Detailed error message:"
-msgstr ""
+msgstr "Messaç di erôr in detai:"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:211
 msgid ""
@@ -1306,6 +1313,10 @@ msgid ""
 "Please make your search more specific or raise the result limit in\n"
 "the directory server preferences for this address book."
 msgstr ""
+"A cheste interogazion a corispuindin plui tessaris di chês che il servidôr "
+"al sedi configurât di restituî o Evolution al sedi configurât a visualizâ.\n"
+"Fâs in mût che la ricercje e sedi plui precise o alce il limit di timp dal\n"
+"servidôr di cartelis tes preferencis di cheste rubriche."
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:218
 msgid ""
@@ -3166,51 +3177,51 @@ msgstr ""
 
 #: ../calendar/gui/e-cal-dialogs.c:707
 msgid "January"
-msgstr ""
+msgstr "Zenâr"
 
 #: ../calendar/gui/e-cal-dialogs.c:708
 msgid "February"
-msgstr ""
+msgstr "Fevrâr"
 
 #: ../calendar/gui/e-cal-dialogs.c:709
 msgid "March"
-msgstr ""
+msgstr "Març"
 
 #: ../calendar/gui/e-cal-dialogs.c:710
 msgid "April"
-msgstr ""
+msgstr "Avrîl"
 
 #: ../calendar/gui/e-cal-dialogs.c:711
 msgid "May"
-msgstr ""
+msgstr "Mai"
 
 #: ../calendar/gui/e-cal-dialogs.c:712
 msgid "June"
-msgstr ""
+msgstr "Jugn"
 
 #: ../calendar/gui/e-cal-dialogs.c:713
 msgid "July"
-msgstr ""
+msgstr "Lui"
 
 #: ../calendar/gui/e-cal-dialogs.c:714
 msgid "August"
-msgstr ""
+msgstr "Avost"
 
 #: ../calendar/gui/e-cal-dialogs.c:715
 msgid "September"
-msgstr ""
+msgstr "Setembar"
 
 #: ../calendar/gui/e-cal-dialogs.c:716
 msgid "October"
-msgstr ""
+msgstr "Otubar"
 
 #: ../calendar/gui/e-cal-dialogs.c:717
 msgid "November"
-msgstr ""
+msgstr "Novembar"
 
 #: ../calendar/gui/e-cal-dialogs.c:718
 msgid "December"
-msgstr ""
+msgstr "Dicembar"
 
 #: ../calendar/gui/e-cal-dialogs.c:868
 #, c-format
