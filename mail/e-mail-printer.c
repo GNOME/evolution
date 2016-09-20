@@ -167,7 +167,7 @@ mail_printer_print_finished_cb (WebKitPrintOperation *print_operation,
 {
 	AsyncContext *async_context;
 
-	if (camel_debug ("wex"))
+	if (camel_debug ("webkit") || camel_debug ("webkit:preview"))
 		printf ("%s\n", G_STRFUNC);
 
 	async_context = g_task_get_task_data (task);
@@ -185,7 +185,7 @@ mail_printer_print_failed_cb (WebKitPrintOperation *print_operation,
 {
 	AsyncContext *async_context;
 
-	if (camel_debug ("wex"))
+	if (camel_debug ("webkit") || camel_debug ("webkit:preview"))
 		printf ("%s\n", G_STRFUNC);
 
 	async_context = g_task_get_task_data (task);

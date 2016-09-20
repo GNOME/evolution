@@ -334,8 +334,9 @@ handle_method_call (GDBusConnection *connection,
 	if (g_strcmp0 (interface_name, E_WEB_EXTENSION_INTERFACE) != 0)
 		return;
 
-	if (camel_debug ("wex"))
+	if (camel_debug ("webkit") || camel_debug ("webkit:preview"))
 		printf ("EWebExtension - %s - %s\n", G_STRFUNC, method_name);
+
 	if (g_strcmp0 (method_name, "RegisterElementClicked") == 0) {
 		const gchar *element_class = NULL;
 

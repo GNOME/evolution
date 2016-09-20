@@ -55,9 +55,43 @@ enum {
 	PROP_EDITOR_PAGE
 };
 
-#define HISTORY_SIZE_LIMIT 30
+const gchar* event_type_string[] = {
+	"HISTORY_ALIGNMENT",
+	"HISTORY_AND",
+	"HISTORY_BLOCK_FORMAT",
+	"HISTORY_BOLD",
+	"HISTORY_CELL_DIALOG",
+	"HISTORY_DELETE",
+	"HISTORY_FONT_COLOR",
+	"HISTORY_FONT_SIZE",
+	"HISTORY_HRULE_DIALOG",
+	"HISTORY_INDENT",
+	"HISTORY_INPUT",
+	"HISTORY_IMAGE",
+	"HISTORY_IMAGE_DIALOG",
+	"HISTORY_INSERT_HTML",
+	"HISTORY_ITALIC",
+	"HISTORY_LINK_DIALOG",
+	"HISTORY_MONOSPACE",
+	"HISTORY_PAGE_DIALOG",
+	"HISTORY_PASTE",
+	"HISTORY_PASTE_AS_TEXT",
+	"HISTORY_PASTE_QUOTED",
+	"HISTORY_REMOVE_LINK",
+	"HISTORY_REPLACE",
+	"HISTORY_REPLACE_ALL",
+	"HISTORY_CITATION_SPLIT",
+	"HISTORY_SMILEY",
+	"HISTORY_START",
+	"HISTORY_STRIKETHROUGH",
+	"HISTORY_TABLE_DIALOG",
+	"HISTORY_TABLE_INPUT",
+	"HISTORY_UNDERLINE",
+	"HISTORY_WRAP",
+	"HISTORY_UNQUOTE"
+};
 
-#define d(x)
+#define HISTORY_SIZE_LIMIT 30
 
 G_DEFINE_TYPE (EEditorUndoRedoManager, e_editor_undo_redo_manager, G_TYPE_OBJECT)
 
@@ -174,7 +208,6 @@ restore_selection_to_history_event_state (EEditorPage *editor_page,
 	g_clear_object (&dom_selection);
 }
 
-#if d(1)+0
 static void
 print_node_inner_html (WebKitDOMNode *node)
 {
@@ -196,7 +229,7 @@ static void
 print_history_event (EEditorHistoryEvent *event)
 {
 	if (event->type != HISTORY_START && event->type != HISTORY_AND) {
-		printf ("  HISTORY EVENT: %d ; \n", event->type);
+		printf ("  %s\n", event_type_string[event->type]);
 		printf ("    before: start_x: %u ; start_y: %u ; end_x: %u ; end_y: %u ;\n",
 			event->before.start.x, event->before.start.y, event->before.end.x, event->before.end.y);
 		printf ("    after:  start_x: %u ; start_y: %u ; end_x: %u ; end_y: %u ;\n",
@@ -306,7 +339,6 @@ print_redo_events (EEditorUndoRedoManager *manager)
 
 	printf ("------------------\n");
 }
-#endif
 
 static gboolean
 event_selection_was_collapsed (EEditorHistoryEvent *ev)
@@ -2290,8 +2322,10 @@ e_editor_undo_redo_manager_insert_history_event (EEditorUndoRedoManager *manager
 	if (manager->priv->operation_in_progress)
 		return;
 
-	d (printf ("\nINSERTING EVENT:\n"));
-	d (print_history_event (event));
+	if (camel_debug ("webkit") || camel_debug ("webkit:undo")) {
+		printf ("\nINSERTING EVENT:\n");
+		print_history_event (event);
+	}
 
 	remove_forward_redo_history_events_if_needed (manager);
 
@@ -2310,7 +2344,8 @@ e_editor_undo_redo_manager_insert_history_event (EEditorUndoRedoManager *manager
 	manager->priv->history = g_list_prepend (manager->priv->history, event);
 	manager->priv->history_size++;
 
-	d (print_history (manager));
+	if (camel_debug ("webkit") || camel_debug ("webkit:undo"))
+		print_history (manager);
 
 	g_object_notify (G_OBJECT (manager), "can-undo");
 }
@@ -2442,8 +2477,10 @@ e_editor_undo_redo_manager_undo (EEditorUndoRedoManager *manager)
 	history = manager->priv->history;
 	event = history->data;
 
-	d (printf ("\nUNDOING EVENT:\n"));
-	d (print_history_event (event));
+	if (camel_debug ("webkit") || camel_debug ("webkit:undo")) {
+		printf ("\nUNDOING EVENT:\n");
+		print_history_event (event);
+	}
 
 	manager->priv->operation_in_progress = TRUE;
 
@@ -2537,7 +2574,8 @@ e_editor_undo_redo_manager_undo (EEditorUndoRedoManager *manager)
 		manager->priv->history = manager->priv->history->next;
 	}
 
-	d (print_undo_events (manager));
+	if (camel_debug ("webkit") || camel_debug ("webkit:undo"))
+		print_undo_events (manager);
 
 	manager->priv->operation_in_progress = FALSE;
 
@@ -2573,8 +2611,10 @@ e_editor_undo_redo_manager_redo (EEditorUndoRedoManager *manager)
 	history = manager->priv->history;
 	event = history->prev->data;
 
-	d (printf ("\nREDOING EVENT:\n"));
-	d (print_history_event (event));
+	if (camel_debug ("webkit") || camel_debug ("webkit:undo")) {
+		printf ("\nREDOING EVENT:\n");
+		print_history_event (event);
+	}
 
 	editor_page = editor_undo_redo_manager_ref_editor_page (manager);
 	g_return_if_fail (editor_page != NULL);
@@ -2684,7 +2724,8 @@ e_editor_undo_redo_manager_redo (EEditorUndoRedoManager *manager)
 
 	manager->priv->history = manager->priv->history->prev;
 
-	d (print_redo_events (manager));
+	if (camel_debug ("webkit") || camel_debug ("webkit:undo"))
+		print_redo_events (manager);
 
 	manager->priv->operation_in_progress = FALSE;
 
