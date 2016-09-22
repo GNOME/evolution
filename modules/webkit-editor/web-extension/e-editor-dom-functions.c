@@ -16714,7 +16714,6 @@ format_change_list_from_list (EEditorPage *editor_page,
 
 		if (selection_end) {
 			source_list_clone = webkit_dom_node_clone_node_with_error (current_list, FALSE, NULL);
-			remove_node_if_empty (current_list);
 			after_selection_end = TRUE;
 		}
 
@@ -16752,8 +16751,8 @@ format_change_list_from_list (EEditorPage *editor_page,
 			NULL);
 
 	remove_node_if_empty (source_list);
-
 	remove_node_if_empty (source_list_clone);
+	remove_node_if_empty (current_list);
 
 	merge_lists_if_possible (WEBKIT_DOM_NODE (new_list));
 }

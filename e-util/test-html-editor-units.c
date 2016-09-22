@@ -526,6 +526,18 @@ test_list_bullet_html (TestFixture *fixture)
 }
 
 static void
+test_list_bullet_change (TestFixture *fixture)
+{
+	if (!test_utils_run_simple_test (fixture,
+		"mode:plain\n"
+		"action:style-list-bullet\n"
+		"action:style-list-number\n",
+		NULL,
+		"   1. "))
+		g_test_fail ();
+}
+
+static void
 test_list_bullet_html_from_block (TestFixture *fixture)
 {
 	if (!test_utils_run_simple_test (fixture,
@@ -2643,6 +2655,7 @@ main (gint argc,
 	test_utils_add_test ("/font/color/typed", test_font_color_typed);
 	test_utils_add_test ("/list/bullet/plain", test_list_bullet_plain);
 	test_utils_add_test ("/list/bullet/html", test_list_bullet_html);
+	test_utils_add_test ("/list/bullet/change", test_list_bullet_change);
 	test_utils_add_test ("/list/bullet/html/from-block", test_list_bullet_html_from_block);
 	test_utils_add_test ("/list/alpha/html", test_list_alpha_html);
 	test_utils_add_test ("/list/alpha/plain", test_list_alpha_plain);
