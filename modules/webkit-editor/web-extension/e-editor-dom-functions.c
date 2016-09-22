@@ -12630,33 +12630,72 @@ e_editor_dom_selection_unindent (EEditorPage *editor_page)
 	e_editor_dom_force_spell_check_for_current_paragraph (editor_page);
 }
 
-static WebKitDOMNode *
-in_empty_block_in_quoted_content (WebKitDOMNode *element)
+static void
+dom_insert_selection_point (WebKitDOMNode *container,
+                            glong offset,
+                            WebKitDOMElement *selection_point)
 {
-	WebKitDOMNode *first_child, *next_sibling;
+	WebKitDOMNode *parent;
 
-	first_child = webkit_dom_node_get_first_child (element);
-	if (!WEBKIT_DOM_IS_ELEMENT (first_child))
-		return NULL;
+	parent = webkit_dom_node_get_parent_node (container);
 
-	if (!element_has_class (WEBKIT_DOM_ELEMENT (first_child), "-x-evo-quoted"))
-		return NULL;
+	if (WEBKIT_DOM_IS_TEXT (container) ||
+	    WEBKIT_DOM_IS_COMMENT (container) ||
+	    WEBKIT_DOM_IS_CHARACTER_DATA (container)) {
+		if (offset != 0) {
+			WebKitDOMText *split_text;
 
-	next_sibling = webkit_dom_node_get_next_sibling (first_child);
-	if (WEBKIT_DOM_IS_HTML_BR_ELEMENT (next_sibling))
-		return next_sibling;
+			split_text = webkit_dom_text_split_text (
+				WEBKIT_DOM_TEXT (container), offset, NULL);
+			parent = webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (split_text));
 
-	if (!WEBKIT_DOM_IS_ELEMENT (next_sibling))
-		return NULL;
+			webkit_dom_node_insert_before (
+				parent,
+				WEBKIT_DOM_NODE (selection_point),
+				WEBKIT_DOM_NODE (split_text),
+				NULL);
+		} else {
+			webkit_dom_node_insert_before (
+				parent,
+				WEBKIT_DOM_NODE (selection_point),
+				container,
+				NULL);
+		}
+	} else {
+		gulong child_element_count = 0;
 
-	if (!element_has_id (WEBKIT_DOM_ELEMENT (next_sibling), "-x-evo-selection-start-marker"))
-		return NULL;
+		child_element_count =
+			webkit_dom_element_get_child_element_count (
+				WEBKIT_DOM_ELEMENT (container));
 
-	next_sibling = webkit_dom_node_get_next_sibling (next_sibling);
-	if (WEBKIT_DOM_IS_HTML_BR_ELEMENT (next_sibling))
-		return next_sibling;
+		if (offset == 0) {
+			/* Selection point is on the beginning of container */
+			webkit_dom_node_insert_before (
+				container,
+				WEBKIT_DOM_NODE (selection_point),
+				webkit_dom_node_get_first_child (container),
+				NULL);
+		} else if (offset != 0 && (offset == child_element_count)) {
+			/* Selection point is on the end of container */
+			webkit_dom_node_append_child (
+				container, WEBKIT_DOM_NODE (selection_point), NULL);
+		} else {
+			WebKitDOMElement *child;
+			gint ii = 0;
 
-	return NULL;
+			child = webkit_dom_element_get_first_element_child (WEBKIT_DOM_ELEMENT (container));
+			for (ii = 1; ii < child_element_count; ii++)
+				child = webkit_dom_element_get_next_element_sibling (child);
+
+			webkit_dom_node_insert_before (
+				container,
+				WEBKIT_DOM_NODE (selection_point),
+				WEBKIT_DOM_NODE (child),
+				NULL);
+		}
+	}
+
+	webkit_dom_node_normalize (parent);
 }
 
 /*
@@ -12688,8 +12727,8 @@ e_editor_dom_selection_save (EEditorPage *editor_page)
 	WebKitDOMDOMWindow *dom_window = NULL;
 	WebKitDOMDOMSelection *dom_selection = NULL;
 	WebKitDOMRange *range = NULL;
-	WebKitDOMNode *container, *next_sibling, *marker_node;
-	WebKitDOMNode *split_node, *parent_node, *anchor;
+	WebKitDOMNode *container;
+	WebKitDOMNode *anchor;
 	WebKitDOMElement *start_marker = NULL, *end_marker = NULL;
 	gboolean collapsed = FALSE;
 	glong offset, anchor_offset;
@@ -12724,159 +12763,12 @@ e_editor_dom_selection_save (EEditorPage *editor_page)
 
 	container = webkit_dom_range_get_start_container (range, NULL);
 	offset = webkit_dom_range_get_start_offset (range, NULL);
-	parent_node = webkit_dom_node_get_parent_node (container);
 
 	if (webkit_dom_node_is_same_node (anchor, container) && offset == anchor_offset)
 		webkit_dom_element_set_attribute (start_marker, "data-anchor", "", NULL);
 
-	if (element_has_class (WEBKIT_DOM_ELEMENT (parent_node), "-x-evo-quote-character")) {
-		WebKitDOMNode *node;
+	dom_insert_selection_point (container, offset, start_marker);
 
-		node = webkit_dom_node_get_parent_node (
-		webkit_dom_node_get_parent_node (parent_node));
-
-		if ((next_sibling = in_empty_block_in_quoted_content (node))) {
-			webkit_dom_node_insert_before (
-				webkit_dom_node_get_parent_node (next_sibling),
-				WEBKIT_DOM_NODE (start_marker),
-				next_sibling,
-				NULL);
-		} else {
-			webkit_dom_node_insert_before (
-				node,
-				WEBKIT_DOM_NODE (start_marker),
-				webkit_dom_node_get_next_sibling (
-					webkit_dom_node_get_parent_node (parent_node)),
-				NULL);
-		}
-		goto insert_end_marker;
-	} else if (element_has_class (WEBKIT_DOM_ELEMENT (parent_node), "-x-evo-smiley-text")) {
-		WebKitDOMNode *node;
-
-		node = webkit_dom_node_get_parent_node (parent_node);
-		if (offset == 0) {
-			marker_node = webkit_dom_node_insert_before (
-				webkit_dom_node_get_parent_node (node),
-				WEBKIT_DOM_NODE (start_marker),
-				webkit_dom_node_get_next_sibling (node),
-				NULL);
-			goto insert_end_marker;
-		}
-	} else if (element_has_class (WEBKIT_DOM_ELEMENT (parent_node), "Apple-tab-span") && offset == 1) {
-			marker_node = webkit_dom_node_insert_before (
-				webkit_dom_node_get_parent_node (parent_node),
-				WEBKIT_DOM_NODE (start_marker),
-				webkit_dom_node_get_next_sibling (parent_node),
-				NULL);
-			goto insert_end_marker;
-	}
-
-	if (WEBKIT_DOM_IS_TEXT (container)) {
-		if (offset != 0) {
-			WebKitDOMText *split_text;
-
-			split_text = webkit_dom_text_split_text (
-				WEBKIT_DOM_TEXT (container), offset, NULL);
-			split_node = WEBKIT_DOM_NODE (split_text);
-		} else {
-			marker_node = webkit_dom_node_insert_before (
-				parent_node,
-				WEBKIT_DOM_NODE (start_marker),
-				container,
-				NULL);
-			goto insert_end_marker;
-		}
-	} else if (WEBKIT_DOM_IS_HTML_LI_ELEMENT (container)) {
-		marker_node = webkit_dom_node_insert_before (
-			container,
-			WEBKIT_DOM_NODE (start_marker),
-			webkit_dom_node_get_first_child (container),
-			NULL);
-		goto insert_end_marker;
-	} else if (WEBKIT_DOM_IS_HTML_TABLE_CELL_ELEMENT (container)) {
-		marker_node = webkit_dom_node_insert_before (
-			container,
-			WEBKIT_DOM_NODE (start_marker),
-			webkit_dom_node_get_first_child (container),
-			NULL);
-		goto insert_end_marker;
-	} else {
-		/* Insert the selection marker on the right position in
-		 * an empty paragraph in the quoted content */
-		if ((next_sibling = in_empty_block_in_quoted_content (container))) {
-			marker_node = webkit_dom_node_insert_before (
-				container,
-				WEBKIT_DOM_NODE (start_marker),
-				next_sibling,
-				NULL);
-			goto insert_end_marker;
-		}
-		if (!webkit_dom_node_get_previous_sibling (container)) {
-			marker_node = webkit_dom_node_insert_before (
-				container,
-				WEBKIT_DOM_NODE (start_marker),
-				webkit_dom_node_get_first_child (container),
-				NULL);
-			goto insert_end_marker;
-		} else if (!webkit_dom_node_get_next_sibling (container)) {
-			WebKitDOMNode *tmp;
-
-			tmp = webkit_dom_node_get_last_child (container);
-			if (tmp && WEBKIT_DOM_IS_HTML_BR_ELEMENT (tmp))
-				marker_node = webkit_dom_node_insert_before (
-					container,
-					WEBKIT_DOM_NODE (start_marker),
-					tmp,
-					NULL);
-			else
-				marker_node = webkit_dom_node_append_child (
-					container,
-					WEBKIT_DOM_NODE (start_marker),
-					NULL);
-			goto insert_end_marker;
-		} else if (offset != 0 && WEBKIT_DOM_IS_ELEMENT (container) &&
-			   offset == webkit_dom_element_get_child_element_count (WEBKIT_DOM_ELEMENT (container)) + 1) {
-			webkit_dom_node_append_child (
-				container, WEBKIT_DOM_NODE (start_marker), NULL);
-			goto insert_end_marker;
-		} else {
-			if (webkit_dom_node_get_first_child (container)) {
-				marker_node = webkit_dom_node_insert_before (
-					container,
-					WEBKIT_DOM_NODE (start_marker),
-					webkit_dom_node_get_first_child (container),
-					NULL);
-				goto insert_end_marker;
-			}
-			split_node = container;
-		}
-	}
-
-	/* Don't save selection straight into body */
-	if (WEBKIT_DOM_IS_HTML_BODY_ELEMENT (split_node)) {
-		g_clear_object (&range);
-		g_clear_object (&dom_selection);
-		return;
-	}
-
-	if (!split_node) {
-		marker_node = webkit_dom_node_insert_before (
-			container,
-			WEBKIT_DOM_NODE (start_marker),
-			webkit_dom_node_get_first_child (
-				WEBKIT_DOM_NODE (container)),
-			NULL);
-	} else {
-		marker_node = WEBKIT_DOM_NODE (start_marker);
-		parent_node = webkit_dom_node_get_parent_node (split_node);
-
-		webkit_dom_node_insert_before (
-			parent_node, marker_node, split_node, NULL);
-	}
-
-	webkit_dom_node_normalize (parent_node);
-
- insert_end_marker:
 	end_marker = dom_create_selection_marker (document, FALSE);
 
 	if (collapsed) {
@@ -12890,133 +12782,12 @@ e_editor_dom_selection_save (EEditorPage *editor_page)
 
 	container = webkit_dom_range_get_end_container (range, NULL);
 	offset = webkit_dom_range_get_end_offset (range, NULL);
-	parent_node = webkit_dom_node_get_parent_node (container);
 
 	if (webkit_dom_node_is_same_node (anchor, container) && offset == anchor_offset)
 		webkit_dom_element_set_attribute (end_marker, "data-anchor", "", NULL);
 
-	if (element_has_class (WEBKIT_DOM_ELEMENT (parent_node), "-x-evo-quote-character")) {
-		WebKitDOMNode *node;
+	dom_insert_selection_point (container, offset, end_marker);
 
-		node = webkit_dom_node_get_parent_node (
-		webkit_dom_node_get_parent_node (parent_node));
-
-		if ((next_sibling = in_empty_block_in_quoted_content (node))) {
-			webkit_dom_node_insert_before (
-				webkit_dom_node_get_parent_node (next_sibling),
-				WEBKIT_DOM_NODE (end_marker),
-				next_sibling,
-				NULL);
-		} else {
-			webkit_dom_node_insert_before (
-				node,
-				WEBKIT_DOM_NODE (end_marker),
-				webkit_dom_node_get_next_sibling (
-					webkit_dom_node_get_parent_node (parent_node)),
-				NULL);
-		}
-		goto out;
-	}
-
-	if (WEBKIT_DOM_IS_TEXT (container)) {
-		if (offset != 0) {
-			WebKitDOMText *split_text;
-
-			split_text = webkit_dom_text_split_text (
-				WEBKIT_DOM_TEXT (container), offset, NULL);
-			split_node = WEBKIT_DOM_NODE (split_text);
-		} else {
-			marker_node = webkit_dom_node_insert_before (
-				parent_node, WEBKIT_DOM_NODE (end_marker), container, NULL);
-			goto check;
-
-		}
-	} else if (WEBKIT_DOM_IS_HTML_LI_ELEMENT (container)) {
-		webkit_dom_node_append_child (
-			container, WEBKIT_DOM_NODE (end_marker), NULL);
-		goto out;
-	} else {
-		/* Insert the selection marker on the right position in
-		 * an empty paragraph in the quoted content */
-		if ((next_sibling = in_empty_block_in_quoted_content (container))) {
-			webkit_dom_node_insert_before (
-				container,
-				WEBKIT_DOM_NODE (end_marker),
-				next_sibling,
-				NULL);
-			goto out;
-		}
-		if (!webkit_dom_node_get_previous_sibling (container)) {
-			split_node = parent_node;
-		} else if (!webkit_dom_node_get_next_sibling (container) &&
-		           !WEBKIT_DOM_IS_HTML_BODY_ELEMENT (parent_node)) {
-			split_node = parent_node;
-			split_node = webkit_dom_node_get_next_sibling (split_node);
-		} else if (offset != 0 && WEBKIT_DOM_IS_ELEMENT (container) &&
-			   offset == webkit_dom_element_get_child_element_count (WEBKIT_DOM_ELEMENT (container)) + 1) {
-			webkit_dom_node_append_child (
-				container, WEBKIT_DOM_NODE (end_marker), NULL);
-			goto out;
-		} else {
-			split_node = container;
-		}
-	}
-
-	/* Don't save selection straight into body */
-	if (WEBKIT_DOM_IS_HTML_BODY_ELEMENT (split_node)) {
-		remove_node (WEBKIT_DOM_NODE (start_marker));
-		return;
-	}
-
-	marker_node = WEBKIT_DOM_NODE (end_marker);
-
-	if (split_node) {
-		parent_node = webkit_dom_node_get_parent_node (split_node);
-
-		if (WEBKIT_DOM_IS_HTML_BODY_ELEMENT (parent_node)) {
-			if (offset == 0)
-				webkit_dom_node_insert_before (
-					split_node,
-					marker_node,
-					webkit_dom_node_get_first_child (split_node),
-					NULL);
-			else
-				webkit_dom_node_append_child (
-					webkit_dom_node_get_previous_sibling (split_node),
-					marker_node,
-					NULL);
-		} else
-			webkit_dom_node_insert_before (
-				parent_node, marker_node, split_node, NULL);
-	} else {
-		 WebKitDOMNode *first_child;
-
-		first_child = webkit_dom_node_get_first_child (container);
-		if (offset == 0 && WEBKIT_DOM_IS_TEXT (first_child))
-			webkit_dom_node_insert_before (
-				WEBKIT_DOM_NODE (container), marker_node, webkit_dom_node_get_first_child (container), NULL);
-		else
-			webkit_dom_node_append_child (
-				WEBKIT_DOM_NODE (container), marker_node, NULL);
-	}
-
-	 webkit_dom_node_normalize (parent_node);
-
- check:
-	if ((next_sibling = webkit_dom_node_get_next_sibling (marker_node))) {
-		if (!WEBKIT_DOM_IS_ELEMENT (next_sibling))
-			next_sibling = webkit_dom_node_get_next_sibling (next_sibling);
-		/* If the selection is collapsed ensure that the selection start marker
-		 * is before the end marker */
-		if (next_sibling && webkit_dom_node_is_same_node (next_sibling, WEBKIT_DOM_NODE (start_marker))) {
-			webkit_dom_node_insert_before (
-				webkit_dom_node_get_parent_node (marker_node),
-				next_sibling,
-				marker_node,
-				NULL);
-		}
-	}
- out:
 	if (!collapsed) {
 		if (start_marker && end_marker) {
 			webkit_dom_range_set_start_after (range, WEBKIT_DOM_NODE (start_marker), NULL);
@@ -13028,7 +12799,7 @@ e_editor_dom_selection_save (EEditorPage *editor_page)
 		webkit_dom_dom_selection_remove_all_ranges (dom_selection);
 		webkit_dom_dom_selection_add_range (dom_selection, range);
 	}
-
+ out:
 	g_clear_object (&range);
 	g_clear_object (&dom_selection);
 }
