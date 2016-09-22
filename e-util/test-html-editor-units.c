@@ -938,7 +938,7 @@ test_h_rule_insert_text_after (TestFixture *fixture)
 		"type:above\n"
 		"action:insert-rule\n"
 		"seq:tttttn\n" /* Move to the Close button and press it */
-		"seq:den\n"
+		"seq:drn\n" /* Press the right key instead of End key as the End key won't move caret after the HR element */
 		"type:below\n",
 		HTML_PREFIX "<div>above</div><hr align=\"left\" size=\"2\" noshade=\"\"><div>below</div>" HTML_SUFFIX,
 		"above\nbelow"))
