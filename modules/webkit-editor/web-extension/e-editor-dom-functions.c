@@ -5127,6 +5127,7 @@ parse_html_into_blocks (EEditorPage *editor_page,
 {
 	gboolean has_citation = FALSE, processing_last = FALSE;
 	const gchar *prev_token, *next_token;
+	const gchar *next_br_token = NULL, *next_citation_token = NULL;
 	GString *html = NULL;
 	GRegex *regex_nbsp = NULL, *regex_link = NULL, *regex_email = NULL;
 	WebKitDOMDocument *document;
@@ -5173,13 +5174,21 @@ parse_html_into_blocks (EEditorPage *editor_page,
 	html = remove_new_lines_around_citations (input);
 
 	prev_token = html->str;
-	next_token = strstr (prev_token + 1, "<br>");
+	next_br_token = (prev_token && *prev_token) ? strstr (prev_token + 1, "<br>") : NULL;
+	next_citation_token = (prev_token && *prev_token) ? strstr (prev_token + 1, "##CITATION_") : NULL;
+	if (next_br_token) {
+		if (next_citation_token)
+			next_token = next_br_token < next_citation_token ? next_br_token : next_citation_token;
+		else
+			next_token = next_br_token;
+	} else {
+		next_token = next_citation_token;
+	}
 	processing_last = !next_token;
 
 	while (next_token || processing_last) {
 		const gchar *citation_start = NULL, *citation_end = NULL;
 		const gchar *rest = NULL, *with_br = NULL;
-		const gchar *next_br_token = NULL, *next_citation_token = NULL;
 		gchar *to_process = NULL, *to_insert = NULL;
 		guint to_insert_start = 0, to_insert_end = 0;
 
