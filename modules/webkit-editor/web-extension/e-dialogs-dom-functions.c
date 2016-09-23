@@ -88,10 +88,10 @@ for_each_cell_do (WebKitDOMElement *row,
 
 static void
 cell_dialog_set_attribute (WebKitDOMDocument *document,
-			   EContentEditorScope scope,
-			   gpointer func,
-			   GValue *value,
-			   gpointer user_data)
+                           EContentEditorScope scope,
+                           gpointer func,
+                           GValue *value,
+                           gpointer user_data)
 {
 	WebKitDOMElement *cell = get_current_cell_element (document);
 
@@ -176,7 +176,7 @@ cell_dialog_set_attribute (WebKitDOMDocument *document,
 static void
 cell_set_header_style (WebKitDOMHTMLTableCellElement *cell,
                        gboolean header_style,
-		       gpointer user_data)
+                       gpointer user_data)
 {
 	WebKitDOMDocument *document;
 	WebKitDOMNodeList *nodes = NULL;
@@ -230,7 +230,7 @@ cell_set_header_style (WebKitDOMHTMLTableCellElement *cell,
 
 void
 e_dialogs_dom_cell_mark_current_cell_element (EEditorPage *editor_page,
-					      const gchar *id)
+                                              const gchar *id)
 {
 	EEditorUndoRedoManager *manager;
 	WebKitDOMElement *cell;
@@ -322,8 +322,8 @@ e_dialogs_dom_cell_save_history_on_exit (EEditorPage *editor_page)
 
 void
 e_dialogs_dom_cell_set_element_v_align (EEditorPage *editor_page,
-					const gchar *v_align,
-					EContentEditorScope scope)
+                                        const gchar *v_align,
+                                        EContentEditorScope scope)
 {
 	GValue val = { 0 };
 
@@ -340,8 +340,8 @@ e_dialogs_dom_cell_set_element_v_align (EEditorPage *editor_page,
 
 void
 e_dialogs_dom_cell_set_element_align (EEditorPage *editor_page,
-				      const gchar *align,
-				      EContentEditorScope scope)
+                                      const gchar *align,
+                                      EContentEditorScope scope)
 {
 	GValue val = { 0 };
 
@@ -358,8 +358,8 @@ e_dialogs_dom_cell_set_element_align (EEditorPage *editor_page,
 
 void
 e_dialogs_dom_cell_set_element_no_wrap (EEditorPage *editor_page,
-					gboolean wrap_text,
-					EContentEditorScope scope)
+                                        gboolean wrap_text,
+                                        EContentEditorScope scope)
 {
 	GValue val = { 0 };
 
@@ -374,8 +374,8 @@ e_dialogs_dom_cell_set_element_no_wrap (EEditorPage *editor_page,
 
 void
 e_dialogs_dom_cell_set_element_header_style (EEditorPage *editor_page,
-					     gboolean header_style,
-					     EContentEditorScope scope)
+                                             gboolean header_style,
+                                             EContentEditorScope scope)
 {
 	GValue val = { 0 };
 
@@ -390,8 +390,8 @@ e_dialogs_dom_cell_set_element_header_style (EEditorPage *editor_page,
 
 void
 e_dialogs_dom_cell_set_element_width (EEditorPage *editor_page,
-				      const gchar *width,
-				      EContentEditorScope scope)
+                                      const gchar *width,
+                                      EContentEditorScope scope)
 {
 	GValue val = { 0 };
 
@@ -408,8 +408,8 @@ e_dialogs_dom_cell_set_element_width (EEditorPage *editor_page,
 
 void
 e_dialogs_dom_cell_set_element_col_span (EEditorPage *editor_page,
-					 glong span,
-					 EContentEditorScope scope)
+                                         glong span,
+                                         EContentEditorScope scope)
 {
 	GValue val = { 0 };
 
@@ -424,8 +424,8 @@ e_dialogs_dom_cell_set_element_col_span (EEditorPage *editor_page,
 
 void
 e_dialogs_dom_cell_set_element_row_span (EEditorPage *editor_page,
-					 glong span,
-					 EContentEditorScope scope)
+                                         glong span,
+                                         EContentEditorScope scope)
 {
 	GValue val = { 0 };
 
@@ -440,8 +440,8 @@ e_dialogs_dom_cell_set_element_row_span (EEditorPage *editor_page,
 
 void
 e_dialogs_dom_cell_set_element_bg_color (EEditorPage *editor_page,
-					 const gchar *color,
-					 EContentEditorScope scope)
+                                         const gchar *color,
+                                         EContentEditorScope scope)
 {
 	GValue val = { 0 };
 
@@ -619,7 +619,7 @@ e_dialogs_dom_image_save_history_on_exit (EEditorPage *editor_page)
 
 void
 e_dialogs_dom_image_set_element_url (EEditorPage *editor_page,
-				     const gchar *url)
+                                     const gchar *url)
 {
 	WebKitDOMElement *image, *link;
 
@@ -689,8 +689,8 @@ e_dialogs_dom_image_get_element_url (EEditorPage *editor_page)
 
 void
 e_dialogs_dom_link_commit (EEditorPage *editor_page,
-			   const gchar *url,
-			   const gchar *inner_text)
+                           const gchar *url,
+                           const gchar *inner_text)
 {
 	WebKitDOMDocument *document;
 	WebKitDOMElement *link;
@@ -1032,9 +1032,9 @@ select_previous_word (WebKitDOMDOMSelection *dom_selection)
 
 static gchar *
 e_dialogs_dom_spell_check_run (EEditorPage *editor_page,
-			       gboolean run_next,
-			       const gchar *from_word,
-			       const gchar * const *languages)
+                               gboolean run_next,
+                               const gchar *from_word,
+                               const gchar * const *languages)
 {
 	gulong start_offset = 0, end_offset = 0;
 	WebKitDOMDocument *document;
@@ -1096,8 +1096,8 @@ e_dialogs_dom_spell_check_run (EEditorPage *editor_page,
 
 gchar *
 e_dialogs_dom_spell_check_next (EEditorPage *editor_page,
-				const gchar *from_word,
-				const gchar * const *languages)
+                                const gchar *from_word,
+                                const gchar * const *languages)
 {
 	g_return_val_if_fail (E_IS_EDITOR_PAGE (editor_page), NULL);
 
@@ -1106,8 +1106,8 @@ e_dialogs_dom_spell_check_next (EEditorPage *editor_page,
 
 gchar *
 e_dialogs_dom_spell_check_prev (EEditorPage *editor_page,
-				const gchar *from_word,
-				const gchar * const *languages)
+                                const gchar *from_word,
+                                const gchar * const *languages)
 {
 	g_return_val_if_fail (E_IS_EDITOR_PAGE (editor_page), NULL);
 
@@ -1124,7 +1124,7 @@ get_current_table_element (WebKitDOMDocument *document)
 
 void
 e_dialogs_dom_table_set_row_count (EEditorPage *editor_page,
-				   gulong expected_count)
+                                   gulong expected_count)
 {
 	WebKitDOMDocument *document;
 	WebKitDOMHTMLCollection *rows = NULL, *cells = NULL;
@@ -1200,7 +1200,7 @@ e_dialogs_dom_table_get_row_count (EEditorPage *editor_page)
 
 void
 e_dialogs_dom_table_set_column_count (EEditorPage *editor_page,
-				      gulong expected_columns)
+                                      gulong expected_columns)
 {
 	WebKitDOMDocument *document;
 	WebKitDOMHTMLTableElement *table_element;

@@ -609,7 +609,7 @@ G_DEFINE_TYPE (EEditorWebExtension, e_editor_web_extension, G_TYPE_OBJECT)
 
 static EEditorPage *
 get_editor_page (EEditorWebExtension *extension,
-		 guint64 page_id)
+                 guint64 page_id)
 {
 	g_return_val_if_fail (E_IS_EDITOR_WEB_EXTENSION (extension), NULL);
 
@@ -618,8 +618,8 @@ get_editor_page (EEditorWebExtension *extension,
 
 static EEditorPage *
 get_editor_page_or_return_dbus_error (GDBusMethodInvocation *invocation,
-				      EEditorWebExtension *extension,
-				      guint64 page_id)
+                                      EEditorWebExtension *extension,
+                                      guint64 page_id)
 {
 	WebKitWebPage *web_page;
 	EEditorPage *editor_page;
@@ -2242,7 +2242,7 @@ handle_method_call (GDBusConnection *connection,
 
 static void
 web_page_gone_cb (gpointer user_data,
-		  GObject *gone_web_page)
+                  GObject *gone_web_page)
 {
 	EEditorWebExtension *extension = user_data;
 	GHashTableIter iter;
@@ -2434,7 +2434,7 @@ web_page_send_request_cb (WebKitWebPage *web_page,
 
 static void
 web_page_document_loaded_cb (WebKitWebPage *web_page,
-			     gpointer user_data)
+                             gpointer user_data)
 {
 	WebKitDOMDocument *document;
 	WebKitDOMRange *range = NULL;
@@ -2493,7 +2493,7 @@ web_page_created_cb (WebKitWebExtension *wk_extension,
 
 void
 e_editor_web_extension_initialize (EEditorWebExtension *extension,
-				   WebKitWebExtension *wk_extension)
+                                   WebKitWebExtension *wk_extension)
 {
 	g_return_if_fail (E_IS_EDITOR_WEB_EXTENSION (extension));
 
@@ -2519,7 +2519,7 @@ e_editor_web_extension_initialize (EEditorWebExtension *extension,
 
 void
 e_editor_web_extension_dbus_register (EEditorWebExtension *extension,
-				      GDBusConnection *connection)
+                                      GDBusConnection *connection)
 {
 	GError *error = NULL;
 	static GDBusNodeInfo *introspection_data = NULL;

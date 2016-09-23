@@ -958,7 +958,7 @@ e_editor_dom_node_is_citation_node (WebKitDOMNode *node)
 
 gint
 e_editor_dom_get_citation_level (WebKitDOMNode *node,
-				 gboolean set_plaintext_quoted)
+                                 gboolean set_plaintext_quoted)
 {
 	WebKitDOMNode *parent = node;
 	gint level = 0;
@@ -992,8 +992,8 @@ get_quotation_for_level (gint quote_level)
 
 void
 e_editor_dom_quote_plain_text_element_after_wrapping (EEditorPage *editor_page,
-						      WebKitDOMElement *element,
-						      gint quote_level)
+                                                      WebKitDOMElement *element,
+                                                      gint quote_level)
 {
 	WebKitDOMDocument *document;
 	WebKitDOMNodeList *list = NULL;
@@ -1115,7 +1115,7 @@ e_editor_dom_node_is_paragraph (WebKitDOMNode *node)
 
 WebKitDOMElement *
 e_editor_dom_wrap_and_quote_element (EEditorPage *editor_page,
-				     WebKitDOMElement *element)
+                                     WebKitDOMElement *element)
 {
 	gint citation_level;
 	WebKitDOMElement *tmp_element = element;
@@ -1150,7 +1150,7 @@ e_editor_dom_wrap_and_quote_element (EEditorPage *editor_page,
 
 WebKitDOMElement *
 e_editor_dom_insert_new_line_into_citation (EEditorPage *editor_page,
-					    const gchar *html_to_insert)
+                                            const gchar *html_to_insert)
 {
 	WebKitDOMDocument *document;
 	WebKitDOMElement *element, *paragraph = NULL;
@@ -1446,7 +1446,7 @@ remove_thunderbird_signature (WebKitDOMDocument *document)
 
 void
 e_editor_dom_check_magic_links (EEditorPage *editor_page,
-				gboolean include_space_by_user)
+                                gboolean include_space_by_user)
 {
 	WebKitDOMDocument *document;
 	WebKitDOMNode *node;
@@ -1750,7 +1750,7 @@ e_editor_dom_check_magic_links (EEditorPage *editor_page,
 
 void
 e_editor_dom_embed_style_sheet (EEditorPage *editor_page,
-				const gchar *style_sheet_content)
+                                const gchar *style_sheet_content)
 {
 	WebKitDOMDocument *document;
 	WebKitDOMElement *sheet;
@@ -2293,7 +2293,7 @@ emoticon_query_info_async_cb (GFile *file,
 
 void
 e_editor_dom_insert_smiley (EEditorPage *editor_page,
-			    EEmoticon *emoticon)
+                            EEmoticon *emoticon)
 {
 	WebKitDOMDocument *document;
 	GFile *file;
@@ -2333,7 +2333,7 @@ e_editor_dom_insert_smiley (EEditorPage *editor_page,
 
 void
 e_editor_dom_insert_smiley_by_name (EEditorPage *editor_page,
-				    const gchar *name)
+                                    const gchar *name)
 {
 	const EEmoticon *emoticon;
 
@@ -3362,7 +3362,7 @@ remove_zero_width_spaces_on_body_input (EEditorPage *editor_page,
 
 void
 e_editor_dom_body_input_event_process (EEditorPage *editor_page,
-				       WebKitDOMEvent *event)
+                                       WebKitDOMEvent *event)
 {
 	WebKitDOMDocument *document;
 	WebKitDOMNode *node;
@@ -3713,7 +3713,7 @@ e_editor_dom_remove_node_and_parents_if_empty (WebKitDOMNode *node)
 
 void
 e_editor_dom_merge_siblings_if_necessary (EEditorPage *editor_page,
-					  WebKitDOMDocumentFragment *deleted_content)
+                                          WebKitDOMDocumentFragment *deleted_content)
 {
 	WebKitDOMDocument *document;
 	WebKitDOMElement *element, *prev_element;
@@ -3803,7 +3803,7 @@ e_editor_dom_merge_siblings_if_necessary (EEditorPage *editor_page,
  * BackSpace or Delete. */
 void
 e_editor_dom_body_key_up_event_process_backspace_or_delete (EEditorPage *editor_page,
-							    gboolean delete)
+                                                            gboolean delete)
 {
 	WebKitDOMDocument *document;
 	WebKitDOMElement *selection_start_marker, *selection_end_marker;
@@ -4694,7 +4694,7 @@ quote_plain_text_recursive (WebKitDOMDocument *document,
 
 WebKitDOMElement *
 e_editor_dom_quote_plain_text_element (EEditorPage *editor_page,
-				       WebKitDOMElement *element)
+                                       WebKitDOMElement *element)
 {
 	WebKitDOMDocument *document;
 	WebKitDOMNode *element_clone;
@@ -5413,8 +5413,8 @@ parse_html_into_blocks (EEditorPage *editor_page,
 
 void
 e_editor_dom_quote_and_insert_text_into_selection (EEditorPage *editor_page,
-						   const gchar *text,
-						   gboolean is_html)
+                                                   const gchar *text,
+                                                   gboolean is_html)
 {
 	WebKitDOMDocument *document;
 	WebKitDOMElement *blockquote, *element, *selection_start;
@@ -5711,7 +5711,7 @@ body_compositionend_event_cb (WebKitDOMElement *element,
 
 static void
 register_html_events_handlers (EEditorPage *editor_page,
-			       WebKitDOMHTMLElement *body)
+                               WebKitDOMHTMLElement *body)
 {
 	g_return_if_fail (E_IS_EDITOR_PAGE (editor_page));
 
@@ -5753,7 +5753,7 @@ register_html_events_handlers (EEditorPage *editor_page,
 
 void
 e_editor_dom_convert_content (EEditorPage *editor_page,
-			      const gchar *preferred_text)
+                              const gchar *preferred_text)
 {
 	WebKitDOMDocument *document;
 	WebKitDOMElement *paragraph, *content_wrapper, *top_signature;
@@ -6101,8 +6101,8 @@ preserve_pre_line_breaks_in_element (WebKitDOMDocument *document,
 
 void
 e_editor_dom_convert_and_insert_html_into_selection (EEditorPage *editor_page,
-						     const gchar *html,
-						     gboolean is_html)
+                                                     const gchar *html,
+                                                     gboolean is_html)
 {
 	WebKitDOMDocument *document;
 	WebKitDOMElement *selection_start_marker, *selection_end_marker, *element;
@@ -7151,7 +7151,7 @@ convert_element_from_html_to_plain_text (EEditorPage *editor_page,
 
 void
 e_editor_dom_convert_element_from_html_to_plain_text (EEditorPage *editor_page,
-						      WebKitDOMElement *element)
+                                                      WebKitDOMElement *element)
 {
 	g_return_if_fail (E_IS_EDITOR_PAGE (editor_page));
 
@@ -8224,7 +8224,7 @@ restore_image (WebKitDOMDocument *document,
 
 void
 e_editor_dom_restore_images (EEditorPage *editor_page,
-			     GVariant *inline_images_to_restore)
+                             GVariant *inline_images_to_restore)
 {
 	WebKitDOMDocument *document;
 	const gchar *element_src, *name, *id;
@@ -8605,7 +8605,7 @@ e_editor_dom_process_content_after_load (EEditorPage *editor_page)
 
 GVariant *
 e_editor_dom_get_inline_images_data (EEditorPage *editor_page,
-				     const gchar *uid_domain)
+                                     const gchar *uid_domain)
 {
 	WebKitDOMDocument *document;
 	WebKitDOMNodeList *list = NULL;
@@ -8746,7 +8746,7 @@ pasting_quoted_content (const gchar *content)
  */
 void
 e_editor_dom_insert_html (EEditorPage *editor_page,
-			  const gchar *html_text)
+                          const gchar *html_text)
 {
 	EEditorHistoryEvent *ev = NULL;
 	EEditorUndoRedoManager *manager;
@@ -9356,9 +9356,9 @@ save_history_for_delete_or_backspace (EEditorPage *editor_page,
 
 gboolean
 e_editor_dom_fix_structure_after_delete_before_quoted_content (EEditorPage *editor_page,
-							       glong key_code,
-							       gboolean control_key,
-							       gboolean delete_key)
+                                                               glong key_code,
+                                                               gboolean control_key,
+                                                               gboolean delete_key)
 {
 	WebKitDOMDocument *document;
 	WebKitDOMElement *selection_start_marker, *selection_end_marker;
@@ -9706,8 +9706,8 @@ delete_last_character_from_previous_line_in_quoted_block (EEditorPage *editor_pa
 
 gboolean
 e_editor_dom_delete_last_character_on_line_in_quoted_block (EEditorPage *editor_page,
-							    glong key_code,
-							    gboolean control_key)
+                                                            glong key_code,
+                                                            gboolean control_key)
 {
 	WebKitDOMDocument *document;
 	WebKitDOMElement *element;
@@ -10405,9 +10405,9 @@ e_editor_dom_key_press_event_process_backspace_key (EEditorPage *editor_page)
 
 gboolean
 e_editor_dom_key_press_event_process_delete_or_backspace_key (EEditorPage *editor_page,
-							      glong key_code,
-							      gboolean control_key,
-							      gboolean delete)
+                                                              glong key_code,
+                                                              gboolean control_key,
+                                                              gboolean delete)
 {
 	WebKitDOMDocument *document;
 	gboolean html_mode;
@@ -10914,7 +10914,7 @@ dom_set_link_color_in_document (EEditorPage *editor_page,
 
 void
 e_editor_dom_set_link_color (EEditorPage *editor_page,
-			     const gchar *color)
+                             const gchar *color)
 {
 	g_return_if_fail (E_IS_EDITOR_PAGE (editor_page));
 
@@ -10923,7 +10923,7 @@ e_editor_dom_set_link_color (EEditorPage *editor_page,
 
 void
 e_editor_dom_set_visited_link_color (EEditorPage *editor_page,
-				     const gchar *color)
+                                     const gchar *color)
 {
 	g_return_if_fail (E_IS_EDITOR_PAGE (editor_page));
 
@@ -10961,10 +10961,10 @@ e_editor_dom_fix_file_uri_images (EEditorPage *editor_page)
 
 void
 e_editor_dom_replace_base64_image_src (EEditorPage *editor_page,
-				       const gchar *selector,
-				       const gchar *base64_content,
-				       const gchar *filename,
-				       const gchar *uri)
+                                       const gchar *selector,
+                                       const gchar *base64_content,
+                                       const gchar *filename,
+                                       const gchar *uri)
 {
 	WebKitDOMDocument *document;
 	WebKitDOMElement *element;
@@ -11022,8 +11022,8 @@ e_editor_dom_get_current_range (EEditorPage *editor_page)
 
 void
 e_editor_dom_move_caret_into_element (EEditorPage *editor_page,
-				      WebKitDOMElement *element,
-				      gboolean to_start)
+                                      WebKitDOMElement *element,
+                                      gboolean to_start)
 {
 	WebKitDOMDocument *document;
 	WebKitDOMDOMWindow *dom_window = NULL;
@@ -11053,9 +11053,9 @@ e_editor_dom_move_caret_into_element (EEditorPage *editor_page,
 
 void
 e_editor_dom_insert_base64_image (EEditorPage *editor_page,
-				  const gchar *base64_content,
-				  const gchar *filename,
-				  const gchar *uri)
+                                  const gchar *base64_content,
+                                  const gchar *filename,
+                                  const gchar *uri)
 {
 	WebKitDOMDocument *document;
 	WebKitDOMElement *element, *selection_start_marker, *resizable_wrapper;
@@ -11431,7 +11431,7 @@ image_load_and_insert_async (EEditorPage *editor_page,
 
 void
 e_editor_dom_insert_image (EEditorPage *editor_page,
-			   const gchar *uri)
+                           const gchar *uri)
 {
 	g_return_if_fail (E_IS_EDITOR_PAGE (editor_page));
 
@@ -11460,8 +11460,8 @@ e_editor_dom_insert_image (EEditorPage *editor_page,
 
 void
 e_editor_dom_replace_image_src (EEditorPage *editor_page,
-				const gchar *selector,
-				const gchar *uri)
+                                const gchar *selector,
+                                const gchar *uri)
 {
 	g_return_if_fail (E_IS_EDITOR_PAGE (editor_page));
 
@@ -11577,7 +11577,7 @@ e_editor_dom_selection_unlink (EEditorPage *editor_page)
  */
 void
 e_editor_dom_create_link (EEditorPage *editor_page,
-			  const gchar *uri)
+                          const gchar *uri)
 {
 	g_return_if_fail (E_IS_EDITOR_PAGE (editor_page));
 	g_return_if_fail (uri != NULL && *uri != '\0');
@@ -11756,7 +11756,7 @@ e_editor_dom_set_paragraph_style (EEditorPage *editor_page,
 static WebKitDOMElement *
 create_list_element (EEditorPage *editor_page,
                      EContentEditorBlockFormat format,
-		     gint level,
+                     gint level,
                      gboolean html_mode)
 {
 	WebKitDOMDocument *document;
@@ -13158,9 +13158,9 @@ mark_and_remove_leading_space (WebKitDOMDocument *document,
 static WebKitDOMElement *
 wrap_lines (EEditorPage *editor_page,
             WebKitDOMNode *block,
-	    gboolean remove_all_br,
-	    gint length_to_wrap,
-	    gint word_wrap_length)
+            gboolean remove_all_br,
+            gint length_to_wrap,
+            gint word_wrap_length)
 {
 	WebKitDOMDocument *document;
 	WebKitDOMElement *selection_start_marker, *selection_end_marker;
@@ -13840,8 +13840,8 @@ e_editor_dom_remove_quoting_from_element (WebKitDOMElement *element)
 
 WebKitDOMElement *
 e_editor_dom_get_paragraph_element (EEditorPage *editor_page,
-				    gint width,
-				    gint offset)
+                                    gint width,
+                                    gint offset)
 {
 	WebKitDOMDocument *document;
 	WebKitDOMElement *element;
@@ -13857,8 +13857,8 @@ e_editor_dom_get_paragraph_element (EEditorPage *editor_page,
 
 WebKitDOMElement *
 e_editor_dom_put_node_into_paragraph (EEditorPage *editor_page,
-				      WebKitDOMNode *node,
-				      gboolean with_input)
+                                      WebKitDOMNode *node,
+                                      gboolean with_input)
 {
 	WebKitDOMDocument *document;
 	WebKitDOMRange *range = NULL;
@@ -13899,8 +13899,8 @@ selection_get_citation_level (WebKitDOMNode *node)
 
 WebKitDOMElement *
 e_editor_dom_wrap_paragraph_length (EEditorPage *editor_page,
-				    WebKitDOMElement *paragraph,
-				    gint length)
+                                    WebKitDOMElement *paragraph,
+                                    gint length)
 {
 	g_return_val_if_fail (E_IS_EDITOR_PAGE (editor_page), NULL);
 	g_return_val_if_fail (WEBKIT_DOM_IS_ELEMENT (paragraph), NULL);
@@ -14072,7 +14072,7 @@ e_editor_dom_wrap_paragraphs_in_document (EEditorPage *editor_page)
 
 WebKitDOMElement *
 e_editor_dom_wrap_paragraph (EEditorPage *editor_page,
-			     WebKitDOMElement *paragraph)
+                             WebKitDOMElement *paragraph)
 {
 	gint indentation_level, citation_level, quote;
 	gint word_wrap_length, final_width, offset = 0;
@@ -14567,7 +14567,7 @@ exit:
  */
 void
 e_editor_dom_selection_set_underline (EEditorPage *editor_page,
-				      gboolean underline)
+                                      gboolean underline)
 {
 	g_return_if_fail (E_IS_EDITOR_PAGE (editor_page));
 
@@ -14615,7 +14615,7 @@ e_editor_dom_selection_is_subscript (EEditorPage *editor_page)
  */
 void
 e_editor_dom_selection_set_subscript (EEditorPage *editor_page,
-				      gboolean subscript)
+                                      gboolean subscript)
 {
 	g_return_if_fail (E_IS_EDITOR_PAGE (editor_page));
 
@@ -14662,7 +14662,7 @@ e_editor_dom_selection_is_superscript (EEditorPage *editor_page)
  */
 void
 e_editor_dom_selection_set_superscript (EEditorPage *editor_page,
-					gboolean superscript)
+                                        gboolean superscript)
 {
 	g_return_if_fail (E_IS_EDITOR_PAGE (editor_page));
 
@@ -14714,7 +14714,7 @@ e_editor_dom_selection_is_strikethrough (EEditorPage *editor_page)
  */
 void
 e_editor_dom_selection_set_strikethrough (EEditorPage *editor_page,
-					  gboolean strikethrough)
+                                          gboolean strikethrough)
 {
 	g_return_if_fail (E_IS_EDITOR_PAGE (editor_page));
 
@@ -15151,7 +15151,7 @@ unmonospace_selection (EEditorPage *editor_page)
  */
 void
 e_editor_dom_selection_set_monospace (EEditorPage *editor_page,
-				      gboolean value)
+                                      gboolean value)
 {
 	WebKitDOMDocument *document;
 	WebKitDOMRange *range = NULL;
@@ -15326,7 +15326,7 @@ e_editor_dom_selection_is_bold (EEditorPage *editor_page)
  */
 void
 e_editor_dom_selection_set_bold (EEditorPage *editor_page,
-				 gboolean bold)
+                                 gboolean bold)
 {
 	g_return_if_fail (E_IS_EDITOR_PAGE (editor_page));
 
@@ -15381,7 +15381,7 @@ e_editor_dom_selection_is_italic (EEditorPage *editor_page)
  */
 void
 e_editor_dom_selection_set_italic (EEditorPage *editor_page,
-				   gboolean italic)
+                                   gboolean italic)
 {
 	g_return_if_fail (E_IS_EDITOR_PAGE (editor_page));
 
@@ -15572,7 +15572,7 @@ e_editor_dom_selection_get_font_size (EEditorPage *editor_page)
  */
 void
 e_editor_dom_selection_set_font_size (EEditorPage *editor_page,
-				      EContentEditorFontSize font_size)
+                                      EContentEditorFontSize font_size)
 {
 	WebKitDOMDocument *document;
 	EEditorUndoRedoManager *manager;
@@ -15664,7 +15664,7 @@ e_editor_dom_selection_set_font_size (EEditorPage *editor_page,
  */
 void
 e_editor_dom_selection_set_font_name (EEditorPage *editor_page,
-				      const gchar *font_name)
+                                      const gchar *font_name)
 {
 	g_return_if_fail (E_IS_EDITOR_PAGE (editor_page));
 
@@ -15711,7 +15711,7 @@ e_editor_dom_selection_get_font_name (EEditorPage *editor_page)
  */
 void
 e_editor_dom_selection_set_font_color (EEditorPage *editor_page,
-				       const gchar *color)
+                                       const gchar *color)
 {
 	EEditorUndoRedoManager *manager;
 	EEditorHistoryEvent *ev = NULL;
@@ -16622,7 +16622,7 @@ format_change_list_to_list (EEditorPage *editor_page,
  */
 void
 e_editor_dom_selection_set_block_format (EEditorPage *editor_page,
-					 EContentEditorBlockFormat format)
+                                         EContentEditorBlockFormat format)
 {
 	WebKitDOMDocument *document;
 	WebKitDOMRange *range = NULL;
@@ -16804,7 +16804,7 @@ e_editor_dom_selection_get_background_color (EEditorPage *editor_page)
  */
 void
 e_editor_dom_selection_set_background_color (EEditorPage *editor_page,
-					     const gchar *color)
+                                             const gchar *color)
 {
 	g_return_if_fail (E_IS_EDITOR_PAGE (editor_page));
 
@@ -16905,7 +16905,7 @@ set_block_alignment (WebKitDOMElement *element,
  */
 void
 e_editor_dom_selection_set_alignment (EEditorPage *editor_page,
-				      EContentEditorAlignment alignment)
+                                      EContentEditorAlignment alignment)
 {
 	WebKitDOMDocument *document;
 	WebKitDOMElement *selection_start_marker, *selection_end_marker;
@@ -17024,7 +17024,7 @@ e_editor_dom_selection_set_alignment (EEditorPage *editor_page,
  */
 void
 e_editor_dom_selection_replace (EEditorPage *editor_page,
-				const gchar *replacement)
+                                const gchar *replacement)
 {
 	EEditorHistoryEvent *ev = NULL;
 	EEditorUndoRedoManager *manager;
@@ -17079,7 +17079,7 @@ e_editor_dom_selection_replace (EEditorPage *editor_page,
  */
 void
 e_editor_dom_replace_caret_word (EEditorPage *editor_page,
-				 const gchar *replacement)
+                                 const gchar *replacement)
 {
 	WebKitDOMDocument *document;
 	WebKitDOMDOMWindow *dom_window = NULL;
@@ -17185,7 +17185,7 @@ e_editor_dom_get_list_alignment_from_node (WebKitDOMNode *node)
 
 WebKitDOMElement *
 e_editor_dom_prepare_paragraph (EEditorPage *editor_page,
-				gboolean with_selection)
+                                gboolean with_selection)
 {
 	WebKitDOMDocument *document;
 	WebKitDOMElement *element, *paragraph;
@@ -17209,8 +17209,8 @@ e_editor_dom_prepare_paragraph (EEditorPage *editor_page,
 
 void
 e_editor_dom_selection_set_on_point (EEditorPage *editor_page,
-				     guint x,
-				     guint y)
+                                     guint x,
+                                     guint y)
 {
 	WebKitDOMDocument *document;
 	WebKitDOMRange *range = NULL;
@@ -17234,10 +17234,10 @@ e_editor_dom_selection_set_on_point (EEditorPage *editor_page,
 
 void
 e_editor_dom_selection_get_coordinates (EEditorPage *editor_page,
-					guint *start_x,
-					guint *start_y,
-					guint *end_x,
-					guint *end_y)
+                                        guint *start_x,
+                                        guint *start_y,
+                                        guint *end_x,
+                                        guint *end_y)
 {
 	WebKitDOMDocument *document;
 	WebKitDOMElement *element, *parent;
