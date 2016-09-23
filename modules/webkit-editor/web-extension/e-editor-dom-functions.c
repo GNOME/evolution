@@ -3803,8 +3803,14 @@ e_editor_dom_body_key_up_event_process_backspace_or_delete (EEditorPage *editor_
 
 	g_return_if_fail (E_IS_EDITOR_PAGE (editor_page));
 
-	if (e_editor_page_get_html_mode (editor_page))
+	if (e_editor_page_get_html_mode (editor_page)) {
+		if (!delete) {
+			e_editor_dom_selection_save (editor_page);
+			e_editor_dom_merge_siblings_if_necessary (editor_page, NULL);
+			e_editor_dom_selection_restore (editor_page);
+		}
 		return;
+	}
 
 	document = e_editor_page_get_document (editor_page);
 	e_editor_dom_disable_quote_marks_select (editor_page);
@@ -4071,6 +4077,37 @@ delete_hidden_space (EEditorPage *editor_page)
 	return FALSE;
 }
 
+static gboolean
+caret_is_on_the_line_beginning_html (WebKitDOMDocument *document)
+{
+	gboolean ret_val = FALSE;
+	WebKitDOMDOMWindow *dom_window = NULL;
+	WebKitDOMDOMSelection *dom_selection = NULL;
+	WebKitDOMRange *tmp_range = NULL, *actual_range = NULL;
+
+	dom_window = webkit_dom_document_get_default_view (document);
+	dom_selection = webkit_dom_dom_window_get_selection (dom_window);
+
+	actual_range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
+
+	webkit_dom_dom_selection_modify (dom_selection, "move", "left", "lineBoundary");
+
+	tmp_range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
+
+	if (webkit_dom_range_compare_boundary_points (tmp_range, WEBKIT_DOM_RANGE_START_TO_START, actual_range, NULL) == 0)
+		ret_val = TRUE;
+
+	webkit_dom_dom_selection_remove_all_ranges (dom_selection);
+	webkit_dom_dom_selection_add_range (dom_selection, actual_range);
+
+	g_clear_object (&tmp_range);
+	g_clear_object (&actual_range);
+
+	g_clear_object (&dom_window);
+	g_clear_object (&dom_selection);
+
+	return ret_val;
+}
 gboolean
 e_editor_dom_move_quoted_block_level_up (EEditorPage *editor_page)
 {
@@ -4132,22 +4169,11 @@ e_editor_dom_move_quoted_block_level_up (EEditorPage *editor_page)
 		}
 
 		if (html_mode) {
-			WebKitDOMNode *prev_sibling;
-
 			webkit_dom_node_normalize (block);
 
-			prev_sibling = webkit_dom_node_get_previous_sibling (
-				WEBKIT_DOM_NODE (selection_start_marker));
-
-			if (prev_sibling)
-				success = FALSE;
-			else {
-				WebKitDOMElement *parent;
-
-				parent = webkit_dom_node_get_parent_element (block);
-				success = WEBKIT_DOM_IS_HTML_QUOTE_ELEMENT (parent);
-				success = success && webkit_dom_element_has_attribute (parent, "type");
-			}
+			success = caret_is_on_the_line_beginning_html (document);
+			if (webkit_dom_node_get_previous_sibling (WEBKIT_DOM_NODE (selection_start_marker)))
+				block = webkit_dom_node_get_previous_sibling (WEBKIT_DOM_NODE (selection_start_marker));
 		}
 	}
 
@@ -4166,8 +4192,10 @@ e_editor_dom_move_quoted_block_level_up (EEditorPage *editor_page)
 		gchar *inner_html;
 		WebKitDOMElement *paragraph, *element;
 
-		inner_html = webkit_dom_element_get_inner_html (WEBKIT_DOM_ELEMENT (block));
-		webkit_dom_element_set_id (WEBKIT_DOM_ELEMENT (block), "-x-evo-to-remove");
+		if (WEBKIT_DOM_IS_ELEMENT (block)) {
+			inner_html = webkit_dom_element_get_inner_html (WEBKIT_DOM_ELEMENT (block));
+			webkit_dom_element_set_id (WEBKIT_DOM_ELEMENT (block), "-x-evo-to-remove");
+		}
 
 		paragraph = e_editor_dom_insert_new_line_into_citation (editor_page, inner_html);
 		g_free (inner_html);
