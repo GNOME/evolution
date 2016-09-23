@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2016-09-15 15:38+0000\n"
-"PO-Revision-Date: 2016-09-23 16:03+0200\n"
+"PO-Revision-Date: 2016-09-23 16:18+0200\n"
 "Language-Team: Friulian <fur@li.org>\n"
 "Language: fur\n"
 "MIME-Version: 1.0\n"
@@ -3604,8 +3604,8 @@ msgstr[1] ""
 #, c-format
 msgid "Pasting a memo"
 msgid_plural "Pasting %d memos"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Daûr a tacâ un promemorie"
+msgstr[1] "Daûr a tacâ %d promemorie"
 
 #: ../calendar/gui/e-cal-ops.c:753
 #, c-format
@@ -3620,7 +3620,7 @@ msgstr ""
 
 #: ../calendar/gui/e-cal-ops.c:856
 msgid "Updating a memo"
-msgstr ""
+msgstr "Daûr a inzornâ un promemorie"
 
 #: ../calendar/gui/e-cal-ops.c:860
 msgid "Updating a task"
@@ -3634,7 +3634,7 @@ msgstr ""
 #: ../calendar/gui/e-cal-ops.c:972
 #, c-format
 msgid "Getting memos to purge in the memo list '%s'"
-msgstr ""
+msgstr "Daûr a otignî i promemorie di netâ te liste dai promemorie '%s'"
 
 #: ../calendar/gui/e-cal-ops.c:976
 #, c-format
@@ -3649,7 +3649,7 @@ msgstr ""
 #: ../calendar/gui/e-cal-ops.c:1006
 #, c-format
 msgid "Purging memos in the memo list '%s'"
-msgstr ""
+msgstr "Daûr a netâ i promemorie inte liste dai promemorie '%s'"
 
 #: ../calendar/gui/e-cal-ops.c:1010
 #, c-format
@@ -3662,7 +3662,7 @@ msgstr ""
 
 #: ../calendar/gui/e-cal-ops.c:1114
 msgid "Purging memos"
-msgstr ""
+msgstr "Daûr a netâ i promemorie"
 
 #: ../calendar/gui/e-cal-ops.c:1118
 msgid "Purging tasks"
@@ -3690,15 +3690,15 @@ msgstr[1] ""
 #, c-format
 msgid "Moving a memo"
 msgid_plural "Moving %d memos"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Daûr a spostâ un promemorie"
+msgstr[1] "Daûr a spostâ %d promemorie"
 
 #: ../calendar/gui/e-cal-ops.c:2059
 #, c-format
 msgid "Copying a memo"
 msgid_plural "Copying %d memos"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Daûr a copiâ un promemorie"
+msgstr[1] "Daûr a copiâ %d promemorie"
 
 #: ../calendar/gui/e-cal-ops.c:2065
 #, c-format
@@ -3895,14 +3895,19 @@ msgstr ""
 msgid ""
 "Memo cannot be edited, because the selected memo list could not be opened"
 msgstr ""
+"Nol è pussibil modificâ il promemorie parcè che la liste dai promemorie "
+"selezionade no pues jessi vierte"
 
 #: ../calendar/gui/e-comp-editor-memo.c:70
 msgid "Memo cannot be edited, because the selected memo list is read only"
 msgstr ""
+"Nol è pussibil modificâ il promemorie parcè che la liste dai promemorie "
+"selezionade e je in dome-leture"
 
 #: ../calendar/gui/e-comp-editor-memo.c:72
 msgid "Memo cannot be fully edited, because you are not the organizer"
 msgstr ""
+"Nol è pussibil modificâ dal dut il promemorie parcè che no si è l'organizadôr"
 
 #: ../calendar/gui/e-comp-editor-memo.c:168
 #: ../calendar/gui/e-comp-editor-task.c:468
@@ -3918,12 +3923,12 @@ msgstr ""
 #: ../calendar/gui/e-comp-editor-memo.c:223
 #, c-format
 msgid "Assigned Memo - %s"
-msgstr ""
+msgstr "Promemorie assegnât - %s"
 
 #: ../calendar/gui/e-comp-editor-memo.c:224
 #, c-format
 msgid "Memo - %s"
-msgstr ""
+msgstr "Promemorie - %s"
 
 #: ../calendar/gui/e-comp-editor-page-attachments.c:125
 #: ../calendar/gui/e-comp-editor-page-attachments.c:130
@@ -4242,7 +4247,7 @@ msgstr ""
 #: ../calendar/gui/e-comp-editor-page-recurrence.c:1497
 msgctxt "ECompEditorPageRecur"
 msgid "This memo rec_urs"
-msgstr ""
+msgstr "Chest promemorie al _cole"
 
 #. Translators: Entire string is for example:     'This component recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
 #: ../calendar/gui/e-comp-editor-page-recurrence.c:1502
@@ -5111,7 +5116,7 @@ msgstr ""
 #: ../modules/calendar/e-memo-shell-view-actions.c:211
 #: ../modules/calendar/e-memo-shell-view.c:315
 msgid "Memos"
-msgstr ""
+msgstr "Promemorie"
 
 #: ../calendar/gui/e-memo-table.c:457 ../calendar/gui/e-task-table.c:757
 msgid "* No Summary *"
@@ -5129,28 +5134,28 @@ msgstr ""
 
 #: ../calendar/gui/e-memo-table.c:720
 msgid "Cut selected memos to the clipboard"
-msgstr ""
+msgstr "Taie i promemorie selezionâts intes notis"
 
 #: ../calendar/gui/e-memo-table.c:726
 msgid "Copy selected memos to the clipboard"
-msgstr ""
+msgstr "Copie i promemorie selezionâts intes notis"
 
 #: ../calendar/gui/e-memo-table.c:732
 msgid "Paste memos from the clipboard"
-msgstr ""
+msgstr "Tache i promemorie des notis"
 
 #: ../calendar/gui/e-memo-table.c:738
 #: ../modules/calendar/e-memo-shell-view-actions.c:560
 msgid "Delete selected memos"
-msgstr ""
+msgstr "Elimine i promemorie selezionâts"
 
 #: ../calendar/gui/e-memo-table.c:744
 msgid "Select all visible memos"
-msgstr ""
+msgstr "Selezione ducj i promemorie visibii"
 
 #: ../calendar/gui/e-memo-table.etspec.h:1
 msgid "Click to add a memo"
-msgstr ""
+msgstr "Fâs clic par zontâ un promemorie"
 
 #: ../calendar/gui/e-task-table.c:527 ../calendar/gui/tasktypes.xml.h:22
 #: ../e-util/e-send-options.ui.h:1
@@ -5259,7 +5264,7 @@ msgstr ""
 
 #: ../calendar/gui/itip-utils.c:943 ../calendar/gui/itip-utils.c:1104
 msgid "Memo information"
-msgstr ""
+msgstr "Informazions sul promemorie"
 
 #: ../calendar/gui/itip-utils.c:946 ../calendar/gui/itip-utils.c:1122
 msgid "Free/Busy information"
@@ -5368,7 +5373,7 @@ msgstr ""
 
 #: ../calendar/gui/itip-utils.c:1990
 msgid "Sending a memo"
-msgstr ""
+msgstr "Daûr a inviâ un promemorie"
 
 #: ../calendar/gui/itip-utils.c:1994
 msgid "Sending a task"
@@ -5578,7 +5583,7 @@ msgstr ""
 
 #: ../calendar/gui/print.c:3496
 msgid "Memo"
-msgstr ""
+msgstr "Promemorie"
 
 #: ../calendar/gui/print.c:3552
 msgid "Attendees: "
@@ -5715,7 +5720,7 @@ msgstr ""
 #: ../calendar/importers/icalendar-importer.c:1540
 msgctxt "iCalImp"
 msgid "Memo"
-msgstr ""
+msgstr "Promemorie"
 
 #: ../calendar/importers/icalendar-importer.c:1239
 msgctxt "iCalImp"
