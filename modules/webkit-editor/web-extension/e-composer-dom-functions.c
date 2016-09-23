@@ -258,12 +258,12 @@ move_caret_after_signature_inserted (EEditorPage *editor_page)
 
 gchar *
 e_composer_dom_insert_signature (EEditorPage *editor_page,
-				 const gchar *content,
-				 gboolean is_html,
-				 const gchar *id,
-				 gboolean *set_signature_from_message,
-				 gboolean *check_if_signature_is_changed,
-				 gboolean *ignore_next_signature_change)
+                                 const gchar *content,
+                                 gboolean is_html,
+                                 const gchar *id,
+                                 gboolean *set_signature_from_message,
+                                 gboolean *check_if_signature_is_changed,
+                                 gboolean *ignore_next_signature_change)
 {
 	WebKitDOMDocument *document;
 	WebKitDOMElement *signature_to_insert;
@@ -594,7 +594,7 @@ e_composer_dom_get_raw_body_content (EEditorPage *editor_page)
 
 static void
 insert_nbsp_history_event (WebKitDOMDocument *document,
-			   EEditorUndoRedoManager *manager,
+                           EEditorUndoRedoManager *manager,
                            gboolean delete,
                            guint x,
                            guint y)

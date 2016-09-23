@@ -76,7 +76,7 @@ G_DEFINE_TYPE (EEditorPage, e_editor_page, G_TYPE_OBJECT)
 
 static void
 web_page_document_loaded_cb (WebKitWebPage *web_page,
-			     EEditorPage *editor_page)
+                             EEditorPage *editor_page)
 {
 	g_return_if_fail (WEBKIT_IS_WEB_PAGE (web_page));
 	g_return_if_fail (E_IS_EDITOR_PAGE (editor_page));
@@ -89,9 +89,9 @@ web_page_document_loaded_cb (WebKitWebPage *web_page,
 
 static gboolean
 web_page_context_menu_cb (WebKitWebPage *web_page,
-			  WebKitContextMenu *context_menu,
-			  WebKitWebHitTestResult *hit_test_result,
-			  EEditorPage *editor_page)
+                          WebKitContextMenu *context_menu,
+                          WebKitWebHitTestResult *hit_test_result,
+                          EEditorPage *editor_page)
 {
 	WebKitDOMNode *node;
 	EContentEditorNodeFlags flags = 0;
@@ -134,8 +134,8 @@ web_page_context_menu_cb (WebKitWebPage *web_page,
 
 static void
 e_editor_page_setup (EEditorPage *editor_page,
-		     WebKitWebPage *web_page,
-		     struct _EEditorWebExtension *web_extension)
+                     WebKitWebPage *web_page,
+                     struct _EEditorWebExtension *web_extension)
 {
 	WebKitWebEditor *web_editor;
 
@@ -263,7 +263,7 @@ e_editor_page_init (EEditorPage *editor_page)
 
 EEditorPage *
 e_editor_page_new (WebKitWebPage *web_page,
-		   struct _EEditorWebExtension *web_extension)
+                   struct _EEditorWebExtension *web_extension)
 {
 	EEditorPage *editor_page;
 
@@ -355,7 +355,7 @@ e_editor_page_get_html_mode (EEditorPage *editor_page)
 
 void
 e_editor_page_set_html_mode (EEditorPage *editor_page,
-			     gboolean value)
+                             gboolean value)
 {
 	g_return_if_fail (E_IS_EDITOR_PAGE (editor_page));
 
@@ -372,7 +372,7 @@ e_editor_page_get_force_image_load (EEditorPage *editor_page)
 
 void
 e_editor_page_set_force_image_load (EEditorPage *editor_page,
-				    gboolean value)
+                                    gboolean value)
 {
 	g_return_if_fail (E_IS_EDITOR_PAGE (editor_page));
 
@@ -389,7 +389,7 @@ e_editor_page_get_word_wrap_length (EEditorPage *editor_page)
 
 static gboolean
 e_editor_page_check_style_flag (EEditorPage *editor_page,
-				EContentEditorStyleFlags flag)
+                                EContentEditorStyleFlags flag)
 {
 	g_return_val_if_fail (E_IS_EDITOR_PAGE (editor_page), FALSE);
 
@@ -398,8 +398,8 @@ e_editor_page_check_style_flag (EEditorPage *editor_page,
 
 static gboolean
 e_editor_page_set_style_flag (EEditorPage *editor_page,
-			      EContentEditorStyleFlags flag,
-			      gboolean value)
+                              EContentEditorStyleFlags flag,
+                              gboolean value)
 {
 	g_return_val_if_fail (E_IS_EDITOR_PAGE (editor_page), FALSE);
 
@@ -421,7 +421,7 @@ e_editor_page_get_bold (EEditorPage *editor_page)
 
 void
 e_editor_page_set_bold (EEditorPage *editor_page,
-			gboolean value)
+                        gboolean value)
 {
 	g_return_if_fail (E_IS_EDITOR_PAGE (editor_page));
 
@@ -441,7 +441,7 @@ e_editor_page_get_italic (EEditorPage *editor_page)
 
 void
 e_editor_page_set_italic (EEditorPage *editor_page,
-			  gboolean value)
+                          gboolean value)
 {
 	g_return_if_fail (E_IS_EDITOR_PAGE (editor_page));
 
@@ -461,7 +461,7 @@ e_editor_page_get_underline (EEditorPage *editor_page)
 
 void
 e_editor_page_set_underline (EEditorPage *editor_page,
-			     gboolean value)
+                             gboolean value)
 {
 	g_return_if_fail (E_IS_EDITOR_PAGE (editor_page));
 
@@ -481,7 +481,7 @@ e_editor_page_get_monospace (EEditorPage *editor_page)
 
 void
 e_editor_page_set_monospace (EEditorPage *editor_page,
-			     gboolean value)
+                             gboolean value)
 {
 	g_return_if_fail (E_IS_EDITOR_PAGE (editor_page));
 
@@ -501,7 +501,7 @@ e_editor_page_get_strikethrough (EEditorPage *editor_page)
 
 void
 e_editor_page_set_strikethrough (EEditorPage *editor_page,
-				 gboolean value)
+                                 gboolean value)
 {
 	g_return_if_fail (E_IS_EDITOR_PAGE (editor_page));
 
@@ -521,7 +521,7 @@ e_editor_page_get_font_size (EEditorPage *editor_page)
 
 void
 e_editor_page_set_font_size (EEditorPage *editor_page,
-			     guint value)
+                             guint value)
 {
 	g_return_if_fail (E_IS_EDITOR_PAGE (editor_page));
 
@@ -549,7 +549,7 @@ e_editor_page_get_alignment (EEditorPage *editor_page)
 
 void
 e_editor_page_set_alignment (EEditorPage *editor_page,
-			     EContentEditorAlignment value)
+                             EContentEditorAlignment value)
 {
 	g_return_if_fail (E_IS_EDITOR_PAGE (editor_page));
 
@@ -566,7 +566,7 @@ e_editor_page_get_return_key_pressed (EEditorPage *editor_page)
 
 void
 e_editor_page_set_return_key_pressed (EEditorPage *editor_page,
-				      gboolean value)
+                                      gboolean value)
 {
 	g_return_if_fail (E_IS_EDITOR_PAGE (editor_page));
 
@@ -583,7 +583,7 @@ e_editor_page_get_space_key_pressed (EEditorPage *editor_page)
 
 void
 e_editor_page_set_space_key_pressed (EEditorPage *editor_page,
-				     gboolean value)
+                                     gboolean value)
 {
 	g_return_if_fail (E_IS_EDITOR_PAGE (editor_page));
 
@@ -632,8 +632,8 @@ e_editor_page_get_inline_spelling_enabled (EEditorPage *editor_page)
 
 gboolean
 e_editor_page_check_word_spelling (EEditorPage *editor_page,
-				   const gchar *word,
-				   const gchar * const *languages)
+                                   const gchar *word,
+                                   const gchar * const *languages)
 {
 	g_return_val_if_fail (E_IS_EDITOR_PAGE (editor_page), TRUE);
 
@@ -655,7 +655,7 @@ e_editor_page_get_body_input_event_removed (EEditorPage *editor_page)
 
 void
 e_editor_page_set_body_input_event_removed (EEditorPage *editor_page,
-					    gboolean value)
+                                            gboolean value)
 {
 	g_return_if_fail (E_IS_EDITOR_PAGE (editor_page));
 
@@ -672,7 +672,7 @@ e_editor_page_get_convert_in_situ (EEditorPage *editor_page)
 
 void
 e_editor_page_set_convert_in_situ (EEditorPage *editor_page,
-				   gboolean value)
+                                   gboolean value)
 {
 	g_return_if_fail (E_IS_EDITOR_PAGE (editor_page));
 
@@ -689,8 +689,8 @@ e_editor_page_get_inline_images (EEditorPage *editor_page)
 
 void
 e_editor_page_add_new_inline_image_into_list (EEditorPage *editor_page,
-					      const gchar *cid_src,
-					      const gchar *src)
+                                              const gchar *cid_src,
+                                              const gchar *src)
 {
 	g_return_if_fail (E_IS_EDITOR_PAGE (editor_page));
 
@@ -707,7 +707,7 @@ e_editor_page_get_is_smiley_written (EEditorPage *editor_page)
 
 void
 e_editor_page_set_is_smiley_written (EEditorPage *editor_page,
-				     gboolean value)
+                                     gboolean value)
 {
 	g_return_if_fail (E_IS_EDITOR_PAGE (editor_page));
 
@@ -724,7 +724,7 @@ e_editor_page_get_dont_save_history_in_body_input (EEditorPage *editor_page)
 
 void
 e_editor_page_set_dont_save_history_in_body_input (EEditorPage *editor_page,
-						   gboolean value)
+                                                   gboolean value)
 {
 	g_return_if_fail (E_IS_EDITOR_PAGE (editor_page));
 
@@ -741,7 +741,7 @@ e_editor_page_is_pasting_content_from_itself (EEditorPage *editor_page)
 
 void
 e_editor_page_set_pasting_content_from_itself (EEditorPage *editor_page,
-					       gboolean value)
+                                               gboolean value)
 {
 	g_return_if_fail (E_IS_EDITOR_PAGE (editor_page));
 
@@ -758,7 +758,7 @@ e_editor_page_get_renew_history_after_coordinates (EEditorPage *editor_page)
 
 void
 e_editor_page_set_renew_history_after_coordinates (EEditorPage *editor_page,
-						   gboolean renew_history_after_coordinates)
+                                                   gboolean renew_history_after_coordinates)
 {
 	g_return_if_fail (E_IS_EDITOR_PAGE (editor_page));
 
@@ -775,7 +775,7 @@ e_editor_page_is_composition_in_progress (EEditorPage *editor_page)
 
 void
 e_editor_page_set_composition_in_progress (EEditorPage *editor_page,
-					   gboolean value)
+                                           gboolean value)
 {
 	g_return_if_fail (E_IS_EDITOR_PAGE (editor_page));
 
@@ -792,7 +792,7 @@ e_editor_page_get_spell_check_on_scroll_event_source_id (EEditorPage *editor_pag
 
 void
 e_editor_page_set_spell_check_on_scroll_event_source_id (EEditorPage *editor_page,
-							 guint value)
+                                                         guint value)
 {
 	g_return_if_fail (E_IS_EDITOR_PAGE (editor_page));
 

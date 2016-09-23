@@ -1850,7 +1850,7 @@ undo_redo_remove_link (EEditorPage *editor_page,
 
 static void
 undo_return_in_empty_list_item (EEditorPage *editor_page,
-				EEditorHistoryEvent *event)
+                                EEditorHistoryEvent *event)
 {
 	WebKitDOMDocument *document;
 	WebKitDOMElement *selection_start_marker;
@@ -2156,7 +2156,7 @@ undo_redo_citation_split (EEditorPage *editor_page,
 
 static void
 undo_redo_unquote (EEditorPage *editor_page,
-		   EEditorHistoryEvent *event,
+                   EEditorHistoryEvent *event,
                    gboolean undo)
 {
 	WebKitDOMDocument *document;
@@ -2315,7 +2315,7 @@ remove_forward_redo_history_events_if_needed (EEditorUndoRedoManager *manager)
 
 void
 e_editor_undo_redo_manager_insert_history_event (EEditorUndoRedoManager *manager,
-						 EEditorHistoryEvent *event)
+                                                 EEditorHistoryEvent *event)
 {
 	g_return_if_fail (E_IS_EDITOR_UNDO_REDO_MANAGER (manager));
 
@@ -2767,7 +2767,7 @@ e_editor_undo_redo_manager_clean_history (EEditorUndoRedoManager *manager)
 
 static void
 editor_undo_redo_manager_set_editor_page (EEditorUndoRedoManager *manager,
-					  EEditorPage *editor_page)
+                                          EEditorPage *editor_page)
 {
 	g_return_if_fail (E_IS_EDITOR_PAGE (editor_page));
 
@@ -2794,9 +2794,9 @@ editor_undo_redo_manager_dispose (GObject *object)
 
 static void
 editor_undo_redo_manager_get_property (GObject *object,
-				       guint property_id,
-				       GValue *value,
-				       GParamSpec *pspec)
+                                       guint property_id,
+                                       GValue *value,
+                                       GParamSpec *pspec)
 {
 	switch (property_id) {
 		case PROP_CAN_REDO:

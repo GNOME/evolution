@@ -260,7 +260,7 @@ webkit_editor_set_changed (EWebKitEditor *wk_editor,
 
 static void
 webkit_editor_set_can_undo (EWebKitEditor *wk_editor,
-			    gboolean can_undo)
+                            gboolean can_undo)
 {
 	g_return_if_fail (E_IS_WEBKIT_EDITOR (wk_editor));
 
@@ -274,7 +274,7 @@ webkit_editor_set_can_undo (EWebKitEditor *wk_editor,
 
 static void
 webkit_editor_set_can_redo (EWebKitEditor *wk_editor,
-			    gboolean can_redo)
+                            gboolean can_redo)
 {
 	g_return_if_fail (E_IS_WEBKIT_EDITOR (wk_editor));
 
@@ -407,12 +407,12 @@ web_extension_selection_changed_cb (GDBusConnection *connection,
 
 static void
 web_extension_undo_redo_state_changed_cb (GDBusConnection *connection,
-					  const gchar *sender_name,
-					  const gchar *object_path,
-					  const gchar *interface_name,
-					  const gchar *signal_name,
-					  GVariant *parameters,
-					  EWebKitEditor *wk_editor)
+                                          const gchar *sender_name,
+                                          const gchar *object_path,
+                                          const gchar *interface_name,
+                                          const gchar *signal_name,
+                                          GVariant *parameters,
+                                          EWebKitEditor *wk_editor)
 {
 	guint64 page_id = 0;
 	gboolean can_undo = FALSE, can_redo = FALSE;
@@ -812,8 +812,8 @@ webkit_editor_show_inspector (EWebKitEditor *wk_editor)
 
 static void
 webkit_editor_initialize (EContentEditor *content_editor,
-			  EContentEditorInitializedCallback callback,
-			  gpointer user_data)
+                          EContentEditorInitializedCallback callback,
+                          gpointer user_data)
 {
 	EWebKitEditor *wk_editor;
 
@@ -1886,7 +1886,7 @@ static gchar *
 webkit_editor_get_content (EContentEditor *editor,
                            EContentEditorGetContentFlags flags,
                            const gchar *inline_images_from_domain,
-			   GSList **inline_images_parts)
+                           GSList **inline_images_parts)
 {
 	EWebKitEditor *wk_editor;
 	GVariant *result;
@@ -2209,7 +2209,7 @@ webkit_editor_set_spell_checking_languages (EContentEditor *editor,
 
 static void
 webkit_editor_set_spell_check_enabled (EWebKitEditor *wk_editor,
-				       gboolean enable)
+                                       gboolean enable)
 {
 	g_return_if_fail (E_IS_WEBKIT_EDITOR (wk_editor));
 
