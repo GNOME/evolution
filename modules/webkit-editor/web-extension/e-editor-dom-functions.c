@@ -977,15 +977,12 @@ e_editor_dom_get_citation_level (WebKitDOMNode *node,
 static gchar *
 get_quotation_for_level (gint quote_level)
 {
+	const gchar *quote_element = "<span class=\"-x-evo-quote-character\">" QUOTE_SYMBOL " </span>";
 	gint ii;
 	GString *output = g_string_new ("");
 
-	for (ii = 0; ii < quote_level; ii++) {
-		g_string_append (output, "<span class=\"-x-evo-quote-character\">");
-		g_string_append (output, QUOTE_SYMBOL);
-		g_string_append (output, " ");
-		g_string_append (output, "</span>");
-	}
+	for (ii = 0; ii < quote_level; ii++)
+		g_string_append (output, quote_element);
 
 	return g_string_free (output, FALSE);
 }
