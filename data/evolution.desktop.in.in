@@ -24,7 +24,7 @@ _Name=New Window
 Exec=evolution -c current
 
 [Desktop Action compose]
-_Name=Compose Message
+_Name=Compose a Message
 Exec=evolution mailto:
 
 [Desktop Action contacts]
