@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2016-09-25 00:11+0000\n"
-"PO-Revision-Date: 2016-09-25 16:49+0200\n"
+"PO-Revision-Date: 2016-09-25 18:27+0200\n"
 "Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
 "Language-Team: Friulian <fur@li.org>\n"
 "Language: fur\n"
@@ -79,7 +79,7 @@ msgstr "Eliminâ la rubriche «{0}»?"
 
 #: ../addressbook/addressbook.error.xml.h:12
 msgid "This address book will be removed permanently."
-msgstr "Cheste rubriche e vignarà gjavade par simpri."
+msgstr "Cheste rubriche e vegnarà gjavade par simpri."
 
 #: ../addressbook/addressbook.error.xml.h:13 ../calendar/calendar.error.xml.h:7
 #: ../mail/mail.error.xml.h:69
@@ -2022,14 +2022,14 @@ msgstr "Nissune informazion su la ubicazion disponibile."
 #: ../calendar/alarm-notify/alarm-queue.c:1886
 #: ../calendar/alarm-notify/alarm-queue.c:2237
 msgid "Evolution Reminders"
-msgstr ""
+msgstr "Promemorie di Evolution"
 
 #: ../calendar/alarm-notify/alarm-queue.c:1782
 #, c-format
 msgid "You have %d reminder"
 msgid_plural "You have %d reminders"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Tu âs %d promemorie"
+msgstr[1] "Tu âs %d promemorie"
 
 #: ../calendar/alarm-notify/alarm-queue.c:2055
 msgid "Warning"
@@ -2055,6 +2055,12 @@ msgid ""
 "\n"
 "Are you sure you want to run this program?"
 msgstr ""
+"Un promemorie dal calendari di Evolution al sta par jessi ativât. Il "
+"promemorie al è configurât par eseguî il seguitîf program:\n"
+"\n"
+"        %s\n"
+"\n"
+"Sigûrs di eseguî chest program?"
 
 #: ../calendar/alarm-notify/alarm-queue.c:2076
 msgid "Do not ask me about this program again."
@@ -2178,24 +2184,26 @@ msgstr ""
 
 #: ../calendar/calendar.error.xml.h:15
 msgid "Are you sure you want to delete the meeting titled '{0}'?"
-msgstr ""
+msgstr "Sigûrs di eliminâ la riunion intitolade «{0}»?"
 
 #: ../calendar/calendar.error.xml.h:16
 msgid "Are you sure you want to delete the appointment titled '{0}'?"
-msgstr ""
+msgstr "Sigûrs di eliminâ l'apontament intitolât «{0}»?"
 
 #: ../calendar/calendar.error.xml.h:17
 msgid ""
 "All information on this appointment will be deleted and can not be restored."
 msgstr ""
+"Dutis lis informazions su chest apontament a vegnaran eliminadis e no si "
+"podaran plui recuperâ."
 
 #: ../calendar/calendar.error.xml.h:18
 msgid "Are you sure you want to delete this appointment?"
-msgstr ""
+msgstr "Sigûrs di eliminâ chest apontament?"
 
 #: ../calendar/calendar.error.xml.h:19
 msgid "Are you sure you want to delete the '{0}' task?"
-msgstr ""
+msgstr "Sigûrs di eliminâ la ativitât «{0}»?"
 
 #: ../calendar/calendar.error.xml.h:20
 msgid "Are you sure you want to delete the memo '{0}'?"
@@ -2209,21 +2217,25 @@ msgstr ""
 
 #: ../calendar/calendar.error.xml.h:22
 msgid "Are you sure you want to delete these {0} appointments?"
-msgstr ""
+msgstr "Sigûrs di eliminâ chescj {0} apontaments?"
 
 #: ../calendar/calendar.error.xml.h:23
 msgid ""
 "All information on these appointments will be deleted and can not be "
 "restored."
 msgstr ""
+"Dutis lis informazions su chescj apontaments a vegnaran eliminâts e no si "
+"podaran plui recuperâ."
 
 #: ../calendar/calendar.error.xml.h:24
 msgid "Are you sure you want to delete these {0} tasks?"
-msgstr ""
+msgstr "Sigûrs di eliminâ chestis {0} ativitâts?"
 
 #: ../calendar/calendar.error.xml.h:25
 msgid "All information on these tasks will be deleted and can not be restored."
 msgstr ""
+"Dutis lis informazions su chestis ativitâts a vegnaran eliminadis e no si "
+"podaran plui recuperâ."
 
 #: ../calendar/calendar.error.xml.h:26
 msgid "Are you sure you want to delete these {0} memos?"
@@ -2237,35 +2249,35 @@ msgstr ""
 
 #: ../calendar/calendar.error.xml.h:28
 msgid "Would you like to save your changes to this meeting?"
-msgstr ""
+msgstr "Salvâ lis propris modifichis fatis a cheste riunion?"
 
 #: ../calendar/calendar.error.xml.h:29
 msgid "You have changed this meeting, but not yet saved it."
-msgstr ""
+msgstr "Cheste riunion e je stade cambiade, ma no ancjemò salvade."
 
 #: ../calendar/calendar.error.xml.h:30
 msgid "_Save Changes"
-msgstr ""
+msgstr "Salve _modifichis"
 
 #: ../calendar/calendar.error.xml.h:31 ../composer/mail-composer.error.xml.h:13
 msgid "_Discard Changes"
-msgstr ""
+msgstr "_Scarte modifichis"
 
 #: ../calendar/calendar.error.xml.h:32
 msgid "Would you like to save your changes to this appointment?"
-msgstr ""
+msgstr "Salvâ lis modifichis fatis a chest apontament?"
 
 #: ../calendar/calendar.error.xml.h:33
 msgid "You have changed this appointment, but not yet saved it."
-msgstr ""
+msgstr "Chest apontament al è stât cambiât, ma no ancjemò salvât."
 
 #: ../calendar/calendar.error.xml.h:34
 msgid "Would you like to save your changes to this task?"
-msgstr ""
+msgstr "Salvâ lis modifichis fatis a cheste ativitât?"
 
 #: ../calendar/calendar.error.xml.h:35
 msgid "You have changed this task, but not yet saved it."
-msgstr ""
+msgstr "Cheste ativitât e je stade cambiade, ma no ancjemò salvade."
 
 #: ../calendar/calendar.error.xml.h:36
 msgid "Would you like to save your changes to this memo?"
@@ -2279,68 +2291,80 @@ msgstr ""
 
 #: ../calendar/calendar.error.xml.h:38
 msgid "Would you like to send meeting invitations to participants?"
-msgstr ""
+msgstr "Inviâ un invît ae riunion a ducj i partecipants?"
 
 #: ../calendar/calendar.error.xml.h:39
 msgid ""
 "Email invitations will be sent to all participants and allow them to reply."
 msgstr ""
+"A vegnaran inviâts invîts vie e-mail a ducj i partecipants, permetint lôr di "
+"rispuindi."
 
 #: ../calendar/calendar.error.xml.h:40 ../composer/mail-composer.error.xml.h:36
 #: ../mail/mail.error.xml.h:8
 #: ../plugins/attachment-reminder/org-gnome-attachment-reminder.error.xml.h:5
 msgid "_Send"
-msgstr ""
+msgstr "_Invie"
 
 #: ../calendar/calendar.error.xml.h:41
 msgid "Would you like to send updated meeting information to participants?"
-msgstr ""
+msgstr "Inviâ ai partecipants lis informazions inzornadis su la riunion?"
 
 #: ../calendar/calendar.error.xml.h:42
 msgid ""
 "Sending updated information allows other participants to keep their "
 "calendars up to date."
 msgstr ""
+"Inviant lis informazions di inzornament si permet a chei altris partecipants "
+"di mantignî i propris calendaris inzornâts."
 
 #: ../calendar/calendar.error.xml.h:43
 msgid "Would you like to send this task to participants?"
-msgstr ""
+msgstr "Inviâ cheste ativitât a ducj i partecipants?"
 
 #: ../calendar/calendar.error.xml.h:44
 msgid ""
 "Email invitations will be sent to all participants and allow them to accept "
 "this task."
 msgstr ""
+"A vegnaran inviâts invîts vie e-mail a ducj i partecipants, permetint lôr di "
+"acetâ cheste ativitât"
 
 #: ../calendar/calendar.error.xml.h:45
 msgid "Download in progress. Do you want to save the task?"
-msgstr ""
+msgstr "Discjariament in vore. Salvâ cheste ativitât?"
 
 #: ../calendar/calendar.error.xml.h:46
 msgid ""
 "Some attachments are being downloaded. Saving the task would result in the "
 "loss of these attachments."
 msgstr ""
+"Si sta discjariant cualchi alegât. Se si salve cumò la ativitât, si podarès "
+"pierdi chei alegâts."
 
 #: ../calendar/calendar.error.xml.h:48
 msgid "Download in progress. Do you want to save the appointment?"
-msgstr ""
+msgstr "Discjariament in vore. Salvâ chest apontament?"
 
 #: ../calendar/calendar.error.xml.h:49
 msgid ""
 "Some attachments are being downloaded. Saving the appointment would result "
 "in the loss of these attachments."
 msgstr ""
+"Si sta discjariant cualchi alegât. Se si salve cumò l'apontament, si podarès "
+"pierdi chei alegâts."
 
 #: ../calendar/calendar.error.xml.h:50
 msgid "Would you like to send updated task information to participants?"
-msgstr ""
+msgstr "Inviâ ai partecipants informazions inzornadis su la ativitât?"
 
 #: ../calendar/calendar.error.xml.h:51
 msgid ""
 "Sending updated information allows other participants to keep their task "
 "lists up to date."
 msgstr ""
+"Inviant lis informazions di inzornament si permet a chei altris partecipants "
+"di mantignî lis propris listis di ativitâts inzornadis."
 
 #: ../calendar/calendar.error.xml.h:52
 msgid "Would you like to send this memo to participants?"
@@ -2368,23 +2392,23 @@ msgstr ""
 
 #: ../calendar/calendar.error.xml.h:56
 msgid "Editor could not be loaded."
-msgstr ""
+msgstr "Impussibil cjariâ l'editôr."
 
 #: ../calendar/calendar.error.xml.h:57
 msgid "Delete calendar '{0}'?"
-msgstr ""
+msgstr "Eliminâ calendari «{0}»?"
 
 #: ../calendar/calendar.error.xml.h:58
 msgid "This calendar will be removed permanently."
-msgstr ""
+msgstr "Chest calendari al vegnarà gjavât par simpri."
 
 #: ../calendar/calendar.error.xml.h:59
 msgid "Delete task list '{0}'?"
-msgstr ""
+msgstr "Eliminâ la liste des ativitâts «{0}»?"
 
 #: ../calendar/calendar.error.xml.h:60
 msgid "This task list will be removed permanently."
-msgstr ""
+msgstr "Cheste liste des ativitâts e vegnarà gjavade par simpri."
 
 #: ../calendar/calendar.error.xml.h:61
 msgid "Delete memo list '{0}'?"
@@ -2396,23 +2420,26 @@ msgstr "Cheste liste di memorandum e vegnarà gjavade in maniere definitive."
 
 #: ../calendar/calendar.error.xml.h:63
 msgid "Delete remote calendar '{0}'?"
-msgstr ""
+msgstr "Eliminâ calendari rimot «{0}»?"
 
 #: ../calendar/calendar.error.xml.h:64
 msgid ""
 "This will permanently remove the calendar '{0}' from the server. Are you "
 "sure you want to proceed?"
 msgstr ""
+"Chest al eliminarà par simpri il calendari «{0}» dal servidôr. Continuâ?"
 
 #: ../calendar/calendar.error.xml.h:66
 msgid "Delete remote task list '{0}'?"
-msgstr ""
+msgstr "Eliminâ la liste rimote des ativitâts «{0}»?"
 
 #: ../calendar/calendar.error.xml.h:67
 msgid ""
 "This will permanently remove the task list '{0}' from the server. Are you "
 "sure you want to proceed?"
 msgstr ""
+"Chest al eliminarà par simpri la liste des ativitâts «{0}» dal servidôr. "
+"Continuâ?"
 
 #: ../calendar/calendar.error.xml.h:68
 msgid "Delete remote memo list '{0}'?"
@@ -2428,23 +2455,27 @@ msgstr ""
 
 #: ../calendar/calendar.error.xml.h:70
 msgid "Are you sure you want to save the appointment without a summary?"
-msgstr ""
+msgstr "Sigûrs di salvâ l'apontament cence une sintesi?"
 
 #: ../calendar/calendar.error.xml.h:71
 msgid ""
 "Adding a meaningful summary to your appointment will give you an idea of "
 "what your appointment is about."
 msgstr ""
+"Zontant une sintesi esplicative al apontament al darà une idee di ce che si "
+"trate."
 
 #: ../calendar/calendar.error.xml.h:72
 msgid "Are you sure you want to save the task without a summary?"
-msgstr ""
+msgstr "Sigûrs di salvâ la ativitât cence une sintesi?"
 
 #: ../calendar/calendar.error.xml.h:73
 msgid ""
 "Adding a meaningful summary to your task will give you an idea of what your "
 "task is about."
 msgstr ""
+"Zontant une sintesi esplicative ae ativitât al darà une idee di ce che si "
+"trate."
 
 #: ../calendar/calendar.error.xml.h:74
 msgid "Are you sure you want to save the memo without a summary?"
@@ -2453,15 +2484,15 @@ msgstr "Sigûrs di salvâ il memorandum cence une sintesi?"
 #. Translators: {0} is the name of the calendar.
 #: ../calendar/calendar.error.xml.h:76
 msgid "Error loading calendar '{0}'"
-msgstr ""
+msgstr "Erôr tal cjariâ il calendari «{0}»"
 
 #: ../calendar/calendar.error.xml.h:77
 msgid "The calendar is not marked for offline usage."
-msgstr ""
+msgstr "Il calendari nol è segnât pal ûs fûr rêt."
 
 #: ../calendar/calendar.error.xml.h:78
 msgid "Cannot save event"
-msgstr ""
+msgstr "Impussibil salvâ l'event"
 
 #. Translators: {0} is the name of the calendar source
 #: ../calendar/calendar.error.xml.h:80
@@ -2469,25 +2500,29 @@ msgid ""
 "'{0}' is a read-only calendar and cannot be modified. Please select a "
 "different calendar that can accept appointments."
 msgstr ""
+"«{0}» al è un calendari in dome-leture e nol pues jessi modificât. Selezionâ "
+"un calendari diviers che al podedi acetâ apontaments."
 
 #: ../calendar/calendar.error.xml.h:81
 msgid "Cannot save task"
-msgstr ""
+msgstr "Impussibil salvâ la ativitât"
 
 #. Translators: {0} is the name of the calendar source
 #: ../calendar/calendar.error.xml.h:83
 msgid ""
 "'{0}' does not support assigned tasks, please select a different task list."
 msgstr ""
+"«{0}» nol supuarte lis ativitâts assegnadis, selezionâ une liste di "
+"ativitâts divierse."
 
 #. Translators: {0} is the name of the task list.
 #: ../calendar/calendar.error.xml.h:85
 msgid "Error loading task list '{0}'"
-msgstr ""
+msgstr "Erôr tal cjariâ la liste des ativitâts «{0}»"
 
 #: ../calendar/calendar.error.xml.h:86
 msgid "The task list is not marked for offline usage."
-msgstr ""
+msgstr "La liste des ativitâts no je segnade pal ûs fûr rêt."
 
 #. Translators: {0} is the name of the memo list.
 #: ../calendar/calendar.error.xml.h:88
