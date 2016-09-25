@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2016-09-25 00:11+0000\n"
-"PO-Revision-Date: 2016-09-25 18:27+0200\n"
+"PO-Revision-Date: 2016-09-25 19:20+0200\n"
 "Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
 "Language-Team: Friulian <fur@li.org>\n"
 "Language: fur\n"
@@ -2536,17 +2536,17 @@ msgstr "La liste dai memorandums no je segnade par l'ûs fûr rêt."
 #. Translators: {0} is the name of the calendar/memo list/task list.
 #: ../calendar/calendar.error.xml.h:91
 msgid "Failed to add timezone to '{0}'"
-msgstr ""
+msgstr "No si è rivâts a zontâ il fûs orari «{0}»"
 
 #. The {0} is a calendar/memo list/task list name, which is useless here
 #: ../calendar/calendar.error.xml.h:93
 msgid "Failed to save attachments"
-msgstr ""
+msgstr "No si è rivâts a salvâ i alegâts"
 
 #. Translators: {0} is the name of the calendar.
 #: ../calendar/calendar.error.xml.h:95
 msgid "Failed to open calendar '{0}'"
-msgstr ""
+msgstr "No si è rivâts a vierzi il calendari «{0}»"
 
 #. Translators: {0} is the name of the memo list.
 #: ../calendar/calendar.error.xml.h:97
@@ -2556,12 +2556,12 @@ msgstr "No si è rivâts a vierzi la liste dai memorandums «{0}»"
 #. Translators: {0} is the name of the task list.
 #: ../calendar/calendar.error.xml.h:99
 msgid "Failed to open task list '{0}'"
-msgstr ""
+msgstr "No si è rivâts a vierzi la liste des ativitâts «{0}»"
 
 #. Translators: {0} is the name of the calendar.
 #: ../calendar/calendar.error.xml.h:101
 msgid "Failed to create an event in the calendar '{0}'"
-msgstr ""
+msgstr "No si è rivâts a creâ un event intal calendari «{0}»"
 
 #. Translators: {0} is the name of the memo list.
 #: ../calendar/calendar.error.xml.h:103
@@ -2571,12 +2571,12 @@ msgstr "No si è rivâts a creâ un memorandum inte liste dai memorandums «{0}�
 #. Translators: {0} is the name of the task list.
 #: ../calendar/calendar.error.xml.h:105
 msgid "Failed to create a task in the task list '{0}'"
-msgstr ""
+msgstr "No si è rivâts a creâ une ativitât inte liste des ativitâts «{0}»"
 
 #. Translators: {0} is the name of the calendar.
 #: ../calendar/calendar.error.xml.h:107
 msgid "Failed to modify an event in the calendar '{0}'"
-msgstr ""
+msgstr "No si è rivâts a modificâ un event intal calendari «{0}»"
 
 #. Translators: {0} is the name of the memo list.
 #: ../calendar/calendar.error.xml.h:109
@@ -2587,12 +2587,12 @@ msgstr ""
 #. Translators: {0} is the name of the task list.
 #: ../calendar/calendar.error.xml.h:111
 msgid "Failed to modify a task in the task list '{0}'"
-msgstr ""
+msgstr "No si è rivâts a modificâ une ativitât inte liste des ativitâts «{0}»"
 
 #. Translators: {0} is the name of the calendar.
 #: ../calendar/calendar.error.xml.h:113
 msgid "Failed to delete an event in the calendar '{0}'"
-msgstr ""
+msgstr "No si è rivâts a eliminâ un event intal calendari «{0}»"
 
 #. Translators: {0} is the name of the memo list.
 #: ../calendar/calendar.error.xml.h:115
@@ -2603,12 +2603,12 @@ msgstr ""
 #. Translators: {0} is the name of the task list.
 #: ../calendar/calendar.error.xml.h:117
 msgid "Failed to delete a task in the task list '{0}'"
-msgstr ""
+msgstr "No si è rivâts a eliminâ une ativitât inte liste des ativitâts «{0}»"
 
 #. Translators: {0} is the name of the calendar.
 #: ../calendar/calendar.error.xml.h:119
 msgid "Failed to update an event in the calendar '{0}'"
-msgstr ""
+msgstr "No si è rivâts a inzornâ un event intal calendari «{0}»"
 
 #. Translators: {0} is the name of the memo list.
 #: ../calendar/calendar.error.xml.h:121
@@ -2619,12 +2619,12 @@ msgstr ""
 #. Translators: {0} is the name of the task list.
 #: ../calendar/calendar.error.xml.h:123
 msgid "Failed to update a task in the task list '{0}'"
-msgstr ""
+msgstr "No si è rivâts a inzornâ une ativitât inte liste des ativitâts «{0}»"
 
 #. Translators: {0} is the name of the calendar.
 #: ../calendar/calendar.error.xml.h:125
 msgid "Failed to send an event to the calendar '{0}'"
-msgstr ""
+msgstr "No si è rivâts a inviâ un event al calendari «{0}»"
 
 #. Translators: {0} is the name of the memo list.
 #: ../calendar/calendar.error.xml.h:127
@@ -2634,17 +2634,17 @@ msgstr "No si è rivâts a inviâ un memorandum ae liste dai memorandums «{0}»
 #. Translators: {0} is the name of the task list.
 #: ../calendar/calendar.error.xml.h:129
 msgid "Failed to send a task to the task list '{0}'"
-msgstr ""
+msgstr "No si è rivâts a inviâ une ativitât ae liste des ativitâts «{0}»"
 
 #. Translators: {0} is the name of the calendar.
 #: ../calendar/calendar.error.xml.h:131
 msgid "Error creating view for the calendar '{0}'"
-msgstr ""
+msgstr "Erôr tal creâ la viodude pal calendari «{0}»"
 
 #. Translators: {0} is the name of the task list.
 #: ../calendar/calendar.error.xml.h:133
 msgid "Error creating view for the task list '{0}'"
-msgstr ""
+msgstr "Erôr tal creâ la viodude pe liste des ativitâts «{0}»"
 
 #. Translators: {0} is the name of the memo list.
 #: ../calendar/calendar.error.xml.h:135
@@ -2654,12 +2654,12 @@ msgstr "Erôr tal creâ la viodude pe liste dai memorandums «{0}»"
 #. Translators: {0} is the name of the calendar.
 #: ../calendar/calendar.error.xml.h:137
 msgid "Failed to copy an event into the calendar '{0}'"
-msgstr ""
+msgstr "No si è rivâts a copiâ un event intal calendari «{0}»"
 
 #. Translators: {0} is the name of the task list.
 #: ../calendar/calendar.error.xml.h:139
 msgid "Failed to copy a task into the task list '{0}'"
-msgstr ""
+msgstr "No si è rivâts a copiâ une ativitât inte liste des ativitâts «{0}»"
 
 #. Translators: {0} is the name of the memo list.
 #: ../calendar/calendar.error.xml.h:141
@@ -2669,12 +2669,12 @@ msgstr "No si è rivâts a copiâ un memorandum inte liste dai memorandums «{0}
 #. Translators: {0} is the name of the calendar.
 #: ../calendar/calendar.error.xml.h:143
 msgid "Failed to move an event into the calendar '{0}'"
-msgstr ""
+msgstr "No si è rivâts a spostâ un event intal calendari «{0}»"
 
 #. Translators: {0} is the name of the task list.
 #: ../calendar/calendar.error.xml.h:145
 msgid "Failed to move a task into the task list '{0}'"
-msgstr ""
+msgstr "No si è rivâts a spostâ une ativitât inte liste des ativitâts «{0}»"
 
 #. Translators: {0} is the name of the memo list.
 #: ../calendar/calendar.error.xml.h:147
@@ -2684,12 +2684,12 @@ msgstr "No si è rivâts a spostâ un memorandum inte liste dai memorandums «{0
 #. Translators: {0} is the name of the calendar.
 #: ../calendar/calendar.error.xml.h:149
 msgid "Failed to get an event from the calendar '{0}'"
-msgstr ""
+msgstr "No si è rivâts a otignî un event dal calendari «{0}»"
 
 #. Translators: {0} is the name of the task list.
 #: ../calendar/calendar.error.xml.h:151
 msgid "Failed to get a task from the task list '{0}'"
-msgstr ""
+msgstr "No si è rivâts a otignî une ativitât de liste des ativitâts «{0}»"
 
 #. Translators: {0} is the name of the memo list.
 #: ../calendar/calendar.error.xml.h:153
@@ -2853,14 +2853,14 @@ msgstr "Alegâts"
 #: ../calendar/gui/tasktypes.xml.h:16 ../mail/filtertypes.xml.in.h:48
 #: ../mail/searchtypes.xml.in.h:50 ../mail/vfoldertypes.xml.in.h:51
 msgid "Exist"
-msgstr ""
+msgstr "Esistin"
 
 # infinito?
 #: ../calendar/gui/caltypes.xml.h:18 ../calendar/gui/memotypes.xml.h:16
 #: ../calendar/gui/tasktypes.xml.h:17 ../mail/filtertypes.xml.in.h:49
 #: ../mail/searchtypes.xml.in.h:51 ../mail/vfoldertypes.xml.in.h:52
 msgid "Do Not Exist"
-msgstr ""
+msgstr "No esistin"
 
 #: ../calendar/gui/caltypes.xml.h:19
 #: ../calendar/gui/e-comp-editor-page-recurrence.c:2005
@@ -2869,7 +2869,7 @@ msgstr "Ricorence"
 
 #: ../calendar/gui/caltypes.xml.h:20
 msgid "Occurs"
-msgstr ""
+msgstr "Al sucêt"
 
 #: ../calendar/gui/caltypes.xml.h:21
 msgid "Less Than"
@@ -2877,7 +2877,7 @@ msgstr "Mancul di"
 
 #: ../calendar/gui/caltypes.xml.h:22
 msgid "Exactly"
-msgstr ""
+msgstr "In mût esat"
 
 #: ../calendar/gui/caltypes.xml.h:23
 msgid "More Than"
@@ -2886,12 +2886,12 @@ msgstr "Plui di"
 #: ../calendar/gui/caltypes.xml.h:24 ../calendar/gui/memotypes.xml.h:17
 #: ../calendar/gui/tasktypes.xml.h:28
 msgid "Summary Contains"
-msgstr ""
+msgstr "La sintesi e conten"
 
 #: ../calendar/gui/caltypes.xml.h:25 ../calendar/gui/memotypes.xml.h:18
 #: ../calendar/gui/tasktypes.xml.h:29
 msgid "Description Contains"
-msgstr ""
+msgstr "La descrizion e conten"
 
 #: ../calendar/gui/ea-cal-view.c:283
 msgid "New Appointment"
