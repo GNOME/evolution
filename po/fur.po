@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2016-09-15 15:38+0000\n"
-"PO-Revision-Date: 2016-09-23 16:18+0200\n"
+"POT-Creation-Date: 2016-09-25 00:11+0000\n"
+"PO-Revision-Date: 2016-09-25 09:16+0200\n"
+"Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
 "Language-Team: Friulian <fur@li.org>\n"
 "Language: fur\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
 "X-Generator: Poedit 1.8.8\n"
 
 #: ../addressbook/addressbook.error.xml.h:1
@@ -7622,12 +7622,11 @@ msgid ""
 "account"
 msgstr ""
 
-#: ../composer/e-msg-composer.c:1621 ../composer/e-msg-composer.c:2403
-#: ../data/evolution.desktop.in.in.h:7
+#: ../composer/e-msg-composer.c:1621 ../composer/e-msg-composer.c:2411
 msgid "Compose Message"
 msgstr ""
 
-#: ../composer/e-msg-composer.c:4728
+#: ../composer/e-msg-composer.c:4736
 msgid "The composer contains a non-text message body, which cannot be edited."
 msgstr ""
 
@@ -7833,6 +7832,10 @@ msgstr ""
 
 #: ../data/evolution.desktop.in.in.h:6
 msgid "New Window"
+msgstr ""
+
+#: ../data/evolution.desktop.in.in.h:7
+msgid "Compose a Message"
 msgstr ""
 
 #: ../data/evolution.desktop.in.in.h:8 ../e-util/e-name-selector-dialog.c:451
@@ -8350,7 +8353,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:80
 msgid "Memo preview pane position (horizontal)"
-msgstr ""
+msgstr "Posizion ricuadri anteprime promemorie (orizontâl)"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:81
 msgid "Position of the task preview pane when oriented horizontally"
@@ -8358,7 +8361,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:82
 msgid "Memo layout style"
-msgstr ""
+msgstr "Stîl viodude promemorie"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:83
 msgid ""
@@ -8366,14 +8369,20 @@ msgid ""
 "the memo list. \"0\" (Classic View) places the preview pane below the memo "
 "list. \"1\" (Vertical View) places the preview pane next to the memo list"
 msgstr ""
+"Il stîl di disposizion al determine dulà plaçâ il ricuadri di anteprime in "
+"relazion ae liste dai promemorie. Cun \"0\" (viodude classiche) si place il "
+"ricuadri di anteprime juste sot de liste dai promemorie, cun \"1\" (viodude "
+"verticâl) si place il ricuadri in bande ae liste dai promemorie"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:84
 msgid "Memo preview pane position (vertical)"
-msgstr ""
+msgstr "Posizion ricuadri anteprime promemorie (verticâl)"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:85
 msgid "Position of the memo preview pane when oriented vertically"
 msgstr ""
+"Posizion dal ricuadri di anteprime dai promemorie cuant che al è orientât in "
+"verticâl"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:86
 msgid "Month view horizontal pane position"
@@ -8429,13 +8438,15 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:98
 msgid "Primary memo list"
-msgstr ""
+msgstr "Liste di promemorie primarie"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:99
 msgid ""
 "The UID of the selected (or \"primary\") memo list in the sidebar of the "
 "\"Memos\" view"
 msgstr ""
+"Il UID de liste promemorie selezionade (o \"primarie\") tal ricuadri laterâl "
+"de viodude \"Promemorie\""
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:100
 msgid "Primary task list"
@@ -8495,11 +8506,13 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:113
 msgid "Show the memo preview pane"
-msgstr ""
+msgstr "Mostre il ricuadri di anteprime dai promemorie"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:114
 msgid "If \"true\", show the memo preview pane in the main window"
 msgstr ""
+"Se \"vêr\", mostre il ricuadri di anteprime dai promemorie intal barcon "
+"principâl"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:115
 msgid "Show the task preview pane"
@@ -8676,7 +8689,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:155
 msgid "Create events, memos and tasks as Private by default"
-msgstr ""
+msgstr "Cree events, promemorie e ativitâts come Privât in maniere predefinide"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:156
 msgid "(Deprecated) First day of the week, from Sunday (0) to Saturday (6)"
@@ -10244,6 +10257,8 @@ msgid ""
 "Valid values are 'mail', 'addressbook', 'calendar', 'tasks' and 'memos'. "
 "Change of this requires restart of the application."
 msgstr ""
+"I valôrs valits a son \"mail\", \"addressbook\", \"calendar\", \"tasks\" e "
+"\"memos\". La modifiche a domande il tornâ a inviâ la aplicazion."
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:19
 msgid "Window buttons are visible"
@@ -10974,7 +10989,7 @@ msgstr ""
 
 #: ../e-util/e-cal-source-config.c:175
 msgid "Mark as default memo list"
-msgstr ""
+msgstr "Segne come liste promemorie predefinide"
 
 #: ../e-util/e-cal-source-config.c:200
 msgid "Color:"
@@ -10991,6 +11006,7 @@ msgstr ""
 #: ../e-util/e-cal-source-config.c:436
 msgid "Copy memo list contents locally for offline operation"
 msgstr ""
+"Copie in locâl i contignûts de liste dai promemorie par operazions fûr rêt"
 
 #: ../e-util/e-categories-editor.c:223
 msgid "Currently _used categories:"
@@ -12919,7 +12935,7 @@ msgstr ""
 #: ../e-util/e-misc-utils.c:2506
 #, c-format
 msgid "Opening memo list '%s'"
-msgstr ""
+msgstr "Daûr a vierzi la liste promemorie '%s'"
 
 #: ../e-util/e-misc-utils.c:2509
 #, c-format
@@ -13497,6 +13513,8 @@ msgstr ""
 #: ../e-util/e-system.error.xml.h:16
 msgid "Some of your memos may not be available until Evolution is restarted."
 msgstr ""
+"Cualchi promemorie al podarès no jessi disponibil fin tal gnûf inviament di "
+"Evolution."
 
 #: ../e-util/e-system.error.xml.h:17
 msgid "The task list backend servicing &quot;{0}&quot; has quit unexpectedly."
@@ -18681,6 +18699,7 @@ msgstr ""
 #: ../modules/backup-restore/evolution-backup-tool.c:307
 msgid "Backing Evolution data (Mails, Contacts, Calendar, Tasks, Memos)"
 msgstr ""
+"Supuart dâts di Evolution (e-mail, contats, calendari, ativitâts, promemorie)"
 
 #: ../modules/backup-restore/evolution-backup-tool.c:323
 msgid "Back up complete"
@@ -19004,7 +19023,7 @@ msgstr ""
 #: ../modules/cal-config-caldav/evolution-cal-config-caldav.c:113
 #: ../modules/cal-config-google/e-google-chooser-button.c:228
 msgid "Choose a Memo List"
-msgstr ""
+msgstr "Sielç une liste promemorie"
 
 #: ../modules/cal-config-caldav/evolution-cal-config-caldav.c:117
 #: ../modules/cal-config-google/e-google-chooser-button.c:232
@@ -19017,7 +19036,7 @@ msgstr ""
 
 #: ../modules/cal-config-caldav/evolution-cal-config-caldav.c:313
 msgid "Find Memo Lists"
-msgstr ""
+msgstr "Cjate listis promemorie"
 
 #: ../modules/cal-config-caldav/evolution-cal-config-caldav.c:316
 msgid "Find Task Lists"
@@ -19110,7 +19129,7 @@ msgstr ""
 
 #: ../modules/calendar/e-cal-attachment-handler.c:341
 msgid "Importing a memo"
-msgstr ""
+msgstr "Daûr a impuartâ un promemorie"
 
 #: ../modules/calendar/e-cal-attachment-handler.c:345
 msgid "Importing a task"
@@ -19122,7 +19141,7 @@ msgstr ""
 
 #: ../modules/calendar/e-cal-attachment-handler.c:410
 msgid "Select a Memo List"
-msgstr ""
+msgstr "Selezione une liste promemorie"
 
 #: ../modules/calendar/e-cal-attachment-handler.c:417
 msgid "Select a Task List"
@@ -19134,7 +19153,7 @@ msgstr ""
 
 #: ../modules/calendar/e-cal-attachment-handler.c:431
 msgid "I_mport to Memo List"
-msgstr ""
+msgstr "I_mpuarte intune liste promemorie"
 
 #: ../modules/calendar/e-cal-attachment-handler.c:438
 msgid "I_mport to Task List"
@@ -19143,7 +19162,7 @@ msgstr ""
 #: ../modules/calendar/e-cal-base-shell-backend.c:187
 #: ../modules/calendar/e-memo-shell-view-actions.c:180
 msgid "New Memo List"
-msgstr ""
+msgstr "Gnove liste promemorie"
 
 #: ../modules/calendar/e-cal-base-shell-sidebar.c:556
 #, c-format
@@ -19158,12 +19177,12 @@ msgstr ""
 #: ../modules/calendar/e-cal-base-shell-sidebar.c:562
 #, c-format
 msgid "Copying a memo into the memo list '%s'"
-msgstr ""
+msgstr "Daûr a copiâ un promemorie inte liste di promemorie '%s'"
 
 #: ../modules/calendar/e-cal-base-shell-sidebar.c:563
 #, c-format
 msgid "Moving a memo into the memo list '%s'"
-msgstr ""
+msgstr "Daûr a spostâ un promemorie inte liste di promemorie '%s'"
 
 #: ../modules/calendar/e-cal-base-shell-sidebar.c:568
 #, c-format
@@ -19181,7 +19200,7 @@ msgstr ""
 
 #: ../modules/calendar/e-cal-base-shell-sidebar.c:692
 msgid "Memo List Selector"
-msgstr ""
+msgstr "Seletôr liste promemorie"
 
 #: ../modules/calendar/e-cal-base-shell-sidebar.c:697
 msgid "Task List Selector"
@@ -19365,6 +19384,7 @@ msgstr ""
 #: ../modules/calendar/e-calendar-preferences.ui.h:47
 msgid "Create events, memos and tasks as _Private by default"
 msgstr ""
+"Cree events, promemorie e ativitâts come _Privât in maniere predefinide"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:49
 msgid "View Options"
@@ -19847,28 +19867,28 @@ msgstr ""
 #: ../modules/calendar/e-cal-shell-view-memopad.c:207
 #: ../modules/calendar/e-memo-shell-view-actions.c:496
 msgid "memo"
-msgstr ""
+msgstr "promemorie"
 
 #: ../modules/calendar/e-cal-shell-view-memopad.c:250
 #: ../modules/calendar/e-memo-shell-view-actions.c:642
 msgid "New _Memo"
-msgstr ""
+msgstr "Gnûf pro_memorie"
 
 #: ../modules/calendar/e-cal-shell-view-memopad.c:252
 #: ../modules/calendar/e-memo-shell-backend.c:81
 #: ../modules/calendar/e-memo-shell-view-actions.c:644
 msgid "Create a new memo"
-msgstr ""
+msgstr "Cree un gnûf promemorie"
 
 #: ../modules/calendar/e-cal-shell-view-memopad.c:257
 #: ../modules/calendar/e-memo-shell-view-actions.c:649
 msgid "_Open Memo"
-msgstr ""
+msgstr "_Vierç promemorie"
 
 #: ../modules/calendar/e-cal-shell-view-memopad.c:259
 #: ../modules/calendar/e-memo-shell-view-actions.c:651
 msgid "View the selected memo"
-msgstr ""
+msgstr "Viôt il promemorie selezionât"
 
 #: ../modules/calendar/e-cal-shell-view-memopad.c:264
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:352
@@ -19880,7 +19900,7 @@ msgstr ""
 #: ../modules/calendar/e-cal-shell-view-memopad.c:276
 #: ../modules/calendar/e-memo-shell-view-actions.c:824
 msgid "Print the selected memo"
-msgstr ""
+msgstr "Stampe il promemorie selezionât"
 
 #: ../modules/calendar/e-cal-shell-view-private.c:816
 msgid "Searching next matching event"
@@ -19970,122 +19990,122 @@ msgstr ""
 #: ../modules/calendar/e-memo-shell-backend.c:79
 msgctxt "New"
 msgid "Mem_o"
-msgstr ""
+msgstr "Promem_orie"
 
 #: ../modules/calendar/e-memo-shell-backend.c:86
 msgctxt "New"
 msgid "_Shared Memo"
-msgstr ""
+msgstr "Promemorie con_dividût"
 
 #: ../modules/calendar/e-memo-shell-backend.c:88
 msgid "Create a new shared memo"
-msgstr ""
+msgstr "Cree un gnûf promemorie condividût"
 
 #: ../modules/calendar/e-memo-shell-backend.c:96
 msgctxt "New"
 msgid "Memo Li_st"
-msgstr ""
+msgstr "Li_ste promemorie"
 
 #: ../modules/calendar/e-memo-shell-backend.c:98
 #: ../modules/calendar/e-memo-shell-view-actions.c:602
 msgid "Create a new memo list"
-msgstr ""
+msgstr "Cree une gnove liste promemorie"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:196
 #: ../modules/calendar/e-memo-shell-view-actions.c:211
 msgid "Print Memos"
-msgstr ""
+msgstr "Stampe promemorie"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:252
 msgid "Memo List Properties"
-msgstr ""
+msgstr "Proprietâts liste promemorie"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:558
 msgid "_Delete Memo"
-msgstr ""
+msgstr "_Elimine promemorie"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:565
 msgid "_Find in Memo..."
-msgstr ""
+msgstr "C_jate tal promemorie..."
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:567
 msgid "Search for text in the displayed memo"
-msgstr ""
+msgstr "Cîr test tal promemorie mostrât"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:586
 msgid "D_elete Memo List"
-msgstr ""
+msgstr "Eli_mine liste promemorie"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:588
 msgid "Delete the selected memo list"
-msgstr ""
+msgstr "Elimine la liste promemorie selezionade"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:593
 msgid "_Manage Memo List groups..."
-msgstr ""
+msgstr "_Gjestìs grups listis dai promemorie..."
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:595
 msgid "Manage Memo List groups order and visibility"
-msgstr ""
+msgstr "Gjestìs l'ordin e la visibilitât dai grups des listis dai promemorie"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:600
 msgid "_New Memo List"
-msgstr ""
+msgstr "_Gnove liste promemorie"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:616
 msgid "Refresh the selected memo list"
-msgstr ""
+msgstr "Inzorne la liste promemorie selezionade"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:623
 msgid "Rename the selected memo list"
-msgstr ""
+msgstr "Cambie non ae liste promemorie selezionade"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:628
 msgid "Show _Only This Memo List"
-msgstr ""
+msgstr "Mostre _dome cheste liste promemorie"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:635
 msgid "Sho_w All Memo Lists"
-msgstr ""
+msgstr "Mos_tre dutis lis listis promemorie"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:722
 msgid "Memo _Preview"
-msgstr ""
+msgstr "_Anteprime promemorie"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:724
 msgid "Show memo preview pane"
-msgstr ""
+msgstr "Mostre il ricuadri di anteprime promemorie"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:745
 msgid "Show memo preview below the memo list"
-msgstr ""
+msgstr "Mostre anteprime promemorie sot de liste promemorie"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:752
 msgid "Show memo preview alongside the memo list"
-msgstr ""
+msgstr "Mostre la anteprime dai promemorie in bande ae liste dai promemorie"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:810
 msgid "Print the list of memos"
-msgstr ""
+msgstr "Stampe la liste dai promemorie"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:817
 msgid "Preview the list of memos to be printed"
-msgstr ""
+msgstr "Anteprime de liste dai promemorie di stampâ"
 
 #: ../modules/calendar/e-memo-shell-view.c:219
 msgid "Delete Memos"
-msgstr ""
+msgstr "Elimine i promemorie"
 
 #: ../modules/calendar/e-memo-shell-view.c:221
 msgid "Delete Memo"
-msgstr ""
+msgstr "Elimine promemorie"
 
 #: ../modules/calendar/e-memo-shell-view-private.c:369
 #, c-format
 msgid "%d memo"
 msgid_plural "%d memos"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d promemorie"
+msgstr[1] "%d promemorie"
 
 #: ../modules/calendar/e-memo-shell-view-private.c:373
 #: ../modules/calendar/e-task-shell-view-private.c:550
@@ -20594,7 +20614,7 @@ msgstr ""
 #: ../modules/itip-formatter/itip-view.c:621
 #, c-format
 msgid "%s has published the following memo:"
-msgstr ""
+msgstr "Al è stât publicât di %s il seguitîf promemorie:"
 
 #: ../modules/itip-formatter/itip-view.c:626
 #, c-format
