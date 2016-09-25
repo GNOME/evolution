@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2016-09-25 00:11+0000\n"
-"PO-Revision-Date: 2016-09-25 19:20+0200\n"
+"PO-Revision-Date: 2016-09-25 21:36+0200\n"
 "Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
 "Language-Team: Friulian <fur@li.org>\n"
 "Language: fur\n"
@@ -2699,12 +2699,12 @@ msgstr "No si è rivâts a otignî un memorandum de liste dai memorandums «{0}�
 #. Translators: {0} is the name of the calendar.
 #: ../calendar/calendar.error.xml.h:155
 msgid "Copying an event into the calendar '{0}'"
-msgstr ""
+msgstr "Daûr a copiâ un event intal calendari «{0}»"
 
 #. Translators: {0} is the name of the task list.
 #: ../calendar/calendar.error.xml.h:157
 msgid "Copying a task into the task list '{0}'"
-msgstr ""
+msgstr "Daûr a copiâ une ativitât inte liste des ativitâts «{0}»"
 
 #. Translators: {0} is the name of the memo list.
 #: ../calendar/calendar.error.xml.h:159
@@ -2714,12 +2714,12 @@ msgstr "Daûr a copiâ un memorandum inte liste dai memorandums «{0}»"
 #. Translators: {0} is the name of the calendar.
 #: ../calendar/calendar.error.xml.h:161
 msgid "Moving an event into the calendar '{0}'"
-msgstr ""
+msgstr "Daûr a spostâ un event intal calendari «{0}»"
 
 #. Translators: {0} is the name of the task list.
 #: ../calendar/calendar.error.xml.h:163
 msgid "Moving a task into the task list '{0}'"
-msgstr ""
+msgstr "Daûr a spostâ une ativitât inte liste des ativitâts «{0}»"
 
 #. Translators: {0} is the name of the memo list.
 #: ../calendar/calendar.error.xml.h:165
@@ -2729,12 +2729,12 @@ msgstr "Daûr a spostâ un memorandum inte liste dai memorandums «{0}»"
 #. Translators: {0} is the name of the calendar.
 #: ../calendar/calendar.error.xml.h:167
 msgid "Failed to refresh calendar '{0}'"
-msgstr ""
+msgstr "No si è rivâts a inzornâ il calendari «{0}»"
 
 #. Translators: {0} is the name of the task list.
 #: ../calendar/calendar.error.xml.h:169
 msgid "Failed to refresh task list '{0}'"
-msgstr ""
+msgstr "No si è rivâts a inzornâ la liste des ativitâts «{0}»"
 
 #. Translators: {0} is the name of the memo list.
 #: ../calendar/calendar.error.xml.h:171
@@ -2743,7 +2743,7 @@ msgstr "No si è rivâts a inzornâ la liste dai memorandums «{0}»"
 
 #: ../calendar/calendar.error.xml.h:172
 msgid "Failed to make an occurrence movable"
-msgstr ""
+msgstr "No si è rivâts a rindi une ocorince une che si pues movi"
 
 #: ../calendar/gui/caltypes.xml.h:1 ../calendar/gui/e-cal-list-view.etspec.h:3
 #: ../calendar/gui/e-memo-table.etspec.h:2
@@ -2928,19 +2928,19 @@ msgstr "E je une riunion."
 #: ../calendar/gui/ea-cal-view-event.c:247
 #, c-format
 msgid "Calendar Event: Summary is %s."
-msgstr ""
+msgstr "Event di calendari: la sintesi e je %s."
 
 #: ../calendar/gui/ea-cal-view-event.c:250
 msgid "Calendar Event: It has no summary."
-msgstr ""
+msgstr "Event di calendari: nol à nissune sintesi."
 
 #: ../calendar/gui/ea-cal-view-event.c:273
 msgid "calendar view event"
-msgstr ""
+msgstr "event viodude calendari"
 
 #: ../calendar/gui/ea-cal-view-event.c:505
 msgid "Grab Focus"
-msgstr ""
+msgstr "Cjape il focus"
 
 #: ../calendar/gui/ea-day-view.c:107 ../calendar/gui/ea-week-view.c:107
 #, c-format
@@ -2958,86 +2958,86 @@ msgstr ""
 #: ../calendar/gui/ea-day-view.c:121
 #, c-format
 msgid "Work Week View: %s. %s"
-msgstr ""
+msgstr "Viodude setemane lavorative: %s. %s"
 
 #: ../calendar/gui/ea-day-view.c:128
 #, c-format
 msgid "Day View: %s. %s"
-msgstr ""
+msgstr "Viodude zornaliere: %s. %s"
 
 #: ../calendar/gui/ea-day-view.c:157
 msgid "calendar view for a work week"
-msgstr ""
+msgstr "viodude calendari par une setemane lavorative"
 
 #: ../calendar/gui/ea-day-view.c:159
 msgid "calendar view for one or more days"
-msgstr ""
+msgstr "viodude calendari par un o plui dîs"
 
 #: ../calendar/gui/ea-day-view-main-item.c:266
 #: ../calendar/gui/ea-week-view-main-item.c:295
 msgid "a table to view and select the current time range"
-msgstr ""
+msgstr "une tabele par viodi e selezionâ l'interval di timp curint"
 
 #: ../calendar/gui/ea-jump-button.c:150
 msgid "Jump button"
-msgstr ""
+msgstr "Boton di salt"
 
 #: ../calendar/gui/ea-jump-button.c:159
 msgid "Click here, you can find more events."
-msgstr ""
+msgstr "Fâs clic achì par cjatâ altris events."
 
 #. Translator: Entire string is like "Pop up an alert %d weeks before start"
 #: ../calendar/gui/e-alarm-list.c:376
 #, c-format
 msgid "%d week"
 msgid_plural "%d weeks"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d setemane"
+msgstr[1] "%d setemanis"
 
 #. Translators: Part of: [ Play a sound ] [ x ] [ minute(s) ] [ before ] [ start ]
 #: ../calendar/gui/e-alarm-list.c:421
 #: ../calendar/gui/e-comp-editor-page-reminders.c:1829
 msgctxt "cal-reminders"
 msgid "Play a sound"
-msgstr ""
+msgstr "Riprodûs un sun"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ minute(s) ] [ before ] [ start ]
 #: ../calendar/gui/e-alarm-list.c:425
 #: ../calendar/gui/e-comp-editor-page-reminders.c:1827
 msgctxt "cal-reminders"
 msgid "Pop up an alert"
-msgstr ""
+msgstr "Mostre une alerte"
 
 #. Translators: Part of: [ Send an email ] [ x ] [ minute(s) ] [ before ] [ start ]
 #: ../calendar/gui/e-alarm-list.c:429
 #: ../calendar/gui/e-comp-editor-page-reminders.c:1833
 msgctxt "cal-reminders"
 msgid "Send an email"
-msgstr ""
+msgstr "Invie une e-mail"
 
 #. Translators: Part of: [ Run a program ] [ x ] [ minute(s) ] [ before ] [ start ]
 #: ../calendar/gui/e-alarm-list.c:433
 #: ../calendar/gui/e-comp-editor-page-reminders.c:1831
 msgctxt "cal-reminders"
 msgid "Run a program"
-msgstr ""
+msgstr "Eseguìs un program"
 
 #: ../calendar/gui/e-alarm-list.c:439
 msgctxt "cal-reminders"
 msgid "Unknown action to be performed"
-msgstr ""
+msgstr "Azion no cognossude di eseguî"
 
 #: ../calendar/gui/e-alarm-list.c:454
 #, c-format
 msgctxt "cal-reminders"
 msgid "%s %s before the start"
-msgstr ""
+msgstr "%s %s prime dal inizi"
 
 #: ../calendar/gui/e-alarm-list.c:460
 #, c-format
 msgctxt "cal-reminders"
 msgid "%s %s after the start"
-msgstr ""
+msgstr "%s %s daspò l'inizi"
 
 #. Translator: The %s refers to the base, which would be actions like
 #. * "Play a sound"
@@ -3045,19 +3045,19 @@ msgstr ""
 #, c-format
 msgctxt "cal-reminders"
 msgid "%s at the start"
-msgstr ""
+msgstr "%s al inizi"
 
 #: ../calendar/gui/e-alarm-list.c:479
 #, c-format
 msgctxt "cal-reminders"
 msgid "%s %s before the end"
-msgstr ""
+msgstr "%s %s prime de fin"
 
 #: ../calendar/gui/e-alarm-list.c:485
 #, c-format
 msgctxt "cal-reminders"
 msgid "%s %s after the end"
-msgstr ""
+msgstr "%s %s daspò la fin"
 
 #. Translator: The %s refers to the base, which would be actions like
 #. * "Play a sound"
@@ -3065,7 +3065,7 @@ msgstr ""
 #, c-format
 msgctxt "cal-reminders"
 msgid "%s at the end"
-msgstr ""
+msgstr "%s ae fin"
 
 #. Translator: The first %s refers to the base, which would be actions like
 #. * "Play a Sound". Second %s is an absolute time, e.g. "10:00AM"
@@ -3073,7 +3073,7 @@ msgstr ""
 #, c-format
 msgctxt "cal-reminders"
 msgid "%s at %s"
-msgstr ""
+msgstr "%s as %s"
 
 #. Translator: The %s refers to the base, which would be actions like
 #. * "Play a sound". "Trigger types" are absolute or relative dates
@@ -3081,56 +3081,56 @@ msgstr ""
 #, c-format
 msgctxt "cal-reminders"
 msgid "%s for an unknown trigger type"
-msgstr ""
+msgstr "%s par une ativazion di gjenar no cognossût"
 
 #: ../calendar/gui/ea-week-view.c:114
 #, c-format
 msgid "Month View: %s. %s"
-msgstr ""
+msgstr "Viodude mensîl: %s. %s"
 
 #: ../calendar/gui/ea-week-view.c:119
 #, c-format
 msgid "Week View: %s. %s"
-msgstr ""
+msgstr "Viodude setemanâl: %s. %s"
 
 #: ../calendar/gui/ea-week-view.c:148
 msgid "calendar view for a month"
-msgstr ""
+msgstr "viodude calendari par un mês"
 
 #: ../calendar/gui/ea-week-view.c:150
 msgid "calendar view for one or more weeks"
-msgstr ""
+msgstr "viodude calendari par une o plui setemanis"
 
 #: ../calendar/gui/e-cal-component-preview.c:214 ../e-util/e-filter-rule.c:772
 #: ../mail/e-mail-config-page.c:126
 msgid "Untitled"
-msgstr ""
+msgstr "Cence titul"
 
 #: ../calendar/gui/e-cal-component-preview.c:222
 msgid "Categories:"
-msgstr ""
+msgstr "Categoriis:"
 
 #: ../calendar/gui/e-cal-component-preview.c:256
 msgid "Summary:"
-msgstr ""
+msgstr "Sintesi:"
 
 #: ../calendar/gui/e-cal-component-preview.c:264
 msgid "Start Date:"
-msgstr ""
+msgstr "Date di inizi:"
 
 #: ../calendar/gui/e-cal-component-preview.c:275
 msgid "End Date:"
-msgstr ""
+msgstr "Date di fin:"
 
 #: ../calendar/gui/e-cal-component-preview.c:286
 msgid "Due Date:"
-msgstr ""
+msgstr "Date di scjadence:"
 
 #: ../calendar/gui/e-cal-component-preview.c:298
 #: ../modules/itip-formatter/itip-view.c:1669
 #: ../modules/itip-formatter/itip-view.c:1786
 msgid "Status:"
-msgstr ""
+msgstr "Stât:"
 
 #: ../calendar/gui/e-cal-component-preview.c:302
 #: ../calendar/gui/e-cal-model-tasks.c:312
@@ -3139,7 +3139,7 @@ msgstr ""
 #: ../calendar/gui/e-task-table.c:224 ../calendar/gui/e-task-table.c:608
 #: ../calendar/gui/print.c:3582
 msgid "In Progress"
-msgstr ""
+msgstr "In cors"
 
 #: ../calendar/gui/e-cal-component-preview.c:305
 #: ../calendar/gui/e-cal-model-tasks.c:314
@@ -3149,7 +3149,7 @@ msgstr ""
 #: ../calendar/gui/e-task-table.c:609 ../calendar/gui/print.c:3585
 #: ../calendar/gui/tasktypes.xml.h:13 ../plugins/save-calendar/csv-format.c:379
 msgid "Completed"
-msgstr ""
+msgstr "Completât"
 
 #: ../calendar/gui/e-cal-component-preview.c:312
 #: ../calendar/gui/e-cal-model-tasks.c:310
@@ -3157,44 +3157,44 @@ msgstr ""
 #: ../calendar/gui/e-task-table.c:222 ../calendar/gui/e-task-table.c:607
 #: ../calendar/gui/print.c:3579 ../calendar/gui/tasktypes.xml.h:11
 msgid "Not Started"
-msgstr ""
+msgstr "No tacât"
 
 #: ../calendar/gui/e-cal-component-preview.c:325
 msgid "Priority:"
-msgstr ""
+msgstr "Prioritât:"
 
 #: ../calendar/gui/e-cal-component-preview.c:327
 #: ../calendar/gui/e-task-table.c:524 ../calendar/gui/tasktypes.xml.h:19
 #: ../e-util/e-send-options.ui.h:2 ../mail/message-list.c:318
 msgid "High"
-msgstr ""
+msgstr "Alte"
 
 #: ../calendar/gui/e-cal-component-preview.c:329
 #: ../calendar/gui/e-cal-model.c:1890 ../calendar/gui/e-task-table.c:525
 #: ../calendar/gui/tasktypes.xml.h:20 ../e-util/e-send-options.ui.h:5
 #: ../mail/message-list.c:317
 msgid "Normal"
-msgstr ""
+msgstr "Normâl"
 
 #: ../calendar/gui/e-cal-component-preview.c:331
 #: ../calendar/gui/e-task-table.c:526 ../calendar/gui/tasktypes.xml.h:21
 #: ../e-util/e-send-options.ui.h:4 ../mail/message-list.c:316
 msgid "Low"
-msgstr ""
+msgstr "Basse"
 
 #: ../calendar/gui/e-cal-component-preview.c:350
 #: ../mail/e-mail-config-service-page.c:670
 msgid "Description:"
-msgstr ""
+msgstr "Descrizion:"
 
 #: ../calendar/gui/e-cal-component-preview.c:381
 msgid "Web Page:"
-msgstr ""
+msgstr "Pagjine Web:"
 
 #: ../calendar/gui/e-cal-data-model.c:1633
 #, c-format
 msgid "Creating view for calendar '%s'"
-msgstr ""
+msgstr "Daûr a creâ la viodude pal calendari '%s'"
 
 #: ../calendar/gui/e-cal-data-model.c:1637
 #, c-format
