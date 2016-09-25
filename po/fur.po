@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2016-09-25 00:11+0000\n"
-"PO-Revision-Date: 2016-09-25 09:16+0200\n"
+"PO-Revision-Date: 2016-09-25 16:49+0200\n"
 "Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
 "Language-Team: Friulian <fur@li.org>\n"
 "Language: fur\n"
@@ -1474,7 +1474,11 @@ msgid_plural ""
 "Opening %d contacts will open %d new windows as well.\n"
 "Do you really want to display all of these contacts?"
 msgstr[0] ""
+"Vierzint %d a vignaran vierts %d gnûfs barcons.\n"
+"Mostrâ pardabon ducj chescj contats?"
 msgstr[1] ""
+"Vierzint %d a vignaran vierts %d gnûfs barcons.\n"
+"Mostrâ pardabon ducj chescj contats?"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:1521
 msgid "_Don't Display"
@@ -1639,8 +1643,8 @@ msgstr "Gnove liste contats"
 #, c-format
 msgid "current address book folder %s has %d card"
 msgid_plural "current address book folder %s has %d cards"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "la cartele di rubriche atuâl %s e ten %d tessare"
+msgstr[1] "la cartele di rubriche atuâl %s e ten %d tessaris"
 
 #: ../addressbook/gui/widgets/e-contact-map-window.c:377
 msgid "Contacts Map"
@@ -1925,7 +1929,7 @@ msgstr[1] "dîs"
 
 #: ../calendar/alarm-notify/alarm-notify-dialog.c:358
 msgid "Start time"
-msgstr ""
+msgstr "Timp di inizi"
 
 #: ../calendar/alarm-notify/alarm-notify.ui.h:1
 #: ../calendar/alarm-notify/alarm-queue.c:1947
@@ -2151,7 +2155,7 @@ msgstr ""
 
 #: ../calendar/calendar.error.xml.h:11
 msgid "Would you like to send a cancelation notice for this memo?"
-msgstr "Inviâ une notifiche di anulament par chest promemorie?"
+msgstr "Inviâ une notifiche di anulament par chest memorandum?"
 
 #: ../calendar/calendar.error.xml.h:12
 msgid ""
@@ -2159,17 +2163,17 @@ msgid ""
 "the memo has been deleted."
 msgstr ""
 "Se no tu inviis une notifiche di anulament, chei altris partecipants a "
-"podaressin no vignî a savê che il promemorie al è stât eliminât."
+"podaressin no vignî a savê che il memorandum al è stât eliminât."
 
 #: ../calendar/calendar.error.xml.h:13 ../calendar/gui/e-cal-dialogs.c:508
 #, c-format
 msgid "Are you sure you want to delete this memo?"
-msgstr "Sigûrs di eliminâ chest promemorie?"
+msgstr "Sigûrs di eliminâ chest memorandum?"
 
 #: ../calendar/calendar.error.xml.h:14
 msgid "All information on this memo will be deleted and can not be restored."
 msgstr ""
-"Dutis lis informazions su chest promemorie a vegnaran eliminadis e no si "
+"Dutis lis informazions su chest memorandum a vegnaran eliminadis e no si "
 "podaran plui recuperâ."
 
 #: ../calendar/calendar.error.xml.h:15
@@ -2195,12 +2199,12 @@ msgstr ""
 
 #: ../calendar/calendar.error.xml.h:20
 msgid "Are you sure you want to delete the memo '{0}'?"
-msgstr "Sigûrs di eliminâ il promemorie «{0}»?"
+msgstr "Sigûrs di eliminâ il memorandum «{0}»?"
 
 #: ../calendar/calendar.error.xml.h:21
 msgid "All information in this memo will be deleted and can not be restored."
 msgstr ""
-"Dutis lis informazions in chest promemorie a vegnaran eliminadis e no si "
+"Dutis lis informazions in chest memorandum a vegnaran eliminadis e no si "
 "podaran plui recuperâ."
 
 #: ../calendar/calendar.error.xml.h:22
@@ -2223,12 +2227,12 @@ msgstr ""
 
 #: ../calendar/calendar.error.xml.h:26
 msgid "Are you sure you want to delete these {0} memos?"
-msgstr "Sigûrs di eliminâ chescj {0} promemorie?"
+msgstr "Sigûrs di eliminâ chescj {0} memorandums?"
 
 #: ../calendar/calendar.error.xml.h:27
 msgid "All information in these memos will be deleted and can not be restored."
 msgstr ""
-"Dutis lis informazions in chescj promemorie a vegnaran eliminadis e no si "
+"Dutis lis informazions in chescj memorandums a vegnaran eliminadis e no si "
 "podaran plui recuperâ."
 
 #: ../calendar/calendar.error.xml.h:28
@@ -2265,12 +2269,12 @@ msgstr ""
 
 #: ../calendar/calendar.error.xml.h:36
 msgid "Would you like to save your changes to this memo?"
-msgstr "Salvâ lis modifichis fatis a chest promemorie?"
+msgstr "Salvâ lis modifichis fatis a chest memorandum?"
 
 #: ../calendar/calendar.error.xml.h:37
 msgid "You have made changes to this memo, but not yet saved them."
 msgstr ""
-"A son stadis fatis modifichis a chest promemorie, ma no son stadis ancjemò "
+"A son stadis fatis modifichis a chest memorandum, ma no son stadis ancjemò "
 "salvadis."
 
 #: ../calendar/calendar.error.xml.h:38
@@ -2340,7 +2344,7 @@ msgstr ""
 
 #: ../calendar/calendar.error.xml.h:52
 msgid "Would you like to send this memo to participants?"
-msgstr "Inviâ chest promemorie ai partecipants?"
+msgstr "Inviâ chest memorandum ai partecipants?"
 
 #: ../calendar/calendar.error.xml.h:53
 msgid ""
@@ -2348,11 +2352,11 @@ msgid ""
 "this memo."
 msgstr ""
 "E-mail di invît a vegnaran inviâts a ducj i partecipants, permetint lôr di "
-"acetâ chest promemorie."
+"acetâ chest memorandum."
 
 #: ../calendar/calendar.error.xml.h:54
 msgid "Would you like to send updated memo information to participants?"
-msgstr "Inviâ ai partecipants lis informazions inzornadis sul promemorie?"
+msgstr "Inviâ ai partecipants lis informazions inzornadis sul memorandum?"
 
 #: ../calendar/calendar.error.xml.h:55
 msgid ""
@@ -2360,7 +2364,7 @@ msgid ""
 "lists up to date."
 msgstr ""
 "Inviant lis informazions di inzornament si permet a chei altris partecipants "
-"di mantignî lis propris listis promemorie inzornadis."
+"di mantignî lis propris listis di  memorandum inzornadis."
 
 #: ../calendar/calendar.error.xml.h:56
 msgid "Editor could not be loaded."
@@ -2384,11 +2388,11 @@ msgstr ""
 
 #: ../calendar/calendar.error.xml.h:61
 msgid "Delete memo list '{0}'?"
-msgstr "Eliminâ liste promemorie «{0}»?"
+msgstr "Eliminâ liste memorandum «{0}»?"
 
 #: ../calendar/calendar.error.xml.h:62
 msgid "This memo list will be removed permanently."
-msgstr "Cheste liste dai promemorie e vegnarà gjavade in maniere definitive."
+msgstr "Cheste liste di memorandum e vegnarà gjavade in maniere definitive."
 
 #: ../calendar/calendar.error.xml.h:63
 msgid "Delete remote calendar '{0}'?"
@@ -2412,14 +2416,14 @@ msgstr ""
 
 #: ../calendar/calendar.error.xml.h:68
 msgid "Delete remote memo list '{0}'?"
-msgstr "Eliminâ liste rimote di promemorie «{0}»?"
+msgstr "Eliminâ liste rimote di memorandum «{0}»?"
 
 #: ../calendar/calendar.error.xml.h:69
 msgid ""
 "This will permanently remove the memo list '{0}' from the server. Are you "
 "sure you want to proceed?"
 msgstr ""
-"Chest al eliminarà par simpri la liste dai promemorie «{0}» dal servidôr. "
+"Chest al eliminarà par simpri la liste dai memorandums «{0}» dal servidôr. "
 "Continuâ?"
 
 #: ../calendar/calendar.error.xml.h:70
@@ -2444,7 +2448,7 @@ msgstr ""
 
 #: ../calendar/calendar.error.xml.h:74
 msgid "Are you sure you want to save the memo without a summary?"
-msgstr "Sigûrs di salvâ il promemorie cence une sintesi?"
+msgstr "Sigûrs di salvâ il memorandum cence une sintesi?"
 
 #. Translators: {0} is the name of the calendar.
 #: ../calendar/calendar.error.xml.h:76
@@ -2488,11 +2492,11 @@ msgstr ""
 #. Translators: {0} is the name of the memo list.
 #: ../calendar/calendar.error.xml.h:88
 msgid "Error loading memo list '{0}'"
-msgstr "Erôr tal cjariâ la liste dai promemorie «{0}»"
+msgstr "Erôr tal cjariâ la liste dai memorandums «{0}»"
 
 #: ../calendar/calendar.error.xml.h:89
 msgid "The memo list is not marked for offline usage."
-msgstr "La liste dai promemorie no je segnade par l'ûs fûr rêt."
+msgstr "La liste dai memorandums no je segnade par l'ûs fûr rêt."
 
 #. Translators: {0} is the name of the calendar/memo list/task list.
 #: ../calendar/calendar.error.xml.h:91
@@ -2512,7 +2516,7 @@ msgstr ""
 #. Translators: {0} is the name of the memo list.
 #: ../calendar/calendar.error.xml.h:97
 msgid "Failed to open memo list '{0}'"
-msgstr "No si è rivâts a vierzi la liste dai promemorie «{0}»"
+msgstr "No si è rivâts a vierzi la liste dai memorandums «{0}»"
 
 #. Translators: {0} is the name of the task list.
 #: ../calendar/calendar.error.xml.h:99
@@ -2527,7 +2531,7 @@ msgstr ""
 #. Translators: {0} is the name of the memo list.
 #: ../calendar/calendar.error.xml.h:103
 msgid "Failed to create a memo in the memo list '{0}'"
-msgstr "No si è rivâts a creâ un promemorie inte liste dai promemorie «{0}»"
+msgstr "No si è rivâts a creâ un memorandum inte liste dai memorandums «{0}»"
 
 #. Translators: {0} is the name of the task list.
 #: ../calendar/calendar.error.xml.h:105
@@ -2543,7 +2547,7 @@ msgstr ""
 #: ../calendar/calendar.error.xml.h:109
 msgid "Failed to modify a memo in the memo list '{0}'"
 msgstr ""
-"No si è rivâts a modificâ un promemorie inte liste dai promemorie «{0}»"
+"No si è rivâts a modificâ un memorandum inte liste dai memorandums «{0}»"
 
 #. Translators: {0} is the name of the task list.
 #: ../calendar/calendar.error.xml.h:111
@@ -2558,7 +2562,8 @@ msgstr ""
 #. Translators: {0} is the name of the memo list.
 #: ../calendar/calendar.error.xml.h:115
 msgid "Failed to delete a memo in the memo list '{0}'"
-msgstr "No si è rivâts a eliminâ un promemorie inte liste dai promemorie «{0}»"
+msgstr ""
+"No si è rivâts a eliminâ un memorandum inte liste dai memorandums «{0}»"
 
 #. Translators: {0} is the name of the task list.
 #: ../calendar/calendar.error.xml.h:117
@@ -2573,7 +2578,8 @@ msgstr ""
 #. Translators: {0} is the name of the memo list.
 #: ../calendar/calendar.error.xml.h:121
 msgid "Failed to update a memo in the memo list '{0}'"
-msgstr "No si è rivâts a inzornâ un promemorie inte liste dai promemorie «{0}»"
+msgstr ""
+"No si è rivâts a inzornâ un memorandum inte liste dai memorandums «{0}»"
 
 #. Translators: {0} is the name of the task list.
 #: ../calendar/calendar.error.xml.h:123
@@ -2588,7 +2594,7 @@ msgstr ""
 #. Translators: {0} is the name of the memo list.
 #: ../calendar/calendar.error.xml.h:127
 msgid "Failed to send a memo to the memo list '{0}'"
-msgstr "No si è rivâts a inviâ un promemorie ae liste dai promemorie «{0}»"
+msgstr "No si è rivâts a inviâ un memorandum ae liste dai memorandums «{0}»"
 
 #. Translators: {0} is the name of the task list.
 #: ../calendar/calendar.error.xml.h:129
@@ -2608,7 +2614,7 @@ msgstr ""
 #. Translators: {0} is the name of the memo list.
 #: ../calendar/calendar.error.xml.h:135
 msgid "Error creating view for the memo list '{0}'"
-msgstr "Erôr tal creâ la viodude pe liste dai promemorie «{0}»"
+msgstr "Erôr tal creâ la viodude pe liste dai memorandums «{0}»"
 
 #. Translators: {0} is the name of the calendar.
 #: ../calendar/calendar.error.xml.h:137
@@ -2623,7 +2629,7 @@ msgstr ""
 #. Translators: {0} is the name of the memo list.
 #: ../calendar/calendar.error.xml.h:141
 msgid "Failed to copy a memo into the memo list '{0}'"
-msgstr "No si è rivâts a copiâ un promemorie inte liste dai promemorie «{0}»"
+msgstr "No si è rivâts a copiâ un memorandum inte liste dai memorandums «{0}»"
 
 #. Translators: {0} is the name of the calendar.
 #: ../calendar/calendar.error.xml.h:143
@@ -2638,7 +2644,7 @@ msgstr ""
 #. Translators: {0} is the name of the memo list.
 #: ../calendar/calendar.error.xml.h:147
 msgid "Failed to move a memo into the memo list '{0}'"
-msgstr "No si è rivâts a spostâ un promemorie inte liste dai promemorie «{0}»"
+msgstr "No si è rivâts a spostâ un memorandum inte liste dai memorandums «{0}»"
 
 #. Translators: {0} is the name of the calendar.
 #: ../calendar/calendar.error.xml.h:149
@@ -2653,7 +2659,7 @@ msgstr ""
 #. Translators: {0} is the name of the memo list.
 #: ../calendar/calendar.error.xml.h:153
 msgid "Failed to get a memo from the memo list '{0}'"
-msgstr "No si è rivâts a otignî un promemorie de liste dai promemorie «{0}»"
+msgstr "No si è rivâts a otignî un memorandum de liste dai memorandums «{0}»"
 
 #. Translators: {0} is the name of the calendar.
 #: ../calendar/calendar.error.xml.h:155
@@ -2668,7 +2674,7 @@ msgstr ""
 #. Translators: {0} is the name of the memo list.
 #: ../calendar/calendar.error.xml.h:159
 msgid "Copying a memo into the memo list '{0}'"
-msgstr "Daûr a copiâ un promemorie inte liste dai promemorie «{0}»"
+msgstr "Daûr a copiâ un memorandum inte liste dai memorandums «{0}»"
 
 #. Translators: {0} is the name of the calendar.
 #: ../calendar/calendar.error.xml.h:161
@@ -2683,7 +2689,7 @@ msgstr ""
 #. Translators: {0} is the name of the memo list.
 #: ../calendar/calendar.error.xml.h:165
 msgid "Moving a memo into the memo list '{0}'"
-msgstr "Daûr a spostâ un promemorie inte liste dai promemorie «{0}»"
+msgstr "Daûr a spostâ un memorandum inte liste dai memorandums «{0}»"
 
 #. Translators: {0} is the name of the calendar.
 #: ../calendar/calendar.error.xml.h:167
@@ -2698,7 +2704,7 @@ msgstr ""
 #. Translators: {0} is the name of the memo list.
 #: ../calendar/calendar.error.xml.h:171
 msgid "Failed to refresh memo list '{0}'"
-msgstr "No si è rivâts a inzornâ la liste dai promemorie «{0}»"
+msgstr "No si è rivâts a inzornâ la liste dai memorandums «{0}»"
 
 #: ../calendar/calendar.error.xml.h:172
 msgid "Failed to make an occurrence movable"
@@ -3163,7 +3169,7 @@ msgstr ""
 #: ../calendar/gui/e-cal-data-model.c:1641
 #, c-format
 msgid "Creating view for memo list '%s'"
-msgstr "Daûr a creâ la viodude pe liste dai promemorie '%s'"
+msgstr "Daûr a creâ la viodude pe liste dai memorandums '%s'"
 
 #: ../calendar/gui/e-cal-dialogs.c:214 ../calendar/gui/e-cal-ops.c:1957
 msgid "Destination is read only"
@@ -3177,7 +3183,7 @@ msgstr ""
 #: ../calendar/gui/e-cal-dialogs.c:300
 #, c-format
 msgid "Copying memos to the memo list '%s'"
-msgstr "Daûr a copiâ i promemorie inte liste dai promemorie '%s'"
+msgstr "Daûr a copiâ i memorandum inte liste dai memorandums '%s'"
 
 #: ../calendar/gui/e-cal-dialogs.c:306
 #, c-format
@@ -3267,7 +3273,7 @@ msgstr ""
 #: ../calendar/gui/e-cal-dialogs.c:878
 #, c-format
 msgid "You are modifying a recurring memo. What would you like to modify?"
-msgstr "Si sta modificant un promemorie ciclic. Ce si vuelial modificâ?"
+msgstr "Si sta modificant un memorandum ciclic. Ce si vuelial modificâ?"
 
 #: ../calendar/gui/e-cal-dialogs.c:904
 msgid "This Instance Only"
@@ -3319,7 +3325,7 @@ msgstr ""
 
 #: ../calendar/gui/e-calendar-view.c:868 ../calendar/gui/e-cal-ops.c:1557
 msgid "Default memo list not found"
-msgstr "Liste dai promemorie predefinide no cjatade"
+msgstr "Liste dai memorandums predefinide no cjatade"
 
 #: ../calendar/gui/e-calendar-view.c:873 ../calendar/gui/e-cal-ops.c:1560
 msgid "Default task list not found"
@@ -3459,7 +3465,7 @@ msgstr ""
 #: ../calendar/gui/e-cal-model.c:1511 ../calendar/gui/e-cal-ops.c:191
 #: ../calendar/gui/e-cal-ops.c:1372
 msgid "Creating a memo"
-msgstr "Daûr a creâ un promemorie"
+msgstr "Daûr a creâ un memorandum"
 
 #: ../calendar/gui/e-cal-model.c:1515 ../calendar/gui/e-cal-ops.c:195
 #: ../calendar/gui/e-cal-ops.c:1376
@@ -3554,7 +3560,7 @@ msgstr ""
 
 #: ../calendar/gui/e-cal-ops.c:310
 msgid "Modifying a memo"
-msgstr "Daûr a modificâ un promemorie"
+msgstr "Daûr a modificâ un memorandum"
 
 #: ../calendar/gui/e-cal-ops.c:314
 msgid "Modifying a task"
@@ -3566,7 +3572,7 @@ msgstr ""
 
 #: ../calendar/gui/e-cal-ops.c:417
 msgid "Removing a memo"
-msgstr "Daûr a gjavâ un promemorie"
+msgstr "Daûr a gjavâ un memorandum"
 
 #: ../calendar/gui/e-cal-ops.c:421
 msgid "Removing a task"
@@ -3583,8 +3589,8 @@ msgstr[1] ""
 #, c-format
 msgid "Deleting a memo"
 msgid_plural "Deleting %d memos"
-msgstr[0] "Daûr a eliminâ un promemorie"
-msgstr[1] "Daûr a eliminâ %d promemorie"
+msgstr[0] "Daûr a eliminâ un memorandum"
+msgstr[1] "Daûr a eliminâ %d memorandums"
 
 #: ../calendar/gui/e-cal-ops.c:520
 #, c-format
@@ -3604,8 +3610,8 @@ msgstr[1] ""
 #, c-format
 msgid "Pasting a memo"
 msgid_plural "Pasting %d memos"
-msgstr[0] "Daûr a tacâ un promemorie"
-msgstr[1] "Daûr a tacâ %d promemorie"
+msgstr[0] "Daûr a tacâ un memorandum"
+msgstr[1] "Daûr a tacâ %d memorandums"
 
 #: ../calendar/gui/e-cal-ops.c:753
 #, c-format
@@ -3620,7 +3626,7 @@ msgstr ""
 
 #: ../calendar/gui/e-cal-ops.c:856
 msgid "Updating a memo"
-msgstr "Daûr a inzornâ un promemorie"
+msgstr "Daûr a inzornâ un memorandum"
 
 #: ../calendar/gui/e-cal-ops.c:860
 msgid "Updating a task"
@@ -3634,7 +3640,7 @@ msgstr ""
 #: ../calendar/gui/e-cal-ops.c:972
 #, c-format
 msgid "Getting memos to purge in the memo list '%s'"
-msgstr "Daûr a otignî i promemorie di netâ te liste dai promemorie '%s'"
+msgstr "Daûr a otignî i memorandums di netâ te liste dai memorandums '%s'"
 
 #: ../calendar/gui/e-cal-ops.c:976
 #, c-format
@@ -3649,7 +3655,7 @@ msgstr ""
 #: ../calendar/gui/e-cal-ops.c:1006
 #, c-format
 msgid "Purging memos in the memo list '%s'"
-msgstr "Daûr a netâ i promemorie inte liste dai promemorie '%s'"
+msgstr "Daûr a netâ i memorandums inte liste dai memorandums '%s'"
 
 #: ../calendar/gui/e-cal-ops.c:1010
 #, c-format
@@ -3662,7 +3668,7 @@ msgstr ""
 
 #: ../calendar/gui/e-cal-ops.c:1114
 msgid "Purging memos"
-msgstr "Daûr a netâ i promemorie"
+msgstr "Daûr a netâ i memorandums"
 
 #: ../calendar/gui/e-cal-ops.c:1118
 msgid "Purging tasks"
@@ -3690,15 +3696,15 @@ msgstr[1] ""
 #, c-format
 msgid "Moving a memo"
 msgid_plural "Moving %d memos"
-msgstr[0] "Daûr a spostâ un promemorie"
-msgstr[1] "Daûr a spostâ %d promemorie"
+msgstr[0] "Daûr a spostâ un memorandum"
+msgstr[1] "Daûr a spostâ %d memorandums"
 
 #: ../calendar/gui/e-cal-ops.c:2059
 #, c-format
 msgid "Copying a memo"
 msgid_plural "Copying %d memos"
-msgstr[0] "Daûr a copiâ un promemorie"
-msgstr[1] "Daûr a copiâ %d promemorie"
+msgstr[0] "Daûr a copiâ un memorandum"
+msgstr[1] "Daûr a copiâ %d memorandums"
 
 #: ../calendar/gui/e-cal-ops.c:2065
 #, c-format
@@ -3895,19 +3901,19 @@ msgstr ""
 msgid ""
 "Memo cannot be edited, because the selected memo list could not be opened"
 msgstr ""
-"Nol è pussibil modificâ il promemorie parcè che la liste dai promemorie "
+"Nol è pussibil modificâ il memorandum parcè che la liste dai memorandums "
 "selezionade no pues jessi vierte"
 
 #: ../calendar/gui/e-comp-editor-memo.c:70
 msgid "Memo cannot be edited, because the selected memo list is read only"
 msgstr ""
-"Nol è pussibil modificâ il promemorie parcè che la liste dai promemorie "
+"Nol è pussibil modificâ il memorandum parcè che la liste dai memorandums "
 "selezionade e je in dome-leture"
 
 #: ../calendar/gui/e-comp-editor-memo.c:72
 msgid "Memo cannot be fully edited, because you are not the organizer"
 msgstr ""
-"Nol è pussibil modificâ dal dut il promemorie parcè che no si è l'organizadôr"
+"Nol è pussibil modificâ dal dut il memorandum parcè che no si è l'organizadôr"
 
 #: ../calendar/gui/e-comp-editor-memo.c:168
 #: ../calendar/gui/e-comp-editor-task.c:468
@@ -4247,7 +4253,7 @@ msgstr ""
 #: ../calendar/gui/e-comp-editor-page-recurrence.c:1497
 msgctxt "ECompEditorPageRecur"
 msgid "This memo rec_urs"
-msgstr "Chest promemorie al _cole"
+msgstr "Chest memorandum al _cole"
 
 #. Translators: Entire string is for example:     'This component recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
 #: ../calendar/gui/e-comp-editor-page-recurrence.c:1502
@@ -5134,28 +5140,28 @@ msgstr ""
 
 #: ../calendar/gui/e-memo-table.c:720
 msgid "Cut selected memos to the clipboard"
-msgstr "Taie i promemorie selezionâts intes notis"
+msgstr "Taie i memorandums selezionâts intes notis"
 
 #: ../calendar/gui/e-memo-table.c:726
 msgid "Copy selected memos to the clipboard"
-msgstr "Copie i promemorie selezionâts intes notis"
+msgstr "Copie i memorandums selezionâts intes notis"
 
 #: ../calendar/gui/e-memo-table.c:732
 msgid "Paste memos from the clipboard"
-msgstr "Tache i promemorie des notis"
+msgstr "Tache i memorandums des notis"
 
 #: ../calendar/gui/e-memo-table.c:738
 #: ../modules/calendar/e-memo-shell-view-actions.c:560
 msgid "Delete selected memos"
-msgstr "Elimine i promemorie selezionâts"
+msgstr "Elimine i memorandums selezionâts"
 
 #: ../calendar/gui/e-memo-table.c:744
 msgid "Select all visible memos"
-msgstr "Selezione ducj i promemorie visibii"
+msgstr "Selezione ducj i memorandums visibii"
 
 #: ../calendar/gui/e-memo-table.etspec.h:1
 msgid "Click to add a memo"
-msgstr "Fâs clic par zontâ un promemorie"
+msgstr "Fâs clic par zontâ un memorandum"
 
 #: ../calendar/gui/e-task-table.c:527 ../calendar/gui/tasktypes.xml.h:22
 #: ../e-util/e-send-options.ui.h:1
@@ -5264,7 +5270,7 @@ msgstr ""
 
 #: ../calendar/gui/itip-utils.c:943 ../calendar/gui/itip-utils.c:1104
 msgid "Memo information"
-msgstr "Informazions sul promemorie"
+msgstr "Informazions sul memorandum"
 
 #: ../calendar/gui/itip-utils.c:946 ../calendar/gui/itip-utils.c:1122
 msgid "Free/Busy information"
@@ -5373,7 +5379,7 @@ msgstr ""
 
 #: ../calendar/gui/itip-utils.c:1990
 msgid "Sending a memo"
-msgstr "Daûr a inviâ un promemorie"
+msgstr "Daûr a inviâ un memorandum"
 
 #: ../calendar/gui/itip-utils.c:1994
 msgid "Sending a task"
@@ -8353,7 +8359,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:80
 msgid "Memo preview pane position (horizontal)"
-msgstr "Posizion ricuadri anteprime promemorie (orizontâl)"
+msgstr "Posizion ricuadri anteprime memorandum (orizontâl)"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:81
 msgid "Position of the task preview pane when oriented horizontally"
@@ -8361,7 +8367,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:82
 msgid "Memo layout style"
-msgstr "Stîl viodude promemorie"
+msgstr "Stîl viodude memorandum"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:83
 msgid ""
@@ -8370,19 +8376,19 @@ msgid ""
 "list. \"1\" (Vertical View) places the preview pane next to the memo list"
 msgstr ""
 "Il stîl di disposizion al determine dulà plaçâ il ricuadri di anteprime in "
-"relazion ae liste dai promemorie. Cun \"0\" (viodude classiche) si place il "
-"ricuadri di anteprime juste sot de liste dai promemorie, cun \"1\" (viodude "
-"verticâl) si place il ricuadri in bande ae liste dai promemorie"
+"relazion ae liste dai memorandums. Cun \"0\" (viodude classiche) si place il "
+"ricuadri di anteprime juste sot de liste dai memorandums, cun \"1\" (viodude "
+"verticâl) si place il ricuadri in bande ae liste dai memorandums"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:84
 msgid "Memo preview pane position (vertical)"
-msgstr "Posizion ricuadri anteprime promemorie (verticâl)"
+msgstr "Posizion ricuadri anteprime memorandum (verticâl)"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:85
 msgid "Position of the memo preview pane when oriented vertically"
 msgstr ""
-"Posizion dal ricuadri di anteprime dai promemorie cuant che al è orientât in "
-"verticâl"
+"Posizion dal ricuadri di anteprime dai memorandums cuant che al è orientât "
+"in verticâl"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:86
 msgid "Month view horizontal pane position"
@@ -8438,14 +8444,14 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:98
 msgid "Primary memo list"
-msgstr "Liste di promemorie primarie"
+msgstr "Liste di memorandum primarie"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:99
 msgid ""
 "The UID of the selected (or \"primary\") memo list in the sidebar of the "
 "\"Memos\" view"
 msgstr ""
-"Il UID de liste promemorie selezionade (o \"primarie\") tal ricuadri laterâl "
+"Il UID de liste memorandum selezionade (o \"primarie\") tal ricuadri laterâl "
 "de viodude \"Promemorie\""
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:100
@@ -8506,12 +8512,12 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:113
 msgid "Show the memo preview pane"
-msgstr "Mostre il ricuadri di anteprime dai promemorie"
+msgstr "Mostre il ricuadri di anteprime dai memorandums"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:114
 msgid "If \"true\", show the memo preview pane in the main window"
 msgstr ""
-"Se \"vêr\", mostre il ricuadri di anteprime dai promemorie intal barcon "
+"Se \"vêr\", mostre il ricuadri di anteprime dai memorandums intal barcon "
 "principâl"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:115
@@ -8689,7 +8695,8 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:155
 msgid "Create events, memos and tasks as Private by default"
-msgstr "Cree events, promemorie e ativitâts come Privât in maniere predefinide"
+msgstr ""
+"Cree events, memorandums e ativitâts come Privât in maniere predefinide"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:156
 msgid "(Deprecated) First day of the week, from Sunday (0) to Saturday (6)"
@@ -10989,7 +10996,7 @@ msgstr ""
 
 #: ../e-util/e-cal-source-config.c:175
 msgid "Mark as default memo list"
-msgstr "Segne come liste promemorie predefinide"
+msgstr "Segne come liste memorandum predefinide"
 
 #: ../e-util/e-cal-source-config.c:200
 msgid "Color:"
@@ -11006,7 +11013,7 @@ msgstr ""
 #: ../e-util/e-cal-source-config.c:436
 msgid "Copy memo list contents locally for offline operation"
 msgstr ""
-"Copie in locâl i contignûts de liste dai promemorie par operazions fûr rêt"
+"Copie in locâl i contignûts de liste dai memorandums par operazions fûr rêt"
 
 #: ../e-util/e-categories-editor.c:223
 msgid "Currently _used categories:"
@@ -12935,7 +12942,7 @@ msgstr ""
 #: ../e-util/e-misc-utils.c:2506
 #, c-format
 msgid "Opening memo list '%s'"
-msgstr "Daûr a vierzi la liste promemorie '%s'"
+msgstr "Daûr a vierzi la liste memorandum '%s'"
 
 #: ../e-util/e-misc-utils.c:2509
 #, c-format
@@ -13513,7 +13520,7 @@ msgstr ""
 #: ../e-util/e-system.error.xml.h:16
 msgid "Some of your memos may not be available until Evolution is restarted."
 msgstr ""
-"Cualchi promemorie al podarès no jessi disponibil fin tal gnûf inviament di "
+"Cualchi memorandum al podarès no jessi disponibil fin tal gnûf inviament di "
 "Evolution."
 
 #: ../e-util/e-system.error.xml.h:17
@@ -18699,7 +18706,8 @@ msgstr ""
 #: ../modules/backup-restore/evolution-backup-tool.c:307
 msgid "Backing Evolution data (Mails, Contacts, Calendar, Tasks, Memos)"
 msgstr ""
-"Supuart dâts di Evolution (e-mail, contats, calendari, ativitâts, promemorie)"
+"Supuart dâts di Evolution (e-mail, contats, calendari, ativitâts, "
+"memorandums)"
 
 #: ../modules/backup-restore/evolution-backup-tool.c:323
 msgid "Back up complete"
@@ -19023,7 +19031,7 @@ msgstr ""
 #: ../modules/cal-config-caldav/evolution-cal-config-caldav.c:113
 #: ../modules/cal-config-google/e-google-chooser-button.c:228
 msgid "Choose a Memo List"
-msgstr "Sielç une liste promemorie"
+msgstr "Sielç une liste memorandum"
 
 #: ../modules/cal-config-caldav/evolution-cal-config-caldav.c:117
 #: ../modules/cal-config-google/e-google-chooser-button.c:232
@@ -19036,7 +19044,7 @@ msgstr ""
 
 #: ../modules/cal-config-caldav/evolution-cal-config-caldav.c:313
 msgid "Find Memo Lists"
-msgstr "Cjate listis promemorie"
+msgstr "Cjate listis memorandum"
 
 #: ../modules/cal-config-caldav/evolution-cal-config-caldav.c:316
 msgid "Find Task Lists"
@@ -19129,7 +19137,7 @@ msgstr ""
 
 #: ../modules/calendar/e-cal-attachment-handler.c:341
 msgid "Importing a memo"
-msgstr "Daûr a impuartâ un promemorie"
+msgstr "Daûr a impuartâ un memorandum"
 
 #: ../modules/calendar/e-cal-attachment-handler.c:345
 msgid "Importing a task"
@@ -19141,7 +19149,7 @@ msgstr ""
 
 #: ../modules/calendar/e-cal-attachment-handler.c:410
 msgid "Select a Memo List"
-msgstr "Selezione une liste promemorie"
+msgstr "Selezione une liste memorandum"
 
 #: ../modules/calendar/e-cal-attachment-handler.c:417
 msgid "Select a Task List"
@@ -19153,7 +19161,7 @@ msgstr ""
 
 #: ../modules/calendar/e-cal-attachment-handler.c:431
 msgid "I_mport to Memo List"
-msgstr "I_mpuarte intune liste promemorie"
+msgstr "I_mpuarte intune liste memorandum"
 
 #: ../modules/calendar/e-cal-attachment-handler.c:438
 msgid "I_mport to Task List"
@@ -19162,7 +19170,7 @@ msgstr ""
 #: ../modules/calendar/e-cal-base-shell-backend.c:187
 #: ../modules/calendar/e-memo-shell-view-actions.c:180
 msgid "New Memo List"
-msgstr "Gnove liste promemorie"
+msgstr "Gnove liste memorandum"
 
 #: ../modules/calendar/e-cal-base-shell-sidebar.c:556
 #, c-format
@@ -19177,12 +19185,12 @@ msgstr ""
 #: ../modules/calendar/e-cal-base-shell-sidebar.c:562
 #, c-format
 msgid "Copying a memo into the memo list '%s'"
-msgstr "Daûr a copiâ un promemorie inte liste di promemorie '%s'"
+msgstr "Daûr a copiâ un memorandum inte liste dai memorandums '%s'"
 
 #: ../modules/calendar/e-cal-base-shell-sidebar.c:563
 #, c-format
 msgid "Moving a memo into the memo list '%s'"
-msgstr "Daûr a spostâ un promemorie inte liste di promemorie '%s'"
+msgstr "Daûr a spostâ un memorandum inte liste dai memorandums '%s'"
 
 #: ../modules/calendar/e-cal-base-shell-sidebar.c:568
 #, c-format
@@ -19200,7 +19208,7 @@ msgstr ""
 
 #: ../modules/calendar/e-cal-base-shell-sidebar.c:692
 msgid "Memo List Selector"
-msgstr "Seletôr liste promemorie"
+msgstr "Seletôr liste memorandum"
 
 #: ../modules/calendar/e-cal-base-shell-sidebar.c:697
 msgid "Task List Selector"
@@ -19384,7 +19392,7 @@ msgstr ""
 #: ../modules/calendar/e-calendar-preferences.ui.h:47
 msgid "Create events, memos and tasks as _Private by default"
 msgstr ""
-"Cree events, promemorie e ativitâts come _Privât in maniere predefinide"
+"Cree events, memorandums e ativitâts come _Privât in maniere predefinide"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:49
 msgid "View Options"
@@ -19867,7 +19875,7 @@ msgstr ""
 #: ../modules/calendar/e-cal-shell-view-memopad.c:207
 #: ../modules/calendar/e-memo-shell-view-actions.c:496
 msgid "memo"
-msgstr "promemorie"
+msgstr "memorandum"
 
 #: ../modules/calendar/e-cal-shell-view-memopad.c:250
 #: ../modules/calendar/e-memo-shell-view-actions.c:642
@@ -19878,17 +19886,17 @@ msgstr "Gnûf pro_memorie"
 #: ../modules/calendar/e-memo-shell-backend.c:81
 #: ../modules/calendar/e-memo-shell-view-actions.c:644
 msgid "Create a new memo"
-msgstr "Cree un gnûf promemorie"
+msgstr "Cree un gnûf memorandum"
 
 #: ../modules/calendar/e-cal-shell-view-memopad.c:257
 #: ../modules/calendar/e-memo-shell-view-actions.c:649
 msgid "_Open Memo"
-msgstr "_Vierç promemorie"
+msgstr "_Vierç memorandum"
 
 #: ../modules/calendar/e-cal-shell-view-memopad.c:259
 #: ../modules/calendar/e-memo-shell-view-actions.c:651
 msgid "View the selected memo"
-msgstr "Viôt il promemorie selezionât"
+msgstr "Viôt il memorandum selezionât"
 
 #: ../modules/calendar/e-cal-shell-view-memopad.c:264
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:352
@@ -19900,7 +19908,7 @@ msgstr ""
 #: ../modules/calendar/e-cal-shell-view-memopad.c:276
 #: ../modules/calendar/e-memo-shell-view-actions.c:824
 msgid "Print the selected memo"
-msgstr "Stampe il promemorie selezionât"
+msgstr "Stampe il memorandum selezionât"
 
 #: ../modules/calendar/e-cal-shell-view-private.c:816
 msgid "Searching next matching event"
@@ -19999,113 +20007,113 @@ msgstr "Promemorie con_dividût"
 
 #: ../modules/calendar/e-memo-shell-backend.c:88
 msgid "Create a new shared memo"
-msgstr "Cree un gnûf promemorie condividût"
+msgstr "Cree un gnûf memorandum condividût"
 
 #: ../modules/calendar/e-memo-shell-backend.c:96
 msgctxt "New"
 msgid "Memo Li_st"
-msgstr "Li_ste promemorie"
+msgstr "Li_ste memorandum"
 
 #: ../modules/calendar/e-memo-shell-backend.c:98
 #: ../modules/calendar/e-memo-shell-view-actions.c:602
 msgid "Create a new memo list"
-msgstr "Cree une gnove liste promemorie"
+msgstr "Cree une gnove liste memorandum"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:196
 #: ../modules/calendar/e-memo-shell-view-actions.c:211
 msgid "Print Memos"
-msgstr "Stampe promemorie"
+msgstr "Stampe memorandums"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:252
 msgid "Memo List Properties"
-msgstr "Proprietâts liste promemorie"
+msgstr "Proprietâts liste memorandum"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:558
 msgid "_Delete Memo"
-msgstr "_Elimine promemorie"
+msgstr "_Elimine memorandum"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:565
 msgid "_Find in Memo..."
-msgstr "C_jate tal promemorie..."
+msgstr "C_jate tal memorandum..."
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:567
 msgid "Search for text in the displayed memo"
-msgstr "Cîr test tal promemorie mostrât"
+msgstr "Cîr test tal memorandum mostrât"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:586
 msgid "D_elete Memo List"
-msgstr "Eli_mine liste promemorie"
+msgstr "Eli_mine liste memorandum"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:588
 msgid "Delete the selected memo list"
-msgstr "Elimine la liste promemorie selezionade"
+msgstr "Elimine la liste memorandum selezionade"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:593
 msgid "_Manage Memo List groups..."
-msgstr "_Gjestìs grups listis dai promemorie..."
+msgstr "_Gjestìs grups listis dai memorandums..."
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:595
 msgid "Manage Memo List groups order and visibility"
-msgstr "Gjestìs l'ordin e la visibilitât dai grups des listis dai promemorie"
+msgstr "Gjestìs l'ordin e la visibilitât dai grups des listis dai memorandums"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:600
 msgid "_New Memo List"
-msgstr "_Gnove liste promemorie"
+msgstr "_Gnove liste memorandum"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:616
 msgid "Refresh the selected memo list"
-msgstr "Inzorne la liste promemorie selezionade"
+msgstr "Inzorne la liste memorandum selezionade"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:623
 msgid "Rename the selected memo list"
-msgstr "Cambie non ae liste promemorie selezionade"
+msgstr "Cambie non ae liste memorandum selezionade"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:628
 msgid "Show _Only This Memo List"
-msgstr "Mostre _dome cheste liste promemorie"
+msgstr "Mostre _dome cheste liste memorandum"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:635
 msgid "Sho_w All Memo Lists"
-msgstr "Mos_tre dutis lis listis promemorie"
+msgstr "Mos_tre dutis lis listis memorandum"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:722
 msgid "Memo _Preview"
-msgstr "_Anteprime promemorie"
+msgstr "_Anteprime memorandum"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:724
 msgid "Show memo preview pane"
-msgstr "Mostre il ricuadri di anteprime promemorie"
+msgstr "Mostre il ricuadri di anteprime memorandum"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:745
 msgid "Show memo preview below the memo list"
-msgstr "Mostre anteprime promemorie sot de liste promemorie"
+msgstr "Mostre anteprime memorandum sot de liste memorandum"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:752
 msgid "Show memo preview alongside the memo list"
-msgstr "Mostre la anteprime dai promemorie in bande ae liste dai promemorie"
+msgstr "Mostre la anteprime dai memorandums in bande ae liste dai memorandums"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:810
 msgid "Print the list of memos"
-msgstr "Stampe la liste dai promemorie"
+msgstr "Stampe la liste dai memorandums"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:817
 msgid "Preview the list of memos to be printed"
-msgstr "Anteprime de liste dai promemorie di stampâ"
+msgstr "Anteprime de liste dai memorandums di stampâ"
 
 #: ../modules/calendar/e-memo-shell-view.c:219
 msgid "Delete Memos"
-msgstr "Elimine i promemorie"
+msgstr "Elimine i memorandums"
 
 #: ../modules/calendar/e-memo-shell-view.c:221
 msgid "Delete Memo"
-msgstr "Elimine promemorie"
+msgstr "Elimine memorandum"
 
 #: ../modules/calendar/e-memo-shell-view-private.c:369
 #, c-format
 msgid "%d memo"
 msgid_plural "%d memos"
-msgstr[0] "%d promemorie"
-msgstr[1] "%d promemorie"
+msgstr[0] "%d memorandum"
+msgstr[1] "%d memorandums"
 
 #: ../modules/calendar/e-memo-shell-view-private.c:373
 #: ../modules/calendar/e-task-shell-view-private.c:550
@@ -20614,7 +20622,7 @@ msgstr ""
 #: ../modules/itip-formatter/itip-view.c:621
 #, c-format
 msgid "%s has published the following memo:"
-msgstr "Al è stât publicât di %s il seguitîf promemorie:"
+msgstr "Al è stât publicât di %s il seguitîf memorandum:"
 
 #: ../modules/itip-formatter/itip-view.c:626
 #, c-format
@@ -20634,7 +20642,7 @@ msgstr ""
 #: ../modules/itip-formatter/itip-view.c:634
 #, c-format
 msgid "%s has cancelled the following shared memo:"
-msgstr "%s al à scancelât il promemorie condividût chi daurman:"
+msgstr "%s al à scancelât il memorandum condividût chi daurman:"
 
 #: ../modules/itip-formatter/itip-view.c:859
 msgid "All day:"
@@ -20773,7 +20781,7 @@ msgstr ""
 
 #: ../modules/itip-formatter/itip-view.c:3739
 msgid "Unable to find this memo in any memo list"
-msgstr "No si rive a cjatâ chest promemorie in nissune liste dai promemorie"
+msgstr "No si rive a cjatâ chest memorandum in nissune liste dai memorandums"
 
 #: ../modules/itip-formatter/itip-view.c:4083
 msgid "Opening the calendar. Please wait..."
@@ -20859,7 +20867,7 @@ msgstr ""
 
 #: ../modules/itip-formatter/itip-view.c:5130
 msgid "Memo information sent"
-msgstr "Informazions sul promemorie inviadis"
+msgstr "Informazions sul memorandum inviadis"
 
 #: ../modules/itip-formatter/itip-view.c:5141
 msgid "Unable to send meeting information, the meeting does not exist"
@@ -20871,7 +20879,7 @@ msgstr ""
 
 #: ../modules/itip-formatter/itip-view.c:5151
 msgid "Unable to send memo information, the memo does not exist"
-msgstr "Impussibil inviâ informazions sul promemorie, il promemorie nol esist"
+msgstr "Impussibil inviâ informazions sul memorandum, il memorandum nol esist"
 
 #. Translators: This is a default filename for a calendar.
 #: ../modules/itip-formatter/itip-view.c:5216
@@ -20937,7 +20945,7 @@ msgstr ""
 
 #: ../modules/itip-formatter/itip-view.c:6078
 msgid "This memo recurs"
-msgstr "Chest promemorie al cole"
+msgstr "Chest memorandum al cole"
 
 #: ../modules/itip-formatter/org-gnome-itip-formatter.error.xml.h:1
 msgid ""
@@ -22713,8 +22721,8 @@ msgid ""
 "Selected memo list contains memo '%s' already. Would you like to edit the "
 "old memo?"
 msgstr ""
-"La liste dai promemorie selezionade e ten za '%s'. Modificâ il vecjo "
-"promemorie?"
+"La liste dai memorandums selezionade e ten za '%s'. Modificâ il vecjo "
+"memorandum?"
 
 #: ../plugins/mail-to-task/mail-to-task.c:609
 #, c-format
@@ -22747,10 +22755,10 @@ msgid_plural ""
 "You have selected %d mails to be converted to memos. Do you really want to "
 "add them all?"
 msgstr[0] ""
-"A son stadis selezionadis %d e-mail di convertî in promemorie. Zontâlis "
+"A son stadis selezionadis %d e-mail di convertî in memorandums. Zontâlis "
 "pardabon dutis?"
 msgstr[1] ""
-"A son stadis selezionadis %d e-mail di convertî in promemorie. Zontâlis "
+"A son stadis selezionadis %d e-mail di convertî in memorandums. Zontâlis "
 "pardabon dutis?"
 
 #: ../plugins/mail-to-task/mail-to-task.c:644
@@ -22792,8 +22800,8 @@ msgid ""
 "Selected memo list is read only, thus cannot create memo there. Select other "
 "memo list, please."
 msgstr ""
-"La liste dai promemorie selezionade e je in dome-leture, duncje no si pues "
-"creâ promemorie lì. Selezionâ une altre liste dai promemorie."
+"La liste dai memorandums selezionade e je in dome-leture, duncje no si pues "
+"creâ memorandum lì. Selezionâ une altre liste dai memorandums."
 
 #: ../plugins/mail-to-task/mail-to-task.c:1231
 msgid "Create an _Appointment"
@@ -22809,7 +22817,7 @@ msgstr "Cree un promem_orie"
 
 #: ../plugins/mail-to-task/mail-to-task.c:1240
 msgid "Create a new memo from the selected message"
-msgstr "Cree un gnûf promemorie dal messaç selezionât"
+msgstr "Cree un gnûf memorandum dal messaç selezionât"
 
 #: ../plugins/mail-to-task/mail-to-task.c:1245
 msgid "Create a _Task"
@@ -23144,7 +23152,7 @@ msgstr ""
 
 #: ../plugins/save-calendar/save-calendar.c:378
 msgid "Save the selected memo list to disk"
-msgstr "Salve la liste dai promemorie selezionade sul disc"
+msgstr "Salve la liste dai memorandums selezionade sul disc"
 
 #: ../plugins/save-calendar/save-calendar.c:409
 msgid "Save the selected task list to disk"
@@ -23712,7 +23720,7 @@ msgstr ""
 
 #: ../shell/shell.error.xml.h:22
 msgid "Failed to connect memo list '{0}'"
-msgstr "No si è rivâts a coneti ae liste dai promemorie «{0}»"
+msgstr "No si è rivâts a coneti ae liste dai memorandums «{0}»"
 
 #: ../shell/shell.error.xml.h:23
 msgid "Failed to connect task list '{0}'"
@@ -23748,7 +23756,7 @@ msgstr ""
 
 #: ../shell/shell.error.xml.h:32
 msgid "SSL certificate for memo list '{0}' is not trusted."
-msgstr "Il certificât SSL pe liste promemorie «{0}» nol è fidât."
+msgstr "Il certificât SSL pe liste memorandum «{0}» nol è fidât."
 
 #: ../shell/shell.error.xml.h:33
 msgid "SSL certificate for task list '{0}' is not trusted."
