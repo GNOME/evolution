@@ -181,7 +181,7 @@ cell_set_header_style (WebKitDOMHTMLTableCellElement *cell,
 	WebKitDOMDocument *document;
 	WebKitDOMNodeList *nodes = NULL;
 	WebKitDOMElement *new_cell;
-	gulong length, ii;
+	gulong ii;
 	gchar *tagname;
 
 	document = webkit_dom_node_get_owner_document (WEBKIT_DOM_NODE (cell));
@@ -204,8 +204,7 @@ cell_set_header_style (WebKitDOMHTMLTableCellElement *cell,
 
 	/* Move all child nodes from cell to new_cell */
 	nodes = webkit_dom_node_get_child_nodes (WEBKIT_DOM_NODE (cell));
-	length = webkit_dom_node_list_get_length (nodes);
-	for (ii = 0; ii < length; ii++) {
+	for (ii = webkit_dom_node_list_get_length (nodes); ii--;) {
 		WebKitDOMNode *node;
 
 		node = webkit_dom_node_list_item (nodes, ii);

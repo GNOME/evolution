@@ -266,7 +266,7 @@ e_composer_dom_insert_signature (EEditorPage *editor_page,
 	gchar *new_signature_id = NULL;
 	gchar *signature_text = NULL;
 	gboolean top_signature, html_mode;
-	gulong list_length, ii;
+	gulong ii;
 
 	g_return_val_if_fail (E_IS_EDITOR_PAGE (editor_page), NULL);
 	g_return_val_if_fail (set_signature_from_message != NULL, NULL);
@@ -387,8 +387,7 @@ insert:
 	/* Remove the old signature and insert the new one. */
 	signatures = webkit_dom_document_get_elements_by_class_name_as_html_collection (
 		document, "-x-evo-signature-wrapper");
-	list_length = webkit_dom_html_collection_get_length (signatures);
-	for (ii = 0; ii < list_length; ii++) {
+	for (ii = webkit_dom_html_collection_get_length (signatures); ii--;) {
 		WebKitDOMNode *wrapper, *signature;
 
 		wrapper = webkit_dom_html_collection_item (signatures, ii);
@@ -439,7 +438,7 @@ insert:
 		}
 
 		/* Leave just one signature wrapper there as it will be reused. */
-		if (ii != list_length - 1) {
+		if (ii != 0) {
 			remove_node (wrapper);
 		} else {
 			remove_node (signature);

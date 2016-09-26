@@ -986,7 +986,7 @@ e_editor_dom_quote_plain_text_element_after_wrapping (EEditorPage *editor_page,
 	WebKitDOMDocument *document;
 	WebKitDOMNodeList *list = NULL;
 	WebKitDOMNode *quoted_node;
-	gint length, ii;
+	gint ii;
 	gchar *quotation;
 
 	g_return_if_fail (E_IS_EDITOR_PAGE (editor_page));
@@ -1010,8 +1010,7 @@ e_editor_dom_quote_plain_text_element_after_wrapping (EEditorPage *editor_page,
 		webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (element)),
 		NULL);
 
-	length = webkit_dom_node_list_get_length (list);
-	for (ii = 0; ii < length; ii++) {
+	for (ii = webkit_dom_node_list_get_length (list); ii--;) {
 		WebKitDOMNode *br = webkit_dom_node_list_item (list, ii);
 		WebKitDOMNode *prev_sibling = webkit_dom_node_get_previous_sibling (br);
 
@@ -1354,7 +1353,7 @@ move_elements_to_body (EEditorPage *editor_page)
 	body = webkit_dom_document_get_body (document);
 	list = webkit_dom_document_query_selector_all (
 		document, "div[data-headers]", NULL);
-	for (ii = webkit_dom_node_list_get_length (list) - 1; ii >= 0; ii--) {
+	for (ii = webkit_dom_node_list_get_length (list); ii--;) {
 		WebKitDOMNode *node = webkit_dom_node_list_item (list, ii);
 
 		webkit_dom_element_remove_attribute (
@@ -1371,7 +1370,7 @@ move_elements_to_body (EEditorPage *editor_page)
 
 	list = webkit_dom_document_query_selector_all (
 		document, "span.-x-evo-to-body[data-credits]", NULL);
-	for (ii = webkit_dom_node_list_get_length (list) - 1; ii >= 0; ii--) {
+	for (ii = webkit_dom_node_list_get_length (list); ii--;) {
 		char *credits;
 		WebKitDOMElement *element;
 		WebKitDOMNode *node = webkit_dom_node_list_item (list, ii);
@@ -1398,12 +1397,11 @@ static void
 repair_gmail_blockquotes (WebKitDOMDocument *document)
 {
 	WebKitDOMHTMLCollection *collection = NULL;
-	gint ii, length;
+	gint ii;
 
 	collection = webkit_dom_document_get_elements_by_class_name_as_html_collection (
 		document, "gmail_quote");
-	length = webkit_dom_html_collection_get_length (collection);
-	for (ii = 0; ii < length; ii++) {
+	for (ii = webkit_dom_html_collection_get_length (collection); ii--;) {
 		WebKitDOMNode *node = webkit_dom_html_collection_item (collection, ii);
 
 		if (!WEBKIT_DOM_IS_HTML_QUOTE_ELEMENT (node))
@@ -2465,7 +2463,7 @@ fix_paragraph_structure_after_pressing_enter (EEditorPage *editor_page)
 	WebKitDOMNode *body;
 	WebKitDOMNodeList *list = NULL;
 	gboolean prev_is_heading = FALSE;
-	gint ii, length;
+	gint ii;
 
 	g_return_val_if_fail (E_IS_EDITOR_PAGE (editor_page), FALSE);
 
@@ -2477,8 +2475,7 @@ fix_paragraph_structure_after_pressing_enter (EEditorPage *editor_page)
 	list = webkit_dom_document_query_selector_all (
 		document, "body > div:not([data-evo-paragraph]) > br", NULL);
 
-	length = webkit_dom_node_list_get_length (list);
-	for (ii = 0; ii < length; ii++) {
+	for (ii = webkit_dom_node_list_get_length (list); ii--;) {
 		WebKitDOMNode *prev_sibling;
 		WebKitDOMNode *node = webkit_dom_node_get_parent_node (
 			webkit_dom_node_list_item (list, ii));
@@ -3624,22 +3621,18 @@ e_editor_dom_register_input_event_listener_on_body (EEditorPage *editor_page)
 static void
 remove_empty_blocks (WebKitDOMDocument *document)
 {
-	gint ii, length;
+	gint ii;
 	WebKitDOMNodeList *list = NULL;
 
 	list = webkit_dom_document_query_selector_all (
-	document, "blockquote[type=cite] > :empty:not(br)", NULL);
-
-	length = webkit_dom_node_list_get_length (list);
-	for (ii = 0; ii < length; ii++)
+		document, "blockquote[type=cite] > :empty:not(br)", NULL);
+	for (ii = webkit_dom_node_list_get_length (list); ii--;)
 		remove_node (webkit_dom_node_list_item (list, ii));
 	g_clear_object (&list);
 
 	list = webkit_dom_document_query_selector_all (
 		document, "blockquote[type=cite]:empty", NULL);
-
-	length = webkit_dom_node_list_get_length (list);
-	for (ii = 0; ii < length; ii++)
+	for (ii = webkit_dom_node_list_get_length (list); ii--;)
 		remove_node (webkit_dom_node_list_item (list, ii));
 	g_clear_object (&list);
 }
@@ -3711,7 +3704,7 @@ e_editor_dom_merge_siblings_if_necessary (EEditorPage *editor_page,
 	WebKitDOMNode *child;
 	WebKitDOMNodeList *list = NULL;
 	gboolean equal_nodes;
-	gint ii, length;
+	gint ii;
 
 	g_return_if_fail (E_IS_EDITOR_PAGE (editor_page));
 
@@ -3761,8 +3754,7 @@ e_editor_dom_merge_siblings_if_necessary (EEditorPage *editor_page,
  signature:
 	list = webkit_dom_document_query_selector_all (
 		document, "blockquote[data-evo-query-skip]", NULL);
-	length = webkit_dom_node_list_get_length (list);
-	for  (ii = 0; ii < length; ii++) {
+	for (ii = webkit_dom_node_list_get_length (list); ii--;) {
 		WebKitDOMNode *node = webkit_dom_node_list_item (list, ii);
 		webkit_dom_element_remove_attribute (
 			WEBKIT_DOM_ELEMENT (node), "data-evo-query-skip");
@@ -4716,7 +4708,7 @@ e_editor_dom_quote_plain_text_element (EEditorPage *editor_page,
 	WebKitDOMDocument *document;
 	WebKitDOMNode *element_clone;
 	WebKitDOMHTMLCollection *collection = NULL;
-	gint ii, length, level;
+	gint ii, level;
 
 	g_return_val_if_fail (E_IS_EDITOR_PAGE (editor_page), NULL);
 
@@ -4727,8 +4719,7 @@ e_editor_dom_quote_plain_text_element (EEditorPage *editor_page,
 	/* Remove old quote characters if the exists */
 	collection = webkit_dom_element_get_elements_by_class_name_as_html_collection (
 		WEBKIT_DOM_ELEMENT (element_clone), "-x-evo-quoted");
-	length = webkit_dom_html_collection_get_length (collection);
-	for (ii = 0; ii < length; ii++)
+	for (ii = webkit_dom_html_collection_get_length (collection); ii--;)
 		remove_node (webkit_dom_html_collection_item (collection, ii));
 	g_clear_object (&collection);
 
@@ -4762,7 +4753,7 @@ dom_quote_plain_text (WebKitDOMDocument *document)
 	WebKitDOMNamedNodeMap *attributes = NULL;
 	WebKitDOMNodeList *list = NULL;
 	WebKitDOMElement *element;
-	gint ii, length;
+	gint ii;
 	gulong attributes_length;
 
 	/* Check if the document is already quoted */
@@ -4777,8 +4768,7 @@ dom_quote_plain_text (WebKitDOMDocument *document)
 	/* Clean unwanted spaces before and after blockquotes */
 	list = webkit_dom_element_query_selector_all (
 		WEBKIT_DOM_ELEMENT (body_clone), "blockquote[type|=cite]", NULL);
-	length = webkit_dom_node_list_get_length (list);
-	for (ii = 0; ii < length; ii++) {
+	for (ii = webkit_dom_node_list_get_length (list); ii--;) {
 		WebKitDOMNode *blockquote = webkit_dom_node_list_item (list, ii);
 		WebKitDOMNode *prev_sibling = webkit_dom_node_get_previous_sibling (blockquote);
 		WebKitDOMNode *next_sibling = webkit_dom_node_get_next_sibling (blockquote);
@@ -4839,12 +4829,11 @@ static void
 dom_dequote_plain_text (WebKitDOMDocument *document)
 {
 	WebKitDOMNodeList *paragraphs = NULL;
-	gint length, ii;
+	gint ii;
 
 	paragraphs = webkit_dom_document_query_selector_all (
 		document, "blockquote[type=cite]", NULL);
-	length = webkit_dom_node_list_get_length (paragraphs);
-	for (ii = 0; ii < length; ii++) {
+	for (ii = webkit_dom_node_list_get_length (paragraphs); ii--;) {
 		WebKitDOMElement *element;
 
 		element = WEBKIT_DOM_ELEMENT (webkit_dom_node_list_item (paragraphs, ii));
@@ -5629,7 +5618,7 @@ quote_plain_text_elements_after_wrapping_in_element (EEditorPage *editor_page,
                                                      WebKitDOMElement *element)
 {
 	WebKitDOMNodeList *list = NULL;
-	gint length, ii;
+	gint ii;
 
 	g_return_if_fail (E_IS_EDITOR_PAGE (editor_page));
 
@@ -5637,8 +5626,7 @@ quote_plain_text_elements_after_wrapping_in_element (EEditorPage *editor_page,
 	list = webkit_dom_element_query_selector_all (
 		element, "blockquote[type=cite] > [data-evo-paragraph], blockquote[type=cite] > pre", NULL);
 
-	length = webkit_dom_node_list_get_length (list);
-	for (ii = 0; ii < length; ii++) {
+	for (ii = webkit_dom_node_list_get_length (list); ii--;) {
 		gint citation_level;
 		WebKitDOMNode *child;
 
@@ -5824,8 +5812,7 @@ e_editor_dom_convert_content (EEditorPage *editor_page,
 	/* Remove all previously inserted paragraphs. */
 	list = webkit_dom_document_query_selector_all (
 		document, "[data-evo-paragraph]:not([data-headers])", NULL);
-	length = webkit_dom_node_list_get_length (list);
-	for (ii = 0; ii < length; ii++)
+	for (ii = webkit_dom_node_list_get_length (list); ii--;)
 		remove_node (webkit_dom_node_list_item (list, ii));
 	g_clear_object (&list);
 
@@ -5879,8 +5866,7 @@ e_editor_dom_convert_content (EEditorPage *editor_page,
 	/* Move credits to the body */
 	list = webkit_dom_document_query_selector_all (
 		document, "span.-x-evo-to-body[data-credits]", NULL);
-	length = webkit_dom_node_list_get_length (list);
-	for (ii = 0; ii < length; ii++) {
+	for (ii = webkit_dom_node_list_get_length (list); ii--;) {
 		char *credits;
 		WebKitDOMElement *element;
 		WebKitDOMNode *node = webkit_dom_node_list_item (list, ii);
@@ -5904,8 +5890,7 @@ e_editor_dom_convert_content (EEditorPage *editor_page,
 	/* Move headers to body */
 	list = webkit_dom_document_query_selector_all (
 		document, "div[data-headers]", NULL);
-	length = webkit_dom_node_list_get_length (list);
-	for (ii = 0; ii < length; ii++) {
+	for (ii = webkit_dom_node_list_get_length (list); ii--;) {
 		WebKitDOMNode *node;
 
 		node = webkit_dom_node_list_item (list, ii);
@@ -6067,13 +6052,12 @@ preserve_line_breaks_in_element (WebKitDOMDocument *document,
                                  const gchar *selector)
 {
 	WebKitDOMNodeList *list = NULL;
-	gint ii, length;
+	gint ii;
 
 	if (!(list = webkit_dom_element_query_selector_all (element, selector, NULL)))
 		return;
 
-	length = webkit_dom_node_list_get_length (list);
-	for (ii = 0; ii < length; ii++) {
+	for (ii = webkit_dom_node_list_get_length (list); ii--;) {
 		gboolean insert = TRUE;
 		WebKitDOMNode *node, *next_sibling;
 
@@ -6104,13 +6088,12 @@ preserve_pre_line_breaks_in_element (WebKitDOMDocument *document,
                                      WebKitDOMElement *element)
 {
 	WebKitDOMHTMLCollection *collection = NULL;
-	gint ii, length;
+	gint ii;
 
 	if (!(collection = webkit_dom_element_get_elements_by_tag_name_as_html_collection (element, "pre")))
 		return;
 
-	length = webkit_dom_html_collection_get_length (collection);
-	for (ii = 0; ii < length; ii++) {
+	for (ii = webkit_dom_html_collection_get_length (collection); ii--;) {
 		WebKitDOMNode *node;
 		gchar *inner_html;
 		GString *string;
@@ -6691,21 +6674,19 @@ static void
 process_quote_nodes (WebKitDOMElement *blockquote)
 {
 	WebKitDOMHTMLCollection *collection = NULL;
-	int jj, length;
+	int ii;
 
 	/* Replace quote nodes with symbols */
 	collection = webkit_dom_element_get_elements_by_class_name_as_html_collection (
 		blockquote, "-x-evo-quoted");
-	length = webkit_dom_html_collection_get_length (collection);
-	for (jj = 0; jj < length; jj++) {
+	for (ii = webkit_dom_html_collection_get_length (collection); ii--;) {
 		WebKitDOMNode *quoted_node;
 		gchar *text_content;
 
-		quoted_node = webkit_dom_html_collection_item (collection, jj);
+		quoted_node = webkit_dom_html_collection_item (collection, ii);
 		text_content = webkit_dom_node_get_text_content (quoted_node);
 		webkit_dom_element_set_outer_html (
 			WEBKIT_DOM_ELEMENT (quoted_node), text_content, NULL);
-
 		g_free (text_content);
 	}
 	g_clear_object (&collection);
@@ -7246,14 +7227,12 @@ process_node_to_plain_text_for_exporting (EEditorPage *editor_page,
 	WebKitDOMNodeList *nodes = NULL;
 	gboolean html_mode;
 	gchar *content = NULL;
-	gint ii, nodes_length;
+	gint ii;
 
 	html_mode = e_editor_page_get_html_mode (editor_page);
 
 	nodes = webkit_dom_node_get_child_nodes (source);
-	nodes_length = webkit_dom_node_list_get_length (nodes);
-
-	for (ii = 0; ii < nodes_length; ii++) {
+	for (ii = webkit_dom_node_list_get_length (nodes); ii--;) {
 		WebKitDOMNode *child;
 		gboolean skip_node = FALSE;
 
@@ -7457,8 +7436,7 @@ process_node_to_html_for_exporting (EEditorPage *editor_page,
 	/* Aligned elements */
 	list = webkit_dom_element_query_selector_all (
 		WEBKIT_DOM_ELEMENT (source), "[class*=\"-x-evo-align\"]", NULL);
-	length = webkit_dom_node_list_get_length (list);
-	for (ii = 0; ii < length; ii++) {
+	for (ii = webkit_dom_node_list_get_length (list); ii--;) {
 		gchar *class = NULL;
 		WebKitDOMNode *node;
 		gboolean center = FALSE;
@@ -7494,8 +7472,7 @@ process_node_to_html_for_exporting (EEditorPage *editor_page,
 	/* Indented elements */
 	collection = webkit_dom_element_get_elements_by_class_name_as_html_collection (
 		WEBKIT_DOM_ELEMENT (source), "-x-evo-indented");
-	length = webkit_dom_html_collection_get_length (collection);
-	for (ii = 0; ii < length; ii++) {
+	for (ii = webkit_dom_html_collection_get_length (collection); ii--;) {
 		WebKitDOMNode *node;
 
 		node = webkit_dom_html_collection_item (collection, ii);
@@ -7507,8 +7484,7 @@ process_node_to_html_for_exporting (EEditorPage *editor_page,
 	/* Tab characters */
 	collection = webkit_dom_element_get_elements_by_class_name_as_html_collection (
 		WEBKIT_DOM_ELEMENT (source), "Apple-tab-span");
-	length = webkit_dom_html_collection_get_length (collection);
-	for (ii = 0; ii < length; ii++) {
+	for (ii = webkit_dom_html_collection_get_length (collection); ii--;) {
 		gchar *text_content;
 		WebKitDOMNode *node;
 
@@ -7521,13 +7497,13 @@ process_node_to_html_for_exporting (EEditorPage *editor_page,
 			NULL);
 
 		remove_node (node);
+		length--;
 	}
 	g_clear_object (&collection);
 
 	collection = webkit_dom_element_get_elements_by_class_name_as_html_collection (
 		WEBKIT_DOM_ELEMENT (source), "-x-evo-quoted");
-	length = webkit_dom_html_collection_get_length (collection);
-	for (ii = 0; ii < length; ii++) {
+	for (ii = webkit_dom_html_collection_get_length (collection); ii--;) {
 		WebKitDOMNode *quoted_node;
 		gchar *text_content;
 
@@ -7543,8 +7519,7 @@ process_node_to_html_for_exporting (EEditorPage *editor_page,
 	/* Images */
 	list = webkit_dom_element_query_selector_all (
 		WEBKIT_DOM_ELEMENT (source), ".-x-evo-resizable-wrapper:not(.-x-evo-smiley-wrapper)", NULL);
-	length = webkit_dom_node_list_get_length (list);
-	for (ii = 0; ii < length; ii++) {
+	for (ii = webkit_dom_node_list_get_length (list); ii--;) {
 		WebKitDOMNode *node, *image;
 
 		node = webkit_dom_node_list_item (list, ii);
@@ -7583,8 +7558,7 @@ process_node_to_html_for_exporting (EEditorPage *editor_page,
 	/* Smileys */
 	collection = webkit_dom_element_get_elements_by_class_name_as_html_collection (
 		WEBKIT_DOM_ELEMENT (source), "-x-evo-smiley-wrapper");
-	length = webkit_dom_html_collection_get_length (collection);
-	for (ii = 0; ii < length; ii++) {
+	for (ii = webkit_dom_html_collection_get_length (collection); ii--;) {
 		WebKitDOMNode *node;
 		WebKitDOMElement *img;
 
@@ -7604,8 +7578,7 @@ process_node_to_html_for_exporting (EEditorPage *editor_page,
 
 	collection = webkit_dom_element_get_elements_by_tag_name_as_html_collection (
 		WEBKIT_DOM_ELEMENT (source), "pre");
-	length = webkit_dom_html_collection_get_length (collection);
-	for (ii = 0; ii < length; ii++) {
+	for (ii = webkit_dom_html_collection_get_length (collection); ii--;) {
 		WebKitDOMNode *node;
 
 		node = webkit_dom_html_collection_item (collection, ii);
@@ -7615,8 +7588,7 @@ process_node_to_html_for_exporting (EEditorPage *editor_page,
 
 	list = webkit_dom_element_query_selector_all (
 		WEBKIT_DOM_ELEMENT (source), "[data-evo-paragraph]", NULL);
-	length = webkit_dom_node_list_get_length (list);
-	for (ii = 0; ii < length; ii++) {
+	for (ii = webkit_dom_node_list_get_length (list); ii--;) {
 		WebKitDOMNode *node;
 
 		node = webkit_dom_node_list_item (list, ii);
@@ -7627,8 +7599,7 @@ process_node_to_html_for_exporting (EEditorPage *editor_page,
 
 	collection = webkit_dom_element_get_elements_by_class_name_as_html_collection (
 		WEBKIT_DOM_ELEMENT (source), "-x-evo-wrap-br");
-	length = webkit_dom_html_collection_get_length (collection);
-	for (ii = 0; ii < length; ii++) {
+	for (ii = webkit_dom_html_collection_get_length (collection); ii--;) {
 		WebKitDOMNode *node;
 
 		node = webkit_dom_html_collection_item (collection, ii);
@@ -7638,8 +7609,7 @@ process_node_to_html_for_exporting (EEditorPage *editor_page,
 
 	list = webkit_dom_element_query_selector_all (
 		WEBKIT_DOM_ELEMENT (source), "#-x-evo-main-cite", NULL);
-	length = webkit_dom_node_list_get_length (list);
-	for (ii = 0; ii < length; ii++) {
+	for (ii = webkit_dom_node_list_get_length (list); ii--;) {
 		WebKitDOMNode *node;
 
 		node = webkit_dom_node_list_item (list, ii);
@@ -7660,14 +7630,12 @@ remove_image_attributes_from_element (WebKitDOMElement *element)
 static void
 remove_background_images_in_element (WebKitDOMElement *element)
 {
-	gint length, ii;
+	gint ii;
 	WebKitDOMNodeList *images = NULL;
 
 	images = webkit_dom_element_query_selector_all (
 		element, "[background][data-inline]", NULL);
-
-	length = webkit_dom_node_list_get_length (images);
-	for (ii = 0; ii < length; ii++) {
+	for (ii = webkit_dom_node_list_get_length (images); ii--;) {
 		WebKitDOMElement *image = WEBKIT_DOM_ELEMENT (
 			webkit_dom_node_list_item (images, ii));
 
@@ -7681,14 +7649,12 @@ remove_background_images_in_element (WebKitDOMElement *element)
 static void
 remove_images_in_element (WebKitDOMElement *element)
 {
-	gint length, ii;
+	gint ii;
 	WebKitDOMNodeList *images = NULL;
 
 	images = webkit_dom_element_query_selector_all (
 		element, "img:not(.-x-evo-smiley-img)", NULL);
-
-	length = webkit_dom_node_list_get_length (images);
-	for (ii = 0; ii < length; ii++)
+	for (ii = webkit_dom_node_list_get_length (images); ii--;)
 		remove_node (webkit_dom_node_list_item (images, ii));
 	g_clear_object (&images);
 }
@@ -7706,7 +7672,6 @@ toggle_smileys (EEditorPage *editor_page)
 	WebKitDOMDocument *document;
 	WebKitDOMHTMLCollection *collection = NULL;
 	gboolean html_mode;
-	gint length;
 	gint ii;
 
 	g_return_if_fail (E_IS_EDITOR_PAGE (editor_page));
@@ -7716,8 +7681,7 @@ toggle_smileys (EEditorPage *editor_page)
 
 	collection = webkit_dom_document_get_elements_by_class_name_as_html_collection (
 		document, "-x-evo-smiley-img");
-	length = webkit_dom_html_collection_get_length (collection);
-	for (ii = 0; ii < length; ii++) {
+	for (ii = webkit_dom_html_collection_get_length (collection); ii--;) {
 		WebKitDOMNode *img = webkit_dom_html_collection_item (collection, ii);
 		WebKitDOMElement *parent = webkit_dom_node_get_parent_element (img);
 
@@ -7734,15 +7698,13 @@ toggle_paragraphs_style_in_element (EEditorPage *editor_page,
                                     WebKitDOMElement *element,
                                     gboolean html_mode)
 {
-	gint ii, length;
+	gint ii;
 	WebKitDOMNodeList *paragraphs = NULL;
 
 	paragraphs = webkit_dom_element_query_selector_all (
 		element, ":not(td) > [data-evo-paragraph]", NULL);
 
-	length = webkit_dom_node_list_get_length (paragraphs);
-
-	for (ii = 0; ii < length; ii++) {
+	for (ii = webkit_dom_node_list_get_length (paragraphs); ii--;) {
 		gchar *style;
 		const gchar *css_align;
 		WebKitDOMNode *node = webkit_dom_node_list_item (paragraphs, ii);
@@ -7828,7 +7790,7 @@ e_editor_dom_process_content_for_draft (EEditorPage *editor_page,
 	WebKitDOMNode *document_element_clone;
 	gboolean selection_saved = FALSE;
 	gchar *content;
-	gint ii, length;
+	gint ii;
 
 	g_return_val_if_fail (E_IS_EDITOR_PAGE (editor_page), NULL);
 
@@ -7851,8 +7813,7 @@ e_editor_dom_process_content_for_draft (EEditorPage *editor_page,
 
 	list = webkit_dom_element_query_selector_all (
 		WEBKIT_DOM_ELEMENT (document_element_clone), "a.-x-evo-visited-link", NULL);
-	length = webkit_dom_node_list_get_length (list);
-	for (ii = 0; ii < length; ii++) {
+	for (ii = webkit_dom_node_list_get_length (list); ii--;) {
 		WebKitDOMNode *anchor;
 
 		anchor = webkit_dom_node_list_item (list, ii);
@@ -7862,8 +7823,7 @@ e_editor_dom_process_content_for_draft (EEditorPage *editor_page,
 
 	list = webkit_dom_element_query_selector_all (
 		WEBKIT_DOM_ELEMENT (document_element_clone), "#-x-evo-input-start", NULL);
-	length = webkit_dom_node_list_get_length (list);
-	for (ii = 0; ii < length; ii++) {
+	for (ii = webkit_dom_node_list_get_length (list); ii--;) {
 		WebKitDOMNode *node;
 
 		node = webkit_dom_node_list_item (list, ii);
@@ -7913,7 +7873,7 @@ static void
 toggle_indented_elements (EEditorPage *editor_page)
 {
 	gboolean html_mode;
-	gint ii, length;
+	gint ii;
 	WebKitDOMDocument *document;
 	WebKitDOMHTMLCollection *collection = NULL;
 
@@ -7923,8 +7883,7 @@ toggle_indented_elements (EEditorPage *editor_page)
 	html_mode = e_editor_page_get_html_mode (editor_page);
 	collection = webkit_dom_document_get_elements_by_class_name_as_html_collection (
 		document, "-x-evo-indented");
-	length = webkit_dom_html_collection_get_length (collection);
-	for (ii = 0; ii < length; ii++) {
+	for (ii = webkit_dom_html_collection_get_length (collection); ii--;) {
 		WebKitDOMNode *node = webkit_dom_html_collection_item (collection, ii);
 
 		if (html_mode)
@@ -7968,16 +7927,15 @@ wrap_paragraphs_in_quoted_content (EEditorPage *editor_page)
 {
 	WebKitDOMDocument *document;
 	WebKitDOMNodeList *paragraphs = NULL;
-	gint ii, length;
+	gint ii;
 
 	g_return_if_fail (E_IS_EDITOR_PAGE (editor_page));
 
 	document = e_editor_page_get_document (editor_page);
+
 	paragraphs = webkit_dom_document_query_selector_all (
 		document, "blockquote[type=cite] > [data-evo-paragraph]", NULL);
-
-	length = webkit_dom_node_list_get_length (paragraphs);
-	for (ii = 0; ii < length; ii++) {
+	for (ii = webkit_dom_node_list_get_length (paragraphs); ii--;) {
 		WebKitDOMNode *paragraph;
 
 		paragraph = webkit_dom_node_list_item (paragraphs, ii);
@@ -8041,7 +7999,7 @@ e_editor_dom_process_content_to_plain_text_for_exporting (EEditorPage *editor_pa
 	WebKitDOMDOMWindow *dom_window = NULL;
 	WebKitDOMDOMSelection *dom_selection = NULL;
 	gboolean wrap = TRUE, quote = FALSE, remove_last_new_line = FALSE;
-	gint length, ii;
+	gint ii;
 	GString *plain_text;
 
 	g_return_val_if_fail (E_IS_EDITOR_PAGE (editor_page), NULL);
@@ -8075,9 +8033,7 @@ e_editor_dom_process_content_to_plain_text_for_exporting (EEditorPage *editor_pa
 
 			list = webkit_dom_element_query_selector_all (
 				wrapper, "#-x-evo-input-start", NULL);
-
-			length = webkit_dom_node_list_get_length (list);
-			for (ii = 0; ii < length; ii++) {
+			for (ii = webkit_dom_node_list_get_length (list); ii--;) {
 				WebKitDOMNode *paragraph;
 
 				paragraph = webkit_dom_node_list_item (list, ii);
@@ -8091,9 +8047,7 @@ e_editor_dom_process_content_to_plain_text_for_exporting (EEditorPage *editor_pa
 
 			list = webkit_dom_element_query_selector_all (
 				wrapper, "[data-evo-html-to-plain-text-wrapper] > :matches(ul, ol)", NULL);
-
-			length = webkit_dom_node_list_get_length (list);
-			for (ii = 0; ii < length; ii++) {
+			for (ii = webkit_dom_node_list_get_length (list); ii--;) {
 				WebKitDOMElement *list_pre;
 				WebKitDOMNode *item;
 				GString *list_plain_text;
@@ -8153,8 +8107,7 @@ e_editor_dom_process_content_to_plain_text_for_exporting (EEditorPage *editor_pa
 	g_clear_object (&dom_window);
 	g_clear_object (&dom_selection);
 
-	length = webkit_dom_node_list_get_length (list);
-	for (ii = 0; ii < length; ii++) {
+	for (ii = webkit_dom_node_list_get_length (list); ii--;) {
 		WebKitDOMNode *paragraph;
 
 		paragraph = webkit_dom_node_list_item (list, ii);
@@ -8217,13 +8170,12 @@ restore_image (WebKitDOMDocument *document,
                const gchar *element_src)
 {
 	gchar *selector;
-	gint length, ii;
+	gint ii;
 	WebKitDOMNodeList *list = NULL;
 
 	selector = g_strconcat ("[data-inline][background=\"cid:", id, "\"]", NULL);
 	list = webkit_dom_document_query_selector_all (document, selector, NULL);
-	length = webkit_dom_node_list_get_length (list);
-	for (ii = 0; ii < length; ii++) {
+	for (ii = webkit_dom_node_list_get_length (list); ii--;) {
 		WebKitDOMElement *element = WEBKIT_DOM_ELEMENT (
 			webkit_dom_node_list_item (list, ii));
 
@@ -8234,8 +8186,7 @@ restore_image (WebKitDOMDocument *document,
 
 	selector = g_strconcat ("[data-inline][src=\"cid:", id, "\"]", NULL);
 	list = webkit_dom_document_query_selector_all (document, selector, NULL);
-	length = webkit_dom_node_list_get_length (list);
-	for (ii = 0; ii < length; ii++) {
+	for (ii = webkit_dom_node_list_get_length (list); ii--;) {
 		WebKitDOMElement *element = WEBKIT_DOM_ELEMENT (
 			webkit_dom_node_list_item (list, ii));
 
@@ -8272,7 +8223,7 @@ e_editor_dom_process_content_to_html_for_exporting (EEditorPage *editor_page)
 	WebKitDOMNode *node, *document_clone;
 	WebKitDOMNodeList *list = NULL;
 	GSettings *settings;
-	gint ii, length;
+	gint ii;
 	gchar *html_content;
 	gboolean send_editor_colors = FALSE;
 
@@ -8325,15 +8276,13 @@ e_editor_dom_process_content_to_html_for_exporting (EEditorPage *editor_page)
 
 	list = webkit_dom_element_query_selector_all (
 		WEBKIT_DOM_ELEMENT (node), "span[data-hidden-space]", NULL);
-	length = webkit_dom_node_list_get_length (list);
-	for (ii = 0; ii < length; ii++)
+	for (ii = webkit_dom_node_list_get_length (list); ii--;)
 		remove_node (webkit_dom_node_list_item (list, ii));
 	g_clear_object (&list);
 
 	list = webkit_dom_element_query_selector_all (
 		WEBKIT_DOM_ELEMENT (node), "[data-style]", NULL);
-	length = webkit_dom_node_list_get_length (list);
-	for (ii = 0; ii < length; ii++) {
+	for (ii = webkit_dom_node_list_get_length (list); ii--;) {
 		WebKitDOMNode *data_style_node;
 
 		data_style_node = webkit_dom_node_list_item (list, ii);
@@ -8450,8 +8399,7 @@ change_cid_images_src_to_base64 (EEditorPage *editor_page)
 	document_element = webkit_dom_document_get_document_element (document);
 
 	list = webkit_dom_document_query_selector_all (document, "img[src^=\"cid:\"]", NULL);
-	length = webkit_dom_node_list_get_length (list);
-	for (ii = 0; ii < length; ii++) {
+	for (ii = webkit_dom_node_list_get_length (list); ii--;) {
 		WebKitDOMNode *node = webkit_dom_node_list_item (list, ii);
 
 		set_base64_to_element_attribute (inline_images, WEBKIT_DOM_ELEMENT (node), "src");
@@ -8471,12 +8419,11 @@ change_cid_images_src_to_base64 (EEditorPage *editor_page)
 			const gchar *ns = name + 6;
 			gchar *attribute_ns = g_strconcat (ns, ":src", NULL);
 			gchar *selector = g_strconcat ("img[", ns, "\\:src^=\"cid:\"]", NULL);
-			gint ns_length, jj;
+			gint jj;
 
 			list = webkit_dom_document_query_selector_all (
 				document, selector, NULL);
-			ns_length = webkit_dom_node_list_get_length (list);
-			for (jj = 0; jj < ns_length; jj++) {
+			for (jj = webkit_dom_node_list_get_length (list) - 1; jj--;) {
 				WebKitDOMNode *node = webkit_dom_node_list_item (list, jj);
 
 				set_base64_to_element_attribute (
@@ -8493,8 +8440,7 @@ change_cid_images_src_to_base64 (EEditorPage *editor_page)
 
 	list = webkit_dom_document_query_selector_all (
 		document, "[background^=\"cid:\"]", NULL);
-	length = webkit_dom_node_list_get_length (list);
-	for (ii = 0; ii < length; ii++) {
+	for (ii = webkit_dom_node_list_get_length (list); ii--;) {
 		WebKitDOMNode *node = webkit_dom_node_list_item (list, ii);
 
 		set_base64_to_element_attribute (
@@ -8507,12 +8453,11 @@ static void
 adapt_to_editor_dom_changes (WebKitDOMDocument *document)
 {
 	WebKitDOMHTMLCollection *collection = NULL;
-	gint ii, length;
+	gint ii;
 
 	/* Normal block code div.-x-evo-paragraph replaced by div[data-evo-paragraph] */
 	collection = webkit_dom_document_get_elements_by_class_name_as_html_collection (document, "-x-evo-paragraph");
-	length = webkit_dom_html_collection_get_length (collection);
-	for (ii = 0; ii < length; ii++) {
+	for (ii = webkit_dom_html_collection_get_length (collection); ii--;) {
 		WebKitDOMNode *node;
 
 		node = webkit_dom_html_collection_item (collection, ii);
@@ -8651,7 +8596,7 @@ e_editor_dom_get_inline_images_data (EEditorPage *editor_page,
 	builder = g_variant_builder_new (G_VARIANT_TYPE ("a(sss)"));
 
 	added = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
-	for (ii = 0; ii < length; ii++) {
+	for (ii = length; ii--;) {
 		const gchar *id;
 		gchar *cid = NULL;
 		WebKitDOMNode *node = webkit_dom_node_list_item (list, ii);
@@ -8697,7 +8642,7 @@ e_editor_dom_get_inline_images_data (EEditorPage *editor_page,
 	if (!added)
 		added = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
 
-	for (ii = 0; ii < length; ii++) {
+	for (ii = length; ii--;) {
 		const gchar *id;
 		gchar *cid = NULL;
 		WebKitDOMNode *node = webkit_dom_node_list_item (list, ii);
@@ -8885,7 +8830,7 @@ e_editor_dom_insert_html (EEditorPage *editor_page,
 			if (length > 0)
 				e_editor_dom_selection_save (editor_page);
 
-			for (ii = 0; ii < length; ii++) {
+			for (ii = length; ii--;) {
 				WebKitDOMNode *span, *child;
 
 				span = webkit_dom_node_list_item (list, ii);
@@ -10862,7 +10807,7 @@ e_editor_dom_save_history_for_drop (EEditorPage *editor_page)
 		if (length > 0)
 			e_editor_dom_selection_save (editor_page);
 
-		for (ii = 0; ii < length; ii++) {
+		for (ii = length; ii--;) {
 			WebKitDOMNode *span, *child;
 
 			span = webkit_dom_node_list_item (list, ii);
@@ -10961,7 +10906,7 @@ e_editor_dom_fix_file_uri_images (EEditorPage *editor_page)
 {
 	WebKitDOMDocument *document;
 	WebKitDOMNodeList *list = NULL;
-	gint ii, length;
+	gint ii;
 
 	g_return_if_fail (E_IS_EDITOR_PAGE (editor_page));
 
@@ -10969,9 +10914,7 @@ e_editor_dom_fix_file_uri_images (EEditorPage *editor_page)
 
 	list = webkit_dom_document_query_selector_all (
 		document, "img[src^=\"file://\"]", NULL);
-	length = webkit_dom_node_list_get_length (list);
-
-	for (ii = 0; ii < length; ii++) {
+	for (ii = webkit_dom_node_list_get_length (list); ii--;) {
 		WebKitDOMNode *node;
 		gchar *uri;
 
@@ -12297,7 +12240,7 @@ e_editor_dom_selection_indent (EEditorPage *editor_page)
 				goto next;
 		}
 
-		for (ii = 0; ii < length; ii++) {
+		for (ii = webkit_dom_node_list_get_length (list); ii--;) {
 			WebKitDOMNode *block_to_process;
 
 			block_to_process = webkit_dom_node_list_item (list, ii);
@@ -13254,13 +13197,12 @@ wrap_lines (EEditorPage *editor_page,
 			nd = next_nd;
 		}
 	} else {
-		gint ii, length;
+		gint ii;
 		WebKitDOMNodeList *list = NULL;
 
 		list = webkit_dom_element_query_selector_all (
 			WEBKIT_DOM_ELEMENT (block_clone), "span[data-hidden-space]", NULL);
-		length = webkit_dom_node_list_get_length (list);
-		for (ii = 0; ii < length; ii++) {
+		for (ii = webkit_dom_node_list_get_length (list); ii--;) {
 			WebKitDOMNode *hidden_space_node;
 
 			hidden_space_node = webkit_dom_node_list_item (list, ii);
@@ -13801,14 +13743,13 @@ void
 e_editor_dom_remove_wrapping_from_element (WebKitDOMElement *element)
 {
 	WebKitDOMNodeList *list = NULL;
-	gint ii, length;
+	gint ii;
 
 	g_return_if_fail (element != NULL);
 
 	list = webkit_dom_element_query_selector_all (
 		element, "br.-x-evo-wrap-br", NULL);
-	length = webkit_dom_node_list_get_length (list);
-	for (ii = 0; ii < length; ii++) {
+	for (ii = webkit_dom_node_list_get_length (list); ii--;) {
 		WebKitDOMNode *node = webkit_dom_node_list_item (list, ii);
 		WebKitDOMNode *parent;
 
@@ -13821,8 +13762,7 @@ e_editor_dom_remove_wrapping_from_element (WebKitDOMElement *element)
 
 	list = webkit_dom_element_query_selector_all (
 		element, "span[data-hidden-space]", NULL);
-	length = webkit_dom_node_list_get_length (list);
-	for (ii = 0; ii < length; ii++) {
+	for (ii = webkit_dom_node_list_get_length (list); ii--;) {
 		WebKitDOMNode *hidden_space_node;
 		WebKitDOMNode *parent;
 
@@ -13841,25 +13781,21 @@ e_editor_dom_remove_wrapping_from_element (WebKitDOMElement *element)
 void
 e_editor_dom_remove_quoting_from_element (WebKitDOMElement *element)
 {
-	gint ii, length;
+	gint ii;
 	WebKitDOMHTMLCollection *collection = NULL;
 
 	g_return_if_fail (element != NULL);
 
 	collection = webkit_dom_element_get_elements_by_class_name_as_html_collection (
 		element, "-x-evo-quoted");
-	length = webkit_dom_html_collection_get_length (collection);
-	for (ii = 0; ii < length; ii++) {
+	for (ii = webkit_dom_html_collection_get_length (collection); ii--;)
 		remove_node (webkit_dom_html_collection_item (collection, ii));
-	}
 	g_clear_object (&collection);
 
 	collection = webkit_dom_element_get_elements_by_class_name_as_html_collection (
 		element, "-x-evo-temp-br");
-	length = webkit_dom_html_collection_get_length (collection);
-	for (ii = 0; ii < length; ii++) {
+	for (ii = webkit_dom_html_collection_get_length (collection); ii--;)
 		remove_node (webkit_dom_html_collection_item (collection, ii));
-	}
 	g_clear_object (&collection);
 
 	webkit_dom_node_normalize (WEBKIT_DOM_NODE (element));
@@ -14063,7 +13999,7 @@ e_editor_dom_wrap_paragraphs_in_document (EEditorPage *editor_page)
 {
 	WebKitDOMDocument *document;
 	WebKitDOMNodeList *list = NULL;
-	gint ii, length;
+	gint ii;
 
 	g_return_if_fail (E_IS_EDITOR_PAGE (editor_page));
 
@@ -14071,9 +14007,7 @@ e_editor_dom_wrap_paragraphs_in_document (EEditorPage *editor_page)
 	list = webkit_dom_document_query_selector_all (
 		document, "[data-evo-paragraph]:not(#-x-evo-input-start)", NULL);
 
-	length = webkit_dom_node_list_get_length (list);
-
-	for (ii = 0; ii < length; ii++) {
+	for (ii = webkit_dom_node_list_get_length (list); ii--;) {
 		gint word_wrap_length, quote, citation_level;
 		WebKitDOMNode *node = webkit_dom_node_list_item (list, ii);
 
@@ -14806,7 +14740,7 @@ monospace_selection (EEditorPage *editor_page,
 	WebKitDOMNodeList *list = NULL;
 	gboolean selection_end = FALSE;
 	gboolean first = TRUE;
-	gint length, ii;
+	gint ii;
 
 	g_return_if_fail (E_IS_EDITOR_PAGE (editor_page));
 
@@ -14899,8 +14833,7 @@ monospace_selection (EEditorPage *editor_page,
 	/* Merge all the monospace elements inside other monospace elements. */
 	list = webkit_dom_document_query_selector_all (
 		document, "font[face=monospace] > font[face=monospace]", NULL);
-	length = webkit_dom_node_list_get_length (list);
-	for (ii = 0; ii < length; ii++) {
+	for (ii = webkit_dom_node_list_get_length (list); ii--;) {
 		WebKitDOMNode *item;
 		WebKitDOMNode *child;
 
@@ -14919,8 +14852,7 @@ monospace_selection (EEditorPage *editor_page,
 	/* Merge all the adjacent monospace elements. */
 	list = webkit_dom_document_query_selector_all (
 		document, "font[face=monospace] + font[face=monospace]", NULL);
-	length = webkit_dom_node_list_get_length (list);
-	for (ii = 0; ii < length; ii++) {
+	for (ii = webkit_dom_node_list_get_length (list); ii--;) {
 		WebKitDOMNode *item;
 		WebKitDOMNode *child;
 
@@ -17000,16 +16932,14 @@ e_editor_dom_selection_set_alignment (EEditorPage *editor_page,
 			block, WEBKIT_DOM_NODE (selection_end_marker));
 
 		if (element_has_class (WEBKIT_DOM_ELEMENT (block), "-x-evo-indented")) {
-			gint ii, length;
+			gint ii;
 			WebKitDOMNodeList *list = NULL;
 
 			list = webkit_dom_element_query_selector_all (
 				WEBKIT_DOM_ELEMENT (block),
 				".-x-evo-indented > *:not(.-x-evo-indented):not(li)",
 				NULL);
-			length = webkit_dom_node_list_get_length (list);
-
-			for (ii = 0; ii < length; ii++) {
+			for (ii = webkit_dom_node_list_get_length (list); ii--;) {
 				WebKitDOMNode *item = webkit_dom_node_list_item (list, ii);
 
 				set_block_alignment (WEBKIT_DOM_ELEMENT (item), class);
