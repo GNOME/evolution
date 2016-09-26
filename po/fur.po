@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2016-09-25 00:11+0000\n"
-"PO-Revision-Date: 2016-09-26 21:56+0200\n"
+"PO-Revision-Date: 2016-09-26 23:10+0200\n"
 "Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
 "Language-Team: Friulian <fur@li.org>\n"
 "Language: fur\n"
@@ -3124,7 +3124,7 @@ msgstr "Date di fin:"
 
 #: ../calendar/gui/e-cal-component-preview.c:286
 msgid "Due Date:"
-msgstr "Date di scjadence:"
+msgstr "Date di scjadince:"
 
 #: ../calendar/gui/e-cal-component-preview.c:298
 #: ../modules/itip-formatter/itip-view.c:1669
@@ -4053,34 +4053,34 @@ msgstr "Viodude a liste"
 #: ../calendar/gui/e-comp-editor-page-general.c:313
 #, c-format
 msgid "Cannot find attendee '%s' in the list of attendees"
-msgstr ""
+msgstr "Impussibil cjatâ il partecipant '%s' te liste dai partecipants"
 
 #: ../calendar/gui/e-comp-editor-page-general.c:320
 #, c-format
 msgid "Not enough rights to delete attendee '%s'"
-msgstr ""
+msgstr "No si àn vonde permès par eliminâ il partecipant '%s'"
 
 #: ../calendar/gui/e-comp-editor-page-general.c:350
 msgid "Failed to delete selected attendee"
 msgid_plural "Failed to delete selected attendees"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "No si è rivâts a eliminâ il partecipant selezionât"
+msgstr[1] "No si è rivâts a eliminâ i partecipants selezionâts"
 
 #: ../calendar/gui/e-comp-editor-page-general.c:583
 msgid "A_ttendees"
-msgstr ""
+msgstr "Par_tecipants"
 
 #: ../calendar/gui/e-comp-editor-page-general.c:585
 msgid "Toggles whether the Attendees are displayed"
-msgstr ""
+msgstr "Comute indicant se si mostrin i partecipants"
 
 #: ../calendar/gui/e-comp-editor-page-general.c:594
 msgid "R_ole Field"
-msgstr ""
+msgstr "Cjamp _rûl"
 
 #: ../calendar/gui/e-comp-editor-page-general.c:596
 msgid "Toggles whether the Role field is displayed"
-msgstr ""
+msgstr "Comute cuant che si mostre il cjamp \"Rûl\""
 
 #: ../calendar/gui/e-comp-editor-page-general.c:602
 msgid "_RSVP"
@@ -4092,45 +4092,45 @@ msgstr ""
 
 #: ../calendar/gui/e-comp-editor-page-general.c:610
 msgid "_Status Field"
-msgstr ""
+msgstr "Cjamp di _stât"
 
 #: ../calendar/gui/e-comp-editor-page-general.c:612
 msgid "Toggles whether the Status field is displayed"
-msgstr ""
+msgstr "Comute cuant che si mostre il cjamp \"Stât\""
 
 #: ../calendar/gui/e-comp-editor-page-general.c:618
 msgid "_Type Field"
-msgstr ""
+msgstr "Cjamp _Gjenar"
 
 #: ../calendar/gui/e-comp-editor-page-general.c:620
 msgid "Toggles whether the Attendee Type is displayed"
-msgstr ""
+msgstr "Comute indicant se si mostre il cjamp \"Gjenar di partecipant\""
 
 #: ../calendar/gui/e-comp-editor-page-general.c:945
 msgid "An organizer is required."
-msgstr ""
+msgstr "Al covente un organizadôr."
 
 #: ../calendar/gui/e-comp-editor-page-general.c:955
 #: ../calendar/gui/e-comp-editor-page-general.c:1086
 msgid "At least one attendee is required."
-msgstr ""
+msgstr "Al covente almancul un partecipant."
 
 #: ../calendar/gui/e-comp-editor-page-general.c:1209
 msgid "Or_ganizer:"
-msgstr ""
+msgstr "Or_ganizadôr:"
 
 #: ../calendar/gui/e-comp-editor-page-general.c:1288
 msgctxt "ECompEditor"
 msgid "Atte_ndees..."
-msgstr ""
+msgstr "Partecipa_nts..."
 
 #: ../calendar/gui/e-comp-editor-page-recurrence.c:327
 msgid "Add exception"
-msgstr ""
+msgstr "Zonte ecezion"
 
 #: ../calendar/gui/e-comp-editor-page-recurrence.c:365
 msgid "Modify exception"
-msgstr ""
+msgstr "Modifiche ecezion"
 
 #. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] week(s) on [Wednesday] [forever]'
 #. * (dropdown menu options are in [square brackets]). This means that after the 'on', name of a week day always follows.
@@ -4374,351 +4374,356 @@ msgstr ""
 
 #: ../calendar/gui/e-comp-editor-page-recurrence.c:2147
 msgid "This appointment contains recurrences that Evolution cannot edit."
-msgstr ""
+msgstr "Chest apontament al à ricorencis che Evolution nol pues modificâ."
 
 #: ../calendar/gui/e-comp-editor-page-recurrence.c:2164
 msgid "Exceptions"
-msgstr ""
+msgstr "Ecezions"
 
 #: ../calendar/gui/e-comp-editor-page-recurrence.c:2233
 #: ../calendar/gui/e-comp-editor-page-reminders.c:1779
 #: ../mail/mail-config.ui.h:62
 msgid "A_dd"
-msgstr ""
+msgstr "Zon_te"
 
 #: ../calendar/gui/e-comp-editor-page-recurrence.c:2249
 #: ../calendar/gui/e-comp-editor-page-reminders.c:1787
 #: ../mail/mail-config.ui.h:64
 msgid "Re_move"
-msgstr ""
+msgstr "Gja_ve"
 
 #: ../calendar/gui/e-comp-editor-page-recurrence.c:2257
 msgid "Preview"
-msgstr ""
+msgstr "Anteprime"
 
 #: ../calendar/gui/e-comp-editor-page-reminders.c:41
 msgid "Send To"
-msgstr ""
+msgstr "Invie a"
 
 #: ../calendar/gui/e-comp-editor-page-reminders.c:1556
 msgid "_Reminders"
-msgstr ""
+msgstr "P_romemorie"
 
 #: ../calendar/gui/e-comp-editor-page-reminders.c:1558
 msgid "Set or unset reminders"
-msgstr ""
+msgstr "Met o gjave i promemorie"
 
 #: ../calendar/gui/e-comp-editor-page-reminders.c:1611
 #: ../modules/calendar/e-calendar-preferences.ui.h:66
 msgid "Reminders"
-msgstr ""
+msgstr "Promemorie"
 
 #: ../calendar/gui/e-comp-editor-page-reminders.c:1640
 msgid "_Reminder"
-msgstr ""
+msgstr "P_romemorie"
 
 #: ../calendar/gui/e-comp-editor-page-reminders.c:1673
 #, c-format
 msgid "%d day before"
 msgid_plural "%d days before"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d zornade prime"
+msgstr[1] "%d dîs prime"
 
 #: ../calendar/gui/e-comp-editor-page-reminders.c:1680
 #, c-format
 msgid "%d hour before"
 msgid_plural "%d hours before"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d ore prime"
+msgstr[1] "%d oris prime"
 
 #: ../calendar/gui/e-comp-editor-page-reminders.c:1687
 #, c-format
 msgid "%d minute before"
 msgid_plural "%d minutes before"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d minût prime"
+msgstr[1] "%d minûts prime"
 
 #. Translators: "None" for "No reminder set"
 #: ../calendar/gui/e-comp-editor-page-reminders.c:1695
 msgctxt "cal-reminders"
 msgid "None"
-msgstr ""
+msgstr "Nissun"
 
 #. Translators: Predefined reminder's description
 #: ../calendar/gui/e-comp-editor-page-reminders.c:1697
 msgctxt "cal-reminders"
 msgid "15 minutes before"
-msgstr ""
+msgstr "15 minûts prime"
 
 #. Translators: Predefined reminder's description
 #: ../calendar/gui/e-comp-editor-page-reminders.c:1699
 msgctxt "cal-reminders"
 msgid "1 hour before"
-msgstr ""
+msgstr "1 ore prime"
 
 #. Translators: Predefined reminder's description
 #: ../calendar/gui/e-comp-editor-page-reminders.c:1701
 msgctxt "cal-reminders"
 msgid "1 day before"
-msgstr ""
+msgstr "1 zornade prime"
 
 #. Translators: "Custom" for "Custom reminder set"
 #: ../calendar/gui/e-comp-editor-page-reminders.c:1713
 msgctxt "cal-reminders"
 msgid "Custom"
-msgstr ""
+msgstr "Personalizât"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ minute(s) ] [ before ] [ start ]
 #: ../calendar/gui/e-comp-editor-page-reminders.c:1864
 msgctxt "cal-reminders"
 msgid "minute(s)"
-msgstr ""
+msgstr "minût(s)"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ hour(s) ] [ before ] [ start ]
 #: ../calendar/gui/e-comp-editor-page-reminders.c:1866
 msgctxt "cal-reminders"
 msgid "hour(s)"
-msgstr ""
+msgstr "ore(is)"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ day(s) ] [ before ] [ start ]
 #: ../calendar/gui/e-comp-editor-page-reminders.c:1868
 msgctxt "cal-reminders"
 msgid "day(s)"
-msgstr ""
+msgstr "dì(îs)"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ minute(s) ] [ before ] [ start ]
 #: ../calendar/gui/e-comp-editor-page-reminders.c:1885
 msgctxt "cal-reminders"
 msgid "before"
-msgstr ""
+msgstr "prime"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ minute(s) ] [ after ] [ start ]
 #: ../calendar/gui/e-comp-editor-page-reminders.c:1887
 msgctxt "cal-reminders"
 msgid "after"
-msgstr ""
+msgstr "dopo"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ minute(s) ] [ before ] [ start ]
 #: ../calendar/gui/e-comp-editor-page-reminders.c:1903
 msgctxt "cal-reminders"
 msgid "start"
-msgstr ""
+msgstr "inizi"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ minute(s) ] [ before ] [ end ]
 #: ../calendar/gui/e-comp-editor-page-reminders.c:1905
 msgctxt "cal-reminders"
 msgid "end"
-msgstr ""
+msgstr "fin"
 
 #. Translators: Part of: Repeat the reminder [ x ] extra times every [ y ] [ minutes ]
 #: ../calendar/gui/e-comp-editor-page-reminders.c:1928
 msgid "Re_peat the reminder"
-msgstr ""
+msgstr "Ri_pet il promemorie"
 
 #. Translators: Part of: Repeat the reminder [ x ] extra times every [ y ] [ minutes ]
 #: ../calendar/gui/e-comp-editor-page-reminders.c:1953
 msgctxt "cal-reminders"
 msgid "extra times every"
-msgstr ""
+msgstr "plui timp ogni"
 
 #. Translators: Part of: Repeat the reminder [ x ] extra times every [ y ] [ minutes ]
 #: ../calendar/gui/e-comp-editor-page-reminders.c:1990
 msgctxt "cal-reminders"
 msgid "minutes"
-msgstr ""
+msgstr "minûts"
 
 #. Translators: Part of: Repeat the reminder [ x ] extra times every [ y ] [ hours ]
 #: ../calendar/gui/e-comp-editor-page-reminders.c:1992
 msgctxt "cal-reminders"
 msgid "hours"
-msgstr ""
+msgstr "oris"
 
 #. Translators: Part of: Repeat the reminder [ x ] extra times every [ y ] [ days ]
 #: ../calendar/gui/e-comp-editor-page-reminders.c:1994
 msgctxt "cal-reminders"
 msgid "days"
-msgstr ""
+msgstr "dîs"
 
 #. page_reminders->priv->custom_email_entry is initialized on demand
 #: ../calendar/gui/e-comp-editor-page-reminders.c:2035
 #: ../calendar/gui/e-comp-editor-page-reminders.c:2192
 msgctxt "cal-reminders"
 msgid "Custom _message"
-msgstr ""
+msgstr "_Messaç personalizât"
 
 #: ../calendar/gui/e-comp-editor-page-reminders.c:2079
 msgctxt "cal-reminders"
 msgid "Custom reminder _sound"
-msgstr ""
+msgstr "_Sun promemorie personalizât"
 
 #: ../calendar/gui/e-comp-editor-page-reminders.c:2090
 msgid "Select a sound file"
-msgstr ""
+msgstr "Selezione un file audio"
 
 #: ../calendar/gui/e-comp-editor-page-reminders.c:2118
 msgid "_Program:"
-msgstr ""
+msgstr "_Program:"
 
 #: ../calendar/gui/e-comp-editor-page-reminders.c:2143
 msgid "_Arguments:"
-msgstr ""
+msgstr "_Argoments:"
 
 #: ../calendar/gui/e-comp-editor-page-reminders.c:2175
 msgid "_Send To:"
-msgstr ""
+msgstr "_Invie a:"
 
 #: ../calendar/gui/e-comp-editor-page-schedule.c:427
 msgid "_Schedule"
-msgstr ""
+msgstr "_Planifiche"
 
 #: ../calendar/gui/e-comp-editor-page-schedule.c:429
 msgid "Query free / busy information for the attendees"
-msgstr ""
+msgstr "Interoghe lis informazions libar/impegnât pai partecipants"
 
 #: ../calendar/gui/e-comp-editor-property-parts.c:81
 msgctxt "ECompEditor"
 msgid "_Summary:"
-msgstr ""
+msgstr "_Sintesi:"
 
 #: ../calendar/gui/e-comp-editor-property-parts.c:325
 msgctxt "ECompEditor"
 msgid "_Location:"
-msgstr ""
+msgstr "_Ubicazion:"
 
 #: ../calendar/gui/e-comp-editor-property-parts.c:458
 msgctxt "ECompEditor"
 msgid "_Categories..."
-msgstr ""
+msgstr "_Categoriis..."
 
 #: ../calendar/gui/e-comp-editor-property-parts.c:555
 msgctxt "ECompEditor"
 msgid "_Description:"
-msgstr ""
+msgstr "_Descrizion:"
 
 #: ../calendar/gui/e-comp-editor-property-parts.c:686
 msgctxt "ECompEditor"
 msgid "_Web page:"
-msgstr ""
+msgstr "Pagjine _web:"
 
 #: ../calendar/gui/e-comp-editor-property-parts.c:1057
 msgctxt "ECompEditor"
 msgid "D_ue date:"
-msgstr ""
+msgstr "Date di sc_jadince:"
 
 #: ../calendar/gui/e-comp-editor-property-parts.c:1117
 msgctxt "ECompEditor"
 msgid "Date _completed:"
-msgstr ""
+msgstr "Completât in _date:"
 
 #: ../calendar/gui/e-comp-editor-property-parts.c:1133
 msgctxt "ECompEditor"
 msgid "Public"
-msgstr ""
+msgstr "Public"
 
 #: ../calendar/gui/e-comp-editor-property-parts.c:1134
 msgctxt "ECompEditor"
 msgid "Private"
-msgstr ""
+msgstr "Privât"
 
 #: ../calendar/gui/e-comp-editor-property-parts.c:1135
 msgctxt "ECompEditor"
 msgid "Confidential"
-msgstr ""
+msgstr "Confidenziâl"
 
 #: ../calendar/gui/e-comp-editor-property-parts.c:1151
 msgctxt "ECompEditor"
 msgid "C_lassification:"
-msgstr ""
+msgstr "C_lassificazion:"
 
 #: ../calendar/gui/e-comp-editor-property-parts.c:1170
 msgctxt "ECompEditor"
 msgid "Not Started"
-msgstr ""
+msgstr "No scomençât"
 
 #: ../calendar/gui/e-comp-editor-property-parts.c:1171
 msgctxt "ECompEditor"
 msgid "In Progress"
-msgstr ""
+msgstr "In cors"
 
 #: ../calendar/gui/e-comp-editor-property-parts.c:1172
 msgctxt "ECompEditor"
 msgid "Completed"
-msgstr ""
+msgstr "Completât"
 
 #: ../calendar/gui/e-comp-editor-property-parts.c:1173
 msgctxt "ECompEditor"
 msgid "Cancelled"
-msgstr ""
+msgstr "Anulât"
 
 #: ../calendar/gui/e-comp-editor-property-parts.c:1182
 msgctxt "ECompEditor"
 msgid "_Status:"
-msgstr ""
+msgstr "_Stât:"
 
 #: ../calendar/gui/e-comp-editor-property-parts.c:1212
 msgctxt "ECompEditor"
 msgid "Undefined"
-msgstr ""
+msgstr "No definide"
 
 #: ../calendar/gui/e-comp-editor-property-parts.c:1213
 msgctxt "ECompEditor"
 msgid "High"
-msgstr ""
+msgstr "Alte"
 
 #: ../calendar/gui/e-comp-editor-property-parts.c:1214
 msgctxt "ECompEditor"
 msgid "Normal"
-msgstr ""
+msgstr "Normâl"
 
 #: ../calendar/gui/e-comp-editor-property-parts.c:1215
 msgctxt "ECompEditor"
 msgid "Low"
-msgstr ""
+msgstr "Basse"
 
 #: ../calendar/gui/e-comp-editor-property-parts.c:1224
 msgctxt "ECompEditor"
 msgid "Priorit_y:"
-msgstr ""
+msgstr "Priori_tât:"
 
 #: ../calendar/gui/e-comp-editor-property-parts.c:1278
 msgctxt "ECompEditor"
 msgid "Percent complete:"
-msgstr ""
+msgstr "P_ercentuâl completade:"
 
 #: ../calendar/gui/e-comp-editor-property-parts.c:1359
 msgctxt "ECompEditor"
 msgid "Time _zone:"
-msgstr ""
+msgstr "_Fûs orari:"
 
 #: ../calendar/gui/e-comp-editor-property-parts.c:1484
 msgctxt "ECompEditor"
 msgid "Show time as _busy"
-msgstr ""
+msgstr "Mostre ore come _impegnât"
 
 #: ../calendar/gui/e-comp-editor-task.c:75
 msgid "Task's start date is in the past"
-msgstr ""
+msgstr "La date di inizi de ativitât e je tal passât"
 
 #: ../calendar/gui/e-comp-editor-task.c:83
 msgid "Task's due date is in the past"
-msgstr ""
+msgstr "La date di scjadince de ativitât e je tal passât"
 
 #: ../calendar/gui/e-comp-editor-task.c:308
 msgid ""
 "Task cannot be edited, because the selected task list could not be opened"
 msgstr ""
+"Nol è pussibil modificâ la ativitât parcè che la liste des ativitâts "
+"selezionade no pues jessi vierte"
 
 #: ../calendar/gui/e-comp-editor-task.c:310
 msgid "Task cannot be edited, because the selected task list is read only"
 msgstr ""
+"Nol è pussibil modificâ la ativitât parcè che la liste des ativitâts e je in "
+"dome-leture"
 
 #: ../calendar/gui/e-comp-editor-task.c:312
 msgid "Task cannot be fully edited, because you are not the organizer"
 msgstr ""
+"Nol è pussibil modificâ dal dut la ativitât parcè che no si è l'organizadôr"
 
 #: ../calendar/gui/e-comp-editor-task.c:359
 msgid "Due date is not a valid date"
-msgstr ""
+msgstr "La date di scjadince no je valide"
 
 #: ../calendar/gui/e-comp-editor-task.c:370
 msgid "Completed date is not a valid date"
