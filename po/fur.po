@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2016-09-25 00:11+0000\n"
-"PO-Revision-Date: 2016-09-25 21:36+0200\n"
+"PO-Revision-Date: 2016-09-26 20:42+0200\n"
 "Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
 "Language-Team: Friulian <fur@li.org>\n"
 "Language: fur\n"
@@ -79,7 +79,7 @@ msgstr "Eliminâ la rubriche «{0}»?"
 
 #: ../addressbook/addressbook.error.xml.h:12
 msgid "This address book will be removed permanently."
-msgstr "Cheste rubriche e vegnarà gjavade par simpri."
+msgstr "Cheste rubriche e vignarà gjavade par simpri."
 
 #: ../addressbook/addressbook.error.xml.h:13 ../calendar/calendar.error.xml.h:7
 #: ../mail/mail.error.xml.h:69
@@ -855,19 +855,19 @@ msgstr "_Selezione rubriche"
 
 #: ../addressbook/gui/contact-editor/fullname.ui.h:1
 msgid "Mr."
-msgstr ""
+msgstr "Siôr"
 
 #: ../addressbook/gui/contact-editor/fullname.ui.h:2
 msgid "Mrs."
-msgstr ""
+msgstr "Siore"
 
 #: ../addressbook/gui/contact-editor/fullname.ui.h:3
 msgid "Ms."
-msgstr ""
+msgstr "Siore"
 
 #: ../addressbook/gui/contact-editor/fullname.ui.h:4
 msgid "Miss"
-msgstr ""
+msgstr "Siore"
 
 #: ../addressbook/gui/contact-editor/fullname.ui.h:5
 msgid "Dr."
@@ -875,11 +875,11 @@ msgstr "Dot."
 
 #: ../addressbook/gui/contact-editor/fullname.ui.h:6
 msgid "Sr."
-msgstr ""
+msgstr "Sr."
 
 #: ../addressbook/gui/contact-editor/fullname.ui.h:7
 msgid "Jr."
-msgstr ""
+msgstr "Jr."
 
 #: ../addressbook/gui/contact-editor/fullname.ui.h:8
 msgid "I"
@@ -895,7 +895,7 @@ msgstr "III"
 
 #: ../addressbook/gui/contact-editor/fullname.ui.h:11
 msgid "Esq."
-msgstr ""
+msgstr "Pres."
 
 #: ../addressbook/gui/contact-editor/fullname.ui.h:12
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:2
@@ -1066,7 +1066,7 @@ msgstr "Membris liste:"
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:753
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:5
 msgid "Nickname"
-msgstr ""
+msgstr "Sorenon"
 
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:754
 msgid "AIM"
@@ -2016,7 +2016,7 @@ msgstr "Nissune descrizion disponibile."
 
 #: ../calendar/alarm-notify/alarm-queue.c:1734
 msgid "No location information available."
-msgstr "Nissune informazion su la ubicazion disponibile."
+msgstr "Nissune informazion disponibile su la ubicazion."
 
 #: ../calendar/alarm-notify/alarm-queue.c:1739
 #: ../calendar/alarm-notify/alarm-queue.c:1886
@@ -2137,7 +2137,7 @@ msgstr "Sigûrs di eliminâ cheste riunion?"
 msgid ""
 "All information on this meeting will be deleted and can not be restored."
 msgstr ""
-"Dutis lis informazions su cheste riunion a vegnaran eliminadis e no podaran "
+"Dutis lis informazions su cheste riunion a vignaran eliminadis e no podaran "
 "jessi recuperadis."
 
 #: ../calendar/calendar.error.xml.h:8
@@ -2156,7 +2156,7 @@ msgstr "Sigûrs di eliminâ cheste ativitât?"
 #: ../calendar/calendar.error.xml.h:10
 msgid "All information on this task will be deleted and can not be restored."
 msgstr ""
-"Dutis lis informazions su cheste ativitât a vegnaran eliminadis e no si "
+"Dutis lis informazions su cheste ativitât a vignaran eliminadis e no si "
 "podaran plui recuperâ."
 
 #: ../calendar/calendar.error.xml.h:11
@@ -2179,7 +2179,7 @@ msgstr "Sigûrs di eliminâ chest memorandum?"
 #: ../calendar/calendar.error.xml.h:14
 msgid "All information on this memo will be deleted and can not be restored."
 msgstr ""
-"Dutis lis informazions su chest memorandum a vegnaran eliminadis e no si "
+"Dutis lis informazions su chest memorandum a vignaran eliminadis e no si "
 "podaran plui recuperâ."
 
 #: ../calendar/calendar.error.xml.h:15
@@ -2194,7 +2194,7 @@ msgstr "Sigûrs di eliminâ l'apontament intitolât «{0}»?"
 msgid ""
 "All information on this appointment will be deleted and can not be restored."
 msgstr ""
-"Dutis lis informazions su chest apontament a vegnaran eliminadis e no si "
+"Dutis lis informazions su chest apontament a vignaran eliminadis e no si "
 "podaran plui recuperâ."
 
 #: ../calendar/calendar.error.xml.h:18
@@ -2212,7 +2212,7 @@ msgstr "Sigûrs di eliminâ il memorandum «{0}»?"
 #: ../calendar/calendar.error.xml.h:21
 msgid "All information in this memo will be deleted and can not be restored."
 msgstr ""
-"Dutis lis informazions in chest memorandum a vegnaran eliminadis e no si "
+"Dutis lis informazions in chest memorandum a vignaran eliminadis e no si "
 "podaran plui recuperâ."
 
 #: ../calendar/calendar.error.xml.h:22
@@ -2224,7 +2224,7 @@ msgid ""
 "All information on these appointments will be deleted and can not be "
 "restored."
 msgstr ""
-"Dutis lis informazions su chescj apontaments a vegnaran eliminâts e no si "
+"Dutis lis informazions su chescj apontaments a vignaran eliminâts e no si "
 "podaran plui recuperâ."
 
 #: ../calendar/calendar.error.xml.h:24
@@ -2234,7 +2234,7 @@ msgstr "Sigûrs di eliminâ chestis {0} ativitâts?"
 #: ../calendar/calendar.error.xml.h:25
 msgid "All information on these tasks will be deleted and can not be restored."
 msgstr ""
-"Dutis lis informazions su chestis ativitâts a vegnaran eliminadis e no si "
+"Dutis lis informazions su chestis ativitâts a vignaran eliminadis e no si "
 "podaran plui recuperâ."
 
 #: ../calendar/calendar.error.xml.h:26
@@ -2244,7 +2244,7 @@ msgstr "Sigûrs di eliminâ chescj {0} memorandums?"
 #: ../calendar/calendar.error.xml.h:27
 msgid "All information in these memos will be deleted and can not be restored."
 msgstr ""
-"Dutis lis informazions in chescj memorandums a vegnaran eliminadis e no si "
+"Dutis lis informazions in chescj memorandums a vignaran eliminadis e no si "
 "podaran plui recuperâ."
 
 #: ../calendar/calendar.error.xml.h:28
@@ -2297,7 +2297,7 @@ msgstr "Inviâ un invît ae riunion a ducj i partecipants?"
 msgid ""
 "Email invitations will be sent to all participants and allow them to reply."
 msgstr ""
-"A vegnaran inviâts invîts vie e-mail a ducj i partecipants, permetint lôr di "
+"A vignaran inviâts invîts vie e-mail a ducj i partecipants, permetint lôr di "
 "rispuindi."
 
 #: ../calendar/calendar.error.xml.h:40 ../composer/mail-composer.error.xml.h:36
@@ -2327,7 +2327,7 @@ msgid ""
 "Email invitations will be sent to all participants and allow them to accept "
 "this task."
 msgstr ""
-"A vegnaran inviâts invîts vie e-mail a ducj i partecipants, permetint lôr di "
+"A vignaran inviâts invîts vie e-mail a ducj i partecipants, permetint lôr di "
 "acetâ cheste ativitât"
 
 #: ../calendar/calendar.error.xml.h:45
@@ -2375,7 +2375,7 @@ msgid ""
 "Email invitations will be sent to all participants and allow them to accept "
 "this memo."
 msgstr ""
-"E-mail di invît a vegnaran inviâts a ducj i partecipants, permetint lôr di "
+"E-mail di invît a vignaran inviâts a ducj i partecipants, permetint lôr di "
 "acetâ chest memorandum."
 
 #: ../calendar/calendar.error.xml.h:54
@@ -2400,7 +2400,7 @@ msgstr "Eliminâ calendari «{0}»?"
 
 #: ../calendar/calendar.error.xml.h:58
 msgid "This calendar will be removed permanently."
-msgstr "Chest calendari al vegnarà gjavât par simpri."
+msgstr "Chest calendari al vignarà gjavât par simpri."
 
 #: ../calendar/calendar.error.xml.h:59
 msgid "Delete task list '{0}'?"
@@ -2408,7 +2408,7 @@ msgstr "Eliminâ la liste des ativitâts «{0}»?"
 
 #: ../calendar/calendar.error.xml.h:60
 msgid "This task list will be removed permanently."
-msgstr "Cheste liste des ativitâts e vegnarà gjavade par simpri."
+msgstr "Cheste liste des ativitâts e vignarà gjavade par simpri."
 
 #: ../calendar/calendar.error.xml.h:61
 msgid "Delete memo list '{0}'?"
@@ -2416,7 +2416,7 @@ msgstr "Eliminâ liste memorandum «{0}»?"
 
 #: ../calendar/calendar.error.xml.h:62
 msgid "This memo list will be removed permanently."
-msgstr "Cheste liste di memorandum e vegnarà gjavade in maniere definitive."
+msgstr "Cheste liste di memorandum e vignarà gjavade in maniere definitive."
 
 #: ../calendar/calendar.error.xml.h:63
 msgid "Delete remote calendar '{0}'?"
@@ -3199,7 +3199,7 @@ msgstr "Daûr a creâ la viodude pal calendari '%s'"
 #: ../calendar/gui/e-cal-data-model.c:1637
 #, c-format
 msgid "Creating view for task list '%s'"
-msgstr ""
+msgstr "Daûr a creâ la viodude pe liste des ativitâts '%s'"
 
 #: ../calendar/gui/e-cal-data-model.c:1641
 #, c-format
@@ -3208,12 +3208,12 @@ msgstr "Daûr a creâ la viodude pe liste dai memorandums '%s'"
 
 #: ../calendar/gui/e-cal-dialogs.c:214 ../calendar/gui/e-cal-ops.c:1957
 msgid "Destination is read only"
-msgstr ""
+msgstr "La destinazion e je in dome-leture"
 
 #: ../calendar/gui/e-cal-dialogs.c:294
 #, c-format
 msgid "Copying events to the calendar '%s'"
-msgstr ""
+msgstr "Daûr a copiâ i events sul calendari '%s'"
 
 #: ../calendar/gui/e-cal-dialogs.c:300
 #, c-format
@@ -3223,24 +3223,24 @@ msgstr "Daûr a copiâ i memorandum inte liste dai memorandums '%s'"
 #: ../calendar/gui/e-cal-dialogs.c:306
 #, c-format
 msgid "Copying tasks to the task list '%s'"
-msgstr ""
+msgstr "Daûr a copiâ lis ativitâts su la liste des ativitâts '%s'"
 
 #: ../calendar/gui/e-cal-dialogs.c:525
 msgid "_Delete this item from all other recipient's mailboxes?"
-msgstr ""
+msgstr "_Elimine chest element de casele di pueste di ducj i destinataris?"
 
 #: ../calendar/gui/e-cal-dialogs.c:528
 msgid "_Retract comment"
-msgstr ""
+msgstr "_Revoche coment"
 
 #: ../calendar/gui/e-cal-dialogs.c:687
 msgid "Select Date"
-msgstr ""
+msgstr "Selezione date"
 
 #: ../calendar/gui/e-cal-dialogs.c:688
 #: ../modules/calendar/e-cal-shell-view-actions.c:1250
 msgid "Select _Today"
-msgstr ""
+msgstr "Selezione _vuê"
 
 #: ../calendar/gui/e-cal-dialogs.c:707
 msgid "January"
@@ -3293,70 +3293,70 @@ msgstr "Dicembar"
 #: ../calendar/gui/e-cal-dialogs.c:868
 #, c-format
 msgid "You are modifying a recurring event. What would you like to modify?"
-msgstr ""
+msgstr "Si sta modificant un event che si ripet. Ce si vuelial modificâ?"
 
 #: ../calendar/gui/e-cal-dialogs.c:870
 #, c-format
 msgid "You are delegating a recurring event. What would you like to delegate?"
-msgstr ""
+msgstr "Si sta delegant un event che si ripet. Ce si vuelial delegâ?"
 
 #: ../calendar/gui/e-cal-dialogs.c:874
 #, c-format
 msgid "You are modifying a recurring task. What would you like to modify?"
-msgstr ""
+msgstr "Si sta modificant une ativitât che si ripet. Ce si vuelial modificâ?"
 
 #: ../calendar/gui/e-cal-dialogs.c:878
 #, c-format
 msgid "You are modifying a recurring memo. What would you like to modify?"
-msgstr "Si sta modificant un memorandum ciclic. Ce si vuelial modificâ?"
+msgstr "Si sta modificant un memorandum che si ripet. Ce si vuelial modificâ?"
 
 #: ../calendar/gui/e-cal-dialogs.c:904
 msgid "This Instance Only"
-msgstr ""
+msgstr "Nome cheste istance"
 
 #: ../calendar/gui/e-cal-dialogs.c:908
 msgid "This and Prior Instances"
-msgstr ""
+msgstr "Cheste istance e lis precedentis"
 
 #: ../calendar/gui/e-cal-dialogs.c:914
 msgid "This and Future Instances"
-msgstr ""
+msgstr "Cheste istance e chês che a vignaran"
 
 #: ../calendar/gui/e-cal-dialogs.c:919
 msgid "All Instances"
-msgstr ""
+msgstr "Dutis lis istancis"
 
 #: ../calendar/gui/e-cal-dialogs.c:1169 ../calendar/gui/e-cal-dialogs.c:1251
 msgid "Send my reminders with this event"
-msgstr ""
+msgstr "Inviâ i miei promemorie cun chest event"
 
 #: ../calendar/gui/e-cal-dialogs.c:1171 ../calendar/gui/e-cal-dialogs.c:1253
 msgid "Notify new attendees _only"
-msgstr ""
+msgstr "Notificâ _nome i gnûfs partecipants"
 
 #: ../calendar/gui/e-calendar-view.c:452
 msgid "Cut selected events to the clipboard"
-msgstr ""
+msgstr "Taie i events selezionâts intes notis"
 
 #: ../calendar/gui/e-calendar-view.c:458
 msgid "Copy selected events to the clipboard"
-msgstr ""
+msgstr "Copie i events selezionâts intes notis"
 
 #: ../calendar/gui/e-calendar-view.c:464
 msgid "Paste events from the clipboard"
-msgstr ""
+msgstr "Tache i events des notis"
 
 #: ../calendar/gui/e-calendar-view.c:470
 msgid "Delete selected events"
-msgstr ""
+msgstr "Elimine i events selezionâts"
 
 #: ../calendar/gui/e-calendar-view.c:852
 msgid "Pasted text doesn't contain valid iCalendar data"
-msgstr ""
+msgstr "Il test tacât nol à dâts iCalendar valits"
 
 #: ../calendar/gui/e-calendar-view.c:863 ../calendar/gui/e-cal-ops.c:1554
 msgid "Default calendar not found"
-msgstr ""
+msgstr "Calendari predefinît no cjatât"
 
 #: ../calendar/gui/e-calendar-view.c:868 ../calendar/gui/e-cal-ops.c:1557
 msgid "Default memo list not found"
@@ -3364,15 +3364,15 @@ msgstr "Liste dai memorandums predefinide no cjatade"
 
 #: ../calendar/gui/e-calendar-view.c:873 ../calendar/gui/e-cal-ops.c:1560
 msgid "Default task list not found"
-msgstr ""
+msgstr "Liste ativitâts predefinît no cjatade"
 
 #: ../calendar/gui/e-calendar-view.c:962
 msgid "No suitable component found"
-msgstr ""
+msgstr "Nissun component adat cjatât"
 
 #: ../calendar/gui/e-calendar-view.c:1032
 msgid "Pasting iCalendar data"
-msgstr ""
+msgstr "Daûr a tacâ dâts iCalendar"
 
 #. To Translators: It will display "Organiser: NameOfTheUser <email@ofuser.com>"
 #. To Translators: It will display
@@ -3381,7 +3381,7 @@ msgstr ""
 #: ../calendar/gui/e-task-table.c:794
 #, c-format
 msgid "Organizer: %s <%s>"
-msgstr ""
+msgstr "Organizadôr: %s <%s>"
 
 #. With SunOne accouts, there may be no ':' in organiser.value
 #. With SunOne accounts, there may be no ':' in
@@ -3390,27 +3390,27 @@ msgstr ""
 #: ../calendar/gui/e-task-table.c:798
 #, c-format
 msgid "Organizer: %s"
-msgstr ""
+msgstr "Organizadôr: %s"
 
 #. To Translators: It will display "Location: PlaceOfTheMeeting"
 #: ../calendar/gui/e-calendar-view.c:1850
 #: ../calendar/gui/e-meeting-time-sel.c:2727 ../calendar/gui/print.c:3533
 #, c-format
 msgid "Location: %s"
-msgstr ""
+msgstr "Ubicazion: %s"
 
 #. To Translators: It will display "Time: ActualStartDateAndTime (DurationOfTheMeeting)"
 #: ../calendar/gui/e-calendar-view.c:1890
 #, c-format
 msgid "Time: %s %s"
-msgstr ""
+msgstr "Date e ore: %s %s"
 
 #: ../calendar/gui/e-calendar-view.c:2276
 #: ../calendar/gui/e-calendar-view.c:2283
 #: ../calendar/gui/e-calendar-view.c:2290
 #: ../calendar/gui/e-calendar-view.c:2293
 msgid "%d %b %Y"
-msgstr ""
+msgstr "%e di %B dal %Y"
 
 #. strftime format %d = day of month, %b = abbreviated month name.
 #. * Don't use any other specifiers.
@@ -3421,11 +3421,11 @@ msgstr ""
 #: ../calendar/gui/e-day-view-top-item.c:851
 #: ../calendar/gui/e-week-view-main-item.c:230
 msgid "%d %b"
-msgstr ""
+msgstr "%e di %b"
 
 #: ../calendar/gui/e-calendar-view.c:2303
 msgid "%A %d %b %Y"
-msgstr ""
+msgstr "%A, %e di %b dal %Y"
 
 #. strftime format %a = abbreviated weekday name, %d = day of month,
 #. * %b = abbreviated month name. Don't use any other specifiers.
@@ -3437,42 +3437,42 @@ msgstr ""
 #: ../calendar/gui/e-day-view-top-item.c:847
 #: ../calendar/gui/e-week-view-main-item.c:216
 msgid "%a %d %b"
-msgstr ""
+msgstr "%a, %e di %b"
 
 #: ../calendar/gui/e-calendar-view.c:2310
 #: ../calendar/gui/e-calendar-view.c:2316
 #: ../calendar/gui/e-calendar-view.c:2319
 msgid "%a %d %b %Y"
-msgstr ""
+msgstr "%a, %e di %b dal %Y"
 
 #: ../calendar/gui/e-cal-list-view.etspec.h:1
 #: ../calendar/gui/e-memo-table.etspec.h:5
 msgid "Start Date"
-msgstr ""
+msgstr "Date di inizi"
 
 #: ../calendar/gui/e-cal-list-view.etspec.h:2
 msgid "End Date"
-msgstr ""
+msgstr "Date di fin"
 
 #: ../calendar/gui/e-cal-list-view.etspec.h:7
 #: ../calendar/gui/e-memo-table.etspec.h:6
 #: ../calendar/gui/e-task-table.etspec.h:13
 #: ../plugins/save-calendar/csv-format.c:380
 msgid "Created"
-msgstr ""
+msgstr "Creât"
 
 #: ../calendar/gui/e-cal-list-view.etspec.h:8
 #: ../calendar/gui/e-memo-table.etspec.h:7
 #: ../calendar/gui/e-task-table.etspec.h:14
 msgid "Last modified"
-msgstr ""
+msgstr "Ultime modifiche"
 
 #: ../calendar/gui/e-cal-list-view.etspec.h:9
 #: ../calendar/gui/e-memo-table.etspec.h:8
 #: ../calendar/gui/e-task-table.etspec.h:15
 #: ../em-format/e-mail-formatter-source.c:120
 msgid "Source"
-msgstr ""
+msgstr "Sorzint"
 
 #: ../calendar/gui/e-cal-model.c:318 ../calendar/gui/e-meeting-list-view.c:185
 #: ../calendar/gui/e-meeting-list-view.c:199
@@ -3483,19 +3483,19 @@ msgstr ""
 #: ../modules/itip-formatter/itip-view.c:5915
 #: ../modules/plugin-manager/evolution-plugin-manager.c:99
 msgid "Unknown"
-msgstr ""
+msgstr "No cognossût"
 
 #: ../calendar/gui/e-cal-model.c:1404 ../calendar/gui/e-cal-ops.c:615
 #: ../calendar/gui/e-cal-ops.c:1251
 #: ../modules/calendar/e-cal-base-shell-backend.c:291
 #, c-format
 msgid "Source with UID '%s' not found"
-msgstr ""
+msgstr "Font cun UID '%s' no cjatade"
 
 #: ../calendar/gui/e-cal-model.c:1507 ../calendar/gui/e-cal-ops.c:187
 #: ../calendar/gui/e-cal-ops.c:1368
 msgid "Creating an event"
-msgstr ""
+msgstr "Daûr a creâ un event"
 
 #: ../calendar/gui/e-cal-model.c:1511 ../calendar/gui/e-cal-ops.c:191
 #: ../calendar/gui/e-cal-ops.c:1372
@@ -3505,56 +3505,56 @@ msgstr "Daûr a creâ un memorandum"
 #: ../calendar/gui/e-cal-model.c:1515 ../calendar/gui/e-cal-ops.c:195
 #: ../calendar/gui/e-cal-ops.c:1376
 msgid "Creating a task"
-msgstr ""
+msgstr "Daûr a creâ une ativitât"
 
 #: ../calendar/gui/e-cal-model.c:1892
 msgid "Recurring"
-msgstr ""
+msgstr "Ricorint"
 
 #: ../calendar/gui/e-cal-model.c:1894
 msgid "Assigned"
-msgstr ""
+msgstr "Assegnât"
 
 #: ../calendar/gui/e-cal-model.c:1896 ../calendar/gui/e-cal-model-tasks.c:1138
 #: ../calendar/gui/e-meeting-list-view.c:209
 #: ../calendar/gui/e-meeting-store.c:176 ../calendar/gui/e-meeting-store.c:186
 #: ../calendar/gui/e-meeting-store.c:1023
 msgid "Yes"
-msgstr ""
+msgstr "Sì"
 
 #: ../calendar/gui/e-cal-model.c:1896 ../calendar/gui/e-cal-model-tasks.c:1138
 #: ../calendar/gui/e-meeting-list-view.c:210
 #: ../calendar/gui/e-meeting-store.c:188
 msgid "No"
-msgstr ""
+msgstr "No"
 
 #: ../calendar/gui/e-cal-model.c:3820 ../calendar/gui/e-meeting-list-view.c:221
 #: ../calendar/gui/e-meeting-store.c:196 ../calendar/gui/e-meeting-store.c:219
 #: ../modules/itip-formatter/itip-view.c:5903
 msgid "Accepted"
-msgstr ""
+msgstr "Acetât"
 
 #: ../calendar/gui/e-cal-model.c:3821 ../calendar/gui/e-meeting-list-view.c:222
 #: ../calendar/gui/e-meeting-store.c:198 ../calendar/gui/e-meeting-store.c:221
 #: ../modules/itip-formatter/itip-view.c:5909
 msgid "Declined"
-msgstr ""
+msgstr "Ricusât"
 
 #: ../calendar/gui/e-cal-model.c:3822 ../calendar/gui/e-meeting-list-view.c:223
 #: ../calendar/gui/e-meeting-store.c:200 ../calendar/gui/e-meeting-store.c:223
 #: ../calendar/gui/e-meeting-time-sel.c:535
 msgid "Tentative"
-msgstr ""
+msgstr "Provisori"
 
 #: ../calendar/gui/e-cal-model.c:3823 ../calendar/gui/e-meeting-list-view.c:224
 #: ../calendar/gui/e-meeting-store.c:202 ../calendar/gui/e-meeting-store.c:225
 #: ../modules/itip-formatter/itip-view.c:5912
 msgid "Delegated"
-msgstr ""
+msgstr "Delegât"
 
 #: ../calendar/gui/e-cal-model.c:3824
 msgid "Needs action"
-msgstr ""
+msgstr "E covente azion"
 
 #. To Translators: 'Status' here means the state of the attendees, the resulting string will be in a form:
 #. * Status: Accepted: X   Declined: Y   ...
@@ -3564,17 +3564,17 @@ msgstr ""
 #: ../mail/filtertypes.xml.in.h:36 ../mail/message-list.etspec.h:1
 #: ../mail/searchtypes.xml.in.h:38 ../mail/vfoldertypes.xml.in.h:38
 msgid "Status"
-msgstr ""
+msgstr "Stât"
 
 #: ../calendar/gui/e-cal-model-calendar.c:150
 #: ../calendar/gui/e-task-table.c:582
 msgid "Free"
-msgstr ""
+msgstr "Libar"
 
 #: ../calendar/gui/e-cal-model-calendar.c:153
 #: ../calendar/gui/e-meeting-time-sel.c:536 ../calendar/gui/e-task-table.c:583
 msgid "Busy"
-msgstr ""
+msgstr "Impegnât"
 
 #: ../calendar/gui/e-cal-model-tasks.c:498
 msgid ""
@@ -3582,16 +3582,19 @@ msgid ""
 "\n"
 "45.436845,125.862501"
 msgstr ""
+"La posizion gjeografiche e scugne jessi inseride tal formât:\n"
+"\n"
+"45.436845,125.862501"
 
 #. Translators: "None" for task's status
 #: ../calendar/gui/e-cal-model-tasks.c:550
 msgctxt "cal-task-status"
 msgid "None"
-msgstr ""
+msgstr "Nissun"
 
 #: ../calendar/gui/e-cal-ops.c:306
 msgid "Modifying an event"
-msgstr ""
+msgstr "Daûr a modificâ un event"
 
 #: ../calendar/gui/e-cal-ops.c:310
 msgid "Modifying a memo"
@@ -3599,11 +3602,11 @@ msgstr "Daûr a modificâ un memorandum"
 
 #: ../calendar/gui/e-cal-ops.c:314
 msgid "Modifying a task"
-msgstr ""
+msgstr "Daûr a modificâ une ativitât"
 
 #: ../calendar/gui/e-cal-ops.c:413
 msgid "Removing an event"
-msgstr ""
+msgstr "Daûr a gjavâ un event"
 
 #: ../calendar/gui/e-cal-ops.c:417
 msgid "Removing a memo"
@@ -3611,14 +3614,14 @@ msgstr "Daûr a gjavâ un memorandum"
 
 #: ../calendar/gui/e-cal-ops.c:421
 msgid "Removing a task"
-msgstr ""
+msgstr "Daûr a gjavâ une ativitât"
 
 #: ../calendar/gui/e-cal-ops.c:512
 #, c-format
 msgid "Deleting an event"
 msgid_plural "Deleting %d events"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Daûr a eliminâ un event"
+msgstr[1] "Daûr a eliminâ %d events"
 
 #: ../calendar/gui/e-cal-ops.c:516
 #, c-format
@@ -3631,15 +3634,15 @@ msgstr[1] "Daûr a eliminâ %d memorandums"
 #, c-format
 msgid "Deleting a task"
 msgid_plural "Deleting %d tasks"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Daûr a eliminâ une ativitât"
+msgstr[1] "Daûr a eliminâ %d ativitâts"
 
 #: ../calendar/gui/e-cal-ops.c:723
 #, c-format
 msgid "Pasting an event"
 msgid_plural "Pasting %d events"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Daûr a tacâ un event"
+msgstr[1] "Daûr a tacâ %d events"
 
 #: ../calendar/gui/e-cal-ops.c:738
 #, c-format
@@ -3652,12 +3655,12 @@ msgstr[1] "Daûr a tacâ %d memorandums"
 #, c-format
 msgid "Pasting a task"
 msgid_plural "Pasting %d tasks"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Daûr a tacâ une ativitât"
+msgstr[1] "Daûr a tacâ %d ativitâts"
 
 #: ../calendar/gui/e-cal-ops.c:852
 msgid "Updating an event"
-msgstr ""
+msgstr "Daûr a inzornâ un event"
 
 #: ../calendar/gui/e-cal-ops.c:856
 msgid "Updating a memo"
@@ -3665,12 +3668,12 @@ msgstr "Daûr a inzornâ un memorandum"
 
 #: ../calendar/gui/e-cal-ops.c:860
 msgid "Updating a task"
-msgstr ""
+msgstr "Daûr a inzornâ une ativitât"
 
 #: ../calendar/gui/e-cal-ops.c:968
 #, c-format
 msgid "Getting events to purge in the calendar '%s'"
-msgstr ""
+msgstr "Daûr a otignî i events di netâ tal calendari '%s'"
 
 #: ../calendar/gui/e-cal-ops.c:972
 #, c-format
@@ -3680,7 +3683,7 @@ msgstr "Daûr a otignî i memorandums di netâ te liste dai memorandums '%s'"
 #: ../calendar/gui/e-cal-ops.c:976
 #, c-format
 msgid "Getting tasks to purge in the task list '%s'"
-msgstr ""
+msgstr "Daûr a otignî lis ativitâts di netâ te liste des ativitâts '%s'"
 
 #: ../calendar/gui/e-cal-ops.c:1002
 #, c-format
