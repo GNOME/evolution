@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2016-09-25 00:11+0000\n"
-"PO-Revision-Date: 2016-09-26 23:10+0200\n"
+"PO-Revision-Date: 2016-09-26 23:49+0200\n"
 "Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
 "Language-Team: Friulian <fur@li.org>\n"
 "Language: fur\n"
@@ -4288,13 +4288,13 @@ msgstr ""
 #: ../calendar/gui/e-comp-editor-page-recurrence.c:2017
 msgctxt "ECompEditorPageRecur"
 msgid "This appointment rec_urs"
-msgstr ""
+msgstr "Chest apontament al _cole"
 
 #. Translators: Entire string is for example:     'This task recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
 #: ../calendar/gui/e-comp-editor-page-recurrence.c:1492
 msgctxt "ECompEditorPageRecur"
 msgid "This task rec_urs"
-msgstr ""
+msgstr "Cheste ativitât e _cole"
 
 #. Translators: Entire string is for example:     'This memo recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
 #: ../calendar/gui/e-comp-editor-page-recurrence.c:1497
@@ -4306,71 +4306,71 @@ msgstr "Chest memorandum al _cole"
 #: ../calendar/gui/e-comp-editor-page-recurrence.c:1502
 msgctxt "ECompEditorPageRecur"
 msgid "This component rec_urs"
-msgstr ""
+msgstr "Chest component al _cole"
 
 #: ../calendar/gui/e-comp-editor-page-recurrence.c:1863
 msgid "Recurrence exception date is invalid"
-msgstr ""
+msgstr "La date di ecezion de ricorince no je valide"
 
 #: ../calendar/gui/e-comp-editor-page-recurrence.c:1911
 msgid "End time of the recurrence is before the start"
-msgstr ""
+msgstr "La ore di fin de ricorince e je precedente a chê di inizi"
 
 #: ../calendar/gui/e-comp-editor-page-recurrence.c:1954
 msgid "R_ecurrence"
-msgstr ""
+msgstr "R_icorince"
 
 #: ../calendar/gui/e-comp-editor-page-recurrence.c:1956
 msgid "Set or unset recurrence"
-msgstr ""
+msgstr "Met o gjave ricorince"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
 #: ../calendar/gui/e-comp-editor-page-recurrence.c:2057
 msgctxt "ECompEditorPageRecur"
 msgid "Every"
-msgstr ""
+msgstr "Ogni"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
 #: ../calendar/gui/e-comp-editor-page-recurrence.c:2092
 msgctxt "ECompEditorPageRecur"
 msgid "day(s)"
-msgstr ""
+msgstr "dì(îs)"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
 #: ../calendar/gui/e-comp-editor-page-recurrence.c:2094
 msgctxt "ECompEditorPageRecur"
 msgid "week(s)"
-msgstr ""
+msgstr "setemane(is)"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
 #: ../calendar/gui/e-comp-editor-page-recurrence.c:2096
 msgctxt "ECompEditorPageRecur"
 msgid "month(s)"
-msgstr ""
+msgstr "mês"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
 #: ../calendar/gui/e-comp-editor-page-recurrence.c:2098
 msgctxt "ECompEditorPageRecur"
 msgid "year(s)"
-msgstr ""
+msgstr "an/agns"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
 #: ../calendar/gui/e-comp-editor-page-recurrence.c:2127
 msgctxt "ECompEditorPageRecur"
 msgid "for"
-msgstr ""
+msgstr "par"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
 #: ../calendar/gui/e-comp-editor-page-recurrence.c:2129
 msgctxt "ECompEditorPageRecur"
 msgid "until"
-msgstr ""
+msgstr "sin"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
 #: ../calendar/gui/e-comp-editor-page-recurrence.c:2131
 msgctxt "ECompEditorPageRecur"
 msgid "forever"
-msgstr ""
+msgstr "par simpri"
 
 #: ../calendar/gui/e-comp-editor-page-recurrence.c:2147
 msgid "This appointment contains recurrences that Evolution cannot edit."
