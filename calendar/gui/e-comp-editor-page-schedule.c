@@ -156,6 +156,24 @@ ecep_schedule_editor_times_changed_cb (ECompEditor *comp_editor,
 }
 
 static void
+ecep_schedule_editor_target_client_notify_cb (GObject *comp_editor,
+					      GParamSpec *param,
+					      gpointer user_data)
+{
+	ECompEditorPageSchedule *page_schedule = user_data;
+	ECalClient *target_client;
+
+	g_return_if_fail (E_IS_COMP_EDITOR (comp_editor));
+	g_return_if_fail (E_IS_COMP_EDITOR_PAGE_SCHEDULE (page_schedule));
+	g_return_if_fail (page_schedule->priv->store != NULL);
+	g_return_if_fail (page_schedule->priv->selector != NULL);
+
+	target_client = e_comp_editor_get_target_client (E_COMP_EDITOR (comp_editor));
+	e_meeting_store_set_client (page_schedule->priv->store, target_client);
+	e_meeting_time_selector_refresh_free_busy (page_schedule->priv->selector, -1, TRUE);
+}
+
+static void
 ecep_schedule_set_time_to_editor (ECompEditorPageSchedule *page_schedule)
 {
 	EMeetingTimeSelector *selector;
@@ -506,6 +524,9 @@ e_comp_editor_page_schedule_constructed (GObject *object)
 	if (comp_editor) {
 		g_signal_connect (comp_editor, "times-changed",
 			G_CALLBACK (ecep_schedule_editor_times_changed_cb), page_schedule);
+
+		g_signal_connect (comp_editor, "notify::target-client",
+			G_CALLBACK (ecep_schedule_editor_target_client_notify_cb), page_schedule);
 	}
 
 	g_clear_object (&comp_editor);
