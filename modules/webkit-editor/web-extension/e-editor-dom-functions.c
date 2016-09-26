@@ -7227,12 +7227,13 @@ process_node_to_plain_text_for_exporting (EEditorPage *editor_page,
 	WebKitDOMNodeList *nodes = NULL;
 	gboolean html_mode;
 	gchar *content = NULL;
-	gint ii;
+	gint ii, length;
 
 	html_mode = e_editor_page_get_html_mode (editor_page);
 
 	nodes = webkit_dom_node_get_child_nodes (source);
-	for (ii = webkit_dom_node_list_get_length (nodes); ii--;) {
+	length = webkit_dom_node_list_get_length (nodes);
+	for (ii = 0; ii < length; ii++) {
 		WebKitDOMNode *child;
 		gboolean skip_node = FALSE;
 
