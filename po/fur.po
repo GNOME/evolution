@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2016-09-25 00:11+0000\n"
-"PO-Revision-Date: 2016-09-26 20:42+0200\n"
+"PO-Revision-Date: 2016-09-26 21:56+0200\n"
 "Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
 "Language-Team: Friulian <fur@li.org>\n"
 "Language: fur\n"
@@ -2339,8 +2339,8 @@ msgid ""
 "Some attachments are being downloaded. Saving the task would result in the "
 "loss of these attachments."
 msgstr ""
-"Si sta discjariant cualchi alegât. Se si salve cumò la ativitât, si podarès "
-"pierdi chei alegâts."
+"Si sta discjariant cualchi zonte. Se si salve cumò la ativitât, si podarès "
+"pierdi chês zontis."
 
 #: ../calendar/calendar.error.xml.h:48
 msgid "Download in progress. Do you want to save the appointment?"
@@ -2351,8 +2351,8 @@ msgid ""
 "Some attachments are being downloaded. Saving the appointment would result "
 "in the loss of these attachments."
 msgstr ""
-"Si sta discjariant cualchi alegât. Se si salve cumò l'apontament, si podarès "
-"pierdi chei alegâts."
+"Si sta discjariant cualchi zonte. Se si salve cumò l'apontament, si podarès "
+"pierdi chês zontis."
 
 #: ../calendar/calendar.error.xml.h:50
 msgid "Would you like to send updated task information to participants?"
@@ -2541,7 +2541,7 @@ msgstr "No si è rivâts a zontâ il fûs orari «{0}»"
 #. The {0} is a calendar/memo list/task list name, which is useless here
 #: ../calendar/calendar.error.xml.h:93
 msgid "Failed to save attachments"
-msgstr "No si è rivâts a salvâ i alegâts"
+msgstr "No si è rivâts a salvâ lis zontis"
 
 #. Translators: {0} is the name of the calendar.
 #: ../calendar/calendar.error.xml.h:95
@@ -2846,7 +2846,7 @@ msgstr "Categorie"
 #: ../mail/filtertypes.xml.in.h:47 ../mail/searchtypes.xml.in.h:49
 #: ../mail/vfoldertypes.xml.in.h:50
 msgid "Attachments"
-msgstr "Alegâts"
+msgstr "Zontis"
 
 # infinito?
 #: ../calendar/gui/caltypes.xml.h:17 ../calendar/gui/memotypes.xml.h:15
@@ -3688,7 +3688,7 @@ msgstr "Daûr a otignî lis ativitâts di netâ te liste des ativitâts '%s'"
 #: ../calendar/gui/e-cal-ops.c:1002
 #, c-format
 msgid "Purging events in the calendar '%s'"
-msgstr ""
+msgstr "Daûr a netâ i events tal calendari '%s'"
 
 #: ../calendar/gui/e-cal-ops.c:1006
 #, c-format
@@ -3698,11 +3698,11 @@ msgstr "Daûr a netâ i memorandums inte liste dai memorandums '%s'"
 #: ../calendar/gui/e-cal-ops.c:1010
 #, c-format
 msgid "Purging tasks in the task list '%s'"
-msgstr ""
+msgstr "Daûr a netâ lis ativitâts inte liste des ativitâts '%s'"
 
 #: ../calendar/gui/e-cal-ops.c:1110
 msgid "Purging events"
-msgstr ""
+msgstr "Daûr a netâ i events"
 
 #: ../calendar/gui/e-cal-ops.c:1114
 msgid "Purging memos"
@@ -3710,25 +3710,25 @@ msgstr "Daûr a netâ i memorandums"
 
 #: ../calendar/gui/e-cal-ops.c:1118
 msgid "Purging tasks"
-msgstr ""
+msgstr "Daûr a netâ lis ativitâts"
 
 #: ../calendar/gui/e-cal-ops.c:1220
 msgid "Expunging completed tasks"
-msgstr ""
+msgstr "Netisie ativitâts completade"
 
 #: ../calendar/gui/e-cal-ops.c:2051
 #, c-format
 msgid "Moving an event"
 msgid_plural "Moving %d events"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Daûr a spostâ un event"
+msgstr[1] "Daûr a spostâ %d events"
 
 #: ../calendar/gui/e-cal-ops.c:2052
 #, c-format
 msgid "Copying an event"
 msgid_plural "Copying %d events"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Daûr a copiâ un event"
+msgstr[1] "Daûr a copiâ %d events"
 
 #: ../calendar/gui/e-cal-ops.c:2058
 #, c-format
@@ -3748,25 +3748,25 @@ msgstr[1] "Daûr a copiâ %d memorandums"
 #, c-format
 msgid "Moving a task"
 msgid_plural "Moving %d tasks"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Daûr a spostâ une ativitât"
+msgstr[1] "Daûr a spostâ %d ativitâts"
 
 #: ../calendar/gui/e-cal-ops.c:2066
 #, c-format
 msgid "Copying a task"
 msgid_plural "Copying %d tasks"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Daûr a copiâ une ativitât"
+msgstr[1] "Daûr a copiâ %d ativitâts"
 
 #. strftime format of a weekday, a date and a time, 24-hour.
 #: ../calendar/gui/e-cell-date-edit-text.c:165
 msgid "%a %m/%d/%Y %H:%M:%S"
-msgstr ""
+msgstr "%a %e/%m/%Y %H:%M:%S"
 
 #. strftime format of a weekday, a date and a time, 12-hour.
 #: ../calendar/gui/e-cell-date-edit-text.c:168
 msgid "%a %m/%d/%Y %I:%M:%S %p"
-msgstr ""
+msgstr "%a %e/%m/%Y %I:%M:%S %p"
 
 #: ../calendar/gui/e-cell-date-edit-text.c:176
 #, c-format
@@ -3774,32 +3774,39 @@ msgid ""
 "The date must be entered in the format: \n"
 "%s"
 msgstr ""
+"La date e scugne jessi inseride tal formât:\n"
+"%s"
 
 #: ../calendar/gui/e-comp-editor-event.c:101
 msgid "Event's time is in the past"
-msgstr ""
+msgstr "L'orari dal event al è tal passât"
 
 #: ../calendar/gui/e-comp-editor-event.c:202
 msgid ""
 "Event cannot be edited, because the selected calendar could not be opened"
 msgstr ""
+"Nol è pussibil modificâ l'event parcè che nol è pussibil vierzi il calendari "
+"selezionât"
 
 #: ../calendar/gui/e-comp-editor-event.c:204
 msgid "Event cannot be edited, because the selected calendar is read only"
 msgstr ""
+"Nol è pussibil modificâ l'event parcè che il calendari selezionât al è in "
+"dome-leture"
 
 #: ../calendar/gui/e-comp-editor-event.c:206
 msgid "Event cannot be fully edited, because you are not the organizer"
 msgstr ""
+"Nol è pussibil modificâ dal dut l'event parcè che no si è l'organizadôr"
 
 #: ../calendar/gui/e-comp-editor-event.c:438
 #: ../calendar/gui/e-comp-editor-task.c:348
 msgid "Start date is not a valid date"
-msgstr ""
+msgstr "La date di inizi no je valide"
 
 #: ../calendar/gui/e-comp-editor-event.c:440
 msgid "Start time is not a valid time"
-msgstr ""
+msgstr "La ore di inizi no je valide"
 
 #: ../calendar/gui/e-comp-editor-event.c:444
 #: ../calendar/gui/e-comp-editor-event.c:460
@@ -3810,130 +3817,130 @@ msgstr ""
 #: ../shell/e-shell.c:992 ../shell/e-shell.c:1014
 #: ../smime/gui/certificate-manager.c:359
 msgid "Unknown error"
-msgstr ""
+msgstr "Erôr no cognossût"
 
 #: ../calendar/gui/e-comp-editor-event.c:454
 msgid "End date is not a valid date"
-msgstr ""
+msgstr "La date di fin no je valide"
 
 #: ../calendar/gui/e-comp-editor-event.c:456
 msgid "End time is not a valid time"
-msgstr ""
+msgstr "La ore di fin no je valide"
 
 #: ../calendar/gui/e-comp-editor-event.c:588
 #: ../calendar/gui/e-comp-editor-memo.c:106
 #: ../calendar/gui/e-comp-editor-task.c:406
 msgid "_Categories"
-msgstr ""
+msgstr "_Categoriis"
 
 #: ../calendar/gui/e-comp-editor-event.c:590
 #: ../calendar/gui/e-comp-editor-memo.c:108
 #: ../calendar/gui/e-comp-editor-task.c:408
 msgid "Toggles whether to display categories"
-msgstr ""
+msgstr "Comute cuant che si mostre lis categoriis"
 
 #: ../calendar/gui/e-comp-editor-event.c:596
 msgid "Time _Zone"
-msgstr ""
+msgstr "_Fûs orari"
 
 #: ../calendar/gui/e-comp-editor-event.c:598
 msgid "Toggles whether the time zone is displayed"
-msgstr ""
+msgstr "Comute cuant che si mostre il \"fûs orari\""
 
 #: ../calendar/gui/e-comp-editor-event.c:604
 msgid "All _Day Event"
-msgstr ""
+msgstr "Event di _dut il dì"
 
 #: ../calendar/gui/e-comp-editor-event.c:606
 msgid "Toggles whether to have All Day Event"
-msgstr ""
+msgstr "Ative se si à \"event di dut il dì\""
 
 #: ../calendar/gui/e-comp-editor-event.c:612
 msgid "Show Time as _Busy"
-msgstr ""
+msgstr "Mostre ore come _impegnât"
 
 #: ../calendar/gui/e-comp-editor-event.c:614
 msgid "Toggles whether to show time as busy"
-msgstr ""
+msgstr "Si ative cuant che si scugne mostrâ la ore come impegnât"
 
 #: ../calendar/gui/e-comp-editor-event.c:623
 msgid "Pu_blic"
-msgstr ""
+msgstr "Pu_blic"
 
 #: ../calendar/gui/e-comp-editor-event.c:625
 msgid "Classify as public"
-msgstr ""
+msgstr "Classifiche come public"
 
 #: ../calendar/gui/e-comp-editor-event.c:630
 msgid "_Private"
-msgstr ""
+msgstr "_Privât"
 
 #: ../calendar/gui/e-comp-editor-event.c:632
 msgid "Classify as private"
-msgstr ""
+msgstr "Classifiche come privât"
 
 #: ../calendar/gui/e-comp-editor-event.c:637
 msgid "_Confidential"
-msgstr ""
+msgstr "_Confidenziâl"
 
 #: ../calendar/gui/e-comp-editor-event.c:639
 msgid "Classify as confidential"
-msgstr ""
+msgstr "Classifiche come confidenziâl"
 
 #: ../calendar/gui/e-comp-editor-event.c:740
 msgctxt "ECompEditor"
 msgid "_Start time:"
-msgstr ""
+msgstr "Ore di ini_zi:"
 
 #: ../calendar/gui/e-comp-editor-event.c:745
 msgctxt "ECompEditor"
 msgid "_End time:"
-msgstr ""
+msgstr "Ore di _fin:"
 
 #: ../calendar/gui/e-comp-editor-event.c:755
 msgctxt "ECompEditor"
 msgid "All da_y event"
-msgstr ""
+msgstr "Event di dut i_l dì"
 
 #: ../calendar/gui/e-comp-editor-event.c:808
 #: ../calendar/gui/e-comp-editor-memo.c:192
 #: ../calendar/gui/e-comp-editor-task.c:529
 msgctxt "ECompEditorPage"
 msgid "General"
-msgstr ""
+msgstr "Gjenerâl"
 
 #: ../calendar/gui/e-comp-editor-event.c:811
 #: ../calendar/gui/e-comp-editor-task.c:535
 msgctxt "ECompEditorPage"
 msgid "Reminders"
-msgstr ""
+msgstr "Promemorie"
 
 #: ../calendar/gui/e-comp-editor-event.c:814
 msgctxt "ECompEditorPage"
 msgid "Recurrence"
-msgstr ""
+msgstr "Ricorence"
 
 #: ../calendar/gui/e-comp-editor-event.c:817
 #: ../calendar/gui/e-comp-editor-memo.c:195
 #: ../calendar/gui/e-comp-editor-task.c:538
 msgctxt "ECompEditorPage"
 msgid "Attachments"
-msgstr ""
+msgstr "Zontis"
 
 #: ../calendar/gui/e-comp-editor-event.c:827
 msgctxt "ECompEditorPage"
 msgid "Schedule"
-msgstr ""
+msgstr "Planificazion"
 
 #: ../calendar/gui/e-comp-editor-event.c:859
 #, c-format
 msgid "Meeting - %s"
-msgstr ""
+msgstr "Riunion - %s"
 
 #: ../calendar/gui/e-comp-editor-event.c:860
 #, c-format
 msgid "Appointment - %s"
-msgstr ""
+msgstr "Apontament - %s"
 
 #: ../calendar/gui/e-comp-editor-memo.c:68
 msgid ""
@@ -3956,13 +3963,13 @@ msgstr ""
 #: ../calendar/gui/e-comp-editor-memo.c:168
 #: ../calendar/gui/e-comp-editor-task.c:468
 msgid "_List:"
-msgstr ""
+msgstr "_Liste:"
 
 #: ../calendar/gui/e-comp-editor-memo.c:175
 #: ../calendar/gui/e-comp-editor-task.c:475
 msgctxt "ECompEditor"
 msgid "Sta_rt date:"
-msgstr ""
+msgstr "Date di i_nizi:"
 
 #: ../calendar/gui/e-comp-editor-memo.c:223
 #, c-format
@@ -3982,64 +3989,66 @@ msgstr "Promemorie - %s"
 #: ../mail/message-list.etspec.h:4
 msgid "Attachment"
 msgid_plural "Attachments"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Zonte"
+msgstr[1] "Zontis"
 
 #: ../calendar/gui/e-comp-editor-page-attachments.c:196
 #: ../e-util/e-attachment.c:2424
 #, c-format
 msgid "Could not load '%s'"
-msgstr ""
+msgstr "Impussibil cjariâ '%s'"
 
 #: ../calendar/gui/e-comp-editor-page-attachments.c:198
 #: ../e-util/e-attachment.c:2427
 #, c-format
 msgid "Could not load the attachment"
-msgstr ""
+msgstr "Impussibil cjariâ la zonte"
 
 #: ../calendar/gui/e-comp-editor-page-attachments.c:403
 msgid ""
 "Some attachments are still being downloaded. Please wait until the download "
 "is finished."
 msgstr ""
+"Si sta discjariant ancjemò cualchi zonte. Spiete che il discjariament al "
+"finissi."
 
 #: ../calendar/gui/e-comp-editor-page-attachments.c:430
 #, c-format
 msgid "Attachment '%s' cannot be found, remove it from the list, please"
-msgstr ""
+msgstr "Impussibil cjatâ la zonte '%s', gjavâle de liste"
 
 #: ../calendar/gui/e-comp-editor-page-attachments.c:447
 #, c-format
 msgid "Attachment '%s' doesn't have valid URI, remove it from the list, please"
-msgstr ""
+msgstr "La zonte '%s' no à un valit URI, gjavâle de liste"
 
 #: ../calendar/gui/e-comp-editor-page-attachments.c:608
 #: ../composer/e-composer-actions.c:319
 msgid "_Attachment..."
-msgstr ""
+msgstr "_Zonte..."
 
 #: ../calendar/gui/e-comp-editor-page-attachments.c:610
 #: ../composer/e-composer-actions.c:321 ../e-util/e-attachment-view.c:345
 msgid "Attach a file"
-msgstr ""
+msgstr "Aleghe un file"
 
 #: ../calendar/gui/e-comp-editor-page-attachments.c:617
 msgid "_Attachments"
-msgstr ""
+msgstr "_Zontis"
 
 #: ../calendar/gui/e-comp-editor-page-attachments.c:619
 msgid "Show attachments"
-msgstr ""
+msgstr "Mostre zontis"
 
 #: ../calendar/gui/e-comp-editor-page-attachments.c:772
 #: ../e-util/e-attachment-bar.c:766 ../e-util/e-attachment-paned.c:735
 msgid "Icon View"
-msgstr ""
+msgstr "Viodude a iconis"
 
 #: ../calendar/gui/e-comp-editor-page-attachments.c:774
 #: ../e-util/e-attachment-bar.c:768 ../e-util/e-attachment-paned.c:737
 msgid "List View"
-msgstr ""
+msgstr "Viodude a liste"
 
 #: ../calendar/gui/e-comp-editor-page-general.c:313
 #, c-format
