@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2016-09-25 00:11+0000\n"
-"PO-Revision-Date: 2016-09-27 12:07+0200\n"
+"PO-Revision-Date: 2016-09-27 22:53+0200\n"
 "Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
 "Language-Team: Friulian <fur@li.org>\n"
 "Language: fur\n"
@@ -4132,11 +4132,12 @@ msgstr "Zonte ecezion"
 msgid "Modify exception"
 msgstr "Modifiche ecezion"
 
+# controlâ a lavôr fat
 #. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] week(s) on [Wednesday] [forever]'
 #. * (dropdown menu options are in [square brackets]). This means that after the 'on', name of a week day always follows.
 #: ../calendar/gui/e-comp-editor-page-recurrence.c:490
 msgid "on"
-msgstr ""
+msgstr "il"
 
 #. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] month(s) on the [first] [Monday] [forever]'
 #. * (dropdown menu options are in [square brackets]). This means that after 'first', either the string 'day' or
@@ -4145,7 +4146,7 @@ msgstr ""
 #: ../calendar/gui/e-comp-editor-page-recurrence.c:571
 msgctxt "ECompEditorPageRecur"
 msgid "first"
-msgstr ""
+msgstr "prin"
 
 #. TRANSLATORS: here, "second" is the ordinal number (like "third"), not the time division (like "minute")
 #. * Entire string is for example: This appointment recurs/Every [x] month(s) on the [second] [Monday] [forever]'
@@ -4155,7 +4156,7 @@ msgstr ""
 #: ../calendar/gui/e-comp-editor-page-recurrence.c:577
 msgctxt "ECompEditorPageRecur"
 msgid "second"
-msgstr ""
+msgstr "secont"
 
 #. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] month(s) on the [third] [Monday] [forever]'
 #. * (dropdown menu options are in [square brackets]). This means that after 'third', either the string 'day' or
@@ -4164,7 +4165,7 @@ msgstr ""
 #: ../calendar/gui/e-comp-editor-page-recurrence.c:582
 msgctxt "ECompEditorPageRecur"
 msgid "third"
-msgstr ""
+msgstr "tierç"
 
 #. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] month(s) on the [fourth] [Monday] [forever]'
 #. * (dropdown menu options are in [square brackets]). This means that after 'fourth', either the string 'day' or
@@ -4173,7 +4174,7 @@ msgstr ""
 #: ../calendar/gui/e-comp-editor-page-recurrence.c:587
 msgctxt "ECompEditorPageRecur"
 msgid "fourth"
-msgstr ""
+msgstr "cuart"
 
 #. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] month(s) on the [fifth] [Monday] [forever]'
 #. * (dropdown menu options are in [square brackets]). This means that after 'fifth', either the string 'day' or
@@ -4182,7 +4183,7 @@ msgstr ""
 #: ../calendar/gui/e-comp-editor-page-recurrence.c:592
 msgctxt "ECompEditorPageRecur"
 msgid "fifth"
-msgstr ""
+msgstr "cuint"
 
 #. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] month(s) on the [last] [Monday] [forever]'
 #. * (dropdown menu options are in [square brackets]). This means that after 'last', either the string 'day' or
@@ -4191,14 +4192,14 @@ msgstr ""
 #: ../calendar/gui/e-comp-editor-page-recurrence.c:597
 msgctxt "ECompEditorPageRecur"
 msgid "last"
-msgstr ""
+msgstr "ultin"
 
 #. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] month(s) on the [Other date] [11th to 20th] [17th] [forever]'
 #. * (dropdown menu options are in [square brackets]).
 #: ../calendar/gui/e-comp-editor-page-recurrence.c:624
 msgctxt "ECompEditorPageRecur"
 msgid "Other Date"
-msgstr ""
+msgstr "Altre date"
 
 #. TRANSLATORS: This is a submenu option string to split the date range into three submenus to choose the exact day of
 #. * the month to setup an appointment recurrence. The entire string is for example: This appointment recurs/Every [x] month(s)
@@ -4207,7 +4208,7 @@ msgstr ""
 #: ../calendar/gui/e-comp-editor-page-recurrence.c:630
 msgctxt "ECompEditorPageRecur"
 msgid "1st to 10th"
-msgstr ""
+msgstr "dal 1ⁿ al 10"
 
 #. TRANSLATORS: This is a submenu option string to split the date range into three submenus to choose the exact day of
 #. * the month to setup an appointment recurrence. The entire string is for example: This appointment recurs/Every [x] month(s)
@@ -4216,7 +4217,7 @@ msgstr ""
 #: ../calendar/gui/e-comp-editor-page-recurrence.c:636
 msgctxt "ECompEditorPageRecur"
 msgid "11th to 20th"
-msgstr ""
+msgstr "dal 11 al 20"
 
 #. TRANSLATORS: This is a submenu option string to split the date range into three submenus to choose the exact day of
 #. * the month to setup an appointment recurrence. The entire string is for example: This appointment recurs/Every [x] month(s)
@@ -4225,7 +4226,7 @@ msgstr ""
 #: ../calendar/gui/e-comp-editor-page-recurrence.c:642
 msgctxt "ECompEditorPageRecur"
 msgid "21st to 31st"
-msgstr ""
+msgstr "dal 21 al 31"
 
 #. For Translator : 'day' is part of the sentence of the form 'appointment recurs/Every [x] month(s) on the [first] [day] [forever]'
 #. * (dropdown menu options are in[square brackets]). This means that after 'first', either the string 'day' or
@@ -4233,7 +4234,7 @@ msgstr ""
 #: ../calendar/gui/e-comp-editor-page-recurrence.c:668
 msgctxt "ECompEditorPageRecur"
 msgid "day"
-msgstr ""
+msgstr "dì"
 
 #: ../calendar/gui/e-comp-editor-page-recurrence.c:669
 msgctxt "ECompEditorPageRecur"
@@ -4276,12 +4277,12 @@ msgstr "Domenie"
 #: ../calendar/gui/e-comp-editor-page-recurrence.c:804
 msgctxt "ECompEditorPageRecur"
 msgid "on the"
-msgstr ""
+msgstr "il"
 
 #: ../calendar/gui/e-comp-editor-page-recurrence.c:994
 msgctxt "ECompEditorPageRecur"
 msgid "occurrences"
-msgstr ""
+msgstr "ricorincis"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
 #: ../calendar/gui/e-comp-editor-page-recurrence.c:1487
@@ -5305,24 +5306,24 @@ msgstr "Selezione fûs orari"
 #. * change the specifiers or add anything.
 #: ../calendar/gui/e-week-view-main-item.c:224 ../calendar/gui/print.c:2074
 msgid "%d %B"
-msgstr ""
+msgstr "%e di %B"
 
 #: ../calendar/gui/itip-utils.c:657 ../calendar/gui/itip-utils.c:715
 #: ../calendar/gui/itip-utils.c:849
 msgid "An organizer must be set."
-msgstr ""
+msgstr "Al covente meti un organizadôr."
 
 #: ../calendar/gui/itip-utils.c:706
 msgid "At least one attendee is necessary"
-msgstr ""
+msgstr "Al covente almancul un partecipant"
 
 #: ../calendar/gui/itip-utils.c:937 ../calendar/gui/itip-utils.c:1098
 msgid "Event information"
-msgstr ""
+msgstr "Informazion event"
 
 #: ../calendar/gui/itip-utils.c:940 ../calendar/gui/itip-utils.c:1101
 msgid "Task information"
-msgstr ""
+msgstr "Informazions ativitât"
 
 #: ../calendar/gui/itip-utils.c:943 ../calendar/gui/itip-utils.c:1104
 msgid "Memo information"
@@ -5330,11 +5331,11 @@ msgstr "Informazions sul memorandum"
 
 #: ../calendar/gui/itip-utils.c:946 ../calendar/gui/itip-utils.c:1122
 msgid "Free/Busy information"
-msgstr ""
+msgstr "Informazions libar/impegnât"
 
 #: ../calendar/gui/itip-utils.c:949
 msgid "Calendar information"
-msgstr ""
+msgstr "Informazions calendari"
 
 #. Translators: This is part of the subject
 #. * line of a meeting request or update email.
@@ -5343,7 +5344,7 @@ msgstr ""
 #: ../calendar/gui/itip-utils.c:986
 msgctxt "Meeting"
 msgid "Accepted"
-msgstr ""
+msgstr "Acetât"
 
 #. Translators: This is part of the subject
 #. * line of a meeting request or update email.
@@ -5352,7 +5353,7 @@ msgstr ""
 #: ../calendar/gui/itip-utils.c:993
 msgctxt "Meeting"
 msgid "Tentatively Accepted"
-msgstr ""
+msgstr "Acetât pal moment"
 
 #. Translators: This is part of the subject
 #. * line of a meeting request or update email.
@@ -5364,7 +5365,7 @@ msgstr ""
 #: ../calendar/gui/itip-utils.c:1000 ../calendar/gui/itip-utils.c:1048
 msgctxt "Meeting"
 msgid "Declined"
-msgstr ""
+msgstr "Ricusât"
 
 #. Translators: This is part of the subject
 #. * line of a meeting request or update email.
@@ -5373,7 +5374,7 @@ msgstr ""
 #: ../calendar/gui/itip-utils.c:1007
 msgctxt "Meeting"
 msgid "Delegated"
-msgstr ""
+msgstr "Delegât"
 
 #. Translators: This is part of the subject line of a
 #. * meeting request or update email.  The full subject
@@ -5381,7 +5382,7 @@ msgstr ""
 #: ../calendar/gui/itip-utils.c:1020
 msgctxt "Meeting"
 msgid "Updated"
-msgstr ""
+msgstr "Inzornât"
 
 #. Translators: This is part of the subject line of a
 #. * meeting request or update email.  The full subject
@@ -5389,7 +5390,7 @@ msgstr ""
 #: ../calendar/gui/itip-utils.c:1027
 msgctxt "Meeting"
 msgid "Cancel"
-msgstr ""
+msgstr "Scancele"
 
 #. Translators: This is part of the subject line of a
 #. * meeting request or update email.  The full subject
@@ -5397,7 +5398,7 @@ msgstr ""
 #: ../calendar/gui/itip-utils.c:1034
 msgctxt "Meeting"
 msgid "Refresh"
-msgstr ""
+msgstr "Inzorne"
 
 #. Translators: This is part of the subject line of a
 #. * meeting request or update email.  The full subject
@@ -5405,33 +5406,33 @@ msgstr ""
 #: ../calendar/gui/itip-utils.c:1041
 msgctxt "Meeting"
 msgid "Counter-proposal"
-msgstr ""
+msgstr "Cuintri-propueste"
 
 #: ../calendar/gui/itip-utils.c:1119
 #, c-format
 msgid "Free/Busy information (%s to %s)"
-msgstr ""
+msgstr "Informazions libar/impegnât (di %s a %s)"
 
 #: ../calendar/gui/itip-utils.c:1127
 msgid "iCalendar information"
-msgstr ""
+msgstr "Informazions iCalendar"
 
 #: ../calendar/gui/itip-utils.c:1156
 #, c-format
 msgid "Unable to book a resource, the new event collides with some other."
-msgstr ""
+msgstr "Impussibil riservâ une risorse, il gnûf event al sbat cun alcaltri."
 
 #: ../calendar/gui/itip-utils.c:1161
 msgid "Unable to book a resource, error: "
-msgstr ""
+msgstr "Impussibil riservâ une risorse, erôr: "
 
 #: ../calendar/gui/itip-utils.c:1332
 msgid "You must be an attendee of the event."
-msgstr ""
+msgstr "Al covente jessi un partecipant dal event."
 
 #: ../calendar/gui/itip-utils.c:1986
 msgid "Sending an event"
-msgstr ""
+msgstr "Daûr a inviâ un event"
 
 #: ../calendar/gui/itip-utils.c:1990
 msgid "Sending a memo"
@@ -5439,131 +5440,131 @@ msgstr "Daûr a inviâ un memorandum"
 
 #: ../calendar/gui/itip-utils.c:1994
 msgid "Sending a task"
-msgstr ""
+msgstr "Daûr a inviâ une ativitât"
 
 #: ../calendar/gui/print.c:663
 msgid "1st"
-msgstr ""
+msgstr "1ⁿ"
 
 #: ../calendar/gui/print.c:663
 msgid "2nd"
-msgstr ""
+msgstr "2"
 
 #: ../calendar/gui/print.c:663
 msgid "3rd"
-msgstr ""
+msgstr "3"
 
 #: ../calendar/gui/print.c:663
 msgid "4th"
-msgstr ""
+msgstr "4"
 
 #: ../calendar/gui/print.c:663
 msgid "5th"
-msgstr ""
+msgstr "5"
 
 #: ../calendar/gui/print.c:664
 msgid "6th"
-msgstr ""
+msgstr "6"
 
 #: ../calendar/gui/print.c:664
 msgid "7th"
-msgstr ""
+msgstr "7"
 
 #: ../calendar/gui/print.c:664
 msgid "8th"
-msgstr ""
+msgstr "8"
 
 #: ../calendar/gui/print.c:664
 msgid "9th"
-msgstr ""
+msgstr "9"
 
 #: ../calendar/gui/print.c:664
 msgid "10th"
-msgstr ""
+msgstr "10"
 
 #: ../calendar/gui/print.c:665
 msgid "11th"
-msgstr ""
+msgstr "11"
 
 #: ../calendar/gui/print.c:665
 msgid "12th"
-msgstr ""
+msgstr "12"
 
 #: ../calendar/gui/print.c:665
 msgid "13th"
-msgstr ""
+msgstr "13"
 
 #: ../calendar/gui/print.c:665
 msgid "14th"
-msgstr ""
+msgstr "14"
 
 #: ../calendar/gui/print.c:665
 msgid "15th"
-msgstr ""
+msgstr "15"
 
 #: ../calendar/gui/print.c:666
 msgid "16th"
-msgstr ""
+msgstr "16"
 
 #: ../calendar/gui/print.c:666
 msgid "17th"
-msgstr ""
+msgstr "17"
 
 #: ../calendar/gui/print.c:666
 msgid "18th"
-msgstr ""
+msgstr "18"
 
 #: ../calendar/gui/print.c:666
 msgid "19th"
-msgstr ""
+msgstr "19"
 
 #: ../calendar/gui/print.c:666
 msgid "20th"
-msgstr ""
+msgstr "20"
 
 #: ../calendar/gui/print.c:667
 msgid "21st"
-msgstr ""
+msgstr "21"
 
 #: ../calendar/gui/print.c:667
 msgid "22nd"
-msgstr ""
+msgstr "22"
 
 #: ../calendar/gui/print.c:667
 msgid "23rd"
-msgstr ""
+msgstr "23"
 
 #: ../calendar/gui/print.c:667
 msgid "24th"
-msgstr ""
+msgstr "24"
 
 #: ../calendar/gui/print.c:667
 msgid "25th"
-msgstr ""
+msgstr "25"
 
 #: ../calendar/gui/print.c:668
 msgid "26th"
-msgstr ""
+msgstr "26"
 
 #: ../calendar/gui/print.c:668
 msgid "27th"
-msgstr ""
+msgstr "27"
 
 #: ../calendar/gui/print.c:668
 msgid "28th"
-msgstr ""
+msgstr "28"
 
 #: ../calendar/gui/print.c:668
 msgid "29th"
-msgstr ""
+msgstr "29"
 
 #: ../calendar/gui/print.c:668
 msgid "30th"
-msgstr ""
+msgstr "30"
 
 #: ../calendar/gui/print.c:669
 msgid "31st"
-msgstr ""
+msgstr "31"
 
 #. Translators: These are workday abbreviations,
 #. * e.g. Su=Sunday and Th=thursday
@@ -5571,77 +5572,77 @@ msgstr ""
 #. G_DATE_MONDAY
 #: ../calendar/gui/print.c:729
 msgid "Mo"
-msgstr ""
+msgstr "Lu"
 
 #. G_DATE_TUESDAY
 #: ../calendar/gui/print.c:730
 msgid "Tu"
-msgstr ""
+msgstr "Ma"
 
 #. G_DATE_WEDNESDAY
 #: ../calendar/gui/print.c:731
 msgid "We"
-msgstr ""
+msgstr "Mi"
 
 #. G_DATE_THURSDAY
 #: ../calendar/gui/print.c:732
 msgid "Th"
-msgstr ""
+msgstr "Jo"
 
 #. G_DATE_FRIDAY
 #: ../calendar/gui/print.c:733
 msgid "Fr"
-msgstr ""
+msgstr "Vi"
 
 #. G_DATE_SATURDAY
 #: ../calendar/gui/print.c:734
 msgid "Sa"
-msgstr ""
+msgstr "Sa"
 
 #. G_DATE_SUNDAY
 #: ../calendar/gui/print.c:735
 msgid "Su"
-msgstr ""
+msgstr "Do"
 
 #. Translators: This is part of "START to END" text,
 #. * where START and END are date/times.
 #: ../calendar/gui/print.c:3315
 msgid " to "
-msgstr ""
+msgstr " a "
 
 #. Translators: This is part of "START to END
 #. * (Completed COMPLETED)", where COMPLETED is a
 #. * completed date/time.
 #: ../calendar/gui/print.c:3325
 msgid " (Completed "
-msgstr ""
+msgstr " (Completât "
 
 #. Translators: This is part of "Completed COMPLETED",
 #. * where COMPLETED is a completed date/time.
 #: ../calendar/gui/print.c:3331
 msgid "Completed "
-msgstr ""
+msgstr "Completât "
 
 #. Translators: This is part of "START (Due DUE)",
 #. * where START and DUE are dates/times.
 #: ../calendar/gui/print.c:3341
 msgid " (Due "
-msgstr ""
+msgstr " (Scjadince "
 
 #. Translators: This is part of "Due DUE",
 #. * where DUE is a date/time due the event
 #. * should be finished.
 #: ../calendar/gui/print.c:3348
 msgid "Due "
-msgstr ""
+msgstr "Scjadince "
 
 #: ../calendar/gui/print.c:3492
 msgid "Appointment"
-msgstr ""
+msgstr "Apontament"
 
 #: ../calendar/gui/print.c:3494 ../e-util/e-send-options.c:553
 msgid "Task"
-msgstr ""
+msgstr "Ativitât"
 
 #: ../calendar/gui/print.c:3496
 msgid "Memo"
@@ -5649,88 +5650,92 @@ msgstr "Promemorie"
 
 #: ../calendar/gui/print.c:3552
 msgid "Attendees: "
-msgstr ""
+msgstr "Partecipants: "
 
 #: ../calendar/gui/print.c:3596
 #, c-format
 msgid "Status: %s"
-msgstr ""
+msgstr "Stât: %s"
 
 #: ../calendar/gui/print.c:3612
 #, c-format
 msgid "Priority: %s"
-msgstr ""
+msgstr "Prioritât: %s"
 
 #: ../calendar/gui/print.c:3630
 #, c-format
 msgid "Percent Complete: %i"
-msgstr ""
+msgstr "Percentuâl completade: %i"
 
 #: ../calendar/gui/print.c:3644
 #, c-format
 msgid "URL: %s"
-msgstr ""
+msgstr "URL: %s"
 
 #: ../calendar/gui/print.c:3658
 #, c-format
 msgid "Categories: %s"
-msgstr ""
+msgstr "Categoriis: %s"
 
 #: ../calendar/gui/print.c:3669
 msgid "Contacts: "
-msgstr ""
+msgstr "Contats: "
 
 #: ../calendar/gui/tasktypes.xml.h:12
 msgid "In progress"
-msgstr ""
+msgstr "In cors"
 
 #: ../calendar/gui/tasktypes.xml.h:25
 #, no-c-format
 msgid "% Completed"
-msgstr ""
+msgstr "% Completade"
 
+# a cosa si riferisce? maschile o femminile?
 #: ../calendar/gui/tasktypes.xml.h:26 ../mail/filtertypes.xml.in.h:31
 #: ../mail/searchtypes.xml.in.h:33 ../mail/vfoldertypes.xml.in.h:33
+#, fuzzy
 msgid "is greater than"
-msgstr ""
+msgstr "al è plui grant di"
 
+# idem come is greater than
 #: ../calendar/gui/tasktypes.xml.h:27 ../mail/filtertypes.xml.in.h:32
 #: ../mail/searchtypes.xml.in.h:34 ../mail/vfoldertypes.xml.in.h:34
+#, fuzzy
 msgid "is less than"
-msgstr ""
+msgstr "al è plui piçul di"
 
 #: ../calendar/importers/icalendar-importer.c:78
 msgid "Appointments and Meetings"
-msgstr ""
+msgstr "Apontaments e riunions"
 
 #: ../calendar/importers/icalendar-importer.c:308
 #: ../modules/calendar/e-cal-base-shell-backend.c:183
 #: ../modules/calendar/e-cal-shell-view-actions.c:180
 msgid "New Calendar"
-msgstr ""
+msgstr "Gnûf calendari"
 
 #: ../calendar/importers/icalendar-importer.c:311
 #: ../modules/calendar/e-cal-base-shell-backend.c:191
 #: ../modules/calendar/e-task-shell-view-actions.c:204
 msgid "New Task List"
-msgstr ""
+msgstr "Gnove liste des ativitâts"
 
 #: ../calendar/importers/icalendar-importer.c:353
 msgid "Cre_ate new calendar"
-msgstr ""
+msgstr "Cre_e gnûf calendari"
 
 #: ../calendar/importers/icalendar-importer.c:357
 msgid "Cre_ate new task list"
-msgstr ""
+msgstr "Cre_e gnove liste di ativitâts"
 
 #: ../calendar/importers/icalendar-importer.c:503
 #: ../calendar/importers/icalendar-importer.c:946
 msgid "Opening calendar"
-msgstr ""
+msgstr "Daûr a vierzi il calendari"
 
 #: ../calendar/importers/icalendar-importer.c:654
 msgid "iCalendar files (.ics)"
-msgstr ""
+msgstr "File iCalendar (.ics)"
 
 #: ../calendar/importers/icalendar-importer.c:655
 msgid "Evolution iCalendar importer"
@@ -5738,11 +5743,11 @@ msgstr ""
 
 #: ../calendar/importers/icalendar-importer.c:747
 msgid "Reminder!"
-msgstr ""
+msgstr "Promemorie!"
 
 #: ../calendar/importers/icalendar-importer.c:832
 msgid "vCalendar files (.vcs)"
-msgstr ""
+msgstr "File vCalendar (.vcs)"
 
 #: ../calendar/importers/icalendar-importer.c:833
 msgid "Evolution vCalendar importer"
@@ -5750,11 +5755,11 @@ msgstr ""
 
 #: ../calendar/importers/icalendar-importer.c:1109
 msgid "Calendar Events"
-msgstr ""
+msgstr "Events dal calendari"
 
 #: ../calendar/importers/icalendar-importer.c:1152
 msgid "GNOME Calendar"
-msgstr ""
+msgstr "Calendari GNOME"
 
 #: ../calendar/importers/icalendar-importer.c:1153
 msgid "Evolution Calendar intelligent importer"
@@ -5764,19 +5769,19 @@ msgstr ""
 #: ../calendar/importers/icalendar-importer.c:1538
 msgctxt "iCalImp"
 msgid "Meeting"
-msgstr ""
+msgstr "Riunion"
 
 #: ../calendar/importers/icalendar-importer.c:1224
 #: ../calendar/importers/icalendar-importer.c:1538
 msgctxt "iCalImp"
 msgid "Event"
-msgstr ""
+msgstr "Event"
 
 #: ../calendar/importers/icalendar-importer.c:1227
 #: ../calendar/importers/icalendar-importer.c:1539
 msgctxt "iCalImp"
 msgid "Task"
-msgstr ""
+msgstr "Ativitât"
 
 #: ../calendar/importers/icalendar-importer.c:1230
 #: ../calendar/importers/icalendar-importer.c:1540
@@ -5784,123 +5789,131 @@ msgctxt "iCalImp"
 msgid "Memo"
 msgstr "Promemorie"
 
+# m o f?
 #: ../calendar/importers/icalendar-importer.c:1239
+#, fuzzy
 msgctxt "iCalImp"
 msgid "has recurrences"
-msgstr ""
+msgstr "al à ricorencis"
 
+# M o F?
 #: ../calendar/importers/icalendar-importer.c:1244
+#, fuzzy
 msgctxt "iCalImp"
 msgid "is an instance"
-msgstr ""
+msgstr "e je une istance"
 
+# m o f?
 #: ../calendar/importers/icalendar-importer.c:1249
+#, fuzzy
 msgctxt "iCalImp"
 msgid "has reminders"
-msgstr ""
+msgstr "al à dai promemorie"
 
+# m o f?
 #: ../calendar/importers/icalendar-importer.c:1254
+#, fuzzy
 msgctxt "iCalImp"
 msgid "has attachments"
-msgstr ""
+msgstr "al à zontis"
 
 #. Translators: Appointment's classification
 #: ../calendar/importers/icalendar-importer.c:1267
 msgctxt "iCalImp"
 msgid "Public"
-msgstr ""
+msgstr "Public"
 
 #. Translators: Appointment's classification
 #: ../calendar/importers/icalendar-importer.c:1270
 msgctxt "iCalImp"
 msgid "Private"
-msgstr ""
+msgstr "Privât"
 
 #. Translators: Appointment's classification
 #: ../calendar/importers/icalendar-importer.c:1273
 msgctxt "iCalImp"
 msgid "Confidential"
-msgstr ""
+msgstr "Confidenziâl"
 
 #. Translators: Appointment's classification section name
 #: ../calendar/importers/icalendar-importer.c:1277
 msgctxt "iCalImp"
 msgid "Classification"
-msgstr ""
+msgstr "Classificazion"
 
 #. Translators: Appointment's summary
 #: ../calendar/importers/icalendar-importer.c:1282
 #: ../calendar/importers/icalendar-importer.c:1582
 msgctxt "iCalImp"
 msgid "Summary"
-msgstr ""
+msgstr "Sintesi"
 
 #. Translators: Appointment's location
 #: ../calendar/importers/icalendar-importer.c:1288
 msgctxt "iCalImp"
 msgid "Location"
-msgstr ""
+msgstr "Ubicazion"
 
 #. Translators: Appointment's start time
 #: ../calendar/importers/icalendar-importer.c:1296
 #: ../calendar/importers/icalendar-importer.c:1577
 msgctxt "iCalImp"
 msgid "Start"
-msgstr ""
+msgstr "Inizi"
 
 #. Translators: 'Due' like the time due a task should be finished
 #: ../calendar/importers/icalendar-importer.c:1307
 msgctxt "iCalImp"
 msgid "Due"
-msgstr ""
+msgstr "Scjadince"
 
 #. Translators: Appointment's end time
 #: ../calendar/importers/icalendar-importer.c:1319
 msgctxt "iCalImp"
 msgid "End"
-msgstr ""
+msgstr "Fin"
 
 #. Translators: Appointment's categories
 #: ../calendar/importers/icalendar-importer.c:1329
 msgctxt "iCalImp"
 msgid "Categories"
-msgstr ""
+msgstr "Categoriis"
 
 #. Translators: Appointment's complete value (either percentage, or a date/time of a completion)
 #: ../calendar/importers/icalendar-importer.c:1353
 msgctxt "iCalImp"
 msgid "Completed"
-msgstr ""
+msgstr "Completât"
 
 #. Translators: Appointment's URL
 #: ../calendar/importers/icalendar-importer.c:1361
 msgctxt "iCalImp"
 msgid "URL"
-msgstr ""
+msgstr "URL"
 
 #. Translators: Appointment's organizer
 #: ../calendar/importers/icalendar-importer.c:1372
 #: ../calendar/importers/icalendar-importer.c:1375
 msgctxt "iCalImp"
 msgid "Organizer"
-msgstr ""
+msgstr "Organizadôr"
 
 #. Translators: Appointment's attendees
 #: ../calendar/importers/icalendar-importer.c:1395
 #: ../calendar/importers/icalendar-importer.c:1398
 msgctxt "iCalImp"
 msgid "Attendees"
-msgstr ""
+msgstr "Partecipants"
 
 #: ../calendar/importers/icalendar-importer.c:1412
 msgctxt "iCalImp"
 msgid "Description"
-msgstr ""
+msgstr "Descrizion"
 
 #: ../calendar/importers/icalendar-importer.c:1572
 msgctxt "iCalImp"
 msgid "Type"
-msgstr ""
+msgstr "Gjenar"
 
 #.
 #. *
@@ -7451,88 +7464,89 @@ msgstr ""
 
 #: ../composer/e-composer-actions.c:227
 msgid "Save as..."
-msgstr ""
+msgstr "Salve come..."
 
 #: ../composer/e-composer-actions.c:328
 msgid "Close the current file"
-msgstr ""
+msgstr "Siere il file atuâl"
 
 #: ../composer/e-composer-actions.c:333
 msgid "New _Message"
-msgstr ""
+msgstr "Gnûf _messaç"
 
 #: ../composer/e-composer-actions.c:335
 msgid "Open New Message window"
-msgstr ""
+msgstr "Vierç un barcon pal gnûf messaç"
 
 #: ../composer/e-composer-actions.c:340 ../shell/e-shell.c:1217
 #: ../shell/e-shell-window-actions.c:848
 msgid "_Preferences"
-msgstr ""
+msgstr "_Preferencis"
 
 #: ../composer/e-composer-actions.c:342 ../shell/e-shell-window-actions.c:850
 msgid "Configure Evolution"
-msgstr ""
+msgstr "Configure Evolution"
 
 #: ../composer/e-composer-actions.c:349
 msgid "Save the current file"
-msgstr ""
+msgstr "Salve il file atuâl"
 
 #: ../composer/e-composer-actions.c:354
 msgid "Save _As..."
-msgstr ""
+msgstr "Salve _come..."
 
 #: ../composer/e-composer-actions.c:356
 msgid "Save the current file with a different name"
-msgstr ""
+msgstr "Salve il file atuâl cuntun non diviers"
 
 #: ../composer/e-composer-actions.c:363
 msgid "Character _Encoding"
-msgstr ""
+msgstr "Codifich_e caratars"
 
 #: ../composer/e-composer-actions.c:387
 msgid "Print Pre_view"
-msgstr ""
+msgstr "Ante_prime di stampe"
 
 #: ../composer/e-composer-actions.c:394
 msgid "Save as _Draft"
-msgstr ""
+msgstr "Salve come _stampon"
 
 #: ../composer/e-composer-actions.c:396
 msgid "Save as draft"
-msgstr ""
+msgstr "Salve come stampon"
 
 #: ../composer/e-composer-actions.c:401
 msgid "S_end"
-msgstr ""
+msgstr "In_vie"
 
 #: ../composer/e-composer-actions.c:403
 msgid "Send this message"
-msgstr ""
+msgstr "Invie chest messaç"
 
 #: ../composer/e-composer-actions.c:411
 msgid "PGP _Encrypt"
-msgstr ""
+msgstr "_Cifre cun PGP"
 
 #: ../composer/e-composer-actions.c:413
 msgid "Encrypt this message with PGP"
-msgstr ""
+msgstr "Cifre chest messaç cun PGP"
 
 #: ../composer/e-composer-actions.c:419
 msgid "PGP _Sign"
-msgstr ""
+msgstr "_Firme cun PGP"
 
 #: ../composer/e-composer-actions.c:421
 msgid "Sign this message with your PGP key"
-msgstr ""
+msgstr "Firme chest messaç cun la proprie clâf PGP"
 
 #: ../composer/e-composer-actions.c:427
 msgid "_Picture Gallery"
-msgstr ""
+msgstr "_Galarie imagjinis"
 
 #: ../composer/e-composer-actions.c:429
 msgid "Show a collection of pictures that you can drag to your message"
 msgstr ""
+"Mostre une colezion di imagjinis che e je pussibil strissinâ tai messaçs"
 
 #: ../composer/e-composer-actions.c:435
 msgid "_Prioritize Message"
