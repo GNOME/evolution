@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2016-09-25 00:11+0000\n"
-"PO-Revision-Date: 2016-09-28 11:15+0200\n"
+"PO-Revision-Date: 2016-09-28 15:39+0200\n"
 "Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
 "Language-Team: Friulian <fur@li.org>\n"
 "Language: fur\n"
@@ -7583,11 +7583,11 @@ msgstr "Firme chest messaç cul propri certificât di firme S/MIME"
 # Cjamp CCp
 #: ../composer/e-composer-actions.c:515
 msgid "_Bcc Field"
-msgstr ""
+msgstr "Cjamp Cc_p"
 
 #: ../composer/e-composer-actions.c:517
 msgid "Toggles whether the BCC field is displayed"
-msgstr ""
+msgstr "Comute la viodude dal cjamp Ccp"
 
 #: ../composer/e-composer-actions.c:523
 msgid "_Cc Field"
@@ -7665,7 +7665,7 @@ msgstr "_Cc:"
 
 #: ../composer/e-composer-header-table.c:853
 msgid "_Bcc:"
-msgstr ""
+msgstr "Cc_p:"
 
 #: ../composer/e-composer-header-table.c:858
 msgid "_Post To:"
@@ -7707,11 +7707,12 @@ msgstr ""
 
 #: ../composer/e-msg-composer.c:1621 ../composer/e-msg-composer.c:2411
 msgid "Compose Message"
-msgstr "Scrîf un messaç"
+msgstr "Scrîf messaç"
 
 #: ../composer/e-msg-composer.c:4736
 msgid "The composer contains a non-text message body, which cannot be edited."
-msgstr "L'editôr al à un cuarp messaç no di test, che nol è pussibil modificâ."
+msgstr ""
+"Il compositôr al à un cuarp messaç no di test, che nol è pussibil modificâ."
 
 #: ../composer/mail-composer.error.xml.h:1
 msgid "You cannot attach the file &quot;{0}&quot; to this message."
@@ -7817,7 +7818,7 @@ msgstr ""
 
 #: ../composer/mail-composer.error.xml.h:25
 msgid "An error occurred while saving to your Drafts folder."
-msgstr ""
+msgstr "Al è vignût fûr un erôr intant che si salvave te cartele «Stampons»."
 
 #: ../composer/mail-composer.error.xml.h:26
 msgid ""
@@ -7827,7 +7828,7 @@ msgstr ""
 
 #: ../composer/mail-composer.error.xml.h:27
 msgid "An error occurred while sending. How do you want to proceed?"
-msgstr ""
+msgstr "Al è vignût fûr un erôr intant che si inviave. Cemût procedi?"
 
 #: ../composer/mail-composer.error.xml.h:28 ../mail/mail.error.xml.h:175
 msgid "The reported error was &quot;{0}&quot;."
@@ -7835,19 +7836,21 @@ msgstr ""
 
 #: ../composer/mail-composer.error.xml.h:29
 msgid "_Save to Outbox"
-msgstr ""
+msgstr "_Salve su «In jessude»"
 
 #: ../composer/mail-composer.error.xml.h:30
 msgid "_Try Again"
-msgstr ""
+msgstr "_Prove ancjemò"
 
 #: ../composer/mail-composer.error.xml.h:31
 msgid "Your message was sent, but an error occurred during post-processing."
 msgstr ""
+"Il messaç al è stât inviât, ma si è verificât un erôr te fase daspò la "
+"elaborazion."
 
 #: ../composer/mail-composer.error.xml.h:32
 msgid "Saving message to Outbox."
-msgstr ""
+msgstr "Daûr a salvâ il messaç su «In jessude»."
 
 #: ../composer/mail-composer.error.xml.h:33
 msgid ""
@@ -7855,83 +7858,90 @@ msgid ""
 "destination service is currently unavailable. You can send the message by "
 "clicking the Send/Receive button in Evolution's toolbar."
 msgstr ""
+"Il messaç al vignarà salvât te proprie cartele locâl «In jessude», viodût "
+"che si sta lavorant fûr rêt. Al è pussibil inviâ il messaç fasint clic sul "
+"boton Invie/Ricêf te sbare dai struments di Evolution."
 
 #: ../composer/mail-composer.error.xml.h:34
 msgid "Are you sure you want to send the message?"
-msgstr ""
+msgstr "Sigûrs di inviâ il messaç?"
 
 #: ../composer/mail-composer.error.xml.h:35
 msgid ""
 "A keyboard accelerator to send the message has been pressed. Either cancel "
 "sending the message, if it was done by an accident, or send the message."
 msgstr ""
+"Al è stât fracât un aceleradôr di tastiere par inviâ il messaç. Anulâ "
+"l'inviament dal messaç, se al è stât fat cence volê, o inviâlu."
 
 #: ../composer/mail-composer.error.xml.h:37
 msgid "Are you sure you want to change the composer mode?"
-msgstr ""
+msgstr "Sigûrs di cambiâ la modalitât dal compositôr?"
 
 #: ../composer/mail-composer.error.xml.h:38
 msgid ""
 "Turning HTML mode off will cause the text to lose all formatting. Do you "
 "want to continue?"
 msgstr ""
+"Disativâ la modalitât HTML al causarà la pierdite de formatazion dal test. "
+"Continuâ?"
 
 #: ../composer/mail-composer.error.xml.h:39
 msgid "_Don't lose formatting"
-msgstr ""
+msgstr "_No stâ pierdi la formatazion"
 
 #: ../composer/mail-composer.error.xml.h:40
 msgid "Lose _formatting"
-msgstr ""
+msgstr "Piert la _formatazion"
 
 #: ../composer/mail-composer.error.xml.h:41
 msgid "An error occurred while saving to your Templates folder."
-msgstr ""
+msgstr "Si è verificât un erôr intant che si salvave la cartele «Modei»."
 
 #: ../data/evolution-alarm-notify.desktop.in.in.h:1
 msgid "Evolution Alarm Notify"
-msgstr ""
+msgstr "Notifiche alarmis Evolution"
 
 #: ../data/evolution-alarm-notify.desktop.in.in.h:2
 msgid "Calendar event notifications"
-msgstr ""
+msgstr "Notifichis dai events di calendari"
 
 #: ../data/evolution.desktop.in.in.h:1 ../evolution.appdata.xml.in.h:1
 #: ../mail/e-mail-browser.c:1101
 #: ../modules/mailto-handler/evolution-mailto-handler.c:210
 #: ../shell/e-shell-window-private.c:242
 msgid "Evolution"
-msgstr ""
+msgstr "Evolution"
 
 #: ../data/evolution.desktop.in.in.h:2 ../shell/e-shell-utils.c:418
 msgid "Groupware Suite"
-msgstr ""
+msgstr "Suite di lavôr di grup"
 
 #: ../data/evolution.desktop.in.in.h:3
 msgid "Evolution Mail and Calendar"
-msgstr ""
+msgstr "Pueste e calendari Evolution"
 
 #: ../data/evolution.desktop.in.in.h:4 ../evolution.appdata.xml.in.h:2
 msgid "Manage your email, contacts and schedule"
-msgstr ""
+msgstr "Gjestìs lis propris e-mail, i contats e lis planificazions"
 
 #: ../data/evolution.desktop.in.in.h:5
 msgid "email;calendar;contact;addressbook;task;"
-msgstr ""
+msgstr "e-mail;mail;pueste;calendari;contats;rubriche;ativitât;"
 
 #: ../data/evolution.desktop.in.in.h:6
 msgid "New Window"
-msgstr ""
+msgstr "Gnûf barcon"
 
 #: ../data/evolution.desktop.in.in.h:7
 msgid "Compose a Message"
-msgstr ""
+msgstr "Scrîf un messaç"
 
 #: ../data/evolution.desktop.in.in.h:8 ../e-util/e-name-selector-dialog.c:451
 #: ../modules/addressbook/e-book-shell-backend.c:303
 #: ../modules/addressbook/e-book-shell-view.c:373
 msgid "Contacts"
-msgstr ""
+msgstr "Contats"
 
 #: ../data/evolution.desktop.in.in.h:10 ../e-util/e-send-options.c:538
 #: ../mail/importers/elm-importer.c:329 ../mail/importers/kmail-importer.c:253
@@ -7939,31 +7949,35 @@ msgstr ""
 #: ../modules/mail/e-mail-shell-view.c:1242
 #: ../smime/gui/certificate-manager.c:1684
 msgid "Mail"
-msgstr ""
+msgstr "Pueste"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:1
 msgid "Enable address formatting"
-msgstr ""
+msgstr "Abilite formatazion direzion"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:2
 msgid ""
 "Whether addresses should be formatted according to standard in their "
 "destination country"
 msgstr ""
+"Indiche se la direzion e va formatade in acuardi al standard dal paîs di "
+"destinazion"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:3
 msgid "Autocomplete length"
-msgstr ""
+msgstr "Lungjece completament automatic"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:4
 msgid ""
 "The number of characters that must be typed before Evolution will attempt to "
 "autocomplete."
 msgstr ""
+"Il numar di caratars che a scugnin jessi inserîts prime che Evolution al "
+"tenti il completament automatic."
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:5
 msgid "Show autocompleted name with an address"
-msgstr ""
+msgstr "Mostre i nons completâts in automatic cun une direzion"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:6
 msgid ""
