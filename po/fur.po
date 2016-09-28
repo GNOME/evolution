@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2016-09-25 00:11+0000\n"
-"PO-Revision-Date: 2016-09-28 10:20+0200\n"
+"PO-Revision-Date: 2016-09-28 11:15+0200\n"
 "Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
 "Language-Team: Friulian <fur@li.org>\n"
 "Language: fur\n"
@@ -7550,36 +7550,37 @@ msgstr ""
 
 #: ../composer/e-composer-actions.c:435
 msgid "_Prioritize Message"
-msgstr ""
+msgstr "_Prioritât messaç"
 
 #: ../composer/e-composer-actions.c:437
 msgid "Set the message priority to high"
-msgstr ""
+msgstr "Met a alte la prioritât dal messaç"
 
 #: ../composer/e-composer-actions.c:443
 msgid "Re_quest Read Receipt"
-msgstr ""
+msgstr "Domand_e ricevude di leture"
 
 #: ../composer/e-composer-actions.c:445
 msgid "Get delivery notification when your message is read"
-msgstr ""
+msgstr "Ricêf une notifiche di consegne cuant che il propri messaç al ven let"
 
 #: ../composer/e-composer-actions.c:451
 msgid "S/MIME En_crypt"
-msgstr ""
+msgstr "Cifradure _S/MIME"
 
 #: ../composer/e-composer-actions.c:453
 msgid "Encrypt this message with your S/MIME Encryption Certificate"
-msgstr ""
+msgstr "Cifre chest messaç cul propri certificât di cifradure S/MIME"
 
 #: ../composer/e-composer-actions.c:459
 msgid "S/MIME Sig_n"
-msgstr ""
+msgstr "Firme S/_MIME"
 
 #: ../composer/e-composer-actions.c:461
 msgid "Sign this message with your S/MIME Signature Certificate"
-msgstr ""
+msgstr "Firme chest messaç cul propri certificât di firme S/MIME"
 
+# Cjamp CCp
 #: ../composer/e-composer-actions.c:515
 msgid "_Bcc Field"
 msgstr ""
@@ -7590,37 +7591,37 @@ msgstr ""
 
 #: ../composer/e-composer-actions.c:523
 msgid "_Cc Field"
-msgstr ""
+msgstr "Cjamp _Cc"
 
 #: ../composer/e-composer-actions.c:525
 msgid "Toggles whether the CC field is displayed"
-msgstr ""
+msgstr "Comute la viodude dal cjamp Cc"
 
 #: ../composer/e-composer-actions.c:531
 msgid "_From Override Field"
-msgstr ""
+msgstr "Cjamp _Di sostitutîf"
 
 #: ../composer/e-composer-actions.c:533
 msgid ""
 "Toggles whether the From override field to change name or email address is "
 "displayed"
-msgstr ""
+msgstr "Comute se il cjamp DI al cambie il non o la direzion e-mail"
 
 #: ../composer/e-composer-actions.c:539
 msgid "_Reply-To Field"
-msgstr ""
+msgstr "Cjamp _Rispuint a"
 
 #: ../composer/e-composer-actions.c:541
 msgid "Toggles whether the Reply-To field is displayed"
-msgstr ""
+msgstr "Comute la viodude dal cjamp «Rispuint a»"
 
 #: ../composer/e-composer-actions.c:596
 msgid "Attach"
-msgstr ""
+msgstr "Aleghe"
 
 #: ../composer/e-composer-actions.c:602
 msgid "Save Draft"
-msgstr ""
+msgstr "Salve stampon"
 
 #: ../composer/e-composer-from-header.c:109
 #: ../e-util/e-mail-signature-script-dialog.c:415
@@ -7628,37 +7629,39 @@ msgstr ""
 #: ../mail/e-mail-config-identity-page.c:341
 #: ../mail/e-mail-config-summary-page.c:332
 msgid "_Name:"
-msgstr ""
+msgstr "_Non:"
 
 #: ../composer/e-composer-header-table.c:38
 msgid "Enter the recipients of the message"
-msgstr ""
+msgstr "Inserî i destinataris dal messaç"
 
 #: ../composer/e-composer-header-table.c:40
 msgid "Enter the addresses that will receive a carbon copy of the message"
-msgstr ""
+msgstr "Inserî lis direzions che a ricevaran une copie compagne dal messaç"
 
 #: ../composer/e-composer-header-table.c:43
 msgid ""
 "Enter the addresses that will receive a carbon copy of the message without "
 "appearing in the recipient list of the message"
 msgstr ""
+"Inserî lis direzions che a ricevaran une copie compagne dal messaç cence "
+"vignî fûr te liste dai destinataris dal messaç"
 
 #: ../composer/e-composer-header-table.c:829
 msgid "Fr_om:"
-msgstr ""
+msgstr "_Di:"
 
 #: ../composer/e-composer-header-table.c:836
 msgid "_Reply-To:"
-msgstr ""
+msgstr "_Rispuint a:"
 
 #: ../composer/e-composer-header-table.c:841
 msgid "_To:"
-msgstr ""
+msgstr "_A:"
 
 #: ../composer/e-composer-header-table.c:847
 msgid "_Cc:"
-msgstr ""
+msgstr "_Cc:"
 
 #: ../composer/e-composer-header-table.c:853
 msgid "_Bcc:"
@@ -7666,30 +7669,32 @@ msgstr ""
 
 #: ../composer/e-composer-header-table.c:858
 msgid "_Post To:"
-msgstr ""
+msgstr "_Publiche su:"
 
 #: ../composer/e-composer-header-table.c:862
 msgid "S_ubject:"
-msgstr ""
+msgstr "O_gjet:"
 
 #: ../composer/e-composer-header-table.c:870
 #: ../mail/e-mail-config-identity-page.c:534
 msgid "Si_gnature:"
-msgstr ""
+msgstr "_Firme:"
 
 #: ../composer/e-composer-name-header.c:233
 msgid "Click here for the address book"
-msgstr ""
+msgstr "Fâs clic achì pe rubriche"
 
 #: ../composer/e-composer-post-header.c:182
 msgid "Click here to select folders to post to"
-msgstr ""
+msgstr "Fâs clic achì par selezionâ la cartele dulà publicâ"
 
 #: ../composer/e-msg-composer.c:876
 #, c-format
 msgid ""
 "Cannot sign outgoing message: No signing certificate set for this account"
 msgstr ""
+"Impussibil firmâ il messaç in jessude: nol è impostât nissun certificât di "
+"firme par chest account"
 
 #: ../composer/e-msg-composer.c:885
 #, c-format
@@ -7697,14 +7702,16 @@ msgid ""
 "Cannot encrypt outgoing message: No encryption certificate set for this "
 "account"
 msgstr ""
+"Impussibil cifrâ il messaç in jessude: nol è impostât nissun certificât di "
+"cifradure par chest account"
 
 #: ../composer/e-msg-composer.c:1621 ../composer/e-msg-composer.c:2411
 msgid "Compose Message"
-msgstr ""
+msgstr "Scrîf un messaç"
 
 #: ../composer/e-msg-composer.c:4736
 msgid "The composer contains a non-text message body, which cannot be edited."
-msgstr ""
+msgstr "L'editôr al à un cuarp messaç no di test, che nol è pussibil modificâ."
 
 #: ../composer/mail-composer.error.xml.h:1
 msgid "You cannot attach the file &quot;{0}&quot; to this message."
@@ -7713,10 +7720,11 @@ msgstr ""
 #: ../composer/mail-composer.error.xml.h:2
 msgid "The file '{0}' is not a regular file and cannot be sent in a message."
 msgstr ""
+"Il file «{0}» nol è un file normâl e nol pues jessi inviât intun messaç."
 
 #: ../composer/mail-composer.error.xml.h:3
 msgid "Could not retrieve messages to attach from {0}."
-msgstr ""
+msgstr "Impussibil recuperâ i messaçs di zontâ di {0}."
 
 #: ../composer/mail-composer.error.xml.h:4
 msgid "Because &quot;{1}&quot;."
@@ -7724,21 +7732,23 @@ msgstr ""
 
 #: ../composer/mail-composer.error.xml.h:5
 msgid "Do you want to recover unfinished messages?"
-msgstr ""
+msgstr "Recuperâ i messaçs no finîts?"
 
 #: ../composer/mail-composer.error.xml.h:6
 msgid ""
 "Evolution quit unexpectedly while you were composing a new message. "
 "Recovering the message will allow you to continue where you left off."
 msgstr ""
+"Evolution al è jessût in mût inspietât dilunc la scriture di un gnûf messaç. "
+"Recuperant il messaç al sarà pussibil continuâ di dulà che si jere rivâts."
 
 #: ../composer/mail-composer.error.xml.h:7
 msgid "_Do not Recover"
-msgstr ""
+msgstr "_No stâ recuperâ"
 
 #: ../composer/mail-composer.error.xml.h:8
 msgid "_Recover"
-msgstr ""
+msgstr "_Recupere"
 
 #: ../composer/mail-composer.error.xml.h:9
 msgid "Could not save to autosave file &quot;{0}&quot;."
@@ -7752,7 +7762,7 @@ msgstr ""
 msgid ""
 "Are you sure you want to discard the message, titled '{0}', you are "
 "composing?"
-msgstr ""
+msgstr "Sigûrs di scartâ il messaç intitulât «{0}» che si stave scrivint?"
 
 #: ../composer/mail-composer.error.xml.h:12
 msgid ""
@@ -7760,23 +7770,26 @@ msgid ""
 "you choose to save the message in your Drafts folder. This will allow you to "
 "continue the message at a later date."
 msgstr ""
+"Sierant chest barcon di composizion si pierdarà il messaç par simpri, a "
+"mancul che chest nol sedi stât salvât te cartele Stampons. Fasint cussì al "
+"sarà pussibil continuâ il messaç plui indenant."
 
 #. Response codes were chosen somewhat arbitrarily.
 #: ../composer/mail-composer.error.xml.h:15
 msgid "_Continue Editing"
-msgstr ""
+msgstr "_Continue scrivi"
 
 #: ../composer/mail-composer.error.xml.h:16
 msgid "_Save Draft"
-msgstr ""
+msgstr "_Salve stampon"
 
 #: ../composer/mail-composer.error.xml.h:17
 msgid "Are you sure you want to discard the message you are composing?"
-msgstr ""
+msgstr "Sigûrs di scartâ il messaç che tu stâs scrivint?"
 
 #: ../composer/mail-composer.error.xml.h:18
 msgid "Could not create message."
-msgstr ""
+msgstr "Impussibil creâ messaç."
 
 #: ../composer/mail-composer.error.xml.h:19
 msgid "Because &quot;{0}&quot;, you may need to select different mail options."
@@ -7788,15 +7801,15 @@ msgstr ""
 
 #: ../composer/mail-composer.error.xml.h:21
 msgid "All accounts have been removed."
-msgstr ""
+msgstr "Ducj i account a son stâts gjavâts."
 
 #: ../composer/mail-composer.error.xml.h:22
 msgid "You need to configure an account before you can compose mail."
-msgstr ""
+msgstr "Si scugne configurâ un account prime di podê scrivi une e-mail."
 
 #: ../composer/mail-composer.error.xml.h:23
 msgid "An error occurred while saving to your Outbox folder."
-msgstr ""
+msgstr "Al è vignût fûr un erôr intant che si salvave te cartele «In jessude»."
 
 #: ../composer/mail-composer.error.xml.h:24
 msgid "The reported error was &quot;{0}&quot;. The message has not been sent."
@@ -14290,28 +14303,28 @@ msgstr ""
 #: ../modules/mail/e-mail-shell-view-private.c:1053
 #: ../modules/mail/e-mail-shell-view-private.c:1064
 msgid "Inbox"
-msgstr ""
+msgstr "In jentrade"
 
 #. E_MAIL_LOCAL_FOLDER_INBOX
 #: ../libemail-engine/e-mail-session.c:128 ../mail/em-folder-tree-model.c:1205
 #: ../mail/importers/kmail-libs.c:147
 #: ../modules/mail/e-mail-shell-view-private.c:1051
 msgid "Drafts"
-msgstr ""
+msgstr "Stampons"
 
 #. E_MAIL_LOCAL_FOLDER_DRAFTS
 #: ../libemail-engine/e-mail-session.c:129 ../mail/em-folder-tree-model.c:1216
 #: ../mail/importers/kmail-libs.c:143
 #: ../modules/mail/e-mail-shell-view-private.c:1055
 msgid "Outbox"
-msgstr ""
+msgstr "In jessude"
 
 #. E_MAIL_LOCAL_FOLDER_OUTBOX
 #: ../libemail-engine/e-mail-session.c:130 ../mail/em-folder-tree-model.c:1220
 #: ../mail/importers/kmail-libs.c:145
 #: ../modules/mail/e-mail-shell-view-private.c:1057
 msgid "Sent"
-msgstr ""
+msgstr "Inviade"
 
 #. E_MAIL_LOCAL_FOLDER_SENT
 #: ../libemail-engine/e-mail-session.c:131 ../mail/em-folder-tree-model.c:1208
@@ -14320,12 +14333,12 @@ msgstr ""
 #: ../plugins/templates/e-templates-store.c:2214
 #: ../plugins/templates/org-gnome-templates.eplug.xml.h:1
 msgid "Templates"
-msgstr ""
+msgstr "Modei"
 
 #: ../libemail-engine/e-mail-session.c:1334
 #, c-format
 msgid "User cancelled operation"
-msgstr ""
+msgstr "Operazion anulade dal utent"
 
 #: ../libemail-engine/e-mail-session.c:1391
 #, c-format
