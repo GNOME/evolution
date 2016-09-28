@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2016-09-25 00:11+0000\n"
-"PO-Revision-Date: 2016-09-28 10:01+0200\n"
+"PO-Revision-Date: 2016-09-28 10:20+0200\n"
 "Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
 "Language-Team: Friulian <fur@li.org>\n"
 "Language: fur\n"
@@ -6976,203 +6976,203 @@ msgstr "Asie/Yerevan"
 
 #: ../calendar/zones.h:284
 msgid "Atlantic/Azores"
-msgstr ""
+msgstr "Atlantic/Azoris"
 
 #: ../calendar/zones.h:285
 msgid "Atlantic/Bermuda"
-msgstr ""
+msgstr "Atlantic/Bermuda"
 
 #: ../calendar/zones.h:286
 msgid "Atlantic/Canary"
-msgstr ""
+msgstr "Atlantic/Canariis"
 
 #: ../calendar/zones.h:287
 msgid "Atlantic/Cape_Verde"
-msgstr ""
+msgstr "Atlantic/Cap_Vert"
 
 #: ../calendar/zones.h:288
 msgid "Atlantic/Faeroe"
-msgstr ""
+msgstr "Atlantic/Faeroe"
 
 #: ../calendar/zones.h:289
 msgid "Atlantic/Jan_Mayen"
-msgstr ""
+msgstr "Atlantic/Jan_Mayen"
 
 #: ../calendar/zones.h:290
 msgid "Atlantic/Madeira"
-msgstr ""
+msgstr "Atlantic/Madeira"
 
 #: ../calendar/zones.h:291
 msgid "Atlantic/Reykjavik"
-msgstr ""
+msgstr "Atlantic/Reykjavik"
 
 #: ../calendar/zones.h:292
 msgid "Atlantic/South_Georgia"
-msgstr ""
+msgstr "Atlantic/Georgjie_dal_Sud"
 
 #: ../calendar/zones.h:293
 msgid "Atlantic/St_Helena"
-msgstr ""
+msgstr "Atlantic/St_Helena"
 
 #: ../calendar/zones.h:294
 msgid "Atlantic/Stanley"
-msgstr ""
+msgstr "Atlantic/Stanley"
 
 #: ../calendar/zones.h:295
 msgid "Australia/Adelaide"
-msgstr ""
+msgstr "Australie/Adelaide"
 
 #: ../calendar/zones.h:296
 msgid "Australia/Brisbane"
-msgstr ""
+msgstr "Australie/Brisbane"
 
 #: ../calendar/zones.h:297
 msgid "Australia/Broken_Hill"
-msgstr ""
+msgstr "Australie/Broken_Hill"
 
 #: ../calendar/zones.h:298
 msgid "Australia/Darwin"
-msgstr ""
+msgstr "Australie/Darwin"
 
 #: ../calendar/zones.h:299
 msgid "Australia/Hobart"
-msgstr ""
+msgstr "Australie/Hobart"
 
 #: ../calendar/zones.h:300
 msgid "Australia/Lindeman"
-msgstr ""
+msgstr "Australie/Lindeman"
 
 #: ../calendar/zones.h:301
 msgid "Australia/Lord_Howe"
-msgstr ""
+msgstr "Australie/Lord_Howe"
 
 #: ../calendar/zones.h:302
 msgid "Australia/Melbourne"
-msgstr ""
+msgstr "Australie/Melbourne"
 
 #: ../calendar/zones.h:303
 msgid "Australia/Perth"
-msgstr ""
+msgstr "Australie/Perth"
 
 #: ../calendar/zones.h:304
 msgid "Australia/Sydney"
-msgstr ""
+msgstr "Australie/Sydney"
 
 #: ../calendar/zones.h:305
 msgid "Europe/Amsterdam"
-msgstr ""
+msgstr "Europe/Amsterdam"
 
 #: ../calendar/zones.h:306
 msgid "Europe/Andorra"
-msgstr ""
+msgstr "Europe/Andorra"
 
 #: ../calendar/zones.h:307
 msgid "Europe/Athens"
-msgstr ""
+msgstr "Europe/Atene"
 
 #: ../calendar/zones.h:308
 msgid "Europe/Belfast"
-msgstr ""
+msgstr "Europe/Belfast"
 
 #: ../calendar/zones.h:309
 msgid "Europe/Belgrade"
-msgstr ""
+msgstr "Europe/Belgrât"
 
 #: ../calendar/zones.h:310
 msgid "Europe/Berlin"
-msgstr ""
+msgstr "Europe/Berlin"
 
 #: ../calendar/zones.h:311
 msgid "Europe/Bratislava"
-msgstr ""
+msgstr "Europe/Bratislava"
 
 #: ../calendar/zones.h:312
 msgid "Europe/Brussels"
-msgstr ""
+msgstr "Europe/Bruxelles"
 
 #: ../calendar/zones.h:313
 msgid "Europe/Bucharest"
-msgstr ""
+msgstr "Europe/Bucharest"
 
 #: ../calendar/zones.h:314
 msgid "Europe/Budapest"
-msgstr ""
+msgstr "Europe/Budapest"
 
 #: ../calendar/zones.h:315
 msgid "Europe/Chisinau"
-msgstr ""
+msgstr "Europe/Chisinau"
 
 #: ../calendar/zones.h:316
 msgid "Europe/Copenhagen"
-msgstr ""
+msgstr "Europe/Copenhagen"
 
 #: ../calendar/zones.h:317
 msgid "Europe/Dublin"
-msgstr ""
+msgstr "Europe/Dublin"
 
 #: ../calendar/zones.h:318
 msgid "Europe/Gibraltar"
-msgstr ""
+msgstr "Europe/Gjibraltar"
 
 #: ../calendar/zones.h:319
 msgid "Europe/Helsinki"
-msgstr ""
+msgstr "Europe/Helsinki"
 
 #: ../calendar/zones.h:320
 msgid "Europe/Istanbul"
-msgstr ""
+msgstr "Europe/Istanbul"
 
 #: ../calendar/zones.h:321
 msgid "Europe/Kaliningrad"
-msgstr ""
+msgstr "Europe/Kaliningrad"
 
 #: ../calendar/zones.h:322
 msgid "Europe/Kiev"
-msgstr ""
+msgstr "Europe/Kiev"
 
 #: ../calendar/zones.h:323
 msgid "Europe/Lisbon"
-msgstr ""
+msgstr "Europe/Lisbone"
 
 #: ../calendar/zones.h:324
 msgid "Europe/Ljubljana"
-msgstr ""
+msgstr "Europe/Lubiane"
 
 #: ../calendar/zones.h:325
 msgid "Europe/London"
-msgstr ""
+msgstr "Europe/Londre"
 
 #: ../calendar/zones.h:326
 msgid "Europe/Luxembourg"
-msgstr ""
+msgstr "Europe/Lussemburc"
 
 #: ../calendar/zones.h:327
 msgid "Europe/Madrid"
-msgstr ""
+msgstr "Europe/Madrid"
 
 #: ../calendar/zones.h:328
 msgid "Europe/Malta"
-msgstr ""
+msgstr "Europe/Malte"
 
 #: ../calendar/zones.h:329
 msgid "Europe/Minsk"
-msgstr ""
+msgstr "Europe/Minsk"
 
 #: ../calendar/zones.h:330
 msgid "Europe/Monaco"
-msgstr ""
+msgstr "Europe/Monaco"
 
 #: ../calendar/zones.h:331
 msgid "Europe/Moscow"
-msgstr ""
+msgstr "Europe/Mosche"
 
 #: ../calendar/zones.h:332
 msgid "Europe/Nicosia"
-msgstr ""
+msgstr "Europe/Nicosia"
 
 #: ../calendar/zones.h:333
 msgid "Europe/Oslo"
-msgstr ""
+msgstr "Europe/Oslo"
 
 #: ../calendar/zones.h:334
 msgid "Europe/Paris"
@@ -7180,39 +7180,39 @@ msgstr ""
 
 #: ../calendar/zones.h:335
 msgid "Europe/Prague"
-msgstr ""
+msgstr "Europe/Praghe"
 
 #: ../calendar/zones.h:336
 msgid "Europe/Riga"
-msgstr ""
+msgstr "Europe/Riga"
 
 #: ../calendar/zones.h:337
 msgid "Europe/Rome"
-msgstr ""
+msgstr "Europe/Rome"
 
 #: ../calendar/zones.h:338
 msgid "Europe/Samara"
-msgstr ""
+msgstr "Europe/Samara"
 
 #: ../calendar/zones.h:339
 msgid "Europe/San_Marino"
-msgstr ""
+msgstr "Europe/San_Marin"
 
 #: ../calendar/zones.h:340
 msgid "Europe/Sarajevo"
-msgstr ""
+msgstr "Europe/Sarajevo"
 
 #: ../calendar/zones.h:341
 msgid "Europe/Simferopol"
-msgstr ""
+msgstr "Europe/Simferopol"
 
 #: ../calendar/zones.h:342
 msgid "Europe/Skopje"
-msgstr ""
+msgstr "Europe/Skopje"
 
 #: ../calendar/zones.h:343
 msgid "Europe/Sofia"
-msgstr ""
+msgstr "Europe/Sofia"
 
 #: ../calendar/zones.h:344
 msgid "Europe/Stockholm"
@@ -7220,43 +7220,43 @@ msgstr ""
 
 #: ../calendar/zones.h:345
 msgid "Europe/Tallinn"
-msgstr ""
+msgstr "Europe/Tallinn"
 
 #: ../calendar/zones.h:346
 msgid "Europe/Tirane"
-msgstr ""
+msgstr "Europe/Tirane"
 
 #: ../calendar/zones.h:347
 msgid "Europe/Uzhgorod"
-msgstr ""
+msgstr "Europe/Uzhgorod"
 
 #: ../calendar/zones.h:348
 msgid "Europe/Vaduz"
-msgstr ""
+msgstr "Europe/Vaduz"
 
 #: ../calendar/zones.h:349
 msgid "Europe/Vatican"
-msgstr ""
+msgstr "Europe/Vatican"
 
 #: ../calendar/zones.h:350
 msgid "Europe/Vienna"
-msgstr ""
+msgstr "Europe/Viene"
 
 #: ../calendar/zones.h:351
 msgid "Europe/Vilnius"
-msgstr ""
+msgstr "Europe/Vilnius"
 
 #: ../calendar/zones.h:352
 msgid "Europe/Warsaw"
-msgstr ""
+msgstr "Europe/Varsavie"
 
 #: ../calendar/zones.h:353
 msgid "Europe/Zagreb"
-msgstr ""
+msgstr "Europe/Zagabrie"
 
 #: ../calendar/zones.h:354
 msgid "Europe/Zaporozhye"
-msgstr ""
+msgstr "Europe/Zaporozhye"
 
 #: ../calendar/zones.h:355
 msgid "Europe/Zurich"
@@ -7264,203 +7264,203 @@ msgstr ""
 
 #: ../calendar/zones.h:356
 msgid "Indian/Antananarivo"
-msgstr ""
+msgstr "Indian/Antananarivo"
 
 #: ../calendar/zones.h:357
 msgid "Indian/Chagos"
-msgstr ""
+msgstr "Indian/Chagos"
 
 #: ../calendar/zones.h:358
 msgid "Indian/Christmas"
-msgstr ""
+msgstr "Indian/Nadâl"
 
 #: ../calendar/zones.h:359
 msgid "Indian/Cocos"
-msgstr ""
+msgstr "Indian/Cocos"
 
 #: ../calendar/zones.h:360
 msgid "Indian/Comoro"
-msgstr ""
+msgstr "Indian/Comoris"
 
 #: ../calendar/zones.h:361
 msgid "Indian/Kerguelen"
-msgstr ""
+msgstr "Indian/Kerguelen"
 
 #: ../calendar/zones.h:362
 msgid "Indian/Mahe"
-msgstr ""
+msgstr "Indian/Mahe"
 
 #: ../calendar/zones.h:363
 msgid "Indian/Maldives"
-msgstr ""
+msgstr "Indian/Maldivis"
 
 #: ../calendar/zones.h:364
 msgid "Indian/Mauritius"
-msgstr ""
+msgstr "Indian/Mauritius"
 
 #: ../calendar/zones.h:365
 msgid "Indian/Mayotte"
-msgstr ""
+msgstr "Indian/Mayotte"
 
 #: ../calendar/zones.h:366
 msgid "Indian/Reunion"
-msgstr ""
+msgstr "Indian/Reunion"
 
 #: ../calendar/zones.h:367
 msgid "Pacific/Apia"
-msgstr ""
+msgstr "Pacific/Apia"
 
 #: ../calendar/zones.h:368
 msgid "Pacific/Auckland"
-msgstr ""
+msgstr "Pacific/Auckland"
 
 #: ../calendar/zones.h:369
 msgid "Pacific/Chatham"
-msgstr ""
+msgstr "Pacific/Chatham"
 
 #: ../calendar/zones.h:370
 msgid "Pacific/Easter"
-msgstr ""
+msgstr "Pacific/Easter"
 
 #: ../calendar/zones.h:371
 msgid "Pacific/Efate"
-msgstr ""
+msgstr "Pacific/Efate"
 
 #: ../calendar/zones.h:372
 msgid "Pacific/Enderbury"
-msgstr ""
+msgstr "Pacific/Enderbury"
 
 #: ../calendar/zones.h:373
 msgid "Pacific/Fakaofo"
-msgstr ""
+msgstr "Pacific/Fakaofo"
 
 #: ../calendar/zones.h:374
 msgid "Pacific/Fiji"
-msgstr ""
+msgstr "Pacific/Fiji"
 
 #: ../calendar/zones.h:375
 msgid "Pacific/Funafuti"
-msgstr ""
+msgstr "Pacific/Funafuti"
 
 #: ../calendar/zones.h:376
 msgid "Pacific/Galapagos"
-msgstr ""
+msgstr "Pacific/Galapagos"
 
 #: ../calendar/zones.h:377
 msgid "Pacific/Gambier"
-msgstr ""
+msgstr "Pacific/Gambier"
 
 #: ../calendar/zones.h:378
 msgid "Pacific/Guadalcanal"
-msgstr ""
+msgstr "Pacific/Guadalcanal"
 
 #: ../calendar/zones.h:379
 msgid "Pacific/Guam"
-msgstr ""
+msgstr "Pacific/Guam"
 
 #: ../calendar/zones.h:380
 msgid "Pacific/Honolulu"
-msgstr ""
+msgstr "Pacific/Honolulu"
 
 #: ../calendar/zones.h:381
 msgid "Pacific/Johnston"
-msgstr ""
+msgstr "Pacific/Johnston"
 
 #: ../calendar/zones.h:382
 msgid "Pacific/Kiritimati"
-msgstr ""
+msgstr "Pacific/Kiritimati"
 
 #: ../calendar/zones.h:383
 msgid "Pacific/Kosrae"
-msgstr ""
+msgstr "Pacific/Kosrae"
 
 #: ../calendar/zones.h:384
 msgid "Pacific/Kwajalein"
-msgstr ""
+msgstr "Pacific/Kwajalein"
 
 #: ../calendar/zones.h:385
 msgid "Pacific/Majuro"
-msgstr ""
+msgstr "Pacific/Majuro"
 
 #: ../calendar/zones.h:386
 msgid "Pacific/Marquesas"
-msgstr ""
+msgstr "Pacific/Marquesas"
 
 #: ../calendar/zones.h:387
 msgid "Pacific/Midway"
-msgstr ""
+msgstr "Pacific/Midway"
 
 #: ../calendar/zones.h:388
 msgid "Pacific/Nauru"
-msgstr ""
+msgstr "Pacific/Nauru"
 
 #: ../calendar/zones.h:389
 msgid "Pacific/Niue"
-msgstr ""
+msgstr "Pacific/Niue"
 
 #: ../calendar/zones.h:390
 msgid "Pacific/Norfolk"
-msgstr ""
+msgstr "Pacific/Norfolk"
 
 #: ../calendar/zones.h:391
 msgid "Pacific/Noumea"
-msgstr ""
+msgstr "Pacific/Noumea"
 
 #: ../calendar/zones.h:392
 msgid "Pacific/Pago_Pago"
-msgstr ""
+msgstr "Pacific/Pago_Pago"
 
 #: ../calendar/zones.h:393
 msgid "Pacific/Palau"
-msgstr ""
+msgstr "Pacific/Palau"
 
 #: ../calendar/zones.h:394
 msgid "Pacific/Pitcairn"
-msgstr ""
+msgstr "Pacific/Pitcairn"
 
 #: ../calendar/zones.h:395
 msgid "Pacific/Ponape"
-msgstr ""
+msgstr "Pacific/Ponape"
 
 #: ../calendar/zones.h:396
 msgid "Pacific/Port_Moresby"
-msgstr ""
+msgstr "Pacific/Port_Moresby"
 
 #: ../calendar/zones.h:397
 msgid "Pacific/Rarotonga"
-msgstr ""
+msgstr "Pacific/Rarotonga"
 
 #: ../calendar/zones.h:398
 msgid "Pacific/Saipan"
-msgstr ""
+msgstr "Pacific/Saipan"
 
 #: ../calendar/zones.h:399
 msgid "Pacific/Tahiti"
-msgstr ""
+msgstr "Pacific/Tahiti"
 
 #: ../calendar/zones.h:400
 msgid "Pacific/Tarawa"
-msgstr ""
+msgstr "Pacific/Tarawa"
 
 #: ../calendar/zones.h:401
 msgid "Pacific/Tongatapu"
-msgstr ""
+msgstr "Pacific/Tongatapu"
 
 #: ../calendar/zones.h:402
 msgid "Pacific/Truk"
-msgstr ""
+msgstr "Pacific/Truk"
 
 #: ../calendar/zones.h:403
 msgid "Pacific/Wake"
-msgstr ""
+msgstr "Pacific/Wake"
 
 #: ../calendar/zones.h:404
 msgid "Pacific/Wallis"
-msgstr ""
+msgstr "Pacific/Wallis"
 
 #: ../calendar/zones.h:405
 msgid "Pacific/Yap"
-msgstr ""
+msgstr "Pacific/Yap"
 
 #: ../composer/e-composer-actions.c:227
 msgid "Save as..."
