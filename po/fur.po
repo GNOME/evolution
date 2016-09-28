@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2016-09-25 00:11+0000\n"
-"PO-Revision-Date: 2016-09-27 22:53+0200\n"
+"PO-Revision-Date: 2016-09-28 10:01+0200\n"
 "Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
 "Language-Team: Friulian <fur@li.org>\n"
 "Language: fur\n"
@@ -5940,1039 +5940,1039 @@ msgstr "Gjenar"
 #.
 #: ../calendar/zones.h:25
 msgid "Africa/Abidjan"
-msgstr ""
+msgstr "Afriche/Abidjan"
 
 #: ../calendar/zones.h:26
 msgid "Africa/Accra"
-msgstr ""
+msgstr "Afriche/Accra"
 
 #: ../calendar/zones.h:27
 msgid "Africa/Addis_Ababa"
-msgstr ""
+msgstr "Afriche/Addis_Ababa"
 
 #: ../calendar/zones.h:28
 msgid "Africa/Algiers"
-msgstr ""
+msgstr "Afriche/Alzeri"
 
 #: ../calendar/zones.h:29
 msgid "Africa/Asmera"
-msgstr ""
+msgstr "Afriche/Asmera"
 
 #: ../calendar/zones.h:30
 msgid "Africa/Bamako"
-msgstr ""
+msgstr "Afriche/Bamako"
 
 #: ../calendar/zones.h:31
 msgid "Africa/Bangui"
-msgstr ""
+msgstr "Afriche/Bangui"
 
 #: ../calendar/zones.h:32
 msgid "Africa/Banjul"
-msgstr ""
+msgstr "Afriche/Banjul"
 
 #: ../calendar/zones.h:33
 msgid "Africa/Bissau"
-msgstr ""
+msgstr "Afriche/Bissau"
 
 #: ../calendar/zones.h:34
 msgid "Africa/Blantyre"
-msgstr ""
+msgstr "Afriche/Blantyre"
 
 #: ../calendar/zones.h:35
 msgid "Africa/Brazzaville"
-msgstr ""
+msgstr "Afriche/Brazzaville"
 
 #: ../calendar/zones.h:36
 msgid "Africa/Bujumbura"
-msgstr ""
+msgstr "Afriche/Bujumbura"
 
 #: ../calendar/zones.h:37
 msgid "Africa/Cairo"
-msgstr ""
+msgstr "Afriche/Cairo"
 
 #: ../calendar/zones.h:38
 msgid "Africa/Casablanca"
-msgstr ""
+msgstr "Afriche/Casablanca"
 
 #: ../calendar/zones.h:39
 msgid "Africa/Ceuta"
-msgstr ""
+msgstr "Afriche/Ceuta"
 
 #: ../calendar/zones.h:40
 msgid "Africa/Conakry"
-msgstr ""
+msgstr "Afriche/Conakry"
 
 #: ../calendar/zones.h:41
 msgid "Africa/Dakar"
-msgstr ""
+msgstr "Afriche/Dakar"
 
 #: ../calendar/zones.h:42
 msgid "Africa/Dar_es_Salaam"
-msgstr ""
+msgstr "Afriche/Dar_es_Salaam"
 
 #: ../calendar/zones.h:43
 msgid "Africa/Djibouti"
-msgstr ""
+msgstr "Afriche/Djibouti"
 
 #: ../calendar/zones.h:44
 msgid "Africa/Douala"
-msgstr ""
+msgstr "Afriche/Douala"
 
 #: ../calendar/zones.h:45
 msgid "Africa/El_Aaiun"
-msgstr ""
+msgstr "Afriche/El_Aaiun"
 
 #: ../calendar/zones.h:46
 msgid "Africa/Freetown"
-msgstr ""
+msgstr "Afriche/Freetown"
 
 #: ../calendar/zones.h:47
 msgid "Africa/Gaborone"
-msgstr ""
+msgstr "Afriche/Gaborone"
 
 #: ../calendar/zones.h:48
 msgid "Africa/Harare"
-msgstr ""
+msgstr "Afriche/Harare"
 
 #: ../calendar/zones.h:49
 msgid "Africa/Johannesburg"
-msgstr ""
+msgstr "Afriche/Johannesburg"
 
 #: ../calendar/zones.h:50
 msgid "Africa/Kampala"
-msgstr ""
+msgstr "Afriche/Kampala"
 
 #: ../calendar/zones.h:51
 msgid "Africa/Khartoum"
-msgstr ""
+msgstr "Afriche/Khartoum"
 
 #: ../calendar/zones.h:52
 msgid "Africa/Kigali"
-msgstr ""
+msgstr "Afriche/Kigali"
 
 #: ../calendar/zones.h:53
 msgid "Africa/Kinshasa"
-msgstr ""
+msgstr "Afriche/Kinshasa"
 
 #: ../calendar/zones.h:54
 msgid "Africa/Lagos"
-msgstr ""
+msgstr "Afriche/Lagos"
 
 #: ../calendar/zones.h:55
 msgid "Africa/Libreville"
-msgstr ""
+msgstr "Afriche/Libreville"
 
 #: ../calendar/zones.h:56
 msgid "Africa/Lome"
-msgstr ""
+msgstr "Afriche/Lome"
 
 #: ../calendar/zones.h:57
 msgid "Africa/Luanda"
-msgstr ""
+msgstr "Afriche/Luanda"
 
 #: ../calendar/zones.h:58
 msgid "Africa/Lubumbashi"
-msgstr ""
+msgstr "Afriche/Lubumbashi"
 
 #: ../calendar/zones.h:59
 msgid "Africa/Lusaka"
-msgstr ""
+msgstr "Afriche/Lusaka"
 
 #: ../calendar/zones.h:60
 msgid "Africa/Malabo"
-msgstr ""
+msgstr "Afriche/Malabo"
 
 #: ../calendar/zones.h:61
 msgid "Africa/Maputo"
-msgstr ""
+msgstr "Afriche/Maputo"
 
 #: ../calendar/zones.h:62
 msgid "Africa/Maseru"
-msgstr ""
+msgstr "Afriche/Maseru"
 
 #: ../calendar/zones.h:63
 msgid "Africa/Mbabane"
-msgstr ""
+msgstr "Afriche/Mbabane"
 
 #: ../calendar/zones.h:64
 msgid "Africa/Mogadishu"
-msgstr ""
+msgstr "Afriche/Mogadishu"
 
 #: ../calendar/zones.h:65
 msgid "Africa/Monrovia"
-msgstr ""
+msgstr "Afriche/Monrovia"
 
 #: ../calendar/zones.h:66
 msgid "Africa/Nairobi"
-msgstr ""
+msgstr "Afriche/Nairobi"
 
 #: ../calendar/zones.h:67
 msgid "Africa/Ndjamena"
-msgstr ""
+msgstr "Afriche/Ndjamena"
 
 #: ../calendar/zones.h:68
 msgid "Africa/Niamey"
-msgstr ""
+msgstr "Afriche/Niamey"
 
 #: ../calendar/zones.h:69
 msgid "Africa/Nouakchott"
-msgstr ""
+msgstr "Afriche/Nouakchott"
 
 #: ../calendar/zones.h:70
 msgid "Africa/Ouagadougou"
-msgstr ""
+msgstr "Afriche/Ouagadougou"
 
 #: ../calendar/zones.h:71
 msgid "Africa/Porto-Novo"
-msgstr ""
+msgstr "Afriche/Porto-Novo"
 
 #: ../calendar/zones.h:72
 msgid "Africa/Sao_Tome"
-msgstr ""
+msgstr "Afriche/Sao_Tome"
 
 #: ../calendar/zones.h:73
 msgid "Africa/Timbuktu"
-msgstr ""
+msgstr "Afriche/Timbuktu"
 
 #: ../calendar/zones.h:74
 msgid "Africa/Tripoli"
-msgstr ""
+msgstr "Afriche/Tripoli"
 
 #: ../calendar/zones.h:75
 msgid "Africa/Tunis"
-msgstr ""
+msgstr "Afriche/Tunis"
 
 #: ../calendar/zones.h:76
 msgid "Africa/Windhoek"
-msgstr ""
+msgstr "Afriche/Windhoek"
 
 #: ../calendar/zones.h:77
 msgid "America/Adak"
-msgstr ""
+msgstr "Americhe/Adak"
 
 #: ../calendar/zones.h:78
 msgid "America/Anchorage"
-msgstr ""
+msgstr "Americhe/Anchorage"
 
 #: ../calendar/zones.h:79
 msgid "America/Anguilla"
-msgstr ""
+msgstr "Americhe/Anguilla"
 
 #: ../calendar/zones.h:80
 msgid "America/Antigua"
-msgstr ""
+msgstr "Americhe/Antigua"
 
 #: ../calendar/zones.h:81
 msgid "America/Araguaina"
-msgstr ""
+msgstr "Americhe/Araguaina"
 
 #: ../calendar/zones.h:82
 msgid "America/Aruba"
-msgstr ""
+msgstr "Americhe/Aruba"
 
 #: ../calendar/zones.h:83
 msgid "America/Asuncion"
-msgstr ""
+msgstr "Americhe/Asuncion"
 
 #: ../calendar/zones.h:84
 msgid "America/Barbados"
-msgstr ""
+msgstr "Americhe/Barbados"
 
 #: ../calendar/zones.h:85
 msgid "America/Belem"
-msgstr ""
+msgstr "Americhe/Belem"
 
 #: ../calendar/zones.h:86
 msgid "America/Belize"
-msgstr ""
+msgstr "Americhe/Belize"
 
 #: ../calendar/zones.h:87
 msgid "America/Boa_Vista"
-msgstr ""
+msgstr "Americhe/Boa_Vista"
 
 #: ../calendar/zones.h:88
 msgid "America/Bogota"
-msgstr ""
+msgstr "Americhe/Bogota"
 
 #: ../calendar/zones.h:89
 msgid "America/Boise"
-msgstr ""
+msgstr "Americhe/Boise"
 
 #: ../calendar/zones.h:90
 msgid "America/Buenos_Aires"
-msgstr ""
+msgstr "Americhe/Buenos_Aires"
 
 #: ../calendar/zones.h:91
 msgid "America/Cambridge_Bay"
-msgstr ""
+msgstr "Americhe/Cambridge_Bay"
 
 #: ../calendar/zones.h:92
 msgid "America/Cancun"
-msgstr ""
+msgstr "Americhe/Cancun"
 
 #: ../calendar/zones.h:93
 msgid "America/Caracas"
-msgstr ""
+msgstr "Americhe/Caracas"
 
 #: ../calendar/zones.h:94
 msgid "America/Catamarca"
-msgstr ""
+msgstr "Americhe/Catamarca"
 
 #: ../calendar/zones.h:95
 msgid "America/Cayenne"
-msgstr ""
+msgstr "Americhe/Cayenne"
 
 #: ../calendar/zones.h:96
 msgid "America/Cayman"
-msgstr ""
+msgstr "Americhe/Cayman"
 
 #: ../calendar/zones.h:97
 msgid "America/Chicago"
-msgstr ""
+msgstr "Americhe/Chicago"
 
 #: ../calendar/zones.h:98
 msgid "America/Chihuahua"
-msgstr ""
+msgstr "Americhe/Chihuahua"
 
 #: ../calendar/zones.h:99
 msgid "America/Cordoba"
-msgstr ""
+msgstr "Americhe/Cordoba"
 
 #: ../calendar/zones.h:100
 msgid "America/Costa_Rica"
-msgstr ""
+msgstr "Americhe/Costa_Rica"
 
 #: ../calendar/zones.h:101
 msgid "America/Cuiaba"
-msgstr ""
+msgstr "Americhe/Cuiaba"
 
 #: ../calendar/zones.h:102
 msgid "America/Curacao"
-msgstr ""
+msgstr "Americhe/Curacao"
 
 #: ../calendar/zones.h:103
 msgid "America/Danmarkshavn"
-msgstr ""
+msgstr "Americhe/Danmarkshavn"
 
 #: ../calendar/zones.h:104
 msgid "America/Dawson"
-msgstr ""
+msgstr "Americhe/Dawson"
 
 #: ../calendar/zones.h:105
 msgid "America/Dawson_Creek"
-msgstr ""
+msgstr "Americhe/Dawson_Creek"
 
 #: ../calendar/zones.h:106
 msgid "America/Denver"
-msgstr ""
+msgstr "Americhe/Denver"
 
 #: ../calendar/zones.h:107
 msgid "America/Detroit"
-msgstr ""
+msgstr "Americhe/Detroit"
 
 #: ../calendar/zones.h:108
 msgid "America/Dominica"
-msgstr ""
+msgstr "Americhe/Dominica"
 
 #: ../calendar/zones.h:109
 msgid "America/Edmonton"
-msgstr ""
+msgstr "Americhe/Edmonton"
 
 #: ../calendar/zones.h:110
 msgid "America/Eirunepe"
-msgstr ""
+msgstr "Americhe/Eirunepe"
 
 #: ../calendar/zones.h:111
 msgid "America/El_Salvador"
-msgstr ""
+msgstr "Americhe/El_Salvador"
 
 #: ../calendar/zones.h:112
 msgid "America/Fortaleza"
-msgstr ""
+msgstr "Americhe/Fortaleza"
 
 #: ../calendar/zones.h:113
 msgid "America/Glace_Bay"
-msgstr ""
+msgstr "Americhe/Glace_Bay"
 
 #: ../calendar/zones.h:114
 msgid "America/Godthab"
-msgstr ""
+msgstr "Americhe/Godthab"
 
 #: ../calendar/zones.h:115
 msgid "America/Goose_Bay"
-msgstr ""
+msgstr "Americhe/Goose_Bay"
 
 #: ../calendar/zones.h:116
 msgid "America/Grand_Turk"
-msgstr ""
+msgstr "Americhe/Grand_Turk"
 
 #: ../calendar/zones.h:117
 msgid "America/Grenada"
-msgstr ""
+msgstr "Americhe/Grenada"
 
 #: ../calendar/zones.h:118
 msgid "America/Guadeloupe"
-msgstr ""
+msgstr "Americhe/Guadalupe"
 
 #: ../calendar/zones.h:119
 msgid "America/Guatemala"
-msgstr ""
+msgstr "Americhe/Guatemala"
 
 #: ../calendar/zones.h:120
 msgid "America/Guayaquil"
-msgstr ""
+msgstr "Americhe/Guayaquil"
 
 #: ../calendar/zones.h:121
 msgid "America/Guyana"
-msgstr ""
+msgstr "Americhe/Guyana"
 
 #: ../calendar/zones.h:122
 msgid "America/Halifax"
-msgstr ""
+msgstr "Americhe/Halifax"
 
 #: ../calendar/zones.h:123
 msgid "America/Havana"
-msgstr ""
+msgstr "Americhe/Havana"
 
 #: ../calendar/zones.h:124
 msgid "America/Hermosillo"
-msgstr ""
+msgstr "Americhe/Hermosillo"
 
 #: ../calendar/zones.h:125
 msgid "America/Indiana/Indianapolis"
-msgstr ""
+msgstr "Americhe/Indiana/Indianapolis"
 
 #: ../calendar/zones.h:126
 msgid "America/Indiana/Knox"
-msgstr ""
+msgstr "Americhe/Indiana/Knox"
 
 #: ../calendar/zones.h:127
 msgid "America/Indiana/Marengo"
-msgstr ""
+msgstr "Americhe/Indiana/Marengo"
 
 #: ../calendar/zones.h:128
 msgid "America/Indiana/Vevay"
-msgstr ""
+msgstr "Americhe/Indiana/Vevay"
 
 #: ../calendar/zones.h:129
 msgid "America/Indianapolis"
-msgstr ""
+msgstr "Americhe/Indianapolis"
 
 #: ../calendar/zones.h:130
 msgid "America/Inuvik"
-msgstr ""
+msgstr "Americhe/Inuvik"
 
 #: ../calendar/zones.h:131
 msgid "America/Iqaluit"
-msgstr ""
+msgstr "Americhe/Iqaluit"
 
 #: ../calendar/zones.h:132
 msgid "America/Jamaica"
-msgstr ""
+msgstr "Americhe/Gjamaiche"
 
 #: ../calendar/zones.h:133
 msgid "America/Jujuy"
-msgstr ""
+msgstr "Americhe/Jujuy"
 
 #: ../calendar/zones.h:134
 msgid "America/Juneau"
-msgstr ""
+msgstr "Americhe/Juneau"
 
 #: ../calendar/zones.h:135
 msgid "America/Kentucky/Louisville"
-msgstr ""
+msgstr "Americhe/Kentucky/Louisville"
 
 #: ../calendar/zones.h:136
 msgid "America/Kentucky/Monticello"
-msgstr ""
+msgstr "Americhe/Kentucky/Monticello"
 
 #: ../calendar/zones.h:137
 msgid "America/La_Paz"
-msgstr ""
+msgstr "Americhe/La_Paz"
 
 #: ../calendar/zones.h:138
 msgid "America/Lima"
-msgstr ""
+msgstr "Americhe/Lima"
 
 #: ../calendar/zones.h:139
 msgid "America/Los_Angeles"
-msgstr ""
+msgstr "Americhe/Los_Angeles"
 
 #: ../calendar/zones.h:140
 msgid "America/Louisville"
-msgstr ""
+msgstr "Americhe/Louisville"
 
 #: ../calendar/zones.h:141
 msgid "America/Maceio"
-msgstr ""
+msgstr "Americhe/Maceio"
 
 #: ../calendar/zones.h:142
 msgid "America/Managua"
-msgstr ""
+msgstr "Americhe/Managua"
 
 #: ../calendar/zones.h:143
 msgid "America/Manaus"
-msgstr ""
+msgstr "Americhe/Manaus"
 
 #: ../calendar/zones.h:144
 msgid "America/Martinique"
-msgstr ""
+msgstr "Americhe/Martinique"
 
 #: ../calendar/zones.h:145
 msgid "America/Mazatlan"
-msgstr ""
+msgstr "Americhe/Mazatlan"
 
 #: ../calendar/zones.h:146
 msgid "America/Mendoza"
-msgstr ""
+msgstr "Americhe/Mendoza"
 
 #: ../calendar/zones.h:147
 msgid "America/Menominee"
-msgstr ""
+msgstr "Americhe/Menominee"
 
 #: ../calendar/zones.h:148
 msgid "America/Merida"
-msgstr ""
+msgstr "Americhe/Merida"
 
 #: ../calendar/zones.h:149
 msgid "America/Mexico_City"
-msgstr ""
+msgstr "Americhe/Citât_dal_Messic"
 
 #: ../calendar/zones.h:150
 msgid "America/Miquelon"
-msgstr ""
+msgstr "Americhe/Miquelon"
 
 #: ../calendar/zones.h:151
 msgid "America/Monterrey"
-msgstr ""
+msgstr "Americhe/Monterrey"
 
 #: ../calendar/zones.h:152
 msgid "America/Montevideo"
-msgstr ""
+msgstr "Americhe/Montevideo"
 
 #: ../calendar/zones.h:153
 msgid "America/Montreal"
-msgstr ""
+msgstr "Americhe/Montreal"
 
 #: ../calendar/zones.h:154
 msgid "America/Montserrat"
-msgstr ""
+msgstr "Americhe/Montserrat"
 
 #: ../calendar/zones.h:155
 msgid "America/Nassau"
-msgstr ""
+msgstr "Americhe/Nassau"
 
 #: ../calendar/zones.h:156
 msgid "America/New_York"
-msgstr ""
+msgstr "Americhe/New_York"
 
 #: ../calendar/zones.h:157
 msgid "America/Nipigon"
-msgstr ""
+msgstr "Americhe/Nipigon"
 
 #: ../calendar/zones.h:158
 msgid "America/Nome"
-msgstr ""
+msgstr "Americhe/Nome"
 
 #: ../calendar/zones.h:159
 msgid "America/Noronha"
-msgstr ""
+msgstr "Americhe/Noronha"
 
 #: ../calendar/zones.h:160
 msgid "America/North_Dakota/Center"
-msgstr ""
+msgstr "Americhe/North_Dakota/Center"
 
 #: ../calendar/zones.h:161
 msgid "America/Panama"
-msgstr ""
+msgstr "Americhe/Panamà"
 
 #: ../calendar/zones.h:162
 msgid "America/Pangnirtung"
-msgstr ""
+msgstr "Americhe/Pangnirtung"
 
 #: ../calendar/zones.h:163
 msgid "America/Paramaribo"
-msgstr ""
+msgstr "Americhe/Paramaribo"
 
 #: ../calendar/zones.h:164
 msgid "America/Phoenix"
-msgstr ""
+msgstr "Americhe/Phoenix"
 
 #: ../calendar/zones.h:165
 msgid "America/Port-au-Prince"
-msgstr ""
+msgstr "Americhe/Port-au-Prince"
 
 #: ../calendar/zones.h:166
 msgid "America/Port_of_Spain"
-msgstr ""
+msgstr "Americhe/Port_of_Spain"
 
 #: ../calendar/zones.h:167
 msgid "America/Porto_Velho"
-msgstr ""
+msgstr "Americhe/Porto_Velho"
 
 #: ../calendar/zones.h:168
 msgid "America/Puerto_Rico"
-msgstr ""
+msgstr "Americhe/Puerto_Rico"
 
 #: ../calendar/zones.h:169
 msgid "America/Rainy_River"
-msgstr ""
+msgstr "Americhe/Rainy_River"
 
 #: ../calendar/zones.h:170
 msgid "America/Rankin_Inlet"
-msgstr ""
+msgstr "Americhe/Rankin_Inlet"
 
 #: ../calendar/zones.h:171
 msgid "America/Recife"
-msgstr ""
+msgstr "Americhe/Recife"
 
 #: ../calendar/zones.h:172
 msgid "America/Regina"
-msgstr ""
+msgstr "Americhe/Regina"
 
 #: ../calendar/zones.h:173
 msgid "America/Rio_Branco"
-msgstr ""
+msgstr "Americhe/Rio_Branco"
 
 #: ../calendar/zones.h:174
 msgid "America/Rosario"
-msgstr ""
+msgstr "Americhe/Rosario"
 
 #: ../calendar/zones.h:175
 msgid "America/Santiago"
-msgstr ""
+msgstr "Americhe/Santiago"
 
 #: ../calendar/zones.h:176
 msgid "America/Santo_Domingo"
-msgstr ""
+msgstr "Americhe/Santo_Domingo"
 
 #: ../calendar/zones.h:177
 msgid "America/Sao_Paulo"
-msgstr ""
+msgstr "America/San_Pauli"
 
 #: ../calendar/zones.h:178
 msgid "America/Scoresbysund"
-msgstr ""
+msgstr "Americhe/Scoresbysund"
 
 #: ../calendar/zones.h:179
 msgid "America/Shiprock"
-msgstr ""
+msgstr "Americhe/Shiprock"
 
 #: ../calendar/zones.h:180
 msgid "America/St_Johns"
-msgstr ""
+msgstr "Americhe/St_Johns"
 
 #: ../calendar/zones.h:181
 msgid "America/St_Kitts"
-msgstr ""
+msgstr "Americhe/St_Kitts"
 
 #: ../calendar/zones.h:182
 msgid "America/St_Lucia"
-msgstr ""
+msgstr "Americhe/St_Lucia"
 
 #: ../calendar/zones.h:183
 msgid "America/St_Thomas"
-msgstr ""
+msgstr "Americhe/St_Thomas"
 
 #: ../calendar/zones.h:184
 msgid "America/St_Vincent"
-msgstr ""
+msgstr "Americhe/St_Vincent"
 
 #: ../calendar/zones.h:185
 msgid "America/Swift_Current"
-msgstr ""
+msgstr "Americhe/Swift_Current"
 
 #: ../calendar/zones.h:186
 msgid "America/Tegucigalpa"
-msgstr ""
+msgstr "Americhe/Tegucigalpa"
 
 #: ../calendar/zones.h:187
 msgid "America/Thule"
-msgstr ""
+msgstr "Americhe/Thule"
 
 #: ../calendar/zones.h:188
 msgid "America/Thunder_Bay"
-msgstr ""
+msgstr "Americhe/Thunder_Bay"
 
 #: ../calendar/zones.h:189
 msgid "America/Tijuana"
-msgstr ""
+msgstr "Americhe/Tijuana"
 
 #: ../calendar/zones.h:190
 msgid "America/Tortola"
-msgstr ""
+msgstr "Americhe/Tortola"
 
 #: ../calendar/zones.h:191
 msgid "America/Vancouver"
-msgstr ""
+msgstr "Americhe/Vancouver"
 
 #: ../calendar/zones.h:192
 msgid "America/Whitehorse"
-msgstr ""
+msgstr "Americhe/Whitehorse"
 
 #: ../calendar/zones.h:193
 msgid "America/Winnipeg"
-msgstr ""
+msgstr "Americhe/Winnipeg"
 
 #: ../calendar/zones.h:194
 msgid "America/Yakutat"
-msgstr ""
+msgstr "Americhe/Yakutat"
 
 #: ../calendar/zones.h:195
 msgid "America/Yellowknife"
-msgstr ""
+msgstr "Americhe/Yellowknife"
 
 #: ../calendar/zones.h:196
 msgid "Antarctica/Casey"
-msgstr ""
+msgstr "Antartide/Casey"
 
 #: ../calendar/zones.h:197
 msgid "Antarctica/Davis"
-msgstr ""
+msgstr "Antartide/Davis"
 
 #: ../calendar/zones.h:198
 msgid "Antarctica/DumontDUrville"
-msgstr ""
+msgstr "Antartide/DumontDUrville"
 
 #: ../calendar/zones.h:199
 msgid "Antarctica/Mawson"
-msgstr ""
+msgstr "Antartide/Mawson"
 
 #: ../calendar/zones.h:200
 msgid "Antarctica/McMurdo"
-msgstr ""
+msgstr "Antartide/McMurdo"
 
 #: ../calendar/zones.h:201
 msgid "Antarctica/Palmer"
-msgstr ""
+msgstr "Antartide/Palmer"
 
 #: ../calendar/zones.h:202
 msgid "Antarctica/South_Pole"
-msgstr ""
+msgstr "Antartide/South_Pole"
 
 #: ../calendar/zones.h:203
 msgid "Antarctica/Syowa"
-msgstr ""
+msgstr "Antartide/Syowa"
 
 #: ../calendar/zones.h:204
 msgid "Antarctica/Vostok"
-msgstr ""
+msgstr "Antartide/Vostok"
 
 #: ../calendar/zones.h:205
 msgid "Arctic/Longyearbyen"
-msgstr ""
+msgstr "Artide/Longyearbyen"
 
 #: ../calendar/zones.h:206
 msgid "Asia/Aden"
-msgstr ""
+msgstr "Asie/Aden"
 
 #: ../calendar/zones.h:207
 msgid "Asia/Almaty"
-msgstr ""
+msgstr "Asie/Almaty"
 
 #: ../calendar/zones.h:208
 msgid "Asia/Amman"
-msgstr ""
+msgstr "Asie/Amman"
 
 #: ../calendar/zones.h:209
 msgid "Asia/Anadyr"
-msgstr ""
+msgstr "Asie/Anadyr'"
 
 #: ../calendar/zones.h:210
 msgid "Asia/Aqtau"
-msgstr ""
+msgstr "Asie/Aqtau"
 
 #: ../calendar/zones.h:211
 msgid "Asia/Aqtobe"
-msgstr ""
+msgstr "Asie/Aqtobe"
 
 #: ../calendar/zones.h:212
 msgid "Asia/Ashgabat"
-msgstr ""
+msgstr "Asie/Ashgabat"
 
 #: ../calendar/zones.h:213
 msgid "Asia/Baghdad"
-msgstr ""
+msgstr "Asie/Baghdad"
 
 #: ../calendar/zones.h:214
 msgid "Asia/Bahrain"
-msgstr ""
+msgstr "Asie/Bahrain"
 
 #: ../calendar/zones.h:215
 msgid "Asia/Baku"
-msgstr ""
+msgstr "Asie/Baku"
 
 #: ../calendar/zones.h:216
 msgid "Asia/Bangkok"
-msgstr ""
+msgstr "Asie/Bangkok"
 
 #: ../calendar/zones.h:217
 msgid "Asia/Beirut"
-msgstr ""
+msgstr "Asie/Beirut"
 
 #: ../calendar/zones.h:218
 msgid "Asia/Bishkek"
-msgstr ""
+msgstr "Asie/Bishkek"
 
 #: ../calendar/zones.h:219
 msgid "Asia/Brunei"
-msgstr ""
+msgstr "Asie/Brunei"
 
 #: ../calendar/zones.h:220
 msgid "Asia/Calcutta"
-msgstr ""
+msgstr "Asie/Calcutta"
 
 #: ../calendar/zones.h:221
 msgid "Asia/Choibalsan"
-msgstr ""
+msgstr "Asie/Choibalsan"
 
 #: ../calendar/zones.h:222
 msgid "Asia/Chongqing"
-msgstr ""
+msgstr "Asie/Chongqing"
 
 #: ../calendar/zones.h:223
 msgid "Asia/Colombo"
-msgstr ""
+msgstr "Asie/Colombo"
 
 #: ../calendar/zones.h:224
 msgid "Asia/Damascus"
-msgstr ""
+msgstr "Asie/Damasc"
 
 #: ../calendar/zones.h:225
 msgid "Asia/Dhaka"
-msgstr ""
+msgstr "Asie/Dhaka"
 
 #: ../calendar/zones.h:226
 msgid "Asia/Dili"
-msgstr ""
+msgstr "Asie/Dili"
 
 #: ../calendar/zones.h:227
 msgid "Asia/Dubai"
-msgstr ""
+msgstr "Asie/Dubai"
 
 #: ../calendar/zones.h:228
 msgid "Asia/Dushanbe"
-msgstr ""
+msgstr "Asie/Dushanbe"
 
 #: ../calendar/zones.h:229
 msgid "Asia/Gaza"
-msgstr ""
+msgstr "Asie/Gaza"
 
 #: ../calendar/zones.h:230
 msgid "Asia/Harbin"
-msgstr ""
+msgstr "Asie/Harbin"
 
 #: ../calendar/zones.h:231
 msgid "Asia/Hong_Kong"
-msgstr ""
+msgstr "Asie/Hong_Kong"
 
 #: ../calendar/zones.h:232
 msgid "Asia/Hovd"
-msgstr ""
+msgstr "Asie/Hovd"
 
 #: ../calendar/zones.h:233
 msgid "Asia/Irkutsk"
-msgstr ""
+msgstr "Asie/Irkutsk"
 
 #: ../calendar/zones.h:234
 msgid "Asia/Istanbul"
-msgstr ""
+msgstr "Asie/Istanbul"
 
 #: ../calendar/zones.h:235
 msgid "Asia/Jakarta"
-msgstr ""
+msgstr "Asie/Jakarta"
 
 #: ../calendar/zones.h:236
 msgid "Asia/Jayapura"
-msgstr ""
+msgstr "Asie/Jayapura"
 
 #: ../calendar/zones.h:237
 msgid "Asia/Jerusalem"
-msgstr ""
+msgstr "Asie/Gjerusalem"
 
 #: ../calendar/zones.h:238
 msgid "Asia/Kabul"
-msgstr ""
+msgstr "Asie/Kabul"
 
 #: ../calendar/zones.h:239
 msgid "Asia/Kamchatka"
-msgstr ""
+msgstr "Asie/Kamchatka"
 
 #: ../calendar/zones.h:240
 msgid "Asia/Karachi"
-msgstr ""
+msgstr "Asie/Karachi"
 
 #: ../calendar/zones.h:241
 msgid "Asia/Kashgar"
-msgstr ""
+msgstr "Asie/Kashgar"
 
 #: ../calendar/zones.h:242
 msgid "Asia/Kathmandu"
-msgstr ""
+msgstr "Asie/Kathmandu"
 
 #: ../calendar/zones.h:243
 msgid "Asia/Krasnoyarsk"
-msgstr ""
+msgstr "Asie/Krasnoyarsk"
 
 #: ../calendar/zones.h:244
 msgid "Asia/Kuala_Lumpur"
-msgstr ""
+msgstr "Asie/Kuala_Lumpur"
 
 #: ../calendar/zones.h:245
 msgid "Asia/Kuching"
-msgstr ""
+msgstr "Asie/Kuching"
 
 #: ../calendar/zones.h:246
 msgid "Asia/Kuwait"
-msgstr ""
+msgstr "Asie/Kuwait"
 
 #: ../calendar/zones.h:247
 msgid "Asia/Macao"
-msgstr ""
+msgstr "Asie/Macau"
 
 #: ../calendar/zones.h:248
 msgid "Asia/Macau"
-msgstr ""
+msgstr "Asie/Macau"
 
 #: ../calendar/zones.h:249
 msgid "Asia/Magadan"
-msgstr ""
+msgstr "Asie/Magadan"
 
 #: ../calendar/zones.h:250
 msgid "Asia/Makassar"
-msgstr ""
+msgstr "Asie/Makassar"
 
 #: ../calendar/zones.h:251
 msgid "Asia/Manila"
-msgstr ""
+msgstr "Asie/Manila"
 
 #: ../calendar/zones.h:252
 msgid "Asia/Muscat"
-msgstr ""
+msgstr "Asie/Muscat"
 
 #: ../calendar/zones.h:253
 msgid "Asia/Nicosia"
-msgstr ""
+msgstr "Asie/Nicosia"
 
 #: ../calendar/zones.h:254
 msgid "Asia/Novosibirsk"
-msgstr ""
+msgstr "Asie/Novosibirsk"
 
 #: ../calendar/zones.h:255
 msgid "Asia/Omsk"
-msgstr ""
+msgstr "Asie/Omsk"
 
 #: ../calendar/zones.h:256
 msgid "Asia/Oral"
-msgstr ""
+msgstr "Asie/Oral"
 
 #: ../calendar/zones.h:257
 msgid "Asia/Phnom_Penh"
-msgstr ""
+msgstr "Asie/Phnom_Penh"
 
 #: ../calendar/zones.h:258
 msgid "Asia/Pontianak"
-msgstr ""
+msgstr "Asie/Pontianak"
 
 #: ../calendar/zones.h:259
 msgid "Asia/Pyongyang"
-msgstr ""
+msgstr "Asie/Pyongyang"
 
 #: ../calendar/zones.h:260
 msgid "Asia/Qatar"
-msgstr ""
+msgstr "Asie/Qatar"
 
 #: ../calendar/zones.h:261
 msgid "Asia/Qyzylorda"
-msgstr ""
+msgstr "Asie/Qyzylorda"
 
 #: ../calendar/zones.h:262
 msgid "Asia/Rangoon"
-msgstr ""
+msgstr "Asie/Rangoon"
 
 #: ../calendar/zones.h:263
 msgid "Asia/Riyadh"
-msgstr ""
+msgstr "Asie/Riyadh"
 
 #: ../calendar/zones.h:264
 msgid "Asia/Saigon"
-msgstr ""
+msgstr "Asie/Saigon"
 
 #: ../calendar/zones.h:265
 msgid "Asia/Sakhalin"
-msgstr ""
+msgstr "Asie/Sakhalin"
 
 #: ../calendar/zones.h:266
 msgid "Asia/Samarkand"
-msgstr ""
+msgstr "Asie/Samarkand"
 
 #: ../calendar/zones.h:267
 msgid "Asia/Seoul"
-msgstr ""
+msgstr "Asie/Seoul"
 
 #: ../calendar/zones.h:268
 msgid "Asia/Shanghai"
-msgstr ""
+msgstr "Asie/Shanghai"
 
 #: ../calendar/zones.h:269
 msgid "Asia/Singapore"
-msgstr ""
+msgstr "Asie/Singapore"
 
 #: ../calendar/zones.h:270
 msgid "Asia/Taipei"
-msgstr ""
+msgstr "Asie/Taipei"
 
 #: ../calendar/zones.h:271
 msgid "Asia/Tashkent"
-msgstr ""
+msgstr "Asie/Tashkent"
 
 #: ../calendar/zones.h:272
 msgid "Asia/Tbilisi"
-msgstr ""
+msgstr "Asie/Tbilisi"
 
 #: ../calendar/zones.h:273
 msgid "Asia/Tehran"
-msgstr ""
+msgstr "Asie/Tehran"
 
 #: ../calendar/zones.h:274
 msgid "Asia/Thimphu"
-msgstr ""
+msgstr "Asie/Thimphu"
 
 #: ../calendar/zones.h:275
 msgid "Asia/Tokyo"
-msgstr ""
+msgstr "Asie/Tokyo"
 
 #: ../calendar/zones.h:276
 msgid "Asia/Ujung_Pandang"
-msgstr ""
+msgstr "Asie/Ujung_Pandang"
 
 #: ../calendar/zones.h:277
 msgid "Asia/Ulaanbaatar"
-msgstr ""
+msgstr "Asie/Ulaanbaatar"
 
 #: ../calendar/zones.h:278
 msgid "Asia/Urumqi"
-msgstr ""
+msgstr "Asie/Urumqi"
 
 #: ../calendar/zones.h:279
 msgid "Asia/Vientiane"
-msgstr ""
+msgstr "Asie/Vientiane"
 
 #: ../calendar/zones.h:280
 msgid "Asia/Vladivostok"
-msgstr ""
+msgstr "Asie/Vladivostok"
 
 #: ../calendar/zones.h:281
 msgid "Asia/Yakutsk"
-msgstr ""
+msgstr "Asie/Yakutsk"
 
 #: ../calendar/zones.h:282
 msgid "Asia/Yekaterinburg"
-msgstr ""
+msgstr "Asie/Yekaterinburg"
 
 #: ../calendar/zones.h:283
 msgid "Asia/Yerevan"
-msgstr ""
+msgstr "Asie/Yerevan"
 
 #: ../calendar/zones.h:284
 msgid "Atlantic/Azores"
