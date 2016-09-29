@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2016-09-25 00:11+0000\n"
-"PO-Revision-Date: 2016-09-28 15:39+0200\n"
+"POT-Creation-Date: 2016-09-29 19:26+0000\n"
+"PO-Revision-Date: 2016-09-29 21:58+0200\n"
 "Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
 "Language-Team: Friulian <fur@li.org>\n"
 "Language: fur\n"
@@ -145,11 +145,10 @@ msgstr ""
 "nol pues jessi gjavât de origjin. Salvâ invezit une copie?"
 
 #: ../addressbook/addressbook.error.xml.h:26
-#, fuzzy
 msgid ""
 "The image you have selected is large. Do you want to resize and store it?"
 msgstr ""
-"La imagjin che tu âs sielt e je masse largje. Cambiâ la sô dimension e "
+"La imagjin selezionade e je masse largje. Cambiâ la sô dimension e "
 "memorizâle?"
 
 #: ../addressbook/addressbook.error.xml.h:27
@@ -2798,14 +2797,12 @@ msgstr "nol è"
 #: ../calendar/gui/caltypes.xml.h:9 ../calendar/gui/e-cal-list-view.c:241
 #: ../calendar/gui/e-cal-model.c:305 ../calendar/gui/e-cal-model.c:312
 #: ../calendar/gui/e-task-table.c:498 ../calendar/gui/memotypes.xml.h:10
-#, fuzzy
 msgid "Public"
 msgstr "Public"
 
 #: ../calendar/gui/caltypes.xml.h:10 ../calendar/gui/e-cal-list-view.c:242
 #: ../calendar/gui/e-cal-model.c:314 ../calendar/gui/e-task-table.c:499
 #: ../calendar/gui/memotypes.xml.h:11
-#, fuzzy
 msgid "Private"
 msgstr "Privât"
 
@@ -4568,11 +4565,11 @@ msgstr "_Argoments:"
 msgid "_Send To:"
 msgstr "_Invie a:"
 
-#: ../calendar/gui/e-comp-editor-page-schedule.c:427
+#: ../calendar/gui/e-comp-editor-page-schedule.c:445
 msgid "_Schedule"
 msgstr "_Planifiche"
 
-#: ../calendar/gui/e-comp-editor-page-schedule.c:429
+#: ../calendar/gui/e-comp-editor-page-schedule.c:447
 msgid "Query free / busy information for the attendees"
 msgstr "Interoghe lis informazions libar/impegnât pai partecipants"
 
@@ -7706,6 +7703,7 @@ msgstr ""
 "cifradure par chest account"
 
 #: ../composer/e-msg-composer.c:1621 ../composer/e-msg-composer.c:2411
+#: ../data/evolution.desktop.in.in.h:7
 msgid "Compose Message"
 msgstr "Scrîf messaç"
 
@@ -7933,10 +7931,6 @@ msgstr "e-mail;mail;pueste;calendari;contats;rubriche;ativitât;"
 msgid "New Window"
 msgstr "Gnûf barcon"
 
-#: ../data/evolution.desktop.in.in.h:7
-msgid "Compose a Message"
-msgstr "Scrîf un messaç"
-
 #: ../data/evolution.desktop.in.in.h:8 ../e-util/e-name-selector-dialog.c:451
 #: ../modules/addressbook/e-book-shell-backend.c:303
 #: ../modules/addressbook/e-book-shell-view.c:373
@@ -7984,18 +7978,20 @@ msgid ""
 "Whether force showing the mail address with the name of the autocompleted "
 "contact in the entry."
 msgstr ""
+"Indiche se mostrâ te casele di imission la direzion di pueste cul non dal "
+"contat completât in automatic."
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:7
 msgid "URI for the folder last used in the select names dialog"
-msgstr ""
+msgstr "URI pe ultime cartele doprade tal dialic di selezion nons"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:8
 msgid "URI for the folder last used in the select names dialog."
-msgstr ""
+msgstr "URI pe ultime cartele doprade tal dialic di selezion nons."
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:9
 msgid "Contact layout style"
-msgstr ""
+msgstr "Stîl aspiet contats"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:10
 msgid ""
@@ -8004,64 +8000,74 @@ msgid ""
 "contact list. \"1\" (Vertical View) places the preview pane next to the "
 "contact list."
 msgstr ""
+"Il stîl di disposizion al determine dulà plaçâ il ricuadri di anteprime in "
+"relazion ae liste dai contats. Cun \"0\" (viodude classiche) si place il "
+"ricuadri di anteprime sot de liste dai contats, cun \"1\" (viodude verticâl) "
+"si place il ricuadri in bande ae liste."
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:11
 msgid "Contact preview pane position (horizontal)"
-msgstr ""
+msgstr "Posizion ricuadri anteprime contats (orizontâl)"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:12
 msgid "Position of the contact preview pane when oriented horizontally."
 msgstr ""
+"Posizion dal ricuadri de anteprime dai contats cuant che al è orientât in "
+"orizontâl."
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:13
 msgid "Contact preview pane position (vertical)"
-msgstr ""
+msgstr "Posizion ricuadri anteprime contats (verticâl)"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:14
 msgid "Position of the contact preview pane when oriented vertically."
 msgstr ""
+"Posizion dal ricuadri de anteprime dai contats cuant che al è orientât in "
+"verticâl."
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:15
 msgid "Show maps"
-msgstr ""
+msgstr "Mostre mapis"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:16
 msgid "Whether to show maps in preview pane"
-msgstr ""
+msgstr "Indiche se mostrâ lis mapis tal ricuadri di anteprime"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:17
 msgid "Primary address book"
-msgstr ""
+msgstr "Rubriche primarie"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:18
 msgid ""
 "The UID of the selected (or \"primary\") address book in the sidebar of the "
 "\"Contacts\" view"
 msgstr ""
+"Il UID de rubriche selezionade (o \"primarie\") tal ricuadri laterâl de "
+"viodude \"Contats\""
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:19
 msgid "Show preview pane"
-msgstr ""
+msgstr "Mostre ricuadri di anteprime"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:20
 msgid "Whether to show the preview pane."
-msgstr ""
+msgstr "Indiche se mostrâ il ricuadri di anteprime."
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:21
 msgid "true"
-msgstr ""
+msgstr "vêr"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:22
 msgid "Whether to show phone numbers in the editor"
-msgstr ""
+msgstr "Indiche se mostrâ i numars di telefon tal editôr"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:23
 msgid "Whether to show SIP addresses in the editor"
-msgstr ""
+msgstr "Indiche se mostrâ lis direzions SIP tal editôr"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:24
 msgid "Whether to show IM addresses in the editor"
-msgstr ""
+msgstr "Indiche se mostrâ lis direzions pai messaçs istantanis tal editôr"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:25
 msgid "Whether to show mailing Home addresses in the editor"
@@ -24360,3 +24366,6 @@ msgstr ""
 #: ../views/tasks/galview.xml.h:3
 msgid "With _Status"
 msgstr ""
+
+#~ msgid "Compose a Message"
+#~ msgstr "Scrîf un messaç"
