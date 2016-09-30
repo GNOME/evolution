@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2016-09-29 19:26+0000\n"
-"PO-Revision-Date: 2016-09-29 21:58+0200\n"
+"PO-Revision-Date: 2016-09-30 12:44+0200\n"
 "Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
 "Language-Team: Friulian <fur@li.org>\n"
 "Language: fur\n"
@@ -8103,17 +8103,19 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.bogofilter.gschema.xml.in.h:1
 msgid "Convert mail messages to Unicode"
-msgstr ""
+msgstr "Convertî i messaçs di pueste a Unicode"
 
 #: ../data/org.gnome.evolution.bogofilter.gschema.xml.in.h:2
 msgid ""
 "Convert message text to Unicode UTF-8 to unify spam/ham tokens coming from "
 "different character sets."
 msgstr ""
+"Convertî il test dal messaç in Unicode UTF-8 par unificâ i token spam/han "
+"che a vegnin di diviersis cumbinazions di caratars."
 
 #: ../data/org.gnome.evolution.bogofilter.gschema.xml.in.h:3
 msgid "Full path command to run Bogofilter"
-msgstr ""
+msgstr "Percors complet dal comant par eseguî Bogofilter"
 
 #: ../data/org.gnome.evolution.bogofilter.gschema.xml.in.h:4
 msgid ""
@@ -8121,50 +8123,58 @@ msgid ""
 "used, usually /usr/bin/bogofilter. The command should not contain any other "
 "arguments."
 msgstr ""
+"Percors complet di un comant di Bogofilter. Se no stabilît, al sarà doprât "
+"un percors inte fase di compilazion, di solit /usr/bin/bogofilter. Il comant "
+"nol à di vê altris argoments."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:1
 msgid "Save directory for reminder audio"
-msgstr ""
+msgstr "Cartele dulà salvâ i promemorie sonôrs"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:2
 msgid "Directory for saving reminder audio files"
-msgstr ""
+msgstr "Cartele par salvâ i file audio di promemorie"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:3
 msgid "Birthday and anniversary reminder value"
-msgstr ""
+msgstr "Valôr promemorie compleans e aniversaris"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:4
 msgid "Number of units for determining a birthday or anniversary reminder"
-msgstr ""
+msgstr "Numar di unitâts par determinâ un promemorie di complean o aniversari"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:5
 msgid "Birthday and anniversary reminder units"
-msgstr ""
+msgstr "Unitâts promemorie compleans e aniversaris"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:6
 msgid ""
 "Units for a birthday or anniversary reminder, \"minutes\", \"hours\" or "
 "\"days\""
 msgstr ""
+"Unitâts di timp par un promemorie di complean o aniversari, \"minûts\", "
+"\"oris\" o \"dîs\""
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:7
 msgid "Compress weekends in month view"
-msgstr ""
+msgstr "Comprimi i fin setemane in viodude mensîl"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:8
 msgid ""
 "Whether to compress weekends in the month view, which puts Saturday and "
 "Sunday in the space of one weekday"
 msgstr ""
+"Indiche se comprimi i fin setemane te viodude mensîl, val a dî se meti il "
+"sabide e la domenie tal spazi di un dì"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:9
 msgid "Ask for confirmation when deleting items"
-msgstr ""
+msgstr "Domandâ conferme cuant che si elimine elements"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:10
 msgid "Whether to ask for confirmation when deleting an appointment or task"
 msgstr ""
+"Indiche se domandâ conferme cuant che si elimine un apontament o une ativitât"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:11
 msgid "Confirm expunge"
@@ -8176,137 +8186,147 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:13
 msgid "Month view vertical pane position"
-msgstr ""
+msgstr "Posizion ricuadri verticâl viodude mensîl"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:14
 msgid ""
 "Position of the vertical pane, between the calendar lists and the date "
 "navigator calendar"
 msgstr ""
+"Posizion dal ricuadri verticâl, tra lis listis di calendaris e il navigadôr "
+"date di calendari"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:15
 msgid "Workday end hour"
-msgstr ""
+msgstr "Ore di fin zornade lavorative"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:16
 msgid "Hour the workday ends on, in twenty four hour format, 0 to 23"
-msgstr ""
+msgstr "Ore di fin de zornade lavorative, tal formât di 24 oris, tra 0 e 23"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:17
 msgid "Workday end minute"
-msgstr ""
+msgstr "Minût fin zornade lavorative"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:18
 msgid "Minute the workday ends on, 0 to 59."
-msgstr ""
+msgstr "Minût di fin de zornade lavorative, tra 0 e 59."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:19
 msgid "Workday start hour"
-msgstr ""
+msgstr "Ore inizi zornade lavorative"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:20
 msgid "Hour the workday starts on, in twenty four hour format, 0 to 23."
-msgstr ""
+msgstr "Ore di inizi de zornade lavorative, tal formât di 24 oris, tra 0 e 23."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:21
 msgid "Workday start minute"
-msgstr ""
+msgstr "Minût inizi zornade lavorative"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:22
 msgid "Minute the workday starts on, 0 to 59."
-msgstr ""
+msgstr "Minût di inizi de zornade lavorative, tra 0 e 59."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:23
 msgid "Workday start time for Monday"
-msgstr ""
+msgstr "Orari inizi zornade lavorative di lunis"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:24
 msgid ""
 "Time the workday starts on, in twenty four hour format HHMM, 0000 to 2359, "
 "or -1 to use day-start-hour and day-start-minute"
 msgstr ""
+"Orari di inizi de zornade lavorative, tal formât di 24 oris OOMM, tra 0000 e "
+"2359, opûr -1 par doprâ day-start-hour e day-start-minute"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:25
 msgid "Workday end time for Monday"
-msgstr ""
+msgstr "Orari fin zornade lavorative di lunis"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:26
 msgid ""
 "Time the workday ends on, in twenty four hour format HHMM, 0000 to 2359, or "
 "-1 to use day-end-hour and day-end-minute"
 msgstr ""
+"Orari di fin de zornade lavorative, tal formât di 24 oris, tra 0 e 23 opûr "
+"-1 par doprâ day-end-hour e day-end-minute"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:27
 msgid "Workday start time for Tuesday"
-msgstr ""
+msgstr "Orari inizi zornade lavorative di martars"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:28
 msgid ""
 "Time the workday ends on, in twenty four hour format HHMM, 0000 to 2359, or "
 "-1 to use day-start-hour and day-start-minute"
 msgstr ""
+"Orari di fin de zornade lavorative, tal formât di 24 oris, tra 0 e 23 opûr "
+"-1 par doprâ day-start-hour e day-start-minute"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:29
 msgid "Workday end time for Tuesday"
-msgstr ""
+msgstr "Orari fin zornade lavorative par martars"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:30
 msgid "Workday start time for Wednesday"
-msgstr ""
+msgstr "Orari inizi zornade lavorative di miercus"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:31
 msgid "Workday end time for Wednesday"
-msgstr ""
+msgstr "Orari fin zornade lavorative di miercus"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:32
 msgid "Workday start time for Thursday"
-msgstr ""
+msgstr "Orari inizi zornade lavorative di joibe"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:33
 msgid "Workday end time for Thursday"
-msgstr ""
+msgstr "Orari fin zornade lavorative di joibe"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:34
 msgid "Workday start time for Friday"
-msgstr ""
+msgstr "Orari inizi zornade lavorative di vinars"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:35
 msgid "Workday end time for Friday"
-msgstr ""
+msgstr "Orari fin zornade lavorative di vinars"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:36
 msgid "Workday start time for Saturday"
-msgstr ""
+msgstr "Orari inizi zornade lavorative di sabide"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:37
 msgid "Workday end time for Saturday"
-msgstr ""
+msgstr "Orari fin zornade lavorative di sabide"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:38
 msgid "Workday start time for Sunday"
-msgstr ""
+msgstr "Orari inizi zornade lavorative di domenie"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:39
 msgid "Workday end time for Sunday"
-msgstr ""
+msgstr "Orari fin zornade lavorative di domenie"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:40
 msgid "The second timezone for a Day View"
-msgstr ""
+msgstr "Il secont fûs orari di une viodude zornaliere"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:41
 msgid ""
 "Shows the second time zone in a Day View, if set. Value is similar to one "
 "used in a 'timezone' key"
 msgstr ""
+"Se ativât, al mostre il secont fûs orari doprât intune viodude zornaliere. "
+"Il valôr al è simil a chel doprât intune clâf \"timezone\""
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:42
 msgid "Recently used second time zones in a Day View"
-msgstr ""
+msgstr "Seconts fûs oraris doprâts di resint intune viodude zornaliere"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:43
 msgid "List of recently used second time zones in a Day View"
-msgstr ""
+msgstr "Listis di seconts fûs oraris doprâts di resint inte viodude zornaliere"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:44
 msgid "Maximum number of recently used timezones to remember"
