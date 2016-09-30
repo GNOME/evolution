@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2016-09-29 19:26+0000\n"
-"PO-Revision-Date: 2016-09-30 12:44+0200\n"
+"PO-Revision-Date: 2016-09-30 13:54+0200\n"
 "Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
 "Language-Team: Friulian <fur@li.org>\n"
 "Language: fur\n"
@@ -8152,8 +8152,8 @@ msgid ""
 "Units for a birthday or anniversary reminder, \"minutes\", \"hours\" or "
 "\"days\""
 msgstr ""
-"Unitâts di timp par un promemorie di complean o aniversari, \"minûts\", "
-"\"oris\" o \"dîs\""
+"Unitâts di timp par un promemorie di complean o aniversari, \"minutes\", "
+"\"hours\" o \"days\""
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:7
 msgid "Compress weekends in month view"
@@ -8330,55 +8330,61 @@ msgstr "Listis di seconts fûs oraris doprâts di resint inte viodude zornaliere
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:44
 msgid "Maximum number of recently used timezones to remember"
-msgstr ""
+msgstr "Massim numar di fûs oraris doprâts di resint di visâsi"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:45
 msgid ""
 "Maximum number of recently used timezones to remember in a 'day-second-"
 "zones' list"
 msgstr ""
+"Massim numar di fûs oraris doprâts di resint di visâsi intune liste 'day-"
+"second-zones'"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:46
 msgid "Default reminder value"
-msgstr ""
+msgstr "Valôr predefinît promemorie"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:47
 msgid "Number of units for determining a default reminder"
-msgstr ""
+msgstr "Numar di unitâts par determinâ un promemorie predefinît"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:48
 msgid "Default reminder units"
-msgstr ""
+msgstr "Unitâts predefinidis promemorie"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:49
 msgid "Units for a default reminder, \"minutes\", \"hours\" or \"days\""
 msgstr ""
+"Unitâts di timp par un promemorie predefinît: \"minutes\", \"hours\" o \"days"
+"\""
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:50
 msgid "Default reminder snooze interval, in minutes"
-msgstr ""
+msgstr "Interval predefinît che al postpon il promemorie, in minûts"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:51
 msgid ""
 "Default reminder snooze interval, in minutes, to be filled in the reminder "
 "notification dialog"
 msgstr ""
+"Interval predefinît che al postpon la sunarie dal promemorie, in minûts, di "
+"compilâ tal dialic di notifiche dal promemorie"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:52
 msgid "Show categories field in the event/meeting/task editor"
-msgstr ""
+msgstr "Mostrâ i cjamps di categoriis tal editôr di events/riunions/ativitâts"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:53
 msgid "Whether to show categories field in the event/meeting editor"
-msgstr ""
+msgstr "Indiche se mostrâ il cjamp categoriis tal editôr di event/riunion"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:54
 msgid "Show Role field in the event/task/meeting editor"
-msgstr ""
+msgstr "Mostre il cjamp Rûl tal editôr di event/ativitât/riunion"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:55
 msgid "Whether to show role field in the event/task/meeting editor"
-msgstr ""
+msgstr "Indiche se mostrâ il cjamp rûl tal editôr di event/ativitât/riunion"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:56
 msgid "Show RSVP field in the event/task/meeting editor"
@@ -8390,44 +8396,46 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:58
 msgid "Show status field in the event/task/meeting editor"
-msgstr ""
+msgstr "Mostrâ il cjamp di stât tal editôr di event/ativitât/riunion"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:59
 msgid "Whether to show status field in the event/task/meeting editor"
-msgstr ""
+msgstr "Indiche se mostrâ il cjamp stât tal editôr di event/ativitât/riunion"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:60
 msgid "Show timezone field in the event/meeting editor"
-msgstr ""
+msgstr "Mostrâ il cjamp fûs orari tal editôr di event/riunion"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:61
 msgid "Whether to show timezone field in the event/meeting editor"
-msgstr ""
+msgstr "Indiche se mostrâ il cjamp fûs orari tal editôr di event/riunion"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:62
 msgid "Show type field in the event/task/meeting editor"
-msgstr ""
+msgstr "Mostrâ il cjamp gjenar tal editôr di event/ativitât/riunion"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:63
 msgid "Whether to show type field in the event/task/meeting editor"
-msgstr ""
+msgstr "Indiche se mostrâ il cjamp gjenar tal editôr di event/ativitât/riunion"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:64
 msgid "Hide completed tasks"
-msgstr ""
+msgstr "Platâ ativitâts completadis"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:65
 msgid "Whether to hide completed tasks in the tasks view"
-msgstr ""
+msgstr "Indiche se platâ lis ativitâts completadis inte viodude ativitâts"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:66
 msgid "Hide task units"
-msgstr ""
+msgstr "Unitâts par platâ ativitâts"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:67
 msgid ""
 "Units for determining when to hide tasks, \"minutes\", \"hours\" or \"days\""
 msgstr ""
+"Unitâts di timp par determinâ cuant platâ lis ativitâts: \"minutes\", \"hours"
+"\" o \"days\""
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:68
 msgid "Hide task value"
