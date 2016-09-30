@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2016-09-29 19:26+0000\n"
-"PO-Revision-Date: 2016-09-30 14:56+0200\n"
+"PO-Revision-Date: 2016-09-30 15:14+0200\n"
 "Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
 "Language-Team: Friulian <fur@li.org>\n"
 "Language: fur\n"
@@ -11235,29 +11235,29 @@ msgstr ""
 #: ../e-util/e-cell-date.c:51 ../e-util/e-cell-date.c:139
 #: ../e-util/e-cell-date.c:159 ../mail/message-list.c:2054
 msgid "?"
-msgstr ""
+msgstr "?"
 
 #: ../e-util/e-cell-date-edit.c:303
 msgid "Now"
-msgstr ""
+msgstr "Cumò"
 
 #. strftime format of a weekday and a date.
 #: ../e-util/e-cell-date-edit.c:311 ../e-util/e-datetime-format.c:208
 #: ../modules/calendar/e-cal-shell-view-actions.c:1793
 #: ../modules/itip-formatter/itip-view.c:255
 msgid "Today"
-msgstr ""
+msgstr "Vuê"
 
 #. Translators: "None" as a label of a button to unset date in a
 #. * date table cell.
 #: ../e-util/e-cell-date-edit.c:321
 msgctxt "table-date"
 msgid "None"
-msgstr ""
+msgstr "Nissune"
 
 #: ../e-util/e-cell-date-edit.c:329 ../mail/e-mail-label-dialog.c:200
 msgid "OK"
-msgstr ""
+msgstr "Va ben"
 
 #: ../e-util/e-cell-date-edit.c:878
 #, c-format
@@ -11270,197 +11270,197 @@ msgstr ""
 
 #: ../e-util/e-charset.c:52
 msgid "Arabic"
-msgstr ""
+msgstr "Arabic"
 
 #: ../e-util/e-charset.c:53
 msgid "Baltic"
-msgstr ""
+msgstr "Baltic"
 
 #: ../e-util/e-charset.c:54
 msgid "Central European"
-msgstr ""
+msgstr "European centrâl"
 
 #: ../e-util/e-charset.c:55
 msgid "Chinese"
-msgstr ""
+msgstr "Cinês"
 
 #: ../e-util/e-charset.c:56
 msgid "Cyrillic"
-msgstr ""
+msgstr "Cirilic"
 
 #: ../e-util/e-charset.c:57
 msgid "Greek"
-msgstr ""
+msgstr "Grêc"
 
 #: ../e-util/e-charset.c:58
 msgid "Hebrew"
-msgstr ""
+msgstr "Ebreu"
 
 #: ../e-util/e-charset.c:59
 msgid "Japanese"
-msgstr ""
+msgstr "Gjaponês"
 
 #: ../e-util/e-charset.c:60
 msgid "Korean"
-msgstr ""
+msgstr "Corean"
 
 #: ../e-util/e-charset.c:61
 msgid "Thai"
-msgstr ""
+msgstr "Tailandês"
 
 #: ../e-util/e-charset.c:62
 msgid "Turkish"
-msgstr ""
+msgstr "Turc"
 
 #: ../e-util/e-charset.c:63
 msgid "Unicode"
-msgstr ""
+msgstr "Unicode"
 
 #: ../e-util/e-charset.c:64
 msgid "Western European"
-msgstr ""
+msgstr "European ocidentâl"
 
 #: ../e-util/e-charset.c:65
 msgid "Western European, New"
-msgstr ""
+msgstr "European ocidentâl, gnûf"
 
 #. Translators: Character set "Chinese, Traditional"
 #: ../e-util/e-charset.c:84 ../e-util/e-charset.c:86 ../e-util/e-charset.c:88
 msgid "Traditional"
-msgstr ""
+msgstr "Tradizionâl"
 
 #. Translators: Character set "Chinese, Simplified"
 #: ../e-util/e-charset.c:90 ../e-util/e-charset.c:92 ../e-util/e-charset.c:94
 #: ../e-util/e-charset.c:96
 msgid "Simplified"
-msgstr ""
+msgstr "Semplificât"
 
 #. Translators: Character set "Cyrillic, Ukrainian"
 #: ../e-util/e-charset.c:100
 msgid "Ukrainian"
-msgstr ""
+msgstr "Ucrain"
 
 #. Translators: Character set "Hebrew, Visual"
 #: ../e-util/e-charset.c:104
 msgid "Visual"
-msgstr ""
+msgstr "Visuâl"
 
 #: ../e-util/e-charset-combo-box.c:99
 msgid "Character Encoding"
-msgstr ""
+msgstr "Codifiche dai caratars"
 
 #: ../e-util/e-charset-combo-box.c:119
 msgid "Enter the character set to use"
-msgstr ""
+msgstr "Inserî la cumbinazion di caratars di doprâ"
 
 #: ../e-util/e-charset-combo-box.c:365
 msgid "Other..."
-msgstr ""
+msgstr "Altri..."
 
 #: ../e-util/e-client-cache.c:1148 ../e-util/e-client-cache.c:1279
 #, c-format
 msgid "Cannot create a client object from extension name '%s'"
-msgstr ""
+msgstr "Impussibil creâ un ogjet client dal non de estension '%s'"
 
 #: ../e-util/e-color-chooser-widget.c:124
 msgid "Choose custom color"
-msgstr ""
+msgstr "Sielç colôr personalizât"
 
 #: ../e-util/e-color-combo.c:81
 msgid "black"
-msgstr ""
+msgstr "neri"
 
 #: ../e-util/e-color-combo.c:82
 msgid "light brown"
-msgstr ""
+msgstr "maron clâr"
 
 #: ../e-util/e-color-combo.c:83
 msgid "brown gold"
-msgstr ""
+msgstr "maron aur"
 
 #: ../e-util/e-color-combo.c:84
 msgid "dark green #2"
-msgstr ""
+msgstr "vert scûr #2"
 
 #: ../e-util/e-color-combo.c:85
 msgid "navy"
-msgstr ""
+msgstr "blu scûr mâr"
 
 #: ../e-util/e-color-combo.c:86
 msgid "dark blue"
-msgstr ""
+msgstr "blu scûr"
 
 #: ../e-util/e-color-combo.c:87
 msgid "purple #2"
-msgstr ""
+msgstr "purpure #2"
 
 #: ../e-util/e-color-combo.c:88
 msgid "very dark gray"
-msgstr ""
+msgstr "grîs une vore scûr"
 
 #: ../e-util/e-color-combo.c:90
 msgid "dark red"
-msgstr ""
+msgstr "ros scûr"
 
 #: ../e-util/e-color-combo.c:91
 msgid "red-orange"
-msgstr ""
+msgstr "ros-naranç"
 
 #: ../e-util/e-color-combo.c:92
 msgid "gold"
-msgstr ""
+msgstr "aur"
 
 #: ../e-util/e-color-combo.c:93
 msgid "dark green"
-msgstr ""
+msgstr "vert scûr"
 
 #: ../e-util/e-color-combo.c:94
 msgid "dull blue"
-msgstr ""
+msgstr "blu opac"
 
 #: ../e-util/e-color-combo.c:95
 msgid "blue"
-msgstr ""
+msgstr "blu"
 
 #: ../e-util/e-color-combo.c:96
 msgid "dull purple"
-msgstr ""
+msgstr "purpure opache"
 
 #: ../e-util/e-color-combo.c:97
 msgid "dark grey"
-msgstr ""
+msgstr "grîs scûr"
 
 #: ../e-util/e-color-combo.c:99
 msgid "red"
-msgstr ""
+msgstr "ros"
 
 #: ../e-util/e-color-combo.c:100
 msgid "orange"
-msgstr ""
+msgstr "naranç"
 
 #: ../e-util/e-color-combo.c:101
 msgid "lime"
-msgstr ""
+msgstr "zâl-vert lime"
 
 #: ../e-util/e-color-combo.c:102
 msgid "dull green"
-msgstr ""
+msgstr "vert opac"
 
 #: ../e-util/e-color-combo.c:103
 msgid "dull blue #2"
-msgstr ""
+msgstr "blu opac #2"
 
 #: ../e-util/e-color-combo.c:104
 msgid "sky blue #2"
-msgstr ""
+msgstr "blu cîl opac #2"
 
 #: ../e-util/e-color-combo.c:105
 msgid "purple"
-msgstr ""
+msgstr "purpure"
 
 #: ../e-util/e-color-combo.c:106
 msgid "gray"
-msgstr ""
+msgstr "grîs"
 
 #: ../e-util/e-color-combo.c:108
 msgid "magenta"
@@ -11468,128 +11468,128 @@ msgstr ""
 
 #: ../e-util/e-color-combo.c:109
 msgid "bright orange"
-msgstr ""
+msgstr "naranç une vore clâr"
 
 #: ../e-util/e-color-combo.c:110
 msgid "yellow"
-msgstr ""
+msgstr "zâl"
 
 #: ../e-util/e-color-combo.c:111
 msgid "green"
-msgstr ""
+msgstr "vert"
 
 #: ../e-util/e-color-combo.c:112
 msgid "cyan"
-msgstr ""
+msgstr "turchin"
 
 #: ../e-util/e-color-combo.c:113
 msgid "bright blue"
-msgstr ""
+msgstr "blu une vore clâr"
 
 #: ../e-util/e-color-combo.c:114
 msgid "red purple"
-msgstr ""
+msgstr "ros purpure"
 
 #: ../e-util/e-color-combo.c:115
 msgid "light grey"
-msgstr ""
+msgstr "grîs clâr"
 
 #: ../e-util/e-color-combo.c:117
 msgid "pink"
-msgstr ""
+msgstr "rose"
 
 #: ../e-util/e-color-combo.c:118
 msgid "light orange"
-msgstr ""
+msgstr "naranç clâr"
 
 #: ../e-util/e-color-combo.c:119
 msgid "light yellow"
-msgstr ""
+msgstr "zâl clâr"
 
 #: ../e-util/e-color-combo.c:120
 msgid "light green"
-msgstr ""
+msgstr "vert clâr"
 
 #: ../e-util/e-color-combo.c:121
 msgid "light cyan"
-msgstr ""
+msgstr "turchin clâr"
 
 #: ../e-util/e-color-combo.c:122
 msgid "light blue"
-msgstr ""
+msgstr "blu clâr"
 
 #: ../e-util/e-color-combo.c:123
 msgid "light purple"
-msgstr ""
+msgstr "purpure clare"
 
 #: ../e-util/e-color-combo.c:124
 msgid "white"
-msgstr ""
+msgstr "blanc"
 
 #: ../e-util/e-color-combo.c:644 ../mail/e-mail-account-tree-view.c:134
 #: ../mail/e-mail-config-security-page.c:426
 #: ../mail/e-mail-config-security-page.c:590 ../mail/e-mail-reader.c:4063
 #: ../mail/mail-config.ui.h:73
 msgid "Default"
-msgstr ""
+msgstr "Predefinît"
 
 #: ../e-util/e-dateedit.c:526
 msgid "Date and Time"
-msgstr ""
+msgstr "Date e ore"
 
 #: ../e-util/e-dateedit.c:551
 msgid "Text entry to input date"
-msgstr ""
+msgstr "Inseriment di test par furnî une date"
 
 #: ../e-util/e-dateedit.c:574
 msgid "Click this button to show a calendar"
-msgstr ""
+msgstr "Fâs clic su chest boton par mostrâ un calendari"
 
 #: ../e-util/e-dateedit.c:628
 msgid "Drop-down combination box to select time"
-msgstr ""
+msgstr "Casele cumbinade a vegnî ju par selezionâ l'orari"
 
 #: ../e-util/e-dateedit.c:629 ../modules/calendar/e-calendar-preferences.ui.h:9
 msgid "Time"
-msgstr ""
+msgstr "Ore"
 
 #: ../e-util/e-dateedit.c:703
 msgid "No_w"
-msgstr ""
+msgstr "C_umò"
 
 #: ../e-util/e-dateedit.c:710
 msgid "_Today"
-msgstr ""
+msgstr "_Vuê"
 
 #. Note that we don't show this here, since by default a 'None' date
 #. * is not permitted.
 #: ../e-util/e-dateedit.c:719
 msgid "_None"
-msgstr ""
+msgstr "_Nissun"
 
 #. Translators: "None" for date field of a date edit, shown when
 #. * there is no date set.
 #: ../e-util/e-dateedit.c:1841 ../e-util/e-dateedit.c:2089
 msgctxt "date"
 msgid "None"
-msgstr ""
+msgstr "Nissune"
 
 #: ../e-util/e-dateedit.c:1981
 msgid "Invalid Date Value"
-msgstr ""
+msgstr "Valôr date no valit"
 
 #: ../e-util/e-dateedit.c:2026
 msgid "Invalid Time Value"
-msgstr ""
+msgstr "Valôr ore no valit"
 
 #. strftime format of a weekday and a date.
 #: ../e-util/e-datetime-format.c:219 ../modules/itip-formatter/itip-view.c:283
 msgid "Tomorrow"
-msgstr ""
+msgstr "Doman"
 
 #: ../e-util/e-datetime-format.c:221
 msgid "Yesterday"
-msgstr ""
+msgstr "Îr"
 
 #. Translators: This is used for abbreviated days in the future.
 #. *         You can use strftime modifiers here too, like "Next %a", to avoid
