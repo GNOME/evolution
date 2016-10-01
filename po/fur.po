@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2016-09-29 19:26+0000\n"
-"PO-Revision-Date: 2016-09-30 15:14+0200\n"
+"PO-Revision-Date: 2016-10-01 10:57+0200\n"
 "Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
 "Language-Team: Friulian <fur@li.org>\n"
 "Language: fur\n"
@@ -8658,11 +8658,11 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:111
 msgid "Show appointment icons in the month view"
-msgstr ""
+msgstr "Mostre lis iconis dai apontaments inte viodude mensîl"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:112
 msgid "Whether to show icons of events in the month view"
-msgstr ""
+msgstr "Indiche se mostrâ lis iconis dai events te viodude mensîl"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:113
 msgid "Show the memo preview pane"
@@ -8676,50 +8676,58 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:115
 msgid "Show the task preview pane"
-msgstr ""
+msgstr "Mostre il ricuadri anteprime dai memorandum"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:116
 msgid "If \"true\", show the task preview pane in the main window"
 msgstr ""
+"Se metût a VÊR, mostre il ricuadri di anteprime dal memorandum tal barcon "
+"principâl "
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:117
 msgid "Show week numbers in Day View, Work Week View, and Date Navigator"
 msgstr ""
+"Mostre i numars di setemane te viodude zornaliere, inte viodude setemanâl "
+"lavorative e tal navigadôr di date."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:118
 msgid "Whether to show week numbers in various places in the Calendar"
-msgstr ""
+msgstr "Indiche se mostrâ i numars di setemane in diviers puescj dal calendari"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:119
 msgid "Vertical position for the tag pane"
-msgstr ""
+msgstr "Posizion verticâl pal ricuadri etichete"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:120
 msgid "Highlight tasks due today"
-msgstr ""
+msgstr "Evidenzie ativitâts che a scjadin vuê"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:121
 msgid ""
 "Whether highlight tasks due today with a special color (task-due-today-color)"
 msgstr ""
+"Indiche se evidenziâ lis ativitâts che a scjadin tal dì di vuê cuntun colôr "
+"speciâl (task-due-today-color)"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:122
 msgid "Tasks due today color"
-msgstr ""
+msgstr "Colôr ativitâts che a scjadin vuê"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:123
 msgid ""
 "Background color of tasks that are due today, in \"#rrggbb\" format. Used "
 "together with task-due-today-highlight"
 msgstr ""
+"Colôr di sfont des ativitâts che a scjadin tal dì di vuê; tal formât "
+"\"#rrggbb\". Doprât adun cun task-due-today-highlight"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:124
 msgid "Task preview pane position (horizontal)"
-msgstr ""
+msgstr "Posizion ricuadri anteprime ativitât (orizontâl)"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:125
 msgid "Task layout style"
-msgstr ""
+msgstr "Stîl viodude ativitâts"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:126
 msgid ""
@@ -8727,55 +8735,68 @@ msgid ""
 "the task list. \"0\" (Classic View) places the preview pane below the task "
 "list. \"1\" (Vertical View) places the preview pane next to the task list"
 msgstr ""
+"Il stîl di disposizion al determine dulà plaçâ il ricuadri di anteprime in "
+"relazione ae liste des ativitâts. Cun \"0\" (viodude classiche) si place il "
+"ricuadri di anteprime juste sot de liste des ativitâts, cun \"1\" (viodude "
+"verticâl) si place il ricuadri in bande ae liste"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:127
 msgid "Task preview pane position (vertical)"
-msgstr ""
+msgstr "Posizion ricuadri anteprime ativitâts (verticâl)"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:128
 msgid "Position of the task preview pane when oriented vertically"
 msgstr ""
+"Posizion dal ricuadri di anteprime dai compits cuant che al è orientât in "
+"verticâl"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:129
 msgid "Show reminders for completed tasks"
-msgstr ""
+msgstr "Mostre promemorie pes ativitâts completadis"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:130
 msgid ""
 "Whether to show reminders for completed tasks. When set to false, reminders "
 "for completed tasks are suppressed."
 msgstr ""
+"Indiche se mostrâ un promemorie pes ativitâts completadis. Cuant che al è "
+"metût a fals, i promemorie pes ativitâts completadis a son soprimûts."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:131
 msgid "Highlight overdue tasks"
-msgstr ""
+msgstr "Evidenzie ativitâts scjadudis"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:132
 msgid ""
 "Whether highlight overdue tasks with a special color (task-overdue-color)"
 msgstr ""
+"Indiche se evidenziâ lis ativitâts scjadudis cuntun colôr speciâl (task-"
+"overdue-color)"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:133
 msgid "Overdue tasks color"
-msgstr ""
+msgstr "Colôr ativitâts scjadudis"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:134
 msgid ""
 "Background color of tasks that are overdue, in \"#rrggbb\" format. Used "
 "together with task-overdue-highlight."
 msgstr ""
+"Colôr di sfont des ativitâts scjadudis, tal formât \"#rrggbb\". Doprât adun "
+"cun task-overdue-highlight."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:135
 msgid "Time divisions"
-msgstr ""
+msgstr "Divisions di timp"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:136
 msgid "Intervals shown in Day and Work Week views, in minutes"
 msgstr ""
+"Intervai mostrâts te viodude zornaliere e setemanâl lavorative, in minûts"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:137
 msgid "Timezone"
-msgstr ""
+msgstr "Fûs orari"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:138
 msgid ""
@@ -8785,67 +8806,67 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:139
 msgid "Twenty four hour time format"
-msgstr ""
+msgstr "Formât orari 24 oris"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:140
 msgid "Whether to show times in twenty four hour format instead of using am/pm"
-msgstr ""
+msgstr "Indiche se mostrâ il timp in formât orari di 24 oris o doprâ a.m./p.m."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:141
 msgid "Birthday and anniversary reminder"
-msgstr ""
+msgstr "Promemorie compleans e aniversaris"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:142
 msgid "Whether to set a reminder for birthdays and anniversaries"
-msgstr ""
+msgstr "Indiche se stabilî un promemorie pai compleans e aniversaris"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:143
 msgid "Default appointment reminder"
-msgstr ""
+msgstr "Promemorie apontament predefinît"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:144
 msgid "Whether to set a default reminder for appointments"
-msgstr ""
+msgstr "Indiche se stabilî un promemorie predefinît pai apontaments"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:145
 msgid "Use system timezone"
-msgstr ""
+msgstr "Dopre fûs orari di sisteme"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:146
 msgid "Use the system timezone instead of the timezone selected in Evolution"
-msgstr ""
+msgstr "Doprâ il fûs orari di sisteme al puest di chel selezionât in Evolution"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:147
 msgid "First day of the week"
-msgstr ""
+msgstr "Prin dì de setemane"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:148
 msgid "Monday is a work day"
-msgstr ""
+msgstr "Lunis al è une dì di vore"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:149
 msgid "Tuesday is a work day"
-msgstr ""
+msgstr "Martars al è une dì di vore"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:150
 msgid "Wednesday is a work day"
-msgstr ""
+msgstr "Miercus al è une dì di vore"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:151
 msgid "Thursday is a work day"
-msgstr ""
+msgstr "Joibe al è une dì di vore"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:152
 msgid "Friday is a work day"
-msgstr ""
+msgstr "Vinars al è une dì di vore"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:153
 msgid "Saturday is a work day"
-msgstr ""
+msgstr "Sabide al è un dì di vore"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:154
 msgid "Sunday is a work day"
-msgstr ""
+msgstr "Domenie al è une dì di vore"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:155
 msgid "Create events, memos and tasks as Private by default"
@@ -8886,11 +8907,11 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.gschema.xml.in.h:3
 msgid "List of disabled plugins"
-msgstr ""
+msgstr "Liste dai plugin disabilitâts"
 
 #: ../data/org.gnome.evolution.gschema.xml.in.h:4
 msgid "The list of disabled plugins in Evolution"
-msgstr ""
+msgstr "La liste dai plugins disabilitâts in Evolution"
 
 #: ../data/org.gnome.evolution.gschema.xml.in.h:5
 msgid "The window's X coordinate"
@@ -8902,11 +8923,11 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.gschema.xml.in.h:7
 msgid "The window's width in pixels"
-msgstr ""
+msgstr "La largjece dal barcon in pixel"
 
 #: ../data/org.gnome.evolution.gschema.xml.in.h:8
 msgid "The window's height in pixels"
-msgstr ""
+msgstr "La altece dal barcon in pixel"
 
 #: ../data/org.gnome.evolution.gschema.xml.in.h:9
 msgid "Whether the window is maximized"
@@ -10712,13 +10733,13 @@ msgstr ""
 #: ../mail/searchtypes.xml.in.h:11 ../mail/vfoldertypes.xml.in.h:11
 #: ../modules/mail/em-mailer-prefs.c:64
 msgid "To"
-msgstr ""
+msgstr "A"
 
 #: ../em-format/e-mail-formatter-utils.c:203
 #: ../em-format/e-mail-formatter-utils.c:220
 #: ../em-format/e-mail-part-headers.c:49 ../modules/mail/em-mailer-prefs.c:65
 msgid "Cc"
-msgstr ""
+msgstr "Cc"
 
 #: ../em-format/e-mail-formatter-utils.c:204
 #: ../em-format/e-mail-formatter-utils.c:221
@@ -10819,7 +10840,7 @@ msgstr ""
 
 #: ../em-format/e-mail-part-headers.c:47 ../modules/mail/em-mailer-prefs.c:63
 msgid "Reply-To"
-msgstr ""
+msgstr "Rispuint a"
 
 #: ../em-format/e-mail-part-headers.c:52 ../e-util/e-dateedit.c:552
 #: ../e-util/e-dateedit.c:575 ../mail/message-list.etspec.h:7
