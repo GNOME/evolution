@@ -9099,6 +9099,7 @@ save_history_for_delete_or_backspace (EEditorPage *editor_page,
 			g_clear_object (&range_clone);
 			g_clear_object (&dom_selection);
 			g_warning ("History event was not saved for %s key", delete_key ? "Delete" : "Backspace");
+			e_editor_dom_selection_restore (editor_page);
 			return;
 		}
 
@@ -9324,6 +9325,8 @@ save_history_for_delete_or_backspace (EEditorPage *editor_page,
 
 	manager = e_editor_page_get_undo_redo_manager (editor_page);
 	e_editor_undo_redo_manager_insert_history_event (manager, ev);
+
+	e_editor_dom_selection_restore (editor_page);
 }
 
 gboolean
@@ -9377,7 +9380,6 @@ e_editor_dom_fix_structure_after_delete_before_quoted_content (EEditorPage *edit
 				e_editor_dom_selection_restore (editor_page);
 				save_history_for_delete_or_backspace (
 					editor_page, key_code == HTML_KEY_CODE_DELETE, control_key);
-				e_editor_dom_selection_save (editor_page);
 			}
 
 			/* Remove the empty block and move caret to the right place. */
