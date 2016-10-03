@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2016-09-29 19:26+0000\n"
-"PO-Revision-Date: 2016-10-01 10:57+0200\n"
+"PO-Revision-Date: 2016-10-03 23:38+0200\n"
 "Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
 "Language-Team: Friulian <fur@li.org>\n"
 "Language: fur\n"
@@ -8915,11 +8915,11 @@ msgstr "La liste dai plugins disabilitâts in Evolution"
 
 #: ../data/org.gnome.evolution.gschema.xml.in.h:5
 msgid "The window's X coordinate"
-msgstr ""
+msgstr "La coordenade X pal barcon"
 
 #: ../data/org.gnome.evolution.gschema.xml.in.h:6
 msgid "The window's Y coordinate"
-msgstr ""
+msgstr "La coordenade Y pal barcon"
 
 #: ../data/org.gnome.evolution.gschema.xml.in.h:7
 msgid "The window's width in pixels"
@@ -8931,54 +8931,64 @@ msgstr "La altece dal barcon in pixel"
 
 #: ../data/org.gnome.evolution.gschema.xml.in.h:9
 msgid "Whether the window is maximized"
-msgstr ""
+msgstr "Indiche se il barcon al è slargjât"
 
 #: ../data/org.gnome.evolution.importer.gschema.xml.in.h:1
 msgid "Gnome Calendar's calendar import done"
-msgstr ""
+msgstr "Importazion dal calendari di \"Calendari Gnome\" fate"
 
 #: ../data/org.gnome.evolution.importer.gschema.xml.in.h:2
 msgid "Whether calendar from Gnome Calendar has been imported or not"
 msgstr ""
+"Indiche se la importazion dal calendari di Calendari Gnome e je stade "
+"eseguide o no"
 
 #: ../data/org.gnome.evolution.importer.gschema.xml.in.h:3
 msgid "Gnome Calendar's tasks import done"
-msgstr ""
+msgstr "Importazion ativitâts di Calendari Gnome fate"
 
 #: ../data/org.gnome.evolution.importer.gschema.xml.in.h:4
 msgid "Whether tasks from Gnome Calendar have been imported or not"
 msgstr ""
+"Indiche se la importazion des ativitâts di Calendari Gnome e je stade "
+"eseguide o no"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:1
 msgid "Check whether Evolution is the default mailer"
-msgstr ""
+msgstr "Controle se Evolution al è il gjestôr di pueste predefinît"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:2
 msgid ""
 "Every time Evolution starts, check whether or not it is the default mailer."
 msgstr ""
+"Ogni volte che Evolution al partìs, controle se al è o no il gjestôr di "
+"pueste predefinît."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:3
 msgid "Default charset in which to compose messages"
-msgstr ""
+msgstr "Cumbinazion di caratars predefinide par scrivi i messaçs"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:4
 msgid "Default charset in which to compose messages. Uses UTF-8, if not set."
 msgstr ""
+"Cumbinazion di caratars predefinide par scrivi i messaçs. Se no stabilide, "
+"al ven doprât UTF-8."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:5
 msgid "Name of the editor to prefer in the message composer"
-msgstr ""
+msgstr "Non dal editôr di preferî cuant che si à di scrivi il messaç"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:6
 msgid ""
 "If the name doesn't correspond to any known editor, then the built-in WebKit "
 "editor is used."
 msgstr ""
+"Se il non nol corispuint a un editôr cognossût, alore al vignarà doprât "
+"l'editôr interni di WebKit."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:7
 msgid "Path where picture gallery should search for its content"
-msgstr ""
+msgstr "Percors dulà la galarie di imagjins e varès di cirî il so contignût"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:8
 msgid ""
@@ -8986,74 +8996,86 @@ msgid ""
 "folder, usually set to ~/Pictures. This folder will be also used when the "
 "set path is not pointing to the existent folder"
 msgstr ""
+"Chest valôr al pues jessi une stringhe vueide, che al significhe che e "
+"vignarà doprade la cartele Imagjins di sisteme, di solit metude a ~/"
+"Imagjins. Cheste cartele e je ancje doprade cuant che il percors stabilît "
+"nol ponte a une cartele esistent"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:9
 msgid "Spell check inline"
-msgstr ""
+msgstr "Control ortografic in linie"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:10
 msgid "Draw spelling error indicators on words as you type."
-msgstr ""
+msgstr "Mostre i erôrs di ortografie des peraulis intant che si scrîf."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:11
 msgid "Automatic link recognition"
-msgstr ""
+msgstr "Ricognossiment automatic colegament"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:12
 msgid "Recognize links in text and replace them."
-msgstr ""
+msgstr "Ricognòs i colegaments tal test e ju sostituìs."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:13
 msgid "Automatic emoticon recognition"
-msgstr ""
+msgstr "Ricognossiment automatic musutis"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:14
 msgid ""
 "Recognize emoticons in text and replace them with images or Unicode "
 "characters."
 msgstr ""
+"Ricognòs lis musutis tal test e lis sostituìs cun lis imagjins o cui "
+"caratars Unicode."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:15
 msgid "Unicode emoticons"
-msgstr ""
+msgstr "Musutis Unicode"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:16
 msgid "Use Unicode characters for emoticons."
-msgstr ""
+msgstr "Dopre i caratars Unicode pes musutis."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:17
 msgid "Attribute message"
-msgstr ""
+msgstr "Messaç di atribuzion"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:18
 msgid ""
 "The text that is inserted when replying to a message, attributing the "
 "message to the original author"
 msgstr ""
+"Il test di inserî cuant che si rispuint a un messaç, atribuint il messaç al "
+"autôr origjinâl"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:19
 msgid "Forward message"
-msgstr ""
+msgstr "Messaç par mandâ indenant"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:20
 msgid ""
 "The text that is inserted when forwarding a message, saying that the "
 "forwarded message follows"
 msgstr ""
+"Il test di inserî cuant che si mande indenant un messaç, a indicâ che ce che "
+"al ven dopo al è il messaç mandât indenant"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:21
 msgid "Original message"
-msgstr ""
+msgstr "Messaç origjinâl"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:22
 msgid ""
 "The text that is inserted when replying to a message (top posting), saying "
 "that the original message follows"
 msgstr ""
+"Il test di inserî cuant che si rispuint a un messaç (publicant insom), a "
+"indicâ che ce che al ven dopo al è il messaç origjinâl"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:23
 msgid "Group Reply replies to list"
-msgstr ""
+msgstr "Rispueste di grup a rispuint ae liste"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:24
 msgid ""
@@ -9062,10 +9084,14 @@ msgid ""
 "which you happened to receive the copy of the message to which you're "
 "replying."
 msgstr ""
+"Cheste opzion e fâs in mût che, al puest dal normâl compuartament \"Rispuint "
+"a ducj\", il pulsant te sbare dai struments \"Rispueste di grup\" al ciri di "
+"rispuindi dome ae \"mailing list\" cun la cuâl e je stade ricevude copie dal "
+"messaç che si sta rispuindint."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:25
 msgid "Put the cursor at the bottom of replies"
-msgstr ""
+msgstr "Met il cursôr insot ae fin des rispuestis"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:26
 msgid ""
@@ -9073,30 +9099,36 @@ msgid ""
 "message. This determines whether the cursor is placed at the top of the "
 "message or the bottom."
 msgstr ""
+"I utents a barufin sul dulà che si scugne lâ a scrivi lis rispuestis ai "
+"messaçs. Cheste clâf e determine se il cursôr al è plaçât insom o ae fin dal "
+"messaç di rispueste."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:27
 msgid "Always request read receipt"
-msgstr ""
+msgstr "Domande simpri ricevude di leture"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:28
 msgid "Whether a read receipt request gets added to every message by default."
 msgstr ""
+"Indiche se une domande di ricezion e leture e à di vegni zontade a ogni "
+"messaç in mût predefinît."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:29
 msgid "Send HTML mail by default"
-msgstr ""
+msgstr "Invie pueste in HTML in maniere predefinide"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:30
 msgid "Send HTML mail by default."
-msgstr ""
+msgstr "Invie pueste in HTML in maniere predefinide."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:31
 msgid "Spell checking languages"
-msgstr ""
+msgstr "Leghis control ortografic"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:32
 msgid "List of dictionary language codes used for spell checking."
 msgstr ""
+"Liste dai codiçs di lenghe dai dizionaris doprâts pal control ortografic."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:33
 msgid "Show \"Bcc\" field when sending a mail message"
@@ -9110,67 +9142,80 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:35
 msgid "Show \"Cc\" field when sending a mail message"
-msgstr ""
+msgstr "Mostre il cjamp \"Cc\" cuant che si invie un messaç di pueste"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:36
 msgid ""
 "Show the \"Cc\" field when sending a mail message. This is controlled from "
 "the View menu when a mail account is chosen."
 msgstr ""
+"Mostre il cjamp \"Cc\" cuant che si invie un messaç di pueste. Chest al è "
+"controlât dal menù Viodude cuant che al ven sielt un account di pueste."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:37
 msgid "Show \"From\" override field when sending a mail message"
-msgstr ""
+msgstr "Mostre il cjamp \"Di\" cuant che si invie un messaç di pueste"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:38
 msgid ""
 "Show the \"From\" override field when sending a mail message. This is "
 "controlled from the View menu when a mail account is chosen."
 msgstr ""
+"Mostre il cjamp \"Di\" cuant che si invie un messaç di pueste. Chest al è "
+"controlât dal menù Viodude cuant che al ven sielt un account di pueste."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:39
 msgid "Show \"Reply To\" field when sending a mail message"
-msgstr ""
+msgstr "Mostre il cjamp \"Rispuint a\" cuant che si invie un messaç di pueste"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:40
 msgid ""
 "Show the \"Reply To\" field when sending a mail message. This is controlled "
 "from the View menu when a mail account is chosen."
 msgstr ""
+"Mostre il cjamp \"Rispuint a\" cuant che si invie un messaç di pueste. Chest "
+"al è controlât dal menù Viodude cuant che al ven sielt un account di pueste."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:41
 msgid "Show \"From\" field when posting to a newsgroup"
-msgstr ""
+msgstr "Mostre il cjamp \"Di\" cuant che si publiche suntun newsgroup"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:42
 msgid ""
 "Show the \"From\" field when posting to a newsgroup. This is controlled from "
 "the View menu when a news account is chosen."
 msgstr ""
+"Mostre il cjamp \"Di\" cuant che si publiche suntun newsgroup. Chest al è "
+"controlât dal menù Viodude cuant che al ven sielt un account di news."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:43
 msgid "Show \"Reply To\" field when posting to a newsgroup"
-msgstr ""
+msgstr "Mostre il cjamp \"Rispuint a\" cuant che si publiche suntun newsgroup"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:44
 msgid ""
 "Show the \"Reply To\" field when posting to a newsgroup. This is controlled "
 "from the View menu when a news account is chosen."
 msgstr ""
+"Mostre il cjamp \"Rispuint a\" cuant che si publiche suntun newsgroup. Chest "
+"al è controlât dal menù Viodude cuant che al ven sielt un account di news."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:45
 msgid "Digitally sign replies when the original message is signed"
 msgstr ""
+"Firme in digjitâl lis rispuestis cuant che il messaç origjinâl al è firmât"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:46
 msgid ""
 "Automatically enable PGP or S/MIME signatures when replying to a message "
 "which is also PGP or S/MIME signed."
 msgstr ""
+"Abilite in automatic lis firmis PGP o S/MIME cuant che si rispuint a un "
+"messaç che al è firmât cun PGP o S/MIME."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:47
 msgid "Encode filenames in an Outlook/GMail way"
-msgstr ""
+msgstr "Codifiche i nons dai file inte maniere di Outlook/GMail"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:48
 msgid ""
@@ -9179,20 +9224,26 @@ msgid ""
 "because they do not follow the RFC 2231, but use the incorrect RFC 2047 "
 "standard."
 msgstr ""
+"Codifiche i non sai file intes intestazions de pueste inte stesse maniere di "
+"Outlook o GMail, par permeti a chescj programs di mostrâ ben i nons dai file "
+"cun letaris UTF-8 inviâts di Evolution. Chest parcè che chei programs no son "
+"conformis al RFC 2231, ma a doprin invezit il no just standard RFC 2047"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:49
 msgid "Send messages through Outbox folder"
-msgstr ""
+msgstr "Invie messaçs midiant la cartele \"In jessude\""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:50
 msgid ""
 "Always save messages to Outbox folder when sending, to let a user choose "
 "when the messages should be sent."
 msgstr ""
+"Salve simpri i messaçs te cartele \"In jessude\" cuant che si invie, par "
+"lassâ decidi al utent cuant inviâju."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:51
 msgid "Put personalized signatures at the top of replies"
-msgstr ""
+msgstr "Met lis firmis personalizadis insom, prime des rispuestis"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:52
 msgid ""
@@ -9200,6 +9251,9 @@ msgid ""
 "to a message. This determines whether the signature is placed at the top of "
 "the message or the bottom."
 msgstr ""
+"I utents a barufin sul dulà che si scugne lâ a scrivi lis firmis tes "
+"rispuestis ai messaçs. Cheste clâf e determine se la firme e je plaçade "
+"insom o ae fin dal messaç di rispueste."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:53
 msgid "Do not add signature delimiter"
