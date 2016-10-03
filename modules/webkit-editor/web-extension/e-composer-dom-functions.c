@@ -113,9 +113,18 @@ move_caret_after_signature_inserted (EEditorPage *editor_page)
 	paragraphs = webkit_dom_document_query_selector_all (document, "[data-evo-paragraph]", NULL);
 	signature = webkit_dom_document_query_selector (document, ".-x-evo-signature-wrapper", NULL);
 	/* Situation when wrapped paragraph is just in signature and not in message body */
-	if (webkit_dom_node_list_get_length (paragraphs) == 1)
+	if (webkit_dom_node_list_get_length (paragraphs) == 1) {
+		WebKitDOMNode *node;
+
+		node = webkit_dom_node_list_item (paragraphs, 0);
+
 		if (signature && webkit_dom_element_query_selector (signature, "[data-evo-paragraph]", NULL))
 			has_paragraphs_in_body = FALSE;
+
+		/* Don't take the credentials into account. */
+		if (!webkit_dom_node_get_previous_sibling (node))
+			has_paragraphs_in_body = FALSE;
+	}
 
 	/*
 	 *

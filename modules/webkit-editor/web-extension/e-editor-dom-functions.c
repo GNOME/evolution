@@ -9408,7 +9408,8 @@ e_editor_dom_fix_structure_after_delete_before_quoted_content (EEditorPage *edit
 				e_editor_dom_selection_restore (editor_page);
 				save_history_for_delete_or_backspace (
 					editor_page, key_code == HTML_KEY_CODE_DELETE, control_key);
-			}
+			} else
+				e_editor_dom_selection_restore (editor_page);
 
 			/* Remove the empty block and move caret to the right place. */
 			remove_node (block);
