@@ -5483,13 +5483,13 @@ webkit_editor_load_changed_cb (EWebKitEditor *wk_editor,
 
 	wk_editor->priv->reload_in_progress = FALSE;
 
-	if (webkit_editor_is_ready (E_CONTENT_EDITOR (wk_editor)))
+	if (webkit_editor_is_ready (E_CONTENT_EDITOR (wk_editor))) {
 		e_content_editor_emit_load_finished (E_CONTENT_EDITOR (wk_editor));
-	else
+		webkit_editor_style_updated_cb (wk_editor);
+	} else
 		wk_editor->priv->emit_load_finished_when_extension_is_ready = TRUE;
 
 	dispatch_pending_operations (wk_editor);
-	webkit_editor_style_updated_cb (wk_editor);
 }
 
 static void
