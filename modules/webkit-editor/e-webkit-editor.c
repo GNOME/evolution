@@ -73,6 +73,7 @@ struct _EWebKitEditorPrivate {
 	guint web_extension_selection_changed_cb_id;
 	guint web_extension_content_changed_cb_id;
 	guint web_extension_undo_redo_state_changed_cb_id;
+	guint web_extension_user_changed_default_colors_cb_id;
 
 	gboolean html_mode;
 	gboolean changed;
@@ -89,6 +90,7 @@ struct _EWebKitEditorPrivate {
 	gboolean copy_cut_actions_triggered;
 	gboolean pasting_primary_clipboard;
 	gboolean pasting_from_itself_extension_value;
+	gboolean suppress_color_changes;
 
 	guint32 style_flags;
 	gboolean is_indented;
@@ -427,6 +429,22 @@ web_extension_undo_redo_state_changed_cb (GDBusConnection *connection,
 }
 
 static void
+web_extension_user_changed_default_colors_cb (GDBusConnection *connection,
+                                              const gchar *sender_name,
+                                              const gchar *object_path,
+                                              const gchar *interface_name,
+                                              const gchar *signal_name,
+                                              GVariant *parameters,
+                                              EWebKitEditor *wk_editor)
+{
+	if (g_strcmp0 (signal_name, "UserChangedDefaultColors") != 0)
+		return;
+
+	if (parameters)
+		g_variant_get (parameters, "(b)", &wk_editor->priv->suppress_color_changes);
+}
+
+static void
 dispatch_pending_operations (EWebKitEditor *wk_editor)
 {
 	if (wk_editor->priv->webkit_load_event != WEBKIT_LOAD_FINISHED ||
@@ -521,6 +539,21 @@ web_extension_proxy_created_cb (GDBusProxy *proxy,
 				NULL,
 				G_DBUS_SIGNAL_FLAGS_NONE,
 				(GDBusSignalCallback) web_extension_undo_redo_state_changed_cb,
+				wk_editor,
+				NULL);
+	}
+
+	if (wk_editor->priv->web_extension_user_changed_default_colors_cb_id == 0) {
+		wk_editor->priv->web_extension_user_changed_default_colors_cb_id =
+			g_dbus_connection_signal_subscribe (
+				g_dbus_proxy_get_connection (wk_editor->priv->web_extension),
+				g_dbus_proxy_get_name (wk_editor->priv->web_extension),
+				E_WEBKIT_EDITOR_WEB_EXTENSION_INTERFACE,
+				"UserChangedDefaultColors",
+				E_WEBKIT_EDITOR_WEB_EXTENSION_OBJECT_PATH,
+				NULL,
+				G_DBUS_SIGNAL_FLAGS_NONE,
+				(GDBusSignalCallback) web_extension_user_changed_default_colors_cb,
 				wk_editor,
 				NULL);
 	}
@@ -1271,6 +1304,282 @@ webkit_editor_update_styles (EContentEditor *editor)
 	pango_font_description_free (vw);
 }
 
+static void
+webkit_editor_page_set_text_color (EContentEditor *editor,
+                                   const GdkRGBA *value)
+{
+	EWebKitEditor *wk_editor;
+	gchar *color;
+
+	wk_editor = E_WEBKIT_EDITOR (editor);
+
+	color = g_strdup_printf ("#%06x", e_rgba_to_value (value));
+
+	webkit_editor_set_element_attribute (wk_editor, "body", "text", color);
+
+	g_free (color);
+}
+
+static void
+webkit_editor_page_get_text_color (EContentEditor *editor,
+                                   GdkRGBA *color)
+{
+	EWebKitEditor *wk_editor;
+	GVariant *result;
+
+	wk_editor = E_WEBKIT_EDITOR (editor);
+
+	if (!wk_editor->priv->html_mode)
+		goto theme;
+
+	result = webkit_editor_get_element_attribute (wk_editor, "body", "text");
+	if (result) {
+		const gchar *value;
+
+		g_variant_get (result, "(&s)", &value);
+		if (!value || !*value || !gdk_rgba_parse (color, value)) {
+			g_variant_unref (result);
+			goto theme;
+		}
+		g_variant_unref (result);
+		return;
+	}
+
+ theme:
+	e_utils_get_theme_color (
+		GTK_WIDGET (wk_editor),
+		"theme_text_color",
+		E_UTILS_DEFAULT_THEME_TEXT_COLOR,
+		color);
+}
+
+static void
+webkit_editor_page_set_background_color (EContentEditor *editor,
+                                         const GdkRGBA *value)
+{
+	EWebKitEditor *wk_editor;
+	gchar *color;
+
+	wk_editor = E_WEBKIT_EDITOR (editor);
+
+	if (value->alpha != 0.0)
+		color = g_strdup_printf ("#%06x", e_rgba_to_value (value));
+	else
+		color = g_strdup ("");
+
+	webkit_editor_set_element_attribute (wk_editor, "body", "bgcolor", color);
+
+	g_free (color);
+}
+
+static void
+webkit_editor_page_get_background_color (EContentEditor *editor,
+                                         GdkRGBA *color)
+{
+	EWebKitEditor *wk_editor;
+	GVariant *result;
+
+	wk_editor = E_WEBKIT_EDITOR (editor);
+
+	if (!wk_editor->priv->html_mode)
+		goto theme;
+
+	result = webkit_editor_get_element_attribute (wk_editor, "body", "bgcolor");
+	if (result) {
+		const gchar *value;
+
+		g_variant_get (result, "(&s)", &value);
+		if (!value || !*value || !gdk_rgba_parse (color, value)) {
+			g_variant_unref (result);
+			goto theme;
+		}
+		g_variant_unref (result);
+		return;
+	}
+
+ theme:
+	e_utils_get_theme_color (
+		GTK_WIDGET (wk_editor),
+		"theme_base_color",
+		E_UTILS_DEFAULT_THEME_BASE_COLOR,
+		color);
+}
+
+static void
+webkit_editor_page_set_link_color (EContentEditor *editor,
+                                   const GdkRGBA *value)
+{
+	EWebKitEditor *wk_editor;
+	gchar *color;
+
+	wk_editor = E_WEBKIT_EDITOR (editor);
+
+	color = g_strdup_printf ("#%06x", e_rgba_to_value (value));
+
+	webkit_editor_set_element_attribute (wk_editor, "body", "link", color);
+
+	g_free (color);
+}
+
+static void
+webkit_editor_page_get_link_color (EContentEditor *editor,
+                                   GdkRGBA *color)
+{
+	EWebKitEditor *wk_editor;
+	GVariant *result;
+
+	wk_editor = E_WEBKIT_EDITOR (editor);
+
+	if (!wk_editor->priv->html_mode)
+		goto theme;
+
+	result = webkit_editor_get_element_attribute (wk_editor, "body", "link");
+	if (result) {
+		const gchar *value;
+
+		g_variant_get (result, "(&s)", &value);
+		if (!value || !*value || !gdk_rgba_parse (color, value)) {
+			g_variant_unref (result);
+			goto theme;
+		}
+		g_variant_unref (result);
+		return;
+	}
+
+ theme:
+	color->alpha = 1;
+	color->red = 0;
+	color->green = 0;
+	color->blue = 1;
+}
+
+static void
+webkit_editor_page_set_visited_link_color (EContentEditor *editor,
+                                           const GdkRGBA *value)
+{
+	EWebKitEditor *wk_editor;
+	gchar *color;
+
+	wk_editor = E_WEBKIT_EDITOR (editor);
+
+	color = g_strdup_printf ("#%06x", e_rgba_to_value (value));
+
+	webkit_editor_set_element_attribute (wk_editor, "body", "vlink", color);
+
+	g_free (color);
+}
+
+static void
+webkit_editor_page_get_visited_link_color (EContentEditor *editor,
+                                           GdkRGBA *color)
+{
+	EWebKitEditor *wk_editor;
+	GVariant *result;
+
+	wk_editor = E_WEBKIT_EDITOR (editor);
+
+	if (!wk_editor->priv->html_mode)
+		goto theme;
+
+	result = webkit_editor_get_element_attribute (wk_editor, "body", "vlink");
+	if (result) {
+		const gchar *value;
+
+		g_variant_get (result, "(&s)", &value);
+		if (!value || !*value || !gdk_rgba_parse (color, value)) {
+			g_variant_unref (result);
+			goto theme;
+		}
+		g_variant_unref (result);
+		return;
+	}
+
+ theme:
+	color->alpha = 1;
+	color->red = 1;
+	color->green = 0;
+	color->blue = 0;
+}
+
+static void
+get_color_from_context (GtkStyleContext *context,
+                        const gchar *name,
+                        GdkRGBA *out_color)
+{
+	GdkColor *color = NULL;
+
+	gtk_style_context_get_style (context, name, &color, NULL);
+
+	if (color == NULL) {
+		gboolean is_visited = strstr (name, "visited") != NULL;
+		#if GTK_CHECK_VERSION(3,12,0)
+		GtkStateFlags state;
+		#endif
+
+		out_color->alpha = 1;
+		out_color->red = is_visited ? 1 : 0;
+		out_color->green = 0;
+		out_color->blue = is_visited ? 0 : 1;
+
+		#if GTK_CHECK_VERSION(3,12,0)
+		state = gtk_style_context_get_state (context);
+		state = state & (~(GTK_STATE_FLAG_VISITED | GTK_STATE_FLAG_LINK));
+		state = state | (is_visited ? GTK_STATE_FLAG_VISITED : GTK_STATE_FLAG_LINK);
+
+		gtk_style_context_save (context);
+		gtk_style_context_set_state (context, state);
+		gtk_style_context_get_color (context, state, out_color);
+		gtk_style_context_restore (context);
+		#endif
+	} else {
+		out_color->alpha = 1;
+		out_color->red = ((gdouble) color->red) / G_MAXUINT16;
+		out_color->green = ((gdouble) color->green) / G_MAXUINT16;
+		out_color->blue = ((gdouble) color->blue) / G_MAXUINT16;
+
+		gdk_color_free (color);
+	}
+}
+
+static void
+webkit_editor_style_updated_cb (EWebKitEditor *wk_editor)
+{
+	GdkRGBA rgba;
+	GtkStateFlags state_flags;
+	GtkStyleContext *style_context;
+	gboolean backdrop;
+
+	/* If the user set the colors in Page dialog, this callback is useless. */
+	if (wk_editor->priv->suppress_color_changes)
+		return;
+
+	state_flags = gtk_widget_get_state_flags (GTK_WIDGET (wk_editor));
+	style_context = gtk_widget_get_style_context (GTK_WIDGET (wk_editor));
+	backdrop = (state_flags & GTK_STATE_FLAG_BACKDROP) != 0;
+
+	if (!gtk_style_context_lookup_color (
+			style_context,
+			backdrop ? "theme_unfocused_base_color" : "theme_base_color",
+			&rgba))
+		gdk_rgba_parse (&rgba, E_UTILS_DEFAULT_THEME_BASE_COLOR);
+
+	webkit_editor_page_set_background_color (E_CONTENT_EDITOR (wk_editor), &rgba);
+
+	if (!gtk_style_context_lookup_color (
+			style_context,
+			backdrop ? "theme_unfocused_fg_color" : "theme_fg_color",
+			&rgba))
+		gdk_rgba_parse (&rgba, E_UTILS_DEFAULT_THEME_FG_COLOR);
+
+	webkit_editor_page_set_text_color (E_CONTENT_EDITOR (wk_editor), &rgba);
+
+	get_color_from_context (style_context, "link-color", &rgba);
+	webkit_editor_page_set_link_color (E_CONTENT_EDITOR (wk_editor), &rgba);
+
+	get_color_from_context (style_context, "visited-link-color", &rgba);
+	webkit_editor_page_set_visited_link_color (E_CONTENT_EDITOR (wk_editor), &rgba);
+}
+
 static gboolean
 webkit_editor_get_html_mode (EWebKitEditor *wk_editor)
 {
@@ -1349,6 +1658,7 @@ webkit_editor_set_html_mode (EWebKitEditor *wk_editor,
 
 	/* Update fonts - in plain text we only want monospaced */
 	webkit_editor_update_styles (E_CONTENT_EDITOR (wk_editor));
+	webkit_editor_style_updated_cb (wk_editor);
 
 	g_object_notify (G_OBJECT (wk_editor), "html-mode");
 }
@@ -3432,203 +3742,6 @@ webkit_editor_get_style_flag (EWebKitEditor *wk_editor,
 }
 
 static void
-webkit_editor_page_set_text_color (EContentEditor *editor,
-                                   const GdkRGBA *value)
-{
-	EWebKitEditor *wk_editor;
-	gchar *color;
-
-	wk_editor = E_WEBKIT_EDITOR (editor);
-
-	color = g_strdup_printf ("#%06x", e_rgba_to_value (value));
-
-	webkit_editor_set_element_attribute (wk_editor, "body", "text", color);
-
-	g_free (color);
-}
-
-static void
-webkit_editor_page_get_text_color (EContentEditor *editor,
-                                   GdkRGBA *color)
-{
-	EWebKitEditor *wk_editor;
-	GVariant *result;
-
-	wk_editor = E_WEBKIT_EDITOR (editor);
-
-	if (!wk_editor->priv->html_mode)
-		goto theme;
-
-	result = webkit_editor_get_element_attribute (wk_editor, "body", "text");
-	if (result) {
-		const gchar *value;
-
-		g_variant_get (result, "(&s)", &value);
-		if (!value || !*value || !gdk_rgba_parse (color, value)) {
-			g_variant_unref (result);
-			goto theme;
-		}
-		g_variant_unref (result);
-		return;
-	}
-
- theme:
-	e_utils_get_theme_color (
-		GTK_WIDGET (wk_editor),
-		"theme_text_color",
-		E_UTILS_DEFAULT_THEME_TEXT_COLOR,
-		color);
-}
-
-static void
-webkit_editor_page_set_background_color (EContentEditor *editor,
-                                         const GdkRGBA *value)
-{
-	EWebKitEditor *wk_editor;
-	gchar *color;
-
-	wk_editor = E_WEBKIT_EDITOR (editor);
-
-	if (value->alpha != 0.0)
-		color = g_strdup_printf ("#%06x", e_rgba_to_value (value));
-	else
-		color = g_strdup ("");
-
-	webkit_editor_set_element_attribute (wk_editor, "body", "bgcolor", color);
-
-	g_free (color);
-}
-
-static void
-webkit_editor_page_get_background_color (EContentEditor *editor,
-                                         GdkRGBA *color)
-{
-	EWebKitEditor *wk_editor;
-	GVariant *result;
-
-	wk_editor = E_WEBKIT_EDITOR (editor);
-
-	if (!wk_editor->priv->html_mode)
-		goto theme;
-
-	result = webkit_editor_get_element_attribute (wk_editor, "body", "bgcolor");
-	if (result) {
-		const gchar *value;
-
-		g_variant_get (result, "(&s)", &value);
-		if (!value || !*value || !gdk_rgba_parse (color, value)) {
-			g_variant_unref (result);
-			goto theme;
-		}
-		g_variant_unref (result);
-		return;
-	}
-
- theme:
-	e_utils_get_theme_color (
-		GTK_WIDGET (wk_editor),
-		"theme_base_color",
-		E_UTILS_DEFAULT_THEME_BASE_COLOR,
-		color);
-}
-
-static void
-webkit_editor_page_set_link_color (EContentEditor *editor,
-                                   const GdkRGBA *value)
-{
-	EWebKitEditor *wk_editor;
-	gchar *color;
-
-	wk_editor = E_WEBKIT_EDITOR (editor);
-
-	color = g_strdup_printf ("#%06x", e_rgba_to_value (value));
-
-	webkit_editor_set_element_attribute (wk_editor, "body", "link", color);
-
-	g_free (color);
-}
-
-static void
-webkit_editor_page_get_link_color (EContentEditor *editor,
-                                   GdkRGBA *color)
-{
-	EWebKitEditor *wk_editor;
-	GVariant *result;
-
-	wk_editor = E_WEBKIT_EDITOR (editor);
-
-	if (!wk_editor->priv->html_mode)
-		goto theme;
-
-	result = webkit_editor_get_element_attribute (wk_editor, "body", "link");
-	if (result) {
-		const gchar *value;
-
-		g_variant_get (result, "(&s)", &value);
-		if (!value || !*value || !gdk_rgba_parse (color, value)) {
-			g_variant_unref (result);
-			goto theme;
-		}
-		g_variant_unref (result);
-		return;
-	}
-
- theme:
-	color->alpha = 1;
-	color->red = 0;
-	color->green = 0;
-	color->blue = 1;
-}
-
-static void
-webkit_editor_page_set_visited_link_color (EContentEditor *editor,
-                                           const GdkRGBA *value)
-{
-	EWebKitEditor *wk_editor;
-	gchar *color;
-
-	wk_editor = E_WEBKIT_EDITOR (editor);
-
-	color = g_strdup_printf ("#%06x", e_rgba_to_value (value));
-
-	webkit_editor_set_element_attribute (wk_editor, "body", "vlink", color);
-
-	g_free (color);
-}
-
-static void
-webkit_editor_page_get_visited_link_color (EContentEditor *editor,
-                                           GdkRGBA *color)
-{
-	EWebKitEditor *wk_editor;
-	GVariant *result;
-
-	wk_editor = E_WEBKIT_EDITOR (editor);
-
-	if (!wk_editor->priv->html_mode)
-		goto theme;
-
-	result = webkit_editor_get_element_attribute (wk_editor, "body", "vlink");
-	if (result) {
-		const gchar *value;
-
-		g_variant_get (result, "(&s)", &value);
-		if (!value || !*value || !gdk_rgba_parse (color, value)) {
-			g_variant_unref (result);
-			goto theme;
-		}
-		g_variant_unref (result);
-		return;
-	}
-
- theme:
-	color->alpha = 1;
-	color->red = 1;
-	color->green = 0;
-	color->blue = 0;
-}
-
-static void
 webkit_editor_on_page_dialog_open (EContentEditor *editor)
 {
 	EWebKitEditor *wk_editor;
@@ -4937,6 +5050,13 @@ webkit_editor_dispose (GObject *object)
 		priv->web_extension_undo_redo_state_changed_cb_id = 0;
 	}
 
+	if (priv->web_extension_user_changed_default_colors_cb_id > 0) {
+		g_dbus_connection_signal_unsubscribe (
+			g_dbus_proxy_get_connection (priv->web_extension),
+			priv->web_extension_user_changed_default_colors_cb_id);
+		priv->web_extension_user_changed_default_colors_cb_id = 0;
+	}
+
 	if (priv->web_extension_watch_name_id > 0) {
 		g_bus_unwatch_name (priv->web_extension_watch_name_id);
 		priv->web_extension_watch_name_id = 0;
@@ -5369,6 +5489,7 @@ webkit_editor_load_changed_cb (EWebKitEditor *wk_editor,
 		wk_editor->priv->emit_load_finished_when_extension_is_ready = TRUE;
 
 	dispatch_pending_operations (wk_editor);
+	webkit_editor_style_updated_cb (wk_editor);
 }
 
 static void
@@ -5621,6 +5742,7 @@ webkit_editor_web_process_crashed_cb (EWebKitEditor *wk_editor)
 	wk_editor->priv->web_extension_selection_changed_cb_id = 0;
 	wk_editor->priv->web_extension_content_changed_cb_id = 0;
 	wk_editor->priv->web_extension_undo_redo_state_changed_cb_id = 0;
+	wk_editor->priv->web_extension_user_changed_default_colors_cb_id = 0;
 }
 
 static gboolean
@@ -5824,6 +5946,14 @@ e_webkit_editor_init (EWebKitEditor *wk_editor)
 		wk_editor, "web-process-crashed",
 		G_CALLBACK (webkit_editor_web_process_crashed_cb), NULL);
 
+	g_signal_connect (
+		wk_editor, "style-updated",
+		G_CALLBACK (webkit_editor_style_updated_cb), NULL);
+
+	g_signal_connect (
+		wk_editor, "state-flags-changed",
+		G_CALLBACK (webkit_editor_style_updated_cb), NULL);
+
 	wk_editor->priv->owner_change_primary_clipboard_cb_id = g_signal_connect (
 		gtk_clipboard_get (GDK_SELECTION_PRIMARY), "owner-change",
 		G_CALLBACK (webkit_editor_primary_clipboard_owner_change_cb), wk_editor);
@@ -5870,6 +6000,7 @@ e_webkit_editor_init (EWebKitEditor *wk_editor)
 	wk_editor->priv->pasting_from_itself_extension_value = FALSE;
 	wk_editor->priv->current_user_stylesheet = NULL;
 	wk_editor->priv->emit_load_finished_when_extension_is_ready = FALSE;
+	wk_editor->priv->suppress_color_changes = FALSE;
 
 	wk_editor->priv->font_color = gdk_rgba_copy (&black);
 	wk_editor->priv->background_color = gdk_rgba_copy (&white);
@@ -5881,6 +6012,7 @@ e_webkit_editor_init (EWebKitEditor *wk_editor)
 	wk_editor->priv->web_extension_selection_changed_cb_id = 0;
 	wk_editor->priv->web_extension_content_changed_cb_id = 0;
 	wk_editor->priv->web_extension_undo_redo_state_changed_cb_id = 0;
+	wk_editor->priv->web_extension_user_changed_default_colors_cb_id = 0;
 }
 
 static void

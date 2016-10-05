@@ -948,3 +948,34 @@ e_editor_page_emit_undo_redo_state_changed (EEditorPage *editor_page)
 		g_error_free (error);
 	}
 }
+
+void
+e_editor_page_emit_user_changed_default_colors (EEditorPage *editor_page,
+                                                gboolean suppress_color_changes)
+{
+	GDBusConnection *connection;
+	GError *error = NULL;
+
+	g_return_if_fail (E_IS_EDITOR_PAGE (editor_page));
+
+	if (!editor_page->priv->web_extension)
+		return;
+
+	connection = e_editor_web_extension_get_connection (editor_page->priv->web_extension);
+	if (!connection)
+		return;
+
+	g_dbus_connection_emit_signal (
+		connection,
+		NULL,
+		E_WEBKIT_EDITOR_WEB_EXTENSION_OBJECT_PATH,
+		E_WEBKIT_EDITOR_WEB_EXTENSION_INTERFACE,
+		"UserChangedDefaultColors",
+		g_variant_new ("(b)", suppress_color_changes),
+		&error);
+
+	if (error) {
+		g_warning ("%s: Failed to emit signal: %s", G_STRFUNC, error->message);
+		g_error_free (error);
+	}
+}
