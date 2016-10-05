@@ -949,6 +949,49 @@ e_dialogs_dom_page_save_history (EEditorPage *editor_page)
 	}
 }
 
+static gboolean
+user_changed_content (EEditorHistoryEvent *event)
+{
+	WebKitDOMElement *original, *current;
+	gchar *original_value, *current_value;
+	gboolean changed = TRUE;
+
+	original = WEBKIT_DOM_ELEMENT (event->data.dom.from);
+	current = WEBKIT_DOM_ELEMENT (event->data.dom.to);
+
+	original_value = webkit_dom_element_get_attribute (original, "bgcolor");
+	current_value = webkit_dom_element_get_attribute (current, "bgcolor");
+	changed = g_strcmp0 (original_value, current_value) != 0;
+	g_free (original_value);
+	g_free (current_value);
+	if (changed)
+		return TRUE;
+
+	original_value = webkit_dom_element_get_attribute (original, "text");
+	current_value = webkit_dom_element_get_attribute (current, "text");
+	changed = g_strcmp0 (original_value, current_value) != 0;
+	g_free (original_value);
+	g_free (current_value);
+	if (changed)
+		return TRUE;
+
+	original_value = webkit_dom_element_get_attribute (original, "link");
+	current_value = webkit_dom_element_get_attribute (current, "link");
+	changed = g_strcmp0 (original_value, current_value) != 0;
+	g_free (original_value);
+	g_free (current_value);
+	if (changed)
+		return TRUE;
+
+	original_value = webkit_dom_element_get_attribute (original, "vlink");
+	current_value = webkit_dom_element_get_attribute (current, "vlink");
+	changed = g_strcmp0 (original_value, current_value) != 0;
+	g_free (original_value);
+	g_free (current_value);
+
+	return changed;
+}
+
 void
 e_dialogs_dom_page_save_history_on_exit (EEditorPage *editor_page)
 {
@@ -965,6 +1008,15 @@ e_dialogs_dom_page_save_history_on_exit (EEditorPage *editor_page)
 	ev = e_editor_undo_redo_manager_get_current_history_event (manager);
 	body = webkit_dom_document_get_body (document);
 	ev->data.dom.to = g_object_ref (webkit_dom_node_clone_node_with_error (WEBKIT_DOM_NODE (body), FALSE, NULL));
+
+	/* If user changed any of page colors we have to mark it to send
+	 * the correct colors and to disable the color changes when the
+	 * view i.e. not focused (at it would overwrite these user set colors. */
+	if (user_changed_content (ev)) {
+		webkit_dom_element_set_attribute (
+			WEBKIT_DOM_ELEMENT (body), "data-user-colors", "", NULL);
+		e_editor_page_emit_user_changed_default_colors (editor_page, TRUE);
+	}
 
 	if (!webkit_dom_node_is_equal_node (ev->data.dom.from, ev->data.dom.to)) {
 		e_editor_dom_selection_get_coordinates (editor_page, &ev->after.start.x, &ev->after.start.y, &ev->after.end.x, &ev->after.end.y);

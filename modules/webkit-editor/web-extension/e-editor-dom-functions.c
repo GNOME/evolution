@@ -7983,6 +7983,8 @@ process_content_to_plain_text_changing_composer_mode (EEditorPage *editor_page)
 	webkit_dom_element_remove_attribute (
 		WEBKIT_DOM_ELEMENT (body), "data-user-colors");
 
+	e_editor_page_emit_user_changed_default_colors (editor_page, FALSE);
+
 	webkit_dom_element_set_attribute (
 		WEBKIT_DOM_ELEMENT (body), "data-evo-plain-text", "", NULL);
 
