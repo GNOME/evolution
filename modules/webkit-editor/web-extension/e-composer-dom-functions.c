@@ -122,7 +122,8 @@ move_caret_after_signature_inserted (EEditorPage *editor_page)
 			has_paragraphs_in_body = FALSE;
 
 		/* Don't take the credentials into account. */
-		if (!webkit_dom_node_get_previous_sibling (node))
+		if (!webkit_dom_node_get_previous_sibling (node) &&
+		    !element_has_id (WEBKIT_DOM_ELEMENT (node), "-x-evo-input-start"))
 			has_paragraphs_in_body = FALSE;
 	}
 
