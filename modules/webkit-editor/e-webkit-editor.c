@@ -2362,7 +2362,7 @@ webkit_editor_get_caret_position (EContentEditor *editor)
 		NULL);
 
 	if (result) {
-		ret_val = g_variant_get_uint32 (result);
+		g_variant_get (result, "(u)", &ret_val);
 		g_variant_unref (result);
 	}
 
@@ -2390,7 +2390,7 @@ webkit_editor_get_caret_offset (EContentEditor *editor)
 		NULL);
 
 	if (result) {
-		ret_val = g_variant_get_uint32 (result);
+		g_variant_get (result, "(u)", &ret_val);
 		g_variant_unref (result);
 	}
 
