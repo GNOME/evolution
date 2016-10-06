@@ -186,6 +186,37 @@ close_selected_clicked_cb (GtkWidget *button,
 }
 
 static void
+refresh_selected_clicked_cb (GtkWidget *button,
+			     ESourceSelector *selector)
+{
+	GHashTable *opened_sources;
+	EClient *client;
+	ESource *source;
+	GError *error = NULL;
+
+	opened_sources = g_object_get_data (G_OBJECT (selector), OPENED_KEY);
+	g_return_if_fail (opened_sources != NULL);
+
+	source = e_source_selector_ref_primary_selection (selector);
+	if (source == NULL)
+		return;
+
+	client = g_hash_table_lookup (opened_sources, source);
+	g_object_unref (source);
+
+	g_return_if_fail (client != NULL);
+
+	if (!e_client_refresh_sync (client, NULL, &error)) {
+		g_warning (
+			"Failed to call 'refresh' on '%s': %s",
+			e_source_get_display_name (source),
+			error ? error->message : "Unknown error");
+	}
+
+	g_clear_error (&error);
+}
+
+static void
 flip_busy_clicked_cb (GtkWidget *button,
 		      ESourceSelector *selector)
 {
@@ -235,6 +266,7 @@ create_page (ESourceRegistry *registry,
 		"hexpand", TRUE,
 		"valign", GTK_ALIGN_FILL,
 		"vexpand", TRUE,
+		"min-content-width", 200,
 		NULL);
 
 	selector = e_source_selector_new (registry, extension_name);
@@ -277,6 +309,16 @@ create_page (ESourceRegistry *registry,
 	g_signal_connect (
 		widget, "clicked",
 		G_CALLBACK (close_selected_clicked_cb), selector);
+	g_signal_connect (
+		selector, "primary-selection-changed",
+		G_CALLBACK (enable_widget_if_opened_cb), widget);
+
+	widget = gtk_button_new_with_label ("Refresh selected");
+	gtk_container_add (GTK_CONTAINER (button_box), widget);
+
+	g_signal_connect (
+		widget, "clicked",
+		G_CALLBACK (refresh_selected_clicked_cb), selector);
 	g_signal_connect (
 		selector, "primary-selection-changed",
 		G_CALLBACK (enable_widget_if_opened_cb), widget);
