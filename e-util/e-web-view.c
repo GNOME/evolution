@@ -662,10 +662,19 @@ style_updated_cb (EWebView *web_view)
 
 	if (gtk_style_context_lookup_color (style_context, "theme_base_color", &color))
 		color_value = g_strdup_printf ("#%06x", e_rgba_to_value (&color));
-	else
+	else {
 		color_value = g_strdup (E_UTILS_DEFAULT_THEME_BASE_COLOR);
+		if (!gdk_rgba_parse (&color, color_value)) {
+			color.red = 1.0;
+			color.green = 1.0;
+			color.blue = 1.0;
+			color.alpha = 1.0;
+		}
+	}
 
 	style = g_strconcat ("background-color: ", color_value, ";", NULL);
+
+	webkit_web_view_set_background_color (WEBKIT_WEB_VIEW (web_view), &color);
 
 	e_web_view_add_css_rule_into_style_sheet (
 		web_view,
