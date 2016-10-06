@@ -2204,7 +2204,7 @@ handle_method_call (GDBusConnection *connection,
 
 		g_dbus_method_invocation_return_value (
 			invocation,
-			value ? g_variant_new_uint32 (value) : NULL);
+			g_variant_new ("(u)", value));
 	} else if (g_strcmp0 (method_name, "DOMGetCaretOffset") == 0) {
 		guint32 value;
 
@@ -2218,7 +2218,7 @@ handle_method_call (GDBusConnection *connection,
 
 		g_dbus_method_invocation_return_value (
 			invocation,
-			value ? g_variant_new_uint32 (value) : NULL);
+			g_variant_new ("(u)", value));
 	} else if (g_strcmp0 (method_name, "DOMClearUndoRedoHistory") == 0) {
 		EEditorUndoRedoManager *manager;
 
