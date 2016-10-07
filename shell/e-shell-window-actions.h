@@ -74,6 +74,8 @@
 	E_SHELL_WINDOW_ACTION ((window), "search-save")
 #define E_SHELL_WINDOW_ACTION_SELECT_ALL(window) \
 	E_SHELL_WINDOW_ACTION ((window), "select-all")
+#define E_SHELL_WINDOW_ACTION_SHOW_MENUBAR(window) \
+	E_SHELL_WINDOW_ACTION ((window), "show-menubar")
 #define E_SHELL_WINDOW_ACTION_SHOW_SIDEBAR(window) \
 	E_SHELL_WINDOW_ACTION ((window), "show-sidebar")
 #define E_SHELL_WINDOW_ACTION_SHOW_SWITCHER(window) \

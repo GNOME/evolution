@@ -247,6 +247,77 @@ e_shell_window_private_init (EShellWindow *shell_window)
 }
 
 static gboolean
+delayed_menubar_show_cb (gpointer user_data)
+{
+	EShellWindow *shell_window = user_data;
+
+	g_return_val_if_fail (E_IS_SHELL_WINDOW (shell_window), FALSE);
+
+	shell_window->priv->delayed_menubar_show_id = 0;
+
+	if (!e_shell_window_get_menubar_visible (shell_window)) {
+		GtkWidget *main_menu;
+
+		main_menu = e_shell_window_get_managed_widget (shell_window, "/main-menu");
+
+		gtk_widget_show (main_menu);
+		gtk_widget_grab_focus (main_menu);
+	}
+
+	return FALSE;
+}
+
+static void
+e_shell_window_event_after_cb (EShellWindow *shell_window,
+			       GdkEvent *event)
+{
+	GtkWidget *main_menu;
+
+	g_return_if_fail (event != NULL);
+
+	if (event->type != GDK_KEY_PRESS &&
+	    event->type != GDK_KEY_RELEASE &&
+	    event->type != GDK_BUTTON_RELEASE &&
+	    event->type != GDK_FOCUS_CHANGE)
+		return;
+
+	g_return_if_fail (E_IS_SHELL_WINDOW (shell_window));
+
+	if (e_shell_window_get_menubar_visible (shell_window))
+		return;
+
+	main_menu = e_shell_window_get_managed_widget (shell_window, "/main-menu");
+
+	if (event->type == GDK_KEY_PRESS) {
+		GdkEventKey *key_event;
+
+		key_event = (GdkEventKey *) event;
+
+		if ((key_event->keyval == GDK_KEY_Alt_L || key_event->keyval == GDK_KEY_Alt_R) &&
+		    !(key_event->state & (GDK_SHIFT_MASK | GDK_CONTROL_MASK | GDK_SUPER_MASK | GDK_HYPER_MASK | GDK_META_MASK))) {
+			if (shell_window->priv->delayed_menubar_show_id) {
+				g_source_remove (shell_window->priv->delayed_menubar_show_id);
+				shell_window->priv->delayed_menubar_show_id = 0;
+
+				delayed_menubar_show_cb (shell_window);
+			} else {
+				/* To not flash when using Alt+Tab or similar system-wide shortcuts */
+				shell_window->priv->delayed_menubar_show_id =
+					e_named_timeout_add (250, delayed_menubar_show_cb, shell_window);
+			}
+		}
+	} else if (event->type != GDK_BUTTON_RELEASE || !(event->button.state & GDK_MOD1_MASK)) {
+		if (shell_window->priv->delayed_menubar_show_id) {
+			g_source_remove (shell_window->priv->delayed_menubar_show_id);
+			shell_window->priv->delayed_menubar_show_id = 0;
+		}
+
+		if (gtk_widget_get_visible (main_menu))
+			gtk_widget_hide (main_menu);
+	}
+}
+
+static gboolean
 shell_window_check_is_main_instance (GtkApplication *application,
 				     GtkWindow *window)
 {
@@ -444,6 +515,11 @@ e_shell_window_private_constructed (EShellWindow *shell_window)
 			G_SETTINGS_BIND_DEFAULT);
 
 		g_settings_bind (
+			settings, "menubar-visible",
+			shell_window, "menubar-visible",
+			G_SETTINGS_BIND_DEFAULT);
+
+		g_settings_bind (
 			settings, "sidebar-visible",
 			shell_window, "sidebar-visible",
 			G_SETTINGS_BIND_DEFAULT);
@@ -463,6 +539,12 @@ e_shell_window_private_constructed (EShellWindow *shell_window)
 			shell_window, "toolbar-visible",
 			G_SETTINGS_BIND_DEFAULT);
 	} else {
+		g_settings_bind (
+			settings, "menubar-visible-sub",
+			shell_window, "menubar-visible",
+			G_SETTINGS_BIND_DEFAULT |
+			G_SETTINGS_BIND_GET_NO_CHANGES);
+
 		g_settings_bind (
 			settings, "folder-bar-width-sub",
 			priv->content_pane, "position",
@@ -521,12 +603,20 @@ e_shell_window_private_constructed (EShellWindow *shell_window)
 	gtk_application_add_window (GTK_APPLICATION (shell), window);
 
 	g_object_unref (settings);
+
+	g_signal_connect (shell_window, "event-after",
+		G_CALLBACK (e_shell_window_event_after_cb), NULL);
 }
 
 void
 e_shell_window_private_dispose (EShellWindow *shell_window)
 {
 	EShellWindowPrivate *priv = shell_window->priv;
+
+	if (priv->delayed_menubar_show_id) {
+		g_source_remove (priv->delayed_menubar_show_id);
+		priv->delayed_menubar_show_id = 0;
+	}
 
 	/* Need to disconnect handlers before we unref the shell. */
 	if (priv->signal_handler_ids != NULL) {

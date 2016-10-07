@@ -43,6 +43,7 @@
       </menu>
       <menu action='window-menu'/>
       <menu action='layout-menu'>
+        <menuitem action='show-menubar'/>
         <menuitem action='show-toolbar'/>
         <menuitem action='show-taskbar'/>
         <menuitem action='show-sidebar'/>

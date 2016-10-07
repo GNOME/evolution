@@ -115,6 +115,11 @@ void		e_shell_window_set_safe_mode	(EShellWindow *shell_window,
 						 gboolean safe_mode);
 void		e_shell_window_add_action_group (EShellWindow *shell_window,
 						 const gchar *group_name);
+gboolean	e_shell_window_get_menubar_visible
+						(EShellWindow *shell_window);
+void		e_shell_window_set_menubar_visible
+						(EShellWindow *shell_window,
+						 gboolean menubar_visible);
 gboolean	e_shell_window_get_sidebar_visible
 						(EShellWindow *shell_window);
 void		e_shell_window_set_sidebar_visible

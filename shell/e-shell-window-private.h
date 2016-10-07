@@ -90,11 +90,14 @@ struct _EShellWindowPrivate {
 
 	guint destroyed        : 1;  /* XXX Do we still need this? */
 	guint safe_mode : 1;
+	guint menubar_visible : 1;
 	guint sidebar_visible : 1;
 	guint switcher_visible : 1;
 	guint taskbar_visible : 1;
 	guint toolbar_visible : 1;
 	guint is_main_instance : 1;
+
+	gulong delayed_menubar_show_id;
 };
 
 void		e_shell_window_private_init	(EShellWindow *shell_window);

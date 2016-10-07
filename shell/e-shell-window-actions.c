@@ -522,6 +522,17 @@ action_search_save_cb (GtkAction *action,
 }
 
 /**
+ * E_SHELL_WINDOW_ACTION_SHOW_MENUBAR:
+ * @window: an #EShellWindow
+ *
+ * This toggle action controls whether the menu bar is visible.
+ *
+ * Main menu item: View -> Layout -> Show Menu Bar
+ *
+ * Since: 3.24
+ **/
+
+/**
  * E_SHELL_WINDOW_ACTION_SHOW_SIDEBAR:
  * @window: an #EShellWindow
  *
@@ -1022,6 +1033,14 @@ static EPopupActionEntry shell_popup_entries[] = {
 
 static GtkToggleActionEntry shell_toggle_entries[] = {
 
+	{ "show-menubar",
+	  NULL,
+	  N_("Show _Menu Bar"),
+	  NULL,
+	  N_("Show the menu bar"),
+	  NULL,
+	  TRUE },
+
 	{ "show-sidebar",
 	  NULL,
 	  N_("Show Side _Bar"),
@@ -1270,6 +1289,12 @@ e_shell_window_actions_init (EShellWindow *shell_window)
 	gtk_action_set_sensitive (ACTION (SEARCH_QUICK), FALSE);
 	gtk_action_set_visible (ACTION (QUICK_REFERENCE),
 		e_shell_utils_is_quick_reference_available (e_shell_window_get_shell (shell_window)));
+
+	e_binding_bind_property (
+		shell_window, "menubar-visible",
+		ACTION (SHOW_MENUBAR), "active",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
 
 	e_binding_bind_property (
 		shell_window, "sidebar-visible",

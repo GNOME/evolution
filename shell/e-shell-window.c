@@ -38,6 +38,7 @@ enum {
 	PROP_GEOMETRY,
 	PROP_SAFE_MODE,
 	PROP_SHELL,
+	PROP_MENUBAR_VISIBLE,
 	PROP_SIDEBAR_VISIBLE,
 	PROP_SWITCHER_VISIBLE,
 	PROP_TASKBAR_VISIBLE,
@@ -322,6 +323,12 @@ shell_window_set_property (GObject *object,
 				g_value_get_object (value));
 			return;
 
+		case PROP_MENUBAR_VISIBLE:
+			e_shell_window_set_menubar_visible (
+				E_SHELL_WINDOW (object),
+				g_value_get_boolean (value));
+			return;
+
 		case PROP_SIDEBAR_VISIBLE:
 			e_shell_window_set_sidebar_visible (
 				E_SHELL_WINDOW (object),
@@ -384,6 +391,12 @@ shell_window_get_property (GObject *object,
 		case PROP_SHELL:
 			g_value_set_object (
 				value, e_shell_window_get_shell (
+				E_SHELL_WINDOW (object)));
+			return;
+
+		case PROP_MENUBAR_VISIBLE:
+			g_value_set_boolean (
+				value, e_shell_window_get_menubar_visible (
 				E_SHELL_WINDOW (object)));
 			return;
 
@@ -507,6 +520,18 @@ shell_window_close_alert (EShellWindow *shell_window)
 	}
 }
 
+static void
+shell_window_menubar_deactivate_cb (GtkWidget *main_menu,
+				    gpointer user_data)
+{
+	EShellWindow *shell_window = user_data;
+
+	g_return_if_fail (E_IS_SHELL_WINDOW (shell_window));
+
+	if (!e_shell_window_get_menubar_visible (shell_window))
+		gtk_widget_hide (main_menu);
+}
+
 static GtkWidget *
 shell_window_construct_menubar (EShellWindow *shell_window)
 {
@@ -514,7 +539,14 @@ shell_window_construct_menubar (EShellWindow *shell_window)
 
 	main_menu = e_shell_window_get_managed_widget (
 		shell_window, "/main-menu");
-	gtk_widget_show (main_menu);
+
+	g_signal_connect (main_menu, "deactivate",
+		G_CALLBACK (shell_window_menubar_deactivate_cb), shell_window);
+
+	e_binding_bind_property (
+		shell_window, "menubar-visible",
+		main_menu, "visible",
+		G_BINDING_SYNC_CREATE);
 
 	e_signal_connect_notify (
 		shell_window, "notify::active-view",
@@ -991,6 +1023,24 @@ e_shell_window_class_init (EShellWindowClass *class)
 			E_TYPE_SHELL,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY |
+			G_PARAM_STATIC_STRINGS));
+
+	/**
+	 * EShellWindow:menubar-visible
+	 *
+	 * Whether the shell window's menu bar is visible.
+	 *
+	 * Since: 3.24
+	 **/
+	g_object_class_install_property (
+		object_class,
+		PROP_MENUBAR_VISIBLE,
+		g_param_spec_boolean (
+			"menubar-visible",
+			"Menubar Visible",
+			"Whether the shell window's menu bar is visible",
+			TRUE,
+			G_PARAM_READWRITE |
 			G_PARAM_STATIC_STRINGS));
 
 	/**
@@ -1562,6 +1612,47 @@ e_shell_window_add_action_group (EShellWindow *shell_window,
 	gtk_action_group_set_translation_domain (action_group, domain);
 	gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
 	g_object_unref (action_group);
+}
+
+/**
+ * e_shell_window_get_menubar_visible:
+ * @shell_window: an #EShellWindow
+ *
+ * Returns %TRUE if @shell_window<!-- -->'s menu bar is visible.
+ *
+ * Returns: %TRUE is the menu bar is visible
+ *
+ * Since: 3.24
+ **/
+gboolean
+e_shell_window_get_menubar_visible (EShellWindow *shell_window)
+{
+	g_return_val_if_fail (E_IS_SHELL_WINDOW (shell_window), FALSE);
+
+	return shell_window->priv->menubar_visible;
+}
+
+/**
+ * e_shell_window_set_menubar_visible:
+ * @shell_window: an #EShellWindow
+ * @menubar_visible: whether the menu bar should be visible
+ *
+ * Makes @shell_window<!-- -->'s menu bar visible or invisible.
+ *
+ * Since: 3.24
+ **/
+void
+e_shell_window_set_menubar_visible (EShellWindow *shell_window,
+				    gboolean menubar_visible)
+{
+	g_return_if_fail (E_IS_SHELL_WINDOW (shell_window));
+
+	if (shell_window->priv->menubar_visible == menubar_visible)
+		return;
+
+	shell_window->priv->menubar_visible = menubar_visible;
+
+	g_object_notify (G_OBJECT (shell_window), "menubar-visible");
 }
 
 /**

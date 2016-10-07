@@ -60,6 +60,16 @@
       <_summary>Window button style</_summary>
       <_description>The style of the window buttons.  Can be "text", "icons", "both", "toolbar".  If "toolbar" is set, the style of the buttons is determined by the GNOME toolbar setting.</_description>
     </key>
+    <key name="menubar-visible" type="b">
+      <default>true</default>
+      <_summary>Menubar is visible</_summary>
+      <_description>Whether the menubar should be visible.</_description>
+    </key>
+    <key name="menubar-visible-sub" type="b">
+      <default>true</default>
+      <_summary>Menubar is visible</_summary>
+      <_description>Whether the menubar should be visible.</_description>
+    </key>
     <key name="toolbar-visible" type="b">
       <default>true</default>
       <_summary>Toolbar is visible</_summary>
