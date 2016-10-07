@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2016-09-29 19:26+0000\n"
-"PO-Revision-Date: 2016-10-07 14:12+0200\n"
+"PO-Revision-Date: 2016-10-07 14:38+0200\n"
 "Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
 "Language-Team: Friulian <fur@li.org>\n"
 "Language: fur\n"
@@ -9603,37 +9603,41 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:116
 msgid "Hides the per-folder preview and removes the selection"
-msgstr ""
+msgstr "Plate la antemprime par-cartele e gjave la selezion"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:117
 msgid ""
 "This key is read only once and reset to \"false\" after read. This unselects "
 "the mail in the list and removes the preview for that folder."
 msgstr ""
+"Cheste clâf e ven lete une volte sole e metude a FALSE daspò la leture. "
+"Chest al gjave la selezion de pueste te liste e al gjave la anteprime di chê "
+"cartele."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:118
 msgid "Height of the message-list pane"
-msgstr ""
+msgstr "Altece dal ricuadri liste messaçs"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:119
 msgid "Height of the message-list pane."
-msgstr ""
+msgstr "Altece dal ricuadri liste messaçs."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:120
 msgid "Whether message headers are collapsed in the user interface"
 msgstr ""
+"Indiche se lis intestazions dai messaçs a son strenzudis te interface utent"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:121
 msgid "Width of the message-list pane"
-msgstr ""
+msgstr "Largjece dal ricuadri liste messaçs"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:122
 msgid "Width of the message-list pane."
-msgstr ""
+msgstr "Largjece dal ricuadri liste messaçs."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:123
 msgid "Layout style"
-msgstr ""
+msgstr "Stîl disposizion"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:124
 msgid ""
@@ -9642,30 +9646,34 @@ msgid ""
 "message list. \"1\" (Vertical View) places the preview pane next to the "
 "message list."
 msgstr ""
+"Il stîl di disposizion al determine dulà plaçâ il ricuadri di anteprime in "
+"relazion ae liste dai messaçs. Cun \"0\" (viodude classiche) si place il "
+"ricuadri di anteprime juste sot de liste dai messaçs, cun \"1\" (viodude "
+"verticâl) si place il ricuadri in bande ae liste."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:125
 msgid "Variable width font"
-msgstr ""
+msgstr "Caratar a largjece variabile"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:126
 msgid "The variable width font for mail display."
-msgstr ""
+msgstr "Il caratar a largjece variabile pe viodude de pueste."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:127
 msgid "Terminal font"
-msgstr ""
+msgstr "Caratar dal terminâl"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:128
 msgid "The terminal font for mail display."
-msgstr ""
+msgstr "Il caratar di terminâl pe viodude de pueste."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:129
 msgid "Use custom fonts"
-msgstr ""
+msgstr "Dopre caratars personalizâts"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:130
 msgid "Use custom fonts for displaying mail."
-msgstr ""
+msgstr "Dopre i caratars personalizâts par mostrâ la pueste."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:131
 msgid "Compress display of addresses in TO/CC/BCC"
@@ -9686,10 +9694,13 @@ msgid ""
 "This sets the number of addresses to show in default message list view, "
 "beyond which a '...' is shown."
 msgstr ""
+"Cheste clâf a stabilìs il numar di direzions di mostrâ te viodude a liste "
+"messaçs predefinide, daspò il cuâl al ven mostrât un \"...\"."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:135
+#, fuzzy
 msgid "Thread the message-list based on Subject"
-msgstr ""
+msgstr "Liste par discussions basadis sul sogjet"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:136
 msgid ""
@@ -10106,11 +10117,11 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:220
 msgid "Save directory"
-msgstr ""
+msgstr "Cartele di salvament"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:221
 msgid "Directory for saving mail component files."
-msgstr ""
+msgstr "Cartele pal salvament dai file di components de pueste."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:222
 msgid "Composer load/attach directory"
@@ -10122,17 +10133,19 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:224
 msgid "Check for new messages on start"
-msgstr ""
+msgstr "Controle gnûfs messaçs al inviament"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:225
 msgid ""
 "Whether to check for new messages when Evolution is started. This includes "
 "also sending messages from Outbox."
 msgstr ""
+"Indiche se controlâ la presince di gnûfs messaçs al inviament di Evolution. "
+"Chest al inclût anche il spedî dai messaçs in \"In jessude\"."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:226
 msgid "Check for new messages in all active accounts"
-msgstr ""
+msgstr "Controle gnûfs messaçs in ducj i account atîfs"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:227
 msgid ""
@@ -10140,16 +10153,22 @@ msgid ""
 "account \"Check for new messages every X minutes\" option when Evolution is "
 "started. This option is used only together with 'send_recv_on_start' option."
 msgstr ""
+"Indiche se controlâ la presince di gnûfs messaçs al inviament di Evolution "
+"in ducj i account cence considerâ la opzion «Controlâ gnûfs messaçs ogni X "
+"minûts» dai singui account. Cheste opzion e je doprade nome in adun cun la "
+"opzion \"send_recv_on_start\"."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:228
 msgid "Server synchronization interval"
-msgstr ""
+msgstr "Interval sincronizazion servidôr"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:229
 msgid ""
 "Controls how frequently local changes are synchronized with the remote mail "
 "server. The interval must be at least 30 seconds."
 msgstr ""
+"Controle trop di frecuent i cambiaments locâi a son sincronizâts cul "
+"servidôr di pueste rimot. L'interval al à di jessi di almancul 30 seconts."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:230
 msgid "Allow expunge in virtual folders"
