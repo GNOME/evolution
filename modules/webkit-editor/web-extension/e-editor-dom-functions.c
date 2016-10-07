@@ -3818,19 +3818,16 @@ e_editor_dom_body_key_up_event_process_backspace_or_delete (EEditorPage *editor_
 	/* If we deleted a selection the caret will be inside the quote marks, fix it. */
 	parent = webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (selection_start_marker));
 	if (element_has_class (WEBKIT_DOM_ELEMENT (parent), "-x-evo-quote-character")) {
+		parent = webkit_dom_node_get_parent_node (parent);
 		webkit_dom_node_insert_before (
-			webkit_dom_node_get_parent_node (
-				webkit_dom_node_get_parent_node (parent)),
+			webkit_dom_node_get_parent_node (parent),
 			WEBKIT_DOM_NODE (selection_end_marker),
-			webkit_dom_node_get_next_sibling (
-				webkit_dom_node_get_parent_node (parent)),
+			webkit_dom_node_get_next_sibling (parent),
 			NULL);
 		webkit_dom_node_insert_before (
-			webkit_dom_node_get_parent_node (
-				webkit_dom_node_get_parent_node (parent)),
+			webkit_dom_node_get_parent_node (parent),
 			WEBKIT_DOM_NODE (selection_start_marker),
-			webkit_dom_node_get_next_sibling (
-				webkit_dom_node_get_parent_node (parent)),
+			webkit_dom_node_get_next_sibling (parent),
 			NULL);
 	}
 
@@ -3861,11 +3858,12 @@ e_editor_dom_body_key_up_event_process_backspace_or_delete (EEditorPage *editor_
 			WEBKIT_DOM_NODE (selection_start_marker));
 		if (WEBKIT_DOM_IS_ELEMENT (prev_sibling) &&
 		    element_has_class (WEBKIT_DOM_ELEMENT (prev_sibling), "-x-evo-quoted") &&
-		    !webkit_dom_node_get_previous_sibling (prev_sibling))
+		    !webkit_dom_node_get_previous_sibling (prev_sibling)) {
 			webkit_dom_node_append_child (
-				parent,
+				webkit_dom_node_get_parent_node (parent),
 				WEBKIT_DOM_NODE (webkit_dom_document_create_element (document, "br", NULL)),
 				NULL);
+		}
 	}
 
 	e_editor_dom_merge_siblings_if_necessary (editor_page, NULL);
