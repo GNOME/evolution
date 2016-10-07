@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2016-09-29 19:26+0000\n"
-"PO-Revision-Date: 2016-10-03 23:38+0200\n"
+"PO-Revision-Date: 2016-10-07 14:12+0200\n"
 "Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
 "Language-Team: Friulian <fur@li.org>\n"
 "Language: fur\n"
@@ -8875,17 +8875,19 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:156
 msgid "(Deprecated) First day of the week, from Sunday (0) to Saturday (6)"
-msgstr ""
+msgstr "(Deplorât) Prin dì de setemane, di domenie (0) a sabide (6)"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:157
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "\"week-start-day-name\" instead."
 msgstr ""
+"Cheste clâf e je stade deplorade inte version 3.10 e no si varès di doprâ "
+"plui. Doprâ invezit \"week-start-day-name\"."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:158
 msgid "(Deprecated) Work days"
-msgstr ""
+msgstr "(Deplorade) Dîs di vore"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:159
 msgid ""
@@ -8893,10 +8895,14 @@ msgid ""
 "was deprecated in version 3.10 and should no longer be used. Use the \"work-"
 "day-monday\", \"work-day-tuesday\", etc. keys instead.)"
 msgstr ""
+"Dîs dulà che si à di indicâ l'inizi e la fin des oris lavorativis. (Cheste "
+"clâf e je sorpassade e deplorade inte version 3.10 e no varès di jessi "
+"doprade plui. Doprâ invezit lis clâfs \"work-day-monday\", \"work-day-tuesday"
+"\" e vie indenant.)"
 
 #: ../data/org.gnome.evolution.gschema.xml.in.h:1
 msgid "Previous Evolution version"
-msgstr ""
+msgstr "Version precedente di Evolution"
 
 #: ../data/org.gnome.evolution.gschema.xml.in.h:2
 msgid ""
@@ -8904,6 +8910,9 @@ msgid ""
 "\". This is used for data and settings migration from older to newer "
 "versions."
 msgstr ""
+"La version doprade plui resinte di Evolution, esprimude come «pluigrant."
+"pluipiçul.micro». Cheste e je doprade pe migrazion dai dâts e des "
+"impostazions des vecjis versions a chês gnovis."
 
 #: ../data/org.gnome.evolution.gschema.xml.in.h:3
 msgid "List of disabled plugins"
@@ -9257,17 +9266,19 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:53
 msgid "Do not add signature delimiter"
-msgstr ""
+msgstr "No zontâ delimitadôr di firme"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:54
 msgid ""
 "Set to TRUE in case you do not want to add signature delimiter before your "
 "signature when composing a mail."
 msgstr ""
+"Met a VÊR tal câs che no si vedi voie di un delimitadôr di firme prime de "
+"firme cuant che si scrîf une e-mail."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:55
 msgid "Ignore list Reply-To:"
-msgstr ""
+msgstr "Ignorâ il \"Rispuint a:\" ae liste"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:56
 msgid ""
@@ -9282,7 +9293,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:57
 msgid "List of localized 'Re'"
-msgstr ""
+msgstr "Liste dal «Re» tradotis"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:58
 msgid ""
@@ -9290,28 +9301,35 @@ msgid ""
 "text when replying to a message, as an addition to the standard \"Re\" "
 "prefix. An example is 'SV,AV'."
 msgstr ""
+"Liste separade di virgule des abreviazions tradotis dal «Re» di saltâ intun "
+"sogjet dal test cuant che si rispuint a un messaç, in zonte al prefìs comun "
+"«Re». Un esempli al è «SV,AV»."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:59
 msgid "Number of characters for wrapping"
-msgstr ""
+msgstr "Numars di caratars par lâ a gnove rie"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:60
 msgid "Will autowrap lines after given number of characters."
-msgstr ""
+msgstr "Al larà a gnove rie dopo il numar di caratars specificâts."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:61
 msgid ""
 "Number of To and CC recipients to ask 'prompt-on-many-to-cc-recips' from"
 msgstr ""
+"Numar di destinataris di A e Cc di domandâ par \"prompt-on-many-to-cc-recips"
+"\""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:62
 msgid ""
 "When to ask, when the number of To and CC recipients reaches this value."
 msgstr ""
+"Cuant domandâ: cuant il numar di destinataris A e Cc al rive al chest valôr."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:63
 msgid "Whether to always show Sign and Encrypt buttons on the toolbar"
 msgstr ""
+"Indiche se mostrâ simpri i botons Firme e Cifre su la sbare dai struments"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:64
 msgid ""
@@ -9319,110 +9337,132 @@ msgid ""
 "always shown in the composer's toolbar. Otherwise they are shown only when "
 "being used."
 msgstr ""
+"Se metude a \"true\", i botons Firme e Cifre sedi par PGP o S/MIME a saran "
+"simpri mostrâts te sbare dai struments dal compositôr. Se no a saran "
+"mostrâts nome cuant che si ju dopre."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:65
 msgid "Wrap quoted text in replies"
-msgstr ""
+msgstr "Justâ lis riis dal test citât tes rispuestis"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:66
 msgid "If set to 'true' quoted text in replies will be wrapped."
 msgstr ""
+"Se metude a \"true\" lis riis dal test citât tes rispuestis a vignaran "
+"justadis."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:67
 msgid "Whether to obey Content-Disposition:inline message header hint"
 msgstr ""
+"Indiche se rispietâ il sugjeriment de intestazion Content-Disposition:inline"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:68
+#, fuzzy
 msgid ""
 "Set to 'false' to block automatic display of attachments with Content-"
 "Disposition: inline."
 msgstr ""
+"Met a 'false' par blocâ la viodude automatiche des zontis cun Content-"
+"Disposition: inline."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:69
 msgid "Save file format for drag-and-drop operation"
 msgstr ""
+"Formât dal file di salvament pes operazions strissine-e-mole (drag-and-drop)"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:70
 msgid "Can be either 'mbox' or 'pdf'."
-msgstr ""
+msgstr "A puedin jessi «mbox» o «pdf»."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:71
 msgid "Show image animations"
-msgstr ""
+msgstr "Mostre lis animazions des imagjins"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:72
 msgid ""
 "Enable animated images in HTML mail. Many users find animated images "
 "annoying and prefer to see a static image instead."
 msgstr ""
+"Abilite lis imagjins animadis inte pueste in HTML. Une vore di utents lis "
+"cjatin fastidiosis e a preferissin viodi une imagjin ferme."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:73
 msgid "Enable or disable type ahead search feature"
-msgstr ""
+msgstr "Abilite o disabilite la funzionalitât di ricercje intant che si scrîf"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:74
 msgid ""
 "Enable the side bar search feature to allow interactive searching of folder "
 "names."
 msgstr ""
+"Abilite la funzion di ricercje tal ricuadri laterâl, permetint di cirî in "
+"maniere interative tai nons des cartelis."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:75
 msgid "Enable or disable magic space bar"
-msgstr ""
+msgstr "Abilite o disabilite la sbare di spazi magjiche"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:76
 msgid ""
 "Enable this to use Space bar key to scroll in message preview, message list "
 "and folders."
 msgstr ""
+"Abilitâ cheste clâf par doprâ il tast sbare di spazi par scori te anteprime "
+"dal messaç, te liste dai messaçs e tes cartelis."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:77
 msgid "Enable to use a similar message list view settings for all folders"
 msgstr ""
+"Abilitâ par doprâ une impostazion di viodude liste messaçs similâr par dutis "
+"lis cartelis"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:78
 msgid "Enable to use a similar message list view settings for all folders."
 msgstr ""
+"Abilitâ par doprâ une impostazion di viodude liste messaçs similâr par dutis "
+"lis cartelis."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:79
 msgid "Mark citations in the message \"Preview\""
-msgstr ""
+msgstr "Segne lis citazions te anteprime dal messaç"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:80
 msgid "Mark citations in the message \"Preview\"."
-msgstr ""
+msgstr "Segne lis citazions te anteprime dal messaç."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:81
 msgid "Citation highlight color"
-msgstr ""
+msgstr "Colôr de citazion"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:82
 msgid "Citation highlight color."
-msgstr ""
+msgstr "Colôr de citazion."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:83
 msgid "Enable/disable caret mode"
-msgstr ""
+msgstr "Abilite/disabilite modalitât a cursôr"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:84
 msgid "Enable caret mode, so that you can see a cursor when reading mail."
 msgstr ""
+"Abilite la modalitât a cursôr, in maniere di mostrâ il cursôr intant che si "
+"lei la pueste."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:85
 msgid "Default charset in which to display messages"
-msgstr ""
+msgstr "Cumbinazion di caratars predefinide par mostrâ i messaçs"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:86
 msgid "Default charset in which to display messages."
-msgstr ""
+msgstr "Cumbinazion di caratars predefinide par mostrâ i messaçs."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:87
 msgid "Automatically load images for HTML messages over HTTP"
-msgstr ""
+msgstr "Cjarie in automatic lis imagjins tai messaçs HTML vie HTTP"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:88
 msgid "Show notification about missing remote content"
-msgstr ""
+msgstr "Mostre une notifiche sul contignût rimot che al mancje"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:89
 msgid ""
@@ -9430,26 +9470,30 @@ msgid ""
 "content, while the download is not allowed for the user or the site, then "
 "show a notification about it on top of the preview panel."
 msgstr ""
+"Cuant il messaç di anteprime al mostre un messaç che al domande di discjariâ "
+"contignûts rimots, ma se il discjariament no è permetût pal utent o pal sît "
+"alore, parsore dal ricuadri di anteprime, e vegnarà mostrade une notifiche "
+"in merit."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:90
 msgid "Show Animations"
-msgstr ""
+msgstr "Mostre animazions"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:91
 msgid "Show animated images as animations."
-msgstr ""
+msgstr "Mostre lis imagjins animadis come animazions."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:92
 msgid "Show all message headers"
-msgstr ""
+msgstr "Mostre dutis lis intestazions dal messaç"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:93
 msgid "Show all the headers when viewing a messages."
-msgstr ""
+msgstr "Mostre dutis lis intestazions cuant che al ven mostrât un messaç."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:94
 msgid "List of headers to show when viewing a message."
-msgstr ""
+msgstr "Liste des intestazions di mostrâ cuant che si mostre un messaç."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:95
 msgid ""
@@ -9457,48 +9501,56 @@ msgid ""
 "indicating whether the header is enabled. Disabled headers are not shown "
 "when viewing a message, but are still listed in Preferences."
 msgstr ""
+"Ogni intestazion e je rapresentade come cubie: il non de intestazion e un "
+"valôr boolean che al indiche se la intestazion e je abilitade. Lis "
+"intestazions disabilitadis no vegnin mostradis cuant che si mostre un "
+"messaç, ma a son ancjemò listadis tes preferencis."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:96
 msgid "Show photo of the sender"
-msgstr ""
+msgstr "Mostre la foto dal mitent"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:97
 msgid "Show the photo of the sender in the message reading pane."
-msgstr ""
+msgstr "Mostre la foto dal mitent tal ricuadri di leture dal messaç."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:98
 msgid "Search gravatar.com for photo of the sender"
-msgstr ""
+msgstr "Cîr su gravatar.com pe foto dal mitent"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:99
 msgid "Allow searching also at gravatar.com for photo of the sender."
-msgstr ""
+msgstr "Permeti di cirî ancje su gravatar.com pe foto dal mitent."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:100
 msgid "Mark as Seen after specified timeout"
-msgstr ""
+msgstr "Segne come let dopo un timp specificât"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:101
 msgid "Mark as Seen after specified timeout."
-msgstr ""
+msgstr "Segne come let dopo un timp specificât."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:102
 msgid "Mark as Seen always after specified timeout"
-msgstr ""
+msgstr "Segne come let simpri dopo un timp specificât"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:103
 msgid ""
 "If set to true, the selected message will be set as unread after the timeout "
 "also after the folder change."
 msgstr ""
+"Se metude a vêr, il messaç selezionât al sarà segnât come no let dopo il "
+"timp specificât e ancje dopo la modifiche de cartele."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:104
+#, fuzzy
 msgid "Timeout for marking messages as seen"
-msgstr ""
+msgstr "Timp daspò il cuâl segnâ i messaçs come lets"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:105
+#, fuzzy
 msgid "Timeout in milliseconds for marking messages as seen."
-msgstr ""
+msgstr "Timp di spiete in miliseconts daspò il cuâl segnâ i messaçs come lets."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:106
 msgid "Show Attachment Bar"
@@ -9512,29 +9564,32 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:108
 msgid "Sender email-address column in the message list"
-msgstr ""
+msgstr "Colone direzion e-mail dal mitent te liste dai messaçs"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:109
 msgid ""
 "Show the email-address of the sender in a separate column in the message "
 "list."
 msgstr ""
+"Mostre la direzion e-mail dal mitent intune colone separade te liste dai "
+"messaçs."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:110
 msgid "Show deleted messages in the message-list"
-msgstr ""
+msgstr "Mostre i messaçs eliminâts te liste messaçs"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:111
 msgid "Show deleted messages (with a strike-through) in the message-list."
-msgstr ""
+msgstr "Mostre i messaçs eliminâts (cuntune rie sore) te liste dai messaçs."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:112
 msgid "Show junk messages in the message-list"
-msgstr ""
+msgstr "Mostre i messaçs malvolûts te liste messaçs"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:113
 msgid "Show junk messages (with a red strike-through) in the message-list."
 msgstr ""
+"Mostre i messaçs malvolûts (cuntune rie rosse sore) te liste dai messaçs."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:114
 msgid "Enable Unmatched search folder"
@@ -10900,21 +10955,21 @@ msgstr "Rispuint a"
 #: ../e-util/e-dateedit.c:575 ../mail/message-list.etspec.h:7
 #: ../modules/mail/em-mailer-prefs.c:68
 msgid "Date"
-msgstr ""
+msgstr "Date"
 
 #: ../em-format/e-mail-part-headers.c:53 ../modules/mail/em-mailer-prefs.c:69
 msgid "Newsgroups"
-msgstr ""
+msgstr "Newsgroup"
 
 #: ../em-format/e-mail-part-headers.c:54 ../modules/mail/em-mailer-prefs.c:70
 #: ../plugins/face/org-gnome-face.eplug.xml.h:1
 msgid "Face"
-msgstr ""
+msgstr "Muse"
 
 #: ../em-format/e-mail-part-secure-button.c:118 ../shell/shell.error.xml.h:28
 #: ../smime/gui/smime-ui.ui.h:22
 msgid "_View Certificate"
-msgstr ""
+msgstr "_Viôt certificât"
 
 #: ../em-format/e-mail-part-secure-button.c:133
 msgid "This certificate is not viewable"
@@ -10942,43 +10997,43 @@ msgstr ""
 #: ../e-util/e-activity.c:258
 #, c-format
 msgid "%s (cancelled)"
-msgstr ""
+msgstr "%s (anulade)"
 
 #. Translators: This is a completed activity.
 #: ../e-util/e-activity.c:261
 #, c-format
 msgid "%s (completed)"
-msgstr ""
+msgstr "%s (completade)"
 
 #. Translators: This is an activity waiting to run.
 #: ../e-util/e-activity.c:264
 #, c-format
 msgid "%s (waiting)"
-msgstr ""
+msgstr "%s (in spiete)"
 
 #. Translators: This is a running activity which
 #. *              the user has requested to cancel.
 #: ../e-util/e-activity.c:268
 #, c-format
 msgid "%s (cancelling)"
-msgstr ""
+msgstr "%s (anulament)"
 
 #: ../e-util/e-activity.c:270
 #, c-format
 msgid "%s"
-msgstr ""
+msgstr "%s"
 
 #. Translators: This is a running activity whose percent complete is known.
 #: ../e-util/e-activity.c:275
 #: ../modules/calendar/e-cal-base-shell-content.c:144
 #, c-format
 msgid "%s (%d%% complete)"
-msgstr ""
+msgstr "%s (%d%% completade)"
 
 #: ../e-util/e-activity-proxy.c:352
 #: ../modules/mail/e-mail-shell-view-actions.c:1923
 msgid "Cancel"
-msgstr ""
+msgstr "Anule"
 
 #. Translators: Escape is a keyboard binding.
 #: ../e-util/e-alert-bar.c:124
@@ -11045,17 +11100,17 @@ msgstr ""
 
 #: ../e-util/e-attachment-dialog.c:339 ../e-util/e-import-assistant.c:278
 msgid "F_ilename:"
-msgstr ""
+msgstr "Non _file:"
 
 #: ../e-util/e-attachment-dialog.c:356
 #: ../e-util/e-html-editor-image-dialog.c:510
 #: ../e-util/e-html-editor-link-dialog.c:243
 msgid "_Description:"
-msgstr ""
+msgstr "_Descrizion:"
 
 #: ../e-util/e-attachment-dialog.c:374
 msgid "MIME Type:"
-msgstr ""
+msgstr "Gjenar MIME:"
 
 #: ../e-util/e-attachment-dialog.c:382 ../e-util/e-attachment-store.c:696
 msgid "_Suggest automatic display of attachment"
@@ -11072,12 +11127,12 @@ msgstr ""
 #: ../e-util/e-attachment-icon-view.c:170
 #: ../e-util/e-attachment-tree-view.c:170
 msgid "Loading"
-msgstr ""
+msgstr "Daûr a cjariâ"
 
 #: ../e-util/e-attachment-icon-view.c:182
 #: ../e-util/e-attachment-tree-view.c:182
 msgid "Saving"
-msgstr ""
+msgstr "Daûr a salvâ"
 
 #: ../e-util/e-attachment-paned.c:107
 msgid "Hide Attachment _Bar"
