@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2016-09-29 19:26+0000\n"
-"PO-Revision-Date: 2016-10-07 14:38+0200\n"
+"PO-Revision-Date: 2016-10-08 12:02+0200\n"
 "Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
 "Language-Team: Friulian <fur@li.org>\n"
 "Language: fur\n"
@@ -9780,56 +9780,61 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:151
 msgid "Default forward style"
-msgstr ""
+msgstr "Stîl par mandâ indenant predefinît"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:152
 msgid "Default reply style"
-msgstr ""
+msgstr "Stîl predefinît de rispueste"
 
+# ctrl+enter e in furlan?
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:153
 msgid "Prompt on send when using key accelerator (Ctrl+Enter)"
-msgstr ""
+msgstr "Visâ cuant che si invie doprant la scurte di tastiere (Ctrl+Enter)"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:154
 msgid ""
 "Prompt the user when he or she tries to send a message with a key "
 "accelerator."
 msgstr ""
+"Visâ l'utent cuant che si cîr di inviâ un messaç cuntune scurte di tastiere."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:155
 msgid "Prompt on empty subject"
-msgstr ""
+msgstr "Visâ cuant che l'ogjet al è vueit"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:156
 msgid ""
 "Prompt the user when he or she tries to send a message without a Subject."
-msgstr ""
+msgstr "Visâ l'utent cuant che si cîr di inviâ un messaç cence ogjet."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:157
 msgid "Prompt when emptying the trash"
-msgstr ""
+msgstr "Visâ cuant che si disvuede la scovacere"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:158
 msgid "Prompt the user when he or she tries to empty the trash."
-msgstr ""
+msgstr "Visâ l'utent cuant che si cîr di disvuedâ la scovacere."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:159
 msgid "Prompt when user expunges"
-msgstr ""
+msgstr "Visâ l'utent cuant che al elimine alc"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:160
 msgid "Prompt the user when he or she tries to expunge a folder."
-msgstr ""
+msgstr "Visâ l'utent cuant che si cîr di netâ une cartele."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:161
 msgid "Prompt before sending to recipients not entered as mail addresses"
 msgstr ""
+"Visâ prime di inviâ a destinataris no inserîts come direzions di pueste"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:162
 msgid ""
 "It disables/enables the repeated prompts to warn that you are trying to send "
 "a message to recipients not entered as mail addresses"
 msgstr ""
+"Abilite/disabilite il visâ ripetût plui voltis che si cîr di inviâ un messaç "
+"a destinataris no inserîts come direzions di pueste"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:163
 msgid "Prompt when user only fills Bcc"
@@ -9841,35 +9846,39 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:165
 msgid "Prompt when user tries to send unwanted HTML"
-msgstr ""
+msgstr "Visâ cuant che l'utent al cîr di inviâ HTML malvolût"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:166
 msgid ""
 "Prompt when user tries to send HTML mail to recipients that may not want to "
 "receive HTML mail."
 msgstr ""
+"Vise cuant che l'utent al cîr di inviâ pueste in HTML a destinataris che "
+"podaressin no volêle ricevi."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:167
 msgid "Prompt when user tries to open 10 or more messages at once"
-msgstr ""
+msgstr "Vise l'utent cuant che al cîr di vierzi 10 o plui messaçs adun"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:168
 msgid ""
 "If a user tries to open 10 or more messages at one time, ask the user if "
 "they really want to do it."
 msgstr ""
+"Se un utent al cîr di vierzi 10 o plui messaç intune volte, domande se si è "
+"sigûrs di ce che si sta fasint."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:169
 msgid "Prompt while marking multiple messages"
-msgstr ""
+msgstr "Visâ cuant che si segnin plui messaçs"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:170
 msgid "Enable or disable the prompt whilst marking multiple messages."
-msgstr ""
+msgstr "Abilite o disabilte il visâ cuant che plui messaçs a vegnin segnâts."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:171
 msgid "Prompt when deleting messages in search folder"
-msgstr ""
+msgstr "Visâ cuant che si eliminin messaçs in cartelis di ricercje"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:172
 msgid ""
@@ -9877,10 +9886,14 @@ msgid ""
 "a search folder permanently deletes the message, not simply removing it from "
 "the search results."
 msgstr ""
+"Al abilite o disabilite il visâ ripetût cuant che, eliminant messaçs di une "
+"cartele di ricercje, si elimine par simpri il messaç, invezit di gjavâlu dai "
+"risultâts de ricercje."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:173
 msgid "Asks whether to copy a folder by drag &amp; drop in the folder tree"
 msgstr ""
+"Domande se copiâ une cartele cul strissine-e-mole tal arbul des cartelis"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:174
 msgid ""
@@ -9889,6 +9902,10 @@ msgid ""
 "folders in folder tree without asking, or 'ask' - (or any other value) will "
 "ask user."
 msgstr ""
+"I valôrs pussibii a son: \"never\" - nol permet di copiâ cul strissine-e-"
+"mole, \"always\" - al permet di copiâ cul strissine-e-mole lis cartelis tal "
+"arbul des cartelis cence domandâ, opûr \"ask\" - ( o cualsisei altri valôr) "
+"par domandâ al utent."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:175
 msgid "Asks whether to move a folder by drag &amp; drop in the folder tree"
