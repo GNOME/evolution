@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2016-09-29 19:26+0000\n"
-"PO-Revision-Date: 2016-10-08 12:02+0200\n"
+"PO-Revision-Date: 2016-10-09 23:04+0200\n"
 "Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
 "Language-Team: Friulian <fur@li.org>\n"
 "Language: fur\n"
@@ -9141,13 +9141,15 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:33
 msgid "Show \"Bcc\" field when sending a mail message"
-msgstr ""
+msgstr "Mostre il cjamp \"Ccp\" cuant che si invie un messaç di pueste"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:34
 msgid ""
 "Show the \"Bcc\" field when sending a mail message. This is controlled from "
 "the View menu when a mail account is chosen."
 msgstr ""
+"Mostre il cjamp \"Ccp\" cuant che si invie un messaç di pueste. Chest al è "
+"controlât dal menù Viodude cuant che al ven sielt un account di pueste."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:35
 msgid "Show \"Cc\" field when sending a mail message"
@@ -9357,7 +9359,6 @@ msgstr ""
 "Indiche se rispietâ il sugjeriment de intestazion Content-Disposition:inline"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:68
-#, fuzzy
 msgid ""
 "Set to 'false' to block automatic display of attachments with Content-"
 "Disposition: inline."
@@ -9543,24 +9544,24 @@ msgstr ""
 "timp specificât e ancje dopo la modifiche de cartele."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:104
-#, fuzzy
 msgid "Timeout for marking messages as seen"
 msgstr "Timp daspò il cuâl segnâ i messaçs come lets"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:105
-#, fuzzy
 msgid "Timeout in milliseconds for marking messages as seen."
 msgstr "Timp di spiete in miliseconts daspò il cuâl segnâ i messaçs come lets."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:106
 msgid "Show Attachment Bar"
-msgstr ""
+msgstr "Mostre sbare zontis"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:107
 msgid ""
 "Show Attachment Bar below the message preview pane when the message has "
 "attachments."
 msgstr ""
+"Mostre la sbare des zontis sot dal ricuadri di anteprime dal messaç cuant "
+"che il messaç al à zontis."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:108
 msgid "Sender email-address column in the message list"
@@ -9677,17 +9678,19 @@ msgstr "Dopre i caratars personalizâts par mostrâ la pueste."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:131
 msgid "Compress display of addresses in TO/CC/BCC"
-msgstr ""
+msgstr "Strenç la viodude des direzions in A/CC/CCP"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:132
 msgid ""
 "Compress display of addresses in TO/CC/BCC to the number specified in "
 "address_count."
 msgstr ""
+"Strenç la viodude des direzions in A/CC/CCP al numar specificât te clâf "
+"address_count."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:133
 msgid "Number of addresses to display in TO/CC/BCC"
-msgstr ""
+msgstr "Numar di direzions di mostrâ in A/CC/CCP"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:134
 msgid ""
@@ -9741,7 +9744,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:143
 msgid "Sort accounts alphabetically in a folder tree"
-msgstr ""
+msgstr "Ordene i account in maniere alfabetiche intun arbul di cartelis"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:144
 msgid ""
@@ -9750,6 +9753,10 @@ msgid ""
 "Computer and Search folders, otherwise accounts are sorted based on an order "
 "given by a user"
 msgstr ""
+"Indiche ce mût ordenâ i account intun arbul di cartelis doprât intune "
+"viodude Pueste. Se metût a VÊR i account a vegnin ordenâts in mût alfabetic "
+"cun la ecezion des cartelis Ricercje e Su chest computer. In câs contrari i "
+"account a vegnin ordenâts secont un criteri indicât dal utent"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:145
 msgid "Log filter actions"
@@ -9769,7 +9776,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:149
 msgid "Flush Outbox after filtering"
-msgstr ""
+msgstr "Disvuede la cartele \"In jessude\" dopo il filtrament"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:150
 msgid ""
@@ -9777,6 +9784,10 @@ msgid ""
 "only when there was used any 'Forward to' filter action and approximately "
 "one minute after the last action invocation."
 msgstr ""
+"Indiche se disvuedâ la cartele \"In jessude\" dopo vê fat il filtrament. "
+"Chest al sucedarà dome cuant che e je stade doprade cualsisei azion di "
+"filtri \"Mande indenant a\" e pressapôc un minût dopo la ultime invocazion "
+"de azion."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:151
 msgid "Default forward style"
@@ -9838,11 +9849,12 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:163
 msgid "Prompt when user only fills Bcc"
-msgstr ""
+msgstr "Visâ l'utent cuant che si compile dome il cjamp Ccp"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:164
 msgid "Prompt when user tries to send a message with no To or Cc recipients."
 msgstr ""
+"Visâ cuant che l'utent al cîr di inviâ un messaç cence destinataris A: o CC:."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:165
 msgid "Prompt when user tries to send unwanted HTML"
@@ -9910,6 +9922,7 @@ msgstr ""
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:175
 msgid "Asks whether to move a folder by drag &amp; drop in the folder tree"
 msgstr ""
+"Domande se spostâ une cartele cul strissine-e-mole tal arbul des cartelis"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:176
 msgid ""
@@ -9918,20 +9931,26 @@ msgid ""
 "folders in folder tree without asking, or 'ask' - (or any other value) will "
 "ask user."
 msgstr ""
+"I valôrs pussibii a son: \"never\" - nol permet di spostâ cul strissine-e-"
+"mole lis cartelis tal arbul des cartelis, \"always\" - al permet di spostâ "
+"cul strissine-e-mole lis cartelis tal arbul des cartelis cence domandâ, opûr "
+"\"ask\" - ( o cualsisei altri valôr) par domandâ al utent."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:177
 msgid "Prompt when replying privately to list messages"
-msgstr ""
+msgstr "Visâ cuant che si rispuint in maniere privade ai messaçs di liste"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:178
 msgid ""
 "It disables/enables the repeated prompts to warn that you are sending a "
 "private reply to a message which arrived via a mailing list."
 msgstr ""
+"Al disabilite/abilite il visâ ripetût che si sta inviant une rispueste "
+"privade a un messaç rivât vie mailing list."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:179
 msgid "Prompt when mailing list hijacks private replies"
-msgstr ""
+msgstr "Visâ cuant che la mailing list e disvie lis rispuestis privadis"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:180
 msgid ""
@@ -9939,38 +9958,50 @@ msgid ""
 "a private reply to a message which arrived via a mailing list, but the list "
 "sets a Reply-To: header which redirects your reply back to the list"
 msgstr ""
+"Al disabilite/abilite il visâ ripetût che si sta cirint di inviâ une "
+"rispueste privade a un messaç che al è rivât vie mailing list, ma la liste e "
+"à stabilît la intestazion \"Rispuint a:\" che e torne a mandâ lis rispuestis "
+"ae stesse liste"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:181
 msgid "Prompt when replying to many recipients"
-msgstr ""
+msgstr "Visâ cuant che si rispuint a plui destinataris"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:182
 msgid ""
 "It disables/enables the repeated prompts to warn that you are sending a "
 "reply to many people."
 msgstr ""
+"Al disabilite/abilite il visâ ripetût che si sta inviant une rispueste a "
+"plui personis."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:183
 msgid ""
 "Prompt when switching composer mode and the content needs to lose its "
 "formatting"
 msgstr ""
+"Visâ cuant che si cambie la modalitât dal compositôr e il contignût al à "
+"dibisugne di pierdi la sô formatazion"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:184
 msgid ""
 "It disables/enables the repeated prompts to warn that you are switching "
 "composer mode and the content needs to lose its formatting."
 msgstr ""
+"Al disabilite/abilite il visâ ripetût che si stâ cambiant la modalitât dal "
+"compositôr e il contignût al scugne pierdi la sô formatazion."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:185
 msgid "Prompt when sending to many To and CC recipients"
-msgstr ""
+msgstr "Visâ cuant che si invie a plui destinataris A e Cc"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:186
 msgid ""
 "Enable or disable the prompt when sending to many To and CC recipients. The "
 "'composer-many-to-cc-recips-num' defines the threshold."
 msgstr ""
+"Abilite o disabilite il visâ cuant che si invie a plui destinataris A e CC. "
+"Il valôr \"composer-many-to-cc-recips-num\" al definìs il liminâr."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:187
 msgid ""
@@ -24414,151 +24445,155 @@ msgstr ""
 
 #: ../smime/gui/smime-ui.ui.h:16
 msgid "Authorities"
-msgstr ""
+msgstr "Autoritâts"
 
 #: ../smime/gui/smime-ui.ui.h:17
 msgid "Certificate Authority Trust"
-msgstr ""
+msgstr "Fiducie de autoritât di certificazion"
 
 #: ../smime/gui/smime-ui.ui.h:18
 msgid "Trust this CA to identify _websites."
-msgstr ""
+msgstr "Fiditi di cheste AC par identificâ i sîts _web."
 
 #: ../smime/gui/smime-ui.ui.h:19
 msgid "Trust this CA to identify _email users."
-msgstr ""
+msgstr "Fiditi di cheste AC par identificâ i utents _e-mail."
 
 #: ../smime/gui/smime-ui.ui.h:20
 msgid "Trust this CA to identify _software developers."
-msgstr ""
+msgstr "Fiditi di cheste AC par identificâ i svilupadôrs _software."
 
 #: ../smime/gui/smime-ui.ui.h:21
 msgid ""
 "Before trusting this CA for any purpose, you should examine its certificate "
 "and its policy and procedures (if available)."
 msgstr ""
+"Prime di fidâsi di cheste AC par cualsisei finalitât, al è il câs di esaminâ "
+"il so certificât e lis sôs politichis e proceduris (se disponibilis)."
 
 #: ../smime/gui/smime-ui.ui.h:25
 msgid "C_ertificate:"
-msgstr ""
+msgstr "C_ertificât:"
 
 #: ../smime/gui/smime-ui.ui.h:26
 msgid "Email Certificate Trust Settings"
-msgstr ""
+msgstr "Impostazions de fiducie te autoritât di certificazion e-mail"
 
 #: ../smime/gui/smime-ui.ui.h:27
 msgid "Trust the authenticity of this certificate"
-msgstr ""
+msgstr "Fiditi de autenticitât di chest certificât"
 
 #: ../smime/gui/smime-ui.ui.h:28
 msgid "Do not trust the authenticity of this certificate"
-msgstr ""
+msgstr "No stâ fidâti de autenticitât di chest certificât"
 
 #: ../smime/gui/smime-ui.ui.h:29
 msgid "_Edit CA Trust"
-msgstr ""
+msgstr "_Modifiche la fiducie te AC"
 
 #: ../smime/lib/e-cert.c:236 ../smime/lib/e-cert.c:248
 msgid "%d/%m/%Y"
-msgstr ""
+msgstr "%e/%m/%Y"
 
 #. x509 certificate usage types
 #: ../smime/lib/e-cert.c:404
 msgid "Sign"
-msgstr ""
+msgstr "Firme"
 
 #: ../smime/lib/e-cert.c:405
 msgid "Encrypt"
-msgstr ""
+msgstr "Cifre"
 
 #: ../smime/lib/e-cert-db.c:787
 msgid "Certificate already exists"
-msgstr ""
+msgstr "Il certificât al esist za"
 
 #: ../smime/lib/e-pkcs12.c:201
 msgid "PKCS12 File Password"
-msgstr ""
+msgstr "Password dal file PKCS12"
 
 #: ../smime/lib/e-pkcs12.c:202
 msgid "Enter password for PKCS12 file:"
-msgstr ""
+msgstr "Inserî la password pal file PKCS12:"
 
 #: ../smime/lib/e-pkcs12.c:328
 #, c-format
 msgid "Unable to create export context, err_code: %i"
-msgstr ""
+msgstr "Impussibil creâ il contest di esportazion, codiç di erôr: %i"
 
 #: ../smime/lib/e-pkcs12.c:335
 #, c-format
 msgid "Unable to setup password integrity, err_code: %i"
-msgstr ""
+msgstr "Impussibil configurâ la integritât de password, codiç di erôr: %i"
 
 #: ../smime/lib/e-pkcs12.c:345
 #, c-format
 msgid "Unable to create safe bag, err_code: %i"
-msgstr ""
+msgstr "Impussibil creâ il sachet di sigurece, codiç di erôr: %i"
 
 #: ../smime/lib/e-pkcs12.c:363
 #, c-format
 msgid "Unable to add key/cert to the store, err_code: %i"
-msgstr ""
+msgstr "Impussibil zontâ clâf/certificât al salvament, codiç di erôr: %i"
 
 #: ../smime/lib/e-pkcs12.c:381
 #, c-format
 msgid "Unable to write store to disk, err_code: %i"
-msgstr ""
+msgstr "Impussibil scrivi il salvament sul disc, codiç di erôr: %i"
 
 #: ../smime/lib/e-pkcs12.c:408
 msgid "Imported Certificate"
-msgstr ""
+msgstr "Certificât impuartât"
 
+# o recapit
 #: ../views/addressbook/galview.xml.h:1
+#, fuzzy
 msgid "_Address Cards"
-msgstr ""
+msgstr "_Tessaris direzion"
 
 #: ../views/addressbook/galview.xml.h:2 ../views/calendar/galview.xml.h:5
 msgid "_List View"
-msgstr ""
+msgstr "Viodude _liste"
 
 #: ../views/addressbook/galview.xml.h:3
 msgid "By _Company"
-msgstr ""
+msgstr "Par so_cietât"
 
 #: ../views/calendar/galview.xml.h:1
 msgid "_Day View"
-msgstr ""
+msgstr "Viodude _zornaliere"
 
 #: ../views/calendar/galview.xml.h:2
 msgid "_Work Week View"
-msgstr ""
+msgstr "Viodude _setemane lavorative"
 
 #: ../views/calendar/galview.xml.h:3
 msgid "W_eek View"
-msgstr ""
+msgstr "Viodude s_etemanâl"
 
 #: ../views/calendar/galview.xml.h:4
 msgid "_Month View"
-msgstr ""
+msgstr "Viodude _mensîl"
 
 #: ../views/mail/galview.xml.h:1
 msgid "_Messages"
-msgstr ""
+msgstr "_Messaçs"
 
 #: ../views/mail/galview.xml.h:2
 msgid "As _Sent Folder"
-msgstr ""
+msgstr "Come cartele in_viâts"
 
 #: ../views/mail/galview.xml.h:3
 msgid "By Su_bject"
-msgstr ""
+msgstr "Par _ogjet"
 
 #: ../views/mail/galview.xml.h:4
 msgid "By Se_nder"
-msgstr ""
+msgstr "Par mite_nt"
 
 #: ../views/mail/galview.xml.h:5
 msgid "By S_tatus"
-msgstr ""
+msgstr "Par s_tât"
 
 #: ../views/mail/galview.xml.h:6
 msgid "By _Follow Up Flag"
