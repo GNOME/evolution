@@ -15,9 +15,7 @@
  *
  */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
+#include "evolution-config.h"
 
 #include "e-mail-formatter-text-highlight.h"
 #include "languages.h"

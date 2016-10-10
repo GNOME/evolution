@@ -1,26 +1,25 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * This program is free software; you can redistribute it and/or modify it
+ * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
+ *
+ * This library is free software: you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation.
  *
- * This program is distributed in the hope that it will be useful, but
+ * This library is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
- * or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License
  * for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with this program; if not, see <http://www.gnu.org/licenses/>.
+ * along with this library. If not, see <http://www.gnu.org/licenses/>.
  *
- *
- * Authors:
- *		Jeffrey Stedfast <fejj@ximian.com>
- *
- * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
- *
+ * Authors: Jeffrey Stedfast <fejj@ximian.com>
  */
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <iconv.h>
 
 enum {
@@ -88,8 +87,37 @@ static CharInfo iso10646_tests[] = {
 
 static int num_iso10646_tests = sizeof (iso10646_tests) / sizeof (CharInfo);
 
+static int
+test_iconv (void)
+{
+	char *jp = "\x1B\x24\x42\x46\x7C\x4B\x5C\x38\x6C";
+	char *utf8 = "\xE6\x97\xA5\xE6\x9C\xAC\xE8\xAA\x9E";
+	char *transbuf = malloc (10), *trans = transbuf;
+	iconv_t cd;
+	size_t jp_len = strlen (jp), utf8_len = 10;
+	size_t utf8_real_len = strlen (utf8);
 
-int main (int argc, char **argv)
+	cd = iconv_open ("UTF-8", "ISO-2022-JP");
+	if (cd == (iconv_t) -1)
+		return 0;
+
+	if (iconv (cd, &jp, &jp_len, &trans, &utf8_len) == -1 || jp_len != 0) {
+		iconv_close (cd);
+		return 0;
+	}
+	if (memcmp (utf8, transbuf, utf8_real_len) != 0) {
+		iconv_close (cd);
+		return 0;
+	}
+
+	iconv_close (cd);
+
+	return 1;
+}
+
+int
+main (int argc,
+      char **argv)
 {
 	unsigned int iso8859, iso2022, iso10646;
 	CharInfo *info;
@@ -97,9 +125,12 @@ int main (int argc, char **argv)
 	FILE *fp;
 	int i;
 
+	if (!test_iconv ())
+		return 1;
+
 	fp = fopen ("iconv-detect.h", "w");
 	if (fp == NULL)
-		exit (255);
+		return 255;
 
 	fprintf (fp, "/* This is an auto-generated header, DO NOT EDIT! */\n\n");
 
@@ -120,9 +151,6 @@ int main (int argc, char **argv)
 	if (iso8859 == ISO_UNSUPPORTED) {
 		fprintf (stderr, "System doesn't support any ISO-8859-1 formats\n");
 		fprintf (fp, "#define ICONV_ISO_D_FORMAT \"%s\"\n", info[0].format);
-#ifdef CONFIGURE_IN
-		exit (1);
-#endif
 	} else {
 		fprintf (fp, "#define ICONV_ISO_D_FORMAT \"%s\"\n", info[i].format);
 	}
@@ -144,9 +172,6 @@ int main (int argc, char **argv)
 	if (iso2022 == ISO_UNSUPPORTED) {
 		fprintf (stderr, "System doesn't support any ISO-2022 formats\n");
 		fprintf (fp, "#define ICONV_ISO_S_FORMAT \"%s\"\n", info[0].format);
-#ifdef CONFIGURE_IN
-		exit (3);
-#endif
 	} else {
 		fprintf (fp, "#define ICONV_ISO_S_FORMAT \"%s\"\n", info[i].format);
 	}
@@ -172,14 +197,11 @@ int main (int argc, char **argv)
 	if (iso10646 == ISO_UNSUPPORTED) {
 		fprintf (stderr, "System doesn't support any ISO-10646-1 formats\n");
 		fprintf (fp, "#define ICONV_10646 \"%s\"\n", info[0].charset);
-#ifdef CONFIGURE_IN
-		exit (2);
-#endif
 	} else {
 		fprintf (fp, "#define ICONV_10646 \"%s\"\n", info[i].charset);
 	}
 
 	fclose (fp);
 
-	exit (0);
+	return 0;
 }

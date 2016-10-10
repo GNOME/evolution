@@ -14,9 +14,8 @@
  * along with this program; if not, see <http://www.gnu.org/licenses/>.
  *
  */
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
+
+#include "evolution-config.h"
 
 #include <glib/gi18n-lib.h>
 

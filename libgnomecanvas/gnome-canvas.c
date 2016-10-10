@@ -74,9 +74,7 @@
  * - Add more image loading techniques to work around imlib deficiencies.
  */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
+#include "evolution-config.h"
 
 #include <math.h>
 #include <string.h>

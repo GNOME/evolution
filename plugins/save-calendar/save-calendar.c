@@ -22,9 +22,7 @@
 /* This is prototype code only, this may, or may not, use undocumented
  * unstable or private internal function calls. */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
+#include "evolution-config.h"
 
 #include <string.h>
 #include <glib/gi18n.h>

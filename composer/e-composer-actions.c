@@ -15,9 +15,7 @@
  * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
  */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
+#include "evolution-config.h"
 
 #include "e-composer-actions.h"
 #include "e-composer-private.h"
@@ -691,7 +689,7 @@ e_composer_actions_init (EMsgComposer *composer)
 		e_html_editor_get_action (editor, "picture-gallery"), "sensitive",
 		G_BINDING_SYNC_CREATE);
 
-#if defined (HAVE_NSS)
+#if defined (ENABLE_SMIME)
 	visible = TRUE;
 #else
 	visible = FALSE;

@@ -21,21 +21,21 @@
 #ifndef E_HTML_EDITOR_PRIVATE_H
 #define E_HTML_EDITOR_PRIVATE_H
 
-#include <e-action-combo-box.h>
-#include <e-color-combo.h>
-#include <e-html-editor.h>
-#include <e-html-editor-actions.h>
-#include <e-html-editor-cell-dialog.h>
-#include <e-html-editor-find-dialog.h>
-#include <e-html-editor-hrule-dialog.h>
-#include <e-html-editor-image-dialog.h>
-#include <e-html-editor-link-dialog.h>
-#include <e-html-editor-page-dialog.h>
-#include <e-html-editor-paragraph-dialog.h>
-#include <e-html-editor-replace-dialog.h>
-#include <e-html-editor-spell-check-dialog.h>
-#include <e-html-editor-table-dialog.h>
-#include <e-html-editor-text-dialog.h>
+#include <e-util/e-action-combo-box.h>
+#include <e-util/e-color-combo.h>
+#include <e-util/e-html-editor.h>
+#include <e-util/e-html-editor-actions.h>
+#include <e-util/e-html-editor-cell-dialog.h>
+#include <e-util/e-html-editor-find-dialog.h>
+#include <e-util/e-html-editor-hrule-dialog.h>
+#include <e-util/e-html-editor-image-dialog.h>
+#include <e-util/e-html-editor-link-dialog.h>
+#include <e-util/e-html-editor-page-dialog.h>
+#include <e-util/e-html-editor-paragraph-dialog.h>
+#include <e-util/e-html-editor-replace-dialog.h>
+#include <e-util/e-html-editor-spell-check-dialog.h>
+#include <e-util/e-html-editor-table-dialog.h>
+#include <e-util/e-html-editor-text-dialog.h>
 
 #ifdef HAVE_XFREE
 #include <X11/XF86keysym.h>

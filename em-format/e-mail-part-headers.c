@@ -15,12 +15,12 @@
  *
  */
 
-#include "e-mail-part-headers.h"
+#include "evolution-config.h"
 
-#include <config.h>
 #include <glib/gi18n-lib.h>
 
 #include "e-mail-part-list.h"
+#include "e-mail-part-headers.h"
 
 #define E_MAIL_PART_HEADERS_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \

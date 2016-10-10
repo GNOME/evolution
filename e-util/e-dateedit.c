@@ -22,9 +22,7 @@
  * time field with popups for entering a date.
  */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
+#include "evolution-config.h"
 
 #include "e-dateedit.h"
 

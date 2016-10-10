@@ -15,10 +15,11 @@
  *
  */
 
-#include "e-mail-account-tree-view.h"
+#include "evolution-config.h"
 
-#include <config.h>
 #include <glib/gi18n-lib.h>
+
+#include "e-mail-account-tree-view.h"
 
 #define E_MAIL_ACCOUNT_TREE_VIEW_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \

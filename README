@@ -65,8 +65,8 @@ dependencies should be compiled in the order they are listed here):
           Many distributions ship these as Mozilla development
           packages.
 
-Other dependencies are claimed during the ./configure phase. If these are
-optional, also a parameter for the ./configure to not use that dependency
+Other dependencies are claimed during the configure phase. If these are
+optional, also a parameter for the CMake configure to not use that dependency
 is shown.
 
 CONFIGURING EVOLUTION
@@ -117,30 +117,33 @@ following things:
                   <servicedir>/opt/evolution/share/dbus-1/services</servicedir>
                 </busconfig>
 
-        * Pass an appropriate --prefix parameter to the configure
+        * Pass an appropriate CMAKE_INSTALL_PREFIX parameter to the configure
           scripts of Evolution and its dependencies, eg:
 
-                ./configure --prefix=/opt/evolution
+                cd ..../sources/evolution
+                mkdir build
+                cd build
+                cmake -G "Unix Makefiles" \
+                      -DCMAKE_INSTALL_PREFIX=/opt/evolution \
+                      -DCMAKE_BUILD_TYPE=Release \
+                      ..
 
-More information on how to use the configure script is available in
-the INSTALL file which is part of the Evolution tarball.
-
+        * Run `cmake --help` to get list of available generators (the -G argument)
+          on your platform.
 
 OPTIONAL FEATURES
 -----------------
 
 Some optional features can be enabled at compilation time by passing
-appropriate flags to the configure script. You can get list of all
-of the configure option by running:
-
-                ./configure --help
+appropriate flags to the CMake. These options are shown at the end
+of the successful configure phase.
 
 BUILDING EVOLUTION
 ------------------
 
 After the Evolution is properly configured, run:
 
-                make
-                make install
+                make -j
+                make -j install
 
 to build it.

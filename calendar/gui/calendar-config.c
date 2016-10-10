@@ -24,9 +24,7 @@
  * calendar-config.c - functions to load/save/get/set user settings.
  */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
+#include "evolution-config.h"
 
 #include <time.h>
 #include <string.h>

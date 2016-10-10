@@ -1,15 +1,14 @@
-prefix=@prefix@
-exec_prefix=@exec_prefix@
-libdir=@libdir@
-libexecdir=@libexecdir@
-includedir=@includedir@
-datarootdir=@datarootdir@
-datadir=@datadir@
+prefix=@CMAKE_INSTALL_PREFIX@
+libdir=@LIB_INSTALL_DIR@
+libexecdir=@LIBEXEC_INSTALL_DIR@
+includedir=@INCLUDE_INSTALL_DIR@
+datarootdir=@SHARE_INSTALL_DIR@
+datadir=@SHARE_INSTALL_DIR@
 
 privlibdir=@privsolibdir@
 privlibexecdir=@privlibexecdir@
 privincludedir=@privincludedir@
-errordir=@privdatadir@/errors
+errordir=@errordir@
 moduledir=@moduledir@
 imagesdir=@imagesdir@
 
@@ -17,8 +16,8 @@ execversion=@BASE_VERSION@
 
 Name: evolution-shell
 Description: libraries needed for Evolution shell components
-Version: @VERSION@
+Version: @PROJECT_VERSION@
 Requires: gtk+-3.0 libebackend-1.2 libedataserver-1.2 libedataserverui-1.2 webkit2gtk-4.0
-Requires.private: @GNOME_DESKTOP_DEPENDENCY@
-Libs: -L${privlibdir} -levolution-shell -levolution-util -Wl,-R${privlibdir}
+@shell_private_requirements@
+Libs: -L${privlibdir} -levolution-shell -levolution-util
 Cflags: -I${privincludedir}

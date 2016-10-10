@@ -11,12 +11,13 @@
  *	Dan Vratil <dvratil@redhat.com>
  */
 
-#include "e-port-entry.h"
+#include "evolution-config.h"
 
-#include <config.h>
 #include <errno.h>
 #include <stddef.h>
 #include <string.h>
+
+#include "e-port-entry.h"
 
 #define E_PORT_ENTRY_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \

@@ -21,9 +21,8 @@
  *
  */
 
-#include "message-list.h"
+#include "evolution-config.h"
 
-#include <config.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
@@ -57,6 +56,8 @@
 #define gmtime_r(tp,tmp) (gmtime(tp)?(*(tmp)=*gmtime(tp),(tmp)):0)
 #define localtime_r(tp,tmp) (localtime(tp)?(*(tmp)=*localtime(tp),(tmp)):0)
 #endif
+
+#include "message-list.h"
 
 #define d(x)
 #define t(x)

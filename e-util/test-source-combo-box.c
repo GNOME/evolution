@@ -18,7 +18,8 @@
  * Author: Ettore Perazzoli <ettore@ximian.com>
  */
 
-#include <config.h>
+#include "evolution-config.h"
+
 #include <gtk/gtk.h>
 
 #include <e-util/e-util.h>

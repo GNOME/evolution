@@ -15,10 +15,11 @@
  *
  */
 
-#include "e-mail-signature-script-dialog.h"
+#include "evolution-config.h"
 
-#include <config.h>
 #include <glib/gi18n-lib.h>
+
+#include "e-mail-signature-script-dialog.h"
 
 #define E_MAIL_SIGNATURE_SCRIPT_DIALOG_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \

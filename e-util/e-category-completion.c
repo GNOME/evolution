@@ -14,11 +14,7 @@
  * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
  */
 
-#include "e-category-completion.h"
-
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
+#include "evolution-config.h"
 
 #include <string.h>
 #include <glib/gi18n-lib.h>
@@ -26,6 +22,7 @@
 #include <libedataserver/libedataserver.h>
 
 #include "e-misc-utils.h"
+#include "e-category-completion.h"
 
 #define E_CATEGORY_COMPLETION_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \

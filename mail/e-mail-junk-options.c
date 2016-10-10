@@ -15,10 +15,11 @@
  *
  */
 
-#include "e-mail-junk-options.h"
+#include "evolution-config.h"
 
-#include <config.h>
 #include <glib/gi18n-lib.h>
+
+#include "e-mail-junk-options.h"
 
 #define E_MAIL_JUNK_OPTIONS_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \

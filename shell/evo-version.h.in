@@ -22,8 +22,8 @@
  * If a need arises to make this header public, expand the
  * API to mimic libedataserver/eds-version.h. */
 
-#define EVO_MAJOR_VERSION @EVO_MAJOR_VERSION@
-#define EVO_MINOR_VERSION @EVO_MINOR_VERSION@
-#define EVO_MICRO_VERSION @EVO_MICRO_VERSION@
+#define EVO_MAJOR_VERSION @PROJECT_VERSION_MAJOR@
+#define EVO_MINOR_VERSION @PROJECT_VERSION_MINOR@
+#define EVO_MICRO_VERSION @PROJECT_VERSION_PATCH@
 
 #endif /* EVO_VERSION_H */

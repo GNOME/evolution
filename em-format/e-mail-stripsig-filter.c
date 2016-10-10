@@ -20,9 +20,7 @@
  *
  */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
+#include "evolution-config.h"
 
 #include <stdio.h>
 #include <string.h>
@@ -155,7 +153,7 @@ e_mail_stripsig_filter_init (EMailStripSigFilter *filter)
 /**
  * e_mail_stripsig_filter_new:
  * @text_plain_only: Whether should look for a text/plain signature
- * delimiter "-- \n" only or also an HTML signature delimiter "-- <BR>".
+ * delimiter "-- \n" only or also an HTML signature delimiter "-- &lt;BR&gt;".
  *
  * Creates a new stripsig filter.
  *

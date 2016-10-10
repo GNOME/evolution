@@ -15,13 +15,14 @@
  *
  */
 
-#include "e-interval-chooser.h"
+#include "evolution-config.h"
 
-#include <config.h>
 #include <glib/gi18n-lib.h>
 
 #include "e-util-enums.h"
 #include "e-misc-utils.h"
+
+#include "e-interval-chooser.h"
 
 #define E_INTERVAL_CHOOSER_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \

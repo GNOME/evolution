@@ -24,9 +24,7 @@
  *     to someday move account management completely out of the mailer,
  *     perhaps to evolution-data-server. */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
+#include "evolution-config.h"
 
 #include "em-account-prefs.h"
 #include "e-mail-shell-backend.h"

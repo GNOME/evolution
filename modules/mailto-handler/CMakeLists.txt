@@ -1,0 +1,19 @@
+set(extra_deps
+	evolution-shell
+)
+set(sources
+	evolution-mailto-handler.c
+)
+set(extra_defines)
+set(extra_cflags)
+set(extra_incdirs)
+set(extra_ldflags)
+
+add_evolution_module(module-mailto-handler
+	sources
+	extra_deps
+	extra_defines
+	extra_cflags
+	extra_incdirs
+	extra_ldflags
+)

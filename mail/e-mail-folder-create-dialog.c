@@ -15,13 +15,14 @@
  *
  */
 
-#include "e-mail-folder-create-dialog.h"
+#include "evolution-config.h"
 
-#include <config.h>
 #include <glib/gi18n-lib.h>
 
 #include "em-vfolder-editor-rule.h"
 #include "mail-vfolder-ui.h"
+
+#include "e-mail-folder-create-dialog.h"
 
 #define E_MAIL_FOLDER_CREATE_DIALOG_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \

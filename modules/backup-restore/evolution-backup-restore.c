@@ -15,7 +15,8 @@
  *
  */
 
-#include <config.h>
+#include "evolution-config.h"
+
 #include <unistd.h>
 #include <sys/types.h>
 #ifdef HAVE_SYS_WAIT_H

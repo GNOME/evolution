@@ -43,7 +43,7 @@ e_mail_parser_extension_init (EMailParserExtension *extension)
  * @out_mail_parts: a #GQueue to deposit #EMailPart instances
  *
  * A virtual function reimplemented in all mail parser extensions. The function
- * decodes and parses the @mime_part, appending one or more #EMailPart<!-//>s
+ * decodes and parses the @mime_part, appending one or more #EMailPart<!-- -->s
  * to the @out_mail_parts queue.
  *
  * When the function is unable to parse the @mime_part (either because it's
@@ -62,7 +62,7 @@ e_mail_parser_extension_init (EMailParserExtension *extension)
  * Implementation of this function must be thread-safe.
  *
  * Returns: %TRUE if the @mime_part was handled (even if no
- *          #EMailPart<!-//>s were added to @out_mail_parts), or
+ *          #EMailPart<!-- -->s were added to @out_mail_parts), or
  *          %FALSE if the @mime_part was not handled
  */
 gboolean

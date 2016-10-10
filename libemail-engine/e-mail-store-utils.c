@@ -15,9 +15,7 @@
  *
  */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
+#include "evolution-config.h"
 
 #include "e-mail-folder-utils.h"
 #include "e-mail-utils.h"

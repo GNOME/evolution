@@ -23,9 +23,7 @@
  * test-dateedit - tests the EDateEdit widget.
  */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
+#include "evolution-config.h"
 
 #include <gtk/gtk.h>
 #include "e-dateedit.h"

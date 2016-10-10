@@ -15,12 +15,13 @@
  *
  */
 
-#include "e-mail-print-config-headers.h"
+#include "evolution-config.h"
 
-#include <config.h>
 #include <glib/gi18n-lib.h>
 
 #include <em-format/e-mail-formatter-print.h>
+
+#include "e-mail-print-config-headers.h"
 
 #define E_MAIL_PRINT_CONFIG_HEADERS_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \

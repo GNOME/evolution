@@ -24,15 +24,13 @@
  * @include: shell/e-shell-taskbar.h
  **/
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
+#include "evolution-config.h"
 
 #include "e-shell-taskbar.h"
 
 #include <libebackend/libebackend.h>
 
-#include <e-shell-view.h>
+#include "e-shell-view.h"
 
 #define E_SHELL_TASKBAR_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \

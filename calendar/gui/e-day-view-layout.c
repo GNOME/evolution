@@ -25,9 +25,7 @@
  * used for printing.
  */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
+#include "evolution-config.h"
 
 #include "e-day-view-layout.h"
 

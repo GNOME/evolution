@@ -19,11 +19,8 @@
  * Author: Hans Petter Jansson <hpj@novell.com>
  */
 
-#ifdef GTK_DISABLE_DEPRECATED
-#undef GTK_DISABLE_DEPRECATED
-#endif
+#include "evolution-config.h"
 
-#include <config.h>
 #include <string.h>
 #include <gdk/gdkkeysyms.h>
 #include <glib/gi18n-lib.h>

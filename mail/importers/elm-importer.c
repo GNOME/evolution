@@ -20,7 +20,8 @@
  *
  */
 
-#include <config.h>
+#include "evolution-config.h"
+
 #include <stdio.h>
 #include <errno.h>
 #include <sys/types.h>

@@ -15,15 +15,16 @@
  *
  */
 
-#include "e-mail-config-page.h"
+#include "evolution-config.h"
 
-#include <config.h>
 #include <glib/gi18n-lib.h>
 
 #include <libedataserver/libedataserver.h>
 
 #include <e-util/e-marshal.h>
 #include <e-util/e-util.h>
+
+#include "e-mail-config-page.h"
 
 enum {
 	CHANGED,

@@ -61,14 +61,15 @@
  * Recording my thoughts here for posterity. -- mbarnes
  */
 
-#include "e-mail-autoconfig.h"
+#include "evolution-config.h"
 
-#include <config.h>
 #include <string.h>
 #include <glib/gi18n-lib.h>
 
 /* For error codes. */
 #include <libsoup/soup.h>
+
+#include "e-mail-autoconfig.h"
 
 #define E_MAIL_AUTOCONFIG_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \

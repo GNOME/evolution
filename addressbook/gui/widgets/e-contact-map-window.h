@@ -20,7 +20,7 @@
 #ifndef E_CONTACT_MAP_WINDOW_H
 #define E_CONTACT_MAP_WINDOW_H
 
-#ifdef WITH_CONTACT_MAPS
+#ifdef ENABLE_CONTACT_MAPS
 
 #include <gtk/gtk.h>
 
@@ -75,6 +75,6 @@ void		e_contact_map_window_load_addressbook
 
 G_END_DECLS
 
-#endif /* WITH_CONTACT_MAPS */
+#endif /* ENABLE_CONTACT_MAPS */
 
 #endif /* E_CONTACT_MAP_WINDOW_H */

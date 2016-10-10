@@ -20,10 +20,11 @@
  *
  */
 
-#include "e-file-utils.h"
+#include "evolution-config.h"
 
-#include <config.h>
 #include <glib/gi18n-lib.h>
+
+#include "e-file-utils.h"
 
 typedef struct _AsyncContext AsyncContext;
 

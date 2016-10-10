@@ -25,9 +25,7 @@
  * edit the text.
  */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
+#include "evolution-config.h"
 
 #include "e-week-view-event-item.h"
 

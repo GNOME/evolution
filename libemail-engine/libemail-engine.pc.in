@@ -1,16 +1,15 @@
-prefix=@prefix@
-exec_prefix=@exec_prefix@
-libdir=@libdir@
-includedir=@includedir@
-datarootdir=@datarootdir@
-datadir=@datadir@
+prefix=@CMAKE_INSTALL_PREFIX@
+libdir=@LIB_INSTALL_DIR@
+includedir=@INCLUDE_INSTALL_DIR@
+datarootdir=@SHARE_INSTALL_DIR@
+datadir=@SHARE_INSTALL_DIR@
 
 privlibdir=@privsolibdir@
 privincludedir=@privincludedir@
 
 Name: libemail-engine
 Description: Client library for evolution mail
-Version: @VERSION@
+Version: @PROJECT_VERSION@
 Requires: gtk+-3.0 camel-1.2 libedataserver-1.2 libebackend-1.2 gio-2.0
 Libs: -L${privlibdir} -lemail-engine
 Cflags: -I${privincludedir}

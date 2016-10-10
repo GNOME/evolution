@@ -20,9 +20,8 @@
  *
  */
 
-#include "em-vfolder-editor-rule.h"
+#include "evolution-config.h"
 
-#include <config.h>
 #include <string.h>
 
 #include <gtk/gtk.h>
@@ -37,6 +36,8 @@
 #include "em-folder-tree.h"
 #include "em-utils.h"
 #include "em-vfolder-editor-context.h"
+
+#include "em-vfolder-editor-rule.h"
 
 #define EM_VFOLDER_EDITOR_RULE_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \

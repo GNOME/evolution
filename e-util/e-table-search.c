@@ -19,14 +19,14 @@
  *
  */
 
-#include "e-table-search.h"
+#include "evolution-config.h"
 
-#include <config.h>
 #include <string.h>
 
 #include <libedataserver/libedataserver.h>
 
 #include "e-marshal.h"
+#include "e-table-search.h"
 
 #define d(x)
 

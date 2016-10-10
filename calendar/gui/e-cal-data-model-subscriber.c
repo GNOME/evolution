@@ -16,9 +16,7 @@
  * Authors: Milan Crha <mcrha@redhat.com>
  */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
+#include "evolution-config.h"
 
 #include "e-cal-data-model-subscriber.h"
 

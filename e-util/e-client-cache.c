@@ -30,14 +30,15 @@
  * and a new instance is created on the next request.
  **/
 
-#include "e-client-cache.h"
+#include "evolution-config.h"
 
-#include <config.h>
 #include <glib/gi18n-lib.h>
 
 #include <libecal/libecal.h>
 #include <libebook/libebook.h>
 #include <libebackend/libebackend.h>
+
+#include "e-client-cache.h"
 
 #define E_CLIENT_CACHE_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \

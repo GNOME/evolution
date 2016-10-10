@@ -19,9 +19,8 @@
  *
  */
 
-#include "e-mail-paned-view.h"
+#include "evolution-config.h"
 
-#include <config.h>
 #include <glib/gi18n.h>
 
 #include <shell/e-shell-window-actions.h>
@@ -31,6 +30,8 @@
 #include "em-utils.h"
 #include "message-list.h"
 #include "e-mail-reader-utils.h"
+
+#include "e-mail-paned-view.h"
 
 #define E_MAIL_PANED_VIEW_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \

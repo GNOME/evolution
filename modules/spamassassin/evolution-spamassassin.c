@@ -15,7 +15,8 @@
  *
  */
 
-#include <config.h>
+#include "evolution-config.h"
+
 #include <errno.h>
 #include <sys/types.h>
 #include <sys/wait.h>

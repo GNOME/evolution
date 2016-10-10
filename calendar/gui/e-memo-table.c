@@ -25,9 +25,7 @@
  * EMemoTable - displays the ECalComponent objects in a table (an ETable).
  */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
+#include "evolution-config.h"
 
 #include "e-memo-table.h"
 

@@ -17,7 +17,8 @@
 
 /* This code is based on libsexy's SexySpellEntry */
 
-#include <config.h>
+#include "evolution-config.h"
+
 #include <gtk/gtk.h>
 #include <glib/gi18n-lib.h>
 

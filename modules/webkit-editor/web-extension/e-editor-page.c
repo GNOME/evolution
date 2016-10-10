@@ -15,9 +15,7 @@
  * along with this library. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
+#include "evolution-config.h"
 
 #include <glib.h>
 #include <webkit2/webkit-web-extension.h>

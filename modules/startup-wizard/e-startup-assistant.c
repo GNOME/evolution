@@ -15,9 +15,8 @@
  *
  */
 
-#include "e-startup-assistant.h"
+#include "evolution-config.h"
 
-#include <config.h>
 #include <glib/gi18n-lib.h>
 
 #include <e-util/e-util.h>
@@ -26,6 +25,8 @@
 
 #include "e-mail-config-import-page.h"
 #include "e-mail-config-import-progress-page.h"
+
+#include "e-startup-assistant.h"
 
 #define E_STARTUP_ASSISTANT_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \

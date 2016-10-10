@@ -15,12 +15,12 @@
  *
  */
 
-#include "e-alert-bar.h"
+#include "evolution-config.h"
 
-#include <config.h>
 #include <glib/gi18n-lib.h>
 
 #include "e-dialog-widgets.h"
+#include "e-alert-bar.h"
 
 #define E_ALERT_BAR_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \

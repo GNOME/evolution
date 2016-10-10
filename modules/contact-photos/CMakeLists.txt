@@ -1,0 +1,21 @@
+set(extra_deps)
+set(sources
+	evolution-contact-photos.c
+	e-contact-photo-source.c
+	e-contact-photo-source.h
+	e-photo-cache-contact-loader.c
+	e-photo-cache-contact-loader.h
+)
+set(extra_defines)
+set(extra_cflags)
+set(extra_incdirs)
+set(extra_ldflags)
+
+add_evolution_module(module-contact-photos
+	sources
+	extra_deps
+	extra_defines
+	extra_cflags
+	extra_incdirs
+	extra_ldflags
+)

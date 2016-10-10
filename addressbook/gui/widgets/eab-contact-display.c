@@ -19,9 +19,7 @@
  *
  */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
+#include "evolution-config.h"
 
 #include "eab-contact-display.h"
 
@@ -322,7 +320,7 @@ contact_display_link_clicked (EWebView *web_view,
 		link_clicked (web_view, uri);
 }
 
-#ifdef WITH_CONTACT_MAPS
+#ifdef ENABLE_CONTACT_MAPS
 /* XXX Clutter event handling workaround. Clutter-gtk propagates events down
  *     to parent widgets.  In this case it leads to GtkHTML scrolling up and
  *     down while user's trying to zoom in the champlain widget. This
@@ -518,7 +516,7 @@ eab_contact_display_init (EABContactDisplay *display)
 	web_view = E_WEB_VIEW (display);
 	ui_manager = e_web_view_get_ui_manager (web_view);
 
-#ifdef WITH_CONTACT_MAPS
+#ifdef ENABLE_CONTACT_MAPS
 	g_signal_connect (
 		web_view, "create-plugin-widget",
 		G_CALLBACK (contact_display_object_requested), display);

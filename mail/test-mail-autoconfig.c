@@ -15,6 +15,8 @@
  *
  */
 
+#include "evolution-config.h"
+
 #include <stdlib.h>
 #include <libedataserver/libedataserver.h>
 

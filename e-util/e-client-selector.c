@@ -15,9 +15,7 @@
  *
  */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
+#include "evolution-config.h"
 
 /**
  * SECTION: e-client-selector

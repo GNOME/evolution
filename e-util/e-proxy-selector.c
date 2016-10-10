@@ -24,10 +24,11 @@
  * toolbar controls for adding and removing profiles.
  **/
 
-#include "e-proxy-selector.h"
+#include "evolution-config.h"
 
-#include <config.h>
 #include <glib/gi18n-lib.h>
+
+#include "e-proxy-selector.h"
 
 #define E_PROXY_SELECTOR_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \

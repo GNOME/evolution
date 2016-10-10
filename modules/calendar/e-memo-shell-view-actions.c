@@ -18,9 +18,7 @@
  *
  */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
+#include "evolution-config.h"
 
 #include "calendar/gui/e-cal-ops.h"
 #include "calendar/gui/itip-utils.h"

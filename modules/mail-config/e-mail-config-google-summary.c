@@ -15,13 +15,14 @@
  *
  */
 
-#include "e-mail-config-google-summary.h"
+#include "evolution-config.h"
 
-#include <config.h>
 #include <glib/gi18n-lib.h>
 
 #include <libedataserver/libedataserver.h>
 #include <mail/e-mail-config-summary-page.h>
+
+#include "e-mail-config-google-summary.h"
 
 #define E_MAIL_CONFIG_GOOGLE_SUMMARY_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \

@@ -15,15 +15,15 @@
  *
  */
 
-#include "em-subscription-editor.h"
+#include "evolution-config.h"
 
-#include <config.h>
 #include <string.h>
 #include <glib/gi18n-lib.h>
 
 #include <e-util/e-util.h>
 
 #include "em-folder-utils.h"
+#include "em-subscription-editor.h"
 
 #define EM_SUBSCRIPTION_EDITOR_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \

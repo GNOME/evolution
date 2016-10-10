@@ -29,9 +29,7 @@
  * Author: Federico Mena <federico@nuclecu.unam.mx>
  */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
+#include "evolution-config.h"
 
 /* needed for M_PI_2 under 'gcc -ansi -predantic' on GNU/Linux */
 #ifndef _DEFAULT_SOURCE

@@ -19,9 +19,8 @@
  *
  */
 
-#include "em-utils.h"
+#include "evolution-config.h"
 
-#include <config.h>
 #include <stdio.h>
 #include <string.h>
 #include <sys/types.h>
@@ -51,6 +50,8 @@
 #include "em-composer-utils.h"
 #include "em-filter-editor.h"
 #include "em-folder-properties.h"
+
+#include "em-utils.h"
 
 /* How many is too many? */
 /* Used in em_util_ask_open_many() */

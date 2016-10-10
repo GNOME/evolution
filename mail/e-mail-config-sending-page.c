@@ -15,10 +15,11 @@
  *
  */
 
-#include "e-mail-config-sending-page.h"
+#include "evolution-config.h"
 
-#include <config.h>
 #include <glib/gi18n-lib.h>
+
+#include "e-mail-config-sending-page.h"
 
 /* Forward Declarations */
 static void	e_mail_config_sending_page_interface_init

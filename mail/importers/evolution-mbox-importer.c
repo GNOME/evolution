@@ -20,7 +20,8 @@
  *
  */
 
-#include <config.h>
+#include "evolution-config.h"
+
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>

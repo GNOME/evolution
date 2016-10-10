@@ -23,9 +23,7 @@
 
 /* Convert a mail message into a task */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
+#include "evolution-config.h"
 
 #include <stdio.h>
 #include <string.h>

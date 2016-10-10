@@ -15,9 +15,8 @@
  *
  */
 
-#include "e-weekday-chooser.h"
+#include "evolution-config.h"
 
-#include <config.h>
 #include <string.h>
 
 #include <gtk/gtk.h>
@@ -26,6 +25,8 @@
 
 #include <libgnomecanvas/libgnomecanvas.h>
 #include <e-util/e-util.h>
+
+#include "e-weekday-chooser.h"
 
 #define PADDING 2
 

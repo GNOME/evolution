@@ -15,23 +15,24 @@
  *
  */
 
-#include "e-mail-config-security-page.h"
+#include "evolution-config.h"
 
-#include <config.h>
 #include <glib/gi18n-lib.h>
 
 #include <e-util/e-util.h>
 #include <libebackend/libebackend.h>
 
-#if defined (HAVE_NSS)
+#if defined (ENABLE_SMIME)
 #include <smime/gui/e-cert-selector.h>
-#endif /* HAVE_NSS */
+#endif /* ENABLE_SMIME */
 
 #ifdef HAVE_LIBCRYPTUI
 #define LIBCRYPTUI_API_SUBJECT_TO_CHANGE
 #include <libcryptui/cryptui.h>
 #undef LIBCRYPTUI_API_SUBJECT_TO_CHANGE
 #endif /* HAVE_LIBCRYPTUI */
+
+#include "e-mail-config-security-page.h"
 
 #define E_MAIL_CONFIG_SECURITY_PAGE_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -298,9 +299,9 @@ mail_config_security_page_constructed (GObject *object)
 	const gchar *text;
 	gchar *markup;
 
-#if defined (HAVE_NSS)
+#if defined (ENABLE_SMIME)
 	ESourceSMIME *smime_ext;
-#endif /* HAVE_NSS */
+#endif /* ENABLE_SMIME */
 
 	page = E_MAIL_CONFIG_SECURITY_PAGE (object);
 
@@ -315,10 +316,10 @@ mail_config_security_page_constructed (GObject *object)
 	extension_name = E_SOURCE_EXTENSION_OPENPGP;
 	openpgp_ext = e_source_get_extension (source, extension_name);
 
-#if defined (HAVE_NSS)
+#if defined (ENABLE_SMIME)
 	extension_name = E_SOURCE_EXTENSION_SMIME;
 	smime_ext = e_source_get_extension (source, extension_name);
-#endif /* HAVE_NSS */
+#endif /* ENABLE_SMIME */
 
 	gtk_orientable_set_orientation (
 		GTK_ORIENTABLE (page), GTK_ORIENTATION_VERTICAL);
@@ -511,7 +512,7 @@ mail_config_security_page_constructed (GObject *object)
 		G_BINDING_SYNC_CREATE |
 		G_BINDING_BIDIRECTIONAL);
 
-#if defined (HAVE_NSS)
+#if defined (ENABLE_SMIME)
 
 	/*** Security MIME (S/MIME) ***/
 
@@ -720,7 +721,7 @@ mail_config_security_page_constructed (GObject *object)
 		NULL,
 		NULL, (GDestroyNotify) NULL);
 
-#endif /* HAVE_NSS */
+#endif /* ENABLE_SMIME */
 
 	g_object_unref (size_group);
 

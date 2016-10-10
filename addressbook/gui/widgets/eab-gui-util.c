@@ -20,9 +20,7 @@
  *
  */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
+#include "evolution-config.h"
 
 #include <unistd.h>
 #include <fcntl.h>
@@ -693,7 +691,7 @@ get_locales_str (void)
 static gchar *
 country_to_ISO (const gchar *country)
 {
-	FILE *file = fopen (EVOLUTION_RULEDIR "/countrytransl.map", "r");
+	FILE *file = fopen (EVOLUTION_PRIVDATADIR "/countrytransl.map", "r");
 	gchar buffer[100];
 	gint length = 100;
 	gchar **pair;
@@ -803,7 +801,7 @@ get_address_format (AddressFormat address_format,
 
 	error = NULL;
 	key_file = g_key_file_new ();
-	g_key_file_load_from_file (key_file, EVOLUTION_RULEDIR "/address_formats.dat", 0, &error);
+	g_key_file_load_from_file (key_file, EVOLUTION_PRIVDATADIR "/address_formats.dat", 0, &error);
 	if (error != NULL) {
 		g_warning ("%s: Failed to load address_formats.dat file: %s", G_STRFUNC, error->message);
 		if (format)

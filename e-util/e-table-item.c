@@ -25,9 +25,8 @@
  * TODO:
  *   Add a border to the thing, so that focusing works properly.
  */
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
+
+#include "evolution-config.h"
 
 #include "e-table-item.h"
 

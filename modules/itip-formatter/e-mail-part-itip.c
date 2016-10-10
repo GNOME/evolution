@@ -15,9 +15,7 @@
  *
  */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
+#include "evolution-config.h"
 
 #include <string.h>
 #include <e-util/e-util.h>

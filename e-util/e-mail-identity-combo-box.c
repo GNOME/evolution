@@ -26,10 +26,11 @@
  * with #ESource #ESource:uid strings.
  **/
 
-#include "e-mail-identity-combo-box.h"
+#include "evolution-config.h"
 
-#include <config.h>
 #include <glib/gi18n-lib.h>
+
+#include "e-mail-identity-combo-box.h"
 
 #define E_MAIL_IDENTITY_COMBO_BOX_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \

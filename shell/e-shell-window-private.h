@@ -28,13 +28,13 @@
 
 #include <libebackend/libebackend.h>
 
-#include <e-shell.h>
-#include <e-shell-content.h>
-#include <e-shell-view.h>
-#include <e-shell-searchbar.h>
-#include <e-shell-switcher.h>
-#include <e-shell-window-actions.h>
-#include <e-shell-utils.h>
+#include "shell/e-shell.h"
+#include "shell/e-shell-content.h"
+#include "shell/e-shell-view.h"
+#include "shell/e-shell-searchbar.h"
+#include "shell/e-shell-switcher.h"
+#include "shell/e-shell-window-actions.h"
+#include "shell/e-shell-utils.h"
 
 #define E_SHELL_WINDOW_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \

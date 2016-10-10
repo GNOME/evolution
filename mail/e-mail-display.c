@@ -18,9 +18,8 @@
  *
  */
 
-#include "e-mail-display.h"
+#include "evolution-config.h"
 
-#include <config.h>
 #include <glib/gi18n.h>
 #include <glib/gstdio.h>
 
@@ -43,7 +42,9 @@
 #include "em-composer-utils.h"
 #include "em-utils.h"
 
-#include <web-extensions/e-web-extension-names.h>
+#include "web-extensions/e-web-extension-names.h"
+
+#include "e-mail-display.h"
 
 #define d(x)
 

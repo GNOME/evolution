@@ -15,10 +15,11 @@
  *
  */
 
-#include "e-mail-config-import-progress-page.h"
+#include "evolution-config.h"
 
-#include <config.h>
 #include <glib/gi18n-lib.h>
+
+#include "e-mail-config-import-progress-page.h"
 
 #define E_MAIL_CONFIG_IMPORT_PROGRESS_PAGE_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \

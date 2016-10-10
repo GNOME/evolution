@@ -15,9 +15,8 @@
  *
  */
 
-#include "e-web-view.h"
+#include "evolution-config.h"
 
-#include <config.h>
 #include <glib/gi18n-lib.h>
 
 #include <math.h>
@@ -40,7 +39,9 @@
 #include "e-selectable.h"
 #include "e-stock-request.h"
 
-#include <web-extensions/e-web-extension-names.h>
+#include "web-extensions/e-web-extension-names.h"
+
+#include "e-web-view.h"
 
 #define E_WEB_VIEW_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \

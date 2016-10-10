@@ -19,7 +19,7 @@
  *
  */
 
-#include <config.h>
+#include "evolution-config.h"
 
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
@@ -29,7 +29,7 @@
 #include <glib-unix.h>
 #endif
 
-#ifdef WITH_CONTACT_MAPS
+#ifdef ENABLE_CONTACT_MAPS
 #include <clutter-gtk/clutter-gtk.h>
 #endif
 
@@ -290,7 +290,7 @@ option_version_cb (const gchar *option_name,
                    gpointer data,
                    GError **error)
 {
-	g_print ("%s\n", PACKAGE_STRING);
+	g_print ("%s %s%s %s\n", PACKAGE, VERSION, VERSION_SUBSTRING, VERSION_COMMENT);
 
 	exit (0);
 }
@@ -459,7 +459,7 @@ main (gint argc,
 	tzset ();
 
 	/* The contact maps feature uses clutter-gtk. */
-#ifdef WITH_CONTACT_MAPS
+#ifdef ENABLE_CONTACT_MAPS
 	/* XXX This function is declared in gtk-clutter-util.h with an
 	 *     unnecessary G_GNUC_WARN_UNUSED_RESULT attribute.  But we
 	 *     don't need the returned error code because we're checking
@@ -473,7 +473,7 @@ main (gint argc,
 		&argc, &argv,
 		_("- The Evolution PIM and Email Client"),
 		entries, (gchar *) GETTEXT_PACKAGE, &error);
-#endif /* WITH_CONTACT_MAPS */
+#endif /* ENABLE_CONTACT_MAPS */
 
 	if (error != NULL) {
 		g_printerr ("%s\n", error->message);

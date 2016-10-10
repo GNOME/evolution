@@ -32,9 +32,7 @@
  * Port to Pango co-done by Gergõ Érdi <cactus@cactus.rulez.org>
  */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
+#include "evolution-config.h"
 
 #include <math.h>
 #include <string.h>

@@ -1,0 +1,23 @@
+set(extra_deps)
+set(sources
+	evolution-book-config-ldap.c
+)
+set(extra_defines)
+set(extra_cflags
+	${LDAP_CFLAGS}
+)
+set(extra_incdirs
+	${LDAP_INCLUDE_DIRS}
+)
+set(extra_ldflags
+	${LDAP_LIBS}
+)
+
+add_evolution_module(module-book-config-ldap
+	sources
+	extra_deps
+	extra_defines
+	extra_cflags
+	extra_incdirs
+	extra_ldflags
+)

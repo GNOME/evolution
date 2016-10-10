@@ -15,11 +15,7 @@
  *
  */
 
-#include "e-mail-formatter-itip.h"
-
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
+#include "evolution-config.h"
 
 #include <glib/gi18n-lib.h>
 
@@ -30,6 +26,8 @@
 
 #include "itip-view.h"
 #include "e-mail-part-itip.h"
+
+#include "e-mail-formatter-itip.h"
 
 #define d(x)
 

@@ -20,11 +20,7 @@
  *
  */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
-#define G_LOG_DOMAIN "eplugin-readpst"
+#include "evolution-config.h"
 
 #include <sys/types.h>
 #include <sys/stat.h>

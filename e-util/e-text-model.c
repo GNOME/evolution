@@ -21,9 +21,7 @@
 
 #undef  PARANOID_DEBUGGING
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
+#include "evolution-config.h"
 
 #include "e-text-model.h"
 

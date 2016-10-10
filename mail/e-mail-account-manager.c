@@ -15,16 +15,17 @@
  *
  */
 
-#include "e-mail-account-manager.h"
+#include "evolution-config.h"
 
-#include <config.h>
 #include <glib/gi18n-lib.h>
 #include <gdk/gdkkeysyms.h>
 
 #include <e-util/e-util.h>
 #include <libemail-engine/libemail-engine.h>
 
-#include <mail/e-mail-account-tree-view.h>
+#include "e-mail-account-tree-view.h"
+
+#include "e-mail-account-manager.h"
 
 #define E_MAIL_ACCOUNT_MANAGER_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \

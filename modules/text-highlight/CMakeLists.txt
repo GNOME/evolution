@@ -1,0 +1,29 @@
+set(extra_deps
+	evolution-mail
+	evolution-mail-formatter
+	evolution-shell
+)
+set(sources
+	e-mail-display-popup-text-highlight.c
+	e-mail-display-popup-text-highlight.h
+	e-mail-formatter-text-highlight.c
+	e-mail-formatter-text-highlight.h
+	e-mail-parser-text-highlight.c
+	e-mail-parser-text-highlight.h
+	evolution-module-text-highlight.c
+	languages.c
+	languages.h
+)
+set(extra_defines)
+set(extra_cflags)
+set(extra_incdirs)
+set(extra_ldflags)
+
+add_evolution_module(module-text-highlight
+	sources
+	extra_deps
+	extra_defines
+	extra_cflags
+	extra_incdirs
+	extra_ldflags
+)

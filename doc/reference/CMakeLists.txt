@@ -1,0 +1,5 @@
+add_subdirectory(evolution-mail-composer)
+add_subdirectory(evolution-mail-engine)
+add_subdirectory(evolution-mail-formatter)
+add_subdirectory(evolution-shell)
+add_subdirectory(evolution-util)

@@ -1,0 +1,28 @@
+set(extra_deps
+	email-engine
+	evolution-calendar
+	evolution-mail
+	evolution-shell
+)
+set(sources
+	evolution-startup-wizard.c
+	e-startup-assistant.c
+	e-startup-assistant.h
+	e-mail-config-import-page.c
+	e-mail-config-import-page.h
+	e-mail-config-import-progress-page.c
+	e-mail-config-import-progress-page.h
+)
+set(extra_defines)
+set(extra_cflags)
+set(extra_incdirs)
+set(extra_ldflags)
+
+add_evolution_module(module-startup-wizard
+	sources
+	extra_deps
+	extra_defines
+	extra_cflags
+	extra_incdirs
+	extra_ldflags
+)

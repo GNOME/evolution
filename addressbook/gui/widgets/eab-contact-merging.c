@@ -22,9 +22,7 @@
  *
  */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
+#include "evolution-config.h"
 
 #include "eab-contact-merging.h"
 #include "eab-contact-compare.h"

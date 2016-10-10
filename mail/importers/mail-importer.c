@@ -20,10 +20,8 @@
  *
  */
 
-#include "mail-importer.h"
-#include "kmail-libs.h"
+#include "evolution-config.h"
 
-#include <config.h>
 #include <errno.h>
 #include <string.h>
 #include <sys/types.h>
@@ -36,6 +34,9 @@
 
 #include "e-util/e-util-private.h"
 #include "shell/e-shell-backend.h"
+
+#include "mail-importer.h"
+#include "kmail-libs.h"
 
 struct _import_mbox_msg {
 	MailMsg base;

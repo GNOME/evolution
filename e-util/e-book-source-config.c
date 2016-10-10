@@ -15,9 +15,10 @@
  *
  */
 
+#include "evolution-config.h"
+
 #include "e-book-source-config.h"
 
-#include <config.h>
 #include <glib/gi18n-lib.h>
 
 #define E_BOOK_SOURCE_CONFIG_GET_PRIVATE(obj) \

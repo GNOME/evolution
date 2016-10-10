@@ -23,9 +23,7 @@
  *
  */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
+#include "evolution-config.h"
 
 #include "shell/e-shell.h"
 #include "calendar-config.h"

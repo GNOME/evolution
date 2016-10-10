@@ -15,15 +15,16 @@
  *
  */
 
-#include "e-mail-config-window.h"
+#include "evolution-config.h"
 
-#include <config.h>
 #include <glib/gi18n-lib.h>
 
 #include "e-util/e-util.h"
 
-#include "mail/e-mail-config-notebook.h"
-#include "mail/e-mail-config-sidebar.h"
+#include "e-mail-config-notebook.h"
+#include "e-mail-config-sidebar.h"
+
+#include "e-mail-config-window.h"
 
 #define E_MAIL_CONFIG_WINDOW_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \

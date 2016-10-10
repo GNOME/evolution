@@ -21,11 +21,12 @@
  *
  */
 
-#include "autocompletion-config.h"
+#include "evolution-config.h"
 
 #include <glib/gi18n.h>
 
 #include "addressbook/gui/widgets/eab-config.h"
+#include "autocompletion-config.h"
 
 static GtkWidget *
 add_section (GtkWidget *container,

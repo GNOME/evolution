@@ -28,9 +28,7 @@
  * Made re-entrant, converted to eplugin, Michael Zucchi <notzed@ximian.com>
  */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
+#include "evolution-config.h"
 
 #include <errno.h>
 #include <stdio.h>

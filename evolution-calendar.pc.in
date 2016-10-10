@@ -1,17 +1,13 @@
-prefix=@prefix@
-exec_prefix=@exec_prefix@
-libdir=@libdir@
-includedir=@includedir@
+prefix=@CMAKE_INSTALL_PREFIX@
+libdir=@LIB_INSTALL_DIR@
+includedir=@INCLUDE_INSTALL_DIR@
 
 privlibdir=@privsolibdir@
 privincludedir=@privincludedir@
 
-# The requirements list is kind of guesswork at
-# the moment.  Add more requirements as needed.
-
 Name: Evolution Calendar
 Description: Calendar utilities for Evolution
-Version: @VERSION@
-Requires: evolution-shell-3.0
+Version: @PROJECT_VERSION@
+Requires: evolution-shell-@INTERFACE_VERSION@
 Libs: -L${privlibdir} -levolution-calendar
 Cflags: -I${privincludedir}

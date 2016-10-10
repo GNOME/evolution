@@ -19,9 +19,7 @@
  * Authors: Hans Petter Jansson <hpj@novell.com>
  */
 
-#ifdef HAVE_CONFIG_H
-# include <config.h>
-#endif
+#include "evolution-config.h"
 
 #include <string.h>
 #include <gtk/gtk.h>

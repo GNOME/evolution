@@ -18,9 +18,7 @@
 /* These includes are set up for standalone compile. If/when this codebase
  * is integrated into libgnomeui, the includes will need to change. */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
+#include "evolution-config.h"
 
 #include <math.h>
 #include <string.h>

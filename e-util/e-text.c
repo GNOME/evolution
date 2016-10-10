@@ -34,9 +34,8 @@
  * 02110-1301, USA.
  */
 
-#include "e-text.h"
+#include "evolution-config.h"
 
-#include <config.h>
 #include <math.h>
 #include <ctype.h>
 #include <string.h>
@@ -54,6 +53,8 @@
 #include "e-unicode.h"
 #include "e-misc-utils.h"
 #include "gal-a11y-e-text.h"
+
+#include "e-text.h"
 
 G_DEFINE_TYPE (EText, e_text, GNOME_TYPE_CANVAS_ITEM)
 

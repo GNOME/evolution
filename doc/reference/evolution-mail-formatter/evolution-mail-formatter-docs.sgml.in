@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+               "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd"
+[
+  <!ENTITY % local.common.attrib "xmlns:xi  CDATA  #FIXED 'http://www.w3.org/2003/XInclude'">
+]>
+<book id="index">
+  <bookinfo>
+    <title>Evolution Mail Formatter Reference Manual</title>
+    <releaseinfo>
+      The latest version of this documentation can be found on-line at
+      <ulink role="online-location" url="http://developer.gnome.org/evolution-mail-formatter/">http://developer.gnome.org/evolution-mail-formatter/</ulink>.
+    </releaseinfo>
+  </bookinfo>
+
+  <chapter>
+    <title>Mail Parsing and Formatting</title>
+    <xi:include href="xml/e-mail-parser.xml"/>
+    <xi:include href="xml/e-mail-formatter.xml"/>
+    <xi:include href="xml/e-mail-formatter-print.xml"/>
+    <xi:include href="xml/e-mail-formatter-quote.xml"/>
+    <xi:include href="xml/e-mail-part.xml"/>
+    <xi:include href="xml/e-mail-part-list.xml"/>
+    <xi:include href="xml/e-mail-part-attachment.xml"/>
+    <xi:include href="xml/e-mail-part-audio.xml"/>
+    <xi:include href="xml/e-mail-part-headers.xml"/>
+    <xi:include href="xml/e-mail-part-image.xml"/>
+    <xi:include href="xml/e-mail-part-secure-button.xml"/>
+  </chapter>
+
+  <chapter>
+    <title>Extensions</title>
+    <xi:include href="xml/e-mail-extension-registry.xml"/>
+    <xi:include href="xml/e-mail-parser-extension.xml"/>
+    <xi:include href="xml/e-mail-formatter-extension.xml"/>
+  </chapter>
+
+  <chapter>
+    <title>Miscellaneous</title>
+    <xi:include href="xml/e-mail-inline-filter.xml"/>
+    <xi:include href="xml/e-mail-stripsig-filter.xml"/>
+    <xi:include href="xml/e-mail-formatter-enums.xml"/>
+    <xi:include href="xml/e-mail-formatter-utils.xml"/>
+    <xi:include href="xml/e-mail-part-utils.xml"/>
+  </chapter>
+
+  <index id="api-index-full">
+    <title>Index</title>
+    <xi:include href="xml/api-index-full.xml"><xi:fallback /></xi:include>
+  </index>
+
+  <index id="api-index-3.8" role="3.8">
+    <title>Index of new symbols in 3.8</title>
+    <xi:include href="xml/api-index-3.8.xml"><xi:fallback /></xi:include>
+  </index>
+</book>

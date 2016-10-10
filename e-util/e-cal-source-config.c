@@ -15,12 +15,12 @@
  *
  */
 
-#include "e-cal-source-config.h"
+#include "evolution-config.h"
 
-#include <config.h>
 #include <glib/gi18n-lib.h>
 
 #include "e-misc-utils.h"
+#include "e-cal-source-config.h"
 
 #define E_CAL_SOURCE_CONFIG_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \

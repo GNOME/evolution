@@ -15,9 +15,8 @@
  *
  */
 
-#include "e-mail-config-restore-page.h"
+#include "evolution-config.h"
 
-#include <config.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <sys/types.h>
@@ -27,6 +26,8 @@
 #include <glib/gi18n-lib.h>
 
 #include <e-util/e-util.h>
+
+#include "e-mail-config-restore-page.h"
 
 #define E_MAIL_CONFIG_RESTORE_PAGE_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \

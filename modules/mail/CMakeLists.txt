@@ -1,0 +1,48 @@
+set(extra_deps
+	email-engine
+	evolution-mail
+	evolution-mail-composer
+	evolution-mail-formatter
+	evolution-mail-importers
+	evolution-shell
+)
+set(sources
+	evolution-module-mail.c
+	e-mail-attachment-handler.c
+	e-mail-attachment-handler.h
+	e-mail-config-hook.c
+	e-mail-config-hook.h
+	e-mail-event-hook.c
+	e-mail-event-hook.h
+	e-mail-shell-backend.c
+	e-mail-shell-backend.h
+	e-mail-shell-content.c
+	e-mail-shell-content.h
+	e-mail-shell-sidebar.c
+	e-mail-shell-sidebar.h
+	e-mail-shell-view.c
+	e-mail-shell-view.h
+	e-mail-shell-view-actions.c
+	e-mail-shell-view-actions.h
+	e-mail-shell-view-private.c
+	e-mail-shell-view-private.h
+	em-account-prefs.c
+	em-account-prefs.h
+	em-composer-prefs.c
+	em-composer-prefs.h
+	em-mailer-prefs.c
+	em-mailer-prefs.h
+)
+set(extra_defines)
+set(extra_cflags)
+set(extra_incdirs)
+set(extra_ldflags)
+
+add_evolution_module(module-mail
+	sources
+	extra_deps
+	extra_defines
+	extra_cflags
+	extra_incdirs
+	extra_ldflags
+)

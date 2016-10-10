@@ -24,9 +24,7 @@
  * usually by displaying them to the user.
  **/
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
+#include "evolution-config.h"
 
 #include <glib/gi18n-lib.h>
 #include <camel/camel.h>

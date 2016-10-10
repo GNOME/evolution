@@ -19,9 +19,8 @@
  *
  */
 
-#include "em-folder-utils.h"
+#include "evolution-config.h"
 
-#include <config.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -48,6 +47,8 @@
 #include "em-folder-selector.h"
 #include "em-folder-properties.h"
 #include "mail-vfolder-ui.h"
+
+#include "em-folder-utils.h"
 
 #define d(x)
 

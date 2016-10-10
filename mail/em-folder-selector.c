@@ -20,9 +20,8 @@
  *
  */
 
-#include "em-folder-selector.h"
+#include "evolution-config.h"
 
-#include <config.h>
 #include <string.h>
 #include <glib/gi18n-lib.h>
 
@@ -33,6 +32,8 @@
 #include "em-folder-tree.h"
 #include "em-folder-utils.h"
 #include "em-utils.h"
+
+#include "em-folder-selector.h"
 
 #define d(x)
 

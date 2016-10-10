@@ -19,7 +19,8 @@
  * Authors: Hans Petter Jansson <hpj@novell.com>
  */
 
-#include <config.h>
+#include "evolution-config.h"
+
 #include <string.h>
 #include <glib/gi18n-lib.h>
 

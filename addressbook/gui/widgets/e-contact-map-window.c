@@ -17,12 +17,9 @@
  *
  */
 
-#ifdef HAVE_CONFIG_H
-/* This defines WITH_CONTACT_MAPS. */
-#include <config.h>
-#endif
+#include "evolution-config.h"
 
-#ifdef WITH_CONTACT_MAPS
+#ifdef ENABLE_CONTACT_MAPS
 
 #include "e-contact-map-window.h"
 
@@ -505,4 +502,4 @@ e_contact_map_window_load_addressbook (EContactMapWindow *map,
 	g_free (query_string);
 }
 
-#endif /* WITH_CONTACT_MAPS */
+#endif /* ENABLE_CONTACT_MAPS */

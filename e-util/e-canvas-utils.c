@@ -20,11 +20,10 @@
  *
  */
 
-#include "e-canvas-utils.h"
-
-#include <config.h>
+#include "evolution-config.h"
 
 #include <libedataserver/libedataserver.h>
+#include "e-canvas-utils.h"
 
 void
 e_canvas_item_move_absolute (GnomeCanvasItem *item,

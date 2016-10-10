@@ -1,0 +1,29 @@
+set(extra_deps
+	eabutil
+	eabwidgets
+	econtactprint
+	evolution-mail
+	evolution-mail-formatter
+)
+set(sources
+	e-mail-formatter-vcard.c
+	e-mail-formatter-vcard.h
+	e-mail-parser-vcard.c
+	e-mail-parser-vcard.h
+	e-mail-part-vcard.c
+	e-mail-part-vcard.h
+	evolution-module-vcard-inline.c
+)
+set(extra_defines)
+set(extra_cflags)
+set(extra_incdirs)
+set(extra_ldflags)
+
+add_evolution_module(module-vcard-inline
+	sources
+	extra_deps
+	extra_defines
+	extra_cflags
+	extra_incdirs
+	extra_ldflags
+)

@@ -18,9 +18,7 @@
  *
  */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
+#include "evolution-config.h"
 
 #include "e-html-editor-find-dialog.h"
 #include "e-dialog-widgets.h"

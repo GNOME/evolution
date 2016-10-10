@@ -24,9 +24,7 @@
  * @include: shell/e-shell-window.h
  **/
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
+#include "evolution-config.h"
 
 #include "e-shell-window-private.h"
 

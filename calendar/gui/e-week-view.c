@@ -24,9 +24,7 @@
  * EWeekView - displays the Week & Month views of the calendar.
  */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
+#include "evolution-config.h"
 
 #include "e-week-view.h"
 

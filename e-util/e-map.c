@@ -21,9 +21,8 @@
  *
  */
 
-#include "e-map.h"
+#include "evolution-config.h"
 
-#include <config.h>
 #include <math.h>
 #include <stdlib.h>
 
@@ -33,6 +32,8 @@
 #include <libedataserver/libedataserver.h>
 
 #include "e-util-private.h"
+
+#include "e-map.h"
 
 #define E_MAP_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \

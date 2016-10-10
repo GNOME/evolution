@@ -15,12 +15,13 @@
  *
  */
 
-#include "e-google-chooser-button.h"
+#include "evolution-config.h"
 
-#include <config.h>
 #include <glib/gi18n-lib.h>
 
 #include <libedataserverui/libedataserverui.h>
+
+#include "e-google-chooser-button.h"
 
 #define E_GOOGLE_CHOOSER_BUTTON_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \

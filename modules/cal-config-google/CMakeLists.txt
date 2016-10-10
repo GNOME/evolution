@@ -1,0 +1,22 @@
+set(extra_deps)
+set(sources
+	e-cal-config-google.c
+	e-cal-config-gtasks.c
+	e-google-chooser-button.c
+	e-google-chooser-button.h
+	module-cal-config-google.c
+	module-cal-config-google.h
+)
+set(extra_defines)
+set(extra_cflags)
+set(extra_incdirs)
+set(extra_ldflags)
+
+add_evolution_module(module-cal-config-google
+	sources
+	extra_deps
+	extra_defines
+	extra_cflags
+	extra_incdirs
+	extra_ldflags
+)

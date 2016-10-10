@@ -20,9 +20,8 @@
  *
  */
 
-#include "em-filter-source-element.h"
+#include "evolution-config.h"
 
-#include <config.h>
 #include <string.h>
 
 #include <gtk/gtk.h>
@@ -32,6 +31,8 @@
 
 #include "e-mail-account-store.h"
 #include "e-mail-ui-session.h"
+
+#include "em-filter-source-element.h"
 
 #define EM_FILTER_SOURCE_ELEMENT_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \

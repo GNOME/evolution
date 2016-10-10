@@ -1,0 +1,383 @@
+<?xml version="1.0"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+               "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd"
+[
+  <!ENTITY % local.common.attrib "xmlns:xi  CDATA  #FIXED 'http://www.w3.org/2003/XInclude'">
+]>
+<book id="index">
+  <bookinfo>
+    <title>Evolution Utilities Reference Manual</title>
+    <releaseinfo>
+      The latest version of this documentation can be found on-line at
+      <ulink role="online-location" url="http://developer.gnome.org/evolution-util/">http://developer.gnome.org/evolution-util/</ulink>.
+    </releaseinfo>
+  </bookinfo>
+
+  <chapter>
+    <title>Basic Utility Functions</title>
+    <xi:include href="xml/e-datetime-format.xml"/>
+    <xi:include href="xml/e-html-utils.xml"/>
+    <xi:include href="xml/e-misc-utils.xml"/>
+    <xi:include href="xml/e-print.xml"/>
+    <xi:include href="xml/e-selection.xml"/>
+    <xi:include href="xml/e-unicode.xml"/>
+    <xi:include href="xml/e-xml-utils.xml"/>
+    <xi:include href="xml/e-dialog-utils.xml"/>
+    <xi:include href="xml/e-icon-factory.xml"/>
+    <xi:include href="xml/e-passwords.xml"/>
+  </chapter>
+
+  <chapter>
+    <title>Activities</title>
+    <xi:include href="xml/e-activity.xml"/>
+    <xi:include href="xml/e-activity-bar.xml"/>
+    <xi:include href="xml/e-activity-proxy.xml"/>
+  </chapter>
+
+  <chapter>
+    <title>Alerts</title>
+    <xi:include href="xml/e-alert.xml"/>
+    <xi:include href="xml/e-alert-bar.xml"/>
+    <xi:include href="xml/e-alert-dialog.xml"/>
+    <xi:include href="xml/e-alert-sink.xml"/>
+  </chapter>
+
+  <chapter>
+    <title>Attachments</title>
+    <xi:include href="xml/e-attachment.xml"/>
+    <xi:include href="xml/e-attachment-bar.xml"/>
+    <xi:include href="xml/e-attachment-dialog.xml"/>
+    <xi:include href="xml/e-attachment-paned.xml"/>
+    <xi:include href="xml/e-attachment-store.xml"/>
+    <xi:include href="xml/e-attachment-view.xml"/>
+    <xi:include href="xml/e-attachment-icon-view.xml"/>
+    <xi:include href="xml/e-attachment-tree-view.xml"/>
+    <xi:include href="xml/e-attachment-handler.xml"/>
+    <xi:include href="xml/e-attachment-handler-image.xml"/>
+  </chapter>
+
+  <chapter>
+    <title>Canvas Drawing</title>
+    <xi:include href="xml/e-canvas.xml"/>
+    <xi:include href="xml/e-canvas-background.xml"/>
+    <xi:include href="xml/e-canvas-vbox.xml"/>
+    <xi:include href="xml/e-canvas-utils.xml"/>
+  </chapter>
+
+  <chapter>
+    <title>Categories</title>
+    <xi:include href="xml/e-categories-dialog.xml"/>
+    <xi:include href="xml/e-categories-editor.xml"/>
+    <xi:include href="xml/e-categories-selector.xml"/>
+    <xi:include href="xml/e-category-completion.xml"/>
+    <xi:include href="xml/e-category-editor.xml"/>
+    <xi:include href="xml/e-categories-config.xml"/>
+  </chapter>
+
+  <chapter>
+    <title>Filtering and Searching</title>
+    <xi:include href="xml/e-rule-context.xml"/>
+    <xi:include href="xml/e-rule-editor.xml"/>
+    <xi:include href="xml/e-filter-rule.xml"/>
+    <xi:include href="xml/e-filter-part.xml"/>
+    <xi:include href="xml/e-filter-element.xml"/>
+    <xi:include href="xml/e-filter-code.xml"/>
+    <xi:include href="xml/e-filter-color.xml"/>
+    <xi:include href="xml/e-filter-datespec.xml"/>
+    <xi:include href="xml/e-filter-file.xml"/>
+    <xi:include href="xml/e-filter-input.xml"/>
+    <xi:include href="xml/e-filter-int.xml"/>
+    <xi:include href="xml/e-filter-option.xml"/>
+  </chapter>
+
+  <chapter>
+    <title>HTML Rendering</title>
+    <xi:include href="xml/e-web-view.xml"/>
+    <xi:include href="xml/e-web-view-preview.xml"/>
+    <xi:include href="xml/e-content-request.xml"/>
+    <xi:include href="xml/e-file-request.xml"/>
+    <xi:include href="xml/e-stock-request.xml"/>
+  </chapter>
+
+  <chapter>
+    <title>HTML Editing</title>
+    <xi:include href="xml/e-color-chooser-widget.xml"/>
+    <xi:include href="xml/e-color-combo.xml"/>
+    <xi:include href="xml/e-content-editor.xml"/>
+    <xi:include href="xml/e-emoticon.xml"/>
+    <xi:include href="xml/e-emoticon-action.xml"/>
+    <xi:include href="xml/e-emoticon-chooser.xml"/>
+    <xi:include href="xml/e-emoticon-chooser-menu.xml"/>
+    <xi:include href="xml/e-emoticon-tool-button.xml"/>
+    <xi:include href="xml/e-html-editor.xml"/>
+    <xi:include href="xml/e-html-editor-cell-dialog.xml"/>
+    <xi:include href="xml/e-html-editor-dialog.xml"/>
+    <xi:include href="xml/e-html-editor-find-dialog.xml"/>
+    <xi:include href="xml/e-html-editor-hrule-dialog.xml"/>
+    <xi:include href="xml/e-html-editor-image-dialog.xml"/>
+    <xi:include href="xml/e-html-editor-link-dialog.xml"/>
+    <xi:include href="xml/e-html-editor-page-dialog.xml"/>
+    <xi:include href="xml/e-html-editor-paragraph-dialog.xml"/>
+    <xi:include href="xml/e-html-editor-replace-dialog.xml"/>
+    <xi:include href="xml/e-html-editor-spell-check-dialog.xml"/>
+    <xi:include href="xml/e-html-editor-table-dialog.xml"/>
+    <xi:include href="xml/e-html-editor-text-dialog.xml"/>
+    <xi:include href="xml/e-image-chooser-dialog.xml"/>
+    <xi:include href="xml/e-spell-checker.xml"/>
+    <xi:include href="xml/e-spell-dictionary.xml"/>
+  </chapter>
+
+  <chapter>
+    <title>Mail Signatures</title>
+    <xi:include href="xml/e-mail-signature-combo-box.xml"/>
+    <xi:include href="xml/e-mail-signature-editor.xml"/>
+    <xi:include href="xml/e-mail-signature-manager.xml"/>
+    <xi:include href="xml/e-mail-signature-preview.xml"/>
+    <xi:include href="xml/e-mail-signature-script-dialog.xml"/>
+    <xi:include href="xml/e-mail-signature-tree-view.xml"/>
+  </chapter>
+
+  <chapter>
+    <title>Network Proxies</title>
+    <xi:include href="xml/e-proxy-preferences.xml"/>
+    <xi:include href="xml/e-proxy-editor.xml"/>
+    <xi:include href="xml/e-proxy-selector.xml"/>
+    <xi:include href="xml/e-proxy-link-selector.xml"/>
+    <xi:include href="xml/e-proxy-combo-box.xml"/>
+  </chapter>
+
+  <chapter>
+    <title>Tables and Trees</title>
+    <xi:include href="xml/e-table.xml"/>
+    <xi:include href="xml/e-table-click-to-add.xml"/>
+    <xi:include href="xml/e-table-col.xml"/>
+    <xi:include href="xml/e-table-column-selector.xml"/>
+    <xi:include href="xml/e-table-column-specification.xml"/>
+    <xi:include href="xml/e-table-config.xml"/>
+    <xi:include href="xml/e-table-extras.xml"/>
+    <xi:include href="xml/e-table-field-chooser-dialog.xml"/>
+    <xi:include href="xml/e-table-field-chooser-item.xml"/>
+    <xi:include href="xml/e-table-field-chooser.xml"/>
+    <xi:include href="xml/e-table-group-container.xml"/>
+    <xi:include href="xml/e-table-group-leaf.xml"/>
+    <xi:include href="xml/e-table-group.xml"/>
+    <xi:include href="xml/e-table-header.xml"/>
+    <xi:include href="xml/e-table-header-item.xml"/>
+    <xi:include href="xml/e-table-header-utils.xml"/>
+    <xi:include href="xml/e-table-item.xml"/>
+    <xi:include href="xml/e-table-model.xml"/>
+    <xi:include href="xml/e-table-one.xml"/>
+    <xi:include href="xml/e-table-search.xml"/>
+    <xi:include href="xml/e-table-selection-model.xml"/>
+    <xi:include href="xml/e-table-sort-info.xml"/>
+    <xi:include href="xml/e-table-sorted-variable.xml"/>
+    <xi:include href="xml/e-table-sorted.xml"/>
+    <xi:include href="xml/e-table-sorter.xml"/>
+    <xi:include href="xml/e-table-sorting-utils.xml"/>
+    <xi:include href="xml/e-table-specification.xml"/>
+    <xi:include href="xml/e-table-state.xml"/>
+    <xi:include href="xml/e-table-subset-variable.xml"/>
+    <xi:include href="xml/e-table-subset.xml"/>
+    <xi:include href="xml/e-table-utils.xml"/>
+    <xi:include href="xml/e-tree.xml"/>
+    <xi:include href="xml/e-tree-model.xml"/>
+    <xi:include href="xml/e-tree-selection-model.xml"/>
+    <xi:include href="xml/e-tree-table-adapter.xml"/>
+    <xi:include href="xml/e-cell.xml"/>
+    <xi:include href="xml/e-cell-checkbox.xml"/>
+    <xi:include href="xml/e-cell-combo.xml"/>
+    <xi:include href="xml/e-cell-date.xml"/>
+    <xi:include href="xml/e-cell-date-edit.xml"/>
+    <xi:include href="xml/e-cell-date-int.xml"/>
+    <xi:include href="xml/e-cell-hbox.xml"/>
+    <xi:include href="xml/e-cell-number.xml"/>
+    <xi:include href="xml/e-cell-percent.xml"/>
+    <xi:include href="xml/e-cell-pixbuf.xml"/>
+    <xi:include href="xml/e-cell-popup.xml"/>
+    <xi:include href="xml/e-cell-size.xml"/>
+    <xi:include href="xml/e-cell-text.xml"/>
+    <xi:include href="xml/e-cell-toggle.xml"/>
+    <xi:include href="xml/e-cell-tree.xml"/>
+    <xi:include href="xml/e-cell-vbox.xml"/>
+    <xi:include href="xml/e-popup-menu.xml"/>
+  </chapter>
+
+  <chapter>
+    <title>ESource Support</title>
+    <xi:include href="xml/e-source-config.xml"/>
+    <xi:include href="xml/e-book-source-config.xml"/>
+    <xi:include href="xml/e-cal-source-config.xml"/>
+    <xi:include href="xml/e-source-config-backend.xml"/>
+    <xi:include href="xml/e-source-config-dialog.xml"/>
+    <xi:include href="xml/e-source-conflict-search.xml"/>
+    <xi:include href="xml/e-source-selector.xml"/>
+    <xi:include href="xml/e-alarm-selector.xml"/>
+    <xi:include href="xml/e-autocomplete-selector.xml"/>
+    <xi:include href="xml/e-source-selector-dialog.xml"/>
+    <xi:include href="xml/e-source-combo-box.xml"/>
+    <xi:include href="xml/e-source-util.xml"/>
+    <xi:include href="xml/e-client-cache.xml"/>
+    <xi:include href="xml/e-client-combo-box.xml"/>
+    <xi:include href="xml/e-client-selector.xml"/>
+  </chapter>
+
+  <chapter>
+    <title>Text Processing</title>
+    <xi:include href="xml/e-text.xml"/>
+    <xi:include href="xml/e-text-model.xml"/>
+    <xi:include href="xml/e-text-event-processor.xml"/>
+    <xi:include href="xml/e-text-event-processor-emacs-like.xml"/>
+    <xi:include href="xml/e-reflow.xml"/>
+    <xi:include href="xml/e-reflow-model.xml"/>
+  </chapter>
+
+  <chapter>
+    <title>View Management</title>
+    <xi:include href="xml/gal-view.xml"/>
+    <xi:include href="xml/gal-view-instance.xml"/>
+    <xi:include href="xml/gal-view-collection.xml"/>
+    <xi:include href="xml/gal-view-etable.xml"/>
+    <xi:include href="xml/gal-view-instance-save-as-dialog.xml"/>
+  </chapter>
+
+  <chapter>
+    <title>Plugins (Legacy)</title>
+    <xi:include href="xml/e-plugin.xml"/>
+    <xi:include href="xml/e-plugin-ui.xml"/>
+    <xi:include href="xml/e-config.xml"/>
+    <xi:include href="xml/e-event.xml"/>
+    <xi:include href="xml/e-import.xml"/>
+  </chapter>
+
+  <chapter>
+    <title>(Unsorted Sections)</title>
+    <xi:include href="xml/e-action-combo-box.xml"/>
+    <xi:include href="xml/e-auth-combo-box.xml"/>
+    <xi:include href="xml/e-bit-array.xml"/>
+    <xi:include href="xml/e-buffer-tagger.xml"/>
+    <xi:include href="xml/e-calendar-item.xml"/>
+    <xi:include href="xml/e-calendar.xml"/>
+    <xi:include href="xml/e-charset.xml"/>
+    <xi:include href="xml/e-charset-combo-box.xml"/>
+    <xi:include href="xml/e-conflict-search-selector.xml"/>
+    <xi:include href="xml/e-contact-store.xml"/>
+    <xi:include href="xml/e-data-capture.xml"/>
+    <xi:include href="xml/e-dateedit.xml"/>
+    <xi:include href="xml/e-destination-store.xml"/>
+    <xi:include href="xml/e-dialog-widgets.xml"/>
+    <xi:include href="xml/e-file-utils.xml"/>
+    <xi:include href="xml/e-focus-tracker.xml"/>
+    <xi:include href="xml/e-image-chooser.xml"/>
+    <xi:include href="xml/e-import-assistant.xml"/>
+    <xi:include href="xml/e-interval-chooser.xml"/>
+    <xi:include href="xml/e-mail-identity-combo-box.xml"/>
+    <xi:include href="xml/e-map.xml"/>
+    <xi:include href="xml/e-menu-tool-action.xml"/>
+    <xi:include href="xml/e-menu-tool-button.xml"/>
+    <xi:include href="xml/e-mktemp.xml"/>
+    <xi:include href="xml/e-name-selector-dialog.xml"/>
+    <xi:include href="xml/e-name-selector-entry.xml"/>
+    <xi:include href="xml/e-name-selector-list.xml"/>
+    <xi:include href="xml/e-name-selector-model.xml"/>
+    <xi:include href="xml/e-name-selector.xml"/>
+    <xi:include href="xml/e-online-button.xml"/>
+    <xi:include href="xml/e-paned.xml"/>
+    <xi:include href="xml/e-photo-cache.xml"/>
+    <xi:include href="xml/e-photo-source.xml"/>
+    <xi:include href="xml/e-picture-gallery.xml"/>
+    <xi:include href="xml/e-poolv.xml"/>
+    <xi:include href="xml/e-popup-action.xml"/>
+    <xi:include href="xml/e-port-entry.xml"/>
+    <xi:include href="xml/e-preferences-window.xml"/>
+    <xi:include href="xml/e-preview-pane.xml"/>
+    <xi:include href="xml/e-printable.xml"/>
+    <xi:include href="xml/e-search-bar.xml"/>
+    <xi:include href="xml/e-selectable.xml"/>
+    <xi:include href="xml/e-selection-model-array.xml"/>
+    <xi:include href="xml/e-selection-model-simple.xml"/>
+    <xi:include href="xml/e-selection-model.xml"/>
+    <xi:include href="xml/e-send-options.xml"/>
+    <xi:include href="xml/e-simple-async-result.xml"/>
+    <xi:include href="xml/e-sorter-array.xml"/>
+    <xi:include href="xml/e-sorter.xml"/>
+    <xi:include href="xml/e-spell-entry.xml"/>
+    <xi:include href="xml/e-spell-text-view.xml"/>
+    <xi:include href="xml/e-spinner.xml"/>
+    <xi:include href="xml/e-text-event-processor-types.xml"/>
+    <xi:include href="xml/e-text-model-repos.xml"/>
+    <xi:include href="xml/e-timezone-dialog.xml"/>
+    <xi:include href="xml/e-tree-model-generator.xml"/>
+    <xi:include href="xml/e-tree-view-frame.xml"/>
+    <xi:include href="xml/e-url-entry.xml"/>
+    <xi:include href="xml/e-util-enums.xml"/>
+    <xi:include href="xml/e-widget-undo.xml"/>
+  </chapter>
+
+  <index id="api-index-full">
+    <title>Index</title>
+    <xi:include href="xml/api-index-full.xml"><xi:fallback /></xi:include>
+  </index>
+  <index id="api-index-3.22" role="3.22">
+    <title>Index of new symbols in 3.22</title>
+    <xi:include href="xml/api-index-3.22.xml"><xi:fallback /></xi:include>
+  </index>
+  <index id="api-index-3.20" role="3.20">
+    <title>Index of new symbols in 3.20</title>
+    <xi:include href="xml/api-index-3.20.xml"><xi:fallback /></xi:include>
+  </index>
+  <index id="api-index-3.18" role="3.18">
+    <title>Index of new symbols in 3.18</title>
+    <xi:include href="xml/api-index-3.18.xml"><xi:fallback /></xi:include>
+  </index>
+  <index id="api-index-3.16" role="3.16">
+    <title>Index of new symbols in 3.16</title>
+    <xi:include href="xml/api-index-3.16.xml"><xi:fallback /></xi:include>
+  </index>
+  <index id="api-index-3.12" role="3.12">
+    <title>Index of new symbols in 3.12</title>
+    <xi:include href="xml/api-index-3.12.xml"><xi:fallback /></xi:include>
+  </index>
+  <index id="api-index-3.10" role="3.10">
+    <title>Index of new symbols in 3.10</title>
+    <xi:include href="xml/api-index-3.10.xml"><xi:fallback /></xi:include>
+  </index>
+  <index id="api-index-3.8" role="3.8">
+    <title>Index of new symbols in 3.8</title>
+    <xi:include href="xml/api-index-3.8.xml"><xi:fallback /></xi:include>
+  </index>
+  <index id="api-index-3.6" role="3.6">
+    <title>Index of new symbols in 3.6</title>
+    <xi:include href="xml/api-index-3.6.xml"><xi:fallback /></xi:include>
+  </index>
+  <index id="api-index-3.4" role="3.4">
+    <title>Index of new symbols in 3.4</title>
+    <xi:include href="xml/api-index-3.4.xml"><xi:fallback /></xi:include>
+  </index>
+  <index id="api-index-3.2" role="3.2">
+    <title>Index of new symbols in 3.2</title>
+    <xi:include href="xml/api-index-3.2.xml"><xi:fallback /></xi:include>
+  </index>
+  <index id="api-index-2.32" role="2.32">
+    <title>Index of new symbols in 2.32</title>
+    <xi:include href="xml/api-index-2.32.xml"><xi:fallback /></xi:include>
+  </index>
+  <index id="api-index-2.30" role="2.30">
+    <title>Index of new symbols in 2.30</title>
+    <xi:include href="xml/api-index-2.30.xml"><xi:fallback /></xi:include>
+  </index>
+  <index id="api-index-2.26" role="2.26">
+    <title>Index of new symbols in 2.26</title>
+    <xi:include href="xml/api-index-2.26.xml"><xi:fallback /></xi:include>
+  </index>
+  <index id="api-index-2.24" role="2.24">
+    <title>Index of new symbols in 2.24</title>
+    <xi:include href="xml/api-index-2.24.xml"><xi:fallback /></xi:include>
+  </index>
+  <index id="api-index-2.22" role="2.22">
+    <title>Index of new symbols in 2.22</title>
+    <xi:include href="xml/api-index-2.22.xml"><xi:fallback /></xi:include>
+  </index>
+
+  <xi:include href="xml/annotation-glossary.xml"><xi:fallback /></xi:include>
+
+</book>

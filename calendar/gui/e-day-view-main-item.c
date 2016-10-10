@@ -24,9 +24,7 @@
  * data in the main Day/Work Week display.
  */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
+#include "evolution-config.h"
 
 #include "e-day-view-main-item.h"
 

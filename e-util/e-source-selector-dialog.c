@@ -18,9 +18,7 @@
  * Author: Rodrigo Moya <rodrigo@novell.com>
  */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
+#include "evolution-config.h"
 
 #include <glib/gi18n-lib.h>
 #include "e-source-selector.h"

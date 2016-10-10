@@ -19,9 +19,8 @@
  *
  */
 
-#include "mail-send-recv.h"
+#include "evolution-config.h"
 
-#include <config.h>
 #include <stdio.h>
 #include <string.h>
 #include <glib/gi18n.h>
@@ -37,6 +36,8 @@
 #include "em-event.h"
 #include "em-filter-rule.h"
 #include "em-utils.h"
+
+#include "mail-send-recv.h"
 
 #define d(x)
 

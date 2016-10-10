@@ -15,7 +15,8 @@
  *
  */
 
-#include <config.h>
+#include "evolution-config.h"
+
 #include <glib/gi18n-lib.h>
 #include <gdk/gdkkeysyms.h>
 

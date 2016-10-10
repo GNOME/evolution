@@ -15,9 +15,8 @@
  *
  */
 
-#include "e-mail-config-smtp-backend.h"
+#include "evolution-config.h"
 
-#include <config.h>
 #include <glib/gi18n-lib.h>
 
 #include <camel/camel.h>
@@ -26,6 +25,8 @@
 #include <mail/e-mail-config-auth-check.h>
 #include <mail/e-mail-config-page.h>
 #include <mail/e-mail-config-service-page.h>
+
+#include "e-mail-config-smtp-backend.h"
 
 #define E_MAIL_CONFIG_SMTP_BACKEND_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \

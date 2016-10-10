@@ -20,9 +20,7 @@
  *
  */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
+#include "evolution-config.h"
 
 #include "ea-jump-button.h"
 #include "ea-calendar-helpers.h"

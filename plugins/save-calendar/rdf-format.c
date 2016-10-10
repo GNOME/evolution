@@ -19,9 +19,7 @@
  *
  */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
+#include "evolution-config.h"
 
 #include <string.h>
 #include <glib/gi18n.h>
@@ -235,7 +233,7 @@ do_save_calendar_rdf (FormatHandler *handler,
 		xmlSetProp (fnode, (const guchar *)"xmlns:x-lic", (const guchar *)"http://www.w3.org/2002/12/cal/prod/Apple_Comp_628d9d8459c556fa#");
 
 		/* Not sure if it's correct like this */
-		xmlNewChild (fnode, NULL, (const guchar *)"prodid", (const guchar *)"-//" PACKAGE_STRING "//iCal 1.0//EN");
+		xmlNewChild (fnode, NULL, (const guchar *)"prodid", (const guchar *)"-//" PACKAGE " " VERSION VERSION_SUBSTRING " " VERSION_COMMENT "//iCal 1.0//EN");
 
 		/* Assuming GREGORIAN is the only supported calendar scale */
 		xmlNewChild (fnode, NULL, (const guchar *)"calscale", (const guchar *)"GREGORIAN");

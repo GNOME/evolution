@@ -28,9 +28,8 @@
  * to got to the current day.
  */
 
-#include "e-calendar.h"
+#include "evolution-config.h"
 
-#include <config.h>
 #include <glib/gi18n.h>
 
 #include <gtk/gtk.h>
@@ -39,6 +38,7 @@
 #include <libgnomecanvas/gnome-canvas-widget.h>
 
 #include "e-misc-utils.h"
+#include "e-calendar.h"
 
 #define E_CALENDAR_SMALL_FONT_PTSIZE 6
 

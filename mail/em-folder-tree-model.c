@@ -19,9 +19,8 @@
  *
  */
 
-#include "em-folder-tree-model.h"
+#include "evolution-config.h"
 
-#include <config.h>
 #include <stdio.h>
 #include <string.h>
 #include <sys/types.h>
@@ -40,6 +39,8 @@
 #include "em-utils.h"
 #include "em-folder-utils.h"
 #include "em-event.h"
+
+#include "em-folder-tree-model.h"
 
 #define EM_FOLDER_TREE_MODEL_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \

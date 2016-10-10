@@ -1,0 +1,20 @@
+set(extra_deps)
+set(sources
+	module-itip-formatter-web-extension.c
+	module-itip-formatter-web-extension.h
+	module-itip-formatter-dom-utils.c
+	module-itip-formatter-dom-utils.h
+)
+set(extra_defines)
+set(extra_cflags)
+set(extra_incdirs)
+set(extra_ldflags)
+
+add_webextension_module(module-itip-formatter-webextension
+	sources
+	extra_deps
+	extra_defines
+	extra_cflags
+	extra_incdirs
+	extra_ldflags
+)

@@ -20,7 +20,8 @@
  * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
  */
 
-#include <config.h>
+#include "evolution-config.h"
+
 #include <ctype.h>
 #include <string.h>
 #include <glib/gi18n.h>

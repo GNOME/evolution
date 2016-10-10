@@ -16,16 +16,14 @@
  * along with this program; if not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
+#include "evolution-config.h"
 
 #include "e-addressbook-selector.h"
 
 #include <e-util/e-util.h>
 
-#include <eab-book-util.h>
-#include <eab-contact-merging.h>
+#include "util/eab-book-util.h"
+#include "eab-contact-merging.h"
 
 #define E_ADDRESSBOOK_SELECTOR_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \

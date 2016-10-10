@@ -15,10 +15,11 @@
  *
  */
 
-#include "e-mail-signature-combo-box.h"
+#include "evolution-config.h"
 
-#include <config.h>
 #include <glib/gi18n-lib.h>
+
+#include "e-mail-signature-combo-box.h"
 
 #define E_MAIL_SIGNATURE_COMBO_BOX_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \

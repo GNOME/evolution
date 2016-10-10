@@ -15,7 +15,7 @@
  *
  */
 
-#include <config.h>
+#include "evolution-config.h"
 
 #include "e-settings-client-cache.h"
 

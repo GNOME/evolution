@@ -20,10 +20,11 @@
  *       to restore.  As soon as we arrive on this page we execl() the
  *       "evolution-backup" tool, and the startup wizard disappears. */
 
-#include "e-mail-config-restore-ready-page.h"
+#include "evolution-config.h"
 
-#include <config.h>
 #include <glib/gi18n-lib.h>
+
+#include "e-mail-config-restore-ready-page.h"
 
 /* Forward Declarations */
 static void	e_mail_config_restore_ready_page_interface_init

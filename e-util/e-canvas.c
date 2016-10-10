@@ -19,12 +19,12 @@
  *
  */
 
-#include "e-canvas.h"
-
-#include <config.h>
+#include "evolution-config.h"
 
 #include <gtk/gtk.h>
 #include <libedataserver/libedataserver.h>
+
+#include "e-canvas.h"
 
 #define d(x)
 

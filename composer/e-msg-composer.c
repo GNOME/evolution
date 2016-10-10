@@ -23,9 +23,7 @@
  *
  */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
+#include "evolution-config.h"
 
 #include <stdlib.h>
 #include <string.h>
@@ -826,7 +824,7 @@ composer_build_message_pgp (AsyncContext *context,
 	return TRUE;
 }
 
-#ifdef HAVE_SSL
+#ifdef ENABLE_SMIME
 static gboolean
 composer_build_message_smime (AsyncContext *context,
                               GCancellable *cancellable,
@@ -1029,12 +1027,12 @@ composer_build_message_thread (GSimpleAsyncResult *simple,
 		return;
 	}
 
-#if defined (HAVE_NSS)
+#if defined (ENABLE_SMIME)
 	if (!composer_build_message_smime (context, cancellable, &error)) {
 		g_simple_async_result_take_error (simple, error);
 		return;
 	}
-#endif /* HAVE_NSS */
+#endif /* ENABLE_SMIME */
 }
 
 static void
@@ -5069,7 +5067,7 @@ e_msg_composer_get_message (EMsgComposer *composer,
 	if (gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action)))
 		flags |= COMPOSER_FLAG_PGP_ENCRYPT;
 
-#ifdef HAVE_NSS
+#ifdef ENABLE_SMIME
 	action = ACTION (SMIME_SIGN);
 	if (gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action)))
 		flags |= COMPOSER_FLAG_SMIME_SIGN;
@@ -5205,7 +5203,7 @@ e_msg_composer_get_message_draft (EMsgComposer *composer,
 	if (gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action)))
 		flags |= COMPOSER_FLAG_PGP_ENCRYPT;
 
-#ifdef HAVE_NSS
+#ifdef ENABLE_SMIME
 	action = ACTION (SMIME_SIGN);
 	if (gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action)))
 		flags |= COMPOSER_FLAG_SMIME_SIGN;

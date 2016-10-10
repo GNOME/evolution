@@ -20,9 +20,7 @@
  *
  */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
+#include "evolution-config.h"
 
 #include "ea-day-view-cell.h"
 #include "ea-day-view-main-item.h"

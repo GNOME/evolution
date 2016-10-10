@@ -15,7 +15,8 @@
  *
  */
 
-#include <config.h>
+#include "evolution-config.h"
+
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
 

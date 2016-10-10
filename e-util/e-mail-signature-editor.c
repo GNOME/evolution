@@ -15,9 +15,8 @@
  *
  */
 
-#include "e-mail-signature-editor.h"
+#include "evolution-config.h"
 
-#include <config.h>
 #include <string.h>
 #include <glib/gi18n.h>
 
@@ -25,6 +24,8 @@
 #include "e-alert-sink.h"
 #include "e-alert-bar.h"
 #include "e-simple-async-result.h"
+
+#include "e-mail-signature-editor.h"
 
 #define E_MAIL_SIGNATURE_EDITOR_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \

@@ -20,7 +20,7 @@
  *
  */
 
-#include <config.h>
+#include "evolution-config.h"
 
 #include <string.h>
 

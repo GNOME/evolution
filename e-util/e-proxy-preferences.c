@@ -29,14 +29,15 @@
  * accounts.
  **/
 
-#include "e-proxy-preferences.h"
+#include "evolution-config.h"
 
-#include <config.h>
 #include <glib/gi18n-lib.h>
 
-#include <e-util/e-proxy-editor.h>
-#include <e-util/e-proxy-link-selector.h>
-#include <e-util/e-proxy-selector.h>
+#include "e-proxy-editor.h"
+#include "e-proxy-link-selector.h"
+#include "e-proxy-selector.h"
+
+#include "e-proxy-preferences.h"
 
 #define E_PROXY_PREFERENCES_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \

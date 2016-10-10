@@ -41,7 +41,7 @@ G_DEFINE_ABSTRACT_TYPE (
  * EMailExtensionRegistry:
  *
  * The #EMailExtensionRegistry is an abstract class representing a registry
- * for #EMailExtension<!-//>s.
+ * for #EMailExtension<!-- -->s.
  *
  * #EMailParser and #EMailFormatter both have internally a registry object
  * based on the #EMailExtensionRegistry.
@@ -144,10 +144,10 @@ e_mail_extension_registry_init (EMailExtensionRegistry *registry)
  * @registry: An #EMailExtensionRegistry
  * @mime_type: A string with mime-type to look up
  *
- * Tries to lookup list of #EMailExtension<!-//>s that has registryed themselves
+ * Tries to lookup list of #EMailExtension<!-- -->s that has registryed themselves
  * as handlers for the @mime_type.
  *
- * Return value: Returns #GQueue of #EMailExtension<!-//>s or %NULL when there
+ * Return value: Returns #GQueue of #EMailExtension<!-- -->s or %NULL when there
  * are no extension registryed for given @mime_type.
  */
 GQueue *
@@ -168,7 +168,7 @@ e_mail_extension_registry_get_for_mime_type (EMailExtensionRegistry *registry,
  * Tries to lookup fallback parsers for given mime type. For instance, for
  * multipart/alternative, it will try to lookup multipart/ * parser.
  *
- * Return Value: Returns #QGueue of #EMailExtension<!-//>>s or %NULL when there
+ * Return Value: Returns #QGueue of #EMailExtension<!-- -->s or %NULL when there
  * are no extensions registryed for the fallback type.
  */
 GQueue *

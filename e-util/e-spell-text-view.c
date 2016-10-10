@@ -17,13 +17,11 @@
 
 /* Just a proxy for GtkSpell Text View spell checker */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
+#include "evolution-config.h"
 
 #include <gtk/gtk.h>
 
-#ifdef WITH_GTKSPELL
+#ifdef HAVE_GTKSPELL
 #include <gtkspell/gtkspell.h>
 #endif
 
@@ -43,11 +41,11 @@
 gboolean
 e_spell_text_view_is_supported (void)
 {
-#ifdef WITH_GTKSPELL
+#ifdef HAVE_GTKSPELL
 	return TRUE;
-#else /* WITH_GTKSPELL */
+#else /* HAVE_GTKSPELL */
 	return FALSE;
-#endif /* WITH_GTKSPELL */
+#endif /* HAVE_GTKSPELL */
 }
 
 /**
@@ -64,7 +62,7 @@ e_spell_text_view_is_supported (void)
 gboolean
 e_spell_text_view_attach (GtkTextView *text_view)
 {
-#ifdef WITH_GTKSPELL
+#ifdef HAVE_GTKSPELL
 	GtkSpellChecker *spell;
 	GSettings *settings;
 	gchar **strv;
@@ -90,9 +88,9 @@ e_spell_text_view_attach (GtkTextView *text_view)
 	g_strfreev (strv);
 
 	return success;
-#else /* WITH_GTKSPELL */
+#else /* HAVE_GTKSPELL */
 	return FALSE;
-#endif /* WITH_GTKSPELL */
+#endif /* HAVE_GTKSPELL */
 }
 
 /**
@@ -108,11 +106,11 @@ e_spell_text_view_attach (GtkTextView *text_view)
 void
 e_spell_text_view_recheck_all (GtkTextView *text_view)
 {
-#ifdef WITH_GTKSPELL
+#ifdef HAVE_GTKSPELL
 	GtkSpellChecker *spell;
 
 	spell = gtk_spell_checker_get_from_text_view (text_view);
 	if (spell)
 		gtk_spell_checker_recheck_all (spell);
-#endif /* WITH_GTKSPELL */
+#endif /* HAVE_GTKSPELL */
 }

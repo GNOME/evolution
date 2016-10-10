@@ -18,13 +18,14 @@
  *
  */
 
-#include "e-mail-sidebar.h"
+#include "evolution-config.h"
 
-#include <config.h>
 #include <string.h>
 #include <camel/camel.h>
 
-#include "mail/em-utils.h"
+#include "em-utils.h"
+
+#include "e-mail-sidebar.h"
 
 #define E_MAIL_SIDEBAR_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \

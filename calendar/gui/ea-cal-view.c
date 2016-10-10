@@ -19,9 +19,7 @@
  *
  */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
+#include "evolution-config.h"
 
 #include "ea-cal-view.h"
 #include "ea-calendar-helpers.h"

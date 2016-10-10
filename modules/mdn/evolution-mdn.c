@@ -15,7 +15,8 @@
  *
  */
 
-#include <config.h>
+#include "evolution-config.h"
+
 #include <string.h>
 #include <glib/gi18n-lib.h>
 
@@ -325,7 +326,7 @@ mdn_notify_sender (ESource *identity_source,
 
 	ua = g_strdup_printf (
 		"%s; %s", hostname, "Evolution "
-		VERSION SUB_VERSION " " VERSION_COMMENT);
+		VERSION VERSION_SUBSTRING " " VERSION_COMMENT);
 	recipient = g_strdup_printf ("rfc822; %s", self_address);
 	disposition = mdn_get_disposition (action_mode, sending_mode);
 

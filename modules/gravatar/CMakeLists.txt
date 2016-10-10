@@ -1,0 +1,21 @@
+set(extra_deps)
+set(sources
+	evolution-module-gravatar.c
+	e-gravatar-photo-source.c
+	e-gravatar-photo-source.h
+	e-photo-cache-gravatar-loader.c
+	e-photo-cache-gravatar-loader.h
+)
+set(extra_defines)
+set(extra_cflags)
+set(extra_incdirs)
+set(extra_ldflags)
+
+add_evolution_module(module-gravatar
+	sources
+	extra_deps
+	extra_defines
+	extra_cflags
+	extra_incdirs
+	extra_ldflags
+)

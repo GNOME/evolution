@@ -15,9 +15,8 @@
  *
  */
 
-#include "e-composer-registry.h"
+#include "evolution-config.h"
 
-#include <config.h>
 #include <glib/gstdio.h>
 #include <libebackend/libebackend.h>
 
@@ -26,6 +25,8 @@
 #include <composer/e-msg-composer.h>
 
 #include "e-autosave-utils.h"
+
+#include "e-composer-registry.h"
 
 #define E_COMPOSER_REGISTRY_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \

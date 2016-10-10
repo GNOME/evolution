@@ -16,11 +16,9 @@
  * Copyright (C) 2011 Dan Vratil <dvratil@redhat.com>
  */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
+#include "evolution-config.h"
 
-#ifdef WITH_CONTACT_MAPS
+#ifdef ENABLE_CONTACT_MAPS
 
 #include "e-contact-map.h"
 
@@ -490,4 +488,4 @@ e_contact_map_get_view (EContactMap *map)
 	return gtk_champlain_embed_get_view (GTK_CHAMPLAIN_EMBED (map));
 }
 
-#endif /* WITH_CONTACT_MAPS */
+#endif /* ENABLE_CONTACT_MAPS */

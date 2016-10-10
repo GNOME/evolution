@@ -15,9 +15,8 @@
  *
  */
 
-#include "e-mail-config-assistant.h"
+#include "evolution-config.h"
 
-#include <config.h>
 #include <glib/gi18n-lib.h>
 
 #include <libebackend/libebackend.h>
@@ -27,16 +26,18 @@
 #include <shell/e-shell-view.h>
 #include <shell/e-shell-sidebar.h>
 
-#include <mail/e-mail-config-confirm-page.h>
-#include <mail/e-mail-config-identity-page.h>
-#include <mail/e-mail-config-lookup-page.h>
-#include <mail/e-mail-config-provider-page.h>
-#include <mail/e-mail-config-receiving-page.h>
-#include <mail/e-mail-config-sending-page.h>
-#include <mail/e-mail-config-summary-page.h>
-#include <mail/e-mail-config-welcome-page.h>
+#include "e-mail-config-confirm-page.h"
+#include "e-mail-config-identity-page.h"
+#include "e-mail-config-lookup-page.h"
+#include "e-mail-config-provider-page.h"
+#include "e-mail-config-receiving-page.h"
+#include "e-mail-config-sending-page.h"
+#include "e-mail-config-summary-page.h"
+#include "e-mail-config-welcome-page.h"
 
 #include "em-folder-tree.h"
+
+#include "e-mail-config-assistant.h"
 
 #define E_MAIL_CONFIG_ASSISTANT_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \

@@ -15,13 +15,14 @@
  *
  */
 
-#include "e-mail-config-provider-page.h"
+#include "evolution-config.h"
 
-#include <config.h>
 #include <string.h>
 #include <glib/gi18n-lib.h>
 
 #include <libebackend/libebackend.h>
+
+#include "e-mail-config-provider-page.h"
 
 #define E_MAIL_CONFIG_PROVIDER_PAGE_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \

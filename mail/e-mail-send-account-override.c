@@ -18,12 +18,13 @@
  *
  */
 
-#include "e-mail-send-account-override.h"
+#include "evolution-config.h"
 
-#include <config.h>
 #include <string.h>
 
 #include <libedataserver/libedataserver.h>
+
+#include "e-mail-send-account-override.h"
 
 #define E_MAIL_SEND_ACCOUNT_OVERRIDE_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \

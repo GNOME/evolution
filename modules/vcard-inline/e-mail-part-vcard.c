@@ -15,9 +15,8 @@
  *
  */
 
-#include "e-mail-part-vcard.h"
+#include "evolution-config.h"
 
-#include <config.h>
 #include <glib/gi18n.h>
 
 #include <em-format/e-mail-formatter-utils.h>
@@ -25,6 +24,8 @@
 
 #include <shell/e-shell.h>
 #include <addressbook/gui/widgets/eab-contact-merging.h>
+
+#include "e-mail-part-vcard.h"
 
 #define E_MAIL_PART_VCARD_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \

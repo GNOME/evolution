@@ -24,9 +24,7 @@
 
 /* mail-session.c: handles the session information and resource manipulation */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
+#include "evolution-config.h"
 
 #include <errno.h>
 #include <stdlib.h>

@@ -19,9 +19,8 @@
  *
  */
 
-#include "mail-vfolder-ui.h"
+#include "evolution-config.h"
 
-#include <config.h>
 #include <string.h>
 #include <glib/gi18n.h>
 
@@ -35,6 +34,8 @@
 #include "em-vfolder-editor-rule.h"
 #include "mail-autofilter.h"
 #include "e-mail-ui-session.h"
+
+#include "mail-vfolder-ui.h"
 
 #define d(x)  /* (printf("%s:%s: ",  G_STRLOC, G_STRFUNC), (x))*/
 

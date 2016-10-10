@@ -15,9 +15,8 @@
  *
  */
 
-#include "eab-contact-formatter.h"
+#include "evolution-config.h"
 
-#include <config.h>
 #include <string.h>
 #include <glib/gi18n.h>
 
@@ -25,6 +24,8 @@
 
 #include "eab-book-util.h"
 #include "eab-gui-util.h"
+
+#include "eab-contact-formatter.h"
 
 #define EAB_CONTACT_FORMATTER_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -777,7 +778,7 @@ accum_address_map (GString *buffer,
                    EContact *contact,
                    gint map_type)
 {
-#ifdef WITH_CONTACT_MAPS
+#ifdef ENABLE_CONTACT_MAPS
 	g_string_append (buffer, "<tr><td colspan=\"3\">");
 
 	if (map_type == E_CONTACT_ADDRESS_WORK) {
@@ -793,7 +794,7 @@ accum_address_map (GString *buffer,
 	}
 
 	g_string_append (buffer, "</td></tr>");
-#endif /* WITH_CONTACT_MAPS */
+#endif /* ENABLE_CONTACT_MAPS */
 }
 
 static void

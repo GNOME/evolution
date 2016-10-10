@@ -15,9 +15,7 @@
  *
  */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
+#include "evolution-config.h"
 
 #include "e-mail-session-utils.h"
 
@@ -29,7 +27,7 @@
 #include <libemail-engine/mail-tools.h>
 
 /* X-Mailer header value */
-#define X_MAILER ("Evolution " VERSION SUB_VERSION " " VERSION_COMMENT)
+#define X_MAILER ("Evolution " VERSION VERSION_SUBSTRING " " VERSION_COMMENT)
 
 /* FIXME: Temporary - remove this after we move filter/ to eds */
 #define E_FILTER_SOURCE_OUTGOING "outgoing"

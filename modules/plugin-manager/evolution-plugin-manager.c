@@ -15,9 +15,7 @@
 
 /* A plugin manager ui */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
+#include "evolution-config.h"
 
 #include <string.h>
 #include <stdio.h>

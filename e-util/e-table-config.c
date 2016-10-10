@@ -26,12 +26,12 @@
  *    Make Clear all work.
  */
 
-#include "e-table-config.h"
+#include "evolution-config.h"
 
-#include <config.h>
 #include <glib/gi18n.h>
 
 #include "e-table-column-selector.h"
+#include "e-table-config.h"
 
 G_DEFINE_TYPE (ETableConfig, e_table_config, G_TYPE_OBJECT)
 

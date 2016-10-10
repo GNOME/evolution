@@ -15,7 +15,8 @@
  * along with this program; if not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <config.h>
+#include "evolution-config.h"
+
 #include <glib/gi18n-lib.h>
 
 #include <libedataserver/libedataserver.h>

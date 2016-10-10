@@ -1,0 +1,22 @@
+set(extra_deps)
+set(sources
+	evolution-module-plugin-lib.c
+	e-plugin-lib.c
+	e-plugin-lib.h
+)
+set(extra_defines
+	-DEVOLUTION_PLUGINDIR=\"${plugindir}\"
+	-DBUILDTIME_EVOLUTION_PLUGINDIR=\"${plugindir}\"
+)
+set(extra_cflags)
+set(extra_incdirs)
+set(extra_ldflags)
+
+add_evolution_module(module-plugin-lib
+	sources
+	extra_deps
+	extra_defines
+	extra_cflags
+	extra_incdirs
+	extra_ldflags
+)

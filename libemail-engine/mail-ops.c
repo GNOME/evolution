@@ -24,9 +24,7 @@
  *
  */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
+#include "evolution-config.h"
 
 #include <errno.h>
 
@@ -49,7 +47,7 @@
 #define d(x)
 
 /* XXX Make this a preprocessor definition. */
-const gchar *x_mailer = "Evolution " VERSION SUB_VERSION " " VERSION_COMMENT;
+const gchar *x_mailer = "Evolution " VERSION VERSION_SUBSTRING " " VERSION_COMMENT;
 
 /* used for both just filtering a folder + uid's, and for filtering a whole folder */
 /* used both for fetching mail, and for filtering mail */

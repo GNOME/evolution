@@ -18,9 +18,7 @@
  * Author: Ettore Perazzoli <ettore@ximian.com>
  */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
+#include "evolution-config.h"
 
 #include <string.h>
 #include <glib/gi18n-lib.h>

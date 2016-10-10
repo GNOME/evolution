@@ -16,9 +16,7 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
+#include "evolution-config.h"
 
 #include "e-spell-checker.h"
 #include "e-spell-dictionary.h"

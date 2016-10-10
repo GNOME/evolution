@@ -20,9 +20,7 @@
  * Copyright (C) 2009 Intel Corporation
  */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
+#include "evolution-config.h"
 
 #include <glib/gi18n.h>
 

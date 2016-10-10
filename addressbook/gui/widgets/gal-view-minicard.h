@@ -25,7 +25,7 @@
 #define GAL_VIEW_MINICARD_H
 
 #include <e-util/e-util.h>
-#include <e-minicard-view-widget.h>
+#include "e-minicard-view-widget.h"
 #include "e-addressbook-view.h"
 
 /* Standard GObject macros */

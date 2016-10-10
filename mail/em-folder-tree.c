@@ -19,9 +19,8 @@
  *
  */
 
-#include "em-folder-tree.h"
+#include "evolution-config.h"
 
-#include <config.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -47,6 +46,8 @@
 #include "mail-vfolder-ui.h"
 
 #include "e-mail-ui-session.h"
+
+#include "em-folder-tree.h"
 
 #define d(x)
 

@@ -24,12 +24,12 @@
  * available columns of an #ETable or #ETree.
  **/
 
-#include "e-table-column-selector.h"
+#include "evolution-config.h"
 
-#include <config.h>
 #include <glib/gi18n-lib.h>
 
-#include "e-util/e-table-specification.h"
+#include "e-table-specification.h"
+#include "e-table-column-selector.h"
 
 #define E_TABLE_COLUMN_SELECTOR_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \

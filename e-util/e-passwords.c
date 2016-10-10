@@ -35,9 +35,7 @@
  * order, but will not be processed out of order.
  */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
+#include "evolution-config.h"
 
 #include <limits.h>
 #include <stdlib.h>

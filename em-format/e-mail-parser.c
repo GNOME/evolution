@@ -15,9 +15,7 @@
  *
  */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
+#include "evolution-config.h"
 
 #include "e-mail-parser.h"
 
@@ -334,7 +332,7 @@ e_mail_parser_new (CamelSession *session)
  * @message: a #CamelMimeMessage
  * @cancellable: (allow-none) a #GCancellable
  *
- * Parses the @message synchronously. Returns a list of #EMailPart<!-//>s which
+ * Parses the @message synchronously. Returns a list of #EMailPart<!-- -->s which
  * represents structure of the message and additional properties of each part.
  *
  * Note that this function can block for a while, so it's not a good idea to call

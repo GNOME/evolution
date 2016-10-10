@@ -17,9 +17,7 @@
  *
  */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
+#include "evolution-config.h"
 
 #include "e-msg-composer.h"
 #include "e-composer-name-header.h"

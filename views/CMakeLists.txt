@@ -1,0 +1,5 @@
+add_subdirectory(addressbook)
+add_subdirectory(calendar)
+add_subdirectory(mail)
+add_subdirectory(memos)
+add_subdirectory(tasks)

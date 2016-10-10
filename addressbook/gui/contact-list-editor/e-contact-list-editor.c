@@ -19,9 +19,7 @@
  *
  */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
+#include "evolution-config.h"
 
 #include "e-contact-list-editor.h"
 
@@ -38,8 +36,8 @@
 #include "addressbook/gui/widgets/eab-gui-util.h"
 #include "addressbook/util/eab-book-util.h"
 
-#include "eab-editor.h"
-#include "e-contact-editor.h"
+#include "addressbook/gui/contact-editor/eab-editor.h"
+#include "addressbook/gui/contact-editor/e-contact-editor.h"
 #include "e-contact-list-model.h"
 #include "eab-contact-merging.h"
 

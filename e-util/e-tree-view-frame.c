@@ -29,9 +29,7 @@
  * extended through e_tree_view_frame_insert_toolbar_action().
  **/
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
+#include "evolution-config.h"
 
 #include <libebackend/libebackend.h>
 

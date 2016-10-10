@@ -15,10 +15,11 @@
  *
  */
 
-#include "camel-null-store.h"
+#include "evolution-config.h"
 
-#include <config.h>
 #include <glib/gi18n-lib.h>
+
+#include "camel-null-store.h"
 
 G_DEFINE_TYPE (CamelNullStore, camel_null_store, CAMEL_TYPE_STORE)
 

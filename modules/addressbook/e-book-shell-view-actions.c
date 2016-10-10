@@ -18,9 +18,7 @@
  *
  */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
+#include "evolution-config.h"
 
 #include "e-book-shell-view-private.h"
 
@@ -320,7 +318,7 @@ action_address_book_refresh_cb (GtkAction *action,
 	g_object_unref (client);
 }
 
-#ifdef WITH_CONTACT_MAPS
+#ifdef ENABLE_CONTACT_MAPS
 static void
 contact_editor_contact_modified_cb (EABEditor *editor,
                                     const GError *error,
@@ -417,7 +415,7 @@ static void
 action_address_book_map_cb (GtkAction *action,
                             EBookShellView *book_shell_view)
 {
-#ifdef WITH_CONTACT_MAPS
+#ifdef ENABLE_CONTACT_MAPS
 	EShell *shell;
 	EShellView *shell_view;
 	EShellBackend *shell_backend;
@@ -1394,7 +1392,7 @@ e_book_shell_view_actions_init (EBookShellView *book_shell_view)
 	e_web_view_set_print_proxy (web_view, ACTION (CONTACT_PRINT));
 	e_web_view_set_save_as_proxy (web_view, ACTION (CONTACT_SAVE_AS));
 
-#ifndef WITH_CONTACT_MAPS
+#ifndef ENABLE_CONTACT_MAPS
 	gtk_action_set_visible (ACTION (CONTACT_PREVIEW_SHOW_MAPS), FALSE);
 	gtk_action_set_visible (ACTION (ADDRESS_BOOK_MAP), FALSE);
 	gtk_action_set_visible (ACTION (ADDRESS_BOOK_POPUP_MAP), FALSE);
