@@ -238,7 +238,7 @@ else(ENABLE_GNOME_DESKTOP)
 	set(HAVE_GNOME_DESKTOP OFF)
 endif(ENABLE_GNOME_DESKTOP)
 
-pkg_check_modules(GNOME_PLATFORM
+pkg_check_modules(GNOME_PLATFORM REQUIRED
 	cairo-gobject
 	gail-3.0>=${gdk_minimum_version}
 	gcr-3>=${gcr_minimum_version}
@@ -254,7 +254,7 @@ pkg_check_modules(GNOME_PLATFORM
 	webkit2gtk-4.0>=${webkit2gtk_minimum_version}
 )
 
-pkg_check_modules(EVOLUTION_DATA_SERVER
+pkg_check_modules(EVOLUTION_DATA_SERVER REQUIRED
 	camel-1.2>=${eds_minimum_version}
 	libebook-1.2>=${eds_minimum_version}
 	libecal-1.2>=${eds_minimum_version}
@@ -263,10 +263,10 @@ pkg_check_modules(EVOLUTION_DATA_SERVER
 	libebackend-1.2>=${eds_minimum_version}
 )
 
-pkg_check_modules(A11Y atk)
-pkg_check_modules(ENCHANT enchant>=${enchant_minimum_version})
-pkg_check_modules(LIBSOUP libsoup-2.4>=${soup_minimum_version})
-pkg_check_modules(WEB_EXTENSION webkit2gtk-4.0>=${webkit2gtk_minimum_version})
+pkg_check_modules(A11Y REQUIRED atk)
+pkg_check_modules(ENCHANT REQUIRED enchant>=${enchant_minimum_version})
+pkg_check_modules(LIBSOUP REQUIRED libsoup-2.4>=${soup_minimum_version})
+pkg_check_modules(WEB_EXTENSION REQUIRED webkit2gtk-4.0>=${webkit2gtk_minimum_version})
 
 # ******************************
 # Canberra / Canberra-GTK Sound
