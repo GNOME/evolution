@@ -1,3 +1,46 @@
+Evolution 3.22.1 2016-10-10
+---------------------------
+
+Bug Fixes:
+	Bug 771347 - Evolution's mail composer underlines my message even when spell checking is disabled (Tomas Popela)
+	Bug 771493 - Missing '>' in message reply (Tomas Popela)
+	Bug 771651 - Cannot write certain letters into meeting invitation text area (Tomas Popela)
+	Bug 771268 - [WK2] Prefer text over image on Paste (Tomas Popela)
+	Bug 770662 - [WK2] Leading space disappears on paragraph format change (Tomas Popela)
+	Bug 772015 - Free/Busy information not refreshed in the editor (Milan Crha)
+	Bug 772171 - Editing quoted replies can break message content (Tomas Popela)
+	Bug 770067 - [WK2] Misplaced cursor on reply in HTML (Tomas Popela)
+	Bug 769752 - [WK2] Some CSS styles are missing in the composer (Tomas Popela)
+	Bug 772233 - White flash on mail area of email reader (Tomas Popela)
+	Bug 772513 - Extra empty line at the top of a new mail (Tomas Popela)
+
+Miscellaneous:
+	Missing declaration for DOMGetActiveSignatureUid (Tomas Popela)
+	Extra new line on the end of mail and after citation end (Tomas Popela)
+	Introduce new debug domains for WebKit parts (Tomas Popela)
+	Cannot switch the list type when it has just one level (Tomas Popela)
+	Simplify a bit how the selection is saved (Tomas Popela)
+	Only update the composer colors when the web extension is ready (Tomas Popela)
+	Correct external editor plugin to work again (Milan Crha)
+	Optimise how a quote element is created (Tomas Popela)
+	Optimize various DOM operations when searching elements (Tomas Popela)
+	Some text could be skipped when converting the HTML to plain text (Tomas Popela)
+	Pressing the Backspace key to decrease indentation level is wrong for content that was not written in Evolution (Tomas Popela)
+	Correctly process a WebKitDOMHTMLCollection objects (Tomas Popela)
+	When creating a plain text version of a message process the nodes in right order (Tomas Popela)
+	Correctly process and remove the BODY attributes (Tomas Popela)
+	Deleting a quoted content could leave paragraph that cannot be focused (Tomas Popela)
+	Correct possible uninitialized variable usage (Milan Crha)
+
+Translations:
+	Piotr Drąg (pl)
+	Daniel Korostil (uk)
+	Gianvito Cavasoli (it)
+	Cédric Valmary (oc)
+	gogo (hr)
+	Fabio Tomat (fur)
+	Alexandre Franke (fr)
+
 Evolution 3.22.0 2016-09-19
 ---------------------------
 
