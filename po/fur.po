@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2016-09-29 19:26+0000\n"
-"PO-Revision-Date: 2016-10-09 23:04+0200\n"
+"PO-Revision-Date: 2016-10-10 13:49+0200\n"
 "Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
 "Language-Team: Friulian <fur@li.org>\n"
 "Language: fur\n"
@@ -24251,126 +24251,130 @@ msgstr ""
 
 #: ../smime/gui/certificate-manager.c:966
 msgid "Select a certificate to import..."
-msgstr ""
+msgstr "Selezionâ un certificât di impuartâ..."
 
 #: ../smime/gui/certificate-manager.c:1016
 msgid "Failed to import certificate"
-msgstr ""
+msgstr "No si è rivâts a impuartâ il certificât"
 
 #: ../smime/gui/certificate-manager.c:1132
 msgctxt "CamelTrust"
 msgid "Ask when used"
-msgstr ""
+msgstr "Domande tal doprâ"
 
 #: ../smime/gui/certificate-manager.c:1134
 msgctxt "CamelTrust"
 msgid "Never"
-msgstr ""
+msgstr "Mai"
 
 #: ../smime/gui/certificate-manager.c:1136
 msgctxt "CamelTrust"
 msgid "Marginally"
-msgstr ""
+msgstr "Margjinâl"
 
 #: ../smime/gui/certificate-manager.c:1138
 msgctxt "CamelTrust"
 msgid "Fully"
-msgstr ""
+msgstr "Plene"
 
 #: ../smime/gui/certificate-manager.c:1140
 msgctxt "CamelTrust"
 msgid "Ultimately"
-msgstr ""
+msgstr "Complete"
 
 #: ../smime/gui/certificate-manager.c:1142
 msgctxt "CamelTrust"
 msgid "Temporarily"
-msgstr ""
+msgstr "Temporanie"
 
 #: ../smime/gui/certificate-manager.c:1348
 msgid "Change certificate trust"
-msgstr ""
+msgstr "Modifiche certificât di fiducie"
 
 #: ../smime/gui/certificate-manager.c:1360
 #, c-format
 msgid "Change trust for the host '%s':"
-msgstr ""
+msgstr "Cambiâ la fiducie pal host '%s':"
 
 #: ../smime/gui/certificate-manager.c:1384
 msgctxt "CamelTrust"
 msgid "_Ask when used"
-msgstr ""
+msgstr "_Domande cuant che al è doprât"
 
 #: ../smime/gui/certificate-manager.c:1385
 msgctxt "CamelTrust"
 msgid "_Never trust this certificate"
-msgstr ""
+msgstr "Mai dâ fiducie a chest certi_ficât"
 
 #: ../smime/gui/certificate-manager.c:1386
 msgctxt "CamelTrust"
 msgid "_Temporarily trusted (this session only)"
-msgstr ""
+msgstr "Fiducie _temporanie (nome cheste session)"
 
 #: ../smime/gui/certificate-manager.c:1387
 msgctxt "CamelTrust"
 msgid "_Marginally trusted"
-msgstr ""
+msgstr "Fiducie _margjinâl"
 
 #: ../smime/gui/certificate-manager.c:1388
 msgctxt "CamelTrust"
 msgid "_Fully trusted"
-msgstr ""
+msgstr "Fiducie _plene"
 
 #: ../smime/gui/certificate-manager.c:1389
 msgctxt "CamelTrust"
 msgid "_Ultimately trusted"
-msgstr ""
+msgstr "Fiducie _complete"
 
 #: ../smime/gui/certificate-manager.c:1393
 msgid ""
 "Before trusting this site, you should examine its certificate and its policy "
 "and procedures (if available)."
 msgstr ""
+"Prime di fidâsi di chest sît, si varès di esaminâ cun atenzion lis sôs "
+"politichis e proceduris (se disponibilis)."
 
 #: ../smime/gui/certificate-manager.c:1408
 msgid "_Display certificate"
-msgstr ""
+msgstr "_Mostre certificât"
 
 #: ../smime/gui/certificate-manager.c:1613
 msgid "You have certificates on file that identify these mail servers:"
 msgstr ""
+"A son disponibii i certificâts su file che a identifichin chescj servidôrs "
+"di pueste:"
 
 #: ../smime/gui/certificate-manager.c:1644
 msgid "Host name"
-msgstr ""
+msgstr "Non host"
 
 #: ../smime/gui/certificate-manager.c:1646
 msgid "Issuer"
-msgstr ""
+msgstr "Emitent"
 
 #: ../smime/gui/certificate-manager.c:1647
 msgid "Fingerprint"
-msgstr ""
+msgstr "Impronte"
 
 #: ../smime/gui/certificate-manager.c:1648
 msgid "Trust"
-msgstr ""
+msgstr "Fiducie"
 
 #: ../smime/gui/certificate-manager.c:1669
 msgid "_Edit Trust"
-msgstr ""
+msgstr "_Modifiche fiducie"
 
 #: ../smime/gui/certificate-manager.c:2123
 msgid "All PKCS12 files"
-msgstr ""
+msgstr "Ducj i file PKCS12"
 
 #: ../smime/gui/certificate-manager.c:2140
 msgid "All email certificate files"
-msgstr ""
+msgstr "Ducj i file certificât e-mail"
 
 #: ../smime/gui/certificate-manager.c:2157
 msgid "All CA certificate files"
-msgstr ""
+msgstr "Ducj i file certificât AC"
 
 #: ../smime/gui/cert-trust-dialog.c:152
 msgid ""
@@ -24378,6 +24382,9 @@ msgid ""
 "then you trust the authenticity of this certificate unless otherwise "
 "indicated here"
 msgstr ""
+"Viodût che tu ti fidis de autoritât di certificazion che e à metût fûr chest "
+"certificât, alore tu ti fidis de autenticitât di chest certificât a mancul "
+"che chi nol sedi specificât diviersementri"
 
 #: ../smime/gui/cert-trust-dialog.c:157
 msgid ""
@@ -24385,37 +24392,41 @@ msgid ""
 "certificate, then you do not trust the authenticity of this certificate "
 "unless otherwise indicated here"
 msgstr ""
+"Viodût che no tu ti fidis de autoritât di certificazion che e à metût fûr "
+"chest certificât, alore no tu ti fidis de autenticitât di chest certificât a "
+"mancul che chi nol sedi specificât diviersementri"
 
 #: ../smime/gui/component.c:55
 #, c-format
 msgid "Enter the password for '%s', token '%s'"
-msgstr ""
+msgstr "Inserî la password par '%s', token '%s'"
 
 #: ../smime/gui/component.c:57
 #, c-format
 msgid "Enter the password for '%s'"
-msgstr ""
+msgstr "Inserî la password par '%s'"
 
 #. we're setting the password initially
 #: ../smime/gui/component.c:85
 msgid "Enter new password for certificate database"
-msgstr ""
+msgstr "Inserî une gnove password pe base di dâts dai certificâts"
 
 #: ../smime/gui/component.c:88
 msgid "Enter new password"
-msgstr ""
+msgstr "Inserî une gnove password"
 
 #: ../smime/gui/e-cert-selector.c:180
 msgid "Select certificate"
-msgstr ""
+msgstr "Selezione certificât"
 
 #: ../smime/gui/smime-ui.ui.h:3
 msgid "You have certificates from these organizations that identify you:"
 msgstr ""
+"A son disponibii i certificâts di chestis organizazions che ti identifichin:"
 
 #: ../smime/gui/smime-ui.ui.h:4
 msgid "Certificates Table"
-msgstr ""
+msgstr "Tabele certificâts"
 
 #. This is a verb, as in "make a backup".
 #: ../smime/gui/smime-ui.ui.h:7
@@ -24428,20 +24439,23 @@ msgstr ""
 
 #: ../smime/gui/smime-ui.ui.h:11
 msgid "Your Certificates"
-msgstr ""
+msgstr "Certificâts personâi"
 
 #: ../smime/gui/smime-ui.ui.h:12
 msgid "You have certificates on file that identify these people:"
 msgstr ""
+"A son disponibii certificâts su file che a identifichin chestis personis:"
 
 #: ../smime/gui/smime-ui.ui.h:14
 msgid "Contact Certificates"
-msgstr ""
+msgstr "Certificâts dai contats"
 
 #: ../smime/gui/smime-ui.ui.h:15
 msgid ""
 "You have certificates on file that identify these certificate authorities:"
 msgstr ""
+"A son disponibii i certificâts su file che a identifichin chestis autoritâts "
+"di certificazion:"
 
 #: ../smime/gui/smime-ui.ui.h:16
 msgid "Authorities"
@@ -24601,11 +24615,11 @@ msgstr ""
 
 #: ../views/mail/galview.xml.h:7
 msgid "For _Wide View"
-msgstr ""
+msgstr "Pe viodude slarg_jade"
 
 #: ../views/mail/galview.xml.h:8
 msgid "As Sent Folder for Wi_de View"
-msgstr ""
+msgstr "Come cartele Inviâts pe viodude slar_gjade"
 
 #: ../views/memos/galview.xml.h:1
 msgid "_Memos"
@@ -24613,11 +24627,11 @@ msgstr "_Promemorie"
 
 #: ../views/tasks/galview.xml.h:2
 msgid "With _Due Date"
-msgstr ""
+msgstr "Cun date di scja_dince"
 
 #: ../views/tasks/galview.xml.h:3
 msgid "With _Status"
-msgstr ""
+msgstr "Cun _stât"
 
 #~ msgid "Compose a Message"
 #~ msgstr "Scrîf un messaç"
