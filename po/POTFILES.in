@@ -38,7 +38,7 @@ calendar/alarm-notify/alarm-notify-dialog.c
 calendar/alarm-notify/alarm-queue.c
 calendar/alarm-notify/util.c
 calendar/calendar.error.xml
-calendar/gui/caltypes.xml
+calendar/gui/caltypes.xml.in
 calendar/gui/ea-cal-view.c
 calendar/gui/ea-cal-view-event.c
 calendar/gui/ea-day-view.c
@@ -84,10 +84,10 @@ calendar/gui/e-timezone-entry.c
 calendar/gui/e-week-view.c
 calendar/gui/e-week-view-main-item.c
 calendar/gui/itip-utils.c
-calendar/gui/memotypes.xml
+calendar/gui/memotypes.xml.in
 calendar/gui/misc.c
 calendar/gui/print.c
-calendar/gui/tasktypes.xml
+calendar/gui/tasktypes.xml.in
 calendar/importers/icalendar-importer.c
 calendar/zones.h
 composer/e-composer-actions.c
