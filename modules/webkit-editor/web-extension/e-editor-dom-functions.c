@@ -4179,7 +4179,7 @@ e_editor_dom_move_quoted_block_level_up (EEditorPage *editor_page)
 	}
 
 	if (citation_level == 1) {
-		gchar *inner_html;
+		gchar *inner_html = NULL;
 		WebKitDOMElement *paragraph, *element;
 
 		if (WEBKIT_DOM_IS_ELEMENT (block)) {
