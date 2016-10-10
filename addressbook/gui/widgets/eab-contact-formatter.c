@@ -778,6 +778,10 @@ accum_address_map (GString *buffer,
                    EContact *contact,
                    gint map_type)
 {
+/* Disabled, due to the code depending on WebKit1 functionality (gtk+ widgets inside webview).
+   Re-enable once there is a good replacement. See also ACTION (CONTACT_PREVIEW_SHOW_MAPS) usage.
+*/
+#if 0
 #ifdef ENABLE_CONTACT_MAPS
 	g_string_append (buffer, "<tr><td colspan=\"3\">");
 
@@ -795,6 +799,7 @@ accum_address_map (GString *buffer,
 
 	g_string_append (buffer, "</td></tr>");
 #endif /* ENABLE_CONTACT_MAPS */
+#endif /* 0 */
 }
 
 static void

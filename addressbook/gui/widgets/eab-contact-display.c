@@ -320,69 +320,6 @@ contact_display_link_clicked (EWebView *web_view,
 		link_clicked (web_view, uri);
 }
 
-#ifdef ENABLE_CONTACT_MAPS
-/* XXX Clutter event handling workaround. Clutter-gtk propagates events down
- *     to parent widgets.  In this case it leads to GtkHTML scrolling up and
- *     down while user's trying to zoom in the champlain widget. This
- *     workaround stops the propagation from map widget down to GtkHTML. */
-static gboolean
-handle_map_scroll_event (GtkWidget *widget,
-                         GdkEvent *event)
-{
-	return TRUE;
-}
-
-static GtkWidget *
-contact_display_object_requested (WebKitWebView *web_view,
-                                  gchar *mime_type,
-                                  gchar *uri,
-                                  GHashTable *param,
-                                  EABContactDisplay *display)
-{
-	EContact *contact = display->priv->contact;
-	const gchar *name = e_contact_get_const (contact, E_CONTACT_FILE_AS);
-	const gchar *contact_uid = e_contact_get_const (contact, E_CONTACT_UID);
-	gchar *full_name = NULL;
-	EContactAddress *address = NULL;
-	GtkWidget *map = NULL;
-
-	if (strstr (mime_type, "work") != NULL) {
-		address = e_contact_get (contact, E_CONTACT_ADDRESS_WORK);
-		full_name = g_strconcat (name, " (", _("Work"), ")", NULL);
-	} else if (strstr (mime_type, "home") != NULL) {
-		address = e_contact_get (contact, E_CONTACT_ADDRESS_HOME);
-		full_name = g_strconcat (name, " (", _("Home"), ")", NULL);
-	}
-
-	if (address) {
-		map = e_contact_map_new ();
-		gtk_widget_set_size_request (map, 250, 250);
-		g_signal_connect (
-			E_CONTACT_MAP (map), "contact-added",
-			G_CALLBACK (e_contact_map_zoom_on_marker), NULL);
-		g_signal_connect_swapped (
-			E_CONTACT_MAP (map), "contact-added",
-			G_CALLBACK (gtk_widget_show_all), map);
-		g_signal_connect (
-			GTK_CHAMPLAIN_EMBED (map), "scroll-event",
-			G_CALLBACK (handle_map_scroll_event), NULL);
-
-		/* No need to display photo in contact preview. */
-		e_contact_map_add_marker (
-			E_CONTACT_MAP (map), full_name,
-			contact_uid, address, NULL);
-
-		gtk_widget_show_all (map);
-
-		e_contact_address_free (address);
-	}
-
-	g_free (full_name);
-
-	return map;
-}
-#endif
-
 static void
 contact_display_load_changed (WebKitWebView *web_view,
                               WebKitLoadEvent load_event,
@@ -516,11 +453,6 @@ eab_contact_display_init (EABContactDisplay *display)
 	web_view = E_WEB_VIEW (display);
 	ui_manager = e_web_view_get_ui_manager (web_view);
 
-#ifdef ENABLE_CONTACT_MAPS
-	g_signal_connect (
-		web_view, "create-plugin-widget",
-		G_CALLBACK (contact_display_object_requested), display);
-#endif
 	e_signal_connect_notify (
 		web_view, "notify::load-changed",
 		G_CALLBACK (contact_display_load_changed), NULL);

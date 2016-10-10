@@ -1392,8 +1392,14 @@ e_book_shell_view_actions_init (EBookShellView *book_shell_view)
 	e_web_view_set_print_proxy (web_view, ACTION (CONTACT_PRINT));
 	e_web_view_set_save_as_proxy (web_view, ACTION (CONTACT_SAVE_AS));
 
-#ifndef ENABLE_CONTACT_MAPS
+	/* Never show the action for the preview panel, the feature required
+	   WebKit1 functionality (gtk+ widgets inside webview).
+	   Re-enable once there is a good replacement.
+	   See also accum_address_map() in eab-contact-formatter.cpp.
+	*/
 	gtk_action_set_visible (ACTION (CONTACT_PREVIEW_SHOW_MAPS), FALSE);
+
+#ifndef ENABLE_CONTACT_MAPS
 	gtk_action_set_visible (ACTION (ADDRESS_BOOK_MAP), FALSE);
 	gtk_action_set_visible (ACTION (ADDRESS_BOOK_POPUP_MAP), FALSE);
 #endif
