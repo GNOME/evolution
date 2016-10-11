@@ -64,26 +64,13 @@ struct _AsyncContext {
 static void
 async_context_free (AsyncContext *context)
 {
-	if (context->folder != NULL)
-		g_object_unref (context->folder);
-
-	if (context->message != NULL)
-		g_object_unref (context->message);
-
-	if (context->info != NULL)
-		camel_message_info_unref (context->info);
-
-	if (context->from != NULL)
-		g_object_unref (context->from);
-
-	if (context->recipients != NULL)
-		g_object_unref (context->recipients);
-
-	if (context->driver != NULL)
-		g_object_unref (context->driver);
-
-	if (context->transport != NULL)
-		g_object_unref (context->transport);
+	g_clear_object (&context->folder);
+	g_clear_object (&context->message);
+	g_clear_object (&context->info);
+	g_clear_object (&context->from);
+	g_clear_object (&context->recipients);
+	g_clear_object (&context->driver);
+	g_clear_object (&context->transport);
 
 	if (context->cancellable != NULL) {
 		camel_operation_pop_message (context->cancellable);
@@ -192,7 +179,7 @@ e_mail_session_append_to_local_folder (EMailSession *session,
 	context->message = g_object_ref (message);
 
 	if (info != NULL)
-		context->info = camel_message_info_ref (info);
+		context->info = g_object_ref (info);
 
 	simple = g_simple_async_result_new (
 		G_OBJECT (session), callback, user_data,
@@ -911,8 +898,7 @@ e_mail_session_send_to (EMailSession *session,
 
 	info = camel_message_info_new_from_header (
 		NULL, CAMEL_MIME_PART (message)->headers);
-	((CamelMessageInfoBase *) info)->size =
-		get_message_size (message, cancellable);
+	camel_message_info_set_size (info, get_message_size (message, cancellable));
 	camel_message_info_set_flags (info, CAMEL_MESSAGE_SEEN |
 		(camel_mime_message_has_attachment (message) ? CAMEL_MESSAGE_ATTACHMENTS : 0), ~0);
 

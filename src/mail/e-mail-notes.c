@@ -621,7 +621,9 @@ e_mail_notes_replace_message_in_folder_sync (CamelFolder *folder,
 		CamelMessageInfo *clone;
 		gchar *appended_uid = NULL;
 
-		clone = camel_message_info_clone (mi);
+		clone = camel_message_info_clone (mi, NULL);
+		camel_message_info_set_abort_notifications (clone, TRUE);
+
 		camel_message_info_set_user_flag (clone, E_MAIL_NOTES_USER_FLAG, has_note);
 
 		success = camel_folder_append_message_sync (folder, message, clone,
@@ -630,8 +632,8 @@ e_mail_notes_replace_message_in_folder_sync (CamelFolder *folder,
 		if (success)
 			camel_message_info_set_flags (mi, CAMEL_MESSAGE_DELETED, CAMEL_MESSAGE_DELETED);
 
-		camel_message_info_unref (clone);
-		camel_message_info_unref (mi);
+		g_clear_object (&clone);
+		g_clear_object (&mi);
 		g_free (appended_uid);
 	} else {
 		g_set_error_literal (error, CAMEL_ERROR, CAMEL_ERROR_GENERIC, _("Cannot find message in its folder summary"));

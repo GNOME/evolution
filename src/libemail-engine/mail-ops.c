@@ -701,7 +701,7 @@ mail_send_message (struct _send_queue_msg *m,
 
 	/* Now check for posting, failures are ignored */
 	info = camel_message_info_new (NULL);
-	((CamelMessageInfoBase *) info)->size = get_message_size (message, cancellable);
+	camel_message_info_set_size (info, get_message_size (message, cancellable));
 	camel_message_info_set_flags (info, CAMEL_MESSAGE_SEEN |
 		(camel_mime_message_has_attachment (message) ? CAMEL_MESSAGE_ATTACHMENTS : 0), ~0);
 
@@ -902,11 +902,8 @@ exit:
 		g_object_unref (folder);
 	}
 
-	if (info != NULL)
-		camel_message_info_unref (info);
-
-	if (service != NULL)
-		g_object_unref (service);
+	g_clear_object (&info);
+	g_clear_object (&service);
 
 	g_object_unref (recipients);
 	g_object_unref (from);
@@ -978,7 +975,7 @@ send_queue_exec (struct _send_queue_msg *m,
 			if ((camel_message_info_get_flags (info) & CAMEL_MESSAGE_DELETED) == 0 &&
 			    (!delay_send || camel_message_info_get_date_sent (info) <= delay_send))
 				send_uids->pdata[j++] = uids->pdata[i];
-			camel_message_info_unref (info);
+			g_clear_object (&info);
 		}
 	}
 

@@ -134,7 +134,7 @@ import_mbox_add_message (CamelFolder *folder,
 	camel_folder_append_message_sync (
 		folder, msg, info, NULL,
 		cancellable, error);
-	camel_message_info_unref (info);
+	g_clear_object (&info);
 }
 
 static void
@@ -357,7 +357,7 @@ import_kmail_folder (struct _import_mbox_msg *m,
 				camel_folder_append_message_sync (
 					folder, msg, info, NULL,
 					cancellable, error);
-				camel_message_info_unref (info);
+				g_clear_object (&info);
 				g_object_unref (msg);
 				g_object_unref (mp);
 			} else {

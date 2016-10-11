@@ -934,15 +934,15 @@ mark_ignore_thread_data_free (gpointer ptr)
 
 static void
 insert_to_checked_msgids (GHashTable *checked_msgids,
-			  const CamelSummaryMessageID *msgid)
+			  const CamelSummaryMessageID msgid)
 {
 	CamelSummaryMessageID *msgid_copy;
 
-	if (!msgid)
+	if (!msgid.id.id)
 		return;
 
 	msgid_copy = g_new0 (CamelSummaryMessageID, 1);
-	memcpy (msgid_copy, msgid, sizeof (CamelSummaryMessageID));
+	msgid_copy->id.id = msgid.id.id;
 
 	g_hash_table_insert (checked_msgids, msgid_copy, GINT_TO_POINTER (1));
 }
@@ -959,7 +959,7 @@ mark_ignore_thread_traverse_uids (CamelFolder *folder,
 {
 	GSList *to_check;
 	GPtrArray *uids;
-	gint ii;
+	guint ii;
 	gboolean success;
 
 	success = !g_cancellable_set_error_if_cancelled (cancellable, error);
@@ -973,8 +973,7 @@ mark_ignore_thread_traverse_uids (CamelFolder *folder,
 
 	while (to_check != NULL && !g_cancellable_set_error_if_cancelled (cancellable, error)) {
 		CamelMessageInfo *mi;
-		const CamelSummaryMessageID *msgid;
-		const CamelSummaryReferences *references;
+		CamelSummaryMessageID msgid;
 		const gchar *uid = to_check->data;
 		gchar *sexp;
 		GError *local_error = NULL;
@@ -990,36 +989,40 @@ mark_ignore_thread_traverse_uids (CamelFolder *folder,
 
 		mi = camel_folder_get_message_info (folder, uid);
 		if (!mi || !camel_message_info_get_message_id (mi)) {
-			if (mi)
-				camel_message_info_unref (mi);
+			g_clear_object (&mi);
 			camel_pstring_free (uid);
 			continue;
 		}
 
 		camel_message_info_set_user_flag (mi, "ignore-thread", ignore_thread);
 
-		msgid = camel_message_info_get_message_id (mi);
+		msgid.id.id = camel_message_info_get_message_id (mi);
 		insert_to_checked_msgids (checked_msgids, msgid);
 
 		if (whole_thread) {
+			GArray *references;
+
 			/* Search for parents */
-			references = camel_message_info_get_references (mi);
+			references = camel_message_info_dup_references (mi);
 			if (references) {
 				GString *expr = NULL;
 
-				for (ii = 0; ii < references->size; ii++) {
-					if (references->references[ii].id.id == 0 ||
-					    g_hash_table_contains (checked_msgids, &references->references[ii]))
+				for (ii = 0; ii < references->len; ii++) {
+					CamelSummaryMessageID ref_msgid;
+
+					ref_msgid.id.id = g_array_index (references, guint64, ii);
+					if (!ref_msgid.id.id ||
+					    g_hash_table_contains (checked_msgids, &ref_msgid))
 						continue;
 
-					insert_to_checked_msgids (checked_msgids, &references->references[ii]);
+					insert_to_checked_msgids (checked_msgids, ref_msgid);
 
 					if (!expr)
 						expr = g_string_new ("(match-all (or ");
 
 					g_string_append_printf (expr, "(= \"msgid\" \"%lu %lu\")",
-						(gulong) references->references[ii].id.part.hi,
-						(gulong) references->references[ii].id.part.lo);
+						(gulong) ref_msgid.id.part.hi,
+						(gulong) ref_msgid.id.part.lo);
 				}
 
 				if (expr) {
@@ -1041,17 +1044,19 @@ mark_ignore_thread_traverse_uids (CamelFolder *folder,
 
 					if (local_error) {
 						g_propagate_error (error, local_error);
-						camel_message_info_unref (mi);
+						g_clear_object (&mi);
 						camel_pstring_free (uid);
 						success = FALSE;
 						break;
 					}
 				}
+
+				g_array_unref (references);
 			}
 		}
 
 		/* Search for children */
-		sexp = g_strdup_printf ("(match-all (= \"references\" \"%lu %lu\"))", (gulong) msgid->id.part.hi, (gulong) msgid->id.part.lo);
+		sexp = g_strdup_printf ("(match-all (= \"references\" \"%lu %lu\"))", (gulong) msgid.id.part.hi, (gulong) msgid.id.part.lo);
 		uids = camel_folder_search_by_expression (folder, sexp, cancellable, &local_error);
 		if (uids) {
 			for (ii = 0; ii < uids->len; ii++) {
@@ -1059,25 +1064,34 @@ mark_ignore_thread_traverse_uids (CamelFolder *folder,
 
 				if (refruid && !g_hash_table_contains (checked_uids, refruid)) {
 					CamelMessageInfo *refrmi = camel_folder_get_message_info (folder, refruid);
+					guint64 msg_id = 0;
 
-					if (refrmi && camel_message_info_get_message_id (refrmi) &&
-					    !g_hash_table_contains (checked_msgids, camel_message_info_get_message_id (refrmi))) {
+					if (refrmi)
+						msg_id = camel_message_info_get_message_id (refrmi);
+
+					if (refrmi && msg_id && !g_hash_table_contains (checked_msgids, &msg_id)) {
+						GArray *references;
+
 						/* The 'references' filter search can return false positives */
-						references = camel_message_info_get_references (refrmi);
+						references = camel_message_info_dup_references (refrmi);
 						if (references) {
-							gint jj;
+							guint jj;
 
-							for (jj = 0; jj < references->size; jj++) {
-								if (references->references[jj].id.id == msgid->id.id) {
+							for (jj = 0; jj < references->len; jj++) {
+								guint64 ref_msgid;
+
+								ref_msgid = g_array_index (references, guint64, jj);
+								if (ref_msgid == msgid.id.id) {
 									to_check = g_slist_prepend (to_check, (gpointer) camel_pstring_strdup (refruid));
 									break;
 								}
 							}
+
+							g_array_unref (references);
 						}
 					}
 
-					if (refrmi)
-						camel_message_info_unref (refrmi);
+					g_clear_object (&refrmi);
 				}
 			}
 
@@ -1085,7 +1099,7 @@ mark_ignore_thread_traverse_uids (CamelFolder *folder,
 		}
 		g_free (sexp);
 
-		camel_message_info_unref (mi);
+		g_clear_object (&mi);
 		camel_pstring_free (uid);
 
 		if (local_error) {
@@ -1298,7 +1312,7 @@ e_mail_reader_open_selected (EMailReader *reader)
 			g_ptr_array_add (views, g_strdup (uid));
 		}
 
-		camel_message_info_unref (info);
+		g_clear_object (&info);
 	}
 
 	for (ii = 0; ii < views->len; ii++) {
@@ -2669,7 +2683,7 @@ e_mail_reader_save_messages (EMailReader *reader)
 		subject = camel_message_info_get_subject (info);
 		if (subject != NULL)
 			suggestion = g_strconcat (subject, ".mbox", NULL);
-		camel_message_info_unref (info);
+		g_clear_object (&info);
 	}
 
 	if (suggestion == NULL) {

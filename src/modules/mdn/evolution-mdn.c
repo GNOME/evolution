@@ -79,9 +79,7 @@ G_DEFINE_DYNAMIC_TYPE (EMdn, e_mdn, E_TYPE_EXTENSION)
 static void
 mdn_context_free (MdnContext *context)
 {
-	if (context->info != NULL)
-		camel_message_info_unref (context->info);
-
+	g_clear_object (&context->info);
 	g_object_unref (context->source);
 	g_object_unref (context->reader);
 	g_object_unref (context->folder);
@@ -416,7 +414,7 @@ mdn_notify_sender (ESource *identity_source,
 		NULL, (GAsyncReadyCallback) mdn_receipt_done,
 		g_object_ref (session));
 
-	camel_message_info_unref (receipt_info);
+	g_clear_object (&receipt_info);
 
 	g_free (message_date);
 	g_free (message_id);
@@ -437,8 +435,7 @@ mdn_notify_action_cb (GtkAction *action,
 		MDN_SENDING_MODE_MANUAL);
 
 	/* Make sure the newly-added user flag gets saved. */
-	camel_message_info_unref (context->info);
-	context->info = NULL;
+	g_clear_object (&context->info);
 }
 
 static void
@@ -526,7 +523,7 @@ mdn_message_loaded_cb (EMailReader *reader,
 		context->reader = g_object_ref (reader);
 		context->folder = g_object_ref (folder);
 		context->message = g_object_ref (message);
-		context->info = camel_message_info_ref (info);
+		context->info = g_object_ref (info);
 
 		context->notify_to = notify_to;
 		notify_to = NULL;
@@ -559,9 +556,7 @@ mdn_message_loaded_cb (EMailReader *reader,
 	g_object_unref (source);
 
 exit:
-	if (info != NULL)
-		camel_message_info_unref (info);
-
+	g_clear_object (&info);
 	g_clear_object (&folder);
 	g_free (notify_to);
 }
@@ -619,9 +614,7 @@ mdn_message_seen_cb (EMailReader *reader,
 	g_object_unref (source);
 
 exit:
-	if (info != NULL)
-		camel_message_info_unref (info);
-
+	g_clear_object (&info);
 	g_clear_object (&folder);
 	g_free (notify_to);
 }

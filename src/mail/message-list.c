@@ -520,8 +520,7 @@ regen_data_unref (RegenData *regen_data)
 			length = regen_data->summary->len;
 
 			for (ii = 0; ii < length; ii++)
-				camel_message_info_unref (
-					regen_data->summary->pdata[ii]);
+				g_clear_object (&regen_data->summary->pdata[ii]);
 
 			g_ptr_array_free (regen_data->summary, TRUE);
 		}
@@ -1664,7 +1663,8 @@ add_all_labels_foreach (ETreeModel *etm,
 	CamelMessageInfo *msg_info;
 	const gchar *old_label;
 	gchar *new_label;
-	const CamelFlag *flag;
+	const CamelNamedFlags *flags;
+	guint ii, len;
 
 	if (!etm)
 		msg_info = (CamelMessageInfo *) path;
@@ -1672,8 +1672,12 @@ add_all_labels_foreach (ETreeModel *etm,
 		msg_info = ((GNode *) path)->data;
 	g_return_val_if_fail (msg_info != NULL, FALSE);
 
-	for (flag = camel_message_info_get_user_flags (msg_info); flag; flag = flag->next)
-		add_label_if_known (ld, flag->name);
+	camel_message_info_property_lock (msg_info);
+	flags = camel_message_info_get_user_flags (msg_info);
+	len = camel_named_flags_get_length (flags);
+
+	for (ii = 0; ii < len; ii++)
+		add_label_if_known (ld, camel_named_flags_get (flags, ii));
 
 	old_label = camel_message_info_get_user_tag (msg_info, "label");
 	if (old_label != NULL) {
@@ -1683,6 +1687,8 @@ add_all_labels_foreach (ETreeModel *etm,
 
 		add_label_if_known (ld, new_label);
 	}
+
+	camel_message_info_property_unlock (msg_info);
 
 	return FALSE;
 }
@@ -3170,6 +3176,7 @@ message_list_value_at (ETreeModel *tree_model,
 {
 	MessageList *message_list;
 	CamelMessageInfo *msg_info;
+	gpointer result;
 
 	message_list = MESSAGE_LIST (tree_model);
 
@@ -3180,7 +3187,11 @@ message_list_value_at (ETreeModel *tree_model,
 	msg_info = ((GNode *) path)->data;
 	g_return_val_if_fail (msg_info != NULL, NULL);
 
-	return ml_tree_value_at_ex (tree_model, path, col, msg_info, message_list);
+	camel_message_info_property_lock (msg_info);
+	result = ml_tree_value_at_ex (tree_model, path, col, msg_info, message_list);
+	camel_message_info_property_unlock (msg_info);
+
+	return result;
 }
 
 static gpointer
@@ -3786,8 +3797,7 @@ clear_info (gchar *key,
             GNode *node,
             MessageList *message_list)
 {
-	camel_message_info_unref (node->data);
-	node->data = NULL;
+	g_clear_object (&node->data);
 }
 
 static void
@@ -4105,7 +4115,7 @@ ml_uid_nodemap_insert (MessageList *message_list,
 	flags = camel_message_info_get_flags (info);
 	date = camel_message_info_get_date_received (info);
 
-	camel_message_info_ref (info);
+	g_object_ref (info);
 	g_hash_table_insert (message_list->uid_nodemap, (gpointer) uid, node);
 
 	/* Track the latest seen and unseen messages shown, used in
@@ -4153,7 +4163,7 @@ ml_uid_nodemap_remove (MessageList *message_list,
 	}
 
 	g_hash_table_remove (message_list->uid_nodemap, uid);
-	camel_message_info_unref (info);
+	g_clear_object (&info);
 
 	g_object_unref (folder);
 }
@@ -4551,8 +4561,8 @@ mail_folder_hide_by_flag (CamelFolder *folder,
 		else
 			camel_folder_change_info_change_uid (
 				newchanges, changes->uid_changed->pdata[i]);
-		if (info)
-			camel_message_info_unref (info);
+
+		g_clear_object (&info);
 	}
 
 	if (newchanges->uid_added->len > 0 || newchanges->uid_removed->len > 0) {
@@ -5487,20 +5497,25 @@ cmp_array_uids (gconstpointer a,
 		struct sort_column_data *scol = g_ptr_array_index (sort_data->sort_columns, i);
 
 		if (md1->values->len <= i) {
+			camel_message_info_property_lock (md1->mi);
 			v1 = ml_tree_value_at_ex (
 				NULL, NULL,
 				scol->col->spec->compare_col,
 				md1->mi, sort_data->message_list);
+			camel_message_info_property_unlock (md1->mi);
 			g_ptr_array_add (md1->values, v1);
 		} else {
 			v1 = g_ptr_array_index (md1->values, i);
 		}
 
 		if (md2->values->len <= i) {
+			camel_message_info_property_lock (md2->mi);
 			v2 = ml_tree_value_at_ex (
 				NULL, NULL,
 				scol->col->spec->compare_col,
 				md2->mi, sort_data->message_list);
+			camel_message_info_property_unlock (md2->mi);
+
 			g_ptr_array_add (md2->values, v2);
 		} else {
 			v2 = g_ptr_array_index (md2->values, i);
@@ -5541,7 +5556,7 @@ free_message_info_data (gpointer uid,
 		g_ptr_array_free (data->values, TRUE);
 	}
 
-	camel_message_info_unref (data->mi);
+	g_clear_object (&data->mi);
 	g_free (data);
 }
 
@@ -5717,7 +5732,7 @@ message_list_regen_tweak_search_results (MessageList *message_list,
 			search_results,
 			(gpointer) camel_pstring_strdup (uid));
 
-	camel_message_info_unref (info);
+	g_clear_object (&info);
 }
 
 static void

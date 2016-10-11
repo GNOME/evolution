@@ -206,8 +206,7 @@ action_mail_add_sender_cb (GtkAction *action,
 	g_object_unref (cia);
 
 exit:
-	if (info != NULL)
-		camel_message_info_unref (info);
+	g_clear_object (&info);
 	g_ptr_array_unref (uids);
 
 	g_clear_object (&folder);
@@ -3052,7 +3051,7 @@ mail_reader_manage_followup_flag (EMailReader *reader,
 		g_object_unref (alert);
 	}
 
-	camel_message_info_unref (info);
+	g_clear_object (&info);
 
 	if (!alert_added)
 		mail_reader_remove_followup_alert (reader);
@@ -4642,7 +4641,7 @@ e_mail_reader_check_state (EMailReader *reader)
 		has_notignore_thread = has_notignore_thread ||
 			!camel_message_info_get_user_flag (info, "ignore-thread");
 
-		camel_message_info_unref (info);
+		g_clear_object (&info);
 	}
 
 	have_enabled_account =

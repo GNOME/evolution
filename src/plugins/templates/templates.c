@@ -1183,7 +1183,7 @@ save_template_async_data_free (gpointer ptr)
 		g_clear_object (&sta->composer);
 		g_clear_object (&sta->session);
 		g_clear_object (&sta->message);
-		camel_message_info_unref (sta->info);
+		g_clear_object (&sta->info);
 		g_free (sta->templates_folder_uri);
 		g_free (sta);
 	}

@@ -1008,7 +1008,7 @@ composer_save_to_drafts_append_mail (AsyncContext *async_context,
 		composer_save_to_drafts_cleanup,
 		async_context);
 
-	camel_message_info_unref (info);
+	g_clear_object (&info);
 
 	g_object_unref (drafts_folder);
 }
@@ -1223,7 +1223,7 @@ em_utils_composer_save_to_outbox_cb (EMsgComposer *composer,
 		composer_save_to_outbox_completed,
 		async_context);
 
-	camel_message_info_unref (info);
+	g_clear_object (&info);
 }
 
 typedef struct _PrintAsyncContext {

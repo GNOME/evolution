@@ -467,7 +467,7 @@ tmpl_folder_data_update_sync (TmplFolderData *tfd,
 				changed = tmpl_folder_data_remove_message (tfd, camel_message_info_get_uid (info)) || changed;
 			}
 
-			camel_message_info_unref (info);
+			g_clear_object (&info);
 		}
 	}
 
@@ -477,7 +477,7 @@ tmpl_folder_data_update_sync (TmplFolderData *tfd,
 		info = camel_folder_summary_get (tfd->folder->summary, uid);
 		if (info) {
 			changed = tmpl_folder_data_change_message (tfd, info) || changed;
-			camel_message_info_unref (info);
+			g_clear_object (&info);
 		}
 	}
 

@@ -1515,7 +1515,7 @@ mail_session_forward_to_sync (CamelSession *session,
 		g_mutex_unlock (&priv->preparing_flush_lock);
 	}
 
-	camel_message_info_unref (info);
+	g_clear_object (&info);
 
 	g_object_unref (source);
 
