@@ -1,0 +1,67 @@
+set(extra_deps
+	eabutil
+	eabwidgets
+	econtacteditor
+	econtactlisteditor
+	econtactprint
+	evolution-addressbook-importers
+	evolution-mail-composer
+	evolution-shell
+)
+if(ENABLE_SMIME)
+	list(APPEND extra_deps evolution-smime)
+endif(ENABLE_SMIME)
+
+set(sources
+	evolution-module-addressbook.c
+	autocompletion-config.c
+	autocompletion-config.h
+	eab-composer-util.c
+	eab-composer-util.h
+	e-book-config-hook.c
+	e-book-config-hook.h
+	e-book-shell-backend.c
+	e-book-shell-backend.h
+	e-book-shell-content.c
+	e-book-shell-content.h
+	e-book-shell-migrate.c
+	e-book-shell-migrate.h
+	e-book-shell-sidebar.c
+	e-book-shell-sidebar.h
+	e-book-shell-view.c
+	e-book-shell-view.h
+	e-book-shell-view-actions.c
+	e-book-shell-view-actions.h
+	e-book-shell-view-private.c
+	e-book-shell-view-private.h
+)
+set(extra_defines)
+set(extra_cflags
+	${CHAMPLAIN_CFLAGS}
+	${LDAP_CFLAGS}
+)
+set(extra_incdirs
+	${CMAKE_BINARY_DIR}/src/addressbook/util
+	${CMAKE_BINARY_DIR}/src/addressbook/gui/contact-editor
+	${CMAKE_BINARY_DIR}/src/addressbook/gui/contact-list-editor
+	${CMAKE_BINARY_DIR}/src/addressbook/gui/widgets
+	${CMAKE_SOURCE_DIR}/src/addressbook/util
+	${CMAKE_SOURCE_DIR}/src/addressbook/gui/contact-editor
+	${CMAKE_SOURCE_DIR}/src/addressbook/gui/contact-list-editor
+	${CMAKE_SOURCE_DIR}/src/addressbook/gui/widgets
+	${CHAMPLAIN_INCLUDE_DIRS}
+	${LDAP_INCLUDE_DIRS}
+)
+set(extra_ldflags
+	${CHAMPLAIN_LDFLAGS}
+	${LDAP_LDFLAGS}
+)
+
+add_evolution_module(module-addressbook
+	sources
+	extra_deps
+	extra_defines
+	extra_cflags
+	extra_incdirs
+	extra_ldflags
+)

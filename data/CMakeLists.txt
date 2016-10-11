@@ -77,3 +77,7 @@ install(FILES evolution.convert
 )
 
 add_subdirectory(icons)
+add_subdirectory(images)
+add_subdirectory(sounds)
+add_subdirectory(ui)
+add_subdirectory(views)
