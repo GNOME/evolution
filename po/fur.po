@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2016-09-29 19:26+0000\n"
-"PO-Revision-Date: 2016-10-10 13:49+0200\n"
+"PO-Revision-Date: 2016-10-11 17:03+0200\n"
 "Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
 "Language-Team: Friulian <fur@li.org>\n"
 "Language: fur\n"
@@ -10173,7 +10173,7 @@ msgstr "Cartele pal salvament dai file di components de pueste."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:222
 msgid "Composer load/attach directory"
-msgstr ""
+msgstr "Cartele cjarie/zonte dal compositôr"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:223
 msgid "Directory for loading/attaching files to composer."
@@ -10308,7 +10308,7 @@ msgstr ""
 #. indicate that an attachment should have been attached to the message.
 #: ../data/org.gnome.evolution.plugin.attachment-reminder.gschema.xml.in.h:4
 msgid "['attachment','attaching','attached','enclosed']"
-msgstr ""
+msgstr "['zonte','alegant','alegât','zontât','includût']"
 
 #: ../data/org.gnome.evolution.plugin.attachment-reminder.gschema.xml.in.h:5
 msgid ""
@@ -11215,7 +11215,7 @@ msgstr ""
 
 #: ../e-util/e-attachment-store.c:668 ../e-util/e-attachment-store.c:670
 msgid "A_ttach"
-msgstr ""
+msgstr "A_leghe"
 
 #: ../e-util/e-attachment-store.c:717
 msgid "Archive selected directories using this format:"
@@ -22788,7 +22788,7 @@ msgstr ""
 
 #: ../plugins/face/org-gnome-face.eplug.xml.h:2
 msgid "Attach a small picture of your face to outgoing messages."
-msgstr ""
+msgstr "Aleghe une piçule imagjin de tô muse ai messaçs in jessude."
 
 #: ../plugins/face/org-gnome-face.error.xml.h:1
 msgid "Failed Read"
@@ -23918,10 +23918,12 @@ msgid ""
 "Thanks\n"
 "The Evolution Team\n"
 msgstr ""
+"Graciis\n"
+"la grup di Evolution\n"
 
 #: ../shell/main.c:225
 msgid "Do not tell me again"
-msgstr ""
+msgstr "No stâ domandâmi plui"
 
 #. Translators: Do NOT translate the five component
 #. * names, they MUST remain in English!
@@ -23936,35 +23938,35 @@ msgstr ""
 
 #: ../shell/main.c:318
 msgid "Apply the given geometry to the main window"
-msgstr ""
+msgstr "Apliche la gjeometrie indicade al barcon principâl"
 
 #: ../shell/main.c:322
 msgid "Start in online mode"
-msgstr ""
+msgstr "Invie in modalitât in rêt"
 
 #: ../shell/main.c:324
 msgid "Ignore network availability"
-msgstr ""
+msgstr "Ignore disponibilitât rêt"
 
 #: ../shell/main.c:327
 msgid "Forcibly shut down Evolution"
-msgstr ""
+msgstr "Sfuarce il distudâ di Evolution"
 
 #: ../shell/main.c:330
 msgid "Disable loading of any plugins."
-msgstr ""
+msgstr "Disabilite il cjariament di cualsisei plugin."
 
 #: ../shell/main.c:332
 msgid "Disable preview pane of Mail, Contacts and Tasks."
-msgstr ""
+msgstr "Disabilite il ricuadri di anteprime di Pueste, Contats e Ativitâts."
 
 #: ../shell/main.c:336
 msgid "Import URIs or filenames given as rest of arguments."
-msgstr ""
+msgstr "Impuarte URI o nons di file indicâts tal rest dai argoments."
 
 #: ../shell/main.c:338
 msgid "Request a running Evolution process to quit"
-msgstr ""
+msgstr "Domande a un procès in esecuzion di Evolution di terminâ"
 
 #: ../shell/main.c:415
 #, c-format
@@ -23972,6 +23974,8 @@ msgid ""
 "Cannot start Evolution.  Another Evolution instance may be unresponsive. "
 "System error: %s"
 msgstr ""
+"Impussibil inviâ Evolution. Une altre istance de aplicazion no rispuint. "
+"Erôr di sisteme: %s"
 
 #: ../shell/main.c:469 ../shell/main.c:474
 msgid "- The Evolution PIM and Email Client"
@@ -23983,6 +23987,8 @@ msgid ""
 "%s: --online and --offline cannot be used together.\n"
 "  Run '%s --help' for more information.\n"
 msgstr ""
+"%s: impussibil doprâ --online e --offline adun.\n"
+"  Eseguî '%s --help' par vê plui informazions.\n"
 
 #: ../shell/main.c:542
 #, c-format
@@ -23990,10 +23996,12 @@ msgid ""
 "%s: --force-online and --offline cannot be used together.\n"
 "  Run '%s --help' for more information.\n"
 msgstr ""
+"%s: impussibil doprâ --force-online e --offline adun.\n"
+"  Eseguî '%s --help' par vê plui informazions.\n"
 
 #: ../shell/shell.error.xml.h:2
 msgid "Upgrade from previous version failed:"
-msgstr ""
+msgstr "Avanzament di une version precedente falît:"
 
 #: ../shell/shell.error.xml.h:3
 msgid ""
@@ -24002,14 +24010,17 @@ msgid ""
 "If you choose to continue, you may not have access to some of your old "
 "data.\n"
 msgstr ""
+"{0}\n"
+"\n"
+"Se tu sielzis di continuâ si podarès no vê acès a cualchi dât passât.\n"
 
 #: ../shell/shell.error.xml.h:7
 msgid "Continue Anyway"
-msgstr ""
+msgstr "Continue distès"
 
 #: ../shell/shell.error.xml.h:8
 msgid "Quit Now"
-msgstr ""
+msgstr "Jes cumò denant"
 
 #: ../shell/shell.error.xml.h:9
 msgid "Cannot upgrade directly from version {0}"
@@ -24035,11 +24046,11 @@ msgstr ""
 
 #: ../shell/shell.error.xml.h:13
 msgid "_Close Immediately"
-msgstr ""
+msgstr "_Siere subite"
 
 #: ../shell/shell.error.xml.h:14
 msgid "Keep _Waiting"
-msgstr ""
+msgstr "_Continue spiete"
 
 #: ../shell/shell.error.xml.h:15
 msgid "Failed to get values from '{0}'"
@@ -24051,11 +24062,11 @@ msgstr ""
 
 #: ../shell/shell.error.xml.h:17
 msgid "Failed to connect '{0}'"
-msgstr ""
+msgstr "Conession falide a «{0}»"
 
 #: ../shell/shell.error.xml.h:18
 msgid "_Reconnect"
-msgstr ""
+msgstr "To_rne conet"
 
 #: ../shell/shell.error.xml.h:19
 msgid "Failed to connect address book '{0}'"
@@ -24087,23 +24098,23 @@ msgstr ""
 
 #: ../shell/shell.error.xml.h:26
 msgid "SSL certificate for '{0}' is not trusted."
-msgstr ""
+msgstr "Il certificât SSL par «{0}» nol è atendibil."
 
 #: ../shell/shell.error.xml.h:27
 msgid "Reason: {1}"
-msgstr ""
+msgstr "Motîf: {1}"
 
 #: ../shell/shell.error.xml.h:29
 msgid "SSL certificate for address book '{0}' is not trusted."
-msgstr ""
+msgstr "Il certificât SSL pe rubriche «{0}» nol è atendibil."
 
 #: ../shell/shell.error.xml.h:30
 msgid "SSL certificate for calendar '{0}' is not trusted."
-msgstr ""
+msgstr "Il certificât SSL pal calendari «{0}» nol è atendibil."
 
 #: ../shell/shell.error.xml.h:31
 msgid "SSL certificate for mail account '{0}' is not trusted."
-msgstr ""
+msgstr "Il certificât SSL pal account di pueste «{0}» nol è atendibil."
 
 #: ../shell/shell.error.xml.h:32
 msgid "SSL certificate for memo list '{0}' is not trusted."
@@ -24111,7 +24122,7 @@ msgstr "Il certificât SSL pe liste memorandum «{0}» nol è fidât."
 
 #: ../shell/shell.error.xml.h:33
 msgid "SSL certificate for task list '{0}' is not trusted."
-msgstr ""
+msgstr "Il certificât SSL pe liste des ativitâts «{0}» nol è atendibil."
 
 #: ../smime/gui/ca-trust-dialog.c:106
 #, c-format
@@ -24120,69 +24131,72 @@ msgid ""
 "\n"
 "Edit trust settings:"
 msgstr ""
+"Il certificât '%s' al è un certificât AC.\n"
+"\n"
+"Modificâ lis impostazions di fiducie:"
 
 #: ../smime/gui/certificate-manager.c:84 ../smime/gui/certificate-manager.c:103
 #: ../smime/gui/certificate-manager.c:123
 msgid "Certificate Name"
-msgstr ""
+msgstr "Non dal certificât"
 
 #: ../smime/gui/certificate-manager.c:85 ../smime/gui/certificate-manager.c:105
 msgid "Issued To Organization"
-msgstr ""
+msgstr "Dât fûr ae organizazion"
 
 #: ../smime/gui/certificate-manager.c:86 ../smime/gui/certificate-manager.c:106
 msgid "Issued To Organizational Unit"
-msgstr ""
+msgstr "Dât fûr ae unitât organizative"
 
 #: ../smime/gui/certificate-manager.c:87 ../smime/gui/certificate-manager.c:107
 #: ../smime/gui/certificate-manager.c:125
 msgid "Serial Number"
-msgstr ""
+msgstr "Numar di serie"
 
 #: ../smime/gui/certificate-manager.c:88 ../smime/gui/certificate-manager.c:108
 #: ../smime/gui/certificate-manager.c:126
 msgid "Purposes"
-msgstr ""
+msgstr "Motîfs"
 
 #: ../smime/gui/certificate-manager.c:89 ../smime/gui/certificate-manager.c:109
 #: ../smime/gui/certificate-manager.c:127
 msgid "Issued By"
-msgstr ""
+msgstr "Dât fûr di"
 
 #: ../smime/gui/certificate-manager.c:90 ../smime/gui/certificate-manager.c:110
 #: ../smime/gui/certificate-manager.c:128
 msgid "Issued By Organization"
-msgstr ""
+msgstr "Dât fûr de organizazion"
 
 #: ../smime/gui/certificate-manager.c:91 ../smime/gui/certificate-manager.c:111
 #: ../smime/gui/certificate-manager.c:129
 msgid "Issued By Organizational Unit"
-msgstr ""
+msgstr "Dât fûr de unitât organizative"
 
 #: ../smime/gui/certificate-manager.c:92 ../smime/gui/certificate-manager.c:112
 #: ../smime/gui/certificate-manager.c:130
 msgid "Issued"
-msgstr ""
+msgstr "Emetût"
 
 #: ../smime/gui/certificate-manager.c:93 ../smime/gui/certificate-manager.c:113
 #: ../smime/gui/certificate-manager.c:131
 msgid "Expires"
-msgstr ""
+msgstr "Scjadince"
 
 #: ../smime/gui/certificate-manager.c:94 ../smime/gui/certificate-manager.c:114
 #: ../smime/gui/certificate-manager.c:132
 msgid "SHA1 Fingerprint"
-msgstr ""
+msgstr "Impronte digjitâl SHA1"
 
 #: ../smime/gui/certificate-manager.c:95 ../smime/gui/certificate-manager.c:115
 #: ../smime/gui/certificate-manager.c:133
 msgid "MD5 Fingerprint"
-msgstr ""
+msgstr "Impronte digjitâl MD5"
 
 #: ../smime/gui/certificate-manager.c:104
 #: ../smime/gui/certificate-manager.c:124
 msgid "Email Address"
-msgstr ""
+msgstr "Direzion e-mail"
 
 #: ../smime/gui/certificate-manager.c:665
 msgid "Select a file to backup your key and certificate..."
@@ -24205,12 +24219,12 @@ msgstr ""
 #. filename selection
 #: ../smime/gui/certificate-manager.c:757
 msgid "_File name:"
-msgstr ""
+msgstr "Non _file:"
 
 #. FIXME when gtk_file_chooser_button allows GTK_FILE_CHOOSER_ACTION_SAVE use it
 #: ../smime/gui/certificate-manager.c:762
 msgid "Please select a file..."
-msgstr ""
+msgstr "Selezionâ un file..."
 
 #: ../smime/gui/certificate-manager.c:776
 msgid "_Include certificate chain in the backup"
@@ -24226,11 +24240,11 @@ msgstr ""
 
 #: ../smime/gui/certificate-manager.c:801
 msgid "_Repeat Password:"
-msgstr ""
+msgstr "_Ripeti password:"
 
 #: ../smime/gui/certificate-manager.c:820
 msgid "Passwords do not match"
-msgstr ""
+msgstr "Lis password no corispuindin"
 
 #. To Translators: this text was copied from Firefox
 #: ../smime/gui/certificate-manager.c:828
@@ -24243,7 +24257,7 @@ msgstr ""
 
 #: ../smime/gui/certificate-manager.c:873
 msgid "No file name provided"
-msgstr ""
+msgstr "Nissun non di file furnît"
 
 #: ../smime/gui/certificate-manager.c:877
 msgid "Failed to backup key and certificate"
