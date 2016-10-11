@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2016-09-29 19:26+0000\n"
-"PO-Revision-Date: 2016-10-11 17:03+0200\n"
+"PO-Revision-Date: 2016-10-11 18:26+0200\n"
 "Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
 "Language-Team: Friulian <fur@li.org>\n"
 "Language: fur\n"
@@ -23633,55 +23633,55 @@ msgstr ""
 
 #: ../shell/e-shell-window-actions.c:766
 msgid "Show information about Evolution"
-msgstr ""
+msgstr "Mostre informazions su Evolution"
 
 #: ../shell/e-shell-window-actions.c:771 ../shell/e-shell-window-actions.c:785
 msgid "_Close Window"
-msgstr ""
+msgstr "_Siere barcon"
 
 #: ../shell/e-shell-window-actions.c:792
 msgid "_Contents"
-msgstr ""
+msgstr "_Indiç"
 
 #: ../shell/e-shell-window-actions.c:794
 msgid "Open the Evolution User Guide"
-msgstr ""
+msgstr "Vierç la vuide pal utent di Evolution"
 
 #: ../shell/e-shell-window-actions.c:820
 msgid "I_mport..."
-msgstr ""
+msgstr "Im_puarte..."
 
 #: ../shell/e-shell-window-actions.c:822
 msgid "Import data from other programs"
-msgstr ""
+msgstr "Impuarte dâts di altris programs"
 
 #: ../shell/e-shell-window-actions.c:829
 msgid "Create a new window displaying this view"
-msgstr ""
+msgstr "Cree un gnûf barcon che al mostri cheste viodude"
 
 #: ../shell/e-shell-window-actions.c:841
 msgid "Available Cate_gories"
-msgstr ""
+msgstr "Cate_goriis disponibilis"
 
 #: ../shell/e-shell-window-actions.c:843
 msgid "Manage available categories"
-msgstr ""
+msgstr "Gjestìs lis categoriis disponibilis"
 
 #: ../shell/e-shell-window-actions.c:855
 msgid "_Quick Reference"
-msgstr ""
+msgstr "Riferiments _veloçs"
 
 #: ../shell/e-shell-window-actions.c:857
 msgid "Show Evolution's shortcut keys"
-msgstr ""
+msgstr "Mostre i tascj di scurte di Evolution"
 
 #: ../shell/e-shell-window-actions.c:864
 msgid "Exit the program"
-msgstr ""
+msgstr "Jes dal program"
 
 #: ../shell/e-shell-window-actions.c:869
 msgid "_Advanced Search..."
-msgstr ""
+msgstr "Ricercje _avanzade..."
 
 #: ../shell/e-shell-window-actions.c:871
 msgid "Construct a more advanced search"
@@ -23693,19 +23693,19 @@ msgstr ""
 
 #: ../shell/e-shell-window-actions.c:883
 msgid "_Edit Saved Searches..."
-msgstr ""
+msgstr "Modifiche ric_ercjis salvadis..."
 
 #: ../shell/e-shell-window-actions.c:885
 msgid "Manage your saved searches"
-msgstr ""
+msgstr "Ministre lis tôs ricercjis salvadis"
 
 #: ../shell/e-shell-window-actions.c:892
 msgid "Click here to change the search type"
-msgstr ""
+msgstr "Fâs clic achì par cambiâ in gjenar di ricercje"
 
 #: ../shell/e-shell-window-actions.c:897
 msgid "_Find Now"
-msgstr ""
+msgstr "C_jate cumò"
 
 #: ../shell/e-shell-window-actions.c:899
 msgid "Execute the current search parameters"
@@ -23713,7 +23713,7 @@ msgstr ""
 
 #: ../shell/e-shell-window-actions.c:904
 msgid "_Save Search..."
-msgstr ""
+msgstr "_Salve ricercje..."
 
 #: ../shell/e-shell-window-actions.c:906
 msgid "Save the current search parameters"
@@ -23721,40 +23721,40 @@ msgstr ""
 
 #: ../shell/e-shell-window-actions.c:918
 msgid "Submit _Bug Report..."
-msgstr ""
+msgstr "Invie segnalazion di _erôr..."
 
 #: ../shell/e-shell-window-actions.c:920
 msgid "Submit a bug report using Bug Buddy"
-msgstr ""
+msgstr "Invie une segnalazion di erôr doprant Bug Buddy"
 
 #: ../shell/e-shell-window-actions.c:925
 msgid "_Work Offline"
-msgstr ""
+msgstr "_Lavore fûr rêt"
 
 #: ../shell/e-shell-window-actions.c:927
 msgid "Put Evolution into offline mode"
-msgstr ""
+msgstr "Met Evolution in modalitât fûr rêt"
 
 #: ../shell/e-shell-window-actions.c:932
 msgid "_Work Online"
-msgstr ""
+msgstr "_Lavore in rêt"
 
 #: ../shell/e-shell-window-actions.c:934
 msgid "Put Evolution into online mode"
-msgstr ""
+msgstr "Met Evolution in modalitât in rêt"
 
 #: ../shell/e-shell-window-actions.c:962
 msgid "Lay_out"
-msgstr ""
+msgstr "_Disposizion"
 
 #. Translators: This is a New menu item caption, under File->New
 #: ../shell/e-shell-window-actions.c:970
 msgid "_New"
-msgstr ""
+msgstr "_Gnûf"
 
 #: ../shell/e-shell-window-actions.c:977
 msgid "_Search"
-msgstr ""
+msgstr "_Cîr"
 
 #: ../shell/e-shell-window-actions.c:984
 msgid "_Switcher Appearance"
@@ -23762,19 +23762,19 @@ msgstr ""
 
 #: ../shell/e-shell-window-actions.c:998
 msgid "_Window"
-msgstr ""
+msgstr "_Barcon"
 
 #: ../shell/e-shell-window-actions.c:1027
 msgid "Show Side _Bar"
-msgstr ""
+msgstr "Mostre ricuadri _laterâl"
 
 #: ../shell/e-shell-window-actions.c:1029
 msgid "Show the side bar"
-msgstr ""
+msgstr "Mostre il ricuadri laterâl"
 
 #: ../shell/e-shell-window-actions.c:1035
 msgid "Show _Buttons"
-msgstr ""
+msgstr "Mo_stre botons"
 
 #: ../shell/e-shell-window-actions.c:1037
 msgid "Show the switcher buttons"
@@ -23782,23 +23782,23 @@ msgstr ""
 
 #: ../shell/e-shell-window-actions.c:1043
 msgid "Show _Status Bar"
-msgstr ""
+msgstr "Mostre sbare di s_tât"
 
 #: ../shell/e-shell-window-actions.c:1045
 msgid "Show the status bar"
-msgstr ""
+msgstr "Mostre la sbare di stât"
 
 #: ../shell/e-shell-window-actions.c:1051
 msgid "Show _Tool Bar"
-msgstr ""
+msgstr "Mostre sbare dai _struments"
 
 #: ../shell/e-shell-window-actions.c:1053
 msgid "Show the tool bar"
-msgstr ""
+msgstr "Mostre la sbare dai struments"
 
 #: ../shell/e-shell-window-actions.c:1075
 msgid "_Icons Only"
-msgstr ""
+msgstr "Dome _iconis"
 
 #: ../shell/e-shell-window-actions.c:1077
 msgid "Display window buttons with icons only"
@@ -23806,7 +23806,7 @@ msgstr ""
 
 #: ../shell/e-shell-window-actions.c:1082
 msgid "_Text Only"
-msgstr ""
+msgstr "Dome _test"
 
 #: ../shell/e-shell-window-actions.c:1084
 msgid "Display window buttons with text only"
@@ -23814,7 +23814,7 @@ msgstr ""
 
 #: ../shell/e-shell-window-actions.c:1089
 msgid "Icons _and Text"
-msgstr ""
+msgstr "Iconis _e test"
 
 #: ../shell/e-shell-window-actions.c:1091
 msgid "Display window buttons with icons and text"
@@ -23822,7 +23822,7 @@ msgstr ""
 
 #: ../shell/e-shell-window-actions.c:1096
 msgid "Tool_bar Style"
-msgstr ""
+msgstr "Stîl sba_re struments"
 
 #: ../shell/e-shell-window-actions.c:1098
 msgid "Display window buttons using the desktop toolbar setting"
@@ -23830,50 +23830,50 @@ msgstr ""
 
 #: ../shell/e-shell-window-actions.c:1106
 msgid "Delete Current View"
-msgstr ""
+msgstr "Elimine viodude atuâl"
 
 #: ../shell/e-shell-window-actions.c:1113
 msgid "Save Custom View..."
-msgstr ""
+msgstr "Salve viodude personalizade..."
 
 #: ../shell/e-shell-window-actions.c:1115
 msgid "Save current custom view"
-msgstr ""
+msgstr "Salve la viodude personalizade atuâl"
 
 #: ../shell/e-shell-window-actions.c:1122
 msgid "C_urrent View"
-msgstr ""
+msgstr "Viodude c_urint"
 
 #: ../shell/e-shell-window-actions.c:1132
 msgid "Custom View"
-msgstr ""
+msgstr "Viodude personalizade"
 
 #: ../shell/e-shell-window-actions.c:1134
 msgid "Current view is a customized view"
-msgstr ""
+msgstr "La viodude curint e je une viodude personalizade"
 
 #: ../shell/e-shell-window-actions.c:1142
 msgid "Page Set_up..."
-msgstr ""
+msgstr "Imposta_zion pagjine..."
 
 #: ../shell/e-shell-window-actions.c:1144
 msgid "Change the page settings for your current printer"
-msgstr ""
+msgstr "Cambie lis impostazions di pagjine pe stampant atuâl"
 
 #: ../shell/e-shell-window-actions.c:1507
 #, c-format
 msgid "Switch to %s"
-msgstr ""
+msgstr "Passe a %s"
 
 #: ../shell/e-shell-window-actions.c:1630
 #, c-format
 msgid "Select view: %s"
-msgstr ""
+msgstr "Selezione la viodude: %s"
 
 #: ../shell/e-shell-window-actions.c:1647
 #, c-format
 msgid "Delete view: %s"
-msgstr ""
+msgstr "Elimine la viodude: %s"
 
 #: ../shell/e-shell-window-actions.c:1748
 msgid "Execute these search parameters"
@@ -23884,14 +23884,16 @@ msgstr ""
 #: ../shell/e-shell-window.c:567
 msgctxt "toolbar-button"
 msgid "New"
-msgstr ""
+msgstr "Gnûf"
 
 #. Translators: This is used for the main window title.
 #: ../shell/e-shell-window-private.c:632
 #, c-format
 msgid "%s - Evolution"
-msgstr ""
+msgstr "%s - Evolution"
 
+# penç lavôr, fis, ecc...
+# valutâ ce doprâ e controlâ dute la traduzion
 #. Preview/Alpha/Beta version warning message
 #: ../shell/main.c:195
 #, no-c-format
@@ -23912,6 +23914,21 @@ msgid ""
 "We hope that you enjoy the results of our hard work, and we\n"
 "eagerly await your contributions!\n"
 msgstr ""
+"Mandi. Graciis di vê discjariât cheste version preliminâr\n"
+"de suite di lavôr di grup Evolution.\n"
+"\n"
+"Cheste version di Evolution no je finide. Si sta lant dongje a finîle,\n"
+"ma cualchi funzionalitât no je finide o no lavore ben.\n"
+"\n"
+"Se tu desideris une version stabil di Evolution, si consee di disinstalâ\n"
+"cheste version e di instalâ invezit la version %s.\n"
+"\n"
+"Se tu cjatis erôrs, segnaliju ae direzion bugzilla.gnome.org.\n"
+"Chest prodot al ven furnît cence nissune garanzie e nol è destinât a\n"
+"personis puartadis ae violence.\n"
+"\n"
+"O sperin che tu gjoldedis dal risultât dal nestri dûr lavôr che\n"
+"al podarà jessi miorât gracie al to contribût.\n"
 
 #: ../shell/main.c:219
 msgid ""
@@ -24020,7 +24037,7 @@ msgstr "Continue distès"
 
 #: ../shell/shell.error.xml.h:8
 msgid "Quit Now"
-msgstr "Jes cumò denant"
+msgstr "Jes cumò"
 
 #: ../shell/shell.error.xml.h:9
 msgid "Cannot upgrade directly from version {0}"
