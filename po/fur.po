@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2016-09-29 19:26+0000\n"
-"PO-Revision-Date: 2016-10-11 18:26+0200\n"
+"PO-Revision-Date: 2016-10-12 15:34+0200\n"
 "Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
 "Language-Team: Friulian <fur@li.org>\n"
 "Language: fur\n"
@@ -23269,7 +23269,7 @@ msgstr ""
 
 #: ../plugins/publish-calendar/publish-calendar.c:789
 msgid "Are you sure you want to remove this location?"
-msgstr ""
+msgstr "Sigûrs di gjavâ cheste posizion?"
 
 #. To Translators: This is shown to a user when creation of a new thread,
 #. * where the publishing should be done, fails. Basically, this shouldn't
@@ -23280,55 +23280,55 @@ msgstr ""
 
 #: ../plugins/publish-calendar/publish-calendar.c:1107
 msgid "_Publish Calendar Information"
-msgstr ""
+msgstr "_Publiche informazions calendari"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:1
 msgid "iCal"
-msgstr ""
+msgstr "iCal"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:3
 msgid "Daily"
-msgstr ""
+msgstr "Zornalîr"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:4
 msgid "Weekly"
-msgstr ""
+msgstr "Setemanâl"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:5
 msgid "Manual (via Actions menu)"
-msgstr ""
+msgstr "Manuâl (dal menù Azions)"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:9
 msgid "Secure FTP (SFTP)"
-msgstr ""
+msgstr "FTP sigûr (SFTP)"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:10
 msgid "Public FTP"
-msgstr ""
+msgstr "FTP public"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:11
 msgid "FTP (with login)"
-msgstr ""
+msgstr "FTP (cun acès)"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:12
 msgid "Windows share"
-msgstr ""
+msgstr "Condivision Windows"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:13
 msgid "WebDAV (HTTP)"
-msgstr ""
+msgstr "WebDAV (HTTP)"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:14
 msgid "Secure WebDAV (HTTPS)"
-msgstr ""
+msgstr "WebDAV sigûr (HTTPS)"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:15
 msgid "Custom Location"
-msgstr ""
+msgstr "Posizion personalizade"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:17
 msgid "_Publish as:"
-msgstr ""
+msgstr "_Publiche come:"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:18
 msgid "Publishing _Frequency:"
@@ -23340,109 +23340,109 @@ msgstr ""
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:20
 msgid "Sources"
-msgstr ""
+msgstr "Sorzints"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:23
 msgid "Service _type:"
-msgstr ""
+msgstr "G_jenar di servizi:"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:25
 msgid "_File:"
-msgstr ""
+msgstr "_File:"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:27
 msgid "P_ort:"
-msgstr ""
+msgstr "P_uarte:"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:28
 msgid "_Username:"
-msgstr ""
+msgstr "_Non utent:"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:29
 #: ../smime/gui/certificate-manager.c:787
 msgid "_Password:"
-msgstr ""
+msgstr "_Password:"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:30
 msgid "_Remember password"
-msgstr ""
+msgstr "_Visâsi password"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:31
 msgid "Publishing Location"
-msgstr ""
+msgstr "Posizion di publicazion"
 
 #: ../plugins/publish-calendar/publish-format-fb.c:84
 #: ../plugins/publish-calendar/publish-format-ical.c:104
 #, c-format
 msgid "Invalid source UID '%s'"
-msgstr ""
+msgstr "Sorzint UID '%s' no valide"
 
 #: ../plugins/publish-calendar/url-editor-dialog.c:544
 msgid "New Location"
-msgstr ""
+msgstr "Gnove posizion"
 
 #: ../plugins/publish-calendar/url-editor-dialog.c:546
 msgid "Edit Location"
-msgstr ""
+msgstr "Modifiche posizion"
 
 #. Translators: the %F %T is the third argument for a
 #. * strftime function.  It lets you define the formatting
 #. * of the date in the csv-file.
 #: ../plugins/save-calendar/csv-format.c:160
 msgid "%F %T"
-msgstr ""
+msgstr "%F %T"
 
 #: ../plugins/save-calendar/csv-format.c:376
 msgid "Description List"
-msgstr ""
+msgstr "Liste descrizion"
 
 #: ../plugins/save-calendar/csv-format.c:377
 msgid "Categories List"
-msgstr ""
+msgstr "Liste categoriis"
 
 #: ../plugins/save-calendar/csv-format.c:378
 msgid "Comment List"
-msgstr ""
+msgstr "Liste coments"
 
 #: ../plugins/save-calendar/csv-format.c:381
 msgid "Contact List"
-msgstr ""
+msgstr "Liste contats"
 
 #: ../plugins/save-calendar/csv-format.c:382
 msgid "Start"
-msgstr ""
+msgstr "Inizi"
 
 #: ../plugins/save-calendar/csv-format.c:383
 msgid "End"
-msgstr ""
+msgstr "Fin"
 
 #: ../plugins/save-calendar/csv-format.c:384
 msgid "Due"
-msgstr ""
+msgstr "Scjadince"
 
 #: ../plugins/save-calendar/csv-format.c:385
 msgid "percent Done"
-msgstr ""
+msgstr "percentuâl completade"
 
 #: ../plugins/save-calendar/csv-format.c:387
 msgid "URL"
-msgstr ""
+msgstr "URL"
 
 #: ../plugins/save-calendar/csv-format.c:388
 msgid "Attendees List"
-msgstr ""
+msgstr "Liste partecipants"
 
 #: ../plugins/save-calendar/csv-format.c:390
 msgid "Modified"
-msgstr ""
+msgstr "Modificât"
 
 #: ../plugins/save-calendar/csv-format.c:563
 msgid "A_dvanced options for the CSV format"
-msgstr ""
+msgstr "Opzions a_vanzadis pal formât CSV"
 
 #: ../plugins/save-calendar/csv-format.c:571
 msgid "Prepend a _header"
-msgstr ""
+msgstr "Met _denant une intestazion"
 
 #: ../plugins/save-calendar/csv-format.c:580
 msgid "_Value delimiter:"
@@ -23458,19 +23458,19 @@ msgstr ""
 
 #: ../plugins/save-calendar/csv-format.c:628
 msgid "Comma separated values (.csv)"
-msgstr ""
+msgstr "Valôrs separâts di virgulis (.csv)"
 
 #: ../plugins/save-calendar/ical-format.c:183 ../shell/e-shell-utils.c:179
 msgid "iCalendar (.ics)"
-msgstr ""
+msgstr "iCalendar (.ics)"
 
 #: ../plugins/save-calendar/org-gnome-save-calendar.eplug.xml.h:1
 msgid "Save Selected"
-msgstr ""
+msgstr "Salve selezionâts"
 
 #: ../plugins/save-calendar/org-gnome-save-calendar.eplug.xml.h:2
 msgid "Save a calendar or task list to disk."
-msgstr ""
+msgstr "Salve un calendari o une liste di ativitâts su disc."
 
 #.
 #. * Translator: the %FT%T is the thirth argument for a strftime function.
@@ -23483,19 +23483,19 @@ msgstr ""
 
 #: ../plugins/save-calendar/rdf-format.c:385
 msgid "RDF (.rdf)"
-msgstr ""
+msgstr "RDF (.rdf)"
 
 #: ../plugins/save-calendar/save-calendar.c:119
 msgid "_Format:"
-msgstr ""
+msgstr "_Formât:"
 
 #: ../plugins/save-calendar/save-calendar.c:184
 msgid "Select destination file"
-msgstr ""
+msgstr "Selezione file di destinazion"
 
 #: ../plugins/save-calendar/save-calendar.c:188
 msgid "_Save As"
-msgstr ""
+msgstr "_Salve come"
 
 #: ../plugins/save-calendar/save-calendar.c:347
 msgid "Save the selected calendar to disk"
@@ -23511,7 +23511,7 @@ msgstr ""
 
 #: ../plugins/templates/e-templates-store.c:117
 msgid "No Title"
-msgstr ""
+msgstr "Nissun titul"
 
 #: ../plugins/templates/org-gnome-templates.eplug.xml.h:2
 msgid ""
@@ -23522,59 +23522,59 @@ msgstr ""
 
 #: ../plugins/templates/templates.c:1286
 msgid "Saving message template"
-msgstr ""
+msgstr "Salvament model dal messaç"
 
 #: ../plugins/templates/templates.c:1307
 msgid "Save as _Template"
-msgstr ""
+msgstr "Salve come _model"
 
 #: ../plugins/templates/templates.c:1309
 msgid "Save as Template"
-msgstr ""
+msgstr "Salve come model"
 
 #: ../shell/e-shell.c:381
 msgid "Preparing to go offline..."
-msgstr ""
+msgstr "Preparazion par lâ fûr rêt..."
 
 #: ../shell/e-shell.c:410
 msgid "Preparing to go online..."
-msgstr ""
+msgstr "Preparazion par lâ in rêt..."
 
 #: ../shell/e-shell.c:521
 msgid "Preparing to quit"
-msgstr ""
+msgstr "Preparazion ae jessude"
 
 #: ../shell/e-shell.c:527
 msgid "Preparing to quit..."
-msgstr ""
+msgstr "Preparazion ae jessude..."
 
 #: ../shell/e-shell.c:1044
 msgid "Credentials are required to connect to the destination host."
-msgstr ""
+msgstr "Lis credenziâi a son necessaris par tacâsi al host di destinazion."
 
 #: ../shell/e-shell.c:1212 ../shell/e-shell-window-actions.c:827
 msgid "New _Window"
-msgstr ""
+msgstr "Gnûf _barcon"
 
 #: ../shell/e-shell.c:1223
 msgid "Quick _Reference"
-msgstr ""
+msgstr "_Riferiments veloçs"
 
 #: ../shell/e-shell.c:1225 ../shell/e-shell-window-actions.c:764
 msgid "_About"
-msgstr ""
+msgstr "_Informazions"
 
 #: ../shell/e-shell.c:1226 ../shell/e-shell-window-actions.c:862
 msgid "_Quit"
-msgstr ""
+msgstr "_Jes"
 
 #: ../shell/e-shell-content.c:720 ../shell/e-shell-content.c:721
 msgid "Searches"
-msgstr ""
+msgstr "Ricercjis"
 
 #: ../shell/e-shell-content.c:764
 msgid "Save Search"
-msgstr ""
+msgstr "Salve ricercje"
 
 #. Translators: The "Show:" label precedes a combo box that
 #. * allows the user to filter the current view.  Examples of
@@ -23582,27 +23582,27 @@ msgstr ""
 #. * "Important Messages", or "Active Appointments".
 #: ../shell/e-shell-searchbar.c:926
 msgid "Sho_w:"
-msgstr ""
+msgstr "Most_re:"
 
 #. Translators: This is part of the quick search interface.
 #. * example: Search: [_______________] in [ Current Folder ]
 #: ../shell/e-shell-searchbar.c:951
 msgid "Sear_ch:"
-msgstr ""
+msgstr "C_îr:"
 
 #. Translators: This is part of the quick search interface.
 #. * example: Search: [_______________] in [ Current Folder ]
 #: ../shell/e-shell-searchbar.c:1019
 msgid "i_n"
-msgstr ""
+msgstr "i_n"
 
 #: ../shell/e-shell-utils.c:176
 msgid "vCard (.vcf)"
-msgstr ""
+msgstr "vCard (.vcf)"
 
 #: ../shell/e-shell-utils.c:200
 msgid "All Files (*)"
-msgstr ""
+msgstr "Ducj i file (*)"
 
 #. The translator-credits string is for translators to list
 #. * per-language credits for translation, displayed in the
@@ -23613,23 +23613,23 @@ msgstr "Fabio Tomat <f.t.public@gmail.com>"
 
 #: ../shell/e-shell-utils.c:420
 msgid "Evolution Website"
-msgstr ""
+msgstr "Sît web di Evolution"
 
 #: ../shell/e-shell-view.c:292
 msgid "Saving user interface state"
-msgstr ""
+msgstr "Salvament dal stât de interface utent"
 
 #: ../shell/e-shell-window-actions.c:277
 msgid "Categories Editor"
-msgstr ""
+msgstr "Editôr categoriis"
 
 #: ../shell/e-shell-window-actions.c:585
 msgid "Bug Buddy is not installed."
-msgstr ""
+msgstr "Bug Buddy nol è instalât."
 
 #: ../shell/e-shell-window-actions.c:586
 msgid "Bug Buddy could not be run."
-msgstr ""
+msgstr "Impussibil eseguî Bug Buddy."
 
 #: ../shell/e-shell-window-actions.c:766
 msgid "Show information about Evolution"
