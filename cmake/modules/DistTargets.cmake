@@ -18,6 +18,7 @@ set(ARCHIVE_BASE_NAME ${PROJECT_NAME}-${PROJECT_VERSION})
 set(ARCHIVE_FULL_NAME ${ARCHIVE_BASE_NAME}.tar.xz)
 
 add_custom_target(dist
+	COMMAND ${CMAKE_COMMAND} -E chdir . "${CMAKE_SOURCE_DIR}/cmake/verify-pre-dist.sh"
 	COMMAND ${CMAKE_COMMAND} -E echo "Creating '${ARCHIVE_FULL_NAME}'..."
 	COMMAND git archive --prefix=${ARCHIVE_BASE_NAME}/ HEAD | xz -z > ${CMAKE_BINARY_DIR}/${ARCHIVE_FULL_NAME}
 	COMMAND ${CMAKE_COMMAND} -E echo "Distribution tarball '${ARCHIVE_FULL_NAME}' created at ${CMAKE_BINARY_DIR}"
