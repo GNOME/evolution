@@ -4311,7 +4311,7 @@ msgstr "al"
 #: ../calendar/gui/e-comp-editor-page-recurrence.c:994
 msgctxt "ECompEditorPageRecur"
 msgid "occurrences"
-msgstr "occurrències"
+msgstr "ocurrències"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
 #: ../calendar/gui/e-comp-editor-page-recurrence.c:1487
@@ -4779,7 +4779,7 @@ msgstr "adjunció"
 
 #: ../calendar/gui/e-comp-editor.c:610
 msgid "Sending notifications to attendees..."
-msgstr "S'estan enviant notifcions als assistents..."
+msgstr "S'estan enviant notificacions als assistents..."
 
 #: ../calendar/gui/e-comp-editor.c:995
 msgid "Saving changes..."
@@ -10362,7 +10362,7 @@ msgid ""
 "Controls how frequently local changes are synchronized with the remote mail "
 "server. The interval must be at least 30 seconds."
 msgstr ""
-"Controla cada quan se sincronitzaran els canvis locals amb el servidor "
+"Controla cada quant se sincronitzaran els canvis locals amb el servidor "
 "remot. L'interval ha de ser 30 segons com a mínim."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:230
@@ -10377,7 +10377,7 @@ msgid ""
 "for deleted messages belonging to the virtual folder."
 msgstr ""
 "Habilita l'expurgació a les carpetes virtuals, cosa que significa que la "
-"carpeta Expunge (expurgació) serà accessibe a les carpetes virtuals, mentre "
+"carpeta Expunge (expurgació) serà accessible a les carpetes virtuals, mentre "
 "que l'expurgació mateixa es farà en totes les carpetes per a tots els "
 "missatges suprimits dins de la carpeta virtual, no només per als missatges "
 "suprimits que pertanyin a la carpeta virtual. "
@@ -18415,7 +18415,7 @@ msgstr ""
 
 #: ../mail/mail.error.xml.h:70
 msgid "Really unsubscribe folder \"{0}\"?"
-msgstr "Segur que voleu deixar de subsciure la carpeta «{0}»?"
+msgstr "Segur que voleu deixar de subscriure la carpeta «{0}»?"
 
 #: ../mail/mail.error.xml.h:71
 msgid ""
