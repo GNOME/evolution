@@ -3796,6 +3796,7 @@ e_util_invoke_g_dbus_proxy_call_sync_wrapper_full (GDBusProxy *dbus_proxy,
 {
 	GAsyncResult *async_result = NULL;
 	GVariant *var_result;
+	GMainContext *main_context;
 
 	g_return_val_if_fail (G_IS_DBUS_PROXY (dbus_proxy), NULL);
 	g_return_val_if_fail (method_name != NULL, NULL);
@@ -3806,8 +3807,10 @@ e_util_invoke_g_dbus_proxy_call_sync_wrapper_full (GDBusProxy *dbus_proxy,
 		dbus_proxy, method_name, parameters, flags, timeout_msec, cancellable,
 		sync_wrapper_result_callback, &async_result);
 
+	main_context = g_main_context_get_thread_default ();
+
 	while (!async_result) {
-		g_main_context_iteration (NULL, TRUE);
+		g_main_context_iteration (main_context, TRUE);
 	}
 
 	var_result = g_dbus_proxy_call_finish (dbus_proxy, async_result, error);
