@@ -197,7 +197,8 @@ calendar_view_delete_event (ECalendarView *cal_view,
 
 		rid = e_cal_component_get_recurid_as_string (comp);
 
-		if ((itip_organizer_is_user (registry, comp, event->comp_data->client) ||
+		if (itip_has_any_attendees (comp) &&
+		    (itip_organizer_is_user (registry, comp, event->comp_data->client) ||
 		     itip_sentby_is_user (registry, comp, event->comp_data->client))
 		    && e_cal_dialogs_cancel_component ((GtkWindow *) gtk_widget_get_toplevel (GTK_WIDGET (cal_view)),
 						event->comp_data->client,
@@ -628,7 +629,8 @@ calendar_view_component_created_cb (ECalModel *model,
 	if (new_uid)
 		e_cal_component_set_uid (comp, new_uid);
 
-	if ((itip_organizer_is_user (registry, comp, client) ||
+	if (itip_has_any_attendees (comp) &&
+	    (itip_organizer_is_user (registry, comp, client) ||
 	     itip_sentby_is_user (registry, comp, client)) &&
 	     e_cal_dialogs_send_component ((GtkWindow *) toplevel, client, comp, TRUE, &strip_alarms, NULL)) {
 		itip_send_component_with_model (model, E_CAL_COMPONENT_METHOD_REQUEST,
@@ -780,7 +782,8 @@ paste_clipboard_data_free (gpointer ptr)
 				comp = e_cal_component_new ();
 				e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (comp_data->icalcomp));
 
-				if ((itip_organizer_is_user (registry, comp, comp_data->client) ||
+				if (itip_has_any_attendees (comp) &&
+				    (itip_organizer_is_user (registry, comp, comp_data->client) ||
 				    itip_sentby_is_user (registry, comp, comp_data->client))
 				    && e_cal_dialogs_cancel_component ((GtkWindow *) pcd->top_level, comp_data->client, comp, TRUE))
 					itip_send_component_with_model (model, E_CAL_COMPONENT_METHOD_CANCEL,

@@ -5524,7 +5524,8 @@ e_day_view_finish_resize (EDayView *day_view)
 
 	toplevel = GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (day_view)));
 
-	if ((itip_organizer_is_user (registry, comp, client) ||
+	if (itip_has_any_attendees (comp) &&
+	    (itip_organizer_is_user (registry, comp, client) ||
 	     itip_sentby_is_user (registry, comp, client)))
 		send = e_cal_dialogs_send_dragged_or_resized_component (
 				toplevel, client, comp, &strip_alarms, &only_new_attendees);
@@ -9143,7 +9144,8 @@ e_day_view_on_top_canvas_drag_data_received (GtkWidget *widget,
 
 			toplevel = GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (day_view)));
 
-			if ((itip_organizer_is_user (registry, comp, client) ||
+			if (itip_has_any_attendees (comp) &&
+			    (itip_organizer_is_user (registry, comp, client) ||
 			     itip_sentby_is_user (registry, comp, client)))
 				send = e_cal_dialogs_send_dragged_or_resized_component (
 						toplevel, client, comp, &strip_alarms, &only_new_attendees);
@@ -9386,7 +9388,8 @@ e_day_view_on_main_canvas_drag_data_received (GtkWidget *widget,
 
 			toplevel = GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (day_view)));
 
-			if ((itip_organizer_is_user (registry, comp, client) ||
+			if (itip_has_any_attendees (comp) &&
+			    (itip_organizer_is_user (registry, comp, client) ||
 			     itip_sentby_is_user (registry, comp, client)))
 				send = e_cal_dialogs_send_dragged_or_resized_component (
 						toplevel, client, comp, &strip_alarms, &only_new_attendees);

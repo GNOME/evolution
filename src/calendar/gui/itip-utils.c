@@ -334,6 +334,51 @@ itip_sentby_is_user (ESourceRegistry *registry,
 	return user_sentby;
 }
 
+gboolean
+itip_has_any_attendees (ECalComponent *comp)
+{
+	ECalComponentOrganizer organizer;
+	ECalComponentAttendee *attendee;
+	GSList *attendees = NULL;
+	gboolean res;
+
+	g_return_val_if_fail (E_IS_CAL_COMPONENT (comp), FALSE);
+
+	if (!e_cal_component_has_attendees (comp))
+		return FALSE;
+
+	e_cal_component_get_attendee_list (comp, &attendees);
+
+	/* No attendee */
+	if (!attendees)
+		return FALSE;
+
+	/* More than one attendee */
+	if (attendees->next) {
+		e_cal_component_free_attendee_list (attendees);
+		return TRUE;
+	}
+
+	/* Exactly one attendee, check if it's not the organizer */
+	attendee = attendees->data;
+
+	g_return_val_if_fail (attendee != NULL, FALSE);
+
+	if (!e_cal_component_has_organizer (comp)) {
+		e_cal_component_free_attendee_list (attendees);
+		return FALSE;
+	}
+
+	e_cal_component_get_organizer (comp, &organizer);
+
+	res = attendee->value && (!organizer.value ||
+		g_ascii_strcasecmp (itip_strip_mailto (attendee->value), itip_strip_mailto (organizer.value)) != 0);
+
+	e_cal_component_free_attendee_list (attendees);
+
+	return res;
+}
+
 static ECalComponentAttendee *
 get_attendee (GSList *attendees,
               gchar *address)

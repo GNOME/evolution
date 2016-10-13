@@ -68,6 +68,7 @@ gboolean	itip_organizer_is_user_ex	(ESourceRegistry *registry,
 gboolean	itip_sentby_is_user		(ESourceRegistry *registry,
 						 ECalComponent *comp,
 						 ECalClient *cal_client);
+gboolean	itip_has_any_attendees		(ECalComponent *comp);
 const gchar *	itip_strip_mailto		(const gchar *address);
 gchar *		itip_get_comp_attendee		(ESourceRegistry *registry,
 						 ECalComponent *comp,
