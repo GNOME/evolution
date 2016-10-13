@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2016-09-29 19:26+0000\n"
-"PO-Revision-Date: 2016-10-12 15:34+0200\n"
+"PO-Revision-Date: 2016-10-13 16:43+0200\n"
 "Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
 "Language-Team: Friulian <fur@li.org>\n"
 "Language: fur\n"
@@ -23479,7 +23479,7 @@ msgstr "Salve un calendari o une liste di ativitâts su disc."
 #. *
 #: ../plugins/save-calendar/rdf-format.c:147
 msgid "%FT%T"
-msgstr ""
+msgstr "%FT%T"
 
 #: ../plugins/save-calendar/rdf-format.c:385
 msgid "RDF (.rdf)"
@@ -23499,7 +23499,7 @@ msgstr "_Salve come"
 
 #: ../plugins/save-calendar/save-calendar.c:347
 msgid "Save the selected calendar to disk"
-msgstr ""
+msgstr "Salve il calendari selezionât sul disc"
 
 #: ../plugins/save-calendar/save-calendar.c:378
 msgid "Save the selected memo list to disk"
@@ -23507,7 +23507,7 @@ msgstr "Salve la liste dai memorandums selezionade sul disc"
 
 #: ../plugins/save-calendar/save-calendar.c:409
 msgid "Save the selected task list to disk"
-msgstr ""
+msgstr "Salve la liste di ativitâts selezionade sul disc"
 
 #: ../plugins/templates/e-templates-store.c:117
 msgid "No Title"
@@ -23519,6 +23519,9 @@ msgid ""
 "$ORIG[from], $ORIG[to] or $ORIG[body], which will be replaced by values from "
 "an email you are replying to."
 msgstr ""
+"Plugin dai modei basâts sui stampons. Al è pussibil doprâ variabilis come "
+"$ORIG[subject], $ORIG[from], $ORIG[to] o $ORIG[body], che a vignaran "
+"sostituîts dai valôrs de e-mail che tu stâs rispuindint."
 
 #: ../plugins/templates/templates.c:1286
 msgid "Saving message template"
@@ -23685,11 +23688,11 @@ msgstr "Ricercje _avanzade..."
 
 #: ../shell/e-shell-window-actions.c:871
 msgid "Construct a more advanced search"
-msgstr ""
+msgstr "Costruìs une ricercje plui avanzade"
 
 #: ../shell/e-shell-window-actions.c:878
 msgid "Clear the current search parameters"
-msgstr ""
+msgstr "Nete i parametris atuâi di ricercje"
 
 #: ../shell/e-shell-window-actions.c:883
 msgid "_Edit Saved Searches..."
@@ -23709,7 +23712,7 @@ msgstr "C_jate cumò"
 
 #: ../shell/e-shell-window-actions.c:899
 msgid "Execute the current search parameters"
-msgstr ""
+msgstr "Eseguìs i parametris di ricercje atuâi"
 
 #: ../shell/e-shell-window-actions.c:904
 msgid "_Save Search..."
@@ -23717,7 +23720,7 @@ msgstr "_Salve ricercje..."
 
 #: ../shell/e-shell-window-actions.c:906
 msgid "Save the current search parameters"
-msgstr ""
+msgstr "Salve i parametris di ricercje atuâi"
 
 #: ../shell/e-shell-window-actions.c:918
 msgid "Submit _Bug Report..."
@@ -23758,7 +23761,7 @@ msgstr "_Cîr"
 
 #: ../shell/e-shell-window-actions.c:984
 msgid "_Switcher Appearance"
-msgstr ""
+msgstr "A_spiet interutôr"
 
 #: ../shell/e-shell-window-actions.c:998
 msgid "_Window"
@@ -23778,7 +23781,7 @@ msgstr "Mo_stre botons"
 
 #: ../shell/e-shell-window-actions.c:1037
 msgid "Show the switcher buttons"
-msgstr ""
+msgstr "Mostre i botons interutôr"
 
 #: ../shell/e-shell-window-actions.c:1043
 msgid "Show _Status Bar"
@@ -23802,7 +23805,7 @@ msgstr "Dome _iconis"
 
 #: ../shell/e-shell-window-actions.c:1077
 msgid "Display window buttons with icons only"
-msgstr ""
+msgstr "Mostre i botons barcon dome cun lis iconis"
 
 #: ../shell/e-shell-window-actions.c:1082
 msgid "_Text Only"
@@ -23810,7 +23813,7 @@ msgstr "Dome _test"
 
 #: ../shell/e-shell-window-actions.c:1084
 msgid "Display window buttons with text only"
-msgstr ""
+msgstr "Mostre i botons barcon dome cul test"
 
 #: ../shell/e-shell-window-actions.c:1089
 msgid "Icons _and Text"
@@ -23818,7 +23821,7 @@ msgstr "Iconis _e test"
 
 #: ../shell/e-shell-window-actions.c:1091
 msgid "Display window buttons with icons and text"
-msgstr ""
+msgstr "Mostre i botons barcon come iconis e test"
 
 #: ../shell/e-shell-window-actions.c:1096
 msgid "Tool_bar Style"
@@ -23827,6 +23830,8 @@ msgstr "Stîl sba_re struments"
 #: ../shell/e-shell-window-actions.c:1098
 msgid "Display window buttons using the desktop toolbar setting"
 msgstr ""
+"Mostre i botons barcon doprant lis impostazions dal scritore pe sbare "
+"struments"
 
 #: ../shell/e-shell-window-actions.c:1106
 msgid "Delete Current View"
