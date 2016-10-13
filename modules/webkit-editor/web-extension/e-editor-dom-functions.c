@@ -8421,7 +8421,7 @@ change_cid_images_src_to_base64 (EEditorPage *editor_page)
 
 			list = webkit_dom_document_query_selector_all (
 				document, selector, NULL);
-			for (jj = webkit_dom_node_list_get_length (list) - 1; jj--;) {
+			for (jj = webkit_dom_node_list_get_length (list); jj--;) {
 				WebKitDOMNode *node = webkit_dom_node_list_item (list, jj);
 
 				set_base64_to_element_attribute (
