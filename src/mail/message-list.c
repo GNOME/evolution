@@ -5079,7 +5079,6 @@ on_click (ETree *tree,
 	CamelFolder *folder;
 	CamelMessageInfo *info;
 	gboolean folder_is_trash;
-	const gchar *uid;
 	gint flag = 0;
 	guint32 flags;
 
@@ -5141,8 +5140,7 @@ on_click (ETree *tree,
 			flag |= CAMEL_MESSAGE_DELETED;
 	}
 
-	uid = camel_message_info_get_uid (info);
-	camel_folder_set_message_flags (folder, uid, flag, ~flags);
+	camel_message_info_set_flags (info, flag, ~flags);
 
 	/* Notify the folder tree model that the user has marked a message
 	 * as unread so it doesn't mistake the event as new mail arriving. */
