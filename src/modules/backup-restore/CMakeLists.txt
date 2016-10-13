@@ -52,7 +52,7 @@ add_dependencies(evolution-backup
 target_compile_definitions(evolution-backup PRIVATE
 	-DG_LOG_DOMAIN=\"evolution-backup\"
 	-DEVOLUTION_LOCALEDIR=\"${LOCALE_INSTALL_DIR}\"
-	-DDBUS_SERVICES_DIR=\"${SHARE_INSTALL_DIR}/dbus-1/services\"
+	-DDBUS_SERVICES_DIR=\"${SHARE_INSTALL_PREFIX}/dbus-1/services\"
 )
 
 target_compile_options(evolution-backup PUBLIC

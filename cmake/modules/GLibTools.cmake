@@ -193,7 +193,7 @@ if(NOT GLIB_COMPILE_SCHEMAS)
 	message(FATAL_ERROR "Cannot find glib-compile-schemas, which is required to build ${PROJECT_NAME}")
 endif(NOT GLIB_COMPILE_SCHEMAS)
 
-set(GSETTINGS_SCHEMAS_DIR "${SHARE_INSTALL_DIR}/glib-2.0/schemas/")
+set(GSETTINGS_SCHEMAS_DIR "${SHARE_INSTALL_PREFIX}/glib-2.0/schemas/")
 
 macro(add_gsettings_schemas _target _schema0)
 	set(_install_code)

@@ -1,6 +1,6 @@
 set(filedeps)
 set(autostartdir ${SYSCONF_INSTALL_DIR}/xdg/autostart)
-set(desktopdir ${SHARE_INSTALL_DIR}/applications)
+set(desktopdir ${SHARE_INSTALL_PREFIX}/applications)
 set(themedir ${privdatadir}/theme)
 
 configure_file(evolution.desktop.in.in
@@ -73,7 +73,7 @@ add_custom_target(data-files ALL
 add_gsettings_schemas(data-files ${BUILT_SCHEMAS})
 
 install(FILES evolution.convert
-	DESTINATION ${SHARE_INSTALL_DIR}/GConf/gsettings
+	DESTINATION ${SHARE_INSTALL_PREFIX}/GConf/gsettings
 )
 
 add_subdirectory(icons)

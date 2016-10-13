@@ -48,7 +48,7 @@ macro(add_gtkdoc _module _namespace _deprecated_guards _srcdirsvar _depsvar _ign
 		@ONLY
 	)
 
-	set(OUTPUT_DOCDIR ${SHARE_INSTALL_DIR}/gtk-doc/html/${_module})
+	set(OUTPUT_DOCDIR ${SHARE_INSTALL_PREFIX}/gtk-doc/html/${_module})
 
 	set(_ignore_headers)
 	foreach(_header ${${_ignoreheadersvar}})

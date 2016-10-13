@@ -230,5 +230,5 @@ set(noinst_icons
 	hicolor_status_32x32_online.svg
 )
 
-add_icon_cache_files("${SHARE_INSTALL_DIR}" public_icons)
+add_icon_cache_files("${SHARE_INSTALL_PREFIX}" public_icons)
 add_icon_cache_files("${privdatadir}" private_icons stock_private_icons)

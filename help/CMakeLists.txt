@@ -284,7 +284,7 @@ macro(create_help_files_for_lang _lang _helpfilesvar)
 	add_dependencies(help-files ${_lang}-help-files)
 
 	install(FILES ${installed}
-		DESTINATION ${SHARE_INSTALL_DIR}/help/${_lang}/${HELP_ID}/
+		DESTINATION ${SHARE_INSTALL_PREFIX}/help/${_lang}/${HELP_ID}/
 	)
 endmacro(create_help_files_for_lang)
 
@@ -297,12 +297,12 @@ foreach(dir ${directories})
 		foreach(_media ${HELP_MEDIA})
 			if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/${dir}/${_media}")
 				install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/${dir}/${_media}
-					DESTINATION ${SHARE_INSTALL_DIR}/help/${dir}/${HELP_ID}/${HELP_FIGURES_DIR}/
+					DESTINATION ${SHARE_INSTALL_PREFIX}/help/${dir}/${HELP_ID}/${HELP_FIGURES_DIR}/
 				)
 			else(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/${dir}/${_media}")
 				# Pity, no symlink ability here
 				install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/C/${_media}
-					DESTINATION ${SHARE_INSTALL_DIR}/help/${dir}/${HELP_ID}/${HELP_FIGURES_DIR}/
+					DESTINATION ${SHARE_INSTALL_PREFIX}/help/${dir}/${HELP_ID}/${HELP_FIGURES_DIR}/
 				)
 			endif(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/${dir}/${_media}")
 		endforeach(_media)
@@ -315,7 +315,7 @@ foreach(_file ${HELP_FILES})
 endforeach(_file)
 
 install(FILES ${cinstalled}
-	DESTINATION ${SHARE_INSTALL_DIR}/help/C/${HELP_ID}/
+	DESTINATION ${SHARE_INSTALL_PREFIX}/help/C/${HELP_ID}/
 )
 
 set(cinstalled)
@@ -324,7 +324,7 @@ foreach(_file ${HELP_MEDIA})
 endforeach(_file)
 
 install(FILES ${cinstalled}
-	DESTINATION ${SHARE_INSTALL_DIR}/help/C/${HELP_ID}/${HELP_FIGURES_DIR}
+	DESTINATION ${SHARE_INSTALL_PREFIX}/help/C/${HELP_ID}/${HELP_FIGURES_DIR}
 )
 
 add_subdirectory(quickref)

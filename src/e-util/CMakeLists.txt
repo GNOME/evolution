@@ -577,7 +577,7 @@ add_dependencies(evolution-util
 target_compile_definitions(evolution-util PRIVATE
 	-DG_LOG_DOMAIN=\"evolution-util\"
 	-DEVOLUTION_BINDIR=\"${BIN_INSTALL_DIR}\"
-	-DEVOLUTION_DATADIR=\"${SHARE_INSTALL_DIR}\"
+	-DEVOLUTION_DATADIR=\"${SHARE_INSTALL_PREFIX}\"
 	-DEVOLUTION_ECPSDIR=\"${privdatadir}/ecps\"
 	-DEVOLUTION_ETSPECDIR=\"${etspecdir}\"
 	-DEVOLUTION_GALVIEWSDIR=\"${viewsdir}\"

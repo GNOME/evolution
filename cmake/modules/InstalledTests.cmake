@@ -20,7 +20,7 @@ include(PrintableOptions)
 add_printable_option(ENABLE_INSTALLED_TESTS "Enable installed tests" OFF)
 
 set(INSTALLED_TESTS_EXEC_DIR ${privlibexecdir}/installed-tests)
-set(INSTALLED_TESTS_META_DIR ${SHARE_INSTALL_DIR}/installed-tests/${PROJECT_NAME})
+set(INSTALLED_TESTS_META_DIR ${SHARE_INSTALL_PREFIX}/installed-tests/${PROJECT_NAME})
 
 macro(install_test_if_enabled _test_target _type _environ)
 	if(ENABLE_INSTALLED_TESTS)

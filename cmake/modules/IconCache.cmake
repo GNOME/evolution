@@ -33,10 +33,10 @@ endmacro(split_icon_components)
 
 find_program(GTK_UPDATE_ICON_CACHE gtk-update-icon-cache)
 if(NOT GTK_UPDATE_ICON_CACHE)
-	message(WARNING "gtk-update-icon-cache not found. Make sure to call ${GTK_UPDATE_ICON_CACHE} -f -t \"${SHARE_INSTALL_DIR}/icons/hicolor\" after install and uninstall")
+	message(WARNING "gtk-update-icon-cache not found. Make sure to call ${GTK_UPDATE_ICON_CACHE} -f -t \"${SHARE_INSTALL_PREFIX}/icons/hicolor\" after install and uninstall")
 endif(NOT GTK_UPDATE_ICON_CACHE)
 
-set(_update_icon_cache_cmd ${GTK_UPDATE_ICON_CACHE} -f -t "${SHARE_INSTALL_DIR}/icons/hicolor")
+set(_update_icon_cache_cmd ${GTK_UPDATE_ICON_CACHE} -f -t "${SHARE_INSTALL_PREFIX}/icons/hicolor")
 
 macro(process_icons _destdir _fileslistvar _install_codevar)
 	foreach(srcfile IN LISTS ${_fileslistvar})
@@ -69,6 +69,6 @@ endmacro(add_icon_cache_files)
 if(GTK_UPDATE_ICON_CACHE)
 	add_custom_command(TARGET uninstall POST_BUILD
 		COMMAND ${CMAKE_COMMAND} -E chdir . ${_update_icon_cache_cmd}
-		COMMENT "Updating icon cache in '${SHARE_INSTALL_DIR}/icons/hicolor'"
+		COMMENT "Updating icon cache in '${SHARE_INSTALL_PREFIX}/icons/hicolor'"
 	)
 endif(GTK_UPDATE_ICON_CACHE)

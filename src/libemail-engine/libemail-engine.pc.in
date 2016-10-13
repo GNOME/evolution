@@ -1,8 +1,8 @@
 prefix=@CMAKE_INSTALL_PREFIX@
 libdir=@LIB_INSTALL_DIR@
 includedir=@INCLUDE_INSTALL_DIR@
-datarootdir=@SHARE_INSTALL_DIR@
-datadir=@SHARE_INSTALL_DIR@
+datarootdir=@SHARE_INSTALL_PREFIX@
+datadir=@SHARE_INSTALL_PREFIX@
 
 privlibdir=@privsolibdir@
 privincludedir=@privincludedir@
