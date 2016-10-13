@@ -647,12 +647,28 @@ install(FILES ${HEADERS}
 
 # Private gsettings module
 
+add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/test-gio-modules
+	COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_CURRENT_BINARY_DIR}/test-gio-modules
+)
+
+add_custom_target(test-gio-modules-dir
+	DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/test-gio-modules
+)
+
 # This is not meant to be distributed to end users, unless test-html-editor-units
 # is also distributed, but even then it can work without it
 add_library(evolutiontestsettings MODULE
 	test-keyfile-settings-backend.h
 	test-keyfile-settings-backend.c
-	${PLATFORM_SOURCES}
+)
+
+add_dependencies(evolutiontestsettings
+	test-gio-modules-dir
+)
+
+set_target_properties(evolutiontestsettings PROPERTIES
+	PREFIX ""
+	OUTPUT_NAME test-gio-modules/libevolutiontestsettings
 )
 
 target_compile_definitions(evolutiontestsettings PRIVATE
@@ -700,7 +716,7 @@ macro(add_private_program _name _sources)
 		-DG_LOG_DOMAIN=\"${_name}\"
 		-DEVOLUTION_LOCALEDIR=\"${LOCALE_INSTALL_DIR}\"
 		-DEVOLUTION_MODULEDIR=\"${moduledir}\"
-		-DEVOLUTION_TESTGIOMODULESDIR=\"${CMAKE_CURRENT_BINARY_DIR}\"
+		-DEVOLUTION_TESTGIOMODULESDIR=\"${CMAKE_CURRENT_BINARY_DIR}/test-gio-modules\"
 		-DEVOLUTION_TESTTOPSRCDIR=\"${CMAKE_SOURCE_DIR}\"
 		-DLIBEUTIL_COMPILATION
 	)
