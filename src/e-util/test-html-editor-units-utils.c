@@ -1032,3 +1032,15 @@ test_utils_get_clipboard_text (gboolean request_html)
 
 	return text;
 }
+
+EContentEditor *
+test_utils_get_content_editor (TestFixture *fixture)
+{
+	EContentEditor *cnt_editor;
+
+	g_return_val_if_fail (fixture != NULL, NULL);
+	g_return_val_if_fail (E_IS_HTML_EDITOR (fixture->editor), NULL);
+
+	cnt_editor = e_html_editor_get_content_editor (fixture->editor);
+	return cnt_editor;
+}
