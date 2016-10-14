@@ -975,6 +975,13 @@ webkit_editor_update_styles (EContentEditor *editor)
 
 	g_string_append (
 		stylesheet,
+		"body[data-evo-plain-text] "
+		"{\n"
+		"  font-family: Monospace; \n"
+		"}\n");
+
+	g_string_append (
+		stylesheet,
 		"body[data-evo-plain-text] img.-x-evo-smiley-img, "
 		"body:not([data-evo-plain-text]) span.-x-evo-smiley-text "
 		"{\n"
