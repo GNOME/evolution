@@ -7403,7 +7403,7 @@ process_node_to_plain_text_for_exporting (EEditorPage *editor_page,
 	      WEBKIT_DOM_IS_HTML_QUOTE_ELEMENT (source)))
 		g_string_append (buffer, "\n");
 
-	if (g_str_has_suffix (buffer->str, "\n") &&
+	if (g_str_has_suffix (buffer->str, "\n") && buffer->len > 1 &&
 	    WEBKIT_DOM_IS_HTML_BODY_ELEMENT (source))
 		g_string_truncate (buffer, buffer->len - 1);
 }
