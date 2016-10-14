@@ -699,6 +699,38 @@ test_bug_772171 (TestFixture *fixture)
 		g_test_fail ();
 }
 
+static void
+test_bug_772513 (TestFixture *fixture)
+{
+	EContentEditor *cnt_editor;
+	gboolean set_signature_from_message, check_if_signature_is_changed, ignore_next_signature_change;
+
+	test_utils_fixture_change_setting_boolean (fixture, "org.gnome.evolution.mail", "composer-reply-start-bottom", TRUE);
+
+	if (!test_utils_process_commands (fixture,
+		"mode:plain\n")) {
+		g_test_fail ();
+		return;
+	}
+
+	cnt_editor = test_utils_get_content_editor (fixture);
+
+	e_content_editor_insert_signature (
+		cnt_editor,
+		"",
+		FALSE,
+		"none",
+		&set_signature_from_message,
+		&check_if_signature_is_changed,
+		&ignore_next_signature_change);
+
+	if (!test_utils_run_simple_test (fixture,
+		"",
+		HTML_PREFIX_PLAIN "<div style=\"width: 71ch;\"><br></div>" HTML_SUFFIX,
+		"\n"))
+		g_test_fail ();
+}
+
 void
 test_add_html_editor_bug_tests (void)
 {
@@ -715,4 +747,5 @@ test_add_html_editor_bug_tests (void)
 	test_utils_add_test ("/bug/771131", test_bug_771131);
 	test_utils_add_test ("/bug/771493", test_bug_771493);
 	test_utils_add_test ("/bug/772171", test_bug_772171);
+	test_utils_add_test ("/bug/772513", test_bug_772513);
 }
