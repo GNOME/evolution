@@ -2841,37 +2841,6 @@ body_keypress_event_cb (WebKitDOMElement *element,
 	g_clear_object (&range);
 }
 
-void
-e_editor_dom_set_monospace_font_family_on_body (WebKitDOMElement *body,
-                                                gboolean html_mode)
-{
-	/* If copying some content in view, WebKit adds various information about
-	 * the content's style (such as color, font size, ..) to the resulting HTML
-	 * to correctly apply the style when pasting the content later. The thing
-	 * is that in plain text mode the only font allowed is the monospaced one,
-	 * but we are forcing it through user style sheet in WebKitWebSettings and
-	 * sadly WebKit doesn't count with it, so when the content is pasted,
-	 * WebKit wraps it inside SPANs and sets the font-family style on them.
-	 * The problem is that when we switch to the HTML mode, the pasted content
-	 * will have the monospaced font set. To avoid it we need to set the
-	 * font-family style to the body, so WebKit will know about it and will
-	 * avoid the described behaviour. */
-	/* When we are deleting a content from the PRE elements we need to turn
-	 * this off, otherwise we will end with the same unwanted behavior (the
-	 * text between the caret and the end of the element will be wrapped
-	 * inside a SPAN element. */
-	if (!html_mode) {
-		element_rename_attribute (WEBKIT_DOM_ELEMENT (body), "data-style", "style");
-		webkit_dom_element_set_attribute (
-			WEBKIT_DOM_ELEMENT (body),
-			"style",
-			"font-family: Monospace;",
-			NULL);
-	} else {
-		element_rename_attribute (WEBKIT_DOM_ELEMENT (body), "style", "data-style");
-	}
-}
-
 static void
 body_keydown_event_cb (WebKitDOMElement *element,
                        WebKitDOMUIEvent *event,
@@ -2937,8 +2906,6 @@ body_keydown_event_cb (WebKitDOMElement *element,
 	if (delete_key || backspace_key) {
 		if (e_editor_dom_key_press_event_process_delete_or_backspace_key (editor_page, key_code, control_key, delete_key))
 			webkit_dom_event_prevent_default (WEBKIT_DOM_EVENT (event));
-		else if (!e_editor_page_get_html_mode (editor_page))
-			e_editor_dom_set_monospace_font_family_on_body (element, TRUE);
 		goto out;
 	}
 
@@ -3933,13 +3900,6 @@ body_keyup_event_cb (WebKitDOMElement *element,
 
 	key_code = webkit_dom_ui_event_get_key_code (event);
 	if (key_code == HTML_KEY_CODE_BACKSPACE || key_code == HTML_KEY_CODE_DELETE) {
-		if (!e_editor_page_get_html_mode (editor_page)) {
-			WebKitDOMHTMLElement *body;
-
-			body = webkit_dom_document_get_body (document);
-
-			e_editor_dom_set_monospace_font_family_on_body (WEBKIT_DOM_ELEMENT (body), FALSE);
-		}
 		e_editor_dom_body_key_up_event_process_backspace_or_delete (editor_page, key_code == HTML_KEY_CODE_DELETE);
 
 		/* The content was wrapped and the coordinates
@@ -6036,8 +5996,6 @@ e_editor_dom_convert_content (EEditorPage *editor_page,
 	 * callback won't be set up. */
 
 	register_html_events_handlers (editor_page, body);
-	e_editor_dom_set_monospace_font_family_on_body (
-		WEBKIT_DOM_ELEMENT (body), e_editor_page_get_html_mode (editor_page));
 
 	g_free (inner_html);
 }
@@ -8549,9 +8507,6 @@ e_editor_dom_process_content_after_load (EEditorPage *editor_page)
 	else
 		e_editor_dom_turn_spell_check_off (editor_page);
 
-	e_editor_dom_set_monospace_font_family_on_body (
-		WEBKIT_DOM_ELEMENT (body), e_editor_page_get_html_mode (editor_page));
-
 	e_editor_dom_scroll_to_caret (editor_page);
 
 	dom_window = webkit_dom_document_get_default_view (document);
@@ -10595,22 +10550,17 @@ e_editor_dom_check_if_conversion_needed (EEditorPage *editor_page)
 void
 e_editor_dom_process_content_after_mode_change (EEditorPage *editor_page)
 {
-	WebKitDOMDocument *document;
 	EEditorUndoRedoManager *manager;
 	gboolean html_mode;
 
 	g_return_if_fail (E_IS_EDITOR_PAGE (editor_page));
 
-	document = e_editor_page_get_document (editor_page);
 	html_mode = e_editor_page_get_html_mode (editor_page);
 
 	if (html_mode)
 		process_content_to_html_changing_composer_mode (editor_page);
 	else
 		process_content_to_plain_text_changing_composer_mode (editor_page);
-
-	e_editor_dom_set_monospace_font_family_on_body (
-		WEBKIT_DOM_ELEMENT (webkit_dom_document_get_body (document)), html_mode);
 
 	manager = e_editor_page_get_undo_redo_manager (editor_page);
 	e_editor_undo_redo_manager_clean_history (manager);
