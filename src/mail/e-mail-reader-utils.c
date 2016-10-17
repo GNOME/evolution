@@ -2391,12 +2391,14 @@ e_mail_reader_reply_to_message (EMailReader *reader,
 	EMailDisplay *display;
 	EMailPartList *part_list = NULL;
 	GtkWidget *message_list;
+	CamelContentType *content_type;
 	CamelMimeMessage *new_message;
 	CamelInternetAddress *address = NULL;
 	CamelFolder *folder;
 	EMailReplyStyle reply_style;
 	EWebView *web_view;
 	struct _camel_header_raw *header;
+	gboolean src_is_html = FALSE;
 	const gchar *uid;
 	gchar *selection = NULL;
 	gint length;
@@ -2499,7 +2501,13 @@ e_mail_reader_reply_to_message (EMailReader *reader,
 	if (!e_web_view_is_selection_active (web_view))
 		goto whole_message;
 
-	selection = e_web_view_get_selection_content_html_sync (web_view, NULL, NULL);
+	content_type = camel_mime_part_get_content_type (CAMEL_MIME_PART (src_message));
+	src_is_html = camel_content_type_is (content_type, "text", "html");
+
+	if (src_is_html)
+		selection = e_web_view_get_selection_content_html_sync (web_view, NULL, NULL);
+	else
+		selection = g_strdup (e_mail_display_get_selection_plain_text_sync (display, NULL, NULL));
 	if (selection == NULL || *selection == '\0')
 		goto whole_message;
 
@@ -2530,7 +2538,9 @@ e_mail_reader_reply_to_message (EMailReader *reader,
 
 	camel_mime_part_set_content (
 		CAMEL_MIME_PART (new_message),
-		selection, length, "text/html; charset=utf-8");
+		selection,
+		length,
+		src_is_html ? "text/html; charset=utf-8" : "text/plain; charset=utf-8");
 
 	ccd = g_new0 (CreateComposerData, 1);
 	ccd->reader = g_object_ref (reader);
