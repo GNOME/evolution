@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2016-09-29 19:26+0000\n"
-"PO-Revision-Date: 2016-10-13 16:43+0200\n"
+"PO-Revision-Date: 2016-10-18 08:14+0200\n"
 "Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
 "Language-Team: Friulian <fur@li.org>\n"
 "Language: fur\n"
@@ -22297,211 +22297,211 @@ msgstr ""
 
 #: ../modules/text-highlight/languages.c:31
 msgid "_Plain text"
-msgstr ""
+msgstr "Test _sempliç"
 
 #: ../modules/text-highlight/languages.c:37
 msgid "_Assembler"
-msgstr ""
+msgstr "_Assembler"
 
 #: ../modules/text-highlight/languages.c:42
 msgid "_Bash"
-msgstr ""
+msgstr "_Bash"
 
 #: ../modules/text-highlight/languages.c:53
 msgid "_C/C++"
-msgstr ""
+msgstr "_C/C++"
 
 #: ../modules/text-highlight/languages.c:62
 msgid "_C#"
-msgstr ""
+msgstr "_C#"
 
 #: ../modules/text-highlight/languages.c:67
 msgid "_Cascade Style Sheet"
-msgstr ""
+msgstr "_Cascade Style Sheet"
 
 #: ../modules/text-highlight/languages.c:80
 msgid "_Java"
-msgstr ""
+msgstr "_Java"
 
 #: ../modules/text-highlight/languages.c:86
 msgid "_JavaScript"
-msgstr ""
+msgstr "_JavaScript"
 
 #: ../modules/text-highlight/languages.c:92
 msgid "_Patch/diff"
-msgstr ""
+msgstr "_Patch/diff"
 
 #: ../modules/text-highlight/languages.c:98
 msgid "_Perl"
-msgstr ""
+msgstr "_Perl"
 
 #: ../modules/text-highlight/languages.c:109
 msgid "_PHP"
-msgstr ""
+msgstr "_PHP"
 
 #: ../modules/text-highlight/languages.c:122
 msgid "_Python"
-msgstr ""
+msgstr "_Python"
 
 #: ../modules/text-highlight/languages.c:127
 msgid "_Ruby"
-msgstr ""
+msgstr "_Ruby"
 
 #: ../modules/text-highlight/languages.c:134
 msgid "_Tcl/Tk"
-msgstr ""
+msgstr "_Tcl/Tk"
 
 #: ../modules/text-highlight/languages.c:140
 msgid "_TeX/LaTeX"
-msgstr ""
+msgstr "_TeX/LaTeX"
 
 #: ../modules/text-highlight/languages.c:146
 msgid "_Vala"
-msgstr ""
+msgstr "_Vala"
 
 #: ../modules/text-highlight/languages.c:151
 msgid "_Visual Basic"
-msgstr ""
+msgstr "_Visual Basic"
 
 #: ../modules/text-highlight/languages.c:158
 msgid "_XML"
-msgstr ""
+msgstr "_XML"
 
 #: ../modules/text-highlight/languages.c:176
 msgid "_ActionScript"
-msgstr ""
+msgstr "_ActionScript"
 
 #: ../modules/text-highlight/languages.c:181
 msgid "_ADA95"
-msgstr ""
+msgstr "_ADA95"
 
 #: ../modules/text-highlight/languages.c:188
 msgid "_ALGOL 68"
-msgstr ""
+msgstr "_ALGOL 68"
 
 #: ../modules/text-highlight/languages.c:193
 msgid "(_G)AWK"
-msgstr ""
+msgstr "(_G)AWK"
 
 #: ../modules/text-highlight/languages.c:198
 msgid "_COBOL"
-msgstr ""
+msgstr "_COBOL"
 
 #: ../modules/text-highlight/languages.c:203
 msgid "_DOS Batch"
-msgstr ""
+msgstr "_DOS Batch"
 
 #: ../modules/text-highlight/languages.c:208
 msgid "_D"
-msgstr ""
+msgstr "_D"
 
 #: ../modules/text-highlight/languages.c:213
 msgid "_Erlang"
-msgstr ""
+msgstr "_Erlang"
 
 #: ../modules/text-highlight/languages.c:218
 msgid "_FORTRAN 77"
-msgstr ""
+msgstr "_FORTRAN 77"
 
 #: ../modules/text-highlight/languages.c:224
 msgid "_FORTRAN 90"
-msgstr ""
+msgstr "_FORTRAN 90"
 
 #: ../modules/text-highlight/languages.c:229
 msgid "_F#"
-msgstr ""
+msgstr "_F#"
 
 #: ../modules/text-highlight/languages.c:234
 msgid "_Go"
-msgstr ""
+msgstr "_Go"
 
 #: ../modules/text-highlight/languages.c:239
 msgid "_Haskell"
-msgstr ""
+msgstr "_Haskell"
 
 #: ../modules/text-highlight/languages.c:244
 msgid "_JSP"
-msgstr ""
+msgstr "_JSP"
 
 #: ../modules/text-highlight/languages.c:249
 msgid "_Lisp"
-msgstr ""
+msgstr "_Lisp"
 
 #: ../modules/text-highlight/languages.c:257
 msgid "_Lotus"
-msgstr ""
+msgstr "_Lotus"
 
 #: ../modules/text-highlight/languages.c:262
 msgid "_Lua"
-msgstr ""
+msgstr "_Lua"
 
 #: ../modules/text-highlight/languages.c:267
 msgid "_Maple"
-msgstr ""
+msgstr "_Maple"
 
 #: ../modules/text-highlight/languages.c:272
 msgid "_Matlab"
-msgstr ""
+msgstr "_Matlab"
 
 #: ../modules/text-highlight/languages.c:277
 msgid "_Maya"
-msgstr ""
+msgstr "_Maya"
 
 #: ../modules/text-highlight/languages.c:282
 msgid "_Oberon"
-msgstr ""
+msgstr "_Oberon"
 
 #: ../modules/text-highlight/languages.c:287
 msgid "_Objective C"
-msgstr ""
+msgstr "_Objective C"
 
 #: ../modules/text-highlight/languages.c:293
 msgid "_OCaml"
-msgstr ""
+msgstr "_OCaml"
 
 #: ../modules/text-highlight/languages.c:298
 msgid "_Octave"
-msgstr ""
+msgstr "_Octave"
 
 #: ../modules/text-highlight/languages.c:303
 msgid "_Object Script"
-msgstr ""
+msgstr "_Object Script"
 
 #: ../modules/text-highlight/languages.c:308
 msgid "_Pascal"
-msgstr ""
+msgstr "_Pascal"
 
 #: ../modules/text-highlight/languages.c:313
 msgid "_POV-Ray"
-msgstr ""
+msgstr "_POV-Ray"
 
 #: ../modules/text-highlight/languages.c:318
 msgid "_Prolog"
-msgstr ""
+msgstr "_Prolog"
 
 #: ../modules/text-highlight/languages.c:323
 msgid "_R"
-msgstr ""
+msgstr "_R"
 
 #: ../modules/text-highlight/languages.c:328
 msgid "_RPM Spec"
-msgstr ""
+msgstr "_RPM Spec"
 
 #: ../modules/text-highlight/languages.c:333
 msgid "_Scala"
-msgstr ""
+msgstr "_Scala"
 
 #: ../modules/text-highlight/languages.c:338
 msgid "_Smalltalk"
-msgstr ""
+msgstr "_Smalltalk"
 
 #: ../modules/text-highlight/languages.c:344
 msgid "_TCSH"
-msgstr ""
+msgstr "_TCSH"
 
 #: ../modules/text-highlight/languages.c:349
 msgid "_VHDL"
-msgstr ""
+msgstr "_VHDL"
 
 #: ../modules/vcard-inline/e-mail-formatter-vcard.c:131
 #: ../modules/vcard-inline/e-mail-part-vcard.c:187
