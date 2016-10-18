@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2016-09-29 19:26+0000\n"
-"PO-Revision-Date: 2016-10-18 09:58+0200\n"
+"PO-Revision-Date: 2016-10-18 10:45+0200\n"
 "Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
 "Language-Team: Friulian <fur@li.org>\n"
 "Language: fur\n"
@@ -22522,106 +22522,109 @@ msgstr "_VHDL"
 #: ../modules/vcard-inline/e-mail-formatter-vcard.c:131
 #: ../modules/vcard-inline/e-mail-part-vcard.c:187
 msgid "Show F_ull vCard"
-msgstr ""
+msgstr "Mostre vCard c_omplete"
 
 #: ../modules/vcard-inline/e-mail-formatter-vcard.c:134
 #: ../modules/vcard-inline/e-mail-part-vcard.c:192
 msgid "Show Com_pact vCard"
-msgstr ""
+msgstr "Mostre vCard com_pate"
 
 #: ../modules/vcard-inline/e-mail-formatter-vcard.c:165
 msgid "Save _To Addressbook"
-msgstr ""
+msgstr "Salve _te rubriche"
 
 #: ../modules/vcard-inline/e-mail-formatter-vcard.c:189
 msgid "There is one other contact."
-msgstr ""
+msgstr "Al è presint un altri contat."
 
 #: ../modules/vcard-inline/e-mail-formatter-vcard.c:194
 #, c-format
 msgid "There is %d other contact."
 msgid_plural "There are %d other contacts."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Al è presint %d altri contat."
+msgstr[1] "A son presints altris %d contats."
 
 #: ../modules/vcard-inline/e-mail-formatter-vcard.c:220
 msgid "Addressbook Contact"
-msgstr ""
+msgstr "Contat rubriche"
 
 #: ../modules/vcard-inline/e-mail-formatter-vcard.c:221
 msgid "Display the part as an addressbook contact"
-msgstr ""
+msgstr "Mostre la part come un contat de rubriche"
 
 #: ../plugins/attachment-reminder/attachment-reminder.c:126
 msgid "_Do not show this message again."
-msgstr ""
+msgstr "_No stâ mostrâ plui chest messaç."
 
 #: ../plugins/attachment-reminder/attachment-reminder.c:484
 #: ../plugins/templates/templates.c:490
 msgid "Keywords"
-msgstr ""
+msgstr "Peraulis clâf"
 
 #: ../plugins/attachment-reminder/org-gnome-attachment-reminder.error.xml.h:1
 msgid "Message has no attachments"
-msgstr ""
+msgstr "Il messaç nol à zontis"
 
 #: ../plugins/attachment-reminder/org-gnome-attachment-reminder.error.xml.h:2
 msgid ""
 "Evolution has found some keywords that suggest that this message should "
 "contain an attachment, but cannot find one."
 msgstr ""
+"Evolution al à cjatât cualchi peraule clâf che e sugjerìs che chest messaç "
+"al varès di vê des zontis, ma no'nd è nissune."
 
 #: ../plugins/attachment-reminder/org-gnome-attachment-reminder.error.xml.h:3
 msgid "_Add Attachment..."
-msgstr ""
+msgstr "_Zonte zonte..."
 
 #: ../plugins/attachment-reminder/org-gnome-attachment-reminder.error.xml.h:4
 msgid "_Edit Message"
-msgstr ""
+msgstr "_Modifiche messaç"
 
 #: ../plugins/attachment-reminder/org-gnome-evolution-attachment-reminder.eplug.xml.h:1
 msgid "Attachment Reminder"
-msgstr ""
+msgstr "Promemorie zontis"
 
 #: ../plugins/attachment-reminder/org-gnome-evolution-attachment-reminder.eplug.xml.h:2
 msgid "Reminds you when you forgot to add an attachment to a mail message."
-msgstr ""
+msgstr "Al vise cuant che si dismentee di alegâ une zonte ai messaç di pueste."
 
 #: ../plugins/bbdb/bbdb.c:724 ../plugins/bbdb/bbdb.c:835
 #: ../plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml.h:1
 msgid "Automatic Contacts"
-msgstr ""
+msgstr "Contats automatics"
 
 #. Enable BBDB checkbox
 #: ../plugins/bbdb/bbdb.c:739
 msgid "Create _address book entries when sending mails"
-msgstr ""
+msgstr "Creâ _vôs di rubriche cuant che si invie pueste"
 
 #: ../plugins/bbdb/bbdb.c:749
 msgid "Select Address book for Automatic Contacts"
-msgstr ""
+msgstr "Selezione la rubriche pai contats automatics"
 
 #: ../plugins/bbdb/bbdb.c:769
 msgid "Instant Messaging Contacts"
-msgstr ""
+msgstr "Contats pai messaçs istantanis"
 
 #. Enable Gaim Checkbox
 #: ../plugins/bbdb/bbdb.c:784
 msgid "_Synchronize contact info and images from Pidgin buddy list"
 msgstr ""
+"_Sincronizâ informazions e imagjinis dai contats de liste di amîs di Pidgin"
 
 #: ../plugins/bbdb/bbdb.c:794
 msgid "Select Address book for Pidgin buddy list"
-msgstr ""
+msgstr "Selezione rubriche pe liste amîs di Pidgin"
 
 #. Synchronize now button.
 #: ../plugins/bbdb/bbdb.c:810
 msgid "Synchronize with _buddy list now"
-msgstr ""
+msgstr "_Sincronize cumò cun la liste amîs"
 
 #: ../plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml.h:2
 msgid "BBDB"
-msgstr ""
+msgstr "BBDB"
 
 #: ../plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml.h:3
 msgid ""
@@ -22634,63 +22637,63 @@ msgstr ""
 
 #: ../plugins/dbx-import/dbx-importer.c:278
 msgid "Importing Outlook Express data"
-msgstr ""
+msgstr "Importazion dâts Outlook Express"
 
 #: ../plugins/dbx-import/org-gnome-dbx-import.eplug.xml.h:1
 msgid "Outlook DBX import"
-msgstr ""
+msgstr "Importazion Outlook DBX"
 
 #: ../plugins/dbx-import/org-gnome-dbx-import.eplug.xml.h:2
 msgid "Outlook Express 5/6 personal folders (.dbx)"
-msgstr ""
+msgstr "Cartelis personâi di Outlook Express 5/6 (.dbx)"
 
 #: ../plugins/dbx-import/org-gnome-dbx-import.eplug.xml.h:3
 msgid "Import Outlook Express messages from DBX file"
-msgstr ""
+msgstr "Impuarte messaçs di Outlook Express di un file DBX"
 
 #: ../plugins/email-custom-header/email-custom-header.c:293
 msgctxt "email-custom-header-Security"
 msgid "Security:"
-msgstr ""
+msgstr "Sigurece:"
 
 #: ../plugins/email-custom-header/email-custom-header.c:297
 msgctxt "email-custom-header-Security"
 msgid "Personal"
-msgstr ""
+msgstr "Personâl"
 
 #: ../plugins/email-custom-header/email-custom-header.c:298
 msgctxt "email-custom-header-Security"
 msgid "Unclassified"
-msgstr ""
+msgstr "No classificât"
 
 #: ../plugins/email-custom-header/email-custom-header.c:299
 msgctxt "email-custom-header-Security"
 msgid "Protected"
-msgstr ""
+msgstr "Protet"
 
 #: ../plugins/email-custom-header/email-custom-header.c:300
 msgctxt "email-custom-header-Security"
 msgid "Confidential"
-msgstr ""
+msgstr "Confidenziâl"
 
 #: ../plugins/email-custom-header/email-custom-header.c:301
 msgctxt "email-custom-header-Security"
 msgid "Secret"
-msgstr ""
+msgstr "Segret"
 
 #: ../plugins/email-custom-header/email-custom-header.c:302
 msgctxt "email-custom-header-Security"
 msgid "Top secret"
-msgstr ""
+msgstr "Top secret"
 
 #: ../plugins/email-custom-header/email-custom-header.c:362
 msgctxt "email-custom-header"
 msgid "None"
-msgstr ""
+msgstr "Nissune"
 
 #: ../plugins/email-custom-header/email-custom-header.c:539
 msgid "_Custom Header"
-msgstr ""
+msgstr "Intestazion _personalizade"
 
 #. To translators: This string is used while adding a new message header to configuration, to specifying the format of the key values
 #: ../plugins/email-custom-header/email-custom-header.c:809
@@ -22698,19 +22701,21 @@ msgid ""
 "The format for specifying a Custom Header key value is:\n"
 "Name of the Custom Header key values separated by \";\"."
 msgstr ""
+"Par specificâ un valôr clâf di intestazion personalizade, il formât al è:\n"
+"Nons dai valôrs de clâf de intestazion personalizade separâts di \";\"."
 
 #: ../plugins/email-custom-header/email-custom-header.c:862
 msgid "Key"
-msgstr ""
+msgstr "Clâf"
 
 #: ../plugins/email-custom-header/email-custom-header.c:879
 #: ../plugins/templates/templates.c:499
 msgid "Values"
-msgstr ""
+msgstr "Valôrs"
 
 #: ../plugins/email-custom-header/org-gnome-email-custom-header.eplug.xml.h:1
 msgid "Custom Header"
-msgstr ""
+msgstr "Intestazion personalizade"
 
 #. For Translators: 'custom header' string is used while adding a new message header to outgoing message, to specify what value for the message header would be added
 #: ../plugins/email-custom-header/org-gnome-email-custom-header.eplug.xml.h:3
