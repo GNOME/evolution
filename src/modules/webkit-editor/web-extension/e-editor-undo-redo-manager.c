@@ -796,6 +796,28 @@ undo_delete (EEditorPage *editor_page,
 		else
 			range = get_range_for_point (document, event->after.start);
 
+		/* If redoing an INPUT event that was done in the middle of the
+		 * text we need to move one character backward as the range is
+		 * pointing after the character and not before it - for INPUT
+		 * events we don't save the before coordinates. */
+		if (event->type == HISTORY_INPUT) {
+			glong start_offset;
+			WebKitDOMNode *start_container;
+
+			start_offset = webkit_dom_range_get_start_offset (range, NULL);
+			start_container = webkit_dom_range_get_start_container (range, NULL);
+
+			if (WEBKIT_DOM_IS_CHARACTER_DATA (start_container) &&
+			    start_offset != webkit_dom_character_data_get_length (WEBKIT_DOM_CHARACTER_DATA (start_container))) {
+				webkit_dom_range_set_start (
+					range,
+					start_container,
+					start_offset > 0 ? start_offset - 1 : 0,
+					NULL);
+				webkit_dom_range_collapse (range, TRUE, NULL);
+			}
+		}
+
 		webkit_dom_range_surround_contents (range, WEBKIT_DOM_NODE (element), NULL);
 		webkit_dom_dom_selection_remove_all_ranges (dom_selection);
 		webkit_dom_dom_selection_add_range (dom_selection, range);

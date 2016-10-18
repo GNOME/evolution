@@ -729,6 +729,21 @@ test_bug_772513 (TestFixture *fixture)
 		g_test_fail ();
 }
 
+static void
+test_bug_772918 (TestFixture *fixture)
+{
+	if (!test_utils_run_simple_test (fixture,
+		"mode:html\n"
+		"type:a b c d\n"
+		"seq:lll\n"
+		"type:1 2 3 \n"
+		"undo:undo:6\n"
+		"undo:redo:6\n",
+		HTML_PREFIX "<div>a b 1 2 3 c d</div>" HTML_SUFFIX,
+		"a b 1 2 3 c d"))
+		g_test_fail ();
+}
+
 void
 test_add_html_editor_bug_tests (void)
 {
@@ -746,4 +761,5 @@ test_add_html_editor_bug_tests (void)
 	test_utils_add_test ("/bug/771493", test_bug_771493);
 	test_utils_add_test ("/bug/772171", test_bug_772171);
 	test_utils_add_test ("/bug/772513", test_bug_772513);
+	test_utils_add_test ("/bug/772918", test_bug_772918);
 }
