@@ -507,8 +507,8 @@ unset(optupper)
 # as both gnutls and mozilla-nss have a header called "pkcs12.h" which is
 # included in smime/lib/e-pkcs12.c. It wants the Mozilla NSS one.
 
-set(CERT_UI_INCLUDES "${MANUAL_NSPR_INCLUDES}")
-set(CERT_UI_LIBS "${MANUAL_NSPR_LIBS}")
+set(CERT_UI_INCLUDES ${MANUAL_NSPR_INCLUDES})
+set(CERT_UI_LIBS ${MANUAL_NSPR_LIBS})
 
 # ******************************
 # Libnotify
@@ -521,9 +521,9 @@ set(HAVE_LIBNOTIFY ${LIBNOTIFY_FOUND})
 # libical tweaks
 # ******************************
 
-set(CMAKE_REQUIRED_FLAGS "${EVOLUTION_DATA_SERVER_CFLAGS}")
-set(CMAKE_REQUIRED_INCLUDES "${EVOLUTION_DATA_SERVER_INCLUDE_DIRS}")
-set(CMAKE_REQUIRED_LIBRARIES "${EVOLUTION_DATA_SERVER_LDFLAGS}")
+set(CMAKE_REQUIRED_FLAGS ${EVOLUTION_DATA_SERVER_CFLAGS})
+set(CMAKE_REQUIRED_INCLUDES ${EVOLUTION_DATA_SERVER_INCLUDE_DIRS})
+set(CMAKE_REQUIRED_LIBRARIES ${EVOLUTION_DATA_SERVER_LDFLAGS})
 
 CHECK_C_SOURCE_COMPILES("#include <libical/ical.h>
 			int main(void) {
@@ -538,6 +538,7 @@ CHECK_C_SOURCE_COMPILES("#include <libical/ical.h>
 			}" HAVE_ICALTZUTIL_SET_EXACT_VTIMEZONES_SUPPORT)
 
 unset(CMAKE_REQUIRED_FLAGS)
+unset(CMAKE_REQUIRED_INCLUDES)
 unset(CMAKE_REQUIRED_LIBRARIES)
 
 # ******************************
