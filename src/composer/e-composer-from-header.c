@@ -96,6 +96,7 @@ composer_from_header_constructed (GObject *object)
 	/* Input widget must be set before chaining up. */
 
 	widget = e_mail_identity_combo_box_new (registry);
+	e_mail_identity_combo_box_set_allow_aliases (E_MAIL_IDENTITY_COMBO_BOX (widget), TRUE);
 	gtk_widget_show (widget);
 	g_signal_connect (
 		widget, "changed",
@@ -205,21 +206,29 @@ e_composer_from_header_get_identities_widget (EComposerFromHeader *header)
 	return GTK_COMBO_BOX (E_COMPOSER_HEADER (header)->input_widget);
 }
 
-const gchar *
-e_composer_from_header_get_active_id (EComposerFromHeader *header)
+gchar *
+e_composer_from_header_dup_active_id (EComposerFromHeader *header,
+				      gchar **alias_name,
+				      gchar **alias_address)
 {
 	GtkComboBox *combo_box;
+	gchar *identity_uid = NULL;
 
 	g_return_val_if_fail (E_IS_COMPOSER_FROM_HEADER (header), NULL);
 
 	combo_box = e_composer_from_header_get_identities_widget (header);
 
-	return gtk_combo_box_get_active_id (combo_box);
+	if (!e_mail_identity_combo_box_get_active_uid (E_MAIL_IDENTITY_COMBO_BOX (combo_box), &identity_uid, alias_name, alias_address))
+		return NULL;
+
+	return identity_uid;
 }
 
 void
 e_composer_from_header_set_active_id (EComposerFromHeader *header,
-                                      const gchar *active_id)
+				      const gchar *active_id,
+				      const gchar *alias_name,
+				      const gchar *alias_address)
 {
 	GtkComboBox *combo_box;
 
@@ -230,7 +239,8 @@ e_composer_from_header_set_active_id (EComposerFromHeader *header,
 
 	combo_box = e_composer_from_header_get_identities_widget (header);
 
-	if (!gtk_combo_box_set_active_id (combo_box, active_id) && active_id && *active_id) {
+	if (!e_mail_identity_combo_box_set_active_uid (E_MAIL_IDENTITY_COMBO_BOX (combo_box),
+		active_id, alias_name, alias_address) && active_id && *active_id) {
 		ESourceRegistry *registry;
 		GtkTreeModel *model;
 		GtkTreeIter iter;

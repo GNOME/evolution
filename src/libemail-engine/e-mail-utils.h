@@ -56,7 +56,9 @@ ESource *	em_utils_guess_mail_identity_with_recipients
 						(ESourceRegistry *registry,
 						 CamelMimeMessage *message,
 						 CamelFolder *folder,
-						 const gchar *message_uid);
+						 const gchar *message_uid,
+						 gchar **identity_name,
+						 gchar **identity_address);
 ESource *	em_utils_guess_mail_account_with_recipients_and_sort
 						(ESourceRegistry *registry,
 						 CamelMimeMessage *message,
@@ -69,6 +71,8 @@ ESource *	em_utils_guess_mail_identity_with_recipients_and_sort
 						 CamelMimeMessage *message,
 						 CamelFolder *folder,
 						 const gchar *message_uid,
+						 gchar **identity_name,
+						 gchar **identity_address,
 						 EMailUtilsSortSourcesFunc sort_func,
 						 gpointer sort_func_data);
 ESource *	em_utils_ref_mail_identity_for_store

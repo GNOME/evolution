@@ -110,6 +110,42 @@ itip_get_default_name_and_address (ESourceRegistry *registry,
 	return success;
 }
 
+static gint
+sort_identities_by_email_cb (gconstpointer ptr1,
+			     gconstpointer ptr2)
+{
+	const gchar **pv1 = (const gchar **) ptr1, **pv2 = (const gchar **) ptr2;
+	const gchar *addr1, *addr2;
+	gint res;
+
+	if (!pv1 || !*pv1 || !pv2 || !*pv2) {
+		if (pv1 && *pv1)
+			return -1;
+		if (pv2 && *pv2)
+			return 1;
+		return 0;
+	}
+
+	addr1 = strchr (*pv1, '<');
+	addr2 = strchr (*pv2, '<');
+
+	if (addr1)
+		addr1++;
+	else
+		addr1 = *pv1;
+	if (addr2)
+		addr2++;
+	else
+		addr2 = *pv2;
+
+	res = g_ascii_strcasecmp (addr1, addr2);
+
+	if (!res && addr1 != *pv1 && addr2 != *pv2)
+		res = g_ascii_strcasecmp (*pv1, *pv2);
+
+	return res;
+}
+
 /**
  * itip_get_user_identities:
  * @registry: an #ESourceRegistry
@@ -122,10 +158,9 @@ itip_get_default_name_and_address (ESourceRegistry *registry,
 gchar **
 itip_get_user_identities (ESourceRegistry *registry)
 {
-	GList *list, *iter;
+	GList *list, *link;
 	const gchar *extension_name;
-	gchar **identities;
-	guint ii = 0;
+	GPtrArray *identities;
 
 	g_return_val_if_fail (E_IS_SOURCE_REGISTRY (registry), NULL);
 
@@ -133,30 +168,61 @@ itip_get_user_identities (ESourceRegistry *registry)
 
 	list = e_source_registry_list_enabled (registry, extension_name);
 
-	identities = g_new0 (gchar *, g_list_length (list) + 1);
+	identities = g_ptr_array_sized_new (g_list_length (list) + 1);
 
-	for (iter = list; iter != NULL; iter = g_list_next (iter)) {
-		ESource *source = E_SOURCE (iter->data);
+	for (link = list; link != NULL; link = g_list_next (link)) {
+		ESource *source = E_SOURCE (link->data);
 		ESourceMailIdentity *extension;
 		const gchar *name, *address;
+		gchar *aliases;
 
 		extension = e_source_get_extension (source, extension_name);
 
 		name = e_source_mail_identity_get_name (extension);
 		address = e_source_mail_identity_get_address (extension);
 
-		if (!address)
-			continue;
+		if (address) {
+			if (name && *name)
+				g_ptr_array_add (identities, g_strdup_printf ("%s <%s>", name, address));
+			else
+				g_ptr_array_add (identities, g_strdup_printf ("%s", address));
+		}
 
-		if (name && *name)
-			identities[ii++] = g_strdup_printf ("%s <%s>", name, address);
-		else
-			identities[ii++] = g_strdup_printf ("%s", address);
+		aliases = e_source_mail_identity_dup_aliases (extension);
+		if (aliases && *aliases) {
+			CamelInternetAddress *inet_address;
+			gint ii, len;
+
+			inet_address = camel_internet_address_new ();
+			len = camel_address_decode (CAMEL_ADDRESS (inet_address), aliases);
+
+			for (ii = 0; ii < len; ii++) {
+				const gchar *alias_name = NULL, *alias_address = NULL;
+
+				if (camel_internet_address_get (inet_address, ii, &alias_name, &alias_address) &&
+				    alias_address && *alias_address) {
+					if (!alias_name || !*alias_name)
+						alias_name = name;
+
+					if (alias_name && *alias_name)
+						g_ptr_array_add (identities, g_strdup_printf ("%s <%s>", alias_name, alias_address));
+					else
+						g_ptr_array_add (identities, g_strdup_printf ("%s", alias_address));
+				}
+			}
+		}
+
+		g_free (aliases);
 	}
 
 	g_list_free_full (list, (GDestroyNotify) g_object_unref);
 
-	return identities;
+	g_ptr_array_sort (identities, sort_identities_by_email_cb);
+
+	/* NULL-terminated array */
+	g_ptr_array_add (identities, NULL);
+
+	return (gchar **) g_ptr_array_free (identities, FALSE);
 }
 
 /**
@@ -235,20 +301,24 @@ itip_address_is_user (ESourceRegistry *registry,
 
 	list = e_source_registry_list_sources (registry, extension_name);
 
-	for (iter = list; iter != NULL; iter = g_list_next (iter)) {
+	for (iter = list; iter && !match; iter = g_list_next (iter)) {
 		ESource *source = E_SOURCE (iter->data);
 		ESourceMailIdentity *extension;
+		GHashTable *aliases;
 		const gchar *id_address;
 
 		extension = e_source_get_extension (source, extension_name);
 		id_address = e_source_mail_identity_get_address (extension);
 
-		if (id_address == NULL)
-			continue;
-
-		if (g_ascii_strcasecmp (address, id_address) == 0) {
+		if (id_address && g_ascii_strcasecmp (address, id_address) == 0) {
 			match = TRUE;
 			break;
+		}
+
+		aliases = e_source_mail_identity_get_aliases_as_hash_table (extension);
+		if (aliases) {
+			match = g_hash_table_contains (aliases, address);
+			g_hash_table_destroy (aliases);
 		}
 	}
 
@@ -381,7 +451,8 @@ itip_has_any_attendees (ECalComponent *comp)
 
 static ECalComponentAttendee *
 get_attendee (GSList *attendees,
-              gchar *address)
+	      const gchar *address,
+	      GHashTable *aliases)
 {
 	GSList *l;
 
@@ -390,8 +461,14 @@ get_attendee (GSList *attendees,
 
 	for (l = attendees; l; l = l->next) {
 		ECalComponentAttendee *attendee = l->data;
+		const gchar *nomailto;
 
-		if (!g_ascii_strcasecmp (itip_strip_mailto (attendee->value), address)) {
+		nomailto = itip_strip_mailto (attendee->value);
+		if (!nomailto || !*nomailto)
+			continue;
+
+		if ((address && g_ascii_strcasecmp (nomailto, address) == 0) ||
+		    (aliases && g_hash_table_contains (aliases, nomailto))) {
 			return attendee;
 		}
 	}
@@ -401,15 +478,21 @@ get_attendee (GSList *attendees,
 
 static ECalComponentAttendee *
 get_attendee_if_attendee_sentby_is_user (GSList *attendees,
-                                         gchar *address)
+					 const gchar *address,
+					 GHashTable *aliases)
 {
 	GSList *l;
 
 	for (l = attendees; l; l = l->next) {
 		ECalComponentAttendee *attendee = l->data;
+		const gchar *nomailto;
 
-		if (attendee->sentby && g_str_equal (
-			itip_strip_mailto (attendee->sentby), address)) {
+		nomailto = itip_strip_mailto (attendee->sentby);
+		if (!nomailto || !*nomailto)
+			continue;
+
+		if ((address && g_ascii_strcasecmp (nomailto, address) == 0) ||
+		    (aliases && g_hash_table_contains (aliases, nomailto))) {
 			return attendee;
 		}
 	}
@@ -451,7 +534,7 @@ itip_get_comp_attendee (ESourceRegistry *registry,
 			&address, NULL, NULL);
 
 	if (address != NULL && *address != '\0') {
-		attendee = get_attendee (attendees, address);
+		attendee = get_attendee (attendees, address, NULL);
 
 		if (attendee) {
 			gchar *user_email;
@@ -464,8 +547,7 @@ itip_get_comp_attendee (ESourceRegistry *registry,
 			return user_email;
 		}
 
-		attendee = get_attendee_if_attendee_sentby_is_user (
-			attendees, address);
+		attendee = get_attendee_if_attendee_sentby_is_user (attendees, address, NULL);
 
 		if (attendee != NULL) {
 			gchar *user_email;
@@ -486,27 +568,27 @@ itip_get_comp_attendee (ESourceRegistry *registry,
 	list = e_source_registry_list_enabled (registry, extension_name);
 
 	for (link = list; link != NULL; link = g_list_next (link)) {
-		ESourceExtension *extension;
+		ESourceMailIdentity *extension;
+		GHashTable *aliases;
 
 		source = E_SOURCE (link->data);
 
 		extension_name = E_SOURCE_EXTENSION_MAIL_IDENTITY;
 		extension = e_source_get_extension (source, extension_name);
 
-		address = e_source_mail_identity_dup_address (
-			E_SOURCE_MAIL_IDENTITY (extension));
+		address = e_source_mail_identity_dup_address (extension);
 
-		if (address == NULL)
-			continue;
+		aliases = e_source_mail_identity_get_aliases_as_hash_table (extension);
 
-		attendee = get_attendee (attendees, address);
+		attendee = get_attendee (attendees, address, aliases);
 		if (attendee != NULL) {
 			gchar *user_email;
 
-			user_email = g_strdup (
-				itip_strip_mailto (attendee->value));
+			user_email = g_strdup (itip_strip_mailto (attendee->value));
 			e_cal_component_free_attendee_list (attendees);
 
+			if (aliases)
+				g_hash_table_destroy (aliases);
 			g_free (address);
 
 			return user_email;
@@ -515,20 +597,22 @@ itip_get_comp_attendee (ESourceRegistry *registry,
 		/* If the account was not found in the attendees list, then
 		 * let's check the 'sentby' fields of the attendees if we can
 		 * find the account. */
-		attendee = get_attendee_if_attendee_sentby_is_user (
-			attendees, address);
+		attendee = get_attendee_if_attendee_sentby_is_user (attendees, address, aliases);
 		if (attendee) {
 			gchar *user_email;
 
-			user_email = g_strdup (
-				itip_strip_mailto (attendee->sentby));
+			user_email = g_strdup (itip_strip_mailto (attendee->sentby));
 			e_cal_component_free_attendee_list (attendees);
 
+			if (aliases)
+				g_hash_table_destroy (aliases);
 			g_free (address);
 
 			return user_email;
 		}
 
+		if (aliases)
+			g_hash_table_destroy (aliases);
 		g_free (address);
 	}
 
@@ -666,7 +750,8 @@ users_has_attendee (const GSList *users,
 static gchar *
 comp_from (ECalComponentItipMethod method,
            ECalComponent *comp,
-           ESourceRegistry *registry)
+           ESourceRegistry *registry,
+	   gchar **from_name)
 {
 	ECalComponentOrganizer organizer;
 	ECalComponentAttendee *attendee;
@@ -700,6 +785,8 @@ comp_from (ECalComponentItipMethod method,
 				_("An organizer must be set."));
 			return NULL;
 		}
+		if (from_name)
+			*from_name = g_strdup (organizer.cn);
 		return g_strdup (itip_strip_mailto (organizer.value));
 
 	default:
@@ -708,9 +795,11 @@ comp_from (ECalComponentItipMethod method,
 
 		e_cal_component_get_attendee_list (comp, &attendees);
 		attendee = attendees->data;
-		if (attendee->value != NULL)
+		if (attendee->value != NULL) {
 			from = g_strdup (itip_strip_mailto (attendee->value));
-		else
+			if (from_name)
+				*from_name = g_strdup (attendee->cn);
+		} else
 			from = NULL;
 		e_cal_component_free_attendee_list (attendees);
 
@@ -1663,17 +1752,25 @@ find_enabled_identity (ESourceRegistry *registry,
 	for (link = list; link != NULL; link = g_list_next (link)) {
 		ESource *source = E_SOURCE (link->data);
 		ESourceMailIdentity *extension;
+		GHashTable *aliases;
 		const gchar *address;
 
 		extension = e_source_get_extension (source, extension_name);
 		address = e_source_mail_identity_get_address (extension);
 
-		if (address == NULL)
-			continue;
-
-		if (g_ascii_strcasecmp (address, id_address) == 0) {
+		if (address && g_ascii_strcasecmp (address, id_address) == 0) {
 			mail_identity = g_object_ref (source);
 			break;
+		}
+
+		aliases = e_source_mail_identity_get_aliases_as_hash_table (extension);
+		if (aliases) {
+			if (g_hash_table_contains (aliases, id_address))
+				mail_identity = g_object_ref (source);
+			g_hash_table_destroy (aliases);
+
+			if (mail_identity)
+				break;
 		}
 	}
 
@@ -1686,7 +1783,9 @@ static gchar *
 get_identity_uid_for_from (EShell *shell,
 			   ECalComponentItipMethod method,
 			   ECalComponent *comp,
-			   ECalClient *cal_client)
+			   ECalClient *cal_client,
+			   gchar **identity_name,
+			   gchar **identity_address)
 {
 	EClientCache *client_cache;
 	ESourceRegistry *registry;
@@ -1701,17 +1800,30 @@ get_identity_uid_for_from (EShell *shell,
 		ECalComponentOrganizer organizer = {0};
 
 		e_cal_component_get_organizer (comp, &organizer);
-		if (organizer.value != NULL)
+		if (organizer.value != NULL) {
 			source = find_enabled_identity (
 				registry,
 				itip_strip_mailto (organizer.value));
+
+			if (source) {
+				if (identity_name)
+					*identity_name = g_strdup (organizer.cn);
+				if (identity_address)
+					*identity_address = g_strdup (itip_strip_mailto (organizer.value));
+			}
+		}
 	}
 
 	if (source == NULL) {
-		gchar *from = comp_from (method, comp, registry);
+		gchar *from = comp_from (method, comp, registry, identity_name);
 
-		if (from != NULL)
+		if (from != NULL) {
 			source = find_enabled_identity (registry, from);
+			if (source) {
+				if (identity_address)
+					*identity_address = g_strdup (from);
+			}
+		}
 
 		g_free (from);
 	}
@@ -1815,6 +1927,8 @@ itip_send_component_begin (ItipSendComponentData *isc,
 
 typedef struct _CreateComposerData {
 	gchar *identity_uid;
+	gchar *identity_name;
+	gchar *identity_address;
 	EDestination **destinations;
 	gchar *subject;
 	gchar *ical_string;
@@ -1853,7 +1967,7 @@ itip_send_component_composer_created_cb (GObject *source_object,
 	table = e_msg_composer_get_header_table (composer);
 
 	if (ccd->identity_uid)
-		e_composer_header_table_set_identity_uid (table, ccd->identity_uid);
+		e_composer_header_table_set_identity_uid (table, ccd->identity_uid, ccd->identity_name, ccd->identity_address);
 
 	e_composer_header_table_set_subject (table, ccd->subject);
 	e_composer_header_table_set_destinations_to (table, ccd->destinations);
@@ -1902,6 +2016,8 @@ itip_send_component_composer_created_cb (GObject *source_object,
 	e_destination_freev (ccd->destinations);
 	g_clear_object (&ccd->comp);
 	g_free (ccd->identity_uid);
+	g_free (ccd->identity_name);
+	g_free (ccd->identity_address);
 	g_free (ccd->subject);
 	g_free (ccd->ical_string);
 	g_free (ccd->content_type);
@@ -1953,7 +2069,7 @@ itip_send_component_complete (ItipSendComponentData *isc)
 	top_level = comp_toplevel_with_zones (isc->method, comp, isc->cal_client, isc->zones);
 
 	ccd = g_new0 (CreateComposerData, 1);
-	ccd->identity_uid = get_identity_uid_for_from (shell, isc->method, isc->send_comp, isc->cal_client);
+	ccd->identity_uid = get_identity_uid_for_from (shell, isc->method, isc->send_comp, isc->cal_client, &ccd->identity_name, &ccd->identity_address);
 	ccd->destinations = destinations;
 	ccd->subject = comp_subject (isc->registry, isc->method, comp);
 	ccd->ical_string = icalcomponent_as_ical_string_r (top_level);
@@ -2231,7 +2347,7 @@ reply_to_calendar_comp (ESourceRegistry *registry,
 	top_level = comp_toplevel_with_zones (method, comp, cal_client, zones);
 
 	ccd = g_new0 (CreateComposerData, 1);
-	ccd->identity_uid = get_identity_uid_for_from (shell, method, send_comp, cal_client);
+	ccd->identity_uid = get_identity_uid_for_from (shell, method, send_comp, cal_client, &ccd->identity_name, &ccd->identity_address);
 	ccd->destinations = comp_to_list (registry, method, comp, NULL, reply_all, NULL);
 	ccd->subject = comp_subject (registry, method, comp);
 	ccd->ical_string = icalcomponent_as_ical_string_r (top_level);

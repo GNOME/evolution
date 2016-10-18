@@ -162,26 +162,13 @@ G_DEFINE_TYPE_WITH_CODE (
 static void
 async_context_free (AsyncContext *context)
 {
-	if (context->activity != NULL)
-		g_object_unref (context->activity);
-
-	if (context->message != NULL)
-		g_object_unref (context->message);
-
-	if (context->top_level_part != NULL)
-		g_object_unref (context->top_level_part);
-
-	if (context->text_plain_part != NULL)
-		g_object_unref (context->text_plain_part);
-
-	if (context->source != NULL)
-		g_object_unref (context->source);
-
-	if (context->session != NULL)
-		g_object_unref (context->session);
-
-	if (context->from != NULL)
-		g_object_unref (context->from);
+	g_clear_object (&context->activity);
+	g_clear_object (&context->message);
+	g_clear_object (&context->top_level_part);
+	g_clear_object (&context->text_plain_part);
+	g_clear_object (&context->source);
+	g_clear_object (&context->session);
+	g_clear_object (&context->from);
 
 	if (context->recipients != NULL)
 		g_ptr_array_free (context->recipients, TRUE);
@@ -528,16 +515,16 @@ build_message_headers (EMsgComposer *composer,
 	EComposerHeaderTable *table;
 	EComposerHeader *header;
 	ESource *source;
+	gchar *alias_name = NULL, *alias_address = NULL, *uid;
 	const gchar *subject;
 	const gchar *reply_to;
-	const gchar *uid;
 
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (message));
 
 	table = e_msg_composer_get_header_table (composer);
 
-	uid = e_composer_header_table_get_identity_uid (table);
+	uid = e_composer_header_table_dup_identity_uid (table, &alias_name, &alias_address);
 	source = e_composer_header_table_ref_source (table, uid);
 
 	/* Subject: */
@@ -551,7 +538,7 @@ build_message_headers (EMsgComposer *composer,
 		EComposerHeader *composer_header;
 		const gchar *extension_name;
 		const gchar *header_name;
-		const gchar *name, *address = NULL;
+		const gchar *name = NULL, *address = NULL;
 		const gchar *transport_uid;
 		const gchar *sent_folder;
 
@@ -565,12 +552,22 @@ build_message_headers (EMsgComposer *composer,
 		}
 
 		if (!address) {
+			if (alias_name)
+				name = alias_name;
+			if (alias_address)
+				address = alias_address;
+		}
+
+		if (!address || !name || !*name) {
 			ESourceMailIdentity *mail_identity;
 
 			mail_identity = e_source_get_extension (source, E_SOURCE_EXTENSION_MAIL_IDENTITY);
 
-			name = e_source_mail_identity_get_name (mail_identity);
-			address = e_source_mail_identity_get_address (mail_identity);
+			if (!name || !*name)
+				name = e_source_mail_identity_get_name (mail_identity);
+
+			if (!address)
+				address = e_source_mail_identity_get_address (mail_identity);
 		}
 
 		extension_name = E_SOURCE_EXTENSION_MAIL_SUBMISSION;
@@ -662,6 +659,10 @@ build_message_headers (EMsgComposer *composer,
 		}
 		g_list_free (list);
 	}
+
+	g_free (uid);
+	g_free (alias_name);
+	g_free (alias_address);
 }
 
 static CamelCipherHash
@@ -1102,8 +1103,8 @@ composer_build_message (EMsgComposer *composer,
 	ESourceMailIdentity *mi;
 	const gchar *extension_name;
 	const gchar *iconv_charset = NULL;
-	const gchar *identity_uid;
 	const gchar *organization;
+	gchar *identity_uid;
 	CamelMultipart *body = NULL;
 	CamelContentType *type;
 	CamelStream *stream;
@@ -1120,8 +1121,10 @@ composer_build_message (EMsgComposer *composer,
 	view = e_msg_composer_get_attachment_view (composer);
 	store = e_attachment_view_get_store (view);
 
-	identity_uid = e_composer_header_table_get_identity_uid (table);
+	identity_uid = e_composer_header_table_dup_identity_uid (table, NULL, NULL);
 	source = e_composer_header_table_ref_source (table, identity_uid);
+	g_free (identity_uid);
+
 	g_return_if_fail (source != NULL);
 
 	/* Do all the non-blocking work here, and defer
@@ -1639,14 +1642,18 @@ msg_composer_mail_identity_changed_cb (EMsgComposer *composer)
 	gboolean smime_encrypt;
 	gboolean composer_realized;
 	const gchar *extension_name;
-	const gchar *uid, *active_signature_id;
+	const gchar *active_signature_id;
+	gchar *uid, *alias_name = NULL, *alias_address = NULL;
 
 	table = e_msg_composer_get_header_table (composer);
-	uid = e_composer_header_table_get_identity_uid (table);
+	uid = e_composer_header_table_dup_identity_uid (table, &alias_name, &alias_address);
 
 	/* Silently return if no identity is selected. */
-	if (uid == NULL)
+	if (!uid) {
+		g_free (alias_name);
+		g_free (alias_address);
 		return;
+	}
 
 	source = e_composer_header_table_ref_source (table, uid);
 	g_return_if_fail (source != NULL);
@@ -1697,13 +1704,17 @@ msg_composer_mail_identity_changed_cb (EMsgComposer *composer)
 	gtk_toggle_action_set_active (action, active);
 
 	combo_box = e_composer_header_table_get_signature_combo_box (table);
-	e_mail_signature_combo_box_set_identity_uid (combo_box, uid);
+	e_mail_signature_combo_box_set_identity (combo_box, uid, alias_name, alias_address);
 
 	g_object_unref (source);
+	g_free (uid);
 
 	active_signature_id = gtk_combo_box_get_active_id (GTK_COMBO_BOX (combo_box));
 	if (g_strcmp0 (active_signature_id, E_MAIL_SIGNATURE_AUTOGENERATED_UID) == 0)
 		e_composer_update_signature (composer);
+
+	g_free (alias_name);
+	g_free (alias_address);
 }
 
 static void
@@ -2130,10 +2141,10 @@ msg_composer_realize_cb (EMsgComposer *composer)
 	if (g_settings_get_boolean (settings, "composer-toolbar-show-sign-encrypt")) {
 		EComposerHeaderTable *table;
 		ESource *source;
-		const gchar *identity_uid;
+		gchar *identity_uid;
 
 		table = e_msg_composer_get_header_table (composer);
-		identity_uid = e_composer_header_table_get_identity_uid (table);
+		identity_uid = e_composer_header_table_dup_identity_uid (table, NULL, NULL);
 		source = e_composer_header_table_ref_source (table, identity_uid);
 
 		if (source) {
@@ -2172,6 +2183,8 @@ msg_composer_realize_cb (EMsgComposer *composer)
 
 			g_clear_object (&source);
 		}
+
+		g_free (identity_uid);
 	}
 
 	g_clear_object (&settings);
@@ -2500,7 +2513,10 @@ msg_composer_constructed (GObject *object)
 	composer->priv->notify_destinations_to_handler = e_signal_connect_notify_swapped (
 		table, "notify::destinations-to",
 		G_CALLBACK (msg_composer_notify_header_cb), composer);
-	composer->priv->notify_identity_uid_handler = e_signal_connect_notify_swapped (
+	/* Do not use e_signal_connect_notify_swapped() here, it it avoids notification
+	   when the property didn't change, but it's about the consolidated property,
+	   identity uid, name and address, where only one of the three can change. */
+	composer->priv->notify_identity_uid_handler = g_signal_connect_swapped (
 		table, "notify::identity-uid",
 		G_CALLBACK (msg_composer_mail_identity_changed_cb), composer);
 	composer->priv->notify_reply_to_handler = e_signal_connect_notify_swapped (
@@ -3549,7 +3565,7 @@ e_msg_composer_setup_with_message (EMsgComposer *composer,
 	EContentEditor *cnt_editor;
 	GtkToggleAction *action;
 	struct _camel_header_raw *xev;
-	gchar *identity_uid;
+	gchar *identity_uid, *tmp = NULL;
 	gint len, i;
 	gboolean is_message_from_draft = FALSE;
 
@@ -3592,9 +3608,11 @@ e_msg_composer_setup_with_message (EMsgComposer *composer,
 		}
 		if (!identity_uid) {
 			source = em_utils_guess_mail_identity_with_recipients (
-				e_shell_get_registry (e_msg_composer_get_shell (composer)), message, NULL, NULL);
-			if (source)
-				identity_uid = e_source_dup_uid (source);
+				e_shell_get_registry (e_msg_composer_get_shell (composer)), message, NULL, NULL, NULL, NULL);
+			if (source) {
+				tmp = e_source_dup_uid (source);
+				identity_uid = tmp;
+			}
 		}
 	}
 
@@ -3603,6 +3621,8 @@ e_msg_composer_setup_with_message (EMsgComposer *composer,
 		source = e_composer_header_table_ref_source (
 			table, identity_uid);
 	}
+
+	g_free (tmp);
 
 	auto_cc = g_hash_table_new_full (
 		(GHashFunc) camel_strcase_hash,
@@ -3685,13 +3705,10 @@ e_msg_composer_setup_with_message (EMsgComposer *composer,
 
 	subject = camel_mime_message_get_subject (message);
 
-	e_composer_header_table_set_identity_uid (table, identity_uid);
 	e_composer_header_table_set_destinations_to (table, Tov);
 	e_composer_header_table_set_destinations_cc (table, Ccv);
 	e_composer_header_table_set_destinations_bcc (table, Bccv);
 	e_composer_header_table_set_subject (table, subject);
-
-	g_free (identity_uid);
 
 	e_destination_freev (Tov);
 	e_destination_freev (Ccv);
@@ -3706,6 +3723,9 @@ e_msg_composer_setup_with_message (EMsgComposer *composer,
 			EComposerFromHeader *header_from;
 			const gchar *filled_name, *filled_address;
 
+			/* First try whether such alias exists... */
+			e_composer_header_table_set_identity_uid (table, identity_uid, name, address);
+
 			header_from = E_COMPOSER_FROM_HEADER (e_composer_header_table_get_header (table, E_COMPOSER_HEADER_FROM));
 
 			filled_name = e_composer_from_header_get_name (header_from);
@@ -3719,12 +3739,20 @@ e_msg_composer_setup_with_message (EMsgComposer *composer,
 
 			if (g_strcmp0 (filled_name, name) != 0 ||
 			    g_strcmp0 (filled_address, address) != 0) {
+				/* ... and if not, then reset to the main identity address */
+				e_composer_header_table_set_identity_uid (table, identity_uid, NULL, NULL);
 				e_composer_from_header_set_name (header_from, name);
 				e_composer_from_header_set_address (header_from, address);
 				e_composer_from_header_set_override_visible (header_from, TRUE);
 			}
+		} else {
+			e_composer_header_table_set_identity_uid (table, identity_uid, NULL, NULL);
 		}
+	} else {
+		e_composer_header_table_set_identity_uid (table, identity_uid, NULL, NULL);
 	}
+
+	g_free (identity_uid);
 
 	/* Restore the format editing preference */
 	format = camel_medium_get_header (
@@ -4716,7 +4744,7 @@ e_msg_composer_set_body (EMsgComposer *composer,
 	EHTMLEditor *editor;
 	EContentEditor *cnt_editor;
 	ESource *source;
-	const gchar *identity_uid;
+	gchar *identity_uid;
 	const gchar *content;
 
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
@@ -4728,7 +4756,7 @@ e_msg_composer_set_body (EMsgComposer *composer,
 	/* Disable signature */
 	priv->disable_signature = TRUE;
 
-	identity_uid = e_composer_header_table_get_identity_uid (table);
+	identity_uid = e_composer_header_table_dup_identity_uid (table, NULL, NULL);
 	source = e_composer_header_table_ref_source (table, identity_uid);
 
 	content = _("The composer contains a non-text message body, which cannot be edited.");
@@ -4761,6 +4789,7 @@ e_msg_composer_set_body (EMsgComposer *composer,
 	}
 
 	g_object_unref (source);
+	g_free (identity_uid);
 }
 
 /**
@@ -5246,12 +5275,12 @@ e_msg_composer_get_message_draft_finish (EMsgComposer *composer,
 CamelInternetAddress *
 e_msg_composer_get_from (EMsgComposer *composer)
 {
-	CamelInternetAddress *inet_address = NULL;
+	CamelInternetAddress *inet_address;
 	ESourceMailIdentity *mail_identity;
 	EComposerHeaderTable *table;
 	ESource *source;
 	const gchar *extension_name;
-	const gchar *uid;
+	gchar *uid, *alias_name = NULL, *alias_address = NULL;
 	gchar *name;
 	gchar *address;
 
@@ -5259,25 +5288,43 @@ e_msg_composer_get_from (EMsgComposer *composer)
 
 	table = e_msg_composer_get_header_table (composer);
 
-	uid = e_composer_header_table_get_identity_uid (table);
+	uid = e_composer_header_table_dup_identity_uid (table, &alias_name, &alias_address);
+
 	source = e_composer_header_table_ref_source (table, uid);
 	g_return_val_if_fail (source != NULL, NULL);
 
 	extension_name = E_SOURCE_EXTENSION_MAIL_IDENTITY;
 	mail_identity = e_source_get_extension (source, extension_name);
 
-	name = e_source_mail_identity_dup_name (mail_identity);
-	address = e_source_mail_identity_dup_address (mail_identity);
+	if (alias_name) {
+		name = alias_name;
+		alias_name = NULL;
+	} else {
+		name = e_source_mail_identity_dup_name (mail_identity);
+	}
+
+	if (!name)
+		name = e_source_mail_identity_dup_name (mail_identity);
+
+	if (alias_address) {
+		address = alias_address;
+		alias_address = NULL;
+	} else {
+		address = e_source_mail_identity_dup_address (mail_identity);
+	}
 
 	g_object_unref (source);
 
-	if (name != NULL && address != NULL) {
+	if (address != NULL) {
 		inet_address = camel_internet_address_new ();
 		camel_internet_address_add (inet_address, name, address);
 	}
 
+	g_free (uid);
 	g_free (name);
 	g_free (address);
+	g_free (alias_name);
+	g_free (alias_address);
 
 	return inet_address;
 }

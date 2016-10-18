@@ -41,6 +41,10 @@ struct _EMailConfigIdentityPagePrivate {
 	GtkWidget *name_entry;		/* not referenced */
 	GtkWidget *address_entry;	/* not referenced */
 	GtkWidget *reply_to_entry;	/* not referenced */
+	GtkWidget *aliases_treeview;	/* not referenced */
+	GtkWidget *aliases_add_button;	/* not referenced */
+	GtkWidget *aliases_edit_button;	/* not referenced */
+	GtkWidget *aliases_remove_button; /* not referenced */
 };
 
 enum {
@@ -109,6 +113,218 @@ mail_config_identity_page_add_signature_cb (GtkButton *button,
 
 	e_mail_signature_editor_new (registry, NULL,
 		mail_config_identity_page_signature_editor_created_cb, NULL);
+}
+
+static void
+mail_config_identity_page_add_alias_clicked_cb (GtkWidget *button,
+						gpointer user_data)
+{
+	EMailConfigIdentityPage *page = user_data;
+	GtkTreeModel *model;
+	GtkTreeView *tree_view;
+	GtkTreeViewColumn *column;
+	GtkTreePath *path;
+	GtkTreeIter iter;
+
+	g_return_if_fail (E_IS_MAIL_CONFIG_IDENTITY_PAGE (page));
+
+	tree_view = GTK_TREE_VIEW (page->priv->aliases_treeview);
+	model = gtk_tree_view_get_model (tree_view);
+
+	gtk_list_store_append (GTK_LIST_STORE (model), &iter);
+
+	path = gtk_tree_model_get_path (model, &iter);
+	column = gtk_tree_view_get_column (tree_view, 0);
+	gtk_tree_view_set_cursor (tree_view, path, column, TRUE);
+	gtk_tree_view_row_activated (tree_view, path, column);
+	gtk_tree_path_free (path);
+}
+
+static void
+mail_config_identity_page_edit_alias_clicked_cb (GtkWidget *button,
+						 gpointer user_data)
+{
+	EMailConfigIdentityPage *page = user_data;
+	GtkTreeSelection *selection;
+	GtkTreeModel *model;
+	GtkTreePath *path;
+	GtkTreeIter iter;
+	GtkTreeViewColumn *focus_col;
+	GtkTreeView *treeview;
+
+	g_return_if_fail (E_IS_MAIL_CONFIG_IDENTITY_PAGE (page));
+
+	treeview = GTK_TREE_VIEW (page->priv->aliases_treeview);
+	selection = gtk_tree_view_get_selection (treeview);
+	if (!gtk_tree_selection_get_selected (selection, &model, &iter))
+		return;
+
+	focus_col = gtk_tree_view_get_column (treeview, 0);
+	path = gtk_tree_model_get_path (model, &iter);
+
+	if (path) {
+		gtk_tree_view_set_cursor (treeview, path, focus_col, TRUE);
+		gtk_tree_path_free (path);
+	}
+}
+
+static void
+mail_config_identity_page_remove_alias_clicked_cb (GtkWidget *button,
+						   gpointer user_data)
+{
+	EMailConfigIdentityPage *page = user_data;
+	GtkTreeSelection *selection;
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+	GtkTreePath *path;
+	gboolean valid = FALSE;
+	gint len;
+
+	g_return_if_fail (E_IS_MAIL_CONFIG_IDENTITY_PAGE (page));
+
+	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (page->priv->aliases_treeview));
+	if (!gtk_tree_selection_get_selected (selection, &model, &iter))
+		return;
+
+	/* Get the path and move to the previous node */
+	path = gtk_tree_model_get_path (model, &iter);
+	if (path)
+		valid = gtk_tree_path_prev (path);
+
+	gtk_list_store_remove (GTK_LIST_STORE (model), &iter);
+
+	len = gtk_tree_model_iter_n_children (model, NULL);
+	if (len > 0) {
+		if (gtk_list_store_iter_is_valid (GTK_LIST_STORE (model), &iter)) {
+			gtk_tree_selection_select_iter (selection, &iter);
+		} else {
+			if (path && valid) {
+				gtk_tree_model_get_iter (model, &iter, path);
+				gtk_tree_selection_select_iter (selection, &iter);
+			}
+		}
+	} else {
+		gtk_widget_set_sensitive (page->priv->aliases_edit_button, FALSE);
+		gtk_widget_set_sensitive (page->priv->aliases_remove_button, FALSE);
+	}
+
+	gtk_widget_grab_focus (page->priv->aliases_treeview);
+	gtk_tree_path_free (path);
+
+	e_mail_config_page_changed (E_MAIL_CONFIG_PAGE (page));
+}
+
+static void
+mail_config_identity_page_aliases_cell_edited_cb (GtkCellRendererText *cell,
+						  gchar *path_string,
+						  gchar *new_text,
+						  gpointer user_data)
+{
+	EMailConfigIdentityPage *page = user_data;
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+
+	g_return_if_fail (E_IS_MAIL_CONFIG_IDENTITY_PAGE (page));
+
+	model = gtk_tree_view_get_model (GTK_TREE_VIEW (page->priv->aliases_treeview));
+	gtk_tree_model_get_iter_from_string (model, &iter, path_string);
+
+	if (!new_text || !(*g_strstrip (new_text))) {
+		mail_config_identity_page_remove_alias_clicked_cb (NULL, page);
+	} else {
+		gtk_list_store_set (GTK_LIST_STORE (model), &iter, 0, new_text, -1);
+		e_mail_config_page_changed (E_MAIL_CONFIG_PAGE (page));
+	}
+}
+
+static void
+mail_config_identity_page_aliases_cell_editing_canceled_cb (GtkCellRenderer *cell,
+							    gpointer user_data)
+{
+	EMailConfigIdentityPage *page = user_data;
+	GtkTreeSelection *selection;
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+	gchar *text = NULL;
+
+	g_return_if_fail (E_IS_MAIL_CONFIG_IDENTITY_PAGE (page));
+
+	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (page->priv->aliases_treeview));
+	if (!gtk_tree_selection_get_selected (selection, &model, &iter))
+		return;
+
+	gtk_tree_model_get (model, &iter, 0, &text, -1);
+
+	if (!text || !*text)
+		mail_config_identity_page_remove_alias_clicked_cb (NULL, page);
+
+	g_free (text);
+}
+
+static void
+mail_config_identity_page_aliases_selection_changed_cb (GtkTreeSelection *selection,
+							gpointer user_data)
+{
+	EMailConfigIdentityPage *page = user_data;
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+
+	g_return_if_fail (E_IS_MAIL_CONFIG_IDENTITY_PAGE (page));
+
+	if (gtk_tree_selection_get_selected (selection, &model, &iter)) {
+		gtk_widget_set_sensitive (page->priv->aliases_edit_button, TRUE);
+		gtk_widget_set_sensitive (page->priv->aliases_remove_button, TRUE);
+	} else {
+		gtk_widget_set_sensitive (page->priv->aliases_edit_button, FALSE);
+		gtk_widget_set_sensitive (page->priv->aliases_remove_button, FALSE);
+	}
+}
+
+static void
+mail_config_identity_page_fill_aliases (EMailConfigIdentityPage *page,
+					ESourceMailIdentity *extension)
+{
+	GtkListStore *list_store;
+	GtkTreeIter iter;
+	CamelInternetAddress *inetaddress;
+	gchar *aliases;
+	gint ii, len;
+
+	g_return_if_fail (E_IS_MAIL_CONFIG_IDENTITY_PAGE (page));
+	g_return_if_fail (E_IS_SOURCE_MAIL_IDENTITY (extension));
+
+	aliases = e_source_mail_identity_dup_aliases (extension);
+	if (!aliases)
+		return;
+
+	inetaddress = camel_internet_address_new ();
+	len = camel_address_decode (CAMEL_ADDRESS (inetaddress), aliases);
+	g_free (aliases);
+
+	if (len <= 0) {
+		g_clear_object (&inetaddress);
+		return;
+	}
+
+	list_store = GTK_LIST_STORE (gtk_tree_view_get_model (GTK_TREE_VIEW (page->priv->aliases_treeview)));
+
+	for (ii = 0; ii < len; ii++) {
+		const gchar *name = NULL, *email = NULL;
+
+		if (camel_internet_address_get (inetaddress, ii, &name, &email)) {
+			gchar *formatted;
+
+			formatted = camel_internet_address_format_address (name, email);
+			if (formatted && *formatted) {
+				gtk_list_store_append (list_store, &iter);
+				gtk_list_store_set (list_store, &iter, 0, formatted, -1);
+			}
+
+			g_free (formatted);
+		}
+	}
+
+	g_clear_object (&inetaddress);
 }
 
 static void
@@ -251,19 +467,11 @@ mail_config_identity_page_dispose (GObject *object)
 
 	priv = E_MAIL_CONFIG_IDENTITY_PAGE_GET_PRIVATE (object);
 
-	if (priv->identity_source != NULL) {
-		g_object_unref (priv->identity_source);
-		priv->identity_source = NULL;
-	}
-
-	if (priv->registry != NULL) {
-		g_object_unref (priv->registry);
-		priv->registry = NULL;
-	}
+	g_clear_object (&priv->identity_source);
+	g_clear_object (&priv->registry);
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (e_mail_config_identity_page_parent_class)->
-		dispose (object);
+	G_OBJECT_CLASS (e_mail_config_identity_page_parent_class)->dispose (object);
 }
 
 static void
@@ -274,8 +482,12 @@ mail_config_identity_page_constructed (GObject *object)
 	ESourceRegistry *registry;
 	ESourceMailIdentity *extension;
 	GtkLabel *label;
+	GtkTreeModel *model;
+	GtkTreeSelection *selection;
+	GtkCellRenderer *renderer;
 	GtkWidget *widget;
 	GtkWidget *container;
+	GtkWidget *scrolledwindow;
 	GtkSizeGroup *size_group;
 	const gchar *extension_name;
 	const gchar *text;
@@ -578,9 +790,99 @@ mail_config_identity_page_constructed (GObject *object)
 		widget, "clicked",
 		G_CALLBACK (mail_config_identity_page_add_signature_cb), page);
 
-	g_object_unref (size_group);
+	widget = gtk_label_new_with_mnemonic (_("A_liases:"));
+	gtk_widget_set_margin_left (widget, 12);
+	gtk_size_group_add_widget (size_group, widget);
+	gtk_misc_set_alignment (GTK_MISC (widget), 1.0, 0.0);
+	gtk_grid_attach (GTK_GRID (container), widget, 0, 4, 1, 1);
+	gtk_widget_show (widget);
 
-	e_extensible_load_extensions (E_EXTENSIBLE (page));
+	label = GTK_LABEL (widget);
+
+	widget = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 2);
+	gtk_grid_attach (GTK_GRID (container), widget, 1, 4, 2, 1);
+	gtk_widget_show (widget);
+
+	container = widget;
+
+	scrolledwindow = gtk_scrolled_window_new (NULL, NULL);
+	gtk_box_pack_start (GTK_BOX (container), scrolledwindow, TRUE, TRUE, 0);
+	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolledwindow), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+	gtk_widget_show (scrolledwindow);
+
+	model = GTK_TREE_MODEL (gtk_list_store_new (1, G_TYPE_STRING));
+	widget = gtk_tree_view_new_with_model (model);
+	gtk_container_add (GTK_CONTAINER (scrolledwindow), widget);
+	gtk_widget_show (widget);
+
+	gtk_label_set_mnemonic_widget (GTK_LABEL (label), widget);
+
+	g_object_unref (model);
+
+	renderer = gtk_cell_renderer_text_new ();
+	gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (widget), -1, "Aliases",
+		renderer, "text", 0, NULL);
+	g_object_set (renderer, "editable", TRUE, NULL);
+	g_signal_connect (
+		renderer, "edited",
+		G_CALLBACK (mail_config_identity_page_aliases_cell_edited_cb), page);
+	g_signal_connect (
+		renderer, "editing-canceled",
+		G_CALLBACK (mail_config_identity_page_aliases_cell_editing_canceled_cb), page);
+	gtk_tree_view_set_headers_visible (GTK_TREE_VIEW (widget), FALSE);
+	gtk_tree_view_column_set_expand (gtk_tree_view_get_column (GTK_TREE_VIEW (widget), 0), TRUE);
+
+	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (widget));
+	gtk_tree_selection_set_mode (selection, GTK_SELECTION_SINGLE);
+	g_signal_connect (
+		selection, "changed",
+		G_CALLBACK (mail_config_identity_page_aliases_selection_changed_cb), page);
+
+	page->priv->aliases_treeview = widget;
+
+	widget = gtk_button_box_new (GTK_ORIENTATION_VERTICAL);
+	g_object_set (G_OBJECT (widget),
+		"halign", GTK_ALIGN_START,
+		"hexpand", FALSE,
+		"valign", GTK_ALIGN_START,
+		"vexpand", FALSE,
+		NULL);
+	gtk_container_add (GTK_CONTAINER (container), widget);
+	gtk_widget_show (widget);
+
+	container = widget;
+
+	widget = e_dialog_button_new_with_icon ("list-add", _("Add"));
+	gtk_container_add (GTK_CONTAINER (container), widget);
+	gtk_widget_show (widget);
+
+	g_signal_connect (widget, "clicked",
+		G_CALLBACK (mail_config_identity_page_add_alias_clicked_cb), page);
+
+	page->priv->aliases_add_button = widget;
+
+	widget = gtk_button_new_with_mnemonic (_("Edit"));
+	gtk_container_add (GTK_CONTAINER (container), widget);
+	gtk_widget_show (widget);
+
+	g_signal_connect (widget, "clicked",
+		G_CALLBACK (mail_config_identity_page_edit_alias_clicked_cb), page);
+
+	page->priv->aliases_edit_button = widget;
+
+	widget = e_dialog_button_new_with_icon ("list-remove", _("Remove"));
+	gtk_container_add (GTK_CONTAINER (container), widget);
+	gtk_widget_show (widget);
+
+	g_signal_connect (widget, "clicked",
+		G_CALLBACK (mail_config_identity_page_remove_alias_clicked_cb), page);
+
+	page->priv->aliases_remove_button = widget;
+
+	mail_config_identity_page_aliases_selection_changed_cb (selection, page);
+	mail_config_identity_page_fill_aliases (page, extension);
+
+	g_object_unref (size_group);
 
 	widget = gtk_check_button_new_with_mnemonic (_("_Look up mail server details based on the entered e-mail address"));
 	g_object_set (G_OBJECT (widget),
@@ -597,6 +899,8 @@ mail_config_identity_page_constructed (GObject *object)
 	page->priv->autodiscover_check = widget;
 
 	gtk_container_add (GTK_CONTAINER (page), widget);
+
+	e_extensible_load_extensions (E_EXTENSIBLE (page));
 }
 
 static gboolean
@@ -675,12 +979,77 @@ mail_config_identity_page_check_complete (EMailConfigPage *page)
 }
 
 static void
+mail_config_identity_page_commit_changes (EMailConfigPage *cfg_page,
+					  GQueue *source_queue)
+{
+	EMailConfigIdentityPage *page;
+	ESource *identity_source;
+	ESourceMailIdentity *identity_extension;
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+	CamelInternetAddress *inetaddress_complete;
+	gboolean valid;
+
+	g_return_if_fail (E_IS_MAIL_CONFIG_IDENTITY_PAGE (cfg_page));
+
+	page = E_MAIL_CONFIG_IDENTITY_PAGE (cfg_page);
+	identity_source = e_mail_config_identity_page_get_identity_source (page);
+	identity_extension = e_source_get_extension (identity_source, E_SOURCE_EXTENSION_MAIL_IDENTITY);
+
+	inetaddress_complete = camel_internet_address_new ();
+
+	model = gtk_tree_view_get_model (GTK_TREE_VIEW (page->priv->aliases_treeview));
+	for (valid = gtk_tree_model_get_iter_first (model, &iter);
+	     valid;
+	     valid = gtk_tree_model_iter_next (model, &iter)) {
+		gchar *raw = NULL;
+
+		gtk_tree_model_get (model, &iter, 0, &raw, -1);
+
+		if (raw && (*g_strstrip (raw))) {
+			CamelInternetAddress *inetaddress;
+			CamelAddress *address;
+
+			inetaddress = camel_internet_address_new ();
+			address = CAMEL_ADDRESS (inetaddress);
+
+			if (camel_address_unformat (address, raw) > 0) {
+				gint ii, len = camel_address_length (address);
+
+				for (ii = 0; ii < len; ii++) {
+					const gchar *name = NULL, *email = NULL;
+
+					if (camel_internet_address_get (inetaddress, ii, &name, &email))
+						camel_internet_address_add (inetaddress_complete, name, email);
+				}
+			}
+
+			g_object_unref (inetaddress);
+		}
+
+		g_free (raw);
+	}
+
+	if (camel_address_length (CAMEL_ADDRESS (inetaddress_complete)) > 0) {
+		gchar *aliases;
+
+		aliases = camel_address_encode (CAMEL_ADDRESS (inetaddress_complete));
+		e_source_mail_identity_set_aliases (identity_extension, aliases);
+
+		g_free (aliases);
+	} else {
+		e_source_mail_identity_set_aliases (identity_extension, NULL);
+	}
+
+	g_object_unref (inetaddress_complete);
+}
+
+static void
 e_mail_config_identity_page_class_init (EMailConfigIdentityPageClass *class)
 {
 	GObjectClass *object_class;
 
-	g_type_class_add_private (
-		class, sizeof (EMailConfigIdentityPagePrivate));
+	g_type_class_add_private (class, sizeof (EMailConfigIdentityPagePrivate));
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = mail_config_identity_page_set_property;
@@ -779,6 +1148,7 @@ e_mail_config_identity_page_interface_init (EMailConfigPageInterface *iface)
 	iface->title = _("Identity");
 	iface->sort_order = E_MAIL_CONFIG_IDENTITY_PAGE_SORT_ORDER;
 	iface->check_complete = mail_config_identity_page_check_complete;
+	iface->commit_changes = mail_config_identity_page_commit_changes;
 }
 
 static void

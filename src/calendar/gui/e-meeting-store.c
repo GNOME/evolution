@@ -1122,6 +1122,7 @@ e_meeting_store_find_self (EMeetingStore *store,
 	for (iter = list; iter != NULL; iter = g_list_next (iter)) {
 		ESource *source = E_SOURCE (iter->data);
 		ESourceMailIdentity *extension;
+		GHashTable *aliases;
 		const gchar *address;
 
 		extension = e_source_get_extension (source, extension_name);
@@ -1132,6 +1133,25 @@ e_meeting_store_find_self (EMeetingStore *store,
 				store, address, row);
 
 		if (attendee != NULL)
+			break;
+
+		aliases = e_source_mail_identity_get_aliases_as_hash_table (extension);
+		if (aliases) {
+			GHashTableIter iter;
+			gpointer key = NULL;
+
+			g_hash_table_iter_init (&iter, aliases);
+			while (!attendee && g_hash_table_iter_next (&iter, &key, NULL)) {
+				const gchar *email = key;
+
+				if (email && *email)
+					attendee = e_meeting_store_find_attendee (store, email, row);
+			}
+
+			g_hash_table_destroy (aliases);
+		}
+
+		if (attendee)
 			break;
 	}
 

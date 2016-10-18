@@ -75,6 +75,21 @@ const gchar *	e_mail_signature_combo_box_get_identity_uid
 void		e_mail_signature_combo_box_set_identity_uid
 					(EMailSignatureComboBox *combo_box,
 					 const gchar *identity_uid);
+const gchar *	e_mail_signature_combo_box_get_identity_name
+					(EMailSignatureComboBox *combo_box);
+void		e_mail_signature_combo_box_set_identity_name
+					(EMailSignatureComboBox *combo_box,
+					 const gchar *identity_name);
+const gchar *	e_mail_signature_combo_box_get_identity_address
+					(EMailSignatureComboBox *combo_box);
+void		e_mail_signature_combo_box_set_identity_address
+					(EMailSignatureComboBox *combo_box,
+					 const gchar *identity_address);
+void		e_mail_signature_combo_box_set_identity
+					(EMailSignatureComboBox *combo_box,
+					 const gchar *identity_uid,
+					 const gchar *identity_name,
+					 const gchar *identity_address);
 void		e_mail_signature_combo_box_load_selected
 					(EMailSignatureComboBox *combo_box,
 					 gint io_priority,

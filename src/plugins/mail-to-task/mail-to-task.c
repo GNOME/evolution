@@ -41,6 +41,8 @@
 #include <calendar/gui/e-comp-editor.h>
 #include <calendar/gui/itip-utils.h>
 
+#include "libemail-engine/libemail-engine.h"
+
 #define E_SHELL_WINDOW_ACTION_CONVERT_TO_APPOINTMENT(window) \
 	E_SHELL_WINDOW_ACTION ((window), "mail-convert-to-appointment")
 #define E_SHELL_WINDOW_ACTION_CONVERT_TO_MEETING(window) \
@@ -270,7 +272,9 @@ set_description (ECalComponent *comp,
 
 static gchar *
 set_organizer (ECalComponent *comp,
-               CamelFolder *folder)
+	       CamelMimeMessage *message,
+	       CamelFolder *folder,
+	       const gchar *message_uid)
 {
 	EShell *shell;
 	ESource *source = NULL;
@@ -280,11 +284,15 @@ set_organizer (ECalComponent *comp,
 	const gchar *address, *name;
 	ECalComponentOrganizer organizer = {NULL, NULL, NULL, NULL};
 	gchar *mailto = NULL;
+	gchar *identity_name = NULL, *identity_address = NULL;
 
 	shell = e_shell_get_default ();
 	registry = e_shell_get_registry (shell);
 
-	if (folder != NULL) {
+	source = em_utils_guess_mail_identity_with_recipients (registry, message, folder,
+		message_uid, &identity_name, &identity_address);
+
+	if (!source && folder) {
 		CamelStore *store;
 
 		store = camel_folder_get_parent_store (folder);
@@ -299,10 +307,17 @@ set_organizer (ECalComponent *comp,
 	extension_name = E_SOURCE_EXTENSION_MAIL_IDENTITY;
 	extension = e_source_get_extension (source, extension_name);
 
-	name = e_source_mail_identity_get_name (extension);
-	address = e_source_mail_identity_get_address (extension);
+	name = identity_name;
+	if (!name || !*name)
+		name = e_source_mail_identity_get_name (extension);
 
-	if (name != NULL && address != NULL) {
+	address = identity_address;
+	if (!address || !*address) {
+		name = e_source_mail_identity_get_name (extension);
+		address = e_source_mail_identity_get_address (extension);
+	}
+
+	if (address && *address) {
 		mailto = g_strconcat ("mailto:", address, NULL);
 		organizer.value = mailto;
 		organizer.cn = name;
@@ -310,6 +325,8 @@ set_organizer (ECalComponent *comp,
 	}
 
 	g_object_unref (source);
+	g_free (identity_name);
+	g_free (identity_address);
 
 	return mailto;
 }
@@ -871,12 +888,11 @@ do_mail_to_event (AsyncData *data)
 			icalproperty *icalprop;
 			icalcomponent *icalcomp;
 			struct _manage_comp *mc;
+			const gchar *message_uid = g_ptr_array_index (uids, i);
 
 			/* retrieve the message from the CamelFolder */
 			/* FIXME Not passing a GCancellable or GError. */
-			message = camel_folder_get_message_sync (
-				folder, g_ptr_array_index (uids, i),
-				NULL, NULL);
+			message = camel_folder_get_message_sync (folder, message_uid, NULL, NULL);
 			if (!message) {
 				continue;
 			}
@@ -928,7 +944,7 @@ do_mail_to_event (AsyncData *data)
 				gchar *organizer;
 
 				/* set actual user as organizer, to be able to change event's properties */
-				organizer = set_organizer (comp, data->folder);
+				organizer = set_organizer (comp, message, data->folder, message_uid);
 				set_attendees (comp, message, organizer);
 				g_free (organizer);
 			}

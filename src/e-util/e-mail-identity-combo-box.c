@@ -46,6 +46,7 @@ struct _EMailIdentityComboBoxPrivate {
 	gulong source_removed_handler_id;
 
 	gboolean allow_none;
+	gboolean allow_aliases;
 
 	guint refresh_idle_id;
 
@@ -54,13 +55,17 @@ struct _EMailIdentityComboBoxPrivate {
 
 enum {
 	PROP_0,
+	PROP_ALLOW_ALIASES,
 	PROP_ALLOW_NONE,
 	PROP_REGISTRY
 };
 
 enum {
 	COLUMN_DISPLAY_NAME,
-	COLUMN_UID
+	COLUMN_COMBO_ID,
+	COLUMN_UID,
+	COLUMN_NAME,
+	COLUMN_ADDRESS
 };
 
 G_DEFINE_TYPE (
@@ -172,6 +177,12 @@ mail_identity_combo_box_set_property (GObject *object,
                                       GParamSpec *pspec)
 {
 	switch (property_id) {
+		case PROP_ALLOW_ALIASES:
+			e_mail_identity_combo_box_set_allow_aliases (
+				E_MAIL_IDENTITY_COMBO_BOX (object),
+				g_value_get_boolean (value));
+			return;
+
 		case PROP_ALLOW_NONE:
 			e_mail_identity_combo_box_set_allow_none (
 				E_MAIL_IDENTITY_COMBO_BOX (object),
@@ -195,6 +206,13 @@ mail_identity_combo_box_get_property (GObject *object,
                                       GParamSpec *pspec)
 {
 	switch (property_id) {
+		case PROP_ALLOW_ALIASES:
+			g_value_set_boolean (
+				value,
+				e_mail_identity_combo_box_get_allow_aliases (
+				E_MAIL_IDENTITY_COMBO_BOX (object)));
+			return;
+
 		case PROP_ALLOW_NONE:
 			g_value_set_boolean (
 				value,
@@ -267,9 +285,9 @@ mail_identity_combo_box_constructed (GObject *object)
 	combo_box = GTK_COMBO_BOX (object);
 	cell_layout = GTK_CELL_LAYOUT (object);
 
-	list_store = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_STRING);
+	list_store = gtk_list_store_new (5, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING);
 	gtk_combo_box_set_model (combo_box, GTK_TREE_MODEL (list_store));
-	gtk_combo_box_set_id_column (combo_box, COLUMN_UID);
+	gtk_combo_box_set_id_column (combo_box, COLUMN_COMBO_ID);
 	g_object_unref (list_store);
 
 	cell_renderer = gtk_cell_renderer_text_new ();
@@ -293,6 +311,17 @@ e_mail_identity_combo_box_class_init (EMailIdentityComboBoxClass *class)
 	object_class->get_property = mail_identity_combo_box_get_property;
 	object_class->dispose = mail_identity_combo_box_dispose;
 	object_class->constructed = mail_identity_combo_box_constructed;
+
+	g_object_class_install_property (
+		object_class,
+		PROP_ALLOW_ALIASES,
+		g_param_spec_boolean (
+			"allow-aliases",
+			"Allow separate items with identity aliases",
+			NULL,
+			FALSE,
+			G_PARAM_READWRITE |
+			G_PARAM_STATIC_STRINGS));
 
 	g_object_class_install_property (
 		object_class,
@@ -341,6 +370,67 @@ e_mail_identity_combo_box_new (ESourceRegistry *registry)
 	return g_object_new (
 		E_TYPE_MAIL_IDENTITY_COMBO_BOX,
 		"registry", registry, NULL);
+}
+
+static gchar *
+mail_identity_combo_box_build_alias_id (const gchar *identity_uid,
+					const gchar *name,
+					const gchar *address)
+{
+	g_return_val_if_fail (identity_uid != NULL, NULL);
+
+	if (!address)
+		return g_strdup (identity_uid);
+
+	return g_strconcat (identity_uid, "\n", address, "\n", name, NULL);
+}
+
+static void
+mail_identity_combo_box_add_address (GtkListStore *list_store,
+				     GHashTable *address_table,
+				     const gchar *name,
+				     const gchar *address,
+				     gboolean is_alias_entry,
+				     const gchar *identity_uid,
+				     const gchar *identity_display_name)
+{
+	GtkTreeIter iter;
+	GQueue *queue;
+	GString *string;
+	gchar *alias_id;
+
+	g_return_if_fail (GTK_IS_LIST_STORE (list_store));
+	g_return_if_fail (address_table != NULL);
+
+	if (!address || !*address)
+		return;
+
+	queue = g_hash_table_lookup (address_table, address);
+
+	string = g_string_sized_new (512);
+	if (name && *name)
+		g_string_append_printf (string, "%s <%s>", name, address);
+	else
+		g_string_append_printf (string, "%s", address);
+
+	/* Show the account name for duplicate email addresses. */
+	if (queue != NULL && g_queue_get_length (queue) > 1)
+		g_string_append_printf (string, " (%s)", identity_display_name);
+
+	alias_id = mail_identity_combo_box_build_alias_id (identity_uid, name, address);
+
+	gtk_list_store_append (list_store, &iter);
+
+	gtk_list_store_set (list_store, &iter,
+		COLUMN_DISPLAY_NAME, string->str,
+		COLUMN_COMBO_ID, is_alias_entry ? alias_id : identity_uid,
+		COLUMN_UID, identity_uid,
+		COLUMN_NAME, is_alias_entry ? name : NULL,
+		COLUMN_ADDRESS, is_alias_entry ? address : NULL,
+		-1);
+
+	g_string_free (string, TRUE);
+	g_free (alias_id);
 }
 
 /**
@@ -402,68 +492,103 @@ e_mail_identity_combo_box_refresh (EMailIdentityComboBox *combo_box)
 	for (link = list; link != NULL; link = g_list_next (link)) {
 		ESourceMailIdentity *extension;
 		GQueue *queue;
+		GHashTable *aliases;
 		const gchar *address;
 
 		source = E_SOURCE (link->data);
 		extension = e_source_get_extension (source, extension_name);
 		address = e_source_mail_identity_get_address (extension);
 
-		if (address == NULL)
-			continue;
+		if (address) {
+			queue = g_hash_table_lookup (address_table, address);
+			if (queue == NULL) {
+				queue = g_queue_new ();
+				g_hash_table_insert (
+					address_table,
+					g_strdup (address), queue);
+			}
 
-		queue = g_hash_table_lookup (address_table, address);
-		if (queue == NULL) {
-			queue = g_queue_new ();
-			g_hash_table_insert (
-				address_table,
-				g_strdup (address), queue);
+			g_queue_push_tail (queue, source);
 		}
 
-		g_queue_push_tail (queue, source);
+		if (!e_mail_identity_combo_box_get_allow_aliases (combo_box))
+			continue;
+
+		aliases = e_source_mail_identity_get_aliases_as_hash_table (extension);
+		if (aliases) {
+			GHashTableIter iter;
+			gpointer key;
+
+			g_hash_table_iter_init (&iter, aliases);
+			while (g_hash_table_iter_next (&iter, &key, NULL)) {
+				address = key;
+
+				if (address && *address) {
+					queue = g_hash_table_lookup (address_table, address);
+					if (queue) {
+						if (!g_queue_find (queue, source))
+							g_queue_push_tail (queue, source);
+					} else {
+						queue = g_queue_new ();
+						g_hash_table_insert (
+							address_table,
+							g_strdup (address), queue);
+
+						g_queue_push_tail (queue, source);
+					}
+				}
+			}
+			g_hash_table_destroy (aliases);
+		}
 	}
 
 	for (link = list; link != NULL; link = g_list_next (link)) {
 		ESourceMailIdentity *extension;
-		GtkTreeIter iter;
-		GQueue *queue;
-		GString *string;
 		const gchar *address;
-		const gchar *display_name;
 		const gchar *name;
 		const gchar *uid;
+		const gchar *display_name;
+		gchar *aliases;
 
 		source = E_SOURCE (link->data);
 
+		uid = e_source_get_uid (source);
+		display_name = e_source_get_display_name (source);
 		extension = e_source_get_extension (source, extension_name);
 		name = e_source_mail_identity_get_name (extension);
 		address = e_source_mail_identity_get_address (extension);
 
-		if (address == NULL)
+		mail_identity_combo_box_add_address (GTK_LIST_STORE (tree_model),
+			address_table, name, address, FALSE, uid, display_name);
+
+		if (!e_mail_identity_combo_box_get_allow_aliases (combo_box))
 			continue;
 
-		queue = g_hash_table_lookup (address_table, address);
+		aliases = e_source_mail_identity_dup_aliases (extension);
+		if (aliases && *aliases) {
+			CamelInternetAddress *inet_address;
+			gint ii, len;
 
-		display_name = e_source_get_display_name (source);
-		uid = e_source_get_uid (source);
+			inet_address = camel_internet_address_new ();
+			len = camel_address_decode (CAMEL_ADDRESS (inet_address), aliases);
 
-		string = g_string_sized_new (512);
-		if (name && *name)
-			g_string_append_printf (string, "%s <%s>", name, address);
-		else
-			g_string_append_printf (string, "%s", address);
+			for (ii = 0; ii < len; ii++) {
+				const gchar *alias_name = NULL, *alias_address = NULL;
 
-		/* Show the account name for duplicate email addresses. */
-		if (queue != NULL && g_queue_get_length (queue) > 1)
-			g_string_append_printf (string, " (%s)", display_name);
+				if (camel_internet_address_get (inet_address, ii, &alias_name, &alias_address) &&
+				    alias_address && *alias_address) {
+					if (!alias_name || !*alias_name)
+						alias_name = name;
 
-		gtk_list_store_append (GTK_LIST_STORE (tree_model), &iter);
+					mail_identity_combo_box_add_address (GTK_LIST_STORE (tree_model),
+						address_table, alias_name, alias_address, TRUE, uid, display_name);
+				}
+			}
 
-		gtk_list_store_set (
-			GTK_LIST_STORE (tree_model), &iter,
-			COLUMN_DISPLAY_NAME, string->str,
-			COLUMN_UID, uid, -1);
+			g_clear_object (&inet_address);
+		}
 
-		g_string_free (string, TRUE);
+		g_free (aliases);
 	}
 
 	g_hash_table_destroy (address_table);
@@ -478,7 +603,9 @@ e_mail_identity_combo_box_refresh (EMailIdentityComboBox *combo_box)
 		gtk_list_store_set (
 			GTK_LIST_STORE (tree_model), &iter,
 			COLUMN_DISPLAY_NAME, _("None"),
-			COLUMN_UID, "", -1);
+			COLUMN_UID, "",
+			COLUMN_COMBO_ID, "",
+			-1);
 	}
 
 	/* Try and restore the previous selected source, or else pick
@@ -558,6 +685,142 @@ e_mail_identity_combo_box_set_allow_none (EMailIdentityComboBox *combo_box,
 	g_object_notify (G_OBJECT (combo_box), "allow-none");
 
 	e_mail_identity_combo_box_refresh (combo_box);
+}
+
+/**
+ * e_mail_identity_combo_box_get_allow_aliases:
+ * @combo_box: an #EMailIdentityComboBox
+ *
+ * Returns whether to show also aliases of the mail identities.
+ *
+ * Returns: whether to show also aliases of the mail identities
+ *
+ * Since: 3.24
+ **/
+gboolean
+e_mail_identity_combo_box_get_allow_aliases (EMailIdentityComboBox *combo_box)
+{
+	g_return_val_if_fail (E_IS_MAIL_IDENTITY_COMBO_BOX (combo_box), FALSE);
+
+	return combo_box->priv->allow_aliases;
+}
+
+/**
+ * e_mail_identity_combo_box_set_allow_aliases:
+ * @combo_box: an #EMailIdentityComboBox
+ * @allow_aliases: whether to show also aliases of the mail identities
+ *
+ * Sets whether to show also aliases of the mail identities.
+ *
+ * Changing this property will automatically rebuild the combo box model.
+ *
+ * Since: 3.24
+ **/
+void
+e_mail_identity_combo_box_set_allow_aliases (EMailIdentityComboBox *combo_box,
+					     gboolean allow_aliases)
+{
+	g_return_if_fail (E_IS_MAIL_IDENTITY_COMBO_BOX (combo_box));
+
+	if (allow_aliases == combo_box->priv->allow_aliases)
+		return;
+
+	combo_box->priv->allow_aliases = allow_aliases;
+
+	g_object_notify (G_OBJECT (combo_box), "allow-aliases");
+
+	e_mail_identity_combo_box_refresh (combo_box);
+}
+
+/**
+ * e_mail_identity_combo_box_get_active_uid:
+ * @combo_box: an #EMailIdentityComboBox
+ * @identity_uid: (out) (transfer full): identity UID of the currently active item
+ * @alias_name: (out) (nullable) (transfer full): alias name of the currently active item
+ * @alias_address: (out) (nullable) (transfer full): alias address of the currently active item
+ *
+ * Sets identity UID, used name and used address for the currently
+ * active item in the @combo_box. Both @alias_name and @alias_address
+ * are optional.
+ *
+ * Returns: Whether any item was selected. If %FALSE is returned, then
+ *   the values of the output arguments are unchanged. Free the returned
+ *   values with g_free() when done with them.
+ *
+ * Since: 3.24
+ **/
+gboolean
+e_mail_identity_combo_box_get_active_uid (EMailIdentityComboBox *combo_box,
+					  gchar **identity_uid,
+					  gchar **alias_name,
+					  gchar **alias_address)
+{
+	GtkTreeIter iter;
+	gchar *name = NULL, *address = NULL;
+
+	g_return_val_if_fail (E_IS_MAIL_IDENTITY_COMBO_BOX (combo_box), FALSE);
+	g_return_val_if_fail (identity_uid != NULL, FALSE);
+
+	if (!gtk_combo_box_get_active_iter (GTK_COMBO_BOX (combo_box), &iter))
+		return FALSE;
+
+	gtk_tree_model_get (gtk_combo_box_get_model (GTK_COMBO_BOX (combo_box)), &iter,
+		COLUMN_UID, identity_uid,
+		COLUMN_NAME, &name,
+		COLUMN_ADDRESS, &address,
+		-1);
+
+	if (alias_name)
+		*alias_name = name;
+	else
+		g_free (name);
+
+	if (alias_address)
+		*alias_address = address;
+	else
+		g_free (address);
+
+	return TRUE;
+}
+
+/**
+ * e_mail_identity_combo_box_set_active_uid:
+ * @combo_box: an #EMailIdentityComboBox
+ * @identity_uid: identity UID to select
+ * @alias_name: (nullable): alias name to select
+ * @alias_address: (nullable): alias address to select
+ *
+ * Selects an item which corresponds to @identity_uid. If the @alias_address
+ * is specified, then it will try to select an alias entry with this address
+ * for this identity UID. If no such can be found, then picks the main
+ * @identity_uid item instead.
+ *
+ * Returns: Whether such identity_uid had been found and selected.
+ *
+ * Since: 3.24
+ **/
+gboolean
+e_mail_identity_combo_box_set_active_uid (EMailIdentityComboBox *combo_box,
+					  const gchar *identity_uid,
+					  const gchar *alias_name,
+					  const gchar *alias_address)
+{
+	gchar *alias_id;
+	gboolean found;
+
+	g_return_val_if_fail (E_IS_MAIL_IDENTITY_COMBO_BOX (combo_box), FALSE);
+	g_return_val_if_fail (identity_uid != NULL, FALSE);
+
+	alias_id = mail_identity_combo_box_build_alias_id (identity_uid, alias_name, alias_address);
+
+	found = gtk_combo_box_set_active_id (GTK_COMBO_BOX (combo_box), alias_id);
+
+	g_free (alias_id);
+
+	if (!found && alias_address)
+		found = gtk_combo_box_set_active_id (GTK_COMBO_BOX (combo_box), identity_uid);
+
+	return found;
 }
 
 /**

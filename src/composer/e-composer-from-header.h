@@ -61,11 +61,15 @@ GType		e_composer_from_header_get_type	(void);
 EComposerHeader *
 		e_composer_from_header_new	(ESourceRegistry *registry,
 						 const gchar *label);
-const gchar *	e_composer_from_header_get_active_id
-						(EComposerFromHeader *header);
+gchar *		e_composer_from_header_dup_active_id
+						(EComposerFromHeader *header,
+						 gchar **alias_name,
+						 gchar **alias_address);
 void		e_composer_from_header_set_active_id
 						(EComposerFromHeader *header,
-						 const gchar *active_id);
+						 const gchar *active_id,
+						 const gchar *alias_name,
+						 const gchar *alias_address);
 GtkEntry *	e_composer_from_header_get_name_entry
 						(EComposerFromHeader *header);
 const gchar *	e_composer_from_header_get_name (EComposerFromHeader *header);

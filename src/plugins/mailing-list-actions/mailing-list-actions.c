@@ -142,7 +142,7 @@ send_message_composer_created_cb (GObject *source_object,
 		table = e_msg_composer_get_header_table (composer);
 
 		if (smd->uid)
-			e_composer_header_table_set_identity_uid (table, smd->uid);
+			e_composer_header_table_set_identity_uid (table, smd->uid, NULL, NULL);
 
 		e_msg_composer_send (composer);
 	}

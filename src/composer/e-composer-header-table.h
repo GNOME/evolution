@@ -104,11 +104,15 @@ void		e_composer_header_table_add_destinations_to
 void		e_composer_header_table_set_destinations_to
 						(EComposerHeaderTable *table,
 						 EDestination **destinations);
-const gchar *	e_composer_header_table_get_identity_uid
-						(EComposerHeaderTable *table);
+gchar *		e_composer_header_table_dup_identity_uid
+						(EComposerHeaderTable *table,
+						 gchar **chosen_alias_name,
+						 gchar **chosen_alias_address);
 void		e_composer_header_table_set_identity_uid
 						(EComposerHeaderTable *table,
-						 const gchar *identity_uid);
+						 const gchar *identity_uid,
+						 const gchar *alias_name,
+						 const gchar *alias_address);
 const gchar *	e_composer_header_table_get_from_name
 						(EComposerHeaderTable *table);
 const gchar *	e_composer_header_table_get_from_address

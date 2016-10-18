@@ -79,6 +79,21 @@ gboolean	e_mail_identity_combo_box_get_allow_none
 void		e_mail_identity_combo_box_set_allow_none
 					(EMailIdentityComboBox *combo_box,
 					 gboolean allow_none);
+gboolean	e_mail_identity_combo_box_get_allow_aliases
+					(EMailIdentityComboBox *combo_box);
+void		e_mail_identity_combo_box_set_allow_aliases
+					(EMailIdentityComboBox *combo_box,
+					 gboolean allow_aliases);
+gboolean	e_mail_identity_combo_box_get_active_uid
+					(EMailIdentityComboBox *combo_box,
+					 gchar **identity_uid,
+					 gchar **alias_name,
+					 gchar **alias_address);
+gboolean	e_mail_identity_combo_box_set_active_uid
+					(EMailIdentityComboBox *combo_box,
+					 const gchar *identity_uid,
+					 const gchar *alias_name,
+					 const gchar *alias_address);
 gboolean	e_mail_identity_combo_box_get_refreshing
 					(EMailIdentityComboBox *combo_box);
 

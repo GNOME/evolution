@@ -55,6 +55,7 @@ struct _MdnContext {
 	CamelMessageInfo *info;
 	CamelMimeMessage *message;
 	gchar *notify_to;
+	gchar *identity_address;
 };
 
 typedef enum {
@@ -88,6 +89,7 @@ mdn_context_free (MdnContext *context)
 	g_object_unref (context->message);
 
 	g_free (context->notify_to);
+	g_free (context->identity_address);
 
 	g_slice_free (MdnContext, context);
 }
@@ -206,6 +208,7 @@ mdn_notify_sender (ESource *identity_source,
                    CamelMimeMessage *message,
                    CamelMessageInfo *info,
                    const gchar *notify_to,
+		   const gchar *identity_address,
                    MdnActionMode action_mode,
                    MdnSendingMode sending_mode)
 {
@@ -228,9 +231,9 @@ mdn_notify_sender (ESource *identity_source,
 	const gchar *message_subject;
 	const gchar *extension_name;
 	const gchar *transport_uid;
-	const gchar *self_address;
 	const gchar *sent_folder_uri;
 	const gchar *hostname;
+	gchar *self_address;
 	gchar *receipt_subject;
 	gchar *disposition;
 	gchar *recipient;
@@ -263,8 +266,10 @@ mdn_notify_sender (ESource *identity_source,
 	extension_name = E_SOURCE_EXTENSION_MAIL_IDENTITY;
 	extension = e_source_get_extension (identity_source, extension_name);
 
-	self_address = e_source_mail_identity_get_address (
-		E_SOURCE_MAIL_IDENTITY (extension));
+	if (identity_address && *identity_address)
+		self_address = g_strdup (identity_address);
+	else
+		self_address = e_source_mail_identity_dup_address (E_SOURCE_MAIL_IDENTITY (extension));
 
 	extension_name = E_SOURCE_EXTENSION_MAIL_SUBMISSION;
 	extension = e_source_get_extension (identity_source, extension_name);
@@ -418,6 +423,7 @@ mdn_notify_sender (ESource *identity_source,
 
 	camel_message_info_unref (receipt_info);
 
+	g_free (self_address);
 	g_free (message_date);
 	g_free (message_id);
 }
@@ -433,6 +439,7 @@ mdn_notify_action_cb (GtkAction *action,
 		context->message,
 		context->info,
 		context->notify_to,
+		context->identity_address,
 		MDN_ACTION_MODE_MANUAL,
 		MDN_SENDING_MODE_MANUAL);
 
@@ -471,7 +478,7 @@ mdn_message_loaded_cb (EMailReader *reader,
 	CamelMessageInfo *info;
 	EMdnResponsePolicy response_policy;
 	const gchar *extension_name;
-	gchar *notify_to = NULL;
+	gchar *notify_to = NULL, *identity_address = NULL;
 
 	backend = e_mail_reader_get_backend (reader);
 	session = e_mail_backend_get_session (backend);
@@ -507,8 +514,7 @@ mdn_message_loaded_cb (EMailReader *reader,
 		goto exit;
 
 	/* This returns a new ESource reference. */
-	source = em_utils_guess_mail_identity_with_recipients (
-		registry, message, folder, message_uid);
+	source = em_utils_guess_mail_identity_with_recipients (registry, message, folder, message_uid, NULL, &identity_address);
 	if (source == NULL)
 		goto exit;
 
@@ -527,9 +533,11 @@ mdn_message_loaded_cb (EMailReader *reader,
 		context->folder = g_object_ref (folder);
 		context->message = g_object_ref (message);
 		context->info = camel_message_info_ref (info);
-
 		context->notify_to = notify_to;
+		context->identity_address = identity_address;
+
 		notify_to = NULL;
+		identity_address = NULL;
 
 		tooltip = g_strdup_printf (
 			_("Send a read receipt to '%s'"),
@@ -563,6 +571,7 @@ exit:
 		camel_message_info_unref (info);
 
 	g_clear_object (&folder);
+	g_free (identity_address);
 	g_free (notify_to);
 }
 
@@ -580,7 +589,7 @@ mdn_message_seen_cb (EMailReader *reader,
 	CamelMessageInfo *info;
 	EMdnResponsePolicy response_policy;
 	const gchar *extension_name;
-	gchar *notify_to = NULL;
+	gchar *notify_to = NULL, *identity_address = NULL;
 
 	backend = e_mail_reader_get_backend (reader);
 	session = e_mail_backend_get_session (backend);
@@ -601,7 +610,7 @@ mdn_message_seen_cb (EMailReader *reader,
 
 	/* This returns a new ESource reference. */
 	source = em_utils_guess_mail_identity_with_recipients (
-		registry, message, folder, message_uid);
+		registry, message, folder, message_uid, NULL, &identity_address);
 	if (source == NULL)
 		goto exit;
 
@@ -613,6 +622,7 @@ mdn_message_seen_cb (EMailReader *reader,
 		mdn_notify_sender (
 			source, reader, folder,
 			message, info, notify_to,
+			identity_address,
 			MDN_ACTION_MODE_AUTOMATIC,
 			MDN_SENDING_MODE_AUTOMATIC);
 
@@ -623,6 +633,7 @@ exit:
 		camel_message_info_unref (info);
 
 	g_clear_object (&folder);
+	g_free (identity_address);
 	g_free (notify_to);
 }
 

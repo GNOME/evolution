@@ -3104,15 +3104,43 @@ find_to_address (ItipView *view,
 		ESource *source = E_SOURCE (link->data);
 		icalproperty *prop = NULL;
 		icalparameter *param;
-		const gchar *address;
+		gchar *address;
 		gchar *text;
 
 		extension = e_source_get_extension (source, extension_name);
-		address = e_source_mail_identity_get_address (extension);
+		address = e_source_mail_identity_dup_address (extension);
 
 		prop = find_attendee (ical_comp, address);
-		if (prop == NULL)
+		if (!prop) {
+			GHashTable *aliases;
+
+			aliases = e_source_mail_identity_get_aliases_as_hash_table (extension);
+			if (aliases) {
+				GHashTableIter iter;
+				gpointer key = NULL;
+
+				g_hash_table_iter_init (&iter, aliases);
+				while (g_hash_table_iter_next (&iter, &key, NULL)) {
+					const gchar *alias_address = key;
+
+					if (alias_address && *alias_address) {
+						prop = find_attendee (ical_comp, alias_address);
+						if (prop) {
+							g_free (address);
+							address = g_strdup (alias_address);
+							break;
+						}
+					}
+				}
+
+				g_hash_table_destroy (aliases);
+			}
+		}
+
+		if (!prop) {
+			g_free (address);
 			continue;
+		}
 
 		param = icalproperty_get_first_parameter (prop, ICAL_CN_PARAMETER);
 		if (param != NULL)
@@ -3124,7 +3152,7 @@ find_to_address (ItipView *view,
 		g_free (text);
 		g_strstrip (view->priv->to_address);
 
-		view->priv->my_address = g_strdup (address);
+		view->priv->my_address = address;
 
 		param = icalproperty_get_first_parameter (prop, ICAL_RSVP_PARAMETER);
 		if (param != NULL &&
@@ -3162,15 +3190,43 @@ find_to_address (ItipView *view,
 		ESource *source = E_SOURCE (link->data);
 		icalproperty *prop = NULL;
 		icalparameter *param;
-		const gchar *address;
+		gchar *address;
 		gchar *text;
 
 		extension = e_source_get_extension (source, extension_name);
-		address = e_source_mail_identity_get_address (extension);
+		address = e_source_mail_identity_dup_address (extension);
 
 		prop = find_attendee_if_sentby (ical_comp, address);
-		if (prop == NULL)
+		if (!prop) {
+			GHashTable *aliases;
+
+			aliases = e_source_mail_identity_get_aliases_as_hash_table (extension);
+			if (aliases) {
+				GHashTableIter iter;
+				gpointer key = NULL;
+
+				g_hash_table_iter_init (&iter, aliases);
+				while (g_hash_table_iter_next (&iter, &key, NULL)) {
+					const gchar *alias_address = key;
+
+					if (alias_address && *alias_address) {
+						prop = find_attendee_if_sentby (ical_comp, alias_address);
+						if (prop) {
+							g_free (address);
+							address = g_strdup (alias_address);
+							break;
+						}
+					}
+				}
+
+				g_hash_table_destroy (aliases);
+			}
+		}
+
+		if (!prop) {
+			g_free (address);
 			continue;
+		}
 
 		param = icalproperty_get_first_parameter (prop, ICAL_CN_PARAMETER);
 		if (param != NULL)
@@ -3182,7 +3238,7 @@ find_to_address (ItipView *view,
 		g_free (text);
 		g_strstrip (view->priv->to_address);
 
-		view->priv->my_address = g_strdup (address);
+		view->priv->my_address = address;
 
 		param = icalproperty_get_first_parameter (prop, ICAL_RSVP_PARAMETER);
 		if (param != NULL &&
@@ -3252,19 +3308,45 @@ find_from_address (ItipView *view,
 	for (link = list; link != NULL; link = g_list_next (link)) {
 		ESource *source = E_SOURCE (link->data);
 		ESourceMailIdentity *extension;
+		GHashTable *aliases;
 		const gchar *address;
 
 		extension = e_source_get_extension (source, extension_name);
 		address = e_source_mail_identity_get_address (extension);
 
-		if (address == NULL)
-			continue;
+		if (address) {
+			if ((organizer_clean && !g_ascii_strcasecmp (organizer_clean, address))
+			    || (organizer_sentby_clean && !g_ascii_strcasecmp (organizer_sentby_clean, address))) {
+				view->priv->my_address = g_strdup (address);
 
-		if ((organizer_clean && !g_ascii_strcasecmp (organizer_clean, address))
-		    || (organizer_sentby_clean && !g_ascii_strcasecmp (organizer_sentby_clean, address))) {
-			view->priv->my_address = g_strdup (address);
+				break;
+			}
+		}
 
-			break;
+		aliases = e_source_mail_identity_get_aliases_as_hash_table (extension);
+		if (aliases) {
+			GHashTableIter iter;
+			gpointer key = NULL;
+			gboolean found = FALSE;
+
+			g_hash_table_iter_init (&iter, aliases);
+			while (g_hash_table_iter_next (&iter, &key, NULL)) {
+				const gchar *alias_address = key;
+
+				if (alias_address && *alias_address) {
+					if ((organizer_clean && !g_ascii_strcasecmp (organizer_clean, alias_address))
+					    || (organizer_sentby_clean && !g_ascii_strcasecmp (organizer_sentby_clean, alias_address))) {
+						view->priv->my_address = g_strdup (alias_address);
+						found = TRUE;
+						break;
+					}
+				}
+			}
+
+			g_hash_table_destroy (aliases);
+
+			if (found)
+				break;
 		}
 	}
 

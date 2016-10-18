@@ -1142,13 +1142,13 @@ get_account_templates_folder_uri (EMsgComposer *composer)
 {
 	EComposerHeaderTable *table;
 	ESource *source;
-	const gchar *identity_uid;
+	gchar *identity_uid;
 	gchar *templates_folder_uri = NULL;
 
 	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), NULL);
 
 	table = e_msg_composer_get_header_table (composer);
-	identity_uid = e_composer_header_table_get_identity_uid (table);
+	identity_uid = e_composer_header_table_dup_identity_uid (table, NULL, NULL);
 	source = e_composer_header_table_ref_source (table, identity_uid);
 
 	/* Get the selected identity's preferred Templates folder. */
@@ -1162,6 +1162,8 @@ get_account_templates_folder_uri (EMsgComposer *composer)
 
 		g_object_unref (source);
 	}
+
+	g_free (identity_uid);
 
 	return templates_folder_uri;
 }

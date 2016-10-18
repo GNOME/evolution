@@ -1376,6 +1376,7 @@ mail_session_forward_to_sync (CamelSession *session,
 	struct _camel_header_raw *xev;
 	gboolean success;
 	gchar *subject;
+	gchar *alias_name = NULL, *alias_address = NULL;
 
 	g_return_val_if_fail (folder != NULL, FALSE);
 	g_return_val_if_fail (message != NULL, FALSE);
@@ -1395,7 +1396,7 @@ mail_session_forward_to_sync (CamelSession *session,
 
 	/* This returns a new ESource reference. */
 	source = em_utils_guess_mail_identity_with_recipients (
-		registry, message, folder, NULL);
+		registry, message, folder, NULL, &alias_name, &alias_address);
 	if (source == NULL) {
 		g_set_error (
 			error, CAMEL_ERROR, CAMEL_ERROR_GENERIC,
@@ -1406,8 +1407,16 @@ mail_session_forward_to_sync (CamelSession *session,
 
 	extension_name = E_SOURCE_EXTENSION_MAIL_IDENTITY;
 	extension = e_source_get_extension (source, extension_name);
-	from_address = e_source_mail_identity_get_address (extension);
-	from_name = e_source_mail_identity_get_name (extension);
+	if (alias_address) {
+		from_name = alias_name;
+		from_address = alias_address;
+	} else {
+		from_name = e_source_mail_identity_get_name (extension);
+		from_address = e_source_mail_identity_get_address (extension);
+	}
+
+	if (!from_name || !*from_name)
+		from_name = e_source_mail_identity_get_name (extension);
 
 	forward = camel_mime_message_new ();
 
@@ -1518,6 +1527,8 @@ mail_session_forward_to_sync (CamelSession *session,
 	camel_message_info_unref (info);
 
 	g_object_unref (source);
+	g_free (alias_address);
+	g_free (alias_name);
 
 	return success;
 }

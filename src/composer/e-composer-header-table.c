@@ -409,13 +409,13 @@ composer_header_table_show_post_headers (EComposerHeaderTable *table)
 	ESourceRegistry *registry;
 	GList *list, *link;
 	const gchar *extension_name;
-	const gchar *target_uid;
+	gchar *target_uid;
 	gboolean show_post_headers = FALSE;
 
 	client_cache = e_composer_header_table_ref_client_cache (table);
 	registry = e_client_cache_ref_registry (client_cache);
 
-	target_uid = e_composer_header_table_get_identity_uid (table);
+	target_uid = e_composer_header_table_dup_identity_uid (table, NULL, NULL);
 
 	extension_name = E_SOURCE_EXTENSION_MAIL_ACCOUNT;
 	list = e_source_registry_list_sources (registry, extension_name);
@@ -455,6 +455,7 @@ composer_header_table_show_post_headers (EComposerHeaderTable *table)
 
 	g_object_unref (client_cache);
 	g_object_unref (registry);
+	g_free (target_uid);
 
 	return show_post_headers;
 }
@@ -471,18 +472,19 @@ composer_header_table_from_changed_cb (EComposerHeaderTable *table)
 	EComposerTextHeader *text_header;
 	EDestination **old_destinations;
 	EDestination **new_destinations;
-	const gchar *name = NULL;
-	const gchar *address = NULL;
+	gchar *name = NULL;
+	gchar *address = NULL;
+	gchar *uid;
 	const gchar *reply_to = NULL;
 	const gchar * const *bcc = NULL;
 	const gchar * const *cc = NULL;
-	const gchar *uid;
 
 	/* Keep "Post-To" and "Reply-To" synchronized with "From" */
 
-	uid = e_composer_header_table_get_identity_uid (table);
+	uid = e_composer_header_table_dup_identity_uid (table, &name, &address);
 	if (uid != NULL)
 		source = e_composer_header_table_ref_source (table, uid);
+	g_free (uid);
 
 	/* Make sure this is really a mail identity source. */
 	if (source != NULL) {
@@ -506,8 +508,16 @@ composer_header_table_from_changed_cb (EComposerHeaderTable *table)
 		extension_name = E_SOURCE_EXTENSION_MAIL_COMPOSITION;
 		mc = e_source_get_extension (source, extension_name);
 
-		name = e_source_mail_identity_get_name (mi);
-		address = e_source_mail_identity_get_address (mi);
+		if (!address) {
+			g_free (name);
+
+			name = e_source_mail_identity_dup_name (mi);
+			address = e_source_mail_identity_dup_address (mi);
+		}
+
+		if (!name)
+			name = e_source_mail_identity_dup_name (mi);
+
 		reply_to = e_source_mail_identity_get_reply_to (mi);
 		bcc = e_source_mail_composition_get_bcc (mc);
 		cc = e_source_mail_composition_get_cc (mc);
@@ -586,6 +596,9 @@ composer_header_table_from_changed_cb (EComposerHeaderTable *table)
 		composer_header_table_setup_post_headers (table);
 	else
 		composer_header_table_setup_mail_headers (table);
+
+	g_free (name);
+	g_free (address);
 }
 
 static void
@@ -641,7 +654,7 @@ composer_header_table_set_property (GObject *object,
 		case PROP_IDENTITY_UID:
 			e_composer_header_table_set_identity_uid (
 				E_COMPOSER_HEADER_TABLE (object),
-				g_value_get_string (value));
+				g_value_get_string (value), NULL, NULL);
 			return;
 
 		case PROP_POST_TO:
@@ -716,10 +729,10 @@ composer_header_table_get_property (GObject *object,
 			return;
 
 		case PROP_IDENTITY_UID:
-			g_value_set_string (
+			g_value_take_string (
 				value,
-				e_composer_header_table_get_identity_uid (
-				E_COMPOSER_HEADER_TABLE (object)));
+				e_composer_header_table_dup_identity_uid (
+				E_COMPOSER_HEADER_TABLE (object), NULL, NULL));
 			return;
 
 		case PROP_POST_TO:
@@ -1331,8 +1344,10 @@ e_composer_header_table_set_destinations_to (EComposerHeaderTable *table,
 	e_composer_name_header_set_destinations (name_header, destinations);
 }
 
-const gchar *
-e_composer_header_table_get_identity_uid (EComposerHeaderTable *table)
+gchar *
+e_composer_header_table_dup_identity_uid (EComposerHeaderTable *table,
+					  gchar **chosen_alias_name,
+					  gchar **chosen_alias_address)
 {
 	EComposerHeader *header;
 	EComposerHeaderType type;
@@ -1344,12 +1359,14 @@ e_composer_header_table_get_identity_uid (EComposerHeaderTable *table)
 	header = e_composer_header_table_get_header (table, type);
 	from_header = E_COMPOSER_FROM_HEADER (header);
 
-	return e_composer_from_header_get_active_id (from_header);
+	return e_composer_from_header_dup_active_id (from_header, chosen_alias_name, chosen_alias_address);
 }
 
 void
 e_composer_header_table_set_identity_uid (EComposerHeaderTable *table,
-                                          const gchar *identity_uid)
+					  const gchar *identity_uid,
+					  const gchar *alias_name,
+					  const gchar *alias_address)
 {
 	EComposerHeader *header;
 	EComposerHeaderType type;
@@ -1361,7 +1378,7 @@ e_composer_header_table_set_identity_uid (EComposerHeaderTable *table,
 	header = e_composer_header_table_get_header (table, type);
 	from_header = E_COMPOSER_FROM_HEADER (header);
 
-	e_composer_from_header_set_active_id (from_header, identity_uid);
+	e_composer_from_header_set_active_id (from_header, identity_uid, alias_name, alias_address);
 }
 
 const gchar *

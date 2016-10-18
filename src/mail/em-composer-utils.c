@@ -448,13 +448,14 @@ composer_presend_check_identity (EMsgComposer *composer,
 	EClientCache *client_cache;
 	ESourceRegistry *registry;
 	ESource *source;
-	const gchar *uid;
+	gchar *uid;
 	gboolean success = TRUE;
 
 	table = e_msg_composer_get_header_table (composer);
 
-	uid = e_composer_header_table_get_identity_uid (table);
+	uid = e_composer_header_table_dup_identity_uid (table, NULL, NULL);
 	source = e_composer_header_table_ref_source (table, uid);
+	g_free (uid);
 	g_return_val_if_fail (source != NULL, FALSE);
 
 	client_cache = e_composer_header_table_ref_client_cache (table);
@@ -1078,7 +1079,7 @@ em_utils_composer_save_to_drafts_cb (EMsgComposer *composer,
 	EComposerHeaderTable *table;
 	ESource *source;
 	const gchar *local_drafts_folder_uri;
-	const gchar *identity_uid;
+	gchar *identity_uid;
 	gchar *drafts_folder_uri = NULL;
 
 	async_context = g_slice_new0 (AsyncContext);
@@ -1089,7 +1090,7 @@ em_utils_composer_save_to_drafts_cb (EMsgComposer *composer,
 
 	table = e_msg_composer_get_header_table (composer);
 
-	identity_uid = e_composer_header_table_get_identity_uid (table);
+	identity_uid = e_composer_header_table_dup_identity_uid (table, NULL, NULL);
 	source = e_composer_header_table_ref_source (table, identity_uid);
 
 	/* Get the selected identity's preferred Drafts folder. */
@@ -1128,6 +1129,8 @@ em_utils_composer_save_to_drafts_cb (EMsgComposer *composer,
 
 		g_free (drafts_folder_uri);
 	}
+
+	g_free (identity_uid);
 }
 
 static void
@@ -1353,7 +1356,7 @@ set_up_new_composer (EMsgComposer *composer,
 	}
 
 	e_composer_header_table_set_subject (table, subject);
-	e_composer_header_table_set_identity_uid (table, identity);
+	e_composer_header_table_set_identity_uid (table, identity, NULL, NULL);
 
 	em_utils_apply_send_account_override_to_composer (composer, folder);
 
@@ -1528,7 +1531,7 @@ msg_composer_created_with_mailto_cb (GObject *source_object,
 
 		if (source != NULL) {
 			const gchar *uid = e_source_get_uid (source);
-			e_composer_header_table_set_identity_uid (table, uid);
+			e_composer_header_table_set_identity_uid (table, uid, NULL, NULL);
 			g_object_unref (source);
 		}
 	}
@@ -2365,7 +2368,7 @@ em_utils_redirect_message (EMsgComposer *composer,
 	source = em_utils_check_send_account_override (shell, message, NULL);
 	if (!source)
 		source = em_utils_guess_mail_identity_with_recipients_and_sort (
-			registry, message, NULL, NULL, sort_sources_by_ui, shell);
+			registry, message, NULL, NULL, NULL, NULL, sort_sources_by_ui, shell);
 
 	if (source != NULL) {
 		identity_uid = e_source_dup_uid (source);
@@ -2422,11 +2425,13 @@ static void
 reply_setup_composer (EMsgComposer *composer,
 		      CamelMimeMessage *message,
 		      const gchar *identity_uid,
+		      const gchar *identity_name,
+		      const gchar *identity_address,
 		      CamelInternetAddress *to,
 		      CamelInternetAddress *cc,
 		      CamelFolder *folder,
 		      const gchar *message_uid,
-		     CamelNNTPAddress *postto)
+		      CamelNNTPAddress *postto)
 {
 	gchar *message_id, *references;
 	EDestination **tov, **ccv;
@@ -2462,7 +2467,7 @@ reply_setup_composer (EMsgComposer *composer,
 	table = e_msg_composer_get_header_table (composer);
 	e_composer_header_table_set_subject (table, subject);
 	e_composer_header_table_set_destinations_to (table, tov);
-	e_composer_header_table_set_identity_uid (table, identity_uid);
+	e_composer_header_table_set_identity_uid (table, identity_uid, identity_name, identity_address);
 
 	/* Add destinations instead of setting, so we don't remove
 	 * automatic CC addresses that have already been added. */
@@ -2767,6 +2772,52 @@ concat_unique_addrs (CamelInternetAddress *dest,
 	}
 }
 
+static void
+add_source_to_recipient_hash (ESourceRegistry *registry,
+			      GHashTable *rcpt_hash,
+			      const gchar *address,
+			      ESource *default_source,
+			      ESource *source,
+			      gboolean source_is_default,
+			      gboolean source_is_enabled)
+{
+	ESource *cached_source;
+	gboolean insert_source;
+	gboolean cached_is_default;
+	gboolean cached_is_enabled;
+
+	g_return_if_fail (rcpt_hash != NULL);
+	g_return_if_fail (E_IS_SOURCE (source));
+
+	if (!address || !*address)
+		return;
+
+	cached_source = g_hash_table_lookup (rcpt_hash, address);
+
+	if (cached_source != NULL) {
+		cached_is_default = e_source_equal (cached_source, default_source);
+		cached_is_enabled = e_source_registry_check_enabled (registry, cached_source);
+	} else {
+		cached_is_default = FALSE;
+		cached_is_enabled = FALSE;
+	}
+
+	/* Accounts with identical email addresses that are enabled
+	 * take precedence over disabled accounts.  If all accounts
+	 * with matching email addresses are disabled, the first
+	 * one in the list takes precedence.  The default account
+	 * always takes precedence no matter what. */
+	insert_source =
+		source_is_default ||
+		cached_source == NULL ||
+		(source_is_enabled &&
+		 !cached_is_enabled &&
+		 !cached_is_default);
+
+	if (insert_source)
+		g_hash_table_insert (rcpt_hash, g_strdup (address), g_object_ref (source));
+}
+
 static GHashTable *
 generate_recipient_hash (ESourceRegistry *registry)
 {
@@ -2777,9 +2828,10 @@ generate_recipient_hash (ESourceRegistry *registry)
 
 	g_return_val_if_fail (E_IS_SOURCE_REGISTRY (registry), NULL);
 
-	rcpt_hash = g_hash_table_new (
-		(GHashFunc) camel_strcase_hash,
-		(GEqualFunc) camel_strcase_equal);
+	rcpt_hash = g_hash_table_new_full (
+		camel_strcase_hash,
+		camel_strcase_equal,
+		g_free, g_object_unref);
 
 	default_source = e_source_registry_ref_default_mail_identity (registry);
 
@@ -2788,12 +2840,9 @@ generate_recipient_hash (ESourceRegistry *registry)
 
 	for (link = list; link != NULL; link = g_list_next (link)) {
 		ESource *source = E_SOURCE (link->data);
-		ESource *cached_source;
 		ESourceMailIdentity *extension;
+		GHashTable *aliases;
 		const gchar *address;
-		gboolean insert_source;
-		gboolean cached_is_default;
-		gboolean cached_is_enabled;
 		gboolean source_is_default;
 		gboolean source_is_enabled;
 
@@ -2811,36 +2860,22 @@ generate_recipient_hash (ESourceRegistry *registry)
 
 		address = e_source_mail_identity_get_address (extension);
 
-		if (address == NULL)
-			continue;
+		add_source_to_recipient_hash (registry, rcpt_hash, address, default_source, source, source_is_default, source_is_enabled);
 
-		cached_source = g_hash_table_lookup (rcpt_hash, address);
+		aliases = e_source_mail_identity_get_aliases_as_hash_table (extension);
+		if (aliases) {
+			GHashTableIter iter;
+			gpointer key;
 
-		if (cached_source != NULL) {
-			cached_is_default = e_source_equal (
-				cached_source, default_source);
-			cached_is_enabled = e_source_registry_check_enabled (
-				registry, cached_source);
-		} else {
-			cached_is_default = FALSE;
-			cached_is_enabled = FALSE;
+			g_hash_table_iter_init (&iter, aliases);
+			while (g_hash_table_iter_next (&iter, &key, NULL)) {
+				address = key;
+
+				add_source_to_recipient_hash (registry, rcpt_hash, address, default_source, source, source_is_default, source_is_enabled);
+			}
+
+			g_hash_table_destroy (aliases);
 		}
-
-		/* Accounts with identical email addresses that are enabled
-		 * take precedence over disabled accounts.  If all accounts
-		 * with matching email addresses are disabled, the first
-		 * one in the list takes precedence.  The default account
-		 * always takes precedence no matter what. */
-		insert_source =
-			source_is_default ||
-			cached_source == NULL ||
-			(source_is_enabled &&
-			 !cached_is_enabled &&
-			 !cached_is_default);
-
-		if (insert_source)
-			g_hash_table_insert (
-				rcpt_hash, (gchar *) address, source);
 	}
 
 	g_list_free_full (list, (GDestroyNotify) g_object_unref);
@@ -3276,7 +3311,7 @@ em_utils_reply_to_message (EMsgComposer *composer,
 	EShell *shell;
 	ESourceMailCompositionReplyStyle prefer_reply_style = E_SOURCE_MAIL_COMPOSITION_REPLY_STYLE_DEFAULT;
 	ESource *source;
-	gchar *identity_uid = NULL;
+	gchar *identity_uid = NULL, *identity_name = NULL, *identity_address = NULL;
 	guint32 flags;
 
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
@@ -3292,7 +3327,7 @@ em_utils_reply_to_message (EMsgComposer *composer,
 	source = em_utils_check_send_account_override (shell, message, folder);
 	if (!source)
 		source = em_utils_guess_mail_identity_with_recipients_and_sort (
-			registry, message, folder, message_uid, sort_sources_by_ui, shell);
+			registry, message, folder, message_uid, &identity_name, &identity_address, sort_sources_by_ui, shell);
 	if (source != NULL) {
 		identity_uid = e_source_dup_uid (source);
 		if (e_source_has_extension (source, E_SOURCE_EXTENSION_MAIL_COMPOSITION)) {
@@ -3344,7 +3379,7 @@ em_utils_reply_to_message (EMsgComposer *composer,
 		break;
 	}
 
-	reply_setup_composer (composer, message, identity_uid, to, cc, folder, message_uid, postto);
+	reply_setup_composer (composer, message, identity_uid, identity_name, identity_address, to, cc, folder, message_uid, postto);
 	e_msg_composer_add_message_attachments (composer, message, TRUE);
 
 	if (postto)
@@ -3355,10 +3390,10 @@ em_utils_reply_to_message (EMsgComposer *composer,
 	/* If there was no send-account override */
 	if (!identity_uid) {
 		EComposerHeaderTable *header_table;
-		const gchar *used_identity_uid;
+		gchar *used_identity_uid;
 
 		header_table = e_msg_composer_get_header_table (composer);
-		used_identity_uid = e_composer_header_table_get_identity_uid (header_table);
+		used_identity_uid = e_composer_header_table_dup_identity_uid (header_table, NULL, NULL);
 
 		if (used_identity_uid) {
 			source = e_source_registry_ref_source (e_shell_get_registry (shell), used_identity_uid);
@@ -3373,6 +3408,8 @@ em_utils_reply_to_message (EMsgComposer *composer,
 				g_object_unref (source);
 			}
 		}
+
+		g_free (used_identity_uid);
 	}
 
 	switch (prefer_reply_style) {
@@ -3415,6 +3452,8 @@ em_utils_reply_to_message (EMsgComposer *composer,
 	gtk_widget_show (GTK_WIDGET (composer));
 
 	g_free (identity_uid);
+	g_free (identity_name);
+	g_free (identity_address);
 }
 
 static void
@@ -3620,7 +3659,7 @@ em_utils_apply_send_account_override_to_composer (EMsgComposer *composer,
 		return;
 
 	header_table = e_msg_composer_get_header_table (composer);
-	e_composer_header_table_set_identity_uid (header_table, e_source_get_uid (source));
+	e_composer_header_table_set_identity_uid (header_table, e_source_get_uid (source), NULL, NULL);
 
 	g_object_unref (source);
 }
