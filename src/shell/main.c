@@ -435,6 +435,7 @@ main (gint argc,
 #ifdef DEVELOPMENT
 	gboolean skip_warning_dialog;
 #endif
+	gboolean success;
 	GError *error = NULL;
 
 #ifdef G_OS_WIN32
@@ -460,24 +461,20 @@ main (gint argc,
 
 	/* The contact maps feature uses clutter-gtk. */
 #ifdef ENABLE_CONTACT_MAPS
-	/* XXX This function is declared in gtk-clutter-util.h with an
-	 *     unnecessary G_GNUC_WARN_UNUSED_RESULT attribute.  But we
-	 *     don't need the returned error code because we're checking
-	 *     the GError directly.  Just ignore this warning. */
-	gtk_clutter_init_with_args (
+	success = gtk_clutter_init_with_args (
 		&argc, &argv,
 		_("- The Evolution PIM and Email Client"),
-		entries, (gchar *) GETTEXT_PACKAGE, &error);
+		entries, (gchar *) GETTEXT_PACKAGE, &error) == CLUTTER_INIT_SUCCESS;
 #else
-	gtk_init_with_args (
+	success = gtk_init_with_args (
 		&argc, &argv,
 		_("- The Evolution PIM and Email Client"),
 		entries, (gchar *) GETTEXT_PACKAGE, &error);
 #endif /* ENABLE_CONTACT_MAPS */
 
-	if (error != NULL) {
-		g_printerr ("%s\n", error->message);
-		g_error_free (error);
+	if (!success || error) {
+		g_printerr ("Failed to initialize gtk+: %s\n", error ? error->message : "Unknown error");
+		g_clear_error (&error);
 		exit (1);
 	}
 
