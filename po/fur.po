@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2016-09-29 19:26+0000\n"
-"PO-Revision-Date: 2016-10-18 08:14+0200\n"
+"PO-Revision-Date: 2016-10-18 09:58+0200\n"
 "Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
 "Language-Team: Friulian <fur@li.org>\n"
 "Language: fur\n"
@@ -22031,133 +22031,135 @@ msgstr ""
 
 #: ../modules/mail/em-mailer-prefs.c:420
 msgid "Header"
-msgstr ""
+msgstr "Intestazion"
 
 #: ../modules/mail/em-mailer-prefs.c:424
 msgid "Contains Value"
-msgstr ""
+msgstr "Al ten il valôr"
 
 #. To Translators: 'Date header' is a label for configurable date/time format for 'Date' header in mail message window/preview
 #: ../modules/mail/em-mailer-prefs.c:1560
 msgid "_Date header:"
-msgstr ""
+msgstr "Intestazion de _date:"
 
 #: ../modules/mail/em-mailer-prefs.c:1561
 msgid "Show _original header value"
-msgstr ""
+msgstr "Mostre il valôr di intestazion  _origjinâl"
 
 #: ../modules/mailto-handler/evolution-mailto-handler.c:140
 msgid "Do you want to make Evolution your default email client?"
-msgstr ""
+msgstr "Rindi Evolution il client di pueste predefinît?"
 
 #. Translators: First %s is an email address, second %s
 #. * is the subject of the email, third %s is the date.
 #: ../modules/mdn/evolution-mdn.c:304
 #, c-format
 msgid "Your message to %s about \"%s\" on %s has been read."
-msgstr ""
+msgstr "Il messaç inviât a %s relatîf a «%s» su %s al è stât let."
 
 #. Translators: %s is the subject of the email message.
 #: ../modules/mdn/evolution-mdn.c:370
 #, c-format
 msgid "Delivery Notification for \"%s\""
-msgstr ""
+msgstr "Notifiche di consegne par «%s»"
 
 #: ../modules/mdn/evolution-mdn.c:534
 #, c-format
 msgid "Send a read receipt to '%s'"
-msgstr ""
+msgstr "Invie une ricevude di leture a «%s»"
 
 #. name doesn't matter
 #: ../modules/mdn/evolution-mdn.c:539
 msgid "_Notify Sender"
-msgstr ""
+msgstr "_Notifiche mitent"
 
 #: ../modules/mdn/evolution-mdn.error.xml.h:1
 msgid "Sender wants to be notified when you have read this message."
-msgstr ""
+msgstr "Il mitent al vûl une notifiche di leture di chest messaç."
 
 #: ../modules/mdn/evolution-mdn.error.xml.h:2
 msgid "Sender has been notified that you have read this message."
-msgstr ""
+msgstr "Il mitent al è stât visât che si è let chest messaç."
 
 #: ../modules/offline-alert/evolution-offline-alert.error.xml.h:1
 msgid "Evolution is currently offline."
-msgstr ""
+msgstr "Par cumò Evolution al è fûr rêt."
 
 #: ../modules/offline-alert/evolution-offline-alert.error.xml.h:2
 msgid "Click 'Work Online' to return to online mode."
-msgstr ""
+msgstr "Fâs clic su «Lavore in rêt» par tornâ ae modalitât in rêt."
 
 #: ../modules/offline-alert/evolution-offline-alert.error.xml.h:3
 msgid "Evolution is currently offline due to a network outage."
-msgstr ""
+msgstr "Evolution al è cumò fûr rêt par vie de indisponibilitât de rêt."
 
 #: ../modules/offline-alert/evolution-offline-alert.error.xml.h:4
 msgid ""
 "Evolution will return to online mode once a network connection is "
 "established."
 msgstr ""
+"Evolution al tornarà in modalitât in rêt une volte stabilide une conession "
+"di rêt."
 
 #: ../modules/plugin-manager/evolution-plugin-manager.c:67
 msgid "Author(s)"
-msgstr ""
+msgstr "Autôr(s)"
 
 #: ../modules/plugin-manager/evolution-plugin-manager.c:253
 msgid "Plugin Manager"
-msgstr ""
+msgstr "Gjestôr plugin"
 
 #: ../modules/plugin-manager/evolution-plugin-manager.c:268
 msgid "Note: Some changes will not take effect until restart"
-msgstr ""
+msgstr "Note: cualchi cambiament nol varà efiet fin tal prossim inviament"
 
 #: ../modules/plugin-manager/evolution-plugin-manager.c:296
 msgid "Overview"
-msgstr ""
+msgstr "Panoramiche"
 
 #: ../modules/plugin-manager/evolution-plugin-manager.c:365
 #: ../modules/plugin-manager/evolution-plugin-manager.c:448
 msgid "Plugin"
-msgstr ""
+msgstr "Plugin"
 
 #: ../modules/plugin-manager/evolution-plugin-manager.c:486
 msgid "_Plugins"
-msgstr ""
+msgstr "_Plugins"
 
 #: ../modules/plugin-manager/evolution-plugin-manager.c:487
 msgid "Enable and disable plugins"
-msgstr ""
+msgstr "Abilite e disabilite plugin"
 
 #: ../modules/prefer-plain/e-mail-display-popup-prefer-plain.c:139
 msgid "Display plain text version"
-msgstr ""
+msgstr "Mostre version test sempliç"
 
 #: ../modules/prefer-plain/e-mail-display-popup-prefer-plain.c:141
 msgid "Display plain text version of multipart/alternative message"
-msgstr ""
+msgstr "Mostre la version a test sempliç dal messaç multipart/alternatîf"
 
 #: ../modules/prefer-plain/e-mail-display-popup-prefer-plain.c:147
 msgid "Display HTML version"
-msgstr ""
+msgstr "Mostre version HTML"
 
 #: ../modules/prefer-plain/e-mail-display-popup-prefer-plain.c:149
 msgid "Display HTML version of multipart/alternative message"
-msgstr ""
+msgstr "Mostre la version HTML dal messaç multipart/alternatîf"
 
 #: ../modules/prefer-plain/e-mail-parser-prefer-plain.c:79
 #: ../modules/prefer-plain/plugin/config-ui.c:37
 msgid "Show HTML if present"
-msgstr ""
+msgstr "Mostre HTML se presint"
 
 #: ../modules/prefer-plain/e-mail-parser-prefer-plain.c:80
 #: ../modules/prefer-plain/plugin/config-ui.c:38
 msgid "Let Evolution choose the best part to show."
-msgstr ""
+msgstr "Lasse che al sedi Evolution a decidi la part miôr di mostrâ."
 
 #: ../modules/prefer-plain/e-mail-parser-prefer-plain.c:83
 #: ../modules/prefer-plain/plugin/config-ui.c:41
 msgid "Show plain text if present"
-msgstr ""
+msgstr "Mostre test sempliç se presint"
 
 #: ../modules/prefer-plain/e-mail-parser-prefer-plain.c:84
 #: ../modules/prefer-plain/plugin/config-ui.c:42
@@ -22165,21 +22167,24 @@ msgid ""
 "Show plain text part, if present, otherwise let Evolution choose the best "
 "part to show."
 msgstr ""
+"Mostre la part in test sempliç, se presinte, se no lasse che al sedi "
+"Evolution a decidi la part miôr di mostrâ."
 
 #: ../modules/prefer-plain/e-mail-parser-prefer-plain.c:88
 #: ../modules/prefer-plain/plugin/config-ui.c:46
 msgid "Show plain text if present, or HTML source"
-msgstr ""
+msgstr "Mostre test sempliç se presint, o il sorzint HTML"
 
 #: ../modules/prefer-plain/e-mail-parser-prefer-plain.c:89
 #: ../modules/prefer-plain/plugin/config-ui.c:47
 msgid "Show plain text part, if present, otherwise the HTML part source."
 msgstr ""
+"Mostre la part in test sempliç, se presinte, se no il sorzint de part HTML."
 
 #: ../modules/prefer-plain/e-mail-parser-prefer-plain.c:93
 #: ../modules/prefer-plain/plugin/config-ui.c:51
 msgid "Only ever show plain text"
-msgstr ""
+msgstr "Mostre simpri e dome il test sempliç"
 
 #: ../modules/prefer-plain/e-mail-parser-prefer-plain.c:94
 #: ../modules/prefer-plain/plugin/config-ui.c:52
@@ -22187,85 +22192,92 @@ msgid ""
 "Always show plain text part and make attachments from other parts, if "
 "requested."
 msgstr ""
+"Mostre simpri la part in test sempliç e met chês altris parts come zontis, "
+"se domandât."
 
 #: ../modules/prefer-plain/plugin/config-ui.c:103
 msgid "Show s_uppressed HTML parts as attachments"
-msgstr ""
+msgstr "Mostrâ lis parts _HTML soprimudis come zontis"
 
 #: ../modules/prefer-plain/plugin/config-ui.c:125
 msgid "HTML _Mode"
-msgstr ""
+msgstr "_Modalitât HTML"
 
 #: ../modules/prefer-plain/plugin/org-gnome-prefer-plain.eplug.xml.h:1
 msgid "Prefer Plain Text"
-msgstr ""
+msgstr "Preferìs test sempliç"
 
 #. but then we also need to create our own section frame
 #: ../modules/prefer-plain/plugin/org-gnome-prefer-plain.eplug.xml.h:3
 msgid "Plain Text Mode"
-msgstr ""
+msgstr "Modalitât test sempliç"
 
 #: ../modules/prefer-plain/plugin/org-gnome-prefer-plain.eplug.xml.h:4
 msgid "View mail messages as plain text, even if they contain HTML content."
 msgstr ""
+"Visualize i messaçs di pueste come test sempliç, ancje se a àn contignût "
+"HTML."
 
 #: ../modules/spamassassin/evolution-spamassassin.c:187
 #, c-format
 msgid "Failed to spawn SpamAssassin (%s): "
-msgstr ""
+msgstr "Inviament di SpamAssassin falît (%s): "
 
 #: ../modules/spamassassin/evolution-spamassassin.c:210
 msgid "Failed to stream mail message content to SpamAssassin: "
 msgstr ""
+"No si è rivâts a strucjâ il contignût dal messaç di pueste su SpamAssassin: "
 
 #: ../modules/spamassassin/evolution-spamassassin.c:229
 #, c-format
 msgid "Failed to write '%s' to SpamAssassin: "
-msgstr ""
+msgstr "No si è rivâts a scrivi '%s' su SpamAssassin: "
 
 #: ../modules/spamassassin/evolution-spamassassin.c:257
 msgid "Failed to read output from SpamAssassin: "
-msgstr ""
+msgstr "No si è rivâts a lei la jessude di SpamAssassin: "
 
 #: ../modules/spamassassin/evolution-spamassassin.c:312
 msgid "SpamAssassin either crashed or failed to process a mail message"
 msgstr ""
+"SpamAssassin si è fermât lant in erôr o nol è rivât a elaborâ un messaç di "
+"pueste"
 
 #: ../modules/spamassassin/evolution-spamassassin.c:535
 msgid "SpamAssassin Options"
-msgstr ""
+msgstr "Opzions di SpamAssassin"
 
 #: ../modules/spamassassin/evolution-spamassassin.c:550
 msgid "I_nclude remote tests"
-msgstr ""
+msgstr "I_clût controi rimots"
 
 #: ../modules/spamassassin/evolution-spamassassin.c:564
 msgid "This will make SpamAssassin more reliable, but slower."
-msgstr ""
+msgstr "Chest al rindarà SpamAssassin plui afidabil, ma plui lent."
 
 #: ../modules/spamassassin/evolution-spamassassin.c:739
 #: ../modules/spamassassin/evolution-spamassassin.metainfo.xml.in.h:1
 msgid "SpamAssassin"
-msgstr ""
+msgstr "SpamAssassin"
 
 #: ../modules/spamassassin/evolution-spamassassin.metainfo.xml.in.h:2
 msgid "Junk filter using SpamAssassin"
-msgstr ""
+msgstr "Filtrâ i malvolûts doprant SpamAssassin"
 
 #. Keep the title identical to EMailConfigImportPage
 #. * so it's only shown once in the assistant sidebar.
 #: ../modules/startup-wizard/e-mail-config-import-page.c:270
 #: ../modules/startup-wizard/e-mail-config-import-progress-page.c:339
 msgid "Importing Files"
-msgstr ""
+msgstr "Importazion dai file"
 
 #: ../modules/startup-wizard/e-mail-config-import-progress-page.c:258
 msgid "Import cancelled."
-msgstr ""
+msgstr "Importazion anulade."
 
 #: ../modules/startup-wizard/e-mail-config-import-progress-page.c:275
 msgid "Import complete."
-msgstr ""
+msgstr "Importazion completade."
 
 #: ../modules/startup-wizard/e-startup-assistant.c:155
 msgid ""
@@ -22274,26 +22286,30 @@ msgid ""
 "The next few screens will allow Evolution to connect to your email accounts, "
 "and to import files from other applications."
 msgstr ""
+"Benvignûts in Evolution.\n"
+"\n"
+"Il prossimis videadis ti permetaran di coneti Evolution ai tiei account e-"
+"mail e di impuartâ i file di altris aplicazions."
 
 #: ../modules/startup-wizard/evolution-startup-wizard.c:228
 msgid "Loading accounts..."
-msgstr ""
+msgstr "Daûr a cjariâ i account..."
 
 #: ../modules/text-highlight/e-mail-display-popup-text-highlight.c:95
 msgid "_Format as..."
-msgstr ""
+msgstr "_Formate come..."
 
 #: ../modules/text-highlight/e-mail-display-popup-text-highlight.c:103
 msgid "_Other languages"
-msgstr ""
+msgstr "_Altris lenghis"
 
 #: ../modules/text-highlight/e-mail-formatter-text-highlight.c:438
 msgid "Text Highlight"
-msgstr ""
+msgstr "Test evidenziât"
 
 #: ../modules/text-highlight/e-mail-formatter-text-highlight.c:439
 msgid "Syntax highlighting of mail parts"
-msgstr ""
+msgstr "Evidenzie la sintassi di parts de pueste"
 
 #: ../modules/text-highlight/languages.c:31
 msgid "_Plain text"
