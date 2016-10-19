@@ -746,6 +746,40 @@ test_bug_772918 (TestFixture *fixture)
 		g_test_fail ();
 }
 
+static void
+test_bug_773164 (TestFixture *fixture)
+{
+	test_utils_set_clipboard_text ("This is paragraph 1\n\nThis is paragraph 2\n\nThis is a longer paragraph 3", FALSE);
+
+	if (!test_utils_run_simple_test (fixture,
+		"mode:plain\n"
+		"undo:save\n"
+		"action:paste\n"
+		"undo:undo\n"
+		"undo:test\n"
+		"undo:redo\n"
+		"seq:huuuue\n" /* Go to the end of the first line */
+		"seq:Sdds\n"
+		"action:cut\n"
+		"seq:dde\n" /* Go to the end of the last line */
+		"action:paste\n"
+		"undo:undo:5\n"
+		"undo:test\n"
+		"undo:redo:5\n",
+		HTML_PREFIX "<div style=\"width: 71ch;\">This is paragraph 1</div>"
+		"<div style=\"width: 71ch;\"><br></div>"
+		"<div style=\"width: 71ch;\">This is a longer paragraph 3</div>"
+		"<div style=\"width: 71ch;\"><br></div>"
+		"<div style=\"width: 71ch;\">This is paragraph 2</div>"
+		HTML_SUFFIX,
+		"This is paragraph 1\n"
+		"\n"
+		"This is a longer paragraph 3\n"
+		"\n"
+		"This is paragraph 2"))
+		g_test_fail ();
+}
+
 void
 test_add_html_editor_bug_tests (void)
 {
@@ -764,4 +798,5 @@ test_add_html_editor_bug_tests (void)
 	test_utils_add_test ("/bug/772171", test_bug_772171);
 	test_utils_add_test ("/bug/772513", test_bug_772513);
 	test_utils_add_test ("/bug/772918", test_bug_772918);
+	test_utils_add_test ("/bug/773164", test_bug_773164);
 }
