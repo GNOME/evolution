@@ -31,12 +31,19 @@ bus_acquired_cb (GDBusConnection *connection,
 }
 
 /* Forward declaration */
-G_MODULE_EXPORT void webkit_web_extension_initialize (WebKitWebExtension *wk_extension);
+G_MODULE_EXPORT void webkit_web_extension_initialize_with_user_data (WebKitWebExtension *wk_extension,
+								     GVariant *user_data);
 
 G_MODULE_EXPORT void
-webkit_web_extension_initialize (WebKitWebExtension *wk_extension)
+webkit_web_extension_initialize_with_user_data (WebKitWebExtension *wk_extension,
+						GVariant *user_data)
 {
 	EEditorWebExtension *extension;
+	const gchar *service_name;
+
+	g_return_if_fail (user_data != NULL);
+
+	service_name = g_variant_get_string (user_data, NULL);
 
 	camel_debug_init ();
 
@@ -45,7 +52,7 @@ webkit_web_extension_initialize (WebKitWebExtension *wk_extension)
 
 	g_bus_own_name (
 		G_BUS_TYPE_SESSION,
-		E_WEBKIT_EDITOR_WEB_EXTENSION_SERVICE_NAME,
+		service_name,
 		G_BUS_NAME_OWNER_FLAGS_NONE,
 		(GBusAcquiredCallback) bus_acquired_cb,
 		NULL, /* GBusNameAcquiredCallback */
