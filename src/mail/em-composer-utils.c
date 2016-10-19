@@ -2767,7 +2767,7 @@ concat_unique_addrs (CamelInternetAddress *dest,
 	for (i = 0; camel_internet_address_get (src, i, &name, &addr); i++) {
 		if (!g_hash_table_contains (rcpt_hash, addr)) {
 			camel_internet_address_add (dest, name, addr);
-			g_hash_table_add (rcpt_hash, (gpointer) addr);
+			g_hash_table_insert (rcpt_hash, g_strdup (addr), NULL);
 		}
 	}
 }
@@ -2818,6 +2818,13 @@ add_source_to_recipient_hash (ESourceRegistry *registry,
 		g_hash_table_insert (rcpt_hash, g_strdup (address), g_object_ref (source));
 }
 
+static void
+unref_nonull_object (gpointer ptr)
+{
+	if (ptr)
+		g_object_unref (ptr);
+}
+
 static GHashTable *
 generate_recipient_hash (ESourceRegistry *registry)
 {
@@ -2831,7 +2838,7 @@ generate_recipient_hash (ESourceRegistry *registry)
 	rcpt_hash = g_hash_table_new_full (
 		camel_strcase_hash,
 		camel_strcase_equal,
-		g_free, g_object_unref);
+		g_free, unref_nonull_object);
 
 	default_source = e_source_registry_ref_default_mail_identity (registry);
 
@@ -2938,7 +2945,7 @@ em_utils_get_reply_all (ESourceRegistry *registry,
 				 * address because replying to oneself is
 				 * kinda silly. */
 				camel_internet_address_add (to, name, addr);
-				g_hash_table_add (rcpt_hash, (gpointer) addr);
+				g_hash_table_insert (rcpt_hash, g_strdup (addr), NULL);
 			}
 		}
 	}
@@ -2948,7 +2955,7 @@ em_utils_get_reply_all (ESourceRegistry *registry,
 
 	/* Promote the first Cc: address to To: if To: is empty. */
 	if (camel_address_length ((CamelAddress *) to) == 0 &&
-			camel_address_length ((CamelAddress *) cc) > 0) {
+	    camel_address_length ((CamelAddress *) cc) > 0) {
 		camel_internet_address_get (cc, 0, &name, &addr);
 		camel_internet_address_add (to, name, addr);
 		camel_address_remove ((CamelAddress *) cc, 0);
