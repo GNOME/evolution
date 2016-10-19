@@ -8655,6 +8655,22 @@ pasting_quoted_content (const gchar *content)
 		strstr (content, "\"-x-evo-");
 }
 
+static void
+remove_apple_interchange_newline_elements (WebKitDOMDocument *document)
+{
+	gint ii;
+	WebKitDOMHTMLCollection *collection = NULL;
+
+	collection = webkit_dom_document_get_elements_by_class_name_as_html_collection (
+		document, "Apple-interchange-newline");
+	for (ii = webkit_dom_html_collection_get_length (collection); ii--;) {
+		WebKitDOMNode *node = webkit_dom_html_collection_item (collection, ii);
+
+		remove_node (node);
+	}
+	g_clear_object (&collection);
+}
+
 /*
  * e_editor_dom_insert_html:
  * @selection: an #EEditorSelection
@@ -8805,6 +8821,8 @@ e_editor_dom_insert_html (EEditorPage *editor_page,
 		e_editor_dom_scroll_to_caret (editor_page);
 	} else
 		e_editor_dom_convert_and_insert_html_into_selection (editor_page, html_text, TRUE);
+
+	remove_apple_interchange_newline_elements (document);
 
 	if (ev) {
 		e_editor_dom_selection_get_coordinates (editor_page,

@@ -5819,8 +5819,10 @@ webkit_editor_key_press_event (GtkWidget *widget,
 		return TRUE;
 	}
 
-	if (((event)->state & GDK_SHIFT_MASK) &&
-	    ((event)->keyval == GDK_KEY_Delete)) {
+	if ((((event)->state & GDK_SHIFT_MASK) &&
+	    ((event)->keyval == GDK_KEY_Delete)) ||
+	    (((event)->state & GDK_CONTROL_MASK) &&
+	    ((event)->keyval == GDK_KEY_x))) {
 		webkit_editor_cut (E_CONTENT_EDITOR (wk_editor));
 		return TRUE;
 	}
