@@ -452,6 +452,9 @@ cal_shell_content_datepicker_selection_changed_cb (ECalendarItem *calitem,
 			cal_shell_content_clamp_for_whole_weeks (calitem->week_start_day, &sel_start, &sel_end, cal_shell_content->priv->current_view == E_CAL_VIEW_KIND_MONTH);
 
 			e_cal_shell_content_change_view (cal_shell_content, cal_shell_content->priv->current_view, &sel_start, &sel_end, FALSE);
+		} else if (cal_shell_content->priv->current_view == E_CAL_VIEW_KIND_WORKWEEK) {
+			cal_shell_content_clamp_for_whole_weeks (calitem->week_start_day, &sel_start, &sel_end, TRUE);
+			e_cal_shell_content_change_view (cal_shell_content, E_CAL_VIEW_KIND_WEEK, &sel_start, &sel_end, FALSE);
 		} else {
 			e_cal_shell_content_change_view (cal_shell_content, E_CAL_VIEW_KIND_DAY, &sel_start, &sel_end, FALSE);
 		}
