@@ -2664,7 +2664,7 @@ itip_view_ref_source (ItipView *view)
 		g_variant_unref (result);
 	}
 
-	if (enabled) {
+	if (!enabled) {
 		e_util_invoke_g_dbus_proxy_call_with_error_check (
 			view->priv->web_extension,
 			"EnableSelect",
