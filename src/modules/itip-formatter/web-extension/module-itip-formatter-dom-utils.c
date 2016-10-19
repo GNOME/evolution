@@ -614,10 +614,9 @@ module_itip_formatter_dom_utils_rebuild_source_list (WebKitDOMDocument *document
 		optgroup = WEBKIT_DOM_HTML_OPT_GROUP_ELEMENT (
 				webkit_dom_document_create_element (
 					document, "OPTGROUP", NULL));
-		webkit_dom_html_opt_group_element_set_label (
-			optgroup, optgroup_label);
-		webkit_dom_node_append_child (
-			WEBKIT_DOM_NODE (select), WEBKIT_DOM_NODE (optgroup), NULL);
+		webkit_dom_element_set_id (WEBKIT_DOM_ELEMENT (optgroup), optgroup_id);
+		webkit_dom_html_opt_group_element_set_label (optgroup, optgroup_label);
+		webkit_dom_node_append_child (WEBKIT_DOM_NODE (select), WEBKIT_DOM_NODE (optgroup), NULL);
 	}
 
 	option = webkit_dom_document_create_element (document, "OPTION", NULL);
