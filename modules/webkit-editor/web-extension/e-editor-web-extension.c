@@ -2322,7 +2322,7 @@ e_editor_web_extension_init (EEditorWebExtension *extension)
 }
 
 static gpointer
-e_editor_web_extension_create_instance(gpointer data)
+e_editor_web_extension_create_instance (gpointer data)
 {
 	return g_object_new (E_TYPE_EDITOR_WEB_EXTENSION, NULL);
 }
