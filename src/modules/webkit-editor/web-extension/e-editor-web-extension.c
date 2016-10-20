@@ -2253,7 +2253,10 @@ web_page_gone_cb (gpointer user_data,
 
 	g_hash_table_iter_init (&iter, extension->priv->editor_pages);
 	while (g_hash_table_iter_next (&iter, &key, &value)) {
-		if (value == gone_web_page) {
+		EEditorPage *editor_page = E_EDITOR_PAGE (value);
+		WebKitWebPage *web_page = e_editor_page_get_web_page (editor_page);
+
+		if ((gpointer) web_page == gone_web_page) {
 			g_hash_table_remove (extension->priv->editor_pages, key);
 			break;
 		}
