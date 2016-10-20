@@ -1036,6 +1036,12 @@ calendar_preferences_construct (ECalendarPreferences *prefs,
 		widget, "active",
 		G_SETTINGS_BIND_DEFAULT);
 
+	widget = e_builder_get_widget (prefs->builder, "notify_window_on_top");
+	g_settings_bind (
+		settings, "notify-window-on-top",
+		widget, "active",
+		G_SETTINGS_BIND_DEFAULT);
+
 	widget = e_builder_get_widget (prefs->builder, "task_reminder_for_completed");
 	g_settings_bind (
 		settings, "task-reminder-for-completed",

@@ -298,6 +298,14 @@ config_data_is_blessed_program (const gchar *program)
 	return found;
 }
 
+gboolean
+config_data_get_notify_window_on_top (void)
+{
+	ensure_inited ();
+
+	return g_settings_get_boolean (calendar_settings, "notify-window-on-top");
+}
+
 static gboolean can_debug = FALSE;
 static GRecMutex rec_mutex;
 

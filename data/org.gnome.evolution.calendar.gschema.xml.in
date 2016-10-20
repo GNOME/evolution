@@ -284,6 +284,11 @@
       <_summary>Show display reminders in notification tray</_summary>
       <_description>Whether or not to use the notification tray for display reminders</_description>
     </key>
+    <key name="notify-window-on-top" type="b">
+      <default>true</default>
+      <_summary>Show reminder notification dialog always on top</_summary>
+      <_description>Whether or not to show reminder notification dialog always on top. Note this works only as a hint for the window manager, which may or may not obey it.</_description>
+    </key>
     <key name="prefer-new-item" type="s">
       <default>''</default>
       <_summary>Preferred New button item</_summary>
