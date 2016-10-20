@@ -149,6 +149,14 @@ alarm_notify_activate (GApplication *application)
 			G_CALLBACK (alarm_notify_add_calendar), an);
 
 		g_signal_connect_swapped (
+			an->priv->registry, "source-enabled",
+			G_CALLBACK (alarm_notify_add_calendar), an);
+
+		g_signal_connect_swapped (
+			an->priv->registry, "source-disabled",
+			G_CALLBACK (alarm_notify_remove_calendar), an);
+
+		g_signal_connect_swapped (
 			an->priv->registry, "source-removed",
 			G_CALLBACK (alarm_notify_remove_calendar), an);
 	}
@@ -285,6 +293,13 @@ alarm_notify_add_calendar (AlarmNotify *an,
 		return;
 	}
 
+	/* Skip disabled sources. */
+	if (!e_source_registry_check_enabled (an->priv->registry, source)) {
+		debug (("Skipping disabled source '%s' (%s)", e_source_get_display_name (source), e_source_get_uid (source)));
+		g_mutex_unlock (&an->priv->mutex);
+		return;
+	}
+
 	/* Check if this is an ESource we're interested in. */
 	if (e_source_has_extension (source, E_SOURCE_EXTENSION_CALENDAR))
 		source_type = E_CAL_CLIENT_SOURCE_TYPE_EVENTS;
@@ -308,22 +323,47 @@ alarm_notify_add_calendar (AlarmNotify *an,
 		}
 	}
 
-	debug (("Opening '%s' (%s)", e_source_get_display_name (source), e_source_get_uid (source)));
+	debug (("Opening '%s' (%s) as %s client", e_source_get_display_name (source), e_source_get_uid (source),
+		source_type == E_CAL_CLIENT_SOURCE_TYPE_TASKS ? "tasks" :
+		source_type == E_CAL_CLIENT_SOURCE_TYPE_MEMOS ? "memos" :
+		source_type == E_CAL_CLIENT_SOURCE_TYPE_EVENTS ? "events" : "???"));
 
 	e_cal_client_connect (source, source_type, 30, NULL, client_connect_cb, an);
 
 	g_mutex_unlock (&an->priv->mutex);
 }
 
+static gboolean
+remove_that_or_collection_children_sources_cb (gpointer key,
+					       gpointer value,
+					       gpointer user_data)
+{
+	ESource *stored_source = key;
+	ECalClient *cal_client = value;
+	ESource *removing_source = user_data;
+	gboolean remove;
+
+	remove = stored_source == removing_source ||
+		 e_source_equal (stored_source, removing_source) ||
+		 (!e_source_get_enabled (removing_source) && e_source_has_extension (removing_source, E_SOURCE_EXTENSION_COLLECTION) &&
+		 g_strcmp0 (e_source_get_uid (removing_source), e_source_get_parent (stored_source)) == 0);
+
+	if (remove)
+		alarm_queue_remove_client (cal_client, FALSE);
+
+	return remove;
+}
+
 void
 alarm_notify_remove_calendar (AlarmNotify *an,
                               ESource *source)
 {
-	ECalClient *cal_client;
+	g_return_if_fail (IS_ALARM_NOTIFY (an));
+	g_return_if_fail (E_IS_SOURCE (source));
 
-	cal_client = g_hash_table_lookup (an->priv->clients, source);
-	if (cal_client != NULL) {
-		alarm_queue_remove_client (cal_client, FALSE);
-		g_hash_table_remove (an->priv->clients, source);
-	}
+	g_object_ref (source);
+
+	g_hash_table_foreach_remove (an->priv->clients, remove_that_or_collection_children_sources_cb, source);
+
+	g_object_unref (source);
 }
