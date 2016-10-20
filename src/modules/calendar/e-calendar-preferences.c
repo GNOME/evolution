@@ -35,6 +35,21 @@
 
 #define ITIP_FORMATTER_CONF_KEY_DELETE "delete-processed"
 
+struct _ECalendarPreferencesPrivate {
+	GtkBuilder *builder;
+	ESourceRegistry *registry;
+
+	/* General tab */
+	GtkWidget *day_second_zone;
+	GtkWidget *start_of_day;
+	GtkWidget *end_of_day;
+
+	/* Reminders tab */
+	GtkWidget *reminder_calendars_scrolled_window;
+	GtkWidget *reminder_memos_scrolled_window;
+	GtkWidget *reminder_tasks_scrolled_window;
+};
+
 G_DEFINE_DYNAMIC_TYPE (
 	ECalendarPreferences,
 	e_calendar_preferences,
@@ -239,17 +254,10 @@ calendar_preferences_map_gdk_color_to_string (const GValue *value,
 static void
 calendar_preferences_dispose (GObject *object)
 {
-	ECalendarPreferences *prefs = (ECalendarPreferences *) object;
+	ECalendarPreferences *prefs = E_CALENDAR_PREFERENCES (object);
 
-	if (prefs->builder != NULL) {
-		g_object_unref (prefs->builder);
-		prefs->builder = NULL;
-	}
-
-	if (prefs->registry != NULL) {
-		g_object_unref (prefs->registry);
-		prefs->registry = NULL;
-	}
+	g_clear_object (&prefs->priv->builder);
+	g_clear_object (&prefs->priv->registry);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_calendar_preferences_parent_class)->dispose (object);
@@ -259,6 +267,8 @@ static void
 e_calendar_preferences_class_init (ECalendarPreferencesClass *class)
 {
 	GObjectClass *object_class;
+
+	g_type_class_add_private (class, sizeof (ECalendarPreferencesPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->dispose = calendar_preferences_dispose;
@@ -272,6 +282,8 @@ e_calendar_preferences_class_finalize (ECalendarPreferencesClass *class)
 static void
 e_calendar_preferences_init (ECalendarPreferences *preferences)
 {
+	preferences->priv = G_TYPE_INSTANCE_GET_PRIVATE (preferences, E_TYPE_CALENDAR_PREFERENCES, ECalendarPreferencesPrivate);
+
 	gtk_orientable_set_orientation (GTK_ORIENTABLE (preferences), GTK_ORIENTATION_VERTICAL);
 }
 
@@ -285,7 +297,7 @@ calendar_preferences_get_config_widget (EConfig *ec,
 {
 	ECalendarPreferences *preferences = data;
 
-	return e_builder_get_widget (preferences->builder, item->label);
+	return e_builder_get_widget (preferences->priv->builder, item->label);
 }
 
 static void
@@ -309,7 +321,7 @@ update_day_second_zone_caption (ECalendarPreferences *prefs)
 	}
 	g_free (location);
 
-	gtk_button_set_label (GTK_BUTTON (prefs->day_second_zone), caption);
+	gtk_button_set_label (GTK_BUTTON (prefs->priv->day_second_zone), caption);
 }
 
 static void
@@ -406,8 +418,8 @@ start_of_day_changed (GtkWidget *widget,
 	gint end_hour;
 	gint end_minute;
 
-	start = E_DATE_EDIT (prefs->start_of_day);
-	end = E_DATE_EDIT (prefs->end_of_day);
+	start = E_DATE_EDIT (prefs->priv->start_of_day);
+	end = E_DATE_EDIT (prefs->priv->end_of_day);
 
 	e_date_edit_get_time_of_day (start, &start_hour, &start_minute);
 	e_date_edit_get_time_of_day (end, &end_hour, &end_minute);
@@ -440,8 +452,8 @@ end_of_day_changed (GtkWidget *widget,
 	gint end_hour;
 	gint end_minute;
 
-	start = E_DATE_EDIT (prefs->start_of_day);
-	end = E_DATE_EDIT (prefs->end_of_day);
+	start = E_DATE_EDIT (prefs->priv->start_of_day);
+	end = E_DATE_EDIT (prefs->priv->end_of_day);
 
 	e_date_edit_get_time_of_day (start, &start_hour, &start_minute);
 	e_date_edit_get_time_of_day (end, &end_hour, &end_minute);
@@ -472,7 +484,7 @@ update_system_tz_widgets (GtkCheckButton *button,
 	const gchar *display_name;
 	gchar *text;
 
-	widget = e_builder_get_widget (prefs->builder, "system-tz-label");
+	widget = e_builder_get_widget (prefs->priv->builder, "system-tz-label");
 	g_return_if_fail (GTK_IS_LABEL (widget));
 
 	zone = e_cal_util_get_system_timezone ();
@@ -490,15 +502,15 @@ static void
 setup_changes (ECalendarPreferences *prefs)
 {
 	g_signal_connect (
-		prefs->day_second_zone, "clicked",
+		prefs->priv->day_second_zone, "clicked",
 		G_CALLBACK (day_second_zone_clicked), prefs);
 
 	g_signal_connect (
-		prefs->start_of_day, "changed",
+		prefs->priv->start_of_day, "changed",
 		G_CALLBACK (start_of_day_changed), prefs);
 
 	g_signal_connect (
-		prefs->end_of_day, "changed",
+		prefs->priv->end_of_day, "changed",
 		G_CALLBACK (end_of_day_changed), prefs);
 }
 
@@ -507,11 +519,25 @@ show_alarms_config (ECalendarPreferences *prefs)
 {
 	GtkWidget *widget;
 
-	widget = e_alarm_selector_new (prefs->registry);
+	widget = e_alarm_selector_new (prefs->priv->registry, E_SOURCE_EXTENSION_CALENDAR);
 	atk_object_set_name (
 		gtk_widget_get_accessible (widget),
-		_("Selected Calendars for Alarms"));
-	gtk_container_add (GTK_CONTAINER (prefs->scrolled_window), widget);
+		_("Selected Calendars for Notifications of Reminders"));
+	gtk_container_add (GTK_CONTAINER (prefs->priv->reminder_calendars_scrolled_window), widget);
+	gtk_widget_show (widget);
+
+	widget = e_alarm_selector_new (prefs->priv->registry, E_SOURCE_EXTENSION_MEMO_LIST);
+	atk_object_set_name (
+		gtk_widget_get_accessible (widget),
+		_("Selected Memo Lists for Notifications of Reminders"));
+	gtk_container_add (GTK_CONTAINER (prefs->priv->reminder_memos_scrolled_window), widget);
+	gtk_widget_show (widget);
+
+	widget = e_alarm_selector_new (prefs->priv->registry, E_SOURCE_EXTENSION_TASK_LIST);
+	atk_object_set_name (
+		gtk_widget_get_accessible (widget),
+		_("Selected Task Lists for Notifications of Reminders"));
+	gtk_container_add (GTK_CONTAINER (prefs->priv->reminder_tasks_scrolled_window), widget);
 	gtk_widget_show (widget);
 }
 
@@ -528,13 +554,13 @@ show_config (ECalendarPreferences *prefs)
 
 	/* Start of Day. */
 	e_date_edit_set_time_of_day (
-		E_DATE_EDIT (prefs->start_of_day),
+		E_DATE_EDIT (prefs->priv->start_of_day),
 		g_settings_get_int (settings, "day-start-hour"),
 		g_settings_get_int (settings, "day-start-minute"));
 
 	/* End of Day. */
 	e_date_edit_set_time_of_day (
-		E_DATE_EDIT (prefs->end_of_day),
+		E_DATE_EDIT (prefs->priv->end_of_day),
 		g_settings_get_int (settings, "day-end-hour"),
 		g_settings_get_int (settings, "day-end-minute"));
 
@@ -712,8 +738,8 @@ calendar_preferences_construct (ECalendarPreferences *prefs,
 	g_type_ensure (E_TYPE_DATE_EDIT);
 	g_type_ensure (E_TYPE_TIMEZONE_ENTRY);
 
-	prefs->builder = gtk_builder_new ();
-	e_load_ui_builder_definition (prefs->builder, "e-calendar-preferences.ui");
+	prefs->priv->builder = gtk_builder_new ();
+	e_load_ui_builder_definition (prefs->priv->builder, "e-calendar-preferences.ui");
 
 	/** @HookPoint-ECalConfig: Calendar Preferences Page
 	 * @Id: org.gnome.evolution.calendar.prefs
@@ -728,9 +754,9 @@ calendar_preferences_construct (ECalendarPreferences *prefs,
 		l = g_slist_prepend (l, &eccp_items[i]);
 	e_config_add_items ((EConfig *) ec, l, eccp_free, prefs);
 
-	calendar_preferences_add_itip_formatter_page (shell, e_builder_get_widget (prefs->builder, "toplevel-notebook"));
+	calendar_preferences_add_itip_formatter_page (shell, e_builder_get_widget (prefs->priv->builder, "toplevel-notebook"));
 
-	widget = e_builder_get_widget (prefs->builder, "use-system-tz-check");
+	widget = e_builder_get_widget (prefs->priv->builder, "use-system-tz-check");
 	g_settings_bind (
 		settings, "use-system-timezone",
 		widget, "active",
@@ -740,7 +766,7 @@ calendar_preferences_construct (ECalendarPreferences *prefs,
 		G_CALLBACK (update_system_tz_widgets), prefs);
 	update_system_tz_widgets (GTK_CHECK_BUTTON (widget), prefs);
 
-	widget = e_builder_get_widget (prefs->builder, "timezone");
+	widget = e_builder_get_widget (prefs->priv->builder, "timezone");
 	g_settings_bind_with_mapping (
 		settings, "timezone",
 		widget, "timezone",
@@ -755,73 +781,73 @@ calendar_preferences_construct (ECalendarPreferences *prefs,
 		G_SETTINGS_BIND_INVERT_BOOLEAN);
 
 	/* General tab */
-	prefs->day_second_zone = e_builder_get_widget (prefs->builder, "day_second_zone");
+	prefs->priv->day_second_zone = e_builder_get_widget (prefs->priv->builder, "day_second_zone");
 
-	widget = e_builder_get_widget (prefs->builder, "sun_button");
+	widget = e_builder_get_widget (prefs->priv->builder, "sun_button");
 	g_settings_bind (
 		settings, "work-day-sunday",
 		widget, "active",
 		G_SETTINGS_BIND_DEFAULT);
 
-	widget = e_builder_get_widget (prefs->builder, "mon_button");
+	widget = e_builder_get_widget (prefs->priv->builder, "mon_button");
 	g_settings_bind (
 		settings, "work-day-monday",
 		widget, "active",
 		G_SETTINGS_BIND_DEFAULT);
 
-	widget = e_builder_get_widget (prefs->builder, "tue_button");
+	widget = e_builder_get_widget (prefs->priv->builder, "tue_button");
 	g_settings_bind (
 		settings, "work-day-tuesday",
 		widget, "active",
 		G_SETTINGS_BIND_DEFAULT);
 
-	widget = e_builder_get_widget (prefs->builder, "wed_button");
+	widget = e_builder_get_widget (prefs->priv->builder, "wed_button");
 	g_settings_bind (
 		settings, "work-day-wednesday",
 		widget, "active",
 		G_SETTINGS_BIND_DEFAULT);
 
-	widget = e_builder_get_widget (prefs->builder, "thu_button");
+	widget = e_builder_get_widget (prefs->priv->builder, "thu_button");
 	g_settings_bind (
 		settings, "work-day-thursday",
 		widget, "active",
 		G_SETTINGS_BIND_DEFAULT);
 
-	widget = e_builder_get_widget (prefs->builder, "fri_button");
+	widget = e_builder_get_widget (prefs->priv->builder, "fri_button");
 	g_settings_bind (
 		settings, "work-day-friday",
 		widget, "active",
 		G_SETTINGS_BIND_DEFAULT);
 
-	widget = e_builder_get_widget (prefs->builder, "sat_button");
+	widget = e_builder_get_widget (prefs->priv->builder, "sat_button");
 	g_settings_bind (
 		settings, "work-day-saturday",
 		widget, "active",
 		G_SETTINGS_BIND_DEFAULT);
 
-	widget = e_builder_get_widget (prefs->builder, "week_start_day");
+	widget = e_builder_get_widget (prefs->priv->builder, "week_start_day");
 	g_settings_bind (
 		settings, "week-start-day-name",
 		widget, "active-id",
 		G_SETTINGS_BIND_DEFAULT);
 
-	widget = e_builder_get_widget (prefs->builder, "start_of_day");
-	prefs->start_of_day = widget;  /* XXX delete this */
+	widget = e_builder_get_widget (prefs->priv->builder, "start_of_day");
+	prefs->priv->start_of_day = widget;  /* XXX delete this */
 	if (locale_supports_12_hour_format)
 		g_settings_bind (
 			settings, "use-24hour-format",
 			widget, "use-24-hour-format",
 			G_SETTINGS_BIND_GET);
 
-	widget = e_builder_get_widget (prefs->builder, "end_of_day");
-	prefs->end_of_day = widget;  /* XXX delete this */
+	widget = e_builder_get_widget (prefs->priv->builder, "end_of_day");
+	prefs->priv->end_of_day = widget;  /* XXX delete this */
 	if (locale_supports_12_hour_format)
 		g_settings_bind (
 			settings, "use-24hour-format",
 			widget, "use-24-hour-format",
 			G_SETTINGS_BIND_GET);
 
-	widget = e_builder_get_widget (prefs->builder, "use_12_hour");
+	widget = e_builder_get_widget (prefs->priv->builder, "use_12_hour");
 	gtk_widget_set_sensitive (widget, locale_supports_12_hour_format);
 	g_settings_bind (
 		settings, "use-24hour-format",
@@ -829,26 +855,26 @@ calendar_preferences_construct (ECalendarPreferences *prefs,
 		G_SETTINGS_BIND_DEFAULT |
 		G_SETTINGS_BIND_INVERT_BOOLEAN);
 
-	widget = e_builder_get_widget (prefs->builder, "use_24_hour");
+	widget = e_builder_get_widget (prefs->priv->builder, "use_24_hour");
 	gtk_widget_set_sensitive (widget, locale_supports_12_hour_format);
 	g_settings_bind (
 		settings, "use-24hour-format",
 		widget, "active",
 		G_SETTINGS_BIND_DEFAULT);
 
-	widget = e_builder_get_widget (prefs->builder, "confirm_delete");
+	widget = e_builder_get_widget (prefs->priv->builder, "confirm_delete");
 	g_settings_bind (
 		settings, "confirm-delete",
 		widget, "active",
 		G_SETTINGS_BIND_DEFAULT);
 
-	widget = e_builder_get_widget (prefs->builder, "default_reminder");
+	widget = e_builder_get_widget (prefs->priv->builder, "default_reminder");
 	g_settings_bind (
 		settings, "use-default-reminder",
 		widget, "active",
 		G_SETTINGS_BIND_DEFAULT);
 
-	widget = e_builder_get_widget (prefs->builder, "default_reminder_interval");
+	widget = e_builder_get_widget (prefs->priv->builder, "default_reminder_interval");
 	g_settings_bind (
 		settings, "default-reminder-interval",
 		widget, "value",
@@ -858,7 +884,7 @@ calendar_preferences_construct (ECalendarPreferences *prefs,
 		widget, "sensitive",
 		G_SETTINGS_BIND_GET);
 
-	widget = e_builder_get_widget (prefs->builder, "default_reminder_units");
+	widget = e_builder_get_widget (prefs->priv->builder, "default_reminder_units");
 	g_settings_bind_with_mapping (
 		settings, "default-reminder-units",
 		widget, "active",
@@ -872,7 +898,7 @@ calendar_preferences_construct (ECalendarPreferences *prefs,
 		widget, "sensitive",
 		G_SETTINGS_BIND_GET);
 
-	widget = e_builder_get_widget (prefs->builder, "classify-private");
+	widget = e_builder_get_widget (prefs->priv->builder, "classify-private");
 	g_settings_bind (
 		settings, "classify-private",
 		widget, "active",
@@ -883,13 +909,13 @@ calendar_preferences_construct (ECalendarPreferences *prefs,
 	eds_settings =
 		e_util_ref_settings ("org.gnome.evolution-data-server.calendar");
 
-	widget = e_builder_get_widget (prefs->builder, "ba_reminder");
+	widget = e_builder_get_widget (prefs->priv->builder, "ba_reminder");
 	g_settings_bind (
 		eds_settings, "contacts-reminder-enabled",
 		widget, "active",
 		G_SETTINGS_BIND_DEFAULT);
 
-	widget = e_builder_get_widget (prefs->builder, "ba_reminder_interval");
+	widget = e_builder_get_widget (prefs->priv->builder, "ba_reminder_interval");
 	g_settings_bind (
 		eds_settings, "contacts-reminder-interval",
 		widget, "value",
@@ -899,7 +925,7 @@ calendar_preferences_construct (ECalendarPreferences *prefs,
 		widget, "sensitive",
 		G_SETTINGS_BIND_GET);
 
-	widget = e_builder_get_widget (prefs->builder, "ba_reminder_units");
+	widget = e_builder_get_widget (prefs->priv->builder, "ba_reminder_units");
 	g_settings_bind_with_mapping (
 		eds_settings, "contacts-reminder-units",
 		widget, "active",
@@ -916,7 +942,7 @@ calendar_preferences_construct (ECalendarPreferences *prefs,
 	g_object_unref (eds_settings);
 
 	/* Display tab */
-	widget = e_builder_get_widget (prefs->builder, "time_divisions");
+	widget = e_builder_get_widget (prefs->priv->builder, "time_divisions");
 	g_settings_bind_with_mapping (
 		settings, "time-divisions",
 		widget, "active",
@@ -925,49 +951,49 @@ calendar_preferences_construct (ECalendarPreferences *prefs,
 		calendar_preferences_map_index_to_time_divisions,
 		NULL, (GDestroyNotify) NULL);
 
-	widget = e_builder_get_widget (prefs->builder, "show_end_times");
+	widget = e_builder_get_widget (prefs->priv->builder, "show_end_times");
 	g_settings_bind (
 		settings, "show-event-end",
 		widget, "active",
 		G_SETTINGS_BIND_DEFAULT);
 
-	widget = e_builder_get_widget (prefs->builder, "show_icons_month_view");
+	widget = e_builder_get_widget (prefs->priv->builder, "show_icons_month_view");
 	g_settings_bind (
 		settings, "show-icons-month-view",
 		widget, "active",
 		G_SETTINGS_BIND_DEFAULT);
 
-	widget = e_builder_get_widget (prefs->builder, "compress_weekend");
+	widget = e_builder_get_widget (prefs->priv->builder, "compress_weekend");
 	g_settings_bind (
 		settings, "compress-weekend",
 		widget, "active",
 		G_SETTINGS_BIND_DEFAULT);
 
-	widget = e_builder_get_widget (prefs->builder, "show_week_numbers");
+	widget = e_builder_get_widget (prefs->priv->builder, "show_week_numbers");
 	g_settings_bind (
 		settings, "show-week-numbers",
 		widget, "active",
 		G_SETTINGS_BIND_DEFAULT);
 
-	widget = e_builder_get_widget (prefs->builder, "recur_events_italic");
+	widget = e_builder_get_widget (prefs->priv->builder, "recur_events_italic");
 	g_settings_bind (
 		settings, "recur-events-italic",
 		widget, "active",
 		G_SETTINGS_BIND_DEFAULT);
 
-	widget = e_builder_get_widget (prefs->builder, "month_scroll_by_week");
+	widget = e_builder_get_widget (prefs->priv->builder, "month_scroll_by_week");
 	g_settings_bind (
 		settings, "month-scroll-by-week",
 		widget, "active",
 		G_SETTINGS_BIND_DEFAULT);
 
-	widget = e_builder_get_widget (prefs->builder, "tasks_due_today_highlight");
+	widget = e_builder_get_widget (prefs->priv->builder, "tasks_due_today_highlight");
 	g_settings_bind (
 		settings, "task-due-today-highlight",
 		widget, "active",
 		G_SETTINGS_BIND_DEFAULT);
 
-	widget = e_builder_get_widget (prefs->builder, "tasks_due_today_color");
+	widget = e_builder_get_widget (prefs->priv->builder, "tasks_due_today_color");
 	g_settings_bind_with_mapping (
 		settings, "task-due-today-color",
 		widget, "color",
@@ -980,13 +1006,13 @@ calendar_preferences_construct (ECalendarPreferences *prefs,
 		widget, "sensitive",
 		G_SETTINGS_BIND_GET);
 
-	widget = e_builder_get_widget (prefs->builder, "tasks_overdue_highlight");
+	widget = e_builder_get_widget (prefs->priv->builder, "tasks_overdue_highlight");
 	g_settings_bind (
 		settings, "task-overdue-highlight",
 		widget, "active",
 		G_SETTINGS_BIND_DEFAULT);
 
-	widget = e_builder_get_widget (prefs->builder, "tasks_overdue_color");
+	widget = e_builder_get_widget (prefs->priv->builder, "tasks_overdue_color");
 	g_settings_bind_with_mapping (
 		settings, "task-overdue-color",
 		widget, "color",
@@ -999,13 +1025,13 @@ calendar_preferences_construct (ECalendarPreferences *prefs,
 		widget, "sensitive",
 		G_SETTINGS_BIND_GET);
 
-	widget = e_builder_get_widget (prefs->builder, "tasks_hide_completed");
+	widget = e_builder_get_widget (prefs->priv->builder, "tasks_hide_completed");
 	g_settings_bind (
 		settings, "hide-completed-tasks",
 		widget, "active",
 		G_SETTINGS_BIND_DEFAULT);
 
-	widget = e_builder_get_widget (prefs->builder, "tasks_hide_completed_interval");
+	widget = e_builder_get_widget (prefs->priv->builder, "tasks_hide_completed_interval");
 	g_settings_bind (
 		settings, "hide-completed-tasks-value",
 		widget, "value",
@@ -1015,7 +1041,7 @@ calendar_preferences_construct (ECalendarPreferences *prefs,
 		widget, "sensitive",
 		G_SETTINGS_BIND_GET);
 
-	widget = e_builder_get_widget (prefs->builder, "tasks_hide_completed_units");
+	widget = e_builder_get_widget (prefs->priv->builder, "tasks_hide_completed_units");
 	g_settings_bind_with_mapping (
 		settings, "hide-completed-tasks-units",
 		widget, "active",
@@ -1030,41 +1056,43 @@ calendar_preferences_construct (ECalendarPreferences *prefs,
 		G_SETTINGS_BIND_GET);
 
 	/* Alarms tab */
-	widget = e_builder_get_widget (prefs->builder, "notify_with_tray");
+	widget = e_builder_get_widget (prefs->priv->builder, "notify_with_tray");
 	g_settings_bind (
 		settings, "notify-with-tray",
 		widget, "active",
 		G_SETTINGS_BIND_DEFAULT);
 
-	widget = e_builder_get_widget (prefs->builder, "notify_window_on_top");
+	widget = e_builder_get_widget (prefs->priv->builder, "notify_window_on_top");
 	g_settings_bind (
 		settings, "notify-window-on-top",
 		widget, "active",
 		G_SETTINGS_BIND_DEFAULT);
 
-	widget = e_builder_get_widget (prefs->builder, "task_reminder_for_completed");
+	widget = e_builder_get_widget (prefs->priv->builder, "task_reminder_for_completed");
 	g_settings_bind (
 		settings, "task-reminder-for-completed",
 		widget, "active",
 		G_SETTINGS_BIND_DEFAULT);
 
-	widget = e_builder_get_widget (prefs->builder, "default-snooze-minutes-spin");
+	widget = e_builder_get_widget (prefs->priv->builder, "default-snooze-minutes-spin");
 	g_settings_bind (
 		settings, "default-snooze-minutes",
 		widget, "value",
 		G_SETTINGS_BIND_DEFAULT);
 
-	prefs->scrolled_window = e_builder_get_widget (prefs->builder, "calendar-source-scrolled-window");
+	prefs->priv->reminder_calendars_scrolled_window = e_builder_get_widget (prefs->priv->builder, "reminder-calendars-scrolled-window");
+	prefs->priv->reminder_memos_scrolled_window = e_builder_get_widget (prefs->priv->builder, "reminder-memos-scrolled-window");
+	prefs->priv->reminder_tasks_scrolled_window = e_builder_get_widget (prefs->priv->builder, "reminder-tasks-scrolled-window");
 
 	/* Free/Busy tab */
-	widget = e_builder_get_widget (prefs->builder, "template_url");
+	widget = e_builder_get_widget (prefs->priv->builder, "template_url");
 	g_settings_bind (
 		settings, "publish-template",
 		widget, "text",
 		G_SETTINGS_BIND_DEFAULT);
 
 	/* date/time format */
-	table = e_builder_get_widget (prefs->builder, "datetime_format_table");
+	table = e_builder_get_widget (prefs->priv->builder, "datetime_format_table");
 	e_datetime_format_add_setup_widget (table, 0, "calendar", "table",  DTFormatKindDateTime, _("Ti_me and date:"));
 	e_datetime_format_add_setup_widget (table, 1, "calendar", "table",  DTFormatKindDate, _("_Date only:"));
 
@@ -1106,7 +1134,7 @@ e_calendar_preferences_new (EPreferencesWindow *window)
 
 	preferences = g_object_new (E_TYPE_CALENDAR_PREFERENCES, NULL);
 
-	preferences->registry = g_object_ref (registry);
+	preferences->priv->registry = g_object_ref (registry);
 
 	/* FIXME Kill this function. */
 	calendar_preferences_construct (preferences, shell);

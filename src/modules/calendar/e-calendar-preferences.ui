@@ -1476,7 +1476,7 @@
           <object class="GtkLabel" id="label62">
             <property name="visible">True</property>
             <property name="xalign">0</property>
-            <property name="label" translatable="yes">Select the calendars for reminder notification</property>
+            <property name="label" translatable="yes">Select the sources for reminder notification:</property>
           </object>
           <packing>
             <property name="expand">False</property>
@@ -1485,14 +1485,89 @@
           </packing>
         </child>
         <child>
-          <object class="GtkScrolledWindow" id="calendar-source-scrolled-window">
+          <object class="GtkNotebook" id="reminder-sources-notebook">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
-            <property name="hscrollbar_policy">automatic</property>
-            <property name="vscrollbar_policy">automatic</property>
-            <property name="shadow_type">in</property>
             <child>
-              <placeholder/>
+              <object class="GtkScrolledWindow" id="reminder-calendars-scrolled-window">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="hscrollbar_policy">automatic</property>
+                <property name="vscrollbar_policy">automatic</property>
+                <property name="shadow_type">in</property>
+                <child>
+                  <placeholder/>
+                </child>
+              </object>
+              <packing>
+                <property name="tab_fill">False</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child type="tab">
+              <object class="GtkLabel" id="reminder-calendars-sources-tab-label">
+                <property name="visible">True</property>
+                <property name="label" translatable="yes">Calendars</property>
+              </object>
+              <packing>
+                <property name="tab_fill">False</property>
+                <property name="tab_expand">False</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkScrolledWindow" id="reminder-memos-scrolled-window">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="hscrollbar_policy">automatic</property>
+                <property name="vscrollbar_policy">automatic</property>
+                <property name="shadow_type">in</property>
+                <child>
+                  <placeholder/>
+                </child>
+              </object>
+              <packing>
+                <property name="tab_fill">False</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+            <child type="tab">
+              <object class="GtkLabel" id="reminder-memos-sources-tab-label">
+                <property name="visible">True</property>
+                <property name="label" translatable="yes">Memo Lists</property>
+              </object>
+              <packing>
+                <property name="tab_fill">False</property>
+                <property name="tab_expand">False</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkScrolledWindow" id="reminder-tasks-scrolled-window">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="hscrollbar_policy">automatic</property>
+                <property name="vscrollbar_policy">automatic</property>
+                <property name="shadow_type">in</property>
+                <child>
+                  <placeholder/>
+                </child>
+              </object>
+              <packing>
+                <property name="tab_fill">False</property>
+                <property name="position">2</property>
+              </packing>
+            </child>
+            <child type="tab">
+              <object class="GtkLabel" id="reminder-tasks-sources-tab-label">
+                <property name="visible">True</property>
+                <property name="label" translatable="yes">Task Lists</property>
+              </object>
+              <packing>
+                <property name="tab_fill">False</property>
+                <property name="tab_expand">False</property>
+                <property name="position">2</property>
+              </packing>
             </child>
           </object>
           <packing>

@@ -48,24 +48,12 @@ G_BEGIN_DECLS
 
 typedef struct _ECalendarPreferences ECalendarPreferences;
 typedef struct _ECalendarPreferencesClass ECalendarPreferencesClass;
+typedef struct _ECalendarPreferencesPrivate ECalendarPreferencesPrivate;
 
 struct _ECalendarPreferences {
 	GtkBox parent;
 
-	GtkBuilder *builder;
-
-	ESourceRegistry *registry;
-
-	/* General tab */
-	GtkWidget *day_second_zone;
-	GtkWidget *start_of_day;
-	GtkWidget *end_of_day;
-	GtkWidget *ba_reminder;
-	GtkWidget *ba_reminder_interval;
-	GtkWidget *ba_reminder_units;
-
-	/* Alarms tab */
-	GtkWidget *scrolled_window;
+	ECalendarPreferencesPrivate *priv;
 };
 
 struct _ECalendarPreferencesClass {

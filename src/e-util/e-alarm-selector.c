@@ -86,12 +86,14 @@ e_alarm_selector_init (EAlarmSelector *selector)
 }
 
 GtkWidget *
-e_alarm_selector_new (ESourceRegistry *registry)
+e_alarm_selector_new (ESourceRegistry *registry,
+		      const gchar *extension_name)
 {
 	g_return_val_if_fail (E_IS_SOURCE_REGISTRY (registry), NULL);
+	g_return_val_if_fail (extension_name != NULL, NULL);
 
 	return g_object_new (
 		E_TYPE_ALARM_SELECTOR,
-		"extension-name", E_SOURCE_EXTENSION_CALENDAR,
+		"extension-name", extension_name,
 		"registry", registry, NULL);
 }

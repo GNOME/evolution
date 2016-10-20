@@ -59,7 +59,8 @@ struct _EAlarmSelectorClass {
 };
 
 GType		e_alarm_selector_get_type	(void) G_GNUC_CONST;
-GtkWidget *	e_alarm_selector_new		(ESourceRegistry *registry);
+GtkWidget *	e_alarm_selector_new		(ESourceRegistry *registry,
+						 const gchar *extension_name);
 
 G_END_DECLS
 
