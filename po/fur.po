@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2016-09-29 19:26+0000\n"
-"PO-Revision-Date: 2016-10-18 10:45+0200\n"
+"PO-Revision-Date: 2016-10-22 19:57+0200\n"
 "Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
 "Language-Team: Friulian <fur@li.org>\n"
 "Language: fur\n"
@@ -21389,60 +21389,60 @@ msgstr ""
 #: ../modules/mail-config/e-mail-config-smtp-backend.c:153
 #: ../modules/plugin-manager/evolution-plugin-manager.c:158
 msgid "Configuration"
-msgstr ""
+msgstr "Configurazion"
 
 #: ../modules/mail-config/e-mail-config-remote-accounts.c:215
 #: ../modules/mail-config/e-mail-config-smtp-backend.c:171
 #: ../plugins/publish-calendar/publish-calendar.ui.h:24
 msgid "_Server:"
-msgstr ""
+msgstr "_Servidôr:"
 
 #: ../modules/mail-config/e-mail-config-remote-accounts.c:229
 #: ../modules/mail-config/e-mail-config-smtp-backend.c:184
 msgid "_Port:"
-msgstr ""
+msgstr "_Puarte:"
 
 #. do not reference
 #: ../modules/mail-config/e-mail-config-remote-accounts.c:250
 #: ../modules/mail-config/e-mail-config-smtp-backend.c:312
 msgid "User_name:"
-msgstr ""
+msgstr "Non _utent:"
 
 #: ../modules/mail-config/e-mail-config-remote-accounts.c:264
 #: ../modules/mail-config/e-mail-config-smtp-backend.c:326
 msgid "_Forget password"
-msgstr ""
+msgstr "_Dismentee password"
 
 #: ../modules/mail-config/e-mail-config-remote-accounts.c:290
 #: ../modules/mail-config/e-mail-config-smtp-backend.c:233
 msgid "Encryption _method:"
-msgstr ""
+msgstr "_Metodi di cifradure:"
 
 #: ../modules/mail-config/e-mail-config-remote-accounts.c:305
 #: ../modules/mail-config/e-mail-config-smtp-backend.c:248
 msgid "STARTTLS after connecting"
-msgstr ""
+msgstr "STARTTLS daspò la conession"
 
 #: ../modules/mail-config/e-mail-config-remote-accounts.c:309
 #: ../modules/mail-config/e-mail-config-smtp-backend.c:252
 msgid "TLS on a dedicated port"
-msgstr ""
+msgstr "TLS suntune puarte dedicade"
 
 #: ../modules/mail-config/e-mail-config-sendmail-backend.c:77
 msgid "_Use custom binary, instead of 'sendmail'"
-msgstr ""
+msgstr "_Doprâ un binari personalizât invezit di «sendmail»"
 
 #: ../modules/mail-config/e-mail-config-sendmail-backend.c:81
 msgid "_Custom binary:"
-msgstr ""
+msgstr "_Binari personalizât:"
 
 #: ../modules/mail-config/e-mail-config-sendmail-backend.c:100
 msgid "U_se custom arguments"
-msgstr ""
+msgstr "Do_prâ argoments personalizâts"
 
 #: ../modules/mail-config/e-mail-config-sendmail-backend.c:104
 msgid "Cus_tom arguments:"
-msgstr ""
+msgstr "Argoments personalizâ_ts:"
 
 #: ../modules/mail-config/e-mail-config-sendmail-backend.c:122
 msgid ""
@@ -21450,31 +21450,34 @@ msgid ""
 "   %F - stands for the From address\n"
 "   %R - stands for the recipient addresses"
 msgstr ""
+"I argoments predefinîts a son '-i -f %F -- %R', dulà che\n"
+"   %F - al sta par lis direzions dai mitents\n"
+"   %R - al sta par lis direzions dai destinataris"
 
 #: ../modules/mail-config/e-mail-config-sendmail-backend.c:137
 msgid "Send mail also when in offline _mode"
-msgstr ""
+msgstr "Inviâ pueste ancje cuant che si è in _modalitât fûr rêt"
 
 #: ../modules/mail-config/e-mail-config-sendmail-backend.c:210
 msgid "Custom binary cannot be empty"
-msgstr ""
+msgstr "Il binari personalizât nol pues jessi vueit"
 
 #. do not reference
 #: ../modules/mail-config/e-mail-config-smtp-backend.c:205
 msgid "Ser_ver requires authentication"
-msgstr ""
+msgstr "Il ser_vidôr al domande autenticazion"
 
 #: ../modules/mail-config/e-mail-config-smtp-backend.c:294
 msgid "T_ype:"
-msgstr ""
+msgstr "G_jenar:"
 
 #: ../modules/mail-config/e-mail-config-yahoo-summary.c:251
 msgid "Yahoo! Features"
-msgstr ""
+msgstr "Funzionalitâts Yahoo!"
 
 #: ../modules/mail-config/e-mail-config-yahoo-summary.c:260
 msgid "Add Yahoo! Ca_lendar and Tasks to this account"
-msgstr ""
+msgstr "Al zonte lis ativitâts e il ca_lendari Yahoo! a chest account"
 
 #: ../modules/mail/e-mail-attachment-handler.c:673
 #, c-format
