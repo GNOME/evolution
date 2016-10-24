@@ -42,6 +42,9 @@ gchar *		e_dom_utils_get_selection_content_html
 						(WebKitDOMDocument *document);
 gchar *		e_dom_utils_get_selection_content_text
 						(WebKitDOMDocument *document);
+gchar *		e_dom_utils_get_selection_content_multipart
+						(WebKitDOMDocument *document,
+						 gboolean *is_html);
 void		e_dom_utils_create_and_add_css_style_sheet
 						(WebKitDOMDocument *document,
 						 const gchar *style_sheet_id);

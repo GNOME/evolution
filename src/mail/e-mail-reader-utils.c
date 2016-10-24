@@ -2398,7 +2398,7 @@ e_mail_reader_reply_to_message (EMailReader *reader,
 	EMailReplyStyle reply_style;
 	EWebView *web_view;
 	struct _camel_header_raw *header;
-	gboolean src_is_html = FALSE;
+	gboolean src_is_text_html = FALSE;
 	const gchar *uid;
 	gchar *selection = NULL;
 	gint length;
@@ -2502,12 +2502,17 @@ e_mail_reader_reply_to_message (EMailReader *reader,
 		goto whole_message;
 
 	content_type = camel_mime_part_get_content_type (CAMEL_MIME_PART (src_message));
-	src_is_html = camel_content_type_is (content_type, "text", "html");
 
-	if (src_is_html)
-		selection = e_web_view_get_selection_content_html_sync (web_view, NULL, NULL);
-	else
+	if (camel_content_type_is (content_type, "text", "plain")) {
 		selection = e_mail_display_get_selection_plain_text_sync (display, NULL, NULL);
+		src_is_text_html = TRUE;
+	} else if (camel_content_type_is (content_type, "text", "html")) {
+		selection = e_web_view_get_selection_content_html_sync (E_WEB_VIEW (display), NULL, NULL);
+		src_is_text_html = FALSE;
+	} else if (camel_content_type_is (content_type, "multipart", "*")) {
+		selection = e_mail_display_get_selection_content_multipart_sync (display, &src_is_text_html, NULL, NULL);
+	}
+
 	if (selection == NULL || *selection == '\0')
 		goto whole_message;
 
@@ -2540,7 +2545,7 @@ e_mail_reader_reply_to_message (EMailReader *reader,
 		CAMEL_MIME_PART (new_message),
 		selection,
 		length,
-		src_is_html ? "text/html; charset=utf-8" : "text/plain; charset=utf-8");
+		src_is_text_html ? "text/html; charset=utf-8" : "text/plain; charset=utf-8");
 
 	ccd = g_new0 (CreateComposerData, 1);
 	ccd->reader = g_object_ref (reader);

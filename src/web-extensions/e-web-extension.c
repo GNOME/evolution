@@ -105,6 +105,11 @@ static const char introspection_xml[] =
 "      <arg type='t' name='page_id' direction='in'/>"
 "      <arg type='s' name='text_content' direction='out'/>"
 "    </method>"
+"    <method name='GetSelectionContentMultipart'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"      <arg type='s' name='content' direction='out'/>"
+"      <arg type='b' name='is_html' direction='out'/>"
+"    </method>"
 "    <method name='CreateAndAddCSSStyleSheet'>"
 "      <arg type='t' name='page_id' direction='in'/>"
 "      <arg type='s' name='style_sheet_id' direction='in'/>"
@@ -538,6 +543,26 @@ handle_method_call (GDBusConnection *connection,
 				"(@s)",
 				g_variant_new_take_string (
 					html_content ? html_content : g_strdup (""))));
+	} else if (g_strcmp0 (method_name, "GetSelectionContentMultipart") == 0) {
+		gchar *text_content;
+		gboolean is_html = FALSE;
+
+		g_variant_get (parameters, "(t)", &page_id);
+		web_page = get_webkit_web_page_or_return_dbus_error (
+			invocation, web_extension, page_id);
+		if (!web_page)
+			return;
+
+		document = webkit_web_page_get_dom_document (web_page);
+		text_content = e_dom_utils_get_selection_content_multipart (document, &is_html);
+
+		g_dbus_method_invocation_return_value (
+			invocation,
+			g_variant_new (
+				"(@sb)",
+				g_variant_new_take_string (
+					text_content ? text_content : g_strdup ("")),
+				is_html));
 	} else if (g_strcmp0 (method_name, "GetSelectionContentText") == 0) {
 		gchar *text_content;
 
@@ -551,7 +576,11 @@ handle_method_call (GDBusConnection *connection,
 		text_content = e_dom_utils_get_selection_content_text (document);
 
 		g_dbus_method_invocation_return_value (
-			invocation, g_variant_new_take_string (text_content));
+			invocation,
+			g_variant_new (
+				"(@s)",
+				g_variant_new_take_string (
+					text_content ? text_content : g_strdup (""))));
 	} else if (g_strcmp0 (method_name, "AddCSSRuleIntoStyleSheet") == 0) {
 		const gchar *style_sheet_id, *selector, *style;
 
