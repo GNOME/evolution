@@ -1,3 +1,59 @@
+Evolution 3.23.1 2016-10-24
+---------------------------
+
+* Evolution uses CMake instead of autotools now. At the end of the configure
+  phase are printed all the available options and their values. These can be
+  used for the cmake command to tweak the build.
+
+Bug Fixes:
+	Bug 772175 - Allow hiding menu bar (and show it via alt) (Milan Crha)
+	Bug 772150 - Can't add or edit email signatures (Milan Crha)
+	Bug 772803 - Inline images cause busy loop on Reply in WebKitWebProcess (Milan Crha)
+	Bug 336195 - Do not ask to notify attendees when there are none (Milan Crha)
+	Bug 772590 - Hitting Backspace causes mail contents to shrink font size momentarily (Tomas Popela)
+	Bug 772916 - Composer incorrectly warns about switching from HTML to text when a message snippet is selected (Tomas Popela)
+	Bug 772918 - Using keyboard shortcuts undo/redo is broken (Tomas Popela)
+	Bug 605416 - Add aliases for accounts (Milan Crha)
+	Bug 773164 - copy pasting paragraphs and then undoing - redoing is broken (Tomas Popela)
+	Bug 769733 - Meeting invitation cannot change calendar (Milan Crha)
+	Bug 773033 - Switch from Work Week to Week view on 'Select today', if needed (Milan Crha)
+	Bug 772858 - Alarm-notify should not open disabled sources (Milan Crha)
+	Bug 773396 - Pasting with midlde mouse button and Shift pressed doesn’t cite text (Tomas Popela)
+
+Miscellaneous:
+	Change "Compose Message" Desktop Action to disambiguate it from titles (Piotr Drąg)
+	Convert from autotools to CMake (Milan Crha)
+	Require as hard dependency some dependencies (Milan Crha)
+	Extend error messages in FindLDAP.cmake (Milan Crha)
+	Reorganize directory structure (Milan Crha)
+	Add a helper script for a 'dist' target (Milan Crha)
+	Rename SHARE_INSTALL_DIR to SHARE_INSTALL_PREFIX (Milan Crha)
+	Place private libevolutiontestsettings.so into a test-gio-modules subdirectory (Milan Crha)
+	Do not use camel_folder_set_message_flags() in message-list::on_click() (Milan Crha)
+	If body contains just the empty block, then nothing is sent (Tomas Popela)
+	Make the EContentEditor accessible in tests (Tomas Popela)
+	Do not quote compiler/linker flags (Milan Crha)
+	Consume return value of gtk_clutter_init_with_args()/gtk_init_with_args() (Milan Crha)
+	Fix a crash when replying to all recipients (Milan Crha)
+	Use unique D-Bus service name for WebKit editor and cancel pending calls on dispose (Milan Crha)
+	Do not steal focus when alarm notify dialog is shown (Milan Crha)
+	Add an option to (not) have reminder notification dialog always on top (Milan Crha)
+	Add options to select Memo/Task Lists for Reminder notifications (Milan Crha)
+	EEditorPage is never freed (Tomas Popela)
+	Fix e_mail_display_get_selection_plain_text_sync() (Tomas Popela)
+	The "Reply from preview selection" feature is wrong for multipart messages (Tomas Popela)
+	Hard-break `make dist` when there are uncommitted changes (Milan Crha)
+
+Translations:
+	Fabio Tomat (fur)
+	Gianvito Cavasoli (it)
+	gogo (hr)
+	Jordi Mas (ca)
+	Kjartan Maraas (nb)
+	Peter Mráz (sk)
+	Dušan Kazik (sk)
+	Alexandre Franke (fr)
+
 Evolution 3.22.0 2016-09-19
 ---------------------------
 
