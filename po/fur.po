@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2016-09-29 19:26+0000\n"
-"PO-Revision-Date: 2016-10-24 08:36+0200\n"
+"PO-Revision-Date: 2016-10-24 15:52+0200\n"
 "Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
 "Language-Team: Friulian <fur@li.org>\n"
 "Language: fur\n"
@@ -22794,30 +22794,32 @@ msgid ""
 "The external editor is still running. The mail composer window cannot be "
 "closed as long as the editor is active."
 msgstr ""
+"L'editôr esterni al è ancjemò in esecuzion. Il barcon dal compositôr di "
+"pueste nol pues jessi sierât fintremai che l'editôr al è atîf."
 
 #: ../plugins/face/face.c:294
 msgid "Select a Face Picture"
-msgstr ""
+msgstr "Selezione une figure \"muse\""
 
 #: ../plugins/face/face.c:304
 msgid "Image files"
-msgstr ""
+msgstr "File di imagjin"
 
 #: ../plugins/face/face.c:392
 msgid "_Insert Face picture by default"
-msgstr ""
+msgstr "_Inserî la imagjin \"muse\" in mût predefinît"
 
 #: ../plugins/face/face.c:405
 msgid "Load new _Face picture"
-msgstr ""
+msgstr "Cjarie gnove imagjin _muse"
 
 #: ../plugins/face/face.c:449
 msgid "Change Face Image"
-msgstr ""
+msgstr "Cambie imagjin de muse"
 
 #: ../plugins/face/face.c:537
 msgid "Include _Face"
-msgstr ""
+msgstr "Inclût _muse"
 
 #: ../plugins/face/org-gnome-face.eplug.xml.h:2
 msgid "Attach a small picture of your face to outgoing messages."
@@ -22825,25 +22827,27 @@ msgstr "Aleghe une piçule imagjin de tô muse ai messaçs in jessude."
 
 #: ../plugins/face/org-gnome-face.error.xml.h:1
 msgid "Failed Read"
-msgstr ""
+msgstr "Leture falide"
 
 #: ../plugins/face/org-gnome-face.error.xml.h:2
 msgid "The file cannot be read"
-msgstr ""
+msgstr "Nol è pussibil lei il file"
 
 #: ../plugins/face/org-gnome-face.error.xml.h:3
 msgid "Invalid Image Size"
-msgstr ""
+msgstr "Dimension imagjin no valide"
 
 #: ../plugins/face/org-gnome-face.error.xml.h:4
 msgid ""
 "Please select a PNG image of size 48 * 48 pixels, whose file size doesn't "
 "exceed 723 bytes."
 msgstr ""
+"Selezionâ une imagjin PNG di grandece 48 * 48 pixel, la dimension dal so "
+"file no à di lâ fûr di 723 byte."
 
 #: ../plugins/face/org-gnome-face.error.xml.h:5
 msgid "Incorrect Face Image Byte Size"
-msgstr ""
+msgstr "Dimension in byte, de imagjin muse, no juste"
 
 #: ../plugins/face/org-gnome-face.error.xml.h:6
 msgid ""
@@ -22851,18 +22855,21 @@ msgid ""
 "bytes. Please select a PNG image of size 48 * 48 pixels, whose file size "
 "doesn't exceed 723 bytes."
 msgstr ""
+"La dimension de imagjin muse e je {0} byte, ma no varès di jessi plui di 723 "
+"byte. Selezionâ une imagjin PNG 48 * 48 pixel di grandece e che la dimension "
+"dal so file no superi i 723 byte."
 
 #: ../plugins/face/org-gnome-face.error.xml.h:7
 msgid "Not an image"
-msgstr ""
+msgstr "No je une imagjin"
 
 #: ../plugins/face/org-gnome-face.error.xml.h:8
 msgid "The file you selected does not look like a valid PNG image. Error: {0}"
-msgstr ""
+msgstr "Il file selezionât nol semee jessi une imagjin PNG valide. Erôr: {0}"
 
 #: ../plugins/mailing-list-actions/mailing-list-actions.c:415
 msgid "Get List _Archive"
-msgstr ""
+msgstr "Oten _archivi liste"
 
 #: ../plugins/mailing-list-actions/mailing-list-actions.c:417
 msgid "Get an archive of the list this message belongs to"
@@ -22870,15 +22877,15 @@ msgstr ""
 
 #: ../plugins/mailing-list-actions/mailing-list-actions.c:422
 msgid "Copy _Message Archive URL"
-msgstr ""
+msgstr "Copie URL archivi _messaç"
 
 #: ../plugins/mailing-list-actions/mailing-list-actions.c:424
 msgid "Copy direct URL for the selected message in its archive"
-msgstr ""
+msgstr "Copi il URL diret dal messaç selezionât intal so archivi"
 
 #: ../plugins/mailing-list-actions/mailing-list-actions.c:429
 msgid "Get List _Usage Information"
-msgstr ""
+msgstr "Oten informazions _ûs liste"
 
 #: ../plugins/mailing-list-actions/mailing-list-actions.c:431
 msgid "Get information about the usage of the list this message belongs to"
@@ -22886,7 +22893,7 @@ msgstr ""
 
 #: ../plugins/mailing-list-actions/mailing-list-actions.c:436
 msgid "Contact List _Owner"
-msgstr ""
+msgstr "Contate _proprietari liste"
 
 #: ../plugins/mailing-list-actions/mailing-list-actions.c:438
 msgid "Contact the owner of the mailing list this message belongs to"
@@ -22894,7 +22901,7 @@ msgstr ""
 
 #: ../plugins/mailing-list-actions/mailing-list-actions.c:443
 msgid "_Post Message to List"
-msgstr ""
+msgstr "_Publiche messaç su pe liste"
 
 #: ../plugins/mailing-list-actions/mailing-list-actions.c:445
 msgid "Post a message to the mailing list this message belongs to"
@@ -22902,7 +22909,7 @@ msgstr ""
 
 #: ../plugins/mailing-list-actions/mailing-list-actions.c:450
 msgid "_Subscribe to List"
-msgstr ""
+msgstr "_Sotscrîf ae liste"
 
 #: ../plugins/mailing-list-actions/mailing-list-actions.c:452
 msgid "Subscribe to the mailing list this message belongs to"
@@ -22910,7 +22917,7 @@ msgstr ""
 
 #: ../plugins/mailing-list-actions/mailing-list-actions.c:457
 msgid "_Unsubscribe from List"
-msgstr ""
+msgstr "_Anule sotscrizion ae liste"
 
 #: ../plugins/mailing-list-actions/mailing-list-actions.c:459
 msgid "Unsubscribe from the mailing list this message belongs to"
@@ -22930,17 +22937,19 @@ msgstr ""
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:1
 msgid "Action not available"
-msgstr ""
+msgstr "Azion no disponibile"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:2
 msgid ""
 "This message does not contain the header information required for this "
 "action."
 msgstr ""
+"Chest messaç nol à lis informazions di intestazion domandadis par cheste "
+"azion."
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:3
 msgid "Posting not allowed"
-msgstr ""
+msgstr "Publicazion no permetude"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:4
 msgid ""
@@ -22963,15 +22972,15 @@ msgstr ""
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:9
 msgid "_Send message"
-msgstr ""
+msgstr "In_vie messaç"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:10
 msgid "_Edit message"
-msgstr ""
+msgstr "_Modifiche messaç"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:11
 msgid "Malformed header"
-msgstr ""
+msgstr "Intestazion malformade"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:12
 msgid ""
@@ -22979,10 +22988,14 @@ msgid ""
 "\n"
 "Header: {1}"
 msgstr ""
+"La intestazion {0} di chest messaç e je sbaliade e no pues jessi "
+"processade.\n"
+"\n"
+"Intestazion: {1}"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:15
 msgid "No e-mail action"
-msgstr ""
+msgstr "Nissune azion e-mail"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:16
 msgid ""
@@ -22991,81 +23004,85 @@ msgid ""
 "\n"
 "Header: {0}"
 msgstr ""
+"Nol è pussibil eseguî la azion. La intestazion par cheste azion no veve "
+"nissune azion che si podeve processâ.\n"
+"\n"
+"Intestazion: {0}"
 
 #: ../plugins/mail-notification/mail-notification.c:400
 #: ../plugins/mail-notification/mail-notification.c:436
 #, c-format
 msgid "You have received %d new message."
 msgid_plural "You have received %d new messages."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Tu âs ricevût %d gnûf messaç."
+msgstr[1] "Tu âs ricevût %d gnûfs messaçs."
 
 #. Translators: "From:" is preceding a new mail
 #. * sender address, like "From: user@example.com"
 #: ../plugins/mail-notification/mail-notification.c:411
 #, c-format
 msgid "From: %s"
-msgstr ""
+msgstr "Di: %s"
 
 #. Translators: "Subject:" is preceding a new mail
 #. * subject, like "Subject: It happened again"
 #: ../plugins/mail-notification/mail-notification.c:425
 #, c-format
 msgid "Subject: %s"
-msgstr ""
+msgstr "Ogjet: %s"
 
 #: ../plugins/mail-notification/mail-notification.c:442
 msgid "New email in Evolution"
-msgstr ""
+msgstr "Gnove e-mail in Evolution"
 
 #. Translators: The '%s' is a mail
 #. * folder name.  (e.g. "Show Inbox")
 #: ../plugins/mail-notification/mail-notification.c:483
 #, c-format
 msgid "Show %s"
-msgstr ""
+msgstr "Mostre %s"
 
 #: ../plugins/mail-notification/mail-notification.c:687
 msgid "_Play sound when a new message arrives"
-msgstr ""
+msgstr "_Sune cuant che al rive un gnûf messaç"
 
 #: ../plugins/mail-notification/mail-notification.c:719
 msgid "_Beep"
-msgstr ""
+msgstr "A_vîs acustic"
 
 #: ../plugins/mail-notification/mail-notification.c:732
 msgid "Use sound _theme"
-msgstr ""
+msgstr "Dopre il _teme audio"
 
 #: ../plugins/mail-notification/mail-notification.c:751
 msgid "Play _file:"
-msgstr ""
+msgstr "Sune il _file:"
 
 #: ../plugins/mail-notification/mail-notification.c:760
 msgid "Select sound file"
-msgstr ""
+msgstr "Selezione file audio"
 
 #: ../plugins/mail-notification/mail-notification.c:837
 msgid "Notify new messages for _Inbox only"
-msgstr ""
+msgstr "Notificâ _dome i gnûfs messaçs in «In jentrade»"
 
 #: ../plugins/mail-notification/mail-notification.c:853
 msgid "Show _notification when a new message arrives"
-msgstr ""
+msgstr "Mostrâ une _notifiche cuant che al rive un gnûf messaç"
 
 #: ../plugins/mail-notification/org-gnome-mail-notification.eplug.xml.h:1
 msgid "Mail Notification"
-msgstr ""
+msgstr "Notifiche pueste"
 
 #: ../plugins/mail-notification/org-gnome-mail-notification.eplug.xml.h:2
 msgid "Notifies you when new mail messages arrive."
-msgstr ""
+msgstr "Notifiche il rivâ di gnûfs messaçs di pueste."
 
 #. To Translators: The full sentence looks like: "Created from a mail by John Doe <john.doe@myco.example>"
 #: ../plugins/mail-to-task/mail-to-task.c:196
 #, c-format
 msgid "Created from a mail by %s"
-msgstr ""
+msgstr "Creade di une e-mail di %s"
 
 #. Translators: Dialog button to Cancel edit of an existing event/memo/task
 #: ../plugins/mail-to-task/mail-to-task.c:561
@@ -23090,7 +23107,7 @@ msgstr "_Gnûf"
 msgid ""
 "Selected calendar contains event '%s' already. Would you like to edit the "
 "old event?"
-msgstr ""
+msgstr "Il calendari selezionât al à za l'event «%s». Modificâ chel vecjo?"
 
 #: ../plugins/mail-to-task/mail-to-task.c:586
 #, c-format
@@ -23098,6 +23115,8 @@ msgid ""
 "Selected task list contains task '%s' already. Would you like to edit the "
 "old task?"
 msgstr ""
+"La liste di ativitâts selezionade e à za la ativitât «%s». Modificâ chê "
+"vecje?"
 
 #: ../plugins/mail-to-task/mail-to-task.c:589
 #, c-format
