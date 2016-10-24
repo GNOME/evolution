@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2016-09-29 19:26+0000\n"
-"PO-Revision-Date: 2016-10-22 19:57+0200\n"
+"PO-Revision-Date: 2016-10-24 08:03+0200\n"
 "Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
 "Language-Team: Friulian <fur@li.org>\n"
 "Language: fur\n"
@@ -21483,136 +21483,136 @@ msgstr "Al zonte lis ativitâts e il ca_lendari Yahoo! a chest account"
 #, c-format
 msgid "%d attached message"
 msgid_plural "%d attached messages"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d messaç alegât"
+msgstr[1] "%d messaçs alegâts"
 
 #: ../modules/mail/e-mail-shell-backend.c:377
 msgctxt "New"
 msgid "_Mail Message"
-msgstr ""
+msgstr "_Messaç di pueste"
 
 #: ../modules/mail/e-mail-shell-backend.c:379
 msgid "Compose a new mail message"
-msgstr ""
+msgstr "Scrîf un gnûf messaç di pueste"
 
 #: ../modules/mail/e-mail-shell-backend.c:387
 msgctxt "New"
 msgid "Mail Acco_unt"
-msgstr ""
+msgstr "Acco_unt di pueste"
 
 #: ../modules/mail/e-mail-shell-backend.c:389
 msgid "Create a new mail account"
-msgstr ""
+msgstr "Cree un gnûf account di pueste"
 
 #: ../modules/mail/e-mail-shell-backend.c:394
 msgctxt "New"
 msgid "Mail _Folder"
-msgstr ""
+msgstr "Cartele di _pueste"
 
 #: ../modules/mail/e-mail-shell-backend.c:396
 msgid "Create a new mail folder"
-msgstr ""
+msgstr "Cree une gnove cartele di pueste"
 
 #. Translators: One of the known implementation names of the GNetworkMonitor. Either translate
 #. it to some user-frienly form, or keep it as is.
 #: ../modules/mail/e-mail-shell-backend.c:711
 msgctxt "NetworkMonitor"
 msgid "base"
-msgstr ""
+msgstr "base"
 
 #. Translators: One of the known implementation names of the GNetworkMonitor. Either translate
 #. it to some user-frienly form, or keep it as is.
 #: ../modules/mail/e-mail-shell-backend.c:714
 msgctxt "NetworkMonitor"
 msgid "netlink"
-msgstr ""
+msgstr "netlink"
 
 #. Translators: One of the known implementation names of the GNetworkMonitor. Either translate
 #. it to some user-frienly form, or keep it as is.
 #: ../modules/mail/e-mail-shell-backend.c:717
 msgctxt "NetworkMonitor"
 msgid "networkmanager"
-msgstr ""
+msgstr "networkmanager"
 
 #: ../modules/mail/e-mail-shell-backend.c:749
 msgctxt "NetworkMonitor"
 msgid "Method to detect _online state:"
-msgstr ""
+msgstr "Metodi par rivelâ il stât _in rêt:"
 
 #. Always as the first
 #: ../modules/mail/e-mail-shell-backend.c:758
 msgctxt "NetworkMonitor"
 msgid "Default"
-msgstr ""
+msgstr "Predefinît"
 
 #. Always as the last
 #: ../modules/mail/e-mail-shell-backend.c:772
 msgctxt "NetworkMonitor"
 msgid "Always Online"
-msgstr ""
+msgstr "_Simpri in rêt"
 
 #: ../modules/mail/e-mail-shell-backend.c:832
 msgid "Mail Accounts"
-msgstr ""
+msgstr "Account di pueste"
 
 #: ../modules/mail/e-mail-shell-backend.c:841
 msgid "Mail Preferences"
-msgstr ""
+msgstr "Preferencis di pueste"
 
 #: ../modules/mail/e-mail-shell-backend.c:850
 msgid "Composer Preferences"
-msgstr ""
+msgstr "Preferencis di composizion"
 
 #: ../modules/mail/e-mail-shell-backend.c:859
 msgid "Network Preferences"
-msgstr ""
+msgstr "Preferencis di rêt"
 
 #. Translators: The first item in the list, to be
 #. * able to set rule: [Label] [is/is-not] [None]
 #: ../modules/mail/e-mail-shell-backend.c:1151
 msgctxt "label"
 msgid "None"
-msgstr ""
+msgstr "Nissune"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:736
 msgid "Marking messages as read..."
-msgstr ""
+msgstr "Segne messaçs come lets..."
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1095
 msgid "Go to Folder"
-msgstr ""
+msgstr "Va ae cartele"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1099
 msgid "_Select"
-msgstr ""
+msgstr "_Selezione"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1703
 msgid "_Disable Account"
-msgstr ""
+msgstr "_Disabilite account"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1705
 msgid "Disable this account"
-msgstr ""
+msgstr "Disabilite chest account"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1712
 msgid "Permanently remove all the deleted messages from all folders"
-msgstr ""
+msgstr "Gjave par simpri ducj i messaçs eliminâts di dutis lis cartelis"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1719
 msgid "Edit properties of this account"
-msgstr ""
+msgstr "Modifiche lis proprietâts di chest account"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1726
 msgid "Refresh list of folders of this account"
-msgstr ""
+msgstr "Inzorne la liste des cartelis di chest account"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1731
 msgid "_Download Messages for Offline Usage"
-msgstr ""
+msgstr "_Discjarie messaçs par l'ûs fûr rêt"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1733
 msgid "Download messages of accounts and folders marked for offline usage"
-msgstr ""
+msgstr "Discjarie i messaçs dai account e des cartelis segnadis pal ûs fûr rêt"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1738
 msgid "Fl_ush Outbox"
@@ -21620,15 +21620,15 @@ msgstr ""
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1745
 msgid "_Copy Folder To..."
-msgstr ""
+msgstr "_Copie cartele su..."
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1747
 msgid "Copy the selected folder into another folder"
-msgstr ""
+msgstr "Copie la cartele selezionade intune altre cartele"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1754
 msgid "Permanently remove this folder"
-msgstr ""
+msgstr "Gjave par simpri cheste cartele"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1759
 msgid "E_xpunge"
@@ -21636,46 +21636,46 @@ msgstr ""
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1761
 msgid "Permanently remove all deleted messages from this folder"
-msgstr ""
+msgstr "Gjave par simpri di cheste cartele ducj i messaçs eliminâts"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1766
 #: ../modules/mail/e-mail-shell-view-actions.c:1874
 msgid "Mar_k All Messages as Read"
-msgstr ""
+msgstr "Segne duc_j i messaçs come lets"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1768
 #: ../modules/mail/e-mail-shell-view-actions.c:1876
 msgid "Mark all messages in the folder as read"
-msgstr ""
+msgstr "Segne come lets ducj i messaçs inte cartele"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1773
 msgid "_Move Folder To..."
-msgstr ""
+msgstr "_Sposte cartele su..."
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1775
 msgid "Move the selected folder into another folder"
-msgstr ""
+msgstr "Sposte la cartele selezionade intune altre cartele"
 
 #. Translators: An action caption to create a new mail folder
 #: ../modules/mail/e-mail-shell-view-actions.c:1781
 msgid "_New..."
-msgstr ""
+msgstr "_Gnove..."
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1783
 msgid "Create a new folder for storing mail"
-msgstr ""
+msgstr "Cree une gnove cartele par memorizâ la pueste"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1790
 msgid "Change the properties of this folder"
-msgstr ""
+msgstr "Cambie lis proprietâts di cheste cartele"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1797
 msgid "Refresh the folder"
-msgstr ""
+msgstr "Inzorne la cartele"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1804
 msgid "Change the name of this folder"
-msgstr ""
+msgstr "Cambie il non di cheste cartele"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1809
 msgid "Select Message _Thread"
@@ -21691,69 +21691,69 @@ msgstr ""
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1818
 msgid "Select all replies to the currently selected message"
-msgstr ""
+msgstr "Selezione dutis lis rispuestis al messaç cumò selezionât"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1830
 msgid "Empty _Trash"
-msgstr ""
+msgstr "Dis_vuede scovacere"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1832
 msgid "Permanently remove all the deleted messages from all accounts"
-msgstr ""
+msgstr "Gjave par simpri ducj i messaçs eliminâts di ducj i account"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1837
 msgid "Go to _Folder"
-msgstr ""
+msgstr "Va ae _cartele"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1839
 msgid "Opens a dialog to select a folder to go to"
-msgstr ""
+msgstr "Vierç un dialic par selezionâ une cartele dulà lâ"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1844
 msgid "_New Label"
-msgstr ""
+msgstr "_Gnove etichete"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1853
 msgid "N_one"
-msgstr ""
+msgstr "Niss_un"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1867
 msgid "_Manage Subscriptions"
-msgstr ""
+msgstr "_Gjestìs sotscrizion"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1869
 #: ../modules/mail/e-mail-shell-view-actions.c:1953
 msgid "Subscribe or unsubscribe to folders on remote servers"
-msgstr ""
+msgstr "Sotscrîf o anule sotscrizion a cartelis su servidôrs rimots"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1881
 #: ../modules/mail/e-mail-shell-view-actions.c:1902
 msgid "Send / _Receive"
-msgstr ""
+msgstr "Invie / _Ricêf"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1883
 msgid "Send queued items and retrieve new items"
-msgstr ""
+msgstr "Invie elements in code e ricêf chei gnûfs"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1888
 msgid "R_eceive All"
-msgstr ""
+msgstr "Ric_êf dut"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1890
 msgid "Receive new items from all accounts"
-msgstr ""
+msgstr "Ricêf gnûfs elements di ducj i account"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1895
 msgid "_Send All"
-msgstr ""
+msgstr "In_vie dut"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1897
 msgid "Send queued items in all accounts"
-msgstr ""
+msgstr "Invie elements in code in ducj i account"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1925
 msgid "Cancel the current mail operation"
-msgstr ""
+msgstr "Anule la operazion di pueste in vore"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1930
 msgid "Collapse All _Threads"
@@ -21773,7 +21773,7 @@ msgstr ""
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1944
 msgid "_Message Filters"
-msgstr ""
+msgstr "_Filtris dai messaçs"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1946
 msgid "Create or edit rules for filtering new mail"
