@@ -2470,7 +2470,51 @@ e_mail_display_set_status (EMailDisplay *display,
 	g_free (str);
 }
 
-const gchar *
+gchar *
+e_mail_display_get_selection_content_multipart_sync (EMailDisplay *display,
+                                                     gboolean *is_html,
+                                                     GCancellable *cancellable,
+                                                     GError **error)
+{
+	GDBusProxy *web_extension;
+
+	g_return_val_if_fail (E_IS_MAIL_DISPLAY (display), NULL);
+
+	if (!e_web_view_is_selection_active (E_WEB_VIEW (display)))
+		return NULL;
+
+	web_extension = e_web_view_get_web_extension_proxy (E_WEB_VIEW (display));
+	if (web_extension) {
+		GVariant *result;
+
+		result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_full (
+				web_extension,
+				"GetSelectionContentMultipart",
+				g_variant_new (
+					"(t)",
+					webkit_web_view_get_page_id (
+						WEBKIT_WEB_VIEW (display))),
+				G_DBUS_CALL_FLAGS_NONE,
+				-1,
+				cancellable,
+				error);
+
+		if (result) {
+			gchar *content = NULL;
+			gboolean text_html = FALSE;
+
+			g_variant_get (result, "(sb)", &content, &text_html);
+			g_variant_unref (result);
+			if (is_html)
+				*is_html = text_html;
+			return content;
+		}
+	}
+
+	return NULL;
+}
+
+gchar *
 e_mail_display_get_selection_plain_text_sync (EMailDisplay *display,
                                               GCancellable *cancellable,
                                               GError **error)

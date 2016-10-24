@@ -161,6 +161,36 @@ element_is_in_pre_tag (WebKitDOMNode *node)
 }
 
 static gchar *
+dom_selection_get_content_html (WebKitDOMDOMSelection *dom_selection,
+                                WebKitDOMDocument *content_document)
+{
+	gchar *inner_html;
+	WebKitDOMDocumentFragment *fragment;
+	WebKitDOMNode *node;
+	WebKitDOMElement *element;
+	WebKitDOMRange *range = NULL;
+
+	range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
+	fragment = webkit_dom_range_clone_contents (range, NULL);
+	element = webkit_dom_document_create_element (content_document, "DIV", NULL);
+	webkit_dom_node_append_child (
+		WEBKIT_DOM_NODE (element),
+		WEBKIT_DOM_NODE (fragment), NULL);
+
+	inner_html = webkit_dom_element_get_inner_html (element);
+
+	node = webkit_dom_range_get_start_container (range, NULL);
+	if (element_is_in_pre_tag (node)) {
+		gchar *tmp = inner_html;
+		inner_html = g_strconcat ("<pre>", tmp, "</pre>", NULL);
+		g_free (tmp);
+	}
+
+	g_clear_object (&range);
+	return inner_html;
+}
+
+static gchar *
 get_frame_selection_html (WebKitDOMElement *iframe)
 {
 	WebKitDOMDocument *content_document;
@@ -179,37 +209,10 @@ get_frame_selection_html (WebKitDOMElement *iframe)
 	dom_selection = webkit_dom_dom_window_get_selection (dom_window);
 	g_clear_object (&dom_window);
 	if (dom_selection && (webkit_dom_dom_selection_get_range_count (dom_selection) > 0)) {
-		WebKitDOMRange *range = NULL;
-		WebKitDOMElement *element;
-		WebKitDOMDocumentFragment *fragment;
+		gchar *html = dom_selection_get_content_html (dom_selection, content_document);
+		g_clear_object (&dom_selection);
 
-		range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
-		if (range != NULL) {
-			gchar *inner_html;
-			WebKitDOMNode *node;
-
-			fragment = webkit_dom_range_clone_contents (
-				range, NULL);
-
-			element = webkit_dom_document_create_element (
-				content_document, "DIV", NULL);
-			webkit_dom_node_append_child (
-				WEBKIT_DOM_NODE (element),
-				WEBKIT_DOM_NODE (fragment), NULL);
-
-			inner_html = webkit_dom_element_get_inner_html (element);
-
-			node = webkit_dom_range_get_start_container (range, NULL);
-			if (element_is_in_pre_tag (node)) {
-				gchar *tmp = inner_html;
-				inner_html = g_strconcat ("<pre>", tmp, "</pre>", NULL);
-				g_free (tmp);
-			}
-
-			g_clear_object (&range);
-			g_clear_object (&dom_selection);
-			return inner_html;
-		}
+		return html;
 	}
 
 	g_clear_object (&dom_selection);
@@ -218,16 +221,15 @@ get_frame_selection_html (WebKitDOMElement *iframe)
 	length = webkit_dom_html_collection_get_length (frames);
 	for (ii = 0; ii < length; ii++) {
 		WebKitDOMNode *node;
-		gchar *text;
+		gchar *html;
 
 		node = webkit_dom_html_collection_item (frames, ii);
 
-		text = get_frame_selection_html (
-			WEBKIT_DOM_ELEMENT (node));
+		html = get_frame_selection_html (WEBKIT_DOM_ELEMENT (node));
 
-		if (text != NULL) {
+		if (html != NULL) {
 			g_clear_object (&frames);
-			return text;
+			return html;
 		}
 	}
 
@@ -268,6 +270,20 @@ e_dom_utils_get_selection_content_html (WebKitDOMDocument *document)
 }
 
 static gchar *
+dom_selection_get_content_text (WebKitDOMDOMSelection *dom_selection)
+{
+	WebKitDOMRange *range = NULL;
+	gchar *text = NULL;
+
+	range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
+	if (range)
+		text = webkit_dom_range_to_string (range, NULL);
+	g_clear_object (&range);
+
+	return text;
+}
+
+static gchar *
 get_frame_selection_content_text (WebKitDOMElement *iframe)
 {
 	WebKitDOMDocument *content_document;
@@ -286,13 +302,7 @@ get_frame_selection_content_text (WebKitDOMElement *iframe)
 	dom_selection = webkit_dom_dom_window_get_selection (dom_window);
 	g_clear_object (&dom_window);
 	if (dom_selection && (webkit_dom_dom_selection_get_range_count (dom_selection) > 0)) {
-		WebKitDOMRange *range = NULL;
-		gchar *text = NULL;
-
-		range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
-		if (range)
-			text = webkit_dom_range_to_string (range, NULL);
-		g_clear_object (&range);
+		gchar *text = dom_selection_get_content_text (dom_selection);
 		g_clear_object (&dom_selection);
 		return text;
 	}
@@ -336,6 +346,94 @@ e_dom_utils_get_selection_content_text (WebKitDOMDocument *document)
 
 		text = get_frame_selection_content_text (
 			WEBKIT_DOM_ELEMENT (node));
+
+		if (text != NULL) {
+			g_clear_object (&frames);
+			return text;
+		}
+	}
+
+	g_clear_object (&frames);
+	return NULL;
+}
+
+static gchar *
+get_frame_selection_content_multipart (WebKitDOMElement *iframe,
+                                       gboolean *is_html)
+{
+	WebKitDOMDocument *content_document;
+	WebKitDOMDOMWindow *dom_window = NULL;
+	WebKitDOMDOMSelection *dom_selection = NULL;
+	WebKitDOMHTMLCollection *frames = NULL;
+	gulong ii, length;
+
+	content_document = webkit_dom_html_iframe_element_get_content_document (
+		WEBKIT_DOM_HTML_IFRAME_ELEMENT (iframe));
+
+	if (!content_document)
+		return NULL;
+
+	dom_window = webkit_dom_document_get_default_view (content_document);
+	dom_selection = webkit_dom_dom_window_get_selection (dom_window);
+	g_clear_object (&dom_window);
+	if (dom_selection && (webkit_dom_dom_selection_get_range_count (dom_selection) > 0)) {
+		gchar *content;
+		gchar *uri = webkit_dom_document_get_document_uri (content_document);
+
+		/* The URI is url encoded.. */
+		if (strstr (uri, "mime_type=text%2Fplain")) {
+			content = dom_selection_get_content_text (dom_selection);
+			if (is_html)
+				*is_html = FALSE;
+		} else {
+			content = dom_selection_get_content_html (dom_selection, content_document);
+			if (is_html)
+				*is_html = TRUE;
+		}
+
+		g_clear_object (&dom_selection);
+		return content;
+	}
+	g_clear_object (&dom_selection);
+
+	frames = webkit_dom_document_get_elements_by_tag_name_as_html_collection (content_document, "iframe");
+	length = webkit_dom_html_collection_get_length (frames);
+	for (ii = 0; ii < length; ii++) {
+		WebKitDOMNode *node;
+		gchar *content;
+
+		node = webkit_dom_html_collection_item (frames, ii);
+
+		content = get_frame_selection_content_multipart (WEBKIT_DOM_ELEMENT (node), is_html);
+
+		if (content != NULL) {
+			g_clear_object (&frames);
+			return content;
+		}
+	}
+
+	g_clear_object (&frames);
+	return NULL;
+}
+
+gchar *
+e_dom_utils_get_selection_content_multipart (WebKitDOMDocument *document,
+                                             gboolean *is_html)
+{
+	WebKitDOMHTMLCollection *frames = NULL;
+	gulong ii, length;
+
+	frames = webkit_dom_document_get_elements_by_tag_name_as_html_collection (document, "iframe");
+	length = webkit_dom_html_collection_get_length (frames);
+
+	for (ii = 0; ii < length; ii++) {
+		gchar *text;
+		WebKitDOMNode *node;
+
+		node = webkit_dom_html_collection_item (frames, ii);
+
+		text = get_frame_selection_content_multipart (
+			WEBKIT_DOM_ELEMENT (node), is_html);
 
 		if (text != NULL) {
 			g_clear_object (&frames);
