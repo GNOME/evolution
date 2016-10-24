@@ -5275,7 +5275,7 @@ e_msg_composer_get_message_draft_finish (EMsgComposer *composer,
 CamelInternetAddress *
 e_msg_composer_get_from (EMsgComposer *composer)
 {
-	CamelInternetAddress *inet_address;
+	CamelInternetAddress *inet_address = NULL;
 	ESourceMailIdentity *mail_identity;
 	EComposerHeaderTable *table;
 	ESource *source;
