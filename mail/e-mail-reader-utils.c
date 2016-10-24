@@ -2507,10 +2507,10 @@ e_mail_reader_reply_to_message (EMailReader *reader,
 
 	if (camel_content_type_is (content_type, "text", "plain")) {
 		selection = g_strdup (e_mail_display_get_selection_plain_text_sync (display, NULL, NULL));
-		src_is_text_html = TRUE;
+		src_is_text_html = FALSE;
 	} else if (camel_content_type_is (content_type, "text", "html")) {
 		selection = e_web_view_get_selection_content_html_sync (E_WEB_VIEW (display), NULL, NULL);
-		src_is_text_html = FALSE;
+		src_is_text_html = TRUE;
 	} else if (camel_content_type_is (content_type, "multipart", "*")) {
 		selection = e_mail_display_get_selection_content_multipart_sync (display, &src_is_text_html, NULL, NULL);
 	}
