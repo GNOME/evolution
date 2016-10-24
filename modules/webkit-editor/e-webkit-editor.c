@@ -5780,6 +5780,63 @@ webkit_editor_web_process_crashed_cb (EWebKitEditor *wk_editor)
 	wk_editor->priv->web_extension_user_changed_default_colors_cb_id = 0;
 }
 
+static void
+paste_quote_text (EContentEditor *editor,
+		  const gchar *text,
+		  gboolean is_html)
+{
+	g_return_if_fail (E_IS_CONTENT_EDITOR (editor));
+	g_return_if_fail (text != NULL);
+
+	e_content_editor_insert_content (
+		editor,
+		text,
+		E_CONTENT_EDITOR_INSERT_QUOTE_CONTENT |
+		(is_html ? E_CONTENT_EDITOR_INSERT_TEXT_HTML : E_CONTENT_EDITOR_INSERT_TEXT_PLAIN));
+}
+
+static void
+clipboard_html_received_for_paste_quote (GtkClipboard *clipboard,
+                                         const gchar *text,
+                                         gpointer user_data)
+{
+	EContentEditor *editor = user_data;
+
+	g_return_if_fail (E_IS_CONTENT_EDITOR (editor));
+	g_return_if_fail (text != NULL);
+
+	paste_quote_text (editor, text, TRUE);
+}
+
+static void
+clipboard_text_received_for_paste_quote (GtkClipboard *clipboard,
+                                         const gchar *text,
+                                         gpointer user_data)
+{
+	EContentEditor *editor = user_data;
+
+	g_return_if_fail (E_IS_CONTENT_EDITOR (editor));
+	g_return_if_fail (text != NULL);
+
+	paste_quote_text (editor, text, FALSE);
+}
+
+static void
+paste_primary_clipboard_quoted (EContentEditor *editor)
+{
+	GtkClipboard *clipboard;
+
+	clipboard = gtk_clipboard_get_for_display (
+		gdk_display_get_default (),
+		GDK_SELECTION_PRIMARY);
+
+	if (e_clipboard_wait_is_html_available (clipboard))
+		e_clipboard_request_html (clipboard, clipboard_html_received_for_paste_quote, editor);
+	else if (gtk_clipboard_wait_is_text_available (clipboard))
+		gtk_clipboard_request_text (clipboard, clipboard_text_received_for_paste_quote, editor);
+
+}
+
 static gboolean
 webkit_editor_button_press_event (GtkWidget *widget,
                                   GdkEventButton *event)
@@ -5791,7 +5848,9 @@ webkit_editor_button_press_event (GtkWidget *widget,
 	wk_editor = E_WEBKIT_EDITOR (widget);
 
 	if (event->button == 2) {
-		if (!e_content_editor_emit_paste_primary_clipboard (E_CONTENT_EDITOR (widget)))
+		if ((event->state & GDK_SHIFT_MASK) != 0) {
+			paste_primary_clipboard_quoted (E_CONTENT_EDITOR (widget));
+		} else if (!e_content_editor_emit_paste_primary_clipboard (E_CONTENT_EDITOR (widget)))
 			webkit_editor_paste_primary (E_CONTENT_EDITOR( (widget)));
 
 		return TRUE;
