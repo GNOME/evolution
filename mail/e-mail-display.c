@@ -43,7 +43,9 @@
 #include "em-composer-utils.h"
 #include "em-utils.h"
 
-#include <web-extensions/e-web-extension-names.h>
+#include "web-extensions/e-web-extension-names.h"
+
+#include "e-mail-display.h"
 
 #define d(x)
 
@@ -85,6 +87,8 @@ struct _EMailDisplayPrivate {
 	guint web_extension_headers_collapsed_signal_id;
 
 	GtkAllocation attachment_popup_position;
+
+	gchar *current_selection_text;
 };
 
 enum {
@@ -1358,6 +1362,11 @@ mail_display_dispose (GObject *object)
 			G_CALLBACK (mail_display_attachment_removed_cb), object);
 	}
 
+	if (priv->current_selection_text) {
+		g_free (priv->current_selection_text);
+		priv->current_selection_text = NULL;
+	}
+
 	g_clear_object (&priv->part_list);
 	g_clear_object (&priv->formatter);
 	g_clear_object (&priv->settings);
@@ -1961,6 +1970,7 @@ e_mail_display_init (EMailDisplay *display)
 	e_mail_display_set_mode (display, E_MAIL_FORMATTER_MODE_NORMAL);
 	display->priv->force_image_load = FALSE;
 	display->priv->scheduled_reload = 0;
+	display->priv->current_selection_text = NULL;
 
 	g_signal_connect (
 		display, "decide-policy",
@@ -2468,18 +2478,17 @@ e_mail_display_get_selection_plain_text_sync (EMailDisplay *display,
 	GDBusProxy *web_extension;
 
 	g_return_val_if_fail (E_IS_MAIL_DISPLAY (display), NULL);
-/* FIXME WK2
-	if (!webkit_web_view_has_selection (WEBKIT_WEB_VIEW (display)))
+
+	if (!e_web_view_is_selection_active (E_WEB_VIEW (display)))
 		return NULL;
-*/
+
 	web_extension = e_web_view_get_web_extension_proxy (E_WEB_VIEW (display));
 	if (web_extension) {
 		GVariant *result;
-		const gchar *text_content = NULL;
 
 		result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_full (
 				web_extension,
-				"GetDocumentContentText",
+				"GetSelectionContentText",
 				g_variant_new (
 					"(t)",
 					webkit_web_view_get_page_id (
@@ -2490,9 +2499,12 @@ e_mail_display_get_selection_plain_text_sync (EMailDisplay *display,
 				error);
 
 		if (result) {
-			g_variant_get (result, "(&s)", &text_content);
+			if (display->priv->current_selection_text)
+				g_free (display->priv->current_selection_text);
+
+			g_variant_get (result, "(s)", &display->priv->current_selection_text);
 			g_variant_unref (result);
-			return text_content;
+			return display->priv->current_selection_text;
 		}
 	}
 
