@@ -2461,7 +2461,7 @@ e_mail_display_set_status (EMailDisplay *display,
 	g_free (str);
 }
 
-const gchar *
+gchar *
 e_mail_display_get_selection_plain_text_sync (EMailDisplay *display,
                                               GCancellable *cancellable,
                                               GError **error)
@@ -2469,18 +2469,17 @@ e_mail_display_get_selection_plain_text_sync (EMailDisplay *display,
 	GDBusProxy *web_extension;
 
 	g_return_val_if_fail (E_IS_MAIL_DISPLAY (display), NULL);
-/* FIXME WK2
-	if (!webkit_web_view_has_selection (WEBKIT_WEB_VIEW (display)))
+
+	if (!e_web_view_is_selection_active (E_WEB_VIEW (display)))
 		return NULL;
-*/
+
 	web_extension = e_web_view_get_web_extension_proxy (E_WEB_VIEW (display));
 	if (web_extension) {
 		GVariant *result;
-		const gchar *text_content = NULL;
 
 		result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_full (
 				web_extension,
-				"GetDocumentContentText",
+				"GetSelectionContentText",
 				g_variant_new (
 					"(t)",
 					webkit_web_view_get_page_id (
@@ -2491,9 +2490,11 @@ e_mail_display_get_selection_plain_text_sync (EMailDisplay *display,
 				error);
 
 		if (result) {
-			g_variant_get (result, "(&s)", &text_content);
+			gchar *text;
+
+			g_variant_get (result, "(s)", &text);
 			g_variant_unref (result);
-			return text_content;
+			return text;
 		}
 	}
 

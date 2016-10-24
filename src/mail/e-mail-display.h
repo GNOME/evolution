@@ -94,7 +94,7 @@ GtkAction *	e_mail_display_get_action	(EMailDisplay *display,
 						 const gchar *action_name);
 void		e_mail_display_set_status	(EMailDisplay *display,
 						 const gchar *status);
-const gchar *	e_mail_display_get_selection_plain_text_sync
+gchar *		e_mail_display_get_selection_plain_text_sync
 						(EMailDisplay *display,
 						 GCancellable *cancellable,
 						 GError **error);

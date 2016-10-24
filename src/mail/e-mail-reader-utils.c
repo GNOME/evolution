@@ -2507,7 +2507,7 @@ e_mail_reader_reply_to_message (EMailReader *reader,
 	if (src_is_html)
 		selection = e_web_view_get_selection_content_html_sync (web_view, NULL, NULL);
 	else
-		selection = g_strdup (e_mail_display_get_selection_plain_text_sync (display, NULL, NULL));
+		selection = e_mail_display_get_selection_plain_text_sync (display, NULL, NULL);
 	if (selection == NULL || *selection == '\0')
 		goto whole_message;
 
