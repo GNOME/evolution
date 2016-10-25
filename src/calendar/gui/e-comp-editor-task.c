@@ -22,6 +22,7 @@
 
 #include <e-util/e-util.h>
 
+#include "calendar-config.h"
 #include "comp-util.h"
 #include "e-comp-editor.h"
 #include "e-comp-editor-page.h"
@@ -41,12 +42,162 @@ struct _ECompEditorTaskPrivate {
 	ECompEditorPropertyPart *completed_date;
 	ECompEditorPropertyPart *percentcomplete;
 	ECompEditorPropertyPart *status;
+	ECompEditorPropertyPart *timezone;
 
 	gpointer in_the_past_alert;
 	gpointer insensitive_info_alert;
 };
 
 G_DEFINE_TYPE (ECompEditorTask, e_comp_editor_task, E_TYPE_COMP_EDITOR)
+
+static icaltimezone *
+ece_task_get_timezone_from_property (ECompEditor *comp_editor,
+				     icalproperty *property)
+{
+	ECalClient *client;
+	icalparameter *param;
+	icaltimezone *zone = NULL;
+	const gchar *tzid;
+
+	g_return_val_if_fail (E_IS_COMP_EDITOR (comp_editor), NULL);
+
+	if (!property)
+		return NULL;
+
+	param = icalproperty_get_first_parameter (property, ICAL_TZID_PARAMETER);
+	if (!param)
+		return NULL;
+
+	tzid = icalparameter_get_tzid (param);
+	if (!tzid || !*tzid)
+		return NULL;
+
+	if (g_ascii_strcasecmp (tzid, "UTC") == 0)
+		return icaltimezone_get_utc_timezone ();
+
+	client = e_comp_editor_get_source_client (comp_editor);
+	/* It should be already fetched for the UI, thus this should be non-blocking. */
+	if (client && e_cal_client_get_timezone_sync (client, tzid, &zone, NULL, NULL) && zone)
+		return zone;
+
+	zone = icaltimezone_get_builtin_timezone_from_tzid (tzid);
+	if (!zone)
+		zone = icaltimezone_get_builtin_timezone (tzid);
+
+	return zone;
+}
+
+static void
+ece_task_update_timezone (ECompEditorTask *task_editor,
+			  gboolean *force_allday)
+{
+	const gint properties[] = {
+		ICAL_DTSTART_PROPERTY,
+		ICAL_DUE_PROPERTY,
+		ICAL_COMPLETED_PROPERTY
+	};
+	ECompEditor *comp_editor;
+	icalcomponent *component;
+	icaltimezone *zone = NULL;
+	gint ii;
+
+	g_return_if_fail (E_IS_COMP_EDITOR_TASK (task_editor));
+
+	if (force_allday)
+		*force_allday = FALSE;
+
+	comp_editor = E_COMP_EDITOR (task_editor);
+
+	component = e_comp_editor_get_component (comp_editor);
+	if (!component)
+		return;
+
+	for (ii = 0; !zone && ii < G_N_ELEMENTS (properties); ii++) {
+		struct icaltimetype dt;
+		if (icalcomponent_get_first_property (component, properties[ii])) {
+			dt = icalcomponent_get_dtstart (component);
+			if (icaltime_is_valid_time (dt)) {
+				if (force_allday && dt.is_date)
+					*force_allday = TRUE;
+
+				if (dt.is_utc)
+					zone = icaltimezone_get_utc_timezone ();
+				else
+					zone = ece_task_get_timezone_from_property (comp_editor,
+						icalcomponent_get_first_property (component, properties[ii]));
+			}
+		}
+	}
+
+	if (zone) {
+		GtkWidget *edit_widget;
+
+		edit_widget = e_comp_editor_property_part_get_edit_widget (task_editor->priv->timezone);
+
+		e_timezone_entry_set_timezone (E_TIMEZONE_ENTRY (edit_widget), zone);
+
+		if (zone != calendar_config_get_icaltimezone ()) {
+			/* Show timezone part */
+			GtkAction *action;
+
+			action = e_comp_editor_get_action (comp_editor, "view-timezone");
+			gtk_toggle_action_set_active (GTK_TOGGLE_ACTION (action), TRUE);
+		}
+	}
+}
+
+static void
+ece_task_notify_source_client_cb (GObject *object,
+				  GParamSpec *param,
+				  gpointer user_data)
+{
+	g_return_if_fail (E_IS_COMP_EDITOR_TASK (object));
+
+	ece_task_update_timezone (E_COMP_EDITOR_TASK (object), NULL);
+}
+
+static void
+ece_task_notify_target_client_cb (GObject *object,
+				  GParamSpec *param,
+				  gpointer user_data)
+{
+	ECompEditorTask *task_editor;
+	ECompEditor *comp_editor;
+	ECalClient *cal_client;
+	GtkWidget *edit_widget;
+	GtkAction *action;
+	gboolean date_only;
+	gboolean was_allday;
+
+	g_return_if_fail (E_IS_COMP_EDITOR_TASK (object));
+
+	task_editor = E_COMP_EDITOR_TASK (object);
+	comp_editor = E_COMP_EDITOR (task_editor);
+	cal_client = e_comp_editor_get_target_client (comp_editor);
+
+	action = e_comp_editor_get_action (comp_editor, "all-day-task");
+	was_allday = gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action));
+
+	date_only = !cal_client || e_client_check_capability (E_CLIENT (cal_client), CAL_STATIC_CAPABILITY_TASK_DATE_ONLY);
+
+	e_comp_editor_property_part_datetime_set_date_only (E_COMP_EDITOR_PROPERTY_PART_DATETIME (task_editor->priv->dtstart), date_only);
+	e_comp_editor_property_part_datetime_set_date_only (E_COMP_EDITOR_PROPERTY_PART_DATETIME (task_editor->priv->due_date), date_only);
+	e_comp_editor_property_part_datetime_set_date_only (E_COMP_EDITOR_PROPERTY_PART_DATETIME (task_editor->priv->completed_date), date_only);
+
+	edit_widget = e_comp_editor_property_part_get_edit_widget (task_editor->priv->timezone);
+	gtk_widget_set_sensitive (edit_widget, !date_only);
+
+	action = e_comp_editor_get_action (comp_editor, "view-timezone");
+	gtk_action_set_sensitive (action, !date_only);
+
+	action = e_comp_editor_get_action (comp_editor, "all-day-task");
+	gtk_action_set_visible (action, !date_only);
+
+	if (was_allday) {
+		action = e_comp_editor_get_action (comp_editor, "all-day-task");
+		gtk_toggle_action_set_active (GTK_TOGGLE_ACTION (action), TRUE);
+	}
+}
 
 static void
 ece_task_check_dates_in_the_past (ECompEditorTask *task_editor)
@@ -283,6 +434,7 @@ ece_task_sensitize_widgets (ECompEditor *comp_editor,
 			    gboolean force_insensitive)
 {
 	ECompEditorTask *task_editor;
+	GtkAction *action;
 	gboolean is_organizer;
 	guint32 flags;
 
@@ -293,6 +445,9 @@ ece_task_sensitize_widgets (ECompEditor *comp_editor,
 	flags = e_comp_editor_get_flags (comp_editor);
 	is_organizer = (flags & (E_COMP_EDITOR_FLAG_IS_NEW | E_COMP_EDITOR_FLAG_ORGANIZER_IS_USER)) != 0;
 	task_editor = E_COMP_EDITOR_TASK (comp_editor);
+
+	action = e_comp_editor_get_action (comp_editor, "all-day-task");
+	gtk_action_set_sensitive (action, !force_insensitive && is_organizer);
 
 	if (task_editor->priv->insensitive_info_alert)
 		e_alert_response (task_editor->priv->insensitive_info_alert, GTK_RESPONSE_OK);
@@ -324,6 +479,27 @@ ece_task_sensitize_widgets (ECompEditor *comp_editor,
 	}
 
 	ece_task_check_dates_in_the_past (task_editor);
+}
+
+static void
+ece_task_fill_widgets (ECompEditor *comp_editor,
+		       icalcomponent *component)
+{
+	gboolean force_allday = FALSE;
+
+	g_return_if_fail (E_IS_COMP_EDITOR_TASK (comp_editor));
+	g_return_if_fail (component != NULL);
+
+	E_COMP_EDITOR_CLASS (e_comp_editor_task_parent_class)->fill_widgets (comp_editor, component);
+
+	ece_task_update_timezone (E_COMP_EDITOR_TASK (comp_editor), &force_allday);
+
+	if (force_allday) {
+		GtkAction *action;
+
+		action = e_comp_editor_get_action (comp_editor, "all-day-task");
+		gtk_toggle_action_set_active (GTK_TOGGLE_ACTION (action), TRUE);
+	}
 }
 
 static gboolean
@@ -392,10 +568,21 @@ ece_task_setup_ui (ECompEditorTask *task_editor)
 		"  <menubar action='main-menu'>"
 		"    <menu action='view-menu'>"
 		"      <placeholder name='parts'>"
+		"        <menuitem action='view-timezone'/>"
 		"        <menuitem action='view-categories'/>"
 		"      </placeholder>"
 		"    </menu>"
+		"    <menu action='options-menu'>"
+		"      <placeholder name='toggles'>"
+		"        <menuitem action='all-day-task'/>"
+		"      </placeholder>"
+		"    </menu>"
 		"  </menubar>"
+		"  <toolbar name='main-toolbar'>"
+		"    <placeholder name='content'>\n"
+		"      <toolitem action='all-day-task'/>\n"
+		"    </placeholder>"
+		"  </toolbar>"
 		"</ui>";
 
 	const GtkToggleActionEntry view_actions[] = {
@@ -405,6 +592,22 @@ ece_task_setup_ui (ECompEditorTask *task_editor)
 		  NULL,
 		  N_("Toggles whether to display categories"),
 		  NULL,
+		  FALSE },
+
+		{ "view-timezone",
+		  "stock_timezone",
+		  N_("Time _Zone"),
+		  NULL,
+		  N_("Toggles whether the time zone is displayed"),
+		  NULL,
+		  FALSE },
+
+		{ "all-day-task",
+		  "stock_new-24h-appointment",
+		  N_("All _Day Task"),
+		  NULL,
+		  N_("Toggles whether to have All Day Task"),
+		  NULL,
 		  FALSE }
 	};
 
@@ -413,6 +616,7 @@ ece_task_setup_ui (ECompEditorTask *task_editor)
 	GtkUIManager *ui_manager;
 	GtkAction *action;
 	GtkActionGroup *action_group;
+	GtkWidget *edit_widget;
 	GError *error = NULL;
 
 	g_return_if_fail (E_IS_COMP_EDITOR_TASK (task_editor));
@@ -435,6 +639,16 @@ ece_task_setup_ui (ECompEditorTask *task_editor)
 		g_error_free (error);
 	}
 
+	action = e_comp_editor_get_action (comp_editor, "view-timezone");
+	e_binding_bind_property (
+		task_editor->priv->timezone, "visible",
+		action, "active",
+		G_BINDING_SYNC_CREATE | G_BINDING_BIDIRECTIONAL);
+	g_settings_bind (
+		settings, "editor-show-timezone",
+		action, "active",
+		G_SETTINGS_BIND_DEFAULT);
+
 	action = e_comp_editor_get_action (comp_editor, "view-categories");
 	e_binding_bind_property (
 		task_editor->priv->categories, "visible",
@@ -444,6 +658,26 @@ ece_task_setup_ui (ECompEditorTask *task_editor)
 		settings, "editor-show-categories",
 		action, "active",
 		G_SETTINGS_BIND_DEFAULT);
+
+	action = e_comp_editor_get_action (comp_editor, "all-day-task");
+
+	edit_widget = e_comp_editor_property_part_get_edit_widget (task_editor->priv->dtstart);
+	e_binding_bind_property (
+		action, "active",
+		edit_widget, "show-time",
+		G_BINDING_INVERT_BOOLEAN | G_BINDING_BIDIRECTIONAL);
+
+	edit_widget = e_comp_editor_property_part_get_edit_widget (task_editor->priv->due_date);
+	e_binding_bind_property (
+		action, "active",
+		edit_widget, "show-time",
+		G_BINDING_INVERT_BOOLEAN);
+
+	edit_widget = e_comp_editor_property_part_get_edit_widget (task_editor->priv->completed_date);
+	e_binding_bind_property (
+		action, "active",
+		edit_widget, "show-time",
+		G_BINDING_INVERT_BOOLEAN);
 }
 
 static void
@@ -517,6 +751,10 @@ e_comp_editor_task_constructed (GObject *object)
 	part = e_comp_editor_property_part_classification_new ();
 	e_comp_editor_page_add_property_part (page, part, 2, 6, 2, 1);
 
+	part = e_comp_editor_property_part_timezone_new ();
+	e_comp_editor_page_add_property_part (page, part, 0, 7, 4, 1);
+	task_editor->priv->timezone = part;
+
 	part = e_comp_editor_property_part_categories_new (focus_tracker);
 	e_comp_editor_page_add_property_part (page, part, 0, 8, 4, 1);
 	task_editor->priv->categories = part;
@@ -526,6 +764,17 @@ e_comp_editor_task_constructed (GObject *object)
 
 	e_comp_editor_add_page (comp_editor, C_("ECompEditorPage", "General"), page);
 	task_editor->priv->page_general = page;
+
+	edit_widget = e_comp_editor_property_part_get_edit_widget (task_editor->priv->timezone);
+	e_comp_editor_property_part_datetime_attach_timezone_entry (
+		E_COMP_EDITOR_PROPERTY_PART_DATETIME (task_editor->priv->dtstart),
+		E_TIMEZONE_ENTRY (edit_widget));
+	e_comp_editor_property_part_datetime_attach_timezone_entry (
+		E_COMP_EDITOR_PROPERTY_PART_DATETIME (task_editor->priv->due_date),
+		E_TIMEZONE_ENTRY (edit_widget));
+	e_comp_editor_property_part_datetime_attach_timezone_entry (
+		E_COMP_EDITOR_PROPERTY_PART_DATETIME (task_editor->priv->completed_date),
+		E_TIMEZONE_ENTRY (edit_widget));
 
 	e_comp_editor_set_time_parts (comp_editor, task_editor->priv->dtstart, task_editor->priv->due_date);
 
@@ -540,6 +789,11 @@ e_comp_editor_task_constructed (GObject *object)
 	edit_widget = e_comp_editor_property_part_get_edit_widget (summary);
 	e_binding_bind_property (edit_widget, "text", comp_editor, "title-suffix", 0);
 	gtk_widget_grab_focus (edit_widget);
+
+	g_signal_connect (comp_editor, "notify::source-client",
+		G_CALLBACK (ece_task_notify_source_client_cb), NULL);
+	g_signal_connect (comp_editor, "notify::target-client",
+		G_CALLBACK (ece_task_notify_target_client_cb), NULL);
 }
 
 static void
@@ -565,5 +819,6 @@ e_comp_editor_task_class_init (ECompEditorTaskClass *klass)
 	comp_editor_class->title_format_without_attendees = _("Task - %s");
 	comp_editor_class->icon_name = "stock_task";
 	comp_editor_class->sensitize_widgets = ece_task_sensitize_widgets;
+	comp_editor_class->fill_widgets = ece_task_fill_widgets;
 	comp_editor_class->fill_component = ece_task_fill_component;
 }

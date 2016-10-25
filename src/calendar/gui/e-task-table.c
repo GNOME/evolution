@@ -252,6 +252,31 @@ task_table_queue_draw_cb (ECalModelTasks *tasks_model,
 }
 
 static void
+task_table_dates_cell_before_popup_cb (ECellDateEdit *dates_cell,
+				       gint row,
+				       gint view_col,
+				       gpointer user_data)
+{
+	ECalModel *model;
+	ECalModelComponent *comp_data;
+	ETaskTable *task_table = user_data;
+	ESelectionModel *esm;
+	gboolean date_only;
+
+	g_return_if_fail (E_IS_TASK_TABLE (task_table));
+
+	esm = e_table_get_selection_model (E_TABLE (task_table));
+	if (esm && esm->sorter && e_sorter_needs_sorting (esm->sorter))
+		row = e_sorter_sorted_to_model (esm->sorter, row);
+
+	model = e_task_table_get_model (task_table);
+	comp_data = e_cal_model_get_component_at (model, row);
+	date_only = comp_data && comp_data->client && e_client_check_capability (E_CLIENT (comp_data->client), CAL_STATIC_CAPABILITY_TASK_DATE_ONLY);
+
+	g_object_set (G_OBJECT (dates_cell), "show-time", !date_only, NULL);
+}
+
+static void
 task_table_set_model (ETaskTable *task_table,
                       ECalModel *model)
 {
@@ -469,6 +494,9 @@ task_table_constructed (GObject *object)
 	g_object_unref (popup_cell);
 
 	task_table->dates_cell = E_CELL_DATE_EDIT (popup_cell);
+
+	g_signal_connect (task_table->dates_cell, "before-popup",
+		G_CALLBACK (task_table_dates_cell_before_popup_cb), task_table);
 
 	e_cell_date_edit_set_get_time_callback (
 		E_CELL_DATE_EDIT (popup_cell),

@@ -104,6 +104,13 @@ enum {
 	PROP_UPPER_HOUR
 };
 
+enum {
+	BEFORE_POPUP,
+	LAST_SIGNAL
+};
+
+static guint signals[LAST_SIGNAL];
+
 G_DEFINE_TYPE (ECellDateEdit, e_cell_date_edit, E_TYPE_CELL_POPUP)
 
 static void
@@ -193,6 +200,15 @@ e_cell_date_edit_class_init (ECellDateEditClass *class)
 			G_MAXINT,
 			24,
 			G_PARAM_READWRITE));
+
+	signals[BEFORE_POPUP] = g_signal_new (
+		"before-popup",
+		G_TYPE_FROM_CLASS (class),
+		G_SIGNAL_RUN_FIRST,
+		0,
+		NULL, NULL, NULL,
+		G_TYPE_NONE, 2,
+		G_TYPE_INT, G_TYPE_INT);
 }
 
 static void
@@ -292,6 +308,9 @@ e_cell_date_edit_init (ECellDateEdit *ecde)
 	g_signal_connect (
 		gtk_tree_view_get_selection (GTK_TREE_VIEW (tree_view)), "changed",
 		G_CALLBACK (e_cell_date_edit_on_time_selected), ecde);
+
+	e_binding_bind_property (ecde->time_entry, "visible",
+		vbox2, "visible", G_BINDING_DEFAULT);
 
 	bbox = gtk_button_box_new (GTK_ORIENTATION_HORIZONTAL);
 	gtk_box_set_spacing (GTK_BOX (bbox), 2);
@@ -485,6 +504,8 @@ e_cell_date_edit_do_popup (ECellPopup *ecp,
 {
 	ECellDateEdit *ecde = E_CELL_DATE_EDIT (ecp);
 	GdkWindow *window;
+
+	g_signal_emit (ecp, signals[BEFORE_POPUP], 0, row, view_col);
 
 	e_cell_date_edit_show_popup (ecde, row, view_col);
 	e_cell_date_edit_set_popup_values (ecde);
@@ -827,7 +848,7 @@ e_cell_date_edit_on_ok_clicked (GtkWidget *button,
 	if (status == E_TIME_PARSE_INVALID) {
 		e_cell_date_edit_show_time_invalid_warning (ecde);
 		return;
-	} else if (status == E_TIME_PARSE_NONE) {
+	} else if (status == E_TIME_PARSE_NONE || !gtk_widget_get_visible (ecde->time_entry)) {
 		is_date = TRUE;
 	}
 

@@ -781,6 +781,8 @@ e_comp_editor_property_part_datetime_set_value (ECompEditorPropertyPartDatetime 
 			e_date_edit_set_time_of_day (date_edit, value.hour, value.minute);
 		else if (e_date_edit_get_show_time (date_edit))
 			e_date_edit_set_time_of_day (date_edit, 0, 0);
+		else
+			e_date_edit_set_time_of_day (date_edit, -1, -1);
 
 		e_comp_editor_property_part_datetime_set_date_only (part_datetime, value.is_date);
 	}
