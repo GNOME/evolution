@@ -117,6 +117,9 @@ EMailRemoteContent *
 void		e_mail_display_set_remote_content
 						(EMailDisplay *display,
 						 EMailRemoteContent *remote_content);
+gboolean	e_mail_display_process_magic_spacebar
+						(EMailDisplay *display,
+						 gboolean towards_bottom);
 
 G_END_DECLS
 

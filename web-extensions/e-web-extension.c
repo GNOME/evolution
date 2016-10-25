@@ -174,6 +174,11 @@ static const char introspection_xml[] =
 "      <arg type='s' name='document_uri' direction='in'/>"
 "      <arg type='s' name='new_iframe_src' direction='in'/>"
 "    </method>"
+"    <method name='ProcessMagicSpacebar'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"      <arg type='b' name='towards_bottom' direction='in'/>"
+"      <arg type='b' name='processed' direction='out'/>"
+"    </method>"
 "    <property type='b' name='NeedInput' access='readwrite'/>"
 "  </interface>"
 "</node>";
@@ -771,6 +776,35 @@ handle_method_call (GDBusConnection *connection,
 		}
 
 		g_dbus_method_invocation_return_value (invocation, NULL);
+	} else if (g_strcmp0 (method_name, "ProcessMagicSpacebar") == 0) {
+		gboolean towards_bottom = FALSE, processed = FALSE;
+		WebKitDOMDOMWindow *dom_window;
+		glong inner_height = -1, scroll_y_before = -1, scroll_y_after = -1;
+
+		g_variant_get (parameters, "(tb)", &page_id, &towards_bottom);
+		web_page = get_webkit_web_page_or_return_dbus_error (invocation, web_extension, page_id);
+		if (!web_page)
+			return;
+
+		document = webkit_web_page_get_dom_document (web_page);
+		dom_window = webkit_dom_document_get_default_view (document);
+
+		g_object_get (G_OBJECT (dom_window),
+			"inner-height", &inner_height,
+			"scroll-y", &scroll_y_before,
+			NULL);
+
+		if (inner_height) {
+			webkit_dom_dom_window_scroll_by (dom_window, 0, towards_bottom ? inner_height : -inner_height);
+
+			g_object_get (G_OBJECT (dom_window),
+				"scroll-y", &scroll_y_after,
+				NULL);
+
+			processed = scroll_y_before != scroll_y_after;
+		}
+
+		g_dbus_method_invocation_return_value (invocation, g_variant_new ("(b)", processed));
 	}
 }
 
