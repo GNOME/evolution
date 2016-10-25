@@ -2241,8 +2241,11 @@ e_editor_undo_redo_manager_set_operation_in_progress (EEditorUndoRedoManager *ma
 }
 
 static void
-free_history_event_content (EEditorHistoryEvent *event)
+free_history_event (EEditorHistoryEvent *event)
 {
+	if (event == NULL)
+		return;
+
 	switch (event->type) {
 		case HISTORY_INPUT:
 		case HISTORY_DELETE:
@@ -2281,15 +2284,6 @@ free_history_event_content (EEditorHistoryEvent *event)
 		default:
 			break;
 	}
-}
-
-static void
-free_history_event (EEditorHistoryEvent *event)
-{
-	if (event == NULL)
-		return;
-
-	free_history_event_content (event);
 
 	g_free (event);
 }
@@ -2298,8 +2292,7 @@ static void
 remove_history_event (EEditorUndoRedoManager *manager,
                       GList *item)
 {
-	free_history_event_content (item->data);
-
+	free_history_event (item->data);
 	manager->priv->history = g_list_delete_link (manager->priv->history, item);
 	manager->priv->history_size--;
 }
