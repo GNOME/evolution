@@ -2641,3 +2641,41 @@ e_mail_display_set_remote_content (EMailDisplay *display,
 
 	g_mutex_unlock (&display->priv->remote_content_lock);
 }
+
+gboolean
+e_mail_display_process_magic_spacebar (EMailDisplay *display,
+				       gboolean towards_bottom)
+{
+	GDBusProxy *web_extension;
+	GVariant *result;
+	GError *local_error = NULL;
+	gboolean processed = FALSE;
+
+	g_return_val_if_fail (E_IS_MAIL_DISPLAY (display), FALSE);
+
+	web_extension = e_web_view_get_web_extension_proxy (E_WEB_VIEW (display));
+	if (!web_extension)
+		return FALSE;
+
+	result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_full (
+		web_extension,
+		"ProcessMagicSpacebar",
+		g_variant_new ("(tb)", webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (display)), towards_bottom),
+		G_DBUS_CALL_FLAGS_NONE,
+		-1,
+		NULL,
+		&local_error);
+
+	if (local_error)
+		g_dbus_error_strip_remote_error (local_error);
+
+	e_util_claim_dbus_proxy_call_error (web_extension, "ProcessMagicSpacebar", local_error);
+	g_clear_error (&local_error);
+
+	if (result) {
+		g_variant_get (result, "(b)", &processed);
+		g_variant_unref (result);
+	}
+
+	return processed;
+}

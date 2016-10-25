@@ -1358,25 +1358,6 @@ action_mail_send_receive_send_all_cb (GtkAction *action,
 	mail_send_immediately (session);
 }
 
-static GtkAdjustment *
-get_mail_display_scrolling_vadjustment (EMailDisplay *display)
-{
-	GtkWidget *window;
-
-	g_return_val_if_fail (E_IS_MAIL_DISPLAY (display), NULL);
-
-	if (GTK_IS_SCROLLABLE (display))
-		return gtk_scrollable_get_vadjustment (GTK_SCROLLABLE (display));
-
-	window = gtk_widget_get_parent (GTK_WIDGET (display));
-	if (GTK_IS_VIEWPORT (window))
-		window = gtk_widget_get_parent (window);
-	if (!GTK_IS_SCROLLED_WINDOW (window))
-		return NULL;
-
-	return gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW (window));
-}
-
 static void
 action_mail_smart_backward_cb (GtkAction *action,
                                EMailShellView *mail_shell_view)
@@ -1390,12 +1371,10 @@ action_mail_smart_backward_cb (GtkAction *action,
 	EMailView *mail_view;
 	GtkWidget *message_list;
 	GtkToggleAction *toggle_action;
-	GtkAdjustment *adj;
 	EMailDisplay *display;
 	GSettings *settings;
 	gboolean caret_mode;
 	gboolean magic_spacebar;
-	gdouble value;
 
 	/* This implements the so-called "Magic Backspace". */
 
@@ -1419,12 +1398,7 @@ action_mail_smart_backward_cb (GtkAction *action,
 	toggle_action = GTK_TOGGLE_ACTION (ACTION (MAIL_CARET_MODE));
 	caret_mode = gtk_toggle_action_get_active (toggle_action);
 
-	adj = get_mail_display_scrolling_vadjustment (display);
-	if (!adj)
-		return;
-
-	value = gtk_adjustment_get_value (adj);
-	if (value == 0) {
+	if (!e_mail_display_process_magic_spacebar (display, FALSE)) {
 
 		if (caret_mode || !magic_spacebar)
 			return;
@@ -1449,14 +1423,6 @@ action_mail_smart_backward_cb (GtkAction *action,
 		em_folder_tree_select_next_path (folder_tree, TRUE);
 
 		gtk_widget_grab_focus (message_list);
-
-	} else {
-
-		gtk_adjustment_set_value (
-			adj,
-			value - gtk_adjustment_get_page_increment (adj));
-
-		return;
 	}
 }
 
@@ -1472,14 +1438,11 @@ action_mail_smart_forward_cb (GtkAction *action,
 	EMailReader *reader;
 	EMailView *mail_view;
 	GtkWidget *message_list;
-	GtkAdjustment *adj;
 	GtkToggleAction *toggle_action;
 	EMailDisplay *display;
 	GSettings *settings;
 	gboolean caret_mode;
 	gboolean magic_spacebar;
-	gdouble value;
-	gdouble upper;
 
 	/* This implements the so-called "Magic Spacebar". */
 
@@ -1503,13 +1466,7 @@ action_mail_smart_forward_cb (GtkAction *action,
 	toggle_action = GTK_TOGGLE_ACTION (ACTION (MAIL_CARET_MODE));
 	caret_mode = gtk_toggle_action_get_active (toggle_action);
 
-	adj = get_mail_display_scrolling_vadjustment (display);
-	if (!adj)
-		return;
-
-	value = gtk_adjustment_get_value (adj);
-	upper = gtk_adjustment_get_upper (adj);
-	if (value + gtk_adjustment_get_page_size (adj) >= upper) {
+	if (!e_mail_display_process_magic_spacebar (display, TRUE)) {
 
 		if (caret_mode || !magic_spacebar)
 			return;
@@ -1534,14 +1491,6 @@ action_mail_smart_forward_cb (GtkAction *action,
 		em_folder_tree_select_next_path (folder_tree, TRUE);
 
 		gtk_widget_grab_focus (message_list);
-
-	} else {
-
-		gtk_adjustment_set_value (
-			adj,
-			value + gtk_adjustment_get_page_increment (adj));
-
-		return;
 	}
 }
 
