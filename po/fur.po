@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2016-10-25 16:59+0000\n"
-"PO-Revision-Date: 2016-10-31 16:06+0100\n"
+"PO-Revision-Date: 2016-10-31 22:06+0100\n"
 "Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
 "Language-Team: Friulian <fur@li.org>\n"
 "Language: fur\n"
@@ -2224,7 +2224,7 @@ msgstr "Ultime volte che e je stade disvuedade la scovacere"
 msgid ""
 "The last time Empty Trash was run, in days since January 1st, 1970 (Epoch)."
 msgstr ""
-"La ultime volte che e je stade disvuedade la scovacere, in dîs dal 1 di "
+"La ultime volte che e je stade disvuedade la scovacere, in dîs dal 1ⁿ di "
 "zenâr dal 1970 (Epoch)."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:194
@@ -2285,23 +2285,28 @@ msgstr "Disvuede cartele di pueste malvolude ae jessude"
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:204
 msgid "Empty all Junk folders when exiting Evolution."
 msgstr ""
+"Disvuede dutis lis cartelis di pueste malvolude cuant che si jes di "
+"Evolution."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:205
 msgid "Minimum days between emptying the junk on exit"
-msgstr ""
+msgstr "Dîs minims tra lis eliminazions de pueste malvolude ae jessude"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:206
 msgid "Minimum time between emptying the junk on exit, in days."
 msgstr ""
+"Timp minim tra lis eliminazions de pueste malvolude ae jessude, in dîs."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:207
 msgid "Last time Empty Junk was run"
-msgstr ""
+msgstr "Ultime volte che e je stade eliminade la pueste malvolude"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:208
 msgid ""
 "The last time Empty Junk was run, in days since January 1st, 1970 (Epoch)."
 msgstr ""
+"La ultime volte che e je stade eliminade la pueste malvolude, in dîs dal 1ⁿ "
+"di zenâr dal 1970 (Epoch)."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:209
 msgid "The default plugin for Junk hook"
@@ -2316,7 +2321,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:211
 msgid "Determines whether to lookup in address book for sender email"
-msgstr ""
+msgstr "Determine se consultâ la rubriche pe e-mail dal mitent"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:212
 msgid ""
@@ -2325,12 +2330,18 @@ msgid ""
 "can be slow, if remote address books (like LDAP) are marked for "
 "autocompletion."
 msgstr ""
+"Determine se consultâ la e-mail dal mitent te rubriche. Se al ven cjatât, "
+"nol varès di tratâsi di spam. La ricercje e ven fate tes rubrichis segnadis "
+"pal completament automatic. Al podarès jessi lent, se a vegnin segnadis pal "
+"completament automatic lis rubrichis rimotis (come LDAP)."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:213
 msgid ""
 "Determines whether to look up addresses for junk filtering in local address "
 "book only"
 msgstr ""
+"Determine se consultâ nome lis rubrichis locâi pes direzions di doprâ tal "
+"filtrament dai malvolûts"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:214
 msgid ""
@@ -2338,10 +2349,14 @@ msgid ""
 "determine whether to look up addresses in local address book only to exclude "
 "mail sent by known contacts from junk filtering."
 msgstr ""
+"Cheste opzion e je corelade ae clâf \"lookup_addressbook\" e e je doprade "
+"par determinâ se consultâ lis direzions nome te rubriche locâl, cussì di "
+"escludi, dai filtris di spam, la pueste inviade dai contats cognossûts."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:215
 msgid "Determines whether to use custom headers to check for junk"
 msgstr ""
+"Determine se doprâ intestazions personalizadis tal controlâ i malvolûts"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:216
 msgid ""
@@ -2349,20 +2364,27 @@ msgid ""
 "is enabled and the headers are mentioned, it will be improve the junk "
 "checking speed."
 msgstr ""
+"Determine se doprâ intestazions personalizadis tal controlâ i messaçs "
+"malvolûts. Se cheste opzion e je abilitade e lis intestazions a son "
+"nomenadis, e miore la velocitât di control dai malvolûts."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:217
 msgid "Custom headers to use while checking for junk."
 msgstr ""
+"Intestazions personalizadis di doprâ intant che si controle i malvolûts."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:218
 msgid ""
 "Custom headers to use while checking for junk. The list elements are string "
 "in the format \"headername=value\"."
 msgstr ""
+"Intestazions personalizadis di doprâ intant che al ven fat il control dai "
+"malvolûts. I elements de liste a son stringhis tal formât "
+"\"nonintestazion=valôr\"."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:219
 msgid "UID string of the default account."
-msgstr ""
+msgstr "Stringhe UID dal account predefinît."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:220
 msgid "Save directory"
@@ -2378,7 +2400,7 @@ msgstr "Cartele cjarie/zonte dal compositôr"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:223
 msgid "Directory for loading/attaching files to composer."
-msgstr ""
+msgstr "Cartele par cjariâ/zontâ file al compositôr."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:224
 msgid "Check for new messages on start"
@@ -2434,43 +2456,51 @@ msgstr ""
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:232
 #: ../src/mail/mail-config.ui.h:9
 msgid "Inherit theme colors in HTML mode"
-msgstr ""
+msgstr "Ereditâ colôrs dal teme in modalitât HTML"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:233
 msgid ""
 "When enabled the theme colors for background, text and links are sent in "
 "resulting HTML formatted message."
 msgstr ""
+"Cuant che al è abilitât i colôrs dal teme pal sfont, test e colegaments a "
+"vegnin alore inviâts intun messaç formatât in HTML."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:234
 msgid "An Archive folder for On This Computer folders."
-msgstr ""
+msgstr "Une cartele di archivi pes cartelis \"Su chest computer\"."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:235
 msgid ""
 "An Archive folder to use for Messages|Archive... feature when in an On This "
 "Computer folder."
 msgstr ""
+"Une cartele di archivi di doprâ pe funzionalitât Messaçs|Archivi... cuant "
+"che si è intune cartele \"Su chest computer\"."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:236
 msgid "(Deprecated) Default forward style"
-msgstr ""
+msgstr "(Deplorade) Stîl predefinît par mandâ indenant"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:237
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "\"forward-style-name\" instead."
 msgstr ""
+"Cheste clâf e je stade deplorade te version 3.10 e no varès di jessi plui "
+"doprade. Doprâ invezit «forward-style-name»."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:238
 msgid "(Deprecated) Default reply style"
-msgstr ""
+msgstr "(Deplorade) Stîl predefinît de rispueste"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:239
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "\"reply-style-name\" instead."
 msgstr ""
+"Cheste clâf e je stade deplorade te version 3.10 e no varès di jessi plui "
+"doprade. Doprâ invezit «reply-style-name»."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:240
 msgid "(Deprecated) List of custom headers and whether they are enabled."
