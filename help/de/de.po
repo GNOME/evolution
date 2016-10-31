@@ -31,8 +31,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manual_evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-05-26 16:28+0000\n"
-"PO-Revision-Date: 2016-05-28 00:36+0200\n"
+"POT-Creation-Date: 2016-09-19 09:47+0000\n"
+"PO-Revision-Date: 2016-10-31 20:45+0100\n"
 "Last-Translator: Christian Kirbach <christian.kirbach@gmail.com>\n"
 "Language-Team: Deutsch <gnome-de@gnome.org>\n"
 "Language: de_DE\n"
@@ -40,7 +40,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.8.7.1\n"
+"X-Generator: Poedit 1.8.9\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
@@ -1312,7 +1312,9 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/calendar-organizing.page:18
 msgid "On using several calendars, searching, and categories."
-msgstr "Über den Einsatz verschiedener Kalender, Suche und Kategorien."
+msgstr ""
+"Informationen über den Einsatz verschiedener Kalender, die Suche und "
+"Kategorien."
 
 #. (itstool) path: page/title
 #: C/calendar-organizing.page:21
@@ -1703,7 +1705,8 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/calendar-usage.page:18
 msgid "On adding, editing, and deleting appointments."
-msgstr "Über das Hinzufügen, Bearbeiten und Löschen von Terminen."
+msgstr ""
+"Informationen über das Hinzufügen, Bearbeiten und Löschen von Terminen."
 
 #. (itstool) path: page/title
 #: C/calendar-usage.page:21
@@ -2355,7 +2358,8 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/contacts-organizing.page:18
 msgid "On address books, searching, contact lists, and categories."
-msgstr "Über Adressbücher, Suche, Kontaktlisten und Kategorien."
+msgstr ""
+"Informationen über Adressbücher, die Suche, Kontaktlisten und Kategorien."
 
 #. (itstool) path: page/title
 #: C/contacts-organizing.page:21
@@ -3245,7 +3249,7 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/exporting-data-calendar.page:5
 msgid "How to export calendar data from <app>Evolution</app>."
-msgstr "Das Exportieren von Kalenderdaten aus <app>Evolution</app>."
+msgstr "So exportieren Sie Kalenderdaten aus <app>Evolution</app>."
 
 #. (itstool) path: page/title
 #: C/exporting-data-calendar.page:20
@@ -3281,7 +3285,8 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/exporting-data-contacts.page:5
 msgid "How to export contacts data from <app>Evolution</app>."
-msgstr "Über den Export von Kontaktdaten aus <app>Evolution</app>."
+msgstr ""
+"Informationen über den Export von Kontaktdaten aus <app>Evolution</app>."
 
 #. (itstool) path: page/title
 #: C/exporting-data-contacts.page:23
@@ -3320,7 +3325,7 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/exporting-data-mail.page:5
 msgid "How to export mail data from <app>Evolution</app>."
-msgstr "Über den Export von Nachrichtendaten aus <app>Evolution</app>."
+msgstr "So exportieren Sie Nachrichtendaten aus <app>Evolution</app>."
 
 #. (itstool) path: page/title
 #: C/exporting-data-mail.page:20
@@ -3374,7 +3379,7 @@ msgstr "Daten aus <app>Evolution</app> exportieren"
 #. (itstool) path: info/desc
 #: C/google-services.page:5
 msgid "Using Google services."
-msgstr "Google-Dienste verwenden."
+msgstr "So verwenden Sie Google-Dienste."
 
 #. (itstool) path: page/title
 #: C/google-services.page:18
@@ -3681,7 +3686,7 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/import-data.page:5
 msgid "Importing data from another application."
-msgstr "Daten aus anderen Programmen importieren."
+msgstr "So importieren Sie Daten aus anderen Programmen."
 
 #. (itstool) path: page/title
 #: C/import-data.page:20
@@ -3696,7 +3701,7 @@ msgstr "Anwendungen"
 #. (itstool) path: info/desc
 #: C/import-single-files.page:5
 msgid "Importing single files."
-msgstr "Einzelne Dateien importieren."
+msgstr "So importieren Sie einzelne Dateien."
 
 #. (itstool) path: page/title
 #: C/import-single-files.page:20
@@ -3902,7 +3907,7 @@ msgstr "Verwalten Sie Ihre E-Mails, Kontakte und Ihren Terminplan"
 #: C/index.page:7
 msgctxt "text"
 msgid "<app>Evolution</app> Mail and Calendar"
-msgstr "<app>Evolution</app> E-Mail und -Kalender"
+msgstr "<app>Evolution</app> E-Mail und Kalender"
 
 #. (itstool) path: media/span
 #: C/index.page:25
@@ -7747,7 +7752,7 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/mail-composer-spellcheck.page:7
 msgid "On spell checking your mail in the composer."
-msgstr "Über die Rechtschreibprüfung im E-Mail-Editor"
+msgstr "Informationen über die Rechtschreibprüfung im E-Mail-Editor."
 
 #. (itstool) path: page/title
 #: C/mail-composer-spellcheck.page:22
@@ -8182,7 +8187,8 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/mail-displaying-images-in-html.page:5
 msgid "On embedded pictures in received HTML messages."
-msgstr "Über eingebettete Bilder in empfangenen HTML-Nachrichten."
+msgstr ""
+"Informationen über eingebettete Bilder in empfangenen HTML-Nachrichten."
 
 #. (itstool) path: page/title
 #: C/mail-displaying-images-in-html.page:27
@@ -10064,7 +10070,9 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/mail-organizing.page:5
 msgid "On folders, sorting, searching, filters, search folders, and labels."
-msgstr "Über Ordner, Suchordner, Sortieren, Suchen und Beschriftungen."
+msgstr ""
+"Informationen über Ordner, Suchordner, das Sortieren, das Suchen und "
+"Beschriftungen."
 
 #. (itstool) path: page/title
 #: C/mail-organizing.page:21
@@ -11432,7 +11440,7 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/mail-send-and-receive.page:5
 msgid "On receiving mail and sending written emails."
-msgstr "Über das Empfangen und Verschicken von E-Mails."
+msgstr "Informationen über das Empfangen und Verschicken von E-Mails."
 
 #. (itstool) path: page/title
 #: C/mail-send-and-receive.page:20
@@ -12649,7 +12657,7 @@ msgstr "Die Notizinformationen bearbeiten."
 #. (itstool) path: info/desc
 #: C/memos-usage.page:5
 msgid "On adding, editing, and deleting memos."
-msgstr "Über Hinzufügen, Bearbeiten und Löschen von Notizen."
+msgstr "Informationen über das Hinzufügen, Bearbeiten und Löschen von Notizen."
 
 #. (itstool) path: page/title
 #: C/memos-usage.page:20
@@ -12739,7 +12747,8 @@ msgstr ""
 #: C/organizing.page:5
 msgid "On organizing and finding your data in <app>Evolution</app>."
 msgstr ""
-"Über das Organisieren und Auffinden Ihrer Daten in <gui>Evolution</gui>."
+"Informationen über das Organisieren und Auffinden Ihrer Daten in "
+"<gui>Evolution</gui>."
 
 #. (itstool) path: page/title
 #: C/organizing.page:18
@@ -12821,7 +12830,7 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/problems-reporting-bugs.page:5
 msgid "How to report mistakes in the application."
-msgstr "Über Fehler in der Anwendung berichten."
+msgstr "So melden Sie Fehler in der Anwendung."
 
 #. (itstool) path: page/title
 #: C/problems-reporting-bugs.page:21
@@ -13081,7 +13090,8 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/tasks-organizing.page:5
 msgid "On task and memo lists, searching, and categories."
-msgstr "Über Aufgaben- und Notizlisten, Suchvorgänge und Kategorien."
+msgstr ""
+"Informationen über Aufgaben- und Notizlisten, Suchvorgänge und Kategorien."
 
 #. (itstool) path: page/title
 #: C/tasks-organizing.page:21
@@ -13279,7 +13289,8 @@ msgstr "Geben Sie die Informationen zur Aufgabe ein."
 #. (itstool) path: info/desc
 #: C/tasks-usage.page:5
 msgid "On adding, editing, and deleting tasks."
-msgstr "Über das Hinzufügen, Bearbeiten und Löschen von Aufgaben."
+msgstr ""
+"Informationen über das Hinzufügen, Bearbeiten und Löschen von Aufgaben."
 
 #. (itstool) path: page/title
 #: C/tasks-usage.page:20
@@ -13584,9 +13595,9 @@ msgstr ""
 "die Kopfzeile beim zweiten Mal anders definiert. Wenn zum Beispiel eine "
 "Nachricht die Kopfzeile »Resent-From:« als »engineering@example.com« und "
 "dann nochmals als »marketing@example.com« definiert, so filtert <_:app-2/>, "
-"als ob der zweite Wert nicht existieren würde. Verwenden Sie reguläre Ausdrücke, "
-"um Nachrichten zu filtern, welche die gleichen Kopfzeilen mehr als einmal "
-"definieren."
+"als ob der zweite Wert nicht existieren würde. Verwenden Sie reguläre "
+"Ausdrücke, um Nachrichten zu filtern, welche die gleichen Kopfzeilen mehr "
+"als einmal definieren."
 
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:25
