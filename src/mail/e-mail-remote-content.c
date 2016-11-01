@@ -21,6 +21,7 @@
 #include <string.h>
 
 #include <camel/camel.h>
+#include <sqlite3.h>
 
 #include "e-mail-remote-content.h"
 
@@ -380,7 +381,7 @@ e_mail_remote_content_set_config_filename (EMailRemoteContent *content,
 	g_return_if_fail (config_filename != NULL);
 	g_return_if_fail (content->priv->db == NULL);
 
-	content->priv->db = camel_db_open (config_filename, &error);
+	content->priv->db = camel_db_new (config_filename, &error);
 
 	if (error) {
 		g_warning ("%s: Failed to open '%s': %s", G_STRFUNC, config_filename, error->message);
@@ -444,8 +445,7 @@ mail_remote_content_finalize (GObject *object)
 			g_clear_error (&error);
 		}
 
-		camel_db_close (content->priv->db);
-		content->priv->db = NULL;
+		g_clear_object (&content->priv->db);
 	}
 
 	g_mutex_lock (&content->priv->recent_lock);
