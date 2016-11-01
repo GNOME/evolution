@@ -2627,6 +2627,39 @@ test_delete_quoted (TestFixture *fixture)
 		g_test_fail ();
 }
 
+static void
+test_delete_after_quoted (TestFixture *fixture)
+{
+	if (!test_utils_process_commands (fixture,
+		"mode:plain\n")) {
+		g_test_fail ();
+		return;
+	}
+
+	test_utils_fixture_change_setting_boolean (fixture, "org.gnome.evolution.mail", "composer-wrap-quoted-text-in-replies", FALSE);
+
+	test_utils_insert_content (fixture,
+		"<body><pre>a\n"
+		"b\n"
+		"\n"
+		"<span class=\"-x-evo-to-body\" data-credits=\"On Thu, 2016-09-15 at 08:08 -0400, user wrote:\"></span>"
+		"<span class=\"-x-evo-cite-body\"></span></body>",
+		E_CONTENT_EDITOR_INSERT_REPLACE_ALL | E_CONTENT_EDITOR_INSERT_TEXT_HTML);
+
+	if (!test_utils_run_simple_test (fixture,
+		"seq:dddbb\n",
+		HTML_PREFIX "<div style=\"width: 71ch;\">On Thu, 2016-09-15 at 08:08 -0400, user wrote:</div>"
+		"<blockquote type=\"cite\">"
+		"<pre>&gt; a</pre>"
+		"<pre>&gt; b<br></pre>"
+		"</blockquote>"
+		HTML_SUFFIX,
+		"On Thu, 2016-09-15 at 08:08 -0400, user wrote:\n"
+		"> a\n"
+		"> b"))
+		g_test_fail ();
+}
+
 gint
 main (gint argc,
       gchar *argv[])
@@ -2787,6 +2820,7 @@ main (gint argc,
 	test_utils_add_test ("/undo/link-paste/html", test_undo_link_paste_html);
 	test_utils_add_test ("/undo/link-paste/plain", test_undo_link_paste_plain);
 	test_utils_add_test ("/delete/quoted", test_delete_quoted);
+	test_utils_add_test ("/delete/after-quoted", test_delete_after_quoted);
 
 	test_add_html_editor_bug_tests ();
 
