@@ -61,7 +61,7 @@ mail_part_headers_build_print_model (EMailPartHeaders *part)
 	GtkListStore *list_store;
 	EMailPartList *part_list;
 	CamelMimeMessage *message;
-	GArray *array;
+	CamelNameValueArray *headers;
 	gint default_position = 0;
 	guint ii, length = 0;
 
@@ -78,34 +78,37 @@ mail_part_headers_build_print_model (EMailPartHeaders *part)
 		G_TYPE_STRING);  /* HEADER_VALUE */
 
 	message = e_mail_part_list_get_message (part_list);
-	array = camel_medium_get_headers (CAMEL_MEDIUM (message));
+	headers = camel_medium_dup_headers (CAMEL_MEDIUM (message));
 
-	if (array != NULL)
-		length = array->len;
+	if (headers != NULL)
+		length = camel_name_value_array_get_length (headers);
 
 	for (ii = 0; ii < length; ii++) {
-		CamelMediumHeader *header;
 		GtkTreeIter iter;
 		gboolean include = FALSE;
 		gint position = -1;
+		const gchar *header_name = NULL;
+		const gchar *header_value = NULL;
 
-		header = &g_array_index (array, CamelMediumHeader, ii);
+		if (!camel_name_value_array_get (headers, ii, &header_name, &header_value) ||
+		    !header_name || !header_value)
+			continue;
 
 		/* EMailFormatterPrintHeaders excludes "Subject" from
 		 * its header table (because it puts it in an <h1> tag
 		 * at the top of the page), so we'll exclude it too. */
-		if (g_ascii_strncasecmp (header->name, "Subject", 7) == 0)
+		if (g_ascii_strncasecmp (header_name, "Subject", 7) == 0)
 			continue;
 
 		/* Also skip the 'Face' header, which includes only
 		   base64 encoded data anyway. */
-		if (g_ascii_strcasecmp (header->name, "Face") == 0)
+		if (g_ascii_strcasecmp (header_value, "Face") == 0)
 			continue;
 
 		/* Arrange default headers first and select them to be
 		 * included in the final printout.  All other headers
 		 * are excluded by default in the final printout. */
-		if (e_mail_part_headers_is_default (part, header->name)) {
+		if (e_mail_part_headers_is_default (part, header_name)) {
 			position = default_position++;
 			include = TRUE;
 		}
@@ -117,14 +120,14 @@ mail_part_headers_build_print_model (EMailPartHeaders *part)
 			E_MAIL_PART_HEADERS_PRINT_MODEL_COLUMN_INCLUDE,
 			include,
 			E_MAIL_PART_HEADERS_PRINT_MODEL_COLUMN_HEADER_NAME,
-			header->name,
+			header_name,
 			E_MAIL_PART_HEADERS_PRINT_MODEL_COLUMN_HEADER_VALUE,
-			header->value,
+			header_value,
 			-1);
 	}
 
-	if (array != NULL)
-		camel_medium_free_headers (CAMEL_MEDIUM (message), array);
+	if (headers != NULL)
+		camel_name_value_array_free (headers);
 
 	g_object_unref (part_list);
 

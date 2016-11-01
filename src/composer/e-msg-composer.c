@@ -1517,7 +1517,7 @@ composer_build_message_finish (EMsgComposer *composer,
 		    CAMEL_IS_MIME_PART (context->top_level_part)) {
 			CamelDataWrapper *content;
 			CamelMedium *imedium, *omedium;
-			GArray *headers;
+			CamelNameValueArray *headers;
 
 			imedium = CAMEL_MEDIUM (context->top_level_part);
 			omedium = CAMEL_MEDIUM (context->message);
@@ -1526,17 +1526,20 @@ composer_build_message_finish (EMsgComposer *composer,
 			camel_medium_set_content (omedium, content);
 			omedium->parent.encoding = imedium->parent.encoding;
 
-			headers = camel_medium_get_headers (imedium);
+			headers = camel_medium_dup_headers (imedium);
 			if (headers) {
-				gint ii;
+				gint ii, length;
+				length = camel_name_value_array_get_length (headers);
 
-				for (ii = 0; ii < headers->len; ii++) {
-					CamelMediumHeader *hdr = &g_array_index (headers, CamelMediumHeader, ii);
+				for (ii = 0; ii < length; ii++) {
+					const gchar *header_name = NULL;
+					const gchar *header_value = NULL;
 
-					camel_medium_set_header (omedium, hdr->name, hdr->value);
+					if (camel_name_value_array_get (headers, ii, &header_name, &header_value))
+						camel_medium_set_header (omedium, header_name, header_value);
 				}
 
-				camel_medium_free_headers (imedium, headers);
+				camel_name_value_array_free (headers);
 			}
 		} else {
 			camel_medium_set_content (
