@@ -41,7 +41,7 @@ test_bug_726548 (TestFixture *fixture)
 		"seq:C\n"
 		"type:ac\n"
 		"seq:c\n",
-		HTML_PREFIX_PLAIN "<div style=\"width: 71ch;\">aaa</div>"
+		HTML_PREFIX "<div style=\"width: 71ch;\">aaa</div>"
 		"<ol style=\"width: 65ch;\">"
 		"<li>a</li><li>b</li><li>c</li></ol>"
 		"<div style=\"width: 71ch;\"><br></div>" HTML_SUFFIX,
@@ -161,7 +161,7 @@ test_bug_767903 (TestFixture *fixture)
 		"action:style-list-bullet\n"
 		"type:First item\\n\n"
 		"type:Second item\n",
-		HTML_PREFIX_PLAIN "<div style=\"width: 71ch;\">This is the first line:</div>"
+		HTML_PREFIX "<div style=\"width: 71ch;\">This is the first line:</div>"
 		"<ul style=\"width: 68ch;\">"
 		"<li>First item</li><li>Second item<br></li></ul>" HTML_SUFFIX,
 		"This is the first line:\n"
@@ -174,7 +174,7 @@ test_bug_767903 (TestFixture *fixture)
 	if (!test_utils_run_simple_test (fixture,
 		"seq:uhb\n"
 		"undo:undo\n",
-		HTML_PREFIX_PLAIN "<div style=\"width: 71ch;\">This is the first line:</div>"
+		HTML_PREFIX "<div style=\"width: 71ch;\">This is the first line:</div>"
 		"<ul style=\"width: 68ch;\">"
 		"<li>First item</li><li>Second item<br></li></ul>" HTML_SUFFIX,
 		"This is the first line:\n"
@@ -206,7 +206,7 @@ test_bug_769708 (TestFixture *fixture)
 
 	if (!test_utils_run_simple_test (fixture,
 		"",
-		HTML_PREFIX_PLAIN "<div>aaa</div><div><span><pre>-- <br></pre>"
+		HTML_PREFIX "<div>aaa</div><div><span><pre>-- <br></pre>"
 		"<div>user &lt;user@no.where&gt;</div>"
 		"</span></div>" HTML_SUFFIX,
 		"aaa\n"
@@ -227,7 +227,7 @@ test_bug_769913 (TestFixture *fixture)
 	if (!test_utils_run_simple_test (fixture,
 		"type:ab\n"
 		"seq:ltlD\n",
-		HTML_PREFIX_PLAIN "<div>ab</div>" HTML_SUFFIX,
+		HTML_PREFIX "<div>ab</div>" HTML_SUFFIX,
 		"ab")) {
 		g_test_fail ();
 		return;
@@ -235,7 +235,7 @@ test_bug_769913 (TestFixture *fixture)
 
 	if (!test_utils_run_simple_test (fixture,
 		"seq:ttllDD\n",
-		HTML_PREFIX_PLAIN "<div>ab</div>" HTML_SUFFIX,
+		HTML_PREFIX "<div>ab</div>" HTML_SUFFIX,
 		"ab")) {
 		g_test_fail ();
 		return;
@@ -243,7 +243,7 @@ test_bug_769913 (TestFixture *fixture)
 
 	if (!test_utils_run_simple_test (fixture,
 		"seq:ttlDlD\n",
-		HTML_PREFIX_PLAIN "<div>ab</div>" HTML_SUFFIX,
+		HTML_PREFIX "<div>ab</div>" HTML_SUFFIX,
 		"ab")) {
 		g_test_fail ();
 		return;
@@ -251,7 +251,7 @@ test_bug_769913 (TestFixture *fixture)
 
 	if (!test_utils_run_simple_test (fixture,
 		"seq:tttlllDDD\n",
-		HTML_PREFIX_PLAIN "<div>ab</div>" HTML_SUFFIX,
+		HTML_PREFIX "<div>ab</div>" HTML_SUFFIX,
 		"ab")) {
 		g_test_fail ();
 		return;
@@ -259,7 +259,7 @@ test_bug_769913 (TestFixture *fixture)
 
 	if (!test_utils_run_simple_test (fixture,
 		"seq:tttlDlDlD\n",
-		HTML_PREFIX_PLAIN "<div>ab</div>" HTML_SUFFIX,
+		HTML_PREFIX "<div>ab</div>" HTML_SUFFIX,
 		"ab")) {
 		g_test_fail ();
 		return;
@@ -267,7 +267,7 @@ test_bug_769913 (TestFixture *fixture)
 
 	if (!test_utils_run_simple_test (fixture,
 		"seq:tb\n",
-		HTML_PREFIX_PLAIN "<div>ab</div>" HTML_SUFFIX,
+		HTML_PREFIX "<div>ab</div>" HTML_SUFFIX,
 		"ab")) {
 		g_test_fail ();
 		return;
@@ -275,7 +275,7 @@ test_bug_769913 (TestFixture *fixture)
 
 	if (!test_utils_run_simple_test (fixture,
 		"seq:ttbb\n",
-		HTML_PREFIX_PLAIN "<div>ab</div>" HTML_SUFFIX,
+		HTML_PREFIX "<div>ab</div>" HTML_SUFFIX,
 		"ab")) {
 		g_test_fail ();
 		return;
@@ -283,7 +283,7 @@ test_bug_769913 (TestFixture *fixture)
 
 	if (!test_utils_run_simple_test (fixture,
 		"seq:ttlbrb\n",
-		HTML_PREFIX_PLAIN "<div>ab</div>" HTML_SUFFIX,
+		HTML_PREFIX "<div>ab</div>" HTML_SUFFIX,
 		"ab")) {
 		g_test_fail ();
 		return;
@@ -291,7 +291,7 @@ test_bug_769913 (TestFixture *fixture)
 
 	if (!test_utils_run_simple_test (fixture,
 		"seq:tttbbb\n",
-		HTML_PREFIX_PLAIN "<div>ab</div>" HTML_SUFFIX,
+		HTML_PREFIX "<div>ab</div>" HTML_SUFFIX,
 		"ab")) {
 		g_test_fail ();
 		return;
@@ -299,7 +299,7 @@ test_bug_769913 (TestFixture *fixture)
 
 	if (!test_utils_run_simple_test (fixture,
 		"seq:tttllbrbrb\n",
-		HTML_PREFIX_PLAIN "<div>ab</div>" HTML_SUFFIX,
+		HTML_PREFIX "<div>ab</div>" HTML_SUFFIX,
 		"ab")) {
 		g_test_fail ();
 		return;
@@ -318,7 +318,7 @@ test_bug_769955 (TestFixture *fixture)
 		"action:paste\n"
 		"seq:ll\n"
 		"action:style-preformat\n",
-		HTML_PREFIX_PLAIN "<pre>"
+		HTML_PREFIX "<pre>"
 		"<a href=\"http://www.example.com/this-is-a-very-long-link-which-should-not-be-wrapped-into-multiple-lines\">"
 		"http://www.example.com/this-is-a-very-long-link-which-should-not-be-wrapped-into-multiple-lines</a></pre>"
 		HTML_SUFFIX,
@@ -335,7 +335,7 @@ test_bug_769955 (TestFixture *fixture)
 		"type:[1] \n"
 		"action:paste\n"
 		"action:style-preformat\n",
-		HTML_PREFIX_PLAIN "<pre>"
+		HTML_PREFIX "<pre>"
 		"[1] <a href=\"http://www.example.com/this-is-a-very-long-link-which-should-not-be-wrapped-into-multiple-lines\">"
 		"http://www.example.com/this-is-a-very-long-link-which-should-not-be-wrapped-into-multiple-lines</a></pre>" HTML_SUFFIX,
 		"[1] http://www.example.com/this-is-a-very-long-link-which-should-not-be-wrapped-into-multiple-lines")) {
@@ -352,7 +352,7 @@ test_bug_769955 (TestFixture *fixture)
 		"action:paste\n"
 		"seq:h\n"
 		"action:style-preformat\n",
-		HTML_PREFIX_PLAIN "<pre>"
+		HTML_PREFIX "<pre>"
 		"[2] <a href=\"http://www.example.com/this-is-a-very-long-link-which-should-not-be-wrapped-into-multiple-lines\">"
 		"http://www.example.com/this-is-a-very-long-link-which-should-not-be-wrapped-into-multiple-lines</a></pre>" HTML_SUFFIX,
 		"[2] http://www.example.com/this-is-a-very-long-link-which-should-not-be-wrapped-into-multiple-lines")) {
@@ -369,7 +369,7 @@ test_bug_769955 (TestFixture *fixture)
 		"action:paste\n"
 		"seq:Chc\n"
 		"action:style-preformat\n",
-		HTML_PREFIX_PLAIN "<pre>"
+		HTML_PREFIX "<pre>"
 		"[3] <a href=\"http://www.example.com/this-is-a-very-long-link-which-should-not-be-wrapped-into-multiple-lines\">"
 		"http://www.example.com/this-is-a-very-long-link-which-should-not-be-wrapped-into-multiple-lines</a></pre>" HTML_SUFFIX,
 		"[3] http://www.example.com/this-is-a-very-long-link-which-should-not-be-wrapped-into-multiple-lines")) {
@@ -386,7 +386,7 @@ test_bug_769955 (TestFixture *fixture)
 		"action:paste\n"
 		"seq:l\n"
 		"action:style-preformat\n",
-		HTML_PREFIX_PLAIN "<pre>"
+		HTML_PREFIX "<pre>"
 		"[4] <a href=\"http://www.example.com/this-is-a-very-long-link-which-should-not-be-wrapped-into-multiple-lines\">"
 		"http://www.example.com/this-is-a-very-long-link-which-should-not-be-wrapped-into-multiple-lines</a></pre>" HTML_SUFFIX,
 		"[4] http://www.example.com/this-is-a-very-long-link-which-should-not-be-wrapped-into-multiple-lines")) {
@@ -404,7 +404,7 @@ test_bug_769955 (TestFixture *fixture)
 		"seq:Sis\n"
 		"seq:ll\n"
 		"action:style-preformat\n",
-		HTML_PREFIX_PLAIN "<pre>"
+		HTML_PREFIX "<pre>"
 		"<a href=\"http://www.example.com/this-is-a-very-long-link-which-should-not-be-wrapped-into-multiple-lines\">"
 		"http://www.example.com/this-is-a-very-long-link-which-should-not-be-wrapped-into-multiple-lines</a></pre>"
 		HTML_SUFFIX,
@@ -421,7 +421,7 @@ test_bug_769955 (TestFixture *fixture)
 		"type:[5] \n"
 		"seq:Sis\n"
 		"action:style-preformat\n",
-		HTML_PREFIX_PLAIN "<pre>"
+		HTML_PREFIX "<pre>"
 		"[5] <a href=\"http://www.example.com/this-is-a-very-long-link-which-should-not-be-wrapped-into-multiple-lines\">"
 		"http://www.example.com/this-is-a-very-long-link-which-should-not-be-wrapped-into-multiple-lines</a></pre>" HTML_SUFFIX,
 		"[5] http://www.example.com/this-is-a-very-long-link-which-should-not-be-wrapped-into-multiple-lines")) {
@@ -438,7 +438,7 @@ test_bug_769955 (TestFixture *fixture)
 		"seq:Sis\n"
 		"seq:h\n"
 		"action:style-preformat\n",
-		HTML_PREFIX_PLAIN "<pre>"
+		HTML_PREFIX "<pre>"
 		"[6] <a href=\"http://www.example.com/this-is-a-very-long-link-which-should-not-be-wrapped-into-multiple-lines\">"
 		"http://www.example.com/this-is-a-very-long-link-which-should-not-be-wrapped-into-multiple-lines</a></pre>" HTML_SUFFIX,
 		"[6] http://www.example.com/this-is-a-very-long-link-which-should-not-be-wrapped-into-multiple-lines")) {
@@ -455,7 +455,7 @@ test_bug_769955 (TestFixture *fixture)
 		"seq:Sis\n"
 		"seq:Chc\n"
 		"action:style-preformat\n",
-		HTML_PREFIX_PLAIN "<pre>"
+		HTML_PREFIX "<pre>"
 		"[7] <a href=\"http://www.example.com/this-is-a-very-long-link-which-should-not-be-wrapped-into-multiple-lines\">"
 		"http://www.example.com/this-is-a-very-long-link-which-should-not-be-wrapped-into-multiple-lines</a></pre>" HTML_SUFFIX,
 		"[7] http://www.example.com/this-is-a-very-long-link-which-should-not-be-wrapped-into-multiple-lines")) {
@@ -472,7 +472,7 @@ test_bug_769955 (TestFixture *fixture)
 		"seq:Sis\n"
 		"seq:l\n"
 		"action:style-preformat\n",
-		HTML_PREFIX_PLAIN "<pre>"
+		HTML_PREFIX "<pre>"
 		"[8] <a href=\"http://www.example.com/this-is-a-very-long-link-which-should-not-be-wrapped-into-multiple-lines\">"
 		"http://www.example.com/this-is-a-very-long-link-which-should-not-be-wrapped-into-multiple-lines</a></pre>" HTML_SUFFIX,
 		"[8] http://www.example.com/this-is-a-very-long-link-which-should-not-be-wrapped-into-multiple-lines")) {
@@ -500,7 +500,7 @@ test_bug_770073 (TestFixture *fixture)
 
 	if (!test_utils_run_simple_test (fixture,
 		"seq:Chcddbb\n",
-		HTML_PREFIX_PLAIN "<div style=\"width: 71ch;\">On Today, User wrote:</div>"
+		HTML_PREFIX "<div style=\"width: 71ch;\">On Today, User wrote:</div>"
 		"<blockquote type=\"cite\">"
 		"<div style=\"width: 71ch;\">&gt; the 1st line text</div>"
 		"<div style=\"width: 71ch;\">&gt; the 3rd line text</div>"
@@ -561,7 +561,7 @@ test_bug_770074 (TestFixture *fixture)
 		"seq:Chcddbb\n"
 		"seq:n\n"
 		"undo:undo\n",
-		HTML_PREFIX_PLAIN "<div style=\"width: 71ch;\">On Today, User wrote:</div>"
+		HTML_PREFIX "<div style=\"width: 71ch;\">On Today, User wrote:</div>"
 		"<blockquote type=\"cite\">"
 		"<div style=\"width: 71ch;\">&gt; the 1st line text</div>"
 		"<div style=\"width: 71ch;\">&gt; the 3rd line text</div>"
@@ -608,7 +608,7 @@ test_bug_771131 (TestFixture *fixture)
 
 	if (!test_utils_run_simple_test (fixture,
 		"",
-		HTML_PREFIX_PLAIN "<div style=\"width: 71ch;\">On Sat, 2016-09-10 at 20:00 +0000, example@example.com wrote:</div>"
+		HTML_PREFIX "<div style=\"width: 71ch;\">On Sat, 2016-09-10 at 20:00 +0000, example@example.com wrote:</div>"
 		"<blockquote type=\"cite\">"
 		"<div style=\"width: 71ch;\">&gt; On &lt;date1&gt;, &lt;name1&gt; wrote:</div>"
 		"<blockquote type=\"cite\">"
@@ -651,7 +651,7 @@ test_bug_771493 (TestFixture *fixture)
 
 	if (!test_utils_run_simple_test (fixture,
 		"",
-		HTML_PREFIX_PLAIN "<div style=\"width: 71ch;\">On Thu, 2016-09-15 at 08:08 -0400, user wrote:</div>"
+		HTML_PREFIX "<div style=\"width: 71ch;\">On Thu, 2016-09-15 at 08:08 -0400, user wrote:</div>"
 		"<blockquote type=\"cite\">"
 		"<div style=\"width: 71ch;\">&gt; <br></div>"
 		"<div style=\"width: 71ch;\">&gt; ----- Original Message -----</div>"
@@ -685,7 +685,7 @@ test_bug_772171 (TestFixture *fixture)
 
 	if (!test_utils_run_simple_test (fixture,
 		"seq:deb",
-		HTML_PREFIX_PLAIN "<div style=\"width: 71ch;\">On Thu, 2016-09-15 at 08:08 -0400, user wrote:</div>"
+		HTML_PREFIX "<div style=\"width: 71ch;\">On Thu, 2016-09-15 at 08:08 -0400, user wrote:</div>"
 		"<blockquote type=\"cite\">"
 		"<div style=\"width: 71ch;\">&gt; <br></div>"
 		"<div style=\"width: 71ch;\">&gt; b</div>"
@@ -724,7 +724,7 @@ test_bug_772513 (TestFixture *fixture)
 
 	if (!test_utils_run_simple_test (fixture,
 		"",
-		HTML_PREFIX_PLAIN "<div style=\"width: 71ch;\"><br></div>" HTML_SUFFIX,
+		HTML_PREFIX "<div style=\"width: 71ch;\"><br></div>" HTML_SUFFIX,
 		"\n"))
 		g_test_fail ();
 }

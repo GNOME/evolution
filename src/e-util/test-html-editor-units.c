@@ -1092,7 +1092,7 @@ test_paragraph_normal_selection (TestFixture *fixture)
 
 	if (!test_utils_run_simple_test (fixture,
 		"mode:plain\n",
-		HTML_PREFIX_PLAIN "<div style=\"width: 71ch;\">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero.</div>"
+		HTML_PREFIX "<div style=\"width: 71ch;\">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero.</div>"
 		"<pre>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero.</pre>" HTML_SUFFIX,
 		"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec\n"
 		"odio. Praesent libero.\n"
@@ -1133,7 +1133,7 @@ test_paragraph_normal_typed (TestFixture *fixture)
 
 	if (!test_utils_run_simple_test (fixture,
 		"mode:plain\n",
-		HTML_PREFIX_PLAIN "<div style=\"width: 71ch;\">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero.</div>"
+		HTML_PREFIX "<div style=\"width: 71ch;\">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero.</div>"
 		"<div style=\"width: 71ch;\">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero.</div>" HTML_SUFFIX,
 		"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec\n"
 		"odio. Praesent libero.\n"
@@ -1177,7 +1177,7 @@ test_paragraph_preformatted_selection (TestFixture *fixture)
 
 	if (!test_utils_run_simple_test (fixture,
 		"mode:plain\n",
-		HTML_PREFIX_PLAIN "<pre>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero.</pre>"
+		HTML_PREFIX "<pre>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero.</pre>"
 		"<div style=\"width: 71ch;\">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero.</div>" HTML_SUFFIX,
 		"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero.\n"
 		"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec\n"
@@ -1216,7 +1216,7 @@ test_paragraph_preformatted_typed (TestFixture *fixture)
 
 	if (!test_utils_run_simple_test (fixture,
 		"mode:plain\n",
-		HTML_PREFIX_PLAIN "<pre>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero."
+		HTML_PREFIX "<pre>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero."
 		" Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero.</pre>" HTML_SUFFIX,
 		"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. "
 		"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero.")) {
@@ -1544,7 +1544,7 @@ test_paste_singleline_html2plain (TestFixture *fixture)
 		"type:text before \n"
 		"action:paste\n"
 		"type: text after\n",
-		HTML_PREFIX_PLAIN "<div style=\"width: 71ch;\">text before some bold text text after</div>" HTML_SUFFIX,
+		HTML_PREFIX "<div style=\"width: 71ch;\">text before some bold text text after</div>" HTML_SUFFIX,
 		"text before some bold text text after"))
 		g_test_fail ();
 }
@@ -1574,7 +1574,7 @@ test_paste_singleline_plain2plain (TestFixture *fixture)
 		"type:text before \n"
 		"action:paste\n"
 		"type: text after\n",
-		HTML_PREFIX_PLAIN "<div style=\"width: 71ch;\">text before some plain text text after</div>" HTML_SUFFIX,
+		HTML_PREFIX "<div style=\"width: 71ch;\">text before some plain text text after</div>" HTML_SUFFIX,
 		"text before some plain text text after"))
 		g_test_fail ();
 }
@@ -1604,7 +1604,7 @@ test_paste_multiline_html2plain (TestFixture *fixture)
 		"type:text before \n"
 		"action:paste\n"
 		"type:\\ntext after\n",
-		HTML_PREFIX_PLAIN "<div style=\"width: 71ch;\">text before bold text</div>"
+		HTML_PREFIX "<div style=\"width: 71ch;\">text before bold text</div>"
 		"<div style=\"width: 71ch;\">italic text</div>"
 		"<div style=\"width: 71ch;\">underline text</div>"
 		"<div style=\"width: 71ch;\">text after</div>" HTML_SUFFIX,
@@ -1637,7 +1637,7 @@ test_paste_multiline_div_html2plain (TestFixture *fixture)
 		"type:text before \n"
 		"action:paste\n"
 		"type:\\ntext after\n",
-		HTML_PREFIX_PLAIN "<div style=\"width: 71ch;\">text before bold text</div>"
+		HTML_PREFIX "<div style=\"width: 71ch;\">text before bold text</div>"
 		"<div style=\"width: 71ch;\">italic text</div>"
 		"<div style=\"width: 71ch;\">underline text</div>"
 		"<div style=\"width: 71ch;\">text after</div>" HTML_SUFFIX,
@@ -1670,7 +1670,7 @@ test_paste_multiline_p_html2plain (TestFixture *fixture)
 		"type:text before \n"
 		"action:paste\n"
 		"type:\\ntext after\n",
-		HTML_PREFIX_PLAIN "<div style=\"width: 71ch;\">text before bold text</div>"
+		HTML_PREFIX "<div style=\"width: 71ch;\">text before bold text</div>"
 		"<div style=\"width: 71ch;\">italic text</div>"
 		"<div style=\"width: 71ch;\">underline text</div>"
 		"<div style=\"width: 71ch;\">text after</div>" HTML_SUFFIX,
@@ -1703,7 +1703,7 @@ test_paste_multiline_plain2plain (TestFixture *fixture)
 		"type:text before \n"
 		"action:paste\n"
 		"type:\\ntext after\n",
-		HTML_PREFIX_PLAIN "<div style=\"width: 71ch;\">text before line 1</div>"
+		HTML_PREFIX "<div style=\"width: 71ch;\">text before line 1</div>"
 		"<div style=\"width: 71ch;\">line 2</div>"
 		"<div style=\"width: 71ch;\">line 3</div>"
 		"<div style=\"width: 71ch;\">text after</div>" HTML_SUFFIX,
@@ -1742,7 +1742,7 @@ test_paste_quoted_singleline_html2plain (TestFixture *fixture)
 		"action:paste-quote\n"
 		"type:\\n\n" /* stop quotting */
 		"type:text after\n",
-		HTML_PREFIX_PLAIN "<div style=\"width: 71ch;\">text before </div>"
+		HTML_PREFIX "<div style=\"width: 71ch;\">text before </div>"
 		"<blockquote type=\"cite\"><div style=\"width: 71ch;\">&gt; some <b>bold</b> text</div></blockquote>"
 		"<div style=\"width: 71ch;\">text after</div>" HTML_SUFFIX,
 		"text before \n"
@@ -1782,7 +1782,7 @@ test_paste_quoted_singleline_plain2plain (TestFixture *fixture)
 		"action:paste-quote\n"
 		"type:\\n\n" /* stop quotting */
 		"type:text after\n",
-		HTML_PREFIX_PLAIN "<div style=\"width: 71ch;\">text before </div>"
+		HTML_PREFIX "<div style=\"width: 71ch;\">text before </div>"
 		"<blockquote type=\"cite\"><div style=\"width: 71ch;\">&gt; some plain text</div></blockquote>"
 		"<div style=\"width: 71ch;\">text after</div>" HTML_SUFFIX,
 		"text before \n"
@@ -1826,7 +1826,7 @@ test_paste_quoted_multiline_html2plain (TestFixture *fixture)
 		"action:paste-quote\n"
 		"type:\\n\n" /* stop quotting */
 		"type:text after\n",
-		HTML_PREFIX_PLAIN "<div style=\"width: 71ch;\">text before </div>"
+		HTML_PREFIX "<div style=\"width: 71ch;\">text before </div>"
 		"<blockquote type=\"cite\"><div>&gt; bold text</div>"
 		"<div style=\"width: 71ch;\">&gt; italic text</div>"
 		"<div style=\"width: 71ch;\">&gt; underline text</div></blockquote>"
@@ -1874,7 +1874,7 @@ test_paste_quoted_multiline_plain2plain (TestFixture *fixture)
 		"action:paste-quote\n"
 		"type:\\n\n" /* stop quotting */
 		"type:text after\n",
-		HTML_PREFIX_PLAIN "<div style=\"width: 71ch;\">text before </div>"
+		HTML_PREFIX "<div style=\"width: 71ch;\">text before </div>"
 		"<blockquote type=\"cite\"><div style=\"width: 71ch;\">&gt; line 1</div>"
 		"<div style=\"width: 71ch;\">&gt; line 2</div>"
 		"<div style=\"width: 71ch;\">&gt; line 3</div></blockquote>"
@@ -2171,7 +2171,7 @@ test_cite_reply_plain (TestFixture *fixture)
 
 	if (!test_utils_run_simple_test (fixture,
 		"",
-		HTML_PREFIX_PLAIN "<div style=\"width: 71ch;\">On Today, User wrote:</div>"
+		HTML_PREFIX "<div style=\"width: 71ch;\">On Today, User wrote:</div>"
 		"<blockquote type=\"cite\"><div style=\"width: 71ch;\">&gt; line 1</div>"
 		"<div style=\"width: 71ch;\">&gt; line 2</div>"
 		"<div style=\"width: 71ch;\">&gt; <br></div></blockquote>" HTML_SUFFIX,
@@ -2562,7 +2562,7 @@ test_undo_link_paste_plain (TestFixture *fixture)
 		"undo:undo:5\n"
 		"undo:redo:7\n"
 		"undo:test\n",
-		HTML_PREFIX_PLAIN "<div style=\"width: 71ch;\">URL:</div>"
+		HTML_PREFIX "<div style=\"width: 71ch;\">URL:</div>"
 		"<div style=\"width: 71ch;\"><a href=\"http://www.gnome.org\">http://www.gnome.org</a></div>"
 		"<div style=\"width: 71ch;\"><br></div>" HTML_SUFFIX,
 		"URL:\nhttp://www.gnome.org\n"))
@@ -2589,7 +2589,7 @@ test_delete_quoted (TestFixture *fixture)
 	if (!test_utils_run_simple_test (fixture,
 		"seq:ddddSusDdd\n"
 		"type:b",
-		HTML_PREFIX_PLAIN "<div style=\"width: 71ch;\">On Thu, 2016-09-15 at 08:08 -0400, user wrote:</div>"
+		HTML_PREFIX "<div style=\"width: 71ch;\">On Thu, 2016-09-15 at 08:08 -0400, user wrote:</div>"
 		"<blockquote type=\"cite\">"
 		"<div style=\"width: 71ch;\">&gt; a</div>"
 		"<div style=\"width: 71ch;\">&gt; b</div>"
