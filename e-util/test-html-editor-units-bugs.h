@@ -18,7 +18,6 @@
 #define TEST_HTML_EDITOR_UNITS_BUGS_H
 
 #define HTML_PREFIX "<html><head></head><body>"
-#define HTML_PREFIX_PLAIN "<html><head></head><body style=\"font-family: Monospace;\">"
 #define HTML_SUFFIX "</body></html>"
 
 G_BEGIN_DECLS
