@@ -1158,7 +1158,7 @@ e_mail_folder_remove_sync (CamelFolder *folder,
 			transparent_cancellable, NULL);
 	}
 
-	if ((parent_store->flags & CAMEL_STORE_CAN_DELETE_FOLDERS_AT_ONCE) != 0) {
+	if ((camel_store_get_flags (parent_store) & CAMEL_STORE_CAN_DELETE_FOLDERS_AT_ONCE) != 0) {
 		success = camel_store_delete_folder_sync (
 			parent_store, full_name, transparent_cancellable, error);
 	} else {

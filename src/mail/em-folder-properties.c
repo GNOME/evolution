@@ -739,7 +739,7 @@ emfp_dialog_run (AsyncContext *context)
 	/*
 	 * Do the calculation only for those accounts that support VTRASHes
 	 */
-	if (parent_store->flags & CAMEL_STORE_VTRASH) {
+	if (camel_store_get_flags (parent_store) & CAMEL_STORE_VTRASH) {
 		if (CAMEL_IS_VTRASH_FOLDER (context->folder))
 			context->total += deleted;
 		else if (!hide_deleted && deleted > 0)
@@ -749,7 +749,7 @@ emfp_dialog_run (AsyncContext *context)
 	/*
 	 * If the folder is junk folder, get total number of mails.
 	 */
-	if (parent_store->flags & CAMEL_STORE_VJUNK)
+	if (camel_store_get_flags (parent_store) & CAMEL_STORE_VJUNK)
 		context->total = camel_folder_summary_count (
 			context->folder->summary);
 

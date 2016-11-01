@@ -3905,10 +3905,10 @@ folder_store_supports_vjunk_folder (CamelFolder *folder)
 	if (CAMEL_IS_VEE_FOLDER (folder))
 		return TRUE;
 
-	if (store->flags & CAMEL_STORE_VJUNK)
+	if (camel_store_get_flags (store) & CAMEL_STORE_VJUNK)
 		return TRUE;
 
-	if (store->flags & CAMEL_STORE_REAL_JUNK_FOLDER)
+	if (camel_store_get_flags (store) & CAMEL_STORE_REAL_JUNK_FOLDER)
 		return TRUE;
 
 	return FALSE;
@@ -3959,7 +3959,7 @@ message_list_get_hide_deleted (MessageList *message_list,
 	g_return_val_if_fail (store != NULL, FALSE);
 
 	non_trash_folder =
-		((store->flags & CAMEL_STORE_VTRASH) == 0) ||
+		((camel_store_get_flags (store) & CAMEL_STORE_VTRASH) == 0) ||
 		((folder->folder_flags & CAMEL_FOLDER_IS_TRASH) == 0);
 
 	if (non_trash_folder && CAMEL_IS_VEE_FOLDER (folder)) {
@@ -4761,10 +4761,10 @@ message_list_set_folder (MessageList *message_list,
 		store = camel_folder_get_parent_store (folder);
 
 		non_trash_folder =
-			((store->flags & CAMEL_STORE_VTRASH) == 0) ||
+			((camel_store_get_flags (store) & CAMEL_STORE_VTRASH) == 0) ||
 			((folder->folder_flags & CAMEL_FOLDER_IS_TRASH) == 0);
 		non_junk_folder =
-			((store->flags & CAMEL_STORE_VJUNK) == 0) ||
+			((camel_store_get_flags (store) & CAMEL_STORE_VJUNK) == 0) ||
 			((folder->folder_flags & CAMEL_FOLDER_IS_JUNK) == 0);
 
 		strikeout_col = -1;

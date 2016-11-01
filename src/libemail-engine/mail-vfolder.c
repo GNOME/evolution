@@ -414,11 +414,11 @@ folder_is_spethal (CamelStore *store,
 	/* This is a bit of a hack, but really the only way it can be done
 	 * at the moment. */
 
-	if (store->flags & CAMEL_STORE_VTRASH)
+	if (camel_store_get_flags (store) & CAMEL_STORE_VTRASH)
 		if (g_strcmp0 (folder_name, CAMEL_VTRASH_NAME) == 0)
 			return TRUE;
 
-	if (store->flags & CAMEL_STORE_VJUNK)
+	if (camel_store_get_flags (store) & CAMEL_STORE_VJUNK)
 		if (g_strcmp0 (folder_name, CAMEL_VJUNK_NAME) == 0)
 			return TRUE;
 

@@ -978,7 +978,7 @@ mail_config_defaults_page_constructed (GObject *object)
 		service = camel_session_ref_service (CAMEL_SESSION (session), e_source_get_uid (page->priv->original_source));
 
 		if (service && CAMEL_IS_STORE (service) &&
-		    (CAMEL_STORE (service)->flags & CAMEL_STORE_SUPPORTS_INITIAL_SETUP) != 0) {
+		    (camel_store_get_flags (CAMEL_STORE (service)) & CAMEL_STORE_SUPPORTS_INITIAL_SETUP) != 0) {
 			widget = gtk_button_new_with_mnemonic (_("_Lookup Folders"));
 			gtk_widget_set_halign (widget, GTK_ALIGN_START);
 			gtk_box_pack_start (GTK_BOX (hbox), widget, FALSE, FALSE, 0);

@@ -271,10 +271,10 @@ store_info_new (CamelStore *store)
 
 	/* If these are vfolders then they need to be opened
 	 * now, otherwise they won't keep track of all folders. */
-	if (store->flags & CAMEL_STORE_VJUNK)
+	if (camel_store_get_flags (store) & CAMEL_STORE_VJUNK)
 		store_info->vjunk = camel_store_get_junk_folder_sync (
 			store, NULL, NULL);
-	if (store->flags & CAMEL_STORE_VTRASH)
+	if (camel_store_get_flags (store) & CAMEL_STORE_VTRASH)
 		store_info->vtrash = camel_store_get_trash_folder_sync (
 			store, NULL, NULL);
 
@@ -1441,12 +1441,12 @@ mail_folder_cache_folder_available (MailFolderCache *cache,
 		return;
 
 	/* Disregard virtual Junk folders. */
-	if (store->flags & CAMEL_STORE_VJUNK)
+	if (camel_store_get_flags (store) & CAMEL_STORE_VJUNK)
 		if (g_strcmp0 (folder_name, CAMEL_VJUNK_NAME) == 0)
 			return;
 
 	/* Disregard virtual Trash folders. */
-	if (store->flags & CAMEL_STORE_VTRASH)
+	if (camel_store_get_flags (store) & CAMEL_STORE_VTRASH)
 		if (g_strcmp0 (folder_name, CAMEL_VTRASH_NAME) == 0)
 			return;
 
@@ -1491,12 +1491,12 @@ mail_folder_cache_folder_unavailable (MailFolderCache *cache,
 		return;
 
 	/* Disregard virtual Junk folders. */
-	if (store->flags & CAMEL_STORE_VJUNK)
+	if (camel_store_get_flags (store) & CAMEL_STORE_VJUNK)
 		if (g_strcmp0 (folder_name, CAMEL_VJUNK_NAME) == 0)
 			return;
 
 	/* Disregard virtual Trash folders. */
-	if (store->flags & CAMEL_STORE_VTRASH)
+	if (camel_store_get_flags (store) & CAMEL_STORE_VTRASH)
 		if (g_strcmp0 (folder_name, CAMEL_VTRASH_NAME) == 0)
 			return;
 
@@ -1543,12 +1543,12 @@ mail_folder_cache_folder_deleted (MailFolderCache *cache,
 		return;
 
 	/* Disregard virtual Junk folders. */
-	if (store->flags & CAMEL_STORE_VJUNK)
+	if (camel_store_get_flags (store) & CAMEL_STORE_VJUNK)
 		if (g_strcmp0 (folder_name, CAMEL_VJUNK_NAME) == 0)
 			return;
 
 	/* Disregard virtual Trash folders. */
-	if (store->flags & CAMEL_STORE_VTRASH)
+	if (camel_store_get_flags (store) & CAMEL_STORE_VTRASH)
 		if (g_strcmp0 (folder_name, CAMEL_VTRASH_NAME) == 0)
 			return;
 
@@ -1908,7 +1908,7 @@ mail_folder_cache_maybe_run_initial_setup_sync (CamelService *service,
 			/* The store doesn't support the function, thus silently pretend success.
 			   Still update the ESource flag, in case the store would implement
 			   the function in the future. */
-			if (!(store->flags & CAMEL_STORE_SUPPORTS_INITIAL_SETUP))
+			if (!(camel_store_get_flags (store) & CAMEL_STORE_SUPPORTS_INITIAL_SETUP))
 				success = TRUE;
 			else
 				success = camel_store_initial_setup_sync (store, &save_setup, cancellable, error);
