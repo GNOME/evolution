@@ -1012,8 +1012,9 @@ e_editor_dom_quote_plain_text_element_after_wrapping (EEditorPage *editor_page,
 		WebKitDOMNode *br = webkit_dom_node_list_item (list, ii);
 		WebKitDOMNode *prev_sibling = webkit_dom_node_get_previous_sibling (br);
 
-		if (!WEBKIT_DOM_IS_ELEMENT (prev_sibling) ||
-		     !element_has_class (WEBKIT_DOM_ELEMENT (prev_sibling), "-x-evo-quoted")) {
+		if ((!WEBKIT_DOM_IS_ELEMENT (prev_sibling) ||
+		     !element_has_class (WEBKIT_DOM_ELEMENT (prev_sibling), "-x-evo-quoted")) &&
+		     webkit_dom_node_get_next_sibling (br)) {
 
 			webkit_dom_node_insert_before (
 				webkit_dom_node_get_parent_node (br),
