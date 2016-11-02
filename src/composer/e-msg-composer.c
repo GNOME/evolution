@@ -1308,7 +1308,7 @@ composer_build_message (EMsgComposer *composer,
 
 	/* Avoid re-encoding the data when adding it to a MIME part. */
 	if (context->plain_encoding == CAMEL_TRANSFER_ENCODING_QUOTEDPRINTABLE)
-		context->top_level_part->encoding = context->plain_encoding;
+		camel_data_wrapper_set_encoding (context->top_level_part, context->plain_encoding);
 
 	camel_data_wrapper_set_mime_type_field (
 		context->top_level_part, type);
@@ -1391,8 +1391,7 @@ composer_build_message (EMsgComposer *composer,
 
 		/* Avoid re-encoding the data when adding it to a MIME part. */
 		if (pre_encode)
-			html->encoding =
-				CAMEL_TRANSFER_ENCODING_QUOTEDPRINTABLE;
+			camel_data_wrapper_set_encoding (html, CAMEL_TRANSFER_ENCODING_QUOTEDPRINTABLE);
 
 		/* Build the multipart/alternative */
 		body = camel_multipart_new ();
@@ -1524,7 +1523,7 @@ composer_build_message_finish (EMsgComposer *composer,
 
 			content = camel_medium_get_content (imedium);
 			camel_medium_set_content (omedium, content);
-			omedium->parent.encoding = imedium->parent.encoding;
+			camel_data_wrapper_set_encoding (CAMEL_DATA_WRAPPER (omedium), camel_data_wrapper_get_encoding (CAMEL_DATA_WRAPPER (imedium)));
 
 			headers = camel_medium_dup_headers (imedium);
 			if (headers) {
@@ -3050,7 +3049,7 @@ add_attachments_from_multipart (EMsgComposer *composer,
 	gint i, nparts;
 
 	related = camel_content_type_is (
-		CAMEL_DATA_WRAPPER (multipart)->mime_type,
+		camel_data_wrapper_get_mime_type_field (CAMEL_DATA_WRAPPER (multipart)),
 		"multipart", "related");
 
 	if (CAMEL_IS_MULTIPART_SIGNED (multipart)) {

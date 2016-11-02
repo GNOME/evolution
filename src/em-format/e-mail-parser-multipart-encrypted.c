@@ -72,8 +72,7 @@ empe_mp_encrypted_parse (EMailParserExtension *extension,
 	}
 
 	/* Currently we only handle RFC2015-style PGP encryption. */
-	protocol = camel_content_type_param (
-		((CamelDataWrapper *) mpe)->mime_type, "protocol");
+	protocol = camel_content_type_param (camel_data_wrapper_get_mime_type_field (CAMEL_DATA_WRAPPER (mpe)), "protocol");
 	if (!protocol || g_ascii_strcasecmp (protocol, "application/pgp-encrypted") != 0) {
 		e_mail_parser_error (
 			parser, out_mail_parts,

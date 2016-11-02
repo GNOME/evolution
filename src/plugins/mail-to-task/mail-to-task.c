@@ -209,7 +209,7 @@ set_description (ECalComponent *comp,
 {
 	CamelDataWrapper *content;
 	CamelStream *stream;
-	CamelContentType *type;
+	CamelContentType *type, *mime_type;
 	CamelMimePart *mime_part = CAMEL_MIME_PART (message);
 	ECalComponentText *text = NULL;
 	GByteArray *byte_array;
@@ -244,11 +244,13 @@ set_description (ECalComponent *comp,
 	str = g_strndup ((gchar *) byte_array->data, byte_array->len);
 	g_object_unref (stream);
 
+	mime_type = camel_data_wrapper_get_mime_type_field (content);
+
 	/* convert to UTF-8 string */
-	if (str && content->mime_type->params && content->mime_type->params->value) {
+	if (str && mime_type && mime_type->params && mime_type->params->value) {
 		convert_str = g_convert (
 			str, strlen (str),
-			"UTF-8", content->mime_type->params->value,
+			"UTF-8", mime_type->params->value,
 			&bytes_read, &bytes_written, NULL);
 	}
 

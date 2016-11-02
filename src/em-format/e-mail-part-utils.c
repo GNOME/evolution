@@ -203,25 +203,26 @@ e_mail_part_is_attachment (CamelMimePart *part)
 {
 	/*CamelContentType *ct = camel_mime_part_get_content_type(part);*/
 	CamelDataWrapper *dw = camel_medium_get_content ((CamelMedium *) part);
+	CamelContentType *mime_type;
 
 	if (!dw)
-		return 0;
+		return FALSE;
 
-	d (printf ("checking is attachment %s/%s\n", dw->mime_type->type, dw->mime_type->subtype));
-	return !(camel_content_type_is (dw->mime_type, "multipart", "*")
-		 || camel_content_type_is (
-			dw->mime_type, "application", "x-pkcs7-mime")
-		 || camel_content_type_is (
-			dw->mime_type, "application", "pkcs7-mime")
-		 || camel_content_type_is (
-			dw->mime_type, "application", "x-inlinepgp-signed")
-		 || camel_content_type_is (
-			dw->mime_type, "application", "x-inlinepgp-encrypted")
-		 || camel_content_type_is (
-			dw->mime_type, "x-evolution", "evolution-rss-feed")
-		 || camel_content_type_is (dw->mime_type, "text", "calendar")
-		 || camel_content_type_is (dw->mime_type, "text", "x-calendar")
-		 || (camel_content_type_is (dw->mime_type, "text", "*")
+	mime_type = camel_data_wrapper_get_mime_type_field (dw);
+
+	if (!mime_type)
+		return FALSE;
+
+	d (printf ("checking is attachment %s/%s\n", mime_type->type, mime_type->subtype));
+	return !(camel_content_type_is (mime_type, "multipart", "*")
+		 || camel_content_type_is (mime_type, "application", "x-pkcs7-mime")
+		 || camel_content_type_is (mime_type, "application", "pkcs7-mime")
+		 || camel_content_type_is (mime_type, "application", "x-inlinepgp-signed")
+		 || camel_content_type_is (mime_type, "application", "x-inlinepgp-encrypted")
+		 || camel_content_type_is (mime_type, "x-evolution", "evolution-rss-feed")
+		 || camel_content_type_is (mime_type, "text", "calendar")
+		 || camel_content_type_is (mime_type, "text", "x-calendar")
+		 || (camel_content_type_is (mime_type, "text", "*")
 		     && camel_mime_part_get_filename (part) == NULL));
 }
 

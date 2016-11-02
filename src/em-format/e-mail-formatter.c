@@ -1065,7 +1065,7 @@ e_mail_formatter_format_text (EMailFormatter *formatter,
 		return;
 
 	mime_part = e_mail_part_ref_mime_part (part);
-	mime_type = CAMEL_DATA_WRAPPER (mime_part)->mime_type;
+	mime_type = camel_data_wrapper_get_mime_type_field (CAMEL_DATA_WRAPPER (mime_part));
 
 	if (formatter->priv->charset != NULL) {
 		charset = formatter->priv->charset;
