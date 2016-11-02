@@ -124,7 +124,7 @@ set_attendees (ECalComponent *comp,
 		if (!arr[j])
 			continue;
 
-		len = CAMEL_ADDRESS (arr[j])->addresses->len;
+		len = camel_address_length (CAMEL_ADDRESS (arr[j]));
 		for (i = 0; i < len; i++) {
 			const gchar *name, *addr;
 

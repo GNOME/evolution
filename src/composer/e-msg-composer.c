@@ -3628,7 +3628,7 @@ e_msg_composer_setup_with_message (EMsgComposer *composer,
 	cc = camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_CC);
 	bcc = camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_BCC);
 
-	len = CAMEL_ADDRESS (to)->addresses->len;
+	len = camel_address_length (CAMEL_ADDRESS (to));
 	for (i = 0; i < len; i++) {
 		const gchar *name, *addr;
 
@@ -3643,7 +3643,7 @@ e_msg_composer_setup_with_message (EMsgComposer *composer,
 	Tov = destination_list_to_vector (To);
 	g_list_free (To);
 
-	len = CAMEL_ADDRESS (cc)->addresses->len;
+	len = camel_address_length (CAMEL_ADDRESS (cc));
 	for (i = 0; i < len; i++) {
 		const gchar *name, *addr;
 
@@ -3663,7 +3663,7 @@ e_msg_composer_setup_with_message (EMsgComposer *composer,
 	g_hash_table_destroy (auto_cc);
 	g_list_free (Cc);
 
-	len = CAMEL_ADDRESS (bcc)->addresses->len;
+	len = camel_address_length (CAMEL_ADDRESS (bcc));
 	for (i = 0; i < len; i++) {
 		const gchar *name, *addr;
 
