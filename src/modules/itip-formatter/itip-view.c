@@ -5708,7 +5708,7 @@ in_proper_folder (CamelFolder *folder)
 			));
 	} else {
 		/* cannot check for Inbox folder here */
-		res = (folder->folder_flags & (CAMEL_FOLDER_IS_TRASH | CAMEL_FOLDER_IS_JUNK)) == 0 && (
+		res = (camel_folder_get_flags (folder) & (CAMEL_FOLDER_IS_TRASH | CAMEL_FOLDER_IS_JUNK)) == 0 && (
 		      (CAMEL_IS_VEE_FOLDER (folder)) || (
 		      !em_utils_folder_is_sent (registry, folder) &&
 		      !em_utils_folder_is_outbox (registry, folder) &&

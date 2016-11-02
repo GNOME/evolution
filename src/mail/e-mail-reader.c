@@ -4542,11 +4542,12 @@ e_mail_reader_check_state (EMailReader *reader)
 
 	if (folder != NULL) {
 		gchar *archive_folder;
+		guint32 folder_flags;
 
 		store = camel_folder_get_parent_store (folder);
-		is_junk_folder =
-			(folder->folder_flags & CAMEL_FOLDER_IS_JUNK) != 0;
-		is_vtrash_folder = (camel_store_get_flags (store) & CAMEL_STORE_VTRASH) != 0 && (folder->folder_flags & CAMEL_FOLDER_IS_TRASH) != 0;
+		folder_flags = camel_folder_get_flags (folder);
+		is_junk_folder = (folder_flags & CAMEL_FOLDER_IS_JUNK) != 0;
+		is_vtrash_folder = (camel_store_get_flags (store) & CAMEL_STORE_VTRASH) != 0 && (folder_flags & CAMEL_FOLDER_IS_TRASH) != 0;
 		drafts_or_outbox =
 			em_utils_folder_is_drafts (registry, folder) ||
 			em_utils_folder_is_outbox (registry, folder);

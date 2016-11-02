@@ -3918,6 +3918,8 @@ static gboolean
 message_list_get_hide_junk (MessageList *message_list,
                             CamelFolder *folder)
 {
+	guint32 folder_flags;
+
 	if (folder == NULL)
 		return FALSE;
 
@@ -3927,10 +3929,12 @@ message_list_get_hide_junk (MessageList *message_list,
 	if (!folder_store_supports_vjunk_folder (folder))
 		return FALSE;
 
-	if (folder->folder_flags & CAMEL_FOLDER_IS_JUNK)
+	folder_flags = camel_folder_get_flags (folder);
+
+	if (folder_flags & CAMEL_FOLDER_IS_JUNK)
 		return FALSE;
 
-	if (folder->folder_flags & CAMEL_FOLDER_IS_TRASH)
+	if (folder_flags & CAMEL_FOLDER_IS_TRASH)
 		return FALSE;
 
 	if (CAMEL_IS_VEE_FOLDER (folder)) {
@@ -3960,7 +3964,7 @@ message_list_get_hide_deleted (MessageList *message_list,
 
 	non_trash_folder =
 		((camel_store_get_flags (store) & CAMEL_STORE_VTRASH) == 0) ||
-		((folder->folder_flags & CAMEL_FOLDER_IS_TRASH) == 0);
+		((camel_folder_get_flags (folder) & CAMEL_FOLDER_IS_TRASH) == 0);
 
 	if (non_trash_folder && CAMEL_IS_VEE_FOLDER (folder)) {
 		const gchar *expr = camel_vee_folder_get_expression (CAMEL_VEE_FOLDER (folder));
@@ -3980,7 +3984,7 @@ is_node_selectable (MessageList *message_list,
 	CamelFolder *folder;
 	gboolean is_junk_folder;
 	gboolean is_trash_folder;
-	guint32 flags;
+	guint32 flags, folder_flags;
 	gboolean flag_junk;
 	gboolean flag_deleted;
 	gboolean hide_junk;
@@ -3994,12 +3998,11 @@ is_node_selectable (MessageList *message_list,
 	g_return_val_if_fail (folder != NULL, FALSE);
 
 	store_has_vjunk = folder_store_supports_vjunk_folder (folder);
+	folder_flags = camel_folder_get_flags (folder);
 
 	/* check folder type */
-	is_junk_folder =
-		store_has_vjunk &&
-		(folder->folder_flags & CAMEL_FOLDER_IS_JUNK) != 0;
-	is_trash_folder = folder->folder_flags & CAMEL_FOLDER_IS_TRASH;
+	is_junk_folder = store_has_vjunk && (folder_flags & CAMEL_FOLDER_IS_JUNK) != 0;
+	is_trash_folder = folder_flags & CAMEL_FOLDER_IS_TRASH;
 
 	hide_junk = message_list_get_hide_junk (message_list, folder);
 	hide_deleted = message_list_get_hide_deleted (message_list, folder);
@@ -4762,10 +4765,10 @@ message_list_set_folder (MessageList *message_list,
 
 		non_trash_folder =
 			((camel_store_get_flags (store) & CAMEL_STORE_VTRASH) == 0) ||
-			((folder->folder_flags & CAMEL_FOLDER_IS_TRASH) == 0);
+			((camel_folder_get_flags (folder) & CAMEL_FOLDER_IS_TRASH) == 0);
 		non_junk_folder =
 			((camel_store_get_flags (store) & CAMEL_STORE_VJUNK) == 0) ||
-			((folder->folder_flags & CAMEL_FOLDER_IS_JUNK) == 0);
+			((camel_folder_get_flags (folder) & CAMEL_FOLDER_IS_JUNK) == 0);
 
 		strikeout_col = -1;
 		strikeout_color_col = -1;
@@ -5135,7 +5138,7 @@ on_click (ETree *tree,
 	flags = camel_message_info_get_flags (info);
 
 	folder_is_trash =
-		((folder->folder_flags & CAMEL_FOLDER_IS_TRASH) != 0);
+		((camel_folder_get_flags (folder) & CAMEL_FOLDER_IS_TRASH) != 0);
 
 	/* If a message was marked as deleted and the user flags it as
 	 * important or unread in a non-Trash folder, then undelete the
@@ -5622,7 +5625,7 @@ ml_sort_uids_by_tree (MessageList *message_list,
 		g_ptr_array_add (sort_data.sort_columns, data);
 	}
 
-	camel_folder_summary_prepare_fetch_all (folder->summary, NULL);
+	camel_folder_summary_prepare_fetch_all (camel_folder_get_folder_summary (folder), NULL);
 
 	for (i = 0;
 	     i < uids->len
@@ -5657,7 +5660,7 @@ ml_sort_uids_by_tree (MessageList *message_list,
 			cmp_array_uids,
 			&sort_data);
 
-	camel_folder_summary_unlock (folder->summary);
+	camel_folder_summary_unlock (camel_folder_get_folder_summary (folder));
 
 	/* FIXME Teach the hash table to destroy its own data. */
 	g_hash_table_foreach (
@@ -5875,7 +5878,7 @@ message_list_regen_thread (GSimpleAsyncResult *simple,
 		camel_folder_sort_uids (folder, uids);
 		regen_data->summary = g_ptr_array_new ();
 
-		camel_folder_summary_prepare_fetch_all (folder->summary, NULL);
+		camel_folder_summary_prepare_fetch_all (camel_folder_get_folder_summary (folder), NULL);
 
 		for (ii = 0; ii < uids->len; ii++) {
 			const gchar *uid;

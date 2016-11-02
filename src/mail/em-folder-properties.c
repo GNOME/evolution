@@ -727,7 +727,7 @@ emfp_dialog_run (AsyncContext *context)
 	/* Get number of VISIBLE and DELETED messages, instead of TOTAL
 	 * messages.  VISIBLE+DELETED gives the correct count that matches
 	 * the label below the Send & Receive button. */
-	summary = context->folder->summary;
+	summary = camel_folder_get_folder_summary (context->folder);
 	context->total = camel_folder_summary_get_visible_count (summary);
 	context->unread = camel_folder_summary_get_unread_count (summary);
 	deleted = camel_folder_summary_get_deleted_count (summary);
@@ -751,7 +751,7 @@ emfp_dialog_run (AsyncContext *context)
 	 */
 	if (camel_store_get_flags (parent_store) & CAMEL_STORE_VJUNK)
 		context->total = camel_folder_summary_count (
-			context->folder->summary);
+			camel_folder_get_folder_summary (context->folder));
 
 	name = camel_folder_get_display_name (context->folder);
 
