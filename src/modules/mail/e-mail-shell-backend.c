@@ -159,7 +159,7 @@ mbox_fill_preview_cb (GObject *preview,
 
 	parser = e_mail_parser_new (CAMEL_SESSION (mail_session));
 	e_mail_parser_parse (
-		parser, NULL, msg->message_id, msg,
+		parser, NULL, camel_mime_message_get_message_id (msg), msg,
 		message_parsed_cb, NULL, preview);
 
 	g_object_unref (mail_session);

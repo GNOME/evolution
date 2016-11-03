@@ -238,8 +238,12 @@ rule_from_message (EFilterRule *rule,
 	rule->grouping = E_FILTER_GROUP_ALL;
 
 	if (flags & AUTO_SUBJECT) {
-		const gchar *subject = msg->subject ? msg->subject : "";
+		const gchar *subject;
 		gchar *namestr;
+
+		subject = camel_mime_message_get_subject (msg);
+		if (!subject)
+			subject = "";
 
 		rule_match_subject (context, rule, subject);
 

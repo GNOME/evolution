@@ -106,13 +106,12 @@ set_attendees (ECalComponent *comp,
 {
 	GSList *attendees = NULL, *to_free = NULL;
 	ECalComponentAttendee *ca;
-	CamelInternetAddress *from = NULL, *to, *cc, *bcc, *arr[4];
+	CamelInternetAddress *from, *to, *cc, *bcc, *arr[4];
 	gint len, i, j;
 
-	if (message->reply_to)
-		from = message->reply_to;
-	else if (message->from)
-		from = message->from;
+	from = camel_mime_message_get_reply_to (message);
+	if (!from)
+		from = camel_mime_message_get_from (message);
 
 	to = camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_TO);
 	cc = camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_CC);
@@ -177,15 +176,14 @@ prepend_from (CamelMimeMessage *message,
 {
 	gchar *res, *tmp, *addr = NULL;
 	const gchar *name = NULL, *eml = NULL;
-	CamelInternetAddress *from = NULL;
+	CamelInternetAddress *from;
 
 	g_return_val_if_fail (message != NULL, NULL);
 	g_return_val_if_fail (text != NULL, NULL);
 
-	if (message->reply_to)
-		from = message->reply_to;
-	else if (message->from)
-		from = message->from;
+	from = camel_mime_message_get_reply_to (message);
+	if (!from)
+		from = camel_mime_message_get_from (message);
 
 	if (from && camel_internet_address_get (from, 0, &name, &eml))
 		addr = camel_internet_address_format_address (name, eml);
