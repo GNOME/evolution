@@ -2168,7 +2168,7 @@ attachment_load_from_mime_part_thread (GSimpleAsyncResult *simple,
 	const gchar *attribute;
 	const gchar *string;
 	gchar *allocated, *decoded_string = NULL;
-	CamelStream *null;
+	gsize bytes_written;
 	CamelDataWrapper *dw;
 
 	load_context = g_object_get_data (
@@ -2267,12 +2267,9 @@ attachment_load_from_mime_part_thread (GSimpleAsyncResult *simple,
 			file_info, attribute, string);
 
 	dw = camel_medium_get_content (CAMEL_MEDIUM (mime_part));
-	null = camel_stream_null_new ();
 	/* this actually downloads the part and makes it available later */
-	camel_data_wrapper_decode_to_stream_sync (
-		dw, null, attachment->priv->cancellable, NULL);
-	g_file_info_set_size (file_info, CAMEL_STREAM_NULL (null)->written);
-	g_object_unref (null);
+	bytes_written = camel_data_wrapper_calculate_decoded_size_sync (dw, attachment->priv->cancellable, NULL);
+	g_file_info_set_size (file_info, bytes_written);
 
 	load_context->mime_part = g_object_ref (mime_part);
 

@@ -77,7 +77,6 @@ empe_mp_alternative_parse (EMailParserExtension *extension,
 		CamelMimePart *mpart;
 		CamelDataWrapper *data_wrapper;
 		CamelContentType *type;
-		CamelStream *null_stream;
 		gchar *mime_type;
 		gsize content_size;
 
@@ -93,12 +92,8 @@ empe_mp_alternative_parse (EMailParserExtension *extension,
 		/* This may block even though the stream does not.
 		 * XXX Pretty inefficient way to test if the MIME part
 		 *     is empty.  Surely there's a quicker way? */
-		null_stream = camel_stream_null_new ();
 		data_wrapper = camel_medium_get_content (CAMEL_MEDIUM (mpart));
-		camel_data_wrapper_decode_to_stream_sync (
-			data_wrapper, null_stream, cancellable, NULL);
-		content_size = CAMEL_STREAM_NULL (null_stream)->written;
-		g_object_unref (null_stream);
+		content_size = camel_data_wrapper_calculate_decoded_size_sync (data_wrapper, cancellable, NULL);
 
 		if (content_size == 0)
 			continue;

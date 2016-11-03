@@ -785,22 +785,6 @@ exit:
 	g_string_free (error_messages, TRUE);
 }
 
-static guint32
-get_message_size (CamelMimeMessage *message,
-                  GCancellable *cancellable)
-{
-	CamelStream *null;
-	guint32 size;
-
-	null = camel_stream_null_new ();
-	camel_data_wrapper_write_to_stream_sync (
-		CAMEL_DATA_WRAPPER (message), null, cancellable, NULL);
-	size = CAMEL_STREAM_NULL (null)->written;
-	g_object_unref (null);
-
-	return size;
-}
-
 void
 e_mail_session_send_to (EMailSession *session,
                         CamelMimeMessage *message,
@@ -896,9 +880,8 @@ e_mail_session_send_to (EMailSession *session,
 
 	/* Miscellaneous preparations. */
 
-	info = camel_message_info_new_from_header (
-		NULL, CAMEL_MIME_PART (message)->headers);
-	camel_message_info_set_size (info, get_message_size (message, cancellable));
+	info = camel_message_info_new_from_header (NULL, CAMEL_MIME_PART (message)->headers);
+	camel_message_info_set_size (info, camel_data_wrapper_calculate_size_sync (CAMEL_DATA_WRAPPER (message), cancellable, NULL));
 	camel_message_info_set_flags (info, CAMEL_MESSAGE_SEEN |
 		(camel_mime_message_has_attachment (message) ? CAMEL_MESSAGE_ATTACHMENTS : 0), ~0);
 

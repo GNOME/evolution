@@ -568,22 +568,6 @@ static void	report_status		(struct _send_queue_msg *m,
 					 const gchar *desc,
 					 ...);
 
-static guint32
-get_message_size (CamelMimeMessage *message,
-                  GCancellable *cancellable)
-{
-	CamelStream *null;
-	guint32 size;
-
-	null = camel_stream_null_new ();
-	camel_data_wrapper_write_to_stream_sync (
-		CAMEL_DATA_WRAPPER (message), null, cancellable, NULL);
-	size = CAMEL_STREAM_NULL (null)->written;
-	g_object_unref (null);
-
-	return size;
-}
-
 /* send 1 message to a specific transport */
 static void
 mail_send_message (struct _send_queue_msg *m,
@@ -701,7 +685,7 @@ mail_send_message (struct _send_queue_msg *m,
 
 	/* Now check for posting, failures are ignored */
 	info = camel_message_info_new (NULL);
-	camel_message_info_set_size (info, get_message_size (message, cancellable));
+	camel_message_info_set_size (info, camel_data_wrapper_calculate_size_sync (CAMEL_DATA_WRAPPER (message), cancellable, NULL));
 	camel_message_info_set_flags (info, CAMEL_MESSAGE_SEEN |
 		(camel_mime_message_has_attachment (message) ? CAMEL_MESSAGE_ATTACHMENTS : 0), ~0);
 
