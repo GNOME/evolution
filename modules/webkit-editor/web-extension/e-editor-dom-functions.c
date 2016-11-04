@@ -8453,17 +8453,7 @@ e_editor_dom_process_content_after_load (EEditorPage *editor_page)
 		dom_set_links_active (document, FALSE);
 		e_editor_page_set_convert_in_situ (editor_page, FALSE);
 
-		e_editor_dom_scroll_to_caret (editor_page);
-
-		e_editor_dom_register_input_event_listener_on_body (editor_page);
-		register_html_events_handlers (editor_page, body);
-
-		if (e_editor_page_get_inline_spelling_enabled (editor_page))
-			e_editor_dom_force_spell_check (editor_page);
-		else
-			e_editor_dom_turn_spell_check_off (editor_page);
-
-		return;
+		goto out;
 	}
 
 	adapt_to_editor_dom_changes (document);
@@ -8495,15 +8485,16 @@ e_editor_dom_process_content_after_load (EEditorPage *editor_page)
 		e_editor_dom_selection_restore (editor_page);
 	}
 
+	e_editor_dom_fix_file_uri_images (editor_page);
+	change_cid_images_src_to_base64 (editor_page);
+
+ out:
 	/* Register on input event that is called when the content (body) is modified */
 	e_editor_dom_register_input_event_listener_on_body (editor_page);
 	register_html_events_handlers (editor_page, body);
 
-	e_editor_dom_fix_file_uri_images (editor_page);
-	change_cid_images_src_to_base64 (editor_page);
-
 	if (e_editor_page_get_inline_spelling_enabled (editor_page))
-		e_editor_dom_force_spell_check (editor_page);
+		e_editor_dom_force_spell_check_in_viewport (editor_page);
 	else
 		e_editor_dom_turn_spell_check_off (editor_page);
 
@@ -8817,8 +8808,8 @@ e_editor_dom_insert_html (EEditorPage *editor_page,
 		}
 
 		e_editor_dom_check_magic_links (editor_page, FALSE);
-		e_editor_dom_force_spell_check (editor_page);
 		e_editor_dom_scroll_to_caret (editor_page);
+		e_editor_dom_force_spell_check_in_viewport (editor_page);
 	} else
 		e_editor_dom_convert_and_insert_html_into_selection (editor_page, html_text, TRUE);
 
