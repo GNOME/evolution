@@ -734,10 +734,9 @@ e_editor_dom_force_spell_check_for_current_paragraph (EEditorPage *editor_page)
 	/* Remove the text that we inserted on the end of the paragraph */
 	remove_node (WEBKIT_DOM_NODE (text));
 
+	e_editor_dom_selection_restore (editor_page);
 	/* Unblock the callbacks */
 	e_editor_page_unblock_selection_changed (editor_page);
-
-	e_editor_dom_selection_restore (editor_page);
 }
 
 static void
@@ -824,10 +823,9 @@ refresh_spell_check (EEditorPage *editor_page,
 	/* Remove the text that we inserted on the end of the body */
 	remove_node (WEBKIT_DOM_NODE (text));
 
+	e_editor_dom_selection_restore (editor_page);
 	/* Unblock the callbacks */
 	e_editor_page_unblock_selection_changed (editor_page);
-
-	e_editor_dom_selection_restore (editor_page);
 }
 
 void
@@ -912,10 +910,9 @@ e_editor_dom_force_spell_check_in_viewport (EEditorPage *editor_page)
 	remove_node (WEBKIT_DOM_NODE (text));
 
  out:
+	e_editor_dom_selection_restore (editor_page);
 	/* Unblock the callbacks */
 	e_editor_page_unblock_selection_changed (editor_page);
-
-	e_editor_dom_selection_restore (editor_page);
 }
 
 void
