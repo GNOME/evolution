@@ -12246,6 +12246,7 @@ e_editor_dom_selection_indent (EEditorPage *editor_page)
 
 	e_editor_dom_selection_restore (editor_page);
 	e_editor_dom_force_spell_check_for_current_paragraph (editor_page);
+	e_editor_page_emit_content_changed (editor_page);
 }
 
 static void
@@ -12552,6 +12553,7 @@ e_editor_dom_selection_unindent (EEditorPage *editor_page)
 	e_editor_dom_selection_restore (editor_page);
 
 	e_editor_dom_force_spell_check_for_current_paragraph (editor_page);
+	e_editor_page_emit_content_changed (editor_page);
 }
 
 static void
@@ -16926,6 +16928,7 @@ e_editor_dom_selection_set_alignment (EEditorPage *editor_page,
 	e_editor_dom_selection_restore (editor_page);
 
 	e_editor_dom_force_spell_check_for_current_paragraph (editor_page);
+	e_editor_page_emit_content_changed (editor_page);
 }
 
 /*
