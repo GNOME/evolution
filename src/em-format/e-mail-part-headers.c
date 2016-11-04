@@ -61,7 +61,7 @@ mail_part_headers_build_print_model (EMailPartHeaders *part)
 	GtkListStore *list_store;
 	EMailPartList *part_list;
 	CamelMimeMessage *message;
-	CamelNameValueArray *headers;
+	const CamelNameValueArray *headers;
 	gint default_position = 0;
 	guint ii, length = 0;
 
@@ -78,10 +78,8 @@ mail_part_headers_build_print_model (EMailPartHeaders *part)
 		G_TYPE_STRING);  /* HEADER_VALUE */
 
 	message = e_mail_part_list_get_message (part_list);
-	headers = camel_medium_dup_headers (CAMEL_MEDIUM (message));
-
-	if (headers != NULL)
-		length = camel_name_value_array_get_length (headers);
+	headers = camel_medium_get_headers (CAMEL_MEDIUM (message));
+	length = camel_name_value_array_get_length (headers);
 
 	for (ii = 0; ii < length; ii++) {
 		GtkTreeIter iter;
@@ -125,9 +123,6 @@ mail_part_headers_build_print_model (EMailPartHeaders *part)
 			header_value,
 			-1);
 	}
-
-	if (headers != NULL)
-		camel_name_value_array_free (headers);
 
 	g_object_unref (part_list);
 

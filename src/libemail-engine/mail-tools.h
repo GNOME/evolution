@@ -30,15 +30,22 @@
 
 /* Does a camel_movemail into the local movemail folder
  * and returns the path to the new movemail folder that was created. which shoudl be freed later */
-gchar *mail_tool_do_movemail (CamelStore *store, GError **error);
+gchar *		mail_tool_do_movemail		(CamelStore *store,
+						 GError **error);
 
-struct _camel_header_raw *mail_tool_remove_xevolution_headers (CamelMimeMessage *message);
-void mail_tool_restore_xevolution_headers (CamelMimeMessage *message, struct _camel_header_raw *);
+CamelNameValueArray *
+		mail_tool_remove_xevolution_headers
+						(CamelMimeMessage *message);
+void		mail_tool_restore_xevolution_headers
+						(CamelMimeMessage *message,
+						 CamelNameValueArray *headers);
 
 /* Generates the subject for a message forwarding @msg */
-gchar *mail_tool_generate_forward_subject (CamelMimeMessage *msg);
+gchar *		mail_tool_generate_forward_subject
+						(CamelMimeMessage *msg);
 
 /* Make a message into an attachment */
-CamelMimePart *mail_tool_make_message_attachment (CamelMimeMessage *message);
+CamelMimePart *	mail_tool_make_message_attachment
+						(CamelMimeMessage *message);
 
 #endif

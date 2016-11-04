@@ -470,7 +470,7 @@ set_priority (ECalComponent *comp,
 	g_return_if_fail (comp != NULL);
 	g_return_if_fail (part != NULL);
 
-	prio = camel_header_raw_find (& (part->headers), "X-Priority", NULL);
+	prio = camel_medium_get_header (CAMEL_MEDIUM (part), "X-Priority");
 	if (prio && atoi (prio) > 0) {
 		gint priority = 1;
 

@@ -284,8 +284,7 @@ rule_from_message (EFilterRule *rule,
 	if (flags & AUTO_MLIST) {
 		gchar *name, *mlist;
 
-		mlist = camel_header_raw_check_mailing_list (
-			&((CamelMimePart *) msg)->headers);
+		mlist = camel_headers_dup_mailing_list (camel_medium_get_headers (CAMEL_MEDIUM (msg)));
 		if (mlist) {
 			rule_match_mlist (context, rule, mlist);
 			name = g_strdup_printf (_("%s mailing list"), mlist);

@@ -274,23 +274,23 @@ e_mail_tag_editor_get_tag_list (EMailTagEditor *editor)
 	entry = gtk_bin_get_child (GTK_BIN (editor->priv->combo_entry));
 	if (entry)
 		text = g_strdup (gtk_entry_get_text (GTK_ENTRY (entry)));
-	camel_name_value_array_set_named (tag_list, TRUE, "follow-up", text);
+	camel_name_value_array_set_named (tag_list, CAMEL_COMPARE_CASE_SENSITIVE, "follow-up", text);
 	g_free (text);
 
 	date = e_date_edit_get_time (editor->priv->target_date);
 	if (date != (time_t) -1) {
 		text = camel_header_format_date (date, 0);
-		camel_name_value_array_set_named (tag_list, TRUE, "due-by", text);
+		camel_name_value_array_set_named (tag_list, CAMEL_COMPARE_CASE_SENSITIVE, "due-by", text);
 		g_free (text);
 	} else
-		camel_name_value_array_set_named (tag_list, TRUE, "due-by", "");
+		camel_name_value_array_set_named (tag_list, CAMEL_COMPARE_CASE_SENSITIVE, "due-by", "");
 
 	if (e_mail_tag_editor_get_completed (editor)) {
 		text = camel_header_format_date (editor->priv->completed_date, 0);
-		camel_name_value_array_set_named (tag_list, TRUE, "completed-on", text);
+		camel_name_value_array_set_named (tag_list, CAMEL_COMPARE_CASE_SENSITIVE, "completed-on", text);
 		g_free (text);
 	} else
-		camel_name_value_array_set_named (tag_list, TRUE, "completed-on", "");
+		camel_name_value_array_set_named (tag_list, CAMEL_COMPARE_CASE_SENSITIVE, "completed-on", "");
 
 	return tag_list;
 }
@@ -313,18 +313,18 @@ e_mail_tag_editor_set_tag_list (EMailTagEditor *editor,
 	 *     translated tag there's no sure-fire way to determine
 	 *     the corresponding combo box index (e.g. the tag may
 	 *     have been set while running in a different locale). */
-	text = camel_name_value_array_get_named (tag_list, TRUE, "follow-up");
+	text = camel_name_value_array_get_named (tag_list, CAMEL_COMPARE_CASE_SENSITIVE, "follow-up");
 	if (text != NULL)
 		gtk_entry_set_text (GTK_ENTRY (child), text);
 
-	text = camel_name_value_array_get_named (tag_list, TRUE, "due-by");
+	text = camel_name_value_array_get_named (tag_list, CAMEL_COMPARE_CASE_SENSITIVE, "due-by");
 	if (text != NULL && *text != '\0') {
 		date = camel_header_decode_date (text, NULL);
 		e_date_edit_set_time (editor->priv->target_date, date);
 	} else
 		e_date_edit_set_time (editor->priv->target_date, (time_t) -1);
 
-	text = camel_name_value_array_get_named (tag_list, TRUE, "completed-on");
+	text = camel_name_value_array_get_named (tag_list, CAMEL_COMPARE_CASE_SENSITIVE, "completed-on");
 	if (text != NULL && *text != '\0') {
 		date = camel_header_decode_date (text, NULL);
 		if (date != (time_t) 0) {

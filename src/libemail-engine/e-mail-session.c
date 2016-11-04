@@ -1373,7 +1373,6 @@ mail_session_forward_to_sync (CamelSession *session,
 	const gchar *from_address;
 	const gchar *from_name;
 	const gchar *header_name;
-	struct _camel_header_raw *xev;
 	gboolean success;
 	gchar *subject;
 
@@ -1446,8 +1445,7 @@ mail_session_forward_to_sync (CamelSession *session,
 		camel_medium_remove_header (medium, header_name);
 
 	/* remove any X-Evolution-* headers that may have been set */
-	xev = mail_tool_remove_xevolution_headers (forward);
-	camel_header_raw_clear (&xev);
+	camel_name_value_array_free (mail_tool_remove_xevolution_headers (forward));
 
 	/* from */
 	addr = camel_internet_address_new ();

@@ -51,7 +51,7 @@ struct _AsyncContext {
 	gint io_priority;
 
 	/* X-Evolution headers */
-	struct _camel_header_raw *xev;
+	CamelNameValueArray *xev_headers;
 
 	GPtrArray *post_to_uris;
 
@@ -77,8 +77,7 @@ async_context_free (AsyncContext *context)
 		g_object_unref (context->cancellable);
 	}
 
-	if (context->xev != NULL)
-		camel_header_raw_clear (&context->xev);
+	camel_name_value_array_free (context->xev_headers);
 
 	if (context->post_to_uris != NULL) {
 		g_ptr_array_foreach (
@@ -633,7 +632,7 @@ skip_send:
 	/* This accumulates error messages during post-processing. */
 	error_messages = g_string_sized_new (256);
 
-	mail_tool_restore_xevolution_headers (context->message, context->xev);
+	mail_tool_restore_xevolution_headers (context->message, context->xev_headers);
 
 	/* Run filters on the outgoing message. */
 	if (context->driver != NULL) {
@@ -803,9 +802,9 @@ e_mail_session_send_to (EMailSession *session,
 	CamelMessageInfo *info;
 	CamelService *transport;
 	GPtrArray *post_to_uris;
-	struct _camel_header_raw *xev;
-	struct _camel_header_raw *header;
+	CamelNameValueArray *xev_headers;
 	const gchar *resent_from;
+	guint ii, len;
 	GError *error = NULL;
 
 	g_return_if_fail (E_IS_MAIL_SESSION (session));
@@ -819,18 +818,22 @@ e_mail_session_send_to (EMailSession *session,
 	transport = e_mail_session_ref_transport_for_message (
 		session, message);
 
-	xev = mail_tool_remove_xevolution_headers (message);
+	xev_headers = mail_tool_remove_xevolution_headers (message);
+	len = camel_name_value_array_get_length (xev_headers);
 
 	/* Extract directives from X-Evolution headers. */
 
 	post_to_uris = g_ptr_array_new ();
-	for (header = xev; header != NULL; header = header->next) {
+	for (ii = 0; ii < len; ii++) {
+		const gchar *header_name = NULL, *header_value = NULL;
 		gchar *folder_uri;
 
-		if (g_strcmp0 (header->name, "X-Evolution-PostTo") != 0)
+		if (!camel_name_value_array_get (xev_headers, ii, &header_name, &header_value) ||
+		    !header_name ||
+		    g_ascii_strcasecmp (header_name, "X-Evolution-PostTo") != 0)
 			continue;
 
-		folder_uri = g_strstrip (g_strdup (header->value));
+		folder_uri = g_strstrip (g_strdup (header_value));
 		g_ptr_array_add (post_to_uris, folder_uri);
 	}
 
@@ -880,7 +883,8 @@ e_mail_session_send_to (EMailSession *session,
 
 	/* Miscellaneous preparations. */
 
-	info = camel_message_info_new_from_header (NULL, CAMEL_MIME_PART (message)->headers);
+	info = camel_message_info_new_from_headers (NULL, camel_medium_get_headers (CAMEL_MEDIUM (message)));
+
 	camel_message_info_set_size (info, camel_data_wrapper_calculate_size_sync (CAMEL_DATA_WRAPPER (message), cancellable, NULL));
 	camel_message_info_set_flags (info, CAMEL_MESSAGE_SEEN |
 		(camel_mime_message_has_attachment (message) ? CAMEL_MESSAGE_ATTACHMENTS : 0), ~0);
@@ -896,7 +900,7 @@ e_mail_session_send_to (EMailSession *session,
 	context->from = from;
 	context->recipients = recipients;
 	context->info = info;
-	context->xev = xev;
+	context->xev_headers = xev_headers;
 	context->post_to_uris = post_to_uris;
 	context->transport = transport;
 

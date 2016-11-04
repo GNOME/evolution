@@ -1370,12 +1370,11 @@ mail_folder_strip_message (CamelFolder *folder,
 		CamelMessageInfo *orig_info;
 		CamelMessageInfo *copy_info;
 		CamelMessageFlags flags;
+		const CamelNameValueArray *headers;
 
-		orig_info =
-			camel_folder_get_message_info (folder, message_uid);
-		copy_info =
-			camel_message_info_new_from_header (
-			NULL, CAMEL_MIME_PART (message)->headers);
+		headers = camel_medium_get_headers (CAMEL_MEDIUM (message));
+		orig_info = camel_folder_get_message_info (folder, message_uid);
+		copy_info = camel_message_info_new_from_headers (NULL, headers);
 
 		flags = camel_folder_get_message_flags (folder, message_uid);
 		camel_message_info_set_flags (copy_info, flags, flags);

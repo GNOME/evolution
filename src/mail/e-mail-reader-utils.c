@@ -2410,7 +2410,8 @@ e_mail_reader_reply_to_message (EMailReader *reader,
 	CamelFolder *folder;
 	EMailReplyStyle reply_style;
 	EWebView *web_view;
-	struct _camel_header_raw *header;
+	const CamelNameValueArray *headers;
+	guint ii, len;
 	const gchar *uid;
 	gchar *selection = NULL;
 	gint length;
@@ -2524,14 +2525,16 @@ e_mail_reader_reply_to_message (EMailReader *reader,
 	new_message = camel_mime_message_new ();
 
 	/* Filter out "content-*" headers. */
-	header = CAMEL_MIME_PART (src_message)->headers;
-	while (header != NULL) {
-		if (g_ascii_strncasecmp (header->name, "content-", 8) != 0)
-			camel_medium_add_header (
-				CAMEL_MEDIUM (new_message),
-				header->name, header->value);
+	headers = camel_medium_get_headers (CAMEL_MEDIUM (src_message));
+	len = camel_name_value_array_get_length (headers);
+	for (ii = 0; ii < len; ii++) {
+		const gchar *header_name = NULL, *header_value = NULL;
 
-		header = header->next;
+		if (camel_name_value_array_get (headers, ii, &header_name, &header_value) &&
+		    header_name &&
+		    g_ascii_strncasecmp (header_name, "content-", 8) != 0) {
+			camel_medium_add_header (CAMEL_MEDIUM (new_message), header_name, header_value);
+		}
 	}
 
 	camel_medium_add_header (

@@ -278,22 +278,6 @@ emcu_part_to_html (EMsgComposer *composer,
 	return text;
 }
 
-/* copy of mail_tool_remove_xevolution_headers */
-static struct _camel_header_raw *
-emcu_remove_xevolution_headers (CamelMimeMessage *message)
-{
-	struct _camel_header_raw *scan, *list = NULL;
-
-	for (scan = ((CamelMimePart *) message)->headers; scan; scan = scan->next)
-		if (!strncmp (scan->name, "X-Evolution", 11))
-			camel_header_raw_append (&list, scan->name, scan->value, scan->offset);
-
-	for (scan = list; scan; scan = scan->next)
-		camel_medium_remove_header ((CamelMedium *) message, scan->name);
-
-	return list;
-}
-
 static EDestination **
 destination_list_to_vector_sized (GList *list,
                                   gint n)
@@ -1516,7 +1500,7 @@ composer_build_message_finish (EMsgComposer *composer,
 		    CAMEL_IS_MIME_PART (context->top_level_part)) {
 			CamelDataWrapper *content;
 			CamelMedium *imedium, *omedium;
-			CamelNameValueArray *headers;
+			const CamelNameValueArray *headers;
 
 			imedium = CAMEL_MEDIUM (context->top_level_part);
 			omedium = CAMEL_MEDIUM (context->message);
@@ -1525,7 +1509,7 @@ composer_build_message_finish (EMsgComposer *composer,
 			camel_medium_set_content (omedium, content);
 			camel_data_wrapper_set_encoding (CAMEL_DATA_WRAPPER (omedium), camel_data_wrapper_get_encoding (CAMEL_DATA_WRAPPER (imedium)));
 
-			headers = camel_medium_dup_headers (imedium);
+			headers = camel_medium_get_headers (imedium);
 			if (headers) {
 				gint ii, length;
 				length = camel_name_value_array_get_length (headers);
@@ -1537,8 +1521,6 @@ composer_build_message_finish (EMsgComposer *composer,
 					if (camel_name_value_array_get (headers, ii, &header_name, &header_value))
 						camel_medium_set_header (omedium, header_name, header_value);
 				}
-
-				camel_name_value_array_free (headers);
 			}
 		} else {
 			camel_medium_set_content (
@@ -3542,7 +3524,7 @@ e_msg_composer_setup_with_message (EMsgComposer *composer,
 	EDestination **Tov, **Ccv, **Bccv;
 	GHashTable *auto_cc, *auto_bcc;
 	CamelContentType *content_type;
-	struct _camel_header_raw *headers;
+	const CamelNameValueArray *headers;
 	CamelDataWrapper *content;
 	EMsgComposerPrivate *priv;
 	EComposerHeaderTable *table;
@@ -3550,23 +3532,27 @@ e_msg_composer_setup_with_message (EMsgComposer *composer,
 	EHTMLEditor *editor;
 	EContentEditor *cnt_editor;
 	GtkToggleAction *action;
-	struct _camel_header_raw *xev;
 	gchar *identity_uid;
 	gint len, i;
+	guint jj, jjlen;
 	gboolean is_message_from_draft = FALSE;
 
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 
-	headers = CAMEL_MIME_PART (message)->headers;
-	while (headers != NULL) {
+	headers = camel_medium_get_headers (CAMEL_MEDIUM (message));
+	jjlen = camel_name_value_array_get_length (headers);
+	for (jj = 0; jj < jjlen; jj++) {
+		const gchar *header_name = NULL, *header_value = NULL;
 		gchar *value;
 
-		if (strcmp (headers->name, "X-Evolution-PostTo") == 0) {
-			value = g_strstrip (g_strdup (headers->value));
+		if (!camel_name_value_array_get (headers, jj, &header_name, &header_value) ||
+		    !header_name)
+			continue;
+
+		if (g_ascii_strcasecmp (header_name, "X-Evolution-PostTo") == 0) {
+			value = g_strstrip (g_strdup (header_value));
 			postto = g_list_append (postto, value);
 		}
-
-		headers = headers->next;
 	}
 
 	priv = E_MSG_COMPOSER_GET_PRIVATE (composer);
@@ -3770,8 +3756,7 @@ e_msg_composer_setup_with_message (EMsgComposer *composer,
 	}
 
 	/* Remove any other X-Evolution-* headers that may have been set */
-	xev = emcu_remove_xevolution_headers (message);
-	camel_header_raw_clear (&xev);
+	camel_name_value_array_free (mail_tool_remove_xevolution_headers (message));
 
 	/* Check for receipt request */
 	if (camel_medium_get_header (
@@ -3787,19 +3772,23 @@ e_msg_composer_setup_with_message (EMsgComposer *composer,
 	}
 
 	/* set extra headers */
-	headers = CAMEL_MIME_PART (message)->headers;
-	while (headers) {
-		if (g_ascii_strcasecmp (headers->name, "References") == 0 ||
-		    g_ascii_strcasecmp (headers->name, "In-Reply-To") == 0) {
+	headers = camel_medium_get_headers (CAMEL_MEDIUM (message));
+	jjlen = camel_name_value_array_get_length (headers);
+	for (jj = 0; jj < jjlen; jj++) {
+		const gchar *header_name = NULL, *header_value = NULL;
+
+		if (!camel_name_value_array_get (headers, jj, &header_name, &header_value) || !header_name)
+			continue;
+
+		if (g_ascii_strcasecmp (header_name, "References") == 0 ||
+		    g_ascii_strcasecmp (header_name, "In-Reply-To") == 0) {
 			g_ptr_array_add (
 				composer->priv->extra_hdr_names,
-				g_strdup (headers->name));
+				g_strdup (header_name));
 			g_ptr_array_add (
 				composer->priv->extra_hdr_values,
-				camel_header_unfold (headers->value));
+				camel_header_unfold (header_value));
 		}
-
-		headers = headers->next;
 	}
 
 	/* Restore the attachments and body text */
