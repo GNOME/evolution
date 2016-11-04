@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2016-10-25 16:59+0000\n"
-"PO-Revision-Date: 2016-11-04 22:36+0100\n"
+"PO-Revision-Date: 2016-11-04 23:15+0100\n"
 "Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
 "Language-Team: Friulian <fur@li.org>\n"
 "Language: fur\n"
@@ -3079,7 +3079,7 @@ msgstr "_Promemorie"
 #: ../data/views/tasks/galview.xml.h:1
 #: ../src/plugins/pst-import/pst-importer.c:571
 msgid "_Tasks"
-msgstr ""
+msgstr "A_tivitâts"
 
 #: ../data/views/tasks/galview.xml.h:2
 msgid "With _Due Date"
@@ -3300,6 +3300,8 @@ msgid ""
 "A contact list named '{0}' is already in this contact list. Would you like "
 "to add it anyway?"
 msgstr ""
+"In cheste liste di contats al è za presint un contat cul non «{0}». Zontâlu "
+"distès?"
 
 #: ../src/addressbook/addressbook.error.xml.h:41
 #: ../src/addressbook/gui/widgets/e-addressbook-view.c:1283
@@ -6065,14 +6067,14 @@ msgstr "Cjape il focus"
 #, c-format
 msgid "It has %d event."
 msgid_plural "It has %d events."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Al à %d event."
+msgstr[1] "Al à %d events."
 
 #. To translators: Here, "It" is either like "Work Week View: July
 #. 10th - July 14th, 2006." or "Day View: Thursday July 13th, 2006."
 #: ../src/calendar/gui/ea-day-view.c:112 ../src/calendar/gui/ea-week-view.c:108
 msgid "It has no events."
-msgstr ""
+msgstr "Nol à events."
 
 #: ../src/calendar/gui/ea-day-view.c:119
 #, c-format
@@ -7241,11 +7243,11 @@ msgstr "Comute cuant che si mostre il cjamp \"Rûl\""
 
 #: ../src/calendar/gui/e-comp-editor-page-general.c:600
 msgid "_RSVP"
-msgstr ""
+msgstr "_RSVP"
 
 #: ../src/calendar/gui/e-comp-editor-page-general.c:602
 msgid "Toggles whether the RSVP field is displayed"
-msgstr ""
+msgstr "Al comute il visualizâ dal cjamp RSVP"
 
 #: ../src/calendar/gui/e-comp-editor-page-general.c:608
 msgid "_Status Field"
@@ -8231,7 +8233,7 @@ msgstr "Gjenar"
 #: ../src/calendar/gui/e-meeting-list-view.c:673
 #: ../src/calendar/gui/e-meeting-time-sel.etspec.h:6
 msgid "RSVP"
-msgstr ""
+msgstr "RSVP"
 
 #: ../src/calendar/gui/e-meeting-store.c:204
 #: ../src/calendar/gui/e-meeting-store.c:227
@@ -10350,7 +10352,7 @@ msgstr "Europe/Oslo"
 
 #: ../src/calendar/zones.h:334
 msgid "Europe/Paris"
-msgstr ""
+msgstr "Europe/Parîs"
 
 #: ../src/calendar/zones.h:335
 msgid "Europe/Prague"
@@ -10390,7 +10392,7 @@ msgstr "Europe/Sofia"
 
 #: ../src/calendar/zones.h:344
 msgid "Europe/Stockholm"
-msgstr ""
+msgstr "Europe/Stocolme"
 
 #: ../src/calendar/zones.h:345
 msgid "Europe/Tallinn"
@@ -10434,7 +10436,7 @@ msgstr "Europe/Zaporozhye"
 
 #: ../src/calendar/zones.h:355
 msgid "Europe/Zurich"
-msgstr ""
+msgstr "Europe/Zuric"
 
 #: ../src/calendar/zones.h:356
 msgid "Indian/Antananarivo"
