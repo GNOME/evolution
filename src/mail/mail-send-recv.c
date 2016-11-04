@@ -603,7 +603,7 @@ get_keep_on_server (CamelService *service)
 	return keep_on_server;
 }
 
-static struct _send_data *
+static void
 build_dialog (GtkWindow *parent,
               EMailSession *session,
               CamelFolder *outbox,
@@ -861,8 +861,6 @@ build_dialog (GtkWindow *parent,
 	g_object_weak_ref ((GObject *) gd, (GWeakNotify) dialog_destroy_cb, data);
 
 	data->infos = list;
-
-	return data;
 }
 
 static void
@@ -1566,7 +1564,6 @@ send_receive (GtkWindow *parent,
 {
 	CamelFolder *local_outbox;
 	CamelService *transport;
-	struct _send_data *data;
 	GList *scan, *siter;
 
 	if (send_recv_dialog != NULL) {
@@ -1582,15 +1579,17 @@ send_receive (GtkWindow *parent,
 		e_mail_session_get_local_folder (
 		session, E_MAIL_LOCAL_FOLDER_OUTBOX);
 
-	data = build_dialog (
-		parent, session, local_outbox, transport, allow_send);
+	build_dialog (parent, session, local_outbox, transport, allow_send);
 
 	if (transport != NULL)
 		g_object_unref (transport);
 
 	maybe_delete_junk_or_expunge_local_store (session);
 
-	scan = g_list_copy (data->infos);
+	if (!send_data)
+		return NULL;
+
+	scan = g_list_copy (send_data->infos);
 
 	for (siter = scan; siter != NULL; siter = siter->next) {
 		struct _send_info *info = siter->data;
@@ -1622,8 +1621,7 @@ send_receive (GtkWindow *parent,
 				send_done, info);
 			break;
 		case SEND_UPDATE:
-			receive_update_got_store (
-				CAMEL_STORE (info->service), info);
+			receive_update_got_store (CAMEL_STORE (info->service), info);
 			break;
 		default:
 			break;
@@ -1632,9 +1630,9 @@ send_receive (GtkWindow *parent,
 
 	g_list_free (scan);
 
-	if (g_hash_table_size (data->active) == 0) {
-		if (data->gd)
-			gtk_widget_destroy ((GtkWidget *) data->gd);
+	if (send_data && g_hash_table_size (send_data->active) == 0) {
+		if (send_data->gd)
+			gtk_widget_destroy ((GtkWidget *) send_data->gd);
 		free_send_data ();
 	}
 
