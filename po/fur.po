@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2016-10-25 16:59+0000\n"
-"PO-Revision-Date: 2016-10-31 22:06+0100\n"
+"PO-Revision-Date: 2016-11-04 22:36+0100\n"
 "Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
 "Language-Team: Friulian <fur@li.org>\n"
 "Language: fur\n"
@@ -2505,34 +2505,43 @@ msgstr ""
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:240
 msgid "(Deprecated) List of custom headers and whether they are enabled."
 msgstr ""
+"(Deplorade) Liste des intestazions personalizadis e se a son abilitadis."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:241
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "\"show-headers\" instead."
 msgstr ""
+"Cheste clâf e je stade deplorade inte version 3.10 e no varès di jessi plui "
+"doprade. Doprâ invezit \"show-headers\"."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:242
 msgid "(Deprecated) Load images for HTML messages over HTTP"
-msgstr ""
+msgstr "(Deplorade) Cjarie lis imagjins pai messaçs HTML  vie HTTP"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:243
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "\"image-loading-policy\" instead."
 msgstr ""
+"Cheste clâf e je stade deplorade inte version 3.10 e no varès di jessi plui "
+"doprade. Doprâ invezit \"image-loading-policy\"."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:244
 msgid ""
 "(Deprecated) Asks whether to close the message window when the user forwards "
 "or replies to the message shown in the window"
 msgstr ""
+"(Deplorade) Domande se sierâ il barcon dal messaç cuant che l'utent al mande "
+"indenant o al rispuint al messaç mostrât intal barcon"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:245
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "\"browser-close-on-reply-policy\" instead."
 msgstr ""
+"Cheste clâf e je stade deplorade inte version 3.10 e no varès di jessi plui "
+"doprade. Doprâ invezit \"browser-close-on-reply-policy\"."
 
 #. Translators: This is the a list of words for the attach reminder plugin to look
 #. for in a message body. Please use any number of words here in your language that might
@@ -2555,65 +2564,68 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:1
 msgid "Address book source"
-msgstr ""
+msgstr "Sorzint rubriche"
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:2
 msgid "Address book to use for storing automatically synced contacts."
-msgstr ""
+msgstr "Rubriche di doprâ par memorizâ in automatic i contats sincronizâts."
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:3
 msgid "Auto sync Pidgin contacts"
-msgstr ""
+msgstr "Sincronizazion automatiche contats Pidgin"
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:4
 msgid "Whether Pidgin contacts should be automatically synced."
-msgstr ""
+msgstr "Indiche se sincronizâ in automatic i contats di Pidgin."
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:5
 msgid "Enable autocontacts"
-msgstr ""
+msgstr "Abilite i contats automatics"
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:6
 msgid ""
 "Whether contacts should be automatically added to the user's address book."
 msgstr ""
+"Indiche se i contats a scugnin jessi zontâts in automatic ae rubriche dal "
+"utent."
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:7
 msgid "Pidgin address book source"
-msgstr ""
+msgstr "Sorzint rubriche di Pidgin"
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:8
 msgid ""
 "Address book to use for storing automatically synced contacts from Pidgin."
 msgstr ""
+"Rubriche di doprâ par memorizâ in automatic i contats sincronizâts di Pidgin."
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:9
 msgid "Pidgin check interval"
-msgstr ""
+msgstr "Interval di control di Pidgin"
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:10
 msgid "Check interval for Pidgin syncing of contacts."
-msgstr ""
+msgstr "Interval di control pe sincronizazion dai contats di Pidgin."
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:11
 msgid "Pidgin last sync MD5"
-msgstr ""
+msgstr "MD5 de ultime sincronizazion di Pidgin"
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:12
 msgid "Pidgin last sync MD5."
-msgstr ""
+msgstr "MD5 de ultime sincronizazion di Pidgin."
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:13
 msgid "Pidgin last sync time"
-msgstr ""
+msgstr "Ore de ultime sincronizazion di Pidgin"
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:14
 msgid "Pidgin last sync time."
-msgstr ""
+msgstr "Ore de ultime sincronizazion di Pidgin."
 
 #: ../data/org.gnome.evolution.plugin.email-custom-header.gschema.xml.in.h:1
 msgid "List of Custom Headers"
-msgstr ""
+msgstr "Liste des intestazions personalizadis"
 
 #: ../data/org.gnome.evolution.plugin.email-custom-header.gschema.xml.in.h:2
 msgid ""
@@ -2621,76 +2633,90 @@ msgid ""
 "message. The format for specifying a Header and Header value is: Name of the "
 "custom header followed by \"=\" and the values separated by \";\""
 msgstr ""
+"La clâf e specifiche la liste di intestazions personalizadis che si pues "
+"zontâ a un messaç in jessude. Il formât par specificâ une intestazion e il "
+"valôr de intestazion al è: Non de intestazion personalizade seguît di un \"="
+"\" e i valôrs separâts di \";\""
 
 #: ../data/org.gnome.evolution.plugin.external-editor.gschema.xml.in.h:1
 msgid "Default External Editor"
-msgstr ""
+msgstr "Editôr esterni predefinît"
 
 #: ../data/org.gnome.evolution.plugin.external-editor.gschema.xml.in.h:2
 msgid "The default command that must be used as the editor."
-msgstr ""
+msgstr "Il comant predefinît che al à di jessi doprât come editôr."
 
 #: ../data/org.gnome.evolution.plugin.external-editor.gschema.xml.in.h:3
 msgid "Automatically launch when a new mail is edited"
-msgstr ""
+msgstr "Invie in automatic cuant che une gnove e-mail e ven modificade"
 
 #: ../data/org.gnome.evolution.plugin.external-editor.gschema.xml.in.h:4
 msgid "Automatically launch editor when key is pressed in the mail composer."
 msgstr ""
+"Invie in automatic l'editôr cuant che il tast al ven fracât tal compositôr "
+"di pueste."
 
 #: ../data/org.gnome.evolution.plugin.face-picture.gschema.xml.in.h:1
 msgid "Insert Face picture by default"
-msgstr ""
+msgstr "Inserî imagjin \"Muse\" in mût predefinît"
 
 #: ../data/org.gnome.evolution.plugin.face-picture.gschema.xml.in.h:2
 msgid ""
 "Whether insert Face picture to outgoing messages by default. The picture "
 "should be set before checking this, otherwise nothing happens."
 msgstr ""
+"Indiche se inserî in maniere predefinide ai messaçs in jessude une imagjin "
+"\"Muse\". La imagjin e varès di jessi stade definide prime di ativâ cheste "
+"opzion, se no nol funzionarà."
 
 #: ../data/org.gnome.evolution.plugin.itip.gschema.xml.in.h:1
 msgid "Delete processed"
-msgstr ""
+msgstr "Elimine elaborâts"
 
 #: ../data/org.gnome.evolution.plugin.itip.gschema.xml.in.h:2
 msgid "Whether to delete processed iTip objects"
-msgstr ""
+msgstr "Indiche se eliminâ i ogjets iTip elaborâts"
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:1
 msgid "Notify new messages for Inbox only."
-msgstr ""
+msgstr "Notificâ gnûfs messaçs nome par \"In jentrade\"."
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:2
 msgid "Whether to notify new messages in Inbox folder only."
 msgstr ""
+"Indiche se notificâ la presince di gnûfs messaçs nome pe cartele \"In "
+"jentrade\"."
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:3
 msgid "Enable D-Bus messages."
-msgstr ""
+msgstr "Abilitâ messaçs D-Bus."
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:4
 msgid "Generates a D-Bus message when new mail messages arrive."
-msgstr ""
+msgstr "Gjenerâ un messaç D-Bus cuant che a rivin gnûfs messaçs di pueste."
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:5
 msgid "Enable icon in notification area."
-msgstr ""
+msgstr "Abilitâ icone inte aree di notifiche."
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:6
 msgid "Show new mail icon in notification area when new messages arrive."
 msgstr ""
+"Mostre la icone \"gnove pueste\" inte aree di notifiche cuant che a rivin "
+"gnûfs messaçs."
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:7
 msgid "Popup message together with the icon."
-msgstr ""
+msgstr "Fâs vignî fûr un messaç parie cun la icone."
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:8
 msgid "Whether show message over the icon when new messages arrive."
 msgstr ""
+"Indiche se mostrâ un messaç sore de icone cuant che a rivin gnûfs messaçs."
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:9
 msgid "Enable audible notifications when new messages arrive."
-msgstr ""
+msgstr "Abilite lis notifichis sonoris cuant che a rivin gnûfs messaçs."
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:10
 msgid ""
@@ -2698,46 +2724,56 @@ msgid ""
 "the \"notify-sound-beep\", \"notify-sound-file\", \"notify-sound-play-file\" "
 "and \"notify-sound-use-theme\" keys are disregarded."
 msgstr ""
+"Indiche se fâ un sun di cualsisei gjenar cuant che a rivin gnûfs messaçs. Se "
+"«false», lis clâfs «notify-sound-beep», «notify-sound-file», «notify-sound-"
+"play-file» e «notify-sound-use-theme» a son ignoradis."
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:11
 msgid "Whether to emit a beep."
-msgstr ""
+msgstr "Indiche se mandâ fûr un avîs acustic (bip)."
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:12
 msgid "Whether to emit a beep when new messages arrive."
 msgstr ""
+"Indiche se mandâ fûr un avîs acustic (bip) cuant che a rivin gnûfs messaçs."
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:13
 msgid "Sound filename to be played."
-msgstr ""
+msgstr "Non dal file audio di sunâ."
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:14
 msgid ""
 "Sound file to be played when new messages arrive, if \"notify-sound-play-file"
 "\" is \"true\"."
 msgstr ""
+"File audio di riprodusi cuant che a rivin gnûfs messaçs, se «notify-sound-"
+"play-file» al è «true»."
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:15
 msgid "Whether to play a sound file."
-msgstr ""
+msgstr "Indiche se riprodusi un file sunorôs."
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:16
 msgid ""
 "Whether to play a sound file when new messages arrive. The name of the sound "
 "file is given by the 'notify-sound-file' key."
 msgstr ""
+"Indiche se riprodusi un file sunorôs cuant che a rivin gnûfs messaçs. Il non "
+"dal file audio al ven dât de clâf «notify-sound-file»."
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:17
 msgid "Use sound theme"
-msgstr ""
+msgstr "Dopre teme audio"
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:18
 msgid "Play themed sound when new messages arrive, if not in beep mode."
 msgstr ""
+"Al riprodûs audio dal teme cuant che a rivin gnûfs messaçs, se no si è in "
+"modalitât avîs acustic."
 
 #: ../data/org.gnome.evolution.plugin.prefer-plain.gschema.xml.in.h:1
 msgid "Mode to use when displaying mails"
-msgstr ""
+msgstr "Modalitât di doprâ par mostrâ la pueste"
 
 #: ../data/org.gnome.evolution.plugin.prefer-plain.gschema.xml.in.h:2
 msgid ""
@@ -2746,101 +2782,121 @@ msgid ""
 "\"prefer_source\" makes it use the text part, if present, otherwise shows "
 "HTML source, and \"only_plain\" forces Evolution to only show plain text"
 msgstr ""
+"La modalitât di doprâ par mostrâ la pueste: \"normal\" al fâs sielzi a "
+"Evolution la miôr part di viodi, \"prefer_plain\" par doprâ la part testuâl, "
+"se presinte, \"prefer_source\" par doprâ la part testuâl, se presinte, se no "
+"al mostre il sorzint HTML, e \"only_plain\" par sfuarçâ Evolution a mostrâ "
+"nome il test sempiç"
 
 #: ../data/org.gnome.evolution.plugin.prefer-plain.gschema.xml.in.h:3
 msgid "Whether to show suppressed HTML output"
-msgstr ""
+msgstr "Indiche se mostrâ la jessude dal HTML soprimût."
 
 #: ../data/org.gnome.evolution.plugin.publish-calendar.gschema.xml.in.h:1
 msgid "List of Destinations for publishing"
-msgstr ""
+msgstr "Liste des destinazions pe publicazion"
 
 #: ../data/org.gnome.evolution.plugin.publish-calendar.gschema.xml.in.h:2
 msgid ""
 "The key specifies the list of destinations to where publish calendars. Each "
 "values specifies an XML with setup for publishing to one destination."
 msgstr ""
+"La clâf e specifiche la liste des destinazions dulà publicâ i calendaris. "
+"Ogni valôr al specifiche un XML cun la configurazion par publicâ suntune "
+"destinazion."
 
 #: ../data/org.gnome.evolution.plugin.templates.gschema.xml.in.h:1
 msgid ""
 "List of keyword/value pairs for the Templates plugin to substitute in a "
 "message body."
 msgstr ""
+"Liste de cubie peraule clâf/valôr di sostituî tal cuarp di un messaç pal "
+"plugin Modei."
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:1
 msgid "Skip development warning dialog"
-msgstr ""
+msgstr "Fâs di mancul dal dialic avertiment svilup"
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:2
 msgid ""
 "Whether the warning dialog in development versions of Evolution is skipped."
 msgstr ""
+"Indiche se fâ di mancul dal dialic di avertiment tes versions di svilup di "
+"Evolution."
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:3
 msgid "Initial attachment view"
-msgstr ""
+msgstr "Viodude iniziâl zontis"
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:4
 msgid ""
 "Initial view for attachment bar widgets. \"0\" is Icon View, \"1\" is List "
 "View."
 msgstr ""
+"Viodude iniziâl pai widget de sbare des zontis. \"0\" pe viodude a inconis, "
+"\"1\" pe viodude a liste."
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:5
 msgid "Initial file chooser folder"
-msgstr ""
+msgstr "Cartele iniziâl seletôr file"
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:6
 msgid "Initial folder for GtkFileChooser dialogs."
-msgstr ""
+msgstr "Cartele iniziâl pal dialic GtkFileChooser."
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:7
 msgid "Compression format used by autoar"
-msgstr ""
+msgstr "Formât di compression doprât di archivi automatic"
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:8
 msgid ""
 "Compression format used when compressing attached directories with autoar."
 msgstr ""
+"Formât di compression doprât cuant che si stricin lis cartelis alegadis cun "
+"archivi automatic."
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:9
 msgid "Compression filter used by autoar"
-msgstr ""
+msgstr "Filtri di compression doprât di archivi automatic"
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:10
 msgid ""
 "Compression filter used when compressing attached directories with autoar."
 msgstr ""
+"Filtri di compression doprât cuant che si stricin lis cartelis alegadis cun "
+"archivi automatic."
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:11
 #: ../src/shell/main.c:320
 msgid "Start in offline mode"
-msgstr ""
+msgstr "Invie in modalitât fûr rêt"
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:12
 msgid "Whether Evolution will start up in offline mode instead of online mode."
 msgstr ""
+"Indiche se Evolution si inviarà in modalitât fûr rêt invezit che in "
+"modalitât in rêt."
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:13
 msgid "Offline folder paths"
-msgstr ""
+msgstr "Percors cartelis offline"
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:14
 msgid ""
 "List of paths for the folders to be synchronized to disk for offline usage."
-msgstr ""
+msgstr "Liste dai percors des cartelis di sincronizâ su disc  pal ûs fûr rêt."
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:15
 msgid "Enable express mode"
-msgstr ""
+msgstr "Abilite la modalitât espresse"
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:16
 msgid "Flag that enables a much simplified user interface."
-msgstr ""
+msgstr "Opzion che e abilite une interface utent plui semplice."
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:17
 msgid "List of button names to hide in the window switcher"
-msgstr ""
+msgstr "Liste dai nons dai botons di platâ tal barcon seletôr"
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:18
 msgid ""
@@ -2852,15 +2908,15 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:19
 msgid "Window buttons are visible"
-msgstr ""
+msgstr "Botons barcon a son visibii"
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:20
 msgid "Whether the window buttons should be visible."
-msgstr ""
+msgstr "Indiche se i botons barcon a scugnin jessi visibii."
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:21
 msgid "Window button style"
-msgstr ""
+msgstr "Stîl botons barcon"
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:22
 msgid ""
@@ -2868,6 +2924,9 @@ msgid ""
 "\"toolbar\". If \"toolbar\" is set, the style of the buttons is determined "
 "by the GNOME toolbar setting."
 msgstr ""
+"Il stîl dai botons barcon. Valôrs pussibii a son \"text\", \"icons\", \"both"
+"\", \"toolbar\". Se metût a \"toolbar\", il stîl dai botons al è determinât "
+"des impostazions di GNOME pe sbare struments."
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:23
 msgid "Menubar is visible"
@@ -2879,51 +2938,52 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:25
 msgid "Toolbar is visible"
-msgstr ""
+msgstr "Sbare dai struments visibile"
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:26
 msgid "Whether the toolbar should be visible."
-msgstr ""
+msgstr "Indiche se la sbare dai struments e à di jessi visibile."
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:27
 msgid "Sidebar is visible"
-msgstr ""
+msgstr "Il ricuadri laterâl al è visibil"
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:28
 msgid "Whether the sidebar should be visible."
-msgstr ""
+msgstr "Indiche se il ricuadri laterâl al à di jessi visibil."
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:29
 msgid "Statusbar is visible"
-msgstr ""
+msgstr "La sbare di stât e je visibile"
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:30
 msgid "Whether the status bar should be visible."
-msgstr ""
+msgstr "Indiche se la sbare di stât e à di jessi visibile."
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:31
 msgid "ID or alias of the component to be shown by default at start-up."
 msgstr ""
+"ID o alias dal component di mostrâ in maniere predefinide al inviament."
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:32
 msgid "Default sidebar width"
-msgstr ""
+msgstr "LArgjece predefinide ricuardi laterâl"
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:33
 msgid "The default width for the sidebar, in pixels."
-msgstr ""
+msgstr "La largjece predefinide dal ricuadri laterâl, in pixel."
 
 #: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:1
 msgid "Use only local spam tests."
-msgstr ""
+msgstr "Dopre nome provis di spam locâl."
 
 #: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:2
 msgid "Use only the local spam tests (no DNS)."
-msgstr ""
+msgstr "Dopre nome provis di spam locâl (cence DNS)."
 
 #: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:3
 msgid "Full path command to run spamassassin"
-msgstr ""
+msgstr "Percors complet dal comant par eseguî spamassassin"
 
 #: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:4
 msgid ""
@@ -2931,10 +2991,13 @@ msgid ""
 "used, usually /usr/bin/spamassassin. The command should not contain any "
 "other arguments."
 msgstr ""
+"Percors complet di un comant di spamassassin. Se no stabilît, al vignarà "
+"doprât un percors sot compilazion, di solit /usr/bin/spamassassin. Il comant "
+"nol à di vê altris argoments."
 
 #: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:5
 msgid "Full path command to run sa-learn"
-msgstr ""
+msgstr "Percors complet dal comant par eseguî sa-learn"
 
 #: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:6
 msgid ""
@@ -2942,6 +3005,9 @@ msgid ""
 "used, usually /usr/bin/sa-learn. The command should not contain any other "
 "arguments."
 msgstr ""
+"Percors complet di un comant di sa-learn. Se no stabilît, al vignarà doprât "
+"un percors sot compilazion, di solit /usr/bin/sa-learn. Il comant nol à di "
+"vê altris argoments."
 
 # o recapit
 #: ../data/views/addressbook/galview.xml.h:1
