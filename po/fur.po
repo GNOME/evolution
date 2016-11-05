@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2016-10-25 16:59+0000\n"
-"PO-Revision-Date: 2016-11-04 23:15+0100\n"
+"PO-Revision-Date: 2016-11-05 18:36+0100\n"
 "Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
 "Language-Team: Friulian <fur@li.org>\n"
 "Language: fur\n"
@@ -10893,7 +10893,7 @@ msgstr ""
 
 #: ../src/composer/mail-composer.error.xml.h:1
 msgid "You cannot attach the file &quot;{0}&quot; to this message."
-msgstr ""
+msgstr "Impussibil alegâ il file «{0}» a chest messaç."
 
 #: ../src/composer/mail-composer.error.xml.h:2
 msgid "The file '{0}' is not a regular file and cannot be sent in a message."
@@ -10906,7 +10906,7 @@ msgstr "Impussibil recuperâ i messaçs di zontâ di {0}."
 
 #: ../src/composer/mail-composer.error.xml.h:4
 msgid "Because &quot;{1}&quot;."
-msgstr ""
+msgstr "Motîf: {1}."
 
 #: ../src/composer/mail-composer.error.xml.h:5
 msgid "Do you want to recover unfinished messages?"
@@ -10930,11 +10930,11 @@ msgstr "_Recupere"
 
 #: ../src/composer/mail-composer.error.xml.h:9
 msgid "Could not save to autosave file &quot;{0}&quot;."
-msgstr ""
+msgstr "Impussibil salvâ il file di salvament automatic «{0}»."
 
 #: ../src/composer/mail-composer.error.xml.h:10
 msgid "Error saving to autosave because &quot;{1}&quot;."
-msgstr ""
+msgstr "Erôr tal salvament automatic. Motîf: {1}."
 
 #: ../src/composer/mail-composer.error.xml.h:11
 msgid ""
@@ -10972,10 +10972,11 @@ msgstr "Impussibil creâ messaç."
 #: ../src/composer/mail-composer.error.xml.h:19
 msgid "Because &quot;{0}&quot;, you may need to select different mail options."
 msgstr ""
+"Al podarès jessi necessari selezionâ diferentis opzions di pueste. Motîf: {0}"
 
 #: ../src/composer/mail-composer.error.xml.h:20
 msgid "Could not read signature file &quot;{0}&quot;."
-msgstr ""
+msgstr "Impussibil lei il file de firme «{0}»."
 
 #: ../src/composer/mail-composer.error.xml.h:21
 msgid "All accounts have been removed."
@@ -10991,7 +10992,7 @@ msgstr "Al è vignût fûr un erôr intant che si salvave te cartele «In jessud
 
 #: ../src/composer/mail-composer.error.xml.h:24
 msgid "The reported error was &quot;{0}&quot;. The message has not been sent."
-msgstr ""
+msgstr "L'erôr puartât al jere «{0}». Il messaç nol è stât inviât."
 
 #: ../src/composer/mail-composer.error.xml.h:25
 msgid "An error occurred while saving to your Drafts folder."
@@ -11002,6 +11003,7 @@ msgid ""
 "The reported error was &quot;{0}&quot;. The message has most likely not been "
 "saved."
 msgstr ""
+"L'erôr puartât al jere «{0}». Al è facil che il messaç nol sedi stât salvât."
 
 #: ../src/composer/mail-composer.error.xml.h:27
 msgid "An error occurred while sending. How do you want to proceed?"
@@ -11010,7 +11012,7 @@ msgstr "Al è vignût fûr un erôr intant che si inviave. Cemût procedi?"
 #: ../src/composer/mail-composer.error.xml.h:28
 #: ../src/mail/mail.error.xml.h:175
 msgid "The reported error was &quot;{0}&quot;."
-msgstr ""
+msgstr "L'erôr puartât al jere «{0}»."
 
 #: ../src/composer/mail-composer.error.xml.h:29
 msgid "_Save to Outbox"
@@ -11078,60 +11080,60 @@ msgstr "Si è verificât un erôr intant che si salvave la cartele «Modei»."
 
 #: ../src/em-format/e-mail-formatter-attachment.c:336
 msgid "Display as attachment"
-msgstr ""
+msgstr "Mostre come zonte"
 
 #: ../src/em-format/e-mail-formatter-audio.c:150
 msgid "Audio Player"
-msgstr ""
+msgstr "Riprodutôr audio"
 
 #: ../src/em-format/e-mail-formatter-audio.c:151
 msgid "Play the attachment in embedded audio player"
-msgstr ""
+msgstr "Riprodûs la zonte tal riprodutôr audio incorporât"
 
 #: ../src/em-format/e-mail-formatter-headers.c:100
 #: ../src/em-format/e-mail-part-headers.c:46
 #: ../src/mail/e-mail-tag-editor.c:275 ../src/mail/message-list.etspec.h:5
 #: ../src/modules/mail/em-mailer-prefs.c:60
 msgid "From"
-msgstr ""
+msgstr "Di"
 
 #: ../src/em-format/e-mail-formatter-headers.c:126
 msgid "(no subject)"
-msgstr ""
+msgstr "(nissun ogjet)"
 
 #: ../src/em-format/e-mail-formatter-headers.c:327
 #, c-format
 msgid "This message was sent by %s on behalf of %s"
-msgstr ""
+msgstr "Chest messaç al è stât inviât di %s par cont di %s"
 
 #: ../src/em-format/e-mail-formatter-image.c:168
 msgid "Regular Image"
-msgstr ""
+msgstr "Imagjin regolâr"
 
 #: ../src/em-format/e-mail-formatter-image.c:169
 msgid "Display part as an image"
-msgstr ""
+msgstr "Mostre part come une imagjin"
 
 #: ../src/em-format/e-mail-formatter-message-rfc822.c:248
 msgid "RFC822 message"
-msgstr ""
+msgstr "Messaç RFC822"
 
 #: ../src/em-format/e-mail-formatter-message-rfc822.c:249
 msgid "Format part as an RFC822 message"
-msgstr ""
+msgstr "Formate part come un messaç RFC822"
 
 #: ../src/em-format/e-mail-formatter-print.c:51
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:92
 #: ../src/mail/e-mail-label-tree-view.c:96
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:64
 msgid "Name"
-msgstr ""
+msgstr "Non"
 
 #: ../src/em-format/e-mail-formatter-print.c:51
 #: ../src/e-util/e-attachment-tree-view.c:193
 #: ../src/mail/message-list.etspec.h:10
 msgid "Size"
-msgstr ""
+msgstr "Dimension"
 
 #: ../src/em-format/e-mail-formatter-quote-headers.c:178
 #: ../src/em-format/e-mail-part-headers.c:51
@@ -11141,89 +11143,98 @@ msgstr ""
 #: ../src/modules/mail/em-mailer-prefs.c:65
 #: ../src/smime/gui/certificate-manager.c:1643
 msgid "Subject"
-msgstr ""
+msgstr "Ogjet"
 
 #. pseudo-header
 #: ../src/em-format/e-mail-formatter-quote-headers.c:197
 #: ../src/em-format/e-mail-formatter-utils.c:341
 #: ../src/modules/mail/em-mailer-prefs.c:1488
 msgid "Mailer"
-msgstr ""
+msgstr "Gjestôr di pueste"
 
 #: ../src/em-format/e-mail-formatter-quote-text-enriched.c:92
 #: ../src/em-format/e-mail-formatter-text-enriched.c:100
 msgid "Richtext"
-msgstr ""
+msgstr "Richtext (RTF)"
 
 #: ../src/em-format/e-mail-formatter-quote-text-enriched.c:93
 #: ../src/em-format/e-mail-formatter-text-enriched.c:101
 msgid "Display part as enriched text"
-msgstr ""
+msgstr "Mostre part come test inricjît"
 
 #: ../src/em-format/e-mail-formatter-quote-text-html.c:93
 #: ../src/em-format/e-mail-formatter-text-html.c:385
 msgid "HTML"
-msgstr ""
+msgstr "HTML"
 
 #: ../src/em-format/e-mail-formatter-quote-text-html.c:94
 #: ../src/em-format/e-mail-formatter-text-html.c:386
 msgid "Format part as HTML"
-msgstr ""
+msgstr "Formate part come HTML"
 
 #: ../src/em-format/e-mail-formatter-quote-text-plain.c:121
 #: ../src/em-format/e-mail-formatter-text-plain.c:196
 #: ../src/e-util/e-html-editor-actions.c:1298
 msgid "Plain Text"
-msgstr ""
+msgstr "Test sempliç"
 
 #: ../src/em-format/e-mail-formatter-quote-text-plain.c:122
 #: ../src/em-format/e-mail-formatter-text-plain.c:197
 msgid "Format part as plain text"
-msgstr ""
+msgstr "Formate part come test sempliç"
 
 #: ../src/em-format/e-mail-formatter-secure-button.c:44
 msgid "Unsigned"
-msgstr ""
+msgstr "No firmât"
 
 #: ../src/em-format/e-mail-formatter-secure-button.c:44
 msgid ""
 "This message is not signed. There is no guarantee that this message is "
 "authentic."
 msgstr ""
+"Chest messaç nol è firmât. No je nissune garanzie che chest messaç al sedi "
+"autentic."
 
 #: ../src/em-format/e-mail-formatter-secure-button.c:45
 msgid "Valid signature"
-msgstr ""
+msgstr "Firme valide"
 
 #: ../src/em-format/e-mail-formatter-secure-button.c:45
 msgid ""
 "This message is signed and is valid meaning that it is very likely that this "
 "message is authentic."
 msgstr ""
+"Chest messaç al è firmât e al è valit. Al è une vore probabil che chest "
+"messaç al sedi autentic."
 
 #: ../src/em-format/e-mail-formatter-secure-button.c:46
 msgid "Invalid signature"
-msgstr ""
+msgstr "Firme no valide"
 
 #: ../src/em-format/e-mail-formatter-secure-button.c:46
 msgid ""
 "The signature of this message cannot be verified, it may have been altered "
 "in transit."
 msgstr ""
+"La firme di chest messaç no pues jessi verificade. E pues jessi stade "
+"alterade inte trasmission."
 
 #: ../src/em-format/e-mail-formatter-secure-button.c:47
 msgid "Valid signature, but cannot verify sender"
-msgstr ""
+msgstr "Firme valide, ma nol è pussibil verificâ il mitent"
 
 #: ../src/em-format/e-mail-formatter-secure-button.c:47
 msgid ""
 "This message is signed with a valid signature, but the sender of the message "
 "cannot be verified."
 msgstr ""
+"Chest messaç al è firmât cuntune firme valide, ma nol è pussibil verificâ "
+"cui che al à inviât il messaç."
 
 #: ../src/em-format/e-mail-formatter-secure-button.c:48
 msgid "This message is signed, but the public key is not in your keyring"
 msgstr ""
+"Chest messaç al è firmât, ma la clâf publiche no je tal propri puarteclâfs"
 
 #: ../src/em-format/e-mail-formatter-secure-button.c:48
 msgid ""
@@ -11233,20 +11244,28 @@ msgid ""
 "trusted method and add it to your keyring. Until then, there is no guarantee "
 "that this message truly came from that person and that it arrived unaltered."
 msgstr ""
+"Chest messaç al è stât firmât in maniere digjitâl, ma la clâf publiche "
+"corispuindinte no je presinte tal propri puarteclâfs. Se si vûl jessi bogns "
+"di verificâ la autenticitât dal messaç di cheste persone, si scugne otignî "
+"la clâf publiche cuntun metodi afidabil e zontâle al propri puarteclâfs. Fin "
+"a chel moment, no'nd è nissune garanzie che chest messaç al sedi rivât "
+"pardabon di cheste persone e che al sedi rivât inalterât."
 
 #: ../src/em-format/e-mail-formatter-secure-button.c:57
 msgid "Unencrypted"
-msgstr ""
+msgstr "No cifrât"
 
 #: ../src/em-format/e-mail-formatter-secure-button.c:57
 msgid ""
 "This message is not encrypted. Its content may be viewed in transit across "
 "the Internet."
 msgstr ""
+"Chest messaç nol è cifrât. Il so contignût al pues jessi viodût dilunc la "
+"trasmission vie Internet."
 
 #: ../src/em-format/e-mail-formatter-secure-button.c:58
 msgid "Encrypted, weak"
-msgstr ""
+msgstr "Cifrât, debil"
 
 #: ../src/em-format/e-mail-formatter-secure-button.c:58
 msgid ""
@@ -11254,10 +11273,13 @@ msgid ""
 "difficult, but not impossible for an outsider to view the content of this "
 "message in a practical amount of time."
 msgstr ""
+"Chest messaç al è cifrât, ma cuntun algoritmi di cifradure debile. Al sarà "
+"dificil, ma no impussibil, par un forest viodi il contignût dal messaç intun "
+"timp avonde curt."
 
 #: ../src/em-format/e-mail-formatter-secure-button.c:59
 msgid "Encrypted"
-msgstr ""
+msgstr "Cifrât"
 
 #: ../src/em-format/e-mail-formatter-secure-button.c:59
 msgid ""
