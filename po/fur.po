@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2016-10-25 16:59+0000\n"
-"PO-Revision-Date: 2016-11-05 19:09+0100\n"
+"PO-Revision-Date: 2016-11-05 21:30+0100\n"
 "Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
 "Language-Team: Friulian <fur@li.org>\n"
 "Language: fur\n"
@@ -756,14 +756,17 @@ msgid ""
 "Whether or not to show reminder notification dialog always on top. Note this "
 "works only as a hint for the window manager, which may or may not obey it."
 msgstr ""
+"Indiche se mostrâ o no denant di dut il dialic di notifiche dai promemorie. "
+"Viôt che chest al funzione nome come consei pal window manager, duncje al "
+"podarès rispietâlu ma ancje no."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:96
 msgid "Preferred New button item"
-msgstr ""
+msgstr "Gnûf element boton preferît"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:97
 msgid "Name of the preferred New toolbar button item"
-msgstr ""
+msgstr "Non dal gnûf element boton preferît de sbare dai struments"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:98
 msgid "Primary calendar"
@@ -994,6 +997,9 @@ msgid ""
 "The default timezone to use for dates and times in the calendar, as an "
 "untranslated Olson timezone database location like \"America/New York\""
 msgstr ""
+"Il fûs orari predefinît di doprâ pes datis e oris intal calendari, tratât "
+"come localitât no tradote de base di dâts dai fûs oraris Olsen, par esempli "
+"\"Italy/Rome\""
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:141
 msgid "Twenty four hour time format"
@@ -1904,17 +1910,21 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:137
 msgid "Default value for thread expand state"
-msgstr ""
+msgstr "Valôr predefinît pal stât pandût de discussion"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:138
 msgid ""
 "This setting specifies whether the threads should be in expanded or "
 "collapsed state by default. Evolution requires a restart."
 msgstr ""
+"Cheste impostazion e specifiche se fâ vê in mût predefinît aes discussions "
+"il stât pandût o striçât. Par aplicâle si scugne tornâ a inviâ Evolution."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:139
 msgid "Whether sort threads based on latest message in that thread"
 msgstr ""
+"Indiche se meti in ordin lis discussions in base al ultin messaç te "
+"discussion"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:140
 msgid ""
@@ -1922,10 +1932,13 @@ msgid ""
 "message in each thread, rather than by message's date. Evolution requires a "
 "restart."
 msgstr ""
+"Cheste impostazion e specifiche se meti in ordin lis discussion in base al "
+"ultin messaç in ogni discussion, invezit che pe date dal messaç. Par "
+"aplicâle si scugne tornâ a inviâ Evolution."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:141
 msgid "Whether sort thread children always ascending"
-msgstr ""
+msgstr "Indiche se meti in ordin simpri in mût cressint lis discussion fiis"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:142
 msgid ""
@@ -11601,11 +11614,11 @@ msgstr ""
 
 #: ../src/e-util/e-attachment-handler-image.c:96
 msgid "Could not set as background"
-msgstr ""
+msgstr "Impussibil meti come sfont"
 
 #: ../src/e-util/e-attachment-handler-image.c:146
 msgid "Set as _Background"
-msgstr ""
+msgstr "Met come _sfont"
 
 #: ../src/e-util/e-attachment-icon-view.c:168
 #: ../src/e-util/e-attachment-tree-view.c:168
@@ -11619,16 +11632,16 @@ msgstr "Daûr a salvâ"
 
 #: ../src/e-util/e-attachment-paned.c:105
 msgid "Hide Attachment _Bar"
-msgstr ""
+msgstr "Plate s_bare zontis"
 
 #: ../src/e-util/e-attachment-paned.c:114
 #: ../src/e-util/e-attachment-paned.c:749
 msgid "Show Attachment _Bar"
-msgstr ""
+msgstr "Mostre s_bare zontis"
 
 #: ../src/e-util/e-attachment-store.c:659
 msgid "Add Attachment"
-msgstr ""
+msgstr "Zonte zonte"
 
 #: ../src/e-util/e-attachment-store.c:666
 #: ../src/e-util/e-attachment-store.c:668
@@ -11637,48 +11650,48 @@ msgstr "A_leghe"
 
 #: ../src/e-util/e-attachment-store.c:715
 msgid "Archive selected directories using this format:"
-msgstr ""
+msgstr "Archivie lis cartelis selezionadis doprant chest formât:"
 
 #: ../src/e-util/e-attachment-store.c:819
 msgid "Save Attachment"
 msgid_plural "Save Attachments"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Salve zonte"
+msgstr[1] "Salve zontis"
 
 #: ../src/e-util/e-attachment-store.c:846
 msgid "Do _not extract files from the attachment"
-msgstr ""
+msgstr "No stâ tirâ fûr i file de zonte"
 
 #: ../src/e-util/e-attachment-store.c:851
 msgid "Save extracted files _only"
-msgstr ""
+msgstr "Salvâ _nome i file tirâts fûr"
 
 #: ../src/e-util/e-attachment-store.c:856
 msgid "Save extracted files and the original _archive"
-msgstr ""
+msgstr "Salvâ i file tirâts fûr e l'_archivi origjinâl"
 
 #: ../src/e-util/e-attachment-view.c:308
 msgid "Open With Other Application..."
-msgstr ""
+msgstr "Vierç cuntun altre aplicazion..."
 
 #: ../src/e-util/e-attachment-view.c:315
 msgid "S_ave All"
-msgstr ""
+msgstr "S_alve dutis"
 
 #: ../src/e-util/e-attachment-view.c:322
 msgid "Sa_ve As"
-msgstr ""
+msgstr "Sal_ve come"
 
 #: ../src/e-util/e-attachment-view.c:331
 #: ../src/plugins/save-calendar/save-calendar.c:347
 #: ../src/plugins/save-calendar/save-calendar.c:378
 #: ../src/plugins/save-calendar/save-calendar.c:409
 msgid "Save _As"
-msgstr ""
+msgstr "Salve _come"
 
 #: ../src/e-util/e-attachment-view.c:341
 msgid "A_dd Attachment..."
-msgstr ""
+msgstr "_Zonte zonte..."
 
 #: ../src/e-util/e-attachment-view.c:348
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1095
@@ -11688,12 +11701,12 @@ msgstr ""
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1715
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1786
 msgid "_Properties"
-msgstr ""
+msgstr "_Proprietâts"
 
 #: ../src/e-util/e-attachment-view.c:658
 #, c-format
 msgid "Open With \"%s\""
-msgstr ""
+msgstr "Vierç cun %s"
 
 #: ../src/e-util/e-attachment-view.c:661
 #, c-format
