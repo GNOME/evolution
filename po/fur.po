@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2016-10-25 16:59+0000\n"
-"PO-Revision-Date: 2016-11-05 18:36+0100\n"
+"PO-Revision-Date: 2016-11-05 19:09+0100\n"
 "Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
 "Language-Team: Friulian <fur@li.org>\n"
 "Language: fur\n"
@@ -11265,7 +11265,7 @@ msgstr ""
 
 #: ../src/em-format/e-mail-formatter-secure-button.c:58
 msgid "Encrypted, weak"
-msgstr "Cifrât, debil"
+msgstr "Cifrât, cifradure debile"
 
 #: ../src/em-format/e-mail-formatter-secure-button.c:58
 msgid ""
@@ -11274,8 +11274,8 @@ msgid ""
 "message in a practical amount of time."
 msgstr ""
 "Chest messaç al è cifrât, ma cuntun algoritmi di cifradure debile. Al sarà "
-"dificil, ma no impussibil, par un forest viodi il contignût dal messaç intun "
-"timp avonde curt."
+"dificil, ma no impussibil, par un estrani viodi il contignût dal messaç "
+"intun timp avonde curt."
 
 #: ../src/em-format/e-mail-formatter-secure-button.c:59
 msgid "Encrypted"
@@ -11286,10 +11286,12 @@ msgid ""
 "This message is encrypted.  It would be difficult for an outsider to view "
 "the content of this message."
 msgstr ""
+"Chest messaç al è cifrât. Al è dificil par un estrani viodi il contignût di "
+"chest messaç."
 
 #: ../src/em-format/e-mail-formatter-secure-button.c:60
 msgid "Encrypted, strong"
-msgstr ""
+msgstr "Cifrât, cifradure fuarte"
 
 #: ../src/em-format/e-mail-formatter-secure-button.c:60
 msgid ""
@@ -11297,10 +11299,13 @@ msgid ""
 "very difficult for an outsider to view the content of this message in a "
 "practical amount of time."
 msgstr ""
+"Chest messaç al è cifrât cuntun algoritmi di cifradure fuart. Al sarà une "
+"vore dificil par un estrani viodi il contignût di chest messaç intun timp "
+"avonde curt."
 
 #: ../src/em-format/e-mail-formatter-source.c:119
 msgid "Display source of a MIME part"
-msgstr ""
+msgstr "Mostre sorzint di une part MIME"
 
 #: ../src/em-format/e-mail-formatter-utils.c:200
 #: ../src/em-format/e-mail-formatter-utils.c:217
@@ -11323,98 +11328,98 @@ msgstr "Cc"
 #: ../src/em-format/e-mail-part-headers.c:50
 #: ../src/modules/mail/em-mailer-prefs.c:64
 msgid "Bcc"
-msgstr ""
+msgstr "Ccp"
 
 #: ../src/em-format/e-mail-formatter-utils.c:564
 msgid "GPG signed"
-msgstr ""
+msgstr "Firmât GPG"
 
 #: ../src/em-format/e-mail-formatter-utils.c:570
 msgid "GPG encrypted"
-msgstr ""
+msgstr "Cifrât GPG"
 
 #: ../src/em-format/e-mail-formatter-utils.c:576
 msgid "S/MIME signed"
-msgstr ""
+msgstr "Firmât S/MIME"
 
 #: ../src/em-format/e-mail-formatter-utils.c:582
 msgid "S/MIME encrypted"
-msgstr ""
+msgstr "Cifrât S/MIME"
 
 #: ../src/em-format/e-mail-formatter-utils.c:591
 #: ../src/mail/e-mail-config-security-page.c:761
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:272
 #: ../src/modules/mail-config/e-mail-config-smtp-backend.c:215
 msgid "Security"
-msgstr ""
+msgstr "Sigurece"
 
 #: ../src/em-format/e-mail-parser-application-mbox.c:85
 #, c-format
 msgid "Error parsing MBOX part: %s"
-msgstr ""
+msgstr "Erôr tal analizâ la part MBOX: %s"
 
 #: ../src/em-format/e-mail-parser-application-smime.c:81
 #, c-format
 msgid "Could not parse S/MIME message: %s"
-msgstr ""
+msgstr "Impussibil analizâ il messaç S/MIME: %s"
 
 #: ../src/em-format/e-mail-parser-inlinepgp-encrypted.c:75
 #, c-format
 msgid "Could not parse PGP message: %s"
-msgstr ""
+msgstr "Impussibil analizâ il messaç PGP: %s"
 
 #: ../src/em-format/e-mail-parser-inlinepgp-signed.c:78
 #: ../src/em-format/e-mail-parser-multipart-signed.c:133
 #, c-format
 msgid "Error verifying signature: %s"
-msgstr ""
+msgstr "Erôr tal verificâ la firme: %s"
 
 #: ../src/em-format/e-mail-parser-message-external.c:66
 msgid "Malformed external-body part"
-msgstr ""
+msgstr "Part esterne al cuarp malformade"
 
 #: ../src/em-format/e-mail-parser-message-external.c:99
 #, c-format
 msgid "Pointer to FTP site (%s)"
-msgstr ""
+msgstr "Pontadôr al sît FTP (%s)"
 
 #: ../src/em-format/e-mail-parser-message-external.c:110
 #, c-format
 msgid "Pointer to local file (%s) valid at site \"%s\""
-msgstr ""
+msgstr "Pontadôr al file locâl (%s) valit al sît \"%s\""
 
 #: ../src/em-format/e-mail-parser-message-external.c:112
 #, c-format
 msgid "Pointer to local file (%s)"
-msgstr ""
+msgstr "Pontadôr al file locâl (%s)"
 
 #: ../src/em-format/e-mail-parser-message-external.c:131
 #, c-format
 msgid "Pointer to remote data (%s)"
-msgstr ""
+msgstr "Pontadôr a dâts rimots (%s)"
 
 #: ../src/em-format/e-mail-parser-message-external.c:149
 #, c-format
 msgid "Pointer to unknown external data (\"%s\" type)"
-msgstr ""
+msgstr "Pontadôr a dâts esternis no cognossûts (gjenar «%s»)"
 
 #: ../src/em-format/e-mail-parser-multipart-encrypted.c:64
 #: ../src/em-format/e-mail-parser-multipart-signed.c:81
 msgid "Could not parse MIME message. Displaying as source."
-msgstr ""
+msgstr "Impussibil analizâ il messaç MIME. Al ven mostrât il sorzint."
 
 #: ../src/em-format/e-mail-parser-multipart-encrypted.c:80
 msgid "Unsupported encryption type for multipart/encrypted"
-msgstr ""
+msgstr "Gjenar di cifradure no supuartade par multipart/encrypted"
 
 #: ../src/em-format/e-mail-parser-multipart-encrypted.c:99
 #, c-format
 msgid "Could not parse PGP/MIME message: %s"
-msgstr ""
+msgstr "Impussibil analizâ il messaç PGP/MIME: %s"
 
 #: ../src/em-format/e-mail-parser-multipart-signed.c:119
 msgid "Unsupported signature format"
-msgstr ""
+msgstr "Formât firme no supuartât"
 
 #: ../src/em-format/e-mail-part-headers.c:47
 #: ../src/modules/mail/em-mailer-prefs.c:61
@@ -11445,25 +11450,29 @@ msgstr "_Viôt certificât"
 
 #: ../src/em-format/e-mail-part-secure-button.c:131
 msgid "This certificate is not viewable"
-msgstr ""
+msgstr "No si pues viodi chest certificât"
 
 #: ../src/em-format/e-mail-part-utils.c:550
 #, c-format
 msgid "%s attachment"
-msgstr ""
+msgstr "%s zonte"
 
 #: ../src/e-util/ea-calendar-item.c:312 ../src/e-util/ea-calendar-item.c:321
 msgid "%d %B %Y"
-msgstr ""
+msgstr "%e di %B dal %Y"
 
+# calendari dal 1ⁿ di ... al 1ⁿ di ... al è just 
+# ma isal just
+# dal 5 di novembre... al 30 di zenâr?
+# mark as fuzzy?
 #: ../src/e-util/ea-calendar-item.c:324
 #, c-format
 msgid "Calendar: from %s to %s"
-msgstr ""
+msgstr "Calendari: dal %s al %s"
 
 #: ../src/e-util/ea-calendar-item.c:361
 msgid "evolution calendar item"
-msgstr ""
+msgstr "element dal calendari di evolution"
 
 #. Translators: This is a cancelled activity.
 #: ../src/e-util/e-activity.c:256
@@ -11510,11 +11519,11 @@ msgstr "Anule"
 #. Translators: Escape is a keyboard binding.
 #: ../src/e-util/e-alert-bar.c:124
 msgid "Close this message (Escape)"
-msgstr ""
+msgstr "Siere chest messaç (Escape)"
 
 #: ../src/e-util/e-alert-sink.c:244
 msgid "Failed to create a thread: "
-msgstr ""
+msgstr "No si è rivâts a creâ une discussion: "
 
 #. To Translators: This text is set as a description of an attached
 #. * message when, for example, attaching it to a composer. When the
@@ -11522,53 +11531,53 @@ msgstr ""
 #. * of form "Attached message - Subject", otherwise it's left as is.
 #: ../src/e-util/e-attachment.c:1138
 msgid "Attached message"
-msgstr ""
+msgstr "Messaç alegât"
 
 #: ../src/e-util/e-attachment.c:2040 ../src/e-util/e-attachment.c:3096
 msgid "Operation was cancelled"
-msgstr ""
+msgstr "La operazion e je stade anulade"
 
 #. Translators: Default attachment filename.
 #: ../src/e-util/e-attachment.c:2224 ../src/e-util/e-attachment.c:2943
 #: ../src/e-util/e-attachment.c:3386 ../src/e-util/e-attachment-store.c:882
 msgid "attachment.dat"
-msgstr ""
+msgstr "zonte.dat"
 
 #: ../src/e-util/e-attachment.c:2305 ../src/e-util/e-attachment.c:3446
 msgid "A load operation is already in progress"
-msgstr ""
+msgstr "Une operazion di cjariament e je za in vore"
 
 #: ../src/e-util/e-attachment.c:2313 ../src/e-util/e-attachment.c:3454
 msgid "A save operation is already in progress"
-msgstr ""
+msgstr "Une operazion di salvament e je za in vore"
 
 #: ../src/e-util/e-attachment.c:2710
 #, c-format
 msgid "Could not open '%s'"
-msgstr ""
+msgstr "Impussibil vierzi «%s»"
 
 #: ../src/e-util/e-attachment.c:2713
 #, c-format
 msgid "Could not open the attachment"
-msgstr ""
+msgstr "Impussibil vierzi la zonte"
 
 #: ../src/e-util/e-attachment.c:3463
 msgid "Attachment contents not loaded"
-msgstr ""
+msgstr "Contignûts alegâts no cjariâts"
 
 #: ../src/e-util/e-attachment.c:3554
 #, c-format
 msgid "Could not save '%s'"
-msgstr ""
+msgstr "Impussibil salvâ «%s»"
 
 #: ../src/e-util/e-attachment.c:3557
 #, c-format
 msgid "Could not save the attachment"
-msgstr ""
+msgstr "Impussibil salvâ la zonte"
 
 #: ../src/e-util/e-attachment-dialog.c:315
 msgid "Attachment Properties"
-msgstr ""
+msgstr "Proprietâts de zonte"
 
 #: ../src/e-util/e-attachment-dialog.c:337
 #: ../src/e-util/e-import-assistant.c:276
