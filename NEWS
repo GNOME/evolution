@@ -1,3 +1,46 @@
+Evolution 3.22.2 2016-11-07
+---------------------------
+
+Bug Fixes:
+	Bug 772150 - Can't add or edit email signatures (Milan Crha)
+	Bug 772803 - Inline images cause busy loop on Reply in WebKitWebProcess (Milan Crha)
+	Bug 772590 - Hitting Backspace causes mail contents to shrink font size momentarily (Tomas Popela)
+	Bug 772916 - Composer incorrectly warns about switching from HTML to text when a message snippet is selected (Tomas Popela)
+	Bug 772918 - Using keyboard shortcuts undo/redo is broken (Tomas Popela)
+	Bug 773164 - copy pasting paragraphs and then undoing - redoing is broken (Tomas Popela)
+	Bug 769733 - Meeting invitation cannot change calendar (Milan Crha)
+	Bug 773033 - Switch from Work Week to Week view on 'Select today', if needed (Milan Crha)
+	Bug 772858 - Alarm-notify should not open disabled sources (Milan Crha)
+	Bug 773396 - Pasting with midlde mouse button and Shift pressed doesn’t cite text (Tomas Popela)
+	Bug 773236 - Memory leak from e-editor-dom-functions.c:save_history_for_input (Tomas Popela)
+	Bug 771821 - Make magic-spacebar work again with WebKit2 (Milan Crha)
+	Bug 773494 - Composer doesn't respect dpi settings (Tomas Popela)
+	Bug 773864 - Flashing format combo value on mouse-wheel scroll (Tomas Popela)
+
+Miscellaneous:
+	If body contains just the empty block, then nothing is sent (Tomas Popela)
+	Make the EContentEditor accessible in tests (Tomas Popela)
+	Consume return value of gtk_clutter_init_with_args()/gtk_init_with_args() (Milan Crha)
+	Use unique D-Bus service name for WebKit editor and cancel pending calls on dispose (Milan Crha)
+	Do not steal focus when alarm notify dialog is shown (Milan Crha)
+	EEditorPage is never freed (Tomas Popela)
+	Fix e_mail_display_get_selection_plain_text_sync() (Tomas Popela)
+	The "Reply from preview selection" feature is wrong for multipart messages (Tomas Popela)
+	Correct the mime type of preview selection string (Tomas Popela)
+	Tests are expecting the font-family attribute on BODY (Tomas Popela)
+	Skip the tests that are known to fail (Tomas Popela)
+	Extra quoted character on the end of the quoted PRE element if it ends with BR element (Tomas Popela)
+	Renew spell-check only in viewport and not in the whole document (Tomas Popela)
+	Editor is not marked as changed after some operations (Tomas Popela)
+	Fix possible crash (use-after-free) under mail_send_receive() (Milan Crha)
+
+Translations:
+	Fabio Tomat (fur)
+	Kjartan Maraas (nb)
+	Peter Mráz (sk)
+	Tom Tryfonidis (el)
+	Christian Kirbach (de)
+
 Evolution 3.22.1 2016-10-10
 ---------------------------
 
