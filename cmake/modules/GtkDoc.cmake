@@ -50,11 +50,6 @@ macro(add_gtkdoc _module _namespace _deprecated_guards _srcdirsvar _depsvar _ign
 
 	set(OUTPUT_DOCDIR ${SHARE_INSTALL_PREFIX}/gtk-doc/html/${_module})
 
-	set(_ignore_headers)
-	foreach(_header ${${_ignoreheadersvar}})
-		set(_ignore_headers "${_ignore_headers} ${_header}")
-	endforeach(_header)
-
 	set(_filedeps)
 	set(_srcdirs)
 	foreach(_srcdir ${${_srcdirsvar}})
@@ -72,7 +67,7 @@ macro(add_gtkdoc _module _namespace _deprecated_guards _srcdirsvar _depsvar _ign
 		COMMAND ${GTKDOC_SCAN}
 			--module=${_module}
 			--deprecated-guards="${_deprecated_guards}"
-			--ignore-headers="${_ignore_headers}"
+			--ignore-headers="${${_ignoreheadersvar}}"
 			--rebuild-sections
 			--rebuild-types
 			${_srcdirs}
