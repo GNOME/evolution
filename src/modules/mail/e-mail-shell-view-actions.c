@@ -761,8 +761,8 @@ action_mail_folder_mark_all_as_read_cb (GtkAction *action,
 	folder = e_mail_reader_ref_folder (reader);
 	g_return_if_fail (folder != NULL);
 
-	if (folder->summary != NULL &&
-	    camel_folder_summary_get_unread_count (folder->summary) == 0) {
+	if (camel_folder_get_folder_summary (folder) != NULL &&
+	    camel_folder_summary_get_unread_count (camel_folder_get_folder_summary (folder)) == 0) {
 		g_object_unref (folder);
 		return;
 	}

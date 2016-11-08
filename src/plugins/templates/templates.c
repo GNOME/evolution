@@ -657,7 +657,7 @@ static CamelMimePart *
 fill_template (CamelMimeMessage *message,
                CamelMimePart *template)
 {
-	struct _camel_header_raw *header;
+	const CamelNameValueArray *headers;
 	CamelContentType *ct;
 	CamelStream *stream;
 	CamelMimePart *return_part;
@@ -667,6 +667,7 @@ fill_template (CamelMimeMessage *message,
 	GString *template_body;
 	GByteArray *byte_array;
 	gint i;
+	guint jj, len;
 	gboolean message_html, template_html;
 
 	ct = camel_mime_part_get_content_type (template);
@@ -693,7 +694,7 @@ fill_template (CamelMimeMessage *message,
 				message_part = camel_multipart_get_part (multipart, i);
 			}
 		}
-	 } else
+	} else
 		message_part = CAMEL_MIME_PART (message);
 
 	/* Get content of the template */
@@ -705,17 +706,22 @@ fill_template (CamelMimeMessage *message,
 	g_object_unref (stream);
 
 	/* Replace all $ORIG[header_name] by respective values */
-	header = CAMEL_MIME_PART (message)->headers;
-	while (header) {
-		if (g_ascii_strncasecmp (header->name, "content-", 8) != 0 &&
-		    g_ascii_strncasecmp (header->name, "to", 2) != 0 &&
-		    g_ascii_strncasecmp (header->name, "cc", 2) != 0 &&
-		    g_ascii_strncasecmp (header->name, "bcc", 3) != 0 &&
-		    g_ascii_strncasecmp (header->name, "from", 4) != 0 &&
-		    g_ascii_strncasecmp (header->name, "subject", 7) != 0)
-			replace_template_variable (template_body, header->name, header->value);
+	headers = camel_medium_get_headers (CAMEL_MEDIUM (message));
+	len = camel_name_value_array_get_length (headers);
+	for (jj = 0; jj < len; jj++) {
+		const gchar *header_name = NULL, *header_value = NULL;
 
-		header = header->next;
+		if (!camel_name_value_array_get (headers, jj, &header_name, &header_value) ||
+		    !header_name)
+			continue;
+
+		if (g_ascii_strncasecmp (header_name, "content-", 8) != 0 &&
+		    g_ascii_strcasecmp (header_name, "to") != 0 &&
+		    g_ascii_strcasecmp (header_name, "cc") != 0 &&
+		    g_ascii_strcasecmp (header_name, "bcc") != 0 &&
+		    g_ascii_strcasecmp (header_name, "from") != 0 &&
+		    g_ascii_strcasecmp (header_name, "subject") != 0)
+			replace_template_variable (template_body, header_name, header_value);
 	}
 
 	/* Now manually replace the *subject* header. The header->value for subject header could be
@@ -850,14 +856,15 @@ create_new_message_composer_created_cb (GObject *source_object,
 	CamelMimeMessage *template;
 	CamelMultipart *new_multipart;
 	CamelDataWrapper *dw;
-	struct _camel_header_raw *header;
+	const CamelNameValueArray *headers;
+	CamelMimePart *template_part = NULL;
+	CamelFolder *folder;
 	EMailBackend *backend;
 	EMailSession *session;
 	const gchar *message_uid;
 	EMsgComposer *composer;
+	guint ii, len;
 	GError *error = NULL;
-	CamelMimePart *template_part = NULL;
-	CamelFolder *folder;
 
 	g_return_if_fail (context != NULL);
 
@@ -931,39 +938,45 @@ create_new_message_composer_created_cb (GObject *source_object,
 	/* Add the headers from the message we are replying to, so CC and that
 	 * stuff is preserved. Also replace any $ORIG[header-name] modifiers ignoring
 	 * 'content-*' headers */
-	header = CAMEL_MIME_PART (message)->headers;
-	while (header) {
-		if (g_ascii_strncasecmp (header->name, "content-", 8) != 0 &&
-		    g_ascii_strcasecmp (header->name, "from") != 0) {
+	headers = camel_medium_dup_headers (CAMEL_MEDIUM (message));
+	len = camel_name_value_array_get_length (headers);
+	for (ii = 0; ii < len; ii++) {
+		const gchar *header_name = NULL, *header_value = NULL;
+
+		if (!camel_name_value_array_get (headers, ii, &header_name, &header_value) ||
+		    !header_name)
+			continue;
+
+		if (g_ascii_strncasecmp (header_name, "content-", 8) != 0 &&
+		    g_ascii_strcasecmp (header_name, "from") != 0) {
+			gchar *new_header_value = NULL;
 
 			/* Some special handling of the 'subject' header */
-			if (g_ascii_strncasecmp (header->name, "subject", 7) == 0) {
+			if (g_ascii_strncasecmp (header_name, "subject", 7) == 0) {
 				GString *subject = g_string_new (camel_mime_message_get_subject (template));
+				guint jj;
 
 				/* Now replace all possible $ORIG[]s in the subject line by values from original message */
-				struct _camel_header_raw *m_header = CAMEL_MIME_PART (message)->headers;
-				while (m_header) {
-					if (g_ascii_strncasecmp (m_header->name, "content-", 8) != 0 &&
-					    g_ascii_strncasecmp (m_header->name, "subject", 7) !=0)
-						replace_template_variable (subject, m_header->name, m_header->value);
+				for (jj = 0; jj < len; jj++) {
+					const gchar *m_header_name = NULL, *m_header_value = NULL;
 
-					m_header = m_header->next;
+					if (camel_name_value_array_get (headers, jj, &m_header_name, &m_header_value) &&
+					    m_header_name &&
+					    g_ascii_strncasecmp (m_header_name, "content-", 8) != 0 &&
+					    g_ascii_strcasecmp (m_header_name, "subject") != 0)
+						replace_template_variable (subject, m_header_name, m_header_value);
 				}
 				/* Now replace $ORIG[subject] variable, handling possible base64 encryption */
 				replace_template_variable (
 					subject, "subject",
 					camel_mime_message_get_subject (message));
-				header->value = g_strdup (subject->str);
-				g_string_free (subject, TRUE);
+				new_header_value = g_string_free (subject, FALSE);
 			}
 
-			camel_medium_add_header (
-				CAMEL_MEDIUM (new),
-				header->name,
-				header->value);
-		}
+			camel_medium_add_header (CAMEL_MEDIUM (new), header_name, new_header_value ? new_header_value : header_value);
 
-		header = header->next;
+			g_free (new_header_value);
+		}
 	}
 
 	/* Set the To: field to the same To: field of the message we are replying to. */
@@ -1185,7 +1198,7 @@ save_template_async_data_free (gpointer ptr)
 		g_clear_object (&sta->composer);
 		g_clear_object (&sta->session);
 		g_clear_object (&sta->message);
-		camel_message_info_unref (sta->info);
+		g_clear_object (&sta->info);
 		g_free (sta->templates_folder_uri);
 		g_free (sta);
 	}

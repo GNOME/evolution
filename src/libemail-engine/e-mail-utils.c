@@ -306,7 +306,7 @@ guess_mail_account_from_folder (ESourceRegistry *registry,
 			location = camel_vee_folder_get_location (CAMEL_VEE_FOLDER (folder), (CamelVeeMessageInfo *) mi, NULL);
 			if (location)
 				store = camel_folder_get_parent_store (location);
-			camel_message_info_unref (mi);
+			g_clear_object (&mi);
 		}
 	}
 
@@ -842,7 +842,7 @@ em_utils_get_real_folder_and_message_uid (CamelFolder *folder,
 				else
 					g_free (real_uid);
 
-				camel_message_info_unref (mi);
+				g_clear_object (&mi);
 
 				if (out_real_folder)
 					*out_real_folder = g_object_ref (real_folder);
@@ -850,7 +850,7 @@ em_utils_get_real_folder_and_message_uid (CamelFolder *folder,
 				return;
 			}
 
-			camel_message_info_unref (mi);
+			g_clear_object (&mi);
 		}
 	}
 

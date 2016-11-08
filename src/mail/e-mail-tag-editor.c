@@ -117,75 +117,6 @@ mail_tag_editor_realize (GtkWidget *widget)
 	gtk_container_set_border_width (GTK_CONTAINER (action_area), 12);
 }
 
-static CamelTag *
-mail_tag_editor_get_tag_list (EMailTagEditor *editor)
-{
-	CamelTag *tag_list = NULL;
-	time_t date;
-	gchar *text = NULL;
-	GtkWidget *entry;
-
-	entry = gtk_bin_get_child (GTK_BIN (editor->priv->combo_entry));
-	if (entry)
-		text = g_strdup (gtk_entry_get_text (GTK_ENTRY (entry)));
-	camel_tag_set (&tag_list, "follow-up", text);
-	g_free (text);
-
-	date = e_date_edit_get_time (editor->priv->target_date);
-	if (date != (time_t) -1) {
-		text = camel_header_format_date (date, 0);
-		camel_tag_set (&tag_list, "due-by", text);
-		g_free (text);
-	} else
-		camel_tag_set (&tag_list, "due-by", "");
-
-	if (e_mail_tag_editor_get_completed (editor)) {
-		text = camel_header_format_date (
-			editor->priv->completed_date, 0);
-		camel_tag_set (&tag_list, "completed-on", text);
-		g_free (text);
-	} else
-		camel_tag_set (&tag_list, "completed-on", "");
-
-	return tag_list;
-}
-
-static void
-mail_tag_editor_set_tag_list (EMailTagEditor *editor,
-                              CamelTag *tag_list)
-{
-	GtkWidget *child;
-	const gchar *text;
-	time_t date;
-
-	/* Extract the GtkEntry from the GtkComboBoxEntry. */
-	child = gtk_bin_get_child (GTK_BIN (editor->priv->combo_entry));
-
-	/* XXX This is kind of cheating.  Since we only store the
-	 *     translated tag there's no sure-fire way to determine
-	 *     the corresponding combo box index (e.g. the tag may
-	 *     have been set while running in a different locale). */
-	text = camel_tag_get (&tag_list, "follow-up");
-	if (text != NULL)
-		gtk_entry_set_text (GTK_ENTRY (child), text);
-
-	text = camel_tag_get (&tag_list, "due-by");
-	if (text != NULL && *text != '\0') {
-		date = camel_header_decode_date (text, NULL);
-		e_date_edit_set_time (editor->priv->target_date, date);
-	} else
-		e_date_edit_set_time (editor->priv->target_date, (time_t) -1);
-
-	text = camel_tag_get (&tag_list, "completed-on");
-	if (text != NULL && *text != '\0') {
-		date = camel_header_decode_date (text, NULL);
-		if (date != (time_t) 0) {
-			e_mail_tag_editor_set_completed (editor, TRUE);
-			editor->priv->completed_date = date;
-		}
-	}
-}
-
 static void
 e_mail_tag_editor_class_init (EMailTagEditorClass *class)
 {
@@ -200,9 +131,6 @@ e_mail_tag_editor_class_init (EMailTagEditorClass *class)
 
 	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->realize = mail_tag_editor_realize;
-
-	class->get_tag_list = mail_tag_editor_get_tag_list;
-	class->set_tag_list = mail_tag_editor_set_tag_list;
 
 	g_object_class_install_property (
 		object_class,
@@ -331,32 +259,79 @@ e_mail_tag_editor_set_completed (EMailTagEditor *editor,
 	g_object_notify (G_OBJECT (editor), "completed");
 }
 
-CamelTag *
+CamelNameValueArray *
 e_mail_tag_editor_get_tag_list (EMailTagEditor *editor)
 {
-	EMailTagEditorClass *class;
+	CamelNameValueArray *tag_list;
+	time_t date;
+	gchar *text = NULL;
+	GtkWidget *entry;
 
 	g_return_val_if_fail (E_IS_MAIL_TAG_EDITOR (editor), NULL);
 
-	class = E_MAIL_TAG_EDITOR_GET_CLASS (editor);
-	g_return_val_if_fail (class->get_tag_list != NULL, NULL);
+	tag_list = camel_name_value_array_new ();
 
-	return class->get_tag_list (editor);
+	entry = gtk_bin_get_child (GTK_BIN (editor->priv->combo_entry));
+	if (entry)
+		text = g_strdup (gtk_entry_get_text (GTK_ENTRY (entry)));
+	camel_name_value_array_set_named (tag_list, CAMEL_COMPARE_CASE_SENSITIVE, "follow-up", text);
+	g_free (text);
+
+	date = e_date_edit_get_time (editor->priv->target_date);
+	if (date != (time_t) -1) {
+		text = camel_header_format_date (date, 0);
+		camel_name_value_array_set_named (tag_list, CAMEL_COMPARE_CASE_SENSITIVE, "due-by", text);
+		g_free (text);
+	} else
+		camel_name_value_array_set_named (tag_list, CAMEL_COMPARE_CASE_SENSITIVE, "due-by", "");
+
+	if (e_mail_tag_editor_get_completed (editor)) {
+		text = camel_header_format_date (editor->priv->completed_date, 0);
+		camel_name_value_array_set_named (tag_list, CAMEL_COMPARE_CASE_SENSITIVE, "completed-on", text);
+		g_free (text);
+	} else
+		camel_name_value_array_set_named (tag_list, CAMEL_COMPARE_CASE_SENSITIVE, "completed-on", "");
+
+	return tag_list;
 }
 
 void
 e_mail_tag_editor_set_tag_list (EMailTagEditor *editor,
-                                CamelTag *tag_list)
+				const CamelNameValueArray *tag_list)
 {
-	EMailTagEditorClass *class;
+	GtkWidget *child;
+	const gchar *text;
+	time_t date;
 
 	g_return_if_fail (E_IS_MAIL_TAG_EDITOR (editor));
 	g_return_if_fail (tag_list != NULL);
 
-	class = E_MAIL_TAG_EDITOR_GET_CLASS (editor);
-	g_return_if_fail (class->set_tag_list != NULL);
+	/* Extract the GtkEntry from the GtkComboBoxEntry. */
+	child = gtk_bin_get_child (GTK_BIN (editor->priv->combo_entry));
 
-	class->set_tag_list (editor, tag_list);
+	/* XXX This is kind of cheating.  Since we only store the
+	 *     translated tag there's no sure-fire way to determine
+	 *     the corresponding combo box index (e.g. the tag may
+	 *     have been set while running in a different locale). */
+	text = camel_name_value_array_get_named (tag_list, CAMEL_COMPARE_CASE_SENSITIVE, "follow-up");
+	if (text != NULL)
+		gtk_entry_set_text (GTK_ENTRY (child), text);
+
+	text = camel_name_value_array_get_named (tag_list, CAMEL_COMPARE_CASE_SENSITIVE, "due-by");
+	if (text != NULL && *text != '\0') {
+		date = camel_header_decode_date (text, NULL);
+		e_date_edit_set_time (editor->priv->target_date, date);
+	} else
+		e_date_edit_set_time (editor->priv->target_date, (time_t) -1);
+
+	text = camel_name_value_array_get_named (tag_list, CAMEL_COMPARE_CASE_SENSITIVE, "completed-on");
+	if (text != NULL && *text != '\0') {
+		date = camel_header_decode_date (text, NULL);
+		if (date != (time_t) 0) {
+			e_mail_tag_editor_set_completed (editor, TRUE);
+			editor->priv->completed_date = date;
+		}
+	}
 }
 
 void

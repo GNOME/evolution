@@ -315,7 +315,7 @@ mail_folder_create_dialog_constructed (GObject *object)
 		service = g_queue_pop_head (&queue);
 		g_warn_if_fail (CAMEL_IS_STORE (service));
 
-		flags = CAMEL_STORE (service)->flags;
+		flags = camel_store_get_flags (CAMEL_STORE (service));
 		if ((flags & CAMEL_STORE_CAN_EDIT_FOLDERS) == 0)
 			continue;
 

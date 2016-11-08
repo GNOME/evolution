@@ -568,22 +568,6 @@ static void	report_status		(struct _send_queue_msg *m,
 					 const gchar *desc,
 					 ...);
 
-static guint32
-get_message_size (CamelMimeMessage *message,
-                  GCancellable *cancellable)
-{
-	CamelStream *null;
-	guint32 size;
-
-	null = camel_stream_null_new ();
-	camel_data_wrapper_write_to_stream_sync (
-		CAMEL_DATA_WRAPPER (message), null, cancellable, NULL);
-	size = CAMEL_STREAM_NULL (null)->written;
-	g_object_unref (null);
-
-	return size;
-}
-
 /* send 1 message to a specific transport */
 static void
 mail_send_message (struct _send_queue_msg *m,
@@ -601,9 +585,10 @@ mail_send_message (struct _send_queue_msg *m,
 	const gchar *resent_from;
 	CamelFolder *folder = NULL;
 	GString *err = NULL;
-	struct _camel_header_raw *xev, *header;
+	CamelNameValueArray *xev_headers = NULL;
 	CamelMimeMessage *message;
 	gint i;
+	guint jj, len;
 	GError *local_error = NULL;
 	gboolean did_connect = FALSE;
 	gboolean sent_message_saved = FALSE;
@@ -637,7 +622,7 @@ mail_send_message (struct _send_queue_msg *m,
 	}
 
 	err = g_string_new ("");
-	xev = mail_tool_remove_xevolution_headers (message);
+	xev_headers = mail_tool_remove_xevolution_headers (message);
 
 	/* Check for email sending */
 	from = (CamelAddress *) camel_internet_address_new ();
@@ -701,17 +686,21 @@ mail_send_message (struct _send_queue_msg *m,
 
 	/* Now check for posting, failures are ignored */
 	info = camel_message_info_new (NULL);
-	((CamelMessageInfoBase *) info)->size = get_message_size (message, cancellable);
+	camel_message_info_set_size (info, camel_data_wrapper_calculate_size_sync (CAMEL_DATA_WRAPPER (message), cancellable, NULL));
 	camel_message_info_set_flags (info, CAMEL_MESSAGE_SEEN |
 		(camel_mime_message_has_attachment (message) ? CAMEL_MESSAGE_ATTACHMENTS : 0), ~0);
 
-	for (header = xev; header && !local_error; header = header->next) {
+	len = camel_name_value_array_get_length (xev_headers);
+	for (jj = 0; jj < len && !local_error; jj++) {
+		const gchar *header_name = NULL, *header_value = NULL;
 		gchar *uri;
 
-		if (strcmp (header->name, "X-Evolution-PostTo") != 0)
+		if (!camel_name_value_array_get (xev_headers, jj, &header_name, &header_value) ||
+		    !header_name ||
+		    g_ascii_strcasecmp (header_name, "X-Evolution-PostTo") != 0)
 			continue;
 
-		uri = g_strstrip (g_strdup (header->value));
+		uri = g_strstrip (g_strdup (header_value));
 		folder = e_mail_session_uri_to_folder_sync (
 			m->session, uri, 0, cancellable, &local_error);
 		if (folder != NULL) {
@@ -729,7 +718,7 @@ mail_send_message (struct _send_queue_msg *m,
 	}
 
 	/* post process */
-	mail_tool_restore_xevolution_headers (message, xev);
+	mail_tool_restore_xevolution_headers (message, xev_headers);
 
 	if (local_error == NULL && driver) {
 		camel_filter_driver_filter_message (
@@ -902,15 +891,12 @@ exit:
 		g_object_unref (folder);
 	}
 
-	if (info != NULL)
-		camel_message_info_unref (info);
-
-	if (service != NULL)
-		g_object_unref (service);
+	g_clear_object (&info);
+	g_clear_object (&service);
 
 	g_object_unref (recipients);
 	g_object_unref (from);
-	camel_header_raw_clear (&xev);
+	camel_name_value_array_free (xev_headers);
 	g_string_free (err, TRUE);
 	g_object_unref (message);
 }
@@ -978,7 +964,7 @@ send_queue_exec (struct _send_queue_msg *m,
 			if ((camel_message_info_get_flags (info) & CAMEL_MESSAGE_DELETED) == 0 &&
 			    (!delay_send || camel_message_info_get_date_sent (info) <= delay_send))
 				send_uids->pdata[j++] = uids->pdata[i];
-			camel_message_info_unref (info);
+			g_clear_object (&info);
 		}
 	}
 

@@ -58,11 +58,6 @@ struct _EMailTagEditor {
 
 struct _EMailTagEditorClass {
 	GtkDialogClass parent_class;
-
-	/* virtual methods */
-	CamelTag *	(*get_tag_list)		(EMailTagEditor *editor);
-	void		(*set_tag_list)		(EMailTagEditor *editor,
-						 CamelTag *tags);
 };
 
 GType		e_mail_tag_editor_get_type	(void);
@@ -70,9 +65,10 @@ GtkWidget *	e_mail_tag_editor_new		(void);
 gboolean	e_mail_tag_editor_get_completed	(EMailTagEditor *editor);
 void		e_mail_tag_editor_set_completed (EMailTagEditor *editor,
 						 gboolean completed);
-CamelTag *	e_mail_tag_editor_get_tag_list	(EMailTagEditor *editor);
+CamelNameValueArray *
+		e_mail_tag_editor_get_tag_list	(EMailTagEditor *editor);
 void		e_mail_tag_editor_set_tag_list	(EMailTagEditor *editor,
-						 CamelTag *tag_list);
+						 const CamelNameValueArray *tag_list);
 void		e_mail_tag_editor_add_message	(EMailTagEditor *editor,
 						 const gchar *from,
 						 const gchar *subject);

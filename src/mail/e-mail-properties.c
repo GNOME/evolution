@@ -21,6 +21,7 @@
 #include <string.h>
 
 #include <camel/camel.h>
+#include <sqlite3.h>
 
 #include <libemail-engine/libemail-engine.h>
 
@@ -154,7 +155,7 @@ e_mail_properties_set_config_filename (EMailProperties *properties,
 	g_return_if_fail (config_filename != NULL);
 	g_return_if_fail (properties->priv->db == NULL);
 
-	properties->priv->db = camel_db_open (config_filename, &error);
+	properties->priv->db = camel_db_new (config_filename, &error);
 
 	if (error) {
 		g_warning ("%s: Failed to open '%s': %s", G_STRFUNC, config_filename, error->message);
@@ -219,8 +220,7 @@ mail_properties_finalize (GObject *object)
 			g_clear_error (&error);
 		}
 
-		camel_db_close (properties->priv->db);
-		properties->priv->db = NULL;
+		g_clear_object (&properties->priv->db);
 	}
 
 	/* Chain up to parent's finalize() method. */

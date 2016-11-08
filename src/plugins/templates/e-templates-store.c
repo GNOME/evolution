@@ -445,10 +445,10 @@ tmpl_folder_data_update_sync (TmplFolderData *tfd,
 	g_return_val_if_fail (CAMEL_IS_FOLDER (tfd->folder), FALSE);
 
 	if (!added_uids || !changed_uids || added_uids->len + changed_uids->len > 10)
-		camel_folder_summary_prepare_fetch_all (tfd->folder->summary, NULL);
+		camel_folder_summary_prepare_fetch_all (camel_folder_get_folder_summary (tfd->folder), NULL);
 
 	if (!added_uids && !changed_uids) {
-		all_uids = camel_folder_summary_get_array (tfd->folder->summary);
+		all_uids = camel_folder_summary_get_array (camel_folder_get_folder_summary (tfd->folder));
 		added_uids = all_uids;
 	}
 
@@ -457,7 +457,7 @@ tmpl_folder_data_update_sync (TmplFolderData *tfd,
 	for (ii = 0; added_uids && ii < added_uids->len; ii++) {
 		const gchar *uid = added_uids->pdata[ii];
 
-		info = camel_folder_summary_get (tfd->folder->summary, uid);
+		info = camel_folder_summary_get (camel_folder_get_folder_summary (tfd->folder), uid);
 		if (info) {
 			if (!(camel_message_info_get_flags (info) & (CAMEL_MESSAGE_JUNK | CAMEL_MESSAGE_DELETED))) {
 				/* Sometimes the 'add' notification can come after the 'change',
@@ -467,17 +467,17 @@ tmpl_folder_data_update_sync (TmplFolderData *tfd,
 				changed = tmpl_folder_data_remove_message (tfd, camel_message_info_get_uid (info)) || changed;
 			}
 
-			camel_message_info_unref (info);
+			g_clear_object (&info);
 		}
 	}
 
 	for (ii = 0; changed_uids && ii < changed_uids->len; ii++) {
 		const gchar *uid = changed_uids->pdata[ii];
 
-		info = camel_folder_summary_get (tfd->folder->summary, uid);
+		info = camel_folder_summary_get (camel_folder_get_folder_summary (tfd->folder), uid);
 		if (info) {
 			changed = tmpl_folder_data_change_message (tfd, info) || changed;
-			camel_message_info_unref (info);
+			g_clear_object (&info);
 		}
 	}
 

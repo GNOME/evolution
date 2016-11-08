@@ -206,8 +206,7 @@ action_mail_add_sender_cb (GtkAction *action,
 	g_object_unref (cia);
 
 exit:
-	if (info != NULL)
-		camel_message_info_unref (info);
+	g_clear_object (&info);
 	g_ptr_array_unref (uids);
 
 	g_clear_object (&folder);
@@ -3052,7 +3051,7 @@ mail_reader_manage_followup_flag (EMailReader *reader,
 		g_object_unref (alert);
 	}
 
-	camel_message_info_unref (info);
+	g_clear_object (&info);
 
 	if (!alert_added)
 		mail_reader_remove_followup_alert (reader);
@@ -4543,11 +4542,12 @@ e_mail_reader_check_state (EMailReader *reader)
 
 	if (folder != NULL) {
 		gchar *archive_folder;
+		guint32 folder_flags;
 
 		store = camel_folder_get_parent_store (folder);
-		is_junk_folder =
-			(folder->folder_flags & CAMEL_FOLDER_IS_JUNK) != 0;
-		is_vtrash_folder = (store->flags & CAMEL_STORE_VTRASH) != 0 && (folder->folder_flags & CAMEL_FOLDER_IS_TRASH) != 0;
+		folder_flags = camel_folder_get_flags (folder);
+		is_junk_folder = (folder_flags & CAMEL_FOLDER_IS_JUNK) != 0;
+		is_vtrash_folder = (camel_store_get_flags (store) & CAMEL_STORE_VTRASH) != 0 && (folder_flags & CAMEL_FOLDER_IS_TRASH) != 0;
 		drafts_or_outbox =
 			em_utils_folder_is_drafts (registry, folder) ||
 			em_utils_folder_is_outbox (registry, folder);
@@ -4642,7 +4642,7 @@ e_mail_reader_check_state (EMailReader *reader)
 		has_notignore_thread = has_notignore_thread ||
 			!camel_message_info_get_user_flag (info, "ignore-thread");
 
-		camel_message_info_unref (info);
+		g_clear_object (&info);
 	}
 
 	have_enabled_account =

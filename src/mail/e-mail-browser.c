@@ -293,8 +293,7 @@ mail_browser_message_selected_cb (EMailBrowser *browser,
 		if (g_settings_get_boolean (settings, "mark-seen"))
 			camel_message_info_set_flags (info, CAMEL_MESSAGE_SEEN, CAMEL_MESSAGE_SEEN);
 		g_clear_object (&settings);
-
-		camel_message_info_unref (info);
+		g_clear_object (&info);
 	}
 
 	g_clear_object (&folder);
@@ -912,7 +911,7 @@ mail_browser_set_message (EMailReader *reader,
 		gtk_window_set_title (
 			GTK_WINDOW (reader),
 			camel_message_info_get_subject (info));
-		camel_message_info_unref (info);
+		g_clear_object (&info);
 	}
 
 	g_clear_object (&folder);

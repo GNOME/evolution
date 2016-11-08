@@ -47,23 +47,16 @@ struct _AsyncContext {
 static void
 async_context_free (AsyncContext *context)
 {
-	if (context->message != NULL)
-		g_object_unref (context->message);
-
-	if (context->info != NULL)
-		camel_message_info_unref (context->info);
-
-	if (context->part != NULL)
-		g_object_unref (context->part);
-
 	if (context->hash_table != NULL)
 		g_hash_table_unref (context->hash_table);
 
 	if (context->ptr_array != NULL)
 		g_ptr_array_unref (context->ptr_array);
 
-	if (context->destination != NULL)
-		g_object_unref (context->destination);
+	g_clear_object (&context->message);
+	g_clear_object (&context->info);
+	g_clear_object (&context->part);
+	g_clear_object (&context->destination);
 
 	g_free (context->fwd_subject);
 	g_free (context->message_uid);
@@ -146,7 +139,7 @@ e_mail_folder_append_message (CamelFolder *folder,
 	context->message = g_object_ref (message);
 
 	if (info != NULL)
-		context->info = camel_message_info_ref (info);
+		context->info = g_object_ref (info);
 
 	simple = g_simple_async_result_new (
 		G_OBJECT (folder), callback, user_data,
@@ -249,7 +242,7 @@ mail_folder_expunge_pop3_stores (CamelFolder *folder,
 
 		if (info != NULL) {
 			flags = camel_message_info_get_flags (info);
-			camel_message_info_unref (info);
+			g_clear_object (&info);
 		}
 
 		/* Only interested in deleted messages. */
@@ -792,7 +785,7 @@ e_mail_folder_find_duplicate_messages_sync (CamelFolder *folder,
 	g_hash_table_iter_init (&iter, hash_table);
 
 	while (g_hash_table_iter_next (&iter, &key, &value)) {
-		const CamelSummaryMessageID *message_id;
+		CamelSummaryMessageID message_id;
 		CamelMessageFlags flags;
 		CamelMessageInfo *info;
 		gboolean duplicate;
@@ -802,13 +795,13 @@ e_mail_folder_find_duplicate_messages_sync (CamelFolder *folder,
 		if (!info)
 			continue;
 
-		message_id = camel_message_info_get_message_id (info);
+		message_id.id.id = camel_message_info_get_message_id (info);
 		flags = camel_message_info_get_flags (info);
 
 		/* Skip messages marked for deletion. */
 		if (flags & CAMEL_MESSAGE_DELETED) {
 			g_queue_push_tail (&trash, key);
-			camel_message_info_unref (info);
+			g_clear_object (&info);
 			continue;
 		}
 
@@ -816,13 +809,13 @@ e_mail_folder_find_duplicate_messages_sync (CamelFolder *folder,
 
 		if (digest == NULL) {
 			g_queue_push_tail (&trash, key);
-			camel_message_info_unref (info);
+			g_clear_object (&info);
 			continue;
 		}
 
 		/* Determine if the message a duplicate. */
 
-		value = g_hash_table_lookup (unique_ids, &message_id->id.id);
+		value = g_hash_table_lookup (unique_ids, &message_id.id.id);
 		duplicate = (value != NULL) && g_str_equal (digest, value);
 
 		if (!duplicate) {
@@ -832,13 +825,13 @@ e_mail_folder_find_duplicate_messages_sync (CamelFolder *folder,
 			 *     of 64-bit integers and have the hash
 			 *     table keys point to array elements. */
 			v_int64 = g_new0 (gint64, 1);
-			*v_int64 = (gint64) message_id->id.id;
+			*v_int64 = (gint64) message_id.id.id;
 
 			g_hash_table_insert (unique_ids, v_int64, g_strdup (digest));
 			g_queue_push_tail (&trash, key);
 		}
 
-		camel_message_info_unref (info);
+		g_clear_object (&info);
 	}
 
 	/* Delete all non-duplicate messages from the hash table. */
@@ -1165,7 +1158,7 @@ e_mail_folder_remove_sync (CamelFolder *folder,
 			transparent_cancellable, NULL);
 	}
 
-	if ((parent_store->flags & CAMEL_STORE_CAN_DELETE_FOLDERS_AT_ONCE) != 0) {
+	if ((camel_store_get_flags (parent_store) & CAMEL_STORE_CAN_DELETE_FOLDERS_AT_ONCE) != 0) {
 		success = camel_store_delete_folder_sync (
 			parent_store, full_name, transparent_cancellable, error);
 	} else {
@@ -1377,12 +1370,11 @@ mail_folder_strip_message (CamelFolder *folder,
 		CamelMessageInfo *orig_info;
 		CamelMessageInfo *copy_info;
 		CamelMessageFlags flags;
+		const CamelNameValueArray *headers;
 
-		orig_info =
-			camel_folder_get_message_info (folder, message_uid);
-		copy_info =
-			camel_message_info_new_from_header (
-			NULL, CAMEL_MIME_PART (message)->headers);
+		headers = camel_medium_get_headers (CAMEL_MEDIUM (message));
+		orig_info = camel_folder_get_message_info (folder, message_uid);
+		copy_info = camel_message_info_new_from_headers (NULL, headers);
 
 		flags = camel_folder_get_message_flags (folder, message_uid);
 		camel_message_info_set_flags (copy_info, flags, flags);
@@ -1395,8 +1387,8 @@ mail_folder_strip_message (CamelFolder *folder,
 				CAMEL_MESSAGE_DELETED,
 				CAMEL_MESSAGE_DELETED);
 
-		camel_message_info_unref (orig_info);
-		camel_message_info_unref (copy_info);
+		g_clear_object (&orig_info);
+		g_clear_object (&copy_info);
 	}
 
 	return success;

@@ -126,19 +126,20 @@ empe_text_plain_parse (EMailParserExtension *extension,
 
 	/* FIXME: We should discard this multipart if it only contains
 	 * the original text, but it makes this hash lookup more complex */
-	if (!dw->mime_type)
+	if (!camel_data_wrapper_get_mime_type_field (dw))
 		snoop_type = e_mail_part_snoop_type (part);
 
 	/* if we had to snoop the part type to get here, then
 	 * use that as the base type, yuck */
 	if (snoop_type == NULL
 		|| (type = camel_content_type_decode (snoop_type)) == NULL) {
-		type = dw->mime_type;
+		type = camel_data_wrapper_get_mime_type_field (dw);
 		camel_content_type_ref (type);
 	}
 
-	if (dw->mime_type && type != dw->mime_type && camel_content_type_param (dw->mime_type, "charset")) {
-		camel_content_type_set_param (type, "charset", camel_content_type_param (dw->mime_type, "charset"));
+	if (camel_data_wrapper_get_mime_type_field (dw) && type != camel_data_wrapper_get_mime_type_field (dw) &&
+	    camel_content_type_param (camel_data_wrapper_get_mime_type_field (dw), "charset")) {
+		camel_content_type_set_param (type, "charset", camel_content_type_param (camel_data_wrapper_get_mime_type_field (dw), "charset"));
 		charset_added = TRUE;
 	}
 
@@ -164,7 +165,7 @@ empe_text_plain_parse (EMailParserExtension *extension,
 		is_attachment = e_mail_part_is_attachment (part);
 
 		if (is_attachment && CAMEL_IS_MIME_MESSAGE (part) &&
-		    !(camel_content_type_is (dw->mime_type, "text", "*")
+		    !(camel_content_type_is (camel_data_wrapper_get_mime_type_field (dw), "text", "*")
 		     && camel_mime_part_get_filename (part) == NULL)) {
 			EMailPartAttachment *empa;
 

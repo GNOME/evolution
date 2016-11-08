@@ -1397,7 +1397,7 @@ pst_process_email (PstImporter *m,
 	/* FIXME Not passing a GCancellable or GError here. */
 	success = camel_folder_append_message_sync (
 		m->folder, msg, info, NULL, NULL, NULL);
-	camel_message_info_unref (info);
+	g_clear_object (&info);
 	g_object_unref (msg);
 
 	/* FIXME Not passing a GCancellable or GError here. */

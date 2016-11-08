@@ -186,39 +186,63 @@ mail_tool_generate_forward_subject (CamelMimeMessage *msg)
 	return fwd_subj;
 }
 
-struct _camel_header_raw *
+CamelNameValueArray *
 mail_tool_remove_xevolution_headers (CamelMimeMessage *message)
 {
-	struct _camel_header_raw *headers;
-	struct _camel_header_raw *scan, *list = NULL;
+	CamelNameValueArray *orig_headers, *removed_headers = NULL;
+	CamelMedium *medium;
+	guint ii, len;
 
-	headers = CAMEL_MIME_PART (message)->headers;
+	g_return_val_if_fail (CAMEL_IS_MIME_MESSAGE (message), NULL);
 
-	for (scan = headers; scan != NULL; scan = scan->next) {
-		if (strncmp (scan->name, "X-Evolution", 11) == 0)
-			camel_header_raw_append (
-				&list, scan->name,
-				scan->value, scan->offset);
+	medium = CAMEL_MEDIUM (message);
+	orig_headers = camel_medium_dup_headers (medium);
+	len = camel_name_value_array_get_length (orig_headers);
+
+	for (ii = 0; ii < len; ii++) {
+		const gchar *header_name = NULL, *header_value = NULL;
+
+		if (!camel_name_value_array_get (orig_headers, ii, &header_name, &header_value) || !header_name)
+			continue;
+
+		if (g_ascii_strncasecmp (header_name, "X-Evolution", 11) == 0) {
+			if (!removed_headers)
+				removed_headers = camel_name_value_array_new ();
+
+			camel_name_value_array_append (removed_headers, header_name, header_value);
+
+			camel_medium_remove_header (medium, header_name);
+		}
 	}
 
-	for (scan = list; scan; scan = scan->next) {
-		camel_medium_remove_header (
-			CAMEL_MEDIUM (message), scan->name);
-	}
+	camel_name_value_array_free (orig_headers);
 
-	return list;
+	return removed_headers;
 }
 
 void
 mail_tool_restore_xevolution_headers (CamelMimeMessage *message,
-                                      struct _camel_header_raw *xev)
+                                      CamelNameValueArray *headers)
 {
 	CamelMedium *medium;
+	guint ii, len;
+
+	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (message));
+
+	if (!headers)
+		return;
 
 	medium = CAMEL_MEDIUM (message);
+	len = camel_name_value_array_get_length (headers);
 
-	for (; xev; xev = xev->next)
-		camel_medium_add_header (medium, xev->name, xev->value);
+	for (ii = 0; ii < len; ii++) {
+		const gchar *header_name = NULL, *header_value = NULL;
+
+		if (!camel_name_value_array_get (headers, ii, &header_name, &header_value) || !header_name)
+			continue;
+
+		camel_medium_add_header (medium, header_name, header_value);
+	}
 }
 
 CamelMimePart *
@@ -226,7 +250,6 @@ mail_tool_make_message_attachment (CamelMimeMessage *message)
 {
 	CamelMimePart *part;
 	const gchar *subject;
-	struct _camel_header_raw *xev;
 	gchar *desc;
 
 	subject = camel_mime_message_get_subject (message);
@@ -236,8 +259,7 @@ mail_tool_make_message_attachment (CamelMimeMessage *message)
 		desc = g_strdup (_("Forwarded message"));
 
 	/* rip off the X-Evolution headers */
-	xev = mail_tool_remove_xevolution_headers (message);
-	camel_header_raw_clear (&xev);
+	camel_name_value_array_free (mail_tool_remove_xevolution_headers (message));
 
 	/* remove Bcc headers */
 	camel_medium_remove_header (CAMEL_MEDIUM (message), "Bcc");

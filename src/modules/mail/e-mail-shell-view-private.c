@@ -886,6 +886,7 @@ e_mail_shell_view_update_sidebar (EMailShellView *mail_shell_view)
 	CamelStore *parent_store;
 	CamelFolder *folder;
 	CamelFolderInfoFlags flags = 0;
+	CamelFolderSummary *folder_summary;
 	MailFolderCache *folder_cache;
 	MessageList *message_list;
 	guint selected_count;
@@ -934,18 +935,18 @@ e_mail_shell_view_update_sidebar (EMailShellView *mail_shell_view)
 
 	folder_name = camel_folder_get_display_name (folder);
 	parent_store = camel_folder_get_parent_store (folder);
+	folder_summary = camel_folder_get_folder_summary (folder);
 
 	folder_cache = e_mail_session_get_folder_cache (
 		e_mail_backend_get_session (E_MAIL_BACKEND (shell_backend)));
 	mail_folder_cache_get_folder_info_flags (folder_cache, parent_store, folder_name, &flags);
 	is_inbox = (flags & CAMEL_FOLDER_TYPE_MASK) == CAMEL_FOLDER_TYPE_INBOX;
 
-	num_deleted = camel_folder_summary_get_deleted_count (folder->summary);
-	num_junked = camel_folder_summary_get_junk_count (folder->summary);
-	num_junked_not_deleted =
-		camel_folder_summary_get_junk_not_deleted_count (folder->summary);
-	num_unread = camel_folder_summary_get_unread_count (folder->summary);
-	num_visible = camel_folder_summary_get_visible_count (folder->summary);
+	num_deleted = camel_folder_summary_get_deleted_count (folder_summary);
+	num_junked = camel_folder_summary_get_junk_count (folder_summary);
+	num_junked_not_deleted = camel_folder_summary_get_junk_not_deleted_count (folder_summary);
+	num_unread = camel_folder_summary_get_unread_count (folder_summary);
+	num_visible = camel_folder_summary_get_visible_count (folder_summary);
 
 	buffer = g_string_sized_new (256);
 	message_list = MESSAGE_LIST (e_mail_reader_get_message_list (reader));
@@ -957,7 +958,7 @@ e_mail_shell_view_update_sidebar (EMailShellView *mail_shell_view)
 			selected_count), selected_count);
 
 	/* "Trash" folder (virtual or real) */
-	if (folder->folder_flags & CAMEL_FOLDER_IS_TRASH) {
+	if (camel_folder_get_flags (folder) & CAMEL_FOLDER_IS_TRASH) {
 		if (CAMEL_IS_VTRASH_FOLDER (folder)) {
 			/* For a virtual Trash folder, count
 			 * the messages marked for deletion. */
@@ -984,7 +985,7 @@ e_mail_shell_view_update_sidebar (EMailShellView *mail_shell_view)
 		}
 
 	/* "Junk" folder (virtual or real) */
-	} else if (folder->folder_flags & CAMEL_FOLDER_IS_JUNK) {
+	} else if (camel_folder_get_flags (folder) & CAMEL_FOLDER_IS_JUNK) {
 		if (e_mail_reader_get_hide_deleted (reader)) {
 			/* Junk folder with deleted messages hidden. */
 			g_string_append_printf (

@@ -59,7 +59,8 @@ format_short_headers (EMailFormatter *formatter,
 	gchar *evolution_imagesdir;
 	gchar *subject = NULL;
 	struct _camel_header_address *addrs = NULL;
-	struct _camel_header_raw *header;
+	const CamelNameValueArray *headers;
+	guint ii, len;
 	GString *from;
 
 	if (g_cancellable_is_cancelled (cancellable))
@@ -81,17 +82,23 @@ format_short_headers (EMailFormatter *formatter,
 		"id=\"__evo-short-headers\" style=\"display: %s\">",
 		flags & E_MAIL_FORMATTER_HEADER_FLAG_COLLAPSED ? "table" : "none");
 
-	header = mime_part->headers;
-	while (header) {
-		if (!g_ascii_strcasecmp (header->name, "From")) {
+	headers = camel_medium_get_headers (CAMEL_MEDIUM (mime_part));
+	len = camel_name_value_array_get_length (headers);
+	for (ii = 0; ii < len; ii++) {
+		const gchar *header_name = NULL, *header_value = NULL;
+
+		if (!camel_name_value_array_get (headers, ii, &header_name, &header_value) ||
+		    !header_name)
+			continue;
+
+		if (!g_ascii_strcasecmp (header_name, "From")) {
 			GString *tmp;
-			if (!(addrs = camel_header_address_decode (header->value, hdr_charset))) {
-				header = header->next;
+			if (!(addrs = camel_header_address_decode (header_value, hdr_charset))) {
 				continue;
 			}
 			tmp = g_string_new ("");
 			e_mail_formatter_format_address (
-				formatter, tmp, addrs, header->name, FALSE,
+				formatter, tmp, addrs, header_name, FALSE,
 				!(flags & E_MAIL_FORMATTER_HEADER_FLAG_NOELIPSIZE));
 
 			if (tmp->len > 0)
@@ -100,16 +107,15 @@ format_short_headers (EMailFormatter *formatter,
 					_("From"), tmp->str);
 			g_string_free (tmp, TRUE);
 
-		} else if (!g_ascii_strcasecmp (header->name, "Subject")) {
+		} else if (!g_ascii_strcasecmp (header_name, "Subject")) {
 			gchar *buf = NULL;
-			subject = camel_header_unfold (header->value);
+			subject = camel_header_unfold (header_value);
 			buf = camel_header_decode_string (subject, hdr_charset);
 			g_free (subject);
 			subject = camel_text_to_html (
 				buf, CAMEL_MIME_FILTER_TOHTML_PRESERVE_8BIT, 0);
 			g_free (buf);
 		}
-		header = header->next;
 	}
 
 	g_free (hdr_charset);
@@ -209,7 +215,7 @@ format_full_headers (EMailFormatter *formatter,
 	CamelMimePart *mime_part;
 	const gchar *charset;
 	CamelContentType *ct;
-	struct _camel_header_raw *header;
+	const CamelNameValueArray *headers;
 	const gchar *photo_name = NULL;
 	guchar *face_header_value = NULL;
 	gsize face_header_len = 0;
@@ -219,6 +225,7 @@ format_full_headers (EMailFormatter *formatter,
 	gchar *hdr_charset;
 	gchar *evolution_imagesdir;
 	const gchar *direction;
+	guint ii, len;
 
 	g_return_if_fail (E_IS_MAIL_PART_HEADERS (part));
 
@@ -257,18 +264,25 @@ format_full_headers (EMailFormatter *formatter,
 		flags & E_MAIL_FORMATTER_HEADER_FLAG_COLLAPSED ? "none" : "table",
 		direction);
 
-	header = mime_part->headers;
-	while (header != NULL) {
-		if (!g_ascii_strcasecmp (header->name, "Sender")) {
+	headers = camel_medium_get_headers (CAMEL_MEDIUM (mime_part));
+	len = camel_name_value_array_get_length (headers);
+	for (ii = 0; ii < len; ii++) {
+		const gchar *header_name = NULL, *header_value = NULL;
+
+		if (!camel_name_value_array_get (headers, ii, &header_name, &header_value) ||
+		    !header_name)
+			continue;
+
+		if (!g_ascii_strcasecmp (header_name, "Sender")) {
 			struct _camel_header_address *addrs;
 			GString *html;
 
-			if (!(addrs = camel_header_address_decode (header->value, hdr_charset)))
+			if (!(addrs = camel_header_address_decode (header_value, hdr_charset)))
 				break;
 
 			html = g_string_new ("");
 			name = e_mail_formatter_format_address (
-				formatter, html, addrs, header->name, FALSE,
+				formatter, html, addrs, header_name, FALSE,
 				~(flags & E_MAIL_FORMATTER_HEADER_FLAG_NOELIPSIZE));
 
 			header_sender = html->str;
@@ -277,16 +291,16 @@ format_full_headers (EMailFormatter *formatter,
 			g_string_free (html, FALSE);
 			g_free (name);
 
-		} else if (!g_ascii_strcasecmp (header->name, "From")) {
+		} else if (!g_ascii_strcasecmp (header_name, "From")) {
 			struct _camel_header_address *addrs;
 			GString *html;
 
-			if (!(addrs = camel_header_address_decode (header->value, hdr_charset)))
+			if (!(addrs = camel_header_address_decode (header_value, hdr_charset)))
 				break;
 
 			html = g_string_new ("");
 			name = e_mail_formatter_format_address (
-				formatter, html, addrs, header->name, FALSE,
+				formatter, html, addrs, header_name, FALSE,
 				!(flags & E_MAIL_FORMATTER_HEADER_FLAG_NOELIPSIZE));
 
 			header_from = html->str;
@@ -295,11 +309,9 @@ format_full_headers (EMailFormatter *formatter,
 			g_string_free (html, FALSE);
 			g_free (name);
 
-		} else if (!g_ascii_strcasecmp (header->name, "X-Evolution-Mail-From-Delegate")) {
+		} else if (!g_ascii_strcasecmp (header_name, "X-Evolution-Mail-From-Delegate")) {
 			mail_from_delegate = TRUE;
 		}
-
-		header = header->next;
 	}
 
 	g_free (hdr_charset);
@@ -343,14 +355,13 @@ format_full_headers (EMailFormatter *formatter,
 
 	/* dump selected headers */
 	if (mode & E_MAIL_FORMATTER_MODE_ALL_HEADERS) {
-		header = mime_part->headers;
-		while (header != NULL) {
-			e_mail_formatter_format_header (
-				formatter, buffer,
-				header->name,
-				header->value,
-				E_MAIL_FORMATTER_HEADER_FLAG_NOCOLUMNS, charset);
-			header = header->next;
+		for (ii = 0; ii < len; ii++) {
+			const gchar *header_name = NULL, *header_value = NULL;
+
+			if (camel_name_value_array_get (headers, ii, &header_name, &header_value) && header_name) {
+				e_mail_formatter_format_header (formatter, buffer, header_name, header_value,
+					E_MAIL_FORMATTER_HEADER_FLAG_NOCOLUMNS, charset);
+			}
 		}
 		e_mail_formatter_format_security_header (formatter, context, buffer, part, E_MAIL_FORMATTER_HEADER_FLAG_NOCOLUMNS);
 	} else {

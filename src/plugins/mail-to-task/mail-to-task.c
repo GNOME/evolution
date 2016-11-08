@@ -108,13 +108,12 @@ set_attendees (ECalComponent *comp,
 {
 	GSList *attendees = NULL, *to_free = NULL;
 	ECalComponentAttendee *ca;
-	CamelInternetAddress *from = NULL, *to, *cc, *bcc, *arr[4];
+	CamelInternetAddress *from, *to, *cc, *bcc, *arr[4];
 	gint len, i, j;
 
-	if (message->reply_to)
-		from = message->reply_to;
-	else if (message->from)
-		from = message->from;
+	from = camel_mime_message_get_reply_to (message);
+	if (!from)
+		from = camel_mime_message_get_from (message);
 
 	to = camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_TO);
 	cc = camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_CC);
@@ -126,7 +125,7 @@ set_attendees (ECalComponent *comp,
 		if (!arr[j])
 			continue;
 
-		len = CAMEL_ADDRESS (arr[j])->addresses->len;
+		len = camel_address_length (CAMEL_ADDRESS (arr[j]));
 		for (i = 0; i < len; i++) {
 			const gchar *name, *addr;
 
@@ -179,15 +178,14 @@ prepend_from (CamelMimeMessage *message,
 {
 	gchar *res, *tmp, *addr = NULL;
 	const gchar *name = NULL, *eml = NULL;
-	CamelInternetAddress *from = NULL;
+	CamelInternetAddress *from;
 
 	g_return_val_if_fail (message != NULL, NULL);
 	g_return_val_if_fail (text != NULL, NULL);
 
-	if (message->reply_to)
-		from = message->reply_to;
-	else if (message->from)
-		from = message->from;
+	from = camel_mime_message_get_reply_to (message);
+	if (!from)
+		from = camel_mime_message_get_from (message);
 
 	if (from && camel_internet_address_get (from, 0, &name, &eml))
 		addr = camel_internet_address_format_address (name, eml);
@@ -211,7 +209,7 @@ set_description (ECalComponent *comp,
 {
 	CamelDataWrapper *content;
 	CamelStream *stream;
-	CamelContentType *type;
+	CamelContentType *type, *mime_type;
 	CamelMimePart *mime_part = CAMEL_MIME_PART (message);
 	ECalComponentText *text = NULL;
 	GByteArray *byte_array;
@@ -246,11 +244,13 @@ set_description (ECalComponent *comp,
 	str = g_strndup ((gchar *) byte_array->data, byte_array->len);
 	g_object_unref (stream);
 
+	mime_type = camel_data_wrapper_get_mime_type_field (content);
+
 	/* convert to UTF-8 string */
-	if (str && content->mime_type->params && content->mime_type->params->value) {
+	if (str && mime_type && mime_type->params && mime_type->params->value) {
 		convert_str = g_convert (
 			str, strlen (str),
-			"UTF-8", content->mime_type->params->value,
+			"UTF-8", mime_type->params->value,
 			&bytes_read, &bytes_written, NULL);
 	}
 
@@ -487,7 +487,7 @@ set_priority (ECalComponent *comp,
 	g_return_if_fail (comp != NULL);
 	g_return_if_fail (part != NULL);
 
-	prio = camel_header_raw_find (& (part->headers), "X-Priority", NULL);
+	prio = camel_medium_get_header (CAMEL_MEDIUM (part), "X-Priority");
 	if (prio && atoi (prio) > 0) {
 		gint priority = 1;
 

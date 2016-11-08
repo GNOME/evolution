@@ -271,10 +271,10 @@ store_info_new (CamelStore *store)
 
 	/* If these are vfolders then they need to be opened
 	 * now, otherwise they won't keep track of all folders. */
-	if (store->flags & CAMEL_STORE_VJUNK)
+	if (camel_store_get_flags (store) & CAMEL_STORE_VJUNK)
 		store_info->vjunk = camel_store_get_junk_folder_sync (
 			store, NULL, NULL);
-	if (store->flags & CAMEL_STORE_VTRASH)
+	if (camel_store_get_flags (store) & CAMEL_STORE_VTRASH)
 		store_info->vtrash = camel_store_get_trash_folder_sync (
 			store, NULL, NULL);
 
@@ -819,7 +819,7 @@ update_1folder (MailFolderCache *cache,
 				if (deleted > 0)
 					unread -= deleted;
 
-				junked = camel_folder_summary_get_junk_count (folder->summary);
+				junked = camel_folder_summary_get_junk_count (camel_folder_get_folder_summary (folder));
 				if (junked > 0)
 					unread -= junked;
 			}
@@ -859,31 +859,37 @@ folder_cache_check_ignore_thread (CamelFolder *folder,
 				  GCancellable *cancellable,
 				  GError **error)
 {
-	const CamelSummaryReferences *references;
+	GArray *references;
 	gboolean has_ignore_thread = FALSE, first_ignore_thread = FALSE, found_first_msgid = FALSE;
 	guint64 first_msgid;
 	GString *expr = NULL;
-	gint ii;
+	guint ii;
 
 	g_return_val_if_fail (CAMEL_IS_FOLDER (folder), FALSE);
 	g_return_val_if_fail (info != NULL, FALSE);
 
-	references = camel_message_info_get_references (info);
-	if (!references || references->size <= 0)
+	references = camel_message_info_dup_references (info);
+	if (!references || references->len <= 0) {
+		if (references)
+			g_array_unref (references);
 		return FALSE;
+	}
 
-	first_msgid = references->references[0].id.id;
+	first_msgid = g_array_index (references, guint64, 0);
 
-	for (ii = 0; ii < references->size; ii++) {
-		if (references->references[ii].id.id == 0)
+	for (ii = 0; ii < references->len; ii++) {
+		CamelSummaryMessageID msgid;
+
+		msgid.id.id = g_array_index (references, guint64, ii);
+		if (!msgid.id.id)
 			continue;
 
 		if (!expr)
 			expr = g_string_new ("(match-all (or ");
 
 		g_string_append_printf (expr, "(= \"msgid\" \"%lu %lu\")",
-			(gulong) references->references[ii].id.part.hi,
-			(gulong) references->references[ii].id.part.lo);
+			(gulong) msgid.id.part.hi,
+			(gulong) msgid.id.part.lo);
 	}
 
 	if (expr) {
@@ -901,19 +907,18 @@ folder_cache_check_ignore_thread (CamelFolder *folder,
 				if (!refrinfo)
 					continue;
 
-				if (first_msgid && camel_message_info_get_message_id (refrinfo) &&
-				    camel_message_info_get_message_id (refrinfo)->id.id == first_msgid) {
+				if (first_msgid && camel_message_info_get_message_id (refrinfo) == first_msgid) {
 					/* The first msgid in the references is In-ReplyTo, which is the master;
 					   the rest is just a guess. */
 					found_first_msgid = TRUE;
 					first_ignore_thread = camel_message_info_get_user_flag (refrinfo, "ignore-thread");
-					camel_message_info_unref (refrinfo);
+					g_clear_object (&refrinfo);
 					break;
 				}
 
 				has_ignore_thread = has_ignore_thread || camel_message_info_get_user_flag (refrinfo, "ignore-thread");
 
-				camel_message_info_unref (refrinfo);
+				g_clear_object (&refrinfo);
 			}
 
 			camel_folder_search_free (folder, uids);
@@ -921,6 +926,8 @@ folder_cache_check_ignore_thread (CamelFolder *folder,
 
 		g_string_free (expr, TRUE);
 	}
+
+	g_array_unref (references);
 
 	return (found_first_msgid && first_ignore_thread) || (!found_first_msgid && has_ignore_thread);
 }
@@ -1019,7 +1026,7 @@ folder_cache_process_folder_changes_thread (CamelFolder *folder,
 					}
 				}
 
-				camel_message_info_unref (info);
+				g_clear_object (&info);
 
 				if (local_error) {
 					g_propagate_error (error, local_error);
@@ -1434,12 +1441,12 @@ mail_folder_cache_folder_available (MailFolderCache *cache,
 		return;
 
 	/* Disregard virtual Junk folders. */
-	if (store->flags & CAMEL_STORE_VJUNK)
+	if (camel_store_get_flags (store) & CAMEL_STORE_VJUNK)
 		if (g_strcmp0 (folder_name, CAMEL_VJUNK_NAME) == 0)
 			return;
 
 	/* Disregard virtual Trash folders. */
-	if (store->flags & CAMEL_STORE_VTRASH)
+	if (camel_store_get_flags (store) & CAMEL_STORE_VTRASH)
 		if (g_strcmp0 (folder_name, CAMEL_VTRASH_NAME) == 0)
 			return;
 
@@ -1484,12 +1491,12 @@ mail_folder_cache_folder_unavailable (MailFolderCache *cache,
 		return;
 
 	/* Disregard virtual Junk folders. */
-	if (store->flags & CAMEL_STORE_VJUNK)
+	if (camel_store_get_flags (store) & CAMEL_STORE_VJUNK)
 		if (g_strcmp0 (folder_name, CAMEL_VJUNK_NAME) == 0)
 			return;
 
 	/* Disregard virtual Trash folders. */
-	if (store->flags & CAMEL_STORE_VTRASH)
+	if (camel_store_get_flags (store) & CAMEL_STORE_VTRASH)
 		if (g_strcmp0 (folder_name, CAMEL_VTRASH_NAME) == 0)
 			return;
 
@@ -1536,12 +1543,12 @@ mail_folder_cache_folder_deleted (MailFolderCache *cache,
 		return;
 
 	/* Disregard virtual Junk folders. */
-	if (store->flags & CAMEL_STORE_VJUNK)
+	if (camel_store_get_flags (store) & CAMEL_STORE_VJUNK)
 		if (g_strcmp0 (folder_name, CAMEL_VJUNK_NAME) == 0)
 			return;
 
 	/* Disregard virtual Trash folders. */
-	if (store->flags & CAMEL_STORE_VTRASH)
+	if (camel_store_get_flags (store) & CAMEL_STORE_VTRASH)
 		if (g_strcmp0 (folder_name, CAMEL_VTRASH_NAME) == 0)
 			return;
 
@@ -1901,7 +1908,7 @@ mail_folder_cache_maybe_run_initial_setup_sync (CamelService *service,
 			/* The store doesn't support the function, thus silently pretend success.
 			   Still update the ESource flag, in case the store would implement
 			   the function in the future. */
-			if (!(store->flags & CAMEL_STORE_SUPPORTS_INITIAL_SETUP))
+			if (!(camel_store_get_flags (store) & CAMEL_STORE_SUPPORTS_INITIAL_SETUP))
 				success = TRUE;
 			else
 				success = camel_store_initial_setup_sync (store, &save_setup, cancellable, error);

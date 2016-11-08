@@ -510,7 +510,7 @@ mail_backend_quit_requested_cb (EShell *shell,
 	if (folder == NULL)
 		return;
 
-	if (camel_folder_summary_get_visible_count (folder->summary) == 0)
+	if (camel_folder_summary_get_visible_count (camel_folder_get_folder_summary (folder)) == 0)
 		return;
 
 	app_windows = gtk_application_get_windows (GTK_APPLICATION (shell));

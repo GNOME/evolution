@@ -51,7 +51,7 @@ struct _AsyncContext {
 	gint io_priority;
 
 	/* X-Evolution headers */
-	struct _camel_header_raw *xev;
+	CamelNameValueArray *xev_headers;
 
 	GPtrArray *post_to_uris;
 
@@ -64,34 +64,20 @@ struct _AsyncContext {
 static void
 async_context_free (AsyncContext *context)
 {
-	if (context->folder != NULL)
-		g_object_unref (context->folder);
-
-	if (context->message != NULL)
-		g_object_unref (context->message);
-
-	if (context->info != NULL)
-		camel_message_info_unref (context->info);
-
-	if (context->from != NULL)
-		g_object_unref (context->from);
-
-	if (context->recipients != NULL)
-		g_object_unref (context->recipients);
-
-	if (context->driver != NULL)
-		g_object_unref (context->driver);
-
-	if (context->transport != NULL)
-		g_object_unref (context->transport);
+	g_clear_object (&context->folder);
+	g_clear_object (&context->message);
+	g_clear_object (&context->info);
+	g_clear_object (&context->from);
+	g_clear_object (&context->recipients);
+	g_clear_object (&context->driver);
+	g_clear_object (&context->transport);
 
 	if (context->cancellable != NULL) {
 		camel_operation_pop_message (context->cancellable);
 		g_object_unref (context->cancellable);
 	}
 
-	if (context->xev != NULL)
-		camel_header_raw_clear (&context->xev);
+	camel_name_value_array_free (context->xev_headers);
 
 	if (context->post_to_uris != NULL) {
 		g_ptr_array_foreach (
@@ -192,7 +178,7 @@ e_mail_session_append_to_local_folder (EMailSession *session,
 	context->message = g_object_ref (message);
 
 	if (info != NULL)
-		context->info = camel_message_info_ref (info);
+		context->info = g_object_ref (info);
 
 	simple = g_simple_async_result_new (
 		G_OBJECT (session), callback, user_data,
@@ -646,7 +632,7 @@ skip_send:
 	/* This accumulates error messages during post-processing. */
 	error_messages = g_string_sized_new (256);
 
-	mail_tool_restore_xevolution_headers (context->message, context->xev);
+	mail_tool_restore_xevolution_headers (context->message, context->xev_headers);
 
 	/* Run filters on the outgoing message. */
 	if (context->driver != NULL) {
@@ -798,22 +784,6 @@ exit:
 	g_string_free (error_messages, TRUE);
 }
 
-static guint32
-get_message_size (CamelMimeMessage *message,
-                  GCancellable *cancellable)
-{
-	CamelStream *null;
-	guint32 size;
-
-	null = camel_stream_null_new ();
-	camel_data_wrapper_write_to_stream_sync (
-		CAMEL_DATA_WRAPPER (message), null, cancellable, NULL);
-	size = CAMEL_STREAM_NULL (null)->written;
-	g_object_unref (null);
-
-	return size;
-}
-
 void
 e_mail_session_send_to (EMailSession *session,
                         CamelMimeMessage *message,
@@ -832,9 +802,9 @@ e_mail_session_send_to (EMailSession *session,
 	CamelMessageInfo *info;
 	CamelService *transport;
 	GPtrArray *post_to_uris;
-	struct _camel_header_raw *xev;
-	struct _camel_header_raw *header;
+	CamelNameValueArray *xev_headers;
 	const gchar *resent_from;
+	guint ii, len;
 	GError *error = NULL;
 
 	g_return_if_fail (E_IS_MAIL_SESSION (session));
@@ -848,18 +818,22 @@ e_mail_session_send_to (EMailSession *session,
 	transport = e_mail_session_ref_transport_for_message (
 		session, message);
 
-	xev = mail_tool_remove_xevolution_headers (message);
+	xev_headers = mail_tool_remove_xevolution_headers (message);
+	len = camel_name_value_array_get_length (xev_headers);
 
 	/* Extract directives from X-Evolution headers. */
 
 	post_to_uris = g_ptr_array_new ();
-	for (header = xev; header != NULL; header = header->next) {
+	for (ii = 0; ii < len; ii++) {
+		const gchar *header_name = NULL, *header_value = NULL;
 		gchar *folder_uri;
 
-		if (g_strcmp0 (header->name, "X-Evolution-PostTo") != 0)
+		if (!camel_name_value_array_get (xev_headers, ii, &header_name, &header_value) ||
+		    !header_name ||
+		    g_ascii_strcasecmp (header_name, "X-Evolution-PostTo") != 0)
 			continue;
 
-		folder_uri = g_strstrip (g_strdup (header->value));
+		folder_uri = g_strstrip (g_strdup (header_value));
 		g_ptr_array_add (post_to_uris, folder_uri);
 	}
 
@@ -909,10 +883,9 @@ e_mail_session_send_to (EMailSession *session,
 
 	/* Miscellaneous preparations. */
 
-	info = camel_message_info_new_from_header (
-		NULL, CAMEL_MIME_PART (message)->headers);
-	((CamelMessageInfoBase *) info)->size =
-		get_message_size (message, cancellable);
+	info = camel_message_info_new_from_headers (NULL, camel_medium_get_headers (CAMEL_MEDIUM (message)));
+
+	camel_message_info_set_size (info, camel_data_wrapper_calculate_size_sync (CAMEL_DATA_WRAPPER (message), cancellable, NULL));
 	camel_message_info_set_flags (info, CAMEL_MESSAGE_SEEN |
 		(camel_mime_message_has_attachment (message) ? CAMEL_MESSAGE_ATTACHMENTS : 0), ~0);
 
@@ -927,7 +900,7 @@ e_mail_session_send_to (EMailSession *session,
 	context->from = from;
 	context->recipients = recipients;
 	context->info = info;
-	context->xev = xev;
+	context->xev_headers = xev_headers;
 	context->post_to_uris = post_to_uris;
 	context->transport = transport;
 
