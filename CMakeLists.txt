@@ -673,6 +673,12 @@ else(ENABLE_GNOME_DESKTOP)
 	set(shell_private_requirements "")
 endif(ENABLE_GNOME_DESKTOP)
 
+# The shell_privlibdir_rpath_flags is used by the evolution-shell.pc.in
+# and if set, then should be preceded with a space.
+if(NOT WIN32)
+	set(shell_privlibdir_rpath_flags  " -Wl,-R${privlibdir}")
+endif(NOT WIN32)
+
 add_pkgconfig_file(evolution-calendar.pc.in evolution-calendar-${INTERFACE_VERSION}.pc)
 add_pkgconfig_file(evolution-mail.pc.in evolution-mail-${INTERFACE_VERSION}.pc)
 add_pkgconfig_file(evolution-shell.pc.in evolution-shell-${INTERFACE_VERSION}.pc)
