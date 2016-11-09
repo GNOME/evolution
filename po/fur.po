@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2016-10-25 16:59+0000\n"
-"PO-Revision-Date: 2016-11-05 21:30+0100\n"
+"POT-Creation-Date: 2016-11-06 17:26+0000\n"
+"PO-Revision-Date: 2016-11-09 11:26+0100\n"
 "Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
 "Language-Team: Friulian <fur@li.org>\n"
 "Language: fur\n"
@@ -1964,11 +1964,11 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:145
 msgid "Log filter actions"
-msgstr ""
+msgstr "Azions di filtrament dai regjistris"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:146
 msgid "Log filter actions to the specified log file."
-msgstr ""
+msgstr "Azions di filtrament sul file di regjistri specificât."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:147
 msgid "Logfile to log filter actions"
@@ -2212,6 +2212,8 @@ msgid ""
 "Policy for automatically closing the message browser window when forwarding "
 "or replying to the displayed message."
 msgstr ""
+"Politiche par sierâ in automatic il barcon dal esploradôr dai messaçs cuant "
+"che si mande indenant o si rispuint al messaç mostrât."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:188
 msgid "Empty Trash folders on exit"
@@ -2323,7 +2325,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:209
 msgid "The default plugin for Junk hook"
-msgstr ""
+msgstr "Il plugin predefinît pe pueste malvolude"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:210
 msgid ""
@@ -2331,6 +2333,9 @@ msgid ""
 "enabled. If the default listed plugin is disabled, then it won't fall back "
 "to the other available plugins."
 msgstr ""
+"Chest al è il plugin predefinît pe pueste malvolude, ancje se ancje altris a "
+"fossin abilitâts. Se il plugin listât come predefinît al è disabilitât, "
+"alore no vignaran doprâts nancje chei altris plugin disponibii."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:211
 msgid "Determines whether to lookup in address book for sender email"
@@ -3178,6 +3183,8 @@ msgid ""
 "This will permanently remove the address book &quot;{0}&quot; from the "
 "server. Are you sure you want to proceed?"
 msgstr ""
+"Chest al gjavarà par simpri dal servidôr la rubriche «{0}». Sigûrs di "
+"continuâ?"
 
 #: ../src/addressbook/addressbook.error.xml.h:16
 #: ../src/calendar/calendar.error.xml.h:65
@@ -4313,7 +4320,7 @@ msgstr "Blog"
 #: ../src/calendar/gui/e-task-table.c:211
 #: ../src/calendar/gui/e-task-table.c:226
 #: ../src/calendar/gui/e-task-table.c:636 ../src/calendar/gui/print.c:3586
-#: ../src/calendar/gui/tasktypes.xml.in.h:14 ../src/mail/mail-send-recv.c:968
+#: ../src/calendar/gui/tasktypes.xml.in.h:14 ../src/mail/mail-send-recv.c:966
 msgid "Cancelled"
 msgstr "Anulade"
 
@@ -4555,7 +4562,7 @@ msgstr "Sigûrs di eliminâ chest contat (%s)?"
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1477
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:676
 #: ../src/modules/calendar/e-task-shell-view-actions.c:830
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1750
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1699
 #: ../src/shell/e-shell-window-actions.c:822
 #: ../src/smime/gui/certificate-manager.c:1672
 #: ../src/smime/gui/smime-ui.ui.h:10
@@ -6982,7 +6989,7 @@ msgstr "La ore di inizi no je valide"
 #: ../src/calendar/gui/e-comp-editor-page-attachments.c:199
 #: ../src/calendar/gui/e-comp-editor.c:338 ../src/mail/e-mail-display.c:2022
 #: ../src/mail/e-mail-reader-utils.c:646 ../src/mail/mail-send-recv.c:490
-#: ../src/mail/mail-send-recv.c:1290 ../src/plugins/face/face.c:174
+#: ../src/mail/mail-send-recv.c:1288 ../src/plugins/face/face.c:174
 #: ../src/shell/e-shell.c:990 ../src/shell/e-shell.c:1012
 #: ../src/smime/gui/certificate-manager.c:357
 msgid "Unknown error"
@@ -8464,7 +8471,7 @@ msgstr "Date inizi"
 msgid "Completion date"
 msgstr "Date completament"
 
-#: ../src/calendar/gui/e-task-table.etspec.h:6 ../src/mail/mail-send-recv.c:970
+#: ../src/calendar/gui/e-task-table.etspec.h:6 ../src/mail/mail-send-recv.c:968
 msgid "Complete"
 msgstr "Completade"
 
@@ -11474,7 +11481,7 @@ msgstr "%s zonte"
 msgid "%d %B %Y"
 msgstr "%e di %B dal %Y"
 
-# calendari dal 1ⁿ di ... al 1ⁿ di ... al è just 
+# calendari dal 1ⁿ di ... al 1ⁿ di ... al è just
 # ma isal just
 # dal 5 di novembre... al 30 di zenâr?
 # mark as fuzzy?
@@ -11525,7 +11532,7 @@ msgid "%s (%d%% complete)"
 msgstr "%s (%d%% completade)"
 
 #: ../src/e-util/e-activity-proxy.c:350
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1921
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1870
 msgid "Cancel"
 msgstr "Anule"
 
@@ -11698,8 +11705,8 @@ msgstr "_Zonte zonte..."
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1276
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:605
 #: ../src/modules/calendar/e-task-shell-view-actions.c:731
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1715
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1786
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1664
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1735
 msgid "_Properties"
 msgstr "_Proprietâts"
 
@@ -11711,70 +11718,70 @@ msgstr "Vierç cun %s"
 #: ../src/e-util/e-attachment-view.c:661
 #, c-format
 msgid "Open this attachment in %s"
-msgstr ""
+msgstr "Vierç cheste zonte in %s"
 
 #: ../src/e-util/e-book-source-config.c:98
 msgid "Mark as default address book"
-msgstr ""
+msgstr "Segne come rubriche predefinide"
 
 #: ../src/e-util/e-book-source-config.c:103
 msgid "Autocomplete with this address book"
-msgstr ""
+msgstr "Completament automatic cun cheste rubriche"
 
 #: ../src/e-util/e-book-source-config.c:277
 msgid "Copy book content locally for offline operation"
-msgstr ""
+msgstr "Copie in locâl il contignût de rubriche pes operazions fûr rêt"
 
 #. To Translators: The text is concatenated to a form: "Ctrl-click to open a link http://www.example.com"
 #: ../src/e-util/e-buffer-tagger.c:410
 msgid "Ctrl-click to open a link"
-msgstr ""
+msgstr "Fâ Ctrl-clic par vierzi un colegament"
 
 #: ../src/e-util/e-calendar.c:272
 msgid "Previous month"
-msgstr ""
+msgstr "Mês precedent"
 
 #: ../src/e-util/e-calendar.c:291
 msgid "Next month"
-msgstr ""
+msgstr "Mês sucessîf"
 
 #: ../src/e-util/e-calendar.c:311
 msgid "Previous year"
-msgstr ""
+msgstr "An precedent"
 
 #: ../src/e-util/e-calendar.c:330
 msgid "Next year"
-msgstr ""
+msgstr "An sucessîf"
 
 #: ../src/e-util/e-calendar.c:354
 msgid "Month Calendar"
-msgstr ""
+msgstr "Calendari mensîl"
 
 #. This is a strftime() format. %B = Month name.
 #: ../src/e-util/e-calendar-item.c:1338 ../src/e-util/e-calendar-item.c:2218
 msgctxt "CalItem"
 msgid "%B"
-msgstr ""
+msgstr "%B"
 
 #. This is a strftime() format. %Y = Year.
 #: ../src/e-util/e-calendar-item.c:1340
 msgctxt "CalItem"
 msgid "%Y"
-msgstr ""
+msgstr "%Y"
 
 #. This is a strftime() format. %B = Month name, %Y = Year.
 #: ../src/e-util/e-calendar-item.c:1377
 msgctxt "CalItem"
 msgid "%B %Y"
-msgstr ""
+msgstr "%B %Y"
 
 #: ../src/e-util/e-cal-source-config.c:169
 msgid "Mark as default calendar"
-msgstr ""
+msgstr "Segne come calendari predefinît"
 
 #: ../src/e-util/e-cal-source-config.c:172
 msgid "Mark as default task list"
-msgstr ""
+msgstr "Segne come liste di ativitâts predefinide"
 
 #: ../src/e-util/e-cal-source-config.c:175
 msgid "Mark as default memo list"
@@ -11782,7 +11789,7 @@ msgstr "Segne come liste memorandum predefinide"
 
 #: ../src/e-util/e-cal-source-config.c:200
 msgid "Color:"
-msgstr ""
+msgstr "Colôr:"
 
 #: ../src/e-util/e-cal-source-config.c:428
 msgid "Copy calendar contents locally for offline operation"
@@ -17017,7 +17024,7 @@ msgstr ""
 
 #: ../src/mail/em-subscription-editor.c:970
 #: ../src/mail/em-subscription-editor.c:1914 ../src/mail/mail.error.xml.h:73
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1821
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1770
 msgid "_Unsubscribe"
 msgstr ""
 
@@ -17070,7 +17077,7 @@ msgid "Su_bscribe"
 msgstr ""
 
 #: ../src/mail/em-subscription-editor.c:1913
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1823
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1772
 msgid "Unsubscribe from the selected folder"
 msgstr ""
 
@@ -17095,8 +17102,8 @@ msgid "Refresh the folder list"
 msgstr ""
 
 #: ../src/mail/em-subscription-editor.c:1976
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1722
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1793
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1671
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1742
 msgid "_Refresh"
 msgstr ""
 
@@ -18264,7 +18271,7 @@ msgid ""
 msgstr ""
 
 #: ../src/mail/mail.error.xml.h:42
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1708
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1657
 msgid "_Empty Trash"
 msgstr ""
 
@@ -18895,7 +18902,7 @@ msgstr ""
 msgid "Cancel _All"
 msgstr ""
 
-#: ../src/mail/mail-send-recv.c:744 ../src/mail/mail-send-recv.c:1264
+#: ../src/mail/mail-send-recv.c:744 ../src/mail/mail-send-recv.c:1262
 msgid "Updating..."
 msgstr ""
 
@@ -18903,22 +18910,22 @@ msgstr ""
 msgid "Waiting..."
 msgstr ""
 
-#: ../src/mail/mail-send-recv.c:1230
+#: ../src/mail/mail-send-recv.c:1228
 #, c-format
 msgid "Checking for new mail at '%s'"
 msgstr ""
 
-#: ../src/mail/mail-send-recv.c:1457
+#: ../src/mail/mail-send-recv.c:1455
 #, c-format
 msgid "Deleting junk and expunging trash at '%s'"
 msgstr ""
 
-#: ../src/mail/mail-send-recv.c:1459
+#: ../src/mail/mail-send-recv.c:1457
 #, c-format
 msgid "Deleting junk at '%s'"
 msgstr ""
 
-#: ../src/mail/mail-send-recv.c:1461
+#: ../src/mail/mail-send-recv.c:1459
 #, c-format
 msgid "Expunging trash at '%s'"
 msgstr ""
@@ -19069,32 +19076,32 @@ msgid "Subject or Addresses contains"
 msgstr ""
 
 #: ../src/mail/searchtypes.xml.in.h:58
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2237
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2186
 msgid "Recipients contain"
 msgstr ""
 
 #: ../src/mail/searchtypes.xml.in.h:59
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2230
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2179
 msgid "Message contains"
 msgstr ""
 
 #: ../src/mail/searchtypes.xml.in.h:60
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2251
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2200
 msgid "Subject contains"
 msgstr ""
 
 #: ../src/mail/searchtypes.xml.in.h:61
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2244
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2193
 msgid "Sender contains"
 msgstr ""
 
 #: ../src/mail/searchtypes.xml.in.h:62
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2216
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2165
 msgid "Body contains"
 msgstr ""
 
 #: ../src/mail/searchtypes.xml.in.h:63
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2223
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2172
 msgid "Free form expression"
 msgstr ""
 
@@ -19253,7 +19260,7 @@ msgstr ""
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1297
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:619
 #: ../src/modules/calendar/e-task-shell-view-actions.c:745
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1800
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1749
 msgid "_Rename..."
 msgstr ""
 
@@ -19334,7 +19341,7 @@ msgstr ""
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1078
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:663
 #: ../src/modules/calendar/e-task-shell-view-actions.c:817
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1972
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1921
 msgid "_Preview"
 msgstr ""
 
@@ -19368,7 +19375,7 @@ msgstr ""
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1164
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:741
 #: ../src/modules/calendar/e-task-shell-view-actions.c:907
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2118
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2067
 msgid "_Classic View"
 msgstr ""
 
@@ -19379,7 +19386,7 @@ msgstr ""
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1171
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:748
 #: ../src/modules/calendar/e-task-shell-view-actions.c:914
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2125
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2074
 msgid "_Vertical View"
 msgstr ""
 
@@ -19398,7 +19405,7 @@ msgstr ""
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1655
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:775
 #: ../src/modules/calendar/e-task-shell-view-actions.c:976
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2209
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2158
 #: ../src/shell/e-shell-content.c:655
 msgid "Advanced Search"
 msgstr ""
@@ -22111,240 +22118,240 @@ msgstr "Va ae cartele"
 msgid "_Select"
 msgstr "_Selezione"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1701
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1650
 msgid "_Disable Account"
 msgstr "_Disabilite account"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1703
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1652
 msgid "Disable this account"
 msgstr "Disabilite chest account"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1710
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1659
 msgid "Permanently remove all the deleted messages from all folders"
 msgstr "Gjave par simpri ducj i messaçs eliminâts di dutis lis cartelis"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1717
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1666
 msgid "Edit properties of this account"
 msgstr "Modifiche lis proprietâts di chest account"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1724
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1673
 msgid "Refresh list of folders of this account"
 msgstr "Inzorne la liste des cartelis di chest account"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1729
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1678
 msgid "_Download Messages for Offline Usage"
 msgstr "_Discjarie messaçs par l'ûs fûr rêt"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1731
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1680
 msgid "Download messages of accounts and folders marked for offline usage"
 msgstr "Discjarie i messaçs dai account e des cartelis segnadis pal ûs fûr rêt"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1736
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1685
 msgid "Fl_ush Outbox"
 msgstr ""
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1743
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1692
 msgid "_Copy Folder To..."
 msgstr "_Copie cartele su..."
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1745
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1694
 msgid "Copy the selected folder into another folder"
 msgstr "Copie la cartele selezionade intune altre cartele"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1752
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1701
 msgid "Permanently remove this folder"
 msgstr "Gjave par simpri cheste cartele"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1757
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1706
 msgid "E_xpunge"
 msgstr ""
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1759
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1708
 msgid "Permanently remove all deleted messages from this folder"
 msgstr "Gjave par simpri di cheste cartele ducj i messaçs eliminâts"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1764
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1872
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1713
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1821
 msgid "Mar_k All Messages as Read"
 msgstr "Segne duc_j i messaçs come lets"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1766
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1874
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1715
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1823
 msgid "Mark all messages in the folder as read"
 msgstr "Segne come lets ducj i messaçs inte cartele"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1771
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1720
 msgid "_Move Folder To..."
 msgstr "_Sposte cartele su..."
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1773
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1722
 msgid "Move the selected folder into another folder"
 msgstr "Sposte la cartele selezionade intune altre cartele"
 
 #. Translators: An action caption to create a new mail folder
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1779
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1728
 msgid "_New..."
 msgstr "_Gnove..."
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1781
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1730
 msgid "Create a new folder for storing mail"
 msgstr "Cree une gnove cartele par memorizâ la pueste"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1788
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1737
 msgid "Change the properties of this folder"
 msgstr "Cambie lis proprietâts di cheste cartele"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1795
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1744
 msgid "Refresh the folder"
 msgstr "Inzorne la cartele"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1802
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1751
 msgid "Change the name of this folder"
 msgstr "Cambie il non di cheste cartele"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1807
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1756
 msgid "Select Message _Thread"
 msgstr ""
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1809
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1758
 msgid "Select all messages in the same thread as the selected message"
 msgstr ""
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1814
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1763
 msgid "Select Message S_ubthread"
 msgstr ""
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1816
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1765
 msgid "Select all replies to the currently selected message"
 msgstr "Selezione dutis lis rispuestis al messaç cumò selezionât"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1828
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1777
 msgid "Empty _Trash"
 msgstr "Dis_vuede scovacere"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1830
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1779
 msgid "Permanently remove all the deleted messages from all accounts"
 msgstr "Gjave par simpri ducj i messaçs eliminâts di ducj i account"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1835
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1784
 msgid "Go to _Folder"
 msgstr "Va ae _cartele"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1837
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1786
 msgid "Opens a dialog to select a folder to go to"
 msgstr "Vierç un dialic par selezionâ une cartele dulà lâ"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1842
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1791
 msgid "_New Label"
 msgstr "_Gnove etichete"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1851
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1800
 msgid "N_one"
 msgstr "Niss_un"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1865
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1814
 msgid "_Manage Subscriptions"
 msgstr "_Gjestìs sotscrizion"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1867
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1951
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1816
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1900
 msgid "Subscribe or unsubscribe to folders on remote servers"
 msgstr "Sotscrîf o anule sotscrizion a cartelis su servidôrs rimots"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1879
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1900
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1828
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1849
 msgid "Send / _Receive"
 msgstr "Invie / _Ricêf"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1881
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1830
 msgid "Send queued items and retrieve new items"
 msgstr "Invie elements in code e ricêf chei gnûfs"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1886
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1835
 msgid "R_eceive All"
 msgstr "Ric_êf dut"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1888
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1837
 msgid "Receive new items from all accounts"
 msgstr "Ricêf gnûfs elements di ducj i account"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1893
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1842
 msgid "_Send All"
 msgstr "In_vie dut"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1895
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1844
 msgid "Send queued items in all accounts"
 msgstr "Invie elements in code in ducj i account"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1923
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1872
 msgid "Cancel the current mail operation"
 msgstr "Anule la operazion di pueste in vore"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1928
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1877
 msgid "Collapse All _Threads"
 msgstr ""
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1930
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1879
 msgid "Collapse all message threads"
 msgstr ""
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1935
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1884
 msgid "E_xpand All Threads"
 msgstr ""
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1937
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1886
 msgid "Expand all message threads"
 msgstr ""
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1942
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1891
 msgid "_Message Filters"
 msgstr "_Filtris dai messaçs"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1944
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1893
 msgid "Create or edit rules for filtering new mail"
 msgstr "Cree o modifiche lis regulis par filtrâ lis gnovis mail"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1949
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1898
 msgid "_Subscriptions..."
 msgstr "_Sotscrizions..."
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1958
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1907
 msgid "F_older"
 msgstr "Car_telis"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1965
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1914
 msgid "_Label"
 msgstr "_Etichetis"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1982
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1931
 msgid "C_reate Search Folder From Search..."
 msgstr ""
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1989
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1938
 msgid "Search F_olders"
 msgstr "C_artele di ricercje"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1991
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1940
 msgid "Create or edit search folder definitions"
 msgstr "Cree o modifiche definizions des cartelis di ricercje"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2030
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1979
 msgid "_New Folder..."
 msgstr "_Gnove cartele..."
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2058
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2007
 msgid "Show Message _Preview"
 msgstr "Mostre ante_prime messaç"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2060
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2009
 msgid "Show message preview pane"
 msgstr "Mostre il ricuadri di anteprime dai messaçs"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2066
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2015
 msgid "Show _Attachment Bar"
 msgstr "Mostre sbare _zontis"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2068
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2017
 msgid ""
 "Show Attachment Bar below the message preview pane when the message has "
 "attachments"
@@ -22352,99 +22359,99 @@ msgstr ""
 "Mostre la sbare des zontis sot dal ricuadri di anteprime dal messaç cuant "
 "che il messaç al à zontis"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2074
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2023
 msgid "Show _Deleted Messages"
 msgstr "Mostre messaçs e_liminâts"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2076
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2025
 msgid "Show deleted messages with a line through them"
 msgstr "Mostre messaçs eliminâts cuntune linie parsore"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2082
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2031
 msgid "Show _Junk Messages"
 msgstr "Mostre messaçs _malvolûts"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2084
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2033
 msgid "Show junk messages with a red line through them"
 msgstr "Mostre i messaçs malvolûts cuntune linie rosse parsore"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2090
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2039
 msgid "_Group By Threads"
 msgstr ""
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2092
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2041
 msgid "Threaded message list"
 msgstr ""
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2098
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2047
 msgid "_Unmatched Folder Enabled"
 msgstr ""
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2100
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2049
 msgid "Toggles whether Unmatched search folder is enabled"
 msgstr ""
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2120
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2069
 msgid "Show message preview below the message list"
 msgstr "Mostre la anteprime dai messaçs sot de liste dai messaçs"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2127
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2076
 msgid "Show message preview alongside the message list"
 msgstr "Mostre la anteprime dai messaçs in bande ae liste dai messaçs"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2135
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2084
 msgid "All Messages"
 msgstr "Ducj i messaçs"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2142
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2091
 msgid "Important Messages"
 msgstr "Messaçs impuartants"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2149
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2098
 msgid "Last 5 Days' Messages"
 msgstr "Messaçs dai ultins 5 dîs"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2156
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2105
 msgid "Messages Not Junk"
 msgstr "Messaçs no malvolûts"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2163
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2112
 msgid "Messages with Attachments"
 msgstr "Messaçs cun zontis"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2170
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2119
 msgid "Messages with Notes"
 msgstr "Messaçs cun notis"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2177
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2126
 msgid "No Label"
 msgstr "Nissune etichete"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2184
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2133
 msgid "Read Messages"
 msgstr "Messaçs lets"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2191
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2140
 msgid "Unread Messages"
 msgstr "Messaçs no lets"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2198
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2147
 msgid "Message Thread"
 msgstr ""
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2258
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2207
 msgid "Subject or Addresses contain"
 msgstr ""
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2268
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2217
 msgid "All Accounts"
 msgstr "Ducj i account"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2275
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2224
 msgid "Current Account"
 msgstr "Account atuâl"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2282
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2231
 msgid "Current Folder"
 msgstr "Cartele atuâl"
 
