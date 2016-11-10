@@ -480,11 +480,11 @@ e_dom_utils_create_and_add_css_style_sheet (WebKitDOMDocument *document,
 	}
 }
 
-static void
-add_css_rule_into_style_sheet (WebKitDOMDocument *document,
-                               const gchar *style_sheet_id,
-                               const gchar *selector,
-                               const gchar *style)
+void
+e_dom_utils_add_css_rule_into_style_sheet_in_document (WebKitDOMDocument *document,
+                                                       const gchar *style_sheet_id,
+                                                       const gchar *selector,
+                                                       const gchar *style)
 {
 	WebKitDOMElement *style_element;
 	WebKitDOMStyleSheet *sheet = NULL;
@@ -492,7 +492,9 @@ add_css_rule_into_style_sheet (WebKitDOMDocument *document,
 	gint length, ii, selector_length;
 	gboolean removed = FALSE;
 
-	g_return_if_fail (selector != NULL);
+	g_return_if_fail (WEBKIT_DOM_IS_HTML_DOCUMENT (document));
+	g_return_if_fail (style_sheet_id && *style_sheet_id);
+	g_return_if_fail (selector && *selector);
 
 	selector_length = strlen (selector);
 	style_element = webkit_dom_document_get_element_by_id (document, style_sheet_id);
@@ -553,7 +555,7 @@ add_css_rule_into_style_sheet_recursive (WebKitDOMDocument *document,
 	gint ii, length;
 
 	/* Add rule to document */
-	add_css_rule_into_style_sheet (
+	e_dom_utils_add_css_rule_into_style_sheet_in_document (
 		document,
 		style_sheet_id,
 		selector,
@@ -925,10 +927,212 @@ e_dom_utils_bind_focus_on_elements (WebKitDOMDocument *document,
 		connection);
 }
 
+static gboolean
+force_width_is_valid_element (WebKitDOMElement *element)
+{
+	gboolean ret_val;
+	gchar *tmp;
+
+	tmp = webkit_dom_element_get_id (element);
+	/* We can force the width on every message that was not formatted
+	 * by text-highlight module. */
+	ret_val = tmp && strstr (tmp, "text-highlight");
+	g_free (tmp);
+
+	if (!ret_val)
+		return TRUE;
+
+	tmp = webkit_dom_element_get_attribute (element, "src");
+	/* If the message was formatted with text-highlight we can adjust the
+	 * width just for the messages that were formatted as plain text. */
+	ret_val = tmp && strstr (tmp, "__formatas=txt");
+	g_free (tmp);
+
+	return ret_val;
+}
+
+static void
+set_iframe_and_body_width (WebKitDOMDocument *document,
+                           gint64 width,
+                           gint64 original_width,
+                           guint level)
+{
+	gint ii, length;
+	gint64 local_width = width;
+	WebKitDOMHTMLCollection *frames = NULL;
+
+	if (!document || !WEBKIT_DOM_IS_HTML_DOCUMENT (document))
+		return;
+
+	frames = webkit_dom_document_get_elements_by_tag_name_as_html_collection (document, "iframe");
+	length = webkit_dom_html_collection_get_length (frames);
+
+	if (level == 0) {
+		local_width -= 2; /* 1 + 1 frame borders */
+	} else if (!length) {
+		gchar *style;
+
+		/* Message main body */
+		local_width -= 8; /* 8 + 8 margins of body without iframes */
+		if (level > 1)
+			local_width -= 8;
+
+		style = g_strdup_printf ("width: %" G_GINT64_FORMAT "px;", local_width);
+		e_dom_utils_add_css_rule_into_style_sheet_in_document (
+			document,
+			"-e-mail-formatter-style-sheet",
+			"body",
+			style);
+
+		e_dom_utils_add_css_rule_into_style_sheet_in_document (
+			document,
+			"-e-mail-formatter-style-sheet",
+			".part-container",
+			style);
+		g_free (style);
+	} else if (level == 1) {
+		gchar *style;
+
+		local_width -= 20; /* 10 + 10 margins of body with iframes */
+
+		style = g_strdup_printf ("width: %" G_GINT64_FORMAT "px;", local_width);
+		e_dom_utils_add_css_rule_into_style_sheet_in_document (
+			document,
+			"-e-mail-formatter-style-sheet",
+			"body",
+			style);
+		g_free (style);
+
+		local_width -= 2; /* 1 + 1 frame borders */
+
+		style = g_strdup_printf ("width: %" G_GINT64_FORMAT "px;", local_width);
+		e_dom_utils_add_css_rule_into_style_sheet_in_document (
+			document,
+			"-e-mail-formatter-style-sheet",
+			".part-container-nostyle iframe",
+			style);
+		g_free (style);
+
+		/* We need to subtract another 10 pixels from the iframe width to
+		 * have the iframe's borders on the correct place. We can't subtract
+		 * it from local_width as we don't want to propagate this change
+		 * further. */
+		style = g_strdup_printf ("width: %" G_GINT64_FORMAT "px;", local_width - 10);
+		e_dom_utils_add_css_rule_into_style_sheet_in_document (
+			document,
+			"-e-mail-formatter-style-sheet",
+			".part-container iframe",
+			style);
+		g_free (style);
+	} else {
+		gchar *style;
+
+		local_width -= 20; /* 10 + 10 margins of body with iframes */
+		local_width -= 8; /* attachment margin */
+		local_width -= 2; /* 1 + 1 frame borders */
+
+		/* We need to subtract another 10 pixels from the iframe width to
+		 * have the iframe's borders on the correct place. We can't subtract
+		 * it from local_width as we don't want to propagate this change
+		 * further. */
+		style = g_strdup_printf ("width: %" G_GINT64_FORMAT "px;", local_width - 10);
+		e_dom_utils_add_css_rule_into_style_sheet_in_document (
+			document,
+			"-e-mail-formatter-style-sheet",
+			".part-container-nostyle iframe",
+			style);
+
+		e_dom_utils_add_css_rule_into_style_sheet_in_document (
+			document,
+			"-e-mail-formatter-style-sheet",
+			"body > .part-container-nostyle iframe",
+			style);
+		g_free (style);
+	}
+
+	/* Add rules to every sub document */
+	for (ii = 0; ii < length; ii++) {
+		gint64 tmp_local_width = local_width;
+		WebKitDOMDocument *iframe_document;
+		WebKitDOMNode *node;
+
+		node = webkit_dom_html_collection_item (frames, ii);
+		if (!force_width_is_valid_element (WEBKIT_DOM_ELEMENT (node)))
+			continue;
+
+		iframe_document = webkit_dom_html_iframe_element_get_content_document (
+			WEBKIT_DOM_HTML_IFRAME_ELEMENT (node));
+
+		if (!iframe_document)
+			continue;
+
+		if (level == 0) {
+			gchar *style = NULL;
+
+			tmp_local_width -= 8; /* attachment's margin */
+
+			style = g_strdup_printf ("width: %" G_GINT64_FORMAT "px;", tmp_local_width);
+			e_dom_utils_add_css_rule_into_style_sheet_in_document (
+				document,
+				"-e-mail-formatter-style-sheet",
+				".attachment-wrapper iframe:not([src*=\"__formatas=\"])",
+				style);
+
+			e_dom_utils_add_css_rule_into_style_sheet_in_document (
+				document,
+				"-e-mail-formatter-style-sheet",
+				".attachment-wrapper iframe[src*=\"__formatas=txt\"]",
+				style);
+			g_free (style);
+
+			style = g_strdup_printf ("width: %" G_GINT64_FORMAT "px;", local_width);
+			e_dom_utils_add_css_rule_into_style_sheet_in_document (
+				document,
+				"-e-mail-formatter-style-sheet",
+				"body > .part-container-nostyle iframe",
+				style);
+			g_free (style);
+		}
+
+		set_iframe_and_body_width (iframe_document, tmp_local_width, original_width, level + 1);
+	}
+	g_object_unref (frames);
+}
+
+void
+e_dom_resize_document_content_to_preview_width (WebKitDOMDocument *document)
+{
+	gint64 width, scroll_width;
+	WebKitDOMElement *document_element;
+
+	if (!document)
+		return;
+
+	document_element = webkit_dom_document_get_document_element (document);
+	width = webkit_dom_element_get_client_width (document_element);
+
+	/* Check if we have horizontal scrollbar. */
+	scroll_width = webkit_dom_element_get_scroll_width (document_element);
+	if (scroll_width >= width) {
+		width -= 20; /* 10 + 10 margins of body */
+		set_iframe_and_body_width (document, width, width, 0);
+	}
+}
+
+static void
+dom_window_resize_cb (WebKitDOMElement *element,
+                      WebKitDOMEvent *event,
+                      WebKitDOMDocument *document)
+{
+	e_dom_resize_document_content_to_preview_width (document);
+}
+
 void
 e_dom_utils_e_mail_display_bind_dom (WebKitDOMDocument *document,
                                      GDBusConnection *connection)
 {
+	WebKitDOMDOMWindow *dom_window;
+
 	e_dom_utils_bind_dom (
 		document,
 		"#__evo-collapse-headers-img",
@@ -942,6 +1146,23 @@ e_dom_utils_e_mail_display_bind_dom (WebKitDOMDocument *document,
 		"click",
 		toggle_address_visibility,
 		connection);
+
+	dom_window = webkit_dom_document_get_default_view (document);
+
+	webkit_dom_event_target_add_event_listener (
+		WEBKIT_DOM_EVENT_TARGET (dom_window),
+		"resize",
+		G_CALLBACK (dom_window_resize_cb),
+		FALSE,
+		document);
+
+	e_dom_utils_add_css_rule_into_style_sheet (
+		document,
+		"-e-mail-formatter-style-sheet",
+		"a",
+		"white-space: normal; word-break: break-all;");
+
+	e_dom_resize_document_content_to_preview_width (document);
 }
 
 void

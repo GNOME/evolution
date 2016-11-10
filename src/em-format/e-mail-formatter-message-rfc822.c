@@ -221,10 +221,11 @@ emfe_message_rfc822_format (EMailFormatterExtension *extension,
 			NULL);
 
 		str = g_strdup_printf (
-			"<div class=\"part-container -e-mail-formatter-frame-color "
+			"<div class=\"part-container "
 			"-e-mail-formatter-body-color\">\n"
 			"<iframe width=\"100%%\" height=\"10\""
 			" id=\"%s.iframe\" "
+			" class=\"-e-mail-formatter-frame-color\""
 			" frameborder=\"0\" src=\"%s\" name=\"%s\"></iframe>"
 			"</div>",
 			part_id, uri, part_id);

@@ -48,6 +48,11 @@ gchar *		e_dom_utils_get_selection_content_multipart
 void		e_dom_utils_create_and_add_css_style_sheet
 						(WebKitDOMDocument *document,
 						 const gchar *style_sheet_id);
+void		e_dom_utils_add_css_rule_into_style_sheet_in_document
+						(WebKitDOMDocument *document,
+						 const gchar *style_sheet_id,
+						 const gchar *selector,
+						 const gchar *style);
 void		e_dom_utils_add_css_rule_into_style_sheet
 						(WebKitDOMDocument *document,
 						 const gchar *style_sheet_id,
@@ -58,6 +63,8 @@ void		e_dom_utils_eab_contact_formatter_bind_dom
 void		e_dom_utils_bind_focus_on_elements
 						(WebKitDOMDocument *document,
 						 GDBusConnection *connection);
+void		e_dom_resize_document_content_to_preview_width
+						(WebKitDOMDocument *document);
 void		e_dom_utils_e_mail_display_bind_dom
 						(WebKitDOMDocument *document,
 						 GDBusConnection *connection);

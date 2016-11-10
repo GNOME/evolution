@@ -375,8 +375,9 @@ handle_method_call (GDBusConnection *connection,
 		if (!element_id || !*element_id) {
 			g_warn_if_fail (element_id && *element_id);
 		} else {
-			document = webkit_web_page_get_dom_document (web_page);
+			gboolean expand_inner_data = FALSE;
 
+			document = webkit_web_page_get_dom_document (web_page);
 			/* A secret short-cut, to not have two functions for basically the same thing ("hide attachment" and "hide element") */
 			if (!hidden && g_str_has_prefix (element_id, "attachment-wrapper-")) {
 				WebKitDOMElement *element;
@@ -386,6 +387,8 @@ handle_method_call (GDBusConnection *connection,
 				if (WEBKIT_DOM_IS_HTML_ELEMENT (element) &&
 				    webkit_dom_element_get_child_element_count (element) == 0) {
 					gchar *inner_html_data;
+
+					expand_inner_data = TRUE;
 
 					inner_html_data = webkit_dom_element_get_attribute (element, "inner-html-data");
 					if (inner_html_data && *inner_html_data) {
@@ -398,6 +401,9 @@ handle_method_call (GDBusConnection *connection,
 			}
 
 			e_dom_utils_hide_element (document, element_id, hidden);
+
+			if (expand_inner_data)
+				e_dom_resize_document_content_to_preview_width (document);
 		}
 
 		g_dbus_method_invocation_return_value (invocation, NULL);

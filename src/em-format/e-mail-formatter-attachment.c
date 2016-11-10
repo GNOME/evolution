@@ -257,7 +257,7 @@ emfe_attachment_format (EMailFormatterExtension *extension,
 	g_string_append_printf (
 		buffer,
 		"<div class=\"attachment\">"
-		"<table width=\"100%%\" border=\"0\">"
+		"<table width=\"100%%\" border=\"0\" style=\"border-spacing: 0px\">"
 		"<tr valign=\"middle\">"
 		"<td align=\"left\" width=\"1px\" style=\"white-space:pre;\">"
 		"<button type=\"button\" class=\"attachment-expander\" id=\"%s\" value=\"%p\" data=\"%s\" style=\"vertical-align:middle; margin:0px;\" %s>"

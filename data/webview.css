@@ -9,7 +9,7 @@ img {
 
 body {
   /* Use margin so that children can safely use width=100% */
-  margin: 10px;
+  margin: 5px 10px 5px 10px;
 }
 
 th {
@@ -44,21 +44,26 @@ img.navigable {
 
 .attachment {
   margin-left: 8px;
-  margin-right: 8px;
+  margin-right: 0px;
 }
 
-.attachment-wrapper
-{
-  margin-right: 8px;
+.attachment td {
+  padding: 0px;
+}
+
+iframe:not([id$=".itip"]) {
+  border-width: 1px;
+  border-style: solid;
 }
 
 .part-container {
   height: 100%;
   margin-top: 2px;
-  margin-bottom: 3px;
-  border-width: 1px;
-  border-style: solid;
-  right: 0;
+  margin-bottom: 2px;
+}
+
+.part-container-nostyle iframe {
+  margin-right: 10px;
 }
 
 .part-container-inner-margin {
@@ -76,8 +81,8 @@ object { /* GtkWidgets */
 }
 
 a {
-	white-space:normal;
-	word-break:break-all;
+  white-space: normal;
+  word-break: break-all;
 }
 
 /**** HEADERS ****/
@@ -102,6 +107,13 @@ th.header {
 
 td.header {
   width: inherit;
+  white-space: normal;
+  word-break: normal;
+}
+
+/* We don't want to break in the middle of contact. */
+td.header a {
+  white-space: nowrap;
 }
 
 .ltr {
