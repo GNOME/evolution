@@ -209,10 +209,22 @@ session_system_beep (CamelFilterDriver *driver,
 	g_idle_add ((GSourceFunc) session_play_sound_cb, NULL);
 }
 
+static gboolean
+session_folder_can_filter_junk (CamelFolder *folder)
+{
+	if (!folder)
+		return TRUE;
+
+	g_return_val_if_fail (CAMEL_IS_FOLDER (folder), TRUE);
+
+	return (camel_folder_get_flags (folder) & CAMEL_FOLDER_FILTER_JUNK) != 0;
+}
+
 static CamelFilterDriver *
 main_get_filter_driver (CamelSession *session,
-                        const gchar *type,
-                        GError **error)
+			const gchar *type,
+			CamelFolder *for_folder,
+			GError **error)
 {
 	EMailSession *ms = E_MAIL_SESSION (session);
 	CamelFilterDriver *driver;
@@ -259,9 +271,10 @@ main_get_filter_driver (CamelSession *session,
 	camel_filter_driver_set_system_beep_func (driver, session_system_beep, NULL);
 
 	add_junk_test =
-		priv->check_junk && (
-		g_str_equal (type, E_FILTER_SOURCE_INCOMING) ||
-		g_str_equal (type, E_FILTER_SOURCE_JUNKTEST));
+		priv->check_junk &&
+		(g_str_equal (type, E_FILTER_SOURCE_INCOMING) ||
+		g_str_equal (type, E_FILTER_SOURCE_JUNKTEST)) &&
+		session_folder_can_filter_junk (for_folder);
 
 	if (add_junk_test) {
 		/* implicit junk check as 1st rule */
@@ -531,12 +544,13 @@ mail_ui_session_remove_service (CamelSession *session,
 
 static CamelFilterDriver *
 mail_ui_session_get_filter_driver (CamelSession *session,
-                                   const gchar *type,
-                                   GError **error)
+				   const gchar *type,
+				   CamelFolder *for_folder,
+				   GError **error)
 {
 	return (CamelFilterDriver *) mail_call_main (
-		MAIL_CALL_p_ppp, (MailMainFunc) main_get_filter_driver,
-		session, type, error);
+		MAIL_CALL_p_pppp, (MailMainFunc) main_get_filter_driver,
+		session, type, for_folder, error);
 }
 
 static gboolean

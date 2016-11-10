@@ -204,8 +204,7 @@ mail_filter_folder (EMailSession *session,
 	m->cache = NULL;
 	m->delete = FALSE;
 
-	m->driver = camel_session_get_filter_driver (
-		CAMEL_SESSION (session), type, NULL);
+	m->driver = camel_session_get_filter_driver (CAMEL_SESSION (session), type, source_folder, NULL);
 
 	if (!notify) {
 		/* FIXME: have a #define NOTIFY_FILTER_NAME macro? */
@@ -518,7 +517,7 @@ mail_fetch_mail (CamelStore *store,
 	m->provider_unlock = unlock_func;
 	m->provider_fetch_inbox = fetch_inbox_func;
 
-	fm->driver = camel_session_get_filter_driver (session, type, NULL);
+	fm->driver = camel_session_get_filter_driver (session, type, NULL, NULL);
 	camel_filter_driver_set_folder_func (fm->driver, get_folder, get_data);
 	if (status)
 		camel_filter_driver_set_status_func (fm->driver, status, status_data);
@@ -1135,8 +1134,7 @@ mail_send_queue (EMailSession *session,
 	m->done = done;
 	m->data = data;
 
-	m->driver = camel_session_get_filter_driver (
-		CAMEL_SESSION (session), type, NULL);
+	m->driver = camel_session_get_filter_driver (CAMEL_SESSION (session), type, queue, NULL);
 	camel_filter_driver_set_folder_func (m->driver, get_folder, get_data);
 
 	mail_msg_unordered_push (m);
