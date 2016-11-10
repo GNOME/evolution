@@ -3,7 +3,10 @@
 # Setups compiler/linker flags, skipping those which are not supported.
 
 include(CheckCCompilerFlag)
-include(CheckCXXCompilerFlag)
+
+if(CMAKE_CXX_COMPILER_ID)
+	include(CheckCXXCompilerFlag)
+endif(CMAKE_CXX_COMPILER_ID)
 
 macro(setup_build_flags _maintainer_mode)
 	list(APPEND proposed_flags
@@ -64,13 +67,15 @@ macro(setup_build_flags _maintainer_mode)
 		unset(c_flag_${flag}_supported)
 	endforeach()
 
-	foreach(flag IN LISTS proposed_cxx_flags)
-		check_cxx_compiler_flag(${flag} cxx_flag_${flag}_supported)
-		if(cxx_flag_${flag}_supported)
-			set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${flag}")
-		endif(cxx_flag_${flag}_supported)
-		unset(cxx_flag_${flag}_supported)
-	endforeach()
+	if(CMAKE_CXX_COMPILER_ID)
+		foreach(flag IN LISTS proposed_cxx_flags)
+			check_cxx_compiler_flag(${flag} cxx_flag_${flag}_supported)
+			if(cxx_flag_${flag}_supported)
+				set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${flag}")
+			endif(cxx_flag_${flag}_supported)
+			unset(cxx_flag_${flag}_supported)
+		endforeach()
+	endif(CMAKE_CXX_COMPILER_ID)
 
 	if(("${CMAKE_C_COMPILER_ID}" STREQUAL "Clang") OR ("${CMAKE_C_COMPILER_ID}" STREQUAL "GNU"))
 		set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,--no-undefined")
