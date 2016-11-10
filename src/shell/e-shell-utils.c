@@ -175,6 +175,8 @@ e_shell_run_save_dialog (EShell *shell,
 			else if (g_ascii_strcasecmp (flt, "*.ics") == 0)
 				gtk_file_filter_set_name (
 					filter, _("iCalendar (.ics)"));
+			else
+				gtk_file_filter_set_name (filter, flt);
 
 			while (delim) {
 				delim++;

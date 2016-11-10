@@ -187,7 +187,7 @@ set_local_only (GtkFileChooser *file_chooser)
 }
 
 static gchar *
-suggest_file_name (void)
+suggest_file_name (const gchar *extension)
 {
 	time_t t;
 	struct tm tm;
@@ -196,8 +196,21 @@ suggest_file_name (void)
 	localtime_r (&t, &tm);
 
 	return g_strdup_printf (
-		"evolution-backup-%04d%02d%02d.tar.gz",
-		tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday);
+		"evolution-backup-%04d%02d%02d.tar%s",
+		tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday,
+		extension);
+}
+
+static gboolean
+is_xz_available (void)
+{
+	gchar *path;
+
+	path = g_find_program_in_path ("xz");
+
+	g_free (path);
+
+	return path != NULL;
 }
 
 static void
@@ -210,13 +223,15 @@ action_settings_backup_cb (GtkAction *action,
 	const gchar *attribute;
 	GError *error = NULL;
 	gchar *suggest;
+	gboolean has_xz;
 
-	suggest = suggest_file_name ();
+	has_xz = is_xz_available ();
+	suggest = suggest_file_name (has_xz ? ".xz" : ".gz");
 
 	file = e_shell_run_save_dialog (
 		e_shell_window_get_shell (shell_window),
 		_("Select name of the Evolution backup file"),
-		suggest, "*.tar.gz", (GtkCallback)
+		suggest, has_xz ? "*.tar.xz;*.tar.gz" : "*.tar.gz", (GtkCallback)
 		set_local_only, NULL);
 
 	g_free (suggest);

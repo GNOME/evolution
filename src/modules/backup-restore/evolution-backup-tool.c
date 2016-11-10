@@ -263,15 +263,30 @@ write_dir_file (void)
 	g_string_free (content, TRUE);
 }
 
+static gboolean
+get_filename_is_xz (const gchar *filename)
+{
+	gint len;
+
+	if (!filename)
+		return FALSE;
+
+	len = strlen (filename);
+	if (len < 3)
+		return FALSE;
+
+	return g_ascii_strcasecmp (filename + len - 3, ".xz") == 0;
+}
+
 static void
 backup (const gchar *filename,
         GCancellable *cancellable)
 {
 	gchar *command;
 	gchar *quotedfname;
+	gboolean use_xz;
 
 	g_return_if_fail (filename && *filename);
-	quotedfname = g_shell_quote (filename);
 
 	if (g_cancellable_is_cancelled (cancellable))
 		return;
@@ -304,15 +319,15 @@ backup (const gchar *filename,
 
 	txt = _("Backing Evolution data (Mails, Contacts, Calendar, Tasks, Memos)");
 
-	/* FIXME stay on this file system ,other options?" */
-	/* FIXME compression type?" */
-	/* FIXME date/time stamp?" */
-	/* FIXME backup location?" */
+	quotedfname = g_shell_quote (filename);
+	use_xz = get_filename_is_xz (filename);
+
 	command = g_strdup_printf (
 		"cd $HOME && tar chf - $STRIPDATADIR "
 		"$STRIPCONFIGDIR " EVOLUTION_DIR_FILE " | "
-		"gzip > %s", quotedfname);
+		"%s > %s", use_xz ? "xz -z" : "gzip", quotedfname);
 	run_cmd (command);
+
 	g_free (command);
 	g_free (quotedfname);
 
@@ -500,10 +515,16 @@ restore (const gchar *filename,
 		gchar *data_dir = NULL;
 		gchar *config_dir = NULL;
 		gchar *restored_version = NULL;
+		const gchar *tar_opts;
+
+		if (get_filename_is_xz (filename))
+			tar_opts = "-xJf";
+		else
+			tar_opts = "-xzf";
 
 		command = g_strdup_printf (
-			"cd $TMP && tar xzf %s "
-			EVOLUTION_DIR_FILE, quotedfname);
+			"cd $TMP && tar %s %s " EVOLUTION_DIR_FILE,
+			tar_opts, quotedfname);
 		run_cmd (command);
 		g_free (command);
 
@@ -536,14 +557,14 @@ restore (const gchar *filename,
 		g_mkdir_with_parents (e_get_user_config_dir (), 0700);
 
 		command = g_strdup_printf (
-			"cd $DATADIR && tar --strip-components %d -xzf %s %s",
-			 get_dir_level (data_dir), quotedfname, data_dir);
+			"cd $DATADIR && tar --strip-components %d %s %s %s",
+			 get_dir_level (data_dir), tar_opts, quotedfname, data_dir);
 		run_cmd (command);
 		g_free (command);
 
 		command = g_strdup_printf (
-			"cd $CONFIGDIR && tar --strip-components %d -xzf %s %s",
-			get_dir_level (config_dir), quotedfname, config_dir);
+			"cd $CONFIGDIR && tar --strip-components %d %s %s %s",
+			get_dir_level (config_dir), tar_opts, quotedfname, config_dir);
 		run_cmd (command);
 		g_free (command);
 
@@ -562,10 +583,17 @@ restore (const gchar *filename,
 		g_free (config_dir);
 		g_free (restored_version);
 	} else {
+		const gchar *decr_opts;
+
+		if (get_filename_is_xz (filename))
+			decr_opts = "xz -cd";
+		else
+			decr_opts = "gzip -cd";
+
 		run_cmd ("mv $HOME/.evolution $HOME/.evolution_old");
 
 		command = g_strdup_printf (
-			"cd $HOME && gzip -cd %s | tar xf -", quotedfname);
+			"cd $HOME && %s %s | tar xf -", decr_opts, quotedfname);
 		run_cmd (command);
 		g_free (command);
 	}
@@ -690,15 +718,22 @@ check (const gchar *filename,
 {
 	gchar *command;
 	gchar *quotedfname;
+	const gchar *tar_opts;
 	gboolean is_new = TRUE;
 
 	g_return_val_if_fail (filename && *filename, FALSE);
+
+	if (get_filename_is_xz (filename))
+		tar_opts = "-tJf";
+	else
+		tar_opts = "-tzf";
+
 	quotedfname = g_shell_quote (filename);
 
 	if (is_new_format)
 		*is_new_format = FALSE;
 
-	command = g_strdup_printf ("tar ztf %s 1>/dev/null", quotedfname);
+	command = g_strdup_printf ("tar %s %s 1>/dev/null", tar_opts, quotedfname);
 	result = system (command);
 	g_free (command);
 
@@ -709,15 +744,15 @@ check (const gchar *filename,
 	}
 
 	command = g_strdup_printf (
-		"tar ztf %s | grep -e \"%s$\"",
-		quotedfname, EVOLUTION_DIR_FILE);
+		"tar %s %s | grep -e \"%s$\"",
+		tar_opts, quotedfname, EVOLUTION_DIR_FILE);
 	result = system (command);
 	g_free (command);
 
 	if (result) {
 		command = g_strdup_printf (
-			"tar ztf %s | grep -e \"^\\.evolution/$\"",
-			quotedfname);
+			"tar %s %s | grep -e \"^\\.evolution/$\"",
+			tar_opts, quotedfname);
 		result = system (command);
 		g_free (command);
 		is_new = FALSE;
@@ -737,16 +772,16 @@ check (const gchar *filename,
 	}
 
 	command = g_strdup_printf (
-		"tar ztf %s | grep -e \"^\\.evolution/%s$\"",
-		quotedfname, ANCIENT_GCONF_DUMP_FILE);
+		"tar %s %s | grep -e \"^\\.evolution/%s$\"",
+		tar_opts, quotedfname, ANCIENT_GCONF_DUMP_FILE);
 	result = system (command);
 	g_free (command);
 
 	if (result != 0) {
 		/* maybe it's an ancient backup */
 		command = g_strdup_printf (
-			"tar ztf %s | grep -e \"^\\.evolution/%s$\"",
-			quotedfname, ANCIENT_GCONF_DUMP_FILE);
+			"tar %s %s | grep -e \"^\\.evolution/%s$\"",
+			tar_opts, quotedfname, ANCIENT_GCONF_DUMP_FILE);
 		result = system (command);
 		g_free (command);
 	}
