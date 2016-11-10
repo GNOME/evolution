@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2016-11-06 17:26+0000\n"
-"PO-Revision-Date: 2016-11-09 11:26+0100\n"
+"PO-Revision-Date: 2016-11-10 18:47+0100\n"
 "Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
 "Language-Team: Friulian <fur@li.org>\n"
 "Language: fur\n"
@@ -11793,11 +11793,12 @@ msgstr "Colôr:"
 
 #: ../src/e-util/e-cal-source-config.c:428
 msgid "Copy calendar contents locally for offline operation"
-msgstr ""
+msgstr "Copie in locâl il contignût dal calendari pes operazions fûr rêt"
 
 #: ../src/e-util/e-cal-source-config.c:432
 msgid "Copy task list contents locally for offline operation"
 msgstr ""
+"Copie in locâl il contignût de liste des ativitâts pes operazions fûr rêt"
 
 #: ../src/e-util/e-cal-source-config.c:436
 msgid "Copy memo list contents locally for offline operation"
@@ -11806,62 +11807,62 @@ msgstr ""
 
 #: ../src/e-util/e-categories-editor.c:224
 msgid "Currently _used categories:"
-msgstr ""
+msgstr "Categoriis _dopradis ore presint:"
 
 #: ../src/e-util/e-categories-editor.c:235
 msgid "_Available Categories:"
-msgstr ""
+msgstr "C_ategoriis disponibilis:"
 
 #: ../src/e-util/e-categories-editor.c:275
 msgctxt "category"
 msgid "_New"
-msgstr ""
+msgstr "_Gnove"
 
 #: ../src/e-util/e-categories-editor.c:279
 msgctxt "category"
 msgid "_Edit"
-msgstr ""
+msgstr "_Modifiche"
 
 #: ../src/e-util/e-categories-editor.c:283
 msgctxt "category"
 msgid "_Delete"
-msgstr ""
+msgstr "_Elimine"
 
 #: ../src/e-util/e-categories-selector.c:323
 msgid "Icon"
-msgstr ""
+msgstr "Icone"
 
 #: ../src/e-util/e-category-completion.c:304
 #, c-format
 msgid "Create category \"%s\""
-msgstr ""
+msgstr "Cree categorie «%s»"
 
 #: ../src/e-util/e-category-editor.c:135
 msgid "Category Icon"
-msgstr ""
+msgstr "Icone categorie"
 
 #: ../src/e-util/e-category-editor.c:139
 msgid "_No Image"
-msgstr ""
+msgstr "_Nissune imagjin"
 
 #: ../src/e-util/e-category-editor.c:172
 msgid "Category _Name"
-msgstr ""
+msgstr "_Non categorie"
 
 #: ../src/e-util/e-category-editor.c:184
 msgid "Category _Icon"
-msgstr ""
+msgstr "_Icone categorie"
 
 #: ../src/e-util/e-category-editor.c:210
 msgid "Category Properties"
-msgstr ""
+msgstr "Proprietâts categorie"
 
 #: ../src/e-util/e-category-editor.c:271
 #, c-format
 msgid ""
 "There is already a category '%s' in the configuration. Please use another "
 "name"
-msgstr ""
+msgstr "E esist za une categorie «%s» te configurazion. Doprâ un altri non"
 
 #: ../src/e-util/e-cell-combo.c:183
 msgid "popup list"
@@ -11897,11 +11898,11 @@ msgstr "Va ben"
 #: ../src/e-util/e-cell-date-edit.c:897
 #, c-format
 msgid "The time must be in the format: %s"
-msgstr ""
+msgstr "La date e scugne jessi tal formât: %s"
 
 #: ../src/e-util/e-cell-percent.c:79
 msgid "The percent value must be between 0 and 100, inclusive"
-msgstr ""
+msgstr "Il valôr percentuâl al scugne jessi cjapât dentri 0 e 100, includûts"
 
 #: ../src/e-util/e-charset.c:50
 msgid "Arabic"
@@ -12235,7 +12236,7 @@ msgstr "Îr"
 #: ../src/e-util/e-datetime-format.c:227
 msgctxt "DateFmt"
 msgid "Next Mon"
-msgstr ""
+msgstr "Prossim lun"
 
 #. Translators: This is used for abbreviated days in the future.
 #. *         You can use strftime modifiers here too, like "Next %a", to avoid
@@ -12243,7 +12244,7 @@ msgstr ""
 #: ../src/e-util/e-datetime-format.c:233
 msgctxt "DateFmt"
 msgid "Next Tue"
-msgstr ""
+msgstr "Prossim mar"
 
 #. Translators: This is used for abbreviated days in the future.
 #. *         You can use strftime modifiers here too, like "Next %a", to avoid
@@ -12251,7 +12252,7 @@ msgstr ""
 #: ../src/e-util/e-datetime-format.c:239
 msgctxt "DateFmt"
 msgid "Next Wed"
-msgstr ""
+msgstr "Prossim mie"
 
 #. Translators: This is used for abbreviated days in the future.
 #. *         You can use strftime modifiers here too, like "Next %a", to avoid
@@ -12259,7 +12260,7 @@ msgstr ""
 #: ../src/e-util/e-datetime-format.c:245
 msgctxt "DateFmt"
 msgid "Next Thu"
-msgstr ""
+msgstr "Prossim joi"
 
 #. Translators: This is used for abbreviated days in the future.
 #. *         You can use strftime modifiers here too, like "Next %a", to avoid
@@ -12267,7 +12268,7 @@ msgstr ""
 #: ../src/e-util/e-datetime-format.c:251
 msgctxt "DateFmt"
 msgid "Next Fri"
-msgstr ""
+msgstr "Prossim vin"
 
 #. Translators: This is used for abbreviated days in the future.
 #. *         You can use strftime modifiers here too, like "Next %a", to avoid
@@ -12275,7 +12276,7 @@ msgstr ""
 #: ../src/e-util/e-datetime-format.c:257
 msgctxt "DateFmt"
 msgid "Next Sat"
-msgstr ""
+msgstr "Prossim sab"
 
 #. Translators: This is used for abbreviated days in the future.
 #. *         You can use strftime modifiers here too, like "Next %a", to avoid
@@ -12283,138 +12284,138 @@ msgstr ""
 #: ../src/e-util/e-datetime-format.c:263
 msgctxt "DateFmt"
 msgid "Next Sun"
-msgstr ""
+msgstr "Prossim dom"
 
 #: ../src/e-util/e-datetime-format.c:349 ../src/e-util/e-datetime-format.c:359
 #: ../src/e-util/e-datetime-format.c:368
 msgid "Use locale default"
-msgstr ""
+msgstr "Doprâ impostazions predefinidis de lenghe"
 
 #: ../src/e-util/e-datetime-format.c:573
 msgid "Format:"
-msgstr ""
+msgstr "Formât:"
 
 #. Translators: :-)
 #: ../src/e-util/e-emoticon-chooser.c:38
 msgid "_Smile"
-msgstr ""
+msgstr "_Bocje di ridi"
 
 #. Translators: :-(
 #: ../src/e-util/e-emoticon-chooser.c:40
 msgid "S_ad"
-msgstr ""
+msgstr "_Avilît"
 
 #. Translators: ;-)
 #: ../src/e-util/e-emoticon-chooser.c:42
 msgid "_Wink"
-msgstr ""
+msgstr "_Cimiâ"
 
 #. Translators: :-P
 #: ../src/e-util/e-emoticon-chooser.c:44
 msgid "Ton_gue"
-msgstr ""
+msgstr "_Lenghe"
 
 #. Translators: :-))
 #: ../src/e-util/e-emoticon-chooser.c:46
 msgid "Laug_h"
-msgstr ""
+msgstr "Ri_dade"
 
 #. Translators: :-|
 #: ../src/e-util/e-emoticon-chooser.c:48
 msgid "_Plain"
-msgstr ""
+msgstr "_Perplès"
 
 #. Translators: :-!
 #: ../src/e-util/e-emoticon-chooser.c:50
 msgid "Smi_rk"
-msgstr ""
+msgstr "_Riduçade"
 
 #. Translators: :"-)
 #: ../src/e-util/e-emoticon-chooser.c:52
 msgid "_Embarrassed"
-msgstr ""
+msgstr "_Intrigât"
 
 #. Translators: :-D
 #: ../src/e-util/e-emoticon-chooser.c:54
 msgid "_Big Smile"
-msgstr ""
+msgstr "Bocjo_ne di ridi"
 
 #. Translators: :-/
 #: ../src/e-util/e-emoticon-chooser.c:56
 msgid "Uncer_tain"
-msgstr ""
+msgstr "In_ciert"
 
 #. Translators: :-O
 #: ../src/e-util/e-emoticon-chooser.c:58
 msgid "S_urprise"
-msgstr ""
+msgstr "Mara_veât"
 
 #. Translators: :-S
 #: ../src/e-util/e-emoticon-chooser.c:60
 msgid "W_orried"
-msgstr ""
+msgstr "Preocupâ_t"
 
 #. Translators: :-*
 #: ../src/e-util/e-emoticon-chooser.c:62
 msgid "_Kiss"
-msgstr ""
+msgstr "_Bussade"
 
 #. Translators: X-(
 #: ../src/e-util/e-emoticon-chooser.c:64
 msgid "A_ngry"
-msgstr ""
+msgstr "Rabi_ôs"
 
 #. Translators: B-)
 #: ../src/e-util/e-emoticon-chooser.c:66
 msgid "_Cool"
-msgstr ""
+msgstr "Fi_go"
 
 #. Translators: O:-)
 #: ../src/e-util/e-emoticon-chooser.c:68
 msgid "Ange_l"
-msgstr ""
+msgstr "Agnu_l"
 
 #. Translators: :'(
 #: ../src/e-util/e-emoticon-chooser.c:70
 msgid "Cr_ying"
-msgstr ""
+msgstr "Va_î"
 
 #. Translators: :-Q
 #: ../src/e-util/e-emoticon-chooser.c:72
 msgid "S_ick"
-msgstr ""
+msgstr "_Malât"
 
 #. Translators: |-)
 #: ../src/e-util/e-emoticon-chooser.c:74
 msgid "Tire_d"
-msgstr ""
+msgstr "Stra_c"
 
 #. Translators: >:-)
 #: ../src/e-util/e-emoticon-chooser.c:76
 msgid "De_vilish"
-msgstr ""
+msgstr "_Diabolic"
 
 #. Translators: :-(|)
 #: ../src/e-util/e-emoticon-chooser.c:78
 msgid "_Monkey"
-msgstr ""
+msgstr "Si_miot"
 
 #: ../src/e-util/e-file-utils.c:121
 msgid "(Unknown Filename)"
-msgstr ""
+msgstr "(non file no cognossût)"
 
 #. Translators: The string value is the basename of a file.
 #: ../src/e-util/e-file-utils.c:125
 #, c-format
 msgid "Writing \"%s\""
-msgstr ""
+msgstr "Scriture di «%s»"
 
 #. Translators: The first string value is the basename of a
 #. * remote file, the second string value is the hostname.
 #: ../src/e-util/e-file-utils.c:130
 #, c-format
 msgid "Writing \"%s\" to %s"
-msgstr ""
+msgstr "Scriture di «%s» su %s"
 
 #. Don't delete this code, since it is needed so that xgettext can extract the translations.
 #. * Please, keep these strings in sync with the strings in the timespans array
@@ -12422,133 +12423,133 @@ msgstr ""
 #, c-format
 msgid "1 second ago"
 msgid_plural "%d seconds ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "1 secont indaûr"
+msgstr[1] "%d seconts indaûr"
 
 #: ../src/e-util/e-filter-datespec.c:65
 #, c-format
 msgid "1 second in the future"
 msgid_plural "%d seconds in the future"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "1 secont tal avignî"
+msgstr[1] "%d seconts tal avignî"
 
 #: ../src/e-util/e-filter-datespec.c:66
 #, c-format
 msgid "1 minute ago"
 msgid_plural "%d minutes ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "1 minût indaûr"
+msgstr[1] "%d minûts indaûr"
 
 #: ../src/e-util/e-filter-datespec.c:67
 #, c-format
 msgid "1 minute in the future"
 msgid_plural "%d minutes in the future"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "1 minût tal avignî"
+msgstr[1] "%d minûts tal avignî"
 
 #: ../src/e-util/e-filter-datespec.c:68
 #, c-format
 msgid "1 hour ago"
 msgid_plural "%d hours ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "1 ore indaûr"
+msgstr[1] "%d oris indaûr"
 
 #: ../src/e-util/e-filter-datespec.c:69
 #, c-format
 msgid "1 hour in the future"
 msgid_plural "%d hours in the future"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "1 ore tal avignî"
+msgstr[1] "%d oris tal avignî"
 
 #: ../src/e-util/e-filter-datespec.c:70
 #, c-format
 msgid "1 day ago"
 msgid_plural "%d days ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "1 zornade indaûr"
+msgstr[1] "%d dîs indaûr"
 
 #: ../src/e-util/e-filter-datespec.c:71
 #, c-format
 msgid "1 day in the future"
 msgid_plural "%d days in the future"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "1 zornade tal avignî"
+msgstr[1] "%d dîs tal avignî"
 
 #: ../src/e-util/e-filter-datespec.c:72
 #, c-format
 msgid "1 week ago"
 msgid_plural "%d weeks ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "1 setemane indaûr"
+msgstr[1] "%d setemanis indaûr"
 
 #: ../src/e-util/e-filter-datespec.c:73
 #, c-format
 msgid "1 week in the future"
 msgid_plural "%d weeks in the future"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "1 setemane tal avignî"
+msgstr[1] "%d setemanis tal avignî"
 
 #: ../src/e-util/e-filter-datespec.c:74
 #, c-format
 msgid "1 month ago"
 msgid_plural "%d months ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "1 mês indaûr"
+msgstr[1] "%d mês indaûr"
 
 #: ../src/e-util/e-filter-datespec.c:75
 #, c-format
 msgid "1 month in the future"
 msgid_plural "%d months in the future"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "1 mês tal avignî"
+msgstr[1] "%d mês tal avignî"
 
 #: ../src/e-util/e-filter-datespec.c:76
 #, c-format
 msgid "1 year ago"
 msgid_plural "%d years ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "1 an indaûr"
+msgstr[1] "%d agns indaûr"
 
 #: ../src/e-util/e-filter-datespec.c:77
 #, c-format
 msgid "1 year in the future"
 msgid_plural "%d years in the future"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "1 an tal avignî"
+msgstr[1] "%d agns tal avignî"
 
 #: ../src/e-util/e-filter-datespec.c:127
 msgid "<click here to select a date>"
-msgstr ""
+msgstr "<fâs clic achì par selezionâ une date>"
 
 #: ../src/e-util/e-filter-datespec.c:130 ../src/e-util/e-filter-datespec.c:141
 #: ../src/e-util/e-filter-datespec.c:152
 msgid "now"
-msgstr ""
+msgstr "cumò"
 
 #. strftime for date filter display, only needs to show a day date (i.e. no time)
 #: ../src/e-util/e-filter-datespec.c:137
 msgid "%d-%b-%Y"
-msgstr ""
+msgstr "%e/%b/%Y"
 
 #: ../src/e-util/e-filter-datespec.c:286
 msgid "Select a time to compare against"
-msgstr ""
+msgstr "Sielç une dati di confrontâ"
 
 #: ../src/e-util/e-filter-file.c:184
 msgid "Choose a File"
-msgstr ""
+msgstr "Sielç un file"
 
 #: ../src/e-util/e-filter-rule.c:763
 msgid "R_ule name:"
-msgstr ""
+msgstr "Non de _regule:"
 
 #: ../src/e-util/e-filter-rule.c:813
 msgid "all the following conditions"
-msgstr ""
+msgstr "dutis lis condizions chi daurman"
 
 #: ../src/e-util/e-filter-rule.c:814
 msgid "any of the following conditions"
-msgstr ""
+msgstr "cualsisei des condizions chi daurman"
 
 #: ../src/e-util/e-filter-rule.c:820
 msgid "_Find items which match:"
