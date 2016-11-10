@@ -135,8 +135,8 @@ AC_DEFINE_UNQUOTED(VERSION_COMMENT, "", [Define if you want a comment appended t
 
 dnl This must stay after AC_CANONICAL_HOST, which defines $host.
 case "$host" in
-*openbsd*|*freebsd*)
-	dnl Do not set '-Wl,--no-undefined' on freebsd/openbsd
+*openbsd*|*freebsd*|*darwin*)
+	dnl Do not set '-Wl,--no-undefined' on freebsd/openbsd/darwin
 	;;
 *)
 	LDFLAGS="$LDFLAGS -Wl,--no-undefined"
