@@ -6326,7 +6326,13 @@ mail_regen_list (MessageList *message_list,
 			old_regen_data->search = g_strdup (search);
 		}
 
-		old_regen_data->folder_changed = folder_changed;
+		/* Only turn off the folder_changed flag, do not turn it on, because otherwise
+		   the view may not scroll to the cursor position, due to claiming that
+		   the regen was done for folder-changed signal, while the initial regen
+		   request would be due to change of the folder in the view (or other similar
+		   reasons). */
+		if (!folder_changed)
+			old_regen_data->folder_changed = folder_changed;
 
 		/* Avoid cancelling on the way out. */
 		old_regen_data = NULL;
