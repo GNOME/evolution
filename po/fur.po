@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2016-11-10 17:48+0000\n"
-"PO-Revision-Date: 2016-11-13 22:34+0100\n"
+"PO-Revision-Date: 2016-11-14 23:37+0100\n"
 "Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
 "Language-Team: Friulian <fur@li.org>\n"
 "Language: fur\n"
@@ -12671,399 +12671,399 @@ msgstr "Inline_ament"
 
 #: ../src/e-util/e-html-editor-actions.c:948
 msgid "Current _Languages"
-msgstr ""
+msgstr "_Lenghis atuâi"
 
 #: ../src/e-util/e-html-editor-actions.c:965
 msgid "_Increase Indent"
-msgstr ""
+msgstr "_Aumente tornade"
 
 #: ../src/e-util/e-html-editor-actions.c:967
 msgid "Increase Indent"
-msgstr ""
+msgstr "Aumente tornade"
 
 #: ../src/e-util/e-html-editor-actions.c:972
 msgid "_HTML File..."
-msgstr ""
+msgstr "File _HTML..."
 
 #: ../src/e-util/e-html-editor-actions.c:979
 msgid "Te_xt File..."
-msgstr ""
+msgstr "File di te_st..."
 
 #: ../src/e-util/e-html-editor-actions.c:986
 msgid "Paste _Quotation"
-msgstr ""
+msgstr "Tache _Citazion"
 
 #: ../src/e-util/e-html-editor-actions.c:993
 msgid "_Find..."
-msgstr ""
+msgstr "_Cjate..."
 
 #: ../src/e-util/e-html-editor-actions.c:995
 msgid "Search for text"
-msgstr ""
+msgstr "Cîr test"
 
 #: ../src/e-util/e-html-editor-actions.c:1000
 msgid "Find A_gain"
-msgstr ""
+msgstr "Cjate di _gnûf"
 
 #: ../src/e-util/e-html-editor-actions.c:1007
 msgid "Re_place..."
-msgstr ""
+msgstr "_Sostituìs..."
 
 #: ../src/e-util/e-html-editor-actions.c:1009
 msgid "Search for and replace text"
-msgstr ""
+msgstr "Cîr e sostituìs test"
 
 #: ../src/e-util/e-html-editor-actions.c:1014
 msgid "Check _Spelling..."
-msgstr ""
+msgstr "Controle _ortografie..."
 
 #: ../src/e-util/e-html-editor-actions.c:1021
 msgid "_Decrease Indent"
-msgstr ""
+msgstr "_Diminuìs tornade"
 
 #: ../src/e-util/e-html-editor-actions.c:1023
 msgid "Decrease Indent"
-msgstr ""
+msgstr "Diminuìs tornade"
 
 #: ../src/e-util/e-html-editor-actions.c:1028
 msgid "_Wrap Lines"
-msgstr ""
+msgstr "_Riis a gnove rie"
 
 #. Center
 #: ../src/e-util/e-html-editor-actions.c:1038
 #: ../src/e-util/e-html-editor-paragraph-dialog.c:108
 msgid "_Center"
-msgstr ""
+msgstr "_Centri"
 
 #: ../src/e-util/e-html-editor-actions.c:1040
 msgid "Center Alignment"
-msgstr ""
+msgstr "Inlineament centrât"
 
 #. Left
 #: ../src/e-util/e-html-editor-actions.c:1045
 #: ../src/e-util/e-html-editor-paragraph-dialog.c:99
 msgid "_Left"
-msgstr ""
+msgstr "_Çampe"
 
 #: ../src/e-util/e-html-editor-actions.c:1047
 msgid "Left Alignment"
-msgstr ""
+msgstr "Inlineament a çampe"
 
 #. Right
 #: ../src/e-util/e-html-editor-actions.c:1052
 #: ../src/e-util/e-html-editor-paragraph-dialog.c:117
 msgid "_Right"
-msgstr ""
+msgstr "_Diestre"
 
 #: ../src/e-util/e-html-editor-actions.c:1054
 msgid "Right Alignment"
-msgstr ""
+msgstr "Inlineament a drete"
 
 #: ../src/e-util/e-html-editor-actions.c:1062
 #: ../src/modules/text-highlight/languages.c:70
 msgid "_HTML"
-msgstr ""
+msgstr "_HTML"
 
 #: ../src/e-util/e-html-editor-actions.c:1064
 msgid "HTML editing mode"
-msgstr ""
+msgstr "Modalitât di modifiche HTML"
 
 #: ../src/e-util/e-html-editor-actions.c:1069
 msgid "Plain _Text"
-msgstr ""
+msgstr "_Test sempliç"
 
 #: ../src/e-util/e-html-editor-actions.c:1071
 msgid "Plain text editing mode"
-msgstr ""
+msgstr "Modalitât di modifiche test sempliç"
 
 #: ../src/e-util/e-html-editor-actions.c:1079
 msgid "_Normal"
-msgstr ""
+msgstr "_Normâl"
 
 #: ../src/e-util/e-html-editor-actions.c:1086
 msgid "Header _1"
-msgstr ""
+msgstr "Intestazion _1"
 
 #: ../src/e-util/e-html-editor-actions.c:1093
 msgid "Header _2"
-msgstr ""
+msgstr "Intestazion _2"
 
 #: ../src/e-util/e-html-editor-actions.c:1100
 msgid "Header _3"
-msgstr ""
+msgstr "Intestazion _3"
 
 #: ../src/e-util/e-html-editor-actions.c:1107
 msgid "Header _4"
-msgstr ""
+msgstr "Intestazion _4"
 
 #: ../src/e-util/e-html-editor-actions.c:1114
 msgid "Header _5"
-msgstr ""
+msgstr "Intestazion _5"
 
 #: ../src/e-util/e-html-editor-actions.c:1121
 msgid "Header _6"
-msgstr ""
+msgstr "Intestazion _6"
 
 #: ../src/e-util/e-html-editor-actions.c:1128
 msgid "_Preformatted"
-msgstr ""
+msgstr "_Preformatât"
 
 #: ../src/e-util/e-html-editor-actions.c:1135
 msgid "A_ddress"
-msgstr ""
+msgstr "_Direzion"
 
 #: ../src/e-util/e-html-editor-actions.c:1142
 msgid "_Bulleted List"
-msgstr ""
+msgstr "Liste _pontade"
 
 #: ../src/e-util/e-html-editor-actions.c:1149
 msgid "_Roman Numeral List"
-msgstr ""
+msgstr "Liste in numars _romans"
 
 #: ../src/e-util/e-html-editor-actions.c:1156
 msgid "Numbered _List"
-msgstr ""
+msgstr "_Liste numerade"
 
 #: ../src/e-util/e-html-editor-actions.c:1163
 msgid "_Alphabetical List"
-msgstr ""
+msgstr "Liste _alfabetiche"
 
 #: ../src/e-util/e-html-editor-actions.c:1179
 #: ../src/e-util/e-html-editor-actions.c:1217
 msgid "_Image..."
-msgstr ""
+msgstr "_Imagjin..."
 
 #. Translators: This is an action tooltip
 #: ../src/e-util/e-html-editor-actions.c:1182
 msgid "Insert Image"
-msgstr ""
+msgstr "Inseris imagjin"
 
 #: ../src/e-util/e-html-editor-actions.c:1187
 #: ../src/e-util/e-html-editor-actions.c:1224
 msgid "_Link..."
-msgstr ""
+msgstr "Co_legament..."
 
 #: ../src/e-util/e-html-editor-actions.c:1189
 msgid "Insert Link"
-msgstr ""
+msgstr "Inserìs colegament"
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
 #: ../src/e-util/e-html-editor-actions.c:1195
 #: ../src/e-util/e-html-editor-actions.c:1239
 msgid "_Rule..."
-msgstr ""
+msgstr "_Regule..."
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
 #: ../src/e-util/e-html-editor-actions.c:1198
 msgid "Insert Rule"
-msgstr ""
+msgstr "Inserìs regule"
 
 #: ../src/e-util/e-html-editor-actions.c:1203
 #: ../src/e-util/e-html-editor-actions.c:1246
 msgid "_Table..."
-msgstr ""
+msgstr "_Tabele..."
 
 #: ../src/e-util/e-html-editor-actions.c:1205
 msgid "Insert Table"
-msgstr ""
+msgstr "Inserìs tabele"
 
 #: ../src/e-util/e-html-editor-actions.c:1210
 msgid "_Cell..."
-msgstr ""
+msgstr "_Cele..."
 
 #: ../src/e-util/e-html-editor-actions.c:1231
 msgid "Pa_ge..."
-msgstr ""
+msgstr "Pa_gjine..."
 
 #: ../src/e-util/e-html-editor-actions.c:1255
 msgid "Font _Size"
-msgstr ""
+msgstr "Dimen_sion caratar"
 
 #: ../src/e-util/e-html-editor-actions.c:1262
 msgid "_Font Style"
-msgstr ""
+msgstr "Stîl _caratar"
 
 #: ../src/e-util/e-html-editor-actions.c:1269
 msgid "Paste As _Text"
-msgstr ""
+msgstr "Tache come _test"
 
 #: ../src/e-util/e-html-editor-actions.c:1280
 #: ../src/e-util/e-html-editor-text-dialog.c:201
 msgid "_Bold"
-msgstr ""
+msgstr "_Neret"
 
 #: ../src/e-util/e-html-editor-actions.c:1282
 msgid "Bold"
-msgstr ""
+msgstr "Neret"
 
 #: ../src/e-util/e-html-editor-actions.c:1288
 #: ../src/e-util/e-html-editor-text-dialog.c:212
 msgid "_Italic"
-msgstr ""
+msgstr "Cors_îf"
 
 #: ../src/e-util/e-html-editor-actions.c:1290
 msgid "Italic"
-msgstr ""
+msgstr "Corsîf"
 
 #: ../src/e-util/e-html-editor-actions.c:1296
 msgid "_Plain Text"
-msgstr ""
+msgstr "_Test sempliç"
 
 #: ../src/e-util/e-html-editor-actions.c:1304
 #: ../src/e-util/e-html-editor-text-dialog.c:233
 msgid "_Strikethrough"
-msgstr ""
+msgstr "_Stricât"
 
 #: ../src/e-util/e-html-editor-actions.c:1306
 msgid "Strikethrough"
-msgstr ""
+msgstr "Stricât"
 
 #: ../src/e-util/e-html-editor-actions.c:1312
 #: ../src/e-util/e-html-editor-text-dialog.c:223
 msgid "_Underline"
-msgstr ""
+msgstr "_Sotlineât"
 
 #: ../src/e-util/e-html-editor-actions.c:1314
 msgid "Underline"
-msgstr ""
+msgstr "Sotlineât"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
 #: ../src/e-util/e-html-editor-actions.c:1324
 msgid "-2"
-msgstr ""
+msgstr "-2"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
 #: ../src/e-util/e-html-editor-actions.c:1332
 msgid "-1"
-msgstr ""
+msgstr "-1"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
 #: ../src/e-util/e-html-editor-actions.c:1340
 msgid "+0"
-msgstr ""
+msgstr "+0"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
 #: ../src/e-util/e-html-editor-actions.c:1348
 msgid "+1"
-msgstr ""
+msgstr "+1"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
 #: ../src/e-util/e-html-editor-actions.c:1356
 msgid "+2"
-msgstr ""
+msgstr "+2"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
 #: ../src/e-util/e-html-editor-actions.c:1364
 msgid "+3"
-msgstr ""
+msgstr "+3"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
 #: ../src/e-util/e-html-editor-actions.c:1372
 msgid "+4"
-msgstr ""
+msgstr "+4"
 
 #: ../src/e-util/e-html-editor-actions.c:1391
 msgid "Cell Contents"
-msgstr ""
+msgstr "Contignûts celle"
 
 #: ../src/e-util/e-html-editor-actions.c:1398
 msgid "Column"
-msgstr ""
+msgstr "Colone"
 
 #: ../src/e-util/e-html-editor-actions.c:1405
 msgid "Row"
-msgstr ""
+msgstr "Rie"
 
 #: ../src/e-util/e-html-editor-actions.c:1412
 msgid "Table"
-msgstr ""
+msgstr "Tabele"
 
 #. Translators: Popup menu item caption, containing all the Delete options for a table
 #: ../src/e-util/e-html-editor-actions.c:1422
 msgid "Table Delete"
-msgstr ""
+msgstr "Elimine tabele"
 
 #. Translators: Popup menu item caption, containing all the Insert options for a table
 #: ../src/e-util/e-html-editor-actions.c:1430
 msgid "Table Insert"
-msgstr ""
+msgstr "Inserìs tabele"
 
 #: ../src/e-util/e-html-editor-actions.c:1437
 msgid "Properties"
-msgstr ""
+msgstr "Propietâts"
 
 #: ../src/e-util/e-html-editor-actions.c:1455
 msgid "Column After"
-msgstr ""
+msgstr "Colone dopo"
 
 #: ../src/e-util/e-html-editor-actions.c:1462
 msgid "Column Before"
-msgstr ""
+msgstr "Colone prime"
 
 #: ../src/e-util/e-html-editor-actions.c:1469
 msgid "Insert _Link"
-msgstr ""
+msgstr "Inserìs co_legament"
 
 #: ../src/e-util/e-html-editor-actions.c:1476
 msgid "Row Above"
-msgstr ""
+msgstr "Rie parsore"
 
 #: ../src/e-util/e-html-editor-actions.c:1483
 msgid "Row Below"
-msgstr ""
+msgstr "Rie sot"
 
 #: ../src/e-util/e-html-editor-actions.c:1490
 msgid "Cell..."
-msgstr ""
+msgstr "Cele..."
 
 #: ../src/e-util/e-html-editor-actions.c:1497
 msgid "Image..."
-msgstr ""
+msgstr "Imagjin..."
 
 #: ../src/e-util/e-html-editor-actions.c:1504
 msgid "Link..."
-msgstr ""
+msgstr "Colegament..."
 
 #: ../src/e-util/e-html-editor-actions.c:1511
 msgid "Page..."
-msgstr ""
+msgstr "Pagjine..."
 
 #: ../src/e-util/e-html-editor-actions.c:1518
 msgid "Paragraph..."
-msgstr ""
+msgstr "Paragraf..."
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
 #: ../src/e-util/e-html-editor-actions.c:1526
 msgid "Rule..."
-msgstr ""
+msgstr "Regule..."
 
 #: ../src/e-util/e-html-editor-actions.c:1533
 msgid "Table..."
-msgstr ""
+msgstr "Tabele..."
 
 #: ../src/e-util/e-html-editor-actions.c:1540
 msgid "Text..."
-msgstr ""
+msgstr "Test..."
 
 #: ../src/e-util/e-html-editor-actions.c:1547
 msgid "Remove Link"
-msgstr ""
+msgstr "Gjave colegament"
 
 #: ../src/e-util/e-html-editor-actions.c:1564
 msgid "Add Word to Dictionary"
-msgstr ""
+msgstr "Zonte peraule tal dizionari"
 
 #: ../src/e-util/e-html-editor-actions.c:1571
 msgid "Ignore Misspelled Word"
-msgstr ""
+msgstr "Ignore peraule scrite mâl"
 
 #: ../src/e-util/e-html-editor-actions.c:1578
 msgid "Add Word To"
-msgstr ""
+msgstr "Zonte peraule a"
 
 #: ../src/e-util/e-html-editor-actions.c:1587
 msgid "More Suggestions"
-msgstr ""
+msgstr "Plui sugjeriments"
 
 #. Translators: %s will be replaced with the actual dictionary
 #. * name, where a user can add a word to. This is part of an
@@ -13071,157 +13071,157 @@ msgstr ""
 #: ../src/e-util/e-html-editor-actions.c:1711
 #, c-format
 msgid "%s Dictionary"
-msgstr ""
+msgstr "dizionari %s"
 
 #: ../src/e-util/e-html-editor-actions.c:1790
 msgid "_Emoticon"
-msgstr ""
+msgstr "_Musutis"
 
 #: ../src/e-util/e-html-editor-actions.c:1791
 msgid "Insert Emoticon"
-msgstr ""
+msgstr "Inserìs musutis"
 
 #: ../src/e-util/e-html-editor-actions.c:1859
 msgid "Re_place"
-msgstr ""
+msgstr "_Sostituìs"
 
 #: ../src/e-util/e-html-editor-actions.c:1862
 msgid "_Image"
-msgstr ""
+msgstr "_Imagjin"
 
 #: ../src/e-util/e-html-editor-actions.c:1865
 msgid "_Link"
-msgstr ""
+msgstr "Co_legament"
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
 #: ../src/e-util/e-html-editor-actions.c:1869
 msgid "_Rule"
-msgstr ""
+msgstr "_Regule"
 
 #: ../src/e-util/e-html-editor-actions.c:1872
 #: ../src/e-util/e-html-editor-cell-dialog.c:448
 msgid "_Table"
-msgstr ""
+msgstr "_Tabele"
 
 #: ../src/e-util/e-html-editor.c:690
 msgid "Paragraph Style"
-msgstr ""
+msgstr "Stîl paragraf"
 
 #: ../src/e-util/e-html-editor.c:704
 msgid "Editing Mode"
-msgstr ""
+msgstr "Modalitât di modifiche"
 
 #: ../src/e-util/e-html-editor.c:716
 msgid "Font Color"
-msgstr ""
+msgstr "Colôr caratar"
 
 #: ../src/e-util/e-html-editor.c:726
 msgid "Font Size"
-msgstr ""
+msgstr "Dimension caratar"
 
 #: ../src/e-util/e-html-editor-cell-dialog.c:408
 msgid "<b>Scope</b>"
-msgstr ""
+msgstr "<b>Tipologjie</b>"
 
 #: ../src/e-util/e-html-editor-cell-dialog.c:422
 msgid "C_ell"
-msgstr ""
+msgstr "C_ele"
 
 #: ../src/e-util/e-html-editor-cell-dialog.c:435
 msgid "_Row"
-msgstr ""
+msgstr "_Rie"
 
 #: ../src/e-util/e-html-editor-cell-dialog.c:461
 msgid "Col_umn"
-msgstr ""
+msgstr "Col_one"
 
 #: ../src/e-util/e-html-editor-cell-dialog.c:471
 msgid "<b>Alignment &amp; Behavior</b>"
-msgstr ""
+msgstr "<b>Inlineament e compuartament</b>"
 
 #: ../src/e-util/e-html-editor-cell-dialog.c:484
 #: ../src/e-util/e-html-editor-hrule-dialog.c:328
 #: ../src/e-util/e-html-editor-table-dialog.c:649
 msgid "Left"
-msgstr ""
+msgstr "Çampe"
 
 #: ../src/e-util/e-html-editor-cell-dialog.c:485
 #: ../src/e-util/e-html-editor-hrule-dialog.c:330
 #: ../src/e-util/e-html-editor-table-dialog.c:650
 msgid "Center"
-msgstr ""
+msgstr "Centri"
 
 #: ../src/e-util/e-html-editor-cell-dialog.c:486
 #: ../src/e-util/e-html-editor-hrule-dialog.c:332
 #: ../src/e-util/e-html-editor-table-dialog.c:651
 msgid "Right"
-msgstr ""
+msgstr "Diestre"
 
 #: ../src/e-util/e-html-editor-cell-dialog.c:494
 msgid "_Horizontal:"
-msgstr ""
+msgstr "_Orizontâl:"
 
 #: ../src/e-util/e-html-editor-cell-dialog.c:502
 #: ../src/e-util/e-html-editor-image-dialog.c:575
 msgid "Top"
-msgstr ""
+msgstr "Insom"
 
 #: ../src/e-util/e-html-editor-cell-dialog.c:503
 #: ../src/e-util/e-html-editor-image-dialog.c:576
 msgid "Middle"
-msgstr ""
+msgstr "Tal mieç"
 
 #: ../src/e-util/e-html-editor-cell-dialog.c:504
 #: ../src/e-util/e-html-editor-image-dialog.c:577
 msgid "Bottom"
-msgstr ""
+msgstr "Da pît"
 
 #: ../src/e-util/e-html-editor-cell-dialog.c:512
 msgid "_Vertical:"
-msgstr ""
+msgstr "_Verticâl:"
 
 #. Wrap Text
 #: ../src/e-util/e-html-editor-cell-dialog.c:518
 msgid "_Wrap Text"
-msgstr ""
+msgstr "Test a rie _gnove"
 
 #. Header Style
 #: ../src/e-util/e-html-editor-cell-dialog.c:526
 msgid "_Header Style"
-msgstr ""
+msgstr "Stîl _intestazion"
 
 #: ../src/e-util/e-html-editor-cell-dialog.c:540
 #: ../src/e-util/e-html-editor-image-dialog.c:515
 #: ../src/e-util/e-html-editor-table-dialog.c:561
 msgid "<b>Layout</b>"
-msgstr ""
+msgstr "<b>Disposizion</b>"
 
 #. Width
 #: ../src/e-util/e-html-editor-cell-dialog.c:551
 msgid "_Width"
-msgstr ""
+msgstr "_Largjece"
 
 #: ../src/e-util/e-html-editor-cell-dialog.c:591
 msgid "Row S_pan:"
-msgstr ""
+msgstr "Am_plece rie:"
 
 #: ../src/e-util/e-html-editor-cell-dialog.c:605
 msgid "Co_lumn Span:"
-msgstr ""
+msgstr "Amp_lece colone:"
 
 #: ../src/e-util/e-html-editor-cell-dialog.c:612
 #: ../src/e-util/e-html-editor-table-dialog.c:665
 msgid "<b>Background</b>"
-msgstr ""
+msgstr "<b>Sfont</b>"
 
 #: ../src/e-util/e-html-editor-cell-dialog.c:625
 #: ../src/e-util/e-html-editor-table-dialog.c:678
 msgid "Transparent"
-msgstr ""
+msgstr "Trasparent"
 
 #: ../src/e-util/e-html-editor-cell-dialog.c:633
 msgid "C_olor:"
-msgstr ""
+msgstr "C_olôr:"
 
 #: ../src/e-util/e-html-editor-cell-dialog.c:641
 #: ../src/e-util/e-html-editor-image-dialog.c:477
