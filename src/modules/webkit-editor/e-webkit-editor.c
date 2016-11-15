@@ -1691,11 +1691,11 @@ static void
 set_convert_in_situ (EWebKitEditor *wk_editor,
                      gboolean value)
 {
-	e_util_invoke_g_dbus_proxy_call_with_error_check (
+	e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (
 		wk_editor->priv->web_extension,
 		"SetConvertInSitu",
 		g_variant_new ("(tb)", current_page_id (wk_editor), value),
-		wk_editor->priv->cancellable);
+		NULL);
 }
 
 static void
