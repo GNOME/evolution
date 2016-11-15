@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2016-11-10 17:48+0000\n"
-"PO-Revision-Date: 2016-11-15 23:42+0100\n"
+"PO-Revision-Date: 2016-11-15 23:54+0100\n"
 "Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
 "Language-Team: Friulian <fur@li.org>\n"
 "Language: fur\n"
@@ -13626,7 +13626,7 @@ msgstr "_Anule importazion"
 
 #: ../src/e-util/e-import-assistant.c:922
 msgid "Preview data to be imported"
-msgstr ""
+msgstr "Anteprime dai dâts di impuartâ"
 
 #: ../src/e-util/e-import-assistant.c:928
 #: ../src/e-util/e-import-assistant.c:941
@@ -13634,11 +13634,11 @@ msgstr ""
 #: ../src/e-util/e-import-assistant.c:1370
 #: ../src/e-util/e-import-assistant.c:1379
 msgid "Import Data"
-msgstr ""
+msgstr "Impuarte dâts"
 
 #: ../src/e-util/e-import-assistant.c:936
 msgid "Select what type of file you want to import from the list."
-msgstr ""
+msgstr "Selezione de liste ce gjenar di file che tu vûs impuartâ."
 
 #: ../src/e-util/e-import-assistant.c:1284
 #: ../src/e-util/e-import-assistant.c:1319
