@@ -590,10 +590,16 @@ main (gint argc,
 	g_object_unref (settings);
 #endif
 
-	/* FIXME WK2 - Look if we still need this it looks like it's not. */
-	/* Workaround https://bugzilla.gnome.org/show_bug.cgi?id=683548 */
-	if (!quit)
+	if (!quit) {
+		/* Until there will be a proper WebKitGTK+ API for disabling the
+		 * accelerated compositing mode, we need to use the environment
+		 * variable. See https://bugzilla.gnome.org/show_bug.cgi?id=774067 */
+		g_setenv("WEBKIT_DISABLE_COMPOSITING_MODE", "1", TRUE);
+
+		/* FIXME WK2 - Look if we still need this it looks like it's not. */
+		/* Workaround https://bugzilla.gnome.org/show_bug.cgi?id=683548 */
 		g_type_ensure (WEBKIT_TYPE_WEB_VIEW);
+	}
 
 	shell = create_default_shell ();
 	if (!shell)
