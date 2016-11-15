@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2016-11-10 17:48+0000\n"
-"PO-Revision-Date: 2016-11-15 22:37+0100\n"
+"PO-Revision-Date: 2016-11-15 23:42+0100\n"
 "Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
 "Language-Team: Friulian <fur@li.org>\n"
 "Language: fur\n"
@@ -13445,16 +13445,16 @@ msgstr "Proprietâts paragraf"
 #, c-format
 msgid "%d occurrence replaced"
 msgid_plural "%d occurrences replaced"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d ocorince sostituide"
+msgstr[1] "%d ocorincis sostituidis"
 
 #: ../src/e-util/e-html-editor-replace-dialog.c:278
 msgid "R_eplace:"
-msgstr ""
+msgstr "_Sostituìs:"
 
 #: ../src/e-util/e-html-editor-replace-dialog.c:287
 msgid "_With:"
-msgstr ""
+msgstr "_Cun:"
 
 #: ../src/e-util/e-html-editor-replace-dialog.c:299
 msgid "_Case sensitive"
@@ -13462,127 +13462,129 @@ msgstr ""
 
 #: ../src/e-util/e-html-editor-replace-dialog.c:303
 msgid "Wra_p search"
-msgstr ""
+msgstr "_Torne tache dal inizi"
 
 #: ../src/e-util/e-html-editor-replace-dialog.c:313
 msgid "_Skip"
-msgstr ""
+msgstr "_Salte"
 
 #: ../src/e-util/e-html-editor-replace-dialog.c:321
 #: ../src/e-util/e-system.error.xml.h:3
 msgid "_Replace"
-msgstr ""
+msgstr "_Sostituìs"
 
 #: ../src/e-util/e-html-editor-replace-dialog.c:329
 msgid "Replace _All"
-msgstr ""
+msgstr "Sostituìs _dut"
 
 #: ../src/e-util/e-html-editor-replace-dialog.c:349
 msgctxt "dialog-title"
 msgid "Replace"
-msgstr ""
+msgstr "Sostituìs"
 
 #: ../src/e-util/e-html-editor-spell-check-dialog.c:83
 #, c-format
 msgid "<b>Suggestions for '%s'</b>"
-msgstr ""
+msgstr "<b>Sugjeriments par '%s'</b>"
 
 #: ../src/e-util/e-html-editor-spell-check-dialog.c:388
 msgid "<b>Suggestions</b>"
-msgstr ""
+msgstr "<b>Sugjeriments</b>"
 
 #. Replace
 #: ../src/e-util/e-html-editor-spell-check-dialog.c:423
 msgid "Replace"
-msgstr ""
+msgstr "Sostituìs"
 
 #. Replace All
 #: ../src/e-util/e-html-editor-spell-check-dialog.c:432
 msgid "Replace All"
-msgstr ""
+msgstr "Sostituìs dut"
 
 #. Ignore
 #: ../src/e-util/e-html-editor-spell-check-dialog.c:441
 #: ../src/mail/mail.error.xml.h:116
 msgid "Ignore"
-msgstr ""
+msgstr "Ignore"
 
 #. Skip
 #: ../src/e-util/e-html-editor-spell-check-dialog.c:450
 msgid "Skip"
-msgstr ""
+msgstr "Salte"
 
 #. Back
 #: ../src/e-util/e-html-editor-spell-check-dialog.c:459
 msgid "Back"
-msgstr ""
+msgstr "Indaûr"
 
 #: ../src/e-util/e-html-editor-spell-check-dialog.c:468
 msgid "<b>Dictionary</b>"
-msgstr ""
+msgstr "<b>Dizionari</b>"
 
 #. Add Word button
 #: ../src/e-util/e-html-editor-spell-check-dialog.c:488
 msgid "Add word"
-msgstr ""
+msgstr "Zonte peraule"
 
 #: ../src/e-util/e-html-editor-spell-check-dialog.c:505
 #: ../src/mail/mail-config.ui.h:39
 msgid "Spell Checking"
-msgstr ""
+msgstr "Control ortografic"
 
 #: ../src/e-util/e-html-editor-table-dialog.c:537
 msgid "_Rows:"
-msgstr ""
+msgstr "_Riis:"
 
 #: ../src/e-util/e-html-editor-table-dialog.c:554
 msgid "C_olumns:"
-msgstr ""
+msgstr "C_olonis:"
 
 #: ../src/e-util/e-html-editor-table-dialog.c:605
 msgid "_Spacing:"
-msgstr ""
+msgstr "_Spaziadure:"
 
 #: ../src/e-util/e-html-editor-table-dialog.c:622
 msgid "_Padding:"
-msgstr ""
+msgstr "_Jemplament:"
 
 #: ../src/e-util/e-html-editor-table-dialog.c:686
 #: ../src/e-util/e-html-editor-text-dialog.c:248
 msgid "_Color:"
-msgstr ""
+msgstr "_Colôr:"
 
 #: ../src/e-util/e-html-editor-table-dialog.c:712
 msgid "Image:"
-msgstr ""
+msgstr "Imagjin:"
 
 #: ../src/e-util/e-html-editor-table-dialog.c:739
 msgid "Table Properties"
-msgstr ""
+msgstr "Propietâts tabele"
 
 #: ../src/e-util/e-html-editor-text-dialog.c:268
 msgid "Si_ze:"
-msgstr ""
+msgstr "Dimensio_n:"
 
 #: ../src/e-util/e-html-editor-text-dialog.c:283
 msgid "Text Properties"
-msgstr ""
+msgstr "Propietâts test"
 
 #: ../src/e-util/e-import-assistant.c:259
 msgid ""
 "Choose the file that you want to import into Evolution, and select what type "
 "of file it is from the list."
 msgstr ""
+"Sielç il file che tu vûs impuartâ in Evolution e selezione de liste ce "
+"gjenar di file che al è."
 
 #: ../src/e-util/e-import-assistant.c:300
 #: ../src/e-util/e-import-assistant.c:475
 msgid "File _type:"
-msgstr ""
+msgstr "_Gjenar di file:"
 
 #: ../src/e-util/e-import-assistant.c:343
 #: ../src/e-util/e-import-assistant.c:923
 msgid "Choose the destination for this import"
-msgstr ""
+msgstr "Sielç la destinazion par cheste importazion"
 
 #: ../src/e-util/e-import-assistant.c:368
 msgid "Choose the type of importer to run:"
@@ -13590,16 +13592,16 @@ msgstr ""
 
 #: ../src/e-util/e-import-assistant.c:376
 msgid "Import data and settings from _older programs"
-msgstr ""
+msgstr "Impuarte dâts e configurazions dai programs _vecjos"
 
 #: ../src/e-util/e-import-assistant.c:384
 msgid "Import a _single file"
-msgstr ""
+msgstr "Impuarte un _singul file"
 
 #: ../src/e-util/e-import-assistant.c:406
 #: ../src/modules/startup-wizard/e-mail-config-import-page.c:211
 msgid "Please select the information that you would like to import:"
-msgstr ""
+msgstr "Selezione la informazion che tu desideris impuartâ:"
 
 #: ../src/e-util/e-import-assistant.c:536
 msgid ""
@@ -13607,17 +13609,20 @@ msgid ""
 "Pine, Netscape, Elm, iCalendar, KMail. No importable settings found. If you "
 "would like to try again, please click the \"Back\" button."
 msgstr ""
+"Evolution al à controlât lis impostazions di impuartâ des aplicazions chi "
+"daurman: Pine, Netscape, Elm, iCalendar, KMail. Nissune impostazion cjatade "
+"di podê impuartâ. Se tu vûs tornâ a provâ, frache il boton \"Indaûr\"."
 
 #: ../src/e-util/e-import-assistant.c:562
 #: ../src/modules/startup-wizard/e-mail-config-import-page.c:240
 #, c-format
 msgid "From %s:"
-msgstr ""
+msgstr "Di %s:"
 
 #. Install a custom "Cancel Import" button.
 #: ../src/e-util/e-import-assistant.c:781
 msgid "_Cancel Import"
-msgstr ""
+msgstr "_Anule importazion"
 
 #: ../src/e-util/e-import-assistant.c:922
 msgid "Preview data to be imported"
