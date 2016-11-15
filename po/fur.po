@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2016-11-10 17:48+0000\n"
-"PO-Revision-Date: 2016-11-14 23:37+0100\n"
+"PO-Revision-Date: 2016-11-15 22:37+0100\n"
 "Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
 "Language-Team: Friulian <fur@li.org>\n"
 "Language: fur\n"
@@ -13227,37 +13227,37 @@ msgstr "C_olôr:"
 #: ../src/e-util/e-html-editor-image-dialog.c:477
 #: ../src/e-util/e-html-editor-table-dialog.c:694
 msgid "Choose Background Image"
-msgstr ""
+msgstr "Sielç imagjin di sfont"
 
 #: ../src/e-util/e-html-editor-cell-dialog.c:646
 #: ../src/e-util/e-html-editor-image-dialog.c:483
 #: ../src/e-util/e-html-editor-table-dialog.c:699
 msgid "Images"
-msgstr ""
+msgstr "Imagjins"
 
 #: ../src/e-util/e-html-editor-cell-dialog.c:659
 msgid "_Image:"
-msgstr ""
+msgstr "_Imagjin:"
 
 #: ../src/e-util/e-html-editor-cell-dialog.c:666
 #: ../src/e-util/e-html-editor-page-dialog.c:495
 #: ../src/e-util/e-html-editor-table-dialog.c:719
 msgid "_Remove image"
-msgstr ""
+msgstr "_Gjave imagjin"
 
 #: ../src/e-util/e-html-editor-cell-dialog.c:686
 msgid "Cell Properties"
-msgstr ""
+msgstr "Proprietâts cele"
 
 #: ../src/e-util/e-html-editor-find-dialog.c:92
 #: ../src/e-util/e-html-editor-replace-dialog.c:68
 msgid "No match found"
-msgstr ""
+msgstr "Nissun risultât cjatât"
 
 #: ../src/e-util/e-html-editor-find-dialog.c:215
 #: ../src/e-util/e-html-editor-replace-dialog.c:295
 msgid "Search _backwards"
-msgstr ""
+msgstr "Cîr _indaûr"
 
 #: ../src/e-util/e-html-editor-find-dialog.c:222
 msgid "Case _Sensitive"
@@ -13265,123 +13265,123 @@ msgstr ""
 
 #: ../src/e-util/e-html-editor-find-dialog.c:229
 msgid "_Wrap Search"
-msgstr ""
+msgstr "_Torne tache dal inizi"
 
 #: ../src/e-util/e-html-editor-find-dialog.c:268
 msgid "Find"
-msgstr ""
+msgstr "Cjate"
 
 #: ../src/e-util/e-html-editor-hrule-dialog.c:263
 msgid "<b>Size</b>"
-msgstr ""
+msgstr "<b>Dimension</b>"
 
 #. Width
 #: ../src/e-util/e-html-editor-hrule-dialog.c:283
 #: ../src/e-util/e-html-editor-image-dialog.c:533
 #: ../src/e-util/e-html-editor-table-dialog.c:572
 msgid "_Width:"
-msgstr ""
+msgstr "_Largjece:"
 
 #: ../src/e-util/e-html-editor-hrule-dialog.c:308
 msgid "_Size:"
-msgstr ""
+msgstr "_Dimension:"
 
 #: ../src/e-util/e-html-editor-hrule-dialog.c:315
 msgid "<b>Style</b>"
-msgstr ""
+msgstr "<b>Stîl</b>"
 
 #: ../src/e-util/e-html-editor-hrule-dialog.c:340
 #: ../src/e-util/e-html-editor-table-dialog.c:658
 msgid "_Alignment:"
-msgstr ""
+msgstr "Inline_ament:"
 
 #. Shaded
 #: ../src/e-util/e-html-editor-hrule-dialog.c:346
 msgid "S_haded"
-msgstr ""
+msgstr "_Ombrenadure"
 
 #: ../src/e-util/e-html-editor-hrule-dialog.c:363
 msgid "Rule properties"
-msgstr ""
+msgstr "Proprietâts regule"
 
 #: ../src/e-util/e-html-editor-image-dialog.c:465
 #: ../src/e-util/e-html-editor-paragraph-dialog.c:64
 #: ../src/e-util/e-html-editor-table-dialog.c:515
 msgid "<b>General</b>"
-msgstr ""
+msgstr "<b>Gjenerâl</b>"
 
 #: ../src/e-util/e-html-editor-image-dialog.c:494
 msgid "_Source:"
-msgstr ""
+msgstr "_Sorzint:"
 
 #: ../src/e-util/e-html-editor-image-dialog.c:557
 msgid "_Height:"
-msgstr ""
+msgstr "_Altece:"
 
 #: ../src/e-util/e-html-editor-image-dialog.c:598
 msgid "_X-Padding:"
-msgstr ""
+msgstr "Jemplament _X:"
 
 #: ../src/e-util/e-html-editor-image-dialog.c:614
 msgid "_Y-Padding:"
-msgstr ""
+msgstr "Jemplament _Y:"
 
 #: ../src/e-util/e-html-editor-image-dialog.c:630
 #: ../src/e-util/e-html-editor-table-dialog.c:639
 msgid "_Border:"
-msgstr ""
+msgstr "_Ôr:"
 
 #: ../src/e-util/e-html-editor-image-dialog.c:640
 msgid "<b>Link</b>"
-msgstr ""
+msgstr "<b>Colegament</b>"
 
 #: ../src/e-util/e-html-editor-image-dialog.c:658
 #: ../src/e-util/e-html-editor-link-dialog.c:219
 msgid "_URL:"
-msgstr ""
+msgstr "_URL:"
 
 #: ../src/e-util/e-html-editor-image-dialog.c:663
 #: ../src/e-util/e-html-editor-link-dialog.c:224
 msgid "_Test URL..."
-msgstr ""
+msgstr "URL di _prove..."
 
 #: ../src/e-util/e-html-editor-image-dialog.c:680
 msgid "Image Properties"
-msgstr ""
+msgstr "Proprietâts imagjin"
 
 #: ../src/e-util/e-html-editor-link-dialog.c:248
 msgid "_Remove Link"
-msgstr ""
+msgstr "_Gjave colegament"
 
 #: ../src/e-util/e-html-editor-link-dialog.c:273
 msgid "Link Properties"
-msgstr ""
+msgstr "Proprietâts colegament"
 
 #: ../src/e-util/e-html-editor-page-dialog.c:68
 msgid "Perforated Paper"
-msgstr ""
+msgstr "Cjarte sbusade"
 
 #: ../src/e-util/e-html-editor-page-dialog.c:77
 msgid "Blue Ink"
-msgstr ""
+msgstr "Ingjustri blu"
 
 #: ../src/e-util/e-html-editor-page-dialog.c:86
 msgid "Paper"
-msgstr ""
+msgstr "Cjarte"
 
 #: ../src/e-util/e-html-editor-page-dialog.c:95
 msgid "Ribbon"
-msgstr ""
+msgstr "Curdele"
 
 #: ../src/e-util/e-html-editor-page-dialog.c:104
 msgid "Midnight"
-msgstr ""
+msgstr "Miezegnot"
 
 #: ../src/e-util/e-html-editor-page-dialog.c:122
 #: ../src/mail/filtertypes.xml.in.h:38 ../src/mail/searchtypes.xml.in.h:41
 #: ../src/mail/vfoldertypes.xml.in.h:41
 msgid "Draft"
-msgstr ""
+msgstr "Stampon"
 
 #: ../src/e-util/e-html-editor-page-dialog.c:131
 msgid "Graph Paper"
@@ -13389,57 +13389,57 @@ msgstr ""
 
 #: ../src/e-util/e-html-editor-page-dialog.c:379
 msgid "<b>Colors</b>"
-msgstr ""
+msgstr "<b>Colôrs</b>"
 
 #: ../src/e-util/e-html-editor-page-dialog.c:398
 msgid "_Text:"
-msgstr ""
+msgstr "_Test:"
 
 #: ../src/e-util/e-html-editor-page-dialog.c:413
 msgid "_Link:"
-msgstr ""
+msgstr "Co_legament:"
 
 #: ../src/e-util/e-html-editor-page-dialog.c:428
 msgid "_Visited Link:"
-msgstr ""
+msgstr "Colegament _visitât:"
 
 #: ../src/e-util/e-html-editor-page-dialog.c:443
 msgid "_Background:"
-msgstr ""
+msgstr "_Sfont:"
 
 #: ../src/e-util/e-html-editor-page-dialog.c:451
 msgid "<b>Background Image</b>"
-msgstr ""
+msgstr "<b>Imagjin di sfont</b>"
 
 #: ../src/e-util/e-html-editor-page-dialog.c:473
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:84
 msgid "_Template:"
-msgstr ""
+msgstr "_Model:"
 
 #: ../src/e-util/e-html-editor-page-dialog.c:481
 #: ../src/e-util/e-import-assistant.c:286
 msgid "Select a file"
-msgstr ""
+msgstr "Selezione un file"
 
 #: ../src/e-util/e-html-editor-page-dialog.c:488
 msgid "_Custom:"
-msgstr ""
+msgstr "_Personalizât:"
 
 #: ../src/e-util/e-html-editor-page-dialog.c:515
 msgid "Page Properties"
-msgstr ""
+msgstr "Proprietâts pagjine"
 
 #: ../src/e-util/e-html-editor-paragraph-dialog.c:81
 msgid "_Style:"
-msgstr ""
+msgstr "_Stîl:"
 
 #: ../src/e-util/e-html-editor-paragraph-dialog.c:88
 msgid "<b>Alignment</b>"
-msgstr ""
+msgstr "<b>Inlineament</b>"
 
 #: ../src/e-util/e-html-editor-paragraph-dialog.c:153
 msgid "Paragraph Properties"
-msgstr ""
+msgstr "Proprietâts paragraf"
 
 #: ../src/e-util/e-html-editor-replace-dialog.c:90
 #, c-format
