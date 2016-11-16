@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2016-11-10 17:48+0000\n"
-"PO-Revision-Date: 2016-11-16 16:26+0100\n"
+"PO-Revision-Date: 2016-11-16 17:32+0100\n"
 "Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
 "Language-Team: Friulian <fur@li.org>\n"
 "Language: fur\n"
@@ -13941,54 +13941,56 @@ msgstr "_URL di configurazion:"
 
 #: ../src/e-util/e-proxy-editor.c:561
 msgid "No proxy"
-msgstr ""
+msgstr "Nissun proxy"
 
 #: ../src/e-util/e-proxy-editor.c:564
 msgid "Use a direct connection, no proxying required."
-msgstr ""
+msgstr "Dopre une conession direte, nol covente il proxy."
 
 #: ../src/e-util/e-proxy-preferences.c:214
 msgid "Switch to Basic Proxy Preferences"
-msgstr ""
+msgstr "Passe aes preferencis di base dal proxy"
 
 #: ../src/e-util/e-proxy-preferences.c:216
 msgid "Switch to Advanced Proxy Preferences"
-msgstr ""
+msgstr "Passe aes preferencis avanzadis dal proxy"
 
 #: ../src/e-util/e-proxy-preferences.c:527
 msgid "Apply custom proxy settings to these accounts:"
-msgstr ""
+msgstr "Aplicâ lis impostazions personalizadis dal proxy a chescj account:"
 
 #: ../src/e-util/e-proxy-preferences.c:562
 msgid ""
 "<b>Advanced Proxy Preferences</b> lets you define alternate network proxies "
 "and apply them to specific accounts"
 msgstr ""
+"Lis <b>Preferences avanzadis dal proxy</b> a permetin di definî proxy di rêt "
+"alternatîfs e aplicâju a specifics account"
 
 #: ../src/e-util/e-proxy-selector.c:86
 msgid "Custom Proxy"
-msgstr ""
+msgstr "Proxy personalizât"
 
 #: ../src/e-util/e-proxy-selector.c:488
 msgid "Create a new proxy profile"
-msgstr ""
+msgstr "Cree un gnûf profîl proxy"
 
 #: ../src/e-util/e-proxy-selector.c:493
 msgid "Delete the selected proxy profile"
-msgstr ""
+msgstr "Elimine il profîl proxy selezionât"
 
 #: ../src/e-util/e-rule-editor.c:182
 msgid "Add Rule"
-msgstr ""
+msgstr "Zonte regule"
 
 #: ../src/e-util/e-rule-editor.c:284
 msgid "Edit Rule"
-msgstr ""
+msgstr "Modifiche regule"
 
 #: ../src/e-util/e-search-bar.c:82
 #, c-format
 msgid "Matches: %u"
-msgstr ""
+msgstr "Corispondents: %u"
 
 #: ../src/e-util/e-search-bar.c:609
 msgid "Close the find bar"
