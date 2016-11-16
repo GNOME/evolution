@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2016-11-10 17:48+0000\n"
-"PO-Revision-Date: 2016-11-16 14:38+0100\n"
+"PO-Revision-Date: 2016-11-16 16:26+0100\n"
 "Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
 "Language-Team: Friulian <fur@li.org>\n"
 "Language: fur\n"
@@ -13796,24 +13796,24 @@ msgstr "_Cîr:"
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:758
 #: ../src/modules/calendar/e-task-shell-view-actions.c:931
 msgid "Any Category"
-msgstr ""
+msgstr "Cualsisei categorie"
 
 #: ../src/e-util/e-name-selector-dialog.c:365
 msgid "Co_ntacts"
-msgstr ""
+msgstr "Co_ntats"
 
 #: ../src/e-util/e-name-selector-dialog.c:442
 msgid "Search"
-msgstr ""
+msgstr "Cîr"
 
 #: ../src/e-util/e-name-selector-dialog.c:445
 #: ../src/mail/importers/pine-importer.c:430
 msgid "Address Book"
-msgstr ""
+msgstr "Rubriche"
 
 #: ../src/e-util/e-name-selector-dialog.c:573
 msgid "Select Contacts from Address Book"
-msgstr ""
+msgstr "Selezione contats de rubriche"
 
 #. To Translators: This would be similiar to "Expand MyList Inline" where MyList is a Contact List
 #: ../src/e-util/e-name-selector-entry.c:3187
@@ -13825,117 +13825,119 @@ msgstr ""
 #: ../src/e-util/e-name-selector-entry.c:3203
 #, c-format
 msgid "Cop_y %s"
-msgstr ""
+msgstr "Cop_ie %s"
 
 #. Cut Contact Item
 #: ../src/e-util/e-name-selector-entry.c:3214
 #, c-format
 msgid "C_ut %s"
-msgstr ""
+msgstr "T_aie %s"
 
 #. Edit Contact item
 #: ../src/e-util/e-name-selector-entry.c:3232
 #, c-format
 msgid "_Edit %s"
-msgstr ""
+msgstr "_Modifiche %s"
 
 #: ../src/e-util/e-name-selector-list.c:585
 #, c-format
 msgid "_Delete %s"
-msgstr ""
+msgstr "E_limine %s"
 
 #: ../src/e-util/e-online-button.c:30
 msgid "Evolution is currently online.  Click this button to work offline."
 msgstr ""
+"Evolution cumò al è in rêt.  Fâs clic su chest boton par lavorâ fûr rêt."
 
 #: ../src/e-util/e-online-button.c:33
 msgid "Evolution is currently offline.  Click this button to work online."
 msgstr ""
+"Evolution cumò al è fûr rêt.  Fâs clic su chest boton par lavorâ in rêt."
 
 #: ../src/e-util/e-online-button.c:36
 msgid "Evolution is currently offline because the network is unavailable."
-msgstr ""
+msgstr "Evolution al è fûr rêt parcè che la rêt no je disponibile."
 
 #: ../src/e-util/e-passwords.c:125
 msgid "Keyring key is unusable: no user or host name"
-msgstr ""
+msgstr "No si pues doprâ la clâf dal puarteclâfs: nissun utent o non host"
 
 #: ../src/e-util/e-passwords.c:445
 msgid "You have the Caps Lock key on."
-msgstr ""
+msgstr "Il tast BlocMaiusc al è atîf."
 
 #: ../src/e-util/e-passwords.c:576
 msgid "_Remember this passphrase"
-msgstr ""
+msgstr "_Visiti cheste passphrase"
 
 #: ../src/e-util/e-passwords.c:577
 msgid "_Remember this passphrase for the remainder of this session"
-msgstr ""
+msgstr "_Visiti cheste passphrase pal rest de session"
 
 #: ../src/e-util/e-passwords.c:582
 msgid "_Remember this password"
-msgstr ""
+msgstr "_Visiti cheste password"
 
 #: ../src/e-util/e-passwords.c:583
 msgid "_Remember this password for the remainder of this session"
-msgstr ""
+msgstr "_Visiti cheste password pal rest de session"
 
 #: ../src/e-util/e-preferences-window.c:319
 msgid "Evolution Preferences"
-msgstr ""
+msgstr "Preferencis di Evolution"
 
 #: ../src/e-util/e-print.c:158
 msgid "An error occurred while printing"
-msgstr ""
+msgstr "Si è presentât un erôr tal stampâ"
 
 #: ../src/e-util/e-print.c:165
 msgid "The printing system reported the following details about the error:"
-msgstr ""
+msgstr "Il sisteme di stampe al à segnalât i detais sul erôr chi daurman:"
 
 #: ../src/e-util/e-print.c:171
 msgid ""
 "The printing system did not report any additional details about the error."
-msgstr ""
+msgstr "Il sisteme di stampe nol à segnalât nissun detai adizionâl sul erôr."
 
 #: ../src/e-util/e-proxy-editor.c:326
 msgid "_Method:"
-msgstr ""
+msgstr "_Metodi:"
 
 #: ../src/e-util/e-proxy-editor.c:348
 msgid "Defer to Desktop Settings"
-msgstr ""
+msgstr "Rimande a impostazions dal scritori"
 
 #: ../src/e-util/e-proxy-editor.c:352
 msgid "_Open Desktop Settings"
-msgstr ""
+msgstr "_Vierç impostazions dal scritori"
 
 #: ../src/e-util/e-proxy-editor.c:378
 msgid "Manual"
-msgstr ""
+msgstr "Manuâl"
 
 #: ../src/e-util/e-proxy-editor.c:397
 msgid "_HTTP Proxy:"
-msgstr ""
+msgstr "Proxy _HTTP:"
 
 #: ../src/e-util/e-proxy-editor.c:428
 msgid "H_TTPS Proxy:"
-msgstr ""
+msgstr "Proxy H_TTPS:"
 
 #: ../src/e-util/e-proxy-editor.c:459
 msgid "_Socks Proxy:"
-msgstr ""
+msgstr "Proxy _Socks:"
 
 #: ../src/e-util/e-proxy-editor.c:490
 msgid "_Ignore Hosts:"
-msgstr ""
+msgstr "_Ignore Host:"
 
 #: ../src/e-util/e-proxy-editor.c:516
 msgid "Automatic"
-msgstr ""
+msgstr "Automatic"
 
 #: ../src/e-util/e-proxy-editor.c:535
 msgid "Configuration _URL:"
-msgstr ""
+msgstr "_URL di configurazion:"
 
 #: ../src/e-util/e-proxy-editor.c:561
 msgid "No proxy"
