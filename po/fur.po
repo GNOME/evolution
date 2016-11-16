@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2016-11-10 17:48+0000\n"
-"PO-Revision-Date: 2016-11-16 17:32+0100\n"
+"PO-Revision-Date: 2016-11-16 19:35+0100\n"
 "Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
 "Language-Team: Friulian <fur@li.org>\n"
 "Language: fur\n"
@@ -13994,170 +13994,176 @@ msgstr "Corispondents: %u"
 
 #: ../src/e-util/e-search-bar.c:609
 msgid "Close the find bar"
-msgstr ""
+msgstr "Siere la sbare di ricercje"
 
 #: ../src/e-util/e-search-bar.c:617
 msgid "Fin_d:"
-msgstr ""
+msgstr "C_jate:"
 
 #: ../src/e-util/e-search-bar.c:629
 msgid "Clear the search"
-msgstr ""
+msgstr "Nete la ricercje"
 
 #: ../src/e-util/e-search-bar.c:653
 msgid "_Previous"
-msgstr ""
+msgstr "_Precedent"
 
 #: ../src/e-util/e-search-bar.c:656
 msgid "Find the previous occurrence of the phrase"
-msgstr ""
+msgstr "Cjate il câs precedent de frase cirude"
 
 #: ../src/e-util/e-search-bar.c:665
 msgid "_Next"
-msgstr ""
+msgstr "P_rossim"
 
 #: ../src/e-util/e-search-bar.c:668
 msgid "Find the next occurrence of the phrase"
-msgstr ""
+msgstr "Cjate il câs sucessîf de frase cirude"
 
 #: ../src/e-util/e-search-bar.c:677
 msgid "Mat_ch case"
-msgstr ""
+msgstr "_Corispuindince maiusculis"
 
 #: ../src/e-util/e-search-bar.c:705
 msgid "Reached bottom of page, continued from top"
-msgstr ""
+msgstr "Si è rivâts ae fin de pagjine, si à continuât dal inizi"
 
 #: ../src/e-util/e-search-bar.c:727
 msgid "Reached top of page, continued from bottom"
-msgstr ""
+msgstr "Si è rivâts al inizi de pagjine, si à continuât de fin"
 
+# feminin? la e-mail?
 #: ../src/e-util/e-send-options.c:568
+#, fuzzy
 msgid "When de_leted:"
-msgstr ""
+msgstr "Se e_liminât:"
 
 #: ../src/e-util/e-send-options.ui.h:3
 msgid "Standard"
-msgstr ""
+msgstr "Standard"
 
 #: ../src/e-util/e-send-options.ui.h:6
 msgid "Proprietary"
-msgstr ""
+msgstr "Proprietari"
 
 #: ../src/e-util/e-send-options.ui.h:8
 msgid "Secret"
-msgstr ""
+msgstr "Segret"
 
 #: ../src/e-util/e-send-options.ui.h:9
 msgid "Top Secret"
-msgstr ""
+msgstr "Top secret"
 
 #: ../src/e-util/e-send-options.ui.h:10
 msgid "For Your Eyes Only"
-msgstr ""
+msgstr "No pai tiei voi"
 
 #. Translators: Used in send options dialog
 #: ../src/e-util/e-send-options.ui.h:12
 msgctxt "send-options"
 msgid "None"
-msgstr ""
+msgstr "Nissun"
 
 #: ../src/e-util/e-send-options.ui.h:13
 msgid "Mail Receipt"
-msgstr ""
+msgstr "Ricevude di leture"
 
 #: ../src/e-util/e-send-options.ui.h:14
 msgid "Send Options"
-msgstr ""
+msgstr "Opzions di inviament"
 
 #: ../src/e-util/e-send-options.ui.h:15
 msgid "R_eply requested"
-msgstr ""
+msgstr "Rispu_este volude"
 
 #: ../src/e-util/e-send-options.ui.h:16
 msgctxt "ESendOptionsWithin"
 msgid "Wi_thin"
-msgstr ""
+msgstr "_Entri"
 
 #: ../src/e-util/e-send-options.ui.h:17
 msgctxt "ESendOptionsWithin"
 msgid "days"
-msgstr ""
+msgstr "dîs"
 
 #: ../src/e-util/e-send-options.ui.h:18
 msgid "_When convenient"
-msgstr ""
+msgstr "Cuant che al è _plui comut"
 
 #: ../src/e-util/e-send-options.ui.h:20
 msgid "_Delay message delivery"
-msgstr ""
+msgstr "_Ritarde la consegne dal messaç"
 
 #: ../src/e-util/e-send-options.ui.h:21
 msgctxt "ESendOptionsAfter"
 msgid "_After"
-msgstr ""
+msgstr "_Daspò"
 
 #: ../src/e-util/e-send-options.ui.h:22
 msgctxt "ESendOptionsAfter"
 msgid "days"
-msgstr ""
+msgstr "dîs"
 
 #: ../src/e-util/e-send-options.ui.h:23
 msgid "_Set expiration date"
-msgstr ""
+msgstr "_Stabilìs date di scjadince"
 
 #: ../src/e-util/e-send-options.ui.h:24
 msgctxt "ESendOptions"
 msgid "_Until"
-msgstr ""
+msgstr "_Fin a"
 
 #: ../src/e-util/e-send-options.ui.h:25
 msgid "Delivery Options"
-msgstr ""
+msgstr "Opzions di consegne"
 
 #: ../src/e-util/e-send-options.ui.h:26
 msgid "_Priority:"
-msgstr ""
+msgstr "_Prioritât:"
 
 #: ../src/e-util/e-send-options.ui.h:27
 msgid "_Classification:"
-msgstr ""
+msgstr "_Classificazion:"
 
 #: ../src/e-util/e-send-options.ui.h:28
 msgid "Gene_ral Options"
-msgstr ""
+msgstr "Opzions gjene_râi"
 
 #: ../src/e-util/e-send-options.ui.h:29
 msgid "Creat_e a sent item to track information"
-msgstr ""
+msgstr "Cre_e un element di inviâ par tignî segn des informazions"
 
 #: ../src/e-util/e-send-options.ui.h:30
 msgid "_Delivered"
-msgstr ""
+msgstr "Conse_gnât"
 
 #: ../src/e-util/e-send-options.ui.h:31
 msgid "Deli_vered and opened"
-msgstr ""
+msgstr "Consegnât e vie_rzût"
 
 #: ../src/e-util/e-send-options.ui.h:32
 msgid "_All information"
-msgstr ""
+msgstr "_Dutis lis informazions"
 
 #: ../src/e-util/e-send-options.ui.h:33
 msgid "A_uto-delete sent item"
-msgstr ""
+msgstr "Elimine in a_utomatic i elements eliminâts"
 
 #: ../src/e-util/e-send-options.ui.h:34
 msgid "Status Tracking"
 msgstr ""
 
+# feminin
 #: ../src/e-util/e-send-options.ui.h:35
+#, fuzzy
 msgid "_When opened:"
-msgstr ""
+msgstr "Cuan_t che e je vierte:"
 
+# feminin?
 #: ../src/e-util/e-send-options.ui.h:36
+#, fuzzy
 msgid "When decli_ned:"
-msgstr ""
+msgstr "Cuant che e je decli_nade:"
 
 #: ../src/e-util/e-send-options.ui.h:37
 msgid "When co_mpleted:"
