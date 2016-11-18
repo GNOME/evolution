@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2016-11-10 17:48+0000\n"
-"PO-Revision-Date: 2016-11-16 19:35+0100\n"
+"POT-Creation-Date: 2016-11-16 18:36+0000\n"
+"PO-Revision-Date: 2016-11-18 00:20+0100\n"
 "Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
 "Language-Team: Friulian <fur@li.org>\n"
 "Language: fur\n"
@@ -14151,7 +14151,7 @@ msgstr "Elimine in a_utomatic i elements eliminâts"
 
 #: ../src/e-util/e-send-options.ui.h:34
 msgid "Status Tracking"
-msgstr ""
+msgstr "Segnadure stât"
 
 # feminin
 #: ../src/e-util/e-send-options.ui.h:35
@@ -14165,91 +14165,94 @@ msgstr "Cuan_t che e je vierte:"
 msgid "When decli_ned:"
 msgstr "Cuant che e je decli_nade:"
 
+# feminin?
 #: ../src/e-util/e-send-options.ui.h:37
+#, fuzzy
 msgid "When co_mpleted:"
-msgstr ""
+msgstr "Cuant che e je co_mpletade:"
 
 #: ../src/e-util/e-send-options.ui.h:38
+#, fuzzy
 msgid "When acce_pted:"
-msgstr ""
+msgstr "Cuant che e je _acetade:"
 
 #: ../src/e-util/e-send-options.ui.h:39
 msgid "Return Notification"
-msgstr ""
+msgstr "Torne notifiche"
 
 #: ../src/e-util/e-send-options.ui.h:40
 msgid "Sta_tus Tracking"
-msgstr ""
+msgstr "Segnadure s_tât"
 
 #: ../src/e-util/e-source-config.c:691 ../src/e-util/e-source-config.c:695
 msgid "Type:"
-msgstr ""
+msgstr "Gjenar:"
 
 #: ../src/e-util/e-source-config.c:703 ../src/e-util/e-source-config.c:707
 msgid "Name:"
-msgstr ""
+msgstr "Non:"
 
 #: ../src/e-util/e-source-config.c:814
 msgid "Name cannot be empty"
-msgstr ""
+msgstr "Il non nol pues jessi vueit"
 
 #. Translators: This is the first of a sequence of widgets:
 #. * "Refresh every [NUMERIC_ENTRY] [TIME_UNITS_COMBO]"
 #: ../src/e-util/e-source-config.c:1314
 msgid "Refresh every"
-msgstr ""
+msgstr "Inzorne ogni"
 
 #: ../src/e-util/e-source-config.c:1344 ../src/e-util/e-source-config.c:1414
 msgid "Use a secure connection"
-msgstr ""
+msgstr "Dopre une conession sigure"
 
 #: ../src/e-util/e-source-config.c:1440
 msgid "Unset _trust for SSL/TLS certificate"
-msgstr ""
+msgstr "Ritire la fiducie tal certificât SSL/TLS"
 
 #: ../src/e-util/e-source-config.c:1476
 msgid "User"
-msgstr ""
+msgstr "Utent"
 
 #: ../src/e-util/e-source-selector.c:3212
 msgid "Show"
-msgstr ""
+msgstr "Mostre"
 
 #: ../src/e-util/e-source-selector.c:3219
 msgid "Group name"
-msgstr ""
+msgstr "Non dal grup"
 
 #: ../src/e-util/e-source-selector.c:3374 ../src/mail/e-mail-display.c:743
 msgid "_Hide"
-msgstr ""
+msgstr "_Plate"
 
 #: ../src/e-util/e-source-selector.c:3374
 #: ../src/e-util/e-source-selector.c:3473
 msgid "_Show"
-msgstr ""
+msgstr "_Mostre"
 
 #: ../src/e-util/e-source-selector.c:3426
 msgid "Manage Groups"
-msgstr ""
+msgstr "Gjestìs grups"
 
 #: ../src/e-util/e-source-selector.c:3438
 msgid "Available Groups:"
-msgstr ""
+msgstr "Grups disponibii:"
 
 #: ../src/e-util/e-source-selector-dialog.c:234
 msgid "_Destination"
-msgstr ""
+msgstr "_Destinazion"
 
 #: ../src/e-util/e-source-selector-dialog.c:362
 msgid "Select destination"
-msgstr ""
+msgstr "Selezione destinazion"
 
 #. Translators: %s is the language ISO code.
 #: ../src/e-util/e-spell-dictionary.c:264
 #, c-format
 msgctxt "language"
 msgid "Unknown (%s)"
-msgstr ""
+msgstr "No cognossût (%s)"
 
 #. Translators: The first %s is the language name, and the
 #. * second is the country name. Example: "French (France)"
@@ -14258,91 +14261,103 @@ msgstr ""
 #, c-format
 msgctxt "language"
 msgid "%s (%s)"
-msgstr ""
+msgstr "%s (%s)"
 
 #. no suggestions. Put something in the menu anyway...
 #: ../src/e-util/e-spell-entry.c:479
 msgid "(no suggestions)"
-msgstr ""
+msgstr "(Nissun sugjeriment)"
 
 #: ../src/e-util/e-spell-entry.c:503
 msgid "More..."
-msgstr ""
+msgstr "Altri..."
 
 #. + Add to Dictionary
 #: ../src/e-util/e-spell-entry.c:588
 #, c-format
 msgid "Add \"%s\" to Dictionary"
-msgstr ""
+msgstr "Zonte “%s” al dizionari"
 
 #. - Ignore All
 #: ../src/e-util/e-spell-entry.c:637
 msgid "Ignore All"
-msgstr ""
+msgstr "Ignore dut"
 
 #: ../src/e-util/e-spell-entry.c:669
 msgid "Spelling Suggestions"
-msgstr ""
+msgstr "Sugjeriments ortografics"
 
 #: ../src/e-util/e-system.error.xml.h:1
 msgid "A file named \"{0}\" already exists. Do you want to replace it?"
-msgstr ""
+msgstr "Un file clamât \"{0}\" al esist za. Sostituîlu?"
 
 #: ../src/e-util/e-system.error.xml.h:2
 msgid ""
 "The file already exists in \"{0}\". Replacing it will overwrite its contents."
 msgstr ""
+"Il file al esist za in \"{0}\". Se al ven sostituît, al vignarà sorescrit il "
+"so contignût."
 
 #: ../src/e-util/e-system.error.xml.h:4
 msgid "Cannot save file \"{0}\"."
-msgstr ""
+msgstr "Impussibil salvâ il file \"{0}\"."
 
 #: ../src/e-util/e-system.error.xml.h:5
 msgid "Because \"{1}\"."
-msgstr ""
+msgstr "Motîf: \"{1}\"."
 
 #: ../src/e-util/e-system.error.xml.h:6
 msgid "Cannot open file \"{0}\"."
-msgstr ""
+msgstr "Impussibil vierzi il file \"{0}\"."
 
 #: ../src/e-util/e-system.error.xml.h:7
 msgid "Failed to remove data source &quot;{0}&quot;."
-msgstr ""
+msgstr "No si è rivâts a gjavâ il sorzint dâts «{0}»."
 
 #: ../src/e-util/e-system.error.xml.h:8 ../src/mail/mail.error.xml.h:64
 msgid "The reported error was &quot;{1}&quot;."
-msgstr ""
+msgstr "L'erôr puartât al jere «{1}»."
 
 #: ../src/e-util/e-system.error.xml.h:9
 msgid "Failed to update data source &quot;{0}&quot;."
-msgstr ""
+msgstr "No si è rivâts a inzornâ il sorzint dâts «{0}»."
 
 #: ../src/e-util/e-system.error.xml.h:10
 msgid "Failed to delete resource &quot;{0}&quot;."
-msgstr ""
+msgstr "No si è rivâts a eliminâ la risorse «{0}»."
 
 #: ../src/e-util/e-system.error.xml.h:11
 msgid ""
 "The address book backend servicing &quot;{0}&quot; has quit unexpectedly."
 msgstr ""
+"Il servizi dal backend de rubriche «{0}» al è terminât in maniere inspietade."
 
 #: ../src/e-util/e-system.error.xml.h:12
 msgid ""
 "Some of your contacts may not be available until Evolution is restarted."
 msgstr ""
+"Cualchi contat al podarès jessi no disponibil fintremai che no si torne a "
+"inviâ Evolution."
 
 #: ../src/e-util/e-system.error.xml.h:13
 msgid "The calendar backend servicing &quot;{0}&quot; has quit unexpectedly."
 msgstr ""
+"Il servizi dal backend dal calendari «{0}» al è terminât in maniere "
+"inspietade."
 
 #: ../src/e-util/e-system.error.xml.h:14
 msgid ""
 "Some of your appointments may not be available until Evolution is restarted."
 msgstr ""
+"Cualchi apontament al podarès jessi no disponibil fintremai che no si torne "
+"a inviâ Evolution."
 
+# no mi visi, memo -> promemorie?
 #: ../src/e-util/e-system.error.xml.h:15
 msgid "The memo list backend servicing &quot;{0}&quot; has quit unexpectedly."
 msgstr ""
+"Il servizi dal backend de liste memorandum «{0}» al è terminât in maniere "
+"inspietade."
 
 #: ../src/e-util/e-system.error.xml.h:16
 msgid "Some of your memos may not be available until Evolution is restarted."
@@ -14353,97 +14368,104 @@ msgstr ""
 #: ../src/e-util/e-system.error.xml.h:17
 msgid "The task list backend servicing &quot;{0}&quot; has quit unexpectedly."
 msgstr ""
+"Il servizi dal backend de liste des ativitâts «{0}» al è terminât in maniere "
+"inspietade."
 
 #: ../src/e-util/e-system.error.xml.h:18
 msgid "Some of your tasks may not be available until Evolution is restarted."
 msgstr ""
+"Cualchi ativitât e podarès jessi no disponibile fintremai che no si torne a "
+"inviâ Evolution."
 
 #: ../src/e-util/e-system.error.xml.h:19
 msgid ""
 "The address book backend servicing &quot;{0}&quot; encountered an error."
-msgstr ""
+msgstr "Si è verificât un erôr tal servizi dal backend de rubriche «{0}»."
 
 #: ../src/e-util/e-system.error.xml.h:20
 msgid "The calendar backend servicing &quot;{0}&quot; encountered an error."
-msgstr ""
+msgstr "Si è verificât un erôr tal servizi dal backend dal calendari «{0}»."
 
 #: ../src/e-util/e-system.error.xml.h:21
 msgid "The memo list backend servicing &quot;{0}&quot; encountered an error."
 msgstr ""
+"Si è verificât un erôr tal servizi dal backend de liste memorandum «{0}»."
 
 #: ../src/e-util/e-system.error.xml.h:22
 msgid "The task list backend servicing &quot;{0}&quot; encountered an error."
 msgstr ""
+"Si è verificât un erôr tal servizi dal backend de liste ativitâts «{0}»."
 
 #: ../src/e-util/e-table-click-to-add.c:687
 #: ../src/e-util/gal-a11y-e-table-click-to-add.c:59
 #: ../src/e-util/gal-a11y-e-table-click-to-add.c:140
 msgid "click to add"
-msgstr ""
+msgstr "fâs clic par zontâ"
 
 #: ../src/e-util/e-table-column-selector.c:264
 msgid "Move selected column names to top"
-msgstr ""
+msgstr "Môf insom i nons des colonis selezionadis"
 
 #: ../src/e-util/e-table-column-selector.c:269
 msgid "Move selected column names up one row"
-msgstr ""
+msgstr "Môf in sù di une rie i nons des colonis selezionadis"
 
 #: ../src/e-util/e-table-column-selector.c:274
 msgid "Move selected column names down one row"
-msgstr ""
+msgstr "Môf in jù di une rie i nons des colonis selezionadis"
 
 #: ../src/e-util/e-table-column-selector.c:279
 msgid "Move selected column names to bottom"
-msgstr ""
+msgstr "Môf da pît i nons des colonis selezionadis"
 
 #: ../src/e-util/e-table-column-selector.c:284
 msgid "Select all column names"
-msgstr ""
+msgstr "Selezione ducj i nons des colonis"
 
 #: ../src/e-util/e-table-config.c:388 ../src/e-util/e-table-config.c:434
 msgid "(Ascending)"
-msgstr ""
+msgstr "(Cressint)"
 
 #: ../src/e-util/e-table-config.c:388 ../src/e-util/e-table-config.c:434
 msgid "(Descending)"
-msgstr ""
+msgstr "(Decressint)"
 
 #: ../src/e-util/e-table-config.c:395
 msgid "Not sorted"
-msgstr ""
+msgstr "No ordenât"
 
 #: ../src/e-util/e-table-config.c:440
 msgid "No grouping"
-msgstr ""
+msgstr "No metût dongje"
 
 #: ../src/e-util/e-table-config.c:545
 msgid "Show Fields"
-msgstr ""
+msgstr "Mostre cjamps"
 
 #: ../src/e-util/e-table-config.c:559
 msgid "Choose the order of information to appear in the message list."
 msgstr ""
+"Sielç l'ordin des informazions che a vignaran fûr te liste dai messaçs."
 
 #: ../src/e-util/e-table-config.ui.h:2
 msgid "_Apply"
-msgstr ""
+msgstr "_Apliche"
 
 #: ../src/e-util/e-table-config.ui.h:4
 msgid "_Sort..."
-msgstr ""
+msgstr "_Ordene..."
 
 #: ../src/e-util/e-table-config.ui.h:5
 msgid "_Group By..."
-msgstr ""
+msgstr "_Met dongje par..."
 
 #: ../src/e-util/e-table-config.ui.h:6
 msgid "_Fields Shown..."
-msgstr ""
+msgstr "_Cjamps mostrâts..."
 
 #: ../src/e-util/e-table-config.ui.h:9
 msgid "Clear _All"
-msgstr ""
+msgstr "Nete _dut"
 
 #: ../src/e-util/e-table-config.ui.h:10
 msgid "_Show field in View"
@@ -14452,16 +14474,16 @@ msgstr ""
 #: ../src/e-util/e-table-config.ui.h:11
 #: ../src/e-util/e-table-header-item.c:1794
 msgid "Ascending"
-msgstr ""
+msgstr "Cressint"
 
 #: ../src/e-util/e-table-config.ui.h:12
 #: ../src/e-util/e-table-header-item.c:1794
 msgid "Descending"
-msgstr ""
+msgstr "Decressint"
 
 #: ../src/e-util/e-table-config.ui.h:13
 msgid "Group Items By"
-msgstr ""
+msgstr "Met dongje elements par"
 
 #: ../src/e-util/e-table-config.ui.h:14
 msgid "Show _field in View"
