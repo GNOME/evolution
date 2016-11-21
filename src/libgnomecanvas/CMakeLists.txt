@@ -49,6 +49,10 @@ target_compile_options(gnomecanvas PUBLIC
 	${GNOME_PLATFORM_CFLAGS}
 )
 
+set_target_properties(gnomecanvas PROPERTIES
+	INSTALL_RPATH ""
+)
+
 target_include_directories(gnomecanvas PUBLIC
 	${CMAKE_BINARY_DIR}
 	${CMAKE_BINARY_DIR}/src
