@@ -4,7 +4,7 @@ cmake_minimum_required(VERSION 3.0)
 cmake_policy(VERSION 3.0)
 
 project(evolution
-	VERSION 3.23.2
+	VERSION 3.23.3
 	LANGUAGES C)
 set(PROJECT_BUGREPORT "http://bugzilla.gnome.org/enter_bug.cgi?product=Evolution")
 set(PROJECT_URL "http://wiki.gnome.org/Apps/Evolution/")
