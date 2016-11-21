@@ -331,11 +331,11 @@ format_full_headers (EMailFormatter *formatter,
 				buffer, "<td align=\"left\" width=\"100%\">");
 		bold_sender = g_strconcat ("<b>", header_sender, "</b>", NULL);
 		bold_from = g_strconcat ("<b>", header_from, "</b>", NULL);
-		/* Translators: This message suggests to the receipients
-		 * that the sender of the mail is different from the one
-		 * listed in From field. */
 		g_string_append_printf (
 			buffer,
+			/* Translators: This message suggests to the receipients
+			 * that the sender of the mail is different from the one
+			 * listed in From field. */
 			_("This message was sent by %s on behalf of %s"),
 			bold_sender, bold_from);
 		g_string_append (buffer, "</td></tr></table></td></tr>");

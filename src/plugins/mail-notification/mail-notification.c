@@ -393,8 +393,8 @@ new_notify_status (EMEventTargetFolder *t)
 
 		status_count = t->new;
 
-		/* Translators: '%d' is the count of mails received. */
 		text = g_strdup_printf (ngettext (
+			/* Translators: '%d' is the count of mails received. */
 			"You have received %d new message.",
 			"You have received %d new messages.",
 			status_count), status_count);

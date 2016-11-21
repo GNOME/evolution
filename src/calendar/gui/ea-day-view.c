@@ -98,10 +98,10 @@ ea_day_view_get_name (AtkObject *accessible)
 	/* the child main item is always there */
 	--n_events;
 	if (n_events >= 1)
-		/* To translators: Here, "It" is either like "Work Week View: July
-		10th - July 14th, 2006." or "Day View: Thursday July 13th, 2006." */
 		event_str = g_strdup_printf (
 			ngettext (
+				/* To translators: Here, "It" is either like "Work Week View: July
+				10th - July 14th, 2006." or "Day View: Thursday July 13th, 2006." */
 				"It has %d event.",
 				"It has %d events.",
 				n_events),
@@ -112,17 +112,17 @@ ea_day_view_get_name (AtkObject *accessible)
 		event_str = g_strdup (_("It has no events."));
 
 	if (e_day_view_get_work_week_view (day_view))
-		/* To translators: First %s is the week, for example "July 10th -
-		July 14th, 2006". Second %s is the number of events in this work
-		week, for example "It has %d event/events." or  "It has no events." */
 		name_str = g_strdup_printf (
+			/* To translators: First %s is the week, for example "July 10th -
+			July 14th, 2006". Second %s is the number of events in this work
+			week, for example "It has %d event/events." or  "It has no events." */
 			_("Work Week View: %s. %s"),
 			label_text, event_str);
 	else
-		/* To translators: First %s is the day, for example "Thursday July
-		13th, 2006". Second %s is the number of events on this day, for
-		example "It has %d event/events." or  "It has no events." */
 		name_str = g_strdup_printf (
+			/* To translators: First %s is the day, for example "Thursday July
+			13th, 2006". Second %s is the number of events on this day, for
+			example "It has %d event/events." or  "It has no events." */
 			_("Day View: %s. %s"),
 			label_text, event_str);
 

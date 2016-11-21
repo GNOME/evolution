@@ -619,22 +619,22 @@ get_question_add_all_mails (ECalClientSourceType source_type,
 
 	switch (source_type) {
 	case E_CAL_CLIENT_SOURCE_TYPE_EVENTS:
-		/* Translators: Note there are always more than 10 mails selected */
 		ask = ngettext (
+			/* Translators: Note there are always more than 10 mails selected */
 			"You have selected %d mails to be converted to events. Do you really want to add them all?",
 			"You have selected %d mails to be converted to events. Do you really want to add them all?",
 			count);
 		break;
 	case E_CAL_CLIENT_SOURCE_TYPE_TASKS:
-		/* Translators: Note there are always more than 10 mails selected */
 		ask = ngettext (
+			/* Translators: Note there are always more than 10 mails selected */
 			"You have selected %d mails to be converted to tasks. Do you really want to add them all?",
 			"You have selected %d mails to be converted to tasks. Do you really want to add them all?",
 			count);
 		break;
 	case E_CAL_CLIENT_SOURCE_TYPE_MEMOS:
-		/* Translators: Note there are always more than 10 mails selected */
 		ask = ngettext (
+			/* Translators: Note there are always more than 10 mails selected */
 			"You have selected %d mails to be converted to memos. Do you really want to add them all?",
 			"You have selected %d mails to be converted to memos. Do you really want to add them all?",
 			count);

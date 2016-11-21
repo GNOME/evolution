@@ -4251,11 +4251,11 @@ e_mail_reader_init (EMailReader *reader,
 
 	/* Likewise the "mail-reply-group" action. */
 
-	/* For Translators: "Group Reply" will reply either to a mailing list
-	 * (if possible and if that configuration option is enabled), or else
-	 * it will reply to all. The word "Group" was chosen because it covers
-	 * either of those, without too strongly implying one or the other. */
 	menu_tool_action = e_menu_tool_action_new (
+		/* For Translators: "Group Reply" will reply either to a mailing list
+		 * (if possible and if that configuration option is enabled), or else
+		 * it will reply to all. The word "Group" was chosen because it covers
+		 * either of those, without too strongly implying one or the other. */
 		"mail-reply-group", _("Group Reply"),
 		_("Reply to the mailing list, or to all recipients"));
 

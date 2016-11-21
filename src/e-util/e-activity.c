@@ -267,9 +267,9 @@ activity_describe (EActivity *activity)
 	} else if (percent <= 0.0) {
 		g_string_printf (string, _("%s"), text);
 	} else {
-		/* Translators: This is a running activity whose
-		 *              percent complete is known. */
 		g_string_printf (
+			/* Translators: This is a running activity whose
+			 *              percent complete is known. */
 			string, _("%s (%d%% complete)"),
 			text, (gint) (percent));
 	}

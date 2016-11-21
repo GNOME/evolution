@@ -721,9 +721,9 @@ instance_cb (ECalComponent *comp,
 }
 
 const gchar *daynames[] = {
+	/* G_DATE_BAD_WEEKDAY */ "",
 	/* Translators: These are workday abbreviations,
 	 * e.g. Su=Sunday and Th=thursday */
-	/* G_DATE_BAD_WEEKDAY */ "",
 	/* G_DATE_MONDAY      */ N_("Mo"),
 	/* G_DATE_TUESDAY     */ N_("Tu"),
 	/* G_DATE_WEDNESDAY   */ N_("We"),

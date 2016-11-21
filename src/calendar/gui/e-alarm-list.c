@@ -446,15 +446,15 @@ get_alarm_string (ECalComponentAlarm *alarm)
 
 		if (dur) {
 			if (trigger.u.rel_duration.is_neg)
-				/*Translator: The first %s refers to the base, which would be actions like
-				 * "Play a Sound". Second %s refers to the duration string e.g:"15 minutes"*/
 				str = g_strdup_printf (
+					/*Translator: The first %s refers to the base, which would be actions like
+					 * "Play a Sound". Second %s refers to the duration string e.g:"15 minutes"*/
 					C_("cal-reminders", "%s %s before the start"),
 					base, dur);
 			else
-				/*Translator: The first %s refers to the base, which would be actions like
-				 * "Play a Sound". Second %s refers to the duration string e.g:"15 minutes"*/
 				str = g_strdup_printf (
+					/*Translator: The first %s refers to the base, which would be actions like
+					 * "Play a Sound". Second %s refers to the duration string e.g:"15 minutes"*/
 					C_("cal-reminders", "%s %s after the start"),
 					base, dur);
 
@@ -471,15 +471,15 @@ get_alarm_string (ECalComponentAlarm *alarm)
 
 		if (dur) {
 			if (trigger.u.rel_duration.is_neg)
-				/* Translator: The first %s refers to the base, which would be actions like
-				 * "Play a Sound". Second %s refers to the duration string e.g:"15 minutes" */
 				str = g_strdup_printf (
+					/* Translator: The first %s refers to the base, which would be actions like
+					 * "Play a Sound". Second %s refers to the duration string e.g:"15 minutes" */
 					C_("cal-reminders", "%s %s before the end"),
 					base, dur);
 			else
-				/* Translator: The first %s refers to the base, which would be actions like
-				 * "Play a Sound". Second %s refers to the duration string e.g:"15 minutes" */
 				str = g_strdup_printf (
+					/* Translator: The first %s refers to the base, which would be actions like
+					 * "Play a Sound". Second %s refers to the duration string e.g:"15 minutes" */
 					C_("cal-reminders", "%s %s after the end"),
 					base, dur);
 

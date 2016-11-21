@@ -668,8 +668,8 @@ build_table (EMeetingListView *lview)
 	g_hash_table_insert (edit_table, GINT_TO_POINTER (E_MEETING_STORE_ROLE_COL), renderer);
 
 	renderer = create_combo_cell_renderer (get_rsvp_strings ());
-	/* To translators: RSVP means "please reply" */
 	pos = gtk_tree_view_insert_column_with_attributes (
+		/* To translators: RSVP means "please reply" */
 		view, -1, _("RSVP"), renderer,
 		"text", E_MEETING_STORE_RSVP_COL,
 		NULL);

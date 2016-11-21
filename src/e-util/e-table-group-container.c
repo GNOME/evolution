@@ -354,29 +354,29 @@ compute_text (ETableGroupContainer *etgc,
 	gchar *text;
 
 	if (etgc->ecol->text) {
-		/* Translators: This text is used as a special row when an ETable
-		 * has turned on grouping on a column, which has set a title.
-		 * The first %s is replaced with a column title.
-		 * The second %s is replaced with an actual  group value.
-		 * Finally the %d is replaced with count of items in this group.
-		 * Example: "Family name: Smith (13 items)"
-		*/
 		text = g_strdup_printf (
 			ngettext (
+				/* Translators: This text is used as a special row when an ETable
+				 * has turned on grouping on a column, which has set a title.
+				 * The first %s is replaced with a column title.
+				 * The second %s is replaced with an actual  group value.
+				 * Finally the %d is replaced with count of items in this group.
+				 * Example: "Family name: Smith (13 items)"
+				 */
 				"%s: %s (%d item)",
 				"%s: %s (%d items)",
 				child_node->count),
 			etgc->ecol->text, child_node->string,
 			(gint) child_node->count);
 	} else {
-		/* Translators: This text is used as a special row when an ETable
-		 * has turned on grouping on a column, which doesn't have set a title.
-		 * The %s is replaced with an actual group value.
-		 * The %d is replaced with count of items in this group.
-		 * Example: "Smith (13 items)"
-		*/
 		text = g_strdup_printf (
 			ngettext (
+				/* Translators: This text is used as a special row when an ETable
+				 * has turned on grouping on a column, which doesn't have set a title.
+				 * The %s is replaced with an actual group value.
+				 * The %d is replaced with count of items in this group.
+				 * Example: "Smith (13 items)"
+				 */
 				"%s (%d item)",
 				"%s (%d items)",
 				child_node->count),

@@ -1565,18 +1565,18 @@ ical_get_preview (icalcomponent *icalcomp)
 	gtk_tree_view_set_model (tree_view, GTK_TREE_MODEL (store));
 	g_object_unref (store);
 
-	/* Translators: Column header for a component type; it can be Event, Task or Memo */
 	gtk_tree_view_insert_column_with_attributes (
+		/* Translators: Column header for a component type; it can be Event, Task or Memo */
 		tree_view, -1, C_("iCalImp", "Type"),
 		gtk_cell_renderer_text_new (), "text", 0, NULL);
 
-	/* Translators: Column header for a component start date/time */
 	gtk_tree_view_insert_column_with_attributes (
+		/* Translators: Column header for a component start date/time */
 		tree_view, -1, C_("iCalImp", "Start"),
 		gtk_cell_renderer_text_new (), "text", 1, NULL);
 
-	/* Translators: Column header for a component summary */
 	gtk_tree_view_insert_column_with_attributes (
+		/* Translators: Column header for a component summary */
 		tree_view, -1, C_("iCalImp", "Summary"),
 		gtk_cell_renderer_text_new (), "text", 2, NULL);
 

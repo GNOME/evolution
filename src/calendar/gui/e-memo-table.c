@@ -487,9 +487,9 @@ memo_table_query_tooltip (GtkWidget *widget,
 
 		if (ptr) {
 			ptr++;
-			/* Translators: It will display
-			 * "Organizer: NameOfTheUser <email@ofuser.com>" */
 			tmp = g_strdup_printf (
+				/* Translators: It will display
+				 * "Organizer: NameOfTheUser <email@ofuser.com>" */
 				_("Organizer: %s <%s>"), organizer.cn, ptr);
 		} else {
 			/* With SunOne accounts, there may be no ':' in

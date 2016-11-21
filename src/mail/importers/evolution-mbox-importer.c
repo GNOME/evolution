@@ -505,13 +505,13 @@ mbox_get_preview (EImport *ei,
 		gtk_tree_view_set_model (tree_view, GTK_TREE_MODEL (store));
 		g_object_unref (store);
 
-		/* Translators: Column header for a message subject */
 		gtk_tree_view_insert_column_with_attributes (
+			/* Translators: Column header for a message subject */
 			tree_view, -1, C_("mboxImp", "Subject"),
 			gtk_cell_renderer_text_new (), "text", 0, NULL);
 
-		/* Translators: Column header for a message From address */
 		gtk_tree_view_insert_column_with_attributes (
+			/* Translators: Column header for a message From address */
 			tree_view, -1, C_("mboxImp", "From"),
 			gtk_cell_renderer_text_new (), "text", 1, NULL);
 

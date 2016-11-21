@@ -824,25 +824,25 @@ folder_tree_render_display_name (GtkTreeViewColumn *column,
 	} else if (!editable && unread > 0) {
 		gchar *name_and_unread;
 
-		/* Translators: This is the string used for displaying the
-		 * folder names in folder trees. The first "%s" will be
-		 * replaced by the folder's name and "%u" will be replaced
-		 * with the number of unread messages in the folder. The
-		 * second %s will be replaced with a "+" letter for collapsed
-		 * folders with unread messages in some subfolder too,
-		 * or with an empty string for other cases.
-		 *
-		 * Most languages should translate this as "%s (%u%s)". The
-		 * languages that use localized digits (like Persian) may
-		 * need to replace "%u" with "%Iu". Right-to-left languages
-		 * (like Arabic and Hebrew) may need to add bidirectional
-		 * formatting codes to take care of the cases the folder
-		 * name appears in either direction.
-		 *
-		 * Do not translate the "folder-display|" part. Remove it
-		 * from your translation.
-		 */
 		name_and_unread = g_strdup_printf (
+			/* Translators: This is the string used for displaying the
+			 * folder names in folder trees. The first "%s" will be
+			 * replaced by the folder's name and "%u" will be replaced
+			 * with the number of unread messages in the folder. The
+			 * second %s will be replaced with a "+" letter for collapsed
+			 * folders with unread messages in some subfolder too,
+			 * or with an empty string for other cases.
+			 *
+			 * Most languages should translate this as "%s (%u%s)". The
+			 * languages that use localized digits (like Persian) may
+			 * need to replace "%u" with "%Iu". Right-to-left languages
+			 * (like Arabic and Hebrew) may need to add bidirectional
+			 * formatting codes to take care of the cases the folder
+			 * name appears in either direction.
+			 *
+			 * Do not translate the "folder-display|" part. Remove it
+			 * from your translation.
+			 */
 			C_("folder-display", "%s (%u%s)"),
 			name, unread, subdirs_unread ? "+" : "");
 		g_object_set (renderer, "text", name_and_unread, NULL);

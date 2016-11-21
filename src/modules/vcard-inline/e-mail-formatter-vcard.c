@@ -187,8 +187,8 @@ mail_formatter_vcard_format (EMailFormatterExtension *extension,
 			info = _("There is one other contact.");
 
 		} else if (length > 2) {
-			/* Translators: This will always be two or more. */
 			info = g_strdup_printf (ngettext (
+				/* Translators: This will always be two or more. */
 				"There is %d other contact.",
 				"There are %d other contacts.",
 				length - 1), length - 1);
