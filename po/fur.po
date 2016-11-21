@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2016-11-16 18:36+0000\n"
-"PO-Revision-Date: 2016-11-18 00:20+0100\n"
+"PO-Revision-Date: 2016-11-21 13:51+0100\n"
 "Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
 "Language-Team: Friulian <fur@li.org>\n"
 "Language: fur\n"
@@ -14453,19 +14453,19 @@ msgstr "_Apliche"
 
 #: ../src/e-util/e-table-config.ui.h:4
 msgid "_Sort..."
-msgstr "_Ordene..."
+msgstr ""
 
 #: ../src/e-util/e-table-config.ui.h:5
 msgid "_Group By..."
-msgstr "_Met dongje par..."
+msgstr ""
 
 #: ../src/e-util/e-table-config.ui.h:6
 msgid "_Fields Shown..."
-msgstr "_Cjamps mostrâts..."
+msgstr ""
 
 #: ../src/e-util/e-table-config.ui.h:9
 msgid "Clear _All"
-msgstr "Nete _dut"
+msgstr ""
 
 #: ../src/e-util/e-table-config.ui.h:10
 msgid "_Show field in View"
@@ -14474,16 +14474,16 @@ msgstr ""
 #: ../src/e-util/e-table-config.ui.h:11
 #: ../src/e-util/e-table-header-item.c:1794
 msgid "Ascending"
-msgstr "Cressint"
+msgstr ""
 
 #: ../src/e-util/e-table-config.ui.h:12
 #: ../src/e-util/e-table-header-item.c:1794
 msgid "Descending"
-msgstr "Decressint"
+msgstr ""
 
 #: ../src/e-util/e-table-config.ui.h:13
 msgid "Group Items By"
-msgstr "Met dongje elements par"
+msgstr ""
 
 #: ../src/e-util/e-table-config.ui.h:14
 msgid "Show _field in View"
@@ -14607,11 +14607,11 @@ msgstr ""
 #: ../src/e-util/e-timezone-dialog.c:512 ../src/e-util/e-timezone-dialog.c:516
 #: ../src/e-util/e-timezone-dialog.c:899
 msgid "UTC"
-msgstr ""
+msgstr "UTC"
 
 #: ../src/e-util/e-timezone-dialog.ui.h:1
 msgid "Select a Time Zone"
-msgstr ""
+msgstr "Selezione un fûs orari"
 
 #: ../src/e-util/e-timezone-dialog.ui.h:4
 msgid ""
@@ -14619,14 +14619,17 @@ msgid ""
 "zone.\n"
 "Use the right mouse button to zoom out."
 msgstr ""
+"Dopre il boton çampin dal mouse par ingrandî une aree de mape e selezione un "
+"fûs orari.\n"
+"Dopre il boton diestri dal mouse par diminuî l'ingrandiment."
 
 #: ../src/e-util/e-timezone-dialog.ui.h:6
 msgid "Time Zones"
-msgstr ""
+msgstr "Fûs oraris"
 
 #: ../src/e-util/e-timezone-dialog.ui.h:7
 msgid "_Selection"
-msgstr ""
+msgstr "_Selezion"
 
 #: ../src/e-util/e-timezone-dialog.ui.h:8
 msgid "Timezone drop-down combination box"
@@ -14634,113 +14637,113 @@ msgstr ""
 
 #: ../src/e-util/e-url-entry.c:106
 msgid "Click here to open the URL"
-msgstr ""
+msgstr "Fâs clic par vierzi il URL"
 
 #: ../src/e-util/e-url-entry.c:108
 msgid "Enter a URL here"
-msgstr ""
+msgstr "Inserìs chi un URL"
 
 #: ../src/e-util/evolution-source-viewer.c:638
 msgid "Evolution Source Viewer"
-msgstr ""
+msgstr "Visualizadôr sorzint Evolution"
 
 #. Translators: The name that is displayed in the user interface
 #: ../src/e-util/evolution-source-viewer.c:668
 msgid "Display Name"
-msgstr ""
+msgstr "Non mostrât"
 
 #: ../src/e-util/evolution-source-viewer.c:677
 msgid "Flags"
-msgstr ""
+msgstr "Contrassegn"
 
 #: ../src/e-util/evolution-source-viewer.c:729
 #: ../src/mail/e-mail-config-identity-page.c:1148
 msgid "Identity"
-msgstr ""
+msgstr "Identitât"
 
 #: ../src/e-util/e-web-view.c:338
 msgid "_Copy Link Location"
-msgstr ""
+msgstr "_Copie posizion colegament"
 
 #: ../src/e-util/e-web-view.c:340
 msgid "Copy the link to the clipboard"
-msgstr ""
+msgstr "Copie il colegament intes notis"
 
 #: ../src/e-util/e-web-view.c:348
 msgid "_Open Link in Browser"
-msgstr ""
+msgstr "_Vierç colegament tal navigadôr"
 
 #: ../src/e-util/e-web-view.c:350
 msgid "Open the link in a web browser"
-msgstr ""
+msgstr "Vierç il colegament intun navigadôr web"
 
 #: ../src/e-util/e-web-view.c:358
 msgid "_Copy Email Address"
-msgstr ""
+msgstr "_Copie direzion e-mail"
 
 #: ../src/e-util/e-web-view.c:365
 msgid "Copy _Raw Email Address"
-msgstr ""
+msgstr "Copie direzion e-mail _rude"
 
 #: ../src/e-util/e-web-view.c:367
 msgid "Copy the raw email address to the clipboard"
-msgstr ""
+msgstr "Copie la rude direzion de e-mail intes notis"
 
 #: ../src/e-util/e-web-view.c:382
 msgid "_Copy Image"
-msgstr ""
+msgstr "_Copie imagjin"
 
 #: ../src/e-util/e-web-view.c:384
 msgid "Copy the image to the clipboard"
-msgstr ""
+msgstr "Copie la imagjin intes notis"
 
 #: ../src/e-util/e-web-view.c:389
 msgid "Save _Image..."
-msgstr ""
+msgstr "Salve _imagjin..."
 
 #: ../src/e-util/e-web-view.c:391
 msgid "Save the image to a file"
-msgstr ""
+msgstr "Salve la imagjin suntun file"
 
 #: ../src/e-util/e-web-view.c:411 ../src/e-util/e-web-view.c:1870
 msgid "Select all text and images"
-msgstr ""
+msgstr "Selezione dut il test e lis imagjins"
 
 #: ../src/e-util/e-web-view.c:1294
 #, c-format
 msgid "Click to call %s"
-msgstr ""
+msgstr "Fâs clic par clamâ %s"
 
 #: ../src/e-util/e-web-view.c:1296
 msgid "Click to hide/unhide addresses"
-msgstr ""
+msgstr "Fâs clic par platâ/mostrâ lis direzions"
 
 #: ../src/e-util/e-web-view.c:1307
 #, c-format
 msgid "Go to the section %s of the message"
-msgstr ""
+msgstr "Va ae sezion %s dal messaç"
 
 #: ../src/e-util/e-web-view.c:1309
 msgid "Go to the beginning of the message"
-msgstr ""
+msgstr "Va al inizi dal messaç"
 
 #: ../src/e-util/e-web-view.c:1313
 #, c-format
 msgid "Click to open %s"
-msgstr ""
+msgstr "Fâs clic par vierzi %s"
 
 #: ../src/e-util/e-web-view.c:3716
 msgid "Copying image to clipboard"
-msgstr ""
+msgstr "Copie imagjin intes notis"
 
 #: ../src/e-util/e-web-view.c:3904
 msgid "Save Image"
-msgstr ""
+msgstr "Salve imagjin"
 
 #: ../src/e-util/e-web-view.c:3940
 #, c-format
 msgid "Saving image to '%s'"
-msgstr ""
+msgstr "Daûr a salvâ la imagjin su '%s'"
 
 #: ../src/e-util/e-web-view.c:4035
 #, c-format
