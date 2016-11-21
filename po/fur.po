@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2016-11-16 18:36+0000\n"
-"PO-Revision-Date: 2016-11-21 13:51+0100\n"
+"PO-Revision-Date: 2016-11-21 15:25+0100\n"
 "Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
 "Language-Team: Friulian <fur@li.org>\n"
 "Language: fur\n"
@@ -13261,7 +13261,7 @@ msgstr "Cîr _indaûr"
 
 #: ../src/e-util/e-html-editor-find-dialog.c:222
 msgid "Case _Sensitive"
-msgstr ""
+msgstr "Ten cont des maiusculi_s o minusculis"
 
 #: ../src/e-util/e-html-editor-find-dialog.c:229
 msgid "_Wrap Search"
@@ -13385,7 +13385,7 @@ msgstr "Stampon"
 
 #: ../src/e-util/e-html-editor-page-dialog.c:131
 msgid "Graph Paper"
-msgstr ""
+msgstr "Cjarte grafiche"
 
 #: ../src/e-util/e-html-editor-page-dialog.c:379
 msgid "<b>Colors</b>"
@@ -13458,7 +13458,7 @@ msgstr "_Cun:"
 
 #: ../src/e-util/e-html-editor-replace-dialog.c:299
 msgid "_Case sensitive"
-msgstr ""
+msgstr "Ten _cont des maiusculis o minusculis"
 
 #: ../src/e-util/e-html-editor-replace-dialog.c:303
 msgid "Wra_p search"
@@ -14453,146 +14453,148 @@ msgstr "_Apliche"
 
 #: ../src/e-util/e-table-config.ui.h:4
 msgid "_Sort..."
-msgstr ""
+msgstr "_Ordene..."
 
 #: ../src/e-util/e-table-config.ui.h:5
 msgid "_Group By..."
-msgstr ""
+msgstr "Met don_gje par..."
 
 #: ../src/e-util/e-table-config.ui.h:6
 msgid "_Fields Shown..."
-msgstr ""
+msgstr "_Cjamps mostrâts..."
 
 #: ../src/e-util/e-table-config.ui.h:9
 msgid "Clear _All"
-msgstr ""
+msgstr "Nete _dut"
 
 #: ../src/e-util/e-table-config.ui.h:10
 msgid "_Show field in View"
-msgstr ""
+msgstr "_Mostre cjamp te viodude"
 
 #: ../src/e-util/e-table-config.ui.h:11
 #: ../src/e-util/e-table-header-item.c:1794
 msgid "Ascending"
-msgstr ""
+msgstr "Cressint"
 
 #: ../src/e-util/e-table-config.ui.h:12
 #: ../src/e-util/e-table-header-item.c:1794
 msgid "Descending"
-msgstr ""
+msgstr "Decressint"
 
 #: ../src/e-util/e-table-config.ui.h:13
 msgid "Group Items By"
-msgstr ""
+msgstr "Met dongje elements par"
 
 #: ../src/e-util/e-table-config.ui.h:14
 msgid "Show _field in View"
-msgstr ""
+msgstr "M_ostre cjamp te viodude"
 
 #: ../src/e-util/e-table-config.ui.h:15
 msgid "Then By"
-msgstr ""
+msgstr "Duncje par"
 
 #: ../src/e-util/e-table-config.ui.h:16
 msgid "Show field i_n View"
-msgstr ""
+msgstr "Mo_stre cjamp inte viodude"
 
 #: ../src/e-util/e-table-config.ui.h:17
 msgid "Show field in _View"
-msgstr ""
+msgstr "Most_re cjamp te viodude"
 
 #: ../src/e-util/e-table-config.ui.h:18
 msgid "Sort"
-msgstr ""
+msgstr "Ordene"
 
 #: ../src/e-util/e-table-config.ui.h:19
 msgid "Clear All"
-msgstr ""
+msgstr "Nete dut"
 
 #: ../src/e-util/e-table-config.ui.h:20
 msgid "Sort Items By"
-msgstr ""
+msgstr "Ordene elements par"
 
 #: ../src/e-util/e-table-field-chooser.c:164
 msgid ""
 "To add a column to your table, drag it into\n"
 "the location in which you want it to appear."
 msgstr ""
+"Par zontâ une colone ae tabele, strissinile inte\n"
+"posizion dulà che si vûl che e vegni fûr."
 
 #: ../src/e-util/e-table-field-chooser-dialog.c:224
 msgid "Add a Column"
-msgstr ""
+msgstr "Zonte une colone"
 
 #: ../src/e-util/e-table-group-container.c:366
 #, c-format
 msgid "%s: %s (%d item)"
 msgid_plural "%s: %s (%d items)"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%s: %s (%d element)"
+msgstr[1] "%s: %s (%d elements)"
 
 #: ../src/e-util/e-table-group-container.c:380
 #, c-format
 msgid "%s (%d item)"
 msgid_plural "%s (%d items)"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%s (%d element)"
+msgstr[1] "%s (%d elements)"
 
 #: ../src/e-util/e-table-header-item.c:1617
 msgid "Customize Current View"
-msgstr ""
+msgstr "Personalize la viodude atuâl"
 
 #: ../src/e-util/e-table-header-item.c:1640
 msgid "Sort _Ascending"
-msgstr ""
+msgstr "Ordin _a cressi"
 
 #: ../src/e-util/e-table-header-item.c:1643
 msgid "Sort _Descending"
-msgstr ""
+msgstr "Ordin _decressint"
 
 #: ../src/e-util/e-table-header-item.c:1646
 msgid "_Reset sort"
-msgstr ""
+msgstr "Aze_re Ordin"
 
 #: ../src/e-util/e-table-header-item.c:1649
 msgid "Group By This _Field"
-msgstr ""
+msgstr "Met dongje par chest _cjamp"
 
 #: ../src/e-util/e-table-header-item.c:1652
 msgid "Group By _Box"
-msgstr ""
+msgstr "Met dongje par cas_ele"
 
 #: ../src/e-util/e-table-header-item.c:1656
 msgid "Remove This _Column"
-msgstr ""
+msgstr "Gjave cheste _colone"
 
 #: ../src/e-util/e-table-header-item.c:1659
 msgid "Add a C_olumn..."
-msgstr ""
+msgstr "Zonte une c_olone..."
 
 #: ../src/e-util/e-table-header-item.c:1663
 msgid "A_lignment"
-msgstr ""
+msgstr "In_lineament"
 
 #: ../src/e-util/e-table-header-item.c:1666
 msgid "B_est Fit"
-msgstr ""
+msgstr "Just_e in automatic"
 
 #: ../src/e-util/e-table-header-item.c:1669
 msgid "Format Column_s..."
-msgstr ""
+msgstr "Formate coloni_s..."
 
 #: ../src/e-util/e-table-header-item.c:1673
 msgid "Custo_mize Current View..."
-msgstr ""
+msgstr "_Personalize viodude atuâl..."
 
 #: ../src/e-util/e-table-header-item.c:1744
 msgid "_Sort By"
-msgstr ""
+msgstr "_Ordene par"
 
 #. Custom
 #: ../src/e-util/e-table-header-item.c:1767
 msgid "_Custom"
-msgstr ""
+msgstr "_Personalize"
 
 #: ../src/e-util/e-text.c:2135
 msgid "Select All"
