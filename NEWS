@@ -1,3 +1,49 @@
+Evolution 3.23.2 2016-11-21
+---------------------------
+
+Bug Fixes:
+	Bug 773236 - Memory leak from e-editor-dom-functions.c:save_history_for_input (Tomas Popela)
+	Bug 770926 - Reword default reminder option in Preferences (Milan Crha)
+	Bug 769573 - Allow also time part set for Tasks, not only date part (Milan Crha)
+	Bug 771821 - Make magic-spacebar work again with WebKit2 (Milan Crha)
+	Bug 773494 - Composer doesn't respect dpi settings (Tomas Popela)
+	Bug 773659 - Don't set CFLAGS returned by pkg-config as CMAKE_REQUIRED_FLAGS (Ting-Wei Lan)
+	Bug 773864 - Flashing format combo value on mouse-wheel scroll (Tomas Popela)
+	Bug 764065 - [Camel] Port more classes to GObject (Milan Crha)
+	Bug 739955 - Wrap on mail Preview's width, not its content width (Tomas Popela)
+	Bug 772947 - Global junk test option doesn't respect account settings (Milan Crha)
+	Bug 774156 - [backup-restore] Offer .tar.xz if 'xz' available (Milan Crha)
+	Bug 774067 - Webkit composer is very slow refresh when typing (Tomas Popela)
+	Bug 774521 - Translator comments are missing in the .pot/.po files (Piotr Drąg)
+	Bug 774681 - Unset INSTALL_RPATH for libs not linking anything private (Dominique Leuenberger)
+
+Miscellaneous:
+	Tests are expecting the font-family attribute on BODY (Tomas Popela)
+	Skip the tests that are known to fail (Tomas Popela)
+	Extra quoted character on the end of the quoted PRE element if it ends with BR element (Tomas Popela)
+	Renew spell-check only in viewport and not in the whole document (Tomas Popela)
+	Editor is not marked as changed after some operations (Tomas Popela)
+	Fix possible crash (use-after-free) under mail_send_receive() (Milan Crha)
+	Correct gtkdoc-scan --ignore-headers argument value (Milan Crha)
+	Update gtk-doc sgml input files (Milan Crha)
+	Return RPATH linker flags back to evolution-shell.pc.in (Milan Crha)
+	Do not require C++ compiler, when not used (Milan Crha)
+	Ensure CMAKE_SKIP_RPATH is OFF, the RPATH is used here (Milan Crha)
+	Message list not always scrolled to the cursor position on folder enter (Milan Crha)
+	Messages could not be sometimes quoted correctly (Tomas Popela)
+	Reflect spellchecking UI changes in user documentation (Andre Klapper)
+
+Translations:
+	Fabio Tomat (fur)
+	Marek Černocký (cs)
+	Aurimas Černius (lt)
+	Daniel Mustieles (es)
+	Balázs Meskó (hu)
+	Tom Tryfonidis (el)
+	Christian Kirbach (de)
+	Kjartan Maraas (nb)
+	Yolanda Álvarez Pérez (es)
+
 Evolution 3.23.1 2016-10-24
 ---------------------------
 
