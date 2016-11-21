@@ -8,7 +8,7 @@
     
     <link type="guide" xref="index#mail-composing" />
 
-    <revision pkgversion="3.5.1" version="0.6" date="2012-04-25" status="final"/>
+    <revision pkgversion="3.20.5" version="0.7" date="2016-11-21" status="final"/>
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
       <email its:translate="no">ak-47@gmx.net</email>
@@ -41,14 +41,14 @@
 <section id="global-preferences">
 <title>Global Preferences</title>
 
-<p>Under <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Composer Preferences</gui><gui>Spell Checking</gui><gui>Options</gui></guiseq> you can define whether your spelling is checked while you type and which color is used for underlining words that are misspelled.</p>
+<p>Under <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Composer Preferences</gui><gui>Spell Checking</gui><gui>Options</gui></guiseq> you can define whether your spelling is checked while you type.</p>
 
-<p>You can also define which installed languages are used for spell checking in the list available under <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Composer Preferences</gui><gui>Spell Checking</gui><gui>Languages</gui></guiseq>.</p>
+<p>You can also define which installed languages are used for spell checking in the list available under <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Composer Preferences</gui><gui>Spell Checking</gui><gui>Languages</gui></guiseq> or in the email composer via <guiseq><gui>Edit</gui><gui>Current Languages</gui></guiseq>.</p>
 </section>
 
 <section id="composer">
 <title>Manual spell checking in the composer</title>
-<p>If you do not have <gui>Checking spelling while I type</gui> enabled in the <link xref="#global-preferences">Composer Preferences</link> you can run a spell check in the email composer by clicking <guiseq><gui>Edit</gui><gui>Spell Checking</gui></guiseq> or by pressing <key>F7</key>.</p>
+<p>If you do not have <gui>Checking spelling while I type</gui> enabled in the <link xref="#global-preferences">Composer Preferences</link> you can run a spell check in the email composer by clicking <guiseq><gui>Edit</gui><gui>Check Spelling…</gui></guiseq> or by pressing <key>F7</key>.</p>
 </section>
 
 </page>
