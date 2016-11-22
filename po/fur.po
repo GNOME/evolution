@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2016-11-16 18:36+0000\n"
-"PO-Revision-Date: 2016-11-22 16:45+0100\n"
+"PO-Revision-Date: 2016-11-22 18:52+0100\n"
 "Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
 "Language-Team: Friulian <fur@li.org>\n"
 "Language: fur\n"
@@ -15632,27 +15632,27 @@ msgstr "«Rispuint a» no je une e-mail valide"
 #: ../src/mail/e-mail-config-identity-page.c:969
 #: ../src/mail/e-mail-config-summary-page.c:633
 msgid "Account Name cannot be empty"
-msgstr ""
+msgstr "Il non dal account nol pues jessi vueit"
 
 #: ../src/mail/e-mail-config-lookup-page.c:69
 msgid "Looking up account details..."
-msgstr ""
+msgstr "Daûr a consultâ i detais dal account..."
 
 #: ../src/mail/e-mail-config-provider-page.c:485
 msgid "Checking for New Mail"
-msgstr ""
+msgstr "Control di gnove pueste"
 
 #: ../src/mail/e-mail-config-provider-page.c:501
 msgid "Check for _new messages every"
-msgstr ""
+msgstr "Controlâ g_nûfs messaçs ogni"
 
 #: ../src/mail/e-mail-config-provider-page.c:699
 msgid "Receiving Options"
-msgstr ""
+msgstr "Opzions di ricezion"
 
 #: ../src/mail/e-mail-config-receiving-page.c:50
 msgid "Receiving Email"
-msgstr ""
+msgstr "Ricezion e-mail"
 
 #. Translators: This string is to describe a PGP key in a combo box in mail account's preferences.
 #. The first '%s' is a key ID, the second '%s' is a display name of the key.
@@ -15660,7 +15660,7 @@ msgstr ""
 #, c-format
 msgctxt "PGPKeyDescription"
 msgid "%s - %s"
-msgstr ""
+msgstr "%s - %s"
 
 #: ../src/mail/e-mail-config-security-page.c:341
 #: ../src/mail/em-folder-properties.c:699 ../src/mail/mail-config.ui.h:31
@@ -15670,169 +15670,172 @@ msgstr ""
 #: ../src/modules/mail/e-mail-shell-backend.c:729
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:16
 msgid "General"
-msgstr ""
+msgstr "Gjenerâl"
 
 #: ../src/mail/e-mail-config-security-page.c:350
 msgid "_Do not sign meeting requests (for Outlook compatibility)"
 msgstr ""
+"No stâ firmâ lis richiestis _di riunion (pe compatibilitât cun Outlook)"
 
 #: ../src/mail/e-mail-config-security-page.c:372
 msgid "Pretty Good Privacy (OpenPGP)"
-msgstr ""
+msgstr "Pretty Good Privacy (OpenPGP)"
 
 #: ../src/mail/e-mail-config-security-page.c:381
 msgid "OpenPGP _Key ID:"
-msgstr ""
+msgstr "ID de _clâf OpenPGP:"
 
 #: ../src/mail/e-mail-config-security-page.c:414
 msgid "Si_gning algorithm:"
-msgstr ""
+msgstr "Al_goritmi di firme:"
 
 #: ../src/mail/e-mail-config-security-page.c:430
 #: ../src/mail/e-mail-config-security-page.c:594
 #: ../src/mail/mail-config.ui.h:74
 msgid "SHA1"
-msgstr ""
+msgstr "SHA1"
 
 #: ../src/mail/e-mail-config-security-page.c:433
 #: ../src/mail/e-mail-config-security-page.c:597
 #: ../src/mail/mail-config.ui.h:75
 msgid "SHA256"
-msgstr ""
+msgstr "SHA256"
 
 #: ../src/mail/e-mail-config-security-page.c:436
 #: ../src/mail/e-mail-config-security-page.c:600
 #: ../src/mail/mail-config.ui.h:76
 msgid "SHA384"
-msgstr ""
+msgstr "SHA384"
 
 #: ../src/mail/e-mail-config-security-page.c:439
 #: ../src/mail/e-mail-config-security-page.c:603
 #: ../src/mail/mail-config.ui.h:77
 msgid "SHA512"
-msgstr ""
+msgstr "SHA512"
 
 #: ../src/mail/e-mail-config-security-page.c:455
 msgid "Al_ways sign outgoing messages when using this account"
-msgstr ""
+msgstr "Firmâ _simpri i messaçs in jessude cuant che si dopre chest account"
 
 #: ../src/mail/e-mail-config-security-page.c:467
 msgid "Always enc_rypt outgoing messages when using this account"
-msgstr ""
+msgstr "Cifrâ simp_ri i messaçs in jessude cuant che si dopre chest account"
 
 #: ../src/mail/e-mail-config-security-page.c:479
 msgid "Always encrypt to _myself when sending encrypted messages"
-msgstr ""
+msgstr "Cifrâ si_mpri par se stes cuant che si invie messaçs cifrâts"
 
 #: ../src/mail/e-mail-config-security-page.c:491
 msgid "Always _trust keys in my keyring when encrypting"
-msgstr ""
+msgstr "_Fidâsi simpri des clâfs tal puarteclâfs personâl cuant che si cifre"
 
 #: ../src/mail/e-mail-config-security-page.c:503
 msgid "Prefer _inline sign/encrypt for plain text messages"
-msgstr ""
+msgstr "Preferî la firme/cifradure incorporade pai messaçs di test sempliç"
 
 #: ../src/mail/e-mail-config-security-page.c:527
 msgid "Secure MIME (S/MIME)"
-msgstr ""
+msgstr "MIME sigûr (S/MIME)"
 
 #: ../src/mail/e-mail-config-security-page.c:536
 msgid "Sig_ning certificate:"
-msgstr ""
+msgstr "Certificât di fir_me:"
 
 #: ../src/mail/e-mail-config-security-page.c:560
 #: ../src/mail/e-mail-config-security-page.c:666
 msgid "Select"
-msgstr ""
+msgstr "Selezione"
 
 #: ../src/mail/e-mail-config-security-page.c:569
 #: ../src/mail/e-mail-config-security-page.c:675
 #: ../src/mail/mail-dialogs.ui.h:5 ../src/shell/e-shell-window-actions.c:885
 msgid "_Clear"
-msgstr ""
+msgstr "_Nete"
 
 #: ../src/mail/e-mail-config-security-page.c:578
 msgid "Signing _algorithm:"
-msgstr ""
+msgstr "Algoritmi di firme:"
 
 #: ../src/mail/e-mail-config-security-page.c:619
 msgid "Always sign outgoing messages when using this account"
-msgstr ""
+msgstr "Firmâ simpri i messaçs in jessude cuant che si dopre chest account"
 
 #: ../src/mail/e-mail-config-security-page.c:642
 msgid "Encryption certificate:"
-msgstr ""
+msgstr "Certificât di cifradure:"
 
 #: ../src/mail/e-mail-config-security-page.c:684
 msgid "Always encrypt outgoing messages when using this account"
-msgstr ""
+msgstr "Cifrâ simpri i messaçs in jessude cuant che si dopre chest account"
 
 #: ../src/mail/e-mail-config-security-page.c:704
 msgid "Always encrypt to myself when sending encrypted messages"
-msgstr ""
+msgstr "Cifrâ simpri par se stes cuant che si invie messaçs cifrâts"
 
 #: ../src/mail/e-mail-config-sending-page.c:50
 msgid "Sending Email"
-msgstr ""
+msgstr "Daûr a inviâ e-mail"
 
 #: ../src/mail/e-mail-config-service-page.c:639
 msgid "Server _Type:"
-msgstr ""
+msgstr "G_jenar di servidôr:"
 
 #: ../src/mail/e-mail-config-summary-page.c:143
 msgid "TLS"
-msgstr ""
+msgstr "TLS"
 
 #: ../src/mail/e-mail-config-summary-page.c:146
 msgid "STARTTLS"
-msgstr ""
+msgstr "STARTTLS"
 
 #: ../src/mail/e-mail-config-summary-page.c:307
 msgid ""
 "This is a summary of the settings which will be used to access your mail."
 msgstr ""
+"Cheste e je une sintesi des impostazions che a vignaran dopradis par acedi "
+"ae tô pueste."
 
 #: ../src/mail/e-mail-config-summary-page.c:371
 msgid "Personal Details"
-msgstr ""
+msgstr "Detais Personâi"
 
 #: ../src/mail/e-mail-config-summary-page.c:380
 msgid "Full Name:"
-msgstr ""
+msgstr "Non _complet:"
 
 #: ../src/mail/e-mail-config-summary-page.c:394
 msgid "Email Address:"
-msgstr ""
+msgstr "Direzion e-mail:"
 
 #: ../src/mail/e-mail-config-summary-page.c:408
 msgid "Receiving"
-msgstr ""
+msgstr "Daûr a ricevi"
 
 #: ../src/mail/e-mail-config-summary-page.c:420
 msgid "Sending"
-msgstr ""
+msgstr "Daûr a inviâ"
 
 #: ../src/mail/e-mail-config-summary-page.c:432
 msgid "Server Type:"
-msgstr ""
+msgstr "Gjenar di servidôr:"
 
 #: ../src/mail/e-mail-config-summary-page.c:453
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:606
 msgid "Server:"
-msgstr ""
+msgstr "Servidôr:"
 
 #: ../src/mail/e-mail-config-summary-page.c:474
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:704
 msgid "Username:"
-msgstr ""
+msgstr "Non utent:"
 
 #: ../src/mail/e-mail-config-summary-page.c:495
 msgid "Security:"
-msgstr ""
+msgstr "Sigurece:"
 
 #: ../src/mail/e-mail-config-summary-page.c:788
 msgid "Account Summary"
-msgstr ""
+msgstr "Sintesi account"
 
 #: ../src/mail/e-mail-config-welcome-page.c:157
 msgid ""
@@ -15840,51 +15843,54 @@ msgid ""
 "\n"
 "Click \"Next\" to begin."
 msgstr ""
+"Benvignût tal assistent di configurazion de pueste di Evolution.\n"
+"\n"
+"Frache «Sucessîf» par tacâ."
 
 #: ../src/mail/e-mail-config-welcome-page.c:167
 #: ../src/modules/startup-wizard/e-startup-assistant.c:152
 msgid "Welcome"
-msgstr ""
+msgstr "Benvignût"
 
 #: ../src/mail/e-mail-config-window.c:326
 msgid "Account Editor"
-msgstr ""
+msgstr "Editôr account"
 
 #: ../src/mail/e-mail-display.c:125
 msgid "_Add to Address Book..."
-msgstr ""
+msgstr "_Zonte ae rubriche..."
 
 #: ../src/mail/e-mail-display.c:132
 msgid "_To This Address"
-msgstr ""
+msgstr "_A cheste direzion"
 
 #: ../src/mail/e-mail-display.c:139
 msgid "_From This Address"
-msgstr ""
+msgstr "_Di cheste direzion"
 
 #: ../src/mail/e-mail-display.c:146
 msgid "Send _Reply To..."
-msgstr ""
+msgstr "Invie _rispueste a..."
 
 #: ../src/mail/e-mail-display.c:148
 msgid "Send a reply message to this address"
-msgstr ""
+msgstr "Invie un messaç di rispueste a cheste direzion"
 
 #: ../src/mail/e-mail-display.c:155
 msgid "Create Search _Folder"
-msgstr ""
+msgstr "Cree car_tele di ricercje"
 
 #: ../src/mail/e-mail-display.c:750
 msgid "Hid_e All"
-msgstr ""
+msgstr "Plat_e dut"
 
 #: ../src/mail/e-mail-display.c:757
 msgid "_View Inline"
-msgstr ""
+msgstr "_Viôt incorporât"
 
 #: ../src/mail/e-mail-display.c:764
 msgid "Vie_w All Inline"
-msgstr ""
+msgstr "Viôt _dut incorporât"
 
 #: ../src/mail/e-mail-display.c:771
 msgid "_Zoom to 100%"
