@@ -8,8 +8,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution documentation\n"
-"POT-Creation-Date: 2016-10-10 13:58+0000\n"
-"PO-Revision-Date: 2016-10-26 08:43+0200\n"
+"POT-Creation-Date: 2016-11-21 11:25+0000\n"
+"PO-Revision-Date: 2016-11-22 13:08+0100\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: čeština <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -5850,10 +5850,6 @@ msgstr "Změna řazení"
 
 #. (itstool) path: section/p
 #: C/mail-sorting-folder-list.page:37
-#| msgid ""
-#| "You can add, edit and delete all labels under <guiseq><gui>Edit</"
-#| "gui><gui>Preferences</gui><gui>Mail Preferences</gui><gui>Labels</gui></"
-#| "guiseq>. Note that you cannot remove the default labels."
 msgid ""
 "You can change the default sort order of the top-level nodes under "
 "<guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</gui></"
@@ -5865,9 +5861,6 @@ msgstr ""
 
 #. (itstool) path: section/p
 #: C/mail-sorting-folder-list.page:39
-#| msgid ""
-#| "Mail accounts can be edited via <guiseq><gui>Edit</gui><gui>Preferences</"
-#| "gui><gui>Mail Accounts</gui><gui style=\"button\">Edit</gui></guiseq>."
 msgid ""
 "You can revert your custom sort order by choosing <guiseq><gui>Edit</"
 "gui><gui>Preferences</gui><gui>Mail Accounts</gui><gui style=\"button"
@@ -9116,13 +9109,11 @@ msgstr "Globální předvolby"
 msgid ""
 "Under <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Composer "
 "Preferences</gui><gui>Spell Checking</gui><gui>Options</gui></guiseq> you "
-"can define whether your spelling is checked while you type and which color "
-"is used for underlining words that are misspelled."
+"can define whether your spelling is checked while you type."
 msgstr ""
 "V <guiseq><gui>Upravit</gui> <gui>Předvolby</gui> <gui>Předvolby editoru</"
 "gui> <gui>Kontrola pravopisu</gui> <gui>Volby</gui></guiseq> můžete určit, "
-"jestli má být během psaní prováděna kontrola pravopisu a jakou barvou se "
-"mají podtrhávat slova, ve kterých jsou překlepy."
+"jestli má být během psaní prováděna kontrola pravopisu."
 
 #. (itstool) path: section/p
 #: C/mail-composer-spellcheck.page:46
@@ -9130,12 +9121,14 @@ msgid ""
 "You can also define which installed languages are used for spell checking in "
 "the list available under <guiseq><gui>Edit</gui><gui>Preferences</"
 "gui><gui>Composer Preferences</gui><gui>Spell Checking</gui><gui>Languages</"
-"gui></guiseq>."
+"gui></guiseq> or in the email composer via <guiseq><gui>Edit</"
+"gui><gui>Current Languages</gui></guiseq>."
 msgstr ""
-"Můžete si také v seznamu <guiseq><gui>Upravit</gui> <gui>Předvolby</gui> "
-"<gui>Předvolby editoru</gui> <gui>Kontrola pravopisu</gui> <gui>Jazyky</"
-"gui></guiseq> vybrat, které jazyky z nainstalovaných se mají pro kontrolu "
-"pravopisu používat."
+"Můžete si také v seznamu nainstalovaných jazyků <guiseq><gui>Upravit</gui> "
+"<gui>Předvolby</gui> <gui>Předvolby editoru</gui> <gui>Kontrola pravopisu"
+"</gui> <gui>Jazyky</gui></guiseq>, nebo přímo v editoru přes <guiseq><gui>"
+"Upravit</gui><gui>Aktuální jazyky</gui></guiseq>, vybrat, které jazyky se "
+"mají pro kontrolu pravopisu používat."
 
 #. (itstool) path: section/title
 #: C/mail-composer-spellcheck.page:50
@@ -9148,12 +9141,12 @@ msgid ""
 "If you do not have <gui>Checking spelling while I type</gui> enabled in the "
 "<link xref=\"#global-preferences\">Composer Preferences</link> you can run a "
 "spell check in the email composer by clicking <guiseq><gui>Edit</"
-"gui><gui>Spell Checking</gui></guiseq> or by pressing <key>F7</key>."
+"gui><gui>Check Spelling…</gui></guiseq> or by pressing <key>F7</key>."
 msgstr ""
 "Pokud nemáte v <link xref=\"#global-preferences\">Předvolbách editoru</link> "
 "zapnuto <gui>Při psaní kontrolovat pravopis</gui>, můžete kontrolu pravopisu "
 "v editoru zpráv spustit kliknutím na <guiseq><gui>Upravit</gui> "
-"<gui>Kontrola pravopisu</gui></guiseq> nebo zmáčknutím <key>F7</key>."
+"<gui>Kontrola pravopisu…</gui></guiseq> nebo zmáčknutím <key>F7</key>."
 
 #. (itstool) path: info/desc
 #: C/mail-composer-message-templates-reply.page:5
@@ -13115,368 +13108,3 @@ msgstr ""
 "<keyseq><key>Ctrl</key> <key>D</key></keyseq> a nebo klikněte na "
 "<guiseq><gui>Upravit</gui> <gui>Smazat kontakt</gui></guiseq>."
 
-#~ msgid "Creative Commons Attribution-ShareAlike 3.0 Unported License"
-#~ msgstr "Creative Commons Attribution-ShareAlike 3.0 Unported License"
-
-#~ msgid "This work is licensed under a <_:link-1/>."
-#~ msgstr "Tento dokument je licencován pod <_:link-1/>."
-
-#~ msgid "Sender:"
-#~ msgstr "Odesílatel:"
-
-#~ msgid "The sender's email address or the name of the sender."
-#~ msgstr "E-mailová adresa nebo jméno odesílatele."
-
-#~ msgid "Recipients:"
-#~ msgstr "Příjemci:"
-
-#~ msgid "The recipients of the message."
-#~ msgstr "Příjemci zprávy."
-
-#~ msgid "CC:"
-#~ msgstr "Kopie:"
-
-#~ msgid "Only the CC recipients of the message."
-#~ msgstr "Pouze příjemci zprávy, kteří jsou v kopii."
-
-#~ msgid "BCC:"
-#~ msgstr "Skrytá kopie:"
-
-#~ msgid ""
-#~ "Only the BCC recipients of the message. Obviously this can only be "
-#~ "applied to outgoing filters."
-#~ msgstr ""
-#~ "Pouze příjemci zprávy, kteří jsou ve skryté kopii. Tato podmínka může být "
-#~ "logicky použita pouze v obchozích filtrech."
-
-#~ msgid "Sender or Recipients:"
-#~ msgstr "Odesílatel nebo příjemci:"
-
-#~ msgid ""
-#~ "The sender's email address or the name of the sender or the recipients of "
-#~ "the message."
-#~ msgstr "E-mailová adresa nebo jméno odesílatele či příjemce zprávy."
-
-#~ msgid "Subject:"
-#~ msgstr "Předmět:"
-
-#~ msgid "The subject line of the message."
-#~ msgstr "Předmět zprávy."
-
-#~ msgid "Specific Header:"
-#~ msgstr "Určitá hlavička:"
-
-#~ msgid "custom ones"
-#~ msgstr "vlastních"
-
-#~ msgid "Any header including <_:link-1/>."
-#~ msgstr "Jakákoliv hlavička včetně <_:link-1/>."
-
-#~ msgid "Evolution"
-#~ msgstr "Evolution"
-
-#~ msgid ""
-#~ "If a message uses a header more than once, <_:app-1/> pays attention only "
-#~ "to the first instance, even if the message defines the header differently "
-#~ "the second time. For example, if a message declares the Resent-From: "
-#~ "header as \"engineering@example.com\" and then restates it as "
-#~ "\"marketing@example.com\", <_:app-2/> filters as though the second "
-#~ "declaration did not occur. To filter on messages that use headers "
-#~ "multiple times, use a regular expression."
-#~ msgstr ""
-#~ "Pokud zpráva používá hlavičku více než jedenkrát, <_:app-1/> se jí zabývá "
-#~ "pouze v první instanci, dokonce i když zpráva definuje podruhé hlavičku "
-#~ "jinak. Např. pokud zpráva deklaruje hlavičku Resent-From: jako "
-#~ "\"engineering@example.com\" a potom ji zopakuje jako \"marketing@example."
-#~ "com\", <_:app-2/> ji filtruje, jakoby se druhá deklarace neobjevila. Pro "
-#~ "filtrování zpráv, které používají hlavičky vícekrát, použijte regulární "
-#~ "výrazy. "
-
-#~ msgid "Message Body:"
-#~ msgstr "Tělo zprávy:"
-
-#~ msgid "Searches in the actual text of the message."
-#~ msgstr "Prohledává text zprávy."
-
-#~ msgid "Expression:"
-#~ msgstr "Výraz:"
-
-#~ msgid "filters"
-#~ msgstr "filtrů"
-
-#~ msgid ""
-#~ "(For programmers only) Match a message according to an expression you "
-#~ "write in the Scheme language used to define <_:link-1/> in <_:app-2/>."
-#~ msgstr ""
-#~ "(pouze pro programátory) Porovnává zprávy podle výrazu, který napíšete v "
-#~ "jazyce Scheme, používaného v aplikaci <_:app-2/> k definování <_:link-1/>."
-
-#~ msgid "Free Form Expression:"
-#~ msgstr "Výraz ve volné tvaru:"
-
-#~ msgid "special syntax"
-#~ msgstr "speciální syntaxe"
-
-#~ msgid ""
-#~ "(For advanced users only) Combine numerous conditions by using a <_:"
-#~ "link-1/>."
-#~ msgstr ""
-#~ "(Jen pro pokročilé uživatele) Kombinujte několik podmínek pomocí <_:"
-#~ "link-1/>."
-
-#~ msgid "Date sent:"
-#~ msgstr "Datum odeslání:"
-
-#~ msgid ""
-#~ "Filters messages according to the date on which they were sent. First, "
-#~ "choose the conditions you want a message to meet, such as before a given "
-#~ "date or after a given date. Then choose the time. The filter compares the "
-#~ "message's time stamp to the system clock when the filter is run, or to a "
-#~ "specific time and date you choose from a calendar. You can also have it "
-#~ "look for a message within a range of time relative to the filter, such as "
-#~ "two to four days ago."
-#~ msgstr ""
-#~ "Filtruje zprávy podle data, kdy byly odeslány. Prvně vyberte podmínky, "
-#~ "které chcete, aby zpráva splnila, jako před určitým datem nebo po určitém "
-#~ "datu. Potom zvolte čas. Filtr porovnává časové razítko zprávy se "
-#~ "systémovými hodinami, když filtr běží, nebo s určitým časem a datem, "
-#~ "které vyberete v kalendáři. Můžete jej také nechat, aby se podíval po "
-#~ "zprávách v určitém časovém rozmezí jako před dvěma až čtyřmi dny."
-
-#~ msgid "Date received:"
-#~ msgstr "Datum přijetí:"
-
-#~ msgid ""
-#~ "This works the same way as the Date Sent option, except that it compares "
-#~ "the time you received the message with the dates you specify."
-#~ msgstr ""
-#~ "Toto funkce stejným způsobem jako volba Datum odeslání až na to, že to "
-#~ "porovnává datum, kdy jste zprávu přijali, s datem, které jste zadali."
-
-#~ msgid "Label:"
-#~ msgstr "Štítek:"
-
-#~ msgid "labels"
-#~ msgstr "štítky"
-
-#~ msgid ""
-#~ "Messages can have <_:link-1/> of Important, Work, Personal, To Do, or "
-#~ "Later. You can set labels with other filters or manually."
-#~ msgstr ""
-#~ "Zprávy mohou mít <_:link-1/> Důležité, Pracovní, Osobní, Rozpracované, "
-#~ "Později. Štítky můžete nastavit jinými filtry nebo ručně."
-
-#~ msgid "Score:"
-#~ msgstr "Skóre:"
-
-#~ msgid ""
-#~ "Sets the message score to any whole number greater than 0. You can have "
-#~ "one filter set or change a message score, and then set up another filter "
-#~ "to move the messages you have scored. A message score is not based on "
-#~ "anything in particular: it is simply a number you can assign to messages "
-#~ "so other filters can process them."
-#~ msgstr ""
-#~ "Nastaví zprávě skóre na jakékoliv celé číslo větší než 0. Můžete mít "
-#~ "jeden filtr na nastavení nebo skóre zprávy změnit ručně a potom nastavit "
-#~ "jiný filtr k přesouvání zpráv, které jste ohodnotili. Skóre zprávy není "
-#~ "založeno na ničem konkrétním: je to jednoduše číslo, které můžete zprávě "
-#~ "přidělit tak, aby je mohly jiné filtry zpracovat."
-
-#~ msgid "Size (kB):"
-#~ msgstr "Velikost (kB):"
-
-#~ msgid "Sorts based on the size of the message in kilobytes."
-#~ msgstr "Třídí na základě velikosti zpráv v kilobajtech."
-
-#~ msgid "Status:"
-#~ msgstr "Stav:"
-
-#~ msgid ""
-#~ "Filters according to the status of a message. The status can be Replied "
-#~ "To, Draft, Important, Read, or Junk."
-#~ msgstr ""
-#~ "Filtruje podle stavu zprávy. Stav může být Zodpovězeno, Koncept, "
-#~ "Důležité, Přečteno nebo Nevyžádaná pošta."
-
-#~ msgid "Follow Up:"
-#~ msgstr "K vyřízení:"
-
-#~ msgid "flagged for follow-up"
-#~ msgstr "označena k vyřízení"
-
-#~ msgid "Checks whether the message is <_:link-1/>."
-#~ msgstr "Kontroluje, zda není zpráva <_:link-1/>."
-
-#~ msgid "Completed On:"
-#~ msgstr "Dokončeno:"
-
-#~ msgid "Attachments:"
-#~ msgstr "Přílohy:"
-
-#~ msgid "Checks whether there is an attachment for the email."
-#~ msgstr "Kontroluje, zda e-mail obsahuje přílohu."
-
-#~ msgid "Mailing List:"
-#~ msgstr "Poštovní konference:"
-
-#~ msgid ""
-#~ "Filters based on the mailing list the message came from. This filter "
-#~ "might miss messages from some list servers, because it checks for the X-"
-#~ "BeenThere header, which is used to identify mailing lists or other "
-#~ "redistributors of mail. Mail from list servers that do not set X-"
-#~ "BeenThere properly are not be caught by these filters."
-#~ msgstr ""
-#~ "Filtruje na základě toho, z které poštovní konference zpráva přišla. "
-#~ "Tento filtr může opomenout zprávy z některých serverů, protože kontroluje "
-#~ "hlavičku X-BeenThere, která se používá pro identifikaci poštovních "
-#~ "konferencí nebo jiných redistributorů pošty. Pošta ze serverů, které "
-#~ "nenastavují X-BeenThere správně, nemůže být tímto filtrem zachycena."
-
-#~ msgid "Regex Match:"
-#~ msgstr "Odpovídající regulárnímu výrazu:"
-
-#~ msgid "regex"
-#~ msgstr "regex"
-
-#~ msgid "grep"
-#~ msgstr "grep"
-
-#~ msgid "the man page for the <_:cmd-1/>"
-#~ msgstr "manuálové stránce příkazu <_:cmd-1/>"
-
-#~ msgid ""
-#~ "(For programmers only) If you know your way around a <_:link-1/>, or "
-#~ "regular expression, this option allows you to search for complex patterns "
-#~ "of letters, so that you can find, for example, all words that start with "
-#~ "\"a\" and end with \"m\", and are between six and fifteen letters long, "
-#~ "or all messages that declare a particular header twice. For information "
-#~ "about how to use regular expressions, check <_:link-2/> command."
-#~ msgstr ""
-#~ "(pouze pro programátory) Pokud víte, jak zacházet se vzory <_:link-1/>, "
-#~ "respektive regulárními výrazy, umožní vám tato volba vyhledávat komplexní "
-#~ "vzory znaků, takže můžete např. najít všechna slova, které začínají na "
-#~ "„a“ a končí na „m“ a jsou dlouhé 6 až 15 znaků nebo všechny zprávy, které "
-#~ "deklarují určité hlavičky dvakrát. Více informací o tom, jak používat "
-#~ "regulární výrazy, se dočtete v <_:link-2/>."
-
-#~ msgid "Identity"
-#~ msgstr "Identita"
-
-#~ msgid "Here you define your name and your email address."
-#~ msgstr "Zde zadáváte své jméno a svoji e-mailovou adresu."
-
-#~ msgid ""
-#~ "Optionally you can make this account your default account (e.g. when "
-#~ "writing emails), set a Reply-To email address (if you want replies to "
-#~ "messages sent to a different address), and set an organization (the "
-#~ "company where you work, or the organization you represent when you send "
-#~ "email from this account)."
-#~ msgstr ""
-#~ "Volitelně můžete tento účet určit jako svůj výchozí (např. pro psaní e-"
-#~ "mailů), nastavit e-mailovou adresu pro odpovědi (když chcete odpovědi na "
-#~ "zprávy posílat na jinou adresu) a nastavit organizaci (firmu, ve které "
-#~ "pracujete, nebo organizaci, kterou zastupujete, když posíláte e-mail z "
-#~ "této adresy)."
-
-#~ msgid "Advanced Search"
-#~ msgstr "Pokročilé vyhledávání"
-
-#~ msgid "Search"
-#~ msgstr "Hledat"
-
-#~ msgid "Select the <_:guiseq-1/> menu to open the dialog box."
-#~ msgstr "Vyberte nabídku <_:guiseq-1/>, která otevře dialogové okno."
-
-#~ msgid "Add Condition"
-#~ msgstr "Přidat podmínku"
-
-#~ msgid "Click <_:gui-1/> to add any number of rules."
-#~ msgstr "Kliknutím na <_:gui-1/> můžete přidat libovolný počet pravidel."
-
-#~ msgid ""
-#~ "Select the condition from the dropdown list, and then type a search entry "
-#~ "in the field."
-#~ msgstr ""
-#~ "Zvolte podmínku z rozbalovacího seznamu a potom napište hledaný výraz do "
-#~ "daného pole."
-
-#~ msgid "OK"
-#~ msgstr "Budiž"
-
-#~ msgid "Click <_:gui-1/> to get the search results displayed."
-#~ msgstr "Kliknutím na <_:gui-1/> zobrazíte výsledky hledání."
-
-#~ msgid "Clearing the Search results"
-#~ msgstr "Vymazání výsledků hledání"
-
-#~ msgid "Clear"
-#~ msgstr "Vymazat"
-
-#~ msgid "Shift"
-#~ msgstr "Shift"
-
-#~ msgid "Ctrl"
-#~ msgstr "Ctrl"
-
-#~ msgid "Q"
-#~ msgstr "Q"
-
-#~ msgid ""
-#~ "To clear your search view and get back to the default view, click the <_:"
-#~ "gui-1/> icon in the search string field, or choose <_:guiseq-2/> from the "
-#~ "menubar. You can also press <_:keyseq-3/> to clear the search."
-#~ msgstr ""
-#~ "Chcete-li vymazat zobrazení hledání a vrátit se do výchozího zobrazení, "
-#~ "klikněte na ikonu <_:guiseq-2/> v poli s hledaným textem nebo vyberte z "
-#~ "nabídky <_:gui-1/>. Můžete také zmáčknout <_:gui-1/>."
-
-#~ msgid "Saved Searches"
-#~ msgstr "Uložená hledání"
-
-#~ msgid ""
-#~ "If you search for something rather often, you will prefer not to type it "
-#~ "many times. In this case you can use saved searches."
-#~ msgstr ""
-#~ "Pokud něco vyhledáváte často, nebude se vám to chtít psát znovu a znovu "
-#~ "dokola. Proto použijte uložená hledání."
-
-#~ msgid "Save"
-#~ msgstr "Uložit"
-
-#~ msgid "Save Search"
-#~ msgstr "Uložit vyhledávání"
-
-#~ msgid ""
-#~ "To save your search results, either click <_:gui-1/> instead of <_:gui-2/"
-#~ "> in the Search dialog, or in case the search results are already "
-#~ "displayed, select <_:guiseq-3/>. From now on this search will be directly "
-#~ "available from the <_:gui-4/> menu."
-#~ msgstr ""
-#~ "Chcete-li uložit výsledky hledání, buď v dialogovém okně hledání klikněte "
-#~ "na <_:gui-1/> místo na <_:gui-2/>, nebo v případě, že výsledky hledání už "
-#~ "jsou zobrazeny, vyberte <_:guiseq-3/>. Odteď bude hledání dostupné přímo "
-#~ "z nabídky <_:gui-4/>."
-
-#~ msgid "Editing a Saved Search"
-#~ msgstr "Úprava uložených hledání"
-
-#~ msgid "Edit Saved Searches"
-#~ msgstr "Upravit uložená hledání"
-
-#~ msgid "Select <_:guiseq-1/> from the menu bar to open the window."
-#~ msgstr "Vyberte <_:guiseq-1/> v nabídkové liště a otevře se okno."
-
-#~ msgid "Edit"
-#~ msgstr "Upravit"
-
-#~ msgid "Edit Rule"
-#~ msgstr "Upravit pravidlo"
-
-#~ msgid "Click the <_:gui-1/> button to open the <_:gui-2/> window."
-#~ msgstr "Klikněte na tlačítko <_:gui-1/> a otevře se okno <_:gui-2/>."
-
-#~ msgid "Edit the title or search conditions from the dialog box."
-#~ msgstr "Upravte v dialogovém okně název nebo podmínky hledání."
-
-#~ msgid "Click <_:gui-1/>."
-#~ msgstr "Klikněte na <_:gui-1/>."
