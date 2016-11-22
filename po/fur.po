@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2016-11-16 18:36+0000\n"
-"PO-Revision-Date: 2016-11-21 15:25+0100\n"
+"PO-Revision-Date: 2016-11-22 16:45+0100\n"
 "Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
 "Language-Team: Friulian <fur@li.org>\n"
 "Language: fur\n"
@@ -12184,7 +12184,7 @@ msgstr "Fâs clic su chest boton par mostrâ un calendari"
 
 #: ../src/e-util/e-dateedit.c:626
 msgid "Drop-down combination box to select time"
-msgstr "Casele cumbinade a vegnî ju par selezionâ l'orari"
+msgstr "Casele cumbinade a vegnî jù par selezionâ l'orari"
 
 #: ../src/e-util/e-dateedit.c:627
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:9
@@ -14598,11 +14598,11 @@ msgstr "_Personalize"
 
 #: ../src/e-util/e-text.c:2135
 msgid "Select All"
-msgstr ""
+msgstr "Selezione Dut"
 
 #: ../src/e-util/e-text.c:2148
 msgid "Input Methods"
-msgstr ""
+msgstr "Metodis di input"
 
 #. Put the "UTC" entry at the top of the combo's list.
 #: ../src/e-util/e-timezone-dialog.c:268 ../src/e-util/e-timezone-dialog.c:508
@@ -14635,7 +14635,7 @@ msgstr "_Selezion"
 
 #: ../src/e-util/e-timezone-dialog.ui.h:8
 msgid "Timezone drop-down combination box"
-msgstr ""
+msgstr "Casele cumbinade a vegnî jù pal fûs orari"
 
 #: ../src/e-util/e-url-entry.c:106
 msgid "Click here to open the URL"
@@ -14750,141 +14750,141 @@ msgstr "Daûr a salvâ la imagjin su '%s'"
 #: ../src/e-util/e-web-view.c:4035
 #, c-format
 msgid "Cannot get URI '%s', do not know how to download it."
-msgstr ""
+msgstr "Impussibil otignî il URI «%s», no si sa ce mût discjariâlu."
 
 #: ../src/e-util/e-widget-undo.c:428
 msgid "Undo 'Insert text'"
-msgstr ""
+msgstr "Anule «Inserìs test»"
 
 #: ../src/e-util/e-widget-undo.c:430
 msgid "Redo 'Insert text'"
-msgstr ""
+msgstr "Torne «Inserìs test»"
 
 #: ../src/e-util/e-widget-undo.c:444
 msgid "Undo 'Delete text'"
-msgstr ""
+msgstr "Anule «Elimine test»"
 
 #: ../src/e-util/e-widget-undo.c:446
 msgid "Redo 'Delete text'"
-msgstr ""
+msgstr "Torne «Elimine test»"
 
 #: ../src/e-util/filter.error.xml.h:1
 msgid "Missing date."
-msgstr ""
+msgstr "E mancje la date."
 
 #: ../src/e-util/filter.error.xml.h:2
 msgid "You must choose a date."
-msgstr ""
+msgstr "Tu âs di sielzi une date."
 
 #: ../src/e-util/filter.error.xml.h:3
 msgid "Missing filename."
-msgstr ""
+msgstr "Al mancje il non di file."
 
 #: ../src/e-util/filter.error.xml.h:4
 msgid "You must specify a filename."
-msgstr ""
+msgstr "Tu scugnis specificâ un non di file."
 
 #: ../src/e-util/filter.error.xml.h:5
 msgid "File &quot;{0}&quot; does not exist or is not a regular file."
-msgstr ""
+msgstr "Il file «{0}» nol esist o nol è un file normâl."
 
 #: ../src/e-util/filter.error.xml.h:6
 msgid "Bad regular expression &quot;{0}&quot;."
-msgstr ""
+msgstr "Espression regolâr «{0}» sbaliade."
 
 #: ../src/e-util/filter.error.xml.h:7
 msgid "Could not compile regular expression &quot;{1}&quot;."
-msgstr ""
+msgstr "Impussibil compilâ la espression regolâr «{1}»."
 
 #: ../src/e-util/filter.error.xml.h:8 ../src/mail/mail.error.xml.h:107
 msgid "Missing name."
-msgstr ""
+msgstr "Al mancje il non."
 
 #: ../src/e-util/filter.error.xml.h:9
 msgid "You must name this filter."
-msgstr ""
+msgstr "Si scugne dâ un non a chest filtri."
 
 #: ../src/e-util/filter.error.xml.h:10
 msgid "Name &quot;{0}&quot; already used."
-msgstr ""
+msgstr "Il non «{0}» al è za doprât."
 
 #: ../src/e-util/filter.error.xml.h:11
 msgid "Please choose another name."
-msgstr ""
+msgstr "Sielç un altri non."
 
 #: ../src/e-util/filter.error.xml.h:12
 msgid "Missing condition."
-msgstr ""
+msgstr "E mancje la condizion."
 
 #: ../src/e-util/filter.error.xml.h:13
 msgid "Filter should have at least one condition."
-msgstr ""
+msgstr "Il filtri al varès di vê almancul une condizion."
 
 #: ../src/e-util/filter.error.xml.h:14
 msgid "Missing value."
-msgstr ""
+msgstr "Al mancje il valôr."
 
 #: ../src/e-util/filter.error.xml.h:15
 msgid "One or more values cannot be empty."
-msgstr ""
+msgstr "Un o plui valôrs no puedin jessi vueits."
 
 #: ../src/e-util/filter.error.xml.h:16
 msgid "Are you sure you want to remove rule '{0}'?"
-msgstr ""
+msgstr "Eliminâ la regule «{0}»?"
 
 #: ../src/e-util/filter.error.xml.h:17
 msgid "_Keep"
-msgstr ""
+msgstr "_Ten"
 
 #: ../src/e-util/filter.ui.h:2
 msgid "the current time"
-msgstr ""
+msgstr "la ore atuâl"
 
 #: ../src/e-util/filter.ui.h:3
 msgid "the time you specify"
-msgstr ""
+msgstr "la date specificade"
 
 #: ../src/e-util/filter.ui.h:4
 msgid "a time relative to the current time"
-msgstr ""
+msgstr "une ore relative a chê atuâl"
 
 #: ../src/e-util/filter.ui.h:5 ../src/mail/mail-config.ui.h:90
 msgid "seconds"
-msgstr ""
+msgstr "seconts"
 
 #: ../src/e-util/filter.ui.h:9
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:7
 msgid "weeks"
-msgstr ""
+msgstr "setemanis"
 
 #: ../src/e-util/filter.ui.h:10
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:8
 msgid "months"
-msgstr ""
+msgstr "mês"
 
 #: ../src/e-util/filter.ui.h:11
 msgid "years"
-msgstr ""
+msgstr "agns"
 
 #: ../src/e-util/filter.ui.h:12
 msgid "ago"
-msgstr ""
+msgstr "indaûr"
 
 #: ../src/e-util/filter.ui.h:13
 msgid "in the future"
-msgstr ""
+msgstr "tal avignî"
 
 #: ../src/e-util/filter.ui.h:14
 msgid "Show filters for mail:"
-msgstr ""
+msgstr "Mostre i filtris pe pueste:"
 
 #: ../src/e-util/filter.ui.h:15 ../src/mail/em-filter-editor.c:163
 msgid "_Filter Rules"
-msgstr ""
+msgstr "Regulis dai _filtris"
 
 #: ../src/e-util/filter.ui.h:23
 msgid "Compare against"
-msgstr ""
+msgstr "Confronte cun"
 
 #: ../src/e-util/filter.ui.h:24
 msgid ""
@@ -15563,28 +15563,28 @@ msgstr ""
 
 #: ../src/mail/e-mail-config-identity-page.c:608
 msgid "Full Nam_e:"
-msgstr ""
+msgstr "N_on complet:"
 
 #: ../src/mail/e-mail-config-identity-page.c:637
 msgid "Email _Address:"
-msgstr ""
+msgstr "Direzion _e-mail:"
 
 #: ../src/mail/e-mail-config-identity-page.c:686
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:26
 msgid "Optional Information"
-msgstr ""
+msgstr "Informazions opzionâi"
 
 #: ../src/mail/e-mail-config-identity-page.c:695
 msgid "Re_ply-To:"
-msgstr ""
+msgstr "Ris_puint a:"
 
 #: ../src/mail/e-mail-config-identity-page.c:724
 msgid "Or_ganization:"
-msgstr ""
+msgstr "Or_ganizazion:"
 
 #: ../src/mail/e-mail-config-identity-page.c:779
 msgid "Add Ne_w Signature..."
-msgstr ""
+msgstr "Zonte gno_ve firme..."
 
 #: ../src/mail/e-mail-config-identity-page.c:793
 msgid "A_liases:"
@@ -15593,7 +15593,7 @@ msgstr ""
 #: ../src/mail/e-mail-config-identity-page.c:855
 #: ../src/mail/mail-config.ui.h:111
 msgid "Add"
-msgstr ""
+msgstr "Zonte"
 
 #: ../src/mail/e-mail-config-identity-page.c:864
 #, fuzzy
@@ -15604,29 +15604,30 @@ msgstr "_Modifiche"
 #: ../src/mail/e-mail-config-identity-page.c:873
 #: ../src/mail/mail-config.ui.h:112
 msgid "Remove"
-msgstr ""
+msgstr "Gjave"
 
 #: ../src/mail/e-mail-config-identity-page.c:887
 msgid "_Look up mail server details based on the entered e-mail address"
 msgstr ""
+"_Cîr i detais dal servidôr di pueste in base ae direzion e-mail inseride"
 
 #. This is only a warning, not a blocker
 #. complete = complete && correct;
 #: ../src/mail/e-mail-config-identity-page.c:934
 msgid "Full Name should not be empty"
-msgstr ""
+msgstr "Il non complet nol varès di jessi vueit"
 
 #: ../src/mail/e-mail-config-identity-page.c:941
 msgid "Email Address cannot be empty"
-msgstr ""
+msgstr "La direzion e-mail no varès di jessi vueide"
 
 #: ../src/mail/e-mail-config-identity-page.c:946
 msgid "Email Address is not a valid email"
-msgstr ""
+msgstr "La direzion e-mail no je une e-mail valide"
 
 #: ../src/mail/e-mail-config-identity-page.c:958
 msgid "Reply To is not a valid email"
-msgstr ""
+msgstr "«Rispuint a» no je une e-mail valide"
 
 #: ../src/mail/e-mail-config-identity-page.c:969
 #: ../src/mail/e-mail-config-summary-page.c:633
