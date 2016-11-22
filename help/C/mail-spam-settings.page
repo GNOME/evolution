@@ -9,7 +9,7 @@
     <link type="guide" xref="mail-spam" />
     <link type="seealso" xref="mail-spam-marking"/>
 
-    <revision pkgversion="3.12.9" version="0.11" date="2015-03-15" status="final"/>
+    <revision pkgversion="3.23.2" version="0.12" date="2016-11-22" status="final"/>
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
       <email its:translate="no">ak-47@gmx.net</email>
@@ -59,19 +59,19 @@
 
 <section id="preferences">
 <title>Junk Mail Preferences</title>
-<note style="tip"><p>The junk mail options discussed in this page refer only to POP and Local Delivery accounts. For handling junk mail on IMAP accounts, see the <app>Evolution</app> settings under <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</gui><gui style="button">Edit</gui><gui>Receiving Options</gui></guiseq>.</p></note>
 <p>You can modify how <app>Evolution</app> handles junk mail by changing the Junk Mail Preferences:</p>
 <steps>
 <item><p>Click <guiseq><gui>Edit</gui><gui>Preferences</gui></guiseq> or press <keyseq><key>Shift</key><key>Ctrl</key><key>S</key></keyseq>.</p></item>
 <item><p>Select <gui>Mail Preferences</gui>.</p></item>
-<item><p>Click on the <gui>Junk</gui> tab. Here, you can specify the following:</p>
+<item><p>Click on the <gui>Junk</gui> tab. Here, you can specify the following global settings that are applied to all mail accounts:</p>
 <list>
-<item><p>Checking incoming messages for junk.</p></item>
+<item><p>Checking incoming messages for junk. This is a global setting: If it is not enabled, enabling junk mail options for a specific account (see below) will not have any effect.</p></item>
 <item><p>Deleting junk messages upon exit, and how often junk messages are to be deleted.</p></item>
 <item><p>Marking messages as not junk if the sender is in the address book.</p></item>
 <item><p>Checking custom mail headers (added by your mail server) for junk.</p></item>
 </list>
 </item>
+<item><p>Junk settings for a specific mail account (available for all account types except for POP accounts which use the global setting) can be set under <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</gui><gui style="button">Edit</gui><gui>Receiving Options</gui><gui>Check new messages for Junk contents</gui></guiseq>.</p></item>
 </steps>
 
 <note style="tip"><p>For more information and specific Bogofilter or SpamAssassin configuration questions it is recommended to check out the Frequently Asked Questions for <link href="http://bogofilter.sourceforge.net/faq.shtml">Bogofilter</link> resp. 
