@@ -225,6 +225,8 @@ port_entry_constructed (GObject *object)
 	g_signal_connect_after (
 		entry, "changed",
 		G_CALLBACK (port_entry_text_changed), object);
+
+	gtk_entry_set_width_chars (entry, 5);
 }
 
 static void
