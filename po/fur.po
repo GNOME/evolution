@@ -1,6 +1,7 @@
 # Friulian translation for evolution.
 # Copyright (C) 2016 evolution's COPYRIGHT HOLDER
 # This file is distributed under the same license as the evolution package.
+# Tomat <f.t.public@gmail.com>, 2016.
 # Fabio Tomat <f.t.public@gmail.com>, 2016.
 #
 msgid ""
@@ -9,15 +10,15 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2016-11-16 18:36+0000\n"
-"PO-Revision-Date: 2016-11-22 18:52+0100\n"
+"PO-Revision-Date: 2016-11-23 17:32+0100\n"
 "Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
-"Language-Team: Friulian <fur@li.org>\n"
+"Language-Team: Friulian <f.t.public@gmail.com>\n"
 "Language: fur\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.8.8\n"
+"X-Generator: Gtranslator 2.91.7\n"
 
 #: ../evolution.appdata.xml.in.h:1 ../data/evolution.desktop.in.in.h:1
 #: ../src/mail/e-mail-browser.c:1098
@@ -14935,128 +14936,131 @@ msgstr ""
 
 #: ../src/e-util/gal-a11y-e-table-click-to-add.c:69
 msgid "click"
-msgstr ""
+msgstr "clic"
 
 #: ../src/e-util/gal-a11y-e-table-column-header.c:160
 msgid "sort"
-msgstr ""
+msgstr "ordene"
 
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:293
 msgid "Save Current View"
-msgstr ""
+msgstr "Salve viodude atuâl"
 
 #: ../src/e-util/gal-view-instance-save-as-dialog.ui.h:1
 msgid "_Create new view"
-msgstr ""
+msgstr "_Cree gnove viodude"
 
 #: ../src/e-util/gal-view-instance-save-as-dialog.ui.h:3
 msgid "_Replace existing view"
-msgstr ""
+msgstr "_Sostituìs viodude esistente"
 
 #: ../src/e-util/widgets.error.xml.h:1 ../src/mail/mail.error.xml.h:201
 msgid "Do you wish to save your changes?"
-msgstr ""
+msgstr "Salvâ lis modifichis fatis?"
 
 #: ../src/e-util/widgets.error.xml.h:2
 msgid "This signature has been changed, but has not been saved."
-msgstr ""
+msgstr "Cheste firme e je stade cambiade, ma no je stade salvade."
 
 #: ../src/e-util/widgets.error.xml.h:3 ../src/mail/mail.error.xml.h:203
 msgid "_Discard changes"
-msgstr ""
+msgstr "_Scarte modifichis"
 
 #: ../src/e-util/widgets.error.xml.h:4
 msgid "Blank Signature"
-msgstr ""
+msgstr "Firme in blanc"
 
 #: ../src/e-util/widgets.error.xml.h:5
 msgid "Please provide an unique name to identify this signature."
-msgstr ""
+msgstr "Met un non univoc par identificâ cheste firme."
 
 #: ../src/e-util/widgets.error.xml.h:6
 msgid "Unable to copy image to clipboard."
-msgstr ""
+msgstr "Impussibil copiâ la imagjin intes notis."
 
 #: ../src/e-util/widgets.error.xml.h:7
 msgid "Unable to save image."
-msgstr ""
+msgstr "Impussibil salvâ la imagjin."
 
 #: ../src/e-util/widgets.error.xml.h:8
 msgid "Could not load signature."
-msgstr ""
+msgstr "Impussibil cjariâ la firme."
 
 #: ../src/e-util/widgets.error.xml.h:9
 msgid "Could not save signature."
-msgstr ""
+msgstr "Impussibil salvâ la firme."
 
 #: ../src/libemail-engine/camel-sasl-oauth2-google.c:27
 msgid "OAuth2 Google"
-msgstr ""
+msgstr "OAuth2 Google"
 
 #: ../src/libemail-engine/camel-sasl-oauth2-google.c:28
 msgid ""
 "This option will use an OAuth 2.0 access token to connect to the Google "
 "server"
 msgstr ""
+"Cheste opzion e doprarà un token di acès OAuth 2.0 par conetisi al servidôr "
+"di Google"
 
 #: ../src/libemail-engine/camel-sasl-xoauth2.c:27
 msgid "OAuth2"
-msgstr ""
+msgstr "OAuth2"
 
 #: ../src/libemail-engine/camel-sasl-xoauth2.c:28
 msgid "This option will use an OAuth 2.0 access token to connect to the server"
 msgstr ""
+"Cheste opzion e doprarà un token di acès OAuth 2.0 par conetisi al servidôr"
 
 #: ../src/libemail-engine/e-mail-folder-utils.c:106
 #, c-format
 msgid "Saving message to folder '%s'"
-msgstr ""
+msgstr "Daûr a salvâ il messaç te cartele '%s'"
 
 #: ../src/libemail-engine/e-mail-folder-utils.c:565
 msgid "Forwarded messages"
-msgstr ""
+msgstr "Messaçs mandâts indenant"
 
 #: ../src/libemail-engine/e-mail-folder-utils.c:675
 #: ../src/libemail-engine/e-mail-folder-utils.c:937
 #, c-format
 msgid "Retrieving %d message"
 msgid_plural "Retrieving %d messages"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Ricezion di %d messaç"
+msgstr[1] "Ricezion di %d messaçs"
 
 #: ../src/libemail-engine/e-mail-folder-utils.c:777
 msgid "Scanning messages for duplicates"
-msgstr ""
+msgstr "Daûr a cirî messaçs doplis"
 
 #: ../src/libemail-engine/e-mail-folder-utils.c:1150
 #, c-format
 msgid "Removing folder '%s'"
-msgstr ""
+msgstr "Daûr a gjavâ la cartele '%s'"
 
 #: ../src/libemail-engine/e-mail-folder-utils.c:1331
 #, c-format
 msgid "File \"%s\" has been removed."
-msgstr ""
+msgstr "Il file \"%s\" al è stât gjavât."
 
 #: ../src/libemail-engine/e-mail-folder-utils.c:1335
 msgid "File has been removed."
-msgstr ""
+msgstr "Il file al è stât gjavât."
 
 #: ../src/libemail-engine/e-mail-folder-utils.c:1411
 msgid "Removing attachments"
-msgstr ""
+msgstr "Daûr a gjavâ lis zontis"
 
 #: ../src/libemail-engine/e-mail-folder-utils.c:1583
 #, c-format
 msgid "Saving %d message"
 msgid_plural "Saving %d messages"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Daûr a salvâ %d messaç"
+msgstr[1] "Daûr a salvâ %d messaçs"
 
 #: ../src/libemail-engine/e-mail-folder-utils.c:1961
 #, c-format
 msgid "Invalid folder URI '%s'"
-msgstr ""
+msgstr "Uri cartele «%s» no valit"
 
 #. Some local folders
 #: ../src/libemail-engine/e-mail-session.c:125
@@ -15122,7 +15126,7 @@ msgstr ""
 #: ../src/libemail-engine/e-mail-session.c:2441
 #, c-format
 msgid "Waiting for '%s'"
-msgstr ""
+msgstr "In spiete di '%s'"
 
 #: ../src/libemail-engine/e-mail-session-utils.c:524
 msgid "No mail transport service available"
@@ -15132,20 +15136,20 @@ msgstr ""
 #: ../src/libemail-engine/mail-ops.c:706
 #, c-format
 msgid "Posting message to '%s'"
-msgstr ""
+msgstr "Daûr a publicâ il messaç a '%s'"
 
 #: ../src/libemail-engine/e-mail-session-utils.c:651
 #: ../src/libemail-engine/mail-ops.c:742
 #, c-format
 msgid "Failed to apply outgoing filters: %s"
-msgstr ""
+msgstr "No si è rivâts a aplicâ i filtris in jessude: %s"
 
 #: ../src/libemail-engine/e-mail-session-utils.c:681
 #: ../src/libemail-engine/e-mail-session-utils.c:716
 #: ../src/libemail-engine/mail-ops.c:766 ../src/libemail-engine/mail-ops.c:801
 #, c-format
 msgid "Storing sent message to '%s'"
-msgstr ""
+msgstr "Salvament messaç inviât in «%s»"
 
 #: ../src/libemail-engine/e-mail-session-utils.c:705
 #: ../src/libemail-engine/mail-ops.c:790
@@ -15894,118 +15898,120 @@ msgstr "Viôt _dut incorporât"
 
 #: ../src/mail/e-mail-display.c:771
 msgid "_Zoom to 100%"
-msgstr ""
+msgstr "_Ingrandiment al 100%"
 
 #: ../src/mail/e-mail-display.c:773
 msgid "Zoom the image to its natural size"
-msgstr ""
+msgstr "Ingrandìs la imagjin ae sô dimension origjinâl"
 
 #: ../src/mail/e-mail-display.c:778
 msgid "_Zoom to window"
-msgstr ""
+msgstr "_Adate al barcon"
 
 #: ../src/mail/e-mail-display.c:780
 msgid "Zoom large images to not be wider than the window width"
 msgstr ""
+"Adate lis imagjins grandis par fâlis deventâ no plui largjis de largjece dal "
+"barcon"
 
 #: ../src/mail/e-mail-folder-create-dialog.c:328
 msgid "Create Folder"
-msgstr ""
+msgstr "Cree cartele"
 
 #: ../src/mail/e-mail-folder-create-dialog.c:332
 msgid "Specify where to create the folder:"
-msgstr ""
+msgstr "Specifiche dulà creâ la cartele:"
 
 #: ../src/mail/e-mail-folder-create-dialog.c:335
 msgid "C_reate"
-msgstr ""
+msgstr "C_ree"
 
 #: ../src/mail/e-mail-folder-create-dialog.c:352
 msgid "Folder _name:"
-msgstr ""
+msgstr "_Non de cartele:"
 
 #. Translators: This is a name of a flag, the same as all strings in the 'ffe' context.
 #. The translated value should not contain spaces.
 #: ../src/mail/e-mail-free-form-exp.c:234
 msgctxt "ffe"
 msgid "Answered"
-msgstr ""
+msgstr "Rispuindût"
 
 #: ../src/mail/e-mail-free-form-exp.c:235
 msgctxt "ffe"
 msgid "Deleted"
-msgstr ""
+msgstr "Eliminât"
 
 #: ../src/mail/e-mail-free-form-exp.c:236
 msgctxt "ffe"
 msgid "Draft"
-msgstr ""
+msgstr "Stampon"
 
 #: ../src/mail/e-mail-free-form-exp.c:237
 msgctxt "ffe"
 msgid "Flagged"
-msgstr ""
+msgstr "Segnât"
 
 #: ../src/mail/e-mail-free-form-exp.c:238
 msgctxt "ffe"
 msgid "Seen"
-msgstr ""
+msgstr "Viodût"
 
 #: ../src/mail/e-mail-free-form-exp.c:239
 msgctxt "ffe"
 msgid "Attachment"
-msgstr ""
+msgstr "Zonte"
 
 #: ../src/mail/e-mail-free-form-exp.c:487
 msgctxt "ffe"
 msgid "no"
-msgstr ""
+msgstr "no"
 
 #: ../src/mail/e-mail-free-form-exp.c:488
 msgctxt "ffe"
 msgid "false"
-msgstr ""
+msgstr "fals"
 
 #: ../src/mail/e-mail-junk-options.c:296
 msgid "Junk filtering software:"
-msgstr ""
+msgstr "Software filtrament malvolûts:"
 
 #: ../src/mail/e-mail-label-dialog.c:222
 msgid "_Label name:"
-msgstr ""
+msgstr "_Non etichete:"
 
 #: ../src/mail/e-mail-label-list-store.c:55
 msgid "I_mportant"
-msgstr ""
+msgstr "I_mpuartante"
 
 #. red
 #: ../src/mail/e-mail-label-list-store.c:56
 msgid "_Work"
-msgstr ""
+msgstr "_Vore"
 
 #. orange
 #: ../src/mail/e-mail-label-list-store.c:57
 msgid "_Personal"
-msgstr ""
+msgstr "_Personâl"
 
 #. green
 #: ../src/mail/e-mail-label-list-store.c:58
 msgid "_To Do"
-msgstr ""
+msgstr "_Di fâ"
 
 #. blue
 #: ../src/mail/e-mail-label-list-store.c:59
 msgid "_Later"
-msgstr ""
+msgstr "Plui _tart"
 
 #: ../src/mail/e-mail-label-manager.c:169
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1198
 msgid "Add Label"
-msgstr ""
+msgstr "Zonte etichete"
 
 #: ../src/mail/e-mail-label-manager.c:220
 msgid "Edit Label"
-msgstr ""
+msgstr "Modifiche etichete"
 
 #: ../src/mail/e-mail-label-manager.c:352
 msgid ""
@@ -16015,90 +16021,90 @@ msgstr ""
 
 #: ../src/mail/e-mail-label-tree-view.c:86
 msgid "Color"
-msgstr ""
+msgstr "Colôr"
 
 #: ../src/mail/e-mail-notes.c:319 ../src/mail/e-mail-notes.c:719
 msgid "Message Note"
-msgstr ""
+msgstr "Note messaç"
 
 #: ../src/mail/e-mail-notes.c:639
 msgid "Cannot find message in its folder summary"
-msgstr ""
+msgstr "Impussibil cjatâ il messaç te sô cartele indiç"
 
 #: ../src/mail/e-mail-notes.c:842
 msgid "Storing changes..."
-msgstr ""
+msgstr "Salvament modifichis..."
 
 #: ../src/mail/e-mail-notes.c:968
 msgid "Edit Message Note"
-msgstr ""
+msgstr "Modifiche note messaç"
 
 #: ../src/mail/e-mail-notes.c:1122
 msgid "Retrieving message..."
-msgstr ""
+msgstr "Daûr a recuperâ il messaç..."
 
 #: ../src/mail/e-mail-print-config-headers.c:166
 msgid "Move selected headers to top"
-msgstr ""
+msgstr "Sposte insom lis intestazions selezionadis"
 
 #: ../src/mail/e-mail-print-config-headers.c:171
 msgid "Move selected headers up one row"
-msgstr ""
+msgstr "Sposte in sù di une rie lis intestazions selezionadis"
 
 #: ../src/mail/e-mail-print-config-headers.c:176
 msgid "Move selected headers down one row"
-msgstr ""
+msgstr "Sposte in jù di une rie lis intestazions selezionadis"
 
 #: ../src/mail/e-mail-print-config-headers.c:181
 msgid "Move selected headers to bottom"
-msgstr ""
+msgstr "Sposte da pît lis intestazions selezionadis"
 
 #: ../src/mail/e-mail-print-config-headers.c:186
 msgid "Select all headers"
-msgstr ""
+msgstr "Selezione dutis lis intestazions"
 
 #: ../src/mail/e-mail-print-config-headers.c:205
 msgid "Header Name"
-msgstr ""
+msgstr "Non intestazion"
 
 #: ../src/mail/e-mail-print-config-headers.c:214
 msgid "Header Value"
-msgstr ""
+msgstr "Valôr intestazion"
 
 #: ../src/mail/e-mail-printer.c:100 ../src/mail/mail-config.ui.h:123
 msgid "Headers"
-msgstr ""
+msgstr "Intestazions"
 
 #: ../src/mail/e-mail-printer.c:142
 #, c-format
 msgid "Page %d of %d"
-msgstr ""
+msgstr "Pagjine %d di %d"
 
 #: ../src/mail/e-mail-reader.c:349 ../src/mail/filtertypes.xml.in.h:65
 msgid "Move to Folder"
-msgstr ""
+msgstr "Sposte te cartele"
 
 #: ../src/mail/e-mail-reader.c:349 ../src/mail/filtertypes.xml.in.h:66
 msgid "Copy to Folder"
-msgstr ""
+msgstr "Copie te cartele"
 
 #: ../src/mail/e-mail-reader.c:353 ../src/mail/em-folder-utils.c:488
 #: ../src/mail/mail.error.xml.h:152
 msgid "_Move"
-msgstr ""
+msgstr "_Sposte"
 
 #: ../src/mail/e-mail-reader.c:353 ../src/mail/em-folder-utils.c:488
 msgid "C_opy"
-msgstr ""
+msgstr "C_opie"
 
 #: ../src/mail/e-mail-reader.c:485
 msgid "Deleting message note..."
-msgstr ""
+msgstr "Daûr a eliminâ la note dal messaç..."
 
 #: ../src/mail/e-mail-reader.c:1307 ../src/mail/e-mail-reader.c:1519
 #: ../src/mail/e-mail-reader.c:1559
 msgid "_Do not ask me again."
-msgstr ""
+msgstr "_No stâ domandâ plui."
 
 #: ../src/mail/e-mail-reader.c:1565
 msgid "_Always ignore Reply-To: for mailing lists."
