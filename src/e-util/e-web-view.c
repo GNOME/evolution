@@ -1225,52 +1225,6 @@ web_view_drag_motion (GtkWidget *widget,
 	return FALSE;
 }
 
-static GtkWidget *
-web_view_create_plugin_widget (EWebView *web_view,
-                               const gchar *mime_type,
-                               const gchar *uri,
-                               GHashTable *param)
-{
-	GtkWidget *widget = NULL;
-
-	if (g_strcmp0 (mime_type, "image/x-themed-icon") == 0) {
-		GtkIconTheme *icon_theme;
-		GdkPixbuf *pixbuf;
-		gpointer data;
-		glong size = 0;
-		GError *error = NULL;
-
-		icon_theme = gtk_icon_theme_get_default ();
-
-		if (size == 0) {
-			data = g_hash_table_lookup (param, "width");
-			if (data != NULL)
-				size = MAX (size, strtol (data, NULL, 10));
-		}
-
-		if (size == 0) {
-			data = g_hash_table_lookup (param, "height");
-			if (data != NULL)
-				size = MAX (size, strtol (data, NULL, 10));
-		}
-
-		if (size == 0)
-			size = 32;  /* arbitrary default */
-
-		pixbuf = gtk_icon_theme_load_icon (
-			icon_theme, uri, size, GTK_ICON_LOOKUP_FORCE_SIZE, &error);
-		if (pixbuf != NULL) {
-			widget = gtk_image_new_from_pixbuf (pixbuf);
-			g_object_unref (pixbuf);
-		} else if (error != NULL) {
-			g_warning ("%s", error->message);
-			g_error_free (error);
-		}
-	}
-
-	return widget;
-}
-
 static void
 web_view_hovering_over_link (EWebView *web_view,
                              const gchar *title,
@@ -1991,7 +1945,6 @@ e_web_view_class_init (EWebViewClass *class)
 	widget_class->map = web_view_map;
 	widget_class->unmap = web_view_unmap;
 
-	class->create_plugin_widget = web_view_create_plugin_widget;
 	class->hovering_over_link = web_view_hovering_over_link;
 	class->link_clicked = web_view_link_clicked;
 	class->load_string = web_view_load_string;

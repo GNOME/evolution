@@ -81,10 +81,6 @@ struct _EWebViewClass {
 	WebKitWebViewClass parent_class;
 
 	/* Methods */
-	GtkWidget *	(*create_plugin_widget)	(EWebView *web_view,
-						 const gchar *mime_type,
-						 const gchar *uri,
-						 GHashTable *param);
 	void		(*hovering_over_link)	(EWebView *web_view,
 						 const gchar *title,
 						 const gchar *uri);
