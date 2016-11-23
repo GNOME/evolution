@@ -717,7 +717,7 @@ e_shell_window_update_title (EShellWindow *shell_window)
 	view_title = e_shell_view_get_title (shell_view);
 
 	/* Translators: This is used for the main window title. */
-	window_title = g_strdup_printf (_("%s - Evolution"), view_title);
+	window_title = g_strdup_printf (_("%s — Evolution"), view_title);
 	gtk_window_set_title (GTK_WINDOW (shell_window), window_title);
 	g_free (window_title);
 }

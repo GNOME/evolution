@@ -425,36 +425,36 @@ undo_describe_info (EUndoInfo *info,
 
 	if (info->type == E_UNDO_INSERT) {
 		if (undo_type == E_UNDO_DO_UNDO)
-			return g_strdup (_("Undo 'Insert text'"));
+			return g_strdup (_("Undo “Insert text”"));
 		else
-			return g_strdup (_("Redo 'Insert text'"));
+			return g_strdup (_("Redo “Insert text”"));
 		/* if (strlen (info->text) > 15) {
 			if (undo_type == E_UNDO_DO_UNDO)
-				return g_strdup_printf (_("Undo 'Insert '%.12s...''"), info->text);
+				return g_strdup_printf (_("Undo “Insert “%.12s...””"), info->text);
 			else
-				return g_strdup_printf (_("Redo 'Insert '%.12s...''"), info->text);
+				return g_strdup_printf (_("Redo “Insert “%.12s...””"), info->text);
 		}
  *
 		if (undo_type == E_UNDO_DO_UNDO)
-			return g_strdup_printf (_("Undo 'Insert '%s''"), info->text);
+			return g_strdup_printf (_("Undo “Insert “%s””"), info->text);
 		else
-			return g_strdup_printf (_("Redo 'Insert '%s''"), info->text); */
+			return g_strdup_printf (_("Redo “Insert “%s””"), info->text); */
 	} else if (info->type == E_UNDO_DELETE) {
 		if (undo_type == E_UNDO_DO_UNDO)
-			return g_strdup (_("Undo 'Delete text'"));
+			return g_strdup (_("Undo “Delete text”"));
 		else
-			return g_strdup (_("Redo 'Delete text'"));
+			return g_strdup (_("Redo “Delete text”"));
 		/* if (strlen (info->text) > 15) {
 			if (undo_type == E_UNDO_DO_UNDO)
-				return g_strdup_printf (_("Undo 'Delete '%.12s...''"), info->text);
+				return g_strdup_printf (_("Undo “Delete “%.12s...””"), info->text);
 			else
-				return g_strdup_printf (_("Redo 'Delete '%.12s...''"), info->text);
+				return g_strdup_printf (_("Redo “Delete “%.12s...””"), info->text);
 		}
  *
 		if (undo_type == E_UNDO_DO_UNDO)
-			return g_strdup_printf (_("Undo 'Delete '%s''"), info->text);
+			return g_strdup_printf (_("Undo “Delete “%s””"), info->text);
 		else
-			return g_strdup_printf (_("Redo 'Delete '%s''"), info->text); */
+			return g_strdup_printf (_("Redo “Delete “%s””"), info->text); */
 	}
 
 	return NULL;

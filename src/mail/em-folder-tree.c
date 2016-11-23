@@ -680,7 +680,7 @@ folder_tree_cell_edited_cb (EMFolderTree *folder_tree,
 		e_alert_run_dialog_for_args (
 			parent, "mail:no-rename-folder",
 			old_name, new_name,
-			_("Folder names cannot contain '/'"), NULL);
+			_("Folder names cannot contain “/”"), NULL);
 		goto exit;
 	}
 

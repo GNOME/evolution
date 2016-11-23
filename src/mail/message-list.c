@@ -6143,7 +6143,7 @@ message_list_regen_done_cb (GObject *source_object,
 				"Change search criteria by selecting a new "
 				"Show message filter from the drop down list "
 				"above or by running a new search either by "
-				"clearing it with Search->Clear menu item or "
+				"clearing it with Search→Clear menu item or "
 				"by changing the query above.");
 		} else {
 			info_message =

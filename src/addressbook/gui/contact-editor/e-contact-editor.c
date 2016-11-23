@@ -738,7 +738,7 @@ file_as_combo_changed (GtkWidget *widget,
 
 	if (string && *string) {
 		gchar *title;
-		title = g_strdup_printf (_("Contact Editor - %s"), string);
+		title = g_strdup_printf (_("Contact Editor — %s"), string);
 		gtk_window_set_title (GTK_WINDOW (editor->priv->app), title);
 		g_free (title);
 	}
@@ -3099,7 +3099,7 @@ fill_in_simple (EContactEditor *editor)
 
 	if (filename) {
 		gchar *title;
-		title = g_strdup_printf (_("Contact Editor - %s"), filename);
+		title = g_strdup_printf (_("Contact Editor — %s"), filename);
 		gtk_window_set_title (GTK_WINDOW (editor->priv->app), title);
 		g_free (title);
 		g_free (filename);
@@ -4673,7 +4673,7 @@ e_contact_editor_is_valid (EABEditor *editor)
 	widget = e_builder_get_widget (ce->priv->builder, "dateedit-birthday");
 	if (!(e_date_edit_date_is_valid (E_DATE_EDIT (widget)))) {
 		g_string_append_printf (
-			errmsg, _("'%s' has an invalid format"),
+			errmsg, _("“%s” has an invalid format"),
 			e_contact_pretty_name (E_CONTACT_BIRTH_DATE));
 		validation_error = TRUE;
 	}
@@ -4681,7 +4681,7 @@ e_contact_editor_is_valid (EABEditor *editor)
 	bday = e_date_edit_get_time (E_DATE_EDIT (widget));
 	if (bday > now) {
 		g_string_append_printf (
-			errmsg, _("'%s' cannot be a future date"),
+			errmsg, _("“%s” cannot be a future date"),
 			e_contact_pretty_name (E_CONTACT_BIRTH_DATE));
 		validation_error = TRUE;
 	}
@@ -4689,7 +4689,7 @@ e_contact_editor_is_valid (EABEditor *editor)
 	widget = e_builder_get_widget (ce->priv->builder, "dateedit-anniversary");
 	if (!(e_date_edit_date_is_valid (E_DATE_EDIT (widget)))) {
 		g_string_append_printf (
-			errmsg, _("%s'%s' has an invalid format"),
+			errmsg, _("%s“%s” has an invalid format"),
 			validation_error ? ",\n" : "",
 			e_contact_pretty_name (E_CONTACT_ANNIVERSARY));
 		validation_error = TRUE;
@@ -4702,7 +4702,7 @@ e_contact_editor_is_valid (EABEditor *editor)
 		if (is_non_string_field (field_id)) {
 			if (e_contact_get_const (ce->priv->contact, field_id) == NULL) {
 				g_string_append_printf (
-					errmsg, _("%s'%s' is empty"),
+					errmsg, _("%s“%s” is empty"),
 					validation_error ? ",\n" : "",
 					e_contact_pretty_name (field_id));
 				validation_error = TRUE;
@@ -4716,7 +4716,7 @@ e_contact_editor_is_valid (EABEditor *editor)
 
 			if (STRING_IS_EMPTY (text)) {
 				g_string_append_printf (
-					errmsg, _("%s'%s' is empty"),
+					errmsg, _("%s“%s” is empty"),
 					validation_error ? ",\n" : "",
 					e_contact_pretty_name (field_id));
 				validation_error = TRUE;

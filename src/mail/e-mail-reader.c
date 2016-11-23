@@ -1810,7 +1810,7 @@ action_mail_show_source_cb (GtkAction *action,
 
 	display = e_mail_reader_get_mail_display (E_MAIL_READER (browser));
 
-	string = g_strdup_printf (_("Retrieving message '%s'"), message_uid);
+	string = g_strdup_printf (_("Retrieving message “%s”"), message_uid);
 	e_mail_display_set_part_list (display, NULL);
 	e_mail_display_set_status (display, string);
 	gtk_widget_show (browser);
@@ -3180,7 +3180,7 @@ mail_reader_message_selected_timeout_cb (gpointer user_data)
 			gchar *string;
 
 			string = g_strdup_printf (
-				_("Retrieving message '%s'"), cursor_uid);
+				_("Retrieving message “%s”"), cursor_uid);
 			e_mail_display_set_part_list (display, NULL);
 			e_mail_display_set_status (display, string);
 			g_free (string);

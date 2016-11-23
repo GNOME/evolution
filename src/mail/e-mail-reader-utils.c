@@ -565,7 +565,7 @@ process_autoarchive_desc (struct _process_autoarchive_msg *m)
 	full_display_name = e_mail_folder_to_full_display_name (m->async_context->folder, NULL);
 
 	desc = g_strdup_printf (
-		_("Refreshing folder '%s'"),
+		_("Refreshing folder “%s”"),
 		full_display_name ? full_display_name : camel_folder_get_display_name (m->async_context->folder));
 
 	g_free (full_display_name);
@@ -1673,9 +1673,9 @@ mail_reader_remove_duplicates_cb (GObject *source_object,
 		confirmation = g_strdup_printf (ngettext (
 			/* Translators: %s is replaced with a folder
 			 * name %u with count of duplicate messages. */
-			"Folder '%s' contains %u duplicate message. "
+			"Folder “%s” contains %u duplicate message. "
 			"Are you sure you want to delete it?",
-			"Folder '%s' contains %u duplicate messages. "
+			"Folder “%s” contains %u duplicate messages. "
 			"Are you sure you want to delete them?",
 			n_duplicates),
 			full_display_name ? full_display_name : camel_folder_get_display_name (folder),

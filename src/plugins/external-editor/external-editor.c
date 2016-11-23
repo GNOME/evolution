@@ -109,7 +109,7 @@ e_plugin_lib_get_configure_widget (EPlugin *epl)
 	vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 10);
 	textbox = gtk_entry_new ();
 	label = gtk_label_new (_("Command to be executed to launch the editor: "));
-	help = gtk_label_new (_("For XEmacs use \"xemacs\"\nFor Vim use \"gvim -f\""));
+	help = gtk_label_new (_("For XEmacs use “xemacs”\nFor Vim use “gvim -f”"));
 	settings = e_util_ref_settings ("org.gnome.evolution.plugin.external-editor");
 
 	editor = g_settings_get_string (settings, "command");

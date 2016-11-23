@@ -286,7 +286,7 @@ cal_base_shell_backend_handle_uri_thread (EAlertSinkThreadJobData *job_data,
 	source = e_source_registry_ref_source (registry, hud->source_uid);
 	if (!source) {
 		g_set_error (&local_error, G_IO_ERROR, G_IO_ERROR_NOT_FOUND,
-			_("Source with UID '%s' not found"), hud->source_uid);
+			_("Source with UID “%s” not found"), hud->source_uid);
 	} else {
 		EClientCache *client_cache;
 		EClient *client;

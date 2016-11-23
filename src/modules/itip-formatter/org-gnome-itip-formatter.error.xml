@@ -9,7 +9,7 @@
  
  <error id="add-delegate" type="question">
   <_primary>This meeting has been delegated</_primary>
-  <_secondary>'{0}' has delegated the meeting. Do you want to add the delegate '{1}'?</_secondary>
+  <_secondary>“{0}” has delegated the meeting. Do you want to add the delegate “{1}”?</_secondary>
   <button stock="gtk-yes" response="GTK_RESPONSE_YES"/>
   <button stock="gtk-no" response="GTK_RESPONSE_NO"/>
  </error>

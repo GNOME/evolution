@@ -101,7 +101,7 @@ ca_trust_dialog_show (ECert *cert,
 	ctd_data->objsign_checkbutton = e_builder_get_widget (ctd_data->builder, "objsign_trust_checkbutton");
 
 	w = e_builder_get_widget (ctd_data->builder, "ca-trust-label");
-	txt = g_strdup_printf (_("Certificate '%s' is a CA certificate.\n\nEdit trust settings:"), e_cert_get_cn (cert));
+	txt = g_strdup_printf (_("Certificate “%s” is a CA certificate.\n\nEdit trust settings:"), e_cert_get_cn (cert));
 	gtk_label_set_text ((GtkLabel *) w, txt);
 	g_free (txt);
 

@@ -103,7 +103,7 @@ e_mail_folder_append_message_sync (CamelFolder *folder,
 	full_display_name = e_mail_folder_to_full_display_name (folder, NULL);
 	camel_operation_push_message (
 		cancellable,
-		_("Saving message to folder '%s'"),
+		_("Saving message to folder “%s”"),
 		full_display_name ? full_display_name : camel_folder_get_display_name (folder));
 	g_free (full_display_name);
 
@@ -1147,7 +1147,7 @@ e_mail_folder_remove_sync (CamelFolder *folder,
 	parent_store = camel_folder_get_parent_store (folder);
 
 	full_display_name = e_mail_folder_to_full_display_name (folder, NULL);
-	camel_operation_push_message (cancellable, _("Removing folder '%s'"),
+	camel_operation_push_message (cancellable, _("Removing folder “%s”"),
 		full_display_name ? full_display_name : camel_folder_get_display_name (folder));
 	g_free (full_display_name);
 
@@ -1328,7 +1328,7 @@ mail_folder_strip_message_level (CamelMimePart *in_part,
 
 			if (filename != NULL && *filename != '\0')
 				content = g_strdup_printf (
-					_("File \"%s\" has been removed."),
+					_("File “%s” has been removed."),
 					filename);
 			else
 				content = g_strdup (
@@ -1958,7 +1958,7 @@ e_mail_folder_uri_parse (CamelSession *session,
 		g_set_error (
 			error, CAMEL_FOLDER_ERROR,
 			CAMEL_FOLDER_ERROR_INVALID,
-			_("Invalid folder URI '%s'"),
+			_("Invalid folder URI “%s”"),
 			folder_uri);
 	}
 

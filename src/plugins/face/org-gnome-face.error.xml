@@ -8,12 +8,12 @@
 
 	<error id="invalid-image-size" type="error">
 		<_primary>Invalid Image Size</_primary>
-		<_secondary>Please select a PNG image of size 48 * 48 pixels, whose file size doesn't exceed 723 bytes.</_secondary>
+		<_secondary>Please select a PNG image of size 48 × 48 pixels, whose file size doesn’t exceed 723 bytes.</_secondary>
 	</error>
 
 	<error id="incorrect-image-byte-size" type="warning">
 		<_primary>Incorrect Face Image Byte Size</_primary>
-		<_secondary>The Face image size is {0} bytes, while it should not be more than 723 bytes. Please select a PNG image of size 48 * 48 pixels, whose file size doesn't exceed 723 bytes.</_secondary>
+		<_secondary>The Face image size is {0} bytes, while it should not be more than 723 bytes. Please select a PNG image of size 48 × 48 pixels, whose file size doesn’t exceed 723 bytes.</_secondary>
 	</error>
 
 	<error id="not-an-image" type="error">

@@ -221,7 +221,7 @@ ece_task_check_dates_in_the_past (ECompEditorTask *task_editor)
 			E_COMP_EDITOR_PROPERTY_PART_DATETIME (task_editor->priv->due_date));
 
 		if (cal_comp_util_compare_time_with_today (dtstart_itt) < 0)
-			message = g_string_new (_("Task's start date is in the past"));
+			message = g_string_new (_("Task’s start date is in the past"));
 
 		if (cal_comp_util_compare_time_with_today (due_date_itt) < 0) {
 			if (message)
@@ -229,7 +229,7 @@ ece_task_check_dates_in_the_past (ECompEditorTask *task_editor)
 			else
 				message = g_string_new ("");
 
-			g_string_append (message, _("Task's due date is in the past"));
+			g_string_append (message, _("Task’s due date is in the past"));
 		}
 
 		if (message) {
@@ -815,8 +815,8 @@ e_comp_editor_task_class_init (ECompEditorTaskClass *klass)
 
 	comp_editor_class = E_COMP_EDITOR_CLASS (klass);
 	comp_editor_class->help_section = "tasks-usage";
-	comp_editor_class->title_format_with_attendees = _("Assigned Task - %s");
-	comp_editor_class->title_format_without_attendees = _("Task - %s");
+	comp_editor_class->title_format_with_attendees = _("Assigned Task — %s");
+	comp_editor_class->title_format_without_attendees = _("Task — %s");
 	comp_editor_class->icon_name = "stock_task";
 	comp_editor_class->sensitize_widgets = ece_task_sensitize_widgets;
 	comp_editor_class->fill_widgets = ece_task_fill_widgets;

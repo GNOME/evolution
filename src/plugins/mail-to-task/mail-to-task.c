@@ -595,13 +595,13 @@ get_question_edit_old (ECalClientSourceType source_type)
 
 	switch (source_type) {
 	case E_CAL_CLIENT_SOURCE_TYPE_EVENTS:
-		ask = _("Selected calendar contains event '%s' already. Would you like to edit the old event?");
+		ask = _("Selected calendar contains event “%s” already. Would you like to edit the old event?");
 		break;
 	case E_CAL_CLIENT_SOURCE_TYPE_TASKS:
-		ask = _("Selected task list contains task '%s' already. Would you like to edit the old task?");
+		ask = _("Selected task list contains task “%s” already. Would you like to edit the old task?");
 		break;
 	case E_CAL_CLIENT_SOURCE_TYPE_MEMOS:
-		ask = _("Selected memo list contains memo '%s' already. Would you like to edit the old memo?");
+		ask = _("Selected memo list contains memo “%s” already. Would you like to edit the old memo?");
 		break;
 	default:
 		g_warn_if_reached ();

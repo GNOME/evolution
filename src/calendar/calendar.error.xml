@@ -44,14 +44,14 @@
   </error>
 
   <error id="prompt-delete-titled-meeting" type="question" default="GTK_RESPONSE_NO">
-    <_primary>Are you sure you want to delete the meeting titled '{0}'?</_primary>
+    <_primary>Are you sure you want to delete the meeting titled “{0}”?</_primary>
     <_secondary>All information on this meeting will be deleted and can not be restored.</_secondary>
     <button _label="Do _Not Delete" response="GTK_RESPONSE_NO"/>
     <button stock="gtk-delete" response="GTK_RESPONSE_YES"/>
   </error>
 
   <error id="prompt-delete-titled-appointment" type="question" default="GTK_RESPONSE_NO">
-    <_primary>Are you sure you want to delete the appointment titled '{0}'?</_primary>
+    <_primary>Are you sure you want to delete the appointment titled “{0}”?</_primary>
     <_secondary>All information on this appointment will be deleted and can not be restored.</_secondary>
     <button _label="Do _Not Delete" response="GTK_RESPONSE_NO"/>
     <button stock="gtk-delete" response="GTK_RESPONSE_YES"/>
@@ -65,14 +65,14 @@
   </error>
 
   <error id="prompt-delete-named-task" type="question" default="GTK_RESPONSE_NO">
-    <_primary>Are you sure you want to delete the '{0}' task?</_primary>
+    <_primary>Are you sure you want to delete the “{0}” task?</_primary>
     <_secondary>All information on this task will be deleted and can not be restored.</_secondary>
     <button _label="Do _Not Delete" response="GTK_RESPONSE_NO"/>
     <button stock="gtk-delete" response="GTK_RESPONSE_YES"/>
   </error>
 
   <error id="prompt-delete-named-memo" type="question" default="GTK_RESPONSE_NO">
-    <_primary>Are you sure you want to delete the memo '{0}'?</_primary>
+    <_primary>Are you sure you want to delete the memo “{0}”?</_primary>
     <_secondary>All information in this memo will be deleted and can not be restored.</_secondary>
     <button _label="Do _Not Delete" response="GTK_RESPONSE_NO"/>
     <button stock="gtk-delete" response="GTK_RESPONSE_YES"/>
@@ -208,43 +208,43 @@
   </error>
 
   <error id="prompt-delete-calendar" type="question" default="GTK_RESPONSE_CANCEL">
-    <_primary>Delete calendar '{0}'?</_primary>
+    <_primary>Delete calendar “{0}”?</_primary>
     <_secondary>This calendar will be removed permanently.</_secondary>
     <button _label="Do _Not Delete" response="GTK_RESPONSE_CANCEL"/>
     <button stock="gtk-delete" response="GTK_RESPONSE_YES"/>
   </error>
 
   <error id="prompt-delete-task-list" type="question" default="GTK_RESPONSE_CANCEL">
-    <_primary>Delete task list '{0}'?</_primary>
+    <_primary>Delete task list “{0}”?</_primary>
     <_secondary>This task list will be removed permanently.</_secondary>
     <button _label="Do _Not Delete" response="GTK_RESPONSE_CANCEL"/>
     <button stock="gtk-delete" response="GTK_RESPONSE_YES"/>
   </error>
 
   <error id="prompt-delete-memo-list" type="question" default="GTK_RESPONSE_CANCEL">
-    <_primary>Delete memo list '{0}'?</_primary>
+    <_primary>Delete memo list “{0}”?</_primary>
     <_secondary>This memo list will be removed permanently.</_secondary>
     <button _label="Do _Not Delete" response="GTK_RESPONSE_NO"/>
     <button stock="gtk-delete" response="GTK_RESPONSE_YES"/>
   </error>
 
   <error id="prompt-delete-remote-calendar" type="question" default="GTK_RESPONSE_CANCEL">
-    <_primary>Delete remote calendar '{0}'?</_primary>
-    <_secondary>This will permanently remove the calendar '{0}' from the server. Are you sure you want to proceed?</_secondary>
+    <_primary>Delete remote calendar “{0}”?</_primary>
+    <_secondary>This will permanently remove the calendar “{0}” from the server. Are you sure you want to proceed?</_secondary>
     <button _label="Do _Not Delete" response="GTK_RESPONSE_CANCEL"/>
     <button _label="_Delete From Server" response="GTK_RESPONSE_YES"/>
   </error>
 
   <error id="prompt-delete-remote-task-list" type="question" default="GTK_RESPONSE_CANCEL">
-    <_primary>Delete remote task list '{0}'?</_primary>
-    <_secondary>This will permanently remove the task list '{0}' from the server. Are you sure you want to proceed?</_secondary>
+    <_primary>Delete remote task list “{0}”?</_primary>
+    <_secondary>This will permanently remove the task list “{0}” from the server. Are you sure you want to proceed?</_secondary>
     <button _label="Do _Not Delete" response="GTK_RESPONSE_CANCEL"/>
     <button _label="_Delete From Server" response="GTK_RESPONSE_YES"/>
   </error>
 
   <error id="prompt-delete-remote-memo-list" type="question" default="GTK_RESPONSE_CANCEL">
-    <_primary>Delete remote memo list '{0}'?</_primary>
-    <_secondary>This will permanently remove the memo list '{0}' from the server. Are you sure you want to proceed?</_secondary>
+    <_primary>Delete remote memo list “{0}”?</_primary>
+    <_secondary>This will permanently remove the memo list “{0}” from the server. Are you sure you want to proceed?</_secondary>
     <button _label="Do _Not Delete" response="GTK_RESPONSE_CANCEL"/>
     <button _label="_Delete From Server" response="GTK_RESPONSE_YES"/>
   </error>
@@ -271,37 +271,37 @@
 
   <error id="prompt-no-contents-offline-calendar" type="error" default="GTK_RESPONSE_YES">
     <!-- Translators: {0} is the name of the calendar. -->
-    <_primary>Error loading calendar '{0}'</_primary>
+    <_primary>Error loading calendar “{0}”</_primary>
     <_secondary>The calendar is not marked for offline usage.</_secondary>
   </error>
 
   <error id="prompt-read-only-cal-editor" type="error" default="GTK_RESPONSE_YES">
     <_primary>Cannot save event</_primary>
     <!-- Translators: {0} is the name of the calendar source -->
-    <_secondary>'{0}' is a read-only calendar and cannot be modified. Please select a different calendar that can accept appointments.</_secondary>
+    <_secondary>“{0}” is a read-only calendar and cannot be modified. Please select a different calendar that can accept appointments.</_secondary>
   </error>
 
   <error id="prompt-no-task-assignment-editor" type="error" default="GTK_RESPONSE_YES">
     <_primary>Cannot save task</_primary>
     <!-- Translators: {0} is the name of the calendar source -->
-    <_secondary>'{0}' does not support assigned tasks, please select a different task list.</_secondary>
+    <_secondary>“{0}” does not support assigned tasks, please select a different task list.</_secondary>
   </error>
 
   <error id="prompt-no-contents-offline-tasks" type="error" default="GTK_RESPONSE_YES">
     <!-- Translators: {0} is the name of the task list. -->
-    <_primary>Error loading task list '{0}'</_primary>
+    <_primary>Error loading task list “{0}”</_primary>
     <_secondary>The task list is not marked for offline usage.</_secondary>
   </error>
 
   <error id="prompt-no-contents-offline-memos" type="error" default="GTK_RESPONSE_YES">
     <!-- Translators: {0} is the name of the memo list. -->
-    <_primary>Error loading memo list '{0}'</_primary>
+    <_primary>Error loading memo list “{0}”</_primary>
     <_secondary>The memo list is not marked for offline usage.</_secondary>
   </error>
 
   <error id="failed-add-timezone" type="error" default="GTK_RESPONSE_YES">
     <!-- Translators: {0} is the name of the calendar/memo list/task list. -->
-    <_primary>Failed to add timezone to '{0}'</_primary>
+    <_primary>Failed to add timezone to “{0}”</_primary>
     <secondary>{1}</secondary>
   </error>
 
@@ -313,127 +313,127 @@
 
   <error id="failed-open-calendar" type="error" default="GTK_RESPONSE_YES">
     <!-- Translators: {0} is the name of the calendar. -->
-    <_primary>Failed to open calendar '{0}'</_primary>
+    <_primary>Failed to open calendar “{0}”</_primary>
     <secondary>{1}</secondary>
   </error>
 
   <error id="failed-open-memos" type="error" default="GTK_RESPONSE_YES">
     <!-- Translators: {0} is the name of the memo list. -->
-    <_primary>Failed to open memo list '{0}'</_primary>
+    <_primary>Failed to open memo list “{0}”</_primary>
     <secondary>{1}</secondary>
   </error>
 
   <error id="failed-open-tasks" type="error" default="GTK_RESPONSE_YES">
     <!-- Translators: {0} is the name of the task list. -->
-    <_primary>Failed to open task list '{0}'</_primary>
+    <_primary>Failed to open task list “{0}”</_primary>
     <secondary>{1}</secondary>
   </error>
 
   <error id="failed-create-event" type="error" default="GTK_RESPONSE_YES">
     <!-- Translators: {0} is the name of the calendar. -->
-    <_primary>Failed to create an event in the calendar '{0}'</_primary>
+    <_primary>Failed to create an event in the calendar “{0}”</_primary>
     <secondary>{1}</secondary>
   </error>
 
   <error id="failed-create-memo" type="error" default="GTK_RESPONSE_YES">
     <!-- Translators: {0} is the name of the memo list. -->
-    <_primary>Failed to create a memo in the memo list '{0}'</_primary>
+    <_primary>Failed to create a memo in the memo list “{0}”</_primary>
     <secondary>{1}</secondary>
   </error>
 
   <error id="failed-create-task" type="error" default="GTK_RESPONSE_YES">
     <!-- Translators: {0} is the name of the task list. -->
-    <_primary>Failed to create a task in the task list '{0}'</_primary>
+    <_primary>Failed to create a task in the task list “{0}”</_primary>
     <secondary>{1}</secondary>
   </error>
 
   <error id="failed-modify-event" type="error" default="GTK_RESPONSE_YES">
     <!-- Translators: {0} is the name of the calendar. -->
-    <_primary>Failed to modify an event in the calendar '{0}'</_primary>
+    <_primary>Failed to modify an event in the calendar “{0}”</_primary>
     <secondary>{1}</secondary>
   </error>
 
   <error id="failed-modify-memo" type="error" default="GTK_RESPONSE_YES">
     <!-- Translators: {0} is the name of the memo list. -->
-    <_primary>Failed to modify a memo in the memo list '{0}'</_primary>
+    <_primary>Failed to modify a memo in the memo list “{0}”</_primary>
     <secondary>{1}</secondary>
   </error>
 
   <error id="failed-modify-task" type="error" default="GTK_RESPONSE_YES">
     <!-- Translators: {0} is the name of the task list. -->
-    <_primary>Failed to modify a task in the task list '{0}'</_primary>
+    <_primary>Failed to modify a task in the task list “{0}”</_primary>
     <secondary>{1}</secondary>
   </error>
 
   <error id="failed-remove-event" type="error" default="GTK_RESPONSE_YES">
     <!-- Translators: {0} is the name of the calendar. -->
-    <_primary>Failed to delete an event in the calendar '{0}'</_primary>
+    <_primary>Failed to delete an event in the calendar “{0}”</_primary>
     <secondary>{1}</secondary>
   </error>
 
   <error id="failed-remove-memo" type="error" default="GTK_RESPONSE_YES">
     <!-- Translators: {0} is the name of the memo list. -->
-    <_primary>Failed to delete a memo in the memo list '{0}'</_primary>
+    <_primary>Failed to delete a memo in the memo list “{0}”</_primary>
     <secondary>{1}</secondary>
   </error>
 
   <error id="failed-remove-task" type="error" default="GTK_RESPONSE_YES">
     <!-- Translators: {0} is the name of the task list. -->
-    <_primary>Failed to delete a task in the task list '{0}'</_primary>
+    <_primary>Failed to delete a task in the task list “{0}”</_primary>
     <secondary>{1}</secondary>
   </error>
 
   <error id="failed-update-event" type="error" default="GTK_RESPONSE_YES">
     <!-- Translators: {0} is the name of the calendar. -->
-    <_primary>Failed to update an event in the calendar '{0}'</_primary>
+    <_primary>Failed to update an event in the calendar “{0}”</_primary>
     <secondary>{1}</secondary>
   </error>
 
   <error id="failed-update-memo" type="error" default="GTK_RESPONSE_YES">
     <!-- Translators: {0} is the name of the memo list. -->
-    <_primary>Failed to update a memo in the memo list '{0}'</_primary>
+    <_primary>Failed to update a memo in the memo list “{0}”</_primary>
     <secondary>{1}</secondary>
   </error>
 
   <error id="failed-update-task" type="error" default="GTK_RESPONSE_YES">
     <!-- Translators: {0} is the name of the task list. -->
-    <_primary>Failed to update a task in the task list '{0}'</_primary>
+    <_primary>Failed to update a task in the task list “{0}”</_primary>
     <secondary>{1}</secondary>
   </error>
 
   <error id="failed-send-event" type="error" default="GTK_RESPONSE_YES">
     <!-- Translators: {0} is the name of the calendar. -->
-    <_primary>Failed to send an event to the calendar '{0}'</_primary>
+    <_primary>Failed to send an event to the calendar “{0}”</_primary>
     <secondary>{1}</secondary>
   </error>
 
   <error id="failed-send-memo" type="error" default="GTK_RESPONSE_YES">
     <!-- Translators: {0} is the name of the memo list. -->
-    <_primary>Failed to send a memo to the memo list '{0}'</_primary>
+    <_primary>Failed to send a memo to the memo list “{0}”</_primary>
     <secondary>{1}</secondary>
   </error>
 
   <error id="failed-send-task" type="error" default="GTK_RESPONSE_YES">
     <!-- Translators: {0} is the name of the task list. -->
-    <_primary>Failed to send a task to the task list '{0}'</_primary>
+    <_primary>Failed to send a task to the task list “{0}”</_primary>
     <secondary>{1}</secondary>
   </error>
 
   <error id="failed-create-view-calendar" type="error" default="GTK_RESPONSE_YES">
     <!-- Translators: {0} is the name of the calendar. -->
-    <_primary>Error creating view for the calendar '{0}'</_primary>
+    <_primary>Error creating view for the calendar “{0}”</_primary>
     <secondary>{1}</secondary>
   </error>
 
   <error id="failed-create-view-tasks" type="error" default="GTK_RESPONSE_YES">
     <!-- Translators: {0} is the name of the task list. -->
-    <_primary>Error creating view for the task list '{0}'</_primary>
+    <_primary>Error creating view for the task list “{0}”</_primary>
     <secondary>{1}</secondary>
   </error>
 
   <error id="failed-create-view-memos" type="error" default="GTK_RESPONSE_YES">
     <!-- Translators: {0} is the name of the memo list. -->
-    <_primary>Error creating view for the memo list '{0}'</_primary>
+    <_primary>Error creating view for the memo list “{0}”</_primary>
     <secondary>{1}</secondary>
   </error>
 
@@ -443,103 +443,103 @@
 
   <error id="failed-copy-event" type="error" default="GTK_RESPONSE_YES">
     <!-- Translators: {0} is the name of the calendar. -->
-    <_primary>Failed to copy an event into the calendar '{0}'</_primary>
+    <_primary>Failed to copy an event into the calendar “{0}”</_primary>
     <secondary>{1}</secondary>
   </error>
 
   <error id="failed-copy-task" type="error" default="GTK_RESPONSE_YES">
     <!-- Translators: {0} is the name of the task list. -->
-    <_primary>Failed to copy a task into the task list '{0}'</_primary>
+    <_primary>Failed to copy a task into the task list “{0}”</_primary>
     <secondary>{1}</secondary>
   </error>
 
   <error id="failed-copy-memo" type="error" default="GTK_RESPONSE_YES">
     <!-- Translators: {0} is the name of the memo list. -->
-    <_primary>Failed to copy a memo into the memo list '{0}'</_primary>
+    <_primary>Failed to copy a memo into the memo list “{0}”</_primary>
     <secondary>{1}</secondary>
   </error>
 
   <error id="failed-move-event" type="error" default="GTK_RESPONSE_YES">
     <!-- Translators: {0} is the name of the calendar. -->
-    <_primary>Failed to move an event into the calendar '{0}'</_primary>
+    <_primary>Failed to move an event into the calendar “{0}”</_primary>
     <secondary>{1}</secondary>
   </error>
 
   <error id="failed-move-task" type="error" default="GTK_RESPONSE_YES">
     <!-- Translators: {0} is the name of the task list. -->
-    <_primary>Failed to move a task into the task list '{0}'</_primary>
+    <_primary>Failed to move a task into the task list “{0}”</_primary>
     <secondary>{1}</secondary>
   </error>
 
   <error id="failed-move-memo" type="error" default="GTK_RESPONSE_YES">
     <!-- Translators: {0} is the name of the memo list. -->
-    <_primary>Failed to move a memo into the memo list '{0}'</_primary>
+    <_primary>Failed to move a memo into the memo list “{0}”</_primary>
     <secondary>{1}</secondary>
   </error>
 
   <error id="failed-get-event" type="error" default="GTK_RESPONSE_YES">
     <!-- Translators: {0} is the name of the calendar. -->
-    <_primary>Failed to get an event from the calendar '{0}'</_primary>
+    <_primary>Failed to get an event from the calendar “{0}”</_primary>
     <secondary>{1}</secondary>
   </error>
 
   <error id="failed-get-task" type="error" default="GTK_RESPONSE_YES">
     <!-- Translators: {0} is the name of the task list. -->
-    <_primary>Failed to get a task from the task list '{0}'</_primary>
+    <_primary>Failed to get a task from the task list “{0}”</_primary>
     <secondary>{1}</secondary>
   </error>
 
   <error id="failed-get-memo" type="error" default="GTK_RESPONSE_YES">
     <!-- Translators: {0} is the name of the memo list. -->
-    <_primary>Failed to get a memo from the memo list '{0}'</_primary>
+    <_primary>Failed to get a memo from the memo list “{0}”</_primary>
     <secondary>{1}</secondary>
   </error>
 
   <error id="status-copy-event" type="warning">
     <!-- Translators: {0} is the name of the calendar. -->
-    <_primary>Copying an event into the calendar '{0}'</_primary>
+    <_primary>Copying an event into the calendar “{0}”</_primary>
   </error>
 
   <error id="status-copy-task" type="warning">
     <!-- Translators: {0} is the name of the task list. -->
-    <_primary>Copying a task into the task list '{0}'</_primary>
+    <_primary>Copying a task into the task list “{0}”</_primary>
   </error>
 
   <error id="status-copy-memo" type="warning">
     <!-- Translators: {0} is the name of the memo list. -->
-    <_primary>Copying a memo into the memo list '{0}'</_primary>
+    <_primary>Copying a memo into the memo list “{0}”</_primary>
   </error>
 
   <error id="status-move-event" type="warning">
     <!-- Translators: {0} is the name of the calendar. -->
-    <_primary>Moving an event into the calendar '{0}'</_primary>
+    <_primary>Moving an event into the calendar “{0}”</_primary>
   </error>
 
   <error id="status-move-task" type="warning">
     <!-- Translators: {0} is the name of the task list. -->
-    <_primary>Moving a task into the task list '{0}'</_primary>
+    <_primary>Moving a task into the task list “{0}”</_primary>
   </error>
 
   <error id="status-move-memo" type="warning">
     <!-- Translators: {0} is the name of the memo list. -->
-    <_primary>Moving a memo into the memo list '{0}'</_primary>
+    <_primary>Moving a memo into the memo list “{0}”</_primary>
   </error>
 
   <error id="refresh-error-events" type="error">
     <!-- Translators: {0} is the name of the calendar. -->
-    <_primary>Failed to refresh calendar '{0}'</_primary>
+    <_primary>Failed to refresh calendar “{0}”</_primary>
     <secondary>{1}</secondary>
   </error>
 
   <error id="refresh-error-tasks" type="error">
     <!-- Translators: {0} is the name of the task list. -->
-    <_primary>Failed to refresh task list '{0}'</_primary>
+    <_primary>Failed to refresh task list “{0}”</_primary>
     <secondary>{1}</secondary>
   </error>
 
   <error id="refresh-error-memos" type="error">
     <!-- Translators: {0} is the name of the memo list. -->
-    <_primary>Failed to refresh memo list '{0}'</_primary>
+    <_primary>Failed to refresh memo list “{0}”</_primary>
     <secondary>{1}</secondary>
   </error>
 

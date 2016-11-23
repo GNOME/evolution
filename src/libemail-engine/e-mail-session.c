@@ -2438,7 +2438,7 @@ e_mail_session_mark_service_used_sync (EMailSession *session,
 		g_hash_table_contains (session->priv->used_services, service)) {
 
 		if (!message_pushed) {
-			camel_operation_push_message (cancellable, _("Waiting for '%s'"), camel_service_get_display_name (service));
+			camel_operation_push_message (cancellable, _("Waiting for “%s”"), camel_service_get_display_name (service));
 			message_pushed = TRUE;
 		}
 

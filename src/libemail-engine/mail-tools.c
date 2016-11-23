@@ -65,7 +65,7 @@ mail_tool_get_local_movemail_path (CamelStore *store,
 		g_set_error (
 			error, G_FILE_ERROR,
 			g_file_error_from_errno (errno),
-			_("Could not create spool directory '%s': %s"),
+			_("Could not create spool directory “%s”: %s"),
 			path, g_strerror (errno));
 		g_free (path);
 		return NULL;
@@ -105,7 +105,7 @@ mail_tool_do_movemail (CamelStore *store,
 		g_set_error (
 			error, CAMEL_SERVICE_ERROR,
 			CAMEL_SERVICE_ERROR_URL_INVALID,
-			_("Trying to movemail a non-mbox source '%s'"),
+			_("Trying to movemail a non-mbox source “%s”"),
 			camel_service_get_uid (CAMEL_SERVICE (store)));
 		return NULL;
 	}
@@ -254,7 +254,7 @@ mail_tool_make_message_attachment (CamelMimeMessage *message)
 
 	subject = camel_mime_message_get_subject (message);
 	if (subject)
-		desc = g_strdup_printf (_("Forwarded message - %s"), subject);
+		desc = g_strdup_printf (_("Forwarded message — %s"), subject);
 	else
 		desc = g_strdup (_("Forwarded message"));
 

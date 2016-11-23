@@ -107,7 +107,7 @@ empe_msg_external_parse (EMailParserExtension *extension,
 
 		url = g_filename_to_uri (name, NULL, NULL);
 		if (site)
-			desc = g_strdup_printf (_("Pointer to local file (%s) valid at site \"%s\""), name, site);
+			desc = g_strdup_printf (_("Pointer to local file (%s) valid at site “%s”"), name, site);
 		else
 			desc = g_strdup_printf (_("Pointer to local file (%s)"), name);
 	} else if (!g_ascii_strcasecmp (access_type, "URL")) {
@@ -146,7 +146,7 @@ empe_msg_external_parse (EMailParserExtension *extension,
 
 fail:
 	content = g_strdup_printf (
-		_("Pointer to unknown external data (\"%s\" type)"),
+		_("Pointer to unknown external data (“%s” type)"),
 		access_type);
 	mime_type = "text/plain";
 	camel_mime_part_set_content (

@@ -924,7 +924,7 @@ csv_import (EImport *ei,
 	g_free (filename);
 
 	if (file == NULL) {
-		error = g_error_new_literal (G_IO_ERROR, g_io_error_from_errno (errn), _("Can't open .csv file"));
+		error = g_error_new_literal (G_IO_ERROR, g_io_error_from_errno (errn), _("Can’t open .csv file"));
 		e_import_complete (ei, target, error);
 		g_clear_error (&error);
 

@@ -3635,7 +3635,7 @@ find_cal_update_ui (FormatItipFindData *fd,
 		itip_view_add_upper_info_item_printf (
 			view, ITIP_VIEW_INFO_ITEM_TYPE_WARNING,
 			_("An appointment in the calendar "
-			"'%s' conflicts with this meeting"),
+			"“%s” conflicts with this meeting"),
 			e_source_get_display_name (source));
 	}
 
@@ -3664,7 +3664,7 @@ find_cal_update_ui (FormatItipFindData *fd,
 		/* FIXME Check read only state of calendar? */
 		itip_view_add_lower_info_item_printf (
 			view, ITIP_VIEW_INFO_ITEM_TYPE_INFO,
-			_("Found the appointment in the calendar '%s'"), e_source_get_display_name (source));
+			_("Found the appointment in the calendar “%s”"), e_source_get_display_name (source));
 
 		/*
 		 * Only allow replies if backend doesn't do that automatically.
@@ -4564,7 +4564,7 @@ receive_objects_ready_cb (GObject *ecalclient,
 		view->priv->update_item_error_info_id =
 			itip_view_add_lower_info_item_printf (
 				view, ITIP_VIEW_INFO_ITEM_TYPE_INFO,
-				_("Unable to send item to calendar '%s'.  %s"),
+				_("Unable to send item to calendar “%s”.  %s"),
 				e_source_get_display_name (source),
 				error->message);
 		g_error_free (error);
@@ -4579,24 +4579,24 @@ receive_objects_ready_cb (GObject *ecalclient,
 	case ITIP_VIEW_RESPONSE_ACCEPT:
 		itip_view_add_lower_info_item_printf (
 			view, ITIP_VIEW_INFO_ITEM_TYPE_INFO,
-			_("Sent to calendar '%s' as accepted"), e_source_get_display_name (source));
+			_("Sent to calendar “%s” as accepted"), e_source_get_display_name (source));
 		break;
 	case ITIP_VIEW_RESPONSE_TENTATIVE:
 		itip_view_add_lower_info_item_printf (
 			view, ITIP_VIEW_INFO_ITEM_TYPE_INFO,
-			_("Sent to calendar '%s' as tentative"), e_source_get_display_name (source));
+			_("Sent to calendar “%s” as tentative"), e_source_get_display_name (source));
 		break;
 	case ITIP_VIEW_RESPONSE_DECLINE:
 		/* FIXME some calendars just might not save it at all, is this accurate? */
 		itip_view_add_lower_info_item_printf (
 			view, ITIP_VIEW_INFO_ITEM_TYPE_INFO,
-			_("Sent to calendar '%s' as declined"), e_source_get_display_name (source));
+			_("Sent to calendar “%s” as declined"), e_source_get_display_name (source));
 		break;
 	case ITIP_VIEW_RESPONSE_CANCEL:
 		/* FIXME some calendars just might not save it at all, is this accurate? */
 		itip_view_add_lower_info_item_printf (
 			view, ITIP_VIEW_INFO_ITEM_TYPE_INFO,
-			_("Sent to calendar '%s' as cancelled"), e_source_get_display_name (source));
+			_("Sent to calendar “%s” as cancelled"), e_source_get_display_name (source));
 		break;
 	default:
 		g_warn_if_reached ();

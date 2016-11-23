@@ -2498,16 +2498,16 @@ e_util_get_open_source_job_info (const gchar *extension_name,
 
 	if (g_ascii_strcasecmp (extension_name, E_SOURCE_EXTENSION_CALENDAR) == 0) {
 		*alert_ident = g_strdup ("calendar:failed-open-calendar");
-		*description = g_strdup_printf (_("Opening calendar '%s'"), source_display_name);
+		*description = g_strdup_printf (_("Opening calendar “%s”"), source_display_name);
 	} else if (g_ascii_strcasecmp (extension_name, E_SOURCE_EXTENSION_MEMO_LIST) == 0) {
 		*alert_ident = g_strdup ("calendar:failed-open-memos");
-		*description = g_strdup_printf (_("Opening memo list '%s'"), source_display_name);
+		*description = g_strdup_printf (_("Opening memo list “%s”"), source_display_name);
 	} else if (g_ascii_strcasecmp (extension_name, E_SOURCE_EXTENSION_TASK_LIST) == 0) {
 		*alert_ident = g_strdup ("calendar:failed-open-tasks");
-		*description = g_strdup_printf (_("Opening task list '%s'"), source_display_name);
+		*description = g_strdup_printf (_("Opening task list “%s”"), source_display_name);
 	} else if (g_ascii_strcasecmp (extension_name, E_SOURCE_EXTENSION_ADDRESS_BOOK) == 0) {
 		*alert_ident = g_strdup ("addressbook:load-error");
-		*description = g_strdup_printf (_("Opening address book '%s'"), source_display_name);
+		*description = g_strdup_printf (_("Opening address book “%s”"), source_display_name);
 	} else {
 		return FALSE;
 	}

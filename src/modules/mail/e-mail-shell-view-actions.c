@@ -2095,7 +2095,7 @@ static GtkRadioActionEntry mail_filter_entries[] = {
 
 	{ "mail-filter-last-5-days-messages",
 	  NULL,
-	  N_("Last 5 Days' Messages"),
+	  N_("Last 5 Days’ Messages"),
 	  NULL,
 	  NULL,  /* XXX Add a tooltip! */
 	  MAIL_FILTER_LAST_5_DAYS_MESSAGES },

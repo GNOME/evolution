@@ -23,7 +23,7 @@
     <key name="notify-sound-enabled" type="b">
       <default>true</default>
       <_summary>Enable audible notifications when new messages arrive.</_summary>
-      <_description>Whether to make a sound of any kind when new messages arrive.  If "false", the "notify-sound-beep", "notify-sound-file", "notify-sound-play-file" and "notify-sound-use-theme" keys are disregarded.</_description>
+      <_description>Whether to make a sound of any kind when new messages arrive.  If “false”, the “notify-sound-beep”, “notify-sound-file”, “notify-sound-play-file” and “notify-sound-use-theme” keys are disregarded.</_description>
     </key>
     <key name="notify-sound-beep" type="b">
       <default>true</default>
@@ -33,12 +33,12 @@
     <key name="notify-sound-file" type="s">
       <default>''</default>
       <_summary>Sound filename to be played.</_summary>
-      <_description>Sound file to be played when new messages arrive, if "notify-sound-play-file" is "true".</_description>
+      <_description>Sound file to be played when new messages arrive, if “notify-sound-play-file” is “true”.</_description>
     </key>
     <key name="notify-sound-play-file" type="b">
       <default>false</default>
       <_summary>Whether to play a sound file.</_summary>
-      <_description>Whether to play a sound file when new messages arrive. The name of the sound file is given by the 'notify-sound-file' key.</_description>
+      <_description>Whether to play a sound file when new messages arrive. The name of the sound file is given by the “notify-sound-file” key.</_description>
     </key>
     <key name="notify-sound-use-theme" type="b">
       <default>false</default>

@@ -1225,7 +1225,7 @@ static gchar *
 refresh_folders_desc (struct _refresh_folders_msg *m)
 {
 	return g_strdup_printf (
-		_("Checking for new mail at '%s'"),
+		_("Checking for new mail at “%s”"),
 		camel_service_get_display_name (CAMEL_SERVICE (m->store)));
 }
 
@@ -1452,11 +1452,11 @@ refresh_local_store_desc (struct _refresh_local_store_msg *m)
 	display_name = camel_service_get_display_name (CAMEL_SERVICE (m->store));
 
 	if (m->delete_junk && m->expunge_trash)
-		return g_strdup_printf (_("Deleting junk and expunging trash at '%s'"), display_name);
+		return g_strdup_printf (_("Deleting junk and expunging trash at “%s”"), display_name);
 	else if (m->delete_junk)
-		return g_strdup_printf (_("Deleting junk at '%s'"), display_name);
+		return g_strdup_printf (_("Deleting junk at “%s”"), display_name);
 	else
-		return g_strdup_printf (_("Expunging trash at '%s'"), display_name);
+		return g_strdup_printf (_("Expunging trash at “%s”"), display_name);
 }
 
 static void

@@ -804,7 +804,7 @@ e_plugin_lib_get_configure_widget (EPlugin *epl)
 	gtk_box_pack_start (GTK_BOX (ech_configuration_box), vbox2, FALSE, FALSE, 0);
 
 	/* To translators: This string is used while adding a new message header to configuration, to specifying the format of the key values */
-	label1 = gtk_label_new (_("The format for specifying a Custom Header key value is:\nName of the Custom Header key values separated by \";\"."));
+	label1 = gtk_label_new (_("The format for specifying a Custom Header key value is:\nName of the Custom Header key values separated by “;”."));
 	gtk_widget_show (label1);
 	gtk_box_pack_start (GTK_BOX (vbox2), label1, FALSE, TRUE, 0);
 	gtk_label_set_justify (GTK_LABEL (label1), GTK_JUSTIFY_CENTER);

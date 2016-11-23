@@ -695,8 +695,8 @@ book_config_ldap_insert_widgets (ESourceConfigBackend *backend,
 
 	gtk_widget_set_tooltip_text (
 		widget, _("This is the method Evolution will use to "
-		"authenticate you.  Note that setting this to \"Using "
-		"email address\" requires anonymous access to your LDAP "
+		"authenticate you.  Note that setting this to “Using "
+		"email address” requires anonymous access to your LDAP "
 		"server."));
 
 	widget = gtk_entry_new ();
@@ -785,8 +785,8 @@ book_config_ldap_insert_widgets (ESourceConfigBackend *backend,
 	gtk_widget_set_tooltip_text (
 		widget, _("The search scope defines how deep you would "
 		"like the search to extend down the directory tree.  A "
-		"search scope of \"Subtree\" will include all entries "
-		"below your search base.  A search scope of \"One Level\" "
+		"search scope of “Subtree” will include all entries "
+		"below your search base.  A search scope of “One Level” "
 		"will only include the entries one level beneath your "
 		"search base."));
 

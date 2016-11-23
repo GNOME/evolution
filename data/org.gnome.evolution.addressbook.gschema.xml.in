@@ -23,7 +23,7 @@
     <key name="layout" type="i">
       <default>0</default>
       <_summary>Contact layout style</_summary>
-      <_description>The layout style determines where to place the preview pane in relation to the contact list.  "0" (Classic View) places the preview pane below the contact list.  "1" (Vertical View) places the preview pane next to the contact list.</_description>
+      <_description>The layout style determines where to place the preview pane in relation to the contact list.  “0” (Classic View) places the preview pane below the contact list.  “1” (Vertical View) places the preview pane next to the contact list.</_description>
     </key>
     <key name="hpane-position" type="i">
       <default>200</default>
@@ -53,7 +53,7 @@
     <key name="primary-addressbook" type="s">
       <default>''</default>
       <_summary>Primary address book</_summary>
-      <_description>The UID of the selected (or "primary") address book in the sidebar of the "Contacts" view</_description>
+      <_description>The UID of the selected (or “primary”) address book in the sidebar of the “Contacts” view</_description>
     </key>
     <key name="show-preview" type="b">
       <default>true</default>

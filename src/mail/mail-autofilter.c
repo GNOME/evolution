@@ -506,10 +506,10 @@ mail_filter_delete_folder (CamelStore *store,
 			 * folder. For more than one filter rule is each of
 			 * them on a separate line, with four spaces in front
 			 * of its name, without quotes. */
-			"The filter rule \"%s\" has been modified to account "
-			"for the deleted folder\n\"%s\".",
+			"The filter rule “%s” has been modified to account "
+			"for the deleted folder\n“%s”.",
 			"The following filter rules\n%s have been modified "
-			"to account for the deleted folder\n\"%s\".",
+			"to account for the deleted folder\n“%s”.",
 			s_count), s->str, folder_name);
 		e_alert_submit (
 			alert_sink, "mail:filter-updated", info, NULL);

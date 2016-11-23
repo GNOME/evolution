@@ -14,75 +14,75 @@
   </error>
 
   <error id="ask-save-file-exists-overwrite" type="error" default="GTK_RESPONSE_CANCEL">
-    <_primary>A file named "{0}" already exists.  Do you want to replace it?</_primary>
-    <_secondary>The file already exists in "{0}".  Replacing it will overwrite its contents.</_secondary>
+    <_primary>A file named “{0}” already exists.  Do you want to replace it?</_primary>
+    <_secondary>The file already exists in “{0}”.  Replacing it will overwrite its contents.</_secondary>
     <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
     <button _label="_Replace" response="GTK_RESPONSE_OK"/>
   </error>
 
   <error id="no-save-file" type="error">
-    <_primary>Cannot save file "{0}".</_primary>
-    <_secondary>Because "{1}".</_secondary>
+    <_primary>Cannot save file “{0}”.</_primary>
+    <_secondary>Because “{1}”.</_secondary>
   </error>
 
   <error id="no-load-file" type="error">
-    <_primary>Cannot open file "{0}".</_primary>
-    <_secondary>Because "{1}".</_secondary>
+    <_primary>Cannot open file “{0}”.</_primary>
+    <_secondary>Because “{1}”.</_secondary>
   </error>
 
   <error id="remove-source-fail" type="error">
-    <_primary>Failed to remove data source &quot;{0}&quot;.</_primary>
-    <_secondary>The reported error was &quot;{1}&quot;.</_secondary>
+    <_primary>Failed to remove data source “{0}”.</_primary>
+    <_secondary>The reported error was “{1}”.</_secondary>
   </error>
 
   <error id="write-source-fail" type="error">
-    <_primary>Failed to update data source &quot;{0}&quot;.</_primary>
-    <_secondary>The reported error was &quot;{1}&quot;.</_secondary>
+    <_primary>Failed to update data source “{0}”.</_primary>
+    <_secondary>The reported error was “{1}”.</_secondary>
   </error>
 
   <error id="delete-resource-fail" type="error">
-    <_primary>Failed to delete resource &quot;{0}&quot;.</_primary>
-    <_secondary>The reported error was &quot;{1}&quot;.</_secondary>
+    <_primary>Failed to delete resource “{0}”.</_primary>
+    <_secondary>The reported error was “{1}”.</_secondary>
   </error>
 
  <error id="address-book-backend-died" type="error">
-  <_primary>The address book backend servicing &quot;{0}&quot; has quit unexpectedly.</_primary>
+  <_primary>The address book backend servicing “{0}” has quit unexpectedly.</_primary>
   <_secondary>Some of your contacts may not be available until Evolution is restarted.</_secondary>
  </error>
 
  <error id="calendar-backend-died" type="error">
-  <_primary>The calendar backend servicing &quot;{0}&quot; has quit unexpectedly.</_primary>
+  <_primary>The calendar backend servicing “{0}” has quit unexpectedly.</_primary>
   <_secondary>Some of your appointments may not be available until Evolution is restarted.</_secondary>
  </error>
 
  <error id="memo-list-backend-died" type="error">
-  <_primary>The memo list backend servicing &quot;{0}&quot; has quit unexpectedly.</_primary>
+  <_primary>The memo list backend servicing “{0}” has quit unexpectedly.</_primary>
   <_secondary>Some of your memos may not be available until Evolution is restarted.</_secondary>
  </error>
 
  <error id="task-list-backend-died" type="error">
-  <_primary>The task list backend servicing &quot;{0}&quot; has quit unexpectedly.</_primary>
+  <_primary>The task list backend servicing “{0}” has quit unexpectedly.</_primary>
   <_secondary>Some of your tasks may not be available until Evolution is restarted.</_secondary>
  </error>
 
  <error id="address-book-backend-error" type="warning">
-  <_primary>The address book backend servicing &quot;{0}&quot; encountered an error.</_primary>
-  <_secondary>The reported error was &quot;{1}&quot;.</_secondary>
+  <_primary>The address book backend servicing “{0}” encountered an error.</_primary>
+  <_secondary>The reported error was “{1}”.</_secondary>
  </error>
 
  <error id="calendar-backend-error" type="warning">
-  <_primary>The calendar backend servicing &quot;{0}&quot; encountered an error.</_primary>
-  <_secondary>The reported error was &quot;{1}&quot;.</_secondary>
+  <_primary>The calendar backend servicing “{0}” encountered an error.</_primary>
+  <_secondary>The reported error was “{1}”.</_secondary>
  </error>
 
  <error id="memo-list-backend-error" type="warning">
-  <_primary>The memo list backend servicing &quot;{0}&quot; encountered an error.</_primary>
-  <_secondary>The reported error was &quot;{1}&quot;.</_secondary>
+  <_primary>The memo list backend servicing “{0}” encountered an error.</_primary>
+  <_secondary>The reported error was “{1}”.</_secondary>
  </error>
 
  <error id="task-list-backend-error" type="warning">
-  <_primary>The task list backend servicing &quot;{0}&quot; encountered an error.</_primary>
-  <_secondary>The reported error was &quot;{1}&quot;.</_secondary>
+  <_primary>The task list backend servicing “{0}” encountered an error.</_primary>
+  <_secondary>The reported error was “{1}”.</_secondary>
  </error>
 
 </error-list>

@@ -308,14 +308,14 @@ ecep_general_attendees_remove_clicked_cb (GtkButton *button,
 				errors = g_string_new ("");
 			else
 				g_string_append (errors, "\n");
-			g_string_append_printf (errors, _("Cannot find attendee '%s' in the list of attendees"), address);
+			g_string_append_printf (errors, _("Cannot find attendee “%s” in the list of attendees"), address);
 			failures++;
 		} else if (e_meeting_attendee_get_edit_level (attendee) != E_MEETING_ATTENDEE_EDIT_FULL) {
 			if (!errors)
 				errors = g_string_new ("");
 			else
 				g_string_append (errors, "\n");
-			g_string_append_printf (errors, _("Not enough rights to delete attendee '%s'"), e_meeting_attendee_get_address (attendee));
+			g_string_append_printf (errors, _("Not enough rights to delete attendee “%s”"), e_meeting_attendee_get_address (attendee));
 			failures++;
 		} else {
 			ecep_general_remove_attendee (page_general, attendee);

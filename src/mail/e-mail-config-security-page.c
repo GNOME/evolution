@@ -249,7 +249,7 @@ mail_security_page_get_openpgpg_combo (void)
 
 				/* Translators: This string is to describe a PGP key in a combo box in mail account's preferences.
 						The first '%s' is a key ID, the second '%s' is a display name of the key. */
-				description = g_strdup_printf (C_("PGPKeyDescription", "%s - %s"), display_id, display_name);
+				description = g_strdup_printf (C_("PGPKeyDescription", "%s — %s"), display_id, display_name);
 
 				gtk_list_store_append (store, &iter);
 				gtk_list_store_set (store, &iter,

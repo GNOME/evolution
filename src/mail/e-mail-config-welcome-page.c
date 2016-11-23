@@ -155,7 +155,7 @@ e_mail_config_welcome_page_class_init (EMailConfigWelcomePageClass *class)
 			"Text",
 			"Welcome message",
 			_("Welcome to the Evolution Mail Configuration "
-			"Assistant.\n\nClick \"Next\" to begin."),
+			"Assistant.\n\nClick “Next” to begin."),
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT |
 			G_PARAM_STATIC_STRINGS));

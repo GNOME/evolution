@@ -305,7 +305,7 @@ mdn_notify_sender (ESource *identity_source,
 	content = g_strdup_printf (
 		/* Translators: First %s is an email address, second %s
 		 * is the subject of the email, third %s is the date. */
-		_("Your message to %s about \"%s\" on %s has been read."),
+		_("Your message to %s about “%s” on %s has been read."),
 		self_address, message_subject, message_date);
 	stream = camel_stream_mem_new ();
 	camel_stream_write_string (stream, content, NULL, NULL);
@@ -371,7 +371,7 @@ mdn_notify_sender (ESource *identity_source,
 
 	receipt_subject = g_strdup_printf (
 		/* Translators: %s is the subject of the email message. */
-		_("Delivery Notification for \"%s\""), message_subject);
+		_("Delivery Notification for “%s”"), message_subject);
 	camel_mime_message_set_subject (receipt, receipt_subject);
 	g_free (receipt_subject);
 
@@ -537,7 +537,7 @@ mdn_message_loaded_cb (EMailReader *reader,
 		identity_address = NULL;
 
 		tooltip = g_strdup_printf (
-			_("Send a read receipt to '%s'"),
+			_("Send a read receipt to “%s”"),
 			context->notify_to);
 
 		action = gtk_action_new (

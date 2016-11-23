@@ -96,7 +96,7 @@ ece_event_update_times (ECompEditorEvent *event_editor,
 				EAlert *alert;
 
 				alert = e_comp_editor_add_warning (E_COMP_EDITOR (event_editor),
-					_("Event's time is in the past"), NULL);
+					_("Event’s time is in the past"), NULL);
 
 				event_editor->priv->in_the_past_alert = alert;
 
@@ -854,8 +854,8 @@ e_comp_editor_event_class_init (ECompEditorEventClass *klass)
 
 	comp_editor_class = E_COMP_EDITOR_CLASS (klass);
 	comp_editor_class->help_section = "calendar-usage-add-appointment";
-	comp_editor_class->title_format_with_attendees = _("Meeting - %s");
-	comp_editor_class->title_format_without_attendees = _("Appointment - %s");
+	comp_editor_class->title_format_with_attendees = _("Meeting — %s");
+	comp_editor_class->title_format_without_attendees = _("Appointment — %s");
 	comp_editor_class->icon_name = "appointment-new";
 	comp_editor_class->sensitize_widgets = ece_event_sensitize_widgets;
 	comp_editor_class->fill_widgets = ece_event_fill_widgets;

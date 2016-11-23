@@ -942,7 +942,7 @@ static GtkRadioActionEntry task_filter_entries[] = {
 
 	{ "task-filter-next-7-days-tasks",
 	  NULL,
-	  N_("Next 7 Days' Tasks"),
+	  N_("Next 7 Days’ Tasks"),
 	  NULL,
 	  NULL,  /* XXX Add a tooltip! */
 	  TASK_FILTER_NEXT_7_DAYS_TASKS },

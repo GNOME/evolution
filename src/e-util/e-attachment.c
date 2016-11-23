@@ -2416,7 +2416,7 @@ e_attachment_load_handle_error (EAttachment *attachment,
 
 	if (display_name != NULL)
 		primary_text = g_strdup_printf (
-			_("Could not load '%s'"), display_name);
+			_("Could not load “%s”"), display_name);
 	else
 		primary_text = g_strdup_printf (
 			_("Could not load the attachment"));
@@ -2704,7 +2704,7 @@ e_attachment_open_handle_error (EAttachment *attachment,
 
 	if (display_name != NULL)
 		primary_text = g_strdup_printf (
-			_("Could not open '%s'"), display_name);
+			_("Could not open “%s”"), display_name);
 	else
 		primary_text = g_strdup_printf (
 			_("Could not open the attachment"));
@@ -3548,7 +3548,7 @@ e_attachment_save_handle_error (EAttachment *attachment,
 
 	if (display_name != NULL)
 		primary_text = g_strdup_printf (
-			_("Could not save '%s'"), display_name);
+			_("Could not save “%s”"), display_name);
 	else
 		primary_text = g_strdup_printf (
 			_("Could not save the attachment"));

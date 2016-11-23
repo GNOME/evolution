@@ -349,7 +349,7 @@ action_settings_restore_cb (GtkAction *action,
 	path = g_file_get_path (file);
 
 	shell_view = e_shell_window_get_shell_view (shell_window, e_shell_window_get_active_view (shell_window));
-	description = g_strdup_printf (_("Checking content of backup file '%s', please wait..."), path);
+	description = g_strdup_printf (_("Checking content of backup file “%s”, please wait..."), path);
 
 	vbf = g_new0 (ValidateBackupFileData, 1);
 	vbf->shell_window = g_object_ref (shell_window);

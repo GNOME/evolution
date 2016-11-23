@@ -8,7 +8,7 @@
     <key name="attachment-view" type="i">
       <default>0</default>
       <_summary>Initial attachment view</_summary>
-      <_description>Initial view for attachment bar widgets. "0" is Icon View, "1" is List View.</_description>
+      <_description>Initial view for attachment bar widgets. “0” is Icon View, “1” is List View.</_description>
     </key>
     <key name="file-chooser-folder" type="s">
       <default>''</default>
@@ -43,7 +43,7 @@
     <key name="buttons-hide" type="as">
       <default>[]</default>
       <_summary>List of button names to hide in the window switcher</_summary>
-      <_description>Valid values are 'mail', 'addressbook', 'calendar', 'tasks' and 'memos'. Change of this requires restart of the application.</_description>
+      <_description>Valid values are “mail”, “addressbook”, “calendar”, “tasks” and “memos”. Change of this requires restart of the application.</_description>
     </key>
     <key name="buttons-visible" type="b">
       <default>true</default>
@@ -58,7 +58,7 @@
     <key name="buttons-style" type="s">
       <default>'toolbar'</default>
       <_summary>Window button style</_summary>
-      <_description>The style of the window buttons.  Can be "text", "icons", "both", "toolbar".  If "toolbar" is set, the style of the buttons is determined by the GNOME toolbar setting.</_description>
+      <_description>The style of the window buttons.  Can be “text”, “icons”, “both”, “toolbar”.  If “toolbar” is set, the style of the buttons is determined by the GNOME toolbar setting.</_description>
     </key>
     <key name="menubar-visible" type="b">
       <default>true</default>

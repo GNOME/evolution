@@ -424,7 +424,7 @@
             <child>
               <object class="GtkLabel" id="label5">
                 <property name="visible">True</property>
-                <property name="label" translatable="yes">The message's date will be compared against
+                <property name="label" translatable="yes">The message’s date will be compared against
 the current time when filtering occurs.</property>
                 <property name="justify">center</property>
               </object>
@@ -456,7 +456,7 @@ the current time when filtering occurs.</property>
             <child>
               <object class="GtkLabel" id="label6">
                 <property name="visible">True</property>
-                <property name="label" translatable="yes">The message's date will be compared against
+                <property name="label" translatable="yes">The message’s date will be compared against
 12:00am of the date specified.</property>
                 <property name="justify">center</property>
               </object>
@@ -499,7 +499,7 @@ the current time when filtering occurs.</property>
               <object class="GtkLabel" id="label7">
                 <property name="visible">True</property>
                 <property name="ypad">15</property>
-                <property name="label" translatable="yes">The message's date will be compared against
+                <property name="label" translatable="yes">The message’s date will be compared against
 a time relative to when filtering occurs.</property>
                 <property name="justify">center</property>
               </object>

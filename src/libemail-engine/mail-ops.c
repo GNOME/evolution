@@ -223,7 +223,7 @@ static gchar *
 fetch_mail_desc (struct _fetch_mail_msg *m)
 {
 	return g_strdup_printf (
-		_("Fetching mail from '%s'"),
+		_("Fetching mail from “%s”"),
 		camel_service_get_display_name (CAMEL_SERVICE (m->store)));
 }
 
@@ -703,7 +703,7 @@ mail_send_message (struct _send_queue_msg *m,
 		folder = e_mail_session_uri_to_folder_sync (
 			m->session, uri, 0, cancellable, &local_error);
 		if (folder != NULL) {
-			camel_operation_push_message (cancellable, _("Posting message to '%s'"), camel_folder_get_full_name (folder));
+			camel_operation_push_message (cancellable, _("Posting message to “%s”"), camel_folder_get_full_name (folder));
 
 			camel_folder_append_message_sync (
 				folder, message, info, NULL, cancellable, &local_error);
@@ -763,7 +763,7 @@ mail_send_message (struct _send_queue_msg *m,
 			((folder != NULL) && (local_error == NULL)));
 
 		if (local_error == NULL) {
-			camel_operation_push_message (cancellable, _("Storing sent message to '%s'"), camel_folder_get_full_name (folder));
+			camel_operation_push_message (cancellable, _("Storing sent message to “%s”"), camel_folder_get_full_name (folder));
 
 			camel_folder_append_message_sync (
 				folder, message, info, NULL,
@@ -788,7 +788,7 @@ mail_send_message (struct _send_queue_msg *m,
 				g_string_append_printf (
 					err,
 					_("Failed to append to %s: %s\n"
-					"Appending to local 'Sent' folder instead."),
+					"Appending to local “Sent” folder instead."),
 					description,
 					local_error->message);
 
@@ -798,7 +798,7 @@ mail_send_message (struct _send_queue_msg *m,
 			g_clear_error (&local_error);
 			folder = g_object_ref (local_sent_folder);
 
-			camel_operation_push_message (cancellable, _("Storing sent message to '%s'"), camel_folder_get_full_name (folder));
+			camel_operation_push_message (cancellable, _("Storing sent message to “%s”"), camel_folder_get_full_name (folder));
 
 			camel_folder_append_message_sync (
 				folder, message, info, NULL,
@@ -816,7 +816,7 @@ mail_send_message (struct _send_queue_msg *m,
 				g_string_append_printf (
 					err,
 					_("Failed to append to "
-					"local 'Sent' folder: %s"),
+					"local “Sent” folder: %s"),
 					local_error->message);
 				g_clear_error (&local_error);
 			}
@@ -1161,8 +1161,8 @@ transfer_messages_desc (struct _transfer_msg *m)
 {
 	return g_strdup_printf (
 		m->delete ?
-			_("Moving messages to '%s'") :
-			_("Copying messages to '%s'"),
+			_("Moving messages to “%s”") :
+			_("Copying messages to “%s”"),
 		m->dest_uri);
 
 }
@@ -1281,7 +1281,7 @@ static gchar *
 sync_folder_desc (struct _sync_folder_msg *m)
 {
 	return g_strdup_printf (
-		_("Storing folder '%s'"),
+		_("Storing folder “%s”"),
 		camel_folder_get_full_name (m->folder));
 }
 
@@ -1409,8 +1409,8 @@ sync_store_desc (struct _sync_store_msg *m)
 
 	description = g_strdup_printf (
 		m->expunge ?
-		_("Expunging and storing account '%s'") :
-		_("Storing account '%s'"),
+		_("Expunging and storing account “%s”") :
+		_("Storing account “%s”"),
 		display_name);
 
 	g_free (display_name);
@@ -1485,7 +1485,7 @@ empty_trash_desc (struct _empty_trash_msg *m)
 	display_name = camel_service_get_display_name (service);
 
 	return g_strdup_printf (
-		_("Emptying trash in '%s'"), display_name);
+		_("Emptying trash in “%s”"), display_name);
 }
 
 static void
@@ -1577,7 +1577,7 @@ static gchar *
 process_folder_changes_desc (struct _process_folder_changes_msg *m)
 {
 	return g_strdup_printf (
-		_("Processing folder changes in '%s'"), camel_folder_get_full_name (m->folder));
+		_("Processing folder changes in “%s”"), camel_folder_get_full_name (m->folder));
 }
 
 static void

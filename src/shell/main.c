@@ -312,8 +312,8 @@ static GOptionEntry entries[] = {
 	/* Translators: Do NOT translate the five component
 	 * names, they MUST remain in English! */
 	  N_("Start Evolution showing the specified component. "
-	     "Available options are 'mail', 'calendar', 'contacts', "
-	     "'tasks', and 'memos'"), NULL },
+	     "Available options are “mail”, “calendar”, “contacts”, "
+	     "“tasks”, and “memos”"), NULL },
 	{ "geometry", 'g', 0, G_OPTION_ARG_STRING, &geometry,
 	  N_("Apply the given geometry to the main window"), "GEOMETRY" },
 	{ "offline", '\0', 0, G_OPTION_ARG_NONE, &start_offline,
@@ -463,12 +463,12 @@ main (gint argc,
 #ifdef ENABLE_CONTACT_MAPS
 	success = gtk_clutter_init_with_args (
 		&argc, &argv,
-		_("- The Evolution PIM and Email Client"),
+		_("— The Evolution PIM and Email Client"),
 		entries, (gchar *) GETTEXT_PACKAGE, &error) == CLUTTER_INIT_SUCCESS;
 #else
 	success = gtk_init_with_args (
 		&argc, &argv,
-		_("- The Evolution PIM and Email Client"),
+		_("— The Evolution PIM and Email Client"),
 		entries, (gchar *) GETTEXT_PACKAGE, &error);
 #endif /* ENABLE_CONTACT_MAPS */
 
@@ -531,13 +531,13 @@ main (gint argc,
 	if (start_online && start_offline) {
 		g_printerr (
 			_("%s: --online and --offline cannot be used "
-			"together.\n  Run '%s --help' for more "
+			"together.\n  Run “%s --help” for more "
 			"information.\n"), argv[0], argv[0]);
 		exit (1);
 	} else if (force_online && start_offline) {
 		g_printerr (
 			_("%s: --force-online and --offline cannot be used "
-			"together.\n  Run '%s --help' for more "
+			"together.\n  Run “%s --help” for more "
 			"information.\n"), argv[0], argv[0]);
 		exit (1);
 	}

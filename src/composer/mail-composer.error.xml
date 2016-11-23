@@ -2,18 +2,18 @@
 <error-list domain="mail-composer">
 
  <error id="no-attach" type="error">
-  <_primary>You cannot attach the file &quot;{0}&quot; to this message.</_primary>
-  <!--For Translators: '{1}' is the exception description,describing why the file could not be attached to the message -->
+  <_primary>You cannot attach the file “{0}” to this message.</_primary>
+  <!--For Translators: “{1}” is the exception description,describing why the file could not be attached to the message -->
   <secondary>{1}</secondary>
  </error>
 
  <error id="attach-notfile" type="warning">
-  <_primary>The file '{0}' is not a regular file and cannot be sent in a message.</_primary>
+  <_primary>The file “{0}” is not a regular file and cannot be sent in a message.</_primary>
  </error>
 
  <error id="attach-nomessages" type="error">
   <_primary>Could not retrieve messages to attach from {0}.</_primary>
-  <_secondary>Because &quot;{1}&quot;.</_secondary>
+  <_secondary>Because “{1}”.</_secondary>
  </error>
 
  <error id="recover-autosave" type="question" default="GTK_RESPONSE_YES">
@@ -24,12 +24,12 @@
  </error>
 
  <error id="no-autosave" type="error">
-  <_primary>Could not save to autosave file &quot;{0}&quot;.</_primary>
-  <_secondary>Error saving to autosave because &quot;{1}&quot;.</_secondary>
+  <_primary>Could not save to autosave file “{0}”.</_primary>
+  <_secondary>Error saving to autosave because “{1}”.</_secondary>
  </error>
  
  <error id="exit-unsaved" type="warning" default="GTK_RESPONSE_CANCEL">
-  <_primary>Are you sure you want to discard the message, titled '{0}', you are composing?</_primary>
+  <_primary>Are you sure you want to discard the message, titled “{0}”, you are composing?</_primary>
   <_secondary>Closing this composer window will discard the message permanently, unless you choose to save the message in your Drafts folder. This will allow you to continue the message at a later date.</_secondary>
   <button _label="_Discard Changes" response="GTK_RESPONSE_NO"/>
   <button _label="_Continue Editing" response="GTK_RESPONSE_CANCEL"/>
@@ -46,12 +46,12 @@
 
  <error id="no-build-message" type="error">
   <_primary>Could not create message.</_primary>
-  <_secondary>Because &quot;{0}&quot;, you may need to select different mail options.</_secondary>
+  <_secondary>Because “{0}”, you may need to select different mail options.</_secondary>
  </error>
 
  <error id="no-sig-file" type="warning">
-  <_primary>Could not read signature file &quot;{0}&quot;.</_primary>
-  <_secondary>Because &quot;{1}&quot;.</_secondary>
+  <_primary>Could not read signature file “{0}”.</_primary>
+  <_secondary>Because “{1}”.</_secondary>
  </error>
 
  <error id="all-accounts-deleted" type="warning">
@@ -61,17 +61,17 @@
 
  <error id="append-to-outbox-error" type="error">
   <_primary>An error occurred while saving to your Outbox folder.</_primary>
-  <_secondary>The reported error was &quot;{0}&quot;. The message has not been sent.</_secondary>
+  <_secondary>The reported error was “{0}”. The message has not been sent.</_secondary>
  </error>
 
  <error id="save-to-drafts-error" type="error">
   <_primary>An error occurred while saving to your Drafts folder.</_primary>
-  <_secondary>The reported error was &quot;{0}&quot;. The message has most likely not been saved.</_secondary>
+  <_secondary>The reported error was “{0}”. The message has most likely not been saved.</_secondary>
  </error>
 
  <error id="send-error" type="error">
   <_primary>An error occurred while sending. How do you want to proceed?</_primary>
-  <_secondary>The reported error was &quot;{0}&quot;.</_secondary>
+  <_secondary>The reported error was “{0}”.</_secondary>
   <!-- Response codes were chosen somewhat arbitrarily. -->
   <button _label="_Continue Editing" response="GTK_RESPONSE_CLOSE"/>
   <button _label="_Save to Outbox" response="GTK_RESPONSE_ACCEPT"/>
@@ -80,12 +80,12 @@
 
  <error id="send-post-processing-error" type="warning">
    <_primary>Your message was sent, but an error occurred during post-processing.</_primary>
-  <_secondary>The reported error was &quot;{0}&quot;.</_secondary>
+  <_secondary>The reported error was “{0}”.</_secondary>
  </error>
 
  <error id="saving-to-outbox" type="info">
   <_primary>Saving message to Outbox.</_primary>
-  <_secondary>The message will be saved to your local Outbox folder, because the destination service is currently unavailable. You can send the message by clicking the Send/Receive button in Evolution's toolbar.</_secondary>
+  <_secondary>The message will be saved to your local Outbox folder, because the destination service is currently unavailable. You can send the message by clicking the Send/Receive button in Evolution’s toolbar.</_secondary>
  </error>
 
  <error id="prompt-accel-send" type="question" default="GTK_RESPONSE_YES">
@@ -98,13 +98,13 @@
   <error id="prompt-composer-mode-switch" type="question" default="GTK_RESPONSE_YES">
   <_primary>Are you sure you want to change the composer mode?</_primary>
   <_secondary xml:space="preserve">Turning HTML mode off will cause the text to lose all formatting. Do you want to continue?</_secondary>
-  <button _label="_Don't lose formatting" response="GTK_RESPONSE_NO"/>
+  <button _label="_Don’t lose formatting" response="GTK_RESPONSE_NO"/>
   <button _label="Lose _formatting" response="GTK_RESPONSE_YES"/>
  </error>
 
  <error id="failed-save-template" type="error">
   <_primary>An error occurred while saving to your Templates folder.</_primary>
-  <_secondary>The reported error was &quot;{0}&quot;. The message has most likely not been saved.</_secondary>
+  <_secondary>The reported error was “{0}”. The message has most likely not been saved.</_secondary>
  </error>
 
 </error-list>

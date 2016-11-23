@@ -610,7 +610,7 @@ cal_ops_update_components_thread (EAlertSinkThreadJobData *job_data,
 	source = e_source_registry_ref_source (registry, uid);
 	if (!source) {
 		g_set_error (&local_error, G_IO_ERROR, G_IO_ERROR_NOT_FOUND,
-			_("Source with UID '%s' not found"), uid);
+			_("Source with UID “%s” not found"), uid);
 		e_alert_sink_thread_job_set_alert_arg_0 (job_data, uid);
 		return;
 	}
@@ -963,15 +963,15 @@ cal_ops_purge_components_thread (EAlertSinkThreadJobData *job_data,
 		switch (model_kind) {
 			case ICAL_VEVENT_COMPONENT:
 				camel_operation_push_message (cancellable,
-					_("Getting events to purge in the calendar '%s'"), display_name);
+					_("Getting events to purge in the calendar “%s”"), display_name);
 				break;
 			case ICAL_VJOURNAL_COMPONENT:
 				camel_operation_push_message (cancellable,
-					_("Getting memos to purge in the memo list '%s'"), display_name);
+					_("Getting memos to purge in the memo list “%s”"), display_name);
 				break;
 			case ICAL_VTODO_COMPONENT:
 				camel_operation_push_message (cancellable,
-					_("Getting tasks to purge in the task list '%s'"), display_name);
+					_("Getting tasks to purge in the task list “%s”"), display_name);
 				break;
 			default:
 				g_warn_if_reached ();
@@ -997,15 +997,15 @@ cal_ops_purge_components_thread (EAlertSinkThreadJobData *job_data,
 		switch (model_kind) {
 			case ICAL_VEVENT_COMPONENT:
 				camel_operation_push_message (cancellable,
-					_("Purging events in the calendar '%s'"), display_name);
+					_("Purging events in the calendar “%s”"), display_name);
 				break;
 			case ICAL_VJOURNAL_COMPONENT:
 				camel_operation_push_message (cancellable,
-					_("Purging memos in the memo list '%s'"), display_name);
+					_("Purging memos in the memo list “%s”"), display_name);
 				break;
 			case ICAL_VTODO_COMPONENT:
 				camel_operation_push_message (cancellable,
-					_("Purging tasks in the task list '%s'"), display_name);
+					_("Purging tasks in the task list “%s”"), display_name);
 				break;
 			default:
 				g_warn_if_reached ();
@@ -1246,7 +1246,7 @@ cal_ops_open_client_sync (EAlertSinkThreadJobData *job_data,
 	source = e_source_registry_ref_source (registry, client_uid);
 	if (!source) {
 		g_set_error (error, G_IO_ERROR, G_IO_ERROR_NOT_FOUND,
-			_("Source with UID '%s' not found"), client_uid);
+			_("Source with UID “%s” not found"), client_uid);
 		e_alert_sink_thread_job_set_alert_arg_0 (job_data, client_uid);
 	} else {
 		client = e_client_cache_get_client_sync (client_cache, source, extension_name, 30, cancellable, error);

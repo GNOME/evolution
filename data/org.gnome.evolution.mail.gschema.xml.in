@@ -43,12 +43,12 @@
     <key name="composer-editor" type="s">
       <default>''</default>
       <_summary>Name of the editor to prefer in the message composer</_summary>
-      <_description>If the name doesn't correspond to any known editor, then the built-in WebKit editor is used.</_description>
+      <_description>If the name doesn’t correspond to any known editor, then the built-in WebKit editor is used.</_description>
     </key>
     <key name="composer-gallery-path" type="s">
       <default>''</default>
       <_summary>Path where picture gallery should search for its content</_summary>
-      <_description>This value can be an empty string, which means it'll use the system Picture folder, usually set to ~/Pictures. This folder will be also used when the set path is not pointing to the existent folder</_description>
+      <_description>This value can be an empty string, which means it’ll use the system Picture folder, usually set to ~/Pictures. This folder will be also used when the set path is not pointing to the existent folder</_description>
     </key>
     <key name="composer-inline-spelling" type="b">
       <default>true</default>
@@ -88,7 +88,7 @@
     <key name="composer-group-reply-to-list" type="b">
       <default>false</default>
       <_summary>Group Reply replies to list</_summary>
-      <_description>Instead of the normal "Reply to All" behaviour, this option will make the 'Group Reply' toolbar button try to reply only to the mailing list through which you happened to receive the copy of the message to which you're replying.</_description>
+      <_description>Instead of the normal “Reply to All” behaviour, this option will make the “Group Reply” toolbar button try to reply only to the mailing list through which you happened to receive the copy of the message to which you’re replying.</_description>
     </key>
     <key name="composer-reply-start-bottom" type="b">
       <default>false</default>
@@ -112,33 +112,33 @@
     </key>
     <key name="composer-show-bcc" type="b">
       <default>false</default>
-      <_summary>Show "Bcc" field when sending a mail message</_summary>
-      <_description>Show the "Bcc" field when sending a mail message. This is controlled from the View menu when a mail account is chosen.</_description>
+      <_summary>Show “Bcc” field when sending a mail message</_summary>
+      <_description>Show the “Bcc” field when sending a mail message. This is controlled from the View menu when a mail account is chosen.</_description>
     </key>
     <key name="composer-show-cc" type="b">
       <default>true</default>
-      <_summary>Show "Cc" field when sending a mail message</_summary>
-      <_description>Show the "Cc" field when sending a mail message. This is controlled from the View menu when a mail account is chosen.</_description>
+      <_summary>Show “Cc” field when sending a mail message</_summary>
+      <_description>Show the “Cc” field when sending a mail message. This is controlled from the View menu when a mail account is chosen.</_description>
     </key>
     <key name="composer-show-from-override" type="b">
       <default>false</default>
-      <_summary>Show "From" override field when sending a mail message</_summary>
-      <_description>Show the "From" override field when sending a mail message. This is controlled from the View menu when a mail account is chosen.</_description>
+      <_summary>Show “From” override field when sending a mail message</_summary>
+      <_description>Show the “From” override field when sending a mail message. This is controlled from the View menu when a mail account is chosen.</_description>
     </key>
     <key name="composer-show-reply-to" type="b">
       <default>false</default>
-      <_summary>Show "Reply To" field when sending a mail message</_summary>
-      <_description>Show the "Reply To" field when sending a mail message. This is controlled from the View menu when a mail account is chosen.</_description>
+      <_summary>Show “Reply To” field when sending a mail message</_summary>
+      <_description>Show the “Reply To” field when sending a mail message. This is controlled from the View menu when a mail account is chosen.</_description>
     </key>
     <key name="composer-show-post-from" type="b">
       <default>true</default>
-      <_summary>Show "From" field when posting to a newsgroup</_summary>
-      <_description>Show the "From" field when posting to a newsgroup. This is controlled from the View menu when a news account is chosen.</_description>
+      <_summary>Show “From” field when posting to a newsgroup</_summary>
+      <_description>Show the “From” field when posting to a newsgroup. This is controlled from the View menu when a news account is chosen.</_description>
     </key>
     <key name="composer-show-post-reply-to" type="b">
       <default>false</default>
-      <_summary>Show "Reply To" field when posting to a newsgroup</_summary>
-      <_description>Show the "Reply To" field when posting to a newsgroup. This is controlled from the View menu when a news account is chosen.</_description>
+      <_summary>Show “Reply To” field when posting to a newsgroup</_summary>
+      <_description>Show the “Reply To” field when posting to a newsgroup. This is controlled from the View menu when a news account is chosen.</_description>
     </key>
     <key name="composer-sign-reply-if-signed" type="b">
       <default>false</default>
@@ -173,12 +173,12 @@
     <key name="composer-ignore-list-reply-to" type="b">
       <default>false</default>
       <_summary>Ignore list Reply-To:</_summary>
-      <_description>Some mailing lists set a Reply-To: header to trick users into sending replies to the list, even when they ask Evolution to make a private reply. Setting this option to TRUE will attempt to ignore such Reply-To: headers, so that Evolution will do as you ask it. If you use the private reply action, it will reply privately, while if you use the 'Reply to List' action it will do that. It works by comparing the Reply-To: header with a List-Post: header, if there is one.</_description>
+      <_description>Some mailing lists set a Reply-To: header to trick users into sending replies to the list, even when they ask Evolution to make a private reply. Setting this option to TRUE will attempt to ignore such Reply-To: headers, so that Evolution will do as you ask it. If you use the private reply action, it will reply privately, while if you use the “Reply to List” action it will do that. It works by comparing the Reply-To: header with a List-Post: header, if there is one.</_description>
     </key>
     <key name="composer-localized-re" type="s">
       <default>''</default>
-      <_summary>List of localized 'Re'</_summary>
-      <_description>Comma-separated list of localized 'Re' abbreviations to skip in a subject text when replying to a message, as an addition to the standard "Re" prefix. An example is 'SV,AV'.</_description>
+      <_summary>List of localized “Re”</_summary>
+      <_description>Comma-separated list of localized “Re” abbreviations to skip in a subject text when replying to a message, as an addition to the standard “Re” prefix. An example is “SV,AV”.</_description>
     </key>
     <key name="composer-word-wrap-length" type="i">
       <default>71</default>
@@ -187,28 +187,28 @@
     </key>
     <key name="composer-many-to-cc-recips-num" type="i">
       <default>10</default>
-      <_summary>Number of To and CC recipients to ask 'prompt-on-many-to-cc-recips' from</_summary>
+      <_summary>Number of To and CC recipients to ask “prompt-on-many-to-cc-recips” from</_summary>
       <_description>When to ask, when the number of To and CC recipients reaches this value.</_description>
     </key>
     <key name="composer-toolbar-show-sign-encrypt" type="b">
       <default>false</default>
       <_summary>Whether to always show Sign and Encrypt buttons on the toolbar</_summary>
-      <_description>If set to 'true', the Sign and Encrypt buttons for either PGP or S/MIME are always shown in the composer's toolbar. Otherwise they are shown only when being used.</_description>
+      <_description>If set to “true”, the Sign and Encrypt buttons for either PGP or S/MIME are always shown in the composer’s toolbar. Otherwise they are shown only when being used.</_description>
     </key>
     <key name="composer-wrap-quoted-text-in-replies" type="b">
       <default>true</default>
       <_summary>Wrap quoted text in replies</_summary>
-      <_description>If set to 'true' quoted text in replies will be wrapped.</_description>
+      <_description>If set to “true” quoted text in replies will be wrapped.</_description>
     </key>
     <key name="display-content-disposition-inline" type="b">
       <default>true</default>
       <_summary>Whether to obey Content-Disposition:inline message header hint</_summary>
-      <_description>Set to 'false' to block automatic display of attachments with Content-Disposition: inline.</_description>
+      <_description>Set to “false” to block automatic display of attachments with Content-Disposition: inline.</_description>
     </key>
     <key name="drag-and-drop-save-file-format" type="s">
       <default>'mbox'</default>
       <_summary>Save file format for drag-and-drop operation</_summary>
-      <_description>Can be either 'mbox' or 'pdf'.</_description>
+      <_description>Can be either “mbox” or “pdf”.</_description>
     </key>
     <key name="show-animated-images" type="b">
       <default>false</default>
@@ -232,8 +232,8 @@
     </key>
     <key name="mark-citations" type="b">
       <default>true</default>
-      <_summary>Mark citations in the message "Preview"</_summary>
-      <_description>Mark citations in the message "Preview".</_description>
+      <_summary>Mark citations in the message “Preview”</_summary>
+      <_description>Mark citations in the message “Preview”.</_description>
     </key>
     <key name="citation-color" type="s">
       <default>'#737373'</default>
@@ -327,7 +327,7 @@
     <key name="safe-list" type="b">
       <default>false</default>
       <_summary>Hides the per-folder preview and removes the selection</_summary>
-      <_description>This key is read only once and reset to "false" after read. This unselects the mail in the list and removes the preview for that folder.</_description>
+      <_description>This key is read only once and reset to “false” after read. This unselects the mail in the list and removes the preview for that folder.</_description>
     </key>
     <key name="paned-size" type="i">
       <default>144</default>
@@ -356,7 +356,7 @@
     <key name="layout" type="i">
       <default>0</default>
       <_summary>Layout style</_summary>
-      <_description>The layout style determines where to place the preview pane in relation to the message list.  "0" (Classic View) places the preview pane below the message list.  "1" (Vertical View) places the preview pane next to the message list.</_description>
+      <_description>The layout style determines where to place the preview pane in relation to the message list.  “0” (Classic View) places the preview pane below the message list.  “1” (Vertical View) places the preview pane next to the message list.</_description>
     </key>
     <key name="variable-width-font" type="s">
       <default>'Sans 12'</default>
@@ -381,7 +381,7 @@
     <key name="address-count" type="i">
       <default>5</default>
       <_summary>Number of addresses to display in TO/CC/BCC</_summary>
-      <_description>This sets the number of addresses to show in default message list view, beyond which a '...' is shown.</_description>
+      <_description>This sets the number of addresses to show in default message list view, beyond which a “...” is shown.</_description>
     </key>
     <key name="thread-subject" type="b">
       <default>false</default>
@@ -396,7 +396,7 @@
     <key name="thread-latest" type="b">
       <default>true</default>
       <_summary>Whether sort threads based on latest message in that thread</_summary>
-      <_description>This setting specifies whether the threads should be sorted based on latest message in each thread, rather than by message's date. Evolution requires a restart.</_description>
+      <_description>This setting specifies whether the threads should be sorted based on latest message in each thread, rather than by message’s date. Evolution requires a restart.</_description>
     </key>
     <key name="thread-children-ascending" type="b">
       <default>true</default>
@@ -421,7 +421,7 @@
     <key name="flush-outbox" type="b">
       <default>false</default>
       <_summary>Flush Outbox after filtering</_summary>
-      <_description>Whether to flush Outbox after filtering is done. Outbox flush will happen only when there was used any 'Forward to' filter action and approximately one minute after the last action invocation.</_description>
+      <_description>Whether to flush Outbox after filtering is done. Outbox flush will happen only when there was used any “Forward to” filter action and approximately one minute after the last action invocation.</_description>
     </key>
     <key name="forward-style-name" enum="org.gnome.evolution.mail.ForwardStyle">
       <default>'attached'</default>
@@ -484,12 +484,12 @@
     <key name="prompt-on-folder-drop-copy" type="s">
       <default>'ask'</default>
       <_summary>Asks whether to copy a folder by drag &amp; drop in the folder tree</_summary>
-      <_description>Possible values are: 'never' - do not allow copy with drag &amp; drop of folders in folder tree, 'always' - allow copy with drag &amp; drop of folders in folder tree without asking, or 'ask' - (or any other value) will ask user.</_description>
+      <_description>Possible values are: “never” — do not allow copy with drag &amp; drop of folders in folder tree, “always” — allow copy with drag &amp; drop of folders in folder tree without asking, or “ask” — (or any other value) will ask user.</_description>
     </key>
     <key name="prompt-on-folder-drop-move" type="s">
       <default>'ask'</default>
       <_summary>Asks whether to move a folder by drag &amp; drop in the folder tree</_summary>
-      <_description>Possible values are: 'never' - do not allow move with drag &amp; drop of folders in folder tree, 'always' - allow move with drag &amp; drop of folders in folder tree without asking, or 'ask' - (or any other value) will ask user.</_description>
+      <_description>Possible values are: “never” — do not allow move with drag &amp; drop of folders in folder tree, “always” — allow move with drag &amp; drop of folders in folder tree without asking, or “ask” — (or any other value) will ask user.</_description>
     </key>
     <key name="prompt-on-private-list-reply" type="b">
       <default>true</default>
@@ -514,7 +514,7 @@
     <key name="prompt-on-many-to-cc-recips" type="b">
       <default>true</default>
       <_summary>Prompt when sending to many To and CC recipients</_summary>
-      <_description>Enable or disable the prompt when sending to many To and CC recipients. The 'composer-many-to-cc-recips-num' defines the threshold.</_description>
+      <_description>Enable or disable the prompt when sending to many To and CC recipients. The “composer-many-to-cc-recips-num” defines the threshold.</_description>
     </key>
     <key name="browser-close-on-reply-policy" enum="org.gnome.evolution.mail.AutomaticActionPolicy">
       <default>'ask'</default>
@@ -543,12 +543,12 @@
     <key name="error-level" type="i">
       <default>0</default>
       <_summary>Level beyond which the message should be logged.</_summary>
-      <_description>This can have three possible values. "0" for errors. "1" for warnings. "2" for debug messages.</_description>
+      <_description>This can have three possible values. “0” for errors. “1” for warnings. “2” for debug messages.</_description>
     </key>
     <key name="show-real-date" type="b">
       <default>true</default>
-      <_summary>Show original "Date" header value.</_summary>
-      <_description>Show the original "Date" header (with a local time only if the time zone differs). Otherwise always show "Date" header value in a user preferred format and local time zone.</_description>
+      <_summary>Show original “Date” header value.</_summary>
+      <_description>Show the original “Date” header (with a local time only if the time zone differs). Otherwise always show “Date” header value in a user preferred format and local time zone.</_description>
     </key>
     <key name="labels" type="as">
       <default>['I_mportant:#EF2929','_Work:#F57900','_Personal:#4E9A06','_To Do:#3465A4','_Later:#75507B']</default>
@@ -578,12 +578,12 @@
     <key name="junk-default-plugin" type="s">
       <default>'Bogofilter'</default>
       <_summary>The default plugin for Junk hook</_summary>
-      <_description>This is the default junk plugin, even though there are multiple plugins enabled. If the default listed plugin is disabled, then it won't fall back to the other available plugins.</_description>
+      <_description>This is the default junk plugin, even though there are multiple plugins enabled. If the default listed plugin is disabled, then it won’t fall back to the other available plugins.</_description>
     </key>
     <key name="junk-lookup-addressbook" type="b">
       <default>false</default>
       <_summary>Determines whether to lookup in address book for sender email</_summary>
-      <_description>Determines whether to lookup the sender email in address book. If found, it shouldn't be a spam. It looks up in the books marked for autocompletion. It can be slow, if remote address books (like LDAP) are marked for autocompletion.</_description>
+      <_description>Determines whether to lookup the sender email in address book. If found, it shouldn’t be a spam. It looks up in the books marked for autocompletion. It can be slow, if remote address books (like LDAP) are marked for autocompletion.</_description>
     </key>
     <key name="junk-lookup-addressbook-local-only" type="b">
       <default>false</default>
@@ -598,7 +598,7 @@
     <key name="junk-custom-header" type="as">
       <default>['X-Spam-Flag=YES','X-Spam-Level=*****']</default>
       <_summary>Custom headers to use while checking for junk.</_summary>
-      <_description>Custom headers to use while checking for junk. The list elements are string in the format "headername=value".</_description>
+      <_description>Custom headers to use while checking for junk. The list elements are string in the format “headername=value”.</_description>
     </key>
     <key name="default-account" type="s">
       <default>''</default>
@@ -623,7 +623,7 @@
     <key name="send-recv-all-on-start" type="b">
       <default>false</default>
       <_summary>Check for new messages in all active accounts</_summary>
-      <_description>Whether to check for new messages in all active accounts regardless of the account "Check for new messages every X minutes" option when Evolution is started. This option is used only together with 'send_recv_on_start' option.</_description>
+      <_description>Whether to check for new messages in all active accounts regardless of the account “Check for new messages every X minutes” option when Evolution is started. This option is used only together with “send_recv_on_start” option.</_description>
     </key>
     <key name="sync-interval" type="i">
       <default>600</default>
@@ -633,7 +633,7 @@
     <key name="vfolder-allow-expunge" type="b">
       <default>false</default>
       <_summary>Allow expunge in virtual folders</_summary>
-      <_description>Enables Expunge in virtual folders, which means that the Folder->Expunge will be callable in virtual folders, while the expunge itself will be done in all folders for all deleted messages within the virtual folder, not only for deleted messages belonging to the virtual folder.</_description>
+      <_description>Enables Expunge in virtual folders, which means that the Folder→Expunge will be callable in virtual folders, while the expunge itself will be done in all folders for all deleted messages within the virtual folder, not only for deleted messages belonging to the virtual folder.</_description>
     </key>
     <key name="composer-inherit-theme-colors" type="b">
       <default>false</default>
@@ -658,27 +658,27 @@
     <key name="forward-style" type="i">
       <default>0</default>
       <_summary>(Deprecated) Default forward style</_summary>
-      <_description>This key was deprecated in version 3.10 and should no longer be used.  Use "forward-style-name" instead.</_description>
+      <_description>This key was deprecated in version 3.10 and should no longer be used.  Use “forward-style-name” instead.</_description>
     </key>
     <key name="reply-style" type="i">
       <default>0</default>
       <_summary>(Deprecated) Default reply style</_summary>
-      <_description>This key was deprecated in version 3.10 and should no longer be used.  Use "reply-style-name" instead.</_description>
+      <_description>This key was deprecated in version 3.10 and should no longer be used.  Use “reply-style-name” instead.</_description>
     </key>
     <key name="headers" type="as">
       <default>[]</default>
       <_summary>(Deprecated) List of custom headers and whether they are enabled.</_summary>
-      <_description>This key was deprecated in version 3.10 and should no longer be used.  Use "show-headers" instead.</_description>
+      <_description>This key was deprecated in version 3.10 and should no longer be used.  Use “show-headers” instead.</_description>
     </key>
     <key name="load-http-images" type="i">
       <default>0</default>
       <_summary>(Deprecated) Load images for HTML messages over HTTP</_summary>
-      <_description>This key was deprecated in version 3.10 and should no longer be used.  Use "image-loading-policy" instead.</_description>
+      <_description>This key was deprecated in version 3.10 and should no longer be used.  Use “image-loading-policy” instead.</_description>
     </key>
     <key name="prompt-on-reply-close-browser" type="s">
       <default>'ask'</default>
       <_summary>(Deprecated) Asks whether to close the message window when the user forwards or replies to the message shown in the window</_summary>
-      <_description>This key was deprecated in version 3.10 and should no longer be used.  Use "browser-close-on-reply-policy" instead.</_description>
+      <_description>This key was deprecated in version 3.10 and should no longer be used.  Use “browser-close-on-reply-policy” instead.</_description>
     </key>
 
   </schema>

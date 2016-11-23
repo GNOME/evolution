@@ -12,13 +12,13 @@
  </error>
 
  <error id="bad-file" type="error">
-  <_primary>File &quot;{0}&quot; does not exist or is not a regular file.</_primary>
+  <_primary>File “{0}” does not exist or is not a regular file.</_primary>
   <_secondary>You must specify a filename.</_secondary>
  </error>
 
  <error id="bad-regexp" type="error">
-  <_primary>Bad regular expression &quot;{0}&quot;.</_primary>
-  <_secondary>Could not compile regular expression &quot;{1}&quot;.</_secondary>
+  <_primary>Bad regular expression “{0}”.</_primary>
+  <_secondary>Could not compile regular expression “{1}”.</_secondary>
  </error>
 
  <error id="no-name" type="error">
@@ -27,7 +27,7 @@
  </error>
 
  <error id="bad-name-notunique" type="error">
-  <_primary>Name &quot;{0}&quot; already used.</_primary>
+  <_primary>Name “{0}” already used.</_primary>
   <_secondary>Please choose another name.</_secondary>
  </error>
 
@@ -42,7 +42,7 @@
  </error>
 
  <error id="remove-rule-question" type="question" default="GTK_RESPONSE_YES">
-  <_primary>Are you sure you want to remove rule '{0}'?</_primary>
+  <_primary>Are you sure you want to remove rule “{0}”?</_primary>
   <button _label="_Keep" response="GTK_RESPONSE_CANCEL"/>
   <button _label="_Remove" response="GTK_RESPONSE_YES"/>
  </error>

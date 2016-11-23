@@ -13,7 +13,7 @@
 
  <error id="ask-send-message" type="question" default="GTK_RESPONSE_YES">
   <_primary>Send e-mail message to mailing list?</_primary>
-  <_secondary xml:space="preserve">An e-mail message will be sent to the URL "{0}". You can either send the message automatically, or see and change it first.
+  <_secondary xml:space="preserve">An e-mail message will be sent to the URL “{0}”. You can either send the message automatically, or see and change it first.
 
 You should receive an answer from the mailing list shortly after the message has been sent.</_secondary>
   <button _label="_Send message" response="GTK_RESPONSE_YES"/>

@@ -79,7 +79,7 @@ write_calendar (const gchar *uid,
 		g_set_error (
 			error, E_CAL_CLIENT_ERROR,
 			E_CAL_CLIENT_ERROR_NO_SUCH_CALENDAR,
-			_("Invalid source UID '%s'"), uid);
+			_("Invalid source UID “%s”"), uid);
 	}
 
 	if (client == NULL)

@@ -80,7 +80,7 @@ html_editor_spell_check_dialog_set_word (EHTMLEditorSpellCheckDialog *dialog,
 		dialog->priv->word = g_strdup (word);
 	}
 
-	markup = g_strdup_printf (_("<b>Suggestions for '%s'</b>"), word);
+	markup = g_strdup_printf (_("<b>Suggestions for “%s”</b>"), word);
 	gtk_label_set_markup (
 		GTK_LABEL (dialog->priv->suggestion_label), markup);
 	g_free (markup);

@@ -1628,15 +1628,15 @@ cal_data_model_update_client_view (ECalDataModel *data_model,
 	switch (e_cal_client_get_source_type (client)) {
 		case E_CAL_CLIENT_SOURCE_TYPE_EVENTS:
 			alert_ident = "calendar:failed-create-view-calendar";
-			description = g_strdup_printf (_("Creating view for calendar '%s'"), e_source_get_display_name (source));
+			description = g_strdup_printf (_("Creating view for calendar “%s”"), e_source_get_display_name (source));
 			break;
 		case E_CAL_CLIENT_SOURCE_TYPE_TASKS:
 			alert_ident = "calendar:failed-create-view-tasks";
-			description = g_strdup_printf (_("Creating view for task list '%s'"), e_source_get_display_name (source));
+			description = g_strdup_printf (_("Creating view for task list “%s”"), e_source_get_display_name (source));
 			break;
 		case E_CAL_CLIENT_SOURCE_TYPE_MEMOS:
 			alert_ident = "calendar:failed-create-view-memos";
-			description = g_strdup_printf (_("Creating view for memo list '%s'"), e_source_get_display_name (source));
+			description = g_strdup_printf (_("Creating view for memo list “%s”"), e_source_get_display_name (source));
 			break;
 		case E_CAL_CLIENT_SOURCE_TYPE_LAST:
 			g_warn_if_reached ();

@@ -1355,7 +1355,7 @@ mail_cert_edit_trust (GtkWidget *parent,
 
 	grid = GTK_GRID (gtk_grid_new ());
 
-	text = g_strdup_printf (_("Change trust for the host '%s':"), camel_cert->hostname);
+	text = g_strdup_printf (_("Change trust for the host “%s”:"), camel_cert->hostname);
 	label = gtk_label_new (text);
 	g_object_set (G_OBJECT (label),
 		"margin-bottom", 4,

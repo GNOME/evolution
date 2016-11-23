@@ -191,7 +191,7 @@ ecep_attachments_attachment_loaded_cb (EAttachment *attachment,
 				display_name = NULL;
 
 			if (display_name != NULL)
-				primary_text = g_strdup_printf (_("Could not load '%s'"), display_name);
+				primary_text = g_strdup_printf (_("Could not load “%s”"), display_name);
 			else
 				primary_text = g_strdup (_("Could not load the attachment"));
 
@@ -425,7 +425,7 @@ ecep_attachments_fill_component (ECompEditorPage *page,
 			success = FALSE;
 
 			error_message = g_strdup_printf (
-				_("Attachment '%s' cannot be found, remove it from the list, please"),
+				_("Attachment “%s” cannot be found, remove it from the list, please"),
 				description);
 
 			e_comp_editor_set_validation_error (comp_editor, page, NULL, error_message);
@@ -442,7 +442,7 @@ ecep_attachments_fill_component (ECompEditorPage *page,
 			success = FALSE;
 
 			error_message = g_strdup_printf (
-				_("Attachment '%s' doesn't have valid URI, remove it from the list, please"),
+				_("Attachment “%s” doesn’t have valid URI, remove it from the list, please"),
 				description);
 
 			e_comp_editor_set_validation_error (comp_editor, page, NULL, error_message);

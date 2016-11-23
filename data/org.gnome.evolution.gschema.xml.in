@@ -3,7 +3,7 @@
     <key name="version" type="s">
       <default>''</default>
       <_summary>Previous Evolution version</_summary>
-      <_description>The most recently used version of Evolution, expressed as "major.minor.micro". This is used for data and settings migration from older to newer versions.</_description>
+      <_description>The most recently used version of Evolution, expressed as “major.minor.micro”. This is used for data and settings migration from older to newer versions.</_description>
     </key>
     <key name="disabled-eplugins" type="as">
       <default>[]</default>
@@ -16,19 +16,19 @@
   <schema gettext-domain="evolution" id="org.gnome.evolution.window">
     <key name="x" type="i">
       <default>0</default>
-      <_summary>The window's X coordinate</_summary>
+      <_summary>The window’s X coordinate</_summary>
     </key>
     <key name="y" type="i">
       <default>0</default>
-      <_summary>The window's Y coordinate</_summary>
+      <_summary>The window’s Y coordinate</_summary>
     </key>
     <key name="width" type="i">
       <default>0</default>
-      <_summary>The window's width in pixels</_summary>
+      <_summary>The window’s width in pixels</_summary>
     </key>
     <key name="height" type="i">
       <default>0</default>
-      <_summary>The window's height in pixels</_summary>
+      <_summary>The window’s height in pixels</_summary>
     </key>
     <key name="maximized" type="b">
       <default>false</default>

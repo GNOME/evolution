@@ -185,7 +185,7 @@ e_mail_store_go_offline_sync (CamelStore *store,
 		display_name = G_OBJECT_TYPE_NAME (service);
 
 	camel_operation_push_message (
-		cancellable, _("Disconnecting from '%s'"), display_name);
+		cancellable, _("Disconnecting from “%s”"), display_name);
 
 	if (CAMEL_IS_OFFLINE_STORE (store)) {
 		success = camel_offline_store_set_online_sync (
@@ -261,7 +261,7 @@ e_mail_store_go_online_sync (CamelStore *store,
 		display_name = G_OBJECT_TYPE_NAME (service);
 
 	camel_operation_push_message (
-		cancellable, _("Reconnecting to '%s'"), display_name);
+		cancellable, _("Reconnecting to “%s”"), display_name);
 
 	if (CAMEL_IS_OFFLINE_STORE (store))
 		success = camel_offline_store_set_online_sync (
@@ -346,7 +346,7 @@ mail_store_prepare_for_offline_thread (GSimpleAsyncResult *simple,
 		display_name = G_OBJECT_TYPE_NAME (service);
 
 	camel_operation_push_message (
-		cancellable, _("Preparing account '%s' for offline"),
+		cancellable, _("Preparing account “%s” for offline"),
 		display_name);
 
 	if (CAMEL_IS_OFFLINE_STORE (service))

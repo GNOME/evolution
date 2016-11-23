@@ -551,20 +551,20 @@ e_cal_base_shell_sidebar_selector_data_dropped (ESourceSelector *selector,
 	switch (e_cal_base_shell_view_get_source_type (shell_view)) {
 		case E_CAL_CLIENT_SOURCE_TYPE_EVENTS:
 			message = do_copy ?
-				g_strdup_printf (_("Copying an event into the calendar '%s'"), display_name) :
-				g_strdup_printf (_("Moving an event into the calendar '%s'"), display_name);
+				g_strdup_printf (_("Copying an event into the calendar “%s”"), display_name) :
+				g_strdup_printf (_("Moving an event into the calendar “%s”"), display_name);
 			alert_ident = do_copy ? "calendar:failed-copy-event" : "calendar:failed-move-event";
 			break;
 		case E_CAL_CLIENT_SOURCE_TYPE_MEMOS:
 			message = do_copy ?
-				g_strdup_printf (_("Copying a memo into the memo list '%s'"), display_name) :
-				g_strdup_printf (_("Moving a memo into the memo list '%s'"), display_name);
+				g_strdup_printf (_("Copying a memo into the memo list “%s”"), display_name) :
+				g_strdup_printf (_("Moving a memo into the memo list “%s”"), display_name);
 			alert_ident = do_copy ? "calendar:failed-copy-memo" : "calendar:failed-move-memo";
 			break;
 		case E_CAL_CLIENT_SOURCE_TYPE_TASKS:
 			message = do_copy ?
-				g_strdup_printf (_("Copying a task into the task list '%s'"), display_name) :
-				g_strdup_printf (_("Moving a task into the task list '%s'"), display_name);
+				g_strdup_printf (_("Copying a task into the task list “%s”"), display_name) :
+				g_strdup_printf (_("Moving a task into the task list “%s”"), display_name);
 			alert_ident = do_copy ? "calendar:failed-copy-task" : "calendar:failed-move-task";
 			break;
 		case E_CAL_CLIENT_SOURCE_TYPE_LAST:

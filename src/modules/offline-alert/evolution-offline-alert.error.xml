@@ -2,7 +2,7 @@
 <error-list domain="offline-alert">
   <error id="offline" type="info">
     <_primary>Evolution is currently offline.</_primary>
-    <_secondary>Click 'Work Online' to return to online mode.</_secondary>
+    <_secondary>Click “Work Online” to return to online mode.</_secondary>
   </error>
   <error id="no-network" type="info">
     <_primary>Evolution is currently offline due to a network outage.</_primary>

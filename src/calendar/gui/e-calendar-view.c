@@ -850,7 +850,7 @@ cal_view_paste_clipboard_thread (EAlertSinkThreadJobData *job_data,
 	icalcomp = icalparser_parse_string (pcd->ical_str);
 	if (!icalcomp) {
 		g_set_error_literal (error, G_IO_ERROR, G_IO_ERROR_INVALID_DATA,
-			_("Pasted text doesn't contain valid iCalendar data"));
+			_("Pasted text doesn’t contain valid iCalendar data"));
 		return;
 	}
 

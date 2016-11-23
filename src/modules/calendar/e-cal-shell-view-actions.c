@@ -1628,7 +1628,7 @@ static GtkRadioActionEntry calendar_filter_entries[] = {
 
 	{ "calendar-filter-next-7-days-appointments",
 	  NULL,
-	  N_("Next 7 Days' Appointments"),
+	  N_("Next 7 Days’ Appointments"),
 	  NULL,
 	  NULL,  /* XXX Add a tooltip! */
 	  CALENDAR_FILTER_NEXT_7_DAYS_APPOINTMENTS },

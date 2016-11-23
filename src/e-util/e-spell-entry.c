@@ -585,7 +585,7 @@ build_spelling_menu (ESpellEntry *entry,
 	gtk_menu_shell_append (GTK_MENU_SHELL (topmenu), mi);
 
 	/* + Add to Dictionary */
-	label = g_strdup_printf (_("Add \"%s\" to Dictionary"), word);
+	label = g_strdup_printf (_("Add “%s” to Dictionary"), word);
 	mi = gtk_image_menu_item_new_with_label (label);
 	g_free (label);
 

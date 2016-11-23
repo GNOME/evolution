@@ -3,7 +3,7 @@
     <key name="mode" type="s">
       <default>'normal'</default>
       <_summary>Mode to use when displaying mails</_summary>
-      <_description>The mode to use for displaying mails. "normal" makes Evolution choose the best part to show, "prefer_plain" makes it use the text part, if present, "prefer_source" makes it use the text part, if present, otherwise shows HTML source, and "only_plain" forces Evolution to only show plain text</_description>
+      <_description>The mode to use for displaying mails. “normal” makes Evolution choose the best part to show, “prefer_plain” makes it use the text part, if present, “prefer_source” makes it use the text part, if present, otherwise shows HTML source, and “only_plain” forces Evolution to only show plain text</_description>
     </key>
     <key name="show-suppressed" type="b">
       <default>true</default>

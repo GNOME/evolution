@@ -289,19 +289,19 @@ e_cal_dialogs_copy_source (GtkWindow *parent,
 		case ICAL_VEVENT_COMPONENT:
 			obj_type = E_CAL_CLIENT_SOURCE_TYPE_EVENTS;
 			extension_name = E_SOURCE_EXTENSION_CALENDAR;
-			format = _("Copying events to the calendar '%s'");
+			format = _("Copying events to the calendar “%s”");
 			alert_ident = "calendar:failed-copy-event";
 			break;
 		case ICAL_VJOURNAL_COMPONENT:
 			obj_type = E_CAL_CLIENT_SOURCE_TYPE_MEMOS;
 			extension_name = E_SOURCE_EXTENSION_MEMO_LIST;
-			format = _("Copying memos to the memo list '%s'");
+			format = _("Copying memos to the memo list “%s”");
 			alert_ident = "calendar:failed-copy-memo";
 			break;
 		case ICAL_VTODO_COMPONENT:
 			obj_type = E_CAL_CLIENT_SOURCE_TYPE_TASKS;
 			extension_name = E_SOURCE_EXTENSION_TASK_LIST;
-			format = _("Copying tasks to the task list '%s'");
+			format = _("Copying tasks to the task list “%s”");
 			alert_ident = "calendar:failed-copy-task";
 			break;
 		default:
@@ -520,7 +520,7 @@ e_cal_dialogs_prompt_retract (GtkWidget *parent,
 	vbox = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
 	gtk_box_set_spacing (GTK_BOX (vbox), 12);
 
-	cb = gtk_check_button_new_with_mnemonic (_("_Delete this item from all other recipient's mailboxes?"));
+	cb = gtk_check_button_new_with_mnemonic (_("_Delete this item from all other recipient’s mailboxes?"));
 	gtk_container_add (GTK_CONTAINER (vbox), cb);
 
 	label = gtk_label_new_with_mnemonic (_("_Retract comment"));

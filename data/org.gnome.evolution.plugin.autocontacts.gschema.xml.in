@@ -13,7 +13,7 @@
     <key name="enable" type="b">
       <default>false</default>
       <_summary>Enable autocontacts</_summary>
-      <_description>Whether contacts should be automatically added to the user's address book.</_description>
+      <_description>Whether contacts should be automatically added to the user’s address book.</_description>
     </key>
     <key name="gaim-addressbook-source" type="s">
       <default>''</default>

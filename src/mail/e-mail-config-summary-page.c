@@ -352,7 +352,7 @@ mail_config_summary_page_constructed (GObject *object)
 		G_CALLBACK (e_mail_config_page_changed), page);
 
 	text = _("The above name will be used to identify this account.\n"
-		 "Use for example, \"Work\" or \"Personal\".");
+		 "Use for example, “Work” or “Personal”.");
 	widget = gtk_label_new (text);
 	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
 	gtk_grid_attach (GTK_GRID (container), widget, 1, 2, 1, 1);

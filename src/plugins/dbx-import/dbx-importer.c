@@ -602,7 +602,7 @@ dbx_import_file (DbxImporter *m)
 	shell_backend = e_shell_get_backend_by_name (shell, "mail");
 	session = e_mail_backend_get_session (E_MAIL_BACKEND (shell_backend));
 
-	camel_operation_push_message (NULL, _("Importing '%s'"), filename);
+	camel_operation_push_message (NULL, _("Importing “%s”"), filename);
 	folder = e_mail_session_uri_to_folder_sync (
 		session, m->parent_uri, CAMEL_STORE_FOLDER_CREATE,
 		cancellable, &m->base.error);

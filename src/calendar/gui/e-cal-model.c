@@ -1399,7 +1399,7 @@ cal_model_create_component_from_values_thread (EAlertSinkThreadJobData *job_data
 	source = e_source_registry_ref_source (registry, source_uid);
 	if (!source) {
 		g_set_error (&local_error, G_IO_ERROR, G_IO_ERROR_NOT_FOUND,
-			_("Source with UID '%s' not found"), source_uid);
+			_("Source with UID “%s” not found"), source_uid);
 		e_alert_sink_thread_job_set_alert_arg_0 (job_data, source_uid);
 		return;
 	}

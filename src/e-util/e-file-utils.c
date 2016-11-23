@@ -122,12 +122,12 @@ e_file_replace_contents_async (GFile *file,
 
 	if (hostname == NULL) {
 		/* Translators: The string value is the basename of a file. */
-		format = _("Writing \"%s\"");
+		format = _("Writing “%s”");
 		description = g_strdup_printf (format, basename);
 	} else {
 		/* Translators: The first string value is the basename of a
 		 * remote file, the second string value is the hostname. */
-		format = _("Writing \"%s\" to %s");
+		format = _("Writing “%s” to %s");
 		description = g_strdup_printf (format, basename, hostname);
 	}
 

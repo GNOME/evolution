@@ -301,7 +301,7 @@ category_completion_update_prefix (GtkEntryCompletion *completion)
 		valid = gtk_tree_model_iter_next (model, &iter);
 	}
 
-	input = g_strdup_printf (_("Create category \"%s\""), priv->create);
+	input = g_strdup_printf (_("Create category “%s”"), priv->create);
 	gtk_entry_completion_insert_action_text (completion, 0, input);
 	g_free (input);
 }

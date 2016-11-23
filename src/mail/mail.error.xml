@@ -7,7 +7,7 @@
   </error>
 
   <error id="camel-service-auth-failed" type="warning">
-    <_primary>Your login to your server "{0}" as "{0}" failed.</_primary>
+    <_primary>Your login to your server “{0}” as “{0}” failed.</_primary>
     <_secondary xml:space="preserve">Check to make sure your password is spelled correctly. Remember that many passwords are case sensitive; your caps lock might be on.</_secondary>
   </error>
 
@@ -99,13 +99,13 @@ Many email systems add an Apparently-To header to messages that only have BCC re
     <_primary>Use default drafts folder?</_primary>
     <_secondary xml:space="preserve">Unable to open the drafts folder for this account. Use the system drafts folder instead?
 
-The reported error was &quot;{0}&quot;.</_secondary>
+The reported error was “{0}”.</_secondary>
     <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
     <button _label="Use _Default" response="GTK_RESPONSE_YES"/>
   </error>
 
   <error id="ask-expunge" type="question" default="GTK_RESPONSE_CANCEL">
-    <_primary>Are you sure you want to permanently remove all the deleted messages in folder "{0}"?</_primary>
+    <_primary>Are you sure you want to permanently remove all the deleted messages in folder “{0}”?</_primary>
     <_secondary xml:space="preserve">If you continue, you will not be able to recover these messages.</_secondary>
     <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
     <button _label="_Expunge" response="GTK_RESPONSE_YES"/>
@@ -158,13 +158,13 @@ The reported error was &quot;{0}&quot;.</_secondary>
   </error>
 
   <error id="no-save-path" type="error">
-    <_primary>Cannot save to directory "{0}".</_primary>
+    <_primary>Cannot save to directory “{0}”.</_primary>
     <secondary>{1}</secondary>
   </error>
 
   <error id="no-create-path" type="error">
-    <_primary>Cannot save to file "{0}".</_primary>
-    <_secondary xml:space="preserve">Cannot create the save directory, because "{1}"</_secondary>
+    <_primary>Cannot save to file “{0}”.</_primary>
+    <_secondary xml:space="preserve">Cannot create the save directory, because “{1}”</_secondary>
   </error>
 
   <error id="no-create-tmp-path" type="error">
@@ -173,69 +173,69 @@ The reported error was &quot;{0}&quot;.</_secondary>
   </error>
 
   <error id="no-write-path-exists" type="error">
-    <_primary>Cannot save to file "{0}".</_primary>
+    <_primary>Cannot save to file “{0}”.</_primary>
     <_secondary xml:space="preserve">File exists but cannot overwrite it.</_secondary>
   </error>
 
   <error id="no-write-path-notfile" type="error">
-    <_primary>Cannot save to file "{0}".</_primary>
+    <_primary>Cannot save to file “{0}”.</_primary>
     <_secondary xml:space="preserve">File exists but is not a regular file.</_secondary>
   </error>
 
   <error id="no-delete-folder" type="error">
-    <_primary>Cannot delete folder "{0}".</_primary>
+    <_primary>Cannot delete folder “{0}”.</_primary>
     <secondary xml:space="preserve">{1}.</secondary>
   </error>
 
   <error id="no-delete-special-folder" type="error">
-    <_primary>Cannot delete system folder "{0}".</_primary>
+    <_primary>Cannot delete system folder “{0}”.</_primary>
     <_secondary xml:space="preserve">System folders are required for Evolution to function correctly and cannot be renamed, moved, or deleted.</_secondary>
   </error>
 
   <error id="no-expunge-folder" type="warning">
-    <_primary>Failed to expunge folder &quot;{0}&quot;.</_primary>
-    <_secondary>The reported error was &quot;{1}&quot;.</_secondary>
+    <_primary>Failed to expunge folder “{0}”.</_primary>
+    <_secondary>The reported error was “{1}”.</_secondary>
   </error>
 
   <error id="no-refresh-folder" type="warning">
-    <_primary>Failed to refresh folder &quot;{0}&quot;.</_primary>
-    <_secondary>The reported error was &quot;{1}&quot;.</_secondary>
+    <_primary>Failed to refresh folder “{0}”.</_primary>
+    <_secondary>The reported error was “{1}”.</_secondary>
   </error>
 
   <error id="no-rename-special-folder" type="error">
-    <_primary>Cannot rename or move system folder "{0}".</_primary>
+    <_primary>Cannot rename or move system folder “{0}”.</_primary>
     <_secondary xml:space="preserve">System folders are required for Evolution to function correctly and cannot be renamed, moved, or deleted.</_secondary>
   </error>
 
   <error id="ask-delete-folder" type="question" default="GTK_RESPONSE_CANCEL">
-    <_primary>Really delete folder "{0}" and all of its subfolders?</_primary>
-    <_secondary xml:space="preserve">If you delete the folder, all of its contents and its subfolders' contents will be deleted permanently.</_secondary>
+    <_primary>Really delete folder “{0}” and all of its subfolders?</_primary>
+    <_secondary xml:space="preserve">If you delete the folder, all of its contents and its subfolders’ contents will be deleted permanently.</_secondary>
     <button _label="Do _Not Delete" response="GTK_RESPONSE_CANCEL"/>
     <button stock="gtk-delete" response="GTK_RESPONSE_OK"/>
   </error>
 
   <error id="ask-unsubscribe-folder" type="question" default="GTK_RESPONSE_NO">
-    <_primary>Really unsubscribe folder "{0}"?</_primary>
-    <_secondary xml:space="preserve">If you unsubscribe the folder, it might not be visible in the Evolution, while still being available on the server. You can re-subscribe in Folder->Subscriptions... menu.</_secondary>
+    <_primary>Really unsubscribe folder “{0}”?</_primary>
+    <_secondary xml:space="preserve">If you unsubscribe the folder, it might not be visible in the Evolution, while still being available on the server. You can re-subscribe in Folder→Subscriptions... menu.</_secondary>
     <button _label="Do _Not Unsubscribe" response="GTK_RESPONSE_NO"/>
     <button _label="_Unsubscribe" response="GTK_RESPONSE_YES"/>
   </error>
 
   <error id="ask-delete-vfolder" type="question" default="GTK_RESPONSE_CANCEL">
-    <_primary>Really delete folder "{0}" and all of its subfolders?</_primary>
+    <_primary>Really delete folder “{0}” and all of its subfolders?</_primary>
     <button _label="Do _Not Delete" response="GTK_RESPONSE_CANCEL"/>
     <button stock="gtk-delete" response="GTK_RESPONSE_OK"/>
   </error>
 
   <error id="ask-delete-folder-nochild" type="question" default="GTK_RESPONSE_CANCEL">
-    <_primary>Really delete folder "{0}"?</_primary>
+    <_primary>Really delete folder “{0}”?</_primary>
     <_secondary xml:space="preserve">If you delete the folder, all of its contents will be deleted permanently.</_secondary>
     <button _label="Do _Not Delete" response="GTK_RESPONSE_CANCEL"/>
     <button stock="gtk-delete" response="GTK_RESPONSE_OK"/>
   </error>
 
   <error id="ask-delete-vfolder-nochild" type="question" default="GTK_RESPONSE_CANCEL">
-    <_primary>Really delete folder "{0}"?</_primary>
+    <_primary>Really delete folder “{0}”?</_primary>
     <button _label="Do _Not Delete" response="GTK_RESPONSE_CANCEL"/>
     <button stock="gtk-delete" response="GTK_RESPONSE_OK"/>
   </error>
@@ -248,37 +248,37 @@ The reported error was &quot;{0}&quot;.</_secondary>
   </error>
 
   <error id="no-rename-folder-exists" type="error">
-    <_primary>Cannot rename "{0}" to "{1}".</_primary>
-    <_secondary xml:space="preserve">A folder named "{1}" already exists. Please use a different name.</_secondary>
+    <_primary>Cannot rename “{0}” to “{1}”.</_primary>
+    <_secondary xml:space="preserve">A folder named “{1}” already exists. Please use a different name.</_secondary>
   </error>
 
   <error id="no-rename-folder" type="error">
-    <_primary>Cannot rename "{0}" to "{1}".</_primary>
+    <_primary>Cannot rename “{0}” to “{1}”.</_primary>
     <secondary xml:space="preserve">{2}.</secondary>
   </error>
 
   <error id="no-move-folder-nostore" type="error">
-    <_primary>Cannot move folder "{0}" to "{1}".</_primary>
+    <_primary>Cannot move folder “{0}” to “{1}”.</_primary>
     <_secondary xml:space="preserve">Cannot open source folder. Error: {2}</_secondary>
   </error>
 
   <error id="no-move-folder-to-nostore" type="error">
-    <_primary>Cannot move folder "{0}" to "{1}".</_primary>
+    <_primary>Cannot move folder “{0}” to “{1}”.</_primary>
     <_secondary xml:space="preserve">Cannot open target folder. Error: {2}</_secondary>
   </error>
 
   <error id="no-copy-folder-nostore" type="error">
-    <_primary>Cannot copy folder "{0}" to "{1}".</_primary>
+    <_primary>Cannot copy folder “{0}” to “{1}”.</_primary>
     <_secondary xml:space="preserve">Cannot open source folder. Error: {2}</_secondary>
   </error>
 
   <error id="no-copy-folder-to-nostore" type="error">
-    <_primary>Cannot copy folder "{0}" to "{1}".</_primary>
+    <_primary>Cannot copy folder “{0}” to “{1}”.</_primary>
     <_secondary xml:space="preserve">Cannot open target folder. Error: {2}</_secondary>
   </error>
 
   <error id="no-create-folder-nostore" type="error">
-    <_primary>Cannot create folder "{0}".</_primary>
+    <_primary>Cannot create folder “{0}”.</_primary>
     <_secondary xml:space="preserve">Cannot open folder. Error: {1}</_secondary>
   </error>
 
@@ -315,14 +315,14 @@ all proxy information will be deleted permanently.</_secondary>
   </error>
 
   <error id="vfolder-notexist" type="error">
-    <_primary>Cannot edit Search Folder "{0}" as it does not exist.</_primary>
+    <_primary>Cannot edit Search Folder “{0}” as it does not exist.</_primary>
     <_secondary xml:space="preserve">This folder may have been added implicitly,
 go to the Search Folder editor to add it explicitly, if required.</_secondary>
   </error>
 
   <error id="vfolder-notunique" type="error">
-    <_primary>Cannot add Search Folder "{0}".</_primary>
-    <_secondary xml:space="preserve">A folder named "{0}" already exists. Please use a different name.</_secondary>
+    <_primary>Cannot add Search Folder “{0}”.</_primary>
+    <_secondary xml:space="preserve">A folder named “{0}” already exists. Please use a different name.</_secondary>
   </error>
 
   <error id="vfolder-updated" type="info">
@@ -352,8 +352,8 @@ Either by selecting the folders individually, and/or by selecting all local fold
   </error>
 
   <error id="ask-migrate-existing" type="question" default="GTK_RESPONSE_CANCEL">
-    <_primary>Problem migrating old mail folder "{0}".</_primary>
-    <_secondary xml:space="preserve">A non-empty folder at "{1}" already exists.
+    <_primary>Problem migrating old mail folder “{0}”.</_primary>
+    <_secondary xml:space="preserve">A non-empty folder at “{1}” already exists.
 
 You can choose to ignore this folder, overwrite or append its contents, or quit.</_secondary>
     <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
@@ -363,8 +363,8 @@ You can choose to ignore this folder, overwrite or append its contents, or quit.
   </error>
   
   <error id="ask-migrate-store" type="question" default="GTK_RESPONSE_YES">
-    <_primary>Evolution's local mail format has changed.</_primary>
-    <_secondary xml:space="preserve">Evolution's local mail format has changed from mbox to Maildir. Your local mail must be migrated to the new format before Evolution can proceed. Do you want to migrate now?
+    <_primary>Evolution’s local mail format has changed.</_primary>
+    <_secondary xml:space="preserve">Evolution’s local mail format has changed from mbox to Maildir. Your local mail must be migrated to the new format before Evolution can proceed. Do you want to migrate now?
 
 An mbox account will be created to preserve the old mbox folders. You can delete the account after ensuring the data is safely migrated. Please make sure there is enough disk space if you choose to migrate now.</_secondary>
     <button _label="_Exit Evolution" response="GTK_RESPONSE_CANCEL"/>
@@ -373,7 +373,7 @@ An mbox account will be created to preserve the old mbox folders. You can delete
 
   <error id="no-load-license" type="error">
     <_primary>Unable to read license file.</_primary>
-    <_secondary xml:space="preserve">Cannot read the license file "{0}", due to an installation problem. You will not be able to use this provider until you can accept its license.</_secondary>
+    <_secondary xml:space="preserve">Cannot read the license file “{0}”, due to an installation problem. You will not be able to use this provider until you can accept its license.</_secondary>
   </error>
 
   <error id="checking-service" type="info">
@@ -422,7 +422,7 @@ An mbox account will be created to preserve the old mbox folders. You can delete
 
   <error id="ask-folder-drop-copy" type="question" default="GTK_RESPONSE_YES">
     <_primary>Copy folder in folder tree.</_primary>
-    <_secondary xml:space="preserve">Are you sure you want to copy folder '{0}' to folder '{1}'?</_secondary>
+    <_secondary xml:space="preserve">Are you sure you want to copy folder “{0}” to folder “{1}”?</_secondary>
     <button _label="_Copy" response="GTK_RESPONSE_YES"/>
     <button _label="Do _not copy" response="GTK_RESPONSE_NO"/>
     <button _label="_Always copy" response="GTK_RESPONSE_OK"/>
@@ -431,7 +431,7 @@ An mbox account will be created to preserve the old mbox folders. You can delete
 
   <error id="ask-folder-drop-move" type="question" default="GTK_RESPONSE_YES">
     <_primary>Move folder in folder tree.</_primary>
-    <_secondary xml:space="preserve">Are you sure you want to to move folder '{0}' to folder '{1}'?</_secondary>
+    <_secondary xml:space="preserve">Are you sure you want to to move folder “{0}” to folder “{1}”?</_secondary>
     <button _label="_Move" response="GTK_RESPONSE_YES"/>
     <button _label="Do _not move" response="GTK_RESPONSE_NO"/>
     <button _label="_Always move" response="GTK_RESPONSE_OK"/>
@@ -449,17 +449,17 @@ An mbox account will be created to preserve the old mbox folders. You can delete
   </error>
 
   <error id="junk-check-error" type="error">
-    <_primary>"Check Junk" Failed</_primary>
+    <_primary>“Check Junk” Failed</_primary>
     <secondary xml:space="preserve">{0}</secondary>
   </error>
 
   <error id="junk-report-error" type="error">
-    <_primary>"Report Junk" Failed</_primary>
+    <_primary>“Report Junk” Failed</_primary>
     <secondary xml:space="preserve">{0}</secondary>
   </error>
 
   <error id="junk-not-report-error" type="error">
-    <_primary>"Report Not Junk" Failed</_primary>
+    <_primary>“Report Not Junk” Failed</_primary>
     <secondary xml:space="preserve">{0}</secondary>
   </error>
 
@@ -473,23 +473,23 @@ An mbox account will be created to preserve the old mbox folders. You can delete
   <error id="info-no-remove-duplicates" type="info" default="GTK_RESPONSE_OK">
     <_primary>No duplicate messages found.</_primary>
     <!-- Translators: {0} is replaced with a folder name -->
-    <_secondary>Folder '{0}' doesn't contain any duplicate message.</_secondary>
+    <_secondary>Folder “{0}” doesn’t contain any duplicate message.</_secondary>
     <button stock="gtk-ok" response="GTK_RESPONSE_OK"/>
   </error>
 
   <error id="failed-connect" type="warning">
-    <_primary>Failed to connect account &quot;{0}&quot;.</_primary>
-    <_secondary>The reported error was &quot;{1}&quot;.</_secondary>
+    <_primary>Failed to connect account “{0}”.</_primary>
+    <_secondary>The reported error was “{1}”.</_secondary>
   </error>
 
   <error id="disconnect" type="warning">
-    <_primary>Failed to disconnect account &quot;{0}&quot;.</_primary>
-    <_secondary>The reported error was &quot;{1}&quot;.</_secondary>
+    <_primary>Failed to disconnect account “{0}”.</_primary>
+    <_secondary>The reported error was “{1}”.</_secondary>
   </error>
 
   <error id="folder-unsubscribe" type="warning">
-    <_primary>Failed to unsubscribe from folder &quot;{0}&quot;.</_primary>
-    <_secondary>The reported error was &quot;{1}&quot;.</_secondary>
+    <_primary>Failed to unsubscribe from folder “{0}”.</_primary>
+    <_secondary>The reported error was “{1}”.</_secondary>
   </error>
 
   <error id="no-retrieve-message" type="warning">
@@ -500,44 +500,44 @@ An mbox account will be created to preserve the old mbox folders. You can delete
   <error id="no-retrieve-message-offline" type="warning">
     <_primary>Message is not available in offline mode.</_primary>
     <_secondary>This can be due to the message not being downloaded yet. The folder, or the account, can be marked
-for offline synchronization. Then, once the account is online again, use File-&gt;Download
+for offline synchronization. Then, once the account is online again, use File→Download
 Messages for Offline Usage, when this folder is selected, to make sure that all the messages
 in the folder will be available in offline mode.</_secondary>
   </error>
 
   <error id="folder-open" type="error">
     <_primary>Failed to open folder.</_primary>
-    <_secondary>The reported error was &quot;{0}&quot;.</_secondary>
+    <_secondary>The reported error was “{0}”.</_secondary>
   </error>
 
   <error id="find-duplicate-messages" type="error">
     <_primary>Failed to find duplicate messages.</_primary>
-    <_secondary>The reported error was &quot;{0}&quot;.</_secondary>
+    <_secondary>The reported error was “{0}”.</_secondary>
   </error>
 
   <error id="get-multiple-messages" type="error">
     <_primary>Failed to retrieve messages.</_primary>
-    <_secondary>The reported error was &quot;{0}&quot;.</_secondary>
+    <_secondary>The reported error was “{0}”.</_secondary>
   </error>
 
   <error id="mark-all-read" type="error">
     <_primary>Failed to mark messages as read.</_primary>
-    <_secondary>The reported error was &quot;{0}&quot;.</_secondary>
+    <_secondary>The reported error was “{0}”.</_secondary>
   </error>
 
   <error id="remove-attachments" type="error">
     <_primary>Failed to remove attachments from messages.</_primary>
-    <_secondary>The reported error was &quot;{0}&quot;.</_secondary>
+    <_secondary>The reported error was “{0}”.</_secondary>
   </error>
 
   <error id="prepare-for-offline" type="warning">
     <_primary>Failed to download messages for offline viewing.</_primary>
-    <_secondary>The reported error was &quot;{0}&quot;.</_secondary>
+    <_secondary>The reported error was “{0}”.</_secondary>
   </error>
 
   <error id="save-messages" type="error">
     <_primary>Failed to save messages to disk.</_primary>
-    <_secondary>The reported error was &quot;{0}&quot;.</_secondary>
+    <_secondary>The reported error was “{0}”.</_secondary>
   </error>
 
   <error id="blacklisted-file" type="warning">
@@ -547,7 +547,7 @@ in the folder will be available in offline mode.</_secondary>
 
   <error id="printing-failed" type="error">
     <_primary>Printing failed.</_primary>
-    <_secondary>The printer replied &quot;{0}&quot;.</_secondary>
+    <_secondary>The printer replied “{0}”.</_secondary>
   </error>
 
   <error id="online-operation" type="error">
@@ -556,37 +556,37 @@ in the folder will be available in offline mode.</_secondary>
   </error>
 
   <error id="user-alert-info" type="info">
-    <_primary>Message from &quot;{0}&quot; account:</_primary>
+    <_primary>Message from “{0}” account:</_primary>
     <secondary>{1}</secondary>
   </error>
 
   <error id="user-alert-warning" type="warning">
-    <_primary>Message from &quot;{0}&quot; account:</_primary>
+    <_primary>Message from “{0}” account:</_primary>
     <secondary>{1}</secondary>
   </error>
 
   <error id="user-alert-error" type="error">
-    <_primary>Message from &quot;{0}&quot; account:</_primary>
+    <_primary>Message from “{0}” account:</_primary>
     <secondary>{1}</secondary>
   </error>
 
   <error id="failed-mark-ignore-thread" type="error" default="GTK_RESPONSE_YES">
-    <_primary>Failed to mark thread to be ignored in folder '{0}'</_primary>
+    <_primary>Failed to mark thread to be ignored in folder “{0}”</_primary>
     <secondary>{1}</secondary>
   </error>
 
   <error id="failed-mark-unignore-thread" type="error" default="GTK_RESPONSE_YES">
-    <_primary>Failed to unmark thread from being ignored in folder '{0}'</_primary>
+    <_primary>Failed to unmark thread from being ignored in folder “{0}”</_primary>
     <secondary>{1}</secondary>
   </error>
 
   <error id="failed-mark-ignore-subthread" type="error" default="GTK_RESPONSE_YES">
-    <_primary>Failed to mark subthread to be ignored in folder '{0}'</_primary>
+    <_primary>Failed to mark subthread to be ignored in folder “{0}”</_primary>
     <secondary>{1}</secondary>
   </error>
 
   <error id="failed-mark-unignore-subthread" type="error" default="GTK_RESPONSE_YES">
-    <_primary>Failed to unmark subthread from being ignored in folder '{0}'</_primary>
+    <_primary>Failed to unmark subthread from being ignored in folder “{0}”</_primary>
     <secondary>{1}</secondary>
   </error>
 
@@ -624,13 +624,13 @@ in the folder will be available in offline mode.</_secondary>
 
   <error id="failed-delete-note" type="error">
     <!-- Translators: {0} is the name of the folder where the delete of the message note failed. -->
-    <_primary>Failed to delete message note in folder '{0}'</_primary>
+    <_primary>Failed to delete message note in folder “{0}”</_primary>
     <secondary>{1}</secondary>
   </error>
 
   <error id="failed-store-note" type="error">
     <!-- Translators: {0} is the name of the folder where the store of the message note failed. -->
-    <_primary>Failed to store message note in folder '{0}'</_primary>
+    <_primary>Failed to store message note in folder “{0}”</_primary>
     <secondary>{1}</secondary>
   </error>
 </error-list>

@@ -299,7 +299,7 @@ vfolder_adduri_desc (struct _adduri_msg *m)
 	display_name = camel_service_get_display_name (service);
 
 	description = g_strdup_printf (
-		_("Updating Search Folders for '%s' - %s"),
+		_("Updating Search Folders for “%s” — %s"),
 		display_name, folder_name);
 
 	g_object_unref (store);
@@ -663,10 +663,10 @@ done:
 			 * removed folder. For more than one search folder is
 			 * each of them on a separate line, with four spaces
 			 * in front of its name, without quotes. */
-			"The Search Folder \"%s\" has been modified to "
-			"account for the deleted folder\n\"%s\".",
+			"The Search Folder “%s” has been modified to "
+			"account for the deleted folder\n“%s”.",
 			"The following Search Folders\n%s have been modified "
-			"to account for the deleted folder\n\"%s\".",
+			"to account for the deleted folder\n“%s”.",
 			changed_count), changed->str, uri);
 		e_alert_submit (
 			alert_sink, "mail:vfolder-updated", info, NULL);

@@ -1516,7 +1516,7 @@ e_addressbook_view_view (EAddressbookView *view)
 			"these contacts?", length), length, length);
 		gtk_dialog_add_buttons (
 			GTK_DIALOG (dialog),
-			_("_Don't Display"), GTK_RESPONSE_NO,
+			_("_Don’t Display"), GTK_RESPONSE_NO,
 			_("Display _All Contacts"), GTK_RESPONSE_YES,
 			NULL);
 		response = gtk_dialog_run (GTK_DIALOG (dialog));

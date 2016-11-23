@@ -537,7 +537,7 @@ prepare_intelligent_page (GtkAssistant *assistant,
 			 "the following applications: Pine, Netscape, Elm, "
 			 "iCalendar, KMail. No importable settings found. If you "
 			 "would like to try again, please click the "
-			 "\"Back\" button.");
+			 "“Back” button.");
 
 		widget = gtk_label_new (text);
 		gtk_label_set_line_wrap (GTK_LABEL (widget), TRUE);
@@ -1362,7 +1362,7 @@ import_assistant_construct (EImportAssistant *import_assistant)
 		page = gtk_label_new ("");
 		gtk_misc_set_alignment (GTK_MISC (page), 0.5, 0.5);
 		gtk_label_set_text (
-			GTK_LABEL (page), _("Click \"Apply\" to "
+			GTK_LABEL (page), _("Click “Apply” to "
 			"begin importing the file into Evolution."));
 		gtk_widget_show (page);
 

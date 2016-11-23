@@ -218,8 +218,8 @@ e_comp_editor_memo_class_init (ECompEditorMemoClass *klass)
 
 	comp_editor_class = E_COMP_EDITOR_CLASS (klass);
 	comp_editor_class->help_section = "memos-usage";
-	comp_editor_class->title_format_with_attendees = _("Assigned Memo - %s");
-	comp_editor_class->title_format_without_attendees = _("Memo - %s");
+	comp_editor_class->title_format_with_attendees = _("Assigned Memo — %s");
+	comp_editor_class->title_format_without_attendees = _("Memo — %s");
 	comp_editor_class->icon_name = "stock_insert-note";
 	comp_editor_class->sensitize_widgets = ece_memo_sensitize_widgets;
 }

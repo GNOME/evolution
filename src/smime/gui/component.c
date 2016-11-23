@@ -50,9 +50,9 @@ smime_pk11_passwd (ECertDB *db,
 		g_strchomp (token_name);
 
 	if (token_name && *token_name && g_ascii_strcasecmp (slot_name, token_name) != 0)
-		prompt = g_strdup_printf (_("Enter the password for '%s', token '%s'"), slot_name, token_name);
+		prompt = g_strdup_printf (_("Enter the password for “%s”, token “%s”"), slot_name, token_name);
 	else
-		prompt = g_strdup_printf (_("Enter the password for '%s'"), slot_name);
+		prompt = g_strdup_printf (_("Enter the password for “%s”"), slot_name);
 
 	g_free (slot_name);
 	g_free (token_name);

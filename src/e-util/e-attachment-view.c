@@ -655,7 +655,7 @@ attachment_view_update_actions (EAttachmentView *view)
 		action_name = g_strdup_printf ("open-with-%s", app_id);
 
 		action_label = g_strdup_printf (
-			_("Open With \"%s\""), app_name);
+			_("Open With “%s”"), app_name);
 
 		action_tooltip = g_strdup_printf (
 			_("Open this attachment in %s"), app_name);

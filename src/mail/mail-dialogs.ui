@@ -26,7 +26,7 @@
           <object class="GtkLabel" id="lblDirections">
             <property name="visible">True</property>
             <property name="label" translatable="yes">The messages you have selected for follow up are listed below.
-Please select a follow up action from the "Flag" menu.</property>
+Please select a follow up action from the “Flag” menu.</property>
           </object>
           <packing>
             <property name="expand">False</property>

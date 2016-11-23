@@ -227,7 +227,7 @@ spam_assassin_command_full (const gchar **argv,
 		if (!success) {
 			g_spawn_close_pid (child_pid);
 			g_prefix_error (
-				error, _("Failed to write '%s' "
+				error, _("Failed to write “%s” "
 				"to SpamAssassin: "), input_data);
 			return SPAM_ASSASSIN_EXIT_STATUS_ERROR;
 		}

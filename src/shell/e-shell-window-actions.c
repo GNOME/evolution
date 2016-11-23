@@ -863,7 +863,7 @@ static GtkActionEntry shell_entries[] = {
 	  NULL,
 	  N_("_Quick Reference"),
 	  NULL,
-	  N_("Show Evolution's shortcut keys"),
+	  N_("Show Evolution’s shortcut keys"),
 	  G_CALLBACK (action_quick_reference_cb) },
 
 	{ "quit",

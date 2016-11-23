@@ -3937,7 +3937,7 @@ e_web_view_cursor_image_save (EWebView *web_view)
 		cancellable = e_activity_get_cancellable (activity);
 
 		uri = g_file_get_uri (destination);
-		text = g_strdup_printf (_("Saving image to '%s'"), uri);
+		text = g_strdup_printf (_("Saving image to “%s”"), uri);
 		e_activity_set_text (activity, text);
 		g_free (text);
 		g_free (uri);
@@ -4032,7 +4032,7 @@ e_web_view_request (EWebView *web_view,
 		g_task_run_in_thread (task, web_view_request_process_thread);
 	} else {
 		g_task_return_new_error (task, G_IO_ERROR, G_IO_ERROR_FAILED,
-			_("Cannot get URI '%s', do not know how to download it."), uri);
+			_("Cannot get URI “%s”, do not know how to download it."), uri);
 	}
 
 	g_object_unref (task);

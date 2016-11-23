@@ -753,7 +753,7 @@ pst_import_file (PstImporter *m)
 	filename = g_filename_from_uri (((EImportTargetURI *) m->target)->uri_src, NULL, NULL);
 	m->folder_uri = g_strdup (((EImportTargetURI *) m->target)->uri_dest); /* Destination folder, was set in our widget */
 
-	camel_operation_push_message (m->cancellable, _("Importing '%s'"), filename);
+	camel_operation_push_message (m->cancellable, _("Importing “%s”"), filename);
 
 	if (GPOINTER_TO_INT (g_datalist_get_data (&m->target->data, "pst-do-mail"))) {
 		e_mail_session_uri_to_folder_sync (

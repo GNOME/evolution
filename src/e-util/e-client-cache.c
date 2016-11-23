@@ -1147,7 +1147,7 @@ e_client_cache_get_client_sync (EClientCache *client_cache,
 			error, G_IO_ERROR,
 			G_IO_ERROR_INVALID_ARGUMENT,
 			_("Cannot create a client object from "
-			"extension name '%s'"), extension_name);
+			"extension name “%s”"), extension_name);
 		return NULL;
 	}
 
@@ -1278,7 +1278,7 @@ e_client_cache_get_client (EClientCache *client_cache,
 			simple, G_IO_ERROR,
 			G_IO_ERROR_INVALID_ARGUMENT,
 			_("Cannot create a client object from "
-			"extension name '%s'"), extension_name);
+			"extension name “%s”"), extension_name);
 		g_simple_async_result_complete_in_idle (simple);
 		goto exit;
 	}

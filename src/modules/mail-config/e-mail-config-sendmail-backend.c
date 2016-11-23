@@ -72,7 +72,7 @@ mail_config_sendmail_backend_insert_widgets (EMailConfigServiceBackend *backend,
 
 	container = widget;
 
-	widget = gtk_check_button_new_with_mnemonic (_("_Use custom binary, instead of 'sendmail'"));
+	widget = gtk_check_button_new_with_mnemonic (_("_Use custom binary, instead of “sendmail”"));
 	gtk_grid_attach (GTK_GRID (container), widget, 0, 0, 2, 1);
 	use_custom_binary_check = widget;
 
@@ -117,9 +117,9 @@ mail_config_sendmail_backend_insert_widgets (EMailConfigServiceBackend *backend,
 		G_BINDING_SYNC_CREATE);
 
 	widget = gtk_label_new (_(
-		"Default arguments are '-i -f %F -- %R', where\n"
-		"   %F - stands for the From address\n"
-		"   %R - stands for the recipient addresses"));
+		"Default arguments are “-i -f %F -- %R”, where\n"
+		"   %F — stands for the From address\n"
+		"   %R — stands for the recipient addresses"));
 	gtk_widget_set_halign (widget, GTK_ALIGN_FILL);
 	gtk_widget_set_hexpand (widget, TRUE);
 	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.0);

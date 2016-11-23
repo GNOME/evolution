@@ -33,15 +33,15 @@
   </error>
 
   <error id="ask-delete-addressbook" type="question" default="GTK_RESPONSE_CANCEL">
-    <_primary>Delete address book '{0}'?</_primary>
+    <_primary>Delete address book “{0}”?</_primary>
     <_secondary>This address book will be removed permanently.</_secondary>
     <button _label="Do _Not Delete" response="GTK_RESPONSE_CANCEL"/>
     <button stock="gtk-delete" response="GTK_RESPONSE_YES"/>
   </error>
 
  <error id="ask-delete-remote-addressbook" type="question" default="GTK_RESPONSE_CANCEL">
-   <_primary>Delete remote address book &quot;{0}&quot;?</_primary>
-   <_secondary>This will permanently remove the address book &quot;{0}&quot; from the server.  Are you sure you want to proceed?</_secondary>
+   <_primary>Delete remote address book “{0}”?</_primary>
+   <_secondary>This will permanently remove the address book “{0}” from the server.  Are you sure you want to proceed?</_secondary>
    <button _label="Do _Not Delete" response="GTK_RESPONSE_CANCEL"/>
    <button _label="_Delete From Server" response="GTK_RESPONSE_YES"/>
  </error>
@@ -56,7 +56,7 @@
   </error>
 
   <error id="load-error" type="error">
-    <_primary>Unable to open address book '{0}'</_primary>
+    <_primary>Unable to open address book “{0}”</_primary>
     <secondary>{1}</secondary>
   </error>
 
@@ -66,7 +66,7 @@
   </error>
 
   <error id="refresh-error" type="error">
-    <_primary>Failed to refresh address book '{0}'</_primary>
+    <_primary>Failed to refresh address book “{0}”</_primary>
     <secondary>{1}</secondary>
   </error>
 
@@ -98,7 +98,7 @@
   </error>
 
   <error id="ask-list-add-exists" type="question" default="GTK_RESPONSE_NO">
-    <_primary>Address '{0}' already exists.</_primary>
+    <_primary>Address “{0}” already exists.</_primary>
     <_secondary>A contact already exists with this address. Would you like to add a new card with the same address anyway?</_secondary>
     <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
     <button stock="gtk-ok" _label="_Add" response="GTK_RESPONSE_YES"/>
@@ -113,8 +113,8 @@
   </error>
 
   <error id="ask-list-add-list-exists" type="question" default="GTK_RESPONSE_NO">
-    <_primary>List '{0}' is already in this contact list.</_primary>
-    <_secondary>A contact list named '{0}' is already in this contact list. Would you like to add it anyway?</_secondary>
+    <_primary>List “{0}” is already in this contact list.</_primary>
+    <_secondary>A contact list named “{0}” is already in this contact list. Would you like to add it anyway?</_secondary>
     <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
     <button stock="gtk-ok" _label="_Add" response="GTK_RESPONSE_YES"/>
   </error>
@@ -127,13 +127,13 @@
   <error id="error-read-only" type="error" default="GTK_RESPONSE_YES">
     <_primary>Cannot add new contact</_primary>
     <!-- For Translators: {0} is the name of the address book source -->
-    <_secondary>'{0}' is a read-only address book and cannot be modified. Please select a different address book from the side bar in the Contacts view.</_secondary>
+    <_secondary>“{0}” is a read-only address book and cannot be modified. Please select a different address book from the side bar in the Contacts view.</_secondary>
   </error>
 
   <error id="error-still-opening" type="error" default="GTK_RESPONSE_YES">
     <_primary>Cannot save a contact, address book is still opening</_primary>
     <!-- For Translators: {0} is the name of the address book source -->
-    <_secondary>Cannot save a contact to the address book '{0}', because it is still opening. Either wait till it's opened, or select a different address book.</_secondary>
+    <_secondary>Cannot save a contact to the address book “{0}”, because it is still opening. Either wait till it’s opened, or select a different address book.</_secondary>
   </error>
 
 </error-list>
