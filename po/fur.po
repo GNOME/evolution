@@ -10,7 +10,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2016-11-16 18:36+0000\n"
-"PO-Revision-Date: 2016-11-23 17:32+0100\n"
+"PO-Revision-Date: 2016-11-24 09:50+0100\n"
 "Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
 "Language-Team: Friulian <f.t.public@gmail.com>\n"
 "Language: fur\n"
@@ -15168,7 +15168,7 @@ msgstr ""
 #: ../src/libemail-engine/e-mail-session-utils.c:923
 #: ../src/libemail-engine/mail-ops.c:978 ../src/libemail-engine/mail-ops.c:1080
 msgid "Sending message"
-msgstr ""
+msgstr "Daûr a inviâ il messaç"
 
 #: ../src/libemail-engine/e-mail-store-utils.c:188
 #, c-format
@@ -15221,16 +15221,16 @@ msgstr ""
 #, c-format
 msgid "Failed to send a message"
 msgid_plural "Failed to send %d of %d messages"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "No si è rivâts a inviâ un messaç"
+msgstr[1] "No si è rivâts a inviâ %d di %d messaçs"
 
 #: ../src/libemail-engine/mail-ops.c:1047
 msgid "Cancelled."
-msgstr ""
+msgstr "Anulât."
 
 #: ../src/libemail-engine/mail-ops.c:1049
 msgid "Complete."
-msgstr ""
+msgstr "Completât."
 
 #: ../src/libemail-engine/mail-ops.c:1164
 #, c-format
@@ -15317,7 +15317,7 @@ msgstr[1] ""
 #: ../src/mail/e-mail-account-manager.c:118
 #: ../src/mail/e-mail-account-manager.c:205
 msgid "Open _Online Accounts"
-msgstr ""
+msgstr "Vierç Account _Online"
 
 #: ../src/mail/e-mail-account-manager.c:144
 #: ../src/mail/e-mail-account-manager.c:231
@@ -15341,29 +15341,29 @@ msgstr ""
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:355
 #: ../src/plugins/publish-calendar/publish-calendar.c:853
 msgid "Enabled"
-msgstr ""
+msgstr "Abilitât"
 
 #: ../src/mail/e-mail-account-tree-view.c:108
 msgid "Account Name"
-msgstr ""
+msgstr "Non account"
 
 #: ../src/mail/e-mail-autoconfig.c:620
 msgid "No email address provided"
-msgstr ""
+msgstr "Nissune direzion e-mail furnide"
 
 #: ../src/mail/e-mail-autoconfig.c:629
 msgid "Missing domain in email address"
-msgstr ""
+msgstr "Al mancje il domini te direzion e-mail"
 
 #: ../src/mail/e-mail-browser.c:129 ../src/shell/e-shell-window-actions.c:782
 #: ../src/shell/e-shell-window-actions.c:789
 #: ../src/shell/e-shell-window-actions.c:796
 msgid "Close this window"
-msgstr ""
+msgstr "Siere chest barcon"
 
 #: ../src/mail/e-mail-browser.c:287
 msgid "(No Subject)"
-msgstr ""
+msgstr "(Nissun ogjet)"
 
 #. GtkAssistant's back button label.
 #: ../src/mail/e-mail-config-assistant.c:47
@@ -15402,22 +15402,22 @@ msgstr ""
 
 #: ../src/mail/e-mail-config-confirm-page.c:168
 msgid "Done"
-msgstr ""
+msgstr "Completât"
 
 #: ../src/mail/e-mail-config-defaults-page.c:378
 msgid "Checking server settings..."
-msgstr ""
+msgstr "Verifiche impostazions dal servidôr..."
 
 #: ../src/mail/e-mail-config-defaults-page.c:496
 msgctxt "ReplyForward"
 msgid "Use global setting"
-msgstr ""
+msgstr "Dopre impostazion globâl"
 
 #: ../src/mail/e-mail-config-defaults-page.c:498
 #: ../src/mail/mail-config.ui.h:26
 msgctxt "ReplyForward"
 msgid "Attachment"
-msgstr ""
+msgstr "Zonte"
 
 #: ../src/mail/e-mail-config-defaults-page.c:500
 #: ../src/mail/mail-config.ui.h:27
@@ -15429,33 +15429,33 @@ msgstr ""
 #: ../src/mail/mail-config.ui.h:28
 msgctxt "ReplyForward"
 msgid "Quoted"
-msgstr ""
+msgstr "Citât"
 
 #: ../src/mail/e-mail-config-defaults-page.c:504
 #: ../src/mail/mail-config.ui.h:29
 msgctxt "ReplyForward"
 msgid "Do Not Quote"
-msgstr ""
+msgstr "No stâ citâ"
 
 #: ../src/mail/e-mail-config-defaults-page.c:830
 msgid "Special Folders"
-msgstr ""
+msgstr "Cartelis speciâi"
 
 #: ../src/mail/e-mail-config-defaults-page.c:839
 msgid "Draft Messages _Folder:"
-msgstr ""
+msgstr "Cartele stampon _messaçs:"
 
 #: ../src/mail/e-mail-config-defaults-page.c:849
 msgid "Choose a folder for saving draft messages."
-msgstr ""
+msgstr "Sielç une cartele par salvâ i messaçs stampon."
 
 #: ../src/mail/e-mail-config-defaults-page.c:863
 msgid "Sent _Messages Folder:"
-msgstr ""
+msgstr "Cartele _messaçs inviâts:"
 
 #: ../src/mail/e-mail-config-defaults-page.c:873
 msgid "Choose a folder for saving sent messages."
-msgstr ""
+msgstr "Sielç une cartele par salvâ i messaçs inviâts."
 
 #: ../src/mail/e-mail-config-defaults-page.c:892
 msgid "S_ave replies in the folder of the message being replied to"
@@ -15463,44 +15463,44 @@ msgstr ""
 
 #: ../src/mail/e-mail-config-defaults-page.c:909
 msgid "Archi_ve Folder:"
-msgstr ""
+msgstr "Cartele archi_vi:"
 
 #: ../src/mail/e-mail-config-defaults-page.c:919
 #: ../src/modules/mail/em-mailer-prefs.c:1401
 msgid "Choose a folder to archive messages to."
-msgstr ""
+msgstr "Sielç une cartele par archiviâ i messaçs."
 
 #: ../src/mail/e-mail-config-defaults-page.c:933
 msgid "_Templates Folder:"
-msgstr ""
+msgstr "Cartele mo_dei:"
 
 #: ../src/mail/e-mail-config-defaults-page.c:943
 msgid "Choose a folder to use for template messages."
-msgstr ""
+msgstr "Sielç une cartele di doprâ pai messaçs modei."
 
 #: ../src/mail/e-mail-config-defaults-page.c:965
 msgid "_Restore Defaults"
-msgstr ""
+msgstr "_Torne met i predefinîts"
 
 #: ../src/mail/e-mail-config-defaults-page.c:982
 msgid "_Lookup Folders"
-msgstr ""
+msgstr "Cartelis di _ricercje"
 
 #: ../src/mail/e-mail-config-defaults-page.c:1000
 msgid "Use a Real Folder for _Trash:"
-msgstr ""
+msgstr "Doprâ une cartele vere pe _Scovacere:"
 
 #: ../src/mail/e-mail-config-defaults-page.c:1001
 msgid "Choose a folder for deleted messages."
-msgstr ""
+msgstr "Sielç une cartele pai messaçs eliminâts."
 
 #: ../src/mail/e-mail-config-defaults-page.c:1010
 msgid "Use a Real Folder for _Junk:"
-msgstr ""
+msgstr "Doprâ une cartele vere pai _Malvolûts:"
 
 #: ../src/mail/e-mail-config-defaults-page.c:1011
 msgid "Choose a folder for junk messages."
-msgstr ""
+msgstr "Sielç une cartele pai messaçs malvolûts."
 
 #: ../src/mail/e-mail-config-defaults-page.c:1028
 msgid "Composing Messages"
@@ -15508,11 +15508,11 @@ msgstr ""
 
 #: ../src/mail/e-mail-config-defaults-page.c:1037
 msgid "Alway_s carbon-copy (cc) to:"
-msgstr ""
+msgstr "Simpri copie-par-cognossince (cc) a:"
 
 #: ../src/mail/e-mail-config-defaults-page.c:1062
 msgid "Always _blind carbon-copy (bcc) to:"
-msgstr ""
+msgstr "Simpri copie-par-cognossince platade (ccp) a:"
 
 #: ../src/mail/e-mail-config-defaults-page.c:1093
 msgid "Re_ply style:"
