@@ -4651,8 +4651,13 @@ message_list_folder_changed (CamelFolder *folder,
 		}
 	}
 
-	if (need_list_regen)
-		mail_regen_list (message_list, NULL, TRUE);
+	if (need_list_regen) {
+		/* Use 'folder_changed = TRUE' only if this is not the first change after the folder
+		   had been set. There could happen a race condition on folder enter which prevented
+		   the message list to scroll to the cursor position due to the folder_changed = TRUE,
+		   by cancelling the full rebuild request. */
+		mail_regen_list (message_list, NULL, !message_list->just_set_folder);
+	}
 
 	if (altered_changes != NULL)
 		camel_folder_change_info_free (altered_changes);
