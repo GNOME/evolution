@@ -7926,6 +7926,7 @@ process_content_to_plain_text_changing_composer_mode (EEditorPage *editor_page)
 
 	if (blockquote) {
 		wrap_paragraphs_in_quoted_content (editor_page);
+		preserve_pre_line_breaks_in_element (document, WEBKIT_DOM_ELEMENT (body));
 		quote_plain_text_elements_after_wrapping_in_document (editor_page);
 	}
 
