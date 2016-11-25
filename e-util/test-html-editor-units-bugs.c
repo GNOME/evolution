@@ -784,6 +784,34 @@ test_bug_773164 (TestFixture *fixture)
 		g_test_fail ();
 }
 
+static void
+test_bug_775042 (TestFixture *fixture)
+{
+	test_utils_insert_content (fixture,
+		"<body><pre>a\n"
+		"b\n"
+		"c"
+		"<span class=\"-x-evo-to-body\" data-credits=\"On Fri, 2016-11-25 at 08:18 +0000, user wrote:\"></span>"
+		"<span class=\"-x-evo-cite-body\"></span></body>",
+		E_CONTENT_EDITOR_INSERT_REPLACE_ALL | E_CONTENT_EDITOR_INSERT_TEXT_HTML);
+
+	if (!test_utils_run_simple_test (fixture,
+		"seq:rl\n"
+		"mode:plain\n",
+		HTML_PREFIX "<div style=\"width: 71ch;\">On Fri, 2016-11-25 at 08:18 +0000, user wrote:</div>"
+		"<blockquote type=\"cite\">"
+		"<pre>&gt; a<br>"
+		"&gt; b<br>"
+		"&gt; c</pre>"
+		"</blockquote>"
+		HTML_SUFFIX,
+		"On Fri, 2016-11-25 at 08:18 +0000, user wrote:\n"
+		"> a\n"
+		"> b\n"
+		"> c"))
+		g_test_fail ();
+}
+
 void
 test_add_html_editor_bug_tests (void)
 {
@@ -803,4 +831,5 @@ test_add_html_editor_bug_tests (void)
 	test_utils_add_test ("/bug/772513", test_bug_772513);
 	test_utils_add_test ("/bug/772918", test_bug_772918);
 	test_utils_add_test ("/bug/773164", test_bug_773164);
+	test_utils_add_test ("/bug/775042", test_bug_775042);
 }
