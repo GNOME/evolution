@@ -11,7 +11,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2016-11-24 08:53+0000\n"
-"PO-Revision-Date: 2016-11-25 06:28+0100\n"
+"PO-Revision-Date: 2016-11-25 12:44+0100\n"
 "Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
 "Language-Team: Friulian <f.t.public@gmail.com>\n"
 "Language: fur\n"
@@ -6723,10 +6723,9 @@ msgid "Copying tasks to the task list “%s”"
 msgstr "Daûr a copiâ lis ativitâts su la liste des ativitâts “%s”"
 
 #: ../src/calendar/gui/e-cal-dialogs.c:523
-#, fuzzy
 #| msgid "_Delete this item from all other recipient's mailboxes?"
 msgid "_Delete this item from all other recipient’s mailboxes?"
-msgstr "_Elimine chest element de casele di pueste di ducj i destinataris?"
+msgstr "_Eliminâ chest element de casele di pueste di ducj i destinataris?"
 
 #: ../src/calendar/gui/e-cal-dialogs.c:526
 msgid "_Retract comment"
@@ -8286,16 +8285,14 @@ msgid "Completed date cannot be in the future"
 msgstr "La date di completament no pues jessi tal futûr"
 
 #: ../src/calendar/gui/e-comp-editor-task.c:607
-#, fuzzy
 #| msgid "All _Day Event"
 msgid "All _Day Task"
-msgstr "Event di _dut il dì"
+msgstr "Ativitât di _dut il dì"
 
 #: ../src/calendar/gui/e-comp-editor-task.c:609
-#, fuzzy
 #| msgid "Toggles whether to have All Day Event"
 msgid "Toggles whether to have All Day Task"
-msgstr "Ative se si à \"event di dut il dì\""
+msgstr "Cambie cuant che si à une ativitât di dut il dì"
 
 #: ../src/calendar/gui/e-comp-editor-task.c:818
 #, c-format
@@ -15640,10 +15637,10 @@ msgstr ""
 
 #: ../src/libemail-engine/e-mail-session-utils.c:735
 #: ../src/libemail-engine/mail-ops.c:818
-#, fuzzy, c-format
+#, c-format
 #| msgid "Failed to apply outgoing filters: %s"
 msgid "Failed to append to local “Sent” folder: %s"
-msgstr "No si è rivâts a aplicâ i filtris in jessude: %s"
+msgstr "No si è rivâts a meti in code te cartele locâl “Inviâts”: %s"
 
 #: ../src/libemail-engine/e-mail-session-utils.c:923
 #: ../src/libemail-engine/mail-ops.c:978 ../src/libemail-engine/mail-ops.c:1080
@@ -19476,10 +19473,9 @@ msgstr ""
 
 #. Translators: {0} is the name of the folder where the delete of the message note failed.
 #: ../src/mail/mail.error.xml.h:205
-#, fuzzy
 #| msgid "Failed to delete an event in the calendar '{0}'"
 msgid "Failed to delete message note in folder “{0}”"
-msgstr "No si è rivâts a eliminâ un event intal calendari «{0}»"
+msgstr "No si è rivâts a eliminâ la note dal messaç te cartele “{0}”"
 
 #. Translators: {0} is the name of the folder where the store of the message note failed.
 #: ../src/mail/mail.error.xml.h:207
@@ -20952,10 +20948,9 @@ msgid "Default _snooze time (in minutes)"
 msgstr ""
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:79
-#, fuzzy
 #| msgid "Save directory for reminder audio"
 msgid "Select the sources for reminder notification:"
-msgstr "Cartele dulà salvâ i promemorie sonôrs"
+msgstr "Selezione lis sorzints pes notifichis dai promemorie:"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:80
 #| msgid "Calendar"
@@ -21303,10 +21298,9 @@ msgid "Active Appointments"
 msgstr ""
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1631
-#, fuzzy
 #| msgid "New Appointment"
 msgid "Next 7 Days’ Appointments"
-msgstr "Gnûf apontament"
+msgstr "Prossims apontaments par 7 dîs"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1638
 msgid "Occurs Less Than 5 Times"
@@ -24436,19 +24430,19 @@ msgstr ""
 
 #: ../src/plugins/pst-import/pst-importer.c:522
 msgid "_Mail"
-msgstr ""
+msgstr "_Pueste"
 
 #: ../src/plugins/pst-import/pst-importer.c:551
 msgid "Destination folder:"
-msgstr ""
+msgstr "Cartele di destinazion:"
 
 #: ../src/plugins/pst-import/pst-importer.c:561
 msgid "_Address Book"
-msgstr ""
+msgstr "_Rubriche"
 
 #: ../src/plugins/pst-import/pst-importer.c:566
 msgid "A_ppointments"
-msgstr ""
+msgstr "A_pontaments"
 
 #: ../src/plugins/pst-import/pst-importer.c:576
 msgid "_Journal entries"
@@ -24466,7 +24460,7 @@ msgstr ""
 
 #: ../src/plugins/publish-calendar/org-gnome-publish-calendar.eplug.xml.h:2
 msgid "Locations"
-msgstr ""
+msgstr "Posizions"
 
 #: ../src/plugins/publish-calendar/org-gnome-publish-calendar.eplug.xml.h:3
 msgid "Publish calendars to the web."
@@ -24476,7 +24470,7 @@ msgstr ""
 #: ../src/plugins/publish-calendar/publish-calendar.c:482
 #, c-format
 msgid "Could not open %s:"
-msgstr ""
+msgstr "Impussibil vierzi %s:"
 
 #: ../src/plugins/publish-calendar/publish-calendar.c:234
 #, c-format
@@ -24599,10 +24593,10 @@ msgstr "Posizion di publicazion"
 
 #: ../src/plugins/publish-calendar/publish-format-fb.c:82
 #: ../src/plugins/publish-calendar/publish-format-ical.c:102
-#, fuzzy, c-format
+#, c-format
 #| msgid "Invalid source UID '%s'"
 msgid "Invalid source UID “%s”"
-msgstr "Sorzint UID '%s' no valide"
+msgstr "Sorzint UID “%s” no valide"
 
 #: ../src/plugins/publish-calendar/url-editor-dialog.c:542
 msgid "New Location"
@@ -24904,7 +24898,6 @@ msgid "_Quick Reference"
 msgstr "Riferiments _veloçs"
 
 #: ../src/shell/e-shell-window-actions.c:866
-#, fuzzy
 #| msgid "Show Evolution's shortcut keys"
 msgid "Show Evolution’s shortcut keys"
 msgstr "Mostre i tascj di scurte di Evolution"
@@ -24999,16 +24992,14 @@ msgid "_Window"
 msgstr "_Barcon"
 
 #: ../src/shell/e-shell-window-actions.c:1036
-#, fuzzy
 #| msgid "Show _Status Bar"
 msgid "Show _Menu Bar"
-msgstr "Mostre sbare di s_tât"
+msgstr "Mostre sbare dai _menù"
 
 #: ../src/shell/e-shell-window-actions.c:1038
-#, fuzzy
 #| msgid "Show the side bar"
 msgid "Show the menu bar"
-msgstr "Mostre il ricuadri laterâl"
+msgstr "Mostre la sbare dai menù"
 
 #: ../src/shell/e-shell-window-actions.c:1044
 msgid "Show Side _Bar"
@@ -25136,10 +25127,10 @@ msgstr "Gnûf"
 
 #. Translators: This is used for the main window title.
 #: ../src/shell/e-shell-window-private.c:720
-#, fuzzy, c-format
+#, c-format
 #| msgid "%s - Evolution"
 msgid "%s — Evolution"
-msgstr "%s - Evolution"
+msgstr "%s — Evolution"
 
 # penç lavôr, fis, ecc...
 # valutâ ce doprâ e controlâ dute la traduzion
@@ -25194,7 +25185,6 @@ msgstr "No stâ domandâmi plui"
 #. Translators: Do NOT translate the five component
 #. * names, they MUST remain in English!
 #: ../src/shell/main.c:314
-#, fuzzy
 #| msgid ""
 #| "Start Evolution showing the specified component. Available options are "
 #| "'mail', 'calendar', 'contacts', 'tasks', and 'memos'"
@@ -25202,9 +25192,8 @@ msgid ""
 "Start Evolution showing the specified component. Available options are "
 "“mail”, “calendar”, “contacts”, “tasks”, and “memos”"
 msgstr ""
-"Invie Evolution mostrant il component specificât.\n"
-"Lis opzions disponibilis a son: \"mail\", \"calendar\", \"contacts\", \"tasks"
-"\" e \"memos\""
+"Invie Evolution mostrant il component specificât. Lis opzions disponibilis a "
+"son: “mail”, “calendar”, “contacts”, “tasks”, e “memos”"
 
 #: ../src/shell/main.c:318
 msgid "Apply the given geometry to the main window"
@@ -25248,13 +25237,12 @@ msgstr ""
 "Erôr di sisteme: %s"
 
 #: ../src/shell/main.c:466 ../src/shell/main.c:471
-#, fuzzy
 #| msgid "Evolution Mail and Calendar"
 msgid "— The Evolution PIM and Email Client"
-msgstr "Pueste e calendari Evolution"
+msgstr "— Client di pueste e calendari Evolution"
 
 #: ../src/shell/main.c:533
-#, fuzzy, c-format
+#, c-format
 #| msgid ""
 #| "%s: --online and --offline cannot be used together.\n"
 #| "  Run '%s --help' for more information.\n"
@@ -25263,10 +25251,10 @@ msgid ""
 "  Run “%s --help” for more information.\n"
 msgstr ""
 "%s: impussibil doprâ --online e --offline adun.\n"
-"  Eseguî '%s --help' par vê plui informazions.\n"
+"  Eseguî “%s --help” par vê plui informazions.\n"
 
 #: ../src/shell/main.c:539
-#, fuzzy, c-format
+#, c-format
 #| msgid ""
 #| "%s: --force-online and --offline cannot be used together.\n"
 #| "  Run '%s --help' for more information.\n"
@@ -25275,7 +25263,7 @@ msgid ""
 "  Run “%s --help” for more information.\n"
 msgstr ""
 "%s: impussibil doprâ --force-online e --offline adun.\n"
-"  Eseguî '%s --help' par vê plui informazions.\n"
+"  Eseguî “%s --help” par vê plui informazions.\n"
 
 #: ../src/shell/shell.error.xml.h:2
 msgid "Upgrade from previous version failed:"
@@ -25336,10 +25324,9 @@ msgid "Failed to get values from “{0}”"
 msgstr "No si è rivâts a otignî valôrs di “{0}”"
 
 #: ../src/shell/shell.error.xml.h:16
-#, fuzzy
 #| msgid "Failed to open calendar '{0}'"
 msgid "Failed to invoke authenticate for “{0}”"
-msgstr "No si è rivâts a vierzi il calendari «{0}»"
+msgstr "No si è rivâts a invocâ la autenticazion par “{0}”"
 
 #: ../src/shell/shell.error.xml.h:17
 #| msgid "Failed to connect '{0}'"
@@ -25351,16 +25338,14 @@ msgid "_Reconnect"
 msgstr "To_rne conet"
 
 #: ../src/shell/shell.error.xml.h:19
-#, fuzzy
 #| msgid "Failed to refresh address book '{0}'"
 msgid "Failed to connect address book “{0}”"
-msgstr "No si è rivâts a inzornâ la rubriche «{0}»"
+msgstr "Conession falide ae rubriche “{0}”"
 
 #: ../src/shell/shell.error.xml.h:20
-#, fuzzy
 #| msgid "Failed to open calendar '{0}'"
 msgid "Failed to connect calendar “{0}”"
-msgstr "No si è rivâts a vierzi il calendari «{0}»"
+msgstr "Conession falide al calendari “{0}”"
 
 #: ../src/shell/shell.error.xml.h:21
 #| msgid "Failed to connect memo list '{0}'"
@@ -25420,7 +25405,7 @@ msgid "SSL certificate for task list “{0}” is not trusted."
 msgstr "Il certificât SSL pe liste des ativitâts “{0}” nol è atendibil."
 
 #: ../src/smime/gui/ca-trust-dialog.c:104
-#, fuzzy, c-format
+#, c-format
 #| msgid ""
 #| "Certificate '%s' is a CA certificate.\n"
 #| "\n"
@@ -25430,7 +25415,7 @@ msgid ""
 "\n"
 "Edit trust settings:"
 msgstr ""
-"Il certificât '%s' al è un certificât AC.\n"
+"Il certificât “%s” al è un certificât AC.\n"
 "\n"
 "Modificâ lis impostazions di fiducie:"
 
@@ -25617,10 +25602,10 @@ msgid "Change certificate trust"
 msgstr "Modifiche certificât di fiducie"
 
 #: ../src/smime/gui/certificate-manager.c:1358
-#, fuzzy, c-format
+#, c-format
 #| msgid "Change trust for the host '%s':"
 msgid "Change trust for the host “%s”:"
-msgstr "Cambiâ la fiducie pal host '%s':"
+msgstr "Cambiâ la fiducie pal host “%s”:"
 
 #: ../src/smime/gui/certificate-manager.c:1382
 msgctxt "CamelTrust"
@@ -25723,16 +25708,16 @@ msgstr ""
 "mancul che chi nol sedi specificât diviersementri"
 
 #: ../src/smime/gui/component.c:53
-#, fuzzy, c-format
+#, c-format
 #| msgid "Enter the password for '%s', token '%s'"
 msgid "Enter the password for “%s”, token “%s”"
-msgstr "Inserî la password par '%s', token '%s'"
+msgstr "Inserî la password par “%s”, token “%s”"
 
 #: ../src/smime/gui/component.c:55
-#, fuzzy, c-format
+#, c-format
 #| msgid "Enter the password for '%s'"
 msgid "Enter the password for “%s”"
-msgstr "Inserî la password par '%s'"
+msgstr "Inserî la password par “%s”"
 
 #. we're setting the password initially
 #: ../src/smime/gui/component.c:83
