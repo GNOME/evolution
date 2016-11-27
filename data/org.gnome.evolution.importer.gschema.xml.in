@@ -2,13 +2,13 @@
   <schema gettext-domain="evolution" id="org.gnome.evolution.importer" path="/org/gnome/evolution/importer/">
     <key name="gnome-calendar-done-calendar" type="b">
       <default>false</default>
-      <_summary>Gnome Calendar’s calendar import done</_summary>
-      <_description>Whether calendar from Gnome Calendar has been imported or not</_description>
+      <_summary>GNOME Calendar’s calendar import done</_summary>
+      <_description>Whether calendar from GNOME Calendar has been imported or not</_description>
     </key>
     <key name="gnome-calendar-done-tasks" type="b">
       <default>false</default>
-      <_summary>Gnome Calendar’s tasks import done</_summary>
-      <_description>Whether tasks from Gnome Calendar have been imported or not</_description>
+      <_summary>GNOME Calendar’s tasks import done</_summary>
+      <_description>Whether tasks from GNOME Calendar have been imported or not</_description>
     </key>
   </schema>
 </schemalist>
