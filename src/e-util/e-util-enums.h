@@ -534,6 +534,20 @@ typedef enum {
 	E_CONTENT_EDITOR_FIND_WRAP_AROUND	= 1 << 4
 } EContentEditorFindFlags;
 
+/**
+ * EClipboardFlags:
+ * @E_CLIPBOARD_CAN_COPY: It's possible to copy the currently selected content.
+ *
+ * Specifies clipboard's current state.
+ *
+ * Since: 3.24
+ **/
+typedef enum {
+	E_CLIPBOARD_CAN_COPY	= 1 << 0
+	/* E_CLIPBOARD_CAN_CUT	= 1 << 1,
+	E_CLIPBOARD_CAN_PASTE	= 1 << 2 */
+} EClipboardFlags;
+
 G_END_DECLS
 
 #endif /* E_UTIL_ENUMS_H */

@@ -49,6 +49,7 @@ struct _EWebExtensionPrivate {
 	gboolean initialized;
 
 	gboolean need_input;
+	guint32 clipboard_flags;
 };
 
 static const char introspection_xml[] =
@@ -178,6 +179,7 @@ static const char introspection_xml[] =
 "      <arg type='b' name='processed' direction='out'/>"
 "    </method>"
 "    <property type='b' name='NeedInput' access='readwrite'/>"
+"    <property type='u' name='ClipboardFlags' access='readwrite'/>"
 "  </interface>"
 "</node>";
 
@@ -824,9 +826,10 @@ handle_get_property (GDBusConnection *connection,
 	EWebExtension *extension = E_WEB_EXTENSION (user_data);
 	GVariant *variant = NULL;
 
-	if (g_strcmp0 (property_name, "NeedInput") == 0) {
+	if (g_strcmp0 (property_name, "NeedInput") == 0)
 		variant = g_variant_new_boolean (extension->priv->need_input);
-	}
+	else if (g_strcmp0 (property_name, "ClipboardFlags") == 0)
+		variant = g_variant_new_uint32 (extension->priv->clipboard_flags);
 
 	return variant;
 }
@@ -859,6 +862,18 @@ handle_set_property (GDBusConnection *connection,
 			"{sv}",
 			"NeedInput",
 			g_variant_new_boolean (value));
+	} else if (g_strcmp0 (property_name, "ClipboardFlags") == 0) {
+		guint32 value = g_variant_get_uint32 (variant);
+
+		if (value == extension->priv->clipboard_flags)
+			goto exit;
+
+		extension->priv->clipboard_flags = value;
+
+		g_variant_builder_add (builder,
+			"{sv}",
+			"ClipboardFlags",
+			g_variant_new_uint32 (value));
 	}
 
 	g_dbus_connection_emit_signal (connection,
@@ -922,6 +937,7 @@ e_web_extension_init (EWebExtension *extension)
 
 	extension->priv->initialized = FALSE;
 	extension->priv->need_input = FALSE;
+	extension->priv->clipboard_flags = 0;
 }
 
 static gpointer
@@ -996,6 +1012,40 @@ web_page_document_loaded_cb (WebKitWebPage *web_page,
 }
 
 static void
+web_editor_selection_changed_cb (WebKitWebEditor *web_editor,
+                                 EWebExtension *extension)
+{
+	WebKitWebPage *web_page;
+	WebKitDOMDocument *document;
+	guint32 clipboard_flags = 0;
+
+	web_page = webkit_web_editor_get_page (web_editor);
+
+	document = webkit_web_page_get_dom_document (web_page);
+
+	if (e_dom_utils_document_has_selection (document))
+		clipboard_flags |= E_CLIPBOARD_CAN_COPY;
+
+	g_dbus_connection_call (
+		extension->priv->dbus_connection,
+		E_WEB_EXTENSION_SERVICE_NAME,
+		E_WEB_EXTENSION_OBJECT_PATH,
+		"org.freedesktop.DBus.Properties",
+		"Set",
+		g_variant_new (
+			"(ssv)",
+			E_WEB_EXTENSION_INTERFACE,
+			"ClipboardFlags",
+			g_variant_new_uint32 (clipboard_flags)),
+		NULL,
+		G_DBUS_CALL_FLAGS_NONE,
+		-1,
+		NULL,
+		NULL,
+		NULL);
+}
+
+static void
 web_page_created_cb (WebKitWebExtension *wk_extension,
                      WebKitWebPage *web_page,
                      EWebExtension *extension)
@@ -1010,6 +1060,10 @@ web_page_created_cb (WebKitWebExtension *wk_extension,
 		G_CALLBACK (web_page_document_loaded_cb),
 		extension, 0);
 
+	g_signal_connect_object (
+		webkit_web_page_get_editor (web_page), "selection-changed",
+		G_CALLBACK (web_editor_selection_changed_cb),
+		extension, 0);
 }
 
 void
