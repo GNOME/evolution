@@ -3172,7 +3172,7 @@ message_list_value_at (ETreeModel *tree_model,
 
 	message_list = MESSAGE_LIST (tree_model);
 
-	if (G_NODE_IS_ROOT ((GNode *) path))
+	if (!path || G_NODE_IS_ROOT ((GNode *) path))
 		return NULL;
 
 	/* retrieve the message information array */
