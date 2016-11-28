@@ -948,6 +948,7 @@ tree_table_adapter_value_at (ETableModel *etm,
                              gint row)
 {
 	ETreeTableAdapter *etta = (ETreeTableAdapter *) etm;
+	ETreePath path;
 
 	switch (col) {
 	case -1:
@@ -959,9 +960,11 @@ tree_table_adapter_value_at (ETableModel *etm,
 	case -3:
 		return etta;
 	default:
-		return e_tree_model_value_at (
-			etta->priv->source_model,
-			e_tree_table_adapter_node_at_row (etta, row), col);
+		path = e_tree_table_adapter_node_at_row (etta, row);
+		if (!path)
+			return NULL;
+
+		return e_tree_model_value_at (etta->priv->source_model, path, col);
 	}
 }
 
