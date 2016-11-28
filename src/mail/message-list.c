@@ -3838,6 +3838,8 @@ clear_tree (MessageList *message_list,
 			message_list, message_list->priv->tree_model_root);
 	}
 
+	e_tree_table_adapter_clear_nodes_silent (e_tree_get_table_adapter (E_TREE (message_list)));
+
 	/* Create a new placeholder root node. */
 	message_list_tree_model_insert (message_list, NULL, 0, NULL);
 	g_warn_if_fail (message_list->priv->tree_model_root != NULL);

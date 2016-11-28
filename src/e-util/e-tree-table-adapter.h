@@ -133,6 +133,8 @@ xmlDoc *	e_tree_table_adapter_save_expanded_state_xml
 void		e_tree_table_adapter_load_expanded_state_xml
 						(ETreeTableAdapter *etta,
 						 xmlDoc *doc);
+void		e_tree_table_adapter_clear_nodes_silent
+						(ETreeTableAdapter *etta);
 
 G_END_DECLS
 

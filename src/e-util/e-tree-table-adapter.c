@@ -1659,3 +1659,12 @@ e_tree_table_adapter_node_get_next (ETreeTableAdapter *etta,
 	return NULL;
 }
 
+void
+e_tree_table_adapter_clear_nodes_silent (ETreeTableAdapter *etta)
+{
+	g_return_if_fail (E_IS_TREE_TABLE_ADAPTER (etta));
+
+	if (etta->priv->root)
+		kill_gnode (etta->priv->root, etta);
+	resize_map (etta, 0);
+}
