@@ -11,7 +11,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2016-11-24 08:53+0000\n"
-"PO-Revision-Date: 2016-11-27 15:35+0100\n"
+"PO-Revision-Date: 2016-11-28 09:09+0100\n"
 "Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
 "Language-Team: Friulian <f.t.public@gmail.com>\n"
 "Language: fur\n"
@@ -19586,31 +19586,31 @@ msgstr ""
 #: ../src/mail/message-list.c:2069
 #: ../src/modules/itip-formatter/itip-view.c:267
 msgid "Today %l:%M %p"
-msgstr ""
+msgstr "Vuê %l:%M %p"
 
 #: ../src/mail/message-list.c:2078
 msgid "Yesterday %l:%M %p"
-msgstr ""
+msgstr "Îr %l:%M %p"
 
 #: ../src/mail/message-list.c:2090
 msgid "%a %l:%M %p"
-msgstr ""
+msgstr "%a %l:%M %p"
 
 #: ../src/mail/message-list.c:2098
 msgid "%b %d %l:%M %p"
-msgstr ""
+msgstr "%e di %b %l:%M %p"
 
 #: ../src/mail/message-list.c:2100
 msgid "%b %d %Y"
-msgstr ""
+msgstr "%e di %b dal %Y"
 
 #: ../src/mail/message-list.c:3008
 msgid "Select all visible messages"
-msgstr ""
+msgstr "Selezione ducj i messaçs visibii"
 
 #: ../src/mail/message-list.c:3715 ../src/mail/message-list.etspec.h:17
 msgid "Messages"
-msgstr ""
+msgstr "Messaçs"
 
 #. default follow-up flag name to use when clicked in the message list column
 #: ../src/mail/message-list.c:5130
@@ -19624,22 +19624,26 @@ msgid ""
 "running a new search either by clearing it with Search→Clear menu item or by "
 "changing the query above."
 msgstr ""
+"Nissun messaç al sodisfe i criteris di ricercje. Cambie chescj criteris "
+"selezionant un gnûf filtri «Mostre messaç» dal menù a tendine parsore, opûr "
+"eseguint une gnove ricercje netant cun la vôs tal menù Cîr→Nete o modificant "
+"la interogazion precedente."
 
 #: ../src/mail/message-list.c:6150
 msgid "There are no messages in this folder."
-msgstr ""
+msgstr "In cheste cartele no'ndi son messaçs."
 
 #: ../src/mail/message-list.etspec.h:2
 msgid "Flagged"
-msgstr ""
+msgstr "Segnât"
 
 #: ../src/mail/message-list.etspec.h:8
 msgid "Received"
-msgstr ""
+msgstr "Ricevût"
 
 #: ../src/mail/message-list.etspec.h:11
 msgid "Flag Status"
-msgstr ""
+msgstr "Stât segn"
 
 #: ../src/mail/message-list.etspec.h:12
 msgid "Follow Up Flag"
@@ -19647,7 +19651,7 @@ msgstr ""
 
 #: ../src/mail/message-list.etspec.h:13
 msgid "Due By"
-msgstr ""
+msgstr "Scjadince"
 
 #: ../src/mail/message-list.etspec.h:18
 msgid "Messages To"
@@ -19660,40 +19664,40 @@ msgstr ""
 #: ../src/mail/message-list.etspec.h:21
 #: ../src/plugins/save-calendar/csv-format.c:372
 msgid "UID"
-msgstr ""
+msgstr "UID"
 
 #: ../src/mail/searchtypes.xml.in.h:23 ../src/mail/vfoldertypes.xml.in.h:23
 msgid "Any header"
-msgstr ""
+msgstr "Cualsisei intestazion"
 
 #: ../src/mail/searchtypes.xml.in.h:57
 msgid "Subject or Addresses contains"
-msgstr ""
+msgstr "Ogjet o Direzions a contegnin"
 
 #: ../src/mail/searchtypes.xml.in.h:58
 #: ../src/modules/mail/e-mail-shell-view-actions.c:2186
 msgid "Recipients contain"
-msgstr ""
+msgstr "Destinataris al ten"
 
 #: ../src/mail/searchtypes.xml.in.h:59
 #: ../src/modules/mail/e-mail-shell-view-actions.c:2179
 msgid "Message contains"
-msgstr ""
+msgstr "Messaç al ten"
 
 #: ../src/mail/searchtypes.xml.in.h:60
 #: ../src/modules/mail/e-mail-shell-view-actions.c:2200
 msgid "Subject contains"
-msgstr ""
+msgstr "Ogjet al ten"
 
 #: ../src/mail/searchtypes.xml.in.h:61
 #: ../src/modules/mail/e-mail-shell-view-actions.c:2193
 msgid "Sender contains"
-msgstr ""
+msgstr "Mitent al ten"
 
 #: ../src/mail/searchtypes.xml.in.h:62
 #: ../src/modules/mail/e-mail-shell-view-actions.c:2165
 msgid "Body contains"
-msgstr ""
+msgstr "Cuarp al ten"
 
 #: ../src/mail/searchtypes.xml.in.h:63
 #: ../src/modules/mail/e-mail-shell-view-actions.c:2172
@@ -21691,74 +21695,74 @@ msgstr ""
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:773
 msgid "Mar_k as Incomplete"
-msgstr ""
+msgstr "Segne come inco_mplet"
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:803
 msgid "Delete completed tasks"
-msgstr ""
+msgstr "Elimine lis ativitâts completadis"
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:886
 msgid "Task _Preview"
-msgstr ""
+msgstr "Ante_prime ativitât"
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:888
 msgid "Show task preview pane"
-msgstr ""
+msgstr "Mostre il ricuadri des anteprimis des ativitâts"
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:909
 msgid "Show task preview below the task list"
-msgstr ""
+msgstr "Mostre la anteprime des ativitâts sot de liste des ativitâts"
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:916
 msgid "Show task preview alongside the task list"
-msgstr ""
+msgstr "Mostre la anteprime des ativitâts in bande de liste des ativitâts"
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:924
 msgid "Active Tasks"
-msgstr ""
+msgstr "Ativitâts in cors"
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:938
 msgid "Completed Tasks"
-msgstr ""
+msgstr "Ativitâts completadis"
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:945
 msgid "Next 7 Days’ Tasks"
-msgstr ""
+msgstr "Ativitâts pai prossims 7 dîs"
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:952
 msgid "Overdue Tasks"
-msgstr ""
+msgstr "Ativitâts scjadudis"
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:959
 msgid "Tasks with Attachments"
-msgstr ""
+msgstr "Ativitâts cun zontis"
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:1009
 msgid "Print the list of tasks"
-msgstr ""
+msgstr "Stampe la liste des ativitâts"
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:1016
 msgid "Preview the list of tasks to be printed"
-msgstr ""
+msgstr "Anteprime de liste des ativitâts di stampâ"
 
 #: ../src/modules/calendar/e-task-shell-view.c:321
 msgid "Delete Tasks"
-msgstr ""
+msgstr "Elimine ativitâts"
 
 #: ../src/modules/calendar/e-task-shell-view.c:323
 msgid "Delete Task"
-msgstr ""
+msgstr "Elimine ativitât"
 
 #: ../src/modules/calendar/e-task-shell-view-private.c:544
 #, c-format
 msgid "%d task"
 msgid_plural "%d tasks"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d ativitât"
+msgstr[1] "%d ativitâts"
 
 #: ../src/modules/itip-formatter/e-mail-formatter-itip.c:154
 msgid "ITIP"
-msgstr ""
+msgstr "ITIP"
 
 #: ../src/modules/itip-formatter/e-mail-formatter-itip.c:155
 msgid "Display part as an invitation"
