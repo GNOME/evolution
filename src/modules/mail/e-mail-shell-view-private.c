@@ -358,7 +358,7 @@ mail_shell_view_message_list_right_click_cb (EShellView *shell_view,
 static gboolean
 mail_shell_view_popup_event_cb (EMailShellView *mail_shell_view,
                                 const gchar *uri,
-				GdkEvent *event)
+                                GdkEvent *event)
 {
 	EMailShellContent *mail_shell_content;
 	EMailDisplay *display;

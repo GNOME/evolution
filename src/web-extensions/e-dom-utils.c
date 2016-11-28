@@ -878,7 +878,6 @@ element_focus_cb (WebKitDOMElement *element,
 		NULL,
 		NULL,
 		NULL);
-
 }
 
 static void
@@ -904,7 +903,6 @@ element_blur_cb (WebKitDOMElement *element,
 		NULL,
 		NULL);
 }
-
 
 void
 e_dom_utils_bind_focus_on_elements (WebKitDOMDocument *document,

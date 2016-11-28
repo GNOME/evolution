@@ -323,7 +323,7 @@ mail_browser_message_list_built_cb (EMailBrowser *browser,
 static gboolean
 mail_browser_popup_event_cb (EMailBrowser *browser,
                              const gchar *uri,
-			     GdkEvent *event)
+                             GdkEvent *event)
 {
 	EMailReader *reader;
 	EWebView *web_view;
