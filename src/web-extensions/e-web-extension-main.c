@@ -41,7 +41,7 @@ webkit_web_extension_initialize (WebKitWebExtension *wk_extension)
 
 	camel_debug_init ();
 
-	if (camel_debug ("webkit") || camel_debug ("webkit:preview"))
+	if (camel_debug ("webkit:preview"))
 		printf ("%s\n", G_STRFUNC);
 
 	extension = e_web_extension_get ();

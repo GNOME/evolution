@@ -5044,7 +5044,7 @@ remove_new_lines_around_citations (const gchar *input)
 
 	g_string_append (str, p);
 
-	if (camel_debug ("webkit") || camel_debug ("webkit:editor")) {
+	if (camel_debug ("webkit:editor")) {
 		printf ("EWebKitContentEditor - %s\n", G_STRFUNC);
 		printf ("\toutput: '%s'\n", str->str);
 	}
@@ -5138,7 +5138,7 @@ parse_html_into_blocks (EEditorPage *editor_page,
 	else
 		regex_nbsp = g_regex_new ("^\\s{1}|\\s{2,}|\x9|\\s$", 0, 0, NULL);
 
-	if (camel_debug ("webkit") || camel_debug ("webkit:editor")) {
+	if (camel_debug ("webkit:editor")) {
 		printf ("EWebKitContentEditor - %s\n", G_STRFUNC);
 		printf ("\tinput: '%s'\n", input);
 	}
@@ -5174,7 +5174,7 @@ parse_html_into_blocks (EEditorPage *editor_page,
 			processing_last = TRUE;
 		}
 
-		if (camel_debug ("webkit") || camel_debug ("webkit:editor"))
+		if (camel_debug ("webkit:editor"))
 			printf ("\tto_process: '%s'\n", to_process);
 
 		if (!*to_process && processing_last) {
@@ -5230,7 +5230,7 @@ parse_html_into_blocks (EEditorPage *editor_page,
 			gchar *truncated = g_strdup (to_insert);
 			gchar *rest_to_insert;
 
-			if (camel_debug ("webkit") || camel_debug ("webkit:editor"))
+			if (camel_debug ("webkit:editor"))
 				printf ("\tto_insert: '%s'\n", to_insert);
 
 			empty = !*truncated && strlen (to_insert) > 0;
@@ -5358,12 +5358,12 @@ parse_html_into_blocks (EEditorPage *editor_page,
 		parsed = replace_citation_marks_to_citations (inner_html);
 		webkit_dom_element_set_inner_html (parent, parsed->str, NULL);
 
-		if (camel_debug ("webkit") || camel_debug ("webkit:editor"))
+		if (camel_debug ("webkit:editor"))
 			printf ("\tparsed content: '%s'\n", inner_html);
 
 		g_free (inner_html);
 		g_string_free (parsed, TRUE);
-	} else if (camel_debug ("webkit") || camel_debug ("webkit:editor")) {
+	} else if (camel_debug ("webkit:editor")) {
 		gchar *inner_html;
 
 		inner_html = webkit_dom_element_get_inner_html (parent);

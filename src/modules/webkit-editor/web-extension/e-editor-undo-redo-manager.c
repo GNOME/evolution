@@ -2324,7 +2324,7 @@ e_editor_undo_redo_manager_insert_history_event (EEditorUndoRedoManager *manager
 	if (manager->priv->operation_in_progress)
 		return;
 
-	if (camel_debug ("webkit") || camel_debug ("webkit:undo")) {
+	if (camel_debug ("webkit:undo")) {
 		printf ("\nINSERTING EVENT:\n");
 		print_history_event (event);
 	}
@@ -2346,7 +2346,7 @@ e_editor_undo_redo_manager_insert_history_event (EEditorUndoRedoManager *manager
 	manager->priv->history = g_list_prepend (manager->priv->history, event);
 	manager->priv->history_size++;
 
-	if (camel_debug ("webkit") || camel_debug ("webkit:undo"))
+	if (camel_debug ("webkit:undo"))
 		print_history (manager);
 
 	g_object_notify (G_OBJECT (manager), "can-undo");
@@ -2479,7 +2479,7 @@ e_editor_undo_redo_manager_undo (EEditorUndoRedoManager *manager)
 	history = manager->priv->history;
 	event = history->data;
 
-	if (camel_debug ("webkit") || camel_debug ("webkit:undo")) {
+	if (camel_debug ("webkit:undo")) {
 		printf ("\nUNDOING EVENT:\n");
 		print_history_event (event);
 	}
@@ -2576,7 +2576,7 @@ e_editor_undo_redo_manager_undo (EEditorUndoRedoManager *manager)
 		manager->priv->history = manager->priv->history->next;
 	}
 
-	if (camel_debug ("webkit") || camel_debug ("webkit:undo"))
+	if (camel_debug ("webkit:undo"))
 		print_undo_events (manager);
 
 	manager->priv->operation_in_progress = FALSE;
@@ -2613,7 +2613,7 @@ e_editor_undo_redo_manager_redo (EEditorUndoRedoManager *manager)
 	history = manager->priv->history;
 	event = history->prev->data;
 
-	if (camel_debug ("webkit") || camel_debug ("webkit:undo")) {
+	if (camel_debug ("webkit:undo")) {
 		printf ("\nREDOING EVENT:\n");
 		print_history_event (event);
 	}
@@ -2726,7 +2726,7 @@ e_editor_undo_redo_manager_redo (EEditorUndoRedoManager *manager)
 
 	manager->priv->history = manager->priv->history->prev;
 
-	if (camel_debug ("webkit") || camel_debug ("webkit:undo"))
+	if (camel_debug ("webkit:undo"))
 		print_redo_events (manager);
 
 	manager->priv->operation_in_progress = FALSE;
