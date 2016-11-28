@@ -11,7 +11,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2016-11-24 08:53+0000\n"
-"PO-Revision-Date: 2016-11-28 09:09+0100\n"
+"PO-Revision-Date: 2016-11-28 10:50+0100\n"
 "Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
 "Language-Team: Friulian <f.t.public@gmail.com>\n"
 "Language: fur\n"
@@ -20988,7 +20988,7 @@ msgstr ""
 #: ../src/modules/calendar/e-cal-shell-backend.c:112
 msgctxt "New"
 msgid "_Appointment"
-msgstr ""
+msgstr "_Apontament"
 
 #: ../src/modules/calendar/e-cal-shell-backend.c:114
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1404
@@ -21007,7 +21007,7 @@ msgstr ""
 #: ../src/modules/calendar/e-cal-shell-backend.c:126
 msgctxt "New"
 msgid "M_eeting"
-msgstr ""
+msgstr "Ri_union"
 
 #: ../src/modules/calendar/e-cal-shell-backend.c:128
 msgid "Create a new meeting request"
@@ -21016,7 +21016,7 @@ msgstr ""
 #: ../src/modules/calendar/e-cal-shell-backend.c:136
 msgctxt "New"
 msgid "Cale_ndar"
-msgstr ""
+msgstr "Cale_ndari"
 
 #: ../src/modules/calendar/e-cal-shell-backend.c:138
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1271
@@ -21025,15 +21025,15 @@ msgstr ""
 
 #: ../src/modules/calendar/e-cal-shell-backend.c:255
 msgid "Calendar and Tasks"
-msgstr ""
+msgstr "Calendari e ativitâts"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:197
 msgid "Print"
-msgstr ""
+msgstr "Stampe"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:283
 msgid "Calendar Properties"
-msgstr ""
+msgstr "Proprietâts calendari"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:312
 msgid ""
@@ -21064,41 +21064,41 @@ msgstr ""
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:496
 #: ../src/modules/calendar/e-task-shell-view-actions.c:615
 msgid "Save as iCalendar"
-msgstr ""
+msgstr "Salve come iCalendar"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1220
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:577
 #: ../src/modules/calendar/e-task-shell-view-actions.c:703
 msgid "_Copy..."
-msgstr ""
+msgstr "_Copie..."
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1227
 msgid "D_elete Calendar"
-msgstr ""
+msgstr "Eli_mine calendari"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1229
 msgid "Delete the selected calendar"
-msgstr ""
+msgstr "Elimine il calendari selezionâᵗ"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1236
 msgid "Go Back"
-msgstr ""
+msgstr "Va indaûr"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1243
 msgid "Go Forward"
-msgstr ""
+msgstr "Va indenant"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1250
 msgid "Select today"
-msgstr ""
+msgstr "Selezione vuê"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1255
 msgid "Select _Date"
-msgstr ""
+msgstr "Selezione _date"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1257
 msgid "Select a specific date"
-msgstr ""
+msgstr "Selezione une date specifiche"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1262
 msgid "_Manage Calendar groups..."
@@ -21110,7 +21110,7 @@ msgstr ""
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1269
 msgid "_New Calendar"
-msgstr ""
+msgstr "_Gnûf calendari"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1283
 #: ../src/modules/calendar/e-task-shell-view-actions.c:801
@@ -21131,7 +21131,7 @@ msgstr ""
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1304
 msgid "Find _Next"
-msgstr ""
+msgstr "Cjate s_ucessîf"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1306
 msgid "Find next occurrence of the current search string"
@@ -21139,7 +21139,7 @@ msgstr ""
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1311
 msgid "Find _Previous"
-msgstr ""
+msgstr "Cjate _precedent"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1313
 msgid "Find previous occurrence of the current search string"
@@ -21155,7 +21155,7 @@ msgstr ""
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1325
 msgid "Sho_w All Calendars"
-msgstr ""
+msgstr "Mostre _ducj i calendaris"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1332
 msgid "Show _Only This Calendar"
@@ -21239,7 +21239,7 @@ msgstr ""
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1423
 msgid "_Reply"
-msgstr ""
+msgstr "_Rispuint"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1437
 msgid "_Schedule Meeting..."
@@ -21259,43 +21259,43 @@ msgstr ""
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1451
 msgid "Quit"
-msgstr ""
+msgstr "Jes"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1579
 msgid "Day"
-msgstr ""
+msgstr "Zornade"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1581
 msgid "Show one day"
-msgstr ""
+msgstr "Mostre une zornade"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1586
 msgid "List"
-msgstr ""
+msgstr "Liste"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1588
 msgid "Show as list"
-msgstr ""
+msgstr "Mostre come liste"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1593
 msgid "Month"
-msgstr ""
+msgstr "Mês"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1595
 msgid "Show one month"
-msgstr ""
+msgstr "Mostre un mês"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1600
 msgid "Week"
-msgstr ""
+msgstr "Setemane"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1602
 msgid "Show one week"
-msgstr ""
+msgstr "Mostre une setemane"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1609
 msgid "Show one work week"
-msgstr ""
+msgstr "Mostre une setemane lavorative"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1617
 msgid "Active Appointments"
@@ -21331,11 +21331,11 @@ msgstr ""
 #: ../src/modules/calendar/e-task-shell-view-actions.c:1007
 #: ../src/modules/calendar/e-task-shell-view-actions.c:1021
 msgid "Print..."
-msgstr ""
+msgstr "Stampe..."
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1688
 msgid "Print this calendar"
-msgstr ""
+msgstr "Stampe chest calendari"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1695
 msgid "Preview the calendar to be printed"
@@ -21347,7 +21347,7 @@ msgstr ""
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:837
 #: ../src/modules/calendar/e-task-shell-view-actions.c:1038
 msgid "_Save as iCalendar..."
-msgstr ""
+msgstr "_Salve come iCalendar..."
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1794
 msgid "Go To"
@@ -21386,7 +21386,7 @@ msgstr "Viôt il memorandum selezionât"
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:654
 #: ../src/modules/calendar/e-task-shell-view-actions.c:794
 msgid "Open _Web Page"
-msgstr ""
+msgstr "Vierç pagjine _web"
 
 #: ../src/modules/calendar/e-cal-shell-view-memopad.c:274
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:822
@@ -21426,7 +21426,7 @@ msgstr ""
 #: ../src/modules/calendar/e-cal-shell-view-taskpad.c:273
 #: ../src/modules/calendar/e-task-shell-view-actions.c:613
 msgid "task"
-msgstr ""
+msgstr "ativitât"
 
 #: ../src/modules/calendar/e-cal-shell-view-taskpad.c:308
 #: ../src/modules/calendar/e-task-shell-view-actions.c:675
@@ -21436,37 +21436,37 @@ msgstr ""
 #: ../src/modules/calendar/e-cal-shell-view-taskpad.c:322
 #: ../src/modules/calendar/e-task-shell-view-actions.c:766
 msgid "_Mark as Complete"
-msgstr ""
+msgstr "_Segne come completade"
 
 #: ../src/modules/calendar/e-cal-shell-view-taskpad.c:324
 #: ../src/modules/calendar/e-task-shell-view-actions.c:768
 msgid "Mark selected tasks as complete"
-msgstr ""
+msgstr "Segne lis ativitâts selezionadis come completadis"
 
 #: ../src/modules/calendar/e-cal-shell-view-taskpad.c:329
 msgid "_Mark as Incomplete"
-msgstr ""
+msgstr "_Segne come incomplete"
 
 #: ../src/modules/calendar/e-cal-shell-view-taskpad.c:331
 #: ../src/modules/calendar/e-task-shell-view-actions.c:775
 msgid "Mark selected tasks as incomplete"
-msgstr ""
+msgstr "Segne lis ativitâts selezionadis come incompletis"
 
 #: ../src/modules/calendar/e-cal-shell-view-taskpad.c:336
 #: ../src/modules/calendar/e-task-shell-view-actions.c:780
 msgid "New _Task"
-msgstr ""
+msgstr "Gnove a_tivitât"
 
 #: ../src/modules/calendar/e-cal-shell-view-taskpad.c:338
 #: ../src/modules/calendar/e-task-shell-backend.c:77
 #: ../src/modules/calendar/e-task-shell-view-actions.c:782
 msgid "Create a new task"
-msgstr ""
+msgstr "Cree une gnove ativitât"
 
 #: ../src/modules/calendar/e-cal-shell-view-taskpad.c:343
 #: ../src/modules/calendar/e-task-shell-view-actions.c:787
 msgid "_Open Task"
-msgstr ""
+msgstr "_Vierç ativitât"
 
 #: ../src/modules/calendar/e-cal-shell-view-taskpad.c:345
 #: ../src/modules/calendar/e-task-shell-view-actions.c:789
@@ -21476,7 +21476,7 @@ msgstr ""
 #: ../src/modules/calendar/e-cal-shell-view-taskpad.c:362
 #: ../src/modules/calendar/e-task-shell-view-actions.c:1023
 msgid "Print the selected task"
-msgstr ""
+msgstr "Stampe la ativitât selezionade"
 
 #: ../src/modules/calendar/e-memo-shell-backend.c:77
 msgctxt "New"
@@ -21607,7 +21607,7 @@ msgstr ""
 #: ../src/modules/calendar/e-task-shell-backend.c:75
 msgctxt "New"
 msgid "_Task"
-msgstr ""
+msgstr "A_tivitât"
 
 #: ../src/modules/calendar/e-task-shell-backend.c:82
 msgctxt "New"
@@ -21621,21 +21621,21 @@ msgstr ""
 #: ../src/modules/calendar/e-task-shell-backend.c:92
 msgctxt "New"
 msgid "Tas_k List"
-msgstr ""
+msgstr "_Liste ativitâts"
 
 #: ../src/modules/calendar/e-task-shell-backend.c:94
 #: ../src/modules/calendar/e-task-shell-view-actions.c:726
 msgid "Create a new task list"
-msgstr ""
+msgstr "Cree une gnove liste ativitâts"
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:218
 #: ../src/modules/calendar/e-task-shell-view-actions.c:233
 msgid "Print Tasks"
-msgstr ""
+msgstr "Stampe ativitâts"
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:274
 msgid "Task List Properties"
-msgstr ""
+msgstr "Proprietâts liste ativitâts"
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:557
 msgid ""
@@ -21647,15 +21647,15 @@ msgstr ""
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:564
 msgid "Do not ask me again"
-msgstr ""
+msgstr "No stâ domandâmal plui"
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:682
 msgid "_Delete Task"
-msgstr ""
+msgstr "_Elimine ativitât"
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:689
 msgid "_Find in Task..."
-msgstr ""
+msgstr "_Cjate te ativitât..."
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:691
 msgid "Search for text in the displayed task"
@@ -21663,7 +21663,7 @@ msgstr ""
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:710
 msgid "D_elete Task List"
-msgstr ""
+msgstr "Eli_mine liste ativitâts"
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:712
 msgid "Delete the selected task list"
@@ -21675,19 +21675,19 @@ msgstr ""
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:724
 msgid "_New Task List"
-msgstr ""
+msgstr "_Gnove liste ativitâts"
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:740
 msgid "Refresh the selected task list"
-msgstr ""
+msgstr "Inzorne la liste des ativitâts selezionade"
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:747
 msgid "Rename the selected task list"
-msgstr ""
+msgstr "Cambie non ae liste des ativitâts selezionade"
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:752
 msgid "Sho_w All Task Lists"
-msgstr ""
+msgstr "Mos_tre dutis lis listis des ativitâts"
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:759
 msgid "Show _Only This Task List"
@@ -21906,21 +21906,21 @@ msgstr ""
 #: ../src/modules/itip-formatter/itip-view.c:517
 #: ../src/modules/itip-formatter/itip-view.c:606
 msgid "An unknown person"
-msgstr ""
+msgstr "Une persone no cognossude"
 
 #: ../src/modules/itip-formatter/itip-view.c:431
 #: ../src/modules/itip-formatter/itip-view.c:521
 #: ../src/modules/itip-formatter/itip-view.c:610
 #, c-format
 msgid "Please respond on behalf of %s"
-msgstr ""
+msgstr "Rispuint par cont di %s"
 
 #: ../src/modules/itip-formatter/itip-view.c:433
 #: ../src/modules/itip-formatter/itip-view.c:523
 #: ../src/modules/itip-formatter/itip-view.c:612
 #, c-format
 msgid "Received on behalf of %s"
-msgstr ""
+msgstr "Ricevût par cont di %s"
 
 #: ../src/modules/itip-formatter/itip-view.c:438
 #, c-format
@@ -21928,14 +21928,14 @@ msgid "%s through %s has published the following meeting information:"
 msgstr ""
 
 #: ../src/modules/itip-formatter/itip-view.c:440
-#, c-format
+#, fuzzy, c-format
 msgid "%s has published the following meeting information:"
-msgstr ""
+msgstr "%s al à publicât, chi daurman, lis informazions su la riunion:"
 
 #: ../src/modules/itip-formatter/itip-view.c:445
 #, c-format
 msgid "%s has delegated the following meeting to you:"
-msgstr ""
+msgstr "%s Us à delegât la riunion chi daurman:"
 
 #: ../src/modules/itip-formatter/itip-view.c:448
 #, c-format
@@ -21943,19 +21943,20 @@ msgid "%s through %s requests your presence at the following meeting:"
 msgstr ""
 
 #: ../src/modules/itip-formatter/itip-view.c:450
-#, c-format
+#, fuzzy, c-format
 msgid "%s requests your presence at the following meeting:"
-msgstr ""
+msgstr "%s al domande la Vuestre presince ae riunion chi daurman:"
 
 #: ../src/modules/itip-formatter/itip-view.c:456
 #, c-format
 msgid "%s through %s wishes to add to an existing meeting:"
 msgstr ""
 
+# %s maschile o femminile?
 #: ../src/modules/itip-formatter/itip-view.c:458
-#, c-format
+#, fuzzy, c-format
 msgid "%s wishes to add to an existing meeting:"
-msgstr ""
+msgstr "%s al desidere zontâsi a une riunion esistente:"
 
 #: ../src/modules/itip-formatter/itip-view.c:462
 #, c-format
@@ -22122,8 +22123,9 @@ msgstr ""
 msgid "%s through %s has cancelled the following shared memo:"
 msgstr ""
 
+# m o f?
 #: ../src/modules/itip-formatter/itip-view.c:632
-#, c-format
+#, fuzzy, c-format
 msgid "%s has cancelled the following shared memo:"
 msgstr "%s al à scancelât il memorandum condividût chi daurman:"
 
@@ -22351,7 +22353,7 @@ msgstr ""
 
 #: ../src/modules/itip-formatter/itip-view.c:5205
 msgid "Task information sent"
-msgstr ""
+msgstr "Informazions su la ativitât inviadis"
 
 #: ../src/modules/itip-formatter/itip-view.c:5210
 msgid "Memo information sent"
@@ -22359,11 +22361,11 @@ msgstr "Informazions sul memorandum inviadis"
 
 #: ../src/modules/itip-formatter/itip-view.c:5221
 msgid "Unable to send meeting information, the meeting does not exist"
-msgstr ""
+msgstr "Impussibil inviâ informazions su la riunion, la riunion no esist"
 
 #: ../src/modules/itip-formatter/itip-view.c:5226
 msgid "Unable to send task information, the task does not exist"
-msgstr ""
+msgstr "Impussibil inviâ informazions su la ativitât, la ativitât no esist"
 
 #: ../src/modules/itip-formatter/itip-view.c:5231
 msgid "Unable to send memo information, the memo does not exist"
@@ -22450,28 +22452,28 @@ msgstr ""
 
 #: ../src/modules/mail-config/e-mail-config-google-summary.c:283
 msgid "Google Features"
-msgstr ""
+msgstr "Funzionalitâts Google"
 
 #: ../src/modules/mail-config/e-mail-config-google-summary.c:292
 msgid "Add Google Ca_lendar to this account"
-msgstr ""
+msgstr "Zonte Ca_lendari di Google a chest account"
 
 #: ../src/modules/mail-config/e-mail-config-google-summary.c:301
 msgid "Add Google Con_tacts to this account"
-msgstr ""
+msgstr "Zonte Con_tats di Goggle a chest account"
 
 #: ../src/modules/mail-config/e-mail-config-google-summary.c:310
 msgid "You may need to enable IMAP access"
-msgstr ""
+msgstr "Al podarès coventâ di abilitâ l'acès IMAP"
 
 #: ../src/modules/mail-config/e-mail-config-local-accounts.c:268
 #: ../src/modules/mail-config/e-mail-config-local-accounts.c:316
 msgid "Mail _Directory:"
-msgstr ""
+msgstr "Cartele de _pueste:"
 
 #: ../src/modules/mail-config/e-mail-config-local-accounts.c:269
 msgid "Choose a MH mail directory"
-msgstr ""
+msgstr "Sielç une cartele di pueste MH"
 
 #: ../src/modules/mail-config/e-mail-config-local-accounts.c:271
 msgid "MH mail directory cannot be empty"
