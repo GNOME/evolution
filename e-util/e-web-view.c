@@ -1599,13 +1599,10 @@ e_web_view_get_web_extension_proxy (EWebView *web_view)
 }
 
 static void
-web_view_update_actions_cb (WebKitWebView *webkit_web_view,
-                            GAsyncResult *result,
-                            gpointer user_data)
+web_view_update_actions (EWebView *web_view)
 {
-	EWebView *web_view;
 	GtkActionGroup *action_group;
-	gboolean can_copy;
+	gboolean can_copy = FALSE;
 	gboolean scheme_is_http = FALSE;
 	gboolean scheme_is_mailto = FALSE;
 	gboolean uri_is_valid = FALSE;
@@ -1613,12 +1610,21 @@ web_view_update_actions_cb (WebKitWebView *webkit_web_view,
 	const gchar *cursor_image_src;
 	const gchar *group_name;
 	const gchar *uri;
-
-	web_view = E_WEB_VIEW (webkit_web_view);
+	GDBusProxy *web_extension;
 
 	uri = e_web_view_get_selected_uri (web_view);
-	can_copy = webkit_web_view_can_execute_editing_command_finish (
-		webkit_web_view, result, NULL);
+	web_extension = e_web_view_get_web_extension_proxy (web_view);
+	if (web_extension) {
+		GVariant *result;
+
+		result = g_dbus_proxy_get_cached_property (web_view->priv->web_extension, "ClipboardFlags");
+		if (result) {
+			EClipboardFlags clipboard_flags = g_variant_get_uint32 (result);
+			g_variant_unref (result);
+
+			can_copy = (clipboard_flags & E_CLIPBOARD_CAN_COPY);
+		}
+	}
 	cursor_image_src = e_web_view_get_cursor_image_src (web_view);
 
 	/* Parse the URI early so we know if the actions will work. */
@@ -1699,17 +1705,6 @@ web_view_update_actions_cb (WebKitWebView *webkit_web_view,
 	visible = (uri == NULL) && !web_view->priv->disable_save_to_disk;
 	action_group = e_web_view_get_action_group (web_view, group_name);
 	gtk_action_group_set_visible (action_group, visible);
-}
-
-static void
-web_view_update_actions (EWebView *web_view)
-{
-	webkit_web_view_can_execute_editing_command (
-		WEBKIT_WEB_VIEW (web_view),
-		WEBKIT_EDITING_COMMAND_COPY,
-		NULL, /* cancellable */
-		(GAsyncReadyCallback) web_view_update_actions_cb,
-		NULL);
 }
 
 static void
@@ -1827,12 +1822,28 @@ web_view_selectable_update_actions (ESelectable *selectable,
                                     GdkAtom *clipboard_targets,
                                     gint n_clipboard_targets)
 {
-	WebKitWebView *web_view;
+	EWebView *web_view;
+	GDBusProxy *web_extension;
 	GtkAction *action;
-	gboolean sensitive;
-	const gchar *tooltip;
+	gboolean can_copy = FALSE;
 
-	web_view = WEBKIT_WEB_VIEW (selectable);
+	web_view = E_WEB_VIEW (selectable);
+
+	web_extension = e_web_view_get_web_extension_proxy (web_view);
+	if (web_extension) {
+		GVariant *result;
+
+		result = g_dbus_proxy_get_cached_property (web_view->priv->web_extension, "ClipboardActions");
+		if (result) {
+			EClipboardFlags clipboard_actions = g_variant_get_uint32 (result);
+			g_variant_unref (result);
+
+			can_copy = (clipboard_actions & E_CLIPBOARD_CAN_COPY);
+		}
+	}
+	action = e_focus_tracker_get_copy_clipboard_action (focus_tracker);
+	gtk_action_set_sensitive (action, can_copy);
+	gtk_action_set_tooltip (action, _("Copy the selection"));
 
 	action = e_focus_tracker_get_cut_clipboard_action (focus_tracker);
 	webkit_web_view_can_execute_editing_command (
@@ -1841,18 +1852,7 @@ web_view_selectable_update_actions (ESelectable *selectable,
 		NULL, /* cancellable */
 		(GAsyncReadyCallback) web_view_can_execute_editing_command_cb,
 		action);
-	tooltip = _("Cut the selection");
-	gtk_action_set_tooltip (action, tooltip);
-
-	action = e_focus_tracker_get_copy_clipboard_action (focus_tracker);
-	webkit_web_view_can_execute_editing_command (
-		WEBKIT_WEB_VIEW (web_view),
-		WEBKIT_EDITING_COMMAND_COPY,
-		NULL, /* cancellable */
-		(GAsyncReadyCallback) web_view_can_execute_editing_command_cb,
-		action);
-	tooltip = _("Copy the selection");
-	gtk_action_set_tooltip (action, tooltip);
+	gtk_action_set_tooltip (action, _("Cut the selection"));
 
 	action = e_focus_tracker_get_paste_clipboard_action (focus_tracker);
 	webkit_web_view_can_execute_editing_command (
@@ -1861,14 +1861,11 @@ web_view_selectable_update_actions (ESelectable *selectable,
 		NULL, /* cancellable */
 		(GAsyncReadyCallback) web_view_can_execute_editing_command_cb,
 		action);
-	tooltip = _("Paste the clipboard");
-	gtk_action_set_tooltip (action, tooltip);
+	gtk_action_set_tooltip (action, _("Paste the clipboard"));
 
 	action = e_focus_tracker_get_select_all_action (focus_tracker);
-	sensitive = TRUE;
-	tooltip = _("Select all text and images");
-	gtk_action_set_sensitive (action, sensitive);
-	gtk_action_set_tooltip (action, tooltip);
+	gtk_action_set_sensitive (action, TRUE);
+	gtk_action_set_tooltip (action, _("Select all text and images"));
 }
 
 static void
