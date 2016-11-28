@@ -2271,9 +2271,10 @@ mail_session_flush_filter_log (EMailSession *session)
 const gchar *
 mail_session_get_data_dir (void)
 {
-	if (G_UNLIKELY (mail_data_dir == NULL))
-		mail_data_dir = g_build_filename (
-			e_get_user_data_dir (), "mail", NULL);
+	if (G_UNLIKELY (mail_data_dir == NULL)) {
+		mail_data_dir = g_build_filename (e_get_user_data_dir (), "mail", NULL);
+		g_mkdir_with_parents (mail_data_dir, 0700);
+	}
 
 	return mail_data_dir;
 }
@@ -2281,9 +2282,10 @@ mail_session_get_data_dir (void)
 const gchar *
 mail_session_get_cache_dir (void)
 {
-	if (G_UNLIKELY (mail_cache_dir == NULL))
-		mail_cache_dir = g_build_filename (
-			e_get_user_cache_dir (), "mail", NULL);
+	if (G_UNLIKELY (mail_cache_dir == NULL)) {
+		mail_cache_dir = g_build_filename (e_get_user_cache_dir (), "mail", NULL);
+		g_mkdir_with_parents (mail_cache_dir, 0700);
+	}
 
 	return mail_cache_dir;
 }
@@ -2291,9 +2293,10 @@ mail_session_get_cache_dir (void)
 const gchar *
 mail_session_get_config_dir (void)
 {
-	if (G_UNLIKELY (mail_config_dir == NULL))
-		mail_config_dir = g_build_filename (
-			e_get_user_config_dir (), "mail", NULL);
+	if (G_UNLIKELY (mail_config_dir == NULL)) {
+		mail_config_dir = g_build_filename (e_get_user_config_dir (), "mail", NULL);
+		g_mkdir_with_parents (mail_config_dir, 0700);
+	}
 
 	return mail_config_dir;
 }
