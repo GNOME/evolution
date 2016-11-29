@@ -1775,6 +1775,34 @@ quoting_text (QuotingTextEnum type)
 }
 
 /**
+ * em_composer_utils_get_forward_marker:
+ *
+ * Returns: (transfer full): a text marker which is used for inline forwarded messages.
+ *   Free returned pointer with g_free(), when no longer needed.
+ *
+ * Since: 3.22.3
+ **/
+gchar *
+em_composer_utils_get_forward_marker (void)
+{
+	return quoting_text (QUOTING_FORWARD);
+}
+
+/**
+ * em_composer_utils_get_original_marker:
+ *
+ * Returns: (transfer full): a text marker which is used for inline message replies.
+ *   Free returned pointer with g_free(), when no longer needed.
+ *
+ * Since: 3.22.3
+ **/
+gchar *
+em_composer_utils_get_original_marker (void)
+{
+	return quoting_text (QUOTING_ORIGINAL);
+}
+
+/**
  * em_utils_edit_message:
  * @composer: an #EMsgComposer
  * @folder: a #CamelFolder

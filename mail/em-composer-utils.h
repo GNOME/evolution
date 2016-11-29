@@ -93,6 +93,10 @@ ESource *	em_utils_check_send_account_override
 void		em_utils_apply_send_account_override_to_composer
 						(EMsgComposer *composer,
 						 CamelFolder *folder);
+gchar *		em_composer_utils_get_forward_marker
+						(void);
+gchar *		em_composer_utils_get_original_marker
+						(void);
 
 G_END_DECLS
 
