@@ -1396,6 +1396,7 @@ check_prefix (const gchar *subject,
               const gchar *prefix,
               gint *skip_len)
 {
+	gboolean res = FALSE;
 	gint plen;
 
 	g_return_val_if_fail (subject != NULL, FALSE);
@@ -1407,17 +1408,27 @@ check_prefix (const gchar *subject,
 	if (g_ascii_strncasecmp (subject, prefix, plen) != 0)
 		return FALSE;
 
-	if (g_ascii_strncasecmp (subject + plen, ": ", 2) == 0) {
-		*skip_len = plen + 2;
-		return TRUE;
+	if (g_ascii_isspace (subject[plen]))
+		plen++;
+
+	res = e_util_utf8_strstrcase (subject + plen, ":") == subject + plen;
+	if (res)
+		plen += strlen (":");
+
+	if (!res) {
+		res = e_util_utf8_strstrcase (subject + plen, "︰") == subject + plen;
+		if (res)
+			plen += strlen ("︰");
 	}
 
-	if (g_ascii_strncasecmp (subject + plen, " : ", 3) == 0) {
-		*skip_len = plen + 3;
-		return TRUE;
+	if (res) {
+		if (g_ascii_isspace (subject[plen]))
+			plen++;
+
+		*skip_len = plen;
 	}
 
-	return FALSE;
+	return res;
 }
 
 gboolean
