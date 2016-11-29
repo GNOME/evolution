@@ -889,6 +889,8 @@ composer_save_to_drafts_complete (GObject *source_object,
 		async_context->folder_uri,
 		async_context->message_uid);
 
+	e_content_editor_set_changed (cnt_editor, FALSE);
+
 	async_context_free (async_context);
 }
 
