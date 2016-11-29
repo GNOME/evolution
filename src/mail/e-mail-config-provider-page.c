@@ -359,6 +359,29 @@ mail_config_provider_page_add_entry (EMailConfigProviderPage *page,
 }
 
 static void
+mail_config_provider_page_add_label (EMailConfigProviderPage *page,
+				     CamelProviderConfEntry *entry)
+{
+	GtkWidget *hbox;
+	GtkWidget *label;
+
+	g_return_if_fail (entry->text != NULL);
+
+	hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+	gtk_box_set_spacing (GTK_BOX (hbox), 6);
+	gtk_widget_set_margin_left (hbox, STANDARD_MARGIN);
+	gtk_box_pack_start (GTK_BOX (page), hbox, FALSE, FALSE, 0);
+	gtk_widget_show (hbox);
+
+	label = gtk_label_new (entry->text);
+	gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
+	gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
+	gtk_widget_show (label);
+
+	mail_config_provider_page_handle_dependency (page, entry, hbox);
+}
+
+static void
 mail_config_provider_page_add_options (EMailConfigProviderPage *page,
                                        CamelProviderConfEntry *entry)
 {
@@ -563,6 +586,11 @@ mail_config_provider_page_add_widgets (EMailConfigProviderPage *page)
 
 			case CAMEL_PROVIDER_CONF_ENTRY:
 				mail_config_provider_page_add_entry (
+					page, &entries[ii]);
+				break;
+
+			case CAMEL_PROVIDER_CONF_LABEL:
+				mail_config_provider_page_add_label (
 					page, &entries[ii]);
 				break;
 
