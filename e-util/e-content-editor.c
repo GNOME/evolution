@@ -3552,8 +3552,8 @@ e_content_editor_emit_paste_primary_clipboard (EContentEditor *editor)
 
 gboolean
 e_content_editor_emit_context_menu_requested (EContentEditor *editor,
-					      EContentEditorNodeFlags flags,
-					      GdkEvent *event)
+                                              EContentEditorNodeFlags flags,
+                                              GdkEvent *event)
 {
 	gboolean handled = FALSE;
 
@@ -3566,7 +3566,7 @@ e_content_editor_emit_context_menu_requested (EContentEditor *editor,
 
 void
 e_content_editor_emit_find_done (EContentEditor *editor,
-				 guint match_count)
+                                 guint match_count)
 {
 	g_return_if_fail (E_IS_CONTENT_EDITOR (editor));
 
@@ -3575,7 +3575,7 @@ e_content_editor_emit_find_done (EContentEditor *editor,
 
 void
 e_content_editor_emit_replace_all_done (EContentEditor *editor,
-					guint replaced_count)
+                                        guint replaced_count)
 {
 	g_return_if_fail (E_IS_CONTENT_EDITOR (editor));
 
