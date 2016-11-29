@@ -33,6 +33,7 @@
 #include <mail/em-config.h>
 #include <mail/em-event.h>
 
+#include <mail/em-composer-utils.h>
 #include <mail/em-utils.h>
 
 #include "composer/e-msg-composer.h"
@@ -54,6 +55,12 @@ enum {
 	CLUE_N_COLUMNS
 };
 
+enum {
+	AR_IS_PLAIN,
+	AR_IS_FORWARD,
+	AR_IS_REPLY
+};
+
 gint		e_plugin_lib_enable	(EPlugin *ep,
 					 gint enable);
 GtkWidget *	e_plugin_lib_get_configure_widget
@@ -66,8 +73,9 @@ GtkWidget *	org_gnome_attachment_reminder_config_option
 					 EConfigHookItemFactoryData *data);
 
 static gboolean ask_for_missing_attachment (EPlugin *ep, GtkWindow *widget);
-static gboolean check_for_attachment_clues (GByteArray *msg_text);
+static gboolean check_for_attachment_clues (GByteArray *msg_text, guint32 ar_flags);
 static gboolean check_for_attachment (EMsgComposer *composer);
+static guint32 get_flags_from_composer (EMsgComposer *composer);
 static void commit_changes (UIData *ui);
 
 gint
@@ -93,7 +101,7 @@ org_gnome_evolution_attachment_reminder (EPlugin *ep,
 		return;
 
 	/* Set presend_check_status for the composer*/
-	if (check_for_attachment_clues (raw_msg_barray)) {
+	if (check_for_attachment_clues (raw_msg_barray, get_flags_from_composer (t->composer))) {
 		if (!ask_for_missing_attachment (ep, (GtkWindow *) t->composer))
 			g_object_set_data (
 				G_OBJECT (t->composer),
@@ -102,6 +110,43 @@ org_gnome_evolution_attachment_reminder (EPlugin *ep,
 	}
 
 	g_byte_array_free (raw_msg_barray, TRUE);
+}
+
+static guint32
+get_flags_from_composer (EMsgComposer *composer)
+{
+	const gchar *header;
+
+	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), AR_IS_PLAIN);
+
+	header = e_msg_composer_get_header (composer, "X-Evolution-Source-Flags", 0);
+	if (!header || !*header)
+		return AR_IS_PLAIN;
+
+	if (e_util_utf8_strstrcase (header, "FORWARDED")) {
+		GSettings *settings;
+		EMailForwardStyle style;
+
+		settings = e_util_ref_settings ("org.gnome.evolution.mail");
+		style = g_settings_get_enum (settings, "forward-style-name");
+		g_object_unref (settings);
+
+		return style == E_MAIL_FORWARD_STYLE_INLINE ? AR_IS_FORWARD : AR_IS_PLAIN;
+	}
+
+	if (e_util_utf8_strstrcase (header, "ANSWERED") ||
+	    e_util_utf8_strstrcase (header, "ANSWERED_ALL")) {
+		GSettings *settings;
+		EMailReplyStyle style;
+
+		settings = e_util_ref_settings ("org.gnome.evolution.mail");
+		style = g_settings_get_enum (settings, "reply-style-name");
+		g_object_unref (settings);
+
+		return style == E_MAIL_REPLY_STYLE_OUTLOOK ? AR_IS_REPLY : AR_IS_PLAIN;
+	}
+
+	return AR_IS_PLAIN;
 }
 
 static gboolean
@@ -139,16 +184,53 @@ ask_for_missing_attachment (EPlugin *ep,
 }
 
 static void
-censor_quoted_lines (GByteArray *msg_text)
+censor_quoted_lines (GByteArray *msg_text,
+		     const gchar *until_marker)
 {
 	gchar *ptr;
 	gboolean in_quotation = FALSE;
+	gint marker_len;
 
 	g_return_if_fail (msg_text != NULL);
 
-	for (ptr = (char *) msg_text->data; ptr && *ptr; ptr++) {
+	if (until_marker)
+		marker_len = strlen (until_marker);
+	else
+		marker_len = 0;
+
+	ptr = (gchar *) msg_text->data;
+
+	if (marker_len &&
+	    strncmp (ptr, until_marker, marker_len) == 0 &&
+	    (ptr[marker_len] == '\r' || ptr[marker_len] == '\n')) {
+		/* Simply cut everything below the marker and the marker itself */
+		if (marker_len > 3) {
+			ptr[0] = '\r';
+			ptr[1] = '\n';
+			ptr[2] = '\0';
+		} else {
+			*ptr = '\0';
+		}
+
+		return;
+	}
+
+	for (ptr = (gchar *) msg_text->data; ptr && *ptr; ptr++) {
 		if (*ptr == '\n') {
 			in_quotation = ptr[1] == '>';
+			if (!in_quotation && marker_len &&
+			    strncmp (ptr + 1, until_marker, marker_len) == 0 &&
+			    (ptr[1 + marker_len] == '\r' || ptr[1 + marker_len] == '\n')) {
+				/* Simply cut everything below the marker and the marker itself */
+				if (marker_len > 3) {
+					ptr[0] = '\r';
+					ptr[1] = '\n';
+					ptr[2] = '\0';
+				} else {
+					*ptr = '\0';
+				}
+				break;
+			}
 		} else if (*ptr != '\r' && in_quotation) {
 			*ptr = ' ';
 		}
@@ -157,11 +239,18 @@ censor_quoted_lines (GByteArray *msg_text)
 
 /* check for the clues */
 static gboolean
-check_for_attachment_clues (GByteArray *msg_text)
+check_for_attachment_clues (GByteArray *msg_text,
+			    guint32 ar_flags)
 {
 	GSettings *settings;
 	gchar **clue_list;
+	gchar *marker = NULL;
 	gboolean found = FALSE;
+
+	if (ar_flags == AR_IS_FORWARD)
+		marker = em_composer_utils_get_forward_marker ();
+	else if (ar_flags == AR_IS_REPLY)
+		marker = em_composer_utils_get_original_marker ();
 
 	settings = e_util_ref_settings ("org.gnome.evolution.plugin.attachment-reminder");
 
@@ -173,9 +262,9 @@ check_for_attachment_clues (GByteArray *msg_text)
 	if (clue_list && clue_list[0]) {
 		gint ii, jj, to;
 
-		g_byte_array_append (msg_text, (const guint8 *) "\0", 1);
+		g_byte_array_append (msg_text, (const guint8 *) "\r\n\0", 3);
 
-		censor_quoted_lines (msg_text);
+		censor_quoted_lines (msg_text, marker);
 
 		for (ii = 0; clue_list[ii] && !found; ii++) {
 			GString *word;
@@ -202,9 +291,8 @@ check_for_attachment_clues (GByteArray *msg_text)
 		}
 	}
 
-	if (clue_list) {
-		g_strfreev (clue_list);
-	}
+	g_strfreev (clue_list);
+	g_free (marker);
 
 	return found;
 }
