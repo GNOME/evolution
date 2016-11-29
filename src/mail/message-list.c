@@ -124,6 +124,7 @@ struct _MessageListPrivate {
 
 	GSettings *mail_settings;
 	gchar **re_prefixes;
+	gchar **re_separators;
 	GMutex re_prefixes_lock;
 };
 
@@ -790,7 +791,8 @@ get_normalised_string (MessageList *message_list,
 		while (found_re) {
 			g_mutex_lock (&message_list->priv->re_prefixes_lock);
 			found_re = em_utils_is_re_in_subject (
-				subject, &skip_len, (const gchar * const *) message_list->priv->re_prefixes) && skip_len > 0;
+				subject, &skip_len, (const gchar * const *) message_list->priv->re_prefixes,
+				(const gchar * const *) message_list->priv->re_separators) && skip_len > 0;
 			g_mutex_unlock (&message_list->priv->re_prefixes_lock);
 
 			if (found_re)
@@ -1729,7 +1731,8 @@ get_trimmed_subject (CamelMessageInfo *info,
 
 			g_mutex_lock (&message_list->priv->re_prefixes_lock);
 			found_re = em_utils_is_re_in_subject (
-				subject, &skip_len, (const gchar * const *) message_list->priv->re_prefixes) && skip_len > 0;
+				subject, &skip_len, (const gchar * const *) message_list->priv->re_prefixes,
+				(const gchar * const *) message_list->priv->re_separators) && skip_len > 0;
 			g_mutex_unlock (&message_list->priv->re_prefixes_lock);
 			if (found_re)
 				subject += skip_len;
@@ -2968,6 +2971,7 @@ message_list_finalize (GObject *object)
 	g_free (message_list->frozen_search);
 	g_free (message_list->cursor_uid);
 	g_strfreev (message_list->priv->re_prefixes);
+	g_strfreev (message_list->priv->re_separators);
 
 	g_mutex_clear (&message_list->priv->regen_lock);
 	g_mutex_clear (&message_list->priv->thread_tree_lock);
@@ -3669,6 +3673,7 @@ message_list_init (MessageList *message_list)
 
 	message_list->priv->mail_settings = e_util_ref_settings ("org.gnome.evolution.mail");
 	message_list->priv->re_prefixes = NULL;
+	message_list->priv->re_separators = NULL;
 	message_list->priv->group_by_threads = TRUE;
 }
 
@@ -6313,10 +6318,20 @@ mail_regen_list (MessageList *message_list,
 	}
 
 	g_mutex_lock (&message_list->priv->re_prefixes_lock);
+
 	g_strfreev (message_list->priv->re_prefixes);
 	prefixes = g_settings_get_string (message_list->priv->mail_settings, "composer-localized-re");
 	message_list->priv->re_prefixes = g_strsplit (prefixes ? prefixes : "", ",", -1);
 	g_free (prefixes);
+
+	g_strfreev (message_list->priv->re_separators);
+	message_list->priv->re_separators = g_settings_get_strv (message_list->priv->mail_settings, "composer-localized-re-separators");
+
+	if (message_list->priv->re_separators && !*message_list->priv->re_separators) {
+		g_strfreev (message_list->priv->re_separators);
+		message_list->priv->re_separators = NULL;
+	}
+
 	g_mutex_unlock (&message_list->priv->re_prefixes_lock);
 
 	g_mutex_lock (&message_list->priv->regen_lock);

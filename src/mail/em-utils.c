@@ -1404,9 +1404,11 @@ emu_restore_folder_tree_state (EMFolderTree *folder_tree)
 
 static gboolean
 check_prefix (const gchar *subject,
-              const gchar *prefix,
+	      const gchar *prefix,
+	      const gchar * const *separators,
               gint *skip_len)
 {
+	gboolean res = FALSE;
 	gint plen;
 
 	g_return_val_if_fail (subject != NULL, FALSE);
@@ -1418,25 +1420,51 @@ check_prefix (const gchar *subject,
 	if (g_ascii_strncasecmp (subject, prefix, plen) != 0)
 		return FALSE;
 
-	if (g_ascii_strncasecmp (subject + plen, ": ", 2) == 0) {
-		*skip_len = plen + 2;
-		return TRUE;
+	if (g_ascii_isspace (subject[plen]))
+		plen++;
+
+	res = e_util_utf8_strstrcase (subject + plen, ":") == subject + plen;
+	if (res)
+		plen += strlen (":");
+
+	if (!res) {
+		res = e_util_utf8_strstrcase (subject + plen, "︰") == subject + plen;
+		if (res)
+			plen += strlen ("︰");
 	}
 
-	if (g_ascii_strncasecmp (subject + plen, " : ", 3) == 0) {
-		*skip_len = plen + 3;
-		return TRUE;
+	if (!res && separators) {
+		gint ii;
+
+		for (ii = 0; separators[ii]; ii++) {
+			const gchar *separator = separators[ii];
+
+			res = *separator && e_util_utf8_strstrcase (subject + plen, separator) == subject + plen;
+			if (res) {
+				plen += strlen (separator);
+				break;
+			}
+		}
 	}
 
-	return FALSE;
+	if (res) {
+		if (g_ascii_isspace (subject[plen]))
+			plen++;
+
+		*skip_len = plen;
+	}
+
+	return res;
 }
 
 gboolean
 em_utils_is_re_in_subject (const gchar *subject,
                            gint *skip_len,
-			   const gchar * const *use_prefixes_strv)
+			   const gchar * const *use_prefixes_strv,
+			   const gchar * const *use_separators_strv)
 {
 	gchar **prefixes_strv;
+	gchar **separators_strv;
 	gboolean res;
 	gint ii;
 
@@ -1448,8 +1476,27 @@ em_utils_is_re_in_subject (const gchar *subject,
 	if (strlen (subject) < 3)
 		return FALSE;
 
-	if (check_prefix (subject, "Re", skip_len))
+	if (use_separators_strv) {
+		separators_strv = (gchar **) use_separators_strv;
+	} else {
+		GSettings *settings;
+
+		settings = e_util_ref_settings ("org.gnome.evolution.mail");
+		separators_strv = g_settings_get_strv (settings, "composer-localized-re-separators");
+		g_object_unref (settings);
+
+		if (separators_strv && !*separators_strv) {
+			g_strfreev (separators_strv);
+			separators_strv = NULL;
+		}
+	}
+
+	if (check_prefix (subject, "Re", (const gchar * const *) separators_strv, skip_len)) {
+		if (!use_separators_strv)
+			g_strfreev (separators_strv);
+
 		return TRUE;
+	}
 
 	if (use_prefixes_strv) {
 		prefixes_strv = (gchar **) use_prefixes_strv;
@@ -1463,6 +1510,10 @@ em_utils_is_re_in_subject (const gchar *subject,
 
 		if (!prefixes || !*prefixes) {
 			g_free (prefixes);
+
+			if (!use_separators_strv)
+				g_strfreev (separators_strv);
+
 			return FALSE;
 		}
 
@@ -1470,8 +1521,12 @@ em_utils_is_re_in_subject (const gchar *subject,
 		g_free (prefixes);
 	}
 
-	if (!prefixes_strv)
+	if (!prefixes_strv) {
+		if (!use_separators_strv)
+			g_strfreev (separators_strv);
+
 		return FALSE;
+	}
 
 	res = FALSE;
 
@@ -1479,11 +1534,13 @@ em_utils_is_re_in_subject (const gchar *subject,
 		const gchar *prefix = prefixes_strv[ii];
 
 		if (*prefix)
-			res = check_prefix (subject, prefix, skip_len);
+			res = check_prefix (subject, prefix, (const gchar * const *) separators_strv, skip_len);
 	}
 
 	if (!use_prefixes_strv)
 		g_strfreev (prefixes_strv);
+	if (!use_separators_strv)
+		g_strfreev (separators_strv);
 
 	return res;
 }

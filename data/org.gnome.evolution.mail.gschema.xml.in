@@ -180,6 +180,11 @@
       <_summary>List of localized “Re”</_summary>
       <_description>Comma-separated list of localized “Re” abbreviations to skip in a subject text when replying to a message, as an addition to the standard “Re” prefix. An example is “SV,AV”.</_description>
     </key>
+    <key name="composer-localized-re-separators" type="as">
+      <default>['']</default>
+      <_summary>List of localized “Re” separators</_summary>
+      <_description>A list of localized “Re” separators, used to skip in a subject text when replying to a message, as an addition to the standard “:” and the Unicode “︰” separators.</_description>
+    </key>
     <key name="composer-word-wrap-length" type="i">
       <default>71</default>
       <_summary>Number of characters for wrapping</_summary>
