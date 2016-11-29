@@ -6,7 +6,7 @@
 
     <link type="guide" xref="mail-receiving-options#common-server-types"/>
     <link type="guide" xref="mail-account-manage-pop#receiving-email"/>
-    <revision pkgversion="3.1.5" version="0.5" date="2013-06-22" status="final"/>
+    <revision pkgversion="3.23.2" version="0.6" date="2016-11-29" status="final"/>
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
       <email its:translate="no">ak-47@gmx.net</email>
@@ -48,7 +48,7 @@
 
 <list>
 <item><p>If you want <app>Evolution</app> to check automatically for new messages, click the <gui>Check for new messages every … minutes</gui> option and select the frequency in minutes.</p></item>
-<item><p>If you want the messages to remain on the server for a period of time, click the <gui>Leave messages on server</gui> option and the <gui>Delete after ... days</gui> option and select the number of days to allow messages to remain on the server.</p></item>
+<item><p>If you want the messages to remain on the server for a period of time, click the <gui>Leave messages on server</gui> option and the <gui>Delete after ... days</gui> option and select the number of days to allow messages to remain on the server. Set 0 days to keep messages on the server forever.</p></item>
 <item><p>The option <gui>Disable support for all POP3 extensions</gui> is only useful when accessing old or misconfigured mail servers. <link href="https://tools.ietf.org/html/rfc2449">POP3 extensions</link> provide enhanced functionality, however only some servers support them. In case of problems with receiving mail, enabling this setting might help.</p></item>
 </list>
 
