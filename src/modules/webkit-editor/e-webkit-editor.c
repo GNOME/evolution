@@ -5604,6 +5604,9 @@ webkit_editor_paste_clipboard_targets_cb (GtkClipboard *clipboard,
                                           gint n_targets,
                                           EWebKitEditor *wk_editor)
 {
+	gchar *content = NULL;
+	gboolean is_html = FALSE;
+
 	if (targets == NULL || n_targets < 0)
 		return;
 
@@ -5611,76 +5614,36 @@ webkit_editor_paste_clipboard_targets_cb (GtkClipboard *clipboard,
 	if (!gtk_widget_has_focus (GTK_WIDGET (wk_editor)))
 		gtk_widget_grab_focus (GTK_WIDGET (wk_editor));
 
-	/* Order is important here to ensure common use cases are
-	 * handled correctly.  See GNOME bug #603715 for details. */
-	/* Prefer plain text over HTML when in the plain text mode, but only
-	 * when pasting content from outside the editor view. */
+	/* Save the text content before we try to insert the image as it could
+	 * happen that we fail to save the image from clipboard (not by our
+	 * fault - right now it looks like current web engines can't handle IMG
+	 * with SRCSET attribute in clipboard correctly). And if this fails the
+	 * source application can cancel the content and we could not fallback
+	 * to at least some content. */
 	if (wk_editor->priv->html_mode ||
 	    webkit_editor_paste_prefer_text_html (wk_editor)) {
-		gchar *content = NULL;
-
 		if (e_targets_include_html (targets, n_targets)) {
-			if (!(content = e_clipboard_wait_for_html (clipboard)))
-				return;
-
-			webkit_editor_insert_content (
-				E_CONTENT_EDITOR (wk_editor),
-				content,
-				E_CONTENT_EDITOR_INSERT_TEXT_HTML);
-
-			g_free (content);
-			return;
-		}
-
-		if (gtk_targets_include_text (targets, n_targets)) {
-			if (!(content = gtk_clipboard_wait_for_text (clipboard)))
-				return;
-
-			webkit_editor_insert_content (
-				E_CONTENT_EDITOR (wk_editor),
-				content,
-				E_CONTENT_EDITOR_INSERT_TEXT_PLAIN |
-				E_CONTENT_EDITOR_INSERT_CONVERT);
-
-			g_free (content);
-			return;
-		}
+			content = e_clipboard_wait_for_html (clipboard);
+			is_html = TRUE;
+		} else if (gtk_targets_include_text (targets, n_targets))
+			content = gtk_clipboard_wait_for_text (clipboard)
 	} else {
-		gchar *content = NULL;
-
-		if (gtk_targets_include_text (targets, n_targets)) {
-			if (!(content = gtk_clipboard_wait_for_text (clipboard)))
-				return;
-
-			webkit_editor_insert_content (
-				E_CONTENT_EDITOR (wk_editor),
-				content,
-				E_CONTENT_EDITOR_INSERT_TEXT_PLAIN |
-				E_CONTENT_EDITOR_INSERT_CONVERT);
-
-			g_free (content);
-			return;
-		}
-
-		if (e_targets_include_html (targets, n_targets)) {
-			if (!(content = e_clipboard_wait_for_html (clipboard)))
-				return;
-
-			webkit_editor_insert_content (
-				E_CONTENT_EDITOR (wk_editor),
-				content,
-				E_CONTENT_EDITOR_INSERT_TEXT_HTML);
-
-			g_free (content);
-			return;
+		if (gtk_targets_include_text (targets, n_targets))
+			content = gtk_clipboard_wait_for_text (clipboard);
+		else if (e_targets_include_html (targets, n_targets)) {
+			content = e_clipboard_wait_for_html (clipboard);
+			is_html = TRUE;
 		}
 	}
 
-	if (gtk_targets_include_image (targets, n_targets, TRUE)) {
+	if (wk_editor->priv->html_mode &&
+	    gtk_targets_include_image (targets, n_targets, TRUE)) {
 		gchar *uri;
 
 		if (!(uri = e_util_save_image_from_clipboard (clipboard)))
-			return;
+			goto fallback;
+
+		webkit_editor_set_changed (wk_editor, TRUE);
 
 		webkit_editor_insert_image (E_CONTENT_EDITOR (wk_editor), uri);
 
@@ -5688,6 +5651,29 @@ webkit_editor_paste_clipboard_targets_cb (GtkClipboard *clipboard,
 
 		return;
 	}
+
+ fallback:
+	/* Order is important here to ensure common use cases are
+	 * handled correctly.  See GNOME bug #603715 for details. */
+	/* Prefer plain text over HTML when in the plain text mode, but only
+	 * when pasting content from outside the editor view. */
+
+	if (!content && !*content)
+		return;
+
+	if (is_html)
+		webkit_editor_insert_content (
+			E_CONTENT_EDITOR (wk_editor),
+			content,
+			E_CONTENT_EDITOR_INSERT_TEXT_HTML);
+	else
+		webkit_editor_insert_content (
+			E_CONTENT_EDITOR (wk_editor),
+			content,
+			E_CONTENT_EDITOR_INSERT_TEXT_PLAIN |
+			E_CONTENT_EDITOR_INSERT_CONVERT);
+
+	g_free (content);
 }
 
 static void
