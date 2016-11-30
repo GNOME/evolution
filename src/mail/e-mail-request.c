@@ -333,10 +333,13 @@ mail_request_process_contact_photo_sync (EContentRequest *request,
 		camel_address_decode (CAMEL_ADDRESS (cia), unescaped_string);
 		g_free (unescaped_string);
 
-		if (camel_internet_address_get (cia, 0, NULL, &email_address))
+		if (camel_internet_address_get (cia, 0, NULL, &email_address)) {
+			/* The e_photo_cache_get_photo_sync() can return TRUE even when
+			   there is no picture of the found contact, thus check for it. */
 			success = e_photo_cache_get_photo_sync (
 				photo_cache, email_address,
-				cancellable, &stream, error);
+				cancellable, &stream, error) && stream;
+		}
 
 		g_object_unref (cia);
 
