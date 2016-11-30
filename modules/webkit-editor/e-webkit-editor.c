@@ -5628,7 +5628,7 @@ webkit_editor_paste_clipboard_targets_cb (GtkClipboard *clipboard,
 			content = e_clipboard_wait_for_html (clipboard);
 			is_html = TRUE;
 		} else if (gtk_targets_include_text (targets, n_targets))
-			content = gtk_clipboard_wait_for_text (clipboard)
+			content = gtk_clipboard_wait_for_text (clipboard);
 	} else {
 		if (gtk_targets_include_text (targets, n_targets))
 			content = gtk_clipboard_wait_for_text (clipboard);
