@@ -642,7 +642,7 @@ perform_spell_check (WebKitDOMDOMSelection *dom_selection,
 	/* Go through all words to spellcheck them. To avoid this we have to wait for
 	 * http://www.w3.org/html/wg/drafts/html/master/editing.html#dom-forcespellcheck */
 	/* We are moving forward word by word until we hit the text on the end. */
-	while (actual && webkit_dom_range_compare_boundary_points (end_range, WEBKIT_DOM_RANGE_END_TO_END, actual, NULL) != 0) {
+	while (actual && webkit_dom_range_compare_boundary_points (actual, WEBKIT_DOM_RANGE_START_TO_START, end_range, NULL) < 0) {
 		if (actual != start_range)
 			g_object_unref (actual);
 		webkit_dom_dom_selection_modify (
