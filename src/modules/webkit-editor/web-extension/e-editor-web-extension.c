@@ -1794,6 +1794,9 @@ handle_method_call (GDBusConnection *connection,
 			g_warning ("Unsupported flags combination (%d) in (%s)", flags, G_STRFUNC);
 		}
 
+		if ((flags & E_CONTENT_EDITOR_GET_INLINE_IMAGES) && from_domain && *from_domain && inline_images)
+			e_editor_dom_restore_images (editor_page, inline_images);
+
 		/* If no inline images are requested we still have to return
 		 * something even it won't be used at all. */
 		g_dbus_method_invocation_return_value (
@@ -1804,9 +1807,6 @@ handle_method_call (GDBusConnection *connection,
 				inline_images ? inline_images : g_variant_new_int32 (0)));
 
 		g_free (value);
-
-		if ((flags & E_CONTENT_EDITOR_GET_INLINE_IMAGES) && from_domain && *from_domain && inline_images)
-			e_editor_dom_restore_images (editor_page, inline_images);
 	} else if (g_strcmp0 (method_name, "DOMInsertHTML") == 0) {
 		const gchar *html;
 
