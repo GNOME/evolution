@@ -331,10 +331,10 @@ action_set_visible_and_sensitive (GtkAction *action,
 }
 
 static void
-html_editor_update_actions (EHTMLEditor *editor)
+html_editor_update_actions (EHTMLEditor *editor,
+                            EContentEditorNodeFlags flags)
 {
 	EContentEditor *cnt_editor;
-	EContentEditorNodeFlags flags = editor->priv->node_flags;
 	ESpellChecker *spell_checker;
 	GtkUIManager *manager;
 	GtkActionGroup *action_group;
@@ -500,7 +500,6 @@ html_editor_context_menu_requested_cb (EContentEditor *cnt_editor,
 	/* COUNT FLAGS */
 	menu = e_html_editor_get_managed_widget (editor, "/context-menu");
 
-	editor->priv->node_flags = flags;
 	g_signal_emit (editor, signals[UPDATE_ACTIONS], 0, flags);
 
 	if (!gtk_menu_get_attach_widget (GTK_MENU (menu)))
@@ -845,7 +844,7 @@ e_html_editor_class_init (EHTMLEditorClass *class)
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (EHTMLEditorClass, update_actions),
 		NULL, NULL,
-		g_cclosure_marshal_VOID__BOXED,
+		g_cclosure_marshal_VOID__UINT,
 		G_TYPE_NONE, 1,
 		G_TYPE_UINT);
 
