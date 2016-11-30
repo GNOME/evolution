@@ -86,8 +86,6 @@ struct _EHTMLEditorPrivate {
 	GHashTable *content_editors;
 	EContentEditor *use_content_editor;
 
-	EContentEditorNodeFlags node_flags;
-
 	gchar *filename;
 
 	guint spell_suggestions_merge_id;
