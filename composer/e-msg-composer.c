@@ -1723,14 +1723,9 @@ msg_composer_paste_clipboard_targets_cb (GtkClipboard *clipboard,
 	editor = e_msg_composer_get_editor (composer);
 	cnt_editor = e_html_editor_get_content_editor (editor);
 
-	/* Order is important here to ensure common use cases are
-	 * handled correctly.  See GNOME bug #603715 for details. */
-	if (gtk_targets_include_text (targets, n_targets) ||
-	    e_targets_include_html (targets, n_targets)) {
-		if (composer->priv->last_signal_was_paste_primary) {
-			e_content_editor_paste_primary (cnt_editor);
-		} else
-			e_content_editor_paste (cnt_editor);
+	if (!e_content_editor_get_html_mode (cnt_editor) &&
+	    gtk_targets_include_image (targets, n_targets, TRUE)) {
+		e_composer_paste_image (composer, clipboard);
 		return;
 	}
 
@@ -1739,9 +1734,14 @@ msg_composer_paste_clipboard_targets_cb (GtkClipboard *clipboard,
 		return;
 	}
 
-	if (!e_content_editor_get_html_mode (cnt_editor) &&
-	    gtk_targets_include_image (targets, n_targets, TRUE)) {
-		e_composer_paste_image (composer, clipboard);
+	/* Order is important here to ensure common use cases are
+	 * handled correctly.  See GNOME bug #603715 for details. */
+	if (gtk_targets_include_text (targets, n_targets) ||
+	    e_targets_include_html (targets, n_targets)) {
+		if (composer->priv->last_signal_was_paste_primary) {
+			e_content_editor_paste_primary (cnt_editor);
+		} else
+			e_content_editor_paste (cnt_editor);
 		return;
 	}
 
