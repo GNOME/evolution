@@ -888,7 +888,7 @@ e_editor_dom_force_spell_check_in_viewport (EEditorPage *editor_page)
 
 		parent = get_parent_block_element (WEBKIT_DOM_NODE (last_element));
 		webkit_dom_node_append_child (
-			WEBKIT_DOM_NODE (parent), WEBKIT_DOM_NODE (text), NULL);
+			WEBKIT_DOM_NODE (parent ? parent : last_element), WEBKIT_DOM_NODE (text), NULL);
 	} else
 		webkit_dom_node_append_child (
 			WEBKIT_DOM_NODE (body), WEBKIT_DOM_NODE (text), NULL);
