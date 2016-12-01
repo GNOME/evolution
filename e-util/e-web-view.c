@@ -1833,7 +1833,7 @@ web_view_selectable_update_actions (ESelectable *selectable,
 	if (web_extension) {
 		GVariant *result;
 
-		result = g_dbus_proxy_get_cached_property (web_view->priv->web_extension, "ClipboardActions");
+		result = g_dbus_proxy_get_cached_property (web_view->priv->web_extension, "ClipboardFlags");
 		if (result) {
 			EClipboardFlags clipboard_actions = g_variant_get_uint32 (result);
 			g_variant_unref (result);
