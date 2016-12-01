@@ -11,7 +11,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2016-11-24 08:53+0000\n"
-"PO-Revision-Date: 2016-11-29 14:54+0100\n"
+"PO-Revision-Date: 2016-12-01 14:46+0100\n"
 "Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
 "Language-Team: Friulian <f.t.public@gmail.com>\n"
 "Language: fur\n"
@@ -6199,14 +6199,14 @@ msgstr "Sintesi"
 #: ../src/calendar/gui/tasktypes.xml.in.h:2 ../src/mail/filtertypes.xml.in.h:2
 #: ../src/mail/searchtypes.xml.in.h:2 ../src/mail/vfoldertypes.xml.in.h:2
 msgid "contains"
-msgstr "al conten"
+msgstr "al/e conten"
 
 #: ../src/calendar/gui/caltypes.xml.in.h:3
 #: ../src/calendar/gui/memotypes.xml.in.h:3
 #: ../src/calendar/gui/tasktypes.xml.in.h:3 ../src/mail/filtertypes.xml.in.h:3
 #: ../src/mail/searchtypes.xml.in.h:3 ../src/mail/vfoldertypes.xml.in.h:3
 msgid "does not contain"
-msgstr "Nol conten"
+msgstr "nol/no conten"
 
 #: ../src/calendar/gui/caltypes.xml.in.h:4
 #: ../src/calendar/gui/e-cal-list-view.etspec.h:4
@@ -9260,17 +9260,15 @@ msgstr "% Completade"
 #: ../src/calendar/gui/tasktypes.xml.in.h:26
 #: ../src/mail/filtertypes.xml.in.h:31 ../src/mail/searchtypes.xml.in.h:33
 #: ../src/mail/vfoldertypes.xml.in.h:33
-#, fuzzy
 msgid "is greater than"
-msgstr "al è plui grant di"
+msgstr "e je plui grande di"
 
 # idem come is greater than
 #: ../src/calendar/gui/tasktypes.xml.in.h:27
 #: ../src/mail/filtertypes.xml.in.h:32 ../src/mail/searchtypes.xml.in.h:34
 #: ../src/mail/vfoldertypes.xml.in.h:34
-#, fuzzy
 msgid "is less than"
-msgstr "al è plui piçul di"
+msgstr "e je plui piçule di"
 
 #: ../src/calendar/importers/icalendar-importer.c:76
 msgid "Appointments and Meetings"
@@ -16711,7 +16709,7 @@ msgstr ""
 
 #: ../src/mail/e-mail-reader.c:2085
 msgid "A_pply Filters"
-msgstr ""
+msgstr "Apliche _filtris"
 
 #: ../src/mail/e-mail-reader.c:2087
 msgid "Apply filter rules to the selected messages"
@@ -16719,15 +16717,15 @@ msgstr ""
 
 #: ../src/mail/e-mail-reader.c:2092
 msgid "_Find in Message..."
-msgstr ""
+msgstr "Cj_ate tal messaç..."
 
 #: ../src/mail/e-mail-reader.c:2094
 msgid "Search for text in the body of the displayed message"
-msgstr ""
+msgstr "Cîr test intal cuarp dal messaç mostrât"
 
 #: ../src/mail/e-mail-reader.c:2099
 msgid "_Clear Flag"
-msgstr ""
+msgstr "_Nete segn"
 
 #: ../src/mail/e-mail-reader.c:2101
 msgid "Remove the follow-up flag from the selected messages"
@@ -16735,7 +16733,7 @@ msgstr ""
 
 #: ../src/mail/e-mail-reader.c:2106
 msgid "_Flag Completed"
-msgstr ""
+msgstr "Segne come co_mpletât"
 
 #: ../src/mail/e-mail-reader.c:2108
 msgid "Set the follow-up flag to completed on the selected messages"
@@ -16752,52 +16750,52 @@ msgstr ""
 #: ../src/mail/e-mail-reader.c:2120
 #: ../src/modules/mail/e-mail-attachment-handler.c:430
 msgid "_Attached"
-msgstr ""
+msgstr "_Alegât"
 
 #: ../src/mail/e-mail-reader.c:2122 ../src/mail/e-mail-reader.c:2129
 #: ../src/modules/mail/e-mail-attachment-handler.c:432
 msgid "Forward the selected message to someone as an attachment"
-msgstr ""
+msgstr "Mande indenant come zonte a cualchidun, il messaç selezionât"
 
 #: ../src/mail/e-mail-reader.c:2127
 msgid "Forward As _Attached"
-msgstr ""
+msgstr "Mande indenant come _zonte"
 
 #: ../src/mail/e-mail-reader.c:2134
 #: ../src/modules/mail/e-mail-attachment-handler.c:437
 msgid "_Inline"
-msgstr ""
+msgstr "_Incorporât"
 
 #: ../src/mail/e-mail-reader.c:2136 ../src/mail/e-mail-reader.c:2143
 #: ../src/modules/mail/e-mail-attachment-handler.c:439
 msgid "Forward the selected message in the body of a new message"
-msgstr ""
+msgstr "Mande indenant il messaç selezionât tal cuarp di un gnûf messaç"
 
 #: ../src/mail/e-mail-reader.c:2141
 msgid "Forward As _Inline"
-msgstr ""
+msgstr "Mande indenant come _Incorporât"
 
 #: ../src/mail/e-mail-reader.c:2148
 #: ../src/modules/mail/e-mail-attachment-handler.c:444
 msgid "_Quoted"
-msgstr ""
+msgstr "_Citât"
 
 #: ../src/mail/e-mail-reader.c:2150 ../src/mail/e-mail-reader.c:2157
 #: ../src/modules/mail/e-mail-attachment-handler.c:446
 msgid "Forward the selected message quoted like a reply"
-msgstr ""
+msgstr "Mande indenant il messaç selezionât citât come intune rispueste"
 
 #: ../src/mail/e-mail-reader.c:2155
 msgid "Forward As _Quoted"
-msgstr ""
+msgstr "Mande indenant come _citât"
 
 #: ../src/mail/e-mail-reader.c:2162
 msgid "_Load Images"
-msgstr ""
+msgstr "Cjarie _imagjins"
 
 #: ../src/mail/e-mail-reader.c:2164
 msgid "Force images in HTML mail to be loaded"
-msgstr ""
+msgstr "Sfuarce il cjariament des imagjins de pueste in HTML"
 
 #: ../src/mail/e-mail-reader.c:2169 ../src/mail/e-mail-reader.c:2559
 msgid "_Ignore Subthread"
@@ -16817,35 +16815,35 @@ msgstr ""
 
 #: ../src/mail/e-mail-reader.c:2183
 msgid "_Important"
-msgstr ""
+msgstr "_Impuartant"
 
 #: ../src/mail/e-mail-reader.c:2185
 msgid "Mark the selected messages as important"
-msgstr ""
+msgstr "Segne i messaçs selezionâts come impuartants"
 
 #: ../src/mail/e-mail-reader.c:2190
 msgid "_Junk"
-msgstr ""
+msgstr "Mal_volût"
 
 #: ../src/mail/e-mail-reader.c:2192
 msgid "Mark the selected messages as junk"
-msgstr ""
+msgstr "Segne i messaçs selezionâts come malvolûts"
 
 #: ../src/mail/e-mail-reader.c:2197
 msgid "_Not Junk"
-msgstr ""
+msgstr "_No malvolût"
 
 #: ../src/mail/e-mail-reader.c:2199
 msgid "Mark the selected messages as not being junk"
-msgstr ""
+msgstr "Segne i messaçs selezionâts come no malvolûts"
 
 #: ../src/mail/e-mail-reader.c:2204
 msgid "_Read"
-msgstr ""
+msgstr "_Let"
 
 #: ../src/mail/e-mail-reader.c:2206
 msgid "Mark the selected messages as having been read"
-msgstr ""
+msgstr "Segne i messaçs selezionâts come se fossin stâts lets"
 
 #: ../src/mail/e-mail-reader.c:2211 ../src/mail/e-mail-reader.c:2583
 msgid "Do not _Ignore Subthread"
@@ -16865,125 +16863,125 @@ msgstr ""
 
 #: ../src/mail/e-mail-reader.c:2225
 msgid "Uni_mportant"
-msgstr ""
+msgstr "No _impuartant"
 
 #: ../src/mail/e-mail-reader.c:2227
 msgid "Mark the selected messages as unimportant"
-msgstr ""
+msgstr "Segne i messaçs selezionâts come no impuartants"
 
 #: ../src/mail/e-mail-reader.c:2232
 msgid "_Unread"
-msgstr ""
+msgstr "N_o let"
 
 #: ../src/mail/e-mail-reader.c:2234
 msgid "Mark the selected messages as not having been read"
-msgstr ""
+msgstr "Segne i messaçs selezionâts come se no fossin stâts lets"
 
 #: ../src/mail/e-mail-reader.c:2239
 #: ../src/modules/mail/e-mail-attachment-handler.c:416
 msgid "_Edit as New Message..."
-msgstr ""
+msgstr "_Modifiche come gnûf messaç..."
 
 #: ../src/mail/e-mail-reader.c:2241
 #: ../src/modules/mail/e-mail-attachment-handler.c:418
 msgid "Open the selected messages in the composer for editing"
-msgstr ""
+msgstr "Vierç i messaçs selezionâts tal compositôr pe modifiche"
 
 #: ../src/mail/e-mail-reader.c:2246
 msgid "Compose _New Message"
-msgstr ""
+msgstr "Scrîf _gnûf messaç"
 
 #: ../src/mail/e-mail-reader.c:2248
 msgid "Open a window for composing a mail message"
-msgstr ""
+msgstr "Vierç un barcon par componi un messaç di pueste"
 
 #: ../src/mail/e-mail-reader.c:2253
 msgid "_Open in New Window"
-msgstr ""
+msgstr "_Vierç intun gnûf barcon"
 
 #: ../src/mail/e-mail-reader.c:2255
 msgid "Open the selected messages in a new window"
-msgstr ""
+msgstr "Vierç i messaç selezionâts intun gnûf barcon"
 
 #: ../src/mail/e-mail-reader.c:2260
 msgid "_Move to Folder..."
-msgstr ""
+msgstr "_Sposte te cartele..."
 
 #: ../src/mail/e-mail-reader.c:2262
 msgid "Move selected messages to another folder"
-msgstr ""
+msgstr "Sposte i messaçs selezionâts intune altre cartele"
 
 #: ../src/mail/e-mail-reader.c:2267
 msgid "_Next Message"
-msgstr ""
+msgstr "Messaç s_ucessîf"
 
 #: ../src/mail/e-mail-reader.c:2269
 msgid "Display the next message"
-msgstr ""
+msgstr "Mostre il prossim messaç"
 
 #: ../src/mail/e-mail-reader.c:2274
 msgid "Next _Important Message"
-msgstr ""
+msgstr "Messaç _impuartant sucessîf"
 
 #: ../src/mail/e-mail-reader.c:2276
 msgid "Display the next important message"
-msgstr ""
+msgstr "Mostre il prossim messaç impuartant"
 
 #: ../src/mail/e-mail-reader.c:2281
 msgid "Next _Thread"
-msgstr ""
+msgstr "_Discussion sucessive"
 
 #: ../src/mail/e-mail-reader.c:2283
 msgid "Display the next thread"
-msgstr ""
+msgstr "Mostre la prossime discussion"
 
 #: ../src/mail/e-mail-reader.c:2288
 msgid "Next _Unread Message"
-msgstr ""
+msgstr "Messaç _no let sucessîf"
 
 #: ../src/mail/e-mail-reader.c:2290
 msgid "Display the next unread message"
-msgstr ""
+msgstr "Mostre il prossim messaç no let"
 
 #: ../src/mail/e-mail-reader.c:2295
 msgid "_Previous Message"
-msgstr ""
+msgstr "Messaç _precedent"
 
 #: ../src/mail/e-mail-reader.c:2297
 msgid "Display the previous message"
-msgstr ""
+msgstr "Mostre il precedent messaç"
 
 #: ../src/mail/e-mail-reader.c:2302
 msgid "Pr_evious Important Message"
-msgstr ""
+msgstr "Messaç impuartant pr_ecedent"
 
 #: ../src/mail/e-mail-reader.c:2304
 msgid "Display the previous important message"
-msgstr ""
+msgstr "Mostre il precedent messaç impuartant"
 
 #: ../src/mail/e-mail-reader.c:2309
 msgid "Previous T_hread"
-msgstr ""
+msgstr "D_iscussion precedente"
 
 #: ../src/mail/e-mail-reader.c:2311
 msgid "Display the previous thread"
-msgstr ""
+msgstr "Mostre la discussion precedente"
 
 #: ../src/mail/e-mail-reader.c:2316
 msgid "P_revious Unread Message"
-msgstr ""
+msgstr "Messaç no let p_recedent"
 
 #: ../src/mail/e-mail-reader.c:2318
 msgid "Display the previous unread message"
-msgstr ""
+msgstr "Mostre il precedent messaç no let"
 
 #: ../src/mail/e-mail-reader.c:2325
 msgid "Print this message"
-msgstr ""
+msgstr "Stampe chest messaç"
 
 #: ../src/mail/e-mail-reader.c:2332
 msgid "Preview the message to be printed"
-msgstr ""
+msgstr "Anteprime di stampe dal messaç"
 
 #: ../src/mail/e-mail-reader.c:2337
 #: ../src/modules/mail/e-mail-attachment-handler.c:451
@@ -16997,35 +16995,35 @@ msgstr ""
 
 #: ../src/mail/e-mail-reader.c:2344
 msgid "Remo_ve Attachments"
-msgstr ""
+msgstr "Gja_ve zontis"
 
 #: ../src/mail/e-mail-reader.c:2346
 msgid "Remove attachments"
-msgstr ""
+msgstr "Gjave lis zontis"
 
 #: ../src/mail/e-mail-reader.c:2351
 msgid "Remove Du_plicate Messages"
-msgstr ""
+msgstr "Gjave messaçs do_plis"
 
 #: ../src/mail/e-mail-reader.c:2353
 msgid "Checks selected messages for duplicates"
-msgstr ""
+msgstr "Verifiche la presince di doplis tai messaçs selezionâts"
 
 #: ../src/mail/e-mail-reader.c:2358 ../src/mail/mail.error.xml.h:28
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1430
 #: ../src/modules/mail/e-mail-attachment-handler.c:395
 msgid "Reply to _All"
-msgstr ""
+msgstr "Rispuint a _ducj"
 
 #: ../src/mail/e-mail-reader.c:2360
 #: ../src/modules/mail/e-mail-attachment-handler.c:397
 msgid "Compose a reply to all the recipients of the selected message"
-msgstr ""
+msgstr "Scrîf une rispueste a ducj i destinataris dal messaç selezionât"
 
 #: ../src/mail/e-mail-reader.c:2365 ../src/mail/mail.error.xml.h:26
 #: ../src/modules/mail/e-mail-attachment-handler.c:402
 msgid "Reply to _List"
-msgstr ""
+msgstr "Rispuint ae _liste"
 
 #: ../src/mail/e-mail-reader.c:2367
 #: ../src/modules/mail/e-mail-attachment-handler.c:404
@@ -17035,24 +17033,24 @@ msgstr ""
 #: ../src/mail/e-mail-reader.c:2372
 #: ../src/modules/mail/e-mail-attachment-handler.c:409
 msgid "_Reply to Sender"
-msgstr ""
+msgstr "_Rispuint al mitent"
 
 #: ../src/mail/e-mail-reader.c:2374
 #: ../src/modules/mail/e-mail-attachment-handler.c:411
 msgid "Compose a reply to the sender of the selected message"
-msgstr ""
+msgstr "Scrîf une rispueste al mitent dal messaç selezionât"
 
 #: ../src/mail/e-mail-reader.c:2379
 msgid "_Save as mbox..."
-msgstr ""
+msgstr "_Salve come mbox..."
 
 #: ../src/mail/e-mail-reader.c:2381
 msgid "Save selected messages as an mbox file"
-msgstr ""
+msgstr "Salve i messaçs selezionâts come un file mbox"
 
 #: ../src/mail/e-mail-reader.c:2386
 msgid "_Message Source"
-msgstr ""
+msgstr "Sorzint _messaç"
 
 #: ../src/mail/e-mail-reader.c:2388
 msgid "Show the raw email source of the message"
@@ -17068,56 +17066,56 @@ msgstr ""
 
 #: ../src/mail/e-mail-reader.c:2407
 msgid "_Normal Size"
-msgstr ""
+msgstr "Dimension _normâl"
 
 #: ../src/mail/e-mail-reader.c:2409
 msgid "Reset the text to its original size"
-msgstr ""
+msgstr "Torne met il test ae sô dimension origjinâl"
 
 #: ../src/mail/e-mail-reader.c:2414
 msgid "_Zoom In"
-msgstr ""
+msgstr "Aum_ente ingrandiment"
 
 #: ../src/mail/e-mail-reader.c:2416
 msgid "Increase the text size"
-msgstr ""
+msgstr "Aumente la dimension dal test"
 
 #: ../src/mail/e-mail-reader.c:2423
 msgid "Decrease the text size"
-msgstr ""
+msgstr "Diminuìs la dimension dal test"
 
 #: ../src/mail/e-mail-reader.c:2430
 msgid "Cre_ate"
-msgstr ""
+msgstr "Cre_e"
 
 #: ../src/mail/e-mail-reader.c:2437
 msgid "Ch_aracter Encoding"
-msgstr ""
+msgstr "Codifiche dai c_aratars"
 
 #: ../src/mail/e-mail-reader.c:2444
 #: ../src/modules/mail/e-mail-attachment-handler.c:423
 msgid "F_orward As"
-msgstr ""
+msgstr "Ma_nde indenant come"
 
 #: ../src/mail/e-mail-reader.c:2451
 msgid "_Group Reply"
-msgstr ""
+msgstr "Rispueste di _grup"
 
 #: ../src/mail/e-mail-reader.c:2458
 msgid "_Go To"
-msgstr ""
+msgstr "_Va a"
 
 #: ../src/mail/e-mail-reader.c:2465
 msgid "Mar_k As"
-msgstr ""
+msgstr "Segne _come"
 
 #: ../src/mail/e-mail-reader.c:2472
 msgid "_Message"
-msgstr ""
+msgstr "_Messaç"
 
 #: ../src/mail/e-mail-reader.c:2479
 msgid "_Zoom"
-msgstr ""
+msgstr "In_grandiment"
 
 #: ../src/mail/e-mail-reader.c:2489
 msgid "Create a Search Folder from Mailing _List..."
@@ -17165,7 +17163,7 @@ msgstr "Segne come _malvolude"
 
 #: ../src/mail/e-mail-reader.c:2575
 msgid "Mark as _Not Junk"
-msgstr "Segne come _buine"
+msgstr "Segne come _no malvolût"
 
 #: ../src/mail/e-mail-reader.c:2579
 msgid "Mar_k as Read"
@@ -17252,19 +17250,19 @@ msgstr "Permet il contignût rimot par %s"
 #: ../src/mail/e-mail-reader.c:5443
 #, c-format
 msgid "Allow remote content from %s"
-msgstr ""
+msgstr "Permet contignût rimot di %s"
 
 #: ../src/mail/e-mail-reader.c:5460
 msgid "Do not show this message again"
-msgstr ""
+msgstr "No stâ mostrâ plui chest messaç"
 
 #: ../src/mail/e-mail-reader.c:5508
 msgid "Load remote content"
-msgstr ""
+msgstr "Cjarie contignût rimot"
 
 #: ../src/mail/e-mail-reader-utils.c:144
 msgid "Do not warn me again"
-msgstr ""
+msgstr "No stâ visâmi plui"
 
 #: ../src/mail/e-mail-reader-utils.c:568
 #, c-format
@@ -17290,7 +17288,7 @@ msgstr ""
 
 #: ../src/mail/e-mail-reader-utils.c:1439
 msgid "Printing"
-msgstr ""
+msgstr "Daûr a stampâ"
 
 #. Translators: %s is replaced with a folder
 #. * name %u with count of duplicate messages.
@@ -17302,14 +17300,14 @@ msgid ""
 msgid_plural ""
 "Folder “%s” contains %u duplicate messages. Are you sure you want to delete "
 "them?"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "La cartele “%s” e conten %u messaç dopli. Sigûrs di eliminâlu?"
+msgstr[1] "La cartele “%s” e conten %u messaçs doplis. Sigûrs di eliminâju?"
 
 #: ../src/mail/e-mail-reader-utils.c:2694
 msgid "Save Message"
 msgid_plural "Save Messages"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Salve messaç"
+msgstr[1] "Salve messaçs"
 
 #. Translators: This is part of a suggested file name
 #. * used when saving a message or multiple messages to
@@ -17319,16 +17317,16 @@ msgstr[1] ""
 #: ../src/mail/e-mail-reader-utils.c:2715
 msgid "Message"
 msgid_plural "Messages"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Messaç"
+msgstr[1] "Messaçs"
 
 #: ../src/mail/e-mail-reader-utils.c:3088
 msgid "Parsing message"
-msgstr ""
+msgstr "Daûr a analizâ il messaç"
 
 #: ../src/mail/e-mail-request.c:270
 msgid "The message has no text content."
-msgstr ""
+msgstr "Il messaç nol à test."
 
 #: ../src/mail/e-mail-tag-editor.c:163
 msgid "Flag to Follow Up"
@@ -17337,12 +17335,12 @@ msgstr ""
 #: ../src/mail/e-mail-ui-session.c:813
 #, c-format
 msgid "%s authentication failed"
-msgstr ""
+msgstr "Autenticazion %s falide"
 
 #: ../src/mail/e-mail-ui-session.c:863
 #, c-format
 msgid "No data source found for UID “%s”"
-msgstr ""
+msgstr "Nissune sorzint dâts cjatade pal UID “%s”"
 
 #. Translators: The %d is replaced with the actual count of recipients, which is always more than one.
 #: ../src/mail/em-composer-utils.c:388
@@ -17350,8 +17348,8 @@ msgstr ""
 msgid "Are you sure you want to send a message with %d To and CC recipients?"
 msgid_plural ""
 "Are you sure you want to send a message with %d To and CC recipients?"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Sigûrs di inviâ un messaç cun %d destinataris A e CC?"
+msgstr[1] "Sigûrs di inviâ un messaç cun %d destinataris A e CC?"
 
 #. Translators: The %d is replaced with the actual count of recipients, which is always more than one.
 #: ../src/mail/em-composer-utils.c:394
@@ -17369,13 +17367,23 @@ msgid_plural ""
 "other or if privacy is a concern. Consider adding recipients to the BCC "
 "field instead."
 msgstr[0] ""
+"Si sta cirint di inviâ un messaç a %d destinataris tai cjamps A e CC. Chest "
+"al significhe che ducj i destinataris a podaran viodi lis direzions e-mail "
+"di chei altris. In cualchi câs chest mût di fâ nol è viodût di biel voli, "
+"soredut se no si cognossin tra di lôr o se la riservatece e je une "
+"preocupazion. Considere invezit di zontâ i destinataris tal cjamp CCP."
 msgstr[1] ""
+"Si sta cirint di inviâ un messaç a %d destinataris tai cjamps A e CC. Chest "
+"al significhe che ducj i destinataris a podaran viodi lis direzions e-mail "
+"di chei altris. In cualchi câs chest mût di fâ nol è viodût di biel voli, "
+"soredut se no si cognossin tra di lôr o se la riservatece e je une "
+"preocupazion. Considere invezit di zontâ i destinataris tal cjamp CCP."
 
 #. This message is never removed from the camel operation, otherwise the GtkInfoBar
 #. hides itself and the user sees no feedback.
 #: ../src/mail/em-composer-utils.c:790
 msgid "Waiting for attachments to load..."
-msgstr ""
+msgstr "In spiete de zonte di cjariâ..."
 
 #. Note to translators: this is the attribution string used
 #. * when quoting messages.  Each ${Variable} gets replaced
@@ -17386,136 +17394,138 @@ msgid ""
 "On ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} at ${24Hour}:${Minute} "
 "${TimeZone}, ${Sender} wrote:"
 msgstr ""
+"Il ${AbbrevWeekdayName}, ${Day}/${Month}/${Year} aes ${24Hour}:${Minute} "
+"${TimeZone}, il mitent ${Sender} al scrivè:"
 
 #: ../src/mail/em-composer-utils.c:1749
 msgid "-------- Forwarded Message --------"
-msgstr ""
+msgstr "------ Messaç mandât indenant -----"
 
 #: ../src/mail/em-composer-utils.c:1754
 msgid "-----Original Message-----"
-msgstr ""
+msgstr "-----Messaç origjinâl-----"
 
 #: ../src/mail/em-composer-utils.c:3008
 msgid "an unknown sender"
-msgstr ""
+msgstr "un mitent no cognossût"
 
 #. FIXME GTK_WINDOW (composer)
 #: ../src/mail/em-composer-utils.c:3484
 msgid "Posting destination"
-msgstr ""
+msgstr "Destinazion di publicazion"
 
 #: ../src/mail/em-composer-utils.c:3489
 msgid "Choose folders to post the message to."
-msgstr ""
+msgstr "Sielzi lis cartelis dulà publicâ il messaç."
 
 #: ../src/mail/em-filter-editor-folder-element.c:154
 msgid "Select Folder"
-msgstr ""
+msgstr "Selezionâ cartele"
 
 #. and now for the action area
 #: ../src/mail/em-filter-rule.c:595
 msgid "Then"
-msgstr ""
+msgstr "Alore"
 
 #: ../src/mail/em-filter-rule.c:660
 msgid "Add Ac_tion"
-msgstr ""
+msgstr "Zonte a_zion"
 
 #: ../src/mail/em-folder-properties.c:225
 msgid "Unread messages:"
 msgid_plural "Unread messages:"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Messaçs no lets:"
+msgstr[1] "Messaçs no lets:"
 
 #: ../src/mail/em-folder-properties.c:236
 msgid "Total messages:"
 msgid_plural "Total messages:"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Messaçs in totâl:"
+msgstr[1] "Messaçs in totâl:"
 
 #: ../src/mail/em-folder-properties.c:257
 #, c-format
 msgid "Quota usage (%s):"
-msgstr ""
+msgstr "Utilizazion de cuote (%s):"
 
 #: ../src/mail/em-folder-properties.c:259
 #, c-format
 msgid "Quota usage"
-msgstr ""
+msgstr "Utilizazion de cuote"
 
 #. Translators: Label of a combo with a list of configured accounts where a user can
 #. choose which account to use as the sender when composing a message in this folder
 #: ../src/mail/em-folder-properties.c:383
 msgid "_Send Account Override:"
-msgstr ""
+msgstr "Account par inviâ sostitutîf:"
 
 #: ../src/mail/em-folder-properties.c:587
 msgid "_Archive this folder using these settings:"
-msgstr ""
+msgstr "_Archivie cheste cartele doprant chestis impostazions:"
 
 #. Translators: This text is part of "Cleanup messages older than [X] [days/weeks/months]"
 #: ../src/mail/em-folder-properties.c:596
 msgctxt "autoarchive"
 msgid "_Cleanup messages older than"
-msgstr ""
+msgstr "_Nete i messaçs plui vecjos di"
 
 #. Translators: This text is part of "Cleanup messages older than [X] [days/weeks/months]"
 #: ../src/mail/em-folder-properties.c:612
 msgctxt "autoarchive"
 msgid "days"
-msgstr ""
+msgstr "dîs"
 
 #. Translators: This text is part of "Cleanup messages older than [X] [days/weeks/months]"
 #: ../src/mail/em-folder-properties.c:614
 msgctxt "autoarchive"
 msgid "weeks"
-msgstr ""
+msgstr "setemanis"
 
 #. Translators: This text is part of "Cleanup messages older than [X] [days/weeks/months]"
 #: ../src/mail/em-folder-properties.c:616
 msgctxt "autoarchive"
 msgid "months"
-msgstr ""
+msgstr "mês"
 
 #: ../src/mail/em-folder-properties.c:622
 msgid "Move old messages to the default archive _folder"
-msgstr ""
+msgstr "Spostâ i vecjos messaçs te _cartele archivi predefinide"
 
 #: ../src/mail/em-folder-properties.c:633
 msgid "_Move old messages to:"
-msgstr ""
+msgstr "_Spostâ i vecjos messaçs in:"
 
 #: ../src/mail/em-folder-properties.c:637
 msgid "AutoArchive folder"
-msgstr ""
+msgstr "Cartele di archivi automatic"
 
 #: ../src/mail/em-folder-properties.c:637
 msgid "Select folder to use for AutoArchive"
-msgstr ""
+msgstr "Selezione une cartele di doprâ pal archivi automatic"
 
 #: ../src/mail/em-folder-properties.c:643
 msgid "_Delete old messages"
-msgstr ""
+msgstr "_Eliminâ i vecjos messaçs"
 
 #: ../src/mail/em-folder-properties.c:702
 msgid "AutoArchive"
-msgstr ""
+msgstr "Archivi automatic"
 
 #: ../src/mail/em-folder-properties.c:781
 msgid "Folder Properties"
-msgstr ""
+msgstr "Proprietâts cartele"
 
 #: ../src/mail/em-folder-selection-button.c:77
 msgid "<click here to select a folder>"
-msgstr ""
+msgstr "<fâs clic chi par selezionâ une cartele>"
 
 #: ../src/mail/em-folder-selector.c:399
 msgid "Create a new folder"
-msgstr ""
+msgstr "Cree une gnove cartele"
 
 #: ../src/mail/em-folder-tree.c:683
 msgid "Folder names cannot contain “/”"
-msgstr ""
+msgstr "I nons des cartelis no puedin vê “/”"
 
 #. Translators: This is the string used for displaying the
 #. * folder names in folder trees. The first "%s" will be
@@ -17539,126 +17549,127 @@ msgstr ""
 #, c-format
 msgctxt "folder-display"
 msgid "%s (%u%s)"
-msgstr ""
+msgstr "%s (%u%s)"
 
 #: ../src/mail/em-folder-tree.c:1704
 msgid "Mail Folder Tree"
-msgstr ""
+msgstr "Arbul cartelis di pueste"
 
 #: ../src/mail/em-folder-tree.c:2252 ../src/mail/em-folder-utils.c:83
 #, c-format
 msgid "Moving folder %s"
-msgstr ""
+msgstr "Daûr a spostâ la cartele %s"
 
 #: ../src/mail/em-folder-tree.c:2255 ../src/mail/em-folder-utils.c:85
 #, c-format
 msgid "Copying folder %s"
-msgstr ""
+msgstr "Daûr a copiâ la cartele %s"
 
 #: ../src/mail/em-folder-tree.c:2262 ../src/mail/message-list.c:2503
 #, c-format
 msgid "Moving messages into folder %s"
-msgstr ""
+msgstr "Daûr a spostâ i messaçs te cartele %s"
 
 #: ../src/mail/em-folder-tree.c:2266 ../src/mail/message-list.c:2505
 #, c-format
 msgid "Copying messages into folder %s"
-msgstr ""
+msgstr "Daûr a copiâ i messaçs te cartele %s"
 
 #: ../src/mail/em-folder-tree.c:2285
 #, c-format
 msgid "Cannot drop message(s) into toplevel store"
-msgstr ""
+msgstr "Impussibil molâ il/i messaç(s) tal archivi di prin nivel"
 
 #. UNMATCHED is always last.
 #: ../src/mail/em-folder-tree-model.c:445
 #: ../src/mail/em-folder-tree-model.c:447
 msgid "UNMATCHED"
-msgstr ""
+msgstr "NISSUNE CORISPUINDINCE"
 
 #: ../src/mail/em-folder-tree-model.c:1302
 #: ../src/mail/em-folder-tree-model.c:1678
 msgid "Loading..."
-msgstr ""
+msgstr "Daûr a cjariâ..."
 
 #: ../src/mail/em-folder-utils.c:489
 msgid "Move Folder To"
-msgstr ""
+msgstr "Sposte cartele su"
 
 #: ../src/mail/em-folder-utils.c:489
 msgid "Copy Folder To"
-msgstr ""
+msgstr "Copie cartele su"
 
 #: ../src/mail/em-subscription-editor.c:855
 msgid "_Subscribe"
-msgstr ""
+msgstr "_Sotscrîf"
 
 #: ../src/mail/em-subscription-editor.c:864
 msgid "Su_bscribe To Shown"
-msgstr ""
+msgstr "So_tscrîf par mostrâ"
 
 #: ../src/mail/em-subscription-editor.c:872
 msgid "Subscribe To _All"
-msgstr ""
+msgstr "Sotscrîf _a ducj"
 
 #: ../src/mail/em-subscription-editor.c:970
 #: ../src/mail/em-subscription-editor.c:1914 ../src/mail/mail.error.xml.h:73
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1770
 msgid "_Unsubscribe"
-msgstr ""
+msgstr "_Anule sotscrizion"
 
 #: ../src/mail/em-subscription-editor.c:979
+#, fuzzy
 msgid "Unsu_bscribe From Hidden"
-msgstr ""
+msgstr "Anule _sotscrizion di platât"
 
 #: ../src/mail/em-subscription-editor.c:987
 msgid "Unsubscribe From _All"
-msgstr ""
+msgstr "Anule sotscrizion di _dutis"
 
 #: ../src/mail/em-subscription-editor.c:1339
 #: ../src/modules/mail/e-mail-shell-view-private.c:1029
 #, c-format
 msgid "%d unread, "
 msgid_plural "%d unread, "
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d no let, "
+msgstr[1] "%d no lets, "
 
 #: ../src/mail/em-subscription-editor.c:1343
 #: ../src/modules/mail/e-mail-shell-view-private.c:1039
 #, c-format
 msgid "%d total"
 msgid_plural "%d total"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d in totâl"
+msgstr[1] "%d in totâl"
 
 #: ../src/mail/em-subscription-editor.c:1755
 msgid "Folder Subscriptions"
-msgstr ""
+msgstr "Sotscrizions cartele"
 
 #: ../src/mail/em-subscription-editor.c:1790
 msgid "_Account:"
-msgstr ""
+msgstr "_Account:"
 
 #: ../src/mail/em-subscription-editor.c:1803
 msgid "Clear Search"
-msgstr ""
+msgstr "Nete ricercje"
 
 #: ../src/mail/em-subscription-editor.c:1820
 msgid "Sho_w items that contain:"
-msgstr ""
+msgstr "M_ostrâ i elements che a contegnin:"
 
 #: ../src/mail/em-subscription-editor.c:1867
 msgid "Subscribe to the selected folder"
-msgstr ""
+msgstr "Sotscrîf ae cartele selezionade"
 
 #: ../src/mail/em-subscription-editor.c:1868
 msgid "Su_bscribe"
-msgstr ""
+msgstr "So_tscrîf"
 
 #: ../src/mail/em-subscription-editor.c:1913
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1772
 msgid "Unsubscribe from the selected folder"
-msgstr ""
+msgstr "Anule la sotscrizion ae cartele selezionade"
 
 #: ../src/mail/em-subscription-editor.c:1953
 msgid "Collapse all folders"
@@ -17670,30 +17681,30 @@ msgstr ""
 
 #: ../src/mail/em-subscription-editor.c:1964
 msgid "Expand all folders"
-msgstr ""
+msgstr "Pant dutis lis cartelis"
 
 #: ../src/mail/em-subscription-editor.c:1965
 msgid "E_xpand All"
-msgstr ""
+msgstr "_Pant dutis"
 
 #: ../src/mail/em-subscription-editor.c:1975
 msgid "Refresh the folder list"
-msgstr ""
+msgstr "Inzorne la liste des cartelis"
 
 #: ../src/mail/em-subscription-editor.c:1976
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1671
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1742
 msgid "_Refresh"
-msgstr ""
+msgstr "_Inzorne"
 
 #: ../src/mail/em-subscription-editor.c:1987
 msgid "Stop the current operation"
-msgstr ""
+msgstr "Ferme la operazion atuâl"
 
 #: ../src/mail/em-subscription-editor.c:1988
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:999
 msgid "_Stop"
-msgstr ""
+msgstr "_Ferme"
 
 #. Translators: This message is shown only for ten or more
 #. * messages to be opened.  The %d is replaced with the actual
@@ -17708,40 +17719,42 @@ msgstr[1] ""
 
 #: ../src/mail/em-utils.c:178
 msgid "Message Filters"
-msgstr ""
+msgstr "Filtris dai messaçs"
 
 #: ../src/mail/em-utils.c:950
 #, c-format
 msgid "Messages from %s"
-msgstr ""
+msgstr "Messaçs di %s"
 
 #: ../src/mail/em-utils.c:1707
 msgid "Deleting old messages"
-msgstr ""
+msgstr "Daûr a eliminâ i messaçs vecjos"
 
 #: ../src/mail/em-vfolder-editor.c:102
 msgid "Search _Folders"
-msgstr ""
+msgstr "_Cartele di ricercje"
 
 #: ../src/mail/em-vfolder-editor-rule.c:393
 msgid "Add Folder"
-msgstr ""
+msgstr "Zonte cartele"
 
 #: ../src/mail/em-vfolder-editor-rule.c:522
 msgid "Search Folder Sources"
-msgstr ""
+msgstr "Sorzints cartelis di ricercje"
 
 #: ../src/mail/em-vfolder-editor-rule.c:554
 msgid "Automatically update on any _source folder change"
-msgstr ""
+msgstr "Inzorne in automatic a ogni cambiament de cartele _sorzint"
 
+# controllare plurale femminile âl âi âls
 #: ../src/mail/em-vfolder-editor-rule.c:566
+#, fuzzy
 msgid "All local folders"
-msgstr ""
+msgstr "Dutis lis cartelis locâls"
 
 #: ../src/mail/em-vfolder-editor-rule.c:567
 msgid "All active remote folders"
-msgstr ""
+msgstr "Dutis lis cartelis rimotis ativis"
 
 #: ../src/mail/em-vfolder-editor-rule.c:568
 msgid "All local and active remote folders"
@@ -17749,36 +17762,44 @@ msgstr ""
 
 #: ../src/mail/em-vfolder-editor-rule.c:569
 msgid "Specific folders"
-msgstr ""
+msgstr "Cartelis specificadis"
 
 #: ../src/mail/em-vfolder-editor-rule.c:607
 msgid "include subfolders"
-msgstr ""
+msgstr "includi sot-cartelis"
 
 #: ../src/mail/filtertypes.xml.in.h:1 ../src/mail/message-list.etspec.h:15
 #: ../src/mail/searchtypes.xml.in.h:1 ../src/mail/vfoldertypes.xml.in.h:1
 msgid "Sender"
-msgstr ""
+msgstr "Mitent"
 
+# m o f? al tache o e tache
 #: ../src/mail/filtertypes.xml.in.h:6 ../src/mail/searchtypes.xml.in.h:6
 #: ../src/mail/vfoldertypes.xml.in.h:6
+#, fuzzy
 msgid "starts with"
-msgstr ""
+msgstr "al tache cun"
 
+# m o f?
 #: ../src/mail/filtertypes.xml.in.h:7 ../src/mail/searchtypes.xml.in.h:7
 #: ../src/mail/vfoldertypes.xml.in.h:7
+#, fuzzy
 msgid "does not start with"
-msgstr ""
+msgstr "nol tache cun"
 
+# m o f?
 #: ../src/mail/filtertypes.xml.in.h:8 ../src/mail/searchtypes.xml.in.h:8
 #: ../src/mail/vfoldertypes.xml.in.h:8
+#, fuzzy
 msgid "ends with"
-msgstr ""
+msgstr "al finìs cun"
 
+# m o f?
 #: ../src/mail/filtertypes.xml.in.h:9 ../src/mail/searchtypes.xml.in.h:9
 #: ../src/mail/vfoldertypes.xml.in.h:9
+#, fuzzy
 msgid "does not end with"
-msgstr ""
+msgstr "nol finìs cun"
 
 #: ../src/mail/filtertypes.xml.in.h:10 ../src/mail/searchtypes.xml.in.h:12
 #: ../src/mail/vfoldertypes.xml.in.h:12
@@ -17793,128 +17814,131 @@ msgstr ""
 #: ../src/mail/filtertypes.xml.in.h:12 ../src/mail/message-list.etspec.h:16
 #: ../src/mail/searchtypes.xml.in.h:10 ../src/mail/vfoldertypes.xml.in.h:10
 msgid "Recipients"
-msgstr ""
+msgstr "Destinataris"
 
 #: ../src/mail/filtertypes.xml.in.h:13 ../src/mail/searchtypes.xml.in.h:14
 #: ../src/mail/vfoldertypes.xml.in.h:14
 msgid "CC"
-msgstr ""
+msgstr "CC"
 
 #: ../src/mail/filtertypes.xml.in.h:14 ../src/mail/searchtypes.xml.in.h:15
 #: ../src/mail/vfoldertypes.xml.in.h:15
 msgid "BCC"
-msgstr ""
+msgstr "CCP"
 
 #: ../src/mail/filtertypes.xml.in.h:15 ../src/mail/searchtypes.xml.in.h:16
 #: ../src/mail/vfoldertypes.xml.in.h:16
 msgid "Sender or Recipients"
-msgstr ""
+msgstr "Mitent o destinataris"
 
+# m o f?
 #: ../src/mail/filtertypes.xml.in.h:17 ../src/mail/searchtypes.xml.in.h:18
 #: ../src/mail/vfoldertypes.xml.in.h:18
 msgid "has words"
-msgstr ""
+msgstr "e à lis peraulis"
 
 #: ../src/mail/filtertypes.xml.in.h:18 ../src/mail/searchtypes.xml.in.h:19
 #: ../src/mail/vfoldertypes.xml.in.h:19
 msgid "does not have words"
-msgstr ""
+msgstr "no à lis peraulis"
 
 #: ../src/mail/filtertypes.xml.in.h:19 ../src/mail/searchtypes.xml.in.h:20
 #: ../src/mail/vfoldertypes.xml.in.h:20
 msgid "Specific header"
-msgstr ""
+msgstr "Intestazion specifiche"
 
+# m o f?
 #: ../src/mail/filtertypes.xml.in.h:20 ../src/mail/searchtypes.xml.in.h:21
 #: ../src/mail/vfoldertypes.xml.in.h:21
 msgid "exists"
-msgstr ""
+msgstr "al esist"
 
+# m o f?
 #: ../src/mail/filtertypes.xml.in.h:21 ../src/mail/searchtypes.xml.in.h:22
 #: ../src/mail/vfoldertypes.xml.in.h:22
 msgid "does not exist"
-msgstr ""
+msgstr "nol esist"
 
 #: ../src/mail/filtertypes.xml.in.h:22 ../src/mail/searchtypes.xml.in.h:24
 #: ../src/mail/vfoldertypes.xml.in.h:24
 msgid "Message Body"
-msgstr ""
+msgstr "Cuarp messaç"
 
 #: ../src/mail/filtertypes.xml.in.h:23 ../src/mail/searchtypes.xml.in.h:25
 #: ../src/mail/vfoldertypes.xml.in.h:25
 msgid "Expression"
-msgstr ""
+msgstr "Espression"
 
 #: ../src/mail/filtertypes.xml.in.h:24 ../src/mail/searchtypes.xml.in.h:26
 #: ../src/mail/vfoldertypes.xml.in.h:26
 msgid "Free Form Expression"
-msgstr ""
+msgstr "Espression di forme libare"
 
 #: ../src/mail/filtertypes.xml.in.h:25 ../src/mail/searchtypes.xml.in.h:27
 #: ../src/mail/vfoldertypes.xml.in.h:27
 msgid "Date sent"
-msgstr ""
+msgstr "Date inviament"
 
 #: ../src/mail/filtertypes.xml.in.h:26 ../src/mail/searchtypes.xml.in.h:28
 #: ../src/mail/vfoldertypes.xml.in.h:28
 msgid "is before"
-msgstr ""
+msgstr "e je prime di"
 
 #: ../src/mail/filtertypes.xml.in.h:27 ../src/mail/searchtypes.xml.in.h:29
 #: ../src/mail/vfoldertypes.xml.in.h:29
 msgid "is after"
-msgstr ""
+msgstr "e je dopo di"
 
 #: ../src/mail/filtertypes.xml.in.h:28 ../src/mail/searchtypes.xml.in.h:30
 #: ../src/mail/vfoldertypes.xml.in.h:30
 msgid "Date received"
-msgstr ""
+msgstr "Date ricezion"
 
 #: ../src/mail/filtertypes.xml.in.h:29 ../src/mail/searchtypes.xml.in.h:31
 #: ../src/mail/vfoldertypes.xml.in.h:31
 msgid "Label"
-msgstr ""
+msgstr "Etichete"
 
 #: ../src/mail/filtertypes.xml.in.h:30 ../src/mail/message-list.etspec.h:3
 #: ../src/mail/searchtypes.xml.in.h:32 ../src/mail/vfoldertypes.xml.in.h:32
 msgid "Score"
-msgstr ""
+msgstr "Valutazion"
 
 #: ../src/mail/filtertypes.xml.in.h:33 ../src/mail/searchtypes.xml.in.h:35
 #: ../src/mail/vfoldertypes.xml.in.h:35
 msgid "Size (kB)"
-msgstr ""
+msgstr "Dimension (kB)"
 
 #: ../src/mail/filtertypes.xml.in.h:34 ../src/mail/searchtypes.xml.in.h:36
 #: ../src/mail/vfoldertypes.xml.in.h:36
 msgid "is greater than or equal to"
-msgstr ""
+msgstr "e je plui grande o compagne di"
 
 #: ../src/mail/filtertypes.xml.in.h:35 ../src/mail/searchtypes.xml.in.h:37
 #: ../src/mail/vfoldertypes.xml.in.h:37
 msgid "is less than or equal to"
-msgstr ""
+msgstr "e je mancul grande di o compagne di"
 
 #: ../src/mail/filtertypes.xml.in.h:37 ../src/mail/searchtypes.xml.in.h:39
 #: ../src/mail/vfoldertypes.xml.in.h:39
 msgid "Replied to"
-msgstr ""
+msgstr "Rispuindût a"
 
 #: ../src/mail/filtertypes.xml.in.h:39 ../src/mail/searchtypes.xml.in.h:42
 #: ../src/mail/vfoldertypes.xml.in.h:42
 msgid "Important"
-msgstr ""
+msgstr "Impuartant"
 
 #. Past tense, as in "has been read".
 #: ../src/mail/filtertypes.xml.in.h:40 ../src/mail/mail-dialogs.ui.h:15
 #: ../src/mail/searchtypes.xml.in.h:43 ../src/mail/vfoldertypes.xml.in.h:43
 msgid "Read"
-msgstr ""
+msgstr "Let"
 
 #: ../src/mail/filtertypes.xml.in.h:41 ../src/mail/mail-config.ui.h:130
 #: ../src/mail/vfoldertypes.xml.in.h:44
 msgid "Junk"
-msgstr ""
+msgstr "Malvolût"
 
 #: ../src/mail/filtertypes.xml.in.h:42 ../src/mail/searchtypes.xml.in.h:44
 #: ../src/mail/vfoldertypes.xml.in.h:45
@@ -17924,22 +17948,22 @@ msgstr ""
 #: ../src/mail/filtertypes.xml.in.h:43 ../src/mail/searchtypes.xml.in.h:45
 #: ../src/mail/vfoldertypes.xml.in.h:46
 msgid "is Flagged"
-msgstr ""
+msgstr "al è segnât"
 
 #: ../src/mail/filtertypes.xml.in.h:44 ../src/mail/searchtypes.xml.in.h:46
 #: ../src/mail/vfoldertypes.xml.in.h:47
 msgid "is not Flagged"
-msgstr ""
+msgstr "nol è segnât"
 
 #: ../src/mail/filtertypes.xml.in.h:45 ../src/mail/searchtypes.xml.in.h:47
 #: ../src/mail/vfoldertypes.xml.in.h:48
 msgid "is Completed"
-msgstr ""
+msgstr "al è completât"
 
 #: ../src/mail/filtertypes.xml.in.h:46 ../src/mail/searchtypes.xml.in.h:48
 #: ../src/mail/vfoldertypes.xml.in.h:49
 msgid "is not Completed"
-msgstr ""
+msgstr "nol è completât"
 
 #: ../src/mail/filtertypes.xml.in.h:51 ../src/mail/searchtypes.xml.in.h:53
 #: ../src/mail/vfoldertypes.xml.in.h:54
@@ -17949,114 +17973,114 @@ msgstr ""
 #: ../src/mail/filtertypes.xml.in.h:52 ../src/mail/searchtypes.xml.in.h:54
 #: ../src/mail/vfoldertypes.xml.in.h:55
 msgid "Regex Match"
-msgstr ""
+msgstr "Corispuindince espression regolâr"
 
 #: ../src/mail/filtertypes.xml.in.h:53 ../src/mail/searchtypes.xml.in.h:55
 #: ../src/mail/vfoldertypes.xml.in.h:56
 msgid "Message Header"
-msgstr ""
+msgstr "Intestazion messaç"
 
 #: ../src/mail/filtertypes.xml.in.h:54
 msgid "Source Account"
-msgstr ""
+msgstr "Account di origjin"
 
 #: ../src/mail/filtertypes.xml.in.h:55
 msgid "Pipe to Program"
-msgstr ""
+msgstr "Canâl al program"
 
 #: ../src/mail/filtertypes.xml.in.h:56
 msgid "returns"
-msgstr ""
+msgstr "al torne"
 
 #: ../src/mail/filtertypes.xml.in.h:57
 msgid "does not return"
-msgstr ""
+msgstr "nol torne"
 
 #: ../src/mail/filtertypes.xml.in.h:58
 msgid "returns greater than"
-msgstr ""
+msgstr "al torne plui di"
 
 #: ../src/mail/filtertypes.xml.in.h:59
 msgid "returns less than"
-msgstr ""
+msgstr "al torne mancul di"
 
 #: ../src/mail/filtertypes.xml.in.h:60
 msgid "Junk Test"
-msgstr ""
+msgstr "Prove malvolûts"
 
 #: ../src/mail/filtertypes.xml.in.h:61
 msgid "Message is Junk"
-msgstr ""
+msgstr "Il messaç al è malvolût"
 
 #: ../src/mail/filtertypes.xml.in.h:62
 msgid "Message is not Junk"
-msgstr ""
+msgstr "Il messaç nol è malvolût"
 
 #: ../src/mail/filtertypes.xml.in.h:63 ../src/mail/vfoldertypes.xml.in.h:57
 msgid "Message Location"
-msgstr ""
+msgstr "Posizion messaç"
 
 #: ../src/mail/filtertypes.xml.in.h:64 ../src/mail/searchtypes.xml.in.h:56
 #: ../src/mail/vfoldertypes.xml.in.h:58
 msgid "Match All"
-msgstr ""
+msgstr "Corispuindince totâl"
 
 #: ../src/mail/filtertypes.xml.in.h:68
 msgid "Stop Processing"
-msgstr ""
+msgstr "Ferme la elaborazion"
 
 #: ../src/mail/filtertypes.xml.in.h:69
 msgid "Set Label"
-msgstr ""
+msgstr "Stabilìs etichete"
 
 #: ../src/mail/filtertypes.xml.in.h:70
 msgid "Assign Color"
-msgstr ""
+msgstr "Dâ colôr"
 
 #: ../src/mail/filtertypes.xml.in.h:71
 msgid "Unset Color"
-msgstr ""
+msgstr "Gjave colôr"
 
 #: ../src/mail/filtertypes.xml.in.h:72
 msgid "Assign Score"
-msgstr ""
+msgstr "Dâ valutazion"
 
 #: ../src/mail/filtertypes.xml.in.h:73
 msgid "Adjust Score"
-msgstr ""
+msgstr "Juste valutazion"
 
 #: ../src/mail/filtertypes.xml.in.h:74
 msgid "Set Status"
-msgstr ""
+msgstr "Stabilìs stât"
 
 #: ../src/mail/filtertypes.xml.in.h:75 ../src/mail/searchtypes.xml.in.h:40
 #: ../src/mail/vfoldertypes.xml.in.h:40
 msgid "Deleted"
-msgstr ""
+msgstr "Eliminât"
 
 #: ../src/mail/filtertypes.xml.in.h:76
 msgid "Unset Status"
-msgstr ""
+msgstr "Gjave stât"
 
 #: ../src/mail/filtertypes.xml.in.h:77
 msgid "Beep"
-msgstr ""
+msgstr "Avîs acustic"
 
 #: ../src/mail/filtertypes.xml.in.h:78
 msgid "Play Sound"
-msgstr ""
+msgstr "Sune sun"
 
 #: ../src/mail/filtertypes.xml.in.h:79
 msgid "Run Program"
-msgstr ""
+msgstr "Eseguìs program"
 
 #: ../src/mail/filtertypes.xml.in.h:80
 msgid "Forward to"
-msgstr ""
+msgstr "Mande indenant a"
 
 #: ../src/mail/importers/elm-importer.c:174
 msgid "Importing Elm data"
-msgstr ""
+msgstr "Daûr a impuartâ dâts Elm"
 
 #: ../src/mail/importers/elm-importer.c:377
 msgid "Evolution Elm importer"
@@ -18064,44 +18088,44 @@ msgstr ""
 
 #: ../src/mail/importers/elm-importer.c:378
 msgid "Import mail from Elm."
-msgstr ""
+msgstr "Impuarte pueste di Elm."
 
 #: ../src/mail/importers/evolution-mbox-importer.c:135
 #: ../src/mail/importers/kmail-importer.c:208
 #: ../src/plugins/dbx-import/dbx-importer.c:242
 msgid "_Destination folder:"
-msgstr ""
+msgstr "Cartele di _destinazion:"
 
 #: ../src/mail/importers/evolution-mbox-importer.c:141
 #: ../src/mail/importers/kmail-importer.c:214
 #: ../src/plugins/dbx-import/dbx-importer.c:248
 #: ../src/plugins/pst-import/pst-importer.c:537
 msgid "Select folder"
-msgstr ""
+msgstr "Selezionâ cartele"
 
 #: ../src/mail/importers/evolution-mbox-importer.c:142
 #: ../src/mail/importers/kmail-importer.c:215
 #: ../src/plugins/dbx-import/dbx-importer.c:249
 #: ../src/plugins/pst-import/pst-importer.c:538
 msgid "Select folder to import into"
-msgstr ""
+msgstr "Selezione une cartele dulà impuartâ"
 
 #. Translators: Column header for a message subject
 #: ../src/mail/importers/evolution-mbox-importer.c:510
 msgctxt "mboxImp"
 msgid "Subject"
-msgstr ""
+msgstr "Ogjet"
 
 #. Translators: Column header for a message From address
 #: ../src/mail/importers/evolution-mbox-importer.c:515
 msgctxt "mboxImp"
 msgid "From"
-msgstr ""
+msgstr "Di"
 
 #: ../src/mail/importers/evolution-mbox-importer.c:569
 #: ../src/shell/e-shell-utils.c:171
 msgid "Berkeley Mailbox (mbox)"
-msgstr ""
+msgstr "Cassete pueste Berkeley (mbox)"
 
 #: ../src/mail/importers/evolution-mbox-importer.c:570
 msgid "Importer Berkeley Mailbox format folders"
@@ -18111,8 +18135,8 @@ msgstr ""
 #, c-format
 msgid "%d Address"
 msgid_plural "%d Addresses"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d direzion"
+msgstr[1] "%d direzions"
 
 #: ../src/mail/importers/kmail-importer.c:352
 msgid "Evolution KMail importer"
@@ -18120,20 +18144,20 @@ msgstr ""
 
 #: ../src/mail/importers/kmail-importer.c:353
 msgid "Import mail and contacts from KMail."
-msgstr ""
+msgstr "Impuarte pueste e contats di KMail."
 
 #: ../src/mail/importers/kmail-libs.c:150
 #: ../src/modules/mail/e-mail-shell-view-private.c:1060
 msgid "Trash"
-msgstr ""
+msgstr "Scovacere"
 
 #: ../src/mail/importers/mail-importer.c:55
 msgid "Importing mailbox"
-msgstr ""
+msgstr "Importazion cassete di pueste"
 
 #: ../src/mail/importers/mail-importer.c:61
 msgid "Importing mail and contacts from KMail"
-msgstr ""
+msgstr "Importazion pueste e contats di KMail"
 
 #. Destination folder, was set in our widget
 #: ../src/mail/importers/mail-importer.c:187
@@ -18148,11 +18172,11 @@ msgstr "Daûr a impuartâ “%s”"
 #: ../src/mail/importers/mail-importer.c:556
 #, c-format
 msgid "Scanning %s"
-msgstr ""
+msgstr "Daûr a analizâ %s"
 
 #: ../src/mail/importers/pine-importer.c:248
 msgid "Importing Pine data"
-msgstr ""
+msgstr "Importazion dâts Pine"
 
 #: ../src/mail/importers/pine-importer.c:478
 msgid "Evolution Pine importer"
@@ -18160,22 +18184,22 @@ msgstr ""
 
 #: ../src/mail/importers/pine-importer.c:479
 msgid "Import mail from Pine."
-msgstr ""
+msgstr "Impurate pueste di Pine."
 
 #: ../src/mail/mail-autofilter.c:64
 #, c-format
 msgid "Mail to %s"
-msgstr ""
+msgstr "Pueste a %s"
 
 #: ../src/mail/mail-autofilter.c:220 ../src/mail/mail-autofilter.c:267
 #, c-format
 msgid "Mail from %s"
-msgstr ""
+msgstr "Pueste di %s"
 
 #: ../src/mail/mail-autofilter.c:250
 #, c-format
 msgid "Subject is %s"
-msgstr ""
+msgstr "L'ogjet al è %s"
 
 #: ../src/mail/mail-autofilter.c:290
 #, c-format
@@ -18184,7 +18208,7 @@ msgstr ""
 
 #: ../src/mail/mail-autofilter.c:400
 msgid "Add Filter Rule"
-msgstr ""
+msgstr "Zonte regule di filtri"
 
 #. Translators: The first %s is name of the affected
 #. * filter rule(s), the second %s is URI of the removed
@@ -18205,33 +18229,35 @@ msgstr[1] ""
 
 #: ../src/mail/mail-config.ui.h:1
 msgid "Set custom junk header"
-msgstr ""
+msgstr "Stabilìs intestazion malvolude personalizade"
 
 #: ../src/mail/mail-config.ui.h:4
 msgid ""
 "All new emails with header that matches given content will be automatically "
 "filtered as junk"
 msgstr ""
+"Dutis lis gnovis e-mail cun la intestazion che e corispuint al contignût "
+"indicât a vignaran in automatic filtradis come malvoludis"
 
 #: ../src/mail/mail-config.ui.h:5
 msgid "Header name"
-msgstr ""
+msgstr "Non intestazion"
 
 #: ../src/mail/mail-config.ui.h:6
 msgid "Header content"
-msgstr ""
+msgstr "Contignût intestazion"
 
 #: ../src/mail/mail-config.ui.h:7
 msgid "Default Behavior"
-msgstr ""
+msgstr "Compuartament predefinît"
 
 #: ../src/mail/mail-config.ui.h:8
 msgid "For_mat messages in HTML"
-msgstr ""
+msgstr "For_mate messaçs in HTML"
 
 #: ../src/mail/mail-config.ui.h:10
 msgid "Automatically insert _emoticons"
-msgstr ""
+msgstr "Inserî in automatic lis _musutis"
 
 #: ../src/mail/mail-config.ui.h:11
 msgid "Use Un_icode characters for emoticons"
