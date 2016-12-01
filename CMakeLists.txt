@@ -95,10 +95,13 @@ set(libnotify_minimum_version 0.7)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules)
 
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+# Packagers might want to need different settings for the RPATH related things
+# From experience, especially CMAKE_BUILD_WITH_INSTALL_RPATH might need to be
+# switched to ON, if CMake fails to set the right values during make install
 set(CMAKE_SKIP_RPATH OFF)
-set(CMAKE_SKIP_BUILD_RPATH OFF)
-set(CMAKE_BUILD_WITH_INSTALL_RPATH OFF)
-set(CMAKE_INSTALL_RPATH_USE_LINK_PATH ON)
+set(CMAKE_SKIP_BUILD_RPATH OFF CACHE BOOL INTERNAL)
+set(CMAKE_BUILD_WITH_INSTALL_RPATH OFF CACHE BOOL INTERNAL)
+set(CMAKE_INSTALL_RPATH_USE_LINK_PATH ON CACHE BOOL INTERNAL)
 # CMAKE_INSTALL_RPATH is set below
 
 # CMake modules
