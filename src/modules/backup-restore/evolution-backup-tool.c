@@ -897,12 +897,12 @@ main (gint argc,
 		for (ii = 0; ii < g_strv_length (opt_remaining); ii++) {
 			if (backup_op) {
 				title = _("Evolution Back Up");
-				oper = _("Backing up to the folder %s");
+				oper = _("Backing up to the file %s");
 				bk_file = g_strdup ((gchar *) opt_remaining[ii]);
 				file = bk_file;
 			} else if (restore_op) {
 				title = _("Evolution Restore");
-				oper = _("Restoring from the folder %s");
+				oper = _("Restoring from the file %s");
 				res_file = g_strdup ((gchar *) opt_remaining[ii]);
 				file = res_file;
 			} else if (check_op) {
