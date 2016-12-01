@@ -1,7 +1,7 @@
 # Evolution build script
 
-cmake_minimum_required(VERSION 3.0)
-cmake_policy(VERSION 3.0)
+cmake_minimum_required(VERSION 3.1)
+cmake_policy(VERSION 3.1)
 
 project(evolution
 	VERSION 3.23.3
@@ -433,7 +433,12 @@ endif(ENABLE_YTNEF)
 add_printable_variable_path(WITH_BOGOFILTER "Enable spam filtering using Bogofilter (defaults to /usr/bin/bogofilter)" ON)
 
 string(LENGTH "${CMAKE_BINARY_DIR}" bindirlen)
-string(SUBSTRING "${WITH_BOGOFILTER}" 0 ${bindirlen} substr)
+string(LENGTH "${WITH_BOGOFILTER}" maxlen)
+if(maxlen LESS bindirlen)
+	set(substr "***")
+else(maxlen LESS bindirlen)
+	string(SUBSTRING "${WITH_BOGOFILTER}" 0 ${bindirlen} substr)
+endif(maxlen LESS bindirlen)
 string(TOUPPER "${WITH_BOGOFILTER}" optupper)
 
 set(BOGOFILTER_COMMAND "")
@@ -456,6 +461,7 @@ if(WITH_BOGOFILTER)
 endif(WITH_BOGOFILTER)
 
 unset(bindirlen)
+unset(maxlen)
 unset(substr)
 unset(optupper)
 
@@ -467,7 +473,12 @@ add_printable_variable_path(WITH_SPAMASSASSIN "Enable spam filtering using SpamA
 add_printable_variable_path(WITH_SA_LEARN "Full path command where sa-learn is located (defaults to /usr/bin/sa-learn)" ON)
 
 string(LENGTH "${CMAKE_BINARY_DIR}" bindirlen)
-string(SUBSTRING "${WITH_SPAMASSASSIN}" 0 ${bindirlen} substr)
+string(LENGTH "${WITH_SPAMASSASSIN}" maxlen)
+if(maxlen LESS bindirlen)
+	set(substr "***")
+else(maxlen LESS bindirlen)
+	string(SUBSTRING "${WITH_SPAMASSASSIN}" 0 ${bindirlen} substr)
+endif(maxlen LESS bindirlen)
 string(TOUPPER "${WITH_SPAMASSASSIN}" optupper)
 
 set(SPAMASSASSIN_COMMAND "")
@@ -488,7 +499,12 @@ if(WITH_SPAMASSASSIN)
 		set(SPAMASSASSIN_COMMAND "/usr/bin/spamassassin")
 	endif(SPAMASSASSIN_COMMAND STREQUAL "")
 
-	string(SUBSTRING "${WITH_SA_LEARN}" 0 ${bindirlen} substr)
+	string(LENGTH "${WITH_SA_LEARN}" maxlen)
+	if(maxlen LESS bindirlen)
+		set(substr "***")
+	else(maxlen LESS bindirlen)
+		string(SUBSTRING "${WITH_SA_LEARN}" 0 ${bindirlen} substr)
+	endif(maxlen LESS bindirlen)
 	string(TOUPPER "${WITH_SA_LEARN}" optupper)
 
 	set(SA_LEARN_COMMAND "")
@@ -510,6 +526,7 @@ if(WITH_SPAMASSASSIN)
 endif(WITH_SPAMASSASSIN)
 
 unset(bindirlen)
+unset(maxlen)
 unset(substr)
 unset(optupper)
 
