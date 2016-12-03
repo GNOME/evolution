@@ -11,7 +11,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2016-11-24 08:53+0000\n"
-"PO-Revision-Date: 2016-12-03 14:29+0100\n"
+"PO-Revision-Date: 2016-12-03 16:42+0100\n"
 "Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
 "Language-Team: Friulian <f.t.public@gmail.com>\n"
 "Language: fur\n"
@@ -18522,60 +18522,60 @@ msgstr "Visualizazion dai messaçs"
 
 #: ../src/mail/mail-config.ui.h:84
 msgid "_Use the same fonts as other applications"
-msgstr ""
+msgstr "_Dopre i stes caratars des altris aplicazions"
 
 #: ../src/mail/mail-config.ui.h:85
 msgid "S_tandard Font:"
-msgstr ""
+msgstr "Caratar s_tandard:"
 
 #: ../src/mail/mail-config.ui.h:86
 msgid "Select HTML fixed width font"
-msgstr ""
+msgstr "Selezione caratar a largjece fisse HTML"
 
 #: ../src/mail/mail-config.ui.h:87
 msgid "Select HTML variable width font"
-msgstr ""
+msgstr "Selezione caratar a largjece variabile HTML"
 
 #: ../src/mail/mail-config.ui.h:88
 msgid "Fix_ed Width Font:"
-msgstr ""
+msgstr "Caratar a larg_jece fisse:"
 
 #: ../src/mail/mail-config.ui.h:89
 msgid "_Mark messages as read after"
-msgstr ""
+msgstr "_Segne i messaçs come lets daspò"
 
 #: ../src/mail/mail-config.ui.h:91
 msgid "Highlight _quotations with"
-msgstr ""
+msgstr "Evidenziâ _citazions cun"
 
 #: ../src/mail/mail-config.ui.h:92
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:62
 msgid "Pick a color"
-msgstr ""
+msgstr "Sielzi un colôr"
 
 #: ../src/mail/mail-config.ui.h:93
 msgid "color"
-msgstr ""
+msgstr "colôr"
 
 #: ../src/mail/mail-config.ui.h:94
 msgid "Default character e_ncoding:"
-msgstr ""
+msgstr "Co_difiche caratars predefinide:"
 
 #: ../src/mail/mail-config.ui.h:95
 msgid "Apply the same _view settings to all folders"
-msgstr ""
+msgstr "Apliche la stesse impostazion di _visualizazion a dutis lis cartelis"
 
 #: ../src/mail/mail-config.ui.h:96
 msgid "F_all back to threading messages by subject"
-msgstr ""
+msgstr "Cesse _al intropament dai messaç par ogjet"
 
 #: ../src/mail/mail-config.ui.h:97
 msgid "Delete Mail"
-msgstr ""
+msgstr "Eliminâ pueste"
 
 #: ../src/mail/mail-config.ui.h:98
 msgid "Empty _trash folders"
-msgstr ""
+msgstr "Disvuedâ lis cartelis des _scovaceris"
 
 #: ../src/mail/mail-config.ui.h:99
 msgid "Confirm _when expunging a folder"
@@ -18583,124 +18583,125 @@ msgstr ""
 
 #: ../src/mail/mail-config.ui.h:100
 msgid "Archive Mail"
-msgstr ""
+msgstr "Archiviâ pueste"
 
 #: ../src/mail/mail-config.ui.h:101
 msgid "On This Computer A_rchive folder:"
-msgstr ""
+msgstr "Cartele a_rchivi su chest computer:"
 
 #: ../src/mail/mail-config.ui.h:102
 msgid "Archive folder to use for On This Computer messages"
-msgstr ""
+msgstr "Cartele archivi di doprâ pai messaçs Su chest computer"
 
 #. If enabled, show animation; if disabled, only display a static image without any animation
 #: ../src/mail/mail-config.ui.h:104
 msgid "_Show animated images"
-msgstr ""
+msgstr "_Mostrâ imagjins animadis"
 
 #: ../src/mail/mail-config.ui.h:105
 msgid "_Prompt on sending HTML mail to contacts that do not want them"
 msgstr ""
+"_Domandâ pal inviament di pueste in HTML ai contats che no le desiderin"
 
 #: ../src/mail/mail-config.ui.h:106
 msgid "Loading Remote Content"
-msgstr ""
+msgstr "Daûr a cjariâ contignût rimot"
 
 #: ../src/mail/mail-config.ui.h:107
 msgid "_Never load remote content from the Internet"
-msgstr ""
+msgstr "_No stâ cjariâ mai il contignût rimot di Internet"
 
 #: ../src/mail/mail-config.ui.h:108
 msgid "_Load remote content only in messages from contacts"
-msgstr ""
+msgstr "_Cjariâ il contignût rimot nome tai messaçs dai contats"
 
 #: ../src/mail/mail-config.ui.h:109
 msgid "_Always load remote content from the Internet"
-msgstr ""
+msgstr "Cjariâ _simpri il contignût rimot di Internet"
 
 #: ../src/mail/mail-config.ui.h:110
 msgid "Notify about _missing remote content in the message preview"
-msgstr ""
+msgstr "Notificâ il contignût rimot che al _mancje tal messaç di anteprime"
 
 #: ../src/mail/mail-config.ui.h:113
 msgid "Allow for sites:"
-msgstr ""
+msgstr "Permet pai sîts:"
 
 #: ../src/mail/mail-config.ui.h:114
 msgid "Allow for senders:"
-msgstr ""
+msgstr "Permet pai mitents:"
 
 #: ../src/mail/mail-config.ui.h:115
 msgid "HTML Messages"
-msgstr ""
+msgstr "Messaçs HTML"
 
 #: ../src/mail/mail-config.ui.h:116 ../src/mail/message-list.etspec.h:19
 msgid "Labels"
-msgstr ""
+msgstr "Etichetis"
 
 #: ../src/mail/mail-config.ui.h:117
 msgid "Sender Photograph"
-msgstr ""
+msgstr "Fotografie dal mitent"
 
 #: ../src/mail/mail-config.ui.h:118
 msgid "_Show the photograph of sender in the message preview"
-msgstr ""
+msgstr "_Mostrâ la fotografie dal mitent inte anteprime dal messaç"
 
 #: ../src/mail/mail-config.ui.h:119
 msgid "Search gra_vatar.com for the photograph of sender"
-msgstr ""
+msgstr "Cirî su gra_vatar.com pe fotografie dal mitent"
 
 #: ../src/mail/mail-config.ui.h:120
 msgid "Displayed Message Headers"
-msgstr ""
+msgstr "Intestazions di messaç mostradis"
 
 #: ../src/mail/mail-config.ui.h:121
 msgid "Mail Headers Table"
-msgstr ""
+msgstr "Tabele des intestazions de pueste"
 
 #: ../src/mail/mail-config.ui.h:122
 #: ../src/modules/addressbook/autocompletion-config.c:117
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:45
 msgid "Date/Time Format"
-msgstr ""
+msgstr "Formât date/ore"
 
 #: ../src/mail/mail-config.ui.h:124
 msgid "Check incoming _messages for junk"
-msgstr ""
+msgstr "Controlâ tai _messaçs in jentrade chei malvolûts"
 
 #: ../src/mail/mail-config.ui.h:125
 msgid "_Delete junk messages"
-msgstr ""
+msgstr "_Eliminâ i messaçs malvolûts"
 
 #: ../src/mail/mail-config.ui.h:126
 msgid "Junk Test Options"
-msgstr ""
+msgstr "Opzions prove malvolûts"
 
 #: ../src/mail/mail-config.ui.h:127
 msgid "Do not mar_k messages as junk if sender is in my address book"
-msgstr ""
+msgstr "No stâ se_gnâ i messaçs come malvolûts se il mitent al è te rubriche"
 
 #: ../src/mail/mail-config.ui.h:128
 msgid "_Lookup in local address book only"
-msgstr ""
+msgstr "Consultâ nome _lis rubrichis locâls"
 
 #: ../src/mail/mail-config.ui.h:129
 msgid "Check cu_stom headers for junk"
-msgstr ""
+msgstr "Controlâ intestazions _personalizadis pai malvolûts"
 
 #: ../src/mail/mail-config.ui.h:131
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:302
 #: ../src/modules/mail-config/e-mail-config-smtp-backend.c:245
 msgid "No encryption"
-msgstr ""
+msgstr "Nissune cifradure"
 
 #: ../src/mail/mail-config.ui.h:132
 msgid "TLS encryption"
-msgstr ""
+msgstr "Cifradure TLS"
 
 #: ../src/mail/mail-config.ui.h:133
 msgid "SSL encryption"
-msgstr ""
+msgstr "Cifradure SSL"
 
 #: ../src/mail/mail-dialogs.ui.h:1
 msgid ""
@@ -18710,24 +18711,24 @@ msgstr ""
 
 #: ../src/mail/mail-dialogs.ui.h:3
 msgid "_Flag:"
-msgstr ""
+msgstr "Se_gn:"
 
 #: ../src/mail/mail-dialogs.ui.h:4
 msgid "_Due By:"
-msgstr ""
+msgstr "Scja_dince il:"
 
 #. Translators: Flag Completed
 #: ../src/mail/mail-dialogs.ui.h:7
 msgid "Co_mpleted"
-msgstr ""
+msgstr "Completât"
 
 #: ../src/mail/mail-dialogs.ui.h:8
 msgid "Call"
-msgstr ""
+msgstr "Clamade"
 
 #: ../src/mail/mail-dialogs.ui.h:9
 msgid "Do Not Forward"
-msgstr ""
+msgstr "No mandâ indenant"
 
 #: ../src/mail/mail-dialogs.ui.h:10
 msgid "Follow-Up"
@@ -18735,71 +18736,75 @@ msgstr ""
 
 #: ../src/mail/mail-dialogs.ui.h:11
 msgid "For Your Information"
-msgstr ""
+msgstr "Pe tô informazion"
 
 #: ../src/mail/mail-dialogs.ui.h:12
 msgid "Forward"
-msgstr ""
+msgstr "Mande indenant"
 
 #: ../src/mail/mail-dialogs.ui.h:13
 msgid "No Response Necessary"
-msgstr ""
+msgstr "No covente rispueste"
 
 #: ../src/mail/mail-dialogs.ui.h:17
 msgid "Reply to All"
-msgstr ""
+msgstr "Rispuint a ducj"
 
 #: ../src/mail/mail-dialogs.ui.h:18
 msgid "Review"
-msgstr ""
+msgstr "Riviôt"
 
 #: ../src/mail/mail-dialogs.ui.h:19
 msgid "License Agreement"
-msgstr ""
+msgstr "Acuardi di licence"
 
 #: ../src/mail/mail-dialogs.ui.h:20
 msgid "_Tick this to accept the license agreement"
-msgstr ""
+msgstr "_Striche chest par acetâ l'acuardi di licence"
 
 #: ../src/mail/mail-dialogs.ui.h:22
 msgid "_Accept License"
-msgstr ""
+msgstr "_Acete licence"
 
 #: ../src/mail/mail-dialogs.ui.h:23
 msgid "Security Information"
-msgstr ""
+msgstr "Informazions di sigurece"
 
 #: ../src/mail/mail-dialogs.ui.h:24
 msgid "Digital Signature"
-msgstr ""
+msgstr "Firme digjitâl"
 
 #: ../src/mail/mail-dialogs.ui.h:25
 msgid "Encryption"
-msgstr ""
+msgstr "Cifradure"
 
 #: ../src/mail/mail.error.xml.h:1
 msgid "Invalid authentication"
-msgstr ""
+msgstr "Autenticazion no valide"
 
 #: ../src/mail/mail.error.xml.h:2
 msgid ""
 "This server does not support this type of authentication and may not support "
 "authentication at all."
 msgstr ""
+"Chest servidôr nol supuarte chest gjenar di autenticazion e forsit nissune."
 
 #: ../src/mail/mail.error.xml.h:3
 msgid "Your login to your server “{0}” as “{0}” failed."
-msgstr ""
+msgstr "Il to acès al servidôr “{0}” come “{0}” al è falît."
 
 #: ../src/mail/mail.error.xml.h:4
 msgid ""
 "Check to make sure your password is spelled correctly. Remember that many "
 "passwords are case sensitive; your caps lock might be on."
 msgstr ""
+"Controlâ se la password e je stade scrite juste. Visiti che une vore di "
+"password a fasin distinzion tra maiusculis e minusculis; bute un voli sul "
+"tast BlocMaiusc."
 
 #: ../src/mail/mail.error.xml.h:5
 msgid "Are you sure you want to send a message in HTML format?"
-msgstr ""
+msgstr "Sigûrs di inviâ un messaç intal formât HTML?"
 
 #: ../src/mail/mail.error.xml.h:6
 msgid ""
@@ -18807,20 +18812,25 @@ msgid ""
 "HTML email:\n"
 "{0}"
 msgstr ""
+"Sigurâsi che i destinataris chi daurman a vedin voie e a podedin ricevi e-"
+"mail in HTML:\n"
+"{0}"
 
 #: ../src/mail/mail.error.xml.h:9
 msgid "Are you sure you want to send a message without a subject?"
-msgstr ""
+msgstr "Sigûrs di inviâ un messaç cence ogjet?"
 
 #: ../src/mail/mail.error.xml.h:10
 msgid ""
 "Adding a meaningful Subject line to your messages will give your recipients "
 "an idea of what your mail is about."
 msgstr ""
+"Zontant ai tiei messaçs une rie «Ogjet» che e vedi sens, al darà ai "
+"destinataris une idee di ce che la e-mail e trate."
 
 #: ../src/mail/mail.error.xml.h:11
 msgid "Are you sure you want to send a message with only BCC recipients?"
-msgstr ""
+msgstr "Sigûrs di inviâ un messaç cun nome destinataris CCP?"
 
 #: ../src/mail/mail.error.xml.h:12
 msgid ""
@@ -18831,6 +18841,13 @@ msgid ""
 "your message. To avoid this, you should add at least one To: or CC: "
 "recipient. "
 msgstr ""
+"La liste dai contats che si sta inviant e je configurade par platâ i "
+"destinataris de liste.\n"
+"\n"
+"Tancj sistemis di e-mail a zontin une intestazion «Apparently-To» ai messaçs "
+"che a àn nome destinataris CCP. Cheste intestazion, se zontade, e listarà "
+"distès ducj i destinataris dal messaç. Par evitâ chest si varès di zontâ "
+"almancul un destinatari «A:» o «CC:»."
 
 #: ../src/mail/mail.error.xml.h:15
 msgid ""
@@ -18839,30 +18856,40 @@ msgid ""
 "your message anyway. To avoid this, you should add at least one To: or CC: "
 "recipient."
 msgstr ""
+"Tancj sistemis di e-mail a zontin une intestazion «Apparently-To» ai messaçs "
+"che a àn nome destinataris CCP. Cheste intestazion, se zontade, e listarà "
+"distès ducj i destinataris dal messaç. Par evitâ chest si varès di zontâ "
+"almancul un destinatari «A:» o «CC:»."
 
 #: ../src/mail/mail.error.xml.h:17
 msgid "Are you sure you want to send a message with invalid address?"
-msgstr ""
+msgstr "Sigûrs di inviâ un messaç cuntune direzion no valide?"
 
 #: ../src/mail/mail.error.xml.h:18
 msgid ""
 "The following recipient was not recognized as a valid mail address:\n"
 "{0}"
 msgstr ""
+"Il destinatari chi daurman nol è stât ricognossût come destinazion di pueste "
+"valide:\n"
+"{0}"
 
 #: ../src/mail/mail.error.xml.h:20
 msgid "Are you sure you want to send a message with invalid addresses?"
-msgstr ""
+msgstr "Sigûrs di inviâ un messaç cun direzions no validis?"
 
 #: ../src/mail/mail.error.xml.h:21
 msgid ""
 "The following recipients were not recognized as valid mail addresses:\n"
 "{0}"
 msgstr ""
+"I destinataris chi daurman no son stâts ricognossûts come direzions di "
+"pueste validis:\n"
+"{0}"
 
 #: ../src/mail/mail.error.xml.h:23
 msgid "Send private reply?"
-msgstr ""
+msgstr "Inviâ la rispueste in privât?"
 
 #: ../src/mail/mail.error.xml.h:24
 msgid ""
@@ -18873,7 +18900,7 @@ msgstr ""
 
 #: ../src/mail/mail.error.xml.h:25
 msgid "Reply _Privately"
-msgstr ""
+msgstr "Rispuint in _privât"
 
 #: ../src/mail/mail.error.xml.h:27
 msgid ""
@@ -18884,28 +18911,34 @@ msgstr ""
 
 #: ../src/mail/mail.error.xml.h:29
 msgid "Send reply to all recipients?"
-msgstr ""
+msgstr "Inviâ la rispueste a ducj i destinataris?"
 
 #: ../src/mail/mail.error.xml.h:30
 msgid ""
 "You are replying to a message which was sent to many recipients. Are you "
 "sure you want to reply to ALL of them?"
 msgstr ""
+"Si sta rispuindint a un messaç che al è stât mandât a plui destinataris. "
+"Sigûrs di rispuindi a DUCJ i destinataris?"
 
 #: ../src/mail/mail.error.xml.h:31
 msgid ""
 "This message cannot be sent because you have not specified any recipients"
 msgstr ""
+"Chest messaç nol pues jessi inviât parcè che nol è stât specificât nissun "
+"destinatari"
 
 #: ../src/mail/mail.error.xml.h:32
 msgid ""
 "Please enter a valid email address in the To: field. You can search for "
 "email addresses by clicking on the To: button next to the entry box."
 msgstr ""
+"Inserî une direzion e-mail valide tal cjamp «A:». Al è pussibil cirî lis "
+"direzions e-mail fasint clic sul boton «A:» in bade de casele di inseriment."
 
 #: ../src/mail/mail.error.xml.h:33
 msgid "Use default drafts folder?"
-msgstr ""
+msgstr "Doprâ la cartele dai stampons predefinide?"
 
 #: ../src/mail/mail.error.xml.h:34
 msgid ""
@@ -18914,10 +18947,14 @@ msgid ""
 "\n"
 "The reported error was “{0}”."
 msgstr ""
+"Impussibil vierzi la cartele dai stampons par chest account. Doprâ la "
+"cartele dai stampons di sisteme?\n"
+"\n"
+"L'erôr puartât al jere “{0}”."
 
 #: ../src/mail/mail.error.xml.h:37
 msgid "Use _Default"
-msgstr ""
+msgstr "Dopre _predefinide"
 
 #: ../src/mail/mail.error.xml.h:38
 #| msgid "Permanently remove all the deleted messages from all folders"
@@ -18928,7 +18965,7 @@ msgstr "Gjave par simpri ducj i messaçs eliminâts te cartele “{0}”?"
 
 #: ../src/mail/mail.error.xml.h:39
 msgid "If you continue, you will not be able to recover these messages."
-msgstr ""
+msgstr "Se si continue, nol sarà plui pussibil recuperâ chescj messaçs."
 
 #: ../src/mail/mail.error.xml.h:40
 msgid "_Expunge"
@@ -18939,11 +18976,12 @@ msgid ""
 "Are you sure you want to permanently remove all the deleted messages in all "
 "folders?"
 msgstr ""
+"Sigûrs di gjavâ par simpri ducj i messaçs eliminâts in dutis lis cartelis?"
 
 #: ../src/mail/mail.error.xml.h:42
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1657
 msgid "_Empty Trash"
-msgstr ""
+msgstr "Dis_vuede scovacere"
 
 #: ../src/mail/mail.error.xml.h:43
 msgid "Opening too many messages at once may take a long time."
