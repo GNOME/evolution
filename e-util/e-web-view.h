@@ -169,6 +169,12 @@ void		e_web_view_set_disable_save_to_disk
 gboolean	e_web_view_get_editable		(EWebView *web_view);
 void		e_web_view_set_editable		(EWebView *web_view,
 						 gboolean editable);
+guint32		e_web_view_get_clipboard_flags	(EWebView *web_view);
+void		e_web_view_set_clipboard_flags	(EWebView *web_view,
+						 guint32 clipboard_flags);
+gboolean	e_web_view_get_need_input	(EWebView *web_view);
+void		e_web_view_set_need_input	(EWebView *web_view,
+						 gboolean need_input);
 gboolean	e_web_view_get_inline_spelling	(EWebView *web_view);
 void		e_web_view_set_inline_spelling	(EWebView *web_view,
 						 gboolean inline_spelling);

@@ -92,6 +92,12 @@ struct _EWebViewPrivate {
 
 	GHashTable *element_clicked_cbs; /* gchar *element_class ~> GPtrArray {ElementClickedData} */
 	guint web_extension_element_clicked_signal_id;
+
+	guint32 clipboard_flags;
+	guint web_extension_clipboard_flags_changed_signal_id;
+
+	gboolean need_input;
+	guint web_extension_need_input_changed_signal_id;
 };
 
 struct _AsyncContext {
@@ -105,10 +111,12 @@ struct _AsyncContext {
 enum {
 	PROP_0,
 	PROP_CARET_MODE,
+	PROP_CLIPBOARD_FLAGS,
 	PROP_COPY_TARGET_LIST,
 	PROP_CURSOR_IMAGE_SRC,
 	PROP_DISABLE_PRINTING,
 	PROP_DISABLE_SAVE_TO_DISK,
+	PROP_NEED_INPUT,
 	PROP_OPEN_PROXY,
 	PROP_PASTE_TARGET_LIST,
 	PROP_PRINT_PROXY,
@@ -775,6 +783,12 @@ web_view_set_property (GObject *object,
 				g_value_get_boolean (value));
 			return;
 
+		case PROP_CLIPBOARD_FLAGS:
+			e_web_view_set_clipboard_flags (
+				E_WEB_VIEW (object),
+				g_value_get_uint (value));
+			return;
+
 		case PROP_COPY_TARGET_LIST:
 			/* This is a fake property. */
 			g_warning ("%s: EWebView::copy-target-list not used", G_STRFUNC);
@@ -794,6 +808,12 @@ web_view_set_property (GObject *object,
 
 		case PROP_DISABLE_SAVE_TO_DISK:
 			e_web_view_set_disable_save_to_disk (
+				E_WEB_VIEW (object),
+				g_value_get_boolean (value));
+			return;
+
+		case PROP_NEED_INPUT:
+			e_web_view_set_need_input (
 				E_WEB_VIEW (object),
 				g_value_get_boolean (value));
 			return;
@@ -843,6 +863,12 @@ web_view_get_property (GObject *object,
 				E_WEB_VIEW (object)));
 			return;
 
+		case PROP_CLIPBOARD_FLAGS:
+			g_value_set_uint (
+				value, e_web_view_get_clipboard_flags (
+				E_WEB_VIEW (object)));
+			return;
+
 		case PROP_COPY_TARGET_LIST:
 			/* This is a fake property. */
 			g_value_set_boxed (value, NULL);
@@ -863,6 +889,12 @@ web_view_get_property (GObject *object,
 		case PROP_DISABLE_SAVE_TO_DISK:
 			g_value_set_boolean (
 				value, e_web_view_get_disable_save_to_disk (
+				E_WEB_VIEW (object)));
+			return;
+
+		case PROP_NEED_INPUT:
+			g_value_set_boolean (
+				value, e_web_view_get_need_input (
 				E_WEB_VIEW (object)));
 			return;
 
@@ -945,6 +977,20 @@ web_view_dispose (GObject *object)
 			priv->find_controller,
 			priv->failed_to_find_text_handler_id);
 		priv->failed_to_find_text_handler_id = 0;
+	}
+
+	if (priv->web_extension && priv->web_extension_clipboard_flags_changed_signal_id) {
+		g_dbus_connection_signal_unsubscribe (
+			g_dbus_proxy_get_connection (priv->web_extension),
+			priv->web_extension_clipboard_flags_changed_signal_id);
+		priv->web_extension_clipboard_flags_changed_signal_id = 0;
+	}
+
+	if (priv->web_extension && priv->web_extension_need_input_changed_signal_id) {
+		g_dbus_connection_signal_unsubscribe (
+			g_dbus_proxy_get_connection (priv->web_extension),
+			priv->web_extension_need_input_changed_signal_id);
+		priv->web_extension_need_input_changed_signal_id = 0;
 	}
 
 	if (priv->web_extension && priv->web_extension_element_clicked_signal_id) {
@@ -1440,6 +1486,60 @@ web_view_register_element_clicked_hfunc (gpointer key,
 }
 
 static void
+web_view_need_input_changed_signal_cb (GDBusConnection *connection,
+				       const gchar *sender_name,
+				       const gchar *object_path,
+				       const gchar *interface_name,
+				       const gchar *signal_name,
+				       GVariant *parameters,
+				       gpointer user_data)
+{
+	EWebView *web_view = user_data;
+	guint64 page_id = 0;
+	gboolean need_input = FALSE;
+
+	if (g_strcmp0 (signal_name, "NeedInputChanged") != 0)
+		return;
+
+	g_return_if_fail (E_IS_WEB_VIEW (web_view));
+
+	if (!parameters)
+		return;
+
+	g_variant_get (parameters, "(tb)", &page_id, &need_input);
+
+	if (page_id == webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (web_view)))
+		e_web_view_set_need_input (web_view, need_input);
+}
+
+static void
+web_view_clipboard_flags_changed_signal_cb (GDBusConnection *connection,
+					    const gchar *sender_name,
+					    const gchar *object_path,
+					    const gchar *interface_name,
+					    const gchar *signal_name,
+					    GVariant *parameters,
+					    gpointer user_data)
+{
+	EWebView *web_view = user_data;
+	guint64 page_id = 0;
+	guint32 clipboard_flags = 0;
+
+	if (g_strcmp0 (signal_name, "ClipboardFlagsChanged") != 0)
+		return;
+
+	g_return_if_fail (E_IS_WEB_VIEW (web_view));
+
+	if (!parameters)
+		return;
+
+	g_variant_get (parameters, "(tu)", &page_id, &clipboard_flags);
+
+	if (page_id == webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (web_view)))
+		e_web_view_set_clipboard_flags (web_view, clipboard_flags);
+}
+
+static void
 web_view_element_clicked_signal_cb (GDBusConnection *connection,
 				    const gchar *sender_name,
 				    const gchar *object_path,
@@ -1508,6 +1608,32 @@ web_extension_proxy_created_cb (GDBusProxy *proxy,
 		g_warning ("Error creating web extension proxy: %s\n", error->message);
 		g_error_free (error);
 	} else {
+		web_view->priv->web_extension_clipboard_flags_changed_signal_id =
+			g_dbus_connection_signal_subscribe (
+				g_dbus_proxy_get_connection (web_view->priv->web_extension),
+				g_dbus_proxy_get_name (web_view->priv->web_extension),
+				E_WEB_EXTENSION_INTERFACE,
+				"ClipboardFlagsChanged",
+				E_WEB_EXTENSION_OBJECT_PATH,
+				NULL,
+				G_DBUS_SIGNAL_FLAGS_NONE,
+				web_view_clipboard_flags_changed_signal_cb,
+				web_view,
+				NULL);
+
+		web_view->priv->web_extension_need_input_changed_signal_id =
+			g_dbus_connection_signal_subscribe (
+				g_dbus_proxy_get_connection (web_view->priv->web_extension),
+				g_dbus_proxy_get_name (web_view->priv->web_extension),
+				E_WEB_EXTENSION_INTERFACE,
+				"NeedInputChanged",
+				E_WEB_EXTENSION_OBJECT_PATH,
+				NULL,
+				G_DBUS_SIGNAL_FLAGS_NONE,
+				web_view_need_input_changed_signal_cb,
+				web_view,
+				NULL);
+
 		web_view->priv->web_extension_element_clicked_signal_id =
 			g_dbus_connection_signal_subscribe (
 				g_dbus_proxy_get_connection (web_view->priv->web_extension),
@@ -1602,7 +1728,7 @@ static void
 web_view_update_actions (EWebView *web_view)
 {
 	GtkActionGroup *action_group;
-	gboolean can_copy = FALSE;
+	gboolean can_copy;
 	gboolean scheme_is_http = FALSE;
 	gboolean scheme_is_mailto = FALSE;
 	gboolean uri_is_valid = FALSE;
@@ -1610,21 +1736,11 @@ web_view_update_actions (EWebView *web_view)
 	const gchar *cursor_image_src;
 	const gchar *group_name;
 	const gchar *uri;
-	GDBusProxy *web_extension;
+
+	g_return_if_fail (E_IS_WEB_VIEW (web_view));
 
 	uri = e_web_view_get_selected_uri (web_view);
-	web_extension = e_web_view_get_web_extension_proxy (web_view);
-	if (web_extension) {
-		GVariant *result;
-
-		result = g_dbus_proxy_get_cached_property (web_view->priv->web_extension, "ClipboardFlags");
-		if (result) {
-			EClipboardFlags clipboard_flags = g_variant_get_uint32 (result);
-			g_variant_unref (result);
-
-			can_copy = (clipboard_flags & E_CLIPBOARD_CAN_COPY);
-		}
-	}
+	can_copy = (e_web_view_get_clipboard_flags (web_view) & E_CLIPBOARD_CAN_COPY) != 0;
 	cursor_image_src = e_web_view_get_cursor_image_src (web_view);
 
 	/* Parse the URI early so we know if the actions will work. */
@@ -1823,24 +1939,13 @@ web_view_selectable_update_actions (ESelectable *selectable,
                                     gint n_clipboard_targets)
 {
 	EWebView *web_view;
-	GDBusProxy *web_extension;
 	GtkAction *action;
 	gboolean can_copy = FALSE;
 
 	web_view = E_WEB_VIEW (selectable);
 
-	web_extension = e_web_view_get_web_extension_proxy (web_view);
-	if (web_extension) {
-		GVariant *result;
+	can_copy = (e_web_view_get_clipboard_flags (web_view) & E_CLIPBOARD_CAN_COPY) != 0;
 
-		result = g_dbus_proxy_get_cached_property (web_view->priv->web_extension, "ClipboardFlags");
-		if (result) {
-			EClipboardFlags clipboard_actions = g_variant_get_uint32 (result);
-			g_variant_unref (result);
-
-			can_copy = (clipboard_actions & E_CLIPBOARD_CAN_COPY);
-		}
-	}
 	action = e_focus_tracker_get_copy_clipboard_action (focus_tracker);
 	gtk_action_set_sensitive (action, can_copy);
 	gtk_action_set_tooltip (action, _("Copy the selection"));
@@ -2007,6 +2112,17 @@ e_web_view_class_init (EWebViewClass *class)
 			FALSE,
 			G_PARAM_READWRITE));
 
+	g_object_class_install_property (
+		object_class,
+		PROP_CLIPBOARD_FLAGS,
+		g_param_spec_uint (
+			"clipboard-flags",
+			"Clipboard Flags",
+			NULL,
+			0, G_MAXUINT, 0,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT));
+
 	/* Inherited from ESelectableInterface; just a fake property here */
 	g_object_class_override_property (
 		object_class,
@@ -2046,6 +2162,17 @@ e_web_view_class_init (EWebViewClass *class)
 		g_param_spec_boolean (
 			"disable-save-to-disk",
 			"Disable Save-to-Disk",
+			NULL,
+			FALSE,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_NEED_INPUT,
+		g_param_spec_boolean (
+			"need-input",
+			"Need Input",
 			NULL,
 			FALSE,
 			G_PARAM_READWRITE |
@@ -2682,6 +2809,50 @@ e_web_view_set_editable (EWebView *web_view,
 	g_return_if_fail (E_IS_WEB_VIEW (web_view));
 
 	webkit_web_view_set_editable (WEBKIT_WEB_VIEW (web_view), editable);
+}
+
+guint32
+e_web_view_get_clipboard_flags (EWebView *web_view)
+{
+	g_return_val_if_fail (E_IS_WEB_VIEW (web_view), 0);
+
+	return web_view->priv->clipboard_flags;
+}
+
+void
+e_web_view_set_clipboard_flags (EWebView *web_view,
+				guint32 clipboard_flags)
+{
+	g_return_if_fail (E_IS_WEB_VIEW (web_view));
+
+	if (web_view->priv->clipboard_flags == clipboard_flags)
+		return;
+
+	web_view->priv->clipboard_flags = clipboard_flags;
+
+	g_object_notify (G_OBJECT (web_view), "clipboard-flags");
+}
+
+gboolean
+e_web_view_get_need_input (EWebView *web_view)
+{
+	g_return_val_if_fail (E_IS_WEB_VIEW (web_view), FALSE);
+
+	return web_view->priv->need_input;
+}
+
+void
+e_web_view_set_need_input (EWebView *web_view,
+			   gboolean need_input)
+{
+	g_return_if_fail (E_IS_WEB_VIEW (web_view));
+
+	if ((!web_view->priv->need_input) == (!need_input))
+		return;
+
+	web_view->priv->need_input = need_input;
+
+	g_object_notify (G_OBJECT (web_view), "need-input");
 }
 
 const gchar *

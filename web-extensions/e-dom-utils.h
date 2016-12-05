@@ -55,9 +55,6 @@ void		e_dom_utils_add_css_rule_into_style_sheet
 						 const gchar *style);
 void		e_dom_utils_eab_contact_formatter_bind_dom
 						(WebKitDOMDocument *document);
-void		e_dom_utils_bind_focus_on_elements
-						(WebKitDOMDocument *document,
-						 GDBusConnection *connection);
 void		e_dom_utils_e_mail_display_bind_dom
 						(WebKitDOMDocument *document,
 						 GDBusConnection *connection);
