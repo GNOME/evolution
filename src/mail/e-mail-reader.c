@@ -2677,22 +2677,11 @@ mail_reader_key_press_event_cb (EMailReader *reader,
 
 	if (!gtk_widget_has_focus (GTK_WIDGET (reader))) {
 		EMailDisplay *display;
-		GDBusProxy *web_extension;
 
 		display = e_mail_reader_get_mail_display (reader);
-		web_extension = e_web_view_get_web_extension_proxy (E_WEB_VIEW (display));
-		if (web_extension) {
-			GVariant *result;
-
-			result = g_dbus_proxy_get_cached_property (web_extension, "NeedInput");
-			if (result) {
-				gboolean need_input = g_variant_get_boolean (result);
-				g_variant_unref (result);
-
-				if (need_input)
-					return FALSE;
-			}
-		}
+		if (e_web_view_get_need_input (E_WEB_VIEW (display)) &&
+		    gtk_widget_has_focus (GTK_WIDGET (display)))
+			return FALSE;
 	}
 
 	if ((event->state & GDK_CONTROL_MASK) != 0)

@@ -40,6 +40,12 @@
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_WEB_EXTENSION, EWebExtensionPrivate))
 
+typedef struct _EWebPageData {
+	WebKitWebPage *web_page; /* not referenced */
+	gboolean need_input;
+	guint32 clipboard_flags;
+} EWebPageData;
+
 struct _EWebExtensionPrivate {
 	WebKitWebExtension *wk_extension;
 
@@ -48,8 +54,7 @@ struct _EWebExtensionPrivate {
 
 	gboolean initialized;
 
-	gboolean need_input;
-	guint32 clipboard_flags;
+	GHashTable *pages; /* guint64 *webpage_id ~> EWebPageData * */
 };
 
 static const char introspection_xml[] =
@@ -178,8 +183,14 @@ static const char introspection_xml[] =
 "      <arg type='b' name='towards_bottom' direction='in'/>"
 "      <arg type='b' name='processed' direction='out'/>"
 "    </method>"
-"    <property type='b' name='NeedInput' access='readwrite'/>"
-"    <property type='u' name='ClipboardFlags' access='readwrite'/>"
+"    <signal name='NeedInputChanged'>"
+"      <arg type='t' name='page_id' direction='out'/>"
+"      <arg type='b' name='need_input' direction='out'/>"
+"    </signal>"
+"    <signal name='ClipboardFlagsChanged'>"
+"      <arg type='t' name='page_id' direction='out'/>"
+"      <arg type='u' name='flags' direction='out'/>"
+"    </signal>"
 "  </interface>"
 "</node>";
 
@@ -323,6 +334,172 @@ web_extension_register_element_clicked_in_document (EWebExtension *extension,
 		}
 	}
 	g_clear_object (&collection);
+}
+
+static guint64
+e_web_extension_find_page_id_from_document (WebKitDOMDocument *document)
+{
+	guint64 *ppage_id;
+
+	g_return_val_if_fail (WEBKIT_DOM_IS_DOCUMENT (document), 0);
+
+	while (document) {
+		WebKitDOMDocument *prev_document = document;
+
+		ppage_id = g_object_get_data (G_OBJECT (document), WEB_EXTENSION_PAGE_ID_KEY);
+		if (ppage_id)
+			return *ppage_id;
+
+		document = webkit_dom_node_get_owner_document (WEBKIT_DOM_NODE (document));
+		if (prev_document == document)
+			break;
+	}
+
+	return 0;
+}
+
+static void
+e_web_extension_set_need_input (EWebExtension *extension,
+				guint64 page_id,
+				gboolean need_input)
+{
+	EWebPageData *page_data;
+	GError *error = NULL;
+
+	g_return_if_fail (E_IS_WEB_EXTENSION (extension));
+	g_return_if_fail (page_id != 0);
+
+	page_data = g_hash_table_lookup (extension->priv->pages, &page_id);
+
+	if (!page_data || (!page_data->need_input) == (!need_input))
+		return;
+
+	page_data->need_input = need_input;
+
+	g_dbus_connection_emit_signal (
+		extension->priv->dbus_connection,
+		NULL,
+		E_WEB_EXTENSION_OBJECT_PATH,
+		E_WEB_EXTENSION_INTERFACE,
+		"NeedInputChanged",
+		g_variant_new ("(tb)", page_id, need_input),
+		&error);
+
+	if (error) {
+		g_warning ("Error emitting signal NeedInputChanged: %s\n", error->message);
+		g_error_free (error);
+	}
+}
+
+static void
+element_focus_cb (WebKitDOMElement *element,
+		  WebKitDOMEvent *event,
+		  EWebExtension *extension)
+{
+	guint64 *ppage_id;
+
+	g_return_if_fail (E_IS_WEB_EXTENSION (extension));
+
+	ppage_id = g_object_get_data (G_OBJECT (element), WEB_EXTENSION_PAGE_ID_KEY);
+	g_return_if_fail (ppage_id != NULL);
+
+	e_web_extension_set_need_input (extension, *ppage_id, TRUE);
+}
+
+static void
+element_blur_cb (WebKitDOMElement *element,
+		 WebKitDOMEvent *event,
+		 EWebExtension *extension)
+{
+	guint64 *ppage_id;
+
+	g_return_if_fail (E_IS_WEB_EXTENSION (extension));
+
+	ppage_id = g_object_get_data (G_OBJECT (element), WEB_EXTENSION_PAGE_ID_KEY);
+	g_return_if_fail (ppage_id != NULL);
+
+	e_web_extension_set_need_input (extension, *ppage_id, FALSE);
+}
+
+static void
+e_web_extension_bind_focus_and_blur_recursively (EWebExtension *extension,
+						 WebKitDOMDocument *document,
+						 const gchar *selector,
+						 guint64 page_id)
+{
+	WebKitDOMNodeList *nodes = NULL;
+	WebKitDOMHTMLCollection *frames = NULL;
+	gulong ii, length;
+
+	g_return_if_fail (E_IS_WEB_EXTENSION (extension));
+
+	nodes = webkit_dom_document_query_selector_all (document, selector, NULL);
+
+	length = webkit_dom_node_list_get_length (nodes);
+	for (ii = 0; ii < length; ii++) {
+		WebKitDOMNode *node;
+		guint64 *ppage_id;
+
+		node = webkit_dom_node_list_item (nodes, ii);
+
+		ppage_id = g_new (guint64, 1);
+		*ppage_id = page_id;
+
+		g_object_set_data_full (G_OBJECT (node), WEB_EXTENSION_PAGE_ID_KEY, ppage_id, g_free);
+
+		webkit_dom_event_target_add_event_listener (
+			WEBKIT_DOM_EVENT_TARGET (node), "focus",
+			G_CALLBACK (element_focus_cb), FALSE, extension);
+
+		webkit_dom_event_target_add_event_listener (
+			WEBKIT_DOM_EVENT_TARGET (node), "blur",
+			G_CALLBACK (element_blur_cb), FALSE, extension);
+	}
+	g_clear_object (&nodes);
+
+	frames = webkit_dom_document_get_elements_by_tag_name_as_html_collection (document, "iframe");
+	length = webkit_dom_html_collection_get_length (frames);
+
+	/* Add rules to every sub document */
+	for (ii = 0; ii < length; ii++) {
+		WebKitDOMDocument *content_document = NULL;
+		WebKitDOMNode *node;
+
+		node = webkit_dom_html_collection_item (frames, ii);
+		content_document =
+			webkit_dom_html_iframe_element_get_content_document (
+				WEBKIT_DOM_HTML_IFRAME_ELEMENT (node));
+
+		if (!content_document)
+			continue;
+
+		e_web_extension_bind_focus_and_blur_recursively (
+			extension,
+			content_document,
+			selector,
+			page_id);
+	}
+	g_clear_object (&frames);
+}
+
+static void
+e_web_extension_bind_focus_on_elements (EWebExtension *extension,
+					WebKitDOMDocument *document)
+{
+	const gchar *elements = "input, textarea, select, button, label";
+	guint64 page_id;
+
+	g_return_if_fail (E_IS_WEB_EXTENSION (extension));
+	g_return_if_fail (WEBKIT_DOM_IS_DOCUMENT (document));
+
+	page_id = e_web_extension_find_page_id_from_document (document);
+	g_return_if_fail (page_id != 0);
+
+	e_web_extension_bind_focus_and_blur_recursively (
+		extension,
+		document,
+		elements,
+		page_id);
 }
 
 static void
@@ -644,7 +821,7 @@ handle_method_call (GDBusConnection *connection,
 
 		document = webkit_web_page_get_dom_document (web_page);
 		e_dom_utils_e_mail_display_bind_dom (document, connection);
-		e_dom_utils_bind_focus_on_elements (document, connection);
+		e_web_extension_bind_focus_on_elements (extension, document);
 
 		g_dbus_method_invocation_return_value (invocation, NULL);
 	} else if (g_strcmp0 (method_name, "ElementExists") == 0) {
@@ -823,13 +1000,10 @@ handle_get_property (GDBusConnection *connection,
                      GError **error,
                      gpointer user_data)
 {
-	EWebExtension *extension = E_WEB_EXTENSION (user_data);
+	/* EWebExtension *extension = E_WEB_EXTENSION (user_data); */
 	GVariant *variant = NULL;
 
-	if (g_strcmp0 (property_name, "NeedInput") == 0)
-		variant = g_variant_new_boolean (extension->priv->need_input);
-	else if (g_strcmp0 (property_name, "ClipboardFlags") == 0)
-		variant = g_variant_new_uint32 (extension->priv->clipboard_flags);
+	g_warn_if_reached ();
 
 	return variant;
 }
@@ -844,54 +1018,9 @@ handle_set_property (GDBusConnection *connection,
                      GError **error,
                      gpointer user_data)
 {
-	EWebExtension *extension = E_WEB_EXTENSION (user_data);
-	GError *local_error = NULL;
-	GVariantBuilder *builder;
+	/* EWebExtension *extension = E_WEB_EXTENSION (user_data); */
 
-	builder = g_variant_builder_new (G_VARIANT_TYPE_ARRAY);
-
-	if (g_strcmp0 (property_name, "NeedInput") == 0) {
-		gboolean value = g_variant_get_boolean (variant);
-
-		if (value == extension->priv->need_input)
-			goto exit;
-
-		extension->priv->need_input = value;
-
-		g_variant_builder_add (builder,
-			"{sv}",
-			"NeedInput",
-			g_variant_new_boolean (value));
-	} else if (g_strcmp0 (property_name, "ClipboardFlags") == 0) {
-		guint32 value = g_variant_get_uint32 (variant);
-
-		if (value == extension->priv->clipboard_flags)
-			goto exit;
-
-		extension->priv->clipboard_flags = value;
-
-		g_variant_builder_add (builder,
-			"{sv}",
-			"ClipboardFlags",
-			g_variant_new_uint32 (value));
-	}
-
-	g_dbus_connection_emit_signal (connection,
-		NULL,
-		object_path,
-		"org.freedesktop.DBus.Properties",
-		"PropertiesChanged",
-		g_variant_new (
-			"(sa{sv}as)",
-			interface_name,
-			builder,
-			NULL),
-		&local_error);
-
-	g_assert_no_error (local_error);
-
- exit:
-	g_variant_builder_unref (builder);
+	g_warn_if_reached ();
 
 	return TRUE;
 }
@@ -901,6 +1030,27 @@ static const GDBusInterfaceVTable interface_vtable = {
 	handle_get_property,
 	handle_set_property
 };
+
+static void
+web_page_gone_cb (gpointer user_data,
+                  GObject *gone_web_page)
+{
+	EWebExtension *extension = user_data;
+	GHashTableIter iter;
+	gpointer key, value;
+
+	g_return_if_fail (E_IS_WEB_EXTENSION (extension));
+
+	g_hash_table_iter_init (&iter, extension->priv->pages);
+	while (g_hash_table_iter_next (&iter, &key, &value)) {
+		EWebPageData *page_data = value;
+
+		if (page_data->web_page == (gpointer) gone_web_page) {
+			g_hash_table_remove (extension->priv->pages, key);
+			break;
+		}
+	}
+}
 
 static void
 e_web_extension_dispose (GObject *object)
@@ -915,9 +1065,24 @@ e_web_extension_dispose (GObject *object)
 		extension->priv->dbus_connection = NULL;
 	}
 
+	g_hash_table_remove_all (extension->priv->pages);
+
 	g_clear_object (&extension->priv->wk_extension);
 
 	G_OBJECT_CLASS (e_web_extension_parent_class)->dispose (object);
+}
+
+static void
+e_web_extension_finalize (GObject *object)
+{
+	EWebExtension *extension = E_WEB_EXTENSION (object);
+
+	if (extension->priv->pages) {
+		g_hash_table_destroy (extension->priv->pages);
+		extension->priv->pages = NULL;
+	}
+
+	G_OBJECT_CLASS (e_web_extension_parent_class)->finalize (object);
 }
 
 static void
@@ -925,9 +1090,10 @@ e_web_extension_class_init (EWebExtensionClass *class)
 {
 	GObjectClass *object_class = G_OBJECT_CLASS (class);
 
-	object_class->dispose = e_web_extension_dispose;
+	g_type_class_add_private (object_class, sizeof (EWebExtensionPrivate));
 
-	g_type_class_add_private (object_class, sizeof(EWebExtensionPrivate));
+	object_class->dispose = e_web_extension_dispose;
+	object_class->finalize = e_web_extension_finalize;
 }
 
 static void
@@ -936,8 +1102,7 @@ e_web_extension_init (EWebExtension *extension)
 	extension->priv = G_TYPE_INSTANCE_GET_PRIVATE (extension, E_TYPE_WEB_EXTENSION, EWebExtensionPrivate);
 
 	extension->priv->initialized = FALSE;
-	extension->priv->need_input = FALSE;
-	extension->priv->clipboard_flags = 0;
+	extension->priv->pages = g_hash_table_new_full (g_int64_hash, g_int64_equal, g_free, g_free);
 }
 
 static gpointer
@@ -991,8 +1156,14 @@ web_page_document_loaded_cb (WebKitWebPage *web_page,
                              gpointer user_data)
 {
 	WebKitDOMDocument *document;
+	guint64 *ppage_id;
 
 	document = webkit_web_page_get_dom_document (web_page);
+
+	ppage_id = g_new (guint64, 1);
+	*ppage_id = webkit_web_page_get_id (web_page);
+
+	g_object_set_data_full (G_OBJECT (document), WEB_EXTENSION_PAGE_ID_KEY, ppage_id, g_free);
 
 	e_dom_utils_replace_local_image_links (document);
 
@@ -1012,6 +1183,43 @@ web_page_document_loaded_cb (WebKitWebPage *web_page,
 }
 
 static void
+e_web_extension_set_clipboard_flags (EWebExtension *extension,
+				     WebKitDOMDocument *document,
+				     guint32 clipboard_flags)
+{
+	EWebPageData *page_data;
+	guint64 page_id;
+	GError *error = NULL;
+
+	g_return_if_fail (E_IS_WEB_EXTENSION (extension));
+	g_return_if_fail (WEBKIT_DOM_IS_DOCUMENT (document));
+
+	page_id = e_web_extension_find_page_id_from_document (document);
+	g_return_if_fail (page_id != 0);
+
+	page_data = g_hash_table_lookup (extension->priv->pages, &page_id);
+
+	if (!page_data || page_data->clipboard_flags == clipboard_flags)
+		return;
+
+	page_data->clipboard_flags = clipboard_flags;
+
+	g_dbus_connection_emit_signal (
+		extension->priv->dbus_connection,
+		NULL,
+		E_WEB_EXTENSION_OBJECT_PATH,
+		E_WEB_EXTENSION_INTERFACE,
+		"ClipboardFlagsChanged",
+		g_variant_new ("(tu)", page_id, clipboard_flags),
+		&error);
+
+	if (error) {
+		g_warning ("Error emitting signal ClipboardFlagsChanged: %s\n", error->message);
+		g_error_free (error);
+	}
+}
+
+static void
 web_editor_selection_changed_cb (WebKitWebEditor *web_editor,
                                  EWebExtension *extension)
 {
@@ -1026,23 +1234,7 @@ web_editor_selection_changed_cb (WebKitWebEditor *web_editor,
 	if (e_dom_utils_document_has_selection (document))
 		clipboard_flags |= E_CLIPBOARD_CAN_COPY;
 
-	g_dbus_connection_call (
-		extension->priv->dbus_connection,
-		E_WEB_EXTENSION_SERVICE_NAME,
-		E_WEB_EXTENSION_OBJECT_PATH,
-		"org.freedesktop.DBus.Properties",
-		"Set",
-		g_variant_new (
-			"(ssv)",
-			E_WEB_EXTENSION_INTERFACE,
-			"ClipboardFlags",
-			g_variant_new_uint32 (clipboard_flags)),
-		NULL,
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL,
-		NULL);
+	e_web_extension_set_clipboard_flags (extension, document, clipboard_flags);
 }
 
 static void
@@ -1050,6 +1242,21 @@ web_page_created_cb (WebKitWebExtension *wk_extension,
                      WebKitWebPage *web_page,
                      EWebExtension *extension)
 {
+	EWebPageData *page_data;
+	guint64 *ppage_id;
+
+	ppage_id = g_new (guint64, 1);
+	*ppage_id = webkit_web_page_get_id (web_page);
+
+	page_data = g_new0 (EWebPageData, 1);
+	page_data->web_page = web_page;
+	page_data->need_input = FALSE;
+	page_data->clipboard_flags = 0;
+
+	g_hash_table_insert (extension->priv->pages, ppage_id, page_data);
+
+	g_object_weak_ref (G_OBJECT (web_page), web_page_gone_cb, extension);
+
 	g_signal_connect_object (
 		web_page, "send-request",
 		G_CALLBACK (web_page_send_request_cb),

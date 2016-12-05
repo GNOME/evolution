@@ -248,33 +248,6 @@ mail_shell_view_folder_tree_popup_event_cb (EShellView *shell_view,
 }
 
 static gboolean
-mail_shell_view_mail_display_needs_key (EMailShellView *mail_shell_view,
-                                        EMailDisplay *mail_display)
-{
-	if (gtk_widget_has_focus (GTK_WIDGET (mail_display))) {
-		GDBusProxy *web_extension;
-
-		/* Intentionally use Evolution Web Extension */
-		web_extension = e_web_view_get_web_extension_proxy (E_WEB_VIEW (mail_display));
-		if (web_extension) {
-			GVariant *result;
-
-			result = g_dbus_proxy_get_cached_property (web_extension, "NeedInput");
-			if (result) {
-				gboolean need_input;
-
-				need_input = g_variant_get_boolean (result);
-				g_variant_unref (result);
-
-				return need_input;
-			}
-		}
-	}
-
-	return FALSE;
-}
-
-static gboolean
 mail_shell_view_key_press_event_cb (EMailShellView *mail_shell_view,
                                     GdkEventKey *event)
 {
@@ -310,7 +283,8 @@ mail_shell_view_key_press_event_cb (EMailShellView *mail_shell_view,
 			return FALSE;
 	}
 
-	if (mail_shell_view_mail_display_needs_key (mail_shell_view, mail_display))
+	if (e_web_view_get_need_input (E_WEB_VIEW (mail_display)) &&
+	    gtk_widget_has_focus (GTK_WIDGET (mail_display)))
 		return FALSE;
 
 	gtk_action_activate (action);
