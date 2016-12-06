@@ -1039,9 +1039,13 @@ item_key_press (ETableItem *eti,
 	case GDK_KEY_KP_Right:
 		/* Only allow if the Shift modifier is used.
 		 * eg. Ctrl-Equal shouldn't be handled.  */
-		if ((key->state & (GDK_SHIFT_MASK | GDK_LOCK_MASK |
-			GDK_MOD1_MASK)) != GDK_SHIFT_MASK)
-			break;
+		if ((key->state & (GDK_SHIFT_MASK | GDK_LOCK_MASK | GDK_MOD1_MASK)) != GDK_SHIFT_MASK) {
+			/* Allow also plain (without modifiers) expand when in the 'line' cursor mode */
+			if (eti->cursor_mode != E_CURSOR_LINE ||
+			    (key->state & (GDK_SHIFT_MASK | GDK_LOCK_MASK | GDK_MOD1_MASK)) != 0)
+				break;
+		}
+
 		if (row != -1) {
 			path = e_tree_table_adapter_node_at_row (
 				tree->priv->etta, row);
@@ -1057,9 +1061,13 @@ item_key_press (ETableItem *eti,
 	case GDK_KEY_KP_Left:
 		/* Only allow if the Shift modifier is used.
 		 * eg. Ctrl-Minus shouldn't be handled.  */
-		if ((key->state & (GDK_SHIFT_MASK | GDK_LOCK_MASK |
-			GDK_MOD1_MASK)) != GDK_SHIFT_MASK)
-			break;
+		if ((key->state & (GDK_SHIFT_MASK | GDK_LOCK_MASK | GDK_MOD1_MASK)) != GDK_SHIFT_MASK) {
+			/* Allow also plain (without modifiers) collapse when in the 'line' cursor mode */
+			if (eti->cursor_mode != E_CURSOR_LINE ||
+			    (key->state & (GDK_SHIFT_MASK | GDK_LOCK_MASK | GDK_MOD1_MASK)) != 0)
+				break;
+		}
+
 		if (row != -1) {
 			path = e_tree_table_adapter_node_at_row (
 				tree->priv->etta, row);
