@@ -503,21 +503,39 @@ e_mail_formatter_parse_html_mnemonics (const gchar *label,
 	if (out_access_key != NULL)
 		*out_access_key = NULL;
 
+	if (!g_utf8_validate (label, -1, NULL)) {
+		gchar *res = g_strdup (label);
+
+		g_return_val_if_fail (g_utf8_validate (label, -1, NULL), res);
+
+		return res;
+	}
+
 	pos = strstr (label, "_");
 	if (pos != NULL) {
-		gchar ak = pos[1];
-
-		/* Convert to uppercase */
-		if (ak >= 'a')
-			ak = ak - 32;
+		gunichar uk;
 
 		html_label = g_string_new ("");
 		g_string_append_len (html_label, label, pos - label);
-		g_string_append_printf (html_label, "<u>%c</u>", pos[1]);
-		g_string_append (html_label, &pos[2]);
 
-		if (out_access_key != NULL && ak != '\0')
-			*out_access_key = g_strdup_printf ("%c", ak);
+		pos++;
+		uk = g_utf8_get_char (pos);
+
+		pos = g_utf8_next_char (pos);
+
+		g_string_append (html_label, "<u>");
+		g_string_append_unichar (html_label, uk);
+		g_string_append (html_label, "</u>");
+		g_string_append (html_label, pos);
+
+		if (out_access_key != NULL && uk != 0) {
+			gchar ukstr[10];
+			gint len;
+
+			len = g_unichar_to_utf8 (g_unichar_toupper (uk), ukstr);
+			if (len > 0)
+				*out_access_key = g_strndup (ukstr, len);
+		}
 
 	} else {
 		html_label = g_string_new (label);
