@@ -76,6 +76,16 @@ void		e_composer_header_set_title_tooltip
 void		e_composer_header_set_input_tooltip
 						(EComposerHeader *header,
 						 const gchar *tooltip);
+gboolean	e_composer_header_get_title_has_tooltip
+						(EComposerHeader *header);
+void		e_composer_header_set_title_has_tooltip
+						(EComposerHeader *header,
+						 gboolean has_tooltip);
+gboolean	e_composer_header_get_input_has_tooltip
+						(EComposerHeader *header);
+void		e_composer_header_set_input_has_tooltip
+						(EComposerHeader *header,
+						 gboolean has_tooltip);
 
 G_END_DECLS
 

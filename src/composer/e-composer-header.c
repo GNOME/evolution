@@ -425,3 +425,37 @@ e_composer_header_set_input_tooltip (EComposerHeader *header,
 
 	gtk_widget_set_tooltip_text (header->input_widget, tooltip);
 }
+
+gboolean
+e_composer_header_get_title_has_tooltip (EComposerHeader *header)
+{
+	g_return_val_if_fail (E_IS_COMPOSER_HEADER (header), FALSE);
+
+	return gtk_widget_get_has_tooltip (header->title_widget);
+}
+
+void
+e_composer_header_set_title_has_tooltip (EComposerHeader *header,
+					 gboolean has_tooltip)
+{
+	g_return_if_fail (E_IS_COMPOSER_HEADER (header));
+
+	gtk_widget_set_has_tooltip (header->title_widget, has_tooltip);
+}
+
+gboolean
+e_composer_header_get_input_has_tooltip (EComposerHeader *header)
+{
+	g_return_val_if_fail (E_IS_COMPOSER_HEADER (header), FALSE);
+
+	return gtk_widget_get_has_tooltip (header->input_widget);
+}
+
+void
+e_composer_header_set_input_has_tooltip (EComposerHeader *header,
+					 gboolean has_tooltip)
+{
+	g_return_if_fail (E_IS_COMPOSER_HEADER (header));
+
+	gtk_widget_set_has_tooltip (header->input_widget, has_tooltip);
+}

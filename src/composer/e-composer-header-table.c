@@ -872,6 +872,8 @@ composer_header_table_constructed (GObject *object)
 
 	header = e_composer_spell_header_new_label (registry, _("S_ubject:"));
 	composer_header_table_bind_header ("subject", "changed", header);
+	e_composer_header_set_title_has_tooltip (header, FALSE);
+	e_composer_header_set_input_has_tooltip (header, FALSE);
 	table->priv->headers[E_COMPOSER_HEADER_SUBJECT] = header;
 
 	widget = e_mail_signature_combo_box_new (registry);
