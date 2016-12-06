@@ -5814,17 +5814,26 @@ clipboard_text_received_for_paste_quote (GtkClipboard *clipboard,
 static void
 paste_primary_clipboard_quoted (EContentEditor *editor)
 {
+	EWebKitEditor *wk_editor;
 	GtkClipboard *clipboard;
+
+	wk_editor = E_WEBKIT_EDITOR (editor);
 
 	clipboard = gtk_clipboard_get_for_display (
 		gdk_display_get_default (),
 		GDK_SELECTION_PRIMARY);
 
-	if (e_clipboard_wait_is_html_available (clipboard))
-		e_clipboard_request_html (clipboard, clipboard_html_received_for_paste_quote, editor);
-	else if (gtk_clipboard_wait_is_text_available (clipboard))
-		gtk_clipboard_request_text (clipboard, clipboard_text_received_for_paste_quote, editor);
-
+       if (wk_editor->priv->html_mode) {
+               if (e_clipboard_wait_is_html_available (clipboard))
+                       e_clipboard_request_html (clipboard, clipboard_html_received_for_paste_quote, editor);
+               else if (gtk_clipboard_wait_is_text_available (clipboard))
+                       gtk_clipboard_request_text (clipboard, clipboard_text_received_for_paste_quote, editor);
+       } else {
+               if (gtk_clipboard_wait_is_text_available (clipboard))
+                       gtk_clipboard_request_text (clipboard, clipboard_text_received_for_paste_quote, editor);
+               else if (e_clipboard_wait_is_html_available (clipboard))
+                       e_clipboard_request_html (clipboard, clipboard_html_received_for_paste_quote, editor);
+       }
 }
 
 static gboolean

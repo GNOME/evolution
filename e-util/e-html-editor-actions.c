@@ -645,10 +645,17 @@ action_paste_quote_cb (GtkAction *action,
 		gdk_display_get_default (),
 		GDK_SELECTION_CLIPBOARD);
 
-	if (e_clipboard_wait_is_html_available (clipboard))
-		e_clipboard_request_html (clipboard, clipboard_html_received_for_paste_quote, editor);
-	else if (gtk_clipboard_wait_is_text_available (clipboard))
-		gtk_clipboard_request_text (clipboard, clipboard_text_received_for_paste_quote, editor);
+	if (e_content_editor_get_html_mode (cnt_editor)) {
+		if (e_clipboard_wait_is_html_available (clipboard))
+			e_clipboard_request_html (clipboard, clipboard_html_received_for_paste_quote, editor);
+		else if (gtk_clipboard_wait_is_text_available (clipboard))
+			gtk_clipboard_request_text (clipboard, clipboard_text_received_for_paste_quote, editor);
+	} else {
+		if (gtk_clipboard_wait_is_text_available (clipboard))
+			gtk_clipboard_request_text (clipboard, clipboard_text_received_for_paste_quote, editor);
+		else if (e_clipboard_wait_is_html_available (clipboard))
+			e_clipboard_request_html (clipboard, clipboard_html_received_for_paste_quote, editor);
+	}
 }
 
 static void
