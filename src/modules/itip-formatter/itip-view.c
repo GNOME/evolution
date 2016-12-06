@@ -3632,11 +3632,27 @@ find_cal_update_ui (FormatItipFindData *fd,
 	source = cal_client ? e_client_get_source (E_CLIENT (cal_client)) : NULL;
 
 	if (cal_client && g_hash_table_lookup (fd->conflicts, cal_client)) {
-		itip_view_add_upper_info_item_printf (
-			view, ITIP_VIEW_INFO_ITEM_TYPE_WARNING,
-			_("An appointment in the calendar "
-			"“%s” conflicts with this meeting"),
-			e_source_get_display_name (source));
+		GSList *icalcomps = g_hash_table_lookup (fd->conflicts, cal_client);
+		guint ncomps;
+
+		ncomps = g_slist_length (icalcomps);
+		if (ncomps == 1 && icalcomps->data) {
+			icalcomponent *icalcomp = icalcomps->data;
+
+			itip_view_add_upper_info_item_printf (
+				view, ITIP_VIEW_INFO_ITEM_TYPE_WARNING,
+				_("An appointment “%s” in the calendar “%s” conflicts with this meeting"),
+				icalcomponent_get_summary (icalcomp),
+				e_source_get_display_name (source));
+		} else {
+			itip_view_add_upper_info_item_printf (
+				view, ITIP_VIEW_INFO_ITEM_TYPE_WARNING,
+				ngettext (_("The calendar “%s” contains an appointment which conflicts with this meeting"),
+					  _("The calendar “%s” contains %d appointments which conflict with this meeting"),
+					  ncomps),
+				e_source_get_display_name (source),
+				ncomps);
+		}
 	}
 
 	/* search for a master object if the detached object doesn't exist in the calendar */
@@ -3970,10 +3986,7 @@ get_object_list_ready_cb (GObject *source_object,
 		g_error_free (error);
 
 	} else {
-		g_hash_table_insert (
-			fd->conflicts, cal_client,
-			GINT_TO_POINTER (g_slist_length (objects)));
-		e_cal_client_free_icalcomp_slist (objects);
+		g_hash_table_insert (fd->conflicts, cal_client, objects);
 	}
 
 	e_cal_client_get_object (
@@ -4181,7 +4194,7 @@ find_server (ItipView *view,
 			fd->cancelled_id = g_cancellable_connect (
 				fd->itip_cancellable,
 				G_CALLBACK (itip_cancellable_cancelled), fd->cancellable, NULL);
-			fd->conflicts = g_hash_table_new (g_direct_hash, g_direct_equal);
+			fd->conflicts = g_hash_table_new_full (g_direct_hash, g_direct_equal, NULL, (GDestroyNotify) e_cal_client_free_icalcomp_slist);
 			fd->uid = g_strdup (uid);
 			fd->rid = rid;
 			/* avoid free this at the end */
