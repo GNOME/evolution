@@ -5885,12 +5885,13 @@ webkit_editor_key_press_event (GtkWidget *widget,
 	    ((event)->keyval == GDK_KEY_v))) {
 		if (!e_content_editor_emit_paste_clipboard (E_CONTENT_EDITOR (widget)))
 			webkit_editor_paste (E_CONTENT_EDITOR (widget));
-
 		return TRUE;
 	}
 
-	if (((event)->state & GDK_CONTROL_MASK) &&
-	    ((event)->keyval == GDK_KEY_Insert)) {
+	if ((((event)->state & GDK_CONTROL_MASK) &&
+	    ((event)->keyval == GDK_KEY_Insert)) ||
+	    (((event)->state & GDK_CONTROL_MASK) &&
+	    ((event)->keyval == GDK_KEY_c))) {
 		webkit_editor_copy (E_CONTENT_EDITOR (wk_editor));
 		return TRUE;
 	}
