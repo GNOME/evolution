@@ -161,7 +161,7 @@ e_cal_shell_backend_handle_uri (EShellBackend *shell_backend,
 		return FALSE;
 
 	return e_cal_base_shell_backend_util_handle_uri (shell_backend,
-		E_CAL_CLIENT_SOURCE_TYPE_TASKS, uri, cal_shell_backend_handle_uri_start_end_dates);
+		E_CAL_CLIENT_SOURCE_TYPE_EVENTS, uri, cal_shell_backend_handle_uri_start_end_dates);
 }
 
 static void
