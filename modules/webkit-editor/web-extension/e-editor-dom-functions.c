@@ -5474,7 +5474,8 @@ e_editor_dom_quote_and_insert_text_into_selection (EEditorPage *editor_page,
 		while (node) {
 			WebKitDOMNode *next_sibling;
 
-			node = WEBKIT_DOM_NODE (e_editor_dom_wrap_paragraph_length (editor_page, WEBKIT_DOM_ELEMENT (node), word_wrap_length - 2));
+			if (!WEBKIT_DOM_IS_HTML_PRE_ELEMENT (node))
+				node = WEBKIT_DOM_NODE (e_editor_dom_wrap_paragraph_length (editor_page, WEBKIT_DOM_ELEMENT (node), word_wrap_length - 2));
 
 			webkit_dom_node_normalize (node);
 			e_editor_dom_quote_plain_text_element_after_wrapping (editor_page, WEBKIT_DOM_ELEMENT (node), 1);
