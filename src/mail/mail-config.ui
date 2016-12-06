@@ -251,7 +251,7 @@
                     </child>
                     <child>
                       <object class="GtkCheckButton" id="chkInheritThemeColors">
-                        <property name="label" translatable="yes">Inherit theme colors in HTML mode</property>
+                        <property name="label" translatable="yes">Inherit theme colors in HTML format</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
@@ -1124,7 +1124,7 @@
                 </child>
                 <child>
                   <object class="GtkCheckButton" id="chkPromptComposerModeSwitch">
-                    <property name="label" translatable="yes">Before composer mo_de changes from HTML to Plain Text</property>
+                    <property name="label" translatable="yes" comments="Translators: 'changes' is a verb. This is whether to show a warning or not in that situation">Before composer _format changes from HTML to Plain Text</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>

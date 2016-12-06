@@ -513,8 +513,8 @@
     </key>
     <key name="prompt-on-composer-mode-switch" type="b">
       <default>true</default>
-      <_summary>Prompt when switching composer mode and the content needs to lose its formatting</_summary>
-      <_description>It disables/enables the repeated prompts to warn that you are switching composer mode and the content needs to lose its formatting.</_description>
+      <_summary>Prompt when switching composer format and the content needs to lose its formatting</_summary>
+      <_description>It disables/enables the repeated prompts to warn that you are switching composer format and the content needs to lose its formatting.</_description>
     </key>
     <key name="prompt-on-many-to-cc-recips" type="b">
       <default>true</default>
@@ -642,7 +642,7 @@
     </key>
     <key name="composer-inherit-theme-colors" type="b">
       <default>false</default>
-      <_summary>Inherit theme colors in HTML mode</_summary>
+      <_summary>Inherit theme colors in HTML format</_summary>
       <_description>When enabled the theme colors for background, text and links are sent in resulting HTML formatted message.</_description>
     </key>
     <child name="browser-window" schema="org.gnome.evolution.window"/>
