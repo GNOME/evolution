@@ -516,7 +516,7 @@ edvti_draw_zone (GnomeCanvasItem *canvas_item,
 				gdk_cairo_set_source_color (cr, &mb_color);
 			else
 				gdk_cairo_set_source_rgba (cr, &fg);
-			layout = pango_cairo_create_layout (cr);
+			layout = gtk_widget_create_pango_layout (GTK_WIDGET (day_view), NULL);
 			pango_layout_set_text (layout, buffer, -1);
 			pango_layout_get_pixel_size (layout, &minute_width, NULL);
 			cairo_translate (
@@ -557,7 +557,7 @@ edvti_draw_zone (GnomeCanvasItem *canvas_item,
 					gdk_cairo_set_source_color (cr, &mb_color);
 				else
 					gdk_cairo_set_source_rgba (cr, &fg);
-				layout = pango_cairo_create_layout (cr);
+				layout = gtk_widget_create_pango_layout (GTK_WIDGET (day_view), NULL);
 				pango_layout_set_text (layout, buffer, -1);
 				pango_layout_set_font_description (
 					layout, day_view->large_font_desc);
@@ -605,7 +605,7 @@ edvti_draw_zone (GnomeCanvasItem *canvas_item,
 					gdk_cairo_set_source_color (cr, &mb_color);
 				else
 					gdk_cairo_set_source_rgba (cr, &fg);
-				layout = pango_cairo_create_layout (cr);
+				layout = gtk_widget_create_pango_layout (GTK_WIDGET (day_view), NULL);
 				pango_layout_set_text (layout, buffer, -1);
 				pango_layout_set_font_description (
 					layout, day_view->small_font_desc);
