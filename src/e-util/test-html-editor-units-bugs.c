@@ -810,6 +810,24 @@ test_bug_775042 (TestFixture *fixture)
 		g_test_fail ();
 }
 
+static void
+test_bug_775691 (TestFixture *fixture)
+{
+	if (!test_utils_run_simple_test (fixture,
+		"mode:plain\n"
+		"type:abc def ghi\\n\n"
+		"seq:urrrrSrrrs\n"
+		"action:copy\n"
+		"seq:d\n"
+		"action:paste\n",
+		HTML_PREFIX "<div style=\"width: 71ch;\">abc def ghi</div>"
+		"<div style=\"width: 71ch;\">def</div>"
+		HTML_SUFFIX,
+		"abc def ghi\n"
+		"def"))
+		g_test_fail ();
+}
+
 void
 test_add_html_editor_bug_tests (void)
 {
@@ -830,4 +848,5 @@ test_add_html_editor_bug_tests (void)
 	test_utils_add_test ("/bug/772918", test_bug_772918);
 	test_utils_add_test ("/bug/773164", test_bug_773164);
 	test_utils_add_test ("/bug/775042", test_bug_775042);
+	test_utils_add_test ("/bug/775691", test_bug_775691);
 }

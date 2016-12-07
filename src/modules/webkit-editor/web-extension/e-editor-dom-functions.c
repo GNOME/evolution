@@ -8754,16 +8754,18 @@ e_editor_dom_insert_html (EEditorPage *editor_page,
 			 * empty after we insert the content. */
 			selection_marker = webkit_dom_document_get_element_by_id (
 				document, "-x-evo-selection-start-marker");
-			if (!webkit_dom_node_get_previous_sibling (WEBKIT_DOM_NODE (selection_marker))) {
-				WebKitDOMNode *sibling;
 
-				sibling = webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (selection_marker));
-				sibling = webkit_dom_node_get_next_sibling (sibling);
-				if (WEBKIT_DOM_IS_HTML_BR_ELEMENT (sibling)) {
-					block = e_editor_dom_get_parent_block_node_from_child (WEBKIT_DOM_NODE (selection_marker));
-					remove_node (sibling);
+			if (!e_editor_page_is_pasting_content_from_itself (editor_page)) {
+				if (!webkit_dom_node_get_previous_sibling (WEBKIT_DOM_NODE (selection_marker))) {
+					WebKitDOMNode *sibling;
+
+					sibling = webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (selection_marker));
+					sibling = webkit_dom_node_get_next_sibling (sibling);
+					if (WEBKIT_DOM_IS_HTML_BR_ELEMENT (sibling))
+						remove_node (sibling);
 				}
 			}
+			block = e_editor_dom_get_parent_block_node_from_child (WEBKIT_DOM_NODE (selection_marker));
 
 			e_editor_dom_selection_restore (editor_page);
 		}
