@@ -1572,7 +1572,7 @@ e_calendar_item_draw_day_numbers (ECalendarItem *calitem,
 		+ E_CALENDAR_ITEM_MIN_CELL_XPAD;
 	min_cell_height = char_height + E_CALENDAR_ITEM_MIN_CELL_YPAD;
 
-	layout = pango_cairo_create_layout (cr);
+	layout = gtk_widget_create_pango_layout (GTK_WIDGET (widget), NULL);
 
 	/* Calculate the number of days in the previous, current, and next
 	 * months. */
