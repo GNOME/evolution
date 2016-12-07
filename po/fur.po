@@ -11,7 +11,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2016-12-04 18:41+0000\n"
-"PO-Revision-Date: 2016-12-06 16:24+0100\n"
+"PO-Revision-Date: 2016-12-07 09:22+0100\n"
 "Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
 "Language-Team: Friulian <f.t.public@gmail.com>\n"
 "Language: fur\n"
@@ -20720,7 +20720,7 @@ msgstr "Listis des ativitâts"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:83
 msgid "Default Free/Busy Server"
-msgstr "Servidôr libar/ocupât predefinît"
+msgstr "Servidôr libar/impegnât predefinît"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:86
 #, no-c-format
@@ -21686,7 +21686,7 @@ msgstr ""
 #: ../src/modules/itip-formatter/itip-view.c:440
 #, c-format
 msgid "%s has published the following meeting information:"
-msgstr "%s al à publicât lis informazions su la riunion chi daurman:"
+msgstr "A son stadis publicadis di %s chestis informazions su la riunion:"
 
 #: ../src/modules/itip-formatter/itip-view.c:445
 #, c-format
@@ -21703,7 +21703,7 @@ msgstr "%s midiant di %s al domande la tô presince ae riunion chi daurman:"
 #: ../src/modules/itip-formatter/itip-view.c:450
 #, c-format
 msgid "%s requests your presence at the following meeting:"
-msgstr "%s al domande la tô presince ae riunion chi daurman:"
+msgstr "E je stade domandade di %s la tô presince ae riunion chi daurman:"
 
 # cui desiderial? M o F?
 #: ../src/modules/itip-formatter/itip-view.c:456
@@ -21740,7 +21740,7 @@ msgstr ""
 #: ../src/modules/itip-formatter/itip-view.c:470
 #, c-format
 msgid "%s has sent back the following meeting response:"
-msgstr "%s al à tornât indaûr la rispueste ae riunion chi daurman:"
+msgstr "E je stade mandade indaûr di %s cheste rispueste ae riunion:"
 
 #: ../src/modules/itip-formatter/itip-view.c:474
 #, c-format
@@ -21750,7 +21750,7 @@ msgstr "%s midiant di %s al à anulât la riunion chi daurman:"
 #: ../src/modules/itip-formatter/itip-view.c:476
 #, c-format
 msgid "%s has cancelled the following meeting:"
-msgstr "%s al à anulât la riunion chi daurman:"
+msgstr "E je stade anulade di %s cheste riunion:"
 
 #: ../src/modules/itip-formatter/itip-view.c:480
 #, c-format
@@ -21760,7 +21760,7 @@ msgstr "%s midiant di %s al à proponût lis modifichis ae riunion chi daurman:"
 #: ../src/modules/itip-formatter/itip-view.c:482
 #, c-format
 msgid "%s has proposed the following meeting changes:"
-msgstr "%s al à proponût lis modifichis ae riunion chi daurman:"
+msgstr "A son stadis proponudis di %s chestis modifichis ae riunion:"
 
 #: ../src/modules/itip-formatter/itip-view.c:486
 #, c-format
@@ -21770,7 +21770,7 @@ msgstr "%s midiant di %s al à declinât lis modifichis ae riunion chi daurman:"
 #: ../src/modules/itip-formatter/itip-view.c:488
 #, c-format
 msgid "%s has declined the following meeting changes:"
-msgstr "%s al à declinât lis modifichis ae riunion chi daurman:"
+msgstr "A son stadis declinadis di %s chestis modifichis ae riunion:"
 
 #: ../src/modules/itip-formatter/itip-view.c:528
 #, c-format
@@ -21780,12 +21780,13 @@ msgstr "%s midiant di %s al à publicât la ativitât chi daurman:"
 #: ../src/modules/itip-formatter/itip-view.c:530
 #, c-format
 msgid "%s has published the following task:"
-msgstr "%s al à publicât la ativitât chi daurman:"
+msgstr "E je stade publicade di %s cheste ativitât:"
 
 #: ../src/modules/itip-formatter/itip-view.c:535
 #, c-format
 msgid "%s requests the assignment of %s to the following task:"
-msgstr "%s al domande la assegnazion di %s ae ativitât chi daurman:"
+msgstr ""
+"E je stade domandade di %s la assegnazion di %s ae ativitât chi daurman:"
 
 #: ../src/modules/itip-formatter/itip-view.c:538
 #, c-format
@@ -21800,12 +21801,12 @@ msgstr "%s us à assegnât une ativitât:"
 #: ../src/modules/itip-formatter/itip-view.c:546
 #, c-format
 msgid "%s through %s wishes to add to an existing task:"
-msgstr ""
+msgstr "%s midiant di %s al desidere zontâsi a une ativitât esistente:"
 
 #: ../src/modules/itip-formatter/itip-view.c:548
 #, c-format
 msgid "%s wishes to add to an existing task:"
-msgstr ""
+msgstr "%s al desidere zontâsi a une ativitât esistente:"
 
 #: ../src/modules/itip-formatter/itip-view.c:552
 #, c-format
@@ -21813,83 +21814,93 @@ msgid ""
 "%s through %s wishes to receive the latest information for the following "
 "assigned task:"
 msgstr ""
+"%s midiant di %s al desidere ricevi lis ultimis informazions pe ativitât "
+"assegnade chi daurman:"
 
 #: ../src/modules/itip-formatter/itip-view.c:554
 #, c-format
 msgid ""
 "%s wishes to receive the latest information for the following assigned task:"
 msgstr ""
+"%s al desidere ricevi lis ultimis informazions pe ativitât assegnade chi "
+"daurman:"
 
 #: ../src/modules/itip-formatter/itip-view.c:558
 #, c-format
 msgid "%s through %s has sent back the following assigned task response:"
 msgstr ""
+"%s midiant di %s al à tornât indaûr la rispueste, chi daurman, pe ativitât "
+"assegnade:"
 
 #: ../src/modules/itip-formatter/itip-view.c:560
 #, c-format
 msgid "%s has sent back the following assigned task response:"
 msgstr ""
+"E je stade mandade indaûr di %s cheste rispueste pe ativitât assegnade:"
 
 #: ../src/modules/itip-formatter/itip-view.c:564
 #, c-format
 msgid "%s through %s has cancelled the following assigned task:"
-msgstr ""
+msgstr "%s midiant di %s al à anulât la ativitât assegnade chi daurman:"
 
 #: ../src/modules/itip-formatter/itip-view.c:566
 #, c-format
 msgid "%s has cancelled the following assigned task:"
-msgstr ""
+msgstr "E je stade anulade di %s cheste ativitât assegnade:"
 
 #: ../src/modules/itip-formatter/itip-view.c:570
 #, c-format
 msgid "%s through %s has proposed the following task assignment changes:"
 msgstr ""
+"%s midiant di %s al à proponût lis modifichis, chi daurman, ae assegnazion "
+"de ativitât:"
 
 #: ../src/modules/itip-formatter/itip-view.c:572
 #, c-format
 msgid "%s has proposed the following task assignment changes:"
 msgstr ""
+"A son stadis proponudis di %s chestis modifichis ae assegnazion de ativitât:"
 
 #: ../src/modules/itip-formatter/itip-view.c:576
 #, c-format
 msgid "%s through %s has declined the following assigned task:"
-msgstr ""
+msgstr "%s midiant di %s al à declinât la ativitât assegnade chi daurman:"
 
 #: ../src/modules/itip-formatter/itip-view.c:578
 #, c-format
 msgid "%s has declined the following assigned task:"
-msgstr ""
+msgstr "E je stade declinade di %s cheste ativitât assegnade:"
 
 #: ../src/modules/itip-formatter/itip-view.c:617
 #, c-format
 msgid "%s through %s has published the following memo:"
-msgstr ""
+msgstr "%s midiant di %s al à publicât il memorandum chi daurman:"
 
 #: ../src/modules/itip-formatter/itip-view.c:619
 #, c-format
 msgid "%s has published the following memo:"
-msgstr "Al è stât publicât di %s il seguitîf memorandum:"
+msgstr "Al è stât publicât di %s chest memorandum:"
 
 #: ../src/modules/itip-formatter/itip-view.c:624
 #, c-format
 msgid "%s through %s wishes to add to an existing memo:"
-msgstr ""
+msgstr "%s midiant di %s al desidere zontâsi a un memorandum esistent:"
 
 #: ../src/modules/itip-formatter/itip-view.c:626
 #, c-format
 msgid "%s wishes to add to an existing memo:"
-msgstr ""
+msgstr "%s al desidere zontâsi a un memorandum esistent:"
 
 #: ../src/modules/itip-formatter/itip-view.c:630
 #, c-format
 msgid "%s through %s has cancelled the following shared memo:"
-msgstr ""
+msgstr "%s midiant di %s al à anulât il memorandum condividût chi daurman:"
 
 # m o f?
 #: ../src/modules/itip-formatter/itip-view.c:632
-#, fuzzy, c-format
+#, c-format
 msgid "%s has cancelled the following shared memo:"
-msgstr "%s al à scancelât il memorandum condividût chi daurman:"
+msgstr "Al è stât anulât di %s chest memorandum condividût:"
 
 #: ../src/modules/itip-formatter/itip-view.c:857
 msgid "All day:"
@@ -22045,25 +22056,25 @@ msgstr "Impussibil inviâ l'element al calendari “%s”.  %s"
 
 # Inviât o inviade acetât o acedate?
 #: ../src/modules/itip-formatter/itip-view.c:4582
-#, fuzzy, c-format
+#, c-format
 msgid "Sent to calendar “%s” as accepted"
 msgstr "Inviât al calendari “%s” come acetât"
 
 # inviât o inviade? provisori o provisorie?
 #: ../src/modules/itip-formatter/itip-view.c:4587
-#, fuzzy, c-format
+#, c-format
 msgid "Sent to calendar “%s” as tentative"
 msgstr "Inviât al calendari “%s” come provisori"
 
 # inviât o inviade, declinât o declinade?
 #: ../src/modules/itip-formatter/itip-view.c:4593
-#, fuzzy, c-format
+#, c-format
 msgid "Sent to calendar “%s” as declined"
 msgstr "Inviât al calendari “%s” come declinât"
 
 # inviât o inviade? anulât o anulade?
 #: ../src/modules/itip-formatter/itip-view.c:4599
-#, fuzzy, c-format
+#, c-format
 msgid "Sent to calendar “%s” as cancelled"
 msgstr "Inviât al calendari “%s” come anulât"
 
@@ -22071,46 +22082,49 @@ msgstr "Inviât al calendari “%s” come anulât"
 #: ../src/modules/itip-formatter/itip-view.c:5065
 #: ../src/modules/itip-formatter/itip-view.c:5168
 msgid "Saving changes to the calendar. Please wait..."
-msgstr ""
+msgstr "Daûr a salvâ lis modifichis sul calendari. Par plasê spiete..."
 
 #: ../src/modules/itip-formatter/itip-view.c:4660
 msgid "Unable to parse item"
-msgstr ""
+msgstr "Impussibil elaborâ l'element"
 
 #: ../src/modules/itip-formatter/itip-view.c:4852
 #, c-format
 msgid "Organizer has removed the delegate %s "
-msgstr ""
+msgstr "L'organizadôr al à gjavât il delegât %s"
 
 #: ../src/modules/itip-formatter/itip-view.c:4869
 msgid "Sent a cancelation notice to the delegate"
-msgstr ""
+msgstr "Inviade une notifiche di anulament al delegât"
 
 #: ../src/modules/itip-formatter/itip-view.c:4873
 msgid "Could not send the cancelation notice to the delegate"
-msgstr ""
+msgstr "Impussibil inviâ une notifiche di anulament al delegât"
 
 #: ../src/modules/itip-formatter/itip-view.c:4920
 #, c-format
 msgid "Unable to update attendee. %s"
-msgstr ""
+msgstr "Impussibil inzornâ il partecipant. %s"
 
 #: ../src/modules/itip-formatter/itip-view.c:4955
 msgid "The meeting is invalid and cannot be updated"
-msgstr ""
+msgstr "La riunion no je valide e no pues jessi inzornade"
 
 #: ../src/modules/itip-formatter/itip-view.c:5030
 msgid "Attendee status could not be updated because the status is invalid"
 msgstr ""
+"Il stât dal partecipant nol pues jessi inzornât parcè che il stât nol è valit"
 
 #: ../src/modules/itip-formatter/itip-view.c:5101
 #: ../src/modules/itip-formatter/itip-view.c:5139
 msgid "Attendee status can not be updated because the item no longer exists"
 msgstr ""
+"Il stât dal partecipant nol pues jessi inzornât par vie che l'element nol "
+"esist plui"
 
 #: ../src/modules/itip-formatter/itip-view.c:5200
 msgid "Meeting information sent"
-msgstr ""
+msgstr "Informazions su la riunion inviadis"
 
 #: ../src/modules/itip-formatter/itip-view.c:5205
 msgid "Task information sent"
@@ -22144,7 +22158,7 @@ msgstr "Salve calendari"
 #: ../src/modules/itip-formatter/itip-view.c:5349
 #: ../src/modules/itip-formatter/itip-view.c:5362
 msgid "The calendar attached is not valid"
-msgstr ""
+msgstr "Il calendari alegât nol è valit"
 
 #: ../src/modules/itip-formatter/itip-view.c:5350
 #: ../src/modules/itip-formatter/itip-view.c:5363
@@ -22152,12 +22166,14 @@ msgid ""
 "The message claims to contain a calendar, but the calendar is not a valid "
 "iCalendar."
 msgstr ""
+"Il messaç al declare di contignî un calendari, ma il calendari nol è un "
+"valit iCalendar."
 
 #: ../src/modules/itip-formatter/itip-view.c:5405
 #: ../src/modules/itip-formatter/itip-view.c:5435
 #: ../src/modules/itip-formatter/itip-view.c:5538
 msgid "The item in the calendar is not valid"
-msgstr ""
+msgstr "L'element tal calendari nol è valit"
 
 #: ../src/modules/itip-formatter/itip-view.c:5406
 #: ../src/modules/itip-formatter/itip-view.c:5436
@@ -22166,16 +22182,20 @@ msgid ""
 "The message does contain a calendar, but the calendar contains no events, "
 "tasks or free/busy information"
 msgstr ""
+"Il messaç al à un calendari, ma chest nol conten events, ativitâts o "
+"informazions libar/impegnât"
 
 #: ../src/modules/itip-formatter/itip-view.c:5451
 msgid "The calendar attached contains multiple items"
-msgstr ""
+msgstr "Il calendari alegât al à elements multiplis"
 
 #: ../src/modules/itip-formatter/itip-view.c:5452
 msgid ""
 "To process all of these items, the file should be saved and the calendar "
 "imported"
 msgstr ""
+"Par processâ ducj chescj elements, il file al varès di jessi salvât e il "
+"calendari impuartât"
 
 #: ../src/modules/itip-formatter/itip-view.c:5970
 msgctxt "cal-itip"
@@ -22188,11 +22208,11 @@ msgstr "Acetât pal moment"
 
 #: ../src/modules/itip-formatter/itip-view.c:6152
 msgid "This meeting recurs"
-msgstr ""
+msgstr "Cheste riunion e cole"
 
 #: ../src/modules/itip-formatter/itip-view.c:6155
 msgid "This task recurs"
-msgstr ""
+msgstr "Cheste ativitât e cole"
 
 #: ../src/modules/itip-formatter/itip-view.c:6158
 msgid "This memo recurs"
@@ -22202,14 +22222,15 @@ msgstr "Chest memorandum al cole"
 msgid ""
 "This response is not from a current attendee. Add the sender as an attendee?"
 msgstr ""
+"Cheste rispueste no ven di un partecipant. Zontâ il mitent come partecipant?"
 
 #: ../src/modules/itip-formatter/org-gnome-itip-formatter.error.xml.h:2
 msgid "This meeting has been delegated"
-msgstr ""
+msgstr "Cheste riunion e je stade delegade"
 
 #: ../src/modules/itip-formatter/org-gnome-itip-formatter.error.xml.h:3
 msgid "“{0}” has delegated the meeting. Do you want to add the delegate “{1}”?"
-msgstr ""
+msgstr "La riunion e je stade delegade di “{0}”. Zontâ il delegât “{1}”?"
 
 #: ../src/modules/mail-config/e-mail-config-google-summary.c:283
 msgid "Google Features"
@@ -22234,31 +22255,31 @@ msgstr "Cartele de _pueste:"
 
 #: ../src/modules/mail-config/e-mail-config-local-accounts.c:269
 msgid "Choose a MH mail directory"
-msgstr "Sielç une cartele di pueste MH"
+msgstr "Sielzi une cartele di pueste MH"
 
 #: ../src/modules/mail-config/e-mail-config-local-accounts.c:271
 msgid "MH mail directory cannot be empty"
-msgstr ""
+msgstr "La cartele di pueste MH no pues jessi vueide"
 
 #: ../src/modules/mail-config/e-mail-config-local-accounts.c:292
 msgid "Local Delivery _File:"
-msgstr ""
+msgstr "File di consegne locâl:"
 
 #: ../src/modules/mail-config/e-mail-config-local-accounts.c:293
 msgid "Choose a local delivery file"
-msgstr ""
+msgstr "Sielzi un file di consegne locâl"
 
 #: ../src/modules/mail-config/e-mail-config-local-accounts.c:295
 msgid "Local delivery file cannot be empty"
-msgstr ""
+msgstr "Il file di consegne locâl nol pues jessi vueit"
 
 #: ../src/modules/mail-config/e-mail-config-local-accounts.c:317
 msgid "Choose a Maildir mail directory"
-msgstr ""
+msgstr "Sielzi une cartele di pueste Maildir"
 
 #: ../src/modules/mail-config/e-mail-config-local-accounts.c:319
 msgid "Maildir mail directory cannot be empty"
-msgstr ""
+msgstr "La cartele di pueste Maildir no pues jessi vueide"
 
 #: ../src/modules/mail-config/e-mail-config-local-accounts.c:340
 msgid "Spool _File:"
@@ -22516,7 +22537,7 @@ msgstr "Discjarie i messaçs dai account e des cartelis segnadis pal ûs fûr r�
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1685
 msgid "Fl_ush Outbox"
-msgstr ""
+msgstr "Invie pueste «In jessude»"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1692
 msgid "_Copy Folder To..."
@@ -22579,15 +22600,15 @@ msgstr "Cambie il non di cheste cartele"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1756
 msgid "Select Message _Thread"
-msgstr ""
+msgstr "Selezione _discussion dal messaç"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1758
 msgid "Select all messages in the same thread as the selected message"
-msgstr ""
+msgstr "Selezione ducj i messaçs de stesse discussion dal messaç selezionât"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1763
 msgid "Select Message S_ubthread"
-msgstr ""
+msgstr "Selezione s_ot-discussion dal messaç"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1765
 msgid "Select all replies to the currently selected message"
@@ -22659,19 +22680,19 @@ msgstr "Anule la operazion di pueste in vore"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1877
 msgid "Collapse All _Threads"
-msgstr ""
+msgstr "Strenç du_tis lis discussions"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1879
 msgid "Collapse all message threads"
-msgstr ""
+msgstr "Al strenç ducj i messaçs tes discussions"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1884
 msgid "E_xpand All Threads"
-msgstr ""
+msgstr "Pant dutis lis discussions"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1886
 msgid "Expand all message threads"
-msgstr ""
+msgstr "Al pant ducj i messaçs tes discussions"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1891
 msgid "_Message Filters"
@@ -22695,7 +22716,7 @@ msgstr "_Etichetis"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1931
 msgid "C_reate Search Folder From Search..."
-msgstr ""
+msgstr "Cun la ricercje _cree cartele di ricercje..."
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1938
 msgid "Search F_olders"
@@ -22747,19 +22768,19 @@ msgstr "Mostre i messaçs malvolûts cuntune linie rosse parsore"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:2039
 msgid "_Group By Threads"
-msgstr ""
+msgstr "_Intrope par discussion"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:2041
 msgid "Threaded message list"
-msgstr ""
+msgstr "Liste di messaçs par discussions"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:2047
 msgid "_Unmatched Folder Enabled"
-msgstr ""
+msgstr "Cartele _no corispondents abilitade"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:2049
 msgid "Toggles whether Unmatched search folder is enabled"
-msgstr ""
+msgstr "Al comute se la cartele di ricercje No corispondents e je abilitade"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:2069
 msgid "Show message preview below the message list"
@@ -22806,12 +22827,13 @@ msgid "Unread Messages"
 msgstr "Messaçs no lets"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:2147
+#, fuzzy
 msgid "Message Thread"
-msgstr ""
+msgstr "Fîl dal messaç"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:2207
 msgid "Subject or Addresses contain"
-msgstr ""
+msgstr "Ogjet o direzions a contegnin"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:2217
 msgid "All Accounts"
@@ -23542,6 +23564,11 @@ msgid ""
 "reply to messages.  Also fills in IM contact information from your buddy "
 "lists."
 msgstr ""
+"Si ocupe de gjestion de rubriche.\n"
+"\n"
+"Al jemple in automatic la tô rubriche cun nons e direzions e-mail cuant che "
+"si rispuint ai messaçs.  Al jemple ancje lis informazions dai contats pai "
+"messaçs istantanis de tô liste di amîs."
 
 #: ../src/plugins/dbx-import/dbx-importer.c:274
 msgid "Importing Outlook Express data"
@@ -23779,7 +23806,7 @@ msgstr "Oten _archivi liste"
 
 #: ../src/plugins/mailing-list-actions/mailing-list-actions.c:415
 msgid "Get an archive of the list this message belongs to"
-msgstr ""
+msgstr "Oten un archivi de liste dulà che chest messaç al fâs part"
 
 #: ../src/plugins/mailing-list-actions/mailing-list-actions.c:420
 msgid "Copy _Message Archive URL"
@@ -23795,7 +23822,7 @@ msgstr "Oten informazions _ûs liste"
 
 #: ../src/plugins/mailing-list-actions/mailing-list-actions.c:429
 msgid "Get information about the usage of the list this message belongs to"
-msgstr ""
+msgstr "Oten informazions sul ûs de liste dulà che chest messaç al fâs part"
 
 #: ../src/plugins/mailing-list-actions/mailing-list-actions.c:434
 msgid "Contact List _Owner"
@@ -24044,7 +24071,11 @@ msgid_plural ""
 "You have selected %d mails to be converted to events. Do you really want to "
 "add them all?"
 msgstr[0] ""
+"A son stadis selezionadis %d e-mail di convertî in events. Sigûrs di "
+"zontâlis dutis?"
 msgstr[1] ""
+"A son stadis selezionadis %d e-mail di convertî in events. Sigûrs di "
+"zontâlis dutis?"
 
 #. Translators: Note there are always more than 10 mails selected
 #: ../src/plugins/mail-to-task/mail-to-task.c:631
@@ -24056,7 +24087,11 @@ msgid_plural ""
 "You have selected %d mails to be converted to tasks. Do you really want to "
 "add them all?"
 msgstr[0] ""
+"A son stadis selezionadis %d e-mail di convertî in ativitâts. Sigûrs di "
+"zontâlis dutis?"
 msgstr[1] ""
+"A son stadis selezionadis %d e-mail di convertî in ativitâts. Sigûrs di "
+"zontâlis dutis?"
 
 #. Translators: Note there are always more than 10 mails selected
 #: ../src/plugins/mail-to-task/mail-to-task.c:638
@@ -24076,15 +24111,15 @@ msgstr[1] ""
 
 #: ../src/plugins/mail-to-task/mail-to-task.c:659
 msgid "Do you wish to continue converting remaining mails?"
-msgstr ""
+msgstr "Continuâ a convertî lis e-mail restadis?"
 
 #: ../src/plugins/mail-to-task/mail-to-task.c:735
 msgid "[No Summary]"
-msgstr ""
+msgstr "[Nissune sintesi]"
 
 #: ../src/plugins/mail-to-task/mail-to-task.c:748
 msgid "Invalid object returned from a server"
-msgstr ""
+msgstr "Tornât di un servidôr un ogjet no valit "
 
 #: ../src/plugins/mail-to-task/mail-to-task.c:802
 #, c-format
@@ -24101,12 +24136,16 @@ msgid ""
 "Selected calendar is read only, thus cannot create event there. Select other "
 "calendar, please."
 msgstr ""
+"Il calendari selezionât al è in dome-leture, duncje no si pues creâi events. "
+"Selezionâ un altri calendari."
 
 #: ../src/plugins/mail-to-task/mail-to-task.c:845
 msgid ""
 "Selected task list is read only, thus cannot create task there. Select other "
 "task list, please."
 msgstr ""
+"La liste di ativitâts selezionade e je in dome-leture, duncje no si pues "
+"creâi ativitâts. Selezionâ une altre liste ativitâts"
 
 #: ../src/plugins/mail-to-task/mail-to-task.c:848
 msgid ""
@@ -24155,12 +24194,12 @@ msgstr "Convertìs un messaç di pueste intune ativitât."
 #: ../src/plugins/pst-import/evolution-pst.metainfo.xml.in.h:1
 #: ../src/plugins/pst-import/org-gnome-pst-import.eplug.xml.h:1
 msgid "Outlook PST import"
-msgstr ""
+msgstr "Importazion Outlook PST"
 
 #: ../src/plugins/pst-import/evolution-pst.metainfo.xml.in.h:2
 #: ../src/plugins/pst-import/org-gnome-pst-import.eplug.xml.h:3
 msgid "Import Outlook messages from PST file"
-msgstr ""
+msgstr "Impuarte messaçs di Outlook di un file PST"
 
 #: ../src/plugins/pst-import/org-gnome-pst-import.eplug.xml.h:2
 msgid "Outlook personal folders (.pst)"
@@ -24184,7 +24223,7 @@ msgstr "A_pontaments"
 
 #: ../src/plugins/pst-import/pst-importer.c:576
 msgid "_Journal entries"
-msgstr ""
+msgstr "_Vôs diari"
 
 #: ../src/plugins/pst-import/pst-importer.c:693
 msgid "Importing Outlook data"
