@@ -86,6 +86,7 @@ G_END_DECLS
 	add_custom_command(
 		OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${_output_filename_noext}.h
 		COMMAND ${GLIB_MKENUMS} --template "${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeTmp/enumtypes-${_output_filename_noext}.h.tmpl" "${CMAKE_CURRENT_SOURCE_DIR}/${_enums_header}" >${CMAKE_CURRENT_BINARY_DIR}/${_output_filename_noext}.h
+		DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/${_enums_header}
 	)
 
 set(SOURCE_TMPL "
@@ -133,6 +134,7 @@ GType
 	add_custom_command(
 		OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${_output_filename_noext}.c
 		COMMAND ${GLIB_MKENUMS} --template "${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeTmp/enumtypes-${_output_filename_noext}.c.tmpl" "${CMAKE_CURRENT_SOURCE_DIR}/${_enums_header}" >${CMAKE_CURRENT_BINARY_DIR}/${_output_filename_noext}.c
+		DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/${_enums_header}
 	)
 endfunction(glib_mkenums)
 
