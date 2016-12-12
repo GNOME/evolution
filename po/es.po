@@ -19,7 +19,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2016-11-25 09:28+0000\n"
-"PO-Revision-Date: 2016-12-05 16:56+0100\n"
+"PO-Revision-Date: 2016-12-12 16:31+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: es <gnome-es-list@gnome.org>\n"
 "Language: es\n"
@@ -193,7 +193,6 @@ msgid "Contact layout style"
 msgstr "Estilo de distribución de los contactos"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:10
-#, fuzzy
 #| msgid ""
 #| "The layout style determines where to place the preview pane in relation "
 #| "to the contact list. \"0\" (Classic View) places the preview pane below "
@@ -1015,7 +1014,6 @@ msgid "Task layout style"
 msgstr "Estilo de distribución de las tareas"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:128
-#, fuzzy
 #| msgid ""
 #| "The layout style determines where to place the preview pane in relation "
 #| "to the task list. \"0\" (Classic View) places the preview pane below the "
@@ -1069,7 +1067,6 @@ msgid "Overdue tasks color"
 msgstr "Color para las tareas fuera de plazo"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:136
-#, fuzzy
 #| msgid ""
 #| "Background color of tasks that are overdue, in \"#rrggbb\" format. Used "
 #| "together with task-overdue-highlight."
@@ -1095,7 +1092,6 @@ msgid "Timezone"
 msgstr "Zona horaria"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:140
-#, fuzzy
 #| msgid ""
 #| "The default timezone to use for dates and times in the calendar, as an "
 #| "untranslated Olson timezone database location like \"America/New York\""
@@ -1326,7 +1322,6 @@ msgid "Path where picture gallery should search for its content"
 msgstr "Ruta donde la galería de imágenes debería buscar su contenido"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:8
-#, fuzzy
 #| msgid ""
 #| "This value can be an empty string, which means it'll use the system "
 #| "Picture folder, usually set to ~/Pictures. This folder will be also used "
@@ -1419,7 +1414,6 @@ msgid "Group Reply replies to list"
 msgstr "Responder al grupo responde a la lista"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:24
-#, fuzzy
 #| msgid ""
 #| "Instead of the normal \"Reply to All\" behaviour, this option will make "
 #| "the 'Group Reply' toolbar button try to reply only to the mailing list "
@@ -1645,7 +1639,6 @@ msgid "Ignore list Reply-To:"
 msgstr "Ignorar «Responder a:» para listas:"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:56
-#, fuzzy
 #| msgid ""
 #| "Some mailing lists set a Reply-To: header to trick users into sending "
 #| "replies to the list, even when they ask Evolution to make a private "
@@ -1669,7 +1662,7 @@ msgstr ""
 "intentará ignorar tales cabeceras «Responder a:», de tal forma que Evolution "
 "haga lo que se le pide. Si usa la acción de respuesta privada, responderá de "
 "forma privada, mientras que si usa la acción «Responder a la lista» hará eso "
-"mismo. Funciona comparando la cabecera «Responder a:» con una cabecara «List-"
+"mismo. Funciona comparando la cabecera «Responder a:» con una cabecera «List-"
 "Post:», si existe."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:57
@@ -1678,7 +1671,6 @@ msgid "List of localized “Re”"
 msgstr "Lista de «Re» traducidas"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:58
-#, fuzzy
 #| msgid ""
 #| "Comma-separated list of localized 'Re' abbreviations to skip in a subject "
 #| "text when replying to a message, as an addition to the standard \"Re\" "
@@ -1703,7 +1695,6 @@ msgstr ""
 "dados."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:61
-#, fuzzy
 #| msgid ""
 #| "Number of To and CC recipients to ask 'prompt-on-many-to-cc-recips' from"
 msgid ""
@@ -1754,7 +1745,6 @@ msgstr ""
 "Indica si se debe obedecer la cabecera del mensaje Content-Disposition:inline"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:68
-#, fuzzy
 #| msgid ""
 #| "Set to 'false' to block automatic display of attachments with Content-"
 #| "Disposition: inline."
@@ -2007,7 +1997,6 @@ msgid "Hides the per-folder preview and removes the selection"
 msgstr "Oculta la vista previa por carpeta y elimina la selección"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:117
-#, fuzzy
 #| msgid ""
 #| "This key is read only once and reset to \"false\" after read. This "
 #| "unselects the mail in the list and removes the preview for that folder."
@@ -2046,7 +2035,6 @@ msgid "Layout style"
 msgstr "Estilo de la distribución"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:124
-#, fuzzy
 #| msgid ""
 #| "The layout style determines where to place the preview pane in relation "
 #| "to the message list. \"0\" (Classic View) places the preview pane below "
@@ -2146,7 +2134,6 @@ msgstr ""
 "conversación"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:140
-#, fuzzy
 #| msgid ""
 #| "This setting specifies whether the threads should be sorted based on "
 #| "latest message in each thread, rather than by message's date. Evolution "
@@ -2210,7 +2197,6 @@ msgid "Flush Outbox after filtering"
 msgstr "Limpiar la bandeja de salida después de filtrar"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:150
-#, fuzzy
 #| msgid ""
 #| "Whether to flush Outbox after filtering is done. Outbox flush will happen "
 #| "only when there was used any 'Forward to' filter action and approximately "
@@ -2369,7 +2355,6 @@ msgstr ""
 "carpetas"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:176
-#, fuzzy
 #| msgid ""
 #| "Possible values are: 'never' - do not allow move with drag &amp; drop of "
 #| "folders in folder tree, 'always' - allow move with drag &amp; drop of "
@@ -2448,7 +2433,6 @@ msgid "Prompt when sending to many To and CC recipients"
 msgstr "Preguntar al enviar a muchos desinatarios y CC"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:186
-#, fuzzy
 #| msgid ""
 #| "Enable or disable the prompt when sending to many To and CC recipients. "
 #| "The 'composer-many-to-cc-recips-num' defines the threshold."
@@ -2504,7 +2488,6 @@ msgid "Level beyond which the message should be logged."
 msgstr "Nivel más allá del cuál el mensaje se debe registrar."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:196
-#, fuzzy
 #| msgid ""
 #| "This can have three possible values. 0 for errors. 1 for warnings. 2 for "
 #| "debug messages."
@@ -2521,7 +2504,6 @@ msgid "Show original “Date” header value."
 msgstr "Mostrar el valor original de la cabecera «Fecha»."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:198
-#, fuzzy
 #| msgid ""
 #| "Show the original \"Date\" header (with a local time only if the time "
 #| "zone differs). Otherwise always show \"Date\" header value in a user "
@@ -2589,7 +2571,6 @@ msgid "The default plugin for Junk hook"
 msgstr "El complemento predeterminado para SPAM"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:210
-#, fuzzy
 #| msgid ""
 #| "This is the default junk plugin, even though there are multiple plugins "
 #| "enabled. If the default listed plugin is disabled, then it won't fall "
@@ -2610,7 +2591,6 @@ msgstr ""
 "direcciones"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:212
-#, fuzzy
 #| msgid ""
 #| "Determines whether to lookup the sender email in address book. If found, "
 #| "it shouldn't be a spam. It looks up in the books marked for "
@@ -2666,7 +2646,6 @@ msgid "Custom headers to use while checking for junk."
 msgstr "Cabeceras personalizadas que usar al comprobar si es SPAM."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:218
-#, fuzzy
 #| msgid ""
 #| "Custom headers to use while checking for junk. The list elements are "
 #| "string in the format \"headername=value\"."
@@ -2714,7 +2693,6 @@ msgid "Check for new messages in all active accounts"
 msgstr "Comprobar si hay mensajes nuevos en todas las cuentas activas"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:227
-#, fuzzy
 #| msgid ""
 #| "Whether to check for new messages in all active accounts regardless of "
 #| "the account \"Check for new messages every X minutes\" option when "
@@ -2915,7 +2893,6 @@ msgid "Enable autocontacts"
 msgstr "Activar contactos automáticos"
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:6
-#, fuzzy
 #| msgid ""
 #| "Whether contacts should be automatically added to the user's address book."
 msgid ""
@@ -2964,7 +2941,6 @@ msgid "List of Custom Headers"
 msgstr "Lista de cabeceras personalizadas"
 
 #: ../data/org.gnome.evolution.plugin.email-custom-header.gschema.xml.in.h:2
-#, fuzzy
 #| msgid ""
 #| "The key specifies the list of custom headers that you can add to an "
 #| "outgoing message. The format for specifying a Header and Header value is: "
@@ -3061,7 +3037,6 @@ msgid "Enable audible notifications when new messages arrive."
 msgstr "Activar las notificaciones sonoras cuando llegan mensajes nuevos."
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:10
-#, fuzzy
 #| msgid ""
 #| "Whether to make a sound of any kind when new messages arrive. If \"false"
 #| "\", the \"notify-sound-beep\", \"notify-sound-file\", \"notify-sound-play-"
@@ -3104,7 +3079,6 @@ msgid "Whether to play a sound file."
 msgstr "Indica si se debe reproducir un archivo de sonido."
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:16
-#, fuzzy
 #| msgid ""
 #| "Whether to play a sound file when new messages arrive. The name of the "
 #| "sound file is given by the 'notify-sound-file' key."
@@ -16242,7 +16216,6 @@ msgstr "Información de la cuenta"
 
 #: ../src/mail/e-mail-config-identity-page.c:582
 #: ../src/mail/e-mail-config-summary-page.c:354
-#, fuzzy
 #| msgid ""
 #| "The above name will be used to identify this account.\n"
 #| "Use for example, \"Work\" or \"Personal\"."
@@ -19534,7 +19507,6 @@ msgid "Evolution’s local mail format has changed."
 msgstr "El formato de correo local de Evolution ha cambiado."
 
 #: ../src/mail/mail.error.xml.h:120
-#, fuzzy
 #| msgid ""
 #| "Evolution's local mail format has changed from mbox to Maildir. Your "
 #| "local mail must be migrated to the new format before Evolution can "
@@ -19552,7 +19524,7 @@ msgid ""
 "delete the account after ensuring the data is safely migrated. Please make "
 "sure there is enough disk space if you choose to migrate now."
 msgstr ""
-"El formato de correo local de Evolution ha cambiado de mbox a maildir. Se "
+"El formato de correo local de Evolution ha cambiado de mbox a Maildir. Se "
 "debe migrar su correo local al formato nuevo antes de que Evolution pueda "
 "proceder ¿Quiere migrar ahora?\n"
 "\n"
@@ -25817,10 +25789,9 @@ msgstr ""
 "Evolution que no responde. Error del sistema: %s"
 
 #: ../src/shell/main.c:466 ../src/shell/main.c:471
-#, fuzzy
 #| msgid "- The Evolution PIM and Email Client"
 msgid "— The Evolution PIM and Email Client"
-msgstr "El cliente de correo-e y GIP Evolution"
+msgstr "— El cliente de correo-e y MIP Evolution"
 
 #: ../src/shell/main.c:533
 #, c-format
