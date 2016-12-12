@@ -22872,7 +22872,7 @@ msgstr "Chcete, aby Evolution byl váš výchozí poštovní klient?"
 #: ../src/modules/mdn/evolution-mdn.c:308
 #, c-format
 msgid "Your message to %s about “%s” on %s has been read."
-msgstr "Vaše zpráva o „%2$s“ zaslaná příjemci %1$s dne %s byla přečtena."
+msgstr "Vaše zpráva o „%2$s“ zaslaná příjemci %1$s dne %3$s byla přečtena."
 
 #. Translators: %s is the subject of the email message.
 #: ../src/modules/mdn/evolution-mdn.c:374
