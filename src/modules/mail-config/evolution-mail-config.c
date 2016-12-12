@@ -21,6 +21,8 @@
 #include "e-mail-config-sendmail-backend.h"
 #include "e-mail-config-smtp-backend.h"
 
+#include "e-mail-config-imapx-options.h"
+
 #include "e-mail-config-google-summary.h"
 #include "e-mail-config-yahoo-summary.h"
 
@@ -30,13 +32,13 @@ void e_module_unload (GTypeModule *type_module);
 
 void e_mail_config_local_accounts_register_types (GTypeModule *type_module);
 void e_mail_config_remote_accounts_register_types (GTypeModule *type_module);
-void e_mail_config_transports_register_types (GTypeModule *type_module);
 
 G_MODULE_EXPORT void
 e_module_load (GTypeModule *type_module)
 {
 	e_mail_config_local_accounts_register_types (type_module);
 	e_mail_config_remote_accounts_register_types (type_module);
+	e_mail_config_imapx_options_type_register (type_module);
 	e_mail_config_sendmail_backend_type_register (type_module);
 	e_mail_config_smtp_backend_type_register (type_module);
 

@@ -469,6 +469,27 @@ mail_config_provider_page_add_options (EMailConfigProviderPage *page,
 }
 
 static void
+mail_config_provider_page_add_placeholder (EMailConfigProviderPage *page,
+					   CamelProviderConfEntry *entry)
+{
+	GtkWidget *hbox;
+
+	/* The entry->name is used as an identifier of the placeholder,
+	   which is used with e_mail_config_provider_page_get_placeholder(). */
+
+	g_return_if_fail (entry->name && *(entry->name));
+
+	hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+	gtk_widget_set_name (hbox, entry->name);
+	gtk_box_set_spacing (GTK_BOX (hbox), 6);
+	gtk_widget_set_margin_left (hbox, STANDARD_MARGIN);
+	gtk_box_pack_start (GTK_BOX (page), hbox, FALSE, FALSE, 0);
+	gtk_widget_show (hbox);
+
+	mail_config_provider_page_handle_dependency (page, entry, hbox);
+}
+
+static void
 mail_config_provider_page_add_widgets (EMailConfigProviderPage *page)
 {
 	EMailConfigServiceBackend *backend;
@@ -596,6 +617,11 @@ mail_config_provider_page_add_widgets (EMailConfigProviderPage *page)
 
 			case CAMEL_PROVIDER_CONF_OPTIONS:
 				mail_config_provider_page_add_options (
+					page, &entries[ii]);
+				break;
+
+			case CAMEL_PROVIDER_CONF_PLACEHOLDER:
+				mail_config_provider_page_add_placeholder (
 					page, &entries[ii]);
 				break;
 
@@ -760,3 +786,43 @@ e_mail_config_provider_page_get_backend (EMailConfigProviderPage *page)
 	return page->priv->backend;
 }
 
+typedef struct _FindPlaceholderData {
+	const gchar *name;
+	GtkBox *box;
+} FindPlaceholderData;
+
+static void
+mail_config_provider_page_find_placeholder (GtkWidget *widget,
+					    gpointer user_data)
+{
+	FindPlaceholderData *fpd = user_data;
+
+	g_return_if_fail (fpd != NULL);
+
+	if (g_strcmp0 (fpd->name, gtk_widget_get_name (widget)) == 0) {
+		if (fpd->box) {
+			g_warning ("%s: Found multiple placeholders named '%s'", G_STRFUNC, fpd->name);
+		} else {
+			g_return_if_fail (GTK_IS_BOX (widget));
+
+			fpd->box = GTK_BOX (widget);
+		}
+	}
+}
+
+GtkBox *
+e_mail_config_provider_page_get_placeholder (EMailConfigProviderPage *page,
+					     const gchar *name)
+{
+	FindPlaceholderData fpd;
+
+	g_return_val_if_fail (E_IS_MAIL_CONFIG_PROVIDER_PAGE (page), NULL);
+	g_return_val_if_fail (name && *name, NULL);
+
+	fpd.name = name;
+	fpd.box = NULL;
+
+	gtk_container_foreach (GTK_CONTAINER (page), mail_config_provider_page_find_placeholder, &fpd);
+
+	return fpd.box;
+}

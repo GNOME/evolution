@@ -75,6 +75,9 @@ gboolean	e_mail_config_provider_page_is_empty
 EMailConfigServiceBackend *
 		e_mail_config_provider_page_get_backend
 					(EMailConfigProviderPage *page);
+GtkBox *	e_mail_config_provider_page_get_placeholder
+					(EMailConfigProviderPage *page,
+					 const gchar *name);
 
 G_END_DECLS
 

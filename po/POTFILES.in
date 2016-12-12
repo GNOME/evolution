@@ -197,6 +197,7 @@ src/e-util/e-color-combo.c
 src/e-util/e-dateedit.c
 src/e-util/e-datetime-format.c
 src/e-util/e-dialog-utils.c
+src/e-util/e-dialog-widgets.c
 src/e-util/e-emoticon-chooser.c
 src/e-util/e-file-utils.c
 src/e-util/e-filter-datespec.c

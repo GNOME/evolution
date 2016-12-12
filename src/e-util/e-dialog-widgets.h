@@ -29,11 +29,15 @@
 #define E_DIALOG_WIDGETS_H
 
 #include <gtk/gtk.h>
+#include <camel/camel.h>
 
 void e_dialog_combo_box_set (GtkWidget *widget, gint value, const gint *value_map);
 gint e_dialog_combo_box_get (GtkWidget *widget, const gint *value_map);
 
 GtkWidget *	e_dialog_button_new_with_icon	(const gchar *icon_name,
 						 const gchar *label);
+
+GtkWidget *	e_dialog_offline_settings_new_limit_box
+						(CamelOfflineSettings *offline_settings);
 
 #endif

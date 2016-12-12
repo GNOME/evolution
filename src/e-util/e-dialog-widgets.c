@@ -27,6 +27,9 @@
 #include <string.h>
 #include <time.h>
 #include <gtk/gtk.h>
+#include <glib/gi18n-lib.h>
+
+#include <libedataserver/libedataserver.h>
 
 #include "e-dialog-widgets.h"
 
@@ -165,4 +168,124 @@ e_dialog_button_new_with_icon (const gchar *icon_name,
 	gtk_widget_show (button);
 
 	return button;
+}
+
+static GtkWidget *
+dialog_widgets_construct_time_units_combo (void)
+{
+	struct _units {
+		const gchar *nick;
+		const gchar *caption;
+	} units[4] = {
+		/* Translators: This is part of: "Do not synchronize locally mails older than [ xxx ] [ days ]" */
+		{ "days", NC_("time-unit", "days") },
+		/* Translators: This is part of: "Do not synchronize locally mails older than [ xxx ] [ weeks ]" */
+		{ "weeks", NC_("time-unit", "weeks") },
+		/* Translators: This is part of: "Do not synchronize locally mails older than [ xxx ] [ months ]" */
+		{ "months", NC_("time-unit", "months") },
+		/* Translators: This is part of: "Do not synchronize locally mails older than [ xxx ] [ years ]" */
+		{ "years", NC_("time-unit", "years") }
+	};
+	gint ii;
+	GtkCellRenderer *renderer;
+	GtkListStore *store;
+	GtkWidget *combo;
+
+	/* 0: 'nick', 1: caption */
+	store = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_STRING);
+
+	for (ii = 0; ii < G_N_ELEMENTS (units); ii++) {
+		GtkTreeIter iter;
+		const gchar *caption;
+
+		/* Localize the caption. */
+		caption = g_dpgettext2 (GETTEXT_PACKAGE, "time-unit", units[ii].caption);
+
+		gtk_list_store_append (store, &iter);
+		gtk_list_store_set (store, &iter, 0, units[ii].nick, 1, caption, -1);
+	}
+
+	combo = gtk_combo_box_new_with_model (GTK_TREE_MODEL (store));
+	gtk_combo_box_set_id_column (GTK_COMBO_BOX (combo), 0);
+
+	renderer = gtk_cell_renderer_text_new ();
+	gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (combo), renderer, TRUE);
+	gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (combo), renderer, "text", 1, NULL);
+
+	g_object_unref (store);
+
+	return combo;
+}
+
+/**
+ * e_dialog_offline_settings_new_limit_box:
+ * @offline_settings: a #CamelOfflineSettings
+ *
+ * Creates a new horizontal #GtkBox, which contains widgets
+ * to configure @offline_settings properties limit-by-age,
+ * limit-unit and limit-value.
+ *
+ * Returns: (transfer full): a new #GtkBox
+ *
+ * Since: 3.24
+ **/
+GtkWidget *
+e_dialog_offline_settings_new_limit_box (CamelOfflineSettings *offline_settings)
+{
+	GtkAdjustment *adjustment;
+	GtkWidget *hbox, *spin, *combo;
+	GtkWidget *prefix;
+
+	g_return_val_if_fail (CAMEL_IS_OFFLINE_SETTINGS (offline_settings), NULL);
+
+	hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 3);
+	gtk_widget_show (hbox);
+
+	/* Translators: This is part of: "Do not synchronize locally mails older than [ xxx ] [ days ]" */
+	prefix = gtk_check_button_new_with_mnemonic (_("Do not synchronize locally mails older than"));
+	gtk_box_pack_start (GTK_BOX (hbox), prefix, FALSE, TRUE, 0);
+	gtk_widget_show (prefix);
+
+	e_binding_bind_property (
+		offline_settings, "limit-by-age",
+		prefix, "active",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
+
+	adjustment = gtk_adjustment_new (1.0, 1.0, 999.0, 1.0, 1.0, 0.0);
+
+	spin = gtk_spin_button_new (adjustment, 1.0, 0);
+	gtk_box_pack_start (GTK_BOX (hbox), spin, FALSE, TRUE, 0);
+	gtk_widget_show (spin);
+
+	e_binding_bind_property (
+		offline_settings, "limit-value",
+		spin, "value",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
+
+	e_binding_bind_property (
+		prefix, "active",
+		spin, "sensitive",
+		G_BINDING_SYNC_CREATE);
+
+	combo = dialog_widgets_construct_time_units_combo ();
+	gtk_box_pack_start (GTK_BOX (hbox), combo, FALSE, FALSE, 0);
+	gtk_widget_show (combo);
+
+	e_binding_bind_property_full (
+		offline_settings, "limit-unit",
+		combo, "active-id",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE,
+		e_binding_transform_enum_value_to_nick,
+		e_binding_transform_enum_nick_to_value,
+		NULL, NULL);
+
+	e_binding_bind_property (
+		prefix, "active",
+		combo, "sensitive",
+		G_BINDING_SYNC_CREATE);
+
+	return hbox;
 }
