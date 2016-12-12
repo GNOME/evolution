@@ -1,3 +1,47 @@
+Evolution 3.22.3 2016-12-12
+---------------------------
+
+Bug Fixes:
+	Bug 774180 - Don't use --no-undefined on Darwin (Philip Chimento)
+	Bug 774156 - [backup-restore] Offer .tar.xz if 'xz' available (Milan Crha)
+	Bug 774067 - Webkit composer is very slow refresh when typing (Tomas Popela)
+	Bug 764802 - EPortEntry too large (Milan Crha)
+	Bug 775042 - Some plaintext emails get messed up when replied to, through plain -> HTML -> plain conversion (Tomas Popela)
+	Bug 767228 - Use-after-free in MessageList rebuild under clear_tree() (Milan Crha)
+	Bug 775075 - Save as draft keeps composer dirty (Milan Crha)
+	Bug 774164 - Unicode colon in localized Re: not handled (Milan Crha)
+	Bug 774691 - [Attachment reminder] Stop search on inline reply/forward markers (Milan Crha)
+	Bug 775397 - Freeze / lockup trying to delete a hyperlink in a cited html mail (Tomas Popela)
+	Bug 774211 - Runtime warning when search for contact photos is enabled (Milan Crha)
+	Bug 775656 - Delete key mapping stops working (Milan Crha)
+	Bug 774958 - Don't show a tooltip for the subject line field (Milan Crha)
+	Bug 775214 - Mnemonic parser broken for Unicode mnemonics (Milan Crha)
+	Bug 775268 - evolution-alarm-notify Edit button does not work (Milan Crha)
+	Bug 775370 - Arrow left/right for closing/opening threads (Milan Crha)
+	Bug 775565 - Pasting long text as citation is incorrectly formatted with line wrapping (Tomas Popela)
+	Bug 775691 - Paste eats new line marker (Tomas Popela)
+	Bug 775598 - Calendar view does not follow font DPI settings fully (Milan Crha)
+	Bug 775704 - Send/Receive should flush Outbox immediately too (Milan Crha)
+
+Miscellaneous:
+	Message list not always scrolled to the cursor position on folder enter (Milan Crha)
+	Messages could not be sometimes quoted correctly (Tomas Popela)
+	Ensure mail_session_get_cache/config/data_dir() return existing directories (Milan Crha)
+	Process the WebView's context menu actions synchronously (Tomas Popela)
+	Fix formatting (Tomas Popela)
+	Fix various issues with clipboard content handling (Tomas Popela)
+	Fix the EHTMLEditor's update-actions signal (Tomas Popela)
+	EEditorWebExtension: Use-after-free when restoring the inline images (Tomas Popela)
+	EEditorDOMFunctions: Critical warning and possible crash when we cannot append the end node for spell checking (Tomas Popela)
+	Copy action is no available in EWebView's context menu (Tomas Popela)
+	Add a Confirmation option 'prompt-on-composer-mode-switch' into Preferences (Milan Crha)
+	Prefer text/plain in plain text mode if using 'Paste Quotation' (Tomas Popela)
+	Revert "Add a Confirmation option 'prompt-on-composer-mode-switch' into Preferences" (Milan Crha)
+	Let the Control + C shortcut behave the same way as Control + Shift (Tomas Popela)
+
+Translations:
+	Marek Cernocky (cs)
+
 Evolution 3.22.2 2016-11-07
 ---------------------------
 
