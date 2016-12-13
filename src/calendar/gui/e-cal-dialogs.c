@@ -44,9 +44,16 @@ is_past_event (ECalComponent *comp)
 	ECalComponentDateTime end_date;
 	gboolean res;
 
-	if (!comp) return TRUE;
+	if (!comp)
+		return TRUE;
+
+	end_date.value = NULL;
 
 	e_cal_component_get_dtend (comp, &end_date);
+
+	if (!end_date.value)
+		return FALSE;
+
 	res = icaltime_compare_date_only (
 		*end_date.value,
 		icaltime_current_time_with_zone (
