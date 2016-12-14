@@ -85,4 +85,8 @@
   <_secondary>The reported error was “{1}”.</_secondary>
  </error>
 
+ <error id="webkit-web-process-crashed" type="error">
+   <_primary>Something has gone wrong</_primary>
+   <_secondary>A WebKitWebProcess crashed when displaying the content. You can try again by reopening the window. If the issue persists, please file a bug report in the GNOME bugzilla.</_secondary>
+ </error>
 </error-list>

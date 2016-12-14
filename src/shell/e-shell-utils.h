@@ -47,6 +47,8 @@ void		e_shell_utils_run_quick_reference
 						(EShell *shell);
 void		e_shell_utils_run_help_about	(EShell *shell);
 void		e_shell_utils_run_help_contents	(EShell *shell);
+EAlertSink *	e_shell_utils_find_alternate_alert_sink
+						(GtkWidget *widget);
 
 G_END_DECLS
 

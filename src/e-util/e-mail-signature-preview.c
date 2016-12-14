@@ -35,6 +35,7 @@ struct _EMailSignaturePreviewPrivate {
 	ESourceRegistry *registry;
 	GCancellable *cancellable;
 	gchar *source_uid;
+	gboolean webprocess_crashed;
 };
 
 enum {
@@ -108,6 +109,22 @@ mail_signature_preview_load_cb (ESource *source,
 	g_free (contents);
 
 	g_object_unref (preview);
+}
+
+static void
+mail_signature_preview_web_process_crashed_cb (EMailSignaturePreview *preview)
+{
+	g_return_if_fail (E_IS_MAIL_SIGNATURE_PREVIEW (preview));
+
+	if (preview->priv->webprocess_crashed)
+		return;
+
+	preview->priv->webprocess_crashed = TRUE;
+
+	/* Should not use the EWebView, because it places the alerts inside itself,
+	   but no better place here. Thus show the error only once, to avoid endless
+	   repeating. */
+	e_alert_submit (E_ALERT_SINK (preview), "mail:webkit-web-process-crashed-signature", NULL);
 }
 
 static void
@@ -304,6 +321,11 @@ static void
 e_mail_signature_preview_init (EMailSignaturePreview *preview)
 {
 	preview->priv = E_MAIL_SIGNATURE_PREVIEW_GET_PRIVATE (preview);
+	preview->priv->webprocess_crashed = FALSE;
+
+	g_signal_connect (
+		preview, "web-process-crashed",
+		G_CALLBACK (mail_signature_preview_web_process_crashed_cb), NULL);
 }
 
 GtkWidget *

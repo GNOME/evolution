@@ -633,4 +633,15 @@ in the folder will be available in offline mode.</_secondary>
     <_primary>Failed to store message note in folder “{0}”</_primary>
     <secondary>{1}</secondary>
   </error>
+
+  <error id="webkit-web-process-crashed" type="error">
+    <_primary>Something has gone wrong when displaying the message</_primary>
+    <_secondary>A WebKitWebProcess crashed when displaying the message. You can try again by moving to another message and back. If the issue persists, please file a bug report in the GNOME bugzilla.</_secondary>
+  </error>
+
+  <error id="webkit-web-process-crashed-signature" type="error">
+    <_primary>Something has gone wrong when displaying the signature</_primary>
+    <_secondary>A WebKitWebProcess crashed when displaying the signature. You can try again by moving to another signature and back. If the issue persists, please file a bug report in the GNOME bugzilla.</_secondary>
+  </error>
+
 </error-list>

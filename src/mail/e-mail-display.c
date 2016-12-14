@@ -33,6 +33,8 @@
 #include <em-format/e-mail-part-attachment.h>
 #include <em-format/e-mail-part-utils.h>
 
+#include "shell/e-shell-utils.h"
+
 #include "e-cid-request.h"
 #include "e-http-request.h"
 #include "e-mail-display-popup-extension.h"
@@ -1818,6 +1820,19 @@ e_mail_display_test_change_and_update_fonts_cb (EMailDisplay *mail_display,
 }
 
 static void
+mail_display_web_process_crashed_cb (EMailDisplay *display)
+{
+	EAlertSink *alert_sink;
+
+	g_return_if_fail (E_IS_MAIL_DISPLAY (display));
+
+	/* Cannot use the EWebView, because it places the alerts inside itself */
+	alert_sink = e_shell_utils_find_alternate_alert_sink (GTK_WIDGET (display));
+	if (alert_sink)
+		e_alert_submit (alert_sink, "mail:webkit-web-process-crashed", NULL);
+}
+
+static void
 e_mail_display_class_init (EMailDisplayClass *class)
 {
 	GObjectClass *object_class;
@@ -1962,6 +1977,10 @@ e_mail_display_init (EMailDisplay *display)
 	e_mail_display_set_mode (display, E_MAIL_FORMATTER_MODE_NORMAL);
 	display->priv->force_image_load = FALSE;
 	display->priv->scheduled_reload = 0;
+
+	g_signal_connect (
+		display, "web-process-crashed",
+		G_CALLBACK (mail_display_web_process_crashed_cb), NULL);
 
 	g_signal_connect (
 		display, "decide-policy",

@@ -567,4 +567,19 @@
     <secondary>{1}</secondary>
   </error>
 
+  <error id="webkit-web-process-crashed-event" type="error">
+    <_primary>Something has gone wrong when displaying the event</_primary>
+    <_secondary>A WebKitWebProcess crashed when displaying the event. You can try again by moving to another event and back. If the issue persists, please file a bug report in the GNOME bugzilla.</_secondary>
+  </error>
+
+  <error id="webkit-web-process-crashed-memo" type="error">
+    <_primary>Something has gone wrong when displaying the memo</_primary>
+    <_secondary>A WebKitWebProcess crashed when displaying the memo. You can try again by moving to another memo and back. If the issue persists, please file a bug report in the GNOME bugzilla.</_secondary>
+  </error>
+
+  <error id="webkit-web-process-crashed-task" type="error">
+    <_primary>Something has gone wrong when displaying the task</_primary>
+    <_secondary>A WebKitWebProcess crashed when displaying the task. You can try again by moving to another task and back. If the issue persists, please file a bug report in the GNOME bugzilla.</_secondary>
+  </error>
+
 </error-list>

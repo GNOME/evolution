@@ -1,4 +1,6 @@
-set(extra_deps)
+set(extra_deps
+	evolution-mail-composer
+)
 set(sources
 	evolution-module-webkit-editor.c
 	e-webkit-editor-extension.c

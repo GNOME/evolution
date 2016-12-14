@@ -28,6 +28,8 @@
 
 #include <webkit2/webkit2.h>
 
+#include "shell/e-shell-utils.h"
+
 #include "e-contact-map.h"
 #include "eab-contact-formatter.h"
 #include "eab-gui-util.h"
@@ -378,6 +380,19 @@ contact_display_update_actions (EWebView *web_view)
 }
 
 static void
+contact_display_web_process_crashed_cb (EABContactDisplay *display)
+{
+	EAlertSink *alert_sink;
+
+	g_return_if_fail (EAB_IS_CONTACT_DISPLAY (display));
+
+	/* Cannot use the EWebView, because it places the alerts inside itself */
+	alert_sink = e_shell_utils_find_alternate_alert_sink (GTK_WIDGET (display));
+	if (alert_sink)
+		e_alert_submit (alert_sink, "addressbook:webkit-web-process-crashed", NULL);
+}
+
+static void
 eab_contact_display_class_init (EABContactDisplayClass *class)
 {
 	GObjectClass *object_class;
@@ -452,6 +467,10 @@ eab_contact_display_init (EABContactDisplay *display)
 
 	web_view = E_WEB_VIEW (display);
 	ui_manager = e_web_view_get_ui_manager (web_view);
+
+	g_signal_connect (
+		display, "web-process-crashed",
+		G_CALLBACK (contact_display_web_process_crashed_cb), NULL);
 
 	e_signal_connect_notify (
 		web_view, "notify::load-changed",

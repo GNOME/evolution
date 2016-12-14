@@ -448,3 +448,28 @@ e_shell_utils_run_help_contents (EShell *shell)
 	e_display_help (window, NULL);
 #endif
 }
+
+/**
+ * e_shell_utils_find_alternate_alert_sink:
+ * @widget: a #GtkWidget for which to do the search
+ *
+ * Search an alternate #EAlertSink in the widget hierarchy up-wards
+ * from the @widget (skipping the @widget itself).
+ *
+ * Returns: (nullable) (transfer none): an alert sink, different than @widget,
+ *    or %NULL, when none found
+ *
+ * Since: 3.24
+ **/
+EAlertSink *
+e_shell_utils_find_alternate_alert_sink (GtkWidget *widget)
+{
+	g_return_val_if_fail (GTK_IS_WIDGET (widget), NULL);
+
+	while (widget = gtk_widget_get_parent (widget), widget) {
+		if (E_IS_ALERT_SINK (widget))
+			return E_ALERT_SINK (widget);
+	}
+
+	return NULL;
+}

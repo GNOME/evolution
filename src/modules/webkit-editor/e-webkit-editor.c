@@ -20,7 +20,9 @@
 
 #include "web-extension/e-editor-web-extension-names.h"
 
-#include <e-util/e-util.h>
+#include "e-util/e-util.h"
+#include "composer/e-msg-composer.h"
+
 #include <string.h>
 
 #define E_WEBKIT_EDITOR_GET_PRIVATE(obj) \
@@ -5770,9 +5772,36 @@ webkit_editor_drag_end_cb (EWebKitEditor *wk_editor,
 static void
 webkit_editor_web_process_crashed_cb (EWebKitEditor *wk_editor)
 {
-	g_warning (
-		"WebKitWebProcess (page id %ld) for EWebKitEditor crashed",
-		webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (wk_editor)));
+	GtkWidget *widget;
+
+	g_return_if_fail (E_IS_WEBKIT_EDITOR (wk_editor));
+
+	widget = GTK_WIDGET (wk_editor);
+	while (widget) {
+		if (E_IS_ALERT_SINK (widget)) {
+			e_alert_submit (E_ALERT_SINK (widget), "mail-composer:webkit-web-process-crashed", NULL);
+			break;
+		}
+
+		if (E_IS_MSG_COMPOSER (widget)) {
+			EHTMLEditor *html_editor;
+
+			html_editor = e_msg_composer_get_editor (E_MSG_COMPOSER (widget));
+			if (html_editor) {
+				e_alert_submit (E_ALERT_SINK (html_editor), "mail-composer:webkit-web-process-crashed", NULL);
+				break;
+			}
+		}
+
+		widget = gtk_widget_get_parent (widget);
+	}
+
+	/* No suitable EAlertSink found as the parent widget */
+	if (!widget) {
+		g_warning (
+			"WebKitWebProcess (page id %ld) for EWebKitEditor crashed",
+			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (wk_editor)));
+	}
 }
 
 static void

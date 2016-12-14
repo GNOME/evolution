@@ -30,6 +30,8 @@
 #include <glib/gi18n.h>
 #include <camel/camel.h>
 
+#include "shell/e-shell-utils.h"
+
 #define E_CAL_COMPONENT_PREVIEW_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_CAL_COMPONENT_PREVIEW, ECalComponentPreviewPrivate))
@@ -402,6 +404,34 @@ load_comp (ECalComponentPreview *preview)
 }
 
 static void
+cal_component_preview_web_process_crashed_cb (ECalComponentPreview *preview)
+{
+	EAlertSink *alert_sink;
+	const gchar *tagid;
+
+	g_return_if_fail (E_IS_CAL_COMPONENT_PREVIEW (preview));
+
+	tagid = "system:webkit-web-process-crashed";
+
+	if (preview->priv->comp) {
+		ECalComponentVType vtype;
+
+		vtype = e_cal_component_get_vtype (preview->priv->comp);
+		if (vtype == E_CAL_COMPONENT_EVENT)
+			tagid = "calendar:webkit-web-process-crashed-event";
+		else if (vtype == E_CAL_COMPONENT_TODO)
+			tagid = "calendar:webkit-web-process-crashed-task";
+		else if (vtype == E_CAL_COMPONENT_JOURNAL)
+			tagid = "calendar:webkit-web-process-crashed-memo";
+	}
+
+	/* Cannot use the EWebView, because it places the alerts inside itself */
+	alert_sink = e_shell_utils_find_alternate_alert_sink (GTK_WIDGET (preview));
+	if (alert_sink)
+		e_alert_submit (alert_sink, tagid, NULL);
+}
+
+static void
 cal_component_preview_finalize (GObject *object)
 {
 	clear_comp_info (E_CAL_COMPONENT_PREVIEW (object));
@@ -429,6 +459,10 @@ e_cal_component_preview_init (ECalComponentPreview *preview)
 	g_signal_connect (
 		preview, "style-updated",
 		G_CALLBACK (load_comp), NULL);
+
+	g_signal_connect (
+		preview, "web-process-crashed",
+		G_CALLBACK (cal_component_preview_web_process_crashed_cb), NULL);
 }
 
 GtkWidget *
