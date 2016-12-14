@@ -5,6 +5,7 @@
         <menuitem action='send'/>
         <separator/>
         <menuitem action='new-message'/>
+        <placeholder name='custom-actions-placeholder'/>
         <separator/>
         <menuitem action='save'/>
         <menuitem action='save-as'/>

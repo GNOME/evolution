@@ -107,4 +107,32 @@
   <_secondary>The reported error was “{0}”. The message has most likely not been saved.</_secondary>
  </error>
 
+ <error id="prompt-composer-to-meeting" type="question" default="GTK_RESPONSE_YES">
+  <_primary>Are you sure you want to convert the message into a meeting?</_primary>
+  <_secondary xml:space="preserve">By converting the message into the meeting the composed message will be closed and the changes being done discarded.</_secondary>
+  <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
+  <button _label="Convert to _Meeting" response="GTK_RESPONSE_YES"/>
+ </error>
+
+ <error id="prompt-event-to-composer" type="question" default="GTK_RESPONSE_YES">
+  <_primary>Are you sure you want to convert the event into a message?</_primary>
+  <_secondary xml:space="preserve">By converting the event into the message the editing window will be closed and the changes being done discarded.</_secondary>
+  <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
+  <button _label="Convert to _Message" response="GTK_RESPONSE_YES"/>
+ </error>
+
+ <error id="prompt-memo-to-composer" type="question" default="GTK_RESPONSE_YES">
+  <_primary>Are you sure you want to convert the memo into a message?</_primary>
+  <_secondary xml:space="preserve">By converting the memo into the message the editing window will be closed and the changes being done discarded.</_secondary>
+  <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
+  <button _label="Convert to _Message" response="GTK_RESPONSE_YES"/>
+ </error>
+
+ <error id="prompt-task-to-composer" type="question" default="GTK_RESPONSE_YES">
+  <_primary>Are you sure you want to convert the task into a message?</_primary>
+  <_secondary xml:space="preserve">By converting the task into the message the editing window will be closed and the changes being done discarded.</_secondary>
+  <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
+  <button _label="Convert to _Message" response="GTK_RESPONSE_YES"/>
+ </error>
+
 </error-list>

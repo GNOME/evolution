@@ -1924,6 +1924,8 @@ e_comp_editor_constructed (GObject *object)
 		"      <menuitem action='save'/>"
 		"      <menuitem action='save-and-close'/>"
 		"      <separator/>"
+		"      <placeholder name='custom-actions-placeholder'/>"
+		"      <separator/>"
 		"      <menuitem action='print-preview'/>"
 		"      <menuitem action='print'/>"
 		"      <separator/>"

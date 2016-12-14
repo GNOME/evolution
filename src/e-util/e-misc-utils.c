@@ -3264,14 +3264,16 @@ e_util_prompt_user (GtkWindow *parent,
 	GtkWidget *container;
 	va_list ap;
 	gint button;
-	GSettings *settings;
+	GSettings *settings = NULL;
 	EAlert *alert = NULL;
 
-	settings = e_util_ref_settings (settings_schema);
+	if (promptkey) {
+		settings = e_util_ref_settings (settings_schema);
 
-	if (promptkey && !g_settings_get_boolean (settings, promptkey)) {
-		g_object_unref (settings);
-		return TRUE;
+		if (!g_settings_get_boolean (settings, promptkey)) {
+			g_object_unref (settings);
+			return TRUE;
+		}
 	}
 
 	va_start (ap, tag);
@@ -3300,7 +3302,7 @@ e_util_prompt_user (GtkWindow *parent,
 
 	gtk_widget_destroy (dialog);
 
-	g_object_unref (settings);
+	g_clear_object (&settings);
 
 	return button == GTK_RESPONSE_YES;
 }

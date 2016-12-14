@@ -1,0 +1,24 @@
+set(extra_deps
+	evolution-mail-composer
+	evolution-calendar
+)
+set(sources
+	composer-to-meeting.c
+	e-composer-to-meeting.c
+	e-composer-to-meeting.h
+	e-meeting-to-composer.c
+	e-meeting-to-composer.h
+)
+set(extra_defines)
+set(extra_cflags)
+set(extra_incdirs)
+set(extra_ldflags)
+
+add_evolution_module(module-composer-to-meeting
+	sources
+	extra_deps
+	extra_defines
+	extra_cflags
+	extra_incdirs
+	extra_ldflags
+)
