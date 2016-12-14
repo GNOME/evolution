@@ -5761,11 +5761,6 @@ webkit_editor_web_process_crashed_cb (EWebKitEditor *wk_editor)
 	g_warning (
 		"WebKitWebProcess (page id %ld) for EWebKitEditor crashed",
 		webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (wk_editor)));
-
-	wk_editor->priv->web_extension_selection_changed_cb_id = 0;
-	wk_editor->priv->web_extension_content_changed_cb_id = 0;
-	wk_editor->priv->web_extension_undo_redo_state_changed_cb_id = 0;
-	wk_editor->priv->web_extension_user_changed_default_colors_cb_id = 0;
 }
 
 static void
