@@ -70,6 +70,7 @@ struct _EWebKitEditorPrivate {
 
 	GCancellable *cancellable;
 	GDBusProxy *web_extension;
+	GDBusConnection *dbus_connection;
 	guint web_extension_watch_name_id;
 	guint web_extension_selection_changed_cb_id;
 	guint web_extension_content_changed_cb_id;
@@ -507,10 +508,13 @@ web_extension_proxy_created_cb (GDBusProxy *proxy,
 		return;
 	}
 
+	g_clear_object (&wk_editor->priv->dbus_connection);
+	wk_editor->priv->dbus_connection = g_object_ref (g_dbus_proxy_get_connection (wk_editor->priv->web_extension));
+
 	if (wk_editor->priv->web_extension_selection_changed_cb_id == 0) {
 		wk_editor->priv->web_extension_selection_changed_cb_id =
 			g_dbus_connection_signal_subscribe (
-				g_dbus_proxy_get_connection (wk_editor->priv->web_extension),
+				wk_editor->priv->dbus_connection,
 				g_dbus_proxy_get_name (wk_editor->priv->web_extension),
 				E_WEBKIT_EDITOR_WEB_EXTENSION_INTERFACE,
 				"SelectionChanged",
@@ -525,7 +529,7 @@ web_extension_proxy_created_cb (GDBusProxy *proxy,
 	if (wk_editor->priv->web_extension_content_changed_cb_id == 0) {
 		wk_editor->priv->web_extension_content_changed_cb_id =
 			g_dbus_connection_signal_subscribe (
-				g_dbus_proxy_get_connection (wk_editor->priv->web_extension),
+				wk_editor->priv->dbus_connection,
 				g_dbus_proxy_get_name (wk_editor->priv->web_extension),
 				E_WEBKIT_EDITOR_WEB_EXTENSION_INTERFACE,
 				"ContentChanged",
@@ -540,7 +544,7 @@ web_extension_proxy_created_cb (GDBusProxy *proxy,
 	if (wk_editor->priv->web_extension_undo_redo_state_changed_cb_id == 0) {
 		wk_editor->priv->web_extension_undo_redo_state_changed_cb_id =
 			g_dbus_connection_signal_subscribe (
-				g_dbus_proxy_get_connection (wk_editor->priv->web_extension),
+				wk_editor->priv->dbus_connection,
 				g_dbus_proxy_get_name (wk_editor->priv->web_extension),
 				E_WEBKIT_EDITOR_WEB_EXTENSION_INTERFACE,
 				"UndoRedoStateChanged",
@@ -555,7 +559,7 @@ web_extension_proxy_created_cb (GDBusProxy *proxy,
 	if (wk_editor->priv->web_extension_user_changed_default_colors_cb_id == 0) {
 		wk_editor->priv->web_extension_user_changed_default_colors_cb_id =
 			g_dbus_connection_signal_subscribe (
-				g_dbus_proxy_get_connection (wk_editor->priv->web_extension),
+				wk_editor->priv->dbus_connection,
 				g_dbus_proxy_get_name (wk_editor->priv->web_extension),
 				E_WEBKIT_EDITOR_WEB_EXTENSION_INTERFACE,
 				"UserChangedDefaultColors",
@@ -609,7 +613,14 @@ web_extension_vanished_cb (GDBusConnection *connection,
                            const gchar *name,
                            EWebKitEditor *wk_editor)
 {
+	g_return_if_fail (E_IS_WEBKIT_EDITOR (wk_editor));
+
 	g_clear_object (&wk_editor->priv->web_extension);
+
+	if (wk_editor->priv->web_extension_watch_name_id > 0) {
+		g_bus_unwatch_name (wk_editor->priv->web_extension_watch_name_id);
+		wk_editor->priv->web_extension_watch_name_id = 0;
+	}
 }
 
 static void
@@ -5067,30 +5078,30 @@ webkit_editor_dispose (GObject *object)
 		priv->mail_settings = NULL;
 	}
 
-	if (priv->web_extension_content_changed_cb_id > 0) {
+	if (priv->web_extension_content_changed_cb_id > 0 && priv->dbus_connection) {
 		g_dbus_connection_signal_unsubscribe (
-			g_dbus_proxy_get_connection (priv->web_extension),
+			priv->dbus_connection,
 			priv->web_extension_content_changed_cb_id);
 		priv->web_extension_content_changed_cb_id = 0;
 	}
 
-	if (priv->web_extension_selection_changed_cb_id > 0) {
+	if (priv->web_extension_selection_changed_cb_id > 0 && priv->dbus_connection) {
 		g_dbus_connection_signal_unsubscribe (
-			g_dbus_proxy_get_connection (priv->web_extension),
+			priv->dbus_connection,
 			priv->web_extension_selection_changed_cb_id);
 		priv->web_extension_selection_changed_cb_id = 0;
 	}
 
-	if (priv->web_extension_undo_redo_state_changed_cb_id > 0) {
+	if (priv->web_extension_undo_redo_state_changed_cb_id > 0 && priv->dbus_connection) {
 		g_dbus_connection_signal_unsubscribe (
-			g_dbus_proxy_get_connection (priv->web_extension),
+			priv->dbus_connection,
 			priv->web_extension_undo_redo_state_changed_cb_id);
 		priv->web_extension_undo_redo_state_changed_cb_id = 0;
 	}
 
-	if (priv->web_extension_user_changed_default_colors_cb_id > 0) {
+	if (priv->web_extension_user_changed_default_colors_cb_id > 0 && priv->dbus_connection) {
 		g_dbus_connection_signal_unsubscribe (
-			g_dbus_proxy_get_connection (priv->web_extension),
+			priv->dbus_connection,
 			priv->web_extension_user_changed_default_colors_cb_id);
 		priv->web_extension_user_changed_default_colors_cb_id = 0;
 	}
@@ -5117,6 +5128,7 @@ webkit_editor_dispose (GObject *object)
 	webkit_editor_finish_search (E_WEBKIT_EDITOR (object));
 
 	g_clear_object (&priv->web_extension);
+	g_clear_object (&priv->dbus_connection);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_webkit_editor_parent_class)->dispose (object);
