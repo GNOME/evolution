@@ -1,20 +1,72 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated with glade 3.20.0 -->
 <!--*- mode: xml -*-->
 <interface>
+  <requires lib="gtk+" version="3.10"/>
   <object class="GtkDialog" id="dialog">
     <property name="visible">True</property>
+    <property name="can_focus">False</property>
     <property name="border_width">6</property>
     <property name="title" translatable="yes">Contact List Editor</property>
-    <property name="window_position">GTK_WIN_POS_CENTER</property>
+    <property name="window_position">center</property>
     <property name="icon_name">stock_contact-list</property>
-    <property name="type_hint">GDK_WINDOW_TYPE_HINT_NORMAL</property>
-    <signal handler="contact_list_editor_delete_event_cb" name="delete_event"/>
+    <property name="type_hint">normal</property>
+    <signal name="delete-event" handler="contact_list_editor_delete_event_cb" swapped="no"/>
     <child internal-child="vbox">
-      <object class="GtkVBox" id="dialog-vbox">
+      <object class="GtkBox" id="dialog-vbox">
         <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <child internal-child="action_area">
+          <object class="GtkButtonBox" id="dialog-action-area">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="layout_style">end</property>
+            <child>
+              <object class="GtkButton" id="cancel-button">
+                <property name="label" translatable="yes">_Cancel</property>
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="is_focus">True</property>
+                <property name="can_default">True</property>
+                <property name="receives_default">False</property>
+                <property name="use_underline">True</property>
+                <signal name="clicked" handler="contact_list_editor_cancel_button_clicked_cb" swapped="no"/>
+              </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkButton" id="ok-button">
+                <property name="label" translatable="yes">_Save</property>
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="can_default">True</property>
+                <property name="receives_default">False</property>
+                <property name="use_underline">True</property>
+                <signal name="clicked" handler="contact_list_editor_ok_button_clicked_cb" swapped="no"/>
+                <accelerator key="s" signal="clicked" modifiers="GDK_CONTROL_MASK"/>
+              </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">False</property>
+            <property name="pack_type">end</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
         <child>
           <object class="GtkTable" id="table">
             <property name="visible">True</property>
+            <property name="can_focus">False</property>
             <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
             <property name="border_width">6</property>
             <property name="n_rows">2</property>
@@ -24,9 +76,10 @@
             <child>
               <object class="GtkImage" id="image">
                 <property name="visible">True</property>
+                <property name="can_focus">False</property>
                 <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                <property name="icon_size">6</property>
                 <property name="icon_name">x-office-address-book</property>
+                <property name="icon_size">6</property>
               </object>
               <packing>
                 <property name="left_attach">1</property>
@@ -38,6 +91,7 @@
             <child>
               <object class="GtkTable" id="source-table">
                 <property name="visible">True</property>
+                <property name="can_focus">False</property>
                 <property name="n_rows">2</property>
                 <property name="n_columns">2</property>
                 <property name="column_spacing">6</property>
@@ -45,10 +99,11 @@
                 <child>
                   <object class="GtkLabel" id="list-name-label">
                     <property name="visible">True</property>
-                    <property name="xalign">1</property>
+                    <property name="can_focus">False</property>
                     <property name="label" translatable="yes">_List name:</property>
                     <property name="use_underline">True</property>
                     <property name="mnemonic_widget">list-name-entry</property>
+                    <property name="xalign">1</property>
                   </object>
                   <packing>
                     <property name="x_options">GTK_FILL</property>
@@ -58,10 +113,11 @@
                 <child>
                   <object class="GtkLabel" id="source-label">
                     <property name="visible">True</property>
-                    <property name="xalign">1</property>
+                    <property name="can_focus">False</property>
                     <property name="label" translatable="yes">_Where:</property>
                     <property name="use_underline">True</property>
-		    <property name="mnemonic_widget">client-combo-box</property>
+                    <property name="mnemonic_widget">client-combo-box</property>
+                    <property name="xalign">1</property>
                   </object>
                   <packing>
                     <property name="top_attach">1</property>
@@ -73,7 +129,8 @@
                 <child>
                   <object class="GtkEntry" id="list-name-entry">
                     <property name="visible">True</property>
-                    <signal handler="contact_list_editor_list_name_entry_changed_cb" name="changed"/>
+                    <property name="can_focus">False</property>
+                    <signal name="changed" handler="contact_list_editor_list_name_entry_changed_cb" swapped="no"/>
                   </object>
                   <packing>
                     <property name="left_attach">1</property>
@@ -104,12 +161,14 @@
             <child>
               <object class="GtkVBox" id="members-vbox">
                 <property name="visible">True</property>
+                <property name="can_focus">False</property>
                 <property name="spacing">6</property>
                 <child>
                   <object class="GtkLabel" id="members-label">
                     <property name="visible">True</property>
-                    <property name="xalign">0</property>
+                    <property name="can_focus">False</property>
                     <property name="label" translatable="yes">Members</property>
+                    <property name="xalign">0</property>
                     <attributes>
                       <attribute name="weight" value="bold"/>
                     </attributes>
@@ -117,15 +176,18 @@
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">False</property>
+                    <property name="position">0</property>
                   </packing>
                 </child>
                 <child>
                   <object class="GtkAlignment" id="members-alignment">
                     <property name="visible">True</property>
+                    <property name="can_focus">False</property>
                     <property name="left_padding">12</property>
                     <child>
                       <object class="GtkTable" id="members-table">
                         <property name="visible">True</property>
+                        <property name="can_focus">False</property>
                         <property name="n_rows">4</property>
                         <property name="n_columns">2</property>
                         <property name="column_spacing">6</property>
@@ -137,15 +199,13 @@
                           <placeholder/>
                         </child>
                         <child>
-                          <placeholder/>
-                        </child>
-                        <child>
                           <object class="GtkLabel" id="members-instructions">
                             <property name="visible">True</property>
-                            <property name="xalign">0</property>
+                            <property name="can_focus">False</property>
                             <property name="label" translatable="yes">_Type an email address or drag a contact into the list below:</property>
                             <property name="use_underline">True</property>
-                            <property name="justify">GTK_JUSTIFY_CENTER</property>
+                            <property name="justify">center</property>
+                            <property name="xalign">0</property>
                           </object>
                           <packing>
                             <property name="y_options"/>
@@ -154,6 +214,7 @@
                         <child>
                           <object class="GtkEntry" id="email-entry">
                             <property name="visible">True</property>
+                            <property name="can_focus">False</property>
                           </object>
                           <packing>
                             <property name="top_attach">1</property>
@@ -165,16 +226,19 @@
                           <object class="GtkScrolledWindow" id="scrolled-window">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
-                            <property name="hscrollbar_policy">GTK_POLICY_NEVER</property>
-                            <property name="vscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
-                            <property name="shadow_type">GTK_SHADOW_ETCHED_IN</property>
+                            <property name="hscrollbar_policy">never</property>
+                            <property name="shadow_type">etched-in</property>
                             <child>
                               <object class="GtkTreeView" id="tree-view">
                                 <property name="visible">True</property>
+                                <property name="can_focus">False</property>
                                 <property name="headers_visible">False</property>
                                 <property name="search_column">0</property>
-                                <signal handler="contact_list_editor_tree_view_key_press_event_cb" name="key_press_event"/>
-                                <signal handler="contact_list_editor_drag_data_received_cb" name="drag_data_received"/>
+                                <signal name="drag-data-received" handler="contact_list_editor_drag_data_received_cb" swapped="no"/>
+                                <signal name="key-press-event" handler="contact_list_editor_tree_view_key_press_event_cb" swapped="no"/>
+                                <child internal-child="selection">
+                                  <object class="GtkTreeSelection"/>
+                                </child>
                               </object>
                             </child>
                           </object>
@@ -185,11 +249,14 @@
                         </child>
                         <child>
                           <object class="GtkCheckButton" id="check-button">
-                            <property name="visible">True</property>
-                            <property name="is_focus">True</property>
                             <property name="label" translatable="yes">_Hide addresses when sending mail to this list</property>
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="is_focus">True</property>
+                            <property name="receives_default">False</property>
                             <property name="use_underline">True</property>
-                            <signal handler="contact_list_editor_check_button_toggled_cb" name="toggled"/>
+                            <property name="draw_indicator">True</property>
+                            <signal name="toggled" handler="contact_list_editor_check_button_toggled_cb" swapped="no"/>
                           </object>
                           <packing>
                             <property name="top_attach">3</property>
@@ -200,39 +267,43 @@
                         <child>
                           <object class="GtkVBox" id="members-buttons">
                             <property name="visible">True</property>
+                            <property name="can_focus">False</property>
                             <property name="spacing">6</property>
                             <child>
                               <object class="GtkButton" id="add-button">
+                                <property name="label" translatable="yes">_Add</property>
                                 <property name="visible">True</property>
                                 <property name="sensitive">False</property>
+                                <property name="can_focus">False</property>
                                 <property name="is_focus">True</property>
                                 <property name="can_default">True</property>
+                                <property name="receives_default">False</property>
                                 <property name="has_tooltip">True</property>
                                 <property name="tooltip_text" translatable="yes">Add an email to the List</property>
-                                <property name="label" translatable="yes">_Add</property>
-                                <property name="use_stock">False</property>
-                                <property name="use-underline">True</property>
+                                <property name="use_underline">True</property>
                                 <property name="xalign">0</property>
-                                <signal handler="contact_list_editor_add_button_clicked_cb" name="clicked"/>
+                                <signal name="clicked" handler="contact_list_editor_add_button_clicked_cb" swapped="no"/>
                               </object>
                               <packing>
                                 <property name="expand">False</property>
                                 <property name="fill">False</property>
+                                <property name="position">0</property>
                               </packing>
                             </child>
                             <child>
                               <object class="GtkButton" id="remove-button">
+                                <property name="label" translatable="yes">_Remove</property>
                                 <property name="visible">True</property>
                                 <property name="sensitive">False</property>
+                                <property name="can_focus">False</property>
                                 <property name="is_focus">True</property>
                                 <property name="can_default">True</property>
+                                <property name="receives_default">False</property>
                                 <property name="has_tooltip">True</property>
                                 <property name="tooltip_text" translatable="yes">Remove an email address from the List</property>
-                                <property name="label" translatable="yes">_Remove</property>
-                                <property name="use_stock">False</property>
-                                <property name="use-underline">True</property>
+                                <property name="use_underline">True</property>
                                 <property name="xalign">0</property>
-                                <signal handler="contact_list_editor_remove_button_clicked_cb" name="clicked"/>
+                                <signal name="clicked" handler="contact_list_editor_remove_button_clicked_cb" swapped="no"/>
                               </object>
                               <packing>
                                 <property name="expand">False</property>
@@ -242,15 +313,17 @@
                             </child>
                             <child>
                               <object class="GtkButton" id="select-button">
+                                <property name="label" translatable="yes">_Select...</property>
                                 <property name="visible">True</property>
+                                <property name="can_focus">False</property>
                                 <property name="is_focus">True</property>
                                 <property name="can_default">True</property>
                                 <property name="has_default">True</property>
-				<property name="use_underline">True</property>
+                                <property name="receives_default">False</property>
                                 <property name="has_tooltip">True</property>
                                 <property name="tooltip_text" translatable="yes">Insert email addresses from Address Book</property>
-                                <property name="label" translatable="yes">_Select...</property>
-                                <signal name="clicked" handler="contact_list_editor_select_button_clicked_cb"/>
+                                <property name="use_underline">True</property>
+                                <signal name="clicked" handler="contact_list_editor_select_button_clicked_cb" swapped="no"/>
                               </object>
                               <packing>
                                 <property name="expand">False</property>
@@ -259,84 +332,91 @@
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkButton" id="top-button">
-                                <property name="visible">True</property>
-                                <property name="is_focus">True</property>
-                                <property name="can_default">True</property>
-                                <property name="has_default">True</property>
-				<property name="label" translatable="yes">_Top</property>
-				<property name="use-stock">False</property>
-				<property name="use-underline">True</property>
-				<property name="sensitive">False</property>
-				<signal name="clicked" handler="contact_list_editor_top_button_clicked_cb"/>
-			      </object>
-			      <packing>
-			        <property name="expand">False</property>
-			        <property name="fill">False</property>
-			        <property name="position">3</property>
-			      </packing>
-			    </child>
-			    <child>
-			      <object class="GtkButton" id="up-button">
-			        <property name="visible">True</property>
-			        <property name="is_focus">True</property>
-			        <property name="can_default">True</property>
-			        <property name="has_default">True</property>
-			        <property name="label" translatable="yes">_Up</property>
-			        <property name="use-stock">False</property>
-				<property name="use-underline">True</property>
-			        <property name="sensitive">False</property>
-			        <signal name="clicked" handler="contact_list_editor_up_button_clicked_cb"/>
-			      </object>
-			      <packing>
-			        <property name="expand">False</property>
-			        <property name="fill">False</property>
-			        <property name="position">4</property>
-			      </packing>
-			    </child>
-			    <child>
-			      <object class="GtkButton" id="down-button">
-			        <property name="visible">True</property>
-			        <property name="is_focus">True</property>
-			        <property name="has_focus">True</property>
-			        <property name="label" translatable="yes">_Down</property>
-			        <property name="use-stock">False</property>
-				<property name="use-underline">True</property>
-			        <property name="sensitive">False</property>
-			        <signal name="clicked" handler="contact_list_editor_down_button_clicked_cb"/>
-			      </object>
-			      <packing>
-			        <property name="expand">False</property>
-			        <property name="fill">False</property>
-			        <property name="position">5</property>
-			      </packing>
-			    </child>
-			    <child>
-			      <object class="GtkButton" id="bottom-button">
-			        <property name="visible">True</property>
-			        <property name="is_focus">True</property>
-			        <property name="has_focus">True</property>
-			        <property name="label" translatable="yes">_Bottom</property>
-			        <property name="use-stock">False</property>
-				<property name="use-underline">True</property>
-			        <property name="sensitive">False</property>
-			        <signal name="clicked" handler="contact_list_editor_bottom_button_clicked_cb"/>
-			      </object>
-			      <packing>
-			        <property name="expand">False</property>
-			        <property name="fill">False</property>
-			        <property name="position">6</property>
-			      </packing>
-			    </child>
-                            <child>
                               <object class="GtkAlignment" id="members-buttons-alignment">
                                 <property name="visible">True</property>
+                                <property name="can_focus">False</property>
                                 <child>
                                   <placeholder/>
                                 </child>
                               </object>
                               <packing>
+                                <property name="expand">True</property>
+                                <property name="fill">True</property>
                                 <property name="position">3</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkButton" id="top-button">
+                                <property name="label" translatable="yes">_Top</property>
+                                <property name="visible">True</property>
+                                <property name="sensitive">False</property>
+                                <property name="can_focus">False</property>
+                                <property name="is_focus">True</property>
+                                <property name="can_default">True</property>
+                                <property name="has_default">True</property>
+                                <property name="receives_default">False</property>
+                                <property name="use_underline">True</property>
+                                <signal name="clicked" handler="contact_list_editor_top_button_clicked_cb" swapped="no"/>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">False</property>
+                                <property name="position">3</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkButton" id="up-button">
+                                <property name="label" translatable="yes">_Up</property>
+                                <property name="visible">True</property>
+                                <property name="sensitive">False</property>
+                                <property name="can_focus">False</property>
+                                <property name="is_focus">True</property>
+                                <property name="can_default">True</property>
+                                <property name="has_default">True</property>
+                                <property name="receives_default">False</property>
+                                <property name="use_underline">True</property>
+                                <signal name="clicked" handler="contact_list_editor_up_button_clicked_cb" swapped="no"/>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">False</property>
+                                <property name="position">4</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkButton" id="down-button">
+                                <property name="label" translatable="yes">_Down</property>
+                                <property name="visible">True</property>
+                                <property name="sensitive">False</property>
+                                <property name="can_focus">False</property>
+                                <property name="has_focus">True</property>
+                                <property name="is_focus">True</property>
+                                <property name="receives_default">False</property>
+                                <property name="use_underline">True</property>
+                                <signal name="clicked" handler="contact_list_editor_down_button_clicked_cb" swapped="no"/>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">False</property>
+                                <property name="position">5</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkButton" id="bottom-button">
+                                <property name="label" translatable="yes">_Bottom</property>
+                                <property name="visible">True</property>
+                                <property name="sensitive">False</property>
+                                <property name="can_focus">False</property>
+                                <property name="has_focus">True</property>
+                                <property name="is_focus">True</property>
+                                <property name="receives_default">False</property>
+                                <property name="use_underline">True</property>
+                                <signal name="clicked" handler="contact_list_editor_bottom_button_clicked_cb" swapped="no"/>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">False</property>
+                                <property name="position">6</property>
                               </packing>
                             </child>
                           </object>
@@ -348,10 +428,15 @@
                             <property name="x_options"/>
                           </packing>
                         </child>
+                        <child>
+                          <placeholder/>
+                        </child>
                       </object>
                     </child>
                   </object>
                   <packing>
+                    <property name="expand">True</property>
+                    <property name="fill">True</property>
                     <property name="position">1</property>
                   </packing>
                 </child>
@@ -364,51 +449,14 @@
             </child>
           </object>
           <packing>
-            <property name="position">1</property>
-          </packing>
-        </child>
-        <child internal-child="action_area">
-          <object class="GtkHButtonBox" id="dialog-action-area">
-            <property name="visible">True</property>
-            <property name="layout_style">GTK_BUTTONBOX_END</property>
-            <child>
-              <object class="GtkButton" id="cancel-button">
-                <property name="visible">True</property>
-                <property name="is_focus">True</property>
-                <property name="can_default">True</property>
-                <property name="label" translatable="yes">_Cancel</property>
-                <property name="use_stock">False</property>
-		<property name="use-underline">True</property>
-                <signal handler="contact_list_editor_cancel_button_clicked_cb" name="clicked"/>
-              </object>
-            </child>
-            <child>
-              <object class="GtkButton" id="ok-button">
-                <property name="visible">True</property>
-                <property name="can_default">True</property>
-                <property name="label" translatable="yes">_Save</property>
-                <property name="use_stock">False</property>
-		<property name="use-underline">True</property>
-                <accelerator key="s" modifiers="GDK_CONTROL_MASK" signal="clicked"/>
-                <signal handler="contact_list_editor_ok_button_clicked_cb" name="clicked"/>
-              </object>
-              <packing>
-                <property name="position">1</property>
-              </packing>
-            </child>
-          </object>
-          <packing>
             <property name="expand">False</property>
-            <property name="pack_type">GTK_PACK_END</property>
+            <property name="fill">True</property>
+            <property name="position">1</property>
           </packing>
         </child>
       </object>
     </child>
     <action-widgets>
-      <action-widget response="0">check-button</action-widget>
-      <action-widget response="0">add-button</action-widget>
-      <action-widget response="0">remove-button</action-widget>
-      <action-widget response="0">select-button</action-widget>
       <action-widget response="0">cancel-button</action-widget>
       <action-widget response="0">ok-button</action-widget>
     </action-widgets>

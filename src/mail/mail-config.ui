@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.18.3 -->
+<!-- Generated with glade 3.20.0 -->
 <interface>
-  <requires lib="gtk+" version="3.0"/>
+  <requires lib="gtk+" version="3.10"/>
   <object class="GtkListStore" id="RCMailsListStore">
     <columns>
       <!-- column-name Mails -->
@@ -39,7 +39,6 @@
                 <property name="can_focus">True</property>
                 <property name="receives_default">False</property>
                 <property name="use_underline">True</property>
-                <property name="use_stock">False</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -54,7 +53,6 @@
                 <property name="can_focus">True</property>
                 <property name="receives_default">False</property>
                 <property name="use_underline">True</property>
-                <property name="use_stock">False</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -95,9 +93,9 @@
               <object class="GtkLabel" id="junk_header_label1">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="xalign">0</property>
                 <property name="label" translatable="yes">Header name</property>
                 <property name="mnemonic_widget">junk-header-name</property>
+                <property name="xalign">0</property>
               </object>
               <packing>
                 <property name="x_options">GTK_SHRINK</property>
@@ -107,9 +105,9 @@
               <object class="GtkLabel" id="junk_header_label2">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="xalign">0</property>
                 <property name="label" translatable="yes">Header content</property>
                 <property name="mnemonic_widget">junk-header-content</property>
+                <property name="xalign">0</property>
               </object>
               <packing>
                 <property name="top_attach">1</property>
@@ -187,8 +185,8 @@
     <property name="page_increment">10</property>
   </object>
   <object class="GtkAdjustment" id="adjustment7">
-    <property name="upper">200</property>
     <property name="lower">31</property>
+    <property name="upper">200</property>
     <property name="value">71</property>
     <property name="step_increment">1</property>
     <property name="page_increment">1</property>
@@ -211,8 +209,8 @@
               <object class="GtkLabel" id="default-behavior-header">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="xalign">0</property>
                 <property name="label" translatable="yes">Default Behavior</property>
+                <property name="xalign">0</property>
                 <attributes>
                   <attribute name="weight" value="bold"/>
                 </attributes>
@@ -332,8 +330,8 @@
                     <child>
                       <object class="GtkBox" id="hboxUseOutbox">
                         <property name="visible">True</property>
+                        <property name="can_focus">False</property>
                         <property name="spacing">6</property>
-                        <property name="orientation">horizontal</property>
                         <child>
                           <object class="GtkCheckButton" id="chkUseOutbox">
                             <property name="label" translatable="yes">Send messages through Outbo_x folder</property>
@@ -371,13 +369,13 @@
                     <child>
                       <object class="GtkHBox" id="hboxWrapCharactersCount">
                         <property name="visible">True</property>
+                        <property name="can_focus">False</property>
                         <property name="spacing">6</property>
                         <child>
                           <object class="GtkLabel" id="lblWordWrapLength">
                             <property name="visible">True</property>
-                            <property name="label" translatable="yes">Number of characters for word w_rapping:</property>
                             <property name="can_focus">False</property>
-                            <property name="receives_default">False</property>
+                            <property name="label" translatable="yes">Number of characters for word w_rapping:</property>
                             <property name="use_underline">True</property>
                           </object>
                           <packing>
@@ -391,8 +389,8 @@
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="max_length">3</property>
-                            <property name="adjustment">adjustment7</property>
                             <property name="caps_lock_warning">False</property>
+                            <property name="adjustment">adjustment7</property>
                             <property name="numeric">True</property>
                             <property name="update_policy">if-valid</property>
                           </object>
@@ -418,10 +416,10 @@
                           <object class="GtkLabel" id="lblCharset">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
-                            <property name="xalign">1</property>
                             <property name="label" translatable="yes">Ch_aracter encoding:</property>
                             <property name="use_underline">True</property>
                             <property name="justify">center</property>
+                            <property name="xalign">1</property>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -464,8 +462,8 @@
               <object class="GtkLabel" id="replies-and-forwards-label">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="xalign">0</property>
                 <property name="label" translatable="yes">Replies and Forwards</property>
+                <property name="xalign">0</property>
                 <attributes>
                   <attribute name="weight" value="bold"/>
                 </attributes>
@@ -493,10 +491,10 @@
                       <object class="GtkLabel" id="lblReplyStyle">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="xalign">1</property>
                         <property name="label" translatable="yes">_Reply style:</property>
                         <property name="use_underline">True</property>
                         <property name="mnemonic_widget">comboboxReplyStyle</property>
+                        <property name="xalign">1</property>
                       </object>
                       <packing>
                         <property name="x_options">GTK_FILL</property>
@@ -507,10 +505,10 @@
                       <object class="GtkLabel" id="lblForwardStyle">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="xalign">1</property>
                         <property name="label" translatable="yes">_Forward style:</property>
                         <property name="use_underline">True</property>
                         <property name="mnemonic_widget">comboboxForwardStyle</property>
+                        <property name="xalign">1</property>
                       </object>
                       <packing>
                         <property name="top_attach">1</property>
@@ -632,10 +630,10 @@
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <items>
-                              <item translatable="yes" context="ReplyForward" id="attach">Attachment</item>
-                              <item translatable="yes" context="ReplyForward" id="outlook">Inline (Outlook style)</item>
-                              <item translatable="yes" context="ReplyForward" id="quoted">Quoted</item>
-                              <item translatable="yes" context="ReplyForward" id="do-not-quote">Do Not Quote</item>
+                              <item id="attach" translatable="yes" context="ReplyForward">Attachment</item>
+                              <item id="outlook" translatable="yes" context="ReplyForward">Inline (Outlook style)</item>
+                              <item id="quoted" translatable="yes" context="ReplyForward">Quoted</item>
+                              <item id="do-not-quote" translatable="yes" context="ReplyForward">Do Not Quote</item>
                             </items>
                           </object>
                         </child>
@@ -656,9 +654,9 @@
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <items>
-                              <item translatable="yes" context="ReplyForward" id="attached">Attachment</item>
-                              <item translatable="yes" context="ReplyForward" id="inline">Inline</item>
-                              <item translatable="yes" context="ReplyForward" id="quoted">Quoted</item>
+                              <item id="attached" translatable="yes" context="ReplyForward">Attachment</item>
+                              <item id="inline" translatable="yes" context="ReplyForward">Inline</item>
+                              <item id="quoted" translatable="yes" context="ReplyForward">Quoted</item>
                             </items>
                           </object>
                         </child>
@@ -715,9 +713,9 @@
               <object class="GtkLabel" id="signature-header">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="xalign">0</property>
                 <property name="label" translatable="yes">Sig_natures</property>
                 <property name="use_underline">True</property>
+                <property name="xalign">0</property>
                 <attributes>
                   <attribute name="weight" value="bold"/>
                 </attributes>
@@ -783,10 +781,10 @@
               <object class="GtkLabel" id="languages-header">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="xalign">0</property>
                 <property name="label" translatable="yes">_Languages</property>
                 <property name="use_underline">True</property>
                 <property name="mnemonic_widget">listSpellCheckLanguage</property>
+                <property name="xalign">0</property>
                 <attributes>
                   <attribute name="weight" value="bold"/>
                 </attributes>
@@ -819,13 +817,13 @@
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="headers_visible">False</property>
+                            <child internal-child="selection">
+                              <object class="GtkTreeSelection" id="treeview-selection3"/>
+                            </child>
                             <child internal-child="accessible">
                               <object class="AtkObject" id="listSpellCheckLanguage-atkobject">
                                 <property name="AtkObject::accessible-name" translatable="yes">Languages Table</property>
                               </object>
-                            </child>
-                            <child internal-child="selection">
-                              <object class="GtkTreeSelection" id="treeview-selection3"/>
                             </child>
                           </object>
                         </child>
@@ -834,7 +832,6 @@
                         <property name="left_attach">0</property>
                         <property name="top_attach">0</property>
                         <property name="width">2</property>
-                        <property name="height">1</property>
                       </packing>
                     </child>
                     <child>
@@ -842,13 +839,11 @@
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="yalign">0</property>
-                        <property name="icon-name">dialog-information</property>
+                        <property name="icon_name">dialog-information</property>
                       </object>
                       <packing>
                         <property name="left_attach">0</property>
                         <property name="top_attach">1</property>
-                        <property name="width">1</property>
-                        <property name="height">1</property>
                       </packing>
                     </child>
                     <child>
@@ -856,15 +851,13 @@
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="hexpand">True</property>
-                        <property name="xalign">0</property>
                         <property name="label" translatable="yes">The list of languages here reflects only the languages for which you have a dictionary installed.</property>
                         <property name="wrap">True</property>
+                        <property name="xalign">0</property>
                       </object>
                       <packing>
                         <property name="left_attach">1</property>
                         <property name="top_attach">1</property>
-                        <property name="width">1</property>
-                        <property name="height">1</property>
                       </packing>
                     </child>
                   </object>
@@ -892,8 +885,8 @@
               <object class="GtkLabel" id="spell-options-header">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="xalign">0</property>
                 <property name="label" translatable="yes">Options</property>
+                <property name="xalign">0</property>
                 <attributes>
                   <attribute name="weight" value="bold"/>
                 </attributes>
@@ -974,9 +967,9 @@
           <object class="GtkLabel" id="confirmation-label">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="xalign">0</property>
             <property name="label" translatable="yes">To help avoid email accidents and embarrassments, ask for confirmation before taking the following checkmarked actions:</property>
             <property name="wrap">True</property>
+            <property name="xalign">0</property>
           </object>
           <packing>
             <property name="expand">False</property>
@@ -1203,10 +1196,10 @@
                         <child>
                           <object class="GtkButton" id="sao-folders-add-button">
                             <property name="label" translatable="yes">_Add</property>
-                            <property name="use_underline">True</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
+                            <property name="use_underline">True</property>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -1217,10 +1210,10 @@
                         <child>
                           <object class="GtkButton" id="sao-folders-remove-button">
                             <property name="label" translatable="yes">_Remove</property>
-                            <property name="use_underline">True</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
+                            <property name="use_underline">True</property>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -1232,8 +1225,6 @@
                       <packing>
                         <property name="left_attach">0</property>
                         <property name="top_attach">1</property>
-                        <property name="width">1</property>
-                        <property name="height">1</property>
                       </packing>
                     </child>
                     <child>
@@ -1261,8 +1252,6 @@
                       <packing>
                         <property name="left_attach">0</property>
                         <property name="top_attach">0</property>
-                        <property name="width">1</property>
-                        <property name="height">1</property>
                       </packing>
                     </child>
                   </object>
@@ -1273,18 +1262,15 @@
               <object class="GtkLabel" id="sao-folders-frame-label">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="label" translatable="yes" comments="Translators: Label of a frame with a list of folders for which to use selected account in Send account overrides">Use for Folders</property>
-                <property name="use_markup">False</property>
                 <property name="margin_left">6</property>
                 <property name="margin_right">6</property>
+                <property name="label" translatable="yes" comments="Translators: Label of a frame with a list of folders for which to use selected account in Send account overrides">Use for Folders</property>
               </object>
             </child>
           </object>
           <packing>
             <property name="left_attach">0</property>
             <property name="top_attach">4</property>
-            <property name="width">1</property>
-            <property name="height">1</property>
           </packing>
         </child>
         <child>
@@ -1320,10 +1306,10 @@
                         <child>
                           <object class="GtkButton" id="sao-recipients-add-button">
                             <property name="label" translatable="yes">A_dd</property>
-                            <property name="use_underline">True</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
+                            <property name="use_underline">True</property>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -1334,10 +1320,10 @@
                         <child>
                           <object class="GtkButton" id="sao-recipients-edit-button">
                             <property name="label" translatable="yes">_Edit</property>
-                            <property name="use_underline">True</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
+                            <property name="use_underline">True</property>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -1348,10 +1334,10 @@
                         <child>
                           <object class="GtkButton" id="sao-recipients-remove-button">
                             <property name="label" translatable="yes">Re_move</property>
-                            <property name="use_underline">True</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
+                            <property name="use_underline">True</property>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -1363,8 +1349,6 @@
                       <packing>
                         <property name="left_attach">0</property>
                         <property name="top_attach">1</property>
-                        <property name="width">1</property>
-                        <property name="height">1</property>
                       </packing>
                     </child>
                     <child>
@@ -1392,8 +1376,6 @@
                       <packing>
                         <property name="left_attach">0</property>
                         <property name="top_attach">0</property>
-                        <property name="width">1</property>
-                        <property name="height">1</property>
                       </packing>
                     </child>
                   </object>
@@ -1404,18 +1386,15 @@
               <object class="GtkLabel" id="sao-recipients-frame-label">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="label" translatable="yes" comments="Translators: Label of a frame with a list of recipients for whom to use selected account in Send account overrides">Use for Recipients</property>
-                <property name="use_markup">False</property>
                 <property name="margin_left">6</property>
                 <property name="margin_right">6</property>
+                <property name="label" translatable="yes" comments="Translators: Label of a frame with a list of recipients for whom to use selected account in Send account overrides">Use for Recipients</property>
               </object>
             </child>
           </object>
           <packing>
             <property name="left_attach">1</property>
             <property name="top_attach">4</property>
-            <property name="width">1</property>
-            <property name="height">1</property>
           </packing>
         </child>
         <child>
@@ -1463,10 +1442,9 @@
               <object class="GtkLabel" id="sao-account-label">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="label" translatable="yes" comments="Translators: Label of a frame with a list of configured accounts in Send account overrides">Account</property>
-                <property name="use_markup">False</property>
                 <property name="margin_left">6</property>
                 <property name="margin_right">6</property>
+                <property name="label" translatable="yes" comments="Translators: Label of a frame with a list of configured accounts in Send account overrides">Account</property>
               </object>
             </child>
           </object>
@@ -1474,7 +1452,6 @@
             <property name="left_attach">0</property>
             <property name="top_attach">3</property>
             <property name="width">2</property>
-            <property name="height">1</property>
           </packing>
         </child>
         <child>
@@ -1482,8 +1459,8 @@
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="margin_bottom">6</property>
-            <property name="xalign">0</property>
             <property name="label" translatable="yes">Send account overrides</property>
+            <property name="xalign">0</property>
             <attributes>
               <attribute name="weight" value="bold"/>
             </attributes>
@@ -1492,7 +1469,6 @@
             <property name="left_attach">0</property>
             <property name="top_attach">0</property>
             <property name="width">2</property>
-            <property name="height">1</property>
           </packing>
         </child>
         <child>
@@ -1503,25 +1479,24 @@
             <property name="margin_right">6</property>
             <property name="margin_top">6</property>
             <property name="margin_bottom">6</property>
-            <property name="xalign">0</property>
             <property name="label" translatable="yes">Assign which account should be used as a send account for respective folders or recipients, an override for usual send account detection. List of recipients can contain partial addresses or names. The name and the address parts are compared separately.</property>
             <property name="wrap">True</property>
+            <property name="xalign">0</property>
           </object>
           <packing>
             <property name="left_attach">0</property>
             <property name="top_attach">1</property>
             <property name="width">2</property>
-            <property name="height">1</property>
           </packing>
         </child>
         <child>
           <object class="GtkCheckButton" id="sao-prefer-folder-check">
             <property name="label" translatable="yes">_Folder override has precedence over Recipient override</property>
-            <property name="use_underline">True</property>
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="receives_default">False</property>
             <property name="margin_left">12</property>
+            <property name="use_underline">True</property>
             <property name="xalign">0</property>
             <property name="draw_indicator">True</property>
           </object>
@@ -1529,7 +1504,6 @@
             <property name="left_attach">0</property>
             <property name="top_attach">2</property>
             <property name="width">2</property>
-            <property name="height">1</property>
           </packing>
         </child>
       </object>
@@ -1548,6 +1522,19 @@
         <property name="tab_fill">False</property>
       </packing>
     </child>
+  </object>
+  <object class="GtkSizeGroup" id="composer-combo-box-size-group">
+    <widgets>
+      <widget name="comboboxReplyStyle"/>
+      <widget name="comboboxForwardStyle"/>
+    </widgets>
+  </object>
+  <object class="GtkSizeGroup" id="composer-label-size-group">
+    <widgets>
+      <widget name="lblCharset"/>
+      <widget name="lblReplyStyle"/>
+      <widget name="lblForwardStyle"/>
+    </widgets>
   </object>
   <object class="GtkListStore" id="hash_algo_model">
     <columns>
@@ -1619,8 +1606,8 @@
               <object class="GtkLabel" id="start-up-header">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="xalign">0</property>
                 <property name="label" translatable="yes">Start up</property>
+                <property name="xalign">0</property>
                 <attributes>
                   <attribute name="weight" value="bold"/>
                 </attributes>
@@ -1722,8 +1709,8 @@
               <object class="GtkLabel" id="message-display-header">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="xalign">0</property>
                 <property name="label" translatable="yes">Message Display</property>
+                <property name="xalign">0</property>
                 <attributes>
                   <attribute name="weight" value="bold"/>
                 </attributes>
@@ -1777,11 +1764,11 @@
                               <object class="GtkLabel" id="lblScreenVariable">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
-                                <property name="xalign">1</property>
                                 <property name="label" translatable="yes">S_tandard Font:</property>
                                 <property name="use_underline">True</property>
                                 <property name="justify">right</property>
                                 <property name="mnemonic_widget">FontVariable</property>
+                                <property name="xalign">1</property>
                               </object>
                               <packing>
                                 <property name="x_options">GTK_FILL</property>
@@ -1793,6 +1780,7 @@
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
+                                <property name="font">Sans 12</property>
                                 <property name="title" translatable="yes">Select HTML fixed width font</property>
                                 <signal name="font-set" handler="changed" swapped="no"/>
                               </object>
@@ -1810,6 +1798,7 @@
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
+                                <property name="font">Sans 12</property>
                                 <property name="title" translatable="yes">Select HTML variable width font</property>
                                 <signal name="font-set" handler="changed" swapped="no"/>
                               </object>
@@ -1824,11 +1813,11 @@
                               <object class="GtkLabel" id="label444">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
-                                <property name="xalign">1</property>
                                 <property name="label" translatable="yes">Fix_ed Width Font:</property>
                                 <property name="use_underline">True</property>
                                 <property name="justify">right</property>
                                 <property name="mnemonic_widget">FontFixed</property>
+                                <property name="xalign">1</property>
                               </object>
                               <packing>
                                 <property name="top_attach">1</property>
@@ -2045,8 +2034,8 @@
               <object class="GtkLabel" id="delete-mail-header">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="xalign">0</property>
                 <property name="label" translatable="yes">Delete Mail</property>
+                <property name="xalign">0</property>
                 <attributes>
                   <attribute name="weight" value="bold"/>
                 </attributes>
@@ -2145,7 +2134,6 @@
             <property name="position">2</property>
           </packing>
         </child>
-
         <child>
           <object class="GtkVBox" id="archive-mail-section">
             <property name="visible">True</property>
@@ -2155,8 +2143,8 @@
               <object class="GtkLabel" id="archive-mail-header">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="xalign">0</property>
                 <property name="label" translatable="yes">Archive Mail</property>
+                <property name="xalign">0</property>
                 <attributes>
                   <attribute name="weight" value="bold"/>
                 </attributes>
@@ -2184,11 +2172,11 @@
                         <property name="spacing">4</property>
                         <child>
                           <object class="GtkLabel" id="lblArchiveMailFolder">
-                            <property name="label" translatable="yes">On This Computer A_rchive folder:</property>
-                            <property name="tooltip-text" translatable="yes">Archive folder to use for On This Computer messages</property>
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
-                            <property name="use-underline">True</property>
+                            <property name="tooltip_text" translatable="yes">Archive folder to use for On This Computer messages</property>
+                            <property name="label" translatable="yes">On This Computer A_rchive folder:</property>
+                            <property name="use_underline">True</property>
                             <property name="xalign">0</property>
                           </object>
                           <packing>
@@ -2252,8 +2240,8 @@
               <object class="GtkLabel" id="html-general-header">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="xalign">0</property>
                 <property name="label" translatable="yes">General</property>
+                <property name="xalign">0</property>
                 <attributes>
                   <attribute name="weight" value="bold"/>
                 </attributes>
@@ -2331,8 +2319,8 @@
               <object class="GtkLabel" id="loading-images-header">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="xalign">0</property>
                 <property name="label" translatable="yes">Loading Remote Content</property>
+                <property name="xalign">0</property>
                 <attributes>
                   <attribute name="weight" value="bold"/>
                 </attributes>
@@ -2495,8 +2483,8 @@
                   <object class="GtkLabel" id="RCSitesLbl">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="xalign">0</property>
                     <property name="label" translatable="yes">Allow for sites:</property>
+                    <property name="xalign">0</property>
                   </object>
                   <packing>
                     <property name="left_attach">0</property>
@@ -2600,8 +2588,8 @@
                   <object class="GtkLabel" id="RCMailsLbl">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="xalign">0</property>
                     <property name="label" translatable="yes">Allow for senders:</property>
+                    <property name="xalign">0</property>
                   </object>
                   <packing>
                     <property name="left_attach">0</property>
@@ -2679,8 +2667,8 @@
           <object class="GtkLabel" id="labels-section">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="xalign">0</property>
             <property name="label" translatable="yes">Labels</property>
+            <property name="xalign">0</property>
             <attributes>
               <attribute name="weight" value="bold"/>
             </attributes>
@@ -2739,8 +2727,8 @@
               <object class="GtkLabel" id="photograph-header">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="xalign">0</property>
                 <property name="label" translatable="yes">Sender Photograph</property>
+                <property name="xalign">0</property>
                 <attributes>
                   <attribute name="weight" value="bold"/>
                 </attributes>
@@ -2818,10 +2806,10 @@
               <object class="GtkLabel" id="message-headers-header">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="xalign">0</property>
                 <property name="label" translatable="yes">Displayed Message Headers</property>
                 <property name="use_underline">True</property>
                 <property name="mnemonic_widget">txtHeaders</property>
+                <property name="xalign">0</property>
                 <attributes>
                   <attribute name="weight" value="bold"/>
                 </attributes>
@@ -2869,13 +2857,13 @@
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="headers_visible">False</property>
+                                <child internal-child="selection">
+                                  <object class="GtkTreeSelection" id="treeview-selection1"/>
+                                </child>
                                 <child internal-child="accessible">
                                   <object class="AtkObject" id="treeHeaders-atkobject">
                                     <property name="AtkObject::accessible-name" translatable="yes">Mail Headers Table</property>
                                   </object>
-                                </child>
-                                <child internal-child="selection">
-                                  <object class="GtkTreeSelection" id="treeview-selection1"/>
                                 </child>
                               </object>
                             </child>
@@ -2905,8 +2893,7 @@
                             <property name="sensitive">False</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
-                            <property name="use_stock">False</property>
-                            <property name="use-underline">True</property>
+                            <property name="use_underline">True</property>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -2920,8 +2907,7 @@
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
-                            <property name="use_stock">False</property>
-                            <property name="use-underline">True</property>
+                            <property name="use_underline">True</property>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -2961,10 +2947,10 @@
               <object class="GtkLabel" id="datetime-format-header">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="xalign">0</property>
                 <property name="label" translatable="yes">Date/Time Format</property>
                 <property name="use_underline">True</property>
                 <property name="mnemonic_widget">txtHeaders</property>
+                <property name="xalign">0</property>
                 <attributes>
                   <attribute name="weight" value="bold"/>
                 </attributes>
@@ -2986,6 +2972,15 @@
                     <property name="can_focus">False</property>
                     <property name="n_columns">3</property>
                     <property name="row_spacing">6</property>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
                     <child>
                       <placeholder/>
                     </child>
@@ -3051,9 +3046,9 @@
       <object class="GtkVBox" id="vboxJunk">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
+        <property name="valign">start</property>
         <property name="border_width">12</property>
         <property name="spacing">12</property>
-        <property name="valign">GTK_ALIGN_START</property>
         <child>
           <object class="GtkVBox" id="junk-general-section">
             <property name="visible">True</property>
@@ -3063,8 +3058,8 @@
               <object class="GtkLabel" id="junk-general-header">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="xalign">0</property>
                 <property name="label" translatable="yes">General</property>
+                <property name="xalign">0</property>
                 <attributes>
                   <attribute name="weight" value="bold"/>
                 </attributes>
@@ -3092,8 +3087,6 @@
                     <property name="draw_indicator">True</property>
                   </object>
                   <packing>
-                    <property name="top_attach">0</property>
-                    <property name="bottom_attach">1</property>
                     <property name="x_options">GTK_FILL</property>
                     <property name="y_options"/>
                     <property name="x_padding">12</property>
@@ -3147,12 +3140,12 @@
                   </packing>
                 </child>
                 <child>
-                 <object class="GtkLabel" id="junk-test-opts-header">
+                  <object class="GtkLabel" id="junk-test-opts-header">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="xalign">0</property>
-                    <property name="margin-top">12</property>
+                    <property name="margin_top">12</property>
                     <property name="label" translatable="yes">Junk Test Options</property>
+                    <property name="xalign">0</property>
                     <attributes>
                       <attribute name="weight" value="bold"/>
                     </attributes>
@@ -3162,7 +3155,6 @@
                     <property name="bottom_attach">3</property>
                     <property name="x_options">GTK_FILL</property>
                     <property name="y_options"/>
-                    <property name="x_padding">0</property>
                   </packing>
                 </child>
                 <child>
@@ -3258,8 +3250,7 @@
                             <property name="can_focus">True</property>
                             <property name="can_default">True</property>
                             <property name="receives_default">True</property>
-                            <property name="use_stock">False</property>
-                            <property name="use-underline">True</property>
+                            <property name="use_underline">True</property>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -3274,8 +3265,7 @@
                             <property name="can_focus">True</property>
                             <property name="can_default">True</property>
                             <property name="receives_default">True</property>
-                            <property name="use_stock">False</property>
-                            <property name="use-underline">True</property>
+                            <property name="use_underline">True</property>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -3358,19 +3348,6 @@
         <property name="tab_fill">False</property>
       </packing>
     </child>
-  </object>
-  <object class="GtkSizeGroup" id="composer-combo-box-size-group">
-    <widgets>
-      <widget name="comboboxReplyStyle"/>
-      <widget name="comboboxForwardStyle"/>
-    </widgets>
-  </object>
-  <object class="GtkSizeGroup" id="composer-label-size-group">
-    <widgets>
-      <widget name="lblCharset"/>
-      <widget name="lblReplyStyle"/>
-      <widget name="lblForwardStyle"/>
-    </widgets>
   </object>
   <object class="GtkListStore" id="use_ssl_model">
     <columns>
