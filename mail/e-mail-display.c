@@ -85,6 +85,7 @@ struct _EMailDisplayPrivate {
 	GHashTable *skipped_remote_content_sites;
 
 	guint web_extension_headers_collapsed_signal_id;
+	guint web_extension_mail_part_appeared_signal_id;
 
 	GtkAllocation attachment_popup_position;
 
@@ -536,6 +537,41 @@ headers_collapsed_signal_cb (GDBusConnection *connection,
 }
 
 static void
+mail_display_mail_part_appeared_signal_cb (GDBusConnection *connection,
+					   const gchar *sender_name,
+					   const gchar *object_path,
+					   const gchar *interface_name,
+					   const gchar *signal_name,
+					   GVariant *parameters,
+					   gpointer user_data)
+{
+	EMailDisplay *display = user_data;
+	const gchar *part_id = NULL;
+	guint64 page_id = 0;
+	EMailPart *part;
+
+	if (g_strcmp0 (signal_name, "MailPartAppeared") != 0)
+		return;
+
+	g_return_if_fail (E_IS_MAIL_DISPLAY (display));
+
+	if (!parameters || !display->priv->part_list)
+		return;
+
+	g_variant_get (parameters, "(t&s)", &page_id, &part_id);
+
+	if (!part_id || !*part_id || page_id != webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (display)))
+		return;
+
+	part = e_mail_part_list_ref_part (display->priv->part_list, part_id);
+	if (part && g_strcmp0 (e_mail_part_get_id (part), part_id) == 0) {
+		e_mail_part_bind_dom_element (part, E_WEB_VIEW (display), page_id, part_id);
+	}
+
+	g_clear_object (&part);
+}
+
+static void
 setup_dom_bindings (EMailDisplay *display)
 {
 	GDBusProxy *web_extension;
@@ -554,6 +590,21 @@ setup_dom_bindings (EMailDisplay *display)
 					NULL,
 					G_DBUS_SIGNAL_FLAGS_NONE,
 					(GDBusSignalCallback) headers_collapsed_signal_cb,
+					display,
+					NULL);
+		}
+
+		if (display->priv->web_extension_mail_part_appeared_signal_id == 0) {
+			display->priv->web_extension_mail_part_appeared_signal_id =
+				g_dbus_connection_signal_subscribe (
+					g_dbus_proxy_get_connection (web_extension),
+					g_dbus_proxy_get_name (web_extension),
+					E_WEB_EXTENSION_INTERFACE,
+					"MailPartAppeared",
+					E_WEB_EXTENSION_OBJECT_PATH,
+					NULL,
+					G_DBUS_SIGNAL_FLAGS_NONE,
+					mail_display_mail_part_appeared_signal_cb,
 					display,
 					NULL);
 		}
@@ -1092,19 +1143,25 @@ mail_display_attachment_removed_cb (EAttachmentStore *store,
 	g_hash_table_remove (display->priv->attachment_flags, attachment);
 }
 
+typedef struct _MailElementExistsData {
+	EWebView *web_view;
+	EMailPart *part;
+} MailElementExistsData;
+
 static void
 mail_element_exists_cb (GObject *source_object,
                         GAsyncResult *result,
                         gpointer user_data)
 {
 	GDBusProxy *web_extension;
-	EMailPart *part = user_data;
+	MailElementExistsData *meed = user_data;
 	gboolean element_exists = FALSE;
 	GVariant *result_variant;
 	guint64 page_id;
 	GError *error = NULL;
 
 	g_return_if_fail (G_IS_DBUS_PROXY (source_object));
+	g_return_if_fail (meed != NULL);
 
 	web_extension = G_DBUS_PROXY (source_object);
 
@@ -1116,12 +1173,14 @@ mail_element_exists_cb (GObject *source_object,
 
 	if (element_exists)
 		e_mail_part_bind_dom_element (
-			part,
-			web_extension,
+			meed->part,
+			meed->web_view,
 			page_id,
-			e_mail_part_get_id (part));
+			e_mail_part_get_id (meed->part));
 
-	g_object_unref (part);
+	g_object_unref (meed->web_view);
+	g_object_unref (meed->part);
+	g_free (meed);
 
 	if (error)
 		g_dbus_error_strip_remote_error (error);
@@ -1156,6 +1215,7 @@ mail_parts_bind_dom (EMailDisplay *display)
 	head = g_queue_peek_head_link (&queue);
 
 	for (link = head; link != NULL; link = g_list_next (link)) {
+		MailElementExistsData *meed;
 		EMailPart *part = E_MAIL_PART (link->data);
 		const gchar *part_id;
 
@@ -1164,6 +1224,10 @@ mail_parts_bind_dom (EMailDisplay *display)
 		has_attachment = has_attachment || E_IS_MAIL_PART_ATTACHMENT (part);
 
 		e_mail_part_web_view_loaded (part, web_view);
+
+		meed = g_new0 (MailElementExistsData, 1);
+		meed->web_view = g_object_ref (web_view);
+		meed->part = g_object_ref (part);
 
 		g_dbus_proxy_call (
 			web_extension,
@@ -1177,7 +1241,7 @@ mail_parts_bind_dom (EMailDisplay *display)
 			-1,
 			NULL,
 			mail_element_exists_cb,
-			g_object_ref (part));
+			meed);
 	}
 
 	while (!g_queue_is_empty (&queue))
@@ -1349,6 +1413,17 @@ mail_display_dispose (GObject *object)
 				priv->web_extension_headers_collapsed_signal_id);
 		}
 		priv->web_extension_headers_collapsed_signal_id = 0;
+	}
+
+	if (priv->web_extension_mail_part_appeared_signal_id > 0) {
+		GDBusProxy *web_extension = e_web_view_get_web_extension_proxy (E_WEB_VIEW (object));
+
+		if (web_extension != NULL) {
+			g_dbus_connection_signal_unsubscribe (
+				g_dbus_proxy_get_connection (web_extension),
+				priv->web_extension_mail_part_appeared_signal_id);
+		}
+		priv->web_extension_mail_part_appeared_signal_id = 0;
 	}
 
 	if (priv->attachment_store) {

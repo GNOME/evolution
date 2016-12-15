@@ -72,29 +72,25 @@ mail_part_itip_finalize (GObject *object)
 }
 
 static void
-mail_part_itip_web_view_loaded (EMailPart *mail_part,
-				EWebView *web_view)
+mail_part_itip_bind_dom_element (EMailPart *part,
+				 EWebView *web_view,
+				 guint64 page_id,
+				 const gchar *element_id)
 {
 	EMailPartItip *pitip;
 	ItipView *itip_view;
 
-	g_return_if_fail (E_IS_MAIL_PART_ITIP (mail_part));
+	g_return_if_fail (E_IS_MAIL_PART_ITIP (part));
 	g_return_if_fail (E_IS_WEB_VIEW (web_view));
 
-	pitip = E_MAIL_PART_ITIP (mail_part);
+	if (g_strcmp0 (element_id, e_mail_part_get_id (part)) != 0)
+		return;
 
-	/* FIXME WK2 - it can sometimes happen that the pitip members, like the folder, message_uid and message,
-	   are not initialized yet, because the internal frame in the main EWebView is not passed
-	   through the EMailFormatter, where these are set. This requires a new signal on the WebKitWebView,
-	   ideally, to call this only after the iframe is truly loaded (these pitip members are only a side
-	   effect of a whole issue with non-knowing that a particular iframe was fully loaded).
+	pitip = E_MAIL_PART_ITIP (part);
 
-	   Also retest what happens when the same meeting is opened in multiple windows; it could crash in gtk+
-	   when a button was clicked in one or the other, but also not always.
-	*/
 	itip_view = itip_view_new (
-		webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (web_view)),
-		e_mail_part_get_id (mail_part),
+		page_id,
+		e_mail_part_get_id (part),
 		pitip,
 		pitip->folder,
 		pitip->message_uid,
@@ -121,7 +117,7 @@ e_mail_part_itip_class_init (EMailPartItipClass *class)
 	object_class->finalize = mail_part_itip_finalize;
 
 	mail_part_class = E_MAIL_PART_CLASS (class);
-	mail_part_class->web_view_loaded = mail_part_itip_web_view_loaded;
+	mail_part_class->bind_dom_element = mail_part_itip_bind_dom_element;
 }
 
 static void

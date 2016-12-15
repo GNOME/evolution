@@ -193,6 +193,10 @@ static const char introspection_xml[] =
 "      <arg type='t' name='page_id' direction='out'/>"
 "      <arg type='u' name='flags' direction='out'/>"
 "    </signal>"
+"    <signal name='MailPartAppeared'>"
+"      <arg type='t' name='page_id' direction='out'/>"
+"      <arg type='s' name='part_id' direction='out'/>"
+"    </signal>"
 "  </interface>"
 "</node>";
 
@@ -570,8 +574,33 @@ handle_method_call (GDBusConnection *connection,
 
 					inner_html_data = webkit_dom_element_get_attribute (element, "inner-html-data");
 					if (inner_html_data && *inner_html_data) {
+						gchar *related_part_id;
+
 						webkit_dom_element_set_inner_html (element, inner_html_data, NULL);
 						webkit_dom_element_remove_attribute (element, "inner-html-data");
+
+						related_part_id = webkit_dom_element_get_attribute (element, "related-part-id");
+						webkit_dom_element_remove_attribute (element, "related-part-id");
+
+						if (related_part_id && *related_part_id) {
+							GError *error = NULL;
+
+							g_dbus_connection_emit_signal (
+								extension->priv->dbus_connection,
+								NULL,
+								E_WEB_EXTENSION_OBJECT_PATH,
+								E_WEB_EXTENSION_INTERFACE,
+								"MailPartAppeared",
+								g_variant_new ("(ts)", page_id, related_part_id),
+								&error);
+
+							if (error) {
+								g_warning ("Error emitting signal MailPartAppeared: %s", error->message);
+								g_error_free (error);
+							}
+						}
+
+						g_free (related_part_id);
 					}
 
 					g_free (inner_html_data);
