@@ -18,8 +18,8 @@ msgstr ""
 "Project-Id-Version: evolution.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2016-12-12 21:25+0000\n"
-"PO-Revision-Date: 2016-12-15 10:01+0100\n"
+"POT-Creation-Date: 2016-12-15 09:09+0000\n"
+"PO-Revision-Date: 2016-12-15 12:05+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: es <gnome-es-list@gnome.org>\n"
 "Language: es\n"
@@ -1190,23 +1190,19 @@ msgid "Whether the window is maximized"
 msgstr "Indica si la ventana está maximizada"
 
 #: ../data/org.gnome.evolution.importer.gschema.xml.in.h:1
-#| msgid "Gnome Calendar’s calendar import done"
 msgid "GNOME Calendar’s calendar import done"
 msgstr "Importación del calendario de GNOME terminada"
 
 #: ../data/org.gnome.evolution.importer.gschema.xml.in.h:2
-#| msgid "Whether calendar from Gnome Calendar has been imported or not"
 msgid "Whether calendar from GNOME Calendar has been imported or not"
 msgstr ""
 "Indica si el calendario se ha importado desde el calendario de GNOME o no"
 
 #: ../data/org.gnome.evolution.importer.gschema.xml.in.h:3
-#| msgid "Gnome Calendar’s tasks import done"
 msgid "GNOME Calendar’s tasks import done"
 msgstr "Importación de las tareas del calendario de GNOME terminada"
 
 #: ../data/org.gnome.evolution.importer.gschema.xml.in.h:4
-#| msgid "Whether tasks from Gnome Calendar have been imported or not"
 msgid "Whether tasks from GNOME Calendar have been imported or not"
 msgstr ""
 "Indica si las tareas se han importado desde el calendario de GNOME o no"
@@ -1566,15 +1562,10 @@ msgstr ""
 "estándar. Por ejemplo, «SV,AV»"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:59
-#| msgid "List of localized “Re”"
 msgid "List of localized “Re” separators"
 msgstr "Lista de separadores de «Re» traducidos"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:60
-#| msgid ""
-#| "Comma-separated list of localized “Re” abbreviations to skip in a subject "
-#| "text when replying to a message, as an addition to the standard “Re” "
-#| "prefix. An example is “SV,AV”."
 msgid ""
 "A list of localized “Re” separators, used to skip in a subject text when "
 "replying to a message, as an addition to the standard “:” and the Unicode "
@@ -2270,9 +2261,6 @@ msgstr ""
 "enviando una respuesta a mucha gente."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:185
-#| msgid ""
-#| "Prompt when switching composer mode and the content needs to lose its "
-#| "formatting"
 msgid ""
 "Prompt when switching composer format and the content needs to lose its "
 "formatting"
@@ -2281,9 +2269,6 @@ msgstr ""
 "formato"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:186
-#| msgid ""
-#| "It disables/enables the repeated prompts to warn that you are switching "
-#| "composer mode and the content needs to lose its formatting."
 msgid ""
 "It disables/enables the repeated prompts to warn that you are switching "
 "composer format and the content needs to lose its formatting."
@@ -2575,7 +2560,6 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:234
 #: ../src/mail/mail-config.ui.h:9
-#| msgid "Inherit theme colors in HTML mode"
 msgid "Inherit theme colors in HTML format"
 msgstr "Heredar el tema de color en modo HTML"
 
@@ -3473,6 +3457,21 @@ msgstr ""
 "sigue abierta. Puede esperar a que esté abierta o seleccionar una libreta de "
 "direcciones diferente."
 
+#: ../src/addressbook/addressbook.error.xml.h:49
+#| msgid "Search for text in the displayed contact"
+msgid "Something has gone wrong when displaying the contact"
+msgstr "Algo ha fallado al mostrar el contacto"
+
+#: ../src/addressbook/addressbook.error.xml.h:50
+msgid ""
+"A WebKitWebProcess crashed when displaying the contact. You can try again by "
+"moving to another contact and back. If the issue persists, please file a bug "
+"report in the GNOME bugzilla."
+msgstr ""
+"Ha fallado un WebKitWebProcess al mostrar el contacto. Puede intentarlo de "
+"nuevo moviéndose a otro contacto y volviendo a éste. Si el problema "
+"persiste, envíe un informe de error al bugzilla de GNOME."
+
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:1
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:725
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:747
@@ -3743,7 +3742,7 @@ msgstr "_Cargar X.509"
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:18
 #: ../src/addressbook/gui/widgets/eab-contact-merging.c:719
 #: ../src/calendar/calendar.error.xml.h:47
-#: ../src/calendar/gui/e-comp-editor.c:2105
+#: ../src/calendar/gui/e-comp-editor.c:2107
 #: ../src/composer/e-composer-actions.c:228
 #: ../src/composer/e-composer-actions.c:345
 #: ../src/e-util/e-attachment-store.c:829
@@ -3762,8 +3761,8 @@ msgid "Certificates"
 msgstr "Certificados"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:59
-#: ../src/calendar/gui/e-comp-editor.c:2002
-#: ../src/calendar/gui/e-comp-editor.c:2074
+#: ../src/calendar/gui/e-comp-editor.c:2004
+#: ../src/calendar/gui/e-comp-editor.c:2076
 #: ../src/e-util/e-preferences-window.c:380
 #: ../src/e-util/e-send-options.ui.h:41
 #: ../src/plugins/email-custom-header/org-gnome-email-custom-header.ui.h:2
@@ -3791,7 +3790,7 @@ msgstr "Opciones"
 #: ../src/addressbook/gui/widgets/eab-contact-merging.c:716
 #: ../src/addressbook/gui/widgets/eab-gui-util.c:316
 #: ../src/addressbook/gui/widgets/e-addressbook-view.c:1363
-#: ../src/calendar/gui/e-cal-dialogs.c:687
+#: ../src/calendar/gui/e-cal-dialogs.c:694
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:301
 #: ../src/composer/e-composer-actions.c:227 ../src/e-util/e-activity-bar.c:357
 #: ../src/e-util/e-attachment-dialog.c:309
@@ -3884,25 +3883,25 @@ msgid "Show Certificates"
 msgstr "Mostrar certificados"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:260
-#: ../src/calendar/gui/e-comp-editor.c:2037
+#: ../src/calendar/gui/e-comp-editor.c:2039
 #: ../src/e-util/e-html-editor-actions.c:904
 msgid "_Undo"
 msgstr "Des_hacer"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:262
-#: ../src/calendar/gui/e-comp-editor.c:2039
+#: ../src/calendar/gui/e-comp-editor.c:2041
 #: ../src/e-util/e-focus-tracker.c:120
 msgid "Undo"
 msgstr "Deshacer"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:267
-#: ../src/calendar/gui/e-comp-editor.c:2044
+#: ../src/calendar/gui/e-comp-editor.c:2046
 #: ../src/e-util/e-html-editor-actions.c:890
 msgid "_Redo"
 msgstr "_Rehacer"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:269
-#: ../src/calendar/gui/e-comp-editor.c:2046
+#: ../src/calendar/gui/e-comp-editor.c:2048
 #: ../src/e-util/e-focus-tracker.c:136
 msgid "Redo"
 msgstr "Rehacer"
@@ -4259,26 +4258,26 @@ msgstr "Cualquier campo contiene"
 msgid "evolution address book"
 msgstr "libreta de direcciones de Evolution"
 
-#: ../src/addressbook/gui/widgets/eab-contact-display.c:147
+#: ../src/addressbook/gui/widgets/eab-contact-display.c:149
 msgid "Copy _Email Address"
 msgstr "Copiar dirección de _correo-e"
 
-#: ../src/addressbook/gui/widgets/eab-contact-display.c:149
+#: ../src/addressbook/gui/widgets/eab-contact-display.c:151
 #: ../src/e-util/e-web-view.c:368
 msgid "Copy the email address to the clipboard"
 msgstr "Copiar la dirección de correo-e al portapapeles"
 
-#: ../src/addressbook/gui/widgets/eab-contact-display.c:154
+#: ../src/addressbook/gui/widgets/eab-contact-display.c:156
 #: ../src/e-util/e-web-view.c:380
 msgid "_Send New Message To..."
 msgstr "_Enviar un correo nuevo a…"
 
-#: ../src/addressbook/gui/widgets/eab-contact-display.c:156
+#: ../src/addressbook/gui/widgets/eab-contact-display.c:158
 #: ../src/e-util/e-web-view.c:382
 msgid "Send a mail message to this address"
 msgstr "Enviar un correo a esta dirección"
 
-#: ../src/addressbook/gui/widgets/eab-contact-display.c:288
+#: ../src/addressbook/gui/widgets/eab-contact-display.c:290
 #: ../src/e-util/e-web-view.c:1289
 #, c-format
 msgid "Click to mail %s"
@@ -4437,7 +4436,7 @@ msgid "Blog"
 msgstr "Diario web"
 
 #: ../src/addressbook/gui/widgets/eab-contact-merging.c:259
-#: ../src/calendar/gui/e-cal-component-preview.c:306
+#: ../src/calendar/gui/e-cal-component-preview.c:308
 #: ../src/calendar/gui/e-cal-model-tasks.c:314
 #: ../src/calendar/gui/e-cal-model-tasks.c:556
 #: ../src/calendar/gui/e-task-table.c:211
@@ -4679,7 +4678,7 @@ msgid "Are you sure you want to delete this contact (%s)?"
 msgstr "¿Seguro que quiere eliminar este contacto (%s)?"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.c:1364
-#: ../src/calendar/gui/e-comp-editor.c:1995
+#: ../src/calendar/gui/e-comp-editor.c:1997
 #: ../src/e-util/e-focus-tracker.c:783
 #: ../src/e-util/evolution-source-viewer.c:806
 #: ../src/mail/e-mail-account-manager.c:737
@@ -5180,7 +5179,7 @@ msgstr "_Posponer"
 #: ../src/calendar/alarm-notify/alarm-notify.ui.h:4
 #: ../src/calendar/gui/e-comp-editor-page-general.c:1363
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2239
-#: ../src/calendar/gui/e-comp-editor.c:2060
+#: ../src/calendar/gui/e-comp-editor.c:2062
 #: ../src/e-util/e-html-editor-actions.c:913
 #: ../src/e-util/e-mail-signature-manager.c:358 ../src/e-util/filter.ui.h:17
 #: ../src/mail/e-mail-account-manager.c:728 ../src/mail/e-mail-browser.c:171
@@ -5366,7 +5365,7 @@ msgid "_Send Notice"
 msgstr "_Enviar notificación"
 
 #: ../src/calendar/calendar.error.xml.h:5
-#: ../src/calendar/gui/e-cal-dialogs.c:500
+#: ../src/calendar/gui/e-cal-dialogs.c:507
 #, c-format
 msgid "Are you sure you want to delete this meeting?"
 msgstr "¿Seguro que quiere eliminar esta reunión?"
@@ -5387,7 +5386,7 @@ msgstr ""
 "no sepan que la tarea se ha eliminado."
 
 #: ../src/calendar/calendar.error.xml.h:9
-#: ../src/calendar/gui/e-cal-dialogs.c:503
+#: ../src/calendar/gui/e-cal-dialogs.c:510
 #, c-format
 msgid "Are you sure you want to delete this task?"
 msgstr "¿Seguro que quiere eliminar esta tarea?"
@@ -5411,7 +5410,7 @@ msgstr ""
 "no sepan que la nota se ha eliminado."
 
 #: ../src/calendar/calendar.error.xml.h:13
-#: ../src/calendar/gui/e-cal-dialogs.c:506
+#: ../src/calendar/gui/e-cal-dialogs.c:513
 #, c-format
 msgid "Are you sure you want to delete this memo?"
 msgstr "¿Seguro que quiere eliminar esta nota?"
@@ -5976,6 +5975,51 @@ msgstr "Falló al actualizar la lista de notas «{0}»"
 msgid "Failed to make an occurrence movable"
 msgstr "Falló al hacer una ocurrencia movible"
 
+#: ../src/calendar/calendar.error.xml.h:173
+#| msgid "Create a new window displaying this view"
+msgid "Something has gone wrong when displaying the event"
+msgstr "Algo ha fallado al mostrar el evento"
+
+#: ../src/calendar/calendar.error.xml.h:174
+msgid ""
+"A WebKitWebProcess crashed when displaying the event. You can try again by "
+"moving to another event and back. If the issue persists, please file a bug "
+"report in the GNOME bugzilla."
+msgstr ""
+"Ha fallado un WebKitWebProcess al mostrar el evento. Puede intentarlo de "
+"nuevo moviéndose a otro evento y volviendo a éste. Si el problema persiste, "
+"envíe un informe de error al bugzilla de GNOME."
+
+#: ../src/calendar/calendar.error.xml.h:175
+#| msgid "Create a new window displaying this view"
+msgid "Something has gone wrong when displaying the memo"
+msgstr "Algo ha fallado al mostrar el recordatorio"
+
+#: ../src/calendar/calendar.error.xml.h:176
+msgid ""
+"A WebKitWebProcess crashed when displaying the memo. You can try again by "
+"moving to another memo and back. If the issue persists, please file a bug "
+"report in the GNOME bugzilla."
+msgstr ""
+"Ha fallado un WebKitWebProcess al mostrar el recordatorio. Puede intentarlo "
+"de nuevo moviéndose a otro recordatorio y volviendo a éste. Si el problema "
+"persiste, envíe un informe de error al bugzilla de GNOME."
+
+#: ../src/calendar/calendar.error.xml.h:177
+#| msgid "Mode to use when displaying mails"
+msgid "Something has gone wrong when displaying the task"
+msgstr "Algo ha fallado al mostrar la tarea"
+
+#: ../src/calendar/calendar.error.xml.h:178
+msgid ""
+"A WebKitWebProcess crashed when displaying the task. You can try again by "
+"moving to another task and back. If the issue persists, please file a bug "
+"report in the GNOME bugzilla."
+msgstr ""
+"Ha fallado un WebKitWebProcess al mostrar la tarea. Puede intentarlo de "
+"nuevo moviéndose a otra tarea y volviendo a ésta. Si el problema persiste, "
+"envíe un informe de error al bugzilla de GNOME."
+
 #: ../src/calendar/gui/caltypes.xml.in.h:1
 #: ../src/calendar/gui/e-cal-list-view.etspec.h:3
 #: ../src/calendar/gui/e-memo-table.etspec.h:2
@@ -6375,38 +6419,38 @@ msgstr "vista de calendario para un mes"
 msgid "calendar view for one or more weeks"
 msgstr "vista de calendario para una o más semanas"
 
-#: ../src/calendar/gui/e-cal-component-preview.c:212
+#: ../src/calendar/gui/e-cal-component-preview.c:214
 #: ../src/e-util/e-filter-rule.c:770 ../src/mail/e-mail-config-page.c:127
 msgid "Untitled"
 msgstr "Sin título"
 
-#: ../src/calendar/gui/e-cal-component-preview.c:220
+#: ../src/calendar/gui/e-cal-component-preview.c:222
 msgid "Categories:"
 msgstr "Categorías:"
 
-#: ../src/calendar/gui/e-cal-component-preview.c:254
+#: ../src/calendar/gui/e-cal-component-preview.c:256
 msgid "Summary:"
 msgstr "Resumen:"
 
-#: ../src/calendar/gui/e-cal-component-preview.c:262
+#: ../src/calendar/gui/e-cal-component-preview.c:264
 msgid "Start Date:"
 msgstr "Fecha de inicio:"
 
-#: ../src/calendar/gui/e-cal-component-preview.c:273
+#: ../src/calendar/gui/e-cal-component-preview.c:275
 msgid "End Date:"
 msgstr "Fecha de finalización:"
 
-#: ../src/calendar/gui/e-cal-component-preview.c:284
+#: ../src/calendar/gui/e-cal-component-preview.c:286
 msgid "Due Date:"
 msgstr "Fecha de vencimiento:"
 
-#: ../src/calendar/gui/e-cal-component-preview.c:296
+#: ../src/calendar/gui/e-cal-component-preview.c:298
 #: ../src/modules/itip-formatter/itip-view.c:1667
 #: ../src/modules/itip-formatter/itip-view.c:1784
 msgid "Status:"
 msgstr "Estado:"
 
-#: ../src/calendar/gui/e-cal-component-preview.c:300
+#: ../src/calendar/gui/e-cal-component-preview.c:302
 #: ../src/calendar/gui/e-cal-model-tasks.c:310
 #: ../src/calendar/gui/e-cal-model-tasks.c:552
 #: ../src/calendar/gui/e-cal-model-tasks.c:633
@@ -6416,7 +6460,7 @@ msgstr "Estado:"
 msgid "In Progress"
 msgstr "En proceso"
 
-#: ../src/calendar/gui/e-cal-component-preview.c:303
+#: ../src/calendar/gui/e-cal-component-preview.c:305
 #: ../src/calendar/gui/e-cal-model-tasks.c:312
 #: ../src/calendar/gui/e-cal-model-tasks.c:554
 #: ../src/calendar/gui/e-meeting-store.c:202
@@ -6429,7 +6473,7 @@ msgstr "En proceso"
 msgid "Completed"
 msgstr "Terminado"
 
-#: ../src/calendar/gui/e-cal-component-preview.c:310
+#: ../src/calendar/gui/e-cal-component-preview.c:312
 #: ../src/calendar/gui/e-cal-model-tasks.c:308
 #: ../src/calendar/gui/e-cal-model-tasks.c:550
 #: ../src/calendar/gui/e-task-table.c:205
@@ -6439,18 +6483,18 @@ msgstr "Terminado"
 msgid "Not Started"
 msgstr "Sin comenzar"
 
-#: ../src/calendar/gui/e-cal-component-preview.c:323
+#: ../src/calendar/gui/e-cal-component-preview.c:325
 msgid "Priority:"
 msgstr "Prioridad:"
 
-#: ../src/calendar/gui/e-cal-component-preview.c:325
+#: ../src/calendar/gui/e-cal-component-preview.c:327
 #: ../src/calendar/gui/e-task-table.c:550
 #: ../src/calendar/gui/tasktypes.xml.in.h:19
 #: ../src/e-util/e-send-options.ui.h:2 ../src/mail/message-list.c:320
 msgid "High"
 msgstr "Alta"
 
-#: ../src/calendar/gui/e-cal-component-preview.c:327
+#: ../src/calendar/gui/e-cal-component-preview.c:329
 #: ../src/calendar/gui/e-cal-model.c:1888
 #: ../src/calendar/gui/e-task-table.c:551
 #: ../src/calendar/gui/tasktypes.xml.in.h:20
@@ -6458,19 +6502,19 @@ msgstr "Alta"
 msgid "Normal"
 msgstr "Normal"
 
-#: ../src/calendar/gui/e-cal-component-preview.c:329
+#: ../src/calendar/gui/e-cal-component-preview.c:331
 #: ../src/calendar/gui/e-task-table.c:552
 #: ../src/calendar/gui/tasktypes.xml.in.h:21
 #: ../src/e-util/e-send-options.ui.h:4 ../src/mail/message-list.c:318
 msgid "Low"
 msgstr "Baja"
 
-#: ../src/calendar/gui/e-cal-component-preview.c:348
+#: ../src/calendar/gui/e-cal-component-preview.c:350
 #: ../src/mail/e-mail-config-service-page.c:671
 msgid "Description:"
 msgstr "Descripción:"
 
-#: ../src/calendar/gui/e-cal-component-preview.c:379
+#: ../src/calendar/gui/e-cal-component-preview.c:381
 msgid "Web Page:"
 msgstr "Página web:"
 
@@ -6489,135 +6533,135 @@ msgstr "Creando vista para la lista de tareas «%s»"
 msgid "Creating view for memo list “%s”"
 msgstr "Creando vista para la lista de notas «%s»"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:212
+#: ../src/calendar/gui/e-cal-dialogs.c:219
 #: ../src/calendar/gui/e-cal-ops.c:1955
 msgid "Destination is read only"
 msgstr "El destino es de sólo lectura"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:292
+#: ../src/calendar/gui/e-cal-dialogs.c:299
 #, c-format
 msgid "Copying events to the calendar “%s”"
 msgstr "Copiando eventos al calendario «%s»"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:298
+#: ../src/calendar/gui/e-cal-dialogs.c:305
 #, c-format
 msgid "Copying memos to the memo list “%s”"
 msgstr "Copiando notas a la lista de notas «%s»"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:304
+#: ../src/calendar/gui/e-cal-dialogs.c:311
 #, c-format
 msgid "Copying tasks to the task list “%s”"
 msgstr "Copiando tareas a la lista de tareas «%s»"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:523
+#: ../src/calendar/gui/e-cal-dialogs.c:530
 msgid "_Delete this item from all other recipient’s mailboxes?"
 msgstr "¿_Eliminar este elemento de todos los otros buzones del destinatario?"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:526
+#: ../src/calendar/gui/e-cal-dialogs.c:533
 msgid "_Retract comment"
 msgstr "Co_ntraer comentario"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:685
+#: ../src/calendar/gui/e-cal-dialogs.c:692
 msgid "Select Date"
 msgstr "Seleccionar fecha"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:686
+#: ../src/calendar/gui/e-cal-dialogs.c:693
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1248
 msgid "Select _Today"
 msgstr "Seleccionar _hoy"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:705
+#: ../src/calendar/gui/e-cal-dialogs.c:712
 msgid "January"
 msgstr "Enero"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:706
+#: ../src/calendar/gui/e-cal-dialogs.c:713
 msgid "February"
 msgstr "Febrero"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:707
+#: ../src/calendar/gui/e-cal-dialogs.c:714
 msgid "March"
 msgstr "Marzo"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:708
+#: ../src/calendar/gui/e-cal-dialogs.c:715
 msgid "April"
 msgstr "Abril"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:709
+#: ../src/calendar/gui/e-cal-dialogs.c:716
 msgid "May"
 msgstr "Mayo"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:710
+#: ../src/calendar/gui/e-cal-dialogs.c:717
 msgid "June"
 msgstr "Junio"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:711
+#: ../src/calendar/gui/e-cal-dialogs.c:718
 msgid "July"
 msgstr "Julio"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:712
+#: ../src/calendar/gui/e-cal-dialogs.c:719
 msgid "August"
 msgstr "Agosto"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:713
+#: ../src/calendar/gui/e-cal-dialogs.c:720
 msgid "September"
 msgstr "Septiembre"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:714
+#: ../src/calendar/gui/e-cal-dialogs.c:721
 msgid "October"
 msgstr "Octubre"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:715
+#: ../src/calendar/gui/e-cal-dialogs.c:722
 msgid "November"
 msgstr "Noviembre"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:716
+#: ../src/calendar/gui/e-cal-dialogs.c:723
 msgid "December"
 msgstr "Diciembre"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:866
+#: ../src/calendar/gui/e-cal-dialogs.c:873
 #, c-format
 msgid "You are modifying a recurring event. What would you like to modify?"
 msgstr ""
 "Está modificando un acontecimiento que se repite. ¿Qué quiere modificar?"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:868
+#: ../src/calendar/gui/e-cal-dialogs.c:875
 #, c-format
 msgid "You are delegating a recurring event. What would you like to delegate?"
 msgstr "Está delegando un acontecimiento que se repite. ¿Qué quiere delegar?"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:872
+#: ../src/calendar/gui/e-cal-dialogs.c:879
 #, c-format
 msgid "You are modifying a recurring task. What would you like to modify?"
 msgstr "Está modificando una tarea que se repite. ¿Qué quiere modificar?"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:876
+#: ../src/calendar/gui/e-cal-dialogs.c:883
 #, c-format
 msgid "You are modifying a recurring memo. What would you like to modify?"
 msgstr "Está modificando una nota que se repite. ¿Qué quiere modificar?"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:902
+#: ../src/calendar/gui/e-cal-dialogs.c:909
 msgid "This Instance Only"
 msgstr "Esta instancia únicamente"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:906
+#: ../src/calendar/gui/e-cal-dialogs.c:913
 msgid "This and Prior Instances"
 msgstr "Esta instancia y las anteriores"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:912
+#: ../src/calendar/gui/e-cal-dialogs.c:919
 msgid "This and Future Instances"
 msgstr "Esta instancia y las futuras"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:917
+#: ../src/calendar/gui/e-cal-dialogs.c:924
 msgid "All Instances"
 msgstr "Todas las instancias"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:1167
-#: ../src/calendar/gui/e-cal-dialogs.c:1249
+#: ../src/calendar/gui/e-cal-dialogs.c:1174
+#: ../src/calendar/gui/e-cal-dialogs.c:1256
 msgid "Send my reminders with this event"
 msgstr "Enviar mis recordatorios con este evento"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:1169
-#: ../src/calendar/gui/e-cal-dialogs.c:1251
+#: ../src/calendar/gui/e-cal-dialogs.c:1176
+#: ../src/calendar/gui/e-cal-dialogs.c:1258
 msgid "Notify new attendees _only"
 msgstr "Notificar sól_o a los participantes"
 
@@ -7123,7 +7167,7 @@ msgstr "La hora de inicio no es una hora válida"
 #: ../src/calendar/gui/e-comp-editor-event.c:442
 #: ../src/calendar/gui/e-comp-editor-event.c:458
 #: ../src/calendar/gui/e-comp-editor-page-attachments.c:199
-#: ../src/calendar/gui/e-comp-editor.c:338 ../src/mail/e-mail-display.c:2022
+#: ../src/calendar/gui/e-comp-editor.c:338 ../src/mail/e-mail-display.c:2041
 #: ../src/mail/e-mail-reader-utils.c:646 ../src/mail/mail-send-recv.c:490
 #: ../src/mail/mail-send-recv.c:1288 ../src/plugins/face/face.c:174
 #: ../src/shell/e-shell.c:990 ../src/shell/e-shell.c:1012
@@ -8077,7 +8121,7 @@ msgid "No Summary"
 msgstr "Sin resumen"
 
 #. == Button box ==
-#: ../src/calendar/gui/e-comp-editor.c:1974
+#: ../src/calendar/gui/e-comp-editor.c:1976
 #: ../src/composer/e-composer-actions.c:324
 #: ../src/e-util/e-html-editor-dialog.c:194
 #: ../src/e-util/e-mail-signature-editor.c:309
@@ -8094,12 +8138,12 @@ msgstr "Sin resumen"
 msgid "_Close"
 msgstr "_Cerrar"
 
-#: ../src/calendar/gui/e-comp-editor.c:1976
+#: ../src/calendar/gui/e-comp-editor.c:1978
 msgid "Close the current window"
 msgstr "Cerrar la ventana actual"
 
 #. copy menu item
-#: ../src/calendar/gui/e-comp-editor.c:1981
+#: ../src/calendar/gui/e-comp-editor.c:1983
 #: ../src/e-util/e-focus-tracker.c:773
 #: ../src/e-util/e-html-editor-actions.c:869 ../src/e-util/e-text.c:2110
 #: ../src/e-util/e-web-view.c:407 ../src/mail/e-mail-browser.c:134
@@ -8107,7 +8151,7 @@ msgstr "Cerrar la ventana actual"
 msgid "_Copy"
 msgstr "_Copiar"
 
-#: ../src/calendar/gui/e-comp-editor.c:1983
+#: ../src/calendar/gui/e-comp-editor.c:1985
 #: ../src/e-util/e-focus-tracker.c:173 ../src/e-util/e-focus-tracker.c:229
 #: ../src/e-util/e-focus-tracker.c:282 ../src/e-util/e-focus-tracker.c:774
 #: ../src/e-util/e-web-view.c:409 ../src/e-util/e-web-view.c:1906
@@ -8116,14 +8160,14 @@ msgid "Copy the selection"
 msgstr "Copiar la selección"
 
 #. cut menu item
-#: ../src/calendar/gui/e-comp-editor.c:1988
+#: ../src/calendar/gui/e-comp-editor.c:1990
 #: ../src/e-util/e-focus-tracker.c:768
 #: ../src/e-util/e-html-editor-actions.c:876 ../src/e-util/e-text.c:2096
 #: ../src/mail/e-mail-browser.c:141 ../src/shell/e-shell-window-actions.c:815
 msgid "Cu_t"
 msgstr "Cor_tar"
 
-#: ../src/calendar/gui/e-comp-editor.c:1990
+#: ../src/calendar/gui/e-comp-editor.c:1992
 #: ../src/e-util/e-focus-tracker.c:166 ../src/e-util/e-focus-tracker.c:222
 #: ../src/e-util/e-focus-tracker.c:276 ../src/e-util/e-focus-tracker.c:769
 #: ../src/e-util/e-web-view.c:1915 ../src/mail/e-mail-browser.c:143
@@ -8131,26 +8175,26 @@ msgstr "Cor_tar"
 msgid "Cut the selection"
 msgstr "Cortar la selección"
 
-#: ../src/calendar/gui/e-comp-editor.c:1997
+#: ../src/calendar/gui/e-comp-editor.c:1999
 #: ../src/e-util/e-focus-tracker.c:187 ../src/e-util/e-focus-tracker.c:243
 #: ../src/e-util/e-focus-tracker.c:784
 #: ../src/shell/e-shell-window-actions.c:824
 msgid "Delete the selection"
 msgstr "Eliminar la selección"
 
-#: ../src/calendar/gui/e-comp-editor.c:2004
+#: ../src/calendar/gui/e-comp-editor.c:2006
 msgid "View help"
 msgstr "Ver la ayuda"
 
 #. paste menu item
-#: ../src/calendar/gui/e-comp-editor.c:2009
+#: ../src/calendar/gui/e-comp-editor.c:2011
 #: ../src/e-util/e-focus-tracker.c:778
 #: ../src/e-util/e-html-editor-actions.c:883 ../src/e-util/e-text.c:2122
 #: ../src/mail/e-mail-browser.c:148 ../src/shell/e-shell-window-actions.c:843
 msgid "_Paste"
 msgstr "_Pegar"
 
-#: ../src/calendar/gui/e-comp-editor.c:2011
+#: ../src/calendar/gui/e-comp-editor.c:2013
 #: ../src/e-util/e-focus-tracker.c:180 ../src/e-util/e-focus-tracker.c:236
 #: ../src/e-util/e-focus-tracker.c:288 ../src/e-util/e-focus-tracker.c:779
 #: ../src/e-util/e-web-view.c:1924 ../src/mail/e-mail-browser.c:150
@@ -8158,14 +8202,14 @@ msgstr "_Pegar"
 msgid "Paste the clipboard"
 msgstr "Pega el contenido del porta papeles"
 
-#: ../src/calendar/gui/e-comp-editor.c:2016
+#: ../src/calendar/gui/e-comp-editor.c:2018
 #: ../src/composer/e-composer-actions.c:378 ../src/mail/e-mail-reader.c:2323
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1229
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1243
 msgid "_Print..."
 msgstr "_Imprimir…"
 
-#: ../src/calendar/gui/e-comp-editor.c:2023 ../src/mail/e-mail-reader.c:2330
+#: ../src/calendar/gui/e-comp-editor.c:2025 ../src/mail/e-mail-reader.c:2330
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1236
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1693
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:813
@@ -8173,25 +8217,25 @@ msgstr "_Imprimir…"
 msgid "Pre_view..."
 msgstr "_Vista previa…"
 
-#: ../src/calendar/gui/e-comp-editor.c:2030
+#: ../src/calendar/gui/e-comp-editor.c:2032
 #: ../src/e-util/e-focus-tracker.c:788
 #: ../src/e-util/e-html-editor-actions.c:897 ../src/e-util/e-web-view.c:417
 #: ../src/mail/e-mail-browser.c:155 ../src/shell/e-shell-window-actions.c:920
 msgid "Select _All"
 msgstr "Seleccionar _todo"
 
-#: ../src/calendar/gui/e-comp-editor.c:2032
+#: ../src/calendar/gui/e-comp-editor.c:2034
 #: ../src/e-util/e-focus-tracker.c:194 ../src/e-util/e-focus-tracker.c:250
 #: ../src/e-util/e-focus-tracker.c:789 ../src/mail/e-mail-browser.c:157
 #: ../src/shell/e-shell-window-actions.c:922
 msgid "Select all text"
 msgstr "Selecciona todo el texto"
 
-#: ../src/calendar/gui/e-comp-editor.c:2053
+#: ../src/calendar/gui/e-comp-editor.c:2055
 msgid "_Classification"
 msgstr "_Clasificación"
 
-#: ../src/calendar/gui/e-comp-editor.c:2067
+#: ../src/calendar/gui/e-comp-editor.c:2069
 #: ../src/e-util/e-html-editor-actions.c:920
 #: ../src/e-util/e-mail-signature-editor.c:323
 #: ../src/mail/e-mail-browser.c:164 ../src/mail/e-mail-notes.c:945
@@ -8199,17 +8243,17 @@ msgstr "_Clasificación"
 msgid "_File"
 msgstr "_Archivo"
 
-#: ../src/calendar/gui/e-comp-editor.c:2081
+#: ../src/calendar/gui/e-comp-editor.c:2083
 #: ../src/e-util/e-html-editor-actions.c:941
 msgid "_Insert"
 msgstr "_Insertar"
 
-#: ../src/calendar/gui/e-comp-editor.c:2088
+#: ../src/calendar/gui/e-comp-editor.c:2090
 #: ../src/composer/e-composer-actions.c:368
 msgid "_Options"
 msgstr "_Opciones"
 
-#: ../src/calendar/gui/e-comp-editor.c:2095
+#: ../src/calendar/gui/e-comp-editor.c:2097
 #: ../src/e-util/e-html-editor-actions.c:962 ../src/mail/e-mail-browser.c:178
 #: ../src/shell/e-shell-window-actions.c:1000
 #: ../src/smime/gui/certificate-manager.c:1662
@@ -8217,16 +8261,16 @@ msgstr "_Opciones"
 msgid "_View"
 msgstr "_Ver"
 
-#: ../src/calendar/gui/e-comp-editor.c:2107
+#: ../src/calendar/gui/e-comp-editor.c:2109
 msgid "Save current changes"
 msgstr "Guardar los cambios actuales"
 
-#: ../src/calendar/gui/e-comp-editor.c:2112
+#: ../src/calendar/gui/e-comp-editor.c:2114
 #: ../src/e-util/e-mail-signature-editor.c:318 ../src/mail/e-mail-notes.c:940
 msgid "Save and Close"
 msgstr "Guardar y cerrar"
 
-#: ../src/calendar/gui/e-comp-editor.c:2114
+#: ../src/calendar/gui/e-comp-editor.c:2116
 msgid "Save current changes and close editor"
 msgstr "Guardar los cambios actuales y cerrar el editor"
 
@@ -11203,14 +11247,10 @@ msgstr ""
 "cancelar el envío, si se pulsó por accidente, o enviar el mensaje."
 
 #: ../src/composer/mail-composer.error.xml.h:37
-#| msgid "Are you sure you want to change the composer mode?"
 msgid "Are you sure you want to change the composer format?"
 msgstr "¿Está seguro de que quiere cambiar el formato del editor?"
 
 #: ../src/composer/mail-composer.error.xml.h:38
-#| msgid ""
-#| "Turning HTML mode off will cause the text to lose all formatting. Do you "
-#| "want to continue?"
 msgid ""
 "Switching to Plain Text format will cause the text to lose all the HTML "
 "formatting. Do you want to continue?"
@@ -11229,6 +11269,82 @@ msgstr "_Perder el formato"
 #: ../src/composer/mail-composer.error.xml.h:41
 msgid "An error occurred while saving to your Templates folder."
 msgstr "Ocurrió un error al guardar en su carpeta de Plantillas."
+
+#: ../src/composer/mail-composer.error.xml.h:42
+#| msgid "Are you sure you want to discard the message you are composing?"
+msgid "Are you sure you want to convert the message into a meeting?"
+msgstr "¿Seguro que quiere convertir el mensaje en una reunión?"
+
+#: ../src/composer/mail-composer.error.xml.h:43
+msgid ""
+"By converting the message into the meeting the composed message will be "
+"closed and the changes being done discarded."
+msgstr ""
+"Al convertir el mensaje en una reunión el mensaje redactado se cerrará y se "
+"descartarán los cambios realizados."
+
+#: ../src/composer/mail-composer.error.xml.h:44
+#| msgid "Create a _Meeting"
+msgid "Convert to _Meeting"
+msgstr "Convertir en una _reunión"
+
+#: ../src/composer/mail-composer.error.xml.h:45
+#| msgid "Are you sure you want to send the message?"
+msgid "Are you sure you want to convert the event into a message?"
+msgstr "¿Seguro que quiere convertir el evento en un mensaje?"
+
+#: ../src/composer/mail-composer.error.xml.h:46
+msgid ""
+"By converting the event into the message the editing window will be closed "
+"and the changes being done discarded."
+msgstr ""
+"Al convertir el evento en un mensaje, la ventana de edición se cerrará y se "
+"descartarán los cambios realizados."
+
+#: ../src/composer/mail-composer.error.xml.h:47
+#| msgid "Compose a Message"
+msgid "Convert to _Message"
+msgstr "Convertir en un _mensaje"
+
+#: ../src/composer/mail-composer.error.xml.h:48
+#| msgid "Are you sure you want to save the memo without a summary?"
+msgid "Are you sure you want to convert the memo into a message?"
+msgstr "¿Seguro que quiere convertir la nota en un mensaje?"
+
+#: ../src/composer/mail-composer.error.xml.h:49
+msgid ""
+"By converting the memo into the message the editing window will be closed "
+"and the changes being done discarded."
+msgstr ""
+"Al convertir la nota en un mensaje, la ventana de edición se cerrará y se "
+"descartarán los cambios realizados."
+
+#: ../src/composer/mail-composer.error.xml.h:50
+#| msgid "Are you sure you want to save the task without a summary?"
+msgid "Are you sure you want to convert the task into a message?"
+msgstr "¿Seguro que quiere convertir la tarea en un mensaje?"
+
+#: ../src/composer/mail-composer.error.xml.h:51
+msgid ""
+"By converting the task into the message the editing window will be closed "
+"and the changes being done discarded."
+msgstr ""
+"Al convertir la tarea en un mensaje, la ventana de edición se cerrará y se "
+"descartarán los cambios realizados."
+
+#: ../src/composer/mail-composer.error.xml.h:52
+msgid "Something has gone wrong when editing the message"
+msgstr "Algo ha fallado al editar el mensaje"
+
+#: ../src/composer/mail-composer.error.xml.h:53
+msgid ""
+"A WebKitWebProcess crashed when editing the message. You can try again by "
+"closing the composer window and opening a new one. If the issue persists, "
+"please file a bug report in the GNOME bugzilla."
+msgstr ""
+"Ha fallado un WebKitWebProcess al editar el mensaje. Puede intentarlo de "
+"nuevo cerrando la ventana del editor y abriendo una nueva. Si el problema "
+"persiste, envíe un informe de error al bugzilla de GNOME."
 
 #: ../src/em-format/e-mail-formatter-attachment.c:336
 msgid "Display as attachment"
@@ -12438,28 +12554,24 @@ msgstr "Formato:"
 
 #. Translators: This is part of: "Do not synchronize locally mails older than [ xxx ] [ days ]"
 #: ../src/e-util/e-dialog-widgets.c:181
-#| msgid "days"
 msgctxt "time-unit"
 msgid "days"
 msgstr "días"
 
 #. Translators: This is part of: "Do not synchronize locally mails older than [ xxx ] [ weeks ]"
 #: ../src/e-util/e-dialog-widgets.c:183
-#| msgid "weeks"
 msgctxt "time-unit"
 msgid "weeks"
 msgstr "semanas"
 
 #. Translators: This is part of: "Do not synchronize locally mails older than [ xxx ] [ months ]"
 #: ../src/e-util/e-dialog-widgets.c:185
-#| msgid "months"
 msgctxt "time-unit"
 msgid "months"
 msgstr "meses"
 
 #. Translators: This is part of: "Do not synchronize locally mails older than [ xxx ] [ years ]"
 #: ../src/e-util/e-dialog-widgets.c:187
-#| msgid "years"
 msgctxt "time-unit"
 msgid "years"
 msgstr "años"
@@ -13949,7 +14061,7 @@ msgstr "Abriendo lista de tareas «%s»"
 msgid "Opening address book “%s”"
 msgstr "Abriendo libreta de direcciones «%s»"
 
-#: ../src/e-util/e-misc-utils.c:3288
+#: ../src/e-util/e-misc-utils.c:3290
 #: ../src/modules/mailto-handler/evolution-mailto-handler.c:146
 msgid "_Do not show this message again"
 msgstr "_No mostrar otra vez este mensaje."
@@ -14403,7 +14515,7 @@ msgstr "Mostrar"
 msgid "Group name"
 msgstr "Nombre del grupo"
 
-#: ../src/e-util/e-source-selector.c:3374 ../src/mail/e-mail-display.c:743
+#: ../src/e-util/e-source-selector.c:3374 ../src/mail/e-mail-display.c:745
 msgid "_Hide"
 msgstr "_Ocultar"
 
@@ -14568,6 +14680,20 @@ msgstr ""
 msgid "The task list backend servicing “{0}” encountered an error."
 msgstr ""
 "El «backend» de la lista de tareas que sirve «{0}» ha encontrado un error."
+
+#: ../src/e-util/e-system.error.xml.h:23
+msgid "Something has gone wrong"
+msgstr "Algo ha fallado"
+
+#: ../src/e-util/e-system.error.xml.h:24
+msgid ""
+"A WebKitWebProcess crashed when displaying the content. You can try again by "
+"reopening the window. If the issue persists, please file a bug report in the "
+"GNOME bugzilla."
+msgstr ""
+"Ha fallado un WebKitWebProcess al mostrar el contenido. Puede intentarlo de "
+"nuevo abriendo de nuevo la ventana. Si el problema persiste, envíe un "
+"informe de error al bugzilla de GNOME."
 
 #: ../src/e-util/e-table-click-to-add.c:687
 #: ../src/e-util/gal-a11y-e-table-click-to-add.c:59
@@ -16083,55 +16209,55 @@ msgstr "Bienvenido"
 msgid "Account Editor"
 msgstr "Editor de cuentas"
 
-#: ../src/mail/e-mail-display.c:125
+#: ../src/mail/e-mail-display.c:127
 msgid "_Add to Address Book..."
 msgstr "_Añadir a la libreta de direcciones…"
 
-#: ../src/mail/e-mail-display.c:132
+#: ../src/mail/e-mail-display.c:134
 msgid "_To This Address"
 msgstr "_A esta dirección"
 
-#: ../src/mail/e-mail-display.c:139
+#: ../src/mail/e-mail-display.c:141
 msgid "_From This Address"
 msgstr "_Desde esta dirección"
 
-#: ../src/mail/e-mail-display.c:146
+#: ../src/mail/e-mail-display.c:148
 msgid "Send _Reply To..."
 msgstr "Enviar _respuesta a…"
 
-#: ../src/mail/e-mail-display.c:148
+#: ../src/mail/e-mail-display.c:150
 msgid "Send a reply message to this address"
 msgstr "Enviar un mensaje de respuesta a esta dirección"
 
-#: ../src/mail/e-mail-display.c:155
+#: ../src/mail/e-mail-display.c:157
 msgid "Create Search _Folder"
 msgstr "Crear carpeta de _búsqueda"
 
-#: ../src/mail/e-mail-display.c:750
+#: ../src/mail/e-mail-display.c:752
 msgid "Hid_e All"
 msgstr "_Ocular todo"
 
-#: ../src/mail/e-mail-display.c:757
+#: ../src/mail/e-mail-display.c:759
 msgid "_View Inline"
 msgstr "_Ver incluido"
 
-#: ../src/mail/e-mail-display.c:764
+#: ../src/mail/e-mail-display.c:766
 msgid "Vie_w All Inline"
 msgstr "_Ver tolo en línea"
 
-#: ../src/mail/e-mail-display.c:771
+#: ../src/mail/e-mail-display.c:773
 msgid "_Zoom to 100%"
 msgstr "_Ampliar al 100%"
 
-#: ../src/mail/e-mail-display.c:773
+#: ../src/mail/e-mail-display.c:775
 msgid "Zoom the image to its natural size"
 msgstr "Ampliar la imagen a su tamaño original"
 
-#: ../src/mail/e-mail-display.c:778
+#: ../src/mail/e-mail-display.c:780
 msgid "_Zoom to window"
 msgstr "_Ampliar al tamaño de la ventana"
 
-#: ../src/mail/e-mail-display.c:780
+#: ../src/mail/e-mail-display.c:782
 msgid "Zoom large images to not be wider than the window width"
 msgstr ""
 "Redimensionar las imágenes grandes para que no sean más grandes que la "
@@ -19364,6 +19490,35 @@ msgstr "Falló al eliminar la nota del mensaje en la carpeta «{0}»"
 msgid "Failed to store message note in folder “{0}”"
 msgstr "Falló al guardar la nota del mensaje en la carpeta «{0}»"
 
+#: ../src/mail/mail.error.xml.h:208
+#| msgid "Search for text in the body of the displayed message"
+msgid "Something has gone wrong when displaying the message"
+msgstr "Algo ha fallado al mostrar el mensaje"
+
+#: ../src/mail/mail.error.xml.h:209
+msgid ""
+"A WebKitWebProcess crashed when displaying the message. You can try again by "
+"moving to another message and back. If the issue persists, please file a bug "
+"report in the GNOME bugzilla."
+msgstr ""
+"Ha fallado un WebKitWebProcess al mostrar el mensaje. Puede intentarlo de "
+"nuevo moviéndose a otro mensaje y volviendo a éste. Si el problema persiste, "
+"envíe un informe de error al bugzilla de GNOME."
+
+#: ../src/mail/mail.error.xml.h:210
+msgid "Something has gone wrong when displaying the signature"
+msgstr "Algo ha fallado al mostrar la firma"
+
+#: ../src/mail/mail.error.xml.h:211
+msgid ""
+"A WebKitWebProcess crashed when displaying the signature. You can try again "
+"by moving to another signature and back. If the issue persists, please file "
+"a bug report in the GNOME bugzilla."
+msgstr ""
+"Ha fallado un WebKitWebProcess al mostrar la firma. Puede intentarlo de "
+"nuevo moviéndose a otra firma y volviendo a ésta. Si el problema persiste, "
+"envíe un informe de error al bugzilla de GNOME."
+
 #: ../src/mail/mail-send-recv.c:192
 msgid "Canceling..."
 msgstr "Cancelando…"
@@ -20076,7 +20231,6 @@ msgstr "Respaldo de Evolution"
 
 #: ../src/modules/backup-restore/evolution-backup-tool.c:900
 #, c-format
-#| msgid "Backing up to the folder %s"
 msgid "Backing up to the file %s"
 msgstr "Respaldando al archivo %s"
 
@@ -20086,7 +20240,6 @@ msgstr "Restaurador de Evolution"
 
 #: ../src/modules/backup-restore/evolution-backup-tool.c:905
 #, c-format
-#| msgid "Restoring from the folder %s"
 msgid "Restoring from the file %s"
 msgstr "Restaurando desde el archivo %s"
 
@@ -21665,6 +21818,26 @@ msgid_plural "%d tasks"
 msgstr[0] "%d tarea"
 msgstr[1] "%d tareas"
 
+#: ../src/modules/composer-to-meeting/e-composer-to-meeting.c:319
+#| msgid "Create a _Meeting"
+msgid "Convert to M_eeting"
+msgstr "Convertir en una _reunión"
+
+#: ../src/modules/composer-to-meeting/e-composer-to-meeting.c:321
+#| msgid "Create a new meeting request"
+msgid "Convert the message to a meeting request"
+msgstr "Convertir el mensaje en una solicitud de reunión"
+
+#: ../src/modules/composer-to-meeting/e-meeting-to-composer.c:357
+#| msgid "Compose a Message"
+msgid "Convert to M_essage"
+msgstr "Convertir en un _mensaje"
+
+#: ../src/modules/composer-to-meeting/e-meeting-to-composer.c:359
+#| msgid "Compose a new mail message"
+msgid "Convert to the mail message"
+msgstr "Convertir al mensaje de correo"
+
 #: ../src/modules/itip-formatter/e-mail-formatter-itip.c:154
 msgid "ITIP"
 msgstr "ITIP"
@@ -22155,21 +22328,18 @@ msgstr "Estado de asistencia actualizado"
 
 #: ../src/modules/itip-formatter/itip-view.c:3644
 #, c-format
-#| msgid "An appointment in the calendar “%s” conflicts with this meeting"
 msgid "An appointment “%s” in the calendar “%s” conflicts with this meeting"
 msgstr ""
 "Una cita «%s» en el calendario «%s» entra en conflicto con esta reunión"
 
 #: ../src/modules/itip-formatter/itip-view.c:3650
 #, c-format
-#| msgid "An appointment in the calendar “%s” conflicts with this meeting"
 msgid ""
 "The calendar “%s” contains an appointment which conflicts with this meeting"
 msgstr "El calendario «%s» una cita que entra en conflicto con esta reunión"
 
 #: ../src/modules/itip-formatter/itip-view.c:3651
 #, c-format
-#| msgid "An appointment in the calendar “%s” conflicts with this meeting"
 msgid ""
 "The calendar “%s” contains %d appointments which conflict with this meeting"
 msgstr ""
