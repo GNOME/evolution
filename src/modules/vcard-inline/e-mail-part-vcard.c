@@ -253,6 +253,8 @@ mail_part_vcard_dispose (GObject *object)
 		part->priv->save_vcard_button_pressed_signal_id = 0;
 	}
 
+	g_clear_object (&part->priv->web_extension);
+
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_mail_part_vcard_parent_class)->dispose (object);
 }
@@ -295,24 +297,32 @@ mail_part_vcard_constructed (GObject *object)
 
 static void
 mail_part_vcard_bind_dom_element (EMailPart *part,
-                                  GDBusProxy *evolution_web_extension,
+                                  EWebView *web_view,
                                   guint64 page_id,
                                   const gchar *element_id)
 {
 	EMailPartVCard *vcard_part;
+	GDBusProxy *web_extension;
+
+	g_return_if_fail (E_IS_WEB_VIEW (web_view));
+	g_return_if_fail (E_IS_MAIL_PART_VCARD (part));
+
+	web_extension = e_web_view_get_web_extension_proxy (web_view);
+	if (!web_extension)
+		return;
 
 	vcard_part = E_MAIL_PART_VCARD (part);
 
-	vcard_part->priv->web_extension = evolution_web_extension;
+	vcard_part->priv->web_extension = g_object_ref (web_extension);
 	vcard_part->priv->page_id = page_id;
 
 	vcard_part->priv->display_mode_toggled_signal_id =
 		g_dbus_connection_signal_subscribe (
-			g_dbus_proxy_get_connection (evolution_web_extension),
-			g_dbus_proxy_get_name (evolution_web_extension),
-			g_dbus_proxy_get_interface_name (evolution_web_extension),
+			g_dbus_proxy_get_connection (web_extension),
+			g_dbus_proxy_get_name (web_extension),
+			g_dbus_proxy_get_interface_name (web_extension),
 			"VCardInlineDisplayModeToggled",
-			g_dbus_proxy_get_object_path (evolution_web_extension),
+			g_dbus_proxy_get_object_path (web_extension),
 			NULL,
 			G_DBUS_SIGNAL_FLAGS_NONE,
 			(GDBusSignalCallback) display_mode_toggle_cb,
@@ -321,11 +331,11 @@ mail_part_vcard_bind_dom_element (EMailPart *part,
 
 	vcard_part->priv->save_vcard_button_pressed_signal_id =
 		g_dbus_connection_signal_subscribe (
-			g_dbus_proxy_get_connection (evolution_web_extension),
-			g_dbus_proxy_get_name (evolution_web_extension),
-			g_dbus_proxy_get_interface_name (evolution_web_extension),
+			g_dbus_proxy_get_connection (web_extension),
+			g_dbus_proxy_get_name (web_extension),
+			g_dbus_proxy_get_interface_name (web_extension),
 			"VCardInlineSaveButtonPressed",
-			g_dbus_proxy_get_object_path (evolution_web_extension),
+			g_dbus_proxy_get_object_path (web_extension),
 			NULL,
 			G_DBUS_SIGNAL_FLAGS_NONE,
 			(GDBusSignalCallback) save_vcard_cb,
@@ -333,7 +343,7 @@ mail_part_vcard_bind_dom_element (EMailPart *part,
 			NULL);
 
 	e_util_invoke_g_dbus_proxy_call_with_error_check (
-		vcard_part->priv->web_extension,
+		web_extension,
 		"VCardInlineBindDOM",
 		g_variant_new (
 			"(ts)",

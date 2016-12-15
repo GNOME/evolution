@@ -216,10 +216,12 @@ mail_part_headers_constructed (GObject *object)
 
 static void
 mail_part_headers_bind_dom_element (EMailPart *part,
-                                    GDBusProxy *web_extension,
+                                    EWebView *web_view,
                                     guint64 page_id,
                                     const gchar *element_id)
 {
+	GDBusProxy *web_extension = e_web_view_get_web_extension_proxy (web_view);
+
 	if (web_extension) {
 		e_util_invoke_g_dbus_proxy_call_with_error_check (
 			web_extension,

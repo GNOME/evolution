@@ -583,21 +583,21 @@ e_mail_part_set_is_attachment (EMailPart *part,
 
 void
 e_mail_part_bind_dom_element (EMailPart *part,
-                              GDBusProxy *web_extension,
+                              EWebView *web_view,
                               guint64 page_id,
                               const gchar *element_id)
 {
 	EMailPartClass *class;
 
 	g_return_if_fail (E_IS_MAIL_PART (part));
-	g_return_if_fail (web_extension);
+	g_return_if_fail (E_IS_WEB_VIEW (web_view));
 	g_return_if_fail (page_id != 0);
 	g_return_if_fail (element_id && *element_id);
 
 	class = E_MAIL_PART_GET_CLASS (part);
 
 	if (class->bind_dom_element != NULL)
-		class->bind_dom_element (part, web_extension, page_id, element_id);
+		class->bind_dom_element (part, web_view, page_id, element_id);
 }
 
 void

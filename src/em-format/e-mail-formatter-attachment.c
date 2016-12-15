@@ -304,10 +304,8 @@ emfe_attachment_format (EMailFormatterExtension *extension,
 
 			inner_html_data = g_markup_escape_text (data, size);
 
-			g_string_append_printf (
-				buffer,
-				" inner-html-data=\"%s\">",
-				inner_html_data);
+			g_string_append_printf (buffer, " related-part-id=\"%s\" inner-html-data=\"%s\">",
+				attachment_part_id, inner_html_data);
 
 			g_free (inner_html_data);
 		}
