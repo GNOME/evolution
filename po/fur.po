@@ -10,8 +10,8 @@ msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2016-12-07 08:26+0000\n"
-"PO-Revision-Date: 2016-12-08 22:03+0100\n"
+"POT-Creation-Date: 2016-12-15 09:09+0000\n"
+"PO-Revision-Date: 2016-12-16 09:14+0100\n"
 "Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
 "Language-Team: Friulian <f.t.public@gmail.com>\n"
 "Language: fur\n"
@@ -1137,31 +1137,27 @@ msgid "Whether the window is maximized"
 msgstr "Indiche se il barcon al è slargjât"
 
 #: ../data/org.gnome.evolution.importer.gschema.xml.in.h:1
-#, fuzzy
 #| msgid "Gnome Calendar’s calendar import done"
 msgid "GNOME Calendar’s calendar import done"
-msgstr "Importazion dal calendari di “Calendari Gnome” fate"
+msgstr "Importazion dal calendari di “Calendari GNOME” completade"
 
 #: ../data/org.gnome.evolution.importer.gschema.xml.in.h:2
-#, fuzzy
 #| msgid "Whether calendar from Gnome Calendar has been imported or not"
 msgid "Whether calendar from GNOME Calendar has been imported or not"
 msgstr ""
-"Indiche se la importazion dal calendari di Calendari Gnome e je stade "
+"Indiche se la importazion dal calendari di Calendari GNOME e je stade "
 "eseguide o no"
 
 #: ../data/org.gnome.evolution.importer.gschema.xml.in.h:3
-#, fuzzy
 #| msgid "Gnome Calendar’s tasks import done"
 msgid "GNOME Calendar’s tasks import done"
-msgstr "Importazion ativitâts di Calendari Gnome completade"
+msgstr "Importazion ativitâts di Calendari GNOME completade"
 
 #: ../data/org.gnome.evolution.importer.gschema.xml.in.h:4
-#, fuzzy
 #| msgid "Whether tasks from Gnome Calendar have been imported or not"
 msgid "Whether tasks from GNOME Calendar have been imported or not"
 msgstr ""
-"Indiche se la importazion des ativitâts di Calendari Gnome e je stade "
+"Indiche se la importazion des ativitâts di Calendari GNOME e je stade "
 "eseguide o no"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:1
@@ -1510,11 +1506,16 @@ msgstr ""
 "“Re”. Un esempli al è “SV,AV”."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:59
-#, fuzzy
 #| msgid "List of localized “Re”"
 msgid "List of localized “Re” separators"
-msgstr "Liste dal “Re” tradotis"
+msgstr "Liste di separadôrs di “Re” tradots"
 
+# doprade o doprât?
+#
+# _____________
+#
+#
+#            OU CHIALE CHI!
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:60
 #, fuzzy
 #| msgid ""
@@ -1526,9 +1527,9 @@ msgid ""
 "replying to a message, as an addition to the standard “:” and the Unicode "
 "“︰” separators."
 msgstr ""
-"Liste separade di virgule des abreviazions tradotis dal “Re” di saltâ intun "
-"sogjet dal test cuant che si rispuint a un messaç, in zonte al prefìs comun "
-"“Re”. Un esempli al è “SV,AV”."
+"Liste di separadôrs di “Re” tradots, doprade par saltâ intun test sogjet "
+"cuant che si rispuint a un messaç, come une zonte ai separadôrs standard “:” "
+"e Unicode “︰”."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:61
 msgid "Number of characters for wrapping"
@@ -2210,7 +2211,6 @@ msgstr ""
 "plui personis."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:185
-#, fuzzy
 #| msgid ""
 #| "Prompt when switching composer mode and the content needs to lose its "
 #| "formatting"
@@ -2218,11 +2218,10 @@ msgid ""
 "Prompt when switching composer format and the content needs to lose its "
 "formatting"
 msgstr ""
-"Visâ cuant che si cambie la modalitât dal compositôr e il contignût al à "
+"Visâ cuant che si cambie il formât dal compositôr e il contignût al à "
 "dibisugne di pierdi la sô formatazion"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:186
-#, fuzzy
 #| msgid ""
 #| "It disables/enables the repeated prompts to warn that you are switching "
 #| "composer mode and the content needs to lose its formatting."
@@ -2230,7 +2229,7 @@ msgid ""
 "It disables/enables the repeated prompts to warn that you are switching "
 "composer format and the content needs to lose its formatting."
 msgstr ""
-"Al disabilite/abilite il visâ ripetût che si stâ cambiant la modalitât dal "
+"Al disabilite/abilite il visâ ripetût che si stâ cambiant il formât dal "
 "compositôr e il contignût al scugne pierdi la sô formatazion."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:187
@@ -2516,10 +2515,9 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:234
 #: ../src/mail/mail-config.ui.h:9
-#, fuzzy
 #| msgid "Inherit theme colors in HTML mode"
 msgid "Inherit theme colors in HTML format"
-msgstr "Ereditâ colôrs dal teme in modalitât HTML"
+msgstr "Ereditâ colôrs dal teme in formât HTML"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:235
 msgid ""
@@ -3410,6 +3408,21 @@ msgstr ""
 "Impussibil salvâ un contat te rubriche “{0}” parcè che si sta ancjemò "
 "vierzint. Spiete che si vierzi o selezione une rubriche diferente."
 
+#: ../src/addressbook/addressbook.error.xml.h:49
+#| msgid "Search for text in the displayed contact"
+msgid "Something has gone wrong when displaying the contact"
+msgstr "Alc al è lât stuart tal mostrâ il contat"
+
+#: ../src/addressbook/addressbook.error.xml.h:50
+msgid ""
+"A WebKitWebProcess crashed when displaying the contact. You can try again by "
+"moving to another contact and back. If the issue persists, please file a bug "
+"report in the GNOME bugzilla."
+msgstr ""
+"Un WebKitWebProcess al è colassât tal mostrâ il contat. Si pues tornâ a "
+"provâ spostantsi suntun altri contat e tornant su chest. Se il probleme al "
+"persist, segnale un erôr su GNOME bugzilla."
+
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:1
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:725
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:747
@@ -3680,7 +3693,7 @@ msgstr "_Cjarie X.509"
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:18
 #: ../src/addressbook/gui/widgets/eab-contact-merging.c:719
 #: ../src/calendar/calendar.error.xml.h:47
-#: ../src/calendar/gui/e-comp-editor.c:2105
+#: ../src/calendar/gui/e-comp-editor.c:2107
 #: ../src/composer/e-composer-actions.c:228
 #: ../src/composer/e-composer-actions.c:345
 #: ../src/e-util/e-attachment-store.c:829
@@ -3699,8 +3712,8 @@ msgid "Certificates"
 msgstr "Certificâts"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:59
-#: ../src/calendar/gui/e-comp-editor.c:2002
-#: ../src/calendar/gui/e-comp-editor.c:2074
+#: ../src/calendar/gui/e-comp-editor.c:2004
+#: ../src/calendar/gui/e-comp-editor.c:2076
 #: ../src/e-util/e-preferences-window.c:380
 #: ../src/e-util/e-send-options.ui.h:41
 #: ../src/plugins/email-custom-header/org-gnome-email-custom-header.ui.h:2
@@ -3728,7 +3741,7 @@ msgstr "Opzions"
 #: ../src/addressbook/gui/widgets/eab-contact-merging.c:716
 #: ../src/addressbook/gui/widgets/eab-gui-util.c:316
 #: ../src/addressbook/gui/widgets/e-addressbook-view.c:1363
-#: ../src/calendar/gui/e-cal-dialogs.c:687
+#: ../src/calendar/gui/e-cal-dialogs.c:694
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:301
 #: ../src/composer/e-composer-actions.c:227 ../src/e-util/e-activity-bar.c:357
 #: ../src/e-util/e-attachment-dialog.c:309
@@ -3819,24 +3832,24 @@ msgid "Show Certificates"
 msgstr "Mostre certificâts"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:260
-#: ../src/calendar/gui/e-comp-editor.c:2037
+#: ../src/calendar/gui/e-comp-editor.c:2039
 #: ../src/e-util/e-html-editor-actions.c:904
 msgid "_Undo"
 msgstr "_Disfe"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:262
-#: ../src/calendar/gui/e-comp-editor.c:2039 ../src/e-util/e-focus-tracker.c:120
+#: ../src/calendar/gui/e-comp-editor.c:2041 ../src/e-util/e-focus-tracker.c:120
 msgid "Undo"
 msgstr "Disfe"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:267
-#: ../src/calendar/gui/e-comp-editor.c:2044
+#: ../src/calendar/gui/e-comp-editor.c:2046
 #: ../src/e-util/e-html-editor-actions.c:890
 msgid "_Redo"
 msgstr "_Torne fâs"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:269
-#: ../src/calendar/gui/e-comp-editor.c:2046 ../src/e-util/e-focus-tracker.c:136
+#: ../src/calendar/gui/e-comp-editor.c:2048 ../src/e-util/e-focus-tracker.c:136
 msgid "Redo"
 msgstr "Torne fâs"
 
@@ -4189,26 +4202,26 @@ msgstr "Un cualsisei cjamp al à"
 msgid "evolution address book"
 msgstr "rubriche di evolution"
 
-#: ../src/addressbook/gui/widgets/eab-contact-display.c:147
+#: ../src/addressbook/gui/widgets/eab-contact-display.c:149
 msgid "Copy _Email Address"
 msgstr "Copie direzion _e-mail"
 
-#: ../src/addressbook/gui/widgets/eab-contact-display.c:149
+#: ../src/addressbook/gui/widgets/eab-contact-display.c:151
 #: ../src/e-util/e-web-view.c:368
 msgid "Copy the email address to the clipboard"
 msgstr "Al copie la direzion e-mail intes notis"
 
-#: ../src/addressbook/gui/widgets/eab-contact-display.c:154
+#: ../src/addressbook/gui/widgets/eab-contact-display.c:156
 #: ../src/e-util/e-web-view.c:380
 msgid "_Send New Message To..."
 msgstr "Invie gnûf _messaç a..."
 
-#: ../src/addressbook/gui/widgets/eab-contact-display.c:156
+#: ../src/addressbook/gui/widgets/eab-contact-display.c:158
 #: ../src/e-util/e-web-view.c:382
 msgid "Send a mail message to this address"
 msgstr "Al invie un messaç di pueste a cheste direzion"
 
-#: ../src/addressbook/gui/widgets/eab-contact-display.c:288
+#: ../src/addressbook/gui/widgets/eab-contact-display.c:290
 #: ../src/e-util/e-web-view.c:1289
 #, c-format
 msgid "Click to mail %s"
@@ -4367,7 +4380,7 @@ msgid "Blog"
 msgstr "Blog"
 
 #: ../src/addressbook/gui/widgets/eab-contact-merging.c:259
-#: ../src/calendar/gui/e-cal-component-preview.c:306
+#: ../src/calendar/gui/e-cal-component-preview.c:308
 #: ../src/calendar/gui/e-cal-model-tasks.c:314
 #: ../src/calendar/gui/e-cal-model-tasks.c:556
 #: ../src/calendar/gui/e-task-table.c:211
@@ -4608,7 +4621,7 @@ msgid "Are you sure you want to delete this contact (%s)?"
 msgstr "Sigûrs di eliminâ chest contat (%s)?"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.c:1364
-#: ../src/calendar/gui/e-comp-editor.c:1995 ../src/e-util/e-focus-tracker.c:783
+#: ../src/calendar/gui/e-comp-editor.c:1997 ../src/e-util/e-focus-tracker.c:783
 #: ../src/e-util/evolution-source-viewer.c:806
 #: ../src/mail/e-mail-account-manager.c:737
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1087
@@ -5107,7 +5120,7 @@ msgstr "_Postponi"
 #: ../src/calendar/alarm-notify/alarm-notify.ui.h:4
 #: ../src/calendar/gui/e-comp-editor-page-general.c:1363
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2239
-#: ../src/calendar/gui/e-comp-editor.c:2060
+#: ../src/calendar/gui/e-comp-editor.c:2062
 #: ../src/e-util/e-html-editor-actions.c:913
 #: ../src/e-util/e-mail-signature-manager.c:358 ../src/e-util/filter.ui.h:17
 #: ../src/mail/e-mail-account-manager.c:728 ../src/mail/e-mail-browser.c:171
@@ -5162,7 +5175,7 @@ msgstr "oris"
 
 #: ../src/calendar/alarm-notify/alarm-notify.ui.h:12
 #: ../src/e-util/e-interval-chooser.c:140 ../src/e-util/filter.ui.h:6
-#: ../src/mail/e-mail-config-provider-page.c:550
+#: ../src/mail/e-mail-config-provider-page.c:571
 msgid "minutes"
 msgstr "minûts"
 
@@ -5292,7 +5305,7 @@ msgid "_Send Notice"
 msgstr "_Invie notifiche"
 
 #: ../src/calendar/calendar.error.xml.h:5
-#: ../src/calendar/gui/e-cal-dialogs.c:500
+#: ../src/calendar/gui/e-cal-dialogs.c:507
 #, c-format
 msgid "Are you sure you want to delete this meeting?"
 msgstr "Sigûrs di eliminâ cheste riunion?"
@@ -5313,7 +5326,7 @@ msgstr ""
 "podaressin no vignî a savê che la ativitât e je stade eliminade."
 
 #: ../src/calendar/calendar.error.xml.h:9
-#: ../src/calendar/gui/e-cal-dialogs.c:503
+#: ../src/calendar/gui/e-cal-dialogs.c:510
 #, c-format
 msgid "Are you sure you want to delete this task?"
 msgstr "Sigûrs di eliminâ cheste ativitât?"
@@ -5337,7 +5350,7 @@ msgstr ""
 "podaressin no vignî a savê che il memorandum al è stât eliminât."
 
 #: ../src/calendar/calendar.error.xml.h:13
-#: ../src/calendar/gui/e-cal-dialogs.c:506
+#: ../src/calendar/gui/e-cal-dialogs.c:513
 #, c-format
 msgid "Are you sure you want to delete this memo?"
 msgstr "Sigûrs di eliminâ chest memorandum?"
@@ -5912,6 +5925,51 @@ msgstr "No si è rivâts a inzornâ la liste dai memorandums “{0}”"
 msgid "Failed to make an occurrence movable"
 msgstr "No si è rivâts a rindi une ocorince une che si pues movi"
 
+#: ../src/calendar/calendar.error.xml.h:173
+#| msgid "Create a new window displaying this view"
+msgid "Something has gone wrong when displaying the event"
+msgstr "Alc al è lât stuart tal mostrâ l'event"
+
+#: ../src/calendar/calendar.error.xml.h:174
+msgid ""
+"A WebKitWebProcess crashed when displaying the event. You can try again by "
+"moving to another event and back. If the issue persists, please file a bug "
+"report in the GNOME bugzilla."
+msgstr ""
+"Un WebKitWebProcess al è colassât tal mostrâ l'event. Si pues tornâ a provâ "
+"spostantsi suntun altri event e tornant su chest. Se il probleme al persist, "
+"segnale un erôr su GNOME bugzilla."
+
+#: ../src/calendar/calendar.error.xml.h:175
+#| msgid "Create a new window displaying this view"
+msgid "Something has gone wrong when displaying the memo"
+msgstr "Alc al è lât stuart tal mostrâ il memorandum"
+
+#: ../src/calendar/calendar.error.xml.h:176
+msgid ""
+"A WebKitWebProcess crashed when displaying the memo. You can try again by "
+"moving to another memo and back. If the issue persists, please file a bug "
+"report in the GNOME bugzilla."
+msgstr ""
+"Un WebKitWebProcess al è colassât tal mostrâ il memorandum. Si pues tornâ a "
+"provâ spostantsi suntun altri memorandum e tornant su chest. Se il probleme "
+"al persist, segnale un erôr su GNOME bugzilla."
+
+#: ../src/calendar/calendar.error.xml.h:177
+#| msgid "Mode to use when displaying mails"
+msgid "Something has gone wrong when displaying the task"
+msgstr "Alc al è lât stuart tal mostrâ la ativitât"
+
+#: ../src/calendar/calendar.error.xml.h:178
+msgid ""
+"A WebKitWebProcess crashed when displaying the task. You can try again by "
+"moving to another task and back. If the issue persists, please file a bug "
+"report in the GNOME bugzilla."
+msgstr ""
+"Un WebKitWebProcess al è colassât tal mostrâ la ativitât. Si pues tornâ a "
+"provâ spostantsi suntune altre ativitât e tornant su cheste. Se il probleme "
+"al persist, segnale un erôr su GNOME bugzilla."
+
 #: ../src/calendar/gui/caltypes.xml.in.h:1
 #: ../src/calendar/gui/e-cal-list-view.etspec.h:3
 #: ../src/calendar/gui/e-memo-table.etspec.h:2
@@ -6309,38 +6367,38 @@ msgstr "viodude calendari par un mês"
 msgid "calendar view for one or more weeks"
 msgstr "viodude calendari par une o plui setemanis"
 
-#: ../src/calendar/gui/e-cal-component-preview.c:212
+#: ../src/calendar/gui/e-cal-component-preview.c:214
 #: ../src/e-util/e-filter-rule.c:770 ../src/mail/e-mail-config-page.c:127
 msgid "Untitled"
 msgstr "Cence titul"
 
-#: ../src/calendar/gui/e-cal-component-preview.c:220
+#: ../src/calendar/gui/e-cal-component-preview.c:222
 msgid "Categories:"
 msgstr "Categoriis:"
 
-#: ../src/calendar/gui/e-cal-component-preview.c:254
+#: ../src/calendar/gui/e-cal-component-preview.c:256
 msgid "Summary:"
 msgstr "Sintesi:"
 
-#: ../src/calendar/gui/e-cal-component-preview.c:262
+#: ../src/calendar/gui/e-cal-component-preview.c:264
 msgid "Start Date:"
 msgstr "Date di inizi:"
 
-#: ../src/calendar/gui/e-cal-component-preview.c:273
+#: ../src/calendar/gui/e-cal-component-preview.c:275
 msgid "End Date:"
 msgstr "Date di fin:"
 
-#: ../src/calendar/gui/e-cal-component-preview.c:284
+#: ../src/calendar/gui/e-cal-component-preview.c:286
 msgid "Due Date:"
 msgstr "Date di scjadince:"
 
-#: ../src/calendar/gui/e-cal-component-preview.c:296
+#: ../src/calendar/gui/e-cal-component-preview.c:298
 #: ../src/modules/itip-formatter/itip-view.c:1667
 #: ../src/modules/itip-formatter/itip-view.c:1784
 msgid "Status:"
 msgstr "Stât:"
 
-#: ../src/calendar/gui/e-cal-component-preview.c:300
+#: ../src/calendar/gui/e-cal-component-preview.c:302
 #: ../src/calendar/gui/e-cal-model-tasks.c:310
 #: ../src/calendar/gui/e-cal-model-tasks.c:552
 #: ../src/calendar/gui/e-cal-model-tasks.c:633
@@ -6350,7 +6408,7 @@ msgstr "Stât:"
 msgid "In Progress"
 msgstr "In cors"
 
-#: ../src/calendar/gui/e-cal-component-preview.c:303
+#: ../src/calendar/gui/e-cal-component-preview.c:305
 #: ../src/calendar/gui/e-cal-model-tasks.c:312
 #: ../src/calendar/gui/e-cal-model-tasks.c:554
 #: ../src/calendar/gui/e-meeting-store.c:202
@@ -6363,7 +6421,7 @@ msgstr "In cors"
 msgid "Completed"
 msgstr "Completât"
 
-#: ../src/calendar/gui/e-cal-component-preview.c:310
+#: ../src/calendar/gui/e-cal-component-preview.c:312
 #: ../src/calendar/gui/e-cal-model-tasks.c:308
 #: ../src/calendar/gui/e-cal-model-tasks.c:550
 #: ../src/calendar/gui/e-task-table.c:205
@@ -6373,18 +6431,18 @@ msgstr "Completât"
 msgid "Not Started"
 msgstr "No tacât"
 
-#: ../src/calendar/gui/e-cal-component-preview.c:323
+#: ../src/calendar/gui/e-cal-component-preview.c:325
 msgid "Priority:"
 msgstr "Prioritât:"
 
-#: ../src/calendar/gui/e-cal-component-preview.c:325
+#: ../src/calendar/gui/e-cal-component-preview.c:327
 #: ../src/calendar/gui/e-task-table.c:550
 #: ../src/calendar/gui/tasktypes.xml.in.h:19
 #: ../src/e-util/e-send-options.ui.h:2 ../src/mail/message-list.c:320
 msgid "High"
 msgstr "Alte"
 
-#: ../src/calendar/gui/e-cal-component-preview.c:327
+#: ../src/calendar/gui/e-cal-component-preview.c:329
 #: ../src/calendar/gui/e-cal-model.c:1888
 #: ../src/calendar/gui/e-task-table.c:551
 #: ../src/calendar/gui/tasktypes.xml.in.h:20
@@ -6392,19 +6450,19 @@ msgstr "Alte"
 msgid "Normal"
 msgstr "Normâl"
 
-#: ../src/calendar/gui/e-cal-component-preview.c:329
+#: ../src/calendar/gui/e-cal-component-preview.c:331
 #: ../src/calendar/gui/e-task-table.c:552
 #: ../src/calendar/gui/tasktypes.xml.in.h:21
 #: ../src/e-util/e-send-options.ui.h:4 ../src/mail/message-list.c:318
 msgid "Low"
 msgstr "Basse"
 
-#: ../src/calendar/gui/e-cal-component-preview.c:348
+#: ../src/calendar/gui/e-cal-component-preview.c:350
 #: ../src/mail/e-mail-config-service-page.c:671
 msgid "Description:"
 msgstr "Descrizion:"
 
-#: ../src/calendar/gui/e-cal-component-preview.c:379
+#: ../src/calendar/gui/e-cal-component-preview.c:381
 msgid "Web Page:"
 msgstr "Pagjine Web:"
 
@@ -6423,133 +6481,133 @@ msgstr "Daûr a creâ la viodude pe liste des ativitâts “%s”"
 msgid "Creating view for memo list “%s”"
 msgstr "Daûr a creâ la viodude pe liste dai memorandums “%s”"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:212 ../src/calendar/gui/e-cal-ops.c:1955
+#: ../src/calendar/gui/e-cal-dialogs.c:219 ../src/calendar/gui/e-cal-ops.c:1955
 msgid "Destination is read only"
 msgstr "La destinazion e je in dome-leture"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:292
+#: ../src/calendar/gui/e-cal-dialogs.c:299
 #, c-format
 msgid "Copying events to the calendar “%s”"
 msgstr "Daûr a copiâ i events sul calendari “%s”"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:298
+#: ../src/calendar/gui/e-cal-dialogs.c:305
 #, c-format
 msgid "Copying memos to the memo list “%s”"
 msgstr "Daûr a copiâ i memorandum inte liste dai memorandums “%s”"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:304
+#: ../src/calendar/gui/e-cal-dialogs.c:311
 #, c-format
 msgid "Copying tasks to the task list “%s”"
 msgstr "Daûr a copiâ lis ativitâts su la liste des ativitâts “%s”"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:523
+#: ../src/calendar/gui/e-cal-dialogs.c:530
 msgid "_Delete this item from all other recipient’s mailboxes?"
 msgstr "_Eliminâ chest element de casele di pueste di ducj i destinataris?"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:526
+#: ../src/calendar/gui/e-cal-dialogs.c:533
 msgid "_Retract comment"
 msgstr "_Revoche coment"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:685
+#: ../src/calendar/gui/e-cal-dialogs.c:692
 msgid "Select Date"
 msgstr "Selezione date"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:686
+#: ../src/calendar/gui/e-cal-dialogs.c:693
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1248
 msgid "Select _Today"
 msgstr "Selezione _vuê"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:705
+#: ../src/calendar/gui/e-cal-dialogs.c:712
 msgid "January"
 msgstr "Zenâr"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:706
+#: ../src/calendar/gui/e-cal-dialogs.c:713
 msgid "February"
 msgstr "Fevrâr"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:707
+#: ../src/calendar/gui/e-cal-dialogs.c:714
 msgid "March"
 msgstr "Març"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:708
+#: ../src/calendar/gui/e-cal-dialogs.c:715
 msgid "April"
 msgstr "Avrîl"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:709
+#: ../src/calendar/gui/e-cal-dialogs.c:716
 msgid "May"
 msgstr "Mai"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:710
+#: ../src/calendar/gui/e-cal-dialogs.c:717
 msgid "June"
 msgstr "Jugn"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:711
+#: ../src/calendar/gui/e-cal-dialogs.c:718
 msgid "July"
 msgstr "Lui"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:712
+#: ../src/calendar/gui/e-cal-dialogs.c:719
 msgid "August"
 msgstr "Avost"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:713
+#: ../src/calendar/gui/e-cal-dialogs.c:720
 msgid "September"
 msgstr "Setembar"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:714
+#: ../src/calendar/gui/e-cal-dialogs.c:721
 msgid "October"
 msgstr "Otubar"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:715
+#: ../src/calendar/gui/e-cal-dialogs.c:722
 msgid "November"
 msgstr "Novembar"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:716
+#: ../src/calendar/gui/e-cal-dialogs.c:723
 msgid "December"
 msgstr "Dicembar"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:866
+#: ../src/calendar/gui/e-cal-dialogs.c:873
 #, c-format
 msgid "You are modifying a recurring event. What would you like to modify?"
 msgstr "Si sta modificant un event che si ripet. Ce si vuelial modificâ?"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:868
+#: ../src/calendar/gui/e-cal-dialogs.c:875
 #, c-format
 msgid "You are delegating a recurring event. What would you like to delegate?"
 msgstr "Si sta delegant un event che si ripet. Ce si vuelial delegâ?"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:872
+#: ../src/calendar/gui/e-cal-dialogs.c:879
 #, c-format
 msgid "You are modifying a recurring task. What would you like to modify?"
 msgstr "Si sta modificant une ativitât che si ripet. Ce si vuelial modificâ?"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:876
+#: ../src/calendar/gui/e-cal-dialogs.c:883
 #, c-format
 msgid "You are modifying a recurring memo. What would you like to modify?"
 msgstr "Si sta modificant un memorandum che si ripet. Ce si vuelial modificâ?"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:902
+#: ../src/calendar/gui/e-cal-dialogs.c:909
 msgid "This Instance Only"
 msgstr "Nome cheste istance"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:906
+#: ../src/calendar/gui/e-cal-dialogs.c:913
 msgid "This and Prior Instances"
 msgstr "Cheste istance e lis precedentis"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:912
+#: ../src/calendar/gui/e-cal-dialogs.c:919
 msgid "This and Future Instances"
 msgstr "Cheste istance e chês che a vignaran"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:917
+#: ../src/calendar/gui/e-cal-dialogs.c:924
 msgid "All Instances"
 msgstr "Dutis lis istancis"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:1167
-#: ../src/calendar/gui/e-cal-dialogs.c:1249
+#: ../src/calendar/gui/e-cal-dialogs.c:1174
+#: ../src/calendar/gui/e-cal-dialogs.c:1256
 msgid "Send my reminders with this event"
 msgstr "Inviâ i miei promemorie cun chest event"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:1169
-#: ../src/calendar/gui/e-cal-dialogs.c:1251
+#: ../src/calendar/gui/e-cal-dialogs.c:1176
+#: ../src/calendar/gui/e-cal-dialogs.c:1258
 msgid "Notify new attendees _only"
 msgstr "Notificâ _nome i gnûfs partecipants"
 
@@ -7056,7 +7114,7 @@ msgstr "La ore di inizi no je valide"
 #: ../src/calendar/gui/e-comp-editor-event.c:442
 #: ../src/calendar/gui/e-comp-editor-event.c:458
 #: ../src/calendar/gui/e-comp-editor-page-attachments.c:199
-#: ../src/calendar/gui/e-comp-editor.c:338 ../src/mail/e-mail-display.c:2022
+#: ../src/calendar/gui/e-comp-editor.c:338 ../src/mail/e-mail-display.c:2041
 #: ../src/mail/e-mail-reader-utils.c:646 ../src/mail/mail-send-recv.c:490
 #: ../src/mail/mail-send-recv.c:1288 ../src/plugins/face/face.c:174
 #: ../src/shell/e-shell.c:990 ../src/shell/e-shell.c:1012
@@ -8018,7 +8076,7 @@ msgid "No Summary"
 msgstr "Nissune sintesi"
 
 #. == Button box ==
-#: ../src/calendar/gui/e-comp-editor.c:1974
+#: ../src/calendar/gui/e-comp-editor.c:1976
 #: ../src/composer/e-composer-actions.c:324
 #: ../src/e-util/e-html-editor-dialog.c:194
 #: ../src/e-util/e-mail-signature-editor.c:309
@@ -8035,19 +8093,19 @@ msgstr "Nissune sintesi"
 msgid "_Close"
 msgstr "_Siere"
 
-#: ../src/calendar/gui/e-comp-editor.c:1976
+#: ../src/calendar/gui/e-comp-editor.c:1978
 msgid "Close the current window"
 msgstr "Siere il barcon atuâl"
 
 #. copy menu item
-#: ../src/calendar/gui/e-comp-editor.c:1981 ../src/e-util/e-focus-tracker.c:773
+#: ../src/calendar/gui/e-comp-editor.c:1983 ../src/e-util/e-focus-tracker.c:773
 #: ../src/e-util/e-html-editor-actions.c:869 ../src/e-util/e-text.c:2110
 #: ../src/e-util/e-web-view.c:407 ../src/mail/e-mail-browser.c:134
 #: ../src/mail/mail.error.xml.h:146 ../src/shell/e-shell-window-actions.c:808
 msgid "_Copy"
 msgstr "_Copie"
 
-#: ../src/calendar/gui/e-comp-editor.c:1983 ../src/e-util/e-focus-tracker.c:173
+#: ../src/calendar/gui/e-comp-editor.c:1985 ../src/e-util/e-focus-tracker.c:173
 #: ../src/e-util/e-focus-tracker.c:229 ../src/e-util/e-focus-tracker.c:282
 #: ../src/e-util/e-focus-tracker.c:774 ../src/e-util/e-web-view.c:409
 #: ../src/e-util/e-web-view.c:1906 ../src/mail/e-mail-browser.c:136
@@ -8056,51 +8114,51 @@ msgid "Copy the selection"
 msgstr "Copie la selezion"
 
 #. cut menu item
-#: ../src/calendar/gui/e-comp-editor.c:1988 ../src/e-util/e-focus-tracker.c:768
+#: ../src/calendar/gui/e-comp-editor.c:1990 ../src/e-util/e-focus-tracker.c:768
 #: ../src/e-util/e-html-editor-actions.c:876 ../src/e-util/e-text.c:2096
 #: ../src/mail/e-mail-browser.c:141 ../src/shell/e-shell-window-actions.c:815
 msgid "Cu_t"
 msgstr "Ta_ie"
 
-#: ../src/calendar/gui/e-comp-editor.c:1990 ../src/e-util/e-focus-tracker.c:166
+#: ../src/calendar/gui/e-comp-editor.c:1992 ../src/e-util/e-focus-tracker.c:166
 #: ../src/e-util/e-focus-tracker.c:222 ../src/e-util/e-focus-tracker.c:276
 #: ../src/e-util/e-focus-tracker.c:769 ../src/e-util/e-web-view.c:1915
 #: ../src/mail/e-mail-browser.c:143 ../src/shell/e-shell-window-actions.c:817
 msgid "Cut the selection"
 msgstr "Taie la selezion"
 
-#: ../src/calendar/gui/e-comp-editor.c:1997 ../src/e-util/e-focus-tracker.c:187
+#: ../src/calendar/gui/e-comp-editor.c:1999 ../src/e-util/e-focus-tracker.c:187
 #: ../src/e-util/e-focus-tracker.c:243 ../src/e-util/e-focus-tracker.c:784
 #: ../src/shell/e-shell-window-actions.c:824
 msgid "Delete the selection"
 msgstr "Elimine la selezion"
 
-#: ../src/calendar/gui/e-comp-editor.c:2004
+#: ../src/calendar/gui/e-comp-editor.c:2006
 msgid "View help"
 msgstr "Viôt il jutori"
 
 #. paste menu item
-#: ../src/calendar/gui/e-comp-editor.c:2009 ../src/e-util/e-focus-tracker.c:778
+#: ../src/calendar/gui/e-comp-editor.c:2011 ../src/e-util/e-focus-tracker.c:778
 #: ../src/e-util/e-html-editor-actions.c:883 ../src/e-util/e-text.c:2122
 #: ../src/mail/e-mail-browser.c:148 ../src/shell/e-shell-window-actions.c:843
 msgid "_Paste"
 msgstr "_Tache"
 
-#: ../src/calendar/gui/e-comp-editor.c:2011 ../src/e-util/e-focus-tracker.c:180
+#: ../src/calendar/gui/e-comp-editor.c:2013 ../src/e-util/e-focus-tracker.c:180
 #: ../src/e-util/e-focus-tracker.c:236 ../src/e-util/e-focus-tracker.c:288
 #: ../src/e-util/e-focus-tracker.c:779 ../src/e-util/e-web-view.c:1924
 #: ../src/mail/e-mail-browser.c:150 ../src/shell/e-shell-window-actions.c:845
 msgid "Paste the clipboard"
 msgstr "Tache intes notis"
 
-#: ../src/calendar/gui/e-comp-editor.c:2016
+#: ../src/calendar/gui/e-comp-editor.c:2018
 #: ../src/composer/e-composer-actions.c:378 ../src/mail/e-mail-reader.c:2323
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1229
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1243
 msgid "_Print..."
 msgstr "_Stampe..."
 
-#: ../src/calendar/gui/e-comp-editor.c:2023 ../src/mail/e-mail-reader.c:2330
+#: ../src/calendar/gui/e-comp-editor.c:2025 ../src/mail/e-mail-reader.c:2330
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1236
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1693
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:813
@@ -8108,56 +8166,56 @@ msgstr "_Stampe..."
 msgid "Pre_view..."
 msgstr "Ante_prime..."
 
-#: ../src/calendar/gui/e-comp-editor.c:2030 ../src/e-util/e-focus-tracker.c:788
+#: ../src/calendar/gui/e-comp-editor.c:2032 ../src/e-util/e-focus-tracker.c:788
 #: ../src/e-util/e-html-editor-actions.c:897 ../src/e-util/e-web-view.c:417
 #: ../src/mail/e-mail-browser.c:155 ../src/shell/e-shell-window-actions.c:920
 msgid "Select _All"
 msgstr "Selezione _dut"
 
-#: ../src/calendar/gui/e-comp-editor.c:2032 ../src/e-util/e-focus-tracker.c:194
+#: ../src/calendar/gui/e-comp-editor.c:2034 ../src/e-util/e-focus-tracker.c:194
 #: ../src/e-util/e-focus-tracker.c:250 ../src/e-util/e-focus-tracker.c:789
 #: ../src/mail/e-mail-browser.c:157 ../src/shell/e-shell-window-actions.c:922
 msgid "Select all text"
 msgstr "Selezione dut il test"
 
-#: ../src/calendar/gui/e-comp-editor.c:2053
+#: ../src/calendar/gui/e-comp-editor.c:2055
 msgid "_Classification"
 msgstr "_Classificazion"
 
-#: ../src/calendar/gui/e-comp-editor.c:2067
+#: ../src/calendar/gui/e-comp-editor.c:2069
 #: ../src/e-util/e-html-editor-actions.c:920
 #: ../src/e-util/e-mail-signature-editor.c:323 ../src/mail/e-mail-browser.c:164
 #: ../src/mail/e-mail-notes.c:945 ../src/shell/e-shell-window-actions.c:957
 msgid "_File"
 msgstr "_File"
 
-#: ../src/calendar/gui/e-comp-editor.c:2081
+#: ../src/calendar/gui/e-comp-editor.c:2083
 #: ../src/e-util/e-html-editor-actions.c:941
 msgid "_Insert"
 msgstr "_Inserìs"
 
-#: ../src/calendar/gui/e-comp-editor.c:2088
+#: ../src/calendar/gui/e-comp-editor.c:2090
 #: ../src/composer/e-composer-actions.c:368
 msgid "_Options"
 msgstr "_Opzions"
 
-#: ../src/calendar/gui/e-comp-editor.c:2095
+#: ../src/calendar/gui/e-comp-editor.c:2097
 #: ../src/e-util/e-html-editor-actions.c:962 ../src/mail/e-mail-browser.c:178
 #: ../src/shell/e-shell-window-actions.c:1000
 #: ../src/smime/gui/certificate-manager.c:1662 ../src/smime/gui/smime-ui.ui.h:5
 msgid "_View"
 msgstr "_Viodude"
 
-#: ../src/calendar/gui/e-comp-editor.c:2107
+#: ../src/calendar/gui/e-comp-editor.c:2109
 msgid "Save current changes"
 msgstr "Salve lis modifichis atuâi"
 
-#: ../src/calendar/gui/e-comp-editor.c:2112
+#: ../src/calendar/gui/e-comp-editor.c:2114
 #: ../src/e-util/e-mail-signature-editor.c:318 ../src/mail/e-mail-notes.c:940
 msgid "Save and Close"
 msgstr "Salve e siere"
 
-#: ../src/calendar/gui/e-comp-editor.c:2114
+#: ../src/calendar/gui/e-comp-editor.c:2116
 msgid "Save current changes and close editor"
 msgstr "Salve i cambiaments atuâi e siere l'editôr"
 
@@ -9051,28 +9109,24 @@ msgstr "Promemorie"
 
 # m o f?
 #: ../src/calendar/importers/icalendar-importer.c:1237
-#, fuzzy
 msgctxt "iCalImp"
 msgid "has recurrences"
 msgstr "al à ricorencis"
 
 # M o F?
 #: ../src/calendar/importers/icalendar-importer.c:1242
-#, fuzzy
 msgctxt "iCalImp"
 msgid "is an instance"
 msgstr "e je une istance"
 
 # m o f?
 #: ../src/calendar/importers/icalendar-importer.c:1247
-#, fuzzy
 msgctxt "iCalImp"
 msgid "has reminders"
 msgstr "al à dai promemorie"
 
 # m o f?
 #: ../src/calendar/importers/icalendar-importer.c:1252
-#, fuzzy
 msgctxt "iCalImp"
 msgid "has attachments"
 msgstr "al à zontis"
@@ -11143,13 +11197,11 @@ msgstr ""
 "l'inviament dal messaç, se al è stât fat cence volê, o inviâlu."
 
 #: ../src/composer/mail-composer.error.xml.h:37
-#, fuzzy
 #| msgid "Are you sure you want to change the composer mode?"
 msgid "Are you sure you want to change the composer format?"
-msgstr "Sigûrs di cambiâ la modalitât dal compositôr?"
+msgstr "Sigûrs di cambiâ il formât dal compositôr?"
 
 #: ../src/composer/mail-composer.error.xml.h:38
-#, fuzzy
 #| msgid ""
 #| "Turning HTML mode off will cause the text to lose all formatting. Do you "
 #| "want to continue?"
@@ -11157,8 +11209,8 @@ msgid ""
 "Switching to Plain Text format will cause the text to lose all the HTML "
 "formatting. Do you want to continue?"
 msgstr ""
-"Disativâ la modalitât HTML al causarà la pierdite de formatazion dal test. "
-"Continuâ?"
+"Il passâ al formât Test Sempliç al causarà la pierdite di dute la "
+"formatazion HTML dal test. Continuâ?"
 
 #: ../src/composer/mail-composer.error.xml.h:39
 msgid "_Don’t lose formatting"
@@ -11171,6 +11223,82 @@ msgstr "Piert la _formatazion"
 #: ../src/composer/mail-composer.error.xml.h:41
 msgid "An error occurred while saving to your Templates folder."
 msgstr "Si è verificât un erôr intant che si salvave la cartele «Modei»."
+
+#: ../src/composer/mail-composer.error.xml.h:42
+#| msgid "Are you sure you want to discard the message you are composing?"
+msgid "Are you sure you want to convert the message into a meeting?"
+msgstr "Sigûrs di convertî il messaç intune riunion?"
+
+#: ../src/composer/mail-composer.error.xml.h:43
+msgid ""
+"By converting the message into the meeting the composed message will be "
+"closed and the changes being done discarded."
+msgstr ""
+"Convertint il messaç intune riunion il messaç creât al vignarà sierât e lis "
+"modifichis a vignaran scartadis."
+
+#: ../src/composer/mail-composer.error.xml.h:44
+#| msgid "Create a _Meeting"
+msgid "Convert to _Meeting"
+msgstr "Convertìs intune _riunion"
+
+#: ../src/composer/mail-composer.error.xml.h:45
+#| msgid "Are you sure you want to send the message?"
+msgid "Are you sure you want to convert the event into a message?"
+msgstr "Sigûrs di convertî l'event intun messaç?"
+
+#: ../src/composer/mail-composer.error.xml.h:46
+msgid ""
+"By converting the event into the message the editing window will be closed "
+"and the changes being done discarded."
+msgstr ""
+"Convertint l'event intun messaç il barcon di modifiche al vignarà sierât e "
+"lis modifichis a vignaran scartadis."
+
+#: ../src/composer/mail-composer.error.xml.h:47
+#| msgid "Compose a Message"
+msgid "Convert to _Message"
+msgstr "Convertìs intun _messaç"
+
+#: ../src/composer/mail-composer.error.xml.h:48
+#| msgid "Are you sure you want to save the memo without a summary?"
+msgid "Are you sure you want to convert the memo into a message?"
+msgstr "Sigûrs di convertî il memorandum intun messaç?"
+
+#: ../src/composer/mail-composer.error.xml.h:49
+msgid ""
+"By converting the memo into the message the editing window will be closed "
+"and the changes being done discarded."
+msgstr ""
+"Convertint il memorandum intun messaç il barcon di modifiche al vignarà "
+"sierât e lis modifichis a vignaran scartadis."
+
+#: ../src/composer/mail-composer.error.xml.h:50
+#| msgid "Are you sure you want to save the task without a summary?"
+msgid "Are you sure you want to convert the task into a message?"
+msgstr "Sigûrs di convertî la ativitât intun messaç?"
+
+#: ../src/composer/mail-composer.error.xml.h:51
+msgid ""
+"By converting the task into the message the editing window will be closed "
+"and the changes being done discarded."
+msgstr ""
+"Convertint la ativitât intun messaç il barcon di modifiche al vignarà sierât "
+"e lis modifichis a vignaran scartadis."
+
+#: ../src/composer/mail-composer.error.xml.h:52
+msgid "Something has gone wrong when editing the message"
+msgstr "Alc al è lât stuart tal scrivi il messaç"
+
+#: ../src/composer/mail-composer.error.xml.h:53
+msgid ""
+"A WebKitWebProcess crashed when editing the message. You can try again by "
+"closing the composer window and opening a new one. If the issue persists, "
+"please file a bug report in the GNOME bugzilla."
+msgstr ""
+"Un WebKitWebProcess al è colassât intant che si scriveve il messaç. Si pues "
+"tornâ a provâ sierant il barcon dal compositôr e vierzint un gnûf. Se il "
+"probleme al persist, segnale un erôr su GNOME bugzilla."
 
 #: ../src/em-format/e-mail-formatter-attachment.c:336
 msgid "Display as attachment"
@@ -12373,6 +12501,39 @@ msgstr "Doprâ impostazions predefinidis de lenghe"
 #: ../src/e-util/e-datetime-format.c:573
 msgid "Format:"
 msgstr "Formât:"
+
+#. Translators: This is part of: "Do not synchronize locally mails older than [ xxx ] [ days ]"
+#: ../src/e-util/e-dialog-widgets.c:181
+#| msgid "days"
+msgctxt "time-unit"
+msgid "days"
+msgstr "dîs"
+
+#. Translators: This is part of: "Do not synchronize locally mails older than [ xxx ] [ weeks ]"
+#: ../src/e-util/e-dialog-widgets.c:183
+#| msgid "weeks"
+msgctxt "time-unit"
+msgid "weeks"
+msgstr "setemanis"
+
+#. Translators: This is part of: "Do not synchronize locally mails older than [ xxx ] [ months ]"
+#: ../src/e-util/e-dialog-widgets.c:185
+#| msgid "months"
+msgctxt "time-unit"
+msgid "months"
+msgstr "mês"
+
+#. Translators: This is part of: "Do not synchronize locally mails older than [ xxx ] [ years ]"
+#: ../src/e-util/e-dialog-widgets.c:187
+#| msgid "years"
+msgctxt "time-unit"
+msgid "years"
+msgstr "agns"
+
+#. Translators: This is part of: "Do not synchronize locally mails older than [ xxx ] [ days ]"
+#: ../src/e-util/e-dialog-widgets.c:245
+msgid "Do not synchronize locally mails older than"
+msgstr "No stâ sincronizâ la pueste locâl plui vecje di"
 
 #. Translators: :-)
 #: ../src/e-util/e-emoticon-chooser.c:38
@@ -13850,7 +14011,7 @@ msgstr "Daûr a vierzi la liste des ativitâts “%s”"
 msgid "Opening address book “%s”"
 msgstr "Daûr a vierzi la rubriche “%s”"
 
-#: ../src/e-util/e-misc-utils.c:3288
+#: ../src/e-util/e-misc-utils.c:3290
 #: ../src/modules/mailto-handler/evolution-mailto-handler.c:146
 msgid "_Do not show this message again"
 msgstr "_No stâ mostrâ plui chest messaç"
@@ -14304,7 +14465,7 @@ msgstr "Mostre"
 msgid "Group name"
 msgstr "Non dal grup"
 
-#: ../src/e-util/e-source-selector.c:3374 ../src/mail/e-mail-display.c:743
+#: ../src/e-util/e-source-selector.c:3374 ../src/mail/e-mail-display.c:745
 msgid "_Hide"
 msgstr "_Plate"
 
@@ -14471,6 +14632,20 @@ msgstr ""
 msgid "The task list backend servicing “{0}” encountered an error."
 msgstr ""
 "Si è verificât un erôr tal servizi dal backend de liste ativitâts “{0}”."
+
+#: ../src/e-util/e-system.error.xml.h:23
+msgid "Something has gone wrong"
+msgstr "Alc al è lât stuart"
+
+#: ../src/e-util/e-system.error.xml.h:24
+msgid ""
+"A WebKitWebProcess crashed when displaying the content. You can try again by "
+"reopening the window. If the issue persists, please file a bug report in the "
+"GNOME bugzilla."
+msgstr ""
+"Un WebKitWebProcess al è colassât tal mostrâ il contignût. Si pues tornâ a "
+"provâ tornant a vierzi il barcon. Se il probleme al persist, segnale un erôr "
+"su GNOME bugzilla."
 
 #: ../src/e-util/e-table-click-to-add.c:687
 #: ../src/e-util/gal-a11y-e-table-click-to-add.c:59
@@ -15766,15 +15941,15 @@ msgstr "Il non dal account nol pues jessi vueit"
 msgid "Looking up account details..."
 msgstr "Daûr a consultâ i detais dal account..."
 
-#: ../src/mail/e-mail-config-provider-page.c:508
+#: ../src/mail/e-mail-config-provider-page.c:529
 msgid "Checking for New Mail"
 msgstr "Control di gnove pueste"
 
-#: ../src/mail/e-mail-config-provider-page.c:524
+#: ../src/mail/e-mail-config-provider-page.c:545
 msgid "Check for _new messages every"
 msgstr "Controlâ g_nûfs messaçs ogni"
 
-#: ../src/mail/e-mail-config-provider-page.c:727
+#: ../src/mail/e-mail-config-provider-page.c:753
 msgid "Receiving Options"
 msgstr "Opzions di ricezion"
 
@@ -15984,55 +16159,55 @@ msgstr "Benvignût"
 msgid "Account Editor"
 msgstr "Editôr account"
 
-#: ../src/mail/e-mail-display.c:125
+#: ../src/mail/e-mail-display.c:127
 msgid "_Add to Address Book..."
 msgstr "_Zonte ae rubriche..."
 
-#: ../src/mail/e-mail-display.c:132
+#: ../src/mail/e-mail-display.c:134
 msgid "_To This Address"
 msgstr "_A cheste direzion"
 
-#: ../src/mail/e-mail-display.c:139
+#: ../src/mail/e-mail-display.c:141
 msgid "_From This Address"
 msgstr "_Di cheste direzion"
 
-#: ../src/mail/e-mail-display.c:146
+#: ../src/mail/e-mail-display.c:148
 msgid "Send _Reply To..."
 msgstr "Invie _rispueste a..."
 
-#: ../src/mail/e-mail-display.c:148
+#: ../src/mail/e-mail-display.c:150
 msgid "Send a reply message to this address"
 msgstr "Invie un messaç di rispueste a cheste direzion"
 
-#: ../src/mail/e-mail-display.c:155
+#: ../src/mail/e-mail-display.c:157
 msgid "Create Search _Folder"
 msgstr "Cree car_tele di ricercje"
 
-#: ../src/mail/e-mail-display.c:750
+#: ../src/mail/e-mail-display.c:752
 msgid "Hid_e All"
 msgstr "Plat_e dut"
 
-#: ../src/mail/e-mail-display.c:757
+#: ../src/mail/e-mail-display.c:759
 msgid "_View Inline"
 msgstr "_Viôt incorporât"
 
-#: ../src/mail/e-mail-display.c:764
+#: ../src/mail/e-mail-display.c:766
 msgid "Vie_w All Inline"
 msgstr "Viôt _dut incorporât"
 
-#: ../src/mail/e-mail-display.c:771
+#: ../src/mail/e-mail-display.c:773
 msgid "_Zoom to 100%"
 msgstr "_Ingrandiment al 100%"
 
-#: ../src/mail/e-mail-display.c:773
+#: ../src/mail/e-mail-display.c:775
 msgid "Zoom the image to its natural size"
 msgstr "Ingrandìs la imagjin ae sô dimension origjinâl"
 
-#: ../src/mail/e-mail-display.c:778
+#: ../src/mail/e-mail-display.c:780
 msgid "_Zoom to window"
 msgstr "_Adate al barcon"
 
-#: ../src/mail/e-mail-display.c:780
+#: ../src/mail/e-mail-display.c:782
 msgid "Zoom large images to not be wider than the window width"
 msgstr ""
 "Adate lis imagjins grandis par fâlis deventâ no plui largjis de largjece dal "
@@ -19224,7 +19399,6 @@ msgstr ""
 # need distinction for M or F cause sunday is female and the others weekdays are males
 #. Translators: This constructs a string like "Follow-up, Completed on Tuesday, January 13, 2009"
 #: ../src/mail/mail.error.xml.h:196
-#, fuzzy
 msgid "{0}, Completed on {1}"
 msgstr "{0}, completât il {1}"
 
@@ -19251,6 +19425,35 @@ msgstr "No si è rivâts a eliminâ la note dal messaç te cartele “{0}”"
 #: ../src/mail/mail.error.xml.h:207
 msgid "Failed to store message note in folder “{0}”"
 msgstr "No si è rivâts a archiviâ la note dal messaç inte cartele “{0}”"
+
+#: ../src/mail/mail.error.xml.h:208
+#| msgid "Search for text in the body of the displayed message"
+msgid "Something has gone wrong when displaying the message"
+msgstr "Alc al è lât stuart tal mostrâ il messaç"
+
+#: ../src/mail/mail.error.xml.h:209
+msgid ""
+"A WebKitWebProcess crashed when displaying the message. You can try again by "
+"moving to another message and back. If the issue persists, please file a bug "
+"report in the GNOME bugzilla."
+msgstr ""
+"Un WebKitWebProcess al è colassât tal mostrâ il messaç. Si pues tornâ a "
+"provâ spostantsi suntun altri messaç e tornant su chest. Se il probleme al "
+"persist, segnale un erôr su GNOME bugzilla."
+
+#: ../src/mail/mail.error.xml.h:210
+msgid "Something has gone wrong when displaying the signature"
+msgstr "Alc al è lât stuart tal mostrâ la firme"
+
+#: ../src/mail/mail.error.xml.h:211
+msgid ""
+"A WebKitWebProcess crashed when displaying the signature. You can try again "
+"by moving to another signature and back. If the issue persists, please file "
+"a bug report in the GNOME bugzilla."
+msgstr ""
+"Un WebKitWebProcess al è colassât tal mostrâ la firme. Si pues tornâ a provâ "
+"spostantsi suntune altre firme e tornant su cheste. Se il probleme al "
+"persist, segnale un erôr su GNOME bugzilla."
 
 #: ../src/mail/mail-send-recv.c:192
 msgid "Canceling..."
@@ -21538,6 +21741,27 @@ msgid_plural "%d tasks"
 msgstr[0] "%d ativitât"
 msgstr[1] "%d ativitâts"
 
+#: ../src/modules/composer-to-meeting/e-composer-to-meeting.c:319
+#| msgid "Create a _Meeting"
+msgid "Convert to M_eeting"
+msgstr "Convertìs intune ri_union"
+
+#: ../src/modules/composer-to-meeting/e-composer-to-meeting.c:321
+#| msgid "Create a new meeting request"
+msgid "Convert the message to a meeting request"
+msgstr "Convertî il messaç intune richieste di riunion"
+
+#: ../src/modules/composer-to-meeting/e-meeting-to-composer.c:357
+#| msgid "Compose a Message"
+msgid "Convert to M_essage"
+msgstr "Convertìs intun m_essaç"
+
+#: ../src/modules/composer-to-meeting/e-meeting-to-composer.c:359
+#, fuzzy
+#| msgid "Compose a new mail message"
+msgid "Convert to the mail message"
+msgstr "Scrîf un gnûf messaç di pueste"
+
 #: ../src/modules/itip-formatter/e-mail-formatter-itip.c:154
 msgid "ITIP"
 msgstr "ITIP"
@@ -22041,24 +22265,27 @@ msgid "Attendee status updated"
 msgstr "Stât dal partecipant inzornât"
 
 #: ../src/modules/itip-formatter/itip-view.c:3644
-#, fuzzy, c-format
+#, c-format
 #| msgid "An appointment in the calendar “%s” conflicts with this meeting"
 msgid "An appointment “%s” in the calendar “%s” conflicts with this meeting"
-msgstr "Un apontament tal calendari “%s” al è in conflit cun cheste riunion"
+msgstr ""
+"Un apontament “%s” tal calendari “%s” al è in conflit cun cheste riunion"
 
 #: ../src/modules/itip-formatter/itip-view.c:3650
-#, fuzzy, c-format
+#, c-format
 #| msgid "An appointment in the calendar “%s” conflicts with this meeting"
 msgid ""
 "The calendar “%s” contains an appointment which conflicts with this meeting"
-msgstr "Un apontament tal calendari “%s” al è in conflit cun cheste riunion"
+msgstr ""
+"Il calendari “%s” al à un apontament che al è in conflit cun cheste riunion"
 
 #: ../src/modules/itip-formatter/itip-view.c:3651
-#, fuzzy, c-format
+#, c-format
 #| msgid "An appointment in the calendar “%s” conflicts with this meeting"
 msgid ""
 "The calendar “%s” contains %d appointments which conflict with this meeting"
-msgstr "Un apontament tal calendari “%s” al è in conflit cun cheste riunion"
+msgstr ""
+"Il calendari “%s” al à %d apontaments che a son in conflit cun cheste riunion"
 
 #: ../src/modules/itip-formatter/itip-view.c:3683
 #, c-format
