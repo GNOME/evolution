@@ -21,10 +21,10 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2016-12-12 10:54+0000\n"
-"PO-Revision-Date: 2016-12-12 12:00+0100\n"
+"POT-Creation-Date: 2016-12-16 08:16+0000\n"
+"PO-Revision-Date: 2016-12-17 13:45+0100\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
-"Language-Team: čeština <gnome-cs-list@gnome.org>>\n"
+"Language-Team: čeština <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -3240,11 +3240,11 @@ msgstr ""
 "stejnou adresou?"
 
 #: ../src/addressbook/addressbook.error.xml.h:34
-#: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:8
+#: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:9
 #: ../src/addressbook/gui/widgets/eab-contact-merging.c:721
 #: ../src/calendar/gui/e-comp-editor-page-general.c:1355
 #: ../src/e-util/e-mail-signature-manager.c:328
-#: ../src/e-util/e-name-selector-dialog.c:992 ../src/e-util/filter.ui.h:16
+#: ../src/e-util/e-name-selector-dialog.c:992 ../src/e-util/filter.ui.h:23
 #: ../src/mail/e-mail-account-manager.c:719
 #: ../src/mail/e-mail-label-manager.c:371
 #: ../src/mail/em-vfolder-editor-rule.c:397
@@ -3324,305 +3324,72 @@ msgstr ""
 "Nelze uložit kontakt do adresáře „{0}“, protože adresář se pořád ještě "
 "otevírá. Buď počkejte, dokud se neotevře nebo vyberte jiný adresář."
 
+#: ../src/addressbook/addressbook.error.xml.h:49
+msgid "Something has gone wrong when displaying the contact"
+msgstr "Při zobrazení kontaktu se něco nepovedlo správně"
+
+#: ../src/addressbook/addressbook.error.xml.h:50
+msgid ""
+"A WebKitWebProcess crashed when displaying the contact. You can try again by "
+"moving to another contact and back. If the issue persists, please file a bug "
+"report in the GNOME bugzilla."
+msgstr ""
+"Při zobrazení kontaktu se zhroutil WebKitWebProces. Můžete to zkusit znovu "
+"tím, že se přesunete na jiný kontakt a pak vrátíte zpět. Pokud problém bude "
+"přetrvávat, nahlaste to prosím jako chybu do systému bugzilla projektu GNOME."
+
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:1
+msgid "Show Telephone"
+msgstr "Zobrazit telefon"
+
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:2
+msgid "Show SIP Address"
+msgstr "Zobrazit adresu SIP"
+
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:3
+msgid "Show Instant Messaging"
+msgstr "Zobrazit rychlou komunikaci"
+
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:4
+msgid "Show Web Addresses"
+msgstr "Zobrazit webové adresy"
+
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:5
+msgid "Show Job section"
+msgstr "Zobrazi oddíl Práce"
+
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:6
+msgid "Show Miscellaneous"
+msgstr "Zobrazit různé"
+
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:7
+msgid "Show Home Mailing Address"
+msgstr "Zobrazit poštovní adresu domů"
+
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:8
+msgid "Show Work Mailing Address"
+msgstr "Zobrazit poštovní adresu do práce"
+
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:9
+msgid "Show Other Mailing Address"
+msgstr "Zobrazit ostatní poštovní adresu"
+
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:10
+msgid "Show Notes"
+msgstr "Zobrazit poznámky"
+
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:11
+msgid "Show Certificates"
+msgstr "Zobrazit certifikáty"
+
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:12
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:725
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:747
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3108
 msgid "Contact Editor"
 msgstr "Editor kontaktů"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:2
-msgid "Image"
-msgstr "Obrázek"
-
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:3
-msgid "Nic_kname:"
-msgstr "_Přezdívka:"
-
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:4
-msgid "_File under:"
-msgstr "_Uložit jako:"
-
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:5
-#: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:3
-msgid "_Where:"
-msgstr "_Kde:"
-
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:6
-msgid "Ca_tegories..."
-msgstr "Ka_tegorie…"
-
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:7
-msgid "Full _Name..."
-msgstr "Celé _jméno…"
-
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:8
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:750
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1169
-#: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:6
-msgid "Email"
-msgstr "E-mail"
-
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:9
-msgid "_Wants to receive HTML mail"
-msgstr "Chce dostávat poštu v _HTML"
-
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:10
-msgid "Telephone"
-msgstr "Telefon"
-
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:11
-msgid "SIP Address"
-msgstr "Adresa SIP"
-
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:12
-msgid "Instant Messaging"
-msgstr "Rychlá komunikace"
-
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:13
-#: ../src/addressbook/importers/evolution-vcard-importer.c:981
-msgid "Contact"
-msgstr "Kontakt"
-
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:14
-msgid "_Home Page:"
-msgstr "_Domovská stránka:"
-
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:15
-#: ../src/calendar/gui/e-comp-editor-event.c:727
-#: ../src/modules/itip-formatter/itip-view.c:2031
-msgid "_Calendar:"
-msgstr "Ka_lendář:"
-
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:16
-msgid "_Free/Busy:"
-msgstr "_Volno/obsazeno:"
-
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:17
-msgid "_Video Chat:"
-msgstr "_Video chat:"
-
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:18
-msgid "Home Page:"
-msgstr "Domovská stránka:"
-
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:19
-#: ../src/modules/cal-config-google/e-cal-config-google.c:95
-msgid "Calendar:"
-msgstr "Kalendář:"
-
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:20
-msgid "Free/Busy:"
-msgstr "Volno/obsazeno:"
-
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:21
-msgid "Video Chat:"
-msgstr "Video chat:"
-
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:22
-msgid "_Blog:"
-msgstr "_Blog:"
-
-#. Translators: an accessibility name
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:24
-msgid "Blog:"
-msgstr "Blog:"
-
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:25
-msgid "Web Addresses"
-msgstr "Webové adresy"
-
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:26
-msgid "_Profession:"
-msgstr "_Povolání:"
-
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:27
-msgctxt "Job"
-msgid "_Title:"
-msgstr "Pozi_ce:"
-
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:28
-msgid "_Company:"
-msgstr "_Společnost:"
-
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:29
-msgid "_Department:"
-msgstr "_Oddělení:"
-
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:30
-msgid "_Office:"
-msgstr "_Kancelář:"
-
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:31
-msgid "_Manager:"
-msgstr "_Vedoucí:"
-
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:32
-msgid "_Assistant:"
-msgstr "_Asistent:"
-
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:33
-msgid "Job"
-msgstr "Zaměstnání"
-
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:34
-msgid "_Spouse:"
-msgstr "_Partner(ka):"
-
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:35
-msgid "_Birthday:"
-msgstr "Na_rozeniny:"
-
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:36
-msgid "_Anniversary:"
-msgstr "_Výročí:"
-
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:37
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:881
-#: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:47
-#: ../src/calendar/gui/e-calendar-view.c:2045
-msgid "Anniversary"
-msgstr "Výročí"
-
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:38
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:880
-#: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:46
-#: ../src/calendar/gui/e-calendar-view.c:2044
-msgid "Birthday"
-msgstr "Narozeniny"
-
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:39
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:46
-msgid "Miscellaneous"
-msgstr "Různé"
-
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:40
-msgid "Personal Information"
-msgstr "Osobní údaje"
-
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:41
-msgid "_City:"
-msgstr "_Město:"
-
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:42
-msgid "_Zip/Postal Code:"
-msgstr "_PSČ:"
-
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:43
-msgid "_State/Province:"
-msgstr "_Stát/provincie:"
-
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:44
-msgid "_Country:"
-msgstr "_Země:"
-
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:45
-msgid "_PO Box:"
-msgstr "PO _Box:"
-
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:46
-#: ../src/composer/e-composer-from-header.c:122
-msgid "_Address:"
-msgstr "_Adresa:"
-
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:47
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:83
-#: ../src/addressbook/gui/widgets/e-contact-map.c:367
-msgid "Home"
-msgstr "Domů"
-
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:48
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:82
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:848
-#: ../src/addressbook/gui/widgets/e-contact-map.c:380
-msgid "Work"
-msgstr "Pracovní"
-
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:49
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:84
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:513
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:915
-#: ../src/calendar/gui/e-cal-model.c:3823
-msgid "Other"
-msgstr "Další"
-
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:50
-msgid "Mailing Address"
-msgstr "Poštovní adresa"
-
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:51
-#: ../src/mail/filtertypes.xml.in.h:50 ../src/mail/searchtypes.xml.in.h:52
-#: ../src/mail/vfoldertypes.xml.in.h:53
-msgid "Notes"
-msgstr "Poznámky"
-
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:52
-msgid "Add _PGP"
-msgstr "Přidat _PGP"
-
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:53
-msgid "Add _X.509"
-msgstr "Přidat _X.509"
-
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:54
-#: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:10
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1371
-#: ../src/e-util/e-attachment-view.c:355 ../src/e-util/e-filter-rule.c:223
-#: ../src/e-util/e-mail-signature-manager.c:368
-#: ../src/e-util/e-name-selector-dialog.c:996
-#: ../src/e-util/filter.error.xml.h:18 ../src/e-util/filter.ui.h:18
-#: ../src/mail/e-mail-label-manager.c:389 ../src/mail/em-filter-rule.c:438
-#: ../src/mail/em-vfolder-editor-rule.c:631 ../src/mail/mail-config.ui.h:61
-#: ../src/plugins/attachment-reminder/attachment-reminder.c:553
-#: ../src/plugins/email-custom-header/email-custom-header.c:847
-#: ../src/plugins/publish-calendar/publish-calendar.c:789
-#: ../src/plugins/publish-calendar/publish-calendar.ui.h:34
-#: ../src/plugins/templates/templates.c:473
-msgid "_Remove"
-msgstr "_Odstranit"
-
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:55
-msgid "Load P_GP"
-msgstr "Nahrát P_GP"
-
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:56
-msgid "_Load X.509"
-msgstr "_Nahrát X.509"
-
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:57
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3505
-#: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:18
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:719
-#: ../src/calendar/calendar.error.xml.h:47
-#: ../src/calendar/gui/e-comp-editor.c:2105
-#: ../src/composer/e-composer-actions.c:228
-#: ../src/composer/e-composer-actions.c:345
-#: ../src/e-util/e-attachment-store.c:829
-#: ../src/e-util/e-mail-signature-script-dialog.c:370
-#: ../src/e-util/e-web-view.c:4028
-#: ../src/e-util/gal-view-instance-save-as-dialog.c:268
-#: ../src/shell/e-shell-content.c:658 ../src/shell/e-shell-utils.c:135
-#: ../src/smime/gui/certificate-manager.c:666
-#: ../src/smime/gui/certificate-manager.c:743
-msgid "_Save"
-msgstr "_Uložit"
-
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:58
-#: ../src/modules/addressbook/e-book-shell-backend.c:312
-msgid "Certificates"
-msgstr "Certifikáty"
-
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:59
-#: ../src/calendar/gui/e-comp-editor.c:2002
-#: ../src/calendar/gui/e-comp-editor.c:2074
-#: ../src/e-util/e-preferences-window.c:380
-#: ../src/e-util/e-send-options.ui.h:41
-#: ../src/plugins/email-custom-header/org-gnome-email-custom-header.ui.h:2
-#: ../src/shell/e-shell.c:1222 ../src/shell/e-shell-window-actions.c:964
-msgid "_Help"
-msgstr "Nápo_věda"
-
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:60
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:1996
 #: ../src/mail/mail-config.ui.h:37
 msgid "Options"
@@ -3630,19 +3397,19 @@ msgstr "Možnosti"
 
 #. This is only shown if the EActivity has a GCancellable.
 #. no flags
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:61
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:14
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3271
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3504
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4319
 #: ../src/addressbook/gui/contact-editor/e-contact-editor-fullname.c:220
 #: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:453
 #: ../src/addressbook/gui/contact-editor/fullname.ui.h:14
-#: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:17
+#: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:2
 #: ../src/addressbook/gui/widgets/eab-contact-merging.c:472
 #: ../src/addressbook/gui/widgets/eab-contact-merging.c:716
 #: ../src/addressbook/gui/widgets/eab-gui-util.c:316
 #: ../src/addressbook/gui/widgets/e-addressbook-view.c:1363
-#: ../src/calendar/gui/e-cal-dialogs.c:687
+#: ../src/calendar/gui/e-cal-dialogs.c:694
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:301
 #: ../src/composer/e-composer-actions.c:227 ../src/e-util/e-activity-bar.c:357
 #: ../src/e-util/e-attachment-dialog.c:309
@@ -3658,10 +3425,10 @@ msgstr "Možnosti"
 #: ../src/e-util/e-mail-signature-script-dialog.c:366
 #: ../src/e-util/e-passwords.c:468 ../src/e-util/e-rule-context.c:813
 #: ../src/e-util/e-rule-editor.c:178 ../src/e-util/e-rule-editor.c:280
-#: ../src/e-util/e-rule-editor.c:789 ../src/e-util/e-send-options.ui.h:42
+#: ../src/e-util/e-rule-editor.c:789 ../src/e-util/e-send-options.ui.h:16
 #: ../src/e-util/e-source-config-dialog.c:377
 #: ../src/e-util/e-source-selector-dialog.c:370
-#: ../src/e-util/e-table-config.c:548 ../src/e-util/e-table-config.ui.h:1
+#: ../src/e-util/e-table-config.c:548 ../src/e-util/e-table-config.ui.h:3
 #: ../src/e-util/e-timezone-dialog.ui.h:2
 #: ../src/e-util/evolution-source-viewer.c:835 ../src/e-util/e-web-view.c:4027
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:267
@@ -3683,73 +3450,320 @@ msgstr "Možnosti"
 #: ../src/smime/gui/certificate-manager.c:742
 #: ../src/smime/gui/certificate-manager.c:966
 #: ../src/smime/gui/certificate-manager.c:1348
-#: ../src/smime/gui/e-cert-selector.c:235 ../src/smime/gui/smime-ui.ui.h:23
+#: ../src/smime/gui/e-cert-selector.c:235 ../src/smime/gui/smime-ui.ui.h:17
 msgid "_Cancel"
 msgstr "_Zrušit"
 
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:15
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3505
+#: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:3
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:719
+#: ../src/calendar/calendar.error.xml.h:47
+#: ../src/calendar/gui/e-comp-editor.c:2107
+#: ../src/composer/e-composer-actions.c:228
+#: ../src/composer/e-composer-actions.c:345
+#: ../src/e-util/e-attachment-store.c:829
+#: ../src/e-util/e-mail-signature-script-dialog.c:370
+#: ../src/e-util/e-web-view.c:4028
+#: ../src/e-util/gal-view-instance-save-as-dialog.c:268
+#: ../src/shell/e-shell-content.c:658 ../src/shell/e-shell-utils.c:135
+#: ../src/smime/gui/certificate-manager.c:666
+#: ../src/smime/gui/certificate-manager.c:743
+msgid "_Save"
+msgstr "_Uložit"
+
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:16
+#: ../src/calendar/gui/e-comp-editor.c:2004
+#: ../src/calendar/gui/e-comp-editor.c:2076
+#: ../src/e-util/e-preferences-window.c:380
+#: ../src/e-util/e-send-options.ui.h:15
+#: ../src/plugins/email-custom-header/org-gnome-email-custom-header.ui.h:2
+#: ../src/shell/e-shell.c:1222 ../src/shell/e-shell-window-actions.c:964
+msgid "_Help"
+msgstr "Nápo_věda"
+
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:17
+msgid "Image"
+msgstr "Obrázek"
+
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:18
+msgid "Nic_kname:"
+msgstr "_Přezdívka:"
+
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:19
+msgid "_File under:"
+msgstr "_Uložit jako:"
+
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:20
+#: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:5
+msgid "_Where:"
+msgstr "_Kde:"
+
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:21
+msgid "Ca_tegories..."
+msgstr "Ka_tegorie…"
+
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:22
+msgid "Full _Name..."
+msgstr "Celé _jméno…"
+
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:23
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:750
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1169
+#: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:6
+msgid "Email"
+msgstr "E-mail"
+
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:24
+msgid "_Wants to receive HTML mail"
+msgstr "Chce dostávat poštu v _HTML"
+
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:25
+msgid "Telephone"
+msgstr "Telefon"
+
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:26
+msgid "SIP Address"
+msgstr "Adresa SIP"
+
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:27
+msgid "Instant Messaging"
+msgstr "Rychlá komunikace"
+
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:28
+#: ../src/addressbook/importers/evolution-vcard-importer.c:981
+msgid "Contact"
+msgstr "Kontakt"
+
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:29
+msgid "_Home Page:"
+msgstr "_Domovská stránka:"
+
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:30
+#: ../src/calendar/gui/e-comp-editor-event.c:727
+#: ../src/modules/itip-formatter/itip-view.c:2031
+msgid "_Calendar:"
+msgstr "Ka_lendář:"
+
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:31
+msgid "_Free/Busy:"
+msgstr "_Volno/obsazeno:"
+
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:32
+msgid "_Video Chat:"
+msgstr "_Video chat:"
+
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:33
+msgid "Home Page:"
+msgstr "Domovská stránka:"
+
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:34
+#: ../src/modules/cal-config-google/e-cal-config-google.c:95
+msgid "Calendar:"
+msgstr "Kalendář:"
+
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:35
+msgid "Free/Busy:"
+msgstr "Volno/obsazeno:"
+
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:36
+msgid "Video Chat:"
+msgstr "Video chat:"
+
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:37
+msgid "_Blog:"
+msgstr "_Blog:"
+
+#. Translators: an accessibility name
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:39
+msgid "Blog:"
+msgstr "Blog:"
+
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:40
+msgid "Web Addresses"
+msgstr "Webové adresy"
+
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:41
+msgid "_Profession:"
+msgstr "_Povolání:"
+
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:42
+msgctxt "Job"
+msgid "_Title:"
+msgstr "Pozi_ce:"
+
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:43
+msgid "_Company:"
+msgstr "_Společnost:"
+
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:44
+msgid "_Department:"
+msgstr "_Oddělení:"
+
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:45
+msgid "_Office:"
+msgstr "_Kancelář:"
+
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:46
+msgid "_Manager:"
+msgstr "_Vedoucí:"
+
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:47
+msgid "_Assistant:"
+msgstr "_Asistent:"
+
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:48
+msgid "Job"
+msgstr "Zaměstnání"
+
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:49
+msgid "_Spouse:"
+msgstr "_Partner(ka):"
+
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:50
+msgid "_Birthday:"
+msgstr "Na_rozeniny:"
+
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:51
+msgid "_Anniversary:"
+msgstr "_Výročí:"
+
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:52
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:881
+#: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:47
+#: ../src/calendar/gui/e-calendar-view.c:2045
+msgid "Anniversary"
+msgstr "Výročí"
+
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:53
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:880
+#: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:46
+#: ../src/calendar/gui/e-calendar-view.c:2044
+msgid "Birthday"
+msgstr "Narozeniny"
+
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:54
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:46
+msgid "Miscellaneous"
+msgstr "Různé"
+
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:55
+msgid "Personal Information"
+msgstr "Osobní údaje"
+
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:56
+msgid "_City:"
+msgstr "_Město:"
+
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:57
+msgid "_Zip/Postal Code:"
+msgstr "_PSČ:"
+
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:58
+msgid "_State/Province:"
+msgstr "_Stát/provincie:"
+
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:59
+msgid "_Country:"
+msgstr "_Země:"
+
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:60
+msgid "_PO Box:"
+msgstr "PO _Box:"
+
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:61
+#: ../src/composer/e-composer-from-header.c:122
+msgid "_Address:"
+msgstr "_Adresa:"
+
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:62
-msgid "Show Telephone"
-msgstr "Zobrazit telefon"
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:83
+#: ../src/addressbook/gui/widgets/e-contact-map.c:367
+msgid "Home"
+msgstr "Domů"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:63
-msgid "Show SIP Address"
-msgstr "Zobrazit adresu SIP"
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:82
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:848
+#: ../src/addressbook/gui/widgets/e-contact-map.c:380
+msgid "Work"
+msgstr "Pracovní"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:64
-msgid "Show Instant Messaging"
-msgstr "Zobrazit rychlou komunikaci"
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:84
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:513
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:915
+#: ../src/calendar/gui/e-cal-model.c:3823
+msgid "Other"
+msgstr "Další"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:65
-msgid "Show Web Addresses"
-msgstr "Zobrazit webové adresy"
+msgid "Mailing Address"
+msgstr "Poštovní adresa"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:66
-msgid "Show Job section"
-msgstr "Zobrazi oddíl Práce"
+#: ../src/mail/filtertypes.xml.in.h:50 ../src/mail/searchtypes.xml.in.h:52
+#: ../src/mail/vfoldertypes.xml.in.h:53
+msgid "Notes"
+msgstr "Poznámky"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:67
-msgid "Show Miscellaneous"
-msgstr "Zobrazit různé"
+msgid "Add _PGP"
+msgstr "Přidat _PGP"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:68
-msgid "Show Home Mailing Address"
-msgstr "Zobrazit poštovní adresu domů"
+msgid "Add _X.509"
+msgstr "Přidat _X.509"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:69
-msgid "Show Work Mailing Address"
-msgstr "Zobrazit poštovní adresu do práce"
+#: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:11
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1371
+#: ../src/e-util/e-attachment-view.c:355 ../src/e-util/e-filter-rule.c:223
+#: ../src/e-util/e-mail-signature-manager.c:368
+#: ../src/e-util/e-name-selector-dialog.c:996
+#: ../src/e-util/filter.error.xml.h:18 ../src/e-util/filter.ui.h:25
+#: ../src/mail/e-mail-label-manager.c:389 ../src/mail/em-filter-rule.c:438
+#: ../src/mail/em-vfolder-editor-rule.c:631 ../src/mail/mail-config.ui.h:61
+#: ../src/plugins/attachment-reminder/attachment-reminder.c:553
+#: ../src/plugins/email-custom-header/email-custom-header.c:847
+#: ../src/plugins/publish-calendar/publish-calendar.c:789
+#: ../src/plugins/publish-calendar/publish-calendar.ui.h:34
+#: ../src/plugins/templates/templates.c:473
+msgid "_Remove"
+msgstr "_Odstranit"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:70
-msgid "Show Other Mailing Address"
-msgstr "Zobrazit ostatní poštovní adresu"
+msgid "Load P_GP"
+msgstr "Nahrát P_GP"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:71
-msgid "Show Notes"
-msgstr "Zobrazit poznámky"
+msgid "_Load X.509"
+msgstr "_Nahrát X.509"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:72
-msgid "Show Certificates"
-msgstr "Zobrazit certifikáty"
+#: ../src/modules/addressbook/e-book-shell-backend.c:312
+msgid "Certificates"
+msgstr "Certifikáty"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:260
-#: ../src/calendar/gui/e-comp-editor.c:2037
+#: ../src/calendar/gui/e-comp-editor.c:2039
 #: ../src/e-util/e-html-editor-actions.c:904
 msgid "_Undo"
 msgstr "_Zpět"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:262
-#: ../src/calendar/gui/e-comp-editor.c:2039 ../src/e-util/e-focus-tracker.c:120
+#: ../src/calendar/gui/e-comp-editor.c:2041 ../src/e-util/e-focus-tracker.c:120
 msgid "Undo"
 msgstr "Zpět"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:267
-#: ../src/calendar/gui/e-comp-editor.c:2044
+#: ../src/calendar/gui/e-comp-editor.c:2046
 #: ../src/e-util/e-html-editor-actions.c:890
 msgid "_Redo"
 msgstr "Zn_ovu"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:269
-#: ../src/calendar/gui/e-comp-editor.c:2046 ../src/e-util/e-focus-tracker.c:136
+#: ../src/calendar/gui/e-comp-editor.c:2048 ../src/e-util/e-focus-tracker.c:136
 msgid "Redo"
 msgstr "Znovu"
 
@@ -3891,20 +3905,20 @@ msgstr "Neplatný kontakt."
 #: ../src/e-util/e-html-editor-link-dialog.c:255
 #: ../src/e-util/e-passwords.c:469 ../src/e-util/e-rule-context.c:814
 #: ../src/e-util/e-rule-editor.c:179 ../src/e-util/e-rule-editor.c:281
-#: ../src/e-util/e-rule-editor.c:790 ../src/e-util/e-send-options.ui.h:43
+#: ../src/e-util/e-rule-editor.c:790 ../src/e-util/e-send-options.ui.h:17
 #: ../src/e-util/e-source-config-dialog.c:378
 #: ../src/e-util/e-source-selector-dialog.c:371
-#: ../src/e-util/e-table-config.c:549 ../src/e-util/e-table-config.ui.h:3
+#: ../src/e-util/e-table-config.c:549 ../src/e-util/e-table-config.ui.h:4
 #: ../src/e-util/e-timezone-dialog.ui.h:3
 #: ../src/mail/e-mail-config-window.c:332 ../src/mail/e-mail-tag-editor.c:169
 #: ../src/mail/em-folder-selector.c:44 ../src/mail/mail-config.ui.h:3
-#: ../src/mail/mail-dialogs.ui.h:26 ../src/mail/mail-vfolder-ui.c:150
+#: ../src/mail/mail-dialogs.ui.h:24 ../src/mail/mail-vfolder-ui.c:150
 #: ../src/mail/mail-vfolder-ui.c:272
 #: ../src/plugins/email-custom-header/org-gnome-email-custom-header.ui.h:4
 #: ../src/plugins/publish-calendar/url-editor-dialog.c:420
 #: ../src/shell/e-shell-content.c:659 ../src/shell/e-shell-content.c:765
 #: ../src/shell/main.c:180 ../src/smime/gui/certificate-manager.c:1349
-#: ../src/smime/gui/e-cert-selector.c:236 ../src/smime/gui/smime-ui.ui.h:24
+#: ../src/smime/gui/e-cert-selector.c:236 ../src/smime/gui/smime-ui.ui.h:18
 msgid "_OK"
 msgstr "_Budiž"
 
@@ -4003,55 +4017,55 @@ msgstr "_Doplněk:"
 msgid "Contact List Editor"
 msgstr "Editor seznamu kontaktů"
 
-#: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:2
+#: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:4
 msgid "_List name:"
 msgstr "Název _seznamu:"
 
-#: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:4
+#: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:6
 msgid "Members"
 msgstr "Členové"
 
-#: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:5
+#: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:7
 msgid "_Type an email address or drag a contact into the list below:"
 msgstr "_Napište e-mailovou adresu nebo přetáhněte kontakt do seznamu níže:"
 
-#: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:6
+#: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:8
 msgid "_Hide addresses when sending mail to this list"
 msgstr "_Skrýt adresy při posílání e-mailu do tohoto seznamu"
 
-#: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:7
+#: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:10
 msgid "Add an email to the List"
 msgstr "Přidat e-mail do seznamu"
 
-#: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:9
+#: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:12
 msgid "Remove an email address from the List"
 msgstr "Odstranit emailovou adresu ze seznamu"
 
-#: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:11
-msgid "Insert email addresses from Address Book"
-msgstr "Vložit e-mailové adresy z adresáře"
-
-#: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:12
+#: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:13
 msgid "_Select..."
 msgstr "_Vybrat…"
 
-#: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:13
-#: ../src/e-util/filter.ui.h:19
+#: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:14
+msgid "Insert email addresses from Address Book"
+msgstr "Vložit e-mailové adresy z adresáře"
+
+#: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:15
+#: ../src/e-util/filter.ui.h:26
 msgid "_Top"
 msgstr "Na_horu"
 
-#: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:14
-#: ../src/e-util/e-source-selector.c:3469 ../src/e-util/filter.ui.h:20
+#: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:16
+#: ../src/e-util/e-source-selector.c:3469 ../src/e-util/filter.ui.h:27
 msgid "_Up"
 msgstr "_Výš"
 
-#: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:15
-#: ../src/e-util/e-source-selector.c:3470 ../src/e-util/filter.ui.h:21
+#: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:17
+#: ../src/e-util/e-source-selector.c:3470 ../src/e-util/filter.ui.h:28
 msgid "_Down"
 msgstr "_Níž"
 
-#: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:16
-#: ../src/e-util/filter.ui.h:22
+#: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:18
+#: ../src/e-util/filter.ui.h:29
 msgid "_Bottom"
 msgstr "_Dolů"
 
@@ -4102,26 +4116,26 @@ msgstr "Jakékoliv políčko obsahuje"
 msgid "evolution address book"
 msgstr "adresář evolution"
 
-#: ../src/addressbook/gui/widgets/eab-contact-display.c:147
+#: ../src/addressbook/gui/widgets/eab-contact-display.c:149
 msgid "Copy _Email Address"
 msgstr "Kopírovat _e-mailovou adresu"
 
-#: ../src/addressbook/gui/widgets/eab-contact-display.c:149
+#: ../src/addressbook/gui/widgets/eab-contact-display.c:151
 #: ../src/e-util/e-web-view.c:368
 msgid "Copy the email address to the clipboard"
 msgstr "Automaticky kopírovat e-mailovou adresu do schránky"
 
-#: ../src/addressbook/gui/widgets/eab-contact-display.c:154
+#: ../src/addressbook/gui/widgets/eab-contact-display.c:156
 #: ../src/e-util/e-web-view.c:380
 msgid "_Send New Message To..."
 msgstr "_Odeslat novou zprávu…"
 
-#: ../src/addressbook/gui/widgets/eab-contact-display.c:156
+#: ../src/addressbook/gui/widgets/eab-contact-display.c:158
 #: ../src/e-util/e-web-view.c:382
 msgid "Send a mail message to this address"
 msgstr "Odeslat e-mailovou zprávu na tuto adresu?"
 
-#: ../src/addressbook/gui/widgets/eab-contact-display.c:288
+#: ../src/addressbook/gui/widgets/eab-contact-display.c:290
 #: ../src/e-util/e-web-view.c:1289
 #, c-format
 msgid "Click to mail %s"
@@ -4280,7 +4294,7 @@ msgid "Blog"
 msgstr "Blog"
 
 #: ../src/addressbook/gui/widgets/eab-contact-merging.c:259
-#: ../src/calendar/gui/e-cal-component-preview.c:306
+#: ../src/calendar/gui/e-cal-component-preview.c:308
 #: ../src/calendar/gui/e-cal-model-tasks.c:314
 #: ../src/calendar/gui/e-cal-model-tasks.c:556
 #: ../src/calendar/gui/e-task-table.c:211
@@ -4522,7 +4536,7 @@ msgid "Are you sure you want to delete this contact (%s)?"
 msgstr "Opravdu chcete smazat tento kontakt (%s)?"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.c:1364
-#: ../src/calendar/gui/e-comp-editor.c:1995 ../src/e-util/e-focus-tracker.c:783
+#: ../src/calendar/gui/e-comp-editor.c:1997 ../src/e-util/e-focus-tracker.c:783
 #: ../src/e-util/evolution-source-viewer.c:806
 #: ../src/mail/e-mail-account-manager.c:737
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1087
@@ -4531,8 +4545,7 @@ msgstr "Opravdu chcete smazat tento kontakt (%s)?"
 #: ../src/modules/calendar/e-task-shell-view-actions.c:830
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1699
 #: ../src/shell/e-shell-window-actions.c:822
-#: ../src/smime/gui/certificate-manager.c:1672
-#: ../src/smime/gui/smime-ui.ui.h:10
+#: ../src/smime/gui/certificate-manager.c:1672 ../src/smime/gui/smime-ui.ui.h:8
 msgid "_Delete"
 msgstr "_Smazat"
 
@@ -5028,16 +5041,16 @@ msgstr "Od_ložit"
 #: ../src/calendar/alarm-notify/alarm-notify.ui.h:4
 #: ../src/calendar/gui/e-comp-editor-page-general.c:1363
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2239
-#: ../src/calendar/gui/e-comp-editor.c:2060
+#: ../src/calendar/gui/e-comp-editor.c:2062
 #: ../src/e-util/e-html-editor-actions.c:913
-#: ../src/e-util/e-mail-signature-manager.c:358 ../src/e-util/filter.ui.h:17
+#: ../src/e-util/e-mail-signature-manager.c:358 ../src/e-util/filter.ui.h:24
 #: ../src/mail/e-mail-account-manager.c:728 ../src/mail/e-mail-browser.c:171
 #: ../src/mail/e-mail-label-manager.c:380 ../src/mail/mail-config.ui.h:65
 #: ../src/plugins/attachment-reminder/attachment-reminder.c:548
 #: ../src/plugins/email-custom-header/email-custom-header.c:842
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:33
 #: ../src/plugins/templates/templates.c:468
-#: ../src/shell/e-shell-window-actions.c:950 ../src/smime/gui/smime-ui.ui.h:13
+#: ../src/shell/e-shell-window-actions.c:950 ../src/smime/gui/smime-ui.ui.h:11
 msgid "_Edit"
 msgstr "_Upravit"
 
@@ -5083,7 +5096,7 @@ msgstr "hodiny"
 
 #: ../src/calendar/alarm-notify/alarm-notify.ui.h:12
 #: ../src/e-util/e-interval-chooser.c:140 ../src/e-util/filter.ui.h:6
-#: ../src/mail/e-mail-config-provider-page.c:550
+#: ../src/mail/e-mail-config-provider-page.c:571
 msgid "minutes"
 msgstr "minut"
 
@@ -5120,7 +5133,7 @@ msgid "Warning"
 msgstr "Varování"
 
 #: ../src/calendar/alarm-notify/alarm-queue.c:2054
-#: ../src/mail/mail-dialogs.ui.h:21
+#: ../src/mail/mail-dialogs.ui.h:20
 #: ../src/modules/mailto-handler/evolution-mailto-handler.c:112
 msgid "_No"
 msgstr "_Ne"
@@ -5218,7 +5231,7 @@ msgid "_Send Notice"
 msgstr "Po_slat oznámení"
 
 #: ../src/calendar/calendar.error.xml.h:5
-#: ../src/calendar/gui/e-cal-dialogs.c:500
+#: ../src/calendar/gui/e-cal-dialogs.c:507
 #, c-format
 msgid "Are you sure you want to delete this meeting?"
 msgstr "Opravdu chcete smazat tuto schůzku?"
@@ -5238,7 +5251,7 @@ msgstr ""
 "že úkol byl smazán."
 
 #: ../src/calendar/calendar.error.xml.h:9
-#: ../src/calendar/gui/e-cal-dialogs.c:503
+#: ../src/calendar/gui/e-cal-dialogs.c:510
 #, c-format
 msgid "Are you sure you want to delete this task?"
 msgstr "Opravdu chcete smazat tento úkol?"
@@ -5261,7 +5274,7 @@ msgstr ""
 "že poznámka byla smazána."
 
 #: ../src/calendar/calendar.error.xml.h:13
-#: ../src/calendar/gui/e-cal-dialogs.c:506
+#: ../src/calendar/gui/e-cal-dialogs.c:513
 #, c-format
 msgid "Are you sure you want to delete this memo?"
 msgstr "Opravdu chcete smazat tuto poznámku?"
@@ -5824,6 +5837,49 @@ msgstr "Selhala aktualizace seznamu poznámek „{0}“"
 msgid "Failed to make an occurrence movable"
 msgstr "Selhalo učinění výskytu přesouvatelným"
 
+#: ../src/calendar/calendar.error.xml.h:173
+msgid "Something has gone wrong when displaying the event"
+msgstr "Při zobrazení události se něco nepovedlo správně"
+
+#: ../src/calendar/calendar.error.xml.h:174
+msgid ""
+"A WebKitWebProcess crashed when displaying the event. You can try again by "
+"moving to another event and back. If the issue persists, please file a bug "
+"report in the GNOME bugzilla."
+msgstr ""
+"Při zobrazení události se zhroutil WebKitWebProces. Můžete to zkusit znovu "
+"tím, že se přesunete na jinou událost a pak vrátíte zpět. Pokud problém bude "
+"přetrvávat, nahlaste to prosím jako chybu do systému bugzilla projektu GNOME."
+
+#: ../src/calendar/calendar.error.xml.h:175
+msgid "Something has gone wrong when displaying the memo"
+msgstr "Při zobrazení poznámky se něco nepovedlo správně"
+
+#: ../src/calendar/calendar.error.xml.h:176
+msgid ""
+"A WebKitWebProcess crashed when displaying the memo. You can try again by "
+"moving to another memo and back. If the issue persists, please file a bug "
+"report in the GNOME bugzilla."
+msgstr ""
+"Při zobrazení poznámky se zhroutil WebKitWebProces. Můžete to zkusit znovu "
+"tím, že se přesunete na jinou poznámku a pak vrátíte zpět. Pokud problém "
+"bude přetrvávat, nahlaste to prosím jako chybu do systému bugzilla projektu "
+"GNOME."
+
+#: ../src/calendar/calendar.error.xml.h:177
+msgid "Something has gone wrong when displaying the task"
+msgstr "Při zobrazení úkolu se něco nepovedlo správně"
+
+#: ../src/calendar/calendar.error.xml.h:178
+msgid ""
+"A WebKitWebProcess crashed when displaying the task. You can try again by "
+"moving to another task and back. If the issue persists, please file a bug "
+"report in the GNOME bugzilla."
+msgstr ""
+"Při zobrazení úkolu se zhroutil WebKitWebProces. Můžete to zkusit znovu tím, "
+"že se přesunete na jiný úkol a pak vrátíte zpět. Pokud problém bude "
+"přetrvávat, nahlaste to prosím jako chybu do systému bugzilla projektu GNOME."
+
 #: ../src/calendar/gui/caltypes.xml.in.h:1
 #: ../src/calendar/gui/e-cal-list-view.etspec.h:3
 #: ../src/calendar/gui/e-memo-table.etspec.h:2
@@ -5853,7 +5909,7 @@ msgstr "neobsahuje"
 #: ../src/calendar/gui/memotypes.xml.in.h:4
 #: ../src/calendar/gui/tasktypes.xml.in.h:4
 #: ../src/e-util/e-attachment-tree-view.c:147
-#: ../src/e-util/e-table-config.ui.h:7
+#: ../src/e-util/e-table-config.ui.h:20
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:66
 msgid "Description"
 msgstr "Popis"
@@ -6220,38 +6276,38 @@ msgstr "zobrazení kalendáře na měsíc"
 msgid "calendar view for one or more weeks"
 msgstr "zobrazení kalendáře na jeden nebo více týdnů"
 
-#: ../src/calendar/gui/e-cal-component-preview.c:212
+#: ../src/calendar/gui/e-cal-component-preview.c:214
 #: ../src/e-util/e-filter-rule.c:770 ../src/mail/e-mail-config-page.c:127
 msgid "Untitled"
 msgstr "Bez názvu"
 
-#: ../src/calendar/gui/e-cal-component-preview.c:220
+#: ../src/calendar/gui/e-cal-component-preview.c:222
 msgid "Categories:"
 msgstr "Kategorie:"
 
-#: ../src/calendar/gui/e-cal-component-preview.c:254
+#: ../src/calendar/gui/e-cal-component-preview.c:256
 msgid "Summary:"
 msgstr "Shrnutí"
 
-#: ../src/calendar/gui/e-cal-component-preview.c:262
+#: ../src/calendar/gui/e-cal-component-preview.c:264
 msgid "Start Date:"
 msgstr "Datum začátku:"
 
-#: ../src/calendar/gui/e-cal-component-preview.c:273
+#: ../src/calendar/gui/e-cal-component-preview.c:275
 msgid "End Date:"
 msgstr "Datum konce:"
 
-#: ../src/calendar/gui/e-cal-component-preview.c:284
+#: ../src/calendar/gui/e-cal-component-preview.c:286
 msgid "Due Date:"
 msgstr "Termín dokončení:"
 
-#: ../src/calendar/gui/e-cal-component-preview.c:296
+#: ../src/calendar/gui/e-cal-component-preview.c:298
 #: ../src/modules/itip-formatter/itip-view.c:1667
 #: ../src/modules/itip-formatter/itip-view.c:1784
 msgid "Status:"
 msgstr "Stav:"
 
-#: ../src/calendar/gui/e-cal-component-preview.c:300
+#: ../src/calendar/gui/e-cal-component-preview.c:302
 #: ../src/calendar/gui/e-cal-model-tasks.c:310
 #: ../src/calendar/gui/e-cal-model-tasks.c:552
 #: ../src/calendar/gui/e-cal-model-tasks.c:633
@@ -6261,7 +6317,7 @@ msgstr "Stav:"
 msgid "In Progress"
 msgstr "Probíhá"
 
-#: ../src/calendar/gui/e-cal-component-preview.c:303
+#: ../src/calendar/gui/e-cal-component-preview.c:305
 #: ../src/calendar/gui/e-cal-model-tasks.c:312
 #: ../src/calendar/gui/e-cal-model-tasks.c:554
 #: ../src/calendar/gui/e-meeting-store.c:202
@@ -6274,7 +6330,7 @@ msgstr "Probíhá"
 msgid "Completed"
 msgstr "Dokončeno"
 
-#: ../src/calendar/gui/e-cal-component-preview.c:310
+#: ../src/calendar/gui/e-cal-component-preview.c:312
 #: ../src/calendar/gui/e-cal-model-tasks.c:308
 #: ../src/calendar/gui/e-cal-model-tasks.c:550
 #: ../src/calendar/gui/e-task-table.c:205
@@ -6284,18 +6340,18 @@ msgstr "Dokončeno"
 msgid "Not Started"
 msgstr "Nezačato"
 
-#: ../src/calendar/gui/e-cal-component-preview.c:323
+#: ../src/calendar/gui/e-cal-component-preview.c:325
 msgid "Priority:"
 msgstr "Naléhavost:"
 
-#: ../src/calendar/gui/e-cal-component-preview.c:325
+#: ../src/calendar/gui/e-cal-component-preview.c:327
 #: ../src/calendar/gui/e-task-table.c:550
 #: ../src/calendar/gui/tasktypes.xml.in.h:19
 #: ../src/e-util/e-send-options.ui.h:2 ../src/mail/message-list.c:320
 msgid "High"
 msgstr "Vysoká"
 
-#: ../src/calendar/gui/e-cal-component-preview.c:327
+#: ../src/calendar/gui/e-cal-component-preview.c:329
 #: ../src/calendar/gui/e-cal-model.c:1888
 #: ../src/calendar/gui/e-task-table.c:551
 #: ../src/calendar/gui/tasktypes.xml.in.h:20
@@ -6303,19 +6359,19 @@ msgstr "Vysoká"
 msgid "Normal"
 msgstr "Normální"
 
-#: ../src/calendar/gui/e-cal-component-preview.c:329
+#: ../src/calendar/gui/e-cal-component-preview.c:331
 #: ../src/calendar/gui/e-task-table.c:552
 #: ../src/calendar/gui/tasktypes.xml.in.h:21
 #: ../src/e-util/e-send-options.ui.h:4 ../src/mail/message-list.c:318
 msgid "Low"
 msgstr "Nízká"
 
-#: ../src/calendar/gui/e-cal-component-preview.c:348
+#: ../src/calendar/gui/e-cal-component-preview.c:350
 #: ../src/mail/e-mail-config-service-page.c:671
 msgid "Description:"
 msgstr "Popis:"
 
-#: ../src/calendar/gui/e-cal-component-preview.c:379
+#: ../src/calendar/gui/e-cal-component-preview.c:381
 msgid "Web Page:"
 msgstr "WWW stránka:"
 
@@ -6334,134 +6390,134 @@ msgstr "Vytváří se zobrazení pro seznamu úkolů „%s“"
 msgid "Creating view for memo list “%s”"
 msgstr "Vytváří se zobrazení pro seznam poznámek „%s“"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:212 ../src/calendar/gui/e-cal-ops.c:1955
+#: ../src/calendar/gui/e-cal-dialogs.c:219 ../src/calendar/gui/e-cal-ops.c:1955
 msgid "Destination is read only"
 msgstr "Cíl je jen pro čtení"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:292
+#: ../src/calendar/gui/e-cal-dialogs.c:299
 #, c-format
 msgid "Copying events to the calendar “%s”"
 msgstr "Kopírují se události do kalendáře „%s“"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:298
+#: ../src/calendar/gui/e-cal-dialogs.c:305
 #, c-format
 msgid "Copying memos to the memo list “%s”"
 msgstr "Kopírují se poznámky do seznamu poznámek „%s“"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:304
+#: ../src/calendar/gui/e-cal-dialogs.c:311
 #, c-format
 msgid "Copying tasks to the task list “%s”"
 msgstr "Kopírují se úkoly do seznamu úkolů „%s“"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:523
+#: ../src/calendar/gui/e-cal-dialogs.c:530
 msgid "_Delete this item from all other recipient’s mailboxes?"
 msgstr ""
 "S_mazat tuto položku ve všech ostatních poštovních schránkách příjemce?"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:526
+#: ../src/calendar/gui/e-cal-dialogs.c:533
 msgid "_Retract comment"
 msgstr "Z_rušit poznámku"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:685
+#: ../src/calendar/gui/e-cal-dialogs.c:692
 msgid "Select Date"
 msgstr "Vybrat datum"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:686
+#: ../src/calendar/gui/e-cal-dialogs.c:693
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1248
 msgid "Select _Today"
 msgstr "Vybrat _dnešní den"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:705
+#: ../src/calendar/gui/e-cal-dialogs.c:712
 msgid "January"
 msgstr "Leden"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:706
+#: ../src/calendar/gui/e-cal-dialogs.c:713
 msgid "February"
 msgstr "Únor"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:707
+#: ../src/calendar/gui/e-cal-dialogs.c:714
 msgid "March"
 msgstr "březen"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:708
+#: ../src/calendar/gui/e-cal-dialogs.c:715
 msgid "April"
 msgstr "Duben"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:709
+#: ../src/calendar/gui/e-cal-dialogs.c:716
 msgid "May"
 msgstr "květen"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:710
+#: ../src/calendar/gui/e-cal-dialogs.c:717
 msgid "June"
 msgstr "červen"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:711
+#: ../src/calendar/gui/e-cal-dialogs.c:718
 msgid "July"
 msgstr "Červen"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:712
+#: ../src/calendar/gui/e-cal-dialogs.c:719
 msgid "August"
 msgstr "Srpen"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:713
+#: ../src/calendar/gui/e-cal-dialogs.c:720
 msgid "September"
 msgstr "září"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:714
+#: ../src/calendar/gui/e-cal-dialogs.c:721
 msgid "October"
 msgstr "říjen"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:715
+#: ../src/calendar/gui/e-cal-dialogs.c:722
 msgid "November"
 msgstr "listopad"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:716
+#: ../src/calendar/gui/e-cal-dialogs.c:723
 msgid "December"
 msgstr "prosinec"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:866
+#: ../src/calendar/gui/e-cal-dialogs.c:873
 #, c-format
 msgid "You are modifying a recurring event. What would you like to modify?"
 msgstr "Měníte opakující se událost. Co chcete změnit?"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:868
+#: ../src/calendar/gui/e-cal-dialogs.c:875
 #, c-format
 msgid "You are delegating a recurring event. What would you like to delegate?"
 msgstr "Delegujete opakující se událost. Co chcete delegovat?"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:872
+#: ../src/calendar/gui/e-cal-dialogs.c:879
 #, c-format
 msgid "You are modifying a recurring task. What would you like to modify?"
 msgstr "Měníte opakující se úkol. Co chcete změnit?"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:876
+#: ../src/calendar/gui/e-cal-dialogs.c:883
 #, c-format
 msgid "You are modifying a recurring memo. What would you like to modify?"
 msgstr "Měníte opakující se poznámku. Co chcete změnit?"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:902
+#: ../src/calendar/gui/e-cal-dialogs.c:909
 msgid "This Instance Only"
 msgstr "Jen tuto instanci"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:906
+#: ../src/calendar/gui/e-cal-dialogs.c:913
 msgid "This and Prior Instances"
 msgstr "Tuto a předchozí instance"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:912
+#: ../src/calendar/gui/e-cal-dialogs.c:919
 msgid "This and Future Instances"
 msgstr "Tuto a budoucí instance"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:917
+#: ../src/calendar/gui/e-cal-dialogs.c:924
 msgid "All Instances"
 msgstr "Všechny instance"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:1167
-#: ../src/calendar/gui/e-cal-dialogs.c:1249
+#: ../src/calendar/gui/e-cal-dialogs.c:1174
+#: ../src/calendar/gui/e-cal-dialogs.c:1256
 msgid "Send my reminders with this event"
 msgstr "Poslat s touto událostí má připomenutí"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:1169
-#: ../src/calendar/gui/e-cal-dialogs.c:1251
+#: ../src/calendar/gui/e-cal-dialogs.c:1176
+#: ../src/calendar/gui/e-cal-dialogs.c:1258
 msgid "Notify new attendees _only"
 msgstr "Upozornit p_ouze nové účastníky"
 
@@ -6976,7 +7032,7 @@ msgstr "Čas začátku není platný čas"
 #: ../src/calendar/gui/e-comp-editor-event.c:442
 #: ../src/calendar/gui/e-comp-editor-event.c:458
 #: ../src/calendar/gui/e-comp-editor-page-attachments.c:199
-#: ../src/calendar/gui/e-comp-editor.c:338 ../src/mail/e-mail-display.c:2022
+#: ../src/calendar/gui/e-comp-editor.c:338 ../src/mail/e-mail-display.c:2116
 #: ../src/mail/e-mail-reader-utils.c:646 ../src/mail/mail-send-recv.c:490
 #: ../src/mail/mail-send-recv.c:1288 ../src/plugins/face/face.c:174
 #: ../src/shell/e-shell.c:990 ../src/shell/e-shell.c:1012
@@ -7149,7 +7205,7 @@ msgstr "Poznámka – %s"
 
 #: ../src/calendar/gui/e-comp-editor-page-attachments.c:123
 #: ../src/calendar/gui/e-comp-editor-page-attachments.c:128
-#: ../src/em-format/e-mail-formatter-attachment.c:335
+#: ../src/em-format/e-mail-formatter-attachment.c:333
 #: ../src/e-util/e-attachment-bar.c:101 ../src/e-util/e-attachment-bar.c:106
 #: ../src/e-util/e-attachment-paned.c:185
 #: ../src/e-util/e-attachment-paned.c:190 ../src/mail/message-list.etspec.h:4
@@ -7937,7 +7993,7 @@ msgid "No Summary"
 msgstr "Žádné shrnutí"
 
 #. == Button box ==
-#: ../src/calendar/gui/e-comp-editor.c:1974
+#: ../src/calendar/gui/e-comp-editor.c:1976
 #: ../src/composer/e-composer-actions.c:324
 #: ../src/e-util/e-html-editor-dialog.c:194
 #: ../src/e-util/e-mail-signature-editor.c:309
@@ -7954,19 +8010,19 @@ msgstr "Žádné shrnutí"
 msgid "_Close"
 msgstr "_Zavřít"
 
-#: ../src/calendar/gui/e-comp-editor.c:1976
+#: ../src/calendar/gui/e-comp-editor.c:1978
 msgid "Close the current window"
 msgstr "Zavřít aktuální okno"
 
 #. copy menu item
-#: ../src/calendar/gui/e-comp-editor.c:1981 ../src/e-util/e-focus-tracker.c:773
+#: ../src/calendar/gui/e-comp-editor.c:1983 ../src/e-util/e-focus-tracker.c:773
 #: ../src/e-util/e-html-editor-actions.c:869 ../src/e-util/e-text.c:2110
 #: ../src/e-util/e-web-view.c:407 ../src/mail/e-mail-browser.c:134
 #: ../src/mail/mail.error.xml.h:146 ../src/shell/e-shell-window-actions.c:808
 msgid "_Copy"
 msgstr "_Kopírovat"
 
-#: ../src/calendar/gui/e-comp-editor.c:1983 ../src/e-util/e-focus-tracker.c:173
+#: ../src/calendar/gui/e-comp-editor.c:1985 ../src/e-util/e-focus-tracker.c:173
 #: ../src/e-util/e-focus-tracker.c:229 ../src/e-util/e-focus-tracker.c:282
 #: ../src/e-util/e-focus-tracker.c:774 ../src/e-util/e-web-view.c:409
 #: ../src/e-util/e-web-view.c:1906 ../src/mail/e-mail-browser.c:136
@@ -7975,51 +8031,51 @@ msgid "Copy the selection"
 msgstr "Kopírovat výběr"
 
 #. cut menu item
-#: ../src/calendar/gui/e-comp-editor.c:1988 ../src/e-util/e-focus-tracker.c:768
+#: ../src/calendar/gui/e-comp-editor.c:1990 ../src/e-util/e-focus-tracker.c:768
 #: ../src/e-util/e-html-editor-actions.c:876 ../src/e-util/e-text.c:2096
 #: ../src/mail/e-mail-browser.c:141 ../src/shell/e-shell-window-actions.c:815
 msgid "Cu_t"
 msgstr "_Vyjmout"
 
-#: ../src/calendar/gui/e-comp-editor.c:1990 ../src/e-util/e-focus-tracker.c:166
+#: ../src/calendar/gui/e-comp-editor.c:1992 ../src/e-util/e-focus-tracker.c:166
 #: ../src/e-util/e-focus-tracker.c:222 ../src/e-util/e-focus-tracker.c:276
 #: ../src/e-util/e-focus-tracker.c:769 ../src/e-util/e-web-view.c:1915
 #: ../src/mail/e-mail-browser.c:143 ../src/shell/e-shell-window-actions.c:817
 msgid "Cut the selection"
 msgstr "Vyjmout výběr"
 
-#: ../src/calendar/gui/e-comp-editor.c:1997 ../src/e-util/e-focus-tracker.c:187
+#: ../src/calendar/gui/e-comp-editor.c:1999 ../src/e-util/e-focus-tracker.c:187
 #: ../src/e-util/e-focus-tracker.c:243 ../src/e-util/e-focus-tracker.c:784
 #: ../src/shell/e-shell-window-actions.c:824
 msgid "Delete the selection"
 msgstr "Smazat výběr"
 
-#: ../src/calendar/gui/e-comp-editor.c:2004
+#: ../src/calendar/gui/e-comp-editor.c:2006
 msgid "View help"
 msgstr "Zobrazit nápovědu"
 
 #. paste menu item
-#: ../src/calendar/gui/e-comp-editor.c:2009 ../src/e-util/e-focus-tracker.c:778
+#: ../src/calendar/gui/e-comp-editor.c:2011 ../src/e-util/e-focus-tracker.c:778
 #: ../src/e-util/e-html-editor-actions.c:883 ../src/e-util/e-text.c:2122
 #: ../src/mail/e-mail-browser.c:148 ../src/shell/e-shell-window-actions.c:843
 msgid "_Paste"
 msgstr "V_ložit"
 
-#: ../src/calendar/gui/e-comp-editor.c:2011 ../src/e-util/e-focus-tracker.c:180
+#: ../src/calendar/gui/e-comp-editor.c:2013 ../src/e-util/e-focus-tracker.c:180
 #: ../src/e-util/e-focus-tracker.c:236 ../src/e-util/e-focus-tracker.c:288
 #: ../src/e-util/e-focus-tracker.c:779 ../src/e-util/e-web-view.c:1924
 #: ../src/mail/e-mail-browser.c:150 ../src/shell/e-shell-window-actions.c:845
 msgid "Paste the clipboard"
 msgstr "Vložit schránku"
 
-#: ../src/calendar/gui/e-comp-editor.c:2016
+#: ../src/calendar/gui/e-comp-editor.c:2018
 #: ../src/composer/e-composer-actions.c:378 ../src/mail/e-mail-reader.c:2323
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1229
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1243
 msgid "_Print..."
 msgstr "_Tisk…"
 
-#: ../src/calendar/gui/e-comp-editor.c:2023 ../src/mail/e-mail-reader.c:2330
+#: ../src/calendar/gui/e-comp-editor.c:2025 ../src/mail/e-mail-reader.c:2330
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1236
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1693
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:813
@@ -8027,56 +8083,56 @@ msgstr "_Tisk…"
 msgid "Pre_view..."
 msgstr "Náh_led…"
 
-#: ../src/calendar/gui/e-comp-editor.c:2030 ../src/e-util/e-focus-tracker.c:788
+#: ../src/calendar/gui/e-comp-editor.c:2032 ../src/e-util/e-focus-tracker.c:788
 #: ../src/e-util/e-html-editor-actions.c:897 ../src/e-util/e-web-view.c:417
 #: ../src/mail/e-mail-browser.c:155 ../src/shell/e-shell-window-actions.c:920
 msgid "Select _All"
 msgstr "Vybr_at vše"
 
-#: ../src/calendar/gui/e-comp-editor.c:2032 ../src/e-util/e-focus-tracker.c:194
+#: ../src/calendar/gui/e-comp-editor.c:2034 ../src/e-util/e-focus-tracker.c:194
 #: ../src/e-util/e-focus-tracker.c:250 ../src/e-util/e-focus-tracker.c:789
 #: ../src/mail/e-mail-browser.c:157 ../src/shell/e-shell-window-actions.c:922
 msgid "Select all text"
 msgstr "Vybrat všechen text"
 
-#: ../src/calendar/gui/e-comp-editor.c:2053
+#: ../src/calendar/gui/e-comp-editor.c:2055
 msgid "_Classification"
 msgstr "Klasi_fikace"
 
-#: ../src/calendar/gui/e-comp-editor.c:2067
+#: ../src/calendar/gui/e-comp-editor.c:2069
 #: ../src/e-util/e-html-editor-actions.c:920
 #: ../src/e-util/e-mail-signature-editor.c:323 ../src/mail/e-mail-browser.c:164
 #: ../src/mail/e-mail-notes.c:945 ../src/shell/e-shell-window-actions.c:957
 msgid "_File"
 msgstr "_Soubor"
 
-#: ../src/calendar/gui/e-comp-editor.c:2081
+#: ../src/calendar/gui/e-comp-editor.c:2083
 #: ../src/e-util/e-html-editor-actions.c:941
 msgid "_Insert"
 msgstr "_Vložit"
 
-#: ../src/calendar/gui/e-comp-editor.c:2088
+#: ../src/calendar/gui/e-comp-editor.c:2090
 #: ../src/composer/e-composer-actions.c:368
 msgid "_Options"
 msgstr "V_olby"
 
-#: ../src/calendar/gui/e-comp-editor.c:2095
+#: ../src/calendar/gui/e-comp-editor.c:2097
 #: ../src/e-util/e-html-editor-actions.c:962 ../src/mail/e-mail-browser.c:178
 #: ../src/shell/e-shell-window-actions.c:1000
-#: ../src/smime/gui/certificate-manager.c:1662 ../src/smime/gui/smime-ui.ui.h:5
+#: ../src/smime/gui/certificate-manager.c:1662 ../src/smime/gui/smime-ui.ui.h:3
 msgid "_View"
 msgstr "_Zobrazit"
 
-#: ../src/calendar/gui/e-comp-editor.c:2107
+#: ../src/calendar/gui/e-comp-editor.c:2109
 msgid "Save current changes"
 msgstr "Uložit aktuální změny"
 
-#: ../src/calendar/gui/e-comp-editor.c:2112
+#: ../src/calendar/gui/e-comp-editor.c:2114
 #: ../src/e-util/e-mail-signature-editor.c:318 ../src/mail/e-mail-notes.c:940
 msgid "Save and Close"
 msgstr "Uložit a zavřít"
 
-#: ../src/calendar/gui/e-comp-editor.c:2114
+#: ../src/calendar/gui/e-comp-editor.c:2116
 msgid "Save current changes and close editor"
 msgstr "Uložit aktuální změny a zavřít"
 
@@ -8173,7 +8229,7 @@ msgstr "Jednotlivec"
 #: ../src/calendar/gui/e-meeting-list-view.c:180
 #: ../src/calendar/gui/e-meeting-store.c:109
 #: ../src/calendar/gui/e-meeting-store.c:126 ../src/calendar/gui/print.c:1244
-#: ../src/e-util/e-table-config.ui.h:8
+#: ../src/e-util/e-table-config.ui.h:1
 msgid "Group"
 msgstr "Skupina"
 
@@ -11071,7 +11127,77 @@ msgstr "Přijít o _formátování"
 msgid "An error occurred while saving to your Templates folder."
 msgstr "Během ukládání do složky Koncepty se vyskytla chyba."
 
-#: ../src/em-format/e-mail-formatter-attachment.c:336
+#: ../src/composer/mail-composer.error.xml.h:42
+msgid "Are you sure you want to convert the message into a meeting?"
+msgstr "Opravdu chcete převést zprávu na schůzku?"
+
+#: ../src/composer/mail-composer.error.xml.h:43
+msgid ""
+"By converting the message into the meeting the composed message will be "
+"closed and the changes being done discarded."
+msgstr ""
+"Převedením zprávy na schůzku se rozepsaná zpráva zavře a provedené změny "
+"budou zahozeny."
+
+#: ../src/composer/mail-composer.error.xml.h:44
+msgid "Convert to _Meeting"
+msgstr "Převést na _schůzku"
+
+#: ../src/composer/mail-composer.error.xml.h:45
+msgid "Are you sure you want to convert the event into a message?"
+msgstr "Opravdu chcete převést událost na zprávu?"
+
+#: ../src/composer/mail-composer.error.xml.h:46
+msgid ""
+"By converting the event into the message the editing window will be closed "
+"and the changes being done discarded."
+msgstr ""
+"Převedením události na zprávu se zavře editační okno a provedené změny budou "
+"zahozeny."
+
+#: ../src/composer/mail-composer.error.xml.h:47
+msgid "Convert to _Message"
+msgstr "Převést na _zprávu"
+
+#: ../src/composer/mail-composer.error.xml.h:48
+msgid "Are you sure you want to convert the memo into a message?"
+msgstr "Opravdu chcete převést poznámku na zprávu?"
+
+#: ../src/composer/mail-composer.error.xml.h:49
+msgid ""
+"By converting the memo into the message the editing window will be closed "
+"and the changes being done discarded."
+msgstr ""
+"Převedením poznámky na zprávu se zavře editační okno a provedené změny budou "
+"zahozeny."
+
+#: ../src/composer/mail-composer.error.xml.h:50
+msgid "Are you sure you want to convert the task into a message?"
+msgstr "Opravdu chcete převést úkol na zprávu?"
+
+#: ../src/composer/mail-composer.error.xml.h:51
+msgid ""
+"By converting the task into the message the editing window will be closed "
+"and the changes being done discarded."
+msgstr ""
+"Převedením úkolu na zprávu se zavře editační okno a provedené změny budou "
+"zahozeny."
+
+#: ../src/composer/mail-composer.error.xml.h:52
+msgid "Something has gone wrong when editing the message"
+msgstr "Při úpravách zprávy se něco nepovedlo správně"
+
+#: ../src/composer/mail-composer.error.xml.h:53
+msgid ""
+"A WebKitWebProcess crashed when editing the message. You can try again by "
+"closing the composer window and opening a new one. If the issue persists, "
+"please file a bug report in the GNOME bugzilla."
+msgstr ""
+"Při úpravách zprávy se zhroutil WebKitWebProces. Můžete to zkusit znovu tím, "
+"zavřete okno editoru a pak otevřete nové. Pokud problém bude přetrvávat, "
+"nahlaste to prosím jako chybu do systému bugzilla projektu GNOME."
+
+#: ../src/em-format/e-mail-formatter-attachment.c:334
 msgid "Display as attachment"
 msgstr "Zobrazit jako přílohu"
 
@@ -11432,7 +11558,7 @@ msgid "Face"
 msgstr "Obličej"
 
 #: ../src/em-format/e-mail-part-secure-button.c:116
-#: ../src/shell/shell.error.xml.h:28 ../src/smime/gui/smime-ui.ui.h:22
+#: ../src/shell/shell.error.xml.h:28 ../src/smime/gui/smime-ui.ui.h:16
 msgid "_View Certificate"
 msgstr "_Zobrazit certifikát"
 
@@ -12260,6 +12386,35 @@ msgstr "Použít místní výchozí nastavení"
 msgid "Format:"
 msgstr "Formát:"
 
+#. Translators: This is part of: "Do not synchronize locally mails older than [ xxx ] [ days ]"
+#: ../src/e-util/e-dialog-widgets.c:181
+msgctxt "time-unit"
+msgid "days"
+msgstr "dnů"
+
+#. Translators: This is part of: "Do not synchronize locally mails older than [ xxx ] [ weeks ]"
+#: ../src/e-util/e-dialog-widgets.c:183
+msgctxt "time-unit"
+msgid "weeks"
+msgstr "týdnů"
+
+#. Translators: This is part of: "Do not synchronize locally mails older than [ xxx ] [ months ]"
+#: ../src/e-util/e-dialog-widgets.c:185
+msgctxt "time-unit"
+msgid "months"
+msgstr "měsíce"
+
+#. Translators: This is part of: "Do not synchronize locally mails older than [ xxx ] [ years ]"
+#: ../src/e-util/e-dialog-widgets.c:187
+msgctxt "time-unit"
+msgid "years"
+msgstr "roky"
+
+#. Translators: This is part of: "Do not synchronize locally mails older than [ xxx ] [ days ]"
+#: ../src/e-util/e-dialog-widgets.c:245
+msgid "Do not synchronize locally mails older than"
+msgstr "Nesynchronizovat místní poštu starší než"
+
 #. Translators: :-)
 #: ../src/e-util/e-emoticon-chooser.c:38
 msgid "_Smile"
@@ -12556,7 +12711,7 @@ msgstr "žádný"
 msgid "All related"
 msgstr "Vše související"
 
-#: ../src/e-util/e-filter-rule.c:860 ../src/e-util/e-send-options.ui.h:19
+#: ../src/e-util/e-filter-rule.c:860 ../src/e-util/e-send-options.ui.h:24
 msgid "Replies"
 msgstr "Odpovědi"
 
@@ -13749,7 +13904,7 @@ msgstr "Otevírá se seznamu úkolů „%s“"
 msgid "Opening address book “%s”"
 msgstr "Otevírá se adresář „%s“"
 
-#: ../src/e-util/e-misc-utils.c:3288
+#: ../src/e-util/e-misc-utils.c:3290
 #: ../src/modules/mailto-handler/evolution-mailto-handler.c:146
 msgid "_Do not show this message again"
 msgstr "_Příště tuto zprávu nezobrazovat"
@@ -14053,108 +14208,114 @@ msgstr "Poštovní doručenka"
 msgid "Send Options"
 msgstr "Možnosti odesílání"
 
-#: ../src/e-util/e-send-options.ui.h:15
+#: ../src/e-util/e-send-options.ui.h:18
 msgid "R_eply requested"
 msgstr "_Vyžadována odpověď"
 
-#: ../src/e-util/e-send-options.ui.h:16
+#. Translators: This is part of
+#: ../src/e-util/e-send-options.ui.h:20
 msgctxt "ESendOptionsWithin"
 msgid "Wi_thin"
 msgstr "_Během"
 
-#: ../src/e-util/e-send-options.ui.h:17
+#. Translators: This is part of
+#: ../src/e-util/e-send-options.ui.h:22
 msgctxt "ESendOptionsWithin"
 msgid "days"
 msgstr "dnů"
 
-#: ../src/e-util/e-send-options.ui.h:18
+#: ../src/e-util/e-send-options.ui.h:23
 msgid "_When convenient"
 msgstr "_Podle možností"
 
-#: ../src/e-util/e-send-options.ui.h:20
+#. To translators: This means Delay the message delivery for some time
+#: ../src/e-util/e-send-options.ui.h:26
 msgid "_Delay message delivery"
 msgstr "_Zpozdit doručení zprávy"
 
-#: ../src/e-util/e-send-options.ui.h:21
+#. Translators: This is part of
+#: ../src/e-util/e-send-options.ui.h:28
 msgctxt "ESendOptionsAfter"
 msgid "_After"
 msgstr "_Po"
 
-#: ../src/e-util/e-send-options.ui.h:22
+#. Translators: This is part of
+#: ../src/e-util/e-send-options.ui.h:30
 msgctxt "ESendOptionsAfter"
 msgid "days"
 msgstr "dnů"
 
-#: ../src/e-util/e-send-options.ui.h:23
+#: ../src/e-util/e-send-options.ui.h:31
 msgid "_Set expiration date"
 msgstr "Nastavit datum _ukončení platnosti"
 
-#: ../src/e-util/e-send-options.ui.h:24
+#. Translators: This is part of
+#: ../src/e-util/e-send-options.ui.h:33
 msgctxt "ESendOptions"
 msgid "_Until"
 msgstr "_Do"
 
-#: ../src/e-util/e-send-options.ui.h:25
+#: ../src/e-util/e-send-options.ui.h:34
 msgid "Delivery Options"
 msgstr "Možnosti doručení"
 
-#: ../src/e-util/e-send-options.ui.h:26
+#: ../src/e-util/e-send-options.ui.h:35
 msgid "_Priority:"
 msgstr "_Naléhavost:"
 
-#: ../src/e-util/e-send-options.ui.h:27
+#: ../src/e-util/e-send-options.ui.h:36
 msgid "_Classification:"
 msgstr "_Klasifikace:"
 
-#: ../src/e-util/e-send-options.ui.h:28
+#: ../src/e-util/e-send-options.ui.h:37
 msgid "Gene_ral Options"
 msgstr "_Obecné možnosti"
 
-#: ../src/e-util/e-send-options.ui.h:29
+#: ../src/e-util/e-send-options.ui.h:38
 msgid "Creat_e a sent item to track information"
 msgstr "_Vytvořit odeslanou položku po sledování informací"
 
-#: ../src/e-util/e-send-options.ui.h:30
+#: ../src/e-util/e-send-options.ui.h:39
 msgid "_Delivered"
 msgstr "_Doručeno"
 
-#: ../src/e-util/e-send-options.ui.h:31
+#: ../src/e-util/e-send-options.ui.h:40
 msgid "Deli_vered and opened"
 msgstr "_Doručeno a otevřeno"
 
-#: ../src/e-util/e-send-options.ui.h:32
+#: ../src/e-util/e-send-options.ui.h:41
 msgid "_All information"
 msgstr "_Všechny informace"
 
-#: ../src/e-util/e-send-options.ui.h:33
+#: ../src/e-util/e-send-options.ui.h:42
 msgid "A_uto-delete sent item"
 msgstr "_Automaticky smazat odeslanou položku"
 
-#: ../src/e-util/e-send-options.ui.h:34
+#: ../src/e-util/e-send-options.ui.h:43
 msgid "Status Tracking"
 msgstr "Sledování stavu"
 
-#: ../src/e-util/e-send-options.ui.h:35
+#: ../src/e-util/e-send-options.ui.h:44
 msgid "_When opened:"
 msgstr "_Při otevření:"
 
-#: ../src/e-util/e-send-options.ui.h:36
+#: ../src/e-util/e-send-options.ui.h:45
 msgid "When decli_ned:"
 msgstr "Při _odmítnutí:"
 
-#: ../src/e-util/e-send-options.ui.h:37
+#: ../src/e-util/e-send-options.ui.h:46
 msgid "When co_mpleted:"
 msgstr "Při _dokončení:"
 
-#: ../src/e-util/e-send-options.ui.h:38
+#: ../src/e-util/e-send-options.ui.h:47
 msgid "When acce_pted:"
 msgstr "Při _přijetí:"
 
-#: ../src/e-util/e-send-options.ui.h:39
+#: ../src/e-util/e-send-options.ui.h:48
 msgid "Return Notification"
 msgstr "Vrátit upozornění"
 
-#: ../src/e-util/e-send-options.ui.h:40
+#: ../src/e-util/e-send-options.ui.h:49
 msgid "Sta_tus Tracking"
 msgstr "_Sledování stavu"
 
@@ -14196,7 +14357,7 @@ msgstr "Zobrazovat"
 msgid "Group name"
 msgstr "Název skupiny"
 
-#: ../src/e-util/e-source-selector.c:3374 ../src/mail/e-mail-display.c:743
+#: ../src/e-util/e-source-selector.c:3374 ../src/mail/e-mail-display.c:796
 msgid "_Hide"
 msgstr "_Skrýt"
 
@@ -14352,6 +14513,20 @@ msgstr "V obsluze seznamu poznámek „{0}“ došlo k chybě."
 msgid "The task list backend servicing “{0}” encountered an error."
 msgstr "V obsluze seznamu úkolů „{0}“ došlo k chybě."
 
+#: ../src/e-util/e-system.error.xml.h:23
+msgid "Something has gone wrong"
+msgstr "Něco nepovedlo správně"
+
+#: ../src/e-util/e-system.error.xml.h:24
+msgid ""
+"A WebKitWebProcess crashed when displaying the content. You can try again by "
+"reopening the window. If the issue persists, please file a bug report in the "
+"GNOME bugzilla."
+msgstr ""
+"Při zobrazení obsahu se zhroutil WebKitWebProces. Můžete to zkusit znovu "
+"tím, že okno znovu otevřete. Pokud problém bude přetrvávat, nahlaste to "
+"prosím jako chybu do systému bugzilla projektu GNOME."
+
 #: ../src/e-util/e-table-click-to-add.c:687
 #: ../src/e-util/gal-a11y-e-table-click-to-add.c:59
 #: ../src/e-util/gal-a11y-e-table-click-to-add.c:140
@@ -14403,70 +14578,68 @@ msgid "Choose the order of information to appear in the message list."
 msgstr "Zvolte pořadí, v jakém se mají informace zobrazovat v seznamu zpráv."
 
 #: ../src/e-util/e-table-config.ui.h:2
-msgid "_Apply"
-msgstr "_Použít"
-
-#: ../src/e-util/e-table-config.ui.h:4
-msgid "_Sort..."
-msgstr "Ř_adit…"
-
-#: ../src/e-util/e-table-config.ui.h:5
-msgid "_Group By..."
-msgstr "_Seskupovat podle…"
-
-#: ../src/e-util/e-table-config.ui.h:6
-msgid "_Fields Shown..."
-msgstr "Zobrazovaná _pole…"
-
-#: ../src/e-util/e-table-config.ui.h:9
 msgid "Clear _All"
 msgstr "Zr_ušit vše"
 
-#: ../src/e-util/e-table-config.ui.h:10
+#: ../src/e-util/e-table-config.ui.h:5
 msgid "_Show field in View"
 msgstr "_Zobrazovat pole v zobrazení"
 
-#: ../src/e-util/e-table-config.ui.h:11
-#: ../src/e-util/e-table-header-item.c:1794
+#: ../src/e-util/e-table-config.ui.h:6 ../src/e-util/e-table-header-item.c:1794
 msgid "Ascending"
 msgstr "Vzestupně"
 
-#: ../src/e-util/e-table-config.ui.h:12
-#: ../src/e-util/e-table-header-item.c:1794
+#: ../src/e-util/e-table-config.ui.h:7 ../src/e-util/e-table-header-item.c:1794
 msgid "Descending"
 msgstr "Sestupně"
 
-#: ../src/e-util/e-table-config.ui.h:13
+#: ../src/e-util/e-table-config.ui.h:8
 msgid "Group Items By"
 msgstr "Seskupovat položky podle"
 
-#: ../src/e-util/e-table-config.ui.h:14
+#: ../src/e-util/e-table-config.ui.h:9
 msgid "Show _field in View"
 msgstr "Zobrazovat _pole v zobrazení"
 
-#: ../src/e-util/e-table-config.ui.h:15
+#: ../src/e-util/e-table-config.ui.h:10
 msgid "Then By"
 msgstr "Dále podle"
 
-#: ../src/e-util/e-table-config.ui.h:16
+#: ../src/e-util/e-table-config.ui.h:11
 msgid "Show field i_n View"
 msgstr "Zobrazovat pole _v zobrazení"
 
-#: ../src/e-util/e-table-config.ui.h:17
+#: ../src/e-util/e-table-config.ui.h:12
 msgid "Show field in _View"
 msgstr "Zobrazovat pole ve _zobrazení"
 
-#: ../src/e-util/e-table-config.ui.h:18
+#: ../src/e-util/e-table-config.ui.h:13
 msgid "Sort"
 msgstr "Řadit"
 
-#: ../src/e-util/e-table-config.ui.h:19
+#: ../src/e-util/e-table-config.ui.h:14
 msgid "Clear All"
 msgstr "Zrušit vše"
 
-#: ../src/e-util/e-table-config.ui.h:20
+#: ../src/e-util/e-table-config.ui.h:15
 msgid "Sort Items By"
 msgstr "Řadit položky podle"
+
+#: ../src/e-util/e-table-config.ui.h:16
+msgid "_Apply"
+msgstr "_Použít"
+
+#: ../src/e-util/e-table-config.ui.h:17
+msgid "_Sort..."
+msgstr "Ř_adit…"
+
+#: ../src/e-util/e-table-config.ui.h:18
+msgid "_Group By..."
+msgstr "_Seskupovat podle…"
+
+#: ../src/e-util/e-table-config.ui.h:19
+msgid "_Fields Shown..."
+msgstr "Zobrazovaná _pole…"
 
 #: ../src/e-util/e-table-field-chooser.c:164
 msgid ""
@@ -14845,18 +15018,10 @@ msgid "in the future"
 msgstr "v budoucnu"
 
 #: ../src/e-util/filter.ui.h:14
-msgid "Show filters for mail:"
-msgstr "Zobrazovat filtry pro poštu:"
-
-#: ../src/e-util/filter.ui.h:15 ../src/mail/em-filter-editor.c:163
-msgid "_Filter Rules"
-msgstr "Pravidla _filtru"
-
-#: ../src/e-util/filter.ui.h:23
 msgid "Compare against"
 msgstr "Porovnat"
 
-#: ../src/e-util/filter.ui.h:24
+#: ../src/e-util/filter.ui.h:15
 msgid ""
 "The message’s date will be compared against\n"
 "the current time when filtering occurs."
@@ -14864,7 +15029,7 @@ msgstr ""
 "Datum zprávy bude porovnáváno s časem\n"
 "v okamžiku, kdy bude prováděno filtrování."
 
-#: ../src/e-util/filter.ui.h:26
+#: ../src/e-util/filter.ui.h:17
 msgid ""
 "The message’s date will be compared against\n"
 "12:00am of the date specified."
@@ -14872,13 +15037,21 @@ msgstr ""
 "Datum zprávy bude porovnáváno\n"
 "s určeným datem, 12:00 hod. ráno."
 
-#: ../src/e-util/filter.ui.h:28
+#: ../src/e-util/filter.ui.h:19
 msgid ""
 "The message’s date will be compared against\n"
 "a time relative to when filtering occurs."
 msgstr ""
 "Datum zprávy bude porovnáváno s časem vztahujícím\n"
 "se k okamžiku, kdy bude prováděno filtrování."
+
+#: ../src/e-util/filter.ui.h:21
+msgid "Show filters for mail:"
+msgstr "Zobrazovat filtry pro poštu:"
+
+#: ../src/e-util/filter.ui.h:22 ../src/mail/em-filter-editor.c:163
+msgid "_Filter Rules"
+msgstr "Pravidla _filtru"
 
 #: ../src/e-util/gal-a11y-e-cell.c:128
 msgid "Table Cell"
@@ -15650,15 +15823,15 @@ msgstr "Název účtu nemůže být prázdný"
 msgid "Looking up account details..."
 msgstr "Vyhledávají se přesné údaje účtu…"
 
-#: ../src/mail/e-mail-config-provider-page.c:508
+#: ../src/mail/e-mail-config-provider-page.c:529
 msgid "Checking for New Mail"
 msgstr "Probíhá kontrola nové pošty"
 
-#: ../src/mail/e-mail-config-provider-page.c:524
+#: ../src/mail/e-mail-config-provider-page.c:545
 msgid "Check for _new messages every"
 msgstr "_Automaticky kontrolovat novou poštu každých"
 
-#: ../src/mail/e-mail-config-provider-page.c:727
+#: ../src/mail/e-mail-config-provider-page.c:753
 msgid "Receiving Options"
 msgstr "Možnosti příjmu"
 
@@ -15759,7 +15932,7 @@ msgstr "Vybrat"
 
 #: ../src/mail/e-mail-config-security-page.c:569
 #: ../src/mail/e-mail-config-security-page.c:675
-#: ../src/mail/mail-dialogs.ui.h:5 ../src/shell/e-shell-window-actions.c:885
+#: ../src/mail/mail-dialogs.ui.h:16 ../src/shell/e-shell-window-actions.c:885
 msgid "_Clear"
 msgstr "_Vymazat"
 
@@ -15865,55 +16038,55 @@ msgstr "Vítejte"
 msgid "Account Editor"
 msgstr "Editor účtu"
 
-#: ../src/mail/e-mail-display.c:125
+#: ../src/mail/e-mail-display.c:128
 msgid "_Add to Address Book..."
 msgstr "_Přidat do adresáře…"
 
-#: ../src/mail/e-mail-display.c:132
+#: ../src/mail/e-mail-display.c:135
 msgid "_To This Address"
 msgstr "_Na tuto adresu"
 
-#: ../src/mail/e-mail-display.c:139
+#: ../src/mail/e-mail-display.c:142
 msgid "_From This Address"
 msgstr "_Z této adresy"
 
-#: ../src/mail/e-mail-display.c:146
+#: ../src/mail/e-mail-display.c:149
 msgid "Send _Reply To..."
 msgstr "Po_slat odpověď…"
 
-#: ../src/mail/e-mail-display.c:148
+#: ../src/mail/e-mail-display.c:151
 msgid "Send a reply message to this address"
 msgstr "Odeslat odpověď na tuto adresu"
 
-#: ../src/mail/e-mail-display.c:155
+#: ../src/mail/e-mail-display.c:158
 msgid "Create Search _Folder"
 msgstr "Vytvořit složku _hledání"
 
-#: ../src/mail/e-mail-display.c:750
+#: ../src/mail/e-mail-display.c:803
 msgid "Hid_e All"
 msgstr "Skrýt vš_e"
 
-#: ../src/mail/e-mail-display.c:757
+#: ../src/mail/e-mail-display.c:810
 msgid "_View Inline"
 msgstr "_Zobrazit v textu"
 
-#: ../src/mail/e-mail-display.c:764
+#: ../src/mail/e-mail-display.c:817
 msgid "Vie_w All Inline"
 msgstr "_Zobrazit vše v textu"
 
-#: ../src/mail/e-mail-display.c:771
+#: ../src/mail/e-mail-display.c:824
 msgid "_Zoom to 100%"
 msgstr "_Přiblížit na 100%"
 
-#: ../src/mail/e-mail-display.c:773
+#: ../src/mail/e-mail-display.c:826
 msgid "Zoom the image to its natural size"
 msgstr "Přiblížit obrázek na jeho přirozenou velikost"
 
-#: ../src/mail/e-mail-display.c:778
+#: ../src/mail/e-mail-display.c:831
 msgid "_Zoom to window"
 msgstr "_Přiblížit podle okna"
 
-#: ../src/mail/e-mail-display.c:780
+#: ../src/mail/e-mail-display.c:833
 msgid "Zoom large images to not be wider than the window width"
 msgstr "Přiblížit velké obrázky tak, aby nebyly širší, než je šířka okna"
 
@@ -16746,7 +16919,7 @@ msgstr "Další"
 msgid "Previous"
 msgstr "Předchozí"
 
-#: ../src/mail/e-mail-reader.c:4340 ../src/mail/mail-dialogs.ui.h:16
+#: ../src/mail/e-mail-reader.c:4340 ../src/mail/mail-dialogs.ui.h:9
 msgid "Reply"
 msgstr "Odpovědět"
 
@@ -17443,7 +17616,7 @@ msgid "Important"
 msgstr "Důležité"
 
 #. Past tense, as in "has been read".
-#: ../src/mail/filtertypes.xml.in.h:40 ../src/mail/mail-dialogs.ui.h:15
+#: ../src/mail/filtertypes.xml.in.h:40 ../src/mail/mail-dialogs.ui.h:8
 #: ../src/mail/searchtypes.xml.in.h:43 ../src/mail/vfoldertypes.xml.in.h:43
 msgid "Read"
 msgstr "Přečteno"
@@ -17973,11 +18146,11 @@ msgstr "_Nahrazení podle složky má přednost před nahrazením podle příjem
 msgid "Send Account"
 msgstr "Odesílací účet"
 
-#: ../src/mail/mail-config.ui.h:80 ../src/smime/gui/smime-ui.ui.h:1
+#: ../src/mail/mail-config.ui.h:80 ../src/smime/gui/smime-ui.ui.h:27
 msgid "a"
 msgstr "a"
 
-#: ../src/mail/mail-config.ui.h:81 ../src/smime/gui/smime-ui.ui.h:2
+#: ../src/mail/mail-config.ui.h:81 ../src/smime/gui/smime-ui.ui.h:28
 msgid "b"
 msgstr "b"
 
@@ -18063,12 +18236,12 @@ msgid "Archive Mail"
 msgstr "Archivace pošty"
 
 #: ../src/mail/mail-config.ui.h:103
-msgid "On This Computer A_rchive folder:"
-msgstr "A_rchivační složka pro V tomto počítači:"
-
-#: ../src/mail/mail-config.ui.h:104
 msgid "Archive folder to use for On This Computer messages"
 msgstr "Archivační složka, která se má použít pro zprávy V tomto počítači"
+
+#: ../src/mail/mail-config.ui.h:104
+msgid "On This Computer A_rchive folder:"
+msgstr "A_rchivační složka pro V tomto počítači:"
 
 #. If enabled, show animation; if disabled, only display a static image without any animation
 #: ../src/mail/mail-config.ui.h:106
@@ -18183,6 +18356,38 @@ msgid "SSL encryption"
 msgstr "Šifrování SSL"
 
 #: ../src/mail/mail-dialogs.ui.h:1
+msgid "Call"
+msgstr "Zavolat"
+
+#: ../src/mail/mail-dialogs.ui.h:2
+msgid "Do Not Forward"
+msgstr "Nepřeposílat"
+
+#: ../src/mail/mail-dialogs.ui.h:3
+msgid "Follow-Up"
+msgstr "K vyřízení"
+
+#: ../src/mail/mail-dialogs.ui.h:4
+msgid "For Your Information"
+msgstr "Pro vaši informaci"
+
+#: ../src/mail/mail-dialogs.ui.h:5
+msgid "Forward"
+msgstr "Přeposlat"
+
+#: ../src/mail/mail-dialogs.ui.h:6
+msgid "No Response Necessary"
+msgstr "Není nutná odpověď"
+
+#: ../src/mail/mail-dialogs.ui.h:10
+msgid "Reply to All"
+msgstr "Odpovědět všem"
+
+#: ../src/mail/mail-dialogs.ui.h:11
+msgid "Review"
+msgstr "Posoudit"
+
+#: ../src/mail/mail-dialogs.ui.h:12
 msgid ""
 "The messages you have selected for follow up are listed below.\n"
 "Please select a follow up action from the “Flag” menu."
@@ -18191,72 +18396,40 @@ msgstr ""
 "seznamu.\n"
 "Vyberte prosím plánovanou akci pro tyto zprávy z nabídky „Příznak“."
 
-#: ../src/mail/mail-dialogs.ui.h:3
+#: ../src/mail/mail-dialogs.ui.h:14
 msgid "_Flag:"
 msgstr "_Příznak:"
 
-#: ../src/mail/mail-dialogs.ui.h:4
+#: ../src/mail/mail-dialogs.ui.h:15
 msgid "_Due By:"
 msgstr "Termín _dokončení:"
 
 #. Translators: Flag Completed
-#: ../src/mail/mail-dialogs.ui.h:7
+#: ../src/mail/mail-dialogs.ui.h:18
 msgid "Co_mpleted"
 msgstr "_Dokončeno"
-
-#: ../src/mail/mail-dialogs.ui.h:8
-msgid "Call"
-msgstr "Zavolat"
-
-#: ../src/mail/mail-dialogs.ui.h:9
-msgid "Do Not Forward"
-msgstr "Nepřeposílat"
-
-#: ../src/mail/mail-dialogs.ui.h:10
-msgid "Follow-Up"
-msgstr "K vyřízení"
-
-#: ../src/mail/mail-dialogs.ui.h:11
-msgid "For Your Information"
-msgstr "Pro vaši informaci"
-
-#: ../src/mail/mail-dialogs.ui.h:12
-msgid "Forward"
-msgstr "Přeposlat"
-
-#: ../src/mail/mail-dialogs.ui.h:13
-msgid "No Response Necessary"
-msgstr "Není nutná odpověď"
-
-#: ../src/mail/mail-dialogs.ui.h:17
-msgid "Reply to All"
-msgstr "Odpovědět všem"
-
-#: ../src/mail/mail-dialogs.ui.h:18
-msgid "Review"
-msgstr "Posoudit"
 
 #: ../src/mail/mail-dialogs.ui.h:19
 msgid "License Agreement"
 msgstr "Licenční smlouva"
 
-#: ../src/mail/mail-dialogs.ui.h:20
-msgid "_Tick this to accept the license agreement"
-msgstr "Zaškrtnutím _tohoto přijmete licenční smlouvu"
-
-#: ../src/mail/mail-dialogs.ui.h:22
+#: ../src/mail/mail-dialogs.ui.h:21
 msgid "_Accept License"
 msgstr "_Přijmout licenci"
+
+#: ../src/mail/mail-dialogs.ui.h:22
+msgid "_Tick this to accept the license agreement"
+msgstr "Zaškrtnutím _tohoto přijmete licenční smlouvu"
 
 #: ../src/mail/mail-dialogs.ui.h:23
 msgid "Security Information"
 msgstr "Informace o zabezpečení"
 
-#: ../src/mail/mail-dialogs.ui.h:24
+#: ../src/mail/mail-dialogs.ui.h:25
 msgid "Digital Signature"
 msgstr "Elektronický podpis"
 
-#: ../src/mail/mail-dialogs.ui.h:25
+#: ../src/mail/mail-dialogs.ui.h:26
 msgid "Encryption"
 msgstr "Šifrování"
 
@@ -19137,6 +19310,34 @@ msgstr "Selhalo smazání poznámky ke zprávě ve složce „{0}“"
 #: ../src/mail/mail.error.xml.h:207
 msgid "Failed to store message note in folder “{0}”"
 msgstr "Selhalo uložení poznámky ke zprávě ve složce „{0}“"
+
+#: ../src/mail/mail.error.xml.h:208
+msgid "Something has gone wrong when displaying the message"
+msgstr "Při zobrazení zprávy se něco nepovedlo správně"
+
+#: ../src/mail/mail.error.xml.h:209
+msgid ""
+"A WebKitWebProcess crashed when displaying the message. You can try again by "
+"moving to another message and back. If the issue persists, please file a bug "
+"report in the GNOME bugzilla."
+msgstr ""
+"Při zobrazení zprávy se zhroutil WebKitWebProces. Můžete to zkusit znovu "
+"tím, že se přesunete na jinou zprávu a pak vrátíte zpět. Pokud problém bude "
+"přetrvávat, nahlaste to prosím jako chybu do systému bugzilla projektu GNOME."
+
+#: ../src/mail/mail.error.xml.h:210
+msgid "Something has gone wrong when displaying the signature"
+msgstr "Při zobrazení podpisu se něco nepovedlo správně"
+
+#: ../src/mail/mail.error.xml.h:211
+msgid ""
+"A WebKitWebProcess crashed when displaying the signature. You can try again "
+"by moving to another signature and back. If the issue persists, please file "
+"a bug report in the GNOME bugzilla."
+msgstr ""
+"Při zobrazení podpisu se zhroutil WebKitWebProces. Můžete to zkusit znovu "
+"tím, že se přesunete na jiný podpis a pak vrátíte zpět. Pokud problém bude "
+"přetrvávat, nahlaste to prosím jako chybu do systému bugzilla projektu GNOME."
 
 #: ../src/mail/mail-send-recv.c:192
 msgid "Canceling..."
@@ -20244,7 +20445,7 @@ msgid "Location cannot be empty"
 msgstr "Místo nemůže být neuvedené"
 
 #: ../src/modules/calendar/e-cal-attachment-handler.c:285
-#: ../src/smime/gui/smime-ui.ui.h:9
+#: ../src/smime/gui/smime-ui.ui.h:7
 msgid "I_mport"
 msgstr "I_mportovat"
 
@@ -21427,6 +21628,22 @@ msgstr[0] "%d úkol"
 msgstr[1] "%d úkoly"
 msgstr[2] "%d úkolů"
 
+#: ../src/modules/composer-to-meeting/e-composer-to-meeting.c:319
+msgid "Convert to M_eeting"
+msgstr "Př_evést na schůzku"
+
+#: ../src/modules/composer-to-meeting/e-composer-to-meeting.c:321
+msgid "Convert the message to a meeting request"
+msgstr "Převést zprávu na žádost o schůzku"
+
+#: ../src/modules/composer-to-meeting/e-meeting-to-composer.c:357
+msgid "Convert to M_essage"
+msgstr "Př_evést na zprávu"
+
+#: ../src/modules/composer-to-meeting/e-meeting-to-composer.c:359
+msgid "Convert to the mail message"
+msgstr "Převést na poštovní zprávu"
+
 #: ../src/modules/itip-formatter/e-mail-formatter-itip.c:154
 msgid "ITIP"
 msgstr "ITIP"
@@ -21923,8 +22140,7 @@ msgid ""
 msgstr "Kalendář „%s“ obsahuje události, které kolidují s touto schůzkou"
 
 #: ../src/modules/itip-formatter/itip-view.c:3651
-#, fuzzy, c-format
-#| msgid "An appointment in the calendar “%s” conflicts with this meeting"
+#, c-format
 msgid ""
 "The calendar “%s” contains %d appointments which conflict with this meeting"
 msgstr "Kalendář „%s“ obsahuje %d událostí, které kolidují s touto schůzkou"
@@ -25405,62 +25621,62 @@ msgstr "Zadejte nové heslo"
 msgid "Select certificate"
 msgstr "Zvolte certifikát"
 
-#: ../src/smime/gui/smime-ui.ui.h:3
+#: ../src/smime/gui/smime-ui.ui.h:1
 msgid "You have certificates from these organizations that identify you:"
 msgstr "Máte certifikáty od těchto organizací, které vás identifikují:"
 
-#: ../src/smime/gui/smime-ui.ui.h:4
+#: ../src/smime/gui/smime-ui.ui.h:2
 msgid "Certificates Table"
 msgstr "Tabulka certifikátů"
 
 #. This is a verb, as in "make a backup".
-#: ../src/smime/gui/smime-ui.ui.h:7
+#: ../src/smime/gui/smime-ui.ui.h:5
 msgid "_Backup"
 msgstr "_Zálohovat"
 
-#: ../src/smime/gui/smime-ui.ui.h:8
+#: ../src/smime/gui/smime-ui.ui.h:6
 msgid "Backup _All"
 msgstr "Zálohov_at vše"
 
-#: ../src/smime/gui/smime-ui.ui.h:11
+#: ../src/smime/gui/smime-ui.ui.h:9
 msgid "Your Certificates"
 msgstr "Vaše certifikáty"
 
-#: ../src/smime/gui/smime-ui.ui.h:12
+#: ../src/smime/gui/smime-ui.ui.h:10
 msgid "You have certificates on file that identify these people:"
 msgstr "Máte uloženy certifikáty, které identifikují tyto lidi:"
 
-#: ../src/smime/gui/smime-ui.ui.h:14
+#: ../src/smime/gui/smime-ui.ui.h:12
 msgid "Contact Certificates"
 msgstr "Certifikáty kontaktů"
 
-#: ../src/smime/gui/smime-ui.ui.h:15
+#: ../src/smime/gui/smime-ui.ui.h:13
 msgid ""
 "You have certificates on file that identify these certificate authorities:"
 msgstr ""
 "Máte uloženy certifikáty, které identifikují tyto certifikační autority:"
 
-#: ../src/smime/gui/smime-ui.ui.h:16
+#: ../src/smime/gui/smime-ui.ui.h:14
 msgid "Authorities"
 msgstr "Autority"
 
-#: ../src/smime/gui/smime-ui.ui.h:17
+#: ../src/smime/gui/smime-ui.ui.h:15
 msgid "Certificate Authority Trust"
 msgstr "Důvěra certifikační autoritě"
 
-#: ../src/smime/gui/smime-ui.ui.h:18
+#: ../src/smime/gui/smime-ui.ui.h:19
 msgid "Trust this CA to identify _websites."
 msgstr "Důvěřovat této CA ohledně identifikace _webových serverů."
 
-#: ../src/smime/gui/smime-ui.ui.h:19
+#: ../src/smime/gui/smime-ui.ui.h:20
 msgid "Trust this CA to identify _email users."
 msgstr "Důvěřovat této CA ohledně identifikace uživatelů _e-mailu."
 
-#: ../src/smime/gui/smime-ui.ui.h:20
+#: ../src/smime/gui/smime-ui.ui.h:21
 msgid "Trust this CA to identify _software developers."
 msgstr "Důvěřovat této CA ohledně identifikace vývojářů _software."
 
-#: ../src/smime/gui/smime-ui.ui.h:21
+#: ../src/smime/gui/smime-ui.ui.h:22
 msgid ""
 "Before trusting this CA for any purpose, you should examine its certificate "
 "and its policy and procedures (if available)."
@@ -25468,25 +25684,25 @@ msgstr ""
 "Před důvěřováním této CA pro libovolný účel byste měli prozkoumat její "
 "certifikát a, pokud jsou k dispozici, její pravidla a procedury."
 
-#: ../src/smime/gui/smime-ui.ui.h:25
-msgid "C_ertificate:"
-msgstr "C_ertifikát:"
-
-#: ../src/smime/gui/smime-ui.ui.h:26
+#: ../src/smime/gui/smime-ui.ui.h:23
 msgid "Email Certificate Trust Settings"
 msgstr "Nastavení důvěry certifikátům e-mailu"
 
-#: ../src/smime/gui/smime-ui.ui.h:27
+#: ../src/smime/gui/smime-ui.ui.h:24
+msgid "_Edit CA Trust"
+msgstr "_Upravit důvěru CA"
+
+#: ../src/smime/gui/smime-ui.ui.h:25
 msgid "Trust the authenticity of this certificate"
 msgstr "Důvěřovat pravosti tohoto certifikátu"
 
-#: ../src/smime/gui/smime-ui.ui.h:28
+#: ../src/smime/gui/smime-ui.ui.h:26
 msgid "Do not trust the authenticity of this certificate"
 msgstr "Nedůvěřovat pravosti tohoto certifikátu"
 
 #: ../src/smime/gui/smime-ui.ui.h:29
-msgid "_Edit CA Trust"
-msgstr "_Upravit důvěru CA"
+msgid "C_ertificate:"
+msgstr "C_ertifikát:"
 
 #: ../src/smime/lib/e-cert.c:235 ../src/smime/lib/e-cert.c:247
 msgid "%d/%m/%Y"

@@ -8,8 +8,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution documentation\n"
-"POT-Creation-Date: 2016-11-21 11:25+0000\n"
-"PO-Revision-Date: 2016-11-22 13:08+0100\n"
+"POT-Creation-Date: 2016-12-16 08:17+0000\n"
+"PO-Revision-Date: 2016-12-17 13:16+0100\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: čeština <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -4212,23 +4212,8 @@ msgstr ""
 msgid "Junk Mail Preferences"
 msgstr "Nastavení nevyžádané pošty"
 
-#. (itstool) path: note/p
-#: C/mail-spam-settings.page:62
-msgid ""
-"The junk mail options discussed in this page refer only to POP and Local "
-"Delivery accounts. For handling junk mail on IMAP accounts, see the "
-"<app>Evolution</app> settings under <guiseq><gui>Edit</gui><gui>Preferences</"
-"gui><gui>Mail Accounts</gui><gui style=\"button\">Edit</gui><gui>Receiving "
-"Options</gui></guiseq>."
-msgstr ""
-"Volby týkající se nevyžádané pošty rozebírané na této stránce se týkají jen "
-"účtů POP a místního doručování. Ohledně nevyžádané pošty u účtů IMAP se "
-"podívejte na nastavení <guiseq><gui>Upravit</gui><gui>Předvolby</"
-"gui><gui>Poštovní účty</gui><gui style=\"button\">Upravit</gui><gui>Volby "
-"příjmu</gui></guiseq>."
-
 #. (itstool) path: section/p
-#: C/mail-spam-settings.page:63
+#: C/mail-spam-settings.page:62
 msgid ""
 "You can modify how <app>Evolution</app> handles junk mail by changing the "
 "Junk Mail Preferences:"
@@ -4237,7 +4222,7 @@ msgstr ""
 "s nevyžádanou poštou zacházet:"
 
 #. (itstool) path: item/p
-#: C/mail-spam-settings.page:65
+#: C/mail-spam-settings.page:64
 msgid ""
 "Click <guiseq><gui>Edit</gui><gui>Preferences</gui></guiseq> or press "
 "<keyseq><key>Shift</key><key>Ctrl</key><key>S</key></keyseq>."
@@ -4246,40 +4231,64 @@ msgstr ""
 "zmáčkněte <keyseq><key>Shift</key><key>Ctrl</key><key>S</key></keyseq>."
 
 #. (itstool) path: item/p
-#: C/mail-spam-settings.page:66
+#: C/mail-spam-settings.page:65
 msgid "Select <gui>Mail Preferences</gui>."
 msgstr "Vyberte <gui>Nastavení pošty</gui>."
 
 #. (itstool) path: item/p
-#: C/mail-spam-settings.page:67
-msgid "Click on the <gui>Junk</gui> tab. Here, you can specify the following:"
+#: C/mail-spam-settings.page:66
+msgid ""
+"Click on the <gui>Junk</gui> tab. Here, you can specify the following global "
+"settings that are applied to all mail accounts:"
 msgstr ""
-"Klikněte na kartu <gui>Nevyžádaná</gui> a můžete určit následující věci:"
+"Klikněte na kartu <gui>Nevyžádaná</gui> a můžete určit následující globální "
+"nastavení, která se použijí pro všechny poštovní účty:"
+
+#. (itstool) path: item/p
+#: C/mail-spam-settings.page:68
+msgid ""
+"Checking incoming messages for junk. This is a global setting: If it is not "
+"enabled, enabling junk mail options for a specific account (see below) will "
+"not have any effect."
+msgstr ""
+"Kontrolovat nevyžádané zprávy v příchozích zprávách. Jedná se o globální "
+"nastavení: Když není povolené, nemá zapnutí voleb ohledně nevyžádané pošty u "
+"jednotlivých účtů (viz dále) žádný vliv."
 
 #. (itstool) path: item/p
 #: C/mail-spam-settings.page:69
-msgid "Checking incoming messages for junk."
-msgstr "Kontrolování nevyžádaných zprávy v příchozí poště."
-
-#. (itstool) path: item/p
-#: C/mail-spam-settings.page:70
 msgid ""
 "Deleting junk messages upon exit, and how often junk messages are to be "
 "deleted."
 msgstr "Mazání nevyžádaných zpráv při ukončení, a jak často se mají mazat."
 
 #. (itstool) path: item/p
-#: C/mail-spam-settings.page:71
+#: C/mail-spam-settings.page:70
 msgid "Marking messages as not junk if the sender is in the address book."
 msgstr ""
 "Označování zpráv, že nejsou nevyžádané, pokud je odesílatel v mém adresáři."
 
 #. (itstool) path: item/p
-#: C/mail-spam-settings.page:72
+#: C/mail-spam-settings.page:71
 msgid "Checking custom mail headers (added by your mail server) for junk."
 msgstr ""
 "Kontrolování nevyžádaných zpráv podle vlastních hlaviček (přidaných vaším "
 "poštovním serverem)."
+
+#. (itstool) path: item/p
+#: C/mail-spam-settings.page:74
+msgid ""
+"Junk settings for a specific mail account (available for all account types "
+"except for POP accounts which use the global setting) can be set under "
+"<guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</gui><gui "
+"style=\"button\">Edit</gui><gui>Receiving Options</gui><gui>Check new "
+"messages for Junk contents</gui></guiseq>."
+msgstr ""
+"Nastavení nevyžádaných zpráv pro konkrétní poštovní účet (dostupné pro "
+"všechny typy účtů vyjma POP, ty používají globální nastavení) můžete provést "
+"v <guiseq><gui>Upravit</gui><gui>Předvolby</gui><gui>Poštovní účty</gui><gui "
+"style=\"button\">Upravit</gui><gui>Možnosti příjmu</gui><gui>Hledat "
+"nevyžádanou poštu v nových zprávách</gui></guiseq>."
 
 #. (itstool) path: note/p
 #: C/mail-spam-settings.page:77
@@ -6718,11 +6727,12 @@ msgid ""
 "If you want the messages to remain on the server for a period of time, click "
 "the <gui>Leave messages on server</gui> option and the <gui>Delete after ... "
 "days</gui> option and select the number of days to allow messages to remain "
-"on the server."
+"on the server. Set 0 days to keep messages on the server forever."
 msgstr ""
 "Pokud chcete, aby zprávy zůstávaly po nějakou dobu na serveru, klikněte na "
 "<gui>Ponechat zprávy na serveru</gui> a volbu <gui>Smazat po ‥ dnech</gui> "
-"nastavte na počet dní, po které chcete zprávy na serveru ponechat."
+"nastavte na počet dní, po které chcete zprávy na serveru ponechat. Nastavení "
+"na 0 zajistí, že zprávy zůstanou na serveru napořád."
 
 #. (itstool) path: item/p
 #: C/mail-receiving-options-pop.page:52
@@ -9125,10 +9135,10 @@ msgid ""
 "gui><gui>Current Languages</gui></guiseq>."
 msgstr ""
 "Můžete si také v seznamu nainstalovaných jazyků <guiseq><gui>Upravit</gui> "
-"<gui>Předvolby</gui> <gui>Předvolby editoru</gui> <gui>Kontrola pravopisu"
-"</gui> <gui>Jazyky</gui></guiseq>, nebo přímo v editoru přes <guiseq><gui>"
-"Upravit</gui><gui>Aktuální jazyky</gui></guiseq>, vybrat, které jazyky se "
-"mají pro kontrolu pravopisu používat."
+"<gui>Předvolby</gui> <gui>Předvolby editoru</gui> <gui>Kontrola pravopisu</"
+"gui> <gui>Jazyky</gui></guiseq>, nebo přímo v editoru přes "
+"<guiseq><gui>Upravit</gui><gui>Aktuální jazyky</gui></guiseq>, vybrat, které "
+"jazyky se mají pro kontrolu pravopisu používat."
 
 #. (itstool) path: section/title
 #: C/mail-composer-spellcheck.page:50
@@ -13108,3 +13118,18 @@ msgstr ""
 "<keyseq><key>Ctrl</key> <key>D</key></keyseq> a nebo klikněte na "
 "<guiseq><gui>Upravit</gui> <gui>Smazat kontakt</gui></guiseq>."
 
+#~ msgid ""
+#~ "The junk mail options discussed in this page refer only to POP and Local "
+#~ "Delivery accounts. For handling junk mail on IMAP accounts, see the "
+#~ "<app>Evolution</app> settings under <guiseq><gui>Edit</"
+#~ "gui><gui>Preferences</gui><gui>Mail Accounts</gui><gui style=\"button"
+#~ "\">Edit</gui><gui>Receiving Options</gui></guiseq>."
+#~ msgstr ""
+#~ "Volby týkající se nevyžádané pošty rozebírané na této stránce se týkají "
+#~ "jen účtů POP a místního doručování. Ohledně nevyžádané pošty u účtů IMAP "
+#~ "se podívejte na nastavení <guiseq><gui>Upravit</gui><gui>Předvolby</"
+#~ "gui><gui>Poštovní účty</gui><gui style=\"button\">Upravit</gui><gui>Volby "
+#~ "příjmu</gui></guiseq>."
+
+#~ msgid "Checking incoming messages for junk."
+#~ msgstr "Kontrolování nevyžádaných zprávy v příchozí poště."
