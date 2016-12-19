@@ -615,11 +615,15 @@ web_extension_vanished_cb (GDBusConnection *connection,
 {
 	g_return_if_fail (E_IS_WEBKIT_EDITOR (wk_editor));
 
-	g_clear_object (&wk_editor->priv->web_extension);
+	/* The vanished callback can be sometimes called before the appeared
+	   callback, in which case it doesn't make sense to unwatch the name. */
+	if (wk_editor->priv->web_extension) {
+		g_clear_object (&wk_editor->priv->web_extension);
 
-	if (wk_editor->priv->web_extension_watch_name_id > 0) {
-		g_bus_unwatch_name (wk_editor->priv->web_extension_watch_name_id);
-		wk_editor->priv->web_extension_watch_name_id = 0;
+		if (wk_editor->priv->web_extension_watch_name_id > 0) {
+			g_bus_unwatch_name (wk_editor->priv->web_extension_watch_name_id);
+			wk_editor->priv->web_extension_watch_name_id = 0;
+		}
 	}
 }
 
