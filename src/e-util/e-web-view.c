@@ -1268,7 +1268,32 @@ web_view_drag_motion (GtkWidget *widget,
                       gint y,
                       guint time_)
 {
+	/* Made this way to not pretend that this is a drop zone,
+	   when only FALSE had been returned, even it is supposed
+	   to be enough. Remove web_view_drag_leave() once fixed. */
+	gdk_drag_status (context, 0, time_);
+
+	return TRUE;
+}
+
+static gboolean
+web_view_drag_drop (GtkWidget *widget,
+		    GdkDragContext *context,
+		    gint x,
+		    gint y,
+		    guint time_)
+{
+	/* Defined to avoid crash in WebKit */
 	return FALSE;
+}
+
+static void
+web_view_drag_leave (GtkWidget *widget,
+		     GdkDragContext *context,
+		     guint time_)
+{
+	/* Defined to avoid crash in WebKit, when the web_view_drag_motion()
+	   uses the other way around. */
 }
 
 static void
@@ -2044,6 +2069,8 @@ e_web_view_class_init (EWebViewClass *class)
 	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->scroll_event = web_view_scroll_event;
 	widget_class->drag_motion = web_view_drag_motion;
+	widget_class->drag_drop = web_view_drag_drop;
+	widget_class->drag_leave = web_view_drag_leave;
 	widget_class->map = web_view_map;
 	widget_class->unmap = web_view_unmap;
 
