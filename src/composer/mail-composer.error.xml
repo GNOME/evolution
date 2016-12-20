@@ -46,7 +46,9 @@
 
  <error id="no-build-message" type="error">
   <_primary>Could not create message.</_primary>
-  <_secondary>Because “{0}”, you may need to select different mail options.</_secondary>
+  <_secondary xml:space="preserve">You may need to select different mail options.
+
+Detailed error: {0}</_secondary>
  </error>
 
  <error id="no-sig-file" type="warning">
