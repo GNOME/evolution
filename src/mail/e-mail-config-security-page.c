@@ -61,27 +61,6 @@ G_DEFINE_TYPE_WITH_CODE (
 		E_TYPE_MAIL_CONFIG_PAGE,
 		e_mail_config_security_page_interface_init))
 
-static gboolean
-mail_config_security_page_string_has_text (GBinding *binding,
-                                           const GValue *source_value,
-                                           GValue *target_value,
-                                           gpointer unused)
-{
-	const gchar *string;
-	gchar *stripped;
-
-	string = g_value_get_string (source_value);
-
-	if (string == NULL)
-		string = "";
-
-	stripped = g_strstrip (g_strdup (string));
-	g_value_set_boolean (target_value, *stripped != '\0');
-	g_free (stripped);
-
-	return TRUE;
-}
-
 static void
 mail_config_security_page_cert_selected (ECertSelector *selector,
                                          const gchar *key,
@@ -628,14 +607,6 @@ mail_config_security_page_constructed (GObject *object)
 		G_BINDING_SYNC_CREATE |
 		G_BINDING_BIDIRECTIONAL);
 
-	e_binding_bind_property_full (
-		smime_ext, "signing-certificate",
-		widget, "sensitive",
-		G_BINDING_SYNC_CREATE,
-		mail_config_security_page_string_has_text,
-		NULL,
-		NULL, (GDestroyNotify) NULL);
-
 	/* Add extra padding between signing stuff and encryption stuff. */
 	gtk_widget_set_margin_bottom (widget, 6);
 
@@ -693,14 +664,6 @@ mail_config_security_page_constructed (GObject *object)
 		G_BINDING_SYNC_CREATE |
 		G_BINDING_BIDIRECTIONAL);
 
-	e_binding_bind_property_full (
-		smime_ext, "encryption-certificate",
-		widget, "sensitive",
-		G_BINDING_SYNC_CREATE,
-		mail_config_security_page_string_has_text,
-		NULL,
-		NULL, (GDestroyNotify) NULL);
-
 	text = _("Always encrypt to myself when sending encrypted messages");
 	widget = gtk_check_button_new_with_mnemonic (text);
 	gtk_widget_set_margin_left (widget, 12);
@@ -712,14 +675,6 @@ mail_config_security_page_constructed (GObject *object)
 		widget, "active",
 		G_BINDING_SYNC_CREATE |
 		G_BINDING_BIDIRECTIONAL);
-
-	e_binding_bind_property_full (
-		smime_ext, "encryption-certificate",
-		widget, "sensitive",
-		G_BINDING_SYNC_CREATE,
-		mail_config_security_page_string_has_text,
-		NULL,
-		NULL, (GDestroyNotify) NULL);
 
 #endif /* ENABLE_SMIME */
 

@@ -1627,7 +1627,7 @@ msg_composer_mail_identity_changed_cb (EMsgComposer *composer)
 	gboolean composer_realized;
 	const gchar *extension_name;
 	const gchar *active_signature_id;
-	gchar *uid, *alias_name = NULL, *alias_address = NULL;
+	gchar *uid, *alias_name = NULL, *alias_address = NULL, *pgp_keyid, *smime_cert;
 
 	table = e_msg_composer_get_header_table (composer);
 	uid = e_composer_header_table_dup_identity_uid (table, &alias_name, &alias_address);
@@ -1647,13 +1647,19 @@ msg_composer_mail_identity_changed_cb (EMsgComposer *composer)
 
 	extension_name = E_SOURCE_EXTENSION_OPENPGP;
 	pgp = e_source_get_extension (source, extension_name);
-	pgp_sign = e_source_openpgp_get_sign_by_default (pgp);
-	pgp_encrypt = e_source_openpgp_get_encrypt_by_default (pgp);
+	pgp_keyid = e_source_openpgp_dup_key_id (pgp);
+	pgp_sign = pgp_keyid && *pgp_keyid && e_source_openpgp_get_sign_by_default (pgp);
+	pgp_encrypt = pgp_keyid && *pgp_keyid && e_source_openpgp_get_encrypt_by_default (pgp);
+	g_free (pgp_keyid);
 
 	extension_name = E_SOURCE_EXTENSION_SMIME;
 	smime = e_source_get_extension (source, extension_name);
-	smime_sign = e_source_smime_get_sign_by_default (smime);
-	smime_encrypt = e_source_smime_get_encrypt_by_default (smime);
+	smime_cert = e_source_smime_dup_signing_certificate (smime);
+	smime_sign = smime_cert && *smime_cert && e_source_smime_get_sign_by_default (smime);
+	g_free (smime_cert);
+	smime_cert = e_source_smime_dup_encryption_certificate (smime);
+	smime_encrypt = smime_cert && *smime_cert && e_source_smime_get_encrypt_by_default (smime);
+	g_free (smime_cert);
 
 	can_sign =
 		(composer->priv->mime_type == NULL) ||
