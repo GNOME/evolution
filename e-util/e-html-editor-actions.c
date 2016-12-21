@@ -557,6 +557,9 @@ clipboard_text_received_for_paste_as_text (GtkClipboard *clipboard,
 {
 	EContentEditor *cnt_editor;
 
+	if (!text || !*text)
+		return;
+
 	cnt_editor = e_html_editor_get_content_editor (editor);
 	e_content_editor_insert_content (
 		cnt_editor,

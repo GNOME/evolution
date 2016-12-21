@@ -5665,6 +5665,7 @@ webkit_editor_paste_clipboard_targets_cb (GtkClipboard *clipboard,
 
 		webkit_editor_insert_image (E_CONTENT_EDITOR (wk_editor), uri);
 
+		g_free (content);
 		g_free (uri);
 
 		return;
@@ -5676,8 +5677,10 @@ webkit_editor_paste_clipboard_targets_cb (GtkClipboard *clipboard,
 	/* Prefer plain text over HTML when in the plain text mode, but only
 	 * when pasting content from outside the editor view. */
 
-	if (!content && !*content)
+	if (!content || !*content) {
+		g_free (content);
 		return;
+	}
 
 	if (is_html)
 		webkit_editor_insert_content (
