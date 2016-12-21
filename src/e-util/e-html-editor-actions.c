@@ -128,7 +128,7 @@ insert_text_file_ready_cb (GFile *file,
 
 	cnt_editor = e_html_editor_get_content_editor (editor);
 	e_content_editor_insert_content (
-		cnt_editor, contents, E_CONTENT_EDITOR_INSERT_TEXT_PLAIN);
+		cnt_editor, contents, E_CONTENT_EDITOR_INSERT_CONVERT | E_CONTENT_EDITOR_INSERT_TEXT_PLAIN);
 
 	g_free (contents);
 
