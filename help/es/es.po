@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution-help.master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-11-13 21:37+0000\n"
-"PO-Revision-Date: 2016-11-15 08:40+0100\n"
+"POT-Creation-Date: 2016-12-20 15:26+0000\n"
+"PO-Revision-Date: 2016-12-21 09:58+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: es <gnome-es-list@gnome.org>\n"
 "Language: \n"
@@ -4303,23 +4303,8 @@ msgstr ""
 msgid "Junk Mail Preferences"
 msgstr "Opciones de correo spam"
 
-#. (itstool) path: note/p
-#: C/mail-spam-settings.page:62
-msgid ""
-"The junk mail options discussed in this page refer only to POP and Local "
-"Delivery accounts. For handling junk mail on IMAP accounts, see the "
-"<app>Evolution</app> settings under <guiseq><gui>Edit</gui><gui>Preferences</"
-"gui><gui>Mail Accounts</gui><gui style=\"button\">Edit</gui><gui>Receiving "
-"Options</gui></guiseq>."
-msgstr ""
-"Las opciones de SPAM comentadas en esta página sólo se refieren a las "
-"cuentas POP y Entrega local. Para gestionar correos SPAM en cuentas IMAP "
-"consulte la configuración de <app>Evolution</app> en <guiseq><gui>Editar</"
-"gui><gui>Preferencias</gui><gui>Cuentas de correo</gui><gui style=\"button"
-"\">Editar</gui><gui>Opciones de recepción</gui></guiseq>."
-
 #. (itstool) path: section/p
-#: C/mail-spam-settings.page:63
+#: C/mail-spam-settings.page:62
 msgid ""
 "You can modify how <app>Evolution</app> handles junk mail by changing the "
 "Junk Mail Preferences:"
@@ -4328,7 +4313,7 @@ msgstr ""
 "Opciones de SPAM:"
 
 #. (itstool) path: item/p
-#: C/mail-spam-settings.page:65
+#: C/mail-spam-settings.page:64
 msgid ""
 "Click <guiseq><gui>Edit</gui><gui>Preferences</gui></guiseq> or press "
 "<keyseq><key>Shift</key><key>Ctrl</key><key>S</key></keyseq>."
@@ -4337,23 +4322,34 @@ msgstr ""
 "<keyseq><key>Mayús</key><key>Ctrl</key><key>S</key></keyseq>."
 
 #. (itstool) path: item/p
-#: C/mail-spam-settings.page:66
+#: C/mail-spam-settings.page:65
 msgid "Select <gui>Mail Preferences</gui>."
 msgstr "Seleccione <gui>Opciones de correo</gui>."
 
 #. (itstool) path: item/p
-#: C/mail-spam-settings.page:67
-msgid "Click on the <gui>Junk</gui> tab. Here, you can specify the following:"
+#: C/mail-spam-settings.page:66
+#| msgid ""
+#| "Click on the <gui>Junk</gui> tab. Here, you can specify the following:"
+msgid ""
+"Click on the <gui>Junk</gui> tab. Here, you can specify the following global "
+"settings that are applied to all mail accounts:"
 msgstr ""
-"Pulse en la pestaña <gui>SPAM</gui>. Aquí podrá especificar lo siguiente:"
+"Pulse en la pestaña <gui>SPAM</gui>. Aquí podrá especificar la siguiente "
+"configuración global que se aplica a todas las cuentas de correo:"
+
+#. (itstool) path: item/p
+#: C/mail-spam-settings.page:68
+msgid ""
+"Checking incoming messages for junk. This is a global setting: If it is not "
+"enabled, enabling junk mail options for a specific account (see below) will "
+"not have any effect."
+msgstr ""
+"Comprobar si el corre entrante es SPAM. Esto es una opción global: si no "
+"está activada, activa las opciones de corroe basura para una cuenta "
+"específica (ver más abajo) no tendrá ningún efecto."
 
 #. (itstool) path: item/p
 #: C/mail-spam-settings.page:69
-msgid "Checking incoming messages for junk."
-msgstr "Comprobar si los mensajes entrantes son spam."
-
-#. (itstool) path: item/p
-#: C/mail-spam-settings.page:70
 msgid ""
 "Deleting junk messages upon exit, and how often junk messages are to be "
 "deleted."
@@ -4362,18 +4358,41 @@ msgstr ""
 "basura."
 
 #. (itstool) path: item/p
-#: C/mail-spam-settings.page:71
+#: C/mail-spam-settings.page:70
 msgid "Marking messages as not junk if the sender is in the address book."
 msgstr ""
 "Marcar mensajes como no SPAM si el remitente está en la libreta de "
 "direcciones."
 
 #. (itstool) path: item/p
-#: C/mail-spam-settings.page:72
+#: C/mail-spam-settings.page:71
 msgid "Checking custom mail headers (added by your mail server) for junk."
 msgstr ""
 "Comprobar si las cabeceras personalizadas (añadidas por su servidor de "
 "correo) son spam."
+
+#. (itstool) path: item/p
+#: C/mail-spam-settings.page:74
+#| msgid ""
+#| "You can define a default <link xref=\"mail-composer-mail-signatures"
+#| "\">signature</link> for each of your mail accounts. This can be edited "
+#| "under <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</"
+#| "gui><gui style=\"button\">Edit</gui><gui>Identity</gui><gui>Optional "
+#| "Information</gui></guiseq>."
+msgid ""
+"Junk settings for a specific mail account (available for all account types "
+"except for POP accounts which use the global setting) can be set under "
+"<guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</gui><gui "
+"style=\"button\">Edit</gui><gui>Receiving Options</gui><gui>Check new "
+"messages for Junk contents</gui></guiseq>."
+msgstr ""
+"Configuración de correo basura para una cuenta específica (disponible para "
+"todos los tipos de cuentas excepto para las cuentas POP) Puede definir una "
+"<link xref=\"mail-composer-mail-signatures\">firma</link> predeterminada "
+"para cada una de sus cuentas de correo. Se puede editar en "
+"<guiseq><gui>Editar</gui><gui>Preferencias</gui><gui>Cuentas de correo</"
+"gui><gui>Editar</gui><gui>Identidad</gui><gui>Información opcional</gui></"
+"guiseq>."
 
 #. (itstool) path: note/p
 #: C/mail-spam-settings.page:77
@@ -6866,16 +6885,22 @@ msgstr "Opciones de recepción POP"
 
 #. (itstool) path: item/p
 #: C/mail-receiving-options-pop.page:51
+#| msgid ""
+#| "If you want the messages to remain on the server for a period of time, "
+#| "click the <gui>Leave messages on server</gui> option and the <gui>Delete "
+#| "after ... days</gui> option and select the number of days to allow "
+#| "messages to remain on the server."
 msgid ""
 "If you want the messages to remain on the server for a period of time, click "
 "the <gui>Leave messages on server</gui> option and the <gui>Delete after ... "
 "days</gui> option and select the number of days to allow messages to remain "
-"on the server."
+"on the server. Set 0 days to keep messages on the server forever."
 msgstr ""
 "Si quiere dejar los mensajes en el servidor por un periodo de tiempo, marque "
 "la opciones <gui>Dejar mensajes en el servidor</gui> y <gui>Eliminar después "
 "de ... días</gui> y seleccione el número de días que los mensajes se "
-"almacenarán en el servidor."
+"almacenarán en el servidor. Establézcalo a 0 días para mantenerlos siempre "
+"en el servidor."
 
 #. (itstool) path: item/p
 #: C/mail-receiving-options-pop.page:52
@@ -9293,29 +9318,40 @@ msgstr "Preferencias globales"
 
 #. (itstool) path: section/p
 #: C/mail-composer-spellcheck.page:44
+#| msgid ""
+#| "Under <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Composer "
+#| "Preferences</gui><gui>Spell Checking</gui><gui>Options</gui></guiseq> you "
+#| "can define whether your spelling is checked while you type and which "
+#| "color is used for underlining words that are misspelled."
 msgid ""
 "Under <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Composer "
 "Preferences</gui><gui>Spell Checking</gui><gui>Options</gui></guiseq> you "
-"can define whether your spelling is checked while you type and which color "
-"is used for underlining words that are misspelled."
+"can define whether your spelling is checked while you type."
 msgstr ""
 "Bajo <guiseq><gui>Editar</gui><gui>Preferencias</gui><gui>Preferencias del "
 "editor</gui><gui>Ortografía</gui><gui>Opciones</gui></guiseq> puede definir "
-"si quiere que se compruebe la ortografía según escribe y qué color se usa "
-"para subrayar las palabras mal escritas."
+"si quiere que se compruebe la ortografía según escribe."
 
 #. (itstool) path: section/p
 #: C/mail-composer-spellcheck.page:46
+#| msgid ""
+#| "You can also define which installed languages are used for spell checking "
+#| "in the list available under <guiseq><gui>Edit</gui><gui>Preferences</"
+#| "gui><gui>Composer Preferences</gui><gui>Spell Checking</"
+#| "gui><gui>Languages</gui></guiseq>."
 msgid ""
 "You can also define which installed languages are used for spell checking in "
 "the list available under <guiseq><gui>Edit</gui><gui>Preferences</"
 "gui><gui>Composer Preferences</gui><gui>Spell Checking</gui><gui>Languages</"
-"gui></guiseq>."
+"gui></guiseq> or in the email composer via <guiseq><gui>Edit</"
+"gui><gui>Current Languages</gui></guiseq>."
 msgstr ""
 "También puede definir qué idiomas instalados se usan para la corrección "
 "ortográfica en la lista disponible bajo <guiseq><gui>Editar</"
 "gui><gui>Preferencias</gui><gui>Preferencias del editor</"
-"gui><gui>Ortografía</gui><gui>Idiomas</gui></guiseq>."
+"gui><gui>Ortografía</gui><gui>Idiomas</gui></guiseq> o en el editor de "
+"mensajes mediante <guiseq><gui>Editar</gui><gui>Idiomas actuales</gui></"
+"guiseq>."
 
 #. (itstool) path: section/title
 #: C/mail-composer-spellcheck.page:50
@@ -9324,17 +9360,23 @@ msgstr "Comprobación de ortografía manual en el editor"
 
 #. (itstool) path: section/p
 #: C/mail-composer-spellcheck.page:51
+#| msgid ""
+#| "If you do not have <gui>Checking spelling while I type</gui> enabled in "
+#| "the <link xref=\"#global-preferences\">Composer Preferences</link> you "
+#| "can run a spell check in the email composer by clicking "
+#| "<guiseq><gui>Edit</gui><gui>Spell Checking</gui></guiseq> or by pressing "
+#| "<key>F7</key>."
 msgid ""
 "If you do not have <gui>Checking spelling while I type</gui> enabled in the "
 "<link xref=\"#global-preferences\">Composer Preferences</link> you can run a "
 "spell check in the email composer by clicking <guiseq><gui>Edit</"
-"gui><gui>Spell Checking</gui></guiseq> or by pressing <key>F7</key>."
+"gui><gui>Check Spelling…</gui></guiseq> or by pressing <key>F7</key>."
 msgstr ""
 "Si no tiene activada <gui>Comprobar ortografía mientras se escribe</gui> en "
 "las <link xref=\"#global-preferences\">Preferencias del editor</link> puede "
-"ejecutar una comprobación de ortografía en el editor de correos pulando "
-"<guiseq><gui>Editar</gui><gui>Ortografía</gui></guiseq> o pulsando <key>F7</"
-"key>."
+"ejecutar una comprobación de ortografía en el editor de correos pulsando "
+"<guiseq><gui>Editar</gui><gui>Comprobar ortografía…</gui></guiseq> o "
+"pulsando <key>F7</key>."
 
 #. (itstool) path: info/desc
 #: C/mail-composer-message-templates-reply.page:5
@@ -13388,6 +13430,22 @@ msgstr ""
 "<gui>Eliminar</gui> en la barra de herramientas, pulse <keyseq><key>Ctrl</"
 "key><key>D</key></keyseq>, o pulse <guiseq><gui>Editar</gui><gui>Eliminar "
 "contacto</gui></guiseq>."
+
+#~ msgid ""
+#~ "The junk mail options discussed in this page refer only to POP and Local "
+#~ "Delivery accounts. For handling junk mail on IMAP accounts, see the "
+#~ "<app>Evolution</app> settings under <guiseq><gui>Edit</"
+#~ "gui><gui>Preferences</gui><gui>Mail Accounts</gui><gui style=\"button"
+#~ "\">Edit</gui><gui>Receiving Options</gui></guiseq>."
+#~ msgstr ""
+#~ "Las opciones de SPAM comentadas en esta página sólo se refieren a las "
+#~ "cuentas POP y Entrega local. Para gestionar correos SPAM en cuentas IMAP "
+#~ "consulte la configuración de <app>Evolution</app> en <guiseq><gui>Editar</"
+#~ "gui><gui>Preferencias</gui><gui>Cuentas de correo</gui><gui style=\"button"
+#~ "\">Editar</gui><gui>Opciones de recepción</gui></guiseq>."
+
+#~ msgid "Checking incoming messages for junk."
+#~ msgstr "Comprobar si los mensajes entrantes son spam."
 
 #~ msgid "Creative Commons Attribution-ShareAlike 3.0 Unported License"
 #~ msgstr "Liencia Creative Commons Compartir Igual-Atribución 3.0 sin soporte"
