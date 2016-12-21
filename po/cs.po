@@ -21,8 +21,8 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2016-12-16 08:16+0000\n"
-"PO-Revision-Date: 2016-12-17 13:45+0100\n"
+"POT-Creation-Date: 2016-12-21 11:22+0000\n"
+"PO-Revision-Date: 2016-12-22 00:01+0100\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: čeština <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -3430,7 +3430,7 @@ msgstr "Možnosti"
 #: ../src/e-util/e-source-selector-dialog.c:370
 #: ../src/e-util/e-table-config.c:548 ../src/e-util/e-table-config.ui.h:3
 #: ../src/e-util/e-timezone-dialog.ui.h:2
-#: ../src/e-util/evolution-source-viewer.c:835 ../src/e-util/e-web-view.c:4027
+#: ../src/e-util/evolution-source-viewer.c:835 ../src/e-util/e-web-view.c:4054
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:267
 #: ../src/mail/e-mail-config-window.c:331 ../src/mail/e-mail-label-dialog.c:194
 #: ../src/mail/e-mail-tag-editor.c:168 ../src/mail/em-folder-selector.c:318
@@ -3464,7 +3464,7 @@ msgstr "_Zrušit"
 #: ../src/composer/e-composer-actions.c:345
 #: ../src/e-util/e-attachment-store.c:829
 #: ../src/e-util/e-mail-signature-script-dialog.c:370
-#: ../src/e-util/e-web-view.c:4028
+#: ../src/e-util/e-web-view.c:4055
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:268
 #: ../src/shell/e-shell-content.c:658 ../src/shell/e-shell-utils.c:135
 #: ../src/smime/gui/certificate-manager.c:666
@@ -3747,7 +3747,7 @@ msgstr "Certifikáty"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:260
 #: ../src/calendar/gui/e-comp-editor.c:2039
-#: ../src/e-util/e-html-editor-actions.c:904
+#: ../src/e-util/e-html-editor-actions.c:907
 msgid "_Undo"
 msgstr "_Zpět"
 
@@ -3758,7 +3758,7 @@ msgstr "Zpět"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:267
 #: ../src/calendar/gui/e-comp-editor.c:2046
-#: ../src/e-util/e-html-editor-actions.c:890
+#: ../src/e-util/e-html-editor-actions.c:893
 msgid "_Redo"
 msgstr "Zn_ovu"
 
@@ -4136,7 +4136,7 @@ msgid "Send a mail message to this address"
 msgstr "Odeslat e-mailovou zprávu na tuto adresu?"
 
 #: ../src/addressbook/gui/widgets/eab-contact-display.c:290
-#: ../src/e-util/e-web-view.c:1289
+#: ../src/e-util/e-web-view.c:1314
 #, c-format
 msgid "Click to mail %s"
 msgstr "Kliknutím sem pošlete e-mail %s"
@@ -4753,7 +4753,7 @@ msgstr "Z_menšit"
 
 #. Search button
 #: ../src/addressbook/gui/widgets/e-contact-map-window.c:447
-#: ../src/e-util/e-html-editor-actions.c:1863
+#: ../src/e-util/e-html-editor-actions.c:1866
 #: ../src/e-util/e-html-editor-find-dialog.c:250
 #: ../src/shell/e-shell-window-actions.c:899
 msgid "_Find"
@@ -5042,7 +5042,7 @@ msgstr "Od_ložit"
 #: ../src/calendar/gui/e-comp-editor-page-general.c:1363
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2239
 #: ../src/calendar/gui/e-comp-editor.c:2062
-#: ../src/e-util/e-html-editor-actions.c:913
+#: ../src/e-util/e-html-editor-actions.c:916
 #: ../src/e-util/e-mail-signature-manager.c:358 ../src/e-util/filter.ui.h:24
 #: ../src/mail/e-mail-account-manager.c:728 ../src/mail/e-mail-browser.c:171
 #: ../src/mail/e-mail-label-manager.c:380 ../src/mail/mail-config.ui.h:65
@@ -5398,7 +5398,7 @@ msgstr ""
 "E-maily s pozvánkami budou odeslány všem účastníkům, aby mohli odpovědět."
 
 #: ../src/calendar/calendar.error.xml.h:40
-#: ../src/composer/mail-composer.error.xml.h:36 ../src/mail/mail.error.xml.h:8
+#: ../src/composer/mail-composer.error.xml.h:38 ../src/mail/mail.error.xml.h:8
 #: ../src/plugins/attachment-reminder/org-gnome-attachment-reminder.error.xml.h:5
 msgid "_Send"
 msgstr "_Odeslat"
@@ -8016,7 +8016,7 @@ msgstr "Zavřít aktuální okno"
 
 #. copy menu item
 #: ../src/calendar/gui/e-comp-editor.c:1983 ../src/e-util/e-focus-tracker.c:773
-#: ../src/e-util/e-html-editor-actions.c:869 ../src/e-util/e-text.c:2110
+#: ../src/e-util/e-html-editor-actions.c:872 ../src/e-util/e-text.c:2110
 #: ../src/e-util/e-web-view.c:407 ../src/mail/e-mail-browser.c:134
 #: ../src/mail/mail.error.xml.h:146 ../src/shell/e-shell-window-actions.c:808
 msgid "_Copy"
@@ -8025,21 +8025,21 @@ msgstr "_Kopírovat"
 #: ../src/calendar/gui/e-comp-editor.c:1985 ../src/e-util/e-focus-tracker.c:173
 #: ../src/e-util/e-focus-tracker.c:229 ../src/e-util/e-focus-tracker.c:282
 #: ../src/e-util/e-focus-tracker.c:774 ../src/e-util/e-web-view.c:409
-#: ../src/e-util/e-web-view.c:1906 ../src/mail/e-mail-browser.c:136
+#: ../src/e-util/e-web-view.c:1931 ../src/mail/e-mail-browser.c:136
 #: ../src/shell/e-shell-window-actions.c:810
 msgid "Copy the selection"
 msgstr "Kopírovat výběr"
 
 #. cut menu item
 #: ../src/calendar/gui/e-comp-editor.c:1990 ../src/e-util/e-focus-tracker.c:768
-#: ../src/e-util/e-html-editor-actions.c:876 ../src/e-util/e-text.c:2096
+#: ../src/e-util/e-html-editor-actions.c:879 ../src/e-util/e-text.c:2096
 #: ../src/mail/e-mail-browser.c:141 ../src/shell/e-shell-window-actions.c:815
 msgid "Cu_t"
 msgstr "_Vyjmout"
 
 #: ../src/calendar/gui/e-comp-editor.c:1992 ../src/e-util/e-focus-tracker.c:166
 #: ../src/e-util/e-focus-tracker.c:222 ../src/e-util/e-focus-tracker.c:276
-#: ../src/e-util/e-focus-tracker.c:769 ../src/e-util/e-web-view.c:1915
+#: ../src/e-util/e-focus-tracker.c:769 ../src/e-util/e-web-view.c:1940
 #: ../src/mail/e-mail-browser.c:143 ../src/shell/e-shell-window-actions.c:817
 msgid "Cut the selection"
 msgstr "Vyjmout výběr"
@@ -8056,14 +8056,14 @@ msgstr "Zobrazit nápovědu"
 
 #. paste menu item
 #: ../src/calendar/gui/e-comp-editor.c:2011 ../src/e-util/e-focus-tracker.c:778
-#: ../src/e-util/e-html-editor-actions.c:883 ../src/e-util/e-text.c:2122
+#: ../src/e-util/e-html-editor-actions.c:886 ../src/e-util/e-text.c:2122
 #: ../src/mail/e-mail-browser.c:148 ../src/shell/e-shell-window-actions.c:843
 msgid "_Paste"
 msgstr "V_ložit"
 
 #: ../src/calendar/gui/e-comp-editor.c:2013 ../src/e-util/e-focus-tracker.c:180
 #: ../src/e-util/e-focus-tracker.c:236 ../src/e-util/e-focus-tracker.c:288
-#: ../src/e-util/e-focus-tracker.c:779 ../src/e-util/e-web-view.c:1924
+#: ../src/e-util/e-focus-tracker.c:779 ../src/e-util/e-web-view.c:1949
 #: ../src/mail/e-mail-browser.c:150 ../src/shell/e-shell-window-actions.c:845
 msgid "Paste the clipboard"
 msgstr "Vložit schránku"
@@ -8084,7 +8084,7 @@ msgid "Pre_view..."
 msgstr "Náh_led…"
 
 #: ../src/calendar/gui/e-comp-editor.c:2032 ../src/e-util/e-focus-tracker.c:788
-#: ../src/e-util/e-html-editor-actions.c:897 ../src/e-util/e-web-view.c:417
+#: ../src/e-util/e-html-editor-actions.c:900 ../src/e-util/e-web-view.c:417
 #: ../src/mail/e-mail-browser.c:155 ../src/shell/e-shell-window-actions.c:920
 msgid "Select _All"
 msgstr "Vybr_at vše"
@@ -8100,14 +8100,14 @@ msgid "_Classification"
 msgstr "Klasi_fikace"
 
 #: ../src/calendar/gui/e-comp-editor.c:2069
-#: ../src/e-util/e-html-editor-actions.c:920
+#: ../src/e-util/e-html-editor-actions.c:923
 #: ../src/e-util/e-mail-signature-editor.c:323 ../src/mail/e-mail-browser.c:164
 #: ../src/mail/e-mail-notes.c:945 ../src/shell/e-shell-window-actions.c:957
 msgid "_File"
 msgstr "_Soubor"
 
 #: ../src/calendar/gui/e-comp-editor.c:2083
-#: ../src/e-util/e-html-editor-actions.c:941
+#: ../src/e-util/e-html-editor-actions.c:944
 msgid "_Insert"
 msgstr "_Vložit"
 
@@ -8117,7 +8117,7 @@ msgid "_Options"
 msgstr "V_olby"
 
 #: ../src/calendar/gui/e-comp-editor.c:2097
-#: ../src/e-util/e-html-editor-actions.c:962 ../src/mail/e-mail-browser.c:178
+#: ../src/e-util/e-html-editor-actions.c:965 ../src/mail/e-mail-browser.c:178
 #: ../src/shell/e-shell-window-actions.c:1000
 #: ../src/smime/gui/certificate-manager.c:1662 ../src/smime/gui/smime-ui.ui.h:3
 msgid "_View"
@@ -10934,11 +10934,11 @@ msgstr ""
 "Nelze zašifrovat odchozí zprávu: Pro tento účet nebyl nastaven šifrovací "
 "certifikát"
 
-#: ../src/composer/e-msg-composer.c:1606 ../src/composer/e-msg-composer.c:2406
+#: ../src/composer/e-msg-composer.c:1606 ../src/composer/e-msg-composer.c:2412
 msgid "Compose Message"
 msgstr "Napsat zprávu"
 
-#: ../src/composer/e-msg-composer.c:4753
+#: ../src/composer/e-msg-composer.c:4759
 msgid "The composer contains a non-text message body, which cannot be edited."
 msgstr "Editor zpráv obsahuje netextové tělo zprávy, které nelze upravovat."
 
@@ -11021,67 +11021,73 @@ msgid "Could not create message."
 msgstr "Nelze vytvořit zprávu."
 
 #: ../src/composer/mail-composer.error.xml.h:19
-msgid "Because “{0}”, you may need to select different mail options."
-msgstr "Protože „{0}“, možná budete muset zvolit jiná nastavení pošty."
+msgid ""
+"You may need to select different mail options.\n"
+"\n"
+"Detailed error: {0}"
+msgstr ""
+"Možná budete muset pro poštu nastavit jiné volby.\n"
+"\n"
+"Upřesnění chyby: {0}"
 
-#: ../src/composer/mail-composer.error.xml.h:20
+#: ../src/composer/mail-composer.error.xml.h:22
 msgid "Could not read signature file “{0}”."
 msgstr "Nelze číst soubor s podpisem „{0}“."
 
-#: ../src/composer/mail-composer.error.xml.h:21
+#: ../src/composer/mail-composer.error.xml.h:23
 msgid "All accounts have been removed."
 msgstr "Všechny účty byly odstraněny."
 
-#: ../src/composer/mail-composer.error.xml.h:22
+#: ../src/composer/mail-composer.error.xml.h:24
 msgid "You need to configure an account before you can compose mail."
 msgstr "Než budete moci psát zprávu, musíte nastavit účet."
 
-#: ../src/composer/mail-composer.error.xml.h:23
+#: ../src/composer/mail-composer.error.xml.h:25
 msgid "An error occurred while saving to your Outbox folder."
 msgstr "Během ukládání do složky K odeslání se vyskytla chyba."
 
-#: ../src/composer/mail-composer.error.xml.h:24
+#: ../src/composer/mail-composer.error.xml.h:26
 msgid "The reported error was “{0}”. The message has not been sent."
 msgstr "Nahlášená chyba byla „{0}“. Zpráva nebyla odeslána."
 
-#: ../src/composer/mail-composer.error.xml.h:25
+#: ../src/composer/mail-composer.error.xml.h:27
 msgid "An error occurred while saving to your Drafts folder."
 msgstr "Během ukládání do složky Koncepty se vyskytla chyba."
 
-#: ../src/composer/mail-composer.error.xml.h:26
+#: ../src/composer/mail-composer.error.xml.h:28
 msgid ""
 "The reported error was “{0}”. The message has most likely not been saved."
 msgstr ""
 "Nahlášená chyba byla „{0}“. Zpráva nebyla s největší pravděpodobností "
 "uložena."
 
-#: ../src/composer/mail-composer.error.xml.h:27
+#: ../src/composer/mail-composer.error.xml.h:29
 msgid "An error occurred while sending. How do you want to proceed?"
 msgstr "Během odesílání se vyskytla chyba. Jak chcete pokračovat?"
 
-#: ../src/composer/mail-composer.error.xml.h:28
+#: ../src/composer/mail-composer.error.xml.h:30
 #: ../src/mail/mail.error.xml.h:175
 msgid "The reported error was “{0}”."
 msgstr "Nahlášená chyba byla „{0}“."
 
-#: ../src/composer/mail-composer.error.xml.h:29
+#: ../src/composer/mail-composer.error.xml.h:31
 msgid "_Save to Outbox"
 msgstr "_Uložit do složky K odeslání"
 
-#: ../src/composer/mail-composer.error.xml.h:30
+#: ../src/composer/mail-composer.error.xml.h:32
 msgid "_Try Again"
 msgstr "_Zkusit znovu"
 
-#: ../src/composer/mail-composer.error.xml.h:31
+#: ../src/composer/mail-composer.error.xml.h:33
 msgid "Your message was sent, but an error occurred during post-processing."
 msgstr ""
 "Zpráva byla odeslána, ale vyskytla se chyba během následného zpracování."
 
-#: ../src/composer/mail-composer.error.xml.h:32
+#: ../src/composer/mail-composer.error.xml.h:34
 msgid "Saving message to Outbox."
 msgstr "Probíhá ukládání zprávy do složky K odeslání."
 
-#: ../src/composer/mail-composer.error.xml.h:33
+#: ../src/composer/mail-composer.error.xml.h:35
 msgid ""
 "The message will be saved to your local Outbox folder, because the "
 "destination service is currently unavailable. You can send the message by "
@@ -11091,11 +11097,11 @@ msgstr ""
 "momentálně nedostupná. Zprávu můžete odeslat kliknutím na tlačítko Odeslat/"
 "přijmout v nástrojové liště aplikace Evolution."
 
-#: ../src/composer/mail-composer.error.xml.h:34
+#: ../src/composer/mail-composer.error.xml.h:36
 msgid "Are you sure you want to send the message?"
 msgstr "Opravdu chcete odeslat zprávu?"
 
-#: ../src/composer/mail-composer.error.xml.h:35
+#: ../src/composer/mail-composer.error.xml.h:37
 msgid ""
 "A keyboard accelerator to send the message has been pressed. Either cancel "
 "sending the message, if it was done by an accident, or send the message."
@@ -11103,11 +11109,11 @@ msgstr ""
 "Byla zmáčknuta klávesová zkratka pro odeslání zprávy. Buď odeslání zprávy "
 "zrušte, pokud se tak stalo omylem, nebo zprávu odešlete."
 
-#: ../src/composer/mail-composer.error.xml.h:37
+#: ../src/composer/mail-composer.error.xml.h:39
 msgid "Are you sure you want to change the composer format?"
 msgstr "Opravdu chcete změnit formát v editoru?"
 
-#: ../src/composer/mail-composer.error.xml.h:38
+#: ../src/composer/mail-composer.error.xml.h:40
 msgid ""
 "Switching to Plain Text format will cause the text to lose all the HTML "
 "formatting. Do you want to continue?"
@@ -11115,23 +11121,23 @@ msgstr ""
 "Přepnutí na formát prostého textu způsobí ztrátu formátování HTML. Chcete "
 "pokračovat?"
 
-#: ../src/composer/mail-composer.error.xml.h:39
+#: ../src/composer/mail-composer.error.xml.h:41
 msgid "_Don’t lose formatting"
 msgstr "Zachovat _formátování"
 
-#: ../src/composer/mail-composer.error.xml.h:40
+#: ../src/composer/mail-composer.error.xml.h:42
 msgid "Lose _formatting"
 msgstr "Přijít o _formátování"
 
-#: ../src/composer/mail-composer.error.xml.h:41
+#: ../src/composer/mail-composer.error.xml.h:43
 msgid "An error occurred while saving to your Templates folder."
 msgstr "Během ukládání do složky Koncepty se vyskytla chyba."
 
-#: ../src/composer/mail-composer.error.xml.h:42
+#: ../src/composer/mail-composer.error.xml.h:44
 msgid "Are you sure you want to convert the message into a meeting?"
 msgstr "Opravdu chcete převést zprávu na schůzku?"
 
-#: ../src/composer/mail-composer.error.xml.h:43
+#: ../src/composer/mail-composer.error.xml.h:45
 msgid ""
 "By converting the message into the meeting the composed message will be "
 "closed and the changes being done discarded."
@@ -11139,15 +11145,15 @@ msgstr ""
 "Převedením zprávy na schůzku se rozepsaná zpráva zavře a provedené změny "
 "budou zahozeny."
 
-#: ../src/composer/mail-composer.error.xml.h:44
+#: ../src/composer/mail-composer.error.xml.h:46
 msgid "Convert to _Meeting"
 msgstr "Převést na _schůzku"
 
-#: ../src/composer/mail-composer.error.xml.h:45
+#: ../src/composer/mail-composer.error.xml.h:47
 msgid "Are you sure you want to convert the event into a message?"
 msgstr "Opravdu chcete převést událost na zprávu?"
 
-#: ../src/composer/mail-composer.error.xml.h:46
+#: ../src/composer/mail-composer.error.xml.h:48
 msgid ""
 "By converting the event into the message the editing window will be closed "
 "and the changes being done discarded."
@@ -11155,15 +11161,15 @@ msgstr ""
 "Převedením události na zprávu se zavře editační okno a provedené změny budou "
 "zahozeny."
 
-#: ../src/composer/mail-composer.error.xml.h:47
+#: ../src/composer/mail-composer.error.xml.h:49
 msgid "Convert to _Message"
 msgstr "Převést na _zprávu"
 
-#: ../src/composer/mail-composer.error.xml.h:48
+#: ../src/composer/mail-composer.error.xml.h:50
 msgid "Are you sure you want to convert the memo into a message?"
 msgstr "Opravdu chcete převést poznámku na zprávu?"
 
-#: ../src/composer/mail-composer.error.xml.h:49
+#: ../src/composer/mail-composer.error.xml.h:51
 msgid ""
 "By converting the memo into the message the editing window will be closed "
 "and the changes being done discarded."
@@ -11171,11 +11177,11 @@ msgstr ""
 "Převedením poznámky na zprávu se zavře editační okno a provedené změny budou "
 "zahozeny."
 
-#: ../src/composer/mail-composer.error.xml.h:50
+#: ../src/composer/mail-composer.error.xml.h:52
 msgid "Are you sure you want to convert the task into a message?"
 msgstr "Opravdu chcete převést úkol na zprávu?"
 
-#: ../src/composer/mail-composer.error.xml.h:51
+#: ../src/composer/mail-composer.error.xml.h:53
 msgid ""
 "By converting the task into the message the editing window will be closed "
 "and the changes being done discarded."
@@ -11183,11 +11189,11 @@ msgstr ""
 "Převedením úkolu na zprávu se zavře editační okno a provedené změny budou "
 "zahozeny."
 
-#: ../src/composer/mail-composer.error.xml.h:52
+#: ../src/composer/mail-composer.error.xml.h:54
 msgid "Something has gone wrong when editing the message"
 msgstr "Při úpravách zprávy se něco nepovedlo správně"
 
-#: ../src/composer/mail-composer.error.xml.h:53
+#: ../src/composer/mail-composer.error.xml.h:55
 msgid ""
 "A WebKitWebProcess crashed when editing the message. You can try again by "
 "closing the composer window and opening a new one. If the issue persists, "
@@ -11297,7 +11303,7 @@ msgstr "Formátovat část jako HTML"
 
 #: ../src/em-format/e-mail-formatter-quote-text-plain.c:121
 #: ../src/em-format/e-mail-formatter-text-plain.c:196
-#: ../src/e-util/e-html-editor-actions.c:1305
+#: ../src/e-util/e-html-editor-actions.c:1308
 msgid "Plain Text"
 msgstr "Prostý text"
 
@@ -11461,7 +11467,7 @@ msgid "S/MIME encrypted"
 msgstr "Šifrováno S/MIME"
 
 #: ../src/em-format/e-mail-formatter-utils.c:609
-#: ../src/mail/e-mail-config-security-page.c:761
+#: ../src/mail/e-mail-config-security-page.c:716
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:272
 #: ../src/modules/mail-config/e-mail-config-smtp-backend.c:215
 msgid "Security"
@@ -12255,8 +12261,8 @@ msgid "white"
 msgstr "bílá"
 
 #: ../src/e-util/e-color-combo.c:642 ../src/mail/e-mail-account-tree-view.c:135
-#: ../src/mail/e-mail-config-security-page.c:427
-#: ../src/mail/e-mail-config-security-page.c:591
+#: ../src/mail/e-mail-config-security-page.c:406
+#: ../src/mail/e-mail-config-security-page.c:570
 #: ../src/mail/e-mail-reader.c:4049 ../src/mail/mail-config.ui.h:75
 msgid "Default"
 msgstr "Výchozí"
@@ -12769,470 +12775,470 @@ msgstr "Vložení textového souboru"
 msgid "Text file"
 msgstr "Textový soubor"
 
-#: ../src/e-util/e-html-editor-actions.c:871
+#: ../src/e-util/e-html-editor-actions.c:874
 msgid "Copy selected text to the clipboard"
 msgstr "Zkopírovat vybraný text do schránky"
 
-#: ../src/e-util/e-html-editor-actions.c:878
+#: ../src/e-util/e-html-editor-actions.c:881
 msgid "Cut selected text to the clipboard"
 msgstr "Vyjmout vybraný text do schránky"
 
 #. Widgets are treating Ctrl + v shortcut themselves
-#: ../src/e-util/e-html-editor-actions.c:885
+#: ../src/e-util/e-html-editor-actions.c:888
 msgid "Paste text from the clipboard"
 msgstr "Vložit text ze schránky"
 
-#: ../src/e-util/e-html-editor-actions.c:892
+#: ../src/e-util/e-html-editor-actions.c:895
 msgid "Redo the last undone action"
 msgstr "Znovu provést poslední vrácenou činnost"
 
-#: ../src/e-util/e-html-editor-actions.c:906
+#: ../src/e-util/e-html-editor-actions.c:909
 msgid "Undo the last action"
 msgstr "Vráti zpět poslední činnost"
 
-#: ../src/e-util/e-html-editor-actions.c:927
+#: ../src/e-util/e-html-editor-actions.c:930
 msgid "For_mat"
 msgstr "For_mát"
 
-#: ../src/e-util/e-html-editor-actions.c:934
+#: ../src/e-util/e-html-editor-actions.c:937
 msgid "_Paragraph Style"
 msgstr "Styl _odstavce"
 
-#: ../src/e-util/e-html-editor-actions.c:948
+#: ../src/e-util/e-html-editor-actions.c:951
 #: ../src/e-util/e-html-editor-image-dialog.c:585
 msgid "_Alignment"
 msgstr "Z_arovnání"
 
-#: ../src/e-util/e-html-editor-actions.c:955
+#: ../src/e-util/e-html-editor-actions.c:958
 msgid "Current _Languages"
 msgstr "Aktuální _jazyky"
 
-#: ../src/e-util/e-html-editor-actions.c:972
+#: ../src/e-util/e-html-editor-actions.c:975
 msgid "_Increase Indent"
 msgstr "Zvětš_it odsazení"
 
-#: ../src/e-util/e-html-editor-actions.c:974
+#: ../src/e-util/e-html-editor-actions.c:977
 msgid "Increase Indent"
 msgstr "Zvětšit odsazení"
 
-#: ../src/e-util/e-html-editor-actions.c:979
+#: ../src/e-util/e-html-editor-actions.c:982
 msgid "_HTML File..."
 msgstr "Soubor _HTML…"
 
-#: ../src/e-util/e-html-editor-actions.c:986
+#: ../src/e-util/e-html-editor-actions.c:989
 msgid "Te_xt File..."
 msgstr "Te_xtový soubor…"
 
-#: ../src/e-util/e-html-editor-actions.c:993
+#: ../src/e-util/e-html-editor-actions.c:996
 msgid "Paste _Quotation"
 msgstr "Vložit _citaci"
 
-#: ../src/e-util/e-html-editor-actions.c:1000
+#: ../src/e-util/e-html-editor-actions.c:1003
 msgid "_Find..."
 msgstr "_Hledat…"
 
-#: ../src/e-util/e-html-editor-actions.c:1002
+#: ../src/e-util/e-html-editor-actions.c:1005
 msgid "Search for text"
 msgstr "Hledat text"
 
-#: ../src/e-util/e-html-editor-actions.c:1007
+#: ../src/e-util/e-html-editor-actions.c:1010
 msgid "Find A_gain"
 msgstr "Hl_edat znovu"
 
-#: ../src/e-util/e-html-editor-actions.c:1014
+#: ../src/e-util/e-html-editor-actions.c:1017
 msgid "Re_place..."
 msgstr "_Nahradit…"
 
-#: ../src/e-util/e-html-editor-actions.c:1016
+#: ../src/e-util/e-html-editor-actions.c:1019
 msgid "Search for and replace text"
 msgstr "Hledat a nahradit text"
 
-#: ../src/e-util/e-html-editor-actions.c:1021
+#: ../src/e-util/e-html-editor-actions.c:1024
 msgid "Check _Spelling..."
 msgstr "Zkontrolovat pravopi_s…"
 
-#: ../src/e-util/e-html-editor-actions.c:1028
+#: ../src/e-util/e-html-editor-actions.c:1031
 msgid "_Decrease Indent"
 msgstr "Zmenšit o_dsazení"
 
-#: ../src/e-util/e-html-editor-actions.c:1030
+#: ../src/e-util/e-html-editor-actions.c:1033
 msgid "Decrease Indent"
 msgstr "Zmenšit odsazení"
 
-#: ../src/e-util/e-html-editor-actions.c:1035
+#: ../src/e-util/e-html-editor-actions.c:1038
 msgid "_Wrap Lines"
 msgstr "_Zalamovat řádky"
 
 #. Center
-#: ../src/e-util/e-html-editor-actions.c:1045
+#: ../src/e-util/e-html-editor-actions.c:1048
 #: ../src/e-util/e-html-editor-paragraph-dialog.c:108
 msgid "_Center"
 msgstr "Na stře_d"
 
-#: ../src/e-util/e-html-editor-actions.c:1047
+#: ../src/e-util/e-html-editor-actions.c:1050
 msgid "Center Alignment"
 msgstr "Zarovnat na střed"
 
 #. Left
-#: ../src/e-util/e-html-editor-actions.c:1052
+#: ../src/e-util/e-html-editor-actions.c:1055
 #: ../src/e-util/e-html-editor-paragraph-dialog.c:99
 msgid "_Left"
 msgstr "V_levo"
 
-#: ../src/e-util/e-html-editor-actions.c:1054
+#: ../src/e-util/e-html-editor-actions.c:1057
 msgid "Left Alignment"
 msgstr "Zarovnat vlevo"
 
 #. Right
-#: ../src/e-util/e-html-editor-actions.c:1059
+#: ../src/e-util/e-html-editor-actions.c:1062
 #: ../src/e-util/e-html-editor-paragraph-dialog.c:117
 msgid "_Right"
 msgstr "Vp_ravo"
 
-#: ../src/e-util/e-html-editor-actions.c:1061
+#: ../src/e-util/e-html-editor-actions.c:1064
 msgid "Right Alignment"
 msgstr "Zarovnat vpravo"
 
-#: ../src/e-util/e-html-editor-actions.c:1069
+#: ../src/e-util/e-html-editor-actions.c:1072
 #: ../src/modules/text-highlight/languages.c:70
 msgid "_HTML"
 msgstr "_HTML"
 
-#: ../src/e-util/e-html-editor-actions.c:1071
+#: ../src/e-util/e-html-editor-actions.c:1074
 msgid "HTML editing mode"
 msgstr "Režim úprav v HTML"
 
-#: ../src/e-util/e-html-editor-actions.c:1076
+#: ../src/e-util/e-html-editor-actions.c:1079
 msgid "Plain _Text"
 msgstr "Prostý _text"
 
-#: ../src/e-util/e-html-editor-actions.c:1078
+#: ../src/e-util/e-html-editor-actions.c:1081
 msgid "Plain text editing mode"
 msgstr "Režim úprav v prostém textu"
 
-#: ../src/e-util/e-html-editor-actions.c:1086
+#: ../src/e-util/e-html-editor-actions.c:1089
 msgid "_Normal"
 msgstr "_Normální"
 
-#: ../src/e-util/e-html-editor-actions.c:1093
+#: ../src/e-util/e-html-editor-actions.c:1096
 msgid "Header _1"
 msgstr "Nadpis _1"
 
-#: ../src/e-util/e-html-editor-actions.c:1100
+#: ../src/e-util/e-html-editor-actions.c:1103
 msgid "Header _2"
 msgstr "Nadpis _2"
 
-#: ../src/e-util/e-html-editor-actions.c:1107
+#: ../src/e-util/e-html-editor-actions.c:1110
 msgid "Header _3"
 msgstr "Nadpis _3"
 
-#: ../src/e-util/e-html-editor-actions.c:1114
+#: ../src/e-util/e-html-editor-actions.c:1117
 msgid "Header _4"
 msgstr "Nadpis _4"
 
-#: ../src/e-util/e-html-editor-actions.c:1121
+#: ../src/e-util/e-html-editor-actions.c:1124
 msgid "Header _5"
 msgstr "Nadpis _5"
 
-#: ../src/e-util/e-html-editor-actions.c:1128
+#: ../src/e-util/e-html-editor-actions.c:1131
 msgid "Header _6"
 msgstr "Nadpis _6"
 
-#: ../src/e-util/e-html-editor-actions.c:1135
+#: ../src/e-util/e-html-editor-actions.c:1138
 msgid "_Preformatted"
 msgstr "_Předformátováno"
 
-#: ../src/e-util/e-html-editor-actions.c:1142
+#: ../src/e-util/e-html-editor-actions.c:1145
 msgid "A_ddress"
 msgstr "A_dresa"
 
-#: ../src/e-util/e-html-editor-actions.c:1149
+#: ../src/e-util/e-html-editor-actions.c:1152
 msgid "_Bulleted List"
 msgstr "Seznam s o_drážkami"
 
-#: ../src/e-util/e-html-editor-actions.c:1156
+#: ../src/e-util/e-html-editor-actions.c:1159
 msgid "_Roman Numeral List"
 msgstr "Seznam s ří_mskými číslicemi"
 
-#: ../src/e-util/e-html-editor-actions.c:1163
+#: ../src/e-util/e-html-editor-actions.c:1166
 msgid "Numbered _List"
 msgstr "Seznam s čís_licemi"
 
-#: ../src/e-util/e-html-editor-actions.c:1170
+#: ../src/e-util/e-html-editor-actions.c:1173
 msgid "_Alphabetical List"
 msgstr "Sezn_am s písmeny"
 
-#: ../src/e-util/e-html-editor-actions.c:1186
-#: ../src/e-util/e-html-editor-actions.c:1224
+#: ../src/e-util/e-html-editor-actions.c:1189
+#: ../src/e-util/e-html-editor-actions.c:1227
 msgid "_Image..."
 msgstr "O_brázek…"
 
 #. Translators: This is an action tooltip
-#: ../src/e-util/e-html-editor-actions.c:1189
+#: ../src/e-util/e-html-editor-actions.c:1192
 msgid "Insert Image"
 msgstr "Vložení obrázku"
 
-#: ../src/e-util/e-html-editor-actions.c:1194
-#: ../src/e-util/e-html-editor-actions.c:1231
+#: ../src/e-util/e-html-editor-actions.c:1197
+#: ../src/e-util/e-html-editor-actions.c:1234
 msgid "_Link..."
 msgstr "Odk_az…"
 
-#: ../src/e-util/e-html-editor-actions.c:1196
+#: ../src/e-util/e-html-editor-actions.c:1199
 msgid "Insert Link"
 msgstr "Vložit odkaz"
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
-#: ../src/e-util/e-html-editor-actions.c:1202
-#: ../src/e-util/e-html-editor-actions.c:1246
+#: ../src/e-util/e-html-editor-actions.c:1205
+#: ../src/e-util/e-html-editor-actions.c:1249
 msgid "_Rule..."
 msgstr "Oddělovací čá_ra…"
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
-#: ../src/e-util/e-html-editor-actions.c:1205
+#: ../src/e-util/e-html-editor-actions.c:1208
 msgid "Insert Rule"
 msgstr "Vložit oddělovací čáru"
 
-#: ../src/e-util/e-html-editor-actions.c:1210
-#: ../src/e-util/e-html-editor-actions.c:1253
+#: ../src/e-util/e-html-editor-actions.c:1213
+#: ../src/e-util/e-html-editor-actions.c:1256
 msgid "_Table..."
 msgstr "_Tabulka…"
 
-#: ../src/e-util/e-html-editor-actions.c:1212
+#: ../src/e-util/e-html-editor-actions.c:1215
 msgid "Insert Table"
 msgstr "Vložit tabulku"
 
-#: ../src/e-util/e-html-editor-actions.c:1217
+#: ../src/e-util/e-html-editor-actions.c:1220
 msgid "_Cell..."
 msgstr "B_uňka…"
 
-#: ../src/e-util/e-html-editor-actions.c:1238
+#: ../src/e-util/e-html-editor-actions.c:1241
 msgid "Pa_ge..."
 msgstr "Strán_ka…"
 
-#: ../src/e-util/e-html-editor-actions.c:1262
+#: ../src/e-util/e-html-editor-actions.c:1265
 msgid "Font _Size"
 msgstr "Velikost pí_sma"
 
-#: ../src/e-util/e-html-editor-actions.c:1269
+#: ../src/e-util/e-html-editor-actions.c:1272
 msgid "_Font Style"
 msgstr "Styl _písma"
 
-#: ../src/e-util/e-html-editor-actions.c:1276
+#: ../src/e-util/e-html-editor-actions.c:1279
 msgid "Paste As _Text"
 msgstr "Vložit jako _text"
 
-#: ../src/e-util/e-html-editor-actions.c:1287
+#: ../src/e-util/e-html-editor-actions.c:1290
 #: ../src/e-util/e-html-editor-text-dialog.c:201
 msgid "_Bold"
 msgstr "_Tučné"
 
-#: ../src/e-util/e-html-editor-actions.c:1289
+#: ../src/e-util/e-html-editor-actions.c:1292
 msgid "Bold"
 msgstr "Tučné"
 
-#: ../src/e-util/e-html-editor-actions.c:1295
+#: ../src/e-util/e-html-editor-actions.c:1298
 #: ../src/e-util/e-html-editor-text-dialog.c:212
 msgid "_Italic"
 msgstr "Ku_rzíva"
 
-#: ../src/e-util/e-html-editor-actions.c:1297
+#: ../src/e-util/e-html-editor-actions.c:1300
 msgid "Italic"
 msgstr "Kurzíva"
 
-#: ../src/e-util/e-html-editor-actions.c:1303
+#: ../src/e-util/e-html-editor-actions.c:1306
 msgid "_Plain Text"
 msgstr "_Prostý text"
 
-#: ../src/e-util/e-html-editor-actions.c:1311
+#: ../src/e-util/e-html-editor-actions.c:1314
 #: ../src/e-util/e-html-editor-text-dialog.c:233
 msgid "_Strikethrough"
 msgstr "Př_eškrtnutí"
 
-#: ../src/e-util/e-html-editor-actions.c:1313
+#: ../src/e-util/e-html-editor-actions.c:1316
 msgid "Strikethrough"
 msgstr "Přeškrtnutí"
 
-#: ../src/e-util/e-html-editor-actions.c:1319
+#: ../src/e-util/e-html-editor-actions.c:1322
 #: ../src/e-util/e-html-editor-text-dialog.c:223
 msgid "_Underline"
 msgstr "Po_dtržení"
 
-#: ../src/e-util/e-html-editor-actions.c:1321
+#: ../src/e-util/e-html-editor-actions.c:1324
 msgid "Underline"
 msgstr "Podtržení"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../src/e-util/e-html-editor-actions.c:1331
+#: ../src/e-util/e-html-editor-actions.c:1334
 msgid "-2"
 msgstr "-2"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../src/e-util/e-html-editor-actions.c:1339
+#: ../src/e-util/e-html-editor-actions.c:1342
 msgid "-1"
 msgstr "-1"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../src/e-util/e-html-editor-actions.c:1347
+#: ../src/e-util/e-html-editor-actions.c:1350
 msgid "+0"
 msgstr "+0"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../src/e-util/e-html-editor-actions.c:1355
+#: ../src/e-util/e-html-editor-actions.c:1358
 msgid "+1"
 msgstr "+1"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../src/e-util/e-html-editor-actions.c:1363
+#: ../src/e-util/e-html-editor-actions.c:1366
 msgid "+2"
 msgstr "+2"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../src/e-util/e-html-editor-actions.c:1371
+#: ../src/e-util/e-html-editor-actions.c:1374
 msgid "+3"
 msgstr "+3"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../src/e-util/e-html-editor-actions.c:1379
+#: ../src/e-util/e-html-editor-actions.c:1382
 msgid "+4"
 msgstr "+4"
 
-#: ../src/e-util/e-html-editor-actions.c:1398
+#: ../src/e-util/e-html-editor-actions.c:1401
 msgid "Cell Contents"
 msgstr "Obsah buňky"
 
-#: ../src/e-util/e-html-editor-actions.c:1405
+#: ../src/e-util/e-html-editor-actions.c:1408
 msgid "Column"
 msgstr "Sloupec"
 
-#: ../src/e-util/e-html-editor-actions.c:1412
+#: ../src/e-util/e-html-editor-actions.c:1415
 msgid "Row"
 msgstr "Řádek"
 
-#: ../src/e-util/e-html-editor-actions.c:1419
+#: ../src/e-util/e-html-editor-actions.c:1422
 msgid "Table"
 msgstr "Tabulka"
 
 #. Translators: Popup menu item caption, containing all the Delete options for a table
-#: ../src/e-util/e-html-editor-actions.c:1429
+#: ../src/e-util/e-html-editor-actions.c:1432
 msgid "Table Delete"
 msgstr "Smazat v tabulce"
 
 #. Translators: Popup menu item caption, containing all the Insert options for a table
-#: ../src/e-util/e-html-editor-actions.c:1437
+#: ../src/e-util/e-html-editor-actions.c:1440
 msgid "Table Insert"
 msgstr "Vložit do tabulky"
 
-#: ../src/e-util/e-html-editor-actions.c:1444
+#: ../src/e-util/e-html-editor-actions.c:1447
 msgid "Properties"
 msgstr "Vlastnosti"
 
-#: ../src/e-util/e-html-editor-actions.c:1462
+#: ../src/e-util/e-html-editor-actions.c:1465
 msgid "Column After"
 msgstr "Sloupec za"
 
-#: ../src/e-util/e-html-editor-actions.c:1469
+#: ../src/e-util/e-html-editor-actions.c:1472
 msgid "Column Before"
 msgstr "Sloupec před"
 
-#: ../src/e-util/e-html-editor-actions.c:1476
+#: ../src/e-util/e-html-editor-actions.c:1479
 msgid "Insert _Link"
 msgstr "V_ložit odkaz"
 
-#: ../src/e-util/e-html-editor-actions.c:1483
+#: ../src/e-util/e-html-editor-actions.c:1486
 msgid "Row Above"
 msgstr "Řádek nad"
 
-#: ../src/e-util/e-html-editor-actions.c:1490
+#: ../src/e-util/e-html-editor-actions.c:1493
 msgid "Row Below"
 msgstr "Řádek pod"
 
-#: ../src/e-util/e-html-editor-actions.c:1497
+#: ../src/e-util/e-html-editor-actions.c:1500
 msgid "Cell..."
 msgstr "Buňka…"
 
-#: ../src/e-util/e-html-editor-actions.c:1504
+#: ../src/e-util/e-html-editor-actions.c:1507
 msgid "Image..."
 msgstr "Obrázek…"
 
-#: ../src/e-util/e-html-editor-actions.c:1511
+#: ../src/e-util/e-html-editor-actions.c:1514
 msgid "Link..."
 msgstr "Odkaz…"
 
-#: ../src/e-util/e-html-editor-actions.c:1518
+#: ../src/e-util/e-html-editor-actions.c:1521
 msgid "Page..."
 msgstr "Stránka…"
 
-#: ../src/e-util/e-html-editor-actions.c:1525
+#: ../src/e-util/e-html-editor-actions.c:1528
 msgid "Paragraph..."
 msgstr "Odstavec…"
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
-#: ../src/e-util/e-html-editor-actions.c:1533
+#: ../src/e-util/e-html-editor-actions.c:1536
 msgid "Rule..."
 msgstr "Oddělovací čára…"
 
-#: ../src/e-util/e-html-editor-actions.c:1540
+#: ../src/e-util/e-html-editor-actions.c:1543
 msgid "Table..."
 msgstr "Tabulka…"
 
-#: ../src/e-util/e-html-editor-actions.c:1547
+#: ../src/e-util/e-html-editor-actions.c:1550
 msgid "Text..."
 msgstr "Text…"
 
-#: ../src/e-util/e-html-editor-actions.c:1554
+#: ../src/e-util/e-html-editor-actions.c:1557
 msgid "Remove Link"
 msgstr "Odstranit odkaz"
 
-#: ../src/e-util/e-html-editor-actions.c:1571
+#: ../src/e-util/e-html-editor-actions.c:1574
 msgid "Add Word to Dictionary"
 msgstr "Přidat slovo do slovníku"
 
-#: ../src/e-util/e-html-editor-actions.c:1578
+#: ../src/e-util/e-html-editor-actions.c:1581
 msgid "Ignore Misspelled Word"
 msgstr "Ignorovat pravopisně chybná slova"
 
-#: ../src/e-util/e-html-editor-actions.c:1585
+#: ../src/e-util/e-html-editor-actions.c:1588
 msgid "Add Word To"
 msgstr "Přidat slovo do"
 
-#: ../src/e-util/e-html-editor-actions.c:1594
+#: ../src/e-util/e-html-editor-actions.c:1597
 msgid "More Suggestions"
 msgstr "Další návrhy"
 
 #. Translators: %s will be replaced with the actual dictionary
 #. * name, where a user can add a word to. This is part of an
 #. * "Add Word To" submenu.
-#: ../src/e-util/e-html-editor-actions.c:1718
+#: ../src/e-util/e-html-editor-actions.c:1721
 #, c-format
 msgid "%s Dictionary"
 msgstr "Slovník %s"
 
-#: ../src/e-util/e-html-editor-actions.c:1797
+#: ../src/e-util/e-html-editor-actions.c:1800
 msgid "_Emoticon"
 msgstr "_Emotikona"
 
-#: ../src/e-util/e-html-editor-actions.c:1798
+#: ../src/e-util/e-html-editor-actions.c:1801
 msgid "Insert Emoticon"
 msgstr "Vložit emotikonu"
 
-#: ../src/e-util/e-html-editor-actions.c:1866
+#: ../src/e-util/e-html-editor-actions.c:1869
 msgid "Re_place"
 msgstr "_Nahradit"
 
-#: ../src/e-util/e-html-editor-actions.c:1869
+#: ../src/e-util/e-html-editor-actions.c:1872
 msgid "_Image"
 msgstr "O_brázek"
 
-#: ../src/e-util/e-html-editor-actions.c:1872
+#: ../src/e-util/e-html-editor-actions.c:1875
 msgid "_Link"
 msgstr "O_dkaz"
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
-#: ../src/e-util/e-html-editor-actions.c:1876
+#: ../src/e-util/e-html-editor-actions.c:1879
 msgid "_Rule"
 msgstr "Oddělovací čá_ra"
 
-#: ../src/e-util/e-html-editor-actions.c:1879
+#: ../src/e-util/e-html-editor-actions.c:1882
 #: ../src/e-util/e-html-editor-cell-dialog.c:448
 msgid "_Table"
 msgstr "_Tabulka"
@@ -14850,47 +14856,47 @@ msgstr "Uložit _obrázek…"
 msgid "Save the image to a file"
 msgstr "Uložit obrázek do souboru"
 
-#: ../src/e-util/e-web-view.c:419 ../src/e-util/e-web-view.c:1928
+#: ../src/e-util/e-web-view.c:419 ../src/e-util/e-web-view.c:1953
 msgid "Select all text and images"
 msgstr "Vybrat celý text a obrázky"
 
-#: ../src/e-util/e-web-view.c:1294
+#: ../src/e-util/e-web-view.c:1319
 #, c-format
 msgid "Click to call %s"
 msgstr "Kliknutím zavoláte %s"
 
-#: ../src/e-util/e-web-view.c:1296
+#: ../src/e-util/e-web-view.c:1321
 msgid "Click to hide/unhide addresses"
 msgstr "Skrýt/odkrýt adresy"
 
-#: ../src/e-util/e-web-view.c:1307
+#: ../src/e-util/e-web-view.c:1332
 #, c-format
 msgid "Go to the section %s of the message"
 msgstr "Přejít na oddíl %s zprávy"
 
-#: ../src/e-util/e-web-view.c:1309
+#: ../src/e-util/e-web-view.c:1334
 msgid "Go to the beginning of the message"
 msgstr "Přejít na začátek zprávy"
 
-#: ../src/e-util/e-web-view.c:1313
+#: ../src/e-util/e-web-view.c:1338
 #, c-format
 msgid "Click to open %s"
 msgstr "Kliknutím sem otevřete %s"
 
-#: ../src/e-util/e-web-view.c:3837
+#: ../src/e-util/e-web-view.c:3864
 msgid "Copying image to clipboard"
 msgstr "Kopíruje se obrázku do schránky"
 
-#: ../src/e-util/e-web-view.c:4025
+#: ../src/e-util/e-web-view.c:4052
 msgid "Save Image"
 msgstr "Uložit obrázek"
 
-#: ../src/e-util/e-web-view.c:4061
+#: ../src/e-util/e-web-view.c:4088
 #, c-format
 msgid "Saving image to “%s”"
 msgstr "Ukládá se obrázek do „%s“"
 
-#: ../src/e-util/e-web-view.c:4156
+#: ../src/e-util/e-web-view.c:4183
 #, c-format
 msgid "Cannot get URI “%s”, do not know how to download it."
 msgstr "Nelze získat URI „%s“, tudíž nelze určit, jak jej stáhnout."
@@ -15841,13 +15847,13 @@ msgstr "Příjem pošty"
 
 #. Translators: This string is to describe a PGP key in a combo box in mail account's preferences.
 #. The first '%s' is a key ID, the second '%s' is a display name of the key.
-#: ../src/mail/e-mail-config-security-page.c:252
+#: ../src/mail/e-mail-config-security-page.c:231
 #, c-format
 msgctxt "PGPKeyDescription"
 msgid "%s — %s"
 msgstr "%s — %s"
 
-#: ../src/mail/e-mail-config-security-page.c:341
+#: ../src/mail/e-mail-config-security-page.c:320
 #: ../src/mail/em-folder-properties.c:699 ../src/mail/mail-config.ui.h:31
 #: ../src/modules/addressbook/autocompletion-config.c:114
 #: ../src/modules/calendar/e-calendar-preferences.c:644
@@ -15857,102 +15863,102 @@ msgstr "%s — %s"
 msgid "General"
 msgstr "Obecné"
 
-#: ../src/mail/e-mail-config-security-page.c:350
+#: ../src/mail/e-mail-config-security-page.c:329
 msgid "_Do not sign meeting requests (for Outlook compatibility)"
 msgstr "Nepodepisovat požadavky na _schůzku (pro kompatibilitu s Outlookem)"
 
-#: ../src/mail/e-mail-config-security-page.c:372
+#: ../src/mail/e-mail-config-security-page.c:351
 msgid "Pretty Good Privacy (OpenPGP)"
 msgstr "Pretty Good Privacy (OpenPGP)"
 
-#: ../src/mail/e-mail-config-security-page.c:381
+#: ../src/mail/e-mail-config-security-page.c:360
 msgid "OpenPGP _Key ID:"
 msgstr "ID OpenPGP _klíče:"
 
-#: ../src/mail/e-mail-config-security-page.c:414
+#: ../src/mail/e-mail-config-security-page.c:393
 msgid "Si_gning algorithm:"
 msgstr "_Podpisový algoritmus:"
 
-#: ../src/mail/e-mail-config-security-page.c:430
-#: ../src/mail/e-mail-config-security-page.c:594
+#: ../src/mail/e-mail-config-security-page.c:409
+#: ../src/mail/e-mail-config-security-page.c:573
 #: ../src/mail/mail-config.ui.h:76
 msgid "SHA1"
 msgstr "SHA1"
 
-#: ../src/mail/e-mail-config-security-page.c:433
-#: ../src/mail/e-mail-config-security-page.c:597
+#: ../src/mail/e-mail-config-security-page.c:412
+#: ../src/mail/e-mail-config-security-page.c:576
 #: ../src/mail/mail-config.ui.h:77
 msgid "SHA256"
 msgstr "SHA256"
 
-#: ../src/mail/e-mail-config-security-page.c:436
-#: ../src/mail/e-mail-config-security-page.c:600
+#: ../src/mail/e-mail-config-security-page.c:415
+#: ../src/mail/e-mail-config-security-page.c:579
 #: ../src/mail/mail-config.ui.h:78
 msgid "SHA384"
 msgstr "SHA384"
 
-#: ../src/mail/e-mail-config-security-page.c:439
-#: ../src/mail/e-mail-config-security-page.c:603
+#: ../src/mail/e-mail-config-security-page.c:418
+#: ../src/mail/e-mail-config-security-page.c:582
 #: ../src/mail/mail-config.ui.h:79
 msgid "SHA512"
 msgstr "SHA512"
 
-#: ../src/mail/e-mail-config-security-page.c:455
+#: ../src/mail/e-mail-config-security-page.c:434
 msgid "Al_ways sign outgoing messages when using this account"
 msgstr "_Vždy podepisovat odchozí zprávy, když se používá tento účet"
 
-#: ../src/mail/e-mail-config-security-page.c:467
+#: ../src/mail/e-mail-config-security-page.c:446
 msgid "Always enc_rypt outgoing messages when using this account"
 msgstr "Vždy šif_rovat odchozí zprávy, když se používá tento účet"
 
-#: ../src/mail/e-mail-config-security-page.c:479
+#: ../src/mail/e-mail-config-security-page.c:458
 msgid "Always encrypt to _myself when sending encrypted messages"
 msgstr "Vždy ši_frovat sobě při odesílání šifrované zprávy"
 
-#: ../src/mail/e-mail-config-security-page.c:491
+#: ../src/mail/e-mail-config-security-page.c:470
 msgid "Always _trust keys in my keyring when encrypting"
 msgstr "Při šifrování vždy _důvěřovat klíčům na mém svazku"
 
-#: ../src/mail/e-mail-config-security-page.c:503
+#: ../src/mail/e-mail-config-security-page.c:482
 msgid "Prefer _inline sign/encrypt for plain text messages"
 msgstr "Pro zprávy v prostém textu dávat přednost vloženému podp_isu/šifrování"
 
-#: ../src/mail/e-mail-config-security-page.c:527
+#: ../src/mail/e-mail-config-security-page.c:506
 msgid "Secure MIME (S/MIME)"
 msgstr "Zabezpečené MIME (S/MIME)"
 
-#: ../src/mail/e-mail-config-security-page.c:536
+#: ../src/mail/e-mail-config-security-page.c:515
 msgid "Sig_ning certificate:"
 msgstr "_Podpisový certifikát:"
 
-#: ../src/mail/e-mail-config-security-page.c:560
-#: ../src/mail/e-mail-config-security-page.c:666
+#: ../src/mail/e-mail-config-security-page.c:539
+#: ../src/mail/e-mail-config-security-page.c:637
 msgid "Select"
 msgstr "Vybrat"
 
-#: ../src/mail/e-mail-config-security-page.c:569
-#: ../src/mail/e-mail-config-security-page.c:675
+#: ../src/mail/e-mail-config-security-page.c:548
+#: ../src/mail/e-mail-config-security-page.c:646
 #: ../src/mail/mail-dialogs.ui.h:16 ../src/shell/e-shell-window-actions.c:885
 msgid "_Clear"
 msgstr "_Vymazat"
 
-#: ../src/mail/e-mail-config-security-page.c:578
+#: ../src/mail/e-mail-config-security-page.c:557
 msgid "Signing _algorithm:"
 msgstr "Podpisový _algoritmus:"
 
-#: ../src/mail/e-mail-config-security-page.c:619
+#: ../src/mail/e-mail-config-security-page.c:598
 msgid "Always sign outgoing messages when using this account"
 msgstr "Vždy podepisovat odchozí zprávy, když se používá tento účet"
 
-#: ../src/mail/e-mail-config-security-page.c:642
+#: ../src/mail/e-mail-config-security-page.c:613
 msgid "Encryption certificate:"
 msgstr "Šifrovací certifikát:"
 
-#: ../src/mail/e-mail-config-security-page.c:684
+#: ../src/mail/e-mail-config-security-page.c:655
 msgid "Always encrypt outgoing messages when using this account"
 msgstr "Vždy šifrovat odchozí zprávy, když se používá tento účet"
 
-#: ../src/mail/e-mail-config-security-page.c:704
+#: ../src/mail/e-mail-config-security-page.c:667
 msgid "Always encrypt to myself when sending encrypted messages"
 msgstr "Vždy šifrovat sobě při odesílání šifrované zprávy"
 
@@ -25757,3 +25763,4 @@ msgstr "Nelze zapsat úložiště na disk, kód chyby: %i"
 #: ../src/smime/lib/e-pkcs12.c:407
 msgid "Imported Certificate"
 msgstr "Importovaný certifikát"
+
