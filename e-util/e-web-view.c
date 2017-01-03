@@ -4115,8 +4115,13 @@ e_web_view_cursor_image_save (EWebView *web_view)
 		g_free (suggestion);
 	}
 
-	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT)
+	e_util_load_file_chooser_folder (file_chooser);
+
+	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT) {
+		e_util_save_file_chooser_folder (file_chooser);
+
 		destination = gtk_file_chooser_get_file (file_chooser);
+	}
 
 	gtk_widget_destroy (dialog);
 

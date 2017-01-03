@@ -328,9 +328,12 @@ action_insert_html_file_cb (GtkToggleAction *action,
 	gtk_file_filter_add_mime_type (filter, "text/html");
 	gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (dialog), filter);
 
+	e_util_load_file_chooser_folder (GTK_FILE_CHOOSER (dialog));
+
 	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT) {
 		GFile *file;
 
+		e_util_save_file_chooser_folder (GTK_FILE_CHOOSER (dialog));
 		file = gtk_file_chooser_get_file (GTK_FILE_CHOOSER (dialog));
 
 		/* XXX Need a way to cancel this. */
@@ -419,9 +422,12 @@ action_insert_text_file_cb (GtkAction *action,
 	gtk_file_filter_add_mime_type (filter, "text/plain");
 	gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (dialog), filter);
 
+	e_util_load_file_chooser_folder (GTK_FILE_CHOOSER (dialog));
+
 	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT) {
 		GFile *file;
 
+		e_util_save_file_chooser_folder (GTK_FILE_CHOOSER (dialog));
 		file = gtk_file_chooser_get_file (GTK_FILE_CHOOSER (dialog));
 
 		/* XXX Need a way to cancel this. */

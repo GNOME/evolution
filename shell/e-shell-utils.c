@@ -79,12 +79,17 @@ e_shell_run_open_dialog (EShell *shell,
 
 	gtk_file_chooser_set_local_only (file_chooser, FALSE);
 
+	e_util_load_file_chooser_folder (file_chooser);
+
 	/* Allow further customizations before running the dialog. */
 	if (customize_func != NULL)
 		customize_func (dialog, customize_data);
 
-	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT)
+	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT) {
+		e_util_save_file_chooser_folder (file_chooser);
+
 		chosen_file = gtk_file_chooser_get_file (file_chooser);
+	}
 
 	gtk_widget_destroy (dialog);
 
@@ -206,12 +211,17 @@ e_shell_run_save_dialog (EShell *shell,
 		g_strfreev (flts);
 	}
 
+	e_util_load_file_chooser_folder (file_chooser);
+
 	/* Allow further customizations before running the dialog. */
 	if (customize_func != NULL)
 		customize_func (dialog, customize_data);
 
-	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT)
+	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT) {
+		e_util_save_file_chooser_folder (file_chooser);
+
 		chosen_file = gtk_file_chooser_get_file (file_chooser);
+	}
 
 	gtk_widget_destroy (dialog);
 
