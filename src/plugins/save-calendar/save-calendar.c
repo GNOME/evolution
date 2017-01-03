@@ -194,8 +194,12 @@ ask_destination_and_save (ESourceSelector *selector,
 	gtk_widget_show (GTK_WIDGET (combo));
 	gtk_widget_show (extra_widget);
 
+	e_util_load_file_chooser_folder (GTK_FILE_CHOOSER (dialog));
+
 	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK) {
 		gchar *tmp = NULL;
+
+		e_util_save_file_chooser_folder (GTK_FILE_CHOOSER (dialog));
 
 		if (gtk_combo_box_get_active_iter (combo, &iter))
 			gtk_tree_model_get (

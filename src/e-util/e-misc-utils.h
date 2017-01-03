@@ -328,6 +328,8 @@ GVariant *	e_util_invoke_g_dbus_proxy_call_sync_wrapper_full
 						 gint timeout_msec,
 						 GCancellable *cancellable,
 						 GError **error);
+void		e_util_save_file_chooser_folder	(GtkFileChooser *file_chooser);
+void		e_util_load_file_chooser_folder	(GtkFileChooser *file_chooser);
 
 G_END_DECLS
 

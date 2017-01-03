@@ -235,10 +235,13 @@ action_save_as_cb (GtkAction *action,
 	gtk_window_set_icon_name (
 		GTK_WINDOW (dialog), "mail-message-new");
 
+	e_util_load_file_chooser_folder (GTK_FILE_CHOOSER (dialog));
 	response = gtk_dialog_run (GTK_DIALOG (dialog));
 
 	if (response != GTK_RESPONSE_OK)
 		goto exit;
+
+	e_util_save_file_chooser_folder (GTK_FILE_CHOOSER (dialog));
 
 	editor = e_msg_composer_get_editor (composer);
 	filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (dialog));

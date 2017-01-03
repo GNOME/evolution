@@ -723,6 +723,8 @@ e_attachment_store_run_load_dialog (EAttachmentStore *store,
 	gtk_file_chooser_set_extra_widget (file_chooser, extra_box_widget);
 	gtk_widget_show_all (extra_box_widget);
 
+	e_util_load_file_chooser_folder (file_chooser);
+
 	response = gtk_dialog_run (GTK_DIALOG (dialog));
 
 #ifdef HAVE_AUTOAR
@@ -731,6 +733,8 @@ e_attachment_store_run_load_dialog (EAttachmentStore *store,
 	if (response != GTK_RESPONSE_OK)
 #endif
 		goto exit;
+
+	e_util_save_file_chooser_folder (file_chooser);
 
 	files = gtk_file_chooser_get_files (file_chooser);
 	active = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (option_display));
@@ -895,6 +899,8 @@ e_attachment_store_run_save_dialog (EAttachmentStore *store,
 		g_clear_object (&file_info);
 	}
 
+	e_util_load_file_chooser_folder (file_chooser);
+
 	response = gtk_dialog_run (GTK_DIALOG (dialog));
 
 	if (response == GTK_RESPONSE_OK) {
@@ -902,6 +908,7 @@ e_attachment_store_run_save_dialog (EAttachmentStore *store,
 		gboolean save_self, save_extracted;
 #endif
 
+		e_util_save_file_chooser_folder (file_chooser);
 		destination = gtk_file_chooser_get_file (file_chooser);
 
 #ifdef HAVE_AUTOAR

@@ -3821,3 +3821,65 @@ e_util_invoke_g_dbus_proxy_call_sync_wrapper_full (GDBusProxy *dbus_proxy,
 
 	return var_result;
 }
+
+/**
+ * e_util_save_file_chooser_folder:
+ * @file_chooser: a #GtkFileChooser
+ *
+ * Saves the current folder of the @file_chooser, thus it could be used
+ * by e_util_load_file_chooser_folder() to open it in the last chosen folder.
+ *
+ * Since: 3.24
+ **/
+void
+e_util_save_file_chooser_folder (GtkFileChooser *file_chooser)
+{
+	GSettings *settings;
+	gchar *uri;
+
+	g_return_if_fail (GTK_IS_FILE_CHOOSER (file_chooser));
+
+	uri = gtk_file_chooser_get_current_folder_uri (file_chooser);
+	if (uri && g_str_has_prefix (uri, "file://")) {
+		settings = e_util_ref_settings ("org.gnome.evolution.shell");
+		g_settings_set_string (settings, "file-chooser-folder", uri);
+		g_object_unref (settings);
+	}
+
+	g_free (uri);
+}
+
+/**
+ * e_util_load_file_chooser_folder:
+ * @file_chooser: a #GtkFileChooser
+ *
+ * Sets the current folder to the @file_chooser to the one previously saved
+ * by e_util_save_file_chooser_folder(). The function does nothing if none
+ * or invalid is saved.
+ *
+ * Since: 3.24
+ **/
+void
+e_util_load_file_chooser_folder (GtkFileChooser *file_chooser)
+{
+	GSettings *settings;
+	gchar *uri;
+
+	g_return_if_fail (GTK_IS_FILE_CHOOSER (file_chooser));
+
+	settings = e_util_ref_settings ("org.gnome.evolution.shell");
+	uri = g_settings_get_string (settings, "file-chooser-folder");
+	g_object_unref (settings);
+
+	if (uri && g_str_has_prefix (uri, "file://")) {
+		gchar *filename;
+
+		filename = g_filename_from_uri (uri, NULL, NULL);
+		if (filename && g_file_test (filename, G_FILE_TEST_IS_DIR))
+			gtk_file_chooser_set_current_folder_uri (file_chooser, uri);
+
+		g_free (filename);
+	}
+
+	g_free (uri);
+}
