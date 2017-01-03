@@ -180,6 +180,8 @@ name_selector_entry_dispose (GObject *object)
 
 	priv = E_NAME_SELECTOR_ENTRY_GET_PRIVATE (object);
 
+	gtk_editable_set_position (GTK_EDITABLE (object), 0);
+
 	if (priv->client_cache != NULL) {
 		g_object_unref (priv->client_cache);
 		priv->client_cache = NULL;
@@ -1415,6 +1417,7 @@ sync_destination_at_position (ENameSelectorEntry *name_selector_entry,
 	gchar        *address;
 	gint          address_len;
 	gint          range_start, range_end;
+	gint sel_start_pos = -1, sel_end_pos = -1;
 
 	/* Get the destination we're looking at. Note that the entry may be empty, and so
 	 * there may not be one. */
@@ -1442,8 +1445,13 @@ sync_destination_at_position (ENameSelectorEntry *name_selector_entry,
 	g_signal_handlers_block_by_func (name_selector_entry, user_insert_text, name_selector_entry);
 	g_signal_handlers_block_by_func (name_selector_entry, user_delete_text, name_selector_entry);
 
+	gtk_editable_get_selection_bounds (GTK_EDITABLE (name_selector_entry), &sel_start_pos, &sel_end_pos);
+
 	gtk_editable_delete_text (GTK_EDITABLE (name_selector_entry), range_start, range_end);
 	gtk_editable_insert_text (GTK_EDITABLE (name_selector_entry), address, -1, &range_start);
+
+	if (sel_start_pos >= 0 && sel_end_pos >= 0)
+		gtk_editable_select_region (GTK_EDITABLE (name_selector_entry), sel_start_pos, sel_end_pos);
 
 	g_signal_handlers_unblock_by_func (name_selector_entry, user_delete_text, name_selector_entry);
 	g_signal_handlers_unblock_by_func (name_selector_entry, user_insert_text, name_selector_entry);
@@ -1962,7 +1970,10 @@ entry_activate (ENameSelectorEntry *name_selector_entry)
 		g_free (str_context);
 	}
 
-	gtk_editable_set_position (GTK_EDITABLE (name_selector_entry), range_end);
+	/* Set the position only if is completing or nothing is selected, because it also deselects any selection. */
+	if (priv->is_completing || !gtk_editable_get_selection_bounds (GTK_EDITABLE (name_selector_entry), NULL, NULL))
+		gtk_editable_set_position (GTK_EDITABLE (name_selector_entry), range_end);
+
 	g_signal_emit (name_selector_entry, signals[UPDATED], 0, destination, NULL);
 
 	if (priv->is_completing)
@@ -1973,14 +1984,13 @@ static void
 update_text (ENameSelectorEntry *name_selector_entry,
              const gchar *text)
 {
-	gint start = 0, end = 0;
-	gboolean has_selection;
+	gint start = -1, end = -1;
 
-	has_selection = gtk_editable_get_selection_bounds (GTK_EDITABLE (name_selector_entry), &start, &end);
+	gtk_editable_get_selection_bounds (GTK_EDITABLE (name_selector_entry), &start, &end);
 
 	gtk_entry_set_text (GTK_ENTRY (name_selector_entry), text);
 
-	if (has_selection)
+	if (start >= 0 && end >= 0)
 		gtk_editable_select_region (GTK_EDITABLE (name_selector_entry), start, end);
 }
 
@@ -2038,6 +2048,7 @@ user_focus_in (ENameSelectorEntry *name_selector_entry,
 	GList *l, *known;
 	GString *str = g_string_new ("");
 	EDestination *dest_dummy = e_destination_new ();
+	gint sel_start_pos = -1, sel_end_pos = -1;
 
 	g_signal_handlers_block_matched (name_selector_entry, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, name_selector_entry);
 	g_signal_handlers_block_matched (name_selector_entry->priv->destination_store, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, name_selector_entry);
@@ -2061,12 +2072,19 @@ user_focus_in (ENameSelectorEntry *name_selector_entry,
 	}
 	g_list_free (known);
 
-	/* Add a blank destination */
-	e_destination_store_append_destination (name_selector_entry->priv->destination_store, dest_dummy);
-	if (str->str && str->str[0])
-		g_string_append (str, ", ");
+	if (str->len > 1 && str->str && str->str[str->len - 1] != ' ' && str->str[str->len - 2] != ',') {
+		/* Add a blank destination */
+		e_destination_store_append_destination (name_selector_entry->priv->destination_store, dest_dummy);
+		if (str->str && str->str[0])
+			g_string_append (str, ", ");
+	}
+
+	gtk_editable_get_selection_bounds (GTK_EDITABLE (name_selector_entry), &sel_start_pos, &sel_end_pos);
 
 	gtk_entry_set_text (GTK_ENTRY (name_selector_entry), str->str);
+
+	if (sel_start_pos >= 0 && sel_end_pos >= 0)
+		gtk_editable_select_region (GTK_EDITABLE (name_selector_entry), sel_start_pos, sel_end_pos);
 
 	g_string_free (str, TRUE);
 
