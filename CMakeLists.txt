@@ -400,7 +400,7 @@ add_printable_option(ENABLE_LIBCRYPTUI "Enable libcryptui usage" ON)
 
 if(ENABLE_LIBCRYPTUI)
 	pkg_check_modules_for_option(ENABLE_LIBCRYPTUI "libcryptui usage" LIBCRYPTUI cryptui-0.0)
-	set(HAVE_AUTOAR ON)
+	set(HAVE_LIBCRYPTUI ON)
 endif(ENABLE_LIBCRYPTUI)
 
 # ******************************
