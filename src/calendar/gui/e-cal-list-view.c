@@ -53,12 +53,11 @@ static gboolean  e_cal_list_view_get_visible_time_range (ECalendarView *cal_view
 
 static gboolean  e_cal_list_view_popup_menu             (GtkWidget *widget);
 
-static void      e_cal_list_view_show_popup_menu        (ECalListView *cal_list_view, gint row,
-							 GdkEvent *event);
 static gboolean  e_cal_list_view_on_table_double_click   (GtkWidget *table, gint row, gint col,
 							 GdkEvent *event, gpointer data);
 static gboolean  e_cal_list_view_on_table_right_click   (GtkWidget *table, gint row, gint col,
 							 GdkEvent *event, gpointer data);
+static gboolean  e_cal_list_view_on_table_white_space_event (ETable *table, GdkEvent *event, gpointer data);
 static void e_cal_list_view_cursor_change_cb (ETable *etable, gint row, gpointer data);
 
 G_DEFINE_TYPE (ECalListView, e_cal_list_view, E_TYPE_CALENDAR_VIEW)
@@ -304,6 +303,10 @@ setup_e_table (ECalListView *cal_list_view)
 		cal_list_view->table, "right-click",
 		G_CALLBACK (e_cal_list_view_on_table_right_click),
 		cal_list_view);
+	g_signal_connect (
+		cal_list_view->table, "white-space-event",
+		G_CALLBACK (e_cal_list_view_on_table_white_space_event),
+		cal_list_view);
 	g_signal_connect_after (
 		cal_list_view->table, "cursor_change",
 		G_CALLBACK (e_cal_list_view_cursor_change_cb),
@@ -360,7 +363,6 @@ e_cal_list_view_dispose (GObject *object)
 
 static void
 e_cal_list_view_show_popup_menu (ECalListView *cal_list_view,
-                                 gint row,
                                  GdkEvent *event)
 {
 	e_calendar_view_popup_event (E_CALENDAR_VIEW (cal_list_view), event);
@@ -371,7 +373,7 @@ e_cal_list_view_popup_menu (GtkWidget *widget)
 {
 	ECalListView *cal_list_view = E_CAL_LIST_VIEW (widget);
 
-	e_cal_list_view_show_popup_menu (cal_list_view, -1, NULL);
+	e_cal_list_view_show_popup_menu (cal_list_view, NULL);
 	return TRUE;
 }
 
@@ -400,9 +402,38 @@ e_cal_list_view_on_table_right_click (GtkWidget *table,
 {
 	ECalListView *cal_list_view = E_CAL_LIST_VIEW (data);
 
-	e_cal_list_view_show_popup_menu (cal_list_view, row, event);
+	e_cal_list_view_show_popup_menu (cal_list_view, event);
 
 	return TRUE;
+}
+
+static gboolean
+e_cal_list_view_on_table_white_space_event (ETable *table,
+					    GdkEvent *event,
+					    gpointer user_data)
+{
+	ECalListView *cal_list_view = user_data;
+	guint event_button = 0;
+
+	g_return_val_if_fail (E_IS_CAL_LIST_VIEW (cal_list_view), FALSE);
+	g_return_val_if_fail (event != NULL, FALSE);
+
+	if (event->type == GDK_BUTTON_PRESS &&
+	    gdk_event_get_button (event, &event_button) &&
+	    event_button == 3) {
+		GtkWidget *table_canvas;
+
+		table_canvas = GTK_WIDGET (table->table_canvas);
+
+		if (!gtk_widget_has_focus (table_canvas))
+			gtk_widget_grab_focus (table_canvas);
+
+		e_cal_list_view_show_popup_menu (cal_list_view, event);
+
+		return TRUE;
+	}
+
+	return FALSE;
 }
 
 static void
