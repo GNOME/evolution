@@ -679,6 +679,33 @@ memo_table_right_click (ETable *table,
 	return TRUE;
 }
 
+static gboolean
+memo_table_white_space_event (ETable *table,
+			      GdkEvent *event)
+{
+	guint event_button = 0;
+
+	g_return_val_if_fail (E_IS_MEMO_TABLE (table), FALSE);
+	g_return_val_if_fail (event != NULL, FALSE);
+
+	if (event->type == GDK_BUTTON_PRESS &&
+	    gdk_event_get_button (event, &event_button) &&
+	    event_button == 3) {
+		GtkWidget *table_canvas;
+
+		table_canvas = GTK_WIDGET (table->table_canvas);
+
+		if (!gtk_widget_has_focus (table_canvas))
+			gtk_widget_grab_focus (table_canvas);
+
+		memo_table_emit_popup_event (E_MEMO_TABLE (table), event);
+
+		return TRUE;
+	}
+
+	return FALSE;
+}
+
 static void
 memo_table_update_actions (ESelectable *selectable,
                            EFocusTracker *focus_tracker,
@@ -970,6 +997,7 @@ e_memo_table_class_init (EMemoTableClass *class)
 	table_class = E_TABLE_CLASS (class);
 	table_class->double_click = memo_table_double_click;
 	table_class->right_click = memo_table_right_click;
+	table_class->white_space_event = memo_table_white_space_event;
 
 	/* Inherited from ESelectableInterface */
 	g_object_class_override_property (

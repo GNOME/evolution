@@ -116,9 +116,7 @@ static void
 task_table_emit_popup_event (ETaskTable *task_table,
                              GdkEvent *event)
 {
-	guint signal_id = signals[POPUP_EVENT];
-
-	g_signal_emit (task_table, signal_id, 0, event);
+	g_signal_emit (task_table, signals[POPUP_EVENT], 0, event);
 }
 
 static gint
@@ -989,6 +987,33 @@ task_table_right_click (ETable *table,
 	return TRUE;
 }
 
+static gboolean
+task_table_white_space_event (ETable *table,
+			      GdkEvent *event)
+{
+	guint event_button = 0;
+
+	g_return_val_if_fail (E_IS_TASK_TABLE (table), FALSE);
+	g_return_val_if_fail (event != NULL, FALSE);
+
+	if (event->type == GDK_BUTTON_PRESS &&
+	    gdk_event_get_button (event, &event_button) &&
+	    event_button == 3) {
+		GtkWidget *table_canvas;
+
+		table_canvas = GTK_WIDGET (table->table_canvas);
+
+		if (!gtk_widget_has_focus (table_canvas))
+			gtk_widget_grab_focus (table_canvas);
+
+		task_table_emit_popup_event (E_TASK_TABLE (table), event);
+
+		return TRUE;
+	}
+
+	return FALSE;
+}
+
 static void
 task_table_update_actions (ESelectable *selectable,
                            EFocusTracker *focus_tracker,
@@ -1354,6 +1379,7 @@ e_task_table_class_init (ETaskTableClass *class)
 	table_class = E_TABLE_CLASS (class);
 	table_class->double_click = task_table_double_click;
 	table_class->right_click = task_table_right_click;
+	table_class->white_space_event = task_table_white_space_event;
 
 	/* Inherited from ESelectableInterface */
 	g_object_class_override_property (
