@@ -1285,7 +1285,7 @@ static GtkActionEntry html_entries[] = {
 	{ "paste-as-text",
 	  NULL,
 	  N_("Paste As _Text"),
-	  NULL,
+	  "<Control><Alt>v",
 	  NULL,
 	  G_CALLBACK (action_paste_as_text_cb) },
 
