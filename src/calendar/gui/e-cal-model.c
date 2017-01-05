@@ -2692,7 +2692,7 @@ e_cal_model_update_comp_time (ECalModel *model,
 		if (tzid && strcmp (tzid, "UTC")) {
 			icalparameter_set_tzid (param, (gchar *) tzid);
 		} else {
-			icalproperty_remove_parameter (prop, ICAL_TZID_PARAMETER);
+			icalproperty_remove_parameter_by_kind (prop, ICAL_TZID_PARAMETER);
 		}
 	}
 }

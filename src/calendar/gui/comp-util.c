@@ -1330,7 +1330,7 @@ cal_comp_util_update_tzid_parameter (icalproperty *prop,
 			icalproperty_add_parameter (prop, param);
 		}
 	} else if (param) {
-		icalproperty_remove_parameter (prop, ICAL_TZID_PARAMETER);
+		icalproperty_remove_parameter_by_kind (prop, ICAL_TZID_PARAMETER);
 	}
 }
 

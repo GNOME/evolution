@@ -4242,7 +4242,7 @@ change_status (ESourceRegistry *registry,
 	if (prop) {
 		icalparameter *param;
 
-		icalproperty_remove_parameter (prop, ICAL_PARTSTAT_PARAMETER);
+		icalproperty_remove_parameter_by_kind (prop, ICAL_PARTSTAT_PARAMETER);
 		param = icalparameter_new_partstat (status);
 		icalproperty_add_parameter (prop, param);
 	} else {
