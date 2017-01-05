@@ -322,10 +322,7 @@ populate_g_date (GDate *date,
 	if ((gint) utc_time == -1)
 		return;
 
-	if (zone)
-		icaltm = icaltime_from_timet_with_zone (utc_time, FALSE, zone);
-	else
-		icaltm = icaltime_from_timet (utc_time, FALSE);
+	icaltm = icaltime_from_timet_with_zone (utc_time, FALSE, zone);
 
 	if (icaltime_is_null_time (icaltm) ||
 	    !icaltime_is_valid_time (icaltm))
@@ -348,7 +345,7 @@ convert_time_from_isodate (const gchar *text,
 	if (use_date_zone && strlen (text) == 8) {
 		struct icaltimetype itt;
 
-		itt = icaltime_from_timet (res, TRUE);
+		itt = icaltime_from_timet_with_zone (res, TRUE, NULL);
 		res = icaltime_as_timet_with_zone (itt, use_date_zone);
 	}
 

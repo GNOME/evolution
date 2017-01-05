@@ -236,10 +236,7 @@ encode_timet_to_julian (time_t t,
 	if (!t)
 		return 0;
 
-	if (zone)
-		tt = icaltime_from_timet_with_zone (t, is_date, zone);
-	else
-		tt = icaltime_from_timet (t, is_date);
+	tt = icaltime_from_timet_with_zone (t, is_date, zone);
 
 	if (!icaltime_is_valid_time (tt) || icaltime_is_null_time (tt))
 		return 0;

@@ -702,10 +702,7 @@ cal_searching_check_candidates (ECalShellView *cal_shell_view)
 		data_model = e_cal_base_shell_content_get_data_model (E_CAL_BASE_SHELL_CONTENT (cal_shell_view->priv->cal_shell_content));
 		zone = e_cal_data_model_get_timezone (data_model);
 
-		if (zone)
-			tt = icaltime_from_timet_with_zone (candidate, FALSE, zone);
-		else
-			tt = icaltime_from_timet (candidate, FALSE);
+		tt = icaltime_from_timet_with_zone (candidate, FALSE, zone);
 
 		if (icaltime_is_valid_time (tt) && !icaltime_is_null_time (tt)) {
 			ECalendarView *cal_view;

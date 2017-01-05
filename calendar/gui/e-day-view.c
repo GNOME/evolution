@@ -7556,8 +7556,8 @@ e_day_view_event_move (ECalendarView *cal_view,
 			return TRUE;
 		start_dt = e_day_view_convert_grid_position_to_time (day_view, day, resize_start_row);
 		end_dt = e_day_view_convert_grid_position_to_time (day_view, day, resize_end_row + 1);
-		start_time = icaltime_from_timet (start_dt, 0);
-		end_time = icaltime_from_timet (end_dt, 0);
+		start_time = icaltime_from_timet_with_zone (start_dt, 0, NULL);
+		end_time = icaltime_from_timet_with_zone (end_dt, 0, NULL);
 		icaltime_adjust (&start_time ,-1,0,0,0);
 		icaltime_adjust (&end_time ,-1,0,0,0);
 		start_dt = icaltime_as_timet (start_time);
@@ -7568,8 +7568,8 @@ e_day_view_event_move (ECalendarView *cal_view,
 			return TRUE;
 		start_dt = e_day_view_convert_grid_position_to_time (day_view, day, resize_start_row);
 		end_dt = e_day_view_convert_grid_position_to_time (day_view, day, resize_end_row + 1);
-		start_time = icaltime_from_timet (start_dt, 0);
-		end_time = icaltime_from_timet (end_dt, 0);
+		start_time = icaltime_from_timet_with_zone (start_dt, 0, NULL);
+		end_time = icaltime_from_timet_with_zone (end_dt, 0, NULL);
 		icaltime_adjust (&start_time ,1,0,0,0);
 		icaltime_adjust (&end_time ,1,0,0,0);
 		start_dt = icaltime_as_timet (start_time);
