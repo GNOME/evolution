@@ -217,7 +217,7 @@ struct _EWeekView {
 	gint rows_per_compressed_cell;
 
 	/* The number of rows we have used for each day (i.e. each cell) */
-	gint rows_per_day[E_WEEK_VIEW_MAX_WEEKS * 7];
+	gint rows_per_day[E_WEEK_VIEW_MAX_WEEKS * 7 + 1];
 
 	/* If the small font is used for displaying the minutes. */
 	gboolean use_small_font;
