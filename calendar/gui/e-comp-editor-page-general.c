@@ -982,7 +982,7 @@ ecep_general_fill_component (ECompEditorPage *page,
 					icalparameter_set_cn (param, organizer_name);
 				}
 			} else if (param) {
-				icalproperty_remove_parameter (prop, ICAL_CN_PARAMETER);
+				icalproperty_remove_parameter_by_kind (prop, ICAL_CN_PARAMETER);
 			}
 
 			param = icalproperty_get_first_parameter (prop, ICAL_SENTBY_PARAMETER);
@@ -1002,12 +1002,12 @@ ecep_general_fill_component (ECompEditorPage *page,
 						icalparameter_set_sentby (param, sentby);
 					}
 				} else if (param) {
-					icalproperty_remove_parameter (prop, ICAL_SENTBY_PARAMETER);
+					icalproperty_remove_parameter_by_kind (prop, ICAL_SENTBY_PARAMETER);
 				}
 
 				g_free (sentby);
 			} else if (param) {
-				icalproperty_remove_parameter (prop, ICAL_SENTBY_PARAMETER);
+				icalproperty_remove_parameter_by_kind (prop, ICAL_SENTBY_PARAMETER);
 			}
 		}
 
