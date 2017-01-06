@@ -35,6 +35,8 @@
 #include <e-util/e-util.h>
 
 #include "e-mail-backend.h"
+#include "e-mail-label-dialog.h"
+#include "e-mail-notes.h"
 #include "e-mail-ui-session.h"
 #include "em-config.h"
 #include "em-folder-selection-button.h"
@@ -43,25 +45,31 @@
 typedef struct _AsyncContext AsyncContext;
 
 struct _AsyncContext {
+	EFlag *flag;
 	EActivity *activity;
+	CamelStore *store;
+	gchar *folder_name;
 	CamelFolder *folder;
 	GtkWindow *parent_window;
 	CamelFolderQuotaInfo *quota_info;
 	gint total;
 	gint unread;
+	gboolean cancelled;
+	GSList *available_labels; /* gchar * */
 };
 
 static void
 async_context_free (AsyncContext *context)
 {
-	if (context->activity != NULL)
-		g_object_unref (context->activity);
+	e_flag_free (context->flag);
 
-	if (context->folder != NULL)
-		g_object_unref (context->folder);
+	g_clear_object (&context->activity);
+	g_clear_object (&context->store);
+	g_clear_object (&context->folder);
+	g_clear_object (&context->parent_window);
 
-	if (context->parent_window != NULL)
-		g_object_unref (context->parent_window);
+	g_slist_free_full (context->available_labels, g_free);
+	g_free (context->folder_name);
 
 	if (context->quota_info != NULL)
 		camel_folder_quota_info_free (context->quota_info);
@@ -692,6 +700,359 @@ emfp_get_autoarchive_item (EConfig *ec,
 	return GTK_WIDGET (grid);
 }
 
+static gboolean
+emfp_labels_check_selection_has_label (GtkTreeSelection *selection,
+				       gboolean *anything_selected)
+{
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+	gchar *label = NULL;
+	gboolean has_label;
+
+	g_return_val_if_fail (GTK_IS_TREE_SELECTION (selection), FALSE);
+
+	if (!gtk_tree_selection_get_selected (selection, &model, &iter)) {
+		if (anything_selected)
+			*anything_selected = FALSE;
+		return FALSE;
+	}
+
+	if (anything_selected)
+		*anything_selected = TRUE;
+
+	gtk_tree_model_get (model, &iter, 1, &label, -1);
+
+	has_label = label && *label;
+
+	g_free (label);
+
+	return has_label;
+}
+
+static void
+emfp_labels_sensitize_when_label_unset_cb (GtkTreeSelection *selection,
+					   GtkWidget *widget)
+{
+	gboolean anything_selected = FALSE;
+
+	g_return_if_fail (GTK_IS_TREE_SELECTION (selection));
+	g_return_if_fail (GTK_IS_WIDGET (widget));
+
+	gtk_widget_set_sensitive (widget, !emfp_labels_check_selection_has_label (selection, &anything_selected) && anything_selected);
+}
+
+static void
+emfp_labels_sensitize_when_label_set_cb (GtkTreeSelection *selection,
+					 GtkWidget *widget)
+{
+	g_return_if_fail (GTK_IS_TREE_SELECTION (selection));
+	g_return_if_fail (GTK_IS_WIDGET (widget));
+
+	gtk_widget_set_sensitive (widget, emfp_labels_check_selection_has_label (selection, NULL));
+}
+
+static void
+emfp_update_label_row (GtkTreeModel *model,
+		       GtkTreeIter *iter,
+		       const gchar *name,
+		       const GdkColor *color)
+{
+	GdkRGBA rgba;
+
+	g_return_if_fail (GTK_IS_LIST_STORE (model));
+	g_return_if_fail (iter != NULL);
+	g_return_if_fail (!name || *name);
+
+	if (color) {
+		rgba.red = color->red / 65535.0;
+		rgba.green = color->green / 65535.0;
+		rgba.blue = color->blue / 65535.0;
+		rgba.alpha = 1.0;
+	}
+
+	gtk_list_store_set (GTK_LIST_STORE (model), iter,
+		1, name,
+		2, color ? &rgba : NULL,
+		-1);
+}
+
+typedef enum {
+	EMFP_ADD_LABEL,
+	EMFP_EDIT_LABEL,
+	EMFP_REMOVE_LABEL
+} EMFPLabelsAction;
+
+static void
+emfp_labels_action (GtkWidget *parent,
+		    GtkTreeSelection *selection,
+		    EMFPLabelsAction action)
+{
+	EShell *shell;
+	EMailBackend *mail_backend;
+	EMailLabelListStore *label_store;
+	GtkTreeIter my_iter, labels_iter;
+	GtkTreeModel *model = NULL;
+	gchar *tag = NULL, *label = NULL;
+	gboolean tag_exists;
+
+	g_return_if_fail (GTK_IS_TREE_SELECTION (selection));
+
+	if (!gtk_tree_selection_get_selected (selection, &model, &my_iter))
+		return;
+
+	gtk_tree_model_get (model, &my_iter,
+		0, &tag,
+		1, &label,
+		-1);
+
+	if (!tag || !*tag) {
+		g_free (tag);
+		g_free (label);
+
+		return;
+	}
+
+	if (parent && !gtk_widget_is_toplevel (parent))
+		parent = NULL;
+
+	shell = e_shell_get_default ();
+	mail_backend = E_MAIL_BACKEND (e_shell_get_backend_by_name (shell, "mail"));
+	g_return_if_fail (mail_backend != NULL);
+
+	label_store = e_mail_ui_session_get_label_store (
+		E_MAIL_UI_SESSION (e_mail_backend_get_session (mail_backend)));
+
+	tag_exists = e_mail_label_list_store_lookup (label_store, tag, &labels_iter);
+
+	if (action == EMFP_ADD_LABEL) {
+		if (!tag_exists) {
+			GtkWidget *dialog;
+
+			dialog = e_mail_label_dialog_new (parent ? GTK_WINDOW (parent) : NULL);
+			gtk_window_set_title (GTK_WINDOW (dialog), _("Add Label"));
+
+			if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK) {
+				EMailLabelDialog *label_dialog;
+				GdkColor label_color;
+				const gchar *label_name;
+
+				label_dialog = E_MAIL_LABEL_DIALOG (dialog);
+				label_name = e_mail_label_dialog_get_label_name (label_dialog);
+				e_mail_label_dialog_get_label_color (label_dialog, &label_color);
+
+				e_mail_label_list_store_set_with_tag (label_store, NULL, tag, label_name, &label_color);
+
+				emfp_update_label_row (model, &my_iter, label_name, &label_color);
+			}
+
+			gtk_widget_destroy (dialog);
+		}
+	} else if (action == EMFP_EDIT_LABEL) {
+		if (tag_exists) {
+			EMailLabelDialog *label_dialog;
+			GtkWidget *dialog;
+			const gchar *new_name;
+			GdkColor label_color;
+			gchar *label_name;
+
+			dialog = e_mail_label_dialog_new (parent ? GTK_WINDOW (parent) : NULL);
+			gtk_window_set_title (GTK_WINDOW (dialog), _("Edit Label"));
+
+			label_dialog = E_MAIL_LABEL_DIALOG (dialog);
+
+			label_name = e_mail_label_list_store_get_name (label_store, &labels_iter);
+			e_mail_label_dialog_set_label_name (label_dialog, label_name);
+			g_free (label_name);
+
+			if (e_mail_label_list_store_get_color (label_store, &labels_iter, &label_color))
+				e_mail_label_dialog_set_label_color (label_dialog, &label_color);
+
+			if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK) {
+				new_name = e_mail_label_dialog_get_label_name (label_dialog);
+				e_mail_label_dialog_get_label_color (label_dialog, &label_color);
+
+				e_mail_label_list_store_set (label_store, &labels_iter, new_name, &label_color);
+
+				emfp_update_label_row (model, &my_iter, new_name, &label_color);
+			}
+
+			gtk_widget_destroy (dialog);
+		}
+	} else if (action == EMFP_REMOVE_LABEL) {
+		if (tag_exists) {
+			gtk_list_store_remove (GTK_LIST_STORE (label_store), &labels_iter);
+			emfp_update_label_row (model, &my_iter, NULL, NULL);
+		}
+	} else {
+		g_warn_if_reached ();
+	}
+
+	g_free (tag);
+	g_free (label);
+
+	/* To update Add/Edit/Remove buttons */
+	gtk_tree_selection_unselect_iter (selection, &my_iter);
+	gtk_tree_selection_select_iter (selection, &my_iter);
+}
+
+static void
+emfp_labels_add_clicked_cb (GtkWidget *button,
+			    GtkTreeSelection *selection)
+{
+	g_return_if_fail (GTK_IS_TREE_SELECTION (selection));
+
+	emfp_labels_action (gtk_widget_get_toplevel (button), selection, EMFP_ADD_LABEL);
+}
+
+static void
+emfp_labels_edit_clicked_cb (GtkWidget *button,
+			     GtkTreeSelection *selection)
+{
+	g_return_if_fail (GTK_IS_TREE_SELECTION (selection));
+
+	emfp_labels_action (gtk_widget_get_toplevel (button), selection, EMFP_EDIT_LABEL);
+}
+
+static void
+emfp_labels_remove_clicked_cb (GtkWidget *button,
+			       GtkTreeSelection *selection)
+{
+	g_return_if_fail (GTK_IS_TREE_SELECTION (selection));
+
+	emfp_labels_action (gtk_widget_get_toplevel (button), selection, EMFP_REMOVE_LABEL);
+}
+
+static GtkWidget *
+emfp_get_labels_item (EConfig *ec,
+		      EConfigItem *item,
+		      GtkWidget *parent,
+		      GtkWidget *old,
+		      gint position,
+		      gpointer data)
+{
+	EShell *shell;
+	EMailBackend *mail_backend;
+	EMailLabelListStore *label_store;
+	GtkGrid *grid;
+	GtkWidget *widget, *tree_view, *add_btn, *edit_btn, *remove_btn;
+	GtkTreeSelection *selection;
+	GtkListStore *list_store;
+	GtkCellRenderer *renderer;
+	GSList *link;
+	AsyncContext *context = data;
+
+	if (old)
+		return old;
+
+	shell = e_shell_get_default ();
+	mail_backend = E_MAIL_BACKEND (e_shell_get_backend_by_name (shell, "mail"));
+	g_return_val_if_fail (mail_backend != NULL, NULL);
+
+	label_store = e_mail_ui_session_get_label_store (
+		E_MAIL_UI_SESSION (e_mail_backend_get_session (mail_backend)));
+
+	grid = GTK_GRID (gtk_grid_new ());
+	gtk_box_pack_start (GTK_BOX (parent), GTK_WIDGET (grid), TRUE, TRUE, 0);
+
+	widget = gtk_scrolled_window_new (NULL, NULL);
+	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (widget), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+	g_object_set (G_OBJECT (widget),
+		"hexpand", TRUE,
+		"halign", GTK_ALIGN_FILL,
+		"vexpand", TRUE,
+		"valign", GTK_ALIGN_FILL,
+		NULL);
+	gtk_grid_attach (grid, widget, 0, 0, 1, 1);
+
+	list_store = gtk_list_store_new (3, G_TYPE_STRING, G_TYPE_STRING, GDK_TYPE_RGBA);
+
+	for (link = context->available_labels; link; link = g_slist_next (link)) {
+		GtkTreeIter iter, label_iter;
+		GdkRGBA rgba;
+		gboolean has_label_color = FALSE;
+		gchar *label_name = NULL;
+		const gchar *tag = link->data;
+
+		if (!tag || !*tag)
+			continue;
+
+		if (e_mail_label_list_store_lookup (label_store, tag, &label_iter)) {
+			GdkColor color;
+
+			label_name = e_mail_label_list_store_get_name (label_store, &label_iter);
+			has_label_color = e_mail_label_list_store_get_color (label_store, &label_iter, &color);
+
+			if (has_label_color) {
+				rgba.red = color.red / 65535.0;
+				rgba.green = color.green / 65535.0;
+				rgba.blue = color.blue / 65535.0;
+				rgba.alpha = 1.0;
+			}
+		}
+
+		gtk_list_store_append (list_store, &iter);
+		gtk_list_store_set (list_store, &iter,
+			0, tag,
+			1, label_name,
+			2, has_label_color ? &rgba : NULL,
+			-1);
+
+		g_free (label_name);
+	}
+
+	tree_view = gtk_tree_view_new_with_model (GTK_TREE_MODEL (list_store));
+	g_clear_object (&list_store);
+
+	renderer = gtk_cell_renderer_text_new ();
+	gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (tree_view), -1,
+		_("Server Tag"), renderer, "text", 0, "foreground-rgba", 2, NULL);
+
+	renderer = gtk_cell_renderer_text_new ();
+	gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (tree_view), -1,
+		_("Label"), renderer, "text", 1, "foreground-rgba", 2, NULL);
+
+	gtk_container_add (GTK_CONTAINER (widget), tree_view);
+
+	widget = gtk_button_box_new (GTK_ORIENTATION_VERTICAL);
+	gtk_button_box_set_layout (GTK_BUTTON_BOX (widget), GTK_BUTTONBOX_START);
+	gtk_widget_set_margin_left (widget, 12);
+	gtk_grid_attach (grid, widget, 1, 0, 1, 1);
+
+	add_btn = e_dialog_button_new_with_icon ("list-add", _("_Add"));
+	gtk_container_add (GTK_CONTAINER (widget), add_btn);
+
+	edit_btn = gtk_button_new_with_mnemonic (_("_Edit"));
+	gtk_container_add (GTK_CONTAINER (widget), edit_btn);
+
+	remove_btn = e_dialog_button_new_with_icon ("list-remove", _("_Remove"));
+	gtk_container_add (GTK_CONTAINER (widget), remove_btn);
+
+	gtk_widget_set_sensitive (add_btn, FALSE);
+	gtk_widget_set_sensitive (edit_btn, FALSE);
+	gtk_widget_set_sensitive (remove_btn, FALSE);
+
+	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (tree_view));
+	gtk_tree_selection_set_mode (selection, GTK_SELECTION_SINGLE);
+
+	g_signal_connect (selection, "changed",
+		G_CALLBACK (emfp_labels_sensitize_when_label_unset_cb), add_btn);
+	g_signal_connect (selection, "changed",
+		G_CALLBACK (emfp_labels_sensitize_when_label_set_cb), edit_btn);
+	g_signal_connect (selection, "changed",
+		G_CALLBACK (emfp_labels_sensitize_when_label_set_cb), remove_btn);
+
+	g_signal_connect (add_btn, "clicked",
+		G_CALLBACK (emfp_labels_add_clicked_cb), selection);
+	g_signal_connect (edit_btn, "clicked",
+		G_CALLBACK (emfp_labels_edit_clicked_cb), selection);
+	g_signal_connect (remove_btn, "clicked",
+		G_CALLBACK (emfp_labels_remove_clicked_cb), selection);
+
+	gtk_widget_show_all (GTK_WIDGET (grid));
+
+	return GTK_WIDGET (grid);
+}
+
 #define EMFP_FOLDER_SECTION (2)
 
 static EMConfigItem emfp_items[] = {
@@ -701,7 +1062,10 @@ static EMConfigItem emfp_items[] = {
 	{ E_CONFIG_ITEM, (gchar *) "00.general/00.folder/00.info", NULL, emfp_get_folder_item },
 	{ E_CONFIG_PAGE, (gchar *) "10.autoarchive", (gchar *) N_("AutoArchive") },
 	{ E_CONFIG_SECTION, (gchar *) "10.autoarchive/00.folder", NULL },
-	{ E_CONFIG_ITEM, (gchar *) "10.autoarchive/00.folder/00.info", NULL, emfp_get_autoarchive_item }
+	{ E_CONFIG_ITEM, (gchar *) "10.autoarchive/00.folder/00.info", NULL, emfp_get_autoarchive_item },
+	{ E_CONFIG_PAGE, (gchar *) "20.labels", (gchar *) N_("Labels") },
+	{ E_CONFIG_SECTION, (gchar *) "20.labels/00.folder", NULL },
+	{ E_CONFIG_ITEM, (gchar *) "20.labels/00.folder/00.labels", NULL, emfp_get_labels_item }
 };
 static gboolean emfp_items_translated = FALSE;
 
@@ -820,92 +1184,142 @@ emfp_dialog_run (AsyncContext *context)
 	gtk_widget_destroy (dialog);
 }
 
-static void
-emfp_dialog_got_quota_info (CamelFolder *folder,
-                            GAsyncResult *result,
-                            AsyncContext *context)
+static gint
+emfp_gather_unique_labels_cb (gpointer user_data,
+			      gint ncol,
+			      gchar **colvalues,
+			      gchar **colnames)
 {
-	EAlertSink *alert_sink;
-	GError *error = NULL;
+	GHashTable *hash = user_data;
 
-	alert_sink = e_activity_get_alert_sink (context->activity);
+	g_return_val_if_fail (hash != NULL, -1);
 
-	context->quota_info =
-		camel_folder_get_quota_info_finish (folder, result, &error);
+	if (ncol == 1 && colvalues[0] && *colvalues[0]) {
+		gchar **strv;
 
-	/* If the folder does not implement quota info, just continue. */
-	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_NOT_SUPPORTED)) {
-		g_warn_if_fail (context->quota_info == NULL);
-		g_error_free (error);
+		strv = g_strsplit (colvalues[0], " ", -1);
+		if (strv) {
+			gint ii;
 
-	} else if (e_activity_handle_cancellation (context->activity, error)) {
-		g_warn_if_fail (context->quota_info == NULL);
-		async_context_free (context);
-		g_error_free (error);
-		return;
+			for (ii = 0; strv[ii]; ii++) {
+				gchar *copy = g_strdup (g_strstrip (strv[ii]));
 
-	} else if (error != NULL && context->folder != NULL) {
-		g_debug ("%s: Failed to get quota information: %s", G_STRFUNC, error->message);
-		g_clear_error (&error);
-	} else if (error != NULL) {
-		g_warn_if_fail (context->folder == NULL);
-		e_alert_submit (
-			alert_sink, "mail:folder-open",
-			error->message, NULL);
-		async_context_free (context);
-		g_error_free (error);
-		return;
+				if (copy && *copy)
+					g_hash_table_insert (hash, copy, NULL);
+				else
+					g_free (copy);
+			}
+		}
+
+		g_strfreev (strv);
 	}
 
-	/* Quota info may still be NULL here if not supported. */
+	return 0;
+}
 
-	/* Finalize the activity here so we don't leave a message
-	 * in the task bar while the properties window is shown. */
-	e_activity_set_state (context->activity, E_ACTIVITY_COMPLETED);
-	g_object_unref (context->activity);
-	context->activity = NULL;
+/* Use g_slist_free_full (labels, g_free); to free the returned pointer */
+static GSList *
+emfp_gather_folder_available_labels_sync (CamelFolder *folder)
+{
+	GSList *labels = NULL;
+	GHashTable *hash;
+	GHashTableIter iter;
+	CamelStore *store;
+	CamelDB *db;
+	gchar *query, *sqlized_foldername;
+	gint ii;
+	gpointer key;
+	GError *local_error = NULL;
+	/* A list of known tags, which are used internally by the evolution and thus not a real labels. */
+	const gchar *skip_labels[] = {
+		E_MAIL_NOTES_USER_FLAG,
+		"$has_cal",
+		"receipt-handled",
+		NULL
+	};
 
-	emfp_dialog_run (context);
+	g_return_val_if_fail (CAMEL_IS_FOLDER (folder), NULL);
+
+	store = camel_folder_get_parent_store (folder);
+	if (!store)
+		return NULL;
+
+	db = camel_store_get_db (store);
+	if (!db)
+		return NULL;
+
+	sqlized_foldername = camel_db_sqlize_string (camel_folder_get_full_name (folder));
+	hash = g_hash_table_new_full (camel_strcase_hash, camel_strcase_equal, g_free, NULL);
+
+	query = g_strdup_printf ("SELECT DISTINCT labels FROM %s WHERE labels NOT LIKE ''", sqlized_foldername);
+	camel_db_select (db, query, emfp_gather_unique_labels_cb, hash, &local_error);
+
+	if (local_error) {
+		g_debug ("%s: Failed to execute '%s': %s\n", G_STRFUNC, query, local_error->message);
+		g_clear_error (&local_error);
+	}
+
+	g_free (query);
+	camel_db_free_sqlized_string (sqlized_foldername);
+
+	for (ii = 0; skip_labels[ii]; ii++) {
+		g_hash_table_remove (hash, skip_labels[ii]);
+	}
+
+	g_hash_table_iter_init (&iter, hash);
+	while (g_hash_table_iter_next (&iter, &key, NULL)) {
+		labels = g_slist_prepend (labels, g_strdup (key));
+	}
+
+	g_hash_table_destroy (hash);
+
+	return g_slist_sort (labels, e_collate_compare);
+}
+
+static void
+emfp_prepare_dialog_data_done (gpointer ptr)
+{
+	AsyncContext *context = ptr;
+
+	g_return_if_fail (context != NULL);
+
+	if (context->folder && !context->cancelled)
+		emfp_dialog_run (context);
 
 	async_context_free (context);
 }
 
 static void
-emfp_dialog_got_folder (CamelStore *store,
-                        GAsyncResult *result,
-                        AsyncContext *context)
+emfp_prepare_dialog_data_thread (EAlertSinkThreadJobData *job_data,
+				 gpointer user_data,
+				 GCancellable *cancellable,
+				 GError **error)
 {
-	EAlertSink *alert_sink;
-	GCancellable *cancellable;
-	GError *error = NULL;
+	AsyncContext *context = user_data;
+	GError *local_error = NULL;
 
-	alert_sink = e_activity_get_alert_sink (context->activity);
-	cancellable = e_activity_get_cancellable (context->activity);
+	g_return_if_fail (context != NULL);
 
-	context->folder = camel_store_get_folder_finish (
-		store, result, &error);
+	e_flag_wait (context->flag);
 
-	if (e_activity_handle_cancellation (context->activity, error)) {
-		g_warn_if_fail (context->folder == NULL);
-		async_context_free (context);
-		g_error_free (error);
+	context->folder = camel_store_get_folder_sync (context->store, context->folder_name, 0, cancellable, error);
+	if (!context->folder)
 		return;
 
-	} else if (error != NULL) {
-		g_warn_if_fail (context->folder == NULL);
-		e_alert_submit (
-			alert_sink, "mail:folder-open",
-			error->message, NULL);
-		async_context_free (context);
-		g_error_free (error);
-		return;
+	context->quota_info = camel_folder_get_quota_info_sync (context->folder, cancellable, &local_error);
+
+	/* If the folder does not implement quota info, just continue. */
+	if (g_error_matches (local_error, G_IO_ERROR, G_IO_ERROR_NOT_SUPPORTED)) {
+		g_warn_if_fail (context->quota_info == NULL);
+		g_clear_error (&local_error);
+	} else if (local_error) {
+		g_debug ("%s: Failed to get quota information: %s", G_STRFUNC, local_error->message);
+		g_clear_error (&local_error);
 	}
 
-	g_return_if_fail (CAMEL_IS_FOLDER (context->folder));
+	context->available_labels = emfp_gather_folder_available_labels_sync (context->folder);
 
-	camel_folder_get_quota_info (
-		context->folder, G_PRIORITY_DEFAULT, cancellable,
-		(GAsyncReadyCallback) emfp_dialog_got_quota_info, context);
+	context->cancelled = g_cancellable_is_cancelled (cancellable);
 }
 
 /**
@@ -925,7 +1339,6 @@ em_folder_properties_show (CamelStore *store,
 {
 	CamelService *service;
 	CamelSession *session;
-	GCancellable *cancellable;
 	AsyncContext *context;
 	const gchar *uid;
 
@@ -958,24 +1371,20 @@ em_folder_properties_show (CamelStore *store,
 	/* Open the folder asynchronously. */
 
 	context = g_slice_new0 (AsyncContext);
-	context->activity = e_activity_new ();
+	context->flag = e_flag_new ();
 	context->parent_window = g_object_ref (parent_window);
+	context->store = g_object_ref (store);
+	context->folder_name = g_strdup (folder_name);
 
-	e_activity_set_alert_sink (context->activity, alert_sink);
+	context->activity = e_alert_sink_submit_thread_job (alert_sink,
+		_("Gathering folder properties"), "mail:folder-open", NULL,
+		emfp_prepare_dialog_data_thread, context, emfp_prepare_dialog_data_done);
 
-	cancellable = camel_operation_new ();
-	e_activity_set_cancellable (context->activity, cancellable);
+	e_mail_ui_session_add_activity (E_MAIL_UI_SESSION (session), context->activity);
 
-	e_mail_ui_session_add_activity (
-		E_MAIL_UI_SESSION (session), context->activity);
+	e_flag_set (context->flag);
 
-	camel_store_get_folder (
-		store, folder_name, 0, G_PRIORITY_DEFAULT, cancellable,
-		(GAsyncReadyCallback) emfp_dialog_got_folder, context);
-
-	g_object_unref (cancellable);
-
-exit:
+ exit:
 	g_object_unref (session);
 }
 

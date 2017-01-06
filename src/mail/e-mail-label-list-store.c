@@ -622,6 +622,17 @@ e_mail_label_list_store_set (EMailLabelListStore *store,
                              const gchar *name,
                              const GdkColor *color)
 {
+	e_mail_label_list_store_set_with_tag (store, iter, NULL, name, color);
+}
+
+/* The 'tag' is ignored, if the 'iter' is set. */
+void
+e_mail_label_list_store_set_with_tag (EMailLabelListStore *store,
+				      GtkTreeIter *iter,
+				      const gchar *tag,
+				      const gchar *name,
+				      const GdkColor *color)
+{
 	gchar *encoded;
 	gchar *label_color;
 	gchar *label_tag = NULL;
@@ -634,6 +645,8 @@ e_mail_label_list_store_set (EMailLabelListStore *store,
 
 	if (iter != NULL)
 		label_tag = e_mail_label_list_store_get_tag (store, iter);
+	else if (tag && *tag)
+		label_tag = g_strdup (tag);
 	if (label_tag == NULL)
 		label_tag = mail_label_list_store_tag_from_name (name);
 

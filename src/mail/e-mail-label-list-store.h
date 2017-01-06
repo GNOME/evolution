@@ -74,6 +74,11 @@ void		e_mail_label_list_store_set		(EMailLabelListStore *store,
 							 GtkTreeIter *iter,
 							 const gchar *name,
 							 const GdkColor *color);
+void		e_mail_label_list_store_set_with_tag	(EMailLabelListStore *store,
+							 GtkTreeIter *iter,
+							 const gchar *tag,
+							 const gchar *name,
+							 const GdkColor *color);
 gboolean	e_mail_label_list_store_lookup		(EMailLabelListStore *store,
 							 const gchar *tag,
 							 GtkTreeIter *iter);

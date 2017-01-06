@@ -465,7 +465,7 @@ ec_rebuild (EConfig *config)
 				gtk_container_set_border_width ((GtkContainer *) page, 12);
 				gtk_widget_show (page);
 				gtk_notebook_insert_page ((GtkNotebook *) book, page, w, pageno);
-				gtk_container_child_set (GTK_CONTAINER (book), page, "tab-fill", FALSE, "tab-expand", FALSE, NULL);
+				gtk_container_child_set (GTK_CONTAINER (book), page, "tab-fill", TRUE, "tab-expand", TRUE, NULL);
 				wn->frame = page;
 			} else
 				page = wn->widget;
@@ -575,7 +575,7 @@ ec_rebuild (EConfig *config)
 					"child", section, NULL),
 					NULL);
 				gtk_widget_show_all (frame);
-				gtk_box_pack_start ((GtkBox *) page, frame, FALSE, FALSE, 0);
+				gtk_box_pack_start ((GtkBox *) page, frame, TRUE, TRUE, 0);
 				wn->frame = frame;
 			}
 		nopage:
