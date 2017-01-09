@@ -224,6 +224,11 @@ GType		e_comp_editor_property_part_string_get_type	(void) G_GNUC_CONST;
 void		e_comp_editor_property_part_string_attach_focus_tracker
 								(ECompEditorPropertyPartString *part_string,
 								 EFocusTracker *focus_tracker);
+void		e_comp_editor_property_part_string_set_is_multivalue
+								(ECompEditorPropertyPartString *part_string,
+								 gboolean is_multivalue);
+gboolean	e_comp_editor_property_part_string_is_multivalue
+								(ECompEditorPropertyPartString *part_string);
 
 /* ************************************************************************* */
 
