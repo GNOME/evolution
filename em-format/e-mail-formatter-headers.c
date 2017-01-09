@@ -166,7 +166,7 @@ write_contact_picture (CamelMimePart *mime_part,
 			if (size >= 0) {
 				g_string_append_printf (
 					buffer,
-					"<img width=\"%d\" src=\"evo-file://%s\" />",
+					"<img width=\"%dpx\" src=\"evo-file://%s\" />",
 					size, filename);
 			} else {
 				g_string_append_printf (
@@ -186,7 +186,7 @@ write_contact_picture (CamelMimePart *mime_part,
 	if (size >= 0) {
 		g_string_append_printf (
 			buffer,
-			"<img width=\"%d\" src=\"data:%s;base64,%s\">",
+			"<img width=\"%dpx\" src=\"data:%s;base64,%s\">",
 			size, content_type, b64);
 	} else {
 		g_string_append_printf (

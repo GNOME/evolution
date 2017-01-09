@@ -1167,13 +1167,20 @@ buttons_table_write_button (GString *buffer,
 	html_label = e_mail_formatter_parse_html_mnemonics (label, &access_key);
 
 	if (icon) {
+		gint icon_width, icon_height;
+
+		if (!gtk_icon_size_lookup (GTK_ICON_SIZE_BUTTON, &icon_width, &icon_height)) {
+			icon_width = 16;
+			icon_height = 16;
+		}
+
 		g_string_append_printf (
 			buffer,
 			"<td><button class=\"itip-button\" type=\"button\" name=\"%s\" value=\"%p:%d\" id=\"%s\" accesskey=\"%s\" hidden disabled>"
-			"<div><img src=\"gtk-stock://%s?size=%d\"> <span>%s</span></div>"
+			"<div><img src=\"gtk-stock://%s?size=%d\" width=\"%dpx\" height=\"%dpx\"> <span>%s</span></div>"
 			"</button></td>\n",
 			name, itip_part_ptr, response, name, access_key ? access_key : "" , icon,
-			GTK_ICON_SIZE_BUTTON, html_label);
+			GTK_ICON_SIZE_BUTTON, icon_width, icon_height, html_label);
 	} else {
 		g_string_append_printf (
 			buffer,
@@ -1635,14 +1642,21 @@ itip_view_write (gpointer itip_part_ptr,
 		 EMailFormatter *formatter,
                  GString *buffer)
 {
+	gint icon_width, icon_height;
 	gchar *header = e_mail_formatter_get_html_header (formatter);
+
 	g_string_append (buffer, header);
 	g_free (header);
 
+	if (!gtk_icon_size_lookup (GTK_ICON_SIZE_BUTTON, &icon_width, &icon_height)) {
+		icon_width = 16;
+		icon_height = 16;
+	}
+
 	g_string_append_printf (
 		buffer,
-		"<img src=\"gtk-stock://%s?size=%d\" class=\"itip icon\" />\n",
-			MEETING_ICON, GTK_ICON_SIZE_BUTTON);
+		"<img src=\"gtk-stock://%s?size=%d\" class=\"itip icon\" width=\"%dpx\" height=\"%dpx\"/>\n",
+			MEETING_ICON, GTK_ICON_SIZE_BUTTON, icon_width, icon_height);
 
 	g_string_append (
 		buffer,
