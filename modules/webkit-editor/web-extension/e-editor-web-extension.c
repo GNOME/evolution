@@ -2368,7 +2368,7 @@ image_exists_in_cache (const gchar *image_uri)
 	return exists;
 }
 
-static void
+static gboolean
 redirect_http_uri (EEditorWebExtension *extension,
                    WebKitWebPage *web_page,
                    WebKitURIRequest *request)
@@ -2381,7 +2381,7 @@ redirect_http_uri (EEditorWebExtension *extension,
 	EImageLoadingPolicy image_policy;
 
 	editor_page = get_editor_page (extension, webkit_web_page_get_id (web_page));
-	g_return_if_fail (E_IS_EDITOR_PAGE (editor_page));
+	g_return_val_if_fail (E_IS_EDITOR_PAGE (editor_page), FALSE);
 
 	uri = webkit_uri_request_get_uri (request);
 
@@ -2394,8 +2394,7 @@ redirect_http_uri (EEditorWebExtension *extension,
 	image_policy = e_editor_page_get_image_loading_policy (editor_page);
 	if (!image_exists && !e_editor_page_get_force_image_load (editor_page) &&
 	    (image_policy == E_IMAGE_LOADING_POLICY_NEVER)) {
-		webkit_uri_request_set_uri (request, "about:blank");
-		return;
+		return FALSE;
 	}
 
 	new_uri = g_strconcat ("evo-", uri, NULL);
@@ -2407,6 +2406,8 @@ redirect_http_uri (EEditorWebExtension *extension,
 	soup_uri_free (soup_uri);
 
 	g_free (new_uri);
+
+	return TRUE;
 }
 
 static gboolean
@@ -2432,8 +2433,9 @@ web_page_send_request_cb (WebKitWebPage *web_page,
 		g_str_has_prefix (request_uri, "evo-http:") ||
 		g_str_has_prefix (request_uri, "evo-https:");
 
-	if (uri_is_http)
-		redirect_http_uri (extension, web_page, request);
+	if (uri_is_http &&
+	    !redirect_http_uri (extension, web_page, request))
+		return TRUE;
 
 	return FALSE;
 }
