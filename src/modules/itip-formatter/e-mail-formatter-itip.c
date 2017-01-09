@@ -85,11 +85,11 @@ emfe_itip_format (EMailFormatterExtension *extension,
 		itip_view_write (itip_part, formatter, buffer);
 
 	} else {
-		CamelFolder *folder;
-		CamelMimeMessage *message;
+		CamelFolder *folder, *old_folder;
+		CamelMimeMessage *message, *old_message;
 		const gchar *message_uid;
 		const gchar *default_charset, *charset;
-		gchar *uri;
+		gchar *uri, *old_message_uid;
 
 		folder = e_mail_part_list_get_folder (context->part_list);
 		message = e_mail_part_list_get_message (context->part_list);
@@ -105,9 +105,17 @@ emfe_itip_format (EMailFormatterExtension *extension,
 				folder, message_uid, "$has_cal", TRUE);
 		}
 
+		old_folder = itip_part->folder;
+		old_message = itip_part->message;
+		old_message_uid = itip_part->message_uid;
+
 		itip_part->folder = g_object_ref (folder);
-		itip_part->message_uid = g_strdup (message_uid);
 		itip_part->message = g_object_ref (message);
+		itip_part->message_uid = g_strdup (message_uid);
+
+		g_clear_object (&old_folder);
+		g_clear_object (&old_message);
+		g_free (old_message_uid);
 
 		default_charset = e_mail_formatter_get_default_charset (formatter);
 		charset = e_mail_formatter_get_charset (formatter);

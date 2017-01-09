@@ -2047,7 +2047,6 @@ user_focus_in (ENameSelectorEntry *name_selector_entry,
 	gint n;
 	GList *l, *known;
 	GString *str = g_string_new ("");
-	EDestination *dest_dummy = e_destination_new ();
 	gint sel_start_pos = -1, sel_end_pos = -1;
 
 	g_signal_handlers_block_matched (name_selector_entry, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, name_selector_entry);
@@ -2073,10 +2072,14 @@ user_focus_in (ENameSelectorEntry *name_selector_entry,
 	g_list_free (known);
 
 	if (str->len > 1 && str->str && str->str[str->len - 1] != ' ' && str->str[str->len - 2] != ',') {
+		EDestination *dest_dummy = e_destination_new ();
+
 		/* Add a blank destination */
 		e_destination_store_append_destination (name_selector_entry->priv->destination_store, dest_dummy);
 		if (str->str && str->str[0])
 			g_string_append (str, ", ");
+
+		g_clear_object (&dest_dummy);
 	}
 
 	gtk_editable_get_selection_bounds (GTK_EDITABLE (name_selector_entry), &sel_start_pos, &sel_end_pos);

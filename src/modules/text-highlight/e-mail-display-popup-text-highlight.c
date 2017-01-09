@@ -327,6 +327,20 @@ update_actions (EMailDisplayPopupExtension *extension,
 	}
 }
 
+static void
+e_mail_display_popup_text_highlight_finalize (GObject *object)
+{
+	EMailDisplayPopupTextHighlight *extension;
+
+	extension = E_MAIL_DISPLAY_POPUP_TEXT_HIGHLIGHT (object);
+
+	g_clear_object (&extension->action_group);
+	g_free (extension->document_uri);
+
+	/* Chain up to parent's method */
+	G_OBJECT_CLASS (e_mail_display_popup_text_highlight_parent_class)->finalize (object);
+}
+
 void
 e_mail_display_popup_text_highlight_type_register (GTypeModule *type_module)
 {
@@ -336,12 +350,16 @@ e_mail_display_popup_text_highlight_type_register (GTypeModule *type_module)
 static void
 e_mail_display_popup_text_highlight_class_init (EMailDisplayPopupTextHighlightClass *klass)
 {
+	GObjectClass *object_class;
 	EExtensionClass *extension_class;
 
 	e_mail_display_popup_text_highlight_parent_class = g_type_class_peek_parent (klass);
 
 	extension_class = E_EXTENSION_CLASS (klass);
 	extension_class->extensible_type = E_TYPE_MAIL_DISPLAY;
+
+	object_class = G_OBJECT_CLASS (klass);
+	object_class->finalize = e_mail_display_popup_text_highlight_finalize;
 }
 
 static void
