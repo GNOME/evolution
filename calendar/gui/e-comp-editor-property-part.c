@@ -317,7 +317,7 @@ e_comp_editor_property_part_emit_changed (ECompEditorPropertyPart *property_part
 /* ************************************************************************* */
 
 struct _ECompEditorPropertyPartStringPrivate {
-	gint dummy;
+	gboolean is_multivalue;
 };
 
 G_DEFINE_ABSTRACT_TYPE (ECompEditorPropertyPartString, e_comp_editor_property_part_string, E_TYPE_COMP_EDITOR_PROPERTY_PART)
@@ -393,6 +393,7 @@ ecepp_string_fill_widget (ECompEditorPropertyPart *property_part,
 {
 	ECompEditorPropertyPartStringClass *klass;
 	GtkWidget *edit_widget;
+	GString *multivalue = NULL;
 	icalproperty *prop;
 	const gchar *value = NULL;
 
@@ -407,9 +408,32 @@ ecepp_string_fill_widget (ECompEditorPropertyPart *property_part,
 	g_return_if_fail (klass->ical_prop_kind != ICAL_NO_PROPERTY);
 	g_return_if_fail (klass->ical_get_func != NULL);
 
-	prop = icalcomponent_get_first_property (component, klass->ical_prop_kind);
-	if (prop)
-		value = klass->ical_get_func (prop);
+	if (e_comp_editor_property_part_string_is_multivalue (E_COMP_EDITOR_PROPERTY_PART_STRING (property_part))) {
+		for (prop = icalcomponent_get_first_property (component, klass->ical_prop_kind);
+		     prop;
+		     prop = icalcomponent_get_next_property (component, klass->ical_prop_kind)) {
+			value = klass->ical_get_func (prop);
+
+			if (!value || !*value)
+				continue;
+
+			if (!multivalue)
+				multivalue = g_string_new ("");
+			else if (multivalue->len)
+				g_string_append_c (multivalue, ',');
+
+			g_string_append (multivalue, value);
+		}
+
+		if (multivalue)
+			value = multivalue->str;
+		else
+			value = NULL;
+	} else {
+		prop = icalcomponent_get_first_property (component, klass->ical_prop_kind);
+		if (prop)
+			value = klass->ical_get_func (prop);
+	}
 
 	if (!value)
 		value = "";
@@ -424,6 +448,9 @@ ecepp_string_fill_widget (ECompEditorPropertyPart *property_part,
 	}
 
 	e_widget_undo_reset (edit_widget);
+
+	if (multivalue)
+		g_string_free (multivalue, TRUE);
 }
 
 static void
@@ -459,6 +486,14 @@ ecepp_string_fill_component (ECompEditorPropertyPart *property_part,
 		value = gtk_text_buffer_get_text (buffer, &text_iter_start, &text_iter_end, FALSE);
 	}
 
+	if (e_comp_editor_property_part_string_is_multivalue (E_COMP_EDITOR_PROPERTY_PART_STRING (property_part))) {
+		/* Clear all multivalues first */
+		while (prop = icalcomponent_get_first_property (component, klass->ical_prop_kind), prop) {
+			icalcomponent_remove_property (component, prop);
+			icalproperty_free (prop);
+		}
+	}
+
 	prop = icalcomponent_get_first_property (component, klass->ical_prop_kind);
 
 	if (value && *value) {
@@ -482,6 +517,7 @@ e_comp_editor_property_part_string_init (ECompEditorPropertyPartString *part_str
 	part_string->priv = G_TYPE_INSTANCE_GET_PRIVATE (part_string,
 		E_TYPE_COMP_EDITOR_PROPERTY_PART_STRING,
 		ECompEditorPropertyPartStringPrivate);
+	part_string->priv->is_multivalue = FALSE;
 }
 
 static void
@@ -520,6 +556,23 @@ e_comp_editor_property_part_string_attach_focus_tracker (ECompEditorPropertyPart
 	edit_widget = e_comp_editor_property_part_get_edit_widget (E_COMP_EDITOR_PROPERTY_PART (part_string));
 	if (edit_widget)
 		e_widget_undo_attach (edit_widget, focus_tracker);
+}
+
+void
+e_comp_editor_property_part_string_set_is_multivalue (ECompEditorPropertyPartString *part_string,
+						      gboolean is_multivalue)
+{
+	g_return_if_fail (E_IS_COMP_EDITOR_PROPERTY_PART_STRING (part_string));
+
+	part_string->priv->is_multivalue = is_multivalue;
+}
+
+gboolean
+e_comp_editor_property_part_string_is_multivalue (ECompEditorPropertyPartString *part_string)
+{
+	g_return_val_if_fail (E_IS_COMP_EDITOR_PROPERTY_PART_STRING (part_string), FALSE);
+
+	return part_string->priv->is_multivalue;
 }
 
 /* ************************************************************************* */

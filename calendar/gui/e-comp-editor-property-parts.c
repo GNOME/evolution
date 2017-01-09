@@ -473,6 +473,8 @@ ecepp_categories_create_widgets (ECompEditorPropertyPart *property_part,
 static void
 e_comp_editor_property_part_categories_init (ECompEditorPropertyPartCategories *part_categories)
 {
+	e_comp_editor_property_part_string_set_is_multivalue (
+		E_COMP_EDITOR_PROPERTY_PART_STRING (part_categories), TRUE);
 }
 
 static void
