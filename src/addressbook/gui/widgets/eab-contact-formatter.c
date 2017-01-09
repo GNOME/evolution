@@ -264,7 +264,7 @@ render_table_row (GString *buffer,
 		value = (gchar *) str;
 
 	if (icon && icon_available (icon)) {
-		icon_html = g_strdup_printf ("<img src=\"gtk-stock://%s\" width=\"16\" height=\"16\" />", icon);
+		icon_html = g_strdup_printf ("<img src=\"gtk-stock://%s\" width=\"16px\" height=\"16px\" />", icon);
 	} else {
 		icon_html = "";
 	}
@@ -562,7 +562,7 @@ render_title_block (EABContactFormatter *formatter,
 		e_contact_photo_free (photo);
 
 	if (e_contact_get (contact, E_CONTACT_IS_LIST)) {
-		g_string_append_printf (buffer, "<img src=\"gtk-stock://%s\">", CONTACT_LIST_ICON);
+		g_string_append_printf (buffer, "<img src=\"gtk-stock://%s\" width=\"16px\" height=\"16px\">", CONTACT_LIST_ICON);
 	}
 
 	g_string_append_printf (
@@ -611,7 +611,7 @@ render_contact_list_row (EABContactFormatter *formatter,
 		g_string_append_printf (
 			buffer,
 			"<td width=" IMAGE_COL_WIDTH " valign=\"top\" align=\"left\">"
-			"<img src=\"evo-file://%s/minus.png\" "
+			"<img src=\"evo-file://%s/minus.png\" width=\"16px\" height=\"16px\" "
 			"id=\"%s\" "
 			"class=\"navigable _evo_collapse_button\">"
 			"</td><td width=\"100%%\" align=\"left\">%s",
@@ -1075,7 +1075,7 @@ render_compact (EABContactFormatter *formatter,
 			#endif
 			g_string_append_printf (
 				buffer,
-				"<img id=\"__evo-contact-photo\" width=\"%d\" height=\"%d\" src=\"%s%s\">",
+				"<img id=\"__evo-contact-photo\" width=\"%dpx\" height=\"%dpx\" src=\"%s%s\">",
 				calced_width, calced_height,
 				is_local ? "evo-" : "", uri);
 			#if !(WEBKIT_MAJOR_VERSION == 2 && WEBKIT_MINOR_VERSION == 2)
@@ -1090,7 +1090,7 @@ render_compact (EABContactFormatter *formatter,
 			g_string_append_printf (
 				buffer,
 				"<img id=\"__evo-contact-photo\" border=\"1\" src=\"data:%s;base64,%s\" "
-					"width=\"%d\" height=\"%d\">",
+					"width=\"%dpx\" height=\"%dpx\">",
 				photo->data.inlined.mime_type,
 				photo_data,
 				calced_width, calced_height);

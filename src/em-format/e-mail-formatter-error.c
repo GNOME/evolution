@@ -52,6 +52,12 @@ emfe_error_format (EMailFormatterExtension *extension,
 	CamelDataWrapper *dw;
 	const gchar *string;
 	gchar *html;
+	gint icon_width, icon_height;
+
+	if (!gtk_icon_size_lookup (GTK_ICON_SIZE_DIALOG, &icon_width, &icon_height)) {
+		icon_width = 48;
+		icon_height = 48;
+	}
 
 	mime_part = e_mail_part_ref_mime_part (part);
 	dw = camel_medium_get_content (CAMEL_MEDIUM (mime_part));
@@ -63,9 +69,9 @@ emfe_error_format (EMailFormatterExtension *extension,
 		"<table border=\"0\" cellspacing=\"10\" "
 		"cellpadding=\"0\" width=\"100%%\">\n"
 		"<tr valign=\"top\"><td width=50>"
-		"<img src=\"gtk-stock://%s/?size=%d\" /></td>\n"
+		"<img src=\"gtk-stock://%s/?size=%d\" width=\"%dpx\" height=\"%dpx\"/></td>\n"
 		"<td style=\"color: red;\">",
-		"dialog-error", GTK_ICON_SIZE_DIALOG);
+		"dialog-error", GTK_ICON_SIZE_DIALOG, icon_width, icon_height);
 
 	g_output_stream_write_all (
 		stream, html, strlen (html), NULL, cancellable, NULL);

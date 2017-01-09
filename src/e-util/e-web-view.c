@@ -1813,6 +1813,7 @@ web_view_submit_alert (EAlertSink *alert_sink,
 	const gchar *icon_name = NULL;
 	const gchar *primary_text;
 	const gchar *secondary_text;
+	gint icon_width, icon_height;
 	gpointer parent;
 
 	web_view = E_WEB_VIEW (alert_sink);
@@ -1849,6 +1850,11 @@ web_view_submit_alert (EAlertSink *alert_sink,
 	if (secondary_text == NULL)
 		secondary_text = "";
 
+	if (!gtk_icon_size_lookup (GTK_ICON_SIZE_DIALOG, &icon_width, &icon_height)) {
+		icon_width = 48;
+		icon_height = 48;
+	}
+
 	buffer = g_string_sized_new (512);
 
 	g_string_append (
@@ -1873,7 +1879,7 @@ web_view_submit_alert (EAlertSink *alert_sink,
 		buffer,
 		"<tr>"
 		"<td valign='top'>"
-		"<img src='gtk-stock://%s/?size=%d'/>"
+		"<img src='gtk-stock://%s/?size=%d' width=\"%dpx\" height=\"%dpx\"/>"
 		"</td>"
 		"<td align='left' width='100%%'>"
 		"<h3>%s</h3>"
@@ -1882,6 +1888,8 @@ web_view_submit_alert (EAlertSink *alert_sink,
 		"</tr>",
 		icon_name,
 		GTK_ICON_SIZE_DIALOG,
+		icon_width,
+		icon_height,
 		primary_text,
 		secondary_text);
 
