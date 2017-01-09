@@ -466,6 +466,8 @@ itip_get_comp_attendee (ESourceRegistry *registry,
 
 			g_free (address);
 
+			g_list_free_full (list, g_object_unref);
+
 			return user_email;
 		}
 
@@ -483,13 +485,15 @@ itip_get_comp_attendee (ESourceRegistry *registry,
 
 			g_free (address);
 
+			g_list_free_full (list, g_object_unref);
+
 			return user_email;
 		}
 
 		g_free (address);
 	}
 
-	g_list_free_full (list, (GDestroyNotify) g_object_unref);
+	g_list_free_full (list, g_object_unref);
 
 	/* We could not find the attendee in the component, so just give
 	 * the default account address if the email address is not set in

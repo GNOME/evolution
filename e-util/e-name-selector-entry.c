@@ -2065,6 +2065,8 @@ user_focus_in (ENameSelectorEntry *name_selector_entry,
 	if (str->str && str->str[0])
 		g_string_append (str, ", ");
 
+	g_clear_object (&dest_dummy);
+
 	gtk_entry_set_text (GTK_ENTRY (name_selector_entry), str->str);
 
 	g_string_free (str, TRUE);
