@@ -31,12 +31,34 @@
 #include "e-comp-editor-memo.h"
 
 struct _ECompEditorMemoPrivate {
+	ECompEditorPropertyPart *dtstart;
 	ECompEditorPropertyPart *categories;
 
 	gpointer insensitive_info_alert;
 };
 
 G_DEFINE_TYPE (ECompEditorMemo, e_comp_editor_memo, E_TYPE_COMP_EDITOR)
+
+static void
+ece_memo_notify_target_client_cb (GObject *object,
+				  GParamSpec *param,
+				  gpointer user_data)
+{
+	ECompEditorMemo *memo_editor;
+	ECompEditor *comp_editor;
+	ECalClient *cal_client;
+	gboolean supports_date;
+
+	g_return_if_fail (E_IS_COMP_EDITOR_MEMO (object));
+
+	memo_editor = E_COMP_EDITOR_MEMO (object);
+	comp_editor = E_COMP_EDITOR (memo_editor);
+	cal_client = e_comp_editor_get_target_client (comp_editor);
+
+	supports_date = !cal_client || !e_client_check_capability (E_CLIENT (cal_client), CAL_STATIC_CAPABILITY_NO_MEMO_START_DATE);
+
+	e_comp_editor_property_part_set_visible (memo_editor->priv->dtstart, supports_date);
+}
 
 static void
 ece_memo_sensitize_widgets (ECompEditor *comp_editor,
@@ -172,6 +194,7 @@ e_comp_editor_memo_constructed (GObject *object)
 
 	part = e_comp_editor_property_part_dtstart_new (C_("ECompEditor", "Sta_rt date:"), TRUE, TRUE);
 	e_comp_editor_page_add_property_part (page, part, 0, 3, 2, 1);
+	memo_editor->priv->dtstart = part;
 
 	part = e_comp_editor_property_part_classification_new ();
 	e_comp_editor_page_add_property_part (page, part, 0, 4, 2, 1);
@@ -197,6 +220,9 @@ e_comp_editor_memo_constructed (GObject *object)
 	edit_widget = e_comp_editor_property_part_get_edit_widget (summary);
 	e_binding_bind_property (edit_widget, "text", comp_editor, "title-suffix", 0);
 	gtk_widget_grab_focus (edit_widget);
+
+	g_signal_connect (comp_editor, "notify::target-client",
+		G_CALLBACK (ece_memo_notify_target_client_cb), NULL);
 }
 
 static void
