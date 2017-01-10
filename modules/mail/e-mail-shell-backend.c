@@ -739,6 +739,8 @@ mail_shell_backend_create_network_page (EPreferencesWindow *window)
 	gtk_widget_show (widget);
 	gtk_box_pack_start (vbox, widget, FALSE, FALSE, 0);
 
+	pango_attr_list_unref (bold);
+
 	hbox = GTK_BOX (gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 4));
 	#if GTK_CHECK_VERSION(3,12,0)
 	gtk_widget_set_margin_start (GTK_WIDGET (hbox), 12);
