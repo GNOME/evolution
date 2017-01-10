@@ -126,7 +126,7 @@ emft_copy_folders__exec (struct _EMCopyFolders *m,
 	while (pending) {
 		CamelFolderInfo *info = pending->data;
 
-		pending = g_list_remove_link (pending, pending);
+		pending = g_list_delete_link (pending, pending);
 		while (info) {
 			CamelFolder *fromfolder, *tofolder;
 			GPtrArray *uids;

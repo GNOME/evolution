@@ -907,6 +907,8 @@ publish_calendar_locations (EPlugin *epl,
 
 	g_object_unref (builder);
 
+	g_object_set_data_full (G_OBJECT (toplevel), "publish-calendar-ui-data", ui, g_free);
+
 	return toplevel;
 }
 

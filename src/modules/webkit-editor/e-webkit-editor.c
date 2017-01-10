@@ -2117,6 +2117,8 @@ webkit_editor_insert_image_from_mime_part (EContentEditor *editor,
 
 	g_free (base64_encoded);
 	g_free (mime_type);
+	g_free (cid_uri);
+	g_free (src);
 	g_object_unref (stream);
 }
 

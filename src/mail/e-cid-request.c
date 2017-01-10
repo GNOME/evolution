@@ -110,8 +110,11 @@ e_cid_request_process_sync (EContentRequest *request,
 		}
 
 		g_bytes_unref (bytes);
+	} else {
+		g_byte_array_free (byte_array, TRUE);
 	}
 
+	g_object_unref (output_stream);
 	g_object_unref (mime_part);
 	g_object_unref (part);
 
