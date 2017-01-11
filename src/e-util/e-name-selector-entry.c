@@ -2071,7 +2071,7 @@ user_focus_in (ENameSelectorEntry *name_selector_entry,
 	}
 	g_list_free (known);
 
-	if (str->len > 1 && str->str && str->str[str->len - 1] != ' ' && str->str[str->len - 2] != ',') {
+	if (str->len < 2 || (str->str && str->str[str->len - 1] != ' ' && str->str[str->len - 2] != ',')) {
 		EDestination *dest_dummy = e_destination_new ();
 
 		/* Add a blank destination */
