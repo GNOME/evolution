@@ -7196,11 +7196,14 @@ process_node_to_plain_text_for_exporting (EEditorPage *editor_page,
 			GRegex *regex;
 
 			content = webkit_dom_node_get_text_content (child);
+			if (!content)
+				goto next;
+
 			/* The text nodes with only '\n' are reflected only in
 			 * PRE elements, otherwise skip them. */
 			/* FIXME wrong for "white-space: pre", but we don't use
 			 * that in editor in our expected DOM structure */
-			if (strlen (content) == 1 && *content == '\n' &&
+			if (content[0] == '\n' && content[1] == '\0' &&
 			    !WEBKIT_DOM_IS_HTML_PRE_ELEMENT (source)) {
 				g_free (content);
 				skip_node = TRUE;
@@ -7262,6 +7265,9 @@ process_node_to_plain_text_for_exporting (EEditorPage *editor_page,
 			g_free (class);
 
 			g_string_append (buffer, content);
+
+			g_free (content);
+			content = NULL;
 
 			goto next;
 		}
@@ -7449,6 +7455,7 @@ process_node_to_html_for_exporting (EEditorPage *editor_page,
 			NULL);
 
 		remove_node (node);
+		g_free (text_content);
 	}
 	g_clear_object (&collection);
 
