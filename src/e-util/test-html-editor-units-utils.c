@@ -25,6 +25,8 @@
 
 static guint event_processing_delay_ms = 25;
 static gboolean in_background = FALSE;
+static gboolean use_multiple_web_processes = FALSE;
+static GObject *global_web_context = NULL;
 
 void
 test_utils_set_event_processing_delay_ms (guint value)
@@ -48,6 +50,24 @@ gboolean
 test_utils_get_background (void)
 {
 	return in_background;
+}
+
+void
+test_utils_set_multiple_web_processes (gboolean multiple_web_processes)
+{
+	use_multiple_web_processes = multiple_web_processes;
+}
+
+gboolean
+test_utils_get_multiple_web_processes (void)
+{
+	return use_multiple_web_processes;
+}
+
+void
+test_utils_free_global_memory (void)
+{
+	g_clear_object (&global_web_context);
 }
 
 typedef struct _UndoContent {
@@ -189,6 +209,14 @@ test_utils_html_editor_created_cb (GObject *source_object,
 
 	g_signal_connect (cnt_editor, "web-process-crashed",
 		G_CALLBACK (test_utils_web_process_crashed_cb), NULL);
+
+	if (!test_utils_get_multiple_web_processes () && !global_web_context &&
+	    WEBKIT_IS_WEB_VIEW (cnt_editor)) {
+		WebKitWebContext *web_context;
+
+		web_context = webkit_web_view_get_context (WEBKIT_WEB_VIEW (cnt_editor));
+		global_web_context = g_object_ref (web_context);
+	}
 
 	gtk_window_set_focus (GTK_WINDOW (fixture->window), GTK_WIDGET (cnt_editor));
 	gtk_widget_show (fixture->window);

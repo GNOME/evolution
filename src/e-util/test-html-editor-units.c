@@ -2665,6 +2665,7 @@ main (gint argc,
 	gchar *test_keyfile_filename;
 	gint cmd_delay = -1;
 	gboolean background = FALSE;
+	gboolean multiple_web_processes = FALSE;
 	GOptionEntry entries[] = {
 		{ "cmd-delay", '\0', 0,
 		  G_OPTION_ARG_INT, &cmd_delay,
@@ -2673,6 +2674,10 @@ main (gint argc,
 		{ "background", '\0', 0,
 		  G_OPTION_ARG_NONE, &background,
 		  "Use to run tests in the background, not stealing focus and such.",
+		  NULL },
+		{ "multiple-web-processes", '\0', 0,
+		  G_OPTION_ARG_NONE, &multiple_web_processes,
+		  "Use multiple web processes for each test being run. Default is to use single web process.",
 		  NULL },
 		{ NULL }
 	};
@@ -2714,6 +2719,7 @@ main (gint argc,
 	if (cmd_delay > 0)
 		test_utils_set_event_processing_delay_ms ((guint) cmd_delay);
 	test_utils_set_background (background);
+	test_utils_set_multiple_web_processes (multiple_web_processes);
 
 	e_util_init_main_thread (NULL);
 	e_passwords_init ();
@@ -2826,6 +2832,7 @@ main (gint argc,
 
 	e_util_cleanup_settings ();
 	e_spell_checker_free_global_memory ();
+	test_utils_free_global_memory ();
 
 	g_unlink (test_keyfile_filename);
 	g_free (test_keyfile_filename);
