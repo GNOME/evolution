@@ -67,6 +67,10 @@ struct _EContactStoreClass {
 						 EBookClientView *client_view);
 	void		(*stop_client_view)	(EContactStore *contact_store,
 						 EBookClientView *client_view);
+	void		(*start_update)		(EContactStore *contact_store,
+						 EBookClientView *client_view);
+	void		(*stop_update)		(EContactStore *contact_store,
+						 EBookClientView *client_view);
 };
 
 GType		e_contact_store_get_type	(void) G_GNUC_CONST;

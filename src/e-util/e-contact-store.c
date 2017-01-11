@@ -51,6 +51,8 @@ struct _EContactStorePrivate {
 enum {
 	START_CLIENT_VIEW,
 	STOP_CLIENT_VIEW,
+	START_UPDATE,
+	STOP_UPDATE,
 	LAST_SIGNAL
 };
 
@@ -178,6 +180,26 @@ e_contact_store_class_init (EContactStoreClass *class)
 		G_OBJECT_CLASS_TYPE (object_class),
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (EContactStoreClass, stop_client_view),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__OBJECT,
+		G_TYPE_NONE, 1,
+		E_TYPE_BOOK_CLIENT_VIEW);
+
+	signals[START_UPDATE] = g_signal_new (
+		"start-update",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (EContactStoreClass, start_update),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__OBJECT,
+		G_TYPE_NONE, 1,
+		E_TYPE_BOOK_CLIENT_VIEW);
+
+	signals[STOP_UPDATE] = g_signal_new (
+		"stop-update",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (EContactStoreClass, stop_update),
 		NULL, NULL,
 		g_cclosure_marshal_VOID__OBJECT,
 		G_TYPE_NONE, 1,
@@ -435,6 +457,42 @@ find_contact_by_view_and_uid (EContactStore *contact_store,
 	return -1;
 }
 
+static GHashTable *
+get_contact_hash (EContactStore *contact_store,
+                  EBookClientView *find_view)
+{
+	GArray *array;
+	ContactSource *source;
+	GPtrArray *contacts;
+	gint source_index;
+	gint ii;
+	GHashTable *hash;
+
+	source_index = find_contact_source_by_view (contact_store, find_view);
+	if (source_index < 0)
+		return NULL;
+
+	array = contact_store->priv->contact_sources;
+	source = &g_array_index (array, ContactSource, source_index);
+
+	if (find_view == source->client_view)
+		contacts = source->contacts;          /* Current view */
+	else
+		contacts = source->contacts_pending;  /* Pending view */
+
+	hash = g_hash_table_new (g_str_hash, g_str_equal);
+
+	for (ii = 0; ii < contacts->len; ii++) {
+		EContact *contact = g_ptr_array_index (contacts, ii);
+		const gchar *uid = e_contact_get_const (contact, E_CONTACT_UID);
+
+		if (uid)
+			g_hash_table_insert (hash, (gpointer) uid, GINT_TO_POINTER (ii));
+	}
+
+	return hash;
+}
+
 static gint
 find_contact_by_uid (EContactStore *contact_store,
                      const gchar *find_uid)
@@ -647,6 +705,7 @@ view_complete (EContactStore *contact_store,
 	ContactSource *source;
 	gint           offset;
 	gint           i;
+	GHashTable *hash;
 
 	if (!find_contact_source_details_by_view (contact_store, client_view, &source, &offset)) {
 		g_warning ("EContactStore got 'complete' signal from unknown EBookClientView!");
@@ -662,18 +721,17 @@ view_complete (EContactStore *contact_store,
 	g_return_if_fail (client_view == source->client_view_pending);
 
 	/* However, if it was a pending view, calculate and emit the differences between that
-	 * and the current view, and move the pending view up to current.
-	 *
-	 * This is O(m * n), and can be sped up with a temporary hash table if needed. */
+	 * and the current view, and move the pending view up to current. */
+
+	g_signal_emit (contact_store, signals[START_UPDATE], 0, client_view);
 
 	/* Deletions */
+	hash = get_contact_hash (contact_store, source->client_view_pending);
 	for (i = 0; i < source->contacts->len; i++) {
 		EContact    *old_contact = g_ptr_array_index (source->contacts, i);
 		const gchar *old_uid = e_contact_get_const (old_contact, E_CONTACT_UID);
-		gint         result;
 
-		result = find_contact_by_view_and_uid (contact_store, source->client_view_pending, old_uid);
-		if (result < 0) {
+		if (!g_hash_table_contains (hash, old_uid)) {
 			/* Contact is not in new view; removed */
 			g_object_unref (old_contact);
 			g_ptr_array_remove_index (source->contacts, i);
@@ -681,15 +739,15 @@ view_complete (EContactStore *contact_store,
 			i--;  /* Stay in place */
 		}
 	}
+	g_hash_table_unref (hash);
 
 	/* Insertions */
+	hash = get_contact_hash (contact_store, source->client_view);
 	for (i = 0; i < source->contacts_pending->len; i++) {
 		EContact    *new_contact = g_ptr_array_index (source->contacts_pending, i);
 		const gchar *new_uid = e_contact_get_const (new_contact, E_CONTACT_UID);
-		gint         result;
 
-		result = find_contact_by_view_and_uid (contact_store, source->client_view, new_uid);
-		if (result < 0) {
+		if (!g_hash_table_contains (hash, new_uid)) {
 			/* Contact is not in old view; inserted */
 			g_ptr_array_add (source->contacts, new_contact);
 			row_inserted (contact_store, offset + source->contacts->len - 1);
@@ -698,6 +756,9 @@ view_complete (EContactStore *contact_store,
 			g_object_unref (new_contact);
 		}
 	}
+	g_hash_table_unref (hash);
+
+	g_signal_emit (contact_store, signals[STOP_UPDATE], 0, client_view);
 
 	/* Move pending view up to current */
 	stop_view (contact_store, source->client_view);
@@ -805,6 +866,7 @@ clear_contact_source (EContactStore *contact_store,
 		GtkTreePath *path = gtk_tree_path_new ();
 		gint         i;
 
+		g_signal_emit (contact_store, signals[START_UPDATE], 0, source->client_view);
 		gtk_tree_path_append_index (path, source->contacts->len);
 
 		for (i = source->contacts->len - 1; i >= 0; i--) {
@@ -818,6 +880,7 @@ clear_contact_source (EContactStore *contact_store,
 		}
 
 		gtk_tree_path_free (path);
+		g_signal_emit (contact_store, signals[STOP_UPDATE], 0, source->client_view);
 	}
 
 	/* Free main and pending views, clear cached contacts */

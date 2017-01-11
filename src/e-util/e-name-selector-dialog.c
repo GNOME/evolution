@@ -746,6 +746,44 @@ add_destination (ENameSelectorModel *name_selector_model,
 }
 
 static void
+disable_sort (ENameSelectorDialog *dialog)
+{
+	if (dialog->priv->contact_sort) {
+		g_object_unref (dialog->priv->contact_sort);
+		dialog->priv->contact_sort = NULL;
+	}
+
+	gtk_tree_view_set_model (
+		dialog->priv->contact_view,
+		NULL);
+}
+
+static void
+enable_sort (ENameSelectorDialog *dialog)
+{
+	ETreeModelGenerator *contact_filter;
+
+	/* Get contact store and its filter wrapper */
+	contact_filter = e_name_selector_model_peek_contact_filter (
+		dialog->priv->name_selector_model);
+
+	/* Create sorting model on top of filter, assign it to view */
+	if (!dialog->priv->contact_sort) {
+		dialog->priv->contact_sort = GTK_TREE_MODEL_SORT (
+			gtk_tree_model_sort_new_with_model (GTK_TREE_MODEL (contact_filter)));
+
+		/* sort on full name as we display full name in name selector dialog */
+		gtk_tree_sortable_set_sort_column_id (
+			GTK_TREE_SORTABLE (dialog->priv->contact_sort),
+			E_CONTACT_FULL_NAME, GTK_SORT_ASCENDING);
+	}
+
+	gtk_tree_view_set_model (
+		dialog->priv->contact_view,
+		GTK_TREE_MODEL (dialog->priv->contact_sort));
+}
+
+static void
 remove_books (ENameSelectorDialog *name_selector_dialog)
 {
 	EContactStore *contact_store;
@@ -771,7 +809,10 @@ remove_books (ENameSelectorDialog *name_selector_dialog)
 		g_object_unref (name_selector_dialog->priv->cancellable);
 		name_selector_dialog->priv->cancellable = NULL;
 	}
+
+	disable_sort (name_selector_dialog);
 }
+
 
 /* ------------------ *
  * Section management *
@@ -1134,6 +1175,8 @@ view_complete (EBookClientView *view,
                ENameSelectorDialog *dialog)
 {
 	view_progress (view, -1, NULL, dialog);
+
+	enable_sort (dialog);
 }
 
 static void
@@ -1157,6 +1200,22 @@ stop_client_view_cb (EContactStore *store,
 {
 	g_signal_handlers_disconnect_by_func (client_view, view_progress, name_selector_dialog);
 	g_signal_handlers_disconnect_by_func (client_view, view_complete, name_selector_dialog);
+}
+
+static void
+start_update_cb (EContactStore *store,
+                 EBookClientView *client_view,
+                 ENameSelectorDialog *name_selector_dialog)
+{
+	disable_sort (name_selector_dialog);
+}
+
+static void
+stop_update_cb (EContactStore *store,
+                EBookClientView *client_view,
+                ENameSelectorDialog *name_selector_dialog)
+{
+	enable_sort (name_selector_dialog);
 }
 
 static void
@@ -1589,7 +1648,6 @@ transfer_button_clicked (ENameSelectorDialog *name_selector_dialog,
 static void
 setup_name_selector_model (ENameSelectorDialog *name_selector_dialog)
 {
-	ETreeModelGenerator *contact_filter;
 	EContactStore       *contact_store;
 	GList               *new_sections;
 	GList               *l;
@@ -1625,29 +1683,12 @@ setup_name_selector_model (ENameSelectorDialog *name_selector_dialog)
 		name_selector_dialog->priv->name_selector_model, "section-removed",
 		G_CALLBACK (model_section_removed), name_selector_dialog);
 
-	/* Get contact store and its filter wrapper */
-
-	contact_filter = e_name_selector_model_peek_contact_filter (
-		name_selector_dialog->priv->name_selector_model);
-
-	/* Create sorting model on top of filter, assign it to view */
-
-	name_selector_dialog->priv->contact_sort = GTK_TREE_MODEL_SORT (
-		gtk_tree_model_sort_new_with_model (GTK_TREE_MODEL (contact_filter)));
-
-	/* sort on full name as we display full name in name selector dialog */
-	gtk_tree_sortable_set_sort_column_id (
-		GTK_TREE_SORTABLE (name_selector_dialog->priv->contact_sort),
-		E_CONTACT_FULL_NAME, GTK_SORT_ASCENDING);
-
-	gtk_tree_view_set_model (
-		name_selector_dialog->priv->contact_view,
-		GTK_TREE_MODEL (name_selector_dialog->priv->contact_sort));
-
 	contact_store = e_name_selector_model_peek_contact_store (name_selector_dialog->priv->name_selector_model);
 	if (contact_store) {
 		g_signal_connect (contact_store, "start-client-view", G_CALLBACK (start_client_view_cb), name_selector_dialog);
 		g_signal_connect (contact_store, "stop-client-view", G_CALLBACK (stop_client_view_cb), name_selector_dialog);
+		g_signal_connect (contact_store, "start-update", G_CALLBACK (start_update_cb), name_selector_dialog);
+		g_signal_connect (contact_store, "stop-update", G_CALLBACK (stop_update_cb), name_selector_dialog);
 	}
 
 	/* Make sure UI is consistent */
@@ -1684,6 +1725,8 @@ shutdown_name_selector_model (ENameSelectorDialog *name_selector_dialog)
 		if (contact_store) {
 			g_signal_handlers_disconnect_by_func (contact_store, start_client_view_cb, name_selector_dialog);
 			g_signal_handlers_disconnect_by_func (contact_store, stop_client_view_cb, name_selector_dialog);
+			g_signal_handlers_disconnect_by_func (contact_store, start_update_cb, name_selector_dialog);
+			g_signal_handlers_disconnect_by_func (contact_store, stop_update_cb, name_selector_dialog);
 		}
 
 		g_signal_handlers_disconnect_matched (
