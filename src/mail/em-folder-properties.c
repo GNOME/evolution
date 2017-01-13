@@ -1283,6 +1283,10 @@ emfp_prepare_dialog_data_done (gpointer ptr)
 
 	g_return_if_fail (context != NULL);
 
+	/* Destroy the activity before the dialog is shown, otherwise
+	   it's on the status bar until the dialog is closed. */
+	g_clear_object (&context->activity);
+
 	if (context->folder && !context->cancelled)
 		emfp_dialog_run (context);
 
