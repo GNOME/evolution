@@ -4229,7 +4229,7 @@ build_tree (MessageList *message_list,
 	build_subtree (
 		message_list,
 		message_list->priv->tree_model_root,
-		thread->tree, &row);
+		thread ? thread->tree : NULL, &row);
 
 	message_list_tree_model_thaw (message_list);
 
