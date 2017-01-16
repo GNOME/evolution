@@ -1,3 +1,32 @@
+Evolution 3.22.4 2017-01-16
+---------------------------
+
+Bug Fixes:
+	Bug 776224 - Workaround crash in WebKit on drag over preview (Milan Crha)
+	Bug 776584 - Remember last selected file chooser folder (Milan Crha)
+	Bug 489466 - Right-clicking empty space in an ETable does not show context menu (Milan Crha)
+	Bug 776813 - Keyboard shortcut for "Paste As Text" (Milan Crha)
+	Bug 776969 - Huge icons in meeting invites when using SVG icon theme (Milan Crha)
+	Bug 776958 - Treat categories as multivalue in component editor (Milan Crha)
+	Bug 776415 - Cancel request, rather than redirect to about:blank, in composer (Milan Crha)
+	Bug 777071 - Hide Memos Start date in editor when not supported (Milan Crha)
+
+Miscellaneous:
+	Fix a crash when deleting a meeting without DTEND (Milan Crha)
+	Fix a use-after-free after editor's WebKitWebProcess crash (Milan Crha)
+	Attached meeting invitations not shown properly (Milan Crha)
+	Crash on paste of a vCard into a message composer body (Milan Crha)
+	"Insert text file" sensitive to HTML-significant characters (Milan Crha)
+	EWeekView could write out of rows_per_day array (Milan Crha)
+	Replace deprecated icalproperty_remove_parameter() with icalproperty_remove_parameter_by_kind() (Milan Crha)
+	Replace deprecated icaltime_from_timet() with icaltime_from_timet_with_zone() (Milan Crha)
+	Fix few memory leaks (Milan Crha)
+	Avoid a (rather rare) crash under message-list.c::build_tree() (Milan Crha)
+
+Translations:
+	Anders Jonsson (sv)
+	Christian Kirbach (de)
+
 Evolution 3.22.3 2016-12-12
 ---------------------------
 
