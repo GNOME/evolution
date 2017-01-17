@@ -901,7 +901,8 @@ e_shell_searchbar_init (EShellSearchbar *searchbar)
 	searchbar->priv = E_SHELL_SEARCHBAR_GET_PRIVATE (searchbar);
 
 	gtk_box_set_spacing (GTK_BOX (searchbar), 6);
-	gtk_container_set_border_width (GTK_CONTAINER (searchbar), 3);
+	gtk_style_context_add_class (gtk_widget_get_style_context (GTK_WIDGET (searchbar)),
+				     "header-box");
 
 	/* Filter Combo Widgets */
 

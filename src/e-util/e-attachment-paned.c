@@ -98,21 +98,11 @@ attachment_paned_notify_cb (EAttachmentPaned *paned,
 
 	label = GTK_LABEL (paned->priv->show_hide_label);
 
-	/* Update the expander label and set the right bottom margin around the handle. */
-	if (gtk_expander_get_expanded (expander)) {
-		gint bottom, value;
-
+	/* Update the expander label. */
+	if (gtk_expander_get_expanded (expander))
 		text = _("Hide Attachment _Bar");
-
-		bottom = gtk_widget_get_margin_bottom (paned->priv->controls_container);
-		value = bottom - paned->priv->vpaned_handle_size;
-
-		gtk_widget_set_margin_bottom (
-			paned->priv->controls_container, (value < 0) ? 0 : value);
-	} else {
-		gtk_widget_set_margin_bottom (paned->priv->controls_container, 6);
+	else
 		text = _("Show Attachment _Bar");
-	}
 
 	gtk_label_set_text_with_mnemonic (label, text);
 
@@ -641,6 +631,7 @@ e_attachment_paned_init (EAttachmentPaned *paned)
 	widget = gtk_notebook_new ();
 	gtk_widget_set_size_request (widget, -1, initial_height);
 	gtk_notebook_set_show_tabs (GTK_NOTEBOOK (widget), FALSE);
+	gtk_notebook_set_show_border (GTK_NOTEBOOK (widget), FALSE);
 	gtk_paned_pack2 (GTK_PANED (container), widget, FALSE, FALSE);
 	paned->priv->notebook = g_object_ref (widget);
 	gtk_widget_hide (widget);
@@ -704,6 +695,7 @@ e_attachment_paned_init (EAttachmentPaned *paned)
 	widget = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
 	gtk_widget_set_margin_right (widget, 6);
 	gtk_widget_set_margin_left (widget, 6);
+	gtk_widget_set_margin_bottom (widget, 6);
 	gtk_box_pack_end (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	paned->priv->controls_container = widget;
 	gtk_widget_show (widget);

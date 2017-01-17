@@ -651,9 +651,10 @@ e_attachment_bar_init (EAttachmentBar *bar)
 	GtkAction *action;
 	GtkAdjustment *adjustment;
 
+	gtk_widget_set_name (GTK_WIDGET (bar), "e-attachment-bar");
+
 	bar->priv = E_ATTACHMENT_BAR_GET_PRIVATE (bar);
 
-	gtk_box_set_spacing (GTK_BOX (bar), 6);
 	gtk_orientable_set_orientation (GTK_ORIENTABLE (bar), GTK_ORIENTATION_VERTICAL);
 
 	/* Keep the expander label and save button the same height. */
@@ -671,7 +672,7 @@ e_attachment_bar_init (EAttachmentBar *bar)
 	container = bar->priv->vbox;
 
 	widget = gtk_frame_new (NULL);
-	gtk_frame_set_shadow_type (GTK_FRAME (widget), GTK_SHADOW_IN);
+	gtk_frame_set_shadow_type (GTK_FRAME (widget), GTK_SHADOW_NONE);
 	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
 	bar->priv->icon_frame = g_object_ref (widget);
 	gtk_widget_show (widget);
@@ -694,7 +695,7 @@ e_attachment_bar_init (EAttachmentBar *bar)
 	container = bar->priv->vbox;
 
 	widget = gtk_frame_new (NULL);
-	gtk_frame_set_shadow_type (GTK_FRAME (widget), GTK_SHADOW_IN);
+	gtk_frame_set_shadow_type (GTK_FRAME (widget), GTK_SHADOW_NONE);
 	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
 	bar->priv->tree_frame = g_object_ref (widget);
 	gtk_widget_hide (widget);
@@ -719,6 +720,7 @@ e_attachment_bar_init (EAttachmentBar *bar)
 	container = GTK_WIDGET (bar);
 
 	widget = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 12);
+	gtk_container_set_border_width (GTK_CONTAINER (widget), 6);
 	gtk_box_pack_end (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 

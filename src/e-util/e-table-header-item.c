@@ -1078,7 +1078,6 @@ ethi_draw (GnomeCanvasItem *item,
 	for (col = 0; col < cols; col++, x1 = x2) {
 		ETableCol *ecol = e_table_header_get_column (ethi->eth, col);
 		gint col_width;
-		GtkRegionFlags flags = 0;
 
 		col_width = ecol->width;
 
@@ -1093,20 +1092,10 @@ ethi_draw (GnomeCanvasItem *item,
 		if (x2 <= x1)
 			continue;
 
-		if (((col + 1) % 2) == 0)
-			flags |= GTK_REGION_EVEN;
-		else
-			flags |= GTK_REGION_ODD;
-
-		if (col == 0)
-			flags |= GTK_REGION_FIRST;
+		gtk_style_context_save (context);
 
 		if (col + 1 == cols)
-			flags |= GTK_REGION_LAST;
-
-		gtk_style_context_save (context);
-		gtk_style_context_add_region (
-			context, GTK_STYLE_REGION_COLUMN_HEADER, flags);
+			gtk_style_context_add_class (context, "last");
 
 		e_table_header_draw_button (
 			cr, ecol, GTK_WIDGET (canvas),

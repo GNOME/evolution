@@ -66,66 +66,32 @@ G_DEFINE_TYPE_WITH_CODE (
 		E_TYPE_EXTENSIBLE, NULL))
 
 static const char *css =
-".table-header > .button {\
-   border-radius: 0;\
-   border-width: 1px 1px 1px 0;\
-   border-color: @borders;\
+".table-header {\
+	border-bottom: 1px solid @borders;\
 }\
-.toolbar {\
-   border-bottom: 1px solid alpha(black, 0.1);\
+.button {\
+	padding: 3px 5px;\
 }\
-.taskbar {\
-   border-width: 1px 0 0 0;\
+.table-header .button {\
+	border-right: 1px solid @borders;\
 }\
-EMailBrowser EPreviewPane GtkScrolledWindow {\
-    border: none;\
+.table-header .button.last {\
+	border-right: none;\
 }\
-EPaned.horizontal EPreviewPane GtkScrolledWindow {\
-    border-width: 1px 0 0 0;\
+toolbar {\
+	border-bottom: 1px solid @borders;\
 }\
-EPaned.vertical EPreviewPane GtkScrolledWindow {\
-    border: none;\
+.taskbar border {\
+	border-width: 1px 0 0 0;\
 }\
-EAddressbookView {\
-   border-width: 1px 0 0 0;\
+.header-box {\
+	border-bottom: 1px solid @borders;\
+	padding: 3px;\
 }\
-ECalShellContent GtkSeparator {\
-   color: @borders;\
+#e-attachment-bar {\
+	border-top: 1px solid @borders;\
 }\
-ECalShellContent GtkNotebook {\
-   border-width: 1px 0 0 0;\
-}\
-EShellSidebar GtkScrolledWindow {\
-   border-width: 1px 0 0 0;\
-}\
-.switcher-visible EShellSidebar GtkScrolledWindow {\
-   border-width: 1px 0;\
-}\
-.switcher-visible ECalBaseShellSidebar EPaned {\
-   -GtkPaned-handle-size: 0;\
-}\
-EMAccountPrefs GtkFrame {\
-   border: none;\
-}\
-EAttachmentPaned > GtkBox > GtkPaned > GtkScrolledWindow {\
-   border-width: 1px 0;\
-}\
-EHTMLEditor .toolbar {\
-   border-bottom: none;\
-   background: transparent;\
-}\
-ECalendar .button {\
-   border: none;\
-   background: none;\
-   box-shadow: none;\
-   padding: 4px;\
-}\
-ECalendar .button:hover {\
-   color: @theme_selected_bg_color;\
-}\
-EMailConfigAssistant .sidebar {\
-   border-width: 0 1px 0 0;\
-}";
+";
 
 static void
 shell_window_menubar_update_new_menu (EShellWindow *shell_window)
@@ -1717,22 +1683,12 @@ void
 e_shell_window_set_switcher_visible (EShellWindow *shell_window,
                                      gboolean switcher_visible)
 {
-	GtkStyleContext *style_context;
-
 	g_return_if_fail (E_IS_SHELL_WINDOW (shell_window));
 
 	if (shell_window->priv->switcher_visible == switcher_visible)
 		return;
 
 	shell_window->priv->switcher_visible = switcher_visible;
-
-	style_context = gtk_widget_get_style_context (GTK_WIDGET (shell_window->priv->sidebar_notebook));
-
-	if (switcher_visible)
-		gtk_style_context_add_class (style_context, "switcher-visible");
-	else
-		gtk_style_context_remove_class (style_context, "switcher-visible");
-
 
 	g_object_notify (G_OBJECT (shell_window), "switcher-visible");
 }
