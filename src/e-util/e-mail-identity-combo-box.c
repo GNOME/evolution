@@ -60,14 +60,6 @@ enum {
 	PROP_REGISTRY
 };
 
-enum {
-	COLUMN_DISPLAY_NAME,
-	COLUMN_COMBO_ID,
-	COLUMN_UID,
-	COLUMN_NAME,
-	COLUMN_ADDRESS
-};
-
 G_DEFINE_TYPE (
 	EMailIdentityComboBox,
 	e_mail_identity_combo_box,
@@ -287,13 +279,13 @@ mail_identity_combo_box_constructed (GObject *object)
 
 	list_store = gtk_list_store_new (5, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING);
 	gtk_combo_box_set_model (combo_box, GTK_TREE_MODEL (list_store));
-	gtk_combo_box_set_id_column (combo_box, COLUMN_COMBO_ID);
+	gtk_combo_box_set_id_column (combo_box, E_MAIL_IDENTITY_COMBO_BOX_COLUMN_COMBO_ID);
 	g_object_unref (list_store);
 
 	cell_renderer = gtk_cell_renderer_text_new ();
 	gtk_cell_layout_pack_start (cell_layout, cell_renderer, TRUE);
 	gtk_cell_layout_add_attribute (
-		cell_layout, cell_renderer, "text", COLUMN_DISPLAY_NAME);
+		cell_layout, cell_renderer, "text", E_MAIL_IDENTITY_COMBO_BOX_COLUMN_DISPLAY_NAME);
 
 	e_mail_identity_combo_box_refresh (E_MAIL_IDENTITY_COMBO_BOX (object));
 }
@@ -422,11 +414,11 @@ mail_identity_combo_box_add_address (GtkListStore *list_store,
 	gtk_list_store_append (list_store, &iter);
 
 	gtk_list_store_set (list_store, &iter,
-		COLUMN_DISPLAY_NAME, string->str,
-		COLUMN_COMBO_ID, is_alias_entry ? alias_id : identity_uid,
-		COLUMN_UID, identity_uid,
-		COLUMN_NAME, is_alias_entry ? name : NULL,
-		COLUMN_ADDRESS, is_alias_entry ? address : NULL,
+		E_MAIL_IDENTITY_COMBO_BOX_COLUMN_DISPLAY_NAME, string->str,
+		E_MAIL_IDENTITY_COMBO_BOX_COLUMN_COMBO_ID, is_alias_entry ? alias_id : identity_uid,
+		E_MAIL_IDENTITY_COMBO_BOX_COLUMN_UID, identity_uid,
+		E_MAIL_IDENTITY_COMBO_BOX_COLUMN_NAME, is_alias_entry ? name : NULL,
+		E_MAIL_IDENTITY_COMBO_BOX_COLUMN_ADDRESS, is_alias_entry ? address : NULL,
 		-1);
 
 	g_string_free (string, TRUE);
@@ -602,9 +594,9 @@ e_mail_identity_combo_box_refresh (EMailIdentityComboBox *combo_box)
 
 		gtk_list_store_set (
 			GTK_LIST_STORE (tree_model), &iter,
-			COLUMN_DISPLAY_NAME, _("None"),
-			COLUMN_UID, "",
-			COLUMN_COMBO_ID, "",
+			E_MAIL_IDENTITY_COMBO_BOX_COLUMN_DISPLAY_NAME, _("None"),
+			E_MAIL_IDENTITY_COMBO_BOX_COLUMN_UID, "",
+			E_MAIL_IDENTITY_COMBO_BOX_COLUMN_COMBO_ID, "",
 			-1);
 	}
 
@@ -765,9 +757,9 @@ e_mail_identity_combo_box_get_active_uid (EMailIdentityComboBox *combo_box,
 		return FALSE;
 
 	gtk_tree_model_get (gtk_combo_box_get_model (GTK_COMBO_BOX (combo_box)), &iter,
-		COLUMN_UID, identity_uid,
-		COLUMN_NAME, &name,
-		COLUMN_ADDRESS, &address,
+		E_MAIL_IDENTITY_COMBO_BOX_COLUMN_UID, identity_uid,
+		E_MAIL_IDENTITY_COMBO_BOX_COLUMN_NAME, &name,
+		E_MAIL_IDENTITY_COMBO_BOX_COLUMN_ADDRESS, &address,
 		-1);
 
 	if (alias_name)

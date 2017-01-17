@@ -1827,7 +1827,7 @@ em_utils_edit_message (EMsgComposer *composer,
 	gboolean folder_is_drafts;
 	gboolean folder_is_outbox;
 	gboolean folder_is_templates;
-	gchar *override_identity_uid = NULL;
+	gchar *override_identity_uid = NULL, *override_alias_name = NULL, *override_alias_address = NULL;
 
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (message));
@@ -1886,7 +1886,7 @@ em_utils_edit_message (EMsgComposer *composer,
 			}
 		}
 
-		source = em_utils_check_send_account_override (e_msg_composer_get_shell (composer), message, folder);
+		source = em_utils_check_send_account_override (e_msg_composer_get_shell (composer), message, folder, &override_alias_name, &override_alias_address);
 		if (source) {
 			g_free (override_identity_uid);
 			override_identity_uid = e_source_dup_uid (source);
@@ -1894,9 +1894,11 @@ em_utils_edit_message (EMsgComposer *composer,
 		}
 	}
 
-	e_msg_composer_setup_with_message (composer, message, keep_signature, override_identity_uid, NULL);
+	e_msg_composer_setup_with_message (composer, message, keep_signature, override_identity_uid, override_alias_name, override_alias_address, NULL);
 
 	g_free (override_identity_uid);
+	g_free (override_alias_name);
+	g_free (override_alias_address);
 
 	/* Override PostTo header only if the folder is a regular folder */
 	if (folder && !folder_is_sent && !folder_is_drafts && !folder_is_outbox && !folder_is_templates) {
@@ -2372,7 +2374,7 @@ em_utils_redirect_message (EMsgComposer *composer,
 	ESource *source;
 	EShell *shell;
 	CamelMedium *medium;
-	gchar *identity_uid = NULL;
+	gchar *identity_uid = NULL, *alias_name = NULL, *alias_address = NULL;
 
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (message));
@@ -2395,19 +2397,21 @@ em_utils_redirect_message (EMsgComposer *composer,
 	registry = e_shell_get_registry (shell);
 
 	/* This returns a new ESource reference. */
-	source = em_utils_check_send_account_override (shell, message, NULL);
+	source = em_utils_check_send_account_override (shell, message, NULL, &alias_name, &alias_address);
 	if (!source)
 		source = em_utils_guess_mail_identity_with_recipients_and_sort (
-			registry, message, NULL, NULL, NULL, NULL, sort_sources_by_ui, shell);
+			registry, message, NULL, NULL, &alias_name, &alias_address, sort_sources_by_ui, shell);
 
 	if (source != NULL) {
 		identity_uid = e_source_dup_uid (source);
 		g_object_unref (source);
 	}
 
-	e_msg_composer_setup_redirect (composer, message, identity_uid, NULL);
+	e_msg_composer_setup_redirect (composer, message, identity_uid, alias_name, alias_address, NULL);
 
 	g_free (identity_uid);
+	g_free (alias_name);
+	g_free (alias_address);
 
 	gtk_widget_show (GTK_WIDGET (composer));
 
@@ -3361,7 +3365,7 @@ em_utils_reply_to_message (EMsgComposer *composer,
 	registry = e_shell_get_registry (shell);
 
 	/* This returns a new ESource reference. */
-	source = em_utils_check_send_account_override (shell, message, folder);
+	source = em_utils_check_send_account_override (shell, message, folder, &identity_name, &identity_address);
 	if (!source)
 		source = em_utils_guess_mail_identity_with_recipients_and_sort (
 			registry, message, folder, message_uid, &identity_name, &identity_address, sort_sources_by_ui, shell);
@@ -3627,12 +3631,14 @@ em_configure_new_composer (EMsgComposer *composer,
 ESource *
 em_utils_check_send_account_override (EShell *shell,
                                       CamelMimeMessage *message,
-                                      CamelFolder *folder)
+                                      CamelFolder *folder,
+				      gchar **out_alias_name,
+				      gchar **out_alias_address)
 {
 	EMailBackend *mail_backend;
 	EMailSendAccountOverride *account_override;
 	CamelInternetAddress *to = NULL, *cc = NULL, *bcc = NULL;
-	gchar *folder_uri = NULL, *account_uid;
+	gchar *folder_uri = NULL, *account_uid, *alias_name = NULL, *alias_address = NULL;
 	ESource *account_source = NULL;
 	ESourceRegistry *source_registry;
 
@@ -3655,7 +3661,7 @@ em_utils_check_send_account_override (EShell *shell,
 
 	source_registry = e_shell_get_registry (shell);
 	account_override = e_mail_backend_get_send_account_override (mail_backend);
-	account_uid = e_mail_send_account_override_get_account_uid (account_override, folder_uri, to, cc, bcc);
+	account_uid = e_mail_send_account_override_get_account_uid (account_override, folder_uri, to, cc, bcc, &alias_name, &alias_address);
 
 	while (account_uid) {
 		account_source = e_source_registry_ref_source (source_registry, account_uid);
@@ -3664,11 +3670,27 @@ em_utils_check_send_account_override (EShell *shell,
 
 		/* stored send account override settings contain a reference
 		 * to a dropped account, thus cleanup it now */
-		e_mail_send_account_override_remove_for_account_uid (account_override, account_uid);
+		e_mail_send_account_override_remove_for_account_uid (account_override, account_uid, alias_name, alias_address);
 
 		g_free (account_uid);
-		account_uid = e_mail_send_account_override_get_account_uid (account_override, folder_uri, to, cc, bcc);
+		g_free (alias_name);
+		g_free (alias_address);
+
+		alias_name = NULL;
+		alias_address = NULL;
+
+		account_uid = e_mail_send_account_override_get_account_uid (account_override, folder_uri, to, cc, bcc, &alias_name, &alias_address);
 	}
+
+	if (out_alias_name)
+		*out_alias_name = alias_name;
+	else
+		g_free (alias_name);
+
+	if (out_alias_address)
+		*out_alias_address = alias_address;
+	else
+		g_free (alias_address);
 
 	g_free (folder_uri);
 	g_free (account_uid);
@@ -3684,19 +3706,22 @@ em_utils_apply_send_account_override_to_composer (EMsgComposer *composer,
 	EComposerHeaderTable *header_table;
 	EShell *shell;
 	ESource *source;
+	gchar *alias_name = NULL, *alias_address = NULL;
 
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 
 	shell = e_msg_composer_get_shell (composer);
 	message = em_utils_get_composer_recipients_as_message (composer);
-	source = em_utils_check_send_account_override (shell, message, folder);
+	source = em_utils_check_send_account_override (shell, message, folder, &alias_name, &alias_address);
 	g_clear_object (&message);
 
 	if (!source)
 		return;
 
 	header_table = e_msg_composer_get_header_table (composer);
-	e_composer_header_table_set_identity_uid (header_table, e_source_get_uid (source), NULL, NULL);
+	e_composer_header_table_set_identity_uid (header_table, e_source_get_uid (source), alias_name, alias_address);
 
 	g_object_unref (source);
+	g_free (alias_name);
+	g_free (alias_address);
 }

@@ -135,7 +135,7 @@ autosave_composer_created_cb (GObject *source_object,
 		g_warning ("%s: Failed to create msg composer: %s", G_STRFUNC, error->message);
 		g_simple_async_result_take_error (ccd->simple, error);
 	} else {
-		e_msg_composer_setup_with_message (composer, ccd->message, TRUE, NULL, NULL);
+		e_msg_composer_setup_with_message (composer, ccd->message, TRUE, NULL, NULL, NULL, NULL);
 		g_object_set_data_full (
 			G_OBJECT (composer),
 			SNAPSHOT_FILE_KEY, g_object_ref (ccd->snapshot_file),

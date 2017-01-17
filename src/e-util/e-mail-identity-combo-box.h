@@ -46,6 +46,14 @@
 
 G_BEGIN_DECLS
 
+enum {
+	E_MAIL_IDENTITY_COMBO_BOX_COLUMN_DISPLAY_NAME,
+	E_MAIL_IDENTITY_COMBO_BOX_COLUMN_COMBO_ID,
+	E_MAIL_IDENTITY_COMBO_BOX_COLUMN_UID,
+	E_MAIL_IDENTITY_COMBO_BOX_COLUMN_NAME,
+	E_MAIL_IDENTITY_COMBO_BOX_COLUMN_ADDRESS
+};
+
 typedef struct _EMailIdentityComboBox EMailIdentityComboBox;
 typedef struct _EMailIdentityComboBoxClass EMailIdentityComboBoxClass;
 typedef struct _EMailIdentityComboBoxPrivate EMailIdentityComboBoxPrivate;

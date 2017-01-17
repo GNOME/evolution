@@ -30,11 +30,15 @@
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_MAIL_SEND_ACCOUNT_OVERRIDE, EMailSendAccountOverridePrivate))
 
-#define FOLDERS_SECTION		"Folders"
-#define RECIPIENTS_SECTION	"Recipients"
-#define OPTIONS_SECTION		"Options"
+#define FOLDERS_SECTION				"Folders"
+#define FOLDERS_ALIAS_NAME_SECTION		"Folders-Alias-Name"
+#define FOLDERS_ALIAS_ADDRESS_SECTION		"Folders-Alias-Address"
+#define RECIPIENTS_SECTION			"Recipients"
+#define RECIPIENTS_ALIAS_NAME_SECTION		"Recipients-Alias-Name"
+#define RECIPIENTS_ALIAS_ADDRESS_SECTION	"Recipients-Alias-Address"
+#define OPTIONS_SECTION				"Options"
 
-#define OPTION_PREFER_FOLDER	"PreferFolder"
+#define OPTION_PREFER_FOLDER			"PreferFolder"
 
 struct _EMailSendAccountOverridePrivate {
 	GKeyFile *key_file;
@@ -105,9 +109,75 @@ e_mail_send_account_override_maybe_save_locked (EMailSendAccountOverride *overri
 	return e_mail_send_account_override_save_locked (override);
 }
 
+static void
+read_alias_info_locked (EMailSendAccountOverride *override,
+			const gchar *alias_name_section,
+			const gchar *alias_address_section,
+			const gchar *key,
+			gchar **out_alias_name,
+			gchar **out_alias_address)
+{
+	if (out_alias_name) {
+		gchar *alias_name;
+
+		alias_name = g_key_file_get_string (
+			override->priv->key_file, alias_name_section, key, NULL);
+
+		if (alias_name)
+			g_strchomp (alias_name);
+
+		if (alias_name && !*alias_name) {
+			g_free (alias_name);
+			alias_name = NULL;
+		}
+
+		*out_alias_name = alias_name;
+	}
+
+	if (out_alias_address) {
+		gchar *alias_address;
+
+		alias_address = g_key_file_get_string (
+			override->priv->key_file, alias_address_section, key, NULL);
+
+		if (alias_address)
+			g_strchomp (alias_address);
+
+		if (alias_address && !*alias_address) {
+			g_free (alias_address);
+			alias_address = NULL;
+		}
+
+		*out_alias_address = alias_address;
+	}
+}
+
+static void
+write_alias_info_locked (EMailSendAccountOverride *override,
+			 const gchar *alias_name_section,
+			 const gchar *alias_address_section,
+			 const gchar *key,
+			 const gchar *alias_name,
+			 const gchar *alias_address)
+{
+	if (alias_name && *alias_name) {
+		g_key_file_set_string (override->priv->key_file, alias_name_section, key, alias_name);
+	} else {
+		g_key_file_remove_key (override->priv->key_file, alias_name_section, key, NULL);
+	}
+
+	if (alias_address && *alias_address) {
+		g_key_file_set_string (override->priv->key_file, alias_address_section, key, alias_address);
+	} else {
+		g_key_file_remove_key (override->priv->key_file, alias_address_section, key, NULL);
+	}
+}
+
 static gchar *
 get_override_for_folder_uri_locked (EMailSendAccountOverride *override,
-                                    const gchar *folder_uri)
+                                    const gchar *folder_uri,
+				    gchar **out_alias_name,
+				    gchar **out_alias_address)
 {
 	gchar *account_uid;
 
@@ -125,6 +195,15 @@ get_override_for_folder_uri_locked (EMailSendAccountOverride *override,
 		account_uid = NULL;
 	}
 
+	if (account_uid) {
+		read_alias_info_locked (override,
+			FOLDERS_ALIAS_NAME_SECTION,
+			FOLDERS_ALIAS_ADDRESS_SECTION,
+			folder_uri,
+			out_alias_name,
+			out_alias_address);
+	}
+
 	return account_uid;
 }
 
@@ -132,12 +211,14 @@ static gchar *
 test_one_recipient (gchar **keys,
                     GPtrArray *values,
                     const gchar *name,
-                    const gchar *address)
+                    const gchar *address,
+		    gint *out_keys_index)
 {
 	gint ii;
 
 	g_return_val_if_fail (keys != NULL, NULL);
 	g_return_val_if_fail (values != NULL, NULL);
+	g_return_val_if_fail (out_keys_index != NULL, NULL);
 
 	if (name != NULL && *name == '\0')
 		name = NULL;
@@ -150,10 +231,14 @@ test_one_recipient (gchar **keys,
 
 	for (ii = 0; keys[ii] && ii < values->len; ii++) {
 		if (name != NULL && e_util_utf8_strstrcase (name, keys[ii]) != NULL) {
+			*out_keys_index = ii;
+
 			return g_strdup (values->pdata[ii]);
 		}
 
 		if (address != NULL && e_util_utf8_strstrcase (address, keys[ii]) != NULL) {
+			*out_keys_index = ii;
+
 			return g_strdup (values->pdata[ii]);
 		}
 	}
@@ -163,7 +248,9 @@ test_one_recipient (gchar **keys,
 
 static gchar *
 get_override_for_recipients_locked (EMailSendAccountOverride *override,
-                                    CamelAddress *recipients)
+                                    CamelAddress *recipients,
+				    gchar **out_alias_name,
+				    gchar **out_alias_address)
 {
 	CamelInternetAddress *iaddress;
 	gchar *account_uid = NULL;
@@ -194,7 +281,9 @@ get_override_for_recipients_locked (EMailSendAccountOverride *override,
 		const gchar *name, *address;
 
 		if (camel_internet_address_get (iaddress, ii, &name, &address)) {
-			account_uid = test_one_recipient (keys, values, name, address);
+			gint keys_index = -1;
+
+			account_uid = test_one_recipient (keys, values, name, address, &keys_index);
 
 			if (account_uid != NULL)
 				g_strchomp (account_uid);
@@ -204,8 +293,16 @@ get_override_for_recipients_locked (EMailSendAccountOverride *override,
 				account_uid = NULL;
 			}
 
-			if (account_uid != NULL)
+			if (account_uid != NULL) {
+				g_warn_if_fail (keys_index >= 0 && keys_index < g_strv_length (keys));
+				read_alias_info_locked (override,
+					RECIPIENTS_ALIAS_NAME_SECTION,
+					RECIPIENTS_ALIAS_ADDRESS_SECTION,
+					keys[keys_index],
+					out_alias_name,
+					out_alias_address);
 				break;
+			}
 		}
 	}
 
@@ -218,7 +315,11 @@ get_override_for_recipients_locked (EMailSendAccountOverride *override,
 static void
 list_overrides_section_for_account_locked (EMailSendAccountOverride *override,
                                            const gchar *account_uid,
+					   const gchar *alias_name,
+					   const gchar *alias_address,
                                            const gchar *section,
+					   const gchar *alias_name_section,
+					   const gchar *alias_address_section,
                                            GList **overrides)
 {
 	gchar **keys;
@@ -242,8 +343,20 @@ list_overrides_section_for_account_locked (EMailSendAccountOverride *override,
 
 			value = g_key_file_get_string (
 				override->priv->key_file, section, key, NULL);
-			if (g_strcmp0 (value, account_uid) == 0)
-				*overrides = g_list_prepend (*overrides, g_strdup (key));
+			if (g_strcmp0 (value, account_uid) == 0) {
+				gchar *stored_alias_name = NULL, *stored_alias_address = NULL;
+
+				read_alias_info_locked (override, alias_name_section, alias_address_section,
+					key, &stored_alias_name, &stored_alias_address);
+
+				if (g_strcmp0 (stored_alias_name, alias_name) == 0 &&
+				    g_strcmp0 (stored_alias_address, alias_address) == 0) {
+					*overrides = g_list_prepend (*overrides, g_strdup (key));
+				}
+
+				g_free (stored_alias_name);
+				g_free (stored_alias_address);
+			}
 			g_free (value);
 		}
 	}
@@ -256,6 +369,8 @@ list_overrides_section_for_account_locked (EMailSendAccountOverride *override,
 static void
 list_overrides_for_account_locked (EMailSendAccountOverride *override,
                                    const gchar *account_uid,
+				   const gchar *alias_name,
+				   const gchar *alias_address,
                                    GList **folder_overrides,
                                    GList **recipient_overrides)
 {
@@ -263,9 +378,12 @@ list_overrides_for_account_locked (EMailSendAccountOverride *override,
 		return;
 
 	list_overrides_section_for_account_locked (
-		override, account_uid, FOLDERS_SECTION, folder_overrides);
+		override, account_uid, alias_name, alias_address, FOLDERS_SECTION, FOLDERS_ALIAS_NAME_SECTION,
+		FOLDERS_ALIAS_ADDRESS_SECTION, folder_overrides);
+
 	list_overrides_section_for_account_locked (
-		override, account_uid, RECIPIENTS_SECTION, recipient_overrides);
+		override, account_uid, alias_name, alias_address, RECIPIENTS_SECTION, RECIPIENTS_ALIAS_NAME_SECTION,
+		RECIPIENTS_ALIAS_ADDRESS_SECTION, recipient_overrides);
 }
 
 static void
@@ -473,13 +591,15 @@ e_mail_send_account_override_get_prefer_folder (EMailSendAccountOverride *overri
 	return override->priv->prefer_folder;
 }
 
-/* free returned pointer with g_free() */
+/* free returned pointers with g_free() */
 gchar *
 e_mail_send_account_override_get_account_uid (EMailSendAccountOverride *override,
                                               const gchar *folder_uri,
                                               CamelInternetAddress *recipients_to,
                                               CamelInternetAddress *recipients_cc,
-                                              CamelInternetAddress *recipients_bcc)
+                                              CamelInternetAddress *recipients_bcc,
+					      gchar **out_alias_name,
+					      gchar **out_alias_address)
 {
 	gchar *account_uid = NULL;
 
@@ -490,23 +610,23 @@ e_mail_send_account_override_get_account_uid (EMailSendAccountOverride *override
 
 	if (override->priv->prefer_folder)
 		account_uid = get_override_for_folder_uri_locked (
-			override, folder_uri);
+			override, folder_uri, out_alias_name, out_alias_address);
 
 	if (account_uid == NULL)
 		account_uid = get_override_for_recipients_locked (
-			override, CAMEL_ADDRESS (recipients_to));
+			override, CAMEL_ADDRESS (recipients_to), out_alias_name, out_alias_address);
 
 	if (account_uid == NULL)
 		account_uid = get_override_for_recipients_locked (
-			override, CAMEL_ADDRESS (recipients_cc));
+			override, CAMEL_ADDRESS (recipients_cc), out_alias_name, out_alias_address);
 
 	if (account_uid == NULL)
 		account_uid = get_override_for_recipients_locked (
-			override, CAMEL_ADDRESS (recipients_bcc));
+			override, CAMEL_ADDRESS (recipients_bcc), out_alias_name, out_alias_address);
 
 	if (account_uid == NULL && !override->priv->prefer_folder)
 		account_uid = get_override_for_folder_uri_locked (
-			override, folder_uri);
+			override, folder_uri, out_alias_name, out_alias_address);
 
 	g_mutex_unlock (&override->priv->property_lock);
 
@@ -515,7 +635,9 @@ e_mail_send_account_override_get_account_uid (EMailSendAccountOverride *override
 
 void
 e_mail_send_account_override_remove_for_account_uid (EMailSendAccountOverride *override,
-                                                     const gchar *account_uid)
+                                                     const gchar *account_uid,
+						     const gchar *alias_name,
+						     const gchar *alias_address)
 {
 	GList *folders = NULL, *recipients = NULL;
 	gboolean saved = FALSE;
@@ -526,7 +648,7 @@ e_mail_send_account_override_remove_for_account_uid (EMailSendAccountOverride *o
 	g_mutex_lock (&override->priv->property_lock);
 
 	list_overrides_for_account_locked (
-		override, account_uid, &folders, &recipients);
+		override, account_uid, alias_name, alias_address, &folders, &recipients);
 
 	if (folders != NULL || recipients != NULL) {
 		GList *link;
@@ -537,6 +659,9 @@ e_mail_send_account_override_remove_for_account_uid (EMailSendAccountOverride *o
 			g_key_file_remove_key (
 				override->priv->key_file,
 				FOLDERS_SECTION, key, NULL);
+
+			write_alias_info_locked (override, FOLDERS_ALIAS_NAME_SECTION,
+				FOLDERS_ALIAS_ADDRESS_SECTION, key, NULL, NULL);
 		}
 
 		for (link = recipients; link != NULL; link = g_list_next (link)) {
@@ -545,6 +670,9 @@ e_mail_send_account_override_remove_for_account_uid (EMailSendAccountOverride *o
 			g_key_file_remove_key (
 				override->priv->key_file,
 				RECIPIENTS_SECTION, key, NULL);
+
+			write_alias_info_locked (override, RECIPIENTS_ALIAS_NAME_SECTION,
+				RECIPIENTS_ALIAS_ADDRESS_SECTION, key, NULL, NULL);
 		}
 
 		saved = e_mail_send_account_override_maybe_save_locked (override);
@@ -561,7 +689,9 @@ e_mail_send_account_override_remove_for_account_uid (EMailSendAccountOverride *o
 
 gchar *
 e_mail_send_account_override_get_for_folder (EMailSendAccountOverride *override,
-                                             const gchar *folder_uri)
+                                             const gchar *folder_uri,
+					     gchar **out_alias_name,
+					     gchar **out_alias_address)
 {
 	gchar *account_uid = NULL;
 
@@ -569,7 +699,7 @@ e_mail_send_account_override_get_for_folder (EMailSendAccountOverride *override,
 
 	g_mutex_lock (&override->priv->property_lock);
 
-	account_uid = get_override_for_folder_uri_locked (override, folder_uri);
+	account_uid = get_override_for_folder_uri_locked (override, folder_uri, out_alias_name, out_alias_address);
 
 	g_mutex_unlock (&override->priv->property_lock);
 
@@ -579,7 +709,9 @@ e_mail_send_account_override_get_for_folder (EMailSendAccountOverride *override,
 void
 e_mail_send_account_override_set_for_folder (EMailSendAccountOverride *override,
                                              const gchar *folder_uri,
-                                             const gchar *account_uid)
+                                             const gchar *account_uid,
+					     const gchar *alias_name,
+					     const gchar *alias_address)
 {
 	gboolean saved;
 
@@ -592,6 +724,10 @@ e_mail_send_account_override_set_for_folder (EMailSendAccountOverride *override,
 	g_key_file_set_string (
 		override->priv->key_file,
 		FOLDERS_SECTION, folder_uri, account_uid);
+
+	write_alias_info_locked (override, FOLDERS_ALIAS_NAME_SECTION,
+		FOLDERS_ALIAS_ADDRESS_SECTION, folder_uri, alias_name, alias_address);
+
 	saved = e_mail_send_account_override_maybe_save_locked (override);
 
 	g_mutex_unlock (&override->priv->property_lock);
@@ -613,6 +749,10 @@ e_mail_send_account_override_remove_for_folder (EMailSendAccountOverride *overri
 
 	g_key_file_remove_key (
 		override->priv->key_file, FOLDERS_SECTION, folder_uri, NULL);
+
+	write_alias_info_locked (override, FOLDERS_ALIAS_NAME_SECTION,
+		FOLDERS_ALIAS_ADDRESS_SECTION, folder_uri, NULL, NULL);
+
 	saved = e_mail_send_account_override_maybe_save_locked (override);
 
 	g_mutex_unlock (&override->priv->property_lock);
@@ -623,7 +763,9 @@ e_mail_send_account_override_remove_for_folder (EMailSendAccountOverride *overri
 
 gchar *
 e_mail_send_account_override_get_for_recipient (EMailSendAccountOverride *override,
-                                                CamelInternetAddress *recipients)
+                                                CamelInternetAddress *recipients,
+						gchar **out_alias_name,
+						gchar **out_alias_address)
 {
 	gchar *account_uid;
 
@@ -633,7 +775,7 @@ e_mail_send_account_override_get_for_recipient (EMailSendAccountOverride *overri
 	g_mutex_lock (&override->priv->property_lock);
 
 	account_uid = get_override_for_recipients_locked (
-		override, CAMEL_ADDRESS (recipients));
+		override, CAMEL_ADDRESS (recipients), out_alias_name, out_alias_address);
 
 	g_mutex_unlock (&override->priv->property_lock);
 
@@ -643,7 +785,9 @@ e_mail_send_account_override_get_for_recipient (EMailSendAccountOverride *overri
 void
 e_mail_send_account_override_set_for_recipient (EMailSendAccountOverride *override,
                                                 const gchar *recipient,
-                                                const gchar *account_uid)
+                                                const gchar *account_uid,
+						const gchar *alias_name,
+						const gchar *alias_address)
 {
 	gboolean saved;
 
@@ -656,6 +800,10 @@ e_mail_send_account_override_set_for_recipient (EMailSendAccountOverride *overri
 	g_key_file_set_string (
 		override->priv->key_file,
 		RECIPIENTS_SECTION, recipient, account_uid);
+
+	write_alias_info_locked (override, RECIPIENTS_ALIAS_NAME_SECTION,
+		RECIPIENTS_ALIAS_ADDRESS_SECTION, recipient, alias_name, alias_address);
+
 	saved = e_mail_send_account_override_maybe_save_locked (override);
 
 	g_mutex_unlock (&override->priv->property_lock);
@@ -677,6 +825,10 @@ e_mail_send_account_override_remove_for_recipient (EMailSendAccountOverride *ove
 
 	g_key_file_remove_key (
 		override->priv->key_file, RECIPIENTS_SECTION, recipient, NULL);
+
+	write_alias_info_locked (override, RECIPIENTS_ALIAS_NAME_SECTION,
+		RECIPIENTS_ALIAS_ADDRESS_SECTION, recipient, NULL, NULL);
+
 	saved = e_mail_send_account_override_maybe_save_locked (override);
 
 	g_mutex_unlock (&override->priv->property_lock);
@@ -688,6 +840,8 @@ e_mail_send_account_override_remove_for_recipient (EMailSendAccountOverride *ove
 void
 e_mail_send_account_override_list_for_account (EMailSendAccountOverride *override,
                                                const gchar *account_uid,
+					       const gchar *alias_name,
+					       const gchar *alias_address,
                                                GList **folder_overrides,
                                                GList **recipient_overrides)
 {
@@ -697,7 +851,7 @@ e_mail_send_account_override_list_for_account (EMailSendAccountOverride *overrid
 	g_mutex_lock (&override->priv->property_lock);
 
 	list_overrides_for_account_locked (
-		override, account_uid, folder_overrides, recipient_overrides);
+		override, account_uid, alias_name, alias_address, folder_overrides, recipient_overrides);
 
 	g_mutex_unlock (&override->priv->property_lock);
 }

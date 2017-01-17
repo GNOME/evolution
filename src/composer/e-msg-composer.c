@@ -3525,6 +3525,8 @@ composer_add_auto_recipients (ESource *source,
  * @message: The message to use as the source
  * @keep_signature: Keep message signature, if any
  * @override_identity_uid: (allow none): Optional identity UID to use, or %NULL
+ * @override_alias_name: (nullable): an alias name to use together with the override_identity_uid, or %NULL
+ * @override_alias_address: (nullable): an alias address to use together with the override_identity_uid, or %NULL
  * @cancellable: optional #GCancellable object, or %NULL
  *
  * Sets up the message @composer with a specific @message.
@@ -3538,6 +3540,8 @@ e_msg_composer_setup_with_message (EMsgComposer *composer,
 				   CamelMimeMessage *message,
 				   gboolean keep_signature,
 				   const gchar *override_identity_uid,
+				   const gchar *override_alias_name,
+				   const gchar *override_alias_address,
 				   GCancellable *cancellable)
 {
 	CamelInternetAddress *from, *to, *cc, *bcc;
@@ -3923,6 +3927,8 @@ e_msg_composer_setup_with_message (EMsgComposer *composer,
  * @composer: an #EMsgComposer
  * @message: The message to use as the source
  * @identity_uid: (nullable): an identity UID to use, if any
+ * @alias_name: (nullable): an alias name to use together with the identity_uid, or %NULL
+ * @alias_address: (nullable): an alias address to use together with the identity_uid, or %NULL
  * @cancellable: an optional #GCancellable
  *
  * Sets up the message @composer as a redirect of the @message.
@@ -3933,6 +3939,8 @@ void
 e_msg_composer_setup_redirect (EMsgComposer *composer,
 			       CamelMimeMessage *message,
 			       const gchar *identity_uid,
+			       const gchar *alias_name,
+			       const gchar *alias_address,
 			       GCancellable *cancellable)
 {
 	EComposerHeaderTable *table;
@@ -3943,7 +3951,7 @@ e_msg_composer_setup_redirect (EMsgComposer *composer,
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (message));
 
-	e_msg_composer_setup_with_message (composer, message, TRUE, identity_uid, cancellable);
+	e_msg_composer_setup_with_message (composer, message, TRUE, identity_uid, alias_name, alias_address, cancellable);
 
 	table = e_msg_composer_get_header_table (composer);
 	subject = camel_mime_message_get_subject (message);

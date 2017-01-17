@@ -89,7 +89,8 @@ static void
 mail_identity_combo_box_changed_cb (GtkComboBox *combo_box,
                                     EMailSendAccountOverride *account_override)
 {
-	const gchar *active_id, *folder_uri;
+	const gchar *folder_uri;
+	gchar *identity_uid = NULL, *alias_name = NULL, *alias_address = NULL;
 
 	g_return_if_fail (GTK_IS_COMBO_BOX (combo_box));
 	g_return_if_fail (E_IS_MAIL_SEND_ACCOUNT_OVERRIDE (account_override));
@@ -97,11 +98,17 @@ mail_identity_combo_box_changed_cb (GtkComboBox *combo_box,
 	folder_uri = g_object_get_data (G_OBJECT (combo_box), "sao-folder-uri");
 	g_return_if_fail (folder_uri != NULL);
 
-	active_id = gtk_combo_box_get_active_id (combo_box);
-	if (!active_id || !*active_id)
+	if (!e_mail_identity_combo_box_get_active_uid (E_MAIL_IDENTITY_COMBO_BOX (combo_box),
+		&identity_uid, &alias_name, &alias_address) ||
+	    !identity_uid || !*identity_uid) {
 		e_mail_send_account_override_remove_for_folder (account_override, folder_uri);
-	else
-		e_mail_send_account_override_set_for_folder (account_override, folder_uri, active_id);
+	} else {
+		e_mail_send_account_override_set_for_folder (account_override, folder_uri, identity_uid, alias_name, alias_address);
+	}
+
+	g_free (identity_uid);
+	g_free (alias_name);
+	g_free (alias_address);
 }
 
 static gint
@@ -213,7 +220,7 @@ emfp_get_folder_item (EConfig *ec,
 	EShell *shell;
 	EMailBackend *mail_backend;
 	EMailSendAccountOverride *account_override;
-	gchar *folder_uri, *account_uid;
+	gchar *folder_uri, *account_uid, *alias_name = NULL, *alias_address = NULL;
 	GtkWidget *label;
 
 	if (old)
@@ -401,6 +408,7 @@ emfp_get_folder_item (EConfig *ec,
 		E_TYPE_MAIL_IDENTITY_COMBO_BOX,
 		"registry", registry,
 		"allow-none", TRUE,
+		"allow-aliases", TRUE,
 		NULL);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (label), widget);
 	gtk_widget_set_margin_left (widget, 12);
@@ -417,9 +425,11 @@ emfp_get_folder_item (EConfig *ec,
 
 	account_override = e_mail_backend_get_send_account_override (mail_backend);
 	folder_uri = e_mail_folder_uri_from_folder (context->folder);
-	account_uid = e_mail_send_account_override_get_for_folder (account_override, folder_uri);
+	account_uid = e_mail_send_account_override_get_for_folder (account_override, folder_uri, &alias_name, &alias_address);
 
-	gtk_combo_box_set_active_id (GTK_COMBO_BOX (widget), account_uid ? account_uid : "");
+	if (!account_uid || !e_mail_identity_combo_box_set_active_uid (E_MAIL_IDENTITY_COMBO_BOX (widget), account_uid, alias_name, alias_address))
+		gtk_combo_box_set_active_id (GTK_COMBO_BOX (widget), account_uid ? account_uid : "");
+
 	g_object_set_data_full (G_OBJECT (widget), "sao-folder-uri", folder_uri, g_free);
 
 	g_signal_connect (

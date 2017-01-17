@@ -91,12 +91,16 @@ void		e_msg_composer_setup_with_message
 						 CamelMimeMessage *message,
 						 gboolean keep_signature,
 						 const gchar *override_identity_uid,
+						 const gchar *override_alias_name,
+						 const gchar *override_alias_address,
 						 GCancellable *cancellable);
 void		e_msg_composer_setup_from_url	(EMsgComposer *composer,
 						 const gchar *url);
 void		e_msg_composer_setup_redirect	(EMsgComposer *composer,
 						 CamelMimeMessage *message,
 						 const gchar *identity_uid,
+						 const gchar *alias_name,
+						 const gchar *alias_address,
 						 GCancellable *cancellable);
 EHTMLEditor *	e_msg_composer_get_editor	(EMsgComposer *composer);
 EFocusTracker *	e_msg_composer_get_focus_tracker

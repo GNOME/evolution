@@ -174,7 +174,9 @@ spell_setup (EMComposerPrefs *prefs)
 #define MAIL_CAMEL_SESSION_KEY "sao-mail-camel-session"
 
 static gchar *
-sao_dup_account_uid (GtkBuilder *builder)
+sao_dup_account_uid (GtkBuilder *builder,
+		     gchar **out_alias_name,
+		     gchar **out_alias_address)
 {
 	GtkWidget *widget;
 	GtkTreeView *tree_view;
@@ -192,7 +194,11 @@ sao_dup_account_uid (GtkBuilder *builder)
 	if (!gtk_tree_selection_get_selected (selection, &model, &iter))
 		return NULL;
 
-	gtk_tree_model_get (model, &iter, 1, &account_uid, -1);
+	gtk_tree_model_get (model, &iter,
+		E_MAIL_IDENTITY_COMBO_BOX_COLUMN_UID, &account_uid,
+		E_MAIL_IDENTITY_COMBO_BOX_COLUMN_NAME, out_alias_name,
+		E_MAIL_IDENTITY_COMBO_BOX_COLUMN_ADDRESS, out_alias_address,
+		-1);
 
 	return account_uid;
 }
@@ -267,9 +273,9 @@ sao_account_treeview_selection_changed_cb (GtkTreeSelection *selection,
 	gtk_list_store_clear (GTK_LIST_STORE (model));
 
 	if (gtk_tree_selection_get_selected (selection, NULL, NULL)) {
-		gchar *account_uid;
+		gchar *account_uid, *alias_name = NULL, *alias_address = NULL;
 
-		account_uid = sao_dup_account_uid (builder);
+		account_uid = sao_dup_account_uid (builder, &alias_name, &alias_address);
 		if (account_uid) {
 			GList *folder_overrides = NULL;
 			GList *recipient_overrides = NULL;
@@ -280,7 +286,7 @@ sao_account_treeview_selection_changed_cb (GtkTreeSelection *selection,
 				g_object_get_data (
 					G_OBJECT (builder),
 					MAIL_SEND_ACCOUNT_OVERRIDE_KEY),
-				account_uid, &folder_overrides, &recipient_overrides);
+				account_uid, alias_name, alias_address, &folder_overrides, &recipient_overrides);
 
 			sao_fill_overrides (
 				builder, "sao-folders-treeview",
@@ -292,6 +298,8 @@ sao_account_treeview_selection_changed_cb (GtkTreeSelection *selection,
 			g_list_free_full (folder_overrides, g_free);
 			g_list_free_full (recipient_overrides, g_free);
 			g_free (account_uid);
+			g_free (alias_name);
+			g_free (alias_address);
 		}
 	}
 
@@ -390,12 +398,12 @@ sao_folders_add_button_clicked_cb (GtkButton *button,
 	EMFolderTree *folder_tree;
 	GtkWidget *dialog;
 	GtkWindow *window;
-	gchar *account_uid = NULL;
+	gchar *account_uid, *alias_name = NULL, *alias_address = NULL;
 
 	g_return_if_fail (GTK_IS_BUTTON (button));
 	g_return_if_fail (GTK_IS_BUILDER (builder));
 
-	account_uid = sao_dup_account_uid (builder);
+	account_uid = sao_dup_account_uid (builder, &alias_name, &alias_address);
 	g_return_if_fail (account_uid != NULL);
 
 	widget = e_builder_get_widget (builder, "sao-folders-treeview");
@@ -463,7 +471,7 @@ sao_folders_add_button_clicked_cb (GtkButton *button,
 					sao_block_changed_handler (builder);
 
 					account_override = g_object_get_data (G_OBJECT (builder), MAIL_SEND_ACCOUNT_OVERRIDE_KEY);
-					e_mail_send_account_override_set_for_folder (account_override, uri, account_uid);
+					e_mail_send_account_override_set_for_folder (account_override, uri, account_uid, alias_name, alias_address);
 
 					sao_unblock_changed_handler (builder);
 				}
@@ -482,6 +490,8 @@ sao_folders_add_button_clicked_cb (GtkButton *button,
 
 	gtk_widget_destroy (dialog);
 	g_free (account_uid);
+	g_free (alias_name);
+	g_free (alias_address);
 }
 
 static void
@@ -565,7 +575,7 @@ sao_recipient_edited_cb (GtkCellRendererText *renderer,
 	GtkTreePath *path;
 	GtkTreeModel *model;
 	GtkTreeIter iter;
-	gchar *text, *old_text = NULL, *account_uid;
+	gchar *text, *old_text = NULL, *account_uid, *alias_name = NULL, *alias_address = NULL;
 	GtkWidget *widget;
 
 	g_return_if_fail (path_str != NULL);
@@ -577,7 +587,7 @@ sao_recipient_edited_cb (GtkCellRendererText *renderer,
 	path = gtk_tree_path_new_from_string (path_str);
 	g_return_if_fail (path != NULL);
 
-	account_uid = sao_dup_account_uid (builder);
+	account_uid = sao_dup_account_uid (builder, &alias_name, &alias_address);
 	g_return_if_fail (account_uid != NULL);
 
 	model = gtk_tree_view_get_model (GTK_TREE_VIEW (widget));
@@ -617,7 +627,7 @@ sao_recipient_edited_cb (GtkCellRendererText *renderer,
 
 		if (is_new) {
 			gtk_list_store_set (GTK_LIST_STORE (model), &new_iter, 0, text, -1);
-			e_mail_send_account_override_set_for_recipient (account_override, text, account_uid);
+			e_mail_send_account_override_set_for_recipient (account_override, text, account_uid, alias_name, alias_address);
 		} else {
 			GtkTreeSelection *selection;
 			GtkTreePath *path1, *path2;
@@ -641,6 +651,8 @@ sao_recipient_edited_cb (GtkCellRendererText *renderer,
 	sao_unblock_changed_handler (builder);
 
 	g_free (account_uid);
+	g_free (alias_name);
+	g_free (alias_address);
 	g_free (old_text);
 	g_free (text);
 }
@@ -840,6 +852,8 @@ send_account_override_setup (GtkBuilder *builder,
 
 	/* use its model to avoid code duplication */
 	widget = e_mail_identity_combo_box_new (registry);
+	e_mail_identity_combo_box_set_allow_aliases (E_MAIL_IDENTITY_COMBO_BOX (widget), TRUE);
+
 	identity_combo_box = g_object_ref_sink (widget);
 
 	widget = e_builder_get_widget (builder, "sao-account-treeview");
