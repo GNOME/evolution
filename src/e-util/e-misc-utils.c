@@ -3883,3 +3883,28 @@ e_util_load_file_chooser_folder (GtkFileChooser *file_chooser)
 
 	g_free (uri);
 }
+
+/**
+ * e_util_get_webkit_developer_mode_enabled:
+ *
+ * Returns: Whether WebKit developer mode is enabled. This is read only
+ *    once, thus any changes in the GSettings property require restart
+ *    of the Evolution.
+ *
+ * Since: 3.24
+ **/
+gboolean
+e_util_get_webkit_developer_mode_enabled (void)
+{
+	static gchar enabled = -1;
+
+	if (enabled == -1) {
+		GSettings *settings;
+
+		settings = e_util_ref_settings ("org.gnome.evolution.shell");
+		enabled = g_settings_get_boolean (settings, "webkit-developer-mode") ? 1 : 0;
+		g_clear_object (&settings);
+	}
+
+	return enabled != 0;
+}

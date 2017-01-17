@@ -330,6 +330,8 @@ GVariant *	e_util_invoke_g_dbus_proxy_call_sync_wrapper_full
 						 GError **error);
 void		e_util_save_file_chooser_folder	(GtkFileChooser *file_chooser);
 void		e_util_load_file_chooser_folder	(GtkFileChooser *file_chooser);
+gboolean	e_util_get_webkit_developer_mode_enabled
+						(void);
 
 G_END_DECLS
 

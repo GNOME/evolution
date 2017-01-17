@@ -4977,7 +4977,7 @@ webkit_editor_constructed (GObject *object)
 
 	web_settings = webkit_web_view_get_settings (web_view);
 	webkit_settings_set_allow_file_access_from_file_urls (web_settings, TRUE);
-	webkit_settings_set_enable_developer_extras (web_settings, TRUE);
+	webkit_settings_set_enable_developer_extras (web_settings, e_util_get_webkit_developer_mode_enabled ());
 
 	/* Make WebKit think we are displaying a local file, so that it
 	 * does not block loading resources from file:// protocol */
@@ -5961,7 +5961,8 @@ webkit_editor_key_press_event (GtkWidget *widget,
 
 	if (((event)->state & GDK_CONTROL_MASK) &&
 	    ((event)->state & GDK_SHIFT_MASK) &&
-	    ((event)->keyval == GDK_KEY_I)) {
+	    ((event)->keyval == GDK_KEY_I) &&
+	    e_util_get_webkit_developer_mode_enabled ()) {
 		webkit_editor_show_inspector (wk_editor);
 		return TRUE;
 	}

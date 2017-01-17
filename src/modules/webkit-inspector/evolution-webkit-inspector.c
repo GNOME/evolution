@@ -132,7 +132,8 @@ e_webkit_inspector_init (EWebKitInspector *extension)
 G_MODULE_EXPORT void
 e_module_load (GTypeModule *type_module)
 {
-	e_webkit_inspector_register_type (type_module);
+	if (e_util_get_webkit_developer_mode_enabled ())
+		e_webkit_inspector_register_type (type_module);
 }
 
 G_MODULE_EXPORT void

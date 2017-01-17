@@ -115,6 +115,11 @@
       <_summary>Default sidebar width</_summary>
       <_description>The default width for the sidebar, in pixels.</_description>
     </key>
+    <key name="webkit-developer-mode" type="b">
+      <default>false</default>
+      <_summary>Enable special WebKit developer features</_summary>
+      <_description>The change of this option requires restart of the Evolution.</_description>
+    </key>
     <child name="window" schema="org.gnome.evolution.window"/>
   </schema>
 </schemalist>
