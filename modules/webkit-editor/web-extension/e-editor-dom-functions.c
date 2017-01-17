@@ -1343,7 +1343,7 @@ move_elements_to_body (EEditorPage *editor_page)
 	WebKitDOMDocument *document;
 	WebKitDOMHTMLElement *body;
 	WebKitDOMNodeList *list = NULL;
-	gint ii;
+	gint ii, jj;
 
 	g_return_if_fail (E_IS_EDITOR_PAGE (editor_page));
 
@@ -1351,8 +1351,8 @@ move_elements_to_body (EEditorPage *editor_page)
 	body = webkit_dom_document_get_body (document);
 	list = webkit_dom_document_query_selector_all (
 		document, "div[data-headers]", NULL);
-	for (ii = webkit_dom_node_list_get_length (list); ii--;) {
-		WebKitDOMNode *node = webkit_dom_node_list_item (list, ii);
+	for (jj = 0, ii = webkit_dom_node_list_get_length (list); ii--; jj++) {
+		WebKitDOMNode *node = webkit_dom_node_list_item (list, jj);
 
 		webkit_dom_element_remove_attribute (
 			WEBKIT_DOM_ELEMENT (node), "data-headers");
@@ -1368,10 +1368,10 @@ move_elements_to_body (EEditorPage *editor_page)
 
 	list = webkit_dom_document_query_selector_all (
 		document, "span.-x-evo-to-body[data-credits]", NULL);
-	for (ii = webkit_dom_node_list_get_length (list); ii--;) {
+	for (jj = 0, ii = webkit_dom_node_list_get_length (list); ii--; jj++) {
 		char *credits;
 		WebKitDOMElement *element;
-		WebKitDOMNode *node = webkit_dom_node_list_item (list, ii);
+		WebKitDOMNode *node = webkit_dom_node_list_item (list, jj);
 
 		element = e_editor_dom_get_paragraph_element (editor_page, -1, 0);
 		credits = webkit_dom_element_get_attribute (WEBKIT_DOM_ELEMENT (node), "data-credits");
@@ -5735,7 +5735,7 @@ e_editor_dom_convert_content (EEditorPage *editor_page,
 	WebKitDOMDOMWindow *dom_window = NULL;
 	gboolean start_bottom, empty = FALSE, cite_body = FALSE;
 	gchar *inner_html;
-	gint ii, length;
+	gint ii, jj, length;
 	GSettings *settings;
 
 	g_return_if_fail (E_IS_EDITOR_PAGE (editor_page));
@@ -5823,10 +5823,10 @@ e_editor_dom_convert_content (EEditorPage *editor_page,
 	/* Move credits to the body */
 	list = webkit_dom_document_query_selector_all (
 		document, "span.-x-evo-to-body[data-credits]", NULL);
-	for (ii = webkit_dom_node_list_get_length (list); ii--;) {
+	for (jj = 0, ii = webkit_dom_node_list_get_length (list); ii--; jj++) {
 		char *credits;
 		WebKitDOMElement *element;
-		WebKitDOMNode *node = webkit_dom_node_list_item (list, ii);
+		WebKitDOMNode *node = webkit_dom_node_list_item (list, jj);
 
 		element = e_editor_dom_get_paragraph_element (editor_page, -1, 0);
 		credits = webkit_dom_element_get_attribute (WEBKIT_DOM_ELEMENT (node), "data-credits");
@@ -5847,10 +5847,10 @@ e_editor_dom_convert_content (EEditorPage *editor_page,
 	/* Move headers to body */
 	list = webkit_dom_document_query_selector_all (
 		document, "div[data-headers]", NULL);
-	for (ii = webkit_dom_node_list_get_length (list); ii--;) {
+	for (jj = 0, ii = webkit_dom_node_list_get_length (list); ii--; jj++) {
 		WebKitDOMNode *node;
 
-		node = webkit_dom_node_list_item (list, ii);
+		node = webkit_dom_node_list_item (list, jj);
 		webkit_dom_element_remove_attribute (
 			WEBKIT_DOM_ELEMENT (node), "data-headers");
 		e_editor_dom_set_paragraph_style (editor_page, WEBKIT_DOM_ELEMENT (node), -1, 0, NULL);
