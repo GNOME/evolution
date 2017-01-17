@@ -826,6 +826,36 @@ shell_connection_error_alert_response_cb (EAlert *alert,
 }
 
 static void
+shell_connect_error_open_settings_goa_clicked_cb (GtkButton *button,
+						  EAlert *alert)
+{
+	const gchar *account_id;
+	gchar *command_line, *control_center_path;
+	GError *error = NULL;
+
+	/* The SOURCE_ALERT_KEY_SOURCE is not an ESource here */
+	account_id = g_object_get_data (G_OBJECT (button), SOURCE_ALERT_KEY_SOURCE);
+
+	control_center_path = g_find_program_in_path ("gnome-control-center");
+	command_line = g_strjoin (
+		" ",
+		control_center_path,
+		"online-accounts",
+		account_id,
+		NULL);
+
+	g_spawn_command_line_async (command_line, &error);
+
+	g_free (command_line);
+	g_free (control_center_path);
+
+	if (error != NULL) {
+		g_warning ("%s: %s", G_STRFUNC, error->message);
+		g_error_free (error);
+	}
+}
+
+static void
 shell_connect_trust_error_alert_response_cb (EAlert *alert,
 					     gint response_id,
 					     EShell *shell)
@@ -852,6 +882,59 @@ shell_connect_trust_error_alert_response_cb (EAlert *alert,
 	e_trust_prompt_run_for_source (gtk_application_get_active_window (GTK_APPLICATION (shell)),
 		source, certificate_pem, certificate_errors, error_text, TRUE,
 		shell->priv->cancellable, shell_trust_prompt_done_cb, shell);
+}
+
+static void
+shell_maybe_add_connect_error_goa_button (EAlert *alert,
+					  ESource *source,
+					  ESourceRegistry *registry)
+{
+	gchar *account_id = NULL;
+
+	g_return_if_fail (E_IS_ALERT (alert));
+	g_return_if_fail (E_IS_SOURCE (source));
+	g_return_if_fail (E_IS_SOURCE_REGISTRY (registry));
+
+	if (e_source_has_extension (source, E_SOURCE_EXTENSION_GOA)) {
+		account_id = e_source_goa_dup_account_id (e_source_get_extension (source, E_SOURCE_EXTENSION_GOA));
+	} else if (e_source_get_parent (source)) {
+		ESource *parent;
+
+		parent = e_source_registry_ref_source (registry, e_source_get_parent (source));
+		if (parent && e_source_has_extension (parent, E_SOURCE_EXTENSION_GOA))
+			account_id = e_source_goa_dup_account_id (e_source_get_extension (parent, E_SOURCE_EXTENSION_GOA));
+
+		g_clear_object (&parent);
+	}
+
+	if (account_id) {
+		gchar *control_center_path;
+
+		control_center_path = g_find_program_in_path ("gnome-control-center");
+
+		if (!control_center_path || !*control_center_path) {
+			g_free (account_id);
+			account_id = NULL;
+		}
+
+		g_free (control_center_path);
+	}
+
+	if (account_id) {
+		GtkWidget *button;
+
+		button = gtk_button_new_with_mnemonic (_("Open _Settings"));
+		/* The SOURCE_ALERT_KEY_SOURCE is not an ESource here */
+		g_object_set_data_full (G_OBJECT (button), SOURCE_ALERT_KEY_SOURCE, g_strdup (account_id), g_free);
+		gtk_widget_show (button);
+
+		g_signal_connect (button, "clicked",
+			G_CALLBACK (shell_connect_error_open_settings_goa_clicked_cb), alert);
+
+		e_alert_add_widget (alert, button);
+	}
+
+	g_free (account_id);
 }
 
 static const gchar *
@@ -991,6 +1074,8 @@ shell_process_credentials_required_errors (EShell *shell,
 				NULL);
 		g_free (display_name);
 
+		shell_maybe_add_connect_error_goa_button (alert, source, shell->priv->registry);
+
 		g_signal_connect (alert, "response", G_CALLBACK (shell_connection_error_alert_response_cb), shell);
 		g_object_set_data_full (G_OBJECT (alert), SOURCE_ALERT_KEY_SOURCE, g_object_ref (source), g_object_unref);
 
@@ -1042,6 +1127,8 @@ shell_process_credentials_required_errors (EShell *shell,
 				op_error && *(op_error->message) ? op_error->message : _("Credentials are required to connect to the destination host."),
 				NULL);
 		g_free (display_name);
+
+		shell_maybe_add_connect_error_goa_button (alert, source, shell->priv->registry);
 
 		g_signal_connect (alert, "response", G_CALLBACK (shell_connection_error_alert_response_cb), shell);
 		g_object_set_data_full (G_OBJECT (alert), SOURCE_ALERT_KEY_SOURCE, g_object_ref (source), g_object_unref);
