@@ -800,6 +800,7 @@ folder_tree_model_set_unread_count (EMFolderTreeModel *model,
 	GtkTreeIter iter;
 	StoreInfo *si;
 	guint old_unread = 0;
+	gboolean unread_increased = FALSE, is_drafts = FALSE;
 
 	g_return_if_fail (EM_IS_FOLDER_TREE_MODEL (model));
 	g_return_if_fail (CAMEL_IS_STORE (store));
@@ -828,6 +829,8 @@ folder_tree_model_set_unread_count (EMFolderTreeModel *model,
 
 			saved_fu_info = g_hash_table_lookup (si->full_hash_unread, full);
 
+			unread_increased = unread > saved_fu_info->unread;
+
 			fu_info->unread_last_sel = MIN (saved_fu_info->unread_last_sel, unread);
 			fu_info->is_drafts = saved_fu_info->is_drafts;
 			fu_info->fi_flags = saved_fu_info->fi_flags;
@@ -841,6 +844,8 @@ folder_tree_model_set_unread_count (EMFolderTreeModel *model,
 			if (folder) {
 				fu_info->is_drafts = em_utils_folder_is_drafts (e_mail_session_get_registry (model->priv->session), folder);
 				g_object_unref (folder);
+			} else {
+				fu_info->is_drafts = em_utils_folder_name_is_drafts (e_mail_session_get_registry (model->priv->session), store, full);
 			}
 
 			if (!mail_folder_cache_get_folder_info_flags (folder_cache, store, full, &flags))
@@ -848,6 +853,8 @@ folder_tree_model_set_unread_count (EMFolderTreeModel *model,
 
 			fu_info->fi_flags = flags;
 		}
+
+		is_drafts = fu_info->is_drafts;
 
 		g_hash_table_insert (si->full_hash_unread, g_strdup (full), fu_info);
 
@@ -860,7 +867,11 @@ folder_tree_model_set_unread_count (EMFolderTreeModel *model,
 
 	gtk_tree_model_get (
 		tree_model, &iter,
-		COL_UINT_UNREAD_LAST_SEL, &old_unread, -1);
+		COL_UINT_UNREAD_LAST_SEL, &old_unread,
+		COL_BOOL_IS_DRAFT, &is_drafts,
+		-1);
+
+	unread_increased = unread > old_unread;
 
 	gtk_tree_store_set (
 		GTK_TREE_STORE (model), &iter,
@@ -878,6 +889,18 @@ folder_tree_model_set_unread_count (EMFolderTreeModel *model,
 	}
 
 exit:
+	if (unread_increased && !is_drafts && gtk_tree_row_reference_valid (si->row)) {
+		path = gtk_tree_row_reference_get_path (si->row);
+		gtk_tree_model_get_iter (tree_model, &iter, path);
+		gtk_tree_path_free (path);
+
+		gtk_tree_store_set (
+			GTK_TREE_STORE (model), &iter,
+			COL_UINT_UNREAD, 0,
+			COL_UINT_UNREAD_LAST_SEL, 1,
+			-1);
+	}
+
 	store_info_unref (si);
 }
 
@@ -1922,77 +1945,4 @@ em_folder_tree_model_user_marked_unread (EMFolderTreeModel *model,
 		GTK_TREE_STORE (model), &iter,
 		COL_UINT_UNREAD_LAST_SEL, unread,
 		COL_UINT_UNREAD, unread, -1);
-}
-
-static gboolean
-folder_tree_model_eval_children_has_unread_mismatch (GtkTreeModel *model,
-						     GtkTreeIter *root)
-{
-	guint unread, unread_last_sel;
-	GtkTreeIter iter;
-
-	if (!gtk_tree_model_iter_children (model, &iter, root))
-		return FALSE;
-
-	do {
-		gtk_tree_model_get (model, &iter,
-			COL_UINT_UNREAD, &unread,
-			COL_UINT_UNREAD_LAST_SEL, &unread_last_sel,
-			-1);
-
-		if (unread != ~0 && unread > unread_last_sel)
-			return TRUE;
-
-		if (gtk_tree_model_iter_has_child (model, &iter))
-			if (folder_tree_model_eval_children_has_unread_mismatch (model, &iter))
-				return TRUE;
-	} while (gtk_tree_model_iter_next (model, &iter));
-
-	return FALSE;
-}
-
-gboolean
-em_folder_tree_model_has_unread_mismatch (GtkTreeModel *model,
-					  GtkTreeIter *store_iter)
-{
-	StoreInfo *si;
-	CamelStore *store = NULL;
-	gboolean is_store = FALSE;
-	gboolean has_unread_mismatch = FALSE;
-
-	g_return_val_if_fail (EM_IS_FOLDER_TREE_MODEL (model), FALSE);
-	g_return_val_if_fail (store_iter != NULL, FALSE);
-
-	gtk_tree_model_get (model, store_iter,
-		COL_BOOL_IS_STORE, &is_store,
-		COL_OBJECT_CAMEL_STORE, &store,
-		-1);
-
-	if (is_store) {
-		si = folder_tree_model_store_index_lookup (EM_FOLDER_TREE_MODEL (model), store);
-		if (si) {
-			GHashTableIter hash_iter;
-			gpointer value;
-
-			g_hash_table_iter_init (&hash_iter, si->full_hash_unread);
-			while (g_hash_table_iter_next (&hash_iter, NULL, &value)) {
-				FolderUnreadInfo *fu_info = value;
-
-				if (fu_info && !fu_info->is_drafts && (fu_info->fi_flags & CAMEL_FOLDER_VIRTUAL) == 0 &&
-				    fu_info->unread > fu_info->unread_last_sel) {
-					has_unread_mismatch = TRUE;
-					break;
-				}
-			}
-
-			store_info_unref (si);
-		}
-
-		has_unread_mismatch = has_unread_mismatch ||
-			folder_tree_model_eval_children_has_unread_mismatch (model, store_iter);
-	}
-
-	g_clear_object (&store);
-
-	return has_unread_mismatch;
 }
