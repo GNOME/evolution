@@ -33,6 +33,9 @@ typedef void	(*EMailUtilsSortSourcesFunc)	(GList **psources,
 
 gboolean	em_utils_folder_is_drafts	(ESourceRegistry *registry,
 						 CamelFolder *folder);
+gboolean	em_utils_folder_name_is_drafts	(ESourceRegistry *registry,
+						 CamelStore *store,
+						 const gchar *folder_name);
 gboolean	em_utils_folder_is_templates	(ESourceRegistry *registry,
 						 CamelFolder *folder);
 gboolean	em_utils_folder_is_sent		(ESourceRegistry *registry,

@@ -748,10 +748,41 @@ folder_tree_render_store_icon (GtkTreeViewColumn *column,
 	g_object_get (text_renderer, "is-expanded", &expanded, NULL);
 
 	/* The second prerequisite: it's not expanded and children has unread mismatch. */
-	if (!expanded)
-		children_has_unread_mismatch = em_folder_tree_model_has_unread_mismatch (model, iter);
+	if (!expanded) {
+		guint unread, unread_last_sel;
+
+		gtk_tree_model_get (model, iter,
+			COL_UINT_UNREAD, &unread,
+			COL_UINT_UNREAD_LAST_SEL, &unread_last_sel,
+			-1);
+
+		children_has_unread_mismatch = unread != unread_last_sel;
+	}
 
 	g_object_set (renderer, "visible", !expanded && children_has_unread_mismatch, NULL);
+}
+
+static void
+folder_tree_reset_store_unread_value_cb (GtkTreeView *tree_view,
+					 GtkTreeIter *iter,
+					 GtkTreePath *path,
+					 gpointer user_data)
+{
+	GtkTreeIter parent;
+	GtkTreeModel *model;
+
+	g_return_if_fail (GTK_IS_TREE_VIEW (tree_view));
+
+	model = gtk_tree_view_get_model (tree_view);
+	if (!model)
+		return;
+
+	if (!gtk_tree_model_iter_parent (model, &parent, iter)) {
+		gtk_tree_store_set (GTK_TREE_STORE (model), iter,
+			COL_UINT_UNREAD_LAST_SEL, 0,
+			COL_UINT_UNREAD, 0,
+			-1);
+	}
 }
 
 static gboolean
@@ -971,10 +1002,11 @@ folder_tree_selection_changed_cb (EMFolderTree *folder_tree,
 		COL_UINT_UNREAD_LAST_SEL, &old_unread, -1);
 
 	/* Sync unread counts to distinguish new incoming mail. */
-	if (unread != old_unread)
+	if (unread != old_unread) {
 		gtk_tree_store_set (
 			GTK_TREE_STORE (model), &iter,
 			COL_UINT_UNREAD_LAST_SEL, unread, -1);
+	}
 
 exit:
 	g_signal_emit (
@@ -1350,6 +1382,12 @@ folder_tree_constructed (GObject *object)
 
 	folder_tree_copy_state (EM_FOLDER_TREE (object));
 	gtk_widget_show (GTK_WIDGET (object));
+
+	g_signal_connect (tree_view, "row-expanded",
+		G_CALLBACK (folder_tree_reset_store_unread_value_cb), NULL);
+
+	g_signal_connect (tree_view, "row-collapsed",
+		G_CALLBACK (folder_tree_reset_store_unread_value_cb), NULL);
 }
 
 static gboolean

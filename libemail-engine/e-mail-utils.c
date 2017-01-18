@@ -48,6 +48,41 @@
 
 #define d(x)
 
+static gboolean
+e_mail_utils_folder_uri_is_drafts (ESourceRegistry *registry,
+				   CamelSession *session,
+				   const gchar *folder_uri)
+{
+	GList *sources, *link;
+	gboolean is_drafts = FALSE;
+
+	g_return_val_if_fail (E_IS_SOURCE_REGISTRY (registry), FALSE);
+	g_return_val_if_fail (CAMEL_IS_SESSION (session), FALSE);
+	g_return_val_if_fail (folder_uri != NULL, FALSE);
+
+	sources = e_source_registry_list_sources (registry, E_SOURCE_EXTENSION_MAIL_COMPOSITION);
+
+	for (link = sources; link; link = g_list_next (link)) {
+		ESource *source = E_SOURCE (link->data);
+		ESourceMailComposition *extension;
+		const gchar *drafts_folder_uri;
+
+		extension = e_source_get_extension (source, E_SOURCE_EXTENSION_MAIL_COMPOSITION);
+
+		drafts_folder_uri = e_source_mail_composition_get_drafts_folder (extension);
+
+		if (drafts_folder_uri != NULL)
+			is_drafts = e_mail_folder_uri_equal (session, folder_uri, drafts_folder_uri);
+
+		if (is_drafts)
+			break;
+	}
+
+	g_list_free_full (sources, g_object_unref);
+
+	return is_drafts;
+}
+
 /**
  * em_utils_folder_is_drafts:
  * @registry: an #ESourceRegistry
@@ -64,10 +99,8 @@ em_utils_folder_is_drafts (ESourceRegistry *registry,
 	CamelFolder *local_drafts_folder;
 	CamelSession *session;
 	CamelStore *store;
-	GList *list, *iter;
 	gchar *folder_uri;
 	gboolean is_drafts = FALSE;
-	const gchar *extension_name;
 
 	g_return_val_if_fail (CAMEL_IS_FOLDER (folder), FALSE);
 
@@ -85,33 +118,59 @@ em_utils_folder_is_drafts (ESourceRegistry *registry,
 
 	folder_uri = e_mail_folder_uri_from_folder (folder);
 
-	extension_name = E_SOURCE_EXTENSION_MAIL_COMPOSITION;
-	list = e_source_registry_list_sources (registry, extension_name);
+	is_drafts = e_mail_utils_folder_uri_is_drafts (registry, session, folder_uri);
 
-	for (iter = list; iter != NULL; iter = g_list_next (iter)) {
-		ESource *source = E_SOURCE (iter->data);
-		ESourceExtension *extension;
-		const gchar *drafts_folder_uri;
-
-		extension = e_source_get_extension (source, extension_name);
-
-		drafts_folder_uri =
-			e_source_mail_composition_get_drafts_folder (
-			E_SOURCE_MAIL_COMPOSITION (extension));
-
-		if (drafts_folder_uri != NULL)
-			is_drafts = e_mail_folder_uri_equal (
-				session, folder_uri, drafts_folder_uri);
-
-		if (is_drafts)
-			break;
-	}
-
-	g_list_free_full (list, (GDestroyNotify) g_object_unref);
 	g_free (folder_uri);
 
 exit:
 	g_object_unref (session);
+
+	return is_drafts;
+}
+
+/**
+ * em_utils_folder_name_is_drafts:
+ * @registry: an #ESourceRegistry
+ * @store: a #CamelStore
+ * @folder_name: a folder name
+ *
+ * Decides if @folder_name of the @store is a Drafts folder.
+ *
+ * Returns %TRUE if this is a Drafts folder or %FALSE otherwise.
+ *
+ * Since: 3.22.5
+ **/
+gboolean
+em_utils_folder_name_is_drafts (ESourceRegistry *registry,
+				CamelStore *store,
+				const gchar *folder_name)
+{
+	CamelSession *session;
+	CamelFolder *local_drafts_folder;
+	gchar *folder_uri, *local_drafts_uri;
+	gboolean is_drafts;
+
+	g_return_val_if_fail (E_IS_SOURCE_REGISTRY (registry), FALSE);
+	g_return_val_if_fail (CAMEL_IS_STORE (store), FALSE);
+	g_return_val_if_fail (folder_name != NULL, FALSE);
+
+	folder_uri = e_mail_folder_uri_build (store, folder_name);
+	g_return_val_if_fail (folder_uri != NULL, FALSE);
+
+	session = camel_service_ref_session (CAMEL_SERVICE (store));
+
+	local_drafts_folder =
+		e_mail_session_get_local_folder (
+		E_MAIL_SESSION (session), E_MAIL_LOCAL_FOLDER_DRAFTS);
+
+	local_drafts_uri = e_mail_folder_uri_from_folder (local_drafts_folder);
+
+	is_drafts = g_strcmp0 (local_drafts_uri, folder_uri) == 0 ||
+		e_mail_utils_folder_uri_is_drafts (registry, session, folder_uri);
+
+	g_clear_object (&session);
+	g_free (local_drafts_uri);
+	g_free (folder_uri);
 
 	return is_drafts;
 }
