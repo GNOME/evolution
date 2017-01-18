@@ -118,7 +118,7 @@
     <key name="webkit-developer-mode" type="b">
       <default>false</default>
       <_summary>Enable special WebKit developer features</_summary>
-      <_description>The change of this option requires restart of the Evolution.</_description>
+      <_description>Any change of this option requires restart of Evolution.</_description>
     </key>
     <child name="window" schema="org.gnome.evolution.window"/>
   </schema>
