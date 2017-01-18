@@ -28,8 +28,8 @@
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_MAIL_CONFIG_GOOGLE_SUMMARY, EMailConfigGoogleSummaryPrivate))
 
-#define GOOGLE_HELP_URI \
-	"http://support.google.com/mail/bin/answer.py?hl=en&answer=77695"
+#define GOOGLE_IMAP_URI		"http://support.google.com/mail/bin/answer.py?hl=en&answer=77695"
+#define GOOGLE_CALENDAR_URI	"https://calendar.google.com/calendar/syncselect"
 
 struct _EMailConfigGoogleSummaryPrivate {
 	ESource *collection_source;
@@ -243,7 +243,7 @@ mail_config_google_summary_constructed (GObject *object)
 	GtkWidget *widget;
 	const gchar *extension_name;
 	const gchar *text;
-	gchar *markup;
+	gchar *markup, *imap_url, *cal_url;
 
 	extension = E_MAIL_CONFIG_GOOGLE_SUMMARY (object);
 
@@ -307,14 +307,29 @@ mail_config_google_summary_constructed (GObject *object)
 		gtk_widget_show (widget);
 	}
 
-	text = _("You may need to enable IMAP access");
-	widget = gtk_link_button_new_with_label (GOOGLE_HELP_URI, text);
+	/* Translators: This is part of a sentence "You may need to enable IMAP access and Calendars to synchronize",
+	   where the 'IMAP access' and 'Calendars to synchronize' are clickable. */
+	imap_url = g_markup_printf_escaped ("<a href=\"%s\">%s</a>", GOOGLE_IMAP_URI, C_("GoggleSummary", "IMAP access"));
+	/* Translators: This is part of a sentence "You may need to enable IMAP access and Calendars to synchronize",
+	   where the 'IMAP access' and 'Calendars to synchronize' are clickable. */
+	cal_url = g_markup_printf_escaped ("<a href=\"%s\">%s</a>", GOOGLE_CALENDAR_URI, C_("GoggleSummary", "Calendars to synchronize"));
+	/* Translators: This is part of a sentence "You may need to enable IMAP access and Calendars to synchronize",
+	   where the 'IMAP access' and 'Calendars to synchronize' are clickable. */
+	markup = g_strdup_printf (C_("GoggleSummary", "You may need to enable %s and %s"), imap_url, cal_url);
+
+	widget = gtk_label_new (markup);
+	gtk_label_set_use_markup (GTK_LABEL (widget), TRUE);
 	gtk_widget_set_margin_left (widget, 12);
+	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
 	if (e_source_credentials_google_is_supported ())
 		gtk_grid_attach (GTK_GRID (container), widget, 0, 3, 1, 1);
 	else
 		gtk_grid_attach (GTK_GRID (container), widget, 0, 2, 1, 1);
 	gtk_widget_show (widget);
+
+	g_free (imap_url);
+	g_free (cal_url);
+	g_free (markup);
 
 	source = extension->priv->collection_source;
 	extension_name = E_SOURCE_EXTENSION_COLLECTION;

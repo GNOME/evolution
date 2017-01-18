@@ -26,6 +26,8 @@
 #include "e-google-chooser-button.h"
 #include "module-cal-config-google.h"
 
+#define GOOGLE_CALENDAR_URI	"https://calendar.google.com/calendar/syncselect"
+
 typedef ESourceConfigBackend ECalConfigGoogle;
 typedef ESourceConfigBackendClass ECalConfigGoogleClass;
 
@@ -76,6 +78,7 @@ cal_config_google_insert_widgets (ESourceConfigBackend *backend,
 	GtkWidget *widget;
 	Context *context;
 	const gchar *uid;
+	gchar *markup;
 
 	context = g_slice_new0 (Context);
 	uid = e_source_get_uid (scratch_source);
@@ -91,10 +94,19 @@ cal_config_google_insert_widgets (ESourceConfigBackend *backend,
 	context->user_entry = g_object_ref (e_source_config_add_user_entry (config, scratch_source));
 
 	widget = e_google_chooser_button_new (scratch_source, config);
-	e_source_config_insert_widget (
-		config, scratch_source, _("Calendar:"), widget);
+	e_source_config_insert_widget (config, scratch_source, _("Calendar:"), widget);
 	context->google_button = g_object_ref (widget);
 	gtk_widget_show (widget);
+
+	markup = g_markup_printf_escaped ("<a href=\"%s\">%s</a>", GOOGLE_CALENDAR_URI, _("Enable Calendars to synchronize"));
+
+	widget = gtk_label_new (markup);
+	gtk_label_set_use_markup (GTK_LABEL (widget), TRUE);
+	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
+	e_source_config_insert_widget (config, scratch_source, NULL, widget);
+	gtk_widget_show (widget);
+
+	g_free (markup);
 
 	e_source_config_add_refresh_interval (config, scratch_source);
 }
