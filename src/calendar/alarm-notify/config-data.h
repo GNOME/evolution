@@ -38,6 +38,8 @@ gboolean	config_data_get_task_reminder_for_completed
 						(void);
 gint		config_data_get_default_snooze_minutes
 						(void);
+gboolean	config_data_get_allow_past_reminders
+						(void);
 void		config_data_set_last_notification_time
 						(ECalClient *cal,
 						 time_t t);

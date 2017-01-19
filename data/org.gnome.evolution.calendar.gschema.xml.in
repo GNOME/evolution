@@ -234,6 +234,11 @@
       <_summary>Last reminder time</_summary>
       <_description>Time the last reminder ran, in time_t</_description>
     </key>
+    <key name="allow-past-reminders" type="b">
+      <default>false</default>
+      <_summary>Allow past reminders</_summary>
+      <_description>Whether can show reminders for events/tasks/memos which already happened</_description>
+    </key>
     <key name="marcus-bains-color-dayview" type="s">
       <default>'#ff0000'</default>
       <_summary>Marcus Bains Line Color — Day View</_summary>

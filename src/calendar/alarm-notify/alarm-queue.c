@@ -495,6 +495,12 @@ alarm_trigger_cb (gpointer alarm_id,
 	if (!qa)
 		return;
 
+	/* Skip non-snoozed passed reminders, if setup to do so */
+	if (!qa->snooze && qa->orig_trigger < (time (NULL) - (5 * 60)) &&
+	    !config_data_get_allow_past_reminders ()) {
+		return;
+	}
+
 	/* Decide what to do based on the alarm action.  We use the trigger that
 	 * is passed to us instead of the one from the instance structure
 	 * because this may be a snoozed alarm instead of an original
@@ -503,7 +509,7 @@ alarm_trigger_cb (gpointer alarm_id,
 
 	alarm = e_cal_component_get_alarm (comp, qa->instance->auid);
 	if (!alarm)
-		 return;
+		return;
 
 	e_cal_component_alarm_get_action (alarm, &action);
 	e_cal_component_alarm_free (alarm);

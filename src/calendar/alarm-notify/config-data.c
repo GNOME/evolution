@@ -122,6 +122,14 @@ config_data_get_default_snooze_minutes (void)
 	return g_settings_get_int (calendar_settings, "default-snooze-minutes");
 }
 
+gboolean
+config_data_get_allow_past_reminders (void)
+{
+	ensure_inited ();
+
+	return g_settings_get_boolean (calendar_settings, "allow-past-reminders");
+}
+
 static void
 source_written_cb (GObject *source_object,
                    GAsyncResult *result,

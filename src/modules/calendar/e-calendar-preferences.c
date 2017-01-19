@@ -1074,6 +1074,12 @@ calendar_preferences_construct (ECalendarPreferences *prefs,
 		widget, "active",
 		G_SETTINGS_BIND_DEFAULT);
 
+	widget = e_builder_get_widget (prefs->priv->builder, "allow-past-reminders");
+	g_settings_bind (
+		settings, "allow-past-reminders",
+		widget, "active",
+		G_SETTINGS_BIND_DEFAULT);
+
 	widget = e_builder_get_widget (prefs->priv->builder, "default-snooze-minutes-spin");
 	g_settings_bind (
 		settings, "default-snooze-minutes",
