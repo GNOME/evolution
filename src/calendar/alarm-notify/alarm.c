@@ -150,7 +150,7 @@ setup_timeout (void)
 
 	/* Add the time out */
 	debug (
-		("Setting timeout for %d.%2d (from now) %" G_GINT64_FORMAT "%" G_GINT64_FORMAT,
+		("Setting timeout for %d.%2d (from now) %" G_GINT64_FORMAT " %" G_GINT64_FORMAT,
 		diff / 60, diff % 60, (gint64) ar->trigger, (gint64) now));
 	debug ((" %s", ctime (&ar->trigger)));
 	debug ((" %s", ctime (&now)));

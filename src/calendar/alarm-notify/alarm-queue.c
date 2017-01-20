@@ -220,7 +220,7 @@ e_ctime (const time_t *timep)
 			g_ascii_isspace (buffer[next - 1][len - 1])))
 			len--;
 
-		buffer[next - 1][len - 1] = 0;
+		buffer[next - 1][len] = 0;
 	}
 
 	if (next >= G_N_ELEMENTS (buffer))
@@ -495,12 +495,6 @@ alarm_trigger_cb (gpointer alarm_id,
 	if (!qa)
 		return;
 
-	/* Skip non-snoozed passed reminders, if setup to do so */
-	if (!qa->snooze && qa->orig_trigger < (time (NULL) - (5 * 60)) &&
-	    !config_data_get_allow_past_reminders ()) {
-		return;
-	}
-
 	/* Decide what to do based on the alarm action.  We use the trigger that
 	 * is passed to us instead of the one from the instance structure
 	 * because this may be a snoozed alarm instead of an original
@@ -510,6 +504,49 @@ alarm_trigger_cb (gpointer alarm_id,
 	alarm = e_cal_component_get_alarm (comp, qa->instance->auid);
 	if (!alarm)
 		return;
+
+	/* Skip non-snoozed passed reminders, if setup to do so */
+	if (!qa->snooze && !config_data_get_allow_past_reminders ()) {
+		ECalComponentAlarmTrigger trigger;
+		ECalComponentAlarmRepeat repeat;
+		time_t offset = 0, event_relative, orig_trigger_day, today;
+
+		e_cal_component_alarm_get_trigger (alarm, &trigger);
+		e_cal_component_alarm_get_repeat (alarm, &repeat);
+
+		switch (trigger.type) {
+		case E_CAL_COMPONENT_ALARM_TRIGGER_NONE:
+		case E_CAL_COMPONENT_ALARM_TRIGGER_ABSOLUTE:
+			break;
+
+		case E_CAL_COMPONENT_ALARM_TRIGGER_RELATIVE_START:
+		case E_CAL_COMPONENT_ALARM_TRIGGER_RELATIVE_END:
+			offset = icaldurationtype_as_int (trigger.u.rel_duration);
+			break;
+
+		default:
+			break;
+		}
+
+		today = time (NULL);
+		event_relative = qa->orig_trigger - offset;
+
+		#define CLAMP_TO_DAY(x) ((x) - ((x) % (60 * 60 * 24)))
+
+		event_relative = CLAMP_TO_DAY (event_relative);
+		orig_trigger_day = CLAMP_TO_DAY (qa->orig_trigger);
+		today = CLAMP_TO_DAY (today);
+
+		#undef CLAMP_TO_DAY
+
+		if (event_relative < today && orig_trigger_day < today) {
+			debug (("Skipping past alarm on '%s' for event '%s'", e_ctime (&qa->orig_trigger),
+				icalcomponent_get_summary (e_cal_component_get_icalcomponent (comp))));
+
+			e_cal_component_alarm_free (alarm);
+			return;
+		}
+	}
 
 	e_cal_component_alarm_get_action (alarm, &action);
 	e_cal_component_alarm_free (alarm);
