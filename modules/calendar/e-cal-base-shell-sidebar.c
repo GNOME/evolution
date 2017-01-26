@@ -408,6 +408,15 @@ e_cal_base_shell_sidebar_ensure_source_opened (ECalBaseShellSidebar *sidebar,
 }
 
 static void
+e_cal_base_shell_sidebar_primary_selection_changed_cb (ESourceSelector *selector,
+						       EShellSidebar *sidebar)
+{
+	g_return_if_fail (E_IS_CAL_BASE_SHELL_SIDEBAR (sidebar));
+
+	e_shell_view_update_actions (e_shell_sidebar_get_shell_view (sidebar));
+}
+
+static void
 e_cal_base_shell_sidebar_source_selected (ESourceSelector *selector,
 					  ESource *source,
 					  ECalBaseShellSidebar *sidebar)
@@ -783,6 +792,10 @@ cal_base_shell_sidebar_constructed (GObject *object)
 
 	g_signal_connect (cal_base_shell_sidebar->priv->selector,
 		"data-dropped", G_CALLBACK (e_cal_base_shell_sidebar_selector_data_dropped),
+		cal_base_shell_sidebar);
+
+	g_signal_connect (cal_base_shell_sidebar->priv->selector,
+		"primary-selection-changed", G_CALLBACK (e_cal_base_shell_sidebar_primary_selection_changed_cb),
 		cal_base_shell_sidebar);
 
 	g_signal_connect (cal_base_shell_sidebar->priv->selector,
