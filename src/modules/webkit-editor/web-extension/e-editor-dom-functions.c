@@ -8520,6 +8520,57 @@ e_editor_dom_process_content_after_load (EEditorPage *editor_page)
 	 * callback won't be set up. */
 }
 
+static gchar *
+encode_to_base64_data (const gchar *src_uri,
+		       gchar **data_name)
+{
+	GFile *file;
+	GFileInfo *info;
+	gchar *filename, *data = NULL;
+
+	g_return_val_if_fail (src_uri != NULL, NULL);
+
+	file = g_file_new_for_uri (src_uri);
+	if (!file)
+		return NULL;
+
+	filename = g_file_get_path (file);
+	if (!filename) {
+		g_object_unref (file);
+		return NULL;
+	}
+
+	info = g_file_query_info (file, G_FILE_ATTRIBUTE_STANDARD_DISPLAY_NAME "," G_FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE,
+		G_FILE_QUERY_INFO_NONE, NULL, NULL);
+
+	if (info) {
+		gchar *mime_type, *content = NULL;
+		gsize length = 0;
+
+		mime_type = g_content_type_get_mime_type (g_file_info_get_content_type (info));
+
+		if (mime_type && g_file_get_contents (filename, &content, &length, NULL)) {
+			gchar *base64_encoded;
+
+			if (data_name)
+				*data_name = g_strdup (g_file_info_get_display_name (info));
+
+			base64_encoded = g_base64_encode ((const guchar *) content, length);
+			data = g_strconcat ("data:", mime_type, ";base64,", base64_encoded, NULL);
+			g_free (base64_encoded);
+		}
+
+		g_clear_object (&info);
+		g_free (mime_type);
+		g_free (content);
+	}
+
+	g_clear_object (&file);
+	g_free (filename);
+
+	return data;
+}
+
 GVariant *
 e_editor_dom_get_inline_images_data (EEditorPage *editor_page,
                                      const gchar *uid_domain)
@@ -8534,7 +8585,7 @@ e_editor_dom_get_inline_images_data (EEditorPage *editor_page,
 	g_return_val_if_fail (E_IS_EDITOR_PAGE (editor_page), NULL);
 
 	document = e_editor_page_get_document (editor_page);
-	list = webkit_dom_document_query_selector_all (document, "img[data-inline]", NULL);
+	list = webkit_dom_document_query_selector_all (document, "img[src]", NULL);
 
 	length = webkit_dom_node_list_get_length (list);
 	if (length == 0) {
@@ -8557,8 +8608,7 @@ e_editor_dom_get_inline_images_data (EEditorPage *editor_page,
 
 		if ((id = g_hash_table_lookup (added, src)) != NULL) {
 			cid = g_strdup_printf ("cid:%s", id);
-			g_free (src);
-		} else {
+		} else if (g_ascii_strncasecmp (src, "data:", 5) == 0) {
 			gchar *data_name = webkit_dom_element_get_attribute (
 				WEBKIT_DOM_ELEMENT (node), "data-name");
 
@@ -8570,13 +8620,40 @@ e_editor_dom_get_inline_images_data (EEditorPage *editor_page,
 					builder, "(sss)", src, data_name, new_id);
 				cid = g_strdup_printf ("cid:%s", new_id);
 
-				g_hash_table_insert (added, src, new_id);
+				g_hash_table_insert (added, g_strdup (src), new_id);
+
+				webkit_dom_element_set_attribute (WEBKIT_DOM_ELEMENT (node), "data-inline", "", NULL);
 			}
 			g_free (data_name);
+		} else if (g_ascii_strncasecmp (src, "file://", 7) == 0) {
+			gchar *data, *data_name = NULL;
+
+			data = encode_to_base64_data (src, &data_name);
+
+			if (data && data_name) {
+				gchar *new_id;
+
+				new_id = camel_header_msgid_generate (uid_domain);
+				g_variant_builder_add (builder, "(sss)", data, data_name, new_id);
+				cid = g_strdup_printf ("cid:%s", new_id);
+
+				g_hash_table_insert (added, data, new_id);
+
+				webkit_dom_element_set_attribute (WEBKIT_DOM_ELEMENT (node), "data-name", data_name, NULL);
+				webkit_dom_element_set_attribute (WEBKIT_DOM_ELEMENT (node), "data-inline", "", NULL);
+			} else {
+				g_free (data);
+			}
+
+			g_free (data_name);
 		}
-		webkit_dom_element_set_attribute (
-			WEBKIT_DOM_ELEMENT (node), "src", cid, NULL);
-		g_free (cid);
+
+		if (cid) {
+			webkit_dom_element_set_attribute (WEBKIT_DOM_ELEMENT (node), "src", cid, NULL);
+			g_free (cid);
+		}
+
+		g_free (src);
 	}
 	g_clear_object (&list);
 
