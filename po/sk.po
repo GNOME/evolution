@@ -9,22 +9,21 @@
 # Marián Čavojský <cavo+gnomel10n@cavo.sk>, 2011-2013.
 # Dušan Kazik <prescott66@gmail.com>, 2015.
 #
-#: ../src/shell/main.c:519
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2017-01-24 09:34+0000\n"
-"PO-Revision-Date: 2016-10-19 17:04+0200\n"
-"Last-Translator: Dušan Kazik <prescott66@gmail.com>\n"
+"POT-Creation-Date: 2017-01-26 17:31+0000\n"
+"PO-Revision-Date: 2017-01-27 00:02+0100\n"
+"Last-Translator: Peter Mráz <etkinator@gmail.com>\n"
 "Language-Team: slovenčina <>\n"
 "Language: sk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 1 : (n>=2 && n<=4) ? 2 : 0;\n"
-"X-Generator: Poedit 1.8.9\n"
+"X-Generator: Poedit 1.8.11\n"
 
 #: ../evolution.appdata.xml.in.h:1 ../data/evolution.desktop.in.in.h:1
 #: ../src/mail/e-mail-browser.c:1098
@@ -46,13 +45,6 @@ msgstr ""
 "integrované funkcie na správu pošty, kalendára a adresára kontaktov."
 
 #: ../evolution.appdata.xml.in.h:4
-
-#| msgid ""
-#| "Evolution supports a wide range of industry standard data formats and "
-#| "network protocols for information exchange, with an emphasis on standards "
-#| "compliance and security. Evolution can also integrate smoothly with "
-#| "Microsoft Exchange by way of the \"Exchange Web Services\" (EWS) "
-#| "extension."
 msgid ""
 "Evolution supports a wide range of industry standard data formats and "
 "network protocols for information exchange, with an emphasis on standards "
@@ -187,12 +179,6 @@ msgid "Contact layout style"
 msgstr "Štýl rozloženia kontaktov"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:10
-
-#| msgid ""
-#| "The layout style determines where to place the preview pane in relation "
-#| "to the contact list. \"0\" (Classic View) places the preview pane below "
-#| "the contact list. \"1\" (Vertical View) places the preview pane next to "
-#| "the contact list."
 msgid ""
 "The layout style determines where to place the preview pane in relation to "
 "the contact list. “0” (Classic View) places the preview pane below the "
@@ -234,10 +220,6 @@ msgstr "Hlavný adresár kontaktov"
 
 #  PK: ako je pouzite to primary?
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:18
-
-#| msgid ""
-#| "The UID of the selected (or \"primary\") address book in the sidebar of "
-#| "the \"Contacts\" view"
 msgid ""
 "The UID of the selected (or “primary”) address book in the sidebar of the "
 "“Contacts” view"
@@ -353,10 +335,6 @@ msgid "Birthday and anniversary reminder units"
 msgstr "Pripomienkovač narodenín a výročí - jednotky"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:6
-
-#| msgid ""
-#| "Units for a birthday or anniversary reminder, \"minutes\", \"hours\" or "
-#| "\"days\""
 msgid ""
 "Units for a birthday or anniversary reminder, “minutes”, “hours” or “days”"
 msgstr ""
@@ -524,10 +502,6 @@ msgid "The second timezone for a Day View"
 msgstr "Druhé časové pásmo pre denný náhľad"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:41
-
-#| msgid ""
-#| "Shows the second time zone in a Day View, if set. Value is similar to one "
-#| "used in a 'timezone' key"
 msgid ""
 "Shows the second time zone in a Day View, if set. Value is similar to one "
 "used in a “timezone” key"
@@ -548,10 +522,6 @@ msgid "Maximum number of recently used timezones to remember"
 msgstr "Maximálny počet naposledy použitých časových pásiem, ktoré si pamätať"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:45
-
-#| msgid ""
-#| "Maximum number of recently used timezones to remember in a 'day-second-"
-#| "zones' list"
 msgid ""
 "Maximum number of recently used timezones to remember in a “day-second-"
 "zones” list"
@@ -574,8 +544,6 @@ msgid "Default reminder units"
 msgstr "Prednastavené upozornenie - jednotky"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:49
-
-#| msgid "Units for a default reminder, \"minutes\", \"hours\" or \"days\""
 msgid "Units for a default reminder, “minutes”, “hours” or “days”"
 msgstr ""
 "Jednotky pre prednastavenú pripomienku: „minutes“ (minúty), "
@@ -666,10 +634,6 @@ msgid "Hide task units"
 msgstr "Skryť úlohy - jednotky"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:67
-
-#| msgid ""
-#| "Units for determining when to hide tasks, \"minutes\", \"hours\" or \"days"
-#| "\""
 msgid "Units for determining when to hide tasks, “minutes”, “hours” or “days”"
 msgstr ""
 "Jednotky, ktoré určia kedy sa majú úlohy skrývať: „minutes“ (minúty), "
@@ -705,19 +669,16 @@ msgid "Time the last reminder ran, in time_t"
 msgstr "Čas posledného behu upozornenia, v time_t"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:74
-#| msgctxt "iCalImp"
-#| msgid "has reminders"
 msgid "Allow past reminders"
 msgstr "Dovoliť predchádzajúce pripomenutia"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:75
 msgid ""
 "Whether can show reminders for events/tasks/memos which already happened"
-msgstr "Či sa môžu zobraziť pripomenutia pre events/tasks/memos, ktoré už nastali"
+msgstr ""
+"Či sa môžu zobraziť pripomenutia pre events/tasks/memos, ktoré už nastali"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:76
-
-#| msgid "Marcus Bains Line Color - Day View"
 msgid "Marcus Bains Line Color — Day View"
 msgstr "Farba indikátora aktuálneho dátumu a času — Denný náhľad"
 
@@ -728,7 +689,6 @@ msgstr ""
 "line) v dennom náhľade"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:78
-#| msgid "Marcus Bains Line Color - Time bar"
 msgid "Marcus Bains Line Color — Time bar"
 msgstr "Farba indikátora aktuálneho dátumu a času — Časová tabuľka"
 
@@ -763,12 +723,6 @@ msgid "Memo layout style"
 msgstr "Štýl rozloženia poznámky"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:85
-
-#| msgid ""
-#| "The layout style determines where to place the preview pane in relation "
-#| "to the memo list. \"0\" (Classic View) places the preview pane below the "
-#| "memo list. \"1\" (Vertical View) places the preview pane next to the memo "
-#| "list"
 msgid ""
 "The layout style determines where to place the preview pane in relation to "
 "the memo list. “0” (Classic View) places the preview pane below the memo "
@@ -826,7 +780,6 @@ msgstr ""
 "Určuje, či sa majú alebo nemajú zobrazovať pripomienky v oblasti oznámení"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:96
-#| msgid "Show display reminders in notification tray"
 msgid "Show reminder notification dialog always on top"
 msgstr "Zobraziť dialóg pripomínajúceho upozornenia vždy navrchu"
 
@@ -834,8 +787,10 @@ msgstr "Zobraziť dialóg pripomínajúceho upozornenia vždy navrchu"
 msgid ""
 "Whether or not to show reminder notification dialog always on top. Note this "
 "works only as a hint for the window manager, which may or may not obey it."
-msgstr "Či sa má alebo nemá zobraziť dialóg pripomínajúceho upozornenia vždy zobraziť navrchu. "
-"Toto nastavenie je však iba odporúčaním pre správcu okien, ktorým sa nemusí riadiť."
+msgstr ""
+"Či sa má alebo nemá zobraziť dialóg pripomínajúceho upozornenia vždy "
+"zobraziť navrchu. Toto nastavenie je však iba odporúčaním pre správcu okien, "
+"ktorým sa nemusí riadiť."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:98
 msgid "Preferred New button item"
@@ -850,10 +805,6 @@ msgid "Primary calendar"
 msgstr "Hlavný kalendár"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:101
-
-#| msgid ""
-#| "The UID of the selected (or \"primary\") calendar in the sidebar of the "
-#| "\"Calendar\" view"
 msgid ""
 "The UID of the selected (or “primary”) calendar in the sidebar of the "
 "“Calendar” view"
@@ -866,10 +817,6 @@ msgid "Primary memo list"
 msgstr "Hlavný zoznam poznámok"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:103
-
-#| msgid ""
-#| "The UID of the selected (or \"primary\") memo list in the sidebar of the "
-#| "\"Memos\" view"
 msgid ""
 "The UID of the selected (or “primary”) memo list in the sidebar of the "
 "“Memos” view"
@@ -882,10 +829,6 @@ msgid "Primary task list"
 msgstr "Hlavný zoznam úloh"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:105
-
-#| msgid ""
-#| "The UID of the selected (or \"primary\") task list in the sidebar of the "
-#| "\"Tasks\" view"
 msgid ""
 "The UID of the selected (or “primary”) task list in the sidebar of the "
 "“Tasks” view"
@@ -953,8 +896,6 @@ msgid "Show the memo preview pane"
 msgstr "Zobraziť panel náhľadu poznámky"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:118
-
-#| msgid "If \"true\", show the memo preview pane in the main window"
 msgid "If “true”, show the memo preview pane in the main window"
 msgstr "Ak je  „true“, tak sa zobrazí panel náhľadu poznámky v hlavnom okne"
 
@@ -963,8 +904,6 @@ msgid "Show the task preview pane"
 msgstr "Zobraziť panel náhľadu úlohy"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:120
-
-#| msgid "If \"true\", show the task preview pane in the main window"
 msgid "If “true”, show the task preview pane in the main window"
 msgstr "Ak je „true“, tak sa zobrazí panel náhľadu úlohy v hlavnom okne"
 
@@ -998,10 +937,6 @@ msgid "Tasks due today color"
 msgstr "Farba úloh s dnešným termínom"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:127
-
-#| msgid ""
-#| "Background color of tasks that are due today, in \"#rrggbb\" format. Used "
-#| "together with task-due-today-highlight"
 msgid ""
 "Background color of tasks that are due today, in “#rrggbb” format. Used "
 "together with task-due-today-highlight"
@@ -1018,12 +953,6 @@ msgid "Task layout style"
 msgstr "Štýl rozloženia úlohy"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:130
-
-#| msgid ""
-#| "The layout style determines where to place the preview pane in relation "
-#| "to the task list. \"0\" (Classic View) places the preview pane below the "
-#| "task list. \"1\" (Vertical View) places the preview pane next to the task "
-#| "list"
 msgid ""
 "The layout style determines where to place the preview pane in relation to "
 "the task list. “0” (Classic View) places the preview pane below the task "
@@ -1070,10 +999,6 @@ msgid "Overdue tasks color"
 msgstr "Farba úloh po termíne"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:138
-
-#| msgid ""
-#| "Background color of tasks that are overdue, in \"#rrggbb\" format. Used "
-#| "together with task-overdue-highlight."
 msgid ""
 "Background color of tasks that are overdue, in “#rrggbb” format. Used "
 "together with task-overdue-highlight."
@@ -1095,10 +1020,6 @@ msgid "Timezone"
 msgstr "Časové pásmo"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:142
-
-#| msgid ""
-#| "The default timezone to use for dates and times in the calendar, as an "
-#| "untranslated Olson timezone database location like \"America/New York\""
 msgid ""
 "The default timezone to use for dates and times in the calendar, as an "
 "untranslated Olson timezone database location like “America/New York”"
@@ -1186,10 +1107,6 @@ msgstr ""
 "(Zavrhnuté) Ďeň v týždni, ktorým týždeň začína, od nedele (0) do soboty (6)"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:161
-
-#| msgid ""
-#| "This key was deprecated in version 3.10 and should no longer be used. Use "
-#| "\"week-start-day-name\" instead."
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“week-start-day-name” instead."
@@ -1202,11 +1119,6 @@ msgid "(Deprecated) Work days"
 msgstr "(Zavrhnuté) Pracovné dni"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:163
-
-#| msgid ""
-#| "Days on which the start and end of work hours should be indicated. (This "
-#| "key was deprecated in version 3.10 and should no longer be used. Use the "
-#| "\"work-day-monday\", \"work-day-tuesday\", etc. keys instead.)"
 msgid ""
 "Days on which the start and end of work hours should be indicated. (This key "
 "was deprecated in version 3.10 and should no longer be used. Use the “work-"
@@ -1221,11 +1133,6 @@ msgid "Previous Evolution version"
 msgstr "Predchádzajúca verzia Evolution"
 
 #: ../data/org.gnome.evolution.gschema.xml.in.h:2
-#, fuzzy
-#| msgid ""
-#| "The most recently used version of Evolution, expressed as \"major.minor."
-#| "micro\". This is used for data and settings migration from older to newer "
-#| "versions."
 msgid ""
 "The most recently used version of Evolution, expressed as “major.minor."
 "micro”. This is used for data and settings migration from older to newer "
@@ -1244,26 +1151,18 @@ msgid "The list of disabled plugins in Evolution"
 msgstr "Zoznam zakázaných zásuvných modulov v Evolution"
 
 #: ../data/org.gnome.evolution.gschema.xml.in.h:5
-
-#| msgid "The window's X coordinate"
 msgid "The window’s X coordinate"
 msgstr "Vodorovná súradnica okna"
 
 #: ../data/org.gnome.evolution.gschema.xml.in.h:6
-
-#| msgid "The window's Y coordinate"
 msgid "The window’s Y coordinate"
 msgstr "Zvislá súradnica okna"
 
 #: ../data/org.gnome.evolution.gschema.xml.in.h:7
-
-#| msgid "The window's width in pixels"
 msgid "The window’s width in pixels"
 msgstr "Šírka okna v pixeloch"
 
 #: ../data/org.gnome.evolution.gschema.xml.in.h:8
-
-#| msgid "The window's height in pixels"
 msgid "The window’s height in pixels"
 msgstr "Výška okna v pixeloch"
 
@@ -1272,25 +1171,24 @@ msgid "Whether the window is maximized"
 msgstr "Určuje, či má byť okno maximalizované."
 
 #: ../data/org.gnome.evolution.importer.gschema.xml.in.h:1
-
-#| msgid "Gnome Calendar's calendar import done"
 msgid "GNOME Calendar’s calendar import done"
 msgstr "Import kalendára z Kalendára prostredia GNOME dokončený"
 
 #: ../data/org.gnome.evolution.importer.gschema.xml.in.h:2
-#| msgid "Whether calendar from Gnome Calendar has been imported or not"
 msgid "Whether calendar from GNOME Calendar has been imported or not"
-msgstr "Určuje, či už bol alebo nebol importovaný kalendár z Kalendára prostredia GNOME"
+msgstr ""
+"Určuje, či už bol alebo nebol importovaný kalendár z Kalendára prostredia "
+"GNOME"
 
 #: ../data/org.gnome.evolution.importer.gschema.xml.in.h:3
-#| msgid "Gnome Calendar's tasks import done"
 msgid "GNOME Calendar’s tasks import done"
 msgstr "Import úloh z Kalendára prostredia GNOME dokončený"
 
 #: ../data/org.gnome.evolution.importer.gschema.xml.in.h:4
-#| msgid "Whether tasks from Gnome Calendar have been imported or not"
 msgid "Whether tasks from GNOME Calendar have been imported or not"
-msgstr "Určuje, či už boli alebo neboli importované úlohy z Kalendára prostredia GNOME"
+msgstr ""
+"Určuje, či už boli alebo neboli importované úlohy z Kalendára prostredia "
+"GNOME"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:1
 msgid "Check whether Evolution is the default mailer"
@@ -1318,9 +1216,6 @@ msgid "Name of the editor to prefer in the message composer"
 msgstr "Názov uprednostňovaného editora pri tvorení správ"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:6
-#| msgid ""
-#| "If the name doesn't correspond to any known editor, then the built-in "
-#| "WebKit editor is used."
 msgid ""
 "If the name doesn’t correspond to any known editor, then the built-in WebKit "
 "editor is used."
@@ -1333,10 +1228,6 @@ msgid "Path where picture gallery should search for its content"
 msgstr "Cesta, kde by mala galéria obrázkov hľadať svoj obsah"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:8
-#| msgid ""
-#| "This value can be an empty string, which means it'll use the system "
-#| "Picture folder, usually set to ~/Pictures. This folder will be also used "
-#| "when the set path is not pointing to the existent folder"
 msgid ""
 "This value can be an empty string, which means it’ll use the system Picture "
 "folder, usually set to ~/Pictures. This folder will be also used when the "
@@ -1423,12 +1314,6 @@ msgid "Group Reply replies to list"
 msgstr "Odpovedať skupine odpovie do konferencie"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:24
-
-#| msgid ""
-#| "Instead of the normal \"Reply to All\" behaviour, this option will make "
-#| "the 'Group Reply' toolbar button try to reply only to the mailing list "
-#| "through which you happened to receive the copy of the message to which "
-#| "you're replying."
 msgid ""
 "Instead of the normal “Reply to All” behaviour, this option will make the "
 "“Group Reply” toolbar button try to reply only to the mailing list through "
@@ -1480,16 +1365,10 @@ msgid "List of dictionary language codes used for spell checking."
 msgstr "Zoznam jazykových kódov slovníkov použitých pri kontrole pravopisu."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:33
-
-#| msgid "Show \"Bcc\" field when sending a mail message"
 msgid "Show “Bcc” field when sending a mail message"
 msgstr "Zobraziť pole „Skrytá kópia“ pri odosielaní poštovej správy"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:34
-
-#| msgid ""
-#| "Show the \"Bcc\" field when sending a mail message. This is controlled "
-#| "from the View menu when a mail account is chosen."
 msgid ""
 "Show the “Bcc” field when sending a mail message. This is controlled from "
 "the View menu when a mail account is chosen."
@@ -1498,16 +1377,10 @@ msgstr ""
 "z ponuky Zobraziť keď je vybratý poštový účet."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:35
-
-#| msgid "Show \"Cc\" field when sending a mail message"
 msgid "Show “Cc” field when sending a mail message"
 msgstr "Zobraziť pole „Kópia“ pri odosielaní poštovej správy"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:36
-
-#| msgid ""
-#| "Show the \"Cc\" field when sending a mail message. This is controlled "
-#| "from the View menu when a mail account is chosen."
 msgid ""
 "Show the “Cc” field when sending a mail message. This is controlled from the "
 "View menu when a mail account is chosen."
@@ -1516,16 +1389,10 @@ msgstr ""
 "ponuky Zobraziť keď je vybratý poštový účet."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:37
-
-#| msgid "Show \"From\" override field when sending a mail message"
 msgid "Show “From” override field when sending a mail message"
 msgstr "Zobrazí nahradzovacie pole „Od“ pri odosielaní poštovej správy"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:38
-
-#| msgid ""
-#| "Show the \"From\" override field when sending a mail message. This is "
-#| "controlled from the View menu when a mail account is chosen."
 msgid ""
 "Show the “From” override field when sending a mail message. This is "
 "controlled from the View menu when a mail account is chosen."
@@ -1534,16 +1401,10 @@ msgstr ""
 "ovládané z ponuky Zobraziť keď je vybratý poštový účet."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:39
-
-#| msgid "Show \"Reply To\" field when sending a mail message"
 msgid "Show “Reply To” field when sending a mail message"
 msgstr "Zobraziť pole „Odpoveď pre“ pri odosielaní poštovej správy"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:40
-
-#| msgid ""
-#| "Show the \"Reply To\" field when sending a mail message. This is "
-#| "controlled from the View menu when a mail account is chosen."
 msgid ""
 "Show the “Reply To” field when sending a mail message. This is controlled "
 "from the View menu when a mail account is chosen."
@@ -1552,16 +1413,10 @@ msgstr ""
 "z ponuky Zobraziť keď je vybratý poštový účet."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:41
-
-#| msgid "Show \"From\" field when posting to a newsgroup"
 msgid "Show “From” field when posting to a newsgroup"
 msgstr "Zobraziť pole „Od“ pri odosielaní do poštovej konferencie"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:42
-
-#| msgid ""
-#| "Show the \"From\" field when posting to a newsgroup. This is controlled "
-#| "from the View menu when a news account is chosen."
 msgid ""
 "Show the “From” field when posting to a newsgroup. This is controlled from "
 "the View menu when a news account is chosen."
@@ -1570,16 +1425,10 @@ msgstr ""
 "ponuky Zobraziť keď je vybratý účet konferencie."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:43
-
-#| msgid "Show \"Reply To\" field when posting to a newsgroup"
 msgid "Show “Reply To” field when posting to a newsgroup"
 msgstr "Zobraziť pole „Odpoveď pre“ pri odosielaní do poštovej konferencie"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:44
-
-#| msgid ""
-#| "Show the \"Reply To\" field when posting to a newsgroup. This is "
-#| "controlled from the View menu when a news account is chosen."
 msgid ""
 "Show the “Reply To” field when posting to a newsgroup. This is controlled "
 "from the View menu when a news account is chosen."
@@ -1658,15 +1507,6 @@ msgid "Ignore list Reply-To:"
 msgstr "Ignorovať Reply-To: z konferecie"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:56
-
-#| msgid ""
-#| "Some mailing lists set a Reply-To: header to trick users into sending "
-#| "replies to the list, even when they ask Evolution to make a private "
-#| "reply. Setting this option to TRUE will attempt to ignore such Reply-To: "
-#| "headers, so that Evolution will do as you ask it. If you use the private "
-#| "reply action, it will reply privately, while if you use the 'Reply to "
-#| "List' action it will do that. It works by comparing the Reply-To: header "
-#| "with a List-Post: header, if there is one."
 msgid ""
 "Some mailing lists set a Reply-To: header to trick users into sending "
 "replies to the list, even when they ask Evolution to make a private reply. "
@@ -1685,17 +1525,10 @@ msgstr ""
 "hlavičky Reply-To: s hlavičkou List-Post:, ak existuje."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:57
-
-#| msgid "List of localized 'Re'"
 msgid "List of localized “Re”"
 msgstr "Zoznam lokalizovaných „Re“"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:58
-
-#| msgid ""
-#| "Comma-separated list of localized 'Re' abbreviations to skip in a subject "
-#| "text when replying to a message, as an addition to the standard \"Re\" "
-#| "prefix. An example is 'SV,AV'."
 msgid ""
 "Comma-separated list of localized “Re” abbreviations to skip in a subject "
 "text when replying to a message, as an addition to the standard “Re” prefix. "
@@ -1705,17 +1538,10 @@ msgstr ""
 "nebola pred Predmet pridaná ďalšia „Re“ predpona. Napríklad „Odp,SV,AV“."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:59
-
-#| msgid "List of localized 'Re'"
 msgid "List of localized “Re” separators"
 msgstr "Zoznam lokalizovaných „Re“"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:60
-
-#| msgid ""
-#| "Comma-separated list of localized 'Re' abbreviations to skip in a subject "
-#| "text when replying to a message, as an addition to the standard \"Re\" "
-#| "prefix. An example is 'SV,AV'."
 msgid ""
 "A list of localized “Re” separators, used to skip in a subject text when "
 "replying to a message, as an addition to the standard “:” and the Unicode "
@@ -1733,9 +1559,6 @@ msgid "Will autowrap lines after given number of characters."
 msgstr "Automaticky zalomí riadky po zadanom počte znakov."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:63
-
-#| msgid ""
-#| "Number of To and CC recipients to ask 'prompt-on-many-to-cc-recips' from"
 msgid ""
 "Number of To and CC recipients to ask “prompt-on-many-to-cc-recips” from"
 msgstr ""
@@ -1756,11 +1579,6 @@ msgstr ""
 "nástrojov"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:66
-
-#| msgid ""
-#| "If set to 'true', the Sign and Encrypt buttons for either PGP or S/MIME "
-#| "are always shown in the composer's toolbar. Otherwise they are shown only "
-#| "when being used."
 msgid ""
 "If set to “true”, the Sign and Encrypt buttons for either PGP or S/MIME are "
 "always shown in the composer’s toolbar. Otherwise they are shown only when "
@@ -1775,8 +1593,6 @@ msgid "Wrap quoted text in replies"
 msgstr "Zalomiť citovaný text v odpovediach"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:68
-
-#| msgid "If set to 'true' quoted text in replies will be wrapped."
 msgid "If set to “true” quoted text in replies will be wrapped."
 msgstr "Ak je nastavené na „true“, bude citovaný text v odpovediach zalomený."
 
@@ -1785,10 +1601,6 @@ msgid "Whether to obey Content-Disposition:inline message header hint"
 msgstr "Či poslúchnuť radu hlavičky správy Content-Disposition:inline"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:70
-
-#| msgid ""
-#| "Set to 'false' to block automatic display of attachments with Content-"
-#| "Disposition: inline."
 msgid ""
 "Set to “false” to block automatic display of attachments with Content-"
 "Disposition: inline."
@@ -1802,8 +1614,6 @@ msgid "Save file format for drag-and-drop operation"
 msgstr "Uchovať formát súboru pre operáciu ťahaj-a-pusť"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:72
-
-#| msgid "Can be either 'mbox' or 'pdf'."
 msgid "Can be either “mbox” or “pdf”."
 msgstr "Môže byť buď „mbox“ alebo „pdf“."
 
@@ -1859,14 +1669,10 @@ msgstr ""
 
 #  PK: preco vysklonovane?
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:81
-
-#| msgid "Mark citations in the message \"Preview\""
 msgid "Mark citations in the message “Preview”"
 msgstr "Označiť citácie v „Náhľade“ správy"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:82
-
-#| msgid "Mark citations in the message \"Preview\"."
 msgid "Mark citations in the message “Preview”."
 msgstr "Označí citácie „Náhľade“ správy."
 
@@ -2046,10 +1852,6 @@ msgid "Hides the per-folder preview and removes the selection"
 msgstr "Skryť priečinkový náhľad a odstrániť označenie "
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:119
-
-#| msgid ""
-#| "This key is read only once and reset to \"false\" after read. This "
-#| "unselects the mail in the list and removes the preview for that folder."
 msgid ""
 "This key is read only once and reset to “false” after read. This unselects "
 "the mail in the list and removes the preview for that folder."
@@ -2083,12 +1885,6 @@ msgid "Layout style"
 msgstr "Štýl rozloženia"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:126
-
-#| msgid ""
-#| "The layout style determines where to place the preview pane in relation "
-#| "to the message list. \"0\" (Classic View) places the preview pane below "
-#| "the message list. \"1\" (Vertical View) places the preview pane next to "
-#| "the message list."
 msgid ""
 "The layout style determines where to place the preview pane in relation to "
 "the message list. “0” (Classic View) places the preview pane below the "
@@ -2140,10 +1936,6 @@ msgid "Number of addresses to display in TO/CC/BCC"
 msgstr "Počet adries na zobrazenie v Pre/Kópia/Slepá kópia"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:136
-
-#| msgid ""
-#| "This sets the number of addresses to show in default message list view, "
-#| "beyond which a '...' is shown."
 msgid ""
 "This sets the number of addresses to show in default message list view, "
 "beyond which a “...” is shown."
@@ -2180,11 +1972,6 @@ msgid "Whether sort threads based on latest message in that thread"
 msgstr "Určuje, či usporiadavať vlákna na základe poslednej správy vo vlákne"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:142
-
-#| msgid ""
-#| "This setting specifies whether the threads should be sorted based on "
-#| "latest message in each thread, rather than by message's date. Evolution "
-#| "requires a restart."
 msgid ""
 "This setting specifies whether the threads should be sorted based on latest "
 "message in each thread, rather than by message’s date. Evolution requires a "
@@ -2242,11 +2029,6 @@ msgid "Flush Outbox after filtering"
 msgstr "Vyprázniť Pošta na odoslanie po filtrovaní"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:152
-
-#| msgid ""
-#| "Whether to flush Outbox after filtering is done. Outbox flush will happen "
-#| "only when there was used any 'Forward to' filter action and approximately "
-#| "one minute after the last action invocation."
 msgid ""
 "Whether to flush Outbox after filtering is done. Outbox flush will happen "
 "only when there was used any “Forward to” filter action and approximately "
@@ -2378,12 +2160,6 @@ msgstr ""
 "Otázky či kopírovať priečinok pomocou preťiahni a pusť v strome priečinkov"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:176
-
-#| msgid ""
-#| "Possible values are: 'never' - do not allow copy with drag &amp; drop of "
-#| "folders in folder tree, 'always' - allow copy with drag &amp; drop of "
-#| "folders in folder tree without asking, or 'ask' - (or any other value) "
-#| "will ask user."
 msgid ""
 "Possible values are: “never” — do not allow copy with drag &amp; drop of "
 "folders in folder tree, “always” — allow copy with drag &amp; drop of "
@@ -2402,12 +2178,6 @@ msgstr ""
 "Otázky či presunúť priečinok pomocou pretiahni a pusť v strome priečinkov"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:178
-
-#| msgid ""
-#| "Possible values are: 'never' - do not allow move with drag &amp; drop of "
-#| "folders in folder tree, 'always' - allow move with drag &amp; drop of "
-#| "folders in folder tree without asking, or 'ask' - (or any other value) "
-#| "will ask user."
 msgid ""
 "Possible values are: “never” — do not allow move with drag &amp; drop of "
 "folders in folder tree, “always” — allow move with drag &amp; drop of "
@@ -2460,9 +2230,6 @@ msgstr ""
 "priveľa ľuďom."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:185
-#| msgid ""
-#| "Prompt when switching composer mode and the content needs to lose its "
-#| "formatting"
 msgid ""
 "Prompt when switching composer format and the content needs to lose its "
 "formatting"
@@ -2471,9 +2238,6 @@ msgstr ""
 "formátovanie"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:186
-#| msgid ""
-#| "It disables/enables the repeated prompts to warn that you are switching "
-#| "composer mode and the content needs to lose its formatting."
 msgid ""
 "It disables/enables the repeated prompts to warn that you are switching "
 "composer format and the content needs to lose its formatting."
@@ -2486,10 +2250,6 @@ msgid "Prompt when sending to many To and CC recipients"
 msgstr "Pýtať sa pri odosielaní mnohým adresátom v poliach „Pre“ a „Kópia“"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:188
-#, fuzzy
-#| msgid ""
-#| "Enable or disable the prompt when sending to many To and CC recipients. "
-#| "The 'composer-many-to-cc-recips-num' defines the threshold."
 msgid ""
 "Enable or disable the prompt when sending to many To and CC recipients. The "
 "“composer-many-to-cc-recips-num” defines the threshold."
@@ -2541,10 +2301,6 @@ msgid "Level beyond which the message should be logged."
 msgstr "Úroveň, od ktorej sa majú správy zaznamenávať."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:198
-#, fuzzy
-#| msgid ""
-#| "This can have three possible values. \"0\" for errors. \"1\" for "
-#| "warnings. \"2\" for debug messages."
 msgid ""
 "This can have three possible values. “0” for errors. “1” for warnings. “2” "
 "for debug messages."
@@ -2553,17 +2309,10 @@ msgstr ""
 "odlaďovacie správy."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:199
-#, fuzzy
-#| msgid "Show original \"Date\" header value."
 msgid "Show original “Date” header value."
 msgstr "Zobraziť pôvodnú hodnotu hlavičky „Date“."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:200
-#, fuzzy
-#| msgid ""
-#| "Show the original \"Date\" header (with a local time only if the time "
-#| "zone differs). Otherwise always show \"Date\" header value in a user "
-#| "preferred format and local time zone."
 msgid ""
 "Show the original “Date” header (with a local time only if the time zone "
 "differs). Otherwise always show “Date” header value in a user preferred "
@@ -2628,11 +2377,6 @@ msgid "The default plugin for Junk hook"
 msgstr "Prednastavený zásuvný modul pre spracovanie Nevyžiadanej pošty"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:212
-#, fuzzy
-#| msgid ""
-#| "This is the default junk plugin, even though there are multiple plugins "
-#| "enabled. If the default listed plugin is disabled, then it won't fall "
-#| "back to the other available plugins."
 msgid ""
 "This is the default junk plugin, even though there are multiple plugins "
 "enabled. If the default listed plugin is disabled, then it won’t fall back "
@@ -2647,12 +2391,6 @@ msgid "Determines whether to lookup in address book for sender email"
 msgstr "Určuje, či nahliadnuť do adresára kontaktov pre odosielateľa"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:214
-#, fuzzy
-#| msgid ""
-#| "Determines whether to lookup the sender email in address book. If found, "
-#| "it shouldn't be a spam. It looks up in the books marked for "
-#| "autocompletion. It can be slow, if remote address books (like LDAP) are "
-#| "marked for autocompletion."
 msgid ""
 "Determines whether to lookup the sender email in address book. If found, it "
 "shouldn’t be a spam. It looks up in the books marked for autocompletion. It "
@@ -2701,10 +2439,6 @@ msgid "Custom headers to use while checking for junk."
 msgstr "Vlastné hlavičky použité na kontrolu nevyžiadanej pošty."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:220
-#, fuzzy
-#| msgid ""
-#| "Custom headers to use while checking for junk. The list elements are "
-#| "string in the format \"headername=value\"."
 msgid ""
 "Custom headers to use while checking for junk. The list elements are string "
 "in the format “headername=value”."
@@ -2749,12 +2483,6 @@ msgid "Check for new messages in all active accounts"
 msgstr "Kontrolovať nové správy vo všetkých aktívnych účtoch"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:229
-#, fuzzy
-#| msgid ""
-#| "Whether to check for new messages in all active accounts regardless of "
-#| "the account \"Check for new messages every X minutes\" option when "
-#| "Evolution is started. This option is used only together with "
-#| "'send_recv_on_start' option."
 msgid ""
 "Whether to check for new messages in all active accounts regardless of the "
 "account “Check for new messages every X minutes” option when Evolution is "
@@ -2781,30 +2509,22 @@ msgid "Allow expunge in virtual folders"
 msgstr "Povoliť čistenie vo virtuálnych priečinkoch"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:233
-#, fuzzy
-#| msgid ""
-#| "Enables Expunge in virtual folders, which means that the Folder->Expunge "
-#| "will be callable in virtual folders, while the expunge itself will be "
-#| "done in all folders for all deleted messages within the virtual folder, "
-#| "not only for deleted messages belonging to the virtual folder."
 msgid ""
 "Enables Expunge in virtual folders, which means that the Folder→Expunge will "
 "be callable in virtual folders, while the expunge itself will be done in all "
 "folders for all deleted messages within the virtual folder, not only for "
 "deleted messages belonging to the virtual folder."
 msgstr ""
-"Povolí čistenie vo virtuálnych priečinkoch, čo znamená že ponuka Priečinok -"
-"> Vyčistiť sa bude dať použiť vo virtuálnych priečinkoch a samotné čistenie "
-"prebehne vo všetkých priečinkoch, v ktorých sa nachádzajú mazané správy z "
-"virtuálneho priečinka, a nie len pre mazané správy spadajúce do virtuálneho "
-"priečinka."
+"Povolí čistenie vo virtuálnych priečinkoch, čo znamená že ponuka "
+"Priečinok→Vyčistiť sa bude dať použiť vo virtuálnych priečinkoch a samotné "
+"čistenie prebehne vo všetkých priečinkoch, v ktorých sa nachádzajú mazané "
+"správy z virtuálneho priečinka, a nie len pre mazané správy spadajúce do "
+"virtuálneho priečinka."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:234
 #: ../src/mail/mail-config.ui.h:9
-#, fuzzy
-#| msgid "Inherit theme colors in HTML mode"
 msgid "Inherit theme colors in HTML format"
-msgstr "Zdediť farby témy v režime HTML"
+msgstr "Zdediť farby témy vo formáte HTML"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:235
 msgid ""
@@ -2831,10 +2551,6 @@ msgid "(Deprecated) Default forward style"
 msgstr "(Zavrhnuté) Predvolený štýl odosielania ďalej"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:239
-#, fuzzy
-#| msgid ""
-#| "This key was deprecated in version 3.10 and should no longer be used. Use "
-#| "\"forward-style-name\" instead."
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“forward-style-name” instead."
@@ -2847,10 +2563,6 @@ msgid "(Deprecated) Default reply style"
 msgstr "(Zavrhnuté) Predvolený štýl odpovede"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:241
-#, fuzzy
-#| msgid ""
-#| "This key was deprecated in version 3.10 and should no longer be used. Use "
-#| "\"reply-style-name\" instead."
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“reply-style-name” instead."
@@ -2863,10 +2575,6 @@ msgid "(Deprecated) List of custom headers and whether they are enabled."
 msgstr "(Zavrhnuté) Zoznam vlastných hlavičiek a či majú byť povolené."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:243
-#, fuzzy
-#| msgid ""
-#| "This key was deprecated in version 3.10 and should no longer be used. Use "
-#| "\"show-headers\" instead."
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“show-headers” instead."
@@ -2879,10 +2587,6 @@ msgid "(Deprecated) Load images for HTML messages over HTTP"
 msgstr "(Zavrhnuté) Načítať obrázky HTML správ cez HTTP"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:245
-#, fuzzy
-#| msgid ""
-#| "This key was deprecated in version 3.10 and should no longer be used. Use "
-#| "\"image-loading-policy\" instead."
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“image-loading-policy” instead."
@@ -2899,10 +2603,6 @@ msgstr ""
 "ďalej alebo odpovedá na zobrazenú správu v okne"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:247
-#, fuzzy
-#| msgid ""
-#| "This key was deprecated in version 3.10 and should no longer be used. Use "
-#| "\"browser-close-on-reply-policy\" instead."
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“browser-close-on-reply-policy” instead."
@@ -2956,9 +2656,6 @@ msgid "Enable autocontacts"
 msgstr "Povoliť automatické kontakty"
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:6
-#, fuzzy
-#| msgid ""
-#| "Whether contacts should be automatically added to the user's address book."
 msgid ""
 "Whether contacts should be automatically added to the user’s address book."
 msgstr ""
@@ -3005,12 +2702,6 @@ msgid "List of Custom Headers"
 msgstr "Zoznam vlastných hlavičiek"
 
 #: ../data/org.gnome.evolution.plugin.email-custom-header.gschema.xml.in.h:2
-#, fuzzy
-#| msgid ""
-#| "The key specifies the list of custom headers that you can add to an "
-#| "outgoing message. The format for specifying a Header and Header value is: "
-#| "Name of the custom header followed by \"=\" and the values separated by "
-#| "\";\""
 msgid ""
 "The key specifies the list of custom headers that you can add to an outgoing "
 "message. The format for specifying a Header and Header value is: Name of the "
@@ -3094,11 +2785,6 @@ msgid "Enable audible notifications when new messages arrive."
 msgstr "Povoliť zvukové oznámenia, keď prídu nové správy."
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:10
-#, fuzzy
-#| msgid ""
-#| "Whether to make a sound of any kind when new messages arrive. If \"false"
-#| "\", the \"notify-sound-beep\", \"notify-sound-file\", \"notify-sound-play-"
-#| "file\" and \"notify-sound-use-theme\" keys are disregarded."
 msgid ""
 "Whether to make a sound of any kind when new messages arrive. If “false”, "
 "the “notify-sound-beep”, “notify-sound-file”, “notify-sound-play-file” and "
@@ -3121,10 +2807,6 @@ msgid "Sound filename to be played."
 msgstr "Názov zvukového súboru, ktorý sa má prehrať."
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:14
-#, fuzzy
-#| msgid ""
-#| "Sound file to be played when new messages arrive, if \"notify-sound-play-"
-#| "file\" is \"true\"."
 msgid ""
 "Sound file to be played when new messages arrive, if “notify-sound-play-"
 "file” is “true”."
@@ -3137,10 +2819,6 @@ msgid "Whether to play a sound file."
 msgstr "Určuje, či prehrať zvukový súbor."
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:16
-#, fuzzy
-#| msgid ""
-#| "Whether to play a sound file when new messages arrive. The name of the "
-#| "sound file is given by the 'notify-sound-file' key."
 msgid ""
 "Whether to play a sound file when new messages arrive. The name of the sound "
 "file is given by the “notify-sound-file” key."
@@ -3163,13 +2841,6 @@ msgstr "Režim používaný pre zobrazovanie pošty."
 
 # PK: prekladame? opytaj sa radsej
 #: ../data/org.gnome.evolution.plugin.prefer-plain.gschema.xml.in.h:2
-#, fuzzy
-#| msgid ""
-#| "The mode to use for displaying mails. \"normal\" makes Evolution choose "
-#| "the best part to show, \"prefer_plain\" makes it use the text part, if "
-#| "present, \"prefer_source\" makes it use the text part, if present, "
-#| "otherwise shows HTML source, and \"only_plain\" forces Evolution to only "
-#| "show plain text"
 msgid ""
 "The mode to use for displaying mails. “normal” makes Evolution choose the "
 "best part to show, “prefer_plain” makes it use the text part, if present, "
@@ -3223,14 +2894,10 @@ msgid "Initial attachment view"
 msgstr "Počiatočné zobrazenie príloh"
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:4
-#, fuzzy
-#| msgid ""
-#| "Initial view for attachment bar widgets. \"0\" is Icon View, \"1\" is "
-#| "List View."
 msgid ""
 "Initial view for attachment bar widgets. “0” is Icon View, “1” is List View."
 msgstr ""
-"Počiatočné zobrazenie príloh v paneli. „0“ je ikonkový náhľad, „1“ je "
+"Počiatočné zobrazenie príloh v paneli. „0“ je ikonový náhľad, „1“ je "
 "zoznamový náhľad."
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:5
@@ -3303,10 +2970,6 @@ msgstr ""
 "Zoznam názvov tlačidiel, ktoré sa majú skryť v nástroji na prepínanie okien"
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:18
-#, fuzzy
-#| msgid ""
-#| "Valid values are 'mail', 'addressbook', 'calendar', 'tasks' and 'memos'. "
-#| "Change of this requires restart of the application."
 msgid ""
 "Valid values are “mail”, “addressbook”, “calendar”, “tasks” and “memos”. "
 "Change of this requires restart of the application."
@@ -3328,11 +2991,6 @@ msgid "Window button style"
 msgstr "Štýl tlačidiel v oknách"
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:22
-#, fuzzy
-#| msgid ""
-#| "The style of the window buttons. Can be \"text\", \"icons\", \"both\", "
-#| "\"toolbar\". If \"toolbar\" is set, the style of the buttons is "
-#| "determined by the GNOME toolbar setting."
 msgid ""
 "The style of the window buttons. Can be “text”, “icons”, “both”, “toolbar”. "
 "If “toolbar” is set, the style of the buttons is determined by the GNOME "
@@ -3389,11 +3047,11 @@ msgstr "Predvolená šírka bočného panela, v pixeloch."
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:34
 msgid "Enable special WebKit developer features"
-msgstr ""
+msgstr "Povoliť špeciálne vývojárske funkcionality WebKit"
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:35
 msgid "Any change of this option requires restart of Evolution."
-msgstr ""
+msgstr "Akákoľvek zmena tejto voľby vyžaduje reštartovanie programu Evolution."
 
 #: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:1
 msgid "Use only local spam tests."
@@ -3571,10 +3229,8 @@ msgid "Could not remove address book."
 msgstr "Nepodarilo sa odstrániť adresár kontaktov."
 
 #: ../src/addressbook/addressbook.error.xml.h:11
-#, fuzzy
-#| msgid "Delete address book '{0}'?"
 msgid "Delete address book “{0}”?"
-msgstr "Odstrániť adresár kontaktov c?"
+msgstr "Odstrániť adresár kontaktov „{0}“?"
 
 #: ../src/addressbook/addressbook.error.xml.h:12
 msgid "This address book will be removed permanently."
@@ -3587,16 +3243,10 @@ msgid "Do _Not Delete"
 msgstr "_Neodstrániť"
 
 #: ../src/addressbook/addressbook.error.xml.h:14
-#, fuzzy
-#| msgid "Delete remote address book &quot;{0}&quot;?"
 msgid "Delete remote address book “{0}”?"
 msgstr "Odstrániť vzdialený adresár kontaktov „{0}“?"
 
 #: ../src/addressbook/addressbook.error.xml.h:15
-#, fuzzy
-#| msgid ""
-#| "This will permanently remove the address book &quot;{0}&quot; from the "
-#| "server. Are you sure you want to proceed?"
 msgid ""
 "This will permanently remove the address book “{0}” from the server. Are you "
 "sure you want to proceed?"
@@ -3614,8 +3264,6 @@ msgid "Category editor not available."
 msgstr "Editor kategórií nie je k dispozícii."
 
 #: ../src/addressbook/addressbook.error.xml.h:18
-#, fuzzy
-#| msgid "Unable to open address book '{0}'"
 msgid "Unable to open address book “{0}”"
 msgstr "Nepodarilo sa otvoriť adresár kontaktov „{0}“"
 
@@ -3624,8 +3272,6 @@ msgid "Unable to perform search."
 msgstr "Nepodarilo sa vykonať vyhľadanie."
 
 #: ../src/addressbook/addressbook.error.xml.h:20
-#, fuzzy
-#| msgid "Failed to refresh address book '{0}'"
 msgid "Failed to refresh address book “{0}”"
 msgstr "Zlyhalo obnovenie adresára kontaktov „{0}“"
 
@@ -3682,8 +3328,6 @@ msgid "Error saving {0} to {1}: {2}"
 msgstr "Chyba pri ukladaní {0} do {1}: {2}"
 
 #: ../src/addressbook/addressbook.error.xml.h:32
-#, fuzzy
-#| msgid "Address '{0}' already exists."
 msgid "Address “{0}” already exists."
 msgstr "Adresa „{0}“ už existuje."
 
@@ -3735,16 +3379,10 @@ msgid "Add with duplicates"
 msgstr "Pridať aj rovnaké"
 
 #: ../src/addressbook/addressbook.error.xml.h:39
-#, fuzzy
-#| msgid "List '{0}' is already in this contact list."
 msgid "List “{0}” is already in this contact list."
 msgstr "Zoznam „{0}“ už existuje v tomto zozname kontaktov."
 
 #: ../src/addressbook/addressbook.error.xml.h:40
-#, fuzzy
-#| msgid ""
-#| "A contact list named '{0}' is already in this contact list. Would you "
-#| "like to add it anyway?"
 msgid ""
 "A contact list named “{0}” is already in this contact list. Would you like "
 "to add it anyway?"
@@ -3767,10 +3405,6 @@ msgstr "Nedá sa pridať nový kontakt"
 
 #. For Translators: {0} is the name of the address book source
 #: ../src/addressbook/addressbook.error.xml.h:45
-#, fuzzy
-#| msgid ""
-#| "'{0}' is a read-only address book and cannot be modified. Please select a "
-#| "different address book from the side bar in the Contacts view."
 msgid ""
 "“{0}” is a read-only address book and cannot be modified. Please select a "
 "different address book from the side bar in the Contacts view."
@@ -3784,10 +3418,6 @@ msgstr "Nedá sa uložiť kontakt, adresár kontaktov sa stále otvára"
 
 #. For Translators: {0} is the name of the address book source
 #: ../src/addressbook/addressbook.error.xml.h:48
-#, fuzzy
-#| msgid ""
-#| "Cannot save a contact to the address book '{0}', because it is still "
-#| "opening. Either wait till it's opened, or select a different address book."
 msgid ""
 "Cannot save a contact to the address book “{0}”, because it is still "
 "opening. Either wait till it’s opened, or select a different address book."
@@ -3796,10 +3426,8 @@ msgstr ""
 "Buď počkajte kým sa otvorí, alebo vyberte iný adresár kontaktov."
 
 #: ../src/addressbook/addressbook.error.xml.h:49
-#, fuzzy
-#| msgid "Search for text in the displayed contact"
 msgid "Something has gone wrong when displaying the contact"
-msgstr "Vyhľadá v texte zobrazeného kontaktu"
+msgstr "Pri zobrazovaní kontaktu sa niečo nepodarilo"
 
 #: ../src/addressbook/addressbook.error.xml.h:50
 msgid ""
@@ -3807,6 +3435,9 @@ msgid ""
 "moving to another contact and back. If the issue persists, please file a bug "
 "report in the GNOME bugzilla."
 msgstr ""
+"Proces WebKitWebProcess havaroval pri zobrazovaní kontaktu. Môže to skúsiť "
+"znova presunutím na iný kontakt a späť. Ak problém pretrvá, nahláste prosím "
+"chybu v systéme GNOME Bugzilla."
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:1
 msgid "Show Telephone"
@@ -4253,10 +3884,9 @@ msgstr "Chyba pri odstraňovaní kontaktu"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:741
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3102
-#, fuzzy, c-format
-#| msgid "Contact Editor - %s"
+#, c-format
 msgid "Contact Editor — %s"
-msgstr "Editor kontaktov - %s"
+msgstr "Editor kontaktov — %s"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3238
 msgid "X.509 certificates"
@@ -4345,27 +3975,23 @@ msgstr ""
 "\n"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4676
-#, fuzzy, c-format
-#| msgid "'%s' has an invalid format"
+#, c-format
 msgid "“%s” has an invalid format"
 msgstr "„%s“ má neplatný tvar"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4684
-#, fuzzy, c-format
-#| msgid "'%s' cannot be a future date"
+#, c-format
 msgid "“%s” cannot be a future date"
 msgstr "„%s“ nemôže byť dátum z budúcnosti"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4692
-#, fuzzy, c-format
-#| msgid "%s'%s' has an invalid format"
+#, c-format
 msgid "%s“%s” has an invalid format"
 msgstr "%s„%s“ má neplatný tvar"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4705
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4719
-#, fuzzy, c-format
-#| msgid "%s'%s' is empty"
+#, c-format
 msgid "%s“%s” is empty"
 msgstr "%s„%s“ je prázdny"
 
@@ -5063,8 +4689,6 @@ msgstr[2] ""
 "Naozaj chcete zobraziť všetky tieto kontakty?"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.c:1516
-#, fuzzy
-#| msgid "_Don't Display"
 msgid "_Don’t Display"
 msgstr "_Nezobraziť"
 
@@ -21730,51 +21354,51 @@ msgstr "I_mportovať do zoznamu úloh"
 msgid "New Memo List"
 msgstr "Nový zoznam poznámok"
 
-#: ../src/modules/calendar/e-cal-base-shell-sidebar.c:554
+#: ../src/modules/calendar/e-cal-base-shell-sidebar.c:563
 #, fuzzy, c-format
 #| msgid "Copying an event into the calendar '%s'"
 msgid "Copying an event into the calendar “%s”"
 msgstr "Kopíruje sa udalosť do kalendára „%s“"
 
-#: ../src/modules/calendar/e-cal-base-shell-sidebar.c:555
+#: ../src/modules/calendar/e-cal-base-shell-sidebar.c:564
 #, fuzzy, c-format
 #| msgid "Moving an event into the calendar '%s'"
 msgid "Moving an event into the calendar “%s”"
 msgstr "Presúva sa udalosť do kalendára „%s“"
 
-#: ../src/modules/calendar/e-cal-base-shell-sidebar.c:560
+#: ../src/modules/calendar/e-cal-base-shell-sidebar.c:569
 #, fuzzy, c-format
 #| msgid "Copying a memo into the memo list '%s'"
 msgid "Copying a memo into the memo list “%s”"
 msgstr "Kopíruje sa poznámka do zoznamu poznámok „%s“"
 
-#: ../src/modules/calendar/e-cal-base-shell-sidebar.c:561
+#: ../src/modules/calendar/e-cal-base-shell-sidebar.c:570
 #, fuzzy, c-format
 #| msgid "Moving a memo into the memo list '%s'"
 msgid "Moving a memo into the memo list “%s”"
 msgstr "Presúva sa poznámka do zoznamu poznámok „%s“"
 
-#: ../src/modules/calendar/e-cal-base-shell-sidebar.c:566
+#: ../src/modules/calendar/e-cal-base-shell-sidebar.c:575
 #, fuzzy, c-format
 #| msgid "Copying a task into the task list '%s'"
 msgid "Copying a task into the task list “%s”"
 msgstr "Kopíruje sa úloha do zoznamu úloh „%s“"
 
-#: ../src/modules/calendar/e-cal-base-shell-sidebar.c:567
+#: ../src/modules/calendar/e-cal-base-shell-sidebar.c:576
 #, fuzzy, c-format
 #| msgid "Moving a task into the task list '%s'"
 msgid "Moving a task into the task list “%s”"
 msgstr "Presúva sa úloha do zoznamu úloh „%s“"
 
-#: ../src/modules/calendar/e-cal-base-shell-sidebar.c:684
+#: ../src/modules/calendar/e-cal-base-shell-sidebar.c:693
 msgid "Calendar Selector"
 msgstr "Nástroj na výber kalendára"
 
-#: ../src/modules/calendar/e-cal-base-shell-sidebar.c:690
+#: ../src/modules/calendar/e-cal-base-shell-sidebar.c:699
 msgid "Memo List Selector"
 msgstr "Nástroj na výber zoznamu poznámok"
 
-#: ../src/modules/calendar/e-cal-base-shell-sidebar.c:695
+#: ../src/modules/calendar/e-cal-base-shell-sidebar.c:704
 msgid "Task List Selector"
 msgstr "Nástroj na výber zoznamu uloh"
 
@@ -26803,37 +26427,30 @@ msgid "Failed to connect address book “{0}”"
 msgstr "Zlyhalo pripojenie adresára kontaktov „{0}“"
 
 #: ../src/shell/shell.error.xml.h:20
-#| msgid "Failed to connect calendar '{0}'"
 msgid "Failed to connect calendar “{0}”"
 msgstr "Zlyhalo pripojenie kalendára „{0}“"
 
 #: ../src/shell/shell.error.xml.h:21
-#| msgid "Failed to connect mail account '{0}'"
 msgid "Failed to connect mail account “{0}”"
 msgstr "Zlyhalo pripojenie poštového účtu „{0}“"
 
 #: ../src/shell/shell.error.xml.h:22
-#| msgid "Failed to connect memo list '{0}'"
 msgid "Failed to connect memo list “{0}”"
 msgstr "Zlyhalo pripojenie zoznamu poznámok „{0}“"
 
 #: ../src/shell/shell.error.xml.h:23
-#| msgid "Failed to connect task list '{0}'"
 msgid "Failed to connect task list “{0}”"
 msgstr "Zlyhalo pripojenie zoznamu úloh „{0}“"
 
 #: ../src/shell/shell.error.xml.h:24
-#| msgid "Failed to prompt for credentials for '{0}'"
 msgid "Failed to prompt for credentials for “{0}”"
 msgstr "Zlyhalo pýtanie poverení pre „{0}“"
 
 #: ../src/shell/shell.error.xml.h:25
-#| msgid "Failed to finish trust prompt for '{0}'"
 msgid "Failed to finish trust prompt for “{0}”"
 msgstr "Zlyhalo dokončenie pýtania dôveryhodnosti pre „{0}“"
 
 #: ../src/shell/shell.error.xml.h:26
-#| msgid "SSL certificate for '{0}' is not trusted."
 msgid "SSL certificate for “{0}” is not trusted."
 msgstr "SSL certifikát pre „{0}“ nie je dôveryhodný."
 
@@ -26842,27 +26459,22 @@ msgid "Reason: {1}"
 msgstr "Dôvod: {1}"
 
 #: ../src/shell/shell.error.xml.h:29
-#| msgid "SSL certificate for address book '{0}' is not trusted."
 msgid "SSL certificate for address book “{0}” is not trusted."
 msgstr "SSL certifikát pre adresár kontaktov „{0}“ nie je dôveryhodný."
 
 #: ../src/shell/shell.error.xml.h:30
-#| msgid "SSL certificate for calendar '{0}' is not trusted."
 msgid "SSL certificate for calendar “{0}” is not trusted."
 msgstr "SSL certifikát pre kalendár „{0}“ nie je dôveryhodný."
 
 #: ../src/shell/shell.error.xml.h:31
-#| msgid "SSL certificate for mail account '{0}' is not trusted."
 msgid "SSL certificate for mail account “{0}” is not trusted."
 msgstr "SSL certifikát pre poštový účet „{0}“ nie je dôveryhodný."
 
 #: ../src/shell/shell.error.xml.h:32
-#| msgid "SSL certificate for memo list '{0}' is not trusted."
 msgid "SSL certificate for memo list “{0}” is not trusted."
 msgstr "SSL certifikát pre zoznam poznámok „{0}“ nie je dôveryhodný."
 
 #: ../src/shell/shell.error.xml.h:33
-#| msgid "SSL certificate for task list '{0}' is not trusted."
 msgid "SSL certificate for task list “{0}” is not trusted."
 msgstr "SSL certifikát pre zoznam úloh „{0}“ nie je dôveryhodný."
 
@@ -27077,7 +26689,6 @@ msgstr "Zmena dôveryhodnosti certifikátu"
 
 #: ../src/smime/gui/certificate-manager.c:1358
 #, c-format
-#| msgid "Change trust for the host '%s':"
 msgid "Change trust for the host “%s”:"
 msgstr "Zmena dôveryhodnosti hostiteľa „%s“:"
 
@@ -27182,13 +26793,11 @@ msgstr ""
 
 #: ../src/smime/gui/component.c:53
 #, c-format
-#| msgid "Enter the password for '%s', token '%s'"
 msgid "Enter the password for “%s”, token “%s”"
 msgstr "Zadajte heslo pre „%s“, token „%s“"
 
 #: ../src/smime/gui/component.c:55
 #, c-format
-#| msgid "Enter the password for '%s'"
 msgid "Enter the password for “%s”"
 msgstr "Zadajte heslo pre „%s“"
 
