@@ -415,7 +415,6 @@ describe_contact (EContact *contact)
 	g_string_append (description, str ? str : "");
 	g_string_append (description, "\n");
 
-	emails = e_contact_get (contact, E_CONTACT_EMAIL);
 	emails = g_list_sort (emails, (GCompareFunc) g_ascii_strcasecmp);
 	for (link = emails; link; link = g_list_next (link)) {
 		str = link->data;
