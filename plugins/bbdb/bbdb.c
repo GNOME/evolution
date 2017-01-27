@@ -534,8 +534,11 @@ add_email_to_contact (EContact *contact,
 	GList *emails;
 
 	emails = e_contact_get (contact, E_CONTACT_EMAIL);
-	emails = g_list_append (emails, (gpointer) email);
+	emails = g_list_append (emails, g_strdup (email));
+
 	e_contact_set (contact, E_CONTACT_EMAIL, (gpointer) emails);
+
+	g_list_free_full (emails, g_free);
 }
 
 /* Code to implement the configuration user interface follows */

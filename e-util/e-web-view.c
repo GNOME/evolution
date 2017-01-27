@@ -1059,6 +1059,7 @@ web_view_uri_request_done_cb (GObject *source_object,
 	if (!e_content_request_process_finish (E_CONTENT_REQUEST (source_object),
 		result, &stream, &stream_length, &mime_type, &error)) {
 		webkit_uri_scheme_request_finish_error (request, error);
+		g_clear_error (&error);
 	} else {
 		webkit_uri_scheme_request_finish (request, stream, stream_length, mime_type);
 
@@ -1102,6 +1103,8 @@ web_view_process_uri_request_cb (WebKitURISchemeRequest *request,
 			error = g_error_new_literal (G_IO_ERROR, G_IO_ERROR_CANCELLED, "Cancelled");
 
 			webkit_uri_scheme_request_finish_error (request, error);
+			g_clear_error (&error);
+
 			return;
 		}
 	}
