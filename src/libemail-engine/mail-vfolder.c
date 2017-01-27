@@ -38,7 +38,7 @@
 
 #define d(x)  /* (printf("%s:%s: ",  G_STRLOC, G_STRFUNC), (x))*/
 
-/* Note: Once we completely move mail to EDS, this context wont be available for UI. 
+/* Note: Once we completely move mail to EDS, this context wont be available for UI.
  * and vfoldertypes.xml should be moved here really. */
 EMVFolderContext *context;	/* context remains open all time */
 
@@ -299,7 +299,7 @@ vfolder_adduri_desc (struct _adduri_msg *m)
 	display_name = camel_service_get_display_name (service);
 
 	description = g_strdup_printf (
-		_("Updating Search Folders for “%s” — %s"),
+		_("Updating Search Folders for “%s : %s”"),
 		display_name, folder_name);
 
 	g_object_unref (store);
