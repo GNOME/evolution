@@ -95,13 +95,15 @@ emft_copy_folders__exec (struct _EMCopyFolders *m,
 	CamelFolderInfo *fi;
 	const gchar *tmp;
 	gint fromlen;
+	gboolean same_store = m->fromstore == m->tostore;
 
 	flags = CAMEL_STORE_FOLDER_INFO_FAST |
 		CAMEL_STORE_FOLDER_INFO_SUBSCRIBED;
 
 	/* If we're copying, then we need to copy every subfolder. If we're
-	 * *moving*, though, then we only need to rename the top-level folder */
-	if (!m->delete)
+	 * *moving*, though, then we only need to rename the top-level folder
+	 * when moving within the same store, otherwise move whole structure */
+	if (!m->delete || !same_store)
 		flags |= CAMEL_STORE_FOLDER_INFO_RECURSIVE;
 
 	fi = camel_store_get_folder_info_sync (
@@ -133,8 +135,9 @@ emft_copy_folders__exec (struct _EMCopyFolders *m,
 
 			/* We still get immediate children even without the
 			 * CAMEL_STORE_FOLDER_INFO_RECURSIVE flag. But we only
-			 * want to process the children too if we're *copying * */
-			if (info->child && !m->delete)
+			 * want to process the children too if we're *copying*
+			 * or moving between different stores */
+			if (info->child && (!m->delete || !same_store))
 				pending = g_list_append (pending, info->child);
 
 			if (m->tobase[0])
@@ -156,28 +159,35 @@ emft_copy_folders__exec (struct _EMCopyFolders *m,
 			 * e.g. for spool stores, but it makes the ui work. */
 			if ((info->flags & CAMEL_FOLDER_NOSELECT) == 0) {
 				d (printf ("this folder is selectable\n"));
-				if (m->tostore == m->fromstore && m->delete) {
-					camel_store_rename_folder_sync (
+				if (same_store && m->delete) {
+					if (!camel_store_rename_folder_sync (
 						m->fromstore,
 						info->full_name,
 						toname->str,
-						cancellable, error);
-					if (error && *error)
+						cancellable, error))
 						goto exception;
 
 					/* this folder no longer exists, unsubscribe it */
 					if (CAMEL_IS_SUBSCRIBABLE (m->fromstore))
 						camel_subscribable_unsubscribe_folder_sync (
 							CAMEL_SUBSCRIBABLE (m->fromstore),
-							info->full_name, NULL, NULL);
+							info->full_name, cancellable, NULL);
 
 					deleted = 1;
 				} else {
+					gboolean success;
+
 					fromfolder = camel_store_get_folder_sync (
 						m->fromstore, info->full_name, 0,
 						cancellable, error);
 					if (fromfolder == NULL)
 						goto exception;
+
+					/* Refresh the source folder first, to get up-to-date content */
+					if (!camel_folder_refresh_info_sync (fromfolder, cancellable, error)) {
+						g_object_unref (fromfolder);
+						goto exception;
+					}
 
 					tofolder = camel_store_get_folder_sync (
 						m->tostore, toname->str,
@@ -189,19 +199,23 @@ emft_copy_folders__exec (struct _EMCopyFolders *m,
 					}
 
 					uids = camel_folder_get_uids (fromfolder);
-					camel_folder_transfer_messages_to_sync (
+					success = camel_folder_transfer_messages_to_sync (
 						fromfolder, uids, tofolder,
 						m->delete, NULL,
 						cancellable, error);
 					camel_folder_free_uids (fromfolder, uids);
 
-					if (m->delete && (!error || !*error))
+					if (m->delete && success) {
 						camel_folder_synchronize_sync (
 							fromfolder, TRUE,
-							NULL, NULL);
+							cancellable, NULL);
+					}
 
 					g_object_unref (fromfolder);
 					g_object_unref (tofolder);
+
+					if (!success)
+						goto exception;
 				}
 			}
 
@@ -217,7 +231,7 @@ emft_copy_folders__exec (struct _EMCopyFolders *m,
 					toname->str))
 				camel_subscribable_subscribe_folder_sync (
 					CAMEL_SUBSCRIBABLE (m->tostore),
-					toname->str, NULL, NULL);
+					toname->str, cancellable, NULL);
 
 			info = info->next;
 		}
@@ -237,10 +251,9 @@ emft_copy_folders__exec (struct _EMCopyFolders *m,
 		if (CAMEL_IS_SUBSCRIBABLE (m->fromstore))
 			camel_subscribable_unsubscribe_folder_sync (
 				CAMEL_SUBSCRIBABLE (m->fromstore),
-				info->full_name, NULL, NULL);
+				info->full_name, cancellable, NULL);
 
-		camel_store_delete_folder_sync (
-			m->fromstore, info->full_name, NULL, NULL);
+		camel_store_delete_folder_sync (m->fromstore, info->full_name, cancellable, NULL);
 		l = l->next;
 	}
 
