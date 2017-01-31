@@ -14,8 +14,8 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2017-01-26 17:31+0000\n"
-"PO-Revision-Date: 2017-01-27 00:02+0100\n"
+"POT-Creation-Date: 2017-01-30 01:47+0000\n"
+"PO-Revision-Date: 2017-01-30 14:13+0100\n"
 "Last-Translator: Peter Mráz <etkinator@gmail.com>\n"
 "Language-Team: slovenčina <>\n"
 "Language: sk\n"
@@ -23,7 +23,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 1 : (n>=2 && n<=4) ? 2 : 0;\n"
-"X-Generator: Poedit 1.8.11\n"
+"X-Generator: Poedit 1.8.7.1\n"
 
 #: ../evolution.appdata.xml.in.h:1 ../data/evolution.desktop.in.in.h:1
 #: ../src/mail/e-mail-browser.c:1098
@@ -3531,7 +3531,7 @@ msgstr "Voľby"
 #: ../src/e-util/e-source-selector-dialog.c:370
 #: ../src/e-util/e-table-config.c:548 ../src/e-util/e-table-config.ui.h:3
 #: ../src/e-util/e-timezone-dialog.ui.h:2
-#: ../src/e-util/evolution-source-viewer.c:835 ../src/e-util/e-web-view.c:4062
+#: ../src/e-util/evolution-source-viewer.c:835 ../src/e-util/e-web-view.c:4065
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:267
 #: ../src/mail/e-mail-config-window.c:331 ../src/mail/e-mail-label-dialog.c:194
 #: ../src/mail/e-mail-tag-editor.c:168 ../src/mail/em-folder-selector.c:318
@@ -3565,7 +3565,7 @@ msgstr "_Zrušiť"
 #: ../src/composer/e-composer-actions.c:348
 #: ../src/e-util/e-attachment-store.c:833
 #: ../src/e-util/e-mail-signature-script-dialog.c:370
-#: ../src/e-util/e-web-view.c:4063
+#: ../src/e-util/e-web-view.c:4066
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:268
 #: ../src/shell/e-shell-content.c:658 ../src/shell/e-shell-utils.c:140
 #: ../src/smime/gui/certificate-manager.c:666
@@ -4251,7 +4251,7 @@ msgstr "Odošle správu na túto adresu"
 # Kliknutím odošlete email Kostrianová
 # * https://bugzilla.gnome.org/show_bug.cgi?id=641020
 #: ../src/addressbook/gui/widgets/eab-contact-display.c:290
-#: ../src/e-util/e-web-view.c:1314
+#: ../src/e-util/e-web-view.c:1317
 #, c-format
 msgid "Click to mail %s"
 msgstr "Kliknutím odošlete email na %s"
@@ -4949,8 +4949,6 @@ msgid "Importing..."
 msgstr "Importuje sa…"
 
 #: ../src/addressbook/importers/evolution-csv-importer.c:927
-#, fuzzy
-#| msgid "Can't open .csv file"
 msgid "Can’t open .csv file"
 msgstr "Nedá sa otvoriť súbor .csv"
 
@@ -4979,8 +4977,6 @@ msgid "Evolution Contacts CSV and Tab Importer"
 msgstr "Importovací nástroj kontaktov Evolution vo formáte CSV a Tab"
 
 #: ../src/addressbook/importers/evolution-ldif-importer.c:717
-#, fuzzy
-#| msgid "Can't open .ldif file"
 msgid "Can’t open .ldif file"
 msgstr "Nedá sa otvoriť súbor .ldif"
 
@@ -5415,14 +5411,10 @@ msgstr ""
 "Všetky informácie v tejto poznámke budú odstránené a nebudú sa dať obnoviť."
 
 #: ../src/calendar/calendar.error.xml.h:15
-#, fuzzy
-#| msgid "Are you sure you want to delete the meeting titled '{0}'?"
 msgid "Are you sure you want to delete the meeting titled “{0}”?"
 msgstr "Ste si istý, že chcete odstrániť stretnutie nazvané „{0}“?"
 
 #: ../src/calendar/calendar.error.xml.h:16
-#, fuzzy
-#| msgid "Are you sure you want to delete the appointment titled '{0}'?"
 msgid "Are you sure you want to delete the appointment titled “{0}”?"
 msgstr "Ste si istý, že chcete odstrániť schôdzku nazvanú „{0}“?"
 
@@ -5437,14 +5429,10 @@ msgid "Are you sure you want to delete this appointment?"
 msgstr "Ste si istý, že chcete odstrániť túto schôdzku?"
 
 #: ../src/calendar/calendar.error.xml.h:19
-#, fuzzy
-#| msgid "Are you sure you want to delete the '{0}' task?"
 msgid "Are you sure you want to delete the “{0}” task?"
 msgstr "Ste si istý, že chcete odstrániť úlohu „{0}“?"
 
 #: ../src/calendar/calendar.error.xml.h:20
-#, fuzzy
-#| msgid "Are you sure you want to delete the memo '{0}'?"
 msgid "Are you sure you want to delete the memo “{0}”?"
 msgstr "Ste si istý, že chcete odstrániť poznámku „{0}“?"
 
@@ -5630,8 +5618,6 @@ msgid "Editor could not be loaded."
 msgstr "Nepodarilo sa načítať editor."
 
 #: ../src/calendar/calendar.error.xml.h:57
-#, fuzzy
-#| msgid "Delete calendar '{0}'?"
 msgid "Delete calendar “{0}”?"
 msgstr "Odstrániť kalendár „{0}“?"
 
@@ -5640,8 +5626,6 @@ msgid "This calendar will be removed permanently."
 msgstr "Tento kalendár bude navždy odstránený."
 
 #: ../src/calendar/calendar.error.xml.h:59
-#, fuzzy
-#| msgid "Delete task list '{0}'?"
 msgid "Delete task list “{0}”?"
 msgstr "Odstrániť zoznam úloh „{0}“"
 
@@ -5650,8 +5634,6 @@ msgid "This task list will be removed permanently."
 msgstr "Tento zoznam úloh bude navždy odstránený."
 
 #: ../src/calendar/calendar.error.xml.h:61
-#, fuzzy
-#| msgid "Delete memo list '{0}'?"
 msgid "Delete memo list “{0}”?"
 msgstr "Odstrániť zoznam poznámok „{0}“?"
 
@@ -5660,16 +5642,10 @@ msgid "This memo list will be removed permanently."
 msgstr "Tento zoznam poznámok bude navždy odstránený."
 
 #: ../src/calendar/calendar.error.xml.h:63
-#, fuzzy
-#| msgid "Delete remote calendar '{0}'?"
 msgid "Delete remote calendar “{0}”?"
 msgstr "Odstrániť vzdialený kalendár „{0}“?"
 
 #: ../src/calendar/calendar.error.xml.h:64
-#, fuzzy
-#| msgid ""
-#| "This will permanently remove the calendar '{0}' from the server. Are you "
-#| "sure you want to proceed?"
 msgid ""
 "This will permanently remove the calendar “{0}” from the server. Are you "
 "sure you want to proceed?"
@@ -5677,16 +5653,10 @@ msgstr ""
 "Toto nenávratne odstráni kalendár „{0}“ zo servera. Naozaj to chcete vykonať?"
 
 #: ../src/calendar/calendar.error.xml.h:66
-#, fuzzy
-#| msgid "Delete remote task list '{0}'?"
 msgid "Delete remote task list “{0}”?"
 msgstr "Odstrániť vzdialený zoznam úloh „{0}“"
 
 #: ../src/calendar/calendar.error.xml.h:67
-#, fuzzy
-#| msgid ""
-#| "This will permanently remove the task list '{0}' from the server. Are you "
-#| "sure you want to proceed?"
 msgid ""
 "This will permanently remove the task list “{0}” from the server. Are you "
 "sure you want to proceed?"
@@ -5695,16 +5665,10 @@ msgstr ""
 "vykonať?"
 
 #: ../src/calendar/calendar.error.xml.h:68
-#, fuzzy
-#| msgid "Delete remote memo list '{0}'?"
 msgid "Delete remote memo list “{0}”?"
 msgstr "Odstrániť vzdialený zoznam poznámok „{0}“?"
 
 #: ../src/calendar/calendar.error.xml.h:69
-#, fuzzy
-#| msgid ""
-#| "This will permanently remove the memo list '{0}' from the server. Are you "
-#| "sure you want to proceed?"
 msgid ""
 "This will permanently remove the memo list “{0}” from the server. Are you "
 "sure you want to proceed?"
@@ -5742,8 +5706,6 @@ msgstr "Ste si istý, že chcete uložiť poznámku bez súhrnu?"
 
 #. Translators: {0} is the name of the calendar.
 #: ../src/calendar/calendar.error.xml.h:76
-#, fuzzy
-#| msgid "Error loading calendar '{0}'"
 msgid "Error loading calendar “{0}”"
 msgstr "Chyba pri načítavaní kalendára „{0}“"
 
@@ -5758,10 +5720,6 @@ msgstr "Nedá sa uložiť udalosť"
 # PK: ktory moze akceptovat schodky
 #. Translators: {0} is the name of the calendar source
 #: ../src/calendar/calendar.error.xml.h:80
-#, fuzzy
-#| msgid ""
-#| "'{0}' is a read-only calendar and cannot be modified. Please select a "
-#| "different calendar that can accept appointments."
 msgid ""
 "“{0}” is a read-only calendar and cannot be modified. Please select a "
 "different calendar that can accept appointments."
@@ -5775,18 +5733,12 @@ msgstr "Nedá sa uložiť úloha"
 
 #. Translators: {0} is the name of the calendar source
 #: ../src/calendar/calendar.error.xml.h:83
-#, fuzzy
-#| msgid ""
-#| "'{0}' does not support assigned tasks, please select a different task "
-#| "list."
 msgid ""
 "“{0}” does not support assigned tasks, please select a different task list."
 msgstr "„{0}“ nepodporuje priradené úlohy, prosím, vyberte si iný zoznam úloh."
 
 #. Translators: {0} is the name of the task list.
 #: ../src/calendar/calendar.error.xml.h:85
-#, fuzzy
-#| msgid "Error loading task list '{0}'"
 msgid "Error loading task list “{0}”"
 msgstr "Chyba pri načítavaní zoznamu úloh „{0}“"
 
@@ -5796,8 +5748,6 @@ msgstr "Zoznam úloh nie je určený na použitie v odpojenom režime."
 
 #. Translators: {0} is the name of the memo list.
 #: ../src/calendar/calendar.error.xml.h:88
-#, fuzzy
-#| msgid "Error loading memo list '{0}'"
 msgid "Error loading memo list “{0}”"
 msgstr "Chyba pri načítavaní zoznamu poznámok „{0}“"
 
@@ -5807,8 +5757,6 @@ msgstr "Zoznam poznámok nie je určený na použitie v odpojenom režime."
 
 #. Translators: {0} is the name of the calendar/memo list/task list.
 #: ../src/calendar/calendar.error.xml.h:91
-#, fuzzy
-#| msgid "Failed to add timezone to '{0}'"
 msgid "Failed to add timezone to “{0}”"
 msgstr "Zlyhalo pridanie časovej zóny do „{0}“"
 
@@ -5819,274 +5767,196 @@ msgstr "Zlyhalo uloženie prílohy"
 
 #. Translators: {0} is the name of the calendar.
 #: ../src/calendar/calendar.error.xml.h:95
-#, fuzzy
-#| msgid "Failed to open calendar '{0}'"
 msgid "Failed to open calendar “{0}”"
 msgstr "Zlyhalo otvorenie kalendára „{0}“"
 
 #. Translators: {0} is the name of the memo list.
 #: ../src/calendar/calendar.error.xml.h:97
-#, fuzzy
-#| msgid "Failed to open memo list '{0}'"
 msgid "Failed to open memo list “{0}”"
 msgstr "Zlyhalo otvorenie zoznamu poznámok „{0}“"
 
 #. Translators: {0} is the name of the task list.
 #: ../src/calendar/calendar.error.xml.h:99
-#, fuzzy
-#| msgid "Failed to open task list '{0}'"
 msgid "Failed to open task list “{0}”"
 msgstr "Zlyhalo otvorenie zoznamu úloh „{0}“"
 
 #. Translators: {0} is the name of the calendar.
 #: ../src/calendar/calendar.error.xml.h:101
-#, fuzzy
-#| msgid "Failed to create an event in the calendar '{0}'"
 msgid "Failed to create an event in the calendar “{0}”"
 msgstr "Zlyhalo vytvorenie udalosti v kalendári „{0}“"
 
 #. Translators: {0} is the name of the memo list.
 #: ../src/calendar/calendar.error.xml.h:103
-#, fuzzy
-#| msgid "Failed to create a memo in the memo list '{0}'"
 msgid "Failed to create a memo in the memo list “{0}”"
 msgstr "Zlyhalo vytvorenie poznámky v zozname poznámok „{0}“"
 
 #. Translators: {0} is the name of the task list.
 #: ../src/calendar/calendar.error.xml.h:105
-#, fuzzy
-#| msgid "Failed to create a task in the task list '{0}'"
 msgid "Failed to create a task in the task list “{0}”"
 msgstr "Zlyhalo vytvorenie úlohy v zozname úloh „{0}“"
 
 #. Translators: {0} is the name of the calendar.
 #: ../src/calendar/calendar.error.xml.h:107
-#, fuzzy
-#| msgid "Failed to modify an event in the calendar '{0}'"
 msgid "Failed to modify an event in the calendar “{0}”"
 msgstr "Zlyhala úprava udalosti v kalendári „{0}“"
 
 #. Translators: {0} is the name of the memo list.
 #: ../src/calendar/calendar.error.xml.h:109
-#, fuzzy
-#| msgid "Failed to modify a memo in the memo list '{0}'"
 msgid "Failed to modify a memo in the memo list “{0}”"
 msgstr "Zlyhala úprava poznámky v zozname poznámok „{0}“"
 
 #. Translators: {0} is the name of the task list.
 #: ../src/calendar/calendar.error.xml.h:111
-#, fuzzy
-#| msgid "Failed to modify a task in the task list '{0}'"
 msgid "Failed to modify a task in the task list “{0}”"
 msgstr "Zlyhala úprava úlohy v zozname úloh „{0}“"
 
 #. Translators: {0} is the name of the calendar.
 #: ../src/calendar/calendar.error.xml.h:113
-#, fuzzy
-#| msgid "Failed to delete an event in the calendar '{0}'"
 msgid "Failed to delete an event in the calendar “{0}”"
 msgstr "Zlyhalo odstránenie udalosti z kalendára „{0}“"
 
 #. Translators: {0} is the name of the memo list.
 #: ../src/calendar/calendar.error.xml.h:115
-#, fuzzy
-#| msgid "Failed to delete a memo in the memo list '{0}'"
 msgid "Failed to delete a memo in the memo list “{0}”"
 msgstr "Zlyhalo odstránenie poznámky zo zoznamu poznámok „{0}“"
 
 #. Translators: {0} is the name of the task list.
 #: ../src/calendar/calendar.error.xml.h:117
-#, fuzzy
-#| msgid "Failed to delete a task in the task list '{0}'"
 msgid "Failed to delete a task in the task list “{0}”"
 msgstr "Zlyhalo odstránenie úlohy zo zoznamu úloh „{0}“"
 
 #. Translators: {0} is the name of the calendar.
 #: ../src/calendar/calendar.error.xml.h:119
-#, fuzzy
-#| msgid "Failed to update an event in the calendar '{0}'"
 msgid "Failed to update an event in the calendar “{0}”"
 msgstr "Zlyhalo aktualizovanie udalosti v kalendári „{0}“"
 
 #. Translators: {0} is the name of the memo list.
 #: ../src/calendar/calendar.error.xml.h:121
-#, fuzzy
-#| msgid "Failed to update a memo in the memo list '{0}'"
 msgid "Failed to update a memo in the memo list “{0}”"
 msgstr "Zlyhalo aktualizovanie poznámky v zozname poznámok „{0}“"
 
 #. Translators: {0} is the name of the task list.
 #: ../src/calendar/calendar.error.xml.h:123
-#, fuzzy
-#| msgid "Failed to update a task in the task list '{0}'"
 msgid "Failed to update a task in the task list “{0}”"
 msgstr "Zlyhalo aktualizovanie úlohy v zozname úloh „{0}“"
 
 #. Translators: {0} is the name of the calendar.
 #: ../src/calendar/calendar.error.xml.h:125
-#, fuzzy
-#| msgid "Failed to send an event to the calendar '{0}'"
 msgid "Failed to send an event to the calendar “{0}”"
 msgstr "Zlyhalo odoslanie udalosti do kalendára „{0}“"
 
 #. Translators: {0} is the name of the memo list.
 #: ../src/calendar/calendar.error.xml.h:127
-#, fuzzy
-#| msgid "Failed to send a memo to the memo list '{0}'"
 msgid "Failed to send a memo to the memo list “{0}”"
 msgstr "Zlyhalo odoslanie poznámky do zoznamu poznámok „{0}“"
 
 #. Translators: {0} is the name of the task list.
 #: ../src/calendar/calendar.error.xml.h:129
-#, fuzzy
-#| msgid "Failed to send a task to the task list '{0}'"
 msgid "Failed to send a task to the task list “{0}”"
 msgstr "Zlyhalo odoslanie úlohy do zoznamu úloh „{0}“"
 
 #. Translators: {0} is the name of the calendar.
 #: ../src/calendar/calendar.error.xml.h:131
-#, fuzzy
-#| msgid "Error creating view for the calendar '{0}'"
 msgid "Error creating view for the calendar “{0}”"
 msgstr "Chyba pri vytváraní zobrazenia kalendára „{0}“"
 
 #. Translators: {0} is the name of the task list.
 #: ../src/calendar/calendar.error.xml.h:133
-#, fuzzy
-#| msgid "Error creating view for the task list '{0}'"
 msgid "Error creating view for the task list “{0}”"
 msgstr "Chyba pri vytváraní zobrazenia zoznamu úloh „{0}“"
 
 #. Translators: {0} is the name of the memo list.
 #: ../src/calendar/calendar.error.xml.h:135
-#, fuzzy
-#| msgid "Error creating view for the memo list '{0}'"
 msgid "Error creating view for the memo list “{0}”"
 msgstr "Chyba pri vytváraní zobrazenia zoznamu poznámok „{0}“"
 
 #. Translators: {0} is the name of the calendar.
 #: ../src/calendar/calendar.error.xml.h:137
-#, fuzzy
-#| msgid "Failed to copy an event into the calendar '{0}'"
 msgid "Failed to copy an event into the calendar “{0}”"
 msgstr "Zlyhalo kopírovanie udalosti do kalendára „{0}“"
 
 #. Translators: {0} is the name of the task list.
 #: ../src/calendar/calendar.error.xml.h:139
-#, fuzzy
-#| msgid "Failed to copy a task into the task list '{0}'"
 msgid "Failed to copy a task into the task list “{0}”"
 msgstr "Zlyhalo kopírovanie úlohy do zoznamu úloh „{0}“"
 
 #. Translators: {0} is the name of the memo list.
 #: ../src/calendar/calendar.error.xml.h:141
-#, fuzzy
-#| msgid "Failed to copy a memo into the memo list '{0}'"
 msgid "Failed to copy a memo into the memo list “{0}”"
 msgstr "Zlyhalo kopírovanie poznámky do zoznamu poznámok „{0}“"
 
 #. Translators: {0} is the name of the calendar.
 #: ../src/calendar/calendar.error.xml.h:143
-#, fuzzy
-#| msgid "Failed to move an event into the calendar '{0}'"
 msgid "Failed to move an event into the calendar “{0}”"
 msgstr "Zlyhalo presunutie udalosti do kalendára „{0}“"
 
 #. Translators: {0} is the name of the task list.
 #: ../src/calendar/calendar.error.xml.h:145
-#, fuzzy
-#| msgid "Failed to move a task into the task list '{0}'"
 msgid "Failed to move a task into the task list “{0}”"
 msgstr "Zlyhalo presunutie úlohy do zoznamu úloh „{0}“"
 
 #. Translators: {0} is the name of the memo list.
 #: ../src/calendar/calendar.error.xml.h:147
-#, fuzzy
-#| msgid "Failed to move a memo into the memo list '{0}'"
 msgid "Failed to move a memo into the memo list “{0}”"
 msgstr "Zlyhalo presunutie poznámky do zoznamu poznámok „{0}“"
 
 #. Translators: {0} is the name of the calendar.
 #: ../src/calendar/calendar.error.xml.h:149
-#, fuzzy
-#| msgid "Failed to get an event from the calendar '{0}'"
 msgid "Failed to get an event from the calendar “{0}”"
 msgstr "Zlyhalo získanie udalosti z kalendára „{0}“"
 
 #. Translators: {0} is the name of the task list.
 #: ../src/calendar/calendar.error.xml.h:151
-#, fuzzy
-#| msgid "Failed to get a task from the task list '{0}'"
 msgid "Failed to get a task from the task list “{0}”"
 msgstr "Zlyhalo získanie úlohy zo zoznamu úloh „{0}“"
 
 #. Translators: {0} is the name of the memo list.
 #: ../src/calendar/calendar.error.xml.h:153
-#, fuzzy
-#| msgid "Failed to get a memo from the memo list '{0}'"
 msgid "Failed to get a memo from the memo list “{0}”"
 msgstr "Zlyhalo získanie poznámky zo zoznamu poznámok „{0}“"
 
 #. Translators: {0} is the name of the calendar.
 #: ../src/calendar/calendar.error.xml.h:155
-#, fuzzy
-#| msgid "Copying an event into the calendar '{0}'"
 msgid "Copying an event into the calendar “{0}”"
 msgstr "Kopíruje sa udalosť do kalendára „{0}“"
 
 #. Translators: {0} is the name of the task list.
 #: ../src/calendar/calendar.error.xml.h:157
-#, fuzzy
-#| msgid "Copying a task into the task list '{0}'"
 msgid "Copying a task into the task list “{0}”"
 msgstr "Kopíruje sa úloha do zoznamu úloh „{0}“"
 
 #. Translators: {0} is the name of the memo list.
 #: ../src/calendar/calendar.error.xml.h:159
-#, fuzzy
-#| msgid "Copying a memo into the memo list '{0}'"
 msgid "Copying a memo into the memo list “{0}”"
 msgstr "Kopíruje sa poznámka do zoznamu poznámok „{0}“"
 
 #. Translators: {0} is the name of the calendar.
 #: ../src/calendar/calendar.error.xml.h:161
-#, fuzzy
-#| msgid "Moving an event into the calendar '{0}'"
 msgid "Moving an event into the calendar “{0}”"
 msgstr "Presúva sa udalosť do kalendára „{0}“"
 
 #. Translators: {0} is the name of the task list.
 #: ../src/calendar/calendar.error.xml.h:163
-#, fuzzy
-#| msgid "Moving a task into the task list '{0}'"
 msgid "Moving a task into the task list “{0}”"
 msgstr "Presúva sa úloha do zoznamu úloh „{0}“"
 
 #. Translators: {0} is the name of the memo list.
 #: ../src/calendar/calendar.error.xml.h:165
-#, fuzzy
-#| msgid "Moving a memo into the memo list '{0}'"
 msgid "Moving a memo into the memo list “{0}”"
 msgstr "Presúva sa poznámka do zoznamu poznámok „{0}“"
 
 #. Translators: {0} is the name of the calendar.
 #: ../src/calendar/calendar.error.xml.h:167
-#, fuzzy
-#| msgid "Failed to refresh calendar '{0}'"
 msgid "Failed to refresh calendar “{0}”"
 msgstr "Zlyhalo obnovenie kalendára „{0}“"
 
 #. Translators: {0} is the name of the task list.
 #: ../src/calendar/calendar.error.xml.h:169
-#, fuzzy
-#| msgid "Failed to refresh task list '{0}'"
 msgid "Failed to refresh task list “{0}”"
 msgstr "Zlyhalo obnovenie zoznamu úloh „{0}“"
 
 #. Translators: {0} is the name of the memo list.
 #: ../src/calendar/calendar.error.xml.h:171
-#, fuzzy
-#| msgid "Failed to refresh memo list '{0}'"
 msgid "Failed to refresh memo list “{0}”"
 msgstr "Zlyhalo obnovenie zoznamu poznámok „{0}“"
 
@@ -6096,10 +5966,8 @@ msgstr "Zlyhalo nastavenie výskytu ako presunuteľný"
 
 # tooltip
 #: ../src/calendar/calendar.error.xml.h:173
-#, fuzzy
-#| msgid "Create a new window displaying this view"
 msgid "Something has gone wrong when displaying the event"
-msgstr "Vytvorí nové okno zobrazujúce tento pohľad"
+msgstr "Pri zobrazovaní udalosti sa niečo nepodarilo"
 
 #: ../src/calendar/calendar.error.xml.h:174
 msgid ""
@@ -6107,13 +5975,14 @@ msgid ""
 "moving to another event and back. If the issue persists, please file a bug "
 "report in the GNOME bugzilla."
 msgstr ""
+"Proces WebKitWebProcess havaroval pri zobrazovaní udalosti. Môže to skúsiť "
+"znova presunutím na inú udalosť a späť. Ak problém pretrvá, nahláste prosím "
+"chybu v systéme GNOME Bugzilla."
 
 # tooltip
 #: ../src/calendar/calendar.error.xml.h:175
-#, fuzzy
-#| msgid "Create a new window displaying this view"
 msgid "Something has gone wrong when displaying the memo"
-msgstr "Vytvorí nové okno zobrazujúce tento pohľad"
+msgstr "Pri zobrazovaní poznámky sa niečo nepodarilo"
 
 #: ../src/calendar/calendar.error.xml.h:176
 msgid ""
@@ -6121,12 +5990,13 @@ msgid ""
 "moving to another memo and back. If the issue persists, please file a bug "
 "report in the GNOME bugzilla."
 msgstr ""
+"Proces WebKitWebProcess havaroval pri zobrazovaní poznámky. Môže to skúsiť "
+"znova presunutím na inú poznámku a späť. Ak problém pretrvá, nahláste prosím "
+"chybu v systéme GNOME Bugzilla."
 
 #: ../src/calendar/calendar.error.xml.h:177
-#, fuzzy
-#| msgid "Mode to use when displaying mails"
 msgid "Something has gone wrong when displaying the task"
-msgstr "Režim používaný pre zobrazovanie pošty."
+msgstr "Pri zobrazovaní úlohy sa niečo nepodarilo"
 
 #: ../src/calendar/calendar.error.xml.h:178
 msgid ""
@@ -6134,6 +6004,9 @@ msgid ""
 "moving to another task and back. If the issue persists, please file a bug "
 "report in the GNOME bugzilla."
 msgstr ""
+"Proces WebKitWebProcess havaroval pri zobrazovaní úlohy. Môže to skúsiť "
+"znova presunutím na inú úlohu a späť. Ak problém pretrvá, nahláste prosím "
+"chybu v systéme GNOME Bugzilla."
 
 #: ../src/calendar/gui/caltypes.xml.in.h:1
 #: ../src/calendar/gui/e-cal-list-view.etspec.h:3
@@ -6633,20 +6506,17 @@ msgid "Web Page:"
 msgstr "Webová stránka:"
 
 #: ../src/calendar/gui/e-cal-data-model.c:1631
-#, fuzzy, c-format
-#| msgid "Creating view for calendar '%s'"
+#, c-format
 msgid "Creating view for calendar “%s”"
 msgstr "Vytvára sa zobrazenie kalendára „%s“"
 
 #: ../src/calendar/gui/e-cal-data-model.c:1635
-#, fuzzy, c-format
-#| msgid "Creating view for task list '%s'"
+#, c-format
 msgid "Creating view for task list “%s”"
 msgstr "Vytvára sa zobrazenie zoznamu úloh „%s“"
 
 #: ../src/calendar/gui/e-cal-data-model.c:1639
-#, fuzzy, c-format
-#| msgid "Creating view for memo list '%s'"
+#, c-format
 msgid "Creating view for memo list “%s”"
 msgstr "Vytvára sa zobrazenie zoznamu poznámok „%s“"
 
@@ -6655,26 +6525,21 @@ msgid "Destination is read only"
 msgstr "Cieľ je len na čítanie"
 
 #: ../src/calendar/gui/e-cal-dialogs.c:299
-#, fuzzy, c-format
-#| msgid "Copying events to the calendar '%s'"
+#, c-format
 msgid "Copying events to the calendar “%s”"
 msgstr "Kopírujú sa udalosti do kalendára „%s“"
 
 #: ../src/calendar/gui/e-cal-dialogs.c:305
-#, fuzzy, c-format
-#| msgid "Copying memos to the memo list '%s'"
+#, c-format
 msgid "Copying memos to the memo list “%s”"
 msgstr "Kopírujú sa poznámky do zoznamu poznámok „%s“"
 
 #: ../src/calendar/gui/e-cal-dialogs.c:311
-#, fuzzy, c-format
-#| msgid "Copying tasks to the task list '%s'"
+#, c-format
 msgid "Copying tasks to the task list “%s”"
 msgstr "Kopírujú sa úlohy do zoznamu úloh „%s“"
 
 #: ../src/calendar/gui/e-cal-dialogs.c:530
-#, fuzzy
-#| msgid "_Delete this item from all other recipient's mailboxes?"
 msgid "_Delete this item from all other recipient’s mailboxes?"
 msgstr "O_dstrániť túto položku zo všetkých ostatných priečinkov príjemcu?"
 
@@ -6802,8 +6667,6 @@ msgid "Delete selected events"
 msgstr "Odstráni vybrané udalosti"
 
 #: ../src/calendar/gui/e-calendar-view.c:853
-#, fuzzy
-#| msgid "Pasted text doesn't contain valid iCalendar data"
 msgid "Pasted text doesn’t contain valid iCalendar data"
 msgstr "Vložený text neobsahuje platné údaje kalendára iCalendar"
 
@@ -6956,8 +6819,7 @@ msgstr "Neznámy"
 #: ../src/calendar/gui/e-cal-model.c:1402 ../src/calendar/gui/e-cal-ops.c:613
 #: ../src/calendar/gui/e-cal-ops.c:1249
 #: ../src/modules/calendar/e-cal-base-shell-backend.c:289
-#, fuzzy, c-format
-#| msgid "Source with UID '%s' not found"
+#, c-format
 msgid "Source with UID “%s” not found"
 msgstr "Zdroj s UID „%s“ nebol nájdený"
 
@@ -7162,38 +7024,32 @@ msgid "Updating a task"
 msgstr "Aktualizuje sa úloha"
 
 #: ../src/calendar/gui/e-cal-ops.c:966
-#, fuzzy, c-format
-#| msgid "Getting events to purge in the calendar '%s'"
+#, c-format
 msgid "Getting events to purge in the calendar “%s”"
 msgstr "Získavajú sa udalosti na vyčistenie z kalendára „%s“"
 
 #: ../src/calendar/gui/e-cal-ops.c:970
-#, fuzzy, c-format
-#| msgid "Getting memos to purge in the memo list '%s'"
+#, c-format
 msgid "Getting memos to purge in the memo list “%s”"
 msgstr "Získavajú sa poznámky na vyčistenie zo zoznamu poznámok „%s“"
 
 #: ../src/calendar/gui/e-cal-ops.c:974
-#, fuzzy, c-format
-#| msgid "Getting tasks to purge in the task list '%s'"
+#, c-format
 msgid "Getting tasks to purge in the task list “%s”"
 msgstr "Získavajú sa úlohy na vyčistenie zo zoznamu úloh „%s“"
 
 #: ../src/calendar/gui/e-cal-ops.c:1000
-#, fuzzy, c-format
-#| msgid "Purging events in the calendar '%s'"
+#, c-format
 msgid "Purging events in the calendar “%s”"
 msgstr "Čistia sa udalosti v kalendári „%s“"
 
 #: ../src/calendar/gui/e-cal-ops.c:1004
-#, fuzzy, c-format
-#| msgid "Purging memos in the memo list '%s'"
+#, c-format
 msgid "Purging memos in the memo list “%s”"
 msgstr "Čistia sa poznámky v zozname poznámok „%s“"
 
 #: ../src/calendar/gui/e-cal-ops.c:1008
-#, fuzzy, c-format
-#| msgid "Purging tasks in the task list '%s'"
+#, c-format
 msgid "Purging tasks in the task list “%s”"
 msgstr "Čistia sa úlohy v zozname úloh „%s“"
 
@@ -7282,8 +7138,6 @@ msgstr ""
 "%s"
 
 #: ../src/calendar/gui/e-comp-editor-event.c:99
-#, fuzzy
-#| msgid "Event's time is in the past"
 msgid "Event’s time is in the past"
 msgstr "Čas udalosti je v minulosti"
 
@@ -7446,16 +7300,14 @@ msgid "Schedule"
 msgstr "Plánovanie"
 
 #: ../src/calendar/gui/e-comp-editor-event.c:857
-#, fuzzy, c-format
-#| msgid "Meeting - %s"
+#, c-format
 msgid "Meeting — %s"
-msgstr "Stretnutie - %s"
+msgstr "Stretnutie — %s"
 
 #: ../src/calendar/gui/e-comp-editor-event.c:858
-#, fuzzy, c-format
-#| msgid "Appointment - %s"
+#, c-format
 msgid "Appointment — %s"
-msgstr "Schôdzka - %s"
+msgstr "Schôdzka — %s"
 
 #: ../src/calendar/gui/e-comp-editor-memo.c:88
 msgid ""
@@ -7486,16 +7338,14 @@ msgid "Sta_rt date:"
 msgstr "Dátum _začiatku:"
 
 #: ../src/calendar/gui/e-comp-editor-memo.c:247
-#, fuzzy, c-format
-#| msgid "Assigned Memo - %s"
+#, c-format
 msgid "Assigned Memo — %s"
-msgstr "Priradená poznámka - %s"
+msgstr "Priradená poznámka — %s"
 
 #: ../src/calendar/gui/e-comp-editor-memo.c:248
-#, fuzzy, c-format
-#| msgid "Memo - %s"
+#, c-format
 msgid "Memo — %s"
-msgstr "Poznámka - %s"
+msgstr "Poznámka — %s"
 
 #: ../src/calendar/gui/e-comp-editor-page-attachments.c:123
 #: ../src/calendar/gui/e-comp-editor-page-attachments.c:128
@@ -7511,8 +7361,7 @@ msgstr[2] "Prílohy"
 
 #: ../src/calendar/gui/e-comp-editor-page-attachments.c:194
 #: ../src/e-util/e-attachment.c:2419
-#, fuzzy, c-format
-#| msgid "Could not load '%s'"
+#, c-format
 msgid "Could not load “%s”"
 msgstr "Nepodarilo sa načítať „%s“"
 
@@ -8240,14 +8089,10 @@ msgid "Show time as _busy"
 msgstr "Zobraziť čas ako _obsadený"
 
 #: ../src/calendar/gui/e-comp-editor-task.c:224
-#, fuzzy
-#| msgid "Task's start date is in the past"
 msgid "Task’s start date is in the past"
 msgstr "Dátum začiatku úlohy je v minulosti"
 
 #: ../src/calendar/gui/e-comp-editor-task.c:232
-#, fuzzy
-#| msgid "Task's due date is in the past"
 msgid "Task’s due date is in the past"
 msgstr "Dátum termínu úlohy je v minulosti"
 
@@ -8279,10 +8124,8 @@ msgid "Completed date cannot be in the future"
 msgstr "Dátum dokončenia nemôže byť v budúcnosti"
 
 #: ../src/calendar/gui/e-comp-editor-task.c:607
-#, fuzzy
-#| msgid "All _Day Event"
 msgid "All _Day Task"
-msgstr "Celo_denná udalosť"
+msgstr "Celo_denná úloha"
 
 # tooltip
 #: ../src/calendar/gui/e-comp-editor-task.c:609
@@ -8292,16 +8135,14 @@ msgid "Toggles whether to have All Day Task"
 msgstr "Prepína, či má byť celodennou udalosťou"
 
 #: ../src/calendar/gui/e-comp-editor-task.c:818
-#, fuzzy, c-format
-#| msgid "Assigned Task - %s"
+#, c-format
 msgid "Assigned Task — %s"
-msgstr "Priradená úloha - %s"
+msgstr "Priradená úloha — %s"
 
 #: ../src/calendar/gui/e-comp-editor-task.c:819
-#, fuzzy, c-format
-#| msgid "Task - %s"
+#, c-format
 msgid "Task — %s"
-msgstr "Úloha - %s"
+msgstr "Úloha — %s"
 
 #: ../src/calendar/gui/e-comp-editor.c:253
 #: ../src/modules/prefer-plain/e-mail-parser-prefer-plain.c:125
@@ -8355,7 +8196,7 @@ msgstr "_Kopírovať"
 #: ../src/calendar/gui/e-comp-editor.c:1985 ../src/e-util/e-focus-tracker.c:173
 #: ../src/e-util/e-focus-tracker.c:229 ../src/e-util/e-focus-tracker.c:282
 #: ../src/e-util/e-focus-tracker.c:774 ../src/e-util/e-web-view.c:409
-#: ../src/e-util/e-web-view.c:1939 ../src/mail/e-mail-browser.c:136
+#: ../src/e-util/e-web-view.c:1942 ../src/mail/e-mail-browser.c:136
 #: ../src/shell/e-shell-window-actions.c:810
 msgid "Copy the selection"
 msgstr "Skopíruje výber"
@@ -8370,7 +8211,7 @@ msgstr "Vys_trihnúť"
 # tooltip
 #: ../src/calendar/gui/e-comp-editor.c:1992 ../src/e-util/e-focus-tracker.c:166
 #: ../src/e-util/e-focus-tracker.c:222 ../src/e-util/e-focus-tracker.c:276
-#: ../src/e-util/e-focus-tracker.c:769 ../src/e-util/e-web-view.c:1948
+#: ../src/e-util/e-focus-tracker.c:769 ../src/e-util/e-web-view.c:1951
 #: ../src/mail/e-mail-browser.c:143 ../src/shell/e-shell-window-actions.c:817
 msgid "Cut the selection"
 msgstr "Vystrihne výber"
@@ -8397,7 +8238,7 @@ msgstr "_Vložiť"
 # tooltip
 #: ../src/calendar/gui/e-comp-editor.c:2013 ../src/e-util/e-focus-tracker.c:180
 #: ../src/e-util/e-focus-tracker.c:236 ../src/e-util/e-focus-tracker.c:288
-#: ../src/e-util/e-focus-tracker.c:779 ../src/e-util/e-web-view.c:1957
+#: ../src/e-util/e-focus-tracker.c:779 ../src/e-util/e-web-view.c:1960
 #: ../src/mail/e-mail-browser.c:150 ../src/shell/e-shell-window-actions.c:845
 msgid "Paste the clipboard"
 msgstr "Vloží obsah schránky"
@@ -11398,10 +11239,8 @@ msgid ""
 msgstr "Kvôli &quot;{1}&quot;, budete musieť vybrať iné nastavenia pošty."
 
 #: ../src/composer/mail-composer.error.xml.h:22
-#, fuzzy
-#| msgid "Could not read signature file &quot;{0}&quot;."
 msgid "Could not read signature file “{0}”."
-msgstr "Nepodarilo sa prečítať súbor s podpisom &quot;{0}&quot;."
+msgstr "Nepodarilo sa prečítať súbor s podpisom „{0}“."
 
 #: ../src/composer/mail-composer.error.xml.h:23
 msgid "All accounts have been removed."
@@ -11416,9 +11255,6 @@ msgid "An error occurred while saving to your Outbox folder."
 msgstr "Vyskytla sa chyba pri ukladaní do vášho priečinka Pošta na odoslanie."
 
 #: ../src/composer/mail-composer.error.xml.h:26
-#, fuzzy
-#| msgid ""
-#| "The reported error was &quot;{0}&quot;. The message has not been sent."
 msgid "The reported error was “{0}”. The message has not been sent."
 msgstr "Ohlásená chyba bola „{0}“. Správa nebola odoslaná."
 
@@ -11427,10 +11263,6 @@ msgid "An error occurred while saving to your Drafts folder."
 msgstr "Vyskytla sa chyba pri ukladaní do vášho priečinka Návrhy."
 
 #: ../src/composer/mail-composer.error.xml.h:28
-#, fuzzy
-#| msgid ""
-#| "The reported error was &quot;{0}&quot;. The message has most likely not "
-#| "been saved."
 msgid ""
 "The reported error was “{0}”. The message has most likely not been saved."
 msgstr ""
@@ -11443,8 +11275,6 @@ msgstr "Vyskytla sa chyba pri odosielaní. Ako chcete pokračovať?"
 
 #: ../src/composer/mail-composer.error.xml.h:30
 #: ../src/mail/mail.error.xml.h:175
-#, fuzzy
-#| msgid "The reported error was &quot;{0}&quot;."
 msgid "The reported error was “{0}”."
 msgstr "Ohlásená chyba bola „{0}."
 
@@ -11587,7 +11417,7 @@ msgstr ""
 
 #: ../src/composer/mail-composer.error.xml.h:54
 msgid "Something has gone wrong when editing the message"
-msgstr ""
+msgstr "Pri upravovaní správy sa niečo nepodarilo"
 
 #: ../src/composer/mail-composer.error.xml.h:55
 msgid ""
@@ -11595,6 +11425,9 @@ msgid ""
 "closing the composer window and opening a new one. If the issue persists, "
 "please file a bug report in the GNOME bugzilla."
 msgstr ""
+"Proces WebKitWebProcess havaroval pri upravovaní správy. Môže to skúsiť "
+"znova zatvorením okna editora a otvorením nového. Ak problém pretrvá, "
+"nahláste prosím chybu v systéme GNOME Bugzilla."
 
 # desc
 #: ../src/em-format/e-mail-formatter-attachment.c:334
@@ -12074,10 +11907,9 @@ msgid "A save operation is already in progress"
 msgstr "Operácia ukladania ešte stále prebieha"
 
 #: ../src/e-util/e-attachment.c:2707
-#, fuzzy, c-format
-#| msgid "Could not open %s:"
+#, c-format
 msgid "Could not open “%s”"
-msgstr "Nepodarilo sa otvoriť %s:"
+msgstr "Nepodarilo sa otvoriť  „%s“"
 
 #: ../src/e-util/e-attachment.c:2710
 #, c-format
@@ -12089,8 +11921,7 @@ msgid "Attachment contents not loaded"
 msgstr "Obsah prílohy sa nenačítal"
 
 #: ../src/e-util/e-attachment.c:3551
-#, fuzzy, c-format
-#| msgid "Could not save '%s'"
+#, c-format
 msgid "Could not save “%s”"
 msgstr "Nepodarilo sa uložiť „%s“"
 
@@ -12216,8 +12047,7 @@ msgid "_Properties"
 msgstr "V_lastnosti"
 
 #: ../src/e-util/e-attachment-view.c:658
-#, fuzzy, c-format
-#| msgid "Open With \"%s\""
+#, c-format
 msgid "Open With “%s”"
 msgstr "Otvoriť pomocou „%s“"
 
@@ -12341,8 +12171,7 @@ msgid "Icon"
 msgstr "Ikona"
 
 #: ../src/e-util/e-category-completion.c:304
-#, fuzzy, c-format
-#| msgid "Create category \"%s\""
+#, c-format
 msgid "Create category “%s”"
 msgstr "Vytvoriť kategóriu „%s“"
 
@@ -12962,16 +12791,14 @@ msgstr "(Neznámy názov súboru)"
 
 #. Translators: The string value is the basename of a file.
 #: ../src/e-util/e-file-utils.c:125
-#, fuzzy, c-format
-#| msgid "Writing \"%s\""
+#, c-format
 msgid "Writing “%s”"
 msgstr "Zapisuje sa „%s“"
 
 #. Translators: The first string value is the basename of a
 #. * remote file, the second string value is the hostname.
 #: ../src/e-util/e-file-utils.c:130
-#, fuzzy, c-format
-#| msgid "Writing \"%s\" to %s"
+#, c-format
 msgid "Writing “%s” to %s"
 msgstr "Zapisuje sa „%s“ na %s"
 
@@ -14074,8 +13901,7 @@ msgid "Replace"
 msgstr "Nahradenie"
 
 #: ../src/e-util/e-html-editor-spell-check-dialog.c:83
-#, fuzzy, c-format
-#| msgid "<b>Suggestions for '%s'</b>"
+#, c-format
 msgid "<b>Suggestions for “%s”</b>"
 msgstr "<b>Návrhy pre „%s“</b>"
 
@@ -14428,25 +14254,25 @@ msgid "Select Contacts from Address Book"
 msgstr "Výber kontaktov z adresára kontaktov"
 
 #. To Translators: This would be similiar to "Expand MyList Inline" where MyList is a Contact List
-#: ../src/e-util/e-name-selector-entry.c:3208
+#: ../src/e-util/e-name-selector-entry.c:3207
 #, c-format
 msgid "E_xpand %s Inline"
 msgstr "Roz_baliť %s vo vnútri"
 
 #. Copy Contact Item
-#: ../src/e-util/e-name-selector-entry.c:3224
+#: ../src/e-util/e-name-selector-entry.c:3223
 #, c-format
 msgid "Cop_y %s"
 msgstr "Ko_pírovať %s"
 
 #. Cut Contact Item
-#: ../src/e-util/e-name-selector-entry.c:3235
+#: ../src/e-util/e-name-selector-entry.c:3234
 #, c-format
 msgid "C_ut %s"
 msgstr "_Vystrihnúť %s"
 
 #. Edit Contact item
-#: ../src/e-util/e-name-selector-entry.c:3253
+#: ../src/e-util/e-name-selector-entry.c:3252
 #, c-format
 msgid "_Edit %s"
 msgstr "_Upraviť %s"
@@ -15038,7 +14864,7 @@ msgstr "Obslužný softvér zoznamu úloh „{0}“ narazil na chybu."
 
 #: ../src/e-util/e-system.error.xml.h:23
 msgid "Something has gone wrong"
-msgstr ""
+msgstr "Niečo sa nepodarilo"
 
 #: ../src/e-util/e-system.error.xml.h:24
 msgid ""
@@ -15046,6 +14872,9 @@ msgid ""
 "reopening the window. If the issue persists, please file a bug report in the "
 "GNOME bugzilla."
 msgstr ""
+"Proces WebKitWebProcess havaroval pri zobrazovaní obsahu. Môže skúsiť "
+"zatvoriť a znova otvoriť okno. Ak problém pretrvá, nahláste prosím chybu v "
+"systéme GNOME Bugzilla."
 
 #: ../src/e-util/e-table-click-to-add.c:687
 #: ../src/e-util/gal-a11y-e-table-click-to-add.c:59
@@ -15376,49 +15205,48 @@ msgstr "Uložiť _obrázok…"
 msgid "Save the image to a file"
 msgstr "Uloží obrázok do súboru"
 
-#: ../src/e-util/e-web-view.c:419 ../src/e-util/e-web-view.c:1961
+#: ../src/e-util/e-web-view.c:419 ../src/e-util/e-web-view.c:1964
 msgid "Select all text and images"
 msgstr "Vybrať celý text a obrázky"
 
-#: ../src/e-util/e-web-view.c:1319
+#: ../src/e-util/e-web-view.c:1322
 #, c-format
 msgid "Click to call %s"
 msgstr "Kliknutím zavoláte %s"
 
-#: ../src/e-util/e-web-view.c:1321
+#: ../src/e-util/e-web-view.c:1324
 msgid "Click to hide/unhide addresses"
 msgstr "Kliknutím skryjete/zobrazíte adresy"
 
-#: ../src/e-util/e-web-view.c:1332
+#: ../src/e-util/e-web-view.c:1335
 #, c-format
 msgid "Go to the section %s of the message"
 msgstr "Prejsť na časť %s správy"
 
-#: ../src/e-util/e-web-view.c:1334
+#: ../src/e-util/e-web-view.c:1337
 msgid "Go to the beginning of the message"
 msgstr "Prejsť na začiatok správy"
 
-#: ../src/e-util/e-web-view.c:1338
+#: ../src/e-util/e-web-view.c:1341
 #, c-format
 msgid "Click to open %s"
 msgstr "Kliknutím otvoríte %s"
 
-#: ../src/e-util/e-web-view.c:3872
+#: ../src/e-util/e-web-view.c:3875
 msgid "Copying image to clipboard"
 msgstr "Kopíruje sa obrázok do schránky"
 
 # window title
-#: ../src/e-util/e-web-view.c:4060
+#: ../src/e-util/e-web-view.c:4063
 msgid "Save Image"
 msgstr "Uloženie obrázku"
 
-#: ../src/e-util/e-web-view.c:4101
-#, fuzzy, c-format
-#| msgid "Saving image to '%s'"
+#: ../src/e-util/e-web-view.c:4104
+#, c-format
 msgid "Saving image to “%s”"
-msgstr "Presúva sa obrázok do „%s“"
+msgstr "Ukladá sa obrázok do „%s“"
 
-#: ../src/e-util/e-web-view.c:4196
+#: ../src/e-util/e-web-view.c:4199
 #, fuzzy, c-format
 #| msgid "Cannot get URI '%s', do not know how to download it."
 msgid "Cannot get URI “%s”, do not know how to download it."
@@ -15426,26 +15254,18 @@ msgstr ""
 "Nedá sa získať identifikátor URI „%s“. Nie je známy spôsob, ako ho prevziať."
 
 #: ../src/e-util/e-widget-undo.c:428
-#, fuzzy
-#| msgid "Undo 'Insert text'"
 msgid "Undo “Insert text”"
 msgstr "Vrátiť späť „Vloženie textu“"
 
 #: ../src/e-util/e-widget-undo.c:430
-#, fuzzy
-#| msgid "Redo 'Insert text'"
 msgid "Redo “Insert text”"
 msgstr "Znovu vykonať „Vloženie textu“"
 
 #: ../src/e-util/e-widget-undo.c:444
-#, fuzzy
-#| msgid "Undo 'Delete text'"
 msgid "Undo “Delete text”"
 msgstr "Vrátiť späť „Odstránenie textu“"
 
 #: ../src/e-util/e-widget-undo.c:446
-#, fuzzy
-#| msgid "Redo 'Delete text'"
 msgid "Redo “Delete text”"
 msgstr "Znovu vykonať „Odstránenie textu“"
 
@@ -15723,8 +15543,7 @@ msgstr ""
 "k serveru"
 
 #: ../src/libemail-engine/e-mail-folder-utils.c:106
-#, fuzzy, c-format
-#| msgid "Saving message to folder '%s'"
+#, c-format
 msgid "Saving message to folder “%s”"
 msgstr "Ukladá sa správa do priečinka „%s“"
 
@@ -15747,14 +15566,12 @@ msgid "Scanning messages for duplicates"
 msgstr "Kontrolujú sa správy na duplicitné"
 
 #: ../src/libemail-engine/e-mail-folder-utils.c:1150
-#, fuzzy, c-format
-#| msgid "Removing folder '%s'"
+#, c-format
 msgid "Removing folder “%s”"
 msgstr "Odstraňuje sa priečinok „%s“"
 
 #: ../src/libemail-engine/e-mail-folder-utils.c:1331
-#, fuzzy, c-format
-#| msgid "File \"%s\" has been removed."
+#, c-format
 msgid "File “%s” has been removed."
 msgstr "Súbor „%s“ bol odstránený."
 
@@ -15775,8 +15592,7 @@ msgstr[1] "Ukladá sa %d správa"
 msgstr[2] "Ukladajú sa %d správy"
 
 #: ../src/libemail-engine/e-mail-folder-utils.c:1961
-#, fuzzy, c-format
-#| msgid "Invalid folder URI '%s'"
+#, c-format
 msgid "Invalid folder URI “%s”"
 msgstr "Neplatný URI priečinka „%s“"
 
@@ -15845,8 +15661,7 @@ msgstr ""
 "zrušené."
 
 #: ../src/libemail-engine/e-mail-session.c:2444
-#, fuzzy, c-format
-#| msgid "Waiting for '%s'"
+#, c-format
 msgid "Waiting for “%s”"
 msgstr "Čaká sa na „%s“"
 
@@ -15856,8 +15671,7 @@ msgstr "Služba prenosu pošty nie je k dispozícii"
 
 #: ../src/libemail-engine/e-mail-session-utils.c:614
 #: ../src/libemail-engine/mail-ops.c:706
-#, fuzzy, c-format
-#| msgid "Posting message to '%s'"
+#, c-format
 msgid "Posting message to “%s”"
 msgstr "Správa sa odosiela do „%s“"
 
@@ -15870,8 +15684,7 @@ msgstr "Zlyhalo použitie filtrov pre odosielanú poštu: %s"
 #: ../src/libemail-engine/e-mail-session-utils.c:681
 #: ../src/libemail-engine/e-mail-session-utils.c:716
 #: ../src/libemail-engine/mail-ops.c:766 ../src/libemail-engine/mail-ops.c:801
-#, fuzzy, c-format
-#| msgid "Storing sent message to '%s'"
+#, c-format
 msgid "Storing sent message to “%s”"
 msgstr "Ukladá sa odoslaná správa do „%s“"
 
@@ -16033,10 +15846,9 @@ msgid "Trying to movemail a non-mbox source “%s”"
 msgstr "Prebieha pokus o presun správu zo zdroja „%s“, ktorý nie je mbox"
 
 #: ../src/libemail-engine/mail-tools.c:257
-#, fuzzy, c-format
-#| msgid "Forwarded message - %s"
+#, c-format
 msgid "Forwarded message — %s"
-msgstr "Správa odoslaná ďalej - %s"
+msgstr "Správa odoslaná ďalej — %s"
 
 #: ../src/libemail-engine/mail-tools.c:259
 msgid "Forwarded message"
@@ -16050,7 +15862,7 @@ msgstr "Nastavuje sa vyhľadávací priečinok: %s"
 #: ../src/libemail-engine/mail-vfolder.c:302
 #, fuzzy, c-format
 #| msgid "Updating Search Folders for '%s' - %s"
-msgid "Updating Search Folders for “%s” — %s"
+msgid "Updating Search Folders for “%s : %s”"
 msgstr "Aktualizujú sa vyhľadávacie priečinky pre „%s“ – %s"
 
 #. Translators: The first %s is name of the affected
@@ -19549,8 +19361,6 @@ msgid "A folder named “{1}” already exists. Please use a different name."
 msgstr "Priečinok pomenovaný „{1}“ už existuje. Prosím, zadajte iný názov."
 
 #: ../src/mail/mail.error.xml.h:80
-#, fuzzy
-#| msgid "Cannot move folder \"{0}\" to \"{1}\"."
 msgid "Cannot move folder “{0}” to “{1}”."
 msgstr "Nedá sa presunúť priečinok „{0}“ do „{1}“."
 
@@ -19563,14 +19373,10 @@ msgid "Cannot open target folder. Error: {2}"
 msgstr "Nedá sa otvoriť cieľový priečinok. Chyba: {2}"
 
 #: ../src/mail/mail.error.xml.h:83
-#, fuzzy
-#| msgid "Cannot copy folder \"{0}\" to \"{1}\"."
 msgid "Cannot copy folder “{0}” to “{1}”."
 msgstr "Nedá sa skopírovať priečinok „{0}“ do „{1}“."
 
 #: ../src/mail/mail.error.xml.h:84
-#, fuzzy
-#| msgid "Cannot create folder \"{0}\"."
 msgid "Cannot create folder “{0}”."
 msgstr "Nedá sa vytvoriť priečinok „{0}“."
 
@@ -19628,8 +19434,6 @@ msgid "_Disable"
 msgstr "_Zakázať"
 
 #: ../src/mail/mail.error.xml.h:98
-#, fuzzy
-#| msgid "Cannot edit Search Folder \"{0}\" as it does not exist."
 msgid "Cannot edit Search Folder “{0}” as it does not exist."
 msgstr "Nedá sa upraviť vyhľadávací priečinok „{0}“, pretože neexistuje."
 
@@ -19642,8 +19446,6 @@ msgstr ""
 "ak potrebujete, choďte do vyhľadávacích priečinkov a pridajte ho explicitne."
 
 #: ../src/mail/mail.error.xml.h:101
-#, fuzzy
-#| msgid "Cannot add Search Folder \"{0}\"."
 msgid "Cannot add Search Folder “{0}”."
 msgstr "Nedá sa pridať vyhľadávací priečinok „{0}“."
 
@@ -19922,20 +19724,14 @@ msgid "You do not have sufficient permissions to delete this mail."
 msgstr "Nemáte dostatočné práva na odstránenie tejto pošty."
 
 #: ../src/mail/mail.error.xml.h:160
-#, fuzzy
-#| msgid "\"Check Junk\" Failed"
 msgid "“Check Junk” Failed"
 msgstr "Zlyhalo „Skontolovať nevyžiadanú poštu“"
 
 #: ../src/mail/mail.error.xml.h:161
-#, fuzzy
-#| msgid "\"Report Junk\" Failed"
 msgid "“Report Junk” Failed"
 msgstr "Zlyhalo „Oznámiť nevyžiadanú poštu“"
 
 #: ../src/mail/mail.error.xml.h:162
-#, fuzzy
-#| msgid "\"Report Not Junk\" Failed"
 msgid "“Report Not Junk” Failed"
 msgstr "Zlyhalo „Oznámiť očakávanú poštu“"
 
@@ -20136,10 +19932,8 @@ msgid "Failed to store message note in folder “{0}”"
 msgstr "Zlyhalo uloženie poznámky k správe do priečinka „{0}“"
 
 #: ../src/mail/mail.error.xml.h:208
-#, fuzzy
-#| msgid "Search for text in the body of the displayed message"
 msgid "Something has gone wrong when displaying the message"
-msgstr "Hľadá v texte zobrazenej správy"
+msgstr "Pri zobrazovaní správy sa niečo nepodarilo"
 
 #: ../src/mail/mail.error.xml.h:209
 msgid ""
@@ -20147,10 +19941,13 @@ msgid ""
 "moving to another message and back. If the issue persists, please file a bug "
 "report in the GNOME bugzilla."
 msgstr ""
+"Proces WebKitWebProcess havaroval pri zobrazovaní správy. Môže to skúsiť "
+"znova presunutím na inú správu a späť. Ak problém pretrvá, nahláste prosím "
+"chybu v systéme GNOME Bugzilla."
 
 #: ../src/mail/mail.error.xml.h:210
 msgid "Something has gone wrong when displaying the signature"
-msgstr ""
+msgstr "Pri zobrazovaní podpisu sa niečo nepodarilo"
 
 #: ../src/mail/mail.error.xml.h:211
 msgid ""
@@ -20158,6 +19955,9 @@ msgid ""
 "by moving to another signature and back. If the issue persists, please file "
 "a bug report in the GNOME bugzilla."
 msgstr ""
+"Proces WebKitWebProcess havaroval pri zobrazovaní podpisu. Môže to skúsiť "
+"znova presunutím na iný podpis a späť. Ak problém pretrvá, nahláste prosím "
+"chybu v systéme GNOME Bugzilla."
 
 #: ../src/mail/mail-send-recv.c:192
 msgid "Canceling..."
@@ -23944,8 +23744,6 @@ msgid "Important Messages"
 msgstr "Dôležité správy"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:2098
-#, fuzzy
-#| msgid "Last 5 Days' Messages"
 msgid "Last 5 Days’ Messages"
 msgstr "Správy za posledných 5 dní"
 
@@ -24697,38 +24495,38 @@ msgstr "Upozorňovač na prílohy"
 msgid "Reminds you when you forgot to add an attachment to a mail message."
 msgstr "Upozorní vás na chýbajúcu prílohu v poštovej správe"
 
-#: ../src/plugins/bbdb/bbdb.c:722 ../src/plugins/bbdb/bbdb.c:833
+#: ../src/plugins/bbdb/bbdb.c:725 ../src/plugins/bbdb/bbdb.c:836
 #: ../src/plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml.h:1
 msgid "Automatic Contacts"
 msgstr "Automatické kontakty"
 
 #. Enable BBDB checkbox
-#: ../src/plugins/bbdb/bbdb.c:737
+#: ../src/plugins/bbdb/bbdb.c:740
 msgid "Create _address book entries when sending mails"
 msgstr "Vytvárať položky _adresára kontaktov pri odosielaní pošty"
 
-#: ../src/plugins/bbdb/bbdb.c:747
+#: ../src/plugins/bbdb/bbdb.c:750
 msgid "Select Address book for Automatic Contacts"
 msgstr "Vyberte adresár kontaktov pre automatické kontakty"
 
 # instant messaging tusím prekladáme inak pozri v ostatných moduloch
-#: ../src/plugins/bbdb/bbdb.c:767
+#: ../src/plugins/bbdb/bbdb.c:770
 msgid "Instant Messaging Contacts"
 msgstr "Kontakty priamej komunikácie"
 
 #. Enable Gaim Checkbox
-#: ../src/plugins/bbdb/bbdb.c:782
+#: ../src/plugins/bbdb/bbdb.c:785
 msgid "_Synchronize contact info and images from Pidgin buddy list"
 msgstr ""
 "_Synchronizovať informácie o kontaktoch a obrázky zo zoznamu priateľov "
 "programu Pidgin"
 
-#: ../src/plugins/bbdb/bbdb.c:792
+#: ../src/plugins/bbdb/bbdb.c:795
 msgid "Select Address book for Pidgin buddy list"
 msgstr "Vyberte adresár kontaktov pre zoznam priateľov programu Pidgin"
 
 #. Synchronize now button.
-#: ../src/plugins/bbdb/bbdb.c:808
+#: ../src/plugins/bbdb/bbdb.c:811
 msgid "Synchronize with _buddy list now"
 msgstr "Synchronizovať so zoznamom _priateľov teraz"
 
@@ -26198,10 +25996,9 @@ msgstr "Nový"
 
 #. Translators: This is used for the main window title.
 #: ../src/shell/e-shell-window-private.c:720
-#, fuzzy, c-format
-#| msgid "%s - Evolution"
+#, c-format
 msgid "%s — Evolution"
-msgstr "%s - Evolution"
+msgstr "%s — Evolution"
 
 #. Preview/Alpha/Beta version warning message
 #: ../src/shell/main.c:195
@@ -26309,10 +26106,8 @@ msgstr ""
 
 # PIM - personal information manager
 #: ../src/shell/main.c:466 ../src/shell/main.c:471
-#, fuzzy
-#| msgid "- The Evolution PIM and Email Client"
 msgid "— The Evolution PIM and Email Client"
-msgstr "- Poštový klient a osobný správca údajov Evolution"
+msgstr "— Poštový klient a osobný správca údajov Evolution"
 
 #: ../src/shell/main.c:533
 #, fuzzy, c-format
@@ -26399,20 +26194,14 @@ msgid "Keep _Waiting"
 msgstr "_Počkať"
 
 #: ../src/shell/shell.error.xml.h:15
-#, fuzzy
-#| msgid "Failed to get values from '{0}'"
 msgid "Failed to get values from “{0}”"
 msgstr "Zlyhalo získanie hodnôt z „{0}“"
 
 #: ../src/shell/shell.error.xml.h:16
-#, fuzzy
-#| msgid "Failed to invoke authenticate for '{0}'"
 msgid "Failed to invoke authenticate for “{0}”"
 msgstr "Zlyhalo vyvolanie autorizácie pre „{0}“"
 
 #: ../src/shell/shell.error.xml.h:17
-#, fuzzy
-#| msgid "Failed to connect '{0}'"
 msgid "Failed to connect “{0}”"
 msgstr "Zlyhalo pripojenie „{0}“"
 
@@ -26421,8 +26210,6 @@ msgid "_Reconnect"
 msgstr "Znovu _pripojiť"
 
 #: ../src/shell/shell.error.xml.h:19
-#, fuzzy
-#| msgid "Failed to connect address book '{0}'"
 msgid "Failed to connect address book “{0}”"
 msgstr "Zlyhalo pripojenie adresára kontaktov „{0}“"
 
