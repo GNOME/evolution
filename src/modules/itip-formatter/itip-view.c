@@ -3661,8 +3661,8 @@ find_cal_update_ui (FormatItipFindData *fd,
 		} else {
 			itip_view_add_upper_info_item_printf (
 				view, ITIP_VIEW_INFO_ITEM_TYPE_WARNING,
-				ngettext (_("The calendar “%s” contains an appointment which conflicts with this meeting"),
-					  _("The calendar “%s” contains %d appointments which conflict with this meeting"),
+				ngettext ("The calendar “%s” contains an appointment which conflicts with this meeting",
+					  "The calendar “%s” contains %d appointments which conflict with this meeting",
 					  ncomps),
 				e_source_get_display_name (source),
 				ncomps);
