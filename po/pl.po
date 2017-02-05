@@ -17,8 +17,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-01-30 02:44+0100\n"
-"PO-Revision-Date: 2017-01-30 02:45+0100\n"
+"POT-Creation-Date: 2017-02-05 15:35+0100\n"
+"PO-Revision-Date: 2017-02-05 15:37+0100\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <community-poland@mozilla.org>\n"
 "Language: pl\n"
@@ -16402,12 +16402,12 @@ msgstr "Przenosi do katalogu"
 msgid "Copy to Folder"
 msgstr "Kopiuje do katalogu"
 
-#: ../src/mail/e-mail-reader.c:353 ../src/mail/em-folder-utils.c:488
+#: ../src/mail/e-mail-reader.c:353 ../src/mail/em-folder-utils.c:501
 #: ../src/mail/mail.error.xml.h:152
 msgid "_Move"
 msgstr "_Przenieś"
 
-#: ../src/mail/e-mail-reader.c:353 ../src/mail/em-folder-utils.c:488
+#: ../src/mail/e-mail-reader.c:353 ../src/mail/em-folder-utils.c:501
 msgid "C_opy"
 msgstr "S_kopiuj"
 
@@ -17445,11 +17445,11 @@ msgstr "NIEPASUJĄCE"
 msgid "Loading..."
 msgstr "Wczytywanie…"
 
-#: ../src/mail/em-folder-utils.c:489
+#: ../src/mail/em-folder-utils.c:502
 msgid "Move Folder To"
 msgstr "Przenoszenie katalogu do"
 
-#: ../src/mail/em-folder-utils.c:489
+#: ../src/mail/em-folder-utils.c:502
 msgid "Copy Folder To"
 msgstr "Kopiowanie katalogu do"
 
@@ -22308,13 +22308,11 @@ msgstr "Spotkanie „%s” w kalendarzu „%s” koliduje z tym zebraniem"
 #, c-format
 msgid ""
 "The calendar “%s” contains an appointment which conflicts with this meeting"
-msgstr "Kalendarz „%s” zawiera spotkanie kolidujące z tym zebraniem"
-
-#: ../src/modules/itip-formatter/itip-view.c:3665
-#, c-format
-msgid ""
+msgid_plural ""
 "The calendar “%s” contains %d appointments which conflict with this meeting"
-msgstr "Kalendarz „%s” zawiera spotkania (%d) kolidujące z tym zebraniem"
+msgstr[0] "Kalendarz „%s” zawiera spotkanie kolidujące z tym zebraniem"
+msgstr[1] "Kalendarz „%s” zawiera %d spotkania kolidujące z tym zebraniem"
+msgstr[2] "Kalendarz „%s” zawiera %d spotkań kolidujących z tym zebraniem"
 
 #: ../src/modules/itip-formatter/itip-view.c:3697
 #, c-format
