@@ -28,7 +28,7 @@
 
 #ifdef HAVE_AUTOAR
 #include <gnome-autoar/gnome-autoar.h>
-#include <gnome-autoar/autoar-gtk.h>
+#include <gnome-autoar-gtk/gnome-autoar-gtk.h>
 #endif
 
 #include "e-mktemp.h"

@@ -3039,7 +3039,7 @@ attachment_save_read_cb (GInputStream *input_stream,
 
 #ifdef HAVE_AUTOAR
 static GFile*
-attachment_save_extracted_decide_destination_cb (AutoarExtractor *extractor,
+attachment_save_extracted_change_destination_cb (AutoarExtractor *extractor,
                                                  GFile *destination,
                                                  GList *files,
                                                  SaveContext *save_context)
@@ -3134,8 +3134,8 @@ attachament_save_write_archive_cb (GOutputStream *output_stream,
 
 	autoar_extractor_set_delete_after_extraction (extractor, TRUE);
 
-	g_signal_connect (extractor, "decide-destination",
-		G_CALLBACK (attachment_save_extracted_decide_destination_cb),
+	g_signal_connect (extractor, "change-destination",
+		G_CALLBACK (attachment_save_extracted_change_destination_cb),
 		save_context);
 	g_signal_connect (extractor, "progress",
 		G_CALLBACK (attachment_save_extracted_progress_cb),
