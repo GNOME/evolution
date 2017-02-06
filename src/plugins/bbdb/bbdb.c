@@ -377,10 +377,16 @@ bbdb_do_it (EBookClient *client,
 		status = e_book_client_get_contacts_sync (client_addressbook, query_string, &contacts, NULL, NULL);
 		g_free (query_string);
 		if (contacts != NULL || !status) {
-			g_slist_free_full (contacts, (GDestroyNotify) g_object_unref);
-			g_free (temp_name);
-			g_list_free_full (addressbooks, (GDestroyNotify) g_object_unref);
+			g_slist_free_full (contacts, g_object_unref);
 			g_object_unref (client_addressbook);
+
+			if (!status) {
+				aux_addressbooks = aux_addressbooks->next;
+				continue;
+			}
+
+			g_free (temp_name);
+			g_list_free_full (addressbooks, g_object_unref);
 
 			return;
 		}
@@ -407,12 +413,16 @@ bbdb_do_it (EBookClient *client,
 			 * name, just give up; we're not smart enough for
 			 * this. */
 			if (!status || contacts->next != NULL) {
-				g_slist_free_full (
-						contacts,
-						(GDestroyNotify) g_object_unref);
-				g_free (temp_name);
-				g_list_free_full (addressbooks, (GDestroyNotify) g_object_unref);
+				g_slist_free_full (contacts, g_object_unref);
 				g_object_unref (client_addressbook);
+
+				if (!status) {
+					aux_addressbooks = aux_addressbooks->next;
+					continue;
+				}
+
+				g_free (temp_name);
+				g_list_free_full (addressbooks, g_object_unref);
 				return;
 			}
 
