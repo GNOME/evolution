@@ -126,6 +126,8 @@ struct _MessageListPrivate {
 	gchar **re_prefixes;
 	gchar **re_separators;
 	GMutex re_prefixes_lock;
+
+	GdkRGBA *new_mail_bg_color;
 };
 
 /* XXX Plain GNode suffers from O(N) tail insertions, and that won't
@@ -2761,6 +2763,49 @@ ml_tree_sorting_changed (ETreeTableAdapter *adapter,
 }
 
 static void
+ml_get_bg_color_cb (ETableItem *item,
+		    gint row,
+		    gint col,
+		    GdkRGBA *inout_background,
+		    MessageList *message_list)
+{
+	CamelMessageInfo *msg_info;
+	ETreePath path;
+
+	g_return_if_fail (IS_MESSAGE_LIST (message_list));
+	g_return_if_fail (inout_background != NULL);
+
+	if (!message_list->priv->new_mail_bg_color || row < 0)
+		return;
+
+	path = e_tree_table_adapter_node_at_row (e_tree_get_table_adapter (E_TREE (message_list)), row);
+	if (!path || G_NODE_IS_ROOT ((GNode *) path))
+		return;
+
+	/* retrieve the message information array */
+	msg_info = ((GNode *) path)->data;
+	g_return_if_fail (msg_info != NULL);
+
+	if (!(camel_message_info_get_flags (msg_info) & CAMEL_MESSAGE_SEEN))
+		*inout_background = *(message_list->priv->new_mail_bg_color);
+}
+
+static void
+ml_style_updated_cb (MessageList *message_list)
+{
+	g_return_if_fail (IS_MESSAGE_LIST (message_list));
+
+	if (message_list->priv->new_mail_bg_color) {
+		gdk_rgba_free (message_list->priv->new_mail_bg_color);
+		message_list->priv->new_mail_bg_color = NULL;
+	}
+
+	gtk_widget_style_get (GTK_WIDGET (message_list),
+		"new-mail-bg-color", &message_list->priv->new_mail_bg_color,
+		NULL);
+}
+
+static void
 message_list_set_session (MessageList *message_list,
                           EMailSession *session)
 {
@@ -2981,6 +3026,11 @@ message_list_finalize (GObject *object)
 
 	if (message_list->priv->tree_model_root != NULL)
 		extended_g_node_destroy (message_list->priv->tree_model_root);
+
+	if (message_list->priv->new_mail_bg_color) {
+		gdk_rgba_free (message_list->priv->new_mail_bg_color);
+		message_list->priv->new_mail_bg_color = NULL;
+	}
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (message_list_parent_class)->finalize (object);
@@ -3565,6 +3615,15 @@ message_list_class_init (MessageListClass *class)
 			G_PARAM_CONSTRUCT |
 			G_PARAM_STATIC_STRINGS));
 
+	gtk_widget_class_install_style_property (
+		GTK_WIDGET_CLASS (class),
+		g_param_spec_boxed (
+			"new-mail-bg-color",
+			"New Mail Background Color",
+			"Background color to use for new mails",
+			GDK_TYPE_RGBA,
+			G_PARAM_READABLE));
+
 	signals[MESSAGE_SELECTED] = g_signal_new (
 		"message_selected",
 		MESSAGE_LIST_TYPE,
@@ -3675,6 +3734,7 @@ message_list_init (MessageList *message_list)
 	message_list->priv->re_prefixes = NULL;
 	message_list->priv->re_separators = NULL;
 	message_list->priv->group_by_threads = TRUE;
+	message_list->priv->new_mail_bg_color = NULL;
 }
 
 static void
@@ -3682,6 +3742,7 @@ message_list_construct (MessageList *message_list)
 {
 	ETreeTableAdapter *adapter;
 	ETableSpecification *specification;
+	ETableItem *item;
 	AtkObject *a11y;
 	gboolean constructed;
 	gchar *etspecfile;
@@ -3764,6 +3825,16 @@ message_list_construct (MessageList *message_list)
 	g_signal_connect (
 		adapter, "sorting_changed",
 		G_CALLBACK (ml_tree_sorting_changed), message_list);
+
+	item = e_tree_get_item (E_TREE (message_list));
+	g_signal_connect (item, "get-bg-color",
+		G_CALLBACK (ml_get_bg_color_cb), message_list);
+
+	g_signal_connect (message_list, "realize",
+		G_CALLBACK (ml_style_updated_cb), NULL);
+
+	g_signal_connect (message_list, "style-updated",
+		G_CALLBACK (ml_style_updated_cb), NULL);
 }
 
 /**

@@ -207,6 +207,10 @@ struct _ETableItemClass {
 	void		(*selection_model_added)
 						(ETableItem *eti,
 						 ESelectionModel *selection);
+	void		(*get_bg_color)		(ETableItem *eti,
+						 gint row,
+						 gint col,
+						 GdkRGBA *inout_background);
 };
 
 GType		e_table_item_get_type		(void) G_GNUC_CONST;

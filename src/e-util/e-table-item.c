@@ -90,6 +90,7 @@ enum {
 	STYLE_UPDATED,
 	SELECTION_MODEL_REMOVED,
 	SELECTION_MODEL_ADDED,
+	GET_BG_COLOR,
 	LAST_SIGNAL
 };
 
@@ -343,6 +344,8 @@ eti_get_cell_background_color (ETableItem *eti,
 			e_utils_get_theme_color (canvas, "theme_unfocused_selected_bg_color,theme_selected_bg_color", E_UTILS_DEFAULT_THEME_UNFOCUSED_SELECTED_BG_COLOR, background);
 	} else {
 		e_utils_get_theme_color (canvas, "theme_base_color", E_UTILS_DEFAULT_THEME_BASE_COLOR, background);
+
+		g_signal_emit (eti, eti_signals[GET_BG_COLOR], 0, row, col, background);
 	}
 
 	color_spec = e_cell_get_bg_color (ecell_view, row);
@@ -3403,6 +3406,19 @@ e_table_item_class_init (ETableItemClass *class)
 		g_cclosure_marshal_VOID__POINTER,
 		G_TYPE_NONE, 1,
 		G_TYPE_POINTER);
+
+	eti_signals[GET_BG_COLOR] = g_signal_new (
+		"get-bg-color",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (ETableItemClass, get_bg_color),
+		NULL, NULL,
+		NULL,
+		G_TYPE_NONE, 3,
+		G_TYPE_INT, /* row */
+		G_TYPE_INT, /* col */
+		G_TYPE_POINTER /* GdkRGBA *background, but cannot be passed as
+				  boxed, because it's used as (inout) argument */);
 
 	/* A11y Init */
 	gal_a11y_e_table_item_init ();
