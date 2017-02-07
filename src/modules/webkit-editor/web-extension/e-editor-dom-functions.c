@@ -1366,6 +1366,7 @@ move_elements_to_body (EEditorPage *editor_page)
 
 	list = webkit_dom_document_query_selector_all (
 		document, "span.-x-evo-to-body[data-credits]", NULL);
+	e_editor_page_set_allow_top_signature (editor_page, webkit_dom_node_list_get_length (list) > 0);
 	for (jj = 0, ii = webkit_dom_node_list_get_length (list); ii--; jj++) {
 		char *credits;
 		WebKitDOMElement *element;
@@ -5821,6 +5822,7 @@ e_editor_dom_convert_content (EEditorPage *editor_page,
 	/* Move credits to the body */
 	list = webkit_dom_document_query_selector_all (
 		document, "span.-x-evo-to-body[data-credits]", NULL);
+	e_editor_page_set_allow_top_signature (editor_page, webkit_dom_node_list_get_length (list) > 0);
 	for (jj = 0, ii = webkit_dom_node_list_get_length (list); ii--; jj++) {
 		char *credits;
 		WebKitDOMElement *element;

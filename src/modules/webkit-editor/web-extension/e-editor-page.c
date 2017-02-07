@@ -61,6 +61,7 @@ struct _EEditorPagePrivate {
 	gboolean composition_in_progress;
 	gboolean pasting_content_from_itself;
 	gboolean renew_history_after_coordinates;
+	gboolean allow_top_signature;
 
 	GHashTable *inline_images;
 
@@ -252,6 +253,7 @@ e_editor_page_init (EEditorPage *editor_page)
 	editor_page->priv->pasting_content_from_itself = FALSE;
 	editor_page->priv->composition_in_progress = FALSE;
 	editor_page->priv->renew_history_after_coordinates = TRUE;
+	editor_page->priv->allow_top_signature = FALSE;
 	editor_page->priv->spell_check_on_scroll_event_source_id = 0;
 	editor_page->priv->mail_settings = e_util_ref_settings ("org.gnome.evolution.mail");
 	editor_page->priv->word_wrap_length = g_settings_get_int (editor_page->priv->mail_settings, "composer-word-wrap-length");
@@ -778,6 +780,23 @@ e_editor_page_set_composition_in_progress (EEditorPage *editor_page,
 	g_return_if_fail (E_IS_EDITOR_PAGE (editor_page));
 
 	editor_page->priv->composition_in_progress = value;
+}
+
+gboolean
+e_editor_page_get_allow_top_signature (EEditorPage *editor_page)
+{
+	g_return_val_if_fail (E_IS_EDITOR_PAGE (editor_page), FALSE);
+
+	return editor_page->priv->allow_top_signature;
+}
+
+void
+e_editor_page_set_allow_top_signature (EEditorPage *editor_page,
+				       gboolean value)
+{
+	g_return_if_fail (E_IS_EDITOR_PAGE (editor_page));
+
+	editor_page->priv->allow_top_signature = value;
 }
 
 guint
