@@ -104,7 +104,7 @@ move_caret_after_signature_inserted (EEditorPage *editor_page)
 
 	document = e_editor_page_get_document (editor_page);
 
-	top_signature = use_top_signature ();
+	top_signature = e_editor_page_get_allow_top_signature (editor_page) && use_top_signature ();
 	start_bottom = start_typing_at_bottom ();
 
 	body = webkit_dom_document_get_body (document);
@@ -288,7 +288,7 @@ e_composer_dom_insert_signature (EEditorPage *editor_page,
 
 	/* "Edit as New Message" sets is_message_from_edit_as_new.
 	 * Always put the signature at the bottom for that case. */
-	top_signature = use_top_signature ();
+	top_signature = e_editor_page_get_allow_top_signature (editor_page) && use_top_signature ();
 
 	html_mode = e_editor_page_get_html_mode (editor_page);
 

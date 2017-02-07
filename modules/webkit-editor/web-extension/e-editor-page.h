@@ -178,6 +178,11 @@ gboolean	e_editor_page_is_composition_in_progress
 void		e_editor_page_set_composition_in_progress
 						(EEditorPage *editor_page,
 						 gboolean value);
+gboolean	e_editor_page_get_allow_top_signature
+						(EEditorPage *editor_page);
+void		e_editor_page_set_allow_top_signature
+						(EEditorPage *editor_page,
+						 gboolean value);
 guint		e_editor_page_get_spell_check_on_scroll_event_source_id
 						(EEditorPage *editor_page);
 void		e_editor_page_set_spell_check_on_scroll_event_source_id
@@ -195,6 +200,7 @@ void		e_editor_page_emit_undo_redo_state_changed
 void		e_editor_page_emit_user_changed_default_colors
 						(EEditorPage *editor_page,
 						 gboolean suppress_color_changes);
+
 G_END_DECLS
 
 #endif /* E_EDITOR_PAGE_H */
