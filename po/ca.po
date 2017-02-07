@@ -19,8 +19,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-04 08:34+0100\n"
-"PO-Revision-Date: 2017-02-03 11:17+0100\n"
+"POT-Creation-Date: 2017-02-07 07:07+0100\n"
+"PO-Revision-Date: 2017-02-06 18:53+0100\n"
 "Last-Translator: David Medina <rbndavid@gmail.com>\n"
 "Language-Team: Catalan <Catalan <info@softcatala.org>>\n"
 "Language: ca\n"
@@ -1142,7 +1142,7 @@ msgid ""
 "“week-start-day-name” instead."
 msgstr ""
 "Aquesta clau va quedar obsoleta a la versió 3.10 i no s'hauria d'emprar més. "
-"Utilitzeu «week-start-day-name» en el seu lloc."
+"Utilitzeu «week-start-day-name» en lloc seu."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:162
 msgid "(Deprecated) Work days"
@@ -1156,8 +1156,7 @@ msgid ""
 msgstr ""
 "Dies en què s'ha d'indicar l'inici i la fi de l'horari laboral. (Aquesta "
 "clau va quedar obsoleta a partir de la versió 3.10 i no l'hauríeu d'emprar. "
-"Utilitzeu les claus «work-day-monday», «work-day-tuesday», etc. en el seu "
-"lloc.)"
+"Utilitzeu les claus «work-day-monday», «work-day-tuesday», etc. en lloc seu.)"
 
 #: ../data/org.gnome.evolution.gschema.xml.in.h:1
 msgid "Previous Evolution version"
@@ -1926,18 +1925,16 @@ msgid "Layout style"
 msgstr "Estil de disposició"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:126
-#, fuzzy
 msgid ""
 "The layout style determines where to place the preview pane in relation to "
 "the message list. “0” (Classic View) places the preview pane below the "
 "message list. “1” (Vertical View) places the preview pane next to the "
 "message list."
 msgstr ""
-"L'estil de disposició determina on posar la subfinestra en relació a la "
-"llista de missatges. El valor «0» (visualització clàssica) ubica la "
-"subfinestra de previsualització sota la llista de missatges. El valor "
-"«1» (visualització vertical) ubica la subfinestra de previsualització al "
-"costat de la llista de missatges."
+"L'estil de disposició determina on situar la subfinestra de previsualització "
+"en relació a la llista de missatges. El valor «0» (visualització clàssica) "
+"la ubica sota la llista de missatges. El valor «1» (visualització vertical) "
+"la ubica al costat de la llista de missatges."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:127
 msgid "Variable width font"
@@ -1980,13 +1977,12 @@ msgid "Number of addresses to display in TO/CC/BCC"
 msgstr "Nombre d'adreces a mostrar a Per a/CC/CCO"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:136
-#, fuzzy
 msgid ""
 "This sets the number of addresses to show in default message list view, "
 "beyond which a “...” is shown."
 msgstr ""
 "Això estableix el nombre d'adreces per mostrar a la visualització de la "
-"llista de missatges."
+"llista de missatges per defecte, després es mostren uns punts suspensius."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:137
 msgid "Thread the message-list based on Subject"
@@ -2017,15 +2013,14 @@ msgid "Whether sort threads based on latest message in that thread"
 msgstr "Si s'han d'ordenar els fils basant-se en el seu l'últim missatge"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:142
-#, fuzzy
 msgid ""
 "This setting specifies whether the threads should be sorted based on latest "
 "message in each thread, rather than by message’s date. Evolution requires a "
 "restart."
 msgstr ""
-"Aquest paràmetre especifica si els fils s'ordenaran basant-se en el darrer "
-"missatge de cadascun d'ells, o bé segons la data del missatge. Haureu de "
-"reiniciar l'Evolution perquè els canvis tinguin efecte."
+"Aquest paràmetre especifica si els fils s'han ordenar segons el darrer "
+"missatge de cadascun, o bé segons la data del missatge. Haureu de reiniciar "
+"l'Evolution."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:143
 msgid "Whether sort thread children always ascending"
@@ -2077,7 +2072,6 @@ msgid "Flush Outbox after filtering"
 msgstr "Buida la safata de sortida després de filtrar"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:152
-#, fuzzy
 msgid ""
 "Whether to flush Outbox after filtering is done. Outbox flush will happen "
 "only when there was used any “Forward to” filter action and approximately "
@@ -2085,8 +2079,8 @@ msgid ""
 msgstr ""
 "Si s'ha de buidar la safata de sortida després de completar el filtratge. El "
 "buidatge només es durà a terme si s'ha utilitzat alguna acció de filtre «Mou "
-"a la carpeta», aproximadament un minut després de la darrera invocació de la "
-"darrera acció."
+"a la carpeta», aproximadament un minut després de la darrera invocació "
+"d'acció."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:153
 msgid "Default forward style"
@@ -2215,7 +2209,6 @@ msgstr ""
 "en l'arbre de carpetes"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:176
-#, fuzzy
 msgid ""
 "Possible values are: “never” — do not allow copy with drag &amp; drop of "
 "folders in folder tree, “always” — allow copy with drag &amp; drop of "
@@ -2223,9 +2216,9 @@ msgid ""
 "ask user."
 msgstr ""
 "Els valors possibles són «never» (mai) - no es permet copiar carpetes en "
-"arrossegar i deixar anar a l'arbre de carpetes; «always» (sempre) - permet "
+"arrossegar i deixar anar a l'arbre de carpetes, «always» (sempre) - permet "
 "copiar carpetes en arrossegar i deixar anar a l'arbre de carpetes sense "
-"preguntar o «ask» (demana-ho) o qualsevol altre valor - per demanar-li a "
+"preguntar o «ask» (demana-ho) o qualsevol altre valor - per demanar-ho a "
 "l'usuari."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:177
@@ -2235,7 +2228,6 @@ msgstr ""
 "en l'arbre de carpetes"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:178
-#, fuzzy
 msgid ""
 "Possible values are: “never” — do not allow move with drag &amp; drop of "
 "folders in folder tree, “always” — allow move with drag &amp; drop of "
@@ -2243,9 +2235,9 @@ msgid ""
 "ask user."
 msgstr ""
 "Els valors possibles són «never» (mai) - no es permet moure carpetes en "
-"arrossegar i deixar anar a l'arbre de carpetes; «always» (sempre) - permet "
+"arrossegar i deixar anar a l'arbre de carpetes, «always» (sempre) - permet "
 "moure carpetes en arrossegar i deixar anar a l'arbre de carpetes sense "
-"preguntar o «ask» (demana-ho) o qualsevol altre valor - per demanar-li a "
+"preguntar o «ask» (demana-ho) o qualsevol altre valor - per demanar-ho a "
 "l'usuari."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:179
@@ -2289,35 +2281,32 @@ msgstr ""
 "esteu enviant una resposta a diverses persones."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:185
-#, fuzzy
 msgid ""
 "Prompt when switching composer format and the content needs to lose its "
 "formatting"
 msgstr ""
-"Pregunta quan es canvii al mode edició i el contingut vagi a perdre el "
+"Pregunta quan es canviï el mode d'edició i el contingut hagi de perdre el "
 "format."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:186
-#, fuzzy
 msgid ""
 "It disables/enables the repeated prompts to warn that you are switching "
 "composer format and the content needs to lose its formatting."
 msgstr ""
-"Habilita o inhabilita les confirmacions múltiples per advertir que aneu a "
-"canviar al mode edició i el contingut cal que perdi el format."
+"Habilita o inhabilita les confirmacions múltiples per advertir que canvieu "
+"el mode d'edició i que cal que el contingut perdi el format."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:187
 msgid "Prompt when sending to many To and CC recipients"
 msgstr "Pregunta quan s'enviï a diversos destinataris i CC"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:188
-#, fuzzy
 msgid ""
 "Enable or disable the prompt when sending to many To and CC recipients. The "
 "“composer-many-to-cc-recips-num” defines the threshold."
 msgstr ""
-"Per habilitar o inhabilitar l'avís quan s'envia a molts destinataris i CC. "
-"El «composer-many-to-cc-recips-num» defineix el llindar."
+"Habilita o inhabilita l'avís d'enviament a molts destinataris i CC. El "
+"«composer-many-to-cc-recips-num» en defineix el llindar."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:189
 msgid ""
@@ -2363,30 +2352,26 @@ msgid "Level beyond which the message should be logged."
 msgstr "Nivell per sobre del qual s'enregistrarà el missatge."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:198
-#, fuzzy
 msgid ""
 "This can have three possible values. “0” for errors. “1” for warnings. “2” "
 "for debug messages."
 msgstr ""
-"Això pot tenir tres valors possibles: «0» per als errors, «1» per als "
-"avisos, i «2» per als missatges de depuració."
+"Això pot tenir tres valors possibles: «0» per als errors, «1» per als avisos "
+"i «2» per als missatges de depuració."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:199
-#, fuzzy
 msgid "Show original “Date” header value."
 msgstr "Mostra el valor de la capçalera original de «Date» (data)."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:200
-#, fuzzy
 msgid ""
 "Show the original “Date” header (with a local time only if the time zone "
 "differs). Otherwise always show “Date” header value in a user preferred "
 "format and local time zone."
 msgstr ""
-"Mostra la capçalera «Date» (data) original (amb una hora local en cas que "
-"els fusos horaris no coincideixin). En cas contrari mostra sempre el valor "
-"de la capçalera «Date» en el format preferit de l'usuari i en el fus horari "
-"local."
+"Mostra la capçalera «Date» (data) original (amb una hora local només si els "
+"fusos horaris no coincideixen). En cas contrari mostra sempre el valor de la "
+"capçalera «Date» en el format preferit de l'usuari i el fus horari local."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:201
 msgid "List of Labels and their associated colors"
@@ -2445,15 +2430,14 @@ msgid "The default plugin for Junk hook"
 msgstr "El connector de correu brossa per defecte"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:212
-#, fuzzy
 msgid ""
 "This is the default junk plugin, even though there are multiple plugins "
 "enabled. If the default listed plugin is disabled, then it won’t fall back "
 "to the other available plugins."
 msgstr ""
 "El connector de correu brossa per defecte, encara que tingueu múltiples "
-"connectors habilitats. Si s'inhabilita aquest connector per defecte, "
-"l'Evolution tampoc recorrerà als altres connectors disponibles."
+"connectors habilitats. Si s'inhabilita aquest connector per defecte, tampoc "
+"no es recorrerà als altres connectors disponibles."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:213
 msgid "Determines whether to lookup in address book for sender email"
@@ -2461,7 +2445,6 @@ msgstr ""
 "Determina si s'ha de cercar l'adreça del remitent a la llibreta d'adreces"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:214
-#, fuzzy
 msgid ""
 "Determines whether to lookup the sender email in address book. If found, it "
 "shouldn’t be a spam. It looks up in the books marked for autocompletion. It "
@@ -2469,10 +2452,9 @@ msgid ""
 "autocompletion."
 msgstr ""
 "Determina si s'ha de cercar l'adreça del remitent a la llibreta d'adreces. "
-"Si hi és, el missatge no es considerarà com a brossa. Només es cercarà en "
-"les llibretes marcades per a l'autocompleció, per la qual cosa això pot ser "
-"lent en llibretes d'adreces remotes (p. ex. LDAP) marcades per a "
-"l'autocompleció."
+"Si hi és, el missatge no es considerarà com a brossa. Es cerca a les "
+"llibretes marcades per a l'autocompleció. Pot ser lent, si les llibretes "
+"d'adreces remotes (p. ex. LDAP) estan marcades per a l'autocompleció."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:215
 msgid ""
@@ -2515,13 +2497,12 @@ msgid "Custom headers to use while checking for junk."
 msgstr "Capçaleres a utilitzar per a la comprovació de correu brossa."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:220
-#, fuzzy
 msgid ""
 "Custom headers to use while checking for junk. The list elements are string "
 "in the format “headername=value”."
 msgstr ""
-"Especifica les capçaleres personalitzades a utilitzar per a la detecció de "
-"correu brossa. El format és «nomdelacapçalera=valor»."
+"Les capçaleres personalitzades a utilitzar per a la detecció de correu "
+"brossa. Els elements de la llista tenen el format «nomdelacapçalera=valor»."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:221
 msgid "UID string of the default account."
@@ -2560,7 +2541,6 @@ msgid "Check for new messages in all active accounts"
 msgstr "Comprova si hi ha correu nou a tots els comptes actius"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:229
-#, fuzzy
 msgid ""
 "Whether to check for new messages in all active accounts regardless of the "
 "account “Check for new messages every X minutes” option when Evolution is "
@@ -2568,7 +2548,7 @@ msgid ""
 msgstr ""
 "Si s'ha de comprovar si hi ha correus nous a tots els comptes actius en "
 "iniciar l'Evolution, independentment del valor de l'opció «Comprova si hi ha "
-"correu nou cada X minuts». Aquesta opció s'utilitzarà només conjuntament amb "
+"correu nou cada X minuts». Aquesta opció s'utilitza només conjuntament amb "
 "l'opció «send_recv_on_start»."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:230
@@ -2588,7 +2568,6 @@ msgid "Allow expunge in virtual folders"
 msgstr "Permet la supressió a les carpetes virtuals"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:233
-#, fuzzy
 msgid ""
 "Enables Expunge in virtual folders, which means that the Folder→Expunge will "
 "be callable in virtual folders, while the expunge itself will be done in all "
@@ -2599,13 +2578,12 @@ msgstr ""
 "carpeta Expunge (expurgació) serà accessible a les carpetes virtuals, mentre "
 "que l'expurgació mateixa es farà en totes les carpetes per a tots els "
 "missatges suprimits dins de la carpeta virtual, no només per als missatges "
-"suprimits que pertanyin a la carpeta virtual. "
+"suprimits que pertanyin a la carpeta virtual."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:234
 #: ../src/mail/mail-config.ui.h:9
-#, fuzzy
 msgid "Inherit theme colors in HTML format"
-msgstr "Tema de colors heretat en mode HTML"
+msgstr "Hereta el tema de colors en mode HTML"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:235
 msgid ""
@@ -2632,52 +2610,48 @@ msgid "(Deprecated) Default forward style"
 msgstr "(Obsolet) Estil de reenviament per defecte"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:239
-#, fuzzy
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“forward-style-name” instead."
 msgstr ""
-"Aquesta clau ha quedat obsoleta a partir de la versió 3.10 i no l'hauríeu "
-"d'emprar més. Utilitzeu «forward-style-name» en el seu lloc."
+"Aquesta clau va quedar obsoleta a partir de la versió 3.10 i no l'hauríeu "
+"d'emprar més. Utilitzeu «forward-style-name» en lloc seu."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:240
 msgid "(Deprecated) Default reply style"
 msgstr "(Obsolet) Estil de resposta per defecte"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:241
-#, fuzzy
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“reply-style-name” instead."
 msgstr ""
-"Aquesta clau ha quedat obsoleta a partir de la versió 3.10 i no l'hauríeu "
-"d'emprar més. Utilitzeu «reply-style-name» en el seu lloc."
+"Aquesta clau va quedar obsoleta a partir de la versió 3.10 i no l'hauríeu "
+"d'emprar més. Utilitzeu «reply-style-name» en lloc seu."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:242
 msgid "(Deprecated) List of custom headers and whether they are enabled."
 msgstr "(Obsolet) Llista de capçaleres personalitzades i si estan habilitades."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:243
-#, fuzzy
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“show-headers” instead."
 msgstr ""
-"Aquesta clau ha quedat obsoleta a partir de la versió 3.10 i no l'hauríeu "
-"d'emprar més. Utilitzeu «show-headers» en el seu lloc."
+"Aquesta clau vaa quedar obsoleta a partir de la versió 3.10 i no l'hauríeu "
+"d'emprar més. Utilitzeu «show-headers» en lloc seu."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:244
 msgid "(Deprecated) Load images for HTML messages over HTTP"
 msgstr "(Obsolet) Carrega les imatges dels missatges HTML a través de l'HTTP"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:245
-#, fuzzy
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“image-loading-policy” instead."
 msgstr ""
-"Aquesta clau ha quedat obsoleta a partir de la versió 3.10 i no l'hauríeu "
-"d'emprar més. Utilitzeu «image-loading-policy» en el seu lloc."
+"Aquesta clau va quedat obsoleta a partir de la versió 3.10 i no l'hauríeu "
+"d'emprar més. Utilitzeu «image-loading-policy» en lloc seu."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:246
 msgid ""
@@ -2688,13 +2662,12 @@ msgstr ""
 "reenviï o respongui el missatge dins la finestra"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:247
-#, fuzzy
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“browser-close-on-reply-policy” instead."
 msgstr ""
-"Aquesta clau ha quedat obsoleta a partir de la versió 3.10 i no l'hauríeu "
-"d'emprar més. Utilitzeu «browser-close-on-reply-policy» en el seu lloc."
+"Aquesta clau va quedar obsoleta a partir de la versió 3.10 i no l'hauríeu "
+"d'emprar més. Utilitzeu «browser-close-on-reply-policy» en lloc seu."
 
 #. Translators: This is the a list of words for the attach reminder plugin to look
 #. for in a message body. Please use any number of words here in your language that might
@@ -2741,7 +2714,6 @@ msgid "Enable autocontacts"
 msgstr "Habilita els contactes automàtics"
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:6
-#, fuzzy
 msgid ""
 "Whether contacts should be automatically added to the user’s address book."
 msgstr ""
@@ -2788,7 +2760,6 @@ msgid "List of Custom Headers"
 msgstr "Llista de les capçaleres personalitzades"
 
 #: ../data/org.gnome.evolution.plugin.email-custom-header.gschema.xml.in.h:2
-#, fuzzy
 msgid ""
 "The key specifies the list of custom headers that you can add to an outgoing "
 "message. The format for specifying a Header and Header value is: Name of the "
@@ -2796,8 +2767,8 @@ msgid ""
 msgstr ""
 "La clau especifica la llista de capçaleres personalitzades que podeu afegir "
 "a un missatge que envieu. El format per especificar una capçalera i el seu "
-"valor és: el nom de la capçalera seguit del signe d'igualtat («=») i els "
-"valors separats per punts i comes («;»)"
+"valor és el nom de la capçalera seguit del signe d'igualtat («=») i els "
+"valors separats per punts i comes («;»)."
 
 #: ../data/org.gnome.evolution.plugin.external-editor.gschema.xml.in.h:1
 msgid "Default External Editor"
@@ -2877,7 +2848,6 @@ msgid "Enable audible notifications when new messages arrive."
 msgstr "Habilita les notificacions d'àudio en rebre missatges nous."
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:10
-#, fuzzy
 msgid ""
 "Whether to make a sound of any kind when new messages arrive. If “false”, "
 "the “notify-sound-beep”, “notify-sound-file”, “notify-sound-play-file” and "
@@ -2900,20 +2870,18 @@ msgid "Sound filename to be played."
 msgstr "Nom del fitxer de so a reproduir."
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:14
-#, fuzzy
 msgid ""
 "Sound file to be played when new messages arrive, if “notify-sound-play-"
 "file” is “true”."
 msgstr ""
 "El fitxer de so que es reproduirà quan arribi un missatge nou (en cas que "
-"«notify-sound-play-file» és «true» (cert))."
+"«notify-sound-play-file» sigui «true» (cert))."
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:15
 msgid "Whether to play a sound file."
 msgstr "Si s'ha de reproduir un fitxer de so."
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:16
-#, fuzzy
 msgid ""
 "Whether to play a sound file when new messages arrive. The name of the sound "
 "file is given by the “notify-sound-file” key."
@@ -3352,16 +3320,14 @@ msgid "Category editor not available."
 msgstr "L'editor de categories no està disponible."
 
 #: ../src/addressbook/addressbook.error.xml.h:18
-#, fuzzy
 msgid "Unable to open address book “{0}”"
-msgstr "No s'ha pogut obrir la llibreta d'adreces «{0}»"
+msgstr "No es pot obrir la llibreta d'adreces «{0}»"
 
 #: ../src/addressbook/addressbook.error.xml.h:19
 msgid "Unable to perform search."
 msgstr "No s'ha pogut fer la cerca."
 
 #: ../src/addressbook/addressbook.error.xml.h:20
-#, fuzzy
 msgid "Failed to refresh address book “{0}”"
 msgstr "No s'ha pogut refrescar la llibreta d'adreces «{0}»"
 
@@ -3419,7 +3385,6 @@ msgid "Error saving {0} to {1}: {2}"
 msgstr "S'ha produït un error en desar {0} a {1}: {2}"
 
 #: ../src/addressbook/addressbook.error.xml.h:32
-#, fuzzy
 msgid "Address “{0}” already exists."
 msgstr "Ja existeix l'adreça «{0}»."
 
@@ -3471,7 +3436,6 @@ msgid "Add with duplicates"
 msgstr "Afegeix amb duplicats"
 
 #: ../src/addressbook/addressbook.error.xml.h:39
-#, fuzzy
 msgid "List “{0}” is already in this contact list."
 msgstr "La llista «{0}» ja és en aquesta llista de contactes."
 
@@ -3986,7 +3950,7 @@ msgstr "S'ha produït un error en suprimir el contacte"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:741
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3102
-#, fuzzy, c-format
+#, c-format
 msgid "Contact Editor — %s"
 msgstr "Editor de contactes - %s"
 
@@ -4072,23 +4036,23 @@ msgstr ""
 "\n"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4676
-#, fuzzy, c-format
+#, c-format
 msgid "“%s” has an invalid format"
 msgstr "«%s» té un format no vàlid"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4684
-#, fuzzy, c-format
+#, c-format
 msgid "“%s” cannot be a future date"
-msgstr "«%s» no pot ser una data en el futur"
+msgstr "«%s» no pot ser una data futura"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4692
-#, fuzzy, c-format
+#, c-format
 msgid "%s“%s” has an invalid format"
 msgstr "%s«%s» té un format no vàlid"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4705
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4719
-#, fuzzy, c-format
+#, c-format
 msgid "%s“%s” is empty"
 msgstr "%s«%s» és buit"
 
@@ -4776,9 +4740,8 @@ msgstr[1] ""
 "Segur que voleu mostrar tots aquests contactes?"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.c:1516
-#, fuzzy
 msgid "_Don’t Display"
-msgstr "_No els mostris"
+msgstr "_No ho mostris"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.c:1517
 msgid "Display _All Contacts"
@@ -5035,7 +4998,6 @@ msgid "Importing..."
 msgstr "S'està important..."
 
 #: ../src/addressbook/importers/evolution-csv-importer.c:927
-#, fuzzy
 msgid "Can’t open .csv file"
 msgstr "No es pot obrir el fitxer .cvs"
 
@@ -5064,7 +5026,6 @@ msgid "Evolution Contacts CSV and Tab Importer"
 msgstr "Importador de contactes de l'Evolution en format CSV i Tab"
 
 #: ../src/addressbook/importers/evolution-ldif-importer.c:717
-#, fuzzy
 msgid "Can’t open .ldif file"
 msgstr "No es pot obrir el fitxer .ldif"
 
@@ -5490,14 +5451,12 @@ msgstr ""
 "recuperar."
 
 #: ../src/calendar/calendar.error.xml.h:15
-#, fuzzy
 msgid "Are you sure you want to delete the meeting titled “{0}”?"
-msgstr "Segur que voleu suprimir la reunió «{0}»?"
+msgstr "Segur que voleu suprimir la reunió anomenada «{0}»?"
 
 #: ../src/calendar/calendar.error.xml.h:16
-#, fuzzy
 msgid "Are you sure you want to delete the appointment titled “{0}”?"
-msgstr "Segur que voleu suprimir la cita «{0}»?"
+msgstr "Segur que voleu suprimir la cita anomenada «{0}»?"
 
 #: ../src/calendar/calendar.error.xml.h:17
 msgid ""
@@ -5510,12 +5469,10 @@ msgid "Are you sure you want to delete this appointment?"
 msgstr "Segur que voleu suprimir aquesta cita?"
 
 #: ../src/calendar/calendar.error.xml.h:19
-#, fuzzy
 msgid "Are you sure you want to delete the “{0}” task?"
 msgstr "Segur que voleu suprimir la tasca «{0}»?"
 
 #: ../src/calendar/calendar.error.xml.h:20
-#, fuzzy
 msgid "Are you sure you want to delete the memo “{0}”?"
 msgstr "Segur que voleu suprimir l'anotació «{0}»?"
 
@@ -5698,7 +5655,6 @@ msgid "Editor could not be loaded."
 msgstr "No s'ha pogut carregar l'editor."
 
 #: ../src/calendar/calendar.error.xml.h:57
-#, fuzzy
 msgid "Delete calendar “{0}”?"
 msgstr "Voleu suprimir el calendari «{0}»?"
 
@@ -5707,7 +5663,6 @@ msgid "This calendar will be removed permanently."
 msgstr "El calendari se suprimirà permanentment."
 
 #: ../src/calendar/calendar.error.xml.h:59
-#, fuzzy
 msgid "Delete task list “{0}”?"
 msgstr "Voleu suprimir la llista de tasques «{0}»?"
 
@@ -5716,7 +5671,6 @@ msgid "This task list will be removed permanently."
 msgstr "Aquesta llista d'anotacions se suprimirà permanentment."
 
 #: ../src/calendar/calendar.error.xml.h:61
-#, fuzzy
 msgid "Delete memo list “{0}”?"
 msgstr "Voleu suprimir la llista d'anotacions «{0}»?"
 
@@ -5725,7 +5679,6 @@ msgid "This memo list will be removed permanently."
 msgstr "Aquesta llista d'anotacions se suprimirà permanentment."
 
 #: ../src/calendar/calendar.error.xml.h:63
-#, fuzzy
 msgid "Delete remote calendar “{0}”?"
 msgstr "Voleu suprimir el calendari remot «{0}»?"
 
@@ -13233,27 +13186,33 @@ msgid "_Normal"
 msgstr "_Normal"
 
 #: ../src/e-util/e-html-editor-actions.c:1102
-msgid "Header _1"
+#, fuzzy
+msgid "Heading _1"
 msgstr "Capçalera_1"
 
 #: ../src/e-util/e-html-editor-actions.c:1109
-msgid "Header _2"
+#, fuzzy
+msgid "Heading _2"
 msgstr "Capçalera_2"
 
 #: ../src/e-util/e-html-editor-actions.c:1116
-msgid "Header _3"
+#, fuzzy
+msgid "Heading _3"
 msgstr "Capçalera_3"
 
 #: ../src/e-util/e-html-editor-actions.c:1123
-msgid "Header _4"
+#, fuzzy
+msgid "Heading _4"
 msgstr "Capçalera_4"
 
 #: ../src/e-util/e-html-editor-actions.c:1130
-msgid "Header _5"
+#, fuzzy
+msgid "Heading _5"
 msgstr "Capçalera_5"
 
 #: ../src/e-util/e-html-editor-actions.c:1137
-msgid "Header _6"
+#, fuzzy
+msgid "Heading _6"
 msgstr "Capçalera_6"
 
 #: ../src/e-util/e-html-editor-actions.c:1144
@@ -24251,37 +24210,37 @@ msgstr ""
 "Us mostra un recordatori si heu oblidat d'afegir una adjunció a un missatge "
 "de correu."
 
-#: ../src/plugins/bbdb/bbdb.c:725 ../src/plugins/bbdb/bbdb.c:836
+#: ../src/plugins/bbdb/bbdb.c:735 ../src/plugins/bbdb/bbdb.c:846
 #: ../src/plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml.h:1
 msgid "Automatic Contacts"
 msgstr "Contactes automàtics"
 
 #. Enable BBDB checkbox
-#: ../src/plugins/bbdb/bbdb.c:740
+#: ../src/plugins/bbdb/bbdb.c:750
 msgid "Create _address book entries when sending mails"
 msgstr "Crea _entrades a la llibreta d'adreces en enviar correus"
 
-#: ../src/plugins/bbdb/bbdb.c:750
+#: ../src/plugins/bbdb/bbdb.c:760
 msgid "Select Address book for Automatic Contacts"
 msgstr "Seleccioneu la llibreta d'adreces per als contactes automàtics"
 
-#: ../src/plugins/bbdb/bbdb.c:770
+#: ../src/plugins/bbdb/bbdb.c:780
 msgid "Instant Messaging Contacts"
 msgstr "Contactes de la missatgeria instantània"
 
 #. Enable Gaim Checkbox
-#: ../src/plugins/bbdb/bbdb.c:785
+#: ../src/plugins/bbdb/bbdb.c:795
 msgid "_Synchronize contact info and images from Pidgin buddy list"
 msgstr ""
 "Sincronit_za la informació de contactes i les imatges de la llista d'amics "
 "del Pidgin"
 
-#: ../src/plugins/bbdb/bbdb.c:795
+#: ../src/plugins/bbdb/bbdb.c:805
 msgid "Select Address book for Pidgin buddy list"
 msgstr "Seleccioneu la llibreta d'adreces per a la llista d'amics del Pidgin"
 
 #. Synchronize now button.
-#: ../src/plugins/bbdb/bbdb.c:811
+#: ../src/plugins/bbdb/bbdb.c:821
 msgid "Synchronize with _buddy list now"
 msgstr "Sincronitza amb la me_va llista d'amics"
 
