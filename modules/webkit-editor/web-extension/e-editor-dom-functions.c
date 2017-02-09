@@ -7315,6 +7315,8 @@ process_node_to_plain_text_for_exporting (EEditorPage *editor_page,
 
 				remove_node (child);
 				skip_node = TRUE;
+				length--;
+				ii--;
 				goto next;
 			}
 			g_free (id);
