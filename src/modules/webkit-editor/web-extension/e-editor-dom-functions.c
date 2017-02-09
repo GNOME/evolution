@@ -7230,21 +7230,21 @@ process_node_to_plain_text_for_exporting (EEditorPage *editor_page,
 
 				if (!g_str_has_prefix (css_align + 13, "left")) {
 					gchar *align;
-					gint length;
+					gint len;
 
 					if (g_str_has_prefix (css_align + 13, "center"))
-						length = (word_wrap_length - g_utf8_strlen (content, -1)) / 2;
+						len = (word_wrap_length - g_utf8_strlen (content, -1)) / 2;
 					else
-						length = word_wrap_length - g_utf8_strlen (content, -1);
+						len = word_wrap_length - g_utf8_strlen (content, -1);
 
-					if (length < 0)
-						length = 0;
+					if (len < 0)
+						len = 0;
 
 					if (g_str_has_suffix (content, " ")) {
-						char *tmp;
+						gchar *tmp;
 
-						length++;
-						align = g_strnfill (length, ' ');
+						len++;
+						align = g_strnfill (len, ' ');
 
 						tmp = g_strndup (content, g_utf8_strlen (content, -1) -1);
 
@@ -7252,7 +7252,7 @@ process_node_to_plain_text_for_exporting (EEditorPage *editor_page,
 							align, tmp, NULL);
 						g_free (tmp);
 					} else {
-						align = g_strnfill (length, ' ');
+						align = g_strnfill (len, ' ');
 
 						content_with_align = g_strconcat (
 							align, content, NULL);
