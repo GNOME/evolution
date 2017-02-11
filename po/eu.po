@@ -5,11 +5,12 @@
 # Iñaki Larrañaga Murgoitio <dooteo@zundan.com>, 2005, 2006, 2008, 2009, 2010.
 # Iñaki Larrañaga Murgoitio <dooteo@zundan.com>, 2011, 2013, 2014, 2015, 2016, 2017.
 #
+#: ../src/shell/main.c:519
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-05 17:36+0100\n"
+"POT-Creation-Date: 2017-02-11 20:28+0100\n"
 "PO-Revision-Date: 2017-02-05 17:39+0100\n"
 "Last-Translator: Iñaki Larrañaga Murgoitio <dooteo@zundan.com>\n"
 "Language-Team: Basque <librezale@librezale.eus>\n"
@@ -2596,9 +2597,7 @@ msgstr ""
 #. indicate that an attachment should have been attached to the message.
 #: ../data/org.gnome.evolution.plugin.attachment-reminder.gschema.xml.in.h:4
 msgid "['attachment','attaching','attached','enclosed']"
-msgstr ""
-"[“erantsi“,“erantsita“,“erasten“,“atxiki“,“atxikitzen“,“atxikituta“,“gehitu“,“"
-"gehitzen“,“gehituta“]"
+msgstr "[“erantsi“,“erantsita“,“erasten“,“atxiki“,“atxikitzen“,“atxikituta“,“gehitu“,“gehitzen“,“gehituta“]"
 
 #: ../data/org.gnome.evolution.plugin.attachment-reminder.gschema.xml.in.h:5
 msgid ""
@@ -6435,7 +6434,7 @@ msgstr "Lehentasuna:"
 #: ../src/calendar/gui/e-cal-component-preview.c:327
 #: ../src/calendar/gui/e-task-table.c:548
 #: ../src/calendar/gui/tasktypes.xml.in.h:19
-#: ../src/e-util/e-send-options.ui.h:2 ../src/mail/message-list.c:320
+#: ../src/e-util/e-send-options.ui.h:2 ../src/mail/message-list.c:322
 msgid "High"
 msgstr "Handia"
 
@@ -6443,14 +6442,14 @@ msgstr "Handia"
 #: ../src/calendar/gui/e-cal-model.c:1888
 #: ../src/calendar/gui/e-task-table.c:549
 #: ../src/calendar/gui/tasktypes.xml.in.h:20
-#: ../src/e-util/e-send-options.ui.h:5 ../src/mail/message-list.c:319
+#: ../src/e-util/e-send-options.ui.h:5 ../src/mail/message-list.c:321
 msgid "Normal"
 msgstr "Normala"
 
 #: ../src/calendar/gui/e-cal-component-preview.c:331
 #: ../src/calendar/gui/e-task-table.c:550
 #: ../src/calendar/gui/tasktypes.xml.in.h:21
-#: ../src/e-util/e-send-options.ui.h:4 ../src/mail/message-list.c:318
+#: ../src/e-util/e-send-options.ui.h:4 ../src/mail/message-list.c:320
 msgid "Low"
 msgstr "Txikia"
 
@@ -12055,7 +12054,7 @@ msgid "popup list"
 msgstr "Zerrenda laster-leihoan"
 
 #: ../src/e-util/e-cell-date.c:49 ../src/e-util/e-cell-date.c:137
-#: ../src/e-util/e-cell-date.c:157 ../src/mail/message-list.c:2064
+#: ../src/e-util/e-cell-date.c:157 ../src/mail/message-list.c:2066
 msgid "?"
 msgstr "?"
 
@@ -12997,27 +12996,27 @@ msgid "_Normal"
 msgstr "_Arrunta"
 
 #: ../src/e-util/e-html-editor-actions.c:1102
-msgid "Header _1"
+msgid "Heading _1"
 msgstr "_1. izenburua"
 
 #: ../src/e-util/e-html-editor-actions.c:1109
-msgid "Header _2"
+msgid "Heading _2"
 msgstr "_2. izenburua"
 
 #: ../src/e-util/e-html-editor-actions.c:1116
-msgid "Header _3"
+msgid "Heading _3"
 msgstr "_3. izenburua"
 
 #: ../src/e-util/e-html-editor-actions.c:1123
-msgid "Header _4"
+msgid "Heading _4"
 msgstr "_4. izenburua"
 
 #: ../src/e-util/e-html-editor-actions.c:1130
-msgid "Header _5"
+msgid "Heading _5"
 msgstr "_5. izenburua"
 
 #: ../src/e-util/e-html-editor-actions.c:1137
-msgid "Header _6"
+msgid "Heading _6"
 msgstr "_6. izenburua"
 
 #: ../src/e-util/e-html-editor-actions.c:1144
@@ -17360,12 +17359,12 @@ msgstr "%s karpeta lekuz aldatzen"
 msgid "Copying folder %s"
 msgstr "%s karpeta kopiatzen"
 
-#: ../src/mail/em-folder-tree.c:2300 ../src/mail/message-list.c:2506
+#: ../src/mail/em-folder-tree.c:2300 ../src/mail/message-list.c:2508
 #, c-format
 msgid "Moving messages into folder %s"
 msgstr "Mezuak %s karpetara eramaten"
 
-#: ../src/mail/em-folder-tree.c:2304 ../src/mail/message-list.c:2508
+#: ../src/mail/em-folder-tree.c:2304 ../src/mail/message-list.c:2510
 #, c-format
 msgid "Copying messages into folder %s"
 msgstr "Mezuak %s karpetan kopiatzen"
@@ -19471,87 +19470,87 @@ msgstr "Editatu bilaketa-karpeta"
 msgid "New Search Folder"
 msgstr "Bilaketa berrien karpeta"
 
-#: ../src/mail/message-list.c:298
+#: ../src/mail/message-list.c:300
 msgid "Unseen"
 msgstr "Ikusi gabe"
 
-#: ../src/mail/message-list.c:299
+#: ../src/mail/message-list.c:301
 msgid "Seen"
 msgstr "Ikusita"
 
-#: ../src/mail/message-list.c:300
+#: ../src/mail/message-list.c:302
 msgid "Answered"
 msgstr "Erantzunda"
 
-#: ../src/mail/message-list.c:301
+#: ../src/mail/message-list.c:303
 msgid "Forwarded"
 msgstr "Birbidalita"
 
-#: ../src/mail/message-list.c:302
+#: ../src/mail/message-list.c:304
 msgid "Multiple Unseen Messages"
 msgstr "Ikusi gabeko hainbat mezu"
 
-#: ../src/mail/message-list.c:303
+#: ../src/mail/message-list.c:305
 msgid "Multiple Messages"
 msgstr "Hainbat mezu"
 
-#: ../src/mail/message-list.c:316
+#: ../src/mail/message-list.c:318
 msgid "Lowest"
 msgstr "Txikiena"
 
-#: ../src/mail/message-list.c:317
+#: ../src/mail/message-list.c:319
 msgid "Lower"
 msgstr "Txikia"
 
-#: ../src/mail/message-list.c:321
+#: ../src/mail/message-list.c:323
 msgid "Higher"
 msgstr "Handia"
 
-#: ../src/mail/message-list.c:322
+#: ../src/mail/message-list.c:324
 msgid "Highest"
 msgstr "Handiena"
 
-#: ../src/mail/message-list.c:468 ../src/mail/message-list.c:6215
+#: ../src/mail/message-list.c:470 ../src/mail/message-list.c:6286
 msgid "Generating message list"
 msgstr "Mezuen zerrenda sortzen"
 
 #. strftime format of a time,
 #. * in 12-hour format, without seconds.
-#: ../src/mail/message-list.c:2072
+#: ../src/mail/message-list.c:2074
 #: ../src/modules/itip-formatter/itip-view.c:267
 msgid "Today %l:%M %p"
 msgstr "Gaur %l:%M %p"
 
-#: ../src/mail/message-list.c:2081
+#: ../src/mail/message-list.c:2083
 msgid "Yesterday %l:%M %p"
 msgstr "Atzo %l:%M %p"
 
-#: ../src/mail/message-list.c:2093
+#: ../src/mail/message-list.c:2095
 msgid "%a %l:%M %p"
 msgstr "%a %l:%M %p"
 
-#: ../src/mail/message-list.c:2101
+#: ../src/mail/message-list.c:2103
 msgid "%b %d %l:%M %p"
 msgstr "%b %d %l:%M %p"
 
-#: ../src/mail/message-list.c:2103
+#: ../src/mail/message-list.c:2105
 msgid "%b %d %Y"
 msgstr "%Y %b %d"
 
-#: ../src/mail/message-list.c:3012
+#: ../src/mail/message-list.c:3062
 msgid "Select all visible messages"
 msgstr "Hautatu ikusgai dauden mezu guztiak"
 
-#: ../src/mail/message-list.c:3720 ../src/mail/message-list.etspec.h:17
+#: ../src/mail/message-list.c:3781 ../src/mail/message-list.etspec.h:17
 msgid "Messages"
 msgstr "Mezuak"
 
 #. default follow-up flag name to use when clicked in the message list column
-#: ../src/mail/message-list.c:5142
+#: ../src/mail/message-list.c:5213
 msgid "Follow-up"
 msgstr "Jarraipena"
 
-#: ../src/mail/message-list.c:6154
+#: ../src/mail/message-list.c:6225
 msgid ""
 "No message satisfies your search criteria. Change search criteria by "
 "selecting a new Show message filter from the drop down list above or by "
@@ -19563,7 +19562,7 @@ msgstr ""
 "dagoen goitibeherako zerrendan, edo bilaketa berri bat exekutatuz hura "
 "garbituz (Bilatu→Garbitu menua erabiliz) edo gaineko kontsulta aldatuz."
 
-#: ../src/mail/message-list.c:6162
+#: ../src/mail/message-list.c:6233
 msgid "There are no messages in this folder."
 msgstr "Ez dago mezurik karpeta honetan."
 
@@ -23743,36 +23742,36 @@ msgstr "Eranskin ohartarazlea"
 msgid "Reminds you when you forgot to add an attachment to a mail message."
 msgstr "Mezu bati eranskina gehitzea ahaztu zaizula gogorarazten dizu."
 
-#: ../src/plugins/bbdb/bbdb.c:725 ../src/plugins/bbdb/bbdb.c:836
+#: ../src/plugins/bbdb/bbdb.c:735 ../src/plugins/bbdb/bbdb.c:846
 #: ../src/plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml.h:1
 msgid "Automatic Contacts"
 msgstr "Kontaktu automatikoak"
 
 #. Enable BBDB checkbox
-#: ../src/plugins/bbdb/bbdb.c:740
+#: ../src/plugins/bbdb/bbdb.c:750
 msgid "Create _address book entries when sending mails"
 msgstr "Sortu helbide-liburuko sarrerak mezuei erantzutean"
 
-#: ../src/plugins/bbdb/bbdb.c:750
+#: ../src/plugins/bbdb/bbdb.c:760
 msgid "Select Address book for Automatic Contacts"
 msgstr "Hautatu kontaktu automatikoen helbide-liburua"
 
-#: ../src/plugins/bbdb/bbdb.c:770
+#: ../src/plugins/bbdb/bbdb.c:780
 msgid "Instant Messaging Contacts"
 msgstr "Berehalako mezularitzako kontaktuak"
 
 #. Enable Gaim Checkbox
-#: ../src/plugins/bbdb/bbdb.c:785
+#: ../src/plugins/bbdb/bbdb.c:795
 msgid "_Synchronize contact info and images from Pidgin buddy list"
 msgstr ""
 "_Sinkronizatu kontaktuen datuak eta irudiak Pidgin-eko lagunen zerrendatik"
 
-#: ../src/plugins/bbdb/bbdb.c:795
+#: ../src/plugins/bbdb/bbdb.c:805
 msgid "Select Address book for Pidgin buddy list"
 msgstr "Hautatu Pidgin-eko lagunen zerrendaren helbide-liburua"
 
 #. Synchronize now button.
-#: ../src/plugins/bbdb/bbdb.c:811
+#: ../src/plugins/bbdb/bbdb.c:821
 msgid "Synchronize with _buddy list now"
 msgstr "Sinkronizatu _lagunen zerrendarekin"
 
