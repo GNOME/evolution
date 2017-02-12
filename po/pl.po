@@ -17,8 +17,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-05 15:35+0100\n"
-"PO-Revision-Date: 2017-02-05 15:37+0100\n"
+"POT-Creation-Date: 2017-02-12 15:20+0100\n"
+"PO-Revision-Date: 2017-02-12 15:21+0100\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <community-poland@mozilla.org>\n"
 "Language: pl\n"
@@ -6435,7 +6435,7 @@ msgstr "Priorytet:"
 #: ../src/calendar/gui/e-cal-component-preview.c:327
 #: ../src/calendar/gui/e-task-table.c:548
 #: ../src/calendar/gui/tasktypes.xml.in.h:19
-#: ../src/e-util/e-send-options.ui.h:2 ../src/mail/message-list.c:320
+#: ../src/e-util/e-send-options.ui.h:2 ../src/mail/message-list.c:322
 msgid "High"
 msgstr "Wysoki"
 
@@ -6443,14 +6443,14 @@ msgstr "Wysoki"
 #: ../src/calendar/gui/e-cal-model.c:1888
 #: ../src/calendar/gui/e-task-table.c:549
 #: ../src/calendar/gui/tasktypes.xml.in.h:20
-#: ../src/e-util/e-send-options.ui.h:5 ../src/mail/message-list.c:319
+#: ../src/e-util/e-send-options.ui.h:5 ../src/mail/message-list.c:321
 msgid "Normal"
 msgstr "Zwykły"
 
 #: ../src/calendar/gui/e-cal-component-preview.c:331
 #: ../src/calendar/gui/e-task-table.c:550
 #: ../src/calendar/gui/tasktypes.xml.in.h:21
-#: ../src/e-util/e-send-options.ui.h:4 ../src/mail/message-list.c:318
+#: ../src/e-util/e-send-options.ui.h:4 ../src/mail/message-list.c:320
 msgid "Low"
 msgstr "Niski"
 
@@ -12073,7 +12073,7 @@ msgid "popup list"
 msgstr "lista podręczna"
 
 #: ../src/e-util/e-cell-date.c:49 ../src/e-util/e-cell-date.c:137
-#: ../src/e-util/e-cell-date.c:157 ../src/mail/message-list.c:2064
+#: ../src/e-util/e-cell-date.c:157 ../src/mail/message-list.c:2066
 msgid "?"
 msgstr "?"
 
@@ -13028,28 +13028,28 @@ msgid "_Normal"
 msgstr "_Zwykły"
 
 #: ../src/e-util/e-html-editor-actions.c:1102
-msgid "Header _1"
-msgstr "Nagłówek _1"
+msgid "Heading _1"
+msgstr "Nagłówek _1. poziomu"
 
 #: ../src/e-util/e-html-editor-actions.c:1109
-msgid "Header _2"
-msgstr "Nagłówek _2"
+msgid "Heading _2"
+msgstr "Nagłówek _2. poziomu"
 
 #: ../src/e-util/e-html-editor-actions.c:1116
-msgid "Header _3"
-msgstr "Nagłówek _3"
+msgid "Heading _3"
+msgstr "Nagłówek _3. poziomu"
 
 #: ../src/e-util/e-html-editor-actions.c:1123
-msgid "Header _4"
-msgstr "Nagłówek _4"
+msgid "Heading _4"
+msgstr "Nagłówek _4. poziomu"
 
 #: ../src/e-util/e-html-editor-actions.c:1130
-msgid "Header _5"
-msgstr "Nagłówek _5"
+msgid "Heading _5"
+msgstr "Nagłówek _5. poziomu"
 
 #: ../src/e-util/e-html-editor-actions.c:1137
-msgid "Header _6"
-msgstr "Nagłówek _6"
+msgid "Heading _6"
+msgstr "Nagłówek _6. poziomu"
 
 #: ../src/e-util/e-html-editor-actions.c:1144
 msgid "_Preformatted"
@@ -17419,12 +17419,12 @@ msgstr "Przenoszenie katalogu %s"
 msgid "Copying folder %s"
 msgstr "Kopiowanie katalogu %s"
 
-#: ../src/mail/em-folder-tree.c:2300 ../src/mail/message-list.c:2506
+#: ../src/mail/em-folder-tree.c:2300 ../src/mail/message-list.c:2508
 #, c-format
 msgid "Moving messages into folder %s"
 msgstr "Przenoszenie wiadomości do katalogu %s"
 
-#: ../src/mail/em-folder-tree.c:2304 ../src/mail/message-list.c:2508
+#: ../src/mail/em-folder-tree.c:2304 ../src/mail/message-list.c:2510
 #, c-format
 msgid "Copying messages into folder %s"
 msgstr "Kopiowanie wiadomości do katalogu %s"
@@ -19543,87 +19543,87 @@ msgstr "Modyfikacja katalogu wyszukiwania"
 msgid "New Search Folder"
 msgstr "Nowy katalog wyszukiwania"
 
-#: ../src/mail/message-list.c:298
+#: ../src/mail/message-list.c:300
 msgid "Unseen"
 msgstr "Niewidziana"
 
-#: ../src/mail/message-list.c:299
+#: ../src/mail/message-list.c:301
 msgid "Seen"
 msgstr "Widziana"
 
-#: ../src/mail/message-list.c:300
+#: ../src/mail/message-list.c:302
 msgid "Answered"
 msgstr "Z odpowiedzią"
 
-#: ../src/mail/message-list.c:301
+#: ../src/mail/message-list.c:303
 msgid "Forwarded"
 msgstr "Przekazana"
 
-#: ../src/mail/message-list.c:302
+#: ../src/mail/message-list.c:304
 msgid "Multiple Unseen Messages"
 msgstr "Wiele niewidzianych wiadomości"
 
-#: ../src/mail/message-list.c:303
+#: ../src/mail/message-list.c:305
 msgid "Multiple Messages"
 msgstr "Wiele wiadomości"
 
-#: ../src/mail/message-list.c:316
+#: ../src/mail/message-list.c:318
 msgid "Lowest"
 msgstr "Najniższy"
 
-#: ../src/mail/message-list.c:317
+#: ../src/mail/message-list.c:319
 msgid "Lower"
 msgstr "Niższy"
 
-#: ../src/mail/message-list.c:321
+#: ../src/mail/message-list.c:323
 msgid "Higher"
 msgstr "Wyższy"
 
-#: ../src/mail/message-list.c:322
+#: ../src/mail/message-list.c:324
 msgid "Highest"
 msgstr "Najwyższy"
 
-#: ../src/mail/message-list.c:468 ../src/mail/message-list.c:6215
+#: ../src/mail/message-list.c:470 ../src/mail/message-list.c:6286
 msgid "Generating message list"
 msgstr "Tworzenie listy wiadomości"
 
 #. strftime format of a time,
 #. * in 12-hour format, without seconds.
-#: ../src/mail/message-list.c:2072
+#: ../src/mail/message-list.c:2074
 #: ../src/modules/itip-formatter/itip-view.c:267
 msgid "Today %l:%M %p"
 msgstr "Dzisiaj o %l∶%M %p"
 
-#: ../src/mail/message-list.c:2081
+#: ../src/mail/message-list.c:2083
 msgid "Yesterday %l:%M %p"
 msgstr "Wczoraj o %l∶%M %p"
 
-#: ../src/mail/message-list.c:2093
+#: ../src/mail/message-list.c:2095
 msgid "%a %l:%M %p"
 msgstr "%a %l∶%M %p"
 
-#: ../src/mail/message-list.c:2101
+#: ../src/mail/message-list.c:2103
 msgid "%b %d %l:%M %p"
 msgstr "%d %b %l∶%M %p"
 
-#: ../src/mail/message-list.c:2103
+#: ../src/mail/message-list.c:2105
 msgid "%b %d %Y"
 msgstr "%d %b %Y"
 
-#: ../src/mail/message-list.c:3012
+#: ../src/mail/message-list.c:3062
 msgid "Select all visible messages"
 msgstr "Zaznacza wszystkie widoczne wiadomości"
 
-#: ../src/mail/message-list.c:3720 ../src/mail/message-list.etspec.h:17
+#: ../src/mail/message-list.c:3781 ../src/mail/message-list.etspec.h:17
 msgid "Messages"
 msgstr "Wiadomości"
 
 #. default follow-up flag name to use when clicked in the message list column
-#: ../src/mail/message-list.c:5142
+#: ../src/mail/message-list.c:5213
 msgid "Follow-up"
 msgstr "Kontynuuj"
 
-#: ../src/mail/message-list.c:6154
+#: ../src/mail/message-list.c:6225
 msgid ""
 "No message satisfies your search criteria. Change search criteria by "
 "selecting a new Show message filter from the drop down list above or by "
@@ -19636,7 +19636,7 @@ msgstr ""
 "za pomocą elementu menu Wyszukiwanie → Wyczyść lub przez zmienienie "
 "zapytania powyżej."
 
-#: ../src/mail/message-list.c:6162
+#: ../src/mail/message-list.c:6233
 msgid "There are no messages in this folder."
 msgstr "Brak wiadomości w tym katalogu."
 
@@ -23839,39 +23839,39 @@ msgstr "Przypomnienie o załącznikach"
 msgid "Reminds you when you forgot to add an attachment to a mail message."
 msgstr "Przypomina, gdy zapomniano dołączyć plik do wiadomości."
 
-#: ../src/plugins/bbdb/bbdb.c:725 ../src/plugins/bbdb/bbdb.c:836
+#: ../src/plugins/bbdb/bbdb.c:735 ../src/plugins/bbdb/bbdb.c:846
 #: ../src/plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml.h:1
 msgid "Automatic Contacts"
 msgstr "Kontakty automatyczne"
 
 #. Enable BBDB checkbox
-#: ../src/plugins/bbdb/bbdb.c:740
+#: ../src/plugins/bbdb/bbdb.c:750
 msgid "Create _address book entries when sending mails"
 msgstr ""
 "_Automatyczne tworzenie wpisów w książce adresowej podczas wysyłania "
 "wiadomości"
 
-#: ../src/plugins/bbdb/bbdb.c:750
+#: ../src/plugins/bbdb/bbdb.c:760
 msgid "Select Address book for Automatic Contacts"
 msgstr "Książka adresowa dla kontaktów automatycznych"
 
-#: ../src/plugins/bbdb/bbdb.c:770
+#: ../src/plugins/bbdb/bbdb.c:780
 msgid "Instant Messaging Contacts"
 msgstr "Kontakty komunikatora"
 
 #. Enable Gaim Checkbox
-#: ../src/plugins/bbdb/bbdb.c:785
+#: ../src/plugins/bbdb/bbdb.c:795
 msgid "_Synchronize contact info and images from Pidgin buddy list"
 msgstr ""
 "_Synchronizacja informacji i obrazów kontaktów z listy znajomych "
 "komunikatora Pidgin"
 
-#: ../src/plugins/bbdb/bbdb.c:795
+#: ../src/plugins/bbdb/bbdb.c:805
 msgid "Select Address book for Pidgin buddy list"
 msgstr "Książka adresowa dla kontaktów z listy znajomych komunikatora Pidgin"
 
 #. Synchronize now button.
-#: ../src/plugins/bbdb/bbdb.c:811
+#: ../src/plugins/bbdb/bbdb.c:821
 msgid "Synchronize with _buddy list now"
 msgstr "Zsynchronizuj z listą _znajomych"
 
