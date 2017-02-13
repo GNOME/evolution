@@ -1,3 +1,34 @@
+Evolution 3.22.5 2017-02-13
+---------------------------
+
+Bug Fixes:
+	Bug 777373 - Headers in forwarded message credits in opposite order (Milan Crha)
+	Bug 776391 - Disable WebKit developer mode by default (Milan Crha)
+	Bug 775656 - Delete key mapping stops working ][ (Milan Crha)
+	Bug 773038 - Correct unread message indicator for collapsed stores (Milan Crha)
+	Bug 777766 - Inconsistent activation of "Delete Calendar" in Edit menu (Milan Crha)
+	Bug 777818 - Moving folder tree between IMAP loosing sub folders (Milan Crha)
+	Bug 778036 - [bbdb] Auto Contacts give up after EWS GAL lookup failure (Milan Crha)
+	Bug 778062 - Keep signatures above only when replying (Milan Crha)
+	Bug 778347 - Signature at top without signature skips first paragraph (Milan Crha)
+
+Miscellaneous:
+	Previous signatures with images not sent properly (Milan Crha)
+	Fix few memory leaks (Milan Crha)
+	e-editor-dom-functions: Do not override variable name from parent block (Milan Crha)
+
+Translations:
+	Piotr Drąg (pl)
+	Anders Jonsson (sv)
+	Gianvito Cavasoli (it)
+	Balázs Meskó (hu)
+	Christian Kirbach (de)
+	Мирослав Николић (sr)
+	Мирослав Николић (sr@latin)
+	Rafael Fontenelle (pt_BR)
+	Aurimas Černius (lt)
+	Marek Černocký (cs)
+
 Evolution 3.22.4 2017-01-16
 ---------------------------
 
