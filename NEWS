@@ -1,3 +1,47 @@
+Evolution 3.23.90 2017-02-13
+----------------------------
+
+Bug Fixes:
+	Bug 777373 - Headers in forwarded message credits in opposite order (Milan Crha)
+	Bug 777208 - Show mail aliases in Send account override (Milan Crha)
+	Bug 777207 - Allow e-mail address change for GOA configured accounts (Milan Crha)
+	Bug 777267 - Enhance UI appearance with gtk+ 3.20 and later (Trinh Anh Ngoc)
+	Bug 776391 - Disable WebKit developer mode by default (Milan Crha)
+	Bug 733336 - Add Open Settings button to GOA connection errors (Milan Crha)
+	Bug 775656 - Delete key mapping stops working ][ (Milan Crha)
+	Bug 773038 - Correct unread message indicator for collapsed stores (Milan Crha)
+	Bug 747751 - Do not display reminders for past events/tasks/memos by default (Milan Crha)
+	Bug 777766 - Inconsistent activation of "Delete Calendar" in Edit menu (Milan Crha)
+	Bug 777818 - Moving folder tree between IMAP loosing sub folders (Milan Crha)
+	Bug 777974 - Correct an ngettext() use in itip-view.c (Milan Crha)
+	Bug 778036 - [bbdb] Auto Contacts give up after EWS GAL lookup failure (Milan Crha)
+	Bug 778223 - Fix Exec path in alarm-notify autostart .desktop file (Sebastian Keller)
+	Bug 778231 - Rename "Header" in paragraph formatting to "Heading" (Milan Crha)
+	Bug 778180 - CSS property for background of new mail in the message list (Milan Crha)
+	Bug 778062 - Keep signatures above only when replying (Milan Crha)
+	Bug 778347 - Signature at top without signature skips first paragraph (Milan Crha)
+
+Miscellaneous:
+	Reference a link where Google calendars to synchronize can be enabled (Milan Crha)
+	Previous signatures with images not sent properly (Milan Crha)
+	A minor translatable string change (Milan Crha)
+	Fix few memory leaks (Milan Crha)
+	e-editor-dom-functions: Do not override variable name from parent block (Milan Crha)
+
+Translations:
+	Daniel Mustieles (es)
+	Piotr Drąg (pl)
+	Fabio Tomat (fu)
+	Gianvito Cavasoli (it)
+	Peter Mráz (sk)
+	Yuras Shumovich (be)
+	Claude Paroz (fr)
+	Jordi Mas (ca)
+	Inaki Larranaga Murgoitio (eu)
+	Marek Černocký (cs)
+	Kjartan Maraas (nb)
+	Christian Kirbach (de)
+
 Evolution 3.23.4 2017-01-16
 ---------------------------
 
