@@ -18,8 +18,8 @@ msgstr ""
 "Project-Id-Version: evolution.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2017-01-20 15:02+0000\n"
-"PO-Revision-Date: 2017-01-24 10:29+0100\n"
+"POT-Creation-Date: 2017-02-06 18:04+0000\n"
+"PO-Revision-Date: 2017-02-07 18:31+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: es <gnome-es-list@gnome.org>\n"
 "Language: es\n"
@@ -681,8 +681,6 @@ msgid "Time the last reminder ran, in time_t"
 msgstr "La hora en que el último recordatorio sonó, en time_t"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:74
-#| msgctxt "iCalImp"
-#| msgid "has reminders"
 msgid "Allow past reminders"
 msgstr "Permitir pegar recordatorios"
 
@@ -3587,7 +3585,7 @@ msgstr "Opciones"
 #: ../src/e-util/e-source-selector-dialog.c:370
 #: ../src/e-util/e-table-config.c:548 ../src/e-util/e-table-config.ui.h:3
 #: ../src/e-util/e-timezone-dialog.ui.h:2
-#: ../src/e-util/evolution-source-viewer.c:835 ../src/e-util/e-web-view.c:4062
+#: ../src/e-util/evolution-source-viewer.c:835 ../src/e-util/e-web-view.c:4065
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:267
 #: ../src/mail/e-mail-config-window.c:331
 #: ../src/mail/e-mail-label-dialog.c:194 ../src/mail/e-mail-tag-editor.c:168
@@ -3622,7 +3620,7 @@ msgstr "_Cancelar"
 #: ../src/composer/e-composer-actions.c:348
 #: ../src/e-util/e-attachment-store.c:833
 #: ../src/e-util/e-mail-signature-script-dialog.c:370
-#: ../src/e-util/e-web-view.c:4063
+#: ../src/e-util/e-web-view.c:4066
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:268
 #: ../src/shell/e-shell-content.c:658 ../src/shell/e-shell-utils.c:140
 #: ../src/smime/gui/certificate-manager.c:666
@@ -4300,7 +4298,7 @@ msgid "Send a mail message to this address"
 msgstr "Enviar un correo a esta dirección"
 
 #: ../src/addressbook/gui/widgets/eab-contact-display.c:290
-#: ../src/e-util/e-web-view.c:1314
+#: ../src/e-util/e-web-view.c:1317
 #, c-format
 msgid "Click to mail %s"
 msgstr "Pulse para enviar correo a %s"
@@ -8174,7 +8172,7 @@ msgstr "_Copiar"
 #: ../src/calendar/gui/e-comp-editor.c:1985
 #: ../src/e-util/e-focus-tracker.c:173 ../src/e-util/e-focus-tracker.c:229
 #: ../src/e-util/e-focus-tracker.c:282 ../src/e-util/e-focus-tracker.c:774
-#: ../src/e-util/e-web-view.c:409 ../src/e-util/e-web-view.c:1939
+#: ../src/e-util/e-web-view.c:409 ../src/e-util/e-web-view.c:1942
 #: ../src/mail/e-mail-browser.c:136 ../src/shell/e-shell-window-actions.c:810
 msgid "Copy the selection"
 msgstr "Copiar la selección"
@@ -8190,7 +8188,7 @@ msgstr "Cor_tar"
 #: ../src/calendar/gui/e-comp-editor.c:1992
 #: ../src/e-util/e-focus-tracker.c:166 ../src/e-util/e-focus-tracker.c:222
 #: ../src/e-util/e-focus-tracker.c:276 ../src/e-util/e-focus-tracker.c:769
-#: ../src/e-util/e-web-view.c:1948 ../src/mail/e-mail-browser.c:143
+#: ../src/e-util/e-web-view.c:1951 ../src/mail/e-mail-browser.c:143
 #: ../src/shell/e-shell-window-actions.c:817
 msgid "Cut the selection"
 msgstr "Cortar la selección"
@@ -8217,7 +8215,7 @@ msgstr "_Pegar"
 #: ../src/calendar/gui/e-comp-editor.c:2013
 #: ../src/e-util/e-focus-tracker.c:180 ../src/e-util/e-focus-tracker.c:236
 #: ../src/e-util/e-focus-tracker.c:288 ../src/e-util/e-focus-tracker.c:779
-#: ../src/e-util/e-web-view.c:1957 ../src/mail/e-mail-browser.c:150
+#: ../src/e-util/e-web-view.c:1960 ../src/mail/e-mail-browser.c:150
 #: ../src/shell/e-shell-window-actions.c:845
 msgid "Paste the clipboard"
 msgstr "Pega el contenido del porta papeles"
@@ -13088,27 +13086,33 @@ msgid "_Normal"
 msgstr "_Normal"
 
 #: ../src/e-util/e-html-editor-actions.c:1102
-msgid "Header _1"
+#| msgid "Header _1"
+msgid "Heading _1"
 msgstr "Cabecera _1"
 
 #: ../src/e-util/e-html-editor-actions.c:1109
-msgid "Header _2"
+#| msgid "Header _2"
+msgid "Heading _2"
 msgstr "Cabecera _2"
 
 #: ../src/e-util/e-html-editor-actions.c:1116
-msgid "Header _3"
+#| msgid "Header _3"
+msgid "Heading _3"
 msgstr "Cabecera _3"
 
 #: ../src/e-util/e-html-editor-actions.c:1123
-msgid "Header _4"
+#| msgid "Header _4"
+msgid "Heading _4"
 msgstr "Cabecera _4"
 
 #: ../src/e-util/e-html-editor-actions.c:1130
-msgid "Header _5"
+#| msgid "Header _5"
+msgid "Heading _5"
 msgstr "Cabecera _5"
 
 #: ../src/e-util/e-html-editor-actions.c:1137
-msgid "Header _6"
+#| msgid "Header _6"
+msgid "Heading _6"
 msgstr "Cabecera _6"
 
 #: ../src/e-util/e-html-editor-actions.c:1144
@@ -14128,25 +14132,25 @@ msgid "Select Contacts from Address Book"
 msgstr "Seleccionar contactos de la libreta de direcciones"
 
 #. To Translators: This would be similiar to "Expand MyList Inline" where MyList is a Contact List
-#: ../src/e-util/e-name-selector-entry.c:3208
+#: ../src/e-util/e-name-selector-entry.c:3207
 #, c-format
 msgid "E_xpand %s Inline"
 msgstr "E_xpandir %s en línea"
 
 #. Copy Contact Item
-#: ../src/e-util/e-name-selector-entry.c:3224
+#: ../src/e-util/e-name-selector-entry.c:3223
 #, c-format
 msgid "Cop_y %s"
 msgstr "_Copiar %s"
 
 #. Cut Contact Item
-#: ../src/e-util/e-name-selector-entry.c:3235
+#: ../src/e-util/e-name-selector-entry.c:3234
 #, c-format
 msgid "C_ut %s"
 msgstr "Cor_tar %s"
 
 #. Edit Contact item
-#: ../src/e-util/e-name-selector-entry.c:3253
+#: ../src/e-util/e-name-selector-entry.c:3252
 #, c-format
 msgid "_Edit %s"
 msgstr "_Editar %s"
@@ -15044,47 +15048,47 @@ msgstr "Guardar _imagen…"
 msgid "Save the image to a file"
 msgstr "Guardar la imagen en un archivo"
 
-#: ../src/e-util/e-web-view.c:419 ../src/e-util/e-web-view.c:1961
+#: ../src/e-util/e-web-view.c:419 ../src/e-util/e-web-view.c:1964
 msgid "Select all text and images"
 msgstr "Seleccionar todo el texto y las imágenes"
 
-#: ../src/e-util/e-web-view.c:1319
+#: ../src/e-util/e-web-view.c:1322
 #, c-format
 msgid "Click to call %s"
 msgstr "Pulse para llamar a %s"
 
-#: ../src/e-util/e-web-view.c:1321
+#: ../src/e-util/e-web-view.c:1324
 msgid "Click to hide/unhide addresses"
 msgstr "Pulse para ocultar/mostrar las direcciones"
 
-#: ../src/e-util/e-web-view.c:1332
+#: ../src/e-util/e-web-view.c:1335
 #, c-format
 msgid "Go to the section %s of the message"
 msgstr "Ir a la sección %s del mensaje"
 
-#: ../src/e-util/e-web-view.c:1334
+#: ../src/e-util/e-web-view.c:1337
 msgid "Go to the beginning of the message"
 msgstr "Ir al principio del mensaje"
 
-#: ../src/e-util/e-web-view.c:1338
+#: ../src/e-util/e-web-view.c:1341
 #, c-format
 msgid "Click to open %s"
 msgstr "Pulse para abrir %s"
 
-#: ../src/e-util/e-web-view.c:3872
+#: ../src/e-util/e-web-view.c:3875
 msgid "Copying image to clipboard"
 msgstr "Copiando imagen al portapapeles"
 
-#: ../src/e-util/e-web-view.c:4060
+#: ../src/e-util/e-web-view.c:4063
 msgid "Save Image"
 msgstr "Guardar imagen"
 
-#: ../src/e-util/e-web-view.c:4101
+#: ../src/e-util/e-web-view.c:4104
 #, c-format
 msgid "Saving image to “%s”"
 msgstr "Guardando imagen en «%s»"
 
-#: ../src/e-util/e-web-view.c:4196
+#: ../src/e-util/e-web-view.c:4199
 #, c-format
 msgid "Cannot get URI “%s”, do not know how to download it."
 msgstr "No se puede obtener el URI «%s», o no se sabe de dónde bajarlo."
@@ -15653,8 +15657,9 @@ msgstr "Configurando carpeta de búsqueda: %s"
 
 #: ../src/libemail-engine/mail-vfolder.c:302
 #, c-format
-msgid "Updating Search Folders for “%s” — %s"
-msgstr "Actualizando carpetas de búsqueda para «%s»: %s"
+#| msgid "Updating Search Folders for “%s” — %s"
+msgid "Updating Search Folders for “%s : %s”"
+msgstr "Actualizando carpetas de búsqueda para «%s : %s»"
 
 #. Translators: The first %s is name of the affected
 #. * search folder(s), the second %s is the URI of the
@@ -16466,12 +16471,12 @@ msgstr "Mover a la carpeta"
 msgid "Copy to Folder"
 msgstr "Copiar a la carpeta"
 
-#: ../src/mail/e-mail-reader.c:353 ../src/mail/em-folder-utils.c:488
+#: ../src/mail/e-mail-reader.c:353 ../src/mail/em-folder-utils.c:501
 #: ../src/mail/mail.error.xml.h:152
 msgid "_Move"
 msgstr "_Mover"
 
-#: ../src/mail/e-mail-reader.c:353 ../src/mail/em-folder-utils.c:488
+#: ../src/mail/e-mail-reader.c:353 ../src/mail/em-folder-utils.c:501
 msgid "C_opy"
 msgstr "C_opiar"
 
@@ -17507,11 +17512,11 @@ msgstr "NO COINCIDENTE"
 msgid "Loading..."
 msgstr "Cargando…"
 
-#: ../src/mail/em-folder-utils.c:489
+#: ../src/mail/em-folder-utils.c:502
 msgid "Move Folder To"
 msgstr "Mover carpeta a"
 
-#: ../src/mail/em-folder-utils.c:489
+#: ../src/mail/em-folder-utils.c:502
 msgid "Copy Folder To"
 msgstr "Copiar carpeta a"
 
@@ -20714,45 +20719,45 @@ msgstr "I_mportar a la lista de tareas"
 msgid "New Memo List"
 msgstr "Lista de notas nueva"
 
-#: ../src/modules/calendar/e-cal-base-shell-sidebar.c:554
+#: ../src/modules/calendar/e-cal-base-shell-sidebar.c:563
 #, c-format
 msgid "Copying an event into the calendar “%s”"
 msgstr "Copiando un evento al calendario «%s»"
 
-#: ../src/modules/calendar/e-cal-base-shell-sidebar.c:555
+#: ../src/modules/calendar/e-cal-base-shell-sidebar.c:564
 #, c-format
 msgid "Moving an event into the calendar “%s”"
 msgstr "Moviendo un evento al calendario «%s»"
 
-#: ../src/modules/calendar/e-cal-base-shell-sidebar.c:560
+#: ../src/modules/calendar/e-cal-base-shell-sidebar.c:569
 #, c-format
 msgid "Copying a memo into the memo list “%s”"
 msgstr "Copiando una nota a la lista de notas «%s»"
 
-#: ../src/modules/calendar/e-cal-base-shell-sidebar.c:561
+#: ../src/modules/calendar/e-cal-base-shell-sidebar.c:570
 #, c-format
 msgid "Moving a memo into the memo list “%s”"
 msgstr "Moviendo una nota a la lista de notas «%s»"
 
-#: ../src/modules/calendar/e-cal-base-shell-sidebar.c:566
+#: ../src/modules/calendar/e-cal-base-shell-sidebar.c:575
 #, c-format
 msgid "Copying a task into the task list “%s”"
 msgstr "Copiando una tarea a la lista de tareas «%s»"
 
-#: ../src/modules/calendar/e-cal-base-shell-sidebar.c:567
+#: ../src/modules/calendar/e-cal-base-shell-sidebar.c:576
 #, c-format
 msgid "Moving a task into the task list “%s”"
 msgstr "Moviendo una tarea a la lista de tareas «%s»"
 
-#: ../src/modules/calendar/e-cal-base-shell-sidebar.c:684
+#: ../src/modules/calendar/e-cal-base-shell-sidebar.c:693
 msgid "Calendar Selector"
 msgstr "Selector de calendarios"
 
-#: ../src/modules/calendar/e-cal-base-shell-sidebar.c:690
+#: ../src/modules/calendar/e-cal-base-shell-sidebar.c:699
 msgid "Memo List Selector"
 msgstr "Selector de lista de notas"
 
-#: ../src/modules/calendar/e-cal-base-shell-sidebar.c:695
+#: ../src/modules/calendar/e-cal-base-shell-sidebar.c:704
 msgid "Task List Selector"
 msgstr "Selector de listas de tareas"
 
@@ -21022,7 +21027,6 @@ msgid "Display reminders for completed _tasks"
 msgstr "Mostrar recordatorios para las _tareas completadas"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:70
-#| msgid "Display reminders for completed _tasks"
 msgid "Display reminders for _past events"
 msgstr "Mostrar recordatorios para eventos _pasados"
 
@@ -22374,16 +22378,17 @@ msgstr ""
 
 #: ../src/modules/itip-formatter/itip-view.c:3664
 #, c-format
+#| msgid ""
+#| "The calendar “%s” contains an appointment which conflicts with this "
+#| "meeting"
 msgid ""
 "The calendar “%s” contains an appointment which conflicts with this meeting"
-msgstr "El calendario «%s» una cita que entra en conflicto con esta reunión"
-
-#: ../src/modules/itip-formatter/itip-view.c:3665
-#, c-format
-msgid ""
+msgid_plural ""
 "The calendar “%s” contains %d appointments which conflict with this meeting"
-msgstr ""
-"El calendario «%s» contiene %d citas que entran en conflicto con esta reunión"
+msgstr[0] ""
+"El calendario «%s» tiene una cita que entra en conflicto con esta reunión"
+msgstr[1] ""
+"El calendario «%s» tiene %d citas que entran en conflicto con esta reunión"
 
 #: ../src/modules/itip-formatter/itip-view.c:3697
 #, c-format
@@ -22615,7 +22620,6 @@ msgstr "Acceso IMAP"
 #. Translators: This is part of a sentence "You may need to enable IMAP access and Calendars to synchronize",
 #. where the 'IMAP access' and 'Calendars to synchronize' are clickable.
 #: ../src/modules/mail-config/e-mail-config-google-summary.c:315
-#| msgid "Do _Not Synchronize"
 msgctxt "GoggleSummary"
 msgid "Calendars to synchronize"
 msgstr "Calendarios que sincronizar"
@@ -22624,7 +22628,6 @@ msgstr "Calendarios que sincronizar"
 #. where the 'IMAP access' and 'Calendars to synchronize' are clickable.
 #: ../src/modules/mail-config/e-mail-config-google-summary.c:318
 #, c-format
-#| msgid "You may need to enable IMAP access"
 msgctxt "GoggleSummary"
 msgid "You may need to enable %s and %s"
 msgstr "Puede querer activar %s y %s"
@@ -23903,40 +23906,40 @@ msgid "Reminds you when you forgot to add an attachment to a mail message."
 msgstr ""
 "Le recuerda cuando se le olvida añadir un adjunto a un mensaje de correo."
 
-#: ../src/plugins/bbdb/bbdb.c:722 ../src/plugins/bbdb/bbdb.c:833
+#: ../src/plugins/bbdb/bbdb.c:735 ../src/plugins/bbdb/bbdb.c:846
 #: ../src/plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml.h:1
 msgid "Automatic Contacts"
 msgstr "Contactos automáticos"
 
 #. Enable BBDB checkbox
-#: ../src/plugins/bbdb/bbdb.c:737
+#: ../src/plugins/bbdb/bbdb.c:750
 msgid "Create _address book entries when sending mails"
 msgstr ""
 "Crear entradas _automáticamente en la libreta de direcciones al enviar "
 "correos"
 
-#: ../src/plugins/bbdb/bbdb.c:747
+#: ../src/plugins/bbdb/bbdb.c:760
 msgid "Select Address book for Automatic Contacts"
 msgstr "Seleccione la libreta para contactos automáticos"
 
-#: ../src/plugins/bbdb/bbdb.c:767
+#: ../src/plugins/bbdb/bbdb.c:780
 msgid "Instant Messaging Contacts"
 msgstr "Contactos de mensajería instantánea"
 
 #. Enable Gaim Checkbox
-#: ../src/plugins/bbdb/bbdb.c:782
+#: ../src/plugins/bbdb/bbdb.c:795
 msgid "_Synchronize contact info and images from Pidgin buddy list"
 msgstr ""
 "_Sincronizar información e imágenes de contactos desde la lista de contactos "
 "de Pidgin"
 
-#: ../src/plugins/bbdb/bbdb.c:792
+#: ../src/plugins/bbdb/bbdb.c:805
 msgid "Select Address book for Pidgin buddy list"
 msgstr ""
 "Seleccione la libreta de direcciones para la lista de contactos de Pidgin"
 
 #. Synchronize now button.
-#: ../src/plugins/bbdb/bbdb.c:808
+#: ../src/plugins/bbdb/bbdb.c:821
 msgid "Synchronize with _buddy list now"
 msgstr "Sincronizar con la lista de _contactos de MI ahora"
 
@@ -24952,7 +24955,6 @@ msgid "Preparing to quit..."
 msgstr "Preparándose para salir…"
 
 #: ../src/shell/e-shell.c:926
-#| msgid "_Open Desktop Settings"
 msgid "Open _Settings"
 msgstr "_Abrir la configuración"
 
@@ -26039,3 +26041,10 @@ msgstr "No se puede guardar el almacén en el disco, cod_err: %i"
 #: ../src/smime/lib/e-pkcs12.c:407
 msgid "Imported Certificate"
 msgstr "Certificado importado"
+
+#~ msgid ""
+#~ "The calendar “%s” contains %d appointments which conflict with this "
+#~ "meeting"
+#~ msgstr ""
+#~ "El calendario «%s» contiene %d citas que entran en conflicto con esta "
+#~ "reunión"
