@@ -41,7 +41,7 @@
 <item>
 <title>Configuration settings in GSettings</title>
 <p><file>$HOME/.config/dconf</file></p>
-<note style="warning"><p>This location also includes settings of other applications. To output only Evolution related data on the screen, the <link href="https://developer.gnome.org/dconf/"><app>Dconf</app></link> commands <cmd>dconf dump /org/gnome/evolution/</cmd> and <cmd>dconf dump /org/gnome/evolution-data-server/</cmd> can be used.</p></note>
+<note style="info"><p>This location also includes settings of other applications. To output only Evolution related data on the screen, the <link href="https://developer.gnome.org/dconf/"><app>Dconf</app></link> commands <cmd>dconf dump /org/gnome/evolution/</cmd> and <cmd>dconf dump /org/gnome/evolution-data-server/</cmd> can be used.</p></note>
 </item>
 <item>
 <title>Disposable data caches</title>
