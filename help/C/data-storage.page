@@ -6,7 +6,7 @@
     
     <link type="guide" xref="index#common-other-problems" />
 
-    <revision pkgversion="3.5.3" version="0.5" date="2012-06-09" status="final"/>
+    <revision pkgversion="3.22.5" version="0.6" date="2017-02-19" status="final"/>
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
       <email its:translate="no">ak-47@gmx.net</email>
@@ -20,7 +20,7 @@
 <title>Data storage locations</title>
 
 <note style="tip">
-<p>This is only interesting for advanced users who want to debug problems.</p>
+<p>This is only relevant for advanced users who want to debug problems.</p>
 </note>
 
 <p><app>Evolution</app> 3.6 and later stores its data according to the <link href="http://www.freedesktop.org/wiki/Specifications/basedir-spec">XDG Base Directory Specification</link>. By default this means:</p>
@@ -39,12 +39,13 @@
 <p><file>$HOME/.config/evolution/sources</file></p>
 </item>
 <item>
-<title>Disposable data caches</title>
-<p><file>$HOME/.cache/evolution</file></p>
-</item>
-<item>
 <title>Configuration settings in GSettings</title>
 <p><file>$HOME/.config/dconf</file></p>
+<note style="warning"><p>This location also includes settings of other applications. To output only Evolution related data on the screen, the <link href="https://developer.gnome.org/dconf/"><app>Dconf</app></link> commands <cmd>dconf dump /org/gnome/evolution/</cmd> and <cmd>dconf dump /org/gnome/evolution-data-server/</cmd> can be used.</p></note>
+</item>
+<item>
+<title>Disposable data caches</title>
+<p><file>$HOME/.cache/evolution</file></p>
 </item>
 </terms>
 
