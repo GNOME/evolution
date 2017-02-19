@@ -6,7 +6,7 @@
 <!-- TODO:POST-3-8: Offline work for web calendars etc also exists => create index page for Offline working? -->
     <link type="guide" xref="index#mail-basic" />
 
-    <revision pkgversion="3.22.5" version="0.4" date="2017-02-19" status="final"/>
+    <revision pkgversion="3.23.90" version="0.5" date="2017-02-19" status="final"/>
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
       <email its:translate="no">ak-47@gmx.net</email>
@@ -22,7 +22,7 @@
 
 <title>Working Offline</title>
 
-<p><app>Evolution</app> can keep a local copy of mail folders on remote systems like IMAP or exchange, to allow you to read messages.</p>
+<p><app>Evolution</app> can keep a local copy of folders located on remote mail systems like IMAP or Exchange, to allow you to read messages.</p>
 
 <note style="warning"><p><app>Evolution</app>'s forced offline mode only refers to mail and does not apply to contacts and calendars.</p></note>
 
@@ -35,6 +35,7 @@
 <item><p>Right-click the folder, then click <gui>Properties</gui>.</p></item>
 <item><p>Click <gui>Copy folder content locally for offline operation</gui>.</p></item>
 </steps>
+<note style="note"><p>To avoid downloading large amounts of data, the <link href="mail-receiving-options">Receiving Options</link> of remote accounts offer an option to not synchronize messages which are older than a certain time period.</p></note>
 </section>
 
 <section id="sync-for-offline">
