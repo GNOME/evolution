@@ -2,11 +2,11 @@
       type="topic" id="mail-word-wrap">
 
   <info>
-    <desc>Words are wrapped in outgoing mails at 72 characters.</desc>
+    <desc>Words are wrapped in outgoing mail at 72 characters.</desc>
     
     <link type="guide" xref="index#common-mail-problems" />
 
-    <revision pkgversion="3.0.2" version="0.1" date="2011-07-25" status="draft"/>
+    <revision pkgversion="3.0.2" version="0.2" date="2017-02-19" status="draft"/>
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
       <email its:translate="no">ak-47@gmx.net</email>
