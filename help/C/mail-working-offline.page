@@ -6,7 +6,7 @@
 <!-- TODO:POST-3-8: Offline work for web calendars etc also exists => create index page for Offline working? -->
     <link type="guide" xref="index#mail-basic" />
 
-    <revision pkgversion="3.7.4" version="0.3" date="2013-01-22" status="final"/>
+    <revision pkgversion="3.22.5" version="0.4" date="2017-02-19" status="final"/>
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
       <email its:translate="no">ak-47@gmx.net</email>
@@ -22,11 +22,11 @@
 
 <title>Working Offline</title>
 
-<p>Forced offline mode helps you communicate with remote mail storage systems like GroupWise, IMAP or Exchange, in situations where you are not connected to the network at all times. <app>Evolution</app> keeps a local copy of one or more folders to allow you to compose messages, storing them in your Outbox to be sent the next time you connect.</p>
+<p><app>Evolution</app> can keep a local copy of mail folders on remote systems like IMAP or exchange, to allow you to read messages.</p>
 
 <note style="warning"><p><app>Evolution</app>'s forced offline mode only refers to mail and does not apply to contacts and calendars.</p></note>
 
-<p>POP mail downloads all messages to your local system, but other connections usually download just the headers, and get the rest only when you want to read the message. Before you force <app>Evolution</app> to be offline, <app>Evolution</app> downloads the unread messages from the folders you have chosen to store.</p>
+<p>POP mail downloads all messages to your local system, but for remote accounts usually just the headers are downloaded. The rest, such as the body of a message, is downloaded only when you want to read the message. Before you force <app>Evolution</app> to be offline, <app>Evolution</app> downloads the unread messages from the folders you have chosen to store.</p>
 
 <section id="mark-folders">
 <title>Marking folders for offline usage</title>
@@ -39,8 +39,8 @@
 
 <section id="sync-for-offline">
 <title>Syncing messages for offline usage</title>
-<p>Your connection status is shown by the small icon in the lower left corner of the <app>Evolution</app> main window. When you are online, it displays two connected cables. When you force offline mode via clicking the icon or via <guiseq><gui>File</gui><gui>Work Offline</gui></guiseq>, the cables separate. You will be asked whether you want to go offline immediately or synchronize folders locally before you go offline.</p>
-<p>To download Messages for Offline Operations without immediately going offline, select <guiseq><gui>File</gui><gui>Download Messages for Offline Usage</gui></guiseq>.</p>
+<p>Your connection status is shown by an icon in the status bar of the <link xref="intro-main-window">main window</link>. When you are online, it displays two connected cables. When you force offline mode via clicking the icon or via <guiseq><gui>File</gui><gui>Work Offline</gui></guiseq>, the cables separate. You can either go offline immediately or synchronize remote folders with your local copy before you go offline.</p>
+<p>To synchronize folders without going offline immediately, select <guiseq><gui>File</gui><gui>Download Messages for Offline Usage</gui></guiseq>.</p>
 </section>
 
 <section id="network-manager-integration">
