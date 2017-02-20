@@ -2459,37 +2459,41 @@ static gboolean
 fix_paragraph_structure_after_pressing_enter (EEditorPage *editor_page)
 {
 	WebKitDOMDocument *document;
-	WebKitDOMNode *body;
-	WebKitDOMNodeList *list = NULL;
+	WebKitDOMNode *body, *prev_sibling, *node;
+	WebKitDOMElement *br;
 	gboolean prev_is_heading = FALSE;
-	gint ii;
 
 	g_return_val_if_fail (E_IS_EDITOR_PAGE (editor_page), FALSE);
 
 	document = e_editor_page_get_document (editor_page);
 	body = WEBKIT_DOM_NODE (webkit_dom_document_get_body (document));
 
+	e_editor_dom_selection_save (editor_page);
+
 	/* When pressing Enter on empty line in the list (or after heading elements)
-	 * WebKit will end that list and inserts <div><br></div> so mark it for wrapping. */
-	list = webkit_dom_document_query_selector_all (
-		document, "body > div:not([data-evo-paragraph]) > br", NULL);
+	 * WebKit will end that list and inserts <div><br></div> so replace it
+	 * with the right paragraph element. */
+	br = webkit_dom_document_query_selector (
+		document, "body > div:not([data-evo-paragraph]) > #-x-evo-selection-end-marker + br", NULL);
 
-	for (ii = webkit_dom_node_list_get_length (list); ii--;) {
-		WebKitDOMNode *prev_sibling;
-		WebKitDOMNode *node = webkit_dom_node_get_parent_node (
-			webkit_dom_node_list_item (list, ii));
+	if (!br || webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (br)) ||
+	     webkit_dom_node_get_previous_sibling (webkit_dom_node_get_previous_sibling (WEBKIT_DOM_NODE (br))))
+		goto out;
 
-		prev_sibling = webkit_dom_node_get_previous_sibling (node);
-		if (prev_sibling && WEBKIT_DOM_IS_HTML_HEADING_ELEMENT (prev_sibling))
-			prev_is_heading = TRUE;
+	node = webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (br));
 
-		webkit_dom_node_replace_child (
-			body,
-			WEBKIT_DOM_NODE (e_editor_dom_prepare_paragraph (editor_page, FALSE)),
-			node,
-			NULL);
-	}
-	g_clear_object (&list);
+	prev_sibling = webkit_dom_node_get_previous_sibling (node);
+	if (prev_sibling && WEBKIT_DOM_IS_HTML_HEADING_ELEMENT (prev_sibling))
+		prev_is_heading = TRUE;
+
+	webkit_dom_node_replace_child (
+		body,
+		WEBKIT_DOM_NODE (e_editor_dom_prepare_paragraph (editor_page, FALSE)),
+		node,
+		NULL);
+
+ out:
+	e_editor_dom_selection_restore (editor_page);
 
 	return prev_is_heading;
 }
