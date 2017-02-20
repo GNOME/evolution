@@ -87,9 +87,17 @@ G_DEFINE_TYPE (GnomeCanvasRect, gnome_canvas_rect, GNOME_TYPE_CANVAS_ITEM)
 static guint32
 get_rgba_from_color (GdkColor *color)
 {
-	return ((color->red & 0xff00) << 16) |
-		((color->green & 0xff00) << 8) |
-		(color->blue & 0xff00) | 0xff;
+	guint32 rr, gg, bb, aa;
+
+	rr = 0xFF * color->red / 65535.0;
+	gg = 0xFF * color->green / 65535.0;
+	bb = 0xFF * color->blue / 65535.0;
+	aa = 0xFF;
+
+	return (rr & 0xFF) << 24 |
+		(gg & 0xFF) << 16 |
+		(bb & 0xFF) << 8 |
+		(aa & 0xFF);
 }
 
 static gboolean
@@ -478,28 +486,13 @@ gnome_canvas_rect_bounds (GnomeCanvasItem *item,
                           gdouble *y2)
 {
 	GnomeCanvasRect *rect;
-	cairo_t *cr;
 
 	rect = GNOME_CANVAS_RECT (item);
 
-	cr = gnome_canvas_cairo_create_scratch ();
-
-	cairo_rectangle (
-		cr,
-		rect->priv->x1,
-		rect->priv->y1,
-		rect->priv->x2 - rect->priv->x1,
-		rect->priv->y2 - rect->priv->y1);
-
-	if (gnome_canvas_rect_setup_for_stroke (rect, cr))
-		cairo_stroke_extents (cr, x1, y1, x2, y2);
-	else if (gnome_canvas_rect_setup_for_fill (rect, cr))
-		cairo_fill_extents (cr, x1, y1, x2, y2);
-	else {
-		*x1 = *x2 = *y1 = *y2 = 0;
-	}
-
-	cairo_destroy (cr);
+	*x1 = rect->priv->x1;
+	*y1 = rect->priv->y1;
+	*x2 = rect->priv->x2;
+	*y2 = rect->priv->y2;
 }
 
 static void
