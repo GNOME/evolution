@@ -3628,6 +3628,49 @@ source_selected_cb (ItipView *view,
 		g_object_ref (view));
 }
 
+static gboolean
+itip_comp_older_than_stored (ItipView *view,
+			     ECalComponent *real_comp)
+{
+	gboolean is_older = FALSE;
+	gint *psequence = NULL;
+	ECalComponentId *mail_id, *real_id;
+
+	if (!real_comp || !view->priv->comp ||
+	    e_cal_component_get_vtype (view->priv->comp) != E_CAL_COMPONENT_EVENT)
+		return FALSE;
+
+	e_cal_component_get_sequence (view->priv->comp, &psequence);
+	if (!psequence)
+		return FALSE;
+
+	mail_id = e_cal_component_get_id (view->priv->comp);
+	if (!mail_id) {
+		e_cal_component_free_sequence (psequence);
+		return FALSE;
+	}
+
+	real_id = e_cal_component_get_id (real_comp);
+	if (real_id && g_strcmp0 (real_id->uid, mail_id->uid) == 0 && g_strcmp0 (real_id->rid, mail_id->rid) == 0) {
+		gint *pint = NULL;
+
+		e_cal_component_get_sequence (real_comp, &pint);
+		if (pint) {
+			is_older = *psequence < *pint;
+
+			e_cal_component_free_sequence (pint);
+		}
+	}
+
+	if (real_id)
+		e_cal_component_free_id (real_id);
+
+	e_cal_component_free_sequence (psequence);
+	e_cal_component_free_id (mail_id);
+
+	return is_older;
+}
+
 static void
 find_cal_update_ui (FormatItipFindData *fd,
                     ECalClient *cal_client)
@@ -3696,51 +3739,68 @@ find_cal_update_ui (FormatItipFindData *fd,
 			view, ITIP_VIEW_INFO_ITEM_TYPE_INFO,
 			_("Found the appointment in the calendar “%s”"), e_source_get_display_name (source));
 
-		/*
-		 * Only allow replies if backend doesn't do that automatically.
-		 * Only enable it for forwarded invitiations (PUBLISH) or direct
-		 * invitiations (REQUEST), but not replies (REPLY).
-		 * Replies only make sense for events with an organizer.
-		 */
-		if ((!view->priv->current_client || !e_cal_client_check_save_schedules (view->priv->current_client)) &&
-		    (view->priv->method == ICAL_METHOD_PUBLISH || view->priv->method == ICAL_METHOD_REQUEST) &&
-		    view->priv->has_organizer) {
-			rsvp_enabled = TRUE;
-		}
-		itip_view_set_show_rsvp_check (view, rsvp_enabled);
-
-		/* default is chosen in extract_itip_data() based on content of the VEVENT */
-		itip_view_set_rsvp (view, !view->priv->no_reply_wanted);
-
-		set_buttons_sensitive (view);
-
 		g_cancellable_cancel (fd->cancellable);
 
-		switch (view->priv->type) {
-			case E_CAL_CLIENT_SOURCE_TYPE_EVENTS:
-				extension_name = E_SOURCE_EXTENSION_CALENDAR;
-				break;
-			case E_CAL_CLIENT_SOURCE_TYPE_TASKS:
-				extension_name = E_SOURCE_EXTENSION_TASK_LIST;
-				break;
-			case E_CAL_CLIENT_SOURCE_TYPE_MEMOS:
-				extension_name = E_SOURCE_EXTENSION_MEMO_LIST;
-				break;
-			default:
-				g_return_if_reached ();
+		if (view->priv->method == ICAL_METHOD_REQUEST &&
+		    itip_comp_older_than_stored (view, g_hash_table_lookup (view->priv->real_comps, e_source_get_uid (source)))) {
+			itip_view_set_mode (view, ITIP_VIEW_MODE_HIDE_ALL);
+			itip_view_add_lower_info_item (
+				view, ITIP_VIEW_INFO_ITEM_TYPE_INFO,
+				_("This meeting invitation is obsolete. It had been updated."));
+			itip_view_set_rsvp (view, FALSE);
+			itip_view_set_show_free_time_check (view, FALSE);
+			itip_view_set_show_inherit_alarm_check (view, FALSE);
+			itip_view_set_show_keep_alarm_check (view, FALSE);
+			itip_view_set_show_recur_check (view, FALSE);
+			itip_view_set_show_rsvp_check (view, FALSE);
+			itip_view_set_show_update_check (view, FALSE);
+			set_buttons_sensitive (view);
+		} else {
+			/*
+			 * Only allow replies if backend doesn't do that automatically.
+			 * Only enable it for forwarded invitiations (PUBLISH) or direct
+			 * invitiations (REQUEST), but not replies (REPLY).
+			 * Replies only make sense for events with an organizer.
+			 */
+			if ((!view->priv->current_client || !e_cal_client_check_save_schedules (view->priv->current_client)) &&
+			    (view->priv->method == ICAL_METHOD_PUBLISH || view->priv->method == ICAL_METHOD_REQUEST) &&
+			    view->priv->has_organizer) {
+				rsvp_enabled = TRUE;
+			}
+			itip_view_set_show_rsvp_check (view, rsvp_enabled);
+
+			/* default is chosen in extract_itip_data() based on content of the VEVENT */
+			itip_view_set_rsvp (view, !view->priv->no_reply_wanted);
+
+			set_buttons_sensitive (view);
+
+			switch (view->priv->type) {
+				case E_CAL_CLIENT_SOURCE_TYPE_EVENTS:
+					extension_name = E_SOURCE_EXTENSION_CALENDAR;
+					break;
+				case E_CAL_CLIENT_SOURCE_TYPE_TASKS:
+					extension_name = E_SOURCE_EXTENSION_TASK_LIST;
+					break;
+				case E_CAL_CLIENT_SOURCE_TYPE_MEMOS:
+					extension_name = E_SOURCE_EXTENSION_MEMO_LIST;
+					break;
+				default:
+					g_return_if_reached ();
+			}
+
+			itip_view_set_extension_name (view, extension_name);
+
+			g_signal_connect (
+				view, "source_selected",
+				G_CALLBACK (source_selected_cb), NULL);
+
+			itip_view_set_source (view, source);
 		}
-
-		itip_view_set_extension_name (view, extension_name);
-
-		g_signal_connect (
-			view, "source_selected",
-			G_CALLBACK (source_selected_cb), NULL);
-
-		itip_view_set_source (view, source);
 	} else if (!view->priv->current_client)
 		itip_view_set_show_keep_alarm_check (view, FALSE);
 
-	if (view->priv->current_client && view->priv->current_client == cal_client) {
+	if (view->priv->current_client && view->priv->current_client == cal_client &&
+	    itip_view_get_mode (view) != ITIP_VIEW_MODE_HIDE_ALL) {
 		if (e_cal_client_check_recurrences_no_master (view->priv->current_client)) {
 			icalcomponent *icalcomp = e_cal_component_get_icalcomponent (view->priv->comp);
 
