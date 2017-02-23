@@ -11,8 +11,8 @@ msgstr ""
 "Project-Id-Version: evolution 3.3.91\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2017-01-19 11:34+0000\n"
-"PO-Revision-Date: 2017-02-12 11:19+0800\n"
+"POT-Creation-Date: 2017-02-21 14:47+0000\n"
+"PO-Revision-Date: 2017-02-23 08:42+0800\n"
 "Last-Translator: Chao-Hsiung Liao <j_h_liau@yahoo.com.tw>\n"
 "Language-Team: Chinese (traditional) <zh-l10n@lists.linux.org.tw>\n"
 "Language: zh_TW\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 1.8.6\n"
+"X-Generator: Poedit 1.8.12\n"
 "X-Project-Style: gnome\n"
 
 #: ../evolution.appdata.xml.in.h:1 ../data/evolution.desktop.in.in.h:1
@@ -3211,7 +3211,7 @@ msgstr "選項"
 #: ../src/e-util/e-source-selector-dialog.c:370
 #: ../src/e-util/e-table-config.c:548 ../src/e-util/e-table-config.ui.h:3
 #: ../src/e-util/e-timezone-dialog.ui.h:2
-#: ../src/e-util/evolution-source-viewer.c:835 ../src/e-util/e-web-view.c:4062
+#: ../src/e-util/evolution-source-viewer.c:835 ../src/e-util/e-web-view.c:4065
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:267
 #: ../src/mail/e-mail-config-window.c:331 ../src/mail/e-mail-label-dialog.c:194
 #: ../src/mail/e-mail-tag-editor.c:168 ../src/mail/em-folder-selector.c:318
@@ -3245,7 +3245,7 @@ msgstr "取消(_C)"
 #: ../src/composer/e-composer-actions.c:348
 #: ../src/e-util/e-attachment-store.c:833
 #: ../src/e-util/e-mail-signature-script-dialog.c:370
-#: ../src/e-util/e-web-view.c:4063
+#: ../src/e-util/e-web-view.c:4066
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:268
 #: ../src/shell/e-shell-content.c:658 ../src/shell/e-shell-utils.c:140
 #: ../src/smime/gui/certificate-manager.c:666
@@ -3918,7 +3918,7 @@ msgid "Send a mail message to this address"
 msgstr "傳送郵件到這個位址"
 
 #: ../src/addressbook/gui/widgets/eab-contact-display.c:290
-#: ../src/e-util/e-web-view.c:1314
+#: ../src/e-util/e-web-view.c:1317
 #, c-format
 msgid "Click to mail %s"
 msgstr "按一下來傳送郵件 %s"
@@ -4784,7 +4784,7 @@ msgid "Start time"
 msgstr "開始時刻"
 
 #: ../src/calendar/alarm-notify/alarm-notify.ui.h:1
-#: ../src/calendar/alarm-notify/alarm-queue.c:1951
+#: ../src/calendar/alarm-notify/alarm-queue.c:1988
 msgid "Appointments"
 msgstr "會議"
 
@@ -4823,8 +4823,8 @@ msgid "_Dismiss"
 msgstr "解除(_D)"
 
 #: ../src/calendar/alarm-notify/alarm-notify.ui.h:7
-#: ../src/calendar/alarm-notify/alarm-queue.c:1918
-#: ../src/calendar/alarm-notify/alarm-queue.c:1928
+#: ../src/calendar/alarm-notify/alarm-queue.c:1955
+#: ../src/calendar/alarm-notify/alarm-queue.c:1965
 #: ../src/modules/cal-config-weather/evolution-cal-config-weather.c:249
 #: ../src/modules/itip-formatter/itip-view.c:1678
 #: ../src/modules/itip-formatter/itip-view.c:1789
@@ -4859,48 +4859,48 @@ msgstr "小時"
 msgid "minutes"
 msgstr "分鐘"
 
-#: ../src/calendar/alarm-notify/alarm-queue.c:1719
-#: ../src/calendar/alarm-notify/alarm-queue.c:1899
+#: ../src/calendar/alarm-notify/alarm-queue.c:1756
+#: ../src/calendar/alarm-notify/alarm-queue.c:1936
 msgid "No summary available."
 msgstr "沒有可用的摘要。"
 
-#: ../src/calendar/alarm-notify/alarm-queue.c:1728
-#: ../src/calendar/alarm-notify/alarm-queue.c:1730
+#: ../src/calendar/alarm-notify/alarm-queue.c:1765
+#: ../src/calendar/alarm-notify/alarm-queue.c:1767
 msgid "No description available."
 msgstr "沒有任何描述。"
 
-#: ../src/calendar/alarm-notify/alarm-queue.c:1738
+#: ../src/calendar/alarm-notify/alarm-queue.c:1775
 msgid "No location information available."
 msgstr "沒有可用的地點資訊。"
 
-#: ../src/calendar/alarm-notify/alarm-queue.c:1743
-#: ../src/calendar/alarm-notify/alarm-queue.c:1890
-#: ../src/calendar/alarm-notify/alarm-queue.c:2241
+#: ../src/calendar/alarm-notify/alarm-queue.c:1780
+#: ../src/calendar/alarm-notify/alarm-queue.c:1927
+#: ../src/calendar/alarm-notify/alarm-queue.c:2278
 msgid "Evolution Reminders"
 msgstr "Evolution 提醒"
 
-#: ../src/calendar/alarm-notify/alarm-queue.c:1786
+#: ../src/calendar/alarm-notify/alarm-queue.c:1823
 #, c-format
 msgid "You have %d reminder"
 msgid_plural "You have %d reminders"
 msgstr[0] "您有 %d 個提醒"
 
-#: ../src/calendar/alarm-notify/alarm-queue.c:2059
+#: ../src/calendar/alarm-notify/alarm-queue.c:2096
 msgid "Warning"
 msgstr "警告"
 
-#: ../src/calendar/alarm-notify/alarm-queue.c:2060
+#: ../src/calendar/alarm-notify/alarm-queue.c:2097
 #: ../src/mail/mail-dialogs.ui.h:20
 #: ../src/modules/mailto-handler/evolution-mailto-handler.c:112
 msgid "_No"
 msgstr "否(_N)"
 
-#: ../src/calendar/alarm-notify/alarm-queue.c:2061
+#: ../src/calendar/alarm-notify/alarm-queue.c:2098
 #: ../src/modules/mailto-handler/evolution-mailto-handler.c:113
 msgid "_Yes"
 msgstr "是(_Y)"
 
-#: ../src/calendar/alarm-notify/alarm-queue.c:2065
+#: ../src/calendar/alarm-notify/alarm-queue.c:2102
 #, c-format
 msgid ""
 "An Evolution Calendar reminder is about to trigger. This reminder is "
@@ -4917,7 +4917,7 @@ msgstr ""
 "\n"
 "您確定要執行這個程式？"
 
-#: ../src/calendar/alarm-notify/alarm-queue.c:2080
+#: ../src/calendar/alarm-notify/alarm-queue.c:2117
 msgid "Do not ask me about this program again."
 msgstr "不要再詢問我關於這個程式。"
 
@@ -6046,7 +6046,7 @@ msgstr "優先等級："
 #: ../src/calendar/gui/e-cal-component-preview.c:327
 #: ../src/calendar/gui/e-task-table.c:548
 #: ../src/calendar/gui/tasktypes.xml.in.h:19
-#: ../src/e-util/e-send-options.ui.h:2 ../src/mail/message-list.c:320
+#: ../src/e-util/e-send-options.ui.h:2 ../src/mail/message-list.c:322
 msgid "High"
 msgstr "高"
 
@@ -6054,14 +6054,14 @@ msgstr "高"
 #: ../src/calendar/gui/e-cal-model.c:1888
 #: ../src/calendar/gui/e-task-table.c:549
 #: ../src/calendar/gui/tasktypes.xml.in.h:20
-#: ../src/e-util/e-send-options.ui.h:5 ../src/mail/message-list.c:319
+#: ../src/e-util/e-send-options.ui.h:5 ../src/mail/message-list.c:321
 msgid "Normal"
 msgstr "一般"
 
 #: ../src/calendar/gui/e-cal-component-preview.c:331
 #: ../src/calendar/gui/e-task-table.c:550
 #: ../src/calendar/gui/tasktypes.xml.in.h:21
-#: ../src/e-util/e-send-options.ui.h:4 ../src/mail/message-list.c:318
+#: ../src/e-util/e-send-options.ui.h:4 ../src/mail/message-list.c:320
 msgid "Low"
 msgstr "低"
 
@@ -7681,7 +7681,7 @@ msgstr "複製(_C)"
 #: ../src/calendar/gui/e-comp-editor.c:1985 ../src/e-util/e-focus-tracker.c:173
 #: ../src/e-util/e-focus-tracker.c:229 ../src/e-util/e-focus-tracker.c:282
 #: ../src/e-util/e-focus-tracker.c:774 ../src/e-util/e-web-view.c:409
-#: ../src/e-util/e-web-view.c:1939 ../src/mail/e-mail-browser.c:136
+#: ../src/e-util/e-web-view.c:1942 ../src/mail/e-mail-browser.c:136
 #: ../src/shell/e-shell-window-actions.c:810
 msgid "Copy the selection"
 msgstr "複製選取的內容"
@@ -7695,7 +7695,7 @@ msgstr "剪下(_T)"
 
 #: ../src/calendar/gui/e-comp-editor.c:1992 ../src/e-util/e-focus-tracker.c:166
 #: ../src/e-util/e-focus-tracker.c:222 ../src/e-util/e-focus-tracker.c:276
-#: ../src/e-util/e-focus-tracker.c:769 ../src/e-util/e-web-view.c:1948
+#: ../src/e-util/e-focus-tracker.c:769 ../src/e-util/e-web-view.c:1951
 #: ../src/mail/e-mail-browser.c:143 ../src/shell/e-shell-window-actions.c:817
 msgid "Cut the selection"
 msgstr "剪下選取範圍"
@@ -7719,7 +7719,7 @@ msgstr "貼上(_P)"
 
 #: ../src/calendar/gui/e-comp-editor.c:2013 ../src/e-util/e-focus-tracker.c:180
 #: ../src/e-util/e-focus-tracker.c:236 ../src/e-util/e-focus-tracker.c:288
-#: ../src/e-util/e-focus-tracker.c:779 ../src/e-util/e-web-view.c:1957
+#: ../src/e-util/e-focus-tracker.c:779 ../src/e-util/e-web-view.c:1960
 #: ../src/mail/e-mail-browser.c:150 ../src/shell/e-shell-window-actions.c:845
 msgid "Paste the clipboard"
 msgstr "貼上剪貼簿的內容"
@@ -11584,7 +11584,7 @@ msgid "popup list"
 msgstr "彈出式列表"
 
 #: ../src/e-util/e-cell-date.c:49 ../src/e-util/e-cell-date.c:137
-#: ../src/e-util/e-cell-date.c:157 ../src/mail/message-list.c:2064
+#: ../src/e-util/e-cell-date.c:157 ../src/mail/message-list.c:2066
 msgid "?"
 msgstr "?"
 
@@ -12511,27 +12511,27 @@ msgid "_Normal"
 msgstr "一般(_N)"
 
 #: ../src/e-util/e-html-editor-actions.c:1102
-msgid "Header _1"
+msgid "Heading _1"
 msgstr "標題 _1"
 
 #: ../src/e-util/e-html-editor-actions.c:1109
-msgid "Header _2"
+msgid "Heading _2"
 msgstr "標題 _2"
 
 #: ../src/e-util/e-html-editor-actions.c:1116
-msgid "Header _3"
+msgid "Heading _3"
 msgstr "標題 _3"
 
 #: ../src/e-util/e-html-editor-actions.c:1123
-msgid "Header _4"
+msgid "Heading _4"
 msgstr "標題 _4"
 
 #: ../src/e-util/e-html-editor-actions.c:1130
-msgid "Header _5"
+msgid "Heading _5"
 msgstr "標題 _5"
 
 #: ../src/e-util/e-html-editor-actions.c:1137
-msgid "Header _6"
+msgid "Heading _6"
 msgstr "標題 _6"
 
 #: ../src/e-util/e-html-editor-actions.c:1144
@@ -13544,25 +13544,25 @@ msgid "Select Contacts from Address Book"
 msgstr "從通訊錄選取連絡人"
 
 #. To Translators: This would be similiar to "Expand MyList Inline" where MyList is a Contact List
-#: ../src/e-util/e-name-selector-entry.c:3208
+#: ../src/e-util/e-name-selector-entry.c:3207
 #, c-format
 msgid "E_xpand %s Inline"
 msgstr "在行內展開 %s (_X)"
 
 #. Copy Contact Item
-#: ../src/e-util/e-name-selector-entry.c:3224
+#: ../src/e-util/e-name-selector-entry.c:3223
 #, c-format
 msgid "Cop_y %s"
 msgstr "複製(_Y) %s"
 
 #. Cut Contact Item
-#: ../src/e-util/e-name-selector-entry.c:3235
+#: ../src/e-util/e-name-selector-entry.c:3234
 #, c-format
 msgid "C_ut %s"
 msgstr "剪下(_U) %s"
 
 #. Edit Contact item
-#: ../src/e-util/e-name-selector-entry.c:3253
+#: ../src/e-util/e-name-selector-entry.c:3252
 #, c-format
 msgid "_Edit %s"
 msgstr "編輯 %s(_E)"
@@ -14424,47 +14424,47 @@ msgstr "儲存影像(_I)…"
 msgid "Save the image to a file"
 msgstr "將影像儲存為檔案"
 
-#: ../src/e-util/e-web-view.c:419 ../src/e-util/e-web-view.c:1961
+#: ../src/e-util/e-web-view.c:419 ../src/e-util/e-web-view.c:1964
 msgid "Select all text and images"
 msgstr "選擇所有文字和影像"
 
-#: ../src/e-util/e-web-view.c:1319
+#: ../src/e-util/e-web-view.c:1322
 #, c-format
 msgid "Click to call %s"
 msgstr "按一下播號給 %s"
 
-#: ../src/e-util/e-web-view.c:1321
+#: ../src/e-util/e-web-view.c:1324
 msgid "Click to hide/unhide addresses"
 msgstr "按這裡隱藏/解除隱藏位址"
 
-#: ../src/e-util/e-web-view.c:1332
+#: ../src/e-util/e-web-view.c:1335
 #, c-format
 msgid "Go to the section %s of the message"
 msgstr "移至郵件的第 %s 節"
 
-#: ../src/e-util/e-web-view.c:1334
+#: ../src/e-util/e-web-view.c:1337
 msgid "Go to the beginning of the message"
 msgstr "移至郵件的開頭處"
 
-#: ../src/e-util/e-web-view.c:1338
+#: ../src/e-util/e-web-view.c:1341
 #, c-format
 msgid "Click to open %s"
 msgstr "按一下來開啟 %s"
 
-#: ../src/e-util/e-web-view.c:3872
+#: ../src/e-util/e-web-view.c:3875
 msgid "Copying image to clipboard"
 msgstr "複製影像到剪貼薄"
 
-#: ../src/e-util/e-web-view.c:4060
+#: ../src/e-util/e-web-view.c:4063
 msgid "Save Image"
 msgstr "儲存影像"
 
-#: ../src/e-util/e-web-view.c:4101
+#: ../src/e-util/e-web-view.c:4104
 #, c-format
 msgid "Saving image to “%s”"
 msgstr "儲存影像到「%s」"
 
-#: ../src/e-util/e-web-view.c:4196
+#: ../src/e-util/e-web-view.c:4199
 #, c-format
 msgid "Cannot get URI “%s”, do not know how to download it."
 msgstr "無法取得 URI「%s」，不知道如何下載它。"
@@ -15020,8 +15020,8 @@ msgstr "設定搜尋資料夾： %s"
 
 #: ../src/libemail-engine/mail-vfolder.c:302
 #, c-format
-msgid "Updating Search Folders for “%s” — %s"
-msgstr "更新「%s」的搜尋資料夾 — %s"
+msgid "Updating Search Folders for “%s : %s”"
+msgstr "更新「%s：%s」的搜尋資料夾"
 
 #. Translators: The first %s is name of the affected
 #. * search folder(s), the second %s is the URI of the
@@ -15820,12 +15820,12 @@ msgstr "移至資料夾"
 msgid "Copy to Folder"
 msgstr "複製至資料夾"
 
-#: ../src/mail/e-mail-reader.c:353 ../src/mail/em-folder-utils.c:488
+#: ../src/mail/e-mail-reader.c:353 ../src/mail/em-folder-utils.c:501
 #: ../src/mail/mail.error.xml.h:152
 msgid "_Move"
 msgstr "移動(_M)"
 
-#: ../src/mail/e-mail-reader.c:353 ../src/mail/em-folder-utils.c:488
+#: ../src/mail/e-mail-reader.c:353 ../src/mail/em-folder-utils.c:501
 msgid "C_opy"
 msgstr "複製(_O)"
 
@@ -16808,12 +16808,12 @@ msgstr "正在移動資料夾 %s"
 msgid "Copying folder %s"
 msgstr "正在複製資料夾 %s"
 
-#: ../src/mail/em-folder-tree.c:2300 ../src/mail/message-list.c:2506
+#: ../src/mail/em-folder-tree.c:2300 ../src/mail/message-list.c:2508
 #, c-format
 msgid "Moving messages into folder %s"
 msgstr "正在將郵件移至資料夾 %s"
 
-#: ../src/mail/em-folder-tree.c:2304 ../src/mail/message-list.c:2508
+#: ../src/mail/em-folder-tree.c:2304 ../src/mail/message-list.c:2510
 #, c-format
 msgid "Copying messages into folder %s"
 msgstr "正在複製郵件至資料夾 %s"
@@ -16834,11 +16834,11 @@ msgstr "不符合"
 msgid "Loading..."
 msgstr "載入中…"
 
-#: ../src/mail/em-folder-utils.c:489
+#: ../src/mail/em-folder-utils.c:502
 msgid "Move Folder To"
 msgstr "移動資料夾到"
 
-#: ../src/mail/em-folder-utils.c:489
+#: ../src/mail/em-folder-utils.c:502
 msgid "Copy Folder To"
 msgstr "複製資料夾到"
 
@@ -18853,87 +18853,87 @@ msgstr "編輯搜尋資料夾"
 msgid "New Search Folder"
 msgstr "新增搜尋資料夾"
 
-#: ../src/mail/message-list.c:298
+#: ../src/mail/message-list.c:300
 msgid "Unseen"
 msgstr "未閱讀"
 
-#: ../src/mail/message-list.c:299
+#: ../src/mail/message-list.c:301
 msgid "Seen"
 msgstr "已閱讀"
 
-#: ../src/mail/message-list.c:300
+#: ../src/mail/message-list.c:302
 msgid "Answered"
 msgstr "已回覆"
 
-#: ../src/mail/message-list.c:301
+#: ../src/mail/message-list.c:303
 msgid "Forwarded"
 msgstr "轉寄"
 
-#: ../src/mail/message-list.c:302
+#: ../src/mail/message-list.c:304
 msgid "Multiple Unseen Messages"
 msgstr "多個未閱讀的郵件"
 
-#: ../src/mail/message-list.c:303
+#: ../src/mail/message-list.c:305
 msgid "Multiple Messages"
 msgstr "多個郵件"
 
-#: ../src/mail/message-list.c:316
+#: ../src/mail/message-list.c:318
 msgid "Lowest"
 msgstr "最低"
 
-#: ../src/mail/message-list.c:317
+#: ../src/mail/message-list.c:319
 msgid "Lower"
 msgstr "低"
 
-#: ../src/mail/message-list.c:321
+#: ../src/mail/message-list.c:323
 msgid "Higher"
 msgstr "高"
 
-#: ../src/mail/message-list.c:322
+#: ../src/mail/message-list.c:324
 msgid "Highest"
 msgstr "最高"
 
-#: ../src/mail/message-list.c:468 ../src/mail/message-list.c:6215
+#: ../src/mail/message-list.c:470 ../src/mail/message-list.c:6286
 msgid "Generating message list"
 msgstr "產生郵件列表"
 
 #. strftime format of a time,
 #. * in 12-hour format, without seconds.
-#: ../src/mail/message-list.c:2072
+#: ../src/mail/message-list.c:2074
 #: ../src/modules/itip-formatter/itip-view.c:267
 msgid "Today %l:%M %p"
 msgstr "今天 %p %l:%M"
 
-#: ../src/mail/message-list.c:2081
+#: ../src/mail/message-list.c:2083
 msgid "Yesterday %l:%M %p"
 msgstr "昨天 %p %l:%M"
 
-#: ../src/mail/message-list.c:2093
+#: ../src/mail/message-list.c:2095
 msgid "%a %l:%M %p"
 msgstr "%A %p %l:%M"
 
-#: ../src/mail/message-list.c:2101
+#: ../src/mail/message-list.c:2103
 msgid "%b %d %l:%M %p"
 msgstr "%m月%d日 %p %l:%M"
 
-#: ../src/mail/message-list.c:2103
+#: ../src/mail/message-list.c:2105
 msgid "%b %d %Y"
 msgstr "%Y年%m月%d日"
 
-#: ../src/mail/message-list.c:3012
+#: ../src/mail/message-list.c:3062
 msgid "Select all visible messages"
 msgstr "選擇全部可見的郵件"
 
-#: ../src/mail/message-list.c:3720 ../src/mail/message-list.etspec.h:17
+#: ../src/mail/message-list.c:3781 ../src/mail/message-list.etspec.h:17
 msgid "Messages"
 msgstr "郵件"
 
 #. default follow-up flag name to use when clicked in the message list column
-#: ../src/mail/message-list.c:5142
+#: ../src/mail/message-list.c:5213
 msgid "Follow-up"
 msgstr "跟隨"
 
-#: ../src/mail/message-list.c:6154
+#: ../src/mail/message-list.c:6225
 msgid ""
 "No message satisfies your search criteria. Change search criteria by "
 "selecting a new Show message filter from the drop down list above or by "
@@ -18943,7 +18943,7 @@ msgstr ""
 "沒有郵件滿足您的搜尋條件。請從上列下拉式選單選擇顯示郵件過濾器或執行新的搜"
 "尋，可從 搜尋→清除 選單項目清除它或改變上面的查詢。"
 
-#: ../src/mail/message-list.c:6162
+#: ../src/mail/message-list.c:6233
 msgid "There are no messages in this folder."
 msgstr "這個資料夾中沒有郵件。"
 
@@ -19946,45 +19946,45 @@ msgstr "匯入至工作列表(_M)"
 msgid "New Memo List"
 msgstr "新增備忘錄列表"
 
-#: ../src/modules/calendar/e-cal-base-shell-sidebar.c:554
+#: ../src/modules/calendar/e-cal-base-shell-sidebar.c:563
 #, c-format
 msgid "Copying an event into the calendar “%s”"
 msgstr "正在複製事件到行事曆「%s」"
 
-#: ../src/modules/calendar/e-cal-base-shell-sidebar.c:555
+#: ../src/modules/calendar/e-cal-base-shell-sidebar.c:564
 #, c-format
 msgid "Moving an event into the calendar “%s”"
 msgstr "正在移動事件到行事曆「%s」"
 
-#: ../src/modules/calendar/e-cal-base-shell-sidebar.c:560
+#: ../src/modules/calendar/e-cal-base-shell-sidebar.c:569
 #, c-format
 msgid "Copying a memo into the memo list “%s”"
 msgstr "正在複製備忘錄到備忘錄列表「%s」"
 
-#: ../src/modules/calendar/e-cal-base-shell-sidebar.c:561
+#: ../src/modules/calendar/e-cal-base-shell-sidebar.c:570
 #, c-format
 msgid "Moving a memo into the memo list “%s”"
 msgstr "正在移動備忘錄到備忘錄列表「%s」"
 
-#: ../src/modules/calendar/e-cal-base-shell-sidebar.c:566
+#: ../src/modules/calendar/e-cal-base-shell-sidebar.c:575
 #, c-format
 msgid "Copying a task into the task list “%s”"
 msgstr "正在複製工作到工作列表「%s」"
 
-#: ../src/modules/calendar/e-cal-base-shell-sidebar.c:567
+#: ../src/modules/calendar/e-cal-base-shell-sidebar.c:576
 #, c-format
 msgid "Moving a task into the task list “%s”"
 msgstr "正在移動工作到工作列表「%s」"
 
-#: ../src/modules/calendar/e-cal-base-shell-sidebar.c:684
+#: ../src/modules/calendar/e-cal-base-shell-sidebar.c:693
 msgid "Calendar Selector"
 msgstr "行事曆選擇器"
 
-#: ../src/modules/calendar/e-cal-base-shell-sidebar.c:690
+#: ../src/modules/calendar/e-cal-base-shell-sidebar.c:699
 msgid "Memo List Selector"
 msgstr "備忘錄列表選擇器"
 
-#: ../src/modules/calendar/e-cal-base-shell-sidebar.c:695
+#: ../src/modules/calendar/e-cal-base-shell-sidebar.c:704
 msgid "Task List Selector"
 msgstr "工作列表選擇器"
 
@@ -21584,13 +21584,9 @@ msgstr "行事曆「%2$s」中的會議「%1$s」和這個會議相衝突"
 #, c-format
 msgid ""
 "The calendar “%s” contains an appointment which conflicts with this meeting"
-msgstr "行事曆「%s」中的 1 個約會和這個會議相衝突"
-
-#: ../src/modules/itip-formatter/itip-view.c:3665
-#, c-format
-msgid ""
+msgid_plural ""
 "The calendar “%s” contains %d appointments which conflict with this meeting"
-msgstr "行事曆「%s」中的 %d 個約會和這個會議相衝突"
+msgstr[0] "行事曆「%s」中的 %d 個約會和這個會議相衝突"
 
 #: ../src/modules/itip-formatter/itip-view.c:3697
 #, c-format
@@ -23069,35 +23065,35 @@ msgstr "附件提醒程式"
 msgid "Reminds you when you forgot to add an attachment to a mail message."
 msgstr "當您忘記將附件加入郵件時提醒您。"
 
-#: ../src/plugins/bbdb/bbdb.c:722 ../src/plugins/bbdb/bbdb.c:833
+#: ../src/plugins/bbdb/bbdb.c:735 ../src/plugins/bbdb/bbdb.c:846
 #: ../src/plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml.h:1
 msgid "Automatic Contacts"
 msgstr "自動加入的連絡人"
 
 #. Enable BBDB checkbox
-#: ../src/plugins/bbdb/bbdb.c:737
+#: ../src/plugins/bbdb/bbdb.c:750
 msgid "Create _address book entries when sending mails"
 msgstr "在傳送郵件時自動建立通訊錄項目(_A)"
 
-#: ../src/plugins/bbdb/bbdb.c:747
+#: ../src/plugins/bbdb/bbdb.c:760
 msgid "Select Address book for Automatic Contacts"
 msgstr "選擇給自動加入連絡人用的通訊錄"
 
-#: ../src/plugins/bbdb/bbdb.c:767
+#: ../src/plugins/bbdb/bbdb.c:780
 msgid "Instant Messaging Contacts"
 msgstr "即時訊息連絡人"
 
 #. Enable Gaim Checkbox
-#: ../src/plugins/bbdb/bbdb.c:782
+#: ../src/plugins/bbdb/bbdb.c:795
 msgid "_Synchronize contact info and images from Pidgin buddy list"
 msgstr "從 Pidgin 的好友列表同步連絡人資訊和影像(_S)"
 
-#: ../src/plugins/bbdb/bbdb.c:792
+#: ../src/plugins/bbdb/bbdb.c:805
 msgid "Select Address book for Pidgin buddy list"
 msgstr "選擇給 Pidgin 好友名單用的通訊錄"
 
 #. Synchronize now button.
-#: ../src/plugins/bbdb/bbdb.c:808
+#: ../src/plugins/bbdb/bbdb.c:821
 msgid "Synchronize with _buddy list now"
 msgstr "立即與好友列表同步(_B)"
 
@@ -25130,3 +25126,8 @@ msgstr "無法將儲存區寫入至磁碟，錯誤代碼為：%i"
 #: ../src/smime/lib/e-pkcs12.c:407
 msgid "Imported Certificate"
 msgstr "輸入的憑證"
+
+#~ msgid ""
+#~ "The calendar “%s” contains %d appointments which conflict with this "
+#~ "meeting"
+#~ msgstr "行事曆「%s」中的 %d 個約會和這個會議相衝突"
