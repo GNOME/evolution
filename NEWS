@@ -1,3 +1,25 @@
+Evolution 3.23.91 2017-02-27
+----------------------------
+
+Bug Fixes:
+	Bug 778642 - Editing a message causes part of it to be lost (Tomas Popela)
+	Bug 779042 - Check whether meeting invitation is obsolete (Milan Crha)
+
+Miscellaneous:
+	[EWeekdayChooser] Selected days drawn with incorrect color (Milan Crha)
+
+Translations:
+	Daniel Mustieles (es)
+	Mandy Wang (zh_CN)
+	Jiri Grönroos (fi)
+	Ask Hjorth Larsen (da)
+	Flo H (de)
+	Baurzhan Muftakhidinov (kk)
+	Chao-Hsiung Liao (zh_TW)
+	Rafael Fontenelle (pt_BR)
+	Fabio Tomat (fur)
+	Piotr Drąg (pl)
+
 Evolution 3.23.90 2017-02-13
 ----------------------------
 
