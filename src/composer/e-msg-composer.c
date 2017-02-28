@@ -3747,7 +3747,7 @@ e_msg_composer_setup_with_message (EMsgComposer *composer,
 			e_composer_header_table_set_identity_uid (table, identity_uid, NULL, NULL);
 		}
 	} else {
-		e_composer_header_table_set_identity_uid (table, identity_uid, NULL, NULL);
+		e_composer_header_table_set_identity_uid (table, identity_uid, override_alias_name, override_alias_address);
 	}
 
 	g_free (identity_uid);
