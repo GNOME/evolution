@@ -1803,6 +1803,37 @@ em_composer_utils_get_original_marker (void)
 	return quoting_text (QUOTING_ORIGINAL);
 }
 
+static gboolean
+emcu_message_references_existing_account (CamelMimeMessage *message,
+					  EMsgComposer *composer)
+{
+	ESource *source;
+	gchar *identity_uid;
+	gboolean res = FALSE;
+
+	g_return_val_if_fail (CAMEL_IS_MIME_MESSAGE (message), FALSE);
+	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), FALSE);
+
+	identity_uid = (gchar *) camel_medium_get_header (CAMEL_MEDIUM (message), "X-Evolution-Identity");
+	if (!identity_uid) {
+		/* for backward compatibility */
+		identity_uid = (gchar *) camel_medium_get_header (CAMEL_MEDIUM (message), "X-Evolution-Account");
+	}
+
+	if (!identity_uid)
+		return FALSE;
+
+	identity_uid = g_strstrip (g_strdup (identity_uid));
+	source = e_composer_header_table_ref_source (e_msg_composer_get_header_table (composer), identity_uid);
+
+	res = source != NULL;
+
+	g_clear_object (&source);
+	g_free (identity_uid);
+
+	return res;
+}
+
 /**
  * em_utils_edit_message:
  * @composer: an #EMsgComposer
@@ -1873,7 +1904,8 @@ em_utils_edit_message (EMsgComposer *composer,
 	}
 
 	if (folder) {
-		if (!folder_is_sent && !folder_is_drafts && !folder_is_outbox && !folder_is_templates) {
+		if ((!folder_is_sent && !folder_is_drafts && !folder_is_outbox && !folder_is_templates) ||
+		    (!folder_is_outbox && !folder_is_templates && !emcu_message_references_existing_account (message, composer))) {
 			CamelStore *store;
 
 			store = camel_folder_get_parent_store (folder);
