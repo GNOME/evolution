@@ -103,6 +103,8 @@ struct _StoreInfo {
 	gulong folder_renamed_handler_id;
 	gulong folder_subscribed_handler_id;
 	gulong folder_unsubscribed_handler_id;
+	gulong status_handler_id;
+	gulong reachable_handler_id;
 
 	GHashTable *folder_info_ht;	/* by full_name */
 	gboolean first_update;		/* TRUE, then FALSE forever */
@@ -114,6 +116,8 @@ struct _StoreInfo {
 
 	/* Outstanding folderinfo requests */
 	GQueue folderinfo_updates;
+
+	CamelServiceConnectionStatus last_status;
 };
 
 struct _FolderInfo {
@@ -278,6 +282,9 @@ store_info_new (CamelStore *store)
 		store_info->vtrash = camel_store_get_trash_folder_sync (
 			store, NULL, NULL);
 
+	if (CAMEL_IS_NETWORK_SERVICE (store))
+		store_info->last_status = camel_service_get_connection_status (CAMEL_SERVICE (store));
+
 	return store_info;
 }
 
@@ -332,6 +339,18 @@ store_info_unref (StoreInfo *store_info)
 			g_signal_handler_disconnect (
 				store_info->store,
 				store_info->folder_unsubscribed_handler_id);
+		}
+
+		if (store_info->status_handler_id > 0) {
+			g_signal_handler_disconnect (
+				store_info->store,
+				store_info->status_handler_id);
+		}
+
+		if (store_info->reachable_handler_id > 0) {
+			g_signal_handler_disconnect (
+				store_info->store,
+				store_info->reachable_handler_id);
 		}
 
 		g_hash_table_destroy (store_info->folder_info_ht);
@@ -476,6 +495,11 @@ update_closure_free (UpdateClosure *closure)
 	g_slice_free (UpdateClosure, closure);
 }
 
+static void
+mail_folder_cache_check_connection_status_cb (CamelStore *store,
+					      GParamSpec *param,
+					      gpointer user_data);
+
 static StoreInfo *
 mail_folder_cache_new_store_info (MailFolderCache *cache,
                                   CamelStore *store)
@@ -517,6 +541,14 @@ mail_folder_cache_new_store_info (MailFolderCache *cache,
 			store, "folder-unsubscribed",
 			G_CALLBACK (store_folder_unsubscribed_cb), cache);
 		store_info->folder_unsubscribed_handler_id = handler_id;
+	}
+
+	if (CAMEL_IS_NETWORK_SERVICE (store)) {
+		store_info->status_handler_id = g_signal_connect (store, "notify::connection-status",
+			G_CALLBACK (mail_folder_cache_check_connection_status_cb), cache);
+
+		store_info->reachable_handler_id = g_signal_connect (store, "notify::host-reachable",
+			G_CALLBACK (mail_folder_cache_check_connection_status_cb), cache);
 	}
 
 	g_mutex_lock (&cache->priv->store_info_ht_lock);
@@ -611,6 +643,41 @@ mail_folder_cache_steal_folder_info (MailFolderCache *cache,
 	}
 
 	return folder_info;
+}
+
+static void
+mail_folder_cache_check_connection_status_cb (CamelStore *store,
+					      GParamSpec *param,
+					      gpointer user_data)
+{
+	MailFolderCache *cache = user_data;
+	StoreInfo *store_info;
+	gboolean was_connecting;
+
+	g_return_if_fail (CAMEL_IS_STORE (store));
+	g_return_if_fail (param != NULL);
+	g_return_if_fail (MAIL_IS_FOLDER_CACHE (cache));
+
+	store_info = mail_folder_cache_ref_store_info (cache, store);
+	if (!store_info)
+		return;
+
+	was_connecting = (store_info->last_status == CAMEL_SERVICE_CONNECTING);
+	store_info->last_status = camel_service_get_connection_status (CAMEL_SERVICE (store));
+
+	if (!was_connecting && store_info->last_status == CAMEL_SERVICE_DISCONNECTED &&
+	    g_strcmp0 (param->name, "host-reachable") == 0 &&
+	    camel_network_service_get_host_reachable (CAMEL_NETWORK_SERVICE (store))) {
+		CamelProvider *provider;
+
+		provider = camel_service_get_provider (CAMEL_SERVICE (store));
+		if (provider && (provider->flags & CAMEL_PROVIDER_IS_STORAGE) != 0) {
+			/* Connect it, when the host is reachable */
+			camel_service_connect (CAMEL_SERVICE (store), G_PRIORITY_DEFAULT, NULL, NULL, NULL);
+		}
+	}
+
+	store_info_unref (store_info);
 }
 
 static gboolean
