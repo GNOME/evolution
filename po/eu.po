@@ -1,17 +1,17 @@
 # Basque translation of evolution.
 # Copyright (C) 2001, 2004, 2006, 2007, 2008, 2009, 2010, 2011 Free Software Foundation, Inc.
 #
+#
 # Hizkuntza Politikarako Sailburuordetza <hizpol@ej-gv.es>, 2004.
 # Iñaki Larrañaga Murgoitio <dooteo@zundan.com>, 2005, 2006, 2008, 2009, 2010.
 # Iñaki Larrañaga Murgoitio <dooteo@zundan.com>, 2011, 2013, 2014, 2015, 2016, 2017.
-#
-#: ../src/shell/main.c:519
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-11 20:28+0100\n"
-"PO-Revision-Date: 2017-02-05 17:39+0100\n"
+"Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
+"product=evolution&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2017-02-28 17:53+0000\n"
+"PO-Revision-Date: 2017-03-02 19:33+0100\n"
 "Last-Translator: Iñaki Larrañaga Murgoitio <dooteo@zundan.com>\n"
 "Language-Team: Basque <librezale@librezale.eus>\n"
 "Language: eu\n"
@@ -2597,7 +2597,9 @@ msgstr ""
 #. indicate that an attachment should have been attached to the message.
 #: ../data/org.gnome.evolution.plugin.attachment-reminder.gschema.xml.in.h:4
 msgid "['attachment','attaching','attached','enclosed']"
-msgstr "[“erantsi“,“erantsita“,“erasten“,“atxiki“,“atxikitzen“,“atxikituta“,“gehitu“,“gehitzen“,“gehituta“]"
+msgstr ""
+"[“erantsi“,“erantsita“,“erasten“,“atxiki“,“atxikitzen“,“atxikituta“,“gehitu“,“"
+"gehitzen“,“gehituta“]"
 
 #: ../data/org.gnome.evolution.plugin.attachment-reminder.gschema.xml.in.h:5
 msgid ""
@@ -3489,11 +3491,9 @@ msgstr "Aukerak"
 #: ../src/composer/e-composer-actions.c:227 ../src/e-util/e-activity-bar.c:357
 #: ../src/e-util/e-attachment-dialog.c:309
 #: ../src/e-util/e-attachment-store.c:664
-#: ../src/e-util/e-attachment-store.c:832
-#: ../src/e-util/e-attachment-view.c:301
-#: ../src/e-util/e-categories-dialog.c:80
-#: ../src/e-util/e-category-editor.c:137 ../src/e-util/e-category-editor.c:207
-#: ../src/e-util/e-charset-combo-box.c:99
+#: ../src/e-util/e-attachment-store.c:832 ../src/e-util/e-attachment-view.c:301
+#: ../src/e-util/e-categories-dialog.c:80 ../src/e-util/e-category-editor.c:137
+#: ../src/e-util/e-category-editor.c:207 ../src/e-util/e-charset-combo-box.c:99
 #: ../src/e-util/e-color-chooser-widget.c:125
 #: ../src/e-util/e-filter-datespec.c:289
 #: ../src/e-util/e-html-editor-actions.c:321
@@ -3509,12 +3509,11 @@ msgstr "Aukerak"
 #: ../src/e-util/e-timezone-dialog.ui.h:2
 #: ../src/e-util/evolution-source-viewer.c:835 ../src/e-util/e-web-view.c:4065
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:267
-#: ../src/mail/e-mail-config-window.c:331
-#: ../src/mail/e-mail-label-dialog.c:194 ../src/mail/e-mail-tag-editor.c:168
-#: ../src/mail/em-folder-selector.c:318 ../src/mail/mail-config.ui.h:2
-#: ../src/mail/mail.error.xml.h:16 ../src/mail/mail-send-recv.c:747
-#: ../src/mail/mail-send-recv.c:829 ../src/mail/mail-vfolder-ui.c:149
-#: ../src/mail/mail-vfolder-ui.c:271
+#: ../src/mail/e-mail-config-window.c:331 ../src/mail/e-mail-label-dialog.c:194
+#: ../src/mail/e-mail-tag-editor.c:168 ../src/mail/em-folder-selector.c:318
+#: ../src/mail/mail-config.ui.h:2 ../src/mail/mail.error.xml.h:16
+#: ../src/mail/mail-send-recv.c:747 ../src/mail/mail-send-recv.c:829
+#: ../src/mail/mail-vfolder-ui.c:149 ../src/mail/mail-vfolder-ui.c:271
 #: ../src/modules/backup-restore/evolution-backup-tool.c:932
 #: ../src/modules/calendar/e-cal-attachment-handler.c:283
 #: ../src/plugins/email-custom-header/org-gnome-email-custom-header.ui.h:3
@@ -3831,8 +3830,7 @@ msgid "_Undo"
 msgstr "_Desegin"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:262
-#: ../src/calendar/gui/e-comp-editor.c:2041
-#: ../src/e-util/e-focus-tracker.c:120
+#: ../src/calendar/gui/e-comp-editor.c:2041 ../src/e-util/e-focus-tracker.c:120
 msgid "Undo"
 msgstr "Desegin"
 
@@ -3843,8 +3841,7 @@ msgid "_Redo"
 msgstr "_Berregin"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:269
-#: ../src/calendar/gui/e-comp-editor.c:2048
-#: ../src/e-util/e-focus-tracker.c:136
+#: ../src/calendar/gui/e-comp-editor.c:2048 ../src/e-util/e-focus-tracker.c:136
 msgid "Redo"
 msgstr "Berregin"
 
@@ -3891,8 +3888,7 @@ msgstr "Ireki X.509 ziurtagiria"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3272
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4320
-#: ../src/e-util/e-attachment-store.c:662
-#: ../src/e-util/e-category-editor.c:145
+#: ../src/e-util/e-attachment-store.c:662 ../src/e-util/e-category-editor.c:145
 #: ../src/e-util/e-html-editor-actions.c:322
 #: ../src/e-util/e-html-editor-actions.c:416
 #: ../src/e-util/e-image-chooser-dialog.c:172 ../src/plugins/face/face.c:296
@@ -3980,8 +3976,7 @@ msgstr "Kontaktua ez da baliozkoa."
 #: ../src/addressbook/gui/widgets/eab-gui-util.c:317
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:302
 #: ../src/e-util/e-attachment-dialog.c:311
-#: ../src/e-util/e-categories-dialog.c:81
-#: ../src/e-util/e-category-editor.c:208
+#: ../src/e-util/e-categories-dialog.c:81 ../src/e-util/e-category-editor.c:208
 #: ../src/e-util/e-charset-combo-box.c:100
 #: ../src/e-util/e-color-chooser-widget.c:126
 #: ../src/e-util/e-filter-datespec.c:290
@@ -4617,8 +4612,7 @@ msgid "Are you sure you want to delete this contact (%s)?"
 msgstr "Ziur zaude kontaktu hau (%s) ezabatu nahi duzula?"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.c:1361
-#: ../src/calendar/gui/e-comp-editor.c:1997
-#: ../src/e-util/e-focus-tracker.c:783
+#: ../src/calendar/gui/e-comp-editor.c:1997 ../src/e-util/e-focus-tracker.c:783
 #: ../src/e-util/evolution-source-viewer.c:806
 #: ../src/mail/e-mail-account-manager.c:737
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1087
@@ -4627,8 +4621,7 @@ msgstr "Ziur zaude kontaktu hau (%s) ezabatu nahi duzula?"
 #: ../src/modules/calendar/e-task-shell-view-actions.c:830
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1699
 #: ../src/shell/e-shell-window-actions.c:822
-#: ../src/smime/gui/certificate-manager.c:1672
-#: ../src/smime/gui/smime-ui.ui.h:8
+#: ../src/smime/gui/certificate-manager.c:1672 ../src/smime/gui/smime-ui.ui.h:8
 msgid "_Delete"
 msgstr "E_zabatu"
 
@@ -6018,9 +6011,8 @@ msgstr "da"
 
 #: ../src/calendar/gui/caltypes.xml.in.h:8
 #: ../src/calendar/gui/memotypes.xml.in.h:9
-#: ../src/calendar/gui/tasktypes.xml.in.h:10
-#: ../src/mail/filtertypes.xml.in.h:5 ../src/mail/searchtypes.xml.in.h:5
-#: ../src/mail/vfoldertypes.xml.in.h:5
+#: ../src/calendar/gui/tasktypes.xml.in.h:10 ../src/mail/filtertypes.xml.in.h:5
+#: ../src/mail/searchtypes.xml.in.h:5 ../src/mail/vfoldertypes.xml.in.h:5
 msgid "is not"
 msgstr "ez da"
 
@@ -6034,16 +6026,14 @@ msgstr "Publikoa"
 
 #: ../src/calendar/gui/caltypes.xml.in.h:10
 #: ../src/calendar/gui/e-cal-list-view.c:239
-#: ../src/calendar/gui/e-cal-model.c:312
-#: ../src/calendar/gui/e-task-table.c:523
+#: ../src/calendar/gui/e-cal-model.c:312 ../src/calendar/gui/e-task-table.c:523
 #: ../src/calendar/gui/memotypes.xml.in.h:11
 msgid "Private"
 msgstr "Pribatua"
 
 #: ../src/calendar/gui/caltypes.xml.in.h:11
 #: ../src/calendar/gui/e-cal-list-view.c:240
-#: ../src/calendar/gui/e-cal-model.c:314
-#: ../src/calendar/gui/e-task-table.c:524
+#: ../src/calendar/gui/e-cal-model.c:314 ../src/calendar/gui/e-task-table.c:524
 #: ../src/calendar/gui/memotypes.xml.in.h:12
 #: ../src/e-util/e-html-editor-page-dialog.c:113
 #: ../src/e-util/e-send-options.ui.h:7
@@ -6188,8 +6178,7 @@ msgstr "Hartu fokua"
 
 #. To translators: Here, "It" is either like "Work Week View: July
 #. 10th - July 14th, 2006." or "Day View: Thursday July 13th, 2006."
-#: ../src/calendar/gui/ea-day-view.c:105
-#: ../src/calendar/gui/ea-week-view.c:105
+#: ../src/calendar/gui/ea-day-view.c:105 ../src/calendar/gui/ea-week-view.c:105
 #, c-format
 msgid "It has %d event."
 msgid_plural "It has %d events."
@@ -6198,8 +6187,7 @@ msgstr[1] "%d gertaera ditu."
 
 #. To translators: Here, "It" is either like "Work Week View: July
 #. 10th - July 14th, 2006." or "Day View: Thursday July 13th, 2006."
-#: ../src/calendar/gui/ea-day-view.c:112
-#: ../src/calendar/gui/ea-week-view.c:108
+#: ../src/calendar/gui/ea-day-view.c:112 ../src/calendar/gui/ea-week-view.c:108
 msgid "It has no events."
 msgstr "Ez du gertaerarik."
 
@@ -6477,8 +6465,7 @@ msgstr "“%s“ zereginen zerrendaren ikuspegia sortzen"
 msgid "Creating view for memo list “%s”"
 msgstr "“%s“ zirkularren zerrendaren ikuspegia sortzen"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:219
-#: ../src/calendar/gui/e-cal-ops.c:1955
+#: ../src/calendar/gui/e-cal-dialogs.c:219 ../src/calendar/gui/e-cal-ops.c:1955
 msgid "Destination is read only"
 msgstr "Helburua irakurtzekoa soilik da"
 
@@ -6766,7 +6753,7 @@ msgstr "Iturburua"
 #: ../src/calendar/gui/e-meeting-store.c:230 ../src/calendar/gui/print.c:1247
 #: ../src/calendar/gui/print.c:1264 ../src/e-util/e-charset.c:49
 #: ../src/modules/itip-formatter/itip-view.c:3412
-#: ../src/modules/itip-formatter/itip-view.c:6022
+#: ../src/modules/itip-formatter/itip-view.c:6082
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:97
 msgid "Unknown"
 msgstr "Ezezaguna"
@@ -6821,7 +6808,7 @@ msgstr "Ez"
 #: ../src/calendar/gui/e-meeting-list-view.c:219
 #: ../src/calendar/gui/e-meeting-store.c:194
 #: ../src/calendar/gui/e-meeting-store.c:217
-#: ../src/modules/itip-formatter/itip-view.c:6010
+#: ../src/modules/itip-formatter/itip-view.c:6070
 msgid "Accepted"
 msgstr "Onartua"
 
@@ -6829,7 +6816,7 @@ msgstr "Onartua"
 #: ../src/calendar/gui/e-meeting-list-view.c:220
 #: ../src/calendar/gui/e-meeting-store.c:196
 #: ../src/calendar/gui/e-meeting-store.c:219
-#: ../src/modules/itip-formatter/itip-view.c:6016
+#: ../src/modules/itip-formatter/itip-view.c:6076
 msgid "Declined"
 msgstr "Ukatua"
 
@@ -6845,7 +6832,7 @@ msgstr "Behin-behinekoa"
 #: ../src/calendar/gui/e-meeting-list-view.c:222
 #: ../src/calendar/gui/e-meeting-store.c:200
 #: ../src/calendar/gui/e-meeting-store.c:223
-#: ../src/modules/itip-formatter/itip-view.c:6019
+#: ../src/modules/itip-formatter/itip-view.c:6079
 msgid "Delegated"
 msgstr "Delegatua"
 
@@ -6859,9 +6846,9 @@ msgstr "Ekintza behar du"
 #: ../src/calendar/gui/e-meeting-list-view.c:687
 #: ../src/calendar/gui/e-meeting-time-sel.etspec.h:9
 #: ../src/calendar/gui/e-task-table.etspec.h:11
-#: ../src/calendar/gui/tasktypes.xml.in.h:8
-#: ../src/mail/filtertypes.xml.in.h:36 ../src/mail/message-list.etspec.h:1
-#: ../src/mail/searchtypes.xml.in.h:38 ../src/mail/vfoldertypes.xml.in.h:38
+#: ../src/calendar/gui/tasktypes.xml.in.h:8 ../src/mail/filtertypes.xml.in.h:36
+#: ../src/mail/message-list.etspec.h:1 ../src/mail/searchtypes.xml.in.h:38
+#: ../src/mail/vfoldertypes.xml.in.h:38
 msgid "Status"
 msgstr "Egoera"
 
@@ -8086,41 +8073,37 @@ msgid "Close the current window"
 msgstr "Itxi uneko leihoa"
 
 #. copy menu item
-#: ../src/calendar/gui/e-comp-editor.c:1983
-#: ../src/e-util/e-focus-tracker.c:773
+#: ../src/calendar/gui/e-comp-editor.c:1983 ../src/e-util/e-focus-tracker.c:773
 #: ../src/e-util/e-html-editor-actions.c:878 ../src/e-util/e-text.c:2110
 #: ../src/e-util/e-web-view.c:407 ../src/mail/e-mail-browser.c:134
 #: ../src/mail/mail.error.xml.h:146 ../src/shell/e-shell-window-actions.c:808
 msgid "_Copy"
 msgstr "_Kopiatu"
 
-#: ../src/calendar/gui/e-comp-editor.c:1985
-#: ../src/e-util/e-focus-tracker.c:173 ../src/e-util/e-focus-tracker.c:229
-#: ../src/e-util/e-focus-tracker.c:282 ../src/e-util/e-focus-tracker.c:774
-#: ../src/e-util/e-web-view.c:409 ../src/e-util/e-web-view.c:1942
-#: ../src/mail/e-mail-browser.c:136 ../src/shell/e-shell-window-actions.c:810
+#: ../src/calendar/gui/e-comp-editor.c:1985 ../src/e-util/e-focus-tracker.c:173
+#: ../src/e-util/e-focus-tracker.c:229 ../src/e-util/e-focus-tracker.c:282
+#: ../src/e-util/e-focus-tracker.c:774 ../src/e-util/e-web-view.c:409
+#: ../src/e-util/e-web-view.c:1942 ../src/mail/e-mail-browser.c:136
+#: ../src/shell/e-shell-window-actions.c:810
 msgid "Copy the selection"
 msgstr "Kopiatu hautapena"
 
 #. cut menu item
-#: ../src/calendar/gui/e-comp-editor.c:1990
-#: ../src/e-util/e-focus-tracker.c:768
+#: ../src/calendar/gui/e-comp-editor.c:1990 ../src/e-util/e-focus-tracker.c:768
 #: ../src/e-util/e-html-editor-actions.c:885 ../src/e-util/e-text.c:2096
 #: ../src/mail/e-mail-browser.c:141 ../src/shell/e-shell-window-actions.c:815
 msgid "Cu_t"
 msgstr "_Ebaki"
 
-#: ../src/calendar/gui/e-comp-editor.c:1992
-#: ../src/e-util/e-focus-tracker.c:166 ../src/e-util/e-focus-tracker.c:222
-#: ../src/e-util/e-focus-tracker.c:276 ../src/e-util/e-focus-tracker.c:769
-#: ../src/e-util/e-web-view.c:1951 ../src/mail/e-mail-browser.c:143
-#: ../src/shell/e-shell-window-actions.c:817
+#: ../src/calendar/gui/e-comp-editor.c:1992 ../src/e-util/e-focus-tracker.c:166
+#: ../src/e-util/e-focus-tracker.c:222 ../src/e-util/e-focus-tracker.c:276
+#: ../src/e-util/e-focus-tracker.c:769 ../src/e-util/e-web-view.c:1951
+#: ../src/mail/e-mail-browser.c:143 ../src/shell/e-shell-window-actions.c:817
 msgid "Cut the selection"
 msgstr "Ebaki hautapena"
 
-#: ../src/calendar/gui/e-comp-editor.c:1999
-#: ../src/e-util/e-focus-tracker.c:187 ../src/e-util/e-focus-tracker.c:243
-#: ../src/e-util/e-focus-tracker.c:784
+#: ../src/calendar/gui/e-comp-editor.c:1999 ../src/e-util/e-focus-tracker.c:187
+#: ../src/e-util/e-focus-tracker.c:243 ../src/e-util/e-focus-tracker.c:784
 #: ../src/shell/e-shell-window-actions.c:824
 msgid "Delete the selection"
 msgstr "Ezabatu hautapena"
@@ -8130,18 +8113,16 @@ msgid "View help"
 msgstr "Ikusi laguntza"
 
 #. paste menu item
-#: ../src/calendar/gui/e-comp-editor.c:2011
-#: ../src/e-util/e-focus-tracker.c:778
+#: ../src/calendar/gui/e-comp-editor.c:2011 ../src/e-util/e-focus-tracker.c:778
 #: ../src/e-util/e-html-editor-actions.c:892 ../src/e-util/e-text.c:2122
 #: ../src/mail/e-mail-browser.c:148 ../src/shell/e-shell-window-actions.c:843
 msgid "_Paste"
 msgstr "_Itsatsi"
 
-#: ../src/calendar/gui/e-comp-editor.c:2013
-#: ../src/e-util/e-focus-tracker.c:180 ../src/e-util/e-focus-tracker.c:236
-#: ../src/e-util/e-focus-tracker.c:288 ../src/e-util/e-focus-tracker.c:779
-#: ../src/e-util/e-web-view.c:1960 ../src/mail/e-mail-browser.c:150
-#: ../src/shell/e-shell-window-actions.c:845
+#: ../src/calendar/gui/e-comp-editor.c:2013 ../src/e-util/e-focus-tracker.c:180
+#: ../src/e-util/e-focus-tracker.c:236 ../src/e-util/e-focus-tracker.c:288
+#: ../src/e-util/e-focus-tracker.c:779 ../src/e-util/e-web-view.c:1960
+#: ../src/mail/e-mail-browser.c:150 ../src/shell/e-shell-window-actions.c:845
 msgid "Paste the clipboard"
 msgstr "Arbelaren edukia itsasten du"
 
@@ -8160,17 +8141,15 @@ msgstr "I_nprimatu..."
 msgid "Pre_view..."
 msgstr "_Aurrebista..."
 
-#: ../src/calendar/gui/e-comp-editor.c:2032
-#: ../src/e-util/e-focus-tracker.c:788
+#: ../src/calendar/gui/e-comp-editor.c:2032 ../src/e-util/e-focus-tracker.c:788
 #: ../src/e-util/e-html-editor-actions.c:906 ../src/e-util/e-web-view.c:417
 #: ../src/mail/e-mail-browser.c:155 ../src/shell/e-shell-window-actions.c:920
 msgid "Select _All"
 msgstr "Hautatu _denak"
 
-#: ../src/calendar/gui/e-comp-editor.c:2034
-#: ../src/e-util/e-focus-tracker.c:194 ../src/e-util/e-focus-tracker.c:250
-#: ../src/e-util/e-focus-tracker.c:789 ../src/mail/e-mail-browser.c:157
-#: ../src/shell/e-shell-window-actions.c:922
+#: ../src/calendar/gui/e-comp-editor.c:2034 ../src/e-util/e-focus-tracker.c:194
+#: ../src/e-util/e-focus-tracker.c:250 ../src/e-util/e-focus-tracker.c:789
+#: ../src/mail/e-mail-browser.c:157 ../src/shell/e-shell-window-actions.c:922
 msgid "Select all text"
 msgstr "Hautatu testu osoa"
 
@@ -8180,9 +8159,8 @@ msgstr "_Sailkapena"
 
 #: ../src/calendar/gui/e-comp-editor.c:2069
 #: ../src/e-util/e-html-editor-actions.c:929
-#: ../src/e-util/e-mail-signature-editor.c:323
-#: ../src/mail/e-mail-browser.c:164 ../src/mail/e-mail-notes.c:945
-#: ../src/shell/e-shell-window-actions.c:957
+#: ../src/e-util/e-mail-signature-editor.c:323 ../src/mail/e-mail-browser.c:164
+#: ../src/mail/e-mail-notes.c:945 ../src/shell/e-shell-window-actions.c:957
 msgid "_File"
 msgstr "_Fitxategia"
 
@@ -8199,8 +8177,7 @@ msgstr "Au_kerak"
 #: ../src/calendar/gui/e-comp-editor.c:2097
 #: ../src/e-util/e-html-editor-actions.c:971 ../src/mail/e-mail-browser.c:178
 #: ../src/shell/e-shell-window-actions.c:1000
-#: ../src/smime/gui/certificate-manager.c:1662
-#: ../src/smime/gui/smime-ui.ui.h:3
+#: ../src/smime/gui/certificate-manager.c:1662 ../src/smime/gui/smime-ui.ui.h:3
 msgid "_View"
 msgstr "_Ikusi"
 
@@ -8218,18 +8195,16 @@ msgid "Save current changes and close editor"
 msgstr "Gorde uneko aldaketak eta itxi editorea"
 
 #. String to use in 12-hour time format for times in the morning.
-#: ../src/calendar/gui/e-day-view.c:2130
-#: ../src/calendar/gui/e-week-view.c:1726 ../src/calendar/gui/print.c:1070
-#: ../src/calendar/gui/print.c:1089 ../src/calendar/gui/print.c:2626
-#: ../src/calendar/gui/print.c:2646
+#: ../src/calendar/gui/e-day-view.c:2130 ../src/calendar/gui/e-week-view.c:1726
+#: ../src/calendar/gui/print.c:1070 ../src/calendar/gui/print.c:1089
+#: ../src/calendar/gui/print.c:2626 ../src/calendar/gui/print.c:2646
 msgid "am"
 msgstr "am"
 
 #. String to use in 12-hour time format for times in the afternoon.
-#: ../src/calendar/gui/e-day-view.c:2133
-#: ../src/calendar/gui/e-week-view.c:1729 ../src/calendar/gui/print.c:1075
-#: ../src/calendar/gui/print.c:1091 ../src/calendar/gui/print.c:2631
-#: ../src/calendar/gui/print.c:2648
+#: ../src/calendar/gui/e-day-view.c:2133 ../src/calendar/gui/e-week-view.c:1729
+#: ../src/calendar/gui/print.c:1075 ../src/calendar/gui/print.c:1091
+#: ../src/calendar/gui/print.c:2631 ../src/calendar/gui/print.c:2648
 msgid "pm"
 msgstr "pm"
 
@@ -8595,8 +8570,7 @@ msgstr "Hasiera-data"
 msgid "Completion date"
 msgstr "Osatze-data"
 
-#: ../src/calendar/gui/e-task-table.etspec.h:6
-#: ../src/mail/mail-send-recv.c:968
+#: ../src/calendar/gui/e-task-table.etspec.h:6 ../src/mail/mail-send-recv.c:968
 msgid "Complete"
 msgstr "Eginda"
 
@@ -12348,8 +12322,7 @@ msgstr "more argia"
 msgid "white"
 msgstr "zuria"
 
-#: ../src/e-util/e-color-combo.c:642
-#: ../src/mail/e-mail-account-tree-view.c:135
+#: ../src/e-util/e-color-combo.c:642 ../src/mail/e-mail-account-tree-view.c:135
 #: ../src/mail/e-mail-config-security-page.c:406
 #: ../src/mail/e-mail-config-security-page.c:570
 #: ../src/mail/e-mail-reader.c:4049 ../src/mail/mail-config.ui.h:75
@@ -14295,13 +14268,13 @@ msgstr "Bidaltzeko aukerak"
 msgid "R_eply requested"
 msgstr "_Erantzutea eskatu da"
 
-#. Translators: This is part of 'Within [ X ] days', where [ X ] is a spinner with a number
+#. Translators: This is part of
 #: ../src/e-util/e-send-options.ui.h:20
 msgctxt "ESendOptionsWithin"
 msgid "Wi_thin"
 msgstr "_Barruan"
 
-#. Translators: This is part of 'Within [ X ] days', where [ X ] is a spinner with a number
+#. Translators: This is part of
 #: ../src/e-util/e-send-options.ui.h:22
 msgctxt "ESendOptionsWithin"
 msgid "days"
@@ -14316,13 +14289,13 @@ msgstr "_Komeni denean"
 msgid "_Delay message delivery"
 msgstr "_Atzeratu mezuen banaketa"
 
-#. Translators: This is part of 'After [ X ] days', where [ X ] is a spinner with a number
+#. Translators: This is part of
 #: ../src/e-util/e-send-options.ui.h:28
 msgctxt "ESendOptionsAfter"
 msgid "_After"
 msgstr "_Ondoren:"
 
-#. Translators: This is part of 'After [ X ] days', where [ X ] is a spinner with a number
+#. Translators: This is part of
 #: ../src/e-util/e-send-options.ui.h:30
 msgctxt "ESendOptionsAfter"
 msgid "days"
@@ -14332,7 +14305,7 @@ msgstr "egun"
 msgid "_Set expiration date"
 msgstr "_Ezarri iraungitze-data"
 
-#. Translators: This is part of 'Until [ date ]', where [ date ] is a date picker
+#. Translators: This is part of
 #: ../src/e-util/e-send-options.ui.h:33
 msgctxt "ESendOptions"
 msgid "_Until"
@@ -14670,13 +14643,11 @@ msgstr "Garbitu _dena"
 msgid "_Show field in View"
 msgstr "_Erakutsi eremua ikuspegian"
 
-#: ../src/e-util/e-table-config.ui.h:6
-#: ../src/e-util/e-table-header-item.c:1783
+#: ../src/e-util/e-table-config.ui.h:6 ../src/e-util/e-table-header-item.c:1783
 msgid "Ascending"
 msgstr "Gorantz"
 
-#: ../src/e-util/e-table-config.ui.h:7
-#: ../src/e-util/e-table-header-item.c:1783
+#: ../src/e-util/e-table-config.ui.h:7 ../src/e-util/e-table-header-item.c:1783
 msgid "Descending"
 msgstr "Beherantz"
 
@@ -15405,8 +15376,7 @@ msgid "Failed to append to local “Sent” folder: %s"
 msgstr "Huts egin du “Bidalitakoak“ karpeta lokalean eranstean: %s"
 
 #: ../src/libemail-engine/e-mail-session-utils.c:923
-#: ../src/libemail-engine/mail-ops.c:978
-#: ../src/libemail-engine/mail-ops.c:1080
+#: ../src/libemail-engine/mail-ops.c:978 ../src/libemail-engine/mail-ops.c:1080
 msgid "Sending message"
 msgstr "Mezua bidaltzen"
 
@@ -17181,16 +17151,16 @@ msgstr "-------- Birbidalitako mezua --------"
 msgid "-----Original Message-----"
 msgstr "-------- Jatorrizko mezua --------"
 
-#: ../src/mail/em-composer-utils.c:3042
+#: ../src/mail/em-composer-utils.c:3074
 msgid "an unknown sender"
 msgstr "bidaltzaile ezezaguna"
 
 #. FIXME GTK_WINDOW (composer)
-#: ../src/mail/em-composer-utils.c:3518
+#: ../src/mail/em-composer-utils.c:3550
 msgid "Posting destination"
 msgstr "Bidalketa-helburua"
 
-#: ../src/mail/em-composer-utils.c:3523
+#: ../src/mail/em-composer-utils.c:3555
 msgid "Choose folders to post the message to."
 msgstr "Aukeratu talde-mezua bidaltzeko karpetak."
 
@@ -18181,7 +18151,7 @@ msgstr ""
 msgid "Sending a message using _key accelerator (Ctrl+Enter)"
 msgstr "Galdetu bidaltzeko _laster-tekla erabiltzean (Ktrl+Sartu)"
 
-#. Translators: 'changes' is a verb. This is whether to show a warning or not in that situation
+#. Translators:
 #: ../src/mail/mail-config.ui.h:58
 msgid "Before composer _format changes from HTML to Plain Text"
 msgstr "Konposatzailearen _formatua HTMLtik testu soilera aldatu aurretik"
@@ -22220,16 +22190,16 @@ msgid "Sa_ve"
 msgstr "_Gorde"
 
 #: ../src/modules/itip-formatter/itip-view.c:3486
-#: ../src/modules/itip-formatter/itip-view.c:4955
+#: ../src/modules/itip-formatter/itip-view.c:5015
 msgid "Attendee status updated"
 msgstr "Partaide-egoera eguneratu da"
 
-#: ../src/modules/itip-formatter/itip-view.c:3658
+#: ../src/modules/itip-formatter/itip-view.c:3701
 #, c-format
 msgid "An appointment “%s” in the calendar “%s” conflicts with this meeting"
 msgstr "“%2$s“ egutegiko “%1$s“ hitzordu batek bilera honekin gatazka du"
 
-#: ../src/modules/itip-formatter/itip-view.c:3664
+#: ../src/modules/itip-formatter/itip-view.c:3707
 #, c-format
 msgid ""
 "The calendar “%s” contains an appointment which conflicts with this meeting"
@@ -22238,155 +22208,160 @@ msgid_plural ""
 msgstr[0] "“%s“ egutegiko hitzordu batek bilera honekin gatazka du"
 msgstr[1] "“%s“ egutegiko %d hitzorduk bilera honekin gatazka dute"
 
-#: ../src/modules/itip-formatter/itip-view.c:3697
+#: ../src/modules/itip-formatter/itip-view.c:3740
 #, c-format
 msgid "Found the appointment in the calendar “%s”"
 msgstr "Hitzordua “%s“ egutegian aurkitu da"
 
-#: ../src/modules/itip-formatter/itip-view.c:3831
+#: ../src/modules/itip-formatter/itip-view.c:3749
+#| msgid "The meeting is invalid and cannot be updated"
+msgid "This meeting invitation is obsolete. It had been updated."
+msgstr "Bileraren gonbidapen hau zaharkituta dago. Eguneratua izan da."
+
+#: ../src/modules/itip-formatter/itip-view.c:3891
 msgid "Unable to find any calendars"
 msgstr "Ezin da egutegirik aurkitu"
 
-#: ../src/modules/itip-formatter/itip-view.c:3839
+#: ../src/modules/itip-formatter/itip-view.c:3899
 msgid "Unable to find this meeting in any calendar"
 msgstr "Ezin da bilera hau egutegietan aurkitu"
 
-#: ../src/modules/itip-formatter/itip-view.c:3844
+#: ../src/modules/itip-formatter/itip-view.c:3904
 msgid "Unable to find this task in any task list"
 msgstr "Ezin da zeregin hau zereginen zerrendetan aurkitu"
 
-#: ../src/modules/itip-formatter/itip-view.c:3849
+#: ../src/modules/itip-formatter/itip-view.c:3909
 msgid "Unable to find this memo in any memo list"
 msgstr "Ezin da zirkular hau zirkularren zerrendetan aurkitu"
 
-#: ../src/modules/itip-formatter/itip-view.c:4190
+#: ../src/modules/itip-formatter/itip-view.c:4250
 msgid "Opening the calendar. Please wait..."
 msgstr "Egutegia irekitzen. Itxaron..."
 
-#: ../src/modules/itip-formatter/itip-view.c:4195
+#: ../src/modules/itip-formatter/itip-view.c:4255
 msgid "Searching for an existing version of this appointment"
 msgstr "Hitzorduaren existitzen den bertsioa bilatzen"
 
-#: ../src/modules/itip-formatter/itip-view.c:4594
+#: ../src/modules/itip-formatter/itip-view.c:4654
 #, c-format
 msgid "Unable to send item to calendar “%s”.  %s"
 msgstr "Ezin da elementua “%s“ egutegira bidali. %s"
 
-#: ../src/modules/itip-formatter/itip-view.c:4609
+#: ../src/modules/itip-formatter/itip-view.c:4669
 #, c-format
 msgid "Sent to calendar “%s” as accepted"
 msgstr "“%s“ egutegira onartuta bezala bidalita"
 
-#: ../src/modules/itip-formatter/itip-view.c:4614
+#: ../src/modules/itip-formatter/itip-view.c:4674
 #, c-format
 msgid "Sent to calendar “%s” as tentative"
 msgstr "“%s“ egutegira saialdi gisa bidalita"
 
-#: ../src/modules/itip-formatter/itip-view.c:4620
+#: ../src/modules/itip-formatter/itip-view.c:4680
 #, c-format
 msgid "Sent to calendar “%s” as declined"
 msgstr "“%s“ egutegira baztertua bezala bidalita"
 
-#: ../src/modules/itip-formatter/itip-view.c:4626
+#: ../src/modules/itip-formatter/itip-view.c:4686
 #, c-format
 msgid "Sent to calendar “%s” as cancelled"
 msgstr "“%s“ egutegira bertan behera utzita bezala bidalita"
 
-#: ../src/modules/itip-formatter/itip-view.c:4646
-#: ../src/modules/itip-formatter/itip-view.c:5092
-#: ../src/modules/itip-formatter/itip-view.c:5195
+#: ../src/modules/itip-formatter/itip-view.c:4706
+#: ../src/modules/itip-formatter/itip-view.c:5152
+#: ../src/modules/itip-formatter/itip-view.c:5255
 msgid "Saving changes to the calendar. Please wait..."
 msgstr "Aldaketak egutegian gordetzen. Itxaron..."
 
-#: ../src/modules/itip-formatter/itip-view.c:4687
+#: ../src/modules/itip-formatter/itip-view.c:4747
 msgid "Unable to parse item"
 msgstr "Ezin da elementua analizatu"
 
-#: ../src/modules/itip-formatter/itip-view.c:4879
+#: ../src/modules/itip-formatter/itip-view.c:4939
 #, c-format
 msgid "Organizer has removed the delegate %s "
 msgstr "Antolatzaileak %s delegatua kendu du"
 
-#: ../src/modules/itip-formatter/itip-view.c:4896
+#: ../src/modules/itip-formatter/itip-view.c:4956
 msgid "Sent a cancelation notice to the delegate"
 msgstr "Bertan behera uztearen mezua delegatuari bidalita"
 
-#: ../src/modules/itip-formatter/itip-view.c:4900
+#: ../src/modules/itip-formatter/itip-view.c:4960
 msgid "Could not send the cancelation notice to the delegate"
 msgstr "Ezin izan da bertan behera uztearen oharra delegatuari bidali"
 
-#: ../src/modules/itip-formatter/itip-view.c:4947
+#: ../src/modules/itip-formatter/itip-view.c:5007
 #, c-format
 msgid "Unable to update attendee. %s"
 msgstr "Ezin da partaideak eguneratu. %s"
 
-#: ../src/modules/itip-formatter/itip-view.c:4982
+#: ../src/modules/itip-formatter/itip-view.c:5042
 msgid "The meeting is invalid and cannot be updated"
 msgstr "Bilera baliogabea da eta ezin da eguneratu"
 
-#: ../src/modules/itip-formatter/itip-view.c:5057
+#: ../src/modules/itip-formatter/itip-view.c:5117
 msgid "Attendee status could not be updated because the status is invalid"
 msgstr "Partaide-egoera ezin da eguneratu egoera baliogabea delako"
 
-#: ../src/modules/itip-formatter/itip-view.c:5128
-#: ../src/modules/itip-formatter/itip-view.c:5166
+#: ../src/modules/itip-formatter/itip-view.c:5188
+#: ../src/modules/itip-formatter/itip-view.c:5226
 msgid "Attendee status can not be updated because the item no longer exists"
 msgstr "Partaidearen egoera ezin da eguneratu elementua ez dagoelako"
 
-#: ../src/modules/itip-formatter/itip-view.c:5227
+#: ../src/modules/itip-formatter/itip-view.c:5287
 msgid "Meeting information sent"
 msgstr "Bileraren informazioa bidalita"
 
-#: ../src/modules/itip-formatter/itip-view.c:5232
+#: ../src/modules/itip-formatter/itip-view.c:5292
 msgid "Task information sent"
 msgstr "Zereginaren informazioa bidalita"
 
-#: ../src/modules/itip-formatter/itip-view.c:5237
+#: ../src/modules/itip-formatter/itip-view.c:5297
 msgid "Memo information sent"
 msgstr "Zirkularraren informazioa bidalita"
 
-#: ../src/modules/itip-formatter/itip-view.c:5248
+#: ../src/modules/itip-formatter/itip-view.c:5308
 msgid "Unable to send meeting information, the meeting does not exist"
 msgstr "Ezin da bileraren informazioa bidali. Bilera ez da existitzen"
 
-#: ../src/modules/itip-formatter/itip-view.c:5253
+#: ../src/modules/itip-formatter/itip-view.c:5313
 msgid "Unable to send task information, the task does not exist"
 msgstr "Ezin da zereginaren informazioa bidali. Zeregina ez da existitzen"
 
-#: ../src/modules/itip-formatter/itip-view.c:5258
+#: ../src/modules/itip-formatter/itip-view.c:5318
 msgid "Unable to send memo information, the memo does not exist"
 msgstr "Ezin da zirkularraren informazioa bidali. Zirkularra ez da existitzen"
 
 #. Translators: This is a default filename for a calendar.
-#: ../src/modules/itip-formatter/itip-view.c:5323
+#: ../src/modules/itip-formatter/itip-view.c:5383
 msgid "calendar.ics"
 msgstr "egutegia.ics"
 
-#: ../src/modules/itip-formatter/itip-view.c:5328
+#: ../src/modules/itip-formatter/itip-view.c:5388
 msgid "Save Calendar"
 msgstr "Gorde egutegia"
 
-#: ../src/modules/itip-formatter/itip-view.c:5376
-#: ../src/modules/itip-formatter/itip-view.c:5389
+#: ../src/modules/itip-formatter/itip-view.c:5436
+#: ../src/modules/itip-formatter/itip-view.c:5449
 msgid "The calendar attached is not valid"
 msgstr "Erantsitako egutegia ez da baliozkoa"
 
-#: ../src/modules/itip-formatter/itip-view.c:5377
-#: ../src/modules/itip-formatter/itip-view.c:5390
+#: ../src/modules/itip-formatter/itip-view.c:5437
+#: ../src/modules/itip-formatter/itip-view.c:5450
 msgid ""
 "The message claims to contain a calendar, but the calendar is not a valid "
 "iCalendar."
 msgstr "Mezuak egutegi bat duela dio, baina egutegia ez da baliozko iCalendar."
 
-#: ../src/modules/itip-formatter/itip-view.c:5432
-#: ../src/modules/itip-formatter/itip-view.c:5462
-#: ../src/modules/itip-formatter/itip-view.c:5565
+#: ../src/modules/itip-formatter/itip-view.c:5492
+#: ../src/modules/itip-formatter/itip-view.c:5522
+#: ../src/modules/itip-formatter/itip-view.c:5625
 msgid "The item in the calendar is not valid"
 msgstr "Egutegiko elementua ez da baliozkoa"
 
-#: ../src/modules/itip-formatter/itip-view.c:5433
-#: ../src/modules/itip-formatter/itip-view.c:5463
-#: ../src/modules/itip-formatter/itip-view.c:5566
+#: ../src/modules/itip-formatter/itip-view.c:5493
+#: ../src/modules/itip-formatter/itip-view.c:5523
+#: ../src/modules/itip-formatter/itip-view.c:5626
 msgid ""
 "The message does contain a calendar, but the calendar contains no events, "
 "tasks or free/busy information"
@@ -22394,11 +22369,11 @@ msgstr ""
 "Mezuak egutegi bat du, baina egutegiak ez du gertaerarik, zereginik edo "
 "libre/lanpetuta informaziorik"
 
-#: ../src/modules/itip-formatter/itip-view.c:5478
+#: ../src/modules/itip-formatter/itip-view.c:5538
 msgid "The calendar attached contains multiple items"
 msgstr "Erantsitako egutegiak hainbat elementu ditu"
 
-#: ../src/modules/itip-formatter/itip-view.c:5479
+#: ../src/modules/itip-formatter/itip-view.c:5539
 msgid ""
 "To process all of these items, the file should be saved and the calendar "
 "imported"
@@ -22406,24 +22381,24 @@ msgstr ""
 "Fitxategia gorde eta egutegia inportatu behar da elementu guzti horiek "
 "prozesatzeko"
 
-#: ../src/modules/itip-formatter/itip-view.c:5997
+#: ../src/modules/itip-formatter/itip-view.c:6057
 msgctxt "cal-itip"
 msgid "None"
 msgstr "Bat ere ez"
 
-#: ../src/modules/itip-formatter/itip-view.c:6013
+#: ../src/modules/itip-formatter/itip-view.c:6073
 msgid "Tentatively Accepted"
 msgstr "Oraingoz onartua"
 
-#: ../src/modules/itip-formatter/itip-view.c:6179
+#: ../src/modules/itip-formatter/itip-view.c:6239
 msgid "This meeting recurs"
 msgstr "Bilera hau errepikatu egiten da"
 
-#: ../src/modules/itip-formatter/itip-view.c:6182
+#: ../src/modules/itip-formatter/itip-view.c:6242
 msgid "This task recurs"
 msgstr "Zeregin hau errepikatu egiten da"
 
-#: ../src/modules/itip-formatter/itip-view.c:6185
+#: ../src/modules/itip-formatter/itip-view.c:6245
 msgid "This memo recurs"
 msgstr "Zirkular hau errepikatu egiten da"
 
