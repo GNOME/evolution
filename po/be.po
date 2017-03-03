@@ -6,10 +6,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution.master\n"
-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=evolution&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2017-01-19 11:34+0000\n"
-"PO-Revision-Date: 2017-01-28 12:48+0300\n"
-"Last-Translator: Ihar Hrachyshka <ihar.hrachyshka@gmail.com>\n"
+"Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?product=evolution&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2017-02-28 17:53+0000\n"
+"PO-Revision-Date: 2017-03-03 21:07+0300\n"
+"Last-Translator: Yuras Shumovich <shumovichy@gmail.com>\n"
 "Language-Team: Belarusian <i18n-bel-gnome@googlegroups.com>\n"
 "Language: be\n"
 "MIME-Version: 1.0\n"
@@ -2829,7 +2829,7 @@ msgstr "Параметры"
 #: ../src/e-util/e-mail-signature-script-dialog.c:366 ../src/e-util/e-passwords.c:468 ../src/e-util/e-rule-context.c:813 ../src/e-util/e-rule-editor.c:178
 #: ../src/e-util/e-rule-editor.c:280 ../src/e-util/e-rule-editor.c:789 ../src/e-util/e-send-options.ui.h:16 ../src/e-util/e-source-config-dialog.c:377
 #: ../src/e-util/e-source-selector-dialog.c:370 ../src/e-util/e-table-config.c:548 ../src/e-util/e-table-config.ui.h:3 ../src/e-util/e-timezone-dialog.ui.h:2
-#: ../src/e-util/evolution-source-viewer.c:835 ../src/e-util/e-web-view.c:4062 ../src/e-util/gal-view-instance-save-as-dialog.c:267
+#: ../src/e-util/evolution-source-viewer.c:835 ../src/e-util/e-web-view.c:4065 ../src/e-util/gal-view-instance-save-as-dialog.c:267
 #: ../src/mail/e-mail-config-window.c:331 ../src/mail/e-mail-label-dialog.c:194 ../src/mail/e-mail-tag-editor.c:168 ../src/mail/em-folder-selector.c:318
 #: ../src/mail/mail-config.ui.h:2 ../src/mail/mail.error.xml.h:16 ../src/mail/mail-send-recv.c:747 ../src/mail/mail-send-recv.c:829
 #: ../src/mail/mail-vfolder-ui.c:149 ../src/mail/mail-vfolder-ui.c:271 ../src/modules/backup-restore/evolution-backup-tool.c:932
@@ -2846,7 +2846,7 @@ msgstr "_Скасаваць"
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:3 ../src/addressbook/gui/widgets/eab-contact-merging.c:719
 #: ../src/calendar/calendar.error.xml.h:47 ../src/calendar/gui/e-comp-editor.c:2107 ../src/composer/e-composer-actions.c:228
 #: ../src/composer/e-composer-actions.c:348 ../src/e-util/e-attachment-store.c:833 ../src/e-util/e-mail-signature-script-dialog.c:370
-#: ../src/e-util/e-web-view.c:4063 ../src/e-util/gal-view-instance-save-as-dialog.c:268 ../src/shell/e-shell-content.c:658 ../src/shell/e-shell-utils.c:140
+#: ../src/e-util/e-web-view.c:4066 ../src/e-util/gal-view-instance-save-as-dialog.c:268 ../src/shell/e-shell-content.c:658 ../src/shell/e-shell-utils.c:140
 #: ../src/smime/gui/certificate-manager.c:666 ../src/smime/gui/certificate-manager.c:743
 msgid "_Save"
 msgstr "_Захаваць"
@@ -3436,7 +3436,7 @@ msgstr "_Даслаць новае паведамленне..."
 msgid "Send a mail message to this address"
 msgstr "Даслаць паштовае паведамленне на гэты адрас"
 
-#: ../src/addressbook/gui/widgets/eab-contact-display.c:290 ../src/e-util/e-web-view.c:1314
+#: ../src/addressbook/gui/widgets/eab-contact-display.c:290 ../src/e-util/e-web-view.c:1317
 #, c-format
 msgid "Click to mail %s"
 msgstr "Пстрыкнуць, каб даслаць %s"
@@ -4272,7 +4272,7 @@ msgstr[2] "дзён"
 msgid "Start time"
 msgstr "Пачатак"
 
-#: ../src/calendar/alarm-notify/alarm-notify.ui.h:1 ../src/calendar/alarm-notify/alarm-queue.c:1951
+#: ../src/calendar/alarm-notify/alarm-notify.ui.h:1 ../src/calendar/alarm-notify/alarm-queue.c:1988
 msgid "Appointments"
 msgstr "Сустрэчы"
 
@@ -4302,7 +4302,7 @@ msgstr "_Друкаваць"
 msgid "_Dismiss"
 msgstr "_Адмяніць"
 
-#: ../src/calendar/alarm-notify/alarm-notify.ui.h:7 ../src/calendar/alarm-notify/alarm-queue.c:1918 ../src/calendar/alarm-notify/alarm-queue.c:1928
+#: ../src/calendar/alarm-notify/alarm-notify.ui.h:7 ../src/calendar/alarm-notify/alarm-queue.c:1955 ../src/calendar/alarm-notify/alarm-queue.c:1965
 #: ../src/modules/cal-config-weather/evolution-cal-config-weather.c:249 ../src/modules/itip-formatter/itip-view.c:1678
 #: ../src/modules/itip-formatter/itip-view.c:1789
 msgid "Location:"
@@ -4332,23 +4332,23 @@ msgstr "гадзін"
 msgid "minutes"
 msgstr "хвілін"
 
-#: ../src/calendar/alarm-notify/alarm-queue.c:1719 ../src/calendar/alarm-notify/alarm-queue.c:1899
+#: ../src/calendar/alarm-notify/alarm-queue.c:1756 ../src/calendar/alarm-notify/alarm-queue.c:1936
 msgid "No summary available."
 msgstr "Рэзюмэ недаступна."
 
-#: ../src/calendar/alarm-notify/alarm-queue.c:1728 ../src/calendar/alarm-notify/alarm-queue.c:1730
+#: ../src/calendar/alarm-notify/alarm-queue.c:1765 ../src/calendar/alarm-notify/alarm-queue.c:1767
 msgid "No description available."
 msgstr "Апісанне недаступна."
 
-#: ../src/calendar/alarm-notify/alarm-queue.c:1738
+#: ../src/calendar/alarm-notify/alarm-queue.c:1775
 msgid "No location information available."
 msgstr "Інфармацыя пра месцазнаходжанне недаступна."
 
-#: ../src/calendar/alarm-notify/alarm-queue.c:1743 ../src/calendar/alarm-notify/alarm-queue.c:1890 ../src/calendar/alarm-notify/alarm-queue.c:2241
+#: ../src/calendar/alarm-notify/alarm-queue.c:1780 ../src/calendar/alarm-notify/alarm-queue.c:1927 ../src/calendar/alarm-notify/alarm-queue.c:2278
 msgid "Evolution Reminders"
 msgstr "Нагадванні Evolution"
 
-#: ../src/calendar/alarm-notify/alarm-queue.c:1786
+#: ../src/calendar/alarm-notify/alarm-queue.c:1823
 #, c-format
 msgid "You have %d reminder"
 msgid_plural "You have %d reminders"
@@ -4356,19 +4356,19 @@ msgstr[0] "У вас %d нагадванне"
 msgstr[1] "У вас %d нагадванні"
 msgstr[2] "У вас %d нагадванняў"
 
-#: ../src/calendar/alarm-notify/alarm-queue.c:2059
+#: ../src/calendar/alarm-notify/alarm-queue.c:2096
 msgid "Warning"
 msgstr "Перасцярога"
 
-#: ../src/calendar/alarm-notify/alarm-queue.c:2060 ../src/mail/mail-dialogs.ui.h:20 ../src/modules/mailto-handler/evolution-mailto-handler.c:112
+#: ../src/calendar/alarm-notify/alarm-queue.c:2097 ../src/mail/mail-dialogs.ui.h:20 ../src/modules/mailto-handler/evolution-mailto-handler.c:112
 msgid "_No"
 msgstr "_Не"
 
-#: ../src/calendar/alarm-notify/alarm-queue.c:2061 ../src/modules/mailto-handler/evolution-mailto-handler.c:113
+#: ../src/calendar/alarm-notify/alarm-queue.c:2098 ../src/modules/mailto-handler/evolution-mailto-handler.c:113
 msgid "_Yes"
 msgstr "_Так"
 
-#: ../src/calendar/alarm-notify/alarm-queue.c:2065
+#: ../src/calendar/alarm-notify/alarm-queue.c:2102
 #, c-format
 msgid ""
 "An Evolution Calendar reminder is about to trigger. This reminder is configured to run the following program:\n"
@@ -4383,7 +4383,7 @@ msgstr ""
 "\n"
 "Сапраўды запусціць гэтую праграму?"
 
-#: ../src/calendar/alarm-notify/alarm-queue.c:2080
+#: ../src/calendar/alarm-notify/alarm-queue.c:2117
 msgid "Do not ask me about this program again."
 msgstr "Не пытацца больш пра гэтую праграму."
 
@@ -5399,17 +5399,17 @@ msgid "Priority:"
 msgstr "Прыярытэт:"
 
 #: ../src/calendar/gui/e-cal-component-preview.c:327 ../src/calendar/gui/e-task-table.c:548 ../src/calendar/gui/tasktypes.xml.in.h:19
-#: ../src/e-util/e-send-options.ui.h:2 ../src/mail/message-list.c:320
+#: ../src/e-util/e-send-options.ui.h:2 ../src/mail/message-list.c:322
 msgid "High"
 msgstr "Высокі"
 
 #: ../src/calendar/gui/e-cal-component-preview.c:329 ../src/calendar/gui/e-cal-model.c:1888 ../src/calendar/gui/e-task-table.c:549
-#: ../src/calendar/gui/tasktypes.xml.in.h:20 ../src/e-util/e-send-options.ui.h:5 ../src/mail/message-list.c:319
+#: ../src/calendar/gui/tasktypes.xml.in.h:20 ../src/e-util/e-send-options.ui.h:5 ../src/mail/message-list.c:321
 msgid "Normal"
 msgstr "Звычайны"
 
 #: ../src/calendar/gui/e-cal-component-preview.c:331 ../src/calendar/gui/e-task-table.c:550 ../src/calendar/gui/tasktypes.xml.in.h:21
-#: ../src/e-util/e-send-options.ui.h:4 ../src/mail/message-list.c:318
+#: ../src/e-util/e-send-options.ui.h:4 ../src/mail/message-list.c:320
 msgid "Low"
 msgstr "Нізкі"
 
@@ -5692,7 +5692,7 @@ msgstr "Выточны тэкст"
 #: ../src/calendar/gui/e-cal-model.c:316 ../src/calendar/gui/e-meeting-list-view.c:183 ../src/calendar/gui/e-meeting-list-view.c:197
 #: ../src/calendar/gui/e-meeting-store.c:132 ../src/calendar/gui/e-meeting-store.c:167 ../src/calendar/gui/e-meeting-store.c:230
 #: ../src/calendar/gui/print.c:1247 ../src/calendar/gui/print.c:1264 ../src/e-util/e-charset.c:49 ../src/modules/itip-formatter/itip-view.c:3412
-#: ../src/modules/itip-formatter/itip-view.c:6022 ../src/modules/plugin-manager/evolution-plugin-manager.c:97
+#: ../src/modules/itip-formatter/itip-view.c:6082 ../src/modules/plugin-manager/evolution-plugin-manager.c:97
 msgid "Unknown"
 msgstr "Невядомы"
 
@@ -5733,12 +5733,12 @@ msgid "No"
 msgstr "Не"
 
 #: ../src/calendar/gui/e-cal-model.c:3818 ../src/calendar/gui/e-meeting-list-view.c:219 ../src/calendar/gui/e-meeting-store.c:194
-#: ../src/calendar/gui/e-meeting-store.c:217 ../src/modules/itip-formatter/itip-view.c:6010
+#: ../src/calendar/gui/e-meeting-store.c:217 ../src/modules/itip-formatter/itip-view.c:6070
 msgid "Accepted"
 msgstr "Прынята"
 
 #: ../src/calendar/gui/e-cal-model.c:3819 ../src/calendar/gui/e-meeting-list-view.c:220 ../src/calendar/gui/e-meeting-store.c:196
-#: ../src/calendar/gui/e-meeting-store.c:219 ../src/modules/itip-formatter/itip-view.c:6016
+#: ../src/calendar/gui/e-meeting-store.c:219 ../src/modules/itip-formatter/itip-view.c:6076
 msgid "Declined"
 msgstr "Адмоўлена"
 
@@ -5748,7 +5748,7 @@ msgid "Tentative"
 msgstr "Няпэўны"
 
 #: ../src/calendar/gui/e-cal-model.c:3821 ../src/calendar/gui/e-meeting-list-view.c:222 ../src/calendar/gui/e-meeting-store.c:200
-#: ../src/calendar/gui/e-meeting-store.c:223 ../src/modules/itip-formatter/itip-view.c:6019
+#: ../src/calendar/gui/e-meeting-store.c:223 ../src/modules/itip-formatter/itip-view.c:6079
 msgid "Delegated"
 msgstr "Прызначаны"
 
@@ -6945,7 +6945,7 @@ msgid "_Copy"
 msgstr "_Скапіраваць"
 
 #: ../src/calendar/gui/e-comp-editor.c:1985 ../src/e-util/e-focus-tracker.c:173 ../src/e-util/e-focus-tracker.c:229 ../src/e-util/e-focus-tracker.c:282
-#: ../src/e-util/e-focus-tracker.c:774 ../src/e-util/e-web-view.c:409 ../src/e-util/e-web-view.c:1939 ../src/mail/e-mail-browser.c:136
+#: ../src/e-util/e-focus-tracker.c:774 ../src/e-util/e-web-view.c:409 ../src/e-util/e-web-view.c:1942 ../src/mail/e-mail-browser.c:136
 #: ../src/shell/e-shell-window-actions.c:810
 msgid "Copy the selection"
 msgstr "Скапіраваць вылучэнне"
@@ -6957,7 +6957,7 @@ msgid "Cu_t"
 msgstr "Вы_разаць"
 
 #: ../src/calendar/gui/e-comp-editor.c:1992 ../src/e-util/e-focus-tracker.c:166 ../src/e-util/e-focus-tracker.c:222 ../src/e-util/e-focus-tracker.c:276
-#: ../src/e-util/e-focus-tracker.c:769 ../src/e-util/e-web-view.c:1948 ../src/mail/e-mail-browser.c:143 ../src/shell/e-shell-window-actions.c:817
+#: ../src/e-util/e-focus-tracker.c:769 ../src/e-util/e-web-view.c:1951 ../src/mail/e-mail-browser.c:143 ../src/shell/e-shell-window-actions.c:817
 msgid "Cut the selection"
 msgstr "Выразаць вылучэнне"
 
@@ -6977,7 +6977,7 @@ msgid "_Paste"
 msgstr "_Уставіць"
 
 #: ../src/calendar/gui/e-comp-editor.c:2013 ../src/e-util/e-focus-tracker.c:180 ../src/e-util/e-focus-tracker.c:236 ../src/e-util/e-focus-tracker.c:288
-#: ../src/e-util/e-focus-tracker.c:779 ../src/e-util/e-web-view.c:1957 ../src/mail/e-mail-browser.c:150 ../src/shell/e-shell-window-actions.c:845
+#: ../src/e-util/e-focus-tracker.c:779 ../src/e-util/e-web-view.c:1960 ../src/mail/e-mail-browser.c:150 ../src/shell/e-shell-window-actions.c:845
 msgid "Paste the clipboard"
 msgstr "Уставіць з буфера абмену"
 
@@ -10660,7 +10660,7 @@ msgstr "Катэгорыя \"%s\" ужо існуе. Выберыце іншую
 msgid "popup list"
 msgstr "выплыўны спіс"
 
-#: ../src/e-util/e-cell-date.c:49 ../src/e-util/e-cell-date.c:137 ../src/e-util/e-cell-date.c:157 ../src/mail/message-list.c:2064
+#: ../src/e-util/e-cell-date.c:49 ../src/e-util/e-cell-date.c:137 ../src/e-util/e-cell-date.c:157 ../src/mail/message-list.c:2066
 msgid "?"
 msgstr "?"
 
@@ -11596,27 +11596,27 @@ msgid "_Normal"
 msgstr "_Звычайны"
 
 #: ../src/e-util/e-html-editor-actions.c:1102
-msgid "Header _1"
+msgid "Heading _1"
 msgstr "Загаловак _1"
 
 #: ../src/e-util/e-html-editor-actions.c:1109
-msgid "Header _2"
+msgid "Heading _2"
 msgstr "Загаловак _2"
 
 #: ../src/e-util/e-html-editor-actions.c:1116
-msgid "Header _3"
+msgid "Heading _3"
 msgstr "Загаловак _3"
 
 #: ../src/e-util/e-html-editor-actions.c:1123
-msgid "Header _4"
+msgid "Heading _4"
 msgstr "Загаловак _4"
 
 #: ../src/e-util/e-html-editor-actions.c:1130
-msgid "Header _5"
+msgid "Heading _5"
 msgstr "Загаловак _5"
 
 #: ../src/e-util/e-html-editor-actions.c:1137
-msgid "Header _6"
+msgid "Heading _6"
 msgstr "Загаловак _6"
 
 #: ../src/e-util/e-html-editor-actions.c:1144
@@ -12087,7 +12087,6 @@ msgid "Rule properties"
 msgstr "Уласцівасці гарызантальнай лініі"
 
 #: ../src/e-util/e-html-editor-image-dialog.c:465 ../src/e-util/e-html-editor-paragraph-dialog.c:64 ../src/e-util/e-html-editor-table-dialog.c:515
-#| msgid "General"
 msgid "<b>General</b>"
 msgstr "<b>Агульны</b>"
 
@@ -12208,7 +12207,6 @@ msgid "_Style:"
 msgstr "_Стыль:"
 
 #: ../src/e-util/e-html-editor-paragraph-dialog.c:88
-#| msgid "A_lignment"
 msgid "<b>Alignment</b>"
 msgstr "<b>_аўнаванне</b>"
 
@@ -12567,25 +12565,25 @@ msgid "Select Contacts from Address Book"
 msgstr "Выбар кантактаў з адраснай кнігі"
 
 #. To Translators: This would be similiar to "Expand MyList Inline" where MyList is a Contact List
-#: ../src/e-util/e-name-selector-entry.c:3208
+#: ../src/e-util/e-name-selector-entry.c:3207
 #, c-format
 msgid "E_xpand %s Inline"
 msgstr "_Разгарнуць %s"
 
 #. Copy Contact Item
-#: ../src/e-util/e-name-selector-entry.c:3224
+#: ../src/e-util/e-name-selector-entry.c:3223
 #, c-format
 msgid "Cop_y %s"
 msgstr "С_капіраваць %s"
 
 #. Cut Contact Item
-#: ../src/e-util/e-name-selector-entry.c:3235
+#: ../src/e-util/e-name-selector-entry.c:3234
 #, c-format
 msgid "C_ut %s"
 msgstr "_Выразаць %s"
 
 #. Edit Contact item
-#: ../src/e-util/e-name-selector-entry.c:3253
+#: ../src/e-util/e-name-selector-entry.c:3252
 #, c-format
 msgid "_Edit %s"
 msgstr "_Рэдагаваць %s"
@@ -13435,47 +13433,47 @@ msgstr "Захаваць _выяву..."
 msgid "Save the image to a file"
 msgstr "Захаваць выяву ў файл"
 
-#: ../src/e-util/e-web-view.c:419 ../src/e-util/e-web-view.c:1961
+#: ../src/e-util/e-web-view.c:419 ../src/e-util/e-web-view.c:1964
 msgid "Select all text and images"
 msgstr "Вылучыць увесь тэкст і выявы"
 
-#: ../src/e-util/e-web-view.c:1319
+#: ../src/e-util/e-web-view.c:1322
 #, c-format
 msgid "Click to call %s"
 msgstr "Пстрыкнуць, каб патэлефанаваць %s"
 
-#: ../src/e-util/e-web-view.c:1321
+#: ../src/e-util/e-web-view.c:1324
 msgid "Click to hide/unhide addresses"
 msgstr "Пстрыкнуць, каб схаваць/паказаць адрасы"
 
-#: ../src/e-util/e-web-view.c:1332
+#: ../src/e-util/e-web-view.c:1335
 #, c-format
 msgid "Go to the section %s of the message"
 msgstr "Перайсці да секцыі %s паведамлення"
 
-#: ../src/e-util/e-web-view.c:1334
+#: ../src/e-util/e-web-view.c:1337
 msgid "Go to the beginning of the message"
 msgstr "Перайсці да пачатку паведамлення"
 
-#: ../src/e-util/e-web-view.c:1338
+#: ../src/e-util/e-web-view.c:1341
 #, c-format
 msgid "Click to open %s"
 msgstr "Пстрыкнуць, каб адкрыць %s"
 
-#: ../src/e-util/e-web-view.c:3872
+#: ../src/e-util/e-web-view.c:3875
 msgid "Copying image to clipboard"
 msgstr "Капіраванне выявы ў буфер абмену"
 
-#: ../src/e-util/e-web-view.c:4060
+#: ../src/e-util/e-web-view.c:4063
 msgid "Save Image"
 msgstr "Захаваць выяву"
 
-#: ../src/e-util/e-web-view.c:4101
+#: ../src/e-util/e-web-view.c:4104
 #, c-format
 msgid "Saving image to “%s”"
 msgstr "Захаванне выявы ў \"%s\""
 
-#: ../src/e-util/e-web-view.c:4196
+#: ../src/e-util/e-web-view.c:4199
 #, c-format
 msgid "Cannot get URI “%s”, do not know how to download it."
 msgstr "Немагчыма атрымаць URL \"%s\", невядома, як сцягваць яго."
@@ -14009,8 +14007,8 @@ msgstr "Настройка папкі пошуку: %s"
 
 #: ../src/libemail-engine/mail-vfolder.c:302
 #, c-format
-msgid "Updating Search Folders for “%s” — %s"
-msgstr "Абнаўленне папак пошуку для \"%s\" — %s"
+msgid "Updating Search Folders for “%s : %s”"
+msgstr "Абнаўленне папак пошуку для \"%s : %s\""
 
 #. Translators: The first %s is name of the affected
 #. * search folder(s), the second %s is the URI of the
@@ -14780,11 +14778,11 @@ msgstr "Перамясціць у папку"
 msgid "Copy to Folder"
 msgstr "Скапіраваць у папку"
 
-#: ../src/mail/e-mail-reader.c:353 ../src/mail/em-folder-utils.c:488 ../src/mail/mail.error.xml.h:152
+#: ../src/mail/e-mail-reader.c:353 ../src/mail/em-folder-utils.c:501 ../src/mail/mail.error.xml.h:152
 msgid "_Move"
 msgstr "_Перамясціць"
 
-#: ../src/mail/e-mail-reader.c:353 ../src/mail/em-folder-utils.c:488
+#: ../src/mail/e-mail-reader.c:353 ../src/mail/em-folder-utils.c:501
 msgid "C_opy"
 msgstr "Ка_піраваць"
 
@@ -15572,16 +15570,16 @@ msgstr "-------- Перасланае паведамленне --------"
 msgid "-----Original Message-----"
 msgstr "-----Арыгінальнае паведамленне-----"
 
-#: ../src/mail/em-composer-utils.c:3042
+#: ../src/mail/em-composer-utils.c:3074
 msgid "an unknown sender"
 msgstr "невядомы адпраўнік"
 
 #. FIXME GTK_WINDOW (composer)
-#: ../src/mail/em-composer-utils.c:3518
+#: ../src/mail/em-composer-utils.c:3550
 msgid "Posting destination"
 msgstr "Месца прызначэння"
 
-#: ../src/mail/em-composer-utils.c:3523
+#: ../src/mail/em-composer-utils.c:3555
 msgid "Choose folders to post the message to."
 msgstr "Абраць папкі, у якія будзе адпраўлена паведамленне."
 
@@ -15750,12 +15748,12 @@ msgstr "Перанос папкі %s"
 msgid "Copying folder %s"
 msgstr "Капіраванне папкі %s"
 
-#: ../src/mail/em-folder-tree.c:2300 ../src/mail/message-list.c:2506
+#: ../src/mail/em-folder-tree.c:2300 ../src/mail/message-list.c:2508
 #, c-format
 msgid "Moving messages into folder %s"
 msgstr "Перанос паведамленняў у папку %s"
 
-#: ../src/mail/em-folder-tree.c:2304 ../src/mail/message-list.c:2508
+#: ../src/mail/em-folder-tree.c:2304 ../src/mail/message-list.c:2510
 #, c-format
 msgid "Copying messages into folder %s"
 msgstr "Капіраванне паведамленняў у папку %s"
@@ -15774,11 +15772,11 @@ msgstr "UNMATCHED"
 msgid "Loading..."
 msgstr "Загрузка..."
 
-#: ../src/mail/em-folder-utils.c:489
+#: ../src/mail/em-folder-utils.c:502
 msgid "Move Folder To"
 msgstr "Перамясціць папку ў"
 
-#: ../src/mail/em-folder-utils.c:489
+#: ../src/mail/em-folder-utils.c:502
 msgid "Copy Folder To"
 msgstr "Скапіраваць папку ў"
 
@@ -17560,7 +17558,6 @@ msgstr "Вы можаце сцягнуць аддаленае змесціва �
 
 #. Translators: This constructs a string like "Follow-up, Completed on Tuesday, January 13, 2009"
 #: ../src/mail/mail.error.xml.h:196
-#| msgid " (Completed "
 msgid "{0}, Completed on {1}"
 msgstr "{0}, скончана {1}"
 
@@ -17664,86 +17661,86 @@ msgstr "Адрэдагаваць папку пошуку"
 msgid "New Search Folder"
 msgstr "Новая папка пошуку"
 
-#: ../src/mail/message-list.c:298
+#: ../src/mail/message-list.c:300
 msgid "Unseen"
 msgstr "Нечытанае"
 
-#: ../src/mail/message-list.c:299
+#: ../src/mail/message-list.c:301
 msgid "Seen"
 msgstr "Прачытанае"
 
-#: ../src/mail/message-list.c:300
+#: ../src/mail/message-list.c:302
 msgid "Answered"
 msgstr "Адказанае"
 
-#: ../src/mail/message-list.c:301
+#: ../src/mail/message-list.c:303
 msgid "Forwarded"
 msgstr "Перасланае"
 
-#: ../src/mail/message-list.c:302
+#: ../src/mail/message-list.c:304
 msgid "Multiple Unseen Messages"
 msgstr "Шмат непрачытаных паведамленняў"
 
-#: ../src/mail/message-list.c:303
+#: ../src/mail/message-list.c:305
 msgid "Multiple Messages"
 msgstr "Шмат паведамленняў"
 
-#: ../src/mail/message-list.c:316
+#: ../src/mail/message-list.c:318
 msgid "Lowest"
 msgstr "Самы ніжні"
 
-#: ../src/mail/message-list.c:317
+#: ../src/mail/message-list.c:319
 msgid "Lower"
 msgstr "Ніжэйшы"
 
-#: ../src/mail/message-list.c:321
+#: ../src/mail/message-list.c:323
 msgid "Higher"
 msgstr "Вышэйшы"
 
-#: ../src/mail/message-list.c:322
+#: ../src/mail/message-list.c:324
 msgid "Highest"
 msgstr "Самы высокі"
 
-#: ../src/mail/message-list.c:468 ../src/mail/message-list.c:6215
+#: ../src/mail/message-list.c:470 ../src/mail/message-list.c:6286
 msgid "Generating message list"
 msgstr "Стварэнне спіса паведамленняў"
 
 #. strftime format of a time,
 #. * in 12-hour format, without seconds.
-#: ../src/mail/message-list.c:2072 ../src/modules/itip-formatter/itip-view.c:267
+#: ../src/mail/message-list.c:2074 ../src/modules/itip-formatter/itip-view.c:267
 msgid "Today %l:%M %p"
 msgstr "Сёння, %l:%M %p"
 
-#: ../src/mail/message-list.c:2081
+#: ../src/mail/message-list.c:2083
 msgid "Yesterday %l:%M %p"
 msgstr "Учора, %l:%M %p"
 
-#: ../src/mail/message-list.c:2093
+#: ../src/mail/message-list.c:2095
 msgid "%a %l:%M %p"
 msgstr "%a %l:%M %p"
 
-#: ../src/mail/message-list.c:2101
+#: ../src/mail/message-list.c:2103
 msgid "%b %d %l:%M %p"
 msgstr "%d %b %l:%M %p"
 
-#: ../src/mail/message-list.c:2103
+#: ../src/mail/message-list.c:2105
 msgid "%b %d %Y"
 msgstr "%d %b %Y"
 
-#: ../src/mail/message-list.c:3012
+#: ../src/mail/message-list.c:3062
 msgid "Select all visible messages"
 msgstr "Абраць усе бачныя паведамленні"
 
-#: ../src/mail/message-list.c:3720 ../src/mail/message-list.etspec.h:17
+#: ../src/mail/message-list.c:3781 ../src/mail/message-list.etspec.h:17
 msgid "Messages"
 msgstr "Паведамленні"
 
 #. default follow-up flag name to use when clicked in the message list column
-#: ../src/mail/message-list.c:5142
+#: ../src/mail/message-list.c:5213
 msgid "Follow-up"
 msgstr "Праверка выканання"
 
-#: ../src/mail/message-list.c:6154
+#: ../src/mail/message-list.c:6225
 msgid ""
 "No message satisfies your search criteria. Change search criteria by selecting a new Show message filter from the drop down list above or by running a new "
 "search either by clearing it with Search→Clear menu item or by changing the query above."
@@ -17751,7 +17748,7 @@ msgstr ""
 "Ніводнае паведамленне не адпавядае абраным крытэрыям пошуку. Змяніце крытэрыі пошуку, выбраўшы новы фільтр паказу паведамленняў з выплыўнога спіса, "
 "змешчанага вышэй, або запусціўшы новы пошук, прыбраўшы дзейныя крытэрыі з дапамогай меню Пошук->Ачысціць, або змяніўшы запыт."
 
-#: ../src/mail/message-list.c:6162
+#: ../src/mail/message-list.c:6233
 msgid "There are no messages in this folder."
 msgstr "У гэтай папцы няма паведамленняў."
 
@@ -18616,7 +18613,6 @@ msgstr "Дазволіць Evolution абнаўляць гэты файл"
 #. * This string is just a fallback mechanism for systems on
 #. * which _NL_MEASUREMENT_MEASUREMENT is not available.
 #: ../src/modules/cal-config-weather/evolution-cal-config-weather.c:187
-#| msgid "Default"
 msgctxt "locale-metric"
 msgid "default:mm"
 msgstr "default:mm"
@@ -18690,45 +18686,45 @@ msgstr "І_мпартаваць у спіс заданняў"
 msgid "New Memo List"
 msgstr "Новы спіс нататак"
 
-#: ../src/modules/calendar/e-cal-base-shell-sidebar.c:554
+#: ../src/modules/calendar/e-cal-base-shell-sidebar.c:563
 #, c-format
 msgid "Copying an event into the calendar “%s”"
 msgstr "Капіраванне падзеі ў каляндар \"%s\""
 
-#: ../src/modules/calendar/e-cal-base-shell-sidebar.c:555
+#: ../src/modules/calendar/e-cal-base-shell-sidebar.c:564
 #, c-format
 msgid "Moving an event into the calendar “%s”"
 msgstr "Перамяшчэнне падзеі ў каляндар \"%s\""
 
-#: ../src/modules/calendar/e-cal-base-shell-sidebar.c:560
+#: ../src/modules/calendar/e-cal-base-shell-sidebar.c:569
 #, c-format
 msgid "Copying a memo into the memo list “%s”"
 msgstr "Капіраванне нататкі ў спіс нататак \"%s\""
 
-#: ../src/modules/calendar/e-cal-base-shell-sidebar.c:561
+#: ../src/modules/calendar/e-cal-base-shell-sidebar.c:570
 #, c-format
 msgid "Moving a memo into the memo list “%s”"
 msgstr "Перамяшчэнне нататкі ў спіс нататак \"%s\""
 
-#: ../src/modules/calendar/e-cal-base-shell-sidebar.c:566
+#: ../src/modules/calendar/e-cal-base-shell-sidebar.c:575
 #, c-format
 msgid "Copying a task into the task list “%s”"
 msgstr "Капіраванне задання ў спіс заданняў \"%s\""
 
-#: ../src/modules/calendar/e-cal-base-shell-sidebar.c:567
+#: ../src/modules/calendar/e-cal-base-shell-sidebar.c:576
 #, c-format
 msgid "Moving a task into the task list “%s”"
 msgstr "Перамяшчэнне задання ў спіс заданняў \"%s\""
 
-#: ../src/modules/calendar/e-cal-base-shell-sidebar.c:684
+#: ../src/modules/calendar/e-cal-base-shell-sidebar.c:693
 msgid "Calendar Selector"
 msgstr "Выбар календара"
 
-#: ../src/modules/calendar/e-cal-base-shell-sidebar.c:690
+#: ../src/modules/calendar/e-cal-base-shell-sidebar.c:699
 msgid "Memo List Selector"
 msgstr "Абраць спіс нататак"
 
-#: ../src/modules/calendar/e-cal-base-shell-sidebar.c:695
+#: ../src/modules/calendar/e-cal-base-shell-sidebar.c:704
 msgid "Task List Selector"
 msgstr "Абраць спіс заданняў"
 
@@ -20260,192 +20256,194 @@ msgstr "_Нататкі:"
 msgid "Sa_ve"
 msgstr "За_хаваць"
 
-#: ../src/modules/itip-formatter/itip-view.c:3486 ../src/modules/itip-formatter/itip-view.c:4955
+#: ../src/modules/itip-formatter/itip-view.c:3486 ../src/modules/itip-formatter/itip-view.c:5015
 msgid "Attendee status updated"
 msgstr "Статус удзельніка абноўлены"
 
-#: ../src/modules/itip-formatter/itip-view.c:3658
+#: ../src/modules/itip-formatter/itip-view.c:3701
 #, c-format
 msgid "An appointment “%s” in the calendar “%s” conflicts with this meeting"
 msgstr "Сустрэча \"%s\" у календары \"%s\" канфліктуе з гэтым сходам"
 
-#: ../src/modules/itip-formatter/itip-view.c:3664
+#: ../src/modules/itip-formatter/itip-view.c:3707
 #, c-format
 msgid "The calendar “%s” contains an appointment which conflicts with this meeting"
-msgstr "Каляндар \"%s\" змяшчае сустрэчу, якая канфліктуе з гэтым сходам"
+msgid_plural "The calendar “%s” contains %d appointments which conflict with this meeting"
+msgstr[0] "Каляндар \"%s\" змяшчае %d сустрэчу, якая канфліктуе з гэтым сходам"
+msgstr[1] "Каляндар \"%s\" змяшчае %d сустрэчы, якія канфліктуюць з гэтым сходам"
+msgstr[2] "Каляндар \"%s\" змяшчае %d сустрэч, якія канфліктуюць з гэтым сходам"
 
-#: ../src/modules/itip-formatter/itip-view.c:3665
-#, c-format
-msgid "The calendar “%s” contains %d appointments which conflict with this meeting"
-msgstr "Каляндар \"%s\" змяшчае %d сустрэч, якія канфліктуюць з гэтым сходам"
-
-#: ../src/modules/itip-formatter/itip-view.c:3697
+#: ../src/modules/itip-formatter/itip-view.c:3740
 #, c-format
 msgid "Found the appointment in the calendar “%s”"
 msgstr "Знайсці сустрэчу ў календары \"%s\""
 
-#: ../src/modules/itip-formatter/itip-view.c:3831
+#: ../src/modules/itip-formatter/itip-view.c:3749
+msgid "This meeting invitation is obsolete. It had been updated."
+msgstr "Запрашэнне на сустрэчу састарэлы. Яно было абноўлена."
+
+#: ../src/modules/itip-formatter/itip-view.c:3891
 msgid "Unable to find any calendars"
 msgstr "Немагчыма знайсці ніводзін каляндар"
 
-#: ../src/modules/itip-formatter/itip-view.c:3839
+#: ../src/modules/itip-formatter/itip-view.c:3899
 msgid "Unable to find this meeting in any calendar"
 msgstr "Немагчыма знайсці гэты сход ў календарах"
 
-#: ../src/modules/itip-formatter/itip-view.c:3844
+#: ../src/modules/itip-formatter/itip-view.c:3904
 msgid "Unable to find this task in any task list"
 msgstr "Задання няма ні ў водным спісе заданняў"
 
-#: ../src/modules/itip-formatter/itip-view.c:3849
+#: ../src/modules/itip-formatter/itip-view.c:3909
 msgid "Unable to find this memo in any memo list"
 msgstr "Нататкі няма ні ў водным спісе нататак"
 
-#: ../src/modules/itip-formatter/itip-view.c:4190
+#: ../src/modules/itip-formatter/itip-view.c:4250
 msgid "Opening the calendar. Please wait..."
 msgstr "Адкрыццё календара. Пачакайце..."
 
-#: ../src/modules/itip-formatter/itip-view.c:4195
+#: ../src/modules/itip-formatter/itip-view.c:4255
 msgid "Searching for an existing version of this appointment"
 msgstr "Пошук існай версіі гэтай сустрэчы"
 
-#: ../src/modules/itip-formatter/itip-view.c:4594
+#: ../src/modules/itip-formatter/itip-view.c:4654
 #, c-format
 msgid "Unable to send item to calendar “%s”.  %s"
 msgstr "Немагчыма паслаць элемент у каляндар \"%s\". %s"
 
-#: ../src/modules/itip-formatter/itip-view.c:4609
+#: ../src/modules/itip-formatter/itip-view.c:4669
 #, c-format
 msgid "Sent to calendar “%s” as accepted"
 msgstr "Дасланы ў каляндар \"%s\": прыняты"
 
-#: ../src/modules/itip-formatter/itip-view.c:4614
+#: ../src/modules/itip-formatter/itip-view.c:4674
 #, c-format
 msgid "Sent to calendar “%s” as tentative"
 msgstr "Дасланы ў каляндар \"%s\": няпэўны"
 
-#: ../src/modules/itip-formatter/itip-view.c:4620
+#: ../src/modules/itip-formatter/itip-view.c:4680
 #, c-format
 msgid "Sent to calendar “%s” as declined"
 msgstr "Дасланы ў каляндар \"%s\": адхілены"
 
-#: ../src/modules/itip-formatter/itip-view.c:4626
+#: ../src/modules/itip-formatter/itip-view.c:4686
 #, c-format
 msgid "Sent to calendar “%s” as cancelled"
 msgstr "Дасланы ў каляндар \"%s\": скасаваны"
 
-#: ../src/modules/itip-formatter/itip-view.c:4646 ../src/modules/itip-formatter/itip-view.c:5092 ../src/modules/itip-formatter/itip-view.c:5195
+#: ../src/modules/itip-formatter/itip-view.c:4706 ../src/modules/itip-formatter/itip-view.c:5152 ../src/modules/itip-formatter/itip-view.c:5255
 msgid "Saving changes to the calendar. Please wait..."
 msgstr "Захаванне зменаў у каляндар. Пачакайце..."
 
-#: ../src/modules/itip-formatter/itip-view.c:4687
+#: ../src/modules/itip-formatter/itip-view.c:4747
 msgid "Unable to parse item"
 msgstr "Немагчыма разабраць элемент"
 
-#: ../src/modules/itip-formatter/itip-view.c:4879
+#: ../src/modules/itip-formatter/itip-view.c:4939
 #, c-format
 msgid "Organizer has removed the delegate %s "
 msgstr "Арганізатар выдаліў дэлегата %s"
 
-#: ../src/modules/itip-formatter/itip-view.c:4896
+#: ../src/modules/itip-formatter/itip-view.c:4956
 msgid "Sent a cancelation notice to the delegate"
 msgstr "Даслаць дэлегату апавяшчэнне аб адмене"
 
-#: ../src/modules/itip-formatter/itip-view.c:4900
+#: ../src/modules/itip-formatter/itip-view.c:4960
 msgid "Could not send the cancelation notice to the delegate"
 msgstr "Не ўдалося даслаць дэлегату апавяшчэнне аб адмене"
 
-#: ../src/modules/itip-formatter/itip-view.c:4947
+#: ../src/modules/itip-formatter/itip-view.c:5007
 #, c-format
 msgid "Unable to update attendee. %s"
 msgstr "Немагчыма абнавіць удзельніка. %s"
 
-#: ../src/modules/itip-formatter/itip-view.c:4982
+#: ../src/modules/itip-formatter/itip-view.c:5042
 msgid "The meeting is invalid and cannot be updated"
 msgstr "Запіс пра сход хібны, і немагчыма яго абнавіць"
 
-#: ../src/modules/itip-formatter/itip-view.c:5057
+#: ../src/modules/itip-formatter/itip-view.c:5117
 msgid "Attendee status could not be updated because the status is invalid"
 msgstr "Статус удзельніка не можа быць абноўлены, бо статус хібны"
 
-#: ../src/modules/itip-formatter/itip-view.c:5128 ../src/modules/itip-formatter/itip-view.c:5166
+#: ../src/modules/itip-formatter/itip-view.c:5188 ../src/modules/itip-formatter/itip-view.c:5226
 msgid "Attendee status can not be updated because the item no longer exists"
 msgstr "Статус удзельніка не можа быць абноўлены, бо элемент больш не існуе"
 
-#: ../src/modules/itip-formatter/itip-view.c:5227
+#: ../src/modules/itip-formatter/itip-view.c:5287
 msgid "Meeting information sent"
 msgstr "Інфармацыя пра сход даслана"
 
-#: ../src/modules/itip-formatter/itip-view.c:5232
+#: ../src/modules/itip-formatter/itip-view.c:5292
 msgid "Task information sent"
 msgstr "Інфармацыя пра заданне даслана"
 
-#: ../src/modules/itip-formatter/itip-view.c:5237
+#: ../src/modules/itip-formatter/itip-view.c:5297
 msgid "Memo information sent"
 msgstr "Інфармацыя пра нататку даслана"
 
-#: ../src/modules/itip-formatter/itip-view.c:5248
+#: ../src/modules/itip-formatter/itip-view.c:5308
 msgid "Unable to send meeting information, the meeting does not exist"
 msgstr "Немагчыма наслаць інфармацыю пра сход, сход не існуе"
 
-#: ../src/modules/itip-formatter/itip-view.c:5253
+#: ../src/modules/itip-formatter/itip-view.c:5313
 msgid "Unable to send task information, the task does not exist"
 msgstr "Немагчыма наслаць інфармацыю пра заданне, заданне не існуе"
 
-#: ../src/modules/itip-formatter/itip-view.c:5258
+#: ../src/modules/itip-formatter/itip-view.c:5318
 msgid "Unable to send memo information, the memo does not exist"
 msgstr "Немагчыма наслаць інфармацыю пра нататку, нататка не існуе"
 
 #. Translators: This is a default filename for a calendar.
-#: ../src/modules/itip-formatter/itip-view.c:5323
+#: ../src/modules/itip-formatter/itip-view.c:5383
 msgid "calendar.ics"
 msgstr "каляндар.ics"
 
-#: ../src/modules/itip-formatter/itip-view.c:5328
+#: ../src/modules/itip-formatter/itip-view.c:5388
 msgid "Save Calendar"
 msgstr "Захаваць каляндар"
 
-#: ../src/modules/itip-formatter/itip-view.c:5376 ../src/modules/itip-formatter/itip-view.c:5389
+#: ../src/modules/itip-formatter/itip-view.c:5436 ../src/modules/itip-formatter/itip-view.c:5449
 msgid "The calendar attached is not valid"
 msgstr "Прычэплены каляндар неправільны"
 
-#: ../src/modules/itip-formatter/itip-view.c:5377 ../src/modules/itip-formatter/itip-view.c:5390
+#: ../src/modules/itip-formatter/itip-view.c:5437 ../src/modules/itip-formatter/itip-view.c:5450
 msgid "The message claims to contain a calendar, but the calendar is not a valid iCalendar."
 msgstr "Паведамленне ўтрымлівае каляндар, але ён не адпавядае календару iCalendar."
 
-#: ../src/modules/itip-formatter/itip-view.c:5432 ../src/modules/itip-formatter/itip-view.c:5462 ../src/modules/itip-formatter/itip-view.c:5565
+#: ../src/modules/itip-formatter/itip-view.c:5492 ../src/modules/itip-formatter/itip-view.c:5522 ../src/modules/itip-formatter/itip-view.c:5625
 msgid "The item in the calendar is not valid"
 msgstr "Элемент у календары хібны"
 
-#: ../src/modules/itip-formatter/itip-view.c:5433 ../src/modules/itip-formatter/itip-view.c:5463 ../src/modules/itip-formatter/itip-view.c:5566
+#: ../src/modules/itip-formatter/itip-view.c:5493 ../src/modules/itip-formatter/itip-view.c:5523 ../src/modules/itip-formatter/itip-view.c:5626
 msgid "The message does contain a calendar, but the calendar contains no events, tasks or free/busy information"
 msgstr "Паведамленне ўтрымлівае каляндар, але ён не ўтрымлівае падзей, заданняў ці інфармацыі пра занятасць"
 
-#: ../src/modules/itip-formatter/itip-view.c:5478
+#: ../src/modules/itip-formatter/itip-view.c:5538
 msgid "The calendar attached contains multiple items"
 msgstr "Прычэплены каляндар утрымлівае шмат элементаў"
 
-#: ../src/modules/itip-formatter/itip-view.c:5479
+#: ../src/modules/itip-formatter/itip-view.c:5539
 msgid "To process all of these items, the file should be saved and the calendar imported"
 msgstr "Каб апрацаваць усе гэтыя элементы, трэба захаваць файл і імпартаваць каляндар "
 
-#: ../src/modules/itip-formatter/itip-view.c:5997
+#: ../src/modules/itip-formatter/itip-view.c:6057
 msgctxt "cal-itip"
 msgid "None"
 msgstr "Няма"
 
-#: ../src/modules/itip-formatter/itip-view.c:6013
+#: ../src/modules/itip-formatter/itip-view.c:6073
 msgid "Tentatively Accepted"
 msgstr "Пачаткова прынята"
 
-#: ../src/modules/itip-formatter/itip-view.c:6179
+#: ../src/modules/itip-formatter/itip-view.c:6239
 msgid "This meeting recurs"
 msgstr "Гэты сход паўтараецца"
 
-#: ../src/modules/itip-formatter/itip-view.c:6182
+#: ../src/modules/itip-formatter/itip-view.c:6242
 msgid "This task recurs"
 msgstr "Гэтае заданне паўтараецца"
 
-#: ../src/modules/itip-formatter/itip-view.c:6185
+#: ../src/modules/itip-formatter/itip-view.c:6245
 msgid "This memo recurs"
 msgstr "Гэтая нататка паўтараецца"
 
@@ -21716,34 +21714,34 @@ msgstr "Нагадванне пра прычэплены файл"
 msgid "Reminds you when you forgot to add an attachment to a mail message."
 msgstr "Нагадвае, калі вы забылі дадаць прычэплены файл да паведамлення."
 
-#: ../src/plugins/bbdb/bbdb.c:722 ../src/plugins/bbdb/bbdb.c:833 ../src/plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml.h:1
+#: ../src/plugins/bbdb/bbdb.c:735 ../src/plugins/bbdb/bbdb.c:846 ../src/plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml.h:1
 msgid "Automatic Contacts"
 msgstr "Аўтаматычныя кантакты"
 
 #. Enable BBDB checkbox
-#: ../src/plugins/bbdb/bbdb.c:737
+#: ../src/plugins/bbdb/bbdb.c:750
 msgid "Create _address book entries when sending mails"
 msgstr "Ствараць запісы ў _адраснай кнізе пры адсылцы пошты"
 
-#: ../src/plugins/bbdb/bbdb.c:747
+#: ../src/plugins/bbdb/bbdb.c:760
 msgid "Select Address book for Automatic Contacts"
 msgstr "Абраць адрасную кнігу для аўтаматычных кантактаў"
 
-#: ../src/plugins/bbdb/bbdb.c:767
+#: ../src/plugins/bbdb/bbdb.c:780
 msgid "Instant Messaging Contacts"
 msgstr "Кантакты для абмену імгненнымі паведамленнямі"
 
 #. Enable Gaim Checkbox
-#: ../src/plugins/bbdb/bbdb.c:782
+#: ../src/plugins/bbdb/bbdb.c:795
 msgid "_Synchronize contact info and images from Pidgin buddy list"
 msgstr "_Сінхранізаваць кантактную інфармацыю і выявы са спіса суразмоўцаў Pidgin"
 
-#: ../src/plugins/bbdb/bbdb.c:792
+#: ../src/plugins/bbdb/bbdb.c:805
 msgid "Select Address book for Pidgin buddy list"
 msgstr "Абраць адрасную кнігу са спіса суразмоўцаў Pidgin"
 
 #. Synchronize now button.
-#: ../src/plugins/bbdb/bbdb.c:808
+#: ../src/plugins/bbdb/bbdb.c:821
 msgid "Synchronize with _buddy list now"
 msgstr "Сінхранізаваць са спісам суразмоўцаў"
 
@@ -23674,6 +23672,9 @@ msgstr "Немагчыма запісаць сховішча на дыск, па
 #: ../src/smime/lib/e-pkcs12.c:407
 msgid "Imported Certificate"
 msgstr "Імпартаваны сертыфікат"
+
+#~ msgid "The calendar “%s” contains %d appointments which conflict with this meeting"
+#~ msgstr "Каляндар \"%s\" змяшчае %d сустрэч, якія канфліктуюць з гэтым сходам"
 
 #~ msgid "Web addresses"
 #~ msgstr "Сеціўныя адрасы"
