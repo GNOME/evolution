@@ -23122,10 +23122,10 @@ msgid ""
 "The calendar “%s” contains an appointment which conflicts with this meeting"
 msgid_plural ""
 "The calendar “%s” contains %d appointments which conflict with this meeting"
-msgstr[0] "Заказивање у календару „%s“ је у исто време кад и овај састанак"
-msgstr[1] "%d заказивања у календару „%s“ су у исто време кад и овај састанак"
-msgstr[2] "%d заказивања у календару „%s“ је у исто време кад и овај састанак"
-msgstr[3] "Једно заказивање у календару „%s“ је у исто време кад и овај састанак"
+msgstr[0] "Календар „%s“ садржи %d заказивање које се сукобљава са овим састанком"
+msgstr[1] "Календар „%s“ садржи %d заказивања која се сукобљавају са овим састанком"
+msgstr[2] "Календар „%s“ садржи %d заказивања која се сукобљавају са овим састанком"
+msgstr[3] "Календар „%s“ садржи заказивање које се сукобљава са овим састанком"
 
 #: ../src/modules/itip-formatter/itip-view.c:3740
 #, c-format
