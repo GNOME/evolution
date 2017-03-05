@@ -18,31 +18,30 @@
 # Frank Arnold <frank@scirocco-5v-turbo.de>, 2005.
 # Christian Kintner <mail@christian-kintner.de>, 2006, 2007.
 # Andre Klapper <ak-47@gmx.net>, 2007-2009.
-# Mario Blättermann <mario.blaettermann@gmail.com>, 2010-2011, 2013, 2015-2016.
+# Mario Blättermann <mario.blaettermann@gmail.com>, 2010-2011, 2013, 2015-2017.
 # Paul Seyfert <pseyfert@mathphys.fsk.uni-heidelberg.de>, 2010, 2011.
 # Hendrik Knackstedt <hendrik.knackstedt@t-online.de>, 2011.
 # Tobias Endrigkeit <tobiasendrigkeit@googlemail.com>, 2012.
 # Benjamin Steinwender <b@stbe.at>, 2014.
 # Wolfgang Stöggl <c72578@yahoo.de>, 2015.
 # Bernd Homuth <dev@hmt.im>, 2014, 2015, 2016.
-# Christian Kirbach <christian.kirbach@gmail.com>, 2009, 2010, 2011, 2012, 2013, 2017.
+# Christian Kirbach <christian.kirbach@gmail.com>, 2009-2013, 2017.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
+"Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2017-02-16 13:11+0000\n"
-"PO-Revision-Date: 2017-02-16 22:17+0100\n"
-"Last-Translator: Bernd Homuth <dev@hmt.im>\n"
+"POT-Creation-Date: 2017-02-28 17:53+0000\n"
+"PO-Revision-Date: 2017-03-05 17:01+0100\n"
+"Last-Translator: Mario Blättermann <mario.blaettermann@gmail.com>\n"
 "Language-Team: Deutsch <gnome-de@gnome.org>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.8.11\n"
-"X-DamnedLies-Scope: partial\n"
+"X-Generator: Poedit 1.8.12\n"
 
 #: ../evolution.appdata.xml.in.h:1 ../data/evolution.desktop.in.in.h:1
 #: ../src/mail/e-mail-browser.c:1098
@@ -662,6 +661,12 @@ msgstr "Zeit der letzten Erinnerungsauslösung im »time_t«-Format"
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:74
 msgid "Allow past reminders"
 msgstr "Vergangene Erinnerungen erlauben"
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:75
+msgid "Whether can show reminders for events/tasks/memos which already happened"
+msgstr ""
+"Legt fest, ob Erinnerungen für Ereignisse, Aufgaben und Notizen angezeigt werden "
+"können, die bereits vergangen sind"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:76
 msgid "Marcus Bains Line Color — Day View"
@@ -2990,6 +2995,14 @@ msgstr "Voreingestellte Seitenleistenbreite"
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:33
 msgid "The default width for the sidebar, in pixels."
 msgstr "Die voreingestellte Breite der Seitenleiste in Pixel."
+
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:34
+msgid "Enable special WebKit developer features"
+msgstr "WebKit-Entwicklerwerkzeuge aktivieren"
+
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:35
+msgid "Any change of this option requires restart of Evolution."
+msgstr "Jede Änderung dieser Option erfordert einen Neustart von Evolution."
 
 #: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:1
 msgid "Use only local spam tests."
@@ -6667,7 +6680,7 @@ msgstr "Quelle"
 #: ../src/calendar/gui/e-meeting-store.c:230 ../src/calendar/gui/print.c:1247
 #: ../src/calendar/gui/print.c:1264 ../src/e-util/e-charset.c:49
 #: ../src/modules/itip-formatter/itip-view.c:3412
-#: ../src/modules/itip-formatter/itip-view.c:6022
+#: ../src/modules/itip-formatter/itip-view.c:6082
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:97
 msgid "Unknown"
 msgstr "Unbekannt"
@@ -6722,7 +6735,7 @@ msgstr "Nein"
 #: ../src/calendar/gui/e-meeting-list-view.c:219
 #: ../src/calendar/gui/e-meeting-store.c:194
 #: ../src/calendar/gui/e-meeting-store.c:217
-#: ../src/modules/itip-formatter/itip-view.c:6010
+#: ../src/modules/itip-formatter/itip-view.c:6070
 msgid "Accepted"
 msgstr "Angenommen"
 
@@ -6730,7 +6743,7 @@ msgstr "Angenommen"
 #: ../src/calendar/gui/e-meeting-list-view.c:220
 #: ../src/calendar/gui/e-meeting-store.c:196
 #: ../src/calendar/gui/e-meeting-store.c:219
-#: ../src/modules/itip-formatter/itip-view.c:6016
+#: ../src/modules/itip-formatter/itip-view.c:6076
 msgid "Declined"
 msgstr "Abgelehnt"
 
@@ -6746,7 +6759,7 @@ msgstr "Vorläufig"
 #: ../src/calendar/gui/e-meeting-list-view.c:222
 #: ../src/calendar/gui/e-meeting-store.c:200
 #: ../src/calendar/gui/e-meeting-store.c:223
-#: ../src/modules/itip-formatter/itip-view.c:6019
+#: ../src/modules/itip-formatter/itip-view.c:6079
 msgid "Delegated"
 msgstr "Delegiert"
 
@@ -17054,16 +17067,16 @@ msgstr "-------- Weitergeleitete Nachricht --------"
 msgid "-----Original Message-----"
 msgstr "-------- Weitergeleitete Nachricht --------"
 
-#: ../src/mail/em-composer-utils.c:3042
+#: ../src/mail/em-composer-utils.c:3074
 msgid "an unknown sender"
 msgstr "ein unbekannter Absender"
 
 #. FIXME GTK_WINDOW (composer)
-#: ../src/mail/em-composer-utils.c:3518
+#: ../src/mail/em-composer-utils.c:3550
 msgid "Posting destination"
 msgstr "Zielordner"
 
-#: ../src/mail/em-composer-utils.c:3523
+#: ../src/mail/em-composer-utils.c:3555
 msgid "Choose folders to post the message to."
 msgstr "Wählen Sie Ordner, in denen die Nachricht abgelegt werden soll."
 
@@ -22103,16 +22116,16 @@ msgid "Sa_ve"
 msgstr "_Speichern"
 
 #: ../src/modules/itip-formatter/itip-view.c:3486
-#: ../src/modules/itip-formatter/itip-view.c:4955
+#: ../src/modules/itip-formatter/itip-view.c:5015
 msgid "Attendee status updated"
 msgstr "Teilnehmerstatus aktualisiert"
 
-#: ../src/modules/itip-formatter/itip-view.c:3658
+#: ../src/modules/itip-formatter/itip-view.c:3701
 #, c-format
 msgid "An appointment “%s” in the calendar “%s” conflicts with this meeting"
 msgstr "Ein Termin »%s« im Kalender »%s« überschneidet sich mit dieser Besprechung"
 
-#: ../src/modules/itip-formatter/itip-view.c:3664
+#: ../src/modules/itip-formatter/itip-view.c:3707
 #, c-format
 msgid "The calendar “%s” contains an appointment which conflicts with this meeting"
 msgid_plural ""
@@ -22122,148 +22135,152 @@ msgstr[0] ""
 msgstr[1] ""
 "Der Kalender »%s« enthält »%d« Termine, die sich mit diesem Termin überschneiden"
 
-#: ../src/modules/itip-formatter/itip-view.c:3697
+#: ../src/modules/itip-formatter/itip-view.c:3740
 #, c-format
 msgid "Found the appointment in the calendar “%s”"
 msgstr "Der Termin wurde im Kalender »%s« gefunden"
 
-#: ../src/modules/itip-formatter/itip-view.c:3831
+#: ../src/modules/itip-formatter/itip-view.c:3749
+msgid "This meeting invitation is obsolete. It had been updated."
+msgstr "Die Besprechungsanfrage ist obsolet. Sie hätte aktualisiert werden müssen."
+
+#: ../src/modules/itip-formatter/itip-view.c:3891
 msgid "Unable to find any calendars"
 msgstr "Es wurden keine Kalender gefunden"
 
-#: ../src/modules/itip-formatter/itip-view.c:3839
+#: ../src/modules/itip-formatter/itip-view.c:3899
 msgid "Unable to find this meeting in any calendar"
 msgstr "Diese Besprechung wurde in keinem Kalender gefunden"
 
-#: ../src/modules/itip-formatter/itip-view.c:3844
+#: ../src/modules/itip-formatter/itip-view.c:3904
 msgid "Unable to find this task in any task list"
 msgstr "Diese Aufgabe wurde in keiner Aufgabenliste gefunden"
 
-#: ../src/modules/itip-formatter/itip-view.c:3849
+#: ../src/modules/itip-formatter/itip-view.c:3909
 msgid "Unable to find this memo in any memo list"
 msgstr "Diese Notiz wurde in keiner Notizliste gefunden"
 
-#: ../src/modules/itip-formatter/itip-view.c:4190
+#: ../src/modules/itip-formatter/itip-view.c:4250
 msgid "Opening the calendar. Please wait..."
 msgstr "Kalender wird geöffnet. Bitte warten …"
 
-#: ../src/modules/itip-formatter/itip-view.c:4195
+#: ../src/modules/itip-formatter/itip-view.c:4255
 msgid "Searching for an existing version of this appointment"
 msgstr "Eine bestehende Version dieses Termins wird gesucht"
 
-#: ../src/modules/itip-formatter/itip-view.c:4594
+#: ../src/modules/itip-formatter/itip-view.c:4654
 #, c-format
 msgid "Unable to send item to calendar “%s”.  %s"
 msgstr "Element kann nicht zu Kalender »%s« gesendet werden. %s"
 
-#: ../src/modules/itip-formatter/itip-view.c:4609
+#: ../src/modules/itip-formatter/itip-view.c:4669
 #, c-format
 msgid "Sent to calendar “%s” as accepted"
 msgstr "In Kalender »%s« als »Angenommen« eingetragen"
 
-#: ../src/modules/itip-formatter/itip-view.c:4614
+#: ../src/modules/itip-formatter/itip-view.c:4674
 #, c-format
 msgid "Sent to calendar “%s” as tentative"
 msgstr "In Kalender »%s« als »Vorläufig angenommen« eingetragen"
 
-#: ../src/modules/itip-formatter/itip-view.c:4620
+#: ../src/modules/itip-formatter/itip-view.c:4680
 #, c-format
 msgid "Sent to calendar “%s” as declined"
 msgstr "In Kalender »%s« als »Abgelehnt« eingetragen"
 
-#: ../src/modules/itip-formatter/itip-view.c:4626
+#: ../src/modules/itip-formatter/itip-view.c:4686
 #, c-format
 msgid "Sent to calendar “%s” as cancelled"
 msgstr "In Kalender »%s« als »Abgesagt« eingetragen"
 
-#: ../src/modules/itip-formatter/itip-view.c:4646
-#: ../src/modules/itip-formatter/itip-view.c:5092
-#: ../src/modules/itip-formatter/itip-view.c:5195
+#: ../src/modules/itip-formatter/itip-view.c:4706
+#: ../src/modules/itip-formatter/itip-view.c:5152
+#: ../src/modules/itip-formatter/itip-view.c:5255
 msgid "Saving changes to the calendar. Please wait..."
 msgstr "Änderungen im Kalender werden gespeichert. Bitte warten …"
 
-#: ../src/modules/itip-formatter/itip-view.c:4687
+#: ../src/modules/itip-formatter/itip-view.c:4747
 msgid "Unable to parse item"
 msgstr "Element kann nicht analysiert werden"
 
-#: ../src/modules/itip-formatter/itip-view.c:4879
+#: ../src/modules/itip-formatter/itip-view.c:4939
 #, c-format
 msgid "Organizer has removed the delegate %s "
 msgstr "Der Organisator hat den Vertreter %s entfernt "
 
-#: ../src/modules/itip-formatter/itip-view.c:4896
+#: ../src/modules/itip-formatter/itip-view.c:4956
 msgid "Sent a cancelation notice to the delegate"
 msgstr "Dem Vertreter wurde eine Absagenachricht zugestellt"
 
-#: ../src/modules/itip-formatter/itip-view.c:4900
+#: ../src/modules/itip-formatter/itip-view.c:4960
 msgid "Could not send the cancelation notice to the delegate"
 msgstr "Die Absagenachricht konnte dem Vertreter nicht zugestellt werden"
 
-#: ../src/modules/itip-formatter/itip-view.c:4947
+#: ../src/modules/itip-formatter/itip-view.c:5007
 #, c-format
 msgid "Unable to update attendee. %s"
 msgstr "Teilnehmer konnte nicht aktualisiert werden. %s"
 
-#: ../src/modules/itip-formatter/itip-view.c:4982
+#: ../src/modules/itip-formatter/itip-view.c:5042
 msgid "The meeting is invalid and cannot be updated"
 msgstr "Die Besprechung ist ungültig und kann nicht aktualisiert werden"
 
-#: ../src/modules/itip-formatter/itip-view.c:5057
+#: ../src/modules/itip-formatter/itip-view.c:5117
 msgid "Attendee status could not be updated because the status is invalid"
 msgstr ""
 "Teilnehmerstatus konnte auf Grund eines ungültigen Zustands nicht aktualisiert "
 "werden"
 
-#: ../src/modules/itip-formatter/itip-view.c:5128
-#: ../src/modules/itip-formatter/itip-view.c:5166
+#: ../src/modules/itip-formatter/itip-view.c:5188
+#: ../src/modules/itip-formatter/itip-view.c:5226
 msgid "Attendee status can not be updated because the item no longer exists"
 msgstr ""
 "Teilnahmestatus konnte nicht aktualisiert werden, weil der Eintrag nicht mehr "
 "existiert"
 
-#: ../src/modules/itip-formatter/itip-view.c:5227
+#: ../src/modules/itip-formatter/itip-view.c:5287
 msgid "Meeting information sent"
 msgstr "Besprechungsinformationen wurden verschickt"
 
-#: ../src/modules/itip-formatter/itip-view.c:5232
+#: ../src/modules/itip-formatter/itip-view.c:5292
 msgid "Task information sent"
 msgstr "Aufgabeninformationen wurden verschickt"
 
-#: ../src/modules/itip-formatter/itip-view.c:5237
+#: ../src/modules/itip-formatter/itip-view.c:5297
 msgid "Memo information sent"
 msgstr "Notizinformationen wurden verschickt"
 
-#: ../src/modules/itip-formatter/itip-view.c:5248
+#: ../src/modules/itip-formatter/itip-view.c:5308
 msgid "Unable to send meeting information, the meeting does not exist"
 msgstr ""
 "Verschicken der Besprechungsinformationen nicht möglich, die Besprechung existiert "
 "nicht"
 
-#: ../src/modules/itip-formatter/itip-view.c:5253
+#: ../src/modules/itip-formatter/itip-view.c:5313
 msgid "Unable to send task information, the task does not exist"
 msgstr ""
 "Verschicken der Aufgabeninformationen nicht möglich, die Aufgabe existiert nicht"
 
-#: ../src/modules/itip-formatter/itip-view.c:5258
+#: ../src/modules/itip-formatter/itip-view.c:5318
 msgid "Unable to send memo information, the memo does not exist"
 msgstr "Verschicken der Notizinformationen nicht möglich, die Notiz existiert nicht"
 
 #. Translators: This is a default filename for a calendar.
-#: ../src/modules/itip-formatter/itip-view.c:5323
+#: ../src/modules/itip-formatter/itip-view.c:5383
 msgid "calendar.ics"
 msgstr "calendar.ics"
 
-#: ../src/modules/itip-formatter/itip-view.c:5328
+#: ../src/modules/itip-formatter/itip-view.c:5388
 msgid "Save Calendar"
 msgstr "Kalender speichern"
 
-#: ../src/modules/itip-formatter/itip-view.c:5376
-#: ../src/modules/itip-formatter/itip-view.c:5389
+#: ../src/modules/itip-formatter/itip-view.c:5436
+#: ../src/modules/itip-formatter/itip-view.c:5449
 msgid "The calendar attached is not valid"
 msgstr "Der beigelegte Kalender ist ungültig"
 
-#: ../src/modules/itip-formatter/itip-view.c:5377
-#: ../src/modules/itip-formatter/itip-view.c:5390
+#: ../src/modules/itip-formatter/itip-view.c:5437
+#: ../src/modules/itip-formatter/itip-view.c:5450
 msgid ""
 "The message claims to contain a calendar, but the calendar is not a valid "
 "iCalendar."
@@ -22271,15 +22288,15 @@ msgstr ""
 "Die Nachricht gibt an, einen Kalender zu enthalten. Dieser Kalender ist jedoch "
 "kein gültiger iCalendar."
 
-#: ../src/modules/itip-formatter/itip-view.c:5432
-#: ../src/modules/itip-formatter/itip-view.c:5462
-#: ../src/modules/itip-formatter/itip-view.c:5565
+#: ../src/modules/itip-formatter/itip-view.c:5492
+#: ../src/modules/itip-formatter/itip-view.c:5522
+#: ../src/modules/itip-formatter/itip-view.c:5625
 msgid "The item in the calendar is not valid"
 msgstr "Das Element im Kalender ist ungültig"
 
-#: ../src/modules/itip-formatter/itip-view.c:5433
-#: ../src/modules/itip-formatter/itip-view.c:5463
-#: ../src/modules/itip-formatter/itip-view.c:5566
+#: ../src/modules/itip-formatter/itip-view.c:5493
+#: ../src/modules/itip-formatter/itip-view.c:5523
+#: ../src/modules/itip-formatter/itip-view.c:5626
 msgid ""
 "The message does contain a calendar, but the calendar contains no events, tasks or "
 "free/busy information"
@@ -22287,35 +22304,35 @@ msgstr ""
 "Die Nachricht enthält einen Kalender. Dieser beinhaltet allerdings keine Termine, "
 "Aufgaben oder Verfügbarkeitsinformationen."
 
-#: ../src/modules/itip-formatter/itip-view.c:5478
+#: ../src/modules/itip-formatter/itip-view.c:5538
 msgid "The calendar attached contains multiple items"
 msgstr "Der beigelegte Kalender enthält mehrere Elemente."
 
-#: ../src/modules/itip-formatter/itip-view.c:5479
+#: ../src/modules/itip-formatter/itip-view.c:5539
 msgid ""
 "To process all of these items, the file should be saved and the calendar imported"
 msgstr ""
 "Um alle diese Elemente weiterzuverarbeiten, sollte die Datei gespeichert und der "
 "Kalender importiert werden."
 
-#: ../src/modules/itip-formatter/itip-view.c:5997
+#: ../src/modules/itip-formatter/itip-view.c:6057
 msgctxt "cal-itip"
 msgid "None"
 msgstr "Keine"
 
-#: ../src/modules/itip-formatter/itip-view.c:6013
+#: ../src/modules/itip-formatter/itip-view.c:6073
 msgid "Tentatively Accepted"
 msgstr "Vorläufig angenommen"
 
-#: ../src/modules/itip-formatter/itip-view.c:6179
+#: ../src/modules/itip-formatter/itip-view.c:6239
 msgid "This meeting recurs"
 msgstr "Diese Besprechung wird wiederholt"
 
-#: ../src/modules/itip-formatter/itip-view.c:6182
+#: ../src/modules/itip-formatter/itip-view.c:6242
 msgid "This task recurs"
 msgstr "Diese Aufgabe wird wiederholt"
 
-#: ../src/modules/itip-formatter/itip-view.c:6185
+#: ../src/modules/itip-formatter/itip-view.c:6245
 msgid "This memo recurs"
 msgstr "Diese Notiz wird wiederholt"
 
@@ -25772,696 +25789,3 @@ msgstr ""
 msgid "Imported Certificate"
 msgstr "Importierte Zertifikate"
 
-#~ msgid ""
-#~ "The calendar “%s” contains %d appointments which conflict with this meeting"
-#~ msgstr ""
-#~ "Der Kalender »%s« enthält %d Termine, die sich mit dieser Besprechung "
-#~ "überschneiden"
-
-#~ msgid "Because &quot;{1}&quot;."
-#~ msgstr "Grund: »{1}«."
-
-#~ msgid "Could not open '%s'"
-#~ msgstr "»%s« konnte nicht geöffnet werden"
-
-#~ msgctxt "PGPKeyDescription"
-#~ msgid "%s - %s"
-#~ msgstr "%s - %s"
-
-#~ msgid "Failed to connect account &quot;{0}&quot;."
-#~ msgstr "Verbindung zu Konto »{0}« konnte nicht hergestellt werden."
-
-#~ msgid "Selected Calendars for Alarms"
-#~ msgstr "Ausgewählte Kalender für die Erinnerungen"
-
-#~ msgid "Sh_ow a reminder"
-#~ msgstr "Eine _Erinnerung anzeigen"
-
-#~ msgid "Specify the output file instead of standard output"
-#~ msgstr "Die angegebene Ausgabedatei statt der Standardausgabe verwenden"
-
-#~ msgid "OUTPUTFILE"
-#~ msgstr "AUSGABEDATEI"
-
-#~ msgid "List local address book folders"
-#~ msgstr "Lokale Adressbuchordner auflisten"
-
-#~ msgid "Show cards as vcard or csv file"
-#~ msgstr "Karten als vcard- oder csv-Datei anzeigen"
-
-#~ msgid "[vcard|csv]"
-#~ msgstr "[vcard|csv]"
-
-#~ msgid "Command line arguments error, please use --help option to see the usage."
-#~ msgstr ""
-#~ "Argumentfehler in Befehlszeile, bitte übergeben Sie den »--help«-Parameter, um "
-#~ "Hinweise zum Aufruf zu erhalten."
-
-#~ msgid "Only support csv or vcard format."
-#~ msgstr "Es werden ausschließlich die Formate »csv« oder »vcard« unterstützt."
-
-#~ msgid "Unhandled error"
-#~ msgstr "Unbehandelter Fehler"
-
-#~ msgid "Can not open file"
-#~ msgstr "Datei konnte nicht geöffnet werden"
-
-#~ msgid "Failed to open client '%s': %s"
-#~ msgstr "Client »%s« konnte nicht geöffnet werden: %s"
-
-#~ msgid "Enable developer mode"
-#~ msgstr "Entwicklermodus aktivieren"
-
-#~ msgid "Enables some hidden actions and tools aimed for development and debugging."
-#~ msgstr ""
-#~ "Legt fest, ob versteckte Aktionen und Werkzeuge aktiviert werden, die für die "
-#~ "Entwicklung und Fehlersuche gebraucht werden."
-
-#~ msgid "Signature exists, but need public key"
-#~ msgstr "Signatur existiert, jedoch wird der öffentliche Schlüssel benötigt"
-
-#~ msgid "Open Inspector"
-#~ msgstr "_Inspekteur andocken"
-
-#~ msgid "_Blockquote"
-#~ msgstr "_Zitat"
-
-#~ msgid "Changed property"
-#~ msgstr "Geänderte Eigenschaft"
-
-#~ msgid "Whether editor changed"
-#~ msgstr "Ob eine Änderung des Editors vorliegt"
-
-#~ msgid "Evolution Web Inspector"
-#~ msgstr "Evolution Web-Inspektor"
-
-#~ msgid "Canceled"
-#~ msgstr "Abgebrochen"
-
-#~ msgctxt "ECompEditor"
-#~ msgid "Canceled"
-#~ msgstr "Abgebrochen"
-
-#~ msgid "_Unsort"
-#~ msgstr "_Nicht sortieren"
-
-#~ msgid "Canceled."
-#~ msgstr "Abgebrochen."
-
-#~ msgid "Use Unicode characters for smile_ys"
-#~ msgstr "Unicode-Zeichen für grafische _Emoticons verwenden"
-
-#~ msgid "SSL"
-#~ msgstr "SSL"
-
-#~ msgid "Edit Reminder"
-#~ msgstr "Erinnerung bearbeiten"
-
-#~ msgid "start of appointment"
-#~ msgstr "Beginn des Termins"
-
-#~ msgid "end of appointment"
-#~ msgstr "Ende des Termins"
-
-#~ msgid "Add Reminder"
-#~ msgstr "Erinnerung hinzufügen"
-
-#~ msgid "Reminder"
-#~ msgstr "Erinnerung"
-
-#~ msgid "Repeat"
-#~ msgstr "Wiederholung"
-
-#~ msgid "Mes_sage:"
-#~ msgstr "_Nachricht:"
-
-#~ msgid "_Sound:"
-#~ msgstr "_Klang:"
-
-#~ msgid "Select A File"
-#~ msgstr "Wählen Sie eine Datei"
-
-#~ msgid "Action/Trigger"
-#~ msgstr "Aktion/Auslöser"
-
-#~ msgid "This event has been deleted."
-#~ msgstr "Dieses Ereignis wurde gelöscht."
-
-#~ msgid "This task has been deleted."
-#~ msgstr "Diese Aufgabe wurde gelöscht."
-
-#~ msgid "This memo has been deleted."
-#~ msgstr "Diese Notiz wurde gelöscht."
-
-#~ msgid "%s  You have made changes. Forget those changes and close the editor?"
-#~ msgstr ""
-#~ "%s  Sie haben Änderungen vorgenommen. Diese verwerfen und den Editor schließen?"
-
-#~ msgid "%s  You have made no changes, close the editor?"
-#~ msgstr "%s  Sie haben keine Änderungen vorgenommen, den Editor schließen?"
-
-#~ msgid "This event has been changed."
-#~ msgstr "Dieses Ereignis wurde geändert."
-
-#~ msgid "This task has been changed."
-#~ msgstr "Diese Aufgabe wurde geändert."
-
-#~ msgid "This memo has been changed."
-#~ msgstr "Diese Notiz wurde geändert."
-
-#~ msgid "%s  You have made changes. Forget those changes and update the editor?"
-#~ msgstr ""
-#~ "%s  Sie haben Änderungen vorgenommen. Diese verwerfen und den Editor "
-#~ "aktualisieren?"
-
-#~ msgid "%s  You have made no changes, update the editor?"
-#~ msgstr "%s  Sie haben keine Änderungen vorgenommen, den Editor aktualisieren?"
-
-#~ msgid "Could not update object"
-#~ msgstr "Objekt konnte nicht aktualisiert werden"
-
-#~ msgid "Edit Appointment"
-#~ msgstr "Termin bearbeiten"
-
-#~ msgid "Keep original item?"
-#~ msgstr "Originaleintrag behalten?"
-
-#~ msgid "Unable to synchronize with the server"
-#~ msgstr "Abgleich mit dem Server nicht möglich."
-
-#~ msgid "Changes made to this item may be discarded if an update arrives"
-#~ msgstr ""
-#~ "An diesem Objekt vorgenommene Änderungen verfallen möglicherweise, sobald "
-#~ "Aktualisierungen eintreffen"
-
-#~ msgid "Unable to use current version!"
-#~ msgstr "Aktuelle Version konnte nicht verwendet werden!"
-
-#~ msgid "Validation error: %s"
-#~ msgstr "Validierungsfehler: %s"
-
-#~ msgid "Enter Delegate"
-#~ msgstr "Vertreter eingeben"
-
-#~ msgid "Delegate To:"
-#~ msgstr "Delegieren an:"
-
-#~ msgid "Contacts..."
-#~ msgstr "Kontakte …"
-
-#~ msgid "_Recurrence"
-#~ msgstr "_Wiederholung"
-
-#~ msgid "Make this a recurring event"
-#~ msgstr "Dies zu einem wiederkehrenden Ereignis machen"
-
-#~ msgid "Insert advanced send options"
-#~ msgstr "Erweiterte Versandoptionen einfügen"
-
-#~ msgid "_Free/Busy"
-#~ msgstr "_Verfügbarkeit"
-
-#~ msgid "Print this event"
-#~ msgstr "Dieses Ereignis drucken"
-
-#~ msgid "This event has reminders"
-#~ msgstr "Dieses Ereignis enthält Erinnerungen"
-
-#~ msgid "Event with no start date"
-#~ msgstr "Ereignis ohne Anfangsdatum"
-
-#~ msgid "Event with no end date"
-#~ msgstr "Ereignis ohne Enddatum"
-
-#~ msgid "End date is wrong"
-#~ msgstr "Das Enddatum ist falsch"
-
-#~ msgid "End time is wrong"
-#~ msgstr "Die Endzeit ist falsch"
-
-#~ msgid "_Delegatees"
-#~ msgstr "_Vertreter"
-
-#~ msgid "Atte_ndees"
-#~ msgstr "Teil_nehmer"
-
-#~ msgctxt "eventpage"
-#~ msgid "15 minutes before appointment"
-#~ msgstr "15 Minuten vor dem Termin"
-
-#~ msgctxt "eventpage"
-#~ msgid "1 hour before appointment"
-#~ msgstr "1 Stunde vor dem Termin"
-
-#~ msgctxt "eventpage"
-#~ msgid "1 day before appointment"
-#~ msgstr "1 Tag vor dem Termin"
-
-#~ msgid "_Time:"
-#~ msgstr "_Zeit:"
-
-#~ msgid "Event Description"
-#~ msgstr "Ereignisbeschreibung"
-
-#~ msgid "Print this memo"
-#~ msgstr "Diese Notiz drucken"
-
-#~ msgid "Memo's start date is in the past"
-#~ msgstr "Beginn der Notiz liegt in der Vergangenheit"
-
-#~ msgid "Organi_zer:"
-#~ msgstr "Or_ganisator:"
-
-#~ msgid "T_o:"
-#~ msgstr "A_n:"
-
-#~ msgid "Su_mmary:"
-#~ msgstr "Zusa_mmenfassung:"
-
-#~ msgid "Could not get a selection to modify."
-#~ msgstr "Keine zu verändernde Auswahl vorhanden."
-
-#~ msgid "Could not get a selection to delete."
-#~ msgstr "Keine zu löschende Auswahl vorhanden."
-
-#~ msgid "Date/Time"
-#~ msgstr "Datum/Zeit"
-
-#~ msgctxt "recurrpage"
-#~ msgid "day(s)"
-#~ msgstr "Tag(e)"
-
-#~ msgctxt "recurrpage"
-#~ msgid "for"
-#~ msgstr "für"
-
-#~ msgctxt "recurrpage"
-#~ msgid "until"
-#~ msgstr "bis"
-
-#~ msgid "_Send Options"
-#~ msgstr "_Versandoptionen"
-
-#~ msgid "Print this task"
-#~ msgstr "Diese Aufgabe drucken"
-
-#~ msgid ""
-#~ "Task cannot be edited, because the selected task list does not support assigned "
-#~ "tasks"
-#~ msgstr ""
-#~ "Die Aufgabe kann nicht bearbeitet werden, weil die gewählte Aufgabenliste "
-#~ "zugewiesene Aufgaben nicht unterstützt"
-
-#~ msgid "Due date is wrong"
-#~ msgstr "Das Fälligkeitsdatum ist falsch"
-
-#~ msgid "Time zone:"
-#~ msgstr "Zeitzone:"
-
-#~ msgid "%s at the start of the appointment"
-#~ msgstr "%s zum Terminbeginn"
-
-#~ msgid "%s at the end of the appointment"
-#~ msgstr "%s zum Terminende"
-
-#~ msgid "Gnome Calendar"
-#~ msgstr "GNOME Calendar"
-
-#~ msgid "Download in progress. Do you want to send the mail?"
-#~ msgstr ""
-#~ "Das Herunterladen ist noch nicht beendet. Möchten Sie die Nachricht verschicken?"
-
-#~ msgid ""
-#~ " There are few attachments getting downloaded. Sending the mail will cause the "
-#~ "mail to be sent without those pending attachments "
-#~ msgstr ""
-#~ "Einige Anlagen werden zurzeit noch heruntergeladen. Das Speichern dieser "
-#~ "Nachricht wird zur Folge haben, dass die Nachricht ohne die noch ausstehenden "
-#~ "Anlagen gespeichert wird."
-
-#~ msgid ""
-#~ "Determines whether to use the same fonts for both \"From\" and \"Subject\" "
-#~ "lines in the \"Messages\" column in vertical view"
-#~ msgstr ""
-#~ "Legt fest, ob die gleichen Schriften für die »Von«- und die »Betreff«-Zeile in "
-#~ "der »Nachrichten«-Spalte der vertikalen Ansicht verwendet werden"
-
-#~ msgid ""
-#~ "Determines whether to use the same fonts for both \"From\" and \"Subject\" "
-#~ "lines in the \"Messages\" column in vertical view."
-#~ msgstr ""
-#~ "Legt fest, ob die gleichen Schriften für die »Von«- und die »Betreff«-Zeile in "
-#~ "der »Nachrichten«-Spalte der vertikalen Ansicht verwendet werden."
-
-#~ msgid "Completed On"
-#~ msgstr "Abgeschlossen am"
-
-#~ msgid "is set"
-#~ msgstr "ist gesetzt"
-
-#~ msgid "is not set"
-#~ msgstr "ist nicht gesetzt"
-
-# Im Konfig-Dialog. Hier keine Passivform verwenden! -ck
-#~ msgid "Loading Images"
-#~ msgstr "Bilder laden"
-
-#~ msgid "Please select a valid backup file to restore."
-#~ msgstr "Bitte wählen Sie ein gültiges Evolution-Archiv zur Wiederherstellung."
-
-#~ msgid "HTTP Error: %s"
-#~ msgstr "HTTP-Fehler: %s"
-
-#~ msgid "Could not parse response"
-#~ msgstr "Antwort konnte nicht analysiert werden"
-
-#~ msgid "Empty response"
-#~ msgstr "Leere Antwort"
-
-#~ msgid "Unexpected reply from server"
-#~ msgstr "Unerwartete Antwort vom Server"
-
-#~ msgid "Could not locate user's calendars"
-#~ msgstr "Benutzerkalender konnten nicht gefunden werden"
-
-#~ msgid "Path"
-#~ msgstr "Pfad"
-
-#~ msgid "Template:"
-#~ msgstr "Vorlage:"
-
-#~ msgid "Itip Formatter"
-#~ msgstr "Itip-Formatierung"
-
-#~ msgid "Display \"text/calendar\" MIME parts in mail messages."
-#~ msgstr "Text- und Kalenderteile in Nachrichten anzeigen."
-
-#~ msgid "Please select an image of size 48 * 48"
-#~ msgstr "Bitte wählen Sie ein Bild der Größe 48x48"
-
-#~ msgid "E_nable"
-#~ msgstr "_Aktivieren"
-
-#~ msgctxt "CamelTrust"
-#~ msgid "_Never"
-#~ msgstr "_Nie"
-
-#~ msgctxt "CamelTrust"
-#~ msgid "_Fully"
-#~ msgstr "_Vollkommen"
-
-#~ msgid "Invalid authentication result code (%d)"
-#~ msgstr "Rückgabecode der Legitimation ist ungültig (%d)"
-
-#~ msgid "Unknown background operation"
-#~ msgstr "Unbekannter Vorgang im Hintergrund"
-
-#~ msgid "Try _setup account automatically, based on Email Address"
-#~ msgstr ""
-#~ "Versuchen das Konto automatisch _einzurichten, ausgehend von der E-Mail-Adresse"
-
-#~ msgid "Enter Google password for user '%s'."
-#~ msgstr "Geben Sie das Google-Passwort für Benutzer »%s« ein."
-
-#~ msgid "User declined to provide a password"
-#~ msgstr "Benutzer hat die Angabe eines Passworts abgelehnt"
-
-#~ msgid "_PostScript"
-#~ msgstr "_PostScript"
-
-#~ msgid "Selection a file"
-#~ msgstr "Eine Datei auswählen"
-
-#~ msgid "Web addresses"
-#~ msgstr "Web-Adressen"
-
-#~ msgid "Could not open destination"
-#~ msgstr "Ziel konnte nicht geöffnet werden"
-
-#~ msgid "Cannot create object"
-#~ msgstr "Objekt kann nicht angelegt werden"
-
-#~ msgid "Could not open source"
-#~ msgstr "Quelle konnte nicht geöffnet werden"
-
-#~ msgid "The event could not be deleted due to a dbus error: %s"
-#~ msgstr ""
-#~ "Das Ereignis konnte auf Grund eines D-Bus-Fehlers nicht gelöscht werden: %s"
-
-#~ msgid "The task could not be deleted due to a dbus error: %s"
-#~ msgstr ""
-#~ "Die Aufgabe konnte auf Grund eines D-Bus-Fehlers nicht gelöscht werden: %s"
-
-#~ msgid "The memo could not be deleted due to a dbus error: %s"
-#~ msgstr "Die Notiz konnte auf Grund eines D-Bus-Fehlers nicht gelöscht werden: %s"
-
-#~ msgid "The item could not be deleted due to a dbus error: %s"
-#~ msgstr "Das Objekt konnte auf Grund eines D-Bus-Fehlers nicht gelöscht werden: %s"
-
-#~ msgid "The event could not be deleted because permission was denied"
-#~ msgstr ""
-#~ "Das Ereignis konnte nicht gelöscht werden, weil der Zugriff verweigert wurde"
-
-#~ msgid "The task could not be deleted because permission was denied"
-#~ msgstr ""
-#~ "Die Aufgabe konnte nicht gelöscht werden, weil der Zugriff verweigert wurde"
-
-#~ msgid "The memo could not be deleted because permission was denied"
-#~ msgstr ""
-#~ "Diese Notiz konnte nicht gelöscht werden, weil der Zugriff verweigert wurde"
-
-#~ msgid "The item could not be deleted because permission was denied"
-#~ msgstr ""
-#~ "Das Objekt konnte nicht gelöscht werden, weil der Zugriff verweigert wurde"
-
-#~ msgid "The event could not be deleted due to an error: %s"
-#~ msgstr "Das Ereignis konnte auf Grund eines Fehlers nicht gelöscht werden: %s"
-
-#~ msgid "The task could not be deleted due to an error: %s"
-#~ msgstr "Die Aufgabe konnte auf Grund eines Fehlers nicht gelöscht werden: %s"
-
-#~ msgid "The memo could not be deleted due to an error: %s"
-#~ msgstr "Die Notiz konnte auf Grund eines Fehlers nicht gelöscht werden: %s"
-
-#~ msgid "The item could not be deleted due to an error: %s"
-#~ msgstr "Das Objekt konnte auf Grund eines Fehlers nicht gelöscht werden: %s"
-
-#~ msgid "Deleting selected objects"
-#~ msgstr "Gewählte Objekte werden gelöscht"
-
-#~ msgid "Expunging"
-#~ msgstr "Wird gesäubert"
-
-#~ msgid "Untitled Message"
-#~ msgstr "Namenlose Nachricht"
-
-#~ msgid "Spell checking color"
-#~ msgstr "Farbe für Rechtschreibprüfung"
-
-#~ msgid "Underline color for misspelled words when using inline spelling."
-#~ msgstr "Farbe für falsch geschriebene Wörter während der Eingabe"
-
-#~ msgid "Option is ignored if a match for custom junk headers is found."
-#~ msgstr ""
-#~ "Einstellung wird ignoriert, falls eine benutzerdefinierte unerwünschte "
-#~ "Kopfzeile gefunden wird."
-
-#~ msgid ""
-#~ "Issued to:\n"
-#~ "  Subject: %s\n"
-#~ msgstr ""
-#~ "Ausgestellt auf:\n"
-#~ "      Empfänger: %s\n"
-
-#~ msgid ""
-#~ "Issued by:\n"
-#~ "  Subject: %s\n"
-#~ msgstr ""
-#~ "Aussteller:\n"
-#~ "      Empfänger: %s\n"
-
-#~ msgid "Certificate details"
-#~ msgstr "Zertifikatdetails"
-
-#~ msgid "Customize"
-#~ msgstr "Anpassen"
-
-#~ msgid "Custom Reminder:"
-#~ msgstr "Benutzerdefinierte Erinnerung:"
-
-#~ msgid "View image attachments directly in mail messages."
-#~ msgstr "Bildanhänge direkt innerhalb von Nachrichten anzeigen."
-
-#~ msgid "Original Contact:"
-#~ msgstr "Ursprünglicher Kontakt:"
-
-#~ msgid "Pinging %s"
-#~ msgstr "Ping zu %s wird ermittelt"
-
-#~ msgid " Account "
-#~ msgstr "Konto"
-
-#~ msgid "Copy..."
-#~ msgstr "Kopieren …"
-
-#~ msgid "Ellipsize mode for folder names in side bar"
-#~ msgstr "Zu lange Ordnernamen in der Seitenleiste abkürzen"
-
-#~ msgid "_Restore Default"
-#~ msgstr "Voreinstellung _wiederherstellen"
-
-#~ msgid "Proxy Settings"
-#~ msgstr "Proxy-Einstellungen"
-
-#~ msgid "_Use system defaults"
-#~ msgstr "_Vorgabe benutzen"
-
-#~ msgid "_Direct connection to the Internet"
-#~ msgstr "_Direkte Internetverbindung"
-
-#~ msgid "_Manual proxy configuration:"
-#~ msgstr "_Manuelle Proxy-Konfiguration:"
-
-#~ msgid "_Secure HTTP Proxy:"
-#~ msgstr "_Sicherer HTTP-Proxy:"
-
-#~ msgid "Use Authe_ntication"
-#~ msgstr "_Legitimation benutzen"
-
-#~ msgid "Us_ername:"
-#~ msgstr "_Benutzername:"
-
-#~ msgid "Pass_word:"
-#~ msgstr "_Passwort:"
-
-#~ msgid "No writable calendar is available."
-#~ msgstr "Keine schreibbarer Kalender verfügbar."
-
-#~ msgid "Could not open %s: Unknown error"
-#~ msgstr "»%s« konnte nicht geöffnet werden: Unbekannter Fehler"
-
-#~ msgid "Not part of certificate"
-#~ msgstr "Kein Teil des Zertifikats"
-
-#~ msgid "This certificate has been verified for the following uses:"
-#~ msgstr "Dieses Zertifikat wurde für folgende Verwendungszwecke verifiziert:"
-
-#~ msgid "SSL Client Certificate"
-#~ msgstr "SSL-Client-Zertifikat"
-
-#~ msgid "SSL Server Certificate"
-#~ msgstr "SSL-Server-Zertifikat"
-
-#~ msgid "Email Signer Certificate"
-#~ msgstr "E-Mail-Signaturzertifikat"
-
-#~ msgid "Email Recipient Certificate"
-#~ msgstr "E-Mail-Empfangszertifikat"
-
-#~ msgid "Issued To"
-#~ msgstr "Ausgestellt für"
-
-#~ msgid "Common Name (CN)"
-#~ msgstr "Common-Name (CN)"
-
-#~ msgid "Organization (O)"
-#~ msgstr "Organisation (O)"
-
-#~ msgid "Organizational Unit (OU)"
-#~ msgstr "Organisationseinheit (OU)"
-
-#~ msgid "Validity"
-#~ msgstr "Gültigkeit"
-
-#~ msgid "Issued On"
-#~ msgstr "Ausgestellt am"
-
-#~ msgid "Expires On"
-#~ msgstr "Läuft aus"
-
-#~ msgid "Certificate Hierarchy"
-#~ msgstr "Zertifikathierarchie"
-
-#~ msgid "Certificate Fields"
-#~ msgstr "Zertifikatfelder"
-
-#~ msgid "Field Value"
-#~ msgstr "Feldname"
-
-#~ msgid "Details"
-#~ msgstr "Details"
-
-#~ msgid "Version"
-#~ msgstr "Version"
-
-#~ msgid "Version 1"
-#~ msgstr "Version 1"
-
-#~ msgid "Version 2"
-#~ msgstr "Version 2"
-
-#~ msgid "Version 3"
-#~ msgstr "Version 3"
-
-#~ msgid "PKCS #1 MD2 With RSA Encryption"
-#~ msgstr "PKCS #1 MD2 mit RSA-Verschlüsselung"
-
-#~ msgid "PKCS #1 MD5 With RSA Encryption"
-#~ msgstr "PKCS #1 MD5 mit RSA-Verschlüsselung"
-
-#~ msgid "PKCS #1 SHA-1 With RSA Encryption"
-#~ msgstr "PKCS #1 SHA-1 mit RSA-Verschlüsselung"
-
-#~ msgid "PKCS #1 SHA-256 With RSA Encryption"
-#~ msgstr "PKCS #1 SHA-256 mit RSA-Verschlüsselung"
-
-#~ msgid "PKCS #1 SHA-384 With RSA Encryption"
-#~ msgstr "PKCS #1 SHA-384 mit RSA-Verschlüsselung"
-
-#~ msgid "PKCS #1 SHA-512 With RSA Encryption"
-#~ msgstr "PKCS #1 SHA-512 mit RSA-Verschlüsselung"
-
-#~ msgid "PKCS #1 RSA Encryption"
-#~ msgstr "PKCS #1-RSA-Verschlüsselung"
-
-#~ msgid "Certificate Key Usage"
-#~ msgstr "Verwendungszweck des Zertifikatsschlüssels"
-
-#~ msgid "Netscape Certificate Type"
-#~ msgstr "Netscape-Zertifikatart"
-
-#~ msgid "Certificate Authority Key Identifier"
-#~ msgstr "Schlüsselidentifikator der Zertifizierungsstelle"
-
-#~ msgid "Object Identifier (%s)"
-#~ msgstr "Objektidentifikator (%s)"
-
-#~ msgid "Algorithm Identifier"
-#~ msgstr "Algorithmusidentifikator"
-
-#~ msgid "Algorithm Parameters"
-#~ msgstr "Algorithmus-Parameter"
-
-#~ msgid "Subject Public Key Info"
-#~ msgstr "Infos zum öffentlichen Empfängerschlüssel"
-
-#~ msgid "Subject Public Key Algorithm"
-#~ msgstr "Algorithmus des öffentlichen Empfängerschlüssels"
-
-#~ msgid "Subject's Public Key"
-#~ msgstr "Öffentlicher Schlüssel des Empfängers"
-
-#~ msgid "Error: Unable to process extension"
-#~ msgstr "Fehler: Erweiterung konnte nicht verarbeitet werden"
-
-#~ msgid "Object Signer"
-#~ msgstr "Objektunterzeichner"
-
-#~ msgid "SSL Certificate Authority"
-#~ msgstr "SSL-Zertifizierungsstelle"
-
-#~ msgid "Email Certificate Authority"
-#~ msgstr "E-Mail-Zertifizierungsstelle"
-
-#~ msgid "Signing"
-#~ msgstr "Signieren"
