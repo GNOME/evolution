@@ -23116,7 +23116,7 @@ msgid "An appointment “%s” in the calendar “%s” conflicts with this meet
 msgstr "Zakazivanje „%s“ u kalendaru „%s“ je u isto vreme kad i ovaj sastanak"
 
 #: ../src/modules/itip-formatter/itip-view.c:3707
-#, fuzzy, c-format
+#, c-format
 #| msgid "An appointment in the calendar '%s' conflicts with this meeting"
 msgid ""
 "The calendar “%s” contains an appointment which conflicts with this meeting"
