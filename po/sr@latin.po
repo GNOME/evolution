@@ -23125,7 +23125,7 @@ msgid_plural ""
 msgstr[0] "Zakazivanje u kalendaru „%s“ je u isto vreme kad i ovaj sastanak"
 msgstr[1] "%d zakazivanja u kalendaru „%s“ su u isto vreme kad i ovaj sastanak"
 msgstr[2] "%d zakazivanja u kalendaru „%s“ je u isto vreme kad i ovaj sastanak"
-msgstr[3] "%d zakazivanje u kalendaru „%s“ je u isto vreme kad i ovaj sastanak"
+msgstr[3] "Jedno zakazivanje u kalendaru „%s“ je u isto vreme kad i ovaj sastanak"
 
 #: ../src/modules/itip-formatter/itip-view.c:3740
 #, c-format
