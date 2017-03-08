@@ -131,6 +131,9 @@ e_category_editor_init (ECategoryEditor *editor)
 
 	editor->priv = E_CATEGORY_EDITOR_GET_PRIVATE (editor);
 
+	gtk_window_set_resizable (GTK_WINDOW (editor), FALSE);
+	gtk_container_set_border_width (GTK_CONTAINER (editor), 6);
+
 	chooser_dialog = gtk_file_chooser_dialog_new (
 		_("Category Icon"),
 		NULL, GTK_FILE_CHOOSER_ACTION_OPEN,
@@ -232,7 +235,7 @@ e_category_editor_init (ECategoryEditor *editor)
  * Since: 3.2
  **/
 ECategoryEditor *
-e_category_editor_new ()
+e_category_editor_new (void)
 {
 	return g_object_new (E_TYPE_CATEGORY_EDITOR, NULL);
 }
