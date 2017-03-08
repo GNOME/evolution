@@ -3558,7 +3558,7 @@ e_msg_composer_setup_with_message (EMsgComposer *composer,
 	EHTMLEditor *editor;
 	EContentEditor *cnt_editor;
 	GtkToggleAction *action;
-	gchar *identity_uid, *tmp = NULL;
+	gchar *identity_uid;
 	gint len, i;
 	guint jj, jjlen;
 	gboolean is_message_from_draft = FALSE;
@@ -3607,10 +3607,8 @@ e_msg_composer_setup_with_message (EMsgComposer *composer,
 		if (!identity_uid) {
 			source = em_utils_guess_mail_identity_with_recipients (
 				e_shell_get_registry (e_msg_composer_get_shell (composer)), message, NULL, NULL, NULL, NULL);
-			if (source) {
-				tmp = e_source_dup_uid (source);
-				identity_uid = tmp;
-			}
+			if (source)
+				identity_uid = e_source_dup_uid (source);
 		}
 	}
 
@@ -3619,8 +3617,6 @@ e_msg_composer_setup_with_message (EMsgComposer *composer,
 		source = e_composer_header_table_ref_source (
 			table, identity_uid);
 	}
-
-	g_free (tmp);
 
 	auto_cc = g_hash_table_new_full (
 		(GHashFunc) camel_strcase_hash,
