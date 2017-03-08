@@ -2,7 +2,6 @@
 <!--*- mode: xml -*-->
 <interface>
   <object class="GtkDialog" id="dialog">
-    <property name="visible">True</property>
     <property name="border_width">6</property>
     <property name="title" translatable="yes">Contact List Editor</property>
     <property name="window_position">GTK_WIN_POS_CENTER</property>

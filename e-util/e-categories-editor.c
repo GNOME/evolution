@@ -109,7 +109,18 @@ static void
 new_button_clicked_cb (GtkButton *button,
                        ECategoriesEditor *editor)
 {
-	ECategoryEditor *cat_editor = e_category_editor_new ();
+	GtkWidget *toplevel, *parent;
+	ECategoryEditor *cat_editor;
+
+	toplevel = gtk_widget_get_toplevel (GTK_WIDGET (editor));
+	if (GTK_IS_WINDOW (toplevel))
+		parent = toplevel;
+	else
+		parent = NULL;
+
+	cat_editor = g_object_new (E_TYPE_CATEGORY_EDITOR,
+		"transient-for", parent,
+		NULL);
 
 	e_category_editor_create_category (cat_editor);
 
@@ -120,8 +131,19 @@ static void
 edit_button_clicked_cb (GtkButton *button,
                         ECategoriesEditor *editor)
 {
-	ECategoryEditor *cat_editor = e_category_editor_new ();
+	GtkWidget *toplevel, *parent;
+	ECategoryEditor *cat_editor;
 	gchar *category;
+
+	toplevel = gtk_widget_get_toplevel (GTK_WIDGET (editor));
+	if (GTK_IS_WINDOW (toplevel))
+		parent = toplevel;
+	else
+		parent = NULL;
+
+	cat_editor = g_object_new (E_TYPE_CATEGORY_EDITOR,
+		"transient-for", parent,
+		NULL);
 
 	category = e_categories_selector_get_selected (
 		editor->priv->categories_list);

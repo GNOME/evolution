@@ -1219,13 +1219,20 @@ contact_editor_fudge_new (EBookClient *book_client,
                           gboolean is_new,
                           gboolean editable)
 {
+	EABEditor *editor;
 	EShell *shell = e_shell_get_default ();
+	GtkWindow *parent;
 
 	/* XXX Putting this function signature in libedataserverui
 	 *     was a terrible idea.  Now we're stuck with it. */
 
-	return e_contact_editor_new (
-		shell, book_client, contact, is_new, editable);
+	editor = e_contact_editor_new (shell, book_client, contact, is_new, editable);
+	parent = e_shell_get_active_window (shell);
+	if (parent)
+		gtk_window_set_transient_for (eab_editor_get_window (editor), parent);
+	eab_editor_show (editor);
+
+	return editor;
 }
 
 static gpointer
@@ -1234,13 +1241,20 @@ contact_list_editor_fudge_new (EBookClient *book_client,
                                gboolean is_new,
                                gboolean editable)
 {
+	EABEditor *editor;
 	EShell *shell = e_shell_get_default ();
+	GtkWindow *parent;
 
 	/* XXX Putting this function signature in libedataserverui
 	 *     was a terrible idea.  Now we're stuck with it. */
 
-	return e_contact_list_editor_new (
-		shell, book_client, contact, is_new, editable);
+	editor = e_contact_list_editor_new (shell, book_client, contact, is_new, editable);
+	parent = e_shell_get_active_window (shell);
+	if (parent)
+		gtk_window_set_transient_for (eab_editor_get_window (editor), parent);
+	eab_editor_show (editor);
+
+	return editor;
 }
 
 static void
@@ -1493,7 +1507,7 @@ contact_list_editor_constructed (GObject *object)
 		editor, "notify::editable",
 		G_CALLBACK (contact_list_editor_notify_cb), NULL);
 
-	gtk_widget_show_all (WIDGET (DIALOG));
+	gtk_widget_show_all (gtk_dialog_get_content_area (GTK_DIALOG (WIDGET (DIALOG))));
 
 	setup_custom_widgets (editor);
 

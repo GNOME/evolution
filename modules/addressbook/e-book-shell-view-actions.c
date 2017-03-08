@@ -402,6 +402,7 @@ map_window_show_contact_editor_cb (EContactMapWindow *window,
 
 	editor = e_contact_editor_new (
 		shell, E_BOOK_CLIENT (client), contact, FALSE, TRUE);
+	gtk_window_set_transient_for (eab_editor_get_window (editor), GTK_WINDOW (window));
 
 	g_signal_connect (
 		editor, "contact-modified",
@@ -706,6 +707,7 @@ action_contact_new_cb (GtkAction *action,
 
 	contact = e_contact_new ();
 	editor = e_contact_editor_new (shell, book, contact, TRUE, TRUE);
+	gtk_window_set_transient_for (eab_editor_get_window (editor), GTK_WINDOW (shell_window));
 	eab_editor_show (editor);
 	g_object_unref (contact);
 }
@@ -738,6 +740,7 @@ action_contact_new_list_cb (GtkAction *action,
 
 	contact = e_contact_new ();
 	editor = e_contact_list_editor_new (shell, book, contact, TRUE, TRUE);
+	gtk_window_set_transient_for (eab_editor_get_window (editor), GTK_WINDOW (shell_window));
 	eab_editor_show (editor);
 	g_object_unref (contact);
 }
