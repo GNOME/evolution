@@ -5106,9 +5106,6 @@ e_contact_editor_init (EContactEditor *e_contact_editor)
 	gtk_window_set_icon_name (
 		GTK_WINDOW (e_contact_editor->priv->app), "contact-editor");
 
-	/* show window */
-	gtk_widget_show (e_contact_editor->priv->app);
-
 	gtk_application_add_window (
 		GTK_APPLICATION (shell),
 		GTK_WINDOW (e_contact_editor->priv->app));

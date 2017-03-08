@@ -1406,6 +1406,7 @@ e_date_edit_show_date_popup (EDateEdit *dedit,
 	GdkDevice *pointer_device;
 	GdkWindow *window;
 	GdkGrabStatus grab_status;
+	GtkWidget *toplevel;
 	struct tm mtm;
 	const gchar *date_text;
 	GDate selected_day;
@@ -1435,6 +1436,12 @@ e_date_edit_show_date_popup (EDateEdit *dedit,
 	/* FIXME: Hack. Change ECalendarItem so it doesn't queue signal
 	 * emissions. */
 	e_calendar_get_item (calendar)->selection_changed = FALSE;
+
+	toplevel = gtk_widget_get_toplevel (GTK_WIDGET (dedit));
+	if (!GTK_IS_WINDOW (toplevel))
+		toplevel = NULL;
+
+	gtk_window_set_transient_for (GTK_WINDOW (priv->cal_popup), toplevel ? GTK_WINDOW (toplevel) : NULL);
 
 	position_date_popup (dedit);
 	gtk_widget_show (priv->cal_popup);

@@ -89,7 +89,7 @@ book_shell_backend_new_contact_cb (GObject *source_object,
                                    GAsyncResult *result,
                                    gpointer user_data)
 {
-	EShell *shell = user_data;
+	EShellWindow *shell_window = user_data;
 	EClient *client;
 	EContact *contact;
 	EABEditor *editor;
@@ -113,7 +113,8 @@ book_shell_backend_new_contact_cb (GObject *source_object,
 	contact = e_contact_new ();
 
 	editor = e_contact_editor_new (
-		shell, E_BOOK_CLIENT (client), contact, TRUE, TRUE);
+		e_shell_window_get_shell (shell_window), E_BOOK_CLIENT (client), contact, TRUE, TRUE);
+	gtk_window_set_transient_for (eab_editor_get_window (editor), GTK_WINDOW (shell_window));
 
 	eab_editor_show (editor);
 
@@ -121,7 +122,7 @@ book_shell_backend_new_contact_cb (GObject *source_object,
 	g_object_unref (client);
 
 exit:
-	g_object_unref (shell);
+	g_object_unref (shell_window);
 }
 
 static void
@@ -129,7 +130,7 @@ book_shell_backend_new_contact_list_cb (GObject *source_object,
                                         GAsyncResult *result,
                                         gpointer user_data)
 {
-	EShell *shell = user_data;
+	EShellWindow *shell_window = user_data;
 	EClient *client;
 	EContact *contact;
 	EABEditor *editor;
@@ -153,7 +154,8 @@ book_shell_backend_new_contact_list_cb (GObject *source_object,
 	contact = e_contact_new ();
 
 	editor = e_contact_list_editor_new (
-		shell, E_BOOK_CLIENT (client), contact, TRUE, TRUE);
+		e_shell_window_get_shell (shell_window), E_BOOK_CLIENT (client), contact, TRUE, TRUE);
+	gtk_window_set_transient_for (eab_editor_get_window (editor), GTK_WINDOW (shell_window));
 
 	eab_editor_show (editor);
 
@@ -161,7 +163,7 @@ book_shell_backend_new_contact_list_cb (GObject *source_object,
 	g_object_unref (client);
 
 exit:
-	g_object_unref (shell);
+	g_object_unref (shell_window);
 }
 
 static void
@@ -218,14 +220,14 @@ action_contact_new_cb (GtkAction *action,
 			E_SOURCE_EXTENSION_ADDRESS_BOOK, 30,
 			NULL,
 			book_shell_backend_new_contact_cb,
-			g_object_ref (shell));
+			g_object_ref (shell_window));
 	if (strcmp (action_name, "contact-new-list") == 0)
 		e_client_cache_get_client (
 			client_cache, source,
 			E_SOURCE_EXTENSION_ADDRESS_BOOK, 30,
 			NULL,
 			book_shell_backend_new_contact_list_cb,
-			g_object_ref (shell));
+			g_object_ref (shell_window));
 
 	g_object_unref (source);
 }
