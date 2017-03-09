@@ -103,24 +103,14 @@ enum {
 	LAST_SIGNAL
 };
 
-enum DndTargetType {
-	DND_TARGET_TYPE_TEXT_URI_LIST,
-	DND_TARGET_TYPE_MOZILLA_URL,
-	DND_TARGET_TYPE_TEXT_HTML,
-	DND_TARGET_TYPE_UTF8_STRING,
-	DND_TARGET_TYPE_TEXT_PLAIN,
-	DND_TARGET_TYPE_STRING,
-	DND_TARGET_TYPE_TEXT_PLAIN_UTF8
-};
-
 static GtkTargetEntry drag_dest_targets[] = {
-	{ (gchar *) "text/uri-list", 0, DND_TARGET_TYPE_TEXT_URI_LIST },
-	{ (gchar *) "_NETSCAPE_URL", 0, DND_TARGET_TYPE_MOZILLA_URL },
-	{ (gchar *) "text/html", 0, DND_TARGET_TYPE_TEXT_HTML },
-	{ (gchar *) "UTF8_STRING", 0, DND_TARGET_TYPE_UTF8_STRING },
-	{ (gchar *) "text/plain", 0, DND_TARGET_TYPE_TEXT_PLAIN },
-	{ (gchar *) "STRING", 0, DND_TARGET_TYPE_STRING },
-	{ (gchar *) "text/plain;charset=utf-8", 0, DND_TARGET_TYPE_TEXT_PLAIN_UTF8 },
+	{ (gchar *) "text/uri-list", 0, E_DND_TARGET_TYPE_TEXT_URI_LIST },
+	{ (gchar *) "_NETSCAPE_URL", 0, E_DND_TARGET_TYPE_MOZILLA_URL },
+	{ (gchar *) "text/html", 0, E_DND_TARGET_TYPE_TEXT_HTML },
+	{ (gchar *) "UTF8_STRING", 0, E_DND_TARGET_TYPE_UTF8_STRING },
+	{ (gchar *) "text/plain", 0, E_DND_TARGET_TYPE_TEXT_PLAIN },
+	{ (gchar *) "STRING", 0, E_DND_TARGET_TYPE_STRING },
+	{ (gchar *) "text/plain;charset=utf-8", 0, E_DND_TARGET_TYPE_TEXT_PLAIN_UTF8 },
 };
 
 static guint signals[LAST_SIGNAL];
@@ -1783,135 +1773,6 @@ msg_composer_paste_clipboard_cb (EContentEditor *cnt_editor,
 
 	return TRUE;
 }
-#if 0 /* FIXME WK2 */
-static gboolean
-msg_composer_drag_motion_cb (GtkWidget *widget,
-                             GdkDragContext *context,
-                             gint x,
-                             gint y,
-                             guint time,
-                             EMsgComposer *composer)
-{
-	GtkWidget *source_widget;
-	EHTMLEditor *editor = e_msg_composer_get_editor (composer);
-	EHTMLEditorView *editor_view = e_html_editor_get_view (editor);
-
-	source_widget = gtk_drag_get_source_widget (context);
-	/* When we are doind DnD just inside the web view, the DnD is supposed
-	 * to move things around. */
-	if (E_IS_HTML_EDITOR_VIEW (source_widget)) {
-		if ((gpointer) editor_view == (gpointer) source_widget) {
-			gdk_drag_status (context, GDK_ACTION_MOVE, time);
-
-			return FALSE;
-		}
-	}
-
-	gdk_drag_status (context, GDK_ACTION_COPY, time);
-
-	return FALSE;
-}
-
-static gboolean
-msg_composer_drag_drop_cb (GtkWidget *widget,
-                           GdkDragContext *context,
-                           gint x,
-                           gint y,
-                           guint time,
-                           EMsgComposer *composer)
-{
-	GdkAtom target;
-	GtkWidget *source_widget;
-
-	/* When we are doing DnD just inside the web view, the DnD is supposed
-	 * to move things around. */
-	source_widget = gtk_drag_get_source_widget (context);
-	if (E_IS_HTML_EDITOR_VIEW (source_widget)) {
-		EHTMLEditor *editor = e_msg_composer_get_editor (composer);
-		EHTMLEditorView *editor_view = e_html_editor_get_view (editor);
-
-		if ((gpointer) editor_view == (gpointer) source_widget) {
-			GDBusProxy *web_extension;
-
-			web_extension = e_html_editor_view_get_web_extension_proxy (editor_view);
-			if (web_extension) {
-				e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (
-					web_extension,
-					"DOMSaveDragAndDropHistory",
-					g_variant_new (
-						"(t)",
-						webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (editor_view))),
-					NULL);
-			}
-			return FALSE;
-		}
-	}
-
-	target = gtk_drag_dest_find_target (widget, context, NULL);
-	if (target == GDK_NONE)
-		gdk_drag_status (context, 0, time);
-	else {
-		/* Prevent WebKit from pasting the URI of file into the view. Also
-		 * prevent it from inserting the text/plain or text/html content as we
-		 * want to insert it ourselves. */
-		if (composer->priv->dnd_is_uri || !E_IS_HTML_EDITOR_VIEW (source_widget))
-			g_signal_stop_emission_by_name (widget, "drag-drop");
-
-		composer->priv->dnd_is_uri = FALSE;
-
-		if (E_IS_HTML_EDITOR_VIEW (source_widget))
-			gdk_drag_status (context, GDK_ACTION_MOVE, time);
-		else
-			gdk_drag_status (context, GDK_ACTION_COPY, time);
-
-		composer->priv->drop_occured = TRUE;
-		gtk_drag_get_data (widget, context, target, time);
-
-		return TRUE;
-	}
-
-	return FALSE;
-}
-
-static void
-msg_composer_drag_data_received_after_cb (GtkWidget *widget,
-                                          GdkDragContext *context,
-                                          gint x,
-                                          gint y,
-                                          GtkSelectionData *selection,
-                                          guint info,
-                                          guint time,
-                                          EMsgComposer *composer)
-{
-	EHTMLEditor *editor;
-	EHTMLEditorView *view;
-	GDBusProxy *web_extension;
-
-	if (!composer->priv->drop_occured)
-		goto out;
-
-	/* Save just history for events handled by WebKit. */
-	if (composer->priv->dnd_history_saved)
-		goto out;
-
-	editor = e_msg_composer_get_editor (composer);
-	view = e_html_editor_get_view (editor);
-	web_extension = e_html_editor_view_get_web_extension_proxy (view);
-	if (!web_extension)
-		goto out;
-
-	e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (
-		web_extension,
-		"DOMCleanAfterDragAndDrop",
-		g_variant_new (
-			"(t)",
-			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view))),
-		NULL);
-
- out:
-	composer->priv->drop_occured = FALSE;
-	composer->priv->dnd_history_saved = FALSE;
-}
 
 static gchar *
 next_uri (guchar **uri_list,
@@ -1950,90 +1811,16 @@ msg_composer_drag_data_received_cb (GtkWidget *widget,
 {
 	EHTMLEditor *editor;
 	EContentEditor *cnt_editor;
-	gboolean html_mode, same_widget = FALSE;
-	GtkWidget *source_widget;
+	gboolean html_mode, is_move;
 
 	editor = e_msg_composer_get_editor (composer);
 	cnt_editor = e_html_editor_get_content_editor (editor);
 	html_mode = e_content_editor_get_html_mode (cnt_editor);
 
-	composer->priv->dnd_history_saved = TRUE;
+	g_signal_handler_disconnect (cnt_editor, composer->priv->drag_data_received_handler_id);
+	composer->priv->drag_data_received_handler_id = 0;
 
-	/* When we are doing DnD just inside the web view, the DnD is supposed
-	 * to move things around. */
-	source_widget = gtk_drag_get_source_widget (context);
-	if (E_IS_CONTENT_EDITOR (source_widget) &&
-	    ((gpointer) cnt_editor == (gpointer) source_widget))
-		same_widget = TRUE;
-
-	/* Leave DnD inside the view on WebKit. */
-	if (composer->priv->drop_occured && same_widget) {
-		gdk_drag_status (context, 0, time);
-		return;
-	}
-
-	if (!composer->priv->drop_occured) {
-		if (!same_widget) {
-			/* Check if we are DnD'ing some URI, if so WebKit will
-			 * insert the URI into the view and we have to prevent it
-			 * from doing that. */
-			if (info == DND_TARGET_TYPE_TEXT_URI_LIST) {
-				gchar **uris;
-
-				uris = gtk_selection_data_get_uris (selection);
-				/* I don't know what regressed outside of Evo, but
-				 * this is called twice. Firstly with uris set
-				 * following by one with uris not set. */
-				if (!composer->priv->dnd_is_uri)
-					composer->priv->dnd_is_uri = uris != NULL;
-				g_strfreev (uris);
-			}
-		}
-		return;
-	}
-
-	composer->priv->dnd_is_uri = FALSE;
-
-	/* Leave the text on WebKit to handle it. */
-	if (info == DND_TARGET_TYPE_UTF8_STRING ||
-	    info == DND_TARGET_TYPE_STRING ||
-	    info == DND_TARGET_TYPE_TEXT_PLAIN ||
-	    info == DND_TARGET_TYPE_TEXT_PLAIN_UTF8) {
-		composer->priv->dnd_history_saved = FALSE;
-		gdk_drag_status (context, 0, time);
-		return;
-	}
-
-	if (info == DND_TARGET_TYPE_TEXT_HTML) {
-		const guchar *data;
-		gint length;
-		gint list_len, len;
-		gchar *text;
-
-		data = gtk_selection_data_get_data (selection);
-		length = gtk_selection_data_get_length (selection);
-
-		if (!data || length < 0) {
-			gtk_drag_finish (context, FALSE, FALSE, time);
-			return;
-		}
-
-		e_content_editor_move_caret_on_coordinates (cnt_editor, x, y, FALSE);
-
-		list_len = length;
-		do {
-			text = next_uri ((guchar **) &data, &len, &list_len);
-			e_content_editor_insert_content (
-				cnt_editor,
-				text,
-				E_CONTENT_EDITOR_INSERT_TEXT_HTML);
-			g_free (text);
-		} while (list_len);
-
-		gtk_drag_finish (context, TRUE, FALSE, time);
-
-		return;
-	}
+	is_move = gdk_drag_context_get_selected_action (context) == GDK_ACTION_MOVE;
 
 	/* HTML mode has a few special cases for drops... */
 	/* If we're receiving URIs and -all- the URIs point to
@@ -2064,7 +1851,7 @@ msg_composer_drag_data_received_cb (GtkWidget *widget,
 			g_free (uri);
 		} while (list_len);
 
-		gtk_drag_finish (context, TRUE, FALSE, time);
+		gtk_drag_finish (context, TRUE, is_move, time);
 	} else {
 		EAttachmentView *attachment_view =
 			e_msg_composer_get_attachment_view (composer);
@@ -2077,7 +1864,43 @@ msg_composer_drag_data_received_cb (GtkWidget *widget,
 			context, x, y, selection, info, time);
 	}
 }
-#endif
+
+static gboolean
+msg_composer_drag_drop_cb (GtkWidget *widget,
+                           GdkDragContext *context,
+                           gint x,
+                           gint y,
+                           guint time,
+                           EMsgComposer *composer)
+{
+	GdkAtom target = gtk_drag_dest_find_target (widget, context, NULL);
+
+	if (target == GDK_NONE) {
+		gdk_drag_status (context, 0, time);
+	} else {
+		composer->priv->drag_data_received_handler_id = g_signal_connect (
+			E_CONTENT_EDITOR (widget), "drag-data-received",
+			G_CALLBACK (msg_composer_drag_data_received_cb), composer);
+
+		gtk_drag_get_data (widget, context, target, time);
+
+		return TRUE;
+	}
+
+	return FALSE;
+}
+
+static void
+msg_composer_drag_begin_cb (GtkWidget *widget,
+                            GdkDragContext *context,
+                            EMsgComposer *composer)
+{
+	if (composer->priv->drag_data_received_handler_id != 0) {
+		g_signal_handler_disconnect (E_CONTENT_EDITOR( widget), composer->priv->drag_data_received_handler_id);
+		composer->priv->drag_data_received_handler_id = 0;
+	}
+}
+
 static void
 msg_composer_notify_header_cb (EMsgComposer *composer)
 {
@@ -2466,28 +2289,14 @@ msg_composer_constructed (GObject *object)
 		G_CALLBACK (msg_composer_paste_primary_clipboard_cb), composer);
 
 	/* Drag-and-Drop Support */
-#if 0 /* FIXME WK2 */
-	EHTMLEditorView *view;
-
-	view = e_html_editor_get_view (editor);
-
 	g_signal_connect (
-		view, "drag-motion",
-		G_CALLBACK (msg_composer_drag_motion_cb), composer);
-
-	 g_signal_connect (
-		view, "drag-drop",
+		cnt_editor, "drag-drop",
 		G_CALLBACK (msg_composer_drag_drop_cb), composer);
 
 	g_signal_connect (
-		view, "drag-data-received",
-		G_CALLBACK (msg_composer_drag_data_received_cb), composer);
+		cnt_editor, "drag-begin",
+		G_CALLBACK (msg_composer_drag_begin_cb), composer);
 
-	/* Used for fixing various stuff after WebKit processed the DnD data. */
-	g_signal_connect_after (
-		view, "drag-data-received",
-		G_CALLBACK (msg_composer_drag_data_received_after_cb), composer);
-#endif
 	g_signal_connect (
 		composer->priv->gallery_icon_view, "drag-data-get",
 		G_CALLBACK (msg_composer_gallery_drag_data_get), NULL);

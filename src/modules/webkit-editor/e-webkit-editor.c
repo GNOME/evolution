@@ -132,6 +132,9 @@ struct _EWebKitEditorPrivate {
 	gulong found_text_handler_id;
 	gulong failed_to_find_text_handler_id;
 
+	gboolean performing_drag;
+	gulong drag_data_received_handler_id;
+
 	gchar *last_hover_uri;
 };
 
@@ -5770,10 +5773,129 @@ webkit_editor_context_menu_cb (EWebKitEditor *wk_editor,
 }
 
 static void
+webkit_editor_drag_begin_cb (EWebKitEditor *wk_editor,
+                             GdkDragContext *context)
+{
+	wk_editor->priv->performing_drag = TRUE;
+}
+
+static void
+webkit_editor_drag_failed_cb (EWebKitEditor *wk_editor,
+                              GdkDragContext *context,
+                              GtkDragResult result)
+{
+	wk_editor->priv->performing_drag = FALSE;
+}
+
+static void
 webkit_editor_drag_end_cb (EWebKitEditor *wk_editor,
                            GdkDragContext *context)
 {
-	webkit_editor_call_simple_extension_function (wk_editor, "DOMDragAndDropEnd");
+	wk_editor->priv->performing_drag = FALSE;
+}
+
+static gchar *
+next_uri (guchar **uri_list,
+          gint *len,
+          gint *list_len)
+{
+	guchar *uri, *begin;
+
+	begin = *uri_list;
+	*len = 0;
+	while (**uri_list && **uri_list != '\n' && **uri_list != '\r' && *list_len) {
+		(*uri_list) ++;
+		(*len) ++;
+		(*list_len) --;
+	}
+
+	uri = (guchar *) g_strndup ((gchar *) begin, *len);
+
+	while ((!**uri_list || **uri_list == '\n' || **uri_list == '\r') && *list_len) {
+		(*uri_list) ++;
+		(*list_len) --;
+	}
+
+	return (gchar *) uri;
+}
+
+static void
+webkit_editor_drag_data_received_cb (GtkWidget *widget,
+                                     GdkDragContext *context,
+                                     gint x,
+                                     gint y,
+                                     GtkSelectionData *selection,
+                                     guint info,
+                                     guint time)
+{
+	EWebKitEditor *wk_editor = E_WEBKIT_EDITOR (widget);
+	gboolean is_move = FALSE;
+
+	g_signal_handler_disconnect (wk_editor, wk_editor->priv->drag_data_received_handler_id);
+	wk_editor->priv->drag_data_received_handler_id = 0;
+
+	is_move = gdk_drag_context_get_selected_action(context) == GDK_ACTION_MOVE;
+
+	/* Leave DnD inside the view on WebKit */
+	/* Leave the text on WebKit to handle it. */
+	if (wk_editor->priv->performing_drag ||
+	    info == E_DND_TARGET_TYPE_UTF8_STRING || info == E_DND_TARGET_TYPE_STRING ||
+	    info == E_DND_TARGET_TYPE_TEXT_PLAIN || info == E_DND_TARGET_TYPE_TEXT_PLAIN_UTF8) {
+		gdk_drag_status (context, gdk_drag_context_get_selected_action(context), time);
+		GTK_WIDGET_CLASS (e_webkit_editor_parent_class)->drag_drop (widget, context, x, y, time);
+		g_signal_stop_emission_by_name (widget, "drag-data-received");
+		if (!is_move)
+			webkit_editor_call_simple_extension_function (wk_editor, "DOMLastDropOperationDidCopy");
+		return;
+	}
+
+	if (info == E_DND_TARGET_TYPE_TEXT_HTML) {
+		const guchar *data;
+		gint length;
+		gint list_len, len;
+		gchar *text;
+
+		data = gtk_selection_data_get_data (selection);
+		length = gtk_selection_data_get_length (selection);
+
+		if (!data || length < 0) {
+			gtk_drag_finish (context, FALSE, is_move, time);
+			g_signal_stop_emission_by_name (widget, "drag-data-received");
+			return;
+		}
+
+		webkit_editor_move_caret_on_coordinates (E_CONTENT_EDITOR (widget), x, y, FALSE);
+
+		list_len = length;
+		do {
+			text = next_uri ((guchar **) &data, &len, &list_len);
+			webkit_editor_insert_content (
+				E_CONTENT_EDITOR (wk_editor),
+				text,
+				E_CONTENT_EDITOR_INSERT_TEXT_HTML);
+			g_free (text);
+		} while (list_len);
+
+		gtk_drag_finish (context, TRUE, is_move, time);
+		g_signal_stop_emission_by_name (widget, "drag-data-received");
+		return;
+	}
+}
+
+static gboolean
+webkit_editor_drag_drop_cb (EWebKitEditor *wk_editor,
+                            GdkDragContext *context,
+                            gint x,
+                            gint y,
+                            guint time)
+{
+	wk_editor->priv->drag_data_received_handler_id = g_signal_connect (
+		wk_editor, "drag-data-received",
+		G_CALLBACK (webkit_editor_drag_data_received_cb), NULL);
+
+	webkit_editor_set_changed (wk_editor, TRUE);
+
+	return FALSE;
 }
 
 static void
@@ -6077,8 +6199,20 @@ e_webkit_editor_init (EWebKitEditor *wk_editor)
 		G_CALLBACK (webkit_editor_mouse_target_changed_cb), NULL);
 
 	g_signal_connect (
+		wk_editor, "drag-begin",
+		G_CALLBACK (webkit_editor_drag_begin_cb), NULL);
+
+	g_signal_connect (
+		wk_editor, "drag-failed",
+		G_CALLBACK (webkit_editor_drag_failed_cb), NULL);
+
+	g_signal_connect (
 		wk_editor, "drag-end",
 		G_CALLBACK (webkit_editor_drag_end_cb), NULL);
+
+	g_signal_connect (
+		wk_editor, "drag-drop",
+		G_CALLBACK (webkit_editor_drag_drop_cb), NULL);
 
 	g_signal_connect (
 		wk_editor, "web-process-crashed",

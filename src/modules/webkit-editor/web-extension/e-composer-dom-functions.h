@@ -38,10 +38,6 @@ gchar *		e_composer_dom_get_raw_body_content_without_signature
 						(EEditorPage *editor_page);
 gchar *		e_composer_dom_get_raw_body_content
 						(EEditorPage *editor_page);
-void		e_composer_dom_save_drag_and_drop_history
-						(EEditorPage *editor_page);
-void		e_composer_dom_clean_after_drag_and_drop
-						(EEditorPage *editor_page);
 
 G_END_DECLS
 

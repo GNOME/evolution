@@ -478,9 +478,6 @@ static const gchar *introspection_xml =
 "      <arg type='s' name='selector' direction='in'/>"
 "      <arg type='s' name='uri' direction='in'/>"
 "    </method>"
-"    <method name='DOMDragAndDropEnd'>"
-"      <arg type='t' name='page_id' direction='in'/>"
-"    </method>"
 "    <method name='DOMMoveSelectionOnPoint'>"
 "      <arg type='t' name='page_id' direction='in'/>"
 "      <arg type='i' name='x' direction='in'/>"
@@ -490,6 +487,9 @@ static const gchar *introspection_xml =
 "    <method name='DOMInsertSmiley'>"
 "      <arg type='t' name='page_id' direction='in'/>"
 "      <arg type='s' name='smiley_name' direction='in'/>"
+"    </method>"
+"    <method name='DOMLastDropOperationDidCopy'>"
+"      <arg type='t' name='page_id' direction='in'/>"
 "    </method>"
 "<!-- ********************************************************* -->"
 "<!--     Functions that are used in EEditorSelection       -->"
@@ -578,12 +578,6 @@ static const gchar *introspection_xml =
 "      <arg type='b' name='out_set_signature_from_message' direction='out'/>"
 "      <arg type='b' name='out_check_if_signature_is_changed' direction='out'/>"
 "      <arg type='b' name='out_ignore_next_signature_change' direction='out'/>"
-"    </method>"
-"    <method name='DOMSaveDragAndDropHistory'>"
-"      <arg type='t' name='page_id' direction='in'/>"
-"    </method>"
-"    <method name='DOMCleanAfterDragAndDrop'>"
-"      <arg type='t' name='page_id' direction='in'/>"
 "    </method>"
 "    <method name='DOMGetActiveSignatureUid'>"
 "      <arg type='t' name='page_id' direction='in'/>"
@@ -1857,15 +1851,6 @@ handle_method_call (GDBusConnection *connection,
 		e_editor_dom_replace_image_src (editor_page, selector, uri);
 
 		g_dbus_method_invocation_return_value (invocation, NULL);
-	} else if (g_strcmp0 (method_name, "DOMDragAndDropEnd") == 0) {
-		g_variant_get (parameters, "(t)", &page_id);
-
-		editor_page = get_editor_page_or_return_dbus_error (invocation, extension, page_id);
-		if (!editor_page)
-			goto error;
-
-		e_editor_dom_drag_and_drop_end (editor_page);
-		g_dbus_method_invocation_return_value (invocation, NULL);
 	} else if (g_strcmp0 (method_name, "DOMInsertSmiley") == 0) {
 		const gchar *smiley_name;
 
@@ -2153,28 +2138,6 @@ handle_method_call (GDBusConnection *connection,
 				ignore_next_signature_change));
 
 		g_free (new_signature_id);
-	} else if (g_strcmp0 (method_name, "DOMSaveDragAndDropHistory") == 0) {
-		g_variant_get (
-			parameters, "(t)", &page_id);
-
-		editor_page = get_editor_page_or_return_dbus_error (invocation, extension, page_id);
-		if (!editor_page)
-			goto error;
-
-		e_composer_dom_save_drag_and_drop_history (editor_page);
-
-		g_dbus_method_invocation_return_value (invocation, NULL);
-	} else if (g_strcmp0 (method_name, "DOMCleanAfterDragAndDrop") == 0) {
-		g_variant_get (
-			parameters, "(t)", &page_id);
-
-		editor_page = get_editor_page_or_return_dbus_error (invocation, extension, page_id);
-		if (!editor_page)
-			goto error;
-
-		e_composer_dom_clean_after_drag_and_drop (editor_page);
-
-		g_dbus_method_invocation_return_value (invocation, NULL);
 	} else if (g_strcmp0 (method_name, "DOMGetActiveSignatureUid") == 0) {
 		gchar *value;
 
@@ -2192,6 +2155,20 @@ handle_method_call (GDBusConnection *connection,
 				"(@s)",
 				g_variant_new_take_string (
 					value ? value : g_strdup (""))));
+	} else if (g_strcmp0 (method_name, "DOMLastDropOperationDidCopy") == 0) {
+		EEditorUndoRedoManager *manager;
+
+		g_variant_get (parameters, "(t)", &page_id);
+
+		editor_page = get_editor_page_or_return_dbus_error (invocation, extension, page_id);
+		if (!editor_page)
+			goto error;
+
+		manager = e_editor_page_get_undo_redo_manager (editor_page);
+		if (manager)
+			e_editor_undo_redo_manager_last_drop_operation_did_copy (manager);
+
+		g_dbus_method_invocation_return_value (invocation, NULL);
 	} else if (g_strcmp0 (method_name, "DOMGetCaretPosition") == 0) {
 		guint32 value;
 

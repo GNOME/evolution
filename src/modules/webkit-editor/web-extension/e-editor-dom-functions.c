@@ -5749,6 +5749,94 @@ body_compositionend_event_cb (WebKitDOMElement *element,
 }
 
 static void
+body_drop_event_cb (WebKitDOMElement *element,
+                    WebKitDOMUIEvent *event,
+                    EEditorPage *editor_page)
+{
+	g_return_if_fail (E_IS_EDITOR_PAGE (editor_page));
+
+	if (e_editor_page_is_pasting_content_from_itself (editor_page)) {
+		EEditorUndoRedoManager *manager;
+		EEditorHistoryEvent *and_event, *event;
+
+		/* There is a weird thing going on and I still don't know if it's
+		 * caused by WebKit or Evolution. If dragging content around the
+		 * editor sometimes the current selection is changed. The problem
+		 * is that if moving the content, then WebKit is removing the
+		 * currently selected content and at that point it could be a
+		 * different one from the dragged one. So before the drop is
+		 * performed we restore the selection to the state when the
+		 * drag was initiated. */
+		manager = e_editor_page_get_undo_redo_manager (editor_page);
+		and_event = e_editor_undo_redo_manager_get_current_history_event (manager);
+		while (and_event && and_event->type == HISTORY_AND) {
+			event = e_editor_undo_redo_manager_get_next_history_event_for (manager, and_event);
+			and_event = e_editor_undo_redo_manager_get_next_history_event_for (manager, event);
+		}
+
+		if (event)
+			e_editor_dom_selection_restore_to_history_event_state (editor_page, event->before);
+
+		e_editor_dom_save_history_for_drop (editor_page);
+	}
+}
+
+static void
+body_dragstart_event_cb (WebKitDOMElement *element,
+                         WebKitDOMUIEvent *event,
+                         EEditorPage *editor_page)
+{
+	g_return_if_fail (E_IS_EDITOR_PAGE (editor_page));
+
+	e_editor_dom_remove_input_event_listener_from_body (editor_page);
+	e_editor_page_set_pasting_content_from_itself (editor_page, TRUE);
+	e_editor_dom_save_history_for_drag (editor_page);
+}
+
+static void
+body_dragend_event_cb (WebKitDOMElement *element,
+                       WebKitDOMUIEvent *event,
+                       EEditorPage *editor_page)
+{
+	EEditorHistoryEvent *ev;
+	EEditorUndoRedoManager *manager;
+
+	g_return_if_fail (E_IS_EDITOR_PAGE (editor_page));
+
+	manager = e_editor_page_get_undo_redo_manager (editor_page);
+	if (e_editor_page_is_pasting_content_from_itself (editor_page) &&
+	   (ev = e_editor_undo_redo_manager_get_current_history_event (manager))) {
+		if (ev->type == HISTORY_INSERT_HTML &&
+		    ev->after.start.x == 0 && ev->after.start.y == 0 &&
+		    ev->after.end.x == 0 && ev->after.end.y == 0) {
+			e_editor_dom_selection_get_coordinates (editor_page,
+				&ev->after.start.x,
+				&ev->after.start.y,
+				&ev->after.end.x,
+				&ev->after.end.y);
+			ev->before.start.x = ev->after.start.x;
+			ev->before.start.y = ev->after.start.y;
+			ev->before.end.x = ev->after.start.x;
+			ev->before.end.y = ev->after.start.y;
+			e_editor_dom_force_spell_check_in_viewport (editor_page);
+		} else {
+			/* Drag and Drop was cancelled */
+			while (ev && ev->type == HISTORY_AND) {
+				e_editor_undo_redo_manager_remove_current_history_event (manager);
+				ev = e_editor_undo_redo_manager_get_current_history_event (manager);
+				/* Basically the same as in body_drop_event_cb().  See the comment there. */
+				e_editor_dom_selection_restore_to_history_event_state (editor_page, ev->before);
+				e_editor_undo_redo_manager_remove_current_history_event (manager);
+				ev = e_editor_undo_redo_manager_get_current_history_event (manager);
+			}
+		}
+	}
+
+	e_editor_page_set_pasting_content_from_itself (editor_page, FALSE);
+	e_editor_dom_register_input_event_listener_on_body (editor_page);
+}
+
+static void
 register_html_events_handlers (EEditorPage *editor_page,
                                WebKitDOMHTMLElement *body)
 {
@@ -5786,6 +5874,27 @@ register_html_events_handlers (EEditorPage *editor_page,
 		WEBKIT_DOM_EVENT_TARGET (body),
 		"compositionend",
 		G_CALLBACK (body_compositionend_event_cb),
+		FALSE,
+		editor_page);
+
+	webkit_dom_event_target_add_event_listener (
+		WEBKIT_DOM_EVENT_TARGET (body),
+		"drop",
+		G_CALLBACK (body_drop_event_cb),
+		FALSE,
+		editor_page);
+
+	webkit_dom_event_target_add_event_listener (
+		WEBKIT_DOM_EVENT_TARGET (body),
+		"dragstart",
+		G_CALLBACK (body_dragstart_event_cb),
+		FALSE,
+		editor_page);
+
+	webkit_dom_event_target_add_event_listener (
+		WEBKIT_DOM_EVENT_TARGET (body),
+		"dragend",
+		G_CALLBACK (body_dragend_event_cb),
 		FALSE,
 		editor_page);
 }
@@ -10838,6 +10947,240 @@ e_editor_dom_get_caret_position (EEditorPage *editor_page)
 	return ret_val;
 }
 
+static void
+insert_nbsp_history_event (WebKitDOMDocument *document,
+                           EEditorUndoRedoManager *manager,
+                           gboolean delete,
+                           guint x,
+                           guint y)
+{
+	EEditorHistoryEvent *event;
+	WebKitDOMDocumentFragment *fragment;
+
+	event = g_new0 (EEditorHistoryEvent, 1);
+	event->type = HISTORY_AND;
+	e_editor_undo_redo_manager_insert_history_event (manager, event);
+
+	fragment = webkit_dom_document_create_document_fragment (document);
+	webkit_dom_node_append_child (
+		WEBKIT_DOM_NODE (fragment),
+		WEBKIT_DOM_NODE (
+			webkit_dom_document_create_text_node (document, UNICODE_NBSP)),
+		NULL);
+
+	event = g_new0 (EEditorHistoryEvent, 1);
+	event->type = HISTORY_DELETE;
+
+	if (delete)
+		g_object_set_data (G_OBJECT (fragment), "history-delete-key", GINT_TO_POINTER (1));
+
+	event->data.fragment = fragment;
+
+	event->before.start.x = x;
+	event->before.start.y = y;
+	event->before.end.x = x;
+	event->before.end.y = y;
+
+	event->after.start.x = x;
+	event->after.start.y = y;
+	event->after.end.x = x;
+	event->after.end.y = y;
+
+	e_editor_undo_redo_manager_insert_history_event (manager, event);
+}
+void
+e_editor_dom_save_history_for_drag (EEditorPage *editor_page)
+{
+	WebKitDOMDocument *document;
+	WebKitDOMDocumentFragment *fragment;
+	WebKitDOMDOMSelection *dom_selection = NULL;
+	WebKitDOMDOMWindow *dom_window = NULL;
+	WebKitDOMRange *beginning_of_line = NULL;
+	WebKitDOMRange *range = NULL, *range_clone = NULL;
+	EEditorHistoryEvent *event;
+	EEditorUndoRedoManager *manager;
+	gboolean start_to_start = FALSE, end_to_end = FALSE;
+	gchar *range_text;
+	guint x, y;
+
+	g_return_if_fail (E_IS_EDITOR_PAGE (editor_page));
+
+	document = e_editor_page_get_document (editor_page);
+	manager = e_editor_page_get_undo_redo_manager (editor_page);
+
+	if (!(dom_window = webkit_dom_document_get_default_view (document)))
+		return;
+
+	if (!(dom_selection = webkit_dom_dom_window_get_selection (dom_window))) {
+		g_clear_object (&dom_window);
+		return;
+	}
+
+	g_clear_object (&dom_window);
+
+	if (webkit_dom_dom_selection_get_range_count (dom_selection) < 1) {
+		g_clear_object (&dom_selection);
+		return;
+	}
+
+	/* Obtain the dragged content. */
+	range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
+	range_clone = webkit_dom_range_clone_range (range, NULL);
+
+	/* Create the history event for the content that will
+	 * be removed by DnD. */
+	event = g_new0 (EEditorHistoryEvent, 1);
+	event->type = HISTORY_DELETE;
+
+	e_editor_dom_selection_get_coordinates (editor_page,
+		&event->before.start.x,
+		&event->before.start.y,
+		&event->before.end.x,
+		&event->before.end.y);
+
+	x = event->before.start.x;
+	y = event->before.start.y;
+
+	event->after.start.x = x;
+	event->after.start.y = y;
+	event->after.end.x = x;
+	event->after.end.y = y;
+
+	/* Save the content that will be removed. */
+	fragment = webkit_dom_range_clone_contents (range_clone, NULL);
+
+	/* Extend the cloned range to point one character after
+	 * the selection ends to later check if there is a whitespace
+	 * after it. */
+	webkit_dom_range_set_end (
+		range_clone,
+		webkit_dom_range_get_end_container (range_clone, NULL),
+		webkit_dom_range_get_end_offset (range_clone, NULL) + 1,
+		NULL);
+	range_text = webkit_dom_range_get_text (range_clone);
+
+	/* Check if the current selection starts on the beginning of line. */
+	webkit_dom_dom_selection_modify (
+		dom_selection, "extend", "left", "lineboundary");
+	beginning_of_line = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
+	start_to_start = webkit_dom_range_compare_boundary_points (
+		beginning_of_line, WEBKIT_DOM_RANGE_START_TO_START, range, NULL) == 0;
+
+	/* Restore the selection to state before the check. */
+	webkit_dom_dom_selection_remove_all_ranges (dom_selection);
+	webkit_dom_dom_selection_add_range (dom_selection, range);
+	g_clear_object (&beginning_of_line);
+
+	/* Check if the current selection end on the end of the line. */
+	webkit_dom_dom_selection_modify (
+		dom_selection, "extend", "right", "lineboundary");
+	beginning_of_line = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
+	end_to_end = webkit_dom_range_compare_boundary_points (
+		beginning_of_line, WEBKIT_DOM_RANGE_END_TO_END, range, NULL) == 0;
+
+	/* Dragging the whole line. */
+	if (start_to_start && end_to_end) {
+		WebKitDOMNode *container, *actual_block, *tmp_block;
+
+		/* Select the whole line (to the beginning of the next
+		 * one so we can reuse the undo code while undoing this.
+		 * Because of this we need to special mark the event
+		 * with history-drag-and-drop to correct the selection
+		 * after undoing it (otherwise the beginning of the next
+		 * line will be selected as well. */
+		webkit_dom_dom_selection_modify (
+			dom_selection, "extend", "right", "character");
+		g_clear_object (&beginning_of_line);
+		beginning_of_line = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
+
+		container = webkit_dom_range_get_end_container (range, NULL);
+		actual_block = e_editor_dom_get_parent_block_node_from_child (container);
+
+		tmp_block = webkit_dom_range_get_end_container (beginning_of_line, NULL);
+		if ((tmp_block = e_editor_dom_get_parent_block_node_from_child (tmp_block))) {
+			e_editor_dom_selection_get_coordinates (editor_page,
+				&event->before.start.x,
+				&event->before.start.y,
+				&event->before.end.x,
+				&event->before.end.y);
+
+			/* Create the right content for the history event. */
+			fragment = webkit_dom_document_create_document_fragment (document);
+			/* The removed line. */
+			webkit_dom_node_append_child (
+				WEBKIT_DOM_NODE (fragment),
+				webkit_dom_node_clone_node_with_error (actual_block, TRUE, NULL),
+				NULL);
+			/* The following block, but empty. */
+			webkit_dom_node_append_child (
+				WEBKIT_DOM_NODE (fragment),
+				webkit_dom_node_clone_node_with_error (tmp_block, FALSE, NULL),
+				NULL);
+			g_object_set_data (
+				G_OBJECT (fragment),
+				"history-drag-and-drop",
+				GINT_TO_POINTER (1));
+		}
+	}
+	/* It should act as a Delete key press. */
+	g_object_set_data (G_OBJECT (fragment), "history-delete-key", GINT_TO_POINTER (1));
+
+	event->data.fragment = fragment;
+	e_editor_undo_redo_manager_insert_history_event (manager, event);
+
+	/* WebKit removes the space (if presented) after selection and
+	 * we need to create a new history event for it. */
+	if (g_str_has_suffix (range_text, " ") ||
+	    g_str_has_suffix (range_text, UNICODE_NBSP))
+		insert_nbsp_history_event (document, manager, TRUE, x, y);
+	else {
+		/* If there is a space before the selection WebKit will remove
+		 * it as well unless there is a space after the selection. */
+		gchar *range_text_start;
+		glong start_offset;
+
+		start_offset = webkit_dom_range_get_start_offset (range_clone, NULL);
+		webkit_dom_range_set_start (
+			range_clone,
+			webkit_dom_range_get_start_container (range_clone, NULL),
+			start_offset > 0 ? start_offset - 1 : 0,
+			NULL);
+
+		range_text_start = webkit_dom_range_get_text (range_clone);
+		if (g_str_has_prefix (range_text_start, " ") ||
+		    g_str_has_prefix (range_text_start, UNICODE_NBSP)) {
+			if (!end_to_end) {
+				webkit_dom_dom_selection_collapse_to_start (dom_selection, NULL);
+				webkit_dom_dom_selection_modify (
+					dom_selection, "move", "backward", "character");
+				e_editor_dom_selection_get_coordinates (editor_page, &x, &y, &x, &y);
+			}
+			insert_nbsp_history_event (document, manager, TRUE, x, y);
+		}
+
+		g_free (range_text_start);
+	}
+
+	g_free (range_text);
+
+	/* Restore the selection to original state. */
+	webkit_dom_dom_selection_remove_all_ranges (dom_selection);
+	webkit_dom_dom_selection_add_range (dom_selection, range);
+	g_clear_object (&beginning_of_line);
+
+	/* All the things above were about removing the content,
+	 * create an AND event to continue later with inserting
+	 * the dropped content. */
+	event = g_new0 (EEditorHistoryEvent, 1);
+	event->type = HISTORY_AND;
+	e_editor_undo_redo_manager_insert_history_event (manager, event);
+
+	g_clear_object (&dom_selection);
+
+	g_clear_object (&range);
+	g_clear_object (&range_clone);
+}
+
 void
 e_editor_dom_save_history_for_drop (EEditorPage *editor_page)
 {
@@ -10885,14 +11228,6 @@ e_editor_dom_save_history_for_drop (EEditorPage *editor_page)
 
 	range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
 
-	/* Remove the last inserted history event as this one was inserted in
-	 * body_input_event_cb and is wrong as its type is HISTORY_INPUT. */
-	/* FIXME we could probably disable the HTML input event callback while
-	 * doing DnD within the view */
-	event = e_editor_undo_redo_manager_get_current_history_event (manager);
-	if (event && event->type == HISTORY_INPUT)
-		e_editor_undo_redo_manager_remove_current_history_event (manager);
-
 	event = g_new0 (EEditorHistoryEvent, 1);
 	event->type = HISTORY_INSERT_HTML;
 
@@ -10902,28 +11237,8 @@ e_editor_dom_save_history_for_drop (EEditorPage *editor_page)
 	/* Get the HTML content of the dropped content. */
 	event->data.string.to = dom_get_node_inner_html (WEBKIT_DOM_NODE (fragment));
 
-	e_editor_dom_selection_get_coordinates (editor_page,
-		&event->before.start.x,
-		&event->before.start.y,
-		&event->before.end.x,
-		&event->before.end.y);
-
-	event->before.end.x = event->before.start.x;
-	event->before.end.y = event->before.start.y;
-
-	if (length > 0)
-		webkit_dom_dom_selection_collapse_to_start (dom_selection, NULL);
-	else
-		webkit_dom_dom_selection_collapse_to_end (dom_selection, NULL);
-
-	e_editor_dom_selection_get_coordinates (editor_page,
-		&event->after.start.x,
-		&event->after.start.y,
-		&event->after.end.x,
-		&event->after.end.y);
-
 	e_editor_undo_redo_manager_insert_history_event (manager, event);
-
+#if 0 /* FIXME Not exactly sure if it is still needed */
 	if (!e_editor_page_get_html_mode (editor_page)) {
 		list = webkit_dom_document_query_selector_all (
 			document, "span[style^=font-family]", NULL);
@@ -10949,19 +11264,10 @@ e_editor_dom_save_history_for_drop (EEditorPage *editor_page)
 		if (length > 0)
 			e_editor_dom_selection_restore (editor_page);
 	}
-
-	e_editor_dom_force_spell_check_in_viewport (editor_page);
+#endif
 
 	g_clear_object (&range);
 	g_clear_object (&dom_selection);
-}
-
-void
-e_editor_dom_drag_and_drop_end (EEditorPage *editor_page)
-{
-	g_return_if_fail (E_IS_EDITOR_PAGE (editor_page));
-
-	e_editor_dom_save_history_for_drop (editor_page);
 }
 
 static void

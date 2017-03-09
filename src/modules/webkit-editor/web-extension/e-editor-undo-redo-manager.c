@@ -1476,7 +1476,9 @@ undo_redo_paste (EEditorPage *editor_page,
 				NULL);
 
 			e_editor_dom_selection_restore (editor_page);
-		} else {
+		} else if (event->after.start.x == event->after.end.x &&
+		           event->after.start.y == event->after.end.y) {
+			/* Selection was collapsed after the event */
 			WebKitDOMDOMWindow *dom_window = NULL;
 			WebKitDOMDOMSelection *dom_selection = NULL;
 			WebKitDOMElement *element, *tmp;
@@ -1525,6 +1527,12 @@ undo_redo_paste (EEditorPage *editor_page,
 			e_editor_dom_exec_command (editor_page, E_CONTENT_EDITOR_COMMAND_DELETE, NULL);
 
 			e_editor_dom_force_spell_check_for_current_paragraph (editor_page);
+		} else {
+			e_editor_dom_selection_restore_to_history_event_state (editor_page, event->after);
+
+			e_editor_dom_exec_command (editor_page, E_CONTENT_EDITOR_COMMAND_DELETE, NULL);
+
+			e_editor_dom_force_spell_check_for_current_paragraph (editor_page);
 		}
 	} else {
 		e_editor_dom_selection_restore_to_history_event_state (editor_page, event->before);
@@ -1538,6 +1546,8 @@ undo_redo_paste (EEditorPage *editor_page,
 		else
 			e_editor_dom_convert_and_insert_html_into_selection (editor_page, event->data.string.to, FALSE);
 			/* e_editor_selection_insert_as_text (selection, event->data.string.to); */
+
+		e_editor_dom_selection_restore_to_history_event_state (editor_page, event->after);
 	}
 }
 
@@ -2269,6 +2279,21 @@ e_editor_undo_redo_manager_get_current_history_event (EEditorUndoRedoManager *ma
 	return NULL;
 }
 
+EEditorHistoryEvent *
+e_editor_undo_redo_manager_get_next_history_event_for (EEditorUndoRedoManager *manager,
+                                                       EEditorHistoryEvent *event)
+{
+	g_return_val_if_fail (E_IS_EDITOR_UNDO_REDO_MANAGER (manager), NULL);
+
+	if (manager->priv->history) {
+		GList *item = g_list_find (manager->priv->history, event);
+		if (item && item->next)
+			return item->next->data;
+	}
+
+	return NULL;
+}
+
 void
 e_editor_undo_redo_manager_remove_current_history_event (EEditorUndoRedoManager *manager)
 {
@@ -2358,6 +2383,85 @@ e_editor_undo_redo_manager_insert_dash_history_event (EEditorUndoRedoManager *ma
 			manager->priv->history = g_list_insert_before (
 				manager->priv->history, history, event);
 		}
+	}
+
+	g_object_unref (editor_page);
+}
+
+static void
+copy_event_coordinates_to_event (EEditorHistoryEvent *source,
+                                 EEditorHistoryEvent *target)
+{
+	target->before.start.x = source->before.start.x;
+	target->before.start.y = source->before.start.y;
+	target->before.end.x = source->before.end.x;
+	target->before.end.y = source->before.end.y;
+	target->after.start.x = source->after.start.x;
+	target->after.start.y = source->after.start.y;
+	target->after.end.x = source->after.end.x;
+	target->after.end.y = source->after.end.y;
+}
+
+void
+e_editor_undo_redo_manager_last_drop_operation_did_copy (EEditorUndoRedoManager *manager)
+{
+	EEditorPage *editor_page;
+	GList *history;
+
+	g_return_if_fail (E_IS_EDITOR_UNDO_REDO_MANAGER (manager));
+
+	editor_page = editor_undo_redo_manager_ref_editor_page (manager);
+	g_return_if_fail (editor_page != NULL);
+
+	history = manager->priv->history;
+	if (history) {
+		GList *history_and, *history_delete;
+		EEditorHistoryEvent *original_insert, *item;
+		WebKitDOMDocumentFragment *fragment;
+
+		/* When a drag operation within an editor is performed, we save
+		 * the history for it. We always assume that the drop will move
+		 * the content (the default action) and not copy it, thus the
+		 * history contains one delete item and one 'and' item. If the
+		 * action is changed to copy (by holding the Control key during
+		 * drop) there is not content deleted, but we saved it to the
+		 * history. What this function does is that it changes the
+		 * history to not delete any content, but to only insert the
+		 * dropped one. */
+		original_insert = history->data;
+		if (original_insert->type != HISTORY_INSERT_HTML || !history->next) {
+			g_object_unref (editor_page);
+			return;
+		}
+
+		history_and = history->next;
+		item = history_and->data;
+		if (item->type != HISTORY_AND || !history_and->next) {
+			g_object_unref (editor_page);
+			return;
+		}
+
+		history_delete = history_and->next;
+		item = history_delete->data;
+		if (item->type != HISTORY_DELETE) {
+			g_object_unref (editor_page);
+			return;
+		}
+
+		/* Change the history type from 'Delete' to 'Insert' */
+		item->type = HISTORY_INSERT_HTML;
+		copy_event_coordinates_to_event (original_insert, item);
+
+		/* Copy the content */
+		fragment = item->data.fragment;
+		item->data.fragment = NULL;
+		item->data.string.to = dom_get_node_inner_html (WEBKIT_DOM_NODE (fragment));
+		g_clear_object (&fragment);
+
+		/* Remove the old insert event */
+		remove_history_event (manager, manager->priv->history);
+		/* And the 'AND' event */
+		remove_history_event (manager, manager->priv->history);
 	}
 
 	g_object_unref (editor_page);
