@@ -664,6 +664,9 @@ handle_method_call (GDBusConnection *connection,
 	if (g_strcmp0 (interface_name, E_WEBKIT_EDITOR_WEB_EXTENSION_INTERFACE) != 0)
 		return;
 
+	if (camel_debug ("webkit:editor"))
+		printf ("EEditorWebExtension - %s - %s\n", G_STRFUNC, method_name);
+
 	if (g_strcmp0 (method_name, "TestHTMLEqual") == 0) {
 		gboolean equal = FALSE;
 		const gchar *html1 = NULL, *html2 = NULL;
