@@ -8831,7 +8831,7 @@ e_editor_dom_insert_html (EEditorPage *editor_page,
 {
 	EEditorHistoryEvent *ev = NULL;
 	EEditorUndoRedoManager *manager;
-	gboolean html_mode;
+	gboolean html_mode, undo_redo_in_progress;
 	WebKitDOMDocument *document;
 	WebKitDOMNode *block = NULL;
 
@@ -8841,7 +8841,8 @@ e_editor_dom_insert_html (EEditorPage *editor_page,
 	document = e_editor_page_get_document (editor_page);
 
 	manager = e_editor_page_get_undo_redo_manager (editor_page);
-	if (!e_editor_undo_redo_manager_is_operation_in_progress (manager)) {
+	undo_redo_in_progress = e_editor_undo_redo_manager_is_operation_in_progress (manager);
+	if (!undo_redo_in_progress) {
 		gboolean collapsed;
 
 		ev = g_new0 (EEditorHistoryEvent, 1);
@@ -8967,8 +8968,14 @@ e_editor_dom_insert_html (EEditorPage *editor_page,
 		e_editor_dom_check_magic_links (editor_page, FALSE);
 		e_editor_dom_scroll_to_caret (editor_page);
 		e_editor_dom_force_spell_check_in_viewport (editor_page);
-	} else
+	} else {
+		/* Don't save history in the underlying function. */
+		if (!undo_redo_in_progress)
+			e_editor_undo_redo_manager_set_operation_in_progress (manager, TRUE);
 		e_editor_dom_convert_and_insert_html_into_selection (editor_page, html_text, TRUE);
+		if (!undo_redo_in_progress)
+			e_editor_undo_redo_manager_set_operation_in_progress (manager, FALSE);
+	}
 
 	remove_apple_interchange_newline_elements (document);
 
