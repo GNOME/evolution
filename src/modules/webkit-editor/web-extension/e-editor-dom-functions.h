@@ -159,7 +159,6 @@ void		e_editor_dom_process_content_after_mode_change
 						(EEditorPage *editor_page);
 guint		e_editor_dom_get_caret_offset	(EEditorPage *editor_page);
 guint		e_editor_dom_get_caret_position	(EEditorPage *editor_page);
-void		e_editor_dom_drag_and_drop_end	(EEditorPage *editor_page);
 void		e_editor_dom_set_link_color	(EEditorPage *editor_page,
 						 const gchar *color);
 void		e_editor_dom_set_visited_link_color
@@ -209,6 +208,8 @@ WebKitDOMElement *
 						 WebKitDOMElement *element);
 gint		e_editor_dom_get_citation_level	(WebKitDOMNode *node,
 						 gboolean set_plaintext_quoted);
+void		e_editor_dom_save_history_for_drag
+						(EEditorPage *editor_page);
 void		e_editor_dom_save_history_for_drop
 						(EEditorPage *editor_page);
 void		e_editor_dom_fix_file_uri_images

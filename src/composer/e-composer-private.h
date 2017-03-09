@@ -100,8 +100,6 @@ struct _EMsgComposerPrivate {
 	 * This is used to restore the previous editable state. */
 	gboolean saved_editable;
 	gboolean set_signature_from_message;
-	gboolean drop_occured;
-	gboolean dnd_is_uri;
 	gboolean is_sending_message;
 	gboolean dnd_history_saved;
 	gboolean check_if_signature_is_changed;
@@ -119,6 +117,8 @@ struct _EMsgComposerPrivate {
 	gulong notify_signature_uid_handler;
 	gulong notify_subject_handler;
 	gulong notify_subject_changed_handler;
+
+	gulong drag_data_received_handler_id;
 };
 
 void		e_composer_private_constructed	(EMsgComposer *composer);

@@ -151,10 +151,19 @@ void		e_editor_undo_redo_manager_insert_history_event
 EEditorHistoryEvent *
 		e_editor_undo_redo_manager_get_current_history_event
 						(EEditorUndoRedoManager *manager);
+
+EEditorHistoryEvent *
+		e_editor_undo_redo_manager_get_next_history_event_for
+						(EEditorUndoRedoManager *manager,
+						 EEditorHistoryEvent *event);
+
 void		e_editor_undo_redo_manager_remove_current_history_event
 						(EEditorUndoRedoManager *manager);
 
 void		e_editor_undo_redo_manager_insert_dash_history_event
+						(EEditorUndoRedoManager *manager);
+
+void		e_editor_undo_redo_manager_last_drop_operation_did_copy
 						(EEditorUndoRedoManager *manager);
 
 gboolean	e_editor_undo_redo_manager_can_undo
