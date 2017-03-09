@@ -2373,7 +2373,15 @@ e_editor_undo_redo_manager_remove_current_history_event (EEditorUndoRedoManager 
 	if (!manager->priv->history)
 		return;
 
+	if (camel_debug ("webkit:undo")) {
+		printf ("\nREMOVING EVENT:\n");
+		print_history_event (manager->priv->history->data);
+	}
+
 	remove_history_event (manager, manager->priv->history);
+
+	if (camel_debug ("webkit:undo"))
+		print_history (manager);
 }
 
 void
