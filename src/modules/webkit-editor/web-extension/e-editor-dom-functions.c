@@ -695,6 +695,8 @@ e_editor_dom_force_spell_check_for_current_paragraph (EEditorPage *editor_page)
 	e_editor_page_block_selection_changed (editor_page);
 
 	parent = get_parent_block_element (WEBKIT_DOM_NODE (selection_end_marker));
+	if (!parent)
+		parent = WEBKIT_DOM_ELEMENT (body);
 
 	/* Append some text on the end of the element */
 	text = webkit_dom_document_create_text_node (document, "-x-evo-end");
@@ -704,6 +706,8 @@ e_editor_dom_force_spell_check_for_current_paragraph (EEditorPage *editor_page)
 		NULL);
 
 	parent = get_parent_block_element (WEBKIT_DOM_NODE (selection_start_marker));
+	if (!parent)
+		parent = WEBKIT_DOM_ELEMENT (body);
 
 	/* Create range that's pointing on the end of this text */
 	end_range = webkit_dom_document_create_range (document);
