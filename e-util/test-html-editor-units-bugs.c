@@ -685,12 +685,13 @@ test_bug_772171 (TestFixture *fixture)
 	test_utils_insert_content (fixture,
 		"<body><pre>a\n"
 		"b\n"
+		"</pre>"
 		"<span class=\"-x-evo-to-body\" data-credits=\"On Thu, 2016-09-15 at 08:08 -0400, user wrote:\"></span>"
 		"<span class=\"-x-evo-cite-body\"></span></body>",
 		E_CONTENT_EDITOR_INSERT_REPLACE_ALL | E_CONTENT_EDITOR_INSERT_TEXT_HTML);
 
 	if (!test_utils_run_simple_test (fixture,
-		"seq:deb",
+		"seq:ddeb",
 		HTML_PREFIX "<div style=\"width: 71ch;\">On Thu, 2016-09-15 at 08:08 -0400, user wrote:</div>"
 		"<blockquote type=\"cite\">"
 		"<div style=\"width: 71ch;\">&gt; <br></div>"
