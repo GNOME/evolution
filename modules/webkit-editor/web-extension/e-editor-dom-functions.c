@@ -4061,6 +4061,68 @@ caret_is_on_the_line_beginning_html (WebKitDOMDocument *document)
 
 	return ret_val;
 }
+
+static gboolean
+is_empty_quoted_element (WebKitDOMElement *element)
+{
+	WebKitDOMNode *node = webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (element));
+
+	if (!WEBKIT_DOM_IS_ELEMENT (node) || !element_has_class (WEBKIT_DOM_ELEMENT (node), "-x-evo-quoted"))
+		return FALSE;
+
+	if (!(node = webkit_dom_node_get_next_sibling (node)))
+		return TRUE;
+
+	if (WEBKIT_DOM_IS_TEXT (node)) {
+		gchar *content;
+
+		content = webkit_dom_node_get_text_content (node);
+		if (content && *content) {
+			g_free (content);
+			return FALSE;
+		}
+
+		g_free (content);
+		return webkit_dom_node_get_next_sibling (node) ? FALSE : TRUE;
+	}
+
+	if (WEBKIT_DOM_IS_HTML_BR_ELEMENT (node))
+		return webkit_dom_node_get_next_sibling (node) ? FALSE : TRUE;
+
+	if (!WEBKIT_DOM_IS_ELEMENT (node) || !element_has_id (WEBKIT_DOM_ELEMENT (node), "-x-evo-selection-start-marker"))
+		return FALSE;
+
+	if (!(node = webkit_dom_node_get_next_sibling (node)))
+		return FALSE;
+
+	if (!WEBKIT_DOM_IS_ELEMENT (node) || !element_has_id (WEBKIT_DOM_ELEMENT (node), "-x-evo-selection-end-marker"))
+		return FALSE;
+
+	if (!(node = webkit_dom_node_get_next_sibling (node)))
+		return TRUE;
+
+	if (!WEBKIT_DOM_IS_HTML_BR_ELEMENT (node)) {
+		if (WEBKIT_DOM_IS_TEXT (node)) {
+			gchar *content;
+
+			content = webkit_dom_node_get_text_content (node);
+			if (content && *content) {
+				g_free (content);
+				return FALSE;
+			}
+
+			g_free (content);
+			return webkit_dom_node_get_next_sibling (node) ? FALSE : TRUE;
+		}
+		return FALSE;
+	}
+
+	if (!(node = webkit_dom_node_get_next_sibling (node)))
+		return TRUE;
+
+	return TRUE;
+}
+
 gboolean
 e_editor_dom_move_quoted_block_level_up (EEditorPage *editor_page)
 {
@@ -4142,10 +4204,12 @@ e_editor_dom_move_quoted_block_level_up (EEditorPage *editor_page)
 	}
 
 	if (citation_level == 1) {
+		gboolean is_empty_quoted_block = FALSE;
 		gchar *inner_html = NULL;
 		WebKitDOMElement *paragraph, *element;
 
 		if (WEBKIT_DOM_IS_ELEMENT (block)) {
+			is_empty_quoted_block = is_empty_quoted_element (WEBKIT_DOM_ELEMENT (block));
 			inner_html = webkit_dom_element_get_inner_html (WEBKIT_DOM_ELEMENT (block));
 			webkit_dom_element_set_id (WEBKIT_DOM_ELEMENT (block), "-x-evo-to-remove");
 		}
@@ -4174,7 +4238,7 @@ e_editor_dom_move_quoted_block_level_up (EEditorPage *editor_page)
 			e_editor_dom_remove_wrapping_from_element (paragraph);
 
 			/* Moving PRE block from citation to body */
-			if (WEBKIT_DOM_IS_HTML_PRE_ELEMENT (block)) {
+			if (WEBKIT_DOM_IS_HTML_PRE_ELEMENT (block) && !is_empty_quoted_block) {
 				WebKitDOMElement *pre;
 				WebKitDOMNode *child;
 
