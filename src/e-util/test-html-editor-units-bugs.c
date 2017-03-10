@@ -829,6 +829,52 @@ test_bug_775691 (TestFixture *fixture)
 		g_test_fail ();
 }
 
+static void
+test_bug_779707 (TestFixture *fixture)
+{
+	test_utils_fixture_change_setting_boolean (fixture, "org.gnome.evolution.mail", "composer-reply-start-bottom", TRUE);
+	test_utils_fixture_change_setting_boolean (fixture, "org.gnome.evolution.mail", "composer-wrap-quoted-text-in-replies", FALSE);
+
+	if (!test_utils_process_commands (fixture,
+		"mode:plain\n")) {
+		g_test_fail ();
+		return;
+	}
+
+	test_utils_insert_content (fixture,
+		"<pre>line 1\n"
+		"line 2\n"
+		"line 3\n"
+		"</pre><span class=\"-x-evo-to-body\" data-credits=\"Credits:\"></span>"
+		"<span class=\"-x-evo-cite-body\"></span>",
+		E_CONTENT_EDITOR_INSERT_REPLACE_ALL | E_CONTENT_EDITOR_INSERT_TEXT_HTML);
+
+	if (!test_utils_run_simple_test (fixture,
+		"seq:uuuSesDbnnu\n"
+		"type:a very long text, which splits into multiple lines when this paragraph is not marked as preformatted, but as normal, as it should be\n"
+		"",
+		HTML_PREFIX "<div style=\"width: 71ch;\">Credits:</div>"
+		"<blockquote type=\"cite\">"
+		"<pre>&gt; line 1</pre>"
+		"</blockquote>"
+		"<div style=\"width: 71ch;\"><br></div>"
+		"<div style=\"width: 71ch;\">a very long text, which splits into multiple lines when this paragraph is not marked as preformatted, but as normal, as it should be</div>"
+		"<div style=\"width: 71ch;\"><br></div>"
+		"<blockquote type=\"cite\">"
+		"<pre>&gt; line 3</pre>"
+		"</blockquote>"
+		"<div style=\"width: 71ch;\"><br></div>"
+		HTML_SUFFIX,
+		"Credits:\n"
+		"> line 1\n"
+		"\n"
+		"a very long text, which splits into multiple lines when this paragraph\n"
+		"is not marked as preformatted, but as normal, as it should be\n"
+		"\n"
+		"> line 3\n"))
+		g_test_fail ();
+}
+
 void
 test_add_html_editor_bug_tests (void)
 {
@@ -850,4 +896,5 @@ test_add_html_editor_bug_tests (void)
 	test_utils_add_test ("/bug/773164", test_bug_773164);
 	test_utils_add_test ("/bug/775042", test_bug_775042);
 	test_utils_add_test ("/bug/775691", test_bug_775691);
+	test_utils_add_test ("/bug/779707", test_bug_779707);
 }
