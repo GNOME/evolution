@@ -2606,12 +2606,13 @@ test_delete_quoted (TestFixture *fixture)
 		"<body><pre>a\n"
 		"b\n"
 		"c\n"
+		"</pre>"
 		"<span class=\"-x-evo-to-body\" data-credits=\"On Thu, 2016-09-15 at 08:08 -0400, user wrote:\"></span>"
 		"<span class=\"-x-evo-cite-body\"></span></body>",
 		E_CONTENT_EDITOR_INSERT_REPLACE_ALL | E_CONTENT_EDITOR_INSERT_TEXT_HTML);
 
 	if (!test_utils_run_simple_test (fixture,
-		"seq:ddddSusDdd\n"
+		"seq:dddddSusDdd\n"
 		"type:b",
 		HTML_PREFIX "<div style=\"width: 71ch;\">On Thu, 2016-09-15 at 08:08 -0400, user wrote:</div>"
 		"<blockquote type=\"cite\">"
@@ -2639,13 +2640,13 @@ test_delete_after_quoted (TestFixture *fixture)
 	test_utils_insert_content (fixture,
 		"<body><pre>a\n"
 		"b\n"
-		"\n"
+		"\n</pre>"
 		"<span class=\"-x-evo-to-body\" data-credits=\"On Thu, 2016-09-15 at 08:08 -0400, user wrote:\"></span>"
 		"<span class=\"-x-evo-cite-body\"></span></body>",
 		E_CONTENT_EDITOR_INSERT_REPLACE_ALL | E_CONTENT_EDITOR_INSERT_TEXT_HTML);
 
 	if (!test_utils_run_simple_test (fixture,
-		"seq:dddbb\n",
+		"seq:ddddbb\n",
 		HTML_PREFIX "<div style=\"width: 71ch;\">On Thu, 2016-09-15 at 08:08 -0400, user wrote:</div>"
 		"<blockquote type=\"cite\">"
 		"<pre>&gt; a</pre>"
