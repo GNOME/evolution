@@ -19,16 +19,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-07 07:07+0100\n"
-"PO-Revision-Date: 2017-02-06 18:53+0100\n"
-"Last-Translator: David Medina <rbndavid@gmail.com>\n"
+"POT-Creation-Date: 2017-03-12 07:23+0100\n"
+"PO-Revision-Date: 2017-03-11 20:51+0100\n"
+"Last-Translator: Carles Ferrando Garcia <carles.ferrando@gmail.com>\n"
 "Language-Team: Catalan <Catalan <info@softcatala.org>>\n"
 "Language: ca\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Poedit 1.6.11\n"
+"X-Generator: Poedit 1.8.7.1\n"
 
 #: ../evolution.appdata.xml.in.h:1 ../data/evolution.desktop.in.in.h:1
 #: ../src/mail/e-mail-browser.c:1098
@@ -92,7 +92,7 @@ msgstr "Redacta un missatge"
 
 #: ../data/evolution.desktop.in.in.h:8
 #: ../src/e-util/e-name-selector-dialog.c:448
-#: ../src/modules/addressbook/e-book-shell-backend.c:301
+#: ../src/modules/addressbook/e-book-shell-backend.c:303
 #: ../src/modules/addressbook/e-book-shell-view.c:371
 msgid "Contacts"
 msgstr "Contactes"
@@ -2904,7 +2904,6 @@ msgid "Mode to use when displaying mails"
 msgstr "Mode que s'utilitzarà per visualitzar el correu"
 
 #: ../data/org.gnome.evolution.plugin.prefer-plain.gschema.xml.in.h:2
-#, fuzzy
 msgid ""
 "The mode to use for displaying mails. “normal” makes Evolution choose the "
 "best part to show, “prefer_plain” makes it use the text part, if present, "
@@ -2914,8 +2913,9 @@ msgstr ""
 "El mode que s'utilitzarà per mostrar els missatges de correu. El mode "
 "«normal» farà que l'Evolution en triï la millor part per mostrar, "
 "«prefer_plain» (prefereix el text pla) en mostrarà la part de text pla, si "
-"existeix, i «only_plain» (només text pla) forçarà l'Evolution a mostrar-ne "
-"només el text pla"
+"existeix, «prefer_source» (prefereix la font) en mostrarà la part de text "
+"pla si existeix,  i «only_plain» (només text pla) forçarà l'Evolution a "
+"mostrar-ne només el text pla"
 
 #: ../data/org.gnome.evolution.plugin.prefer-plain.gschema.xml.in.h:3
 msgid "Whether to show suppressed HTML output"
@@ -2958,7 +2958,6 @@ msgid "Initial attachment view"
 msgstr "Visualització inicial de les adjuncions"
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:4
-#, fuzzy
 msgid ""
 "Initial view for attachment bar widgets. “0” is Icon View, “1” is List View."
 msgstr ""
@@ -3027,7 +3026,6 @@ msgid "List of button names to hide in the window switcher"
 msgstr "Llista de noms de botons per amagar al commutador de finestres"
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:18
-#, fuzzy
 msgid ""
 "Valid values are “mail”, “addressbook”, “calendar”, “tasks” and “memos”. "
 "Change of this requires restart of the application."
@@ -3048,7 +3046,6 @@ msgid "Window button style"
 msgstr "Estil del botó de la finestra"
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:22
-#, fuzzy
 msgid ""
 "The style of the window buttons. Can be “text”, “icons”, “both”, “toolbar”. "
 "If “toolbar” is set, the style of the buttons is determined by the GNOME "
@@ -3302,13 +3299,12 @@ msgid "Delete remote address book “{0}”?"
 msgstr "Voleu suprimir la llibreta d'adreces remota «{0}»?"
 
 #: ../src/addressbook/addressbook.error.xml.h:15
-#, fuzzy
 msgid ""
 "This will permanently remove the address book “{0}” from the server. Are you "
 "sure you want to proceed?"
 msgstr ""
-"Suprimireu permanentment la llibreta d'adreces &quot;{0}&quot del servidor. "
-"Segur que voleu continuar?"
+"Suprimireu permanentment la llibreta d'adreces «{0}» del servidor. Segur que "
+"voleu continuar?"
 
 #: ../src/addressbook/addressbook.error.xml.h:16
 #: ../src/calendar/calendar.error.xml.h:65
@@ -3440,7 +3436,6 @@ msgid "List “{0}” is already in this contact list."
 msgstr "La llista «{0}» ja és en aquesta llista de contactes."
 
 #: ../src/addressbook/addressbook.error.xml.h:40
-#, fuzzy
 msgid ""
 "A contact list named “{0}” is already in this contact list. Would you like "
 "to add it anyway?"
@@ -3465,7 +3460,6 @@ msgstr "No es pot crear un contacte nou"
 
 #. For Translators: {0} is the name of the address book source
 #: ../src/addressbook/addressbook.error.xml.h:45
-#, fuzzy
 msgid ""
 "“{0}” is a read-only address book and cannot be modified. Please select a "
 "different address book from the side bar in the Contacts view."
@@ -3481,7 +3475,6 @@ msgstr ""
 
 #. For Translators: {0} is the name of the address book source
 #: ../src/addressbook/addressbook.error.xml.h:48
-#, fuzzy
 msgid ""
 "Cannot save a contact to the address book “{0}”, because it is still "
 "opening. Either wait till it’s opened, or select a different address book."
@@ -3491,9 +3484,8 @@ msgstr ""
 "d'adreces diferent."
 
 #: ../src/addressbook/addressbook.error.xml.h:49
-#, fuzzy
 msgid "Something has gone wrong when displaying the contact"
-msgstr "Cerca un text en el cos del contacte que es mostra"
+msgstr "Alguna cosa ha anat malament mentre es mostrava el contacte"
 
 #: ../src/addressbook/addressbook.error.xml.h:50
 msgid ""
@@ -3582,8 +3574,8 @@ msgstr "Opcions"
 #: ../src/e-util/e-attachment-dialog.c:309
 #: ../src/e-util/e-attachment-store.c:664
 #: ../src/e-util/e-attachment-store.c:832 ../src/e-util/e-attachment-view.c:301
-#: ../src/e-util/e-categories-dialog.c:80 ../src/e-util/e-category-editor.c:137
-#: ../src/e-util/e-category-editor.c:207 ../src/e-util/e-charset-combo-box.c:99
+#: ../src/e-util/e-categories-dialog.c:80 ../src/e-util/e-category-editor.c:140
+#: ../src/e-util/e-category-editor.c:211 ../src/e-util/e-charset-combo-box.c:99
 #: ../src/e-util/e-color-chooser-widget.c:125
 #: ../src/e-util/e-filter-datespec.c:289
 #: ../src/e-util/e-html-editor-actions.c:321
@@ -3909,7 +3901,7 @@ msgid "_Load X.509"
 msgstr "_Carrega X.509"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:72
-#: ../src/modules/addressbook/e-book-shell-backend.c:312
+#: ../src/modules/addressbook/e-book-shell-backend.c:314
 msgid "Certificates"
 msgstr "Certificats"
 
@@ -3978,7 +3970,7 @@ msgstr "Certificat Open X.509"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3272
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4320
-#: ../src/e-util/e-attachment-store.c:662 ../src/e-util/e-category-editor.c:145
+#: ../src/e-util/e-attachment-store.c:662 ../src/e-util/e-category-editor.c:148
 #: ../src/e-util/e-html-editor-actions.c:322
 #: ../src/e-util/e-html-editor-actions.c:416
 #: ../src/e-util/e-image-chooser-dialog.c:172 ../src/plugins/face/face.c:296
@@ -4066,7 +4058,7 @@ msgstr "Contacte no vàlid."
 #: ../src/addressbook/gui/widgets/eab-gui-util.c:317
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:302
 #: ../src/e-util/e-attachment-dialog.c:311
-#: ../src/e-util/e-categories-dialog.c:81 ../src/e-util/e-category-editor.c:208
+#: ../src/e-util/e-categories-dialog.c:81 ../src/e-util/e-category-editor.c:212
 #: ../src/e-util/e-charset-combo-box.c:100
 #: ../src/e-util/e-color-chooser-widget.c:126
 #: ../src/e-util/e-filter-datespec.c:290
@@ -4245,29 +4237,29 @@ msgstr "_Inferior"
 msgid "Contact List Members"
 msgstr "Membres de la llista de contactes"
 
-#: ../src/addressbook/gui/contact-list-editor/e-contact-list-editor.c:1485
+#: ../src/addressbook/gui/contact-list-editor/e-contact-list-editor.c:1499
 msgid "_Members"
 msgstr "_Membres"
 
-#: ../src/addressbook/gui/contact-list-editor/e-contact-list-editor.c:1625
+#: ../src/addressbook/gui/contact-list-editor/e-contact-list-editor.c:1639
 msgid "Error adding list"
 msgstr "S'ha produït un error en afegir la llista"
 
-#: ../src/addressbook/gui/contact-list-editor/e-contact-list-editor.c:1645
+#: ../src/addressbook/gui/contact-list-editor/e-contact-list-editor.c:1659
 msgid "Error modifying list"
 msgstr "S'ha produït un error en modificar la llista"
 
-#: ../src/addressbook/gui/contact-list-editor/e-contact-list-editor.c:1665
+#: ../src/addressbook/gui/contact-list-editor/e-contact-list-editor.c:1679
 msgid "Error removing list"
 msgstr "S'ha produït un error en suprimir la llista"
 
 #: ../src/addressbook/gui/widgets/addresstypes.xml.h:1
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1219
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1222
 msgid "Name contains"
 msgstr "El nom conté"
 
 #: ../src/addressbook/gui/widgets/addresstypes.xml.h:2
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1212
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1215
 msgid "Email begins with"
 msgstr "L'adreça electrònica comença per"
 
@@ -4275,7 +4267,7 @@ msgstr "L'adreça electrònica comença per"
 #: ../src/calendar/gui/caltypes.xml.in.h:26
 #: ../src/calendar/gui/memotypes.xml.in.h:19
 #: ../src/calendar/gui/tasktypes.xml.in.h:30
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1205
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1208
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1662
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:782
 #: ../src/modules/calendar/e-task-shell-view-actions.c:983
@@ -4675,7 +4667,7 @@ msgid "Paste contacts from the clipboard"
 msgstr "Enganxa els contactes del porta-retalls"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.c:698
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1015
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1018
 msgid "Delete selected contacts"
 msgstr "Suprimeix els contactes seleccionats"
 
@@ -4713,7 +4705,7 @@ msgstr "Segur que voleu suprimir aquest contacte (%s)?"
 #: ../src/calendar/gui/e-comp-editor.c:1997 ../src/e-util/e-focus-tracker.c:783
 #: ../src/e-util/evolution-source-viewer.c:806
 #: ../src/mail/e-mail-account-manager.c:737
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1087
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1090
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1477
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:676
 #: ../src/modules/calendar/e-task-shell-view-actions.c:830
@@ -5683,7 +5675,6 @@ msgid "Delete remote calendar “{0}”?"
 msgstr "Voleu suprimir el calendari remot «{0}»?"
 
 #: ../src/calendar/calendar.error.xml.h:64
-#, fuzzy
 msgid ""
 "This will permanently remove the calendar “{0}” from the server. Are you "
 "sure you want to proceed?"
@@ -5692,12 +5683,10 @@ msgstr ""
 "continuar?"
 
 #: ../src/calendar/calendar.error.xml.h:66
-#, fuzzy
 msgid "Delete remote task list “{0}”?"
 msgstr "Voleu suprimir la llista de tasques remota «{0}»?"
 
 #: ../src/calendar/calendar.error.xml.h:67
-#, fuzzy
 msgid ""
 "This will permanently remove the task list “{0}” from the server. Are you "
 "sure you want to proceed?"
@@ -5706,12 +5695,10 @@ msgstr ""
 "voleu continuar?"
 
 #: ../src/calendar/calendar.error.xml.h:68
-#, fuzzy
 msgid "Delete remote memo list “{0}”?"
 msgstr "Voleu suprimir la llista d'anotacions remota «{0}»?"
 
 #: ../src/calendar/calendar.error.xml.h:69
-#, fuzzy
 msgid ""
 "This will permanently remove the memo list “{0}” from the server. Are you "
 "sure you want to proceed?"
@@ -5749,7 +5736,6 @@ msgstr "Segur que voleu desar una nota sense resum?"
 
 #. Translators: {0} is the name of the calendar.
 #: ../src/calendar/calendar.error.xml.h:76
-#, fuzzy
 msgid "Error loading calendar “{0}”"
 msgstr "S'ha produït un error en carregar el calendari «{0}»"
 
@@ -5763,14 +5749,12 @@ msgstr "No es pot desar l'esdeveniment"
 
 #. Translators: {0} is the name of the calendar source
 #: ../src/calendar/calendar.error.xml.h:80
-#, fuzzy
 msgid ""
 "“{0}” is a read-only calendar and cannot be modified. Please select a "
 "different calendar that can accept appointments."
 msgstr ""
-"«{0}» és una font de calendari a la qual no és permès escriure-hi. Canvieu a "
-"la visualització de calendari i seleccioneu un calendari que pugui acceptar "
-"cites."
+"«{0}» és un calendari on podeu escriure. Seleccioneu un calendari diferent "
+"que pugui acceptar cites."
 
 #: ../src/calendar/calendar.error.xml.h:81
 msgid "Cannot save task"
@@ -5778,7 +5762,6 @@ msgstr "No es pot desar la tasca"
 
 #. Translators: {0} is the name of the calendar source
 #: ../src/calendar/calendar.error.xml.h:83
-#, fuzzy
 msgid ""
 "“{0}” does not support assigned tasks, please select a different task list."
 msgstr ""
@@ -5787,7 +5770,6 @@ msgstr ""
 
 #. Translators: {0} is the name of the task list.
 #: ../src/calendar/calendar.error.xml.h:85
-#, fuzzy
 msgid "Error loading task list “{0}”"
 msgstr "S'ha produït un error en carregar la llista de tasques «{0}»"
 
@@ -5797,7 +5779,6 @@ msgstr "No s'ha marcat la llista de tasques per a l'ús en mode fora de línia."
 
 #. Translators: {0} is the name of the memo list.
 #: ../src/calendar/calendar.error.xml.h:88
-#, fuzzy
 msgid "Error loading memo list “{0}”"
 msgstr "S'ha produït un error en carregar la llista d'anotacions «{0}»"
 
@@ -5808,7 +5789,6 @@ msgstr ""
 
 #. Translators: {0} is the name of the calendar/memo list/task list.
 #: ../src/calendar/calendar.error.xml.h:91
-#, fuzzy
 msgid "Failed to add timezone to “{0}”"
 msgstr "Ha fallat afegir la zona horària a «{0}»"
 
@@ -5819,244 +5799,205 @@ msgstr "No s'han pogut desar els fitxers adjunts"
 
 #. Translators: {0} is the name of the calendar.
 #: ../src/calendar/calendar.error.xml.h:95
-#, fuzzy
 msgid "Failed to open calendar “{0}”"
 msgstr "No s'ha pogut obrir el calendari «{0}»"
 
 #. Translators: {0} is the name of the memo list.
 #: ../src/calendar/calendar.error.xml.h:97
-#, fuzzy
 msgid "Failed to open memo list “{0}”"
 msgstr "No s'ha pogut obrir la llista d'anotacions «{0}»"
 
 #. Translators: {0} is the name of the task list.
 #: ../src/calendar/calendar.error.xml.h:99
-#, fuzzy
 msgid "Failed to open task list “{0}”"
 msgstr "No s'ha pogut obrir la llista de tasques «{0}»"
 
 #. Translators: {0} is the name of the calendar.
 #: ../src/calendar/calendar.error.xml.h:101
-#, fuzzy
 msgid "Failed to create an event in the calendar “{0}”"
 msgstr "Ha fallat la creació d'un esdeveniment al calendari «{0}»"
 
 #. Translators: {0} is the name of the memo list.
 #: ../src/calendar/calendar.error.xml.h:103
-#, fuzzy
 msgid "Failed to create a memo in the memo list “{0}”"
 msgstr "Ha fallat la creació d'una anotació a la llista d'anotacions «{0}»"
 
 #. Translators: {0} is the name of the task list.
 #: ../src/calendar/calendar.error.xml.h:105
-#, fuzzy
 msgid "Failed to create a task in the task list “{0}”"
 msgstr "Ha fallat la creació d'una tasca a la llista de tasques «{0}»"
 
 # c-format
 #. Translators: {0} is the name of the calendar.
 #: ../src/calendar/calendar.error.xml.h:107
-#, fuzzy
 msgid "Failed to modify an event in the calendar “{0}”"
 msgstr "Ha fallat la modificació d'un esdeveniment al calendari «{0}»"
 
 #. Translators: {0} is the name of the memo list.
 #: ../src/calendar/calendar.error.xml.h:109
-#, fuzzy
 msgid "Failed to modify a memo in the memo list “{0}”"
 msgstr "Ha fallat la modificació d'una anotació a la llista d'anotacions «{0}»"
 
 #. Translators: {0} is the name of the task list.
 #: ../src/calendar/calendar.error.xml.h:111
-#, fuzzy
 msgid "Failed to modify a task in the task list “{0}”"
 msgstr "Ha fallat la modificació d'una tasca a la llista de tasques «{0}»"
 
 # c-format
 #. Translators: {0} is the name of the calendar.
 #: ../src/calendar/calendar.error.xml.h:113
-#, fuzzy
 msgid "Failed to delete an event in the calendar “{0}”"
 msgstr "Ha fallat la supressió d'un esdeveniment al calendari «{0}»"
 
 #. Translators: {0} is the name of the memo list.
 #: ../src/calendar/calendar.error.xml.h:115
-#, fuzzy
 msgid "Failed to delete a memo in the memo list “{0}”"
 msgstr "Ha fallat la supressió d'una anotació a la llista d'anotacions «{0}»"
 
 #. Translators: {0} is the name of the task list.
 #: ../src/calendar/calendar.error.xml.h:117
-#, fuzzy
 msgid "Failed to delete a task in the task list “{0}”"
 msgstr "Ha fallat la supressió d'una tasca a la llista de tasques «{0}»"
 
 # c-format
 #. Translators: {0} is the name of the calendar.
 #: ../src/calendar/calendar.error.xml.h:119
-#, fuzzy
 msgid "Failed to update an event in the calendar “{0}”"
 msgstr "Ha fallat l'actualització d'un esdeveniment al calendari «{0}»"
 
 #. Translators: {0} is the name of the memo list.
 #: ../src/calendar/calendar.error.xml.h:121
-#, fuzzy
 msgid "Failed to update a memo in the memo list “{0}”"
 msgstr ""
 "Ha fallat l'actualització d'una anotació a la llista d'anotacions «{0}»"
 
 #. Translators: {0} is the name of the task list.
 #: ../src/calendar/calendar.error.xml.h:123
-#, fuzzy
 msgid "Failed to update a task in the task list “{0}”"
 msgstr "Ha fallat l'actualització d'una tasca a la llista de tasques «{0}»"
 
 # c-format
 #. Translators: {0} is the name of the calendar.
 #: ../src/calendar/calendar.error.xml.h:125
-#, fuzzy
 msgid "Failed to send an event to the calendar “{0}”"
 msgstr "Ha fallat l'enviament d'un esdeveniment al calendari «{0}»"
 
 #. Translators: {0} is the name of the memo list.
 #: ../src/calendar/calendar.error.xml.h:127
-#, fuzzy
 msgid "Failed to send a memo to the memo list “{0}”"
 msgstr "Ha fallat l'enviament d'una anotació a la llista d'anotacions «{0}»"
 
 #. Translators: {0} is the name of the task list.
 #: ../src/calendar/calendar.error.xml.h:129
-#, fuzzy
 msgid "Failed to send a task to the task list “{0}”"
 msgstr "Ha fallat l'enviament d'una tasca a la llista de tasques «{0}»"
 
 #. Translators: {0} is the name of the calendar.
 #: ../src/calendar/calendar.error.xml.h:131
-#, fuzzy
 msgid "Error creating view for the calendar “{0}”"
 msgstr "Error en crear una vista per al calendari «{0}»"
 
 #. Translators: {0} is the name of the task list.
 #: ../src/calendar/calendar.error.xml.h:133
-#, fuzzy
 msgid "Error creating view for the task list “{0}”"
 msgstr "Error en crear una vista per a la llista de tasques «{0}»"
 
 #. Translators: {0} is the name of the memo list.
 #: ../src/calendar/calendar.error.xml.h:135
-#, fuzzy
 msgid "Error creating view for the memo list “{0}”"
 msgstr "Error en crear una vista per a la llista d'anotacions «{0}»"
 
 #. Translators: {0} is the name of the calendar.
 #: ../src/calendar/calendar.error.xml.h:137
-#, fuzzy
 msgid "Failed to copy an event into the calendar “{0}”"
 msgstr "No s'ha pogut copiar l'esdeveniment al calendari «{0}»"
 
 #. Translators: {0} is the name of the task list.
 #: ../src/calendar/calendar.error.xml.h:139
-#, fuzzy
 msgid "Failed to copy a task into the task list “{0}”"
 msgstr "No s'ha pogut copiar la tasca a la llista de tasques «{0}»"
 
 #. Translators: {0} is the name of the memo list.
 #: ../src/calendar/calendar.error.xml.h:141
-#, fuzzy
 msgid "Failed to copy a memo into the memo list “{0}”"
 msgstr "No s'ha pogut copiar una anotació a la llista d'anotacions «{0}»"
 
 # c-format
 #. Translators: {0} is the name of the calendar.
 #: ../src/calendar/calendar.error.xml.h:143
-#, fuzzy
 msgid "Failed to move an event into the calendar “{0}”"
 msgstr "No s'ha pogut moure un esdeveniment al calendari «{0}»"
 
 #. Translators: {0} is the name of the task list.
 #: ../src/calendar/calendar.error.xml.h:145
-#, fuzzy
 msgid "Failed to move a task into the task list “{0}”"
 msgstr "No s'ha pogut moure una tasca al llistat de tasques «{0}»"
 
 #. Translators: {0} is the name of the memo list.
 #: ../src/calendar/calendar.error.xml.h:147
-#, fuzzy
 msgid "Failed to move a memo into the memo list “{0}”"
 msgstr "No s'ha pogut moure una anotació a la llista d'anotacions «{0}»"
 
 # c-format
 #. Translators: {0} is the name of the calendar.
 #: ../src/calendar/calendar.error.xml.h:149
-#, fuzzy
 msgid "Failed to get an event from the calendar “{0}”"
 msgstr "Ha fallat l'obtenció d'un esdeveniment del calendari «{0}»"
 
 #. Translators: {0} is the name of the task list.
 #: ../src/calendar/calendar.error.xml.h:151
-#, fuzzy
 msgid "Failed to get a task from the task list “{0}”"
 msgstr "Ha fallat l'obtenció d'una tasca de la llista de tasques «{0}»"
 
 #. Translators: {0} is the name of the memo list.
 #: ../src/calendar/calendar.error.xml.h:153
-#, fuzzy
 msgid "Failed to get a memo from the memo list “{0}”"
 msgstr "Ha fallat l'obtenció d'una anotació de la llista d'anotacions «{0}»"
 
 # c-format
 #. Translators: {0} is the name of the calendar.
 #: ../src/calendar/calendar.error.xml.h:155
-#, fuzzy
 msgid "Copying an event into the calendar “{0}”"
 msgstr "S'està copiant un esdeveniment al calendari «{0}»"
 
 #. Translators: {0} is the name of the task list.
 #: ../src/calendar/calendar.error.xml.h:157
-#, fuzzy
 msgid "Copying a task into the task list “{0}”"
 msgstr "S'està copiant una tasca al llistat de tasques «{0}»"
 
 #. Translators: {0} is the name of the memo list.
 #: ../src/calendar/calendar.error.xml.h:159
-#, fuzzy
 msgid "Copying a memo into the memo list “{0}”"
 msgstr "S'està copiant una anotació al llistat d'anotacions «{0}»"
 
 # c-format
 #. Translators: {0} is the name of the calendar.
 #: ../src/calendar/calendar.error.xml.h:161
-#, fuzzy
 msgid "Moving an event into the calendar “{0}”"
 msgstr "S'està movent un esdeveniment al calendari «{0}»"
 
 #. Translators: {0} is the name of the task list.
 #: ../src/calendar/calendar.error.xml.h:163
-#, fuzzy
 msgid "Moving a task into the task list “{0}”"
 msgstr "S'està movent una tasca al llistat de tasques «{0}»"
 
 #. Translators: {0} is the name of the memo list.
 #: ../src/calendar/calendar.error.xml.h:165
-#, fuzzy
 msgid "Moving a memo into the memo list “{0}”"
 msgstr "S'està movent una anotació al llistat d'anotacions «{0}»"
 
 #. Translators: {0} is the name of the calendar.
 #: ../src/calendar/calendar.error.xml.h:167
-#, fuzzy
 msgid "Failed to refresh calendar “{0}”"
 msgstr "Ha fallat el refresc del calendari «{0}»"
 
 #. Translators: {0} is the name of the task list.
 #: ../src/calendar/calendar.error.xml.h:169
-#, fuzzy
 msgid "Failed to refresh task list “{0}”"
 msgstr "Ha fallat el refresc de la llista de tasques «{0}»"
 
 #. Translators: {0} is the name of the memo list.
 #: ../src/calendar/calendar.error.xml.h:171
-#, fuzzy
 msgid "Failed to refresh memo list “{0}”"
 msgstr "Ha fallat el refresc de la llista d'anotacions «{0}»"
 
@@ -6065,9 +6006,8 @@ msgid "Failed to make an occurrence movable"
 msgstr "Ha fallat fer la coincidència movible"
 
 #: ../src/calendar/calendar.error.xml.h:173
-#, fuzzy
 msgid "Something has gone wrong when displaying the event"
-msgstr "Crea una finestra nova que mostri aquesta visualització"
+msgstr "Alguna cosa ha anat malament mentre es mostrava l'esdeveniment"
 
 #: ../src/calendar/calendar.error.xml.h:174
 msgid ""
@@ -6080,9 +6020,8 @@ msgstr ""
 "persisteix, si us plau, informeu-ne al bugzilla del GNOME."
 
 #: ../src/calendar/calendar.error.xml.h:175
-#, fuzzy
 msgid "Something has gone wrong when displaying the memo"
-msgstr "Crea una finestra nova que mostri aquesta visualització"
+msgstr "Alguna cosa ha anat malament mentre es mostrava la visualització"
 
 #: ../src/calendar/calendar.error.xml.h:176
 msgid ""
@@ -6095,9 +6034,8 @@ msgstr ""
 "persisteix, si us plau, informeu-ne al bugzilla del GNOME."
 
 #: ../src/calendar/calendar.error.xml.h:177
-#, fuzzy
 msgid "Something has gone wrong when displaying the task"
-msgstr "Mode que s'utilitzarà per visualitzar el correu"
+msgstr "Alguna cosa ha anat malament mentre es mostrava la tasca"
 
 #: ../src/calendar/calendar.error.xml.h:178
 msgid ""
@@ -6574,7 +6512,7 @@ msgstr "Prioritat:"
 #: ../src/calendar/gui/e-cal-component-preview.c:327
 #: ../src/calendar/gui/e-task-table.c:548
 #: ../src/calendar/gui/tasktypes.xml.in.h:19
-#: ../src/e-util/e-send-options.ui.h:2 ../src/mail/message-list.c:320
+#: ../src/e-util/e-send-options.ui.h:2 ../src/mail/message-list.c:322
 msgid "High"
 msgstr "Alta"
 
@@ -6582,14 +6520,14 @@ msgstr "Alta"
 #: ../src/calendar/gui/e-cal-model.c:1888
 #: ../src/calendar/gui/e-task-table.c:549
 #: ../src/calendar/gui/tasktypes.xml.in.h:20
-#: ../src/e-util/e-send-options.ui.h:5 ../src/mail/message-list.c:319
+#: ../src/e-util/e-send-options.ui.h:5 ../src/mail/message-list.c:321
 msgid "Normal"
 msgstr "Normal"
 
 #: ../src/calendar/gui/e-cal-component-preview.c:331
 #: ../src/calendar/gui/e-task-table.c:550
 #: ../src/calendar/gui/tasktypes.xml.in.h:21
-#: ../src/e-util/e-send-options.ui.h:4 ../src/mail/message-list.c:318
+#: ../src/e-util/e-send-options.ui.h:4 ../src/mail/message-list.c:320
 msgid "Low"
 msgstr "Baixa"
 
@@ -6603,17 +6541,17 @@ msgid "Web Page:"
 msgstr "Pàgina web:"
 
 #: ../src/calendar/gui/e-cal-data-model.c:1631
-#, fuzzy, c-format
+#, c-format
 msgid "Creating view for calendar “%s”"
 msgstr "S'està creant una vista per al calendari «%s»"
 
 #: ../src/calendar/gui/e-cal-data-model.c:1635
-#, fuzzy, c-format
+#, c-format
 msgid "Creating view for task list “%s”"
 msgstr "S'està creant una vista per a la llista de tasques «%s»"
 
 #: ../src/calendar/gui/e-cal-data-model.c:1639
-#, fuzzy, c-format
+#, c-format
 msgid "Creating view for memo list “%s”"
 msgstr "S'està creant una vista per a la llista d'anotacions «%s»"
 
@@ -6623,22 +6561,21 @@ msgstr "La destinació és de només lectura"
 
 # c-format
 #: ../src/calendar/gui/e-cal-dialogs.c:299
-#, fuzzy, c-format
+#, c-format
 msgid "Copying events to the calendar “%s”"
 msgstr "S'estan copiant esdeveniments al calendari «%s»"
 
 #: ../src/calendar/gui/e-cal-dialogs.c:305
-#, fuzzy, c-format
+#, c-format
 msgid "Copying memos to the memo list “%s”"
 msgstr "S'estan copiant anotacions a la llista d'anotacions «%s»"
 
 #: ../src/calendar/gui/e-cal-dialogs.c:311
-#, fuzzy, c-format
+#, c-format
 msgid "Copying tasks to the task list “%s”"
-msgstr "S'estan copiant anotacions a la llista de tasques «%s»"
+msgstr "S'estan copiant tasques a la llista de tasques «%s»"
 
 #: ../src/calendar/gui/e-cal-dialogs.c:530
-#, fuzzy
 msgid "_Delete this item from all other recipient’s mailboxes?"
 msgstr ""
 "Voleu suprimir aquest element _de totes les bústies dels altres destinataris?"
@@ -6767,7 +6704,6 @@ msgid "Delete selected events"
 msgstr "Suprimeix els esdeveniments seleccionats"
 
 #: ../src/calendar/gui/e-calendar-view.c:853
-#, fuzzy
 msgid "Pasted text doesn’t contain valid iCalendar data"
 msgstr "El text enganxat no conté dades vàlides de l'iCalendar"
 
@@ -6909,7 +6845,7 @@ msgstr "Font"
 #: ../src/calendar/gui/e-meeting-store.c:230 ../src/calendar/gui/print.c:1247
 #: ../src/calendar/gui/print.c:1264 ../src/e-util/e-charset.c:49
 #: ../src/modules/itip-formatter/itip-view.c:3412
-#: ../src/modules/itip-formatter/itip-view.c:6022
+#: ../src/modules/itip-formatter/itip-view.c:6082
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:97
 msgid "Unknown"
 msgstr "Es desconeix"
@@ -6917,7 +6853,7 @@ msgstr "Es desconeix"
 #: ../src/calendar/gui/e-cal-model.c:1402 ../src/calendar/gui/e-cal-ops.c:613
 #: ../src/calendar/gui/e-cal-ops.c:1249
 #: ../src/modules/calendar/e-cal-base-shell-backend.c:289
-#, fuzzy, c-format
+#, c-format
 msgid "Source with UID “%s” not found"
 msgstr "No s'ha trobat la font amb l'UID «%s»"
 
@@ -6964,7 +6900,7 @@ msgstr "No"
 #: ../src/calendar/gui/e-meeting-list-view.c:219
 #: ../src/calendar/gui/e-meeting-store.c:194
 #: ../src/calendar/gui/e-meeting-store.c:217
-#: ../src/modules/itip-formatter/itip-view.c:6010
+#: ../src/modules/itip-formatter/itip-view.c:6070
 msgid "Accepted"
 msgstr "Acceptat"
 
@@ -6972,7 +6908,7 @@ msgstr "Acceptat"
 #: ../src/calendar/gui/e-meeting-list-view.c:220
 #: ../src/calendar/gui/e-meeting-store.c:196
 #: ../src/calendar/gui/e-meeting-store.c:219
-#: ../src/modules/itip-formatter/itip-view.c:6016
+#: ../src/modules/itip-formatter/itip-view.c:6076
 msgid "Declined"
 msgstr "Declinat"
 
@@ -6988,7 +6924,7 @@ msgstr "Provisionalment"
 #: ../src/calendar/gui/e-meeting-list-view.c:222
 #: ../src/calendar/gui/e-meeting-store.c:200
 #: ../src/calendar/gui/e-meeting-store.c:223
-#: ../src/modules/itip-formatter/itip-view.c:6019
+#: ../src/modules/itip-formatter/itip-view.c:6079
 msgid "Delegated"
 msgstr "Delegat"
 
@@ -7115,34 +7051,34 @@ msgstr "S'està actualitzant una tasca"
 
 # c-format
 #: ../src/calendar/gui/e-cal-ops.c:966
-#, fuzzy, c-format
+#, c-format
 msgid "Getting events to purge in the calendar “%s”"
 msgstr "S'està fent que els esdeveniments es purguin al calendari «%s»"
 
 #: ../src/calendar/gui/e-cal-ops.c:970
-#, fuzzy, c-format
+#, c-format
 msgid "Getting memos to purge in the memo list “%s”"
 msgstr ""
 "S'està fent que les anotacions es purguin a la llista d'anotacions «%s»"
 
 #: ../src/calendar/gui/e-cal-ops.c:974
-#, fuzzy, c-format
+#, c-format
 msgid "Getting tasks to purge in the task list “%s”"
 msgstr "S'està fent que les tasques es purguin a la llista de tasques «%s»"
 
 # c-format
 #: ../src/calendar/gui/e-cal-ops.c:1000
-#, fuzzy, c-format
+#, c-format
 msgid "Purging events in the calendar “%s”"
 msgstr "S'estan purgant els esdeveniments al calendari «%s»"
 
 #: ../src/calendar/gui/e-cal-ops.c:1004
-#, fuzzy, c-format
+#, c-format
 msgid "Purging memos in the memo list “%s”"
 msgstr "S'estan purgant les anotacions al llistat d'anotacions «%s»"
 
 #: ../src/calendar/gui/e-cal-ops.c:1008
-#, fuzzy, c-format
+#, c-format
 msgid "Purging tasks in the task list “%s”"
 msgstr "S'estan purgant les tasques al llistat de tasques «%s»"
 
@@ -7225,7 +7161,6 @@ msgstr ""
 "%s"
 
 #: ../src/calendar/gui/e-comp-editor-event.c:99
-#, fuzzy
 msgid "Event’s time is in the past"
 msgstr "L'hora de l'esdeveniment és al passat"
 
@@ -7383,14 +7318,14 @@ msgid "Schedule"
 msgstr "Planificació"
 
 #: ../src/calendar/gui/e-comp-editor-event.c:857
-#, fuzzy, c-format
+#, c-format
 msgid "Meeting — %s"
-msgstr "Reunió - %s"
+msgstr "Reunió — %s"
 
 #: ../src/calendar/gui/e-comp-editor-event.c:858
-#, fuzzy, c-format
+#, c-format
 msgid "Appointment — %s"
-msgstr "Cita - %s"
+msgstr "Cita — %s"
 
 #: ../src/calendar/gui/e-comp-editor-memo.c:88
 msgid ""
@@ -7422,14 +7357,14 @@ msgid "Sta_rt date:"
 msgstr "Data d'_inici:"
 
 #: ../src/calendar/gui/e-comp-editor-memo.c:247
-#, fuzzy, c-format
+#, c-format
 msgid "Assigned Memo — %s"
-msgstr "Anotació assignada - %s"
+msgstr "Anotació assignada — %s"
 
 #: ../src/calendar/gui/e-comp-editor-memo.c:248
-#, fuzzy, c-format
+#, c-format
 msgid "Memo — %s"
-msgstr "Anotació - %s"
+msgstr "Anotació — %s"
 
 #: ../src/calendar/gui/e-comp-editor-page-attachments.c:123
 #: ../src/calendar/gui/e-comp-editor-page-attachments.c:128
@@ -7444,7 +7379,7 @@ msgstr[1] "Fitxers adjunts"
 
 #: ../src/calendar/gui/e-comp-editor-page-attachments.c:194
 #: ../src/e-util/e-attachment.c:2419
-#, fuzzy, c-format
+#, c-format
 msgid "Could not load “%s”"
 msgstr "No s'ha pogut carregar «%s»"
 
@@ -7463,12 +7398,12 @@ msgstr ""
 "baixada."
 
 #: ../src/calendar/gui/e-comp-editor-page-attachments.c:428
-#, fuzzy, c-format
+#, c-format
 msgid "Attachment “%s” cannot be found, remove it from the list, please"
 msgstr "No es pot trobar l'adjunt «%s», elimineu-lo de la llista, si us plau"
 
 #: ../src/calendar/gui/e-comp-editor-page-attachments.c:445
-#, fuzzy, c-format
+#, c-format
 msgid "Attachment “%s” doesn’t have valid URI, remove it from the list, please"
 msgstr "L'adjunt «%s» no té un URI vàlid, elimineu-lo de la llista, si us plau"
 
@@ -7502,12 +7437,12 @@ msgid "List View"
 msgstr "Vista de llista"
 
 #: ../src/calendar/gui/e-comp-editor-page-general.c:311
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot find attendee “%s” in the list of attendees"
 msgstr "No s'ha pogut trobar l'assistent «%s» a la llista d'assistents"
 
 #: ../src/calendar/gui/e-comp-editor-page-general.c:318
-#, fuzzy, c-format
+#, c-format
 msgid "Not enough rights to delete attendee “%s”"
 msgstr "Drets insuficients per eliminar l'assistent «%s»"
 
@@ -8149,12 +8084,10 @@ msgid "Show time as _busy"
 msgstr "Mostra el temps com a _ocupat"
 
 #: ../src/calendar/gui/e-comp-editor-task.c:224
-#, fuzzy
 msgid "Task’s start date is in the past"
 msgstr "La data d'inici de la tasca es troba en el passat"
 
 #: ../src/calendar/gui/e-comp-editor-task.c:232
-#, fuzzy
 msgid "Task’s due date is in the past"
 msgstr "La data de venciment de la tasca es troba en el passat"
 
@@ -8188,22 +8121,20 @@ msgid "Completed date cannot be in the future"
 msgstr "La data d'acabament no pot ser al futur"
 
 #: ../src/calendar/gui/e-comp-editor-task.c:607
-#, fuzzy
 msgid "All _Day Task"
 msgstr "Esdeveniment de tot el _dia"
 
 #: ../src/calendar/gui/e-comp-editor-task.c:609
-#, fuzzy
 msgid "Toggles whether to have All Day Task"
-msgstr "Commuta per tenir l'esdeveniment tot el dia"
+msgstr "Commuta per tenir la tasca tot el dia"
 
 #: ../src/calendar/gui/e-comp-editor-task.c:818
-#, fuzzy, c-format
+#, c-format
 msgid "Assigned Task — %s"
 msgstr "Tasca assignada - %s"
 
 #: ../src/calendar/gui/e-comp-editor-task.c:819
-#, fuzzy, c-format
+#, c-format
 msgid "Task — %s"
 msgstr "Tasca - %s"
 
@@ -8302,13 +8233,13 @@ msgstr "Enganxa el porta-retalls"
 
 #: ../src/calendar/gui/e-comp-editor.c:2018
 #: ../src/composer/e-composer-actions.c:381 ../src/mail/e-mail-reader.c:2323
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1229
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1243
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1232
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1246
 msgid "_Print..."
 msgstr "Im_primeix..."
 
 #: ../src/calendar/gui/e-comp-editor.c:2025 ../src/mail/e-mail-reader.c:2330
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1236
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1239
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1693
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:813
 #: ../src/modules/calendar/e-task-shell-view-actions.c:1014
@@ -11143,7 +11074,7 @@ msgstr "Ass_umpte:"
 msgid "Si_gnature:"
 msgstr "Si_gnatura:"
 
-#: ../src/composer/e-composer-name-header.c:231
+#: ../src/composer/e-composer-name-header.c:237
 msgid "Click here for the address book"
 msgstr "Feu clic aquí per anar a la llibreta d'adreces"
 
@@ -11172,19 +11103,17 @@ msgstr ""
 msgid "Compose Message"
 msgstr "Redacta un missatge"
 
-#: ../src/composer/e-msg-composer.c:4767
+#: ../src/composer/e-msg-composer.c:4763
 msgid "The composer contains a non-text message body, which cannot be edited."
 msgstr ""
 "El redactor conté un cos de missatge que no està format per text i no es pot "
 "editar."
 
 #: ../src/composer/mail-composer.error.xml.h:1
-#, fuzzy
 msgid "You cannot attach the file “{0}” to this message."
 msgstr "No es pot adjuntar el fitxer «{0}» a aquest missatge."
 
 #: ../src/composer/mail-composer.error.xml.h:2
-#, fuzzy
 msgid "The file “{0}” is not a regular file and cannot be sent in a message."
 msgstr ""
 "El fitxer «{0}» no és un fitxer normal i no es pot enviar en un missatge."
@@ -11195,7 +11124,6 @@ msgstr "No s'han pogut obtenir els missatges per adjuntar de {0}."
 
 #: ../src/composer/mail-composer.error.xml.h:4
 #: ../src/e-util/e-system.error.xml.h:5
-#, fuzzy
 msgid "Because “{1}”."
 msgstr "Degut a «{1}»."
 
@@ -11220,17 +11148,14 @@ msgid "_Recover"
 msgstr "R_ecupera"
 
 #: ../src/composer/mail-composer.error.xml.h:9
-#, fuzzy
 msgid "Could not save to autosave file “{0}”."
 msgstr "No s'ha pogut desar el fitxer de còpia automàtica «{0}»."
 
 #: ../src/composer/mail-composer.error.xml.h:10
-#, fuzzy
 msgid "Error saving to autosave because “{1}”."
 msgstr "S'ha produït un error en desar automàticament degut a «{1}»."
 
 #: ../src/composer/mail-composer.error.xml.h:11
-#, fuzzy
 msgid ""
 "Are you sure you want to discard the message, titled “{0}”, you are "
 "composing?"
@@ -11264,16 +11189,16 @@ msgid "Could not create message."
 msgstr "No s'ha pogut crear el missatge."
 
 #: ../src/composer/mail-composer.error.xml.h:19
-#, fuzzy
 msgid ""
 "You may need to select different mail options.\n"
 "\n"
 "Detailed error: {0}"
 msgstr ""
-"Degut a «{0}» pot ser que hàgiu de seleccionar diferents opcions de correu."
+"Pot ser que hàgiu de seleccionar diferents opcions de correu.\n"
+"\n"
+"Error detallat: «{0}» "
 
 #: ../src/composer/mail-composer.error.xml.h:22
-#, fuzzy
 msgid "Could not read signature file “{0}”."
 msgstr "No s'ha pogut llegir el fitxer de signatura «{0}»."
 
@@ -11290,7 +11215,6 @@ msgid "An error occurred while saving to your Outbox folder."
 msgstr "S'ha produït un error en desar a la safata de sortida."
 
 #: ../src/composer/mail-composer.error.xml.h:26
-#, fuzzy
 msgid "The reported error was “{0}”. The message has not been sent."
 msgstr "L'error fou «{0}». El missatge no s'ha enviat."
 
@@ -11299,7 +11223,6 @@ msgid "An error occurred while saving to your Drafts folder."
 msgstr "S'ha produït un error en desar a la carpeta d'esborranys."
 
 #: ../src/composer/mail-composer.error.xml.h:28
-#, fuzzy
 msgid ""
 "The reported error was “{0}”. The message has most likely not been saved."
 msgstr "L'error fou «{0}». El missatge probablement no s'ha desat."
@@ -11310,7 +11233,6 @@ msgstr "S'ha produït un error en l'enviament. Què voleu fer a continuació?"
 
 #: ../src/composer/mail-composer.error.xml.h:30
 #: ../src/mail/mail.error.xml.h:175
-#, fuzzy
 msgid "The reported error was “{0}”."
 msgstr "L'error fou «{0}»."
 
@@ -11332,7 +11254,6 @@ msgid "Saving message to Outbox."
 msgstr "S'està desant el missatge a la safata de sortida."
 
 #: ../src/composer/mail-composer.error.xml.h:35
-#, fuzzy
 msgid ""
 "The message will be saved to your local Outbox folder, because the "
 "destination service is currently unavailable. You can send the message by "
@@ -11356,23 +11277,20 @@ msgstr ""
 "bé envieu el missatge."
 
 #: ../src/composer/mail-composer.error.xml.h:39
-#, fuzzy
 msgid "Are you sure you want to change the composer format?"
 msgstr "Esteu segurs de voler canviar el mode composició?"
 
 #: ../src/composer/mail-composer.error.xml.h:40
-#, fuzzy
 msgid ""
 "Switching to Plain Text format will cause the text to lose all the HTML "
 "formatting. Do you want to continue?"
 msgstr ""
-"Desactivar el mode HTML farà que el text perdi tot el format. Voleu "
+"Canviar al mode text pla provocarà la pèrdua del formatat HTML. Voleu "
 "continuar?"
 
 #: ../src/composer/mail-composer.error.xml.h:41
-#, fuzzy
 msgid "_Don’t lose formatting"
-msgstr "No en perdis el format"
+msgstr "No en per_dis el format"
 
 #: ../src/composer/mail-composer.error.xml.h:42
 msgid "Lose _formatting"
@@ -11383,9 +11301,8 @@ msgid "An error occurred while saving to your Templates folder."
 msgstr "S'ha produït un error en desar a la carpeta d'esborranys."
 
 #: ../src/composer/mail-composer.error.xml.h:44
-#, fuzzy
 msgid "Are you sure you want to convert the message into a meeting?"
-msgstr "Segur que voleu descartar el missatge que esteu redactant?"
+msgstr "Segur que voleu convertir el missatge en una reunió?"
 
 #: ../src/composer/mail-composer.error.xml.h:45
 msgid ""
@@ -11396,14 +11313,12 @@ msgstr ""
 "que els canvis que s'hi han fet es descartin."
 
 #: ../src/composer/mail-composer.error.xml.h:46
-#, fuzzy
 msgid "Convert to _Meeting"
-msgstr "Crea una re_unió"
+msgstr "Converteix en una _reunió"
 
 #: ../src/composer/mail-composer.error.xml.h:47
-#, fuzzy
 msgid "Are you sure you want to convert the event into a message?"
-msgstr "Segur que voleu enviar el missatge?"
+msgstr "Segur que voleu convertir l'esdeveniment en un missatge?"
 
 #: ../src/composer/mail-composer.error.xml.h:48
 msgid ""
@@ -11414,14 +11329,12 @@ msgstr ""
 "tanqui i que els canvis que s'hi han fet es descartin."
 
 #: ../src/composer/mail-composer.error.xml.h:49
-#, fuzzy
 msgid "Convert to _Message"
-msgstr "Missatges importants"
+msgstr "Converteix en un _missatge"
 
 #: ../src/composer/mail-composer.error.xml.h:50
-#, fuzzy
 msgid "Are you sure you want to convert the memo into a message?"
-msgstr "Segur que voleu desar una nota sense resum?"
+msgstr "Segur que voleu convertir l'anotació en un missatge?"
 
 #: ../src/composer/mail-composer.error.xml.h:51
 msgid ""
@@ -11432,9 +11345,8 @@ msgstr ""
 "i que els canvis que s'hi han fet es descartin."
 
 #: ../src/composer/mail-composer.error.xml.h:52
-#, fuzzy
 msgid "Are you sure you want to convert the task into a message?"
-msgstr "Segur que voleu desar la tasca sense cap resum?"
+msgstr "Segur que voleu convertir la tasca sense en un missatge?"
 
 #: ../src/composer/mail-composer.error.xml.h:53
 msgid ""
@@ -11769,7 +11681,7 @@ msgid "Pointer to FTP site (%s)"
 msgstr "Punter al lloc FTP (%s)"
 
 #: ../src/em-format/e-mail-parser-message-external.c:110
-#, fuzzy, c-format
+#, c-format
 msgid "Pointer to local file (%s) valid at site “%s”"
 msgstr "Punter a un fitxer local (%s) vàlid al lloc «%s»"
 
@@ -11784,7 +11696,7 @@ msgid "Pointer to remote data (%s)"
 msgstr "Punter a dades remotes (%s)"
 
 #: ../src/em-format/e-mail-parser-message-external.c:149
-#, fuzzy, c-format
+#, c-format
 msgid "Pointer to unknown external data (“%s” type)"
 msgstr "Punter a dades externes (tipus «%s»)"
 
@@ -11935,7 +11847,7 @@ msgid "A save operation is already in progress"
 msgstr "Ja s'està efectuant una operació de desament"
 
 #: ../src/e-util/e-attachment.c:2707
-#, fuzzy, c-format
+#, c-format
 msgid "Could not open “%s”"
 msgstr "No s'ha pogut obrir %s:"
 
@@ -11949,7 +11861,7 @@ msgid "Attachment contents not loaded"
 msgstr "No s'ha carregat el contingut de l'adjunció"
 
 #: ../src/e-util/e-attachment.c:3551
-#, fuzzy, c-format
+#, c-format
 msgid "Could not save “%s”"
 msgstr "No s'ha pogut desar «%s»"
 
@@ -12064,7 +11976,7 @@ msgid "A_dd Attachment..."
 msgstr "_Afegeix una adjunció..."
 
 #: ../src/e-util/e-attachment-view.c:348
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1095
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1098
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1276
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:605
 #: ../src/modules/calendar/e-task-shell-view-actions.c:731
@@ -12074,7 +11986,7 @@ msgid "_Properties"
 msgstr "_Propietats"
 
 #: ../src/e-util/e-attachment-view.c:658
-#, fuzzy, c-format
+#, c-format
 msgid "Open With “%s”"
 msgstr "Obre amb «%s»"
 
@@ -12172,25 +12084,25 @@ msgstr ""
 "Copia localment el contingut de la llista d'anotacions per treballar fora de "
 "línia"
 
-#: ../src/e-util/e-categories-editor.c:224
+#: ../src/e-util/e-categories-editor.c:246
 msgid "Currently _used categories:"
 msgstr "Categories que ja s'_utilitzen:"
 
-#: ../src/e-util/e-categories-editor.c:235
+#: ../src/e-util/e-categories-editor.c:257
 msgid "_Available Categories:"
 msgstr "C_ategories disponibles:"
 
-#: ../src/e-util/e-categories-editor.c:275
+#: ../src/e-util/e-categories-editor.c:297
 msgctxt "category"
 msgid "_New"
 msgstr "_Nou"
 
-#: ../src/e-util/e-categories-editor.c:279
+#: ../src/e-util/e-categories-editor.c:301
 msgctxt "category"
 msgid "_Edit"
 msgstr "_Edita"
 
-#: ../src/e-util/e-categories-editor.c:283
+#: ../src/e-util/e-categories-editor.c:305
 msgctxt "category"
 msgid "_Delete"
 msgstr "_Suprimeix"
@@ -12200,32 +12112,32 @@ msgid "Icon"
 msgstr "Icona"
 
 #: ../src/e-util/e-category-completion.c:304
-#, fuzzy, c-format
+#, c-format
 msgid "Create category “%s”"
 msgstr "Crea la categoria «%s»"
 
-#: ../src/e-util/e-category-editor.c:135
+#: ../src/e-util/e-category-editor.c:138
 msgid "Category Icon"
 msgstr "Icona de categoria"
 
-#: ../src/e-util/e-category-editor.c:139
+#: ../src/e-util/e-category-editor.c:142
 msgid "_No Image"
 msgstr "_Sense imatge"
 
-#: ../src/e-util/e-category-editor.c:172
+#: ../src/e-util/e-category-editor.c:175
 msgid "Category _Name"
 msgstr "_Nom de la categoria"
 
-#: ../src/e-util/e-category-editor.c:184
+#: ../src/e-util/e-category-editor.c:188
 msgid "Category _Icon"
 msgstr "_Icona de la categoria"
 
-#: ../src/e-util/e-category-editor.c:210
+#: ../src/e-util/e-category-editor.c:214
 msgid "Category Properties"
 msgstr "Propietats de la categoria"
 
-#: ../src/e-util/e-category-editor.c:271
-#, fuzzy, c-format
+#: ../src/e-util/e-category-editor.c:275
+#, c-format
 msgid ""
 "There is already a category “%s” in the configuration. Please use another "
 "name"
@@ -12236,7 +12148,7 @@ msgid "popup list"
 msgstr "llista desplegable"
 
 #: ../src/e-util/e-cell-date.c:49 ../src/e-util/e-cell-date.c:137
-#: ../src/e-util/e-cell-date.c:157 ../src/mail/message-list.c:2064
+#: ../src/e-util/e-cell-date.c:157 ../src/mail/message-list.c:2066
 msgid "?"
 msgstr "?"
 
@@ -12362,7 +12274,7 @@ msgid "Other..."
 msgstr "Altres..."
 
 #: ../src/e-util/e-client-cache.c:1149 ../src/e-util/e-client-cache.c:1280
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot create a client object from extension name “%s”"
 msgstr ""
 "No s'ha pogut crear un objecte client a partir del nom de l'extensió «%s»"
@@ -12575,16 +12487,16 @@ msgstr "_Cap"
 
 #. Translators: "None" for date field of a date edit, shown when
 #. * there is no date set.
-#: ../src/e-util/e-dateedit.c:1839 ../src/e-util/e-dateedit.c:2087
+#: ../src/e-util/e-dateedit.c:1846 ../src/e-util/e-dateedit.c:2094
 msgctxt "date"
 msgid "None"
 msgstr "Cap"
 
-#: ../src/e-util/e-dateedit.c:1979
+#: ../src/e-util/e-dateedit.c:1986
 msgid "Invalid Date Value"
 msgstr "El valor de la data no és vàlid"
 
-#: ../src/e-util/e-dateedit.c:2024
+#: ../src/e-util/e-dateedit.c:2031
 msgid "Invalid Time Value"
 msgstr "El valor de l'hora no és vàlid"
 
@@ -12665,28 +12577,24 @@ msgstr "Format:"
 
 #. Translators: This is part of: "Do not synchronize locally mails older than [ xxx ] [ days ]"
 #: ../src/e-util/e-dialog-widgets.c:181
-#, fuzzy
 msgctxt "time-unit"
 msgid "days"
 msgstr "dies"
 
 #. Translators: This is part of: "Do not synchronize locally mails older than [ xxx ] [ weeks ]"
 #: ../src/e-util/e-dialog-widgets.c:183
-#, fuzzy
 msgctxt "time-unit"
 msgid "weeks"
 msgstr "setmanes"
 
 #. Translators: This is part of: "Do not synchronize locally mails older than [ xxx ] [ months ]"
 #: ../src/e-util/e-dialog-widgets.c:185
-#, fuzzy
 msgctxt "time-unit"
 msgid "months"
 msgstr "mesos"
 
 #. Translators: This is part of: "Do not synchronize locally mails older than [ xxx ] [ years ]"
 #: ../src/e-util/e-dialog-widgets.c:187
-#, fuzzy
 msgctxt "time-unit"
 msgid "years"
 msgstr "anys"
@@ -12807,14 +12715,14 @@ msgstr "(nom de fitxer desconegut)"
 
 #. Translators: The string value is the basename of a file.
 #: ../src/e-util/e-file-utils.c:125
-#, fuzzy, c-format
+#, c-format
 msgid "Writing “%s”"
 msgstr "S'està escrivint «%s»"
 
 #. Translators: The first string value is the basename of a
 #. * remote file, the second string value is the hostname.
 #: ../src/e-util/e-file-utils.c:130
-#, fuzzy, c-format
+#, c-format
 msgid "Writing “%s” to %s"
 msgstr "S'està escrivint «%s» a «%s»"
 
@@ -13186,32 +13094,26 @@ msgid "_Normal"
 msgstr "_Normal"
 
 #: ../src/e-util/e-html-editor-actions.c:1102
-#, fuzzy
 msgid "Heading _1"
 msgstr "Capçalera_1"
 
 #: ../src/e-util/e-html-editor-actions.c:1109
-#, fuzzy
 msgid "Heading _2"
 msgstr "Capçalera_2"
 
 #: ../src/e-util/e-html-editor-actions.c:1116
-#, fuzzy
 msgid "Heading _3"
 msgstr "Capçalera_3"
 
 #: ../src/e-util/e-html-editor-actions.c:1123
-#, fuzzy
 msgid "Heading _4"
 msgstr "Capçalera_4"
 
 #: ../src/e-util/e-html-editor-actions.c:1130
-#, fuzzy
 msgid "Heading _5"
 msgstr "Capçalera_5"
 
 #: ../src/e-util/e-html-editor-actions.c:1137
-#, fuzzy
 msgid "Heading _6"
 msgstr "Capçalera_6"
 
@@ -13897,7 +13799,7 @@ msgid "Replace"
 msgstr "Reemplaça"
 
 #: ../src/e-util/e-html-editor-spell-check-dialog.c:83
-#, fuzzy, c-format
+#, c-format
 msgid "<b>Suggestions for “%s”</b>"
 msgstr "<b>Suggeriments per a «%s»</b>"
 
@@ -14018,7 +13920,6 @@ msgid "Please select the information that you would like to import:"
 msgstr "Seleccioneu la informació que voleu importar:"
 
 #: ../src/e-util/e-import-assistant.c:536
-#, fuzzy
 msgid ""
 "Evolution checked for settings to import from the following applications: "
 "Pine, Netscape, Elm, iCalendar, KMail. No importable settings found. If you "
@@ -14089,7 +13990,6 @@ msgid "Select a File"
 msgstr "Seleccioneu un fitxer"
 
 #: ../src/e-util/e-import-assistant.c:1365
-#, fuzzy
 msgid "Click “Apply” to begin importing the file into Evolution."
 msgstr ""
 "Feu clic a «Aplica» per iniciar la importació del fitxer a l'Evolution."
@@ -14168,22 +14068,22 @@ msgid "Could not display help for Evolution."
 msgstr "No s'ha pogut mostrar l'ajuda de l'Evolution."
 
 #: ../src/e-util/e-misc-utils.c:2501
-#, fuzzy, c-format
+#, c-format
 msgid "Opening calendar “%s”"
 msgstr "S'està obrint el calendari «%s»"
 
 #: ../src/e-util/e-misc-utils.c:2504
-#, fuzzy, c-format
+#, c-format
 msgid "Opening memo list “%s”"
 msgstr "S'està obrint la llista d'anotacions «%s»"
 
 #: ../src/e-util/e-misc-utils.c:2507
-#, fuzzy, c-format
+#, c-format
 msgid "Opening task list “%s”"
 msgstr "S'està obrint la llista de tasques «%s»"
 
 #: ../src/e-util/e-misc-utils.c:2510
-#, fuzzy, c-format
+#, c-format
 msgid "Opening address book “%s”"
 msgstr "S'està obrint la llibreta d'adreces «%s»"
 
@@ -14210,7 +14110,7 @@ msgstr "_Cerca:"
 
 #: ../src/e-util/e-name-selector-dialog.c:363
 #: ../src/e-util/e-name-selector-dialog.c:1330
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1181
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1184
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1624
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:758
 #: ../src/modules/calendar/e-task-shell-view-actions.c:931
@@ -14702,7 +14602,7 @@ msgstr "Més..."
 
 #. + Add to Dictionary
 #: ../src/e-util/e-spell-entry.c:588
-#, fuzzy, c-format
+#, c-format
 msgid "Add “%s” to Dictionary"
 msgstr "Afegeix «%s» al diccionari"
 
@@ -14716,12 +14616,10 @@ msgid "Spelling Suggestions"
 msgstr "Suggeriments d'ortografia"
 
 #: ../src/e-util/e-system.error.xml.h:1
-#, fuzzy
 msgid "A file named “{0}” already exists. Do you want to replace it?"
-msgstr "Ja existeix una carpeta anomenada «{0}». Voleu reemplaçar-la?"
+msgstr "Ja existeix un fitxer anomenat «{0}». Voleu reemplaçar-lo?"
 
 #: ../src/e-util/e-system.error.xml.h:2
-#, fuzzy
 msgid ""
 "The file already exists in “{0}”. Replacing it will overwrite its contents."
 msgstr ""
@@ -14729,37 +14627,30 @@ msgstr ""
 "contingut."
 
 #: ../src/e-util/e-system.error.xml.h:4
-#, fuzzy
 msgid "Cannot save file “{0}”."
 msgstr "No es pot desar el fitxer «{0}»."
 
 #: ../src/e-util/e-system.error.xml.h:6
-#, fuzzy
 msgid "Cannot open file “{0}”."
 msgstr "No es pot obrir el fitxer «{0}»."
 
 #: ../src/e-util/e-system.error.xml.h:7
-#, fuzzy
 msgid "Failed to remove data source “{0}”."
 msgstr "No s'ha pogut suprimir la font de dades «{0}»."
 
 #: ../src/e-util/e-system.error.xml.h:8 ../src/mail/mail.error.xml.h:64
-#, fuzzy
 msgid "The reported error was “{1}”."
 msgstr "L'error fou «{1}»."
 
 #: ../src/e-util/e-system.error.xml.h:9
-#, fuzzy
 msgid "Failed to update data source “{0}”."
 msgstr "No s'ha pogut actualitzar la font de dades «{0}»."
 
 #: ../src/e-util/e-system.error.xml.h:10
-#, fuzzy
 msgid "Failed to delete resource “{0}”."
 msgstr "No s'ha pogut suprimir el recurs «{0}»."
 
 #: ../src/e-util/e-system.error.xml.h:11
-#, fuzzy
 msgid "The address book backend servicing “{0}” has quit unexpectedly."
 msgstr ""
 "Ha sortit inesperadament el rerefons de llibreta d'adreces que servia &quot;"
@@ -14773,7 +14664,6 @@ msgstr ""
 "alguns dels vostres contactes."
 
 #: ../src/e-util/e-system.error.xml.h:13
-#, fuzzy
 msgid "The calendar backend servicing “{0}” has quit unexpectedly."
 msgstr ""
 "Ha sortit inesperadament el rerefons de calendari que servia &quot;{0}&quot;."
@@ -14786,7 +14676,6 @@ msgstr ""
 "algunes de les vostres anotacions."
 
 #: ../src/e-util/e-system.error.xml.h:15
-#, fuzzy
 msgid "The memo list backend servicing “{0}” has quit unexpectedly."
 msgstr ""
 "Ha sortit inesperadament el rerefons de llista d'anotacions que servia &quot;"
@@ -14799,7 +14688,6 @@ msgstr ""
 "algunes de les vostres anotacions."
 
 #: ../src/e-util/e-system.error.xml.h:17
-#, fuzzy
 msgid "The task list backend servicing “{0}” has quit unexpectedly."
 msgstr ""
 "Ha sortit inesperadament el rerefons de llista de tasques que servia &quot;"
@@ -14812,30 +14700,26 @@ msgstr ""
 "algunes de les vostres tasques."
 
 #: ../src/e-util/e-system.error.xml.h:19
-#, fuzzy
 msgid "The address book backend servicing “{0}” encountered an error."
 msgstr ""
-"El rerefons de llibreta d'adreces que serveix &quot;{0}&quot; s'ha trobat un "
+"El rerefons de llibreta d'adreces que serveix &quot;{0}&quot; ha trobat un "
 "error."
 
 #: ../src/e-util/e-system.error.xml.h:20
-#, fuzzy
 msgid "The calendar backend servicing “{0}” encountered an error."
 msgstr ""
-"El rerefons de calendari que serveix &quot;{0}&quot; s'ha trobat un error."
+"El rerefons de calendari que serveix &quot;{0}&quot; ha trobat un error."
 
 #: ../src/e-util/e-system.error.xml.h:21
-#, fuzzy
 msgid "The memo list backend servicing “{0}” encountered an error."
 msgstr ""
-"El rerefons de llista d'anotacions que serveix &quot;{0}&quot; s'ha trobat "
-"un error."
+"El rerefons de llista d'anotacions que serveix &quot;{0}&quot; ha trobat un "
+"error."
 
 #: ../src/e-util/e-system.error.xml.h:22
-#, fuzzy
 msgid "The task list backend servicing “{0}” encountered an error."
 msgstr ""
-"El rerefons de llista de tasques que serveix &quot;{0}&quot; s'ha trobat un "
+"El rerefons de llista de tasques que serveix &quot;{0}&quot; ha trobat un "
 "error."
 
 #: ../src/e-util/e-system.error.xml.h:23
@@ -15239,32 +15123,28 @@ msgid "Save Image"
 msgstr "Desa la imatge"
 
 #: ../src/e-util/e-web-view.c:4104
-#, fuzzy, c-format
+#, c-format
 msgid "Saving image to “%s”"
 msgstr "S'està desant la imatge a «%s»"
 
 #: ../src/e-util/e-web-view.c:4199
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot get URI “%s”, do not know how to download it."
 msgstr "No es pot obtenir l'URI «%s», es desconeix com baixar-lo."
 
 #: ../src/e-util/e-widget-undo.c:428
-#, fuzzy
 msgid "Undo “Insert text”"
 msgstr "Desfés «Insereix text»"
 
 #: ../src/e-util/e-widget-undo.c:430
-#, fuzzy
 msgid "Redo “Insert text”"
 msgstr "Refés «Insereix text»"
 
 #: ../src/e-util/e-widget-undo.c:444
-#, fuzzy
 msgid "Undo “Delete text”"
 msgstr "Desfés «Suprimeix text»"
 
 #: ../src/e-util/e-widget-undo.c:446
-#, fuzzy
 msgid "Redo “Delete text”"
 msgstr "Refés «Suprimeix text»"
 
@@ -15285,17 +15165,14 @@ msgid "You must specify a filename."
 msgstr "Heu d'especificar un nom de fitxer."
 
 #: ../src/e-util/filter.error.xml.h:5
-#, fuzzy
 msgid "File “{0}” does not exist or is not a regular file."
 msgstr "El fitxer «{0}» no existeix o no és un fitxer normal."
 
 #: ../src/e-util/filter.error.xml.h:6
-#, fuzzy
 msgid "Bad regular expression “{0}”."
 msgstr "L'expressió regular «{0}» és incorrecta."
 
 #: ../src/e-util/filter.error.xml.h:7
-#, fuzzy
 msgid "Could not compile regular expression “{1}”."
 msgstr "No s'ha pogut compilar l'expressió regular «{1}»."
 
@@ -15308,7 +15185,6 @@ msgid "You must name this filter."
 msgstr "Heu d'assignar un nom a aquest filtre."
 
 #: ../src/e-util/filter.error.xml.h:10
-#, fuzzy
 msgid "Name “{0}” already used."
 msgstr "Ja s'està fent servir el nom «{0}»."
 
@@ -15333,7 +15209,6 @@ msgid "One or more values cannot be empty."
 msgstr "Un o més valors no poden deixar-se buits."
 
 #: ../src/e-util/filter.error.xml.h:16
-#, fuzzy
 msgid "Are you sure you want to remove rule “{0}”?"
 msgstr "Segur que voleu suprimir la regla «{0}»?"
 
@@ -15386,7 +15261,6 @@ msgid "Compare against"
 msgstr "Compara amb"
 
 #: ../src/e-util/filter.ui.h:15
-#, fuzzy
 msgid ""
 "The message’s date will be compared against\n"
 "the current time when filtering occurs."
@@ -15395,7 +15269,6 @@ msgstr ""
 "actual quan s'hagi de filtrar."
 
 #: ../src/e-util/filter.ui.h:17
-#, fuzzy
 msgid ""
 "The message’s date will be compared against\n"
 "12:00am of the date specified."
@@ -15404,7 +15277,6 @@ msgstr ""
 "de la data que indiqueu."
 
 #: ../src/e-util/filter.ui.h:19
-#, fuzzy
 msgid ""
 "The message’s date will be compared against\n"
 "a time relative to when filtering occurs."
@@ -15528,7 +15400,7 @@ msgstr ""
 "servidor"
 
 #: ../src/libemail-engine/e-mail-folder-utils.c:106
-#, fuzzy, c-format
+#, c-format
 msgid "Saving message to folder “%s”"
 msgstr "S'està desant el missatge a la carpeta «%s»"
 
@@ -15549,12 +15421,12 @@ msgid "Scanning messages for duplicates"
 msgstr "S'estan escanejant els missatges per si n'hi ha de duplicats"
 
 #: ../src/libemail-engine/e-mail-folder-utils.c:1150
-#, fuzzy, c-format
+#, c-format
 msgid "Removing folder “%s”"
 msgstr "S'està suprimint la carpeta «%s»"
 
 #: ../src/libemail-engine/e-mail-folder-utils.c:1331
-#, fuzzy, c-format
+#, c-format
 msgid "File “%s” has been removed."
 msgstr "S'ha suprimit el fitxer «%s»."
 
@@ -15574,7 +15446,7 @@ msgstr[0] "S'està desant %d missatge"
 msgstr[1] "S'estan desant %d missatges"
 
 #: ../src/libemail-engine/e-mail-folder-utils.c:1961
-#, fuzzy, c-format
+#, c-format
 msgid "Invalid folder URI “%s”"
 msgstr "L'URI de la carpeta «%s» no és vàlid"
 
@@ -15644,7 +15516,7 @@ msgstr ""
 "cancel·lat el reenviament del missatge."
 
 #: ../src/libemail-engine/e-mail-session.c:2444
-#, fuzzy, c-format
+#, c-format
 msgid "Waiting for “%s”"
 msgstr "S'està esperant «%s»"
 
@@ -15654,7 +15526,7 @@ msgstr "No hi ha disponible cap servei de transport de correu"
 
 #: ../src/libemail-engine/e-mail-session-utils.c:614
 #: ../src/libemail-engine/mail-ops.c:706
-#, fuzzy, c-format
+#, c-format
 msgid "Posting message to “%s”"
 msgstr "S'està penjant el missatge a «%s»"
 
@@ -15667,13 +15539,13 @@ msgstr "No s'han pogut aplicar els filtres de sortida: %s"
 #: ../src/libemail-engine/e-mail-session-utils.c:681
 #: ../src/libemail-engine/e-mail-session-utils.c:716
 #: ../src/libemail-engine/mail-ops.c:766 ../src/libemail-engine/mail-ops.c:801
-#, fuzzy, c-format
+#, c-format
 msgid "Storing sent message to “%s”"
 msgstr "S'està desant el missatge enviat a «%s»"
 
 #: ../src/libemail-engine/e-mail-session-utils.c:705
 #: ../src/libemail-engine/mail-ops.c:790
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Failed to append to %s: %s\n"
 "Appending to local “Sent” folder instead."
@@ -15683,7 +15555,7 @@ msgstr ""
 
 #: ../src/libemail-engine/e-mail-session-utils.c:735
 #: ../src/libemail-engine/mail-ops.c:818
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to append to local “Sent” folder: %s"
 msgstr "No s'han pogut afegir a la carpeta local «Enviat»: %s"
 
@@ -15693,17 +15565,17 @@ msgid "Sending message"
 msgstr "S'està enviant el missatge"
 
 #: ../src/libemail-engine/e-mail-store-utils.c:188
-#, fuzzy, c-format
+#, c-format
 msgid "Disconnecting from “%s”"
 msgstr "S'està desconnectant de «%s»"
 
 #: ../src/libemail-engine/e-mail-store-utils.c:264
-#, fuzzy, c-format
+#, c-format
 msgid "Reconnecting to “%s”"
 msgstr "S'està tornant a connectar a «%s»"
 
 #: ../src/libemail-engine/e-mail-store-utils.c:349
-#, fuzzy, c-format
+#, c-format
 msgid "Preparing account “%s” for offline"
 msgstr "S'està preparant el compte «%s» per treballar fora de línia"
 
@@ -15724,7 +15596,7 @@ msgstr ""
 "els filtres a «Edita -> Filtres de missatge». L'error original és: %s"
 
 #: ../src/libemail-engine/mail-ops.c:226
-#, fuzzy, c-format
+#, c-format
 msgid "Fetching mail from “%s”"
 msgstr "S'està recollint el correu electrònic de «%s»"
 
@@ -15764,52 +15636,52 @@ msgid "Complete."
 msgstr "Completat."
 
 #: ../src/libemail-engine/mail-ops.c:1164
-#, fuzzy, c-format
+#, c-format
 msgid "Moving messages to “%s”"
 msgstr "S'estan movent els missatges a «%s»"
 
 #: ../src/libemail-engine/mail-ops.c:1165
-#, fuzzy, c-format
+#, c-format
 msgid "Copying messages to “%s”"
 msgstr "S'estan copiant els missatges a «%s»"
 
 #: ../src/libemail-engine/mail-ops.c:1284
-#, fuzzy, c-format
+#, c-format
 msgid "Storing folder “%s”"
 msgstr "S'està emmagatzemant la carpeta «%s»"
 
 #: ../src/libemail-engine/mail-ops.c:1412
-#, fuzzy, c-format
+#, c-format
 msgid "Expunging and storing account “%s”"
 msgstr "S'està buidant i emmagatzemant el compte «%s»"
 
 #: ../src/libemail-engine/mail-ops.c:1413
-#, fuzzy, c-format
+#, c-format
 msgid "Storing account “%s”"
 msgstr "S'està emmagatzemant el compte «%s»"
 
 #: ../src/libemail-engine/mail-ops.c:1488
-#, fuzzy, c-format
+#, c-format
 msgid "Emptying trash in “%s”"
 msgstr "S'està buidant la paperera a «%s»"
 
 #: ../src/libemail-engine/mail-ops.c:1580
-#, fuzzy, c-format
+#, c-format
 msgid "Processing folder changes in “%s”"
 msgstr "S'estan processant els canvis de carpeta a «%s»"
 
 #: ../src/libemail-engine/mail-tools.c:68
-#, fuzzy, c-format
+#, c-format
 msgid "Could not create spool directory “%s”: %s"
 msgstr "No s'ha pogut crear el directori de cues «%s»: %s"
 
 #: ../src/libemail-engine/mail-tools.c:108
-#, fuzzy, c-format
+#, c-format
 msgid "Trying to movemail a non-mbox source “%s”"
 msgstr "S'està intentant executar el movemail a una font no mbox «%s»"
 
 #: ../src/libemail-engine/mail-tools.c:257
-#, fuzzy, c-format
+#, c-format
 msgid "Forwarded message — %s"
 msgstr "Missatge reenviat - %s"
 
@@ -15823,7 +15695,7 @@ msgid "Setting up Search Folder: %s"
 msgstr "S'està configurant la carpeta de cerca: %s"
 
 #: ../src/libemail-engine/mail-vfolder.c:302
-#, fuzzy, c-format
+#, c-format
 msgid "Updating Search Folders for “%s : %s”"
 msgstr "S'estan actualitzant les carpetes de cerca per a «%s» - %s"
 
@@ -15833,7 +15705,7 @@ msgstr "S'estan actualitzant les carpetes de cerca per a «%s» - %s"
 #. * each of them on a separate line, with four spaces
 #. * in front of its name, without quotes.
 #: ../src/libemail-engine/mail-vfolder.c:666
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The Search Folder “%s” has been modified to account for the deleted folder\n"
 "“%s”."
@@ -15928,7 +15800,6 @@ msgid "Check for Supported Types"
 msgstr "Comprova els tipus disponibles"
 
 #: ../src/mail/e-mail-config-confirm-page.c:156
-#, fuzzy
 msgid ""
 "Congratulations, your mail configuration is complete.\n"
 "\n"
@@ -16085,7 +15956,6 @@ msgid "Defaults"
 msgstr "Opcions per defecte"
 
 #: ../src/mail/e-mail-config-identity-page.c:516
-#, fuzzy
 msgid ""
 "Please enter your name and email address below. The “optional” fields below "
 "do not need to be filled in, unless you wish to include this information in "
@@ -16102,7 +15972,6 @@ msgstr "Informació de compte"
 
 #: ../src/mail/e-mail-config-identity-page.c:582
 #: ../src/mail/e-mail-config-summary-page.c:354
-#, fuzzy
 msgid ""
 "The above name will be used to identify this account.\n"
 "Use for example, “Work” or “Personal”."
@@ -16149,9 +16018,8 @@ msgid "Add"
 msgstr "Afegeix"
 
 #: ../src/mail/e-mail-config-identity-page.c:864
-#, fuzzy
 msgid "Edit"
-msgstr "_Edita"
+msgstr "Edita"
 
 #: ../src/mail/e-mail-config-identity-page.c:873
 #: ../src/mail/mail-config.ui.h:114
@@ -16397,7 +16265,6 @@ msgid "Account Summary"
 msgstr "Resum del compte"
 
 #: ../src/mail/e-mail-config-welcome-page.c:157
-#, fuzzy
 msgid ""
 "Welcome to the Evolution Mail Configuration Assistant.\n"
 "\n"
@@ -16677,7 +16544,7 @@ msgid "Failed to retrieve message:"
 msgstr "No s'han pogut recuperar el missatge:"
 
 #: ../src/mail/e-mail-reader.c:1813 ../src/mail/e-mail-reader.c:3172
-#, fuzzy, c-format
+#, c-format
 msgid "Retrieving message “%s”"
 msgstr "S'està recuperant el missatge «%s»"
 
@@ -17343,7 +17210,7 @@ msgid "Do not warn me again"
 msgstr "No em tornis a avisar"
 
 #: ../src/mail/e-mail-reader-utils.c:568
-#, fuzzy, c-format
+#, c-format
 msgid "Refreshing folder “%s”"
 msgstr "S'està actualitzant la carpeta «%s»"
 
@@ -17370,7 +17237,7 @@ msgstr "S'està imprimint"
 #. Translators: %s is replaced with a folder
 #. * name %u with count of duplicate messages.
 #: ../src/mail/e-mail-reader-utils.c:1676
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Folder “%s” contains %u duplicate message. Are you sure you want to delete "
 "it?"
@@ -17417,7 +17284,7 @@ msgid "%s authentication failed"
 msgstr "Ha fallat l'autenticació a %s"
 
 #: ../src/mail/e-mail-ui-session.c:863
-#, fuzzy, c-format
+#, c-format
 msgid "No data source found for UID “%s”"
 msgstr "No s'ha trobat cap font de dades per a l'identificador universal «%s»"
 
@@ -17486,16 +17353,16 @@ msgstr "-------- Missatge reenviat --------"
 msgid "-----Original Message-----"
 msgstr "-----Missatge original-----"
 
-#: ../src/mail/em-composer-utils.c:3042
+#: ../src/mail/em-composer-utils.c:3074
 msgid "an unknown sender"
 msgstr "un remitent anònim"
 
 #. FIXME GTK_WINDOW (composer)
-#: ../src/mail/em-composer-utils.c:3518
+#: ../src/mail/em-composer-utils.c:3550
 msgid "Posting destination"
 msgstr "Destinació de l'enviament"
 
-#: ../src/mail/em-composer-utils.c:3523
+#: ../src/mail/em-composer-utils.c:3555
 msgid "Choose folders to post the message to."
 msgstr "Trieu a quines carpetes s'enviarà el missatge."
 
@@ -17593,9 +17460,8 @@ msgid "_Delete old messages"
 msgstr "Suprimei_x els missatges antics"
 
 #: ../src/mail/em-folder-properties.c:1018
-#, fuzzy
 msgid "Server Tag"
-msgstr "Tipus de servidor:"
+msgstr "Tipus de servidor"
 
 #: ../src/mail/em-folder-properties.c:1022 ../src/mail/filtertypes.xml.in.h:29
 #: ../src/mail/searchtypes.xml.in.h:31 ../src/mail/vfoldertypes.xml.in.h:31
@@ -17616,9 +17482,8 @@ msgid "Folder Properties"
 msgstr "Propietats de la carpeta"
 
 #: ../src/mail/em-folder-properties.c:1394
-#, fuzzy
 msgid "Gathering folder properties"
-msgstr "Propietats de la categoria"
+msgstr "Propietats de la carpeta reunió"
 
 #: ../src/mail/em-folder-selection-button.c:77
 msgid "<click here to select a folder>"
@@ -17629,7 +17494,6 @@ msgid "Create a new folder"
 msgstr "Crea una carpeta nova"
 
 #: ../src/mail/em-folder-tree.c:683
-#, fuzzy
 msgid "Folder names cannot contain “/”"
 msgstr "El nom de la carpeta no pot contenir el caràcter «/»"
 
@@ -17671,12 +17535,12 @@ msgstr "S'està movent la carpeta %s"
 msgid "Copying folder %s"
 msgstr "S'està copiant la carpeta %s"
 
-#: ../src/mail/em-folder-tree.c:2300 ../src/mail/message-list.c:2506
+#: ../src/mail/em-folder-tree.c:2300 ../src/mail/message-list.c:2508
 #, c-format
 msgid "Moving messages into folder %s"
 msgstr "S'estan movent els missatges a la carpeta %s"
 
-#: ../src/mail/em-folder-tree.c:2304 ../src/mail/message-list.c:2508
+#: ../src/mail/em-folder-tree.c:2304 ../src/mail/message-list.c:2510
 #, c-format
 msgid "Copying messages into folder %s"
 msgstr "S'estan copiant els missatges a la carpeta %s"
@@ -17807,7 +17671,7 @@ msgid "Stop the current operation"
 msgstr "Cancel·la l'operació actual"
 
 #: ../src/mail/em-subscription-editor.c:1988
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:999
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1002
 msgid "_Stop"
 msgstr "_Atura"
 
@@ -18251,7 +18115,7 @@ msgstr "S'estan important el correu i els contactes del KMail"
 #: ../src/mail/importers/mail-importer.c:312
 #: ../src/plugins/dbx-import/dbx-importer.c:605
 #: ../src/plugins/pst-import/pst-importer.c:756
-#, fuzzy, c-format
+#, c-format
 msgid "Importing “%s”"
 msgstr "S'està important «%s»"
 
@@ -18302,7 +18166,7 @@ msgstr "Afegeix una regla de filtre"
 #. * them on a separate line, with four spaces in front
 #. * of its name, without quotes.
 #: ../src/mail/mail-autofilter.c:509
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The filter rule “%s” has been modified to account for the deleted folder\n"
 "“%s”."
@@ -18788,7 +18652,6 @@ msgid "Review"
 msgstr "Ressenya"
 
 #: ../src/mail/mail-dialogs.ui.h:12
-#, fuzzy
 msgid ""
 "The messages you have selected for follow up are listed below.\n"
 "Please select a follow up action from the “Flag” menu."
@@ -18847,7 +18710,6 @@ msgstr ""
 "que no permeti cap tipus d'autenticació."
 
 #: ../src/mail/mail.error.xml.h:3
-#, fuzzy
 msgid "Your login to your server “{0}” as “{0}” failed."
 msgstr "Ha fallat l'entrada al servidor «{0}» com a «{0}»."
 
@@ -19006,7 +18868,6 @@ msgid "Use default drafts folder?"
 msgstr "Voleu utilitzar la carpeta d'esborranys per defecte?"
 
 #: ../src/mail/mail.error.xml.h:34
-#, fuzzy
 msgid ""
 "Unable to open the drafts folder for this account. Use the system drafts "
 "folder instead?\n"
@@ -19023,7 +18884,6 @@ msgid "Use _Default"
 msgstr "Utilitza el per _defecte"
 
 #: ../src/mail/mail.error.xml.h:38
-#, fuzzy
 msgid ""
 "Are you sure you want to permanently remove all the deleted messages in "
 "folder “{0}”?"
@@ -19093,17 +18953,14 @@ msgid "Error loading filter definitions."
 msgstr "S'ha produït un error en carregar les definicions de filtre."
 
 #: ../src/mail/mail.error.xml.h:54
-#, fuzzy
 msgid "Cannot save to directory “{0}”."
 msgstr "No s'ha pogut desar al directori «{0}»."
 
 #: ../src/mail/mail.error.xml.h:55
-#, fuzzy
 msgid "Cannot save to file “{0}”."
 msgstr "No es pot desar al fitxer «{0}»."
 
 #: ../src/mail/mail.error.xml.h:56
-#, fuzzy
 msgid "Cannot create the save directory, because “{1}”"
 msgstr "No s'ha pogut crear el directori per desar degut a «{1}»"
 
@@ -19120,12 +18977,10 @@ msgid "File exists but is not a regular file."
 msgstr "El fitxer existeix però no és un fitxer normal."
 
 #: ../src/mail/mail.error.xml.h:60
-#, fuzzy
 msgid "Cannot delete folder “{0}”."
 msgstr "No s'ha pogut suprimir la carpeta «{0}»."
 
 #: ../src/mail/mail.error.xml.h:61
-#, fuzzy
 msgid "Cannot delete system folder “{0}”."
 msgstr "No es pot suprimir la carpeta de sistema «{0}»."
 
@@ -19138,27 +18993,22 @@ msgstr ""
 "no se les pot tornar a anomenar, moure ni suprimir."
 
 #: ../src/mail/mail.error.xml.h:63
-#, fuzzy
 msgid "Failed to expunge folder “{0}”."
 msgstr "No s'ha pogut buidar la carpeta «{0}»."
 
 #: ../src/mail/mail.error.xml.h:65
-#, fuzzy
 msgid "Failed to refresh folder “{0}”."
 msgstr "No s'ha pogut actualitzar la carpeta «{0}»."
 
 #: ../src/mail/mail.error.xml.h:66
-#, fuzzy
 msgid "Cannot rename or move system folder “{0}”."
 msgstr "No es pot canviar el nom o moure la carpeta de sistema «{0}»."
 
 #: ../src/mail/mail.error.xml.h:67
-#, fuzzy
 msgid "Really delete folder “{0}” and all of its subfolders?"
 msgstr "Voleu suprimir la carpeta «{0}» i totes les seves subcarpetes?"
 
 #: ../src/mail/mail.error.xml.h:68
-#, fuzzy
 msgid ""
 "If you delete the folder, all of its contents and its subfolders’ contents "
 "will be deleted permanently."
@@ -19167,12 +19017,10 @@ msgstr ""
 "se suprimiran permanentment."
 
 #: ../src/mail/mail.error.xml.h:70
-#, fuzzy
 msgid "Really unsubscribe folder “{0}”?"
 msgstr "Segur que voleu deixar de subscriure la carpeta «{0}»?"
 
 #: ../src/mail/mail.error.xml.h:71
-#, fuzzy
 msgid ""
 "If you unsubscribe the folder, it might not be visible in the Evolution, "
 "while still being available on the server. You can re-subscribe in "
@@ -19187,7 +19035,6 @@ msgid "Do _Not Unsubscribe"
 msgstr "_No n'eliminis la subscripció"
 
 #: ../src/mail/mail.error.xml.h:74
-#, fuzzy
 msgid "Really delete folder “{0}”?"
 msgstr "Segur que voleu suprimir la carpeta «{0}»?"
 
@@ -19213,17 +19060,14 @@ msgstr ""
 "carpeta o les carpetes en què està físicament. Segur que voleu suprimir-los?"
 
 #: ../src/mail/mail.error.xml.h:78
-#, fuzzy
 msgid "Cannot rename “{0}” to “{1}”."
 msgstr "No es pot canviar el nom de «{0}» a «{1}»."
 
 #: ../src/mail/mail.error.xml.h:79
-#, fuzzy
 msgid "A folder named “{1}” already exists. Please use a different name."
 msgstr "Ja existeix una carpeta anomenada «{1}». Feu servir un nom diferent."
 
 #: ../src/mail/mail.error.xml.h:80
-#, fuzzy
 msgid "Cannot move folder “{0}” to “{1}”."
 msgstr "No es pot moure la carpeta «{0}» a «{1}»."
 
@@ -19236,12 +19080,10 @@ msgid "Cannot open target folder. Error: {2}"
 msgstr "No s'ha pogut obrir la carpeta de destinació. L'error és: «{2}»"
 
 #: ../src/mail/mail.error.xml.h:83
-#, fuzzy
 msgid "Cannot copy folder “{0}” to “{1}”."
 msgstr "No es pot copiar la carpeta «{0}» a «{1}»."
 
 #: ../src/mail/mail.error.xml.h:84
-#, fuzzy
 msgid "Cannot create folder “{0}”."
 msgstr "No s'ha pogut crear la carpeta «{0}»."
 
@@ -19299,7 +19141,6 @@ msgid "_Disable"
 msgstr "_Inhabilita"
 
 #: ../src/mail/mail.error.xml.h:98
-#, fuzzy
 msgid "Cannot edit Search Folder “{0}” as it does not exist."
 msgstr "No es pot editar la carpeta de cerca «{0}» perquè no existeix."
 
@@ -19313,12 +19154,10 @@ msgstr ""
 "sigui necessari."
 
 #: ../src/mail/mail.error.xml.h:101
-#, fuzzy
 msgid "Cannot add Search Folder “{0}”."
 msgstr "No es pot afegir la carpeta de cerca «{0}»."
 
 #: ../src/mail/mail.error.xml.h:102
-#, fuzzy
 msgid "A folder named “{0}” already exists. Please use a different name."
 msgstr "Ja existeix una carpeta anomenada «{0}». Feu servir un nom diferent."
 
@@ -19357,12 +19196,10 @@ msgstr ""
 "totes les carpetes locals, totes les remotes, o ambdues."
 
 #: ../src/mail/mail.error.xml.h:112
-#, fuzzy
 msgid "Problem migrating old mail folder “{0}”."
 msgstr "Hi ha hagut un problema en migrar la carpeta de correu antiga «{0}»."
 
 #: ../src/mail/mail.error.xml.h:113
-#, fuzzy
 msgid ""
 "A non-empty folder at “{1}” already exists.\n"
 "\n"
@@ -19383,12 +19220,10 @@ msgid "_Append"
 msgstr "_Afegeix"
 
 #: ../src/mail/mail.error.xml.h:119
-#, fuzzy
 msgid "Evolution’s local mail format has changed."
 msgstr "El format del correu local de l'Evolution ha canviat."
 
 #: ../src/mail/mail.error.xml.h:120
-#, fuzzy
 msgid ""
 "Evolution’s local mail format has changed from mbox to Maildir. Your local "
 "mail must be migrated to the new format before Evolution can proceed. Do you "
@@ -19420,7 +19255,6 @@ msgid "Unable to read license file."
 msgstr "No es pot llegir el fitxer de la llicència."
 
 #: ../src/mail/mail.error.xml.h:126
-#, fuzzy
 msgid ""
 "Cannot read the license file “{0}”, due to an installation problem. You will "
 "not be able to use this provider until you can accept its license."
@@ -19517,7 +19351,6 @@ msgid "Copy folder in folder tree."
 msgstr "Copia la carpeta a l'arbre de carpetes."
 
 #: ../src/mail/mail.error.xml.h:145
-#, fuzzy
 msgid "Are you sure you want to copy folder “{0}” to folder “{1}”?"
 msgstr "Segur que voleu copiar la carpeta «{0}» a la carpeta «{1}»?"
 
@@ -19539,7 +19372,6 @@ msgid "Move folder in folder tree."
 msgstr "Mou la carpeta a l'arbre de carpetes."
 
 #: ../src/mail/mail.error.xml.h:151
-#, fuzzy
 msgid "Are you sure you want to to move folder “{0}” to folder “{1}”?"
 msgstr "Segur que voleu moure la carpeta «{0}» a la carpeta «{1}»?"
 
@@ -19577,17 +19409,14 @@ msgid "You do not have sufficient permissions to delete this mail."
 msgstr "No teniu els permisos suficients per esborrar aquest correu."
 
 #: ../src/mail/mail.error.xml.h:160
-#, fuzzy
 msgid "“Check Junk” Failed"
 msgstr "Ha fallat la comprovació de correu brossa"
 
 #: ../src/mail/mail.error.xml.h:161
-#, fuzzy
 msgid "“Report Junk” Failed"
 msgstr "Ha fallat el marcatge com a correu brossa"
 
 #: ../src/mail/mail.error.xml.h:162
-#, fuzzy
 msgid "“Report Not Junk” Failed"
 msgstr "Ha fallat el marcatge com a correu que no és brossa"
 
@@ -19601,22 +19430,18 @@ msgstr "No s'ha trobat cap missatge duplicat."
 
 #. Translators: {0} is replaced with a folder name
 #: ../src/mail/mail.error.xml.h:166
-#, fuzzy
 msgid "Folder “{0}” doesn’t contain any duplicate message."
 msgstr "La carpeta «{0}» no conté cap missatge duplicat."
 
 #: ../src/mail/mail.error.xml.h:167
-#, fuzzy
 msgid "Failed to connect account “{0}”."
 msgstr "Ha fallat connectar-se al compte de correu «{0}»"
 
 #: ../src/mail/mail.error.xml.h:168
-#, fuzzy
 msgid "Failed to disconnect account “{0}”."
 msgstr "No s'ha pogut desconnectar el compte «{0}»."
 
 #: ../src/mail/mail.error.xml.h:169
-#, fuzzy
 msgid "Failed to unsubscribe from folder “{0}”."
 msgstr "No s'ha pogut cancel·lar la subscripció a la carpeta «{0}»."
 
@@ -19633,7 +19458,6 @@ msgid "Message is not available in offline mode."
 msgstr "El missatge no està disponible fora de línia."
 
 #: ../src/mail/mail.error.xml.h:173
-#, fuzzy
 msgid ""
 "This can be due to the message not being downloaded yet. The folder, or the "
 "account, can be marked for offline synchronization. Then, once the account "
@@ -19643,7 +19467,7 @@ msgid ""
 msgstr ""
 "Pot ser que el missatge encara no s'hagi baixat. La carpeta, o el compte, es "
 "pot marcar per a una sincronització fora de línia. Llavors, quan el compte "
-"torna a estar en línia, useu Fitxer-&gt;Missatges baixats per a l'ús fora de "
+"torni a estar en línia, useu Fitxer-&gt;Missatges baixats per a l'ús fora de "
 "línia, quan la carpeta està seleccionada, per tal d'assegurar-vos que tots "
 "els missatges de la carpeta estaran disponibles fora de línia."
 
@@ -19692,7 +19516,6 @@ msgid "Printing failed."
 msgstr "Ha fallat la impressió."
 
 #: ../src/mail/mail.error.xml.h:185
-#, fuzzy
 msgid "The printer replied “{0}”."
 msgstr "La impressora ha respost «{0}»."
 
@@ -19705,28 +19528,23 @@ msgid "You must be working online to complete this operation."
 msgstr "No podeu treballar fora de línia per poder acabar aquesta operació."
 
 #: ../src/mail/mail.error.xml.h:188
-#, fuzzy
 msgid "Message from “{0}” account:"
 msgstr "Missatge del compte «{0}»:"
 
 # c-format
 #: ../src/mail/mail.error.xml.h:189
-#, fuzzy
 msgid "Failed to mark thread to be ignored in folder “{0}”"
 msgstr "Ha fallat marcar el fil perquè s'ignori a la carpeta «{0}»"
 
 #: ../src/mail/mail.error.xml.h:190
-#, fuzzy
 msgid "Failed to unmark thread from being ignored in folder “{0}”"
 msgstr "Ha fallat desmarcar el fil per ignorar-lo a la carpeta «{0}»"
 
 #: ../src/mail/mail.error.xml.h:191
-#, fuzzy
 msgid "Failed to mark subthread to be ignored in folder “{0}”"
 msgstr "Ha fallat marcar el subfil per ignorar-lo a la carpeta «{0}»"
 
 #: ../src/mail/mail.error.xml.h:192
-#, fuzzy
 msgid "Failed to unmark subthread from being ignored in folder “{0}”"
 msgstr "Ha fallat desmarcar el subfil per ignorar-lo a la carpeta «{0}»"
 
@@ -19764,21 +19582,18 @@ msgstr "Aquesta nota s'ha modificat, però no s'ha desat."
 # c-format
 #. Translators: {0} is the name of the folder where the delete of the message note failed.
 #: ../src/mail/mail.error.xml.h:205
-#, fuzzy
 msgid "Failed to delete message note in folder “{0}”"
 msgstr "Ha fallat la supressió d'una nota a la carpeta «{0}»"
 
 # c-format
 #. Translators: {0} is the name of the folder where the store of the message note failed.
 #: ../src/mail/mail.error.xml.h:207
-#, fuzzy
 msgid "Failed to store message note in folder “{0}”"
 msgstr "Ha fallat desar la nota a la carpeta «{0}»"
 
 #: ../src/mail/mail.error.xml.h:208
-#, fuzzy
 msgid "Something has gone wrong when displaying the message"
-msgstr "Cerca un text en el cos del missatge visualitzat"
+msgstr "Alguna cosa ha anat malament mentre es mostrava el missatge"
 
 #: ../src/mail/mail.error.xml.h:209
 msgid ""
@@ -19825,22 +19640,22 @@ msgid "Waiting..."
 msgstr "S'està esperant..."
 
 #: ../src/mail/mail-send-recv.c:1228
-#, fuzzy, c-format
+#, c-format
 msgid "Checking for new mail at “%s”"
 msgstr "S'està comprovant si hi ha correu nou a «%s»"
 
 #: ../src/mail/mail-send-recv.c:1455
-#, fuzzy, c-format
+#, c-format
 msgid "Deleting junk and expunging trash at “%s”"
 msgstr "S'està suprimint brossa i porqueria a «%s»"
 
 #: ../src/mail/mail-send-recv.c:1457
-#, fuzzy, c-format
+#, c-format
 msgid "Deleting junk at “%s”"
 msgstr "S'està esborrant brossa a «%s»"
 
 #: ../src/mail/mail-send-recv.c:1459
-#, fuzzy, c-format
+#, c-format
 msgid "Expunging trash at “%s”"
 msgstr "S'està buidant la paperera a «%s»"
 
@@ -19856,88 +19671,87 @@ msgstr "Edita les carpetes de cerca"
 msgid "New Search Folder"
 msgstr "Carpeta de cerca nova"
 
-#: ../src/mail/message-list.c:298
+#: ../src/mail/message-list.c:300
 msgid "Unseen"
 msgstr "No vist"
 
-#: ../src/mail/message-list.c:299
+#: ../src/mail/message-list.c:301
 msgid "Seen"
 msgstr "Vist"
 
-#: ../src/mail/message-list.c:300
+#: ../src/mail/message-list.c:302
 msgid "Answered"
 msgstr "Respost"
 
-#: ../src/mail/message-list.c:301
+#: ../src/mail/message-list.c:303
 msgid "Forwarded"
 msgstr "Reenviat"
 
-#: ../src/mail/message-list.c:302
+#: ../src/mail/message-list.c:304
 msgid "Multiple Unseen Messages"
 msgstr "Múltiples missatges sense veure"
 
-#: ../src/mail/message-list.c:303
+#: ../src/mail/message-list.c:305
 msgid "Multiple Messages"
 msgstr "Missatges múltiples"
 
-#: ../src/mail/message-list.c:316
+#: ../src/mail/message-list.c:318
 msgid "Lowest"
 msgstr "La més baixa"
 
-#: ../src/mail/message-list.c:317
+#: ../src/mail/message-list.c:319
 msgid "Lower"
 msgstr "Més baixa"
 
-#: ../src/mail/message-list.c:321
+#: ../src/mail/message-list.c:323
 msgid "Higher"
 msgstr "Més alta"
 
-#: ../src/mail/message-list.c:322
+#: ../src/mail/message-list.c:324
 msgid "Highest"
 msgstr "La més alta"
 
-#: ../src/mail/message-list.c:468 ../src/mail/message-list.c:6215
+#: ../src/mail/message-list.c:470 ../src/mail/message-list.c:6286
 msgid "Generating message list"
 msgstr "S'està generant la llista de missatges"
 
 #. strftime format of a time,
 #. * in 12-hour format, without seconds.
-#: ../src/mail/message-list.c:2072
+#: ../src/mail/message-list.c:2074
 #: ../src/modules/itip-formatter/itip-view.c:267
 msgid "Today %l:%M %p"
 msgstr "Avui a les %k:%M"
 
-#: ../src/mail/message-list.c:2081
+#: ../src/mail/message-list.c:2083
 msgid "Yesterday %l:%M %p"
 msgstr "Ahir a les %k:%M"
 
-#: ../src/mail/message-list.c:2093
+#: ../src/mail/message-list.c:2095
 msgid "%a %l:%M %p"
 msgstr "%a a les %k:%M"
 
-#: ../src/mail/message-list.c:2101
+#: ../src/mail/message-list.c:2103
 msgid "%b %d %l:%M %p"
 msgstr "el %d de %b a les %k:%M"
 
-#: ../src/mail/message-list.c:2103
+#: ../src/mail/message-list.c:2105
 msgid "%b %d %Y"
 msgstr "%d de %b del %Y"
 
-#: ../src/mail/message-list.c:3012
+#: ../src/mail/message-list.c:3062
 msgid "Select all visible messages"
 msgstr "Selecciona tots els missatges visibles"
 
-#: ../src/mail/message-list.c:3720 ../src/mail/message-list.etspec.h:17
+#: ../src/mail/message-list.c:3781 ../src/mail/message-list.etspec.h:17
 msgid "Messages"
 msgstr "Missatges"
 
 #. default follow-up flag name to use when clicked in the message list column
-#: ../src/mail/message-list.c:5142
+#: ../src/mail/message-list.c:5213
 msgid "Follow-up"
 msgstr "Seguiment"
 
-#: ../src/mail/message-list.c:6154
-#, fuzzy
+#: ../src/mail/message-list.c:6225
 msgid ""
 "No message satisfies your search criteria. Change search criteria by "
 "selecting a new Show message filter from the drop down list above or by "
@@ -19949,7 +19763,7 @@ msgstr ""
 "desplegable de més amunt o fent una cerca nova netejant primer l'entrada, "
 "amb l'element de menú «Cerca → Neteja» o canviant la consulta de més amunt."
 
-#: ../src/mail/message-list.c:6162
+#: ../src/mail/message-list.c:6233
 msgid "There are no messages in this folder."
 msgstr "No hi ha cap missatge en aquesta carpeta."
 
@@ -19978,7 +19792,6 @@ msgid "Messages To"
 msgstr "Missatges a"
 
 #: ../src/mail/message-list.etspec.h:20
-#, fuzzy
 msgid "Subject — Trimmed"
 msgstr "Assumpte - retallat"
 
@@ -20068,38 +19881,38 @@ msgstr "Informació del contacte"
 msgid "Contact information for %s"
 msgstr "Informació de contacte per a %s"
 
-#: ../src/modules/addressbook/e-book-shell-backend.c:256
+#: ../src/modules/addressbook/e-book-shell-backend.c:258
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:137
 msgid "New Address Book"
 msgstr "Llibreta d'adreces nova"
 
-#: ../src/modules/addressbook/e-book-shell-backend.c:265
+#: ../src/modules/addressbook/e-book-shell-backend.c:267
 msgctxt "New"
 msgid "_Contact"
 msgstr "_Contacte"
 
-#: ../src/modules/addressbook/e-book-shell-backend.c:267
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1043
+#: ../src/modules/addressbook/e-book-shell-backend.c:269
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1046
 msgid "Create a new contact"
 msgstr "Crea un contacte nou"
 
-#: ../src/modules/addressbook/e-book-shell-backend.c:272
+#: ../src/modules/addressbook/e-book-shell-backend.c:274
 msgctxt "New"
 msgid "Contact _List"
 msgstr "_Llista de contactes"
 
-#: ../src/modules/addressbook/e-book-shell-backend.c:274
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1050
+#: ../src/modules/addressbook/e-book-shell-backend.c:276
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1053
 msgid "Create a new contact list"
 msgstr "Crea una llista de contactes nova"
 
-#: ../src/modules/addressbook/e-book-shell-backend.c:282
+#: ../src/modules/addressbook/e-book-shell-backend.c:284
 msgctxt "New"
 msgid "Address _Book"
 msgstr "Lli_breta d'adreces"
 
-#: ../src/modules/addressbook/e-book-shell-backend.c:284
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:966
+#: ../src/modules/addressbook/e-book-shell-backend.c:286
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:969
 msgid "Create a new address book"
 msgstr "Crea una llibreta d'adreces nova"
 
@@ -20108,77 +19921,77 @@ msgid "Address Book Properties"
 msgstr "Propietats de la llibreta d'adreces"
 
 #. Translators: This is a save dialog title
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:533
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:829
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:534
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:832
 msgid "Save as vCard"
 msgstr "Desa com a vCard"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:936
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:939
 msgid "Co_py All Contacts To..."
 msgstr "C_opia tots els contactes a..."
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:938
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:941
 msgid "Copy the contacts of the selected address book to another"
 msgstr "Copia els contactes de la llibreta d'adreces seleccionada a una altra"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:943
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:946
 msgid "D_elete Address Book"
 msgstr "Suprim_eix la llibreta d'adreces"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:945
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:948
 msgid "Delete the selected address book"
 msgstr "Suprimeix la llibreta d'adreces seleccionada"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:950
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:953
 msgid "_Manage Address Book groups..."
 msgstr "_Gestiona els grups de la llibreta d'adreces..."
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:952
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:955
 #: ../src/modules/calendar/e-task-shell-view-actions.c:719
 msgid "Manage task list groups order and visibility"
 msgstr "Gestiona l'ordre i la visibilitat dels grups de la llista de tasques"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:957
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:960
 msgid "Mo_ve All Contacts To..."
 msgstr "Mo_u tots els contactes a..."
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:959
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:962
 msgid "Move the contacts of the selected address book to another"
 msgstr "Mou els contactes de la llibreta d'adreces seleccionada a una altra"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:964
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:967
 msgid "_New Address Book"
 msgstr "Llibreta d'adreces _nova"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:971
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:974
 msgid "Address _Book Properties"
 msgstr "Propieta_ts de la llibreta d'adreces"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:973
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:976
 msgid "Show properties of the selected address book"
 msgstr "Canvia les propietats de la llibreta d'adreces seleccionada"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:978
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:981
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1290
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:612
 #: ../src/modules/calendar/e-task-shell-view-actions.c:738
 msgid "Re_fresh"
 msgstr "Re_fresca"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:980
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:983
 msgid "Refresh the selected address book"
 msgstr "Actualitza l'agenda de contactes seleccionada"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:985
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:988
 msgid "Address Book _Map"
 msgstr "_Mapa de la llibreta d'adreces"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:987
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:990
 msgid "Show map with all contacts from selected address book"
 msgstr ""
 "Mostra un mapa de tots els contactes de la llibreta d'adreces seleccionada"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:992
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:995
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1297
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:619
 #: ../src/modules/calendar/e-task-shell-view-actions.c:745
@@ -20186,145 +19999,145 @@ msgstr ""
 msgid "_Rename..."
 msgstr "Can_via el nom..."
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:994
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:997
 msgid "Rename the selected address book"
 msgstr "Canvia el nom de la llibreta d'adreces"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1001
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1004
 msgid "Stop loading"
 msgstr "Atura la càrrega"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1006
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1009
 msgid "_Copy Contact To..."
 msgstr "C_opia el contacte a..."
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1008
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1011
 msgid "Copy selected contacts to another address book"
 msgstr "Copia els contactes seleccionats a una altra llibreta d'adreces"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1013
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1016
 msgid "_Delete Contact"
 msgstr "_Suprimeix el contacte"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1020
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1023
 msgid "_Find in Contact..."
 msgstr "_Cerca en un contacte..."
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1022
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1025
 msgid "Search for text in the displayed contact"
 msgstr "Cerca un text en el cos del contacte que es mostra"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1027
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1030
 msgid "_Forward Contact..."
 msgstr "Reen_via un contacte..."
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1029
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1032
 msgid "Send selected contacts to another person"
 msgstr "Envia els contactes seleccionats a una altra persona"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1034
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1037
 msgid "_Move Contact To..."
 msgstr "_Mou el contacte a..."
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1036
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1039
 msgid "Move selected contacts to another address book"
 msgstr "Mou els contactes a una altra llibreta d'adreces"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1041
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1044
 msgid "_New Contact..."
 msgstr "Contacte _nou..."
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1048
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1051
 msgid "New Contact _List..."
 msgstr "_Llista de contactes nova..."
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1055
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1058
 msgid "_Open Contact"
 msgstr "Obre el _contacte"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1057
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1060
 msgid "View the current contact"
 msgstr "Visualitza el contacte actual"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1062
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1065
 msgid "_Send Message to Contact..."
 msgstr "Envia un _missatge al contacte..."
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1064
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1067
 msgid "Send a message to the selected contacts"
 msgstr "Envia un missatge als contactes seleccionats"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1071
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1074
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1460
 #: ../src/modules/calendar/e-task-shell-view-actions.c:810
 msgid "_Actions"
 msgstr "_Accions"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1078
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1081
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:663
 #: ../src/modules/calendar/e-task-shell-view-actions.c:817
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1921
 msgid "_Preview"
 msgstr "_Previsualització"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1091
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1094
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1489
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:680
 #: ../src/modules/calendar/e-task-shell-view-actions.c:834
 msgid "_Manage groups..."
 msgstr "_Gestiona els grups..."
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1103
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1106
 msgid "Address Book Map"
 msgstr "Mapa de la llibreta d'adreces"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1135
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1138
 msgid "Contact _Preview"
 msgstr "_Previsualització de contactes"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1137
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1140
 msgid "Show contact preview window"
 msgstr "Mostra la finestra de previsualització de contactes"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1143
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1146
 msgid "Show _Maps"
 msgstr "Mostra els _mapes"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1145
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1148
 msgid "Show maps in contact preview window"
 msgstr "Mostra els mapes en la finestra de previsualització de contactes"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1164
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1167
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:741
 #: ../src/modules/calendar/e-task-shell-view-actions.c:907
 #: ../src/modules/mail/e-mail-shell-view-actions.c:2067
 msgid "_Classic View"
 msgstr "Visualització _clàssica"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1166
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1169
 msgid "Show contact preview below the contact list"
 msgstr "Mostra la previsualització del contacte sota la llista de contactes"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1171
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1174
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:748
 #: ../src/modules/calendar/e-task-shell-view-actions.c:914
 #: ../src/modules/mail/e-mail-shell-view-actions.c:2074
 msgid "_Vertical View"
 msgstr "_Visualització vertical"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1173
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1176
 msgid "Show contact preview alongside the contact list"
 msgstr ""
 "Mostra la previsualització de contacte al costat de la llista de contactes"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1188
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1191
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1645
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:765
 #: ../src/modules/calendar/e-task-shell-view-actions.c:966
 msgid "Unmatched"
 msgstr "Sense coincidència"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1198
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1201
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1655
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:775
 #: ../src/modules/calendar/e-task-shell-view-actions.c:976
@@ -20333,33 +20146,33 @@ msgstr "Sense coincidència"
 msgid "Advanced Search"
 msgstr "Cerca avançada"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1231
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1234
 msgid "Print all shown contacts"
 msgstr "Imprimeix tots els contactes que es mostren"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1238
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1241
 msgid "Preview the contacts to be printed"
 msgstr "Previsualitza els contactes que s'han d'imprimir"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1245
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1248
 msgid "Print selected contacts"
 msgstr "Imprimeix els contactes seleccionats"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1260
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1263
 msgid "S_ave Address Book as vCard"
 msgstr "Des_a la llibreta d'adreces com a vCard"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1262
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1265
 msgid "Save the contacts of the selected address book as a vCard"
 msgstr "Desa els contactes de la llibreta d'adreces seleccionada com a vCard"
 
 #. Translators: This is an action label
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1268
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1278
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1271
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1281
 msgid "_Save as vCard..."
 msgstr "De_sa com a vCard..."
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1270
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1273
 msgid "Save selected contacts as a vCard"
 msgstr "Desa els contactes seleccionats com a vCard"
 
@@ -20428,7 +20241,7 @@ msgstr ""
 "restaurar"
 
 #: ../src/modules/backup-restore/evolution-backup-restore.c:352
-#, fuzzy, c-format
+#, c-format
 msgid "Checking content of backup file “%s”, please wait..."
 msgstr ""
 "S'està comprovant el contingut de la còpia de seguretat «%s», espera..."
@@ -20525,7 +20338,7 @@ msgid "Evolution Back Up"
 msgstr "Còpia de seguretat de l'Evolution"
 
 #: ../src/modules/backup-restore/evolution-backup-tool.c:900
-#, fuzzy, c-format
+#, c-format
 msgid "Backing up to the file %s"
 msgstr "S'està fent una còpia de seguretat a la carpeta %s"
 
@@ -20534,7 +20347,7 @@ msgid "Evolution Restore"
 msgstr "Restauració de l'Evolution"
 
 #: ../src/modules/backup-restore/evolution-backup-tool.c:905
-#, fuzzy, c-format
+#, c-format
 msgid "Restoring from the file %s"
 msgstr "S'està restaurant la còpia de seguretat de la carpeta %s"
 
@@ -20568,7 +20381,6 @@ msgid "Invalid Evolution backup file"
 msgstr "El fitxer de còpia de seguretat de l'Evolution no és vàlid"
 
 #: ../src/modules/backup-restore/org-gnome-backup-restore.error.xml.h:2
-#, fuzzy
 msgid "File “{0}” is not a valid Evolution backup file."
 msgstr "El fitxer «{0}» no és una còpia de seguretat vàlida de l'Evolution."
 
@@ -20728,7 +20540,6 @@ msgid "Method:"
 msgstr "Mètode:"
 
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:697
-#, fuzzy
 msgid ""
 "This is the method Evolution will use to authenticate you.  Note that "
 "setting this to “Using email address” requires anonymous access to your LDAP "
@@ -20769,7 +20580,6 @@ msgid "Search Scope:"
 msgstr "Àmbit de la cerca:"
 
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:786
-#, fuzzy
 msgid ""
 "The search scope defines how deep you would like the search to extend down "
 "the directory tree.  A search scope of “Subtree” will include all entries "
@@ -20987,33 +20797,33 @@ msgstr "Llista d'anotacions nova"
 
 # c-format
 #: ../src/modules/calendar/e-cal-base-shell-sidebar.c:563
-#, fuzzy, c-format
+#, c-format
 msgid "Copying an event into the calendar “%s”"
 msgstr "S'està copiant un esdeveniment al calendari «%s»"
 
 # c-format
 #: ../src/modules/calendar/e-cal-base-shell-sidebar.c:564
-#, fuzzy, c-format
+#, c-format
 msgid "Moving an event into the calendar “%s”"
 msgstr "S'està movent un esdeveniment al calendari «%s»"
 
 #: ../src/modules/calendar/e-cal-base-shell-sidebar.c:569
-#, fuzzy, c-format
+#, c-format
 msgid "Copying a memo into the memo list “%s”"
 msgstr "S'està copiant una anotació a la llista d'anotacions «%s»"
 
 #: ../src/modules/calendar/e-cal-base-shell-sidebar.c:570
-#, fuzzy, c-format
+#, c-format
 msgid "Moving a memo into the memo list “%s”"
 msgstr "S'està movent una anotació a la llista d'anotacions «%s»"
 
 #: ../src/modules/calendar/e-cal-base-shell-sidebar.c:575
-#, fuzzy, c-format
+#, c-format
 msgid "Copying a task into the task list “%s”"
 msgstr "S'està copiant una tasca a la llista de tasques «%s»"
 
 #: ../src/modules/calendar/e-cal-base-shell-sidebar.c:576
-#, fuzzy, c-format
+#, c-format
 msgid "Moving a task into the task list “%s”"
 msgstr "S'està movent una tasca a la llista de tasques «%s»"
 
@@ -21030,7 +20840,6 @@ msgid "Task List Selector"
 msgstr "Selector de llistes de tasques"
 
 #: ../src/modules/calendar/e-calendar-preferences.c:525
-#, fuzzy
 msgid "Selected Calendars for Notifications of Reminders"
 msgstr "Seleccioneu els calendaris per a les notificacions de recordatori"
 
@@ -21289,28 +21098,25 @@ msgid "Display reminders in _notification area only"
 msgstr "Mostra els recordatoris només a l'àrea de _notificació"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:68
-#, fuzzy
 msgid "Keep reminder notification _window always on top"
-msgstr "Mostra els recordatoris només a l'àrea de _notificació"
+msgstr ""
+"Mante les _finestres de notificacions de recordatoris sempre per damunt"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:69
 msgid "Display reminders for completed _tasks"
 msgstr "Mostra recordatoris per a les tasques acabades"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:70
-#, fuzzy
 msgid "Display reminders for _past events"
-msgstr "Mostra recordatoris per a les tasques acabades"
+msgstr "Mostra recordatoris per a les tasques _acabades"
 
 #. This is the first half of a user preference. "Set default reminder [time-period] before every new appointment"
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:72
-#, fuzzy
 msgid "Set _default reminder"
-msgstr "Valor per defecte per als recordatoris"
+msgstr "Estableix el recordatoris per _defecte"
 
 #. This is the last half of a user preference. "Set default reminder [time-period] before every new appointment"
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:74
-#, fuzzy
 msgid "before every new appointment"
 msgstr "abans de cada cita"
 
@@ -21329,24 +21135,20 @@ msgid "Default _snooze time (in minutes)"
 msgstr "Temps de _repetició per defecte (en minuts)"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:80
-#, fuzzy
 msgid "Select the sources for reminder notification:"
-msgstr "Seleccioneu els calendaris per a les notificacions de recordatori"
+msgstr "Seleccioneu les fonts per a les notificacions de recordatori:"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:81
-#, fuzzy
 msgid "Calendars"
-msgstr "Calendari"
+msgstr "Calendaris"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:82
-#, fuzzy
 msgid "Memo Lists"
-msgstr "Lli_sta d'anotacions"
+msgstr "Llistes d'anotacions"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:83
-#, fuzzy
 msgid "Task Lists"
-msgstr "Llista de tasques"
+msgstr "Llistes de tasques"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:84
 msgid "Default Free/Busy Server"
@@ -21681,7 +21483,6 @@ msgid "Active Appointments"
 msgstr "Cites actives"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1631
-#, fuzzy
 msgid "Next 7 Days’ Appointments"
 msgstr "Cites dels propers 7 dies"
 
@@ -22111,7 +21912,6 @@ msgid "Completed Tasks"
 msgstr "Tasques completades"
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:945
-#, fuzzy
 msgid "Next 7 Days’ Tasks"
 msgstr "Tasques dels propers 7 dies"
 
@@ -22147,24 +21947,20 @@ msgstr[0] "%d tasca"
 msgstr[1] "%d tasques"
 
 #: ../src/modules/composer-to-meeting/e-composer-to-meeting.c:319
-#, fuzzy
 msgid "Convert to M_eeting"
-msgstr "Crea una re_unió"
+msgstr "Converteix en un re_unió"
 
 #: ../src/modules/composer-to-meeting/e-composer-to-meeting.c:321
-#, fuzzy
 msgid "Convert the message to a meeting request"
-msgstr "Crea una sol·licitud de reunió nova"
+msgstr "Converteix el missatge en una sol·licitud fe reunió"
 
 #: ../src/modules/composer-to-meeting/e-meeting-to-composer.c:357
-#, fuzzy
 msgid "Convert to M_essage"
-msgstr "Missatges importants"
+msgstr "Converteix en un _missatge"
 
 #: ../src/modules/composer-to-meeting/e-meeting-to-composer.c:359
-#, fuzzy
 msgid "Convert to the mail message"
-msgstr "Redacta un missatge de correu nou"
+msgstr "Converteix en un missatge de correu electrònic"
 
 #: ../src/modules/itip-formatter/e-mail-formatter-itip.c:162
 msgid "ITIP"
@@ -22655,163 +22451,167 @@ msgid "Sa_ve"
 msgstr "_Desa"
 
 #: ../src/modules/itip-formatter/itip-view.c:3486
-#: ../src/modules/itip-formatter/itip-view.c:4955
+#: ../src/modules/itip-formatter/itip-view.c:5015
 msgid "Attendee status updated"
 msgstr "S'ha actualitzat l'estat de l'assistent"
 
-#: ../src/modules/itip-formatter/itip-view.c:3658
-#, fuzzy, c-format
+#: ../src/modules/itip-formatter/itip-view.c:3701
+#, c-format
 msgid "An appointment “%s” in the calendar “%s” conflicts with this meeting"
-msgstr "Un esdeveniment del calendari «%s» coincideix amb aquesta reunió"
+msgstr "Un cita  «%s» del calendari «%s» coincideix amb aquesta reunió"
 
-#: ../src/modules/itip-formatter/itip-view.c:3664
-#, fuzzy, c-format
+#: ../src/modules/itip-formatter/itip-view.c:3707
+#, c-format
 msgid ""
 "The calendar “%s” contains an appointment which conflicts with this meeting"
 msgid_plural ""
 "The calendar “%s” contains %d appointments which conflict with this meeting"
-msgstr[0] "Un esdeveniment del calendari «%s» coincideix amb aquesta reunió"
-msgstr[1] "Un esdeveniment del calendari «%s» coincideix amb aquesta reunió"
+msgstr[0] "Una cita del calendari «%s» coincideix amb aquesta reunió"
+msgstr[1] "El calendari «%s» té %d cites coincidents amb aquesta reunió"
 
 # c-format
-#: ../src/modules/itip-formatter/itip-view.c:3697
-#, fuzzy, c-format
+#: ../src/modules/itip-formatter/itip-view.c:3740
+#, c-format
 msgid "Found the appointment in the calendar “%s”"
-msgstr "S'ha trobat l'esdeveniment al calendari «%s»"
+msgstr "S'ha trobat la cita al calendari «%s»"
 
-#: ../src/modules/itip-formatter/itip-view.c:3831
+#: ../src/modules/itip-formatter/itip-view.c:3749
+msgid "This meeting invitation is obsolete. It had been updated."
+msgstr "La invitació a la reunió és obsoleta. Hauria d'estar actualitzada."
+
+#: ../src/modules/itip-formatter/itip-view.c:3891
 msgid "Unable to find any calendars"
 msgstr "No s'ha pogut trobar cap calendari"
 
-#: ../src/modules/itip-formatter/itip-view.c:3839
+#: ../src/modules/itip-formatter/itip-view.c:3899
 msgid "Unable to find this meeting in any calendar"
 msgstr "No s'ha pogut trobar aquesta reunió en cap calendari"
 
-#: ../src/modules/itip-formatter/itip-view.c:3844
+#: ../src/modules/itip-formatter/itip-view.c:3904
 msgid "Unable to find this task in any task list"
 msgstr "No s'ha pogut trobar la tasca a la llista de tasques"
 
-#: ../src/modules/itip-formatter/itip-view.c:3849
+#: ../src/modules/itip-formatter/itip-view.c:3909
 msgid "Unable to find this memo in any memo list"
 msgstr "No s'ha pogut trobar aquesta anotació a la llista d'anotacions"
 
-#: ../src/modules/itip-formatter/itip-view.c:4190
+#: ../src/modules/itip-formatter/itip-view.c:4250
 msgid "Opening the calendar. Please wait..."
 msgstr "S'està obrint el calendari. Espereu..."
 
-#: ../src/modules/itip-formatter/itip-view.c:4195
+#: ../src/modules/itip-formatter/itip-view.c:4255
 msgid "Searching for an existing version of this appointment"
 msgstr "S'està cercant una versió existent d'aquesta cita"
 
-#: ../src/modules/itip-formatter/itip-view.c:4594
-#, fuzzy, c-format
+#: ../src/modules/itip-formatter/itip-view.c:4654
+#, c-format
 msgid "Unable to send item to calendar “%s”.  %s"
 msgstr "No s'ha pogut enviar l'element al calendari «%s». %s"
 
-#: ../src/modules/itip-formatter/itip-view.c:4609
-#, fuzzy, c-format
+#: ../src/modules/itip-formatter/itip-view.c:4669
+#, c-format
 msgid "Sent to calendar “%s” as accepted"
 msgstr "S'ha enviat al calendari «%s» com a acceptat"
 
-#: ../src/modules/itip-formatter/itip-view.c:4614
-#, fuzzy, c-format
+#: ../src/modules/itip-formatter/itip-view.c:4674
+#, c-format
 msgid "Sent to calendar “%s” as tentative"
 msgstr "S'ha enviat al calendari «%s» com a provisional"
 
-#: ../src/modules/itip-formatter/itip-view.c:4620
-#, fuzzy, c-format
+#: ../src/modules/itip-formatter/itip-view.c:4680
+#, c-format
 msgid "Sent to calendar “%s” as declined"
 msgstr "S'ha enviat al calendari «%s» com a rebutjat"
 
-#: ../src/modules/itip-formatter/itip-view.c:4626
-#, fuzzy, c-format
+#: ../src/modules/itip-formatter/itip-view.c:4686
+#, c-format
 msgid "Sent to calendar “%s” as cancelled"
 msgstr "S'ha enviat al calendari «%s» com a cancel·lat"
 
-#: ../src/modules/itip-formatter/itip-view.c:4646
-#: ../src/modules/itip-formatter/itip-view.c:5092
-#: ../src/modules/itip-formatter/itip-view.c:5195
+#: ../src/modules/itip-formatter/itip-view.c:4706
+#: ../src/modules/itip-formatter/itip-view.c:5152
+#: ../src/modules/itip-formatter/itip-view.c:5255
 msgid "Saving changes to the calendar. Please wait..."
 msgstr "S'estan desant els canvis al calendari. Espereu..."
 
-#: ../src/modules/itip-formatter/itip-view.c:4687
+#: ../src/modules/itip-formatter/itip-view.c:4747
 msgid "Unable to parse item"
 msgstr "No s'ha pogut analitzar l'element"
 
-#: ../src/modules/itip-formatter/itip-view.c:4879
+#: ../src/modules/itip-formatter/itip-view.c:4939
 #, c-format
 msgid "Organizer has removed the delegate %s "
 msgstr "L'organitzador ha suprimit el delegat %s "
 
-#: ../src/modules/itip-formatter/itip-view.c:4896
+#: ../src/modules/itip-formatter/itip-view.c:4956
 msgid "Sent a cancelation notice to the delegate"
 msgstr "Envia un avís de cancel·lació al delegat"
 
-#: ../src/modules/itip-formatter/itip-view.c:4900
+#: ../src/modules/itip-formatter/itip-view.c:4960
 msgid "Could not send the cancelation notice to the delegate"
 msgstr "No s'ha pogut enviar un avís de cancel·lació al delegat"
 
-#: ../src/modules/itip-formatter/itip-view.c:4947
+#: ../src/modules/itip-formatter/itip-view.c:5007
 #, c-format
 msgid "Unable to update attendee. %s"
 msgstr "No s'ha pogut actualitzar l'assistent. %s"
 
-#: ../src/modules/itip-formatter/itip-view.c:4982
+#: ../src/modules/itip-formatter/itip-view.c:5042
 msgid "The meeting is invalid and cannot be updated"
 msgstr "La reunió no és vàlida i no es pot actualitzar"
 
-#: ../src/modules/itip-formatter/itip-view.c:5057
+#: ../src/modules/itip-formatter/itip-view.c:5117
 msgid "Attendee status could not be updated because the status is invalid"
 msgstr ""
 "L'estat de l'assistent no s'ha pogut actualitzar perquè l'estat no és vàlid"
 
-#: ../src/modules/itip-formatter/itip-view.c:5128
-#: ../src/modules/itip-formatter/itip-view.c:5166
+#: ../src/modules/itip-formatter/itip-view.c:5188
+#: ../src/modules/itip-formatter/itip-view.c:5226
 msgid "Attendee status can not be updated because the item no longer exists"
 msgstr ""
 "No es pot actualitzar l'estat de l'assistent perquè l'element ja no existeix"
 
-#: ../src/modules/itip-formatter/itip-view.c:5227
+#: ../src/modules/itip-formatter/itip-view.c:5287
 msgid "Meeting information sent"
 msgstr "S'ha enviat la informació de la reunió"
 
-#: ../src/modules/itip-formatter/itip-view.c:5232
+#: ../src/modules/itip-formatter/itip-view.c:5292
 msgid "Task information sent"
 msgstr "S'ha enviat la informació de la tasca"
 
-#: ../src/modules/itip-formatter/itip-view.c:5237
+#: ../src/modules/itip-formatter/itip-view.c:5297
 msgid "Memo information sent"
 msgstr "S'ha enviat la informació de l'anotació"
 
-#: ../src/modules/itip-formatter/itip-view.c:5248
+#: ../src/modules/itip-formatter/itip-view.c:5308
 msgid "Unable to send meeting information, the meeting does not exist"
 msgstr "No s'ha pogut enviar la informació de la reunió; la reunió no existeix"
 
-#: ../src/modules/itip-formatter/itip-view.c:5253
+#: ../src/modules/itip-formatter/itip-view.c:5313
 msgid "Unable to send task information, the task does not exist"
 msgstr "No s'ha pogut enviar la informació de la tasca; la tasca no existeix"
 
-#: ../src/modules/itip-formatter/itip-view.c:5258
+#: ../src/modules/itip-formatter/itip-view.c:5318
 msgid "Unable to send memo information, the memo does not exist"
 msgstr ""
 "No s'ha pogut enviar la informació de l'anotació; l'anotació no existeix"
 
 #. Translators: This is a default filename for a calendar.
-#: ../src/modules/itip-formatter/itip-view.c:5323
+#: ../src/modules/itip-formatter/itip-view.c:5383
 msgid "calendar.ics"
 msgstr "calendari.ics"
 
-#: ../src/modules/itip-formatter/itip-view.c:5328
+#: ../src/modules/itip-formatter/itip-view.c:5388
 msgid "Save Calendar"
 msgstr "Desa el calendari"
 
-#: ../src/modules/itip-formatter/itip-view.c:5376
-#: ../src/modules/itip-formatter/itip-view.c:5389
+#: ../src/modules/itip-formatter/itip-view.c:5436
+#: ../src/modules/itip-formatter/itip-view.c:5449
 msgid "The calendar attached is not valid"
 msgstr "El calendari adjunt no és vàlid"
 
-#: ../src/modules/itip-formatter/itip-view.c:5377
-#: ../src/modules/itip-formatter/itip-view.c:5390
+#: ../src/modules/itip-formatter/itip-view.c:5437
+#: ../src/modules/itip-formatter/itip-view.c:5450
 msgid ""
 "The message claims to contain a calendar, but the calendar is not a valid "
 "iCalendar."
@@ -22819,15 +22619,15 @@ msgstr ""
 "El missatge no conté un calendari iCalendar vàlid, tot i que diu contenir-ne "
 "un."
 
-#: ../src/modules/itip-formatter/itip-view.c:5432
-#: ../src/modules/itip-formatter/itip-view.c:5462
-#: ../src/modules/itip-formatter/itip-view.c:5565
+#: ../src/modules/itip-formatter/itip-view.c:5492
+#: ../src/modules/itip-formatter/itip-view.c:5522
+#: ../src/modules/itip-formatter/itip-view.c:5625
 msgid "The item in the calendar is not valid"
 msgstr "L'element en el calendari no és vàlid"
 
-#: ../src/modules/itip-formatter/itip-view.c:5433
-#: ../src/modules/itip-formatter/itip-view.c:5463
-#: ../src/modules/itip-formatter/itip-view.c:5566
+#: ../src/modules/itip-formatter/itip-view.c:5493
+#: ../src/modules/itip-formatter/itip-view.c:5523
+#: ../src/modules/itip-formatter/itip-view.c:5626
 msgid ""
 "The message does contain a calendar, but the calendar contains no events, "
 "tasks or free/busy information"
@@ -22835,11 +22635,11 @@ msgstr ""
 "El missatge conté un calendari, però el calendari no conté esdeveniments, "
 "tasques o informació de lliure/ocupat"
 
-#: ../src/modules/itip-formatter/itip-view.c:5478
+#: ../src/modules/itip-formatter/itip-view.c:5538
 msgid "The calendar attached contains multiple items"
 msgstr "El calendari adjunt conté múltiples elements"
 
-#: ../src/modules/itip-formatter/itip-view.c:5479
+#: ../src/modules/itip-formatter/itip-view.c:5539
 msgid ""
 "To process all of these items, the file should be saved and the calendar "
 "imported"
@@ -22847,24 +22647,24 @@ msgstr ""
 "Per processar tots els elements, s'hauria de desar el fitxer i importar el "
 "calendari"
 
-#: ../src/modules/itip-formatter/itip-view.c:5997
+#: ../src/modules/itip-formatter/itip-view.c:6057
 msgctxt "cal-itip"
 msgid "None"
 msgstr "Cap"
 
-#: ../src/modules/itip-formatter/itip-view.c:6013
+#: ../src/modules/itip-formatter/itip-view.c:6073
 msgid "Tentatively Accepted"
 msgstr "Acceptat provisionalment"
 
-#: ../src/modules/itip-formatter/itip-view.c:6179
+#: ../src/modules/itip-formatter/itip-view.c:6239
 msgid "This meeting recurs"
 msgstr "Aquesta reunió és periòdica"
 
-#: ../src/modules/itip-formatter/itip-view.c:6182
+#: ../src/modules/itip-formatter/itip-view.c:6242
 msgid "This task recurs"
 msgstr "Aquesta tasca és periòdica"
 
-#: ../src/modules/itip-formatter/itip-view.c:6185
+#: ../src/modules/itip-formatter/itip-view.c:6245
 msgid "This memo recurs"
 msgstr "Aquesta anotació és periòdica"
 
@@ -22880,7 +22680,6 @@ msgid "This meeting has been delegated"
 msgstr "S'ha delegat la reunió"
 
 #: ../src/modules/itip-formatter/org-gnome-itip-formatter.error.xml.h:3
-#, fuzzy
 msgid "“{0}” has delegated the meeting. Do you want to add the delegate “{1}”?"
 msgstr "«{0}» ha delegat la reunió. Voleu afegir el delegat «{1}»?"
 
@@ -22906,18 +22705,17 @@ msgstr "Accés IMAP"
 #. Translators: This is part of a sentence "You may need to enable IMAP access and Calendars to synchronize",
 #. where the 'IMAP access' and 'Calendars to synchronize' are clickable.
 #: ../src/modules/mail-config/e-mail-config-google-summary.c:315
-#, fuzzy
 msgctxt "GoggleSummary"
 msgid "Calendars to synchronize"
-msgstr "N_o sincronitzis"
+msgstr "Calendaris a sincronitzar"
 
 #. Translators: This is part of a sentence "You may need to enable IMAP access and Calendars to synchronize",
 #. where the 'IMAP access' and 'Calendars to synchronize' are clickable.
 #: ../src/modules/mail-config/e-mail-config-google-summary.c:318
-#, fuzzy, c-format
+#, c-format
 msgctxt "GoggleSummary"
 msgid "You may need to enable %s and %s"
-msgstr "Pot ser que hàgiu d'habilitar l'accés per IMAP"
+msgstr "Pot ser que hàgiu d'habilitar %s i %s"
 
 #: ../src/modules/mail-config/e-mail-config-local-accounts.c:268
 #: ../src/modules/mail-config/e-mail-config-local-accounts.c:316
@@ -23021,7 +22819,6 @@ msgid "TLS on a dedicated port"
 msgstr "TLS en un port dedicat"
 
 #: ../src/modules/mail-config/e-mail-config-sendmail-backend.c:75
-#, fuzzy
 msgid "_Use custom binary, instead of “sendmail”"
 msgstr "_Utilitza una aplicació personalitzada i no el «sendmail»"
 
@@ -23038,7 +22835,6 @@ msgid "Cus_tom arguments:"
 msgstr "Ar_guments personalitzats:"
 
 #: ../src/modules/mail-config/e-mail-config-sendmail-backend.c:120
-#, fuzzy
 msgid ""
 "Default arguments are “-i -f %F -- %R”, where\n"
 "   %F — stands for the From address\n"
@@ -23477,7 +23273,6 @@ msgid "Important Messages"
 msgstr "Missatges importants"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:2098
-#, fuzzy
 msgid "Last 5 Days’ Messages"
 msgstr "Missatges dels darrers 5 dies"
 
@@ -23664,18 +23459,19 @@ msgstr "Voleu que l'Evolution sigui el vostre gestor de correu per defecte?"
 #. Translators: First %s is an email address, second %s
 #. * is the subject of the email, third %s is the date.
 #: ../src/modules/mdn/evolution-mdn.c:308
-#, fuzzy, c-format
+#, c-format
 msgid "Your message to %s about “%s” on %s has been read."
-msgstr "S'ha llegit el vostre missatge del %3$s per a %1$s sobre «%2$s»."
+msgstr ""
+"S'ha llegit el vostre missatge per a  %s amb assumpte «%s»  i amb data %s."
 
 #. Translators: %s is the subject of the email message.
 #: ../src/modules/mdn/evolution-mdn.c:374
-#, fuzzy, c-format
+#, c-format
 msgid "Delivery Notification for “%s”"
 msgstr "Notificació d'entrega per a «%s»"
 
 #: ../src/modules/mdn/evolution-mdn.c:540
-#, fuzzy, c-format
+#, c-format
 msgid "Send a read receipt to “%s”"
 msgstr "Envia una confirmació de lectura a «%s»"
 
@@ -23701,7 +23497,6 @@ msgid "Evolution is currently offline."
 msgstr "L'Evolution es troba en mode fora de línia."
 
 #: ../src/modules/offline-alert/evolution-offline-alert.error.xml.h:2
-#, fuzzy
 msgid "Click “Work Online” to return to online mode."
 msgstr "Feu clic a «Treballa en línia» per tornar al mode en línia."
 
@@ -23847,7 +23642,7 @@ msgstr ""
 "l'SpamAssassin: "
 
 #: ../src/modules/spamassassin/evolution-spamassassin.c:230
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to write “%s” to SpamAssassin: "
 msgstr "No s'ha pogut escriure «%s» a l'SpamAssassin: "
 
@@ -24326,7 +24121,6 @@ msgstr "Capçalera personalit_zada"
 
 #. To translators: This string is used while adding a new message header to configuration, to specifying the format of the key values
 #: ../src/plugins/email-custom-header/email-custom-header.c:807
-#, fuzzy
 msgid ""
 "The format for specifying a Custom Header key value is:\n"
 "Name of the Custom Header key values separated by “;”."
@@ -24362,12 +24156,11 @@ msgid "Command to be executed to launch the editor: "
 msgstr "Ordre a executar per iniciar l'editor: "
 
 #: ../src/plugins/external-editor/external-editor.c:112
-#, fuzzy
 msgid ""
 "For XEmacs use “xemacs”\n"
 "For Vim use “gvim -f”"
 msgstr ""
-"Utilitzeu «xemacs» per a l'Emacs\n"
+"Utilitzeu «xemacs» per al XEmacs\n"
 "Utilitzeu «gvim -f» per al Vim"
 
 #: ../src/plugins/external-editor/external-editor.c:122
@@ -24464,7 +24257,6 @@ msgid "Invalid Image Size"
 msgstr "La mida de la imatge no és vàlida"
 
 #: ../src/plugins/face/org-gnome-face.error.xml.h:4
-#, fuzzy
 msgid ""
 "Please select a PNG image of size 48 × 48 pixels, whose file size doesn’t "
 "exceed 723 bytes."
@@ -24477,7 +24269,6 @@ msgid "Incorrect Face Image Byte Size"
 msgstr "Imatge de cara amb una mida en bytes incorrecta"
 
 #: ../src/plugins/face/org-gnome-face.error.xml.h:6
-#, fuzzy
 msgid ""
 "The Face image size is {0} bytes, while it should not be more than 723 "
 "bytes. Please select a PNG image of size 48 × 48 pixels, whose file size "
@@ -24600,7 +24391,6 @@ msgid "Send e-mail message to mailing list?"
 msgstr "Voleu enviar un correu electrònic a la llista?"
 
 #: ../src/plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:6
-#, fuzzy
 msgid ""
 "An e-mail message will be sent to the URL “{0}”. You can either send the "
 "message automatically, or see and change it first.\n"
@@ -24747,7 +24537,7 @@ msgid "_New"
 msgstr "_Nou"
 
 #: ../src/plugins/mail-to-task/mail-to-task.c:598
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Selected calendar contains event “%s” already. Would you like to edit the "
 "old event?"
@@ -24756,7 +24546,7 @@ msgstr ""
 "l'esdeveniment antic?"
 
 #: ../src/plugins/mail-to-task/mail-to-task.c:601
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Selected task list contains task “%s” already. Would you like to edit the "
 "old task?"
@@ -24765,7 +24555,7 @@ msgstr ""
 "tasca antiga?"
 
 #: ../src/plugins/mail-to-task/mail-to-task.c:604
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Selected memo list contains memo “%s” already. Would you like to edit the "
 "old memo?"
@@ -25084,7 +24874,7 @@ msgstr "Ubicació de la publicació"
 
 #: ../src/plugins/publish-calendar/publish-format-fb.c:82
 #: ../src/plugins/publish-calendar/publish-format-ical.c:102
-#, fuzzy, c-format
+#, c-format
 msgid "Invalid source UID “%s”"
 msgstr "L'identificador universal de la font «%s» no és vàlid"
 
@@ -25265,9 +25055,8 @@ msgid "Preparing to quit..."
 msgstr "S'està preparant la sortida..."
 
 #: ../src/shell/e-shell.c:926
-#, fuzzy
 msgid "Open _Settings"
-msgstr "_Obre els paràmetres d'escriptori"
+msgstr "_Obre els paràmetres"
 
 #: ../src/shell/e-shell.c:1127
 msgid "Credentials are required to connect to the destination host."
@@ -25339,7 +25128,8 @@ msgstr ""
 "Enric Balletbò i Serra <eballetbo@km103.com>\n"
 "Xavier Conde Rueda <xavi.conde@gmail.com>\n"
 "Gil Forcada <gilforcada@guifi.net>\n"
-"David Planella Molas <david.planella@gmail.com>"
+"David Planella Molas <david.planella@gmail.com>\n"
+"Carles Ferrando Garcia <carles.ferrando@gmail.com>"
 
 #: ../src/shell/e-shell-utils.c:430
 msgid "Evolution Website"
@@ -25403,7 +25193,6 @@ msgid "_Quick Reference"
 msgstr "Referència rà_pida"
 
 #: ../src/shell/e-shell-window-actions.c:866
-#, fuzzy
 msgid "Show Evolution’s shortcut keys"
 msgstr "Mostra les dreceres de teclat de l'Evolution"
 
@@ -25497,14 +25286,12 @@ msgid "_Window"
 msgstr "_Finestra"
 
 #: ../src/shell/e-shell-window-actions.c:1036
-#, fuzzy
 msgid "Show _Menu Bar"
-msgstr "Mostra la barra d'e_stat"
+msgstr "Mostra la barra de _menú"
 
 #: ../src/shell/e-shell-window-actions.c:1038
-#, fuzzy
 msgid "Show the menu bar"
-msgstr "Mostra la barra lateral"
+msgstr "Mostra la barra de menú"
 
 #: ../src/shell/e-shell-window-actions.c:1044
 msgid "Show Side _Bar"
@@ -25632,7 +25419,7 @@ msgstr "Nou"
 
 #. Translators: This is used for the main window title.
 #: ../src/shell/e-shell-window-private.c:720
-#, fuzzy, c-format
+#, c-format
 msgid "%s — Evolution"
 msgstr "%s - Evolution"
 
@@ -25688,7 +25475,6 @@ msgstr "No ho tornis a mostrar"
 #. Translators: Do NOT translate the five component
 #. * names, they MUST remain in English!
 #: ../src/shell/main.c:314
-#, fuzzy
 msgid ""
 "Start Evolution showing the specified component. Available options are "
 "“mail”, “calendar”, “contacts”, “tasks”, and “memos”"
@@ -25743,12 +25529,11 @@ msgstr ""
 "l'Evolution que no respon. L'error del sistema és: %s"
 
 #: ../src/shell/main.c:466 ../src/shell/main.c:471
-#, fuzzy
 msgid "— The Evolution PIM and Email Client"
-msgstr "El gestor d'informació personal i client de correu de l'Evolution"
+msgstr "— El gestor d'informació personal i client de correu de l'Evolution"
 
 #: ../src/shell/main.c:533
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s: --online and --offline cannot be used together.\n"
 "  Run “%s --help” for more information.\n"
@@ -25757,7 +25542,7 @@ msgstr ""
 "  Executeu l'ordre «%s --help» per obtenir més informació.\n"
 
 #: ../src/shell/main.c:539
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s: --force-online and --offline cannot be used together.\n"
 "  Run “%s --help” for more information.\n"
@@ -25826,18 +25611,15 @@ msgid "Keep _Waiting"
 msgstr "Continua _esperant"
 
 #: ../src/shell/shell.error.xml.h:15
-#, fuzzy
 msgid "Failed to get values from “{0}”"
 msgstr "Ha fallat l'obtenció de valors de «{0}»"
 
 # c-format
 #: ../src/shell/shell.error.xml.h:16
-#, fuzzy
 msgid "Failed to invoke authenticate for “{0}”"
 msgstr "Ha fallat la invocació d'autenticació per a «{0}»"
 
 #: ../src/shell/shell.error.xml.h:17
-#, fuzzy
 msgid "Failed to connect “{0}”"
 msgstr "Ha fallat connectar-se a «{0}»"
 
@@ -25846,42 +25628,34 @@ msgid "_Reconnect"
 msgstr "_Torna a connectar"
 
 #: ../src/shell/shell.error.xml.h:19
-#, fuzzy
 msgid "Failed to connect address book “{0}”"
 msgstr "No s'ha pogut connectar a la llibreta d'adreces «{0}»"
 
 #: ../src/shell/shell.error.xml.h:20
-#, fuzzy
 msgid "Failed to connect calendar “{0}”"
 msgstr "No s'ha pogut connectar el calendari «{0}»"
 
 #: ../src/shell/shell.error.xml.h:21
-#, fuzzy
 msgid "Failed to connect mail account “{0}”"
 msgstr "Ha fallat connectar-se al compte de correu «{0}»"
 
 #: ../src/shell/shell.error.xml.h:22
-#, fuzzy
 msgid "Failed to connect memo list “{0}”"
 msgstr "No s'ha pogut connectar a la llista d'anotacions «{0}»"
 
 #: ../src/shell/shell.error.xml.h:23
-#, fuzzy
 msgid "Failed to connect task list “{0}”"
 msgstr "No s'ha pogut connectar a la llista de tasques «{0}»"
 
 #: ../src/shell/shell.error.xml.h:24
-#, fuzzy
 msgid "Failed to prompt for credentials for “{0}”"
 msgstr "Ha fallat demanar les credencials per a «{0}»"
 
 #: ../src/shell/shell.error.xml.h:25
-#, fuzzy
 msgid "Failed to finish trust prompt for “{0}”"
 msgstr "Ha fallat acabar la pregunta de confiança per a «{0}»"
 
 #: ../src/shell/shell.error.xml.h:26
-#, fuzzy
 msgid "SSL certificate for “{0}” is not trusted."
 msgstr "El certificat SSL per a «{0}» té confiança."
 
@@ -25890,32 +25664,27 @@ msgid "Reason: {1}"
 msgstr "Motiu: {1}"
 
 #: ../src/shell/shell.error.xml.h:29
-#, fuzzy
 msgid "SSL certificate for address book “{0}” is not trusted."
 msgstr "El certificat SSL per la llibreta d'adreces «{0}» no és de confiança."
 
 #: ../src/shell/shell.error.xml.h:30
-#, fuzzy
 msgid "SSL certificate for calendar “{0}” is not trusted."
 msgstr "El certificat SSL per al calendari «{0}» no és de confiança."
 
 #: ../src/shell/shell.error.xml.h:31
-#, fuzzy
 msgid "SSL certificate for mail account “{0}” is not trusted."
 msgstr "El certificat SSL per al compte de correu «{0}» no és de confiança."
 
 #: ../src/shell/shell.error.xml.h:32
-#, fuzzy
 msgid "SSL certificate for memo list “{0}” is not trusted."
 msgstr "El certificat SSL per la llista d'anotacions «{0}» no és de confiança."
 
 #: ../src/shell/shell.error.xml.h:33
-#, fuzzy
 msgid "SSL certificate for task list “{0}” is not trusted."
 msgstr "El certificat SSL per la llista de tasques «{0}» no és de confiança."
 
 #: ../src/smime/gui/ca-trust-dialog.c:104
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Certificate “%s” is a CA certificate.\n"
 "\n"
@@ -26115,7 +25884,7 @@ msgid "Change certificate trust"
 msgstr "Canvia la confiança en el certificat"
 
 #: ../src/smime/gui/certificate-manager.c:1358
-#, fuzzy, c-format
+#, c-format
 msgid "Change trust for the host “%s”:"
 msgstr "Canvia la confiança per a l'amfitrió «%s»:"
 
@@ -26219,12 +25988,12 @@ msgstr ""
 "s'especifiqui el contrari"
 
 #: ../src/smime/gui/component.c:53
-#, fuzzy, c-format
+#, c-format
 msgid "Enter the password for “%s”, token “%s”"
 msgstr "Introduïu la contrasenya per «%s», testimoni «%s»"
 
 #: ../src/smime/gui/component.c:55
-#, fuzzy, c-format
+#, c-format
 msgid "Enter the password for “%s”"
 msgstr "Introduïu la contrasenya per a «%s»"
 
