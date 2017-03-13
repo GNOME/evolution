@@ -1,3 +1,43 @@
+Evolution 3.23.92 2017-03-13
+----------------------------
+
+Bug Fixes:
+	Bug 779156 - [IMAPx] Not listening for changes after resume from suspend (Milan Crha)
+	Bug 778541 - Prefer Sent/Drafts folder account for non-existent identity (Milan Crha)
+	Bug 779688 - Category Properties dialogue doesn't active default widget (Milan Crha)
+	Bug 779687 - Category Properties dialogue has spacing problems (Milan Crha)
+	Bug 779738 - [Wayland] Date picker misplaced (missing transient-for) (Milan Crha)
+	Bug 779746 - Possible use-after-free in 'Edit as New Message' (Milan Crha)
+
+Miscellaneous:
+	e_msg_composer_setup_with_message: Doesn't use override_alias_name/_address (Milan Crha)
+	Fix various editor's unit tests (Tomas Popela)
+	Don't preserve 'Preformatted' format if moving an empty block out of the quoted content (Tomas Popela)
+	Possible crash while refreshing spellcheck (Tomas Popela)
+	Print the history stack after removing item from it (Tomas Popela)
+	History could be saved twice if inserting HTML content (Tomas Popela)
+	Print current EEditorWebExtension method if CAMEL_DEBUG is active (Tomas Popela)
+
+Translations:
+	Daniel Mustieles (es)
+	Aurimas Černius (lt)
+	Chao-Hsiung Liao (zh_TW)
+	Inaki Larranaga Murgoitio (eu)
+	Yuras Shumovich (be)
+	Мирослав Николић (sr)
+	Мирослав Николић (sr@latin)
+	Mario Blättermann (de)
+	Balázs Meskó (hu)
+	Alan Mortensen (da)
+	Marek Cernocky (cs)
+	Fabio Tomat (fur)
+	Fran Dieguez (gl)
+	Changwoo Ryu (ko)
+	Jordi Mas (ca)
+	Gianvito Cavasoli (it)
+	Christian Kirbach (de)
+	Anders Jonsson (sv)
+
 Evolution 3.23.91 2017-02-27
 ----------------------------
 
