@@ -2018,7 +2018,7 @@ msgid ""
 "message in each thread, rather than by message’s date. Evolution requires a "
 "restart."
 msgstr ""
-"Aquest paràmetre especifica si els fils s'han ordenar segons el darrer "
+"Aquest paràmetre especifica si els fils s'han d'ordenar segons el darrer "
 "missatge de cadascun, o bé segons la data del missatge. Haureu de reiniciar "
 "l'Evolution."
 
@@ -2650,7 +2650,7 @@ msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“image-loading-policy” instead."
 msgstr ""
-"Aquesta clau va quedat obsoleta a partir de la versió 3.10 i no l'hauríeu "
+"Aquesta clau va quedar obsoleta a partir de la versió 3.10 i no l'hauríeu "
 "d'emprar més. Utilitzeu «image-loading-policy» en lloc seu."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:246
@@ -14789,7 +14789,7 @@ msgstr "Mostra els camps"
 #: ../src/e-util/e-table-config.c:559
 msgid "Choose the order of information to appear in the message list."
 msgstr ""
-"Trieu l'ordre en que ha d'aparèixer la informació a la llista de missatges."
+"Trieu l'ordre en què ha d'aparèixer la informació a la llista de missatges."
 
 #: ../src/e-util/e-table-config.ui.h:2
 msgid "Clear _All"
@@ -21948,7 +21948,7 @@ msgstr[1] "%d tasques"
 
 #: ../src/modules/composer-to-meeting/e-composer-to-meeting.c:319
 msgid "Convert to M_eeting"
-msgstr "Converteix en un re_unió"
+msgstr "Converteix en una re_unió"
 
 #: ../src/modules/composer-to-meeting/e-composer-to-meeting.c:321
 msgid "Convert the message to a meeting request"
