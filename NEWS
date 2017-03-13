@@ -1,3 +1,24 @@
+Evolution 3.22.6 2017-03-13
+---------------------------
+
+Bug Fixes:
+	Bug 778642 - Editing a message causes part of it to be lost (Tomas Popela)
+	Bug 778541 - Prefer Sent/Drafts folder account for non-existent identity (Milan Crha)
+	Bug 779688 - Category Properties dialogue doesn't active default widget (Milan Crha)
+	Bug 779738 - [Wayland] Date picker misplaced (missing transient-for) (Milan Crha)
+
+Miscellaneous:
+	[EWeekdayChooser] Selected days drawn with incorrect color (Milan Crha)
+	Fix various editor's unit tests (Tomas Popela)
+	Don't preserve 'Preformatted' format if moving an empty block out of the quoted content (Tomas Popela)
+	Possible crash while refreshing spellcheck (Tomas Popela)
+	Print the history stack after removing item from it (Tomas Popela)
+	History could be saved twice if inserting HTML content (Tomas Popela)
+	Print current EEditorWebExtension method if CAMEL_DEBUG is active (Tomas Popela)
+
+Translations:
+	Mandy Wang (zh_CN)
+
 Evolution 3.22.5 2017-02-13
 ---------------------------
 
