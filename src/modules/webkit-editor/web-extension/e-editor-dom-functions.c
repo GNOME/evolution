@@ -9047,35 +9047,6 @@ e_editor_dom_insert_html (EEditorPage *editor_page,
 		if (strstr (html_text, "id=\"-x-evo-selection-start-marker\""))
 			e_editor_dom_selection_restore (editor_page);
 
-		if (!html_mode) {
-			WebKitDOMNodeList *list = NULL;
-			gint ii, length;
-
-			list = webkit_dom_document_query_selector_all (
-				document, "span[style^=font-family]", NULL);
-			length = webkit_dom_node_list_get_length (list);
-			if (length > 0)
-				e_editor_dom_selection_save (editor_page);
-
-			for (ii = length; ii--;) {
-				WebKitDOMNode *span, *child;
-
-				span = webkit_dom_node_list_item (list, ii);
-				while ((child = webkit_dom_node_get_first_child (span)))
-					webkit_dom_node_insert_before (
-						webkit_dom_node_get_parent_node (span),
-						child,
-						span,
-						NULL);
-
-				remove_node (span);
-			}
-			g_clear_object (&list);
-
-			if (length > 0)
-				e_editor_dom_selection_restore (editor_page);
-		}
-
 		e_editor_dom_check_magic_links (editor_page, FALSE);
 		e_editor_dom_scroll_to_caret (editor_page);
 		e_editor_dom_force_spell_check_in_viewport (editor_page);
@@ -11238,33 +11209,6 @@ e_editor_dom_save_history_for_drop (EEditorPage *editor_page)
 	event->data.string.to = dom_get_node_inner_html (WEBKIT_DOM_NODE (fragment));
 
 	e_editor_undo_redo_manager_insert_history_event (manager, event);
-#if 0 /* FIXME Not exactly sure if it is still needed */
-	if (!e_editor_page_get_html_mode (editor_page)) {
-		list = webkit_dom_document_query_selector_all (
-			document, "span[style^=font-family]", NULL);
-		length = webkit_dom_node_list_get_length (list);
-		if (length > 0)
-			e_editor_dom_selection_save (editor_page);
-
-		for (ii = length; ii--;) {
-			WebKitDOMNode *span, *child;
-
-			span = webkit_dom_node_list_item (list, ii);
-			while ((child = webkit_dom_node_get_first_child (span)))
-				webkit_dom_node_insert_before (
-					webkit_dom_node_get_parent_node (span),
-					child,
-					span,
-					NULL);
-
-			remove_node (span);
-		}
-		g_clear_object (&list);
-
-		if (length > 0)
-			e_editor_dom_selection_restore (editor_page);
-	}
-#endif
 
 	g_clear_object (&range);
 	g_clear_object (&dom_selection);
