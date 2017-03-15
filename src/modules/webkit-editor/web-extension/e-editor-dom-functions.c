@@ -17341,6 +17341,28 @@ e_editor_dom_selection_set_alignment (EEditorPage *editor_page,
 	e_editor_page_emit_content_changed (editor_page);
 }
 
+void
+e_editor_dom_insert_replace_all_history_event (EEditorPage *editor_page,
+                                               const gchar *search_text,
+                                               const gchar *replacement)
+{
+	EEditorUndoRedoManager *manager;
+
+	g_return_if_fail (E_IS_EDITOR_PAGE (editor_page));
+
+	manager = e_editor_page_get_undo_redo_manager (editor_page);
+
+	if (!e_editor_undo_redo_manager_is_operation_in_progress (manager)) {
+		EEditorHistoryEvent *ev = g_new0 (EEditorHistoryEvent, 1);
+		ev->type = HISTORY_REPLACE_ALL;
+
+		ev->data.string.from = g_strdup (search_text);
+		ev->data.string.to = g_strdup (replacement);
+
+		e_editor_undo_redo_manager_insert_history_event (manager, ev);
+	}
+}
+
 /*
  * e_html_editor_selection_replace:
  * @selection: an #EEditorSelection
@@ -17354,14 +17376,17 @@ e_editor_dom_selection_replace (EEditorPage *editor_page,
 {
 	EEditorHistoryEvent *ev = NULL;
 	EEditorUndoRedoManager *manager;
+	WebKitDOMRange *range = NULL;
 
 	g_return_if_fail (E_IS_EDITOR_PAGE (editor_page));
 
 	manager = e_editor_page_get_undo_redo_manager (editor_page);
 
-	if (!e_editor_undo_redo_manager_is_operation_in_progress (manager)) {
-		WebKitDOMRange *range = NULL;
+	if (!(range = e_editor_dom_get_current_range (editor_page)) ||
+	     e_editor_dom_selection_is_collapsed (editor_page))
+		return;
 
+	if (!e_editor_undo_redo_manager_is_operation_in_progress (manager)) {
 		ev = g_new0 (EEditorHistoryEvent, 1);
 		ev->type = HISTORY_REPLACE;
 
@@ -17371,13 +17396,11 @@ e_editor_dom_selection_replace (EEditorPage *editor_page,
 			&ev->before.end.x,
 			&ev->before.end.y);
 
-		range = e_editor_dom_get_current_range (editor_page);
-
 		ev->data.string.from = webkit_dom_range_get_text (range);
 		ev->data.string.to = g_strdup (replacement);
-
-		g_clear_object (&range);
 	}
+
+	g_clear_object (&range);
 
 	e_editor_dom_exec_command (editor_page, E_CONTENT_EDITOR_COMMAND_INSERT_TEXT, replacement);
 

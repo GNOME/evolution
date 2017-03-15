@@ -1625,6 +1625,7 @@ undo_redo_replace (EEditorPage *editor_page,
 	e_editor_dom_selection_restore_to_history_event_state (editor_page, undo ? event->after : event->before);
 
 	if (undo) {
+		gint ii = 0;
 		WebKitDOMDOMWindow *dom_window = NULL;
 		WebKitDOMDOMSelection *dom_selection = NULL;
 
@@ -1632,7 +1633,9 @@ undo_redo_replace (EEditorPage *editor_page,
 		dom_selection = webkit_dom_dom_window_get_selection (dom_window);
 		g_clear_object (&dom_window);
 
-		webkit_dom_dom_selection_modify (dom_selection, "extend", "left", "word");
+		for (ii = g_utf8_strlen (event->data.string.to, -1); ii--;)
+			webkit_dom_dom_selection_modify (dom_selection, "extend", "left", "character");
+
 		g_clear_object (&dom_selection);
 	}
 

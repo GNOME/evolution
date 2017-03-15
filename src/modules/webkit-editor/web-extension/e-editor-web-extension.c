@@ -501,6 +501,11 @@ static const gchar *introspection_xml =
 "      <arg type='t' name='page_id' direction='in'/>"
 "      <arg type='s' name='uri' direction='in'/>"
 "    </method>"
+"    <method name='DOMInsertReplaceAllHistoryEvent'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"      <arg type='s' name='search_text' direction='in'/>"
+"      <arg type='s' name='replacement' direction='in'/>"
+"    </method>"
 "    <method name='DOMSelectionReplace'>"
 "      <arg type='t' name='page_id' direction='in'/>"
 "      <arg type='s' name='replacement' direction='in'/>"
@@ -1917,6 +1922,17 @@ handle_method_call (GDBusConnection *connection,
 
 		e_editor_dom_insert_image (editor_page, uri);
 
+		g_dbus_method_invocation_return_value (invocation, NULL);
+	} else if (g_strcmp0 (method_name, "DOMInsertReplaceAllHistoryEvent") == 0) {
+		const gchar *replacement, *search_text;
+
+		g_variant_get (parameters, "(t&s&s)", &page_id, &search_text, &replacement);
+
+		editor_page = get_editor_page_or_return_dbus_error (invocation, extension, page_id);
+		if (!editor_page)
+			goto error;
+
+		e_editor_dom_insert_replace_all_history_event (editor_page, search_text, replacement);
 		g_dbus_method_invocation_return_value (invocation, NULL);
 	} else if (g_strcmp0 (method_name, "DOMSelectionReplace") == 0) {
 		const gchar *replacement;

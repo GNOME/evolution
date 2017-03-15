@@ -349,6 +349,10 @@ EContentEditorAlignment
 void		e_editor_dom_selection_set_alignment
 						(EEditorPage *editor_page,
 						 EContentEditorAlignment alignment);
+void		e_editor_dom_insert_replace_all_history_event
+						(EEditorPage *editor_page,
+						 const gchar *search_text,
+						 const gchar *replacement);
 void		e_editor_dom_selection_replace	(EEditorPage *editor_page,
 						 const gchar *replacement);
 void		e_editor_dom_replace_caret_word	(EEditorPage *editor_page,
