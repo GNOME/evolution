@@ -389,6 +389,9 @@ web_extension_selection_changed_cb (GDBusConnection *connection,
 	}
 	g_free (font_color);
 
+	g_object_notify (G_OBJECT (wk_editor), "can-undo");
+	g_object_notify (G_OBJECT (wk_editor), "can-redo");
+
 	g_object_notify (G_OBJECT (wk_editor), "alignment");
 	g_object_notify (G_OBJECT (wk_editor), "block-format");
 	g_object_notify (G_OBJECT (wk_editor), "indented");
