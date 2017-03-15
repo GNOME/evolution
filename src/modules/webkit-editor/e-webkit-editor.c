@@ -131,6 +131,7 @@ struct _EWebKitEditorPrivate {
 	gchar *replace_with;
 	gulong found_text_handler_id;
 	gulong failed_to_find_text_handler_id;
+	gboolean current_text_not_found;
 
 	gboolean performing_drag;
 	gulong drag_data_received_handler_id;
@@ -2474,7 +2475,7 @@ webkit_editor_replace_caret_word (EContentEditor *editor,
 		return;
 	}
 
-	e_util_invoke_g_dbus_proxy_call_with_error_check (
+	e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (
 		wk_editor->priv->web_extension,
 		"DOMReplaceCaretWord",
 		g_variant_new ("(ts)", current_page_id (wk_editor), replacement),
@@ -2527,10 +2528,31 @@ find_flags_to_webkit_find_options (guint32 flags /* EContentEditorFindFlags */)
 }
 
 static void
+webkit_editor_replace (EContentEditor *editor,
+                       const gchar *replacement)
+{
+	EWebKitEditor *wk_editor;
+
+	wk_editor = E_WEBKIT_EDITOR (editor);
+	if (!wk_editor->priv->web_extension) {
+		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
+		return;
+	}
+
+	e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (
+		wk_editor->priv->web_extension,
+		"DOMSelectionReplace",
+		g_variant_new ("(ts)", current_page_id (wk_editor), replacement),
+		wk_editor->priv->cancellable);
+}
+
+static void
 webkit_find_controller_found_text_cb (WebKitFindController *find_controller,
                                       guint match_count,
                                       EWebKitEditor *wk_editor)
 {
+	wk_editor->priv->current_text_not_found = FALSE;
+
 	if (wk_editor->priv->performing_replace_all) {
 		if (!wk_editor->priv->replaced_count)
 			wk_editor->priv->replaced_count = match_count;
@@ -2538,10 +2560,7 @@ webkit_find_controller_found_text_cb (WebKitFindController *find_controller,
 		/* Repeatedly search for 'word', then replace selection by
 		 * 'replacement'. Repeat until there's at least one occurrence of
 		 * 'word' in the document */
-		e_content_editor_insert_content (
-			E_CONTENT_EDITOR (wk_editor),
-			wk_editor->priv->replace_with,
-			E_CONTENT_EDITOR_INSERT_TEXT_PLAIN);
+		webkit_editor_replace (E_CONTENT_EDITOR (wk_editor), wk_editor->priv->replace_with);
 
 		webkit_find_controller_search_next (find_controller);
 	} else {
@@ -2553,8 +2572,25 @@ static void
 webkit_find_controller_failed_to_find_text_cb (WebKitFindController *find_controller,
                                                EWebKitEditor *wk_editor)
 {
+	wk_editor->priv->current_text_not_found = TRUE;
+
 	if (wk_editor->priv->performing_replace_all) {
 		guint replaced_count = wk_editor->priv->replaced_count;
+
+		if (replaced_count > 0) {
+			if (!wk_editor->priv->web_extension) {
+				g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
+			} else {
+				e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (
+					wk_editor->priv->web_extension,
+					"DOMInsertReplaceAllHistoryEvent",
+					g_variant_new ("(tss)",
+						current_page_id (wk_editor),
+						webkit_find_controller_get_search_text (find_controller),
+						wk_editor->priv->replace_with),
+					NULL);
+			}
+		}
 
 		webkit_editor_finish_search (wk_editor);
 		e_content_editor_emit_replace_all_done (E_CONTENT_EDITOR (wk_editor), replaced_count);
@@ -2581,6 +2617,7 @@ webkit_editor_prepare_find_controller (EWebKitEditor *wk_editor)
 
 	wk_editor->priv->performing_replace_all = FALSE;
 	wk_editor->priv->replaced_count = 0;
+	wk_editor->priv->current_text_not_found = FALSE;
 	g_free (wk_editor->priv->replace_with);
 	wk_editor->priv->replace_with = NULL;
 }
@@ -2619,25 +2656,6 @@ webkit_editor_find (EContentEditor *editor,
 }
 
 static void
-webkit_editor_replace (EContentEditor *editor,
-                       const gchar *replacement)
-{
-	EWebKitEditor *wk_editor;
-
-	wk_editor = E_WEBKIT_EDITOR (editor);
-	if (!wk_editor->priv->web_extension) {
-		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
-		return;
-	}
-
-	e_util_invoke_g_dbus_proxy_call_with_error_check (
-		wk_editor->priv->web_extension,
-		"DOMSelectionReplace",
-		g_variant_new ("(ts)", current_page_id (wk_editor), replacement),
-		wk_editor->priv->cancellable);
-}
-
-static void
 webkit_editor_replace_all (EContentEditor *editor,
                            guint32 flags,
                            const gchar *find_text,
@@ -2652,6 +2670,11 @@ webkit_editor_replace_all (EContentEditor *editor,
 
 	wk_editor = E_WEBKIT_EDITOR (editor);
 	wk_options = find_flags_to_webkit_find_options (flags);
+
+	wk_options |= WEBKIT_FIND_OPTIONS_WRAP_AROUND;
+
+	if (wk_editor->priv->current_text_not_found)
+		return;
 
 	if (!wk_editor->priv->find_controller)
 		webkit_editor_prepare_find_controller (wk_editor);

@@ -2661,6 +2661,48 @@ test_delete_after_quoted (TestFixture *fixture)
 		g_test_fail ();
 }
 
+static void
+test_replace_dialog (TestFixture *fixture)
+{
+	if (!test_utils_run_simple_test (fixture,
+		"mode:plain\n"
+		"type:text to replace\n"
+		"undo:save\n"	/* 1 */
+		"seq:h\n"
+		"action:show-replace\n"
+		"type:to\t2\n"
+		"type:\t\t\t\t\t\t\n" /* Jump to 'Replace' */
+		"seq:n\n" /* Press it */
+		"seq:^\n" /* Close the dialog */
+		"undo:undo\n"
+		"undo:test:1\n"
+		"undo:redo\n",
+		HTML_PREFIX "<div style=\"width: 71ch;\">text 2 replace</div>" HTML_SUFFIX,
+		"text 2 replace"))
+		g_test_fail ();
+}
+
+static void
+test_replace_dialog_all (TestFixture *fixture)
+{
+	if (!test_utils_run_simple_test (fixture,
+		"mode:plain\n"
+		"type:text to replace\n"
+		"undo:save\n"	/* 1 */
+		"seq:h\n"
+		"action:show-replace\n"
+		"type:e\t3\n"
+		"type:\t\t\t\t\t\t\t\n" /* Jump to 'Replace All' */
+		"seq:n\n" /* Press it */
+		"seq:^\n" /* Close the dialog */
+		"undo:undo\n"
+		"undo:test:1\n"
+		"undo:redo\n",
+		HTML_PREFIX "<div style=\"width: 71ch;\">t3xt to r3plac3</div>" HTML_SUFFIX,
+		"t3xt to r3plac3"))
+		g_test_fail ();
+}
+
 gint
 main (gint argc,
       gchar *argv[])
@@ -2828,6 +2870,8 @@ main (gint argc,
 	test_utils_add_test ("/undo/link-paste/plain", test_undo_link_paste_plain);
 	test_utils_add_test ("/delete/quoted", test_delete_quoted);
 	test_utils_add_test ("/delete/after-quoted", test_delete_after_quoted);
+	test_utils_add_test ("/replace/dialog", test_replace_dialog);
+	test_utils_add_test ("/replace-all/dialog", test_replace_dialog_all);
 
 	test_add_html_editor_bug_tests ();
 
