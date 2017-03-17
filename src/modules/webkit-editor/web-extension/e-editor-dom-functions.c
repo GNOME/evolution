@@ -17387,3 +17387,98 @@ e_editor_dom_selection_get_coordinates (EEditorPage *editor_page,
 	*start_y += 1;
 	*end_y += 1;
 }
+
+WebKitDOMRange *
+e_editor_dom_get_range_for_point (WebKitDOMDocument *document,
+                                  EEditorSelectionPoint point)
+{
+	glong scroll_left, scroll_top;
+	WebKitDOMHTMLElement *body;
+	WebKitDOMRange *range = NULL;
+
+	body = webkit_dom_document_get_body (document);
+	scroll_left = webkit_dom_element_get_scroll_left (WEBKIT_DOM_ELEMENT (body));
+	scroll_top = webkit_dom_element_get_scroll_top (WEBKIT_DOM_ELEMENT (body));
+
+	range = webkit_dom_document_caret_range_from_point (
+		document, point.x - scroll_left, point.y - scroll_top);
+
+	/* The point is outside the viewport, scroll to it. */
+	if (!range) {
+		WebKitDOMDOMWindow *dom_window = NULL;
+
+		dom_window = webkit_dom_document_get_default_view (document);
+		webkit_dom_dom_window_scroll_to (dom_window, point.x, point.y);
+
+		scroll_left = webkit_dom_element_get_scroll_left (WEBKIT_DOM_ELEMENT (body));
+		scroll_top = webkit_dom_element_get_scroll_top (WEBKIT_DOM_ELEMENT (body));
+		range = webkit_dom_document_caret_range_from_point (
+			document, point.x - scroll_left, point.y - scroll_top);
+		g_clear_object (&dom_window);
+	}
+
+	return range;
+}
+
+void
+e_editor_dom_selection_restore_to_history_event_state (EEditorPage *editor_page,
+                                                       EEditorSelection selection_state)
+{
+	WebKitDOMDocument *document;
+	WebKitDOMDOMWindow *dom_window = NULL;
+	WebKitDOMDOMSelection *dom_selection = NULL;
+	WebKitDOMElement *element, *tmp;
+	WebKitDOMRange *range = NULL;
+	gboolean was_collapsed = FALSE;
+
+	g_return_if_fail (E_IS_EDITOR_PAGE (editor_page));
+
+	document = e_editor_page_get_document (editor_page);
+	dom_window = webkit_dom_document_get_default_view (document);
+	dom_selection = webkit_dom_dom_window_get_selection (dom_window);
+	g_clear_object (&dom_window);
+
+	/* Restore the selection how it was before the event occured. */
+	range = e_editor_dom_get_range_for_point (document, selection_state.start);
+	webkit_dom_dom_selection_remove_all_ranges (dom_selection);
+	webkit_dom_dom_selection_add_range (dom_selection, range);
+	g_clear_object (&range);
+
+	was_collapsed = selection_state.start.x == selection_state.end.x;
+	was_collapsed = was_collapsed && selection_state.start.y == selection_state.end.y;
+	if (was_collapsed) {
+		g_clear_object (&dom_selection);
+		return;
+	}
+
+	e_editor_dom_selection_save (editor_page);
+
+	element = webkit_dom_document_get_element_by_id (
+		document, "-x-evo-selection-end-marker");
+
+	remove_node (WEBKIT_DOM_NODE (element));
+
+	element = webkit_dom_document_get_element_by_id (
+		document, "-x-evo-selection-start-marker");
+
+	webkit_dom_element_remove_attribute (element, "id");
+
+	range = e_editor_dom_get_range_for_point (document, selection_state.end);
+	webkit_dom_dom_selection_remove_all_ranges (dom_selection);
+	webkit_dom_dom_selection_add_range (dom_selection, range);
+	g_clear_object (&range);
+
+	e_editor_dom_selection_save (editor_page);
+
+	tmp = webkit_dom_document_get_element_by_id (
+		document, "-x-evo-selection-start-marker");
+
+	remove_node (WEBKIT_DOM_NODE (tmp));
+
+	webkit_dom_element_set_id (
+		element, "-x-evo-selection-start-marker");
+
+	e_editor_dom_selection_restore (editor_page);
+
+	g_clear_object (&dom_selection);
+}
