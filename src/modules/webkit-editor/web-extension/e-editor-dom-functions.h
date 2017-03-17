@@ -24,6 +24,7 @@
 #undef E_UTIL_INCLUDE_WITHOUT_WEBKIT
 
 #include "e-editor-page.h"
+#include "e-editor-undo-redo-manager.h"
 
 /* stephenhay from https://mathiasbynens.be/demo/url-regex */
 #define URL_PROTOCOLS "news|telnet|nntp|file|https?|s?ftp|webcal|localhost|ssh"
@@ -370,7 +371,13 @@ void		e_editor_dom_selection_get_coordinates
 						 guint *end_y);
 gboolean	e_editor_dom_is_selection_position_node
 						(WebKitDOMNode *node);
-
+WebKitDOMRange *
+		e_editor_dom_get_range_for_point
+						(WebKitDOMDocument *document,
+						 EEditorSelectionPoint point);
+void		e_editor_dom_selection_restore_to_history_event_state
+						(EEditorPage *editor_page,
+						 EEditorSelection selection_state);
 G_END_DECLS
 
 #endif /* E_EDITOR_DOM_FUNCTIONS_H */
