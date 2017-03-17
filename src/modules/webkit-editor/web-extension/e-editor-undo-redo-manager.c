@@ -117,13 +117,13 @@ print_node_inner_html (WebKitDOMNode *node)
 	gchar *inner_html;
 
 	if (!node) {
-		printf ("    none\n");
+		printf ("    content: none\n");
 		return;
 	}
 
 	inner_html = dom_get_node_inner_html (node);
 
-	printf ("    '%s'\n", inner_html);
+	printf ("    content: '%s'\n", inner_html);
 
 	g_free (inner_html);
 }
@@ -133,14 +133,22 @@ print_history_event (EEditorHistoryEvent *event)
 {
 	if (event->type != HISTORY_START && event->type != HISTORY_AND) {
 		printf ("  %s\n", event_type_string[event->type]);
-		printf ("    before: start_x: %u ; start_y: %u ; end_x: %u ; end_y: %u ;\n",
+		printf ("    before: start_x: %u ; start_y: %u ; end_x: %u ; end_y: %u\n",
 			event->before.start.x, event->before.start.y, event->before.end.x, event->before.end.y);
-		printf ("    after:  start_x: %u ; start_y: %u ; end_x: %u ; end_y: %u ;\n",
+		printf ("    after:  start_x: %u ; start_y: %u ; end_x: %u ; end_y: %u\n",
 			event->after.start.x, event->after.start.y, event->after.end.x, event->after.end.y);
 	}
 	switch (event->type) {
 		case HISTORY_DELETE:
+			if (g_object_get_data (G_OBJECT (event->data.fragment), "history-delete-key")) {
+				printf ("    type: delete\n");
+			} else
+				printf ("    type: backspace\n");
+			if (g_object_get_data (G_OBJECT (event->data.fragment), "history-control-key"))
+				printf ("          control\n");
 		case HISTORY_INPUT:
+			if (g_object_get_data (G_OBJECT (event->data.fragment), "history-return-key"))
+				printf ("    type: return\n");
 		case HISTORY_REMOVE_LINK:
 		case HISTORY_SMILEY:
 		case HISTORY_IMAGE:
@@ -157,13 +165,13 @@ print_history_event (EEditorHistoryEvent *event)
 		case HISTORY_UNDERLINE:
 		case HISTORY_STRIKETHROUGH:
 		case HISTORY_WRAP:
-			printf ("    from %d to %d ;\n", event->data.style.from, event->data.style.to);
+			printf ("    from %d to %d\n", event->data.style.from, event->data.style.to);
 			break;
 		case HISTORY_PASTE:
 		case HISTORY_PASTE_AS_TEXT:
 		case HISTORY_PASTE_QUOTED:
 		case HISTORY_INSERT_HTML:
-			printf ("    pasting: '%s' ; \n", event->data.string.to);
+			printf ("    pasting: '%s' \n", event->data.string.to);
 			break;
 		case HISTORY_HRULE_DIALOG:
 		case HISTORY_IMAGE_DIALOG:
@@ -178,7 +186,7 @@ print_history_event (EEditorHistoryEvent *event)
 		case HISTORY_FONT_COLOR:
 		case HISTORY_REPLACE:
 		case HISTORY_REPLACE_ALL:
-			printf ("    from '%s' to '%s';\n", event->data.string.from, event->data.string.to);
+			printf ("    from '%s' to '%s'\n", event->data.string.from, event->data.string.to);
 			break;
 		case HISTORY_START:
 			printf ("  HISTORY START\n");
