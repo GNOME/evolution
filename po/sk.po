@@ -12,18 +12,18 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
+"Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2017-01-31 13:49+0000\n"
-"PO-Revision-Date: 2017-02-01 15:02+0100\n"
-"Last-Translator: Peter Mráz <etkinator@gmail.com>\n"
+"POT-Creation-Date: 2017-03-13 17:49+0000\n"
+"PO-Revision-Date: 2017-03-19 08:58+0100\n"
+"Last-Translator: Dušan Kazik <prescott66@gmail.com>\n"
 "Language-Team: slovenčina <>\n"
 "Language: sk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 1 : (n>=2 && n<=4) ? 2 : 0;\n"
-"X-Generator: Poedit 1.8.7.1\n"
+"X-Generator: Poedit 1.8.11\n"
 
 #: ../evolution.appdata.xml.in.h:1 ../data/evolution.desktop.in.in.h:1
 #: ../src/mail/e-mail-browser.c:1098
@@ -86,7 +86,7 @@ msgstr "Napísať správu"
 
 #: ../data/evolution.desktop.in.in.h:8
 #: ../src/e-util/e-name-selector-dialog.c:448
-#: ../src/modules/addressbook/e-book-shell-backend.c:301
+#: ../src/modules/addressbook/e-book-shell-backend.c:303
 #: ../src/modules/addressbook/e-book-shell-view.c:371
 msgid "Contacts"
 msgstr "Kontakty"
@@ -3516,8 +3516,8 @@ msgstr "Voľby"
 #: ../src/e-util/e-attachment-dialog.c:309
 #: ../src/e-util/e-attachment-store.c:664
 #: ../src/e-util/e-attachment-store.c:832 ../src/e-util/e-attachment-view.c:301
-#: ../src/e-util/e-categories-dialog.c:80 ../src/e-util/e-category-editor.c:137
-#: ../src/e-util/e-category-editor.c:207 ../src/e-util/e-charset-combo-box.c:99
+#: ../src/e-util/e-categories-dialog.c:80 ../src/e-util/e-category-editor.c:140
+#: ../src/e-util/e-category-editor.c:211 ../src/e-util/e-charset-combo-box.c:99
 #: ../src/e-util/e-color-chooser-widget.c:125
 #: ../src/e-util/e-filter-datespec.c:289
 #: ../src/e-util/e-html-editor-actions.c:321
@@ -3843,7 +3843,7 @@ msgid "_Load X.509"
 msgstr "_Načítať X.509"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:72
-#: ../src/modules/addressbook/e-book-shell-backend.c:312
+#: ../src/modules/addressbook/e-book-shell-backend.c:314
 msgid "Certificates"
 msgstr "Certifikáty"
 
@@ -3914,7 +3914,7 @@ msgstr "Otvorenie certifikátu X.509"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3272
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4320
-#: ../src/e-util/e-attachment-store.c:662 ../src/e-util/e-category-editor.c:145
+#: ../src/e-util/e-attachment-store.c:662 ../src/e-util/e-category-editor.c:148
 #: ../src/e-util/e-html-editor-actions.c:322
 #: ../src/e-util/e-html-editor-actions.c:416
 #: ../src/e-util/e-image-chooser-dialog.c:172 ../src/plugins/face/face.c:296
@@ -4005,7 +4005,7 @@ msgstr "Neplatný kontakt."
 #: ../src/addressbook/gui/widgets/eab-gui-util.c:317
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:302
 #: ../src/e-util/e-attachment-dialog.c:311
-#: ../src/e-util/e-categories-dialog.c:81 ../src/e-util/e-category-editor.c:208
+#: ../src/e-util/e-categories-dialog.c:81 ../src/e-util/e-category-editor.c:212
 #: ../src/e-util/e-charset-combo-box.c:100
 #: ../src/e-util/e-color-chooser-widget.c:126
 #: ../src/e-util/e-filter-datespec.c:290
@@ -4183,29 +4183,29 @@ msgstr "_Dolu"
 msgid "Contact List Members"
 msgstr "Členovia zoznamu kontaktov"
 
-#: ../src/addressbook/gui/contact-list-editor/e-contact-list-editor.c:1485
+#: ../src/addressbook/gui/contact-list-editor/e-contact-list-editor.c:1499
 msgid "_Members"
 msgstr "Čle_novia"
 
-#: ../src/addressbook/gui/contact-list-editor/e-contact-list-editor.c:1625
+#: ../src/addressbook/gui/contact-list-editor/e-contact-list-editor.c:1639
 msgid "Error adding list"
 msgstr "Chyba pri pridávaní zoznamu"
 
-#: ../src/addressbook/gui/contact-list-editor/e-contact-list-editor.c:1645
+#: ../src/addressbook/gui/contact-list-editor/e-contact-list-editor.c:1659
 msgid "Error modifying list"
 msgstr "Chyba pri zmene zoznamu"
 
-#: ../src/addressbook/gui/contact-list-editor/e-contact-list-editor.c:1665
+#: ../src/addressbook/gui/contact-list-editor/e-contact-list-editor.c:1679
 msgid "Error removing list"
 msgstr "Chyba pri odstraňovaní zoznamu"
 
 #: ../src/addressbook/gui/widgets/addresstypes.xml.h:1
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1219
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1222
 msgid "Name contains"
 msgstr "Meno obsahuje"
 
 #: ../src/addressbook/gui/widgets/addresstypes.xml.h:2
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1212
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1215
 msgid "Email begins with"
 msgstr "Email začína na"
 
@@ -4213,7 +4213,7 @@ msgstr "Email začína na"
 #: ../src/calendar/gui/caltypes.xml.in.h:26
 #: ../src/calendar/gui/memotypes.xml.in.h:19
 #: ../src/calendar/gui/tasktypes.xml.in.h:30
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1205
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1208
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1662
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:782
 #: ../src/modules/calendar/e-task-shell-view-actions.c:983
@@ -4621,7 +4621,7 @@ msgid "Paste contacts from the clipboard"
 msgstr "Vloží kontakty zo schránky"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.c:698
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1015
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1018
 msgid "Delete selected contacts"
 msgstr "Odstráni vybrané kontakty"
 
@@ -4659,7 +4659,7 @@ msgstr "Ste si istý, že chcete odstrániť tento kontakt (%s)?"
 #: ../src/calendar/gui/e-comp-editor.c:1997 ../src/e-util/e-focus-tracker.c:783
 #: ../src/e-util/evolution-source-viewer.c:806
 #: ../src/mail/e-mail-account-manager.c:737
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1087
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1090
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1477
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:676
 #: ../src/modules/calendar/e-task-shell-view-actions.c:830
@@ -6477,7 +6477,7 @@ msgstr "Priorita:"
 #: ../src/calendar/gui/e-cal-component-preview.c:327
 #: ../src/calendar/gui/e-task-table.c:548
 #: ../src/calendar/gui/tasktypes.xml.in.h:19
-#: ../src/e-util/e-send-options.ui.h:2 ../src/mail/message-list.c:320
+#: ../src/e-util/e-send-options.ui.h:2 ../src/mail/message-list.c:322
 msgid "High"
 msgstr "Vysoká"
 
@@ -6485,14 +6485,14 @@ msgstr "Vysoká"
 #: ../src/calendar/gui/e-cal-model.c:1888
 #: ../src/calendar/gui/e-task-table.c:549
 #: ../src/calendar/gui/tasktypes.xml.in.h:20
-#: ../src/e-util/e-send-options.ui.h:5 ../src/mail/message-list.c:319
+#: ../src/e-util/e-send-options.ui.h:5 ../src/mail/message-list.c:321
 msgid "Normal"
 msgstr "Normálna"
 
 #: ../src/calendar/gui/e-cal-component-preview.c:331
 #: ../src/calendar/gui/e-task-table.c:550
 #: ../src/calendar/gui/tasktypes.xml.in.h:21
-#: ../src/e-util/e-send-options.ui.h:4 ../src/mail/message-list.c:318
+#: ../src/e-util/e-send-options.ui.h:4 ../src/mail/message-list.c:320
 msgid "Low"
 msgstr "Nízka"
 
@@ -6811,7 +6811,7 @@ msgstr "Zdroj"
 #: ../src/calendar/gui/e-meeting-store.c:230 ../src/calendar/gui/print.c:1247
 #: ../src/calendar/gui/print.c:1264 ../src/e-util/e-charset.c:49
 #: ../src/modules/itip-formatter/itip-view.c:3412
-#: ../src/modules/itip-formatter/itip-view.c:6022
+#: ../src/modules/itip-formatter/itip-view.c:6082
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:97
 msgid "Unknown"
 msgstr "Neznámy"
@@ -6868,7 +6868,7 @@ msgstr "Nie"
 #: ../src/calendar/gui/e-meeting-list-view.c:219
 #: ../src/calendar/gui/e-meeting-store.c:194
 #: ../src/calendar/gui/e-meeting-store.c:217
-#: ../src/modules/itip-formatter/itip-view.c:6010
+#: ../src/modules/itip-formatter/itip-view.c:6070
 msgid "Accepted"
 msgstr "Prijatý"
 
@@ -6876,7 +6876,7 @@ msgstr "Prijatý"
 #: ../src/calendar/gui/e-meeting-list-view.c:220
 #: ../src/calendar/gui/e-meeting-store.c:196
 #: ../src/calendar/gui/e-meeting-store.c:219
-#: ../src/modules/itip-formatter/itip-view.c:6016
+#: ../src/modules/itip-formatter/itip-view.c:6076
 msgid "Declined"
 msgstr "Odmietnutý"
 
@@ -6892,7 +6892,7 @@ msgstr "Predbežný"
 #: ../src/calendar/gui/e-meeting-list-view.c:222
 #: ../src/calendar/gui/e-meeting-store.c:200
 #: ../src/calendar/gui/e-meeting-store.c:223
-#: ../src/modules/itip-formatter/itip-view.c:6019
+#: ../src/modules/itip-formatter/itip-view.c:6079
 msgid "Delegated"
 msgstr "Poverený"
 
@@ -8238,13 +8238,13 @@ msgstr "Vloží obsah schránky"
 
 #: ../src/calendar/gui/e-comp-editor.c:2018
 #: ../src/composer/e-composer-actions.c:381 ../src/mail/e-mail-reader.c:2323
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1229
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1243
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1232
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1246
 msgid "_Print..."
 msgstr "_Tlačiť…"
 
 #: ../src/calendar/gui/e-comp-editor.c:2025 ../src/mail/e-mail-reader.c:2330
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1236
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1239
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1693
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:813
 #: ../src/modules/calendar/e-task-shell-view-actions.c:1014
@@ -11092,7 +11092,7 @@ msgstr "P_redmet:"
 msgid "Si_gnature:"
 msgstr "Podp_is:"
 
-#: ../src/composer/e-composer-name-header.c:231
+#: ../src/composer/e-composer-name-header.c:237
 msgid "Click here for the address book"
 msgstr "Kliknutím sem zobrazíte adresár kontaktov"
 
@@ -11121,7 +11121,7 @@ msgstr ""
 msgid "Compose Message"
 msgstr "Napísanie správy"
 
-#: ../src/composer/e-msg-composer.c:4767
+#: ../src/composer/e-msg-composer.c:4763
 msgid "The composer contains a non-text message body, which cannot be edited."
 msgstr ""
 "Editor správ obsahuje netextové telo správy, ktoré nie je možné upraviť."
@@ -11993,7 +11993,7 @@ msgid "A_dd Attachment..."
 msgstr "Pri_dať prílohu…"
 
 #: ../src/e-util/e-attachment-view.c:348
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1095
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1098
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1276
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:605
 #: ../src/modules/calendar/e-task-shell-view-actions.c:731
@@ -12099,25 +12099,25 @@ msgstr "Kopírovať obsah zoznamu úloh lokálne pre prácu v odpojenom režime"
 msgid "Copy memo list contents locally for offline operation"
 msgstr "Kopírovať obsah zoznamu poznámok lokálne pre prácu v odpojenom režime"
 
-#: ../src/e-util/e-categories-editor.c:224
+#: ../src/e-util/e-categories-editor.c:246
 msgid "Currently _used categories:"
 msgstr "Aktuálne _použité kategórie:"
 
-#: ../src/e-util/e-categories-editor.c:235
+#: ../src/e-util/e-categories-editor.c:257
 msgid "_Available Categories:"
 msgstr "_Dostupné kategórie:"
 
-#: ../src/e-util/e-categories-editor.c:275
+#: ../src/e-util/e-categories-editor.c:297
 msgctxt "category"
 msgid "_New"
 msgstr "_Nová"
 
-#: ../src/e-util/e-categories-editor.c:279
+#: ../src/e-util/e-categories-editor.c:301
 msgctxt "category"
 msgid "_Edit"
 msgstr "_Upraviť"
 
-#: ../src/e-util/e-categories-editor.c:283
+#: ../src/e-util/e-categories-editor.c:305
 msgctxt "category"
 msgid "_Delete"
 msgstr "O_dstrániť"
@@ -12131,27 +12131,27 @@ msgstr "Ikona"
 msgid "Create category “%s”"
 msgstr "Vytvoriť kategóriu „%s“"
 
-#: ../src/e-util/e-category-editor.c:135
+#: ../src/e-util/e-category-editor.c:138
 msgid "Category Icon"
 msgstr "Ikona kategórie"
 
-#: ../src/e-util/e-category-editor.c:139
+#: ../src/e-util/e-category-editor.c:142
 msgid "_No Image"
 msgstr "_Bez obrázka"
 
-#: ../src/e-util/e-category-editor.c:172
+#: ../src/e-util/e-category-editor.c:175
 msgid "Category _Name"
 msgstr "_Názov kategórie"
 
-#: ../src/e-util/e-category-editor.c:184
+#: ../src/e-util/e-category-editor.c:188
 msgid "Category _Icon"
 msgstr "_Ikona kategórie"
 
-#: ../src/e-util/e-category-editor.c:210
+#: ../src/e-util/e-category-editor.c:214
 msgid "Category Properties"
 msgstr "Vlastnosti kategórie"
 
-#: ../src/e-util/e-category-editor.c:271
+#: ../src/e-util/e-category-editor.c:275
 #, c-format
 msgid ""
 "There is already a category “%s” in the configuration. Please use another "
@@ -12163,7 +12163,7 @@ msgid "popup list"
 msgstr "vysúvací zoznam"
 
 #: ../src/e-util/e-cell-date.c:49 ../src/e-util/e-cell-date.c:137
-#: ../src/e-util/e-cell-date.c:157 ../src/mail/message-list.c:2064
+#: ../src/e-util/e-cell-date.c:157 ../src/mail/message-list.c:2066
 msgid "?"
 msgstr "?"
 
@@ -12504,16 +12504,16 @@ msgstr "Žiad_ny"
 
 #. Translators: "None" for date field of a date edit, shown when
 #. * there is no date set.
-#: ../src/e-util/e-dateedit.c:1839 ../src/e-util/e-dateedit.c:2087
+#: ../src/e-util/e-dateedit.c:1846 ../src/e-util/e-dateedit.c:2094
 msgctxt "date"
 msgid "None"
 msgstr "Žiadny"
 
-#: ../src/e-util/e-dateedit.c:1979
+#: ../src/e-util/e-dateedit.c:1986
 msgid "Invalid Date Value"
 msgstr "Neplatná hodnota pre dátum"
 
-#: ../src/e-util/e-dateedit.c:2024
+#: ../src/e-util/e-dateedit.c:2031
 msgid "Invalid Time Value"
 msgstr "Neplatná hodnota pre čas"
 
@@ -13137,28 +13137,28 @@ msgid "_Normal"
 msgstr "Normálny"
 
 #: ../src/e-util/e-html-editor-actions.c:1102
-msgid "Header _1"
-msgstr "Hlavička _1"
+msgid "Heading _1"
+msgstr "Záhlavie _1"
 
 #: ../src/e-util/e-html-editor-actions.c:1109
-msgid "Header _2"
-msgstr "Hlavička _2"
+msgid "Heading _2"
+msgstr "Záhlavie _2"
 
 #: ../src/e-util/e-html-editor-actions.c:1116
-msgid "Header _3"
-msgstr "Hlavička _3"
+msgid "Heading _3"
+msgstr "Záhlavie _3"
 
 #: ../src/e-util/e-html-editor-actions.c:1123
-msgid "Header _4"
-msgstr "Hlavička _4"
+msgid "Heading _4"
+msgstr "Záhlavie _4"
 
 #: ../src/e-util/e-html-editor-actions.c:1130
-msgid "Header _5"
-msgstr "Hlavička _5"
+msgid "Heading _5"
+msgstr "Záhlavie _5"
 
 #: ../src/e-util/e-html-editor-actions.c:1137
-msgid "Header _6"
-msgstr "Hlavička _6"
+msgid "Heading _6"
+msgstr "Záhlavie _6"
 
 #: ../src/e-util/e-html-editor-actions.c:1144
 msgid "_Preformatted"
@@ -14160,7 +14160,7 @@ msgstr "_Hľadať:"
 
 #: ../src/e-util/e-name-selector-dialog.c:363
 #: ../src/e-util/e-name-selector-dialog.c:1330
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1181
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1184
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1624
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:758
 #: ../src/modules/calendar/e-task-shell-view-actions.c:931
@@ -17395,17 +17395,17 @@ msgstr "-------- Ďalej odoslaná správa --------"
 msgid "-----Original Message-----"
 msgstr "-----Pôvodná správa-----"
 
-#: ../src/mail/em-composer-utils.c:3042
+#: ../src/mail/em-composer-utils.c:3074
 msgid "an unknown sender"
 msgstr "neznámy odosielateľ"
 
 #. FIXME GTK_WINDOW (composer)
-#: ../src/mail/em-composer-utils.c:3518
+#: ../src/mail/em-composer-utils.c:3550
 msgid "Posting destination"
 msgstr "Cieľ odosielania"
 
 # label
-#: ../src/mail/em-composer-utils.c:3523
+#: ../src/mail/em-composer-utils.c:3555
 msgid "Choose folders to post the message to."
 msgstr "Zvoľte priečinky kam odoslať správu."
 
@@ -17577,12 +17577,12 @@ msgstr "Presúva sa priečinok %s"
 msgid "Copying folder %s"
 msgstr "Kopíruje sa priečinok %s"
 
-#: ../src/mail/em-folder-tree.c:2300 ../src/mail/message-list.c:2506
+#: ../src/mail/em-folder-tree.c:2300 ../src/mail/message-list.c:2508
 #, c-format
 msgid "Moving messages into folder %s"
 msgstr "Presúvajú sa správy do priečinka %s"
 
-#: ../src/mail/em-folder-tree.c:2304 ../src/mail/message-list.c:2508
+#: ../src/mail/em-folder-tree.c:2304 ../src/mail/message-list.c:2510
 #, c-format
 msgid "Copying messages into folder %s"
 msgstr "Kopírujú sa správy do priečinka %s"
@@ -17715,7 +17715,7 @@ msgid "Stop the current operation"
 msgstr "Zastaví aktuálnu operáciu"
 
 #: ../src/mail/em-subscription-editor.c:1988
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:999
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1002
 msgid "_Stop"
 msgstr "_Zastaviť"
 
@@ -19700,87 +19700,87 @@ msgstr "Upraviť vyhľadávací priečinok"
 msgid "New Search Folder"
 msgstr "Nový vyhľadávací priečinok"
 
-#: ../src/mail/message-list.c:298
+#: ../src/mail/message-list.c:300
 msgid "Unseen"
 msgstr "Neprečítané"
 
-#: ../src/mail/message-list.c:299
+#: ../src/mail/message-list.c:301
 msgid "Seen"
 msgstr "Prečítané"
 
-#: ../src/mail/message-list.c:300
+#: ../src/mail/message-list.c:302
 msgid "Answered"
 msgstr "Odpovedané"
 
-#: ../src/mail/message-list.c:301
+#: ../src/mail/message-list.c:303
 msgid "Forwarded"
 msgstr "Odoslané ďalej"
 
-#: ../src/mail/message-list.c:302
+#: ../src/mail/message-list.c:304
 msgid "Multiple Unseen Messages"
 msgstr "Viacero neprečítaných správ"
 
-#: ../src/mail/message-list.c:303
+#: ../src/mail/message-list.c:305
 msgid "Multiple Messages"
 msgstr "Viacero správ"
 
-#: ../src/mail/message-list.c:316
+#: ../src/mail/message-list.c:318
 msgid "Lowest"
 msgstr "Najnižšia"
 
-#: ../src/mail/message-list.c:317
+#: ../src/mail/message-list.c:319
 msgid "Lower"
 msgstr "Nižšia"
 
-#: ../src/mail/message-list.c:321
+#: ../src/mail/message-list.c:323
 msgid "Higher"
 msgstr "Vyššia"
 
-#: ../src/mail/message-list.c:322
+#: ../src/mail/message-list.c:324
 msgid "Highest"
 msgstr "Najvyššia"
 
-#: ../src/mail/message-list.c:468 ../src/mail/message-list.c:6215
+#: ../src/mail/message-list.c:470 ../src/mail/message-list.c:6286
 msgid "Generating message list"
 msgstr "Generuje sa zoznam správ"
 
 #. strftime format of a time,
 #. * in 12-hour format, without seconds.
-#: ../src/mail/message-list.c:2072
+#: ../src/mail/message-list.c:2074
 #: ../src/modules/itip-formatter/itip-view.c:267
 msgid "Today %l:%M %p"
 msgstr "Dnes %H:%M"
 
-#: ../src/mail/message-list.c:2081
+#: ../src/mail/message-list.c:2083
 msgid "Yesterday %l:%M %p"
 msgstr "Včera %H:%M"
 
-#: ../src/mail/message-list.c:2093
+#: ../src/mail/message-list.c:2095
 msgid "%a %l:%M %p"
 msgstr "%a, %H:%M"
 
-#: ../src/mail/message-list.c:2101
+#: ../src/mail/message-list.c:2103
 msgid "%b %d %l:%M %p"
 msgstr "%d. %b %H:%M"
 
-#: ../src/mail/message-list.c:2103
+#: ../src/mail/message-list.c:2105
 msgid "%b %d %Y"
 msgstr "%d. %b %Y"
 
-#: ../src/mail/message-list.c:3012
+#: ../src/mail/message-list.c:3062
 msgid "Select all visible messages"
 msgstr "Vybrať všetky viditeľné správy"
 
-#: ../src/mail/message-list.c:3720 ../src/mail/message-list.etspec.h:17
+#: ../src/mail/message-list.c:3781 ../src/mail/message-list.etspec.h:17
 msgid "Messages"
 msgstr "Správy"
 
 #. default follow-up flag name to use when clicked in the message list column
-#: ../src/mail/message-list.c:5142
+#: ../src/mail/message-list.c:5213
 msgid "Follow-up"
 msgstr "Vybaviť"
 
-#: ../src/mail/message-list.c:6154
+#: ../src/mail/message-list.c:6225
 msgid ""
 "No message satisfies your search criteria. Change search criteria by "
 "selecting a new Show message filter from the drop down list above or by "
@@ -19792,7 +19792,7 @@ msgstr ""
 "vyššie, alebo spustením nového hľadania cez ponuku Nájsť→Vymazať alebo "
 "zmenou požiadavky vyššie."
 
-#: ../src/mail/message-list.c:6162
+#: ../src/mail/message-list.c:6233
 msgid "There are no messages in this folder."
 msgstr "V tomto priečinku nie sú žiadne správy."
 
@@ -19909,38 +19909,38 @@ msgstr "Informácie o kontakte"
 msgid "Contact information for %s"
 msgstr "Informácie o kontakte %s"
 
-#: ../src/modules/addressbook/e-book-shell-backend.c:256
+#: ../src/modules/addressbook/e-book-shell-backend.c:258
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:137
 msgid "New Address Book"
 msgstr "Nový adresár kontaktov"
 
-#: ../src/modules/addressbook/e-book-shell-backend.c:265
+#: ../src/modules/addressbook/e-book-shell-backend.c:267
 msgctxt "New"
 msgid "_Contact"
 msgstr "_Kontakt"
 
-#: ../src/modules/addressbook/e-book-shell-backend.c:267
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1043
+#: ../src/modules/addressbook/e-book-shell-backend.c:269
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1046
 msgid "Create a new contact"
 msgstr "Vytvorí nový kontakt"
 
-#: ../src/modules/addressbook/e-book-shell-backend.c:272
+#: ../src/modules/addressbook/e-book-shell-backend.c:274
 msgctxt "New"
 msgid "Contact _List"
 msgstr "_Zoznam kontaktov"
 
-#: ../src/modules/addressbook/e-book-shell-backend.c:274
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1050
+#: ../src/modules/addressbook/e-book-shell-backend.c:276
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1053
 msgid "Create a new contact list"
 msgstr "Vytvorí nový zoznam kontaktov"
 
-#: ../src/modules/addressbook/e-book-shell-backend.c:282
+#: ../src/modules/addressbook/e-book-shell-backend.c:284
 msgctxt "New"
 msgid "Address _Book"
 msgstr "_Adresár kontaktov"
 
-#: ../src/modules/addressbook/e-book-shell-backend.c:284
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:966
+#: ../src/modules/addressbook/e-book-shell-backend.c:286
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:969
 msgid "Create a new address book"
 msgstr "Vytvorí nový adresár kontaktov"
 
@@ -19949,76 +19949,76 @@ msgid "Address Book Properties"
 msgstr "Vlastnosti adresára kontaktov"
 
 #. Translators: This is a save dialog title
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:533
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:829
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:534
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:832
 msgid "Save as vCard"
 msgstr "Uložiť ako vCard"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:936
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:939
 msgid "Co_py All Contacts To..."
 msgstr "Ko_pírovať všetky kontakty do…"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:938
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:941
 msgid "Copy the contacts of the selected address book to another"
 msgstr "Skopíruje kontakty vybraného adresára kontaktov do iného"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:943
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:946
 msgid "D_elete Address Book"
 msgstr "O_dstrániť adresár kontaktov"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:945
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:948
 msgid "Delete the selected address book"
 msgstr "Odstráni vybraný adresár kontaktov"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:950
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:953
 msgid "_Manage Address Book groups..."
 msgstr "_Spravovať skupiny adresárov kontaktov…"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:952
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:955
 #: ../src/modules/calendar/e-task-shell-view-actions.c:719
 msgid "Manage task list groups order and visibility"
 msgstr "Spravuje poradie a viditeľnosť skupín zoznamov úloh"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:957
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:960
 msgid "Mo_ve All Contacts To..."
 msgstr "Pre_sunúť všetky kontakty do…"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:959
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:962
 msgid "Move the contacts of the selected address book to another"
 msgstr "Presunie kontakty vybraného adresára kontaktov do iného"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:964
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:967
 msgid "_New Address Book"
 msgstr "_Nový adresár kontaktov"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:971
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:974
 msgid "Address _Book Properties"
 msgstr "Vlastnosti _adresára kontaktov"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:973
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:976
 msgid "Show properties of the selected address book"
 msgstr "Zobrazí vlastnosti vybraného adresára kontaktov"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:978
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:981
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1290
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:612
 #: ../src/modules/calendar/e-task-shell-view-actions.c:738
 msgid "Re_fresh"
 msgstr "_Obnoviť"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:980
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:983
 msgid "Refresh the selected address book"
 msgstr "Obnoví vybraný adresár kontaktov"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:985
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:988
 msgid "Address Book _Map"
 msgstr "_Mapovanie adresára kontaktov"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:987
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:990
 msgid "Show map with all contacts from selected address book"
 msgstr "Zobrazí mapovanie so všetkými kontaktmi z vybraného adresára kontaktov"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:992
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:995
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1297
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:619
 #: ../src/modules/calendar/e-task-shell-view-actions.c:745
@@ -20026,144 +20026,144 @@ msgstr "Zobrazí mapovanie so všetkými kontaktmi z vybraného adresára kontak
 msgid "_Rename..."
 msgstr "P_remenovať…"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:994
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:997
 msgid "Rename the selected address book"
 msgstr "Premenuje vybraný adresár kontaktov"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1001
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1004
 msgid "Stop loading"
 msgstr "Zastaviť načítavanie"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1006
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1009
 msgid "_Copy Contact To..."
 msgstr "_Kopírovať kontakt do…"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1008
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1011
 msgid "Copy selected contacts to another address book"
 msgstr "Kopíruje vybrané kontakty do iného adresára kontaktov"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1013
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1016
 msgid "_Delete Contact"
 msgstr "O_dstrániť kontakt"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1020
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1023
 msgid "_Find in Contact..."
 msgstr "_Nájsť v kontakte…"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1022
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1025
 msgid "Search for text in the displayed contact"
 msgstr "Vyhľadá v texte zobrazeného kontaktu"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1027
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1030
 msgid "_Forward Contact..."
 msgstr "_Odoslať kontakt ďalej…"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1029
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1032
 msgid "Send selected contacts to another person"
 msgstr "Odošle vybrané kontakty inej osobe"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1034
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1037
 msgid "_Move Contact To..."
 msgstr "P_resunúť kontakt do…"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1036
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1039
 msgid "Move selected contacts to another address book"
 msgstr "Presunie vybrané kontakty do iného adresára kontaktov"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1041
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1044
 msgid "_New Contact..."
 msgstr "_Nový kontakt…"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1048
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1051
 msgid "New Contact _List..."
 msgstr "Nový zoznam _kontaktov…"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1055
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1058
 msgid "_Open Contact"
 msgstr "_Otvoriť kontakt"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1057
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1060
 msgid "View the current contact"
 msgstr "Zobrazí aktuálny kontakt"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1062
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1065
 msgid "_Send Message to Contact..."
 msgstr "_Odoslať správu kontaktu…"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1064
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1067
 msgid "Send a message to the selected contacts"
 msgstr "Odošle správu vybraným kontaktom"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1071
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1074
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1460
 #: ../src/modules/calendar/e-task-shell-view-actions.c:810
 msgid "_Actions"
 msgstr "A_kcie"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1078
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1081
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:663
 #: ../src/modules/calendar/e-task-shell-view-actions.c:817
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1921
 msgid "_Preview"
 msgstr "_Náhľad"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1091
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1094
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1489
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:680
 #: ../src/modules/calendar/e-task-shell-view-actions.c:834
 msgid "_Manage groups..."
 msgstr "_Spravovať skupiny…"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1103
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1106
 msgid "Address Book Map"
 msgstr "Mapovanie adresára kontaktov"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1135
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1138
 msgid "Contact _Preview"
 msgstr "_Náhľad kontaktu"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1137
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1140
 msgid "Show contact preview window"
 msgstr "Zobrazí okno s náhľadom kontaktu"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1143
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1146
 msgid "Show _Maps"
 msgstr "Zobraziť _mapovanie"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1145
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1148
 msgid "Show maps in contact preview window"
 msgstr "Zobrazí mapovanie v okne s náhľadom kontaktu"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1164
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1167
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:741
 #: ../src/modules/calendar/e-task-shell-view-actions.c:907
 #: ../src/modules/mail/e-mail-shell-view-actions.c:2067
 msgid "_Classic View"
 msgstr "_Klasické zobrazenie"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1166
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1169
 msgid "Show contact preview below the contact list"
 msgstr "Zobrazí náhľad kontaktu pod zoznamom kontaktov"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1171
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1174
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:748
 #: ../src/modules/calendar/e-task-shell-view-actions.c:914
 #: ../src/modules/mail/e-mail-shell-view-actions.c:2074
 msgid "_Vertical View"
 msgstr "_Vertikálne zobrazenie"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1173
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1176
 msgid "Show contact preview alongside the contact list"
 msgstr "Zobrazí náhľad kontaktu vedľa zoznamu kontaktov"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1188
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1191
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1645
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:765
 #: ../src/modules/calendar/e-task-shell-view-actions.c:966
 msgid "Unmatched"
 msgstr "Nevyhovujúce"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1198
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1201
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1655
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:775
 #: ../src/modules/calendar/e-task-shell-view-actions.c:976
@@ -20172,33 +20172,33 @@ msgstr "Nevyhovujúce"
 msgid "Advanced Search"
 msgstr "Pokročilé hľadanie"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1231
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1234
 msgid "Print all shown contacts"
 msgstr "Vytlačí všetky zobrazené kontakty"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1238
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1241
 msgid "Preview the contacts to be printed"
 msgstr "Zobrazí náhľad kontaktov pred ich tlačou"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1245
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1248
 msgid "Print selected contacts"
 msgstr "Vytlačí vybrané kontakty"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1260
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1263
 msgid "S_ave Address Book as vCard"
 msgstr "_Uložiť adresár kontaktov ako vCard"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1262
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1265
 msgid "Save the contacts of the selected address book as a vCard"
 msgstr "Uloží kontakty vybraného adresára kontaktov ako vCard"
 
 #. Translators: This is an action label
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1268
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1278
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1271
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1281
 msgid "_Save as vCard..."
 msgstr "_Uložiť ako vCard…"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1270
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1273
 msgid "Save selected contacts as a vCard"
 msgstr "Uloží vybrané kontakty ako vCard"
 
@@ -22507,16 +22507,16 @@ msgid "Sa_ve"
 msgstr "_Uložiť"
 
 #: ../src/modules/itip-formatter/itip-view.c:3486
-#: ../src/modules/itip-formatter/itip-view.c:4955
+#: ../src/modules/itip-formatter/itip-view.c:5015
 msgid "Attendee status updated"
 msgstr "Stav účastníka aktualizovaný"
 
-#: ../src/modules/itip-formatter/itip-view.c:3658
+#: ../src/modules/itip-formatter/itip-view.c:3701
 #, c-format
 msgid "An appointment “%s” in the calendar “%s” conflicts with this meeting"
 msgstr "Schôdzka „%s“ v kalendári „%s“ je v rozpore s týmto stretnutím"
 
-#: ../src/modules/itip-formatter/itip-view.c:3664
+#: ../src/modules/itip-formatter/itip-view.c:3707
 #, c-format
 msgid ""
 "The calendar “%s” contains an appointment which conflicts with this meeting"
@@ -22526,159 +22526,163 @@ msgstr[0] "Kalendár „%s“ obsahuje %d schôdzok v rozpore s týmto stretnut�
 msgstr[1] "Kalendár „%s“ obsahuje schôdzku v rozpore s týmto stretnutím"
 msgstr[2] "Kalendár „%s“ obsahuje %d schôdzky v rozpore s týmto stretnutím"
 
-#: ../src/modules/itip-formatter/itip-view.c:3697
+#: ../src/modules/itip-formatter/itip-view.c:3740
 #, c-format
 msgid "Found the appointment in the calendar “%s”"
 msgstr "Schôdzka bola nájdená v kalendári „%s“"
 
-#: ../src/modules/itip-formatter/itip-view.c:3831
+#: ../src/modules/itip-formatter/itip-view.c:3749
+msgid "This meeting invitation is obsolete. It had been updated."
+msgstr "Táto pozvánka na stretnutie je zastaralá. Aktualizácia bola vykonaná."
+
+#: ../src/modules/itip-formatter/itip-view.c:3891
 msgid "Unable to find any calendars"
 msgstr "Nepodarilo sa nájsť žiadne kalendáre"
 
-#: ../src/modules/itip-formatter/itip-view.c:3839
+#: ../src/modules/itip-formatter/itip-view.c:3899
 msgid "Unable to find this meeting in any calendar"
 msgstr "Toto stretnutie sa nepodarilo nájsť v žiadnom kalendári"
 
-#: ../src/modules/itip-formatter/itip-view.c:3844
+#: ../src/modules/itip-formatter/itip-view.c:3904
 msgid "Unable to find this task in any task list"
 msgstr "Túto úlohu sa nepodarilo nájsť v žiadnom zozname úloh"
 
-#: ../src/modules/itip-formatter/itip-view.c:3849
+#: ../src/modules/itip-formatter/itip-view.c:3909
 msgid "Unable to find this memo in any memo list"
 msgstr "Túto poznámku sa nepodarilo nájsť v žiadnom zozname poznámok"
 
-#: ../src/modules/itip-formatter/itip-view.c:4190
+#: ../src/modules/itip-formatter/itip-view.c:4250
 msgid "Opening the calendar. Please wait..."
 msgstr "Otvára sa kalendár. Čakajte, prosím…"
 
-#: ../src/modules/itip-formatter/itip-view.c:4195
+#: ../src/modules/itip-formatter/itip-view.c:4255
 msgid "Searching for an existing version of this appointment"
 msgstr "Hľadá sa existujúca verzia tejto schôdzky"
 
-#: ../src/modules/itip-formatter/itip-view.c:4594
+#: ../src/modules/itip-formatter/itip-view.c:4654
 #, c-format
 msgid "Unable to send item to calendar “%s”.  %s"
 msgstr "Nepodarilo sa odoslať položku do kalendára „%s“.  %s"
 
-#: ../src/modules/itip-formatter/itip-view.c:4609
+#: ../src/modules/itip-formatter/itip-view.c:4669
 #, c-format
 msgid "Sent to calendar “%s” as accepted"
 msgstr "Odoslané do kalendára „%s“ ako akceptované"
 
-#: ../src/modules/itip-formatter/itip-view.c:4614
+#: ../src/modules/itip-formatter/itip-view.c:4674
 #, c-format
 msgid "Sent to calendar “%s” as tentative"
 msgstr "Odoslané do kalendára „%s“ ako predbežné"
 
-#: ../src/modules/itip-formatter/itip-view.c:4620
+#: ../src/modules/itip-formatter/itip-view.c:4680
 #, c-format
 msgid "Sent to calendar “%s” as declined"
 msgstr "Odoslané do kalendára „%s“ ako odmietnuté"
 
-#: ../src/modules/itip-formatter/itip-view.c:4626
+#: ../src/modules/itip-formatter/itip-view.c:4686
 #, c-format
 msgid "Sent to calendar “%s” as cancelled"
 msgstr "Odoslané do kalendára „%s“ ako zrušené"
 
-#: ../src/modules/itip-formatter/itip-view.c:4646
-#: ../src/modules/itip-formatter/itip-view.c:5092
-#: ../src/modules/itip-formatter/itip-view.c:5195
+#: ../src/modules/itip-formatter/itip-view.c:4706
+#: ../src/modules/itip-formatter/itip-view.c:5152
+#: ../src/modules/itip-formatter/itip-view.c:5255
 msgid "Saving changes to the calendar. Please wait..."
 msgstr "Ukladajú sa zmeny do kalendára. Čakajte, prosím…"
 
-#: ../src/modules/itip-formatter/itip-view.c:4687
+#: ../src/modules/itip-formatter/itip-view.c:4747
 msgid "Unable to parse item"
 msgstr "Nepodarilo sa analyzovať položku"
 
 # PK: preco je medzera na konci? nahlas bug
-#: ../src/modules/itip-formatter/itip-view.c:4879
+#: ../src/modules/itip-formatter/itip-view.c:4939
 #, c-format
 msgid "Organizer has removed the delegate %s "
 msgstr "Organizátor odstránil delegáta %s "
 
-#: ../src/modules/itip-formatter/itip-view.c:4896
+#: ../src/modules/itip-formatter/itip-view.c:4956
 msgid "Sent a cancelation notice to the delegate"
 msgstr "Odoslané oznámenie o zrušení delegátovi"
 
-#: ../src/modules/itip-formatter/itip-view.c:4900
+#: ../src/modules/itip-formatter/itip-view.c:4960
 msgid "Could not send the cancelation notice to the delegate"
 msgstr "Nepodarilo sa odoslať oznámenie o zrušení delegátovi"
 
-#: ../src/modules/itip-formatter/itip-view.c:4947
+#: ../src/modules/itip-formatter/itip-view.c:5007
 #, c-format
 msgid "Unable to update attendee. %s"
 msgstr "Nepodarilo sa aktualizovať účastníka. %s"
 
-#: ../src/modules/itip-formatter/itip-view.c:4982
+#: ../src/modules/itip-formatter/itip-view.c:5042
 msgid "The meeting is invalid and cannot be updated"
-msgstr "Strenutie nie je platné a nemôže byť aktualizované"
+msgstr "Stretnutie nie je platné a nemôže byť aktualizované"
 
-#: ../src/modules/itip-formatter/itip-view.c:5057
+#: ../src/modules/itip-formatter/itip-view.c:5117
 msgid "Attendee status could not be updated because the status is invalid"
 msgstr ""
 "Stav účastníka nie je možné aktualizovať, pretože jeho stav nie je platný"
 
-#: ../src/modules/itip-formatter/itip-view.c:5128
-#: ../src/modules/itip-formatter/itip-view.c:5166
+#: ../src/modules/itip-formatter/itip-view.c:5188
+#: ../src/modules/itip-formatter/itip-view.c:5226
 msgid "Attendee status can not be updated because the item no longer exists"
 msgstr ""
 "Stav účastníka nie je možné aktualizovať, pretože položka už neexistuje"
 
-#: ../src/modules/itip-formatter/itip-view.c:5227
+#: ../src/modules/itip-formatter/itip-view.c:5287
 msgid "Meeting information sent"
 msgstr "Informácie o stretnutí odoslané"
 
-#: ../src/modules/itip-formatter/itip-view.c:5232
+#: ../src/modules/itip-formatter/itip-view.c:5292
 msgid "Task information sent"
 msgstr "Informácie o úlohe odoslané"
 
-#: ../src/modules/itip-formatter/itip-view.c:5237
+#: ../src/modules/itip-formatter/itip-view.c:5297
 msgid "Memo information sent"
 msgstr "Informácie o poznámke odoslané"
 
-#: ../src/modules/itip-formatter/itip-view.c:5248
+#: ../src/modules/itip-formatter/itip-view.c:5308
 msgid "Unable to send meeting information, the meeting does not exist"
 msgstr "Nepodarilo sa odoslať informácie o stretnutí, stretnutie neexistuje"
 
-#: ../src/modules/itip-formatter/itip-view.c:5253
+#: ../src/modules/itip-formatter/itip-view.c:5313
 msgid "Unable to send task information, the task does not exist"
 msgstr "Nepodarilo sa odoslať informácie o úlohe, úloha neexistuje"
 
-#: ../src/modules/itip-formatter/itip-view.c:5258
+#: ../src/modules/itip-formatter/itip-view.c:5318
 msgid "Unable to send memo information, the memo does not exist"
 msgstr "Nepodarilo sa odoslať informácie o poznámke, poznámka neexistuje"
 
 #. Translators: This is a default filename for a calendar.
-#: ../src/modules/itip-formatter/itip-view.c:5323
+#: ../src/modules/itip-formatter/itip-view.c:5383
 msgid "calendar.ics"
 msgstr "kalendár.ics"
 
-#: ../src/modules/itip-formatter/itip-view.c:5328
+#: ../src/modules/itip-formatter/itip-view.c:5388
 msgid "Save Calendar"
 msgstr "Uložiť kalendár"
 
-#: ../src/modules/itip-formatter/itip-view.c:5376
-#: ../src/modules/itip-formatter/itip-view.c:5389
+#: ../src/modules/itip-formatter/itip-view.c:5436
+#: ../src/modules/itip-formatter/itip-view.c:5449
 msgid "The calendar attached is not valid"
 msgstr "Priložený kalendár nie je platný"
 
-#: ../src/modules/itip-formatter/itip-view.c:5377
-#: ../src/modules/itip-formatter/itip-view.c:5390
+#: ../src/modules/itip-formatter/itip-view.c:5437
+#: ../src/modules/itip-formatter/itip-view.c:5450
 msgid ""
 "The message claims to contain a calendar, but the calendar is not a valid "
 "iCalendar."
 msgstr ""
 "Správa tvrdí, že obsahuje kalendár, ale kalendár nie je platný iCalendar."
 
-#: ../src/modules/itip-formatter/itip-view.c:5432
-#: ../src/modules/itip-formatter/itip-view.c:5462
-#: ../src/modules/itip-formatter/itip-view.c:5565
+#: ../src/modules/itip-formatter/itip-view.c:5492
+#: ../src/modules/itip-formatter/itip-view.c:5522
+#: ../src/modules/itip-formatter/itip-view.c:5625
 msgid "The item in the calendar is not valid"
 msgstr "Položka v kalendári nie je platná"
 
-#: ../src/modules/itip-formatter/itip-view.c:5433
-#: ../src/modules/itip-formatter/itip-view.c:5463
-#: ../src/modules/itip-formatter/itip-view.c:5566
+#: ../src/modules/itip-formatter/itip-view.c:5493
+#: ../src/modules/itip-formatter/itip-view.c:5523
+#: ../src/modules/itip-formatter/itip-view.c:5626
 msgid ""
 "The message does contain a calendar, but the calendar contains no events, "
 "tasks or free/busy information"
@@ -22686,35 +22690,35 @@ msgstr ""
 "Správa obsahuje kalendár, ale ten neobsahuje žiadne udalosti, úlohy, ani "
 "záznamy pre diár"
 
-#: ../src/modules/itip-formatter/itip-view.c:5478
+#: ../src/modules/itip-formatter/itip-view.c:5538
 msgid "The calendar attached contains multiple items"
 msgstr "Priložený kalendár obsahuje viac položiek"
 
-#: ../src/modules/itip-formatter/itip-view.c:5479
+#: ../src/modules/itip-formatter/itip-view.c:5539
 msgid ""
 "To process all of these items, the file should be saved and the calendar "
 "imported"
 msgstr ""
 "Na spracovanie všetkých položiek, je potrebné ho uložiť a následne importovať"
 
-#: ../src/modules/itip-formatter/itip-view.c:5997
+#: ../src/modules/itip-formatter/itip-view.c:6057
 msgctxt "cal-itip"
 msgid "None"
 msgstr "Žiadny"
 
-#: ../src/modules/itip-formatter/itip-view.c:6013
+#: ../src/modules/itip-formatter/itip-view.c:6073
 msgid "Tentatively Accepted"
 msgstr "Predbežne akceptované"
 
-#: ../src/modules/itip-formatter/itip-view.c:6179
+#: ../src/modules/itip-formatter/itip-view.c:6239
 msgid "This meeting recurs"
 msgstr "Toto stretnutie sa opakuje"
 
-#: ../src/modules/itip-formatter/itip-view.c:6182
+#: ../src/modules/itip-formatter/itip-view.c:6242
 msgid "This task recurs"
 msgstr "Táto úloha sa opakuje"
 
-#: ../src/modules/itip-formatter/itip-view.c:6185
+#: ../src/modules/itip-formatter/itip-view.c:6245
 msgid "This memo recurs"
 msgstr "Táto poznámka sa opakuje"
 
@@ -24088,38 +24092,38 @@ msgstr "Upozorňovač na prílohy"
 msgid "Reminds you when you forgot to add an attachment to a mail message."
 msgstr "Upozorní vás na chýbajúcu prílohu v poštovej správe"
 
-#: ../src/plugins/bbdb/bbdb.c:725 ../src/plugins/bbdb/bbdb.c:836
+#: ../src/plugins/bbdb/bbdb.c:735 ../src/plugins/bbdb/bbdb.c:846
 #: ../src/plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml.h:1
 msgid "Automatic Contacts"
 msgstr "Automatické kontakty"
 
 #. Enable BBDB checkbox
-#: ../src/plugins/bbdb/bbdb.c:740
+#: ../src/plugins/bbdb/bbdb.c:750
 msgid "Create _address book entries when sending mails"
 msgstr "Vytvárať položky _adresára kontaktov pri odosielaní pošty"
 
-#: ../src/plugins/bbdb/bbdb.c:750
+#: ../src/plugins/bbdb/bbdb.c:760
 msgid "Select Address book for Automatic Contacts"
 msgstr "Vyberte adresár kontaktov pre automatické kontakty"
 
 # instant messaging tusím prekladáme inak pozri v ostatných moduloch
-#: ../src/plugins/bbdb/bbdb.c:770
+#: ../src/plugins/bbdb/bbdb.c:780
 msgid "Instant Messaging Contacts"
 msgstr "Kontakty priamej komunikácie"
 
 #. Enable Gaim Checkbox
-#: ../src/plugins/bbdb/bbdb.c:785
+#: ../src/plugins/bbdb/bbdb.c:795
 msgid "_Synchronize contact info and images from Pidgin buddy list"
 msgstr ""
 "_Synchronizovať informácie o kontaktoch a obrázky zo zoznamu priateľov "
 "programu Pidgin"
 
-#: ../src/plugins/bbdb/bbdb.c:795
+#: ../src/plugins/bbdb/bbdb.c:805
 msgid "Select Address book for Pidgin buddy list"
 msgstr "Vyberte adresár kontaktov pre zoznam priateľov programu Pidgin"
 
 #. Synchronize now button.
-#: ../src/plugins/bbdb/bbdb.c:811
+#: ../src/plugins/bbdb/bbdb.c:821
 msgid "Synchronize with _buddy list now"
 msgstr "Synchronizovať so zoznamom _priateľov teraz"
 
