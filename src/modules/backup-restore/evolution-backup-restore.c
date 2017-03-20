@@ -179,11 +179,63 @@ dialog_prompt_user (GtkWindow *parent,
 }
 
 static void
-set_local_only (GtkFileChooser *file_chooser)
+file_chooser_filter_changed_cb (GtkFileChooser *file_chooser,
+				GParamSpec *param,
+				gpointer user_data)
+{
+	GtkFileFilter *filter;
+	const gchar *filter_name, *extension = NULL;
+	gchar *current_name;
+
+	g_return_if_fail (GTK_IS_FILE_CHOOSER (file_chooser));
+
+	filter = gtk_file_chooser_get_filter (file_chooser);
+	if (!filter)
+		return;
+
+	filter_name = gtk_file_filter_get_name (filter);
+	if (g_strcmp0 (filter_name, "*.tar.xz") == 0) {
+		extension = ".tar.xz";
+	} else if (g_strcmp0 (filter_name, "*.tar.gz") == 0) {
+		extension = ".tar.gz";
+	}
+
+	if (!extension)
+		return;
+
+	current_name = gtk_file_chooser_get_current_name (file_chooser);
+	if (!current_name)
+		return;
+
+	if (!g_str_has_suffix (current_name, extension) &&
+	    (g_str_has_suffix (current_name, ".tar.xz") ||
+	     g_str_has_suffix (current_name, ".tar.gz"))) {
+		gint extension_len, current_len;
+
+		extension_len = strlen (extension);
+		current_len = strlen (current_name);
+
+		current_name[current_len - 2] = extension[extension_len - 2];
+
+		gtk_file_chooser_set_current_name (file_chooser, current_name);
+	}
+
+	g_free (current_name);
+}
+
+static void
+set_local_only (GtkFileChooser *file_chooser,
+		gpointer user_data)
 {
 	/* XXX Has to be a local file, since the backup utility
 	 *     takes a filename argument, not a URI. */
 	gtk_file_chooser_set_local_only (file_chooser, TRUE);
+
+	/* Not NULL when saving file. */
+	if (user_data) {
+		g_signal_connect (file_chooser, "notify::filter",
+			G_CALLBACK (file_chooser_filter_changed_cb), NULL);
+	}
 }
 
 static gchar *
@@ -232,7 +284,7 @@ action_settings_backup_cb (GtkAction *action,
 		e_shell_window_get_shell (shell_window),
 		_("Select name of the Evolution backup file"),
 		suggest, has_xz ? "*.tar.xz;*.tar.gz" : "*.tar.gz", (GtkCallback)
-		set_local_only, NULL);
+		set_local_only, has_xz ? GINT_TO_POINTER (1) : NULL);
 
 	g_free (suggest);
 
