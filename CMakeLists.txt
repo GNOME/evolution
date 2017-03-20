@@ -4,7 +4,7 @@ cmake_minimum_required(VERSION 3.1)
 cmake_policy(VERSION 3.1)
 
 project(evolution
-	VERSION 3.24.0
+	VERSION 3.25.1
 	LANGUAGES C)
 set(PROJECT_BUGREPORT "http://bugzilla.gnome.org/enter_bug.cgi?product=Evolution")
 set(PROJECT_URL "http://wiki.gnome.org/Apps/Evolution/")
@@ -12,7 +12,7 @@ set(PROJECT_URL "http://wiki.gnome.org/Apps/Evolution/")
 # Base Version: This is for API/version tracking for things like
 # D-Bus server files. This should always be the major/minor of
 # the stable version or stable version to be.
-set(BASE_VERSION 3.24)
+set(BASE_VERSION 3.26)
 
 # Used for pkg-config files
 set(INTERFACE_VERSION 3.0)
