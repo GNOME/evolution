@@ -229,7 +229,7 @@ e_web_view_preview_set_preview (EWebViewPreview *preview,
 		gtk_widget_destroy (old_child);
 	}
 
-	gtk_container_add (GTK_CONTAINER (gtk_paned_get_child2 (GTK_PANED (preview))), preview_widget);
+	gtk_paned_pack2 (GTK_PANED (preview), preview_widget, TRUE, TRUE);
 }
 
 void
