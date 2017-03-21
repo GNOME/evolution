@@ -1359,27 +1359,21 @@ action_mail_send_receive_send_all_cb (GtkAction *action,
 }
 
 static void
-action_mail_smart_backward_cb (GtkAction *action,
-                               EMailShellView *mail_shell_view)
+mail_shell_view_magic_spacebar (EMailShellView *mail_shell_view,
+				gboolean move_forward)
 {
-	EShellView *shell_view;
-	EShellWindow *shell_window;
 	EMailShellContent *mail_shell_content;
 	EMailShellSidebar *mail_shell_sidebar;
 	EMFolderTree *folder_tree;
 	EMailReader *reader;
 	EMailView *mail_view;
 	GtkWidget *message_list;
-	GtkToggleAction *toggle_action;
 	EMailDisplay *display;
 	GSettings *settings;
-	gboolean caret_mode;
 	gboolean magic_spacebar;
 
 	/* This implements the so-called "Magic Backspace". */
-
-	shell_view = E_SHELL_VIEW (mail_shell_view);
-	shell_window = e_shell_view_get_shell_window (shell_view);
+	g_return_if_fail (E_IS_MAIL_SHELL_VIEW (mail_shell_view));
 
 	mail_shell_content = mail_shell_view->priv->mail_shell_content;
 	mail_view = e_mail_shell_content_get_mail_view (mail_shell_content);
@@ -1395,27 +1389,14 @@ action_mail_smart_backward_cb (GtkAction *action,
 	magic_spacebar = g_settings_get_boolean (settings, "magic-spacebar");
 	g_object_unref (settings);
 
-	toggle_action = GTK_TOGGLE_ACTION (ACTION (MAIL_CARET_MODE));
-	caret_mode = gtk_toggle_action_get_active (toggle_action);
+	if (!e_mail_display_process_magic_spacebar (display, move_forward)) {
+		guint32 direction = move_forward ? MESSAGE_LIST_SELECT_NEXT : MESSAGE_LIST_SELECT_PREVIOUS;
 
-	if (!e_mail_display_process_magic_spacebar (display, FALSE)) {
-
-		if (caret_mode || !magic_spacebar)
+		if (!magic_spacebar)
 			return;
 
-		/* XXX Are two separate calls really necessary? */
-
-		if (message_list_select (
-		    MESSAGE_LIST (message_list),
-		    MESSAGE_LIST_SELECT_PREVIOUS |
-		    MESSAGE_LIST_SELECT_INCLUDE_COLLAPSED,
-		    0, CAMEL_MESSAGE_SEEN))
-			return;
-
-		if (message_list_select (
-		    MESSAGE_LIST (message_list),
-		    MESSAGE_LIST_SELECT_PREVIOUS |
-		    MESSAGE_LIST_SELECT_WRAP |
+		if (message_list_select (MESSAGE_LIST (message_list),
+		    direction | MESSAGE_LIST_SELECT_WRAP |
 		    MESSAGE_LIST_SELECT_INCLUDE_COLLAPSED,
 		    0, CAMEL_MESSAGE_SEEN))
 			return;
@@ -1427,71 +1408,17 @@ action_mail_smart_backward_cb (GtkAction *action,
 }
 
 static void
+action_mail_smart_backward_cb (GtkAction *action,
+                               EMailShellView *mail_shell_view)
+{
+	mail_shell_view_magic_spacebar (mail_shell_view, FALSE);
+}
+
+static void
 action_mail_smart_forward_cb (GtkAction *action,
                               EMailShellView *mail_shell_view)
 {
-	EShellView *shell_view;
-	EShellWindow *shell_window;
-	EMailShellContent *mail_shell_content;
-	EMailShellSidebar *mail_shell_sidebar;
-	EMFolderTree *folder_tree;
-	EMailReader *reader;
-	EMailView *mail_view;
-	GtkWidget *message_list;
-	GtkToggleAction *toggle_action;
-	EMailDisplay *display;
-	GSettings *settings;
-	gboolean caret_mode;
-	gboolean magic_spacebar;
-
-	/* This implements the so-called "Magic Spacebar". */
-
-	shell_view = E_SHELL_VIEW (mail_shell_view);
-	shell_window = e_shell_view_get_shell_window (shell_view);
-
-	mail_shell_content = mail_shell_view->priv->mail_shell_content;
-	mail_view = e_mail_shell_content_get_mail_view (mail_shell_content);
-
-	mail_shell_sidebar = mail_shell_view->priv->mail_shell_sidebar;
-	folder_tree = e_mail_shell_sidebar_get_folder_tree (mail_shell_sidebar);
-
-	reader = E_MAIL_READER (mail_view);
-	display = e_mail_reader_get_mail_display (reader);
-	message_list = e_mail_reader_get_message_list (reader);
-
-	settings = e_util_ref_settings ("org.gnome.evolution.mail");
-	magic_spacebar = g_settings_get_boolean (settings, "magic-spacebar");
-	g_object_unref (settings);
-
-	toggle_action = GTK_TOGGLE_ACTION (ACTION (MAIL_CARET_MODE));
-	caret_mode = gtk_toggle_action_get_active (toggle_action);
-
-	if (!e_mail_display_process_magic_spacebar (display, TRUE)) {
-
-		if (caret_mode || !magic_spacebar)
-			return;
-
-		/* XXX Are two separate calls really necessary? */
-
-		if (message_list_select (
-		    MESSAGE_LIST (message_list),
-		    MESSAGE_LIST_SELECT_NEXT |
-		    MESSAGE_LIST_SELECT_INCLUDE_COLLAPSED,
-		    0, CAMEL_MESSAGE_SEEN))
-			return;
-
-		if (message_list_select (
-		    MESSAGE_LIST (message_list),
-		    MESSAGE_LIST_SELECT_NEXT |
-		    MESSAGE_LIST_SELECT_WRAP |
-		    MESSAGE_LIST_SELECT_INCLUDE_COLLAPSED,
-		    0, CAMEL_MESSAGE_SEEN))
-			return;
-
-		em_folder_tree_select_next_path (folder_tree, TRUE);
-
-		gtk_widget_grab_focus (message_list);
-	}
+	mail_shell_view_magic_spacebar (mail_shell_view, TRUE);
 }
 
 static void
