@@ -524,15 +524,15 @@ headers_collapsed_signal_cb (GDBusConnection *connection,
                              GVariant *parameters,
                              EMailDisplay *display)
 {
-	gboolean expanded;
+	gboolean collapsed = FALSE;
 
 	if (g_strcmp0 (signal_name, "HeadersCollapsed") != 0)
 		return;
 
 	if (parameters)
-		g_variant_get (parameters, "(b)", &expanded);
+		g_variant_get (parameters, "(b)", &collapsed);
 
-	e_mail_display_set_headers_collapsed (display, expanded);
+	e_mail_display_set_headers_collapsed (display, collapsed);
 }
 
 static void

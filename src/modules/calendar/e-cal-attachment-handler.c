@@ -345,7 +345,7 @@ attachment_handler_run_dialog (GtkWindow *parent,
 				break;
 			default:
 				g_warn_if_reached ();
-				return;
+				goto exit;
 		}
 
 		shell_view = e_shell_window_get_shell_view (shell_window,

@@ -1808,11 +1808,12 @@ undo_redo_replace_all (EEditorUndoRedoManager *manager,
 			if (prev_event->type == HISTORY_REPLACE) {
 				undo_redo_replace (editor_page, prev_event, undo);
 				prev_item = prev_item->prev;
-			} else
+			} else {
+				manager->priv->history = prev_item->next;
 				break;
+			}
 		}
 
-		manager->priv->history = prev_item->next;
 	}
 }
 
@@ -2722,7 +2723,7 @@ e_editor_undo_redo_manager_redo (EEditorUndoRedoManager *manager)
 			return;
 	}
 
-	if (history->prev && history->prev->prev) {
+	if (history->prev->prev) {
 		event = history->prev->prev->data;
 		if (event->type == HISTORY_AND) {
 			manager->priv->history = manager->priv->history->prev->prev;

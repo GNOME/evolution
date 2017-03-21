@@ -201,6 +201,9 @@ find_swatch (GtkContainer *container)
 		GtkWidget *widget = child->data;
 		GtkWidget *swatch;
 
+		if (!widget)
+			continue;
+
 		if (GTK_IS_CONTAINER (widget)) {
 			swatch = find_swatch (GTK_CONTAINER (widget));
 
