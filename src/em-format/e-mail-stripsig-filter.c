@@ -29,6 +29,34 @@
 
 G_DEFINE_TYPE (EMailStripSigFilter, e_mail_stripsig_filter, CAMEL_TYPE_MIME_FILTER)
 
+static gboolean
+is_html_newline_marker (const gchar *text,
+			gint len,
+			gint *advance_by_chars)
+{
+	const gchar *cases[] = {
+		"<br>",
+		"div><br></div>",
+		NULL };
+	gint ii;
+
+	if (!text || !*text || !advance_by_chars)
+		return FALSE;
+
+	*advance_by_chars = 0;
+
+	for (ii = 0; cases[ii]; ii++) {
+		gint caselen = strlen (cases[ii]);
+
+		if (len >= caselen && g_ascii_strncasecmp (text, cases[ii], caselen) == 0) {
+			*advance_by_chars = caselen;
+			return TRUE;
+		}
+	}
+
+	return FALSE;
+}
+
 static void
 strip_signature (CamelMimeFilter *filter,
                  const gchar *in,
@@ -43,15 +71,16 @@ strip_signature (CamelMimeFilter *filter,
 	register const gchar *inptr = in;
 	const gchar *inend = in + len;
 	const gchar *start = NULL;
+	gint advance_by_chars = 0;
 
 	if (stripsig->midline) {
 		while (inptr < inend && *inptr != '\n' && (stripsig->text_plain_only ||
-		       inend - inptr < 4 || g_ascii_strncasecmp (inptr, "<BR>", 4) != 0))
+		       !is_html_newline_marker (inptr, inend - inptr, &advance_by_chars)))
 			inptr++;
 
-		if (!stripsig->text_plain_only && inend - inptr >= 4 && g_ascii_strncasecmp (inptr, "<BR>", 4) == 0) {
+		if (!stripsig->text_plain_only && is_html_newline_marker (inptr, inend - inptr, &advance_by_chars)) {
 			stripsig->midline = FALSE;
-			inptr += 4;
+			inptr += advance_by_chars;
 		} else if (inptr < inend) {
 			stripsig->midline = FALSE;
 			inptr++;
@@ -69,7 +98,7 @@ strip_signature (CamelMimeFilter *filter,
 			inptr += 7;
 		} else {
 			while (inptr < inend && *inptr != '\n' && (stripsig->text_plain_only ||
-			       inend - inptr < 4 || g_ascii_strncasecmp (inptr, "<BR>", 4) != 0))
+			       !is_html_newline_marker (inptr, inend - inptr, &advance_by_chars)))
 				inptr++;
 
 			if (inptr == inend) {
@@ -77,8 +106,8 @@ strip_signature (CamelMimeFilter *filter,
 				break;
 			}
 
-			if (!stripsig->text_plain_only && inend - inptr >= 4 && g_ascii_strncasecmp (inptr, "<BR>", 4) == 0)
-				inptr += 4;
+			if (!stripsig->text_plain_only && is_html_newline_marker (inptr, inend - inptr, &advance_by_chars))
+				inptr += advance_by_chars;
 			else
 				inptr++;
 		}
