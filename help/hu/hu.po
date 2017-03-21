@@ -1,24 +1,24 @@
 # Hungarian translation of evolution_help
-# Copyright (C) 2011, 2012, 2013. Free Software Foundation, Inc.
+# Copyright (C) 2011, 2012, 2013, 2014, 2015, 2017 Free Software Foundation, Inc.
 # This file is distributed under the same license as the evolution help.
 #
 # Bence Lukács <lukacs.bence1 at gmail dot com>, 2011.
 # Gabor Kelemen <kelemeng at gnome dot hu>, 2011, 2012, 2013, 2014, 2015.
 # Nagy Zoltán <dzodzie at gmail dot com>, 2011.
-# Balázs Úr <urbalazs at gmail dot com>, 2014.
+# Balázs Úr <urbalazs at gmail dot com>, 2014, 2017.
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution_help master\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2015-08-18 04:34+0000\n"
-"PO-Revision-Date: 2015-08-19 08:20+0200\n"
-"Last-Translator: Gabor Kelemen <kelemeng at gnome dot hu>\n"
+"POT-Creation-Date: 2017-02-19 15:18+0000\n"
+"PO-Revision-Date: 2017-03-21 16:58+0100\n"
+"Last-Translator: Balázs Úr <urbalazs@gmail.com>\n"
 "Language-Team: Hungarian <openscope at gmail dot com>\n"
 "Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 1.5\n"
+"X-Generator: Lokalize 1.2\n"
 "Plural-Forms:  nplurals=2; plural=(n != 1);\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
@@ -238,9 +238,8 @@ msgstr ""
 "Tegye a következőket egy ilyen naptár felvételéhez az <app>Evolutionbe</app>:"
 
 #. (itstool) path: item/p
-#: C/calendar-caldav.page:32 C/calendar-google.page:34
-#: C/calendar-local.page:27 C/calendar-weather.page:29
-#: C/calendar-webdav.page:28
+#: C/calendar-caldav.page:32 C/calendar-google.page:34 C/calendar-local.page:27
+#: C/calendar-weather.page:29 C/calendar-webdav.page:28
 msgid ""
 "Click <guiseq><gui>File</gui><gui>New</gui><gui>Calendar</gui></guiseq>."
 msgstr ""
@@ -253,19 +252,18 @@ msgid "Select the type <gui>CalDAV</gui>."
 msgstr "Válassza a <gui>CalDAV</gui> típust."
 
 #. (itstool) path: item/p
-#: C/calendar-caldav.page:39 C/calendar-google.page:40
-#: C/calendar-local.page:34 C/calendar-weather.page:36
-#: C/calendar-webdav.page:35 C/contacts-google.page:35 C/contacts-ldap.page:48
-#: C/contacts-local.page:34 C/contacts-using-contact-lists.page:48
-#: C/tasks-caldav.page:26 C/tasks-local.page:26 C/tasks-webdav.page:28
+#: C/calendar-caldav.page:39 C/calendar-google.page:40 C/calendar-local.page:34
+#: C/calendar-weather.page:36 C/calendar-webdav.page:35
+#: C/contacts-google.page:35 C/contacts-ldap.page:48 C/contacts-local.page:34
+#: C/contacts-using-contact-lists.page:48 C/tasks-caldav.page:26
+#: C/tasks-local.page:26 C/tasks-webdav.page:28
 msgid "Enter a name that you prefer."
 msgstr "Írjon be egy nevet."
 
 #. (itstool) path: item/p
-#: C/calendar-caldav.page:42 C/calendar-google.page:43
-#: C/calendar-local.page:37 C/calendar-weather.page:39
-#: C/calendar-webdav.page:38 C/tasks-caldav.page:27 C/tasks-local.page:27
-#: C/tasks-webdav.page:29
+#: C/calendar-caldav.page:42 C/calendar-google.page:43 C/calendar-local.page:37
+#: C/calendar-weather.page:39 C/calendar-webdav.page:38 C/tasks-caldav.page:27
+#: C/tasks-local.page:27 C/tasks-webdav.page:29
 msgid "Optionally choose a color that you prefer."
 msgstr "Kiválaszthat egy Ön által kedvelt színt is."
 
@@ -301,18 +299,16 @@ msgid "Enter your username and your email address."
 msgstr "Írja be a felhasználói nevét és az e-mail címét."
 
 #. (itstool) path: item/p
-#: C/calendar-caldav.page:59 C/calendar-google.page:55
-#: C/calendar-local.page:46 C/calendar-weather.page:56
-#: C/calendar-webdav.page:55 C/contacts-google.page:49 C/contacts-ldap.page:58
-#: C/contacts-local.page:37 C/tasks-caldav.page:32 C/tasks-local.page:28
-#: C/tasks-webdav.page:34
+#: C/calendar-caldav.page:59 C/calendar-google.page:55 C/calendar-local.page:46
+#: C/calendar-weather.page:56 C/calendar-webdav.page:55
+#: C/contacts-google.page:49 C/contacts-ldap.page:58 C/contacts-local.page:37
+#: C/tasks-caldav.page:32 C/tasks-local.page:28 C/tasks-webdav.page:34
 msgid "Click <gui style=\"button\">Apply</gui>."
 msgstr "Kattintson az <gui style=\"button\">Alkalmaz</gui> gombra."
 
 #. (itstool) path: page/p
-#: C/calendar-caldav.page:63 C/calendar-google.page:59
-#: C/calendar-local.page:50 C/calendar-weather.page:60
-#: C/calendar-webdav.page:59
+#: C/calendar-caldav.page:63 C/calendar-google.page:59 C/calendar-local.page:50
+#: C/calendar-weather.page:60 C/calendar-webdav.page:59
 msgid ""
 "The calendar will be added to the list of calendars in <app>Evolution</app>."
 msgstr "A naptár hozzáadásra kerül az <app>Evolution</app> naptárlistájához."
@@ -977,8 +973,8 @@ msgstr "Válassza ki a résztvevőket, akikre át szeretné ruházni a találkoz
 
 #. (itstool) path: item/p
 #: C/calendar-meetings-delegating.page:41 C/contacts-usage-add-contact.page:43
-#: C/contacts-usage-edit-contact.page:34
-#: C/contacts-using-contact-lists.page:69 C/mail-attachments-sending.page:32
+#: C/contacts-usage-edit-contact.page:34 C/contacts-using-contact-lists.page:69
+#: C/mail-attachments-sending.page:32
 #: C/mail-composer-custom-header-lines.page:45
 #: C/mail-encryption-gpg-set-up.page:35
 #: C/mail-encryption-gpg-signing-encrypting.page:40
@@ -1353,8 +1349,7 @@ msgstr "Naptári elemek keresése"
 
 #. (itstool) path: section/title
 #: C/calendar-searching.page:33 C/contacts-searching.page:43
-#: C/mail-searching.page:39 C/memos-searching.page:39
-#: C/tasks-searching.page:39
+#: C/mail-searching.page:39 C/memos-searching.page:39 C/tasks-searching.page:39
 msgid "Quick Search"
 msgstr "Gyors keresés"
 
@@ -1382,15 +1377,13 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/calendar-searching.page:47 C/contacts-searching.page:55
-#: C/mail-searching.page:43 C/memos-searching.page:44
-#: C/tasks-searching.page:44
+#: C/mail-searching.page:43 C/memos-searching.page:44 C/tasks-searching.page:44
 msgid "Select the search condition from the list."
 msgstr "Válassza ki a keresési feltételt a listából."
 
 #. (itstool) path: item/p
 #: C/calendar-searching.page:50 C/contacts-searching.page:58
-#: C/mail-searching.page:49 C/memos-searching.page:45
-#: C/tasks-searching.page:45
+#: C/mail-searching.page:49 C/memos-searching.page:45 C/tasks-searching.page:45
 msgid "Enter the text you want to search for and press <key>Enter</key>."
 msgstr ""
 "Adja meg a keresendő szöveget, és nyomja meg az <key>Enter</key> billentyűt."
@@ -1434,8 +1427,7 @@ msgstr ""
 
 #. (itstool) path: section/p
 #: C/calendar-searching.page:76 C/contacts-searching.page:80
-#: C/mail-searching.page:54 C/memos-searching.page:54
-#: C/tasks-searching.page:54
+#: C/mail-searching.page:54 C/memos-searching.page:54 C/tasks-searching.page:54
 msgid ""
 "If you want to set several search conditions, you should use an Advanced "
 "search, which is described below."
@@ -3386,11 +3378,6 @@ msgstr "Outlook"
 
 #. (itstool) path: page/p
 #: C/import-apps-outlook.page:26
-#| msgid ""
-#| "These steps refer to locally stored data such as POP accounts. For remote "
-#| "data (like IMAP) this is not necessary, since the data is still on the "
-#| "server and does not need to be manually transfered. You can set up the "
-#| "corresponding account in Evolution and the data will be downloaded."
 msgid ""
 "These steps refer to locally stored data such as POP accounts. For remote "
 "data (like IMAP) this is not necessary, since the data is still on the "
@@ -4575,10 +4562,6 @@ msgstr "Feladatlista és feljegyzéslista"
 
 #. (itstool) path: item/p
 #: C/intro-main-window.page:128
-#| msgid ""
-#| "Tasks and memos are just displayed for your convience and are not "
-#| "associated to any appointments. Use the <gui>switcher</gui> to go to "
-#| "their main windows."
 msgid ""
 "Tasks and memos are just displayed for your convenience and are not "
 "associated to any appointments. Use the <gui>switcher</gui> to go to their "
@@ -7599,28 +7582,40 @@ msgstr "Globális beállítások"
 
 #. (itstool) path: section/p
 #: C/mail-composer-spellcheck.page:44
+#| msgid ""
+#| "Under <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Composer "
+#| "Preferences</gui><gui>Spell Checking</gui><gui>Options</gui></guiseq> you "
+#| "can define whether your spelling is checked while you type and which "
+#| "color is used for underlining words that are misspelled."
 msgid ""
 "Under <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Composer "
 "Preferences</gui><gui>Spell Checking</gui><gui>Options</gui></guiseq> you "
-"can define whether your spelling is checked while you type and which color "
-"is used for underlining words that are misspelled."
+"can define whether your spelling is checked while you type."
 msgstr ""
 "A <guiseq><gui>Szerkesztés</gui><gui>Beállítások</gui><gui>Levélszerkesztő "
 "beállításai</gui><gui>Helyesírás-ellenőrzés</gui><gui>Beállítások</gui></"
 "guiseq> alatt megadhatja, hogy helyesírása ellenőrzésre kerüljön-e gépelés "
-"közben, és milyen színnel kerüljenek aláhúzásra a hibásan írt szavak."
+"közben."
 
 #. (itstool) path: section/p
 #: C/mail-composer-spellcheck.page:46
+#| msgid ""
+#| "You can also define which installed languages are used for spell checking "
+#| "in the list available under <guiseq><gui>Edit</gui><gui>Preferences</"
+#| "gui><gui>Composer Preferences</gui><gui>Spell Checking</"
+#| "gui><gui>Languages</gui></guiseq>."
 msgid ""
 "You can also define which installed languages are used for spell checking in "
 "the list available under <guiseq><gui>Edit</gui><gui>Preferences</"
 "gui><gui>Composer Preferences</gui><gui>Spell Checking</gui><gui>Languages</"
-"gui></guiseq>."
+"gui></guiseq> or in the email composer via <guiseq><gui>Edit</"
+"gui><gui>Current Languages</gui></guiseq>."
 msgstr ""
 "A <guiseq><gui>Szerkesztés</gui><gui>Beállítások</gui><gui>Levélszerkesztő "
 "beállításai</gui><gui>Helyesírás-ellenőrzés</gui><gui>Nyelvek</gui></guiseq> "
-"alatt megadhatja a helyesírás-ellenőrzéshez használandó nyelveket is."
+"alatt vagy az e-mail szerkesztőben a <guiseq><gui>Szerkesztés</"
+"gui><gui>Aktuális nyelvek</gui></guiseq> menüpontban megadhatja a helyesírás-"
+"ellenőrzéshez használandó nyelveket is."
 
 #. (itstool) path: section/title
 #: C/mail-composer-spellcheck.page:50
@@ -7629,11 +7624,17 @@ msgstr "Kézi helyesírás-ellenőrzés a szerkesztőben"
 
 #. (itstool) path: section/p
 #: C/mail-composer-spellcheck.page:51
+#| msgid ""
+#| "If you do not have <gui>Checking spelling while I type</gui> enabled in "
+#| "the <link xref=\"#global-preferences\">Composer Preferences</link> you "
+#| "can run a spell check in the email composer by clicking "
+#| "<guiseq><gui>Edit</gui><gui>Spell Checking</gui></guiseq> or by pressing "
+#| "<key>F7</key>."
 msgid ""
 "If you do not have <gui>Checking spelling while I type</gui> enabled in the "
 "<link xref=\"#global-preferences\">Composer Preferences</link> you can run a "
 "spell check in the email composer by clicking <guiseq><gui>Edit</"
-"gui><gui>Spell Checking</gui></guiseq> or by pressing <key>F7</key>."
+"gui><gui>Check Spelling…</gui></guiseq> or by pressing <key>F7</key>."
 msgstr ""
 "Ha a <link xref=\"#global-preferences\">szerkesztő beállításaiban</link> "
 "nincs engedélyezve a <gui>Helyesírás-ellenőrzés beírás közben</gui>, akkor "
@@ -11035,9 +11036,8 @@ msgstr ""
 "postafiókok."
 
 #. (itstool) path: item/p
-#: C/mail-searching.page:50 C/memos-searching.page:46
-#: C/memos-searching.page:52 C/tasks-searching.page:46
-#: C/tasks-searching.page:52
+#: C/mail-searching.page:50 C/memos-searching.page:46 C/memos-searching.page:52
+#: C/tasks-searching.page:46 C/tasks-searching.page:52
 msgid "Evolution displays the search results."
 msgstr "Az Evolution megjeleníti a találatokat."
 
@@ -13662,414 +13662,3 @@ msgstr "Szerkessze a címet vagy a keresési feltételeket az ablakban."
 msgid "Click <_:gui-1/>."
 msgstr "Kattintson az <_:gui-1/> gombra."
 
-#~| msgid ""
-#~| "These steps are very technical. For average users we recommend using the "
-#~| "<link xref=\"help:seahorse/index\" href=\"https://help.gnome.org/users/"
-#~| "seahorse/stable/index\"><app>Seahorse</app> application</link> for "
-#~| "managing GPG/OpenPGP keys."
-#~ msgid ""
-#~ "These steps are very technical. For average users we recommend using the "
-#~ "<link xref=\"help:seahorse/pgp-create\" href=\"https://help.gnome.org/"
-#~ "users/seahorse/stable/pgp-create\"><app>Seahorse</app> application</link> "
-#~ "for creating GPG/OpenPGP keys."
-#~ msgstr ""
-#~ "Ezek a lépések nagyon technikai jellegűek. A legtöbb felhasználó számára "
-#~ "a <link xref=\"help:seahorse/pgp-create\" href=\"https://help.gnome.org/"
-#~ "users/seahorse/stable/pgp-create\"><app>Seahorse</app> alkalmazás</link> "
-#~ "használata javasolt a GPG/OpenPGP-kulcsok kezelésére."
-
-#~ msgid ""
-#~ "Before you can get or send GPG encrypted mail, you need to generate your "
-#~ "public and private keys with GPG."
-#~ msgstr ""
-#~ "Mielőtt GPG-titkosítású leveleket fogadhatna vagy küldhetne, létre kell "
-#~ "hoznia a nyilvános és személyes kulcsait a GPG-vel."
-
-#~ msgid ""
-#~ "Open the <app>Terminal</app> application and enter <cmd>gpg --gen-key</"
-#~ "cmd>."
-#~ msgstr ""
-#~ "Nyissa meg a <app>Terminál</app> alkalmazást, és adja ki a <cmd>gpg --gen-"
-#~ "key</cmd> parancsot."
-
-#~ msgid "Select an algorithm, then press Enter."
-#~ msgstr "Válasszon egy algoritmust, és nyomja meg az Enter billentyűt."
-
-#~ msgid "Select a key length, then press Enter."
-#~ msgstr "Válasszon egy kulcshosszt, és nyomja meg az Enter billentyűt."
-
-#~ msgid "Enter how long your key should be valid for."
-#~ msgstr "Adja meg, hogy a kulcsa meddig legyen érvényes."
-
-#~ msgid "Type your real name, then press Enter."
-#~ msgstr "Írja be a valódi nevét, és nyomja meg az Enter billentyűt."
-
-#~ msgid "Type your email address, then press Enter."
-#~ msgstr "Írja be az e-mail címét, és nyomja meg az Enter billentyűt."
-
-#~ msgid "(Optional) Type a comment, then press Enter."
-#~ msgstr ""
-#~ "(Elhagyható) Írjon be egy megjegyzést, és nyomja meg az Enter billentyűt."
-
-#~ msgid "Review your selected user ID. If it is correct, press O."
-#~ msgstr ""
-#~ "Tekintse át a kiválasztott felhasználói azonosítót, ha megfelelő, akkor "
-#~ "nyomja meg az R billentyűt."
-
-#~ msgid "Type a passphrase, then press Enter."
-#~ msgstr "Írjon be egy jelmondatot, majd nyomja meg az Enter billentyűt."
-
-#~ msgid "Move your mouse randomly to generate the keys."
-#~ msgstr "Mozgassa véletlenszerűen az egerét a kulcsok előállításához."
-
-#~ msgid ""
-#~ "After the keys are generated, you can view your key information by "
-#~ "entering <cmd>gpg --list-keys</cmd>. You should see something similar to "
-#~ "this: <code> /home/you/.gnupg/pubring.gpg ---------------------------- "
-#~ "pub 1024D/32j38dk2 2001-06-20 you &lt;you@example.com&gt; sub "
-#~ "1024g/289sklj3 2011-06-20 [expires: 2012-11-14]</code>"
-#~ msgstr ""
-#~ "A kulcsok előállítása után a <cmd>gpg --list-keys</cmd> parancs "
-#~ "kiadásával megjelenítheti a kulcsinformációkat. A következőhöz hasonlót "
-#~ "kellene látnia: <code>/home/ön/.gnupg/pubring."
-#~ "gpg------------------------------pub   2048R/6ADAF1C0 "
-#~ "2011-11-16uid                  ön &lt;ön@példa.hu&gt;sub   2048R/48D220F9 "
-#~ "2011-11-16</code>"
-
-#~ msgid ""
-#~ "GPG creates one list, or keyring, for your public keys and one for your "
-#~ "private keys. All the public keys you know are stored in the file "
-#~ "<file>~/.gnupg/pubring.gpg</file>. If you want to give other people your "
-#~ "key, send them that file."
-#~ msgstr ""
-#~ "A GPG egy listát vagy kulcstartót hoz létre a nyilvános kulcsokhoz és egy "
-#~ "másikat a személyes kulcsokhoz. Minden Ön által ismert nyilvános kulcs a "
-#~ "<file>~/.gnupg/pubring.gpg</file> fájlban található. Ha kulcsát meg "
-#~ "szeretné osztani másokkal, akkor küldje el nekik ezt a fájlt."
-
-#~ msgid "If you want, you can upload your keys to a key server:"
-#~ msgstr "Ha akarja, feltöltheti kulcsait egy kulcskiszolgálóra:"
-
-#~ msgid ""
-#~ "Check your public key ID with <code>gpg --list-keys</code>. It is the "
-#~ "string after <code>1024D</code> on the line beginning with <code>pub</"
-#~ "code>. In the example above, it is <code>32j38dk2</code>."
-#~ msgstr ""
-#~ "Ellenőrizze nyilvános kulcsának azonosítóját a <code>gpg --list-keys</"
-#~ "code> kiadásával. Ez a <code>pub</code> kezdetű sorban az <code>1024D</"
-#~ "code> utáni karakterlánc. A fenti példában ez a <code>6ADAF1C0</code>."
-
-#~ msgid ""
-#~ "Enter the command <cmd>gpg --send-keys --keyserver wwwkeys.pgp.net "
-#~ "32j38dk2</cmd>. Substitute your key ID for <code>32j38dk2</code>. You "
-#~ "need your password to do this."
-#~ msgstr ""
-#~ "Adja ki a <cmd>gpg --send-keys --keyserver wwwkeys.pgp.net 6ADAF1C0</cmd> "
-#~ "parancsot. A <code>6ADAF1C0</code> helyére saját kulcsazonosítóját írja. "
-#~ "Ehhez a jelszavára is szüksége lesz."
-
-#~ msgid ""
-#~ "Key servers store your public keys for you so that your friends can "
-#~ "decrypt your messages. If you choose not to use a key server, you can "
-#~ "manually send your public key, include it in your signature file, or put "
-#~ "it on your own Web page. However, it is easier to publish a key once, and "
-#~ "then let people download it from a central place when they want."
-#~ msgstr ""
-#~ "A kulcskiszolgálók a nyilvános kulcsait tárolják, hogy ismerősei "
-#~ "visszafejthessék az Ön leveleit. Ha nem szeretne kulcskiszolgálót "
-#~ "használni, akkor saját kezűleg is elküldheti nyilvános kulcsát, felveheti "
-#~ "az aláírásfájljába vagy kiteheti saját weboldalára. A legegyszerűbb "
-#~ "azonban a kulcs egyszeri közzététele, hogy ismerősei bármikor "
-#~ "letölthessék, amikor szükségük van rá."
-
-#~ msgid ""
-#~ "If you don't have a key to unlock or encrypt a message, you can set your "
-#~ "encryption tool to look it up automatically. If it cannot find the key, "
-#~ "an error message appears."
-#~ msgstr ""
-#~ "Ha nem rendelkezik egy levél ellenőrzéséhez vagy visszafejtéséhez "
-#~ "szükséges kulccsal, akkor beállíthatja a titkosítóeszközét a kulcs "
-#~ "automatikus megkeresésére. Ha ez nem találja a kulcsot, akkor "
-#~ "hibaüzenetet jelenít meg."
-
-#~ msgid ""
-#~ "To get public keys from a public key server, enter the command <cmd>gpg --"
-#~ "recv-keys --keyserver wwwkeys.pgp.net keyid</cmd>, substituting "
-#~ "<code>keyid</code> by your recipient's ID. You need to enter your "
-#~ "password, and the ID is automatically added to your keyring."
-#~ msgstr ""
-#~ "A nyilvános kulcsok nyilvános kulcskiszolgálóról való beszerzéséhez adja "
-#~ "ki a <cmd>gpg --recv-keys --keyserver wwwkeys.pgp.net kulcsazonosító</"
-#~ "cmd> parancsot, a <code>kulcsazonosító</code> helyére a címzett "
-#~ "azonosítóját helyettesítve. Meg kell adnia a jelszavát, ezután az "
-#~ "azonosító automatikusan hozzáadásra kerül a kulcstartójához."
-
-#~ msgid ""
-#~ "If someone sends you a public key directly, save it as a plain text file "
-#~ "and enter the command <cmd>gpg --import</cmd> to add it to your keyring."
-#~ msgstr ""
-#~ "Ha valaki közvetlenül küldi el nyilvános kulcsát, akkor mentse egyszerű "
-#~ "szöveges fájlként, és adja ki a <cmd>gpg --import</cmd> parancsot a "
-#~ "kulcstartójára való importáláshoz."
-
-#~ msgid ""
-#~ "If you want <link xref=\"mail-filters\">Filters</link> to be "
-#~ "automatically used for new messages in your inbox, enable <gui>Apply "
-#~ "filters to new messages in Inbox on this server</gui>."
-#~ msgstr ""
-#~ "Ha szeretne <link xref=\"mail-filters\">szűrőket</link> alkalmazni az "
-#~ "Érkezett mappába érkező új levelekre, akkor jelölje be a <gui>Szűrők "
-#~ "alkalmazása az új üzenetekre ezen kiszolgáló bejövő mappájában</gui> "
-#~ "jelölőnégyzetet."
-
-#~ msgid ""
-#~ "Select if you want Evolution to use custom commands to connect to the "
-#~ "IMAP server."
-#~ msgstr ""
-#~ "Döntse el, hogy az Evolution használjon-e egyéni parancsokat az IMAP-"
-#~ "kiszolgálóhoz csatlakozáshoz."
-
-#~ msgid ""
-#~ "Select if you want Evolution to override server-supplied folder "
-#~ "namespaces."
-#~ msgstr ""
-#~ "Döntse el, hogy az Evolution felülbírálja-e a kiszolgáló által megadott "
-#~ "mappanévtereket."
-
-#~ msgid "Checking incoming mail for junk messages."
-#~ msgstr "Levélszemét keresése beérkezett levelekben."
-
-#~ msgid "The default junk filter."
-#~ msgstr "Az alapértelmezett levélszemét-bővítmény."
-
-#~ msgid "Bogofilter and SpamAssassin options."
-#~ msgstr "A Bogofilter és a SpamAssassin beállításai."
-
-#~ msgid "On minimizing Evolution to the notification area."
-#~ msgstr "Az Evolution minimalizálásáról az értesítési területre."
-
-#~ msgid "Minimizing Evolution to the system tray"
-#~ msgstr "Az Evolution értesítési területre minimalizálása"
-
-#~ msgid ""
-#~ "GNOME, by default, has a <link xref=\"mail-received-notification"
-#~ "\">notification area</link> which includes an applet that informs users "
-#~ "of any system updates, changes, or events. This includes the arrival of "
-#~ "email messages on Evolution. You can refer to this built-in feature of "
-#~ "GNOME for any email notifications."
-#~ msgstr ""
-#~ "A GNOME alapesetben tartalmaz egy <link xref=\"mail-received-notification"
-#~ "\">értesítési területet</link>, amely értesíti a felhasználókat a "
-#~ "rendszerfrissítésekről, változásokról vagy eseményekről. Ezek közé "
-#~ "értendő az e-mailek érkezése az Evolutionbe. A GNOME ezen beépített "
-#~ "szolgáltatására minden e-mail értesítésnél számíthat."
-
-#~ msgid ""
-#~ "In GNOME version 2 you may modify the notification area and set it up to "
-#~ "become a system tray by using external applications which might be "
-#~ "available for installation in the software management tool of your "
-#~ "distribution. Available options are for example <link href=\"http://code."
-#~ "google.com/p/tint2/\">Tint2</link>. This is no longer possible in GNOME 3."
-#~ msgstr ""
-#~ "A GNOME 2-ben külső szoftverek használatával módosíthatta az értesítési "
-#~ "területet, és beállíthatta rendszertálcaként való működésre. Ezek a "
-#~ "szoftverek elérhetők lehetnek a disztribúciója csomagkezelőjéből. Ilyen "
-#~ "például a <link href=\"http://code.google.com/p/tint2/\">Tint2</link>. Ez "
-#~ "már nem érhető el a GNOME 3-ban."
-
-#~ msgid "Enter the address of the calendar in the <gui>URL</gui> field."
-#~ msgstr "Írja be a naptár címét az <gui>URL</gui> mezőbe."
-
-#~ msgid "Aaron Weber"
-#~ msgstr "Aaron Weber"
-
-#~ msgid "Akhil Laddha"
-#~ msgstr "Akhil Laddha"
-
-#~ msgid "Duncan Mak"
-#~ msgstr "Duncan Mak"
-
-#~ msgid "Ettore Perazzoli"
-#~ msgstr "Ettore Perazzoli"
-
-#~ msgid "Francisco Javier F. Serrador"
-#~ msgstr "Francisco Javier F. Serrador"
-
-#~ msgid "Jessica Prabhakar"
-#~ msgstr "Jessica Prabhakar"
-
-#~ msgid "Kevin Breit"
-#~ msgstr "Kevin Breit"
-
-#~ msgid "Mark Moulder"
-#~ msgstr "Mark Moulder"
-
-#~ msgid "Novell, Inc."
-#~ msgstr "Novell, Inc."
-
-#~ msgid "Radhika Nair"
-#~ msgstr "Radhika Nair"
-
-#~ msgid "Srinivasa Ragavan"
-#~ msgstr "Srinivasa Ragavan"
-
-#~ msgid "Emails"
-#~ msgstr "E-mailek"
-
-#~ msgid "E-Mail"
-#~ msgstr "E-mail"
-
-#~ msgid "Enter a brief summary in the Summary field."
-#~ msgstr "Írjon be egy rövid összegzést az Összefoglaló mezőbe."
-
-#~ msgid "Palm"
-#~ msgstr "Palm"
-
-#~ msgid ""
-#~ "To synchronize with a Palm OS device like the PalmPilot(TM) and the "
-#~ "Handspring Visor several steps are needed: First, you need to enable "
-#~ "synchronization. Second, your computer needs to recognize and access your "
-#~ "handheld. Third, you should decide what sort of synchronization behavior "
-#~ "you want."
-#~ msgstr ""
-#~ "A PalmPilot(TM)-hoz és Handspring Visorhoz hasonló Palm OS eszközökkel "
-#~ "való szinkronizáláshoz több lépés szükséges: elsőként engedélyeznie kell "
-#~ "a szinkronizálást. Másodikként a számítógépének fel kell ismernie és el "
-#~ "kell érnie PDA-ját. Harmadikként el kell döntenie, milyen szinkronizálási "
-#~ "viselkedést szeretne."
-
-#~ msgid "Enabling Synchronization"
-#~ msgstr "Szinkronizálás engedélyezése"
-
-#~ msgid ""
-#~ "If you have not used a handheld device with your computer before, you "
-#~ "need to configure it via <guiseq><gui>Edit</gui><gui>GNOME Pilot "
-#~ "Synchronization...</gui></guiseq>. Make sure that you have read and write "
-#~ "permissions on the device, which is normally in <file>/dev/pilot</file>. "
-#~ "If that does not work, check in <file>/dev/ttyS0</file> if you have a "
-#~ "serial connection, or in <file>/dev/ttyUSB1</file> for a USB connection. "
-#~ "You can do this by becoming root user and adding your username to the "
-#~ "group that owns this device node. For a USB device on sync, two device "
-#~ "nodes are created, <file>ttyUSB0</file> and <file>ttyUSB1</file>. The "
-#~ "second node is the one to be used in configuring the device."
-#~ msgstr ""
-#~ "Ha még nem használt PDA-t a számítógépével, akkor be kell állítania azt a "
-#~ "<guiseq><gui>Szerkesztés</gui><gui>GNOME Pilot szinkronizáció</gui></"
-#~ "guiseq> menüpontban. Győződjön meg róla, hogy rendelkezik olvasási és "
-#~ "írási jogosultságokkal az eszközön, amely általában a <file>/dev/pilot</"
-#~ "file>. Ha ez nem működik, akkor próbálja soros kapcsolat esetén a <file>/"
-#~ "dev/ttyS0</file>, vagy USB-kapcsolat esetén a <file>/dev/ttyUSB1</file> "
-#~ "eszközt. Ezeket a jogokat úgy szerezheti meg, ha rendszergazdaként "
-#~ "hozzáadja magát az adott eszközcsomópontot birtokló csoporthoz. USB "
-#~ "eszköz szinkronizálásához két eszközcsomópont jön létre, a <file>ttyUSB0</"
-#~ "file> és <file>ttyUSB1</file>. A második csomópont használandó az eszköz "
-#~ "konfigurálásához."
-
-#~ msgid "Selecting Conduits"
-#~ msgstr "Csatornák kiválasztása"
-
-#~ msgid ""
-#~ "After your computer and your Palm OS device are communicating, select the "
-#~ "conduits you want under the <gui>Pilot Conduits</gui> section. You can "
-#~ "use conduits to synchronize data with several applications; the Evolution "
-#~ "conduits are labeled <gui>EAddress</gui> for the contacts in your address "
-#~ "book; <gui>ECalendar</gui> for your calendar; and <gui>ETodo</gui> for "
-#~ "your task list."
-#~ msgstr ""
-#~ "Miután a számítógépe és Palm OS eszköze kommunikál, válassza ki a "
-#~ "használni kívánt csatornákat a <gui>Pilot csatornái</gui> szakaszban. A "
-#~ "csatornák használatával számos alkalmazással szinkronizálhat adatokat, az "
-#~ "Evolution csatornák címkéje <gui>EAddress</gui> a címjegyzék "
-#~ "névjegyeihez, <gui>ECalendar</gui> a naptárához és <gui>ETodo</gui> a "
-#~ "feladatlistájához."
-
-#~ msgid ""
-#~ "Click <gui>Enable</gui>, then click <gui>Settings</gui> to change what "
-#~ "the conduit does when activated. Your options can vary depending on the "
-#~ "conduit, but typically they are as follows:"
-#~ msgstr ""
-#~ "Nyomja meg az <gui>Engedélyezés</gui>, majd a <gui>Beállítások</gui> "
-#~ "gombot a csatorna aktiválásakor elvégzendő művelet módosításához. A "
-#~ "lehetőségei a csatornától függően változhatnak, de általában a következők:"
-
-#~ msgid "<gui>Disabled</gui>: Do nothing."
-#~ msgstr "<gui>Letiltva</gui>: ne tegyen semmit."
-
-#~ msgid ""
-#~ "<gui>Synchronize</gui>: Copy new data from the computer to the handheld, "
-#~ "and from the handheld to the computer. Remove items that were on both "
-#~ "systems but have been deleted on one."
-#~ msgstr ""
-#~ "<gui>Szinkronizálás</gui>: új adatok másolása a számítógépről a "
-#~ "kéziszámítógépre, és fordítva. A korábban mindkét rendszeren meglévő, de "
-#~ "az egyikről törölt elemek törlése."
-
-#~ msgid ""
-#~ "<gui>Copy From Pilot</gui>: If there is any new data on the handheld "
-#~ "device, copy it to the computer."
-#~ msgstr ""
-#~ "<gui>Másolás a pilotról</gui>: ha új adatok vannak a kéziszámítógépen, "
-#~ "akkor azok számítógépre másolása."
-
-#~ msgid ""
-#~ "<gui>Copy To Pilot</gui>: Copy new data from the computer to the handheld."
-#~ msgstr ""
-#~ "<gui>Másolás a pilotra</gui>: új adatok másolása a számítógépről a "
-#~ "kéziszámítógépre."
-
-#~ msgid ""
-#~ "Select the behavior you want for each conduit you choose to use. If "
-#~ "you're not sure, use <gui>Synchronize</gui>."
-#~ msgstr ""
-#~ "Válassza ki a kívánt viselkedést minden használandó csatornához. Ha nem "
-#~ "biztos a dolgában, akkor használja a <gui>Szinkronizálás</gui> "
-#~ "lehetőséget."
-
-#~ msgid "Synchronizing Information"
-#~ msgstr "Információk szinkronizálása"
-
-#~ msgid ""
-#~ "Use the following procedure to synchronize the data on your Palm OS "
-#~ "device with the data you store in Evolution."
-#~ msgstr ""
-#~ "Az alábbi módszerrel szinkronizálhatja adatait a Palm OS eszköze és az "
-#~ "Evolution között."
-
-#~ msgid ""
-#~ "If you want to back up your information before synchronizing, make a copy "
-#~ "of the <file>.local/share/evolution</file> directory inside your home "
-#~ "directory."
-#~ msgstr ""
-#~ "Ha a szinkronizálás előtt menteni kívánja az információkat, akkor "
-#~ "készítsen egy másolatot a saját könyvtárában lévő <file>.local/share/"
-#~ "evolution</file> mappáról."
-
-#~ msgid ""
-#~ "Put your handheld device in its cradle and press the <gui style=\"button"
-#~ "\">HotSync</gui> button."
-#~ msgstr ""
-#~ "Helyezze a kéziszámítógépét a bölcsőjébe, és nyomja meg a <gui style="
-#~ "\"button\">HotSync</gui> gombot."
-
-#~ msgid ""
-#~ "If you use Palm OS version 4.0 and have password protection turned on for "
-#~ "your handheld device, you might encounter trouble synchronizing. If this "
-#~ "happens, try turning off password protection on your handheld, "
-#~ "synchronize it with your desktop computer, and then re-enable password "
-#~ "protection on your handheld."
-#~ msgstr ""
-#~ "Ha a Palm OS 4.0-ás verzióját használja, és a jelszavas védelem be van "
-#~ "kapcsolva kéziszámítógépéhez, akkor a szinkronizálás problémákat okozhat. "
-#~ "Ha ez történik, akkor próbálja meg kikapcsolni a kéziszámítógép jelszavas "
-#~ "védelmét, szinkronizálja a számítógépével, és engedélyezze újra a "
-#~ "jelszavas védelmet."
-
-#~ msgid "Now your Palm OS device will synchronize data with Evolution."
-#~ msgstr ""
-#~ "Ezután a Palm OS eszköz szinkronizálni fogja az adatokat az Evolutionnel."
-
-#~ msgid "Enter the address of the list in the <gui>URL</gui> field."
-#~ msgstr "Adja meg a lista címét az <gui>URL</gui> mezőben."
-
-#~ msgid "Evolution"
-#~ msgstr "Evolution"
