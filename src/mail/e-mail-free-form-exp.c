@@ -74,12 +74,9 @@ mail_ffe_build_header_sexp (const gchar *word,
 	camel_sexp_encode_string (encoded_word, word);
 
 	if (!header_names[1]) {
-		if (!sexp)
-			sexp = g_string_new ("");
-	} else if (!sexp) {
-		sexp = g_string_new ("(or ");
+		sexp = g_string_new ("");
 	} else {
-		g_string_append (sexp, "(or ");
+		sexp = g_string_new ("(or ");
 	}
 
 	for (ii = 0; header_names[ii]; ii++) {

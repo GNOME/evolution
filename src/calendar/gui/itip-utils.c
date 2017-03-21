@@ -2475,8 +2475,6 @@ reply_to_calendar_comp (ESourceRegistry *registry,
 
  cleanup:
 
-	if (comp != NULL)
-		g_object_unref (comp);
 	if (top_level != NULL)
 		icalcomponent_free (top_level);
 

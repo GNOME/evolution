@@ -522,7 +522,7 @@ e_dom_utils_add_css_rule_into_style_sheet_in_document (WebKitDOMDocument *docume
 		rule_text = webkit_dom_css_rule_get_css_text (rule);
 
 		/* Find the start of the style => end of the selector */
-		if (rule_text && selector && g_str_has_prefix (rule_text, selector) &&
+		if (rule_text && g_str_has_prefix (rule_text, selector) &&
 		    rule_text[selector_length] == ' ' && rule_text[selector_length + 1] == '{') {
 			/* If exists remove it */
 			webkit_dom_css_style_sheet_remove_rule (

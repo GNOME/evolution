@@ -2220,7 +2220,7 @@ e_cal_shell_content_update_filters (ECalShellContent *cal_shell_content,
 		hide_completed_tasks_sexp = calendar_config_get_hide_completed_tasks_sexp (FALSE);
 
 		if (hide_completed_tasks_sexp != NULL) {
-			if (cal_filter != NULL) {
+			if (*cal_filter) {
 				gchar *filter;
 
 				filter = g_strdup_printf ("(and %s %s)", hide_completed_tasks_sexp, cal_filter);
@@ -2230,7 +2230,7 @@ e_cal_shell_content_update_filters (ECalShellContent *cal_shell_content,
 				cal_shell_content_update_model_filter (data_model, model, hide_completed_tasks_sexp, 0, 0);
 			}
 		} else {
-			cal_shell_content_update_model_filter (data_model, model, cal_filter ? cal_filter : "#t", 0, 0);
+			cal_shell_content_update_model_filter (data_model, model, *cal_filter ? cal_filter : "#t", 0, 0);
 		}
 
 		g_free (hide_completed_tasks_sexp);
@@ -2270,7 +2270,7 @@ e_cal_shell_content_update_filters (ECalShellContent *cal_shell_content,
 				"(and (or (not (has-start?)) "
 				"(occur-in-time-range? (make-time \"%s\") "
 				"(make-time \"%s\") \"%s\")) %s)",
-				iso_start, iso_end, default_tzloc, cal_filter ? cal_filter : "");
+				iso_start, iso_end, default_tzloc, cal_filter);
 
 			cal_shell_content_update_model_filter (data_model, model, filter, 0, 0);
 
@@ -2278,7 +2278,7 @@ e_cal_shell_content_update_filters (ECalShellContent *cal_shell_content,
 			g_free (iso_start);
 			g_free (iso_end);
 		} else {
-			cal_shell_content_update_model_filter (data_model, model, cal_filter ? cal_filter : "#t", 0, 0);
+			cal_shell_content_update_model_filter (data_model, model, *cal_filter ? cal_filter : "#t", 0, 0);
 		}
 	}
 }

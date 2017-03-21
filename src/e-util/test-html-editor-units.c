@@ -953,6 +953,7 @@ test_image_insert (TestFixture *fixture)
 	gchar *image_data;
 	gchar *image_data_base64;
 	gsize image_data_length;
+	gboolean success;
 	GError *error = NULL;
 
 	if (!test_utils_process_commands (fixture,
@@ -966,8 +967,9 @@ test_image_insert (TestFixture *fixture)
 	uri = g_filename_to_uri (filename, NULL, &error);
 	g_assert_no_error (error);
 
-	g_file_get_contents (filename, &image_data, &image_data_length, &error);
+	success = g_file_get_contents (filename, &image_data, &image_data_length, &error);
 	g_assert_no_error (error);
+	g_assert (success);
 
 	g_free (filename);
 

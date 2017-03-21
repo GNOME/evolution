@@ -325,7 +325,10 @@ notify_default_action_cb (NotifyNotification *notification,
 	if (!list)
 		list = fallback;
 
-	g_return_if_fail (list != NULL);
+	if (!list) {
+		g_warn_if_reached ();
+		return;
+	}
 
 	/* Present the shell window. */
 	shell_window = E_SHELL_WINDOW (list->data);

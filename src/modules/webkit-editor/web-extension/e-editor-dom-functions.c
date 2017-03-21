@@ -2720,12 +2720,9 @@ save_history_before_event_in_table (EEditorPage *editor_page,
 		ev = g_new0 (EEditorHistoryEvent, 1);
 		ev->type = HISTORY_TABLE_INPUT;
 
-		if (block) {
-			e_editor_dom_selection_save (editor_page);
-			ev->data.dom.from = g_object_ref (webkit_dom_node_clone_node_with_error (WEBKIT_DOM_NODE (block), TRUE, NULL));
-			e_editor_dom_selection_restore (editor_page);
-		} else
-			ev->data.dom.from = NULL;
+		e_editor_dom_selection_save (editor_page);
+		ev->data.dom.from = g_object_ref (webkit_dom_node_clone_node_with_error (WEBKIT_DOM_NODE (block), TRUE, NULL));
+		e_editor_dom_selection_restore (editor_page);
 
 		e_editor_dom_selection_get_coordinates (editor_page,
 			&ev->before.start.x,
@@ -5250,7 +5247,7 @@ parse_html_into_blocks (EEditorPage *editor_page,
 		if (camel_debug ("webkit:editor"))
 			printf ("\tto_process: '%s'\n", to_process);
 
-		if (!*to_process && processing_last) {
+		if (to_process && !*to_process && processing_last) {
 			g_free (to_process);
 			to_process = g_strdup (next_token);
 			next_token = NULL;
@@ -15308,7 +15305,6 @@ e_editor_dom_selection_set_monospace (EEditorPage *editor_page,
 	} else {
 		gboolean is_bold = FALSE, is_italic = FALSE;
 		gboolean is_underline = FALSE, is_strikethrough = FALSE;
-		guint font_size = 0;
 		WebKitDOMElement *tt_element;
 		WebKitDOMNode *node;
 
@@ -16147,7 +16143,7 @@ process_block_to_block (EEditorPage *editor_page,
 
 				word_wrap_length =
 					e_editor_page_get_word_wrap_length (editor_page);
-				quote = citation_level ? citation_level * 2 : 0;
+				quote = citation_level * 2;
 
 				element = e_editor_dom_wrap_paragraph_length (
 					editor_page, element, word_wrap_length - quote);
@@ -16492,8 +16488,7 @@ format_change_list_from_list (EEditorPage *editor_page,
 				WEBKIT_DOM_ELEMENT (item), new_list, to);
 
 			webkit_dom_node_append_child (
-				after_selection_end ?
-					source_list_clone : WEBKIT_DOM_NODE (new_list),
+				WEBKIT_DOM_NODE (new_list),
 				WEBKIT_DOM_NODE (processed_list),
 				NULL);
 		} else if (node_is_list (item) && !after_selection_end) {
@@ -16515,10 +16510,7 @@ format_change_list_from_list (EEditorPage *editor_page,
 					WEBKIT_DOM_NODE (new_list), FALSE, NULL);
 
 				webkit_dom_node_append_child (
-					after_selection_end ?
-						source_list_clone : WEBKIT_DOM_NODE (new_list),
-					clone,
-					NULL);
+					WEBKIT_DOM_NODE (new_list), clone, NULL);
 
 				while ((child = webkit_dom_node_get_first_child (item))) {
 					webkit_dom_node_append_child (clone, child, NULL);
@@ -16528,10 +16520,7 @@ format_change_list_from_list (EEditorPage *editor_page,
 
 				if (webkit_dom_node_get_first_child (item))
 					webkit_dom_node_append_child (
-						after_selection_end ?
-							source_list_clone : WEBKIT_DOM_NODE (new_list),
-						item,
-						NULL);
+						WEBKIT_DOM_NODE (new_list), item, NULL);
 				else
 					remove_node (item);
 			} else {
@@ -17356,10 +17345,8 @@ e_editor_dom_selection_get_coordinates (EEditorPage *editor_page,
 		parent = webkit_dom_element_get_offset_parent (parent);
 	}
 
-	if (start_x)
-		*start_x = local_x;
-	if (start_y)
-		*start_y = local_y;
+	*start_x = local_x;
+	*start_y = local_y;
 
 	if (e_editor_dom_selection_is_collapsed (editor_page)) {
 		*end_x = local_x;
@@ -17384,10 +17371,8 @@ e_editor_dom_selection_get_coordinates (EEditorPage *editor_page,
 		parent = webkit_dom_element_get_offset_parent (parent);
 	}
 
-	if (end_x)
-		*end_x = local_x;
-	if (end_y)
-		*end_y = local_y;
+	*end_x = local_x;
+	*end_y = local_y;
 
 	if (created_selection_markers)
 		e_editor_dom_selection_restore (editor_page);
