@@ -332,6 +332,9 @@ void		e_util_save_file_chooser_folder	(GtkFileChooser *file_chooser);
 void		e_util_load_file_chooser_folder	(GtkFileChooser *file_chooser);
 gboolean	e_util_get_webkit_developer_mode_enabled
 						(void);
+gchar *		e_util_next_uri_from_uri_list	(guchar **uri_list,
+						 gint *len,
+						 gint *list_len);
 
 G_END_DECLS
 

@@ -1774,31 +1774,6 @@ msg_composer_paste_clipboard_cb (EContentEditor *cnt_editor,
 	return TRUE;
 }
 
-static gchar *
-next_uri (guchar **uri_list,
-          gint *len,
-          gint *list_len)
-{
-	guchar *uri, *begin;
-
-	begin = *uri_list;
-	*len = 0;
-	while (**uri_list && **uri_list != '\n' && **uri_list != '\r' && *list_len) {
-		(*uri_list) ++;
-		(*len) ++;
-		(*list_len) --;
-	}
-
-	uri = (guchar *) g_strndup ((gchar *) begin, *len);
-
-	while ((!**uri_list || **uri_list == '\n' || **uri_list == '\r') && *list_len) {
-		(*uri_list) ++;
-		(*list_len) --;
-	}
-
-	return (gchar *) uri;
-}
-
 static void
 msg_composer_drag_data_received_cb (GtkWidget *widget,
                                     GdkDragContext *context,
@@ -1846,7 +1821,7 @@ msg_composer_drag_data_received_cb (GtkWidget *widget,
 
 		list_len = length;
 		do {
-			uri = next_uri ((guchar **) &data, &len, &list_len);
+			uri = e_util_next_uri_from_uri_list ((guchar **) &data, &len, &list_len);
 			e_content_editor_insert_image (cnt_editor, uri);
 			g_free (uri);
 		} while (list_len);

@@ -3908,3 +3908,38 @@ e_util_get_webkit_developer_mode_enabled (void)
 
 	return enabled != 0;
 }
+
+/**
+ * e_util_next_uri_from_uri_list:
+ * @uri_list: array of URIs separated by new lines
+ * @len: (out): a length of the found URI
+ * @list_len: (out): a length of the array
+ *
+ * Returns: A newly allocated string with found URI.
+ *
+ * Since: 3.26
+ **/
+gchar *
+e_util_next_uri_from_uri_list (guchar **uri_list,
+                               gint *len,
+                               gint *list_len)
+{
+	guchar *uri, *begin;
+
+	begin = *uri_list;
+	*len = 0;
+	while (**uri_list && **uri_list != '\n' && **uri_list != '\r' && *list_len) {
+		(*uri_list) ++;
+		(*len) ++;
+		(*list_len) --;
+	}
+
+	uri = (guchar *) g_strndup ((gchar *) begin, *len);
+
+	while ((!**uri_list || **uri_list == '\n' || **uri_list == '\r') && *list_len) {
+		(*uri_list) ++;
+		(*list_len) --;
+	}
+
+	return (gchar *) uri;
+}

@@ -1762,7 +1762,6 @@ mail_display_uri_requested_cb (EWebView *web_view,
 	}
 }
 
-#if 0 /* FIXME WK2 */
 static CamelMimePart *
 camel_mime_part_from_cid (EMailDisplay *display,
                           const gchar *uri)
@@ -1870,7 +1869,6 @@ mail_display_drag_data_get (GtkWidget *widget,
  out:
 	g_free (uri);
 }
-#endif
 
 static void
 e_mail_display_test_change_and_update_fonts_cb (EMailDisplay *mail_display,
@@ -1929,9 +1927,7 @@ e_mail_display_class_init (EMailDisplayClass *class)
 	widget_class->button_press_event = mail_display_button_press_event;
 
 	web_view_class = E_WEB_VIEW_CLASS (class);
-#if 0 /* FIXME WK2 */
 	web_view_class->suggest_filename = mail_display_suggest_filename;
-#endif
 	web_view_class->set_fonts = mail_display_set_fonts;
 
 	g_object_class_install_property (
@@ -2064,11 +2060,11 @@ e_mail_display_init (EMailDisplay *display)
 	g_signal_connect (
 		display, "process-mailto",
 		G_CALLBACK (mail_display_process_mailto), NULL);
-#if 0 /* FIXME WK2 */
+
 	g_signal_connect_after (
 		display, "drag-data-get",
 		G_CALLBACK (mail_display_drag_data_get), display);
-#endif
+
 	display->priv->settings = e_util_ref_settings ("org.gnome.evolution.mail");
 	g_signal_connect_swapped (
 		display->priv->settings , "changed::monospace-font",
