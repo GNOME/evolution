@@ -5361,8 +5361,6 @@ e_msg_composer_restore_focus_on_composer (EMsgComposer *composer)
 
 	if (E_IS_CONTENT_EDITOR (widget)) {
 		EContentEditor *cnt_editor = E_CONTENT_EDITOR (widget);
-		/* FIXME WK2
-		e_html_editor_view_force_spell_check (view);*/
 		e_content_editor_selection_restore (cnt_editor);
 	}
 

@@ -2340,11 +2340,7 @@ e_web_view_init (EWebView *web_view)
 	g_signal_connect (
 		web_view, "load-changed",
 		G_CALLBACK (web_view_load_changed_cb), NULL);
-/* FIXME WK2
-	g_signal_connect (
-		web_view, "document-load-finished",
-		G_CALLBACK (style_updated_cb), NULL);
-*/
+
 	g_signal_connect (
 		web_view, "style-updated",
 		G_CALLBACK (style_updated_cb), NULL);
