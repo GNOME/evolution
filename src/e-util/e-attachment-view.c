@@ -37,6 +37,7 @@ enum {
 
 /* Note: Do not use the info field. */
 static GtkTargetEntry target_table[] = {
+	{ (gchar *) "text/uri-list", 0, 0 },
 	{ (gchar *) "_NETSCAPE_URL", 0, 0 }
 };
 
@@ -426,6 +427,125 @@ attachment_view_netscape_url (EAttachmentView *view,
 }
 
 static void
+attachment_view_uri_list (EAttachmentView *view,
+                          GdkDragContext *drag_context,
+                          gint x,
+                          gint y,
+                          GtkSelectionData *selection_data,
+                          guint info,
+                          guint time)
+{
+	static GdkAtom atom = GDK_NONE;
+	EAttachmentStore *store;
+	EAttachment *attachment;
+	const gchar *data;
+	gpointer parent;
+	gint length = 0, list_length = 0, uri_length = 0;
+	gchar *uri;
+
+
+	if (G_UNLIKELY (atom == GDK_NONE))
+		atom = gdk_atom_intern_static_string ("text/uri-list");
+
+	if (gtk_selection_data_get_target (selection_data) != atom)
+		return;
+
+	g_signal_stop_emission_by_name (view, "drag-data-received");
+
+	data = (const gchar *) gtk_selection_data_get_data (selection_data);
+	length = gtk_selection_data_get_length (selection_data);
+
+	if (!data || length < 0) {
+		gtk_drag_finish (drag_context, FALSE, FALSE, time);
+		return;
+	}
+
+	store = e_attachment_view_get_store (view);
+
+	parent = gtk_widget_get_toplevel (GTK_WIDGET (view));
+	parent = gtk_widget_is_toplevel (parent) ? parent : NULL;
+
+	list_length = length;
+	do {
+		uri = e_util_next_uri_from_uri_list ((guchar **) &data, &uri_length, &list_length);
+
+		if (strstr (uri, ";base64,")) {
+			/* base64 encoded data */
+			CamelMimePart *mime_part;
+			gchar *mime_type = NULL, *filename = NULL;
+			guchar *base64_data;
+			gsize base64_data_length;
+
+			if (g_str_has_prefix (uri, "data:")) {
+				const gchar *base64 = strstr (uri, ";") + 1;
+				/* strlen ("data:") == 5 */
+				mime_type = g_strndup (uri + 5, base64 - uri - 5 - 1);
+
+				base64 = strstr (base64, ",") + 1;
+				base64_data = g_base64_decode (base64, &base64_data_length);
+			} else if (strstr (uri, ";data")) {
+				/* CID attachment from mail preview that has
+				 * the filename prefixed before the base64 data -
+				 * see EMailDisplay. */
+				const gchar *base64 = strstr (uri, ";") + 1;
+				glong filename_length, mime_type_length, base64_length;
+
+				base64_length = g_utf8_strlen (base64, -1);
+
+				filename_length = uri_length - base64_length - 1;
+				filename = g_strndup (uri, filename_length);
+
+				/* strlen ("data:") == 5 */
+				mime_type_length = base64_length - g_utf8_strlen (strstr (base64, ";"), -1) - 5;
+				mime_type = g_strndup (uri + filename_length + 5 + 1, mime_type_length);
+
+				base64 = strstr (base64, ",") + 1;
+				base64_data = g_base64_decode (base64, &base64_data_length);
+			} else {
+				g_free (uri);
+				gtk_drag_finish (drag_context, FALSE, FALSE, time);
+				return;
+			}
+
+			mime_part = camel_mime_part_new ();
+
+			camel_mime_part_set_content (mime_part, (const gchar *) base64_data, base64_data_length, mime_type);
+			camel_mime_part_set_disposition (mime_part, "inline");
+			if (filename && *filename)
+				camel_mime_part_set_filename (mime_part, filename);
+			camel_mime_part_set_encoding (mime_part, CAMEL_TRANSFER_ENCODING_BASE64);
+
+			attachment = e_attachment_new ();
+			e_attachment_set_mime_part (attachment, mime_part);
+			e_attachment_store_add_attachment (store, attachment);
+			e_attachment_load_async (
+				attachment, (GAsyncReadyCallback)
+				call_attachment_load_handle_error, parent ? g_object_ref (parent) : NULL);
+
+			g_object_unref (attachment);
+			g_object_unref (mime_part);
+			if (mime_type)
+				g_free (mime_type);
+			if (filename)
+				g_free (filename);
+			g_free (base64_data);
+		} else {
+			/* regular URIs */
+			attachment = e_attachment_new_for_uri (uri);
+			e_attachment_store_add_attachment (store, attachment);
+			e_attachment_load_async (
+				attachment, (GAsyncReadyCallback)
+				call_attachment_load_handle_error, parent ? g_object_ref (parent) : NULL);
+			g_object_unref (attachment);
+		}
+
+		g_free (uri);
+	} while (list_length);
+
+	gtk_drag_finish (drag_context, TRUE, FALSE, time);
+}
+
+static void
 attachment_view_text_calendar (EAttachmentView *view,
                                GdkDragContext *drag_context,
                                gint x,
@@ -804,6 +924,10 @@ e_attachment_view_init (EAttachmentView *view)
 	g_signal_connect (
 		view, "drag-data-received",
 		G_CALLBACK (attachment_view_text_calendar), NULL);
+
+	g_signal_connect (
+		view, "drag-data-received",
+		G_CALLBACK (attachment_view_uri_list), NULL);
 
 	g_signal_connect (
 		view, "drag-data-received",

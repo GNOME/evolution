@@ -5820,31 +5820,6 @@ webkit_editor_drag_end_cb (EWebKitEditor *wk_editor,
 	wk_editor->priv->performing_drag = FALSE;
 }
 
-static gchar *
-next_uri (guchar **uri_list,
-          gint *len,
-          gint *list_len)
-{
-	guchar *uri, *begin;
-
-	begin = *uri_list;
-	*len = 0;
-	while (**uri_list && **uri_list != '\n' && **uri_list != '\r' && *list_len) {
-		(*uri_list) ++;
-		(*len) ++;
-		(*list_len) --;
-	}
-
-	uri = (guchar *) g_strndup ((gchar *) begin, *len);
-
-	while ((!**uri_list || **uri_list == '\n' || **uri_list == '\r') && *list_len) {
-		(*uri_list) ++;
-		(*list_len) --;
-	}
-
-	return (gchar *) uri;
-}
-
 static void
 webkit_editor_drag_data_received_cb (GtkWidget *widget,
                                      GdkDragContext *context,
@@ -5894,7 +5869,7 @@ webkit_editor_drag_data_received_cb (GtkWidget *widget,
 
 		list_len = length;
 		do {
-			text = next_uri ((guchar **) &data, &len, &list_len);
+			text = e_util_next_uri_from_uri_list ((guchar **) &data, &len, &list_len);
 			webkit_editor_insert_content (
 				E_CONTENT_EDITOR (wk_editor),
 				text,
