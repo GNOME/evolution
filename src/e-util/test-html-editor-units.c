@@ -976,6 +976,8 @@ test_image_insert (TestFixture *fixture)
 	/* Mimic what the action:insert-image does, without invoking the image chooser dialog */
 	cnt_editor = e_html_editor_get_content_editor (fixture->editor);
 	e_content_editor_insert_image (cnt_editor, uri);
+	/* Wait some time until the operation is finished */
+	test_utils_wait_milliseconds (500);
 
 	g_free (uri);
 
@@ -989,6 +991,10 @@ test_image_insert (TestFixture *fixture)
 	g_free (image_data);
 
 	if (!test_utils_run_simple_test (fixture,
+		"undo:save\n" /* 1 */
+		"undo:undo\n"
+		"undo:redo\n"
+		"undo:test:1\n"
 		"type:+after\n",
 		expected_html,
 		"before*+after"))

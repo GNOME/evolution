@@ -1589,10 +1589,19 @@ undo_redo_image (EEditorPage *editor_page,
 
 		node = webkit_dom_node_get_next_sibling  (WEBKIT_DOM_NODE (element));
 
-		if (WEBKIT_DOM_IS_ELEMENT (node))
+		if (WEBKIT_DOM_IS_ELEMENT (node)) {
 			if (element_has_class (WEBKIT_DOM_ELEMENT (node), "-x-evo-resizable-wrapper") ||
 			    element_has_class (WEBKIT_DOM_ELEMENT (node), "-x-evo-smiley-wrapper"))
 				remove_node (node);
+			else if (WEBKIT_DOM_IS_HTML_IMAGE_ELEMENT (node)) {
+				WebKitDOMNode *parent;
+
+				parent = webkit_dom_node_get_parent_node (node);
+				if (element_has_class (WEBKIT_DOM_ELEMENT (parent), "-x-evo-resizable-wrapper") ||
+				    element_has_class (WEBKIT_DOM_ELEMENT (parent), "-x-evo-smiley-wrapper"))
+					remove_node (parent);
+			}
+		}
 		e_editor_dom_selection_restore (editor_page);
 	} else {
 		WebKitDOMElement *element;
