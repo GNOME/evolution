@@ -2546,6 +2546,14 @@ webkit_editor_replace (EContentEditor *editor,
 		wk_editor->priv->cancellable);
 }
 
+static gboolean
+search_next_on_idle (EWebKitEditor *wk_editor)
+{
+	webkit_find_controller_search_next (wk_editor->priv->find_controller);
+
+	return G_SOURCE_REMOVE;
+}
+
 static void
 webkit_find_controller_found_text_cb (WebKitFindController *find_controller,
                                       guint match_count,
@@ -2560,9 +2568,13 @@ webkit_find_controller_found_text_cb (WebKitFindController *find_controller,
 		/* Repeatedly search for 'word', then replace selection by
 		 * 'replacement'. Repeat until there's at least one occurrence of
 		 * 'word' in the document */
-		webkit_editor_replace (E_CONTENT_EDITOR (wk_editor), wk_editor->priv->replace_with);
+		e_util_invoke_g_dbus_proxy_call_with_error_check (
+			wk_editor->priv->web_extension,
+			"DOMSelectionReplace",
+			g_variant_new ("(ts)", current_page_id (wk_editor), wk_editor->priv->replace_with),
+			wk_editor->priv->cancellable);
 
-		webkit_find_controller_search_next (find_controller);
+		g_idle_add ((GSourceFunc) search_next_on_idle, wk_editor);
 	} else {
 		e_content_editor_emit_find_done (E_CONTENT_EDITOR (wk_editor), match_count);
 	}
