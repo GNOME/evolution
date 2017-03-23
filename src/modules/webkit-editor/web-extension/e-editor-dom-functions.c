@@ -3406,6 +3406,7 @@ e_editor_dom_body_input_event_process (EEditorPage *editor_page,
 		}
 
 		if (WEBKIT_DOM_IS_TEXT (node)) {
+			WebKitDOMElement *parent;
 			gchar *text;
 
 			text = webkit_dom_node_get_text_content (node);
@@ -3427,6 +3428,43 @@ e_editor_dom_body_input_event_process (EEditorPage *editor_page,
 						e_editor_dom_check_magic_links (editor_page, FALSE);
 				}
 			}
+
+			parent = webkit_dom_node_get_parent_element (node);
+			if (element_has_class (parent, "-x-evo-resizable-wrapper") ||
+			    element_has_class (parent, "-x-evo-smiley-wrapper")) {
+				WebKitDOMDOMWindow *dom_window = NULL;
+				WebKitDOMDOMSelection *dom_selection = NULL;
+				WebKitDOMNode *prev_sibling;
+				gboolean writing_before = TRUE;
+
+				dom_window = webkit_dom_document_get_default_view (document);
+				dom_selection = webkit_dom_dom_window_get_selection (dom_window);
+
+				prev_sibling = webkit_dom_node_get_previous_sibling (node);
+				if (prev_sibling && WEBKIT_DOM_IS_HTML_IMAGE_ELEMENT (prev_sibling))
+					writing_before = FALSE;
+
+				webkit_dom_node_insert_before (
+					webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (parent)),
+					node,
+					writing_before ?
+						WEBKIT_DOM_NODE (parent) :
+						webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (parent)),
+					NULL);
+
+				g_clear_object (&range);
+
+				range = webkit_dom_document_create_range (document);
+				webkit_dom_range_select_node_contents (range, node, NULL);
+				webkit_dom_range_collapse (range, FALSE, NULL);
+
+				webkit_dom_dom_selection_remove_all_ranges (dom_selection);
+				webkit_dom_dom_selection_add_range (dom_selection, range);
+
+				g_clear_object (&dom_window);
+				g_clear_object (&dom_selection);
+			}
+
 			g_free (text);
 		}
 	}
