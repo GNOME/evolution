@@ -8637,10 +8637,24 @@ e_editor_dom_process_content_after_load (EEditorPage *editor_page)
 
 	if (e_editor_page_get_convert_in_situ (editor_page)) {
 		e_editor_dom_convert_content (editor_page, NULL);
+		/* The BODY could be replaced during the conversion */
+		body = webkit_dom_document_get_body (document);
 		/* Make the quote marks non-selectable. */
 		e_editor_dom_disable_quote_marks_select (editor_page);
 		dom_set_links_active (document, FALSE);
 		e_editor_page_set_convert_in_situ (editor_page, FALSE);
+
+		/* The composer body could be empty in some case (loading an empty string
+		 * or empty HTML). In that case create the initial paragraph. */
+		if (!webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (body))) {
+			WebKitDOMElement *paragraph;
+
+			paragraph = e_editor_dom_prepare_paragraph (editor_page, TRUE);
+			webkit_dom_element_set_id (paragraph, "-x-evo-input-start");
+			webkit_dom_node_append_child (
+				WEBKIT_DOM_NODE (body), WEBKIT_DOM_NODE (paragraph), NULL);
+			e_editor_dom_selection_restore (editor_page);
+		}
 
 		goto out;
 	}
