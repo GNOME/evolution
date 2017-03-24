@@ -5803,7 +5803,7 @@ body_drop_event_cb (WebKitDOMElement *element,
 
 	if (e_editor_page_is_pasting_content_from_itself (editor_page)) {
 		EEditorUndoRedoManager *manager;
-		EEditorHistoryEvent *and_event, *event;
+		EEditorHistoryEvent *and_event, *event = NULL;
 
 		/* There is a weird thing going on and I still don't know if it's
 		 * caused by WebKit or Evolution. If dragging content around the
