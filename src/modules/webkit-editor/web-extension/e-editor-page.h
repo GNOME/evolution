@@ -112,6 +112,11 @@ void		e_editor_page_set_alignment	(EEditorPage *editor_page,
 						 EContentEditorAlignment value);
 gint		e_editor_page_get_word_wrap_length
 						(EEditorPage *editor_page);
+gboolean	e_editor_page_is_processing_keypress_event
+						(EEditorPage *editor_page);
+void		e_editor_page_set_is_processing_keypress_event
+						(EEditorPage *editor_page,
+						 gboolean processing_keypress_event);
 gboolean	e_editor_page_get_return_key_pressed
 						(EEditorPage *editor_page);
 void		e_editor_page_set_return_key_pressed
