@@ -22,6 +22,7 @@
 
 #include "e-util/e-util.h"
 #include "composer/e-msg-composer.h"
+#include "mail/e-http-request.h"
 
 #include <string.h>
 
@@ -4989,9 +4990,58 @@ webkit_editor_get_web_extension (EWebKitEditor *wk_editor)
 }
 
 static void
+webkit_editor_uri_request_done_cb (GObject *source_object,
+				   GAsyncResult *result,
+				   gpointer user_data)
+{
+	WebKitURISchemeRequest *request = user_data;
+	GInputStream *stream = NULL;
+	gint64 stream_length = -1;
+	gchar *mime_type = NULL;
+	GError *error = NULL;
+
+	g_return_if_fail (E_IS_CONTENT_REQUEST (source_object));
+	g_return_if_fail (WEBKIT_IS_URI_SCHEME_REQUEST (request));
+
+	if (!e_content_request_process_finish (E_CONTENT_REQUEST (source_object),
+		result, &stream, &stream_length, &mime_type, &error)) {
+		webkit_uri_scheme_request_finish_error (request, error);
+		g_clear_error (&error);
+	} else {
+		webkit_uri_scheme_request_finish (request, stream, stream_length, mime_type);
+
+		g_clear_object (&stream);
+		g_free (mime_type);
+	}
+
+	g_object_unref (request);
+}
+
+static void
+webkit_editor_process_uri_request_cb (WebKitURISchemeRequest *request,
+				      gpointer user_data)
+{
+	EContentRequest *content_request = user_data;
+	const gchar *uri;
+	GObject *requester;
+
+	g_return_if_fail (WEBKIT_IS_URI_SCHEME_REQUEST (request));
+	g_return_if_fail (E_IS_CONTENT_REQUEST (content_request));
+
+	uri = webkit_uri_scheme_request_get_uri (request);
+	requester = G_OBJECT (webkit_uri_scheme_request_get_web_view (request));
+
+	g_return_if_fail (e_content_request_can_process_uri (content_request, uri));
+
+	e_content_request_process (content_request, uri, requester, NULL,
+		webkit_editor_uri_request_done_cb, g_object_ref (request));
+}
+
+static void
 webkit_editor_constructed (GObject *object)
 {
 	EWebKitEditor *wk_editor;
+	EContentRequest *content_request;
 	gchar **languages;
 	WebKitWebContext *web_context;
 	WebKitSettings *web_settings;
@@ -5011,6 +5061,13 @@ webkit_editor_constructed (GObject *object)
 	webkit_web_context_set_spell_checking_enabled (web_context, TRUE);
 	webkit_web_context_set_spell_checking_languages (web_context, (const gchar * const *) languages);
 	g_strfreev (languages);
+
+	content_request = e_http_request_new ();
+	webkit_web_context_register_uri_scheme (web_context, "evo-http", webkit_editor_process_uri_request_cb,
+		g_object_ref (content_request), g_object_unref);
+	webkit_web_context_register_uri_scheme (web_context, "evo-https", webkit_editor_process_uri_request_cb,
+		g_object_ref (content_request), g_object_unref);
+	g_object_unref (content_request);
 
 	webkit_web_view_set_editable (web_view, TRUE);
 

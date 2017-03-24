@@ -1739,6 +1739,10 @@ mail_display_uri_requested_cb (EWebView *web_view,
 		enc = soup_uri_encode (mail_uri, NULL);
 		g_hash_table_insert (query, g_strdup ("__evo-mail"), enc);
 
+		/* Required, because soup_uri_set_query_from_form() can change
+		   order of arguments, then the URL checksum doesn't match. */
+		g_hash_table_insert (query, g_strdup ("__evo-original-uri"), g_strdup (uri));
+
 		if (display->priv->force_image_load || can_download_uri) {
 			g_hash_table_insert (
 				query,

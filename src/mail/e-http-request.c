@@ -184,7 +184,7 @@ e_http_request_process_sync (EContentRequest *request,
 			     GError **error)
 {
 	SoupURI *soup_uri;
-	gchar *evo_uri, *use_uri;
+	gchar *evo_uri = NULL, *use_uri;
 	gchar *mail_uri = NULL;
 	GInputStream *stream;
 	gboolean force_load_images = FALSE;
@@ -219,6 +219,14 @@ e_http_request_process_sync (EContentRequest *request,
 
 		g_hash_table_remove (query, "__evo-mail");
 
+		/* Required, because soup_uri_set_query_from_form() can change
+		   order of arguments, then the URL checksum doesn't match. */
+		evo_uri = g_hash_table_lookup (query, "__evo-original-uri");
+		if (evo_uri)
+			evo_uri = g_strdup (evo_uri);
+
+		g_hash_table_remove (query, "__evo-original-uri");
+
 		/* Remove __evo-load-images if present (and in such case set
 		 * force_load_images to TRUE) */
 		force_load_images = g_hash_table_remove (query, "__evo-load-images");
@@ -227,7 +235,8 @@ e_http_request_process_sync (EContentRequest *request,
 		g_hash_table_unref (query);
 	}
 
-	evo_uri = soup_uri_to_string (soup_uri, FALSE);
+	if (!evo_uri)
+		evo_uri = soup_uri_to_string (soup_uri, FALSE);
 
 	if (camel_debug_start ("emformat:requests")) {
 		printf (

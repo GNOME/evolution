@@ -1,4 +1,5 @@
 set(extra_deps
+	evolution-mail
 	evolution-mail-composer
 )
 set(sources
