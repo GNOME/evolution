@@ -2234,7 +2234,7 @@ handle_method_call (GDBusConnection *connection,
 	return;
 
  error:
-	g_warning ("Cannot obtain WebKitWebPage for '%ld'", page_id);
+	g_warning ("Cannot obtain WebKitWebPage for %" G_GUINT64_FORMAT, page_id);
 }
 
 static void

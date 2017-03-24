@@ -5998,7 +5998,7 @@ webkit_editor_web_process_crashed_cb (EWebKitEditor *wk_editor)
 	/* No suitable EAlertSink found as the parent widget */
 	if (!widget) {
 		g_warning (
-			"WebKitWebProcess (page id %ld) for EWebKitEditor crashed",
+			"WebKitWebProcess (page id %" G_GUINT64_FORMAT ") for EWebKitEditor crashed",
 			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (wk_editor)));
 	}
 }
