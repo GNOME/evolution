@@ -2832,6 +2832,8 @@ body_keypress_event_cb (WebKitDOMElement *element,
 
 	g_return_if_fail (E_IS_EDITOR_PAGE (editor_page));
 
+	e_editor_page_set_is_processing_keypress_event (editor_page, TRUE);
+
 	document = webkit_dom_node_get_owner_document (WEBKIT_DOM_NODE (element));
 	dom_window = webkit_dom_document_get_default_view (document);
 	dom_selection = webkit_dom_dom_window_get_selection (dom_window);
@@ -3581,7 +3583,13 @@ body_input_event_cb (WebKitDOMElement *element,
 {
 	g_return_if_fail (E_IS_EDITOR_PAGE (editor_page));
 
-	e_editor_dom_body_input_event_process (editor_page, event);
+	/* Only process the input event if it was triggered by the key press
+	 * and not i.e. by exexCommand. This behavior changed when the support
+	 * for beforeinput event was introduced in WebKit. */
+	if (e_editor_page_is_processing_keypress_event (editor_page))
+		e_editor_dom_body_input_event_process (editor_page, event);
+
+	e_editor_page_set_is_processing_keypress_event (editor_page, FALSE);
 }
 
 void

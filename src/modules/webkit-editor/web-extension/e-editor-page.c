@@ -62,6 +62,7 @@ struct _EEditorPagePrivate {
 	gboolean pasting_content_from_itself;
 	gboolean renew_history_after_coordinates;
 	gboolean allow_top_signature;
+	gboolean processing_keypress_event;
 
 	GHashTable *inline_images;
 
@@ -244,6 +245,7 @@ e_editor_page_init (EEditorPage *editor_page)
 	editor_page->priv->block_format = E_CONTENT_EDITOR_BLOCK_FORMAT_PARAGRAPH;
 	editor_page->priv->force_image_load = FALSE;
 	editor_page->priv->html_mode = TRUE;
+	editor_page->priv->processing_keypress_event = FALSE;
 	editor_page->priv->return_key_pressed = FALSE;
 	editor_page->priv->space_key_pressed = FALSE;
 	editor_page->priv->smiley_written = FALSE;
@@ -554,6 +556,23 @@ e_editor_page_set_alignment (EEditorPage *editor_page,
 	g_return_if_fail (E_IS_EDITOR_PAGE (editor_page));
 
 	editor_page->priv->alignment = value;
+}
+
+gboolean
+e_editor_page_is_processing_keypress_event (EEditorPage *editor_page)
+{
+	g_return_val_if_fail (E_IS_EDITOR_PAGE (editor_page), FALSE);
+
+	return editor_page->priv->processing_keypress_event;
+}
+
+void
+e_editor_page_set_is_processing_keypress_event (EEditorPage *editor_page,
+                                                gboolean processing_keypress_event)
+{
+	g_return_if_fail (E_IS_EDITOR_PAGE (editor_page));
+
+	editor_page->priv->processing_keypress_event = processing_keypress_event;
 }
 
 gboolean
