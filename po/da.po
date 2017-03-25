@@ -77,7 +77,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2017-02-28 17:53+0000\n"
-"PO-Revision-Date: 2017-03-06 19:18+0100\n"
+"PO-Revision-Date: 2017-03-25 17:25+0100\n"
 "Last-Translator: Alan Mortensen <alanmortensen.am@gmail.com>\n"
 "Language-Team: Danish <dansk@dansk-gruppen.dk>\n"
 "Language: da\n"
@@ -5927,7 +5927,7 @@ msgstr "Kunne ikke opdatere memolisten \"{0}\""
 
 #: ../src/calendar/calendar.error.xml.h:172
 msgid "Failed to make an occurrence movable"
-msgstr "Kunne ikke gøre en hændelse _flytbar"
+msgstr "Kunne ikke gøre en hændelse flytbar"
 
 #: ../src/calendar/calendar.error.xml.h:173
 msgid "Something has gone wrong when displaying the event"
@@ -7850,7 +7850,7 @@ msgstr "Brugertilpasset _brev"
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:2077
 msgctxt "cal-reminders"
 msgid "Custom reminder _sound"
-msgstr "Brugertilpasset påmindelseslyd"
+msgstr "Brugertilpasset påmindelses_lyd"
 
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:2088
 msgid "Select a sound file"
@@ -13072,7 +13072,7 @@ msgstr "Vandret _linje …"
 #. Translators: 'Rule' here means a horizontal line in an HTML text
 #: ../src/e-util/e-html-editor-actions.c:1214
 msgid "Insert Rule"
-msgstr "_Indsæt vandret linje"
+msgstr "Indsæt vandret linje"
 
 #: ../src/e-util/e-html-editor-actions.c:1219
 #: ../src/e-util/e-html-editor-actions.c:1262
@@ -16012,7 +16012,7 @@ msgstr "_Stol altid på nøgler i min nøglering ved kryptering"
 
 #: ../src/mail/e-mail-config-security-page.c:482
 msgid "Prefer _inline sign/encrypt for plain text messages"
-msgstr "Foretræk integreret underskrift/kryptering for klartekstbreve"
+msgstr "Foretræk _integreret underskrift/kryptering for klartekstbreve"
 
 #: ../src/mail/e-mail-config-security-page.c:506
 msgid "Secure MIME (S/MIME)"
