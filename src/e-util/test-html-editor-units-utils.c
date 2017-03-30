@@ -1072,3 +1072,23 @@ test_utils_get_content_editor (TestFixture *fixture)
 	cnt_editor = e_html_editor_get_content_editor (fixture->editor);
 	return cnt_editor;
 }
+
+gchar *
+test_utils_get_base64_data_for_image (const gchar *path)
+{
+	gchar *image_data;
+	gchar *image_data_base64;
+	gsize image_data_length;
+	gboolean success;
+	GError *error = NULL;
+
+	success = g_file_get_contents (path, &image_data, &image_data_length, &error);
+	g_assert_no_error (error);
+	g_assert (success);
+
+	image_data_base64 = g_base64_encode ((const guchar *) image_data, image_data_length);
+
+	g_free (image_data);
+
+	return image_data_base64;
+}
