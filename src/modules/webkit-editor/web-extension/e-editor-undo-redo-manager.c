@@ -147,7 +147,7 @@ print_history_event (EEditorHistoryEvent *event)
 			if (g_object_get_data (G_OBJECT (event->data.fragment), "history-control-key"))
 				printf ("          control\n");
 		case HISTORY_INPUT:
-			if (g_object_get_data (G_OBJECT (event->data.fragment), "history-return-key"))
+			if (event->data.fragment && g_object_get_data (G_OBJECT (event->data.fragment), "history-return-key"))
 				printf ("    type: return\n");
 		case HISTORY_REMOVE_LINK:
 		case HISTORY_SMILEY:
