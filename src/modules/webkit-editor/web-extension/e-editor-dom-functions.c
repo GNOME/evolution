@@ -3584,7 +3584,7 @@ body_input_event_cb (WebKitDOMElement *element,
 	g_return_if_fail (E_IS_EDITOR_PAGE (editor_page));
 
 	/* Only process the input event if it was triggered by the key press
-	 * and not i.e. by exexCommand. This behavior changed when the support
+	 * and not i.e. by execCommand. This behavior changed when the support
 	 * for beforeinput event was introduced in WebKit. */
 	if (e_editor_page_is_processing_keypress_event (editor_page))
 		e_editor_dom_body_input_event_process (editor_page, event);
@@ -3654,7 +3654,7 @@ remove_empty_blocks (WebKitDOMDocument *document)
 
 /* Following two functions are used when deleting the selection inside
  * the quoted content. The thing is that normally the quote marks are not
- * selectable by user. But this caused a lof of problems for WebKit when removing
+ * selectable by user. But this caused a lot of problems for WebKit when removing
  * the selection. This will avoid it as when the delete or backspace key is pressed
  * we will make the quote marks user selectable so they will act as any other text.
  * On HTML keyup event callback we will make them again non-selectable. */
@@ -9358,7 +9358,6 @@ save_history_for_delete_or_backspace (EEditorPage *editor_page,
 					webkit_dom_node_get_parent_node (container));
 			}
 		}
-
 
 		if (!fragment)
 			fragment = webkit_dom_range_clone_contents (range_clone, NULL);

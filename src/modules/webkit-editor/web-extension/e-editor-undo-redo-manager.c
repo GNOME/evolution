@@ -396,7 +396,7 @@ undo_delete (EEditorPage *editor_page,
 							next_block,
 							NULL);
 					}
-				else {
+				} else {
 					if (e_editor_dom_get_citation_level (block, FALSE) > 0) {
 						WebKitDOMNode *next_node;
 
