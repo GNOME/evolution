@@ -949,11 +949,8 @@ test_image_insert (TestFixture *fixture)
 	EContentEditor *cnt_editor;
 	gchar *expected_html;
 	gchar *filename;
-	gchar *uri;
-	gchar *image_data;
 	gchar *image_data_base64;
-	gsize image_data_length;
-	gboolean success;
+	gchar *uri;
 	GError *error = NULL;
 
 	if (!test_utils_process_commands (fixture,
@@ -967,28 +964,23 @@ test_image_insert (TestFixture *fixture)
 	uri = g_filename_to_uri (filename, NULL, &error);
 	g_assert_no_error (error);
 
-	success = g_file_get_contents (filename, &image_data, &image_data_length, &error);
-	g_assert_no_error (error);
-	g_assert (success);
-
-	g_free (filename);
-
 	/* Mimic what the action:insert-image does, without invoking the image chooser dialog */
 	cnt_editor = e_html_editor_get_content_editor (fixture->editor);
 	e_content_editor_insert_image (cnt_editor, uri);
 	/* Wait some time until the operation is finished */
 	test_utils_wait_milliseconds (500);
 
-	g_free (uri);
+	image_data_base64 = test_utils_get_base64_data_for_image (filename);
 
-	image_data_base64 = g_base64_encode ((const guchar *) image_data, image_data_length);
+	g_free (uri);
+	g_free (filename);
+
 	g_return_if_fail (image_data_base64 != NULL);
 
 	expected_html = g_strconcat (HTML_PREFIX "<div>before*<img src=\"data:image/png;base64,",
 		image_data_base64, "\">+after</div>" HTML_SUFFIX, NULL);
 
 	g_free (image_data_base64);
-	g_free (image_data);
 
 	if (!test_utils_run_simple_test (fixture,
 		"undo:save\n" /* 1 */
@@ -1006,77 +998,53 @@ test_image_insert (TestFixture *fixture)
 static void
 test_emoticon_insert_typed (TestFixture *fixture)
 {
+	gchar *image_data_base64;
+	gchar *expected_html;
+
 	test_utils_fixture_change_setting_boolean (fixture, "org.gnome.evolution.mail", "composer-magic-smileys", TRUE);
 	test_utils_fixture_change_setting_boolean (fixture, "org.gnome.evolution.mail", "composer-unicode-smileys", FALSE);
+
+	image_data_base64 = test_utils_get_base64_data_for_image ("/usr/share/icons/Adwaita/16x16/emotes/face-smile.png");
+
+	expected_html = g_strconcat (HTML_PREFIX "<div>before <img src=\"data:image/png;base64,",
+		image_data_base64, "\" alt=\":-)\">after</div>" HTML_SUFFIX, NULL);
+
+	g_free (image_data_base64);
 
 	if (!test_utils_run_simple_test (fixture,
 		"mode:html\n"
 		"type:before :)after\n",
-		HTML_PREFIX "<div>before <img src=\"data:image/png;base64,"
-		"iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABHNCSVQICAgIfA"
-		"hkiAAAAAlwSFlzAAAN1wAADdcBQiibeAAAABl0RVh0U29mdHdhcmUAd3d3Lmlu"
-		"a3NjYXBlLm9yZ5vuPBoAAAAXdEVYdEF1dGhvcgBMYXBvIENhbGFtYW5kcmVp35"
-		"EaKgAAACl0RVh0RGVzY3JpcHRpb24AQmFzZWQgb2YgSmFrdWIgU3RlaW5lciBk"
-		"ZXNpZ26ghAVzAAADRklEQVQ4jWWTXWiVdQCHn//7ec4+zmrbcZ+usT4wy23ilj"
-		"K3cmIRIl10GYGgVCMovOjjMsSrwGEFSXohMchCKBBUWEFqrQ10yTbHNh2bp03n"
-		"vrdztvN+/t/330U3C3/XD8/FDx6hlGLrLnzeXq0L/R1bVwfQxB4AYvW3H4kbkY"
-		"ouHvuyb24rL7YKej7rOJYsKv7m5Vf22eW1VUZheRqUIr+8yNLsYzk00O/nNzc/"
-		"fu9M/4UnBD982nat9oXdnS0HX08I/w7CWgRLAgp8E8JKIrOJvt6rXmZ8+HrXt7"
-		"cPA2gA33/S3lXz3K7O1vb9iWj6PFd+vcaVgQxaugyRLoMSxenvfuTu72d47eCh"
-		"RE3Diwe632/pAtDOn+io061k9562NxLe3XPE0QK3J/LcHllH2UmwCxAFRfw1km"
-		"Po3gze6FlePXQkqZt298mjLXVaKMPjzc177XjmOnHuAQJI2BoJWwcVI5QCFZOw"
-		"DCxLIHMZePgH+/d12FEkjxuRDDrLKrbrwUQvQsTg+xxpT6OltyG83H9PbWZ596"
-		"16GlPrCG+N4NEtKp49qkcy6DQCpTcWPVXB+uI0q2jUFHrsrHLRyx3ihVkEArWx"
-		"wZsvScIFH5mTLMxPUbwjRSC1RiOUwvCyC+ihz9OFNlf716mtlWyvd6moKsQ0BM"
-		"r1eTiT5d5Ejrl5l+ZSRaWlEUTKMFzXGc3cH9pba5RgyU0O7ypnaDnBz79lWd2Y"
-		"oyChIaRCKEFjXQmdO1OkYsnU2C183xs1vIib45P3W9OFBZrlriCyKzSlK9nd2A"
-		"ZFNfjuBpZdjB75+JkB5KNxfLue4fHx2JPcNGSkekamFj+qbtCTOyIF+KhonnC1"
-		"F19LEGOioggt2MCWEt2PeSBN+kcyfiC1Hn1gbHHpcs/X1j8rbmupuW6mlESPFF"
-		"ocEwcBkesifAc7DFFOQMaBS2Oak3Pj0z/dmL6kAVTkq09lA3Py8ly1M7hmMJ8L"
-		"8bMu5qZDgeti5F3WciF3VjUuTpY6yw6TS/rMqf+18EFLi5lPrZxUSp14piiXqE"
-		"n6ojLpA/DYsZh1bDWVLfIU4qtyb9sX5wYHwydqBHi7o6FJI/xQINqjWDwPoGtq"
-		"UqH6Ysyzv/w5PbyV/xd0ZaEGG/mx/wAAAABJRU5ErkJggg==\" alt=\":-)\">"
-		"after</div>" HTML_SUFFIX,
+		expected_html,
 		"before :-)after"))
 		g_test_fail ();
+
+	g_free (expected_html);
 }
 
 static void
 test_emoticon_insert_typed_dash (TestFixture *fixture)
 {
+	gchar *image_data_base64;
+	gchar *expected_html;
+
 	test_utils_fixture_change_setting_boolean (fixture, "org.gnome.evolution.mail", "composer-magic-smileys", TRUE);
 	test_utils_fixture_change_setting_boolean (fixture, "org.gnome.evolution.mail", "composer-unicode-smileys", FALSE);
+
+	image_data_base64 = test_utils_get_base64_data_for_image ("/usr/share/icons/Adwaita/16x16/emotes/face-smile.png");
+
+	expected_html = g_strconcat (HTML_PREFIX "<div>before <img src=\"data:image/png;base64,",
+		image_data_base64, "\" alt=\":-)\">after</div>" HTML_SUFFIX, NULL);
+
+	g_free (image_data_base64);
 
 	if (!test_utils_run_simple_test (fixture,
 		"mode:html\n"
 		"type:before :-)after\n",
-		HTML_PREFIX "<div>before <img src=\"data:image/png;base64,"
-		"iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABHNCSVQICAgIfA"
-		"hkiAAAAAlwSFlzAAAN1wAADdcBQiibeAAAABl0RVh0U29mdHdhcmUAd3d3Lmlu"
-		"a3NjYXBlLm9yZ5vuPBoAAAAXdEVYdEF1dGhvcgBMYXBvIENhbGFtYW5kcmVp35"
-		"EaKgAAACl0RVh0RGVzY3JpcHRpb24AQmFzZWQgb2YgSmFrdWIgU3RlaW5lciBk"
-		"ZXNpZ26ghAVzAAADRklEQVQ4jWWTXWiVdQCHn//7ec4+zmrbcZ+usT4wy23ilj"
-		"K3cmIRIl10GYGgVCMovOjjMsSrwGEFSXohMchCKBBUWEFqrQ10yTbHNh2bp03n"
-		"vrdztvN+/t/330U3C3/XD8/FDx6hlGLrLnzeXq0L/R1bVwfQxB4AYvW3H4kbkY"
-		"ouHvuyb24rL7YKej7rOJYsKv7m5Vf22eW1VUZheRqUIr+8yNLsYzk00O/nNzc/"
-		"fu9M/4UnBD982nat9oXdnS0HX08I/w7CWgRLAgp8E8JKIrOJvt6rXmZ8+HrXt7"
-		"cPA2gA33/S3lXz3K7O1vb9iWj6PFd+vcaVgQxaugyRLoMSxenvfuTu72d47eCh"
-		"RE3Diwe632/pAtDOn+io061k9562NxLe3XPE0QK3J/LcHllH2UmwCxAFRfw1km"
-		"Po3gze6FlePXQkqZt298mjLXVaKMPjzc177XjmOnHuAQJI2BoJWwcVI5QCFZOw"
-		"DCxLIHMZePgH+/d12FEkjxuRDDrLKrbrwUQvQsTg+xxpT6OltyG83H9PbWZ596"
-		"16GlPrCG+N4NEtKp49qkcy6DQCpTcWPVXB+uI0q2jUFHrsrHLRyx3ihVkEArWx"
-		"wZsvScIFH5mTLMxPUbwjRSC1RiOUwvCyC+ihz9OFNlf716mtlWyvd6moKsQ0BM"
-		"r1eTiT5d5Ejrl5l+ZSRaWlEUTKMFzXGc3cH9pba5RgyU0O7ypnaDnBz79lWd2Y"
-		"oyChIaRCKEFjXQmdO1OkYsnU2C183xs1vIib45P3W9OFBZrlriCyKzSlK9nd2A"
-		"ZFNfjuBpZdjB75+JkB5KNxfLue4fHx2JPcNGSkekamFj+qbtCTOyIF+KhonnC1"
-		"F19LEGOioggt2MCWEt2PeSBN+kcyfiC1Hn1gbHHpcs/X1j8rbmupuW6mlESPFF"
-		"ocEwcBkesifAc7DFFOQMaBS2Oak3Pj0z/dmL6kAVTkq09lA3Py8ly1M7hmMJ8L"
-		"8bMu5qZDgeti5F3WciF3VjUuTpY6yw6TS/rMqf+18EFLi5lPrZxUSp14piiXqE"
-		"n6ojLpA/DYsZh1bDWVLfIU4qtyb9sX5wYHwydqBHi7o6FJI/xQINqjWDwPoGtq"
-		"UqH6Ysyzv/w5PbyV/xd0ZaEGG/mx/wAAAABJRU5ErkJggg==\" alt=\":-)\">"
-		"after</div>" HTML_SUFFIX,
+		expected_html,
 		"before :-)after"))
 		g_test_fail ();
+
+	g_free (expected_html);
 }
 
 static void
