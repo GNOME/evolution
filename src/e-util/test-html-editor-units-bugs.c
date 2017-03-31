@@ -875,6 +875,83 @@ test_bug_779707 (TestFixture *fixture)
 		g_test_fail ();
 }
 
+static void
+test_bug_780275_html (TestFixture *fixture)
+{
+	test_utils_set_clipboard_text ("line 1\nline 2\nline 3", FALSE);
+
+	if (!test_utils_run_simple_test (fixture,
+		"mode:html\n"
+		"type:line 0\n"
+		"seq:nn\n"
+		"action:paste-quote\n"
+		"undo:save\n" /* 1 */
+		"seq:huuuD\n"
+		"undo:undo\n"
+		"undo:test:1\n"
+		"undo:redo\n"
+		"type:X\n"
+		"seq:ddenn\n"
+		"type:line 4\n"
+		"undo:drop\n"
+		"undo:save\n" /* 1 */
+		"seq:hSuusD\n"
+		"undo:undo\n"
+		"undo:test:1\n"
+		"undo:redo\n"
+		"",
+		HTML_PREFIX "<div>line 0</div>"
+		"<blockquote type=\"cite\">"
+		"<div>Xline 1</div>"
+		"<div>line 2</div>"
+		"</blockquote>"
+		"<div>line 4</div>"
+		HTML_SUFFIX,
+		"line 0\n"
+		"> Xline 1\n"
+		"> line 2\n"
+		"line 4"))
+		g_test_fail ();
+}
+
+static void
+test_bug_780275_plain (TestFixture *fixture)
+{
+	test_utils_set_clipboard_text ("line 1\nline 2\nline 3", FALSE);
+
+	if (!test_utils_run_simple_test (fixture,
+		"mode:plain\n"
+		"type:line 0\n"
+		"seq:nn\n"
+		"action:paste-quote\n"
+		"undo:save\n" /* 1 */
+		"seq:huuuD\n"
+		"undo:undo\n"
+		"undo:test:1\n"
+		"undo:redo\n"
+		"type:X\n"
+		"seq:ddenn\n"
+		"type:line 4\n"
+		"undo:drop\n"
+		"undo:save\n" /* 1 */
+		"seq:hSuusD\n"
+		"undo:undo\n"
+		"undo:test:1\n"
+		"undo:redo\n",
+		HTML_PREFIX "<div style=\"width: 71ch;\">line 0</div>"
+		"<blockquote type=\"cite\">"
+		"<div style=\"width: 71ch;\">&gt; Xline 1</div>"
+		"<div style=\"width: 71ch;\">&gt; line 2</div>"
+		"</blockquote>"
+		"<div style=\"width: 71ch;\">line 4</div>"
+		HTML_SUFFIX,
+		"line 0\n"
+		"> Xline 1\n"
+		"> line 2\n"
+		"line 4"))
+		g_test_fail ();
+}
+
 void
 test_add_html_editor_bug_tests (void)
 {
@@ -897,4 +974,6 @@ test_add_html_editor_bug_tests (void)
 	test_utils_add_test ("/bug/775042", test_bug_775042);
 	test_utils_add_test ("/bug/775691", test_bug_775691);
 	test_utils_add_test ("/bug/779707", test_bug_779707);
+	test_utils_add_test ("/bug/780275/html", test_bug_780275_html);
+	test_utils_add_test ("/bug/780275/plain", test_bug_780275_plain);
 }

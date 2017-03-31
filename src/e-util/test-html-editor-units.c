@@ -2588,8 +2588,13 @@ test_delete_quoted (TestFixture *fixture)
 		E_CONTENT_EDITOR_INSERT_REPLACE_ALL | E_CONTENT_EDITOR_INSERT_TEXT_HTML);
 
 	if (!test_utils_run_simple_test (fixture,
-		"seq:dddddSusDdd\n"
-		"type:b",
+		"seq:ddddd\n"
+		"undo:save\n" /* 1 */
+		"seq:SusDdd\n"
+		"type:b\n"
+		"undo:undo:2\n"
+		"undo:test\n"
+		"undo:redo:2",
 		HTML_PREFIX "<div style=\"width: 71ch;\">On Thu, 2016-09-15 at 08:08 -0400, user wrote:</div>"
 		"<blockquote type=\"cite\">"
 		"<div style=\"width: 71ch;\">&gt; a</div>"
@@ -2632,6 +2637,40 @@ test_delete_after_quoted (TestFixture *fixture)
 		"On Thu, 2016-09-15 at 08:08 -0400, user wrote:\n"
 		"> a\n"
 		"> b"))
+		g_test_fail ();
+}
+
+static void
+test_delete_quoted_selection (TestFixture *fixture)
+{
+	test_utils_set_clipboard_text ("line 1\n\nline 2\n", FALSE);
+
+	if (!test_utils_run_simple_test (fixture,
+		"mode:plain\n"
+		"type:line 0\n"
+		"seq:n\n"
+		"action:paste-quote\n"
+		"undo:save\n" /* 1 */
+		"seq:SuusD\n"
+		"undo:undo\n"
+		"undo:test\n"
+		"undo:redo\n"
+		"undo:undo\n"
+		"seq:d\n"
+		"type:X\n",
+		HTML_PREFIX "<div style=\"width: 71ch;\">line 0</div>"
+		"<blockquote type=\"cite\">"
+		"<div style=\"width: 71ch;\">&gt; line 1</div>"
+		"<div style=\"width: 71ch;\">&gt; <br></div>"
+		"<div style=\"width: 71ch;\">&gt; line 2</div>"
+		"<div style=\"width: 71ch;\">&gt; X</div>"
+		"</blockquote>"
+		HTML_SUFFIX,
+		"line 0\n"
+		"> line 1\n"
+		"> \n"
+		"> line 2\n"
+		"> X"))
 		g_test_fail ();
 }
 
@@ -2844,6 +2883,7 @@ main (gint argc,
 	test_utils_add_test ("/undo/link-paste/plain", test_undo_link_paste_plain);
 	test_utils_add_test ("/delete/quoted", test_delete_quoted);
 	test_utils_add_test ("/delete/after-quoted", test_delete_after_quoted);
+	test_utils_add_test ("/delete/quoted/selection", test_delete_quoted_selection);
 	test_utils_add_test ("/replace/dialog", test_replace_dialog);
 	test_utils_add_test ("/replace-all/dialog", test_replace_dialog_all);
 
