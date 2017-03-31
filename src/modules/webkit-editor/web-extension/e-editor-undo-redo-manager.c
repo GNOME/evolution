@@ -371,12 +371,15 @@ undo_delete (EEditorPage *editor_page,
 
 		node = webkit_dom_range_get_end_container (range, NULL);
 		block = e_editor_dom_get_parent_block_node_from_child (node);
+		if (webkit_dom_document_fragment_query_selector (event->data.fragment, ".-x-evo-quoted", NULL) ||
+		    webkit_dom_document_fragment_query_selector (event->data.fragment, "[data-evo-quoted]", NULL)) {
+			WebKitDOMNodeList *list;
+			gint ii;
 
-		if (webkit_dom_document_fragment_query_selector (event->data.fragment, ".-x-evo-quoted", NULL)) {
 			while ((node = webkit_dom_node_get_first_child (fragment))) {
-				if (WEBKIT_DOM_IS_ELEMENT (node) &&
-				    webkit_dom_element_query_selector (WEBKIT_DOM_ELEMENT (node), ".-x-evo-quoted", NULL))
-
+				if (WEBKIT_DOM_IS_ELEMENT (node) && (
+				    webkit_dom_element_query_selector (WEBKIT_DOM_ELEMENT (node), ".-x-evo-quoted", NULL) ||
+				    webkit_dom_element_has_attribute (WEBKIT_DOM_ELEMENT (node), "data-evo-quoted"))) {
 					if (e_editor_dom_get_citation_level (block, FALSE) > 0) {
 						webkit_dom_node_insert_before (
 							webkit_dom_node_get_parent_node (block),
@@ -420,6 +423,14 @@ undo_delete (EEditorPage *editor_page,
 							NULL);
 				}
 			}
+
+			list = webkit_dom_document_query_selector_all (
+				document, "[data-evo-quoted]", NULL);
+			for (ii = webkit_dom_node_list_get_length (list); ii--;)
+				webkit_dom_element_remove_attribute (
+					WEBKIT_DOM_ELEMENT (webkit_dom_node_list_item (list, ii)),
+					"data-evo-quoted");
+			g_clear_object (&list);
 		} else {
 			while ((node = webkit_dom_node_get_first_child (fragment))) {
 				webkit_dom_node_insert_before (
@@ -504,7 +515,8 @@ undo_delete (EEditorPage *editor_page,
 
 	/* Multi block delete */
 	if (WEBKIT_DOM_IS_ELEMENT (first_child) && !single_block) {
-		gboolean delete;
+		gboolean delete, reinserting_blockquote = FALSE;
+		gboolean could_append = FALSE;
 		WebKitDOMElement *signature;
 		WebKitDOMNode *node, *current_block, *last_child;
 		WebKitDOMNode *next_block, *insert_before;
@@ -570,6 +582,7 @@ undo_delete (EEditorPage *editor_page,
 
 		current_block = e_editor_dom_get_parent_block_node_from_child (WEBKIT_DOM_NODE (element));
 
+		could_append = !WEBKIT_DOM_IS_TEXT (webkit_dom_node_get_last_child (last_child));
 		while (node) {
 			WebKitDOMNode *next_sibling, *parent_node;
 
@@ -619,21 +632,46 @@ undo_delete (EEditorPage *editor_page,
 			} else if (!next_sibling && !webkit_dom_node_is_same_node (parent_node, current_block))
 				next_sibling = webkit_dom_node_get_next_sibling (parent_node);
 
-			if (delete)
+			if (delete) {
 				remove_node (node);
-			else
+			} else if (WEBKIT_DOM_IS_HTML_BR_ELEMENT (node)) {
+				WebKitDOMNode *last_node = webkit_dom_node_get_last_child (last_child);
+				if (!last_node) {
+					webkit_dom_node_append_child (last_child, node, NULL);
+				} else if (WEBKIT_DOM_IS_ELEMENT (last_node) &&
+				           (element_has_class (WEBKIT_DOM_ELEMENT (last_node), "-x-evo-quoted") || could_append)) {
+					webkit_dom_node_append_child (last_child, node, NULL);
+				} else {
+					remove_node (node);
+				}
+			} else {
 				webkit_dom_node_append_child (last_child, node, NULL);
+			}
+
 			node = next_sibling;
 		}
 
-		/* Get the first block in deleted content. */
-		while (WEBKIT_DOM_IS_HTML_QUOTE_ELEMENT (first_child))
-			first_child = webkit_dom_node_get_first_child (first_child);
+		if (WEBKIT_DOM_IS_HTML_QUOTE_ELEMENT (first_child) &&
+		    !WEBKIT_DOM_IS_HTML_QUOTE_ELEMENT (webkit_dom_node_get_parent_node (current_block))) {
+			webkit_dom_node_insert_before (
+				webkit_dom_node_get_parent_node (current_block),
+				first_child,
+				current_block,
+				NULL);
+			reinserting_blockquote = TRUE;
+			e_editor_dom_wrap_and_quote_element (
+				editor_page, WEBKIT_DOM_ELEMENT (webkit_dom_node_get_first_child (first_child)));
 
-		/* All the nodes that are in the first block of the deleted content
-		 * belongs to the current block right after the caret position. */
-		while ((node = webkit_dom_node_get_first_child (first_child)))
-			webkit_dom_node_append_child (current_block, node, NULL);
+		} else {
+			/* Get the first block in deleted content. */
+			while (WEBKIT_DOM_IS_HTML_QUOTE_ELEMENT (first_child))
+				first_child = webkit_dom_node_get_first_child (first_child);
+
+			/* All the nodes that are in the first block of the deleted content
+			 * belongs to the current block right after the caret position. */
+			while ((node = webkit_dom_node_get_first_child (first_child)))
+				webkit_dom_node_append_child (current_block, node, NULL);
+		}
 
 		next_block = webkit_dom_node_get_next_sibling (current_block);
 		insert_before = next_block;
@@ -659,7 +697,8 @@ undo_delete (EEditorPage *editor_page,
 
 		/* Remove the first block from deleted content as its content was already
 		 * moved to the right place. */
-		remove_node (first_child);
+		if (!reinserting_blockquote)
+			remove_node (first_child);
 
 		/* Insert the deleted content. */
 		if (insert_before)
@@ -675,7 +714,10 @@ undo_delete (EEditorPage *editor_page,
 				WEBKIT_DOM_NODE (fragment),
 				NULL);
 
-		e_editor_dom_wrap_and_quote_element (editor_page, WEBKIT_DOM_ELEMENT (current_block));
+		if (reinserting_blockquote)
+			remove_node_if_empty (current_block);
+		else
+			e_editor_dom_wrap_and_quote_element (editor_page, WEBKIT_DOM_ELEMENT (current_block));
 
 		if (WEBKIT_DOM_IS_ELEMENT (last_child))
 			e_editor_dom_wrap_and_quote_element (editor_page, WEBKIT_DOM_ELEMENT (last_child));
