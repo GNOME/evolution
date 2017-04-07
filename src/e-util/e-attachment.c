@@ -1690,6 +1690,7 @@ e_attachment_list_apps (EAttachment *attachment)
 	GList *app_info_list;
 	GList *guessed_infos;
 	GFileInfo *file_info;
+	GAppInfo *default_app;
 	const gchar *content_type;
 	const gchar *display_name;
 	gboolean type_is_unknown;
@@ -1719,7 +1720,29 @@ e_attachment_list_apps (EAttachment *attachment)
 	app_info_list = g_list_concat (guessed_infos, app_info_list);
 	g_free (allocated);
 
-exit:
+ exit:
+	default_app = g_app_info_get_default_for_type (content_type, FALSE);
+	if (default_app) {
+		GList *link;
+
+		for (link = app_info_list; link; link = g_list_next (link)) {
+			GAppInfo *app_info = link->data;
+
+			if (g_app_info_equal (default_app, app_info)) {
+				if (link != app_info_list) {
+					app_info_list = g_list_delete_link (app_info_list, link);
+					g_object_unref (app_info);
+
+					app_info_list = g_list_prepend (app_info_list, default_app);
+					default_app = NULL;
+				}
+				break;
+			}
+		}
+
+		g_clear_object (&default_app);
+	}
+
 	g_clear_object (&file_info);
 
 	return app_info_list;
