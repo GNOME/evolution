@@ -27,7 +27,7 @@
 
 <note style="tip"><p>In the unlikely case that there is no <gui>Search folders</gui> top-level node displayed at the bottom of the <link xref="intro-main-window#e-mail">mail folder list</link> you have to enable <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</gui><gui>Search Folders</gui></guiseq>.</p></note>
 
-<p><app>Evolution</app> automatically updates the search folder contents when new messages are received or message are deleted.</p>
+<p><app>Evolution</app> automatically updates the search folder contents when new messages are received or message are deleted. You can get also manually update the search folder either by switching to another folder and then back again, or by right-clicking on the search folder and choosing <gui>Refresh</gui>.</p>
 
 <p>The <gui>Unmatched</gui> search folder is the opposite of other search folders: it displays all messages that do not appear in other search folders.</p>
 

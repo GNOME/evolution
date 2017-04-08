@@ -193,7 +193,6 @@ set(HELP_FILES
 	mail-search-folders-add.page
 	mail-search-folders-conditions.page
 	mail-search-folders.page
-	mail-search-folders-refresh.page
 	mail-searching-attachment-type.page
 	mail-searching.page
 	mail-send-and-receive-automatically.page
