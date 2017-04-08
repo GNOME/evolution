@@ -14,8 +14,8 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2017-03-13 17:49+0000\n"
-"PO-Revision-Date: 2017-03-19 08:58+0100\n"
+"POT-Creation-Date: 2017-03-23 09:02+0000\n"
+"PO-Revision-Date: 2017-04-08 10:41+0200\n"
 "Last-Translator: Dušan Kazik <prescott66@gmail.com>\n"
 "Language-Team: slovenčina <>\n"
 "Language: sk\n"
@@ -3515,7 +3515,7 @@ msgstr "Voľby"
 #: ../src/composer/e-composer-actions.c:227 ../src/e-util/e-activity-bar.c:357
 #: ../src/e-util/e-attachment-dialog.c:309
 #: ../src/e-util/e-attachment-store.c:664
-#: ../src/e-util/e-attachment-store.c:832 ../src/e-util/e-attachment-view.c:301
+#: ../src/e-util/e-attachment-store.c:832 ../src/e-util/e-attachment-view.c:302
 #: ../src/e-util/e-categories-dialog.c:80 ../src/e-util/e-category-editor.c:140
 #: ../src/e-util/e-category-editor.c:211 ../src/e-util/e-charset-combo-box.c:99
 #: ../src/e-util/e-color-chooser-widget.c:125
@@ -3531,7 +3531,7 @@ msgstr "Voľby"
 #: ../src/e-util/e-source-selector-dialog.c:370
 #: ../src/e-util/e-table-config.c:548 ../src/e-util/e-table-config.ui.h:3
 #: ../src/e-util/e-timezone-dialog.ui.h:2
-#: ../src/e-util/evolution-source-viewer.c:835 ../src/e-util/e-web-view.c:4065
+#: ../src/e-util/evolution-source-viewer.c:835 ../src/e-util/e-web-view.c:4061
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:267
 #: ../src/mail/e-mail-config-window.c:331 ../src/mail/e-mail-label-dialog.c:194
 #: ../src/mail/e-mail-tag-editor.c:168 ../src/mail/em-folder-selector.c:318
@@ -3565,7 +3565,7 @@ msgstr "_Zrušiť"
 #: ../src/composer/e-composer-actions.c:348
 #: ../src/e-util/e-attachment-store.c:833
 #: ../src/e-util/e-mail-signature-script-dialog.c:370
-#: ../src/e-util/e-web-view.c:4066
+#: ../src/e-util/e-web-view.c:4062
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:268
 #: ../src/shell/e-shell-content.c:658 ../src/shell/e-shell-utils.c:140
 #: ../src/smime/gui/certificate-manager.c:666
@@ -3819,7 +3819,7 @@ msgstr "Pridať _X.509"
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:69
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:11
 #: ../src/calendar/gui/e-comp-editor-page-general.c:1371
-#: ../src/e-util/e-attachment-view.c:355 ../src/e-util/e-filter-rule.c:223
+#: ../src/e-util/e-attachment-view.c:356 ../src/e-util/e-filter-rule.c:223
 #: ../src/e-util/e-mail-signature-manager.c:368
 #: ../src/e-util/e-name-selector-dialog.c:1037
 #: ../src/e-util/filter.error.xml.h:18 ../src/e-util/filter.ui.h:25
@@ -4663,7 +4663,7 @@ msgstr "Ste si istý, že chcete odstrániť tento kontakt (%s)?"
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1477
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:676
 #: ../src/modules/calendar/e-task-shell-view-actions.c:830
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1699
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1626
 #: ../src/shell/e-shell-window-actions.c:822
 #: ../src/smime/gui/certificate-manager.c:1672 ../src/smime/gui/smime-ui.ui.h:8
 msgid "_Delete"
@@ -7167,7 +7167,7 @@ msgstr "Čas začiatku nie je platným časom"
 #: ../src/calendar/gui/e-comp-editor-event.c:442
 #: ../src/calendar/gui/e-comp-editor-event.c:458
 #: ../src/calendar/gui/e-comp-editor-page-attachments.c:199
-#: ../src/calendar/gui/e-comp-editor.c:338 ../src/mail/e-mail-display.c:2116
+#: ../src/calendar/gui/e-comp-editor.c:338 ../src/mail/e-mail-display.c:2112
 #: ../src/mail/e-mail-reader-utils.c:646 ../src/mail/mail-send-recv.c:490
 #: ../src/mail/mail-send-recv.c:1288 ../src/plugins/face/face.c:174
 #: ../src/shell/e-shell.c:1073 ../src/shell/e-shell.c:1097
@@ -7396,7 +7396,7 @@ msgstr "_Príloha…"
 
 #: ../src/calendar/gui/e-comp-editor-page-attachments.c:608
 #: ../src/composer/e-composer-actions.c:322
-#: ../src/e-util/e-attachment-view.c:343
+#: ../src/e-util/e-attachment-view.c:344
 msgid "Attach a file"
 msgstr "Priloží súbor"
 
@@ -11100,7 +11100,7 @@ msgstr "Kliknutím sem zobrazíte adresár kontaktov"
 msgid "Click here to select folders to post to"
 msgstr "Kliknutím sem vyberiete priečinky na odoslanie"
 
-#: ../src/composer/e-msg-composer.c:859
+#: ../src/composer/e-msg-composer.c:849
 #, c-format
 msgid ""
 "Cannot sign outgoing message: No signing certificate set for this account"
@@ -11108,7 +11108,7 @@ msgstr ""
 "Odchádzajúca správa sa nedá podpísať: Nie je nastavený žiadny podpisovací "
 "certifikát pre tento účet"
 
-#: ../src/composer/e-msg-composer.c:868
+#: ../src/composer/e-msg-composer.c:858
 #, c-format
 msgid ""
 "Cannot encrypt outgoing message: No encryption certificate set for this "
@@ -11117,11 +11117,11 @@ msgstr ""
 "Odchádzajúca správa sa nedá zašifrovať: Nie je nastavený žiadny šifrovací "
 "certifikát pre tento účet"
 
-#: ../src/composer/e-msg-composer.c:1606 ../src/composer/e-msg-composer.c:2412
+#: ../src/composer/e-msg-composer.c:1596 ../src/composer/e-msg-composer.c:2210
 msgid "Compose Message"
 msgstr "Napísanie správy"
 
-#: ../src/composer/e-msg-composer.c:4763
+#: ../src/composer/e-msg-composer.c:4547
 msgid "The composer contains a non-text message body, which cannot be edited."
 msgstr ""
 "Editor správ obsahuje netextové telo správy, ktoré nie je možné upraviť."
@@ -11822,7 +11822,7 @@ msgid "%s (%d%% complete)"
 msgstr "%s (%d %% hotových)"
 
 #: ../src/e-util/e-activity-proxy.c:350
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1870
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1797
 msgid "Cancel"
 msgstr "Zrušiť"
 
@@ -11969,45 +11969,45 @@ msgstr "Uložiť _iba extrahované súbory"
 msgid "Save extracted files and the original _archive"
 msgstr "Uložiť extrahované súbory a pôvodný _archív"
 
-#: ../src/e-util/e-attachment-view.c:308
+#: ../src/e-util/e-attachment-view.c:309
 msgid "Open With Other Application..."
 msgstr "Otvoriť inou aplikáciou…"
 
-#: ../src/e-util/e-attachment-view.c:315
+#: ../src/e-util/e-attachment-view.c:316
 msgid "S_ave All"
 msgstr "_Uložiť všetko"
 
-#: ../src/e-util/e-attachment-view.c:322
+#: ../src/e-util/e-attachment-view.c:323
 msgid "Sa_ve As"
 msgstr "_Uložiť ako"
 
-#: ../src/e-util/e-attachment-view.c:331
+#: ../src/e-util/e-attachment-view.c:332
 #: ../src/plugins/save-calendar/save-calendar.c:351
 #: ../src/plugins/save-calendar/save-calendar.c:382
 #: ../src/plugins/save-calendar/save-calendar.c:413
 msgid "Save _As"
 msgstr "Uložiť _ako"
 
-#: ../src/e-util/e-attachment-view.c:341
+#: ../src/e-util/e-attachment-view.c:342
 msgid "A_dd Attachment..."
 msgstr "Pri_dať prílohu…"
 
-#: ../src/e-util/e-attachment-view.c:348
+#: ../src/e-util/e-attachment-view.c:349
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1098
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1276
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:605
 #: ../src/modules/calendar/e-task-shell-view-actions.c:731
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1664
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1735
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1591
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1662
 msgid "_Properties"
 msgstr "V_lastnosti"
 
-#: ../src/e-util/e-attachment-view.c:658
+#: ../src/e-util/e-attachment-view.c:778
 #, c-format
 msgid "Open With “%s”"
 msgstr "Otvoriť pomocou „%s“"
 
-#: ../src/e-util/e-attachment-view.c:661
+#: ../src/e-util/e-attachment-view.c:781
 #, c-format
 msgid "Open this attachment in %s"
 msgstr "Otvorí túto prílohu v programe %s"
@@ -15123,21 +15123,21 @@ msgstr "Prejsť na začiatok správy"
 msgid "Click to open %s"
 msgstr "Kliknutím otvoríte %s"
 
-#: ../src/e-util/e-web-view.c:3875
+#: ../src/e-util/e-web-view.c:3871
 msgid "Copying image to clipboard"
 msgstr "Kopíruje sa obrázok do schránky"
 
 # window title
-#: ../src/e-util/e-web-view.c:4063
+#: ../src/e-util/e-web-view.c:4059
 msgid "Save Image"
 msgstr "Uloženie obrázku"
 
-#: ../src/e-util/e-web-view.c:4104
+#: ../src/e-util/e-web-view.c:4100
 #, c-format
 msgid "Saving image to “%s”"
 msgstr "Ukladá sa obrázok do „%s“"
 
-#: ../src/e-util/e-web-view.c:4199
+#: ../src/e-util/e-web-view.c:4195
 #, c-format
 msgid "Cannot get URI “%s”, do not know how to download it."
 msgstr ""
@@ -16379,42 +16379,42 @@ msgstr "_Názov priečinka:"
 
 #. Translators: This is a name of a flag, the same as all strings in the 'ffe' context.
 #. The translated value should not contain spaces.
-#: ../src/mail/e-mail-free-form-exp.c:234
+#: ../src/mail/e-mail-free-form-exp.c:231
 msgctxt "ffe"
 msgid "Answered"
 msgstr "Odpovedané"
 
-#: ../src/mail/e-mail-free-form-exp.c:235
+#: ../src/mail/e-mail-free-form-exp.c:232
 msgctxt "ffe"
 msgid "Deleted"
 msgstr "Odstránené"
 
-#: ../src/mail/e-mail-free-form-exp.c:236
+#: ../src/mail/e-mail-free-form-exp.c:233
 msgctxt "ffe"
 msgid "Draft"
 msgstr "Koncept"
 
-#: ../src/mail/e-mail-free-form-exp.c:237
+#: ../src/mail/e-mail-free-form-exp.c:234
 msgctxt "ffe"
 msgid "Flagged"
 msgstr "Označené"
 
-#: ../src/mail/e-mail-free-form-exp.c:238
+#: ../src/mail/e-mail-free-form-exp.c:235
 msgctxt "ffe"
 msgid "Seen"
 msgstr "Prečítané"
 
-#: ../src/mail/e-mail-free-form-exp.c:239
+#: ../src/mail/e-mail-free-form-exp.c:236
 msgctxt "ffe"
 msgid "Attachment"
 msgstr "Príloha"
 
-#: ../src/mail/e-mail-free-form-exp.c:487
+#: ../src/mail/e-mail-free-form-exp.c:484
 msgctxt "ffe"
 msgid "no"
 msgstr "nie"
 
-#: ../src/mail/e-mail-free-form-exp.c:488
+#: ../src/mail/e-mail-free-form-exp.c:485
 msgctxt "ffe"
 msgid "false"
 msgstr "nepravda"
@@ -17625,7 +17625,7 @@ msgstr "Prihlásiť sa ku _všetkým"
 
 #: ../src/mail/em-subscription-editor.c:970
 #: ../src/mail/em-subscription-editor.c:1914 ../src/mail/mail.error.xml.h:73
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1770
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1697
 msgid "_Unsubscribe"
 msgstr "O_dhlásiť sa z odberu"
 
@@ -17680,7 +17680,7 @@ msgid "Su_bscribe"
 msgstr "P_rihlásiť k odberu"
 
 #: ../src/mail/em-subscription-editor.c:1913
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1772
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1699
 msgid "Unsubscribe from the selected folder"
 msgstr "Odhlási vybraný priečinok z odberu"
 
@@ -17705,8 +17705,8 @@ msgid "Refresh the folder list"
 msgstr "Obnoví zoznam priečinkov"
 
 #: ../src/mail/em-subscription-editor.c:1976
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1671
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1742
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1598
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1669
 msgid "_Refresh"
 msgstr "_Obnoviť"
 
@@ -18951,7 +18951,7 @@ msgstr ""
 "priečinkoch?"
 
 #: ../src/mail/mail.error.xml.h:42
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1657
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1584
 msgid "_Empty Trash"
 msgstr "Vyprázdniť _kôš"
 
@@ -19838,32 +19838,32 @@ msgid "Subject or Addresses contains"
 msgstr "Predmet alebo adresy obsahujú"
 
 #: ../src/mail/searchtypes.xml.in.h:58
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2186
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2113
 msgid "Recipients contain"
 msgstr "Adresáti obsahujú"
 
 #: ../src/mail/searchtypes.xml.in.h:59
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2179
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2106
 msgid "Message contains"
 msgstr "Správa obsahuje"
 
 #: ../src/mail/searchtypes.xml.in.h:60
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2200
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2127
 msgid "Subject contains"
 msgstr "Predmet obsahuje"
 
 #: ../src/mail/searchtypes.xml.in.h:61
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2193
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2120
 msgid "Sender contains"
 msgstr "Odosielateľ obsahuje"
 
 #: ../src/mail/searchtypes.xml.in.h:62
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2165
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2092
 msgid "Body contains"
 msgstr "Telo obsahuje"
 
 #: ../src/mail/searchtypes.xml.in.h:63
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2172
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2099
 msgid "Free form expression"
 msgstr "Výraz vo voľnom tvare"
 
@@ -20022,7 +20022,7 @@ msgstr "Zobrazí mapovanie so všetkými kontaktmi z vybraného adresára kontak
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1297
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:619
 #: ../src/modules/calendar/e-task-shell-view-actions.c:745
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1749
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1676
 msgid "_Rename..."
 msgstr "P_remenovať…"
 
@@ -20103,7 +20103,7 @@ msgstr "A_kcie"
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1081
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:663
 #: ../src/modules/calendar/e-task-shell-view-actions.c:817
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1921
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1848
 msgid "_Preview"
 msgstr "_Náhľad"
 
@@ -20137,7 +20137,7 @@ msgstr "Zobrazí mapovanie v okne s náhľadom kontaktu"
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1167
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:741
 #: ../src/modules/calendar/e-task-shell-view-actions.c:907
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2067
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1994
 msgid "_Classic View"
 msgstr "_Klasické zobrazenie"
 
@@ -20148,7 +20148,7 @@ msgstr "Zobrazí náhľad kontaktu pod zoznamom kontaktov"
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1174
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:748
 #: ../src/modules/calendar/e-task-shell-view-actions.c:914
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2074
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2001
 msgid "_Vertical View"
 msgstr "_Vertikálne zobrazenie"
 
@@ -20167,7 +20167,7 @@ msgstr "Nevyhovujúce"
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1655
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:775
 #: ../src/modules/calendar/e-task-shell-view-actions.c:976
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2158
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2085
 #: ../src/shell/e-shell-content.c:655
 msgid "Advanced Search"
 msgstr "Pokročilé hľadanie"
@@ -20250,43 +20250,43 @@ msgid "Restore from Backup"
 msgstr "Obnoviť zo zálohy"
 
 # window title
-#: ../src/modules/backup-restore/evolution-backup-restore.c:233
+#: ../src/modules/backup-restore/evolution-backup-restore.c:285
 msgid "Select name of the Evolution backup file"
 msgstr "Výber názvu pre súbor so zálohou programu Evolution"
 
-#: ../src/modules/backup-restore/evolution-backup-restore.c:266
+#: ../src/modules/backup-restore/evolution-backup-restore.c:318
 msgid "_Restart Evolution after backup"
 msgstr "_Reštartovať Evolution po zálohovaní"
 
-#: ../src/modules/backup-restore/evolution-backup-restore.c:301
+#: ../src/modules/backup-restore/evolution-backup-restore.c:353
 msgid "Re_start Evolution after restore"
 msgstr "_Reštartovať Evolution po obnovení"
 
 # window title
-#: ../src/modules/backup-restore/evolution-backup-restore.c:343
+#: ../src/modules/backup-restore/evolution-backup-restore.c:395
 msgid "Select name of the Evolution backup file to restore"
 msgstr "Výber názvu pre záložný súbor programu Evolution na obnovenie"
 
-#: ../src/modules/backup-restore/evolution-backup-restore.c:352
+#: ../src/modules/backup-restore/evolution-backup-restore.c:404
 #, c-format
 msgid "Checking content of backup file “%s”, please wait..."
 msgstr "Kontroluje sa obsah záložného súboru „%s“, prosím, čakajte..."
 
-#: ../src/modules/backup-restore/evolution-backup-restore.c:373
+#: ../src/modules/backup-restore/evolution-backup-restore.c:425
 msgid "_Back up Evolution Data..."
 msgstr "_Zálohovať údaje programu Evolution…"
 
 # tooltip
-#: ../src/modules/backup-restore/evolution-backup-restore.c:375
+#: ../src/modules/backup-restore/evolution-backup-restore.c:427
 msgid "Back up Evolution data and settings to an archive file"
 msgstr "Zálohuje údaje a nastavenia programu Evolution do archívneho súboru"
 
-#: ../src/modules/backup-restore/evolution-backup-restore.c:380
+#: ../src/modules/backup-restore/evolution-backup-restore.c:432
 msgid "R_estore Evolution Data..."
 msgstr "_Obnoviť údaje programu Evolution…"
 
 # tooltip
-#: ../src/modules/backup-restore/evolution-backup-restore.c:382
+#: ../src/modules/backup-restore/evolution-backup-restore.c:434
 msgid "Restore Evolution data and settings from an archive file"
 msgstr "Obnoví údaje a nastavenia programu Evolution z archívneho súboru"
 
@@ -23037,133 +23037,133 @@ msgstr "Prejdenie do priečinka"
 msgid "_Select"
 msgstr "V_ybrať"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1650
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1577
 msgid "_Disable Account"
 msgstr "_Zakázať účet"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1652
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1579
 msgid "Disable this account"
 msgstr "Zakáže tento účet"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1659
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1586
 msgid "Permanently remove all the deleted messages from all folders"
 msgstr "Navždy odstráni všetky zmazané správy zo všetkých priečinkov"
 
 # tooltip
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1666
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1593
 msgid "Edit properties of this account"
 msgstr "Upraví vlastnosti tohto účtu"
 
 # tooltip
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1673
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1600
 msgid "Refresh list of folders of this account"
 msgstr "Obnoví zoznam priečinkov tohto účtu"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1678
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1605
 msgid "_Download Messages for Offline Usage"
 msgstr "Prevz_iať správy pre odpojený režim"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1680
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1607
 msgid "Download messages of accounts and folders marked for offline usage"
 msgstr ""
 "Prevezme správy účtov a priečinkov označených na použitie v odpojenom režime"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1685
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1612
 msgid "Fl_ush Outbox"
 msgstr "_Vyprázdniť priečinok Pošta na odoslanie"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1692
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1619
 msgid "_Copy Folder To..."
 msgstr "_Kopírovať priečinok do…"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1694
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1621
 msgid "Copy the selected folder into another folder"
 msgstr "Kopíruje vybraný priečinok do iného priečinka"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1701
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1628
 msgid "Permanently remove this folder"
 msgstr "Navždy odstráni tento priečinok"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1706
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1633
 msgid "E_xpunge"
 msgstr "_Vyčistiť"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1708
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1635
 msgid "Permanently remove all deleted messages from this folder"
 msgstr "Navždy odstráni všetky zmazané správy z tohto priečinka"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1713
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1821
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1640
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1748
 msgid "Mar_k All Messages as Read"
 msgstr "Označiť všetky _správy ako prečítané"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1715
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1823
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1642
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1750
 msgid "Mark all messages in the folder as read"
 msgstr "Označí všetky správy v priečinku ako prečítané"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1720
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1647
 msgid "_Move Folder To..."
 msgstr "Pre_sunúť priečinok do…"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1722
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1649
 msgid "Move the selected folder into another folder"
 msgstr "Presunie vybraný priečinok do iného priečinka"
 
 #. Translators: An action caption to create a new mail folder
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1728
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1655
 msgid "_New..."
 msgstr "_Nový…"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1730
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1657
 msgid "Create a new folder for storing mail"
 msgstr "Vytvorí nový priečinok na ukladanie pošty"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1737
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1664
 msgid "Change the properties of this folder"
 msgstr "Zmení vlastnosti tohto priečinka"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1744
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1671
 msgid "Refresh the folder"
 msgstr "Znovu načíta priečinok"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1751
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1678
 msgid "Change the name of this folder"
 msgstr "Zmení názov tohoto priečinka"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1756
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1683
 msgid "Select Message _Thread"
 msgstr "Vybrať _vlákno správ"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1758
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1685
 msgid "Select all messages in the same thread as the selected message"
 msgstr "Vyberie všetky správy v rovnakom vlákne ako je vybraná správa"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1763
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1690
 msgid "Select Message S_ubthread"
 msgstr "Vybrať _podvlákno správ"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1765
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1692
 msgid "Select all replies to the currently selected message"
 msgstr "Vyberie všetky odpovede na aktuálne vybranú správu"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1777
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1704
 msgid "Empty _Trash"
 msgstr "Vyprázdniť _Kôš"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1779
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1706
 msgid "Permanently remove all the deleted messages from all accounts"
 msgstr "Navždy odstráni všetky zmazané správy zo všetkých účtov"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1784
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1711
 msgid "Go to _Folder"
 msgstr "Prejsť do _priečinka"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1786
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1713
 msgid "Opens a dialog to select a folder to go to"
 msgstr "Otvorí dialógové okno na vybratie priečinku, do ktorého sa má prejsť"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1791
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1718
 msgid "_New Label"
 msgstr "_Nová menovka"
 
@@ -23171,230 +23171,230 @@ msgstr "_Nová menovka"
 # It removes all labels from the selected messages.
 #. Translators: "None" is used in the message label context menu.
 #. *              It removes all labels from the selected messages.
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1800
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1727
 msgid "N_one"
 msgstr "Ži_adna"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1814
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1741
 msgid "_Manage Subscriptions"
 msgstr "_Spravovať prihlásenia"
 
 # MČ: tooltip ku prechádzajúcemu aj ku "Subcriptions..."
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1816
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1900
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1743
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1827
 msgid "Subscribe or unsubscribe to folders on remote servers"
 msgstr "Prihlási (alebo odhlási) priečinky k odberu na vzdialených serveroch"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1828
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1849
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1755
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1776
 msgid "Send / _Receive"
 msgstr "Odoslať / P_rijať"
 
 # tooltip
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1830
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1757
 msgid "Send queued items and retrieve new items"
 msgstr "Odošle neodoslanú poštu a získa novú poštu"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1835
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1762
 msgid "R_eceive All"
 msgstr "_Prijať všetko"
 
 # tooltip
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1837
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1764
 msgid "Receive new items from all accounts"
 msgstr "Prijme nové položky zo všetkých účtov"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1842
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1769
 msgid "_Send All"
 msgstr "_Odoslať všetko"
 
 # tooltip
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1844
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1771
 msgid "Send queued items in all accounts"
 msgstr "Odošle neodoslanú poštu pre všetky účty"
 
 # tooltip
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1872
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1799
 msgid "Cancel the current mail operation"
 msgstr "Zruší aktuálnu poštovú operáciu"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1877
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1804
 msgid "Collapse All _Threads"
 msgstr "Zbaliť všetky _vlákna"
 
 # tooltip
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1879
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1806
 msgid "Collapse all message threads"
 msgstr "Zbalí všetky vlákna správ"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1884
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1811
 msgid "E_xpand All Threads"
 msgstr "Roz_baliť všetky vlákna"
 
 # tooltip
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1886
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1813
 msgid "Expand all message threads"
 msgstr "Rozbalí všetky vlákna správ"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1891
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1818
 msgid "_Message Filters"
 msgstr "Filtre _správ"
 
 # tooltip
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1893
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1820
 msgid "Create or edit rules for filtering new mail"
 msgstr "Vytvorí alebo upraví pravidlá na filtrovanie novej pošty"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1898
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1825
 msgid "_Subscriptions..."
 msgstr "_Prihlásenia k odberu…"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1907
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1834
 msgid "F_older"
 msgstr "P_riečinok"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1914
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1841
 msgid "_Label"
 msgstr "_Menovka"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1931
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1858
 msgid "C_reate Search Folder From Search..."
 msgstr "Vytvo_riť vyhľadávací priečinok z hľadania…"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1938
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1865
 msgid "Search F_olders"
 msgstr "Vyhľadávacie pr_iečinky"
 
 # tooltip
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1940
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1867
 msgid "Create or edit search folder definitions"
 msgstr "Vytvorí alebo upraví definície vyhľadávacích priečinkov"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1979
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1906
 msgid "_New Folder..."
 msgstr "Nový _priečinok…"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2007
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1934
 msgid "Show Message _Preview"
 msgstr "Zobraziť _náhľad správy"
 
 # tooltip
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2009
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1936
 msgid "Show message preview pane"
 msgstr "Zobrazí panel s náhľadom správy"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2015
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1942
 msgid "Show _Attachment Bar"
 msgstr "Zobraziť _lištu príloh"
 
 # tooltip
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2017
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1944
 msgid ""
 "Show Attachment Bar below the message preview pane when the message has "
 "attachments"
 msgstr ""
 "Zobrazí lištu príloh pod panelom ukážky správy, keď správa obsahuje prílohy"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2023
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1950
 msgid "Show _Deleted Messages"
 msgstr "Zobraziť o_dstránené správy"
 
 # tooltip
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2025
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1952
 msgid "Show deleted messages with a line through them"
 msgstr "Zobrazí odstránené správy ako preškrtnuté"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2031
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1958
 msgid "Show _Junk Messages"
 msgstr "Zobraziť nev_yžiadané správy"
 
 # tooltip
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2033
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1960
 msgid "Show junk messages with a red line through them"
 msgstr "Zobrazí nevyžiadané správy ako preškrtnuté červenou čiarou"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2039
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1966
 msgid "_Group By Threads"
 msgstr "Zoskupiť podľa _vlákien"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2041
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1968
 msgid "Threaded message list"
 msgstr "Zoznam správ po vláknach"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2047
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1974
 msgid "_Unmatched Folder Enabled"
 msgstr "Povolený priečinok _Nevyhovujúce"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2049
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1976
 msgid "Toggles whether Unmatched search folder is enabled"
 msgstr "Prepína, či má byť povolený vyhľadávací priečinok Nevyhovujúce"
 
 # tooltip
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2069
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1996
 msgid "Show message preview below the message list"
 msgstr "Zobrazí náhľad správy pod zoznamom správ"
 
 # tooltip
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2076
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2003
 msgid "Show message preview alongside the message list"
 msgstr "Zobrazí náhľad správy vedľa zoznamu správ"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2084
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2011
 msgid "All Messages"
 msgstr "Všetky správy"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2091
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2018
 msgid "Important Messages"
 msgstr "Dôležité správy"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2098
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2025
 msgid "Last 5 Days’ Messages"
 msgstr "Správy za posledných 5 dní"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2105
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2032
 msgid "Messages Not Junk"
 msgstr "Správy nie sú nevyžiadané"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2112
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2039
 msgid "Messages with Attachments"
 msgstr "Správy s prílohami"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2119
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2046
 msgid "Messages with Notes"
 msgstr "Správy s poznámkami"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2126
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2053
 msgid "No Label"
 msgstr "Bez menovky"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2133
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2060
 msgid "Read Messages"
 msgstr "Prečítané správy"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2140
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2067
 msgid "Unread Messages"
 msgstr "Neprečítané správy"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2147
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2074
 msgid "Message Thread"
 msgstr "Vlákno správ"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2207
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2134
 msgid "Subject or Addresses contain"
 msgstr "Predmet alebo adresy obsahujú"
 
 # je to za hľadať v:
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2217
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2144
 msgid "All Accounts"
 msgstr "Všetkých účtoch"
 
 # je to za hľadať v:
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2224
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2151
 msgid "Current Account"
 msgstr "Aktuálnom účte"
 
 # je to za hľadať v:
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2231
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2158
 msgid "Current Folder"
 msgstr "Aktuálnom priečinku"
 
@@ -23537,8 +23537,7 @@ msgstr "Zobraziť pôv_odnú hodnotu hlavičky"
 
 #: ../src/modules/mailto-handler/evolution-mailto-handler.c:138
 msgid "Do you want to make Evolution your default email client?"
-msgstr ""
-"Chcete urobiť z programu Evolution vášho predvoleného emailového klienta?"
+msgstr "Chcete aby bol program Evolution vaším predvoleným emailovým kleintom?"
 
 #. Translators: First %s is an email address, second %s
 #. * is the subject of the email, third %s is the date.
@@ -24545,8 +24544,8 @@ msgstr ""
 "Hlavička: {0}"
 
 #. Translators: '%d' is the count of mails received.
-#: ../src/plugins/mail-notification/mail-notification.c:398
-#: ../src/plugins/mail-notification/mail-notification.c:434
+#: ../src/plugins/mail-notification/mail-notification.c:401
+#: ../src/plugins/mail-notification/mail-notification.c:437
 #, c-format
 msgid "You have received %d new message."
 msgid_plural "You have received %d new messages."
@@ -24556,54 +24555,54 @@ msgstr[2] "Dostali ste %d nové správy."
 
 #. Translators: "From:" is preceding a new mail
 #. * sender address, like "From: user@example.com"
-#: ../src/plugins/mail-notification/mail-notification.c:409
+#: ../src/plugins/mail-notification/mail-notification.c:412
 #, c-format
 msgid "From: %s"
 msgstr "Od: %s"
 
 #. Translators: "Subject:" is preceding a new mail
 #. * subject, like "Subject: It happened again"
-#: ../src/plugins/mail-notification/mail-notification.c:423
+#: ../src/plugins/mail-notification/mail-notification.c:426
 #, c-format
 msgid "Subject: %s"
 msgstr "Predmet: %s"
 
-#: ../src/plugins/mail-notification/mail-notification.c:440
+#: ../src/plugins/mail-notification/mail-notification.c:443
 msgid "New email in Evolution"
 msgstr "Nová pošta v programe Evolution"
 
 #. Translators: The '%s' is a mail
 #. * folder name.  (e.g. "Show Inbox")
-#: ../src/plugins/mail-notification/mail-notification.c:481
+#: ../src/plugins/mail-notification/mail-notification.c:484
 #, c-format
 msgid "Show %s"
 msgstr "Zobraziť %s"
 
-#: ../src/plugins/mail-notification/mail-notification.c:685
+#: ../src/plugins/mail-notification/mail-notification.c:688
 msgid "_Play sound when a new message arrives"
 msgstr "Pre_hrať zvuk pri príchode novej správy"
 
-#: ../src/plugins/mail-notification/mail-notification.c:717
+#: ../src/plugins/mail-notification/mail-notification.c:720
 msgid "_Beep"
 msgstr "_Pípnuť"
 
-#: ../src/plugins/mail-notification/mail-notification.c:730
+#: ../src/plugins/mail-notification/mail-notification.c:733
 msgid "Use sound _theme"
 msgstr "Použiť zvukovú _tému"
 
-#: ../src/plugins/mail-notification/mail-notification.c:749
+#: ../src/plugins/mail-notification/mail-notification.c:752
 msgid "Play _file:"
 msgstr "Prehrať _súbor:"
 
-#: ../src/plugins/mail-notification/mail-notification.c:758
+#: ../src/plugins/mail-notification/mail-notification.c:761
 msgid "Select sound file"
 msgstr "Vybrať zvukový súbor"
 
-#: ../src/plugins/mail-notification/mail-notification.c:835
+#: ../src/plugins/mail-notification/mail-notification.c:838
 msgid "Notify new messages for _Inbox only"
 msgstr "Upozorniť na nové správy len pre priečinok _Doručená pošta"
 
-#: ../src/plugins/mail-notification/mail-notification.c:851
+#: ../src/plugins/mail-notification/mail-notification.c:854
 msgid "Show _notification when a new message arrives"
 msgstr "Zobraziť _oznámenie po prijatí novej správy"
 
@@ -26244,7 +26243,7 @@ msgstr "Podpisovanie"
 msgid "Encrypt"
 msgstr "Šifrovanie"
 
-#: ../src/smime/lib/e-cert-db.c:786
+#: ../src/smime/lib/e-cert-db.c:788
 msgid "Certificate already exists"
 msgstr "Certifikát už existuje"
 
