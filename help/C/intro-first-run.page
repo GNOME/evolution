@@ -5,11 +5,11 @@
       type="topic" id="intro-first-run">
 
   <info>
-    <desc>Running <app>Evolution</app> for the very first time.</desc>
+    <desc>Set up email accounts, import data, or restore from a backup.</desc>
 
     <link type="guide" xref="index#getting-started"/>
 
-    <revision pkgversion="3.8.2" version="0.7" date="2013-06-22" status="stub"/>
+    <revision pkgversion="3.8.2" version="0.8" date="2017-04-08" status="stub"/>
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
       <email its:translate="no">ak-47@gmx.net</email>
