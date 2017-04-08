@@ -5,7 +5,7 @@
   <info>
     <link type="guide" xref="index#calendar-advanced" />
 
-    <revision pkgversion="3.0.2" version="0.1" date="2011-07-31" status="final"/>
+    <revision pkgversion="3.0.2" version="0.2" date="2017-04-08" status="final"/>
 
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
@@ -20,13 +20,14 @@
 
     <include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
 
-    <desc>Classifying appointments and tasks on groupware servers.</desc>
+    <desc>Classifying appointments and tasks on remote servers.</desc>
   </info>
 
   <title>Using Classifications</title>
 
-  <p>If you are using a calendar on a Novell GroupWise or Microsoft Exchange
-  server, you can select a classification to determine who can view it.</p>
+  <p>If you are using a calendar on a remote server (such as Novell GroupWise
+  or Microsoft Exchange), you can select a classification to determine who can
+  view it.</p>
 
   <p>To set a classification for an appointment or a task, click
   <guiseq><gui>Options</gui><gui>Classification</gui></guiseq> and select a
