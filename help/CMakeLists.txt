@@ -192,7 +192,6 @@ set(HELP_FILES
 	mail-save-as-pdf.page
 	mail-search-folders-add.page
 	mail-search-folders-conditions.page
-	mail-search-folders-enable.page
 	mail-search-folders.page
 	mail-search-folders-refresh.page
 	mail-searching-attachment-type.page
