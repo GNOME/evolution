@@ -1,4 +1,6 @@
 <page xmlns="http://projectmallard.org/1.0/" xmlns:its="http://www.w3.org/2005/11/its"
+      xmlns:e="http://projectmallard.org/experimental/"
+      xmlns:if="http://projectmallard.org/experimental/if/"
       type="guide" id="mail-account-manage-microsoft-exchange">
 
   <info>
@@ -20,6 +22,30 @@
 
   <title>Microsoft Exchange account settings</title>
 
-<note style="important"><p>Please first read <link xref="exchange-connectors-overview">Choosing the right connector</link> to find out about the right Exchange account type for you.</p></note>
+<note style="important"><p>Depending on the version of the Microsoft Exchange server that you would like to connect to it is required to make sure that an additional package is installed that provides this functionality.</p>
+
+<p>For Microsoft Exchange 2007, 2010 and newer it is recommended to use the package <sys>evolution-ews</sys>.</p>
+<if:choose xmlns:if="http://projectmallard.org/if/1.0/">
+  <if:when test="action:install">
+    <note style="info package">
+      <p><link action="install:evolution-ews" href="https://wiki.gnome.org/Apps/Evolution#Get_the_Source_Code" style="button">Install evolution-ews</link></p>
+    </note>
+  </if:when>
+</if:choose>
+
+
+<p>For older versions of Microsoft Exchange, or if <sys>evolution-ews</sys> does not work well for you, try <sys>evolution-mapi</sys>. It uses Microsoft's Messaging API which is also used by Microsoft Outlook. However, <sys>evolution-mapi</sys> requires installing <sys>OpenChange</sys> and <sys>Samba 4</sys>, and is not as performant as <sys>evolution-ews</sys>.</p>
+
+<if:choose xmlns:if="http://projectmallard.org/if/1.0/">
+  <if:when test="action:install">
+    <note style="info package">
+      <p><link action="install:evolution-mapi" href="https://wiki.gnome.org/Apps/Evolution#Get_the_Source_Code" style="button">Install evolution-mapi</link></p>
+    </note>
+  </if:when>
+</if:choose>
+
+<p>If you are unsure which Microsoft Exchange server version is used, you may want to contact your system administrator for more information.</p></note>
+
+<p>For topics not covered here please refer to the <link href="https://help.gnome.org/users/evolution/2.32/usage-exchange.html">old <app>Evolution</app> manual</link>.</p>
 
 </page>

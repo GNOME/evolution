@@ -64,13 +64,6 @@
     <title>Data Migration and Synchronization</title>
   </section>
 
-  <section id="corporate-environments" style="2column">
-    <title>Corporate Environments</title>
-      <section id="corporate-environments-exchange" style="2column">
-        <title>Microsoft Exchange</title>
-      </section>
-  </section>
-
   <section id="tracking-down-problems" style="2column">
     <title>Tracking down Problems</title>
   </section>

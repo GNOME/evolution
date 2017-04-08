@@ -76,8 +76,6 @@ set(HELP_FILES
 	deleting-appointments.page
 	deleting-emails.page
 	deleting-to-free-disk-space.page
-	exchange-connectors-overview.page
-	exchange-placeholder.page
 	exporting-data-calendar.page
 	exporting-data-contacts.page
 	exporting-data-mail.page
