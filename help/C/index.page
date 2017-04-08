@@ -35,12 +35,6 @@
     <title>Mail Management</title>
       <section id="mail-advanced" style="2column">
         <title>Advanced Mail Management</title>
-          <section id="mail-advanced-imap" style="2column">
-            <info>
-              <title type="link">Advanced Mail Management (IMAP+ accounts)</title>
-            </info>
-            <title>IMAP+</title>
-          </section>
       </section>
   </section>
 

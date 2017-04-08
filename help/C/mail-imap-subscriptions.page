@@ -4,7 +4,7 @@
   <info>
     <desc>IMAP folder subscriptions.</desc>
     
-    <link type="guide" xref="index#mail-advanced-imap" />
+    <link type="guide" xref="index#mail-advanced" />
     <link type="guide" xref="mail-account-manage-imap-plus#other-settings"/>
 
     <revision pkgversion="3.0.2" version="0.3" date="2011-08-05" status="final"/>
