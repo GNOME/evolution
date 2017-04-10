@@ -10639,12 +10639,10 @@ deleting_block_starting_in_quoted_content (EEditorPage *editor_page,
 	sibling = webkit_dom_node_get_previous_sibling (WEBKIT_DOM_NODE (element));
 	if (!(sibling && WEBKIT_DOM_IS_ELEMENT (sibling) &&
 	      element_has_class (WEBKIT_DOM_ELEMENT (sibling), "-x-evo-quoted"))) {
-		printf ("%s:%d\n", __PRETTY_FUNCTION__, __LINE__);
 		goto out;
 	}
 
 	if (webkit_dom_node_get_previous_sibling (WEBKIT_DOM_NODE (sibling))) {
-		printf ("%s:%d\n", __PRETTY_FUNCTION__, __LINE__);
 		goto out;
 	}
 
