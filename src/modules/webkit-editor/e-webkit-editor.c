@@ -5912,11 +5912,16 @@ webkit_editor_drag_data_received_cb (GtkWidget *widget,
 	    info == E_DND_TARGET_TYPE_UTF8_STRING || info == E_DND_TARGET_TYPE_STRING ||
 	    info == E_DND_TARGET_TYPE_TEXT_PLAIN || info == E_DND_TARGET_TYPE_TEXT_PLAIN_UTF8) {
 		gdk_drag_status (context, gdk_drag_context_get_selected_action(context), time);
-		GTK_WIDGET_CLASS (e_webkit_editor_parent_class)->drag_drop (widget, context, x, y, time);
-		g_signal_stop_emission_by_name (widget, "drag-data-received");
-		if (!is_move)
-			webkit_editor_call_simple_extension_function (wk_editor, "DOMLastDropOperationDidCopy");
-		e_content_editor_emit_drop_handled (E_CONTENT_EDITOR (widget));
+		if (!GTK_WIDGET_CLASS (e_webkit_editor_parent_class)->drag_drop (widget, context, x, y, time)) {
+			g_warning ("Drop failed in WebKit");
+			goto process_ourselves;
+		} else {
+			GTK_WIDGET_CLASS (e_webkit_editor_parent_class)->drag_leave(widget, context, time);
+			g_signal_stop_emission_by_name (widget, "drag-data-received");
+			if (!is_move)
+				webkit_editor_call_simple_extension_function (wk_editor, "DOMLastDropOperationDidCopy");
+			e_content_editor_emit_drop_handled (E_CONTENT_EDITOR (widget));
+		}
 		return;
 	}
 
@@ -5926,6 +5931,7 @@ webkit_editor_drag_data_received_cb (GtkWidget *widget,
 		gint list_len, len;
 		gchar *text;
 
+ process_ourselves:
 		data = gtk_selection_data_get_data (selection);
 		length = gtk_selection_data_get_length (selection);
 
@@ -5952,6 +5958,16 @@ webkit_editor_drag_data_received_cb (GtkWidget *widget,
 		e_content_editor_emit_drop_handled (E_CONTENT_EDITOR (widget));
 		return;
 	}
+}
+
+static void
+webkit_editor_drag_leave_cb (EWebKitEditor *wk_editor,
+                             GdkDragContext *context,
+                             guint time)
+{
+	/* Don't pass drag-leave to WebKit otherwise the drop won't be handled by it.
+	 * We will emit it later when WebKit is expecting it. */
+	g_signal_stop_emission_by_name (GTK_WIDGET (wk_editor), "drag-leave");
 }
 
 static gboolean
@@ -6281,6 +6297,10 @@ e_webkit_editor_init (EWebKitEditor *wk_editor)
 	g_signal_connect (
 		wk_editor, "drag-end",
 		G_CALLBACK (webkit_editor_drag_end_cb), NULL);
+
+	g_signal_connect (
+		wk_editor, "drag-leave",
+		G_CALLBACK (webkit_editor_drag_leave_cb), NULL);
 
 	g_signal_connect (
 		wk_editor, "drag-drop",
