@@ -1866,6 +1866,16 @@ msg_composer_drag_drop_cb (GtkWidget *widget,
 }
 
 static void
+msg_composer_drop_handled_cb (EContentEditor *cnt_editor,
+                              EMsgComposer *composer)
+{
+	if (composer->priv->drag_data_received_handler_id != 0) {
+		g_signal_handler_disconnect (cnt_editor, composer->priv->drag_data_received_handler_id);
+		composer->priv->drag_data_received_handler_id = 0;
+	}
+}
+
+static void
 msg_composer_drag_begin_cb (GtkWidget *widget,
                             GdkDragContext *context,
                             EMsgComposer *composer)
@@ -2271,6 +2281,10 @@ msg_composer_constructed (GObject *object)
 	g_signal_connect (
 		cnt_editor, "drag-begin",
 		G_CALLBACK (msg_composer_drag_begin_cb), composer);
+
+	g_signal_connect (
+		cnt_editor, "drop-handled",
+		G_CALLBACK (msg_composer_drop_handled_cb), composer);
 
 	g_signal_connect (
 		composer->priv->gallery_icon_view, "drag-data-get",

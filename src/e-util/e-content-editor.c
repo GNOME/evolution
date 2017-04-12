@@ -34,6 +34,7 @@ enum {
 	CONTEXT_MENU_REQUESTED,
 	FIND_DONE,
 	REPLACE_ALL_DONE,
+	DROP_HANDLED,
 	LAST_SIGNAL
 };
 
@@ -507,6 +508,20 @@ e_content_editor_default_init (EContentEditorInterface *iface)
 		NULL,
 		G_TYPE_NONE, 1,
 		G_TYPE_UINT);
+
+	/**
+	 * EContentEditor:drop-handled
+	 *
+	 * Emitted when the content editor successfully handled the drop operation.
+	 */
+	signals[DROP_HANDLED] = g_signal_new (
+		"drop-handled",
+		E_TYPE_CONTENT_EDITOR,
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (EContentEditorInterface, drop_handled),
+		NULL, NULL,
+		NULL,
+		G_TYPE_NONE, 0);
 }
 
 ESpellChecker *
@@ -3578,4 +3593,12 @@ e_content_editor_emit_replace_all_done (EContentEditor *editor,
 	g_return_if_fail (E_IS_CONTENT_EDITOR (editor));
 
 	g_signal_emit (editor, signals[REPLACE_ALL_DONE], 0, replaced_count);
+}
+
+void
+e_content_editor_emit_drop_handled (EContentEditor *editor)
+{
+	g_return_if_fail (E_IS_CONTENT_EDITOR (editor));
+
+	g_signal_emit (editor, signals[DROP_HANDLED], 0);
 }

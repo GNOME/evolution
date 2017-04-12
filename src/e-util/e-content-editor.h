@@ -437,6 +437,7 @@ struct _EContentEditorInterface {
 							 guint match_count);
 	void		(*replace_all_done)		(EContentEditor *editor,
 							 guint replaced_count);
+	void		(*drop_handled)			(EContentEditor *editor);
 };
 
 /* Properties */
@@ -1015,6 +1016,8 @@ void		e_content_editor_emit_find_done	(EContentEditor *editor,
 void		e_content_editor_emit_replace_all_done
 						(EContentEditor *editor,
 						 guint replaced_count);
+void		e_content_editor_emit_drop_handled
+						(EContentEditor *editor);
 
 G_END_DECLS
 
