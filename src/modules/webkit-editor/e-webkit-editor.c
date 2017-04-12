@@ -5916,6 +5916,7 @@ webkit_editor_drag_data_received_cb (GtkWidget *widget,
 		g_signal_stop_emission_by_name (widget, "drag-data-received");
 		if (!is_move)
 			webkit_editor_call_simple_extension_function (wk_editor, "DOMLastDropOperationDidCopy");
+		e_content_editor_emit_drop_handled (E_CONTENT_EDITOR (widget));
 		return;
 	}
 
@@ -5948,6 +5949,7 @@ webkit_editor_drag_data_received_cb (GtkWidget *widget,
 
 		gtk_drag_finish (context, TRUE, is_move, time);
 		g_signal_stop_emission_by_name (widget, "drag-data-received");
+		e_content_editor_emit_drop_handled (E_CONTENT_EDITOR (widget));
 		return;
 	}
 }
