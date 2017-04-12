@@ -1425,6 +1425,12 @@ e_meeting_time_selector_refresh_cb (gpointer data)
 {
 	EMeetingTimeSelector *mts = data;
 
+	if (!mts->model) {
+		/* Destroyed, do not do anything */
+		g_object_unref (mts);
+		return FALSE;
+	}
+
 	if (e_meeting_store_get_num_queries (mts->model) == 0) {
 		GdkCursor *cursor;
 		GdkWindow *window;
