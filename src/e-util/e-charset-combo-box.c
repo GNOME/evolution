@@ -154,7 +154,7 @@ charset_combo_box_run_dialog (ECharsetComboBox *combo_box)
 	}
 
 	charset = gtk_entry_get_text (entry);
-	g_return_if_fail (charset != NULL && charset != '\0');
+	g_return_if_fail (charset != NULL && *charset != '\0');
 
 	g_object_set_data_full (
 		object, "charset", g_strdup (charset),
