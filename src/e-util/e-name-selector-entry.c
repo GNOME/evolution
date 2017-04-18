@@ -66,6 +66,8 @@ struct _ENameSelectorEntryPrivate {
 	GQueue cancellables;
 
 	GHashTable *known_contacts; /* gchar * ~> 1 */
+
+	gboolean block_entry_changed_signal;
 };
 
 enum {
@@ -2039,6 +2041,16 @@ sanitize_entry (ENameSelectorEntry *name_selector_entry)
 	generate_attribute_list (name_selector_entry);
 }
 
+static void
+maybe_block_entry_changed_cb (ENameSelectorEntry *name_selector_entry,
+			      gpointer user_data)
+{
+	g_return_if_fail (E_IS_NAME_SELECTOR_ENTRY (name_selector_entry));
+
+	if (name_selector_entry->priv->block_entry_changed_signal)
+		g_signal_stop_emission_by_name (name_selector_entry, "changed");
+}
+
 static gboolean
 user_focus_in (ENameSelectorEntry *name_selector_entry,
                GdkEventFocus *event_focus)
@@ -2048,6 +2060,8 @@ user_focus_in (ENameSelectorEntry *name_selector_entry,
 	GString *str = g_string_new ("");
 	gint sel_start_pos = -1, sel_end_pos = -1;
 
+	/* To not send fake 'changed' signals, which can influence message composer */
+	name_selector_entry->priv->block_entry_changed_signal = TRUE;
 	g_signal_handlers_block_matched (name_selector_entry, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, name_selector_entry);
 	g_signal_handlers_block_matched (name_selector_entry->priv->destination_store, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, name_selector_entry);
 
@@ -2092,6 +2106,7 @@ user_focus_in (ENameSelectorEntry *name_selector_entry,
 
 	g_signal_handlers_unblock_matched (name_selector_entry->priv->destination_store, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, name_selector_entry);
 	g_signal_handlers_unblock_matched (name_selector_entry, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, name_selector_entry);
+	name_selector_entry->priv->block_entry_changed_signal = FALSE;
 
 	generate_attribute_list (name_selector_entry);
 
@@ -3401,10 +3416,14 @@ e_name_selector_entry_init (ENameSelectorEntry *name_selector_entry)
 
 	name_selector_entry->priv->minimum_query_length = 3;
 	name_selector_entry->priv->show_address = FALSE;
+	name_selector_entry->priv->block_entry_changed_signal = FALSE;
 	name_selector_entry->priv->known_contacts = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
 
 	/* Edit signals */
 
+	g_signal_connect (
+		name_selector_entry, "changed",
+		G_CALLBACK (maybe_block_entry_changed_cb), NULL);
 	g_signal_connect (
 		name_selector_entry, "insert-text",
 		G_CALLBACK (user_insert_text), name_selector_entry);
