@@ -233,7 +233,7 @@ static void
 action_calendar_print_cb (GtkAction *action,
                           ECalShellView *cal_shell_view)
 {
-	cal_shell_view_actions_print_or_preview (cal_shell_view, GTK_PRINT_OPERATION_ACTION_PRINT);
+	cal_shell_view_actions_print_or_preview (cal_shell_view, GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG);
 }
 
 static void
