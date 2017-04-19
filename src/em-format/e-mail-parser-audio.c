@@ -26,6 +26,9 @@
 #include "e-mail-part-audio.h"
 #include "e-mail-part.h"
 
+/* This is currently disabled, because the WebKit player requires javascript,
+   which is disabled in Evolution. */
+
 typedef EMailParserExtension EMailParserAudio;
 typedef EMailParserExtensionClass EMailParserAudioClass;
 
