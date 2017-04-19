@@ -25,7 +25,8 @@
 #include "e-mail-formatter.h"
 #include "e-mail-part-audio.h"
 
-#define d(x)
+/* This is currently disabled, because the WebKit player requires javascript,
+   which is disabled in Evolution. */
 
 typedef EMailFormatterExtension EMailFormatterAudio;
 typedef EMailFormatterExtensionClass EMailFormatterAudioClass;
