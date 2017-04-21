@@ -7463,6 +7463,16 @@ process_node_to_plain_text_for_exporting (EEditorPage *editor_page,
 				g_regex_unref (regex);
 			}
 
+			if (strstr (content, UNICODE_NBSP)) {
+				gchar *tmp;
+
+				regex = g_regex_new (UNICODE_NBSP, 0, 0, NULL);
+				tmp = g_regex_replace (regex, content, -1, 0, " ", 0, NULL);
+				g_free (content);
+				content = tmp;
+				g_regex_unref (regex);
+			}
+
 			class = webkit_dom_element_get_class_name (WEBKIT_DOM_ELEMENT (source));
 			if (class && (css_align = strstr (class, "-x-evo-align-"))) {
 				gchar *content_with_align;
