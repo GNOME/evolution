@@ -128,9 +128,38 @@ e_editor_dom_test_html_equal (WebKitDOMDocument *document,
 /* ******************** Actions ******************** */
 
 static WebKitDOMElement *
-get_table_cell_element (WebKitDOMDocument *document)
+get_table_cell_element (EEditorPage *editor_page)
 {
-	return webkit_dom_document_get_element_by_id (document, "-x-evo-current-cell");
+	WebKitDOMDocument *document;
+	WebKitDOMElement *cell;
+	WebKitDOMNode *node_under_mouse_click;
+
+	document = e_editor_page_get_document (editor_page);
+	cell = webkit_dom_document_get_element_by_id (document, "-x-evo-current-cell");
+
+	if (cell)
+		return cell;
+
+	node_under_mouse_click = e_editor_page_get_node_under_mouse_click (editor_page);
+
+	if (node_under_mouse_click && WEBKIT_DOM_IS_HTML_TABLE_CELL_ELEMENT (node_under_mouse_click)) {
+		cell = WEBKIT_DOM_ELEMENT (node_under_mouse_click);
+	} else {
+		WebKitDOMElement *selection_start;
+
+		e_editor_dom_selection_save (editor_page);
+
+		selection_start = webkit_dom_document_get_element_by_id (
+			document, "-x-evo-selection-start-marker");
+
+		cell = dom_node_find_parent_element (WEBKIT_DOM_NODE (selection_start), "TD");
+		if (!cell)
+			cell = dom_node_find_parent_element (WEBKIT_DOM_NODE (selection_start), "TH");
+
+		e_editor_dom_selection_restore (editor_page);
+	}
+
+	return cell;
 }
 
 static void
@@ -170,16 +199,13 @@ save_history_for_table (EEditorPage *editor_page,
 void
 e_editor_dom_delete_cell_contents (EEditorPage *editor_page)
 {
-	WebKitDOMDocument *document;
 	WebKitDOMNode *node;
 	WebKitDOMElement *cell, *table_cell, *table;
 	EEditorHistoryEvent *ev = NULL;
 
 	g_return_if_fail (E_IS_EDITOR_PAGE (editor_page));
 
-	document = e_editor_page_get_document (editor_page);
-
-	table_cell = get_table_cell_element (document);
+	table_cell = get_table_cell_element (editor_page);
 	g_return_if_fail (table_cell != NULL);
 
 	cell = dom_node_find_parent_element (WEBKIT_DOM_NODE (table_cell), "TD");
@@ -202,7 +228,6 @@ e_editor_dom_delete_cell_contents (EEditorPage *editor_page)
 void
 e_editor_dom_delete_column (EEditorPage *editor_page)
 {
-	WebKitDOMDocument *document;
 	WebKitDOMElement *cell, *table, *table_cell;
 	WebKitDOMHTMLCollection *rows = NULL;
 	EEditorHistoryEvent *ev = NULL;
@@ -210,9 +235,7 @@ e_editor_dom_delete_column (EEditorPage *editor_page)
 
 	g_return_if_fail (E_IS_EDITOR_PAGE (editor_page));
 
-	document = e_editor_page_get_document (editor_page);
-
-	table_cell = get_table_cell_element (document);
+	table_cell = get_table_cell_element (editor_page);
 	g_return_if_fail (table_cell != NULL);
 
 	/* Find TD in which the selection starts */
@@ -251,15 +274,12 @@ e_editor_dom_delete_column (EEditorPage *editor_page)
 void
 e_editor_dom_delete_row (EEditorPage *editor_page)
 {
-	WebKitDOMDocument *document;
 	WebKitDOMElement *row, *table, *table_cell;
 	EEditorHistoryEvent *ev = NULL;
 
 	g_return_if_fail (E_IS_EDITOR_PAGE (editor_page));
 
-	document = e_editor_page_get_document (editor_page);
-
-	table_cell = get_table_cell_element (document);
+	table_cell = get_table_cell_element (editor_page);
 	g_return_if_fail (table_cell != NULL);
 
 	row = dom_node_find_parent_element (WEBKIT_DOM_NODE (table_cell), "TR");
@@ -279,15 +299,12 @@ e_editor_dom_delete_row (EEditorPage *editor_page)
 void
 e_editor_dom_delete_table (EEditorPage *editor_page)
 {
-	WebKitDOMDocument *document;
 	WebKitDOMElement *table, *table_cell;
 	EEditorHistoryEvent *ev = NULL;
 
 	g_return_if_fail (E_IS_EDITOR_PAGE (editor_page));
 
-	document = e_editor_page_get_document (editor_page);
-
-	table_cell = get_table_cell_element (document);
+	table_cell = get_table_cell_element (editor_page);
 	g_return_if_fail (table_cell != NULL);
 
 	table = dom_node_find_parent_element (WEBKIT_DOM_NODE (table_cell), "TABLE");
@@ -304,16 +321,13 @@ e_editor_dom_delete_table (EEditorPage *editor_page)
 void
 e_editor_dom_insert_column_after (EEditorPage *editor_page)
 {
-	WebKitDOMDocument *document;
 	WebKitDOMElement *cell, *row, *table_cell, *table;
 	EEditorHistoryEvent *ev = NULL;
 	gulong index;
 
 	g_return_if_fail (E_IS_EDITOR_PAGE (editor_page));
 
-	document = e_editor_page_get_document (editor_page);
-
-	table_cell = get_table_cell_element (document);
+	table_cell = get_table_cell_element (editor_page);
 	g_return_if_fail (table_cell != NULL);
 
 	cell = dom_node_find_parent_element (WEBKIT_DOM_NODE (table_cell), "TD");
@@ -352,16 +366,13 @@ e_editor_dom_insert_column_after (EEditorPage *editor_page)
 void
 e_editor_dom_insert_column_before (EEditorPage *editor_page)
 {
-	WebKitDOMDocument *document;
 	WebKitDOMElement *cell, *row, *table_cell, *table;
 	EEditorHistoryEvent *ev = NULL;
 	gulong index;
 
 	g_return_if_fail (E_IS_EDITOR_PAGE (editor_page));
 
-	document = e_editor_page_get_document (editor_page);
-
-	table_cell = get_table_cell_element (document);
+	table_cell = get_table_cell_element (editor_page);
 	g_return_if_fail (table_cell != NULL);
 
 	cell = dom_node_find_parent_element (WEBKIT_DOM_NODE (table_cell), "TD");
@@ -389,7 +400,7 @@ e_editor_dom_insert_column_before (EEditorPage *editor_page)
 
 	while (row) {
 		webkit_dom_html_table_row_element_insert_cell (
-			WEBKIT_DOM_HTML_TABLE_ROW_ELEMENT (row), index - 1, NULL);
+			WEBKIT_DOM_HTML_TABLE_ROW_ELEMENT (row), index, NULL);
 
 		row = WEBKIT_DOM_ELEMENT (
 			webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (row)));
@@ -401,7 +412,6 @@ e_editor_dom_insert_column_before (EEditorPage *editor_page)
 void
 e_editor_dom_insert_row_above (EEditorPage *editor_page)
 {
-	WebKitDOMDocument *document;
 	WebKitDOMElement *row, *table, *table_cell;
 	WebKitDOMHTMLCollection *cells = NULL;
 	WebKitDOMHTMLElement *new_row;
@@ -410,9 +420,7 @@ e_editor_dom_insert_row_above (EEditorPage *editor_page)
 
 	g_return_if_fail (E_IS_EDITOR_PAGE (editor_page));
 
-	document = e_editor_page_get_document (editor_page);
-
-	table_cell = get_table_cell_element (document);
+	table_cell = get_table_cell_element (editor_page);
 	g_return_if_fail (table_cell != NULL);
 
 	row = dom_node_find_parent_element (WEBKIT_DOM_NODE (table_cell), "TR");
@@ -446,7 +454,6 @@ e_editor_dom_insert_row_above (EEditorPage *editor_page)
 void
 e_editor_dom_insert_row_below (EEditorPage *editor_page)
 {
-	WebKitDOMDocument *document;
 	WebKitDOMElement *row, *table, *table_cell;
 	WebKitDOMHTMLCollection *cells = NULL;
 	WebKitDOMHTMLElement *new_row;
@@ -455,9 +462,7 @@ e_editor_dom_insert_row_below (EEditorPage *editor_page)
 
 	g_return_if_fail (E_IS_EDITOR_PAGE (editor_page));
 
-	document = e_editor_page_get_document (editor_page);
-
-	table_cell = get_table_cell_element (document);
+	table_cell = get_table_cell_element (editor_page);
 	g_return_if_fail (table_cell != NULL);
 
 	row = dom_node_find_parent_element (WEBKIT_DOM_NODE (table_cell), "TR");
