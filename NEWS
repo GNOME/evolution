@@ -1,3 +1,61 @@
+Evolution 3.25.1 2017-04-24
+---------------------------
+
+Bug Fixes:
+	Bug 780045 - MBOX preview not shown in --import dialog (Milan Crha)
+	Bug 779907 - Backup file name extension not updated after switching file filter (Milan Crha)
+	Bug 780085 - Fails to recognize Gmail HTML new line marker before signature (Milan Crha)
+	Bug 780080 - Ignore caret-mode when processing magic-spacebar (Milan Crha)
+	Bug 726533 - [webkit-composer] Text can be "bound" to an image object (Tomas Popela)
+	Bug 780275 - Problems with citation (Tomas Popela)
+	Bug 780988 - Show default application for open-with as the first (Milan Crha)
+	Bug 781404 - Disable inline audio play in message preview (Milan Crha)
+	Bug 781557 - Inserting/removing rows/columns in tables don't work (Milan Crha)
+	Bug 781570 - Replace Unicode NBSP to ASCII space in text/plain before send (Milan Crha)
+
+Miscellaneous:
+	Fix few issues reported by Coverity scan (Milan Crha)
+	[EUndoRedoManager] Move two selection related functions to e-editor-dom-functions.h (Tomas Popela)
+	Fix drag and drop in composer (Tomas Popela)
+	Remove code that is not needed with WebKit2 anymore (Tomas Popela)
+	Undo and redo buttons not active if switching from headers to editor (Tomas Popela)
+	Fix the replace dialog functionality (Tomas Popela)
+	Be more verbose about some of the history events (Tomas Popela)
+	Allow the attachments and inline images to be dragged to the editor (Tomas Popela)
+	Remove some of the WK2 FIXMEs (Tomas Popela)
+	Undoing the HISTORY_IMAGE event won't remove the image (Tomas Popela)
+	No initial paragraph presented if composing a new message (Tomas Popela)
+	Possible deadlock in the replace dialog (Tomas Popela)
+	Can't change the font color on caret in WebKitGTK+ 2.16 (Tomas Popela)
+	[Mail] Cached remote content not always found in cache (Milan Crha)
+	Use the right format string for WebPage's id (Tomas Popela)
+	Fix a compiler warning (maybe-uninitialized) (Milan Crha)
+	Don't hardcode base64 image data in tests (Tomas Popela)
+	Last BR in inserted content is left marked (Tomas Popela)
+	Remove duplicate function for determining the citation level (Tomas Popela)
+	Minor code style fixes (Tomas Popela)
+	Crash under e_meeting_time_selector_refresh_cb() (Milan Crha)
+	Drag and drop to the editor can lock the Evolution (Tomas Popela)
+	Dropping text/* content to the editor is not handled by WebKit (Tomas Popela)
+	Fix the compilation warning with gcc 7 (Tomas Popela)
+	[ENameSelectorEntry] Avoid fake "changed" signals on focus-in (Milan Crha)
+	Calendar Print skips print dialog (Milan Crha)
+	Warning could be printed if debug enabled for undo&redo (Tomas Popela)
+	Remove some left-over debug prints (Milan Crha)
+	User documentation improvements (Andre Klapper)
+
+Translations:
+	Alain Lojewski (fr)
+	Kjartan Maraas (nb)
+	Ask Hjorth Larsen (da)
+	Piotr Drąg (pl)
+	Yuras Shumovich (be)
+	Fabio Tomat (fur)
+	Rūdolfs Mazurs (lv)
+	Rofiquzzaki (id)
+	Dušan Kazik (sk)
+	Florian Heiser (de)
+
 Evolution 3.24.0 2017-03-20
 ---------------------------
 
