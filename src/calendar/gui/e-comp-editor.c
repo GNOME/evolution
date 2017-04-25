@@ -1019,12 +1019,16 @@ open_target_client_data_free (gpointer ptr)
 	if (otc) {
 		if (otc->comp_editor) {
 			if (otc->client) {
+				gboolean previous_changed = e_comp_editor_get_changed (otc->comp_editor);
+
 				e_comp_editor_set_alarm_email_address (otc->comp_editor, otc->alarm_email_address);
 				e_comp_editor_set_cal_email_address (otc->comp_editor, otc->cal_email_address);
 				e_comp_editor_set_target_client (otc->comp_editor, E_CAL_CLIENT (otc->client));
 
 				if (otc->is_target_client_change)
 					e_comp_editor_set_changed (otc->comp_editor, TRUE);
+				else
+					e_comp_editor_set_changed (otc->comp_editor, previous_changed);
 			}
 
 			if (otc->comp_editor->priv->activity_bar && otc->activity) {
