@@ -952,6 +952,34 @@ test_bug_780275_plain (TestFixture *fixture)
 		g_test_fail ();
 }
 
+static void
+test_bug_781722 (TestFixture *fixture)
+{
+	if (!test_utils_process_commands (fixture,
+		"mode:plain\n")) {
+		g_test_fail ();
+		return;
+	}
+
+	test_utils_insert_content (fixture,
+		"<pre>Signed-off-by: User &lt;<a href=\"mailto:user@no.where\">user@no.where</a>&gt;\n"
+		"</pre><span class=\"-x-evo-to-body\" data-credits=\"Credits:\"></span>"
+		"<span class=\"-x-evo-cite-body\"></span>",
+		E_CONTENT_EDITOR_INSERT_REPLACE_ALL | E_CONTENT_EDITOR_INSERT_TEXT_HTML);
+
+	if (!test_utils_run_simple_test (fixture,
+		"seq:dd\n"
+		"action:style-preformat\n",
+		HTML_PREFIX "<div style=\"width: 71ch;\">Credits:</div>"
+		"<blockquote type=\"cite\">"
+		"<pre>&gt; Signed-off-by: User &lt;<a href=\"mailto:user@no.where\">user@no.where</a>&gt;</pre>"
+		"</blockquote>"
+		HTML_SUFFIX,
+		"Credits:\n"
+		"> Signed-off-by: User <user@no.where>"))
+		g_test_fail ();
+}
+
 void
 test_add_html_editor_bug_tests (void)
 {
@@ -976,4 +1004,5 @@ test_add_html_editor_bug_tests (void)
 	test_utils_add_test ("/bug/779707", test_bug_779707);
 	test_utils_add_test ("/bug/780275/html", test_bug_780275_html);
 	test_utils_add_test ("/bug/780275/plain", test_bug_780275_plain);
+	test_utils_add_test ("/bug/781722", test_bug_781722);
 }
