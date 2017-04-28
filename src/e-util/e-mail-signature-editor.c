@@ -513,7 +513,6 @@ mail_signature_editor_constructed (GObject *object)
 	EHTMLEditor *editor;
 	EContentEditor *cnt_editor;
 	GtkUIManager *ui_manager;
-	GDBusObject *dbus_object;
 	ESource *source;
 	GtkAction *action;
 	GtkWidget *container;
@@ -640,27 +639,6 @@ mail_signature_editor_constructed (GObject *object)
 	} else {
 		gtk_widget_grab_focus (GTK_WIDGET (cnt_editor));
 	}
-
-	/* Load file content only for an existing signature.
-	 * (A new signature will not yet have a GDBusObject.) */
-	dbus_object = e_source_ref_dbus_object (source);
-	if (dbus_object != NULL) {
-		GCancellable *cancellable;
-
-		cancellable = g_cancellable_new ();
-
-		e_source_mail_signature_load (
-			source,
-			G_PRIORITY_DEFAULT,
-			cancellable,
-			mail_signature_editor_loaded_cb,
-			g_object_ref (window));
-
-		g_warn_if_fail (window->priv->cancellable == NULL);
-		window->priv->cancellable = cancellable;
-
-		g_object_unref (dbus_object);
-	}
 }
 
 static void
@@ -753,9 +731,12 @@ mail_signature_editor_html_editor_created_cb (GObject *source_object,
 					      GAsyncResult *async_result,
 					      gpointer user_data)
 {
-	GtkWidget *html_editor, *signature_editor;
+	GtkWidget *html_editor;
+	EMailSignatureEditor *signature_editor;
 	ESimpleAsyncResult *eresult = user_data;
 	CreateEditorData *ced;
+	GDBusObject *dbus_object;
+	ESource *source;
 	GError *error = NULL;
 
 	g_return_if_fail (E_IS_SIMPLE_ASYNC_RESULT (eresult));
@@ -775,11 +756,38 @@ mail_signature_editor_html_editor_created_cb (GObject *source_object,
 		"editor", html_editor,
 		NULL);
 
+	g_object_ref (signature_editor);
+
 	e_simple_async_result_set_op_pointer (eresult, signature_editor);
 
 	e_simple_async_result_complete (eresult);
 
 	g_object_unref (eresult);
+
+	source = e_mail_signature_editor_get_source (signature_editor);
+
+	/* Load file content only for an existing signature.
+	 * (A new signature will not yet have a GDBusObject.) */
+	dbus_object = source ? e_source_ref_dbus_object (source) : NULL;
+	if (dbus_object != NULL) {
+		GCancellable *cancellable;
+
+		cancellable = g_cancellable_new ();
+
+		e_source_mail_signature_load (
+			source,
+			G_PRIORITY_DEFAULT,
+			cancellable,
+			mail_signature_editor_loaded_cb,
+			g_object_ref (signature_editor));
+
+		g_warn_if_fail (signature_editor->priv->cancellable == NULL);
+		signature_editor->priv->cancellable = cancellable;
+
+		g_object_unref (dbus_object);
+	}
+
+	g_object_unref (signature_editor);
 }
 
 void
