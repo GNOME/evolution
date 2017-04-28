@@ -1181,18 +1181,30 @@ web_page_send_request_cb (WebKitWebPage *web_page,
 }
 
 static void
-web_page_document_loaded_cb (WebKitWebPage *web_page,
-                             gpointer user_data)
+e_web_extension_store_page_id_on_document (WebKitWebPage *web_page)
 {
 	WebKitDOMDocument *document;
 	guint64 *ppage_id;
 
-	document = webkit_web_page_get_dom_document (web_page);
+	g_return_if_fail (WEBKIT_IS_WEB_PAGE (web_page));
 
 	ppage_id = g_new (guint64, 1);
 	*ppage_id = webkit_web_page_get_id (web_page);
 
+	document = webkit_web_page_get_dom_document (web_page);
+
 	g_object_set_data_full (G_OBJECT (document), WEB_EXTENSION_PAGE_ID_KEY, ppage_id, g_free);
+}
+
+static void
+web_page_document_loaded_cb (WebKitWebPage *web_page,
+                             gpointer user_data)
+{
+	WebKitDOMDocument *document;
+
+	e_web_extension_store_page_id_on_document (web_page);
+
+	document = webkit_web_page_get_dom_document (web_page);
 
 	e_dom_utils_replace_local_image_links (document);
 
@@ -1281,6 +1293,8 @@ web_page_created_cb (WebKitWebExtension *wk_extension,
 	page_data->web_page = web_page;
 	page_data->need_input = FALSE;
 	page_data->clipboard_flags = 0;
+
+	e_web_extension_store_page_id_on_document (web_page);
 
 	g_hash_table_insert (extension->priv->pages, ppage_id, page_data);
 
