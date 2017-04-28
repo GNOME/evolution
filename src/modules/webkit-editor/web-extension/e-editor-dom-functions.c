@@ -3973,6 +3973,8 @@ body_keyup_event_cb (WebKitDOMElement *element,
 				&ev->after.end.x,
 				&ev->after.end.y);
 		}
+
+		e_editor_page_emit_content_changed (editor_page);
 	} else if (key_code == HTML_KEY_CODE_CONTROL)
 		dom_set_links_active (document, FALSE);
 	else if (key_code == HTML_KEY_CODE_RETURN)
