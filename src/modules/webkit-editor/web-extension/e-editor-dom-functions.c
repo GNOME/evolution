@@ -14482,7 +14482,8 @@ e_editor_dom_selection_wrap (EEditorPage *editor_page)
 			wrapped_paragraph, "data-user-wrapped", "", NULL);
 
 		if (quoted && !html_mode)
-			e_editor_dom_quote_plain_text_element (editor_page, wrapped_paragraph);
+			e_editor_dom_quote_plain_text_element_after_wrapping (
+				editor_page, wrapped_paragraph, citation_level);
 
 		block = next_block;
 	}
