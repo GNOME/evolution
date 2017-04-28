@@ -14500,6 +14500,8 @@ e_editor_dom_selection_wrap (EEditorPage *editor_page)
 	e_editor_dom_selection_restore (editor_page);
 
 	e_editor_dom_force_spell_check_in_viewport (editor_page);
+
+	e_editor_page_emit_content_changed (editor_page);
 }
 
 void
