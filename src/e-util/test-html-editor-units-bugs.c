@@ -980,6 +980,40 @@ test_bug_781722 (TestFixture *fixture)
 		g_test_fail ();
 }
 
+static void
+test_bug_781116 (TestFixture *fixture)
+{
+	test_utils_fixture_change_setting_boolean (fixture, "org.gnome.evolution.mail", "composer-wrap-quoted-text-in-replies", FALSE);
+
+	if (!test_utils_process_commands (fixture,
+		"mode:plain\n")) {
+		g_test_fail ();
+		return;
+	}
+
+	test_utils_insert_content (fixture,
+		"<pre>a very long text, which splits into multiple lines when this paragraph is not marked as preformatted, but as normal, as it should be</pre>\n"
+		"</pre><span class=\"-x-evo-to-body\" data-credits=\"Credits:\"></span>"
+		"<span class=\"-x-evo-cite-body\"></span>",
+		E_CONTENT_EDITOR_INSERT_REPLACE_ALL | E_CONTENT_EDITOR_INSERT_TEXT_HTML);
+
+	if (!test_utils_run_simple_test (fixture,
+		"seq:dd\n"
+		"action:wrap-lines\n",
+		HTML_PREFIX "<div style=\"width: 71ch;\">Credits:</div>"
+		"<blockquote type=\"cite\">"
+		"<pre>&gt; a very long text, which splits into multiple lines when this<br>"
+		"&gt; paragraph is not marked as preformatted, but as normal, as it should<br>"
+		"&gt; be</pre>"
+		"</blockquote>"
+		HTML_SUFFIX,
+		"Credits:\n"
+		"> a very long text, which splits into multiple lines when this\n"
+		"> paragraph is not marked as preformatted, but as normal, as it should\n"
+		"> be</pre>"))
+		g_test_fail ();
+}
+
 void
 test_add_html_editor_bug_tests (void)
 {
@@ -1005,4 +1039,5 @@ test_add_html_editor_bug_tests (void)
 	test_utils_add_test ("/bug/780275/html", test_bug_780275_html);
 	test_utils_add_test ("/bug/780275/plain", test_bug_780275_plain);
 	test_utils_add_test ("/bug/781722", test_bug_781722);
+	test_utils_add_test ("/bug/781116", test_bug_781116);
 }
