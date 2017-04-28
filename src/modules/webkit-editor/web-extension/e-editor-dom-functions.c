@@ -16505,13 +16505,11 @@ process_block_to_block (EEditorPage *editor_page,
 
 		remove_node (block);
 
-		if (!next_block && !after_selection_end) {
-			citation_level = e_editor_dom_get_citation_level (WEBKIT_DOM_NODE (element), FALSE);
+		citation_level = e_editor_dom_get_citation_level (WEBKIT_DOM_NODE (element), FALSE);
 
-			if (citation_level > 0) {
-				next_block = webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (element));
-				next_block = webkit_dom_node_get_next_sibling (next_block);
-			}
+		if (!next_block && !after_selection_end && citation_level > 0) {
+			next_block = webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (element));
+			next_block = webkit_dom_node_get_next_sibling (next_block);
 		}
 
 		block = next_block;
@@ -16532,13 +16530,9 @@ process_block_to_block (EEditorPage *editor_page,
 			}
 		}
 
-		if (!html_mode && quoted) {
-			if (citation_level > 0)
-				e_editor_dom_quote_plain_text_element_after_wrapping (
-					editor_page, element, citation_level);
-			else
-				e_editor_dom_quote_plain_text_element (editor_page, element);
-		}
+		if (!html_mode && quoted && citation_level > 0)
+			e_editor_dom_quote_plain_text_element_after_wrapping (
+				editor_page, element, citation_level);
 	}
 
 	return after_selection_end;
