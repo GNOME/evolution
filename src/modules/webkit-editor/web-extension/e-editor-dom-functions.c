@@ -1537,16 +1537,16 @@ e_editor_dom_check_magic_links (EEditorPage *editor_page,
 
 	if (urls) {
 		const gchar *end_of_match = NULL;
-		gchar *final_url, *url_end_raw, *url_text;
+		gchar *final_url = NULL, *url_end_raw, *url_text;
 		glong url_start, url_end, url_length;
 		WebKitDOMNode *url_text_node;
 		WebKitDOMElement *anchor;
 
 		g_match_info_fetch_pos (match_info, 0, &start_pos_url, &end_pos_url);
 
-		/* Get start and end position of url in node's text because positions
+		/* Get start and end position of URL in node's text because positions
 		 * that we get from g_match_info_fetch_pos are not UTF-8 aware */
-		url_end_raw = g_strndup(node_text, end_pos_url);
+		url_end_raw = g_strndup (node_text, end_pos_url);
 		url_end = g_utf8_strlen (url_end_raw, -1);
 		url_length = g_utf8_strlen (urls[0], -1);
 
@@ -1573,6 +1573,10 @@ e_editor_dom_check_magic_links (EEditorPage *editor_page,
 		url_text = webkit_dom_character_data_get_data (
 			WEBKIT_DOM_CHARACTER_DATA (url_text_node));
 
+		/* Sanity check */
+		if (strrchr (url_text, ' '))
+			goto skip;
+
 		if (g_str_has_prefix (url_text, "www."))
 			final_url = g_strconcat ("http://" , url_text, NULL);
 		else if (is_email_address)
@@ -1596,9 +1600,11 @@ e_editor_dom_check_magic_links (EEditorPage *editor_page,
 			WEBKIT_DOM_NODE (url_text_node),
 			NULL);
 
+ skip:
 		g_free (url_end_raw);
-		g_free (final_url);
 		g_free (url_text);
+		if (final_url)
+			g_free (final_url);
 	} else {
 		gboolean appending_to_link = FALSE;
 		gchar *href, *text, *url, *text_to_append = NULL;
@@ -4927,26 +4933,19 @@ create_anchor_for_link (const GMatchInfo *info,
                         GString *res,
                         gpointer data)
 {
-	gboolean link_surrounded, with_nbsp = FALSE;
+	gboolean link_surrounded, ending_with_nbsp = FALSE;
 	gint offset = 0, truncate_from_end = 0;
 	gint match_start, match_end;
-	gchar *match_with_nbsp, *match_without_nbsp;
+	gchar *match;
 	const gchar *end_of_match = NULL;
-	const gchar *match, *match_extra_characters;
+	const gchar *nbsp_match = NULL;
 
-	match_with_nbsp = g_match_info_fetch (info, 1);
-	/* E-mail addresses will be here. */
-	match_without_nbsp = g_match_info_fetch (info, 0);
+	match = g_match_info_fetch (info, 0);
+	g_match_info_fetch_pos (info, 0, &match_start, &match_end);
 
-	if (!match_with_nbsp || (strstr (match_with_nbsp, "&nbsp;") && !g_str_has_prefix (match_with_nbsp, "&nbsp;"))) {
-		match = match_without_nbsp;
-		match_extra_characters = match_with_nbsp;
-		g_match_info_fetch_pos (info, 0, &match_start, &match_end);
-		with_nbsp = TRUE;
-	} else {
-		match = match_with_nbsp;
-		match_extra_characters = match_without_nbsp;
-		g_match_info_fetch_pos (info, 1, &match_start, &match_end);
+	if (g_str_has_suffix (match, "&nbsp;")) {
+		ending_with_nbsp = TRUE;
+		truncate_from_end = 6;
 	}
 
 	if (g_str_has_prefix (match, "&nbsp;"))
@@ -4973,10 +4972,25 @@ create_anchor_for_link (const GMatchInfo *info,
 			link_surrounded = link_surrounded && g_str_has_suffix (match, "&gt;");
 
 		if (link_surrounded) {
-			/* ";" is already counted by code above */
-			truncate_from_end += 3;
-			end_of_match -= 3;
+			truncate_from_end += 4;
+			end_of_match -= 4;
 		}
+	}
+
+	/* The ending ';' was counted when looking for the invalid trailing characters, substract it. */
+	if (link_surrounded || ending_with_nbsp) {
+		truncate_from_end -= 1;
+		end_of_match += 1;
+	}
+
+	/* If there is non-breaking space in the match, remove it and everything
+	 * after it from the match */
+	if (!g_str_has_prefix (match, "&nbsp;") && !g_str_has_suffix (match, "&nbsp;") && (nbsp_match = strstr (match, "&nbsp;"))) {
+		glong after_nbsp_length = g_utf8_strlen (nbsp_match, -1);
+		truncate_from_end = after_nbsp_length;
+		end_of_match -= after_nbsp_length;
+		if (link_surrounded)
+			end_of_match += 4;
 	}
 
 	g_string_append (res, "<a href=\"");
@@ -4996,11 +5010,10 @@ create_anchor_for_link (const GMatchInfo *info,
 	if (truncate_from_end > 0)
 		g_string_append (res, end_of_match);
 
-	if (!with_nbsp && match_extra_characters)
-		g_string_append (res, match_extra_characters + (match_end - match_start));
+	if (ending_with_nbsp)
+		g_string_append (res, "&nbsp;");
 
-	g_free (match_with_nbsp);
-	g_free (match_without_nbsp);
+	g_free (match);
 
 	return FALSE;
 }

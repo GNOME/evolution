@@ -1014,6 +1014,36 @@ test_bug_781116 (TestFixture *fixture)
 		g_test_fail ();
 }
 
+static void
+test_bug_780088 (TestFixture *fixture)
+{
+	if (!test_utils_process_commands (fixture,
+		"mode:plain\n")) {
+		g_test_fail ();
+		return;
+	}
+
+	test_utils_set_clipboard_text ("Seeing @blah instead of @foo XX'ed on" UNICODE_NBSP "https://example.sub" UNICODE_NBSP "domain.org/page I'd recommend to XX YY <https://example.subdomain.org/p/user/> , click fjwvne on the left, click skjd sjewncj on the right, and set wqje wjfdn Xs to something like wqjfnm www.example.com/~user wjfdncj or such.", FALSE);
+
+	if (!test_utils_run_simple_test (fixture,
+		"action:paste\n"
+		"seq:n",
+		HTML_PREFIX "<div style=\"width: 71ch;\">"
+		"Seeing @blah instead of @foo XX'ed on&nbsp;<a href=\"https://example.sub\">https://example.sub</a>"
+		"&nbsp;domain.org/page I'd recommend to XX YY "
+		"&lt;<a href=\"https://example.subdomain.org/p/user/\">https://example.subdomain.org/p/user/</a>&gt; , "
+		"click fjwvne on the left, click skjd sjewncj on the right, and set wqje wjfdn Xs to something like "
+		"wqjfnm <a href=\"www.example.com/~user\">www.example.com/~user</a> wjfdncj or such.</div>"
+		"</div><div style=\"width: 71ch;\"><br></div>"
+		HTML_SUFFIX,
+		"Seeing @blah instead of @foo XX'ed on" UNICODE_NBSP "https://example.sub" UNICODE_NBSP "domain.org/pa\n"
+		"ge I'd recommend to XX YY <https://example.subdomain.org/p/user/> ,\n"
+		"click fjwvne on the left, click skjd sjewncj on the right, and set wqje\n"
+		"wjfdn Xs to something like wqjfnm www.example.com/~user wjfdncj or\n"
+		"such.\n"))
+		g_test_fail ();
+}
+
 void
 test_add_html_editor_bug_tests (void)
 {
@@ -1040,4 +1070,5 @@ test_add_html_editor_bug_tests (void)
 	test_utils_add_test ("/bug/780275/plain", test_bug_780275_plain);
 	test_utils_add_test ("/bug/781722", test_bug_781722);
 	test_utils_add_test ("/bug/781116", test_bug_781116);
+	test_utils_add_test ("/bug/780088", test_bug_780088);
 }

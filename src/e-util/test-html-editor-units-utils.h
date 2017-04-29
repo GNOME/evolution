@@ -37,6 +37,8 @@ typedef struct _TestFixture {
 	GSList *undo_stack; /* UndoContent * */
 } TestFixture;
 
+#define UNICODE_NBSP "\xc2\xa0"
+
 typedef void (* ETestFixtureSimpleFunc) (TestFixture *fixture);
 
 void		test_utils_set_event_processing_delay_ms
