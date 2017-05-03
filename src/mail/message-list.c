@@ -5214,6 +5214,8 @@ on_click (ETree *tree,
 			camel_message_info_set_user_tag (info, "completed-on", NULL);
 		}
 
+		g_object_unref (folder);
+
 		return TRUE;
 	}
 
