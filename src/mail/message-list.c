@@ -5247,7 +5247,8 @@ on_click (ETree *tree,
 		em_folder_tree_model_user_marked_unread (model, folder, 1);
 	}
 
-	if (flag == CAMEL_MESSAGE_SEEN && list->seen_id) {
+	if (flag == CAMEL_MESSAGE_SEEN && list->seen_id &&
+	    g_strcmp0 (list->cursor_uid, camel_message_info_get_uid (info)) == 0) {
 		g_source_remove (list->seen_id);
 		list->seen_id = 0;
 	}
