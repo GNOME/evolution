@@ -434,7 +434,7 @@ mail_shell_content_set_folder (EMailReader *reader,
 	 * also implements the EMailReader interface. */
 	reader = E_MAIL_READER (mail_shell_content->priv->mail_view);
 
-	return e_mail_reader_set_folder (reader, folder);
+	e_mail_reader_set_folder (reader, folder);
 }
 
 static void
