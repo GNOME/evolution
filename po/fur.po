@@ -2,15 +2,16 @@
 # Copyright (C) 2016 evolution's COPYRIGHT HOLDER
 # This file is distributed under the same license as the evolution package.
 # Tomat <f.t.public@gmail.com>, 2016.
-# Fabio Tomat <f.t.public@gmail.com>, 2016.
+# Fabio Tomat <f.t.public@gmail.com>, 2016, 2017.
 #
+#: ../src/shell/main.c:519
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2017-03-23 09:02+0000\n"
-"PO-Revision-Date: 2017-03-31 10:20+0200\n"
+"POT-Creation-Date: 2017-04-18 09:24+0000\n"
+"PO-Revision-Date: 2017-05-05 17:35+0200\n"
 "Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
 "Language-Team: Friulian <f.t.public@gmail.com>\n"
 "Language: fur\n"
@@ -18,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.8.12\n"
+"X-Generator: Gtranslator 2.91.7\n"
 
 #: ../evolution.appdata.xml.in.h:1 ../data/evolution.desktop.in.in.h:1
 #: ../src/mail/e-mail-browser.c:1098
@@ -2222,7 +2223,7 @@ msgid ""
 "It disables/enables the repeated prompts to warn that you are switching "
 "composer format and the content needs to lose its formatting."
 msgstr ""
-"Al disabilite/abilite il visâ ripetût che si stâ cambiant il formât dal "
+"Al disabilite/abilite il visâ ripetût che si sta cambiant il formât dal "
 "compositôr e il contignût al scugne pierdi la sô formatazion."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:187
@@ -3219,7 +3220,7 @@ msgstr "Cheste rubriche e vignarà gjavade par simpri."
 #: ../src/addressbook/addressbook.error.xml.h:13
 #: ../src/calendar/calendar.error.xml.h:7 ../src/mail/mail.error.xml.h:69
 msgid "Do _Not Delete"
-msgstr "_No stâ eliminâ"
+msgstr "_No sta eliminâ"
 
 #: ../src/addressbook/addressbook.error.xml.h:14
 msgid "Delete remote address book “{0}”?"
@@ -5239,7 +5240,7 @@ msgstr ""
 
 #: ../src/calendar/alarm-notify/alarm-queue.c:2117
 msgid "Do not ask me about this program again."
-msgstr "No stâ domandâmi plui su chest program."
+msgstr "No sta domandâmi plui su chest program."
 
 #: ../src/calendar/alarm-notify/util.c:65
 msgid "invalid time"
@@ -5297,7 +5298,7 @@ msgstr ""
 
 #: ../src/calendar/calendar.error.xml.h:3
 msgid "Do _not Send"
-msgstr "_No stâ inviâ"
+msgstr "_No sta inviâ"
 
 #: ../src/calendar/calendar.error.xml.h:4
 msgid "_Send Notice"
@@ -6674,7 +6675,7 @@ msgstr "Organizadôr: %s"
 
 #. To Translators: It will display "Location: PlaceOfTheMeeting"
 #: ../src/calendar/gui/e-calendar-view.c:1851
-#: ../src/calendar/gui/e-meeting-time-sel.c:2725
+#: ../src/calendar/gui/e-meeting-time-sel.c:2731
 #: ../src/calendar/gui/print.c:3531
 #, c-format
 msgid "Location: %s"
@@ -7110,7 +7111,7 @@ msgstr "La ore di inizi no je valide"
 #: ../src/calendar/gui/e-comp-editor-event.c:442
 #: ../src/calendar/gui/e-comp-editor-event.c:458
 #: ../src/calendar/gui/e-comp-editor-page-attachments.c:199
-#: ../src/calendar/gui/e-comp-editor.c:338 ../src/mail/e-mail-display.c:2112
+#: ../src/calendar/gui/e-comp-editor.c:338 ../src/mail/e-mail-display.c:2116
 #: ../src/mail/e-mail-reader-utils.c:646 ../src/mail/mail-send-recv.c:490
 #: ../src/mail/mail-send-recv.c:1288 ../src/plugins/face/face.c:174
 #: ../src/shell/e-shell.c:1073 ../src/shell/e-shell.c:1097
@@ -7294,13 +7295,13 @@ msgstr[0] "Zonte"
 msgstr[1] "Zontis"
 
 #: ../src/calendar/gui/e-comp-editor-page-attachments.c:194
-#: ../src/e-util/e-attachment.c:2419
+#: ../src/e-util/e-attachment.c:2442
 #, c-format
 msgid "Could not load “%s”"
 msgstr "Impussibil cjariâ “%s”"
 
 #: ../src/calendar/gui/e-comp-editor-page-attachments.c:196
-#: ../src/e-util/e-attachment.c:2422
+#: ../src/e-util/e-attachment.c:2445
 #, c-format
 msgid "Could not load the attachment"
 msgstr "Impussibil cjariâ la zonte"
@@ -8462,7 +8463,7 @@ msgstr "_Ore di inizi:"
 msgid "_End time:"
 msgstr "Ore di _fin:"
 
-#: ../src/calendar/gui/e-meeting-time-sel.c:2721
+#: ../src/calendar/gui/e-meeting-time-sel.c:2727
 #, c-format
 msgid ""
 "Summary: %s\n"
@@ -8471,7 +8472,7 @@ msgstr ""
 "Sintesi: %s\n"
 "Ubicazion: %s"
 
-#: ../src/calendar/gui/e-meeting-time-sel.c:2723
+#: ../src/calendar/gui/e-meeting-time-sel.c:2729
 #: ../src/calendar/gui/print.c:3520
 #, c-format
 msgid "Summary: %s"
@@ -11019,11 +11020,11 @@ msgstr ""
 "Impussibil cifrâ il messaç in jessude: nol è impostât nissun certificât di "
 "cifradure par chest account"
 
-#: ../src/composer/e-msg-composer.c:1596 ../src/composer/e-msg-composer.c:2210
+#: ../src/composer/e-msg-composer.c:1596 ../src/composer/e-msg-composer.c:2220
 msgid "Compose Message"
 msgstr "Scrîf messaç"
 
-#: ../src/composer/e-msg-composer.c:4547
+#: ../src/composer/e-msg-composer.c:4561
 msgid "The composer contains a non-text message body, which cannot be edited."
 msgstr ""
 "Il compositôr al à un cuarp messaç no di test, che nol è pussibil modificâ."
@@ -11060,7 +11061,7 @@ msgstr ""
 
 #: ../src/composer/mail-composer.error.xml.h:7
 msgid "_Do not Recover"
-msgstr "_No stâ recuperâ"
+msgstr "_No sta recuperâ"
 
 #: ../src/composer/mail-composer.error.xml.h:8
 msgid "_Recover"
@@ -11210,7 +11211,7 @@ msgstr ""
 
 #: ../src/composer/mail-composer.error.xml.h:41
 msgid "_Don’t lose formatting"
-msgstr "_No stâ pierdi la formatazion"
+msgstr "_No sta pierdi la formatazion"
 
 #: ../src/composer/mail-composer.error.xml.h:42
 msgid "Lose _formatting"
@@ -11750,44 +11751,44 @@ msgstr "No si è rivâts a creâ une discussion: "
 msgid "Attached message"
 msgstr "Messaç alegât"
 
-#: ../src/e-util/e-attachment.c:2040 ../src/e-util/e-attachment.c:3093
+#: ../src/e-util/e-attachment.c:2063 ../src/e-util/e-attachment.c:3116
 msgid "Operation was cancelled"
 msgstr "La operazion e je stade anulade"
 
 #. Translators: Default attachment filename.
-#: ../src/e-util/e-attachment.c:2224 ../src/e-util/e-attachment.c:2940
-#: ../src/e-util/e-attachment.c:3383 ../src/e-util/e-attachment-store.c:886
+#: ../src/e-util/e-attachment.c:2247 ../src/e-util/e-attachment.c:2963
+#: ../src/e-util/e-attachment.c:3406 ../src/e-util/e-attachment-store.c:886
 msgid "attachment.dat"
 msgstr "zonte.dat"
 
-#: ../src/e-util/e-attachment.c:2302 ../src/e-util/e-attachment.c:3443
+#: ../src/e-util/e-attachment.c:2325 ../src/e-util/e-attachment.c:3466
 msgid "A load operation is already in progress"
 msgstr "Une operazion di cjariament e je za in vore"
 
-#: ../src/e-util/e-attachment.c:2310 ../src/e-util/e-attachment.c:3451
+#: ../src/e-util/e-attachment.c:2333 ../src/e-util/e-attachment.c:3474
 msgid "A save operation is already in progress"
 msgstr "Une operazion di salvament e je za in vore"
 
-#: ../src/e-util/e-attachment.c:2707
+#: ../src/e-util/e-attachment.c:2730
 #, c-format
 msgid "Could not open “%s”"
 msgstr "Impussibil vierzi “%s”"
 
-#: ../src/e-util/e-attachment.c:2710
+#: ../src/e-util/e-attachment.c:2733
 #, c-format
 msgid "Could not open the attachment"
 msgstr "Impussibil vierzi la zonte"
 
-#: ../src/e-util/e-attachment.c:3460
+#: ../src/e-util/e-attachment.c:3483
 msgid "Attachment contents not loaded"
 msgstr "Contignûts alegâts no cjariâts"
 
-#: ../src/e-util/e-attachment.c:3551
+#: ../src/e-util/e-attachment.c:3574
 #, c-format
 msgid "Could not save “%s”"
 msgstr "Impussibil salvâ “%s”"
 
-#: ../src/e-util/e-attachment.c:3554
+#: ../src/e-util/e-attachment.c:3577
 #, c-format
 msgid "Could not save the attachment"
 msgstr "Impussibil salvâ la zonte"
@@ -11864,7 +11865,7 @@ msgstr[1] "Salve zontis"
 
 #: ../src/e-util/e-attachment-store.c:850
 msgid "Do _not extract files from the attachment"
-msgstr "No stâ tirâ fûr i file de zonte"
+msgstr "No sta tirâ fûr i file de zonte"
 
 #: ../src/e-util/e-attachment-store.c:855
 msgid "Save extracted files _only"
@@ -12519,7 +12520,7 @@ msgstr "agns"
 #. Translators: This is part of: "Do not synchronize locally mails older than [ xxx ] [ days ]"
 #: ../src/e-util/e-dialog-widgets.c:245
 msgid "Do not synchronize locally mails older than"
-msgstr "No stâ sincronizâ la pueste locâl plui vecje di"
+msgstr "No sta sincronizâ la pueste locâl plui vecje di"
 
 #. Translators: :-)
 #: ../src/e-util/e-emoticon-chooser.c:38
@@ -14000,7 +14001,7 @@ msgstr "Daûr a vierzi la rubriche “%s”"
 #: ../src/e-util/e-misc-utils.c:3290
 #: ../src/modules/mailto-handler/evolution-mailto-handler.c:146
 msgid "_Do not show this message again"
-msgstr "_No stâ mostrâ plui chest messaç"
+msgstr "_No sta mostrâ plui chest messaç"
 
 #: ../src/e-util/e-name-selector-dialog.c:274
 msgid "Show Contacts"
@@ -14045,25 +14046,25 @@ msgid "Select Contacts from Address Book"
 msgstr "Selezione contats de rubriche"
 
 #. To Translators: This would be similiar to "Expand MyList Inline" where MyList is a Contact List
-#: ../src/e-util/e-name-selector-entry.c:3207
+#: ../src/e-util/e-name-selector-entry.c:3222
 #, c-format
 msgid "E_xpand %s Inline"
 msgstr "Pa_ndi %s incorporât"
 
 #. Copy Contact Item
-#: ../src/e-util/e-name-selector-entry.c:3223
+#: ../src/e-util/e-name-selector-entry.c:3238
 #, c-format
 msgid "Cop_y %s"
 msgstr "Cop_ie %s"
 
 #. Cut Contact Item
-#: ../src/e-util/e-name-selector-entry.c:3234
+#: ../src/e-util/e-name-selector-entry.c:3249
 #, c-format
 msgid "C_ut %s"
 msgstr "T_aie %s"
 
 #. Edit Contact item
-#: ../src/e-util/e-name-selector-entry.c:3252
+#: ../src/e-util/e-name-selector-entry.c:3267
 #, c-format
 msgid "_Edit %s"
 msgstr "_Modifiche %s"
@@ -15541,7 +15542,7 @@ msgstr "Elaborazion modifichis cartele in “%s”"
 #: ../src/libemail-engine/mail-tools.c:68
 #, c-format
 msgid "Could not create spool directory “%s”: %s"
-msgstr ""
+msgstr "Impussibil creâ la cartele bobine “%s”: %s"
 
 #: ../src/libemail-engine/mail-tools.c:108
 #, c-format
@@ -15716,7 +15717,7 @@ msgstr "Citât"
 #: ../src/mail/mail-config.ui.h:29
 msgctxt "ReplyForward"
 msgid "Do Not Quote"
-msgstr "No stâ citâ"
+msgstr "No sta citâ"
 
 #: ../src/mail/e-mail-config-defaults-page.c:830
 msgid "Special Folders"
@@ -15963,7 +15964,7 @@ msgstr "Gjenerâl"
 #: ../src/mail/e-mail-config-security-page.c:329
 msgid "_Do not sign meeting requests (for Outlook compatibility)"
 msgstr ""
-"No stâ firmâ lis richiestis _di riunion (pe compatibilitât cun Outlook)"
+"No sta firmâ lis richiestis _di riunion (pe compatibilitât cun Outlook)"
 
 #: ../src/mail/e-mail-config-security-page.c:351
 msgid "Pretty Good Privacy (OpenPGP)"
@@ -16392,7 +16393,7 @@ msgstr "Daûr a eliminâ la note dal messaç..."
 #: ../src/mail/e-mail-reader.c:1307 ../src/mail/e-mail-reader.c:1519
 #: ../src/mail/e-mail-reader.c:1559
 msgid "_Do not ask me again."
-msgstr "_No stâ domandâ plui."
+msgstr "_No sta domandâ plui."
 
 #: ../src/mail/e-mail-reader.c:1565
 msgid "_Always ignore Reply-To: for mailing lists."
@@ -16643,21 +16644,21 @@ msgstr "Segne i messaçs selezionâts come se fossin stâts lets"
 
 #: ../src/mail/e-mail-reader.c:2211 ../src/mail/e-mail-reader.c:2583
 msgid "Do not _Ignore Subthread"
-msgstr "No stâ _ignorâ sot-discussion"
+msgstr "No sta _ignorâ sot-discussion"
 
 #: ../src/mail/e-mail-reader.c:2213
 msgid "Do not mark new mails in a subthread as read automatically"
 msgstr ""
-"No stâ segnâ la gnove pueste intune sot-discussion come lete in automatic"
+"No sta segnâ la gnove pueste intune sot-discussion come lete in automatic"
 
 #: ../src/mail/e-mail-reader.c:2218 ../src/mail/e-mail-reader.c:2587
 msgid "Do not _Ignore Thread"
-msgstr "No stâ _ignorâ discussion"
+msgstr "No sta _ignorâ discussion"
 
 #: ../src/mail/e-mail-reader.c:2220
 msgid "Do not mark new mails in this thread as read automatically"
 msgstr ""
-"No stâ segnâ la gnove pueste in cheste discussion come lete in automatic"
+"No sta segnâ la gnove pueste in cheste discussion come lete in automatic"
 
 #: ../src/mail/e-mail-reader.c:2225
 msgid "Uni_mportant"
@@ -17052,7 +17053,7 @@ msgstr "Permet contignût rimot di %s"
 
 #: ../src/mail/e-mail-reader.c:5449
 msgid "Do not show this message again"
-msgstr "No stâ mostrâ plui chest messaç"
+msgstr "No sta mostrâ plui chest messaç"
 
 #: ../src/mail/e-mail-reader.c:5497
 msgid "Load remote content"
@@ -17060,7 +17061,7 @@ msgstr "Cjarie contignût rimot"
 
 #: ../src/mail/e-mail-reader-utils.c:144
 msgid "Do not warn me again"
-msgstr "No stâ visâmi plui"
+msgstr "No sta visâmi plui"
 
 #: ../src/mail/e-mail-reader-utils.c:568
 #, c-format
@@ -18373,7 +18374,7 @@ msgstr "Daûr a cjariâ contignût rimot"
 
 #: ../src/mail/mail-config.ui.h:109
 msgid "_Never load remote content from the Internet"
-msgstr "_No stâ cjariâ mai il contignût rimot di Internet"
+msgstr "_No sta cjariâ mai il contignût rimot di Internet"
 
 #: ../src/mail/mail-config.ui.h:110
 msgid "_Load remote content only in messages from contacts"
@@ -18439,7 +18440,7 @@ msgstr "Opzions prove malvolûts"
 
 #: ../src/mail/mail-config.ui.h:129
 msgid "Do not mar_k messages as junk if sender is in my address book"
-msgstr "No stâ se_gnâ i messaçs come malvolûts se il mitent al è te rubriche"
+msgstr "No sta se_gnâ i messaçs come malvolûts se il mitent al è te rubriche"
 
 #: ../src/mail/mail-config.ui.h:130
 msgid "_Lookup in local address book only"
@@ -18861,7 +18862,7 @@ msgstr ""
 
 #: ../src/mail/mail.error.xml.h:72
 msgid "Do _Not Unsubscribe"
-msgstr "No stâ anulâ sotscrizion"
+msgstr "No sta anulâ sotscrizion"
 
 #: ../src/mail/mail.error.xml.h:74
 msgid "Really delete folder “{0}”?"
@@ -18964,7 +18965,7 @@ msgstr "Se si continue, ducj i account proxy a vignaran eliminâts par simpri."
 
 #: ../src/mail/mail.error.xml.h:96
 msgid "Do _Not Disable"
-msgstr "_No stâ disabilitâ"
+msgstr "_No sta disabilitâ"
 
 #: ../src/mail/mail.error.xml.h:97
 msgid "_Disable"
@@ -19125,7 +19126,7 @@ msgstr "Sincronizâ in locâl lis cartelis che a son segnadis pal ûs fûr rêt?
 
 #: ../src/mail/mail.error.xml.h:133
 msgid "Do _Not Synchronize"
-msgstr "_No stâ sincronizâ"
+msgstr "_No sta sincronizâ"
 
 #: ../src/mail/mail.error.xml.h:134
 msgid "_Synchronize"
@@ -19185,7 +19186,7 @@ msgstr "Sigûrs di copiâ la cartele “{0}” te cartele “{1}”?"
 
 #: ../src/mail/mail.error.xml.h:147
 msgid "Do _not copy"
-msgstr "_No stâ copiâ"
+msgstr "_No sta copiâ"
 
 #: ../src/mail/mail.error.xml.h:148
 msgid "_Always copy"
@@ -19205,7 +19206,7 @@ msgstr "Sigûrs di spostâ la cartele “{0}” te cartele “{1}”?"
 
 #: ../src/mail/mail.error.xml.h:153
 msgid "Do _not move"
-msgstr "_No stâ spostâ"
+msgstr "_No sta spostâ"
 
 #: ../src/mail/mail.error.xml.h:154
 msgid "_Always move"
@@ -21630,7 +21631,7 @@ msgstr ""
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:564
 msgid "Do not ask me again"
-msgstr "No stâ domandâmal plui"
+msgstr "No sta domandâmal plui"
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:682
 msgid "_Delete Task"
@@ -22564,27 +22565,27 @@ msgstr "La cartele di pueste Maildir no pues jessi vueide"
 
 #: ../src/modules/mail-config/e-mail-config-local-accounts.c:340
 msgid "Spool _File:"
-msgstr ""
+msgstr "_File bobine:"
 
 #: ../src/modules/mail-config/e-mail-config-local-accounts.c:341
 msgid "Choose a mbox spool file"
-msgstr ""
+msgstr "Sielç un file bobine mbox"
 
 #: ../src/modules/mail-config/e-mail-config-local-accounts.c:343
 msgid "Mbox spool file cannot be empty"
-msgstr ""
+msgstr "Il file bobine di mbox nol pues jessi vueit"
 
 #: ../src/modules/mail-config/e-mail-config-local-accounts.c:364
 msgid "Spool _Directory:"
-msgstr ""
+msgstr "_Cartele bobine:"
 
 #: ../src/modules/mail-config/e-mail-config-local-accounts.c:365
 msgid "Choose a mbox spool directory"
-msgstr ""
+msgstr "Sielç une cartele bobine mbox"
 
 #: ../src/modules/mail-config/e-mail-config-local-accounts.c:367
 msgid "Mbox spool directory cannot be empty"
-msgstr ""
+msgstr "La cartele bobine mbox no pues jessi vueide"
 
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:198
 #: ../src/modules/mail-config/e-mail-config-sendmail-backend.c:59
@@ -23764,7 +23765,7 @@ msgstr "Mostre la part come un contat de rubriche"
 
 #: ../src/plugins/attachment-reminder/attachment-reminder.c:169
 msgid "_Do not show this message again."
-msgstr "_No stâ mostrâ plui chest messaç."
+msgstr "_No sta mostrâ plui chest messaç."
 
 #: ../src/plugins/attachment-reminder/attachment-reminder.c:570
 #: ../src/plugins/templates/templates.c:488
@@ -25236,7 +25237,7 @@ msgstr ""
 
 #: ../src/shell/main.c:225
 msgid "Do not tell me again"
-msgstr "No stâ domandâmi plui"
+msgstr "No sta dimilu plui"
 
 #. Translators: Do NOT translate the five component
 #. * names, they MUST remain in English!
@@ -25842,7 +25843,7 @@ msgstr "Fiditi de autenticitât di chest certificât"
 
 #: ../src/smime/gui/smime-ui.ui.h:26
 msgid "Do not trust the authenticity of this certificate"
-msgstr "No stâ fidâti de autenticitât di chest certificât"
+msgstr "No sta fidâti de autenticitât di chest certificât"
 
 #: ../src/smime/gui/smime-ui.ui.h:29
 msgid "C_ertificate:"
