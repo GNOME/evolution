@@ -118,7 +118,7 @@ mail_formatter_quote_run (EMailFormatter *formatter,
 	 * So if we want to put something into the message we have to put it into
 	 * the special span element and it will be moved to body in EHTMLEditorView */
 	if (qf->priv->credits && *qf->priv->credits) {
-		gchar *credits = g_strdup_printf (
+		gchar *credits = g_markup_printf_escaped (
 			"<span class=\"-x-evo-to-body\" data-credits=\"%s\"></span>",
 			qf->priv->credits);
 		g_output_stream_write_all (

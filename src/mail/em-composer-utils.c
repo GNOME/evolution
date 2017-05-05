@@ -3066,10 +3066,28 @@ format_sender (GString *str,
 {
 	CamelInternetAddress *sender;
 	const gchar *name, *addr = NULL;
+	gchar *tmp = NULL;
 
 	sender = camel_mime_message_get_from (message);
 	if (sender != NULL && camel_address_length (CAMEL_ADDRESS (sender)) > 0) {
 		camel_internet_address_get (sender, 0, &name, &addr);
+
+		if (name && !*name) {
+			name = NULL;
+		} else if (name && *name == '\"') {
+			gint len = strlen (name);
+
+			if (len == 1) {
+				name = NULL;
+			} else if (len > 1 && name[len - 1] == '\"') {
+				if (len == 2) {
+					name = NULL;
+				} else {
+					tmp = g_strndup (name + 1, len - 2);
+					name = tmp;
+				}
+			}
+		}
 	} else {
 		name = _("an unknown sender");
 	}
@@ -3083,6 +3101,8 @@ format_sender (GString *str,
 	} else if (addr) {
 		g_string_append (str, addr);
 	}
+
+	g_free (tmp);
 }
 
 static struct {
