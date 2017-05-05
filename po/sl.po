@@ -3,8 +3,8 @@
 # This file is distributed under the same license as the evolution package.
 #
 # Andraž Tori <andraz.tori1@guest.arnes.si>, 2002.
-# Andrej Žnidaršič <andrej.znidarsic@gmail.com>, 2009-2010.
-# Matej Urbančič <mateju@svn.gnome.org>, 2006-2016.
+# Andrej Žnidaršič <andrej.znidarsic@gmail.com>, 2009–2010.
+# Matej Urbančič <mateju@svn.gnome.org>, 2006–2017.
 #
 msgid ""
 msgstr ""
@@ -12,7 +12,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
 "POT-Creation-Date: 2016-08-26 22:43+0200\n"
-"PO-Revision-Date: 2016-08-26 22:46+0200\n"
+"PO-Revision-Date: 2017-05-04 21:38+0200\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenščina <gnome-si@googlegroups.com>\n"
 "Language: sl\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
 "%100==4 ? 3 : 0);\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-Generator: Poedit 1.8.7.1\n"
+"X-Generator: Poedit 2.0.1\n"
 
 #: ../addressbook/addressbook.error.xml.h:1
 msgid "This address book could not be opened."
@@ -661,7 +661,7 @@ msgstr "Pokaži drug poštni naslov"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:71
 msgid "Show Notes"
-msgstr "Pokaži sporočila"
+msgstr "Pokaži opombe"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:72
 msgid "Show Certificates"
@@ -2415,9 +2415,8 @@ msgstr ""
 "posodobljene sezname nalog."
 
 #: ../calendar/calendar.error.xml.h:52
-#, fuzzy
 msgid "Would you like to send this memo to participants?"
-msgstr "Ali želite udeležencem poslati to nalogo?"
+msgstr "Ali želite udeležencem poslati ta opomnik?"
 
 #: ../calendar/calendar.error.xml.h:53
 #, fuzzy
@@ -2431,7 +2430,7 @@ msgstr ""
 #: ../calendar/calendar.error.xml.h:54
 #, fuzzy
 msgid "Would you like to send updated memo information to participants?"
-msgstr "Ali želite udeležencem poslati posodobljene podatke o srečanju?"
+msgstr "Ali želite udeležencem poslati posodobljene podatke o nalogi?"
 
 #: ../calendar/calendar.error.xml.h:55
 #, fuzzy
@@ -2588,13 +2587,12 @@ msgstr "Seznam opomnikov ni označen za uporabo brez povezave."
 #: ../calendar/calendar.error.xml.h:91
 #, fuzzy
 msgid "Failed to add timezone to '{0}'"
-msgstr "Dodajanje podatkov v šifrirnik je spodletelo"
+msgstr "Ni mogoče dodati iskalne mape \"{0}\"."
 
 #. The {0} is a calendar/memo list/task list name, which is useless here
 #: ../calendar/calendar.error.xml.h:93
-#, fuzzy
 msgid "Failed to save attachments"
-msgstr "Ni mogoče shraniti prilog"
+msgstr "Shranjevanje prilog je spodletelo"
 
 #. Translators: {0} is the name of the calendar.
 #: ../calendar/calendar.error.xml.h:95
@@ -2747,7 +2745,7 @@ msgstr "Odpiranje seznama nalog '{0}' je spodletelo."
 #: ../calendar/calendar.error.xml.h:153
 #, fuzzy
 msgid "Failed to get a memo from the memo list '{0}'"
-msgstr "Spreminjanje opomnika v seznamu opomnikov '{0}' je spodletelo."
+msgstr "Ustvarjanje opomnika v seznamu opomnikov '{0}' je spodletelo."
 
 #. Translators: {0} is the name of the calendar.
 #: ../calendar/calendar.error.xml.h:155
@@ -3078,52 +3076,52 @@ msgid "Unknown action to be performed"
 msgstr "Izvedeno bo neznano dejanje"
 
 #: ../calendar/gui/e-alarm-list.c:454
-#, fuzzy, c-format
+#, c-format
 msgctxt "cal-reminders"
 msgid "%s %s before the start"
-msgstr "%s %s pred začetkom sestanka"
+msgstr "%s %s pred začetkom"
 
 #: ../calendar/gui/e-alarm-list.c:460
-#, fuzzy, c-format
+#, c-format
 msgctxt "cal-reminders"
 msgid "%s %s after the start"
-msgstr "%s %s po začetku sestanka"
+msgstr "%s %s po začetku"
 
 #. Translator: The %s refers to the base, which would be actions like
 #. * "Play a sound"
 #: ../calendar/gui/e-alarm-list.c:467
-#, fuzzy, c-format
+#, c-format
 msgctxt "cal-reminders"
 msgid "%s at the start"
-msgstr "%s %s pred začetkom sestanka"
+msgstr "%s ob začetku"
 
 #: ../calendar/gui/e-alarm-list.c:479
-#, fuzzy, c-format
+#, c-format
 msgctxt "cal-reminders"
 msgid "%s %s before the end"
-msgstr "%s %s pred koncem sestanka"
+msgstr "%s %s pred koncem"
 
 #: ../calendar/gui/e-alarm-list.c:485
-#, fuzzy, c-format
+#, c-format
 msgctxt "cal-reminders"
 msgid "%s %s after the end"
-msgstr "%s %s po koncu sestanka"
+msgstr "%s %s po koncu"
 
 #. Translator: The %s refers to the base, which would be actions like
 #. * "Play a sound"
 #: ../calendar/gui/e-alarm-list.c:492
-#, fuzzy, c-format
+#, c-format
 msgctxt "cal-reminders"
 msgid "%s at the end"
-msgstr "%s %s pred koncem sestanka"
+msgstr "%s ob koncu"
 
 #. Translator: The first %s refers to the base, which would be actions like
 #. * "Play a Sound". Second %s is an absolute time, e.g. "10:00AM"
 #: ../calendar/gui/e-alarm-list.c:516
-#, fuzzy, c-format
+#, c-format
 msgctxt "cal-reminders"
 msgid "%s at %s"
-msgstr "pričakovana je vrednost %s, %s, %s, %s, %s ali %s"
+msgstr "%s ob %s"
 
 #. Translator: The %s refers to the base, which would be actions like
 #. * "Play a sound". "Trigger types" are absolute or relative dates
@@ -3864,16 +3862,13 @@ msgstr ""
 "%s"
 
 #: ../calendar/gui/e-comp-editor-event.c:101
-#, fuzzy
 msgid "Event's time is in the past"
-msgstr "Začetni čas dogodka je v preteklosti"
+msgstr "Čas dogodka je v preteklosti"
 
 #: ../calendar/gui/e-comp-editor-event.c:202
-#, fuzzy
 msgid ""
 "Event cannot be edited, because the selected calendar could not be opened"
-msgstr ""
-"Dogodka ni mogoče urejati, ker je izbrani koledar na voljo le za branje"
+msgstr "Dogodka ni mogoče urejati, ker izbranega koledarja ni mogoče odpreti"
 
 #: ../calendar/gui/e-comp-editor-event.c:204
 msgid "Event cannot be edited, because the selected calendar is read only"
@@ -3886,14 +3881,12 @@ msgstr "Dogodka ni mogoče polno urejati, ker niste organizator"
 
 #: ../calendar/gui/e-comp-editor-event.c:350
 #: ../calendar/gui/e-comp-editor-task.c:348
-#, fuzzy
 msgid "Start date is not a valid date"
-msgstr "'%s' ni veljaven datum"
+msgstr "Začetni datum ni veljaven datum"
 
 #: ../calendar/gui/e-comp-editor-event.c:352
-#, fuzzy
 msgid "Start time is not a valid time"
-msgstr "Čas začetka"
+msgstr "Začetni čas ni veljaven čas"
 
 #: ../calendar/gui/e-comp-editor-event.c:356
 #: ../calendar/gui/e-comp-editor-event.c:372
@@ -3907,14 +3900,12 @@ msgid "Unknown error"
 msgstr "Neznana napaka"
 
 #: ../calendar/gui/e-comp-editor-event.c:366
-#, fuzzy
 msgid "End date is not a valid date"
-msgstr "'%s' ni veljaven datum"
+msgstr "Končni datum ni veljaven datum"
 
 #: ../calendar/gui/e-comp-editor-event.c:368
-#, fuzzy
 msgid "End time is not a valid time"
-msgstr "Časovni stolpec ni veljaven"
+msgstr "Končni čas ni veljaven čas"
 
 #: ../calendar/gui/e-comp-editor-event.c:490
 #: ../calendar/gui/e-comp-editor-memo.c:106
@@ -3987,7 +3978,6 @@ msgid "_End time:"
 msgstr "_Končni čas:"
 
 #: ../calendar/gui/e-comp-editor-event.c:657
-#, fuzzy
 msgctxt "ECompEditor"
 msgid "All da_y event"
 msgstr "Celo_dnevni dogodek"
@@ -4018,10 +4008,9 @@ msgid "Attachments"
 msgstr "Priloge"
 
 #: ../calendar/gui/e-comp-editor-event.c:729
-#, fuzzy
 msgctxt "ECompEditorPage"
 msgid "Schedule"
-msgstr "_Načrtovanje snemanja ..."
+msgstr "Urnik"
 
 #: ../calendar/gui/e-comp-editor-event.c:758
 #, c-format
@@ -4063,14 +4052,14 @@ msgid "Sta_rt date:"
 msgstr "Začetni _datum:"
 
 #: ../calendar/gui/e-comp-editor-memo.c:223
-#, fuzzy, c-format
+#, c-format
 msgid "Assigned Memo - %s"
-msgstr "Dodeljena naloga - %s"
+msgstr "Dodeljen opomnik – %s"
 
 #: ../calendar/gui/e-comp-editor-memo.c:224
 #, c-format
 msgid "Memo - %s"
-msgstr "Opomnik -%s"
+msgstr "Opomnik – %s"
 
 #: ../calendar/gui/e-comp-editor-page-attachments.c:125
 #: ../calendar/gui/e-comp-editor-page-attachments.c:130
@@ -4166,7 +4155,7 @@ msgstr ""
 #: ../calendar/gui/e-comp-editor-page-general.c:585
 #, fuzzy
 msgid "Toggles whether the Attendees are displayed"
-msgstr "Preklopi prikaz časovnega pasu"
+msgstr "Preklopi prikaz polja Vloga"
 
 #: ../calendar/gui/e-comp-editor-page-general.c:594
 msgid "R_ole Field"
@@ -4412,19 +4401,16 @@ msgid "Recurrence exception date is invalid"
 msgstr "Datum ponovitve ni veljaven"
 
 #: ../calendar/gui/e-comp-editor-page-recurrence.c:1910
-#, fuzzy
 msgid "End time of the recurrence is before the start"
 msgstr "Končni čas ponavljanja je pred začetkom dogodka"
 
 #: ../calendar/gui/e-comp-editor-page-recurrence.c:1953
-#, fuzzy
 msgid "R_ecurrence"
-msgstr "%R"
+msgstr "Ponov_itev"
 
 #: ../calendar/gui/e-comp-editor-page-recurrence.c:1955
-#, fuzzy
 msgid "Set or unset recurrence"
-msgstr "Ponovitev"
+msgstr "Nastavitev ponavljanja"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
 #: ../calendar/gui/e-comp-editor-page-recurrence.c:2056
@@ -4499,9 +4485,8 @@ msgid "Preview"
 msgstr "Predogled"
 
 #: ../calendar/gui/e-comp-editor-page-reminders.c:41
-#, fuzzy
 msgid "Send To"
-msgstr "Pošlji na ..."
+msgstr "Pošlji:"
 
 #: ../calendar/gui/e-comp-editor-page-reminders.c:1556
 msgid "_Reminders"
@@ -4525,10 +4510,10 @@ msgstr "_Opomnik"
 #, c-format
 msgid "%d day before"
 msgid_plural "%d days before"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "%d dni prej"
+msgstr[1] "%d dan prej"
+msgstr[2] "%d dneva prej"
+msgstr[3] "%d dni prej"
 
 #: ../calendar/gui/e-comp-editor-page-reminders.c:1680
 #, c-format
@@ -4556,24 +4541,21 @@ msgstr "Brez"
 
 #. Translators: Predefined reminder's description
 #: ../calendar/gui/e-comp-editor-page-reminders.c:1697
-#, fuzzy
 msgctxt "cal-reminders"
 msgid "15 minutes before"
-msgstr "15 minut pred sestankom"
+msgstr "15 minut pred dogodkom"
 
 #. Translators: Predefined reminder's description
 #: ../calendar/gui/e-comp-editor-page-reminders.c:1699
-#, fuzzy
 msgctxt "cal-reminders"
 msgid "1 hour before"
-msgstr "1 uro pred sestankom"
+msgstr "1 uro pred dogodkom"
 
 #. Translators: Predefined reminder's description
 #: ../calendar/gui/e-comp-editor-page-reminders.c:1701
-#, fuzzy
 msgctxt "cal-reminders"
 msgid "1 day before"
-msgstr "1 dan pred sestankom"
+msgstr "1 dan pred dogodkom"
 
 #. Translators: "Custom" for "Custom reminder set"
 #: ../calendar/gui/e-comp-editor-page-reminders.c:1713
@@ -4616,7 +4598,7 @@ msgstr "po"
 #, fuzzy
 msgctxt "cal-reminders"
 msgid "start"
-msgstr "_Zaženi"
+msgstr "začetek"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ minute(s) ] [ before ] [ end ]
 #: ../calendar/gui/e-comp-editor-page-reminders.c:1905
@@ -4626,9 +4608,8 @@ msgstr "konec"
 
 #. Translators: Part of: Repeat the reminder [ x ] extra times every [ y ] [ minutes ]
 #: ../calendar/gui/e-comp-editor-page-reminders.c:1928
-#, fuzzy
 msgid "Re_peat the reminder"
-msgstr "_Odstrani"
+msgstr "_Ponovi opomnik"
 
 #. Translators: Part of: Repeat the reminder [ x ] extra times every [ y ] [ minutes ]
 #: ../calendar/gui/e-comp-editor-page-reminders.c:1953
@@ -4662,13 +4643,11 @@ msgid "Custom _message"
 msgstr "Sporočilo _po meri"
 
 #: ../calendar/gui/e-comp-editor-page-reminders.c:2079
-#, fuzzy
 msgctxt "cal-reminders"
 msgid "Custom reminder _sound"
-msgstr "Zvok opomnika po meri"
+msgstr "_Zvok opomnika po meri"
 
 #: ../calendar/gui/e-comp-editor-page-reminders.c:2090
-#, fuzzy
 msgid "Select a sound file"
 msgstr "Izbor zvočne datoteke"
 
@@ -4681,14 +4660,12 @@ msgid "_Arguments:"
 msgstr "_Argumenti:"
 
 #: ../calendar/gui/e-comp-editor-page-reminders.c:2175
-#, fuzzy
 msgid "_Send To:"
-msgstr "Pošlji na ..."
+msgstr "Pošlji:"
 
 #: ../calendar/gui/e-comp-editor-page-schedule.c:427
-#, fuzzy
 msgid "_Schedule"
-msgstr "_Načrtovanje snemanja ..."
+msgstr "_Urnik"
 
 #: ../calendar/gui/e-comp-editor-page-schedule.c:429
 msgid "Query free / busy information for the attendees"
@@ -4705,10 +4682,9 @@ msgid "_Location:"
 msgstr "_Mesto:"
 
 #: ../calendar/gui/e-comp-editor-property-parts.c:458
-#, fuzzy
 msgctxt "ECompEditor"
 msgid "_Categories..."
-msgstr "&Kategorije:"
+msgstr "_Kategorije ..."
 
 #: ../calendar/gui/e-comp-editor-property-parts.c:555
 msgctxt "ECompEditor"
@@ -4716,7 +4692,6 @@ msgid "_Description:"
 msgstr "_Opis:"
 
 #: ../calendar/gui/e-comp-editor-property-parts.c:686
-#, fuzzy
 msgctxt "ECompEditor"
 msgid "_Web page:"
 msgstr "_Spletna stran:"
@@ -4802,10 +4777,9 @@ msgid "Priorit_y:"
 msgstr "_Prednost:"
 
 #: ../calendar/gui/e-comp-editor-property-parts.c:1278
-#, fuzzy
 msgctxt "ECompEditor"
 msgid "Percent complete:"
-msgstr "_Odstotkov končano:"
+msgstr "Odstotkov končano:"
 
 #: ../calendar/gui/e-comp-editor-property-parts.c:1359
 msgctxt "ECompEditor"
@@ -4860,12 +4834,12 @@ msgstr "'%s' mora biti datum v preteklosti"
 #: ../calendar/gui/e-comp-editor-task.c:566
 #, c-format
 msgid "Assigned Task - %s"
-msgstr "Dodeljena naloga - %s"
+msgstr "Dodeljena naloga – %s"
 
 #: ../calendar/gui/e-comp-editor-task.c:567
 #, c-format
 msgid "Task - %s"
-msgstr "Naloga - %s"
+msgstr "Naloga – %s"
 
 #: ../calendar/gui/e-comp-editor.c:254
 #: ../modules/prefer-plain/e-mail-parser-prefer-plain.c:127
@@ -5841,12 +5815,10 @@ msgid "New Task List"
 msgstr "Nov seznam nalog"
 
 #: ../calendar/importers/icalendar-importer.c:357
-#, fuzzy
 msgid "Cre_ate new calendar"
-msgstr "Ust_vari"
+msgstr "Ust_vari nov koledar"
 
 #: ../calendar/importers/icalendar-importer.c:361
-#, fuzzy
 msgid "Cre_ate new task list"
 msgstr "Ustvari nov seznam nalog"
 
@@ -7695,15 +7667,13 @@ msgstr "Podpiši to sporočilo s svojim potrdilom podpisa S/MIME"
 
 #: ../composer/e-composer-actions.c:523
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:13
-#, fuzzy
 msgid "Unicode emoticons"
-msgstr "Izrazne ikone"
+msgstr "Izrazne ikone unikod"
 
 #: ../composer/e-composer-actions.c:525
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:14
-#, fuzzy
 msgid "Use Unicode characters for emoticons."
-msgstr "Uporabi znake Unikod za izrazne ikone."
+msgstr "Uporabi znake unikod za izrazne ikone."
 
 #: ../composer/e-composer-actions.c:531
 msgid "_Bcc Field"
@@ -7733,7 +7703,7 @@ msgstr "Ali naj bo prikazano ime in elektronski naslov iz polja prepisa"
 
 #: ../composer/e-composer-actions.c:555
 msgid "_Reply-To Field"
-msgstr "Polje o_dgovori-na"
+msgstr "Polje o_dgovori na"
 
 #: ../composer/e-composer-actions.c:557
 msgid "Toggles whether the Reply-To field is displayed"
@@ -7777,7 +7747,7 @@ msgstr "_Od:"
 
 #: ../composer/e-composer-header-table.c:836
 msgid "_Reply-To:"
-msgstr "Odgovori-_na:"
+msgstr "_Odgovori _na:"
 
 #: ../composer/e-composer-header-table.c:841
 msgid "_To:"
@@ -7837,7 +7807,7 @@ msgstr "Sestavi sporočilo"
 #: ../composer/e-msg-composer.c:4981
 msgid "The composer contains a non-text message body, which cannot be edited."
 msgstr ""
-"Sestavljalnik vsebuje nebesedilno telo sporočila, ki ga ni mogoče urejati."
+"Sestavljalnik vsebuje ne-besedilno telo sporočila, ki ga ni mogoče urejati."
 
 #: ../composer/mail-composer.error.xml.h:1
 msgid "You cannot attach the file &quot;{0}&quot; to this message."
@@ -8585,7 +8555,7 @@ msgstr "Čas, ko je tekel zadnji opomnik, v time_t."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:74
 msgid "Marcus Bains Line Color - Day View"
-msgstr "Barva črte Marcusa Baina - dnevni pogled"
+msgstr "Barva črte Marcusa Baina – dnevni pogled"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:75
 msgid "Color to draw the Marcus Bains line in the Day View"
@@ -8593,7 +8563,7 @@ msgstr "Barva črt Marcusa Baina v dnevnem pogledu."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:76
 msgid "Marcus Bains Line Color - Time bar"
-msgstr "Barva črte Marcusa Baina - vrstica časa"
+msgstr "Barva črte Marcusa Baina – vrstica časa"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:77
 msgid "Color to draw the Marcus Bains Line in the Time bar (empty for default)"
@@ -8977,7 +8947,7 @@ msgstr "Nedelja je delovni dan"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:155
 msgid "Create events, memos and tasks as Private by default"
-msgstr ""
+msgstr "Privzeto ustvari dogodke, opomnike in naloge kot zasebne"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:156
 msgid "(Deprecated) First day of the week, from Sunday (0) to Saturday (6)"
@@ -13997,9 +13967,8 @@ msgid "Manage Groups"
 msgstr "Upravljaj skupine"
 
 #: ../e-util/e-source-selector.c:3440
-#, fuzzy
 msgid "Available Groups:"
-msgstr "_Skupine"
+msgstr "_Razpoložljive skupine:"
 
 #: ../e-util/e-source-selector-dialog.c:236
 msgid "_Destination"
@@ -14572,12 +14541,11 @@ msgstr "Ena ali več vrednosti ne sme biti prazna vrednost."
 #: ../e-util/filter.error.xml.h:16
 #, fuzzy
 msgid "Are you sure you want to remove rule '{0}'?"
-msgstr "Ali ste prepričani, da želite trajno izbrisati \"%s\" datotek?"
+msgstr "Ali ste prepričani, da želite izbrisati račun?"
 
 #: ../e-util/filter.error.xml.h:17
-#, fuzzy
 msgid "_Keep"
-msgstr "Nadaljuj drsenje"
+msgstr "_Ohrani"
 
 #: ../e-util/filter.ui.h:2
 msgid "the current time"
@@ -14758,9 +14726,8 @@ msgstr ""
 "Services\"."
 
 #: ../libemail-engine/camel-sasl-oauth2-google.c:29
-#, fuzzy
 msgid "OAuth2 Google"
-msgstr "OAuth2"
+msgstr "Google OAuth2"
 
 #: ../libemail-engine/camel-sasl-oauth2-google.c:30
 #, fuzzy
@@ -15175,7 +15142,7 @@ msgstr "_Preglej podrobnosti"
 
 #: ../mail/e-mail-config-auth-check.c:177
 msgid "Querying authentication types..."
-msgstr ""
+msgstr "Poizvedovanje vrst overitve ..."
 
 #: ../mail/e-mail-config-auth-check.c:340
 msgid "Check for Supported Types"
@@ -15273,7 +15240,7 @@ msgstr "_Obnovi privzete nastavitve"
 #: ../mail/e-mail-config-defaults-page.c:946
 #, fuzzy
 msgid "_Lookup Folders"
-msgstr "Funkcije iskanja"
+msgstr "Iskalna razpredelnica"
 
 #: ../mail/e-mail-config-defaults-page.c:964
 msgid "Use a Real Folder for _Trash:"
@@ -15413,7 +15380,7 @@ msgstr "Odgovori-_na:"
 #: ../mail/e-mail-config-summary-page.c:632
 #, fuzzy
 msgid "Account Name cannot be empty"
-msgstr "Uporabniško ime ne sme biti prazno"
+msgstr "Polje imena ne more biti prazno"
 
 #: ../mail/e-mail-config-lookup-page.c:70
 msgid "Looking up account details..."
@@ -15560,9 +15527,8 @@ msgid "TLS"
 msgstr "TLS"
 
 #: ../mail/e-mail-config-summary-page.c:145
-#, fuzzy
 msgid "STARTTLS"
-msgstr "STARTTLS ni podprt"
+msgstr "STARTTLS"
 
 #: ../mail/e-mail-config-summary-page.c:306
 msgid ""
@@ -15768,33 +15734,24 @@ msgid "Color"
 msgstr "Barva"
 
 #: ../mail/e-mail-notes.c:310 ../mail/e-mail-notes.c:692
-#, fuzzy
 msgid "Message Note"
-msgstr ""
-"Uporaba:\n"
-"  --version\t\t\tIzpiše podatke o različici.\n"
-"  --help\t\t\tIzpiše to sporočilo o uporabi.\n"
-"  --note-path [path]\t\tNaloži/shrani podatke o sporočilcu v tej mapi.\n"
-"  --search [text]\t\tOdpre okno vseh sporočil z iskanim besedilom.\n"
+msgstr "Opomba sporočila"
 
 #: ../mail/e-mail-notes.c:612
 msgid "Cannot find message in its folder summary"
 msgstr ""
 
 #: ../mail/e-mail-notes.c:815
-#, fuzzy
 msgid "Storing changes..."
-msgstr "Shranjevanje sprememb v mapo '%s'"
+msgstr "Shranjevanje sprememb ..."
 
 #: ../mail/e-mail-notes.c:940
-#, fuzzy
 msgid "Edit Message Note"
-msgstr "Ur_edi sporočilo"
+msgstr "Uredi opombo sporočila"
 
 #: ../mail/e-mail-notes.c:1058
-#, fuzzy
 msgid "Retrieving message..."
-msgstr "Pridobivanje sporočila"
+msgstr "Pridobivanje sporočila ..."
 
 #: ../mail/e-mail-print-config-headers.c:165
 msgid "Move selected headers to top"
@@ -15851,9 +15808,8 @@ msgid "C_opy"
 msgstr "K_opiraj"
 
 #: ../mail/e-mail-reader.c:488
-#, fuzzy
 msgid "Deleting message note..."
-msgstr "Opomba"
+msgstr "Brisanje opombe sporočila ..."
 
 #: ../mail/e-mail-reader.c:1271 ../mail/e-mail-reader.c:1483
 #: ../mail/e-mail-reader.c:1523
@@ -15914,34 +15870,28 @@ msgid "Mark the selected messages for deletion"
 msgstr "Označi izbrana sporočila za brisanje"
 
 #: ../mail/e-mail-reader.c:2000
-#, fuzzy
 msgid "_Add note..."
-msgstr "Dodaj opombo"
+msgstr "_Dodaj opombo ..."
 
 #: ../mail/e-mail-reader.c:2002
-#, fuzzy
 msgid "Add a note for the selected message"
-msgstr "Odpre izbrano sporočilce"
+msgstr "Dodaj opombo za izbrano sporočilo"
 
 #: ../mail/e-mail-reader.c:2007
-#, fuzzy
 msgid "Delete no_te"
-msgstr "Be_sedilo"
+msgstr "Izbriši _opombo"
 
 #: ../mail/e-mail-reader.c:2009
-#, fuzzy
 msgid "Delete the note for the selected message"
-msgstr "Izbriše izbrano sporočilce"
+msgstr "Izbriši opombo za izbrano sporočilo"
 
 #: ../mail/e-mail-reader.c:2014
-#, fuzzy
 msgid "_Edit note..."
-msgstr "_Uredi"
+msgstr "_Uredi opombo ..."
 
 #: ../mail/e-mail-reader.c:2016
-#, fuzzy
 msgid "Edit a note for the selected message"
-msgstr "Izbrano je urejanje"
+msgstr "Uredi opombo za izbrano sporočilo"
 
 #: ../mail/e-mail-reader.c:2021
 msgid "Create a Filter Rule for Mailing _List..."
@@ -18830,19 +18780,18 @@ msgid "Overdue: {0} by {1}"
 msgstr "Prekoračeno: {0} s strani uporabnika {1}"
 
 #: ../mail/mail.error.xml.h:196
-#, fuzzy
 msgid "This message note has been changed, but has not been saved."
-msgstr "Podpis je bil spremenjen, a ni bil shranjen."
+msgstr "Ta opomba sporočila je spremenjena, vendar ni shranjena."
 
 #. Translators: {0} is the name of the folder where the delete of the message note failed.
 #: ../mail/mail.error.xml.h:199
 msgid "Failed to delete message note in folder '{0}'"
-msgstr ""
+msgstr "Brisanje opombe sporočila v mapi »{0}« je spodletelo"
 
 #. Translators: {0} is the name of the folder where the store of the message note failed.
 #: ../mail/mail.error.xml.h:201
 msgid "Failed to store message note in folder '{0}'"
-msgstr ""
+msgstr "Shranjevanje opombe sporočila v mapi »{0}« je spodletelo"
 
 #: ../mail/mail-send-recv.c:191
 msgid "Canceling..."
@@ -19719,7 +19668,7 @@ msgstr "Vrata:"
 #: ../modules/mail-config/e-mail-config-smtp-backend.c:140
 #, fuzzy
 msgid "Port number is not valid"
-msgstr "(Opuščeno) Številka vrat za zahteve HTTP"
+msgstr "Vrata SFTP za povezavo s strežnikom."
 
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:634
 msgid "StartTLS (recommended)"
@@ -19757,9 +19706,9 @@ msgid ""
 "setting this to \"Using email address\" requires anonymous access to your "
 "LDAP server."
 msgstr ""
-"To je način, ki ga bo Evolution uporabil za vašo overitev. V primeru, da "
-"izberete \"Naslov elektronske pošte\", bo zahtevan brezimni dostop do vašega "
-"strežnika LDAP."
+"Možnost določa način, ki ga bo Evolution uporabil za overitev. Nastavitev "
+"»Naslov elektronske pošte«, zahteva omogočen brezimni dostop do strežnika "
+"LDAP."
 
 #. Page 2
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:711
@@ -20214,7 +20163,7 @@ msgstr "Konec dn_eva:"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:47
 msgid "Create events, memos and tasks as _Private by default"
-msgstr ""
+msgstr "Privzeto ustvari dogodke, opomnike in naloge kot _zasebne"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:49
 msgid "View Options"
@@ -22345,9 +22294,8 @@ msgid "Messages with Attachments"
 msgstr "Sporočila s prilogami"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:2092
-#, fuzzy
 msgid "Messages with Notes"
-msgstr "_Opombe"
+msgstr "Sporočila z opombami"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:2099
 msgid "No Label"
@@ -22590,7 +22538,7 @@ msgstr "Upravljalnik vstavkov"
 
 #: ../modules/plugin-manager/evolution-plugin-manager.c:268
 msgid "Note: Some changes will not take effect until restart"
-msgstr "Opozorilo: nekatere spremembe ne bodo uveljavljene do ponovnega zagona"
+msgstr "Opomba: nekatere spremembe ne bodo uveljavljene do ponovnega zagona"
 
 #: ../modules/plugin-manager/evolution-plugin-manager.c:296
 msgid "Overview"
