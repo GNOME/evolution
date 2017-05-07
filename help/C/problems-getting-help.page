@@ -7,7 +7,7 @@
     <link type="guide" xref="index#tracking-down-problems" />
     <link type="seealso" xref="problems-reporting-bugs" />
 
-    <revision pkgversion="3.5.3" version="0.7" date="2012-06-15" status="draft"/>
+    <revision pkgversion="3.25.1" version="0.8" date="2017-05-07" status="final"/>
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
       <email its:translate="no">ak-47@gmx.net</email>
@@ -21,5 +21,5 @@
 
 <title>How to get help</title>
 
-<p>To receive help on problems you can send an email to the <link href="http://mail.gnome.org/mailman/listinfo/evolution-list"><app>Evolution</app> mailing list</link> or talk to developers and other users in the IRC chat channel #evolution on the server irc.gimp.net. To connect to an IRC server you can for example <link xref="help:empathy/irc-manage" href="https://help.gnome.org/users/empathy/stable/irc-manage">use the internet messenger application <app>Empathy</app></link>.</p>
+<p>To receive help on problems you can send an email to the <link href="http://mail.gnome.org/mailman/listinfo/evolution-list"><app>Evolution</app> mailing list</link> or talk to developers and other users in the IRC chat channel #evolution on the server irc.gimp.net. To connect to an IRC server you can for example <link xref="help:polari/" href="https://help.gnome.org/users/polari/stable/">use the application <app>Polari</app></link>.</p>
 </page>
