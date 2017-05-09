@@ -125,8 +125,8 @@ model_changed_idle (ETableSelectionModel *etsm)
 			g_free (save_id);
 		}
 		free_hash (etsm);
-		e_selection_model_cursor_changed (E_SELECTION_MODEL (etsm), cursor_row, cursor_col);
 		e_selection_model_selection_changed (E_SELECTION_MODEL (etsm));
+		e_selection_model_cursor_changed (E_SELECTION_MODEL (etsm), cursor_row, cursor_col);
 	}
 	etsm->model_changed_idle_id = 0;
 	return FALSE;
