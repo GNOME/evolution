@@ -5146,7 +5146,7 @@ on_selection_changed_cmd (ETree *tree,
 	 * is also used for other updating.  If it is empty, it might just be a setup event
 	 * from etree which we do need to ignore */
 	if ((newuid == NULL && message_list->cursor_uid == NULL && selected_count == 0) ||
-	    (message_list->last_sel_single && selected_count == 1 && newuid != NULL && message_list->cursor_uid != NULL && !strcmp (message_list->cursor_uid, newuid))) {
+	    (message_list->last_sel_single && selected_count == 1 && message_list->cursor_uid != NULL && (newuid == NULL || !strcmp (message_list->cursor_uid, newuid)))) {
 		/* noop */
 	} else {
 		g_free (message_list->cursor_uid);
