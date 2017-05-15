@@ -895,7 +895,7 @@ week_view_event_item_draw (GnomeCanvasItem *canvas_item,
 			time_x += time_width;
 		}
 
-		if (draw_end) {
+		if (draw_end && (!draw_start || event->start_minute != event->end_minute)) {
 			time_x += E_WEEK_VIEW_EVENT_TIME_SPACING;
 			week_view_draw_time (
 				week_view, bg_rgba, cr, time_x,

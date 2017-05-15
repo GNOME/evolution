@@ -3757,8 +3757,12 @@ e_week_view_reshape_event_span (EWeekView *week_view,
 	time_width = e_week_view_get_time_string_width (week_view);
 
 	/* Calculate the space needed for the icons. */
-	icons_width = (E_WEEK_VIEW_ICON_WIDTH + E_WEEK_VIEW_ICON_X_PAD)
-		* num_icons - E_WEEK_VIEW_ICON_X_PAD + E_WEEK_VIEW_ICON_R_PAD;
+	if (num_icons > 0) {
+		icons_width = (E_WEEK_VIEW_ICON_WIDTH + E_WEEK_VIEW_ICON_X_PAD)
+			* num_icons - E_WEEK_VIEW_ICON_X_PAD + E_WEEK_VIEW_ICON_R_PAD;
+	} else {
+		icons_width = 0;
+	}
 
 	/* The y position and height are the same for both event types. */
 	text_y = span_y + E_WEEK_VIEW_EVENT_BORDER_HEIGHT
@@ -3769,6 +3773,10 @@ e_week_view_reshape_event_span (EWeekView *week_view,
 		PANGO_PIXELS (pango_font_metrics_get_descent (font_metrics));
 
 	if (one_day_event) {
+		gboolean hide_end_time;
+
+		hide_end_time = event->start_minute == event->end_minute;
+
 		/* Note that 1-day events don't have a border. Although we
 		 * still use the border height to position the events
 		 * vertically so they still line up neatly (see above),
@@ -3780,8 +3788,8 @@ e_week_view_reshape_event_span (EWeekView *week_view,
 		case E_WEEK_VIEW_TIME_BOTH:
 			/* These have 2 time strings with a small space between
 			 * them and some space before the EText item. */
-			text_x += time_width * 2
-				+ E_WEEK_VIEW_EVENT_TIME_SPACING
+			text_x += time_width * (hide_end_time ? 1 : 2)
+				+ (hide_end_time ? 0 : E_WEEK_VIEW_EVENT_TIME_SPACING)
 				+ E_WEEK_VIEW_EVENT_TIME_X_PAD;
 			break;
 		case E_WEEK_VIEW_TIME_START_SMALL_MIN:
