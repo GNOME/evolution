@@ -1325,6 +1325,7 @@ e_html_editor_save (EHTMLEditor *editor,
 			NULL, NULL);
 
 	if (!content || !*content) {
+		g_free (content);
 		g_set_error (
 			error, G_IO_ERROR, G_IO_ERROR_FAILED,
 			"Failed to obtain content of editor");
