@@ -639,8 +639,8 @@ mail_part_find_validity_pair (EMailPart *part,
 /**
  * e_mail_part_update_validity:
  * @part: An #EMailPart
- * @validity_type: E_MAIL_PART_VALIDITY_* flags
  * @validity: a #CamelCipherValidity
+ * @validity_type: E_MAIL_PART_VALIDITY_* flags
  *
  * Updates validity of the @part. When the part already has some validity
  * set, the new @validity and @validity_type are just appended, preserving
@@ -656,6 +656,7 @@ e_mail_part_update_validity (EMailPart *part,
 	EMailPartValidityFlags mask;
 
 	g_return_if_fail (E_IS_MAIL_PART (part));
+	g_return_if_fail (validity != NULL);
 
 	mask = E_MAIL_PART_VALIDITY_PGP | E_MAIL_PART_VALIDITY_SMIME;
 
@@ -725,3 +726,39 @@ e_mail_part_get_validity_flags (EMailPart *part)
 	return flags;
 }
 
+void
+e_mail_part_verify_validity_sender (EMailPart *part,
+				    CamelInternetAddress *from_address)
+{
+	GList *link;
+
+	g_return_if_fail (E_IS_MAIL_PART (part));
+
+	if (!from_address)
+		return;
+
+	for (link = g_queue_peek_head_link (&part->validities); link; link = g_list_next (link)) {
+		EMailPartValidityPair *pair = link->data;
+
+		if (pair && pair->validity && !(pair->validity_type & E_MAIL_PART_VALIDITY_VERIFIED)) {
+			pair->validity_type |= E_MAIL_PART_VALIDITY_VERIFIED;
+
+			if (pair->validity->sign.status != CAMEL_CIPHER_VALIDITY_SIGN_NONE) {
+				GList *link2;
+				gboolean from_matches_signer = FALSE;
+
+				for (link2 = g_queue_peek_head_link (&pair->validity->sign.signers); link2 && !from_matches_signer; link2 = g_list_next (link2)) {
+					CamelCipherCertInfo *cinfo = link2->data;
+
+					if (cinfo->email && *cinfo->email) {
+						from_matches_signer = from_matches_signer ||
+							(from_address && camel_internet_address_find_address (from_address, cinfo->email, NULL) >= 0);
+					}
+				}
+
+				if (!from_matches_signer)
+					pair->validity_type |= E_MAIL_PART_VALIDITY_SENDER_SIGNER_MISMATCH;
+			}
+		}
+	}
+}

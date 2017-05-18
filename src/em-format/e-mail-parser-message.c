@@ -101,6 +101,22 @@ empe_message_parse (EMailParserExtension *extension,
 		}
 	}
 
+	if (CAMEL_IS_MIME_MESSAGE (part)) {
+		CamelInternetAddress *from_address;
+
+		from_address = camel_mime_message_get_from (CAMEL_MIME_MESSAGE (part));
+		if (from_address) {
+			GList *link;
+
+			for (link = g_queue_peek_head_link (&work_queue); link; link = g_list_next (link)) {
+				mail_part = link->data;
+
+				if (mail_part)
+					e_mail_part_verify_validity_sender (mail_part, from_address);
+			}
+		}
+	}
+
 	e_queue_transfer (&work_queue, out_mail_parts);
 
 	g_free (mime_type);

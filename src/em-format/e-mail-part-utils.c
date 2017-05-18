@@ -59,10 +59,13 @@ const gchar *
 e_mail_part_get_frame_security_style (EMailPart *part)
 {
 	const gchar *frame_style = NULL;
+	guint32 flags;
 
 	g_return_val_if_fail (part != NULL, "-e-mail-formatter-frame-security-none");
 
-	if (e_mail_part_get_validity_flags (part) == E_MAIL_PART_VALIDITY_NONE) {
+	flags = e_mail_part_get_validity_flags (part);
+
+	if (flags == E_MAIL_PART_VALIDITY_NONE) {
 		return "-e-mail-formatter-frame-security-none";
 	} else {
 		GList *head, *link;
@@ -75,8 +78,10 @@ e_mail_part_get_frame_security_style (EMailPart *part)
 				return "-e-mail-formatter-frame-security-bad";
 			} else if (pair->validity->sign.status == CAMEL_CIPHER_VALIDITY_SIGN_UNKNOWN) {
 				frame_style = "-e-mail-formatter-frame-security-unknown";
-			} else if (frame_style == NULL &&
-				pair->validity->sign.status == CAMEL_CIPHER_VALIDITY_SIGN_NEED_PUBLIC_KEY) {
+			} else if (frame_style == NULL && (
+				pair->validity->sign.status == CAMEL_CIPHER_VALIDITY_SIGN_NEED_PUBLIC_KEY || (
+				pair->validity->sign.status == CAMEL_CIPHER_VALIDITY_SIGN_GOOD &&
+				(flags & E_MAIL_PART_VALIDITY_SENDER_SIGNER_MISMATCH) != 0))) {
 				frame_style = "-e-mail-formatter-frame-security-need-key";
 			} else if (frame_style == NULL &&
 				pair->validity->sign.status == CAMEL_CIPHER_VALIDITY_SIGN_GOOD) {

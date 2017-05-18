@@ -138,6 +138,9 @@ CamelCipherValidity *
 gboolean	e_mail_part_has_validity	(EMailPart *part);
 EMailPartValidityFlags
 		e_mail_part_get_validity_flags	(EMailPart *part);
+void		e_mail_part_verify_validity_sender
+						(EMailPart *part,
+						 CamelInternetAddress *from_address);
 
 G_END_DECLS
 

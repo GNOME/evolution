@@ -56,8 +56,8 @@ empe_app_smime_parse (EMailParserExtension *extension,
 	CamelCipherContext *context;
 	CamelMimePart *opart;
 	CamelCipherValidity *valid;
-	GError *local_error = NULL;
 	CamelContentType *ct;
+	GError *local_error = NULL;
 
 	ct = camel_mime_part_get_content_type (part);
 	if (camel_content_type_is (ct, "application", "pkcs7-signature") ||

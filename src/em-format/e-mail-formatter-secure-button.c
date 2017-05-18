@@ -39,16 +39,31 @@ static const gchar *formatter_mime_types[] = {
 };
 
 static const struct {
-	const gchar *icon, *shortdesc, *description;
+	const gchar *icon, *shortdesc, *shortdesc_mismatch, *description;
 } smime_sign_table[5] = {
-	{ "stock_signature-bad", N_("Unsigned"), N_("This message is not signed. There is no guarantee that this message is authentic.") },
-	{ "stock_signature-ok", N_("Valid signature"), N_("This message is signed and is valid meaning that it is very likely that this message is authentic.") },
-	{ "stock_signature-bad", N_("Invalid signature"), N_("The signature of this message cannot be verified, it may have been altered in transit.") },
-	{ "stock_signature", N_("Valid signature, but cannot verify sender"), N_("This message is signed with a valid signature, but the sender of the message cannot be verified.") },
-	{ "stock_signature-bad", N_("This message is signed, but the public key is not in your keyring"), N_("This message was digitally signed, but the corresponding"
-				" public key is not present in your keyring. If you want to be able to verify the authenticity of messages from this person, you should"
-				" obtain the public key through a trusted method and add it to your keyring. Until then, there is no guarantee that this message truly"
-				" came from that person and that it arrived unaltered.") }
+	{ "stock_signature-bad",
+	  N_("Unsigned"),
+	  NULL,
+	  N_("This message is not signed. There is no guarantee that this message is authentic.") },
+	{ "stock_signature-ok",
+	  N_("Valid signature"),
+	  N_("Valid signature, but sender address and signer address do not match"),
+	  N_("This message is signed and is valid meaning that it is very likely that this message is authentic.") },
+	{ "stock_signature-bad",
+	  N_("Invalid signature"),
+	  NULL,
+	  N_("The signature of this message cannot be verified, it may have been altered in transit.") },
+	{ "stock_signature",
+	  N_("Valid signature, but cannot verify sender"),
+	  NULL,
+	  N_("This message is signed with a valid signature, but the sender of the message cannot be verified.") },
+	{ "stock_signature-bad",
+	  N_("This message is signed, but the public key is not in your keyring"),
+	  NULL,
+	  N_("This message was digitally signed, but the corresponding"
+		" public key is not present in your keyring. If you want to be able to verify the authenticity of messages from this person, you should"
+		" obtain the public key through a trusted method and add it to your keyring. Until then, there is no guarantee that this message truly"
+		" came from that person and that it arrived unaltered.") }
 };
 
 static const struct {
@@ -92,7 +107,7 @@ e_mail_formatter_secure_button_get_encrypt_description (CamelCipherValidityEncry
 
 static void
 format_cert_infos (GQueue *cert_infos,
-                   GString *output_buffer)
+		   GString *output_buffer)
 {
 	GQueue valid = G_QUEUE_INIT;
 	GList *head, *link;
@@ -178,12 +193,14 @@ add_photo_cb (gpointer data,
 
 static void
 secure_button_format_validity (EMailPart *part,
+			       gboolean sender_signer_mismatch,
 			       CamelCipherValidity *validity,
 			       GString *html)
 {
 	const gchar *icon_name;
 	gchar *description;
 	gint icon_width, icon_height;
+	gint info_index;
 	GString *buffer;
 
 	g_return_if_fail (validity != NULL);
@@ -191,15 +208,19 @@ secure_button_format_validity (EMailPart *part,
 	buffer = g_string_new ("");
 
 	if (validity->sign.status != CAMEL_CIPHER_VALIDITY_SIGN_NONE) {
-		const gchar *desc;
+		const gchar *desc = NULL;
 		gint status;
 
 		status = validity->sign.status;
-		desc = smime_sign_table[status].shortdesc;
-
-		g_string_append (buffer, gettext (desc));
 
 		format_cert_infos (&validity->sign.signers, buffer);
+
+		if (sender_signer_mismatch)
+			desc = smime_sign_table[status].shortdesc_mismatch;
+		if (!desc)
+			desc = smime_sign_table[status].shortdesc;
+
+		g_string_prepend (buffer, gettext (desc));
 	}
 
 	if (validity->encrypt.status != CAMEL_CIPHER_VALIDITY_ENCRYPT_NONE) {
@@ -216,9 +237,13 @@ secure_button_format_validity (EMailPart *part,
 
 	description = g_string_free (buffer, FALSE);
 
+	info_index = validity->sign.status;
+	if (sender_signer_mismatch && info_index == CAMEL_CIPHER_VALIDITY_SIGN_GOOD)
+		info_index = CAMEL_CIPHER_VALIDITY_SIGN_UNKNOWN;
+
 	/* FIXME: need to have it based on encryption and signing too */
 	if (validity->sign.status != CAMEL_CIPHER_VALIDITY_SIGN_NONE)
-		icon_name = smime_sign_table[validity->sign.status].icon;
+		icon_name = smime_sign_table[info_index].icon;
 	else
 		icon_name = smime_encrypt_table[validity->encrypt.status].icon;
 
@@ -229,9 +254,9 @@ secure_button_format_validity (EMailPart *part,
 
 	g_string_append (html, "<table width=\"100%\" style=\"vertical-align:middle;");
 	if (validity->sign.status != CAMEL_CIPHER_VALIDITY_SIGN_NONE &&
-	    smime_sign_colour[validity->sign.status].alpha > 1e-9)
+	    smime_sign_colour[info_index].alpha > 1e-9)
 		g_string_append_printf (html, " background:#%06x;",
-			e_rgba_to_value (&smime_sign_colour[validity->sign.status]));
+			e_rgba_to_value (&smime_sign_colour[info_index]));
 	g_string_append (html, "\"><tr>");
 
 	g_string_append_printf (html,
@@ -269,11 +294,13 @@ emfe_secure_button_format (EMailFormatterExtension *extension,
 
 	for (link = head; link != NULL; link = g_list_next (link)) {
 		EMailPartValidityPair *pair = link->data;
+		gboolean sender_signer_mismatch;
 
 		if (!pair)
 			continue;
 
-		secure_button_format_validity (part, pair->validity, html);
+		sender_signer_mismatch = (pair->validity_type & E_MAIL_PART_VALIDITY_SENDER_SIGNER_MISMATCH) != 0;
+		secure_button_format_validity (part, sender_signer_mismatch, pair->validity, html);
 	}
 
 	g_output_stream_write_all (stream, html->str, html->len, NULL, cancellable, NULL);
