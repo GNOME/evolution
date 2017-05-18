@@ -1249,6 +1249,11 @@ composer_build_message (EMsgComposer *composer,
 			E_CONTENT_EDITOR_GET_PROCESSED,
 			NULL, NULL);
 
+		if (!text) {
+			g_warning ("%s: Failed to retrieve text/plain processed content", G_STRFUNC);
+			text = g_strdup ("");
+		}
+
 		g_byte_array_append (data, (guint8 *) text, strlen (text));
 		g_free (text);
 
@@ -1335,6 +1340,11 @@ composer_build_message (EMsgComposer *composer,
 				E_CONTENT_EDITOR_GET_TEXT_HTML |
 				E_CONTENT_EDITOR_GET_INLINE_IMAGES,
 				from_domain, &inline_images_parts);
+
+			if (!text) {
+				g_warning ("%s: Failed to retrieve draft content", G_STRFUNC);
+				text = g_strdup ("");
+			}
 		} else {
 			text = e_content_editor_get_content (
 				cnt_editor,
@@ -1342,6 +1352,11 @@ composer_build_message (EMsgComposer *composer,
 				E_CONTENT_EDITOR_GET_PROCESSED |
 				E_CONTENT_EDITOR_GET_INLINE_IMAGES,
 				from_domain, &inline_images_parts);
+
+			if (!text) {
+				g_warning ("%s: Failed to retrieve HTML processed content", G_STRFUNC);
+				text = g_strdup ("");
+			}
 		}
 
 		length = strlen (text);
@@ -5176,6 +5191,11 @@ e_msg_composer_get_raw_message_text_without_signature (EMsgComposer *composer)
 		E_CONTENT_EDITOR_GET_EXCLUDE_SIGNATURE,
 		NULL, NULL);
 
+	if (!content) {
+		g_warning ("%s: Failed to retrieve content", G_STRFUNC);
+		content = g_strdup ("");
+	}
+
 	return g_byte_array_new_take ((guint8 *) content, strlen (content));
 }
 
@@ -5201,6 +5221,11 @@ e_msg_composer_get_raw_message_text (EMsgComposer *composer)
 		E_CONTENT_EDITOR_GET_BODY |
 		E_CONTENT_EDITOR_GET_TEXT_PLAIN,
 		NULL, NULL);
+
+	if (!content) {
+		g_warning ("%s: Failed to retrieve content", G_STRFUNC);
+		content = g_strdup ("");
+	}
 
 	return g_byte_array_new_take ((guint8 *) content, strlen (content));
 }

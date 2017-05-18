@@ -949,6 +949,11 @@ e_mail_signature_editor_commit (EMailSignatureEditor *window,
 		E_CONTENT_EDITOR_GET_BODY,
 		NULL, NULL);
 
+	if (!contents) {
+		g_warning ("%s: Failed to retrieve content", G_STRFUNC);
+		contents = g_strdup ("");
+	}
+
 	extension_name = E_SOURCE_EXTENSION_MAIL_SIGNATURE;
 	extension = e_source_get_extension (source, extension_name);
 	e_source_mail_signature_set_mime_type (extension, mime_type);
