@@ -548,7 +548,7 @@ cal_ops_create_comp_with_new_uid_sync (ECalClient *cal_client,
 
 	clone = icalcomponent_new_clone (icalcomp);
 
-	uid = e_cal_component_gen_uid ();
+	uid = e_util_generate_uid ();
 	icalcomponent_set_uid (clone, uid);
 	g_free (uid);
 

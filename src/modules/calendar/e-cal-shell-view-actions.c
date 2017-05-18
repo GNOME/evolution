@@ -894,7 +894,7 @@ action_event_occurrence_movable_cb (GtkAction *action,
 	e_cal_component_set_icalcomponent (
 		exception_component, icalcomponent_new_clone (icalcomp));
 
-	uid = e_cal_component_gen_uid ();
+	uid = e_util_generate_uid ();
 	e_cal_component_set_uid (exception_component, uid);
 	g_free (uid);
 

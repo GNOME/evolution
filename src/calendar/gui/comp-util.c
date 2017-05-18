@@ -1194,7 +1194,7 @@ cal_comp_transfer_item_to_sync (ECalClient *src_client,
 
 		if (do_copy) {
 			/* Change the UID to avoid problems with duplicated UID */
-			new_uid = e_cal_component_gen_uid ();
+			new_uid = e_util_generate_uid ();
 			if (icalcomponent_isa (icalcomp) == ICAL_VCALENDAR_COMPONENT) {
 				/* in case of a vCalendar, the component might have detached instances,
 				 * thus change the UID on all of the subcomponents of it */

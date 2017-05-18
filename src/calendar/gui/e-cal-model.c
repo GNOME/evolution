@@ -3788,7 +3788,7 @@ e_cal_model_create_component_with_defaults_sync (ECalModel *model,
 	if (!icalcomponent_get_uid (icalcomp)) {
 		gchar *uid;
 
-		uid = e_cal_component_gen_uid ();
+		uid = e_util_generate_uid ();
 		icalcomponent_set_uid (icalcomp, uid);
 
 		g_free (uid);

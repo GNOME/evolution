@@ -750,7 +750,7 @@ do_manage_comp_idle (struct _manage_comp *mc)
 				}
 			} else if (chosen == GTK_RESPONSE_NO) {
 				/* user wants to create a new event, thus generate a new UID */
-				gchar *new_uid = e_cal_component_gen_uid ();
+				gchar *new_uid = e_util_generate_uid ();
 				edit_comp = mc->comp;
 				e_cal_component_set_uid (edit_comp, new_uid);
 				e_cal_component_set_recurid (edit_comp, NULL);

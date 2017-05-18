@@ -722,7 +722,7 @@ e_calendar_view_add_event_sync (ECalModel *model,
 	icalcomponent_set_dtend (icalcomp, itime);
 
 	/* The new uid stuff can go away once we actually set it in the backend */
-	uid = e_cal_component_gen_uid ();
+	uid = e_util_generate_uid ();
 	comp = e_cal_component_new ();
 	e_cal_component_set_icalcomponent (
 		comp, icalcomponent_new_clone (icalcomp));
