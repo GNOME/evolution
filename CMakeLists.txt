@@ -572,6 +572,15 @@ CHECK_C_SOURCE_COMPILES("#include <libical/ical.h>
 				return 0;
 			}" HAVE_ICALTZUTIL_SET_EXACT_VTIMEZONES_SUPPORT)
 
+CHECK_C_SOURCE_COMPILES("#include <libical/ical.h>
+			int main(void) {
+				icalparameter *param;
+				param = icalproperty_get_first_parameter (NULL, ICAL_FILENAME_PARAMETER);
+				icalparameter_get_filename (param);
+				icalparameter_new_filename (NULL);
+				return 0;
+			}" HAVE_ICAL_FILENAME_PARAMETER)
+
 unset(CMAKE_REQUIRED_DEFINITIONS)
 unset(CMAKE_REQUIRED_INCLUDES)
 unset(CMAKE_REQUIRED_LIBRARIES)

@@ -99,6 +99,9 @@
 /* libical provides icaltzutil_set_exact_vtimezones_support function */
 #cmakedefine HAVE_ICALTZUTIL_SET_EXACT_VTIMEZONES_SUPPORT 1
 
+/* libical provides ICAL_FILENAME_PARAMETER */
+#cmakedefine HAVE_ICAL_FILENAME_PARAMETER 1
+
 /* When defined spell checking is enabled */
 #cmakedefine HAVE_GTKSPELL 1
 
