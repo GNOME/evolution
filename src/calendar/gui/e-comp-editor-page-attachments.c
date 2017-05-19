@@ -139,8 +139,6 @@ ecep_attachments_attachment_loaded_cb (EAttachment *attachment,
 {
 	GFileInfo *file_info;
 	const gchar *display_name;
-	const gchar *uid;
-	gchar *new_name;
 	GError *error = NULL;
 
 	/* Prior to 2.27.2, attachment files were named:
@@ -163,10 +161,19 @@ ecep_attachments_attachment_loaded_cb (EAttachment *attachment,
 
 	file_info = e_attachment_ref_file_info (attachment);
 	if (file_info) {
+		const gchar *uid;
+		const gchar *prefer_filename;
+
 		display_name = g_file_info_get_display_name (file_info);
 		uid = g_object_get_data (G_OBJECT (attachment), "uid");
+		prefer_filename = g_object_get_data (G_OBJECT (attachment), "prefer-filename");
 
-		if (g_str_has_prefix (display_name, uid)) {
+		if (prefer_filename && *prefer_filename) {
+			g_file_info_set_display_name (file_info, prefer_filename);
+			g_object_notify (G_OBJECT (attachment), "file-info");
+		} else if (g_str_has_prefix (display_name, uid)) {
+			gchar *new_name;
+
 			new_name = g_strdup (display_name + strlen (uid) + 1);
 			g_file_info_set_display_name (file_info, new_name);
 			g_object_notify (G_OBJECT (attachment), "file-info");
@@ -266,12 +273,24 @@ ecep_attachments_fill_widgets (ECompEditorPage *page,
 	for (prop = icalcomponent_get_first_property (component, ICAL_ATTACH_PROPERTY), index = 0;
 	     prop;
 	     prop = icalcomponent_get_next_property (component, ICAL_ATTACH_PROPERTY), index++) {
+		icalparameter *param;
 		icalattach *attach;
-		gchar *uri = NULL;
+		gchar *uri = NULL, *filename = NULL;
 
 		attach = icalproperty_get_attach (prop);
 		if (!attach)
 			continue;
+
+		#ifdef HAVE_ICAL_FILENAME_PARAMETER
+		param = icalproperty_get_first_parameter (prop, ICAL_FILENAME_PARAMETER);
+		if (param) {
+			filename = g_strdup (icalparameter_get_filename (param));
+			if (!filename || !*filename) {
+				g_free (filename);
+				filename = NULL;
+			}
+		}
+		#endif
 
 		if (icalattach_get_is_url (attach)) {
 			const gchar *data;
@@ -325,22 +344,24 @@ ecep_attachments_fill_widgets (ECompEditorPage *page,
 						g_free (id_str);
 
 						if (g_mkdir_with_parents (dir, 0700) >= 0) {
-							icalparameter *param;
-							gchar *file = NULL;
-
 							for (param = icalproperty_get_first_parameter (prop, ICAL_X_PARAMETER);
-							     param && !file;
+							     param && !filename;
 							     param = icalproperty_get_next_parameter (prop, ICAL_X_PARAMETER)) {
 								if (e_util_strstrcase (icalparameter_get_xname (param), "NAME") &&
 								    icalparameter_get_xvalue (param) &&
-								    *icalparameter_get_xvalue (param))
-									file = g_strdup (icalparameter_get_xvalue (param));
+								    *icalparameter_get_xvalue (param)) {
+									filename = g_strdup (icalparameter_get_xvalue (param));
+									if (!filename || !*filename) {
+										g_free (filename);
+										filename = NULL;
+									}
+								}
 							}
 
-							if (!file)
-								file = g_strdup_printf ("%d.dat", index);
+							if (!filename)
+								filename = g_strdup_printf ("%d.dat", index);
 
-							temporary_filename = g_build_filename (dir, file, NULL);
+							temporary_filename = g_build_filename (dir, filename, NULL);
 							if (!g_file_set_contents (temporary_filename, (const gchar *) data, data_len, NULL)) {
 								g_free (temporary_filename);
 								temporary_filename = NULL;
@@ -366,16 +387,16 @@ ecep_attachments_fill_widgets (ECompEditorPage *page,
 
 			attachment = e_attachment_new_for_uri (uri);
 			e_attachment_store_add_attachment (store, attachment);
-			g_object_set_data_full (
-				G_OBJECT (attachment),
-				"uid", g_strdup (uid),
-				(GDestroyNotify) g_free);
+			g_object_set_data_full (G_OBJECT (attachment), "uid", g_strdup (uid), g_free);
+			if (filename)
+				g_object_set_data_full (G_OBJECT (attachment), "prefer-filename", g_strdup (filename), g_free);
 			e_attachment_load_async (
 				attachment, (GAsyncReadyCallback)
 				ecep_attachments_attachment_loaded_cb, page_attachments);
 			g_object_unref (attachment);
 		}
 
+		g_free (filename);
 		g_free (uri);
 	}
 }
@@ -412,6 +433,9 @@ ecep_attachments_fill_component (ECompEditorPage *page,
 		gsize buf_size;
 		gchar *buf, *uri, *description;
 		GFile *file;
+		#ifdef HAVE_ICAL_FILENAME_PARAMETER
+		GFileInfo *file_info;
+		#endif
 
 		if (!attachment)
 			continue;
@@ -462,6 +486,23 @@ ecep_attachments_fill_component (ECompEditorPage *page,
 		icalvalue_encode_ical_string (uri, buf, buf_size);
 		attach = icalattach_new_from_url (buf);
 		prop = icalproperty_new_attach (attach);
+
+		#ifdef HAVE_ICAL_FILENAME_PARAMETER
+		file_info = e_attachment_ref_file_info (attachment);
+		if (file_info) {
+			const gchar *display_name = g_file_info_get_display_name (file_info);
+
+			if (display_name && *display_name) {
+				icalparameter *param;
+
+				param = icalparameter_new_filename (display_name);
+				icalproperty_add_parameter (prop, param);
+			}
+
+			g_object_unref (file_info);
+		}
+		#endif
+
 		icalcomponent_add_property (component, prop);
 
 		icalattach_unref (attach);
