@@ -630,6 +630,7 @@ ece_save_component_attachments_sync (ECalClient *cal_client,
 				     GError **error)
 {
 	icalproperty *prop;
+	const gchar *local_store;
 	gchar *target_filename_prefix, *filename_prefix, *tmp;
 	gboolean success = TRUE;
 
@@ -641,9 +642,13 @@ ece_save_component_attachments_sync (ECalClient *cal_client,
 	filename_prefix = g_strconcat (tmp, "-", NULL);
 	g_free (tmp);
 
-	target_filename_prefix = g_build_filename (
-		e_cal_client_get_local_attachment_store (cal_client),
-		filename_prefix, NULL);
+	local_store = e_cal_client_get_local_attachment_store (cal_client);
+	if (local_store && *local_store &&
+	    g_mkdir_with_parents (local_store, 0700) < 0) {
+		g_debug ("%s: Failed to create local store directory '%s'", G_STRFUNC, local_store);
+	}
+
+	target_filename_prefix = g_build_filename (local_store, filename_prefix, NULL);
 
 	g_free (filename_prefix);
 
