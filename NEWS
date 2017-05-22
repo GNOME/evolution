@@ -1,3 +1,41 @@
+Evolution 3.25.2 2017-05-22
+---------------------------
+
+Bug Fixes:
+	Bug 781660 - Component editor marked changed after open (Milan Crha)
+	Bug 781647 - Hide evolution-alarm-notify in Startup Applications (Jeremy Bicha)
+	Bug 781722 - Switching citation in Reply to "Preformatted" duplicates citation marks (Tomas Popela)
+	Bug 781833 - Do not set '-Wl,--no-undefined' on BSD (Antoine Jacoutot)
+	Bug 781890 - Signature editor doesn't set correct format (Milan Crha)
+	Bug 781116 - Wrap Lines in citation breaks citation (Tomas Popela)
+	Bug 778423 - Deleting quoted content from GMail could leave empty blocks (Tomas Popela)
+	Bug 780088 - Pasted URL not recognized/rendered as such; renders all remaining email text as link after pressing Enter (Tomas Popela)
+	Bug 569684 - Click-mark message read/unread stops mark-seen timer (Milan Crha)
+	Bug 782153 - Missing name when replying to sender with quotes (Milan Crha)
+	Bug 720197 - [IMAPx] Indefinite waiting for message download ][ (Lubomir Rintel)
+	Bug 782529 - Hide end time in week/month views when same as start (Milan Crha)
+	Bug 782438 - Check From address against digital signature author (Milan Crha)
+	Bug 773420 - Prevent crash when e_content_editor_get_content() returns NULL (Milan Crha)
+
+Miscellaneous:
+	Show VERSION_SUBSTRING and VERSION_COMMENT in Help->About (Milan Crha)
+	Fix occasional runtime warning from e_web_extension_set_clipboard_flags() (Milan Crha)
+	Mark editor as changed if using 'Wrap lines' action (Tomas Popela)
+	Mark editor as changed if deleting a selection (Tomas Popela)
+	MailFolderCache can sometimes block folder 'changed' notifications (Milan Crha)
+	Correct possible ref/unref imbalance of a CamelFolder instance (Milan Crha)
+	Remove misplaced 'return' call (Milan Crha)
+	Refer to Polari instead of Empathy for IRC support in Help (Andre Klapper)
+	Use new e_util_generate_uid() instead of e_cal_component_gen_uid() (Milan Crha)
+	[ECompEditor] Ensure local store directory exists before saving attachments (Milan Crha)
+	[ECompEditor] Use ICAL_FILENAME_PARAMETER for attachments, if available (Milan Crha)
+
+Translations:
+	Efstathios Iosifidis (el)
+	Kukuh Syafaat (id)
+	Matej Urbančič (sl)
+	Fabio Tomat (fur)
+
 Evolution 3.25.1 2017-04-24
 ---------------------------
 
