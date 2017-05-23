@@ -371,11 +371,45 @@ cal_shell_content_weekday_within (GDateWeekday start_wday,
 }
 
 static void
+cal_shell_content_change_selection_in_current_view (ECalShellContent *cal_shell_content,
+						    time_t sel_start_tt,
+						    time_t sel_end_tt,
+						    icaltimezone *zone)
+{
+	g_return_if_fail (E_IS_CAL_SHELL_CONTENT (cal_shell_content));
+
+	if (cal_shell_content->priv->current_view >= 0 &&
+	    cal_shell_content->priv->current_view < E_CAL_VIEW_KIND_LAST) {
+		ECalendarView *view;
+
+		view = cal_shell_content->priv->views[cal_shell_content->priv->current_view];
+
+		/* Preserve selected time (change only date) for these views */
+		if (cal_shell_content->priv->current_view == E_CAL_VIEW_KIND_DAY ||
+		    cal_shell_content->priv->current_view == E_CAL_VIEW_KIND_WORKWEEK) {
+			time_t current_sel_start = (time_t) -1, current_sel_end = (time_t) -1;
+
+			if (e_calendar_view_get_selected_time_range (view, &current_sel_start, &current_sel_end)) {
+				current_sel_start = icaltime_as_timet_with_zone (icaltime_from_timet_with_zone (current_sel_start, 0, zone), NULL);
+				current_sel_end = icaltime_as_timet_with_zone (icaltime_from_timet_with_zone (current_sel_end, 0, zone), NULL);
+
+				sel_start_tt += current_sel_start % (24 * 60 * 60);
+				sel_end_tt += current_sel_end % (24 * 60 * 60);
+			}
+		}
+
+		e_calendar_view_set_selected_time_range (view, sel_start_tt, sel_end_tt);
+	}
+}
+
+static void
 cal_shell_content_datepicker_selection_changed_cb (ECalendarItem *calitem,
 						   ECalShellContent *cal_shell_content)
 {
 	GDate sel_start, sel_end;
 	guint32 selected_days, start_julian, end_julian;
+	icaltimezone *zone;
+	time_t sel_start_tt, sel_end_tt;
 
 	g_return_if_fail (E_IS_CAL_SHELL_CONTENT (cal_shell_content));
 	g_return_if_fail (E_IS_CALENDAR_ITEM (calitem));
@@ -396,6 +430,10 @@ cal_shell_content_datepicker_selection_changed_cb (ECalendarItem *calitem,
 		return;
 	}
 
+	zone = e_cal_model_get_timezone (e_cal_base_shell_content_get_model (E_CAL_BASE_SHELL_CONTENT (cal_shell_content)));
+	sel_start_tt = cal_comp_gdate_to_timet (&sel_start, zone);
+	sel_end_tt = cal_comp_gdate_to_timet (&sel_end, zone);
+
 	selected_days = end_julian - start_julian + 1;
 	if (selected_days == 1) {
 		GDateWeekday sel_start_wday, sel_end_wday, cur_start_wday, cur_end_wday;
@@ -408,6 +446,8 @@ cal_shell_content_datepicker_selection_changed_cb (ECalendarItem *calitem,
 			sel_end = cal_shell_content->priv->view_end;
 
 			e_calendar_item_set_selection (calitem, &sel_start, &sel_end);
+
+			cal_shell_content_change_selection_in_current_view (cal_shell_content, sel_start_tt, sel_end_tt, zone);
 			return;
 		}
 
@@ -456,6 +496,8 @@ cal_shell_content_datepicker_selection_changed_cb (ECalendarItem *calitem,
 		} else {
 			e_cal_shell_content_change_view (cal_shell_content, E_CAL_VIEW_KIND_DAY, &sel_start, &sel_end, FALSE);
 		}
+
+		cal_shell_content_change_selection_in_current_view (cal_shell_content, sel_start_tt, sel_end_tt, zone);
 	} else if (selected_days < 7) {
 		GDateWeekday first_work_wday;
 
