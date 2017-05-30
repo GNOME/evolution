@@ -162,15 +162,15 @@ main (gint argc,
 
 kill:
 #ifdef KILL_PROCESS_COMMAND
-	if (system (KILL_PROCESS_COMMAND " -QUIT evolution 2> /dev/null") == -1)
+	if (system (KILL_PROCESS_COMMAND " -TERM evolution 2> /dev/null") == -1)
 		g_warning ("%s: Failed to execute: '%s'", G_STRFUNC, KILL_PROCESS_COMMAND);
 	if (system (KILL_PROCESS_COMMAND " -TERM evolution-alarm-notify 2> /dev/null") == -1)
 		g_warning ("%s: Failed to execute: '%s'", G_STRFUNC, KILL_PROCESS_COMMAND);
-	if (system (KILL_PROCESS_COMMAND " -QUIT evolution-source-registry 2> /dev/null") == -1)
+	if (system (KILL_PROCESS_COMMAND " -TERM evolution-source-registry 2> /dev/null") == -1)
 		g_warning ("%s: Failed to execute: '%s'", G_STRFUNC, KILL_PROCESS_COMMAND);
-	if (system (KILL_PROCESS_COMMAND " -QUIT evolution-addressbook-factory 2> /dev/null") == -1)
+	if (system (KILL_PROCESS_COMMAND " -TERM evolution-addressbook-factory 2> /dev/null") == -1)
 		g_warning ("%s: Failed to execute: '%s'", G_STRFUNC, KILL_PROCESS_COMMAND);
-	if (system (KILL_PROCESS_COMMAND " -QUIT evolution-calendar-factory 2> /dev/null") == -1)
+	if (system (KILL_PROCESS_COMMAND " -TERM evolution-calendar-factory 2> /dev/null") == -1)
 		g_warning ("%s: Failed to execute: '%s'", G_STRFUNC, KILL_PROCESS_COMMAND);
 #else
 	g_printerr ("No \"kill\" command available.\n");
