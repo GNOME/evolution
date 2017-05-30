@@ -65,6 +65,75 @@ viewcert_clicked (GtkWidget *button,
 			info->email ? info->email : "");
 	}
 }
+
+static void
+importcert_clicked (GtkWidget *button,
+		    GtkWidget *grid)
+{
+	ECert *ec;
+	gchar *data = NULL;
+	guint32 len = 0;
+	GError *error = NULL;
+
+	g_return_if_fail (GTK_IS_BUTTON (button));
+
+	ec = g_object_get_data (G_OBJECT (button), "e-cert-info");
+	g_return_if_fail (E_IS_CERT (ec));
+
+	g_warn_if_fail (e_cert_get_raw_der (ec, &data, &len));
+
+	if (!e_cert_db_import_email_cert (e_cert_db_peek (), data, len, NULL, &error)) {
+		GtkWidget *parent;
+
+		parent = gtk_widget_get_toplevel (grid);
+		if (!GTK_IS_WINDOW (parent))
+			parent = NULL;
+
+		e_notice (parent, GTK_MESSAGE_ERROR, _("Failed to import certificate: %s"),
+			error ? error->message : _("Unknown error"));
+
+		g_clear_error (&error);
+	} else {
+		gtk_widget_set_sensitive (button, FALSE);
+	}
+}
+
+static gboolean
+secure_button_smime_cert_exists (const gchar *email,
+				 ECert *ec)
+{
+	CERTCertificate *found_cert;
+	ECert *found_ec;
+	gboolean found = FALSE;
+
+	if (!email || !*email)
+		return FALSE;
+
+	g_return_val_if_fail (E_IS_CERT (ec), FALSE);
+
+	found_cert = CERT_FindCertByNicknameOrEmailAddr (CERT_GetDefaultCertDB (), email);
+	if (!found_cert)
+		return FALSE;
+
+	found_ec = e_cert_new (found_cert);
+	if (!found_ec)
+		return FALSE;
+
+	#define compare_nonnull(_func) (!_func (ec) || g_strcmp0 (_func (ec), _func (found_ec)) == 0)
+
+	if (compare_nonnull (e_cert_get_serial_number) &&
+	    compare_nonnull (e_cert_get_sha1_fingerprint) &&
+	    compare_nonnull (e_cert_get_md5_fingerprint)) {
+		found = TRUE;
+	}
+
+	#undef compare_nonnull
+
+	g_object_unref (found_ec);
+
+	return found;
+}
+
 #endif
 
 static void
@@ -123,10 +192,17 @@ add_cert_table (GtkWidget *grid,
 			if (info->cert_data)
 				ec = e_cert_new (CERT_DupCertificate (info->cert_data));
 
-			if (ec == NULL)
+			if (ec == NULL) {
 				gtk_widget_set_sensitive (w, FALSE);
-			else
-				g_object_unref (ec);
+			} else {
+				w = gtk_button_new_with_mnemonic (_("_Import Certificate"));
+				gtk_table_attach (table, w, 2, 3, n, n + 1, 0, 0, 3, 3);
+				g_object_set_data_full (G_OBJECT (w), "e-cert-info", ec, g_object_unref);
+				g_signal_connect (
+					w, "clicked",
+					G_CALLBACK (importcert_clicked), grid);
+				gtk_widget_set_sensitive (w, !secure_button_smime_cert_exists (info->email, ec));
+			}
 #else
 			w = gtk_label_new (_("This certificate is not viewable"));
 			gtk_table_attach (table, w, 1, 2, n, n + 1, 0, 0, 3, 3);
