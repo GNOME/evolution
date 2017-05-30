@@ -28,7 +28,7 @@
 
 #include <e-util/e-util.h>
 
-#if HAVE_NL_LANGINFO
+#if defined(HAVE_NL_LANGINFO)
 #include <langinfo.h>
 #endif
 
@@ -170,7 +170,7 @@ is_locale_metric (void)
 {
 	const gchar *fmt;
 
-#if HAVE_NL_LANGINFO && HAVE__NL_MEASUREMENT_MEASUREMENT
+#if defined(HAVE_NL_LANGINFO) && defined(HAVE__NL_MEASUREMENT_MEASUREMENT)
 	fmt = nl_langinfo (_NL_MEASUREMENT_MEASUREMENT);
 
 	if (fmt && *fmt == 2)
