@@ -3492,15 +3492,19 @@ void
 e_calendar_item_style_updated (GtkWidget *widget,
 			       ECalendarItem *calitem)
 {
-	GdkRGBA selected_bg, fg, base_bg;
+	GdkRGBA unfocused_selected_bg, selected_bg, fg, base_bg;
 
 	e_utils_get_theme_color (widget, "theme_selected_bg_color", E_UTILS_DEFAULT_THEME_SELECTED_BG_COLOR, &selected_bg);
+	e_utils_get_theme_color (widget, "theme_unfocused_selected_bg_color,theme_selected_bg_color", E_UTILS_DEFAULT_THEME_UNFOCUSED_SELECTED_BG_COLOR, &unfocused_selected_bg);
 	e_utils_get_theme_color (widget, "theme_fg_color", E_UTILS_DEFAULT_THEME_FG_COLOR, &fg);
 	e_utils_get_theme_color (widget, "theme_base_color", E_UTILS_DEFAULT_THEME_BASE_COLOR, &base_bg);
 
+	if (gdk_rgba_equal (&selected_bg, &unfocused_selected_bg))
+		e_utils_get_theme_color (widget, "theme_selected_fg_color", E_UTILS_DEFAULT_THEME_SELECTED_FG_COLOR, &selected_bg);
+
 	e_rgba_to_color (&selected_bg, &calitem->colors[E_CALENDAR_ITEM_COLOR_TODAY_BOX]);
 	e_rgba_to_color (&base_bg, &calitem->colors[E_CALENDAR_ITEM_COLOR_SELECTION_FG]);
-	e_rgba_to_color (&selected_bg, &calitem->colors[E_CALENDAR_ITEM_COLOR_SELECTION_BG_FOCUSED]);
+	e_rgba_to_color (&unfocused_selected_bg, &calitem->colors[E_CALENDAR_ITEM_COLOR_SELECTION_BG_FOCUSED]);
 	e_rgba_to_color (&fg, &calitem->colors[E_CALENDAR_ITEM_COLOR_SELECTION_BG]);
 	e_rgba_to_color (&fg, &calitem->colors[E_CALENDAR_ITEM_COLOR_PREV_OR_NEXT_MONTH_FG]);
 
