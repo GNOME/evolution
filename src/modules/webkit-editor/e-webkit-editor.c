@@ -5718,13 +5718,26 @@ static void
 webkit_editor_paste_clipboard_targets_cb (GtkClipboard *clipboard,
                                           GdkAtom *targets,
                                           gint n_targets,
-                                          EWebKitEditor *wk_editor)
+                                          gpointer user_data)
 {
+	GWeakRef *weak_ref = user_data;
+	EWebKitEditor *wk_editor;
 	gchar *content = NULL;
 	gboolean is_html = FALSE;
 
-	if (targets == NULL || n_targets < 0)
+	g_return_if_fail (weak_ref != NULL);
+
+	wk_editor = g_weak_ref_get (weak_ref);
+
+	e_weak_ref_free (weak_ref);
+
+	if (!wk_editor)
 		return;
+
+	if (targets == NULL || n_targets < 0) {
+		g_clear_object (&wk_editor);
+		return;
+	}
 
 	/* If view doesn't have focus, focus it */
 	if (!gtk_widget_has_focus (GTK_WIDGET (wk_editor)))
@@ -5763,6 +5776,7 @@ webkit_editor_paste_clipboard_targets_cb (GtkClipboard *clipboard,
 
 		webkit_editor_insert_image (E_CONTENT_EDITOR (wk_editor), uri);
 
+		g_clear_object (&wk_editor);
 		g_free (content);
 		g_free (uri);
 
@@ -5776,6 +5790,7 @@ webkit_editor_paste_clipboard_targets_cb (GtkClipboard *clipboard,
 	 * when pasting content from outside the editor view. */
 
 	if (!content || !*content) {
+		g_clear_object (&wk_editor);
 		g_free (content);
 		return;
 	}
@@ -5792,6 +5807,7 @@ webkit_editor_paste_clipboard_targets_cb (GtkClipboard *clipboard,
 			E_CONTENT_EDITOR_INSERT_TEXT_PLAIN |
 			E_CONTENT_EDITOR_INSERT_CONVERT);
 
+	g_clear_object (&wk_editor);
 	g_free (content);
 }
 
@@ -5814,7 +5830,7 @@ webkit_editor_paste_primary (EContentEditor *editor)
 
 	gtk_clipboard_request_targets (
 		clipboard, (GtkClipboardTargetsReceivedFunc)
-		webkit_editor_paste_clipboard_targets_cb, wk_editor);
+		webkit_editor_paste_clipboard_targets_cb, e_weak_ref_new (wk_editor));
 }
 
 static void
@@ -5829,7 +5845,7 @@ webkit_editor_paste (EContentEditor *editor)
 
 	gtk_clipboard_request_targets (
 		clipboard, (GtkClipboardTargetsReceivedFunc)
-		webkit_editor_paste_clipboard_targets_cb, wk_editor);
+		webkit_editor_paste_clipboard_targets_cb, e_weak_ref_new (wk_editor));
 }
 
 static void
