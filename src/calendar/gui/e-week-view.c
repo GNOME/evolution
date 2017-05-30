@@ -2836,8 +2836,16 @@ ewv_pass_gdkevent_to_etext (EWeekView *week_view,
 		span = &g_array_index (week_view->spans, EWeekViewEventSpan, event->spans_index + week_view->editing_span_num);
 
 		if (span->text_item && E_IS_TEXT (span->text_item)) {
-			GNOME_CANVAS_ITEM_GET_CLASS (span->text_item)->event (span->text_item, gevent);
-			return TRUE;
+			gdouble x1 = 0.0, y1 = 0.0, x2 = 0.0, y2 = 0.0, ex = 0.0, ey = 0.0;
+
+			gdk_event_get_coords (gevent, &ex, &ey);
+
+			gnome_canvas_item_get_bounds (span->text_item, &x1, &y1, &x2, &y2);
+
+			if (ex >= x1 && ex <= x2 && ey >= y1 && ey <= y2) {
+				GNOME_CANVAS_ITEM_GET_CLASS (span->text_item)->event (span->text_item, gevent);
+				return TRUE;
+			}
 		}
 	}
 
@@ -2870,6 +2878,8 @@ e_week_view_on_button_press (GtkWidget *widget,
 	/* If an event is pressed just return. */
 	if (week_view->pressed_event_num != -1)
 		return FALSE;
+
+	e_week_view_stop_editing_event (week_view);
 
 	if (event_button == 1 && button_event->type == GDK_2BUTTON_PRESS) {
 		time_t dtstart, dtend;
