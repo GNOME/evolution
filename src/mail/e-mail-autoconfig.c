@@ -76,7 +76,7 @@
 	((obj), E_TYPE_MAIL_AUTOCONFIG, EMailAutoconfigPrivate))
 
 #define AUTOCONFIG_BASE_URI \
-	"http://api.gnome.org/evolution/autoconfig/1.1/"
+	"https://api.gnome.org/evolution/autoconfig/1.1/"
 
 #define ERROR_IS_NOT_FOUND(error) \
 	(g_error_matches ((error), SOUP_HTTP_ERROR, SOUP_STATUS_NOT_FOUND))
