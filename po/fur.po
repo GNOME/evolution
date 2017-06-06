@@ -10,7 +10,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2017-06-05 14:29+0000\n"
-"PO-Revision-Date: 2017-06-06 16:12+0200\n"
+"PO-Revision-Date: 2017-06-06 17:47+0200\n"
 "Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
 "Language-Team: Friulian <f.t.public@gmail.com>\n"
 "Language: fur\n"
@@ -11689,10 +11689,8 @@ msgid "_View Certificate"
 msgstr "_Viôt certificât"
 
 #: ../src/em-format/e-mail-part-secure-button.c:198
-#, fuzzy
-#| msgid "Imported Certificate"
 msgid "_Import Certificate"
-msgstr "Certificât impuartât"
+msgstr "_Impuarte certificât"
 
 #: ../src/em-format/e-mail-part-secure-button.c:207
 msgid "This certificate is not viewable"
@@ -18231,7 +18229,7 @@ msgstr "Inviâ une rispueste a une vore di _destinataris"
 #. This is in the context of: Ask for confirmation before...
 #: ../src/mail/mail-config.ui.h:52
 msgid "Allowing a _mailing list to redirect a private reply to the list"
-msgstr ""
+msgstr "Permeti a une _mailing list di indreçâ une rispueste privade ae liste"
 
 #. This is in the context of: Ask for confirmation before...
 #: ../src/mail/mail-config.ui.h:54
@@ -19659,9 +19657,10 @@ msgstr "Scjadince"
 msgid "Messages To"
 msgstr "Messaçs a"
 
+# Scurtât?
 #: ../src/mail/message-list.etspec.h:20
 msgid "Subject — Trimmed"
-msgstr ""
+msgstr "Ogjet — Taiât"
 
 #: ../src/mail/message-list.etspec.h:21
 #: ../src/plugins/save-calendar/csv-format.c:372
@@ -20153,7 +20152,7 @@ msgstr "Daûr a sierâ Evolution"
 
 #: ../src/modules/backup-restore/evolution-backup-tool.c:303
 msgid "Backing Evolution accounts and settings"
-msgstr ""
+msgstr "Backup dai account e des impostazions di Evolution"
 
 #: ../src/modules/backup-restore/evolution-backup-tool.c:320
 msgid "Backing Evolution data (Mails, Contacts, Calendar, Tasks, Memos)"
@@ -20172,11 +20171,11 @@ msgstr "Daûr a tornâ a inviâ Evolution"
 
 #: ../src/modules/backup-restore/evolution-backup-tool.c:504
 msgid "Back up current Evolution data"
-msgstr ""
+msgstr "Fâ il backup dai dâts atuâi di Evolution"
 
 #: ../src/modules/backup-restore/evolution-backup-tool.c:511
 msgid "Extracting files from back up"
-msgstr ""
+msgstr "Daûr a tirâ fûr i file dal backup"
 
 #: ../src/modules/backup-restore/evolution-backup-tool.c:606
 msgid "Loading Evolution settings"
@@ -20184,7 +20183,7 @@ msgstr "Cjariament impostazions di Evolution"
 
 #: ../src/modules/backup-restore/evolution-backup-tool.c:676
 msgid "Removing temporary back up files"
-msgstr ""
+msgstr "Daûr a gjavâ i file di backup temporanis"
 
 #: ../src/modules/backup-restore/evolution-backup-tool.c:690
 msgid "Reloading registry service"
@@ -20192,12 +20191,12 @@ msgstr "Daûr a tornâ a cjariâ il servizi di regjistri"
 
 #: ../src/modules/backup-restore/evolution-backup-tool.c:899
 msgid "Evolution Back Up"
-msgstr ""
+msgstr "Backup di Evolution"
 
 #: ../src/modules/backup-restore/evolution-backup-tool.c:900
 #, c-format
 msgid "Backing up to the file %s"
-msgstr ""
+msgstr "Daûr a fâ il backup tal file %s"
 
 #: ../src/modules/backup-restore/evolution-backup-tool.c:904
 msgid "Evolution Restore"
@@ -20210,11 +20209,11 @@ msgstr "Ripristinament dal file %s"
 
 #: ../src/modules/backup-restore/evolution-backup-tool.c:974
 msgid "Backing up Evolution Data"
-msgstr ""
+msgstr "Daûr a fâ il backup dai dâts di Evolution"
 
 #: ../src/modules/backup-restore/evolution-backup-tool.c:975
 msgid "Please wait while Evolution is backing up your data."
-msgstr ""
+msgstr "Par plasê spiete intant che Evolution al fasedi il backup dai dâts."
 
 #: ../src/modules/backup-restore/evolution-backup-tool.c:977
 msgid "Restoring Evolution Data"
@@ -20249,10 +20248,12 @@ msgid ""
 "To back up your data and settings, you must first close Evolution. Please "
 "make sure that you save any unsaved data before proceeding."
 msgstr ""
+"Par fâ il backup dai vuestris dâts e des impostazions, si scugne prime sierâ "
+"Evolution. Prime di lâ indenant, sigurâsi di salvâ ducj i dâts no salvâts."
 
 #: ../src/modules/backup-restore/org-gnome-backup-restore.error.xml.h:5
 msgid "Close and _Back up Evolution"
-msgstr ""
+msgstr "Siere e fâs il backup di Evolution"
 
 #: ../src/modules/backup-restore/org-gnome-backup-restore.error.xml.h:6
 msgid ""
@@ -20266,6 +20267,10 @@ msgid ""
 "all your current Evolution data and settings and restore them from your "
 "backup."
 msgstr ""
+"Par ripristinâ i vuestris dâts e impostazions, si scugne prime sierâ "
+"Evolution. Prime di lâ indenant, sigurâsi di salvâ ducj i dâts no salvâts. "
+"Chest al eliminarà ducj i dâts e lis impostazions di Evolution atuâi e ju "
+"ripristinarà dal backup."
 
 #: ../src/modules/backup-restore/org-gnome-backup-restore.error.xml.h:8
 msgid "Close and _Restore Evolution"
@@ -20968,7 +20973,7 @@ msgstr "prime di ogni aniversari/complean"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:79
 msgid "Default _snooze time (in minutes)"
-msgstr ""
+msgstr "Timp predefinît par _postponi (in minûts)"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:80
 msgid "Select the sources for reminder notification:"
@@ -24147,7 +24152,6 @@ msgid "Contact List _Owner"
 msgstr "Contate _proprietari liste"
 
 #: ../src/plugins/mailing-list-actions/mailing-list-actions.c:436
-#, fuzzy
 msgid "Contact the owner of the mailing list this message belongs to"
 msgstr ""
 "Contate il proprietari de mailing list dulà che chest messaç al aparten"
@@ -24157,7 +24161,6 @@ msgid "_Post Message to List"
 msgstr "_Publiche messaç su pe liste"
 
 #: ../src/plugins/mailing-list-actions/mailing-list-actions.c:443
-#, fuzzy
 msgid "Post a message to the mailing list this message belongs to"
 msgstr "Invie un messaç ae mailing list dulà che chest messaç al aparten"
 
@@ -24166,7 +24169,6 @@ msgid "_Subscribe to List"
 msgstr "_Sotscrîf ae liste"
 
 #: ../src/plugins/mailing-list-actions/mailing-list-actions.c:450
-#, fuzzy
 msgid "Subscribe to the mailing list this message belongs to"
 msgstr "Sotscrîf ae mailing list dulà che chest messaç al aparten"
 
@@ -24175,7 +24177,6 @@ msgid "_Unsubscribe from List"
 msgstr "_Anule sotscrizion ae liste"
 
 #: ../src/plugins/mailing-list-actions/mailing-list-actions.c:457
-#, fuzzy
 msgid "Unsubscribe from the mailing list this message belongs to"
 msgstr "Gjave sotscrizion de mailing list dulà che chest messaç al aparten"
 
@@ -25618,6 +25619,9 @@ msgid ""
 "you are about to create.\n"
 "You must set this password to proceed with the backup."
 msgstr ""
+"La password dal backup dal certificât stabilide achì e protêç il file di "
+"backup che si sta par creâ.\n"
+"Si scugne stabilî cheste password par procedi cul backup."
 
 #: ../src/smime/gui/certificate-manager.c:799
 msgid "_Repeat Password:"
@@ -25635,6 +25639,10 @@ msgid ""
 "restore this backup later.\n"
 "Please record it in a safe location."
 msgstr ""
+"Impuartant:\n"
+"Se si dismentee la password dal backup dal certificât, plui indenant no si "
+"podarà ripristinâ chest backup.\n"
+"Par plasê salvile intun lûc sigûr."
 
 #: ../src/smime/gui/certificate-manager.c:871
 msgid "No file name provided"
