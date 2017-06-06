@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2017-05-22 08:20+0000\n"
-"PO-Revision-Date: 2017-05-23 22:26+0200\n"
+"POT-Creation-Date: 2017-06-05 14:29+0000\n"
+"PO-Revision-Date: 2017-06-06 12:19+0200\n"
 "Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
 "Language-Team: Friulian <f.t.public@gmail.com>\n"
 "Language: fur\n"
@@ -106,7 +106,7 @@ msgid "Mail"
 msgstr "Pueste"
 
 #: ../data/evolution.desktop.in.in.h:11 ../src/calendar/gui/e-memo-table.c:368
-#: ../src/modules/calendar/e-cal-shell-content.c:1665
+#: ../src/modules/calendar/e-cal-shell-content.c:1707
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:194
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:209
 #: ../src/modules/calendar/e-memo-shell-view.c:313
@@ -118,7 +118,7 @@ msgstr "Promemorie"
 #: ../src/calendar/importers/icalendar-importer.c:77
 #: ../src/calendar/importers/icalendar-importer.c:1114
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:65
-#: ../src/modules/calendar/e-cal-shell-content.c:1625
+#: ../src/modules/calendar/e-cal-shell-content.c:1667
 #: ../src/modules/calendar/e-task-shell-view-actions.c:218
 #: ../src/modules/calendar/e-task-shell-view-actions.c:233
 #: ../src/modules/calendar/e-task-shell-view.c:471
@@ -1500,7 +1500,7 @@ msgid ""
 "it will do that. It works by comparing the Reply-To: header with a List-"
 "Post: header, if there is one."
 msgstr ""
-"Cualchi liste di mail e stabilìs une intestazion Rispuint-A: par imbroiâ i "
+"Cualchi mailing list e stabilìs une intestazion Rispuint-A: par imbroiâ i "
 "utents intal spedî rispuestis ae liste, ancje cuant che lôr a domandin a "
 "Evolution di inviâ une rispueste privade. Metint cheste opzion a VÊR si "
 "cirarà di ignorâ chestis intestazions Rispuint-A:, cussì che Evolution al "
@@ -7123,11 +7123,12 @@ msgstr "La ore di inizi no je valide"
 #: ../src/calendar/gui/e-comp-editor-event.c:442
 #: ../src/calendar/gui/e-comp-editor-event.c:458
 #: ../src/calendar/gui/e-comp-editor-page-attachments.c:206
-#: ../src/calendar/gui/e-comp-editor.c:338 ../src/mail/e-mail-display.c:2116
-#: ../src/mail/e-mail-reader-utils.c:646 ../src/mail/mail-send-recv.c:490
-#: ../src/mail/mail-send-recv.c:1288 ../src/plugins/face/face.c:174
-#: ../src/shell/e-shell.c:1073 ../src/shell/e-shell.c:1097
-#: ../src/smime/gui/certificate-manager.c:357
+#: ../src/calendar/gui/e-comp-editor.c:338
+#: ../src/em-format/e-mail-part-secure-button.c:93
+#: ../src/mail/e-mail-display.c:2116 ../src/mail/e-mail-reader-utils.c:646
+#: ../src/mail/mail-send-recv.c:490 ../src/mail/mail-send-recv.c:1288
+#: ../src/plugins/face/face.c:174 ../src/shell/e-shell.c:1073
+#: ../src/shell/e-shell.c:1097 ../src/smime/gui/certificate-manager.c:357
 msgid "Unknown error"
 msgstr "Erôr no cognossût"
 
@@ -11677,12 +11678,24 @@ msgstr "Newsgroup"
 msgid "Face"
 msgstr "Muse"
 
-#: ../src/em-format/e-mail-part-secure-button.c:116
+#: ../src/em-format/e-mail-part-secure-button.c:92
+#, fuzzy, c-format
+#| msgid "Failed to import certificate"
+msgid "Failed to import certificate: %s"
+msgstr "No si è rivâts a impuartâ il certificât"
+
+#: ../src/em-format/e-mail-part-secure-button.c:185
 #: ../src/shell/shell.error.xml.h:28 ../src/smime/gui/smime-ui.ui.h:16
 msgid "_View Certificate"
 msgstr "_Viôt certificât"
 
-#: ../src/em-format/e-mail-part-secure-button.c:131
+#: ../src/em-format/e-mail-part-secure-button.c:198
+#, fuzzy
+#| msgid "Imported Certificate"
+msgid "_Import Certificate"
+msgstr "Certificât impuartât"
+
+#: ../src/em-format/e-mail-part-secure-button.c:207
 msgid "This certificate is not viewable"
 msgstr "No si pues viodi chest certificât"
 
@@ -16415,7 +16428,7 @@ msgstr "_No sta domandâ plui."
 
 #: ../src/mail/e-mail-reader.c:1559
 msgid "_Always ignore Reply-To: for mailing lists."
-msgstr "Ignore _simpri Rispuint-A: pes listis di pueste."
+msgstr "Ignore _simpri Rispuint-A: pes mailing list."
 
 #: ../src/mail/e-mail-reader.c:1762
 msgid "Failed to retrieve message:"
@@ -16492,11 +16505,11 @@ msgstr "Modifiche une note pal messaç selezionât"
 
 #: ../src/mail/e-mail-reader.c:2051
 msgid "Create a Filter Rule for Mailing _List..."
-msgstr "Cree une regule di filtri pe liste di _pueste..."
+msgstr "Cree une regule di filtri pe mailing _list..."
 
 #: ../src/mail/e-mail-reader.c:2053
 msgid "Create a rule to filter messages to this mailing list"
-msgstr "Cree une regule par filtrâ i messaçs su cheste liste di pueste"
+msgstr "Cree une regule par filtrâ i messaçs su cheste mailing list"
 
 #: ../src/mail/e-mail-reader.c:2058
 msgid "Create a Filter Rule for _Recipients..."
@@ -16845,7 +16858,7 @@ msgstr "Rispuint ae _liste"
 #: ../src/mail/e-mail-reader.c:2361
 #: ../src/modules/mail/e-mail-attachment-handler.c:404
 msgid "Compose a reply to the mailing list of the selected message"
-msgstr "Scrîf une rispueste ae liste di pueste dal messaç selezionât"
+msgstr "Scrîf une rispueste ae mailing list dal messaç selezionât"
 
 #: ../src/mail/e-mail-reader.c:2366
 #: ../src/modules/mail/e-mail-attachment-handler.c:409
@@ -16936,11 +16949,11 @@ msgstr "In_grandiment"
 
 #: ../src/mail/e-mail-reader.c:2483
 msgid "Create a Search Folder from Mailing _List..."
-msgstr "Cree une cartele di ricercje pe _liste di pueste..."
+msgstr "Cree une cartele di ricercje pe mailing _list..."
 
 #: ../src/mail/e-mail-reader.c:2485
 msgid "Create a search folder for this mailing list"
-msgstr "Cree une cartele di ricercje par cheste liste di pueste"
+msgstr "Cree une cartele di ricercje par cheste mailing list"
 
 #: ../src/mail/e-mail-reader.c:2490
 msgid "Create a Search Folder from Recipien_ts..."
@@ -17034,7 +17047,7 @@ msgstr "Rispueste di grup"
 
 #: ../src/mail/e-mail-reader.c:4243
 msgid "Reply to the mailing list, or to all recipients"
-msgstr "Rispuint ae liste di pueste o a ducj i destinataris"
+msgstr "Rispuint ae mailing list o a ducj i destinataris"
 
 #: ../src/mail/e-mail-reader.c:4309 ../src/mail/filtertypes.xml.in.h:67
 msgid "Delete"
@@ -17792,7 +17805,7 @@ msgstr "nol è completât"
 #: ../src/mail/filtertypes.xml.in.h:51 ../src/mail/searchtypes.xml.in.h:53
 #: ../src/mail/vfoldertypes.xml.in.h:54
 msgid "Mailing list"
-msgstr "Liste di pueste"
+msgstr "Mailing list"
 
 #: ../src/mail/filtertypes.xml.in.h:52 ../src/mail/searchtypes.xml.in.h:54
 #: ../src/mail/vfoldertypes.xml.in.h:55
@@ -18027,7 +18040,7 @@ msgstr "L'ogjet al è %s"
 #: ../src/mail/mail-autofilter.c:290
 #, c-format
 msgid "%s mailing list"
-msgstr "Liste di pueste %s"
+msgstr "Mailing list %s"
 
 #: ../src/mail/mail-autofilter.c:400
 msgid "Add Filter Rule"
@@ -18134,11 +18147,11 @@ msgstr "_Ten la firme sore dal messaç origjinâl tal rispuindi"
 
 #: ../src/mail/mail-config.ui.h:22
 msgid "Ig_nore Reply-To: for mailing lists"
-msgstr "Ig_nore Rispuint-A: pes listis di pueste"
+msgstr "Ig_nore Rispuint-A: pes mailing list"
 
 #: ../src/mail/mail-config.ui.h:23
 msgid "Gro_up Reply goes only to mailing list, if possible"
-msgstr "La Rispueste di Gr_up e va dome ae liste di pueste, se pussibil"
+msgstr "La Rispueste di Gr_up e va dome ae mailing list, se pussibil"
 
 #: ../src/mail/mail-config.ui.h:24
 msgid "Digitally _sign messages when original message signed (PGP or S/MIME)"
@@ -18209,7 +18222,7 @@ msgstr "Inviâ un messaç a plui destinataris _A e CC"
 #. This is in the context of: Ask for confirmation before...
 #: ../src/mail/mail-config.ui.h:48
 msgid "Sending a _private reply to a mailing list message"
-msgstr "Inviâ une rispueste _privade a un messaç di liste di pueste"
+msgstr "Inviâ une rispueste _privade a un messaç di mailing list"
 
 #. This is in the context of: Ask for confirmation before...
 #: ../src/mail/mail-config.ui.h:50
@@ -18678,9 +18691,9 @@ msgid ""
 "but the list is trying to redirect your reply to go back to the list. Are "
 "you sure you want to proceed?"
 msgstr ""
-"Si sta rispuindint in maniere privade a un messaç che al è rivât vie liste "
-"di pueste, ma la liste e sta cirint di indreçâ la rispueste ae liste. Sigûrs "
-"di continuâ?"
+"Si sta rispuindint in maniere privade a un messaç che al è rivât vie mailing "
+"list, ma la liste e sta cirint di indreçâ la rispueste ae liste stesse. "
+"Sigûrs di continuâ?"
 
 #: ../src/mail/mail.error.xml.h:25
 msgid "Reply _Privately"
@@ -18692,7 +18705,7 @@ msgid ""
 "replying privately to the sender; not to the list. Are you sure you want to "
 "proceed?"
 msgstr ""
-"Si sta rispuindint a un messaç che al è rivât vie liste di pueste, ma si sta "
+"Si sta rispuindint a un messaç che al è rivât vie mailing list, ma si sta "
 "rispuindint in maniere privade al mitent, no ae liste. Sigûrs di continuâ?"
 
 #: ../src/mail/mail.error.xml.h:29
