@@ -10,7 +10,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2017-06-05 14:29+0000\n"
-"PO-Revision-Date: 2017-06-06 12:19+0200\n"
+"PO-Revision-Date: 2017-06-06 16:12+0200\n"
 "Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
 "Language-Team: Friulian <f.t.public@gmail.com>\n"
 "Language: fur\n"
@@ -11679,10 +11679,9 @@ msgid "Face"
 msgstr "Muse"
 
 #: ../src/em-format/e-mail-part-secure-button.c:92
-#, fuzzy, c-format
-#| msgid "Failed to import certificate"
+#, c-format
 msgid "Failed to import certificate: %s"
-msgstr "No si è rivâts a impuartâ il certificât"
+msgstr "No si è rivâts a impuartâ il certificât: %s"
 
 #: ../src/em-format/e-mail-part-secure-button.c:185
 #: ../src/shell/shell.error.xml.h:28 ../src/smime/gui/smime-ui.ui.h:16
@@ -20258,7 +20257,7 @@ msgstr ""
 #: ../src/modules/backup-restore/org-gnome-backup-restore.error.xml.h:6
 msgid ""
 "Are you sure you want to restore Evolution from the selected backup file?"
-msgstr ""
+msgstr "Sigûrs di ripristinâ Evolution dal file di backup selezionât?"
 
 #: ../src/modules/backup-restore/org-gnome-backup-restore.error.xml.h:7
 msgid ""
@@ -24148,44 +24147,51 @@ msgid "Contact List _Owner"
 msgstr "Contate _proprietari liste"
 
 #: ../src/plugins/mailing-list-actions/mailing-list-actions.c:436
+#, fuzzy
 msgid "Contact the owner of the mailing list this message belongs to"
 msgstr ""
+"Contate il proprietari de mailing list dulà che chest messaç al aparten"
 
 #: ../src/plugins/mailing-list-actions/mailing-list-actions.c:441
 msgid "_Post Message to List"
 msgstr "_Publiche messaç su pe liste"
 
 #: ../src/plugins/mailing-list-actions/mailing-list-actions.c:443
+#, fuzzy
 msgid "Post a message to the mailing list this message belongs to"
-msgstr ""
+msgstr "Invie un messaç ae mailing list dulà che chest messaç al aparten"
 
 #: ../src/plugins/mailing-list-actions/mailing-list-actions.c:448
 msgid "_Subscribe to List"
 msgstr "_Sotscrîf ae liste"
 
 #: ../src/plugins/mailing-list-actions/mailing-list-actions.c:450
+#, fuzzy
 msgid "Subscribe to the mailing list this message belongs to"
-msgstr ""
+msgstr "Sotscrîf ae mailing list dulà che chest messaç al aparten"
 
 #: ../src/plugins/mailing-list-actions/mailing-list-actions.c:455
 msgid "_Unsubscribe from List"
 msgstr "_Anule sotscrizion ae liste"
 
 #: ../src/plugins/mailing-list-actions/mailing-list-actions.c:457
+#, fuzzy
 msgid "Unsubscribe from the mailing list this message belongs to"
-msgstr ""
+msgstr "Gjave sotscrizion de mailing list dulà che chest messaç al aparten"
 
 #: ../src/plugins/mailing-list-actions/mailing-list-actions.c:464
 msgid "Mailing _List"
-msgstr ""
+msgstr "Mailing _list"
 
 #: ../src/plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:1
 msgid "Mailing List Actions"
-msgstr ""
+msgstr "Azions mailing list"
 
 #: ../src/plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:2
 msgid "Perform common mailing list actions (subscribe, unsubscribe, etc.)."
 msgstr ""
+"Eseguìs azions comuns pes mailing list (sotscrivi, gjavâ sotscrizion e vie "
+"indenant)."
 
 #: ../src/plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:1
 msgid "Action not available"
@@ -24208,10 +24214,12 @@ msgid ""
 "Posting to this mailing list is not allowed. Possibly, this is a read-only "
 "mailing list. Contact the list owner for details."
 msgstr ""
+"La publicazion su cheste mailing list no je permetude. Forsit cheste e je "
+"une mailing list in dome-leture. Contatâ il proprietari de liste pai detais."
 
 #: ../src/plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:5
 msgid "Send e-mail message to mailing list?"
-msgstr ""
+msgstr "Inviâ un messaç e-mail ae mailing list?"
 
 #: ../src/plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:6
 msgid ""
@@ -24221,6 +24229,11 @@ msgid ""
 "You should receive an answer from the mailing list shortly after the message "
 "has been sent."
 msgstr ""
+"Un messaç e-mail al vignarà inviât al URL “{0}”. Si pues o inviâ il messaç "
+"in automatic o prime viodilu e modificâlu.\n"
+"\n"
+"Si varès di ricevi une rispueste de mailing list subite dopo che il messaç "
+"al è stât inviât."
 
 #: ../src/plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:9
 msgid "_Send message"
@@ -25568,7 +25581,7 @@ msgstr "Direzion e-mail"
 
 #: ../src/smime/gui/certificate-manager.c:663
 msgid "Select a file to backup your key and certificate..."
-msgstr ""
+msgstr "Selezione un file par fâ il backup de clâf e dal certificât..."
 
 #. To Translators:
 #. * %s-backup.p12 is the default file name suggested by the file selection dialog,
@@ -25578,11 +25591,11 @@ msgstr ""
 #: ../src/smime/gui/certificate-manager.c:675
 #, c-format
 msgid "%s-backup.p12"
-msgstr ""
+msgstr "%s-backup.p12"
 
 #: ../src/smime/gui/certificate-manager.c:741
 msgid "Backup Certificate"
-msgstr ""
+msgstr "Certificât di backup"
 
 #. filename selection
 #: ../src/smime/gui/certificate-manager.c:755
@@ -25596,7 +25609,7 @@ msgstr "Selezionâ un file..."
 
 #: ../src/smime/gui/certificate-manager.c:774
 msgid "_Include certificate chain in the backup"
-msgstr ""
+msgstr "_Includi cjadene di certificâts tal backup"
 
 #. To Translators: this text was copied from Firefox
 #: ../src/smime/gui/certificate-manager.c:780
@@ -25629,7 +25642,7 @@ msgstr "Nissun non di file furnît"
 
 #: ../src/smime/gui/certificate-manager.c:875
 msgid "Failed to backup key and certificate"
-msgstr ""
+msgstr "No si è rivâts a fâ il backup di clâf e certificât"
 
 #: ../src/smime/gui/certificate-manager.c:964
 msgid "Select a certificate to import..."
@@ -25813,11 +25826,11 @@ msgstr "Tabele certificâts"
 #. This is a verb, as in "make a backup".
 #: ../src/smime/gui/smime-ui.ui.h:5
 msgid "_Backup"
-msgstr ""
+msgstr "_Backup"
 
 #: ../src/smime/gui/smime-ui.ui.h:6
 msgid "Backup _All"
-msgstr ""
+msgstr "Backup di _dut"
 
 #: ../src/smime/gui/smime-ui.ui.h:9
 msgid "Your Certificates"
