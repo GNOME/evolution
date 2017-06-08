@@ -1088,6 +1088,7 @@ cal_comp_transfer_item_to_sync (ECalClient *src_client,
 	struct ForeachTzidData ftd;
 	ECalClientSourceType source_type;
 	GHashTable *processed_uids;
+	gboolean same_client;
 	gboolean success = FALSE;
 
 	g_return_val_if_fail (E_IS_CAL_CLIENT (src_client), FALSE);
@@ -1112,6 +1113,8 @@ cal_comp_transfer_item_to_sync (ECalClient *src_client,
 			g_return_val_if_reached (FALSE);
 	}
 
+	same_client = src_client == dest_client || e_source_equal (
+		e_client_get_source (E_CLIENT (src_client)), e_client_get_source (E_CLIENT (dest_client)));
 	processed_uids = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
 
 	icalcomp_event = icalcomponent_get_first_component (icalcomp_vcal, icalcomp_kind);
@@ -1132,7 +1135,10 @@ cal_comp_transfer_item_to_sync (ECalClient *src_client,
 		if (g_hash_table_lookup (processed_uids, uid))
 			continue;
 
-		success = e_cal_client_get_object_sync (dest_client, uid, NULL, &icalcomp, cancellable, &local_error);
+		if (do_copy && same_client)
+			success = FALSE;
+		else
+			success = e_cal_client_get_object_sync (dest_client, uid, NULL, &icalcomp, cancellable, &local_error);
 		if (success) {
 			success = e_cal_client_modify_object_sync (
 				dest_client, icalcomp_event, E_CAL_OBJ_MOD_ALL, cancellable, error);

@@ -2039,7 +2039,7 @@ e_cal_ops_transfer_components (EShellView *shell_view,
 		ESource *source = key;
 		GSList *icalcomps = value;
 
-		if (!e_source_equal (source, destination))
+		if (!is_move || !e_source_equal (source, destination))
 			nobjects += g_slist_length (icalcomps);
 	}
 
@@ -2086,7 +2086,7 @@ e_cal_ops_transfer_components (EShellView *shell_view,
 		ESource *source = key;
 		GSList *icalcomps = value;
 
-		if (!e_source_equal (source, destination)) {
+		if (!is_move || !e_source_equal (source, destination)) {
 			GSList *link;
 
 			icalcomps = g_slist_copy (icalcomps);

@@ -538,7 +538,7 @@ cal_shell_view_transfer_selected (ECalShellView *cal_shell_view,
 	selected = e_calendar_view_get_selected_events (calendar_view);
 	g_return_if_fail (selected != NULL);
 
-	if (selected->data) {
+	if (selected->data && is_move) {
 		ECalendarViewEvent *event = selected->data;
 
 		if (is_comp_data_valid (event) && event->comp_data->client)
