@@ -798,6 +798,10 @@ e_dom_utils_bind_dom (WebKitDOMDocument *document,
 		WebKitDOMNode *node;
 
 		node = webkit_dom_node_list_item (nodes, ii);
+		webkit_dom_event_target_remove_event_listener (
+			WEBKIT_DOM_EVENT_TARGET (node), event,
+			G_CALLBACK (callback), FALSE);
+
 		webkit_dom_event_target_add_event_listener (
 			WEBKIT_DOM_EVENT_TARGET (node), event,
 			G_CALLBACK (callback), FALSE, user_data);
@@ -1026,6 +1030,10 @@ e_dom_utils_e_mail_display_bind_dom (WebKitDOMDocument *document,
 		connection);
 
 	dom_window = webkit_dom_document_get_default_view (document);
+
+	webkit_dom_event_target_remove_event_listener (
+		WEBKIT_DOM_EVENT_TARGET (dom_window), "resize",
+		G_CALLBACK (dom_window_resize_cb), FALSE);
 
 	webkit_dom_event_target_add_event_listener (
 		WEBKIT_DOM_EVENT_TARGET (dom_window),
