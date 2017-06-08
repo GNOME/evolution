@@ -1044,6 +1044,58 @@ e_dom_utils_e_mail_display_bind_dom (WebKitDOMDocument *document,
 }
 
 void
+e_dom_utils_e_mail_display_unstyle_blockquotes (WebKitDOMDocument *document)
+{
+	WebKitDOMHTMLCollection *collection;
+	gulong ii;
+
+	g_return_if_fail (WEBKIT_DOM_IS_DOCUMENT (document));
+
+	collection = webkit_dom_document_get_elements_by_tag_name_as_html_collection (document, "blockquote");
+	for (ii = webkit_dom_html_collection_get_length (collection); ii--;) {
+		WebKitDOMNode *node = webkit_dom_html_collection_item (collection, ii);
+		WebKitDOMElement *elem;
+		gchar *tmp;
+
+		if (!WEBKIT_DOM_IS_HTML_QUOTE_ELEMENT (node))
+			continue;
+
+		elem = WEBKIT_DOM_ELEMENT (node);
+
+		if (!webkit_dom_element_has_attribute (elem, "type")) {
+			webkit_dom_element_set_attribute (elem, "type", "cite", NULL);
+			webkit_dom_element_remove_attribute (elem, "style");
+		} else {
+			tmp = webkit_dom_element_get_attribute (elem, "type");
+			if (g_strcmp0 (tmp, "cite") == 0)
+				webkit_dom_element_remove_attribute (elem, "style");
+			g_free (tmp);
+		}
+
+		tmp = webkit_dom_element_get_attribute (elem, "style");
+		if (g_strcmp0 (tmp, E_EVOLUTION_BLOCKQUOTE_STYLE) == 0)
+			webkit_dom_element_remove_attribute (elem, "style");
+		g_free (tmp);
+	}
+	g_clear_object (&collection);
+
+	collection = webkit_dom_document_get_elements_by_tag_name_as_html_collection (document, "iframe");
+	for (ii = webkit_dom_html_collection_get_length (collection); ii--;) {
+		WebKitDOMHTMLIFrameElement *iframe;
+		WebKitDOMDocument *content_document;
+
+		iframe = WEBKIT_DOM_HTML_IFRAME_ELEMENT (webkit_dom_html_collection_item (collection, ii));
+
+		content_document = webkit_dom_html_iframe_element_get_content_document (iframe);
+		if (!content_document)
+			continue;
+
+		e_dom_utils_e_mail_display_unstyle_blockquotes (content_document);
+	}
+	g_clear_object (&collection);
+}
+
+void
 e_dom_utils_eab_contact_formatter_bind_dom (WebKitDOMDocument *document)
 {
 	e_dom_utils_bind_dom (

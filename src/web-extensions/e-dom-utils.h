@@ -30,6 +30,8 @@
 #define UNICODE_ZERO_WIDTH_SPACE "\xe2\x80\x8b"
 #define UNICODE_NBSP "\xc2\xa0"
 
+#define E_EVOLUTION_BLOCKQUOTE_STYLE "margin:0 0 0 .8ex; border-left:2px #729fcf solid;padding-left:1ex"
+
 G_BEGIN_DECLS
 
 void 		e_dom_utils_replace_local_image_links
@@ -65,6 +67,8 @@ void		e_dom_resize_document_content_to_preview_width
 void		e_dom_utils_e_mail_display_bind_dom
 						(WebKitDOMDocument *document,
 						 GDBusConnection *connection);
+void		e_dom_utils_e_mail_display_unstyle_blockquotes
+						(WebKitDOMDocument *document);
 WebKitDOMElement *
 		e_dom_utils_find_element_by_selector
 						(WebKitDOMDocument *document,

@@ -849,6 +849,7 @@ handle_method_call (GDBusConnection *connection,
 			return;
 
 		document = webkit_web_page_get_dom_document (web_page);
+		e_dom_utils_e_mail_display_unstyle_blockquotes (document);
 		e_dom_utils_e_mail_display_bind_dom (document, connection);
 		e_web_extension_bind_focus_on_elements (extension, document);
 

@@ -1400,10 +1400,10 @@ move_elements_to_body (EEditorPage *editor_page)
 }
 
 static void
-repair_gmail_blockquotes (WebKitDOMDocument *document)
+repair_blockquotes (WebKitDOMDocument *document)
 {
-	WebKitDOMHTMLCollection *collection = NULL;
-	gint ii;
+	WebKitDOMHTMLCollection *collection;
+	gulong ii;
 
 	collection = webkit_dom_document_get_elements_by_class_name_as_html_collection (
 		document, "gmail_quote");
@@ -1427,6 +1427,39 @@ repair_gmail_blockquotes (WebKitDOMDocument *document)
 				NULL);
 	}
 	g_clear_object (&collection);
+
+	collection = webkit_dom_document_get_elements_by_tag_name_as_html_collection (document, "blockquote");
+	for (ii = webkit_dom_html_collection_get_length (collection); ii--;) {
+		WebKitDOMNode *node = webkit_dom_html_collection_item (collection, ii);
+
+		if (!WEBKIT_DOM_IS_HTML_QUOTE_ELEMENT (node))
+			continue;
+
+		webkit_dom_element_remove_attribute (WEBKIT_DOM_ELEMENT (node), "class");
+		webkit_dom_element_remove_attribute (WEBKIT_DOM_ELEMENT (node), "style");
+		webkit_dom_element_set_attribute (WEBKIT_DOM_ELEMENT (node), "type", "cite", NULL);
+	}
+	g_clear_object (&collection);
+}
+
+static void
+style_blockquotes (WebKitDOMElement *element)
+{
+	WebKitDOMNodeList *list;
+	gulong ii;
+
+	g_return_if_fail (WEBKIT_DOM_IS_ELEMENT (element));
+
+	list = webkit_dom_element_query_selector_all (element, "blockquote", NULL);
+	for (ii = webkit_dom_node_list_get_length (list); ii--;) {
+		WebKitDOMNode *node = webkit_dom_node_list_item (list, ii);
+
+		if (!WEBKIT_DOM_IS_HTML_QUOTE_ELEMENT (node))
+			continue;
+
+		webkit_dom_element_set_attribute (WEBKIT_DOM_ELEMENT (node), "style", E_EVOLUTION_BLOCKQUOTE_STYLE, NULL);
+	}
+	g_clear_object (&list);
 }
 
 static void
@@ -6112,7 +6145,7 @@ e_editor_dom_convert_content (EEditorPage *editor_page,
 	}
 	g_clear_object (&list);
 
-	repair_gmail_blockquotes (document);
+	repair_blockquotes (document);
 	remove_thunderbird_signature (document);
 	create_text_markers_for_citations_in_element (WEBKIT_DOM_ELEMENT (body));
 
@@ -8059,6 +8092,9 @@ e_editor_dom_process_content_for_draft (EEditorPage *editor_page,
 	}
 	g_clear_object (&list);
 
+	if (e_editor_page_get_html_mode (editor_page))
+		style_blockquotes (WEBKIT_DOM_ELEMENT (document_element_clone));
+
 	if (only_inner_body) {
 		WebKitDOMElement *body;
 		WebKitDOMNode *first_child;
@@ -8522,6 +8558,7 @@ e_editor_dom_process_content_to_html_for_exporting (EEditorPage *editor_page)
 	}
 	g_clear_object (&list);
 
+	style_blockquotes (WEBKIT_DOM_ELEMENT (node));
 	process_node_to_html_for_exporting (editor_page, node);
 
 	html_content = webkit_dom_element_get_outer_html (
@@ -8754,7 +8791,7 @@ e_editor_dom_process_content_after_load (EEditorPage *editor_page)
 	dom_set_links_active (document, FALSE);
 	put_body_in_citation (document);
 	move_elements_to_body (editor_page);
-	repair_gmail_blockquotes (document);
+	repair_blockquotes (document);
 	remove_thunderbird_signature (document);
 
 	if (webkit_dom_element_has_attribute (WEBKIT_DOM_ELEMENT (body), "data-evo-draft")) {
