@@ -104,20 +104,15 @@ paned_notify_orientation_cb (EPaned *paned)
 }
 
 static void
-paned_notify_position_cb (EPaned *paned)
+paned_recalc_positions (EPaned *paned,
+			gboolean with_proportion)
 {
 	GtkAllocation allocation;
-	GtkOrientable *orientable;
 	GtkOrientation orientation;
 	gdouble proportion;
 	gint position;
 
-	/* If a sync has already been requested, do nothing. */
-	if (paned->priv->sync_request != SYNC_REQUEST_NONE)
-		return;
-
-	orientable = GTK_ORIENTABLE (paned);
-	orientation = gtk_orientable_get_orientation (orientable);
+	orientation = gtk_orientable_get_orientation (GTK_ORIENTABLE (paned));
 
 	gtk_widget_get_allocation (GTK_WIDGET (paned), &allocation);
 	position = gtk_paned_get_position (GTK_PANED (paned));
@@ -128,18 +123,38 @@ paned_notify_position_cb (EPaned *paned)
 		position = MAX (0, allocation.width - position);
 		proportion = (gdouble) position / allocation.width;
 
-		paned->priv->hposition = position;
-		g_object_notify (G_OBJECT (paned), "hposition");
+		if (paned->priv->hposition != position) {
+			paned->priv->hposition = position;
+			g_object_notify (G_OBJECT (paned), "hposition");
+		}
 	} else {
 		position = MAX (0, allocation.height - position);
 		proportion = (gdouble) position / allocation.height;
 
-		paned->priv->vposition = position;
-		g_object_notify (G_OBJECT (paned), "vposition");
+		if (paned->priv->vposition != position) {
+			paned->priv->vposition = position;
+			g_object_notify (G_OBJECT (paned), "vposition");
+		}
 	}
 
-	paned->priv->proportion = proportion;
-	g_object_notify (G_OBJECT (paned), "proportion");
+	if (with_proportion && paned->priv->proportion != proportion) {
+		paned->priv->proportion = proportion;
+		g_object_notify (G_OBJECT (paned), "proportion");
+	}
+
+	g_object_thaw_notify (G_OBJECT (paned));
+}
+
+static void
+paned_notify_position_cb (EPaned *paned)
+{
+	/* If a sync has already been requested, do nothing. */
+	if (paned->priv->sync_request != SYNC_REQUEST_NONE)
+		return;
+
+	g_object_freeze_notify (G_OBJECT (paned));
+
+	paned_recalc_positions (paned, TRUE);
 
 	if (e_paned_get_fixed_resize (paned))
 		paned->priv->sync_request = SYNC_REQUEST_POSITION;
@@ -258,19 +273,32 @@ paned_size_allocate (GtkWidget *widget,
 	EPaned *paned = E_PANED (widget);
 	GtkOrientable *orientable;
 	GtkOrientation orientation;
-	gdouble proportion;
+	gdouble proportion, old_proportion = -1.0;
 	gint allocated;
-	gint position;
+	gint position, min_position = -1, max_position = -1, clamp_position;
+	gboolean corrected_portion = FALSE;
+
+	if (!e_paned_get_fixed_resize (paned))
+		old_proportion = e_paned_get_proportion (paned);
 
 	/* Chain up to parent's size_allocate() method. */
-	GTK_WIDGET_CLASS (e_paned_parent_class)->
-		size_allocate (widget, allocation);
+	GTK_WIDGET_CLASS (e_paned_parent_class)->size_allocate (widget, allocation);
 
 	if (!paned->priv->toplevel_ready)
 		return;
 
-	if (paned->priv->sync_request == SYNC_REQUEST_NONE)
+	if (paned->priv->sync_request == SYNC_REQUEST_PROPORTION &&
+	    old_proportion != e_paned_get_proportion (paned) && old_proportion > 0.0) {
+		paned->priv->proportion = old_proportion;
+		g_object_notify (G_OBJECT (paned), "proportion");
+
+		corrected_portion = TRUE;
+	}
+
+	if (paned->priv->sync_request == SYNC_REQUEST_NONE) {
+		paned_recalc_positions (paned, FALSE);
 		return;
+	}
 
 	orientable = GTK_ORIENTABLE (paned);
 	orientation = gtk_orientable_get_orientation (orientable);
@@ -285,12 +313,48 @@ paned_size_allocate (GtkWidget *widget,
 
 	proportion = e_paned_get_proportion (paned);
 
-	if (paned->priv->sync_request == SYNC_REQUEST_POSITION)
+	if (paned->priv->sync_request == SYNC_REQUEST_POSITION) {
 		position = MAX (0, allocated - position);
-	else
-		position = (1.0 - proportion) * allocated;
 
-	gtk_paned_set_position (GTK_PANED (paned), position);
+		if (!e_paned_get_fixed_resize (paned) && allocated > 0) {
+			proportion = 1.0 - ((gdouble) position / allocated);
+			paned->priv->proportion = proportion;
+			g_object_notify (G_OBJECT (paned), "proportion");
+		}
+	} else {
+		position = (1.0 - proportion) * allocated;
+	}
+
+	g_object_get (G_OBJECT (paned),
+		"min-position", &min_position,
+		"max-position", &max_position,
+		NULL);
+
+	clamp_position = position = MAX (0, CLAMP (position, min_position, max_position));
+
+	if (clamp_position != gtk_paned_get_position (GTK_PANED (paned)))
+		gtk_paned_set_position (GTK_PANED (paned), clamp_position);
+
+	if (clamp_position != position && allocated > 0) {
+		proportion = 1.0 - ((gdouble) clamp_position / allocated);
+		paned->priv->proportion = proportion;
+
+		corrected_portion = TRUE;
+	}
+
+	if (corrected_portion) {
+		position = MAX (0, allocated - clamp_position);
+
+		if (position > 0) {
+			if (orientation == GTK_ORIENTATION_HORIZONTAL) {
+				paned->priv->hposition = position;
+				g_object_notify (G_OBJECT (paned), "hposition");
+			} else {
+				paned->priv->vposition = position;
+				g_object_notify (G_OBJECT (paned), "vposition");
+			}
+		}
+	}
 
 	paned->priv->sync_request = SYNC_REQUEST_NONE;
 
