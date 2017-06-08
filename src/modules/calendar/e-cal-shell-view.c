@@ -434,6 +434,11 @@ cal_shell_view_update_actions (EShellView *shell_view)
 	sensitive = single_event_selected;
 	gtk_action_set_sensitive (action, sensitive);
 
+	action = ACTION (EVENT_EDIT_AS_NEW);
+	sensitive = single_event_selected &&
+		!selection_is_instance;
+	gtk_action_set_sensitive (action, sensitive);
+
 	action = ACTION (EVENT_PRINT);
 	sensitive = single_event_selected;
 	gtk_action_set_sensitive (action, sensitive);

@@ -97,6 +97,7 @@
   </popup>
   <popup name='calendar-event-popup'>
     <menuitem action='event-popup-open'/>
+    <menuitem action='event-popup-edit-as-new'/>
     <menuitem action='event-popup-save-as'/>
     <menuitem action='event-popup-print'/>
     <separator/>

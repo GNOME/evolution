@@ -80,6 +80,8 @@
 	E_SHELL_WINDOW_ACTION ((window), "event-delete-occurrence")
 #define E_SHELL_WINDOW_ACTION_EVENT_DELETE_OCCURRENCE_ALL(window) \
 	E_SHELL_WINDOW_ACTION ((window), "event-delete-occurrence-all")
+#define E_SHELL_WINDOW_ACTION_EVENT_EDIT_AS_NEW(window) \
+	E_SHELL_WINDOW_ACTION ((window), "event-edit-as-new")
 #define E_SHELL_WINDOW_ACTION_EVENT_FORWARD(window) \
 	E_SHELL_WINDOW_ACTION ((window), "event-forward")
 #define E_SHELL_WINDOW_ACTION_EVENT_OPEN(window) \

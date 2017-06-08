@@ -945,6 +945,46 @@ action_event_open_cb (GtkAction *action,
 }
 
 static void
+action_event_edit_as_new_cb (GtkAction *action,
+			     ECalShellView *cal_shell_view)
+{
+	ECalShellContent *cal_shell_content;
+	ECalendarView *calendar_view;
+	ECalendarViewEvent *event;
+	GList *selected;
+	icalcomponent *clone;
+	gchar *uid;
+
+	cal_shell_content = cal_shell_view->priv->cal_shell_content;
+	calendar_view = e_cal_shell_content_get_current_calendar_view (cal_shell_content);
+
+	selected = e_calendar_view_get_selected_events (calendar_view);
+	g_return_if_fail (g_list_length (selected) == 1);
+
+	event = selected->data;
+
+	if (!is_comp_data_valid (event) ||
+	    e_cal_util_component_is_instance (event->comp_data->icalcomp)) {
+		g_list_free (selected);
+		return;
+	}
+
+	clone = icalcomponent_new_clone (event->comp_data->icalcomp);
+
+	uid = e_util_generate_uid ();
+	icalcomponent_set_uid (clone, uid);
+
+	g_free (uid);
+
+	e_calendar_view_open_event_with_flags (
+		calendar_view, event->comp_data->client, clone,
+		E_COMP_EDITOR_FLAG_IS_NEW);
+
+	icalcomponent_free (clone);
+	g_list_free (selected);
+}
+
+static void
 action_event_print_cb (GtkAction *action,
                        ECalShellView *cal_shell_view)
 {
@@ -1369,6 +1409,13 @@ static GtkActionEntry calendar_entries[] = {
 	  N_("Delete all occurrences"),
 	  G_CALLBACK (action_event_delete_cb) },
 
+	{ "event-edit-as-new",
+	  NULL,
+	  N_("Edit as Ne_w..."),
+	  NULL,
+	  N_("Edit the current appointment as new"),
+	  G_CALLBACK (action_event_edit_as_new_cb) },
+
 	{ "event-all-day-new",
 	  "stock_new-24h-appointment",
 	  N_("New All Day _Event..."),
@@ -1528,6 +1575,10 @@ static EPopupActionEntry calendar_popup_entries[] = {
 	{ "event-popup-delete-occurrence-all",
 	  NULL,
 	  "event-delete-occurrence-all" },
+
+	{ "event-popup-edit-as-new",
+	  NULL,
+	  "event-edit-as-new" },
 
 	{ "event-popup-forward",
 	  NULL,
