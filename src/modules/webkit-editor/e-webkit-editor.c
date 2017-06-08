@@ -2259,6 +2259,8 @@ static void
 webkit_editor_set_spell_check_enabled (EWebKitEditor *wk_editor,
                                        gboolean enable)
 {
+	WebKitWebContext *web_context;
+
 	g_return_if_fail (E_IS_WEBKIT_EDITOR (wk_editor));
 
 	if ((wk_editor->priv->spell_check_enabled ? 1 : 0) == (enable ? 1 : 0))
@@ -2268,6 +2270,9 @@ webkit_editor_set_spell_check_enabled (EWebKitEditor *wk_editor,
 
 	webkit_editor_call_simple_extension_function (
 		wk_editor, enable ? "DOMForceSpellCheck" : "DOMTurnSpellCheckOff");
+
+	web_context = webkit_web_view_get_context (WEBKIT_WEB_VIEW (wk_editor));
+	webkit_web_context_set_spell_checking_enabled (web_context, enable);
 
 	g_object_notify (G_OBJECT (wk_editor), "spell-check-enabled");
 }

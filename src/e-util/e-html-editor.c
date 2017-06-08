@@ -475,6 +475,8 @@ html_editor_spell_languages_changed (EHTMLEditor *editor)
 
 	languages = e_spell_checker_list_active_languages (spell_checker, NULL);
 
+	e_content_editor_set_spell_check_enabled (cnt_editor, languages && *languages);
+
 	/* Set the languages for webview to highlight misspelled words */
 	e_content_editor_set_spell_checking_languages (cnt_editor, (const gchar **) languages);
 
@@ -482,8 +484,6 @@ html_editor_spell_languages_changed (EHTMLEditor *editor)
 		e_html_editor_spell_check_dialog_update_dictionaries (
 			E_HTML_EDITOR_SPELL_CHECK_DIALOG (
 			editor->priv->spell_check_dialog));
-
-	e_content_editor_set_spell_check_enabled (cnt_editor, languages && *languages);
 
 	g_clear_object (&spell_checker);
 	g_strfreev (languages);
@@ -561,6 +561,12 @@ html_editor_parent_changed (GtkWidget *widget,
 			GTK_WINDOW (top_level),
 			gtk_ui_manager_get_accel_group (editor->priv->manager));
 	}
+}
+
+static void
+html_editor_realize (GtkWidget *widget)
+{
+	html_editor_spell_languages_changed (E_HTML_EDITOR (widget));
 }
 
 static void
@@ -726,6 +732,8 @@ html_editor_constructed (GObject *object)
 	gtk_toolbar_insert (toolbar, tool_item, 0);
 	priv->size_combo_box = g_object_ref (widget);
 	gtk_widget_show_all (GTK_WIDGET (tool_item));
+
+	g_signal_connect_after (object, "realize", G_CALLBACK (html_editor_realize), NULL);
 }
 
 static void
