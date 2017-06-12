@@ -39,6 +39,7 @@
 
 struct _AlarmNotifyPrivate {
 	ESourceRegistry *registry;
+	ESourceRegistryWatcher *watcher;
 	GHashTable *clients;
 	GMutex mutex;
 };
@@ -51,20 +52,19 @@ G_DEFINE_TYPE_WITH_CODE (
 	G_IMPLEMENT_INTERFACE (
 		G_TYPE_INITABLE, alarm_notify_initable_init))
 
-static void
-alarm_notify_load_calendars (AlarmNotify *an)
+static gboolean
+an_watcher_filter_cb (ESourceRegistryWatcher *watcher,
+		      ESource *source)
 {
-	GList *list, *iter;
+	g_return_val_if_fail (E_IS_SOURCE (source), FALSE);
 
-	/* Add all available ESources.  alarm_notify_add_calendar() will
-	 * discard the ones we're not interested in (mail accounts, etc.). */
+	if (!e_source_has_extension (source, E_SOURCE_EXTENSION_CALENDAR) &&
+	    !e_source_has_extension (source, E_SOURCE_EXTENSION_MEMO_LIST) &&
+	    !e_source_has_extension (source, E_SOURCE_EXTENSION_TASK_LIST))
+		return FALSE;
 
-	list = e_source_registry_list_enabled (an->priv->registry, NULL);
-
-	for (iter = list; iter != NULL; iter = g_list_next (iter))
-		alarm_notify_add_calendar (an, E_SOURCE (iter->data));
-
-	g_list_free_full (list, (GDestroyNotify) g_object_unref);
+	return !e_source_has_extension (source, E_SOURCE_EXTENSION_ALARMS) ||
+	    e_source_alarms_get_include_me (e_source_get_extension (source, E_SOURCE_EXTENSION_ALARMS));
 }
 
 static void
@@ -76,10 +76,8 @@ alarm_notify_dispose (GObject *object)
 
 	priv = ALARM_NOTIFY_GET_PRIVATE (object);
 
-	if (priv->registry != NULL) {
-		g_object_unref (priv->registry);
-		priv->registry = NULL;
-	}
+	g_clear_object (&priv->registry);
+	g_clear_object (&priv->watcher);
 
 	g_hash_table_iter_init (&iter, priv->clients);
 	while (g_hash_table_iter_next (&iter, NULL, &client))
@@ -142,23 +140,18 @@ alarm_notify_activate (GApplication *application)
 	}
 
 	if (an->priv->registry != NULL) {
-		alarm_notify_load_calendars (an);
+		an->priv->watcher = e_source_registry_watcher_new (an->priv->registry, NULL);
 
-		g_signal_connect_swapped (
-			an->priv->registry, "source-added",
+		g_signal_connect (an->priv->watcher, "filter",
+			G_CALLBACK (an_watcher_filter_cb), an);
+
+		g_signal_connect_swapped (an->priv->watcher, "appeared",
 			G_CALLBACK (alarm_notify_add_calendar), an);
 
-		g_signal_connect_swapped (
-			an->priv->registry, "source-enabled",
-			G_CALLBACK (alarm_notify_add_calendar), an);
-
-		g_signal_connect_swapped (
-			an->priv->registry, "source-disabled",
+		g_signal_connect_swapped (an->priv->watcher, "disappeared",
 			G_CALLBACK (alarm_notify_remove_calendar), an);
 
-		g_signal_connect_swapped (
-			an->priv->registry, "source-removed",
-			G_CALLBACK (alarm_notify_remove_calendar), an);
+		e_source_registry_watcher_reclaim (an->priv->watcher);
 	}
 }
 
