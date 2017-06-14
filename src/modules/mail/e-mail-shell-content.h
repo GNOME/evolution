@@ -70,6 +70,8 @@ EMailView *	e_mail_shell_content_get_mail_view
 EShellSearchbar *
 		e_mail_shell_content_get_searchbar
 					(EMailShellContent *mail_shell_content);
+GtkWidget *	e_mail_shell_content_get_to_do_pane
+					(EMailShellContent *mail_shell_content);
 
 G_END_DECLS
 

@@ -47,6 +47,7 @@
         <menuitem action='show-toolbar'/>
         <menuitem action='show-taskbar'/>
         <menuitem action='show-sidebar'/>
+        <placeholder name='view-layout-custom-menus'/>
       </menu>
       <placeholder name='view-custom-menus'/>
       <menu action='switcher-menu'>

@@ -208,6 +208,8 @@
 	E_SHELL_WINDOW_ACTION ((window), "mail-tools-search-folders")
 #define E_SHELL_WINDOW_ACTION_MAIL_TOOLS_SUBSCRIPTIONS(window) \
 	E_SHELL_WINDOW_ACTION ((window), "mail-tools-subscriptions")
+#define E_SHELL_WINDOW_ACTION_MAIL_TO_DO_BAR(window) \
+	E_SHELL_WINDOW_ACTION ((window), "mail-to-do-bar")
 #define E_SHELL_WINDOW_ACTION_MAIL_UNDELETE(window) \
 	E_SHELL_WINDOW_ACTION ((window), "mail-undelete")
 #define E_SHELL_WINDOW_ACTION_MAIL_VFOLDER_UNMATCHED_ENABLE(window) \

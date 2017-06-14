@@ -277,6 +277,21 @@ action_mail_attachment_bar_cb (GtkAction *action,
 }
 
 static void
+action_mail_to_do_bar_cb (GtkAction *action,
+			  EShellView *shell_view)
+{
+	EShellContent *shell_content;
+	GtkWidget *to_do_pane;
+
+	g_return_if_fail (E_IS_MAIL_SHELL_VIEW (shell_view));
+
+	shell_content = e_shell_view_get_shell_content (shell_view);
+	to_do_pane = e_mail_shell_content_get_to_do_pane (E_MAIL_SHELL_CONTENT (shell_content));
+
+	gtk_widget_set_visible (to_do_pane, gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action)));
+}
+
+static void
 action_mail_download_finished_cb (CamelStore *store,
                                   GAsyncResult *result,
                                   EActivity *activity)
@@ -1969,6 +1984,14 @@ static GtkToggleActionEntry mail_toggle_entries[] = {
 	  NULL,  /* Handled by property bindings */
 	  FALSE },
 
+	{ "mail-to-do-bar",
+	  NULL,
+	  N_("Show To _Do Bar"),
+	  NULL,
+	  N_("Show To Do bar with appointments and tasks"),
+	  G_CALLBACK (action_mail_to_do_bar_cb),
+	  TRUE },
+
 	{ "mail-vfolder-unmatched-enable",
 	  NULL,
 	  N_("_Unmatched Folder Enabled"),
@@ -2258,6 +2281,18 @@ e_mail_shell_view_actions_init (EMailShellView *mail_shell_view)
 		settings, "show-attachment-bar",
 		ACTION (MAIL_ATTACHMENT_BAR), "active",
 		G_SETTINGS_BIND_DEFAULT);
+
+	if (e_shell_window_is_main_instance (shell_window)) {
+		g_settings_bind (
+			settings, "show-to-do-bar",
+			ACTION (MAIL_TO_DO_BAR), "active",
+			G_SETTINGS_BIND_DEFAULT);
+	} else {
+		g_settings_bind (
+			settings, "show-to-do-bar-sub",
+			ACTION (MAIL_TO_DO_BAR), "active",
+			G_SETTINGS_BIND_DEFAULT);
+	}
 
 	g_object_unref (settings);
 

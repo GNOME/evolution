@@ -72,6 +72,7 @@ set(SOURCES
 	e-select-names-renderer.c
 	e-send-options-utils.c
 	e-task-table.c
+	e-to-do-pane.c
 	e-week-view-event-item.c
 	e-week-view-layout.c
 	e-week-view-main-item.c
@@ -147,6 +148,7 @@ set(HEADERS
 	e-select-names-renderer.h
 	e-send-options-utils.h
 	e-task-table.h
+	e-to-do-pane.h
 	e-week-view-event-item.h
 	e-week-view-layout.h
 	e-week-view-main-item.h

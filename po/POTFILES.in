@@ -107,6 +107,7 @@ src/calendar/gui/e-memo-table.etspec
 src/calendar/gui/e-task-table.c
 src/calendar/gui/e-task-table.etspec
 src/calendar/gui/e-timezone-entry.c
+src/calendar/gui/e-to-do-pane.c
 src/calendar/gui/e-week-view.c
 src/calendar/gui/e-week-view-main-item.c
 src/calendar/gui/itip-utils.c

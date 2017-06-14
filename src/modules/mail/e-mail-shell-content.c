@@ -26,6 +26,8 @@
 
 #include <e-util/e-util-private.h>
 
+#include "calendar/gui/e-to-do-pane.h"
+
 #include <mail/e-mail-paned-view.h>
 #include <mail/e-mail-reader.h>
 #include <mail/e-mail-reader-utils.h>
@@ -41,6 +43,7 @@
 
 struct _EMailShellContentPrivate {
 	EMailView *mail_view;
+	GtkWidget *to_do_pane; /* not referenced */
 };
 
 enum {
@@ -49,7 +52,8 @@ enum {
 	PROP_GROUP_BY_THREADS,
 	PROP_MAIL_VIEW,
 	PROP_REPLY_STYLE,
-	PROP_MARK_SEEN_ALWAYS
+	PROP_MARK_SEEN_ALWAYS,
+	PROP_TO_DO_PANE
 };
 
 /* Forward Declarations */
@@ -171,6 +175,12 @@ mail_shell_content_get_property (GObject *object,
 				value, e_mail_reader_get_mark_seen_always (
 				E_MAIL_READER (object)));
 			return;
+
+		case PROP_TO_DO_PANE:
+			g_value_set_object (
+				value, e_mail_shell_content_get_to_do_pane (
+				E_MAIL_SHELL_CONTENT (object)));
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -200,9 +210,11 @@ mail_shell_content_constructed (GObject *object)
 	EShellView *shell_view;
 	EAttachmentStore *attachment_store;
 	EMailDisplay *display;
+	GtkPaned *paned;
 	GtkWindow *window;
 	GtkWidget *widget;
 	GtkBox *vbox;
+	GSettings *settings;
 
 	priv = E_MAIL_SHELL_CONTENT_GET_PRIVATE (object);
 
@@ -214,8 +226,14 @@ mail_shell_content_constructed (GObject *object)
 
 	/* Build content widgets. */
 
-	widget = gtk_box_new (GTK_ORIENTATION_VERTICAL, 4);
+	widget = gtk_paned_new (GTK_ORIENTATION_HORIZONTAL);
 	gtk_container_add (GTK_CONTAINER (shell_content), widget);
+	gtk_widget_show (widget);
+
+	paned = GTK_PANED (widget);
+
+	widget = gtk_box_new (GTK_ORIENTATION_VERTICAL, 4);
+	gtk_paned_pack1 (paned, widget, TRUE, FALSE);
 	gtk_widget_show (widget);
 
 	vbox = GTK_BOX (widget);
@@ -243,6 +261,33 @@ mail_shell_content_constructed (GObject *object)
 		G_BINDING_SYNC_CREATE,
 		mail_shell_content_transform_num_attachments_to_visible_boolean_with_settings,
 		NULL, NULL, NULL);
+
+	widget = e_to_do_pane_new (shell_view);
+	gtk_paned_pack2 (paned, widget, FALSE, FALSE);
+	gtk_widget_show (widget);
+
+	priv->to_do_pane = widget;
+
+	settings = e_util_ref_settings ("org.gnome.evolution.mail");
+
+	if (e_shell_window_is_main_instance (e_shell_view_get_shell_window (shell_view))) {
+		g_settings_bind (
+			settings, "to-do-bar-width",
+			paned, "position",
+			G_SETTINGS_BIND_DEFAULT);
+	} else {
+		g_settings_bind (
+			settings, "to-do-bar-width-sub",
+			paned, "position",
+			G_SETTINGS_BIND_DEFAULT);
+	}
+
+	g_settings_bind (
+		settings, "to-do-bar-show-completed-tasks",
+		priv->to_do_pane, "show-completed-tasks",
+		G_SETTINGS_BIND_DEFAULT);
+
+	g_object_unref (settings);
 
 	window = e_mail_reader_get_window (E_MAIL_READER (object));
 	widget = e_mail_reader_get_message_list (E_MAIL_READER (object));
@@ -489,6 +534,16 @@ e_mail_shell_content_class_init (EMailShellContentClass *class)
 		object_class,
 		PROP_MARK_SEEN_ALWAYS,
 		"mark-seen-always");
+
+	g_object_class_install_property (
+		object_class,
+		PROP_TO_DO_PANE,
+		g_param_spec_object (
+			"to-do-pane",
+			"To Do Pane",
+			NULL,
+			E_TYPE_TO_DO_PANE,
+			G_PARAM_READABLE));
 }
 
 static void
@@ -563,4 +618,12 @@ e_mail_shell_content_get_searchbar (EMailShellContent *mail_shell_content)
 	searchbar = e_shell_view_get_searchbar (shell_view);
 
 	return E_SHELL_SEARCHBAR (searchbar);
+}
+
+GtkWidget *
+e_mail_shell_content_get_to_do_pane (EMailShellContent *mail_shell_content)
+{
+	g_return_val_if_fail (E_IS_MAIL_SHELL_CONTENT (mail_shell_content), NULL);
+
+	return mail_shell_content->priv->to_do_pane;
 }

@@ -1,5 +1,6 @@
 set(extra_deps
 	email-engine
+	evolution-calendar
 	evolution-mail
 	evolution-mail-composer
 	evolution-mail-formatter

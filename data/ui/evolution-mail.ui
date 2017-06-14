@@ -16,6 +16,11 @@
       </placeholder>
     </menu>
     <menu action='view-menu'>
+      <menu action='layout-menu'>
+        <placeholder name='view-layout-custom-menus'>
+          <menuitem action='mail-to-do-bar'/>
+        </placeholder>
+      </menu>
       <placeholder name='view-custom-menus'>
         <menu action='mail-preview-menu'>
           <menuitem action='mail-preview'/>

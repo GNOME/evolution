@@ -658,6 +658,32 @@
       <_description>An Archive folder to use for Messages|Archive... feature when in an On This Computer folder.</_description>
     </key>
 
+    <key name="show-to-do-bar" type="b">
+      <default>true</default>
+      <_summary>Whether the To Do bar is visible in the main window</_summary>
+      <_description>Stores whether the To Do bar is visible in the main window.</_description>
+    </key>
+    <key name="to-do-bar-width" type="i">
+      <default>9999</default>
+      <_summary>Width of the To Do bar in the main window</_summary>
+      <_description>Holds the width of the To Do bar for the main window.</_description>
+    </key>
+    <key name="show-to-do-bar-sub" type="b">
+      <default>true</default>
+      <_summary>Whether the To Do bar is visible in a sub-window</_summary>
+      <_description>Stores whether the To Do bar is visible in a sub-window.</_description>
+    </key>
+    <key name="to-do-bar-width-sub" type="i">
+      <default>9999</default>
+      <_summary>Width of the To Do bar in a sub-window</_summary>
+      <_description>Holds the width of the To Do bar for a sub-window.</_description>
+    </key>
+    <key name="to-do-bar-show-completed-tasks" type="b">
+      <default>false</default>
+      <_summary>Whether the To Do bar should show also completed tasks</_summary>
+      <_description>Stores whether the To Do bar should show also completed tasks.</_description>
+    </key>
+
     <!-- The following keys are deprecated. -->
 
     <key name="forward-style" type="i">

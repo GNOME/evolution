@@ -1822,7 +1822,7 @@ e_cal_ops_new_component_editor_from_model (ECalModel *model,
 
 /**
  * e_cal_ops_open_component_in_editor_sync:
- * @model: an #ECalModel instance
+ * @model: (nullable): an #ECalModel instance
  * @client: an #ECalClient, to which the component belongs
  * @icalcomp: an #icalcomponent to open in an editor
  * @force_attendees: set to TRUE to force to show attendees, FALSE to auto-detect
@@ -1842,7 +1842,8 @@ e_cal_ops_open_component_in_editor_sync (ECalModel *model,
 	ECalComponent *comp;
 	ECompEditor *comp_editor;
 
-	g_return_if_fail (E_IS_CAL_MODEL (model));
+	if (model)
+		g_return_if_fail (E_IS_CAL_MODEL (model));
 	g_return_if_fail (E_IS_CAL_CLIENT (client));
 	g_return_if_fail (icalcomp != NULL);
 
@@ -1857,8 +1858,8 @@ e_cal_ops_open_component_in_editor_sync (ECalModel *model,
 
 	ncd = g_new0 (NewComponentData, 1);
 	ncd->is_new_component = FALSE;
-	ncd->shell = g_object_ref (e_cal_model_get_shell (model));
-	ncd->model = g_object_ref (model);
+	ncd->shell = g_object_ref (model ? e_cal_model_get_shell (model) : e_shell_get_default ());
+	ncd->model = model ? g_object_ref (model) : NULL;
 	ncd->source_type = e_cal_client_get_source_type (client);
 	ncd->is_assigned = force_attendees;
 	ncd->extension_name = NULL;
