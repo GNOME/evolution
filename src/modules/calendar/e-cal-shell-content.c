@@ -1054,12 +1054,24 @@ cal_shell_content_get_default_time (ECalModel *model,
 				    gpointer user_data)
 {
 	ECalShellContent *cal_shell_content = user_data;
+	icaltimezone *zone;
 
 	g_return_val_if_fail (model != NULL, 0);
 	g_return_val_if_fail (E_IS_CAL_SHELL_CONTENT (cal_shell_content), 0);
 
-	return cal_comp_gdate_to_timet (&cal_shell_content->priv->view_start,
-		e_cal_model_get_timezone (model));
+	if (e_cal_shell_content_get_current_view_id (cal_shell_content) != E_CAL_VIEW_KIND_LIST) {
+		ECalendarView *cal_view;
+		time_t selected_start = (time_t) 0, selected_end = (time_t) 0;
+
+		cal_view = e_cal_shell_content_get_current_calendar_view (cal_shell_content);
+
+		if (cal_view && e_calendar_view_get_selected_time_range (cal_view, &selected_start, &selected_end))
+			return selected_start;
+	}
+
+	zone = e_cal_model_get_timezone (model);
+
+	return icaltime_as_timet_with_zone (icaltime_current_time_with_zone (zone), zone);
 }
 
 static void
