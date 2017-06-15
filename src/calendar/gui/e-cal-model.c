@@ -1440,7 +1440,9 @@ cal_model_create_component_from_values_thread (EAlertSinkThreadJobData *job_data
 			time_t tt = ccd->model->priv->get_default_time (ccd->model, ccd->model->priv->get_default_time_user_data);
 
 			if (tt > 0) {
-				struct icaltimetype itt = icaltime_from_timet_with_zone (tt, FALSE, e_cal_model_get_timezone (ccd->model));
+				/* Store Memo DTSTART as date, not as date-time */
+				struct icaltimetype itt = icaltime_from_timet_with_zone (tt,
+					icalcomponent_isa (comp_data->icalcomp) == ICAL_VJOURNAL_COMPONENT, e_cal_model_get_timezone (ccd->model));
 				icalproperty *prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_DTSTART_PROPERTY);
 
 				if (prop) {
