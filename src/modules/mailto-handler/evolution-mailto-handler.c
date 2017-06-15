@@ -109,8 +109,8 @@ mailto_handler_prompt (EMailtoHandler *extension)
 
 	dialog = gtk_dialog_new_with_buttons (
 		"", NULL, 0,
-		_("_No"), GTK_RESPONSE_NO,
-		_("_Yes"), GTK_RESPONSE_YES,
+		_("Do _not change settings"), GTK_RESPONSE_NO,
+		_("_Set as default email client"), GTK_RESPONSE_YES,
 		NULL);
 
 	gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_YES);
