@@ -2152,7 +2152,13 @@ e_mail_folder_to_full_display_name (CamelFolder *folder,
 
 		service_display_name = camel_service_get_display_name (CAMEL_SERVICE (store));
 
-		full_display_name = g_strdup_printf ("%s : %s", service_display_name, folder_name);
+		if (CAMEL_IS_VEE_FOLDER (folder) && (
+		    g_strcmp0 (folder_name, CAMEL_VTRASH_NAME) == 0 ||
+		    g_strcmp0 (folder_name, CAMEL_VJUNK_NAME) == 0)) {
+			full_display_name = g_strdup_printf ("%s : %s", service_display_name, camel_folder_get_display_name (folder));
+		} else {
+			full_display_name = g_strdup_printf ("%s : %s", service_display_name, folder_name);
+		}
 
 		g_free (folder_name);
 	}
