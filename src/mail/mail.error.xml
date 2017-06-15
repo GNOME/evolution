@@ -644,4 +644,15 @@ in the folder will be available in offline mode.</_secondary>
     <_secondary>A WebKitWebProcess crashed when displaying the signature. You can try again by moving to another signature and back. If the issue persists, please file a bug report in the GNOME bugzilla.</_secondary>
   </error>
 
+  <error id="ask-empty-junk" type="warning" default="GTK_RESPONSE_CANCEL">
+    <_primary>Are you sure you want to delete all the messages in the Junk folder?</_primary>
+    <_secondary xml:space="preserve">These messages will be shown in the Trash folder, where they can be permanently deleted later.</_secondary>
+    <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
+    <button _label="_Empty Junk" response="GTK_RESPONSE_YES"/>
+  </error>
+
+  <error id="failed-empty-junk" type="error" default="GTK_RESPONSE_YES">
+    <_primary>Failed to empty Junk folder “{0}”</_primary>
+    <secondary>{1}</secondary>
+  </error>
 </error-list>

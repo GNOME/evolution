@@ -28,6 +28,8 @@
 	E_SHELL_WINDOW_ACTION ((window), "mail-account-disable")
 #define E_SHELL_WINDOW_ACTION_MAIL_ACCOUNT_EXPUNGE(window) \
 	E_SHELL_WINDOW_ACTION ((window), "mail-account-expunge")
+#define E_SHELL_WINDOW_ACTION_MAIL_ACCOUNT_EMPTY_JUNK(window) \
+	E_SHELL_WINDOW_ACTION ((window), "mail-account-empty-junk")
 #define E_SHELL_WINDOW_ACTION_MAIL_ACCOUNT_PROPERTIES(window) \
 	E_SHELL_WINDOW_ACTION ((window), "mail-account-properties")
 #define E_SHELL_WINDOW_ACTION_MAIL_ACCOUNT_REFRESH(window) \

@@ -475,6 +475,38 @@ action_mail_folder_expunge_cb (GtkAction *action,
 	g_free (selected_folder_name);
 }
 
+static void
+action_mail_folder_empty_junk_cb (GtkAction *action,
+				  EMailShellView *mail_shell_view)
+{
+	EMailShellContent *mail_shell_content;
+	EMailShellSidebar *mail_shell_sidebar;
+	EMailView *mail_view;
+	EMFolderTree *folder_tree;
+	CamelStore *selected_store = NULL;
+	gchar *selected_folder_name = NULL;
+
+	mail_shell_content = mail_shell_view->priv->mail_shell_content;
+	mail_view = e_mail_shell_content_get_mail_view (mail_shell_content);
+
+	mail_shell_sidebar = mail_shell_view->priv->mail_shell_sidebar;
+	folder_tree = e_mail_shell_sidebar_get_folder_tree (mail_shell_sidebar);
+
+	/* Get the folder from the folder tree, not the message list.
+	 * This correctly handles the use case of right-clicking on
+	 * the "Junk" folder and selecting "Empty Junk" without
+	 * actually selecting the folder. In that case the message
+	 * list would not contain the correct folder. */
+	em_folder_tree_get_selected (folder_tree, &selected_store, &selected_folder_name);
+	g_return_if_fail (CAMEL_IS_STORE (selected_store));
+	g_return_if_fail (selected_folder_name != NULL);
+
+	e_mail_reader_empty_junk_folder_name (E_MAIL_READER (mail_view), selected_store, selected_folder_name);
+
+	g_object_unref (selected_store);
+	g_free (selected_folder_name);
+}
+
 typedef struct _AsyncContext {
 	EActivity *activity;
 	EMailShellView *mail_shell_view;
@@ -1601,6 +1633,13 @@ static GtkActionEntry mail_entries[] = {
 	  N_("Permanently remove all the deleted messages from all folders"),
 	  G_CALLBACK (action_mail_folder_expunge_cb) },
 
+	{ "mail-account-empty-junk",
+	  NULL,
+	  N_("Empty _Junk"),
+	  NULL,
+	  N_("Delete all Junk messages from all folders"),
+	  G_CALLBACK (action_mail_folder_empty_junk_cb) },
+
 	{ "mail-account-properties",
 	  "document-properties",
 	  N_("_Properties"),
@@ -1892,6 +1931,10 @@ static EPopupActionEntry mail_popup_entries[] = {
 	{ "mail-popup-account-expunge",
 	  NULL,
 	  "mail-account-expunge" },
+
+	{ "mail-popup-account-empty-junk",
+	  NULL,
+	  "mail-account-empty-junk" },
 
 	{ "mail-popup-account-refresh",
 	  NULL,

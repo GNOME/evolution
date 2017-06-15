@@ -102,6 +102,7 @@
     <menuitem action='mail-popup-account-properties'/>
     <menuitem action='mail-popup-folder-properties'/>
     <separator/>
+    <menuitem action='mail-popup-account-empty-junk'/>
     <menuitem action='mail-popup-account-expunge'/>
   </popup>
   <popup name='mail-message-popup'>

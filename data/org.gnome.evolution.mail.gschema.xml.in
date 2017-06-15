@@ -456,6 +456,11 @@
       <_summary>Prompt when user expunges</_summary>
       <_description>Prompt the user when he or she tries to expunge a folder.</_description>
     </key>
+    <key name="prompt-on-empty-junk" type="b">
+      <default>true</default>
+      <_summary>Prompt when user calls Empty Junk</_summary>
+      <_description>Prompt the user when he or she tries to Empty a Junk folder.</_description>
+    </key>
     <key name="prompt-on-invalid-recip" type="b">
       <default>true</default>
       <_summary>Prompt before sending to recipients not entered as mail addresses</_summary>

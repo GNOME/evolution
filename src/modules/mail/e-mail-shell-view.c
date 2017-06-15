@@ -1011,6 +1011,7 @@ mail_shell_view_update_actions (EShellView *shell_view)
 	/* Be descriptive. */
 	gboolean folder_allows_children;
 	gboolean folder_can_be_deleted;
+	gboolean folder_is_junk;
 	gboolean folder_is_outbox;
 	gboolean folder_is_selected = FALSE;
 	gboolean folder_is_store;
@@ -1056,6 +1057,8 @@ mail_shell_view_update_actions (EShellView *shell_view)
 		(state & E_MAIL_SIDEBAR_FOLDER_IS_STORE);
 	folder_is_trash =
 		(state & E_MAIL_SIDEBAR_FOLDER_IS_TRASH);
+	folder_is_junk =
+		(state & E_MAIL_SIDEBAR_FOLDER_IS_JUNK);
 	folder_is_virtual =
 		(state & E_MAIL_SIDEBAR_FOLDER_IS_VIRTUAL);
 	store_is_builtin =
@@ -1134,6 +1137,10 @@ mail_shell_view_update_actions (EShellView *shell_view)
 
 	action = ACTION (MAIL_ACCOUNT_EXPUNGE);
 	sensitive = folder_is_trash;
+	gtk_action_set_sensitive (action, sensitive);
+
+	action = ACTION (MAIL_ACCOUNT_EMPTY_JUNK);
+	sensitive = folder_is_junk;
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (MAIL_ACCOUNT_PROPERTIES);

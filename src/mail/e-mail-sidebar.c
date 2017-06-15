@@ -463,6 +463,7 @@ mail_sidebar_check_state (EMailSidebar *sidebar)
 		 * Used by Exchange and GroupWise accounts. */
 		folder_type = (folder_flags & CAMEL_FOLDER_TYPE_MASK);
 		is_trash |= (folder_type == CAMEL_FOLDER_TYPE_TRASH);
+		is_junk |= (folder_type == CAMEL_FOLDER_TYPE_JUNK);
 
 		/* Is this a virtual folder (junk/trash/search)? */
 		is_virtual |= (folder_flags & CAMEL_FOLDER_VIRTUAL);

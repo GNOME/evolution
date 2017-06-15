@@ -40,6 +40,12 @@ void		e_mail_reader_expunge_folder_name
 						(EMailReader *reader,
 						 CamelStore *store,
 						 const gchar *folder_name);
+void		e_mail_reader_empty_junk_folder	(EMailReader *reader,
+						 CamelFolder *folder);
+void		e_mail_reader_empty_junk_folder_name
+						(EMailReader *reader,
+						 CamelStore *store,
+						 const gchar *folder_name);
 void		e_mail_reader_refresh_folder	(EMailReader *reader,
 						 CamelFolder *folder);
 void		e_mail_reader_refresh_folder_name

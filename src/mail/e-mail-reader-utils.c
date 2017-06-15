@@ -551,6 +551,166 @@ e_mail_reader_expunge_folder_name (EMailReader *reader,
 	g_object_unref (activity);
 }
 
+static void
+mail_reader_empty_junk_thread (EAlertSinkThreadJobData *job_data,
+			       gpointer user_data,
+			       GCancellable *cancellable,
+			       GError **error)
+{
+	AsyncContext *async_context = user_data;
+	CamelFolder *folder;
+	CamelFolderSummary *summary;
+	GPtrArray *uids;
+	guint ii;
+
+	g_return_if_fail (async_context != NULL);
+
+	folder = async_context->folder;
+
+	g_return_if_fail (CAMEL_IS_FOLDER (folder));
+	g_return_if_fail ((camel_folder_get_flags (folder) & CAMEL_FOLDER_IS_JUNK) != 0);
+
+	camel_folder_freeze (folder);
+
+	summary = camel_folder_get_folder_summary (folder);
+	if (summary)
+		camel_folder_summary_prepare_fetch_all (summary, NULL);
+
+	uids = camel_folder_get_uids (folder);
+	if (uids) {
+		for (ii = 0; ii < uids->len; ii++) {
+			CamelMessageInfo *nfo;
+
+			nfo = camel_folder_get_message_info (folder, uids->pdata[ii]);
+			if (nfo) {
+				camel_message_info_set_flags (nfo, CAMEL_MESSAGE_DELETED, CAMEL_MESSAGE_DELETED);
+				g_object_unref (nfo);
+			}
+		}
+
+		if (uids->len > 0)
+			camel_folder_synchronize_sync (folder, FALSE, cancellable, error);
+
+		camel_folder_free_uids (folder, uids);
+	}
+
+	camel_folder_thaw (folder);
+}
+
+void
+e_mail_reader_empty_junk_folder (EMailReader *reader,
+				 CamelFolder *folder)
+{
+	GtkWindow *window;
+	const gchar *display_name;
+	gchar *full_display_name;
+	gboolean proceed;
+
+	g_return_if_fail (E_IS_MAIL_READER (reader));
+	g_return_if_fail (CAMEL_IS_FOLDER (folder));
+
+	window = e_mail_reader_get_window (reader);
+	display_name = camel_folder_get_display_name (folder);
+	full_display_name = e_mail_folder_to_full_display_name (folder, NULL);
+	if (full_display_name)
+		display_name = full_display_name;
+
+	proceed = e_util_prompt_user (window, "org.gnome.evolution.mail", "prompt-on-empty-junk",
+		"mail:ask-empty-junk", display_name, NULL);
+
+	if (proceed) {
+		AsyncContext *async_context;
+		EAlertSink *alert_sink;
+		EActivity *activity;
+		gchar *description;
+
+		alert_sink = e_mail_reader_get_alert_sink (reader);
+
+		async_context = g_slice_new0 (AsyncContext);
+		async_context->reader = g_object_ref (reader);
+		async_context->folder = g_object_ref (folder);
+
+		description = g_strdup_printf (_("Deleting messages in Junk folder ”%s”…"), display_name);
+
+		activity = e_alert_sink_submit_thread_job (alert_sink,
+			description, "mail:failed-empty-junk", display_name,
+			mail_reader_empty_junk_thread, async_context,
+			(GDestroyNotify) async_context_free);
+
+		g_clear_object (&activity);
+		g_free (description);
+	}
+
+	g_free (full_display_name);
+}
+
+static void
+mail_reader_empty_junk_folder_name_cb (GObject *source_object,
+				       GAsyncResult *result,
+				       gpointer user_data)
+{
+	CamelFolder *folder;
+	EActivity *activity;
+	EAlertSink *alert_sink;
+	AsyncContext *async_context;
+	GError *local_error = NULL;
+
+	async_context = (AsyncContext *) user_data;
+
+	activity = async_context->activity;
+	alert_sink = e_activity_get_alert_sink (activity);
+
+	folder = camel_store_get_folder_finish (CAMEL_STORE (source_object), result, &local_error);
+
+	if (e_activity_handle_cancellation (activity, local_error)) {
+		g_error_free (local_error);
+
+	} else if (local_error != NULL) {
+		e_alert_submit (
+			alert_sink, "mail:failed-empty-junk",
+			async_context->folder_name,
+			local_error->message, NULL);
+		g_error_free (local_error);
+
+	} else {
+		e_activity_set_state (activity, E_ACTIVITY_COMPLETED);
+		e_mail_reader_empty_junk_folder (async_context->reader, folder);
+	}
+
+	async_context_free (async_context);
+	g_clear_object (&folder);
+}
+
+void
+e_mail_reader_empty_junk_folder_name (EMailReader *reader,
+				      CamelStore *store,
+				      const gchar *folder_name)
+{
+	EActivity *activity;
+	GCancellable *cancellable;
+	AsyncContext *async_context;
+
+	g_return_if_fail (E_IS_MAIL_READER (reader));
+	g_return_if_fail (CAMEL_IS_STORE (store));
+	g_return_if_fail (folder_name != NULL);
+
+	activity = e_mail_reader_new_activity (reader);
+	cancellable = e_activity_get_cancellable (activity);
+
+	async_context = g_slice_new0 (AsyncContext);
+	async_context->activity = g_object_ref (activity);
+	async_context->reader = g_object_ref (reader);
+	async_context->folder_name = g_strdup (folder_name);
+
+	camel_store_get_folder (
+		store, folder_name,
+		0, G_PRIORITY_DEFAULT, cancellable,
+		mail_reader_empty_junk_folder_name_cb,
+		async_context);
+
+	g_object_unref (activity);
+}
+
 struct _process_autoarchive_msg {
 	MailMsg base;
 
