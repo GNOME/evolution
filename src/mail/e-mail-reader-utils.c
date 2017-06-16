@@ -630,7 +630,7 @@ e_mail_reader_empty_junk_folder (EMailReader *reader,
 		async_context->reader = g_object_ref (reader);
 		async_context->folder = g_object_ref (folder);
 
-		description = g_strdup_printf (_("Deleting messages in Junk folder ”%s”…"), display_name);
+		description = g_strdup_printf (_("Deleting messages in Junk folder “%s”…"), display_name);
 
 		activity = e_alert_sink_submit_thread_job (alert_sink,
 			description, "mail:failed-empty-junk", display_name,
