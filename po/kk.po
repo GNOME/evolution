@@ -6,10 +6,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
+"Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2017-02-15 13:45+0000\n"
-"PO-Revision-Date: 2017-02-17 13:19+0500\n"
+"POT-Creation-Date: 2017-06-16 15:56+0000\n"
+"PO-Revision-Date: 2017-06-17 13:40+0500\n"
 "Last-Translator: Baurzhan Muftakhidinov <baurthefirst@gmail.com>\n"
 "Language-Team: Kazakh <kk_KZ@googlegroups.com>\n"
 "Language: kk\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 1.8.11\n"
+"X-Generator: Poedit 2.0.2\n"
 
 #: ../evolution.appdata.xml.in.h:1 ../data/evolution.desktop.in.in.h:1
 #: ../src/mail/e-mail-browser.c:1098
@@ -76,7 +76,7 @@ msgstr "Хатты жазу"
 
 #: ../data/evolution.desktop.in.in.h:8
 #: ../src/e-util/e-name-selector-dialog.c:448
-#: ../src/modules/addressbook/e-book-shell-backend.c:301
+#: ../src/modules/addressbook/e-book-shell-backend.c:303
 #: ../src/modules/addressbook/e-book-shell-view.c:371
 msgid "Contacts"
 msgstr "Контакттар"
@@ -85,7 +85,7 @@ msgstr "Контакттар"
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:833
 #: ../src/e-util/e-send-options.c:544
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:197
-#: ../src/modules/calendar/e-cal-shell-view.c:577
+#: ../src/modules/calendar/e-cal-shell-view.c:582
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:21
 msgid "Calendar"
 msgstr "Күнтізбе"
@@ -94,13 +94,13 @@ msgstr "Күнтізбе"
 #: ../src/mail/importers/elm-importer.c:330
 #: ../src/mail/importers/kmail-importer.c:251
 #: ../src/mail/importers/pine-importer.c:423
-#: ../src/modules/mail/e-mail-shell-view.c:1240
+#: ../src/modules/mail/e-mail-shell-view.c:1247
 #: ../src/smime/gui/certificate-manager.c:1682
 msgid "Mail"
 msgstr "Пошта"
 
 #: ../data/evolution.desktop.in.in.h:11 ../src/calendar/gui/e-memo-table.c:368
-#: ../src/modules/calendar/e-cal-shell-content.c:1665
+#: ../src/modules/calendar/e-cal-shell-content.c:1719
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:194
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:209
 #: ../src/modules/calendar/e-memo-shell-view.c:313
@@ -112,7 +112,7 @@ msgstr "Естеліктер"
 #: ../src/calendar/importers/icalendar-importer.c:77
 #: ../src/calendar/importers/icalendar-importer.c:1114
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:65
-#: ../src/modules/calendar/e-cal-shell-content.c:1625
+#: ../src/modules/calendar/e-cal-shell-content.c:1679
 #: ../src/modules/calendar/e-task-shell-view-actions.c:218
 #: ../src/modules/calendar/e-task-shell-view-actions.c:233
 #: ../src/modules/calendar/e-task-shell-view.c:471
@@ -1805,67 +1805,75 @@ msgid "Prompt the user when he or she tries to expunge a folder."
 msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:163
-msgid "Prompt before sending to recipients not entered as mail addresses"
+msgid "Prompt when user calls Empty Junk"
 msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:164
+msgid "Prompt the user when he or she tries to Empty a Junk folder."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:165
+msgid "Prompt before sending to recipients not entered as mail addresses"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:166
 msgid ""
 "It disables/enables the repeated prompts to warn that you are trying to send "
 "a message to recipients not entered as mail addresses"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:165
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:167
 msgid "Prompt when user only fills Bcc"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:166
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:168
 msgid "Prompt when user tries to send a message with no To or Cc recipients."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:167
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:169
 msgid "Prompt when user tries to send unwanted HTML"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:168
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:170
 msgid ""
 "Prompt when user tries to send HTML mail to recipients that may not want to "
 "receive HTML mail."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:169
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:171
 msgid "Prompt when user tries to open 10 or more messages at once"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:170
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:172
 msgid ""
 "If a user tries to open 10 or more messages at one time, ask the user if "
 "they really want to do it."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:171
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:173
 msgid "Prompt while marking multiple messages"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:172
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:174
 msgid "Enable or disable the prompt whilst marking multiple messages."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:173
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:175
 msgid "Prompt when deleting messages in search folder"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:174
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:176
 msgid ""
 "It disables/enables the repeated prompts to warn that deleting messages from "
 "a search folder permanently deletes the message, not simply removing it from "
 "the search results."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:175
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:177
 msgid "Asks whether to copy a folder by drag &amp; drop in the folder tree"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:176
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:178
 msgid ""
 "Possible values are: “never” — do not allow copy with drag &amp; drop of "
 "folders in folder tree, “always” — allow copy with drag &amp; drop of "
@@ -1873,11 +1881,11 @@ msgid ""
 "ask user."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:177
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:179
 msgid "Asks whether to move a folder by drag &amp; drop in the folder tree"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:178
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:180
 msgid ""
 "Possible values are: “never” — do not allow move with drag &amp; drop of "
 "folders in folder tree, “always” — allow move with drag &amp; drop of "
@@ -1885,174 +1893,174 @@ msgid ""
 "ask user."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:179
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:181
 msgid "Prompt when replying privately to list messages"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:180
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:182
 msgid ""
 "It disables/enables the repeated prompts to warn that you are sending a "
 "private reply to a message which arrived via a mailing list."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:181
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:183
 msgid "Prompt when mailing list hijacks private replies"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:182
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:184
 msgid ""
 "It disables/enables the repeated prompts to warn that you are trying sending "
 "a private reply to a message which arrived via a mailing list, but the list "
 "sets a Reply-To: header which redirects your reply back to the list"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:183
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:185
 msgid "Prompt when replying to many recipients"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:184
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:186
 msgid ""
 "It disables/enables the repeated prompts to warn that you are sending a "
 "reply to many people."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:185
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:187
 msgid ""
 "Prompt when switching composer format and the content needs to lose its "
 "formatting"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:186
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:188
 msgid ""
 "It disables/enables the repeated prompts to warn that you are switching "
 "composer format and the content needs to lose its formatting."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:187
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:189
 msgid "Prompt when sending to many To and CC recipients"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:188
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:190
 msgid ""
 "Enable or disable the prompt when sending to many To and CC recipients. The "
 "“composer-many-to-cc-recips-num” defines the threshold."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:189
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:191
 msgid ""
 "Policy for automatically closing the message browser window when forwarding "
 "or replying to the displayed message."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:190
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:192
 msgid "Empty Trash folders on exit"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:191
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:193
 msgid "Empty all Trash folders when exiting Evolution."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:192
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:194
 msgid "Minimum days between emptying the trash on exit"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:193
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:195
 msgid "Minimum time between emptying the trash on exit, in days."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:194
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:196
 msgid "Last time Empty Trash was run"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:195
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:197
 msgid ""
 "The last time Empty Trash was run, in days since January 1st, 1970 (Epoch)."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:196
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:198
 msgid "Amount of time in seconds the error should be shown on the status bar."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:197
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:199
 msgid "Level beyond which the message should be logged."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:198
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:200
 msgid ""
 "This can have three possible values. “0” for errors. “1” for warnings. “2” "
 "for debug messages."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:199
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:201
 msgid "Show original “Date” header value."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:200
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:202
 msgid ""
 "Show the original “Date” header (with a local time only if the time zone "
 "differs). Otherwise always show “Date” header value in a user preferred "
 "format and local time zone."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:201
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:203
 msgid "List of Labels and their associated colors"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:202
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:204
 msgid ""
 "List of labels known to the mail component of Evolution. The list contains "
 "strings containing name:color where color uses the HTML hex encoding."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:203
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:205
 msgid "Check incoming mail being junk"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:204
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:206
 msgid "Run junk test on incoming mail."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:205
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:207
 msgid "Empty Junk folders on exit"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:206
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:208
 msgid "Empty all Junk folders when exiting Evolution."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:207
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:209
 msgid "Minimum days between emptying the junk on exit"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:208
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:210
 msgid "Minimum time between emptying the junk on exit, in days."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:209
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:211
 msgid "Last time Empty Junk was run"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:210
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:212
 msgid ""
 "The last time Empty Junk was run, in days since January 1st, 1970 (Epoch)."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:211
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:213
 msgid "The default plugin for Junk hook"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:212
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:214
 msgid ""
 "This is the default junk plugin, even though there are multiple plugins "
 "enabled. If the default listed plugin is disabled, then it won’t fall back "
 "to the other available plugins."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:213
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:215
 msgid "Determines whether to lookup in address book for sender email"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:214
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:216
 msgid ""
 "Determines whether to lookup the sender email in address book. If found, it "
 "shouldn’t be a spam. It looks up in the books marked for autocompletion. It "
@@ -2060,96 +2068,96 @@ msgid ""
 "autocompletion."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:215
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:217
 msgid ""
 "Determines whether to look up addresses for junk filtering in local address "
 "book only"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:216
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:218
 msgid ""
 "This option is related to the key lookup_addressbook and is used to "
 "determine whether to look up addresses in local address book only to exclude "
 "mail sent by known contacts from junk filtering."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:217
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:219
 msgid "Determines whether to use custom headers to check for junk"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:218
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:220
 msgid ""
 "Determines whether to use custom headers to check for junk. If this option "
 "is enabled and the headers are mentioned, it will be improve the junk "
 "checking speed."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:219
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:221
 msgid "Custom headers to use while checking for junk."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:220
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:222
 msgid ""
 "Custom headers to use while checking for junk. The list elements are string "
 "in the format “headername=value”."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:221
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:223
 msgid "UID string of the default account."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:222
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:224
 msgid "Save directory"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:223
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:225
 msgid "Directory for saving mail component files."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:224
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:226
 msgid "Composer load/attach directory"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:225
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:227
 msgid "Directory for loading/attaching files to composer."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:226
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:228
 msgid "Check for new messages on start"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:227
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:229
 msgid ""
 "Whether to check for new messages when Evolution is started. This includes "
 "also sending messages from Outbox."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:228
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:230
 msgid "Check for new messages in all active accounts"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:229
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:231
 msgid ""
 "Whether to check for new messages in all active accounts regardless of the "
 "account “Check for new messages every X minutes” option when Evolution is "
 "started. This option is used only together with “send_recv_on_start” option."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:230
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:232
 msgid "Server synchronization interval"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:231
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:233
 msgid ""
 "Controls how frequently local changes are synchronized with the remote mail "
 "server. The interval must be at least 30 seconds."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:232
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:234
 msgid "Allow expunge in virtual folders"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:233
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:235
 msgid ""
 "Enables Expunge in virtual folders, which means that the Folder→Expunge will "
 "be callable in virtual folders, while the expunge itself will be done in all "
@@ -2157,74 +2165,114 @@ msgid ""
 "deleted messages belonging to the virtual folder."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:234
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:236
 #: ../src/mail/mail-config.ui.h:9
 msgid "Inherit theme colors in HTML format"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:235
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:237
 msgid ""
 "When enabled the theme colors for background, text and links are sent in "
 "resulting HTML formatted message."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:236
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:238
 msgid "An Archive folder for On This Computer folders."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:237
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:239
 msgid ""
 "An Archive folder to use for Messages|Archive... feature when in an On This "
 "Computer folder."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:238
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:240
+msgid "Whether the To Do bar is visible in the main window"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:241
+msgid "Stores whether the To Do bar is visible in the main window."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:242
+msgid "Width of the To Do bar in the main window"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:243
+msgid "Holds the width of the To Do bar for the main window."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:244
+msgid "Whether the To Do bar is visible in a sub-window"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:245
+msgid "Stores whether the To Do bar is visible in a sub-window."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:246
+msgid "Width of the To Do bar in a sub-window"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:247
+msgid "Holds the width of the To Do bar for a sub-window."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:248
+msgid "Whether the To Do bar should show also completed tasks"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:249
+msgid "Stores whether the To Do bar should show also completed tasks."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:250
 msgid "(Deprecated) Default forward style"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:239
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:251
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“forward-style-name” instead."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:240
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:252
 msgid "(Deprecated) Default reply style"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:241
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:253
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“reply-style-name” instead."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:242
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:254
 msgid "(Deprecated) List of custom headers and whether they are enabled."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:243
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:255
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“show-headers” instead."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:244
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:256
 msgid "(Deprecated) Load images for HTML messages over HTTP"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:245
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:257
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“image-loading-policy” instead."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:246
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:258
 msgid ""
 "(Deprecated) Asks whether to close the message window when the user forwards "
 "or replies to the message shown in the window"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:247
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:259
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“browser-close-on-reply-policy” instead."
@@ -3038,9 +3086,9 @@ msgstr "Опциялар"
 #: ../src/composer/e-composer-actions.c:227 ../src/e-util/e-activity-bar.c:357
 #: ../src/e-util/e-attachment-dialog.c:309
 #: ../src/e-util/e-attachment-store.c:664
-#: ../src/e-util/e-attachment-store.c:832 ../src/e-util/e-attachment-view.c:301
-#: ../src/e-util/e-categories-dialog.c:80 ../src/e-util/e-category-editor.c:137
-#: ../src/e-util/e-category-editor.c:207 ../src/e-util/e-charset-combo-box.c:99
+#: ../src/e-util/e-attachment-store.c:832 ../src/e-util/e-attachment-view.c:302
+#: ../src/e-util/e-categories-dialog.c:80 ../src/e-util/e-category-editor.c:140
+#: ../src/e-util/e-category-editor.c:211 ../src/e-util/e-charset-combo-box.c:99
 #: ../src/e-util/e-color-chooser-widget.c:125
 #: ../src/e-util/e-filter-datespec.c:289
 #: ../src/e-util/e-html-editor-actions.c:321
@@ -3054,7 +3102,7 @@ msgstr "Опциялар"
 #: ../src/e-util/e-source-selector-dialog.c:370
 #: ../src/e-util/e-table-config.c:548 ../src/e-util/e-table-config.ui.h:3
 #: ../src/e-util/e-timezone-dialog.ui.h:2
-#: ../src/e-util/evolution-source-viewer.c:835 ../src/e-util/e-web-view.c:4065
+#: ../src/e-util/evolution-source-viewer.c:835 ../src/e-util/e-web-view.c:4061
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:267
 #: ../src/mail/e-mail-config-window.c:331 ../src/mail/e-mail-label-dialog.c:194
 #: ../src/mail/e-mail-tag-editor.c:168 ../src/mail/em-folder-selector.c:318
@@ -3083,12 +3131,12 @@ msgstr "Ба_с тарту"
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:3
 #: ../src/addressbook/gui/widgets/eab-contact-merging.c:719
 #: ../src/calendar/calendar.error.xml.h:47
-#: ../src/calendar/gui/e-comp-editor.c:2107
+#: ../src/calendar/gui/e-comp-editor.c:2116
 #: ../src/composer/e-composer-actions.c:228
 #: ../src/composer/e-composer-actions.c:348
 #: ../src/e-util/e-attachment-store.c:833
 #: ../src/e-util/e-mail-signature-script-dialog.c:370
-#: ../src/e-util/e-web-view.c:4066
+#: ../src/e-util/e-web-view.c:4062
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:268
 #: ../src/shell/e-shell-content.c:658 ../src/shell/e-shell-utils.c:140
 #: ../src/smime/gui/certificate-manager.c:666
@@ -3097,8 +3145,8 @@ msgid "_Save"
 msgstr "_Сақтау"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:16
-#: ../src/calendar/gui/e-comp-editor.c:2004
-#: ../src/calendar/gui/e-comp-editor.c:2076
+#: ../src/calendar/gui/e-comp-editor.c:2013
+#: ../src/calendar/gui/e-comp-editor.c:2085
 #: ../src/e-util/e-preferences-window.c:380
 #: ../src/e-util/e-send-options.ui.h:15
 #: ../src/plugins/email-custom-header/org-gnome-email-custom-header.ui.h:2
@@ -3317,7 +3365,7 @@ msgstr "Жұмыс"
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:84
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:513
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:915
-#: ../src/calendar/gui/e-cal-model.c:3823
+#: ../src/calendar/gui/e-cal-model.c:3825
 msgid "Other"
 msgstr "Басқа"
 
@@ -3342,7 +3390,7 @@ msgstr ""
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:69
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:11
 #: ../src/calendar/gui/e-comp-editor-page-general.c:1371
-#: ../src/e-util/e-attachment-view.c:355 ../src/e-util/e-filter-rule.c:223
+#: ../src/e-util/e-attachment-view.c:356 ../src/e-util/e-filter-rule.c:223
 #: ../src/e-util/e-mail-signature-manager.c:368
 #: ../src/e-util/e-name-selector-dialog.c:1037
 #: ../src/e-util/filter.error.xml.h:18 ../src/e-util/filter.ui.h:25
@@ -3366,29 +3414,29 @@ msgid "_Load X.509"
 msgstr ""
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:72
-#: ../src/modules/addressbook/e-book-shell-backend.c:312
+#: ../src/modules/addressbook/e-book-shell-backend.c:314
 msgid "Certificates"
 msgstr "Сертификаттар"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:260
-#: ../src/calendar/gui/e-comp-editor.c:2039
+#: ../src/calendar/gui/e-comp-editor.c:2048
 #: ../src/e-util/e-html-editor-actions.c:913
 msgid "_Undo"
 msgstr "Бол_дырмау"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:262
-#: ../src/calendar/gui/e-comp-editor.c:2041 ../src/e-util/e-focus-tracker.c:120
+#: ../src/calendar/gui/e-comp-editor.c:2050 ../src/e-util/e-focus-tracker.c:120
 msgid "Undo"
 msgstr "Болдырмау"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:267
-#: ../src/calendar/gui/e-comp-editor.c:2046
+#: ../src/calendar/gui/e-comp-editor.c:2055
 #: ../src/e-util/e-html-editor-actions.c:899
 msgid "_Redo"
 msgstr "Қай_талау"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:269
-#: ../src/calendar/gui/e-comp-editor.c:2048 ../src/e-util/e-focus-tracker.c:136
+#: ../src/calendar/gui/e-comp-editor.c:2057 ../src/e-util/e-focus-tracker.c:136
 msgid "Redo"
 msgstr "Қайтару"
 
@@ -3435,7 +3483,7 @@ msgstr "X.509 сертификатын ашу"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3272
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4320
-#: ../src/e-util/e-attachment-store.c:662 ../src/e-util/e-category-editor.c:145
+#: ../src/e-util/e-attachment-store.c:662 ../src/e-util/e-category-editor.c:148
 #: ../src/e-util/e-html-editor-actions.c:322
 #: ../src/e-util/e-html-editor-actions.c:416
 #: ../src/e-util/e-image-chooser-dialog.c:172 ../src/plugins/face/face.c:296
@@ -3521,7 +3569,7 @@ msgstr ""
 #: ../src/addressbook/gui/widgets/eab-gui-util.c:317
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:302
 #: ../src/e-util/e-attachment-dialog.c:311
-#: ../src/e-util/e-categories-dialog.c:81 ../src/e-util/e-category-editor.c:208
+#: ../src/e-util/e-categories-dialog.c:81 ../src/e-util/e-category-editor.c:212
 #: ../src/e-util/e-charset-combo-box.c:100
 #: ../src/e-util/e-color-chooser-widget.c:126
 #: ../src/e-util/e-filter-datespec.c:290
@@ -3696,29 +3744,29 @@ msgstr "Төмен_ге"
 msgid "Contact List Members"
 msgstr ""
 
-#: ../src/addressbook/gui/contact-list-editor/e-contact-list-editor.c:1485
+#: ../src/addressbook/gui/contact-list-editor/e-contact-list-editor.c:1499
 msgid "_Members"
 msgstr ""
 
-#: ../src/addressbook/gui/contact-list-editor/e-contact-list-editor.c:1625
+#: ../src/addressbook/gui/contact-list-editor/e-contact-list-editor.c:1639
 msgid "Error adding list"
 msgstr ""
 
-#: ../src/addressbook/gui/contact-list-editor/e-contact-list-editor.c:1645
+#: ../src/addressbook/gui/contact-list-editor/e-contact-list-editor.c:1659
 msgid "Error modifying list"
 msgstr ""
 
-#: ../src/addressbook/gui/contact-list-editor/e-contact-list-editor.c:1665
+#: ../src/addressbook/gui/contact-list-editor/e-contact-list-editor.c:1679
 msgid "Error removing list"
 msgstr ""
 
 #: ../src/addressbook/gui/widgets/addresstypes.xml.h:1
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1219
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1222
 msgid "Name contains"
 msgstr ""
 
 #: ../src/addressbook/gui/widgets/addresstypes.xml.h:2
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1212
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1215
 msgid "Email begins with"
 msgstr ""
 
@@ -3726,8 +3774,8 @@ msgstr ""
 #: ../src/calendar/gui/caltypes.xml.in.h:26
 #: ../src/calendar/gui/memotypes.xml.in.h:19
 #: ../src/calendar/gui/tasktypes.xml.in.h:30
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1205
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1662
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1208
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1713
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:782
 #: ../src/modules/calendar/e-task-shell-view-actions.c:983
 msgid "Any field contains"
@@ -4097,7 +4145,7 @@ msgid "Paste contacts from the clipboard"
 msgstr ""
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.c:698
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1015
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1018
 msgid "Delete selected contacts"
 msgstr ""
 
@@ -4132,14 +4180,14 @@ msgid "Are you sure you want to delete this contact (%s)?"
 msgstr ""
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.c:1361
-#: ../src/calendar/gui/e-comp-editor.c:1997 ../src/e-util/e-focus-tracker.c:783
+#: ../src/calendar/gui/e-comp-editor.c:2006 ../src/e-util/e-focus-tracker.c:783
 #: ../src/e-util/evolution-source-viewer.c:806
 #: ../src/mail/e-mail-account-manager.c:737
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1087
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1477
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1090
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1524
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:676
 #: ../src/modules/calendar/e-task-shell-view-actions.c:830
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1699
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1680
 #: ../src/shell/e-shell-window-actions.c:822
 #: ../src/smime/gui/certificate-manager.c:1672 ../src/smime/gui/smime-ui.ui.h:8
 msgid "_Delete"
@@ -4333,7 +4381,7 @@ msgstr "Үлке_йту"
 
 #. Zoom-out button
 #: ../src/addressbook/gui/widgets/e-contact-map-window.c:417
-#: ../src/mail/e-mail-reader.c:2421
+#: ../src/mail/e-mail-reader.c:2415
 msgid "Zoom _Out"
 msgstr "Кі_шірейту"
 
@@ -4602,7 +4650,7 @@ msgstr ""
 #: ../src/calendar/alarm-notify/alarm-notify.ui.h:4
 #: ../src/calendar/gui/e-comp-editor-page-general.c:1363
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2239
-#: ../src/calendar/gui/e-comp-editor.c:2062
+#: ../src/calendar/gui/e-comp-editor.c:2071
 #: ../src/e-util/e-html-editor-actions.c:922
 #: ../src/e-util/e-mail-signature-manager.c:358 ../src/e-util/filter.ui.h:24
 #: ../src/mail/e-mail-account-manager.c:728 ../src/mail/e-mail-browser.c:171
@@ -4694,12 +4742,10 @@ msgstr "Ескерту"
 
 #: ../src/calendar/alarm-notify/alarm-queue.c:2097
 #: ../src/mail/mail-dialogs.ui.h:20
-#: ../src/modules/mailto-handler/evolution-mailto-handler.c:112
 msgid "_No"
 msgstr "_Жоқ"
 
 #: ../src/calendar/alarm-notify/alarm-queue.c:2098
-#: ../src/modules/mailto-handler/evolution-mailto-handler.c:113
 msgid "_Yes"
 msgstr "_Иә"
 
@@ -5842,7 +5888,7 @@ msgid "High"
 msgstr "Жоғары"
 
 #: ../src/calendar/gui/e-cal-component-preview.c:329
-#: ../src/calendar/gui/e-cal-model.c:1888
+#: ../src/calendar/gui/e-cal-model.c:1890
 #: ../src/calendar/gui/e-task-table.c:549
 #: ../src/calendar/gui/tasktypes.xml.in.h:20
 #: ../src/e-util/e-send-options.ui.h:5 ../src/mail/message-list.c:321
@@ -5880,7 +5926,7 @@ msgstr ""
 msgid "Creating view for memo list “%s”"
 msgstr ""
 
-#: ../src/calendar/gui/e-cal-dialogs.c:219 ../src/calendar/gui/e-cal-ops.c:1955
+#: ../src/calendar/gui/e-cal-dialogs.c:219 ../src/calendar/gui/e-cal-ops.c:1956
 msgid "Destination is read only"
 msgstr ""
 
@@ -5912,7 +5958,7 @@ msgid "Select Date"
 msgstr "Күнді таңдау"
 
 #: ../src/calendar/gui/e-cal-dialogs.c:693
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1248
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1288
 msgid "Select _Today"
 msgstr ""
 
@@ -6076,15 +6122,18 @@ msgid "Organizer: %s"
 msgstr ""
 
 #. To Translators: It will display "Location: PlaceOfTheMeeting"
+#. Translators: It will display "Location: LocationOfTheAppointment"
 #: ../src/calendar/gui/e-calendar-view.c:1851
-#: ../src/calendar/gui/e-meeting-time-sel.c:2725
-#: ../src/calendar/gui/print.c:3531
+#: ../src/calendar/gui/e-meeting-time-sel.c:2731
+#: ../src/calendar/gui/e-to-do-pane.c:343 ../src/calendar/gui/print.c:3531
 #, c-format
 msgid "Location: %s"
 msgstr "Орналасуы: %s"
 
 #. To Translators: It will display "Time: ActualStartDateAndTime (DurationOfTheMeeting)"
+#. Translators: It will display "Time: StartDateAndTime (Duration)"
 #: ../src/calendar/gui/e-calendar-view.c:1891
+#: ../src/calendar/gui/e-to-do-pane.c:411
 #, c-format
 msgid "Time: %s %s"
 msgstr ""
@@ -6168,7 +6217,7 @@ msgstr "Қайнар_көзі"
 #: ../src/calendar/gui/e-meeting-store.c:230 ../src/calendar/gui/print.c:1247
 #: ../src/calendar/gui/print.c:1264 ../src/e-util/e-charset.c:49
 #: ../src/modules/itip-formatter/itip-view.c:3412
-#: ../src/modules/itip-formatter/itip-view.c:6022
+#: ../src/modules/itip-formatter/itip-view.c:6082
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:97
 msgid "Unknown"
 msgstr "Белгісіз"
@@ -6180,30 +6229,30 @@ msgstr "Белгісіз"
 msgid "Source with UID “%s” not found"
 msgstr ""
 
-#: ../src/calendar/gui/e-cal-model.c:1505 ../src/calendar/gui/e-cal-ops.c:185
+#: ../src/calendar/gui/e-cal-model.c:1507 ../src/calendar/gui/e-cal-ops.c:185
 #: ../src/calendar/gui/e-cal-ops.c:1366
 msgid "Creating an event"
 msgstr ""
 
-#: ../src/calendar/gui/e-cal-model.c:1509 ../src/calendar/gui/e-cal-ops.c:189
+#: ../src/calendar/gui/e-cal-model.c:1511 ../src/calendar/gui/e-cal-ops.c:189
 #: ../src/calendar/gui/e-cal-ops.c:1370
 msgid "Creating a memo"
 msgstr ""
 
-#: ../src/calendar/gui/e-cal-model.c:1513 ../src/calendar/gui/e-cal-ops.c:193
+#: ../src/calendar/gui/e-cal-model.c:1515 ../src/calendar/gui/e-cal-ops.c:193
 #: ../src/calendar/gui/e-cal-ops.c:1374
 msgid "Creating a task"
 msgstr ""
 
-#: ../src/calendar/gui/e-cal-model.c:1890
+#: ../src/calendar/gui/e-cal-model.c:1892
 msgid "Recurring"
 msgstr ""
 
-#: ../src/calendar/gui/e-cal-model.c:1892
+#: ../src/calendar/gui/e-cal-model.c:1894
 msgid "Assigned"
 msgstr ""
 
-#: ../src/calendar/gui/e-cal-model.c:1894
+#: ../src/calendar/gui/e-cal-model.c:1896
 #: ../src/calendar/gui/e-cal-model-tasks.c:1136
 #: ../src/calendar/gui/e-meeting-list-view.c:207
 #: ../src/calendar/gui/e-meeting-store.c:174
@@ -6212,30 +6261,30 @@ msgstr ""
 msgid "Yes"
 msgstr "Иә"
 
-#: ../src/calendar/gui/e-cal-model.c:1894
+#: ../src/calendar/gui/e-cal-model.c:1896
 #: ../src/calendar/gui/e-cal-model-tasks.c:1136
 #: ../src/calendar/gui/e-meeting-list-view.c:208
 #: ../src/calendar/gui/e-meeting-store.c:186
 msgid "No"
 msgstr "Жоқ"
 
-#: ../src/calendar/gui/e-cal-model.c:3818
+#: ../src/calendar/gui/e-cal-model.c:3820
 #: ../src/calendar/gui/e-meeting-list-view.c:219
 #: ../src/calendar/gui/e-meeting-store.c:194
 #: ../src/calendar/gui/e-meeting-store.c:217
-#: ../src/modules/itip-formatter/itip-view.c:6010
+#: ../src/modules/itip-formatter/itip-view.c:6070
 msgid "Accepted"
 msgstr "Қабылданған"
 
-#: ../src/calendar/gui/e-cal-model.c:3819
+#: ../src/calendar/gui/e-cal-model.c:3821
 #: ../src/calendar/gui/e-meeting-list-view.c:220
 #: ../src/calendar/gui/e-meeting-store.c:196
 #: ../src/calendar/gui/e-meeting-store.c:219
-#: ../src/modules/itip-formatter/itip-view.c:6016
+#: ../src/modules/itip-formatter/itip-view.c:6076
 msgid "Declined"
 msgstr ""
 
-#: ../src/calendar/gui/e-cal-model.c:3820
+#: ../src/calendar/gui/e-cal-model.c:3822
 #: ../src/calendar/gui/e-meeting-list-view.c:221
 #: ../src/calendar/gui/e-meeting-store.c:198
 #: ../src/calendar/gui/e-meeting-store.c:221
@@ -6243,21 +6292,21 @@ msgstr ""
 msgid "Tentative"
 msgstr ""
 
-#: ../src/calendar/gui/e-cal-model.c:3821
+#: ../src/calendar/gui/e-cal-model.c:3823
 #: ../src/calendar/gui/e-meeting-list-view.c:222
 #: ../src/calendar/gui/e-meeting-store.c:200
 #: ../src/calendar/gui/e-meeting-store.c:223
-#: ../src/modules/itip-formatter/itip-view.c:6019
+#: ../src/modules/itip-formatter/itip-view.c:6079
 msgid "Delegated"
 msgstr ""
 
-#: ../src/calendar/gui/e-cal-model.c:3822
+#: ../src/calendar/gui/e-cal-model.c:3824
 msgid "Needs action"
 msgstr ""
 
 #. To Translators: 'Status' here means the state of the attendees, the resulting string will be in a form:
 #. * Status: Accepted: X   Declined: Y   ...
-#: ../src/calendar/gui/e-cal-model.c:3877
+#: ../src/calendar/gui/e-cal-model.c:3879
 #: ../src/calendar/gui/e-meeting-list-view.c:687
 #: ../src/calendar/gui/e-meeting-time-sel.etspec.h:9
 #: ../src/calendar/gui/e-task-table.etspec.h:11
@@ -6303,15 +6352,15 @@ msgstr ""
 msgid "Modifying a task"
 msgstr ""
 
-#: ../src/calendar/gui/e-cal-ops.c:411
+#: ../src/calendar/gui/e-cal-ops.c:411 ../src/calendar/gui/e-to-do-pane.c:1752
 msgid "Removing an event"
 msgstr ""
 
-#: ../src/calendar/gui/e-cal-ops.c:415
+#: ../src/calendar/gui/e-cal-ops.c:415 ../src/calendar/gui/e-to-do-pane.c:1756
 msgid "Removing a memo"
 msgstr ""
 
-#: ../src/calendar/gui/e-cal-ops.c:419
+#: ../src/calendar/gui/e-cal-ops.c:419 ../src/calendar/gui/e-to-do-pane.c:1760
 msgid "Removing a task"
 msgstr ""
 
@@ -6409,37 +6458,37 @@ msgstr ""
 msgid "Expunging completed tasks"
 msgstr ""
 
-#: ../src/calendar/gui/e-cal-ops.c:2049
+#: ../src/calendar/gui/e-cal-ops.c:2050
 #, c-format
 msgid "Moving an event"
 msgid_plural "Moving %d events"
 msgstr[0] ""
 
-#: ../src/calendar/gui/e-cal-ops.c:2050
+#: ../src/calendar/gui/e-cal-ops.c:2051
 #, c-format
 msgid "Copying an event"
 msgid_plural "Copying %d events"
 msgstr[0] ""
 
-#: ../src/calendar/gui/e-cal-ops.c:2056
+#: ../src/calendar/gui/e-cal-ops.c:2057
 #, c-format
 msgid "Moving a memo"
 msgid_plural "Moving %d memos"
 msgstr[0] ""
 
-#: ../src/calendar/gui/e-cal-ops.c:2057
+#: ../src/calendar/gui/e-cal-ops.c:2058
 #, c-format
 msgid "Copying a memo"
 msgid_plural "Copying %d memos"
 msgstr[0] ""
 
-#: ../src/calendar/gui/e-cal-ops.c:2063
+#: ../src/calendar/gui/e-cal-ops.c:2064
 #, c-format
 msgid "Moving a task"
 msgid_plural "Moving %d tasks"
 msgstr[0] ""
 
-#: ../src/calendar/gui/e-cal-ops.c:2064
+#: ../src/calendar/gui/e-cal-ops.c:2065
 #, c-format
 msgid "Copying a task"
 msgid_plural "Copying %d tasks"
@@ -6490,12 +6539,13 @@ msgstr ""
 
 #: ../src/calendar/gui/e-comp-editor-event.c:442
 #: ../src/calendar/gui/e-comp-editor-event.c:458
-#: ../src/calendar/gui/e-comp-editor-page-attachments.c:199
-#: ../src/calendar/gui/e-comp-editor.c:338 ../src/mail/e-mail-display.c:2116
-#: ../src/mail/e-mail-reader-utils.c:646 ../src/mail/mail-send-recv.c:490
-#: ../src/mail/mail-send-recv.c:1288 ../src/plugins/face/face.c:174
-#: ../src/shell/e-shell.c:1073 ../src/shell/e-shell.c:1097
-#: ../src/smime/gui/certificate-manager.c:357
+#: ../src/calendar/gui/e-comp-editor-page-attachments.c:206
+#: ../src/calendar/gui/e-comp-editor.c:338
+#: ../src/em-format/e-mail-part-secure-button.c:93
+#: ../src/mail/e-mail-display.c:2116 ../src/mail/e-mail-reader-utils.c:806
+#: ../src/mail/mail-send-recv.c:490 ../src/mail/mail-send-recv.c:1288
+#: ../src/plugins/face/face.c:174 ../src/shell/e-shell.c:1073
+#: ../src/shell/e-shell.c:1097 ../src/smime/gui/certificate-manager.c:357
 msgid "Unknown error"
 msgstr "Белгісіз қате"
 
@@ -6668,59 +6718,59 @@ msgid "Attachment"
 msgid_plural "Attachments"
 msgstr[0] ""
 
-#: ../src/calendar/gui/e-comp-editor-page-attachments.c:194
-#: ../src/e-util/e-attachment.c:2419
+#: ../src/calendar/gui/e-comp-editor-page-attachments.c:201
+#: ../src/e-util/e-attachment.c:2442
 #, c-format
 msgid "Could not load “%s”"
 msgstr "\"%s\" жүктеу мүмкін емес:"
 
-#: ../src/calendar/gui/e-comp-editor-page-attachments.c:196
-#: ../src/e-util/e-attachment.c:2422
+#: ../src/calendar/gui/e-comp-editor-page-attachments.c:203
+#: ../src/e-util/e-attachment.c:2445
 #, c-format
 msgid "Could not load the attachment"
 msgstr ""
 
-#: ../src/calendar/gui/e-comp-editor-page-attachments.c:401
+#: ../src/calendar/gui/e-comp-editor-page-attachments.c:422
 msgid ""
 "Some attachments are still being downloaded. Please wait until the download "
 "is finished."
 msgstr ""
 
-#: ../src/calendar/gui/e-comp-editor-page-attachments.c:428
+#: ../src/calendar/gui/e-comp-editor-page-attachments.c:452
 #, c-format
 msgid "Attachment “%s” cannot be found, remove it from the list, please"
 msgstr ""
 
-#: ../src/calendar/gui/e-comp-editor-page-attachments.c:445
+#: ../src/calendar/gui/e-comp-editor-page-attachments.c:469
 #, c-format
 msgid "Attachment “%s” doesn’t have valid URI, remove it from the list, please"
 msgstr ""
 
-#: ../src/calendar/gui/e-comp-editor-page-attachments.c:606
+#: ../src/calendar/gui/e-comp-editor-page-attachments.c:647
 #: ../src/composer/e-composer-actions.c:320
 msgid "_Attachment..."
 msgstr ""
 
-#: ../src/calendar/gui/e-comp-editor-page-attachments.c:608
+#: ../src/calendar/gui/e-comp-editor-page-attachments.c:649
 #: ../src/composer/e-composer-actions.c:322
-#: ../src/e-util/e-attachment-view.c:343
+#: ../src/e-util/e-attachment-view.c:344
 msgid "Attach a file"
 msgstr "Файлды қосып жіберу"
 
-#: ../src/calendar/gui/e-comp-editor-page-attachments.c:615
+#: ../src/calendar/gui/e-comp-editor-page-attachments.c:656
 msgid "_Attachments"
 msgstr ""
 
-#: ../src/calendar/gui/e-comp-editor-page-attachments.c:617
+#: ../src/calendar/gui/e-comp-editor-page-attachments.c:658
 msgid "Show attachments"
 msgstr ""
 
-#: ../src/calendar/gui/e-comp-editor-page-attachments.c:770
+#: ../src/calendar/gui/e-comp-editor-page-attachments.c:811
 #: ../src/e-util/e-attachment-bar.c:766 ../src/e-util/e-attachment-paned.c:725
 msgid "Icon View"
 msgstr "Таңбашалар көрінісі"
 
-#: ../src/calendar/gui/e-comp-editor-page-attachments.c:772
+#: ../src/calendar/gui/e-comp-editor-page-attachments.c:813
 #: ../src/e-util/e-attachment-bar.c:768 ../src/e-util/e-attachment-paned.c:727
 msgid "List View"
 msgstr "Тізім көрінісі"
@@ -7426,16 +7476,16 @@ msgstr "салыным"
 msgid "Sending notifications to attendees..."
 msgstr ""
 
-#: ../src/calendar/gui/e-comp-editor.c:993
+#: ../src/calendar/gui/e-comp-editor.c:998
 msgid "Saving changes..."
 msgstr ""
 
-#: ../src/calendar/gui/e-comp-editor.c:1249
+#: ../src/calendar/gui/e-comp-editor.c:1258
 msgid "No Summary"
 msgstr ""
 
 #. == Button box ==
-#: ../src/calendar/gui/e-comp-editor.c:1976
+#: ../src/calendar/gui/e-comp-editor.c:1985
 #: ../src/composer/e-composer-actions.c:327
 #: ../src/e-util/e-html-editor-dialog.c:194
 #: ../src/e-util/e-mail-signature-editor.c:309
@@ -7452,19 +7502,19 @@ msgstr ""
 msgid "_Close"
 msgstr "_Жабу"
 
-#: ../src/calendar/gui/e-comp-editor.c:1978
+#: ../src/calendar/gui/e-comp-editor.c:1987
 msgid "Close the current window"
 msgstr "Ағымдағы терезені жабу"
 
 #. copy menu item
-#: ../src/calendar/gui/e-comp-editor.c:1983 ../src/e-util/e-focus-tracker.c:773
+#: ../src/calendar/gui/e-comp-editor.c:1992 ../src/e-util/e-focus-tracker.c:773
 #: ../src/e-util/e-html-editor-actions.c:878 ../src/e-util/e-text.c:2110
 #: ../src/e-util/e-web-view.c:407 ../src/mail/e-mail-browser.c:134
 #: ../src/mail/mail.error.xml.h:146 ../src/shell/e-shell-window-actions.c:808
 msgid "_Copy"
 msgstr "_Көшіріп алу"
 
-#: ../src/calendar/gui/e-comp-editor.c:1985 ../src/e-util/e-focus-tracker.c:173
+#: ../src/calendar/gui/e-comp-editor.c:1994 ../src/e-util/e-focus-tracker.c:173
 #: ../src/e-util/e-focus-tracker.c:229 ../src/e-util/e-focus-tracker.c:282
 #: ../src/e-util/e-focus-tracker.c:774 ../src/e-util/e-web-view.c:409
 #: ../src/e-util/e-web-view.c:1942 ../src/mail/e-mail-browser.c:136
@@ -7473,122 +7523,124 @@ msgid "Copy the selection"
 msgstr "Ерекшелеуді көшіріп алу"
 
 #. cut menu item
-#: ../src/calendar/gui/e-comp-editor.c:1990 ../src/e-util/e-focus-tracker.c:768
+#: ../src/calendar/gui/e-comp-editor.c:1999 ../src/e-util/e-focus-tracker.c:768
 #: ../src/e-util/e-html-editor-actions.c:885 ../src/e-util/e-text.c:2096
 #: ../src/mail/e-mail-browser.c:141 ../src/shell/e-shell-window-actions.c:815
 msgid "Cu_t"
 msgstr "Қ_иып алу"
 
-#: ../src/calendar/gui/e-comp-editor.c:1992 ../src/e-util/e-focus-tracker.c:166
+#: ../src/calendar/gui/e-comp-editor.c:2001 ../src/e-util/e-focus-tracker.c:166
 #: ../src/e-util/e-focus-tracker.c:222 ../src/e-util/e-focus-tracker.c:276
 #: ../src/e-util/e-focus-tracker.c:769 ../src/e-util/e-web-view.c:1951
 #: ../src/mail/e-mail-browser.c:143 ../src/shell/e-shell-window-actions.c:817
 msgid "Cut the selection"
 msgstr "Ерекшелеуді қиып алу"
 
-#: ../src/calendar/gui/e-comp-editor.c:1999 ../src/e-util/e-focus-tracker.c:187
+#: ../src/calendar/gui/e-comp-editor.c:2008 ../src/e-util/e-focus-tracker.c:187
 #: ../src/e-util/e-focus-tracker.c:243 ../src/e-util/e-focus-tracker.c:784
 #: ../src/shell/e-shell-window-actions.c:824
 msgid "Delete the selection"
 msgstr "Таңдалғанды өшіру"
 
-#: ../src/calendar/gui/e-comp-editor.c:2006
+#: ../src/calendar/gui/e-comp-editor.c:2015
 msgid "View help"
 msgstr "Көмекті қарау"
 
 #. paste menu item
-#: ../src/calendar/gui/e-comp-editor.c:2011 ../src/e-util/e-focus-tracker.c:778
+#: ../src/calendar/gui/e-comp-editor.c:2020 ../src/e-util/e-focus-tracker.c:778
 #: ../src/e-util/e-html-editor-actions.c:892 ../src/e-util/e-text.c:2122
 #: ../src/mail/e-mail-browser.c:148 ../src/shell/e-shell-window-actions.c:843
 msgid "_Paste"
 msgstr "Кірі_стіру"
 
-#: ../src/calendar/gui/e-comp-editor.c:2013 ../src/e-util/e-focus-tracker.c:180
+#: ../src/calendar/gui/e-comp-editor.c:2022 ../src/e-util/e-focus-tracker.c:180
 #: ../src/e-util/e-focus-tracker.c:236 ../src/e-util/e-focus-tracker.c:288
 #: ../src/e-util/e-focus-tracker.c:779 ../src/e-util/e-web-view.c:1960
 #: ../src/mail/e-mail-browser.c:150 ../src/shell/e-shell-window-actions.c:845
 msgid "Paste the clipboard"
 msgstr "Алмасу буферінен кірістіру"
 
-#: ../src/calendar/gui/e-comp-editor.c:2018
-#: ../src/composer/e-composer-actions.c:381 ../src/mail/e-mail-reader.c:2323
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1229
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1243
+#: ../src/calendar/gui/e-comp-editor.c:2027
+#: ../src/composer/e-composer-actions.c:381 ../src/mail/e-mail-reader.c:2317
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1232
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1246
 msgid "_Print..."
 msgstr "Бас_паға шығару..."
 
-#: ../src/calendar/gui/e-comp-editor.c:2025 ../src/mail/e-mail-reader.c:2330
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1236
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1693
+#: ../src/calendar/gui/e-comp-editor.c:2034 ../src/mail/e-mail-reader.c:2324
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1239
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1744
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:813
 #: ../src/modules/calendar/e-task-shell-view-actions.c:1014
 msgid "Pre_view..."
 msgstr "А_лдын-ала қарау..."
 
-#: ../src/calendar/gui/e-comp-editor.c:2032 ../src/e-util/e-focus-tracker.c:788
+#: ../src/calendar/gui/e-comp-editor.c:2041 ../src/e-util/e-focus-tracker.c:788
 #: ../src/e-util/e-html-editor-actions.c:906 ../src/e-util/e-web-view.c:417
 #: ../src/mail/e-mail-browser.c:155 ../src/shell/e-shell-window-actions.c:920
 msgid "Select _All"
 msgstr "Барлығын _таңдау"
 
-#: ../src/calendar/gui/e-comp-editor.c:2034 ../src/e-util/e-focus-tracker.c:194
+#: ../src/calendar/gui/e-comp-editor.c:2043 ../src/e-util/e-focus-tracker.c:194
 #: ../src/e-util/e-focus-tracker.c:250 ../src/e-util/e-focus-tracker.c:789
 #: ../src/mail/e-mail-browser.c:157 ../src/shell/e-shell-window-actions.c:922
 msgid "Select all text"
 msgstr "Барлық мәтінді таңдау"
 
-#: ../src/calendar/gui/e-comp-editor.c:2055
+#: ../src/calendar/gui/e-comp-editor.c:2064
 msgid "_Classification"
 msgstr ""
 
-#: ../src/calendar/gui/e-comp-editor.c:2069
+#: ../src/calendar/gui/e-comp-editor.c:2078
 #: ../src/e-util/e-html-editor-actions.c:929
 #: ../src/e-util/e-mail-signature-editor.c:323 ../src/mail/e-mail-browser.c:164
 #: ../src/mail/e-mail-notes.c:945 ../src/shell/e-shell-window-actions.c:957
 msgid "_File"
 msgstr "_Файл"
 
-#: ../src/calendar/gui/e-comp-editor.c:2083
+#: ../src/calendar/gui/e-comp-editor.c:2092
 #: ../src/e-util/e-html-editor-actions.c:950
 msgid "_Insert"
 msgstr "_Кірістіру"
 
-#: ../src/calendar/gui/e-comp-editor.c:2090
+#: ../src/calendar/gui/e-comp-editor.c:2099
 #: ../src/composer/e-composer-actions.c:371
 msgid "_Options"
 msgstr "_Опциялар"
 
-#: ../src/calendar/gui/e-comp-editor.c:2097
+#: ../src/calendar/gui/e-comp-editor.c:2106
 #: ../src/e-util/e-html-editor-actions.c:971 ../src/mail/e-mail-browser.c:178
 #: ../src/shell/e-shell-window-actions.c:1000
 #: ../src/smime/gui/certificate-manager.c:1662 ../src/smime/gui/smime-ui.ui.h:3
 msgid "_View"
 msgstr "Тү_рі"
 
-#: ../src/calendar/gui/e-comp-editor.c:2109
+#: ../src/calendar/gui/e-comp-editor.c:2118
 msgid "Save current changes"
 msgstr "Ағымдағы өзгерістерді сақтау"
 
-#: ../src/calendar/gui/e-comp-editor.c:2114
+#: ../src/calendar/gui/e-comp-editor.c:2123
 #: ../src/e-util/e-mail-signature-editor.c:318 ../src/mail/e-mail-notes.c:940
 msgid "Save and Close"
 msgstr "Сақтау және жабу"
 
-#: ../src/calendar/gui/e-comp-editor.c:2116
+#: ../src/calendar/gui/e-comp-editor.c:2125
 msgid "Save current changes and close editor"
 msgstr ""
 
 #. String to use in 12-hour time format for times in the morning.
-#: ../src/calendar/gui/e-day-view.c:2130 ../src/calendar/gui/e-week-view.c:1726
-#: ../src/calendar/gui/print.c:1070 ../src/calendar/gui/print.c:1089
-#: ../src/calendar/gui/print.c:2626 ../src/calendar/gui/print.c:2646
+#: ../src/calendar/gui/e-day-view.c:2130 ../src/calendar/gui/e-to-do-pane.c:239
+#: ../src/calendar/gui/e-week-view.c:1726 ../src/calendar/gui/print.c:1070
+#: ../src/calendar/gui/print.c:1089 ../src/calendar/gui/print.c:2626
+#: ../src/calendar/gui/print.c:2646
 msgid "am"
 msgstr ""
 
 #. String to use in 12-hour time format for times in the afternoon.
-#: ../src/calendar/gui/e-day-view.c:2133 ../src/calendar/gui/e-week-view.c:1729
-#: ../src/calendar/gui/print.c:1075 ../src/calendar/gui/print.c:1091
-#: ../src/calendar/gui/print.c:2631 ../src/calendar/gui/print.c:2648
+#: ../src/calendar/gui/e-day-view.c:2133 ../src/calendar/gui/e-to-do-pane.c:243
+#: ../src/calendar/gui/e-week-view.c:1729 ../src/calendar/gui/print.c:1075
+#: ../src/calendar/gui/print.c:1091 ../src/calendar/gui/print.c:2631
+#: ../src/calendar/gui/print.c:2648
 msgid "pm"
 msgstr ""
 
@@ -7823,14 +7875,14 @@ msgstr ""
 msgid "_End time:"
 msgstr ""
 
-#: ../src/calendar/gui/e-meeting-time-sel.c:2721
+#: ../src/calendar/gui/e-meeting-time-sel.c:2727
 #, c-format
 msgid ""
 "Summary: %s\n"
 "Location: %s"
 msgstr ""
 
-#: ../src/calendar/gui/e-meeting-time-sel.c:2723
+#: ../src/calendar/gui/e-meeting-time-sel.c:2729
 #: ../src/calendar/gui/print.c:3520
 #, c-format
 msgid "Summary: %s"
@@ -7971,6 +8023,71 @@ msgstr "Приоритеті"
 
 #: ../src/calendar/gui/e-timezone-entry.c:333
 msgid "Select Timezone"
+msgstr ""
+
+#. Translators: It will display "Due: DueDateAndTime"
+#: ../src/calendar/gui/e-to-do-pane.c:365
+#, c-format
+msgid "Due: %s"
+msgstr ""
+
+#. Translators: It will display "Completed: DateAndTimeWhenCompleted"
+#: ../src/calendar/gui/e-to-do-pane.c:377
+#, c-format
+msgid "Completed: %s"
+msgstr "Аяқталған: %s"
+
+#. strftime format of a weekday and a date.
+#: ../src/calendar/gui/e-to-do-pane.c:1328 ../src/e-util/e-cell-date-edit.c:328
+#: ../src/e-util/e-datetime-format.c:206
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1842
+#: ../src/modules/itip-formatter/itip-view.c:253
+msgid "Today"
+msgstr "Бүгін"
+
+#. strftime format of a weekday and a date.
+#: ../src/calendar/gui/e-to-do-pane.c:1330
+#: ../src/e-util/e-datetime-format.c:217
+#: ../src/modules/itip-formatter/itip-view.c:281
+msgid "Tomorrow"
+msgstr "Ертең"
+
+#: ../src/calendar/gui/e-to-do-pane.c:1832
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1449
+msgid "New _Appointment..."
+msgstr ""
+
+#: ../src/calendar/gui/e-to-do-pane.c:1840
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1435
+msgid "New _Meeting..."
+msgstr ""
+
+#: ../src/calendar/gui/e-to-do-pane.c:1848
+msgid "New _Task..."
+msgstr "Жаңа _тапсырма…"
+
+#: ../src/calendar/gui/e-to-do-pane.c:1856
+msgid "_New Assigned Task..."
+msgstr ""
+
+#: ../src/calendar/gui/e-to-do-pane.c:1869
+msgid "_Open..."
+msgstr "_Ашу..."
+
+#: ../src/calendar/gui/e-to-do-pane.c:1883
+msgid "_Delete This Instance..."
+msgstr ""
+
+#: ../src/calendar/gui/e-to-do-pane.c:1891
+msgid "D_elete All Instances..."
+msgstr ""
+
+#: ../src/calendar/gui/e-to-do-pane.c:1899
+msgid "_Delete..."
+msgstr "Ө_шіру..."
+
+#: ../src/calendar/gui/e-to-do-pane.c:2189
+msgid "To Do"
 msgstr ""
 
 #. strftime format %d = day of month, %B = full
@@ -10343,7 +10460,7 @@ msgstr ""
 msgid "Si_gnature:"
 msgstr ""
 
-#: ../src/composer/e-composer-name-header.c:231
+#: ../src/composer/e-composer-name-header.c:237
 msgid "Click here for the address book"
 msgstr ""
 
@@ -10351,24 +10468,24 @@ msgstr ""
 msgid "Click here to select folders to post to"
 msgstr ""
 
-#: ../src/composer/e-msg-composer.c:859
+#: ../src/composer/e-msg-composer.c:849
 #, c-format
 msgid ""
 "Cannot sign outgoing message: No signing certificate set for this account"
 msgstr ""
 
-#: ../src/composer/e-msg-composer.c:868
+#: ../src/composer/e-msg-composer.c:858
 #, c-format
 msgid ""
 "Cannot encrypt outgoing message: No encryption certificate set for this "
 "account"
 msgstr ""
 
-#: ../src/composer/e-msg-composer.c:1606 ../src/composer/e-msg-composer.c:2412
+#: ../src/composer/e-msg-composer.c:1611 ../src/composer/e-msg-composer.c:2235
 msgid "Compose Message"
 msgstr "Хатты жазу"
 
-#: ../src/composer/e-msg-composer.c:4767
+#: ../src/composer/e-msg-composer.c:4576
 msgid "The composer contains a non-text message body, which cannot be edited."
 msgstr ""
 
@@ -10608,11 +10725,11 @@ msgstr ""
 msgid "Display as attachment"
 msgstr ""
 
-#: ../src/em-format/e-mail-formatter-audio.c:150
+#: ../src/em-format/e-mail-formatter-audio.c:151
 msgid "Audio Player"
 msgstr "Аудио плеері"
 
-#: ../src/em-format/e-mail-formatter-audio.c:151
+#: ../src/em-format/e-mail-formatter-audio.c:152
 msgid "Play the attachment in embedded audio player"
 msgstr ""
 
@@ -10677,7 +10794,7 @@ msgstr "Тақырыбы"
 #. pseudo-header
 #: ../src/em-format/e-mail-formatter-quote-headers.c:197
 #: ../src/em-format/e-mail-formatter-utils.c:341
-#: ../src/modules/mail/em-mailer-prefs.c:1488
+#: ../src/modules/mail/em-mailer-prefs.c:1494
 msgid "Mailer"
 msgstr ""
 
@@ -10712,51 +10829,55 @@ msgstr "Ашық мәтін"
 msgid "Format part as plain text"
 msgstr ""
 
-#: ../src/em-format/e-mail-formatter-secure-button.c:44
+#: ../src/em-format/e-mail-formatter-secure-button.c:45
 msgid "Unsigned"
 msgstr ""
 
-#: ../src/em-format/e-mail-formatter-secure-button.c:44
+#: ../src/em-format/e-mail-formatter-secure-button.c:47
 msgid ""
 "This message is not signed. There is no guarantee that this message is "
 "authentic."
 msgstr ""
 
-#: ../src/em-format/e-mail-formatter-secure-button.c:45
+#: ../src/em-format/e-mail-formatter-secure-button.c:49
 msgid "Valid signature"
 msgstr ""
 
-#: ../src/em-format/e-mail-formatter-secure-button.c:45
+#: ../src/em-format/e-mail-formatter-secure-button.c:50
+msgid "Valid signature, but sender address and signer address do not match"
+msgstr ""
+
+#: ../src/em-format/e-mail-formatter-secure-button.c:51
 msgid ""
 "This message is signed and is valid meaning that it is very likely that this "
 "message is authentic."
 msgstr ""
 
-#: ../src/em-format/e-mail-formatter-secure-button.c:46
+#: ../src/em-format/e-mail-formatter-secure-button.c:53
 msgid "Invalid signature"
 msgstr ""
 
-#: ../src/em-format/e-mail-formatter-secure-button.c:46
+#: ../src/em-format/e-mail-formatter-secure-button.c:55
 msgid ""
 "The signature of this message cannot be verified, it may have been altered "
 "in transit."
 msgstr ""
 
-#: ../src/em-format/e-mail-formatter-secure-button.c:47
+#: ../src/em-format/e-mail-formatter-secure-button.c:57
 msgid "Valid signature, but cannot verify sender"
 msgstr ""
 
-#: ../src/em-format/e-mail-formatter-secure-button.c:47
+#: ../src/em-format/e-mail-formatter-secure-button.c:59
 msgid ""
 "This message is signed with a valid signature, but the sender of the message "
 "cannot be verified."
 msgstr ""
 
-#: ../src/em-format/e-mail-formatter-secure-button.c:48
+#: ../src/em-format/e-mail-formatter-secure-button.c:61
 msgid "This message is signed, but the public key is not in your keyring"
 msgstr ""
 
-#: ../src/em-format/e-mail-formatter-secure-button.c:48
+#: ../src/em-format/e-mail-formatter-secure-button.c:63
 msgid ""
 "This message was digitally signed, but the corresponding public key is not "
 "present in your keyring. If you want to be able to verify the authenticity "
@@ -10765,42 +10886,42 @@ msgid ""
 "that this message truly came from that person and that it arrived unaltered."
 msgstr ""
 
-#: ../src/em-format/e-mail-formatter-secure-button.c:57
+#: ../src/em-format/e-mail-formatter-secure-button.c:72
 msgid "Unencrypted"
 msgstr ""
 
-#: ../src/em-format/e-mail-formatter-secure-button.c:57
+#: ../src/em-format/e-mail-formatter-secure-button.c:72
 msgid ""
 "This message is not encrypted. Its content may be viewed in transit across "
 "the Internet."
 msgstr ""
 
-#: ../src/em-format/e-mail-formatter-secure-button.c:58
+#: ../src/em-format/e-mail-formatter-secure-button.c:73
 msgid "Encrypted, weak"
 msgstr ""
 
-#: ../src/em-format/e-mail-formatter-secure-button.c:58
+#: ../src/em-format/e-mail-formatter-secure-button.c:73
 msgid ""
 "This message is encrypted, but with a weak encryption algorithm. It would be "
 "difficult, but not impossible for an outsider to view the content of this "
 "message in a practical amount of time."
 msgstr ""
 
-#: ../src/em-format/e-mail-formatter-secure-button.c:59
+#: ../src/em-format/e-mail-formatter-secure-button.c:74
 msgid "Encrypted"
 msgstr "Шифрленген"
 
-#: ../src/em-format/e-mail-formatter-secure-button.c:59
+#: ../src/em-format/e-mail-formatter-secure-button.c:74
 msgid ""
 "This message is encrypted.  It would be difficult for an outsider to view "
 "the content of this message."
 msgstr ""
 
-#: ../src/em-format/e-mail-formatter-secure-button.c:60
+#: ../src/em-format/e-mail-formatter-secure-button.c:75
 msgid "Encrypted, strong"
 msgstr ""
 
-#: ../src/em-format/e-mail-formatter-secure-button.c:60
+#: ../src/em-format/e-mail-formatter-secure-button.c:75
 msgid ""
 "This message is encrypted, with a strong encryption algorithm. It would be "
 "very difficult for an outsider to view the content of this message in a "
@@ -10947,16 +11068,27 @@ msgstr ""
 msgid "Face"
 msgstr ""
 
-#: ../src/em-format/e-mail-part-secure-button.c:116
+#: ../src/em-format/e-mail-part-secure-button.c:92
+#, c-format
+#| msgid "Imported Certificate"
+msgid "Failed to import certificate: %s"
+msgstr ""
+
+#: ../src/em-format/e-mail-part-secure-button.c:185
 #: ../src/shell/shell.error.xml.h:28 ../src/smime/gui/smime-ui.ui.h:16
 msgid "_View Certificate"
 msgstr ""
 
-#: ../src/em-format/e-mail-part-secure-button.c:131
+#: ../src/em-format/e-mail-part-secure-button.c:198
+#| msgid "Imported Certificate"
+msgid "_Import Certificate"
+msgstr ""
+
+#: ../src/em-format/e-mail-part-secure-button.c:207
 msgid "This certificate is not viewable"
 msgstr ""
 
-#: ../src/em-format/e-mail-part-utils.c:551
+#: ../src/em-format/e-mail-part-utils.c:556
 #, c-format
 msgid "%s attachment"
 msgstr ""
@@ -11014,7 +11146,7 @@ msgid "%s (%d%% complete)"
 msgstr ""
 
 #: ../src/e-util/e-activity-proxy.c:350
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1870
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1851
 msgid "Cancel"
 msgstr "Бас тарту"
 
@@ -11035,44 +11167,44 @@ msgstr ""
 msgid "Attached message"
 msgstr ""
 
-#: ../src/e-util/e-attachment.c:2040 ../src/e-util/e-attachment.c:3093
+#: ../src/e-util/e-attachment.c:2063 ../src/e-util/e-attachment.c:3116
 msgid "Operation was cancelled"
 msgstr "Әрекеттен бас тартылды"
 
 #. Translators: Default attachment filename.
-#: ../src/e-util/e-attachment.c:2224 ../src/e-util/e-attachment.c:2940
-#: ../src/e-util/e-attachment.c:3383 ../src/e-util/e-attachment-store.c:886
+#: ../src/e-util/e-attachment.c:2247 ../src/e-util/e-attachment.c:2963
+#: ../src/e-util/e-attachment.c:3406 ../src/e-util/e-attachment-store.c:886
 msgid "attachment.dat"
 msgstr ""
 
-#: ../src/e-util/e-attachment.c:2302 ../src/e-util/e-attachment.c:3443
+#: ../src/e-util/e-attachment.c:2325 ../src/e-util/e-attachment.c:3466
 msgid "A load operation is already in progress"
 msgstr ""
 
-#: ../src/e-util/e-attachment.c:2310 ../src/e-util/e-attachment.c:3451
+#: ../src/e-util/e-attachment.c:2333 ../src/e-util/e-attachment.c:3474
 msgid "A save operation is already in progress"
 msgstr ""
 
-#: ../src/e-util/e-attachment.c:2707
+#: ../src/e-util/e-attachment.c:2730
 #, c-format
 msgid "Could not open “%s”"
 msgstr "\"%s\" ашу мүмкін емес:"
 
-#: ../src/e-util/e-attachment.c:2710
+#: ../src/e-util/e-attachment.c:2733
 #, c-format
 msgid "Could not open the attachment"
 msgstr ""
 
-#: ../src/e-util/e-attachment.c:3460
+#: ../src/e-util/e-attachment.c:3483
 msgid "Attachment contents not loaded"
 msgstr ""
 
-#: ../src/e-util/e-attachment.c:3551
+#: ../src/e-util/e-attachment.c:3574
 #, c-format
 msgid "Could not save “%s”"
 msgstr "\"%s\" сақтау мүмкін емес:"
 
-#: ../src/e-util/e-attachment.c:3554
+#: ../src/e-util/e-attachment.c:3577
 #, c-format
 msgid "Could not save the attachment"
 msgstr ""
@@ -11158,45 +11290,45 @@ msgstr ""
 msgid "Save extracted files and the original _archive"
 msgstr ""
 
-#: ../src/e-util/e-attachment-view.c:308
+#: ../src/e-util/e-attachment-view.c:309
 msgid "Open With Other Application..."
 msgstr "Басқа қолданбамен ашу..."
 
-#: ../src/e-util/e-attachment-view.c:315
+#: ../src/e-util/e-attachment-view.c:316
 msgid "S_ave All"
 msgstr "Барлығын с_ақтау"
 
-#: ../src/e-util/e-attachment-view.c:322
+#: ../src/e-util/e-attachment-view.c:323
 msgid "Sa_ve As"
 msgstr "Қалайша сақ_тау"
 
-#: ../src/e-util/e-attachment-view.c:331
+#: ../src/e-util/e-attachment-view.c:332
 #: ../src/plugins/save-calendar/save-calendar.c:351
 #: ../src/plugins/save-calendar/save-calendar.c:382
 #: ../src/plugins/save-calendar/save-calendar.c:413
 msgid "Save _As"
 msgstr "Қала_йша сақтау"
 
-#: ../src/e-util/e-attachment-view.c:341
+#: ../src/e-util/e-attachment-view.c:342
 msgid "A_dd Attachment..."
 msgstr ""
 
-#: ../src/e-util/e-attachment-view.c:348
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1095
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1276
+#: ../src/e-util/e-attachment-view.c:349
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1098
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1316
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:605
 #: ../src/modules/calendar/e-task-shell-view-actions.c:731
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1664
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1735
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1645
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1716
 msgid "_Properties"
 msgstr "Қас_иеттері"
 
-#: ../src/e-util/e-attachment-view.c:658
+#: ../src/e-util/e-attachment-view.c:778
 #, c-format
 msgid "Open With “%s”"
 msgstr "\"%s\" көмегімен ашу"
 
-#: ../src/e-util/e-attachment-view.c:661
+#: ../src/e-util/e-attachment-view.c:781
 #, c-format
 msgid "Open this attachment in %s"
 msgstr ""
@@ -11284,25 +11416,25 @@ msgstr ""
 msgid "Copy memo list contents locally for offline operation"
 msgstr ""
 
-#: ../src/e-util/e-categories-editor.c:224
+#: ../src/e-util/e-categories-editor.c:246
 msgid "Currently _used categories:"
 msgstr ""
 
-#: ../src/e-util/e-categories-editor.c:235
+#: ../src/e-util/e-categories-editor.c:257
 msgid "_Available Categories:"
 msgstr ""
 
-#: ../src/e-util/e-categories-editor.c:275
+#: ../src/e-util/e-categories-editor.c:297
 msgctxt "category"
 msgid "_New"
 msgstr "_Жаңа"
 
-#: ../src/e-util/e-categories-editor.c:279
+#: ../src/e-util/e-categories-editor.c:301
 msgctxt "category"
 msgid "_Edit"
 msgstr "Тү_зету"
 
-#: ../src/e-util/e-categories-editor.c:283
+#: ../src/e-util/e-categories-editor.c:305
 msgctxt "category"
 msgid "_Delete"
 msgstr "Ө_шіру"
@@ -11316,27 +11448,27 @@ msgstr "Таңбаша"
 msgid "Create category “%s”"
 msgstr ""
 
-#: ../src/e-util/e-category-editor.c:135
+#: ../src/e-util/e-category-editor.c:138
 msgid "Category Icon"
 msgstr ""
 
-#: ../src/e-util/e-category-editor.c:139
+#: ../src/e-util/e-category-editor.c:142
 msgid "_No Image"
 msgstr ""
 
-#: ../src/e-util/e-category-editor.c:172
+#: ../src/e-util/e-category-editor.c:175
 msgid "Category _Name"
 msgstr ""
 
-#: ../src/e-util/e-category-editor.c:184
+#: ../src/e-util/e-category-editor.c:188
 msgid "Category _Icon"
 msgstr ""
 
-#: ../src/e-util/e-category-editor.c:210
+#: ../src/e-util/e-category-editor.c:214
 msgid "Category Properties"
 msgstr ""
 
-#: ../src/e-util/e-category-editor.c:271
+#: ../src/e-util/e-category-editor.c:275
 #, c-format
 msgid ""
 "There is already a category “%s” in the configuration. Please use another "
@@ -11355,13 +11487,6 @@ msgstr "?"
 #: ../src/e-util/e-cell-date-edit.c:320
 msgid "Now"
 msgstr "Қазір"
-
-#. strftime format of a weekday and a date.
-#: ../src/e-util/e-cell-date-edit.c:328 ../src/e-util/e-datetime-format.c:206
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1791
-#: ../src/modules/itip-formatter/itip-view.c:253
-msgid "Today"
-msgstr "Бүгін"
 
 #. Translators: "None" as a label of a button to unset date in a
 #. * date table cell.
@@ -11645,7 +11770,7 @@ msgstr "ақ"
 #: ../src/e-util/e-color-combo.c:642 ../src/mail/e-mail-account-tree-view.c:135
 #: ../src/mail/e-mail-config-security-page.c:406
 #: ../src/mail/e-mail-config-security-page.c:570
-#: ../src/mail/e-mail-reader.c:4049 ../src/mail/mail-config.ui.h:75
+#: ../src/mail/e-mail-reader.c:4043 ../src/mail/mail-config.ui.h:75
 msgid "Default"
 msgstr "Стандартты"
 
@@ -11686,24 +11811,18 @@ msgstr "_Жоқ"
 
 #. Translators: "None" for date field of a date edit, shown when
 #. * there is no date set.
-#: ../src/e-util/e-dateedit.c:1839 ../src/e-util/e-dateedit.c:2087
+#: ../src/e-util/e-dateedit.c:1846 ../src/e-util/e-dateedit.c:2094
 msgctxt "date"
 msgid "None"
 msgstr "Ешнәрсе"
 
-#: ../src/e-util/e-dateedit.c:1979
+#: ../src/e-util/e-dateedit.c:1986
 msgid "Invalid Date Value"
 msgstr ""
 
-#: ../src/e-util/e-dateedit.c:2024
+#: ../src/e-util/e-dateedit.c:2031
 msgid "Invalid Time Value"
 msgstr ""
-
-#. strftime format of a weekday and a date.
-#: ../src/e-util/e-datetime-format.c:217
-#: ../src/modules/itip-formatter/itip-view.c:281
-msgid "Tomorrow"
-msgstr "Ертең"
 
 #: ../src/e-util/e-datetime-format.c:219
 msgid "Yesterday"
@@ -12597,19 +12716,19 @@ msgstr ""
 msgid "_Table"
 msgstr "Кес_те"
 
-#: ../src/e-util/e-html-editor.c:689
+#: ../src/e-util/e-html-editor.c:695
 msgid "Paragraph Style"
 msgstr "Абзац стилі"
 
-#: ../src/e-util/e-html-editor.c:703
+#: ../src/e-util/e-html-editor.c:709
 msgid "Editing Mode"
 msgstr ""
 
-#: ../src/e-util/e-html-editor.c:715
+#: ../src/e-util/e-html-editor.c:721
 msgid "Font Color"
 msgstr "Қаріп түсі"
 
-#: ../src/e-util/e-html-editor.c:725
+#: ../src/e-util/e-html-editor.c:731
 msgid "Font Size"
 msgstr "Қаріп өлшемі"
 
@@ -13173,15 +13292,15 @@ msgstr "Жабу"
 msgid "_Save and Close"
 msgstr ""
 
-#: ../src/e-util/e-mail-signature-editor.c:559
+#: ../src/e-util/e-mail-signature-editor.c:558
 msgid "Edit Signature"
 msgstr ""
 
-#: ../src/e-util/e-mail-signature-editor.c:592
+#: ../src/e-util/e-mail-signature-editor.c:591
 msgid "_Signature Name:"
 msgstr ""
 
-#: ../src/e-util/e-mail-signature-editor.c:628
+#: ../src/e-util/e-mail-signature-editor.c:627
 msgid "Unnamed"
 msgstr "Атаусыз"
 
@@ -13273,8 +13392,8 @@ msgstr "І_здеу:"
 
 #: ../src/e-util/e-name-selector-dialog.c:363
 #: ../src/e-util/e-name-selector-dialog.c:1330
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1181
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1624
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1184
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1675
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:758
 #: ../src/modules/calendar/e-task-shell-view-actions.c:931
 msgid "Any Category"
@@ -13298,25 +13417,25 @@ msgid "Select Contacts from Address Book"
 msgstr ""
 
 #. To Translators: This would be similiar to "Expand MyList Inline" where MyList is a Contact List
-#: ../src/e-util/e-name-selector-entry.c:3207
+#: ../src/e-util/e-name-selector-entry.c:3222
 #, c-format
 msgid "E_xpand %s Inline"
 msgstr ""
 
 #. Copy Contact Item
-#: ../src/e-util/e-name-selector-entry.c:3223
+#: ../src/e-util/e-name-selector-entry.c:3238
 #, c-format
 msgid "Cop_y %s"
 msgstr ""
 
 #. Cut Contact Item
-#: ../src/e-util/e-name-selector-entry.c:3234
+#: ../src/e-util/e-name-selector-entry.c:3249
 #, c-format
 msgid "C_ut %s"
 msgstr ""
 
 #. Edit Contact item
-#: ../src/e-util/e-name-selector-entry.c:3252
+#: ../src/e-util/e-name-selector-entry.c:3267
 #, c-format
 msgid "_Edit %s"
 msgstr "%s тү_зету"
@@ -14199,20 +14318,20 @@ msgstr ""
 msgid "Click to open %s"
 msgstr ""
 
-#: ../src/e-util/e-web-view.c:3875
+#: ../src/e-util/e-web-view.c:3871
 msgid "Copying image to clipboard"
 msgstr ""
 
-#: ../src/e-util/e-web-view.c:4063
+#: ../src/e-util/e-web-view.c:4059
 msgid "Save Image"
 msgstr "Суретті сақтау"
 
-#: ../src/e-util/e-web-view.c:4104
+#: ../src/e-util/e-web-view.c:4100
 #, c-format
 msgid "Saving image to “%s”"
 msgstr ""
 
-#: ../src/e-util/e-web-view.c:4199
+#: ../src/e-util/e-web-view.c:4195
 #, c-format
 msgid "Cannot get URI “%s”, do not know how to download it."
 msgstr ""
@@ -14930,7 +15049,7 @@ msgid "Archi_ve Folder:"
 msgstr ""
 
 #: ../src/mail/e-mail-config-defaults-page.c:919
-#: ../src/modules/mail/em-mailer-prefs.c:1401
+#: ../src/modules/mail/em-mailer-prefs.c:1407
 msgid "Choose a folder to archive messages to."
 msgstr ""
 
@@ -15064,7 +15183,7 @@ msgid "A_liases:"
 msgstr ""
 
 #: ../src/mail/e-mail-config-identity-page.c:855
-#: ../src/mail/mail-config.ui.h:113
+#: ../src/mail/mail-config.ui.h:114
 msgid "Add"
 msgstr "Қосу"
 
@@ -15073,7 +15192,7 @@ msgid "Edit"
 msgstr "Түзету"
 
 #: ../src/mail/e-mail-config-identity-page.c:873
-#: ../src/mail/mail-config.ui.h:114
+#: ../src/mail/mail-config.ui.h:115
 msgid "Remove"
 msgstr "Өшіру"
 
@@ -15390,42 +15509,42 @@ msgstr ""
 
 #. Translators: This is a name of a flag, the same as all strings in the 'ffe' context.
 #. The translated value should not contain spaces.
-#: ../src/mail/e-mail-free-form-exp.c:234
+#: ../src/mail/e-mail-free-form-exp.c:231
 msgctxt "ffe"
 msgid "Answered"
 msgstr ""
 
-#: ../src/mail/e-mail-free-form-exp.c:235
+#: ../src/mail/e-mail-free-form-exp.c:232
 msgctxt "ffe"
 msgid "Deleted"
 msgstr "Өшірілген"
 
-#: ../src/mail/e-mail-free-form-exp.c:236
+#: ../src/mail/e-mail-free-form-exp.c:233
 msgctxt "ffe"
 msgid "Draft"
 msgstr "Шимай қағаз"
 
-#: ../src/mail/e-mail-free-form-exp.c:237
+#: ../src/mail/e-mail-free-form-exp.c:234
 msgctxt "ffe"
 msgid "Flagged"
 msgstr "Жалауша бар"
 
-#: ../src/mail/e-mail-free-form-exp.c:238
+#: ../src/mail/e-mail-free-form-exp.c:235
 msgctxt "ffe"
 msgid "Seen"
 msgstr ""
 
-#: ../src/mail/e-mail-free-form-exp.c:239
+#: ../src/mail/e-mail-free-form-exp.c:236
 msgctxt "ffe"
 msgid "Attachment"
 msgstr ""
 
-#: ../src/mail/e-mail-free-form-exp.c:487
+#: ../src/mail/e-mail-free-form-exp.c:484
 msgctxt "ffe"
 msgid "no"
 msgstr ""
 
-#: ../src/mail/e-mail-free-form-exp.c:488
+#: ../src/mail/e-mail-free-form-exp.c:485
 msgctxt "ffe"
 msgid "false"
 msgstr "false"
@@ -15464,7 +15583,7 @@ msgstr ""
 
 #: ../src/mail/e-mail-label-manager.c:169
 #: ../src/mail/em-folder-properties.c:842
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1198
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1245
 msgid "Add Label"
 msgstr ""
 
@@ -15531,7 +15650,7 @@ msgstr ""
 msgid "Header Value"
 msgstr ""
 
-#: ../src/mail/e-mail-printer.c:100 ../src/mail/mail-config.ui.h:125
+#: ../src/mail/e-mail-printer.c:100 ../src/mail/mail-config.ui.h:126
 msgid "Headers"
 msgstr "Жоғарғы колонтитулдар"
 
@@ -15557,620 +15676,620 @@ msgstr "Жы_лжыту"
 msgid "C_opy"
 msgstr "_Көшіру"
 
-#: ../src/mail/e-mail-reader.c:485
+#: ../src/mail/e-mail-reader.c:479
 msgid "Deleting message note..."
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:1307 ../src/mail/e-mail-reader.c:1519
-#: ../src/mail/e-mail-reader.c:1559
+#: ../src/mail/e-mail-reader.c:1301 ../src/mail/e-mail-reader.c:1513
+#: ../src/mail/e-mail-reader.c:1553
 msgid "_Do not ask me again."
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:1565
+#: ../src/mail/e-mail-reader.c:1559
 msgid "_Always ignore Reply-To: for mailing lists."
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:1768
+#: ../src/mail/e-mail-reader.c:1762
 msgid "Failed to retrieve message:"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:1813 ../src/mail/e-mail-reader.c:3172
+#: ../src/mail/e-mail-reader.c:1807 ../src/mail/e-mail-reader.c:3166
 #, c-format
 msgid "Retrieving message “%s”"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2001
+#: ../src/mail/e-mail-reader.c:1995
 msgid "A_dd Sender to Address Book"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2003
+#: ../src/mail/e-mail-reader.c:1997
 msgid "Add sender to address book"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2008
+#: ../src/mail/e-mail-reader.c:2002
 msgid "_Archive..."
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2010
+#: ../src/mail/e-mail-reader.c:2004
 msgid "Move selected messages to the Archive folder for the account"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2015
+#: ../src/mail/e-mail-reader.c:2009
 msgid "Check for _Junk"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2017
+#: ../src/mail/e-mail-reader.c:2011
 msgid "Filter the selected messages for junk status"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2022
+#: ../src/mail/e-mail-reader.c:2016
 msgid "_Copy to Folder..."
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2024
+#: ../src/mail/e-mail-reader.c:2018
 msgid "Copy selected messages to another folder"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2029
+#: ../src/mail/e-mail-reader.c:2023
 msgid "_Delete Message"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2031
+#: ../src/mail/e-mail-reader.c:2025
 msgid "Mark the selected messages for deletion"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2036
+#: ../src/mail/e-mail-reader.c:2030
 msgid "_Add note..."
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2038
+#: ../src/mail/e-mail-reader.c:2032
 msgid "Add a note for the selected message"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2043
+#: ../src/mail/e-mail-reader.c:2037
 msgid "Delete no_te"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2045
+#: ../src/mail/e-mail-reader.c:2039
 msgid "Delete the note for the selected message"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2050
+#: ../src/mail/e-mail-reader.c:2044
 msgid "_Edit note..."
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2052
+#: ../src/mail/e-mail-reader.c:2046
 msgid "Edit a note for the selected message"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2057
+#: ../src/mail/e-mail-reader.c:2051
 msgid "Create a Filter Rule for Mailing _List..."
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2059
+#: ../src/mail/e-mail-reader.c:2053
 msgid "Create a rule to filter messages to this mailing list"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2064
+#: ../src/mail/e-mail-reader.c:2058
 msgid "Create a Filter Rule for _Recipients..."
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2066
+#: ../src/mail/e-mail-reader.c:2060
 msgid "Create a rule to filter messages to these recipients"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2071
+#: ../src/mail/e-mail-reader.c:2065
 msgid "Create a Filter Rule for Se_nder..."
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2073
+#: ../src/mail/e-mail-reader.c:2067
 msgid "Create a rule to filter messages from this sender"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2078
+#: ../src/mail/e-mail-reader.c:2072
 msgid "Create a Filter Rule for _Subject..."
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2080
+#: ../src/mail/e-mail-reader.c:2074
 msgid "Create a rule to filter messages with this subject"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2085
+#: ../src/mail/e-mail-reader.c:2079
 msgid "A_pply Filters"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2087
+#: ../src/mail/e-mail-reader.c:2081
 msgid "Apply filter rules to the selected messages"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2092
+#: ../src/mail/e-mail-reader.c:2086
 msgid "_Find in Message..."
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2094
+#: ../src/mail/e-mail-reader.c:2088
 msgid "Search for text in the body of the displayed message"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2099
+#: ../src/mail/e-mail-reader.c:2093
 msgid "_Clear Flag"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2101
+#: ../src/mail/e-mail-reader.c:2095
 msgid "Remove the follow-up flag from the selected messages"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2106
+#: ../src/mail/e-mail-reader.c:2100
 msgid "_Flag Completed"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2108
+#: ../src/mail/e-mail-reader.c:2102
 msgid "Set the follow-up flag to completed on the selected messages"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2113
+#: ../src/mail/e-mail-reader.c:2107
 msgid "Follow _Up..."
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2115
+#: ../src/mail/e-mail-reader.c:2109
 msgid "Flag the selected messages for follow-up"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2120
+#: ../src/mail/e-mail-reader.c:2114
 #: ../src/modules/mail/e-mail-attachment-handler.c:430
 msgid "_Attached"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2122 ../src/mail/e-mail-reader.c:2129
+#: ../src/mail/e-mail-reader.c:2116 ../src/mail/e-mail-reader.c:2123
 #: ../src/modules/mail/e-mail-attachment-handler.c:432
 msgid "Forward the selected message to someone as an attachment"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2127
+#: ../src/mail/e-mail-reader.c:2121
 msgid "Forward As _Attached"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2134
+#: ../src/mail/e-mail-reader.c:2128
 #: ../src/modules/mail/e-mail-attachment-handler.c:437
 msgid "_Inline"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2136 ../src/mail/e-mail-reader.c:2143
+#: ../src/mail/e-mail-reader.c:2130 ../src/mail/e-mail-reader.c:2137
 #: ../src/modules/mail/e-mail-attachment-handler.c:439
 msgid "Forward the selected message in the body of a new message"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2141
+#: ../src/mail/e-mail-reader.c:2135
 msgid "Forward As _Inline"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2148
+#: ../src/mail/e-mail-reader.c:2142
 #: ../src/modules/mail/e-mail-attachment-handler.c:444
 msgid "_Quoted"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2150 ../src/mail/e-mail-reader.c:2157
+#: ../src/mail/e-mail-reader.c:2144 ../src/mail/e-mail-reader.c:2151
 #: ../src/modules/mail/e-mail-attachment-handler.c:446
 msgid "Forward the selected message quoted like a reply"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2155
+#: ../src/mail/e-mail-reader.c:2149
 msgid "Forward As _Quoted"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2162
+#: ../src/mail/e-mail-reader.c:2156
 msgid "_Load Images"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2164
+#: ../src/mail/e-mail-reader.c:2158
 msgid "Force images in HTML mail to be loaded"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2169 ../src/mail/e-mail-reader.c:2559
+#: ../src/mail/e-mail-reader.c:2163 ../src/mail/e-mail-reader.c:2553
 msgid "_Ignore Subthread"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2171
+#: ../src/mail/e-mail-reader.c:2165
 msgid "Mark new mails in a subthread as read automatically"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2176 ../src/mail/e-mail-reader.c:2563
+#: ../src/mail/e-mail-reader.c:2170 ../src/mail/e-mail-reader.c:2557
 msgid "_Ignore Thread"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2178
+#: ../src/mail/e-mail-reader.c:2172
 msgid "Mark new mails in this thread as read automatically"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2183
+#: ../src/mail/e-mail-reader.c:2177
 msgid "_Important"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2185
+#: ../src/mail/e-mail-reader.c:2179
 msgid "Mark the selected messages as important"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2190
+#: ../src/mail/e-mail-reader.c:2184
 msgid "_Junk"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2192
+#: ../src/mail/e-mail-reader.c:2186
 msgid "Mark the selected messages as junk"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2197
+#: ../src/mail/e-mail-reader.c:2191
 msgid "_Not Junk"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2199
+#: ../src/mail/e-mail-reader.c:2193
 msgid "Mark the selected messages as not being junk"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2204
+#: ../src/mail/e-mail-reader.c:2198
 msgid "_Read"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2206
+#: ../src/mail/e-mail-reader.c:2200
 msgid "Mark the selected messages as having been read"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2211 ../src/mail/e-mail-reader.c:2583
+#: ../src/mail/e-mail-reader.c:2205 ../src/mail/e-mail-reader.c:2577
 msgid "Do not _Ignore Subthread"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2213
+#: ../src/mail/e-mail-reader.c:2207
 msgid "Do not mark new mails in a subthread as read automatically"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2218 ../src/mail/e-mail-reader.c:2587
+#: ../src/mail/e-mail-reader.c:2212 ../src/mail/e-mail-reader.c:2581
 msgid "Do not _Ignore Thread"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2220
+#: ../src/mail/e-mail-reader.c:2214
 msgid "Do not mark new mails in this thread as read automatically"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2225
+#: ../src/mail/e-mail-reader.c:2219
 msgid "Uni_mportant"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2227
+#: ../src/mail/e-mail-reader.c:2221
 msgid "Mark the selected messages as unimportant"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2232
+#: ../src/mail/e-mail-reader.c:2226
 msgid "_Unread"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2234
+#: ../src/mail/e-mail-reader.c:2228
 msgid "Mark the selected messages as not having been read"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2239
+#: ../src/mail/e-mail-reader.c:2233
 #: ../src/modules/mail/e-mail-attachment-handler.c:416
 msgid "_Edit as New Message..."
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2241
+#: ../src/mail/e-mail-reader.c:2235
 #: ../src/modules/mail/e-mail-attachment-handler.c:418
 msgid "Open the selected messages in the composer for editing"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2246
+#: ../src/mail/e-mail-reader.c:2240
 msgid "Compose _New Message"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2248
+#: ../src/mail/e-mail-reader.c:2242
 msgid "Open a window for composing a mail message"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2253
+#: ../src/mail/e-mail-reader.c:2247
 msgid "_Open in New Window"
 msgstr "_Жаңа терезеде ашу"
 
-#: ../src/mail/e-mail-reader.c:2255
+#: ../src/mail/e-mail-reader.c:2249
 msgid "Open the selected messages in a new window"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2260
+#: ../src/mail/e-mail-reader.c:2254
 msgid "_Move to Folder..."
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2262
+#: ../src/mail/e-mail-reader.c:2256
 msgid "Move selected messages to another folder"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2267
+#: ../src/mail/e-mail-reader.c:2261
 msgid "_Next Message"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2269
+#: ../src/mail/e-mail-reader.c:2263
 msgid "Display the next message"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2274
+#: ../src/mail/e-mail-reader.c:2268
 msgid "Next _Important Message"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2276
+#: ../src/mail/e-mail-reader.c:2270
 msgid "Display the next important message"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2281
+#: ../src/mail/e-mail-reader.c:2275
 msgid "Next _Thread"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2283
+#: ../src/mail/e-mail-reader.c:2277
 msgid "Display the next thread"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2288
+#: ../src/mail/e-mail-reader.c:2282
 msgid "Next _Unread Message"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2290
+#: ../src/mail/e-mail-reader.c:2284
 msgid "Display the next unread message"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2295
+#: ../src/mail/e-mail-reader.c:2289
 msgid "_Previous Message"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2297
+#: ../src/mail/e-mail-reader.c:2291
 msgid "Display the previous message"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2302
+#: ../src/mail/e-mail-reader.c:2296
 msgid "Pr_evious Important Message"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2304
+#: ../src/mail/e-mail-reader.c:2298
 msgid "Display the previous important message"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2309
+#: ../src/mail/e-mail-reader.c:2303
 msgid "Previous T_hread"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2311
+#: ../src/mail/e-mail-reader.c:2305
 msgid "Display the previous thread"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2316
+#: ../src/mail/e-mail-reader.c:2310
 msgid "P_revious Unread Message"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2318
+#: ../src/mail/e-mail-reader.c:2312
 msgid "Display the previous unread message"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2325
+#: ../src/mail/e-mail-reader.c:2319
 msgid "Print this message"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2332
+#: ../src/mail/e-mail-reader.c:2326
 msgid "Preview the message to be printed"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2337
+#: ../src/mail/e-mail-reader.c:2331
 #: ../src/modules/mail/e-mail-attachment-handler.c:451
 msgid "Re_direct"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2339
+#: ../src/mail/e-mail-reader.c:2333
 #: ../src/modules/mail/e-mail-attachment-handler.c:453
 msgid "Redirect (bounce) the selected message to someone"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2344
+#: ../src/mail/e-mail-reader.c:2338
 msgid "Remo_ve Attachments"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2346
+#: ../src/mail/e-mail-reader.c:2340
 msgid "Remove attachments"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2351
+#: ../src/mail/e-mail-reader.c:2345
 msgid "Remove Du_plicate Messages"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2353
+#: ../src/mail/e-mail-reader.c:2347
 msgid "Checks selected messages for duplicates"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2358 ../src/mail/mail.error.xml.h:28
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1430
+#: ../src/mail/e-mail-reader.c:2352 ../src/mail/mail.error.xml.h:28
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1477
 #: ../src/modules/mail/e-mail-attachment-handler.c:395
 msgid "Reply to _All"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2360
+#: ../src/mail/e-mail-reader.c:2354
 #: ../src/modules/mail/e-mail-attachment-handler.c:397
 msgid "Compose a reply to all the recipients of the selected message"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2365 ../src/mail/mail.error.xml.h:26
+#: ../src/mail/e-mail-reader.c:2359 ../src/mail/mail.error.xml.h:26
 #: ../src/modules/mail/e-mail-attachment-handler.c:402
 msgid "Reply to _List"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2367
+#: ../src/mail/e-mail-reader.c:2361
 #: ../src/modules/mail/e-mail-attachment-handler.c:404
 msgid "Compose a reply to the mailing list of the selected message"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2372
+#: ../src/mail/e-mail-reader.c:2366
 #: ../src/modules/mail/e-mail-attachment-handler.c:409
 msgid "_Reply to Sender"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2374
+#: ../src/mail/e-mail-reader.c:2368
 #: ../src/modules/mail/e-mail-attachment-handler.c:411
 msgid "Compose a reply to the sender of the selected message"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2379
+#: ../src/mail/e-mail-reader.c:2373
 msgid "_Save as mbox..."
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2381
+#: ../src/mail/e-mail-reader.c:2375
 msgid "Save selected messages as an mbox file"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2386
+#: ../src/mail/e-mail-reader.c:2380
 msgid "_Message Source"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2388
+#: ../src/mail/e-mail-reader.c:2382
 msgid "Show the raw email source of the message"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2400
+#: ../src/mail/e-mail-reader.c:2394
 msgid "_Undelete Message"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2402
+#: ../src/mail/e-mail-reader.c:2396
 msgid "Undelete the selected messages"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2407
+#: ../src/mail/e-mail-reader.c:2401
 msgid "_Normal Size"
 msgstr "Қалы_пты өлшемі"
 
-#: ../src/mail/e-mail-reader.c:2409
+#: ../src/mail/e-mail-reader.c:2403
 msgid "Reset the text to its original size"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2414
+#: ../src/mail/e-mail-reader.c:2408
 msgid "_Zoom In"
 msgstr "Үлке_йту"
 
-#: ../src/mail/e-mail-reader.c:2416
+#: ../src/mail/e-mail-reader.c:2410
 msgid "Increase the text size"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2423
+#: ../src/mail/e-mail-reader.c:2417
 msgid "Decrease the text size"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2430
+#: ../src/mail/e-mail-reader.c:2424
 msgid "Cre_ate"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2437
+#: ../src/mail/e-mail-reader.c:2431
 msgid "Ch_aracter Encoding"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2444
+#: ../src/mail/e-mail-reader.c:2438
 #: ../src/modules/mail/e-mail-attachment-handler.c:423
 msgid "F_orward As"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2451
+#: ../src/mail/e-mail-reader.c:2445
 msgid "_Group Reply"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2458
+#: ../src/mail/e-mail-reader.c:2452
 msgid "_Go To"
 msgstr "Ө_ту"
 
-#: ../src/mail/e-mail-reader.c:2465
+#: ../src/mail/e-mail-reader.c:2459
 msgid "Mar_k As"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2472
+#: ../src/mail/e-mail-reader.c:2466
 msgid "_Message"
 msgstr "_Хабарлама"
 
-#: ../src/mail/e-mail-reader.c:2479
+#: ../src/mail/e-mail-reader.c:2473
 msgid "_Zoom"
 msgstr "_Масштаб"
 
-#: ../src/mail/e-mail-reader.c:2489
+#: ../src/mail/e-mail-reader.c:2483
 msgid "Create a Search Folder from Mailing _List..."
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2491
+#: ../src/mail/e-mail-reader.c:2485
 msgid "Create a search folder for this mailing list"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2496
+#: ../src/mail/e-mail-reader.c:2490
 msgid "Create a Search Folder from Recipien_ts..."
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2498
+#: ../src/mail/e-mail-reader.c:2492
 msgid "Create a search folder for these recipients"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2503
+#: ../src/mail/e-mail-reader.c:2497
 msgid "Create a Search Folder from Sen_der..."
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2505
+#: ../src/mail/e-mail-reader.c:2499
 msgid "Create a search folder for this sender"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2510
+#: ../src/mail/e-mail-reader.c:2504
 msgid "Create a Search Folder from S_ubject..."
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2512
+#: ../src/mail/e-mail-reader.c:2506
 msgid "Create a search folder for this subject"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2551
+#: ../src/mail/e-mail-reader.c:2545
 msgid "Mark for Follo_w Up..."
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2567
+#: ../src/mail/e-mail-reader.c:2561
 msgid "Mark as _Important"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2571
+#: ../src/mail/e-mail-reader.c:2565
 msgid "Mark as _Junk"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2575
+#: ../src/mail/e-mail-reader.c:2569
 msgid "Mark as _Not Junk"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2579
+#: ../src/mail/e-mail-reader.c:2573
 msgid "Mar_k as Read"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2591
+#: ../src/mail/e-mail-reader.c:2585
 msgid "Mark as Uni_mportant"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2595
+#: ../src/mail/e-mail-reader.c:2589
 msgid "Mark as _Unread"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2639
+#: ../src/mail/e-mail-reader.c:2633
 msgid "_Caret Mode"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2641
+#: ../src/mail/e-mail-reader.c:2635
 msgid "Show a blinking cursor in the body of displayed messages"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2647
+#: ../src/mail/e-mail-reader.c:2641
 msgid "All Message _Headers"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2649
+#: ../src/mail/e-mail-reader.c:2643
 msgid "Show messages with all email headers"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:3178
+#: ../src/mail/e-mail-reader.c:3172
 msgid "Retrieving message"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:4228
+#: ../src/mail/e-mail-reader.c:4222
 #: ../src/modules/mail/e-mail-attachment-handler.c:388
 msgid "_Forward"
 msgstr "А_лға"
 
-#: ../src/mail/e-mail-reader.c:4229
+#: ../src/mail/e-mail-reader.c:4223
 #: ../src/modules/mail/e-mail-attachment-handler.c:390
 msgid "Forward the selected message to someone"
 msgstr ""
@@ -16179,52 +16298,52 @@ msgstr ""
 #. * (if possible and if that configuration option is enabled), or else
 #. * it will reply to all. The word "Group" was chosen because it covers
 #. * either of those, without too strongly implying one or the other.
-#: ../src/mail/e-mail-reader.c:4248
+#: ../src/mail/e-mail-reader.c:4242
 msgid "Group Reply"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:4249
+#: ../src/mail/e-mail-reader.c:4243
 msgid "Reply to the mailing list, or to all recipients"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:4315 ../src/mail/filtertypes.xml.in.h:67
+#: ../src/mail/e-mail-reader.c:4309 ../src/mail/filtertypes.xml.in.h:67
 msgid "Delete"
 msgstr "Өшіру"
 
-#: ../src/mail/e-mail-reader.c:4327
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1241
+#: ../src/mail/e-mail-reader.c:4321
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1281
 msgid "Next"
 msgstr "Келесі"
 
-#: ../src/mail/e-mail-reader.c:4331
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1234
+#: ../src/mail/e-mail-reader.c:4325
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1274
 msgid "Previous"
 msgstr "Алдыңғы"
 
-#: ../src/mail/e-mail-reader.c:4340 ../src/mail/mail-dialogs.ui.h:9
+#: ../src/mail/e-mail-reader.c:4334 ../src/mail/mail-dialogs.ui.h:9
 msgid "Reply"
 msgstr "Жауап беру"
 
-#: ../src/mail/e-mail-reader.c:5413
+#: ../src/mail/e-mail-reader.c:5407
 #, c-format
 msgid "Allow remote content for anyone from %s"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:5415
+#: ../src/mail/e-mail-reader.c:5409
 #, c-format
 msgid "Allow remote content for %s"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:5432
+#: ../src/mail/e-mail-reader.c:5426
 #, c-format
 msgid "Allow remote content from %s"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:5449
+#: ../src/mail/e-mail-reader.c:5443
 msgid "Do not show this message again"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:5497
+#: ../src/mail/e-mail-reader.c:5491
 msgid "Load remote content"
 msgstr ""
 
@@ -16232,34 +16351,40 @@ msgstr ""
 msgid "Do not warn me again"
 msgstr ""
 
-#: ../src/mail/e-mail-reader-utils.c:568
+#: ../src/mail/e-mail-reader-utils.c:633
+#, c-format
+#| msgid "Saving message to folder “%s”"
+msgid "Deleting messages in Junk folder “%s”…"
+msgstr ""
+
+#: ../src/mail/e-mail-reader-utils.c:728
 #, c-format
 msgid "Refreshing folder “%s”"
 msgstr ""
 
-#: ../src/mail/e-mail-reader-utils.c:1175
+#: ../src/mail/e-mail-reader-utils.c:1335
 msgid "Marking thread to be ignored"
 msgstr ""
 
-#: ../src/mail/e-mail-reader-utils.c:1179
+#: ../src/mail/e-mail-reader-utils.c:1339
 msgid "Unmarking thread from being ignored"
 msgstr ""
 
-#: ../src/mail/e-mail-reader-utils.c:1183
+#: ../src/mail/e-mail-reader-utils.c:1343
 msgid "Marking subthread to be ignored"
 msgstr ""
 
-#: ../src/mail/e-mail-reader-utils.c:1187
+#: ../src/mail/e-mail-reader-utils.c:1347
 msgid "Unmarking subthread from being ignored"
 msgstr ""
 
-#: ../src/mail/e-mail-reader-utils.c:1439
+#: ../src/mail/e-mail-reader-utils.c:1599
 msgid "Printing"
 msgstr "Баспаға шығару"
 
 #. Translators: %s is replaced with a folder
 #. * name %u with count of duplicate messages.
-#: ../src/mail/e-mail-reader-utils.c:1676
+#: ../src/mail/e-mail-reader-utils.c:1836
 #, c-format
 msgid ""
 "Folder “%s” contains %u duplicate message. Are you sure you want to delete "
@@ -16269,7 +16394,7 @@ msgid_plural ""
 "them?"
 msgstr[0] ""
 
-#: ../src/mail/e-mail-reader-utils.c:2694
+#: ../src/mail/e-mail-reader-utils.c:2854
 msgid "Save Message"
 msgid_plural "Save Messages"
 msgstr[0] ""
@@ -16279,12 +16404,12 @@ msgstr[0] ""
 #. * mbox format, when the first message doesn't have a
 #. * subject.  The extension ".mbox" is appended to the
 #. * string; for example "Message.mbox".
-#: ../src/mail/e-mail-reader-utils.c:2715
+#: ../src/mail/e-mail-reader-utils.c:2875
 msgid "Message"
 msgid_plural "Messages"
 msgstr[0] "Хабарлама"
 
-#: ../src/mail/e-mail-reader-utils.c:3088
+#: ../src/mail/e-mail-reader-utils.c:3248
 msgid "Parsing message"
 msgstr ""
 
@@ -16355,16 +16480,16 @@ msgstr ""
 msgid "-----Original Message-----"
 msgstr ""
 
-#: ../src/mail/em-composer-utils.c:3042
+#: ../src/mail/em-composer-utils.c:3092
 msgid "an unknown sender"
 msgstr ""
 
 #. FIXME GTK_WINDOW (composer)
-#: ../src/mail/em-composer-utils.c:3518
+#: ../src/mail/em-composer-utils.c:3570
 msgid "Posting destination"
 msgstr ""
 
-#: ../src/mail/em-composer-utils.c:3523
+#: ../src/mail/em-composer-utils.c:3575
 msgid "Choose folders to post the message to."
 msgstr ""
 
@@ -16468,7 +16593,7 @@ msgstr "Жазу"
 msgid "AutoArchive"
 msgstr ""
 
-#: ../src/mail/em-folder-properties.c:1076 ../src/mail/mail-config.ui.h:118
+#: ../src/mail/em-folder-properties.c:1076 ../src/mail/mail-config.ui.h:119
 #: ../src/mail/message-list.etspec.h:19
 msgid "Labels"
 msgstr "Белгілер"
@@ -16579,7 +16704,7 @@ msgstr ""
 
 #: ../src/mail/em-subscription-editor.c:970
 #: ../src/mail/em-subscription-editor.c:1914 ../src/mail/mail.error.xml.h:73
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1770
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1751
 msgid "_Unsubscribe"
 msgstr ""
 
@@ -16630,7 +16755,7 @@ msgid "Su_bscribe"
 msgstr ""
 
 #: ../src/mail/em-subscription-editor.c:1913
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1772
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1753
 msgid "Unsubscribe from the selected folder"
 msgstr ""
 
@@ -16655,8 +16780,8 @@ msgid "Refresh the folder list"
 msgstr ""
 
 #: ../src/mail/em-subscription-editor.c:1976
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1671
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1742
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1652
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1723
 msgid "_Refresh"
 msgstr "Жаңар_ту"
 
@@ -16665,7 +16790,7 @@ msgid "Stop the current operation"
 msgstr ""
 
 #: ../src/mail/em-subscription-editor.c:1988
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:999
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1002
 msgid "_Stop"
 msgstr "Т_оқтату"
 
@@ -16879,7 +17004,7 @@ msgstr "Маңызды"
 msgid "Read"
 msgstr ""
 
-#: ../src/mail/filtertypes.xml.in.h:41 ../src/mail/mail-config.ui.h:132
+#: ../src/mail/filtertypes.xml.in.h:41 ../src/mail/mail-config.ui.h:133
 #: ../src/mail/vfoldertypes.xml.in.h:44
 msgid "Junk"
 msgstr ""
@@ -17465,119 +17590,123 @@ msgid "Confirm _when expunging a folder"
 msgstr ""
 
 #: ../src/mail/mail-config.ui.h:102
-msgid "Archive Mail"
+msgid "Confirm when emptying a _Junk folder"
 msgstr ""
 
 #: ../src/mail/mail-config.ui.h:103
-msgid "Archive folder to use for On This Computer messages"
+msgid "Archive Mail"
 msgstr ""
 
 #: ../src/mail/mail-config.ui.h:104
+msgid "Archive folder to use for On This Computer messages"
+msgstr ""
+
+#: ../src/mail/mail-config.ui.h:105
 msgid "On This Computer A_rchive folder:"
 msgstr ""
 
 #. If enabled, show animation; if disabled, only display a static image without any animation
-#: ../src/mail/mail-config.ui.h:106
+#: ../src/mail/mail-config.ui.h:107
 msgid "_Show animated images"
 msgstr ""
 
-#: ../src/mail/mail-config.ui.h:107
+#: ../src/mail/mail-config.ui.h:108
 msgid "_Prompt on sending HTML mail to contacts that do not want them"
 msgstr ""
 
-#: ../src/mail/mail-config.ui.h:108
+#: ../src/mail/mail-config.ui.h:109
 msgid "Loading Remote Content"
 msgstr ""
 
-#: ../src/mail/mail-config.ui.h:109
+#: ../src/mail/mail-config.ui.h:110
 msgid "_Never load remote content from the Internet"
 msgstr ""
 
-#: ../src/mail/mail-config.ui.h:110
+#: ../src/mail/mail-config.ui.h:111
 msgid "_Load remote content only in messages from contacts"
 msgstr ""
 
-#: ../src/mail/mail-config.ui.h:111
+#: ../src/mail/mail-config.ui.h:112
 msgid "_Always load remote content from the Internet"
 msgstr ""
 
-#: ../src/mail/mail-config.ui.h:112
+#: ../src/mail/mail-config.ui.h:113
 msgid "Notify about _missing remote content in the message preview"
 msgstr ""
 
-#: ../src/mail/mail-config.ui.h:115
+#: ../src/mail/mail-config.ui.h:116
 msgid "Allow for sites:"
 msgstr ""
 
-#: ../src/mail/mail-config.ui.h:116
+#: ../src/mail/mail-config.ui.h:117
 msgid "Allow for senders:"
 msgstr ""
 
-#: ../src/mail/mail-config.ui.h:117
+#: ../src/mail/mail-config.ui.h:118
 msgid "HTML Messages"
 msgstr ""
 
-#: ../src/mail/mail-config.ui.h:119
+#: ../src/mail/mail-config.ui.h:120
 msgid "Sender Photograph"
 msgstr ""
 
-#: ../src/mail/mail-config.ui.h:120
+#: ../src/mail/mail-config.ui.h:121
 msgid "_Show the photograph of sender in the message preview"
 msgstr ""
 
-#: ../src/mail/mail-config.ui.h:121
+#: ../src/mail/mail-config.ui.h:122
 msgid "Search gra_vatar.com for the photograph of sender"
 msgstr ""
 
-#: ../src/mail/mail-config.ui.h:122
+#: ../src/mail/mail-config.ui.h:123
 msgid "Displayed Message Headers"
 msgstr ""
 
-#: ../src/mail/mail-config.ui.h:123
+#: ../src/mail/mail-config.ui.h:124
 msgid "Mail Headers Table"
 msgstr ""
 
-#: ../src/mail/mail-config.ui.h:124
+#: ../src/mail/mail-config.ui.h:125
 #: ../src/modules/addressbook/autocompletion-config.c:117
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:45
 msgid "Date/Time Format"
 msgstr ""
 
-#: ../src/mail/mail-config.ui.h:126
+#: ../src/mail/mail-config.ui.h:127
 msgid "Check incoming _messages for junk"
 msgstr ""
 
-#: ../src/mail/mail-config.ui.h:127
+#: ../src/mail/mail-config.ui.h:128
 msgid "_Delete junk messages"
 msgstr ""
 
-#: ../src/mail/mail-config.ui.h:128
+#: ../src/mail/mail-config.ui.h:129
 msgid "Junk Test Options"
 msgstr ""
 
-#: ../src/mail/mail-config.ui.h:129
+#: ../src/mail/mail-config.ui.h:130
 msgid "Do not mar_k messages as junk if sender is in my address book"
 msgstr ""
 
-#: ../src/mail/mail-config.ui.h:130
+#: ../src/mail/mail-config.ui.h:131
 msgid "_Lookup in local address book only"
 msgstr ""
 
-#: ../src/mail/mail-config.ui.h:131
+#: ../src/mail/mail-config.ui.h:132
 msgid "Check cu_stom headers for junk"
 msgstr ""
 
-#: ../src/mail/mail-config.ui.h:133
+#: ../src/mail/mail-config.ui.h:134
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:302
 #: ../src/modules/mail-config/e-mail-config-smtp-backend.c:245
 msgid "No encryption"
 msgstr "Шифрлеусіз"
 
-#: ../src/mail/mail-config.ui.h:134
+#: ../src/mail/mail-config.ui.h:135
 msgid "TLS encryption"
 msgstr "TLS шифрлеуі"
 
-#: ../src/mail/mail-config.ui.h:135
+#: ../src/mail/mail-config.ui.h:136
 msgid "SSL encryption"
 msgstr "SSL шифрлеуі"
 
@@ -17821,7 +17950,7 @@ msgid ""
 msgstr ""
 
 #: ../src/mail/mail.error.xml.h:42
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1657
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1631
 msgid "_Empty Trash"
 msgstr "Қ_оқыс шелегін тазарту"
 
@@ -18462,6 +18591,27 @@ msgid ""
 "a bug report in the GNOME bugzilla."
 msgstr ""
 
+#: ../src/mail/mail.error.xml.h:212
+#| msgid "Are you sure you want to convert the message into a meeting?"
+msgid "Are you sure you want to delete all the messages in the Junk folder?"
+msgstr ""
+
+#: ../src/mail/mail.error.xml.h:213
+msgid ""
+"These messages will be shown in the Trash folder, where they can be "
+"permanently deleted later."
+msgstr ""
+
+#: ../src/mail/mail.error.xml.h:214
+#| msgid "_Empty Trash"
+msgid "_Empty Junk"
+msgstr ""
+
+#: ../src/mail/mail.error.xml.h:215
+#| msgid "Failed to connect address book “{0}”"
+msgid "Failed to empty Junk folder “{0}”"
+msgstr ""
+
 #: ../src/mail/mail-send-recv.c:192
 msgid "Canceling..."
 msgstr ""
@@ -18554,7 +18704,7 @@ msgstr ""
 msgid "Highest"
 msgstr ""
 
-#: ../src/mail/message-list.c:470 ../src/mail/message-list.c:6286
+#: ../src/mail/message-list.c:470 ../src/mail/message-list.c:6289
 msgid "Generating message list"
 msgstr ""
 
@@ -18594,7 +18744,7 @@ msgstr "Хабарламалар"
 msgid "Follow-up"
 msgstr ""
 
-#: ../src/mail/message-list.c:6225
+#: ../src/mail/message-list.c:6228
 msgid ""
 "No message satisfies your search criteria. Change search criteria by "
 "selecting a new Show message filter from the drop down list above or by "
@@ -18602,7 +18752,7 @@ msgid ""
 "changing the query above."
 msgstr ""
 
-#: ../src/mail/message-list.c:6233
+#: ../src/mail/message-list.c:6236
 msgid "There are no messages in this folder."
 msgstr ""
 
@@ -18648,38 +18798,38 @@ msgid "Subject or Addresses contains"
 msgstr ""
 
 #: ../src/mail/searchtypes.xml.in.h:58
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2186
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2179
 msgid "Recipients contain"
 msgstr ""
 
 #: ../src/mail/searchtypes.xml.in.h:59
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2179
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2172
 msgid "Message contains"
 msgstr ""
 
 #: ../src/mail/searchtypes.xml.in.h:60
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2200
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2193
 msgid "Subject contains"
 msgstr ""
 
 #: ../src/mail/searchtypes.xml.in.h:61
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2193
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2186
 msgid "Sender contains"
 msgstr ""
 
 #: ../src/mail/searchtypes.xml.in.h:62
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2165
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2158
 msgid "Body contains"
 msgstr ""
 
 #: ../src/mail/searchtypes.xml.in.h:63
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2172
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2165
 msgid "Free form expression"
 msgstr ""
 
 #. To Translators: 'Table column' is a label for configurable date/time format for table columns showing a date in message list
 #: ../src/modules/addressbook/autocompletion-config.c:123
-#: ../src/modules/mail/em-mailer-prefs.c:1556
+#: ../src/modules/mail/em-mailer-prefs.c:1562
 msgid "_Table column:"
 msgstr ""
 
@@ -18719,38 +18869,38 @@ msgstr ""
 msgid "Contact information for %s"
 msgstr ""
 
-#: ../src/modules/addressbook/e-book-shell-backend.c:256
+#: ../src/modules/addressbook/e-book-shell-backend.c:258
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:137
 msgid "New Address Book"
 msgstr ""
 
-#: ../src/modules/addressbook/e-book-shell-backend.c:265
+#: ../src/modules/addressbook/e-book-shell-backend.c:267
 msgctxt "New"
 msgid "_Contact"
 msgstr ""
 
-#: ../src/modules/addressbook/e-book-shell-backend.c:267
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1043
+#: ../src/modules/addressbook/e-book-shell-backend.c:269
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1046
 msgid "Create a new contact"
 msgstr ""
 
-#: ../src/modules/addressbook/e-book-shell-backend.c:272
+#: ../src/modules/addressbook/e-book-shell-backend.c:274
 msgctxt "New"
 msgid "Contact _List"
 msgstr ""
 
-#: ../src/modules/addressbook/e-book-shell-backend.c:274
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1050
+#: ../src/modules/addressbook/e-book-shell-backend.c:276
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1053
 msgid "Create a new contact list"
 msgstr ""
 
-#: ../src/modules/addressbook/e-book-shell-backend.c:282
+#: ../src/modules/addressbook/e-book-shell-backend.c:284
 msgctxt "New"
 msgid "Address _Book"
 msgstr ""
 
-#: ../src/modules/addressbook/e-book-shell-backend.c:284
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:966
+#: ../src/modules/addressbook/e-book-shell-backend.c:286
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:969
 msgid "Create a new address book"
 msgstr ""
 
@@ -18759,256 +18909,256 @@ msgid "Address Book Properties"
 msgstr ""
 
 #. Translators: This is a save dialog title
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:533
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:829
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:534
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:832
 msgid "Save as vCard"
 msgstr ""
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:936
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:939
 msgid "Co_py All Contacts To..."
 msgstr ""
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:938
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:941
 msgid "Copy the contacts of the selected address book to another"
 msgstr ""
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:943
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:946
 msgid "D_elete Address Book"
 msgstr ""
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:945
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:948
 msgid "Delete the selected address book"
 msgstr ""
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:950
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:953
 msgid "_Manage Address Book groups..."
 msgstr ""
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:952
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:955
 #: ../src/modules/calendar/e-task-shell-view-actions.c:719
 msgid "Manage task list groups order and visibility"
 msgstr ""
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:957
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:960
 msgid "Mo_ve All Contacts To..."
 msgstr ""
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:959
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:962
 msgid "Move the contacts of the selected address book to another"
 msgstr ""
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:964
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:967
 msgid "_New Address Book"
 msgstr ""
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:971
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:974
 msgid "Address _Book Properties"
 msgstr ""
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:973
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:976
 msgid "Show properties of the selected address book"
 msgstr ""
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:978
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1290
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:981
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1330
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:612
 #: ../src/modules/calendar/e-task-shell-view-actions.c:738
 msgid "Re_fresh"
 msgstr "Жаң_арту"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:980
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:983
 msgid "Refresh the selected address book"
 msgstr ""
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:985
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:988
 msgid "Address Book _Map"
 msgstr ""
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:987
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:990
 msgid "Show map with all contacts from selected address book"
 msgstr ""
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:992
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1297
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:995
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1337
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:619
 #: ../src/modules/calendar/e-task-shell-view-actions.c:745
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1749
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1730
 msgid "_Rename..."
 msgstr "_Атын өзгерту..."
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:994
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:997
 msgid "Rename the selected address book"
 msgstr ""
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1001
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1004
 msgid "Stop loading"
 msgstr ""
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1006
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1009
 msgid "_Copy Contact To..."
 msgstr ""
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1008
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1011
 msgid "Copy selected contacts to another address book"
 msgstr ""
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1013
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1016
 msgid "_Delete Contact"
 msgstr ""
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1020
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1023
 msgid "_Find in Contact..."
 msgstr ""
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1022
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1025
 msgid "Search for text in the displayed contact"
 msgstr ""
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1027
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1030
 msgid "_Forward Contact..."
 msgstr ""
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1029
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1032
 msgid "Send selected contacts to another person"
 msgstr ""
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1034
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1037
 msgid "_Move Contact To..."
 msgstr ""
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1036
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1039
 msgid "Move selected contacts to another address book"
 msgstr ""
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1041
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1044
 msgid "_New Contact..."
 msgstr ""
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1048
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1051
 msgid "New Contact _List..."
 msgstr ""
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1055
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1058
 msgid "_Open Contact"
 msgstr ""
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1057
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1060
 msgid "View the current contact"
 msgstr ""
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1062
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1065
 msgid "_Send Message to Contact..."
 msgstr ""
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1064
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1067
 msgid "Send a message to the selected contacts"
 msgstr ""
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1071
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1460
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1074
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1507
 #: ../src/modules/calendar/e-task-shell-view-actions.c:810
 msgid "_Actions"
 msgstr "Әр_екеттер"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1078
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1081
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:663
 #: ../src/modules/calendar/e-task-shell-view-actions.c:817
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1921
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1902
 msgid "_Preview"
 msgstr "А_лдын-ала қарау"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1091
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1489
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1094
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1536
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:680
 #: ../src/modules/calendar/e-task-shell-view-actions.c:834
 msgid "_Manage groups..."
 msgstr ""
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1103
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1106
 msgid "Address Book Map"
 msgstr ""
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1135
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1138
 msgid "Contact _Preview"
 msgstr ""
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1137
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1140
 msgid "Show contact preview window"
 msgstr ""
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1143
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1146
 msgid "Show _Maps"
 msgstr ""
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1145
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1148
 msgid "Show maps in contact preview window"
 msgstr ""
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1164
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1167
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:741
 #: ../src/modules/calendar/e-task-shell-view-actions.c:907
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2067
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2060
 msgid "_Classic View"
 msgstr ""
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1166
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1169
 msgid "Show contact preview below the contact list"
 msgstr ""
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1171
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1174
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:748
 #: ../src/modules/calendar/e-task-shell-view-actions.c:914
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2074
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2067
 msgid "_Vertical View"
 msgstr ""
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1173
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1176
 msgid "Show contact preview alongside the contact list"
 msgstr ""
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1188
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1645
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1191
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1696
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:765
 #: ../src/modules/calendar/e-task-shell-view-actions.c:966
 msgid "Unmatched"
 msgstr ""
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1198
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1655
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1201
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1706
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:775
 #: ../src/modules/calendar/e-task-shell-view-actions.c:976
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2158
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2151
 #: ../src/shell/e-shell-content.c:655
 msgid "Advanced Search"
 msgstr ""
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1231
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1234
 msgid "Print all shown contacts"
 msgstr ""
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1238
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1241
 msgid "Preview the contacts to be printed"
 msgstr ""
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1245
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1248
 msgid "Print selected contacts"
 msgstr ""
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1260
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1263
 msgid "S_ave Address Book as vCard"
 msgstr ""
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1262
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1265
 msgid "Save the contacts of the selected address book as a vCard"
 msgstr ""
 
 #. Translators: This is an action label
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1268
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1278
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1271
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1281
 msgid "_Save as vCard..."
 msgstr ""
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1270
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1273
 msgid "Save selected contacts as a vCard"
 msgstr ""
 
@@ -19058,40 +19208,40 @@ msgstr "Қалпына келтіру үшін қор көшірме файлы�
 msgid "Restore from Backup"
 msgstr "Қор көшірмеден қалпына келтіру"
 
-#: ../src/modules/backup-restore/evolution-backup-restore.c:233
+#: ../src/modules/backup-restore/evolution-backup-restore.c:285
 msgid "Select name of the Evolution backup file"
 msgstr "Evolution қор көшірмесі файлының атын таңдаңыз"
 
-#: ../src/modules/backup-restore/evolution-backup-restore.c:266
+#: ../src/modules/backup-restore/evolution-backup-restore.c:318
 msgid "_Restart Evolution after backup"
 msgstr "Қор көшірмені жасағаннан кейін Evolution қолданбасын қа_йта іске қосу"
 
-#: ../src/modules/backup-restore/evolution-backup-restore.c:301
+#: ../src/modules/backup-restore/evolution-backup-restore.c:353
 msgid "Re_start Evolution after restore"
 msgstr "Қалпына келтіргеннен кейін Evolution қолданбасын қай_та іске қосу"
 
-#: ../src/modules/backup-restore/evolution-backup-restore.c:343
+#: ../src/modules/backup-restore/evolution-backup-restore.c:395
 msgid "Select name of the Evolution backup file to restore"
 msgstr "Қалпына келтіру үшін Evolution қор көшірме файлының атын таңдаңыз"
 
-#: ../src/modules/backup-restore/evolution-backup-restore.c:352
+#: ../src/modules/backup-restore/evolution-backup-restore.c:404
 #, c-format
 msgid "Checking content of backup file “%s”, please wait..."
 msgstr "\"%s\" қор көшірме файлының құрамасы тексерілуде, күте тұрыңыз..."
 
-#: ../src/modules/backup-restore/evolution-backup-restore.c:373
+#: ../src/modules/backup-restore/evolution-backup-restore.c:425
 msgid "_Back up Evolution Data..."
 msgstr "Evolution деректерінің қор кө_шірмесін жасау..."
 
-#: ../src/modules/backup-restore/evolution-backup-restore.c:375
+#: ../src/modules/backup-restore/evolution-backup-restore.c:427
 msgid "Back up Evolution data and settings to an archive file"
 msgstr "Evolution деректерін және баптауларын қор көшірме файлына сақтау"
 
-#: ../src/modules/backup-restore/evolution-backup-restore.c:380
+#: ../src/modules/backup-restore/evolution-backup-restore.c:432
 msgid "R_estore Evolution Data..."
 msgstr "Evolution деректерін қал_пына келтіру..."
 
-#: ../src/modules/backup-restore/evolution-backup-restore.c:382
+#: ../src/modules/backup-restore/evolution-backup-restore.c:434
 msgid "Restore Evolution data and settings from an archive file"
 msgstr ""
 "Evolution деректерін және баптауларын қор көшірме файлынан қалпына келтіру"
@@ -19751,7 +19901,7 @@ msgid "_24 hour"
 msgstr "24-_сағат"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:18
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1607
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1658
 msgid "Work Week"
 msgstr ""
 
@@ -19974,7 +20124,7 @@ msgid "_Appointment"
 msgstr ""
 
 #: ../src/modules/calendar/e-cal-shell-backend.c:114
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1404
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1451
 msgid "Create a new appointment"
 msgstr ""
 
@@ -20002,7 +20152,7 @@ msgid "Cale_ndar"
 msgstr "Кү_нтізбе"
 
 #: ../src/modules/calendar/e-cal-shell-backend.c:138
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1271
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1311
 msgid "Create a new calendar"
 msgstr ""
 
@@ -20037,11 +20187,11 @@ msgstr ""
 
 #. Translators: Default filename part saving an event to a file when
 #. * no summary is filed, the '.ics' extension is concatenated to it.
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1084
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1124
 msgid "event"
 msgstr "оқиға"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1086
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1126
 #: ../src/modules/calendar/e-cal-shell-view-memopad.c:207
 #: ../src/modules/calendar/e-cal-shell-view-taskpad.c:275
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:496
@@ -20049,142 +20199,150 @@ msgstr "оқиға"
 msgid "Save as iCalendar"
 msgstr ""
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1220
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1260
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:577
 #: ../src/modules/calendar/e-task-shell-view-actions.c:703
 msgid "_Copy..."
 msgstr ""
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1227
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1267
 msgid "D_elete Calendar"
 msgstr ""
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1229
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1269
 msgid "Delete the selected calendar"
 msgstr ""
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1236
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1276
 msgid "Go Back"
 msgstr "Артқа"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1243
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1283
 msgid "Go Forward"
 msgstr ""
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1250
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1290
 msgid "Select today"
 msgstr ""
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1255
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1295
 msgid "Select _Date"
 msgstr ""
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1257
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1297
 msgid "Select a specific date"
 msgstr ""
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1262
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1302
 msgid "_Manage Calendar groups..."
 msgstr ""
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1264
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1304
 msgid "Manage Calendar groups order and visibility"
 msgstr ""
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1269
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1309
 msgid "_New Calendar"
 msgstr ""
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1283
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1323
 #: ../src/modules/calendar/e-task-shell-view-actions.c:801
 msgid "Purg_e"
 msgstr ""
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1285
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1325
 msgid "Purge old appointments and meetings"
 msgstr ""
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1292
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1332
 msgid "Refresh the selected calendar"
 msgstr ""
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1299
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1339
 msgid "Rename the selected calendar"
 msgstr ""
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1304
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1344
 msgid "Find _Next"
 msgstr "Кел_есіні табу"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1306
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1346
 msgid "Find next occurrence of the current search string"
 msgstr ""
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1311
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1351
 msgid "Find _Previous"
 msgstr "Алд_ыңғысын табу"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1313
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1353
 msgid "Find previous occurrence of the current search string"
 msgstr ""
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1318
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1358
 msgid "Stop _Running Search"
 msgstr ""
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1320
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1360
 msgid "Stop currently running search"
 msgstr ""
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1325
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1365
 msgid "Sho_w All Calendars"
 msgstr ""
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1332
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1372
 msgid "Show _Only This Calendar"
 msgstr ""
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1339
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1379
 msgid "Cop_y to Calendar..."
 msgstr ""
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1346
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1386
 msgid "_Delegate Meeting..."
 msgstr ""
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1353
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1393
 msgid "_Delete Appointment"
 msgstr ""
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1355
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1395
 msgid "Delete selected appointments"
 msgstr ""
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1360
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1400
 msgid "Delete This _Occurrence"
 msgstr ""
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1362
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1402
 msgid "Delete this occurrence"
 msgstr ""
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1367
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1407
 msgid "Delete All Occ_urrences"
 msgstr ""
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1369
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1409
 msgid "Delete all occurrences"
 msgstr ""
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1374
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1414
+msgid "Edit as Ne_w..."
+msgstr ""
+
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1416
+msgid "Edit the current appointment as new"
+msgstr ""
+
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1421
 msgid "New All Day _Event..."
 msgstr ""
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1376
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1423
 msgid "Create a new all day event"
 msgstr ""
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1381
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1428
 #: ../src/modules/calendar/e-cal-shell-view-memopad.c:241
 #: ../src/modules/calendar/e-cal-shell-view-taskpad.c:315
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:570
@@ -20192,120 +20350,112 @@ msgstr ""
 msgid "_Forward as iCalendar..."
 msgstr ""
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1388
-msgid "New _Meeting..."
-msgstr ""
-
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1390
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1437
 msgid "Create a new meeting"
 msgstr ""
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1395
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1442
 msgid "Mo_ve to Calendar..."
 msgstr ""
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1402
-msgid "New _Appointment..."
-msgstr ""
-
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1409
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1456
 msgid "Make this Occurrence _Movable"
 msgstr ""
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1416
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1463
 msgid "_Open Appointment"
 msgstr ""
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1418
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1465
 msgid "View the current appointment"
 msgstr ""
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1423
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1470
 msgid "_Reply"
 msgstr "Жауап бе_ру"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1437
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1484
 msgid "_Schedule Meeting..."
 msgstr ""
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1439
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1486
 msgid "Converts an appointment to a meeting"
 msgstr ""
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1444
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1491
 msgid "Conv_ert to Appointment..."
 msgstr ""
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1446
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1493
 msgid "Converts a meeting to an appointment"
 msgstr ""
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1451
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1498
 msgid "Quit"
 msgstr "Шығу"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1579
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1630
 msgid "Day"
 msgstr "Күн"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1581
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1632
 msgid "Show one day"
 msgstr ""
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1586
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1637
 msgid "List"
 msgstr "Тізім"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1588
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1639
 msgid "Show as list"
 msgstr ""
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1593
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1644
 msgid "Month"
 msgstr "Ай"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1595
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1646
 msgid "Show one month"
 msgstr ""
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1600
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1651
 msgid "Week"
 msgstr "Апта"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1602
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1653
 msgid "Show one week"
 msgstr ""
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1609
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1660
 msgid "Show one work week"
 msgstr ""
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1617
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1668
 msgid "Active Appointments"
 msgstr ""
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1631
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1682
 msgid "Next 7 Days’ Appointments"
 msgstr "Келесі 7 күннің тағайындаулары"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1638
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1689
 msgid "Occurs Less Than 5 Times"
 msgstr ""
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1669
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1720
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:789
 #: ../src/modules/calendar/e-task-shell-view-actions.c:990
 msgid "Description contains"
 msgstr ""
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1676
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1727
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:796
 #: ../src/modules/calendar/e-task-shell-view-actions.c:997
 msgid "Summary contains"
 msgstr ""
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1686
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1700
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1737
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1751
 #: ../src/modules/calendar/e-cal-shell-view-memopad.c:272
 #: ../src/modules/calendar/e-cal-shell-view-taskpad.c:360
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:806
@@ -20315,15 +20465,15 @@ msgstr ""
 msgid "Print..."
 msgstr "Баспаға шығару..."
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1688
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1739
 msgid "Print this calendar"
 msgstr ""
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1695
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1746
 msgid "Preview the calendar to be printed"
 msgstr ""
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1717
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1768
 #: ../src/modules/calendar/e-cal-shell-view-memopad.c:282
 #: ../src/modules/calendar/e-cal-shell-view-taskpad.c:370
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:837
@@ -20331,7 +20481,7 @@ msgstr ""
 msgid "_Save as iCalendar..."
 msgstr ""
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1794
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1845
 msgid "Go To"
 msgstr "Өту"
 
@@ -21230,16 +21380,16 @@ msgid "Sa_ve"
 msgstr "Сақ_тау"
 
 #: ../src/modules/itip-formatter/itip-view.c:3486
-#: ../src/modules/itip-formatter/itip-view.c:4955
+#: ../src/modules/itip-formatter/itip-view.c:5015
 msgid "Attendee status updated"
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:3658
+#: ../src/modules/itip-formatter/itip-view.c:3701
 #, c-format
 msgid "An appointment “%s” in the calendar “%s” conflicts with this meeting"
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:3664
+#: ../src/modules/itip-formatter/itip-view.c:3707
 #, c-format
 msgid ""
 "The calendar “%s” contains an appointment which conflicts with this meeting"
@@ -21247,188 +21397,192 @@ msgid_plural ""
 "The calendar “%s” contains %d appointments which conflict with this meeting"
 msgstr[0] ""
 
-#: ../src/modules/itip-formatter/itip-view.c:3697
+#: ../src/modules/itip-formatter/itip-view.c:3740
 #, c-format
 msgid "Found the appointment in the calendar “%s”"
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:3831
+#: ../src/modules/itip-formatter/itip-view.c:3749
+msgid "This meeting invitation is obsolete. It had been updated."
+msgstr ""
+
+#: ../src/modules/itip-formatter/itip-view.c:3891
 msgid "Unable to find any calendars"
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:3839
+#: ../src/modules/itip-formatter/itip-view.c:3899
 msgid "Unable to find this meeting in any calendar"
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:3844
+#: ../src/modules/itip-formatter/itip-view.c:3904
 msgid "Unable to find this task in any task list"
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:3849
+#: ../src/modules/itip-formatter/itip-view.c:3909
 msgid "Unable to find this memo in any memo list"
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:4190
+#: ../src/modules/itip-formatter/itip-view.c:4250
 msgid "Opening the calendar. Please wait..."
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:4195
+#: ../src/modules/itip-formatter/itip-view.c:4255
 msgid "Searching for an existing version of this appointment"
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:4594
+#: ../src/modules/itip-formatter/itip-view.c:4654
 #, c-format
 msgid "Unable to send item to calendar “%s”.  %s"
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:4609
+#: ../src/modules/itip-formatter/itip-view.c:4669
 #, c-format
 msgid "Sent to calendar “%s” as accepted"
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:4614
+#: ../src/modules/itip-formatter/itip-view.c:4674
 #, c-format
 msgid "Sent to calendar “%s” as tentative"
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:4620
+#: ../src/modules/itip-formatter/itip-view.c:4680
 #, c-format
 msgid "Sent to calendar “%s” as declined"
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:4626
+#: ../src/modules/itip-formatter/itip-view.c:4686
 #, c-format
 msgid "Sent to calendar “%s” as cancelled"
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:4646
-#: ../src/modules/itip-formatter/itip-view.c:5092
-#: ../src/modules/itip-formatter/itip-view.c:5195
+#: ../src/modules/itip-formatter/itip-view.c:4706
+#: ../src/modules/itip-formatter/itip-view.c:5152
+#: ../src/modules/itip-formatter/itip-view.c:5255
 msgid "Saving changes to the calendar. Please wait..."
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:4687
+#: ../src/modules/itip-formatter/itip-view.c:4747
 msgid "Unable to parse item"
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:4879
+#: ../src/modules/itip-formatter/itip-view.c:4939
 #, c-format
 msgid "Organizer has removed the delegate %s "
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:4896
+#: ../src/modules/itip-formatter/itip-view.c:4956
 msgid "Sent a cancelation notice to the delegate"
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:4900
+#: ../src/modules/itip-formatter/itip-view.c:4960
 msgid "Could not send the cancelation notice to the delegate"
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:4947
+#: ../src/modules/itip-formatter/itip-view.c:5007
 #, c-format
 msgid "Unable to update attendee. %s"
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:4982
+#: ../src/modules/itip-formatter/itip-view.c:5042
 msgid "The meeting is invalid and cannot be updated"
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:5057
+#: ../src/modules/itip-formatter/itip-view.c:5117
 msgid "Attendee status could not be updated because the status is invalid"
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:5128
-#: ../src/modules/itip-formatter/itip-view.c:5166
+#: ../src/modules/itip-formatter/itip-view.c:5188
+#: ../src/modules/itip-formatter/itip-view.c:5226
 msgid "Attendee status can not be updated because the item no longer exists"
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:5227
+#: ../src/modules/itip-formatter/itip-view.c:5287
 msgid "Meeting information sent"
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:5232
+#: ../src/modules/itip-formatter/itip-view.c:5292
 msgid "Task information sent"
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:5237
+#: ../src/modules/itip-formatter/itip-view.c:5297
 msgid "Memo information sent"
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:5248
+#: ../src/modules/itip-formatter/itip-view.c:5308
 msgid "Unable to send meeting information, the meeting does not exist"
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:5253
+#: ../src/modules/itip-formatter/itip-view.c:5313
 msgid "Unable to send task information, the task does not exist"
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:5258
+#: ../src/modules/itip-formatter/itip-view.c:5318
 msgid "Unable to send memo information, the memo does not exist"
 msgstr ""
 
 #. Translators: This is a default filename for a calendar.
-#: ../src/modules/itip-formatter/itip-view.c:5323
+#: ../src/modules/itip-formatter/itip-view.c:5383
 msgid "calendar.ics"
 msgstr "calendar.ics"
 
-#: ../src/modules/itip-formatter/itip-view.c:5328
+#: ../src/modules/itip-formatter/itip-view.c:5388
 msgid "Save Calendar"
 msgstr "Күнтізбені сақтау"
 
-#: ../src/modules/itip-formatter/itip-view.c:5376
-#: ../src/modules/itip-formatter/itip-view.c:5389
+#: ../src/modules/itip-formatter/itip-view.c:5436
+#: ../src/modules/itip-formatter/itip-view.c:5449
 msgid "The calendar attached is not valid"
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:5377
-#: ../src/modules/itip-formatter/itip-view.c:5390
+#: ../src/modules/itip-formatter/itip-view.c:5437
+#: ../src/modules/itip-formatter/itip-view.c:5450
 msgid ""
 "The message claims to contain a calendar, but the calendar is not a valid "
 "iCalendar."
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:5432
-#: ../src/modules/itip-formatter/itip-view.c:5462
-#: ../src/modules/itip-formatter/itip-view.c:5565
+#: ../src/modules/itip-formatter/itip-view.c:5492
+#: ../src/modules/itip-formatter/itip-view.c:5522
+#: ../src/modules/itip-formatter/itip-view.c:5625
 msgid "The item in the calendar is not valid"
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:5433
-#: ../src/modules/itip-formatter/itip-view.c:5463
-#: ../src/modules/itip-formatter/itip-view.c:5566
+#: ../src/modules/itip-formatter/itip-view.c:5493
+#: ../src/modules/itip-formatter/itip-view.c:5523
+#: ../src/modules/itip-formatter/itip-view.c:5626
 msgid ""
 "The message does contain a calendar, but the calendar contains no events, "
 "tasks or free/busy information"
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:5478
+#: ../src/modules/itip-formatter/itip-view.c:5538
 msgid "The calendar attached contains multiple items"
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:5479
+#: ../src/modules/itip-formatter/itip-view.c:5539
 msgid ""
 "To process all of these items, the file should be saved and the calendar "
 "imported"
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:5997
+#: ../src/modules/itip-formatter/itip-view.c:6057
 msgctxt "cal-itip"
 msgid "None"
 msgstr "Бос"
 
-#: ../src/modules/itip-formatter/itip-view.c:6013
+#: ../src/modules/itip-formatter/itip-view.c:6073
 msgid "Tentatively Accepted"
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:6179
+#: ../src/modules/itip-formatter/itip-view.c:6239
 msgid "This meeting recurs"
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:6182
+#: ../src/modules/itip-formatter/itip-view.c:6242
 msgid "This task recurs"
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:6185
+#: ../src/modules/itip-formatter/itip-view.c:6245
 msgid "This memo recurs"
 msgstr ""
 
@@ -21722,352 +21876,370 @@ msgctxt "label"
 msgid "None"
 msgstr "Бос"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:734
+#: ../src/modules/mail/e-mail-shell-view-actions.c:781
 msgid "Marking messages as read..."
 msgstr ""
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1093
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1140
 msgid "Go to Folder"
 msgstr ""
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1097
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1144
 msgid "_Select"
 msgstr "_Таңдау"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1650
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1624
 msgid "_Disable Account"
 msgstr ""
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1652
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1626
 msgid "Disable this account"
 msgstr ""
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1659
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1633
 msgid "Permanently remove all the deleted messages from all folders"
 msgstr ""
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1666
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1638
+#| msgid "Empty _Trash"
+msgid "Empty _Junk"
+msgstr ""
+
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1640
+msgid "Delete all Junk messages from all folders"
+msgstr ""
+
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1647
 msgid "Edit properties of this account"
 msgstr ""
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1673
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1654
 msgid "Refresh list of folders of this account"
 msgstr ""
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1678
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1659
 msgid "_Download Messages for Offline Usage"
 msgstr ""
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1680
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1661
 msgid "Download messages of accounts and folders marked for offline usage"
 msgstr ""
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1685
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1666
 msgid "Fl_ush Outbox"
 msgstr ""
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1692
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1673
 msgid "_Copy Folder To..."
 msgstr ""
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1694
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1675
 msgid "Copy the selected folder into another folder"
 msgstr ""
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1701
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1682
 msgid "Permanently remove this folder"
 msgstr ""
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1706
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1687
 msgid "E_xpunge"
 msgstr ""
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1708
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1689
 msgid "Permanently remove all deleted messages from this folder"
 msgstr ""
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1713
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1821
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1694
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1802
 msgid "Mar_k All Messages as Read"
 msgstr ""
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1715
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1823
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1696
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1804
 msgid "Mark all messages in the folder as read"
 msgstr ""
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1720
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1701
 msgid "_Move Folder To..."
 msgstr ""
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1722
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1703
 msgid "Move the selected folder into another folder"
 msgstr ""
 
 #. Translators: An action caption to create a new mail folder
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1728
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1709
 msgid "_New..."
 msgstr "_Жаңа..."
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1730
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1711
 msgid "Create a new folder for storing mail"
 msgstr ""
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1737
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1718
 msgid "Change the properties of this folder"
 msgstr ""
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1744
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1725
 msgid "Refresh the folder"
 msgstr ""
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1751
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1732
 msgid "Change the name of this folder"
 msgstr ""
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1756
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1737
 msgid "Select Message _Thread"
 msgstr ""
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1758
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1739
 msgid "Select all messages in the same thread as the selected message"
 msgstr ""
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1763
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1744
 msgid "Select Message S_ubthread"
 msgstr ""
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1765
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1746
 msgid "Select all replies to the currently selected message"
 msgstr ""
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1777
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1758
 msgid "Empty _Trash"
 msgstr "Қ_оқыс шелегін тазарту"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1779
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1760
 msgid "Permanently remove all the deleted messages from all accounts"
 msgstr ""
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1784
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1765
 msgid "Go to _Folder"
 msgstr ""
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1786
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1767
 msgid "Opens a dialog to select a folder to go to"
 msgstr ""
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1791
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1772
 msgid "_New Label"
 msgstr ""
 
 #. Translators: "None" is used in the message label context menu.
 #. *              It removes all labels from the selected messages.
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1800
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1781
 msgid "N_one"
 msgstr "_Жоқ"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1814
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1795
 msgid "_Manage Subscriptions"
 msgstr ""
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1816
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1900
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1797
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1881
 msgid "Subscribe or unsubscribe to folders on remote servers"
 msgstr ""
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1828
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1849
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1809
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1830
 msgid "Send / _Receive"
 msgstr ""
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1830
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1811
 msgid "Send queued items and retrieve new items"
 msgstr ""
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1835
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1816
 msgid "R_eceive All"
 msgstr ""
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1837
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1818
 msgid "Receive new items from all accounts"
 msgstr ""
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1842
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1823
 msgid "_Send All"
 msgstr ""
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1844
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1825
 msgid "Send queued items in all accounts"
 msgstr ""
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1872
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1853
 msgid "Cancel the current mail operation"
 msgstr ""
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1877
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1858
 msgid "Collapse All _Threads"
 msgstr ""
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1879
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1860
 msgid "Collapse all message threads"
 msgstr ""
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1884
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1865
 msgid "E_xpand All Threads"
 msgstr ""
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1886
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1867
 msgid "Expand all message threads"
 msgstr ""
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1891
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1872
 msgid "_Message Filters"
 msgstr ""
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1893
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1874
 msgid "Create or edit rules for filtering new mail"
 msgstr ""
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1898
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1879
 msgid "_Subscriptions..."
 msgstr ""
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1907
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1888
 msgid "F_older"
 msgstr ""
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1914
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1895
 msgid "_Label"
 msgstr "Ж_азуы"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1931
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1912
 msgid "C_reate Search Folder From Search..."
 msgstr ""
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1938
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1919
 msgid "Search F_olders"
 msgstr ""
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1940
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1921
 msgid "Create or edit search folder definitions"
 msgstr ""
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1979
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1964
 msgid "_New Folder..."
 msgstr "_Жаңа бума..."
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2007
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1992
 msgid "Show Message _Preview"
 msgstr ""
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2009
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1994
 msgid "Show message preview pane"
 msgstr ""
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2015
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2000
 msgid "Show _Attachment Bar"
 msgstr "С_алынымдар панелін көрсету"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2017
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2002
 msgid ""
 "Show Attachment Bar below the message preview pane when the message has "
 "attachments"
 msgstr ""
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2023
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2008
 msgid "Show _Deleted Messages"
 msgstr ""
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2025
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2010
 msgid "Show deleted messages with a line through them"
 msgstr ""
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2031
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2016
 msgid "Show _Junk Messages"
 msgstr ""
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2033
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2018
 msgid "Show junk messages with a red line through them"
 msgstr ""
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2039
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2024
 msgid "_Group By Threads"
 msgstr ""
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2041
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2026
 msgid "Threaded message list"
 msgstr ""
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2047
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2032
+#| msgid "Show _Tool Bar"
+msgid "Show To _Do Bar"
+msgstr ""
+
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2034
+msgid "Show To Do bar with appointments and tasks"
+msgstr ""
+
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2040
 msgid "_Unmatched Folder Enabled"
 msgstr ""
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2049
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2042
 msgid "Toggles whether Unmatched search folder is enabled"
 msgstr ""
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2069
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2062
 msgid "Show message preview below the message list"
 msgstr ""
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2076
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2069
 msgid "Show message preview alongside the message list"
 msgstr ""
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2084
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2077
 msgid "All Messages"
 msgstr "Барлық хабарламалар"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2091
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2084
 msgid "Important Messages"
 msgstr "Маңызды хабарламалар"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2098
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2091
 msgid "Last 5 Days’ Messages"
 msgstr "Соңғы 5 күннің хабарламалары"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2105
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2098
 msgid "Messages Not Junk"
 msgstr ""
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2112
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2105
 msgid "Messages with Attachments"
 msgstr "Салынымдары бар хабарламалар"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2119
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2112
 msgid "Messages with Notes"
 msgstr ""
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2126
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2119
 msgid "No Label"
 msgstr "Белгісі жоқ"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2133
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2126
 msgid "Read Messages"
 msgstr "Оқылған хабарламалар"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2140
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2133
 msgid "Unread Messages"
 msgstr "Оқылмаған хабарламалар"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2147
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2140
 msgid "Message Thread"
 msgstr ""
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2207
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2200
 msgid "Subject or Addresses contain"
 msgstr ""
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2217
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2210
 msgid "All Accounts"
 msgstr "Барлық тіркелгілер"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2224
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2217
 msgid "Current Account"
 msgstr "Ағымдағы тіркелгі"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2231
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2224
 msgid "Current Folder"
 msgstr "Ағымдағы бума"
 
@@ -22184,12 +22356,20 @@ msgid "Contains Value"
 msgstr ""
 
 #. To Translators: 'Date header' is a label for configurable date/time format for 'Date' header in mail message window/preview
-#: ../src/modules/mail/em-mailer-prefs.c:1558
+#: ../src/modules/mail/em-mailer-prefs.c:1564
 msgid "_Date header:"
 msgstr ""
 
-#: ../src/modules/mail/em-mailer-prefs.c:1559
+#: ../src/modules/mail/em-mailer-prefs.c:1565
 msgid "Show _original header value"
+msgstr ""
+
+#: ../src/modules/mailto-handler/evolution-mailto-handler.c:112
+msgid "Do _not change settings"
+msgstr ""
+
+#: ../src/modules/mailto-handler/evolution-mailto-handler.c:113
+msgid "_Set as default email client"
 msgstr ""
 
 #: ../src/modules/mailto-handler/evolution-mailto-handler.c:138
@@ -23112,8 +23292,8 @@ msgid ""
 msgstr ""
 
 #. Translators: '%d' is the count of mails received.
-#: ../src/plugins/mail-notification/mail-notification.c:398
-#: ../src/plugins/mail-notification/mail-notification.c:434
+#: ../src/plugins/mail-notification/mail-notification.c:401
+#: ../src/plugins/mail-notification/mail-notification.c:437
 #, c-format
 msgid "You have received %d new message."
 msgid_plural "You have received %d new messages."
@@ -23121,54 +23301,54 @@ msgstr[0] ""
 
 #. Translators: "From:" is preceding a new mail
 #. * sender address, like "From: user@example.com"
-#: ../src/plugins/mail-notification/mail-notification.c:409
+#: ../src/plugins/mail-notification/mail-notification.c:412
 #, c-format
 msgid "From: %s"
 msgstr ""
 
 #. Translators: "Subject:" is preceding a new mail
 #. * subject, like "Subject: It happened again"
-#: ../src/plugins/mail-notification/mail-notification.c:423
+#: ../src/plugins/mail-notification/mail-notification.c:426
 #, c-format
 msgid "Subject: %s"
 msgstr ""
 
-#: ../src/plugins/mail-notification/mail-notification.c:440
+#: ../src/plugins/mail-notification/mail-notification.c:443
 msgid "New email in Evolution"
 msgstr ""
 
 #. Translators: The '%s' is a mail
 #. * folder name.  (e.g. "Show Inbox")
-#: ../src/plugins/mail-notification/mail-notification.c:481
+#: ../src/plugins/mail-notification/mail-notification.c:484
 #, c-format
 msgid "Show %s"
 msgstr "%s көрсету"
 
-#: ../src/plugins/mail-notification/mail-notification.c:685
+#: ../src/plugins/mail-notification/mail-notification.c:688
 msgid "_Play sound when a new message arrives"
 msgstr ""
 
-#: ../src/plugins/mail-notification/mail-notification.c:717
+#: ../src/plugins/mail-notification/mail-notification.c:720
 msgid "_Beep"
 msgstr ""
 
-#: ../src/plugins/mail-notification/mail-notification.c:730
+#: ../src/plugins/mail-notification/mail-notification.c:733
 msgid "Use sound _theme"
 msgstr ""
 
-#: ../src/plugins/mail-notification/mail-notification.c:749
+#: ../src/plugins/mail-notification/mail-notification.c:752
 msgid "Play _file:"
 msgstr ""
 
-#: ../src/plugins/mail-notification/mail-notification.c:758
+#: ../src/plugins/mail-notification/mail-notification.c:761
 msgid "Select sound file"
 msgstr ""
 
-#: ../src/plugins/mail-notification/mail-notification.c:835
+#: ../src/plugins/mail-notification/mail-notification.c:838
 msgid "Notify new messages for _Inbox only"
 msgstr ""
 
-#: ../src/plugins/mail-notification/mail-notification.c:851
+#: ../src/plugins/mail-notification/mail-notification.c:854
 msgid "Show _notification when a new message arrives"
 msgstr ""
 
@@ -24669,7 +24849,7 @@ msgstr "Қолтаңба"
 msgid "Encrypt"
 msgstr "Шифрлеу"
 
-#: ../src/smime/lib/e-cert-db.c:786
+#: ../src/smime/lib/e-cert-db.c:788
 msgid "Certificate already exists"
 msgstr "Сертификат бар болып тұр"
 
