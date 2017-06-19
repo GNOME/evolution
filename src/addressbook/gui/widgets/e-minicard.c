@@ -621,12 +621,12 @@ e_minicard_event (GnomeCanvasItem *item,
 				event->motion.x, event->motion.y)) {
 				gint ret_val;
 
-				ret_val = e_minicard_drag_begin (e_minicard, event);
-
 				if (gtk_widget_has_grab (GTK_WIDGET (GNOME_CANVAS_ITEM (e_minicard)->canvas))) {
 					gtk_grab_remove (GTK_WIDGET (GNOME_CANVAS_ITEM (e_minicard)->canvas));
 					gnome_canvas_item_ungrab (GNOME_CANVAS_ITEM (e_minicard), event->motion.time);
 				}
+
+				ret_val = e_minicard_drag_begin (e_minicard, event);
 
 				e_minicard->drag_button = 0;
 				e_minicard->drag_button_down = FALSE;
