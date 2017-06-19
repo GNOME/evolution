@@ -18,8 +18,8 @@ msgstr ""
 "Project-Id-Version: evolution.master\n"
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2017-06-15 14:59+0000\n"
-"PO-Revision-Date: 2017-06-16 13:22+0200\n"
+"POT-Creation-Date: 2017-06-16 15:56+0000\n"
+"PO-Revision-Date: 2017-06-19 11:51+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: es <gnome-es-list@gnome.org>\n"
 "Language: es\n"
@@ -2127,12 +2127,10 @@ msgid "Prompt the user when he or she tries to expunge a folder."
 msgstr "Preguntar al usuario cuando intente purgar una carpeta."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:163
-#| msgid "Prompt when user expunges"
 msgid "Prompt when user calls Empty Junk"
 msgstr "Preguntar cuando el usuario intente vaciar el spam"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:164
-#| msgid "Prompt the user when he or she tries to expunge a folder."
 msgid "Prompt the user when he or she tries to Empty a Junk folder."
 msgstr "Preguntar al usuario cuando intente vaciar la carpeta SPAM."
 
@@ -2605,7 +2603,6 @@ msgstr ""
 "cuando está en una carpeta de este equipo."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:240
-#| msgid "Whether to show icons of events in the month view"
 msgid "Whether the To Do bar is visible in the main window"
 msgstr ""
 "Indica si la barra de tareas pendientes es visible en la ventana principal."
@@ -2616,19 +2613,16 @@ msgstr ""
 "Almacena si la barra de tareas pendientes es visible en la ventana principal."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:242
-#| msgid "If “true”, show the memo preview pane in the main window"
 msgid "Width of the To Do bar in the main window"
 msgstr "Anchura de la barra de tareas pendientes en la ventana principal"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:243
-#| msgid "Apply the given geometry to the main window"
 msgid "Holds the width of the To Do bar for the main window."
 msgstr ""
 "Contiene la anchura de la barra de tareas pendientes para la ventana "
 "principal."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:244
-#| msgid "Whether the toolbar should be visible."
 msgid "Whether the To Do bar is visible in a sub-window"
 msgstr "Indica si la barra de tareas pendientes es visible en una sub-ventana"
 
@@ -2647,7 +2641,6 @@ msgstr ""
 "Almacena la anchura de la barra de tareas pendientes para una sub-ventana."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:248
-#| msgid "Whether the toolbar should be visible."
 msgid "Whether the To Do bar should show also completed tasks"
 msgstr ""
 "Indica si la barra de tareas pendientes debe mostrar las tareas completadas"
@@ -8765,14 +8758,12 @@ msgstr "Seleccione la zona horaria"
 #. Translators: It will display "Due: DueDateAndTime"
 #: ../src/calendar/gui/e-to-do-pane.c:365
 #, c-format
-#| msgid "Due: "
 msgid "Due: %s"
 msgstr "Vence: %s"
 
 #. Translators: It will display "Completed: DateAndTimeWhenCompleted"
 #: ../src/calendar/gui/e-to-do-pane.c:377
 #, c-format
-#| msgid "Completed "
 msgid "Completed: %s"
 msgstr "Completado: %s"
 
@@ -8802,38 +8793,30 @@ msgid "New _Meeting..."
 msgstr "_Reunión nueva…"
 
 #: ../src/calendar/gui/e-to-do-pane.c:1848
-#| msgid "New _Task"
 msgid "New _Task..."
 msgstr "_Tarea nueva…"
 
 #: ../src/calendar/gui/e-to-do-pane.c:1856
-#| msgctxt "New"
-#| msgid "Assigne_d Task"
 msgid "_New Assigned Task..."
 msgstr "Nueva tarea _asignada…"
 
 #: ../src/calendar/gui/e-to-do-pane.c:1869
-#| msgid "_Open"
 msgid "_Open..."
 msgstr "_Abrir..."
 
 #: ../src/calendar/gui/e-to-do-pane.c:1883
-#| msgid "Delete This _Occurrence"
 msgid "_Delete This Instance..."
 msgstr "_Eliminar esta _instancia…"
 
 #: ../src/calendar/gui/e-to-do-pane.c:1891
-#| msgid "All Instances"
 msgid "D_elete All Instances..."
 msgstr "E_liminar todas las instancias…"
 
 #: ../src/calendar/gui/e-to-do-pane.c:1899
-#| msgid "_Delete"
 msgid "_Delete..."
 msgstr "_Eliminar…"
 
 #: ../src/calendar/gui/e-to-do-pane.c:2189
-#| msgid "_To Do"
 msgid "To Do"
 msgstr "Tareas pendientes"
 
@@ -17301,8 +17284,8 @@ msgstr "No advertirme de nuevo"
 
 #: ../src/mail/e-mail-reader-utils.c:633
 #, c-format
-#| msgid "Saving message to folder “%s”"
-msgid "Deleting messages in Junk folder ”%s”…"
+#| msgid "Deleting messages in Junk folder ”%s”…"
+msgid "Deleting messages in Junk folder “%s”…"
 msgstr "Eliminando mensajes en la carpeta de spam «%s»…"
 
 #: ../src/mail/e-mail-reader-utils.c:728
@@ -18594,7 +18577,6 @@ msgid "Confirm _when expunging a folder"
 msgstr "_Confirmar antes de purgar una carpeta"
 
 #: ../src/mail/mail-config.ui.h:102
-#| msgid "Confirm _when expunging a folder"
 msgid "Confirm when emptying a _Junk folder"
 msgstr "_Confirmar an vaciar la carpeta SPAM"
 
@@ -19708,9 +19690,6 @@ msgstr ""
 "envíe un informe de error al bugzilla de GNOME."
 
 #: ../src/mail/mail.error.xml.h:212
-#| msgid ""
-#| "Are you sure you want to permanently remove all the deleted messages in "
-#| "all folders?"
 msgid "Are you sure you want to delete all the messages in the Junk folder?"
 msgstr "¿Seguro que quiere eliminar todos los mensajes de la carpeta SPAM?"
 
@@ -19723,12 +19702,10 @@ msgstr ""
 "de manera permanente más adelante."
 
 #: ../src/mail/mail.error.xml.h:214
-#| msgid "_Not Junk"
 msgid "_Empty Junk"
 msgstr "_Vaciar SPAM"
 
 #: ../src/mail/mail.error.xml.h:215
-#| msgid "Failed to expunge folder “{0}”."
 msgid "Failed to empty Junk folder “{0}”"
 msgstr "Falló al vaciar la carpeta de spam «{0}»"
 
@@ -21470,12 +21447,10 @@ msgid "Delete all occurrences"
 msgstr "Eliminar todas las repeticiones"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1414
-#| msgid "_Edit as New Message..."
 msgid "Edit as Ne_w..."
 msgstr "_Editar como un mensaje nuevo…"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1416
-#| msgid "View the current appointment"
 msgid "Edit the current appointment as new"
 msgstr "Editar la cita actual como nueva"
 
@@ -23081,12 +23056,10 @@ msgstr ""
 "Eliminar permanentemente todos los correos eliminados de todas las carpetas"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1638
-#| msgid "_Junk"
 msgid "Empty _Junk"
 msgstr "Vaciar _SPAM"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1640
-#| msgid "Permanently remove all the deleted messages from all folders"
 msgid "Delete all Junk messages from all folders"
 msgstr "Eliminar todos los mensajes de spam de todas las carpetas"
 
@@ -23350,7 +23323,6 @@ msgid "Threaded message list"
 msgstr "Lista de correos por conversaciones"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:2032
-#| msgid "Show _Tool Bar"
 msgid "Show To _Do Bar"
 msgstr "Mostrar barra de _tareas pendientes"
 
@@ -23559,12 +23531,10 @@ msgid "Show _original header value"
 msgstr "Mostrar el valor _original de la cabecera"
 
 #: ../src/modules/mailto-handler/evolution-mailto-handler.c:112
-#| msgid "Do not warn me again"
 msgid "Do _not change settings"
 msgstr "_No cambiar la configuración"
 
 #: ../src/modules/mailto-handler/evolution-mailto-handler.c:113
-#| msgid "Mark as default memo list"
 msgid "_Set as default email client"
 msgstr "_Establecer como cliente de correo predeterminado:"
 
