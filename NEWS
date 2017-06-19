@@ -1,3 +1,43 @@
+Evolution 3.25.3 2017-06-19
+---------------------------
+
+Bug Fixes:
+	Bug 782803 - Select also day when going to Today in Month/Week views (Milan Crha)
+	Bug 205718 - Import public keys from messages (Milan Crha)
+	Bug 783106 - Crash under webkit_editor_paste_clipboard_targets_cb() (Milan Crha)
+	Bug 537048 - [Month view] Clicking outside of appointment doesn't stop editing (Milan Crha)
+	Bug 783191 - Fix conditional to prevent a compiler warning (Antoine Jacoutot)
+	Bug 782052 - Today in mini-calendar not easy to distinguish from selected days (Milan Crha)
+	Bug 783317 - Use https for autoconfig API (Tobias Mueller)
+	Bug 782210 - Divide message list and preview panel size proportionally (Milan Crha)
+	Bug 783348 - Add 'Edit as New' event context menu option (Milan Crha)
+	Bug 783353 - Composer spell checks with no language selected (Milan Crha)
+	Bug 782470 - Style <blockquote> in HTML replies (Milan Crha)
+	Bug 266621 - Add "To Do" bar with events and tasks for Mail view (Milan Crha)
+	Bug 783682 - Misleading start date set for Memos created inline in Calendar view (Milan Crha)
+	Bug 531945 - Default e-mail client dialog asks me Yes or No (Milan Crha)
+	Bug 499319 - Add "Empty Junk" to Junk folder context menu (Milan Crha)
+
+Miscellaneous:
+	Use SIGTERM instead of SIGQUIT in killev (evolution --force-shutdown) (Milan Crha)
+	Allow select the same source and destination calendar in Copy To Calendar (Milan Crha)
+	Crash under e_dom_resize_document_content_to_preview_width() (Milan Crha)
+	Use ESourceRegistryWatcher in alarm-notify (Milan Crha)
+	Allow overwrite of CMAKE_SKIP_RPATH variable (Milan Crha)
+	e_mail_folder_to_full_display_name: Special-case virtual Trash/Junk folders (Milan Crha)
+	Correct Unicode opening quotation mark (Piotr Drąg)
+
+Translations:
+	Fabio Tomat (fur)
+	Марко Костић (sr)
+	Mario Blättermann (de)
+	Kukuh Syafaat (id)
+	Daniel Mustieles (es)
+	Kjartan Maraas (nb)
+	Jordi Mas (ca)
+	Baurzhan Muftakhidinov (kk)
+	Gábor Kelemen (hu)
+
 Evolution 3.25.2 2017-05-22
 ---------------------------
 
