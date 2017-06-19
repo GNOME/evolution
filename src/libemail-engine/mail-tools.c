@@ -151,37 +151,51 @@ mail_tool_do_movemail (CamelStore *store,
 gchar *
 mail_tool_generate_forward_subject (CamelMimeMessage *msg)
 {
-	const gchar *subject;
+	const gchar *orig_subject;
+	gchar *subject = NULL;
 	gchar *fwd_subj;
 	const gint max_subject_length = 1024;
 
-	subject = camel_mime_message_get_subject (msg);
+	orig_subject = camel_mime_message_get_subject (msg);
 
-	if (subject && *subject) {
-		/* Truncate insanely long subjects */
-		if (strlen (subject) < max_subject_length) {
-			fwd_subj = g_strdup_printf ("[Fwd: %s]", subject);
-		} else {
-			/* We can't use %.*s because it depends on the
-			 * locale being C/POSIX or UTF-8 to work correctly
-			 * in glibc. */
-			fwd_subj = g_malloc (max_subject_length + 11);
-			memcpy (fwd_subj, "[Fwd: ", 6);
-			memcpy (fwd_subj + 6, subject, max_subject_length);
-			memcpy (fwd_subj + 6 + max_subject_length, "...]", 5);
+	if (orig_subject && *orig_subject) {
+		gchar *utf8;
+
+		utf8 = e_util_utf8_make_valid (orig_subject);
+		if (utf8 && *utf8) {
+			/* Truncate insanely long subjects */
+			if (g_utf8_strlen (utf8, -1) < max_subject_length) {
+				subject = utf8;
+				utf8 = NULL;
+			} else {
+				gchar *end = g_utf8_offset_to_pointer (utf8, max_subject_length);
+
+				if (end) {
+					*end = '\0';
+
+					subject = g_strconcat (utf8, "...", NULL);
+				}
+			}
 		}
-	} else {
+
+		g_free (utf8);
+	}
+
+	if (!subject) {
 		const CamelInternetAddress *from;
-		gchar *fromstr;
 
 		from = camel_mime_message_get_from (msg);
-		if (from) {
-			fromstr = camel_address_format (CAMEL_ADDRESS (from));
-			fwd_subj = g_strdup_printf ("[Fwd: %s]", fromstr);
-			g_free (fromstr);
-		} else
-			fwd_subj = g_strdup ("[Fwd: No Subject]");
+		if (from)
+			subject = camel_address_format (CAMEL_ADDRESS (from));
 	}
+
+	/* Translators: This is a subject attribution for forwarded messages. The %s is replaced with subject of the original message. */
+	fwd_subj = g_strdup_printf (_("[Fwd: %s]"),
+		/* Translators: This is a subject attribution for forwarded messages, used when there could not be used any subject.
+	           It results in "[Fwd: No Subject]" being used as a subject of the forwarded message. */
+		(subject && *subject) ? subject : _("No Subject"));
+
+	g_free (subject);
 
 	return fwd_subj;
 }

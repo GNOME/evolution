@@ -2525,7 +2525,8 @@ reply_setup_composer (EMsgComposer *composer,
 		if (em_utils_is_re_in_subject (subject, &skip_len, NULL, NULL) && skip_len > 0)
 			subject = subject + skip_len;
 
-		subject = g_strdup_printf ("Re: %s", subject);
+		/* Translators: This is a reply attribution in the message reply subject. The %s is replaced with the subject of the original message. */
+		subject = g_strdup_printf (_("Re: %s"), subject);
 	} else {
 		subject = g_strdup ("");
 	}
