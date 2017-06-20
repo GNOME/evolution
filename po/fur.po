@@ -10,7 +10,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2017-06-16 15:56+0000\n"
-"PO-Revision-Date: 2017-06-19 12:41+0200\n"
+"PO-Revision-Date: 2017-06-20 09:14+0200\n"
 "Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
 "Language-Team: Friulian <f.t.public@gmail.com>\n"
 "Language: fur\n"
@@ -2083,15 +2083,14 @@ msgstr "Visâ l'utent cuant che si cîr di netâ une cartele."
 
 # malvolût malvolûts malvolude...
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:163
-#, fuzzy
 msgid "Prompt when user calls Empty Junk"
 msgstr "Visâ l'utent cuant che al clame la funzion Disvuede Malvolûts"
 
 # malvolûts malvolût malvolude
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:164
-#, fuzzy
 msgid "Prompt the user when he or she tries to Empty a Junk folder."
-msgstr "Visâ l'utent cuant che si cîr di disvuedâ une cartele di Malvolûts."
+msgstr ""
+"Visâ l'utent cuant che si cîr di disvuedâ une cartele di pueste malvolude."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:165
 msgid "Prompt before sending to recipients not entered as mail addresses"
@@ -2414,7 +2413,7 @@ msgid ""
 "book only"
 msgstr ""
 "Determine se consultâ nome lis rubrichis locâi pes direzions di doprâ tal "
-"filtrament dai malvolûts"
+"filtrament de pueste malvolude"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:218
 msgid ""
@@ -2562,7 +2561,7 @@ msgstr "Indiche se la sbare “Di fâ” e à di jessi visibile tal barcon princ
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:241
 msgid "Stores whether the To Do bar is visible in the main window."
-msgstr ""
+msgstr "Al memorize se la sbare “Di fâ” e je visibile tal barcon principâl."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:242
 msgid "Width of the To Do bar in the main window"
@@ -2578,7 +2577,7 @@ msgstr "Indiche se la sbare “Di fâ” e je visibile intun sot-barcon"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:245
 msgid "Stores whether the To Do bar is visible in a sub-window."
-msgstr ""
+msgstr "Al memorize se la sbare “Di fâ” e je visibile intun sot-barcon."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:246
 msgid "Width of the To Do bar in a sub-window"
@@ -2596,6 +2595,8 @@ msgstr ""
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:249
 msgid "Stores whether the To Do bar should show also completed tasks."
 msgstr ""
+"Al memorize se la sbare “Di fâ” e à di mostrâ ancje lis ativitâts "
+"completadis."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:250
 msgid "(Deprecated) Default forward style"
@@ -11828,7 +11829,7 @@ msgstr "%e di %B dal %Y"
 
 # Segnalâ formis plurâls pal furlan dal dai, al ai
 #: ../src/e-util/ea-calendar-item.c:324
-#, fuzzy, c-format
+#, c-format
 msgid "Calendar: from %s to %s"
 msgstr "Calendari: dal/dai %s al/ai %s"
 
@@ -17197,9 +17198,9 @@ msgid "Do not warn me again"
 msgstr "No sta visâmi plui"
 
 #: ../src/mail/e-mail-reader-utils.c:633
-#, fuzzy, c-format
+#, c-format
 msgid "Deleting messages in Junk folder “%s”…"
-msgstr "Daûr a eliminâ i messaçs te cartele Malvolûts “%s”…"
+msgstr "Daûr a eliminâ i messaçs te cartele di pueste malvolude “%s”…"
 
 #: ../src/mail/e-mail-reader-utils.c:728
 #, c-format
@@ -18485,9 +18486,8 @@ msgid "Confirm _when expunging a folder"
 msgstr "Confermâ _prime di netâ une cartele"
 
 #: ../src/mail/mail-config.ui.h:102
-#, fuzzy
 msgid "Confirm when emptying a _Junk folder"
-msgstr "Confermâ prime di disvuedâ une cartele _Malvoluts"
+msgstr "Confermâ prime di disvuedâ une cartele di pueste _malvolude"
 
 #: ../src/mail/mail-config.ui.h:103
 msgid "Archive Mail"
@@ -19601,9 +19601,8 @@ msgstr ""
 "persist, segnale un erôr su GNOME bugzilla."
 
 #: ../src/mail/mail.error.xml.h:212
-#, fuzzy
 msgid "Are you sure you want to delete all the messages in the Junk folder?"
-msgstr "Sigûrs di eliminâ ducj i messaçs te cartele Malvolûts?"
+msgstr "Sigûrs di eliminâ ducj i messaçs te cartele di pueste malvolude?"
 
 #: ../src/mail/mail.error.xml.h:213
 msgid ""
@@ -19614,14 +19613,12 @@ msgstr ""
 "indenant a podaran jessi eliminâts par simpri."
 
 #: ../src/mail/mail.error.xml.h:214
-#, fuzzy
 msgid "_Empty Junk"
 msgstr "_Disvuede Malvolûts"
 
 #: ../src/mail/mail.error.xml.h:215
-#, fuzzy
 msgid "Failed to empty Junk folder “{0}”"
-msgstr "No si è rivâts a disvuedâ la cartele Malvolûts “{0}”"
+msgstr "No si è rivâts a disvuedâ la cartele di pueste malvolude “{0}”"
 
 #: ../src/mail/mail-send-recv.c:192
 msgid "Canceling..."
@@ -22982,14 +22979,12 @@ msgid "Permanently remove all the deleted messages from all folders"
 msgstr "Gjave par simpri ducj i messaçs eliminâts di dutis lis cartelis"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1638
-#, fuzzy
 msgid "Empty _Junk"
-msgstr "Disvuede Mal_volût"
+msgstr "Disvuede Mal_volûts"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1640
-#, fuzzy
 msgid "Delete all Junk messages from all folders"
-msgstr "Elimine ducj i messaçs di Malvolûts di dutis lis cartelis"
+msgstr "Elimine ducj i messaçs di pueste malvolude di dutis lis cartelis"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1647
 msgid "Edit properties of this account"
