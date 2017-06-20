@@ -41,6 +41,7 @@ struct _EMailConfigSummaryPagePrivate {
 	gulong transport_source_changed_id;
 
 	/* Widgets (not referenced) */
+	GtkBox *main_box;
 	GtkLabel *name_label;
 	GtkLabel *address_label;
 	GtkLabel *recv_backend_label;
@@ -77,7 +78,7 @@ static void	e_mail_config_summary_page_interface_init
 G_DEFINE_TYPE_WITH_CODE (
 	EMailConfigSummaryPage,
 	e_mail_config_summary_page,
-	GTK_TYPE_BOX,
+	GTK_TYPE_SCROLLED_WINDOW,
 	G_IMPLEMENT_INTERFACE (
 		E_TYPE_EXTENSIBLE, NULL)
 	G_IMPLEMENT_INTERFACE (
@@ -286,6 +287,7 @@ mail_config_summary_page_constructed (GObject *object)
 	GtkLabel *label;
 	GtkWidget *widget;
 	GtkWidget *container;
+	GtkWidget *main_box;
 	GtkSizeGroup *size_group;
 	const gchar *text;
 	gchar *markup;
@@ -295,12 +297,9 @@ mail_config_summary_page_constructed (GObject *object)
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (e_mail_config_summary_page_parent_class)->constructed (object);
 
-	gtk_orientable_set_orientation (
-		GTK_ORIENTABLE (page), GTK_ORIENTATION_VERTICAL);
-
 	/* This page is dense with information,
 	 * so put extra space between sections. */
-	gtk_box_set_spacing (GTK_BOX (page), 24);
+	main_box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 24);
 
 	size_group = gtk_size_group_new (GTK_SIZE_GROUP_HORIZONTAL);
 
@@ -308,7 +307,7 @@ mail_config_summary_page_constructed (GObject *object)
 		 "to access your mail.");
 	widget = gtk_label_new (text);
 	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
-	gtk_box_pack_start (GTK_BOX (page), widget, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (main_box), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 
 	/*** Account Information ***/
@@ -316,7 +315,7 @@ mail_config_summary_page_constructed (GObject *object)
 	widget = gtk_grid_new ();
 	gtk_grid_set_row_spacing (GTK_GRID (widget), 6);
 	gtk_grid_set_column_spacing (GTK_GRID (widget), 6);
-	gtk_box_pack_start (GTK_BOX (page), widget, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (main_box), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 
 	container = widget;
@@ -363,7 +362,7 @@ mail_config_summary_page_constructed (GObject *object)
 	widget = gtk_grid_new ();
 	gtk_grid_set_row_spacing (GTK_GRID (widget), 6);
 	gtk_grid_set_column_spacing (GTK_GRID (widget), 12);
-	gtk_box_pack_start (GTK_BOX (page), widget, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (main_box), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 
 	container = widget;
@@ -514,6 +513,10 @@ mail_config_summary_page_constructed (GObject *object)
 	gtk_widget_show (widget);
 
 	g_object_unref (size_group);
+
+	page->priv->main_box = GTK_BOX (main_box);
+
+	e_mail_config_page_set_content (E_MAIL_CONFIG_PAGE (page), main_box);
 
 	e_extensible_load_extensions (E_EXTENSIBLE (page));
 }
@@ -801,6 +804,14 @@ EMailConfigPage *
 e_mail_config_summary_page_new (void)
 {
 	return g_object_new (E_TYPE_MAIL_CONFIG_SUMMARY_PAGE, NULL);
+}
+
+GtkBox *
+e_mail_config_summary_page_get_internal_box (EMailConfigSummaryPage *page)
+{
+	g_return_val_if_fail (E_IS_MAIL_CONFIG_SUMMARY_PAGE (page), NULL);
+
+	return page->priv->main_box;
 }
 
 void

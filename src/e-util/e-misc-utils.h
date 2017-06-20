@@ -335,6 +335,10 @@ gboolean	e_util_get_webkit_developer_mode_enabled
 gchar *		e_util_next_uri_from_uri_list	(guchar **uri_list,
 						 gint *len,
 						 gint *list_len);
+void		e_util_resize_window_for_screen	(GtkWindow *window,
+						 gint window_width,
+						 gint window_height,
+						 const GSList *children); /* GtkWidget * */
 
 G_END_DECLS
 

@@ -428,11 +428,181 @@ static void
 mail_config_service_page_constructed (GObject *object)
 {
 	EMailConfigServicePage *page;
+	GPtrArray *candidates;
+	GPtrArray *hidden_candidates;
+	PangoAttribute *attr;
+	PangoAttrList *attr_list;
+	GtkLabel *label;
+	GtkWidget *widget;
+	GtkWidget *container;
+	GtkWidget *main_box;
+	GtkTreeModel *tree_model;
+	GtkCellRenderer *renderer;
 
 	page = E_MAIL_CONFIG_SERVICE_PAGE (object);
 
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (e_mail_config_service_page_parent_class)->constructed (object);
+
+	/* The candidates array holds scratch ESources, one for each
+	 * item in the "type" combo box.  Scratch ESources are never
+	 * added to the registry, so backend extensions can make any
+	 * changes they want to them.  Whichever scratch ESource is
+	 * "active" (selected in the "type" combo box) when the user
+	 * clicks OK wins and is written to disk.  The others are
+	 * discarded. */
+	candidates = g_ptr_array_new_with_free_func (
+		(GDestroyNotify) mail_config_service_page_free_candidate);
+
+	/* Hidden candidates are not listed in the "type" combo box
+	 * but their scratch ESource can still be "active".  This is
+	 * a hack to accommodate groupware backends.  Usually when a
+	 * hidden candidate is active the service page will not be
+	 * visible anyway. */
+	hidden_candidates = g_ptr_array_new_with_free_func (
+		(GDestroyNotify) mail_config_service_page_free_candidate);
+
+	main_box = e_mail_config_activity_page_get_internal_box (E_MAIL_CONFIG_ACTIVITY_PAGE (page));
+	gtk_box_set_spacing (GTK_BOX (main_box), 12);
+
+	page->priv->candidates = candidates;
+	page->priv->hidden_candidates = hidden_candidates;
+
+	/* Build a filtered model for the combo box, where row
+	 * visibility is determined by the "selectable" column. */
+
+	page->priv->list_store = gtk_list_store_new (
+		NUM_COLUMNS,
+		G_TYPE_STRING,		/* COLUMN_BACKEND_NAME */
+		G_TYPE_STRING,		/* COLUMN_DISPLAY_NAME */
+		G_TYPE_BOOLEAN);	/* COLUMN_SELECTABLE */
+
+	tree_model = gtk_tree_model_filter_new (
+		GTK_TREE_MODEL (page->priv->list_store), NULL);
+
+	gtk_tree_model_filter_set_visible_column (
+		GTK_TREE_MODEL_FILTER (tree_model), COLUMN_SELECTABLE);
+
+	/* Either the combo box or the label is shown, never both.
+	 * But we create both widgets and keep them both up-to-date
+	 * regardless just because it makes the logic simpler. */
+
+	container = GTK_WIDGET (main_box);
+
+	widget = gtk_grid_new ();
+	gtk_grid_set_row_spacing (GTK_GRID (widget), 12);
+	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	gtk_widget_show (widget);
+
+	container = widget;
+
+	attr_list = pango_attr_list_new ();
+
+	attr = pango_attr_weight_new (PANGO_WEIGHT_BOLD);
+	pango_attr_list_insert (attr_list, attr);
+
+	widget = gtk_label_new_with_mnemonic (_("Server _Type:"));
+	gtk_widget_set_margin_right (widget, 12);
+	gtk_misc_set_alignment (GTK_MISC (widget), 1.0, 0.5);
+	gtk_grid_attach (GTK_GRID (container), widget, 0, 0, 1, 1);
+	gtk_widget_show (widget);
+
+	label = GTK_LABEL (widget);
+
+	widget = gtk_combo_box_new_with_model (tree_model);
+	gtk_widget_set_hexpand (widget, TRUE);
+	gtk_label_set_mnemonic_widget (label, widget);
+	gtk_combo_box_set_id_column (
+		GTK_COMBO_BOX (widget), COLUMN_BACKEND_NAME);
+	gtk_grid_attach (GTK_GRID (container), widget, 1, 0, 1, 1);
+	page->priv->type_combo = widget;  /* not referenced */
+	gtk_widget_show (widget);
+
+	renderer = gtk_cell_renderer_text_new ();
+	gtk_cell_layout_pack_start (
+		GTK_CELL_LAYOUT (widget), renderer, TRUE);
+	gtk_cell_layout_add_attribute (
+		GTK_CELL_LAYOUT (widget), renderer,
+		"text", COLUMN_DISPLAY_NAME);
+
+	widget = gtk_label_new (NULL);
+	gtk_widget_set_hexpand (widget, TRUE);
+	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
+	gtk_label_set_attributes (GTK_LABEL (widget), attr_list);
+	gtk_grid_attach (GTK_GRID (container), widget, 2, 0, 1, 1);
+	page->priv->type_label = widget;  /* not referenced */
+	gtk_widget_show (widget);
+
+	widget = gtk_label_new (_("Description:"));
+	gtk_widget_set_margin_right (widget, 12);
+	gtk_misc_set_alignment (GTK_MISC (widget), 1.0, 0.0);
+	gtk_grid_attach (GTK_GRID (container), widget, 0, 1, 1, 1);
+	gtk_widget_show (widget);
+
+	widget = gtk_label_new (NULL);
+	gtk_label_set_line_wrap (GTK_LABEL (widget), TRUE);
+	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
+	gtk_grid_attach (GTK_GRID (container), widget, 1, 1, 2, 1);
+	page->priv->desc_label = widget;  /* not referenced */
+	gtk_widget_show (widget);
+
+	pango_attr_list_unref (attr_list);
+
+	container = GTK_WIDGET (main_box);
+
+	widget = gtk_separator_new (GTK_ORIENTATION_HORIZONTAL);
+	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	gtk_widget_show (widget);
+
+	widget = e_mail_config_service_notebook_new ();
+	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
+	page->priv->notebook = widget;  /* not referenced */
+	gtk_widget_show (widget);
+
+	/* Keep the notebook's active page number synchronized with our
+	 * own "active-backend" property.  Avoid G_BINDING_SYNC_CREATE
+	 * since we haven't added any notebook pages. */
+	e_binding_bind_property (
+		page, "active-backend",
+		page->priv->notebook, "active-backend",
+		G_BINDING_BIDIRECTIONAL);
+
+	/* Keep the combo box's active row number synchronized with our
+	 * own "active-backend" property.  Avoid G_BINDING_SYNC_CREATE
+	 * since we haven't added any combo box rows. */
+	e_binding_bind_property_full (
+		page, "active-backend",
+		page->priv->type_combo, "active-id",
+		G_BINDING_BIDIRECTIONAL,
+		mail_config_service_page_backend_to_id,
+		mail_config_service_page_id_to_backend,
+		NULL, (GDestroyNotify) NULL);
+
+	/* This keeps the description field up-to-date. */
+	e_binding_bind_property_full (
+		page->priv->type_combo, "active-id",
+		page->priv->desc_label, "label",
+		G_BINDING_DEFAULT,
+		mail_config_service_page_backend_name_to_description,
+		NULL,
+		NULL, (GDestroyNotify) NULL);
+
+	/* For the "Server Type", either the combo
+	 * box or the label is visible, never both. */
+	e_binding_bind_property (
+		page->priv->type_combo, "visible",
+		page->priv->type_label, "visible",
+		G_BINDING_SYNC_CREATE |
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_INVERT_BOOLEAN);
+
+	g_signal_connect_swapped (
+		page->priv->type_combo, "changed",
+		G_CALLBACK (e_mail_config_page_changed), page);
+
+	g_object_unref (tree_model);
+
+	e_mail_config_page_set_content (E_MAIL_CONFIG_PAGE (page), main_box);
 
 	mail_config_service_page_init_backends (page);
 }
@@ -569,173 +739,7 @@ e_mail_config_service_page_interface_init (EMailConfigPageInterface *iface)
 static void
 e_mail_config_service_page_init (EMailConfigServicePage *page)
 {
-	GPtrArray *candidates;
-	GPtrArray *hidden_candidates;
-	PangoAttribute *attr;
-	PangoAttrList *attr_list;
-	GtkLabel *label;
-	GtkWidget *widget;
-	GtkWidget *container;
-	GtkTreeModel *tree_model;
-	GtkCellRenderer *renderer;
-
-	/* The candidates array holds scratch ESources, one for each
-	 * item in the "type" combo box.  Scratch ESources are never
-	 * added to the registry, so backend extensions can make any
-	 * changes they want to them.  Whichever scratch ESource is
-	 * "active" (selected in the "type" combo box) when the user
-	 * clicks OK wins and is written to disk.  The others are
-	 * discarded. */
-	candidates = g_ptr_array_new_with_free_func (
-		(GDestroyNotify) mail_config_service_page_free_candidate);
-
-	/* Hidden candidates are not listed in the "type" combo box
-	 * but their scratch ESource can still be "active".  This is
-	 * a hack to accommodate groupware backends.  Usually when a
-	 * hidden candidate is active the service page will not be
-	 * visible anyway. */
-	hidden_candidates = g_ptr_array_new_with_free_func (
-		(GDestroyNotify) mail_config_service_page_free_candidate);
-
-	gtk_box_set_spacing (GTK_BOX (page), 12);
-
 	page->priv = E_MAIL_CONFIG_SERVICE_PAGE_GET_PRIVATE (page);
-	page->priv->candidates = candidates;
-	page->priv->hidden_candidates = hidden_candidates;
-
-	/* Build a filtered model for the combo box, where row
-	 * visibility is determined by the "selectable" column. */
-
-	page->priv->list_store = gtk_list_store_new (
-		NUM_COLUMNS,
-		G_TYPE_STRING,		/* COLUMN_BACKEND_NAME */
-		G_TYPE_STRING,		/* COLUMN_DISPLAY_NAME */
-		G_TYPE_BOOLEAN);	/* COLUMN_SELECTABLE */
-
-	tree_model = gtk_tree_model_filter_new (
-		GTK_TREE_MODEL (page->priv->list_store), NULL);
-
-	gtk_tree_model_filter_set_visible_column (
-		GTK_TREE_MODEL_FILTER (tree_model), COLUMN_SELECTABLE);
-
-	/* Either the combo box or the label is shown, never both.
-	 * But we create both widgets and keep them both up-to-date
-	 * regardless just because it makes the logic simpler. */
-
-	container = GTK_WIDGET (page);
-
-	widget = gtk_grid_new ();
-	gtk_grid_set_row_spacing (GTK_GRID (widget), 12);
-	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
-	gtk_widget_show (widget);
-
-	container = widget;
-
-	attr_list = pango_attr_list_new ();
-
-	attr = pango_attr_weight_new (PANGO_WEIGHT_BOLD);
-	pango_attr_list_insert (attr_list, attr);
-
-	widget = gtk_label_new_with_mnemonic (_("Server _Type:"));
-	gtk_widget_set_margin_right (widget, 12);
-	gtk_misc_set_alignment (GTK_MISC (widget), 1.0, 0.5);
-	gtk_grid_attach (GTK_GRID (container), widget, 0, 0, 1, 1);
-	gtk_widget_show (widget);
-
-	label = GTK_LABEL (widget);
-
-	widget = gtk_combo_box_new_with_model (tree_model);
-	gtk_widget_set_hexpand (widget, TRUE);
-	gtk_label_set_mnemonic_widget (label, widget);
-	gtk_combo_box_set_id_column (
-		GTK_COMBO_BOX (widget), COLUMN_BACKEND_NAME);
-	gtk_grid_attach (GTK_GRID (container), widget, 1, 0, 1, 1);
-	page->priv->type_combo = widget;  /* not referenced */
-	gtk_widget_show (widget);
-
-	renderer = gtk_cell_renderer_text_new ();
-	gtk_cell_layout_pack_start (
-		GTK_CELL_LAYOUT (widget), renderer, TRUE);
-	gtk_cell_layout_add_attribute (
-		GTK_CELL_LAYOUT (widget), renderer,
-		"text", COLUMN_DISPLAY_NAME);
-
-	widget = gtk_label_new (NULL);
-	gtk_widget_set_hexpand (widget, TRUE);
-	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
-	gtk_label_set_attributes (GTK_LABEL (widget), attr_list);
-	gtk_grid_attach (GTK_GRID (container), widget, 2, 0, 1, 1);
-	page->priv->type_label = widget;  /* not referenced */
-	gtk_widget_show (widget);
-
-	widget = gtk_label_new (_("Description:"));
-	gtk_widget_set_margin_right (widget, 12);
-	gtk_misc_set_alignment (GTK_MISC (widget), 1.0, 0.0);
-	gtk_grid_attach (GTK_GRID (container), widget, 0, 1, 1, 1);
-	gtk_widget_show (widget);
-
-	widget = gtk_label_new (NULL);
-	gtk_label_set_line_wrap (GTK_LABEL (widget), TRUE);
-	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
-	gtk_grid_attach (GTK_GRID (container), widget, 1, 1, 2, 1);
-	page->priv->desc_label = widget;  /* not referenced */
-	gtk_widget_show (widget);
-
-	pango_attr_list_unref (attr_list);
-
-	container = GTK_WIDGET (page);
-
-	widget = gtk_separator_new (GTK_ORIENTATION_HORIZONTAL);
-	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
-	gtk_widget_show (widget);
-
-	widget = e_mail_config_service_notebook_new ();
-	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
-	page->priv->notebook = widget;  /* not referenced */
-	gtk_widget_show (widget);
-
-	/* Keep the notebook's active page number synchronized with our
-	 * own "active-backend" property.  Avoid G_BINDING_SYNC_CREATE
-	 * since we haven't added any notebook pages. */
-	e_binding_bind_property (
-		page, "active-backend",
-		page->priv->notebook, "active-backend",
-		G_BINDING_BIDIRECTIONAL);
-
-	/* Keep the combo box's active row number synchronized with our
-	 * own "active-backend" property.  Avoid G_BINDING_SYNC_CREATE
-	 * since we haven't added any combo box rows. */
-	e_binding_bind_property_full (
-		page, "active-backend",
-		page->priv->type_combo, "active-id",
-		G_BINDING_BIDIRECTIONAL,
-		mail_config_service_page_backend_to_id,
-		mail_config_service_page_id_to_backend,
-		NULL, (GDestroyNotify) NULL);
-
-	/* This keeps the description field up-to-date. */
-	e_binding_bind_property_full (
-		page->priv->type_combo, "active-id",
-		page->priv->desc_label, "label",
-		G_BINDING_DEFAULT,
-		mail_config_service_page_backend_name_to_description,
-		NULL,
-		NULL, (GDestroyNotify) NULL);
-
-	/* For the "Server Type", either the combo
-	 * box or the label is visible, never both. */
-	e_binding_bind_property (
-		page->priv->type_combo, "visible",
-		page->priv->type_label, "visible",
-		G_BINDING_SYNC_CREATE |
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_INVERT_BOOLEAN);
-
-	g_signal_connect_swapped (
-		page->priv->type_combo, "changed",
-		G_CALLBACK (e_mail_config_page_changed), page);
-
-	g_object_unref (tree_model);
 }
 
 EMailConfigServiceBackend *

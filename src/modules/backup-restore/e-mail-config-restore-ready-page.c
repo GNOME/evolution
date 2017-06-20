@@ -33,7 +33,7 @@ static void	e_mail_config_restore_ready_page_interface_init
 G_DEFINE_DYNAMIC_TYPE_EXTENDED (
 	EMailConfigRestoreReadyPage,
 	e_mail_config_restore_ready_page,
-	GTK_TYPE_BOX,
+	GTK_TYPE_SCROLLED_WINDOW,
 	0,
 	G_IMPLEMENT_INTERFACE_DYNAMIC (
 		E_TYPE_MAIL_CONFIG_PAGE,

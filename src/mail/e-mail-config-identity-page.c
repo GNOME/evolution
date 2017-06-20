@@ -65,7 +65,7 @@ static void	e_mail_config_identity_page_interface_init
 G_DEFINE_TYPE_WITH_CODE (
 	EMailConfigIdentityPage,
 	e_mail_config_identity_page,
-	GTK_TYPE_BOX,
+	GTK_TYPE_SCROLLED_WINDOW,
 	G_IMPLEMENT_INTERFACE (
 		E_TYPE_EXTENSIBLE, NULL)
 	G_IMPLEMENT_INTERFACE (
@@ -485,7 +485,7 @@ mail_config_identity_page_constructed (GObject *object)
 	GtkTreeModel *model;
 	GtkTreeSelection *selection;
 	GtkCellRenderer *renderer;
-	GtkWidget *widget;
+	GtkWidget *main_box, *widget;
 	GtkWidget *container;
 	GtkWidget *scrolledwindow;
 	GtkSizeGroup *size_group;
@@ -503,12 +503,9 @@ mail_config_identity_page_constructed (GObject *object)
 	source = e_mail_config_identity_page_get_identity_source (page);
 	extension = e_source_get_extension (source, extension_name);
 
-	gtk_orientable_set_orientation (
-		GTK_ORIENTABLE (page), GTK_ORIENTATION_VERTICAL);
-
-	gtk_box_set_spacing (GTK_BOX (page), 12);
-	gtk_widget_set_valign (GTK_WIDGET (page), GTK_ALIGN_FILL);
-	gtk_widget_set_vexpand (GTK_WIDGET (page), TRUE);
+	main_box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 12);
+	gtk_widget_set_valign (main_box, GTK_ALIGN_FILL);
+	gtk_widget_set_vexpand (main_box, TRUE);
 
 	/* This keeps all mnemonic labels the same width. */
 	size_group = gtk_size_group_new (GTK_SIZE_GROUP_HORIZONTAL);
@@ -520,7 +517,7 @@ mail_config_identity_page_constructed (GObject *object)
 	widget = gtk_label_new (text);
 	gtk_label_set_line_wrap (GTK_LABEL (widget), TRUE);
 	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
-	gtk_box_pack_start (GTK_BOX (page), widget, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (main_box), widget, FALSE, FALSE, 0);
 
 	e_binding_bind_property (
 		page, "show-instructions",
@@ -532,7 +529,7 @@ mail_config_identity_page_constructed (GObject *object)
 	widget = gtk_grid_new ();
 	gtk_grid_set_row_spacing (GTK_GRID (widget), 6);
 	gtk_grid_set_column_spacing (GTK_GRID (widget), 6);
-	gtk_box_pack_start (GTK_BOX (page), widget, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (main_box), widget, FALSE, FALSE, 0);
 
 	e_binding_bind_property (
 		page, "show-account-info",
@@ -591,7 +588,7 @@ mail_config_identity_page_constructed (GObject *object)
 	widget = gtk_grid_new ();
 	gtk_grid_set_row_spacing (GTK_GRID (widget), 6);
 	gtk_grid_set_column_spacing (GTK_GRID (widget), 6);
-	gtk_box_pack_start (GTK_BOX (page), widget, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (main_box), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 
 	container = widget;
@@ -678,7 +675,7 @@ mail_config_identity_page_constructed (GObject *object)
 	widget = gtk_grid_new ();
 	gtk_grid_set_row_spacing (GTK_GRID (widget), 6);
 	gtk_grid_set_column_spacing (GTK_GRID (widget), 6);
-	gtk_box_pack_start (GTK_BOX (page), widget, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (main_box), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 
 	container = widget;
@@ -898,7 +895,9 @@ mail_config_identity_page_constructed (GObject *object)
 
 	page->priv->autodiscover_check = widget;
 
-	gtk_container_add (GTK_CONTAINER (page), widget);
+	gtk_container_add (GTK_CONTAINER (main_box), widget);
+
+	e_mail_config_page_set_content (E_MAIL_CONFIG_PAGE (page), main_box);
 
 	e_extensible_load_extensions (E_EXTENSIBLE (page));
 }

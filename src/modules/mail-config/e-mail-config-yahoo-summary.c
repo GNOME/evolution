@@ -210,6 +210,7 @@ mail_config_yahoo_summary_constructed (GObject *object)
 	ESource *source;
 	GtkWidget *container;
 	GtkWidget *widget;
+	GtkBox *main_box;
 	const gchar *extension_name;
 	const gchar *text;
 	gchar *markup;
@@ -220,6 +221,7 @@ mail_config_yahoo_summary_constructed (GObject *object)
 	G_OBJECT_CLASS (e_mail_config_yahoo_summary_parent_class)->constructed (object);
 
 	page = mail_config_yahoo_summary_get_summary_page (extension);
+	main_box = e_mail_config_summary_page_get_internal_box (page);
 
 	/* Use g_signal_connect_after() so the EMailConfigSummaryPage
 	 * class methods run first.  They make changes to the sources
@@ -235,12 +237,10 @@ mail_config_yahoo_summary_constructed (GObject *object)
 		G_CALLBACK (mail_config_yahoo_summary_commit_changes_cb),
 		extension);
 
-	container = GTK_WIDGET (page);
-
 	widget = gtk_grid_new ();
 	gtk_grid_set_row_spacing (GTK_GRID (widget), 6);
 	gtk_grid_set_column_spacing (GTK_GRID (widget), 6);
-	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	gtk_box_pack_start (main_box, widget, FALSE, FALSE, 0);
 
 	e_binding_bind_property (
 		extension, "applicable",

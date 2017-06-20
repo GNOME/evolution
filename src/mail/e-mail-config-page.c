@@ -36,10 +36,7 @@ enum {
 
 static gulong signals[LAST_SIGNAL];
 
-G_DEFINE_INTERFACE (
-	EMailConfigPage,
-	e_mail_config_page,
-	GTK_TYPE_WIDGET)
+G_DEFINE_INTERFACE (EMailConfigPage, e_mail_config_page, GTK_TYPE_SCROLLED_WINDOW)
 
 static gboolean
 mail_config_page_check_complete (EMailConfigPage *page)
@@ -168,6 +165,40 @@ e_mail_config_page_default_init (EMailConfigPageInterface *iface)
 		g_cclosure_marshal_VOID__POINTER,
 		G_TYPE_NONE, 1,
 		G_TYPE_POINTER);
+}
+
+void
+e_mail_config_page_set_content (EMailConfigPage *page,
+				GtkWidget *content)
+{
+	GtkScrolledWindow *scrolled;
+	GtkWidget *child;
+
+	g_return_if_fail (E_IS_MAIL_CONFIG_PAGE (page));
+	g_return_if_fail (!content || GTK_IS_WIDGET (content));
+
+	scrolled = GTK_SCROLLED_WINDOW (page);
+
+	if (content)
+		gtk_scrolled_window_add_with_viewport (scrolled, content);
+
+	gtk_scrolled_window_set_policy (scrolled, GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+	gtk_scrolled_window_set_shadow_type (scrolled, GTK_SHADOW_NONE);
+
+	child = gtk_bin_get_child (GTK_BIN (scrolled));
+	if (GTK_IS_VIEWPORT (child))
+		gtk_viewport_set_shadow_type (GTK_VIEWPORT (child), GTK_SHADOW_OUT);
+
+	gtk_widget_show (content);
+
+	g_object_set (GTK_WIDGET (page),
+		"halign", GTK_ALIGN_FILL,
+		"hexpand", TRUE,
+		"valign", GTK_ALIGN_FILL,
+		"vexpand", TRUE,
+		NULL);
+
+	gtk_widget_show (GTK_WIDGET (page));
 }
 
 gint

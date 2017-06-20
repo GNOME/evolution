@@ -44,7 +44,7 @@ static void	e_mail_config_import_progress_page_interface_init
 G_DEFINE_DYNAMIC_TYPE_EXTENDED (
 	EMailConfigImportProgressPage,
 	e_mail_config_import_progress_page,
-	GTK_TYPE_BOX,
+	GTK_TYPE_SCROLLED_WINDOW,
 	0,
 	G_IMPLEMENT_INTERFACE_DYNAMIC (
 		E_TYPE_MAIL_CONFIG_PAGE,
@@ -165,6 +165,7 @@ mail_config_import_progress_page_constructed (GObject *object)
 	GtkSizeGroup *size_group;
 	GtkWidget *container;
 	GtkWidget *widget;
+	GtkWidget *main_box;
 	EActivity *activity;
 
 	page = E_MAIL_CONFIG_IMPORT_PROGRESS_PAGE (object);
@@ -172,12 +173,9 @@ mail_config_import_progress_page_constructed (GObject *object)
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (e_mail_config_import_progress_page_parent_class)->constructed (object);
 
-	gtk_orientable_set_orientation (
-		GTK_ORIENTABLE (page), GTK_ORIENTATION_VERTICAL);
+	main_box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 12);
 
-	gtk_box_set_spacing (GTK_BOX (page), 12);
-
-	gtk_widget_set_valign (GTK_WIDGET (page), GTK_ALIGN_CENTER);
+	gtk_widget_set_valign (GTK_WIDGET (main_box), GTK_ALIGN_CENTER);
 
 	activity = e_mail_config_import_progress_page_get_activity (page);
 
@@ -191,11 +189,11 @@ mail_config_import_progress_page_constructed (GObject *object)
 	/* Just a spacer. */
 	widget = gtk_alignment_new (0.5, 0.0, 0.0, 0.0);
 	gtk_size_group_add_widget (size_group, widget);
-	gtk_box_pack_start (GTK_BOX (page), widget, TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (main_box), widget, TRUE, TRUE, 0);
 	gtk_widget_show (widget);
 
 	widget = gtk_progress_bar_new ();
-	gtk_box_pack_start (GTK_BOX (page), widget, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (main_box), widget, FALSE, FALSE, 0);
 	page->priv->progress_bar = widget;  /* not referenced */
 	gtk_widget_show (widget);
 
@@ -214,7 +212,7 @@ mail_config_import_progress_page_constructed (GObject *object)
 
 	widget = gtk_box_new (GTK_ORIENTATION_VERTICAL, 12);
 	gtk_size_group_add_widget (size_group, widget);
-	gtk_box_pack_start (GTK_BOX (page), widget, TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (main_box), widget, TRUE, TRUE, 0);
 	gtk_widget_show (widget);
 
 	container = widget;
@@ -278,6 +276,8 @@ mail_config_import_progress_page_constructed (GObject *object)
 	gtk_widget_show (widget);
 
 	g_object_unref (size_group);
+
+	e_mail_config_page_set_content (E_MAIL_CONFIG_PAGE (page), main_box);
 }
 
 static gboolean

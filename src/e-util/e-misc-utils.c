@@ -3943,3 +3943,110 @@ e_util_next_uri_from_uri_list (guchar **uri_list,
 
 	return (gchar *) uri;
 }
+
+/**
+ * e_util_resize_window_for_screen:
+ * @window: a #GtkWindow
+ * @window_width: the @window width without @children, or -1 to compute
+ * @window_height: the @window height without @children, or -1 to compute
+ * @children: (element-type GtkWidget): (nullable): a #GSList with children to calculate with
+ *
+ * Calculates the size of the @window considering preferred sizes of @children,
+ * and shrinks the @window in case it won't be completely visible on the screen
+ * it is assigned to.
+ *
+ * Since: 3.26
+ **/
+void
+e_util_resize_window_for_screen (GtkWindow *window,
+				 gint window_width,
+				 gint window_height,
+				 const GSList *children)
+{
+	gint width = -1, height = -1, content_width = -1, content_height = -1, current_width = -1, current_height = -1;
+	GtkRequisition requisition;
+	const GSList *link;
+
+	g_return_if_fail (GTK_IS_WINDOW (window));
+
+	gtk_window_get_default_size (window, &width, &height);
+	if (width < 0 || height < 0) {
+		gtk_widget_get_preferred_size (GTK_WIDGET (window), &requisition, NULL);
+
+		width = requisition.width;
+		height = requisition.height;
+	}
+
+	for (link = children; link; link = g_slist_next (link)) {
+		GtkWidget *widget = link->data;
+
+		if (GTK_IS_SCROLLED_WINDOW (widget))
+			widget = gtk_bin_get_child (GTK_BIN (widget));
+
+		if (GTK_IS_VIEWPORT (widget))
+			widget = gtk_bin_get_child (GTK_BIN (widget));
+
+		if (!GTK_IS_WIDGET (widget))
+			continue;
+
+		gtk_widget_get_preferred_size (widget, &requisition, NULL);
+
+		if (requisition.width > content_width)
+			content_width = requisition.width;
+		if (requisition.height > content_height)
+			content_height = requisition.height;
+
+		widget = gtk_widget_get_parent (widget);
+		if (GTK_IS_VIEWPORT (widget))
+			widget = gtk_widget_get_parent (widget);
+
+		if (GTK_IS_WIDGET (widget)) {
+			gtk_widget_get_preferred_size (widget, &requisition, NULL);
+
+			if (current_width == -1 || current_width < requisition.width)
+				current_width = requisition.width;
+			if (current_height == -1 || current_height < requisition.height)
+				current_height = requisition.height;
+		}
+	}
+
+	if (content_width > 0 && content_height > 0 && width > 0 && height > 0) {
+		GdkScreen *screen;
+		GdkRectangle monitor_area;
+		gint x = 0, y = 0, monitor;
+
+		screen = gtk_window_get_screen (GTK_WINDOW (window));
+		gtk_window_get_position (GTK_WINDOW (window), &x, &y);
+
+		monitor = gdk_screen_get_monitor_at_point (screen, x, y);
+		if (monitor < 0 || monitor >= gdk_screen_get_n_monitors (screen))
+			monitor = 0;
+
+		gdk_screen_get_monitor_workarea (screen, monitor, &monitor_area);
+
+		/* When the children are packed inside the window then influence the window
+		   size too, thus subtract it, if possible. */
+		if (window_width < 0) {
+			if (current_width > 0 && current_width < width)
+				width -= current_width;
+		} else {
+			width = window_width;
+		}
+
+		if (window_height < 0) {
+			if (current_height > 0 && current_height < height)
+				height -= current_height;
+		} else {
+			height = window_height;
+		}
+
+		if (content_width > monitor_area.width - width)
+			content_width = monitor_area.width - width;
+
+		if (content_height > monitor_area.height - height)
+			content_height = monitor_area.height - height;
+
+		if (content_width > 0 && content_height > 0)
+			gtk_window_set_default_size (GTK_WINDOW (window), width + content_width, height + content_height);
+	}
+}

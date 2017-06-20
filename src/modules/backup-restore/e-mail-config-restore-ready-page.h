@@ -53,12 +53,12 @@ typedef struct _EMailConfigRestoreReadyPageClass EMailConfigRestoreReadyPageClas
 typedef struct _EMailConfigRestoreReadyPagePrivate EMailConfigRestoreReadyPagePrivate;
 
 struct _EMailConfigRestoreReadyPage {
-	GtkBox parent;
+	GtkScrolledWindow parent;
 	EMailConfigRestoreReadyPagePrivate *priv;
 };
 
 struct _EMailConfigRestoreReadyPageClass {
-	GtkBoxClass parent_class;
+	GtkScrolledWindowClass parent_class;
 };
 
 GType		e_mail_config_restore_ready_page_get_type

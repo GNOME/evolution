@@ -54,7 +54,7 @@ static void	e_mail_config_security_page_interface_init
 G_DEFINE_TYPE_WITH_CODE (
 	EMailConfigSecurityPage,
 	e_mail_config_security_page,
-	GTK_TYPE_BOX,
+	GTK_TYPE_SCROLLED_WINDOW,
 	G_IMPLEMENT_INTERFACE (
 		E_TYPE_EXTENSIBLE, NULL)
 	G_IMPLEMENT_INTERFACE (
@@ -273,6 +273,7 @@ mail_config_security_page_constructed (GObject *object)
 	GtkLabel *label;
 	GtkWidget *widget;
 	GtkWidget *container;
+	GtkWidget *main_box;
 	GtkSizeGroup *size_group;
 	const gchar *extension_name;
 	const gchar *text;
@@ -300,10 +301,7 @@ mail_config_security_page_constructed (GObject *object)
 	smime_ext = e_source_get_extension (source, extension_name);
 #endif /* ENABLE_SMIME */
 
-	gtk_orientable_set_orientation (
-		GTK_ORIENTABLE (page), GTK_ORIENTATION_VERTICAL);
-
-	gtk_box_set_spacing (GTK_BOX (page), 12);
+	main_box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 12);
 
 	size_group = gtk_size_group_new (GTK_SIZE_GROUP_HORIZONTAL);
 
@@ -312,7 +310,7 @@ mail_config_security_page_constructed (GObject *object)
 	widget = gtk_grid_new ();
 	gtk_grid_set_row_spacing (GTK_GRID (widget), 6);
 	gtk_grid_set_column_spacing (GTK_GRID (widget), 6);
-	gtk_box_pack_start (GTK_BOX (page), widget, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (main_box), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 
 	container = widget;
@@ -343,7 +341,7 @@ mail_config_security_page_constructed (GObject *object)
 	widget = gtk_grid_new ();
 	gtk_grid_set_row_spacing (GTK_GRID (widget), 6);
 	gtk_grid_set_column_spacing (GTK_GRID (widget), 6);
-	gtk_box_pack_start (GTK_BOX (page), widget, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (main_box), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 
 	container = widget;
@@ -498,7 +496,7 @@ mail_config_security_page_constructed (GObject *object)
 	widget = gtk_grid_new ();
 	gtk_grid_set_row_spacing (GTK_GRID (widget), 6);
 	gtk_grid_set_column_spacing (GTK_GRID (widget), 6);
-	gtk_box_pack_start (GTK_BOX (page), widget, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (main_box), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 
 	container = widget;
@@ -679,6 +677,8 @@ mail_config_security_page_constructed (GObject *object)
 #endif /* ENABLE_SMIME */
 
 	g_object_unref (size_group);
+
+	e_mail_config_page_set_content (E_MAIL_CONFIG_PAGE (page), main_box);
 
 	e_extensible_load_extensions (E_EXTENSIBLE (page));
 }

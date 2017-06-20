@@ -89,6 +89,7 @@ mail_config_provider_page_handle_dependency (EMailConfigProviderPage *page,
 
 static void
 mail_config_provider_page_add_section (EMailConfigProviderPage *page,
+				       GtkBox *main_box,
                                        CamelProviderConfEntry *entry)
 {
 	EMailConfigServiceBackend *backend;
@@ -106,7 +107,7 @@ mail_config_provider_page_add_section (EMailConfigProviderPage *page,
 	widget = gtk_label_new (markup);
 	gtk_label_set_use_markup (GTK_LABEL (widget), TRUE);
 	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
-	gtk_box_pack_start (GTK_BOX (page), widget, FALSE, FALSE, 0);
+	gtk_box_pack_start (main_box, widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 
 	/* Skip the top margin if this is the first entry. */
@@ -118,6 +119,7 @@ mail_config_provider_page_add_section (EMailConfigProviderPage *page,
 
 static void
 mail_config_provider_page_add_checkbox (EMailConfigProviderPage *page,
+					GtkBox *main_box,
                                         CamelProviderConfEntry *entry)
 {
 	EMailConfigServiceBackend *backend;
@@ -131,7 +133,7 @@ mail_config_provider_page_add_checkbox (EMailConfigProviderPage *page,
 
 	widget = gtk_check_button_new_with_mnemonic (entry->text);
 	gtk_widget_set_margin_left (widget, STANDARD_MARGIN);
-	gtk_box_pack_start (GTK_BOX (page), widget, FALSE, FALSE, 0);
+	gtk_box_pack_start (main_box, widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 
 	e_binding_bind_property (
@@ -145,6 +147,7 @@ mail_config_provider_page_add_checkbox (EMailConfigProviderPage *page,
 
 static void
 mail_config_provider_page_add_checkspin (EMailConfigProviderPage *page,
+					 GtkBox *main_box,
                                          CamelProviderConfEntry *entry)
 {
 	EMailConfigServiceBackend *backend;
@@ -270,7 +273,7 @@ mail_config_provider_page_add_checkspin (EMailConfigProviderPage *page,
 
 	hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 3);
 	gtk_widget_set_margin_left (hbox, STANDARD_MARGIN);
-	gtk_box_pack_start (GTK_BOX (page), hbox, FALSE, FALSE, 0);
+	gtk_box_pack_start (main_box, hbox, FALSE, FALSE, 0);
 	gtk_widget_show (hbox);
 
 	if (use_pspec != NULL) {
@@ -315,6 +318,7 @@ mail_config_provider_page_add_checkspin (EMailConfigProviderPage *page,
 
 static void
 mail_config_provider_page_add_entry (EMailConfigProviderPage *page,
+				     GtkBox *main_box,
                                      CamelProviderConfEntry *entry)
 {
 	EMailConfigServiceBackend *backend;
@@ -331,7 +335,7 @@ mail_config_provider_page_add_entry (EMailConfigProviderPage *page,
 	hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
 	gtk_box_set_spacing (GTK_BOX (hbox), 6);
 	gtk_widget_set_margin_left (hbox, STANDARD_MARGIN);
-	gtk_box_pack_start (GTK_BOX (page), hbox, FALSE, FALSE, 0);
+	gtk_box_pack_start (main_box, hbox, FALSE, FALSE, 0);
 	gtk_widget_show (hbox);
 
 	label = gtk_label_new_with_mnemonic (entry->text);
@@ -360,6 +364,7 @@ mail_config_provider_page_add_entry (EMailConfigProviderPage *page,
 
 static void
 mail_config_provider_page_add_label (EMailConfigProviderPage *page,
+				     GtkBox *main_box,
 				     CamelProviderConfEntry *entry)
 {
 	GtkWidget *hbox;
@@ -370,7 +375,7 @@ mail_config_provider_page_add_label (EMailConfigProviderPage *page,
 	hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
 	gtk_box_set_spacing (GTK_BOX (hbox), 6);
 	gtk_widget_set_margin_left (hbox, STANDARD_MARGIN);
-	gtk_box_pack_start (GTK_BOX (page), hbox, FALSE, FALSE, 0);
+	gtk_box_pack_start (main_box, hbox, FALSE, FALSE, 0);
 	gtk_widget_show (hbox);
 
 	label = gtk_label_new (entry->text);
@@ -383,6 +388,7 @@ mail_config_provider_page_add_label (EMailConfigProviderPage *page,
 
 static void
 mail_config_provider_page_add_options (EMailConfigProviderPage *page,
+				       GtkBox *main_box,
                                        CamelProviderConfEntry *entry)
 {
 	EMailConfigServiceBackend *backend;
@@ -413,7 +419,7 @@ mail_config_provider_page_add_options (EMailConfigProviderPage *page,
 	hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
 	gtk_box_set_spacing (GTK_BOX (hbox), 6);
 	gtk_widget_set_margin_left (hbox, STANDARD_MARGIN);
-	gtk_box_pack_start (GTK_BOX (page), hbox, FALSE, FALSE, 0);
+	gtk_box_pack_start (main_box, hbox, FALSE, FALSE, 0);
 	gtk_widget_show (hbox);
 
 	label = gtk_label_new_with_mnemonic (entry->text);
@@ -470,6 +476,7 @@ mail_config_provider_page_add_options (EMailConfigProviderPage *page,
 
 static void
 mail_config_provider_page_add_placeholder (EMailConfigProviderPage *page,
+					   GtkBox *main_box,
 					   CamelProviderConfEntry *entry)
 {
 	GtkWidget *hbox;
@@ -483,14 +490,15 @@ mail_config_provider_page_add_placeholder (EMailConfigProviderPage *page,
 	gtk_widget_set_name (hbox, entry->name);
 	gtk_box_set_spacing (GTK_BOX (hbox), 6);
 	gtk_widget_set_margin_left (hbox, STANDARD_MARGIN);
-	gtk_box_pack_start (GTK_BOX (page), hbox, FALSE, FALSE, 0);
+	gtk_box_pack_start (main_box, hbox, FALSE, FALSE, 0);
 	gtk_widget_show (hbox);
 
 	mail_config_provider_page_handle_dependency (page, entry, hbox);
 }
 
 static void
-mail_config_provider_page_add_widgets (EMailConfigProviderPage *page)
+mail_config_provider_page_add_widgets (EMailConfigProviderPage *page,
+				       GtkBox *main_box)
 {
 	EMailConfigServiceBackend *backend;
 	CamelProviderConfEntry *entries;
@@ -531,13 +539,13 @@ mail_config_provider_page_add_widgets (EMailConfigProviderPage *page)
 	widget = gtk_label_new (markup);
 	gtk_label_set_use_markup (GTK_LABEL (widget), TRUE);
 	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
-	gtk_box_pack_start (GTK_BOX (page), widget, FALSE, FALSE, 0);
+	gtk_box_pack_start (main_box, widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 	g_free (markup);
 
 	widget = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
 	gtk_widget_set_margin_left (widget, STANDARD_MARGIN);
-	gtk_box_pack_start (GTK_BOX (page), widget, FALSE, FALSE, 0);
+	gtk_box_pack_start (main_box, widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 
 	container = widget;
@@ -592,37 +600,37 @@ mail_config_provider_page_add_widgets (EMailConfigProviderPage *page)
 					continue;
 				}
 				mail_config_provider_page_add_section (
-					page, &entries[ii]);
+					page, main_box, &entries[ii]);
 				break;
 
 			case CAMEL_PROVIDER_CONF_CHECKBOX:
 				mail_config_provider_page_add_checkbox (
-					page, &entries[ii]);
+					page, main_box, &entries[ii]);
 				break;
 
 			case CAMEL_PROVIDER_CONF_CHECKSPIN:
 				mail_config_provider_page_add_checkspin (
-					page, &entries[ii]);
+					page, main_box, &entries[ii]);
 				break;
 
 			case CAMEL_PROVIDER_CONF_ENTRY:
 				mail_config_provider_page_add_entry (
-					page, &entries[ii]);
+					page, main_box, &entries[ii]);
 				break;
 
 			case CAMEL_PROVIDER_CONF_LABEL:
 				mail_config_provider_page_add_label (
-					page, &entries[ii]);
+					page, main_box, &entries[ii]);
 				break;
 
 			case CAMEL_PROVIDER_CONF_OPTIONS:
 				mail_config_provider_page_add_options (
-					page, &entries[ii]);
+					page, main_box, &entries[ii]);
 				break;
 
 			case CAMEL_PROVIDER_CONF_PLACEHOLDER:
 				mail_config_provider_page_add_placeholder (
-					page, &entries[ii]);
+					page, main_box, &entries[ii]);
 				break;
 
 			default:
@@ -699,24 +707,26 @@ mail_config_provider_page_constructed (GObject *object)
 	EMailConfigProviderPage *page;
 	EMailConfigServiceBackend *backend;
 	CamelProvider *provider;
+	GtkWidget *main_box;
 
 	page = E_MAIL_CONFIG_PROVIDER_PAGE (object);
 
 	/* Chain up parent's constructed() method. */
 	G_OBJECT_CLASS (e_mail_config_provider_page_parent_class)->constructed (object);
 
-	gtk_box_set_spacing (GTK_BOX (object), 6);
+	main_box = e_mail_config_activity_page_get_internal_box (E_MAIL_CONFIG_ACTIVITY_PAGE (page));
 
-	gtk_orientable_set_orientation (
-		GTK_ORIENTABLE (object), GTK_ORIENTATION_VERTICAL);
+	gtk_box_set_spacing (GTK_BOX (main_box), 6);
 
 	backend = e_mail_config_provider_page_get_backend (page);
 	provider = e_mail_config_service_backend_get_provider (backend);
 
 	if (provider != NULL && provider->extra_conf != NULL)
-		mail_config_provider_page_add_widgets (page);
+		mail_config_provider_page_add_widgets (page, GTK_BOX (main_box));
 	else
 		page->priv->is_empty = TRUE;
+
+	e_mail_config_page_set_content (E_MAIL_CONFIG_PAGE (page), main_box);
 
 	e_extensible_load_extensions (E_EXTENSIBLE (page));
 }
@@ -815,6 +825,7 @@ e_mail_config_provider_page_get_placeholder (EMailConfigProviderPage *page,
 					     const gchar *name)
 {
 	FindPlaceholderData fpd;
+	GtkWidget *widget;
 
 	g_return_val_if_fail (E_IS_MAIL_CONFIG_PROVIDER_PAGE (page), NULL);
 	g_return_val_if_fail (name && *name, NULL);
@@ -822,7 +833,14 @@ e_mail_config_provider_page_get_placeholder (EMailConfigProviderPage *page,
 	fpd.name = name;
 	fpd.box = NULL;
 
-	gtk_container_foreach (GTK_CONTAINER (page), mail_config_provider_page_find_placeholder, &fpd);
+	widget = gtk_bin_get_child (GTK_BIN (page));
+	if (GTK_IS_VIEWPORT (widget))
+		widget = gtk_bin_get_child (GTK_BIN (widget));
+
+	if (!GTK_IS_CONTAINER (widget))
+		return NULL;
+
+	gtk_container_foreach (GTK_CONTAINER (widget), mail_config_provider_page_find_placeholder, &fpd);
 
 	return fpd.box;
 }

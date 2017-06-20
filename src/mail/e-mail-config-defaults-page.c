@@ -776,7 +776,7 @@ mail_config_defaults_page_constructed (GObject *object)
 	GtkButton *button;
 	GtkWidget *widget;
 	GtkWidget *container;
-	GtkWidget *hbox;
+	GtkWidget *hbox, *main_box;
 	GtkSizeGroup *size_group;
 	GEnumClass *enum_class;
 	GEnumValue *enum_value;
@@ -810,10 +810,9 @@ mail_config_defaults_page_constructed (GObject *object)
 	extension_name = E_SOURCE_EXTENSION_MDN;
 	mdn_ext = e_source_get_extension (source, extension_name);
 
-	gtk_orientable_set_orientation (
-		GTK_ORIENTABLE (page), GTK_ORIENTATION_VERTICAL);
+	main_box = e_mail_config_activity_page_get_internal_box (E_MAIL_CONFIG_ACTIVITY_PAGE (page));
 
-	gtk_box_set_spacing (GTK_BOX (page), 12);
+	gtk_box_set_spacing (GTK_BOX (main_box), 12);
 
 	size_group = gtk_size_group_new (GTK_SIZE_GROUP_HORIZONTAL);
 
@@ -822,7 +821,7 @@ mail_config_defaults_page_constructed (GObject *object)
 	widget = gtk_grid_new ();
 	gtk_grid_set_row_spacing (GTK_GRID (widget), 6);
 	gtk_grid_set_column_spacing (GTK_GRID (widget), 6);
-	gtk_box_pack_start (GTK_BOX (page), widget, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (main_box), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 
 	container = widget;
@@ -1020,7 +1019,7 @@ mail_config_defaults_page_constructed (GObject *object)
 	widget = gtk_grid_new ();
 	gtk_grid_set_row_spacing (GTK_GRID (widget), 6);
 	gtk_grid_set_column_spacing (GTK_GRID (widget), 6);
-	gtk_box_pack_start (GTK_BOX (page), widget, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (main_box), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 
 	container = widget;
@@ -1121,7 +1120,7 @@ mail_config_defaults_page_constructed (GObject *object)
 	widget = gtk_grid_new ();
 	gtk_grid_set_row_spacing (GTK_GRID (widget), 6);
 	gtk_grid_set_column_spacing (GTK_GRID (widget), 6);
-	gtk_box_pack_start (GTK_BOX (page), widget, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (main_box), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 
 	container = widget;
@@ -1185,6 +1184,8 @@ mail_config_defaults_page_constructed (GObject *object)
 		NULL, (GDestroyNotify) NULL);
 
 	g_object_unref (size_group);
+
+	e_mail_config_page_set_content (E_MAIL_CONFIG_PAGE (page), main_box);
 
 	e_extensible_load_extensions (E_EXTENSIBLE (page));
 }

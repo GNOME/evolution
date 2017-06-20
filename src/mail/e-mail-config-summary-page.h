@@ -51,12 +51,12 @@ typedef struct _EMailConfigSummaryPageClass EMailConfigSummaryPageClass;
 typedef struct _EMailConfigSummaryPagePrivate EMailConfigSummaryPagePrivate;
 
 struct _EMailConfigSummaryPage {
-	GtkBox parent;
+	GtkScrolledWindow parent;
 	EMailConfigSummaryPagePrivate *priv;
 };
 
 struct _EMailConfigSummaryPageClass {
-	GtkBoxClass parent_class;
+	GtkScrolledWindowClass parent_class;
 
 	/* Signals */
 	void		(*refresh)		(EMailConfigSummaryPage *page);
@@ -66,6 +66,8 @@ GType		e_mail_config_summary_page_get_type
 						(void) G_GNUC_CONST;
 EMailConfigPage *
 		e_mail_config_summary_page_new	(void);
+GtkBox *	e_mail_config_summary_page_get_internal_box
+						(EMailConfigSummaryPage *page);
 void		e_mail_config_summary_page_refresh
 						(EMailConfigSummaryPage *page);
 EMailConfigServiceBackend *

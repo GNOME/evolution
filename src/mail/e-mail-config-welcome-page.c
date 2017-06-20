@@ -44,7 +44,7 @@ static void	e_mail_config_welcome_page_interface_init
 G_DEFINE_TYPE_WITH_CODE (
 	EMailConfigWelcomePage,
 	e_mail_config_welcome_page,
-	GTK_TYPE_BOX,
+	GTK_TYPE_SCROLLED_WINDOW,
 	G_IMPLEMENT_INTERFACE (
 		E_TYPE_EXTENSIBLE, NULL)
 	G_IMPLEMENT_INTERFACE (
@@ -105,23 +105,20 @@ mail_config_welcome_page_constructed (GObject *object)
 {
 	EMailConfigWelcomePage *page;
 	GtkWidget *widget;
+	GtkWidget *main_box;
 
 	page = E_MAIL_CONFIG_WELCOME_PAGE (object);
 
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (e_mail_config_welcome_page_parent_class)->constructed (object);
 
-	gtk_orientable_set_orientation (
-		GTK_ORIENTABLE (page), GTK_ORIENTATION_VERTICAL);
-
-	gtk_box_set_spacing (GTK_BOX (page), 12);
-
-	gtk_widget_set_valign (GTK_WIDGET (page), GTK_ALIGN_CENTER);
+	main_box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 12);
+	gtk_widget_set_valign (GTK_WIDGET (main_box), GTK_ALIGN_CENTER);
 
 	widget = gtk_label_new (NULL);
 	gtk_label_set_line_wrap (GTK_LABEL (widget), TRUE);
 	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
-	gtk_box_pack_start (GTK_BOX (page), widget, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (main_box), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 
 	e_binding_bind_object_text_property (
@@ -129,6 +126,8 @@ mail_config_welcome_page_constructed (GObject *object)
 		widget, "label",
 		G_BINDING_BIDIRECTIONAL |
 		G_BINDING_SYNC_CREATE);
+
+	e_mail_config_page_set_content (E_MAIL_CONFIG_PAGE (page), main_box);
 
 	e_extensible_load_extensions (E_EXTENSIBLE (page));
 }

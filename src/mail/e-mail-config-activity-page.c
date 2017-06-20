@@ -24,6 +24,7 @@
 	((obj), E_TYPE_MAIL_CONFIG_ACTIVITY_PAGE, EMailConfigActivityPagePrivate))
 
 struct _EMailConfigActivityPagePrivate {
+	GtkWidget *box;			/* not referenced */
 	GtkWidget *activity_bar;	/* not referenced */
 	GtkWidget *alert_bar;		/* not referenced */
 };
@@ -35,7 +36,7 @@ static void	e_mail_config_activity_page_alert_sink_init
 G_DEFINE_ABSTRACT_TYPE_WITH_CODE (
 	EMailConfigActivityPage,
 	e_mail_config_activity_page,
-	GTK_TYPE_BOX,
+	GTK_TYPE_SCROLLED_WINDOW,
 	G_IMPLEMENT_INTERFACE (
 		E_TYPE_ALERT_SINK,
 		e_mail_config_activity_page_alert_sink_init))
@@ -52,15 +53,14 @@ mail_config_activity_page_constructed (GObject *object)
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (e_mail_config_activity_page_parent_class)->constructed (object);
 
-	gtk_orientable_set_orientation (
-		GTK_ORIENTABLE (page), GTK_ORIENTATION_VERTICAL);
+	page->priv->box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
 
 	/* Does not matter what order the EActivityBar and EAlertBar are
 	 * packed.  They should never both be visible at the same time. */
 
 	frame = gtk_frame_new (NULL);
 	gtk_frame_set_shadow_type (GTK_FRAME (frame), GTK_SHADOW_IN);
-	gtk_box_pack_end (GTK_BOX (page), frame, FALSE, FALSE, 0);
+	gtk_box_pack_end (GTK_BOX (page->priv->box), frame, FALSE, FALSE, 0);
 	/* Visibility is bound to the EActivityBar. */
 
 	widget = e_activity_bar_new ();
@@ -75,7 +75,7 @@ mail_config_activity_page_constructed (GObject *object)
 
 	frame = gtk_frame_new (NULL);
 	gtk_frame_set_shadow_type (GTK_FRAME (frame), GTK_SHADOW_IN);
-	gtk_box_pack_end (GTK_BOX (page), frame, FALSE, FALSE, 0);
+	gtk_box_pack_end (GTK_BOX (page->priv->box), frame, FALSE, FALSE, 0);
 	/* Visibility is bound to the EAlertBar. */
 
 	widget = e_alert_bar_new ();
@@ -141,6 +141,14 @@ static void
 e_mail_config_activity_page_init (EMailConfigActivityPage *page)
 {
 	page->priv = E_MAIL_CONFIG_ACTIVITY_PAGE_GET_PRIVATE (page);
+}
+
+GtkWidget *
+e_mail_config_activity_page_get_internal_box (EMailConfigActivityPage *page)
+{
+	g_return_val_if_fail (E_IS_MAIL_CONFIG_ACTIVITY_PAGE (page), NULL);
+
+	return page->priv->box;
 }
 
 EActivity *

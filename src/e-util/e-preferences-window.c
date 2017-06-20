@@ -521,9 +521,8 @@ e_preferences_window_setup (EPreferencesWindow *window)
 {
 	gint i, num;
 	GtkNotebook *notebook;
-	GtkRequisition requisition;
-	gint width = -1, height = -1, content_width = -1, content_height = -1;
 	EPreferencesWindowPrivate *priv;
+	GSList *children = NULL;
 
 	g_return_if_fail (E_IS_PREFERENCES_WINDOW (window));
 
@@ -531,14 +530,6 @@ e_preferences_window_setup (EPreferencesWindow *window)
 
 	if (priv->setup)
 		return;
-
-	gtk_window_get_default_size (GTK_WINDOW (window), &width, &height);
-	if (width < 0 || height < 0) {
-		gtk_widget_get_preferred_size (GTK_WIDGET (window), &requisition, NULL);
-
-		width = requisition.width;
-		height = requisition.height;
-	}
 
 	notebook = GTK_NOTEBOOK (priv->notebook);
 	num = gtk_notebook_get_n_pages (notebook);
@@ -558,6 +549,8 @@ e_preferences_window_setup (EPreferencesWindow *window)
 		if (content) {
 			GtkScrolledWindow *scrolled;
 
+			children = g_slist_prepend (children, content);
+
 			scrolled = GTK_SCROLLED_WINDOW (gtk_scrolled_window_new (NULL, NULL));
 			gtk_scrolled_window_add_with_viewport (scrolled, content);
 			gtk_scrolled_window_set_min_content_width (scrolled, 320);
@@ -570,43 +563,15 @@ e_preferences_window_setup (EPreferencesWindow *window)
 				GTK_SHADOW_NONE);
 
 			gtk_widget_show (content);
-
-			gtk_widget_get_preferred_size (GTK_WIDGET (content), &requisition, NULL);
-
-			if (requisition.width > content_width)
-				content_width = requisition.width;
-			if (requisition.height > content_height)
-				content_height = requisition.height;
-
 			gtk_widget_show (GTK_WIDGET (scrolled));
 
 			gtk_container_add (GTK_CONTAINER (align), GTK_WIDGET (scrolled));
 		}
 	}
 
-	if (content_width > 0 && content_height > 0 && width > 0 && height > 0) {
-		GdkScreen *screen;
-		GdkRectangle monitor_area;
-		gint x = 0, y = 0, monitor;
+	e_util_resize_window_for_screen (GTK_WINDOW (window), -1, -1, children);
 
-		screen = gtk_window_get_screen (GTK_WINDOW (window));
-		gtk_window_get_position (GTK_WINDOW (window), &x, &y);
-
-		monitor = gdk_screen_get_monitor_at_point (screen, x, y);
-		if (monitor < 0 || monitor >= gdk_screen_get_n_monitors (screen))
-			monitor = 0;
-
-		gdk_screen_get_monitor_workarea (screen, monitor, &monitor_area);
-
-		if (content_width > monitor_area.width - width)
-			content_width = monitor_area.width - width;
-
-		if (content_height > monitor_area.height - height)
-			content_height = monitor_area.height - height;
-
-		if (content_width > 0 && content_height > 0)
-			gtk_window_set_default_size (GTK_WINDOW (window), width + content_width, height + content_height);
-	}
+	g_slist_free (children);
 
 	priv->setup = TRUE;
 }

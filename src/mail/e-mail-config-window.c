@@ -314,6 +314,9 @@ mail_config_window_constructed (GObject *object)
 	EMailConfigWindow *window;
 	GtkWidget *container;
 	GtkWidget *widget;
+	GSList *children = NULL;
+	gint ii, npages;
+	GtkRequisition requisition;
 
 	window = E_MAIL_CONFIG_WINDOW (object);
 
@@ -347,6 +350,9 @@ mail_config_window_constructed (GObject *object)
 	window->priv->alert_bar = widget;  /* not referenced */
 	/* EAlertBar controls its own visibility. */
 
+	gtk_widget_get_preferred_size (GTK_WIDGET (window), &requisition, NULL);
+	requisition.width += 12 + 5; /* column spacing + border width of the grid*/
+
 	/* Add an extra-wide margin to the left and bottom.
 	 *
 	 * XXX The bottom margin is tricky.  We want a 24px margin between
@@ -365,6 +371,7 @@ mail_config_window_constructed (GObject *object)
 	gtk_widget_set_hexpand (widget, TRUE);
 	gtk_widget_set_vexpand (widget, TRUE);
 	gtk_widget_set_margin_bottom (widget, 17);
+	requisition.height += 17 + 5; /* margin bottom + border width of the grid */
 	gtk_notebook_set_show_tabs (GTK_NOTEBOOK (widget), FALSE);
 	gtk_notebook_set_show_border (GTK_NOTEBOOK (widget), FALSE);
 	gtk_grid_attach (GTK_GRID (container), widget, 2, 1, 1, 1);
@@ -393,6 +400,15 @@ mail_config_window_constructed (GObject *object)
 		window->priv->notebook, "complete",
 		widget, "sensitive",
 		G_BINDING_SYNC_CREATE);
+
+	npages = gtk_notebook_get_n_pages (GTK_NOTEBOOK (window->priv->notebook));
+	for (ii = 0; ii < npages; ii++) {
+		children = g_slist_prepend (children, gtk_notebook_get_nth_page (GTK_NOTEBOOK (window->priv->notebook), ii));
+	}
+
+	e_util_resize_window_for_screen (GTK_WINDOW (window), requisition.width, requisition.height, children);
+
+	g_slist_free (children);
 }
 
 static void

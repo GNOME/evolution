@@ -50,12 +50,12 @@ typedef struct _EMailConfigConfirmPageClass EMailConfigConfirmPageClass;
 typedef struct _EMailConfigConfirmPagePrivate EMailConfigConfirmPagePrivate;
 
 struct _EMailConfigConfirmPage {
-	GtkBox parent;
+	GtkScrolledWindow parent;
 	EMailConfigConfirmPagePrivate *priv;
 };
 
 struct _EMailConfigConfirmPageClass {
-	GtkBoxClass parent_class;
+	GtkScrolledWindowClass parent_class;
 };
 
 GType		e_mail_config_confirm_page_get_type

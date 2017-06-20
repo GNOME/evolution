@@ -49,7 +49,7 @@ static gboolean	mail_config_import_page_next	(gpointer user_data);
 G_DEFINE_DYNAMIC_TYPE_EXTENDED (
 	EMailConfigImportPage,
 	e_mail_config_import_page,
-	GTK_TYPE_BOX,
+	GTK_TYPE_SCROLLED_WINDOW,
 	0,
 	G_IMPLEMENT_INTERFACE_DYNAMIC (
 		E_TYPE_MAIL_CONFIG_PAGE,
@@ -194,6 +194,7 @@ mail_config_import_page_constructed (GObject *object)
 	EMailConfigImportPage *page;
 	GtkWidget *widget;
 	GtkWidget *container;
+	GtkWidget *main_box;
 	GSList *list, *link;
 	const gchar *text;
 	gint row = 0;
@@ -203,22 +204,19 @@ mail_config_import_page_constructed (GObject *object)
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (e_mail_config_import_page_parent_class)->constructed (object);
 
-	gtk_orientable_set_orientation (
-		GTK_ORIENTABLE (page), GTK_ORIENTATION_VERTICAL);
-
-	gtk_box_set_spacing (GTK_BOX (page), 24);
+	main_box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 24);
 
 	text = _("Please select the information "
 		 "that you would like to import:");
 	widget = gtk_label_new (text);
 	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
-	gtk_box_pack_start (GTK_BOX (page), widget, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (main_box), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 
 	widget = gtk_grid_new ();
 	gtk_grid_set_row_spacing (GTK_GRID (widget), 12);
 	gtk_grid_set_column_spacing (GTK_GRID (widget), 12);
-	gtk_box_pack_start (GTK_BOX (page), widget, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (main_box), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 
 	container = widget;
@@ -245,6 +243,8 @@ mail_config_import_page_constructed (GObject *object)
 
 		row++;
 	}
+
+	e_mail_config_page_set_content (E_MAIL_CONFIG_PAGE (page), main_box);
 }
 
 static void

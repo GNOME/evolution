@@ -652,6 +652,9 @@ mail_config_assistant_constructed (GObject *object)
 	GList *list, *link;
 	const gchar *extension_name;
 	const gchar *title;
+	GtkRequisition requisition;
+	GSList *children = NULL;
+	gint ii, npages;
 
 	assistant = E_MAIL_CONFIG_ASSISTANT (object);
 
@@ -710,6 +713,10 @@ mail_config_assistant_constructed (GObject *object)
 		mail_submission_extension,
 		e_mail_session_get_local_folder_uri (
 		session, E_MAIL_LOCAL_FOLDER_SENT));
+
+	gtk_widget_get_preferred_size (GTK_WIDGET (assistant), &requisition, NULL);
+	requisition.width += 2 * 12;
+	requisition.height += 2 * 12;
 
 	/*** Welcome Page ***/
 
@@ -906,6 +913,15 @@ mail_config_assistant_constructed (GObject *object)
 	e_mail_config_assistant_add_page (assistant, page);
 
 	e_extensible_load_extensions (E_EXTENSIBLE (assistant));
+
+	npages = gtk_assistant_get_n_pages (GTK_ASSISTANT (assistant));
+	for (ii = 0; ii < npages; ii++) {
+		children = g_slist_prepend (children, gtk_assistant_get_nth_page (GTK_ASSISTANT (assistant), ii));
+	}
+
+	e_util_resize_window_for_screen (GTK_WINDOW (assistant), requisition.width, requisition.height, children);
+
+	g_slist_free (children);
 }
 
 static void
