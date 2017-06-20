@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2017-06-16 15:56+0000\n"
-"PO-Revision-Date: 2017-06-20 09:14+0200\n"
+"POT-Creation-Date: 2017-06-20 07:16+0000\n"
+"PO-Revision-Date: 2017-06-20 09:26+0200\n"
 "Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
 "Language-Team: Friulian <f.t.public@gmail.com>\n"
 "Language: fur\n"
@@ -15683,12 +15683,24 @@ msgstr "Impussibil creâ la cartele code di pueste “%s”: %s"
 msgid "Trying to movemail a non-mbox source “%s”"
 msgstr "Tentatîf di spostâ la pueste di une sorzint no mbox “%s”"
 
-#: ../src/libemail-engine/mail-tools.c:257
+#. Translators: This is a subject attribution for forwarded messages. The %s is replaced with subject of the original message.
+#: ../src/libemail-engine/mail-tools.c:193
+#, fuzzy, c-format
+msgid "[Fwd: %s]"
+msgstr "[Ind: %s]"
+
+#. Translators: This is a subject attribution for forwarded messages, used when there could not be used any subject.
+#. It results in "[Fwd: No Subject]" being used as a subject of the forwarded message.
+#: ../src/libemail-engine/mail-tools.c:196
+msgid "No Subject"
+msgstr "Nissun ogjet"
+
+#: ../src/libemail-engine/mail-tools.c:271
 #, c-format
 msgid "Forwarded message — %s"
 msgstr "Messaç mandât indenant — %s"
 
-#: ../src/libemail-engine/mail-tools.c:259
+#: ../src/libemail-engine/mail-tools.c:273
 msgid "Forwarded message"
 msgstr "Messaç mandât indenant"
 
@@ -17342,16 +17354,22 @@ msgstr "------ Messaç mandât indenant -----"
 msgid "-----Original Message-----"
 msgstr "-----Messaç origjinâl-----"
 
-#: ../src/mail/em-composer-utils.c:3092
+#. Translators: This is a reply attribution in the message reply subject. The %s is replaced with the subject of the original message.
+#: ../src/mail/em-composer-utils.c:2529
+#, fuzzy, c-format
+msgid "Re: %s"
+msgstr "Risp: %s"
+
+#: ../src/mail/em-composer-utils.c:3093
 msgid "an unknown sender"
 msgstr "un mitent no cognossût"
 
 #. FIXME GTK_WINDOW (composer)
-#: ../src/mail/em-composer-utils.c:3570
+#: ../src/mail/em-composer-utils.c:3571
 msgid "Posting destination"
 msgstr "Destinazion di publicazion"
 
-#: ../src/mail/em-composer-utils.c:3575
+#: ../src/mail/em-composer-utils.c:3576
 msgid "Choose folders to post the message to."
 msgstr "Sielzi lis cartelis dulà publicâ il messaç."
 
