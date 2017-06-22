@@ -2238,6 +2238,8 @@ em_utils_forward_message (EMsgComposer *composer,
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (message));
 
+	e_msg_composer_set_is_reply_or_forward (composer, TRUE);
+
 	switch (style) {
 		case E_MAIL_FORWARD_STYLE_ATTACHED:
 		default:
@@ -2271,6 +2273,8 @@ em_utils_forward_attachment (EMsgComposer *composer,
 
 	if (folder != NULL)
 		g_return_if_fail (CAMEL_IS_FOLDER (folder));
+
+	e_msg_composer_set_is_reply_or_forward (composer, TRUE);
 
 	set_up_new_composer (composer, subject, folder);
 
@@ -2507,6 +2511,8 @@ reply_setup_composer (EMsgComposer *composer,
 
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (message));
+
+	e_msg_composer_set_is_reply_or_forward (composer, TRUE);
 
 	if (to != NULL)
 		g_return_if_fail (CAMEL_IS_INTERNET_ADDRESS (to));

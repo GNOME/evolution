@@ -1260,6 +1260,12 @@ em_composer_prefs_construct (EMComposerPrefs *prefs,
 		widget, "active",
 		G_SETTINGS_BIND_DEFAULT);
 
+	widget = e_builder_get_widget (prefs->builder, "chkSignatureInNewOnly");
+	g_settings_bind (
+		settings, "composer-signature-in-new-only",
+		widget, "active",
+		G_SETTINGS_BIND_DEFAULT);
+
 	widget = e_builder_get_widget (prefs->builder, "chkTopSignature");
 	g_settings_bind (
 		settings, "composer-top-signature",

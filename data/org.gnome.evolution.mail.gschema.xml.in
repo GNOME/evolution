@@ -160,6 +160,11 @@
       <summary>How long to delay Outbox flush when sending messages through Outbox folder</summary>
       <description>A delay, in minutes, to wait for the Outbox folder flush. Less than 0 means never flush, 0 means immediately, the rest is the delay interval in minutes.</description>
     </key>
+    <key name="composer-signature-in-new-only" type="b">
+      <default>false</default>
+      <_summary>Include signature in new messages only</_summary>
+      <_description>Include selected signature only for new messages, but have no signature added for Replies or Forwards.</_description>
+    </key>
     <key name="composer-top-signature" type="b">
       <default>false</default>
       <_summary>Put personalized signatures at the top of replies</_summary>

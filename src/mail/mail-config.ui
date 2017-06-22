@@ -535,8 +535,8 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkCheckButton" id="chkTopSignature">
-                        <property name="label" translatable="yes">_Keep signature above the original message on replying</property>
+                      <object class="GtkCheckButton" id="chkSignatureInNewOnly">
+                        <property name="label" translatable="yes">Include si_gnature in new messages only</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
@@ -552,8 +552,8 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkCheckButton" id="chkIgnoreListReplyTo">
-                        <property name="label" translatable="yes">Ig_nore Reply-To: for mailing lists</property>
+                      <object class="GtkCheckButton" id="chkTopSignature">
+                        <property name="label" translatable="yes">_Keep signature above the original message on replying</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
@@ -569,8 +569,8 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkCheckButton" id="chkGroupReplyToList">
-                        <property name="label" translatable="yes">Gro_up Reply goes only to mailing list, if possible</property>
+                      <object class="GtkCheckButton" id="chkIgnoreListReplyTo">
+                        <property name="label" translatable="yes">Ig_nore Reply-To: for mailing lists</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
@@ -586,8 +586,8 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkCheckButton" id="chkSignReplyIfSigned">
-                        <property name="label" translatable="yes">Digitally _sign messages when original message signed (PGP or S/MIME)</property>
+                      <object class="GtkCheckButton" id="chkGroupReplyToList">
+                        <property name="label" translatable="yes">Gro_up Reply goes only to mailing list, if possible</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
@@ -603,6 +603,23 @@
                       </packing>
                     </child>
                     <child>
+                      <object class="GtkCheckButton" id="chkSignReplyIfSigned">
+                        <property name="label" translatable="yes">Digitally _sign messages when original message signed (PGP or S/MIME)</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">False</property>
+                        <property name="use_underline">True</property>
+                        <property name="xalign">0.5</property>
+                        <property name="draw_indicator">True</property>
+                      </object>
+                      <packing>
+                        <property name="right_attach">2</property>
+                        <property name="top_attach">7</property>
+                        <property name="bottom_attach">8</property>
+                        <property name="y_options"/>
+                      </packing>
+                    </child>
+                    <child>
                       <object class="GtkCheckButton" id="chkWrapQuotedTextInReplies">
                         <property name="label" translatable="yes">_Wrap quoted text in replies</property>
                         <property name="visible">True</property>
@@ -614,8 +631,8 @@
                       </object>
                       <packing>
                         <property name="right_attach">2</property>
-                        <property name="top_attach">7</property>
-                        <property name="bottom_attach">8</property>
+                        <property name="top_attach">8</property>
+                        <property name="bottom_attach">9</property>
                         <property name="y_options"/>
                       </packing>
                     </child>
