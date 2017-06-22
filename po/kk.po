@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2017-06-16 15:56+0000\n"
-"PO-Revision-Date: 2017-06-17 13:40+0500\n"
+"POT-Creation-Date: 2017-06-22 13:24+0000\n"
+"PO-Revision-Date: 2017-06-22 19:18+0500\n"
 "Last-Translator: Baurzhan Muftakhidinov <baurthefirst@gmail.com>\n"
 "Language-Team: Kazakh <kk_KZ@googlegroups.com>\n"
 "Language: kk\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 2.0.2\n"
+"X-Generator: Poedit 1.8.12\n"
 
 #: ../evolution.appdata.xml.in.h:1 ../data/evolution.desktop.in.in.h:1
 #: ../src/mail/e-mail-browser.c:1098
@@ -1283,31 +1283,41 @@ msgid ""
 msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:51
-msgid "Put personalized signatures at the top of replies"
+msgid "Include signature in new messages only"
 msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:52
+msgid ""
+"Include selected signature only for new messages, but have no signature "
+"added for Replies or Forwards."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:53
+msgid "Put personalized signatures at the top of replies"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:54
 msgid ""
 "Users get all up in arms over where their signature should go when replying "
 "to a message. This determines whether the signature is placed at the top of "
 "the message or the bottom."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:53
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:55
 msgid "Do not add signature delimiter"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:54
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:56
 msgid ""
 "Set to TRUE in case you do not want to add signature delimiter before your "
 "signature when composing a mail."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:55
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:57
 msgid "Ignore list Reply-To:"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:56
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:58
 msgid ""
 "Some mailing lists set a Reply-To: header to trick users into sending "
 "replies to the list, even when they ask Evolution to make a private reply. "
@@ -1318,318 +1328,318 @@ msgid ""
 "Post: header, if there is one."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:57
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:59
 msgid "List of localized “Re”"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:58
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:60
 msgid ""
 "Comma-separated list of localized “Re” abbreviations to skip in a subject "
 "text when replying to a message, as an addition to the standard “Re” prefix. "
 "An example is “SV,AV”."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:59
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:61
 msgid "List of localized “Re” separators"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:60
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:62
 msgid ""
 "A list of localized “Re” separators, used to skip in a subject text when "
 "replying to a message, as an addition to the standard “:” and the Unicode "
 "“︰” separators."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:61
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:63
 msgid "Number of characters for wrapping"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:62
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:64
 msgid "Will autowrap lines after given number of characters."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:63
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:65
 msgid ""
 "Number of To and CC recipients to ask “prompt-on-many-to-cc-recips” from"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:64
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:66
 msgid ""
 "When to ask, when the number of To and CC recipients reaches this value."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:65
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:67
 msgid "Whether to always show Sign and Encrypt buttons on the toolbar"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:66
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:68
 msgid ""
 "If set to “true”, the Sign and Encrypt buttons for either PGP or S/MIME are "
 "always shown in the composer’s toolbar. Otherwise they are shown only when "
 "being used."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:67
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:69
 msgid "Wrap quoted text in replies"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:68
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:70
 msgid "If set to “true” quoted text in replies will be wrapped."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:69
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:71
 msgid "Whether to obey Content-Disposition:inline message header hint"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:70
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:72
 msgid ""
 "Set to “false” to block automatic display of attachments with Content-"
 "Disposition: inline."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:71
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:73
 msgid "Save file format for drag-and-drop operation"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:72
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:74
 msgid "Can be either “mbox” or “pdf”."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:73
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:75
 msgid "Show image animations"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:74
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:76
 msgid ""
 "Enable animated images in HTML mail. Many users find animated images "
 "annoying and prefer to see a static image instead."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:75
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:77
 msgid "Enable or disable type ahead search feature"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:76
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:78
 msgid ""
 "Enable the side bar search feature to allow interactive searching of folder "
 "names."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:77
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:79
 msgid "Enable or disable magic space bar"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:78
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:80
 msgid ""
 "Enable this to use Space bar key to scroll in message preview, message list "
 "and folders."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:79
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:81
 msgid "Enable to use a similar message list view settings for all folders"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:80
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:82
 msgid "Enable to use a similar message list view settings for all folders."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:81
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:83
 msgid "Mark citations in the message “Preview”"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:82
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:84
 msgid "Mark citations in the message “Preview”."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:83
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:85
 msgid "Citation highlight color"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:84
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:86
 msgid "Citation highlight color."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:85
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:87
 msgid "Enable/disable caret mode"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:86
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:88
 msgid "Enable caret mode, so that you can see a cursor when reading mail."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:87
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:89
 msgid "Default charset in which to display messages"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:88
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:90
 msgid "Default charset in which to display messages."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:89
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:91
 msgid "Automatically load images for HTML messages over HTTP"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:90
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:92
 msgid "Show notification about missing remote content"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:91
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:93
 msgid ""
 "When the message preview shows a message which requires to download remote "
 "content, while the download is not allowed for the user or the site, then "
 "show a notification about it on top of the preview panel."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:92
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:94
 msgid "Show Animations"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:93
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:95
 msgid "Show animated images as animations."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:94
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:96
 msgid "Show all message headers"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:95
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:97
 msgid "Show all the headers when viewing a messages."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:96
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:98
 msgid "List of headers to show when viewing a message."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:97
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:99
 msgid ""
 "Each header is represented as a pair: the header name, and a boolean "
 "indicating whether the header is enabled. Disabled headers are not shown "
 "when viewing a message, but are still listed in Preferences."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:98
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:100
 msgid "Show photo of the sender"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:99
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:101
 msgid "Show the photo of the sender in the message reading pane."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:100
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:102
 msgid "Search gravatar.com for photo of the sender"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:101
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:103
 msgid "Allow searching also at gravatar.com for photo of the sender."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:102
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:104
 msgid "Mark as Seen after specified timeout"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:103
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:105
 msgid "Mark as Seen after specified timeout."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:104
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:106
 msgid "Mark as Seen always after specified timeout"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:105
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:107
 msgid ""
 "If set to true, the selected message will be set as unread after the timeout "
 "also after the folder change."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:106
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:108
 msgid "Timeout for marking messages as seen"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:107
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:109
 msgid "Timeout in milliseconds for marking messages as seen."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:108
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:110
 msgid "Show Attachment Bar"
 msgstr "Салынымдар панелін көрсету"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:109
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:111
 msgid ""
 "Show Attachment Bar below the message preview pane when the message has "
 "attachments."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:110
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:112
 msgid "Sender email-address column in the message list"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:111
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:113
 msgid ""
 "Show the email-address of the sender in a separate column in the message "
 "list."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:112
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:114
 msgid "Show deleted messages in the message-list"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:113
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:115
 msgid "Show deleted messages (with a strike-through) in the message-list."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:114
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:116
 msgid "Show junk messages in the message-list"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:115
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:117
 msgid "Show junk messages (with a red strike-through) in the message-list."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:116
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:118
 msgid "Enable Unmatched search folder"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:117
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:119
 msgid ""
 "Enable Unmatched search folder within Search Folders. It does nothing if "
 "Search Folders are disabled."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:118
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:120
 msgid "Hides the per-folder preview and removes the selection"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:119
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:121
 msgid ""
 "This key is read only once and reset to “false” after read. This unselects "
 "the mail in the list and removes the preview for that folder."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:120
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:122
 msgid "Height of the message-list pane"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:121
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:123
 msgid "Height of the message-list pane."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:122
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:124
 msgid "Whether message headers are collapsed in the user interface"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:123
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:125
 msgid "Width of the message-list pane"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:124
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:126
 msgid "Width of the message-list pane."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:125
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:127
 msgid "Layout style"
 msgstr "Жайма стилі"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:126
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:128
 msgid ""
 "The layout style determines where to place the preview pane in relation to "
 "the message list. “0” (Classic View) places the preview pane below the "
@@ -1637,96 +1647,96 @@ msgid ""
 "message list."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:127
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:129
 msgid "Variable width font"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:128
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:130
 msgid "The variable width font for mail display."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:129
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:131
 msgid "Terminal font"
 msgstr "Терминал қарібі"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:130
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:132
 msgid "The terminal font for mail display."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:131
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:133
 msgid "Use custom fonts"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:132
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:134
 msgid "Use custom fonts for displaying mail."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:133
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:135
 msgid "Compress display of addresses in TO/CC/BCC"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:134
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:136
 msgid ""
 "Compress display of addresses in TO/CC/BCC to the number specified in "
 "address_count."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:135
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:137
 msgid "Number of addresses to display in TO/CC/BCC"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:136
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:138
 msgid ""
 "This sets the number of addresses to show in default message list view, "
 "beyond which a “...” is shown."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:137
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:139
 msgid "Thread the message-list based on Subject"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:138
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:140
 msgid ""
 "Whether or not to fall back on threading by subjects when the messages do "
 "not contain In-Reply-To or References headers."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:139
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:141
 msgid "Default value for thread expand state"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:140
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:142
 msgid ""
 "This setting specifies whether the threads should be in expanded or "
 "collapsed state by default. Evolution requires a restart."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:141
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:143
 msgid "Whether sort threads based on latest message in that thread"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:142
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:144
 msgid ""
 "This setting specifies whether the threads should be sorted based on latest "
 "message in each thread, rather than by message’s date. Evolution requires a "
 "restart."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:143
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:145
 msgid "Whether sort thread children always ascending"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:144
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:146
 msgid ""
 "This setting specifies whether the thread children should be sorted always "
 "ascending, rather than using the same sort order as in the thread root level."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:145
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:147
 msgid "Sort accounts alphabetically in a folder tree"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:146
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:148
 msgid ""
 "Tells how to sort accounts in a folder tree used in a Mail view. When set to "
 "true accounts are sorted alphabetically, with an exception of On This "
@@ -1734,146 +1744,146 @@ msgid ""
 "given by a user"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:147
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:149
 msgid "Log filter actions"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:148
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:150
 msgid "Log filter actions to the specified log file."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:149
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:151
 msgid "Logfile to log filter actions"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:150
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:152
 msgid "Logfile to log filter actions."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:151
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:153
 msgid "Flush Outbox after filtering"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:152
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:154
 msgid ""
 "Whether to flush Outbox after filtering is done. Outbox flush will happen "
 "only when there was used any “Forward to” filter action and approximately "
 "one minute after the last action invocation."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:153
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:155
 msgid "Default forward style"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:154
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:156
 msgid "Default reply style"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:155
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:157
 msgid "Prompt on send when using key accelerator (Ctrl+Enter)"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:156
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:158
 msgid ""
 "Prompt the user when he or she tries to send a message with a key "
 "accelerator."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:157
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:159
 msgid "Prompt on empty subject"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:158
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:160
 msgid ""
 "Prompt the user when he or she tries to send a message without a Subject."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:159
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:161
 msgid "Prompt when emptying the trash"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:160
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:162
 msgid "Prompt the user when he or she tries to empty the trash."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:161
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:163
 msgid "Prompt when user expunges"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:162
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:164
 msgid "Prompt the user when he or she tries to expunge a folder."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:163
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:165
 msgid "Prompt when user calls Empty Junk"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:164
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:166
 msgid "Prompt the user when he or she tries to Empty a Junk folder."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:165
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:167
 msgid "Prompt before sending to recipients not entered as mail addresses"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:166
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:168
 msgid ""
 "It disables/enables the repeated prompts to warn that you are trying to send "
 "a message to recipients not entered as mail addresses"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:167
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:169
 msgid "Prompt when user only fills Bcc"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:168
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:170
 msgid "Prompt when user tries to send a message with no To or Cc recipients."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:169
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:171
 msgid "Prompt when user tries to send unwanted HTML"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:170
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:172
 msgid ""
 "Prompt when user tries to send HTML mail to recipients that may not want to "
 "receive HTML mail."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:171
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:173
 msgid "Prompt when user tries to open 10 or more messages at once"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:172
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:174
 msgid ""
 "If a user tries to open 10 or more messages at one time, ask the user if "
 "they really want to do it."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:173
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:175
 msgid "Prompt while marking multiple messages"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:174
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:176
 msgid "Enable or disable the prompt whilst marking multiple messages."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:175
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:177
 msgid "Prompt when deleting messages in search folder"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:176
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:178
 msgid ""
 "It disables/enables the repeated prompts to warn that deleting messages from "
 "a search folder permanently deletes the message, not simply removing it from "
 "the search results."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:177
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:179
 msgid "Asks whether to copy a folder by drag &amp; drop in the folder tree"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:178
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:180
 msgid ""
 "Possible values are: “never” — do not allow copy with drag &amp; drop of "
 "folders in folder tree, “always” — allow copy with drag &amp; drop of "
@@ -1881,11 +1891,11 @@ msgid ""
 "ask user."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:179
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:181
 msgid "Asks whether to move a folder by drag &amp; drop in the folder tree"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:180
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:182
 msgid ""
 "Possible values are: “never” — do not allow move with drag &amp; drop of "
 "folders in folder tree, “always” — allow move with drag &amp; drop of "
@@ -1893,174 +1903,174 @@ msgid ""
 "ask user."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:181
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:183
 msgid "Prompt when replying privately to list messages"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:182
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:184
 msgid ""
 "It disables/enables the repeated prompts to warn that you are sending a "
 "private reply to a message which arrived via a mailing list."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:183
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:185
 msgid "Prompt when mailing list hijacks private replies"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:184
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:186
 msgid ""
 "It disables/enables the repeated prompts to warn that you are trying sending "
 "a private reply to a message which arrived via a mailing list, but the list "
 "sets a Reply-To: header which redirects your reply back to the list"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:185
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:187
 msgid "Prompt when replying to many recipients"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:186
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:188
 msgid ""
 "It disables/enables the repeated prompts to warn that you are sending a "
 "reply to many people."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:187
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:189
 msgid ""
 "Prompt when switching composer format and the content needs to lose its "
 "formatting"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:188
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:190
 msgid ""
 "It disables/enables the repeated prompts to warn that you are switching "
 "composer format and the content needs to lose its formatting."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:189
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:191
 msgid "Prompt when sending to many To and CC recipients"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:190
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:192
 msgid ""
 "Enable or disable the prompt when sending to many To and CC recipients. The "
 "“composer-many-to-cc-recips-num” defines the threshold."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:191
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:193
 msgid ""
 "Policy for automatically closing the message browser window when forwarding "
 "or replying to the displayed message."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:192
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:194
 msgid "Empty Trash folders on exit"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:193
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:195
 msgid "Empty all Trash folders when exiting Evolution."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:194
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:196
 msgid "Minimum days between emptying the trash on exit"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:195
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:197
 msgid "Minimum time between emptying the trash on exit, in days."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:196
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:198
 msgid "Last time Empty Trash was run"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:197
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:199
 msgid ""
 "The last time Empty Trash was run, in days since January 1st, 1970 (Epoch)."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:198
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:200
 msgid "Amount of time in seconds the error should be shown on the status bar."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:199
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:201
 msgid "Level beyond which the message should be logged."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:200
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:202
 msgid ""
 "This can have three possible values. “0” for errors. “1” for warnings. “2” "
 "for debug messages."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:201
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:203
 msgid "Show original “Date” header value."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:202
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:204
 msgid ""
 "Show the original “Date” header (with a local time only if the time zone "
 "differs). Otherwise always show “Date” header value in a user preferred "
 "format and local time zone."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:203
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:205
 msgid "List of Labels and their associated colors"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:204
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:206
 msgid ""
 "List of labels known to the mail component of Evolution. The list contains "
 "strings containing name:color where color uses the HTML hex encoding."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:205
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:207
 msgid "Check incoming mail being junk"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:206
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:208
 msgid "Run junk test on incoming mail."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:207
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:209
 msgid "Empty Junk folders on exit"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:208
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:210
 msgid "Empty all Junk folders when exiting Evolution."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:209
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:211
 msgid "Minimum days between emptying the junk on exit"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:210
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:212
 msgid "Minimum time between emptying the junk on exit, in days."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:211
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:213
 msgid "Last time Empty Junk was run"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:212
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:214
 msgid ""
 "The last time Empty Junk was run, in days since January 1st, 1970 (Epoch)."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:213
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:215
 msgid "The default plugin for Junk hook"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:214
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:216
 msgid ""
 "This is the default junk plugin, even though there are multiple plugins "
 "enabled. If the default listed plugin is disabled, then it won’t fall back "
 "to the other available plugins."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:215
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:217
 msgid "Determines whether to lookup in address book for sender email"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:216
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:218
 msgid ""
 "Determines whether to lookup the sender email in address book. If found, it "
 "shouldn’t be a spam. It looks up in the books marked for autocompletion. It "
@@ -2068,96 +2078,96 @@ msgid ""
 "autocompletion."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:217
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:219
 msgid ""
 "Determines whether to look up addresses for junk filtering in local address "
 "book only"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:218
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:220
 msgid ""
 "This option is related to the key lookup_addressbook and is used to "
 "determine whether to look up addresses in local address book only to exclude "
 "mail sent by known contacts from junk filtering."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:219
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:221
 msgid "Determines whether to use custom headers to check for junk"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:220
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:222
 msgid ""
 "Determines whether to use custom headers to check for junk. If this option "
 "is enabled and the headers are mentioned, it will be improve the junk "
 "checking speed."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:221
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:223
 msgid "Custom headers to use while checking for junk."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:222
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:224
 msgid ""
 "Custom headers to use while checking for junk. The list elements are string "
 "in the format “headername=value”."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:223
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:225
 msgid "UID string of the default account."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:224
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:226
 msgid "Save directory"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:225
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:227
 msgid "Directory for saving mail component files."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:226
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:228
 msgid "Composer load/attach directory"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:227
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:229
 msgid "Directory for loading/attaching files to composer."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:228
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:230
 msgid "Check for new messages on start"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:229
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:231
 msgid ""
 "Whether to check for new messages when Evolution is started. This includes "
 "also sending messages from Outbox."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:230
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:232
 msgid "Check for new messages in all active accounts"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:231
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:233
 msgid ""
 "Whether to check for new messages in all active accounts regardless of the "
 "account “Check for new messages every X minutes” option when Evolution is "
 "started. This option is used only together with “send_recv_on_start” option."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:232
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:234
 msgid "Server synchronization interval"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:233
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:235
 msgid ""
 "Controls how frequently local changes are synchronized with the remote mail "
 "server. The interval must be at least 30 seconds."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:234
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:236
 msgid "Allow expunge in virtual folders"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:235
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:237
 msgid ""
 "Enables Expunge in virtual folders, which means that the Folder→Expunge will "
 "be callable in virtual folders, while the expunge itself will be done in all "
@@ -2165,114 +2175,114 @@ msgid ""
 "deleted messages belonging to the virtual folder."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:236
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:238
 #: ../src/mail/mail-config.ui.h:9
 msgid "Inherit theme colors in HTML format"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:237
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:239
 msgid ""
 "When enabled the theme colors for background, text and links are sent in "
 "resulting HTML formatted message."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:238
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:240
 msgid "An Archive folder for On This Computer folders."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:239
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:241
 msgid ""
 "An Archive folder to use for Messages|Archive... feature when in an On This "
 "Computer folder."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:240
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:242
 msgid "Whether the To Do bar is visible in the main window"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:241
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:243
 msgid "Stores whether the To Do bar is visible in the main window."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:242
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:244
 msgid "Width of the To Do bar in the main window"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:243
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:245
 msgid "Holds the width of the To Do bar for the main window."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:244
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:246
 msgid "Whether the To Do bar is visible in a sub-window"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:245
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:247
 msgid "Stores whether the To Do bar is visible in a sub-window."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:246
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:248
 msgid "Width of the To Do bar in a sub-window"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:247
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:249
 msgid "Holds the width of the To Do bar for a sub-window."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:248
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:250
 msgid "Whether the To Do bar should show also completed tasks"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:249
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:251
 msgid "Stores whether the To Do bar should show also completed tasks."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:250
-msgid "(Deprecated) Default forward style"
-msgstr ""
-
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:251
-msgid ""
-"This key was deprecated in version 3.10 and should no longer be used. Use "
-"“forward-style-name” instead."
-msgstr ""
-
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:252
-msgid "(Deprecated) Default reply style"
+msgid "(Deprecated) Default forward style"
 msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:253
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
-"“reply-style-name” instead."
+"“forward-style-name” instead."
 msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:254
-msgid "(Deprecated) List of custom headers and whether they are enabled."
+msgid "(Deprecated) Default reply style"
 msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:255
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
-"“show-headers” instead."
+"“reply-style-name” instead."
 msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:256
-msgid "(Deprecated) Load images for HTML messages over HTTP"
+msgid "(Deprecated) List of custom headers and whether they are enabled."
 msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:257
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
-"“image-loading-policy” instead."
+"“show-headers” instead."
 msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:258
+msgid "(Deprecated) Load images for HTML messages over HTTP"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:259
+msgid ""
+"This key was deprecated in version 3.10 and should no longer be used. Use "
+"“image-loading-policy” instead."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:260
 msgid ""
 "(Deprecated) Asks whether to close the message window when the user forwards "
 "or replies to the message shown in the window"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:259
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:261
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“browser-close-on-reply-policy” instead."
@@ -2931,7 +2941,7 @@ msgstr ""
 #: ../src/mail/e-mail-label-manager.c:371
 #: ../src/mail/em-folder-properties.c:1031
 #: ../src/mail/em-vfolder-editor-rule.c:397
-#: ../src/mail/em-vfolder-editor-rule.c:626 ../src/mail/mail-config.ui.h:60
+#: ../src/mail/em-vfolder-editor-rule.c:626 ../src/mail/mail-config.ui.h:61
 #: ../src/modules/mail/em-composer-prefs.c:422
 #: ../src/plugins/attachment-reminder/attachment-reminder.c:543
 #: ../src/plugins/email-custom-header/email-custom-header.c:837
@@ -3063,7 +3073,7 @@ msgstr ""
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:13
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:1996
-#: ../src/mail/mail-config.ui.h:37
+#: ../src/mail/mail-config.ui.h:38
 msgid "Options"
 msgstr "Опциялар"
 
@@ -3104,7 +3114,7 @@ msgstr "Опциялар"
 #: ../src/e-util/e-timezone-dialog.ui.h:2
 #: ../src/e-util/evolution-source-viewer.c:835 ../src/e-util/e-web-view.c:4061
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:267
-#: ../src/mail/e-mail-config-window.c:331 ../src/mail/e-mail-label-dialog.c:194
+#: ../src/mail/e-mail-config-window.c:334 ../src/mail/e-mail-label-dialog.c:194
 #: ../src/mail/e-mail-tag-editor.c:168 ../src/mail/em-folder-selector.c:318
 #: ../src/mail/mail-config.ui.h:2 ../src/mail/mail.error.xml.h:16
 #: ../src/mail/mail-send-recv.c:747 ../src/mail/mail-send-recv.c:829
@@ -3396,7 +3406,7 @@ msgstr ""
 #: ../src/e-util/filter.error.xml.h:18 ../src/e-util/filter.ui.h:25
 #: ../src/mail/e-mail-label-manager.c:389 ../src/mail/em-filter-rule.c:438
 #: ../src/mail/em-folder-properties.c:1037
-#: ../src/mail/em-vfolder-editor-rule.c:631 ../src/mail/mail-config.ui.h:61
+#: ../src/mail/em-vfolder-editor-rule.c:631 ../src/mail/mail-config.ui.h:62
 #: ../src/plugins/attachment-reminder/attachment-reminder.c:553
 #: ../src/plugins/email-custom-header/email-custom-header.c:847
 #: ../src/plugins/publish-calendar/publish-calendar.c:789
@@ -3581,7 +3591,7 @@ msgstr ""
 #: ../src/e-util/e-source-selector-dialog.c:371
 #: ../src/e-util/e-table-config.c:549 ../src/e-util/e-table-config.ui.h:4
 #: ../src/e-util/e-timezone-dialog.ui.h:3
-#: ../src/mail/e-mail-config-window.c:332 ../src/mail/e-mail-tag-editor.c:169
+#: ../src/mail/e-mail-config-window.c:335 ../src/mail/e-mail-tag-editor.c:169
 #: ../src/mail/em-folder-selector.c:44 ../src/mail/mail-config.ui.h:3
 #: ../src/mail/mail-dialogs.ui.h:24 ../src/mail/mail-vfolder-ui.c:150
 #: ../src/mail/mail-vfolder-ui.c:272
@@ -4655,7 +4665,7 @@ msgstr ""
 #: ../src/e-util/e-mail-signature-manager.c:358 ../src/e-util/filter.ui.h:24
 #: ../src/mail/e-mail-account-manager.c:728 ../src/mail/e-mail-browser.c:171
 #: ../src/mail/e-mail-label-manager.c:380
-#: ../src/mail/em-folder-properties.c:1034 ../src/mail/mail-config.ui.h:65
+#: ../src/mail/em-folder-properties.c:1034 ../src/mail/mail-config.ui.h:66
 #: ../src/plugins/attachment-reminder/attachment-reminder.c:548
 #: ../src/plugins/email-custom-header/email-custom-header.c:842
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:33
@@ -4706,7 +4716,7 @@ msgstr "сағат"
 
 #: ../src/calendar/alarm-notify/alarm-notify.ui.h:12
 #: ../src/e-util/e-interval-chooser.c:140 ../src/e-util/filter.ui.h:6
-#: ../src/mail/e-mail-config-provider-page.c:571
+#: ../src/mail/e-mail-config-provider-page.c:579
 msgid "minutes"
 msgstr "минут"
 
@@ -5813,7 +5823,7 @@ msgid "calendar view for one or more weeks"
 msgstr ""
 
 #: ../src/calendar/gui/e-cal-component-preview.c:214
-#: ../src/e-util/e-filter-rule.c:770 ../src/mail/e-mail-config-page.c:127
+#: ../src/e-util/e-filter-rule.c:770 ../src/mail/e-mail-config-page.c:124
 msgid "Untitled"
 msgstr "Атаусыз"
 
@@ -5903,7 +5913,7 @@ msgid "Low"
 msgstr "Төмен"
 
 #: ../src/calendar/gui/e-cal-component-preview.c:350
-#: ../src/mail/e-mail-config-service-page.c:671
+#: ../src/mail/e-mail-config-service-page.c:536
 msgid "Description:"
 msgstr "Сипаттамасы:"
 
@@ -7106,13 +7116,13 @@ msgstr "Ерекше жағдайлар"
 
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2231
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:1777
-#: ../src/mail/mail-config.ui.h:64
+#: ../src/mail/mail-config.ui.h:65
 msgid "A_dd"
 msgstr "Қ_осу"
 
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2247
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:1785
-#: ../src/mail/mail-config.ui.h:66
+#: ../src/mail/mail-config.ui.h:67
 msgid "Re_move"
 msgstr ""
 
@@ -10408,8 +10418,8 @@ msgstr ""
 #: ../src/composer/e-composer-from-header.c:108
 #: ../src/e-util/e-mail-signature-script-dialog.c:416
 #: ../src/e-util/gal-view-instance-save-as-dialog.ui.h:2
-#: ../src/mail/e-mail-config-identity-page.c:553
-#: ../src/mail/e-mail-config-summary-page.c:333
+#: ../src/mail/e-mail-config-identity-page.c:550
+#: ../src/mail/e-mail-config-summary-page.c:332
 msgid "_Name:"
 msgstr "_Аты:"
 
@@ -10456,7 +10466,7 @@ msgid "S_ubject:"
 msgstr ""
 
 #: ../src/composer/e-composer-header-table.c:883
-#: ../src/mail/e-mail-config-identity-page.c:746
+#: ../src/mail/e-mail-config-identity-page.c:743
 msgid "Si_gnature:"
 msgstr ""
 
@@ -10468,24 +10478,24 @@ msgstr ""
 msgid "Click here to select folders to post to"
 msgstr ""
 
-#: ../src/composer/e-msg-composer.c:849
+#: ../src/composer/e-msg-composer.c:850
 #, c-format
 msgid ""
 "Cannot sign outgoing message: No signing certificate set for this account"
 msgstr ""
 
-#: ../src/composer/e-msg-composer.c:858
+#: ../src/composer/e-msg-composer.c:859
 #, c-format
 msgid ""
 "Cannot encrypt outgoing message: No encryption certificate set for this "
 "account"
 msgstr ""
 
-#: ../src/composer/e-msg-composer.c:1611 ../src/composer/e-msg-composer.c:2235
+#: ../src/composer/e-msg-composer.c:1612 ../src/composer/e-msg-composer.c:2268
 msgid "Compose Message"
 msgstr "Хатты жазу"
 
-#: ../src/composer/e-msg-composer.c:4576
+#: ../src/composer/e-msg-composer.c:4620
 msgid "The composer contains a non-text message body, which cannot be edited."
 msgstr ""
 
@@ -11070,7 +11080,6 @@ msgstr ""
 
 #: ../src/em-format/e-mail-part-secure-button.c:92
 #, c-format
-#| msgid "Imported Certificate"
 msgid "Failed to import certificate: %s"
 msgstr ""
 
@@ -11080,7 +11089,6 @@ msgid "_View Certificate"
 msgstr ""
 
 #: ../src/em-format/e-mail-part-secure-button.c:198
-#| msgid "Imported Certificate"
 msgid "_Import Certificate"
 msgstr ""
 
@@ -11768,9 +11776,9 @@ msgid "white"
 msgstr "ақ"
 
 #: ../src/e-util/e-color-combo.c:642 ../src/mail/e-mail-account-tree-view.c:135
-#: ../src/mail/e-mail-config-security-page.c:406
-#: ../src/mail/e-mail-config-security-page.c:570
-#: ../src/mail/e-mail-reader.c:4043 ../src/mail/mail-config.ui.h:75
+#: ../src/mail/e-mail-config-security-page.c:404
+#: ../src/mail/e-mail-config-security-page.c:568
+#: ../src/mail/e-mail-reader.c:4043 ../src/mail/mail-config.ui.h:76
 msgid "Default"
 msgstr "Стандартты"
 
@@ -12181,7 +12189,7 @@ msgstr ""
 #: ../src/e-util/e-mail-identity-combo-box.c:597
 #: ../src/e-util/e-mail-signature-combo-box.c:422
 #: ../src/libemail-engine/camel-null-store.c:28
-#: ../src/mail/e-mail-config-summary-page.c:140
+#: ../src/mail/e-mail-config-summary-page.c:141
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:629
 msgid "None"
 msgstr "Бос"
@@ -12512,11 +12520,11 @@ msgstr "Жуан"
 #: ../src/e-util/e-html-editor-actions.c:1304
 #: ../src/e-util/e-html-editor-text-dialog.c:212
 msgid "_Italic"
-msgstr "Кө_лбеу"
+msgstr "Курс_ив"
 
 #: ../src/e-util/e-html-editor-actions.c:1306
 msgid "Italic"
-msgstr "Көлбеу"
+msgstr "Курсив"
 
 #: ../src/e-util/e-html-editor-actions.c:1312
 msgid "_Plain Text"
@@ -13139,7 +13147,7 @@ msgid "Add word"
 msgstr ""
 
 #: ../src/e-util/e-html-editor-spell-check-dialog.c:505
-#: ../src/mail/mail-config.ui.h:39
+#: ../src/mail/mail-config.ui.h:40
 msgid "Spell Checking"
 msgstr "Емлені тексеру"
 
@@ -13209,7 +13217,7 @@ msgid "Import a _single file"
 msgstr ""
 
 #: ../src/e-util/e-import-assistant.c:406
-#: ../src/modules/startup-wizard/e-mail-config-import-page.c:211
+#: ../src/modules/startup-wizard/e-mail-config-import-page.c:209
 msgid "Please select the information that you would like to import:"
 msgstr ""
 
@@ -13221,7 +13229,7 @@ msgid ""
 msgstr ""
 
 #: ../src/e-util/e-import-assistant.c:562
-#: ../src/modules/startup-wizard/e-mail-config-import-page.c:240
+#: ../src/modules/startup-wizard/e-mail-config-import-page.c:238
 #, c-format
 msgid "From %s:"
 msgstr ""
@@ -14243,7 +14251,7 @@ msgid "Flags"
 msgstr "Жалаушалар"
 
 #: ../src/e-util/evolution-source-viewer.c:729
-#: ../src/mail/e-mail-config-identity-page.c:1148
+#: ../src/mail/e-mail-config-identity-page.c:1147
 msgid "Identity"
 msgstr "Идентификация"
 
@@ -14432,7 +14440,7 @@ msgstr ""
 msgid "a time relative to the current time"
 msgstr ""
 
-#: ../src/e-util/filter.ui.h:5 ../src/mail/mail-config.ui.h:92
+#: ../src/e-util/filter.ui.h:5 ../src/mail/mail-config.ui.h:93
 msgid "seconds"
 msgstr "секунд"
 
@@ -14857,12 +14865,24 @@ msgstr ""
 msgid "Trying to movemail a non-mbox source “%s”"
 msgstr ""
 
-#: ../src/libemail-engine/mail-tools.c:257
+#. Translators: This is a subject attribution for forwarded messages. The %s is replaced with subject of the original message.
+#: ../src/libemail-engine/mail-tools.c:193
+#, c-format
+msgid "[Fwd: %s]"
+msgstr ""
+
+#. Translators: This is a subject attribution for forwarded messages, used when there could not be used any subject.
+#. It results in "[Fwd: No Subject]" being used as a subject of the forwarded message.
+#: ../src/libemail-engine/mail-tools.c:196
+msgid "No Subject"
+msgstr "Тақырыбы жоқ"
+
+#: ../src/libemail-engine/mail-tools.c:271
 #, c-format
 msgid "Forwarded message — %s"
 msgstr ""
 
-#: ../src/libemail-engine/mail-tools.c:259
+#: ../src/libemail-engine/mail-tools.c:273
 msgid "Forwarded message"
 msgstr ""
 
@@ -14915,7 +14935,7 @@ msgid "De_fault"
 msgstr "Ба_стапқы"
 
 #: ../src/mail/e-mail-account-tree-view.c:84
-#: ../src/modules/mail/em-composer-prefs.c:1299
+#: ../src/modules/mail/em-composer-prefs.c:1305
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:355
 #: ../src/plugins/publish-calendar/publish-calendar.c:853
 msgid "Enabled"
@@ -14953,11 +14973,11 @@ msgstr "Ар_тқа"
 msgid "_Skip Lookup"
 msgstr ""
 
-#: ../src/mail/e-mail-config-assistant.c:661
+#: ../src/mail/e-mail-config-assistant.c:664
 msgid "Evolution Account Assistant"
 msgstr ""
 
-#: ../src/mail/e-mail-config-assistant.c:955
+#: ../src/mail/e-mail-config-assistant.c:971
 msgid "_Revise Details"
 msgstr "Ақпаратты ба_птау"
 
@@ -14969,7 +14989,7 @@ msgstr "Аутентификация түрлерін сұрау..."
 msgid "Check for Supported Types"
 msgstr "Қолдауы бар тәсілдерді тексеру"
 
-#: ../src/mail/e-mail-config-confirm-page.c:156
+#: ../src/mail/e-mail-config-confirm-page.c:154
 msgid ""
 "Congratulations, your mail configuration is complete.\n"
 "\n"
@@ -14983,7 +15003,7 @@ msgstr ""
 "\n"
 "Баптауларды сақтау үшін \"Іске асыру\" батырмасын басыңыз."
 
-#: ../src/mail/e-mail-config-confirm-page.c:168
+#: ../src/mail/e-mail-config-confirm-page.c:166
 msgid "Done"
 msgstr "Болды"
 
@@ -14997,135 +15017,135 @@ msgid "Use global setting"
 msgstr ""
 
 #: ../src/mail/e-mail-config-defaults-page.c:498
-#: ../src/mail/mail-config.ui.h:26
+#: ../src/mail/mail-config.ui.h:27
 msgctxt "ReplyForward"
 msgid "Attachment"
 msgstr ""
 
 #: ../src/mail/e-mail-config-defaults-page.c:500
-#: ../src/mail/mail-config.ui.h:27
+#: ../src/mail/mail-config.ui.h:28
 msgctxt "ReplyForward"
 msgid "Inline (Outlook style)"
 msgstr ""
 
 #: ../src/mail/e-mail-config-defaults-page.c:502
-#: ../src/mail/mail-config.ui.h:28
+#: ../src/mail/mail-config.ui.h:29
 msgctxt "ReplyForward"
 msgid "Quoted"
 msgstr ""
 
 #: ../src/mail/e-mail-config-defaults-page.c:504
-#: ../src/mail/mail-config.ui.h:29
+#: ../src/mail/mail-config.ui.h:30
 msgctxt "ReplyForward"
 msgid "Do Not Quote"
 msgstr ""
 
-#: ../src/mail/e-mail-config-defaults-page.c:830
+#: ../src/mail/e-mail-config-defaults-page.c:829
 msgid "Special Folders"
 msgstr "Арнайы бумалар"
 
-#: ../src/mail/e-mail-config-defaults-page.c:839
+#: ../src/mail/e-mail-config-defaults-page.c:838
 msgid "Draft Messages _Folder:"
 msgstr ""
 
-#: ../src/mail/e-mail-config-defaults-page.c:849
+#: ../src/mail/e-mail-config-defaults-page.c:848
 msgid "Choose a folder for saving draft messages."
 msgstr ""
 
-#: ../src/mail/e-mail-config-defaults-page.c:863
+#: ../src/mail/e-mail-config-defaults-page.c:862
 msgid "Sent _Messages Folder:"
 msgstr ""
 
-#: ../src/mail/e-mail-config-defaults-page.c:873
+#: ../src/mail/e-mail-config-defaults-page.c:872
 msgid "Choose a folder for saving sent messages."
 msgstr ""
 
-#: ../src/mail/e-mail-config-defaults-page.c:892
+#: ../src/mail/e-mail-config-defaults-page.c:891
 msgid "S_ave replies in the folder of the message being replied to"
 msgstr ""
 
-#: ../src/mail/e-mail-config-defaults-page.c:909
+#: ../src/mail/e-mail-config-defaults-page.c:908
 msgid "Archi_ve Folder:"
 msgstr ""
 
-#: ../src/mail/e-mail-config-defaults-page.c:919
+#: ../src/mail/e-mail-config-defaults-page.c:918
 #: ../src/modules/mail/em-mailer-prefs.c:1407
 msgid "Choose a folder to archive messages to."
 msgstr ""
 
-#: ../src/mail/e-mail-config-defaults-page.c:933
+#: ../src/mail/e-mail-config-defaults-page.c:932
 msgid "_Templates Folder:"
 msgstr "Үл_гілер бумасы:"
 
-#: ../src/mail/e-mail-config-defaults-page.c:943
+#: ../src/mail/e-mail-config-defaults-page.c:942
 msgid "Choose a folder to use for template messages."
 msgstr ""
 
-#: ../src/mail/e-mail-config-defaults-page.c:965
+#: ../src/mail/e-mail-config-defaults-page.c:964
 msgid "_Restore Defaults"
 msgstr ""
 
-#: ../src/mail/e-mail-config-defaults-page.c:982
+#: ../src/mail/e-mail-config-defaults-page.c:981
 msgid "_Lookup Folders"
 msgstr ""
 
-#: ../src/mail/e-mail-config-defaults-page.c:1000
+#: ../src/mail/e-mail-config-defaults-page.c:999
 msgid "Use a Real Folder for _Trash:"
 msgstr ""
 
-#: ../src/mail/e-mail-config-defaults-page.c:1001
+#: ../src/mail/e-mail-config-defaults-page.c:1000
 msgid "Choose a folder for deleted messages."
 msgstr ""
 
-#: ../src/mail/e-mail-config-defaults-page.c:1010
+#: ../src/mail/e-mail-config-defaults-page.c:1009
 msgid "Use a Real Folder for _Junk:"
 msgstr ""
 
-#: ../src/mail/e-mail-config-defaults-page.c:1011
+#: ../src/mail/e-mail-config-defaults-page.c:1010
 msgid "Choose a folder for junk messages."
 msgstr ""
 
-#: ../src/mail/e-mail-config-defaults-page.c:1028
+#: ../src/mail/e-mail-config-defaults-page.c:1027
 msgid "Composing Messages"
 msgstr ""
 
-#: ../src/mail/e-mail-config-defaults-page.c:1037
+#: ../src/mail/e-mail-config-defaults-page.c:1036
 msgid "Alway_s carbon-copy (cc) to:"
 msgstr ""
 
-#: ../src/mail/e-mail-config-defaults-page.c:1062
+#: ../src/mail/e-mail-config-defaults-page.c:1061
 msgid "Always _blind carbon-copy (bcc) to:"
 msgstr ""
 
-#: ../src/mail/e-mail-config-defaults-page.c:1093
+#: ../src/mail/e-mail-config-defaults-page.c:1092
 msgid "Re_ply style:"
 msgstr ""
 
-#: ../src/mail/e-mail-config-defaults-page.c:1129
+#: ../src/mail/e-mail-config-defaults-page.c:1128
 msgid "Message Receipts"
 msgstr ""
 
-#: ../src/mail/e-mail-config-defaults-page.c:1138
+#: ../src/mail/e-mail-config-defaults-page.c:1137
 msgid "S_end message receipts:"
 msgstr ""
 
-#: ../src/mail/e-mail-config-defaults-page.c:1163
+#: ../src/mail/e-mail-config-defaults-page.c:1162
 msgid "Never"
 msgstr "Ешқашан"
 
-#: ../src/mail/e-mail-config-defaults-page.c:1169
+#: ../src/mail/e-mail-config-defaults-page.c:1168
 msgid "Always"
 msgstr "Әрқашан"
 
-#: ../src/mail/e-mail-config-defaults-page.c:1175
+#: ../src/mail/e-mail-config-defaults-page.c:1174
 msgid "Ask for each message"
 msgstr "Әр хабарлама үшін сұрау"
 
-#: ../src/mail/e-mail-config-defaults-page.c:1282
+#: ../src/mail/e-mail-config-defaults-page.c:1283
 msgid "Defaults"
 msgstr "Бастапқылар"
 
-#: ../src/mail/e-mail-config-identity-page.c:516
+#: ../src/mail/e-mail-config-identity-page.c:513
 msgid ""
 "Please enter your name and email address below. The “optional” fields below "
 "do not need to be filled in, unless you wish to include this information in "
@@ -15135,13 +15155,13 @@ msgstr ""
 "төменде орналасқан қосымша өрістерді толтыру міндетті емес, тек ол ақпарат "
 "жіберілетін хаттарда болуды таңдасаңыз, толтырыңыз."
 
-#: ../src/mail/e-mail-config-identity-page.c:544
-#: ../src/mail/e-mail-config-summary-page.c:324
+#: ../src/mail/e-mail-config-identity-page.c:541
+#: ../src/mail/e-mail-config-summary-page.c:323
 msgid "Account Information"
 msgstr "Тіркелгі ақпараты"
 
-#: ../src/mail/e-mail-config-identity-page.c:582
-#: ../src/mail/e-mail-config-summary-page.c:354
+#: ../src/mail/e-mail-config-identity-page.c:579
+#: ../src/mail/e-mail-config-summary-page.c:353
 msgid ""
 "The above name will be used to identify this account.\n"
 "Use for example, “Work” or “Personal”."
@@ -15149,93 +15169,93 @@ msgstr ""
 "Жоғарыдағы атау бұл тіркелгіні сипаттайды.\n"
 "Мысалы, \"Жұмыс\" немесе \"Жеке\"."
 
-#: ../src/mail/e-mail-config-identity-page.c:599
+#: ../src/mail/e-mail-config-identity-page.c:596
 msgid "Required Information"
 msgstr "Міндетті толтыру керек ақпарат"
 
-#: ../src/mail/e-mail-config-identity-page.c:608
+#: ../src/mail/e-mail-config-identity-page.c:605
 msgid "Full Nam_e:"
 msgstr "Толық ат_ы-жөніңіз:"
 
-#: ../src/mail/e-mail-config-identity-page.c:637
+#: ../src/mail/e-mail-config-identity-page.c:634
 msgid "Email _Address:"
 msgstr "Эл. пошта _адресі:"
 
-#: ../src/mail/e-mail-config-identity-page.c:686
+#: ../src/mail/e-mail-config-identity-page.c:683
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:26
 msgid "Optional Information"
 msgstr "Қосымша ақпарат"
 
-#: ../src/mail/e-mail-config-identity-page.c:695
+#: ../src/mail/e-mail-config-identity-page.c:692
 msgid "Re_ply-To:"
 msgstr "Кімге жауап _беру (Reply-To):"
 
-#: ../src/mail/e-mail-config-identity-page.c:724
+#: ../src/mail/e-mail-config-identity-page.c:721
 msgid "Or_ganization:"
 msgstr "Ұ_йым:"
 
-#: ../src/mail/e-mail-config-identity-page.c:779
+#: ../src/mail/e-mail-config-identity-page.c:776
 msgid "Add Ne_w Signature..."
 msgstr ""
 
-#: ../src/mail/e-mail-config-identity-page.c:793
+#: ../src/mail/e-mail-config-identity-page.c:790
 msgid "A_liases:"
 msgstr ""
 
-#: ../src/mail/e-mail-config-identity-page.c:855
-#: ../src/mail/mail-config.ui.h:114
+#: ../src/mail/e-mail-config-identity-page.c:852
+#: ../src/mail/mail-config.ui.h:115
 msgid "Add"
 msgstr "Қосу"
 
-#: ../src/mail/e-mail-config-identity-page.c:864
+#: ../src/mail/e-mail-config-identity-page.c:861
 msgid "Edit"
 msgstr "Түзету"
 
-#: ../src/mail/e-mail-config-identity-page.c:873
-#: ../src/mail/mail-config.ui.h:115
+#: ../src/mail/e-mail-config-identity-page.c:870
+#: ../src/mail/mail-config.ui.h:116
 msgid "Remove"
 msgstr "Өшіру"
 
-#: ../src/mail/e-mail-config-identity-page.c:887
+#: ../src/mail/e-mail-config-identity-page.c:884
 msgid "_Look up mail server details based on the entered e-mail address"
 msgstr "Пошта сервері ақпаратын енгізілген эл. пошта адресі негізінде і_здеу"
 
 #. This is only a warning, not a blocker
 #. complete = complete && correct;
-#: ../src/mail/e-mail-config-identity-page.c:934
+#: ../src/mail/e-mail-config-identity-page.c:933
 msgid "Full Name should not be empty"
 msgstr "Толық аты-жөні өрісі бос болмауы тиіс"
 
-#: ../src/mail/e-mail-config-identity-page.c:941
+#: ../src/mail/e-mail-config-identity-page.c:940
 msgid "Email Address cannot be empty"
 msgstr "Эл. пошта өрісі бос болмауы тиіс"
 
-#: ../src/mail/e-mail-config-identity-page.c:946
+#: ../src/mail/e-mail-config-identity-page.c:945
 msgid "Email Address is not a valid email"
 msgstr "Эл. пошта өрісі жарамды эл. пошта адресі емес"
 
-#: ../src/mail/e-mail-config-identity-page.c:958
+#: ../src/mail/e-mail-config-identity-page.c:957
 msgid "Reply To is not a valid email"
 msgstr "Кімге жауап беру өрісі жарамды эл. пошта адресі емес"
 
-#: ../src/mail/e-mail-config-identity-page.c:969
-#: ../src/mail/e-mail-config-summary-page.c:633
+#: ../src/mail/e-mail-config-identity-page.c:968
+#: ../src/mail/e-mail-config-summary-page.c:636
 msgid "Account Name cannot be empty"
 msgstr "Тіркелгі аты бос болмауы тиіс"
 
-#: ../src/mail/e-mail-config-lookup-page.c:69
+#: ../src/mail/e-mail-config-lookup-page.c:65
 msgid "Looking up account details..."
 msgstr "Тіркелгі ақпаратын іздеу..."
 
-#: ../src/mail/e-mail-config-provider-page.c:529
+#: ../src/mail/e-mail-config-provider-page.c:537
 msgid "Checking for New Mail"
 msgstr "Жаңа хаттарға тексеру"
 
-#: ../src/mail/e-mail-config-provider-page.c:545
+#: ../src/mail/e-mail-config-provider-page.c:553
 msgid "Check for _new messages every"
 msgstr ""
 
-#: ../src/mail/e-mail-config-provider-page.c:753
+#: ../src/mail/e-mail-config-provider-page.c:763
 msgid "Receiving Options"
 msgstr ""
 
@@ -15251,8 +15271,8 @@ msgctxt "PGPKeyDescription"
 msgid "%s — %s"
 msgstr "%s — %s"
 
-#: ../src/mail/e-mail-config-security-page.c:320
-#: ../src/mail/em-folder-properties.c:1070 ../src/mail/mail-config.ui.h:31
+#: ../src/mail/e-mail-config-security-page.c:318
+#: ../src/mail/em-folder-properties.c:1070 ../src/mail/mail-config.ui.h:32
 #: ../src/modules/addressbook/autocompletion-config.c:114
 #: ../src/modules/calendar/e-calendar-preferences.c:644
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:48
@@ -15261,102 +15281,102 @@ msgstr "%s — %s"
 msgid "General"
 msgstr "Жалпы"
 
-#: ../src/mail/e-mail-config-security-page.c:329
+#: ../src/mail/e-mail-config-security-page.c:327
 msgid "_Do not sign meeting requests (for Outlook compatibility)"
 msgstr ""
 
-#: ../src/mail/e-mail-config-security-page.c:351
+#: ../src/mail/e-mail-config-security-page.c:349
 msgid "Pretty Good Privacy (OpenPGP)"
 msgstr ""
 
-#: ../src/mail/e-mail-config-security-page.c:360
+#: ../src/mail/e-mail-config-security-page.c:358
 msgid "OpenPGP _Key ID:"
 msgstr ""
 
-#: ../src/mail/e-mail-config-security-page.c:393
+#: ../src/mail/e-mail-config-security-page.c:391
 msgid "Si_gning algorithm:"
 msgstr ""
 
-#: ../src/mail/e-mail-config-security-page.c:409
-#: ../src/mail/e-mail-config-security-page.c:573
-#: ../src/mail/mail-config.ui.h:76
+#: ../src/mail/e-mail-config-security-page.c:407
+#: ../src/mail/e-mail-config-security-page.c:571
+#: ../src/mail/mail-config.ui.h:77
 msgid "SHA1"
 msgstr "SHA1"
 
-#: ../src/mail/e-mail-config-security-page.c:412
-#: ../src/mail/e-mail-config-security-page.c:576
-#: ../src/mail/mail-config.ui.h:77
+#: ../src/mail/e-mail-config-security-page.c:410
+#: ../src/mail/e-mail-config-security-page.c:574
+#: ../src/mail/mail-config.ui.h:78
 msgid "SHA256"
 msgstr "SHA256"
 
-#: ../src/mail/e-mail-config-security-page.c:415
-#: ../src/mail/e-mail-config-security-page.c:579
-#: ../src/mail/mail-config.ui.h:78
+#: ../src/mail/e-mail-config-security-page.c:413
+#: ../src/mail/e-mail-config-security-page.c:577
+#: ../src/mail/mail-config.ui.h:79
 msgid "SHA384"
 msgstr "SHA384"
 
-#: ../src/mail/e-mail-config-security-page.c:418
-#: ../src/mail/e-mail-config-security-page.c:582
-#: ../src/mail/mail-config.ui.h:79
+#: ../src/mail/e-mail-config-security-page.c:416
+#: ../src/mail/e-mail-config-security-page.c:580
+#: ../src/mail/mail-config.ui.h:80
 msgid "SHA512"
 msgstr "SHA512"
 
-#: ../src/mail/e-mail-config-security-page.c:434
+#: ../src/mail/e-mail-config-security-page.c:432
 msgid "Al_ways sign outgoing messages when using this account"
 msgstr ""
 
-#: ../src/mail/e-mail-config-security-page.c:446
+#: ../src/mail/e-mail-config-security-page.c:444
 msgid "Always enc_rypt outgoing messages when using this account"
 msgstr ""
 
-#: ../src/mail/e-mail-config-security-page.c:458
+#: ../src/mail/e-mail-config-security-page.c:456
 msgid "Always encrypt to _myself when sending encrypted messages"
 msgstr ""
 
-#: ../src/mail/e-mail-config-security-page.c:470
+#: ../src/mail/e-mail-config-security-page.c:468
 msgid "Always _trust keys in my keyring when encrypting"
 msgstr ""
 
-#: ../src/mail/e-mail-config-security-page.c:482
+#: ../src/mail/e-mail-config-security-page.c:480
 msgid "Prefer _inline sign/encrypt for plain text messages"
 msgstr ""
 
-#: ../src/mail/e-mail-config-security-page.c:506
+#: ../src/mail/e-mail-config-security-page.c:504
 msgid "Secure MIME (S/MIME)"
 msgstr ""
 
-#: ../src/mail/e-mail-config-security-page.c:515
+#: ../src/mail/e-mail-config-security-page.c:513
 msgid "Sig_ning certificate:"
 msgstr ""
 
-#: ../src/mail/e-mail-config-security-page.c:539
-#: ../src/mail/e-mail-config-security-page.c:637
+#: ../src/mail/e-mail-config-security-page.c:537
+#: ../src/mail/e-mail-config-security-page.c:635
 msgid "Select"
 msgstr "Таңдау"
 
-#: ../src/mail/e-mail-config-security-page.c:548
-#: ../src/mail/e-mail-config-security-page.c:646
+#: ../src/mail/e-mail-config-security-page.c:546
+#: ../src/mail/e-mail-config-security-page.c:644
 #: ../src/mail/mail-dialogs.ui.h:16 ../src/shell/e-shell-window-actions.c:885
 msgid "_Clear"
 msgstr "Та_зарту"
 
-#: ../src/mail/e-mail-config-security-page.c:557
+#: ../src/mail/e-mail-config-security-page.c:555
 msgid "Signing _algorithm:"
 msgstr ""
 
-#: ../src/mail/e-mail-config-security-page.c:598
+#: ../src/mail/e-mail-config-security-page.c:596
 msgid "Always sign outgoing messages when using this account"
 msgstr ""
 
-#: ../src/mail/e-mail-config-security-page.c:613
+#: ../src/mail/e-mail-config-security-page.c:611
 msgid "Encryption certificate:"
 msgstr ""
 
-#: ../src/mail/e-mail-config-security-page.c:655
+#: ../src/mail/e-mail-config-security-page.c:653
 msgid "Always encrypt outgoing messages when using this account"
 msgstr ""
 
-#: ../src/mail/e-mail-config-security-page.c:667
+#: ../src/mail/e-mail-config-security-page.c:665
 msgid "Always encrypt to myself when sending encrypted messages"
 msgstr ""
 
@@ -15364,78 +15384,78 @@ msgstr ""
 msgid "Sending Email"
 msgstr "Эл. поштаны жіберу"
 
-#: ../src/mail/e-mail-config-service-page.c:639
+#: ../src/mail/e-mail-config-service-page.c:504
 msgid "Server _Type:"
 msgstr "Сервер _түрі:"
 
-#: ../src/mail/e-mail-config-summary-page.c:143
+#: ../src/mail/e-mail-config-summary-page.c:144
 msgid "TLS"
 msgstr "TLS"
 
-#: ../src/mail/e-mail-config-summary-page.c:146
+#: ../src/mail/e-mail-config-summary-page.c:147
 msgid "STARTTLS"
 msgstr "STARTTLS"
 
-#: ../src/mail/e-mail-config-summary-page.c:307
+#: ../src/mail/e-mail-config-summary-page.c:306
 msgid ""
 "This is a summary of the settings which will be used to access your mail."
 msgstr "Бұл - поштаңызға қатынауға қолданылатын баптаулар."
 
-#: ../src/mail/e-mail-config-summary-page.c:371
+#: ../src/mail/e-mail-config-summary-page.c:370
 msgid "Personal Details"
 msgstr "Жеке ақпарат"
 
-#: ../src/mail/e-mail-config-summary-page.c:380
+#: ../src/mail/e-mail-config-summary-page.c:379
 msgid "Full Name:"
 msgstr "Толық аты-жөніңіз:"
 
-#: ../src/mail/e-mail-config-summary-page.c:394
+#: ../src/mail/e-mail-config-summary-page.c:393
 msgid "Email Address:"
 msgstr "Эл. пошта адресі:"
 
-#: ../src/mail/e-mail-config-summary-page.c:408
+#: ../src/mail/e-mail-config-summary-page.c:407
 msgid "Receiving"
 msgstr "Қабылдау"
 
-#: ../src/mail/e-mail-config-summary-page.c:420
+#: ../src/mail/e-mail-config-summary-page.c:419
 msgid "Sending"
 msgstr "Жіберу"
 
-#: ../src/mail/e-mail-config-summary-page.c:432
+#: ../src/mail/e-mail-config-summary-page.c:431
 msgid "Server Type:"
 msgstr "Сервер түрі:"
 
-#: ../src/mail/e-mail-config-summary-page.c:453
+#: ../src/mail/e-mail-config-summary-page.c:452
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:606
 msgid "Server:"
 msgstr "Сервер:"
 
-#: ../src/mail/e-mail-config-summary-page.c:474
+#: ../src/mail/e-mail-config-summary-page.c:473
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:704
 msgid "Username:"
 msgstr "Пайдаланушы аты:"
 
-#: ../src/mail/e-mail-config-summary-page.c:495
+#: ../src/mail/e-mail-config-summary-page.c:494
 msgid "Security:"
 msgstr "Қауіпсіздік:"
 
-#: ../src/mail/e-mail-config-summary-page.c:788
+#: ../src/mail/e-mail-config-summary-page.c:791
 msgid "Account Summary"
 msgstr "Тіркелгі ақпараты"
 
-#: ../src/mail/e-mail-config-welcome-page.c:157
+#: ../src/mail/e-mail-config-welcome-page.c:156
 msgid ""
 "Welcome to the Evolution Mail Configuration Assistant.\n"
 "\n"
 "Click “Next” to begin."
 msgstr ""
 
-#: ../src/mail/e-mail-config-welcome-page.c:167
+#: ../src/mail/e-mail-config-welcome-page.c:166
 #: ../src/modules/startup-wizard/e-startup-assistant.c:152
 msgid "Welcome"
 msgstr "Қош келдіңіз"
 
-#: ../src/mail/e-mail-config-window.c:326
+#: ../src/mail/e-mail-config-window.c:329
 msgid "Account Editor"
 msgstr ""
 
@@ -15650,7 +15670,7 @@ msgstr ""
 msgid "Header Value"
 msgstr ""
 
-#: ../src/mail/e-mail-printer.c:100 ../src/mail/mail-config.ui.h:126
+#: ../src/mail/e-mail-printer.c:100 ../src/mail/mail-config.ui.h:127
 msgid "Headers"
 msgstr "Жоғарғы колонтитулдар"
 
@@ -16353,7 +16373,6 @@ msgstr ""
 
 #: ../src/mail/e-mail-reader-utils.c:633
 #, c-format
-#| msgid "Saving message to folder “%s”"
 msgid "Deleting messages in Junk folder “%s”…"
 msgstr ""
 
@@ -16480,16 +16499,23 @@ msgstr ""
 msgid "-----Original Message-----"
 msgstr ""
 
-#: ../src/mail/em-composer-utils.c:3092
+#. Translators: This is a reply attribution in the message reply subject. The %s is replaced with the subject of the original message.
+#: ../src/mail/em-composer-utils.c:2535
+#, c-format
+#| msgid "URL: %s"
+msgid "Re: %s"
+msgstr "Жауап: %s"
+
+#: ../src/mail/em-composer-utils.c:3099
 msgid "an unknown sender"
 msgstr ""
 
 #. FIXME GTK_WINDOW (composer)
-#: ../src/mail/em-composer-utils.c:3570
+#: ../src/mail/em-composer-utils.c:3577
 msgid "Posting destination"
 msgstr ""
 
-#: ../src/mail/em-composer-utils.c:3575
+#: ../src/mail/em-composer-utils.c:3582
 msgid "Choose folders to post the message to."
 msgstr ""
 
@@ -16593,7 +16619,7 @@ msgstr "Жазу"
 msgid "AutoArchive"
 msgstr ""
 
-#: ../src/mail/em-folder-properties.c:1076 ../src/mail/mail-config.ui.h:119
+#: ../src/mail/em-folder-properties.c:1076 ../src/mail/mail-config.ui.h:120
 #: ../src/mail/message-list.etspec.h:19
 msgid "Labels"
 msgstr "Белгілер"
@@ -17004,7 +17030,7 @@ msgstr "Маңызды"
 msgid "Read"
 msgstr ""
 
-#: ../src/mail/filtertypes.xml.in.h:41 ../src/mail/mail-config.ui.h:133
+#: ../src/mail/filtertypes.xml.in.h:41 ../src/mail/mail-config.ui.h:134
 #: ../src/mail/vfoldertypes.xml.in.h:44
 msgid "Junk"
 msgstr ""
@@ -17364,131 +17390,135 @@ msgid "Start _typing at the bottom on replying"
 msgstr ""
 
 #: ../src/mail/mail-config.ui.h:21
-msgid "_Keep signature above the original message on replying"
+msgid "Include si_gnature in new messages only"
 msgstr ""
 
 #: ../src/mail/mail-config.ui.h:22
-msgid "Ig_nore Reply-To: for mailing lists"
+msgid "_Keep signature above the original message on replying"
 msgstr ""
 
 #: ../src/mail/mail-config.ui.h:23
-msgid "Gro_up Reply goes only to mailing list, if possible"
+msgid "Ig_nore Reply-To: for mailing lists"
 msgstr ""
 
 #: ../src/mail/mail-config.ui.h:24
-msgid "Digitally _sign messages when original message signed (PGP or S/MIME)"
+msgid "Gro_up Reply goes only to mailing list, if possible"
 msgstr ""
 
 #: ../src/mail/mail-config.ui.h:25
+msgid "Digitally _sign messages when original message signed (PGP or S/MIME)"
+msgstr ""
+
+#: ../src/mail/mail-config.ui.h:26
 msgid "_Wrap quoted text in replies"
 msgstr ""
 
-#: ../src/mail/mail-config.ui.h:30
+#: ../src/mail/mail-config.ui.h:31
 msgctxt "ReplyForward"
 msgid "Inline"
 msgstr ""
 
-#: ../src/mail/mail-config.ui.h:32
+#: ../src/mail/mail-config.ui.h:33
 msgid "Sig_natures"
 msgstr ""
 
-#: ../src/mail/mail-config.ui.h:33
+#: ../src/mail/mail-config.ui.h:34
 msgid "Signatures"
 msgstr ""
 
-#: ../src/mail/mail-config.ui.h:34
+#: ../src/mail/mail-config.ui.h:35
 msgid "_Languages"
 msgstr "Ті_лдер"
 
-#: ../src/mail/mail-config.ui.h:35
+#: ../src/mail/mail-config.ui.h:36
 msgid "Languages Table"
 msgstr ""
 
-#: ../src/mail/mail-config.ui.h:36
+#: ../src/mail/mail-config.ui.h:37
 msgid ""
 "The list of languages here reflects only the languages for which you have a "
 "dictionary installed."
 msgstr ""
 
-#: ../src/mail/mail-config.ui.h:38
+#: ../src/mail/mail-config.ui.h:39
 msgid "Check spelling while I _type"
 msgstr ""
 
-#: ../src/mail/mail-config.ui.h:40
+#: ../src/mail/mail-config.ui.h:41
 msgid ""
 "To help avoid email accidents and embarrassments, ask for confirmation "
 "before taking the following checkmarked actions:"
 msgstr ""
 
 #. This is in the context of: Ask for confirmation before...
-#: ../src/mail/mail-config.ui.h:42
+#: ../src/mail/mail-config.ui.h:43
 msgid "Sending a message with an _empty subject line"
 msgstr ""
 
 #. This is in the context of: Ask for confirmation before...
-#: ../src/mail/mail-config.ui.h:44
+#: ../src/mail/mail-config.ui.h:45
 msgid "Sending a message with only _Bcc recipients defined"
 msgstr ""
 
 #. This is in the context of: Ask for confirmation before...
-#: ../src/mail/mail-config.ui.h:46
+#: ../src/mail/mail-config.ui.h:47
 msgid "Sending a message to many _To and CC recipients"
 msgstr ""
 
 #. This is in the context of: Ask for confirmation before...
-#: ../src/mail/mail-config.ui.h:48
+#: ../src/mail/mail-config.ui.h:49
 msgid "Sending a _private reply to a mailing list message"
 msgstr ""
 
 #. This is in the context of: Ask for confirmation before...
-#: ../src/mail/mail-config.ui.h:50
+#: ../src/mail/mail-config.ui.h:51
 msgid "Sending a reply to a large _number of recipients"
 msgstr ""
 
 #. This is in the context of: Ask for confirmation before...
-#: ../src/mail/mail-config.ui.h:52
+#: ../src/mail/mail-config.ui.h:53
 msgid "Allowing a _mailing list to redirect a private reply to the list"
 msgstr ""
 
 #. This is in the context of: Ask for confirmation before...
-#: ../src/mail/mail-config.ui.h:54
+#: ../src/mail/mail-config.ui.h:55
 msgid "Sending a message with _recipients not entered as mail addresses"
 msgstr ""
 
 #. This is in the context of: Ask for confirmation before...
-#: ../src/mail/mail-config.ui.h:56
+#: ../src/mail/mail-config.ui.h:57
 msgid "Sending a message using _key accelerator (Ctrl+Enter)"
 msgstr ""
 
 #. Translators:
-#: ../src/mail/mail-config.ui.h:58
+#: ../src/mail/mail-config.ui.h:59
 msgid "Before composer _format changes from HTML to Plain Text"
 msgstr ""
 
-#: ../src/mail/mail-config.ui.h:59
+#: ../src/mail/mail-config.ui.h:60
 msgid "Confirmations"
 msgstr ""
 
 #. Translators: Label of a frame with a list of folders for which to use selected account in Send account overrides
-#: ../src/mail/mail-config.ui.h:63
+#: ../src/mail/mail-config.ui.h:64
 msgid "Use for Folders"
 msgstr ""
 
 #. Translators: Label of a frame with a list of recipients for whom to use selected account in Send account overrides
-#: ../src/mail/mail-config.ui.h:68
+#: ../src/mail/mail-config.ui.h:69
 msgid "Use for Recipients"
 msgstr ""
 
 #. Translators: Label of a frame with a list of configured accounts in Send account overrides
-#: ../src/mail/mail-config.ui.h:70 ../src/modules/mail/em-composer-prefs.c:875
+#: ../src/mail/mail-config.ui.h:71 ../src/modules/mail/em-composer-prefs.c:875
 msgid "Account"
 msgstr "Тіркелгі"
 
-#: ../src/mail/mail-config.ui.h:71
+#: ../src/mail/mail-config.ui.h:72
 msgid "Send account overrides"
 msgstr ""
 
-#: ../src/mail/mail-config.ui.h:72
+#: ../src/mail/mail-config.ui.h:73
 msgid ""
 "Assign which account should be used as a send account for respective folders "
 "or recipients, an override for usual send account detection. List of "
@@ -17496,217 +17526,217 @@ msgid ""
 "parts are compared separately."
 msgstr ""
 
-#: ../src/mail/mail-config.ui.h:73
+#: ../src/mail/mail-config.ui.h:74
 msgid "_Folder override has precedence over Recipient override"
 msgstr ""
 
-#: ../src/mail/mail-config.ui.h:74
+#: ../src/mail/mail-config.ui.h:75
 msgid "Send Account"
 msgstr ""
 
-#: ../src/mail/mail-config.ui.h:80 ../src/smime/gui/smime-ui.ui.h:27
+#: ../src/mail/mail-config.ui.h:81 ../src/smime/gui/smime-ui.ui.h:27
 msgid "a"
 msgstr ""
 
-#: ../src/mail/mail-config.ui.h:81 ../src/smime/gui/smime-ui.ui.h:28
+#: ../src/mail/mail-config.ui.h:82 ../src/smime/gui/smime-ui.ui.h:28
 msgid "b"
 msgstr ""
 
-#: ../src/mail/mail-config.ui.h:82
+#: ../src/mail/mail-config.ui.h:83
 msgid "Start up"
 msgstr ""
 
-#: ../src/mail/mail-config.ui.h:83
+#: ../src/mail/mail-config.ui.h:84
 msgid "Check for new _messages on start"
 msgstr ""
 
-#: ../src/mail/mail-config.ui.h:84
+#: ../src/mail/mail-config.ui.h:85
 msgid "Check for new messa_ges in all active accounts"
 msgstr ""
 
-#: ../src/mail/mail-config.ui.h:85
+#: ../src/mail/mail-config.ui.h:86
 msgid "Message Display"
 msgstr ""
 
-#: ../src/mail/mail-config.ui.h:86
+#: ../src/mail/mail-config.ui.h:87
 msgid "_Use the same fonts as other applications"
 msgstr ""
 
-#: ../src/mail/mail-config.ui.h:87
+#: ../src/mail/mail-config.ui.h:88
 msgid "S_tandard Font:"
 msgstr ""
 
-#: ../src/mail/mail-config.ui.h:88
+#: ../src/mail/mail-config.ui.h:89
 msgid "Select HTML fixed width font"
 msgstr ""
 
-#: ../src/mail/mail-config.ui.h:89
+#: ../src/mail/mail-config.ui.h:90
 msgid "Select HTML variable width font"
 msgstr ""
 
-#: ../src/mail/mail-config.ui.h:90
+#: ../src/mail/mail-config.ui.h:91
 msgid "Fix_ed Width Font:"
 msgstr ""
 
-#: ../src/mail/mail-config.ui.h:91
+#: ../src/mail/mail-config.ui.h:92
 msgid "_Mark messages as read after"
 msgstr ""
 
-#: ../src/mail/mail-config.ui.h:93
+#: ../src/mail/mail-config.ui.h:94
 msgid "Highlight _quotations with"
 msgstr ""
 
-#: ../src/mail/mail-config.ui.h:94
+#: ../src/mail/mail-config.ui.h:95
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:62
 msgid "Pick a color"
 msgstr "Түсті таңдаңыз"
 
-#: ../src/mail/mail-config.ui.h:95
+#: ../src/mail/mail-config.ui.h:96
 msgid "color"
 msgstr "түс"
 
-#: ../src/mail/mail-config.ui.h:96
+#: ../src/mail/mail-config.ui.h:97
 msgid "Default character e_ncoding:"
 msgstr "Бас_тапқы кодтауы:"
 
-#: ../src/mail/mail-config.ui.h:97
+#: ../src/mail/mail-config.ui.h:98
 msgid "Apply the same _view settings to all folders"
 msgstr ""
 
-#: ../src/mail/mail-config.ui.h:98
+#: ../src/mail/mail-config.ui.h:99
 msgid "F_all back to threading messages by subject"
 msgstr ""
 
-#: ../src/mail/mail-config.ui.h:99
+#: ../src/mail/mail-config.ui.h:100
 msgid "Delete Mail"
 msgstr ""
 
-#: ../src/mail/mail-config.ui.h:100
+#: ../src/mail/mail-config.ui.h:101
 msgid "Empty _trash folders"
 msgstr ""
 
-#: ../src/mail/mail-config.ui.h:101
+#: ../src/mail/mail-config.ui.h:102
 msgid "Confirm _when expunging a folder"
 msgstr ""
 
-#: ../src/mail/mail-config.ui.h:102
+#: ../src/mail/mail-config.ui.h:103
 msgid "Confirm when emptying a _Junk folder"
 msgstr ""
 
-#: ../src/mail/mail-config.ui.h:103
+#: ../src/mail/mail-config.ui.h:104
 msgid "Archive Mail"
 msgstr ""
 
-#: ../src/mail/mail-config.ui.h:104
+#: ../src/mail/mail-config.ui.h:105
 msgid "Archive folder to use for On This Computer messages"
 msgstr ""
 
-#: ../src/mail/mail-config.ui.h:105
+#: ../src/mail/mail-config.ui.h:106
 msgid "On This Computer A_rchive folder:"
 msgstr ""
 
 #. If enabled, show animation; if disabled, only display a static image without any animation
-#: ../src/mail/mail-config.ui.h:107
+#: ../src/mail/mail-config.ui.h:108
 msgid "_Show animated images"
 msgstr ""
 
-#: ../src/mail/mail-config.ui.h:108
+#: ../src/mail/mail-config.ui.h:109
 msgid "_Prompt on sending HTML mail to contacts that do not want them"
 msgstr ""
 
-#: ../src/mail/mail-config.ui.h:109
+#: ../src/mail/mail-config.ui.h:110
 msgid "Loading Remote Content"
 msgstr ""
 
-#: ../src/mail/mail-config.ui.h:110
+#: ../src/mail/mail-config.ui.h:111
 msgid "_Never load remote content from the Internet"
 msgstr ""
 
-#: ../src/mail/mail-config.ui.h:111
+#: ../src/mail/mail-config.ui.h:112
 msgid "_Load remote content only in messages from contacts"
 msgstr ""
 
-#: ../src/mail/mail-config.ui.h:112
+#: ../src/mail/mail-config.ui.h:113
 msgid "_Always load remote content from the Internet"
 msgstr ""
 
-#: ../src/mail/mail-config.ui.h:113
+#: ../src/mail/mail-config.ui.h:114
 msgid "Notify about _missing remote content in the message preview"
 msgstr ""
 
-#: ../src/mail/mail-config.ui.h:116
+#: ../src/mail/mail-config.ui.h:117
 msgid "Allow for sites:"
 msgstr ""
 
-#: ../src/mail/mail-config.ui.h:117
+#: ../src/mail/mail-config.ui.h:118
 msgid "Allow for senders:"
 msgstr ""
 
-#: ../src/mail/mail-config.ui.h:118
+#: ../src/mail/mail-config.ui.h:119
 msgid "HTML Messages"
 msgstr ""
 
-#: ../src/mail/mail-config.ui.h:120
+#: ../src/mail/mail-config.ui.h:121
 msgid "Sender Photograph"
 msgstr ""
 
-#: ../src/mail/mail-config.ui.h:121
+#: ../src/mail/mail-config.ui.h:122
 msgid "_Show the photograph of sender in the message preview"
 msgstr ""
 
-#: ../src/mail/mail-config.ui.h:122
+#: ../src/mail/mail-config.ui.h:123
 msgid "Search gra_vatar.com for the photograph of sender"
 msgstr ""
 
-#: ../src/mail/mail-config.ui.h:123
+#: ../src/mail/mail-config.ui.h:124
 msgid "Displayed Message Headers"
 msgstr ""
 
-#: ../src/mail/mail-config.ui.h:124
+#: ../src/mail/mail-config.ui.h:125
 msgid "Mail Headers Table"
 msgstr ""
 
-#: ../src/mail/mail-config.ui.h:125
+#: ../src/mail/mail-config.ui.h:126
 #: ../src/modules/addressbook/autocompletion-config.c:117
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:45
 msgid "Date/Time Format"
 msgstr ""
 
-#: ../src/mail/mail-config.ui.h:127
+#: ../src/mail/mail-config.ui.h:128
 msgid "Check incoming _messages for junk"
 msgstr ""
 
-#: ../src/mail/mail-config.ui.h:128
+#: ../src/mail/mail-config.ui.h:129
 msgid "_Delete junk messages"
 msgstr ""
 
-#: ../src/mail/mail-config.ui.h:129
+#: ../src/mail/mail-config.ui.h:130
 msgid "Junk Test Options"
 msgstr ""
 
-#: ../src/mail/mail-config.ui.h:130
+#: ../src/mail/mail-config.ui.h:131
 msgid "Do not mar_k messages as junk if sender is in my address book"
 msgstr ""
 
-#: ../src/mail/mail-config.ui.h:131
+#: ../src/mail/mail-config.ui.h:132
 msgid "_Lookup in local address book only"
 msgstr ""
 
-#: ../src/mail/mail-config.ui.h:132
+#: ../src/mail/mail-config.ui.h:133
 msgid "Check cu_stom headers for junk"
 msgstr ""
 
-#: ../src/mail/mail-config.ui.h:134
+#: ../src/mail/mail-config.ui.h:135
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:302
 #: ../src/modules/mail-config/e-mail-config-smtp-backend.c:245
 msgid "No encryption"
 msgstr "Шифрлеусіз"
 
-#: ../src/mail/mail-config.ui.h:135
+#: ../src/mail/mail-config.ui.h:136
 msgid "TLS encryption"
 msgstr "TLS шифрлеуі"
 
-#: ../src/mail/mail-config.ui.h:136
+#: ../src/mail/mail-config.ui.h:137
 msgid "SSL encryption"
 msgstr "SSL шифрлеуі"
 
@@ -18592,7 +18622,6 @@ msgid ""
 msgstr ""
 
 #: ../src/mail/mail.error.xml.h:212
-#| msgid "Are you sure you want to convert the message into a meeting?"
 msgid "Are you sure you want to delete all the messages in the Junk folder?"
 msgstr ""
 
@@ -18603,12 +18632,10 @@ msgid ""
 msgstr ""
 
 #: ../src/mail/mail.error.xml.h:214
-#| msgid "_Empty Trash"
 msgid "_Empty Junk"
 msgstr ""
 
 #: ../src/mail/mail.error.xml.h:215
-#| msgid "Failed to connect address book “{0}”"
 msgid "Failed to empty Junk folder “{0}”"
 msgstr ""
 
@@ -19182,7 +19209,7 @@ msgstr ""
 msgid "_Send Message to Contact"
 msgstr ""
 
-#: ../src/modules/backup-restore/e-mail-config-restore-page.c:164
+#: ../src/modules/backup-restore/e-mail-config-restore-page.c:162
 msgid ""
 "You can restore Evolution from a backup file.\n"
 "\n"
@@ -19193,11 +19220,11 @@ msgstr ""
 "Бұл әрекет сіздің жеке деректеріңіз, баптаулар, эл. пошта сүзгілерін, т.б. "
 "қалпына келтіреді."
 
-#: ../src/modules/backup-restore/e-mail-config-restore-page.c:179
+#: ../src/modules/backup-restore/e-mail-config-restore-page.c:177
 msgid "_Restore from a backup file:"
 msgstr "Қор көшірме файлынан қал_пына келтіру:"
 
-#: ../src/modules/backup-restore/e-mail-config-restore-page.c:190
+#: ../src/modules/backup-restore/e-mail-config-restore-page.c:188
 msgid "Choose a backup file to restore"
 msgstr "Қалпына келтіру үшін қор көшірме файлын таңдаңыз"
 
@@ -21901,7 +21928,6 @@ msgid "Permanently remove all the deleted messages from all folders"
 msgstr ""
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1638
-#| msgid "Empty _Trash"
 msgid "Empty _Junk"
 msgstr ""
 
@@ -22163,7 +22189,6 @@ msgid "Threaded message list"
 msgstr ""
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:2032
-#| msgid "Show _Tool Bar"
 msgid "Show To _Do Bar"
 msgstr ""
 
@@ -22323,7 +22348,7 @@ msgstr ""
 msgid "Send after 5 minutes"
 msgstr ""
 
-#: ../src/modules/mail/em-composer-prefs.c:1303
+#: ../src/modules/mail/em-composer-prefs.c:1309
 msgid "Language(s)"
 msgstr "Тіл(дер)"
 
@@ -22585,11 +22610,11 @@ msgstr ""
 msgid "Importing Files"
 msgstr "Файлдарды импорттау"
 
-#: ../src/modules/startup-wizard/e-mail-config-import-progress-page.c:259
+#: ../src/modules/startup-wizard/e-mail-config-import-progress-page.c:257
 msgid "Import cancelled."
 msgstr "Импорттаудан бас тартылды."
 
-#: ../src/modules/startup-wizard/e-mail-config-import-progress-page.c:276
+#: ../src/modules/startup-wizard/e-mail-config-import-progress-page.c:274
 msgid "Import complete."
 msgstr "Импорт аяқталды."
 
