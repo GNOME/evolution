@@ -364,6 +364,93 @@ e_mail_identity_combo_box_new (ESourceRegistry *registry)
 		"registry", registry, NULL);
 }
 
+static gint
+compare_identity_sources_cb (gconstpointer aa,
+			     gconstpointer bb,
+			     gpointer user_data)
+{
+	ESource *a_source = (ESource *) aa;
+	ESource *b_source = (ESource *) bb;
+	GHashTable *indexes = user_data;
+	gint a_index = 0, b_index = 0;
+
+	if (indexes && e_source_get_uid (a_source) && e_source_get_uid (b_source)) {
+		a_index = GPOINTER_TO_INT (g_hash_table_lookup (indexes, e_source_get_uid (a_source)));
+		if (!a_index && e_source_get_parent (a_source))
+			a_index = GPOINTER_TO_INT (g_hash_table_lookup (indexes, e_source_get_parent (a_source)));
+
+		b_index = GPOINTER_TO_INT (g_hash_table_lookup (indexes, e_source_get_uid (b_source)));
+		if (!b_index && e_source_get_parent (b_source))
+			b_index = GPOINTER_TO_INT (g_hash_table_lookup (indexes, e_source_get_parent (b_source)));
+	}
+
+	if (a_index == b_index) {
+		ESourceMailIdentity *a_identity = e_source_get_extension (a_source, E_SOURCE_EXTENSION_MAIL_IDENTITY);
+		ESourceMailIdentity *b_identity = e_source_get_extension (b_source, E_SOURCE_EXTENSION_MAIL_IDENTITY);
+		const gchar *a_value, *b_value;
+
+		b_index = 0;
+
+		a_value = e_source_mail_identity_get_name (a_identity);
+		b_value = e_source_mail_identity_get_name (b_identity);
+
+		a_index = (a_value && b_value) ? g_utf8_collate (a_value, b_value) : g_strcmp0 (a_value, b_value);
+
+		if (!a_index) {
+			a_index = g_strcmp0 (e_source_mail_identity_get_address (a_identity),
+					     e_source_mail_identity_get_address (b_identity));
+		}
+	}
+
+	return a_index - b_index;
+}
+
+/* This is in e-util/, compiled before mail/, thus cannot reach EMailAccountStore,
+   thus copy the code. */
+static GList * /* ESource * */
+mail_identity_combo_box_sort_sources (GList *sources) /* ESource * */
+{
+	gchar *sort_order_filename;
+	GHashTable *indexes; /* gchar *uid ~> gint index */
+
+	if (!sources)
+		return sources;
+
+	indexes = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
+
+	sort_order_filename = g_build_filename (e_get_user_config_dir (), "mail", "sortorder.ini", NULL);
+	if (g_file_test (sort_order_filename, G_FILE_TEST_IS_REGULAR)) {
+		GKeyFile *key_file;
+
+		key_file = g_key_file_new ();
+		if (g_key_file_load_from_file (key_file, sort_order_filename, G_KEY_FILE_NONE, NULL)) {
+			gchar **service_uids;
+			gsize ii, length;
+
+			service_uids = g_key_file_get_string_list (key_file, "Accounts", "SortOrder", &length, NULL);
+
+			for (ii = 0; ii < length; ii++) {
+				const gchar *uid = service_uids[ii];
+
+				if (uid && *uid)
+					g_hash_table_insert (indexes, g_strdup (uid), GINT_TO_POINTER (ii + 1));
+			}
+
+			g_strfreev (service_uids);
+		}
+
+		g_key_file_free (key_file);
+	}
+
+	g_free (sort_order_filename);
+
+	sources = g_list_sort_with_data (sources, compare_identity_sources_cb, indexes);
+
+	g_hash_table_destroy (indexes);
+
+	return sources;
+}
+
 static gchar *
 mail_identity_combo_box_build_alias_id (const gchar *identity_uid,
 					const gchar *name,
@@ -469,6 +556,8 @@ e_mail_identity_combo_box_refresh (EMailIdentityComboBox *combo_box)
 	extension_name = E_SOURCE_EXTENSION_MAIL_IDENTITY;
 	registry = e_mail_identity_combo_box_get_registry (combo_box);
 	list = e_source_registry_list_enabled (registry, extension_name);
+
+	list = mail_identity_combo_box_sort_sources (list);
 
 	/* Build a hash table of GQueues by email address so we can
 	 * spot duplicate email addresses.  Then if the GQueue for a
