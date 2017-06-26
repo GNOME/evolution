@@ -251,15 +251,23 @@ main_get_filter_driver (CamelSession *session,
 	driver = camel_filter_driver_new (session);
 	camel_filter_driver_set_folder_func (driver, get_folder, session);
 
-	if (g_settings_get_boolean (settings, "filters-log-actions")) {
-		if (priv->filter_logfile == NULL) {
+	if (g_settings_get_boolean (settings, "filters-log-actions") ||
+	    camel_debug ("filters")) {
+		if (!priv->filter_logfile &&
+		    g_settings_get_boolean (settings, "filters-log-actions")) {
 			gchar *filename;
 
 			filename = g_settings_get_string (settings, "filters-log-file");
 			if (filename) {
-				priv->filter_logfile = g_fopen (filename, "a+");
+				if (!*filename || g_strcmp0 (filename, "stdout") == 0)
+					priv->filter_logfile = stdout;
+				else
+					priv->filter_logfile = g_fopen (filename, "a+");
+
 				g_free (filename);
 			}
+		} else if (!priv->filter_logfile) {
+			priv->filter_logfile = stdout;
 		}
 
 		if (priv->filter_logfile)
