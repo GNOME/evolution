@@ -426,7 +426,7 @@
     <key name="filters-log-file" type="s">
       <default>''</default>
       <_summary>Logfile to log filter actions</_summary>
-      <_description>If not set, or being 'stdout', then the logging is done to stdout, instead to a file.</_description>
+      <_description>If not set, or being “stdout”, then the logging is done to stdout, instead to a file.</_description>
     </key>
     <key name="flush-outbox" type="b">
       <default>false</default>
