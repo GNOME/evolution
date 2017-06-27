@@ -844,6 +844,14 @@ shell_window_submit_alert (EAlertSink *alert_sink,
 	GtkWidget *dialog;
 
 	shell_window = E_SHELL_WINDOW (alert_sink);
+
+	if (!gtk_widget_get_mapped (GTK_WIDGET (shell_window)) ||
+	    shell_window->priv->postponed_alerts) {
+		shell_window->priv->postponed_alerts = g_slist_prepend (
+			shell_window->priv->postponed_alerts, g_object_ref (alert));
+		return;
+	}
+
 	alert_bar = e_shell_window_get_alert_bar (shell_window);
 
 	switch (e_alert_get_message_type (alert)) {
@@ -861,6 +869,53 @@ shell_window_submit_alert (EAlertSink *alert_sink,
 			gtk_widget_destroy (dialog);
 			break;
 	}
+}
+
+static gboolean
+shell_window_submit_postponed_alerts_idle_cb (gpointer user_data)
+{
+	EShellWindow *shell_window = user_data;
+	EAlertSink *alert_sink;
+	GSList *postponed_alerts, *link;
+
+	g_return_val_if_fail (E_IS_SHELL_WINDOW (shell_window), FALSE);
+
+	postponed_alerts = g_slist_reverse (shell_window->priv->postponed_alerts);
+	shell_window->priv->postponed_alerts = NULL;
+
+	alert_sink = E_ALERT_SINK (shell_window);
+
+	for (link = postponed_alerts; link; link = g_slist_next (link)) {
+		EAlert *alert = link->data;
+
+		shell_window_submit_alert (alert_sink, alert);
+	}
+
+	g_slist_free_full (postponed_alerts, g_object_unref);
+
+	return FALSE;
+}
+
+static gboolean
+shell_window_map_event (GtkWidget *widget,
+			GdkEventAny *event)
+{
+	EShellWindow *shell_window;
+	gboolean res;
+
+	g_return_val_if_fail (E_IS_SHELL_WINDOW (widget), FALSE);
+
+	shell_window = E_SHELL_WINDOW (widget);
+
+	/* Chain up to parent's method */
+	res = GTK_WIDGET_CLASS (e_shell_window_parent_class)->map_event (widget, event);
+
+	g_idle_add_full (
+		G_PRIORITY_LOW,
+		shell_window_submit_postponed_alerts_idle_cb,
+		g_object_ref (shell_window), g_object_unref);
+
+	return res;
 }
 
 static void
@@ -881,6 +936,7 @@ e_shell_window_class_init (EShellWindowClass *class)
 
 	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->get_preferred_width = shell_window_get_preferred_width;
+	widget_class->map_event = shell_window_map_event;
 
 	class->close_alert = shell_window_close_alert;
 	class->construct_menubar = shell_window_construct_menubar;

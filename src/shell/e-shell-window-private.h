@@ -98,6 +98,8 @@ struct _EShellWindowPrivate {
 	guint is_main_instance : 1;
 
 	gulong delayed_menubar_show_id;
+
+	GSList *postponed_alerts; /* EAlert * */
 };
 
 void		e_shell_window_private_init	(EShellWindow *shell_window);

@@ -660,6 +660,7 @@ e_shell_window_private_finalize (EShellWindow *shell_window)
 
 	g_hash_table_destroy (priv->loaded_views);
 
+	g_slist_free_full (priv->postponed_alerts, g_object_unref);
 	g_free (priv->geometry);
 }
 
