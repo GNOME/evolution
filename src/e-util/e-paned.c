@@ -284,9 +284,6 @@ paned_size_allocate (GtkWidget *widget,
 	/* Chain up to parent's size_allocate() method. */
 	GTK_WIDGET_CLASS (e_paned_parent_class)->size_allocate (widget, allocation);
 
-	if (!paned->priv->toplevel_ready)
-		return;
-
 	if (paned->priv->sync_request == SYNC_REQUEST_PROPORTION &&
 	    old_proportion != e_paned_get_proportion (paned) && old_proportion > 0.0) {
 		paned->priv->proportion = old_proportion;
@@ -294,6 +291,9 @@ paned_size_allocate (GtkWidget *widget,
 
 		corrected_portion = TRUE;
 	}
+
+	if (!paned->priv->toplevel_ready)
+		return;
 
 	if (paned->priv->sync_request == SYNC_REQUEST_NONE) {
 		paned_recalc_positions (paned, FALSE);
@@ -330,7 +330,7 @@ paned_size_allocate (GtkWidget *widget,
 		"max-position", &max_position,
 		NULL);
 
-	clamp_position = position = MAX (0, CLAMP (position, min_position, max_position));
+	clamp_position = MAX (0, CLAMP (position, min_position, max_position));
 
 	if (clamp_position != gtk_paned_get_position (GTK_PANED (paned)))
 		gtk_paned_set_position (GTK_PANED (paned), clamp_position);
