@@ -230,7 +230,8 @@ mail_config_assistant_notify_account_backend (EMailConfigServicePage *page,
 	 * receiving type defines both a storage and transport service.
 	 * This is common in CamelProviders for groupware products like
 	 * Microsoft Exchange and Novell GroupWise. */
-	if (CAMEL_PROVIDER_IS_STORE_AND_TRANSPORT (provider)) {
+	if (CAMEL_PROVIDER_IS_STORE_AND_TRANSPORT (provider) &&
+	    g_strcmp0 (provider->protocol, "none") != 0) {
 		backend = e_mail_config_service_page_lookup_backend (
 			sending_page, provider->protocol);
 		gtk_widget_hide (GTK_WIDGET (sending_page));

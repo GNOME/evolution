@@ -614,6 +614,8 @@ mail_config_summary_page_refresh (EMailConfigSummaryPage *page)
 			source,
 			priv->send_security_label);
 	}
+
+	e_mail_config_page_changed (E_MAIL_CONFIG_PAGE (page));
 }
 
 static gboolean
@@ -634,6 +636,20 @@ mail_config_summary_page_check_complete (EMailConfigPage *page)
 	g_free (stripped_text);
 
 	e_util_set_entry_issue_hint (GTK_WIDGET (priv->account_name_entry), complete ? NULL : _("Account Name cannot be empty"));
+
+	if (complete) {
+		gboolean recv_is_none, send_is_none;
+
+		recv_is_none = gtk_widget_get_visible (GTK_WIDGET (priv->recv_backend_label)) &&
+				g_strcmp0 (gtk_label_get_text (priv->recv_backend_label), "none") == 0;
+
+		send_is_none = gtk_widget_get_visible (GTK_WIDGET (priv->send_backend_label)) &&
+				g_strcmp0 (gtk_label_get_text (priv->send_backend_label), "none") == 0;
+
+		complete = !recv_is_none || !send_is_none;
+
+		e_util_set_entry_issue_hint (GTK_WIDGET (priv->account_name_entry), complete ? NULL : _("Cannot have both receiving and sending parts set to None"));
+	}
 
 	return complete;
 }

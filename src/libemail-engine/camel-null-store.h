@@ -48,6 +48,24 @@
 	(G_TYPE_INSTANCE_GET_CLASS \
 	((obj), CAMEL_TYPE_NULL_STORE, CamelNullStoreClass))
 
+#define CAMEL_TYPE_NULL_TRANSPORT \
+	(camel_null_transport_get_type ())
+#define CAMEL_NULL_TRANSPORT(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), CAMEL_TYPE_NULL_STORE, CamelNullTransport))
+#define CAMEL_NULL_TRANSPORT_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), CAMEL_TYPE_NULL_TRANSPORT, CamelNullTransportClass))
+#define CAMEL_IS_NULL_TRANSPORT(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), CAMEL_TYPE_NULL_TRANSPORT))
+#define CAMEL_IS_NULL_TRANSPORT_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), CAMEL_TYPE_NULL_TRANSPORT))
+#define CAMEL_NULL_TRANSPORT_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), CAMEL_TYPE_NULL_TRANSPORT, CamelNullTransportClass))
+
 G_BEGIN_DECLS
 
 typedef struct _CamelNullStore CamelNullStore;
@@ -62,6 +80,24 @@ struct _CamelNullStoreClass {
 };
 
 GType		camel_null_store_get_type		(void);
+
+/* ------------------------------------------------------------------------- */
+
+typedef struct _CamelNullTransport CamelNullTransport;
+typedef struct _CamelNullTransportClass CamelNullTransportClass;
+
+struct _CamelNullTransport {
+	CamelTransport parent;
+};
+
+struct _CamelNullTransportClass {
+	CamelTransportClass parent_class;
+};
+
+GType		camel_null_transport_get_type		(void);
+
+/* ------------------------------------------------------------------------- */
+
 void		camel_null_store_register_provider	(void);
 
 #endif /* CAMEL_NULL_STORE_H */

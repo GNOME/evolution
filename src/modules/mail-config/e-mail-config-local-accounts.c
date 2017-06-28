@@ -377,10 +377,17 @@ e_mail_config_spool_file_backend_init (EMailConfigLocalBackend *backend)
 {
 }
 
+static gboolean
+e_mail_config_none_backend_get_selectable (EMailConfigServiceBackend *backend)
+{
+	return TRUE;
+}
+
 static void
 e_mail_config_none_backend_class_init (EMailConfigServiceBackendClass *class)
 {
 	class->backend_name = "none";
+	class->get_selectable = e_mail_config_none_backend_get_selectable;
 }
 
 static void

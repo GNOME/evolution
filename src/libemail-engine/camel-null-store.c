@@ -22,6 +22,7 @@
 #include "camel-null-store.h"
 
 G_DEFINE_TYPE (CamelNullStore, camel_null_store, CAMEL_TYPE_STORE)
+G_DEFINE_TYPE (CamelNullTransport, camel_null_transport, CAMEL_TYPE_TRANSPORT)
 
 static CamelProvider null_provider = {
 	/*     protocol: */ "none",
@@ -65,17 +66,33 @@ camel_null_store_init (CamelNullStore *store)
 	/* nothing to do */
 }
 
+static void
+camel_null_transport_class_init (CamelNullTransportClass *class)
+{
+	CamelServiceClass *service_class;
+
+	/* We should never be invoking methods on a CamelNullTransport,
+	 * but thankfully, in case we do, CamelTransport has NULL function
+	 * pointer checks in all of its wrapper functions.  So it will
+	 * emit a runtime warning, which is what we want, and frees us
+	 * from having to override any class methods here. */
+
+	service_class = CAMEL_SERVICE_CLASS (class);
+	service_class->settings_type = CAMEL_TYPE_SETTINGS;
+}
+
+static void
+camel_null_transport_init (CamelNullTransport *transport)
+{
+	/* nothing to do */
+}
+
 void
 camel_null_store_register_provider (void)
 {
-	GType object_type;
+	null_provider.object_types[CAMEL_PROVIDER_STORE] = CAMEL_TYPE_NULL_STORE;
 
-	object_type = CAMEL_TYPE_NULL_STORE;
-	null_provider.object_types[CAMEL_PROVIDER_STORE] = object_type;
-
-	object_type = G_TYPE_INVALID;
-	null_provider.object_types[CAMEL_PROVIDER_TRANSPORT] = object_type;
+	null_provider.object_types[CAMEL_PROVIDER_TRANSPORT] = CAMEL_TYPE_NULL_TRANSPORT;
 
 	camel_provider_register (&null_provider);
 }
-

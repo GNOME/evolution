@@ -193,6 +193,7 @@ mail_account_store_update_row (EMailAccountStore *store,
 	gboolean is_default;
 	const gchar *backend_name;
 	const gchar *display_name;
+	gchar *from_transport_backend_name = NULL;
 
 	is_default = (service == store->priv->default_service);
 	display_name = camel_service_get_display_name (service);
@@ -200,12 +201,75 @@ mail_account_store_update_row (EMailAccountStore *store,
 	provider = camel_service_get_provider (service);
 	backend_name = (provider != NULL) ? provider->protocol : NULL;
 
+	if (g_strcmp0 (backend_name, "none") == 0) {
+		ESourceRegistry *registry;
+		ESource *mail_source;
+
+		registry = e_mail_session_get_registry (e_mail_account_store_get_session (store));
+		mail_source = e_source_registry_ref_source (registry, camel_service_get_uid (service));
+
+		if (mail_source &&
+		    !e_source_has_extension (mail_source, E_SOURCE_EXTENSION_MAIL_SUBMISSION) &&
+		    e_source_has_extension (mail_source, E_SOURCE_EXTENSION_MAIL_ACCOUNT)) {
+			ESourceMailAccount *mail_account;
+			ESource *identity_source = NULL;
+			const gchar *identity_uid;
+
+			mail_account = e_source_get_extension (mail_source, E_SOURCE_EXTENSION_MAIL_ACCOUNT);
+
+			e_source_extension_property_lock (E_SOURCE_EXTENSION (mail_account));
+
+			identity_uid = e_source_mail_account_get_identity_uid (mail_account);
+			if (identity_uid && *identity_uid)
+				identity_source = e_source_registry_ref_source (registry, identity_uid);
+
+			e_source_extension_property_unlock (E_SOURCE_EXTENSION (mail_account));
+
+			g_object_unref (mail_source);
+			mail_source = identity_source;
+		}
+
+		if (mail_source &&
+		    e_source_has_extension (mail_source, E_SOURCE_EXTENSION_MAIL_SUBMISSION)) {
+			ESourceMailSubmission *mail_submission;
+			ESource *transport_source = NULL;
+			const gchar *transport_uid;
+
+			mail_submission = e_source_get_extension (mail_source, E_SOURCE_EXTENSION_MAIL_SUBMISSION);
+
+			e_source_extension_property_lock (E_SOURCE_EXTENSION (mail_submission));
+
+			transport_uid = e_source_mail_submission_get_transport_uid (mail_submission);
+			if (transport_uid && *transport_uid)
+				transport_source = e_source_registry_ref_source (registry, transport_uid);
+
+			e_source_extension_property_unlock (E_SOURCE_EXTENSION (mail_submission));
+
+			if (transport_source && e_source_has_extension (transport_source, E_SOURCE_EXTENSION_MAIL_TRANSPORT)) {
+				ESourceMailTransport *mail_transport;
+
+				mail_transport = e_source_get_extension (transport_source, E_SOURCE_EXTENSION_MAIL_TRANSPORT);
+
+				from_transport_backend_name = e_source_backend_dup_backend_name (E_SOURCE_BACKEND (mail_transport));
+
+				if (from_transport_backend_name && *from_transport_backend_name)
+					backend_name = from_transport_backend_name;
+			}
+
+			g_clear_object (&transport_source);
+		}
+
+		g_clear_object (&mail_source);
+	}
+
 	gtk_list_store_set (
 		GTK_LIST_STORE (store), iter,
 		E_MAIL_ACCOUNT_STORE_COLUMN_DEFAULT, is_default,
 		E_MAIL_ACCOUNT_STORE_COLUMN_BACKEND_NAME, backend_name,
 		E_MAIL_ACCOUNT_STORE_COLUMN_DISPLAY_NAME, display_name,
 		-1);
+
+	g_free (from_transport_backend_name);
 }
 
 struct ServiceNotifyCbData

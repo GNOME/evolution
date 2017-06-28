@@ -577,6 +577,10 @@ e_mail_identity_combo_box_refresh (EMailIdentityComboBox *combo_box)
 		const gchar *address;
 
 		source = E_SOURCE (link->data);
+
+		if (!e_util_identity_can_send (registry, source))
+			continue;
+
 		extension = e_source_get_extension (source, extension_name);
 		address = e_source_mail_identity_get_address (extension);
 
@@ -632,6 +636,9 @@ e_mail_identity_combo_box_refresh (EMailIdentityComboBox *combo_box)
 		gchar *aliases;
 
 		source = E_SOURCE (link->data);
+
+		if (!e_util_identity_can_send (registry, source))
+			continue;
 
 		uid = e_source_get_uid (source);
 		display_name = e_source_get_display_name (source);

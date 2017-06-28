@@ -400,6 +400,13 @@ mail_config_notebook_constructed (GObject *object)
 		E_MAIL_CONFIG_SERVICE_PAGE (page),
 		notebook->priv->account_source,
 		notebook->priv->collection_source);
+
+	if (backend != NULL)
+		provider = e_mail_config_service_backend_get_provider (backend);
+
+	if (add_receiving_page)
+		add_receiving_page = provider && g_strcmp0 (provider->protocol, "none") != 0;
+
 	if (add_receiving_page) {
 		e_mail_config_notebook_add_page (notebook, page);
 
@@ -408,9 +415,6 @@ mail_config_notebook_constructed (GObject *object)
 			page, "email-address",
 			G_BINDING_SYNC_CREATE);
 	}
-
-	if (backend != NULL)
-		provider = e_mail_config_service_backend_get_provider (backend);
 
 	/*** Receiving Options (conditional) ***/
 
@@ -427,8 +431,22 @@ mail_config_notebook_constructed (GObject *object)
 	/*** Sending Page (conditional) ***/
 
 	add_transport_source =
-		(provider != NULL) &&
-		(!CAMEL_PROVIDER_IS_STORE_AND_TRANSPORT (provider));
+		provider != NULL &&
+		!CAMEL_PROVIDER_IS_STORE_AND_TRANSPORT (provider);
+
+	if ((add_transport_source || (provider && g_strcmp0 (provider->protocol, "none") == 0)) &&
+	    notebook->priv->transport_source &&
+	    e_source_has_extension (notebook->priv->transport_source, E_SOURCE_EXTENSION_MAIL_TRANSPORT)) {
+		ESourceBackend *mail_transport;
+
+		mail_transport = e_source_get_extension (notebook->priv->transport_source, E_SOURCE_EXTENSION_MAIL_TRANSPORT);
+
+		e_source_extension_property_lock (E_SOURCE_EXTENSION (mail_transport));
+
+		add_transport_source = g_strcmp0 (e_source_backend_get_backend_name (mail_transport), "none") != 0;
+
+		e_source_extension_property_unlock (E_SOURCE_EXTENSION (mail_transport));
+	}
 
 	if (add_transport_source) {
 		page = e_mail_config_sending_page_new (registry);

@@ -27,6 +27,7 @@
 #include <libsoup/soup.h>
 
 #include <composer/e-msg-composer.h>
+#include <libedataserver/libedataserver.h>
 
 #include "calendar-config.h"
 #include "comp-util.h"
@@ -175,6 +176,9 @@ itip_get_user_identities (ESourceRegistry *registry)
 		ESourceMailIdentity *extension;
 		const gchar *name, *address;
 		gchar *aliases;
+
+		if (!e_util_identity_can_send (registry, source))
+			continue;
 
 		extension = e_source_get_extension (source, extension_name);
 
