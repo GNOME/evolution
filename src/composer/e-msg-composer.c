@@ -500,7 +500,10 @@ build_message_headers (EMsgComposer *composer,
 	table = e_msg_composer_get_header_table (composer);
 
 	uid = e_composer_header_table_dup_identity_uid (table, &alias_name, &alias_address);
-	source = e_composer_header_table_ref_source (table, uid);
+	if (uid)
+		source = e_composer_header_table_ref_source (table, uid);
+	else
+		source = NULL;
 
 	/* Subject: */
 	subject = e_composer_header_table_get_subject (table);
@@ -1097,10 +1100,14 @@ composer_build_message (EMsgComposer *composer,
 	store = e_attachment_view_get_store (view);
 
 	identity_uid = e_composer_header_table_dup_identity_uid (table, NULL, NULL);
-	source = e_composer_header_table_ref_source (table, identity_uid);
-	g_free (identity_uid);
+	if (identity_uid) {
+		source = e_composer_header_table_ref_source (table, identity_uid);
+		g_free (identity_uid);
 
-	g_return_if_fail (source != NULL);
+		g_warn_if_fail (source != NULL);
+	} else {
+		source = NULL;
+	}
 
 	/* Do all the non-blocking work here, and defer
 	 * any blocking operations to a separate thread. */
@@ -1177,21 +1184,35 @@ composer_build_message (EMsgComposer *composer,
 			priv->extra_hdr_values->pdata[i]);
 	}
 
-	extension_name = E_SOURCE_EXTENSION_MAIL_IDENTITY;
-	mi = e_source_get_extension (source, extension_name);
-	organization = e_source_mail_identity_get_organization (mi);
+	if (source) {
+		extension_name = E_SOURCE_EXTENSION_MAIL_IDENTITY;
+		mi = e_source_get_extension (source, extension_name);
+		organization = e_source_mail_identity_get_organization (mi);
 
-	/* Disposition-Notification-To */
-	if (flags & COMPOSER_FLAG_REQUEST_READ_RECEIPT) {
-		const gchar *mdn_address;
+		/* Disposition-Notification-To */
+		if (flags & COMPOSER_FLAG_REQUEST_READ_RECEIPT) {
+			const gchar *mdn_address;
 
-		mdn_address = e_source_mail_identity_get_reply_to (mi);
-		if (mdn_address == NULL)
-			mdn_address = e_source_mail_identity_get_address (mi);
-		if (mdn_address != NULL)
-			camel_medium_add_header (
+			mdn_address = e_source_mail_identity_get_reply_to (mi);
+			if (mdn_address == NULL)
+				mdn_address = e_source_mail_identity_get_address (mi);
+			if (mdn_address != NULL)
+				camel_medium_add_header (
+					CAMEL_MEDIUM (context->message),
+					"Disposition-Notification-To", mdn_address);
+		}
+
+		/* Organization */
+		if (organization != NULL && *organization != '\0') {
+			gchar *encoded_organization;
+
+			encoded_organization = camel_header_encode_string (
+				(const guchar *) organization);
+			camel_medium_set_header (
 				CAMEL_MEDIUM (context->message),
-				"Disposition-Notification-To", mdn_address);
+				"Organization", encoded_organization);
+			g_free (encoded_organization);
+		}
 	}
 
 	/* X-Priority */
@@ -1199,18 +1220,6 @@ composer_build_message (EMsgComposer *composer,
 		camel_medium_add_header (
 			CAMEL_MEDIUM (context->message),
 			"X-Priority", "1");
-
-	/* Organization */
-	if (organization != NULL && *organization != '\0') {
-		gchar *encoded_organization;
-
-		encoded_organization = camel_header_encode_string (
-			(const guchar *) organization);
-		camel_medium_set_header (
-			CAMEL_MEDIUM (context->message),
-			"Organization", encoded_organization);
-		g_free (encoded_organization);
-	}
 
 	/* Build the text/plain part. */
 
@@ -5147,6 +5156,8 @@ e_msg_composer_get_from (EMsgComposer *composer)
 	table = e_msg_composer_get_header_table (composer);
 
 	uid = e_composer_header_table_dup_identity_uid (table, &alias_name, &alias_address);
+	if (!uid)
+		return NULL;
 
 	source = e_composer_header_table_ref_source (table, uid);
 	g_return_val_if_fail (source != NULL, NULL);

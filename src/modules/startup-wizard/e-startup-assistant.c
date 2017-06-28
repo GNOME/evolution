@@ -140,7 +140,9 @@ startup_assistant_constructed (GObject *object)
 
 	n_pages = gtk_assistant_get_n_pages (GTK_ASSISTANT (assistant));
 	for (ii = 0; ii < n_pages; ii++) {
-		GtkWidget *nth_page;
+		GtkWidget *nth_page, *checkbox;
+		GtkBox *main_box;
+		GSettings *settings;
 
 		nth_page = gtk_assistant_get_nth_page (
 			GTK_ASSISTANT (assistant), ii);
@@ -156,6 +158,20 @@ startup_assistant_constructed (GObject *object)
 			_("Welcome to Evolution.\n\nThe next few screens will "
 			"allow Evolution to connect to your email accounts, "
 			"and to import files from other applications."));
+
+		settings = e_util_ref_settings ("org.gnome.evolution.mail");
+		main_box = e_mail_config_welcome_page_get_main_box (E_MAIL_CONFIG_WELCOME_PAGE (nth_page));
+
+		checkbox = gtk_check_button_new_with_mnemonic (_("Do not _show this wizard again"));
+		gtk_widget_show (checkbox);
+
+		g_settings_bind (settings, "show-startup-wizard",
+			checkbox, "active",
+			G_SETTINGS_BIND_DEFAULT | G_SETTINGS_BIND_INVERT_BOOLEAN);
+
+		gtk_box_pack_end (main_box, checkbox, FALSE, FALSE, 4);
+
+		g_object_unref (settings);
 	}
 }
 

@@ -443,6 +443,11 @@ An mbox account will be created to preserve the old mbox folders. You can delete
     <_secondary xml:space="preserve">Please enable the account or send using another account.</_secondary>
   </error>
 
+  <error id="send-no-account" type="warning">
+    <_primary>This message cannot be sent because there is no mail account configured</_primary>
+    <_secondary xml:space="preserve">There had not been found any active mail account to send the message. Create or enable one first, please.</_secondary>
+  </error>
+
   <error id="no-delete-permission" type="warning">
     <_primary>Mail Deletion Failed</_primary>
     <_secondary xml:space="preserve">You do not have sufficient permissions to delete this mail.</_secondary>

@@ -21,6 +21,7 @@
 #include <libebackend/libebackend.h>
 
 #include <shell/e-shell.h>
+#include <shell/e-shell-window.h>
 
 #include <mail/e-mail-backend.h>
 #include <mail/e-mail-config-assistant.h>
@@ -42,6 +43,8 @@ typedef struct _EStartupWizardClass EStartupWizardClass;
 
 struct _EStartupWizard {
 	EExtension parent;
+
+	gboolean proceeded;
 };
 
 struct _EStartupWizardClass {
@@ -56,13 +59,6 @@ void e_module_unload (GTypeModule *type_module);
 GType e_startup_wizard_get_type (void);
 
 G_DEFINE_DYNAMIC_TYPE (EStartupWizard, e_startup_wizard, E_TYPE_EXTENSION)
-
-G_GNUC_NORETURN static void
-startup_wizard_terminate (void)
-{
-	gtk_main_quit ();
-	_exit (0);
-}
 
 static EShell *
 startup_wizard_get_shell (EStartupWizard *extension)
@@ -148,38 +144,28 @@ startup_wizard_have_mail_account (EStartupWizard *extension)
 	return have_account;
 }
 
-static void
-startup_wizard_weak_ref_cb (gpointer data,
-                            GObject *where_the_object_was)
+static gboolean
+startup_wizard_run_idle_cb (gpointer user_data)
 {
-	gtk_main_quit ();
-}
-
-static void
-startup_wizard_run (EStartupWizard *extension)
-{
-	GtkWidget *window = NULL;
+	EStartupWizard *extension = user_data;
+	EShell *shell;
+	GtkWidget *window;
 
 	/* Accounts should now be loaded if there were any to load.
 	 * Check, and proceed with the Evolution Setup Assistant. */
 
 	if (startup_wizard_have_mail_account (extension))
-		return;
+		return FALSE;
 
-	if (window == NULL) {
-		window = startup_wizard_new_assistant (extension);
-		g_signal_connect (
-			window, "cancel",
-			G_CALLBACK (startup_wizard_terminate), NULL);
-	}
+	shell = startup_wizard_get_shell (extension);
+	window = startup_wizard_new_assistant (extension);
 
-	g_object_weak_ref (
-		G_OBJECT (window),
-		startup_wizard_weak_ref_cb, NULL);
+	gtk_window_set_transient_for (GTK_WINDOW (window), e_shell_get_active_window (shell));
+	gtk_window_set_destroy_with_parent (GTK_WINDOW (window), TRUE);
 
 	gtk_widget_show (window);
 
-	gtk_main ();
+	return FALSE;
 }
 
 static void
@@ -266,9 +252,45 @@ startup_wizard_load_accounts (EStartupWizard *extension)
 	/* Pop our GMainContext off the thread-default stack. */
 	g_main_context_pop_thread_default (context);
 	g_main_context_unref (context);
+}
 
-	/* Proceed with the Evolution Setup Assistant. */
-	startup_wizard_run (extension);
+static void
+startup_wizard_notify_active_view_cb (EShellWindow *shell_window,
+				      GParamSpec *param,
+				      EStartupWizard *extension)
+{
+	if (extension->proceeded) {
+		g_signal_handlers_disconnect_by_data (shell_window, extension);
+		return;
+	}
+
+	if (g_strcmp0 ("mail", e_shell_window_get_active_view (shell_window)) == 0) {
+		g_signal_handlers_disconnect_by_data (shell_window, extension);
+		g_signal_handlers_disconnect_by_data (startup_wizard_get_shell (extension), extension);
+
+		extension->proceeded = TRUE;
+
+		if (gtk_widget_get_realized (GTK_WIDGET (shell_window)))
+			startup_wizard_run_idle_cb (extension);
+		else
+			g_idle_add (startup_wizard_run_idle_cb, extension);
+	}
+}
+
+static void
+startup_wizard_window_added_cb (EStartupWizard *extension,
+				GtkWindow *window,
+				EShell *shell)
+{
+	if (extension->proceeded) {
+		g_signal_handlers_disconnect_by_data (shell, extension);
+		return;
+	}
+
+	if (E_IS_SHELL_WINDOW (window)) {
+		g_signal_connect (window, "notify::active-view",
+			G_CALLBACK (startup_wizard_notify_active_view_cb), extension);
+	}
 }
 
 static void
@@ -276,6 +298,7 @@ startup_wizard_constructed (GObject *object)
 {
 	EShell *shell;
 	EStartupWizard *extension;
+	GSettings *settings;
 
 	extension = E_STARTUP_WIZARD (object);
 	shell = startup_wizard_get_shell (extension);
@@ -283,6 +306,16 @@ startup_wizard_constructed (GObject *object)
 	g_signal_connect_swapped (
 		shell, "event::ready-to-start",
 		G_CALLBACK (startup_wizard_load_accounts), extension);
+
+	settings = e_util_ref_settings ("org.gnome.evolution.mail");
+	extension->proceeded = !g_settings_get_boolean (settings, "show-startup-wizard");
+	g_object_unref (settings);
+
+	if (!extension->proceeded) {
+		g_signal_connect_swapped (
+			shell, "window-added",
+			G_CALLBACK (startup_wizard_window_added_cb), extension);
+	}
 
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (e_startup_wizard_parent_class)->constructed (object);

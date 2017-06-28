@@ -67,6 +67,8 @@ const gchar *	e_mail_config_welcome_page_get_text
 void		e_mail_config_welcome_page_set_text
 						(EMailConfigWelcomePage *page,
 						 const gchar *text);
+GtkBox *	e_mail_config_welcome_page_get_main_box
+						(EMailConfigWelcomePage *page);
 
 G_END_DECLS
 

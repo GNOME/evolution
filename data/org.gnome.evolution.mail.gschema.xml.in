@@ -693,6 +693,11 @@
       <_summary>Whether the To Do bar should show also completed tasks</_summary>
       <_description>Stores whether the To Do bar should show also completed tasks.</_description>
     </key>
+    <key name="show-startup-wizard" type="b">
+      <default>true</default>
+      <_summary>Show start up wizard</_summary>
+      <_description>Whether show start up wizard when there is no mail account configured.</_description>
+    </key>
 
     <!-- The following keys are deprecated. -->
 

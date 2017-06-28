@@ -445,32 +445,42 @@ composer_presend_check_identity (EMsgComposer *composer,
                                  EMailSession *session)
 {
 	EComposerHeaderTable *table;
-	EClientCache *client_cache;
-	ESourceRegistry *registry;
-	ESource *source;
+	ESource *source = NULL;
 	gchar *uid;
 	gboolean success = TRUE;
 
 	table = e_msg_composer_get_header_table (composer);
 
 	uid = e_composer_header_table_dup_identity_uid (table, NULL, NULL);
-	source = e_composer_header_table_ref_source (table, uid);
+	if (uid)
+		source = e_composer_header_table_ref_source (table, uid);
 	g_free (uid);
-	g_return_val_if_fail (source != NULL, FALSE);
 
-	client_cache = e_composer_header_table_ref_client_cache (table);
-	registry = e_client_cache_ref_registry (client_cache);
+	if (source) {
+		EClientCache *client_cache;
+		ESourceRegistry *registry;
 
-	if (!e_source_registry_check_enabled (registry, source)) {
-		e_alert_submit (
-			E_ALERT_SINK (composer),
-			"mail:send-no-account-enabled", NULL);
+		client_cache = e_composer_header_table_ref_client_cache (table);
+		registry = e_client_cache_ref_registry (client_cache);
+
+		success = e_source_registry_check_enabled (registry, source);
+		if (!success) {
+			e_alert_submit (
+				E_ALERT_SINK (e_msg_composer_get_editor (composer)),
+				"mail:send-no-account-enabled", NULL);
+		}
+
+		g_object_unref (client_cache);
+		g_object_unref (registry);
+	} else {
 		success = FALSE;
+		e_alert_submit (
+			E_ALERT_SINK (e_msg_composer_get_editor (composer)),
+			"mail:send-no-account", NULL);
 	}
 
-	g_object_unref (client_cache);
-	g_object_unref (registry);
-	g_object_unref (source);
+
+	g_clear_object (&source);
 
 	return success;
 }

@@ -30,6 +30,7 @@
 
 struct _EMailConfigWelcomePagePrivate {
 	gchar *text;
+	GtkBox *main_box; /* not referenced */
 };
 
 enum {
@@ -113,12 +114,16 @@ mail_config_welcome_page_constructed (GObject *object)
 	G_OBJECT_CLASS (e_mail_config_welcome_page_parent_class)->constructed (object);
 
 	main_box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 12);
-	gtk_widget_set_valign (GTK_WIDGET (main_box), GTK_ALIGN_CENTER);
+	gtk_widget_set_valign (GTK_WIDGET (main_box), GTK_ALIGN_FILL);
+	gtk_widget_set_vexpand (GTK_WIDGET (main_box), TRUE);
+
+	page->priv->main_box = GTK_BOX (main_box);
 
 	widget = gtk_label_new (NULL);
+	gtk_widget_set_valign (widget, GTK_ALIGN_FILL);
 	gtk_label_set_line_wrap (GTK_LABEL (widget), TRUE);
 	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
-	gtk_box_pack_start (GTK_BOX (main_box), widget, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (main_box), widget, TRUE, TRUE, 0);
 	gtk_widget_show (widget);
 
 	e_binding_bind_object_text_property (
@@ -203,3 +208,10 @@ e_mail_config_welcome_page_set_text (EMailConfigWelcomePage *page,
 	g_object_notify (G_OBJECT (page), "text");
 }
 
+GtkBox *
+e_mail_config_welcome_page_get_main_box (EMailConfigWelcomePage *page)
+{
+	g_return_val_if_fail (E_IS_MAIL_CONFIG_WELCOME_PAGE (page), NULL);
+
+	return page->priv->main_box;
+}
