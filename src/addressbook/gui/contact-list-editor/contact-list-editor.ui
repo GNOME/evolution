@@ -128,7 +128,7 @@
                 <child>
                   <object class="GtkEntry" id="list-name-entry">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
+                    <property name="can_focus">True</property>
                     <signal name="changed" handler="contact_list_editor_list_name_entry_changed_cb" swapped="no"/>
                   </object>
                   <packing>
