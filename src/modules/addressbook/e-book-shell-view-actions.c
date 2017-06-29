@@ -737,6 +737,9 @@ action_contact_new_list_cb (GtkAction *action,
 	g_return_if_fail (book != NULL);
 
 	contact = e_contact_new ();
+
+	e_book_shell_view_maybe_prefill_list_with_selection (shell_view, contact);
+
 	editor = e_contact_list_editor_new (shell, book, contact, TRUE, TRUE);
 	gtk_window_set_transient_for (eab_editor_get_window (editor), GTK_WINDOW (shell_window));
 	eab_editor_show (editor);

@@ -153,6 +153,10 @@ book_shell_backend_new_contact_list_cb (GObject *source_object,
 
 	contact = e_contact_new ();
 
+	e_book_shell_view_maybe_prefill_list_with_selection (
+		e_shell_window_get_shell_view (shell_window,
+		e_shell_window_get_active_view (shell_window)), contact);
+
 	editor = e_contact_list_editor_new (
 		e_shell_window_get_shell (shell_window), E_BOOK_CLIENT (client), contact, TRUE, TRUE);
 	gtk_window_set_transient_for (eab_editor_get_window (editor), GTK_WINDOW (shell_window));

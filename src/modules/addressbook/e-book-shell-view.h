@@ -62,6 +62,9 @@ void		e_book_shell_view_type_register	(GTypeModule *type_module);
 
 void		e_book_shell_view_disable_searching (EBookShellView *book_shell_view);
 void		e_book_shell_view_enable_searching (EBookShellView *book_shell_view);
+void		e_book_shell_view_maybe_prefill_list_with_selection
+						(EShellView *shell_view,
+						 EContact *contact);
 
 G_END_DECLS
 

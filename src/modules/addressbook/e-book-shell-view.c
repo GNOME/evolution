@@ -427,3 +427,105 @@ e_book_shell_view_enable_searching (EBookShellView *book_shell_view)
 
 	priv->search_locked--;
 }
+
+typedef struct _AddToListData {
+	EAddressbookModel *model;
+	EContact *list_contact;
+	gboolean any_added;
+} AddToListData;
+
+static void
+book_shell_view_add_to_list_cb (gint row,
+				gpointer user_data)
+{
+	AddToListData *atld = user_data;
+	EContact *contact;
+
+	g_return_if_fail (atld != NULL);
+
+	contact = e_addressbook_model_get_contact (atld->model, row);
+	if (contact) {
+		EBookClient *book_client = e_addressbook_model_get_client (atld->model);
+		GList *emails;
+		gint ii, len;
+		gboolean is_list;
+
+		emails = e_contact_get (contact, E_CONTACT_EMAIL);
+		len = g_list_length (emails);
+		g_list_free_full (emails, g_free);
+
+		is_list = e_contact_get (contact, E_CONTACT_IS_LIST) != NULL;
+
+		if (len > 0) {
+			EDestination *dest;
+			EVCardAttribute *attr;
+			EVCard *vcard = E_VCARD (atld->list_contact);
+
+			if (is_list)
+				e_contact_set (contact, E_CONTACT_IS_LIST, GINT_TO_POINTER (FALSE));
+
+			atld->any_added = TRUE;
+
+			for (ii = 0; ii < len; ii++) {
+				dest = e_destination_new ();
+
+				if (book_client)
+					e_destination_set_client (dest, book_client);
+
+				e_destination_set_contact (dest, contact, ii);
+
+				attr = e_vcard_attribute_new (NULL, EVC_EMAIL);
+				e_destination_export_to_vcard_attribute (dest, attr);
+
+				e_vcard_append_attribute (vcard, attr);
+
+				g_object_unref (dest);
+			}
+
+			if (is_list)
+				e_contact_set (contact, E_CONTACT_IS_LIST, GINT_TO_POINTER (TRUE));
+		}
+
+		g_object_unref (contact);
+	}
+}
+
+void
+e_book_shell_view_maybe_prefill_list_with_selection (EShellView *shell_view,
+						     EContact *contact)
+{
+	EBookShellView *book_shell_view;
+	EBookShellContent *book_shell_content;
+	EAddressbookView *current_view;
+	ESelectionModel *selection_model;
+	gint n_selected;
+
+	g_return_if_fail (E_IS_CONTACT (contact));
+
+	if (!E_IS_BOOK_SHELL_VIEW (shell_view))
+		return;
+
+	book_shell_view = E_BOOK_SHELL_VIEW (shell_view);
+	book_shell_content = book_shell_view->priv->book_shell_content;
+	current_view = e_book_shell_content_get_current_view (book_shell_content);
+
+	if (!current_view)
+		return;
+
+	selection_model = e_addressbook_view_get_selection_model (current_view);
+
+	n_selected = selection_model ? e_selection_model_selected_count (selection_model) : 0;
+
+	if (n_selected >= 1) {
+		AddToListData atld;
+
+		atld.model = e_addressbook_view_get_model (current_view);
+		atld.list_contact = contact;
+		atld.any_added = FALSE;
+
+		e_selection_model_foreach (selection_model, book_shell_view_add_to_list_cb, &atld);
+
+		if (atld.any_added)
+			e_contact_set (contact, E_CONTACT_IS_LIST, GINT_TO_POINTER (TRUE));
+	}
+}
