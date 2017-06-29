@@ -40,6 +40,7 @@ typedef EExtensionClass EMailFormatterTextHighlightLoaderClass;
 typedef struct _TextHighlightClosure TextHighlightClosure;
 
 struct _TextHighlightClosure {
+	gboolean wrote_anything;
 	CamelStream *read_stream;
 	GOutputStream *output_stream;
 	GCancellable *cancellable;
@@ -133,6 +134,8 @@ text_hightlight_read_data_thread (gpointer user_data)
 		if (read < 0 || closure->error)
 			break;
 
+		closure->wrote_anything = closure->wrote_anything || read > 0;
+
 		if (!g_output_stream_write_all (closure->output_stream, buffer, read, &wrote, closure->cancellable, &closure->error) ||
 		    (gssize) wrote != read || closure->error)
 			break;
@@ -155,6 +158,7 @@ text_highlight_feed_data (GOutputStream *output_stream,
 	gboolean success = TRUE;
 	GThread *thread;
 
+	closure.wrote_anything = FALSE;
 	closure.read_stream = camel_stream_fs_new_with_fd (pipe_stdout);
 	closure.output_stream = output_stream;
 	closure.cancellable = cancellable;
@@ -210,7 +214,7 @@ text_highlight_feed_data (GOutputStream *output_stream,
 		return FALSE;
 	}
 
-	return success;
+	return success && closure.wrote_anything;
 }
 
 static gboolean
@@ -263,6 +267,7 @@ emfe_text_highlight_format (EMailFormatterExtension *extension,
 			"--include-style",
 			"--inline-css",
 			"--style=bclear",
+			"--encoding=none",
 			"--failsafe",
 			NULL };
 
