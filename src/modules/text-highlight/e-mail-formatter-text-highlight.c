@@ -253,7 +253,7 @@ emfe_text_highlight_format (EMailFormatterExtension *extension,
 		gint pipe_stdin, pipe_stdout;
 		GPid pid;
 		CamelDataWrapper *dw;
-		gchar *font_family, *font_size, *syntax;
+		gchar *font_family, *font_size, *syntax, *theme;
 		PangoFontDescription *fd;
 		GSettings *settings;
 		gchar *font = NULL;
@@ -263,10 +263,10 @@ emfe_text_highlight_format (EMailFormatterExtension *extension,
 			NULL,	/* --font= */
 			NULL,   /* --font-size= */
 			NULL,   /* --syntax= */
+			NULL,   /* --style= */
 			"--out-format=html",
 			"--include-style",
 			"--inline-css",
-			"--style=bclear",
 			"--encoding=none",
 			"--failsafe",
 			NULL };
@@ -310,10 +310,21 @@ emfe_text_highlight_format (EMailFormatterExtension *extension,
 			"--font-size=%d",
 			pango_font_description_get_size (fd) / PANGO_SCALE);
 
+		settings = e_util_ref_settings ("org.gnome.evolution.text-highlight");
+		theme = g_settings_get_string (settings, "theme");
+		g_object_unref (settings);
+
+		if (!theme || !*theme) {
+			g_free (theme);
+			theme = g_strdup ("bclear");
+		}
+
 		argv[1] = font_family;
 		argv[2] = font_size;
 		argv[3] = g_strdup_printf ("--syntax=%s", syntax);
+		argv[4] = g_strdup_printf ("--style=%s", theme);
 		g_free (syntax);
+		g_free (theme);
 
 		success = g_spawn_async_with_pipes (
 			NULL, (gchar **) argv, NULL, 0, NULL, NULL,
@@ -373,6 +384,7 @@ emfe_text_highlight_format (EMailFormatterExtension *extension,
 		g_free (font_family);
 		g_free (font_size);
 		g_free ((gchar *) argv[3]);
+		g_free ((gchar *) argv[4]);
 		pango_font_description_free (fd);
 
 	} else {

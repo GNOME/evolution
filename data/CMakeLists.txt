@@ -43,6 +43,7 @@ set(SCHEMAS
 	org.gnome.evolution.shell.gschema.xml
 	org.gnome.evolution.bogofilter.gschema.xml
 	org.gnome.evolution.spamassassin.gschema.xml
+	org.gnome.evolution.text-highlight.gschema.xml
 	org.gnome.evolution.plugin.attachment-reminder.gschema.xml
 	org.gnome.evolution.plugin.autocontacts.gschema.xml
 	org.gnome.evolution.plugin.email-custom-header.gschema.xml
