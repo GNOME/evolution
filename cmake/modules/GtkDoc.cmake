@@ -86,7 +86,7 @@ macro(add_gtkdoc _module _namespace _deprecated_guards _srcdirsvar _depsvar _ign
 
 		COMMAND ${GTKDOC_FIXXREF}
 			--module=${_module}
-			--module-dir=.
+			--module-dir=html
 			--extra-dir=..
 			--html-dir="${OUTPUT_DOCDIR}"
 
