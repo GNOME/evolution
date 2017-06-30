@@ -803,7 +803,7 @@ ece_save_component_thread (EAlertSinkThreadJobData *job_data,
 {
 	SaveData *sd = user_data;
 	const gchar *create_alert_ident, *modify_alert_ident, *remove_alert_ident, *get_alert_ident;
-	gchar *orig_uid;
+	gchar *orig_uid, *new_uid = NULL;
 
 	g_return_if_fail (sd != NULL);
 	g_return_if_fail (E_IS_CAL_CLIENT (sd->target_client));
@@ -875,18 +875,12 @@ ece_save_component_thread (EAlertSinkThreadJobData *job_data,
 
 		g_clear_object (&comp);
 	} else {
-		gchar *uid = NULL;
-
 		e_alert_sink_thread_job_set_alert_ident (job_data, create_alert_ident);
 
-		sd->success = e_cal_client_create_object_sync (sd->target_client, sd->component, &uid, cancellable, error);
+		sd->success = e_cal_client_create_object_sync (sd->target_client, sd->component, &new_uid, cancellable, error);
 
-		if (sd->success) {
-			icalcomponent_set_uid (sd->component, uid);
-			g_free (uid);
-
+		if (sd->success)
 			sd->object_created = TRUE;
-		}
 	}
 
 	if (sd->success && sd->source_client &&
@@ -915,6 +909,11 @@ ece_save_component_thread (EAlertSinkThreadJobData *job_data,
 
 			g_free (source_display_name);
 		}
+	}
+
+	if (new_uid) {
+		icalcomponent_set_uid (sd->component, new_uid);
+		g_free (new_uid);
 	}
 
 	g_free (orig_uid);
