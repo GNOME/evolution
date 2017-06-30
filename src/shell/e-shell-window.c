@@ -918,6 +918,17 @@ shell_window_map_event (GtkWidget *widget,
 	return res;
 }
 
+static gboolean
+shell_window_delete_event_cb (GtkWidget *widget,
+			      GdkEventAny *event)
+{
+	g_return_val_if_fail (E_IS_SHELL_WINDOW (widget), FALSE);
+
+	e_alert_bar_clear (E_ALERT_BAR (E_SHELL_WINDOW (widget)->priv->alert_bar));
+
+	return FALSE;
+}
+
 static void
 e_shell_window_class_init (EShellWindowClass *class)
 {
@@ -1205,6 +1216,9 @@ e_shell_window_init (EShellWindow *shell_window)
 	gtk_style_context_add_provider_for_screen (gdk_screen_get_default (),
 		GTK_STYLE_PROVIDER (css_provider),
 		GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+
+	g_signal_connect (shell_window, "delete-event",
+		G_CALLBACK (shell_window_delete_event_cb), NULL);
 }
 
 /**
