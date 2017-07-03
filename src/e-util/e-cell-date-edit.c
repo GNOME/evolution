@@ -639,7 +639,8 @@ e_cell_date_edit_show_popup (ECellDateEdit *ecde,
                              gint row,
                              gint view_col)
 {
-	GdkWindow *window;
+	ECellView *ecv = (ECellView *) E_CELL_POPUP (ecde)->popup_cell_view;
+	GtkWidget *toplevel;
 	gint x, y, width, height;
 
 	if (ecde->need_time_list_rebuild)
@@ -647,13 +648,16 @@ e_cell_date_edit_show_popup (ECellDateEdit *ecde,
 
 	/* This code is practically copied from GtkCombo. */
 
+	toplevel = gtk_widget_get_toplevel (GTK_WIDGET (GNOME_CANVAS_ITEM (ecv->e_table_item_view)->canvas));
+	if (GTK_IS_WINDOW (toplevel))
+		gtk_window_set_transient_for (GTK_WINDOW (ecde->popup_window), GTK_WINDOW (toplevel));
+
 	e_cell_date_edit_get_popup_pos (ecde, row, view_col, &x, &y, &height, &width);
 
-	window = gtk_widget_get_window (ecde->popup_window);
 	gtk_window_move (GTK_WINDOW (ecde->popup_window), x, y);
 	gtk_widget_set_size_request (ecde->popup_window, width, height);
 	gtk_widget_realize (ecde->popup_window);
-	gdk_window_resize (window, width, height);
+	gdk_window_resize (gtk_widget_get_window (ecde->popup_window), width, height);
 	gtk_widget_show (ecde->popup_window);
 
 	e_cell_popup_set_shown (E_CELL_POPUP (ecde), TRUE);
