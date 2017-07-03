@@ -145,7 +145,7 @@ em_filter_folder_element_exec (struct _filter_mail_msg *m,
 			error, local_error->domain, local_error->code,
 			_("Failed to filter selected messages. One reason can be that folder "
 			"location set in one or more filters is invalid. Please check your "
-			"filters in Edit->Message Filters.\n"
+			"filters in Edit→Message Filters.\n"
 			"Original error was: %s"), local_error->message);
 		g_clear_error (&local_error);
 	} else if (local_error)
@@ -735,7 +735,7 @@ mail_send_message (struct _send_queue_msg *m,
 					err,
 					_("Failed to apply outgoing filters. One reason can be that folder "
 					"location set in one or more filters is invalid. Please check your "
-					"filters in Edit->Message Filters.\n"
+					"filters in Edit→Message Filters.\n"
 					"Original error was: %s"), local_error->message);
 			} else {
 				g_string_append_printf (
