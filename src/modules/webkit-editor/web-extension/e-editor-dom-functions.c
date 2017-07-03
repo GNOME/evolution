@@ -1710,12 +1710,9 @@ e_editor_dom_check_magic_links (EEditorPage *editor_page,
 				diff++;
 
 			if ((g_strcmp0 (url, text) != 0 && ABS (diff) == 1) || appending_to_link) {
-				gchar *inner_html, *protocol, *new_href;
+				gchar *new_href;
 
-				protocol = g_strndup (href, strstr (href, "://") - href + 3);
-				inner_html = webkit_dom_element_get_inner_html (parent);
-				new_href = g_strconcat (
-					protocol, inner_html, appending_to_link ? text_to_append : "", NULL);
+				new_href = g_strconcat (href, appending_to_link ? "" : text_to_append, NULL);
 
 				webkit_dom_html_anchor_element_set_href (
 					WEBKIT_DOM_HTML_ANCHOR_ELEMENT (parent),
@@ -1732,8 +1729,6 @@ e_editor_dom_check_magic_links (EEditorPage *editor_page,
 				}
 
 				g_free (new_href);
-				g_free (protocol);
-				g_free (inner_html);
 			}
 		} else {
 			diff = strlen (text) - strlen (href);
