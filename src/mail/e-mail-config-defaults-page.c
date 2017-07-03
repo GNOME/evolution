@@ -786,6 +786,7 @@ mail_config_defaults_page_constructed (GObject *object)
 	const gchar *extension_name;
 	const gchar *text;
 	gchar *markup;
+	gboolean disable_sent_folder;
 
 	page = E_MAIL_CONFIG_DEFAULTS_PAGE (object);
 
@@ -859,27 +860,54 @@ mail_config_defaults_page_constructed (GObject *object)
 		G_BINDING_BIDIRECTIONAL |
 		G_BINDING_SYNC_CREATE);
 
+	disable_sent_folder = provider && (provider->flags & CAMEL_PROVIDER_DISABLE_SENT_FOLDER) != 0;
+
 	text = _("Sent _Messages Folder:");
-	widget = gtk_label_new_with_mnemonic (text);
-	gtk_widget_set_margin_left (widget, 12);
-	gtk_size_group_add_widget (size_group, widget);
-	gtk_misc_set_alignment (GTK_MISC (widget), 1.0, 0.5);
+	if (disable_sent_folder) {
+		widget = gtk_label_new_with_mnemonic (text);
+		gtk_misc_set_alignment (GTK_MISC (widget), 1.0, 0.5);
+		gtk_widget_set_margin_left (widget, 12);
+		gtk_size_group_add_widget (size_group, widget);
+	} else {
+		widget = gtk_check_button_new_with_mnemonic (text);
+		g_object_set (G_OBJECT (widget),
+			"hexpand", TRUE,
+			"halign", GTK_ALIGN_END,
+			"vexpand", FALSE,
+			"valign", GTK_ALIGN_CENTER,
+			NULL);
+	}
 	gtk_grid_attach (GTK_GRID (container), widget, 0, 2, 1, 1);
 	gtk_widget_show (widget);
 
-	label = GTK_LABEL (widget);
+	if (disable_sent_folder) {
+		label = GTK_LABEL (widget);
+	} else {
+		e_binding_bind_property (
+			submission_ext, "use-sent-folder",
+			widget, "active",
+			G_BINDING_BIDIRECTIONAL |
+			G_BINDING_SYNC_CREATE);
+	}
 
 	text = _("Choose a folder for saving sent messages.");
 	widget = em_folder_selection_button_new (session, "", text);
 	gtk_widget_set_hexpand (widget, TRUE);
-	gtk_label_set_mnemonic_widget (label, widget);
+	if (disable_sent_folder)
+		gtk_label_set_mnemonic_widget (label, widget);
 	gtk_grid_attach (GTK_GRID (container), widget, 1, 2, 1, 1);
 	page->priv->sent_button = widget;  /* not referenced */
 	gtk_widget_show (widget);
 
-	if (provider && (provider->flags & CAMEL_PROVIDER_DISABLE_SENT_FOLDER) != 0) {
+	if (disable_sent_folder) {
 		gtk_widget_set_sensitive (GTK_WIDGET (label), FALSE);
 		gtk_widget_set_sensitive (widget, FALSE);
+	} else {
+		e_binding_bind_property (
+			submission_ext, "use-sent-folder",
+			widget, "sensitive",
+			G_BINDING_BIDIRECTIONAL |
+			G_BINDING_SYNC_CREATE);
 	}
 
 	e_binding_bind_object_text_property (
@@ -895,8 +923,14 @@ mail_config_defaults_page_constructed (GObject *object)
 	page->priv->replies_toggle = widget; /* not referenced */
 	gtk_widget_show (widget);
 
-	if (provider && (provider->flags & CAMEL_PROVIDER_DISABLE_SENT_FOLDER) != 0) {
+	if (disable_sent_folder) {
 		gtk_widget_set_sensitive (widget, FALSE);
+	} else {
+		e_binding_bind_property (
+			submission_ext, "use-sent-folder",
+			widget, "sensitive",
+			G_BINDING_BIDIRECTIONAL |
+			G_BINDING_SYNC_CREATE);
 	}
 
 	e_binding_bind_property (

@@ -1115,7 +1115,8 @@ folder_tree_model_get_special_folders_uri (ESourceRegistry *registry,
 
 		extension = e_source_get_extension (source, extension_name);
 
-		*sent_folder_uri = e_source_mail_submission_dup_sent_folder (extension);
+		if (e_source_mail_submission_get_use_sent_folder (extension))
+			*sent_folder_uri = e_source_mail_submission_dup_sent_folder (extension);
 	}
 
 	g_object_unref (source);

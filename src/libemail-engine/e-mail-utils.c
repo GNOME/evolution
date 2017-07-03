@@ -286,14 +286,15 @@ em_utils_folder_is_sent (ESourceRegistry *registry,
 
 	for (iter = list; iter != NULL; iter = g_list_next (iter)) {
 		ESource *source = E_SOURCE (iter->data);
-		ESourceExtension *extension;
+		ESourceMailSubmission *extension;
 		const gchar *sent_folder_uri;
 
 		extension = e_source_get_extension (source, extension_name);
 
-		sent_folder_uri =
-			e_source_mail_submission_get_sent_folder (
-			E_SOURCE_MAIL_SUBMISSION (extension));
+		if (!e_source_mail_submission_get_use_sent_folder (extension))
+			continue;
+
+		sent_folder_uri = e_source_mail_submission_get_sent_folder (extension);
 
 		if (sent_folder_uri != NULL)
 			is_sent = e_mail_folder_uri_equal (

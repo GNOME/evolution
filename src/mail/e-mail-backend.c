@@ -616,14 +616,12 @@ mail_backend_folder_deleted_cb (MailFolderCache *folder_cache,
 
 	for (link = list; link != NULL; link = g_list_next (link)) {
 		ESource *source = E_SOURCE (link->data);
-		ESourceExtension *extension;
+		ESourceMailSubmission *extension;
 		const gchar *sent_folder_uri;
 
 		extension = e_source_get_extension (source, extension_name);
 
-		sent_folder_uri =
-			e_source_mail_submission_get_sent_folder (
-			E_SOURCE_MAIL_SUBMISSION (extension));
+		sent_folder_uri = e_source_mail_submission_get_sent_folder (extension);
 
 		if (sent_folder_uri == NULL)
 			continue;
@@ -631,9 +629,7 @@ mail_backend_folder_deleted_cb (MailFolderCache *folder_cache,
 		if (class->equal_folder_name (sent_folder_uri, uri)) {
 			GError *error = NULL;
 
-			e_source_mail_submission_set_sent_folder (
-				E_SOURCE_MAIL_SUBMISSION (extension),
-				local_sent_folder_uri);
+			e_source_mail_submission_set_sent_folder (extension, local_sent_folder_uri);
 
 			/* FIXME This is a blocking D-Bus method call. */
 			if (!e_source_write_sync (source, NULL, &error)) {
@@ -729,15 +725,13 @@ mail_backend_folder_renamed_cb (MailFolderCache *folder_cache,
 
 	for (link = list; link != NULL; link = g_list_next (link)) {
 		ESource *source = E_SOURCE (link->data);
-		ESourceExtension *extension;
+		ESourceMailSubmission *extension;
 		const gchar *sent_folder_uri;
 		gboolean need_update;
 
 		extension = e_source_get_extension (source, extension_name);
 
-		sent_folder_uri =
-			e_source_mail_submission_get_sent_folder (
-			E_SOURCE_MAIL_SUBMISSION (extension));
+		sent_folder_uri = e_source_mail_submission_get_sent_folder (extension);
 
 		need_update =
 			(sent_folder_uri != NULL) &&
@@ -746,9 +740,7 @@ mail_backend_folder_renamed_cb (MailFolderCache *folder_cache,
 		if (need_update) {
 			GError *error = NULL;
 
-			e_source_mail_submission_set_sent_folder (
-				E_SOURCE_MAIL_SUBMISSION (extension),
-				new_uri);
+			e_source_mail_submission_set_sent_folder (extension, new_uri);
 
 			/* FIXME This is a blocking D-Bus method call. */
 			if (!e_source_write_sync (source, NULL, &error)) {

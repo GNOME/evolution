@@ -59,6 +59,8 @@ struct _AsyncContext {
 
 	gchar *folder_uri;
 	gchar *message_uid;
+
+	gboolean use_sent_folder;
 };
 
 static void
@@ -669,7 +671,10 @@ skip_send:
 		session, E_MAIL_LOCAL_FOLDER_SENT);
 
 	folder = e_mail_session_get_fcc_for_message_sync (
-		session, context->message, cancellable, &error);
+		session, context->message, &copy_to_sent, cancellable, &error);
+
+	if (!copy_to_sent)
+		goto cleanup;
 
 	/* Sanity check. */
 	g_return_if_fail (
@@ -1048,6 +1053,7 @@ static CamelFolder *
 mail_session_ref_fcc_from_identity (EMailSession *session,
                                     ESource *source,
                                     CamelMimeMessage *message,
+				    gboolean *out_use_sent_folder,
                                     GCancellable *cancellable,
                                     GError **error)
 {
@@ -1056,6 +1062,7 @@ mail_session_ref_fcc_from_identity (EMailSession *session,
 	CamelFolder *folder = NULL;
 	const gchar *extension_name;
 	gchar *folder_uri;
+	gboolean use_sent_folder;
 
 	registry = e_mail_session_get_registry (session);
 	extension_name = E_SOURCE_EXTENSION_MAIL_SUBMISSION;
@@ -1070,6 +1077,13 @@ mail_session_ref_fcc_from_identity (EMailSession *session,
 		return NULL;
 
 	extension = e_source_get_extension (source, extension_name);
+	use_sent_folder = e_source_mail_submission_get_use_sent_folder (extension);
+
+	if (out_use_sent_folder)
+		*out_use_sent_folder = use_sent_folder;
+
+	if (!use_sent_folder)
+		return NULL;
 
 	if (e_source_mail_submission_get_replies_to_origin_folder (extension)) {
 		GError *local_error = NULL;
@@ -1102,6 +1116,7 @@ mail_session_ref_fcc_from_identity (EMailSession *session,
 static CamelFolder *
 mail_session_ref_fcc_from_x_identity (EMailSession *session,
                                       CamelMimeMessage *message,
+				      gboolean *out_use_sent_folder,
                                       GCancellable *cancellable,
                                       GError **error)
 {
@@ -1127,7 +1142,7 @@ mail_session_ref_fcc_from_x_identity (EMailSession *session,
 
 	/* This may return NULL without setting a GError. */
 	folder = mail_session_ref_fcc_from_identity (
-		session, source, message, cancellable, error);
+		session, source, message, out_use_sent_folder, cancellable, error);
 
 	g_clear_object (&source);
 
@@ -1163,6 +1178,7 @@ mail_session_ref_fcc_from_x_fcc (EMailSession *session,
 static CamelFolder *
 mail_session_ref_fcc_from_default_identity (EMailSession *session,
                                             CamelMimeMessage *message,
+					    gboolean *out_use_sent_folder,
                                             GCancellable *cancellable,
                                             GError **error)
 {
@@ -1175,7 +1191,7 @@ mail_session_ref_fcc_from_default_identity (EMailSession *session,
 
 	/* This may return NULL without setting a GError. */
 	folder = mail_session_ref_fcc_from_identity (
-		session, source, message, cancellable, error);
+		session, source, message, out_use_sent_folder, cancellable, error);
 
 	g_clear_object (&source);
 
@@ -1186,6 +1202,8 @@ mail_session_ref_fcc_from_default_identity (EMailSession *session,
  * e_mail_session_get_fcc_for_message_sync:
  * @session: an #EMailSession
  * @message: a #CamelMimeMessage
+ * @out_use_sent_folder: (out) (nullable): optional return location to store
+ *    corresponding use-sent-folder for the mail account, or %NULL
  * @cancellable: optional #GCancellable object, or %NULL
  * @error: return location for a #GError, or %NULL
  *
@@ -1202,20 +1220,27 @@ mail_session_ref_fcc_from_default_identity (EMailSession *session,
  * unreferenced with g_object_unref() when finished with it.
  *
  * If a non-recoverable error occurs, the function sets @error and returns
- * %NULL.
+ * %NULL. It returns %NULL without setting @error when the mail account
+ * has set to not use sent folder, in which case it indicates that
+ * in @out_use_sent_folder too.
  *
  * Returns: a #CamelFolder, or %NULL
  **/
 CamelFolder *
 e_mail_session_get_fcc_for_message_sync (EMailSession *session,
                                          CamelMimeMessage *message,
+					 gboolean *out_use_sent_folder,
                                          GCancellable *cancellable,
                                          GError **error)
 {
 	CamelFolder *folder = NULL;
+	gboolean use_sent_folder = TRUE;
 
 	g_return_val_if_fail (E_IS_MAIL_SESSION (session), NULL);
 	g_return_val_if_fail (CAMEL_IS_MIME_MESSAGE (message), NULL);
+
+	if (out_use_sent_folder)
+		*out_use_sent_folder = TRUE;
 
 	/* Check for "X-Evolution-Identity" header. */
 	if (folder == NULL) {
@@ -1223,11 +1248,17 @@ e_mail_session_get_fcc_for_message_sync (EMailSession *session,
 
 		/* This may return NULL without setting a GError. */
 		folder = mail_session_ref_fcc_from_x_identity (
-			session, message, cancellable, &local_error);
+			session, message, &use_sent_folder, cancellable, &local_error);
 
 		if (local_error != NULL) {
 			g_warn_if_fail (folder == NULL);
 			g_propagate_error (error, local_error);
+			return NULL;
+		}
+
+		if (!use_sent_folder) {
+			if (out_use_sent_folder)
+				*out_use_sent_folder = use_sent_folder;
 			return NULL;
 		}
 	}
@@ -1253,11 +1284,17 @@ e_mail_session_get_fcc_for_message_sync (EMailSession *session,
 
 		/* This may return NULL without setting a GError. */
 		folder = mail_session_ref_fcc_from_default_identity (
-			session, message, cancellable, &local_error);
+			session, message, &use_sent_folder, cancellable, &local_error);
 
 		if (local_error != NULL) {
 			g_warn_if_fail (folder == NULL);
 			g_propagate_error (error, local_error);
+			return NULL;
+		}
+
+		if (!use_sent_folder) {
+			if (out_use_sent_folder)
+				*out_use_sent_folder = use_sent_folder;
 			return NULL;
 		}
 	}
@@ -1287,6 +1324,7 @@ mail_session_get_fcc_for_message_thread (GSimpleAsyncResult *simple,
 		e_mail_session_get_fcc_for_message_sync (
 			E_MAIL_SESSION (source_object),
 			async_context->message,
+			&async_context->use_sent_folder,
 			cancellable, &local_error);
 
 	if (local_error != NULL)
@@ -1352,6 +1390,8 @@ e_mail_session_get_fcc_for_message (EMailSession *session,
  * e_mail_session_get_fcc_for_message_finish:
  * @session: an #EMailSession
  * @result: a #GAsyncResult
+ * @out_use_sent_folder: (out) (nullable): optional return location to store
+ *    corresponding use-sent-folder for the mail account, or %NULL
  * @error: return location for a #GError, or %NULL
  *
  * Finishes the operation started with e_mail_session_get_fcc_for_message().
@@ -1360,13 +1400,16 @@ e_mail_session_get_fcc_for_message (EMailSession *session,
  * unreferenced with g_object_unref() when finished with it.
  *
  * If a non-recoverable error occurred, the function sets @error and
- * returns %NULL.
+ * returns %NULL. It returns %NULL without setting @error when the mail account
+ * has set to not use sent folder, in which case it indicates that
+ * in @out_use_sent_folder too.
  *
  * Returns: a #CamelFolder, or %NULL
  **/
 CamelFolder *
 e_mail_session_get_fcc_for_message_finish (EMailSession *session,
                                            GAsyncResult *result,
+					   gboolean *out_use_sent_folder,
                                            GError **error)
 {
 	GSimpleAsyncResult *simple;
@@ -1382,6 +1425,14 @@ e_mail_session_get_fcc_for_message_finish (EMailSession *session,
 
 	if (g_simple_async_result_propagate_error (simple, error))
 		return NULL;
+
+	if (out_use_sent_folder)
+		*out_use_sent_folder = async_context->use_sent_folder;
+
+	if (!async_context->use_sent_folder) {
+		g_return_val_if_fail (async_context->folder == NULL, NULL);
+		return NULL;
+	}
 
 	g_return_val_if_fail (async_context->folder != NULL, NULL);
 

@@ -518,7 +518,7 @@ build_message_headers (EMsgComposer *composer,
 		const gchar *header_name;
 		const gchar *name = NULL, *address = NULL;
 		const gchar *transport_uid;
-		const gchar *sent_folder;
+		const gchar *sent_folder = NULL;
 
 		composer_header = e_composer_header_table_get_header (table, E_COMPOSER_HEADER_FROM);
 		if (e_composer_from_header_get_override_visible (E_COMPOSER_FROM_HEADER (composer_header))) {
@@ -551,7 +551,8 @@ build_message_headers (EMsgComposer *composer,
 		extension_name = E_SOURCE_EXTENSION_MAIL_SUBMISSION;
 		ms = e_source_get_extension (source, extension_name);
 
-		sent_folder = e_source_mail_submission_get_sent_folder (ms);
+		if (e_source_mail_submission_get_use_sent_folder (ms))
+			sent_folder = e_source_mail_submission_get_sent_folder (ms);
 		transport_uid = e_source_mail_submission_get_transport_uid (ms);
 
 		medium = CAMEL_MEDIUM (message);

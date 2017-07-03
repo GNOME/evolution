@@ -750,12 +750,16 @@ mail_send_message (struct _send_queue_msg *m,
 	if (local_error == NULL && !sent_message_saved && (provider == NULL
 	    || !(provider->flags & CAMEL_PROVIDER_DISABLE_SENT_FOLDER))) {
 		CamelFolder *local_sent_folder;
+		gboolean use_sent_folder = TRUE;
+
+		folder = e_mail_session_get_fcc_for_message_sync (
+			m->session, message, &use_sent_folder, cancellable, &local_error);
+
+		if (!use_sent_folder)
+			goto cleanup;
 
 		local_sent_folder = e_mail_session_get_local_folder (
 			m->session, E_MAIL_LOCAL_FOLDER_SENT);
-
-		folder = e_mail_session_get_fcc_for_message_sync (
-			m->session, message, cancellable, &local_error);
 
 		/* Sanity check. */
 		g_return_if_fail (
@@ -823,6 +827,7 @@ mail_send_message (struct _send_queue_msg *m,
 		}
 	}
 
+ cleanup:
 	if (local_error == NULL) {
 		/* Mark the draft message for deletion, if present. */
 		e_mail_session_handle_draft_headers_sync (

@@ -229,7 +229,7 @@ mdn_notify_sender (ESource *identity_source,
 	const gchar *message_subject;
 	const gchar *extension_name;
 	const gchar *transport_uid;
-	const gchar *sent_folder_uri;
+	const gchar *sent_folder_uri = NULL;
 	const gchar *hostname;
 	gchar *self_address;
 	gchar *receipt_subject;
@@ -272,8 +272,8 @@ mdn_notify_sender (ESource *identity_source,
 	extension_name = E_SOURCE_EXTENSION_MAIL_SUBMISSION;
 	extension = e_source_get_extension (identity_source, extension_name);
 
-	sent_folder_uri = e_source_mail_submission_get_sent_folder (
-		E_SOURCE_MAIL_SUBMISSION (extension));
+	if (e_source_mail_submission_get_use_sent_folder (E_SOURCE_MAIL_SUBMISSION (extension)))
+		sent_folder_uri = e_source_mail_submission_get_sent_folder (E_SOURCE_MAIL_SUBMISSION (extension));
 
 	transport_uid = e_source_mail_submission_get_transport_uid (
 		E_SOURCE_MAIL_SUBMISSION (extension));

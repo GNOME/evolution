@@ -103,6 +103,7 @@ gboolean	e_mail_session_send_to_finish	(EMailSession *session,
 CamelFolder *	e_mail_session_get_fcc_for_message_sync
 						(EMailSession *session,
 						 CamelMimeMessage *message,
+						 gboolean *out_use_sent_folder,
 						 GCancellable *cancellable,
 						 GError **error);
 void		e_mail_session_get_fcc_for_message
@@ -115,6 +116,7 @@ void		e_mail_session_get_fcc_for_message
 CamelFolder *	e_mail_session_get_fcc_for_message_finish
 						(EMailSession *session,
 						 GAsyncResult *result,
+						 gboolean *out_use_sent_folder,
 						 GError **error);
 CamelService *	e_mail_session_ref_transport	(EMailSession *session,
 						 const gchar *transport_uid);
