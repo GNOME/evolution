@@ -1086,6 +1086,16 @@ web_view_process_uri_request_cb (WebKitURISchemeRequest *request,
 	uri = webkit_uri_scheme_request_get_uri (request);
 	requester = G_OBJECT (webkit_uri_scheme_request_get_web_view (request));
 
+	if (!requester) {
+		GError *error;
+
+		error = g_error_new_literal (G_IO_ERROR, G_IO_ERROR_CANCELLED, "Cancelled");
+		webkit_uri_scheme_request_finish_error (request, error);
+		g_clear_error (&error);
+
+		return;
+	}
+
 	g_return_if_fail (e_content_request_can_process_uri (content_request, uri));
 
 	if (E_IS_WEB_VIEW (requester)) {
