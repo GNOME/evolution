@@ -9,7 +9,7 @@
     <link type="guide" xref="mail-spam" />
     <link type="seealso" xref="mail-spam-marking"/>
 
-    <revision pkgversion="3.23.2" version="0.12" date="2016-11-22" status="final"/>
+    <revision pkgversion="3.25.3" version="0.13" date="2017-07-04" status="final"/>
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
       <email its:translate="no">ak-47@gmx.net</email>
@@ -55,6 +55,7 @@
 <section id="junk-folder">
 <title>Junk Mail Folder</title>
 <p>Messages that are marked as junk (either manually by the user or automatically via SpamAssassin or Bogofilter) will be moved to the <gui>Junk</gui> mail folder.</p>
+<p>The exact location depends on <link xref="mail-default-folder-locations">your junk folder setting</link>.</p>
 </section>
 
 <section id="preferences">
