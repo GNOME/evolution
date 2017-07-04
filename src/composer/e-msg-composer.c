@@ -1791,14 +1791,17 @@ msg_composer_paste_primary_clipboard_cb (EContentEditor *cnt_editor,
                                          EMsgComposer *composer)
 {
 	GtkClipboard *clipboard;
+	GdkAtom *targets = NULL;
+	gint n_targets;
 
 	clipboard = gtk_clipboard_get (GDK_SELECTION_PRIMARY);
 
 	composer->priv->last_signal_was_paste_primary = TRUE;
 
-	gtk_clipboard_request_targets (
-		clipboard, (GtkClipboardTargetsReceivedFunc)
-		msg_composer_paste_clipboard_targets_cb, composer);
+	if (gtk_clipboard_wait_for_targets (clipboard, &targets, &n_targets)) {
+		msg_composer_paste_clipboard_targets_cb (clipboard, targets, n_targets, composer);
+		g_free (targets);
+	}
 
 	return TRUE;
 }
@@ -1808,14 +1811,17 @@ msg_composer_paste_clipboard_cb (EContentEditor *cnt_editor,
                                  EMsgComposer *composer)
 {
 	GtkClipboard *clipboard;
+	GdkAtom *targets = NULL;
+	gint n_targets;
 
 	clipboard = gtk_clipboard_get (GDK_SELECTION_CLIPBOARD);
 
 	composer->priv->last_signal_was_paste_primary = FALSE;
 
-	gtk_clipboard_request_targets (
-		clipboard, (GtkClipboardTargetsReceivedFunc)
-		msg_composer_paste_clipboard_targets_cb, composer);
+	if (gtk_clipboard_wait_for_targets (clipboard, &targets, &n_targets)) {
+		msg_composer_paste_clipboard_targets_cb (clipboard, targets, n_targets, composer);
+		g_free (targets);
+	}
 
 	return TRUE;
 }
