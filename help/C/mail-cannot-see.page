@@ -6,7 +6,7 @@
     
     <link type="guide" xref="index#common-mail-problems" />
 
-    <revision pkgversion="3.3.91" version="0.2" date="2012-02-19" status="candidate"/>
+    <revision pkgversion="3.25.5" version="0.3" date="2017-07-04" status="final"/>
     <credit type="author">
       <name its:translate="no">Phil Bull</name>
       <email its:translate="no">philbull@gmail.com</email>
@@ -21,7 +21,7 @@
 
 <list>
  <item>
-  <p>Check whether you are using filters on incoming (or outgoing) messages. These could be automatically moving your messages to another destination.</p>
+  <p>Check whether you are <link xref="mail-filters-not-working">using filters</link> on incoming (or outgoing) messages. These could be automatically moving your messages to another destination.</p>
  </item>
  <item>
   <p>Check your search view in the search bar right above the message list. Perhaps the <gui>Show</gui> dropdown list is set to a filter like <gui>Read Messages</gui>, or the text input filed contains some value. Click the broom icon to clear the search field.</p>
