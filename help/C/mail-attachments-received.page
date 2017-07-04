@@ -7,7 +7,7 @@
     <link type="guide" xref="mail-displaying-message" />
     <link type="guide" xref="mail-attachments" />
 
-    <revision pkgversion="3.5.3" version="0.3" date="2012-06-09" status="final"/>
+    <revision pkgversion="3.25.5" version="0.4" date="2017-07-04" status="final"/>
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
       <email its:translate="no">ak-47@gmx.net</email>
@@ -30,6 +30,6 @@
 <p>To save an attachment to disk, click the down-arrow next to the attachment icon and click <gui>Save As</gui>.</p>
 <p>To open an attachment in another application, click the down-arrow next to the attachment icon and choose one of the available applications.</p>
 
-<p>The options available for an attachment vary depending on the type of attachment and the applications that are installed on your system. For example, image files can be opened in the <gui>Image Viewer</gui> application or in the <gui>GIMP</gui> graphics editor.</p>
+<p>The options available for an attachment vary depending on the type of attachment and the applications that are installed on your system. Your desktop environment's MIME database defines which applications can be used to open a specific file format.</p>
 
 </page>
