@@ -33,7 +33,6 @@
   <p>Look in the <gui>Junk</gui> folder. Messages that are marked as Junk disappear from the original folder and are moved to the <gui>Junk</gui> folder.
   </p>
  </item>
- <!-- Does the following option still exist? -->
  <item>
   <p>Click <guiseq><gui>View</gui><gui>Show Deleted Messages</gui></guiseq> to make sure all messages are visible.</p>
  </item>
