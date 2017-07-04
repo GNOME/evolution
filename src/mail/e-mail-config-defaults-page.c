@@ -128,70 +128,6 @@ mail_config_defaults_page_ref_store (EMailConfigDefaultsPage *page)
 }
 
 static gboolean
-mail_config_defaults_page_addrs_to_string (GBinding *binding,
-                                           const GValue *source_value,
-                                           GValue *target_value,
-                                           gpointer unused)
-{
-	gchar **strv;
-
-	strv = g_value_dup_boxed (source_value);
-
-	if (strv != NULL) {
-		gchar *string = g_strjoinv ("; ", strv);
-		g_value_set_string (target_value, string);
-		g_free (string);
-	} else {
-		g_value_set_string (target_value, "");
-	}
-
-	g_strfreev (strv);
-
-	return TRUE;
-}
-
-static gboolean
-mail_config_defaults_page_string_to_addrs (GBinding *binding,
-                                           const GValue *source_value,
-                                           GValue *target_value,
-                                           gpointer unused)
-{
-	CamelInternetAddress *address;
-	const gchar *string;
-	gchar **strv;
-	gint n_addresses, ii;
-
-	string = g_value_get_string (source_value);
-
-	address = camel_internet_address_new ();
-	n_addresses = camel_address_decode (CAMEL_ADDRESS (address), string);
-
-	if (n_addresses < 0) {
-		g_object_unref (address);
-		return FALSE;
-
-	} else if (n_addresses == 0) {
-		g_value_set_boxed (target_value, NULL);
-		g_object_unref (address);
-		return TRUE;
-	}
-
-	strv = g_new0 (gchar *, n_addresses + 1);
-
-	for (ii = 0; ii < n_addresses; ii++) {
-		const gchar *name = NULL;
-		const gchar *addr = NULL;
-
-		camel_internet_address_get (address, ii, &name, &addr);
-		strv[ii] = camel_internet_address_format_address (name, addr);
-	}
-
-	g_value_take_boxed (target_value, strv);
-
-	return TRUE;
-}
-
-static gboolean
 mail_config_defaults_page_folder_name_to_uri (GBinding *binding,
                                               const GValue *source_value,
                                               GValue *target_value,
@@ -486,102 +422,6 @@ mail_config_defaults_page_add_real_folder (EMailConfigDefaultsPage *page,
 }
 
 static void
-mail_config_defaults_fill_reply_style_combox (GtkComboBoxText *combo)
-{
-	struct _values {
-		ESourceMailCompositionReplyStyle reply_style;
-		const gchar *display_name;
-	} values[] = {
-		{ E_SOURCE_MAIL_COMPOSITION_REPLY_STYLE_DEFAULT,
-		  NC_("ReplyForward", "Use global setting") },
-		{ E_SOURCE_MAIL_COMPOSITION_REPLY_STYLE_ATTACH,
-		  NC_("ReplyForward", "Attachment") },
-		{ E_SOURCE_MAIL_COMPOSITION_REPLY_STYLE_OUTLOOK,
-		  NC_("ReplyForward", "Inline (Outlook style)") },
-		{ E_SOURCE_MAIL_COMPOSITION_REPLY_STYLE_QUOTED,
-		  NC_("ReplyForward", "Quoted") },
-		{ E_SOURCE_MAIL_COMPOSITION_REPLY_STYLE_DO_NOT_QUOTE,
-		  NC_("ReplyForward", "Do Not Quote") }
-	};
-	GEnumClass *enum_class;
-	GEnumValue *enum_value;
-	gint ii;
-
-	g_return_if_fail (GTK_IS_COMBO_BOX_TEXT (combo));
-
-	enum_class = g_type_class_ref (E_TYPE_SOURCE_MAIL_COMPOSITION_REPLY_STYLE);
-	g_return_if_fail (enum_class != NULL);
-
-	g_warn_if_fail (enum_class->n_values == G_N_ELEMENTS (values));
-
-	for (ii = 0; ii < G_N_ELEMENTS (values); ii++) {
-		enum_value = g_enum_get_value (enum_class, values[ii].reply_style);
-		g_warn_if_fail (enum_value != NULL);
-
-		if (enum_value) {
-			gtk_combo_box_text_append (combo,
-				enum_value->value_name,
-				g_dpgettext2 (GETTEXT_PACKAGE, "ReplyForward", values[ii].display_name));
-		}
-	}
-
-	g_type_class_unref (enum_class);
-}
-
-static gboolean
-mail_config_defaults_page_reply_style_to_string (GBinding *binding,
-						 const GValue *source_value,
-						 GValue *target_value,
-						 gpointer data)
-{
-	GEnumClass *enum_class;
-	GEnumValue *enum_value;
-
-	enum_class = g_type_class_ref (E_TYPE_SOURCE_MAIL_COMPOSITION_REPLY_STYLE);
-	g_return_val_if_fail (enum_class != NULL, FALSE);
-
-	enum_value = g_enum_get_value (enum_class, g_value_get_enum (source_value));
-	g_return_val_if_fail (enum_value != NULL, FALSE);
-
-	g_value_set_string (target_value, enum_value->value_name);
-
-	g_type_class_unref (enum_class);
-
-	return TRUE;
-}
-
-static gboolean
-mail_config_defaults_page_string_to_reply_style (GBinding *binding,
-						 const GValue *source_value,
-						 GValue *target_value,
-						 gpointer data)
-{
-	GEnumClass *enum_class;
-	GEnumValue *enum_value;
-	const gchar *value_name;
-
-	enum_class = g_type_class_ref (E_TYPE_SOURCE_MAIL_COMPOSITION_REPLY_STYLE);
-	g_return_val_if_fail (enum_class != NULL, FALSE);
-
-	value_name = g_value_get_string (source_value);
-	if (!value_name || !*value_name) {
-		enum_value = NULL;
-	} else {
-		enum_value = g_enum_get_value_by_name (enum_class, value_name);
-	}
-	if (!enum_value)
-		g_value_set_enum (target_value, E_SOURCE_MAIL_COMPOSITION_REPLY_STYLE_DEFAULT);
-	else
-		g_value_set_enum (target_value, enum_value->value);
-
-	g_warn_if_fail (enum_value != NULL);
-
-	g_type_class_unref (enum_class);
-
-	return TRUE;
-}
-
-static void
 mail_config_defaults_page_set_collection_source (EMailConfigDefaultsPage *page,
 						 ESource *collection_source)
 {
@@ -771,16 +611,12 @@ mail_config_defaults_page_constructed (GObject *object)
 	ESourceBackend *account_ext;
 	ESourceMailComposition *composition_ext;
 	ESourceMailSubmission *submission_ext;
-	ESourceMDN *mdn_ext;
 	GtkLabel *label;
 	GtkButton *button;
 	GtkWidget *widget;
 	GtkWidget *container;
 	GtkWidget *hbox, *main_box;
 	GtkSizeGroup *size_group;
-	GEnumClass *enum_class;
-	GEnumValue *enum_value;
-	EMdnResponsePolicy policy;
 	CamelProvider *provider = NULL;
 	CamelStore *store;
 	const gchar *extension_name;
@@ -807,9 +643,6 @@ mail_config_defaults_page_constructed (GObject *object)
 
 	extension_name = E_SOURCE_EXTENSION_MAIL_SUBMISSION;
 	submission_ext = e_source_get_extension (source, extension_name);
-
-	extension_name = E_SOURCE_EXTENSION_MDN;
-	mdn_ext = e_source_get_extension (source, extension_name);
 
 	main_box = e_mail_config_activity_page_get_internal_box (E_MAIL_CONFIG_ACTIVITY_PAGE (page));
 
@@ -1047,175 +880,6 @@ mail_config_defaults_page_constructed (GObject *object)
 		gtk_grid_attach (GTK_GRID (container), widget, 0, 7, 2, 1);
 		gtk_widget_show (widget);
 	}
-
-	/*** Composing Messages ***/
-
-	widget = gtk_grid_new ();
-	gtk_grid_set_row_spacing (GTK_GRID (widget), 6);
-	gtk_grid_set_column_spacing (GTK_GRID (widget), 6);
-	gtk_box_pack_start (GTK_BOX (main_box), widget, FALSE, FALSE, 0);
-	gtk_widget_show (widget);
-
-	container = widget;
-
-	text = _("Composing Messages");
-	markup = g_markup_printf_escaped ("<b>%s</b>", text);
-	widget = gtk_label_new (markup);
-	gtk_label_set_use_markup (GTK_LABEL (widget), TRUE);
-	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
-	gtk_grid_attach (GTK_GRID (container), widget, 0, 0, 1, 1);
-	gtk_widget_show (widget);
-	g_free (markup);
-
-	text = _("Alway_s carbon-copy (cc) to:");
-	widget = gtk_label_new_with_mnemonic (text);
-	gtk_widget_set_margin_left (widget, 12);
-	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
-	gtk_grid_attach (GTK_GRID (container), widget, 0, 1, 1, 1);
-	gtk_widget_show (widget);
-
-	label = GTK_LABEL (widget);
-
-	widget = gtk_entry_new ();
-	gtk_widget_set_hexpand (widget, TRUE);
-	gtk_widget_set_margin_left (widget, 12);
-	gtk_label_set_mnemonic_widget (label, widget);
-	gtk_grid_attach (GTK_GRID (container), widget, 0, 2, 1, 1);
-	gtk_widget_show (widget);
-
-	e_binding_bind_property_full (
-		composition_ext, "cc",
-		widget, "text",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE,
-		mail_config_defaults_page_addrs_to_string,
-		mail_config_defaults_page_string_to_addrs,
-		NULL, (GDestroyNotify) NULL);
-
-	text = _("Always _blind carbon-copy (bcc) to:");
-	widget = gtk_label_new_with_mnemonic (text);
-	gtk_widget_set_margin_left (widget, 12);
-	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
-	gtk_grid_attach (GTK_GRID (container), widget, 0, 3, 1, 1);
-	gtk_widget_show (widget);
-
-	label = GTK_LABEL (widget);
-
-	widget = gtk_entry_new ();
-	gtk_widget_set_hexpand (widget, TRUE);
-	gtk_widget_set_margin_left (widget, 12);
-	gtk_label_set_mnemonic_widget (label, widget);
-	gtk_grid_attach (GTK_GRID (container), widget, 0, 4, 1, 1);
-	gtk_widget_show (widget);
-
-	e_binding_bind_property_full (
-		composition_ext, "bcc",
-		widget, "text",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE,
-		mail_config_defaults_page_addrs_to_string,
-		mail_config_defaults_page_string_to_addrs,
-		NULL, (GDestroyNotify) NULL);
-
-	widget = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 4);
-	gtk_grid_attach (GTK_GRID (container), widget, 0, 5, 1, 1);
-	gtk_widget_show (widget);
-
-	container = widget;
-
-	text = _("Re_ply style:");
-	widget = gtk_label_new_with_mnemonic (text);
-	gtk_widget_set_margin_left (widget, 12);
-	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
-	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
-	gtk_widget_show (widget);
-
-	label = GTK_LABEL (widget);
-
-	widget = gtk_combo_box_text_new ();
-	gtk_widget_set_hexpand (widget, FALSE);
-	gtk_label_set_mnemonic_widget (label, widget);
-	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
-	gtk_widget_show (widget);
-
-	mail_config_defaults_fill_reply_style_combox (GTK_COMBO_BOX_TEXT (widget));
-
-	e_binding_bind_property_full (
-		composition_ext, "reply-style",
-		widget, "active-id",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE,
-		mail_config_defaults_page_reply_style_to_string,
-		mail_config_defaults_page_string_to_reply_style,
-		NULL, (GDestroyNotify) NULL);
-
-	/*** Message Receipts ***/
-
-	widget = gtk_grid_new ();
-	gtk_grid_set_row_spacing (GTK_GRID (widget), 6);
-	gtk_grid_set_column_spacing (GTK_GRID (widget), 6);
-	gtk_box_pack_start (GTK_BOX (main_box), widget, FALSE, FALSE, 0);
-	gtk_widget_show (widget);
-
-	container = widget;
-
-	text = _("Message Receipts");
-	markup = g_markup_printf_escaped ("<b>%s</b>", text);
-	widget = gtk_label_new (markup);
-	gtk_label_set_use_markup (GTK_LABEL (widget), TRUE);
-	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
-	gtk_grid_attach (GTK_GRID (container), widget, 0, 0, 2, 1);
-	gtk_widget_show (widget);
-	g_free (markup);
-
-	text = _("S_end message receipts:");
-	widget = gtk_label_new_with_mnemonic (text);
-	gtk_widget_set_margin_left (widget, 12);
-	gtk_size_group_add_widget (size_group, widget);
-	gtk_misc_set_alignment (GTK_MISC (widget), 1.0, 0.5);
-	gtk_grid_attach (GTK_GRID (container), widget, 0, 1, 1, 1);
-	gtk_widget_show (widget);
-
-	label = GTK_LABEL (widget);
-
-	widget = gtk_combo_box_text_new ();
-	gtk_widget_set_hexpand (widget, TRUE);
-	gtk_label_set_mnemonic_widget (label, widget);
-	gtk_grid_attach (GTK_GRID (container), widget, 1, 1, 1, 1);
-	gtk_widget_show (widget);
-
-	/* XXX This is a pain in the butt, but we want to avoid hard-coding
-	 *     string values from the EMdnResponsePolicy enum class in case
-	 *     they change in the future. */
-	enum_class = g_type_class_ref (E_TYPE_MDN_RESPONSE_POLICY);
-	policy = E_MDN_RESPONSE_POLICY_NEVER;
-	enum_value = g_enum_get_value (enum_class, policy);
-	g_return_if_fail (enum_value != NULL);
-	gtk_combo_box_text_append (
-		GTK_COMBO_BOX_TEXT (widget),
-		enum_value->value_nick, _("Never"));
-	policy = E_MDN_RESPONSE_POLICY_ALWAYS;
-	enum_value = g_enum_get_value (enum_class, policy);
-	g_return_if_fail (enum_value != NULL);
-	gtk_combo_box_text_append (
-		GTK_COMBO_BOX_TEXT (widget),
-		enum_value->value_nick, _("Always"));
-	policy = E_MDN_RESPONSE_POLICY_ASK;
-	enum_value = g_enum_get_value (enum_class, policy);
-	g_return_if_fail (enum_value != NULL);
-	gtk_combo_box_text_append (
-		GTK_COMBO_BOX_TEXT (widget),
-		enum_value->value_nick, _("Ask for each message"));
-	g_type_class_unref (enum_class);
-
-	e_binding_bind_property_full (
-		mdn_ext, "response-policy",
-		widget, "active-id",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE,
-		e_binding_transform_enum_value_to_nick,
-		e_binding_transform_enum_nick_to_value,
-		NULL, (GDestroyNotify) NULL);
 
 	g_object_unref (size_group);
 

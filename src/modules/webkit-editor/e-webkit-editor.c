@@ -48,6 +48,8 @@ enum {
 	PROP_HTML_MODE,
 	PROP_SPELL_CHECK_ENABLED,
 	PROP_SPELL_CHECKER,
+	PROP_START_BOTTOM,
+	PROP_TOP_SIGNATURE,
 
 	PROP_ALIGNMENT,
 	PROP_BACKGROUND_COLOR,
@@ -138,6 +140,9 @@ struct _EWebKitEditorPrivate {
 	gulong drag_data_received_handler_id;
 
 	gchar *last_hover_uri;
+
+	EThreeState start_bottom;
+	EThreeState top_signature;
 };
 
 static const GdkRGBA black = { 0, 0, 0, 1 };
@@ -162,6 +167,18 @@ G_DEFINE_TYPE_WITH_CODE (
 	G_IMPLEMENT_INTERFACE (
 		E_TYPE_CONTENT_EDITOR,
 		e_webkit_editor_content_editor_init));
+
+static gint16
+e_webkit_editor_three_state_to_int16 (EThreeState value)
+{
+	if (value == E_THREE_STATE_ON)
+		return 1;
+
+	if (value == E_THREE_STATE_OFF)
+		return 0;
+
+	return -1;
+}
 
 EWebKitEditor *
 e_webkit_editor_new (void)
@@ -1719,7 +1736,9 @@ set_convert_in_situ (EWebKitEditor *wk_editor,
 	e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (
 		wk_editor->priv->web_extension,
 		"SetConvertInSitu",
-		g_variant_new ("(tb)", current_page_id (wk_editor), value),
+		g_variant_new ("(tbnn)", current_page_id (wk_editor), value,
+			e_webkit_editor_three_state_to_int16 (e_content_editor_get_start_bottom (E_CONTENT_EDITOR (wk_editor))),
+			e_webkit_editor_three_state_to_int16 (e_content_editor_get_top_signature (E_CONTENT_EDITOR (wk_editor)))),
 		NULL);
 }
 
@@ -1816,7 +1835,9 @@ webkit_editor_insert_content (EContentEditor *editor,
 		e_util_invoke_g_dbus_proxy_call_with_error_check (
 			wk_editor->priv->web_extension,
 			"DOMConvertContent",
-			g_variant_new ("(ts)", current_page_id (wk_editor), content),
+			g_variant_new ("(tsnn)", current_page_id (wk_editor), content,
+				e_webkit_editor_three_state_to_int16 (e_content_editor_get_start_bottom (editor)),
+				e_webkit_editor_three_state_to_int16 (e_content_editor_get_top_signature (editor))),
 			wk_editor->priv->cancellable);
 	} else if ((flags & E_CONTENT_EDITOR_INSERT_CONVERT) &&
 		    !(flags & E_CONTENT_EDITOR_INSERT_REPLACE_ALL) &&
@@ -2256,6 +2277,50 @@ webkit_editor_set_spell_checking_languages (EContentEditor *editor,
 }
 
 static void
+webkit_editor_set_start_bottom (EWebKitEditor *wk_editor,
+				EThreeState value)
+{
+	g_return_if_fail (E_IS_WEBKIT_EDITOR (wk_editor));
+
+	if (wk_editor->priv->start_bottom == value)
+		return;
+
+	wk_editor->priv->start_bottom = value;
+
+	g_object_notify (G_OBJECT (wk_editor), "start-bottom");
+}
+
+static EThreeState
+webkit_editor_get_start_bottom (EWebKitEditor *wk_editor)
+{
+	g_return_val_if_fail (E_IS_WEBKIT_EDITOR (wk_editor), E_THREE_STATE_INCONSISTENT);
+
+	return wk_editor->priv->start_bottom;
+}
+
+static void
+webkit_editor_set_top_signature (EWebKitEditor *wk_editor,
+				 EThreeState value)
+{
+	g_return_if_fail (E_IS_WEBKIT_EDITOR (wk_editor));
+
+	if (wk_editor->priv->top_signature == value)
+		return;
+
+	wk_editor->priv->top_signature = value;
+
+	g_object_notify (G_OBJECT (wk_editor), "top-signature");
+}
+
+static EThreeState
+webkit_editor_get_top_signature (EWebKitEditor *wk_editor)
+{
+	g_return_val_if_fail (E_IS_WEBKIT_EDITOR (wk_editor), E_THREE_STATE_INCONSISTENT);
+
+	return wk_editor->priv->top_signature;
+}
+
+static void
 webkit_editor_set_spell_check_enabled (EWebKitEditor *wk_editor,
                                        gboolean enable)
 {
@@ -2370,14 +2435,16 @@ webkit_editor_insert_signature (EContentEditor *editor,
 		wk_editor->priv->web_extension,
 		"DOMInsertSignature",
 		g_variant_new (
-			"(tsbsbbb)",
+			"(tsbsbbbnn)",
 			current_page_id (wk_editor),
 			content ? content : "",
 			is_html,
 			signature_id,
 			*set_signature_from_message,
 			*check_if_signature_is_changed,
-			*ignore_next_signature_change),
+			*ignore_next_signature_change,
+			e_webkit_editor_three_state_to_int16 (e_content_editor_get_start_bottom (editor)),
+			e_webkit_editor_three_state_to_int16 (e_content_editor_get_top_signature (editor))),
 		NULL);
 
 	if (result) {
@@ -5409,6 +5476,18 @@ webkit_editor_set_property (GObject *object,
 				"DOMSelectionSetUnderline");
 			return;
 
+		case PROP_START_BOTTOM:
+			webkit_editor_set_start_bottom (
+				E_WEBKIT_EDITOR (object),
+				g_value_get_enum (value));
+			return;
+
+		case PROP_TOP_SIGNATURE:
+			webkit_editor_set_top_signature (
+				E_WEBKIT_EDITOR (object),
+				g_value_get_enum (value));
+			return;
+
 		case PROP_SPELL_CHECK_ENABLED:
 			webkit_editor_set_spell_check_enabled (
 				E_WEBKIT_EDITOR (object),
@@ -5583,6 +5662,20 @@ webkit_editor_get_property (GObject *object,
 				webkit_editor_get_style_flag (
 					E_WEBKIT_EDITOR (object),
 					E_CONTENT_EDITOR_STYLE_IS_UNDERLINE));
+			return;
+
+		case PROP_START_BOTTOM:
+			g_value_set_enum (
+				value,
+				webkit_editor_get_start_bottom (
+					E_WEBKIT_EDITOR (object)));
+			return;
+
+		case PROP_TOP_SIGNATURE:
+			g_value_set_enum (
+				value,
+				webkit_editor_get_top_signature (
+					E_WEBKIT_EDITOR (object)));
 			return;
 
 		case PROP_SPELL_CHECK_ENABLED:
@@ -6281,6 +6374,10 @@ e_webkit_editor_class_init (EWebKitEditorClass *class)
 	g_object_class_override_property (
 		object_class, PROP_UNDERLINE, "underline");
 	g_object_class_override_property (
+		object_class, PROP_START_BOTTOM, "start-bottom");
+	g_object_class_override_property (
+		object_class, PROP_TOP_SIGNATURE, "top-signature");
+	g_object_class_override_property (
 		object_class, PROP_SPELL_CHECK_ENABLED, "spell-check-enabled");
 	g_object_class_override_property (
 		object_class, PROP_SPELL_CHECKER, "spell-checker");
@@ -6398,6 +6495,9 @@ e_webkit_editor_init (EWebKitEditor *wk_editor)
 	wk_editor->priv->font_size = E_CONTENT_EDITOR_FONT_SIZE_NORMAL;
 	wk_editor->priv->block_format = E_CONTENT_EDITOR_BLOCK_FORMAT_PARAGRAPH;
 	wk_editor->priv->alignment = E_CONTENT_EDITOR_ALIGNMENT_LEFT;
+
+	wk_editor->priv->start_bottom = E_THREE_STATE_INCONSISTENT;
+	wk_editor->priv->top_signature = E_THREE_STATE_INCONSISTENT;
 
 	wk_editor->priv->web_extension_selection_changed_cb_id = 0;
 	wk_editor->priv->web_extension_content_changed_cb_id = 0;

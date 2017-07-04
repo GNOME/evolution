@@ -25,6 +25,7 @@
 #include <gtk/gtk.h>
 
 #include <camel/camel.h>
+#include <libedataserver/libedataserver.h>
 
 #include <e-util/e-emoticon.h>
 #include <e-util/e-spell-checker.h>
@@ -513,6 +514,16 @@ gboolean	e_content_editor_is_superscript
 void		e_content_editor_set_underline	(EContentEditor *editor,
 						 gboolean underline);
 gboolean	e_content_editor_is_underline	(EContentEditor *editor);
+void		e_content_editor_set_start_bottom
+						(EContentEditor *editor,
+						 EThreeState value);
+EThreeState	e_content_editor_get_start_bottom
+						(EContentEditor *editor);
+void		e_content_editor_set_top_signature
+						(EContentEditor *editor,
+						 EThreeState value);
+EThreeState	e_content_editor_get_top_signature
+						(EContentEditor *editor);
 
 /* Methods */
 void		e_content_editor_initialize	(EContentEditor *content_editor,

@@ -1632,6 +1632,7 @@ msg_composer_mail_identity_changed_cb (EMsgComposer *composer)
 	ESourceOpenPGP *pgp;
 	ESourceSMIME *smime;
 	EComposerHeaderTable *table;
+	EContentEditor *cnt_editor;
 	GtkToggleAction *action;
 	ESource *source;
 	gboolean active;
@@ -1646,11 +1647,15 @@ msg_composer_mail_identity_changed_cb (EMsgComposer *composer)
 	const gchar *active_signature_id;
 	gchar *uid, *alias_name = NULL, *alias_address = NULL, *pgp_keyid, *smime_cert;
 
+	cnt_editor = e_html_editor_get_content_editor (e_msg_composer_get_editor (composer));
 	table = e_msg_composer_get_header_table (composer);
 	uid = e_composer_header_table_dup_identity_uid (table, &alias_name, &alias_address);
 
 	/* Silently return if no identity is selected. */
 	if (!uid) {
+		e_content_editor_set_start_bottom (cnt_editor, E_THREE_STATE_INCONSISTENT);
+		e_content_editor_set_top_signature (cnt_editor, E_THREE_STATE_INCONSISTENT);
+
 		g_free (alias_name);
 		g_free (alias_address);
 		return;
@@ -1661,6 +1666,11 @@ msg_composer_mail_identity_changed_cb (EMsgComposer *composer)
 
 	extension_name = E_SOURCE_EXTENSION_MAIL_COMPOSITION;
 	mc = e_source_get_extension (source, extension_name);
+
+	e_content_editor_set_start_bottom (cnt_editor,
+		e_source_mail_composition_get_start_bottom (mc));
+	e_content_editor_set_top_signature (cnt_editor,
+		e_source_mail_composition_get_top_signature (mc));
 
 	extension_name = E_SOURCE_EXTENSION_OPENPGP;
 	pgp = e_source_get_extension (source, extension_name);

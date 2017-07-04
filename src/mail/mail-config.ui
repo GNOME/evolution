@@ -519,7 +519,7 @@
                     </child>
                     <child>
                       <object class="GtkCheckButton" id="chkReplyStartBottom">
-                        <property name="label" translatable="yes">Start _typing at the bottom on replying</property>
+                        <property name="label" translatable="yes">Start _typing at the bottom</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
@@ -535,8 +535,8 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkCheckButton" id="chkSignatureInNewOnly">
-                        <property name="label" translatable="yes">Include si_gnature in new messages only</property>
+                      <object class="GtkCheckButton" id="chkTopSignature">
+                        <property name="label" translatable="yes">_Keep signature above the original message</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
@@ -552,8 +552,8 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkCheckButton" id="chkTopSignature">
-                        <property name="label" translatable="yes">_Keep signature above the original message on replying</property>
+                      <object class="GtkCheckButton" id="chkSignatureInNewOnly">
+                        <property name="label" translatable="yes">Include si_gnature in new messages only</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>

@@ -319,6 +319,7 @@ src/mail/e-mail-backend.c
 src/mail/e-mail-browser.c
 src/mail/e-mail-config-assistant.c
 src/mail/e-mail-config-auth-check.c
+src/mail/e-mail-config-composing-page.c
 src/mail/e-mail-config-confirm-page.c
 src/mail/e-mail-config-defaults-page.c
 src/mail/e-mail-config-identity-page.c

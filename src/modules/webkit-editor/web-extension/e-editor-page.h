@@ -148,10 +148,14 @@ void		e_editor_page_set_body_input_event_removed
 						(EEditorPage *editor_page,
 						 gboolean value);
 gboolean	e_editor_page_get_convert_in_situ
-						(EEditorPage *editor_page);
+						(EEditorPage *editor_page,
+						 gint16 *out_start_at_bottom,
+						 gint16 *out_top_signature);
 void		e_editor_page_set_convert_in_situ
 						(EEditorPage *editor_page,
-						 gboolean value);
+						 gboolean value,
+						 gint16 start_at_bottom,
+						 gint16 top_signature);
 GHashTable *	e_editor_page_get_inline_images
 						(EEditorPage *editor_page);
 void		e_editor_page_add_new_inline_image_into_list

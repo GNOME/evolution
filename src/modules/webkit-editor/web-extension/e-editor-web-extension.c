@@ -409,6 +409,8 @@ static const gchar *introspection_xml =
 "    <method name='SetConvertInSitu'>"
 "      <arg type='t' name='page_id' direction='in'/>"
 "      <arg type='b' name='value' direction='in'/>"
+"      <arg type='n' name='start_at_bottom' direction='in'/>"
+"      <arg type='n' name='top_signature' direction='in'/>"
 "    </method>"
 "    <method name='DOMForceSpellCheck'>"
 "      <arg type='t' name='page_id' direction='in'/>"
@@ -466,6 +468,8 @@ static const gchar *introspection_xml =
 "    <method name='DOMConvertContent'>"
 "      <arg type='t' name='page_id' direction='in'/>"
 "      <arg type='s' name='preffered_text' direction='in'/>"
+"      <arg type='n' name='start_at_bottom' direction='in'/>"
+"      <arg type='n' name='top_signature' direction='in'/>"
 "    </method>"
 "    <method name='DOMAddNewInlineImageIntoList'>"
 "      <arg type='t' name='page_id' direction='in'/>"
@@ -579,6 +583,8 @@ static const gchar *introspection_xml =
 "      <arg type='b' name='set_signature_from_message' direction='in'/>"
 "      <arg type='b' name='check_if_signature_is_changed' direction='in'/>"
 "      <arg type='b' name='ignore_next_signature_change' direction='in'/>"
+"      <arg type='n' name='start_at_bottom' direction='in'/>"
+"      <arg type='n' name='top_signature' direction='in'/>"
 "      <arg type='s' name='new_signature_id' direction='out'/>"
 "      <arg type='b' name='out_set_signature_from_message' direction='out'/>"
 "      <arg type='b' name='out_check_if_signature_is_changed' direction='out'/>"
@@ -1727,14 +1733,15 @@ handle_method_call (GDBusConnection *connection,
 		g_dbus_method_invocation_return_value (invocation, NULL);
 	} else if (g_strcmp0 (method_name, "SetConvertInSitu") == 0) {
 		gboolean value = FALSE;
+		gint16 start_at_bottom = -1, top_signature = -1;
 
-		g_variant_get (parameters, "(tb)", &page_id, &value);
+		g_variant_get (parameters, "(tbnn)", &page_id, &value, &start_at_bottom, &top_signature);
 
 		editor_page = get_editor_page_or_return_dbus_error (invocation, extension, page_id);
 		if (!editor_page)
 			goto error;
 
-		e_editor_page_set_convert_in_situ (editor_page, value);
+		e_editor_page_set_convert_in_situ (editor_page, value, start_at_bottom, top_signature);
 
 		g_dbus_method_invocation_return_value (invocation, NULL);
 	} else if (g_strcmp0 (method_name, "DOMForceSpellCheck") == 0) {
@@ -1822,14 +1829,15 @@ handle_method_call (GDBusConnection *connection,
 		g_dbus_method_invocation_return_value (invocation, NULL);
 	} else if (g_strcmp0 (method_name, "DOMConvertContent") == 0) {
 		const gchar *preferred_text;
+		gint64 start_at_bottom = -1, top_signature = -1;
 
-		g_variant_get (parameters, "(t&s)", &page_id, &preferred_text);
+		g_variant_get (parameters, "(t&snn)", &page_id, &preferred_text, &start_at_bottom, &top_signature);
 
 		editor_page = get_editor_page_or_return_dbus_error (invocation, extension, page_id);
 		if (!editor_page)
 			goto error;
 
-		e_editor_dom_convert_content (editor_page, preferred_text);
+		e_editor_dom_convert_content (editor_page, preferred_text, start_at_bottom, top_signature);
 		g_dbus_method_invocation_return_value (invocation, NULL);
 	} else if (g_strcmp0 (method_name, "DOMAddNewInlineImageIntoList") == 0) {
 		const gchar *cid_uri, *src, *filename;
@@ -2117,19 +2125,22 @@ handle_method_call (GDBusConnection *connection,
 	} else if (g_strcmp0 (method_name, "DOMInsertSignature") == 0) {
 		gboolean is_html, set_signature_from_message;
 		gboolean check_if_signature_is_changed, ignore_next_signature_change;
+		gint16 start_at_bottom = -1, top_signature = -1;
 		const gchar *content, *signature_id;
 		gchar *new_signature_id = NULL;
 
 		g_variant_get (
 			parameters,
-			"(t&sb&sbbb)",
+			"(t&sb&sbbbnn)",
 			&page_id,
 			&content,
 			&is_html,
 			&signature_id,
 			&set_signature_from_message,
 			&check_if_signature_is_changed,
-			&ignore_next_signature_change);
+			&ignore_next_signature_change,
+			&start_at_bottom,
+			&top_signature);
 
 		editor_page = get_editor_page_or_return_dbus_error (invocation, extension, page_id);
 		if (!editor_page)
@@ -2142,7 +2153,9 @@ handle_method_call (GDBusConnection *connection,
 			signature_id,
 			&set_signature_from_message,
 			&check_if_signature_is_changed,
-			&ignore_next_signature_change);
+			&ignore_next_signature_change,
+			start_at_bottom,
+			top_signature);
 
 		g_dbus_method_invocation_return_value (
 			invocation,

@@ -6001,7 +6001,9 @@ register_html_events_handlers (EEditorPage *editor_page,
 
 void
 e_editor_dom_convert_content (EEditorPage *editor_page,
-                              const gchar *preferred_text)
+			      const gchar *preferred_text,
+			      gint16 in_start_at_bottom,
+			      gint16 in_top_signature)
 {
 	WebKitDOMDocument *document;
 	WebKitDOMElement *paragraph, *content_wrapper, *top_signature;
@@ -6018,9 +6020,13 @@ e_editor_dom_convert_content (EEditorPage *editor_page,
 	g_return_if_fail (E_IS_EDITOR_PAGE (editor_page));
 
 	document = e_editor_page_get_document (editor_page);
-	settings = e_util_ref_settings ("org.gnome.evolution.mail");
-	start_bottom = g_settings_get_boolean (settings, "composer-reply-start-bottom");
-	g_object_unref (settings);
+	if (in_start_at_bottom == 0 || in_start_at_bottom == 1) {
+		start_bottom = in_start_at_bottom == 1;
+	} else {
+		settings = e_util_ref_settings ("org.gnome.evolution.mail");
+		start_bottom = g_settings_get_boolean (settings, "composer-reply-start-bottom");
+		g_object_unref (settings);
+	}
 
 	dom_window = webkit_dom_document_get_default_view (document);
 	body = webkit_dom_document_get_body (document);
@@ -8734,6 +8740,7 @@ void
 e_editor_dom_process_content_after_load (EEditorPage *editor_page)
 {
 	gboolean html_mode;
+	gint16 start_at_bottom = -1, top_signature = -1;
 	WebKitDOMDocument *document;
 	WebKitDOMHTMLElement *body;
 	WebKitDOMDOMWindow *dom_window = NULL;
@@ -8755,14 +8762,14 @@ e_editor_dom_process_content_after_load (EEditorPage *editor_page)
 		webkit_dom_element_set_attribute (
 			WEBKIT_DOM_ELEMENT (body), "data-evo-plain-text", "", NULL);
 
-	if (e_editor_page_get_convert_in_situ (editor_page)) {
-		e_editor_dom_convert_content (editor_page, NULL);
+	if (e_editor_page_get_convert_in_situ (editor_page, &start_at_bottom, &top_signature)) {
+		e_editor_dom_convert_content (editor_page, NULL, start_at_bottom, top_signature);
 		/* The BODY could be replaced during the conversion */
 		body = webkit_dom_document_get_body (document);
 		/* Make the quote marks non-selectable. */
 		e_editor_dom_disable_quote_marks_select (editor_page);
 		dom_set_links_active (document, FALSE);
-		e_editor_page_set_convert_in_situ (editor_page, FALSE);
+		e_editor_page_set_convert_in_situ (editor_page, FALSE, -1, -1);
 
 		/* The composer body could be empty in some case (loading an empty string
 		 * or empty HTML). In that case create the initial paragraph. */

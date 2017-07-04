@@ -88,22 +88,19 @@ start_typing_at_bottom (void)
 }
 
 static void
-move_caret_after_signature_inserted (EEditorPage *editor_page)
+move_caret_after_signature_inserted (EEditorPage *editor_page,
+				     gboolean start_bottom,
+				     gboolean top_signature)
 {
 	WebKitDOMDocument *document;
 	WebKitDOMElement *element, *signature;
 	WebKitDOMHTMLElement *body;
 	WebKitDOMNodeList *paragraphs = NULL;
-	gboolean top_signature;
-	gboolean start_bottom;
 	gboolean has_paragraphs_in_body = TRUE;
 
 	g_return_if_fail (E_IS_EDITOR_PAGE (editor_page));
 
 	document = e_editor_page_get_document (editor_page);
-
-	top_signature = e_editor_page_get_allow_top_signature (editor_page) && use_top_signature ();
-	start_bottom = start_typing_at_bottom ();
 
 	body = webkit_dom_document_get_body (document);
 	e_editor_page_block_selection_changed (editor_page);
@@ -262,7 +259,9 @@ e_composer_dom_insert_signature (EEditorPage *editor_page,
                                  const gchar *id,
                                  gboolean *set_signature_from_message,
                                  gboolean *check_if_signature_is_changed,
-                                 gboolean *ignore_next_signature_change)
+				 gboolean *ignore_next_signature_change,
+				 gint16 in_start_at_bottom,
+				 gint16 in_top_signature)
 {
 	WebKitDOMDocument *document;
 	WebKitDOMElement *signature_to_insert;
@@ -286,7 +285,14 @@ e_composer_dom_insert_signature (EEditorPage *editor_page,
 
 	/* "Edit as New Message" sets is_message_from_edit_as_new.
 	 * Always put the signature at the bottom for that case. */
-	top_signature = e_editor_page_get_allow_top_signature (editor_page) && use_top_signature ();
+	if (e_editor_page_get_allow_top_signature (editor_page)) {
+		if (in_top_signature == 0 || in_top_signature == 1)
+			top_signature = in_top_signature == 1;
+		else
+			top_signature = use_top_signature ();
+	} else {
+		top_signature = FALSE;
+	}
 
 	html_mode = e_editor_page_get_html_mode (editor_page);
 
@@ -472,8 +478,15 @@ insert:
 				NULL);
 		}
 	} else {
+		gboolean start_at_bottom;
+
 		signature_wrapper = webkit_dom_document_create_element (document, "div", NULL);
 		webkit_dom_element_set_class_name (signature_wrapper, "-x-evo-signature-wrapper");
+
+		if (in_start_at_bottom == 0 || in_start_at_bottom == 1)
+			start_at_bottom = in_start_at_bottom == 1;
+		else
+			start_at_bottom = start_typing_at_bottom ();
 
 		webkit_dom_node_append_child (
 			WEBKIT_DOM_NODE (signature_wrapper),
@@ -485,7 +498,7 @@ insert:
 
 			child = webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (body));
 
-			if (start_typing_at_bottom ()) {
+			if (start_at_bottom) {
 				webkit_dom_node_insert_before (
 					WEBKIT_DOM_NODE (body),
 					WEBKIT_DOM_NODE (signature_wrapper),
@@ -507,7 +520,7 @@ insert:
 				NULL);
 		}
 
-		move_caret_after_signature_inserted (editor_page);
+		move_caret_after_signature_inserted (editor_page, start_at_bottom, top_signature);
 	}
 	g_clear_object (&signatures);
 

@@ -15,16 +15,19 @@
  *
  */
 
-#include "e-mail-config-notebook.h"
+#include "evolution-config.h"
 
 #include <libebackend/libebackend.h>
 
-#include <mail/e-mail-config-defaults-page.h>
-#include <mail/e-mail-config-identity-page.h>
-#include <mail/e-mail-config-provider-page.h>
-#include <mail/e-mail-config-receiving-page.h>
-#include <mail/e-mail-config-security-page.h>
-#include <mail/e-mail-config-sending-page.h>
+#include "e-mail-config-composing-page.h"
+#include "e-mail-config-defaults-page.h"
+#include "e-mail-config-identity-page.h"
+#include "e-mail-config-provider-page.h"
+#include "e-mail-config-receiving-page.h"
+#include "e-mail-config-security-page.h"
+#include "e-mail-config-sending-page.h"
+
+#include "e-mail-config-notebook.h"
 
 #define E_MAIL_CONFIG_NOTEBOOK_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -473,6 +476,11 @@ mail_config_notebook_constructed (GObject *object)
 		notebook->priv->account_source,
 		notebook->priv->identity_source,
 		notebook->priv->transport_source);
+	e_mail_config_notebook_add_page (notebook, page);
+
+	/*** Composing Messages Page ***/
+
+	page = e_mail_config_composing_page_new (notebook->priv->identity_source);
 	e_mail_config_notebook_add_page (notebook, page);
 
 	/*** Security Page ***/

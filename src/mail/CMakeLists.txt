@@ -44,6 +44,7 @@ set(SOURCES
 	e-mail-config-activity-page.c
 	e-mail-config-assistant.c
 	e-mail-config-auth-check.c
+	e-mail-config-composing-page.c
 	e-mail-config-confirm-page.c
 	e-mail-config-defaults-page.c
 	e-mail-config-identity-page.c
@@ -128,6 +129,7 @@ set(HEADERS
 	e-mail-config-activity-page.h
 	e-mail-config-assistant.h
 	e-mail-config-auth-check.h
+	e-mail-config-composing-page.h
 	e-mail-config-confirm-page.h
 	e-mail-config-defaults-page.h
 	e-mail-config-identity-page.h

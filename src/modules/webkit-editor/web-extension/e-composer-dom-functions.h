@@ -31,7 +31,9 @@ gchar *		e_composer_dom_insert_signature	(EEditorPage *editor_page,
 						 const gchar *id,
 						 gboolean *set_signature_from_message,
 						 gboolean *check_if_signature_is_changed,
-						 gboolean *ignore_next_signature_change);
+						 gboolean *ignore_next_signature_change,
+						 gint16 start_at_bottom,
+						 gint16 top_signature);
 gchar *		e_composer_dom_get_active_signature_uid
 						(EEditorPage *editor_page);
 gchar *		e_composer_dom_get_raw_body_content_without_signature

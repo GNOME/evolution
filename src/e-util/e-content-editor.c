@@ -392,6 +392,44 @@ e_content_editor_default_init (EContentEditorInterface *iface)
 			G_PARAM_STATIC_STRINGS));
 
 	/**
+	 * EContentEditor:start-bottom
+	 *
+	 * Holds where the cursor should be positioned after body of
+	 * a reply or forward is loaded.
+	 *
+	 * Since: 3.26
+	 */
+	g_object_interface_install_property (
+		iface,
+		g_param_spec_enum (
+			"start-bottom",
+			NULL,
+			NULL,
+			E_TYPE_THREE_STATE,
+			E_THREE_STATE_INCONSISTENT,
+			G_PARAM_READWRITE |
+			G_PARAM_STATIC_STRINGS));
+
+	/**
+	 * EContentEditor:top-signature
+	 *
+	 * Holds where the signature should be positioned after body of
+	 * a reply or forward is loaded.
+	 *
+	 * Since: 3.26
+	 */
+	g_object_interface_install_property (
+		iface,
+		g_param_spec_enum (
+			"top-signature",
+			NULL,
+			NULL,
+			E_TYPE_THREE_STATE,
+			E_THREE_STATE_INCONSISTENT,
+			G_PARAM_READWRITE |
+			G_PARAM_STATIC_STRINGS));
+
+	/**
 	 * EContentEditor:spell-check-enabled
 	 *
 	 * Holds whether the spell checking is enabled.
@@ -1248,6 +1286,84 @@ e_content_editor_is_underline (EContentEditor *editor)
 	g_return_val_if_fail (E_IS_CONTENT_EDITOR (editor), FALSE);
 
 	g_object_get (G_OBJECT (editor), "underline", &value, NULL);
+
+	return value;
+}
+
+/**
+ * e_content_editor_set_start_bottom:
+ * @editor: an #EContentEditor
+ * @value: an #EThreeState value to set
+ *
+ * Changes start-bottom property, which is used to position
+ * cursor after setting message body in replies and forwards.
+ *
+ * Since: 3.26
+ **/
+void
+e_content_editor_set_start_bottom (EContentEditor *editor,
+				   EThreeState value)
+{
+	g_return_if_fail (E_IS_CONTENT_EDITOR (editor));
+
+	g_object_set (G_OBJECT (editor), "start-bottom", value, NULL);
+}
+
+/**
+ * e_content_editor_get_start_bottom:
+ * @editor: an #EContentEditor
+ *
+ * Returns: the current value of start-bottom property.
+ *
+ * Since: 3.26
+ **/
+EThreeState
+e_content_editor_get_start_bottom (EContentEditor *editor)
+{
+	EThreeState value = E_THREE_STATE_INCONSISTENT;
+
+	g_return_val_if_fail (E_IS_CONTENT_EDITOR (editor), FALSE);
+
+	g_object_get (G_OBJECT (editor), "start-bottom", &value, NULL);
+
+	return value;
+}
+
+/**
+ * e_content_editor_set_top_signature:
+ * @editor: an #EContentEditor
+ * @value: an #EThreeState value to set
+ *
+ * Changes top-signature property, which is used to position
+ * signature after setting message body in replies and forwards.
+ *
+ * Since: 3.26
+ **/
+void
+e_content_editor_set_top_signature (EContentEditor *editor,
+				    EThreeState value)
+{
+	g_return_if_fail (E_IS_CONTENT_EDITOR (editor));
+
+	g_object_set (G_OBJECT (editor), "top-signature", value, NULL);
+}
+
+/**
+ * e_content_editor_get_top_signature:
+ * @editor: an #EContentEditor
+ *
+ * Returns: the current value of top-signature property.
+ *
+ * Since: 3.26
+ **/
+EThreeState
+e_content_editor_get_top_signature (EContentEditor *editor)
+{
+	EThreeState value = E_THREE_STATE_INCONSISTENT;
+
+	g_return_val_if_fail (E_IS_CONTENT_EDITOR (editor), FALSE);
+
+	g_object_get (G_OBJECT (editor), "top-signature", &value, NULL);
 
 	return value;
 }

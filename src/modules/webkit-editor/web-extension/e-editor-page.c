@@ -55,6 +55,8 @@ struct _EEditorPagePrivate {
 	gboolean smiley_written;
 	gint word_wrap_length;
 
+	gint16 convert_in_situ_start_at_bottom;
+	gint16 convert_in_situ_top_signature;
 	gboolean convert_in_situ;
 	gboolean body_input_event_removed;
 	gboolean dont_save_history_in_body_input;
@@ -682,20 +684,31 @@ e_editor_page_set_body_input_event_removed (EEditorPage *editor_page,
 }
 
 gboolean
-e_editor_page_get_convert_in_situ (EEditorPage *editor_page)
+e_editor_page_get_convert_in_situ (EEditorPage *editor_page,
+				   gint16 *out_start_at_bottom,
+				   gint16 *out_top_signature)
 {
 	g_return_val_if_fail (E_IS_EDITOR_PAGE (editor_page), FALSE);
+
+	if (out_start_at_bottom)
+		*out_start_at_bottom = editor_page->priv->convert_in_situ_start_at_bottom;
+	if (out_top_signature)
+		*out_top_signature = editor_page->priv->convert_in_situ_top_signature;
 
 	return editor_page->priv->convert_in_situ;
 }
 
 void
 e_editor_page_set_convert_in_situ (EEditorPage *editor_page,
-                                   gboolean value)
+				   gboolean value,
+				   gint16 start_at_bottom,
+				   gint16 top_signature)
 {
 	g_return_if_fail (E_IS_EDITOR_PAGE (editor_page));
 
 	editor_page->priv->convert_in_situ = value;
+	editor_page->priv->convert_in_situ_start_at_bottom = start_at_bottom;
+	editor_page->priv->convert_in_situ_top_signature = top_signature;
 }
 
 GHashTable *

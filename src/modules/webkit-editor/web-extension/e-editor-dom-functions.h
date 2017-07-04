@@ -109,7 +109,9 @@ void		e_editor_dom_set_monospace_font_family_on_body
 						(WebKitDOMElement *body,
 						 gboolean html_mode);
 void		e_editor_dom_convert_content	(EEditorPage *editor_page,
-						 const gchar *preferred_text);
+						 const gchar *preferred_text,
+						 gint16 in_start_at_bottom,
+						 gint16 in_top_signature);
 void		e_editor_dom_convert_and_insert_html_into_selection
 						(EEditorPage *editor_page,
 						 const gchar *html,
