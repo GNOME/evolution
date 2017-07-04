@@ -660,6 +660,27 @@ web_view_decide_policy_cb (EWebView *web_view,
 }
 
 static void
+e_web_view_ensure_body_class (EWebView *web_view)
+{
+	GDBusProxy *web_extension;
+
+	g_return_if_fail (E_IS_WEB_VIEW (web_view));
+
+	web_extension = e_web_view_get_web_extension_proxy (web_view);
+	if (!web_extension)
+		return;
+
+	e_util_invoke_g_dbus_proxy_call_with_error_check (
+		web_extension,
+		"EWebViewEnsureBodyClass",
+		g_variant_new (
+			"(ts)",
+			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (web_view)),
+			"-e-web-view-background-color -e-web-view-text-color"),
+		NULL);
+}
+
+static void
 style_updated_cb (EWebView *web_view)
 {
 	GdkRGBA color;
@@ -726,6 +747,7 @@ web_view_load_changed_cb (WebKitWebView *webkit_web_view,
 	if (load_event != WEBKIT_LOAD_FINISHED)
 		return;
 
+	e_web_view_ensure_body_class (web_view);
 	style_updated_cb (web_view);
 
 	web_view_update_document_highlights (web_view);
@@ -1641,6 +1663,9 @@ web_extension_proxy_created_cb (GDBusProxy *proxy,
 				NULL);
 
 		g_hash_table_foreach (web_view->priv->element_clicked_cbs, web_view_register_element_clicked_hfunc, web_view);
+
+		e_web_view_ensure_body_class (web_view);
+		style_updated_cb (web_view);
 	}
 
 	g_clear_object (&web_view);
