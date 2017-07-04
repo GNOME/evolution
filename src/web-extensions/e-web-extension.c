@@ -183,6 +183,10 @@ static const char introspection_xml[] =
 "      <arg type='b' name='towards_bottom' direction='in'/>"
 "      <arg type='b' name='processed' direction='out'/>"
 "    </method>"
+"    <method name='EWebViewEnsureBodyClass'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"      <arg type='s' name='body_class' direction='in'/>"
+"    </method>"
 "    <signal name='NeedInputChanged'>"
 "      <arg type='t' name='page_id' direction='out'/>"
 "      <arg type='b' name='need_input' direction='out'/>"
@@ -1018,6 +1022,22 @@ handle_method_call (GDBusConnection *connection,
 		}
 
 		g_dbus_method_invocation_return_value (invocation, g_variant_new ("(b)", processed));
+	} else if (g_strcmp0 (method_name, "EWebViewEnsureBodyClass") == 0) {
+		const gchar *body_class = NULL;
+		WebKitDOMHTMLElement *body;
+
+		g_variant_get (parameters, "(t&s)", &page_id, &body_class);
+		web_page = get_webkit_web_page_or_return_dbus_error (invocation, web_extension, page_id);
+		if (!web_page)
+			return;
+
+		document = webkit_web_page_get_dom_document (web_page);
+
+		body = webkit_dom_document_get_body (document);
+		if (body && !webkit_dom_element_has_attribute (WEBKIT_DOM_ELEMENT (body), "class"))
+			webkit_dom_element_set_class_name (WEBKIT_DOM_ELEMENT (body), body_class);
+
+		g_dbus_method_invocation_return_value (invocation, NULL);
 	}
 }
 

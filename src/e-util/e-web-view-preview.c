@@ -20,6 +20,7 @@
 
 #include "evolution-config.h"
 
+#include "e-misc-utils.h"
 #include "e-web-view-preview.h"
 
 #include <string.h>
@@ -268,6 +269,10 @@ e_web_view_preview_set_escape_values (EWebViewPreview *preview,
 void
 e_web_view_preview_begin_update (EWebViewPreview *preview)
 {
+	GtkStyleContext *style_context;
+	GdkRGBA color;
+	gchar *color_value;
+
 	g_return_if_fail (E_IS_WEB_VIEW_PREVIEW (preview));
 
 	if (preview->priv->updating_content) {
@@ -275,7 +280,18 @@ e_web_view_preview_begin_update (EWebViewPreview *preview)
 		g_string_free (preview->priv->updating_content, TRUE);
 	}
 
-	preview->priv->updating_content = g_string_new ("<TABLE width=\"100%\" border=\"0\" cols=\"2\">");
+	style_context = gtk_widget_get_style_context (GTK_WIDGET (preview));
+
+	if (gtk_style_context_lookup_color (style_context, "theme_fg_color", &color))
+		color_value = g_strdup_printf ("#%06x", e_rgba_to_value (&color));
+	else
+		color_value = g_strdup (E_UTILS_DEFAULT_THEME_FG_COLOR);
+
+	preview->priv->updating_content = g_string_sized_new (1024);
+	g_string_append_printf (preview->priv->updating_content, "<BODY class=\"-e-web-view-background-color -e-web-view-text-color\" text=\"%s\">", color_value);
+	g_string_append (preview->priv->updating_content, "<TABLE width=\"100%\" border=\"0\" cols=\"2\">");
+
+	g_free (color_value);
 }
 
 void
@@ -286,7 +302,7 @@ e_web_view_preview_end_update (EWebViewPreview *preview)
 	g_return_if_fail (E_IS_WEB_VIEW_PREVIEW (preview));
 	g_return_if_fail (preview->priv->updating_content != NULL);
 
-	g_string_append (preview->priv->updating_content, "</TABLE>");
+	g_string_append (preview->priv->updating_content, "</TABLE></BODY>");
 
 	web_view = e_web_view_preview_get_preview (preview);
 	if (E_IS_WEB_VIEW (web_view))
