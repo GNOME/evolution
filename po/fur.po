@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2017-06-20 07:16+0000\n"
-"PO-Revision-Date: 2017-06-20 09:26+0200\n"
+"POT-Creation-Date: 2017-07-04 16:34+0000\n"
+"PO-Revision-Date: 2017-07-07 09:16+0200\n"
 "Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
 "Language-Team: Friulian <f.t.public@gmail.com>\n"
 "Language: fur\n"
@@ -82,7 +82,7 @@ msgstr "Scrîf un messaç"
 
 #: ../data/evolution.desktop.in.in.h:8
 #: ../src/e-util/e-name-selector-dialog.c:448
-#: ../src/modules/addressbook/e-book-shell-backend.c:303
+#: ../src/modules/addressbook/e-book-shell-backend.c:307
 #: ../src/modules/addressbook/e-book-shell-view.c:371
 msgid "Contacts"
 msgstr "Contats"
@@ -1461,10 +1461,22 @@ msgstr ""
 "lassâ decidi al utent cuant inviâju."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:51
+msgid "Include signature in new messages only"
+msgstr "Inclût firme dome tai gnûfs messaçs"
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:52
+msgid ""
+"Include selected signature only for new messages, but have no signature "
+"added for Replies or Forwards."
+msgstr ""
+"Inclût la firme selezionade dome pai gnûfs messaçs, ma no sta meti firmis "
+"pes rispuestis o pai messaçs mandadâts indenant."
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:53
 msgid "Put personalized signatures at the top of replies"
 msgstr "Met lis firmis personalizadis insom, prime des rispuestis"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:52
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:54
 msgid ""
 "Users get all up in arms over where their signature should go when replying "
 "to a message. This determines whether the signature is placed at the top of "
@@ -1474,11 +1486,11 @@ msgstr ""
 "rispuestis ai messaçs. Cheste clâf e determine se la firme e je plaçade "
 "insom o ae fin dal messaç di rispueste."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:53
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:55
 msgid "Do not add signature delimiter"
 msgstr "No zontâ delimitadôr di firme"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:54
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:56
 msgid ""
 "Set to TRUE in case you do not want to add signature delimiter before your "
 "signature when composing a mail."
@@ -1486,11 +1498,11 @@ msgstr ""
 "Met a VÊR tal câs che no si vedi voie di un delimitadôr di firme prime de "
 "firme cuant che si scrîf une e-mail."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:55
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:57
 msgid "Ignore list Reply-To:"
 msgstr "Ignorâ il \"Rispuint a:\" ae liste"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:56
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:58
 msgid ""
 "Some mailing lists set a Reply-To: header to trick users into sending "
 "replies to the list, even when they ask Evolution to make a private reply. "
@@ -1509,11 +1521,11 @@ msgstr ""
 "liste” al rispuindarà ae liste. Al funzione confrontant la intestazion "
 "Rispuint-A: cuntune intestazion List-Post:, se 'ndi esist une."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:57
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:59
 msgid "List of localized “Re”"
 msgstr "Liste dal “Re” tradotis"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:58
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:60
 msgid ""
 "Comma-separated list of localized “Re” abbreviations to skip in a subject "
 "text when replying to a message, as an addition to the standard “Re” prefix. "
@@ -1523,7 +1535,7 @@ msgstr ""
 "sogjet dal test cuant che si rispuint a un messaç, in zonte al prefìs comun "
 "“Re”. Un esempli al è “SV,AV”."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:59
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:61
 msgid "List of localized “Re” separators"
 msgstr "Liste di separadôrs di “Re” tradots"
 
@@ -1533,7 +1545,7 @@ msgstr "Liste di separadôrs di “Re” tradots"
 #
 #
 #            OU CHIALE CHI!
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:60
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:62
 msgid ""
 "A list of localized “Re” separators, used to skip in a subject text when "
 "replying to a message, as an addition to the standard “:” and the Unicode "
@@ -1543,32 +1555,32 @@ msgstr ""
 "cuant che si rispuint a un messaç, come une zonte ai separadôrs standard “:” "
 "e Unicode “︰”."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:61
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:63
 msgid "Number of characters for wrapping"
 msgstr "Numars di caratars par lâ a gnove rie"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:62
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:64
 msgid "Will autowrap lines after given number of characters."
 msgstr "Al larà a gnove rie dopo il numar di caratars specificâts."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:63
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:65
 msgid ""
 "Number of To and CC recipients to ask “prompt-on-many-to-cc-recips” from"
 msgstr ""
 "Numar di destinataris di A e Cc di domandâ par “prompt-on-many-to-cc-recips”"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:64
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:66
 msgid ""
 "When to ask, when the number of To and CC recipients reaches this value."
 msgstr ""
 "Cuant domandâ: cuant il numar di destinataris A e Cc al rive al chest valôr."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:65
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:67
 msgid "Whether to always show Sign and Encrypt buttons on the toolbar"
 msgstr ""
 "Indiche se mostrâ simpri i botons Firme e Cifre su la sbare dai struments"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:66
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:68
 msgid ""
 "If set to “true”, the Sign and Encrypt buttons for either PGP or S/MIME are "
 "always shown in the composer’s toolbar. Otherwise they are shown only when "
@@ -1578,22 +1590,22 @@ msgstr ""
 "simpri mostrâts te sbare dai struments dal compositôr. Se no a saran "
 "mostrâts nome cuant che si ju dopre."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:67
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:69
 msgid "Wrap quoted text in replies"
 msgstr "Justâ lis riis dal test citât tes rispuestis"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:68
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:70
 msgid "If set to “true” quoted text in replies will be wrapped."
 msgstr ""
 "Se metude a “true” lis riis dal test citât tes rispuestis a vignaran "
 "justadis."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:69
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:71
 msgid "Whether to obey Content-Disposition:inline message header hint"
 msgstr ""
 "Indiche se rispietâ il sugjeriment de intestazion Content-Disposition:inline"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:70
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:72
 msgid ""
 "Set to “false” to block automatic display of attachments with Content-"
 "Disposition: inline."
@@ -1601,20 +1613,20 @@ msgstr ""
 "Met a “false” par blocâ la viodude automatiche des zontis cun Content-"
 "Disposition: inline."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:71
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:73
 msgid "Save file format for drag-and-drop operation"
 msgstr ""
 "Formât dal file di salvament pes operazions strissine-e-mole (drag-and-drop)"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:72
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:74
 msgid "Can be either “mbox” or “pdf”."
 msgstr "A puedin jessi “mbox” o “pdf”."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:73
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:75
 msgid "Show image animations"
 msgstr "Mostre lis animazions des imagjins"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:74
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:76
 msgid ""
 "Enable animated images in HTML mail. Many users find animated images "
 "annoying and prefer to see a static image instead."
@@ -1622,11 +1634,11 @@ msgstr ""
 "Abilite lis imagjins animadis inte pueste in HTML. Une vore di utents lis "
 "cjatin fastidiosis e a preferissin viodi une imagjin ferme."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:75
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:77
 msgid "Enable or disable type ahead search feature"
 msgstr "Abilite o disabilite la funzionalitât di ricercje intant che si scrîf"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:76
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:78
 msgid ""
 "Enable the side bar search feature to allow interactive searching of folder "
 "names."
@@ -1634,11 +1646,11 @@ msgstr ""
 "Abilite la funzion di ricercje tal ricuadri laterâl, permetint di cirî in "
 "maniere interative tai nons des cartelis."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:77
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:79
 msgid "Enable or disable magic space bar"
 msgstr "Abilite o disabilite la sbare di spazi magjiche"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:78
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:80
 msgid ""
 "Enable this to use Space bar key to scroll in message preview, message list "
 "and folders."
@@ -1646,61 +1658,61 @@ msgstr ""
 "Abilitâ cheste clâf par doprâ il tast sbare di spazi par scori te anteprime "
 "dal messaç, te liste dai messaçs e tes cartelis."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:79
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:81
 msgid "Enable to use a similar message list view settings for all folders"
 msgstr ""
 "Abilitâ par doprâ une impostazion di viodude liste messaçs similâr par dutis "
 "lis cartelis"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:80
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:82
 msgid "Enable to use a similar message list view settings for all folders."
 msgstr ""
 "Abilitâ par doprâ une impostazion di viodude liste messaçs similâr par dutis "
 "lis cartelis."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:81
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:83
 msgid "Mark citations in the message “Preview”"
 msgstr "Segne lis citazions te anteprime dal messaç"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:82
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:84
 msgid "Mark citations in the message “Preview”."
 msgstr "Segne lis citazions te anteprime dal messaç."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:83
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:85
 msgid "Citation highlight color"
 msgstr "Colôr de citazion"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:84
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:86
 msgid "Citation highlight color."
 msgstr "Colôr de citazion."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:85
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:87
 msgid "Enable/disable caret mode"
 msgstr "Abilite/disabilite modalitât a cursôr"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:86
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:88
 msgid "Enable caret mode, so that you can see a cursor when reading mail."
 msgstr ""
 "Abilite la modalitât a cursôr, in maniere di mostrâ il cursôr intant che si "
 "lei la pueste."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:87
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:89
 msgid "Default charset in which to display messages"
 msgstr "Cumbinazion di caratars predefinide par mostrâ i messaçs"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:88
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:90
 msgid "Default charset in which to display messages."
 msgstr "Cumbinazion di caratars predefinide par mostrâ i messaçs."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:89
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:91
 msgid "Automatically load images for HTML messages over HTTP"
 msgstr "Cjarie in automatic lis imagjins tai messaçs HTML vie HTTP"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:90
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:92
 msgid "Show notification about missing remote content"
 msgstr "Mostre une notifiche sul contignût rimot che al mancje"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:91
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:93
 msgid ""
 "When the message preview shows a message which requires to download remote "
 "content, while the download is not allowed for the user or the site, then "
@@ -1711,27 +1723,27 @@ msgstr ""
 "alore, parsore dal ricuadri di anteprime, e vegnarà mostrade une notifiche "
 "in merit."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:92
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:94
 msgid "Show Animations"
 msgstr "Mostre animazions"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:93
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:95
 msgid "Show animated images as animations."
 msgstr "Mostre lis imagjins animadis come animazions."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:94
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:96
 msgid "Show all message headers"
 msgstr "Mostre dutis lis intestazions dal messaç"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:95
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:97
 msgid "Show all the headers when viewing a messages."
 msgstr "Mostre dutis lis intestazions cuant che al ven mostrât un messaç."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:96
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:98
 msgid "List of headers to show when viewing a message."
 msgstr "Liste des intestazions di mostrâ cuant che si mostre un messaç."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:97
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:99
 msgid ""
 "Each header is represented as a pair: the header name, and a boolean "
 "indicating whether the header is enabled. Disabled headers are not shown "
@@ -1742,35 +1754,35 @@ msgstr ""
 "intestazions disabilitadis no vegnin mostradis cuant che si mostre un "
 "messaç, ma a son ancjemò listadis tes preferencis."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:98
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:100
 msgid "Show photo of the sender"
 msgstr "Mostre la foto dal mitent"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:99
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:101
 msgid "Show the photo of the sender in the message reading pane."
 msgstr "Mostre la foto dal mitent tal ricuadri di leture dal messaç."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:100
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:102
 msgid "Search gravatar.com for photo of the sender"
 msgstr "Cîr su gravatar.com pe foto dal mitent"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:101
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:103
 msgid "Allow searching also at gravatar.com for photo of the sender."
 msgstr "Permeti di cirî ancje su gravatar.com pe foto dal mitent."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:102
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:104
 msgid "Mark as Seen after specified timeout"
 msgstr "Segne come let dopo un timp specificât"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:103
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:105
 msgid "Mark as Seen after specified timeout."
 msgstr "Segne come let dopo un timp specificât."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:104
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:106
 msgid "Mark as Seen always after specified timeout"
 msgstr "Segne come let simpri dopo un timp specificât"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:105
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:107
 msgid ""
 "If set to true, the selected message will be set as unread after the timeout "
 "also after the folder change."
@@ -1778,19 +1790,19 @@ msgstr ""
 "Se metude a vêr, il messaç selezionât al sarà segnât come no let dopo il "
 "timp specificât e ancje dopo la modifiche de cartele."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:106
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:108
 msgid "Timeout for marking messages as seen"
 msgstr "Timp daspò il cuâl segnâ i messaçs come lets"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:107
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:109
 msgid "Timeout in milliseconds for marking messages as seen."
 msgstr "Timp di spiete in miliseconts daspò il cuâl segnâ i messaçs come lets."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:108
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:110
 msgid "Show Attachment Bar"
 msgstr "Mostre sbare zontis"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:109
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:111
 msgid ""
 "Show Attachment Bar below the message preview pane when the message has "
 "attachments."
@@ -1798,11 +1810,11 @@ msgstr ""
 "Mostre la sbare des zontis sot dal ricuadri di anteprime dal messaç cuant "
 "che il messaç al à zontis."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:110
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:112
 msgid "Sender email-address column in the message list"
 msgstr "Colone direzion e-mail dal mitent te liste dai messaçs"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:111
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:113
 msgid ""
 "Show the email-address of the sender in a separate column in the message "
 "list."
@@ -1810,28 +1822,28 @@ msgstr ""
 "Mostre la direzion e-mail dal mitent intune colone separade te liste dai "
 "messaçs."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:112
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:114
 msgid "Show deleted messages in the message-list"
 msgstr "Mostre i messaçs eliminâts te liste messaçs"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:113
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:115
 msgid "Show deleted messages (with a strike-through) in the message-list."
 msgstr "Mostre i messaçs eliminâts (cuntune rie sore) te liste dai messaçs."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:114
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:116
 msgid "Show junk messages in the message-list"
 msgstr "Mostre i messaçs malvolûts te liste messaçs"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:115
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:117
 msgid "Show junk messages (with a red strike-through) in the message-list."
 msgstr ""
 "Mostre i messaçs malvolûts (cuntune rie rosse sore) te liste dai messaçs."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:116
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:118
 msgid "Enable Unmatched search folder"
 msgstr "Abilite cartele di ricercje no corispondents"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:117
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:119
 msgid ""
 "Enable Unmatched search folder within Search Folders. It does nothing if "
 "Search Folders are disabled."
@@ -1839,11 +1851,11 @@ msgstr ""
 "Abilite la cartele di ricercje no corispondents dentri des cartelis di "
 "ricercje. Nol sucêt nuie se lis cartelis di ricercje a son disabilitadis."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:118
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:120
 msgid "Hides the per-folder preview and removes the selection"
 msgstr "Plate la antemprime par-cartele e gjave la selezion"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:119
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:121
 msgid ""
 "This key is read only once and reset to “false” after read. This unselects "
 "the mail in the list and removes the preview for that folder."
@@ -1852,32 +1864,32 @@ msgstr ""
 "Chest al gjave la selezion de pueste te liste e al gjave la anteprime di chê "
 "cartele."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:120
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:122
 msgid "Height of the message-list pane"
 msgstr "Altece dal ricuadri liste messaçs"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:121
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:123
 msgid "Height of the message-list pane."
 msgstr "Altece dal ricuadri liste messaçs."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:122
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:124
 msgid "Whether message headers are collapsed in the user interface"
 msgstr ""
 "Indiche se lis intestazions dai messaçs a son strenzudis te interface utent"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:123
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:125
 msgid "Width of the message-list pane"
 msgstr "Largjece dal ricuadri liste messaçs"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:124
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:126
 msgid "Width of the message-list pane."
 msgstr "Largjece dal ricuadri liste messaçs."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:125
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:127
 msgid "Layout style"
 msgstr "Stîl disposizion"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:126
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:128
 msgid ""
 "The layout style determines where to place the preview pane in relation to "
 "the message list. “0” (Classic View) places the preview pane below the "
@@ -1889,35 +1901,35 @@ msgstr ""
 "ricuadri di anteprime juste sot de liste dai messaçs, cun “1” (viodude "
 "verticâl) si place il ricuadri in bande ae liste."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:127
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:129
 msgid "Variable width font"
 msgstr "Caratar a largjece variabile"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:128
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:130
 msgid "The variable width font for mail display."
 msgstr "Il caratar a largjece variabile pe viodude de pueste."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:129
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:131
 msgid "Terminal font"
 msgstr "Caratar dal terminâl"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:130
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:132
 msgid "The terminal font for mail display."
 msgstr "Il caratar di terminâl pe viodude de pueste."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:131
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:133
 msgid "Use custom fonts"
 msgstr "Dopre caratars personalizâts"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:132
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:134
 msgid "Use custom fonts for displaying mail."
 msgstr "Dopre i caratars personalizâts par mostrâ la pueste."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:133
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:135
 msgid "Compress display of addresses in TO/CC/BCC"
 msgstr "Strenç la viodude des direzions in A/CC/CCP"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:134
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:136
 msgid ""
 "Compress display of addresses in TO/CC/BCC to the number specified in "
 "address_count."
@@ -1925,11 +1937,11 @@ msgstr ""
 "Strenç la viodude des direzions in A/CC/CCP al numar specificât te clâf "
 "address_count."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:135
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:137
 msgid "Number of addresses to display in TO/CC/BCC"
 msgstr "Numar di direzions di mostrâ in A/CC/CCP"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:136
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:138
 msgid ""
 "This sets the number of addresses to show in default message list view, "
 "beyond which a “...” is shown."
@@ -1937,11 +1949,11 @@ msgstr ""
 "Cheste clâf a stabilìs il numar di direzions di mostrâ te viodude a liste "
 "messaçs predefinide, daspò il cuâl al ven mostrât un “...”."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:137
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:139
 msgid "Thread the message-list based on Subject"
 msgstr "Liste par discussions basadis sul ogjet"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:138
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:140
 msgid ""
 "Whether or not to fall back on threading by subjects when the messages do "
 "not contain In-Reply-To or References headers."
@@ -1949,11 +1961,11 @@ msgstr ""
 "Indiche se tornâ o no al intropament des discussions in base ai ogjets dai "
 "discors se i messaçs no àn lis intestazions In-Rispueste-A o Riferiments."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:139
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:141
 msgid "Default value for thread expand state"
 msgstr "Valôr predefinît pal stât pandût de discussion"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:140
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:142
 msgid ""
 "This setting specifies whether the threads should be in expanded or "
 "collapsed state by default. Evolution requires a restart."
@@ -1961,13 +1973,13 @@ msgstr ""
 "Cheste impostazion e specifiche se fâ vê in mût predefinît aes discussions "
 "il stât pandût o strenzût. Par aplicâle si scugne tornâ a inviâ Evolution."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:141
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:143
 msgid "Whether sort threads based on latest message in that thread"
 msgstr ""
 "Indiche se meti in ordin lis discussions in base al ultin messaç te "
 "discussion"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:142
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:144
 msgid ""
 "This setting specifies whether the threads should be sorted based on latest "
 "message in each thread, rather than by message’s date. Evolution requires a "
@@ -1977,11 +1989,11 @@ msgstr ""
 "ultin messaç in ogni discussion, invezit che pe date dal messaç. Par "
 "aplicâle si scugne tornâ a inviâ Evolution."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:143
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:145
 msgid "Whether sort thread children always ascending"
 msgstr "Indiche se meti in ordin simpri in mût cressint lis discussion fiis"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:144
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:146
 msgid ""
 "This setting specifies whether the thread children should be sorted always "
 "ascending, rather than using the same sort order as in the thread root level."
@@ -1990,11 +2002,11 @@ msgstr ""
 "discussions fiis, invezit che doprâ il stes ordenament de discussion tal "
 "nivel lidrîs."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:145
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:147
 msgid "Sort accounts alphabetically in a folder tree"
 msgstr "Ordene i account in maniere alfabetiche intun arbul di cartelis"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:146
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:148
 msgid ""
 "Tells how to sort accounts in a folder tree used in a Mail view. When set to "
 "true accounts are sorted alphabetically, with an exception of On This "
@@ -2006,27 +2018,31 @@ msgstr ""
 "cun la ecezion des cartelis Ricercje e Su chest computer. In câs contrari i "
 "account a vegnin ordenâts secont un criteri indicât dal utent"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:147
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:149
 msgid "Log filter actions"
 msgstr "Azions di filtrament dai regjistris"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:148
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:150
 msgid "Log filter actions to the specified log file."
 msgstr "Azions di filtrament sul file di regjistri specificât."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:149
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:151
 msgid "Logfile to log filter actions"
 msgstr "File regjistri par regjistrâ azions filtris"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:150
-msgid "Logfile to log filter actions."
-msgstr "File di regjistri par regjistrâ lis azions dai filtris."
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:152
+msgid ""
+"If not set, or being “stdout”, then the logging is done to stdout, instead "
+"to a file."
+msgstr ""
+"Se no stabilît, o mandât su “stdout”, alore la scriture dal regjistri e ven "
+"fate sul stdout, invezit che suntun file."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:151
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:153
 msgid "Flush Outbox after filtering"
 msgstr "Disvuede la cartele \"In jessude\" dopo il filtrament"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:152
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:154
 msgid ""
 "Whether to flush Outbox after filtering is done. Outbox flush will happen "
 "only when there was used any “Forward to” filter action and approximately "
@@ -2036,68 +2052,68 @@ msgstr ""
 "al sucedarà dome cuant che e je stade doprade cualsisei azion di filtri "
 "“Mande indenant a” e pressapôc un minût dopo la ultime invocazion de azion."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:153
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:155
 msgid "Default forward style"
 msgstr "Stîl par mandâ indenant predefinît"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:154
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:156
 msgid "Default reply style"
 msgstr "Stîl predefinît de rispueste"
 
 # ctrl+enter e in furlan?
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:155
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:157
 msgid "Prompt on send when using key accelerator (Ctrl+Enter)"
 msgstr "Visâ cuant che si invie doprant la scurte di tastiere (Ctrl+Enter)"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:156
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:158
 msgid ""
 "Prompt the user when he or she tries to send a message with a key "
 "accelerator."
 msgstr ""
 "Visâ l'utent cuant che si cîr di inviâ un messaç cuntune scurte di tastiere."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:157
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:159
 msgid "Prompt on empty subject"
 msgstr "Visâ cuant che l'ogjet al è vueit"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:158
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:160
 msgid ""
 "Prompt the user when he or she tries to send a message without a Subject."
 msgstr "Visâ l'utent cuant che si cîr di inviâ un messaç cence ogjet."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:159
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:161
 msgid "Prompt when emptying the trash"
 msgstr "Visâ cuant che si disvuede la scovacere"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:160
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:162
 msgid "Prompt the user when he or she tries to empty the trash."
 msgstr "Visâ l'utent cuant che si cîr di disvuedâ la scovacere."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:161
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:163
 msgid "Prompt when user expunges"
 msgstr "Visâ l'utent cuant che al nete vie alc"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:162
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:164
 msgid "Prompt the user when he or she tries to expunge a folder."
 msgstr "Visâ l'utent cuant che si cîr di netâ une cartele."
 
 # malvolût malvolûts malvolude...
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:163
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:165
 msgid "Prompt when user calls Empty Junk"
 msgstr "Visâ l'utent cuant che al clame la funzion Disvuede Malvolûts"
 
 # malvolûts malvolût malvolude
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:164
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:166
 msgid "Prompt the user when he or she tries to Empty a Junk folder."
 msgstr ""
 "Visâ l'utent cuant che si cîr di disvuedâ une cartele di pueste malvolude."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:165
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:167
 msgid "Prompt before sending to recipients not entered as mail addresses"
 msgstr ""
 "Visâ prime di inviâ a destinataris no inserîts come direzions di pueste"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:166
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:168
 msgid ""
 "It disables/enables the repeated prompts to warn that you are trying to send "
 "a message to recipients not entered as mail addresses"
@@ -2105,20 +2121,20 @@ msgstr ""
 "Abilite/disabilite il visâ ripetût plui voltis che si cîr di inviâ un messaç "
 "a destinataris no inserîts come direzions di pueste"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:167
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:169
 msgid "Prompt when user only fills Bcc"
 msgstr "Visâ l'utent cuant che si compile dome il cjamp Ccp"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:168
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:170
 msgid "Prompt when user tries to send a message with no To or Cc recipients."
 msgstr ""
 "Visâ cuant che l'utent al cîr di inviâ un messaç cence destinataris A: o CC:."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:169
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:171
 msgid "Prompt when user tries to send unwanted HTML"
 msgstr "Visâ cuant che l'utent al cîr di inviâ HTML malvolût"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:170
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:172
 msgid ""
 "Prompt when user tries to send HTML mail to recipients that may not want to "
 "receive HTML mail."
@@ -2126,11 +2142,11 @@ msgstr ""
 "Vise cuant che l'utent al cîr di inviâ pueste in HTML a destinataris che "
 "podaressin no volêle ricevi."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:171
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:173
 msgid "Prompt when user tries to open 10 or more messages at once"
 msgstr "Vise l'utent cuant che al cîr di vierzi 10 o plui messaçs adun"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:172
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:174
 msgid ""
 "If a user tries to open 10 or more messages at one time, ask the user if "
 "they really want to do it."
@@ -2138,19 +2154,19 @@ msgstr ""
 "Se un utent al cîr di vierzi 10 o plui messaç intune volte, domande se si è "
 "sigûrs di ce che si sta fasint."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:173
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:175
 msgid "Prompt while marking multiple messages"
 msgstr "Visâ cuant che si segnin plui messaçs"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:174
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:176
 msgid "Enable or disable the prompt whilst marking multiple messages."
 msgstr "Abilite o disabilte il visâ cuant che plui messaçs a vegnin segnâts."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:175
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:177
 msgid "Prompt when deleting messages in search folder"
 msgstr "Visâ cuant che si eliminin messaçs in cartelis di ricercje"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:176
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:178
 msgid ""
 "It disables/enables the repeated prompts to warn that deleting messages from "
 "a search folder permanently deletes the message, not simply removing it from "
@@ -2160,12 +2176,12 @@ msgstr ""
 "cartele di ricercje, si elimine par simpri il messaç, invezit di gjavâlu dai "
 "risultâts de ricercje."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:177
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:179
 msgid "Asks whether to copy a folder by drag &amp; drop in the folder tree"
 msgstr ""
 "Domande se copiâ une cartele cul strissine-e-mole tal arbul des cartelis"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:178
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:180
 msgid ""
 "Possible values are: “never” — do not allow copy with drag &amp; drop of "
 "folders in folder tree, “always” — allow copy with drag &amp; drop of "
@@ -2177,12 +2193,12 @@ msgstr ""
 "des cartelis cence domandâ, opûr “ask” — ( o cualsisei altri valôr) par "
 "domandâ al utent."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:179
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:181
 msgid "Asks whether to move a folder by drag &amp; drop in the folder tree"
 msgstr ""
 "Domande se spostâ une cartele cul strissine-e-mole tal arbul des cartelis"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:180
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:182
 msgid ""
 "Possible values are: “never” — do not allow move with drag &amp; drop of "
 "folders in folder tree, “always” — allow move with drag &amp; drop of "
@@ -2194,11 +2210,11 @@ msgstr ""
 "strissine-e-mole lis cartelis tal arbul des cartelis cence domandâ, opûr "
 "“ask” — ( o cualsisei altri valôr) par domandâ al utent."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:181
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:183
 msgid "Prompt when replying privately to list messages"
 msgstr "Visâ cuant che si rispuint in maniere privade ai messaçs di liste"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:182
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:184
 msgid ""
 "It disables/enables the repeated prompts to warn that you are sending a "
 "private reply to a message which arrived via a mailing list."
@@ -2206,11 +2222,11 @@ msgstr ""
 "Al disabilite/abilite il visâ ripetût che si sta inviant une rispueste "
 "privade a un messaç rivât vie mailing list."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:183
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:185
 msgid "Prompt when mailing list hijacks private replies"
 msgstr "Visâ cuant che la mailing list e disvie lis rispuestis privadis"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:184
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:186
 msgid ""
 "It disables/enables the repeated prompts to warn that you are trying sending "
 "a private reply to a message which arrived via a mailing list, but the list "
@@ -2221,11 +2237,11 @@ msgstr ""
 "à stabilît la intestazion \"Rispuint a:\" che e torne a mandâ lis rispuestis "
 "ae stesse liste"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:185
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:187
 msgid "Prompt when replying to many recipients"
 msgstr "Visâ cuant che si rispuint a plui destinataris"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:186
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:188
 msgid ""
 "It disables/enables the repeated prompts to warn that you are sending a "
 "reply to many people."
@@ -2233,7 +2249,7 @@ msgstr ""
 "Al disabilite/abilite il visâ ripetût che si sta inviant une rispueste a "
 "plui personis."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:187
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:189
 msgid ""
 "Prompt when switching composer format and the content needs to lose its "
 "formatting"
@@ -2241,7 +2257,7 @@ msgstr ""
 "Visâ cuant che si cambie il formât dal compositôr e il contignût al à "
 "dibisugne di pierdi la sô formatazion"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:188
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:190
 msgid ""
 "It disables/enables the repeated prompts to warn that you are switching "
 "composer format and the content needs to lose its formatting."
@@ -2249,11 +2265,11 @@ msgstr ""
 "Al disabilite/abilite il visâ ripetût che si sta cambiant il formât dal "
 "compositôr e il contignût al scugne pierdi la sô formatazion."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:189
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:191
 msgid "Prompt when sending to many To and CC recipients"
 msgstr "Visâ cuant che si invie a plui destinataris A e Cc"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:190
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:192
 msgid ""
 "Enable or disable the prompt when sending to many To and CC recipients. The "
 "“composer-many-to-cc-recips-num” defines the threshold."
@@ -2261,7 +2277,7 @@ msgstr ""
 "Abilite o disabilite il visâ cuant che si invie a plui destinataris A e CC. "
 "Il valôr “composer-many-to-cc-recips-num” al definìs il liminâr."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:191
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:193
 msgid ""
 "Policy for automatically closing the message browser window when forwarding "
 "or replying to the displayed message."
@@ -2269,42 +2285,42 @@ msgstr ""
 "Politiche par sierâ in automatic il barcon dal esploradôr dai messaçs cuant "
 "che si mande indenant o si rispuint al messaç mostrât."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:192
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:194
 msgid "Empty Trash folders on exit"
 msgstr "Disvuede cartelis Scovacere ae jessude"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:193
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:195
 msgid "Empty all Trash folders when exiting Evolution."
 msgstr "Disvuede dutis lis cartelis Scovacere cuant che si jes di Evolution."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:194
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:196
 msgid "Minimum days between emptying the trash on exit"
 msgstr "Dîs minims tra il disvuedâ de scovacere ae jessude"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:195
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:197
 msgid "Minimum time between emptying the trash on exit, in days."
 msgstr "Timp minim tra il disvuedâ de scovacere ae jessude, in dîs."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:196
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:198
 msgid "Last time Empty Trash was run"
 msgstr "Ultime volte che e je stade disvuedade la scovacere"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:197
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:199
 msgid ""
 "The last time Empty Trash was run, in days since January 1st, 1970 (Epoch)."
 msgstr ""
 "La ultime volte che e je stade disvuedade la scovacere, in dîs dal 1ⁿ di "
 "zenâr dal 1970 (Epoch)."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:198
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:200
 msgid "Amount of time in seconds the error should be shown on the status bar."
 msgstr "Timp in seconts par tignî mostrât l'erôr te sbare di stât."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:199
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:201
 msgid "Level beyond which the message should be logged."
 msgstr "Nivel daspò il cuâl il messaç al varès di jessi regjistrât."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:200
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:202
 msgid ""
 "This can have three possible values. “0” for errors. “1” for warnings. “2” "
 "for debug messages."
@@ -2312,11 +2328,11 @@ msgstr ""
 "Chest al pues vê trê pussibii valôrs: “0” par erôrs, “1” pai avertiments, "
 "“2” pai messaçs di debug."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:201
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:203
 msgid "Show original “Date” header value."
 msgstr "Mostre il valôr origjinâl de intestazion “Date”."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:202
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:204
 msgid ""
 "Show the original “Date” header (with a local time only if the time zone "
 "differs). Otherwise always show “Date” header value in a user preferred "
@@ -2326,11 +2342,11 @@ msgstr ""
 "fûs oraris a diferissin). In câs contrari mostre simpri il valôr de "
 "intestazion “Date” intun formât sielt dal utent e tal fûs orari locâl."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:203
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:205
 msgid "List of Labels and their associated colors"
 msgstr "Liste des etichetis e dai colôrs associâts"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:204
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:206
 msgid ""
 "List of labels known to the mail component of Evolution. The list contains "
 "strings containing name:color where color uses the HTML hex encoding."
@@ -2339,49 +2355,49 @@ msgstr ""
 "ten stringhis dal gjenar NON:COLÔR, dulà che COLÔR al dopre la notazion "
 "esadecimâl dal HTML."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:205
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:207
 msgid "Check incoming mail being junk"
 msgstr "Control pueste malvolude in jentrade"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:206
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:208
 msgid "Run junk test on incoming mail."
 msgstr "Al eseguìs controi su pe pueste malvolude in jentrade."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:207
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:209
 msgid "Empty Junk folders on exit"
 msgstr "Disvuede cartele di pueste malvolude ae jessude"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:208
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:210
 msgid "Empty all Junk folders when exiting Evolution."
 msgstr ""
 "Disvuede dutis lis cartelis di pueste malvolude cuant che si jes di "
 "Evolution."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:209
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:211
 msgid "Minimum days between emptying the junk on exit"
 msgstr "Dîs minims tra lis eliminazions de pueste malvolude ae jessude"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:210
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:212
 msgid "Minimum time between emptying the junk on exit, in days."
 msgstr ""
 "Timp minim tra lis eliminazions de pueste malvolude ae jessude, in dîs."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:211
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:213
 msgid "Last time Empty Junk was run"
 msgstr "Ultime volte che e je stade eliminade la pueste malvolude"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:212
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:214
 msgid ""
 "The last time Empty Junk was run, in days since January 1st, 1970 (Epoch)."
 msgstr ""
 "La ultime volte che e je stade eliminade la pueste malvolude, in dîs dal 1ⁿ "
 "di zenâr dal 1970 (Epoch)."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:213
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:215
 msgid "The default plugin for Junk hook"
 msgstr "Il plugin predefinît pe pueste malvolude"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:214
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:216
 msgid ""
 "This is the default junk plugin, even though there are multiple plugins "
 "enabled. If the default listed plugin is disabled, then it won’t fall back "
@@ -2391,11 +2407,11 @@ msgstr ""
 "fossin abilitâts. Se il plugin listât come predefinît al è disabilitât, "
 "alore no vignaran doprâts nancje chei altris plugin disponibii."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:215
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:217
 msgid "Determines whether to lookup in address book for sender email"
 msgstr "Determine se consultâ la rubriche pe e-mail dal mitent"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:216
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:218
 msgid ""
 "Determines whether to lookup the sender email in address book. If found, it "
 "shouldn’t be a spam. It looks up in the books marked for autocompletion. It "
@@ -2407,7 +2423,7 @@ msgstr ""
 "pal completament automatic. Al podarès jessi lent, se a vegnin segnadis pal "
 "completament automatic lis rubrichis rimotis (come LDAP)."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:217
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:219
 msgid ""
 "Determines whether to look up addresses for junk filtering in local address "
 "book only"
@@ -2415,7 +2431,7 @@ msgstr ""
 "Determine se consultâ nome lis rubrichis locâi pes direzions di doprâ tal "
 "filtrament de pueste malvolude"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:218
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:220
 msgid ""
 "This option is related to the key lookup_addressbook and is used to "
 "determine whether to look up addresses in local address book only to exclude "
@@ -2425,12 +2441,12 @@ msgstr ""
 "par determinâ se consultâ lis direzions nome te rubriche locâl, cussì di "
 "escludi, dai filtris di spam, la pueste inviade dai contats cognossûts."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:219
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:221
 msgid "Determines whether to use custom headers to check for junk"
 msgstr ""
 "Determine se doprâ intestazions personalizadis tal controlâ i malvolûts"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:220
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:222
 msgid ""
 "Determines whether to use custom headers to check for junk. If this option "
 "is enabled and the headers are mentioned, it will be improve the junk "
@@ -2440,12 +2456,12 @@ msgstr ""
 "malvolûts. Se cheste opzion e je abilitade e lis intestazions a son "
 "nomenadis, e miore la velocitât di control dai malvolûts."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:221
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:223
 msgid "Custom headers to use while checking for junk."
 msgstr ""
 "Intestazions personalizadis di doprâ intant che si controle i malvolûts."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:222
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:224
 msgid ""
 "Custom headers to use while checking for junk. The list elements are string "
 "in the format “headername=value”."
@@ -2454,31 +2470,31 @@ msgstr ""
 "malvolûts. I elements de liste a son stringhis tal formât "
 "“nonintestazion=valôr”."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:223
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:225
 msgid "UID string of the default account."
 msgstr "Stringhe UID dal account predefinît."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:224
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:226
 msgid "Save directory"
 msgstr "Cartele di salvament"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:225
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:227
 msgid "Directory for saving mail component files."
 msgstr "Cartele pal salvament dai file di components de pueste."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:226
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:228
 msgid "Composer load/attach directory"
 msgstr "Cartele cjarie/zonte dal compositôr"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:227
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:229
 msgid "Directory for loading/attaching files to composer."
 msgstr "Cartele par cjariâ/zontâ file al compositôr."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:228
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:230
 msgid "Check for new messages on start"
 msgstr "Controle gnûfs messaçs al inviament"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:229
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:231
 msgid ""
 "Whether to check for new messages when Evolution is started. This includes "
 "also sending messages from Outbox."
@@ -2486,11 +2502,11 @@ msgstr ""
 "Indiche se controlâ la presince di gnûfs messaçs al inviament di Evolution. "
 "Chest al inclût anche il spedî dai messaçs in \"In jessude\"."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:230
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:232
 msgid "Check for new messages in all active accounts"
 msgstr "Controle gnûfs messaçs in ducj i account atîfs"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:231
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:233
 msgid ""
 "Whether to check for new messages in all active accounts regardless of the "
 "account “Check for new messages every X minutes” option when Evolution is "
@@ -2501,11 +2517,11 @@ msgstr ""
 "minûts” dai singui account. Cheste opzion e je doprade nome adun cun la "
 "opzion “send_recv_on_start”."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:232
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:234
 msgid "Server synchronization interval"
 msgstr "Interval sincronizazion servidôr"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:233
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:235
 msgid ""
 "Controls how frequently local changes are synchronized with the remote mail "
 "server. The interval must be at least 30 seconds."
@@ -2513,11 +2529,11 @@ msgstr ""
 "Controle trop di frecuent i cambiaments locâi a son sincronizâts cul "
 "servidôr di pueste rimot. L'interval al à di jessi di almancul 30 seconts."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:234
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:236
 msgid "Allow expunge in virtual folders"
 msgstr "Permet netisie intes cartelis virtuâls"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:235
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:237
 msgid ""
 "Enables Expunge in virtual folders, which means that the Folder→Expunge will "
 "be callable in virtual folders, while the expunge itself will be done in all "
@@ -2530,12 +2546,12 @@ msgstr ""
 "eliminâts inte cartele virtuâl , no nome pai messaçs eliminâts che a "
 "apartegnin ae cartele virtuâl."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:236
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:238
 #: ../src/mail/mail-config.ui.h:9
 msgid "Inherit theme colors in HTML format"
 msgstr "Ereditâ colôrs dal teme in formât HTML"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:237
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:239
 msgid ""
 "When enabled the theme colors for background, text and links are sent in "
 "resulting HTML formatted message."
@@ -2543,11 +2559,11 @@ msgstr ""
 "Cuant che al è abilitât i colôrs dal teme pal sfont, test e colegaments a "
 "vegnin alore inviâts intun messaç formatât in HTML."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:238
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:240
 msgid "An Archive folder for On This Computer folders."
 msgstr "Une cartele di archivi pes cartelis \"Su chest computer\"."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:239
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:241
 msgid ""
 "An Archive folder to use for Messages|Archive... feature when in an On This "
 "Computer folder."
@@ -2555,54 +2571,64 @@ msgstr ""
 "Une cartele di archivi di doprâ pe funzionalitât Messaçs|Archivi... cuant "
 "che si è intune cartele \"Su chest computer\"."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:240
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:242
 msgid "Whether the To Do bar is visible in the main window"
 msgstr "Indiche se la sbare “Di fâ” e à di jessi visibile tal barcon principâl"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:241
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:243
 msgid "Stores whether the To Do bar is visible in the main window."
 msgstr "Al memorize se la sbare “Di fâ” e je visibile tal barcon principâl."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:242
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:244
 msgid "Width of the To Do bar in the main window"
 msgstr "Largjece de sbare “Di fâ” tal barcon principâl"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:243
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:245
 msgid "Holds the width of the To Do bar for the main window."
 msgstr "Al ten la largjece de sbare “Di fâ” pal barcon principâl."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:244
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:246
 msgid "Whether the To Do bar is visible in a sub-window"
 msgstr "Indiche se la sbare “Di fâ” e je visibile intun sot-barcon"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:245
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:247
 msgid "Stores whether the To Do bar is visible in a sub-window."
 msgstr "Al memorize se la sbare “Di fâ” e je visibile intun sot-barcon."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:246
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:248
 msgid "Width of the To Do bar in a sub-window"
 msgstr "Largjece de sbare “Di fâ” intun sot-barcon"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:247
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:249
 msgid "Holds the width of the To Do bar for a sub-window."
 msgstr "Al ten la largjece de sbare “Di fâ” par un sot-barcon."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:248
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:250
 msgid "Whether the To Do bar should show also completed tasks"
 msgstr ""
 "Indiche se la sbare “Di fâ” e à di mostrâ ancje lis ativitâts completadis"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:249
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:251
 msgid "Stores whether the To Do bar should show also completed tasks."
 msgstr ""
 "Al memorize se la sbare “Di fâ” e à di mostrâ ancje lis ativitâts "
 "completadis."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:250
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:252
+#, fuzzy
+#| msgid "Show the status bar"
+msgid "Show start up wizard"
+msgstr "Mostre la sbare di stât"
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:253
+msgid "Whether show start up wizard when there is no mail account configured."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:254
 msgid "(Deprecated) Default forward style"
 msgstr "(Deplorade) Stîl predefinît par mandâ indenant"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:251
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:255
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“forward-style-name” instead."
@@ -2610,11 +2636,11 @@ msgstr ""
 "Cheste clâf e je stade deplorade te version 3.10 e no varès di jessi plui "
 "doprade. Doprâ invezit “forward-style-name”."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:252
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:256
 msgid "(Deprecated) Default reply style"
 msgstr "(Deplorade) Stîl predefinît de rispueste"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:253
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:257
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“reply-style-name” instead."
@@ -2622,12 +2648,12 @@ msgstr ""
 "Cheste clâf e je stade deplorade te version 3.10 e no varès di jessi plui "
 "doprade. Doprâ invezit “reply-style-name”."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:254
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:258
 msgid "(Deprecated) List of custom headers and whether they are enabled."
 msgstr ""
 "(Deplorade) Liste des intestazions personalizadis e se a son abilitadis."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:255
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:259
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“show-headers” instead."
@@ -2635,11 +2661,11 @@ msgstr ""
 "Cheste clâf e je stade deplorade inte version 3.10 e no varès di jessi plui "
 "doprade. Doprâ invezit “show-headers”."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:256
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:260
 msgid "(Deprecated) Load images for HTML messages over HTTP"
 msgstr "(Deplorade) Cjarie lis imagjins pai messaçs HTML  vie HTTP"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:257
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:261
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“image-loading-policy” instead."
@@ -2647,7 +2673,7 @@ msgstr ""
 "Cheste clâf e je stade deplorade inte version 3.10 e no varès di jessi plui "
 "doprade. Doprâ invezit “image-loading-policy”."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:258
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:262
 msgid ""
 "(Deprecated) Asks whether to close the message window when the user forwards "
 "or replies to the message shown in the window"
@@ -2655,7 +2681,7 @@ msgstr ""
 "(Deplorade) Domande se sierâ il barcon dal messaç cuant che l'utent al mande "
 "indenant o al rispuint al messaç mostrât intal barcon"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:259
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:263
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“browser-close-on-reply-policy” instead."
@@ -3139,6 +3165,17 @@ msgstr ""
 "un percors sot compilazion, di solit /usr/bin/sa-learn. Il comant nol à di "
 "vê altris argoments."
 
+#: ../data/org.gnome.evolution.text-highlight.gschema.xml.in.h:1
+msgid "Theme name to use, defaults to “bclear”"
+msgstr ""
+
+#: ../data/org.gnome.evolution.text-highlight.gschema.xml.in.h:2
+msgid ""
+"Use “highlight --list-scripts=themes” to get the list of installed themes "
+"and then the value to one of them. The change requires only re-format of the "
+"message part to take into effect, like using right-click→Format As→...."
+msgstr ""
+
 # o recapit
 #: ../data/views/addressbook/galview.xml.h:1
 msgid "_Address Cards"
@@ -3398,7 +3435,7 @@ msgstr ""
 #: ../src/mail/e-mail-label-manager.c:371
 #: ../src/mail/em-folder-properties.c:1031
 #: ../src/mail/em-vfolder-editor-rule.c:397
-#: ../src/mail/em-vfolder-editor-rule.c:626 ../src/mail/mail-config.ui.h:60
+#: ../src/mail/em-vfolder-editor-rule.c:626 ../src/mail/mail-config.ui.h:61
 #: ../src/modules/mail/em-composer-prefs.c:422
 #: ../src/plugins/attachment-reminder/attachment-reminder.c:543
 #: ../src/plugins/email-custom-header/email-custom-header.c:837
@@ -3542,7 +3579,7 @@ msgstr "Editôr dai contats"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:13
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:1996
-#: ../src/mail/mail-config.ui.h:37
+#: ../src/mail/mail-config.ui.h:38
 msgid "Options"
 msgstr "Opzions"
 
@@ -3581,9 +3618,9 @@ msgstr "Opzions"
 #: ../src/e-util/e-source-selector-dialog.c:370
 #: ../src/e-util/e-table-config.c:548 ../src/e-util/e-table-config.ui.h:3
 #: ../src/e-util/e-timezone-dialog.ui.h:2
-#: ../src/e-util/evolution-source-viewer.c:835 ../src/e-util/e-web-view.c:4061
+#: ../src/e-util/evolution-source-viewer.c:835 ../src/e-util/e-web-view.c:4096
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:267
-#: ../src/mail/e-mail-config-window.c:331 ../src/mail/e-mail-label-dialog.c:194
+#: ../src/mail/e-mail-config-window.c:334 ../src/mail/e-mail-label-dialog.c:194
 #: ../src/mail/e-mail-tag-editor.c:168 ../src/mail/em-folder-selector.c:318
 #: ../src/mail/mail-config.ui.h:2 ../src/mail/mail.error.xml.h:16
 #: ../src/mail/mail-send-recv.c:747 ../src/mail/mail-send-recv.c:829
@@ -3610,12 +3647,12 @@ msgstr "_Anule"
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:3
 #: ../src/addressbook/gui/widgets/eab-contact-merging.c:719
 #: ../src/calendar/calendar.error.xml.h:47
-#: ../src/calendar/gui/e-comp-editor.c:2116
+#: ../src/calendar/gui/e-comp-editor.c:2115
 #: ../src/composer/e-composer-actions.c:228
 #: ../src/composer/e-composer-actions.c:348
 #: ../src/e-util/e-attachment-store.c:833
 #: ../src/e-util/e-mail-signature-script-dialog.c:370
-#: ../src/e-util/e-web-view.c:4062
+#: ../src/e-util/e-web-view.c:4097
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:268
 #: ../src/shell/e-shell-content.c:658 ../src/shell/e-shell-utils.c:140
 #: ../src/smime/gui/certificate-manager.c:666
@@ -3624,8 +3661,8 @@ msgid "_Save"
 msgstr "_Salve"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:16
-#: ../src/calendar/gui/e-comp-editor.c:2013
-#: ../src/calendar/gui/e-comp-editor.c:2085
+#: ../src/calendar/gui/e-comp-editor.c:2012
+#: ../src/calendar/gui/e-comp-editor.c:2084
 #: ../src/e-util/e-preferences-window.c:380
 #: ../src/e-util/e-send-options.ui.h:15
 #: ../src/plugins/email-custom-header/org-gnome-email-custom-header.ui.h:2
@@ -3875,7 +3912,7 @@ msgstr "Zonte _X.509"
 #: ../src/e-util/filter.error.xml.h:18 ../src/e-util/filter.ui.h:25
 #: ../src/mail/e-mail-label-manager.c:389 ../src/mail/em-filter-rule.c:438
 #: ../src/mail/em-folder-properties.c:1037
-#: ../src/mail/em-vfolder-editor-rule.c:631 ../src/mail/mail-config.ui.h:61
+#: ../src/mail/em-vfolder-editor-rule.c:631 ../src/mail/mail-config.ui.h:62
 #: ../src/plugins/attachment-reminder/attachment-reminder.c:553
 #: ../src/plugins/email-custom-header/email-custom-header.c:847
 #: ../src/plugins/publish-calendar/publish-calendar.c:789
@@ -3893,29 +3930,29 @@ msgid "_Load X.509"
 msgstr "_Cjarie X.509"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:72
-#: ../src/modules/addressbook/e-book-shell-backend.c:314
+#: ../src/modules/addressbook/e-book-shell-backend.c:318
 msgid "Certificates"
 msgstr "Certificâts"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:260
-#: ../src/calendar/gui/e-comp-editor.c:2048
+#: ../src/calendar/gui/e-comp-editor.c:2047
 #: ../src/e-util/e-html-editor-actions.c:913
 msgid "_Undo"
 msgstr "_Disfe"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:262
-#: ../src/calendar/gui/e-comp-editor.c:2050 ../src/e-util/e-focus-tracker.c:120
+#: ../src/calendar/gui/e-comp-editor.c:2049 ../src/e-util/e-focus-tracker.c:120
 msgid "Undo"
 msgstr "Disfe"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:267
-#: ../src/calendar/gui/e-comp-editor.c:2055
+#: ../src/calendar/gui/e-comp-editor.c:2054
 #: ../src/e-util/e-html-editor-actions.c:899
 msgid "_Redo"
 msgstr "_Torne fâs"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:269
-#: ../src/calendar/gui/e-comp-editor.c:2057 ../src/e-util/e-focus-tracker.c:136
+#: ../src/calendar/gui/e-comp-editor.c:2056 ../src/e-util/e-focus-tracker.c:136
 msgid "Redo"
 msgstr "Torne fâs"
 
@@ -4062,7 +4099,7 @@ msgstr "Contat no valit."
 #: ../src/e-util/e-source-selector-dialog.c:371
 #: ../src/e-util/e-table-config.c:549 ../src/e-util/e-table-config.ui.h:4
 #: ../src/e-util/e-timezone-dialog.ui.h:3
-#: ../src/mail/e-mail-config-window.c:332 ../src/mail/e-mail-tag-editor.c:169
+#: ../src/mail/e-mail-config-window.c:335 ../src/mail/e-mail-tag-editor.c:169
 #: ../src/mail/em-folder-selector.c:44 ../src/mail/mail-config.ui.h:3
 #: ../src/mail/mail-dialogs.ui.h:24 ../src/mail/mail-vfolder-ui.c:150
 #: ../src/mail/mail-vfolder-ui.c:272
@@ -4242,12 +4279,12 @@ msgid "Error removing list"
 msgstr "Erôr tal gjavâ la liste"
 
 #: ../src/addressbook/gui/widgets/addresstypes.xml.h:1
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1222
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1225
 msgid "Name contains"
 msgstr "Il non al à"
 
 #: ../src/addressbook/gui/widgets/addresstypes.xml.h:2
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1215
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1218
 msgid "Email begins with"
 msgstr "E-mail e tache par"
 
@@ -4255,7 +4292,7 @@ msgstr "E-mail e tache par"
 #: ../src/calendar/gui/caltypes.xml.in.h:26
 #: ../src/calendar/gui/memotypes.xml.in.h:19
 #: ../src/calendar/gui/tasktypes.xml.in.h:30
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1208
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1211
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1713
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:782
 #: ../src/modules/calendar/e-task-shell-view-actions.c:983
@@ -4288,7 +4325,7 @@ msgid "Send a mail message to this address"
 msgstr "Al invie un messaç di pueste a cheste direzion"
 
 #: ../src/addressbook/gui/widgets/eab-contact-display.c:290
-#: ../src/e-util/e-web-view.c:1317
+#: ../src/e-util/e-web-view.c:1349
 #, c-format
 msgid "Click to mail %s"
 msgstr "Fâs clic par inviâ e-mail a %s"
@@ -4652,7 +4689,7 @@ msgid "Paste contacts from the clipboard"
 msgstr "Tache i contats des notis"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.c:698
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1018
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1021
 msgid "Delete selected contacts"
 msgstr "Elimine i contats selezionâts"
 
@@ -4687,10 +4724,10 @@ msgid "Are you sure you want to delete this contact (%s)?"
 msgstr "Sigûrs di eliminâ chest contat (%s)?"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.c:1361
-#: ../src/calendar/gui/e-comp-editor.c:2006 ../src/e-util/e-focus-tracker.c:783
+#: ../src/calendar/gui/e-comp-editor.c:2005 ../src/e-util/e-focus-tracker.c:781
 #: ../src/e-util/evolution-source-viewer.c:806
 #: ../src/mail/e-mail-account-manager.c:737
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1090
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1093
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1524
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:676
 #: ../src/modules/calendar/e-task-shell-view-actions.c:830
@@ -5185,12 +5222,12 @@ msgstr "_Postponi"
 #: ../src/calendar/alarm-notify/alarm-notify.ui.h:4
 #: ../src/calendar/gui/e-comp-editor-page-general.c:1363
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2239
-#: ../src/calendar/gui/e-comp-editor.c:2071
+#: ../src/calendar/gui/e-comp-editor.c:2070
 #: ../src/e-util/e-html-editor-actions.c:922
 #: ../src/e-util/e-mail-signature-manager.c:358 ../src/e-util/filter.ui.h:24
 #: ../src/mail/e-mail-account-manager.c:728 ../src/mail/e-mail-browser.c:171
 #: ../src/mail/e-mail-label-manager.c:380
-#: ../src/mail/em-folder-properties.c:1034 ../src/mail/mail-config.ui.h:65
+#: ../src/mail/em-folder-properties.c:1034 ../src/mail/mail-config.ui.h:66
 #: ../src/plugins/attachment-reminder/attachment-reminder.c:548
 #: ../src/plugins/email-custom-header/email-custom-header.c:842
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:33
@@ -5241,7 +5278,7 @@ msgstr "oris"
 
 #: ../src/calendar/alarm-notify/alarm-notify.ui.h:12
 #: ../src/e-util/e-interval-chooser.c:140 ../src/e-util/filter.ui.h:6
-#: ../src/mail/e-mail-config-provider-page.c:571
+#: ../src/mail/e-mail-config-provider-page.c:579
 msgid "minutes"
 msgstr "minûts"
 
@@ -6429,7 +6466,7 @@ msgid "calendar view for one or more weeks"
 msgstr "viodude calendari par une o plui setemanis"
 
 #: ../src/calendar/gui/e-cal-component-preview.c:214
-#: ../src/e-util/e-filter-rule.c:770 ../src/mail/e-mail-config-page.c:127
+#: ../src/e-util/e-filter-rule.c:770 ../src/mail/e-mail-config-page.c:124
 msgid "Untitled"
 msgstr "Cence titul"
 
@@ -6519,7 +6556,7 @@ msgid "Low"
 msgstr "Basse"
 
 #: ../src/calendar/gui/e-cal-component-preview.c:350
-#: ../src/mail/e-mail-config-service-page.c:671
+#: ../src/mail/e-mail-config-service-page.c:536
 msgid "Description:"
 msgstr "Descrizion:"
 
@@ -7754,13 +7791,13 @@ msgstr "Ecezions"
 
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2231
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:1777
-#: ../src/mail/mail-config.ui.h:64
+#: ../src/mail/mail-config.ui.h:65
 msgid "A_dd"
 msgstr "Zon_te"
 
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2247
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:1785
-#: ../src/mail/mail-config.ui.h:66
+#: ../src/mail/mail-config.ui.h:67
 msgid "Re_move"
 msgstr "Gja_ve"
 
@@ -8132,16 +8169,16 @@ msgstr "zonte"
 msgid "Sending notifications to attendees..."
 msgstr "Daûr a inviâ lis notifichis ai partecipants..."
 
-#: ../src/calendar/gui/e-comp-editor.c:998
+#: ../src/calendar/gui/e-comp-editor.c:997
 msgid "Saving changes..."
 msgstr "Daûr a salvâ lis modifichis..."
 
-#: ../src/calendar/gui/e-comp-editor.c:1258
+#: ../src/calendar/gui/e-comp-editor.c:1257
 msgid "No Summary"
 msgstr "Nissune sintesi"
 
 #. == Button box ==
-#: ../src/calendar/gui/e-comp-editor.c:1985
+#: ../src/calendar/gui/e-comp-editor.c:1984
 #: ../src/composer/e-composer-actions.c:327
 #: ../src/e-util/e-html-editor-dialog.c:194
 #: ../src/e-util/e-mail-signature-editor.c:309
@@ -8158,129 +8195,129 @@ msgstr "Nissune sintesi"
 msgid "_Close"
 msgstr "_Siere"
 
-#: ../src/calendar/gui/e-comp-editor.c:1987
+#: ../src/calendar/gui/e-comp-editor.c:1986
 msgid "Close the current window"
 msgstr "Siere il barcon atuâl"
 
 #. copy menu item
-#: ../src/calendar/gui/e-comp-editor.c:1992 ../src/e-util/e-focus-tracker.c:773
+#: ../src/calendar/gui/e-comp-editor.c:1991 ../src/e-util/e-focus-tracker.c:771
 #: ../src/e-util/e-html-editor-actions.c:878 ../src/e-util/e-text.c:2110
 #: ../src/e-util/e-web-view.c:407 ../src/mail/e-mail-browser.c:134
 #: ../src/mail/mail.error.xml.h:146 ../src/shell/e-shell-window-actions.c:808
 msgid "_Copy"
 msgstr "_Copie"
 
-#: ../src/calendar/gui/e-comp-editor.c:1994 ../src/e-util/e-focus-tracker.c:173
+#: ../src/calendar/gui/e-comp-editor.c:1993 ../src/e-util/e-focus-tracker.c:173
 #: ../src/e-util/e-focus-tracker.c:229 ../src/e-util/e-focus-tracker.c:282
-#: ../src/e-util/e-focus-tracker.c:774 ../src/e-util/e-web-view.c:409
-#: ../src/e-util/e-web-view.c:1942 ../src/mail/e-mail-browser.c:136
+#: ../src/e-util/e-focus-tracker.c:772 ../src/e-util/e-web-view.c:409
+#: ../src/e-util/e-web-view.c:1977 ../src/mail/e-mail-browser.c:136
 #: ../src/shell/e-shell-window-actions.c:810
 msgid "Copy the selection"
 msgstr "Copie la selezion"
 
 #. cut menu item
-#: ../src/calendar/gui/e-comp-editor.c:1999 ../src/e-util/e-focus-tracker.c:768
+#: ../src/calendar/gui/e-comp-editor.c:1998 ../src/e-util/e-focus-tracker.c:766
 #: ../src/e-util/e-html-editor-actions.c:885 ../src/e-util/e-text.c:2096
 #: ../src/mail/e-mail-browser.c:141 ../src/shell/e-shell-window-actions.c:815
 msgid "Cu_t"
 msgstr "Ta_ie"
 
-#: ../src/calendar/gui/e-comp-editor.c:2001 ../src/e-util/e-focus-tracker.c:166
+#: ../src/calendar/gui/e-comp-editor.c:2000 ../src/e-util/e-focus-tracker.c:166
 #: ../src/e-util/e-focus-tracker.c:222 ../src/e-util/e-focus-tracker.c:276
-#: ../src/e-util/e-focus-tracker.c:769 ../src/e-util/e-web-view.c:1951
+#: ../src/e-util/e-focus-tracker.c:767 ../src/e-util/e-web-view.c:1986
 #: ../src/mail/e-mail-browser.c:143 ../src/shell/e-shell-window-actions.c:817
 msgid "Cut the selection"
 msgstr "Taie la selezion"
 
-#: ../src/calendar/gui/e-comp-editor.c:2008 ../src/e-util/e-focus-tracker.c:187
-#: ../src/e-util/e-focus-tracker.c:243 ../src/e-util/e-focus-tracker.c:784
+#: ../src/calendar/gui/e-comp-editor.c:2007 ../src/e-util/e-focus-tracker.c:187
+#: ../src/e-util/e-focus-tracker.c:243 ../src/e-util/e-focus-tracker.c:782
 #: ../src/shell/e-shell-window-actions.c:824
 msgid "Delete the selection"
 msgstr "Elimine la selezion"
 
-#: ../src/calendar/gui/e-comp-editor.c:2015
+#: ../src/calendar/gui/e-comp-editor.c:2014
 msgid "View help"
 msgstr "Viôt il jutori"
 
 #. paste menu item
-#: ../src/calendar/gui/e-comp-editor.c:2020 ../src/e-util/e-focus-tracker.c:778
+#: ../src/calendar/gui/e-comp-editor.c:2019 ../src/e-util/e-focus-tracker.c:776
 #: ../src/e-util/e-html-editor-actions.c:892 ../src/e-util/e-text.c:2122
 #: ../src/mail/e-mail-browser.c:148 ../src/shell/e-shell-window-actions.c:843
 msgid "_Paste"
 msgstr "_Tache"
 
-#: ../src/calendar/gui/e-comp-editor.c:2022 ../src/e-util/e-focus-tracker.c:180
+#: ../src/calendar/gui/e-comp-editor.c:2021 ../src/e-util/e-focus-tracker.c:180
 #: ../src/e-util/e-focus-tracker.c:236 ../src/e-util/e-focus-tracker.c:288
-#: ../src/e-util/e-focus-tracker.c:779 ../src/e-util/e-web-view.c:1960
+#: ../src/e-util/e-focus-tracker.c:777 ../src/e-util/e-web-view.c:1995
 #: ../src/mail/e-mail-browser.c:150 ../src/shell/e-shell-window-actions.c:845
 msgid "Paste the clipboard"
 msgstr "Tache intes notis"
 
-#: ../src/calendar/gui/e-comp-editor.c:2027
+#: ../src/calendar/gui/e-comp-editor.c:2026
 #: ../src/composer/e-composer-actions.c:381 ../src/mail/e-mail-reader.c:2317
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1232
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1246
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1235
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1249
 msgid "_Print..."
 msgstr "_Stampe..."
 
-#: ../src/calendar/gui/e-comp-editor.c:2034 ../src/mail/e-mail-reader.c:2324
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1239
+#: ../src/calendar/gui/e-comp-editor.c:2033 ../src/mail/e-mail-reader.c:2324
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1242
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1744
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:813
 #: ../src/modules/calendar/e-task-shell-view-actions.c:1014
 msgid "Pre_view..."
 msgstr "Ante_prime..."
 
-#: ../src/calendar/gui/e-comp-editor.c:2041 ../src/e-util/e-focus-tracker.c:788
+#: ../src/calendar/gui/e-comp-editor.c:2040 ../src/e-util/e-focus-tracker.c:786
 #: ../src/e-util/e-html-editor-actions.c:906 ../src/e-util/e-web-view.c:417
 #: ../src/mail/e-mail-browser.c:155 ../src/shell/e-shell-window-actions.c:920
 msgid "Select _All"
 msgstr "Selezione _dut"
 
-#: ../src/calendar/gui/e-comp-editor.c:2043 ../src/e-util/e-focus-tracker.c:194
-#: ../src/e-util/e-focus-tracker.c:250 ../src/e-util/e-focus-tracker.c:789
+#: ../src/calendar/gui/e-comp-editor.c:2042 ../src/e-util/e-focus-tracker.c:194
+#: ../src/e-util/e-focus-tracker.c:250 ../src/e-util/e-focus-tracker.c:787
 #: ../src/mail/e-mail-browser.c:157 ../src/shell/e-shell-window-actions.c:922
 msgid "Select all text"
 msgstr "Selezione dut il test"
 
-#: ../src/calendar/gui/e-comp-editor.c:2064
+#: ../src/calendar/gui/e-comp-editor.c:2063
 msgid "_Classification"
 msgstr "_Classificazion"
 
-#: ../src/calendar/gui/e-comp-editor.c:2078
+#: ../src/calendar/gui/e-comp-editor.c:2077
 #: ../src/e-util/e-html-editor-actions.c:929
 #: ../src/e-util/e-mail-signature-editor.c:323 ../src/mail/e-mail-browser.c:164
 #: ../src/mail/e-mail-notes.c:945 ../src/shell/e-shell-window-actions.c:957
 msgid "_File"
 msgstr "_File"
 
-#: ../src/calendar/gui/e-comp-editor.c:2092
+#: ../src/calendar/gui/e-comp-editor.c:2091
 #: ../src/e-util/e-html-editor-actions.c:950
 msgid "_Insert"
 msgstr "_Inserìs"
 
-#: ../src/calendar/gui/e-comp-editor.c:2099
+#: ../src/calendar/gui/e-comp-editor.c:2098
 #: ../src/composer/e-composer-actions.c:371
 msgid "_Options"
 msgstr "_Opzions"
 
-#: ../src/calendar/gui/e-comp-editor.c:2106
+#: ../src/calendar/gui/e-comp-editor.c:2105
 #: ../src/e-util/e-html-editor-actions.c:971 ../src/mail/e-mail-browser.c:178
 #: ../src/shell/e-shell-window-actions.c:1000
 #: ../src/smime/gui/certificate-manager.c:1662 ../src/smime/gui/smime-ui.ui.h:3
 msgid "_View"
 msgstr "_Viodude"
 
-#: ../src/calendar/gui/e-comp-editor.c:2118
+#: ../src/calendar/gui/e-comp-editor.c:2117
 msgid "Save current changes"
 msgstr "Salve lis modifichis atuâi"
 
-#: ../src/calendar/gui/e-comp-editor.c:2123
+#: ../src/calendar/gui/e-comp-editor.c:2122
 #: ../src/e-util/e-mail-signature-editor.c:318 ../src/mail/e-mail-notes.c:940
 msgid "Save and Close"
 msgstr "Salve e siere"
 
-#: ../src/calendar/gui/e-comp-editor.c:2125
+#: ../src/calendar/gui/e-comp-editor.c:2124
 msgid "Save current changes and close editor"
 msgstr "Salve i cambiaments atuâi e siere l'editôr"
 
@@ -8758,32 +8795,32 @@ msgstr "Di fâ"
 msgid "%d %B"
 msgstr "%e di %B"
 
-#: ../src/calendar/gui/itip-utils.c:789 ../src/calendar/gui/itip-utils.c:851
-#: ../src/calendar/gui/itip-utils.c:985
+#: ../src/calendar/gui/itip-utils.c:793 ../src/calendar/gui/itip-utils.c:855
+#: ../src/calendar/gui/itip-utils.c:989
 msgid "An organizer must be set."
 msgstr "Al covente meti un organizadôr."
 
-#: ../src/calendar/gui/itip-utils.c:842
+#: ../src/calendar/gui/itip-utils.c:846
 msgid "At least one attendee is necessary"
 msgstr "Al covente almancul un partecipant"
 
-#: ../src/calendar/gui/itip-utils.c:1073 ../src/calendar/gui/itip-utils.c:1234
+#: ../src/calendar/gui/itip-utils.c:1077 ../src/calendar/gui/itip-utils.c:1238
 msgid "Event information"
 msgstr "Informazion event"
 
-#: ../src/calendar/gui/itip-utils.c:1076 ../src/calendar/gui/itip-utils.c:1237
+#: ../src/calendar/gui/itip-utils.c:1080 ../src/calendar/gui/itip-utils.c:1241
 msgid "Task information"
 msgstr "Informazions ativitât"
 
-#: ../src/calendar/gui/itip-utils.c:1079 ../src/calendar/gui/itip-utils.c:1240
+#: ../src/calendar/gui/itip-utils.c:1083 ../src/calendar/gui/itip-utils.c:1244
 msgid "Memo information"
 msgstr "Informazions sul memorandum"
 
-#: ../src/calendar/gui/itip-utils.c:1082 ../src/calendar/gui/itip-utils.c:1258
+#: ../src/calendar/gui/itip-utils.c:1086 ../src/calendar/gui/itip-utils.c:1262
 msgid "Free/Busy information"
 msgstr "Informazions libar/impegnât"
 
-#: ../src/calendar/gui/itip-utils.c:1085
+#: ../src/calendar/gui/itip-utils.c:1089
 msgid "Calendar information"
 msgstr "Informazions calendari"
 
@@ -8791,7 +8828,7 @@ msgstr "Informazions calendari"
 #. * line of a meeting request or update email.
 #. * The full subject line would be:
 #. * "Accepted: Meeting Name".
-#: ../src/calendar/gui/itip-utils.c:1122
+#: ../src/calendar/gui/itip-utils.c:1126
 msgctxt "Meeting"
 msgid "Accepted"
 msgstr "Acetât"
@@ -8800,7 +8837,7 @@ msgstr "Acetât"
 #. * line of a meeting request or update email.
 #. * The full subject line would be:
 #. * "Tentatively Accepted: Meeting Name".
-#: ../src/calendar/gui/itip-utils.c:1129
+#: ../src/calendar/gui/itip-utils.c:1133
 msgctxt "Meeting"
 msgid "Tentatively Accepted"
 msgstr "Acetât pal moment"
@@ -8812,7 +8849,7 @@ msgstr "Acetât pal moment"
 #. Translators: This is part of the subject line of a
 #. * meeting request or update email.  The full subject
 #. * line would be: "Declined: Meeting Name".
-#: ../src/calendar/gui/itip-utils.c:1136 ../src/calendar/gui/itip-utils.c:1184
+#: ../src/calendar/gui/itip-utils.c:1140 ../src/calendar/gui/itip-utils.c:1188
 msgctxt "Meeting"
 msgid "Declined"
 msgstr "Ricusât"
@@ -8821,7 +8858,7 @@ msgstr "Ricusât"
 #. * line of a meeting request or update email.
 #. * The full subject line would be:
 #. * "Delegated: Meeting Name".
-#: ../src/calendar/gui/itip-utils.c:1143
+#: ../src/calendar/gui/itip-utils.c:1147
 msgctxt "Meeting"
 msgid "Delegated"
 msgstr "Delegât"
@@ -8829,7 +8866,7 @@ msgstr "Delegât"
 #. Translators: This is part of the subject line of a
 #. * meeting request or update email.  The full subject
 #. * line would be: "Updated: Meeting Name".
-#: ../src/calendar/gui/itip-utils.c:1156
+#: ../src/calendar/gui/itip-utils.c:1160
 msgctxt "Meeting"
 msgid "Updated"
 msgstr "Inzornât"
@@ -8837,7 +8874,7 @@ msgstr "Inzornât"
 #. Translators: This is part of the subject line of a
 #. * meeting request or update email.  The full subject
 #. * line would be: "Cancel: Meeting Name".
-#: ../src/calendar/gui/itip-utils.c:1163
+#: ../src/calendar/gui/itip-utils.c:1167
 msgctxt "Meeting"
 msgid "Cancel"
 msgstr "Scancele"
@@ -8845,7 +8882,7 @@ msgstr "Scancele"
 #. Translators: This is part of the subject line of a
 #. * meeting request or update email.  The full subject
 #. * line would be: "Refresh: Meeting Name".
-#: ../src/calendar/gui/itip-utils.c:1170
+#: ../src/calendar/gui/itip-utils.c:1174
 msgctxt "Meeting"
 msgid "Refresh"
 msgstr "Inzorne"
@@ -8853,42 +8890,42 @@ msgstr "Inzorne"
 #. Translators: This is part of the subject line of a
 #. * meeting request or update email.  The full subject
 #. * line would be: "Counter-proposal: Meeting Name".
-#: ../src/calendar/gui/itip-utils.c:1177
+#: ../src/calendar/gui/itip-utils.c:1181
 msgctxt "Meeting"
 msgid "Counter-proposal"
 msgstr "Cuintri-propueste"
 
-#: ../src/calendar/gui/itip-utils.c:1255
+#: ../src/calendar/gui/itip-utils.c:1259
 #, c-format
 msgid "Free/Busy information (%s to %s)"
 msgstr "Informazions libar/impegnât (di %s a %s)"
 
-#: ../src/calendar/gui/itip-utils.c:1263
+#: ../src/calendar/gui/itip-utils.c:1267
 msgid "iCalendar information"
 msgstr "Informazions iCalendar"
 
-#: ../src/calendar/gui/itip-utils.c:1292
+#: ../src/calendar/gui/itip-utils.c:1296
 #, c-format
 msgid "Unable to book a resource, the new event collides with some other."
 msgstr "Impussibil riservâ une risorse, il gnûf event al sbat cun alcaltri."
 
-#: ../src/calendar/gui/itip-utils.c:1297
+#: ../src/calendar/gui/itip-utils.c:1301
 msgid "Unable to book a resource, error: "
 msgstr "Impussibil riservâ une risorse, erôr: "
 
-#: ../src/calendar/gui/itip-utils.c:1468
+#: ../src/calendar/gui/itip-utils.c:1472
 msgid "You must be an attendee of the event."
 msgstr "Al covente jessi un partecipant dal event."
 
-#: ../src/calendar/gui/itip-utils.c:2149
+#: ../src/calendar/gui/itip-utils.c:2153
 msgid "Sending an event"
 msgstr "Daûr a inviâ un event"
 
-#: ../src/calendar/gui/itip-utils.c:2153
+#: ../src/calendar/gui/itip-utils.c:2157
 msgid "Sending a memo"
 msgstr "Daûr a inviâ un memorandum"
 
-#: ../src/calendar/gui/itip-utils.c:2157
+#: ../src/calendar/gui/itip-utils.c:2161
 msgid "Sending a task"
 msgstr "Daûr a inviâ une ativitât"
 
@@ -11076,8 +11113,8 @@ msgstr "Salve stampon"
 #: ../src/composer/e-composer-from-header.c:108
 #: ../src/e-util/e-mail-signature-script-dialog.c:416
 #: ../src/e-util/gal-view-instance-save-as-dialog.ui.h:2
-#: ../src/mail/e-mail-config-identity-page.c:553
-#: ../src/mail/e-mail-config-summary-page.c:333
+#: ../src/mail/e-mail-config-identity-page.c:550
+#: ../src/mail/e-mail-config-summary-page.c:332
 msgid "_Name:"
 msgstr "_Non:"
 
@@ -11126,7 +11163,7 @@ msgid "S_ubject:"
 msgstr "O_gjet:"
 
 #: ../src/composer/e-composer-header-table.c:883
-#: ../src/mail/e-mail-config-identity-page.c:746
+#: ../src/mail/e-mail-config-identity-page.c:743
 msgid "Si_gnature:"
 msgstr "_Firme:"
 
@@ -11138,7 +11175,7 @@ msgstr "Fâs clic achì pe rubriche"
 msgid "Click here to select folders to post to"
 msgstr "Fâs clic achì par selezionâ la cartele dulà publicâ"
 
-#: ../src/composer/e-msg-composer.c:849
+#: ../src/composer/e-msg-composer.c:854
 #, c-format
 msgid ""
 "Cannot sign outgoing message: No signing certificate set for this account"
@@ -11146,7 +11183,7 @@ msgstr ""
 "Impussibil firmâ il messaç in jessude: nol è impostât nissun certificât di "
 "firme par chest account"
 
-#: ../src/composer/e-msg-composer.c:858
+#: ../src/composer/e-msg-composer.c:863
 #, c-format
 msgid ""
 "Cannot encrypt outgoing message: No encryption certificate set for this "
@@ -11155,11 +11192,11 @@ msgstr ""
 "Impussibil cifrâ il messaç in jessude: nol è impostât nissun certificât di "
 "cifradure par chest account"
 
-#: ../src/composer/e-msg-composer.c:1611 ../src/composer/e-msg-composer.c:2235
+#: ../src/composer/e-msg-composer.c:1622 ../src/composer/e-msg-composer.c:2294
 msgid "Compose Message"
 msgstr "Scrîf messaç"
 
-#: ../src/composer/e-msg-composer.c:4576
+#: ../src/composer/e-msg-composer.c:4646
 msgid "The composer contains a non-text message body, which cannot be edited."
 msgstr ""
 "Il compositôr al à un cuarp messaç no di test, che nol è pussibil modificâ."
@@ -11288,7 +11325,7 @@ msgid "An error occurred while sending. How do you want to proceed?"
 msgstr "Al è vignût fûr un erôr intant che si inviave. Cemût procedi?"
 
 #: ../src/composer/mail-composer.error.xml.h:30
-#: ../src/mail/mail.error.xml.h:175
+#: ../src/mail/mail.error.xml.h:177
 msgid "The reported error was “{0}”."
 msgstr "L'erôr puartât al jere “{0}”."
 
@@ -12046,7 +12083,7 @@ msgid "A_dd Attachment..."
 msgstr "_Zonte zonte..."
 
 #: ../src/e-util/e-attachment-view.c:349
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1098
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1101
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1316
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:605
 #: ../src/modules/calendar/e-task-shell-view-actions.c:731
@@ -12233,7 +12270,7 @@ msgstr "Nissune"
 msgid "OK"
 msgstr "Va ben"
 
-#: ../src/e-util/e-cell-date-edit.c:897
+#: ../src/e-util/e-cell-date-edit.c:901
 #, c-format
 msgid "The time must be in the format: %s"
 msgstr "La date e scugne jessi tal formât: %s"
@@ -12502,9 +12539,9 @@ msgid "white"
 msgstr "blanc"
 
 #: ../src/e-util/e-color-combo.c:642 ../src/mail/e-mail-account-tree-view.c:135
-#: ../src/mail/e-mail-config-security-page.c:406
-#: ../src/mail/e-mail-config-security-page.c:570
-#: ../src/mail/e-mail-reader.c:4043 ../src/mail/mail-config.ui.h:75
+#: ../src/mail/e-mail-config-security-page.c:404
+#: ../src/mail/e-mail-config-security-page.c:568
+#: ../src/mail/e-mail-reader.c:4043 ../src/mail/mail-config.ui.h:76
 msgid "Default"
 msgstr "Predefinît"
 
@@ -12926,10 +12963,10 @@ msgstr "Cjate i elements che a sodisfin lis condizions chi daurman"
 #. name:
 #: ../src/e-util/e-filter-rule.c:858
 #: ../src/e-util/e-html-editor-page-dialog.c:59
-#: ../src/e-util/e-mail-identity-combo-box.c:597
+#: ../src/e-util/e-mail-identity-combo-box.c:693
 #: ../src/e-util/e-mail-signature-combo-box.c:422
-#: ../src/libemail-engine/camel-null-store.c:28
-#: ../src/mail/e-mail-config-summary-page.c:140
+#: ../src/libemail-engine/camel-null-store.c:29
+#: ../src/mail/e-mail-config-summary-page.c:141
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:629
 msgid "None"
 msgstr "Nissun"
@@ -13888,7 +13925,7 @@ msgid "Add word"
 msgstr "Zonte peraule"
 
 #: ../src/e-util/e-html-editor-spell-check-dialog.c:505
-#: ../src/mail/mail-config.ui.h:39
+#: ../src/mail/mail-config.ui.h:40
 msgid "Spell Checking"
 msgstr "Control ortografic"
 
@@ -13960,7 +13997,7 @@ msgid "Import a _single file"
 msgstr "Impuarte un _singul file"
 
 #: ../src/e-util/e-import-assistant.c:406
-#: ../src/modules/startup-wizard/e-mail-config-import-page.c:211
+#: ../src/modules/startup-wizard/e-mail-config-import-page.c:209
 msgid "Please select the information that you would like to import:"
 msgstr "Selezione la informazion che tu desideris impuartâ:"
 
@@ -13975,7 +14012,7 @@ msgstr ""
 "di podê impuartâ. Se tu vûs tornâ a provâ, frache il boton “Indaûr”."
 
 #: ../src/e-util/e-import-assistant.c:562
-#: ../src/modules/startup-wizard/e-mail-config-import-page.c:240
+#: ../src/modules/startup-wizard/e-mail-config-import-page.c:238
 #, c-format
 msgid "From %s:"
 msgstr "Di %s:"
@@ -14155,7 +14192,7 @@ msgstr "_Cîr:"
 
 #: ../src/e-util/e-name-selector-dialog.c:363
 #: ../src/e-util/e-name-selector-dialog.c:1330
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1184
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1187
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1675
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:758
 #: ../src/modules/calendar/e-task-shell-view-actions.c:931
@@ -15043,7 +15080,7 @@ msgid "Flags"
 msgstr "Contrassegns"
 
 #: ../src/e-util/evolution-source-viewer.c:729
-#: ../src/mail/e-mail-config-identity-page.c:1148
+#: ../src/mail/e-mail-config-identity-page.c:1147
 msgid "Identity"
 msgstr "Identitât"
 
@@ -15091,47 +15128,47 @@ msgstr "Salve _imagjin..."
 msgid "Save the image to a file"
 msgstr "Salve la imagjin suntun file"
 
-#: ../src/e-util/e-web-view.c:419 ../src/e-util/e-web-view.c:1964
+#: ../src/e-util/e-web-view.c:419 ../src/e-util/e-web-view.c:1999
 msgid "Select all text and images"
 msgstr "Selezione dut il test e lis imagjins"
 
-#: ../src/e-util/e-web-view.c:1322
+#: ../src/e-util/e-web-view.c:1354
 #, c-format
 msgid "Click to call %s"
 msgstr "Fâs clic par clamâ %s"
 
-#: ../src/e-util/e-web-view.c:1324
+#: ../src/e-util/e-web-view.c:1356
 msgid "Click to hide/unhide addresses"
 msgstr "Fâs clic par platâ/mostrâ lis direzions"
 
-#: ../src/e-util/e-web-view.c:1335
+#: ../src/e-util/e-web-view.c:1367
 #, c-format
 msgid "Go to the section %s of the message"
 msgstr "Va ae sezion %s dal messaç"
 
-#: ../src/e-util/e-web-view.c:1337
+#: ../src/e-util/e-web-view.c:1369
 msgid "Go to the beginning of the message"
 msgstr "Va al inizi dal messaç"
 
-#: ../src/e-util/e-web-view.c:1341
+#: ../src/e-util/e-web-view.c:1373
 #, c-format
 msgid "Click to open %s"
 msgstr "Fâs clic par vierzi %s"
 
-#: ../src/e-util/e-web-view.c:3871
+#: ../src/e-util/e-web-view.c:3906
 msgid "Copying image to clipboard"
 msgstr "Copie imagjin intes notis"
 
-#: ../src/e-util/e-web-view.c:4059
+#: ../src/e-util/e-web-view.c:4094
 msgid "Save Image"
 msgstr "Salve imagjin"
 
-#: ../src/e-util/e-web-view.c:4100
+#: ../src/e-util/e-web-view.c:4135
 #, c-format
 msgid "Saving image to “%s”"
 msgstr "Daûr a salvâ la imagjin su “%s”"
 
-#: ../src/e-util/e-web-view.c:4195
+#: ../src/e-util/e-web-view.c:4230
 #, c-format
 msgid "Cannot get URI “%s”, do not know how to download it."
 msgstr "Impussibil otignî il URI “%s”, no si sa ce mût discjariâlu."
@@ -15232,7 +15269,7 @@ msgstr "la date specificade"
 msgid "a time relative to the current time"
 msgstr "une ore relative a chê atuâl"
 
-#: ../src/e-util/filter.ui.h:5 ../src/mail/mail-config.ui.h:92
+#: ../src/e-util/filter.ui.h:5 ../src/mail/mail-config.ui.h:93
 msgid "seconds"
 msgstr "seconts"
 
@@ -15343,7 +15380,7 @@ msgstr "_Cree gnove viodude"
 msgid "_Replace existing view"
 msgstr "_Sostituìs viodude esistente"
 
-#: ../src/e-util/widgets.error.xml.h:1 ../src/mail/mail.error.xml.h:201
+#: ../src/e-util/widgets.error.xml.h:1 ../src/mail/mail.error.xml.h:203
 msgid "Do you wish to save your changes?"
 msgstr "Salvâ lis modifichis fatis?"
 
@@ -15351,7 +15388,7 @@ msgstr "Salvâ lis modifichis fatis?"
 msgid "This signature has been changed, but has not been saved."
 msgstr "Cheste firme e je stade cambiade, ma no je stade salvade."
 
-#: ../src/e-util/widgets.error.xml.h:3 ../src/mail/mail.error.xml.h:203
+#: ../src/e-util/widgets.error.xml.h:3 ../src/mail/mail.error.xml.h:205
 msgid "_Discard changes"
 msgstr "_Scarte modifichis"
 
@@ -15454,7 +15491,7 @@ msgstr "URI cartele “%s” no valit"
 #. Some local folders
 #: ../src/libemail-engine/e-mail-session.c:125
 #: ../src/mail/em-folder-properties.c:1150
-#: ../src/mail/em-folder-tree-model.c:1236
+#: ../src/mail/em-folder-tree-model.c:1237
 #: ../src/mail/importers/kmail-libs.c:139
 #: ../src/modules/mail/e-mail-shell-view-private.c:1026
 #: ../src/modules/mail/e-mail-shell-view-private.c:1037
@@ -15463,7 +15500,7 @@ msgstr "In jentrade"
 
 #. E_MAIL_LOCAL_FOLDER_INBOX
 #: ../src/libemail-engine/e-mail-session.c:126
-#: ../src/mail/em-folder-tree-model.c:1229
+#: ../src/mail/em-folder-tree-model.c:1230
 #: ../src/mail/importers/kmail-libs.c:145
 #: ../src/modules/mail/e-mail-shell-view-private.c:1024
 msgid "Drafts"
@@ -15471,7 +15508,7 @@ msgstr "Stampons"
 
 #. E_MAIL_LOCAL_FOLDER_DRAFTS
 #: ../src/libemail-engine/e-mail-session.c:127
-#: ../src/mail/em-folder-tree-model.c:1240
+#: ../src/mail/em-folder-tree-model.c:1241
 #: ../src/mail/importers/kmail-libs.c:141
 #: ../src/modules/mail/e-mail-shell-view-private.c:1028
 msgid "Outbox"
@@ -15479,7 +15516,7 @@ msgstr "In jessude"
 
 #. E_MAIL_LOCAL_FOLDER_OUTBOX
 #: ../src/libemail-engine/e-mail-session.c:128
-#: ../src/mail/em-folder-tree-model.c:1244
+#: ../src/mail/em-folder-tree-model.c:1245
 #: ../src/mail/importers/kmail-libs.c:143
 #: ../src/modules/mail/e-mail-shell-view-private.c:1030
 msgid "Sent"
@@ -15487,7 +15524,7 @@ msgstr "Inviade"
 
 #. E_MAIL_LOCAL_FOLDER_SENT
 #: ../src/libemail-engine/e-mail-session.c:129
-#: ../src/mail/em-folder-tree-model.c:1232
+#: ../src/mail/em-folder-tree-model.c:1233
 #: ../src/mail/importers/kmail-libs.c:147
 #: ../src/modules/mail/e-mail-shell-view-private.c:1032
 #: ../src/plugins/templates/e-templates-store.c:2212
@@ -15521,31 +15558,31 @@ msgstr ""
 msgid "Waiting for “%s”"
 msgstr "In spiete di “%s”"
 
-#: ../src/libemail-engine/e-mail-session-utils.c:524
+#: ../src/libemail-engine/e-mail-session-utils.c:526
 msgid "No mail transport service available"
 msgstr "Nissun servizi di traspuart di pueste disponibil"
 
-#: ../src/libemail-engine/e-mail-session-utils.c:614
+#: ../src/libemail-engine/e-mail-session-utils.c:616
 #: ../src/libemail-engine/mail-ops.c:706
 #, c-format
 msgid "Posting message to “%s”"
 msgstr "Daûr a publicâ il messaç su “%s”"
 
-#: ../src/libemail-engine/e-mail-session-utils.c:651
+#: ../src/libemail-engine/e-mail-session-utils.c:653
 #: ../src/libemail-engine/mail-ops.c:742
 #, c-format
 msgid "Failed to apply outgoing filters: %s"
 msgstr "No si è rivâts a aplicâ i filtris in jessude: %s"
 
-#: ../src/libemail-engine/e-mail-session-utils.c:681
-#: ../src/libemail-engine/e-mail-session-utils.c:716
-#: ../src/libemail-engine/mail-ops.c:766 ../src/libemail-engine/mail-ops.c:801
+#: ../src/libemail-engine/e-mail-session-utils.c:686
+#: ../src/libemail-engine/e-mail-session-utils.c:721
+#: ../src/libemail-engine/mail-ops.c:770 ../src/libemail-engine/mail-ops.c:805
 #, c-format
 msgid "Storing sent message to “%s”"
 msgstr "Salvament messaç inviât in “%s”"
 
-#: ../src/libemail-engine/e-mail-session-utils.c:705
-#: ../src/libemail-engine/mail-ops.c:790
+#: ../src/libemail-engine/e-mail-session-utils.c:710
+#: ../src/libemail-engine/mail-ops.c:794
 #, c-format
 msgid ""
 "Failed to append to %s: %s\n"
@@ -15554,14 +15591,14 @@ msgstr ""
 "No si è rivâts a picjâ a %s: %s\n"
 "Si picje invezit ae cartele locâl “Inviade”."
 
-#: ../src/libemail-engine/e-mail-session-utils.c:735
-#: ../src/libemail-engine/mail-ops.c:818
+#: ../src/libemail-engine/e-mail-session-utils.c:740
+#: ../src/libemail-engine/mail-ops.c:822
 #, c-format
 msgid "Failed to append to local “Sent” folder: %s"
 msgstr "No si è rivâts a meti in code te cartele locâl “Inviâts”: %s"
 
-#: ../src/libemail-engine/e-mail-session-utils.c:923
-#: ../src/libemail-engine/mail-ops.c:978 ../src/libemail-engine/mail-ops.c:1080
+#: ../src/libemail-engine/e-mail-session-utils.c:928
+#: ../src/libemail-engine/mail-ops.c:983 ../src/libemail-engine/mail-ops.c:1085
 msgid "Sending message"
 msgstr "Daûr a inviâ il messaç"
 
@@ -15588,13 +15625,13 @@ msgstr "Filtrament messaçs selezionâts"
 #, c-format
 msgid ""
 "Failed to filter selected messages. One reason can be that folder location "
-"set in one or more filters is invalid. Please check your filters in Edit-"
-">Message Filters.\n"
+"set in one or more filters is invalid. Please check your filters in "
+"Edit→Message Filters.\n"
 "Original error was: %s"
 msgstr ""
 "No si è rivâts a filtrâ i messaçs selezionâts. Un motîf al pues jessi che la "
 "posizion de cartele stabilide in un o plui filtris no je valide. Controle i "
-"filtris in Modifiche->Filtris dai messaçs.\n"
+"filtris in Modifiche→Filtris dai messaçs.\n"
 "L'erôr origjinâl al jere: %s"
 
 #: ../src/libemail-engine/mail-ops.c:226
@@ -15606,16 +15643,16 @@ msgstr "Daûr a recuperâ pueste di “%s”"
 #, c-format
 msgid ""
 "Failed to apply outgoing filters. One reason can be that folder location set "
-"in one or more filters is invalid. Please check your filters in Edit-"
-">Message Filters.\n"
+"in one or more filters is invalid. Please check your filters in Edit→Message "
+"Filters.\n"
 "Original error was: %s"
 msgstr ""
 "No si è rivâts a aplicâ i filtris in jessude. Un motîf al pues jessi che la "
 "posizion de cartele stabilide in un o plui filtris no je valide. Controle i "
-"filtris in Modifiche->Filtris dai messaçs.\n"
+"filtris in Modifiche→Filtris dai messaçs.\n"
 "L'erôr origjinâl al jere: %s"
 
-#: ../src/libemail-engine/mail-ops.c:989
+#: ../src/libemail-engine/mail-ops.c:994
 #, c-format
 msgid "Sending message %d of %d"
 msgstr "Daûr a inviâ il messaç %d di %d"
@@ -15623,52 +15660,52 @@ msgstr "Daûr a inviâ il messaç %d di %d"
 #. Translators: The string is distinguished by total
 #. * count of messages to be sent.  Failed messages is
 #. * always more than zero.
-#: ../src/libemail-engine/mail-ops.c:1041
+#: ../src/libemail-engine/mail-ops.c:1046
 #, c-format
 msgid "Failed to send a message"
 msgid_plural "Failed to send %d of %d messages"
 msgstr[0] "No si è rivâts a inviâ un messaç"
 msgstr[1] "No si è rivâts a inviâ %d di %d messaçs"
 
-#: ../src/libemail-engine/mail-ops.c:1047
+#: ../src/libemail-engine/mail-ops.c:1052
 msgid "Cancelled."
 msgstr "Anulât."
 
-#: ../src/libemail-engine/mail-ops.c:1049
+#: ../src/libemail-engine/mail-ops.c:1054
 msgid "Complete."
 msgstr "Completât."
 
-#: ../src/libemail-engine/mail-ops.c:1164
+#: ../src/libemail-engine/mail-ops.c:1169
 #, c-format
 msgid "Moving messages to “%s”"
 msgstr "Daûr a spostâ i messaçs su “%s”"
 
-#: ../src/libemail-engine/mail-ops.c:1165
+#: ../src/libemail-engine/mail-ops.c:1170
 #, c-format
 msgid "Copying messages to “%s”"
 msgstr "Daûr a copiâ i messaçs su “%s”"
 
-#: ../src/libemail-engine/mail-ops.c:1284
+#: ../src/libemail-engine/mail-ops.c:1289
 #, c-format
 msgid "Storing folder “%s”"
 msgstr "Daûr a archiviâ la cartele “%s”"
 
-#: ../src/libemail-engine/mail-ops.c:1412
+#: ../src/libemail-engine/mail-ops.c:1417
 #, c-format
 msgid "Expunging and storing account “%s”"
 msgstr "Netisie e archiviazion account “%s”"
 
-#: ../src/libemail-engine/mail-ops.c:1413
+#: ../src/libemail-engine/mail-ops.c:1418
 #, c-format
 msgid "Storing account “%s”"
 msgstr "Daûr a archiviâ l'account “%s”"
 
-#: ../src/libemail-engine/mail-ops.c:1488
+#: ../src/libemail-engine/mail-ops.c:1493
 #, c-format
 msgid "Emptying trash in “%s”"
 msgstr "Daûr a disvuedâ la scovacere in “%s”"
 
-#: ../src/libemail-engine/mail-ops.c:1580
+#: ../src/libemail-engine/mail-ops.c:1585
 #, c-format
 msgid "Processing folder changes in “%s”"
 msgstr "Elaborazion modifichis cartele in “%s”"
@@ -15685,7 +15722,7 @@ msgstr "Tentatîf di spostâ la pueste di une sorzint no mbox “%s”"
 
 #. Translators: This is a subject attribution for forwarded messages. The %s is replaced with subject of the original message.
 #: ../src/libemail-engine/mail-tools.c:193
-#, fuzzy, c-format
+#, c-format
 msgid "[Fwd: %s]"
 msgstr "[Ind: %s]"
 
@@ -15760,7 +15797,7 @@ msgid "De_fault"
 msgstr "Prede_finît"
 
 #: ../src/mail/e-mail-account-tree-view.c:84
-#: ../src/modules/mail/em-composer-prefs.c:1299
+#: ../src/modules/mail/em-composer-prefs.c:1305
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:355
 #: ../src/plugins/publish-calendar/publish-calendar.c:853
 msgid "Enabled"
@@ -15798,11 +15835,11 @@ msgstr "Va _indaûr"
 msgid "_Skip Lookup"
 msgstr "_Salte consult"
 
-#: ../src/mail/e-mail-config-assistant.c:661
+#: ../src/mail/e-mail-config-assistant.c:665
 msgid "Evolution Account Assistant"
 msgstr "Assistent ai account di Evolution"
 
-#: ../src/mail/e-mail-config-assistant.c:955
+#: ../src/mail/e-mail-config-assistant.c:972
 msgid "_Revise Details"
 msgstr "_Riviôt detais"
 
@@ -15814,7 +15851,83 @@ msgstr "Interogazion gjenars di autenticazion..."
 msgid "Check for Supported Types"
 msgstr "Verifiche gjenars supuartâts"
 
-#: ../src/mail/e-mail-config-confirm-page.c:156
+#: ../src/mail/e-mail-config-composing-page.c:116
+msgctxt "ReplyForward"
+msgid "Use global setting"
+msgstr "Dopre impostazion globâl"
+
+#: ../src/mail/e-mail-config-composing-page.c:118
+#: ../src/mail/mail-config.ui.h:27
+msgctxt "ReplyForward"
+msgid "Attachment"
+msgstr "Zonte"
+
+#: ../src/mail/e-mail-config-composing-page.c:120
+#: ../src/mail/mail-config.ui.h:28
+msgctxt "ReplyForward"
+msgid "Inline (Outlook style)"
+msgstr "Incorporât (stîl Outlook)"
+
+#: ../src/mail/e-mail-config-composing-page.c:122
+#: ../src/mail/mail-config.ui.h:29
+msgctxt "ReplyForward"
+msgid "Quoted"
+msgstr "Citât"
+
+#: ../src/mail/e-mail-config-composing-page.c:124
+#: ../src/mail/mail-config.ui.h:30
+msgctxt "ReplyForward"
+msgid "Do Not Quote"
+msgstr "No sta citâ"
+
+#: ../src/mail/e-mail-config-composing-page.c:397
+#: ../src/mail/e-mail-config-composing-page.c:606
+msgid "Composing Messages"
+msgstr "Composizion messaçs"
+
+#: ../src/mail/e-mail-config-composing-page.c:406
+msgid "Alway_s carbon-copy (cc) to:"
+msgstr "Simpri copie-par-cognossince (cc) a:"
+
+#: ../src/mail/e-mail-config-composing-page.c:431
+msgid "Always _blind carbon-copy (bcc) to:"
+msgstr "Simpri copie-par-cognossince platade (ccp) a:"
+
+#: ../src/mail/e-mail-config-composing-page.c:462
+msgid "Re_ply style:"
+msgstr "Stîl ris_pueste:"
+
+#: ../src/mail/e-mail-config-composing-page.c:488
+#: ../src/mail/mail-config.ui.h:20
+msgid "Start _typing at the bottom"
+msgstr "_Tache scrîf sot da pît"
+
+#: ../src/mail/e-mail-config-composing-page.c:495
+#: ../src/mail/mail-config.ui.h:21
+msgid "_Keep signature above the original message"
+msgstr "_Ten la firme sore dal messaç origjinâl"
+
+#: ../src/mail/e-mail-config-composing-page.c:512
+msgid "Message Receipts"
+msgstr "Ricevude dai messaçs"
+
+#: ../src/mail/e-mail-config-composing-page.c:521
+msgid "S_end message receipts:"
+msgstr "Inviâ lis ric_evudis di messaç:"
+
+#: ../src/mail/e-mail-config-composing-page.c:546
+msgid "Never"
+msgstr "Mai"
+
+#: ../src/mail/e-mail-config-composing-page.c:552
+msgid "Always"
+msgstr "Simpri"
+
+#: ../src/mail/e-mail-config-composing-page.c:558
+msgid "Ask for each message"
+msgstr "Domande par ogni messaç"
+
+#: ../src/mail/e-mail-config-confirm-page.c:154
 msgid ""
 "Congratulations, your mail configuration is complete.\n"
 "\n"
@@ -15828,149 +15941,84 @@ msgstr ""
 "\n"
 "Fâs clic su “Apliche” par salvâ lis impostazions."
 
-#: ../src/mail/e-mail-config-confirm-page.c:168
+#: ../src/mail/e-mail-config-confirm-page.c:166
 msgid "Done"
 msgstr "Completât"
 
-#: ../src/mail/e-mail-config-defaults-page.c:378
+#: ../src/mail/e-mail-config-defaults-page.c:314
 msgid "Checking server settings..."
 msgstr "Verifiche impostazions dal servidôr..."
 
-#: ../src/mail/e-mail-config-defaults-page.c:496
-msgctxt "ReplyForward"
-msgid "Use global setting"
-msgstr "Dopre impostazion globâl"
-
-#: ../src/mail/e-mail-config-defaults-page.c:498
-#: ../src/mail/mail-config.ui.h:26
-msgctxt "ReplyForward"
-msgid "Attachment"
-msgstr "Zonte"
-
-#: ../src/mail/e-mail-config-defaults-page.c:500
-#: ../src/mail/mail-config.ui.h:27
-msgctxt "ReplyForward"
-msgid "Inline (Outlook style)"
-msgstr "Incorporât (stîl Outlook)"
-
-#: ../src/mail/e-mail-config-defaults-page.c:502
-#: ../src/mail/mail-config.ui.h:28
-msgctxt "ReplyForward"
-msgid "Quoted"
-msgstr "Citât"
-
-#: ../src/mail/e-mail-config-defaults-page.c:504
-#: ../src/mail/mail-config.ui.h:29
-msgctxt "ReplyForward"
-msgid "Do Not Quote"
-msgstr "No sta citâ"
-
-#: ../src/mail/e-mail-config-defaults-page.c:830
+#: ../src/mail/e-mail-config-defaults-page.c:663
 msgid "Special Folders"
 msgstr "Cartelis speciâi"
 
-#: ../src/mail/e-mail-config-defaults-page.c:839
+#: ../src/mail/e-mail-config-defaults-page.c:672
 msgid "Draft Messages _Folder:"
 msgstr "Cartele stampon _messaçs:"
 
-#: ../src/mail/e-mail-config-defaults-page.c:849
+#: ../src/mail/e-mail-config-defaults-page.c:682
 msgid "Choose a folder for saving draft messages."
 msgstr "Sielç une cartele par salvâ i messaçs stampon."
 
-#: ../src/mail/e-mail-config-defaults-page.c:863
+#: ../src/mail/e-mail-config-defaults-page.c:698
 msgid "Sent _Messages Folder:"
 msgstr "Cartele _messaçs inviâts:"
 
-#: ../src/mail/e-mail-config-defaults-page.c:873
+#: ../src/mail/e-mail-config-defaults-page.c:726
 msgid "Choose a folder for saving sent messages."
 msgstr "Sielç une cartele par salvâ i messaçs inviâts."
 
-#: ../src/mail/e-mail-config-defaults-page.c:892
+#: ../src/mail/e-mail-config-defaults-page.c:752
 msgid "S_ave replies in the folder of the message being replied to"
 msgstr "S_alve lis rispuestis inte cartele dal messaç che si sta rispuindint"
 
-#: ../src/mail/e-mail-config-defaults-page.c:909
+#: ../src/mail/e-mail-config-defaults-page.c:775
 msgid "Archi_ve Folder:"
 msgstr "Cartele archi_vi:"
 
-#: ../src/mail/e-mail-config-defaults-page.c:919
+#: ../src/mail/e-mail-config-defaults-page.c:785
 #: ../src/modules/mail/em-mailer-prefs.c:1407
 msgid "Choose a folder to archive messages to."
 msgstr "Sielç une cartele par archiviâ i messaçs."
 
-#: ../src/mail/e-mail-config-defaults-page.c:933
+#: ../src/mail/e-mail-config-defaults-page.c:799
 msgid "_Templates Folder:"
 msgstr "Cartele mo_dei:"
 
-#: ../src/mail/e-mail-config-defaults-page.c:943
+#: ../src/mail/e-mail-config-defaults-page.c:809
 msgid "Choose a folder to use for template messages."
 msgstr "Sielç une cartele di doprâ pai messaçs modei."
 
-#: ../src/mail/e-mail-config-defaults-page.c:965
+#: ../src/mail/e-mail-config-defaults-page.c:831
 msgid "_Restore Defaults"
 msgstr "_Torne met i predefinîts"
 
-#: ../src/mail/e-mail-config-defaults-page.c:982
+#: ../src/mail/e-mail-config-defaults-page.c:848
 msgid "_Lookup Folders"
 msgstr "Cartelis di _ricercje"
 
-#: ../src/mail/e-mail-config-defaults-page.c:1000
+#: ../src/mail/e-mail-config-defaults-page.c:866
 msgid "Use a Real Folder for _Trash:"
 msgstr "Doprâ une cartele vere pe _Scovacere:"
 
-#: ../src/mail/e-mail-config-defaults-page.c:1001
+#: ../src/mail/e-mail-config-defaults-page.c:867
 msgid "Choose a folder for deleted messages."
 msgstr "Sielç une cartele pai messaçs eliminâts."
 
-#: ../src/mail/e-mail-config-defaults-page.c:1010
+#: ../src/mail/e-mail-config-defaults-page.c:876
 msgid "Use a Real Folder for _Junk:"
 msgstr "Doprâ une cartele vere pai _Malvolûts:"
 
-#: ../src/mail/e-mail-config-defaults-page.c:1011
+#: ../src/mail/e-mail-config-defaults-page.c:877
 msgid "Choose a folder for junk messages."
 msgstr "Sielç une cartele pai messaçs malvolûts."
 
-#: ../src/mail/e-mail-config-defaults-page.c:1028
-msgid "Composing Messages"
-msgstr "Composizion messaçs"
-
-#: ../src/mail/e-mail-config-defaults-page.c:1037
-msgid "Alway_s carbon-copy (cc) to:"
-msgstr "Simpri copie-par-cognossince (cc) a:"
-
-#: ../src/mail/e-mail-config-defaults-page.c:1062
-msgid "Always _blind carbon-copy (bcc) to:"
-msgstr "Simpri copie-par-cognossince platade (ccp) a:"
-
-#: ../src/mail/e-mail-config-defaults-page.c:1093
-msgid "Re_ply style:"
-msgstr "Stîl ris_pueste:"
-
-#: ../src/mail/e-mail-config-defaults-page.c:1129
-msgid "Message Receipts"
-msgstr "Ricevude dai messaçs"
-
-#: ../src/mail/e-mail-config-defaults-page.c:1138
-msgid "S_end message receipts:"
-msgstr "Inviâ lis ric_evudis di messaç:"
-
-#: ../src/mail/e-mail-config-defaults-page.c:1163
-msgid "Never"
-msgstr "Mai"
-
-#: ../src/mail/e-mail-config-defaults-page.c:1169
-msgid "Always"
-msgstr "Simpri"
-
-#: ../src/mail/e-mail-config-defaults-page.c:1175
-msgid "Ask for each message"
-msgstr "Domande par ogni messaç"
-
-#: ../src/mail/e-mail-config-defaults-page.c:1282
+#: ../src/mail/e-mail-config-defaults-page.c:981
 msgid "Defaults"
 msgstr "Predefinîts"
 
-#: ../src/mail/e-mail-config-identity-page.c:516
+#: ../src/mail/e-mail-config-identity-page.c:513
 msgid ""
 "Please enter your name and email address below. The “optional” fields below "
 "do not need to be filled in, unless you wish to include this information in "
@@ -15980,13 +16028,13 @@ msgstr ""
 "cjamps “opzionâi”, gjavant che no si desideri includi chestis informazions "
 "tes e-mail inviadis."
 
-#: ../src/mail/e-mail-config-identity-page.c:544
-#: ../src/mail/e-mail-config-summary-page.c:324
+#: ../src/mail/e-mail-config-identity-page.c:541
+#: ../src/mail/e-mail-config-summary-page.c:323
 msgid "Account Information"
 msgstr "Informazions sul account"
 
-#: ../src/mail/e-mail-config-identity-page.c:582
-#: ../src/mail/e-mail-config-summary-page.c:354
+#: ../src/mail/e-mail-config-identity-page.c:579
+#: ../src/mail/e-mail-config-summary-page.c:353
 msgid ""
 "The above name will be used to identify this account.\n"
 "Use for example, “Work” or “Personal”."
@@ -15994,94 +16042,94 @@ msgstr ""
 "Il non parsore al vignarà doprât par identificâ chest account.\n"
 "Doprâ par esempli “Lavôr” o “Personâl”."
 
-#: ../src/mail/e-mail-config-identity-page.c:599
+#: ../src/mail/e-mail-config-identity-page.c:596
 msgid "Required Information"
 msgstr "Informazions necessaris"
 
-#: ../src/mail/e-mail-config-identity-page.c:608
+#: ../src/mail/e-mail-config-identity-page.c:605
 msgid "Full Nam_e:"
 msgstr "N_on complet:"
 
-#: ../src/mail/e-mail-config-identity-page.c:637
+#: ../src/mail/e-mail-config-identity-page.c:634
 msgid "Email _Address:"
 msgstr "Direzion _e-mail:"
 
-#: ../src/mail/e-mail-config-identity-page.c:686
+#: ../src/mail/e-mail-config-identity-page.c:683
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:26
 msgid "Optional Information"
 msgstr "Informazions opzionâi"
 
-#: ../src/mail/e-mail-config-identity-page.c:695
+#: ../src/mail/e-mail-config-identity-page.c:692
 msgid "Re_ply-To:"
 msgstr "Ris_puint a:"
 
-#: ../src/mail/e-mail-config-identity-page.c:724
+#: ../src/mail/e-mail-config-identity-page.c:721
 msgid "Or_ganization:"
 msgstr "Or_ganizazion:"
 
-#: ../src/mail/e-mail-config-identity-page.c:779
+#: ../src/mail/e-mail-config-identity-page.c:776
 msgid "Add Ne_w Signature..."
 msgstr "Zonte gno_ve firme..."
 
-#: ../src/mail/e-mail-config-identity-page.c:793
+#: ../src/mail/e-mail-config-identity-page.c:790
 msgid "A_liases:"
 msgstr "A_lias:"
 
-#: ../src/mail/e-mail-config-identity-page.c:855
-#: ../src/mail/mail-config.ui.h:114
+#: ../src/mail/e-mail-config-identity-page.c:852
+#: ../src/mail/mail-config.ui.h:115
 msgid "Add"
 msgstr "Zonte"
 
-#: ../src/mail/e-mail-config-identity-page.c:864
+#: ../src/mail/e-mail-config-identity-page.c:861
 msgid "Edit"
 msgstr "Modifiche"
 
-#: ../src/mail/e-mail-config-identity-page.c:873
-#: ../src/mail/mail-config.ui.h:115
+#: ../src/mail/e-mail-config-identity-page.c:870
+#: ../src/mail/mail-config.ui.h:116
 msgid "Remove"
 msgstr "Gjave"
 
-#: ../src/mail/e-mail-config-identity-page.c:887
+#: ../src/mail/e-mail-config-identity-page.c:884
 msgid "_Look up mail server details based on the entered e-mail address"
 msgstr ""
 "_Cîr i detais dal servidôr di pueste in base ae direzion e-mail inseride"
 
 #. This is only a warning, not a blocker
 #. complete = complete && correct;
-#: ../src/mail/e-mail-config-identity-page.c:934
+#: ../src/mail/e-mail-config-identity-page.c:933
 msgid "Full Name should not be empty"
 msgstr "Il non complet nol varès di jessi vueit"
 
-#: ../src/mail/e-mail-config-identity-page.c:941
+#: ../src/mail/e-mail-config-identity-page.c:940
 msgid "Email Address cannot be empty"
 msgstr "La direzion e-mail no varès di jessi vueide"
 
-#: ../src/mail/e-mail-config-identity-page.c:946
+#: ../src/mail/e-mail-config-identity-page.c:945
 msgid "Email Address is not a valid email"
 msgstr "La direzion e-mail no je une e-mail valide"
 
-#: ../src/mail/e-mail-config-identity-page.c:958
+#: ../src/mail/e-mail-config-identity-page.c:957
 msgid "Reply To is not a valid email"
 msgstr "«Rispuint a» no je une e-mail valide"
 
-#: ../src/mail/e-mail-config-identity-page.c:969
-#: ../src/mail/e-mail-config-summary-page.c:633
+#: ../src/mail/e-mail-config-identity-page.c:968
+#: ../src/mail/e-mail-config-summary-page.c:638
 msgid "Account Name cannot be empty"
 msgstr "Il non dal account nol pues jessi vueit"
 
-#: ../src/mail/e-mail-config-lookup-page.c:69
+#: ../src/mail/e-mail-config-lookup-page.c:65
 msgid "Looking up account details..."
 msgstr "Daûr a consultâ i detais dal account..."
 
-#: ../src/mail/e-mail-config-provider-page.c:529
+#: ../src/mail/e-mail-config-provider-page.c:537
 msgid "Checking for New Mail"
 msgstr "Control di gnove pueste"
 
-#: ../src/mail/e-mail-config-provider-page.c:545
+#: ../src/mail/e-mail-config-provider-page.c:553
 msgid "Check for _new messages every"
 msgstr "Controlâ g_nûfs messaçs ogni"
 
-#: ../src/mail/e-mail-config-provider-page.c:753
+#: ../src/mail/e-mail-config-provider-page.c:763
 msgid "Receiving Options"
 msgstr "Opzions di ricezion"
 
@@ -16097,8 +16145,8 @@ msgctxt "PGPKeyDescription"
 msgid "%s — %s"
 msgstr "%s — %s"
 
-#: ../src/mail/e-mail-config-security-page.c:320
-#: ../src/mail/em-folder-properties.c:1070 ../src/mail/mail-config.ui.h:31
+#: ../src/mail/e-mail-config-security-page.c:318
+#: ../src/mail/em-folder-properties.c:1070 ../src/mail/mail-config.ui.h:32
 #: ../src/modules/addressbook/autocompletion-config.c:114
 #: ../src/modules/calendar/e-calendar-preferences.c:644
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:48
@@ -16107,103 +16155,103 @@ msgstr "%s — %s"
 msgid "General"
 msgstr "Gjenerâl"
 
-#: ../src/mail/e-mail-config-security-page.c:329
+#: ../src/mail/e-mail-config-security-page.c:327
 msgid "_Do not sign meeting requests (for Outlook compatibility)"
 msgstr ""
 "No sta firmâ lis richiestis _di riunion (pe compatibilitât cun Outlook)"
 
-#: ../src/mail/e-mail-config-security-page.c:351
+#: ../src/mail/e-mail-config-security-page.c:349
 msgid "Pretty Good Privacy (OpenPGP)"
 msgstr "Pretty Good Privacy (OpenPGP)"
 
-#: ../src/mail/e-mail-config-security-page.c:360
+#: ../src/mail/e-mail-config-security-page.c:358
 msgid "OpenPGP _Key ID:"
 msgstr "ID de _clâf OpenPGP:"
 
-#: ../src/mail/e-mail-config-security-page.c:393
+#: ../src/mail/e-mail-config-security-page.c:391
 msgid "Si_gning algorithm:"
 msgstr "Al_goritmi di firme:"
 
-#: ../src/mail/e-mail-config-security-page.c:409
-#: ../src/mail/e-mail-config-security-page.c:573
-#: ../src/mail/mail-config.ui.h:76
+#: ../src/mail/e-mail-config-security-page.c:407
+#: ../src/mail/e-mail-config-security-page.c:571
+#: ../src/mail/mail-config.ui.h:77
 msgid "SHA1"
 msgstr "SHA1"
 
-#: ../src/mail/e-mail-config-security-page.c:412
-#: ../src/mail/e-mail-config-security-page.c:576
-#: ../src/mail/mail-config.ui.h:77
+#: ../src/mail/e-mail-config-security-page.c:410
+#: ../src/mail/e-mail-config-security-page.c:574
+#: ../src/mail/mail-config.ui.h:78
 msgid "SHA256"
 msgstr "SHA256"
 
-#: ../src/mail/e-mail-config-security-page.c:415
-#: ../src/mail/e-mail-config-security-page.c:579
-#: ../src/mail/mail-config.ui.h:78
+#: ../src/mail/e-mail-config-security-page.c:413
+#: ../src/mail/e-mail-config-security-page.c:577
+#: ../src/mail/mail-config.ui.h:79
 msgid "SHA384"
 msgstr "SHA384"
 
-#: ../src/mail/e-mail-config-security-page.c:418
-#: ../src/mail/e-mail-config-security-page.c:582
-#: ../src/mail/mail-config.ui.h:79
+#: ../src/mail/e-mail-config-security-page.c:416
+#: ../src/mail/e-mail-config-security-page.c:580
+#: ../src/mail/mail-config.ui.h:80
 msgid "SHA512"
 msgstr "SHA512"
 
-#: ../src/mail/e-mail-config-security-page.c:434
+#: ../src/mail/e-mail-config-security-page.c:432
 msgid "Al_ways sign outgoing messages when using this account"
 msgstr "Firmâ _simpri i messaçs in jessude cuant che si dopre chest account"
 
-#: ../src/mail/e-mail-config-security-page.c:446
+#: ../src/mail/e-mail-config-security-page.c:444
 msgid "Always enc_rypt outgoing messages when using this account"
 msgstr "Cifrâ simp_ri i messaçs in jessude cuant che si dopre chest account"
 
-#: ../src/mail/e-mail-config-security-page.c:458
+#: ../src/mail/e-mail-config-security-page.c:456
 msgid "Always encrypt to _myself when sending encrypted messages"
 msgstr "Cifrâ si_mpri par se stes cuant che si invie messaçs cifrâts"
 
-#: ../src/mail/e-mail-config-security-page.c:470
+#: ../src/mail/e-mail-config-security-page.c:468
 msgid "Always _trust keys in my keyring when encrypting"
 msgstr "_Fidâsi simpri des clâfs tal puarteclâfs personâl cuant che si cifre"
 
-#: ../src/mail/e-mail-config-security-page.c:482
+#: ../src/mail/e-mail-config-security-page.c:480
 msgid "Prefer _inline sign/encrypt for plain text messages"
 msgstr "Preferî la firme/cifradure incorporade pai messaçs di test sempliç"
 
-#: ../src/mail/e-mail-config-security-page.c:506
+#: ../src/mail/e-mail-config-security-page.c:504
 msgid "Secure MIME (S/MIME)"
 msgstr "MIME sigûr (S/MIME)"
 
-#: ../src/mail/e-mail-config-security-page.c:515
+#: ../src/mail/e-mail-config-security-page.c:513
 msgid "Sig_ning certificate:"
 msgstr "Certificât di fir_me:"
 
-#: ../src/mail/e-mail-config-security-page.c:539
-#: ../src/mail/e-mail-config-security-page.c:637
+#: ../src/mail/e-mail-config-security-page.c:537
+#: ../src/mail/e-mail-config-security-page.c:635
 msgid "Select"
 msgstr "Selezione"
 
-#: ../src/mail/e-mail-config-security-page.c:548
-#: ../src/mail/e-mail-config-security-page.c:646
+#: ../src/mail/e-mail-config-security-page.c:546
+#: ../src/mail/e-mail-config-security-page.c:644
 #: ../src/mail/mail-dialogs.ui.h:16 ../src/shell/e-shell-window-actions.c:885
 msgid "_Clear"
 msgstr "_Nete"
 
-#: ../src/mail/e-mail-config-security-page.c:557
+#: ../src/mail/e-mail-config-security-page.c:555
 msgid "Signing _algorithm:"
 msgstr "Algoritmi di firme:"
 
-#: ../src/mail/e-mail-config-security-page.c:598
+#: ../src/mail/e-mail-config-security-page.c:596
 msgid "Always sign outgoing messages when using this account"
 msgstr "Firmâ simpri i messaçs in jessude cuant che si dopre chest account"
 
-#: ../src/mail/e-mail-config-security-page.c:613
+#: ../src/mail/e-mail-config-security-page.c:611
 msgid "Encryption certificate:"
 msgstr "Certificât di cifradure:"
 
-#: ../src/mail/e-mail-config-security-page.c:655
+#: ../src/mail/e-mail-config-security-page.c:653
 msgid "Always encrypt outgoing messages when using this account"
 msgstr "Cifrâ simpri i messaçs in jessude cuant che si dopre chest account"
 
-#: ../src/mail/e-mail-config-security-page.c:667
+#: ../src/mail/e-mail-config-security-page.c:665
 msgid "Always encrypt to myself when sending encrypted messages"
 msgstr "Cifrâ simpri par se stes cuant che si invie messaçs cifrâts"
 
@@ -16211,68 +16259,73 @@ msgstr "Cifrâ simpri par se stes cuant che si invie messaçs cifrâts"
 msgid "Sending Email"
 msgstr "Daûr a inviâ e-mail"
 
-#: ../src/mail/e-mail-config-service-page.c:639
+#: ../src/mail/e-mail-config-service-page.c:504
 msgid "Server _Type:"
 msgstr "G_jenar di servidôr:"
 
-#: ../src/mail/e-mail-config-summary-page.c:143
+#: ../src/mail/e-mail-config-summary-page.c:144
 msgid "TLS"
 msgstr "TLS"
 
-#: ../src/mail/e-mail-config-summary-page.c:146
+#: ../src/mail/e-mail-config-summary-page.c:147
 msgid "STARTTLS"
 msgstr "STARTTLS"
 
-#: ../src/mail/e-mail-config-summary-page.c:307
+#: ../src/mail/e-mail-config-summary-page.c:306
 msgid ""
 "This is a summary of the settings which will be used to access your mail."
 msgstr ""
 "Cheste e je une sintesi des impostazions che a vignaran dopradis par acedi "
 "ae tô pueste."
 
-#: ../src/mail/e-mail-config-summary-page.c:371
+#: ../src/mail/e-mail-config-summary-page.c:370
 msgid "Personal Details"
 msgstr "Detais Personâi"
 
-#: ../src/mail/e-mail-config-summary-page.c:380
+#: ../src/mail/e-mail-config-summary-page.c:379
 msgid "Full Name:"
 msgstr "Non _complet:"
 
-#: ../src/mail/e-mail-config-summary-page.c:394
+#: ../src/mail/e-mail-config-summary-page.c:393
 msgid "Email Address:"
 msgstr "Direzion e-mail:"
 
-#: ../src/mail/e-mail-config-summary-page.c:408
+#: ../src/mail/e-mail-config-summary-page.c:407
 msgid "Receiving"
 msgstr "Daûr a ricevi"
 
-#: ../src/mail/e-mail-config-summary-page.c:420
+#: ../src/mail/e-mail-config-summary-page.c:419
 msgid "Sending"
 msgstr "Daûr a inviâ"
 
-#: ../src/mail/e-mail-config-summary-page.c:432
+#: ../src/mail/e-mail-config-summary-page.c:431
 msgid "Server Type:"
 msgstr "Gjenar di servidôr:"
 
-#: ../src/mail/e-mail-config-summary-page.c:453
+#: ../src/mail/e-mail-config-summary-page.c:452
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:606
 msgid "Server:"
 msgstr "Servidôr:"
 
-#: ../src/mail/e-mail-config-summary-page.c:474
+#: ../src/mail/e-mail-config-summary-page.c:473
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:704
 msgid "Username:"
 msgstr "Non utent:"
 
-#: ../src/mail/e-mail-config-summary-page.c:495
+#: ../src/mail/e-mail-config-summary-page.c:494
 msgid "Security:"
 msgstr "Sigurece:"
 
-#: ../src/mail/e-mail-config-summary-page.c:788
+#: ../src/mail/e-mail-config-summary-page.c:651
+msgid "Cannot have both receiving and sending parts set to None"
+msgstr ""
+"No si pues vê dutis dôs lis parts di ricezion e inviament metudis a nuie"
+
+#: ../src/mail/e-mail-config-summary-page.c:807
 msgid "Account Summary"
 msgstr "Sintesi account"
 
-#: ../src/mail/e-mail-config-welcome-page.c:157
+#: ../src/mail/e-mail-config-welcome-page.c:161
 msgid ""
 "Welcome to the Evolution Mail Configuration Assistant.\n"
 "\n"
@@ -16282,12 +16335,12 @@ msgstr ""
 "\n"
 "Frache “Sucessîf” par tacâ."
 
-#: ../src/mail/e-mail-config-welcome-page.c:167
-#: ../src/modules/startup-wizard/e-startup-assistant.c:152
+#: ../src/mail/e-mail-config-welcome-page.c:171
+#: ../src/modules/startup-wizard/e-startup-assistant.c:154
 msgid "Welcome"
 msgstr "Benvignût"
 
-#: ../src/mail/e-mail-config-window.c:326
+#: ../src/mail/e-mail-config-window.c:329
 msgid "Account Editor"
 msgstr "Editôr account"
 
@@ -16506,7 +16559,7 @@ msgstr "Non intestazion"
 msgid "Header Value"
 msgstr "Valôr intestazion"
 
-#: ../src/mail/e-mail-printer.c:100 ../src/mail/mail-config.ui.h:126
+#: ../src/mail/e-mail-printer.c:100 ../src/mail/mail-config.ui.h:127
 msgid "Headers"
 msgstr "Intestazions"
 
@@ -17281,12 +17334,12 @@ msgstr "Il messaç nol à test."
 msgid "Flag to Follow Up"
 msgstr "Segne pal completament"
 
-#: ../src/mail/e-mail-ui-session.c:813
+#: ../src/mail/e-mail-ui-session.c:821
 #, c-format
 msgid "%s authentication failed"
 msgstr "Autenticazion %s falide"
 
-#: ../src/mail/e-mail-ui-session.c:863
+#: ../src/mail/e-mail-ui-session.c:871
 #, c-format
 msgid "No data source found for UID “%s”"
 msgstr "Nissune sorzint dâts cjatade pal UID “%s”"
@@ -17330,7 +17383,7 @@ msgstr[1] ""
 
 #. This message is never removed from the camel operation, otherwise the GtkInfoBar
 #. hides itself and the user sees no feedback.
-#: ../src/mail/em-composer-utils.c:790
+#: ../src/mail/em-composer-utils.c:800
 msgid "Waiting for attachments to load..."
 msgstr "In spiete de zonte di cjariâ..."
 
@@ -17338,7 +17391,7 @@ msgstr "In spiete de zonte di cjariâ..."
 #. * when quoting messages.  Each ${Variable} gets replaced
 #. * with a value.  To see a full list of available variables,
 #. * see mail/em-composer-utils.c:attribvars array.
-#: ../src/mail/em-composer-utils.c:1745
+#: ../src/mail/em-composer-utils.c:1755
 msgid ""
 "On ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} at ${24Hour}:${Minute} "
 "${TimeZone}, ${Sender} wrote:"
@@ -17346,30 +17399,30 @@ msgstr ""
 "Il ${AbbrevWeekdayName}, ${Day}/${Month}/${Year} aes ${24Hour}:${Minute} "
 "${TimeZone}, il mitent ${Sender} al scrivè:"
 
-#: ../src/mail/em-composer-utils.c:1751
+#: ../src/mail/em-composer-utils.c:1761
 msgid "-------- Forwarded Message --------"
 msgstr "------ Messaç mandât indenant -----"
 
-#: ../src/mail/em-composer-utils.c:1756
+#: ../src/mail/em-composer-utils.c:1766
 msgid "-----Original Message-----"
 msgstr "-----Messaç origjinâl-----"
 
 #. Translators: This is a reply attribution in the message reply subject. The %s is replaced with the subject of the original message.
-#: ../src/mail/em-composer-utils.c:2529
-#, fuzzy, c-format
+#: ../src/mail/em-composer-utils.c:2545
+#, c-format
 msgid "Re: %s"
 msgstr "Risp: %s"
 
-#: ../src/mail/em-composer-utils.c:3093
+#: ../src/mail/em-composer-utils.c:3109
 msgid "an unknown sender"
 msgstr "un mitent no cognossût"
 
 #. FIXME GTK_WINDOW (composer)
-#: ../src/mail/em-composer-utils.c:3571
+#: ../src/mail/em-composer-utils.c:3587
 msgid "Posting destination"
 msgstr "Destinazion di publicazion"
 
-#: ../src/mail/em-composer-utils.c:3576
+#: ../src/mail/em-composer-utils.c:3592
 msgid "Choose folders to post the message to."
 msgstr "Sielzi lis cartelis dulà publicâ il messaç."
 
@@ -17475,7 +17528,7 @@ msgstr "Etichete"
 msgid "AutoArchive"
 msgstr "Archivi automatic"
 
-#: ../src/mail/em-folder-properties.c:1076 ../src/mail/mail-config.ui.h:119
+#: ../src/mail/em-folder-properties.c:1076 ../src/mail/mail-config.ui.h:120
 #: ../src/mail/message-list.etspec.h:19
 msgid "Labels"
 msgstr "Etichetis"
@@ -17559,8 +17612,8 @@ msgstr "Impussibil molâ il/i messaç(s) tal archivi di prin nivel"
 msgid "UNMATCHED"
 msgstr "NISSUNE CORISPONDENCE"
 
-#: ../src/mail/em-folder-tree-model.c:1325
-#: ../src/mail/em-folder-tree-model.c:1701
+#: ../src/mail/em-folder-tree-model.c:1326
+#: ../src/mail/em-folder-tree-model.c:1702
 msgid "Loading..."
 msgstr "Daûr a cjariâ..."
 
@@ -17675,7 +17728,7 @@ msgid "Stop the current operation"
 msgstr "Ferme la operazion atuâl"
 
 #: ../src/mail/em-subscription-editor.c:1988
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1002
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1005
 msgid "_Stop"
 msgstr "_Ferme"
 
@@ -17898,7 +17951,7 @@ msgstr "Impuartant"
 msgid "Read"
 msgstr "Let"
 
-#: ../src/mail/filtertypes.xml.in.h:41 ../src/mail/mail-config.ui.h:133
+#: ../src/mail/filtertypes.xml.in.h:41 ../src/mail/mail-config.ui.h:134
 #: ../src/mail/vfoldertypes.xml.in.h:44
 msgid "Junk"
 msgstr "Malvolût"
@@ -18263,54 +18316,50 @@ msgstr "Stîl _rispueste:"
 msgid "_Forward style:"
 msgstr "Stîl _mandade indenant:"
 
-#: ../src/mail/mail-config.ui.h:20
-msgid "Start _typing at the bottom on replying"
-msgstr "Tache a scrivi sot de _repliche"
-
-#: ../src/mail/mail-config.ui.h:21
-msgid "_Keep signature above the original message on replying"
-msgstr "_Ten la firme sore dal messaç origjinâl tal rispuindi"
-
 #: ../src/mail/mail-config.ui.h:22
+msgid "Include si_gnature in new messages only"
+msgstr "Inclût firme dome tai _gnûfs messaçs"
+
+#: ../src/mail/mail-config.ui.h:23
 msgid "Ig_nore Reply-To: for mailing lists"
 msgstr "Ig_nore Rispuint-A: pes mailing list"
 
-#: ../src/mail/mail-config.ui.h:23
+#: ../src/mail/mail-config.ui.h:24
 msgid "Gro_up Reply goes only to mailing list, if possible"
 msgstr "La Rispueste di Gr_up e va dome ae mailing list, se pussibil"
 
-#: ../src/mail/mail-config.ui.h:24
+#: ../src/mail/mail-config.ui.h:25
 msgid "Digitally _sign messages when original message signed (PGP or S/MIME)"
 msgstr ""
 "Firmâ in digjitâl i messaçs cuant che il msessaç origjinâl al jere firmât "
 "(PGP o S/MIME)"
 
-#: ../src/mail/mail-config.ui.h:25
+#: ../src/mail/mail-config.ui.h:26
 msgid "_Wrap quoted text in replies"
 msgstr "Mandâ a gnove _rie il test citât"
 
-#: ../src/mail/mail-config.ui.h:30
+#: ../src/mail/mail-config.ui.h:31
 msgctxt "ReplyForward"
 msgid "Inline"
 msgstr "Incorporât"
 
-#: ../src/mail/mail-config.ui.h:32
+#: ../src/mail/mail-config.ui.h:33
 msgid "Sig_natures"
 msgstr "Fir_mis"
 
-#: ../src/mail/mail-config.ui.h:33
+#: ../src/mail/mail-config.ui.h:34
 msgid "Signatures"
 msgstr "Firmis"
 
-#: ../src/mail/mail-config.ui.h:34
+#: ../src/mail/mail-config.ui.h:35
 msgid "_Languages"
 msgstr "_Lenghis"
 
-#: ../src/mail/mail-config.ui.h:35
+#: ../src/mail/mail-config.ui.h:36
 msgid "Languages Table"
 msgstr "Tabele des lenghis"
 
-#: ../src/mail/mail-config.ui.h:36
+#: ../src/mail/mail-config.ui.h:37
 msgid ""
 "The list of languages here reflects only the languages for which you have a "
 "dictionary installed."
@@ -18318,11 +18367,11 @@ msgstr ""
 "La liste des lenghis chi e riflet nome lis lenghis pes cualis al risulte "
 "instalât il dizionari."
 
-#: ../src/mail/mail-config.ui.h:38
+#: ../src/mail/mail-config.ui.h:39
 msgid "Check spelling while I _type"
 msgstr "Controlâ la ortografie in_tant che si scrîf"
 
-#: ../src/mail/mail-config.ui.h:40
+#: ../src/mail/mail-config.ui.h:41
 msgid ""
 "To help avoid email accidents and embarrassments, ask for confirmation "
 "before taking the following checkmarked actions:"
@@ -18331,74 +18380,74 @@ msgstr ""
 "lis azions chi daurman segnadis:"
 
 #. This is in the context of: Ask for confirmation before...
-#: ../src/mail/mail-config.ui.h:42
+#: ../src/mail/mail-config.ui.h:43
 msgid "Sending a message with an _empty subject line"
 msgstr "Inviâ un messaç cun la rie dal ogjet _vueide"
 
 #. This is in the context of: Ask for confirmation before...
-#: ../src/mail/mail-config.ui.h:44
+#: ../src/mail/mail-config.ui.h:45
 msgid "Sending a message with only _Bcc recipients defined"
 msgstr "Inviâ un messaç cun nome destinataris _Ccp definîts"
 
 #. This is in the context of: Ask for confirmation before...
-#: ../src/mail/mail-config.ui.h:46
+#: ../src/mail/mail-config.ui.h:47
 msgid "Sending a message to many _To and CC recipients"
 msgstr "Inviâ un messaç a plui destinataris _A e CC"
 
 #. This is in the context of: Ask for confirmation before...
-#: ../src/mail/mail-config.ui.h:48
+#: ../src/mail/mail-config.ui.h:49
 msgid "Sending a _private reply to a mailing list message"
 msgstr "Inviâ une rispueste _privade a un messaç di mailing list"
 
 #. This is in the context of: Ask for confirmation before...
-#: ../src/mail/mail-config.ui.h:50
+#: ../src/mail/mail-config.ui.h:51
 msgid "Sending a reply to a large _number of recipients"
 msgstr "Inviâ une rispueste a une vore di _destinataris"
 
 #. This is in the context of: Ask for confirmation before...
-#: ../src/mail/mail-config.ui.h:52
+#: ../src/mail/mail-config.ui.h:53
 msgid "Allowing a _mailing list to redirect a private reply to the list"
 msgstr "Permeti a une _mailing list di indreçâ une rispueste privade ae liste"
 
 #. This is in the context of: Ask for confirmation before...
-#: ../src/mail/mail-config.ui.h:54
+#: ../src/mail/mail-config.ui.h:55
 msgid "Sending a message with _recipients not entered as mail addresses"
 msgstr "Inviâ un messaç cun destinata_ris no inserîts come direzions e-mail"
 
 #. This is in the context of: Ask for confirmation before...
-#: ../src/mail/mail-config.ui.h:56
+#: ../src/mail/mail-config.ui.h:57
 msgid "Sending a message using _key accelerator (Ctrl+Enter)"
 msgstr "Inviâ un messaç doprant la scurte di _tastiere (Ctrl+Enter)"
 
 #. Translators:
-#: ../src/mail/mail-config.ui.h:58
+#: ../src/mail/mail-config.ui.h:59
 msgid "Before composer _format changes from HTML to Plain Text"
 msgstr "Prime che il compositôr al cambi _formât di HTML a Test sempliç"
 
-#: ../src/mail/mail-config.ui.h:59
+#: ../src/mail/mail-config.ui.h:60
 msgid "Confirmations"
 msgstr "Confermis"
 
 #. Translators: Label of a frame with a list of folders for which to use selected account in Send account overrides
-#: ../src/mail/mail-config.ui.h:63
+#: ../src/mail/mail-config.ui.h:64
 msgid "Use for Folders"
 msgstr "Doprâ pes cartelis"
 
 #. Translators: Label of a frame with a list of recipients for whom to use selected account in Send account overrides
-#: ../src/mail/mail-config.ui.h:68
+#: ../src/mail/mail-config.ui.h:69
 msgid "Use for Recipients"
 msgstr "Doprâ pai destinataris"
 
 #. Translators: Label of a frame with a list of configured accounts in Send account overrides
-#: ../src/mail/mail-config.ui.h:70 ../src/modules/mail/em-composer-prefs.c:875
+#: ../src/mail/mail-config.ui.h:71 ../src/modules/mail/em-composer-prefs.c:875
 msgid "Account"
 msgstr "Account"
 
-#: ../src/mail/mail-config.ui.h:71
+#: ../src/mail/mail-config.ui.h:72
 msgid "Send account overrides"
 msgstr "Account par inviâ sostitutîfs"
 
-#: ../src/mail/mail-config.ui.h:72
+#: ../src/mail/mail-config.ui.h:73
 msgid ""
 "Assign which account should be used as a send account for respective folders "
 "or recipients, an override for usual send account detection. List of "
@@ -18410,218 +18459,218 @@ msgstr ""
 "account di inviament. La liste dai destinataris e pues vê direzions e nons "
 "parziâi. Il non e i tocs di direzion a son comparâts  in maniere separade."
 
-#: ../src/mail/mail-config.ui.h:73
+#: ../src/mail/mail-config.ui.h:74
 msgid "_Folder override has precedence over Recipient override"
 msgstr "La _cartele sostitutive e à la precedence sul destinatari sostitutîf"
 
-#: ../src/mail/mail-config.ui.h:74
+#: ../src/mail/mail-config.ui.h:75
 msgid "Send Account"
 msgstr "Account di inviament"
 
-#: ../src/mail/mail-config.ui.h:80 ../src/smime/gui/smime-ui.ui.h:27
+#: ../src/mail/mail-config.ui.h:81 ../src/smime/gui/smime-ui.ui.h:27
 msgid "a"
 msgstr "a"
 
-#: ../src/mail/mail-config.ui.h:81 ../src/smime/gui/smime-ui.ui.h:28
+#: ../src/mail/mail-config.ui.h:82 ../src/smime/gui/smime-ui.ui.h:28
 msgid "b"
 msgstr "b"
 
-#: ../src/mail/mail-config.ui.h:82
+#: ../src/mail/mail-config.ui.h:83
 msgid "Start up"
 msgstr "Inizi"
 
-#: ../src/mail/mail-config.ui.h:83
+#: ../src/mail/mail-config.ui.h:84
 msgid "Check for new _messages on start"
 msgstr "Controlâ i gnûfs _messaçs al inviament"
 
-#: ../src/mail/mail-config.ui.h:84
+#: ../src/mail/mail-config.ui.h:85
 msgid "Check for new messa_ges in all active accounts"
 msgstr "Controlâ i _gnûfs messaçs in ducj i account atîfs"
 
-#: ../src/mail/mail-config.ui.h:85
+#: ../src/mail/mail-config.ui.h:86
 msgid "Message Display"
 msgstr "Visualizazion dai messaçs"
 
-#: ../src/mail/mail-config.ui.h:86
+#: ../src/mail/mail-config.ui.h:87
 msgid "_Use the same fonts as other applications"
 msgstr "_Dopre i stes caratars des altris aplicazions"
 
-#: ../src/mail/mail-config.ui.h:87
+#: ../src/mail/mail-config.ui.h:88
 msgid "S_tandard Font:"
 msgstr "Caratar s_tandard:"
 
-#: ../src/mail/mail-config.ui.h:88
+#: ../src/mail/mail-config.ui.h:89
 msgid "Select HTML fixed width font"
 msgstr "Selezione caratar a largjece fisse HTML"
 
-#: ../src/mail/mail-config.ui.h:89
+#: ../src/mail/mail-config.ui.h:90
 msgid "Select HTML variable width font"
 msgstr "Selezione caratar a largjece variabile HTML"
 
-#: ../src/mail/mail-config.ui.h:90
+#: ../src/mail/mail-config.ui.h:91
 msgid "Fix_ed Width Font:"
 msgstr "Caratar a larg_jece fisse:"
 
-#: ../src/mail/mail-config.ui.h:91
+#: ../src/mail/mail-config.ui.h:92
 msgid "_Mark messages as read after"
 msgstr "_Segne i messaçs come lets daspò"
 
-#: ../src/mail/mail-config.ui.h:93
+#: ../src/mail/mail-config.ui.h:94
 msgid "Highlight _quotations with"
 msgstr "Evidenziâ _citazions cun"
 
-#: ../src/mail/mail-config.ui.h:94
+#: ../src/mail/mail-config.ui.h:95
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:62
 msgid "Pick a color"
 msgstr "Sielzi un colôr"
 
-#: ../src/mail/mail-config.ui.h:95
+#: ../src/mail/mail-config.ui.h:96
 msgid "color"
 msgstr "colôr"
 
-#: ../src/mail/mail-config.ui.h:96
+#: ../src/mail/mail-config.ui.h:97
 msgid "Default character e_ncoding:"
 msgstr "Co_difiche caratars predefinide:"
 
-#: ../src/mail/mail-config.ui.h:97
+#: ../src/mail/mail-config.ui.h:98
 msgid "Apply the same _view settings to all folders"
 msgstr "Apliche la stesse impostazion di _visualizazion a dutis lis cartelis"
 
-#: ../src/mail/mail-config.ui.h:98
+#: ../src/mail/mail-config.ui.h:99
 msgid "F_all back to threading messages by subject"
 msgstr "Cesse _al intropament dai messaç par ogjet"
 
-#: ../src/mail/mail-config.ui.h:99
+#: ../src/mail/mail-config.ui.h:100
 msgid "Delete Mail"
 msgstr "Eliminâ pueste"
 
-#: ../src/mail/mail-config.ui.h:100
+#: ../src/mail/mail-config.ui.h:101
 msgid "Empty _trash folders"
 msgstr "Disvuedâ lis cartelis des _scovaceris"
 
-#: ../src/mail/mail-config.ui.h:101
+#: ../src/mail/mail-config.ui.h:102
 msgid "Confirm _when expunging a folder"
 msgstr "Confermâ _prime di netâ une cartele"
 
-#: ../src/mail/mail-config.ui.h:102
+#: ../src/mail/mail-config.ui.h:103
 msgid "Confirm when emptying a _Junk folder"
 msgstr "Confermâ prime di disvuedâ une cartele di pueste _malvolude"
 
-#: ../src/mail/mail-config.ui.h:103
+#: ../src/mail/mail-config.ui.h:104
 msgid "Archive Mail"
 msgstr "Archiviâ pueste"
 
-#: ../src/mail/mail-config.ui.h:104
+#: ../src/mail/mail-config.ui.h:105
 msgid "Archive folder to use for On This Computer messages"
 msgstr "Cartele archivi di doprâ pai messaçs Su chest computer"
 
-#: ../src/mail/mail-config.ui.h:105
+#: ../src/mail/mail-config.ui.h:106
 msgid "On This Computer A_rchive folder:"
 msgstr "Cartele a_rchivi su chest computer:"
 
 #. If enabled, show animation; if disabled, only display a static image without any animation
-#: ../src/mail/mail-config.ui.h:107
+#: ../src/mail/mail-config.ui.h:108
 msgid "_Show animated images"
 msgstr "_Mostrâ imagjins animadis"
 
-#: ../src/mail/mail-config.ui.h:108
+#: ../src/mail/mail-config.ui.h:109
 msgid "_Prompt on sending HTML mail to contacts that do not want them"
 msgstr ""
 "_Domandâ pal inviament di pueste in HTML ai contats che no le desiderin"
 
-#: ../src/mail/mail-config.ui.h:109
+#: ../src/mail/mail-config.ui.h:110
 msgid "Loading Remote Content"
 msgstr "Daûr a cjariâ contignût rimot"
 
-#: ../src/mail/mail-config.ui.h:110
+#: ../src/mail/mail-config.ui.h:111
 msgid "_Never load remote content from the Internet"
 msgstr "_No sta cjariâ mai il contignût rimot di Internet"
 
-#: ../src/mail/mail-config.ui.h:111
+#: ../src/mail/mail-config.ui.h:112
 msgid "_Load remote content only in messages from contacts"
 msgstr "_Cjariâ il contignût rimot nome tai messaçs dai contats"
 
-#: ../src/mail/mail-config.ui.h:112
+#: ../src/mail/mail-config.ui.h:113
 msgid "_Always load remote content from the Internet"
 msgstr "Cjariâ _simpri il contignût rimot di Internet"
 
-#: ../src/mail/mail-config.ui.h:113
+#: ../src/mail/mail-config.ui.h:114
 msgid "Notify about _missing remote content in the message preview"
 msgstr "Notificâ il contignût rimot che al _mancje tal messaç di anteprime"
 
-#: ../src/mail/mail-config.ui.h:116
+#: ../src/mail/mail-config.ui.h:117
 msgid "Allow for sites:"
 msgstr "Permet pai sîts:"
 
-#: ../src/mail/mail-config.ui.h:117
+#: ../src/mail/mail-config.ui.h:118
 msgid "Allow for senders:"
 msgstr "Permet pai mitents:"
 
-#: ../src/mail/mail-config.ui.h:118
+#: ../src/mail/mail-config.ui.h:119
 msgid "HTML Messages"
 msgstr "Messaçs HTML"
 
-#: ../src/mail/mail-config.ui.h:120
+#: ../src/mail/mail-config.ui.h:121
 msgid "Sender Photograph"
 msgstr "Fotografie dal mitent"
 
-#: ../src/mail/mail-config.ui.h:121
+#: ../src/mail/mail-config.ui.h:122
 msgid "_Show the photograph of sender in the message preview"
 msgstr "_Mostrâ la fotografie dal mitent inte anteprime dal messaç"
 
-#: ../src/mail/mail-config.ui.h:122
+#: ../src/mail/mail-config.ui.h:123
 msgid "Search gra_vatar.com for the photograph of sender"
 msgstr "Cirî su gra_vatar.com pe fotografie dal mitent"
 
-#: ../src/mail/mail-config.ui.h:123
+#: ../src/mail/mail-config.ui.h:124
 msgid "Displayed Message Headers"
 msgstr "Intestazions di messaç mostradis"
 
-#: ../src/mail/mail-config.ui.h:124
+#: ../src/mail/mail-config.ui.h:125
 msgid "Mail Headers Table"
 msgstr "Tabele des intestazions de pueste"
 
-#: ../src/mail/mail-config.ui.h:125
+#: ../src/mail/mail-config.ui.h:126
 #: ../src/modules/addressbook/autocompletion-config.c:117
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:45
 msgid "Date/Time Format"
 msgstr "Formât date/ore"
 
-#: ../src/mail/mail-config.ui.h:127
+#: ../src/mail/mail-config.ui.h:128
 msgid "Check incoming _messages for junk"
 msgstr "Controlâ tai _messaçs in jentrade chei malvolûts"
 
-#: ../src/mail/mail-config.ui.h:128
+#: ../src/mail/mail-config.ui.h:129
 msgid "_Delete junk messages"
 msgstr "_Eliminâ i messaçs malvolûts"
 
-#: ../src/mail/mail-config.ui.h:129
+#: ../src/mail/mail-config.ui.h:130
 msgid "Junk Test Options"
 msgstr "Opzions prove malvolûts"
 
-#: ../src/mail/mail-config.ui.h:130
+#: ../src/mail/mail-config.ui.h:131
 msgid "Do not mar_k messages as junk if sender is in my address book"
 msgstr "No sta se_gnâ i messaçs come malvolûts se il mitent al è te rubriche"
 
-#: ../src/mail/mail-config.ui.h:131
+#: ../src/mail/mail-config.ui.h:132
 msgid "_Lookup in local address book only"
 msgstr "Consultâ nome _lis rubrichis locâls"
 
-#: ../src/mail/mail-config.ui.h:132
+#: ../src/mail/mail-config.ui.h:133
 msgid "Check cu_stom headers for junk"
 msgstr "Controlâ intestazions _personalizadis pai malvolûts"
 
-#: ../src/mail/mail-config.ui.h:134
+#: ../src/mail/mail-config.ui.h:135
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:302
 #: ../src/modules/mail-config/e-mail-config-smtp-backend.c:245
 msgid "No encryption"
 msgstr "Nissune cifradure"
 
-#: ../src/mail/mail-config.ui.h:135
+#: ../src/mail/mail-config.ui.h:136
 msgid "TLS encryption"
 msgstr "Cifradure TLS"
 
-#: ../src/mail/mail-config.ui.h:136
+#: ../src/mail/mail-config.ui.h:137
 msgid "SSL encryption"
 msgstr "Cifradure SSL"
 
@@ -19397,63 +19446,76 @@ msgid "Please enable the account or send using another account."
 msgstr "Par plasê abilite l'account o invie doprant un altri account."
 
 #: ../src/mail/mail.error.xml.h:158
+msgid "This message cannot be sent because there is no mail account configured"
+msgstr ""
+"Chest messaç nol pues jessi inviât parcè che no 'ndi son account configurâts"
+
+#: ../src/mail/mail.error.xml.h:159
+msgid ""
+"There had not been found any active mail account to send the message. Create "
+"or enable one first, please."
+msgstr ""
+"Nol è stât cjatât nissun account di pueste atîf par inviâ il messaç. Prime "
+"cree o abilite un, par plasê."
+
+#: ../src/mail/mail.error.xml.h:160
 msgid "Mail Deletion Failed"
 msgstr "Eliminazion pueste falide"
 
-#: ../src/mail/mail.error.xml.h:159
+#: ../src/mail/mail.error.xml.h:161
 msgid "You do not have sufficient permissions to delete this mail."
 msgstr "No si à vonde permès par eliminâ cheste pueste."
 
-#: ../src/mail/mail.error.xml.h:160
+#: ../src/mail/mail.error.xml.h:162
 msgid "“Check Junk” Failed"
 msgstr "“Control malvolûts” falît"
 
-#: ../src/mail/mail.error.xml.h:161
+#: ../src/mail/mail.error.xml.h:163
 msgid "“Report Junk” Failed"
 msgstr "“Segnalazion malvolûts” falide"
 
-#: ../src/mail/mail.error.xml.h:162
+#: ../src/mail/mail.error.xml.h:164
 msgid "“Report Not Junk” Failed"
 msgstr "“Segnalazion no malvolûts” falide"
 
-#: ../src/mail/mail.error.xml.h:163
+#: ../src/mail/mail.error.xml.h:165
 msgid "Remove duplicate messages?"
 msgstr "Gjavâ i messaçs doplis?"
 
-#: ../src/mail/mail.error.xml.h:164
+#: ../src/mail/mail.error.xml.h:166
 msgid "No duplicate messages found."
 msgstr "Nissun messaç dopli cjatât."
 
 #. Translators: {0} is replaced with a folder name
-#: ../src/mail/mail.error.xml.h:166
+#: ../src/mail/mail.error.xml.h:168
 msgid "Folder “{0}” doesn’t contain any duplicate message."
 msgstr "La cartele “{0}” no à nissun messaç dopli."
 
-#: ../src/mail/mail.error.xml.h:167
+#: ../src/mail/mail.error.xml.h:169
 msgid "Failed to connect account “{0}”."
 msgstr "Conession falide al account “{0}”."
 
-#: ../src/mail/mail.error.xml.h:168
+#: ../src/mail/mail.error.xml.h:170
 msgid "Failed to disconnect account “{0}”."
 msgstr "Disconession falide pal account “{0}”."
 
-#: ../src/mail/mail.error.xml.h:169
+#: ../src/mail/mail.error.xml.h:171
 msgid "Failed to unsubscribe from folder “{0}”."
 msgstr "No si è rivâts a anulâ la sotscrizion de cartele “{0}”."
 
-#: ../src/mail/mail.error.xml.h:170
+#: ../src/mail/mail.error.xml.h:172
 msgid "Unable to retrieve message."
 msgstr "Impussibil recuperâ il messaç."
 
-#: ../src/mail/mail.error.xml.h:171
+#: ../src/mail/mail.error.xml.h:173
 msgid "{0}"
 msgstr "{0}"
 
-#: ../src/mail/mail.error.xml.h:172
+#: ../src/mail/mail.error.xml.h:174
 msgid "Message is not available in offline mode."
 msgstr "Il messaç nol è disponibil te modalitât fûr rêt."
 
-#: ../src/mail/mail.error.xml.h:173
+#: ../src/mail/mail.error.xml.h:175
 msgid ""
 "This can be due to the message not being downloaded yet. The folder, or the "
 "account, can be marked for offline synchronization. Then, once the account "
@@ -19468,39 +19530,39 @@ msgstr ""
 "sigurâsi che ducj i messaçs inte cartele a saran disponibii inte modalitât "
 "fûr rêt."
 
-#: ../src/mail/mail.error.xml.h:174
+#: ../src/mail/mail.error.xml.h:176
 msgid "Failed to open folder."
 msgstr "No si è rivâts a vierzi la cartele."
 
-#: ../src/mail/mail.error.xml.h:176
+#: ../src/mail/mail.error.xml.h:178
 msgid "Failed to find duplicate messages."
 msgstr "No si è rivâts a cjatâ messaçs doplis."
 
-#: ../src/mail/mail.error.xml.h:177
+#: ../src/mail/mail.error.xml.h:179
 msgid "Failed to retrieve messages."
 msgstr "No si è rivâts a recuperâ messaçs."
 
-#: ../src/mail/mail.error.xml.h:178
+#: ../src/mail/mail.error.xml.h:180
 msgid "Failed to mark messages as read."
 msgstr "No si è rivâts a segnâ i messaçs come lets."
 
-#: ../src/mail/mail.error.xml.h:179
+#: ../src/mail/mail.error.xml.h:181
 msgid "Failed to remove attachments from messages."
 msgstr "No si è rivâts a gjavâ lis zontis dai messaçs."
 
-#: ../src/mail/mail.error.xml.h:180
+#: ../src/mail/mail.error.xml.h:182
 msgid "Failed to download messages for offline viewing."
 msgstr "No si è rivâts a discjariâ i messaçs par viodiju fûr rêt."
 
-#: ../src/mail/mail.error.xml.h:181
+#: ../src/mail/mail.error.xml.h:183
 msgid "Failed to save messages to disk."
 msgstr "No si è rivâts a salvâ i messaçs sul disc."
 
-#: ../src/mail/mail.error.xml.h:182
+#: ../src/mail/mail.error.xml.h:184
 msgid "Hidden file is attached."
 msgstr "Alegât file platât."
 
-#: ../src/mail/mail.error.xml.h:183
+#: ../src/mail/mail.error.xml.h:185
 msgid ""
 "The attachment named {0} is a hidden file and may contain sensitive data. "
 "Please review it before sending."
@@ -19508,51 +19570,51 @@ msgstr ""
 "La zonte clamade {0} e je un file platât e e pues tignî dâts sensibii. "
 "Controlâ prime di inviâ."
 
-#: ../src/mail/mail.error.xml.h:184
+#: ../src/mail/mail.error.xml.h:186
 msgid "Printing failed."
 msgstr "Stampe falide."
 
-#: ../src/mail/mail.error.xml.h:185
+#: ../src/mail/mail.error.xml.h:187
 msgid "The printer replied “{0}”."
 msgstr "La stampant e à rispuindût “{0}”."
 
-#: ../src/mail/mail.error.xml.h:186
+#: ../src/mail/mail.error.xml.h:188
 msgid "Could not perform this operation on {0}."
 msgstr "Impussibil eseguî cheste operazion su {0}."
 
-#: ../src/mail/mail.error.xml.h:187
+#: ../src/mail/mail.error.xml.h:189
 msgid "You must be working online to complete this operation."
 msgstr "Si scugne lavorâ in rêt par completâ cheste operazion."
 
-#: ../src/mail/mail.error.xml.h:188
+#: ../src/mail/mail.error.xml.h:190
 msgid "Message from “{0}” account:"
 msgstr "Messaç dal account “{0}”:"
 
-#: ../src/mail/mail.error.xml.h:189
+#: ../src/mail/mail.error.xml.h:191
 msgid "Failed to mark thread to be ignored in folder “{0}”"
 msgstr "No si è rivâts a segnâ la discussion par ignorâle te cartele “{0}”"
 
-#: ../src/mail/mail.error.xml.h:190
+#: ../src/mail/mail.error.xml.h:192
 msgid "Failed to unmark thread from being ignored in folder “{0}”"
 msgstr ""
 "No si è rivâts a gjavâ il segn ae discussion par ignorâle inte cartele “{0}”"
 
-#: ../src/mail/mail.error.xml.h:191
+#: ../src/mail/mail.error.xml.h:193
 msgid "Failed to mark subthread to be ignored in folder “{0}”"
 msgstr ""
 "No si è rivâts a segnâ la sot-discussion par ignorâle inte cartele “{0}”"
 
-#: ../src/mail/mail.error.xml.h:192
+#: ../src/mail/mail.error.xml.h:194
 msgid "Failed to unmark subthread from being ignored in folder “{0}”"
 msgstr ""
 "No si è rivâts a gjavâ il segn ae sot-discussion par ignorâle inte cartele "
 "“{0}”"
 
-#: ../src/mail/mail.error.xml.h:193
+#: ../src/mail/mail.error.xml.h:195
 msgid "Remote content download had been blocked for this message."
 msgstr "Il contignût rimot di discjariâ al è stât blocât par chest messaç."
 
-#: ../src/mail/mail.error.xml.h:194
+#: ../src/mail/mail.error.xml.h:196
 msgid ""
 "You can download remote content manually, or set to remember to download "
 "remote content for this sender or used sites."
@@ -19562,39 +19624,39 @@ msgstr ""
 
 # need distinction for M or F cause sunday is female and the others weekdays are males
 #. Translators: This constructs a string like "Follow-up, Completed on Tuesday, January 13, 2009"
-#: ../src/mail/mail.error.xml.h:196
+#: ../src/mail/mail.error.xml.h:198
 msgid "{0}, Completed on {1}"
 msgstr "{0}, completât il {1}"
 
 #. Translators: This constructs a string like "Follow-up by Tuesday, January 13, 2009"
-#: ../src/mail/mail.error.xml.h:198
+#: ../src/mail/mail.error.xml.h:200
 msgid "{0} by {1}"
 msgstr "{0} di {1}"
 
 #. Translators: This constructs a string like "Overdue: Follow-up by Tuesday, January 13, 2009"
-#: ../src/mail/mail.error.xml.h:200
+#: ../src/mail/mail.error.xml.h:202
 msgid "Overdue: {0} by {1}"
 msgstr "Scjadût: {0} di {1}"
 
-#: ../src/mail/mail.error.xml.h:202
+#: ../src/mail/mail.error.xml.h:204
 msgid "This message note has been changed, but has not been saved."
 msgstr "Cheste note di messaç e je stade cambiade, ma no je stade salvade."
 
 #. Translators: {0} is the name of the folder where the delete of the message note failed.
-#: ../src/mail/mail.error.xml.h:205
+#: ../src/mail/mail.error.xml.h:207
 msgid "Failed to delete message note in folder “{0}”"
 msgstr "No si è rivâts a eliminâ la note dal messaç te cartele “{0}”"
 
 #. Translators: {0} is the name of the folder where the store of the message note failed.
-#: ../src/mail/mail.error.xml.h:207
+#: ../src/mail/mail.error.xml.h:209
 msgid "Failed to store message note in folder “{0}”"
 msgstr "No si è rivâts a archiviâ la note dal messaç inte cartele “{0}”"
 
-#: ../src/mail/mail.error.xml.h:208
+#: ../src/mail/mail.error.xml.h:210
 msgid "Something has gone wrong when displaying the message"
 msgstr "Alc al è lât stuart tal mostrâ il messaç"
 
-#: ../src/mail/mail.error.xml.h:209
+#: ../src/mail/mail.error.xml.h:211
 msgid ""
 "A WebKitWebProcess crashed when displaying the message. You can try again by "
 "moving to another message and back. If the issue persists, please file a bug "
@@ -19604,11 +19666,11 @@ msgstr ""
 "provâ spostantsi suntun altri messaç e tornant su chest. Se il probleme al "
 "persist, segnale un erôr su GNOME bugzilla."
 
-#: ../src/mail/mail.error.xml.h:210
+#: ../src/mail/mail.error.xml.h:212
 msgid "Something has gone wrong when displaying the signature"
 msgstr "Alc al è lât stuart tal mostrâ la firme"
 
-#: ../src/mail/mail.error.xml.h:211
+#: ../src/mail/mail.error.xml.h:213
 msgid ""
 "A WebKitWebProcess crashed when displaying the signature. You can try again "
 "by moving to another signature and back. If the issue persists, please file "
@@ -19618,11 +19680,11 @@ msgstr ""
 "spostantsi suntune altre firme e tornant su cheste. Se il probleme al "
 "persist, segnale un erôr su GNOME bugzilla."
 
-#: ../src/mail/mail.error.xml.h:212
+#: ../src/mail/mail.error.xml.h:214
 msgid "Are you sure you want to delete all the messages in the Junk folder?"
 msgstr "Sigûrs di eliminâ ducj i messaçs te cartele di pueste malvolude?"
 
-#: ../src/mail/mail.error.xml.h:213
+#: ../src/mail/mail.error.xml.h:215
 msgid ""
 "These messages will be shown in the Trash folder, where they can be "
 "permanently deleted later."
@@ -19630,11 +19692,11 @@ msgstr ""
 "Chescj messaçs a vignaran mostrâts te cartele scovacere, dulà che plui "
 "indenant a podaran jessi eliminâts par simpri."
 
-#: ../src/mail/mail.error.xml.h:214
+#: ../src/mail/mail.error.xml.h:216
 msgid "_Empty Junk"
 msgstr "_Disvuede Malvolûts"
 
-#: ../src/mail/mail.error.xml.h:215
+#: ../src/mail/mail.error.xml.h:217
 msgid "Failed to empty Junk folder “{0}”"
 msgstr "No si è rivâts a disvuedâ la cartele di pueste malvolude “{0}”"
 
@@ -19900,38 +19962,38 @@ msgstr "Informazions sul contat"
 msgid "Contact information for %s"
 msgstr "Informazions sul contat par %s"
 
-#: ../src/modules/addressbook/e-book-shell-backend.c:258
+#: ../src/modules/addressbook/e-book-shell-backend.c:262
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:137
 msgid "New Address Book"
 msgstr "Gnove rubriche"
 
-#: ../src/modules/addressbook/e-book-shell-backend.c:267
+#: ../src/modules/addressbook/e-book-shell-backend.c:271
 msgctxt "New"
 msgid "_Contact"
 msgstr "_Contat"
 
-#: ../src/modules/addressbook/e-book-shell-backend.c:269
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1046
+#: ../src/modules/addressbook/e-book-shell-backend.c:273
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1049
 msgid "Create a new contact"
 msgstr "Cree un gnûf contat"
 
-#: ../src/modules/addressbook/e-book-shell-backend.c:274
+#: ../src/modules/addressbook/e-book-shell-backend.c:278
 msgctxt "New"
 msgid "Contact _List"
 msgstr "_Liste contats"
 
-#: ../src/modules/addressbook/e-book-shell-backend.c:276
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1053
+#: ../src/modules/addressbook/e-book-shell-backend.c:280
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1056
 msgid "Create a new contact list"
 msgstr "Cree une gnove liste contats"
 
-#: ../src/modules/addressbook/e-book-shell-backend.c:284
+#: ../src/modules/addressbook/e-book-shell-backend.c:288
 msgctxt "New"
 msgid "Address _Book"
 msgstr "_Rubriche"
 
-#: ../src/modules/addressbook/e-book-shell-backend.c:286
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:969
+#: ../src/modules/addressbook/e-book-shell-backend.c:290
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:972
 msgid "Create a new address book"
 msgstr "Cree une gnove rubriche"
 
@@ -19941,75 +20003,75 @@ msgstr "Proprietâts de rubriche"
 
 #. Translators: This is a save dialog title
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:534
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:832
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:835
 msgid "Save as vCard"
 msgstr "Salve come vCard"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:939
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:942
 msgid "Co_py All Contacts To..."
 msgstr "Co_pie ducj i contats su..."
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:941
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:944
 msgid "Copy the contacts of the selected address book to another"
 msgstr "Copie i contats de rubriche selezionade suntune altre"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:946
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:949
 msgid "D_elete Address Book"
 msgstr "_Elimine rubriche"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:948
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:951
 msgid "Delete the selected address book"
 msgstr "Elimine la rubriche selezionade"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:953
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:956
 msgid "_Manage Address Book groups..."
 msgstr "_Gjestìs grups rubriche..."
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:955
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:958
 #: ../src/modules/calendar/e-task-shell-view-actions.c:719
 msgid "Manage task list groups order and visibility"
 msgstr "Gjestìs l'ordin e la visibilitât dai grups des listis des ativitâts"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:960
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:963
 msgid "Mo_ve All Contacts To..."
 msgstr "Spos_te ducj i contats su..."
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:962
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:965
 msgid "Move the contacts of the selected address book to another"
 msgstr "Sposte i contats de rubriche selezionade suntune altre"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:967
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:970
 msgid "_New Address Book"
 msgstr "_Gnove rubriche"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:974
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:977
 msgid "Address _Book Properties"
 msgstr "Proprietâts _rubriche"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:976
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:979
 msgid "Show properties of the selected address book"
 msgstr "Mostre lis proprietâts de rubriche selezionade"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:981
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:984
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1330
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:612
 #: ../src/modules/calendar/e-task-shell-view-actions.c:738
 msgid "Re_fresh"
 msgstr "I_nzorne"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:983
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:986
 msgid "Refresh the selected address book"
 msgstr "Inzorne la rubriche selezionade"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:988
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:991
 msgid "Address Book _Map"
 msgstr "_Mape rubriche"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:990
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:993
 msgid "Show map with all contacts from selected address book"
 msgstr "Mostre une mape cun ducj i contats de rubriche selezionade"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:995
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:998
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1337
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:619
 #: ../src/modules/calendar/e-task-shell-view-actions.c:745
@@ -20017,144 +20079,144 @@ msgstr "Mostre une mape cun ducj i contats de rubriche selezionade"
 msgid "_Rename..."
 msgstr "_Cambie non..."
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:997
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1000
 msgid "Rename the selected address book"
 msgstr "Cambie non ae rubriche selezionade"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1004
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1007
 msgid "Stop loading"
 msgstr "Ferme il cjariament"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1009
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1012
 msgid "_Copy Contact To..."
 msgstr "_Copie contat su..."
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1011
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1014
 msgid "Copy selected contacts to another address book"
 msgstr "Copie i contats selezionâts suntune altre rubriche"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1016
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1019
 msgid "_Delete Contact"
 msgstr "Eli_mine contat"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1023
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1026
 msgid "_Find in Contact..."
 msgstr "C_jate tal contat..."
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1025
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1028
 msgid "Search for text in the displayed contact"
 msgstr "Cîr dal test tal contat mostrât"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1030
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1033
 msgid "_Forward Contact..."
 msgstr "_Invie contat..."
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1032
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1035
 msgid "Send selected contacts to another person"
 msgstr "Invie i contats selezionâts a une altre persone"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1037
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1040
 msgid "_Move Contact To..."
 msgstr "S_poste contat su..."
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1039
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1042
 msgid "Move selected contacts to another address book"
 msgstr "Sposte i contats selezionâts suntune altre rubriche"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1044
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1047
 msgid "_New Contact..."
 msgstr "_Gnûf contat..."
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1051
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1054
 msgid "New Contact _List..."
 msgstr "Gnove _liste contats..."
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1058
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1061
 msgid "_Open Contact"
 msgstr "_Vierç contat"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1060
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1063
 msgid "View the current contact"
 msgstr "Mostre il contat atuâl"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1065
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1068
 msgid "_Send Message to Contact..."
 msgstr "_Invie messaç al contat..."
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1067
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1070
 msgid "Send a message to the selected contacts"
 msgstr "Invie un messaç ai contats selezionâts"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1074
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1077
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1507
 #: ../src/modules/calendar/e-task-shell-view-actions.c:810
 msgid "_Actions"
 msgstr "A_zions"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1081
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1084
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:663
 #: ../src/modules/calendar/e-task-shell-view-actions.c:817
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1902
 msgid "_Preview"
 msgstr "Ante_prime"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1094
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1097
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1536
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:680
 #: ../src/modules/calendar/e-task-shell-view-actions.c:834
 msgid "_Manage groups..."
 msgstr "_Gjestìs grups..."
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1106
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1109
 msgid "Address Book Map"
 msgstr "Mape rubriche"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1138
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1141
 msgid "Contact _Preview"
 msgstr "Ante_prime contat"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1140
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1143
 msgid "Show contact preview window"
 msgstr "Mostre il barcon di anteprime dal contat"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1146
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1149
 msgid "Show _Maps"
 msgstr "Mostre _mapis"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1148
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1151
 msgid "Show maps in contact preview window"
 msgstr "Mostre lis mapis tal barcon di anteprime dai contats"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1167
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1170
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:741
 #: ../src/modules/calendar/e-task-shell-view-actions.c:907
 #: ../src/modules/mail/e-mail-shell-view-actions.c:2060
 msgid "_Classic View"
 msgstr "Viodude _classiche"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1169
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1172
 msgid "Show contact preview below the contact list"
 msgstr "Mostre la anteprime dal contat sot de liste dai contats"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1174
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1177
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:748
 #: ../src/modules/calendar/e-task-shell-view-actions.c:914
 #: ../src/modules/mail/e-mail-shell-view-actions.c:2067
 msgid "_Vertical View"
 msgstr "Viodude _verticâl"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1176
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1179
 msgid "Show contact preview alongside the contact list"
 msgstr "Mostre la anteprime dal contat in bande de liste dai contats"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1191
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1194
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1696
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:765
 #: ../src/modules/calendar/e-task-shell-view-actions.c:966
 msgid "Unmatched"
 msgstr "No corispondents"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1201
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1204
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1706
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:775
 #: ../src/modules/calendar/e-task-shell-view-actions.c:976
@@ -20163,33 +20225,33 @@ msgstr "No corispondents"
 msgid "Advanced Search"
 msgstr "Ricercje avanzade"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1234
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1237
 msgid "Print all shown contacts"
 msgstr "Stampe ducj i contats mostrâts"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1241
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1244
 msgid "Preview the contacts to be printed"
 msgstr "Anteprime dai contats di stampâ"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1248
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1251
 msgid "Print selected contacts"
 msgstr "Stampe i contats selezionâts"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1263
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1266
 msgid "S_ave Address Book as vCard"
 msgstr "S_alve rubriche come vCard"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1265
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1268
 msgid "Save the contacts of the selected address book as a vCard"
 msgstr "Salve i contats de rubriche selezionade come vCard"
 
 #. Translators: This is an action label
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1271
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1281
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1274
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1284
 msgid "_Save as vCard..."
 msgstr "_Salve come vCard..."
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1273
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1276
 msgid "Save selected contacts as a vCard"
 msgstr "Salve i contats selezionâts come une vCard"
 
@@ -20213,7 +20275,7 @@ msgstr "Invie _messaç ae liste"
 msgid "_Send Message to Contact"
 msgstr "Invie _messaç al contat"
 
-#: ../src/modules/backup-restore/e-mail-config-restore-page.c:164
+#: ../src/modules/backup-restore/e-mail-config-restore-page.c:162
 msgid ""
 "You can restore Evolution from a backup file.\n"
 "\n"
@@ -20224,11 +20286,11 @@ msgstr ""
 "Chest al ripristinarà ducj i dâts personâi, lis impostazions dai filtris de "
 "pueste e vie indenant."
 
-#: ../src/modules/backup-restore/e-mail-config-restore-page.c:179
+#: ../src/modules/backup-restore/e-mail-config-restore-page.c:177
 msgid "_Restore from a backup file:"
 msgstr "_Ripristinâ di un file di backup:"
 
-#: ../src/modules/backup-restore/e-mail-config-restore-page.c:190
+#: ../src/modules/backup-restore/e-mail-config-restore-page.c:188
 msgid "Choose a backup file to restore"
 msgstr "Sielç un file di backup di ripristinâ"
 
@@ -23426,7 +23488,7 @@ msgstr "Invie subite"
 msgid "Send after 5 minutes"
 msgstr "Invie dopo 5 minûts"
 
-#: ../src/modules/mail/em-composer-prefs.c:1303
+#: ../src/modules/mail/em-composer-prefs.c:1309
 msgid "Language(s)"
 msgstr "Lenghis"
 
@@ -23700,15 +23762,15 @@ msgstr "Filtrâ i malvolûts doprant SpamAssassin"
 msgid "Importing Files"
 msgstr "Importazion dai file"
 
-#: ../src/modules/startup-wizard/e-mail-config-import-progress-page.c:259
+#: ../src/modules/startup-wizard/e-mail-config-import-progress-page.c:257
 msgid "Import cancelled."
 msgstr "Importazion anulade."
 
-#: ../src/modules/startup-wizard/e-mail-config-import-progress-page.c:276
+#: ../src/modules/startup-wizard/e-mail-config-import-progress-page.c:274
 msgid "Import complete."
 msgstr "Importazion completade."
 
-#: ../src/modules/startup-wizard/e-startup-assistant.c:156
+#: ../src/modules/startup-wizard/e-startup-assistant.c:158
 msgid ""
 "Welcome to Evolution.\n"
 "\n"
@@ -23720,7 +23782,13 @@ msgstr ""
 "Il prossimis videadis ti permetaran di coneti Evolution ai tiei account e-"
 "mail e di impuartâ i file di altris aplicazions."
 
-#: ../src/modules/startup-wizard/evolution-startup-wizard.c:226
+#: ../src/modules/startup-wizard/e-startup-assistant.c:165
+#, fuzzy
+#| msgid "Do not show this message again"
+msgid "Do not _show this wizard again"
+msgstr "No sta mostrâ plui chest messaç"
+
+#: ../src/modules/startup-wizard/evolution-startup-wizard.c:212
 msgid "Loading accounts..."
 msgstr "Daûr a cjariâ i account..."
 
@@ -23732,11 +23800,11 @@ msgstr "_Formate come..."
 msgid "_Other languages"
 msgstr "_Altris lenghis"
 
-#: ../src/modules/text-highlight/e-mail-formatter-text-highlight.c:436
+#: ../src/modules/text-highlight/e-mail-formatter-text-highlight.c:453
 msgid "Text Highlight"
 msgstr "Test evidenziât"
 
-#: ../src/modules/text-highlight/e-mail-formatter-text-highlight.c:437
+#: ../src/modules/text-highlight/e-mail-formatter-text-highlight.c:454
 msgid "Syntax highlighting of mail parts"
 msgstr "Evidenzie la sintassi di parts de pueste"
 
@@ -25413,7 +25481,7 @@ msgid "New"
 msgstr "Gnûf"
 
 #. Translators: This is used for the main window title.
-#: ../src/shell/e-shell-window-private.c:720
+#: ../src/shell/e-shell-window-private.c:721
 #, c-format
 msgid "%s — Evolution"
 msgstr "%s — Evolution"
@@ -26138,6 +26206,9 @@ msgstr "Impussibil scrivi il salvament sul disc, codiç di erôr: %i"
 #: ../src/smime/lib/e-pkcs12.c:407
 msgid "Imported Certificate"
 msgstr "Certificât impuartât"
+
+#~ msgid "Logfile to log filter actions."
+#~ msgstr "File di regjistri par regjistrâ lis azions dai filtris."
 
 #~ msgid ""
 #~ "The calendar “%s” contains %d appointments which conflict with this "
