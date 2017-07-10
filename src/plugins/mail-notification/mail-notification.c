@@ -475,8 +475,7 @@ new_notify_status (EMEventTargetFolder *t)
 			gchar *folder_uri;
 
 			/* NotifyAction takes ownership. */
-			folder_uri = e_mail_folder_uri_build (
-				t->store, t->folder_name);
+			folder_uri = g_strdup (t->folder_name);
 
 			label = g_strdup_printf (
 				/* Translators: The '%s' is a mail
