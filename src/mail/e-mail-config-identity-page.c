@@ -986,7 +986,7 @@ mail_config_identity_page_commit_changes (EMailConfigPage *cfg_page,
 	ESourceMailIdentity *identity_extension;
 	GtkTreeModel *model;
 	GtkTreeIter iter;
-	CamelInternetAddress *inetaddress_complete;
+	GString *aliases;
 	gboolean valid;
 
 	g_return_if_fail (E_IS_MAIL_CONFIG_IDENTITY_PAGE (cfg_page));
@@ -995,7 +995,7 @@ mail_config_identity_page_commit_changes (EMailConfigPage *cfg_page,
 	identity_source = e_mail_config_identity_page_get_identity_source (page);
 	identity_extension = e_source_get_extension (identity_source, E_SOURCE_EXTENSION_MAIL_IDENTITY);
 
-	inetaddress_complete = camel_internet_address_new ();
+	aliases = g_string_new ("");
 
 	model = gtk_tree_view_get_model (GTK_TREE_VIEW (page->priv->aliases_treeview));
 	for (valid = gtk_tree_model_get_iter_first (model, &iter);
@@ -1018,8 +1018,19 @@ mail_config_identity_page_commit_changes (EMailConfigPage *cfg_page,
 				for (ii = 0; ii < len; ii++) {
 					const gchar *name = NULL, *email = NULL;
 
-					if (camel_internet_address_get (inetaddress, ii, &name, &email))
-						camel_internet_address_add (inetaddress_complete, name, email);
+					if (camel_internet_address_get (inetaddress, ii, &name, &email)) {
+						gchar *encoded;
+
+						encoded = camel_internet_address_encode_address (NULL, name, email);
+						if (encoded && *encoded) {
+							if (aliases->len)
+								g_string_append (aliases, ", ");
+
+							g_string_append (aliases, encoded);
+						}
+
+						g_free (encoded);
+					}
 				}
 			}
 
@@ -1029,18 +1040,13 @@ mail_config_identity_page_commit_changes (EMailConfigPage *cfg_page,
 		g_free (raw);
 	}
 
-	if (camel_address_length (CAMEL_ADDRESS (inetaddress_complete)) > 0) {
-		gchar *aliases;
-
-		aliases = camel_address_encode (CAMEL_ADDRESS (inetaddress_complete));
-		e_source_mail_identity_set_aliases (identity_extension, aliases);
-
-		g_free (aliases);
+	if (aliases->len) {
+		e_source_mail_identity_set_aliases (identity_extension, aliases->str);
 	} else {
 		e_source_mail_identity_set_aliases (identity_extension, NULL);
 	}
 
-	g_object_unref (inetaddress_complete);
+	g_string_free (aliases, TRUE);
 }
 
 static void
