@@ -1327,18 +1327,93 @@ em_utils_composer_print_cb (EMsgComposer *composer,
 	}
 }
 
+static gint
+compare_sources_with_uids_order_cb (gconstpointer a,
+                                    gconstpointer b,
+                                    gpointer user_data)
+{
+	ESource *asource = (ESource *) a;
+	ESource *bsource = (ESource *) b;
+	GHashTable *uids_order = user_data;
+	gint aindex, bindex;
+
+	aindex = GPOINTER_TO_INT (g_hash_table_lookup (uids_order, e_source_get_uid (asource)));
+	bindex = GPOINTER_TO_INT (g_hash_table_lookup (uids_order, e_source_get_uid (bsource)));
+
+	if (aindex <= 0)
+		aindex = g_hash_table_size (uids_order);
+	if (bindex <= 0)
+		bindex = g_hash_table_size (uids_order);
+
+	return aindex - bindex;
+}
+
+static void
+sort_sources_by_ui (GList **psources,
+                    gpointer user_data)
+{
+	EShell *shell = user_data;
+	EShellBackend *shell_backend;
+	EMailSession *mail_session;
+	EMailAccountStore *account_store;
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+	GHashTable *uids_order;
+	gint index = 0;
+
+	g_return_if_fail (psources != NULL);
+	g_return_if_fail (E_IS_SHELL (shell));
+
+	/* nothing to sort */
+	if (!*psources || !g_list_next (*psources))
+		return;
+
+	shell_backend = e_shell_get_backend_by_name (shell, "mail");
+	g_return_if_fail (shell_backend != NULL);
+
+	mail_session = e_mail_backend_get_session (E_MAIL_BACKEND (shell_backend));
+	g_return_if_fail (mail_session != NULL);
+
+	account_store = e_mail_ui_session_get_account_store (E_MAIL_UI_SESSION (mail_session));
+	g_return_if_fail (account_store != NULL);
+
+	model = GTK_TREE_MODEL (account_store);
+	if (!gtk_tree_model_get_iter_first (model, &iter))
+		return;
+
+	uids_order = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
+
+	do {
+		CamelService *service = NULL;
+
+		gtk_tree_model_get (model, &iter, E_MAIL_ACCOUNT_STORE_COLUMN_SERVICE, &service, -1);
+
+		if (service) {
+			index++;
+			g_hash_table_insert (uids_order, g_strdup (camel_service_get_uid (service)), GINT_TO_POINTER (index));
+			g_object_unref (service);
+		}
+	} while (gtk_tree_model_iter_next (model, &iter));
+
+	*psources = g_list_sort_with_data (*psources, compare_sources_with_uids_order_cb, uids_order);
+
+	g_hash_table_destroy (uids_order);
+}
+
 /* Composing messages... */
 
 static void
 set_up_new_composer (EMsgComposer *composer,
 		     const gchar *subject,
-		     CamelFolder *folder)
+		     CamelFolder *folder,
+		     CamelMimeMessage *message,
+		     const gchar *message_uid)
 {
 	EClientCache *client_cache;
 	ESourceRegistry *registry;
 	EComposerHeaderTable *table;
 	ESource *source = NULL;
-	gchar *identity = NULL;
+	gchar *identity = NULL, *identity_name = NULL, *identity_address = NULL;
 
 	table = e_msg_composer_get_header_table (composer);
 
@@ -1346,12 +1421,25 @@ set_up_new_composer (EMsgComposer *composer,
 	registry = e_client_cache_ref_registry (client_cache);
 
 	if (folder != NULL) {
-		CamelStore *store;
 		gchar *folder_uri;
 		GList *list;
 
-		store = camel_folder_get_parent_store (folder);
-		source = em_utils_ref_mail_identity_for_store (registry, store);
+		if (message) {
+			EShell *shell;
+
+			shell = e_msg_composer_get_shell (composer);
+			source = em_utils_check_send_account_override (shell, message, folder, &identity_name, &identity_address);
+			if (!source)
+				source = em_utils_guess_mail_identity_with_recipients_and_sort (
+					registry, message, folder, message_uid, &identity_name, &identity_address, sort_sources_by_ui, shell);
+		}
+
+		if (!source) {
+			CamelStore *store;
+
+			store = camel_folder_get_parent_store (folder);
+			source = em_utils_ref_mail_identity_for_store (registry, store);
+		}
 
 		folder_uri = e_mail_folder_uri_from_folder (folder);
 
@@ -1368,11 +1456,13 @@ set_up_new_composer (EMsgComposer *composer,
 	}
 
 	e_composer_header_table_set_subject (table, subject);
-	e_composer_header_table_set_identity_uid (table, identity, NULL, NULL);
+	e_composer_header_table_set_identity_uid (table, identity, identity_name, identity_address);
 
 	em_utils_apply_send_account_override_to_composer (composer, folder);
 
 	g_free (identity);
+	g_free (identity_name);
+	g_free (identity_address);
 
 	g_object_unref (client_cache);
 	g_object_unref (registry);
@@ -1396,7 +1486,7 @@ em_utils_compose_new_message (EMsgComposer *composer,
 	if (folder != NULL)
 		g_return_if_fail (CAMEL_IS_FOLDER (folder));
 
-	set_up_new_composer (composer, "", folder);
+	set_up_new_composer (composer, "", folder, NULL, NULL);
 	composer_set_no_change (composer);
 
 	gtk_widget_show (GTK_WIDGET (composer));
@@ -2173,7 +2263,7 @@ forward_non_attached (EMsgComposer *composer,
 		gchar *subject;
 
 		subject = mail_tool_generate_forward_subject (message);
-		set_up_new_composer (composer, subject, folder);
+		set_up_new_composer (composer, subject, folder, message, uid);
 		g_free (subject);
 
 		content = camel_medium_get_content (CAMEL_MEDIUM (message));
@@ -2286,7 +2376,7 @@ em_utils_forward_attachment (EMsgComposer *composer,
 
 	e_msg_composer_set_is_reply_or_forward (composer, TRUE);
 
-	set_up_new_composer (composer, subject, folder);
+	set_up_new_composer (composer, subject, folder, NULL, NULL);
 
 	e_msg_composer_attach (composer, part);
 
@@ -2327,79 +2417,6 @@ em_utils_forward_attachment (EMsgComposer *composer,
 	composer_set_no_change (composer);
 
 	gtk_widget_show (GTK_WIDGET (composer));
-}
-
-static gint
-compare_sources_with_uids_order_cb (gconstpointer a,
-                                    gconstpointer b,
-                                    gpointer user_data)
-{
-	ESource *asource = (ESource *) a;
-	ESource *bsource = (ESource *) b;
-	GHashTable *uids_order = user_data;
-	gint aindex, bindex;
-
-	aindex = GPOINTER_TO_INT (g_hash_table_lookup (uids_order, e_source_get_uid (asource)));
-	bindex = GPOINTER_TO_INT (g_hash_table_lookup (uids_order, e_source_get_uid (bsource)));
-
-	if (aindex <= 0)
-		aindex = g_hash_table_size (uids_order);
-	if (bindex <= 0)
-		bindex = g_hash_table_size (uids_order);
-
-	return aindex - bindex;
-}
-
-static void
-sort_sources_by_ui (GList **psources,
-                    gpointer user_data)
-{
-	EShell *shell = user_data;
-	EShellBackend *shell_backend;
-	EMailSession *mail_session;
-	EMailAccountStore *account_store;
-	GtkTreeModel *model;
-	GtkTreeIter iter;
-	GHashTable *uids_order;
-	gint index = 0;
-
-	g_return_if_fail (psources != NULL);
-	g_return_if_fail (E_IS_SHELL (shell));
-
-	/* nothing to sort */
-	if (!*psources || !g_list_next (*psources))
-		return;
-
-	shell_backend = e_shell_get_backend_by_name (shell, "mail");
-	g_return_if_fail (shell_backend != NULL);
-
-	mail_session = e_mail_backend_get_session (E_MAIL_BACKEND (shell_backend));
-	g_return_if_fail (mail_session != NULL);
-
-	account_store = e_mail_ui_session_get_account_store (E_MAIL_UI_SESSION (mail_session));
-	g_return_if_fail (account_store != NULL);
-
-	model = GTK_TREE_MODEL (account_store);
-	if (!gtk_tree_model_get_iter_first (model, &iter))
-		return;
-
-	uids_order = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
-
-	do {
-		CamelService *service = NULL;
-
-		gtk_tree_model_get (model, &iter, E_MAIL_ACCOUNT_STORE_COLUMN_SERVICE, &service, -1);
-
-		if (service) {
-			index++;
-			g_hash_table_insert (uids_order, g_strdup (camel_service_get_uid (service)), GINT_TO_POINTER (index));
-			g_object_unref (service);
-		}
-	} while (gtk_tree_model_iter_next (model, &iter));
-
-	*psources = g_list_sort_with_data (*psources, compare_sources_with_uids_order_cb, uids_order);
-
-	g_hash_table_destroy (uids_order);
 }
 
 /**
