@@ -13,8 +13,8 @@ msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2017-07-04 16:34+0000\n"
-"PO-Revision-Date: 2017-07-05 09:14+0700\n"
+"POT-Creation-Date: 2017-07-10 22:54+0000\n"
+"PO-Revision-Date: 2017-07-11 09:30+0700\n"
 "Last-Translator: Kukuh Syafaat <syafaatkukuh@gmail.com>\n"
 "Language-Team: Indonesian <gnome@i15n.org>\n"
 "Language: id\n"
@@ -1435,6 +1435,14 @@ msgstr ""
 msgid "Include signature in new messages only"
 msgstr "Sertakan tanda tangan di pesan baru saja"
 
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:52
+msgid ""
+"Include selected signature only for new messages, but have no signature "
+"added for Replies or Forwards."
+msgstr ""
+"Sertakan tanda tangan yang dipilih hanya untuk pesan baru, namun tidak ada "
+"tanda tangan yang ditambahkan untuk Balasan atau Teruskan."
+
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:53
 msgid "Put personalized signatures at the top of replies"
 msgstr "Tambahkan tanda tangan yang dipersonalisasi di puncak jawaban"
@@ -1974,6 +1982,14 @@ msgstr "Aksi saringan log ke berkas log yang ditentukan."
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:151
 msgid "Logfile to log filter actions"
 msgstr "Aksi berkas log ke saringan log"
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:152
+msgid ""
+"If not set, or being “stdout”, then the logging is done to stdout, instead "
+"to a file."
+msgstr ""
+"Jika tidak diatur, atau menjadi \"stdout\", maka pencatatan log dilakukan ke "
+"stdout, alih-alih sebuah berkas."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:153
 msgid "Flush Outbox after filtering"
@@ -3077,6 +3093,21 @@ msgstr ""
 "Path penuh ke perintah sa-learn. Jika tidak diset, maka path waktu-kompilasi "
 "digunakan, biasanya /usr/bin/sa-learn. Perintah seharusnya tidak mengandung "
 "argumen lain."
+
+#: ../data/org.gnome.evolution.text-highlight.gschema.xml.in.h:1
+msgid "Theme name to use, defaults to “bclear”"
+msgstr "Nama tema untuk digunakan, bawaan ke \"bclear\""
+
+#: ../data/org.gnome.evolution.text-highlight.gschema.xml.in.h:2
+msgid ""
+"Use “highlight --list-scripts=themes” to get the list of installed themes "
+"and then the value to one of them. The change requires only re-format of the "
+"message part to take into effect, like using right-click→Format As→...."
+msgstr ""
+"Gunakan “highlight --list-scripts=themes” untuk mendapatkan daftar tema yang "
+"terpasang dan kemudian nilai ke salah satunya. Perubahan hanya membutuhkan "
+"format ulang dari bagian pesan untuk mulai berlaku, seperti menggunakan klik "
+"kanan→Format Sebagai→...."
 
 #: ../data/views/addressbook/galview.xml.h:1
 msgid "_Address Cards"
@@ -14900,7 +14931,7 @@ msgid "Flags"
 msgstr "Penanda"
 
 #: ../src/e-util/evolution-source-viewer.c:729
-#: ../src/mail/e-mail-config-identity-page.c:1147
+#: ../src/mail/e-mail-config-identity-page.c:1153
 msgid "Identity"
 msgstr "Identitas"
 
@@ -24272,36 +24303,36 @@ msgstr "Surel baru dalam Evolution"
 
 #. Translators: The '%s' is a mail
 #. * folder name.  (e.g. "Show Inbox")
-#: ../src/plugins/mail-notification/mail-notification.c:484
+#: ../src/plugins/mail-notification/mail-notification.c:483
 #, c-format
 msgid "Show %s"
 msgstr "Tampilkan %s"
 
-#: ../src/plugins/mail-notification/mail-notification.c:688
+#: ../src/plugins/mail-notification/mail-notification.c:687
 msgid "_Play sound when a new message arrives"
 msgstr "_Putar berkas suara saat datanganya pesan baru"
 
-#: ../src/plugins/mail-notification/mail-notification.c:720
+#: ../src/plugins/mail-notification/mail-notification.c:719
 msgid "_Beep"
 msgstr "_Bunyi Bip"
 
-#: ../src/plugins/mail-notification/mail-notification.c:733
+#: ../src/plugins/mail-notification/mail-notification.c:732
 msgid "Use sound _theme"
 msgstr "Gunakan _tema suara"
 
-#: ../src/plugins/mail-notification/mail-notification.c:752
+#: ../src/plugins/mail-notification/mail-notification.c:751
 msgid "Play _file:"
 msgstr "Putar _berkas:"
 
-#: ../src/plugins/mail-notification/mail-notification.c:761
+#: ../src/plugins/mail-notification/mail-notification.c:760
 msgid "Select sound file"
 msgstr "Pilih berkas suara"
 
-#: ../src/plugins/mail-notification/mail-notification.c:838
+#: ../src/plugins/mail-notification/mail-notification.c:837
 msgid "Notify new messages for _Inbox only"
 msgstr "Beritahukan pesan baru hanya bagi _Inbox"
 
-#: ../src/plugins/mail-notification/mail-notification.c:854
+#: ../src/plugins/mail-notification/mail-notification.c:853
 msgid "Show _notification when a new message arrives"
 msgstr "Tampilka_n pemberitahuan saat datangnya pesan baru"
 
