@@ -614,13 +614,18 @@ action_new_view_window_cb (GtkAction *action,
 {
 	EShell *shell;
 	const gchar *view_name;
+	gchar *modified_view_name;
 
 	shell = e_shell_window_get_shell (shell_window);
 	view_name = g_object_get_data (G_OBJECT (action), "view-name");
 
-	fprintf (stderr, "create new window: %s\n", view_name);
+	/* Just a feature to not change default component, when
+	   the view name begins with a star */
+	modified_view_name = g_strconcat ("*", view_name, NULL);
 
-	e_shell_create_shell_window (shell, view_name);
+	e_shell_create_shell_window (shell, modified_view_name);
+
+	g_free (modified_view_name);
 }
 
 /**

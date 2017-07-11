@@ -2332,17 +2332,19 @@ e_shell_create_shell_window (EShell *shell,
 {
 	GtkWidget *shell_window;
 	GList *link;
+	gboolean can_change_default_view;
 
 	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
 
 	if (g_application_get_is_remote (G_APPLICATION (shell)))
 		goto remote;
 
-	view_name = e_shell_get_canonical_name (shell, view_name);
+	can_change_default_view = !view_name || *view_name != '*';
+	view_name = e_shell_get_canonical_name (shell, can_change_default_view ? view_name : (view_name + 1));
 
 	/* EShellWindow initializes its active view from a GSetting key,
-	 * so set the key ahead of time to control the intial view. */
-	if (view_name != NULL) {
+	 * so set the key ahead of time to control the initial view. */
+	if (view_name && can_change_default_view) {
 		GSettings *settings;
 
 		settings = e_util_ref_settings ("org.gnome.evolution.shell");
@@ -2355,6 +2357,23 @@ e_shell_create_shell_window (EShell *shell,
 		shell,
 		shell->priv->safe_mode,
 		shell->priv->geometry);
+
+	if (view_name && !can_change_default_view) {
+		GSettings *settings;
+		gchar *active_view;
+
+		settings = e_util_ref_settings ("org.gnome.evolution.shell");
+
+		/* This is ugly, but nothing better with GSettings bindings, I'm afraid. */
+		active_view = g_settings_get_string (settings, "default-component-id");
+
+		e_shell_window_set_active_view (E_SHELL_WINDOW (shell_window), view_name);
+
+		g_settings_set_string (settings, "default-component-id", active_view);
+
+		g_object_unref (settings);
+		g_free (active_view);
+	}
 
 	/* Submit any outstanding alerts. */
 	link = g_queue_peek_head_link (&shell->priv->alerts);
