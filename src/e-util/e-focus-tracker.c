@@ -370,6 +370,8 @@ focus_tracker_targets_received_cb (GtkClipboard *clipboard,
 		focus_tracker_editor_update_actions (
 			focus_tracker, E_CONTENT_EDITOR (focus),
 			targets, n_targets);
+
+	g_object_unref (focus_tracker);
 }
 
 static void
@@ -1082,8 +1084,6 @@ void
 e_focus_tracker_update_actions (EFocusTracker *focus_tracker)
 {
 	GtkClipboard *clipboard;
-	GdkAtom *targets = NULL;
-	gint n_targets;
 
 	g_return_if_fail (E_IS_FOCUS_TRACKER (focus_tracker));
 
@@ -1091,10 +1091,10 @@ e_focus_tracker_update_actions (EFocusTracker *focus_tracker)
 
 	clipboard = gtk_clipboard_get (GDK_SELECTION_CLIPBOARD);
 
-	if (gtk_clipboard_wait_for_targets (clipboard, &targets, &n_targets)) {
-		focus_tracker_targets_received_cb (clipboard, targets, n_targets, focus_tracker);
-		g_free (targets);
-	}
+	gtk_clipboard_request_targets (
+		clipboard, (GtkClipboardTargetsReceivedFunc)
+		focus_tracker_targets_received_cb,
+		g_object_ref (focus_tracker));
 }
 
 void
