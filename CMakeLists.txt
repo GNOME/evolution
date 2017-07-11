@@ -33,7 +33,7 @@ else(_is_devel_version EQUAL 1)
 endif(_is_devel_version EQUAL 1)
 
 # Required for FindIntltool module
-set(GETTEXT_PACKAGE ${PROJECT_NAME}-${BASE_VERSION})
+set(GETTEXT_PACKAGE ${PROJECT_NAME})
 set(GETTEXT_PO_DIR ${CMAKE_SOURCE_DIR}/po)
 
 # Required for 'disttest' and 'ditcheck' of DistTarget module
