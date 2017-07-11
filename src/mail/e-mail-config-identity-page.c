@@ -849,7 +849,7 @@ mail_config_identity_page_constructed (GObject *object)
 
 	container = widget;
 
-	widget = e_dialog_button_new_with_icon ("list-add", _("Add"));
+	widget = e_dialog_button_new_with_icon ("list-add", _("A_dd"));
 	gtk_container_add (GTK_CONTAINER (container), widget);
 	gtk_widget_show (widget);
 
@@ -858,7 +858,7 @@ mail_config_identity_page_constructed (GObject *object)
 
 	page->priv->aliases_add_button = widget;
 
-	widget = gtk_button_new_with_mnemonic (_("Edit"));
+	widget = gtk_button_new_with_mnemonic (_("Edi_t"));
 	gtk_container_add (GTK_CONTAINER (container), widget);
 	gtk_widget_show (widget);
 
@@ -867,7 +867,7 @@ mail_config_identity_page_constructed (GObject *object)
 
 	page->priv->aliases_edit_button = widget;
 
-	widget = e_dialog_button_new_with_icon ("list-remove", _("Remove"));
+	widget = e_dialog_button_new_with_icon ("list-remove", _("_Remove"));
 	gtk_container_add (GTK_CONTAINER (container), widget);
 	gtk_widget_show (widget);
 
