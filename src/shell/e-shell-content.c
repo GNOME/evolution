@@ -150,7 +150,10 @@ shell_content_dispose (GObject *object)
 		priv->shell_view = NULL;
 	}
 
-	g_clear_object (&priv->alert_bar);
+	if (priv->alert_bar) {
+		gtk_widget_unparent (priv->alert_bar);
+		g_clear_object (&priv->alert_bar);
+	}
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_shell_content_parent_class)->dispose (object);
@@ -351,7 +354,7 @@ shell_content_remove (GtkContainer *container,
 
 	if (widget == priv->alert_bar) {
 		gtk_widget_unparent (priv->alert_bar);
-		priv->alert_bar = NULL;
+		g_clear_object (&priv->alert_bar);
 		return;
 	}
 
