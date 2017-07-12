@@ -978,6 +978,70 @@ mail_config_identity_page_check_complete (EMailConfigPage *page)
 	return complete;
 }
 
+typedef struct _NameEmailPair {
+	gchar *name;
+	gchar *email;
+} NameEmailPair;
+
+static NameEmailPair *
+name_email_pair_new (const gchar *name,
+		     const gchar *email)
+{
+	NameEmailPair *nep;
+
+	nep = g_new (NameEmailPair, 1);
+	nep->name = g_strdup (name);
+	nep->email = g_strdup (email);
+
+	return nep;
+}
+
+static void
+name_email_pair_free (gpointer ptr)
+{
+	NameEmailPair *nep = ptr;
+
+	if (nep) {
+		g_free (nep->name);
+		g_free (nep->email);
+		g_free (nep);
+	}
+}
+
+static gint
+name_email_pair_compare (gconstpointer ptr1,
+			 gconstpointer ptr2)
+{
+	const NameEmailPair *nep1 = ptr1;
+	const NameEmailPair *nep2 = ptr2;
+	gint res = 0;
+
+	if (!nep1 || !nep2) {
+		if (nep1 == nep2)
+			return 0;
+		if (!nep1)
+			return -1;
+		return 1;
+	}
+
+	if (nep1->email && nep2->email)
+		res = g_utf8_collate (nep1->email, nep2->email);
+
+	if (!res && nep1->name && nep2->name)
+		res = g_utf8_collate (nep1->name, nep2->name);
+
+	if (!res && (!nep1->email || !nep2->email)) {
+		if (nep1->email == nep2->email)
+			res = 0;
+		else if (!nep1->email)
+			res = -1;
+		else
+			res = 1;
+	}
+
+	return res;
+}
+
 static void
 mail_config_identity_page_commit_changes (EMailConfigPage *cfg_page,
 					  GQueue *source_queue)
@@ -988,6 +1052,7 @@ mail_config_identity_page_commit_changes (EMailConfigPage *cfg_page,
 	GtkTreeModel *model;
 	GtkTreeIter iter;
 	GString *aliases;
+	GSList *pairs = NULL, *link;
 	gboolean valid;
 
 	g_return_if_fail (E_IS_MAIL_CONFIG_IDENTITY_PAGE (cfg_page));
@@ -995,8 +1060,6 @@ mail_config_identity_page_commit_changes (EMailConfigPage *cfg_page,
 	page = E_MAIL_CONFIG_IDENTITY_PAGE (cfg_page);
 	identity_source = e_mail_config_identity_page_get_identity_source (page);
 	identity_extension = e_source_get_extension (identity_source, E_SOURCE_EXTENSION_MAIL_IDENTITY);
-
-	aliases = g_string_new ("");
 
 	model = gtk_tree_view_get_model (GTK_TREE_VIEW (page->priv->aliases_treeview));
 	for (valid = gtk_tree_model_get_iter_first (model, &iter);
@@ -1019,19 +1082,8 @@ mail_config_identity_page_commit_changes (EMailConfigPage *cfg_page,
 				for (ii = 0; ii < len; ii++) {
 					const gchar *name = NULL, *email = NULL;
 
-					if (camel_internet_address_get (inetaddress, ii, &name, &email)) {
-						gchar *encoded;
-
-						encoded = camel_internet_address_encode_address (NULL, name, email);
-						if (encoded && *encoded) {
-							if (aliases->len)
-								g_string_append (aliases, ", ");
-
-							g_string_append (aliases, encoded);
-						}
-
-						g_free (encoded);
-					}
+					if (camel_internet_address_get (inetaddress, ii, &name, &email))
+						pairs = g_slist_prepend (pairs, name_email_pair_new (name, email));
 				}
 			}
 
@@ -1040,6 +1092,30 @@ mail_config_identity_page_commit_changes (EMailConfigPage *cfg_page,
 
 		g_free (raw);
 	}
+
+	pairs = g_slist_sort (pairs, name_email_pair_compare);
+
+	aliases = g_string_new ("");
+
+	for (link = pairs; link; link = g_slist_next (link)) {
+		NameEmailPair *nep = link->data;
+
+		if (nep) {
+			gchar *encoded;
+
+			encoded = camel_internet_address_encode_address (NULL, nep->name, nep->email);
+			if (encoded && *encoded) {
+				if (aliases->len)
+					g_string_append (aliases, ", ");
+
+				g_string_append (aliases, encoded);
+			}
+
+			g_free (encoded);
+		}
+	}
+
+	g_slist_free_full (pairs, name_email_pair_free);
 
 	if (aliases->len) {
 		e_source_mail_identity_set_aliases (identity_extension, aliases->str);
