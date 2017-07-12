@@ -18,14 +18,7 @@
 
 #include "evolution-config.h"
 
-#define WEBKIT_DOM_USE_UNSTABLE_API
-#include <webkitdom/WebKitDOMDocumentFragmentUnstable.h>
-#include <webkitdom/WebKitDOMRangeUnstable.h>
-#include <webkitdom/WebKitDOMDOMSelection.h>
-#include <webkitdom/WebKitDOMDOMWindowUnstable.h>
-#include <webkitdom/WebKitDOMHTMLElementUnstable.h>
-#include <webkitdom/WebKitDOMDocumentUnstable.h>
-#undef WEBKIT_DOM_USE_UNSTABLE_API
+#include <webkitdom/webkitdom.h>
 
 #include "web-extensions/e-dom-utils.h"
 

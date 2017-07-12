@@ -26,11 +26,7 @@
 #include <webkit2/webkit-web-extension.h>
 #include <camel/camel.h>
 
-#define WEBKIT_DOM_USE_UNSTABLE_API
-#include <webkitdom/WebKitDOMDocumentUnstable.h>
-#include <webkitdom/WebKitDOMDOMSelection.h>
-#include <webkitdom/WebKitDOMDOMWindowUnstable.h>
-#undef WEBKIT_DOM_USE_UNSTABLE_API
+#include <webkitdom/webkitdom.h>
 
 #include "web-extensions/e-dom-utils.h"
 

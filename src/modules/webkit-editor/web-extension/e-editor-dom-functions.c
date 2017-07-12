@@ -18,15 +18,7 @@
 
 #include <string.h>
 
-#define WEBKIT_DOM_USE_UNSTABLE_API
-#include <webkitdom/WebKitDOMDocumentUnstable.h>
-#include <webkitdom/WebKitDOMDocumentFragmentUnstable.h>
-#include <webkitdom/WebKitDOMDOMSelection.h>
-#include <webkitdom/WebKitDOMDOMWindowUnstable.h>
-#include <webkitdom/WebKitDOMHTMLElementUnstable.h>
-#include <webkitdom/WebKitDOMElementUnstable.h>
-#include <webkitdom/WebKitDOMRangeUnstable.h>
-#undef WEBKIT_DOM_USE_UNSTABLE_API
+#include <webkitdom/webkitdom.h>
 
 #include "web-extensions/e-dom-utils.h"
 

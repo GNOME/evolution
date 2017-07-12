@@ -20,11 +20,7 @@
 
 #include <string.h>
 
-#define WEBKIT_DOM_USE_UNSTABLE_API
-#include <webkitdom/WebKitDOMDOMSelection.h>
-#include <webkitdom/WebKitDOMDOMWindowUnstable.h>
-#include <webkitdom/WebKitDOMElementUnstable.h>
-#undef WEBKIT_DOM_USE_UNSTABLE_API
+#include <webkitdom/webkitdom.h>
 
 #include <camel/camel.h>
 

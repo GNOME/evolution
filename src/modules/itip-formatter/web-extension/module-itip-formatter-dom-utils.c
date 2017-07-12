@@ -18,8 +18,7 @@
 
 #include "module-itip-formatter-dom-utils.h"
 
-#define WEBKIT_DOM_USE_UNSTABLE_API
-#include <webkitdom/WebKitDOMHTMLElementUnstable.h>
+#include <webkitdom/webkitdom.h>
 
 #include "module-itip-formatter-web-extension.h"
 #include "../itip-view-elements-defines.h"

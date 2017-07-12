@@ -31,8 +31,7 @@
 #include "e-dom-utils.h"
 #include "e-web-extension-names.h"
 
-#define WEBKIT_DOM_USE_UNSTABLE_API
-#include <webkitdom/WebKitDOMDOMWindowUnstable.h>
+#include <webkitdom/webkitdom.h>
 
 #define WEB_EXTENSION_PAGE_ID_KEY "web-extension-page-id"
 
