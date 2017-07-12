@@ -29,6 +29,7 @@
 #include "e-comp-editor-memo.h"
 #include "e-comp-editor-task.h"
 #include "e-cal-dialogs.h"
+#include "calendar-config.h"
 #include "comp-util.h"
 #include "itip-utils.h"
 
@@ -1466,12 +1467,15 @@ new_component_data_free (gpointer ptr)
 			}
 
 			if (ncd->source_type == E_CAL_CLIENT_SOURCE_TYPE_EVENTS) {
-				if (ncd->is_new_component && ncd->model && ncd->dtstart > 0 && ncd->dtend > 0) {
+				if (ncd->is_new_component && ncd->dtstart > 0 && ncd->dtend > 0) {
 					ECalComponentDateTime dt;
 					struct icaltimetype itt;
 					icaltimezone *zone;
 
-					zone = e_cal_model_get_timezone (ncd->model);
+					if (ncd->model)
+						zone = e_cal_model_get_timezone (ncd->model);
+					else
+						zone = calendar_config_get_icaltimezone ();
 
 					dt.value = &itt;
 					if (ncd->all_day)
@@ -1745,10 +1749,14 @@ e_cal_ops_new_component_editor (EShellWindow *shell_window,
  *    if #FALSE, then the next two reminded arguments are ignored
  * @default_reminder_interval: reminder interval for the default reminder
  * @default_reminder_units: reminder uints for the default reminder
+ * @dtstart: a time_t of DTSTART to use, or 0 to use the default value
+ * @dtend: a time_t of DTEND to use, or 0 to use the default value
  *
  * This is a fine-grained version of e_cal_ops_new_component_editor(), suitable
  * for events with predefined alarms. The e_cal_ops_new_component_editor()
  * accepts events as well.
+ *
+ * The @dtend is ignored, when @dtstart is zero or a negative value.
  *
  * Since: 3.16
  **/
@@ -1759,10 +1767,12 @@ e_cal_ops_new_event_editor (EShellWindow *shell_window,
 			    gboolean all_day,
 			    gboolean use_default_reminder,
 			    gint default_reminder_interval,
-			    EDurationType default_reminder_units)
+			    EDurationType default_reminder_units,
+			    time_t dtstart,
+			    time_t dtend)
 {
 	e_cal_ops_new_component_ex (shell_window, NULL, E_CAL_CLIENT_SOURCE_TYPE_EVENTS, for_client_uid, is_meeting,
-		all_day, 0, 0, use_default_reminder, default_reminder_interval, default_reminder_units);
+		all_day, dtstart, dtstart <= 0 ? 0 : dtend, use_default_reminder, default_reminder_interval, default_reminder_units);
 }
 
 /**

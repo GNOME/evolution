@@ -87,7 +87,9 @@ void	e_cal_ops_new_event_editor		(EShellWindow *shell_window,
 						 gboolean all_day,
 						 gboolean use_default_reminder,
 						 gint default_reminder_interval,
-						 EDurationType default_reminder_units);
+						 EDurationType default_reminder_units,
+						 time_t dtstart,
+						 time_t dtend);
 void	e_cal_ops_new_component_editor_from_model
 						(ECalModel *model,
 						 const gchar *for_client_uid,

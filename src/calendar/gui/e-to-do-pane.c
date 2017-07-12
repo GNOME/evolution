@@ -1578,6 +1578,7 @@ etdp_new_common (EToDoPane *to_do_pane,
 {
 	ECalClient *client = NULL;
 	EShellView *shell_view;
+	EShellWindow *shell_window;
 	gchar *client_source_uid = NULL;
 
 	g_return_if_fail (E_IS_TO_DO_PANE (to_do_pane));
@@ -1615,9 +1616,68 @@ etdp_new_common (EToDoPane *to_do_pane,
 	g_clear_object (&client);
 
 	shell_view = e_to_do_pane_ref_shell_view (to_do_pane);
+	shell_window = shell_view ? e_shell_view_get_shell_window (shell_view) : NULL;
 
-	e_cal_ops_new_component_editor (shell_view ? e_shell_view_get_shell_window (shell_view) : NULL,
-		source_type, client_source_uid, is_assigned);
+	if (source_type == E_CAL_CLIENT_SOURCE_TYPE_EVENTS) {
+		GSettings *settings;
+		time_t dtstart = 0, dtend = 0;
+		GtkTreeSelection *selection;
+		GList *rows;
+		GtkTreeIter iter;
+		GtkTreeModel *model = NULL;
+
+		settings = e_util_ref_settings ("org.gnome.evolution.calendar");
+
+		selection = gtk_tree_view_get_selection (to_do_pane->priv->tree_view);
+		rows = gtk_tree_selection_get_selected_rows (selection, &model);
+
+		if (rows && gtk_tree_model_get_iter (model, &iter, rows->data)) {
+			GtkTreeIter parent;
+			guint date_mark = 0;
+
+			while (gtk_tree_model_iter_parent (model, &parent, &iter))
+				iter = parent;
+
+			gtk_tree_model_get (model, &iter, COLUMN_DATE_MARK, &date_mark, -1);
+
+			if (date_mark > 0) {
+				struct icaltimetype now;
+				gint time_divisions_secs;
+				icaltimezone *zone;
+
+				time_divisions_secs = g_settings_get_int (settings, "time-divisions") * 60;
+				zone = e_cal_data_model_get_timezone (to_do_pane->priv->events_data_model);
+				now = icaltime_current_time_with_zone (zone);
+
+				now.year = date_mark / 10000;
+				now.month = (date_mark / 100) % 100;
+				now.day = date_mark % 100;
+
+				/* The date_mark is the next day, not the day it belongs to */
+				icaltime_adjust (&now, -1, 0, 0, 0);
+
+				dtstart = icaltime_as_timet_with_zone (now, zone);
+				if (dtstart > 0 && time_divisions_secs > 0) {
+					dtstart = dtstart + time_divisions_secs - (dtstart % time_divisions_secs);
+					dtend = dtstart + time_divisions_secs;
+				} else {
+					dtstart = 0;
+				}
+			}
+		}
+
+		g_list_free_full (rows, (GDestroyNotify) gtk_tree_path_free);
+
+		e_cal_ops_new_event_editor (shell_window, client_source_uid, is_assigned, FALSE,
+			g_settings_get_boolean (settings, "use-default-reminder"),
+			g_settings_get_int (settings, "default-reminder-interval"),
+			g_settings_get_enum (settings, "default-reminder-units"),
+			dtstart, dtend);
+
+		g_clear_object (&settings);
+	} else {
+		e_cal_ops_new_component_editor (shell_window, source_type, client_source_uid, is_assigned);
+	}
 
 	g_clear_object (&shell_view);
 	g_free (client_source_uid);

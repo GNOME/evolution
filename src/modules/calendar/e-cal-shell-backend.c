@@ -93,7 +93,8 @@ action_event_new_cb (GtkAction *action,
 	e_cal_ops_new_event_editor (shell_window, NULL, is_meeting, is_all_day,
 		g_settings_get_boolean (settings, "use-default-reminder"),
 		g_settings_get_int (settings, "default-reminder-interval"),
-		g_settings_get_enum (settings, "default-reminder-units"));
+		g_settings_get_enum (settings, "default-reminder-units"),
+		0, 0);
 
 	g_clear_object (&settings);
 }
