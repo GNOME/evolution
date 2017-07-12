@@ -41,6 +41,9 @@
 #define TEXT_IS_RIGHT_TO_LEFT \
 	(gtk_widget_get_default_direction () == GTK_TEXT_DIR_RTL)
 
+#define GOOGLE_MAP_PREFIX "https://maps.google.com?q="
+#define OPENSTREETMAP_PREFIX "https://www.openstreetmap.org/search?query="
+
 struct _EABContactDisplayPrivate {
 	EContact *contact;
 
@@ -78,6 +81,39 @@ G_DEFINE_TYPE (
 	EABContactDisplay,
 	eab_contact_display,
 	E_TYPE_WEB_VIEW)
+
+static void
+contact_display_open_map (EABContactDisplay *display,
+			  const gchar *query)
+{
+	GSettings *settings;
+	gchar *open_map_target;
+	gpointer parent;
+	gchar *uri;
+	const gchar *prefix;
+
+	g_return_if_fail (EAB_IS_CONTACT_DISPLAY (display));
+	g_return_if_fail (query != NULL);
+
+	parent = gtk_widget_get_toplevel (GTK_WIDGET (display));
+	parent = gtk_widget_is_toplevel (parent) ? parent : NULL;
+
+	settings = e_util_ref_settings ("org.gnome.evolution.addressbook");
+	open_map_target = g_settings_get_string (settings, "open-map-target");
+	g_object_unref (settings);
+
+	if (open_map_target && g_ascii_strcasecmp (open_map_target, "google") == 0) {
+		prefix = GOOGLE_MAP_PREFIX;
+	} else {
+		prefix = OPENSTREETMAP_PREFIX;
+	}
+
+	g_free (open_map_target);
+
+	uri = g_strconcat (prefix, query, NULL);
+	e_show_uri (parent, uri);
+	g_free (uri);
+}
 
 static void
 contact_display_emit_send_message (EABContactDisplay *display,
@@ -267,36 +303,50 @@ contact_display_hovering_over_link (EWebView *web_view,
                                     const gchar *title,
                                     const gchar *uri)
 {
-	EWebViewClass *web_view_class;
 	EABContactDisplay *display;
 	EContact *contact;
 	const gchar *name;
 	gchar *message;
+	gboolean handled = FALSE;
 
-	if (uri == NULL || *uri == '\0')
-		goto chainup;
+	if (uri && g_str_has_prefix (uri, "internal-mailto:")) {
+		display = EAB_CONTACT_DISPLAY (web_view);
+		contact = eab_contact_display_get_contact (display);
 
-	if (!g_str_has_prefix (uri, "internal-mailto:"))
-		goto chainup;
+		name = e_contact_get_const (contact, E_CONTACT_FILE_AS);
+		if (name == NULL)
+			e_contact_get_const (contact, E_CONTACT_FULL_NAME);
+		g_return_if_fail (name != NULL);
 
-	display = EAB_CONTACT_DISPLAY (web_view);
-	contact = eab_contact_display_get_contact (display);
+		message = g_strdup_printf (_("Click to mail %s"), name);
+		e_web_view_status_message (web_view, message);
+		g_free (message);
 
-	name = e_contact_get_const (contact, E_CONTACT_FILE_AS);
-	if (name == NULL)
-		e_contact_get_const (contact, E_CONTACT_FULL_NAME);
-	g_return_if_fail (name != NULL);
+		handled = TRUE;
+	} else if (uri && g_str_has_prefix (uri, "open-map:")) {
+		SoupURI *suri;
 
-	message = g_strdup_printf (_("Click to mail %s"), name);
-	e_web_view_status_message (web_view, message);
-	g_free (message);
+		suri = soup_uri_new (uri);
+		if (suri) {
+			gchar *decoded;
 
-	return;
+			decoded = soup_uri_decode (soup_uri_get_path (suri));
 
-chainup:
-	/* Chain up to parent's hovering_over_link() method. */
-	web_view_class = E_WEB_VIEW_CLASS (eab_contact_display_parent_class);
-	web_view_class->hovering_over_link (web_view, title, uri);
+			message = g_strdup_printf (_("Click to open map for %s"), decoded);
+			e_web_view_status_message (web_view, message);
+			g_free (message);
+
+			handled = TRUE;
+
+			soup_uri_free (suri);
+			g_free (decoded);
+		}
+	}
+
+	if (!handled) {
+		/* Chain up to parent's method. */
+		E_WEB_VIEW_CLASS (eab_contact_display_parent_class)->hovering_over_link (web_view, title, uri);
+	}
 }
 
 static void
@@ -317,9 +367,21 @@ contact_display_link_clicked (EWebView *web_view,
 		return;
 	}
 
-	/* Chain up to parent's link_clicked() method. */
-	E_WEB_VIEW_CLASS (eab_contact_display_parent_class)->
-		link_clicked (web_view, uri);
+	length = strlen ("open-map:");
+	if (g_str_has_prefix (uri, "open-map:")) {
+		SoupURI *suri;
+
+		suri = soup_uri_new (uri);
+		if (suri) {
+			contact_display_open_map (display, soup_uri_get_path (suri));
+			soup_uri_free (suri);
+		}
+
+		return;
+	}
+
+	/* Chain up to parent's method. */
+	E_WEB_VIEW_CLASS (eab_contact_display_parent_class)->link_clicked (web_view, uri);
 }
 
 static void

@@ -115,5 +115,10 @@
       <summary>Show Certificates tab</summary>
       <_description>Whether to show Certificates tab in the editor</_description>
     </key>
+    <key type="s" name="open-map-target">
+      <default>'openstreetmap'</default>
+      <_summary>Where to open contact locations</_summary>
+      <_description>Currently supported values are “openstreetmap” and “google”; if unknown set, uses “openstreetmap”</_description>
+    </key>
   </schema>
 </schemalist>

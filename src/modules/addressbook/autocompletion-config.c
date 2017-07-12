@@ -95,6 +95,7 @@ get_general_page (EConfig *config,
 	ESourceRegistry *registry;
 	GtkWidget *container;
 	GtkWidget *itembox;
+	GtkWidget *label;
 	GtkWidget *widget;
 	GtkWidget *vbox;
 	EShell *shell;
@@ -123,7 +124,7 @@ get_general_page (EConfig *config,
 		DTFormatKindDateTime, _("_Table column:"));
 	gtk_widget_show (widget);
 
-	itembox = add_section (vbox, _("Address formatting"), FALSE);
+	itembox = add_section (vbox, _("Miscellaneous"), FALSE);
 
 	widget = gtk_check_button_new_with_mnemonic (
 		_("_Format address according to standard of its destination country"));
@@ -133,6 +134,37 @@ get_general_page (EConfig *config,
 		G_SETTINGS_BIND_DEFAULT);
 	gtk_box_pack_start (GTK_BOX (itembox), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
+
+	container = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 12);
+	gtk_box_pack_start (GTK_BOX (itembox), container, FALSE, FALSE, 0);
+	gtk_widget_show (container);
+
+	/* Translators: This is part of a sentence "Open maps with OpenStreetMap" and "Open maps with Google" */
+	label = gtk_label_new_with_mnemonic (C_("OpenMap", "Open _maps with"));
+	gtk_box_pack_start (GTK_BOX (container), label, FALSE, FALSE, 0);
+	gtk_widget_show (label);
+
+	widget = gtk_combo_box_text_new ();
+	gtk_combo_box_text_append (GTK_COMBO_BOX_TEXT (widget), "openstreetmap",
+		/* Translators: This is part of "Open maps with OpenStreetMap" */
+		C_("OpenMap", "OpenStreetMap"));
+	gtk_combo_box_text_append (GTK_COMBO_BOX_TEXT (widget), "google",
+		/* Translators: This is part of "Open maps with Google" */
+		C_("OpenMap", "Google"));
+
+	gtk_label_set_mnemonic_widget (GTK_LABEL (label), widget);
+
+	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	gtk_widget_show (widget);
+
+	g_settings_bind (
+		settings, "open-map-target",
+		widget, "active-id",
+		G_SETTINGS_BIND_DEFAULT);
+
+	/* In case user has some garbage/unknown value set there */
+	if (!gtk_combo_box_get_active_id (GTK_COMBO_BOX (widget)))
+		gtk_combo_box_set_active_id (GTK_COMBO_BOX (widget), "openstreetmap");
 
 	itembox = add_section (vbox, _("Autocompletion"), TRUE);
 

@@ -138,7 +138,7 @@ render_address_link (GString *buffer,
 		g_string_assign (link, escaped);
 		g_free (escaped);
 
-		g_string_prepend (link, "<a href=\"http://maps.google.com?q=");
+		g_string_prepend (link, "<a href=\"open-map:");
 		g_string_append_printf (link, "\">%s</a>", _("Open map"));
 	}
 
