@@ -20,13 +20,14 @@
 
 #include "evolution-config.h"
 
-#include "e-preferences-window.h"
-
 #include <glib/gi18n.h>
 #include <gdk/gdkkeysyms.h>
 
 #include "e-dialog-widgets.h"
+#include "e-icon-factory.h"
 #include "e-misc-utils.h"
+
+#include "e-preferences-window.h"
 
 #define SWITCH_PAGE_INTERVAL 250
 
@@ -125,6 +126,15 @@ preferences_window_load_pixbuf (const gchar *icon_name)
 	if (error != NULL) {
 		g_warning ("%s", error->message);
 		g_error_free (error);
+	}
+
+	if (pixbuf && (gdk_pixbuf_get_width (pixbuf) != size || gdk_pixbuf_get_height (pixbuf) != size)) {
+		GdkPixbuf *scaled;
+
+		scaled = e_icon_factory_pixbuf_scale (pixbuf, size, size);
+		g_object_unref (pixbuf);
+
+		pixbuf = scaled;
 	}
 
 	return pixbuf;
