@@ -7,7 +7,7 @@
     <link type="guide" xref="index#mail-basic" />
 <!-- TODO:POST-3-8: maybe introduce keyboard shortcuts guide xref covering any shortcuts in all modules, covering http://library.gnome.org/users/evolution/2.32/quickref-mail.html.en ? -->
 
-    <revision pkgversion="3.10.4" version="0.3" date="2014-02-26" status="final"/>
+    <revision pkgversion="3.25.5" version="0.4" date="2017-07-15" status="final"/>
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
       <email its:translate="no">ak-47@gmx.net</email>
@@ -62,6 +62,11 @@
 <item><p>If there are no more unread messages in the mailbox, pressing the Spacebar takes you to the next unread message in the next folder.</p></item>
 <item><p>If new messages arrive in a number of folders, the Spacebar toggles between those folders. This feature allows you to switch to the next unread message in a different folder without clicking the folder.</p></item>
 </list>
+</section>
+
+<section id="change-keyboard-shortcuts">
+<title>Changing keyboard shortcuts</title>
+<note style="advanced"><p>Advanced users can customize keyboard shortcuts by editing <file>$HOME/.config/evolution/accels</file>.</p><p>See <link href="https://major.io/2015/11/27/custom-keyboard-shortcuts-for-evolution-in-gnome/">this blog post</link> for more information.</p></note>
 </section>
 
 </page>
