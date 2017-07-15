@@ -6,7 +6,7 @@
     
     <link type="guide" xref="import-data" />
 
-    <revision pkgversion="2.32.2" version="0.1" date="2011-07-21" status="draft"/>
+    <revision pkgversion="3.25.5" version="0.2" date="2017-07-15" status="final"/>
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
       <email its:translate="no">ak-47@gmx.net</email>
@@ -29,4 +29,5 @@
 
 <note style="tip"><p>You can also import contacts that you have received as a vCard attachment of an email from its attachment menu.</p></note>
 
+<note style="tip"><p>When setting <gui>File type</gui> to <gui>Contacts CSV or Tab</gui>, the column headers must correspond to the first entry in each item in English in the importer code for <link href="https://git.gnome.org/browse/evolution/tree/src/addressbook/importers/evolution-csv-importer.c?id=bc5f32786d09823247d8188c5f211dcd354097de#n228"><app>Evolution</app></link>, <link href="https://git.gnome.org/browse/evolution/tree/src/addressbook/importers/evolution-csv-importer.c?id=bc5f32786d09823247d8188c5f211dcd354097de#n188"><app>Mozilla</app></link> and <link href="https://git.gnome.org/browse/evolution/tree/src/addressbook/importers/evolution-csv-importer.c?id=bc5f32786d09823247d8188c5f211dcd354097de#n93"><app>Outlook</app></link>.</p></note>
 </page>
