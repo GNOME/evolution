@@ -1,3 +1,63 @@
+Evolution 3.25.4 2017-07-17
+---------------------------
+
+Bug Fixes:
+	Bug 783905 - Drag in Minicard view stuck (Milan Crha)
+	Bug 783968 - Mark Fwd and Re Subject attribution for translation (Milan Crha)
+	Bug 783987 - Mail account assistant/editor too tall for small resolution (Milan Crha)
+	Bug 339675 - Add option to Include signature in new messages only (Milan Crha)
+	Bug 782210 - Divide message list and preview panel size proportionally (Milan Crha)
+	Bug 772572 - Allow creating Receive-only mail accounts (Milan Crha)
+	Bug 235022 - Can't use evolution before you create a mail account (Milan Crha)
+	Bug 784246 - Unset encoding in text-highlight module output (Milan Crha)
+	Bug 783908 - Prefill new contact lists with mails from selected contacts (Milan Crha)
+	Bug 780934 - Component not moved when changing calendar in editor (Milan Crha)
+	Bug 781744 - Support not storing sent messages (Milan Crha)
+	Bug 784445 - [Wayland] Date chooser on Tasks is misplaced on screen (Milan Crha)
+	Bug 784438 - Hyperlinks href changed to text when expanding the text (Milan Crha)
+	Bug 781309 - Signature and import previews hard to read with dark theme (Milan Crha)
+	Bug 781790 - Configure signature and start cursor position per account (Milan Crha)
+	Bug 784664 - Avoid folding in ESourceMailIdentity::aliases property (Milan Crha)
+	Bug 784665 - Reply/Forward fails to pair account alias with recipient (Milan Crha)
+	Bug 784746 - Remove version number from gettext package name (Jeremy Bicha)
+	Bug 784751 - Add mnemonics to Aliases editing buttons (Milan Crha)
+	Bug 784776 - Don't change default view on middle-click of switcher button (Milan Crha)
+	Bug 784663 - Sort aliases list on save of account Properties (Milan Crha)
+	Bug 773550 - Do not use unstable WebKit DOM API (Milan Crha)
+	Bug 771404 - Use OpenStreetMap or Google Maps to open maps (Milan Crha)
+	Bug 784874 - Huge icons in Edit->Preferences sections column (Milan Crha)
+	Bug 783363 - Explain how list of apps to open an attachment are determined (Andre Klapper)
+	Bug 783504 - Link to junk folder location options from spam settings page (Andre Klapper)
+	Bug 783533 - Link from 'cannot see some mail' to 'debugging filters' (Andre Klapper)
+	Bug 744526 - Cover which column names the CSV addressbook importer expects (Andre Klapper)
+	Bug 780329 - Cover how advanced users can customize keyboard shortcuts (Andre Klapper)
+
+Miscellaneous:
+	Sort accounts in identity combo box (From: combo in mail composer) (Milan Crha)
+	Make it possible to debug filters on stdout (Milan Crha)
+	Use the fancy Unicode quotation marks in a new string (Piotr Drąg)
+	Change --module-dir for gtkdoc-fixxref call (Milan Crha)
+	Make it possible to change theme for text-highlight module (Milan Crha)
+	Cannot focus contact list editor's list name (Milan Crha)
+	Fix runtime warning on close from e_content_request_process() (Milan Crha)
+	Use the fancy Unicode quotation marks in a new file (Piotr Drąg)
+	Prefer gtk_clipboard_wait_for_targets() over gtk_clipboard_request_targets() (Milan Crha)
+	Wrong folder URI used for message notifications (Milan Crha)
+	AlertBar from ShellContent not freed (Milan Crha)
+	Derive date from selected day when creating event/meeting in To Do bar (Milan Crha)
+	Remove an obsolete comment (Andre Klapper)
+	Fix a typo (Andre Klapper)
+
+Translations:
+	Fabio Tomat (fur)
+	Daniel Mustieles (es)
+	Baurzhan Muftakhidinov (kk)
+	Daniel Mustieles (es)
+	Yuras Shumovich (be)
+	Kukuh Syafaat (id)
+	Gábor Kelemen (hu)
+	Mario Blättermann (de)
+
 Evolution 3.25.3 2017-06-19
 ---------------------------
 
