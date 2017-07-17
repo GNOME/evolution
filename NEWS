@@ -1,3 +1,31 @@
+Evolution 3.24.4 2017-07-17
+---------------------------
+
+Bug Fixes:
+	Bug 783905 - Drag in Minicard view stuck (Milan Crha)
+	Bug 782210 - Divide message list and preview panel size proportionally ][ (Milan Crha)
+	Bug 784246 - Unset encoding in text-highlight module output (Milan Crha)
+	Bug 780934 - Component not moved when changing calendar in editor (Milan Crha)
+	Bug 784445 - [Wayland] Date chooser on Tasks is misplaced on screen (Milan Crha)
+	Bug 784438 - Hyperlinks href changed to text when expanding the text (Milan Crha)
+	Bug 781309 - Signature and import previews hard to read with dark theme (Milan Crha)
+	Bug 784664 - Avoid folding in ESourceMailIdentity::aliases property (Milan Crha)
+	Bug 784665 - Reply/Forward fails to pair account alias with recipient (Milan Crha)
+	Bug 784776 - Don't change default view on middle-click of switcher button (Milan Crha)
+	Bug 784663 - Sort aliases list on save of account Properties (Milan Crha)
+	Bug 784874 - Huge icons in Edit->Preferences sections column (Milan Crha)
+
+Miscellaneous:
+	Sort accounts in identity combo box (From: combo in mail composer) (Milan Crha)
+	Cannot focus contact list editor's list name (Milan Crha)
+	Fix runtime warning on close from e_content_request_process() (Milan Crha)
+	Prefer gtk_clipboard_wait_for_targets() over gtk_clipboard_request_targets() (Milan Crha)
+	Wrong folder URI used for message notifications (Milan Crha)
+	AlertBar from ShellContent not freed (Milan Crha)
+
+Translations:
+	Baurzhan Muftakhidinov (kk)
+
 Evolution 3.24.3 2017-06-19
 ---------------------------
 
