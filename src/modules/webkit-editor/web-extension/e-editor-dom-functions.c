@@ -3760,7 +3760,7 @@ e_editor_dom_merge_siblings_if_necessary (EEditorPage *editor_page,
 	if ((element = webkit_dom_document_get_element_by_id (document, "-x-evo-main-cite")))
 		webkit_dom_element_remove_attribute (element, "id");
 
-	element = webkit_dom_document_query_selector (document, "blockquote:not([data-evo-query-skip]) + blockquote", NULL);
+	element = webkit_dom_document_query_selector (document, "blockquote:not([data-evo-query-skip]) + blockquote:not([data-evo-query-skip])", NULL);
 	if (!element)
 		goto signature;
  repeat:
@@ -3794,7 +3794,7 @@ e_editor_dom_merge_siblings_if_necessary (EEditorPage *editor_page,
 	} else
 		webkit_dom_element_set_attribute (element, "data-evo-query-skip", "", NULL);
 
-	element = webkit_dom_document_query_selector (document, "blockquote:not([data-evo-query-skip]) + blockquote", NULL);
+	element = webkit_dom_document_query_selector (document, "blockquote:not([data-evo-query-skip]) + blockquote:not([data-evo-query-skip])", NULL);
 	if (element)
 		goto repeat;
 
