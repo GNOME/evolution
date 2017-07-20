@@ -173,6 +173,10 @@ composer_autosave_constructed (GObject *object)
 	g_signal_connect_swapped (
 		cnt_editor, "notify::changed",
 		G_CALLBACK (composer_autosave_changed_cb), object);
+
+	g_signal_connect_swapped (
+		cnt_editor, "content-changed",
+		G_CALLBACK (composer_autosave_changed_cb), object);
 }
 
 static void

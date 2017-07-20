@@ -35,6 +35,7 @@ enum {
 	FIND_DONE,
 	REPLACE_ALL_DONE,
 	DROP_HANDLED,
+	CONTENT_CHANGED,
 	LAST_SIGNAL
 };
 
@@ -557,6 +558,25 @@ e_content_editor_default_init (EContentEditorInterface *iface)
 		E_TYPE_CONTENT_EDITOR,
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (EContentEditorInterface, drop_handled),
+		NULL, NULL,
+		NULL,
+		G_TYPE_NONE, 0);
+
+	/**
+	 * EContentEditor:content-changed
+	 *
+	 * Emitted when the content of the editor changes. It can be used in connection
+	 * to the #EContentEditor::changed property, except this signal is emitted
+	 * whenever the inner content changes, which the 'changed' property notifies
+	 * about its change only when the value truly changes.
+	 *
+	 * Since: 3.26
+	 */
+	signals[CONTENT_CHANGED] = g_signal_new (
+		"content-changed",
+		E_TYPE_CONTENT_EDITOR,
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (EContentEditorInterface, content_changed),
 		NULL, NULL,
 		NULL,
 		G_TYPE_NONE, 0);
@@ -3717,4 +3737,12 @@ e_content_editor_emit_drop_handled (EContentEditor *editor)
 	g_return_if_fail (E_IS_CONTENT_EDITOR (editor));
 
 	g_signal_emit (editor, signals[DROP_HANDLED], 0);
+}
+
+void
+e_content_editor_emit_content_changed (EContentEditor *editor)
+{
+	g_return_if_fail (E_IS_CONTENT_EDITOR (editor));
+
+	g_signal_emit (editor, signals[CONTENT_CHANGED], 0);
 }
