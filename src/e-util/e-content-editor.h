@@ -1018,6 +1018,8 @@ void		e_content_editor_emit_replace_all_done
 						 guint replaced_count);
 void		e_content_editor_emit_drop_handled
 						(EContentEditor *editor);
+void		e_content_editor_emit_content_changed
+						(EContentEditor *editor);
 
 G_END_DECLS
 

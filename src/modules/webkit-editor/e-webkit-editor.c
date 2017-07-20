@@ -257,6 +257,9 @@ webkit_editor_set_changed (EWebKitEditor *wk_editor,
 {
 	g_return_if_fail (E_IS_WEBKIT_EDITOR (wk_editor));
 
+	if (changed)
+		e_content_editor_emit_content_changed (E_CONTENT_EDITOR (wk_editor));
+
 	if (wk_editor->priv->changed == changed)
 		return;
 
