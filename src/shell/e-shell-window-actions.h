@@ -30,6 +30,8 @@
 /* Actions */
 #define E_SHELL_WINDOW_ACTION_ABOUT(window) \
 	E_SHELL_WINDOW_ACTION ((window), "about")
+#define E_SHELL_WINDOW_ACTION_ACCOUNTS(window) \
+	E_SHELL_WINDOW_ACTION ((window), "accounts")
 #define E_SHELL_WINDOW_ACTION_CLOSE(window) \
 	E_SHELL_WINDOW_ACTION ((window), "close")
 #define E_SHELL_WINDOW_ACTION_CONTENTS(window) \

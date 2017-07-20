@@ -156,6 +156,7 @@ src/em-format/e-mail-part-headers.c
 src/em-format/e-mail-part-secure-button.c
 src/em-format/e-mail-part-utils.c
 src/e-util/ea-calendar-item.c
+src/e-util/e-accounts-window.c
 src/e-util/e-action-combo-box.c
 src/e-util/e-activity-bar.c
 src/e-util/e-activity.c
@@ -381,6 +382,7 @@ src/mail/message-list.c
 src/mail/message-list.etspec
 src/mail/searchtypes.xml.in
 src/mail/vfoldertypes.xml.in
+src/modules/accounts-window/e-accounts-window-editors.c
 src/modules/addressbook/autocompletion-config.c
 src/modules/addressbook/eab-composer-util.c
 src/modules/addressbook/e-book-shell-backend.c

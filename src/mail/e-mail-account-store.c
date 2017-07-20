@@ -841,7 +841,7 @@ mail_account_store_remove_requested (EMailAccountStore *store,
 	 *       and doesn't belong here anyway.  Think of a better idea. */
 
 	response = e_alert_run_dialog_for_args (
-		parent_window, "mail:ask-delete-account", NULL);
+		parent_window, "mail:ask-delete-account", camel_service_get_display_name (service), NULL);
 
 	return (response == GTK_RESPONSE_YES);
 }

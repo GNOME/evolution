@@ -68,6 +68,14 @@ struct _EMailShellBackendPrivate {
 	gpointer editor;    /* weak pointer, when editing a mail account */
 };
 
+enum {
+	NEW_ACCOUNT,
+	EDIT_ACCOUNT,
+	LAST_SIGNAL
+};
+
+static guint signals[LAST_SIGNAL];
+
 G_DEFINE_DYNAMIC_TYPE (
 	EMailShellBackend,
 	e_mail_shell_backend,
@@ -910,6 +918,73 @@ mail_shell_backend_start (EShellBackend *shell_backend)
 	}
 }
 
+static void
+mail_shell_backend_new_account_default (EMailShellBackend *mail_shell_backend,
+					GtkWindow *parent)
+{
+	GtkWidget *assistant;
+	EMailBackend *backend;
+	EMailSession *session;
+
+	g_return_if_fail (E_IS_MAIL_SHELL_BACKEND (mail_shell_backend));
+
+	assistant = mail_shell_backend->priv->assistant;
+
+	if (assistant != NULL) {
+		gtk_window_present (GTK_WINDOW (assistant));
+		return;
+	}
+
+	backend = E_MAIL_BACKEND (mail_shell_backend);
+	session = e_mail_backend_get_session (backend);
+
+	if (assistant == NULL)
+		assistant = e_mail_config_assistant_new (session);
+
+	gtk_window_set_transient_for (GTK_WINDOW (assistant), parent);
+	gtk_widget_show (assistant);
+
+	mail_shell_backend->priv->assistant = assistant;
+
+	g_object_add_weak_pointer (
+		G_OBJECT (mail_shell_backend->priv->assistant),
+		&mail_shell_backend->priv->assistant);
+}
+
+static void
+mail_shell_backend_edit_account_default (EMailShellBackend *mail_shell_backend,
+					 GtkWindow *parent,
+					 ESource *mail_account)
+{
+	EMailShellBackendPrivate *priv;
+	EMailBackend *backend;
+	EMailSession *session;
+
+	g_return_if_fail (E_IS_MAIL_SHELL_BACKEND (mail_shell_backend));
+	g_return_if_fail (E_IS_SOURCE (mail_account));
+
+	priv = mail_shell_backend->priv;
+
+	backend = E_MAIL_BACKEND (mail_shell_backend);
+	session = e_mail_backend_get_session (backend);
+
+	if (priv->editor != NULL) {
+		gtk_window_present (GTK_WINDOW (priv->editor));
+		return;
+	}
+
+	priv->editor = e_mail_config_window_new (session, mail_account);
+	gtk_window_set_transient_for (GTK_WINDOW (priv->editor), parent);
+	g_object_add_weak_pointer (G_OBJECT (priv->editor), &priv->editor);
+
+	g_signal_connect (
+		priv->editor, "changes-committed",
+		G_CALLBACK (mail_shell_backend_changes_committed_cb),
+		mail_shell_backend);
+
+	gtk_widget_show (priv->editor);
+}
+
 static gboolean
 mail_shell_backend_delete_junk_policy_decision (EMailBackend *backend)
 {
@@ -1028,6 +1103,47 @@ e_mail_shell_backend_class_init (EMailShellBackendClass *class)
 		mail_shell_backend_delete_junk_policy_decision;
 	mail_backend_class->empty_trash_policy_decision =
 		mail_shell_backend_empty_trash_policy_decision;
+
+	class->new_account = mail_shell_backend_new_account_default;
+	class->edit_account = mail_shell_backend_edit_account_default;
+
+	/**
+	 * EMailShellBackend::new-account:
+	 * @parent: a #GtkWindow parent for the editor
+	 *
+	 * Opens wizard to create a new mail account.
+	 *
+	 * Since: 3.26
+	 **/
+	signals[NEW_ACCOUNT] = g_signal_new (
+		"new-account",
+		G_TYPE_FROM_CLASS (class),
+		G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
+		G_STRUCT_OFFSET (EMailShellBackendClass, new_account),
+		NULL, NULL,
+		NULL,
+		G_TYPE_NONE, 1,
+		GTK_TYPE_WINDOW);
+
+	/**
+	 * EMailShellBackend::edit-account:
+	 * @parent: a #GtkWindow parent for the editor
+	 * @mail_account: an #ESource for the mail account
+	 *
+	 * Edits account represented by the @source.
+	 *
+	 * Since: 3.26
+	 **/
+	signals[EDIT_ACCOUNT] = g_signal_new (
+		"edit-account",
+		G_TYPE_FROM_CLASS (class),
+		G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
+		G_STRUCT_OFFSET (EMailShellBackendClass, edit_account),
+		NULL, NULL,
+		NULL,
+		G_TYPE_NONE, 2,
+		GTK_TYPE_WINDOW,
+		E_TYPE_SOURCE);
 }
 
 static void
@@ -1053,70 +1169,23 @@ e_mail_shell_backend_type_register (GTypeModule *type_module)
 
 void
 e_mail_shell_backend_new_account (EMailShellBackend *mail_shell_backend,
-                                  GtkWindow *parent)
+				  GtkWindow *parent)
 {
-	GtkWidget *assistant;
-	EMailBackend *backend;
-	EMailSession *session;
-
 	g_return_if_fail (mail_shell_backend != NULL);
 	g_return_if_fail (E_IS_MAIL_SHELL_BACKEND (mail_shell_backend));
 
-	assistant = mail_shell_backend->priv->assistant;
-
-	if (assistant != NULL) {
-		gtk_window_present (GTK_WINDOW (assistant));
-		return;
-	}
-
-	backend = E_MAIL_BACKEND (mail_shell_backend);
-	session = e_mail_backend_get_session (backend);
-
-	if (assistant == NULL)
-		assistant = e_mail_config_assistant_new (session);
-
-	gtk_window_set_transient_for (GTK_WINDOW (assistant), parent);
-	gtk_widget_show (assistant);
-
-	mail_shell_backend->priv->assistant = assistant;
-
-	g_object_add_weak_pointer (
-		G_OBJECT (mail_shell_backend->priv->assistant),
-		&mail_shell_backend->priv->assistant);
+	g_signal_emit (mail_shell_backend, signals[NEW_ACCOUNT], 0, parent);
 }
 
 void
 e_mail_shell_backend_edit_account (EMailShellBackend *mail_shell_backend,
-                                   GtkWindow *parent,
-                                   ESource *mail_account)
+				   GtkWindow *parent,
+				   ESource *mail_account)
 {
-	EMailShellBackendPrivate *priv;
-	EMailBackend *backend;
-	EMailSession *session;
-
 	g_return_if_fail (E_IS_MAIL_SHELL_BACKEND (mail_shell_backend));
 	g_return_if_fail (E_IS_SOURCE (mail_account));
 
-	priv = mail_shell_backend->priv;
-
-	backend = E_MAIL_BACKEND (mail_shell_backend);
-	session = e_mail_backend_get_session (backend);
-
-	if (priv->editor != NULL) {
-		gtk_window_present (GTK_WINDOW (priv->editor));
-		return;
-	}
-
-	priv->editor = e_mail_config_window_new (session, mail_account);
-	gtk_window_set_transient_for (GTK_WINDOW (priv->editor), parent);
-	g_object_add_weak_pointer (G_OBJECT (priv->editor), &priv->editor);
-
-	g_signal_connect (
-		priv->editor, "changes-committed",
-		G_CALLBACK (mail_shell_backend_changes_committed_cb),
-		mail_shell_backend);
-
-	gtk_widget_show (priv->editor);
+	g_signal_emit (mail_shell_backend, signals[EDIT_ACCOUNT], 0, parent, mail_account);
 }
 
 /******************* Code below here belongs elsewhere. *******************/

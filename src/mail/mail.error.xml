@@ -293,7 +293,7 @@ The reported error was “{0}”.</_secondary>
   </error>
 
   <error id="ask-delete-account" type="question" default="GTK_RESPONSE_NO">
-    <_primary>Are you sure you want to delete this account?</_primary>
+    <_primary>Are you sure you want to delete account “{0}”?</_primary>
     <_secondary xml:space="preserve">If you proceed, the account information will be deleted permanently.</_secondary>
     <button _label="Do _Not Delete" response="GTK_RESPONSE_NO"/>
     <button stock="gtk-delete" response="GTK_RESPONSE_YES"/>

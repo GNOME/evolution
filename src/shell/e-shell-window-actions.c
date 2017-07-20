@@ -37,6 +37,24 @@ action_about_cb (GtkAction *action,
 	e_shell_utils_run_help_about (e_shell_window_get_shell (shell_window));
 }
 
+static void
+action_accounts_cb (GtkAction *action,
+		    EShellWindow *shell_window)
+{
+	ESourceRegistry *registry;
+	EShell *shell;
+	GtkWidget *accounts_window;
+
+	g_return_if_fail (E_IS_SHELL_WINDOW (shell_window));
+
+	shell = e_shell_window_get_shell (shell_window);
+	registry = e_shell_get_registry (shell);
+
+	accounts_window = e_accounts_window_new (registry);
+
+	e_accounts_window_show_with_parent (E_ACCOUNTS_WINDOW (accounts_window), GTK_WINDOW (shell_window));
+}
+
 /**
  * E_SHELL_WINDOW_ACTION_CLOSE:
  * @window: an #EShellWindow
@@ -779,6 +797,13 @@ static GtkActionEntry shell_entries[] = {
 	  NULL,
 	  N_("Show information about Evolution"),
 	  G_CALLBACK (action_about_cb) },
+
+	{ "accounts",
+	  NULL,
+	  N_("_Accounts"),
+	  NULL,
+	  N_("Configure Evolution Accounts"),
+	  G_CALLBACK (action_accounts_cb) },
 
 	{ "close",
 	  "window-close",

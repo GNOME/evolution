@@ -37,6 +37,7 @@ set(DEPENDENCIES
 )
 
 set(SOURCES
+	e-accounts-window.c
 	e-action-combo-box.c
 	e-activity-bar.c
 	e-activity-proxy.c
@@ -301,6 +302,7 @@ set(SOURCES
 
 set(HEADERS
 	e-util.h
+	e-accounts-window.h
 	e-action-combo-box.h
 	e-activity-bar.h
 	e-activity-proxy.h
@@ -764,6 +766,7 @@ endmacro(add_private_programs_simple)
 
 add_private_programs_simple(
 	evolution-source-viewer
+	test-accounts-window
 	test-calendar
 	test-category-completion
 	test-contact-store

@@ -56,6 +56,13 @@ struct _EMailShellBackend {
 
 struct _EMailShellBackendClass {
 	EMailBackendClass parent_class;
+
+	/* Signals */
+	void		(* new_account)		(EMailShellBackend *mail_shell_backend,
+						 GtkWindow *parent);
+	void		(* edit_account)	(EMailShellBackend *mail_shell_backend,
+						 GtkWindow *parent,
+						 ESource *mail_account);
 };
 
 GType		e_mail_shell_backend_get_type	(void);

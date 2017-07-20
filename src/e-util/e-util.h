@@ -22,6 +22,7 @@
 
 #include <libedataserver/libedataserver.h>
 
+#include <e-util/e-accounts-window.h>
 #include <e-util/e-action-combo-box.h>
 #include <e-util/e-activity-bar.h>
 #include <e-util/e-activity-proxy.h>

@@ -33,7 +33,7 @@
   </error>
 
   <error id="ask-delete-addressbook" type="question" default="GTK_RESPONSE_CANCEL">
-    <_primary>Delete address book “{0}”?</_primary>
+    <_primary>Are you sure you want to delete address book “{0}”?</_primary>
     <_secondary>This address book will be removed permanently.</_secondary>
     <button _label="Do _Not Delete" response="GTK_RESPONSE_CANCEL"/>
     <button stock="gtk-delete" response="GTK_RESPONSE_YES"/>

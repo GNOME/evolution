@@ -208,42 +208,42 @@
   </error>
 
   <error id="prompt-delete-calendar" type="question" default="GTK_RESPONSE_CANCEL">
-    <_primary>Delete calendar “{0}”?</_primary>
+    <_primary>Are you sure you want to delete calendar “{0}”?</_primary>
     <_secondary>This calendar will be removed permanently.</_secondary>
     <button _label="Do _Not Delete" response="GTK_RESPONSE_CANCEL"/>
     <button stock="gtk-delete" response="GTK_RESPONSE_YES"/>
   </error>
 
   <error id="prompt-delete-task-list" type="question" default="GTK_RESPONSE_CANCEL">
-    <_primary>Delete task list “{0}”?</_primary>
+    <_primary>Are you sure you want to delete task list “{0}”?</_primary>
     <_secondary>This task list will be removed permanently.</_secondary>
     <button _label="Do _Not Delete" response="GTK_RESPONSE_CANCEL"/>
     <button stock="gtk-delete" response="GTK_RESPONSE_YES"/>
   </error>
 
   <error id="prompt-delete-memo-list" type="question" default="GTK_RESPONSE_CANCEL">
-    <_primary>Delete memo list “{0}”?</_primary>
+    <_primary>Are you sure you want to delete memo list “{0}”?</_primary>
     <_secondary>This memo list will be removed permanently.</_secondary>
     <button _label="Do _Not Delete" response="GTK_RESPONSE_NO"/>
     <button stock="gtk-delete" response="GTK_RESPONSE_YES"/>
   </error>
 
   <error id="prompt-delete-remote-calendar" type="question" default="GTK_RESPONSE_CANCEL">
-    <_primary>Delete remote calendar “{0}”?</_primary>
+    <_primary>Are you sure you want to delete remote calendar “{0}”?</_primary>
     <_secondary>This will permanently remove the calendar “{0}” from the server. Are you sure you want to proceed?</_secondary>
     <button _label="Do _Not Delete" response="GTK_RESPONSE_CANCEL"/>
     <button _label="_Delete From Server" response="GTK_RESPONSE_YES"/>
   </error>
 
   <error id="prompt-delete-remote-task-list" type="question" default="GTK_RESPONSE_CANCEL">
-    <_primary>Delete remote task list “{0}”?</_primary>
+    <_primary>Are you sure you want to delete remote task list “{0}”?</_primary>
     <_secondary>This will permanently remove the task list “{0}” from the server. Are you sure you want to proceed?</_secondary>
     <button _label="Do _Not Delete" response="GTK_RESPONSE_CANCEL"/>
     <button _label="_Delete From Server" response="GTK_RESPONSE_YES"/>
   </error>
 
   <error id="prompt-delete-remote-memo-list" type="question" default="GTK_RESPONSE_CANCEL">
-    <_primary>Delete remote memo list “{0}”?</_primary>
+    <_primary>Are you sure you want to delete remote memo list “{0}”?</_primary>
     <_secondary>This will permanently remove the memo list “{0}” from the server. Are you sure you want to proceed?</_secondary>
     <button _label="Do _Not Delete" response="GTK_RESPONSE_CANCEL"/>
     <button _label="_Delete From Server" response="GTK_RESPONSE_YES"/>

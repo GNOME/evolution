@@ -29,6 +29,7 @@
       <separator/>
       <placeholder name='edit-actions'/>
       <separator/>
+      <menuitem action='accounts'/>
       <placeholder name='administrative-actions'/>
       <menuitem action='preferences'/>
     </menu>
