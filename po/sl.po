@@ -9,17 +9,18 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
-"product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2016-08-26 22:43+0200\n"
-"PO-Revision-Date: 2017-05-09 20:53+0200\n"
+"Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
+"product=evolution&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2017-07-18 17:55+0200\n"
+"PO-Revision-Date: 2017-07-18 18:37+0200\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenščina <gnome-si@googlegroups.com>\n"
 "Language: sl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n%100==4 ? 3 : 0);\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
+"%100==4 ? 3 : 0);\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Generator: Poedit 2.0.1\n"
 
@@ -37,7 +38,7 @@ msgstr ""
 
 #: ../addressbook/addressbook.error.xml.h:3
 msgid "Failed to authenticate with LDAP server."
-msgstr "Overitev na strežniku LDAP ni uspela."
+msgstr "Overitev na strežniku LDAP je spodletela."
 
 #: ../addressbook/addressbook.error.xml.h:4
 msgid ""
@@ -46,12 +47,12 @@ msgid ""
 "your caps lock might be on."
 msgstr ""
 "Preverite, ali ste pravilno vnesli geslo in ali uporabljate podprt način "
-"prijave. Vedite, da mnoga gesla ločijo velike/male črke. Morda imate "
+"prijave. Vedite, da mnoga gesla razločujejo velike/male črke. Morda imate "
 "vklopljeno tipko za velike črke."
 
 #: ../addressbook/addressbook.error.xml.h:5
 msgid "This address book server does not have any suggested search bases."
-msgstr "Strežnik imenika nima predlogov za iskanje zbirke."
+msgstr "Strežnik imenika nima predlogov za iskanje po zbirki."
 
 #: ../addressbook/addressbook.error.xml.h:6
 msgid ""
@@ -61,7 +62,7 @@ msgid ""
 msgstr ""
 "Strežnik LDAP morda uporablja starejšo različico LDAP, ki ne podpira te "
 "zmožnosti ali pa je napačno nastavljen. Za podprto iskalno zbirko se obrnite "
-"na vašega sistemskega skrbnika."
+"na sistemskega skrbnika."
 
 #: ../addressbook/addressbook.error.xml.h:7
 msgid "This server does not support LDAPv3 schema information."
@@ -81,7 +82,7 @@ msgstr "Ni mogoče odstraniti imenika."
 
 #: ../addressbook/addressbook.error.xml.h:11
 msgid "Delete address book '{0}'?"
-msgstr "Ali želite izbrisati imenik '{0}'?"
+msgstr "Ali želite izbrisati imenik »{0}«?"
 
 #: ../addressbook/addressbook.error.xml.h:12
 msgid "This address book will be removed permanently."
@@ -94,14 +95,14 @@ msgstr "_Ne izbriši"
 
 #: ../addressbook/addressbook.error.xml.h:14
 msgid "Delete remote address book &quot;{0}&quot;?"
-msgstr "Ali želite izbrisati oddaljeni imenik &quot;{0}&quot;?"
+msgstr "Ali želite izbrisati oddaljeni imenik »{0}«?"
 
 #: ../addressbook/addressbook.error.xml.h:15
 msgid ""
 "This will permanently remove the address book &quot;{0}&quot; from the "
 "server. Are you sure you want to proceed?"
 msgstr ""
-"To bo trajno izbrisalo imenik &quot;{0}&quot; s strežnika. Ali ste "
+"S tem dejanjem bo s strežnika trajno izbrisan imenik »{0}«. Ali ste "
 "prepričani, da želite nadaljevati?"
 
 #: ../addressbook/addressbook.error.xml.h:16
@@ -115,7 +116,7 @@ msgstr "Urejevalnik kategorij ni na voljo."
 
 #: ../addressbook/addressbook.error.xml.h:18
 msgid "Unable to open address book '{0}'"
-msgstr "Ni mogoče odpreti imenika '{0}'"
+msgstr "Ni mogoče odpreti imenika »{0}«"
 
 #: ../addressbook/addressbook.error.xml.h:19
 msgid "Unable to perform search."
@@ -123,11 +124,11 @@ msgstr "Iskanja ni mogoče izvesti."
 
 #: ../addressbook/addressbook.error.xml.h:20
 msgid "Failed to refresh address book '{0}'"
-msgstr "Osveževanje imenika '{0}' je spodletelo."
+msgstr "Osveževanje imenika »{0}« je spodletelo."
 
 #: ../addressbook/addressbook.error.xml.h:21
 msgid "Would you like to save your changes?"
-msgstr "Ali želite shraniti svoje spremembe?"
+msgstr "Ali želite shraniti spremembe?"
 
 #: ../addressbook/addressbook.error.xml.h:22
 msgid ""
@@ -148,13 +149,13 @@ msgid ""
 "You are attempting to move a contact from one address book to another but it "
 "cannot be removed from the source. Do you want to save a copy instead?"
 msgstr ""
-"Stik poskušate prenesti iz enega imenika v drugega, vendar ga ni mogoče "
-"izbrisati iz vira. Ali želite namesto tega shraniti kopijo?"
+"Stik poskušate prenesti iz enega imenika v drugega, vendar ga iz vira ni "
+"mogoče izbrisati. Ali želite namesto tega shraniti kopijo?"
 
 #: ../addressbook/addressbook.error.xml.h:26
 msgid ""
 "The image you have selected is large. Do you want to resize and store it?"
-msgstr "Izbrana slika je velika. Ali jo želite zmanjšati in shraniti?"
+msgstr "Izbrana slika je zelo velika. Ali jo želite pomanjšati in shraniti?"
 
 #: ../addressbook/addressbook.error.xml.h:27
 msgid "_Resize"
@@ -178,7 +179,7 @@ msgstr "Napaka med shranjevanjem {0} v {1}: {2}"
 
 #: ../addressbook/addressbook.error.xml.h:32
 msgid "Address '{0}' already exists."
-msgstr "Naslov '{0}' že obstaja."
+msgstr "Naslov »{0}« že obstaja."
 
 #: ../addressbook/addressbook.error.xml.h:33
 msgid ""
@@ -224,23 +225,23 @@ msgstr "Dodaj z dvojniki"
 
 #: ../addressbook/addressbook.error.xml.h:39
 msgid "List '{0}' is already in this contact list."
-msgstr "Seznam '{0}' je že na seznamu stikov."
+msgstr "Seznam »{0}« je že na seznamu stikov."
 
 #: ../addressbook/addressbook.error.xml.h:40
 msgid ""
 "A contact list named '{0}' is already in this contact list. Would you like "
 "to add it anyway?"
 msgstr ""
-"Seznam stikov '{0}' že obstaja na tem seznamu. Ali ga želite vseeno dodati?"
+"Seznam stikov »{0}« že obstaja na tem seznamu. Ali ga želite vseeno dodati?"
 
 #: ../addressbook/addressbook.error.xml.h:41
 #: ../addressbook/gui/widgets/e-addressbook-view.c:1285
 msgid "Failed to delete contact"
-msgstr "Izbris stika ni uspel"
+msgstr "Izbris stika je spodletel"
 
 #: ../addressbook/addressbook.error.xml.h:42
 msgid "You do not have permission to delete contacts in this address book."
-msgstr "Nimate dovoljenja za izbris stika iz imenika."
+msgstr "Ni ustreznih dovoljenj za brisanje stikov iz imenika."
 
 #: ../addressbook/addressbook.error.xml.h:43
 msgid "Cannot add new contact"
@@ -252,8 +253,8 @@ msgid ""
 "'{0}' is a read-only address book and cannot be modified. Please select a "
 "different address book from the side bar in the Contacts view."
 msgstr ""
-"'{0}' je imenik le za branje in ga ni mogoče spreminjati. Izberite drug "
-"imenik iz stranske vrstice v pogledu stikov."
+"Imenik »{0}« je označen le za branje in ga ni mogoče spreminjati. Izberite "
+"drug imenik iz stranske vrstice v pogledu stikov."
 
 #: ../addressbook/addressbook.error.xml.h:46
 msgid "Cannot save a contact, address book is still opening"
@@ -265,7 +266,7 @@ msgid ""
 "Cannot save a contact to the address book '{0}', because it is still "
 "opening. Either wait till it's opened, or select a different address book."
 msgstr ""
-"Stika ni mogoče shraniti, saj imenik '{0}' še vedno ni odprt. Ali počakajte "
+"Stika ni mogoče shraniti, saj imenik »{0}« še vedno ni odprt. Ali počakajte "
 "na izbranega ali pa izberite drug imenik."
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:1
@@ -330,7 +331,7 @@ msgstr "Stik"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:14
 msgid "_Home Page:"
-msgstr "Do_mača stran:"
+msgstr "_Osebna stran:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:15
 #: ../calendar/gui/e-comp-editor-event.c:631
@@ -348,7 +349,7 @@ msgstr "_Video klepet:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:18
 msgid "Home Page:"
-msgstr "Domača stran:"
+msgstr "Osebna stran:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:19
 #: ../modules/cal-config-google/e-cal-config-google.c:94
@@ -399,7 +400,7 @@ msgstr "Pi_sarna:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:31
 msgid "_Manager:"
-msgstr "_Upravljalec:"
+msgstr "_Nadzorni:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:32
 msgid "_Assistant:"
@@ -411,7 +412,7 @@ msgstr "Posel"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:34
 msgid "_Spouse:"
-msgstr "_Partner(ka):"
+msgstr "_Partner/ka:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:35
 msgid "_Birthday:"
@@ -454,7 +455,7 @@ msgstr "_Poštna številka:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:43
 msgid "_State/Province:"
-msgstr "_Regija/provinca:"
+msgstr "_Regija/Provinca:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:44
 msgid "_Country:"
@@ -474,7 +475,7 @@ msgstr "_Naslov:"
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:82
 #: ../addressbook/gui/widgets/e-contact-map.c:369
 msgid "Home"
-msgstr "Doma"
+msgstr "Domači"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:48
 #: ../addressbook/gui/widgets/eab-contact-display.c:353
@@ -482,7 +483,7 @@ msgstr "Doma"
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:842
 #: ../addressbook/gui/widgets/e-contact-map.c:382
 msgid "Work"
-msgstr "Delo"
+msgstr "Delovno mesto"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:49
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:83
@@ -490,7 +491,7 @@ msgstr "Delo"
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:909
 #: ../calendar/gui/e-cal-model.c:3825
 msgid "Other"
-msgstr "Drugo"
+msgstr "Drugi"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:50
 msgid "Mailing Address"
@@ -703,7 +704,7 @@ msgstr "Napaka med odstranjevanjem stika"
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:3104
 #, c-format
 msgid "Contact Editor - %s"
-msgstr "Urejevalnik stikov - %s"
+msgstr "Urejevalnik stikov – %s"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:3240
 msgid "X.509 certificates"
@@ -721,7 +722,7 @@ msgstr "Vse datoteke"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:3271
 msgid "Open PGP key"
-msgstr "Kljup OpenPGP"
+msgstr "Ključ OpenPGP"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:3271
 msgid "Open X.509 certificate"
@@ -782,18 +783,18 @@ msgid ""
 "The contact data is invalid:\n"
 "\n"
 msgstr ""
-"Podatki o stiku so neveljavni:\n"
+"Podatki o stiku niso veljavni:\n"
 "\n"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:4678
 #, c-format
 msgid "'%s' has an invalid format"
-msgstr "'%s' ima neveljavno obliko"
+msgstr "»%s« ima neveljavno obliko"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:4686
 #, c-format
 msgid "'%s' cannot be a future date"
-msgstr "'%s' mora biti datum v preteklosti"
+msgstr "»%s« mora biti datum v preteklosti"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:4694
 #, c-format
@@ -878,11 +879,11 @@ msgstr "Dr."
 
 #: ../addressbook/gui/contact-editor/fullname.ui.h:6
 msgid "Sr."
-msgstr "St."
+msgstr "st."
 
 #: ../addressbook/gui/contact-editor/fullname.ui.h:7
 msgid "Jr."
-msgstr "Ml."
+msgstr "ml."
 
 #: ../addressbook/gui/contact-editor/fullname.ui.h:8
 msgid "I"
@@ -1067,6 +1068,7 @@ msgstr "SIP"
 msgid "List Members:"
 msgstr "Člani seznama:"
 
+# M!
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:753
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:5
 msgid "Nickname"
@@ -2239,11 +2241,11 @@ msgstr ""
 
 #: ../calendar/calendar.error.xml.h:15
 msgid "Are you sure you want to delete the meeting titled '{0}'?"
-msgstr "Ali ste prepričani, da želite izbrisati srečanje z nazivom '{0}'?"
+msgstr "Ali ste prepričani, da želite izbrisati srečanje z nazivom »{0}«?"
 
 #: ../calendar/calendar.error.xml.h:16
 msgid "Are you sure you want to delete the appointment titled '{0}'?"
-msgstr "Ali ste prepričani, da želite izbrisati sestanek z nazivom '{0}'?"
+msgstr "Ali ste prepričani, da želite izbrisati sestanek z nazivom »{0}«?"
 
 #: ../calendar/calendar.error.xml.h:17
 msgid ""
@@ -2257,11 +2259,11 @@ msgstr "Ali ste prepričani, da želite izbrisati ta sestanek?"
 
 #: ../calendar/calendar.error.xml.h:19
 msgid "Are you sure you want to delete the '{0}' task?"
-msgstr "Ali ste prepričani, da želite izbrisati nalogo '{0}'?"
+msgstr "Ali ste prepričani, da želite izbrisati nalogo »{0}«?"
 
 #: ../calendar/calendar.error.xml.h:20
 msgid "Are you sure you want to delete the memo '{0}'?"
-msgstr "Ali ste prepričani, da želite izbrisati opomnik '{0}'?"
+msgstr "Ali ste prepričani, da želite izbrisati opomnik »{0}«?"
 
 #: ../calendar/calendar.error.xml.h:21
 msgid "All information in this memo will be deleted and can not be restored."
@@ -2418,21 +2420,18 @@ msgid "Would you like to send this memo to participants?"
 msgstr "Ali želite udeležencem poslati ta opomnik?"
 
 #: ../calendar/calendar.error.xml.h:53
-#, fuzzy
 msgid ""
 "Email invitations will be sent to all participants and allow them to accept "
 "this memo."
 msgstr ""
-"Povabila bodo po elektronski pošti poslana vsem sodelujočim in jim bodo "
-"omogočila sprejem te naloge."
+"Povabila bodo po elektronski pošti poslana vsem sodelujočim in jim omogočila "
+"sprejem tega opomnika."
 
 #: ../calendar/calendar.error.xml.h:54
-#, fuzzy
 msgid "Would you like to send updated memo information to participants?"
-msgstr "Ali želite udeležencem poslati posodobljene podatke o nalogi?"
+msgstr "Ali želite udeležencem poslati posodobljene podatke o opomniku?"
 
 #: ../calendar/calendar.error.xml.h:55
-#, fuzzy
 msgid ""
 "Sending updated information allows other participants to keep their memo "
 "lists up to date."
@@ -2446,7 +2445,7 @@ msgstr "Urejevalnika ni mogoče naložiti."
 
 #: ../calendar/calendar.error.xml.h:57
 msgid "Delete calendar '{0}'?"
-msgstr "Ali želite izbrisati koledar '{0}'?"
+msgstr "Ali želite izbrisati koledar »{0}«?"
 
 #: ../calendar/calendar.error.xml.h:58
 msgid "This calendar will be removed permanently."
@@ -2454,7 +2453,7 @@ msgstr "Koledar bo trajno odstranjen."
 
 #: ../calendar/calendar.error.xml.h:59
 msgid "Delete task list '{0}'?"
-msgstr "Ali želite izbrisati seznam nalog '{0}'?"
+msgstr "Ali želite izbrisati seznam nalog »{0}«?"
 
 #: ../calendar/calendar.error.xml.h:60
 msgid "This task list will be removed permanently."
@@ -2462,7 +2461,7 @@ msgstr "Seznam nalog bo trajno odstranjen."
 
 #: ../calendar/calendar.error.xml.h:61
 msgid "Delete memo list '{0}'?"
-msgstr "Ali želite izbrisati seznam opomnikov '{0}'?"
+msgstr "Ali želite izbrisati seznam opomnikov »{0}«?"
 
 #: ../calendar/calendar.error.xml.h:62
 msgid "This memo list will be removed permanently."
@@ -2470,38 +2469,38 @@ msgstr "Seznam opomnikov bo trajno odstranjen."
 
 #: ../calendar/calendar.error.xml.h:63
 msgid "Delete remote calendar '{0}'?"
-msgstr "Ali želite izbrisati oddaljeni koledar '{0}'?"
+msgstr "Ali želite izbrisati oddaljeni koledar »{0}«?"
 
 #: ../calendar/calendar.error.xml.h:64
 msgid ""
 "This will permanently remove the calendar '{0}' from the server. Are you "
 "sure you want to proceed?"
 msgstr ""
-"S tem bo s strežnika trajno izbrisan koledar '{0}'. Ali ste prepričani, da "
+"S tem bo s strežnika trajno izbrisan koledar »{0}«. Ali ste prepričani, da "
 "želite nadaljevati?"
 
 #: ../calendar/calendar.error.xml.h:66
 msgid "Delete remote task list '{0}'?"
-msgstr "Ali želite izbrisati oddaljeni seznam nalog '{0}'?"
+msgstr "Ali želite izbrisati oddaljeni seznam nalog »{0}«?"
 
 #: ../calendar/calendar.error.xml.h:67
 msgid ""
 "This will permanently remove the task list '{0}' from the server. Are you "
 "sure you want to proceed?"
 msgstr ""
-"S tem bo s strežnika trajno izbrisan seznam opravil '{0}'. Ali ste "
+"S tem bo s strežnika trajno izbrisan seznam opravil »{0}«. Ali ste "
 "prepričani, da želite nadaljevati?"
 
 #: ../calendar/calendar.error.xml.h:68
 msgid "Delete remote memo list '{0}'?"
-msgstr "Ali želite izbrisati oddaljeni seznam opomnikov '{0}'?"
+msgstr "Ali želite izbrisati oddaljeni seznam opomnikov »{0}«?"
 
 #: ../calendar/calendar.error.xml.h:69
 msgid ""
 "This will permanently remove the memo list '{0}' from the server. Are you "
 "sure you want to proceed?"
 msgstr ""
-"S tem bo s strežnika trajno izbrisan seznam opomnikov '{0}'. Ali ste "
+"S tem bo s strežnika trajno izbrisan seznam opomnikov »{0}«. Ali ste "
 "prepričani, da želite nadaljevati?"
 
 #: ../calendar/calendar.error.xml.h:70
@@ -2535,7 +2534,7 @@ msgstr "Ali ste prepričani, da želite shraniti opomnik brez povzetka?"
 #. Translators: {0} is the name of the calendar.
 #: ../calendar/calendar.error.xml.h:76
 msgid "Error loading calendar '{0}'"
-msgstr "Napaka nalaganja koledarja '{0}'"
+msgstr "Napaka nalaganja koledarja »{0}«"
 
 #: ../calendar/calendar.error.xml.h:77
 msgid "The calendar is not marked for offline usage."
@@ -2551,7 +2550,7 @@ msgid ""
 "'{0}' is a read-only calendar and cannot be modified. Please select a "
 "different calendar that can accept appointments."
 msgstr ""
-"'{0}' je koledarj le za branje in ga ni mogoče spremeniti. Izberite drug "
+"Koledar »{0}« je le za branje in ga ni mogoče spremeniti. Izberite drug "
 "koledar, ki lahko sprejema sestanke."
 
 #: ../calendar/calendar.error.xml.h:81
@@ -2562,12 +2561,13 @@ msgstr "Ni mogoče shraniti naloge"
 #: ../calendar/calendar.error.xml.h:83
 msgid ""
 "'{0}' does not support assigned tasks, please select a different task list."
-msgstr "'{0}' ne podpira dodeljenih nalog. Izberite drug seznam nalog."
+msgstr ""
+"Seznam nalog »{0}« ne podpira dodeljenih nalog. Izberite drug seznam nalog."
 
 #. Translators: {0} is the name of the task list.
 #: ../calendar/calendar.error.xml.h:85
 msgid "Error loading task list '{0}'"
-msgstr "Napaka nalaganja seznama nalog '{0}'"
+msgstr "Napaka nalaganja seznama nalog »{0}«"
 
 #: ../calendar/calendar.error.xml.h:86
 msgid "The task list is not marked for offline usage."
@@ -2576,7 +2576,7 @@ msgstr "Seznam nalog ni označen za uporabo brez povezave."
 #. Translators: {0} is the name of the memo list.
 #: ../calendar/calendar.error.xml.h:88
 msgid "Error loading memo list '{0}'"
-msgstr "Napaka nalaganja seznama opomnikov '{0}'"
+msgstr "Napaka nalaganja seznama opomnikov »{0}«"
 
 #: ../calendar/calendar.error.xml.h:89
 msgid "The memo list is not marked for offline usage."
@@ -2595,137 +2595,137 @@ msgstr "Shranjevanje prilog je spodletelo"
 #. Translators: {0} is the name of the calendar.
 #: ../calendar/calendar.error.xml.h:95
 msgid "Failed to open calendar '{0}'"
-msgstr "Odpiranje koledarja '{0}' je spodletelo."
+msgstr "Odpiranje koledarja »{0}« je spodletelo."
 
 #. Translators: {0} is the name of the memo list.
 #: ../calendar/calendar.error.xml.h:97
 msgid "Failed to open memo list '{0}'"
-msgstr "Odpiranje seznama opomnikov '{0}' je spodletelo."
+msgstr "Odpiranje seznama opomnikov »{0}« je spodletelo."
 
 #. Translators: {0} is the name of the task list.
 #: ../calendar/calendar.error.xml.h:99
 msgid "Failed to open task list '{0}'"
-msgstr "Odpiranje seznama nalog '{0}' je spodletelo."
+msgstr "Odpiranje seznama nalog »{0}« je spodletelo."
 
 #. Translators: {0} is the name of the calendar.
 #: ../calendar/calendar.error.xml.h:101
 msgid "Failed to create an event in the calendar '{0}'"
-msgstr "Ustvarjanje dogodka v koledarju '{0}' je spodletelo."
+msgstr "Ustvarjanje dogodka v koledarju »{0}« je spodletelo."
 
 #. Translators: {0} is the name of the memo list.
 #: ../calendar/calendar.error.xml.h:103
 msgid "Failed to create a memo in the memo list '{0}'"
-msgstr "Ustvarjanje opomnika v seznamu opomnikov '{0}' je spodletelo."
+msgstr "Ustvarjanje opomnika v seznamu opomnikov »{0}« je spodletelo."
 
 #. Translators: {0} is the name of the task list.
 #: ../calendar/calendar.error.xml.h:105
 msgid "Failed to create a task in the task list '{0}'"
-msgstr "Ustvarjanje naloge v seznamu nalog '{0}' je spodletelo."
+msgstr "Ustvarjanje naloge v seznamu nalog »{0}« je spodletelo."
 
 #. Translators: {0} is the name of the calendar.
 #: ../calendar/calendar.error.xml.h:107
 msgid "Failed to modify an event in the calendar '{0}'"
-msgstr "Spreminjanje dogodka v koledarju '{0}' je spodletelo."
+msgstr "Spreminjanje dogodka v koledarju »{0}« je spodletelo."
 
 #. Translators: {0} is the name of the memo list.
 #: ../calendar/calendar.error.xml.h:109
 msgid "Failed to modify a memo in the memo list '{0}'"
-msgstr "Spreminjanje opomnika v seznamu opomnikov '{0}' je spodletelo."
+msgstr "Spreminjanje opomnika v seznamu opomnikov »{0}« je spodletelo."
 
 #. Translators: {0} is the name of the task list.
 #: ../calendar/calendar.error.xml.h:111
 msgid "Failed to modify a task in the task list '{0}'"
-msgstr "Spreminjanje naloge v seznamu nalog '{0}' je spodletelo."
+msgstr "Spreminjanje naloge v seznamu nalog »{0}« je spodletelo."
 
 #. Translators: {0} is the name of the calendar.
 #: ../calendar/calendar.error.xml.h:113
 msgid "Failed to delete an event in the calendar '{0}'"
-msgstr "Brisanje dogodka v koledarju '{0}' je spodletelo."
+msgstr "Brisanje dogodka v koledarju »{0}« je spodletelo."
 
 #. Translators: {0} is the name of the memo list.
 #: ../calendar/calendar.error.xml.h:115
 msgid "Failed to delete a memo in the memo list '{0}'"
-msgstr "Brisanje opomnika v seznamu opomnikov '{0}' je spodletelo."
+msgstr "Brisanje opomnika v seznamu opomnikov »{0}« je spodletelo."
 
 #. Translators: {0} is the name of the task list.
 #: ../calendar/calendar.error.xml.h:117
 msgid "Failed to delete a task in the task list '{0}'"
-msgstr "Brisanje naloge v seznamu nalog '{0}' je spodletelo."
+msgstr "Brisanje naloge v seznamu nalog »{0}« je spodletelo."
 
 #. Translators: {0} is the name of the calendar.
 #: ../calendar/calendar.error.xml.h:119
 msgid "Failed to update an event in the calendar '{0}'"
-msgstr "Posodabljanje dogodka v koledarju '{0}' je spodletelo."
+msgstr "Posodabljanje dogodka v koledarju »{0}« je spodletelo."
 
 #. Translators: {0} is the name of the memo list.
 #: ../calendar/calendar.error.xml.h:121
 msgid "Failed to update a memo in the memo list '{0}'"
-msgstr "Posodabljanje opomnika v seznamu opomnikov '{0}' je spodletelo."
+msgstr "Posodabljanje opomnika v seznamu opomnikov »{0}« je spodletelo."
 
 #. Translators: {0} is the name of the task list.
 #: ../calendar/calendar.error.xml.h:123
 msgid "Failed to update a task in the task list '{0}'"
-msgstr "Posodabljanje naloge v seznamu nalog '{0}' je spodletelo."
+msgstr "Posodabljanje naloge v seznamu nalog »{0}« je spodletelo."
 
 #. Translators: {0} is the name of the calendar.
 #: ../calendar/calendar.error.xml.h:125
 msgid "Failed to send an event to the calendar '{0}'"
-msgstr "Pošiljanje dogodka v koledar '{0}' je spodletelo."
+msgstr "Pošiljanje dogodka v koledar »{0}« je spodletelo."
 
 #. Translators: {0} is the name of the memo list.
 #: ../calendar/calendar.error.xml.h:127
 msgid "Failed to send a memo to the memo list '{0}'"
-msgstr "Pošiljanje opomnika v seznam opomnikov '{0}' je spodletelo."
+msgstr "Pošiljanje opomnika v seznam opomnikov »{0}« je spodletelo."
 
 #. Translators: {0} is the name of the task list.
 #: ../calendar/calendar.error.xml.h:129
 msgid "Failed to send a task to the task list '{0}'"
-msgstr "Pošiljanje naloge v seznam nalog '{0}' je spodletelo."
+msgstr "Pošiljanje naloge v seznam nalog »{0}« je spodletelo."
 
 #. Translators: {0} is the name of the calendar.
 #: ../calendar/calendar.error.xml.h:131
 msgid "Error creating view for the calendar '{0}'"
-msgstr "Napaka ustvarjanja pogleda v koledarju '{0}'."
+msgstr "Napaka ustvarjanja pogleda v koledarju »{0}«."
 
 #. Translators: {0} is the name of the task list.
 #: ../calendar/calendar.error.xml.h:133
 msgid "Error creating view for the task list '{0}'"
-msgstr "Napaka ustvarjanja pogleda v seznamu nalog '{0}'."
+msgstr "Napaka ustvarjanja pogleda v seznamu nalog »{0}«."
 
 #. Translators: {0} is the name of the memo list.
 #: ../calendar/calendar.error.xml.h:135
 msgid "Error creating view for the memo list '{0}'"
-msgstr "Napaka ustvarjanja pogleda v seznamu opomnikov '{0}'."
+msgstr "Napaka ustvarjanja pogleda v seznamu opomnikov »{0}«."
 
 #. Translators: {0} is the name of the calendar.
 #: ../calendar/calendar.error.xml.h:137
 msgid "Failed to copy an event into the calendar '{0}'"
-msgstr "Kopiranje dogodka v koledar '{0}' je spodletelo"
+msgstr "Kopiranje dogodka v koledar »{0}« je spodletelo"
 
 #. Translators: {0} is the name of the task list.
 #: ../calendar/calendar.error.xml.h:139
 msgid "Failed to copy a task into the task list '{0}'"
-msgstr "Kopiranje naloge na seznam nalog '{0}' je spodletelo"
+msgstr "Kopiranje naloge na seznam nalog »{0}« je spodletelo"
 
 #. Translators: {0} is the name of the memo list.
 #: ../calendar/calendar.error.xml.h:141
 msgid "Failed to copy a memo into the memo list '{0}'"
-msgstr "Kopiranje opomnika na seznam opomnikov '{0}' je spodletelo"
+msgstr "Kopiranje opomnika na seznam opomnikov »{0}« je spodletelo"
 
 #. Translators: {0} is the name of the calendar.
 #: ../calendar/calendar.error.xml.h:143
 msgid "Failed to move an event into the calendar '{0}'"
-msgstr "Premikanje dogodka v koledar '{0}' je spodletelo"
+msgstr "Premikanje dogodka v koledar »{0}« je spodletelo"
 
 #. Translators: {0} is the name of the task list.
 #: ../calendar/calendar.error.xml.h:145
 msgid "Failed to move a task into the task list '{0}'"
-msgstr "Premikanje naloge na seznam nalog '{0}' je spodletelo"
+msgstr "Premikanje naloge na seznam nalog »{0}« je spodletelo"
 
 #. Translators: {0} is the name of the memo list.
 #: ../calendar/calendar.error.xml.h:147
 msgid "Failed to move a memo into the memo list '{0}'"
-msgstr "Premikanje opomnika na seznam opomnikov '{0}' je spodletelo"
+msgstr "Premikanje opomnika na seznam opomnikov »{0}« je spodletelo"
 
 #. Translators: {0} is the name of the calendar.
 #: ../calendar/calendar.error.xml.h:149
@@ -2745,47 +2745,47 @@ msgstr "Pridobivanje opomnika iz seznam »{0}« je spodletelo"
 #. Translators: {0} is the name of the calendar.
 #: ../calendar/calendar.error.xml.h:155
 msgid "Copying an event into the calendar '{0}'"
-msgstr "Kopiranje dogodka v koledar '{0}'"
+msgstr "Kopiranje dogodka v koledar »{0}«"
 
 #. Translators: {0} is the name of the task list.
 #: ../calendar/calendar.error.xml.h:157
 msgid "Copying a task into the task list '{0}'"
-msgstr "Kopiranje naloge na seznam nalog '{0}'"
+msgstr "Kopiranje naloge na seznam nalog »{0}«"
 
 #. Translators: {0} is the name of the memo list.
 #: ../calendar/calendar.error.xml.h:159
 msgid "Copying a memo into the memo list '{0}'"
-msgstr "Kopiranje opomnika na seznam opomnikov '{0}'"
+msgstr "Kopiranje opomnika na seznam opomnikov »{0}«"
 
 #. Translators: {0} is the name of the calendar.
 #: ../calendar/calendar.error.xml.h:161
 msgid "Moving an event into the calendar '{0}'"
-msgstr "Premikanje dogodka v koledar '{0}'"
+msgstr "Premikanje dogodka v koledar »{0}«"
 
 #. Translators: {0} is the name of the task list.
 #: ../calendar/calendar.error.xml.h:163
 msgid "Moving a task into the task list '{0}'"
-msgstr "Premikanje naloge na seznam nalog '{0}'"
+msgstr "Premikanje naloge na seznam nalog »{0}«"
 
 #. Translators: {0} is the name of the memo list.
 #: ../calendar/calendar.error.xml.h:165
 msgid "Moving a memo into the memo list '{0}'"
-msgstr "Premikanje opomnika na seznam opomnikov '{0}'"
+msgstr "Premikanje opomnika na seznam opomnikov »{0}«"
 
 #. Translators: {0} is the name of the calendar.
 #: ../calendar/calendar.error.xml.h:167
 msgid "Failed to refresh calendar '{0}'"
-msgstr "Osveževanje koledarja '{0}' je spodletelo."
+msgstr "Osveževanje koledarja »{0}« je spodletelo."
 
 #. Translators: {0} is the name of the task list.
 #: ../calendar/calendar.error.xml.h:169
 msgid "Failed to refresh task list '{0}'"
-msgstr "Osveževanje seznama nalog '{0}' je spodletelo."
+msgstr "Osveževanje seznama nalog »{0}« je spodletelo."
 
 #. Translators: {0} is the name of the memo list.
 #: ../calendar/calendar.error.xml.h:171
 msgid "Failed to refresh memo list '{0}'"
-msgstr "Osveževanje seznama opomnikov '{0}' je spodletelo."
+msgstr "Osveževanje seznama opomnikov »{0}« je spodletelo."
 
 #: ../calendar/calendar.error.xml.h:172
 msgid "Failed to make an occurrence movable"
@@ -4309,10 +4309,9 @@ msgstr "21. do 31."
 #. * (dropdown menu options are in[square brackets]). This means that after 'first', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #: ../calendar/gui/e-comp-editor-page-recurrence.c:667
-#, fuzzy
 msgctxt "ECompEditorPageRecur"
 msgid "day"
-msgstr "DAN"
+msgstr "dan"
 
 #: ../calendar/gui/e-comp-editor-page-recurrence.c:668
 msgctxt "ECompEditorPageRecur"
@@ -4355,7 +4354,7 @@ msgstr "nedelja"
 #: ../calendar/gui/e-comp-editor-page-recurrence.c:803
 msgctxt "ECompEditorPageRecur"
 msgid "on the"
-msgstr ""
+msgstr "na"
 
 #: ../calendar/gui/e-comp-editor-page-recurrence.c:993
 msgctxt "ECompEditorPageRecur"
@@ -4371,29 +4370,25 @@ msgstr "Ta sestanek se _ponavlja"
 
 #. Translators: Entire string is for example:     'This task recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
 #: ../calendar/gui/e-comp-editor-page-recurrence.c:1491
-#, fuzzy
 msgctxt "ECompEditorPageRecur"
 msgid "This task rec_urs"
-msgstr "Ta sestanek se _ponavlja"
+msgstr "Ta naloga se _ponavlja"
 
 #. Translators: Entire string is for example:     'This memo recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
 #: ../calendar/gui/e-comp-editor-page-recurrence.c:1496
-#, fuzzy
 msgctxt "ECompEditorPageRecur"
 msgid "This memo rec_urs"
-msgstr "Ta sestanek se _ponavlja"
+msgstr "Ta opomnik se _ponavlja"
 
 #. Translators: Entire string is for example:     'This component recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
 #: ../calendar/gui/e-comp-editor-page-recurrence.c:1501
-#, fuzzy
 msgctxt "ECompEditorPageRecur"
 msgid "This component rec_urs"
-msgstr "Ta sestanek se _ponavlja"
+msgstr "Ta enota se _ponavlja"
 
 #: ../calendar/gui/e-comp-editor-page-recurrence.c:1862
-#, fuzzy
 msgid "Recurrence exception date is invalid"
-msgstr "Datum ponovitve ni veljaven"
+msgstr "Datum izjeme ponovitve ni veljaven"
 
 #: ../calendar/gui/e-comp-editor-page-recurrence.c:1910
 msgid "End time of the recurrence is before the start"
@@ -4441,7 +4436,7 @@ msgstr "let"
 #: ../calendar/gui/e-comp-editor-page-recurrence.c:2126
 msgctxt "ECompEditorPageRecur"
 msgid "for"
-msgstr ""
+msgstr "za"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
 #: ../calendar/gui/e-comp-editor-page-recurrence.c:2128
@@ -4589,7 +4584,6 @@ msgstr "po"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ minute(s) ] [ before ] [ start ]
 #: ../calendar/gui/e-comp-editor-page-reminders.c:1903
-#, fuzzy
 msgctxt "cal-reminders"
 msgid "start"
 msgstr "začetek"
@@ -4781,7 +4775,6 @@ msgid "Time _zone:"
 msgstr "Časovni _pas:"
 
 #: ../calendar/gui/e-comp-editor-property-parts.c:1484
-#, fuzzy
 msgctxt "ECompEditor"
 msgid "Show time as _busy"
 msgstr "Pokaži čas kot _zaseden"
@@ -4795,11 +4788,10 @@ msgid "Task's due date is in the past"
 msgstr "Datum zapadlosti opravila je v preteklosti"
 
 #: ../calendar/gui/e-comp-editor-task.c:308
-#, fuzzy
 msgid ""
 "Task cannot be edited, because the selected task list could not be opened"
 msgstr ""
-"Naloge ni mogoče urejati, ker je izbran seznam nalog dostopen le za branje"
+"Naloge ni mogoče urejati, ker izbranega seznama nalog ni mogoče odpreti"
 
 #: ../calendar/gui/e-comp-editor-task.c:310
 msgid "Task cannot be edited, because the selected task list is read only"
@@ -4811,19 +4803,16 @@ msgid "Task cannot be fully edited, because you are not the organizer"
 msgstr "Naloge ni mogoče v polno urejati, saj niste organizator"
 
 #: ../calendar/gui/e-comp-editor-task.c:359
-#, fuzzy
 msgid "Due date is not a valid date"
-msgstr "Datum zapadlosti opravila je v preteklosti"
+msgstr "Datum zapadlosti ni veljaven datum"
 
 #: ../calendar/gui/e-comp-editor-task.c:370
-#, fuzzy
 msgid "Completed date is not a valid date"
-msgstr "Datum konca je napačen"
+msgstr "Datum konca ni veljaven datum"
 
 #: ../calendar/gui/e-comp-editor-task.c:381
-#, fuzzy
 msgid "Completed date cannot be in the future"
-msgstr "'%s' mora biti datum v preteklosti"
+msgstr "Datum zaključka ne more biti v prihodnosti"
 
 #: ../calendar/gui/e-comp-editor-task.c:566
 #, c-format
@@ -7809,7 +7798,7 @@ msgstr "Sporočilu ni mogoče priložiti datoteke &quot;{0}&quot;."
 #: ../composer/mail-composer.error.xml.h:2
 msgid "The file '{0}' is not a regular file and cannot be sent in a message."
 msgstr ""
-"Datoteka '{0}' ni običajna datoteka in je ni mogoče poslati s sporočilom."
+"Datoteka »{0}« ni običajna datoteka in je ni mogoče poslati s sporočilom."
 
 #: ../composer/mail-composer.error.xml.h:3
 msgid "Could not retrieve messages to attach from {0}."
@@ -7853,7 +7842,7 @@ msgid ""
 "Are you sure you want to discard the message, titled '{0}', you are "
 "composing?"
 msgstr ""
-"Ali ste prepričani, da želite prezreti sporočilo '{0}', ki ga sestavljate?"
+"Ali ste prepričani, da želite prezreti sporočilo »{0}«, ki ga sestavljate?"
 
 #: ../composer/mail-composer.error.xml.h:12
 msgid ""
@@ -8727,9 +8716,8 @@ msgstr ""
 "Ali naj se prikažejo časi konca dogodkov v tedenskih in mesečnih pogledih"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:111
-#, fuzzy
 msgid "Show appointment icons in the month view"
-msgstr "Pokaži čase koncev _sestankov v tedenskih in mesečnih pogledih"
+msgstr "Pokaži ikone sestankov v mesečnem pogledu"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:112
 msgid "Whether to show icons of events in the month view"
@@ -9393,13 +9381,14 @@ msgstr ""
 "sta uporabljena."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:65
-#, fuzzy
 msgid "Wrap quoted text in replies"
-msgstr "Ali naj bodo vrstice besedila dovoljenja prelomljene."
+msgstr "O dogovorih na sporočilo prelomi predhodno besedilo"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:66
 msgid "If set to 'true' quoted text in replies will be wrapped."
 msgstr ""
+"Izbrana mogožnost omogoča, da bo navajano besedilo v odgovoru vedno "
+"prelomljeno po širini."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:67
 msgid "Save file format for drag-and-drop operation"
@@ -9500,6 +9489,9 @@ msgid ""
 "content, while the download is not allowed for the user or the site, then "
 "show a notification about it on top of the preview panel."
 msgstr ""
+"Kadar je treba za predogled sporočila prejeti oddaljeno vsebino, tega pa "
+"uporabnik na strani ne more storiti, pokaži obvestilo na vrhu okna "
+"predogleda."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:88
 msgid "Show Animations"
@@ -9595,14 +9587,12 @@ msgid "Show deleted messages (with a strike-through) in the message-list."
 msgstr "Pokaži izbrisana sporočila (prečrtana) na seznamu sporočil."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:108
-#, fuzzy
 msgid "Show junk messages in the message-list"
-msgstr "Pokaži izbrisana sporočila na seznamu sporočil"
+msgstr "Pokaži neželena sporočila na seznamu sporočil"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:109
-#, fuzzy
 msgid "Show junk messages (with a red strike-through) in the message-list."
-msgstr "Pokaži izbrisana sporočila (prečrtana) na seznamu sporočil."
+msgstr "Pokaže neželena sporočila (rdeče prečrtana) na seznamu sporočil."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:110
 msgid "Enable Unmatched search folder"
@@ -10101,7 +10091,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:197
 msgid "Check incoming mail being junk"
-msgstr "Preveri dohodno pošto za vsiljeno pošto"
+msgstr "Preveri dohodno pošto za neželeno pošto"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:198
 msgid "Run junk test on incoming mail."
@@ -10158,10 +10148,11 @@ msgid ""
 "can be slow, if remote address books (like LDAP) are marked for "
 "autocompletion."
 msgstr ""
-"Določa ali naj se imenik pregleda za elektronski naslov pošiljatelja. V "
-"primeru najdenega naslova sporočilo ne more biti označeno kot vsiljena "
-"pošta. Imena so pregledana v imenikih označenih za samodejno dopolnjevanje. "
-"Postopek je lahko počasen, če uporabljate oddaljene imenike kot je LDAP."
+"Možnost določa ali naj se elektronski naslov pošiljatelja poišče tudi v "
+"imeniku. Če je pošiljatelj najden, sporočilo ni označeno kot neželena pošta. "
+"Imena so pregledana v imenikih označenih za samodejno dopolnjevanje. "
+"Postopek je lahko počasen, če so v uporabi tudi oddaljeni imeniki kot je "
+"LDAP."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:209
 msgid ""
@@ -10603,6 +10594,10 @@ msgid ""
 "\"prefer_source\" makes it use the text part, if present, otherwise shows "
 "HTML source, and \"only_plain\" forces Evolution to only show plain text"
 msgstr ""
+"Način prikaza elektronskih sporočil je mogoče nastaviti kot »običajen«, pri "
+"čemer bo vedno izbran najustreznejši način, »prednostno besedilo«, kar "
+"pokaže besedilni del, »oblikovano besedilo«, kar omogoča prikaz v v jeziku "
+"HTML, ali pa »le besedilo«."
 
 #: ../data/org.gnome.evolution.plugin.prefer-plain.gschema.xml.in.h:3
 msgid "Whether to show suppressed HTML output"
@@ -10687,13 +10682,15 @@ msgstr "Zastavica, ki omogoči poenostavljen uporabniški vmesnik."
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:13
 msgid "List of button names to hide in the window switcher"
-msgstr ""
+msgstr "Seznam imen gumbov, ki naj bodo v preklopniku oken skriti"
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:14
 msgid ""
 "Valid values are 'mail', 'addressbook', 'calendar', 'tasks' and 'memos'. "
 "Change of this requires restart of the application."
 msgstr ""
+"Veljavne vredonsti so 'mail', 'addressbook', 'calendar', 'tasks' in 'memos'. "
+"Sprememba te nastavitve zahteva ponovni zagon programa."
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:15
 msgid "Window buttons are visible"
@@ -10755,11 +10752,11 @@ msgstr "Privzeta širina stranske vrstice v točkah."
 
 #: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:1
 msgid "Use only local spam tests."
-msgstr "Uporabi le krajevno preskušanje vsiljene pošte"
+msgstr "Uporabi le krajevno preskušanje neželene pošte"
 
 #: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:2
 msgid "Use only the local spam tests (no DNS)."
-msgstr "Uporabi le krajevno preskušanje vsiljene pošte (brez DNS)."
+msgstr "Uporabi le krajevno preskušanje neželene pošte (brez DNS)."
 
 #: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:3
 msgid "Full path command to run spamassassin"
@@ -13337,15 +13334,13 @@ msgid "Please select the information that you would like to import:"
 msgstr "Izberite podatke, ki jih želite uvoziti:"
 
 #: ../e-util/e-import-assistant.c:533
-#, fuzzy
 msgid ""
 "Evolution checked for settings to import from the following applications: "
 "Pine, Netscape, Elm, iCalendar, KMail. No importable settings found. If you "
 "would like to try again, please click the \"Back\" button."
 msgstr ""
-"Evolution je iskal nastavitve programov Pine, Netscape, Elm in iCalendar, "
-"vendar jih ni mogoče najti. V primeru, da želite poskusiti znova, kliknite "
-"gumb »Nazaj»."
+"Nastavitev za programe Pine, Netscape, Elm, iCalendar in KMail v sistemu ni "
+"mogoče najti. Če želite poskusiti znova, kliknite gumb »Nazaj»."
 
 #: ../e-util/e-import-assistant.c:559
 #: ../modules/startup-wizard/e-mail-config-import-page.c:229
@@ -13934,9 +13929,8 @@ msgid "Use a secure connection"
 msgstr "Uporabi varno povezavo"
 
 #: ../e-util/e-source-config.c:1439
-#, fuzzy
 msgid "Unset _trust for SSL/TLS certificate"
-msgstr "Prezri _zaupljivost potrdila SSL"
+msgstr "Odstrani nastavitev _zaupljivosti potrdilo SSL/TLS"
 
 #: ../e-util/e-source-config.c:1475
 msgid "User"
@@ -14531,9 +14525,8 @@ msgid "One or more values cannot be empty."
 msgstr "Ena ali več vrednosti ne sme biti prazna vrednost."
 
 #: ../e-util/filter.error.xml.h:16
-#, fuzzy
 msgid "Are you sure you want to remove rule '{0}'?"
-msgstr "Ali ste prepričani, da želite izbrisati račun?"
+msgstr "Ali ste prepričani, da želite odstraniti pravilo »{0}«?"
 
 #: ../e-util/filter.error.xml.h:17
 msgid "_Keep"
@@ -15225,9 +15218,8 @@ msgid "_Restore Defaults"
 msgstr "_Obnovi privzete nastavitve"
 
 #: ../mail/e-mail-config-defaults-page.c:946
-#, fuzzy
 msgid "_Lookup Folders"
-msgstr "Iskalna razpredelnica"
+msgstr "_Iskalne mape"
 
 #: ../mail/e-mail-config-defaults-page.c:964
 msgid "Use a Real Folder for _Trash:"
@@ -15355,9 +15347,8 @@ msgid "Email Address is not a valid email"
 msgstr "Elektronski naslov ni zapisan na veljaven način"
 
 #: ../mail/e-mail-config-identity-page.c:635
-#, fuzzy
 msgid "Reply To is not a valid email"
-msgstr "Odgovori-_na:"
+msgstr "Naslov za odgovor ni veljaven elektronski naslov"
 
 #: ../mail/e-mail-config-identity-page.c:646
 #: ../mail/e-mail-config-summary-page.c:632
@@ -15456,6 +15447,7 @@ msgstr "Med šifriranjem vedno _zaupaj ključem v moji zbirki ključev"
 #: ../mail/e-mail-config-security-page.c:502
 msgid "Prefer _inline sign/encrypt for plain text messages"
 msgstr ""
+"Prednostno uporabi _medvrstično podpisovanje/šifriranje besedilnih sporočil "
 
 #: ../mail/e-mail-config-security-page.c:526
 msgid "Secure MIME (S/MIME)"
@@ -15721,7 +15713,7 @@ msgstr "Opomba sporočila"
 
 #: ../mail/e-mail-notes.c:612
 msgid "Cannot find message in its folder summary"
-msgstr ""
+msgstr "V povzetku mape ni mogoče najti sporočila"
 
 #: ../mail/e-mail-notes.c:815
 msgid "Storing changes..."
@@ -16032,7 +16024,7 @@ msgstr "_Ni vsiljeno"
 
 #: ../mail/e-mail-reader.c:2163
 msgid "Mark the selected messages as not being junk"
-msgstr "Izbrana sporočila označi kot zaželena"
+msgstr "Izbrana sporočila označi kot vsiljena"
 
 #: ../mail/e-mail-reader.c:2168
 msgid "_Read"
@@ -16543,10 +16535,10 @@ msgstr "Vira podatkov za UID '%s' ni bilo mogoče najti."
 msgid "Are you sure you want to send a message with %d To and CC recipients?"
 msgid_plural ""
 "Are you sure you want to send a message with %d To and CC recipients?"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "Ali ste prepričani, da želite poslati sporočilo %d prejemnikom?"
+msgstr[1] "Ali ste prepričani, da želite poslati sporočilo %d prejemniku?"
+msgstr[2] "Ali ste prepričani, da želite poslati sporočilo %d prejemnikoma?"
+msgstr[3] "Ali ste prepričani, da želite poslati sporočilo %d prejemnikom?"
 
 #. Translators: The %d is replaced with the actual count of recipients, which is always more than one.
 #: ../mail/em-composer-utils.c:396
@@ -16564,9 +16556,29 @@ msgid_plural ""
 "other or if privacy is a concern. Consider adding recipients to the BCC "
 "field instead."
 msgstr[0] ""
+"Sporočilo nameravate poslati %d prejemnikom. Pri tem načinu pošiljanja vsi "
+"prejemniki vidijo naslove drug drugega. V nekaterih primerih je tak način "
+"nezaželen, še posebej, če se prejemniki med seboj ne poznajo oziroma je "
+"vsebina zasebna. Morda je priporočljivo prejemnike vpisati v polje skrite "
+"kopije SKP."
 msgstr[1] ""
+"Sporočilo nameravate poslati %d prejemniku. Pri tem načinu pošiljanja vsi "
+"prejemniki vidijo naslove drug drugega. V nekaterih primerih je tak način "
+"nezaželen, še posebej, če se prejemniki med seboj ne poznajo oziroma je "
+"vsebina zasebna. Morda je priporočljivo prejemnike vpisati v polje skrite "
+"kopije SKP."
 msgstr[2] ""
+"Sporočilo nameravate poslati %d prejemnikoma. Pri tem načinu pošiljanja vsi "
+"prejemniki vidijo naslove drug drugega. V nekaterih primerih je tak način "
+"nezaželen, še posebej, če se prejemniki med seboj ne poznajo oziroma je "
+"vsebina zasebna. Morda je priporočljivo prejemnike vpisati v polje skrite "
+"kopije SKP."
 msgstr[3] ""
+"Sporočilo nameravate poslati %d prejemnikom. Pri tem načinu pošiljanja vsi "
+"prejemniki vidijo naslove drug drugega. V nekaterih primerih je tak način "
+"nezaželen, še posebej, če se prejemniki med seboj ne poznajo oziroma je "
+"vsebina zasebna. Morda je priporočljivo prejemnike vpisati v polje skrite "
+"kopije SKP."
 
 #. This message is never removed from the camel operation, otherwise the GtkInfoBar
 #. hides itself and the user sees no feedback.
@@ -17435,7 +17447,7 @@ msgstr "Samodejno vstavi slike _izraznih ikon"
 
 #: ../mail/mail-config.ui.h:11
 msgid "Use Un_icode characters for emoticons"
-msgstr ""
+msgstr "Uporabljaj znake _unikod za izrazne ikone"
 
 #: ../mail/mail-config.ui.h:12
 msgid "Always request rea_d receipt"
@@ -17493,9 +17505,8 @@ msgstr ""
 "ali S/MIME)"
 
 #: ../mail/mail-config.ui.h:25
-#, fuzzy
 msgid "_Wrap quoted text in replies"
-msgstr "Ali naj bodo vrstice besedila dovoljenja prelomljene."
+msgstr "_Prelomi izvorno besedilo v odgovorih"
 
 #: ../mail/mail-config.ui.h:30
 msgctxt "ReplyForward"
@@ -17745,7 +17756,7 @@ msgstr "Vedno n_aloži oddaljeno vsebino z interneta"
 
 #: ../mail/mail-config.ui.h:110
 msgid "Notify about _missing remote content in the message preview"
-msgstr ""
+msgstr "Opozori na nalaganje _oddaljene vsebine v predogledu sporočila"
 
 #: ../mail/mail-config.ui.h:111
 msgid "Add"
@@ -18538,7 +18549,7 @@ msgstr "Kopiraj mapo v drevesu map."
 
 #: ../mail/mail.error.xml.h:139
 msgid "Are you sure you want to copy folder '{0}' to folder '{1}'?"
-msgstr "Ali ste prepričani, da želite kopirati mapo '{0}' v mapo '{1}'?"
+msgstr "Ali ste prepričani, da želite kopirati mapo »{0}« v mapo »{1}«?"
 
 #: ../mail/mail.error.xml.h:141
 msgid "Do _not copy"
@@ -18558,7 +18569,7 @@ msgstr "Premakni mapo v drevesu map."
 
 #: ../mail/mail.error.xml.h:145
 msgid "Are you sure you want to to move folder '{0}' to folder '{1}'?"
-msgstr "Ali ste prepričani, da želite premakniti mapo '{0}' v mapo '{1}'?"
+msgstr "Ali ste prepričani, da želite premakniti mapo »{0}« v mapo »{1}«?"
 
 #: ../mail/mail.error.xml.h:147
 msgid "Do _not move"
@@ -18613,7 +18624,7 @@ msgstr "Podvojenih sporočil ni mogoče najti."
 #. Translators: {0} is replaced with a folder name
 #: ../mail/mail.error.xml.h:160
 msgid "Folder '{0}' doesn't contain any duplicate message."
-msgstr "Mapa '{0}' ne vsebuje podvojenih sporočil."
+msgstr "Mapa »{0}« ne vsebuje podvojenih sporočil."
 
 #: ../mail/mail.error.xml.h:161
 msgid "Failed to connect account &quot;{0}&quot;."
@@ -18719,16 +18730,16 @@ msgstr "Označevanje niti v mapi »{0}« kot prezrte je spodletelo"
 
 #: ../mail/mail.error.xml.h:184
 msgid "Failed to unmark thread from being ignored in folder '{0}'"
-msgstr "Odstranjevanje označbe niti kot prezrte v mapi '{0}' je spodletelo"
+msgstr "Odstranjevanje označbe niti kot prezrte v mapi »{0}« je spodletelo"
 
 #: ../mail/mail.error.xml.h:185
 msgid "Failed to mark subthread to be ignored in folder '{0}'"
-msgstr "Označevanje niti kot prezrte v mapi '{0}' je spodletelo"
+msgstr "Označevanje niti kot prezrte v mapi »{0}« je spodletelo"
 
 #: ../mail/mail.error.xml.h:186
 msgid "Failed to unmark subthread from being ignored in folder '{0}'"
 msgstr ""
-"Odstranjevanje označbe podrejene niti kot prezrte v mapi '{0}' je spodletelo"
+"Odstranjevanje označbe podrejene niti kot prezrte v mapi »{0}« je spodletelo"
 
 #: ../mail/mail.error.xml.h:187
 msgid "Remote content download had been blocked for this message."
@@ -18800,12 +18811,12 @@ msgstr "Preverjanje za novo pošto na '%s'"
 #: ../mail/mail-send-recv.c:1455
 #, c-format
 msgid "Deleting junk and expunging trash at '%s'"
-msgstr "Brisanje neželene pošte in smeti v '%s'"
+msgstr "Brisanje vsiljene pošte in smeti v »%s«"
 
 #: ../mail/mail-send-recv.c:1457
 #, c-format
 msgid "Deleting junk at '%s'"
-msgstr "Brisanje neželene pošte v '%s'"
+msgstr "Brisanje vsiljene pošte v »%s«"
 
 #: ../mail/mail-send-recv.c:1459
 #, c-format
@@ -19092,14 +19103,13 @@ msgid "Delete the selected address book"
 msgstr "Izbriše izbrani imenik"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:952
-#, fuzzy
 msgid "_Manage Address Book groups..."
-msgstr "Upravljaj skupine"
+msgstr "_Upravljanje skupin imenikov ..."
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:954
 #: ../modules/calendar/e-task-shell-view-actions.c:721
 msgid "Manage task list groups order and visibility"
-msgstr ""
+msgstr "Upravljanje razvrstitve in vidnost skupin seznamov nalog"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:959
 msgid "Mo_ve All Contacts To..."
@@ -19520,7 +19530,7 @@ msgstr "Neveljavna datoteka varnostne kopije programa Evolution"
 
 #: ../modules/backup-restore/org-gnome-backup-restore.error.xml.h:2
 msgid "File '{0}' is not a valid Evolution backup file."
-msgstr "Datoteka  '{0}' ni veljavna varnostna kopija podatkov Evolution"
+msgstr "Datoteka  »{0}« ni veljavna varnostna kopija podatkov Evolution"
 
 #: ../modules/backup-restore/org-gnome-backup-restore.error.xml.h:3
 msgid "Are you sure you want to close Evolution?"
@@ -19623,9 +19633,8 @@ msgid "Microsoft Global Catalog"
 msgstr "Katalog Microsoft Global"
 
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:460
-#, fuzzy
 msgid "Microsoft Global Catalog over SSL/TLS"
-msgstr "Katalog Microsoft Global preko SSL"
+msgstr "Katalog Microsoft Global preko SSL/TLS"
 
 #. Page 1
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:567
@@ -19767,7 +19776,7 @@ msgstr "Izogibajte se IfMatch (zahtevano na Apache < 2.2.8)"
 #: ../modules/cal-config-caldav/evolution-cal-config-caldav.c:415
 #: ../modules/cal-config-webcal/evolution-cal-config-webcal.c:184
 msgid "URL is not a valid http:// nor https:// URL"
-msgstr ""
+msgstr "Naslov URL ni veljavni naslov http:// niti https://"
 
 #: ../modules/cal-config-caldav/evolution-cal-config-caldav.c:112
 #: ../modules/cal-config-google/e-google-chooser-button.c:224
@@ -20152,9 +20161,8 @@ msgid "_Show appointment end times in week and month view"
 msgstr "Pokaži čase koncev _sestankov v tedenskih in mesečnih pogledih"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:52
-#, fuzzy
 msgid "Show appointment _icons in the month view"
-msgstr "Pokaži čase koncev _sestankov v tedenskih in mesečnih pogledih"
+msgstr "Pokaži _ikone sestankov v mesečnih pogledih"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:53
 msgid "_Compress weekends in month view"
@@ -20371,13 +20379,12 @@ msgid "Select a specific date"
 msgstr "Izberi določen datum"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1264
-#, fuzzy
 msgid "_Manage Calendar groups..."
-msgstr "Upravljaj skupine"
+msgstr "_Upravljanje skupin koledarjev ..."
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1266
 msgid "Manage Calendar groups order and visibility"
-msgstr ""
+msgstr "Upravljanje razvrstitve in vidnost skupin seznamov koledarjev"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1271
 msgid "_New Calendar"
@@ -20806,13 +20813,12 @@ msgid "Delete the selected memo list"
 msgstr "Izbriši izbran seznam opomnikov"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:593
-#, fuzzy
 msgid "_Manage Memo List groups..."
-msgstr "Upravljaj skupine"
+msgstr "_Upravljanje skupin opomnikov ..."
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:595
 msgid "Manage Memo List groups order and visibility"
-msgstr ""
+msgstr "Upravljanje razvrstitve in vidnost skupin seznamov opomnikov"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:600
 msgid "_New Memo List"
@@ -20831,9 +20837,8 @@ msgid "Show _Only This Memo List"
 msgstr "Pokaži _le ta seznam opomnikov"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:635
-#, fuzzy
 msgid "Sho_w All Memo Lists"
-msgstr "Po_kaži vse teme"
+msgstr "Po_kaži vse sezname opomnikov"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:722
 msgid "Memo _Preview"
@@ -20952,9 +20957,8 @@ msgid "Delete the selected task list"
 msgstr "Izbriši izbrani seznam opravil"
 
 #: ../modules/calendar/e-task-shell-view-actions.c:719
-#, fuzzy
 msgid "_Manage Task List groups..."
-msgstr "Upravljaj skupine"
+msgstr "_Upravljanje skupin nalog ..."
 
 #: ../modules/calendar/e-task-shell-view-actions.c:726
 msgid "_New Task List"
@@ -21731,7 +21735,7 @@ msgstr "To srečanje je bilo pooblaščeno zastopano"
 
 #: ../modules/itip-formatter/org-gnome-itip-formatter.error.xml.h:3
 msgid "'{0}' has delegated the meeting. Do you want to add the delegate '{1}'?"
-msgstr "'{0}' je pooblastil(a) srečanje. Ali želite dodati pooblaščenca '{1}'?"
+msgstr "»{0}« je pooblastil(a) srečanje. Ali želite dodati pooblaščenca »{1}«?"
 
 #: ../modules/mail-config/e-mail-config-google-summary.c:265
 msgid "Google Features"
@@ -22210,7 +22214,7 @@ msgstr "Pokaži _neželena sporočila"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:2006
 msgid "Show junk messages with a red line through them"
-msgstr "Pokaži neželena sporočila prečrtana z rdečo"
+msgstr "Pokaži vsiljena sporočila prečrtana z rdečo"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:2012
 msgid "_Group By Threads"
@@ -22567,7 +22571,7 @@ msgstr "Pokaži le običajno besedilo, če je na voljo, sicer kodo HTML"
 #: ../modules/prefer-plain/e-mail-parser-prefer-plain.c:89
 #: ../modules/prefer-plain/plugin/config-ui.c:47
 msgid "Show plain text part, if present, otherwise the HTML part source."
-msgstr ""
+msgstr "Pokaži besedilni del, če je na voljo, sicer izpiši del kode HTML."
 
 #: ../modules/prefer-plain/e-mail-parser-prefer-plain.c:93
 #: ../modules/prefer-plain/plugin/config-ui.c:51
@@ -23271,7 +23275,7 @@ msgstr "_Kopiraj naslov URL arhiva sporočila"
 
 #: ../plugins/mailing-list-actions/mailing-list-actions.c:389
 msgid "Copy direct URL for the selected message in its archive"
-msgstr ""
+msgstr "Kopiraj naslov URL za izbrano sporočilo v arhivu"
 
 #: ../plugins/mailing-list-actions/mailing-list-actions.c:394
 msgid "Get List _Usage Information"
@@ -24557,15 +24561,15 @@ msgstr "Čakaj _še naprej"
 
 #: ../shell/shell.error.xml.h:15
 msgid "Failed to get values from '{0}'"
-msgstr "Pridobivanje vrednosti iz '{0}' je spodletelo."
+msgstr "Pridobivanje vrednosti iz »{0}« je spodletelo."
 
 #: ../shell/shell.error.xml.h:16
 msgid "Failed to invoke authenticate for '{0}'"
-msgstr "Overitev na strežniku za '{0}' je spodletela."
+msgstr "Overitev na strežniku za »{0}« je spodletela."
 
 #: ../shell/shell.error.xml.h:17
 msgid "Failed to connect '{0}'"
-msgstr "Povezovanje s '{0}' je spodletelo."
+msgstr "Povezovanje s »{0}« je spodletelo."
 
 #: ../shell/shell.error.xml.h:18
 msgid "_Reconnect"
@@ -24573,23 +24577,23 @@ msgstr "Ponovno _poveži"
 
 #: ../shell/shell.error.xml.h:19
 msgid "Failed to connect address book '{0}'"
-msgstr "Povezovanje s imenikom '{0}' je spodletelo."
+msgstr "Povezovanje s imenikom »{0}« je spodletelo."
 
 #: ../shell/shell.error.xml.h:20
 msgid "Failed to connect calendar '{0}'"
-msgstr "Povezovanje s koledarjem '{0}' je spodletelo."
+msgstr "Povezovanje s koledarjem »{0}« je spodletelo."
 
 #: ../shell/shell.error.xml.h:21
 msgid "Failed to connect mail account '{0}'"
-msgstr "Povezovanje s poštnim računom '{0}' je spodletelo."
+msgstr "Povezovanje s poštnim računom »{0}« je spodletelo."
 
 #: ../shell/shell.error.xml.h:22
 msgid "Failed to connect memo list '{0}'"
-msgstr "Povezovanje s seznamom opomnikov '{0}' je spodletelo."
+msgstr "Povezovanje s seznamom opomnikov »{0}« je spodletelo."
 
 #: ../shell/shell.error.xml.h:23
 msgid "Failed to connect task list '{0}'"
-msgstr "Povezovanje s seznamom nalog '{0}' je spodletelo."
+msgstr "Povezovanje s seznamom nalog »{0}« je spodletelo."
 
 #: ../shell/shell.error.xml.h:24
 msgid "Failed to prompt for credentials for '{0}'"
@@ -24597,7 +24601,7 @@ msgstr "Povpraševanje po poverilih za »{0}« je spodletelo"
 
 #: ../shell/shell.error.xml.h:25
 msgid "Failed to finish trust prompt for '{0}'"
-msgstr "Povpraševanje po poverilih za '{0}' je spodletelo"
+msgstr "Povpraševanje po poverilih za »{0}« je spodletelo"
 
 #: ../shell/shell.error.xml.h:26
 msgid "SSL certificate for '{0}' is not trusted."
@@ -24609,11 +24613,11 @@ msgstr "Vzrok: {1}"
 
 #: ../shell/shell.error.xml.h:29
 msgid "SSL certificate for address book '{0}' is not trusted."
-msgstr "Digitalno potrdilo SSL za imenik '{0}' ni vredno zaupanja."
+msgstr "Digitalno potrdilo SSL za imenik »{0}« ni vredno zaupanja."
 
 #: ../shell/shell.error.xml.h:30
 msgid "SSL certificate for calendar '{0}' is not trusted."
-msgstr "Digitalno potrdilo SSL za koledar '{0}' ni vredno zaupanja."
+msgstr "Digitalno potrdilo SSL za koledar »{0}« ni vredno zaupanja."
 
 #: ../shell/shell.error.xml.h:31
 msgid "SSL certificate for mail account '{0}' is not trusted."
@@ -24621,11 +24625,11 @@ msgstr "Digitalno potrdilo SSL za poštni račun '{0} ni vredno zaupanja."
 
 #: ../shell/shell.error.xml.h:32
 msgid "SSL certificate for memo list '{0}' is not trusted."
-msgstr "Digitalno potrdilo SSL za seznam opomnikov '{0}' ni vredno zaupanja."
+msgstr "Digitalno potrdilo SSL za seznam opomnikov »{0}« ni vredno zaupanja."
 
 #: ../shell/shell.error.xml.h:33
 msgid "SSL certificate for task list '{0}' is not trusted."
-msgstr "Digitalno potrdilo SSL za seznam nalog '{0}' ni vredno zaupanja."
+msgstr "Digitalno potrdilo SSL za seznam nalog »{0}« ni vredno zaupanja."
 
 #: ../smime/gui/ca-trust-dialog.c:106
 #, c-format
@@ -25753,7 +25757,7 @@ msgstr "S _stanjem"
 #~ msgstr "_Omogoči"
 
 #~ msgid "Failed to connect to '{0}'"
-#~ msgstr "Povezovanje s '{0}' je spodletelo."
+#~ msgstr "Povezovanje s »{0}« je spodletelo."
 
 #~ msgctxt "CamelTrust"
 #~ msgid "Marginal"
