@@ -151,7 +151,7 @@ set(privincludedir "${INCLUDE_INSTALL_DIR}/${PROJECT_NAME}")
 set(privlibdir "${LIB_INSTALL_DIR}/${PROJECT_NAME}")
 set(privlibexecdir "${LIBEXEC_INSTALL_DIR}/${PROJECT_NAME}")
 
-SET(CMAKE_INSTALL_RPATH "${LIB_INSTALL_DIR}:${privlibdir}")
+SET(CMAKE_INSTALL_RPATH "${privlibdir}")
 
 if(WIN32)
 	# On Win32 there is no "rpath" mechanism. We install the private
