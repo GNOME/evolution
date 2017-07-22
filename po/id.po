@@ -13,8 +13,8 @@ msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2017-07-12 17:32+0000\n"
-"PO-Revision-Date: 2017-07-13 10:06+0700\n"
+"POT-Creation-Date: 2017-07-20 14:04+0000\n"
+"PO-Revision-Date: 2017-07-21 08:57+0700\n"
 "Last-Translator: Kukuh Syafaat <syafaatkukuh@gmail.com>\n"
 "Language-Team: Indonesian <gnome@i15n.org>\n"
 "Language: id\n"
@@ -3258,8 +3258,8 @@ msgid "Could not remove address book."
 msgstr "Buku alamat tidak dapat dihapus."
 
 #: ../src/addressbook/addressbook.error.xml.h:11
-msgid "Delete address book “{0}”?"
-msgstr "Hapus buku alamat “{0}”?"
+msgid "Are you sure you want to delete address book “{0}”?"
+msgstr "Anda yakin ingin menghapus buku alamat “{0}”?"
 
 #: ../src/addressbook/addressbook.error.xml.h:12
 msgid "This address book will be removed permanently."
@@ -3373,6 +3373,7 @@ msgstr ""
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:9
 #: ../src/addressbook/gui/widgets/eab-contact-merging.c:721
 #: ../src/calendar/gui/e-comp-editor-page-general.c:1355
+#: ../src/e-util/e-accounts-window.c:1540
 #: ../src/e-util/e-mail-signature-manager.c:328
 #: ../src/e-util/e-name-selector-dialog.c:1033 ../src/e-util/filter.ui.h:23
 #: ../src/mail/e-mail-account-manager.c:719
@@ -3566,6 +3567,7 @@ msgstr "Opsi"
 #: ../src/mail/mail-config.ui.h:2 ../src/mail/mail.error.xml.h:16
 #: ../src/mail/mail-send-recv.c:747 ../src/mail/mail-send-recv.c:829
 #: ../src/mail/mail-vfolder-ui.c:149 ../src/mail/mail-vfolder-ui.c:271
+#: ../src/modules/accounts-window/e-accounts-window-editors.c:277
 #: ../src/modules/backup-restore/evolution-backup-tool.c:932
 #: ../src/modules/calendar/e-cal-attachment-handler.c:283
 #: ../src/plugins/email-custom-header/org-gnome-email-custom-header.ui.h:3
@@ -3604,10 +3606,10 @@ msgstr "_Simpan"
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:16
 #: ../src/calendar/gui/e-comp-editor.c:2012
 #: ../src/calendar/gui/e-comp-editor.c:2084
-#: ../src/e-util/e-preferences-window.c:380
+#: ../src/e-util/e-preferences-window.c:390
 #: ../src/e-util/e-send-options.ui.h:15
 #: ../src/plugins/email-custom-header/org-gnome-email-custom-header.ui.h:2
-#: ../src/shell/e-shell.c:1309 ../src/shell/e-shell-window-actions.c:969
+#: ../src/shell/e-shell.c:1309 ../src/shell/e-shell-window-actions.c:994
 msgid "_Help"
 msgstr "Ba_ntuan"
 
@@ -4046,6 +4048,7 @@ msgstr "Kontak tidak sah."
 #: ../src/mail/em-folder-selector.c:44 ../src/mail/mail-config.ui.h:3
 #: ../src/mail/mail-dialogs.ui.h:24 ../src/mail/mail-vfolder-ui.c:150
 #: ../src/mail/mail-vfolder-ui.c:272
+#: ../src/modules/accounts-window/e-accounts-window-editors.c:278
 #: ../src/plugins/email-custom-header/org-gnome-email-custom-header.ui.h:4
 #: ../src/plugins/publish-calendar/url-editor-dialog.c:420
 #: ../src/shell/e-shell-content.c:662 ../src/shell/e-shell-content.c:768
@@ -4673,7 +4676,8 @@ msgid "Are you sure you want to delete this contact (%s)?"
 msgstr "Anda yakin ingin menghapus kontak ini (%s)?"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.c:1361
-#: ../src/calendar/gui/e-comp-editor.c:2005 ../src/e-util/e-focus-tracker.c:783
+#: ../src/calendar/gui/e-comp-editor.c:2005
+#: ../src/e-util/e-accounts-window.c:1727 ../src/e-util/e-focus-tracker.c:783
 #: ../src/e-util/evolution-source-viewer.c:806
 #: ../src/mail/e-mail-account-manager.c:737
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1093
@@ -4681,7 +4685,7 @@ msgstr "Anda yakin ingin menghapus kontak ini (%s)?"
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:676
 #: ../src/modules/calendar/e-task-shell-view-actions.c:830
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1680
-#: ../src/shell/e-shell-window-actions.c:827
+#: ../src/shell/e-shell-window-actions.c:852
 #: ../src/smime/gui/certificate-manager.c:1672 ../src/smime/gui/smime-ui.ui.h:8
 msgid "_Delete"
 msgstr "_Hapus"
@@ -4884,7 +4888,7 @@ msgstr "P_erkecil Tampilan"
 #: ../src/addressbook/gui/widgets/e-contact-map-window.c:447
 #: ../src/e-util/e-html-editor-actions.c:1872
 #: ../src/e-util/e-html-editor-find-dialog.c:250
-#: ../src/shell/e-shell-window-actions.c:904
+#: ../src/shell/e-shell-window-actions.c:929
 msgid "_Find"
 msgstr "_Cari"
 
@@ -5165,6 +5169,7 @@ msgstr "_Ingatkan lagi"
 #: ../src/calendar/gui/e-comp-editor-page-general.c:1363
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2239
 #: ../src/calendar/gui/e-comp-editor.c:2070
+#: ../src/e-util/e-accounts-window.c:1719
 #: ../src/e-util/e-html-editor-actions.c:922
 #: ../src/e-util/e-mail-signature-manager.c:358 ../src/e-util/filter.ui.h:24
 #: ../src/mail/e-mail-account-manager.c:728 ../src/mail/e-mail-browser.c:171
@@ -5174,7 +5179,7 @@ msgstr "_Ingatkan lagi"
 #: ../src/plugins/email-custom-header/email-custom-header.c:842
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:33
 #: ../src/plugins/templates/templates.c:468
-#: ../src/shell/e-shell-window-actions.c:955 ../src/smime/gui/smime-ui.ui.h:11
+#: ../src/shell/e-shell-window-actions.c:980 ../src/smime/gui/smime-ui.ui.h:11
 msgid "_Edit"
 msgstr "_Sunting"
 
@@ -5614,32 +5619,32 @@ msgid "Editor could not be loaded."
 msgstr "Penyunting tidak dapat dimuat."
 
 #: ../src/calendar/calendar.error.xml.h:57
-msgid "Delete calendar “{0}”?"
-msgstr "Hapus kalender “{0}”?"
+msgid "Are you sure you want to delete calendar “{0}”?"
+msgstr "Anda yakin ingin menghapus kalender “{0}”?"
 
 #: ../src/calendar/calendar.error.xml.h:58
 msgid "This calendar will be removed permanently."
 msgstr "Kalender ini akan dihapus permanen."
 
 #: ../src/calendar/calendar.error.xml.h:59
-msgid "Delete task list “{0}”?"
-msgstr "Hapus daftar tugas “{0}”?"
+msgid "Are you sure you want to delete task list “{0}”?"
+msgstr "Anda yakin ingin menghapus daftar tugas  “{0}”?"
 
 #: ../src/calendar/calendar.error.xml.h:60
 msgid "This task list will be removed permanently."
 msgstr "Daftar tugas ini akan dihapus permanen."
 
 #: ../src/calendar/calendar.error.xml.h:61
-msgid "Delete memo list “{0}”?"
-msgstr "Hapus daftar memo “{0}”?"
+msgid "Are you sure you want to delete memo list “{0}”?"
+msgstr "Anda yakin ingin menghapus daftar memo “{0}”?"
 
 #: ../src/calendar/calendar.error.xml.h:62
 msgid "This memo list will be removed permanently."
 msgstr "Daftar memo ini akan dihapus permanen."
 
 #: ../src/calendar/calendar.error.xml.h:63
-msgid "Delete remote calendar “{0}”?"
-msgstr "Hapus kalender jauh “{0}”?"
+msgid "Are you sure you want to delete remote calendar “{0}”?"
+msgstr "Anda yakin ingin menghapus kalender jauh “{0}”?"
 
 #: ../src/calendar/calendar.error.xml.h:64
 msgid ""
@@ -5650,8 +5655,8 @@ msgstr ""
 "yakin ingin melanjutkan?"
 
 #: ../src/calendar/calendar.error.xml.h:66
-msgid "Delete remote task list “{0}”?"
-msgstr "Hapus daftar tugas jauh “{0}”?"
+msgid "Are you sure you want to delete remote task list “{0}”?"
+msgstr "Anda yakin ingin menghapus daftar tugas jauh “{0}”?"
 
 #: ../src/calendar/calendar.error.xml.h:67
 msgid ""
@@ -5662,8 +5667,8 @@ msgstr ""
 "Anda yakin ingin melanjutkan?"
 
 #: ../src/calendar/calendar.error.xml.h:68
-msgid "Delete remote memo list “{0}”?"
-msgstr "Hapus daftar memo jauh “{0}”?"
+msgid "Are you sure you want to delete remote memo list “{0}”?"
+msgstr "Anda yakin ingin menghapus daftar memo jauh “{0}”?"
 
 #: ../src/calendar/calendar.error.xml.h:69
 msgid ""
@@ -7140,6 +7145,7 @@ msgstr "Waktu awal bukan waktu yang valid"
 #: ../src/em-format/e-mail-part-secure-button.c:93
 #: ../src/mail/e-mail-display.c:2116 ../src/mail/e-mail-reader-utils.c:806
 #: ../src/mail/mail-send-recv.c:490 ../src/mail/mail-send-recv.c:1288
+#: ../src/modules/accounts-window/e-accounts-window-editors.c:172
 #: ../src/plugins/face/face.c:174 ../src/shell/e-shell.c:1073
 #: ../src/shell/e-shell.c:1097 ../src/smime/gui/certificate-manager.c:357
 msgid "Unknown error"
@@ -8089,17 +8095,18 @@ msgstr "Tidak ada judul"
 #. == Button box ==
 #: ../src/calendar/gui/e-comp-editor.c:1984
 #: ../src/composer/e-composer-actions.c:327
+#: ../src/e-util/e-accounts-window.c:1743
 #: ../src/e-util/e-html-editor-dialog.c:194
 #: ../src/e-util/e-mail-signature-editor.c:309
 #: ../src/e-util/e-name-selector-dialog.c:548
-#: ../src/e-util/e-preferences-window.c:389
+#: ../src/e-util/e-preferences-window.c:399
 #: ../src/e-util/e-table-field-chooser-dialog.c:205
 #: ../src/mail/e-mail-browser.c:127 ../src/mail/e-mail-notes.c:931
 #: ../src/mail/em-folder-properties.c:1158
 #: ../src/mail/em-subscription-editor.c:1765
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:254
-#: ../src/shell/e-shell-window-actions.c:278
-#: ../src/shell/e-shell-window-actions.c:792
+#: ../src/shell/e-shell-window-actions.c:296
+#: ../src/shell/e-shell-window-actions.c:817
 #: ../src/smime/gui/certificate-manager.c:2212
 msgid "_Close"
 msgstr "_Tutup"
@@ -8112,7 +8119,7 @@ msgstr "Tutup jendela ini"
 #: ../src/calendar/gui/e-comp-editor.c:1991 ../src/e-util/e-focus-tracker.c:773
 #: ../src/e-util/e-html-editor-actions.c:878 ../src/e-util/e-text.c:2110
 #: ../src/e-util/e-web-view.c:407 ../src/mail/e-mail-browser.c:134
-#: ../src/mail/mail.error.xml.h:146 ../src/shell/e-shell-window-actions.c:813
+#: ../src/mail/mail.error.xml.h:146 ../src/shell/e-shell-window-actions.c:838
 msgid "_Copy"
 msgstr "_Salin"
 
@@ -8120,27 +8127,27 @@ msgstr "_Salin"
 #: ../src/e-util/e-focus-tracker.c:229 ../src/e-util/e-focus-tracker.c:282
 #: ../src/e-util/e-focus-tracker.c:774 ../src/e-util/e-web-view.c:409
 #: ../src/e-util/e-web-view.c:1977 ../src/mail/e-mail-browser.c:136
-#: ../src/shell/e-shell-window-actions.c:815
+#: ../src/shell/e-shell-window-actions.c:840
 msgid "Copy the selection"
 msgstr "Salin bagian yang dipilih"
 
 #. cut menu item
 #: ../src/calendar/gui/e-comp-editor.c:1998 ../src/e-util/e-focus-tracker.c:768
 #: ../src/e-util/e-html-editor-actions.c:885 ../src/e-util/e-text.c:2096
-#: ../src/mail/e-mail-browser.c:141 ../src/shell/e-shell-window-actions.c:820
+#: ../src/mail/e-mail-browser.c:141 ../src/shell/e-shell-window-actions.c:845
 msgid "Cu_t"
 msgstr "Po_tong"
 
 #: ../src/calendar/gui/e-comp-editor.c:2000 ../src/e-util/e-focus-tracker.c:166
 #: ../src/e-util/e-focus-tracker.c:222 ../src/e-util/e-focus-tracker.c:276
 #: ../src/e-util/e-focus-tracker.c:769 ../src/e-util/e-web-view.c:1986
-#: ../src/mail/e-mail-browser.c:143 ../src/shell/e-shell-window-actions.c:822
+#: ../src/mail/e-mail-browser.c:143 ../src/shell/e-shell-window-actions.c:847
 msgid "Cut the selection"
 msgstr "Potong bagian yang dipilih"
 
 #: ../src/calendar/gui/e-comp-editor.c:2007 ../src/e-util/e-focus-tracker.c:187
 #: ../src/e-util/e-focus-tracker.c:243 ../src/e-util/e-focus-tracker.c:784
-#: ../src/shell/e-shell-window-actions.c:829
+#: ../src/shell/e-shell-window-actions.c:854
 msgid "Delete the selection"
 msgstr "Hapus yang dipilih"
 
@@ -8151,14 +8158,14 @@ msgstr "Tilik bantuan"
 #. paste menu item
 #: ../src/calendar/gui/e-comp-editor.c:2019 ../src/e-util/e-focus-tracker.c:778
 #: ../src/e-util/e-html-editor-actions.c:892 ../src/e-util/e-text.c:2122
-#: ../src/mail/e-mail-browser.c:148 ../src/shell/e-shell-window-actions.c:848
+#: ../src/mail/e-mail-browser.c:148 ../src/shell/e-shell-window-actions.c:873
 msgid "_Paste"
 msgstr "Tem_pel"
 
 #: ../src/calendar/gui/e-comp-editor.c:2021 ../src/e-util/e-focus-tracker.c:180
 #: ../src/e-util/e-focus-tracker.c:236 ../src/e-util/e-focus-tracker.c:288
 #: ../src/e-util/e-focus-tracker.c:779 ../src/e-util/e-web-view.c:1995
-#: ../src/mail/e-mail-browser.c:150 ../src/shell/e-shell-window-actions.c:850
+#: ../src/mail/e-mail-browser.c:150 ../src/shell/e-shell-window-actions.c:875
 msgid "Paste the clipboard"
 msgstr "Tempel isi clipboard"
 
@@ -8179,13 +8186,13 @@ msgstr "_Pratinjau..."
 
 #: ../src/calendar/gui/e-comp-editor.c:2040 ../src/e-util/e-focus-tracker.c:788
 #: ../src/e-util/e-html-editor-actions.c:906 ../src/e-util/e-web-view.c:417
-#: ../src/mail/e-mail-browser.c:155 ../src/shell/e-shell-window-actions.c:925
+#: ../src/mail/e-mail-browser.c:155 ../src/shell/e-shell-window-actions.c:950
 msgid "Select _All"
 msgstr "Pilih Semu_a"
 
 #: ../src/calendar/gui/e-comp-editor.c:2042 ../src/e-util/e-focus-tracker.c:194
 #: ../src/e-util/e-focus-tracker.c:250 ../src/e-util/e-focus-tracker.c:789
-#: ../src/mail/e-mail-browser.c:157 ../src/shell/e-shell-window-actions.c:927
+#: ../src/mail/e-mail-browser.c:157 ../src/shell/e-shell-window-actions.c:952
 msgid "Select all text"
 msgstr "Pilih semua teks"
 
@@ -8196,7 +8203,7 @@ msgstr "K_lasifikasi"
 #: ../src/calendar/gui/e-comp-editor.c:2077
 #: ../src/e-util/e-html-editor-actions.c:929
 #: ../src/e-util/e-mail-signature-editor.c:323 ../src/mail/e-mail-browser.c:164
-#: ../src/mail/e-mail-notes.c:945 ../src/shell/e-shell-window-actions.c:962
+#: ../src/mail/e-mail-notes.c:945 ../src/shell/e-shell-window-actions.c:987
 msgid "_File"
 msgstr "_Berkas"
 
@@ -8212,7 +8219,7 @@ msgstr "_Opsi"
 
 #: ../src/calendar/gui/e-comp-editor.c:2105
 #: ../src/e-util/e-html-editor-actions.c:971 ../src/mail/e-mail-browser.c:178
-#: ../src/shell/e-shell-window-actions.c:1005
+#: ../src/shell/e-shell-window-actions.c:1030
 #: ../src/smime/gui/certificate-manager.c:1662 ../src/smime/gui/smime-ui.ui.h:3
 msgid "_View"
 msgstr "_Tampilan"
@@ -8381,6 +8388,7 @@ msgstr "Peserta                            "
 #: ../src/calendar/gui/e-meeting-time-sel.etspec.h:4
 #: ../src/calendar/gui/e-memo-table.etspec.h:3
 #: ../src/calendar/gui/e-task-table.etspec.h:3
+#: ../src/e-util/e-accounts-window.c:1370
 #: ../src/e-util/e-attachment-tree-view.c:205
 #: ../src/mail/e-mail-account-tree-view.c:158
 msgid "Type"
@@ -9104,12 +9112,14 @@ msgid "Appointments and Meetings"
 msgstr "Jadwal Pertemuan dan Rapat"
 
 #: ../src/calendar/importers/icalendar-importer.c:306
+#: ../src/modules/accounts-window/e-accounts-window-editors.c:432
 #: ../src/modules/calendar/e-cal-base-shell-backend.c:181
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:178
 msgid "New Calendar"
 msgstr "Kalender Baru"
 
 #: ../src/calendar/importers/icalendar-importer.c:309
+#: ../src/modules/accounts-window/e-accounts-window-editors.c:440
 #: ../src/modules/calendar/e-cal-base-shell-backend.c:189
 #: ../src/modules/calendar/e-task-shell-view-actions.c:202
 msgid "New Task List"
@@ -10875,12 +10885,12 @@ msgid "Open New Message window"
 msgstr "Buka jendela pesan baru"
 
 #: ../src/composer/e-composer-actions.c:341 ../src/shell/e-shell.c:1302
-#: ../src/shell/e-shell-window-actions.c:862
+#: ../src/shell/e-shell-window-actions.c:887
 msgid "_Preferences"
 msgstr "_Preferensi"
 
 #: ../src/composer/e-composer-actions.c:343
-#: ../src/shell/e-shell-window-actions.c:864
+#: ../src/shell/e-shell-window-actions.c:889
 msgid "Configure Evolution"
 msgstr "Konfigurasi Evolution"
 
@@ -11025,6 +11035,7 @@ msgstr "Simpan Draf"
 #: ../src/e-util/gal-view-instance-save-as-dialog.ui.h:2
 #: ../src/mail/e-mail-config-identity-page.c:550
 #: ../src/mail/e-mail-config-summary-page.c:332
+#: ../src/modules/accounts-window/e-accounts-window-editors.c:297
 msgid "_Name:"
 msgstr "_Nama:"
 
@@ -11781,6 +11792,73 @@ msgstr "Kalender: dari %s hingga %s"
 #: ../src/e-util/ea-calendar-item.c:361
 msgid "evolution calendar item"
 msgstr "objek kalender evolution"
+
+#: ../src/e-util/e-accounts-window.c:509 ../src/e-util/e-accounts-window.c:624
+#: ../src/e-util/e-accounts-window.c:827
+#: ../src/modules/mail/e-mail-shell-backend.c:840
+msgid "Mail Accounts"
+msgstr "Akun Surat"
+
+#: ../src/e-util/e-accounts-window.c:516 ../src/e-util/e-accounts-window.c:653
+#: ../src/e-util/e-accounts-window.c:841
+msgid "Address Books"
+msgstr "Buku Alamat"
+
+#: ../src/e-util/e-accounts-window.c:522 ../src/e-util/e-accounts-window.c:654
+#: ../src/e-util/e-accounts-window.c:842
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:81
+msgid "Calendars"
+msgstr "Kalender"
+
+#: ../src/e-util/e-accounts-window.c:528 ../src/e-util/e-accounts-window.c:655
+#: ../src/e-util/e-accounts-window.c:843
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:82
+msgid "Memo Lists"
+msgstr "Daftar Memo"
+
+#: ../src/e-util/e-accounts-window.c:534 ../src/e-util/e-accounts-window.c:656
+#: ../src/e-util/e-accounts-window.c:844
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:83
+msgid "Task Lists"
+msgstr "Daftar Tugas"
+
+#: ../src/e-util/e-accounts-window.c:1326
+#: ../src/mail/e-mail-account-tree-view.c:84
+#: ../src/modules/mail/em-composer-prefs.c:1305
+#: ../src/modules/plugin-manager/evolution-plugin-manager.c:355
+#: ../src/plugins/publish-calendar/publish-calendar.c:853
+msgid "Enabled"
+msgstr "Diaktifkan"
+
+#: ../src/e-util/e-accounts-window.c:1342
+#: ../src/mail/e-mail-account-tree-view.c:108
+msgid "Account Name"
+msgstr "Nama akun"
+
+#. { "collection",	N_("Collection _Account"),	"evolution" },
+#: ../src/e-util/e-accounts-window.c:1463
+msgid "_Mail Account"
+msgstr "Aku_n Surat"
+
+#: ../src/e-util/e-accounts-window.c:1464
+msgid "Address _Book"
+msgstr "_Buku Alamat"
+
+#: ../src/e-util/e-accounts-window.c:1465
+msgid "_Calendar"
+msgstr "_Kalender"
+
+#: ../src/e-util/e-accounts-window.c:1466
+msgid "M_emo List"
+msgstr "Daftar M_emo"
+
+#: ../src/e-util/e-accounts-window.c:1467
+msgid "_Task List"
+msgstr "Daftar _Tugas"
+
+#: ../src/e-util/e-accounts-window.c:1659
+msgid "Evolution Accounts"
+msgstr "Akun Evolution"
 
 #. Translators: This is a cancelled activity.
 #: ../src/e-util/e-activity.c:256
@@ -14092,6 +14170,7 @@ msgid "Any Category"
 msgstr "Kategori Apa Saja"
 
 #: ../src/e-util/e-name-selector-dialog.c:365
+#: ../src/modules/accounts-window/e-accounts-window-editors.c:338
 msgid "Co_ntacts"
 msgstr "Ko_ntak:"
 
@@ -14173,7 +14252,7 @@ msgstr "Ingat _sandi ini"
 msgid "_Remember this password for the remainder of this session"
 msgstr "_Ingat sandi ini selama sisa sesi ini"
 
-#: ../src/e-util/e-preferences-window.c:319
+#: ../src/e-util/e-preferences-window.c:329
 msgid "Evolution Preferences"
 msgstr "Preferensi Evolution"
 
@@ -15655,17 +15734,6 @@ msgstr ""
 msgid "De_fault"
 msgstr "_Standar"
 
-#: ../src/mail/e-mail-account-tree-view.c:84
-#: ../src/modules/mail/em-composer-prefs.c:1305
-#: ../src/modules/plugin-manager/evolution-plugin-manager.c:355
-#: ../src/plugins/publish-calendar/publish-calendar.c:853
-msgid "Enabled"
-msgstr "Diaktifkan"
-
-#: ../src/mail/e-mail-account-tree-view.c:108
-msgid "Account Name"
-msgstr "Nama akun"
-
 #: ../src/mail/e-mail-autoconfig.c:620
 msgid "No email address provided"
 msgstr "Tak ada alamat surel yang diberikan"
@@ -15674,9 +15742,9 @@ msgstr "Tak ada alamat surel yang diberikan"
 msgid "Missing domain in email address"
 msgstr "Kurang domain dalam alamat surel"
 
-#: ../src/mail/e-mail-browser.c:129 ../src/shell/e-shell-window-actions.c:787
-#: ../src/shell/e-shell-window-actions.c:794
-#: ../src/shell/e-shell-window-actions.c:801
+#: ../src/mail/e-mail-browser.c:129 ../src/shell/e-shell-window-actions.c:812
+#: ../src/shell/e-shell-window-actions.c:819
+#: ../src/shell/e-shell-window-actions.c:826
 msgid "Close this window"
 msgstr "Menutup jendela ini"
 
@@ -15999,7 +16067,7 @@ msgstr "%s — %s"
 #: ../src/modules/addressbook/autocompletion-config.c:115
 #: ../src/modules/calendar/e-calendar-preferences.c:644
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:48
-#: ../src/modules/mail/e-mail-shell-backend.c:729
+#: ../src/modules/mail/e-mail-shell-backend.c:737
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:16
 msgid "General"
 msgstr "Umum"
@@ -16082,7 +16150,7 @@ msgstr "Pilih"
 
 #: ../src/mail/e-mail-config-security-page.c:546
 #: ../src/mail/e-mail-config-security-page.c:644
-#: ../src/mail/mail-dialogs.ui.h:16 ../src/shell/e-shell-window-actions.c:890
+#: ../src/mail/mail-dialogs.ui.h:16 ../src/shell/e-shell-window-actions.c:915
 msgid "_Clear"
 msgstr "_Kosongkan"
 
@@ -18987,8 +19055,8 @@ msgid "You may not create two accounts with the same name."
 msgstr "Anda tidak boleh membuat dua akun dengan nama yang sama."
 
 #: ../src/mail/mail.error.xml.h:89
-msgid "Are you sure you want to delete this account?"
-msgstr "Anda yakin ingin menghapus akun ini?"
+msgid "Are you sure you want to delete account “{0}”?"
+msgstr "Anda yakin ingin menghapus akun “{0}”?"
 
 #: ../src/mail/mail.error.xml.h:90
 msgid "If you proceed, the account information will be deleted permanently."
@@ -19743,6 +19811,55 @@ msgstr "Badan pesan berisi"
 msgid "Free form expression"
 msgstr "Bentuk ekspresi bebas"
 
+#: ../src/modules/accounts-window/e-accounts-window-editors.c:275
+msgid "Edit Collection"
+msgstr "Sunting Koleksi"
+
+#: ../src/modules/accounts-window/e-accounts-window-editors.c:312
+msgid "Use for"
+msgstr "Pakai untuk"
+
+#: ../src/modules/accounts-window/e-accounts-window-editors.c:316
+#: ../src/plugins/pst-import/pst-importer.c:522
+msgid "_Mail"
+msgstr "E_mail"
+
+#: ../src/modules/accounts-window/e-accounts-window-editors.c:327
+msgid "C_alendar"
+msgstr "K_alender"
+
+#: ../src/modules/accounts-window/e-accounts-window-editors.c:428
+#: ../src/modules/addressbook/e-book-shell-backend.c:262
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:137
+msgid "New Address Book"
+msgstr "Buku Alamat Baru"
+
+#: ../src/modules/accounts-window/e-accounts-window-editors.c:436
+#: ../src/modules/calendar/e-cal-base-shell-backend.c:185
+#: ../src/modules/calendar/e-memo-shell-view-actions.c:178
+msgid "New Memo List"
+msgstr "Daftar Memo Baru"
+
+#: ../src/modules/accounts-window/e-accounts-window-editors.c:480
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:210
+msgid "Address Book Properties"
+msgstr "Properti Buku Alamat"
+
+#: ../src/modules/accounts-window/e-accounts-window-editors.c:484
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:283
+msgid "Calendar Properties"
+msgstr "Properti Kalender"
+
+#: ../src/modules/accounts-window/e-accounts-window-editors.c:488
+#: ../src/modules/calendar/e-memo-shell-view-actions.c:250
+msgid "Memo List Properties"
+msgstr "Properti Daftar Tugas"
+
+#: ../src/modules/accounts-window/e-accounts-window-editors.c:492
+#: ../src/modules/calendar/e-task-shell-view-actions.c:274
+msgid "Task List Properties"
+msgstr "Properti Daftar Tugas"
+
 #. To Translators: 'Table column' is a label for configurable date/time format for table columns showing a date in message list
 #: ../src/modules/addressbook/autocompletion-config.c:124
 #: ../src/modules/mail/em-mailer-prefs.c:1562
@@ -19799,11 +19916,6 @@ msgstr "Informasi kontak"
 msgid "Contact information for %s"
 msgstr "Informasi kontak untuk %s"
 
-#: ../src/modules/addressbook/e-book-shell-backend.c:262
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:137
-msgid "New Address Book"
-msgstr "Buku Alamat Baru"
-
 #: ../src/modules/addressbook/e-book-shell-backend.c:271
 msgctxt "New"
 msgid "_Contact"
@@ -19836,10 +19948,6 @@ msgstr "_Buku Alamat"
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:972
 msgid "Create a new address book"
 msgstr "Membuat buku alamat baru"
-
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:210
-msgid "Address Book Properties"
-msgstr "Properti Buku Alamat"
 
 #. Translators: This is a save dialog title
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:534
@@ -20696,11 +20804,6 @@ msgstr "I_mpor ke Daftar Memo"
 msgid "I_mport to Task List"
 msgstr "I_mpor ke Daftar Tugas"
 
-#: ../src/modules/calendar/e-cal-base-shell-backend.c:185
-#: ../src/modules/calendar/e-memo-shell-view-actions.c:178
-msgid "New Memo List"
-msgstr "Daftar Memo Baru"
-
 #: ../src/modules/calendar/e-cal-base-shell-sidebar.c:563
 #, c-format
 msgid "Copying an event into the calendar “%s”"
@@ -21034,18 +21137,6 @@ msgstr "Waktu tunda bawaan (dalam menit)"
 msgid "Select the sources for reminder notification:"
 msgstr "Pilih sumber untuk notifikasi pengingat:"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:81
-msgid "Calendars"
-msgstr "Kalender"
-
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:82
-msgid "Memo Lists"
-msgstr "Daftar Memo"
-
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:83
-msgid "Task Lists"
-msgstr "Daftar Tugas"
-
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:84
 msgid "Default Free/Busy Server"
 msgstr "Server Luang/Sibuk Utama"
@@ -21105,10 +21196,6 @@ msgstr "Kalender dan Tugas"
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:197
 msgid "Print"
 msgstr "Cetak"
-
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:283
-msgid "Calendar Properties"
-msgstr "Properti Kalender"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:312
 msgid ""
@@ -21584,10 +21671,6 @@ msgstr "Membuat daftar memo baru"
 msgid "Print Memos"
 msgstr "Cetak Memo"
 
-#: ../src/modules/calendar/e-memo-shell-view-actions.c:250
-msgid "Memo List Properties"
-msgstr "Properti Daftar Tugas"
-
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:556
 msgid "_Delete Memo"
 msgstr "_Hapus Memo"
@@ -21708,10 +21791,6 @@ msgstr "Membuat daftar tugas baru"
 #: ../src/modules/calendar/e-task-shell-view-actions.c:233
 msgid "Print Tasks"
 msgstr "Cetak Tugas"
-
-#: ../src/modules/calendar/e-task-shell-view-actions.c:274
-msgid "Task List Properties"
-msgstr "Properti Daftar Tugas"
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:557
 msgid ""
@@ -22755,90 +22834,86 @@ msgid "%d attached message"
 msgid_plural "%d attached messages"
 msgstr[0] "%d pesan terlampir"
 
-#: ../src/modules/mail/e-mail-shell-backend.c:375
+#: ../src/modules/mail/e-mail-shell-backend.c:383
 msgctxt "New"
 msgid "_Mail Message"
 msgstr "_Pesan Surat"
 
-#: ../src/modules/mail/e-mail-shell-backend.c:377
+#: ../src/modules/mail/e-mail-shell-backend.c:385
 msgid "Compose a new mail message"
 msgstr "Membuat pesan surel baru"
 
-#: ../src/modules/mail/e-mail-shell-backend.c:385
+#: ../src/modules/mail/e-mail-shell-backend.c:393
 msgctxt "New"
 msgid "Mail Acco_unt"
 msgstr "Ak_un Surel"
 
-#: ../src/modules/mail/e-mail-shell-backend.c:387
+#: ../src/modules/mail/e-mail-shell-backend.c:395
 msgid "Create a new mail account"
 msgstr "Buat akun surel baru"
 
-#: ../src/modules/mail/e-mail-shell-backend.c:392
+#: ../src/modules/mail/e-mail-shell-backend.c:400
 msgctxt "New"
 msgid "Mail _Folder"
 msgstr "_Folder Surat"
 
-#: ../src/modules/mail/e-mail-shell-backend.c:394
+#: ../src/modules/mail/e-mail-shell-backend.c:402
 msgid "Create a new mail folder"
 msgstr "Membuat folder surat baru"
 
 #. Translators: One of the known implementation names of the GNetworkMonitor. Either translate
 #. it to some user-frienly form, or keep it as is.
-#: ../src/modules/mail/e-mail-shell-backend.c:709
+#: ../src/modules/mail/e-mail-shell-backend.c:717
 msgctxt "NetworkMonitor"
 msgid "base"
 msgstr "base"
 
 #. Translators: One of the known implementation names of the GNetworkMonitor. Either translate
 #. it to some user-frienly form, or keep it as is.
-#: ../src/modules/mail/e-mail-shell-backend.c:712
+#: ../src/modules/mail/e-mail-shell-backend.c:720
 msgctxt "NetworkMonitor"
 msgid "netlink"
 msgstr "netlink"
 
 #. Translators: One of the known implementation names of the GNetworkMonitor. Either translate
 #. it to some user-frienly form, or keep it as is.
-#: ../src/modules/mail/e-mail-shell-backend.c:715
+#: ../src/modules/mail/e-mail-shell-backend.c:723
 msgctxt "NetworkMonitor"
 msgid "networkmanager"
 msgstr "networkmanager"
 
-#: ../src/modules/mail/e-mail-shell-backend.c:749
+#: ../src/modules/mail/e-mail-shell-backend.c:757
 msgctxt "NetworkMonitor"
 msgid "Method to detect _online state:"
 msgstr "Met_oda untuk mendeteksi keadaan daring:"
 
 #. Always as the first
-#: ../src/modules/mail/e-mail-shell-backend.c:758
+#: ../src/modules/mail/e-mail-shell-backend.c:766
 msgctxt "NetworkMonitor"
 msgid "Default"
 msgstr "Baku"
 
 #. Always as the last
-#: ../src/modules/mail/e-mail-shell-backend.c:772
+#: ../src/modules/mail/e-mail-shell-backend.c:780
 msgctxt "NetworkMonitor"
 msgid "Always Online"
 msgstr "Sel_alu Daring"
 
-#: ../src/modules/mail/e-mail-shell-backend.c:832
-msgid "Mail Accounts"
-msgstr "Akun Surat"
-
-#: ../src/modules/mail/e-mail-shell-backend.c:841
+#: ../src/modules/mail/e-mail-shell-backend.c:849
 msgid "Mail Preferences"
 msgstr "Preferensi Surat"
 
-#: ../src/modules/mail/e-mail-shell-backend.c:850
+#: ../src/modules/mail/e-mail-shell-backend.c:858
 msgid "Composer Preferences"
 msgstr "Preferensi Komposer"
 
-#: ../src/modules/mail/e-mail-shell-backend.c:859
+#: ../src/modules/mail/e-mail-shell-backend.c:867
 msgid "Network Preferences"
 msgstr "Preferensi Jaringan"
 
 #. Translators: The first item in the list, to be
 #. * able to set rule: [Label] [is/is-not] [None]
-#: ../src/modules/mail/e-mail-shell-backend.c:1151
+#: ../src/modules/mail/e-mail-shell-backend.c:1220
 msgctxt "label"
 msgid "None"
 msgstr "Nihil"
@@ -24564,10 +24639,6 @@ msgstr "Mengimpor pesan Outlook dari berkas PST"
 msgid "Outlook personal folders (.pst)"
 msgstr "Folder pribadi Outlook (.pst)"
 
-#: ../src/plugins/pst-import/pst-importer.c:522
-msgid "_Mail"
-msgstr "E_mail"
-
 #: ../src/plugins/pst-import/pst-importer.c:551
 msgid "Destination folder:"
 msgstr "Folder tujuan:"
@@ -24916,7 +24987,7 @@ msgstr "Buka _Pengaturan"
 msgid "Credentials are required to connect to the destination host."
 msgstr "Kredensial diminta untuk terhubung ke host tujuan."
 
-#: ../src/shell/e-shell.c:1297 ../src/shell/e-shell-window-actions.c:841
+#: ../src/shell/e-shell.c:1297 ../src/shell/e-shell-window-actions.c:866
 msgid "New _Window"
 msgstr "_Jendela Baru"
 
@@ -24924,11 +24995,11 @@ msgstr "_Jendela Baru"
 msgid "Quick _Reference"
 msgstr "_Acuan Cepat"
 
-#: ../src/shell/e-shell.c:1310 ../src/shell/e-shell-window-actions.c:778
+#: ../src/shell/e-shell.c:1310 ../src/shell/e-shell-window-actions.c:796
 msgid "_About"
 msgstr "Tent_ang"
 
-#: ../src/shell/e-shell.c:1311 ../src/shell/e-shell-window-actions.c:876
+#: ../src/shell/e-shell.c:1311 ../src/shell/e-shell-window-actions.c:901
 msgid "_Quit"
 msgstr "_Keluar"
 
@@ -24990,273 +25061,281 @@ msgstr "Situs Web Evolution"
 msgid "Saving user interface state"
 msgstr "Menyimpan keadaan antar muka pengguna"
 
-#: ../src/shell/e-shell-window-actions.c:275
+#: ../src/shell/e-shell-window-actions.c:293
 msgid "Categories Editor"
 msgstr "Penyunting Kategori"
 
-#: ../src/shell/e-shell-window-actions.c:594
+#: ../src/shell/e-shell-window-actions.c:612
 msgid "Bug Buddy is not installed."
 msgstr "Bug Buddy belum dipasang."
 
-#: ../src/shell/e-shell-window-actions.c:595
+#: ../src/shell/e-shell-window-actions.c:613
 msgid "Bug Buddy could not be run."
 msgstr "Bug Buddy tidak dapat dijalankan."
 
-#: ../src/shell/e-shell-window-actions.c:780
+#: ../src/shell/e-shell-window-actions.c:798
 msgid "Show information about Evolution"
 msgstr "Tampilkan informasi tentang Evolution"
 
-#: ../src/shell/e-shell-window-actions.c:785
-#: ../src/shell/e-shell-window-actions.c:799
+#: ../src/shell/e-shell-window-actions.c:803
+msgid "_Accounts"
+msgstr "_Akun"
+
+#: ../src/shell/e-shell-window-actions.c:805
+msgid "Configure Evolution Accounts"
+msgstr "Konfigurasi Akun Evolution"
+
+#: ../src/shell/e-shell-window-actions.c:810
+#: ../src/shell/e-shell-window-actions.c:824
 msgid "_Close Window"
 msgstr "Tutup _Jendela"
 
-#: ../src/shell/e-shell-window-actions.c:806
+#: ../src/shell/e-shell-window-actions.c:831
 msgid "_Contents"
 msgstr "_Isi"
 
-#: ../src/shell/e-shell-window-actions.c:808
+#: ../src/shell/e-shell-window-actions.c:833
 msgid "Open the Evolution User Guide"
 msgstr "Buka Evolution Groupware Suite"
 
-#: ../src/shell/e-shell-window-actions.c:834
+#: ../src/shell/e-shell-window-actions.c:859
 msgid "I_mport..."
 msgstr "I_mpor..."
 
-#: ../src/shell/e-shell-window-actions.c:836
+#: ../src/shell/e-shell-window-actions.c:861
 msgid "Import data from other programs"
 msgstr "Mengimpor data dari program yang lain"
 
-#: ../src/shell/e-shell-window-actions.c:843
+#: ../src/shell/e-shell-window-actions.c:868
 msgid "Create a new window displaying this view"
 msgstr "Buat jendela baru untuk menampilkan tampilan ini"
 
-#: ../src/shell/e-shell-window-actions.c:855
+#: ../src/shell/e-shell-window-actions.c:880
 msgid "Available Cate_gories"
 msgstr "Kate_gori Yang Tersedia"
 
-#: ../src/shell/e-shell-window-actions.c:857
+#: ../src/shell/e-shell-window-actions.c:882
 msgid "Manage available categories"
 msgstr "Kelola kategori yang tersedia"
 
-#: ../src/shell/e-shell-window-actions.c:869
+#: ../src/shell/e-shell-window-actions.c:894
 msgid "_Quick Reference"
 msgstr "_Jalur Cepat"
 
-#: ../src/shell/e-shell-window-actions.c:871
+#: ../src/shell/e-shell-window-actions.c:896
 msgid "Show Evolution’s shortcut keys"
 msgstr "Tampilkan tombol pintas Evolution"
 
-#: ../src/shell/e-shell-window-actions.c:878
+#: ../src/shell/e-shell-window-actions.c:903
 msgid "Exit the program"
 msgstr "Keluar dari Evolution"
 
-#: ../src/shell/e-shell-window-actions.c:883
+#: ../src/shell/e-shell-window-actions.c:908
 msgid "_Advanced Search..."
 msgstr "Penc_arian Lebih Lanjut..."
 
-#: ../src/shell/e-shell-window-actions.c:885
+#: ../src/shell/e-shell-window-actions.c:910
 msgid "Construct a more advanced search"
 msgstr "Bangun suatu pencarian dengan tingkat lebih lanjut"
 
-#: ../src/shell/e-shell-window-actions.c:892
+#: ../src/shell/e-shell-window-actions.c:917
 msgid "Clear the current search parameters"
 msgstr "Bersihkan paramater pencarian saat ini"
 
-#: ../src/shell/e-shell-window-actions.c:897
+#: ../src/shell/e-shell-window-actions.c:922
 msgid "_Edit Saved Searches..."
 msgstr "Ubah P_encarian Tersimpan..."
 
-#: ../src/shell/e-shell-window-actions.c:899
+#: ../src/shell/e-shell-window-actions.c:924
 msgid "Manage your saved searches"
 msgstr "Kelola pencarian Anda yang disimpan"
 
-#: ../src/shell/e-shell-window-actions.c:906
+#: ../src/shell/e-shell-window-actions.c:931
 msgid "Click here to change the search type"
 msgstr "Klik di sini untuk mengubah tipe pencarian"
 
-#: ../src/shell/e-shell-window-actions.c:911
+#: ../src/shell/e-shell-window-actions.c:936
 msgid "_Find Now"
 msgstr "_Cari"
 
-#: ../src/shell/e-shell-window-actions.c:913
+#: ../src/shell/e-shell-window-actions.c:938
 msgid "Execute the current search parameters"
 msgstr "Eksekusi parameter pencarian saat ini"
 
-#: ../src/shell/e-shell-window-actions.c:918
+#: ../src/shell/e-shell-window-actions.c:943
 msgid "_Save Search..."
 msgstr "_Simpan Pencarian..."
 
-#: ../src/shell/e-shell-window-actions.c:920
+#: ../src/shell/e-shell-window-actions.c:945
 msgid "Save the current search parameters"
 msgstr "Simpan parameter pencarian saat ini"
 
-#: ../src/shell/e-shell-window-actions.c:932
+#: ../src/shell/e-shell-window-actions.c:957
 msgid "Submit _Bug Report..."
 msgstr "Kirim Laporan _Bug..."
 
-#: ../src/shell/e-shell-window-actions.c:934
+#: ../src/shell/e-shell-window-actions.c:959
 msgid "Submit a bug report using Bug Buddy"
 msgstr "Kirim laporan bug dengan menggunakan program Bug Buddy"
 
-#: ../src/shell/e-shell-window-actions.c:939
+#: ../src/shell/e-shell-window-actions.c:964
 msgid "_Work Offline"
 msgstr "Bekerja _Luring"
 
-#: ../src/shell/e-shell-window-actions.c:941
+#: ../src/shell/e-shell-window-actions.c:966
 msgid "Put Evolution into offline mode"
 msgstr "Jalankan Evolution dalam mode luring"
 
-#: ../src/shell/e-shell-window-actions.c:946
+#: ../src/shell/e-shell-window-actions.c:971
 msgid "_Work Online"
 msgstr "Bekerja _Daring"
 
-#: ../src/shell/e-shell-window-actions.c:948
+#: ../src/shell/e-shell-window-actions.c:973
 msgid "Put Evolution into online mode"
 msgstr "Jalankan Evolution dalam mode online"
 
-#: ../src/shell/e-shell-window-actions.c:976
+#: ../src/shell/e-shell-window-actions.c:1001
 msgid "Lay_out"
 msgstr "Su_sunan"
 
 #. Translators: This is a New menu item caption, under File->New
-#: ../src/shell/e-shell-window-actions.c:984
+#: ../src/shell/e-shell-window-actions.c:1009
 msgid "_New"
 msgstr "_Baru"
 
-#: ../src/shell/e-shell-window-actions.c:991
+#: ../src/shell/e-shell-window-actions.c:1016
 msgid "_Search"
 msgstr "_Cari"
 
-#: ../src/shell/e-shell-window-actions.c:998
+#: ../src/shell/e-shell-window-actions.c:1023
 msgid "_Switcher Appearance"
 msgstr "_Tampilan Modul"
 
-#: ../src/shell/e-shell-window-actions.c:1012
+#: ../src/shell/e-shell-window-actions.c:1037
 msgid "_Window"
 msgstr "_Jendela"
 
-#: ../src/shell/e-shell-window-actions.c:1041
+#: ../src/shell/e-shell-window-actions.c:1066
 msgid "Show _Menu Bar"
 msgstr "Tampilkan Bilah _Menu"
 
-#: ../src/shell/e-shell-window-actions.c:1043
+#: ../src/shell/e-shell-window-actions.c:1068
 msgid "Show the menu bar"
 msgstr "Menampilkan bilah menu"
 
-#: ../src/shell/e-shell-window-actions.c:1049
+#: ../src/shell/e-shell-window-actions.c:1074
 msgid "Show Side _Bar"
 msgstr "Tampilkan _Panel Samping"
 
-#: ../src/shell/e-shell-window-actions.c:1051
+#: ../src/shell/e-shell-window-actions.c:1076
 msgid "Show the side bar"
 msgstr "Tampilkan Panel Samping"
 
-#: ../src/shell/e-shell-window-actions.c:1057
+#: ../src/shell/e-shell-window-actions.c:1082
 msgid "Show _Buttons"
 msgstr "Tampilkan Button"
 
-#: ../src/shell/e-shell-window-actions.c:1059
+#: ../src/shell/e-shell-window-actions.c:1084
 msgid "Show the switcher buttons"
 msgstr "Menampilkan tombol pengganti"
 
-#: ../src/shell/e-shell-window-actions.c:1065
+#: ../src/shell/e-shell-window-actions.c:1090
 msgid "Show _Status Bar"
 msgstr "Tampilkan Baris _Status"
 
-#: ../src/shell/e-shell-window-actions.c:1067
+#: ../src/shell/e-shell-window-actions.c:1092
 msgid "Show the status bar"
 msgstr "Tampilkan baris status"
 
-#: ../src/shell/e-shell-window-actions.c:1073
+#: ../src/shell/e-shell-window-actions.c:1098
 msgid "Show _Tool Bar"
 msgstr "Tampilkan Bilah Ala_t"
 
-#: ../src/shell/e-shell-window-actions.c:1075
+#: ../src/shell/e-shell-window-actions.c:1100
 msgid "Show the tool bar"
 msgstr "Menampilkan bilah alat"
 
-#: ../src/shell/e-shell-window-actions.c:1097
+#: ../src/shell/e-shell-window-actions.c:1122
 msgid "_Icons Only"
 msgstr "Hanya _Ikon"
 
-#: ../src/shell/e-shell-window-actions.c:1099
+#: ../src/shell/e-shell-window-actions.c:1124
 msgid "Display window buttons with icons only"
 msgstr "Tampilkan tombol-tombol pada jendela menggunakan ikon saja"
 
-#: ../src/shell/e-shell-window-actions.c:1104
+#: ../src/shell/e-shell-window-actions.c:1129
 msgid "_Text Only"
 msgstr "Hanya _Teks"
 
-#: ../src/shell/e-shell-window-actions.c:1106
+#: ../src/shell/e-shell-window-actions.c:1131
 msgid "Display window buttons with text only"
 msgstr "Tampilkan tombol-tombol pada jendela menggunakan teks saja"
 
-#: ../src/shell/e-shell-window-actions.c:1111
+#: ../src/shell/e-shell-window-actions.c:1136
 msgid "Icons _and Text"
 msgstr "Ikon d_an Teks"
 
-#: ../src/shell/e-shell-window-actions.c:1113
+#: ../src/shell/e-shell-window-actions.c:1138
 msgid "Display window buttons with icons and text"
 msgstr "Tampilkan tombol-tombol pada jendela menggunakan ikon dan teks"
 
-#: ../src/shell/e-shell-window-actions.c:1118
+#: ../src/shell/e-shell-window-actions.c:1143
 msgid "Tool_bar Style"
 msgstr "Tool_bar Style"
 
-#: ../src/shell/e-shell-window-actions.c:1120
+#: ../src/shell/e-shell-window-actions.c:1145
 msgid "Display window buttons using the desktop toolbar setting"
 msgstr ""
 "Tampilkan tombol pada jendela dengan menggunakan setelan kotak tombol desktop"
 
-#: ../src/shell/e-shell-window-actions.c:1128
+#: ../src/shell/e-shell-window-actions.c:1153
 msgid "Delete Current View"
 msgstr "Hapus Tampilan Sekarang"
 
-#: ../src/shell/e-shell-window-actions.c:1135
+#: ../src/shell/e-shell-window-actions.c:1160
 msgid "Save Custom View..."
 msgstr "Simpan Tampilan Kustom..."
 
-#: ../src/shell/e-shell-window-actions.c:1137
+#: ../src/shell/e-shell-window-actions.c:1162
 msgid "Save current custom view"
 msgstr "Simpan tampilan kustom saat ini"
 
-#: ../src/shell/e-shell-window-actions.c:1144
+#: ../src/shell/e-shell-window-actions.c:1169
 msgid "C_urrent View"
 msgstr "T_ampilan Saat Ini"
 
-#: ../src/shell/e-shell-window-actions.c:1154
+#: ../src/shell/e-shell-window-actions.c:1179
 msgid "Custom View"
 msgstr "Tampilan Sendiri"
 
-#: ../src/shell/e-shell-window-actions.c:1156
+#: ../src/shell/e-shell-window-actions.c:1181
 msgid "Current view is a customized view"
 msgstr "Tilikan kini adalah tilikan ubahan"
 
-#: ../src/shell/e-shell-window-actions.c:1164
+#: ../src/shell/e-shell-window-actions.c:1189
 msgid "Page Set_up..."
 msgstr "At_ur Halaman..."
 
-#: ../src/shell/e-shell-window-actions.c:1166
+#: ../src/shell/e-shell-window-actions.c:1191
 msgid "Change the page settings for your current printer"
 msgstr "Sesuaikan pengaturan halaman dengan printer saat ini"
 
-#: ../src/shell/e-shell-window-actions.c:1535
+#: ../src/shell/e-shell-window-actions.c:1560
 #, c-format
 msgid "Switch to %s"
 msgstr "Berpindah ke %s"
 
-#: ../src/shell/e-shell-window-actions.c:1658
+#: ../src/shell/e-shell-window-actions.c:1683
 #, c-format
 msgid "Select view: %s"
 msgstr "Pilih tampilan: %s"
 
-#: ../src/shell/e-shell-window-actions.c:1675
+#: ../src/shell/e-shell-window-actions.c:1700
 #, c-format
 msgid "Delete view: %s"
 msgstr "Hapus tampilan: %s"
 
-#: ../src/shell/e-shell-window-actions.c:1776
+#: ../src/shell/e-shell-window-actions.c:1801
 msgid "Execute these search parameters"
 msgstr "Eksekusi parameter pencarian"
 
@@ -25994,6 +26073,30 @@ msgstr "Tak bisa menulis simpanan ke diska, galat: %i"
 #: ../src/smime/lib/e-pkcs12.c:407
 msgid "Imported Certificate"
 msgstr "Sertifikat Yang Diimpor"
+
+#~ msgid "Delete address book “{0}”?"
+#~ msgstr "Hapus buku alamat “{0}”?"
+
+#~ msgid "Delete calendar “{0}”?"
+#~ msgstr "Hapus kalender “{0}”?"
+
+#~ msgid "Delete task list “{0}”?"
+#~ msgstr "Hapus daftar tugas “{0}”?"
+
+#~ msgid "Delete memo list “{0}”?"
+#~ msgstr "Hapus daftar memo “{0}”?"
+
+#~ msgid "Delete remote calendar “{0}”?"
+#~ msgstr "Hapus kalender jauh “{0}”?"
+
+#~ msgid "Delete remote task list “{0}”?"
+#~ msgstr "Hapus daftar tugas jauh “{0}”?"
+
+#~ msgid "Delete remote memo list “{0}”?"
+#~ msgstr "Hapus daftar memo jauh “{0}”?"
+
+#~ msgid "Are you sure you want to delete this account?"
+#~ msgstr "Anda yakin ingin menghapus akun ini?"
 
 #~ msgid "Edit"
 #~ msgstr "Edit"
