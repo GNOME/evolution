@@ -18,8 +18,8 @@ msgstr ""
 "Project-Id-Version: evolution.master\n"
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2017-07-18 09:07+0000\n"
-"PO-Revision-Date: 2017-07-20 09:41+0200\n"
+"POT-Creation-Date: 2017-07-22 05:19+0000\n"
+"PO-Revision-Date: 2017-07-24 12:33+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: es <gnome-es-list@gnome.org>\n"
 "Language: es\n"
@@ -3387,8 +3387,9 @@ msgid "Could not remove address book."
 msgstr "No se pudo eliminar la libreta de direcciones."
 
 #: ../src/addressbook/addressbook.error.xml.h:11
-msgid "Delete address book “{0}”?"
-msgstr "¿Quiere eliminar la libreta de direcciones «{0}»?"
+#| msgid "Are you sure you want to delete the memo “{0}”?"
+msgid "Are you sure you want to delete address book “{0}”?"
+msgstr "¿Seguro que quiere eliminar la libreta de direcciones «{0}»?"
 
 #: ../src/addressbook/addressbook.error.xml.h:12
 msgid "This address book will be removed permanently."
@@ -3501,6 +3502,7 @@ msgstr ""
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:9
 #: ../src/addressbook/gui/widgets/eab-contact-merging.c:721
 #: ../src/calendar/gui/e-comp-editor-page-general.c:1355
+#: ../src/e-util/e-accounts-window.c:1540
 #: ../src/e-util/e-mail-signature-manager.c:328
 #: ../src/e-util/e-name-selector-dialog.c:1033 ../src/e-util/filter.ui.h:23
 #: ../src/mail/e-mail-account-manager.c:719
@@ -3703,6 +3705,7 @@ msgstr "Opciones"
 #: ../src/mail/mail.error.xml.h:16 ../src/mail/mail-send-recv.c:747
 #: ../src/mail/mail-send-recv.c:829 ../src/mail/mail-vfolder-ui.c:149
 #: ../src/mail/mail-vfolder-ui.c:271
+#: ../src/modules/accounts-window/e-accounts-window-editors.c:277
 #: ../src/modules/backup-restore/evolution-backup-tool.c:932
 #: ../src/modules/calendar/e-cal-attachment-handler.c:283
 #: ../src/plugins/email-custom-header/org-gnome-email-custom-header.ui.h:3
@@ -3744,7 +3747,7 @@ msgstr "_Guardar"
 #: ../src/e-util/e-preferences-window.c:390
 #: ../src/e-util/e-send-options.ui.h:15
 #: ../src/plugins/email-custom-header/org-gnome-email-custom-header.ui.h:2
-#: ../src/shell/e-shell.c:1309 ../src/shell/e-shell-window-actions.c:969
+#: ../src/shell/e-shell.c:1309 ../src/shell/e-shell-window-actions.c:994
 msgid "_Help"
 msgstr "Ay_uda"
 
@@ -4187,6 +4190,7 @@ msgstr "Contacto no válido."
 #: ../src/mail/em-folder-selector.c:44 ../src/mail/mail-config.ui.h:3
 #: ../src/mail/mail-dialogs.ui.h:24 ../src/mail/mail-vfolder-ui.c:150
 #: ../src/mail/mail-vfolder-ui.c:272
+#: ../src/modules/accounts-window/e-accounts-window-editors.c:278
 #: ../src/plugins/email-custom-header/org-gnome-email-custom-header.ui.h:4
 #: ../src/plugins/publish-calendar/url-editor-dialog.c:420
 #: ../src/shell/e-shell-content.c:662 ../src/shell/e-shell-content.c:768
@@ -4816,7 +4820,7 @@ msgstr "¿Seguro que quiere eliminar este contacto (%s)?"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.c:1361
 #: ../src/calendar/gui/e-comp-editor.c:2005
-#: ../src/e-util/e-focus-tracker.c:783
+#: ../src/e-util/e-accounts-window.c:1727 ../src/e-util/e-focus-tracker.c:783
 #: ../src/e-util/evolution-source-viewer.c:806
 #: ../src/mail/e-mail-account-manager.c:737
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1093
@@ -4824,7 +4828,7 @@ msgstr "¿Seguro que quiere eliminar este contacto (%s)?"
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:676
 #: ../src/modules/calendar/e-task-shell-view-actions.c:830
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1680
-#: ../src/shell/e-shell-window-actions.c:827
+#: ../src/shell/e-shell-window-actions.c:852
 #: ../src/smime/gui/certificate-manager.c:1672
 #: ../src/smime/gui/smime-ui.ui.h:8
 msgid "_Delete"
@@ -5033,7 +5037,7 @@ msgstr "_Reducir"
 #: ../src/addressbook/gui/widgets/e-contact-map-window.c:447
 #: ../src/e-util/e-html-editor-actions.c:1872
 #: ../src/e-util/e-html-editor-find-dialog.c:250
-#: ../src/shell/e-shell-window-actions.c:904
+#: ../src/shell/e-shell-window-actions.c:929
 msgid "_Find"
 msgstr "_Buscar"
 
@@ -5317,6 +5321,7 @@ msgstr "_Posponer"
 #: ../src/calendar/gui/e-comp-editor-page-general.c:1363
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2239
 #: ../src/calendar/gui/e-comp-editor.c:2070
+#: ../src/e-util/e-accounts-window.c:1719
 #: ../src/e-util/e-html-editor-actions.c:922
 #: ../src/e-util/e-mail-signature-manager.c:358 ../src/e-util/filter.ui.h:24
 #: ../src/mail/e-mail-account-manager.c:728 ../src/mail/e-mail-browser.c:171
@@ -5326,7 +5331,7 @@ msgstr "_Posponer"
 #: ../src/plugins/email-custom-header/email-custom-header.c:842
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:33
 #: ../src/plugins/templates/templates.c:468
-#: ../src/shell/e-shell-window-actions.c:955 ../src/smime/gui/smime-ui.ui.h:11
+#: ../src/shell/e-shell-window-actions.c:980 ../src/smime/gui/smime-ui.ui.h:11
 msgid "_Edit"
 msgstr "_Editar"
 
@@ -5763,32 +5768,36 @@ msgid "Editor could not be loaded."
 msgstr "No es posible cargar el editor."
 
 #: ../src/calendar/calendar.error.xml.h:57
-msgid "Delete calendar “{0}”?"
-msgstr "¿Quiere eliminar el calendario «{0}»?"
+#| msgid "Are you sure you want to delete the memo “{0}”?"
+msgid "Are you sure you want to delete calendar “{0}”?"
+msgstr "¿Seguro que quiere eliminar el calendario «{0}»?"
 
 #: ../src/calendar/calendar.error.xml.h:58
 msgid "This calendar will be removed permanently."
 msgstr "Este calendario se eliminará permanentemente."
 
 #: ../src/calendar/calendar.error.xml.h:59
-msgid "Delete task list “{0}”?"
-msgstr "¿Quiere eliminar la lista de tareas «{0}»?"
+#| msgid "Are you sure you want to delete the memo “{0}”?"
+msgid "Are you sure you want to delete task list “{0}”?"
+msgstr "¿Seguro que quiere eliminar la lista de tareas «{0}»?"
 
 #: ../src/calendar/calendar.error.xml.h:60
 msgid "This task list will be removed permanently."
 msgstr "Esta lista de tareas se eliminará permanentemente."
 
 #: ../src/calendar/calendar.error.xml.h:61
-msgid "Delete memo list “{0}”?"
-msgstr "¿Quiere la lista de notas «{0}»?"
+#| msgid "Are you sure you want to delete the memo “{0}”?"
+msgid "Are you sure you want to delete memo list “{0}”?"
+msgstr "¿Seguro que quiere eliminar la lista de notas «{0}»?"
 
 #: ../src/calendar/calendar.error.xml.h:62
 msgid "This memo list will be removed permanently."
 msgstr "Esta lista de notas se eliminará permanentemente."
 
 #: ../src/calendar/calendar.error.xml.h:63
-msgid "Delete remote calendar “{0}”?"
-msgstr "¿Quiere eliminar el calendario remoto «{0}»?"
+#| msgid "Are you sure you want to delete the memo “{0}”?"
+msgid "Are you sure you want to delete remote calendar “{0}”?"
+msgstr "¿Seguro que quiere eliminar el calendario remoto «{0}»?"
 
 #: ../src/calendar/calendar.error.xml.h:64
 msgid ""
@@ -5799,8 +5808,9 @@ msgstr ""
 "seguro de querer continuar?"
 
 #: ../src/calendar/calendar.error.xml.h:66
-msgid "Delete remote task list “{0}”?"
-msgstr "¿Quiere eliminar la lista de tareas remota «{0}»?"
+#| msgid "Are you sure you want to delete the memo “{0}”?"
+msgid "Are you sure you want to delete remote task list “{0}”?"
+msgstr "¿Seguro que quiere eliminar la lista de tareas remota «{0}»?"
 
 #: ../src/calendar/calendar.error.xml.h:67
 msgid ""
@@ -5811,8 +5821,9 @@ msgstr ""
 "seguro de querer continuar?"
 
 #: ../src/calendar/calendar.error.xml.h:68
-msgid "Delete remote memo list “{0}”?"
-msgstr "¿Quiere la lista de notas remota «{0}»?"
+#| msgid "Are you sure you want to delete the memo “{0}”?"
+msgid "Are you sure you want to delete remote memo list “{0}”?"
+msgstr "¿Seguro que quiere eliminar la lista de notas remota «{0}»?"
 
 #: ../src/calendar/calendar.error.xml.h:69
 msgid ""
@@ -7307,6 +7318,7 @@ msgstr "La hora de inicio no es una hora válida"
 #: ../src/em-format/e-mail-part-secure-button.c:93
 #: ../src/mail/e-mail-display.c:2116 ../src/mail/e-mail-reader-utils.c:806
 #: ../src/mail/mail-send-recv.c:490 ../src/mail/mail-send-recv.c:1288
+#: ../src/modules/accounts-window/e-accounts-window-editors.c:172
 #: ../src/plugins/face/face.c:174 ../src/shell/e-shell.c:1073
 #: ../src/shell/e-shell.c:1097 ../src/smime/gui/certificate-manager.c:357
 msgid "Unknown error"
@@ -8261,6 +8273,7 @@ msgstr "Sin resumen"
 #. == Button box ==
 #: ../src/calendar/gui/e-comp-editor.c:1984
 #: ../src/composer/e-composer-actions.c:327
+#: ../src/e-util/e-accounts-window.c:1743
 #: ../src/e-util/e-html-editor-dialog.c:194
 #: ../src/e-util/e-mail-signature-editor.c:309
 #: ../src/e-util/e-name-selector-dialog.c:548
@@ -8270,8 +8283,8 @@ msgstr "Sin resumen"
 #: ../src/mail/em-folder-properties.c:1158
 #: ../src/mail/em-subscription-editor.c:1765
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:254
-#: ../src/shell/e-shell-window-actions.c:278
-#: ../src/shell/e-shell-window-actions.c:792
+#: ../src/shell/e-shell-window-actions.c:296
+#: ../src/shell/e-shell-window-actions.c:817
 #: ../src/smime/gui/certificate-manager.c:2212
 msgid "_Close"
 msgstr "_Cerrar"
@@ -8285,7 +8298,7 @@ msgstr "Cerrar la ventana actual"
 #: ../src/e-util/e-focus-tracker.c:773
 #: ../src/e-util/e-html-editor-actions.c:878 ../src/e-util/e-text.c:2110
 #: ../src/e-util/e-web-view.c:407 ../src/mail/e-mail-browser.c:134
-#: ../src/mail/mail.error.xml.h:146 ../src/shell/e-shell-window-actions.c:813
+#: ../src/mail/mail.error.xml.h:146 ../src/shell/e-shell-window-actions.c:838
 msgid "_Copy"
 msgstr "_Copiar"
 
@@ -8293,7 +8306,7 @@ msgstr "_Copiar"
 #: ../src/e-util/e-focus-tracker.c:173 ../src/e-util/e-focus-tracker.c:229
 #: ../src/e-util/e-focus-tracker.c:282 ../src/e-util/e-focus-tracker.c:774
 #: ../src/e-util/e-web-view.c:409 ../src/e-util/e-web-view.c:1977
-#: ../src/mail/e-mail-browser.c:136 ../src/shell/e-shell-window-actions.c:815
+#: ../src/mail/e-mail-browser.c:136 ../src/shell/e-shell-window-actions.c:840
 msgid "Copy the selection"
 msgstr "Copiar la selección"
 
@@ -8301,7 +8314,7 @@ msgstr "Copiar la selección"
 #: ../src/calendar/gui/e-comp-editor.c:1998
 #: ../src/e-util/e-focus-tracker.c:768
 #: ../src/e-util/e-html-editor-actions.c:885 ../src/e-util/e-text.c:2096
-#: ../src/mail/e-mail-browser.c:141 ../src/shell/e-shell-window-actions.c:820
+#: ../src/mail/e-mail-browser.c:141 ../src/shell/e-shell-window-actions.c:845
 msgid "Cu_t"
 msgstr "Cor_tar"
 
@@ -8309,14 +8322,14 @@ msgstr "Cor_tar"
 #: ../src/e-util/e-focus-tracker.c:166 ../src/e-util/e-focus-tracker.c:222
 #: ../src/e-util/e-focus-tracker.c:276 ../src/e-util/e-focus-tracker.c:769
 #: ../src/e-util/e-web-view.c:1986 ../src/mail/e-mail-browser.c:143
-#: ../src/shell/e-shell-window-actions.c:822
+#: ../src/shell/e-shell-window-actions.c:847
 msgid "Cut the selection"
 msgstr "Cortar la selección"
 
 #: ../src/calendar/gui/e-comp-editor.c:2007
 #: ../src/e-util/e-focus-tracker.c:187 ../src/e-util/e-focus-tracker.c:243
 #: ../src/e-util/e-focus-tracker.c:784
-#: ../src/shell/e-shell-window-actions.c:829
+#: ../src/shell/e-shell-window-actions.c:854
 msgid "Delete the selection"
 msgstr "Eliminar la selección"
 
@@ -8328,7 +8341,7 @@ msgstr "Ver la ayuda"
 #: ../src/calendar/gui/e-comp-editor.c:2019
 #: ../src/e-util/e-focus-tracker.c:778
 #: ../src/e-util/e-html-editor-actions.c:892 ../src/e-util/e-text.c:2122
-#: ../src/mail/e-mail-browser.c:148 ../src/shell/e-shell-window-actions.c:848
+#: ../src/mail/e-mail-browser.c:148 ../src/shell/e-shell-window-actions.c:873
 msgid "_Paste"
 msgstr "_Pegar"
 
@@ -8336,7 +8349,7 @@ msgstr "_Pegar"
 #: ../src/e-util/e-focus-tracker.c:180 ../src/e-util/e-focus-tracker.c:236
 #: ../src/e-util/e-focus-tracker.c:288 ../src/e-util/e-focus-tracker.c:779
 #: ../src/e-util/e-web-view.c:1995 ../src/mail/e-mail-browser.c:150
-#: ../src/shell/e-shell-window-actions.c:850
+#: ../src/shell/e-shell-window-actions.c:875
 msgid "Paste the clipboard"
 msgstr "Pega el contenido del porta papeles"
 
@@ -8358,14 +8371,14 @@ msgstr "_Vista previa…"
 #: ../src/calendar/gui/e-comp-editor.c:2040
 #: ../src/e-util/e-focus-tracker.c:788
 #: ../src/e-util/e-html-editor-actions.c:906 ../src/e-util/e-web-view.c:417
-#: ../src/mail/e-mail-browser.c:155 ../src/shell/e-shell-window-actions.c:925
+#: ../src/mail/e-mail-browser.c:155 ../src/shell/e-shell-window-actions.c:950
 msgid "Select _All"
 msgstr "Seleccionar _todo"
 
 #: ../src/calendar/gui/e-comp-editor.c:2042
 #: ../src/e-util/e-focus-tracker.c:194 ../src/e-util/e-focus-tracker.c:250
 #: ../src/e-util/e-focus-tracker.c:789 ../src/mail/e-mail-browser.c:157
-#: ../src/shell/e-shell-window-actions.c:927
+#: ../src/shell/e-shell-window-actions.c:952
 msgid "Select all text"
 msgstr "Selecciona todo el texto"
 
@@ -8377,7 +8390,7 @@ msgstr "_Clasificación"
 #: ../src/e-util/e-html-editor-actions.c:929
 #: ../src/e-util/e-mail-signature-editor.c:323
 #: ../src/mail/e-mail-browser.c:164 ../src/mail/e-mail-notes.c:945
-#: ../src/shell/e-shell-window-actions.c:962
+#: ../src/shell/e-shell-window-actions.c:987
 msgid "_File"
 msgstr "_Archivo"
 
@@ -8393,7 +8406,7 @@ msgstr "_Opciones"
 
 #: ../src/calendar/gui/e-comp-editor.c:2105
 #: ../src/e-util/e-html-editor-actions.c:971 ../src/mail/e-mail-browser.c:178
-#: ../src/shell/e-shell-window-actions.c:1005
+#: ../src/shell/e-shell-window-actions.c:1030
 #: ../src/smime/gui/certificate-manager.c:1662
 #: ../src/smime/gui/smime-ui.ui.h:3
 msgid "_View"
@@ -8565,6 +8578,7 @@ msgstr "Participante                          "
 #: ../src/calendar/gui/e-meeting-time-sel.etspec.h:4
 #: ../src/calendar/gui/e-memo-table.etspec.h:3
 #: ../src/calendar/gui/e-task-table.etspec.h:3
+#: ../src/e-util/e-accounts-window.c:1370
 #: ../src/e-util/e-attachment-tree-view.c:205
 #: ../src/mail/e-mail-account-tree-view.c:158
 msgid "Type"
@@ -9290,12 +9304,14 @@ msgid "Appointments and Meetings"
 msgstr "Reuniones y citas"
 
 #: ../src/calendar/importers/icalendar-importer.c:306
+#: ../src/modules/accounts-window/e-accounts-window-editors.c:432
 #: ../src/modules/calendar/e-cal-base-shell-backend.c:181
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:178
 msgid "New Calendar"
 msgstr "Calendario nuevo"
 
 #: ../src/calendar/importers/icalendar-importer.c:309
+#: ../src/modules/accounts-window/e-accounts-window-editors.c:440
 #: ../src/modules/calendar/e-cal-base-shell-backend.c:189
 #: ../src/modules/calendar/e-task-shell-view-actions.c:202
 msgid "New Task List"
@@ -11055,12 +11071,12 @@ msgid "Open New Message window"
 msgstr "Abrir la ventana de mensaje nuevo"
 
 #: ../src/composer/e-composer-actions.c:341 ../src/shell/e-shell.c:1302
-#: ../src/shell/e-shell-window-actions.c:862
+#: ../src/shell/e-shell-window-actions.c:887
 msgid "_Preferences"
 msgstr "_Preferencias"
 
 #: ../src/composer/e-composer-actions.c:343
-#: ../src/shell/e-shell-window-actions.c:864
+#: ../src/shell/e-shell-window-actions.c:889
 msgid "Configure Evolution"
 msgstr "Configurar Evolution"
 
@@ -11203,6 +11219,7 @@ msgstr "Guardar borrador"
 #: ../src/e-util/gal-view-instance-save-as-dialog.ui.h:2
 #: ../src/mail/e-mail-config-identity-page.c:550
 #: ../src/mail/e-mail-config-summary-page.c:332
+#: ../src/modules/accounts-window/e-accounts-window-editors.c:297
 msgid "_Name:"
 msgstr "_Nombre:"
 
@@ -11959,6 +11976,81 @@ msgstr "Calendario: desde %s a %s"
 #: ../src/e-util/ea-calendar-item.c:361
 msgid "evolution calendar item"
 msgstr "elemento de calendario de Evolution"
+
+#: ../src/e-util/e-accounts-window.c:509 ../src/e-util/e-accounts-window.c:624
+#: ../src/e-util/e-accounts-window.c:827
+#: ../src/modules/mail/e-mail-shell-backend.c:840
+msgid "Mail Accounts"
+msgstr "Cuentas de correo"
+
+#: ../src/e-util/e-accounts-window.c:516 ../src/e-util/e-accounts-window.c:653
+#: ../src/e-util/e-accounts-window.c:841
+#| msgid "Address Book"
+msgid "Address Books"
+msgstr "Libretas de direcciones"
+
+#: ../src/e-util/e-accounts-window.c:522 ../src/e-util/e-accounts-window.c:654
+#: ../src/e-util/e-accounts-window.c:842
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:81
+msgid "Calendars"
+msgstr "Calendarios"
+
+#: ../src/e-util/e-accounts-window.c:528 ../src/e-util/e-accounts-window.c:655
+#: ../src/e-util/e-accounts-window.c:843
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:82
+msgid "Memo Lists"
+msgstr "Lista de notas"
+
+#: ../src/e-util/e-accounts-window.c:534 ../src/e-util/e-accounts-window.c:656
+#: ../src/e-util/e-accounts-window.c:844
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:83
+msgid "Task Lists"
+msgstr "Lista de tareas"
+
+#: ../src/e-util/e-accounts-window.c:1326
+#: ../src/mail/e-mail-account-tree-view.c:84
+#: ../src/modules/mail/em-composer-prefs.c:1305
+#: ../src/modules/plugin-manager/evolution-plugin-manager.c:355
+#: ../src/plugins/publish-calendar/publish-calendar.c:853
+msgid "Enabled"
+msgstr "Activado"
+
+#: ../src/e-util/e-accounts-window.c:1342
+#: ../src/mail/e-mail-account-tree-view.c:108
+msgid "Account Name"
+msgstr "Nombre de la cuenta"
+
+#. { "collection",	N_("Collection _Account"),	"evolution" },
+#: ../src/e-util/e-accounts-window.c:1463
+#| msgid "Mail Accounts"
+msgid "_Mail Account"
+msgstr "Cuenta de c_orreo"
+
+#: ../src/e-util/e-accounts-window.c:1464
+#| msgctxt "New"
+#| msgid "Address _Book"
+msgid "Address _Book"
+msgstr "Libreta de _direcciones"
+
+#: ../src/e-util/e-accounts-window.c:1465
+#| msgid "_Calendar:"
+msgid "_Calendar"
+msgstr "_Calendario"
+
+#: ../src/e-util/e-accounts-window.c:1466
+#| msgid "Memo Lists"
+msgid "M_emo List"
+msgstr "L_ista de notas"
+
+#: ../src/e-util/e-accounts-window.c:1467
+#| msgid "Task List"
+msgid "_Task List"
+msgstr "Lis_ta de tareas"
+
+#: ../src/e-util/e-accounts-window.c:1659
+#| msgid "Evolution Account Assistant"
+msgid "Evolution Accounts"
+msgstr "Cuentas de Evolution"
 
 #. Translators: This is a cancelled activity.
 #: ../src/e-util/e-activity.c:256
@@ -14297,6 +14389,7 @@ msgid "Any Category"
 msgstr "Cualquier categoría"
 
 #: ../src/e-util/e-name-selector-dialog.c:365
+#: ../src/modules/accounts-window/e-accounts-window-editors.c:338
 msgid "Co_ntacts"
 msgstr "Co_ntactos"
 
@@ -15898,17 +15991,6 @@ msgstr "Puede arrastrar y soltar nombres de cuentas para reordenarlas."
 msgid "De_fault"
 msgstr "_Predeterminada"
 
-#: ../src/mail/e-mail-account-tree-view.c:84
-#: ../src/modules/mail/em-composer-prefs.c:1305
-#: ../src/modules/plugin-manager/evolution-plugin-manager.c:355
-#: ../src/plugins/publish-calendar/publish-calendar.c:853
-msgid "Enabled"
-msgstr "Activado"
-
-#: ../src/mail/e-mail-account-tree-view.c:108
-msgid "Account Name"
-msgstr "Nombre de la cuenta"
-
 #: ../src/mail/e-mail-autoconfig.c:620
 msgid "No email address provided"
 msgstr "No se ha proporcionado ninguna dirección de correo-e"
@@ -15917,9 +15999,9 @@ msgstr "No se ha proporcionado ninguna dirección de correo-e"
 msgid "Missing domain in email address"
 msgstr "Falta el dominio en la dirección de correo-e"
 
-#: ../src/mail/e-mail-browser.c:129 ../src/shell/e-shell-window-actions.c:787
-#: ../src/shell/e-shell-window-actions.c:794
-#: ../src/shell/e-shell-window-actions.c:801
+#: ../src/mail/e-mail-browser.c:129 ../src/shell/e-shell-window-actions.c:812
+#: ../src/shell/e-shell-window-actions.c:819
+#: ../src/shell/e-shell-window-actions.c:826
 msgid "Close this window"
 msgstr "Cierra esta ventana"
 
@@ -16244,7 +16326,7 @@ msgstr "%s — %s"
 #: ../src/modules/addressbook/autocompletion-config.c:115
 #: ../src/modules/calendar/e-calendar-preferences.c:644
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:48
-#: ../src/modules/mail/e-mail-shell-backend.c:729
+#: ../src/modules/mail/e-mail-shell-backend.c:737
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:16
 msgid "General"
 msgstr "General"
@@ -16326,7 +16408,7 @@ msgstr "Seleccionar"
 # Conflicto con _Ver del menú principal
 #: ../src/mail/e-mail-config-security-page.c:546
 #: ../src/mail/e-mail-config-security-page.c:644
-#: ../src/mail/mail-dialogs.ui.h:16 ../src/shell/e-shell-window-actions.c:890
+#: ../src/mail/mail-dialogs.ui.h:16 ../src/shell/e-shell-window-actions.c:915
 msgid "_Clear"
 msgstr "_Vaciar"
 
@@ -19266,8 +19348,9 @@ msgid "You may not create two accounts with the same name."
 msgstr "No puede crear dos cuentas con el mismo nombre."
 
 #: ../src/mail/mail.error.xml.h:89
-msgid "Are you sure you want to delete this account?"
-msgstr "¿Seguro que quiere eliminar esta cuenta?"
+#| msgid "Are you sure you want to delete the memo “{0}”?"
+msgid "Are you sure you want to delete account “{0}”?"
+msgstr "¿Seguro que quiere eliminar la cuenta «{0}»?"
 
 #: ../src/mail/mail.error.xml.h:90
 msgid "If you proceed, the account information will be deleted permanently."
@@ -20029,6 +20112,58 @@ msgstr "El cuerpo contiene"
 msgid "Free form expression"
 msgstr "Expresión libre de forma"
 
+#: ../src/modules/accounts-window/e-accounts-window-editors.c:275
+#| msgid "Edit Location"
+msgid "Edit Collection"
+msgstr "Editar colección"
+
+#: ../src/modules/accounts-window/e-accounts-window-editors.c:312
+#| msgid "Use for Folders"
+msgid "Use for"
+msgstr "Usar para"
+
+#: ../src/modules/accounts-window/e-accounts-window-editors.c:316
+#: ../src/plugins/pst-import/pst-importer.c:522
+msgid "_Mail"
+msgstr "Co_rreo"
+
+#: ../src/modules/accounts-window/e-accounts-window-editors.c:327
+#| msgid "Calendar"
+msgid "C_alendar"
+msgstr "C_alendario"
+
+#: ../src/modules/accounts-window/e-accounts-window-editors.c:428
+#: ../src/modules/addressbook/e-book-shell-backend.c:262
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:137
+msgid "New Address Book"
+msgstr "Libreta de direcciones nueva"
+
+#: ../src/modules/accounts-window/e-accounts-window-editors.c:436
+#: ../src/modules/calendar/e-cal-base-shell-backend.c:185
+#: ../src/modules/calendar/e-memo-shell-view-actions.c:178
+msgid "New Memo List"
+msgstr "Lista de notas nueva"
+
+#: ../src/modules/accounts-window/e-accounts-window-editors.c:480
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:210
+msgid "Address Book Properties"
+msgstr "Propiedades de la libreta de direcciones"
+
+#: ../src/modules/accounts-window/e-accounts-window-editors.c:484
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:283
+msgid "Calendar Properties"
+msgstr "Propiedades del calendario"
+
+#: ../src/modules/accounts-window/e-accounts-window-editors.c:488
+#: ../src/modules/calendar/e-memo-shell-view-actions.c:250
+msgid "Memo List Properties"
+msgstr "Propiedades de lista de notas"
+
+#: ../src/modules/accounts-window/e-accounts-window-editors.c:492
+#: ../src/modules/calendar/e-task-shell-view-actions.c:274
+msgid "Task List Properties"
+msgstr "Propiedades de lista de tareas"
+
 #. To Translators: 'Table column' is a label for configurable date/time format for table columns showing a date in message list
 #: ../src/modules/addressbook/autocompletion-config.c:124
 #: ../src/modules/mail/em-mailer-prefs.c:1562
@@ -20085,11 +20220,6 @@ msgstr "Información de contacto"
 msgid "Contact information for %s"
 msgstr "Información de contacto de %s"
 
-#: ../src/modules/addressbook/e-book-shell-backend.c:262
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:137
-msgid "New Address Book"
-msgstr "Libreta de direcciones nueva"
-
 #: ../src/modules/addressbook/e-book-shell-backend.c:271
 msgctxt "New"
 msgid "_Contact"
@@ -20119,10 +20249,6 @@ msgstr "Libreta de _direcciones"
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:972
 msgid "Create a new address book"
 msgstr "Crea una libreta de direcciones nueva"
-
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:210
-msgid "Address Book Properties"
-msgstr "Propiedades de la libreta de direcciones"
 
 #. Translators: This is a save dialog title
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:534
@@ -20979,11 +21105,6 @@ msgstr "I_mportar a la lista de notas"
 msgid "I_mport to Task List"
 msgstr "I_mportar a la lista de tareas"
 
-#: ../src/modules/calendar/e-cal-base-shell-backend.c:185
-#: ../src/modules/calendar/e-memo-shell-view-actions.c:178
-msgid "New Memo List"
-msgstr "Lista de notas nueva"
-
 #: ../src/modules/calendar/e-cal-base-shell-sidebar.c:563
 #, c-format
 msgid "Copying an event into the calendar “%s”"
@@ -21323,18 +21444,6 @@ msgstr "Tiempo predeterminado que po_stponer (en minutos)"
 msgid "Select the sources for reminder notification:"
 msgstr "Seleccione las fuentes para los recordatorios de notificación:"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:81
-msgid "Calendars"
-msgstr "Calendarios"
-
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:82
-msgid "Memo Lists"
-msgstr "Lista de notas"
-
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:83
-msgid "Task Lists"
-msgstr "Lista de tareas"
-
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:84
 msgid "Default Free/Busy Server"
 msgstr "Servidor de disponibilidad predeterminado"
@@ -21395,10 +21504,6 @@ msgstr "Calendario y tareas"
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:197
 msgid "Print"
 msgstr "Imprimir"
-
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:283
-msgid "Calendar Properties"
-msgstr "Propiedades del calendario"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:312
 msgid ""
@@ -21874,10 +21979,6 @@ msgstr "Crea una lista de notas nueva"
 msgid "Print Memos"
 msgstr "Imprimir notas"
 
-#: ../src/modules/calendar/e-memo-shell-view-actions.c:250
-msgid "Memo List Properties"
-msgstr "Propiedades de lista de notas"
-
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:556
 msgid "_Delete Memo"
 msgstr "_Eliminar nota"
@@ -21999,10 +22100,6 @@ msgstr "Crea una lista de tareas nueva"
 #: ../src/modules/calendar/e-task-shell-view-actions.c:233
 msgid "Print Tasks"
 msgstr "Imprimir tareas"
-
-#: ../src/modules/calendar/e-task-shell-view-actions.c:274
-msgid "Task List Properties"
-msgstr "Propiedades de lista de tareas"
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:557
 msgid ""
@@ -23057,90 +23154,86 @@ msgid_plural "%d attached messages"
 msgstr[0] "%d mensaje adjunto"
 msgstr[1] "%d mensajes adjuntos"
 
-#: ../src/modules/mail/e-mail-shell-backend.c:375
+#: ../src/modules/mail/e-mail-shell-backend.c:383
 msgctxt "New"
 msgid "_Mail Message"
 msgstr "_Mensaje de correo"
 
-#: ../src/modules/mail/e-mail-shell-backend.c:377
+#: ../src/modules/mail/e-mail-shell-backend.c:385
 msgid "Compose a new mail message"
 msgstr "Redacta un mensaje de correo nuevo"
 
-#: ../src/modules/mail/e-mail-shell-backend.c:385
+#: ../src/modules/mail/e-mail-shell-backend.c:393
 msgctxt "New"
 msgid "Mail Acco_unt"
 msgstr "C_uenta de correo"
 
-#: ../src/modules/mail/e-mail-shell-backend.c:387
+#: ../src/modules/mail/e-mail-shell-backend.c:395
 msgid "Create a new mail account"
 msgstr "Crea una cuenta de correo nueva"
 
-#: ../src/modules/mail/e-mail-shell-backend.c:392
+#: ../src/modules/mail/e-mail-shell-backend.c:400
 msgctxt "New"
 msgid "Mail _Folder"
 msgstr "_Carpeta de correo"
 
-#: ../src/modules/mail/e-mail-shell-backend.c:394
+#: ../src/modules/mail/e-mail-shell-backend.c:402
 msgid "Create a new mail folder"
 msgstr "Crea una carpeta de correo nueva"
 
 #. Translators: One of the known implementation names of the GNetworkMonitor. Either translate
 #. it to some user-frienly form, or keep it as is.
-#: ../src/modules/mail/e-mail-shell-backend.c:709
+#: ../src/modules/mail/e-mail-shell-backend.c:717
 msgctxt "NetworkMonitor"
 msgid "base"
 msgstr "base"
 
 #. Translators: One of the known implementation names of the GNetworkMonitor. Either translate
 #. it to some user-frienly form, or keep it as is.
-#: ../src/modules/mail/e-mail-shell-backend.c:712
+#: ../src/modules/mail/e-mail-shell-backend.c:720
 msgctxt "NetworkMonitor"
 msgid "netlink"
 msgstr "enlace de red"
 
 #. Translators: One of the known implementation names of the GNetworkMonitor. Either translate
 #. it to some user-frienly form, or keep it as is.
-#: ../src/modules/mail/e-mail-shell-backend.c:715
+#: ../src/modules/mail/e-mail-shell-backend.c:723
 msgctxt "NetworkMonitor"
 msgid "networkmanager"
 msgstr "networkmanager"
 
-#: ../src/modules/mail/e-mail-shell-backend.c:749
+#: ../src/modules/mail/e-mail-shell-backend.c:757
 msgctxt "NetworkMonitor"
 msgid "Method to detect _online state:"
 msgstr "Método para detectar el _estado en línea:"
 
 #. Always as the first
-#: ../src/modules/mail/e-mail-shell-backend.c:758
+#: ../src/modules/mail/e-mail-shell-backend.c:766
 msgctxt "NetworkMonitor"
 msgid "Default"
 msgstr "Predeterminado"
 
 #. Always as the last
-#: ../src/modules/mail/e-mail-shell-backend.c:772
+#: ../src/modules/mail/e-mail-shell-backend.c:780
 msgctxt "NetworkMonitor"
 msgid "Always Online"
 msgstr "Siempre en línea"
 
-#: ../src/modules/mail/e-mail-shell-backend.c:832
-msgid "Mail Accounts"
-msgstr "Cuentas de correo"
-
-#: ../src/modules/mail/e-mail-shell-backend.c:841
+#: ../src/modules/mail/e-mail-shell-backend.c:849
 msgid "Mail Preferences"
 msgstr "Opciones de correo"
 
-#: ../src/modules/mail/e-mail-shell-backend.c:850
+#: ../src/modules/mail/e-mail-shell-backend.c:858
 msgid "Composer Preferences"
 msgstr "Preferencias del editor"
 
-#: ../src/modules/mail/e-mail-shell-backend.c:859
+#: ../src/modules/mail/e-mail-shell-backend.c:867
 msgid "Network Preferences"
 msgstr "Preferencias de red"
 
 #. Translators: The first item in the list, to be
 #. * able to set rule: [Label] [is/is-not] [None]
-#: ../src/modules/mail/e-mail-shell-backend.c:1151
+#: ../src/modules/mail/e-mail-shell-backend.c:1220
 msgctxt "label"
 msgid "None"
 msgstr "Ninguno"
@@ -24904,10 +24997,6 @@ msgstr "Importar mensajes de Outlook desde un archivo PST"
 msgid "Outlook personal folders (.pst)"
 msgstr "Carpetas personales de Outlook (.pst)"
 
-#: ../src/plugins/pst-import/pst-importer.c:522
-msgid "_Mail"
-msgstr "Co_rreo"
-
 #: ../src/plugins/pst-import/pst-importer.c:551
 msgid "Destination folder:"
 msgstr "Carpeta de destino:"
@@ -25256,7 +25345,7 @@ msgstr "_Abrir la configuración"
 msgid "Credentials are required to connect to the destination host."
 msgstr "Se necesitan credenciales para conectarse al equipo de destino."
 
-#: ../src/shell/e-shell.c:1297 ../src/shell/e-shell-window-actions.c:841
+#: ../src/shell/e-shell.c:1297 ../src/shell/e-shell-window-actions.c:866
 msgid "New _Window"
 msgstr "_Ventana nueva"
 
@@ -25264,11 +25353,11 @@ msgstr "_Ventana nueva"
 msgid "Quick _Reference"
 msgstr "_Referencia rápida"
 
-#: ../src/shell/e-shell.c:1310 ../src/shell/e-shell-window-actions.c:778
+#: ../src/shell/e-shell.c:1310 ../src/shell/e-shell-window-actions.c:796
 msgid "_About"
 msgstr "Acerca _de"
 
-#: ../src/shell/e-shell.c:1311 ../src/shell/e-shell-window-actions.c:876
+#: ../src/shell/e-shell.c:1311 ../src/shell/e-shell-window-actions.c:901
 msgid "_Quit"
 msgstr "_Salir"
 
@@ -25332,275 +25421,285 @@ msgstr "Página web de Evolution"
 msgid "Saving user interface state"
 msgstr "Guardando el estado de la interfaz de usuario"
 
-#: ../src/shell/e-shell-window-actions.c:275
+#: ../src/shell/e-shell-window-actions.c:293
 msgid "Categories Editor"
 msgstr "Editor de categorías"
 
-#: ../src/shell/e-shell-window-actions.c:594
+#: ../src/shell/e-shell-window-actions.c:612
 msgid "Bug Buddy is not installed."
 msgstr "Bug Buddy no está instalado."
 
-#: ../src/shell/e-shell-window-actions.c:595
+#: ../src/shell/e-shell-window-actions.c:613
 msgid "Bug Buddy could not be run."
 msgstr "No se pudo ejecutar Bug Buddy."
 
-#: ../src/shell/e-shell-window-actions.c:780
+#: ../src/shell/e-shell-window-actions.c:798
 msgid "Show information about Evolution"
 msgstr "Mostrar información acerca de Evolution"
 
-#: ../src/shell/e-shell-window-actions.c:785
-#: ../src/shell/e-shell-window-actions.c:799
+#: ../src/shell/e-shell-window-actions.c:803
+#| msgid "_Account:"
+msgid "_Accounts"
+msgstr "_Cuentas"
+
+#: ../src/shell/e-shell-window-actions.c:805
+#| msgid "Configure Evolution"
+msgid "Configure Evolution Accounts"
+msgstr "Configurar cuentas de Evolution"
+
+#: ../src/shell/e-shell-window-actions.c:810
+#: ../src/shell/e-shell-window-actions.c:824
 msgid "_Close Window"
 msgstr "_Cerrar ventana"
 
-#: ../src/shell/e-shell-window-actions.c:806
+#: ../src/shell/e-shell-window-actions.c:831
 msgid "_Contents"
 msgstr "Índ_ice"
 
-#: ../src/shell/e-shell-window-actions.c:808
+#: ../src/shell/e-shell-window-actions.c:833
 msgid "Open the Evolution User Guide"
 msgstr "Abrir la Guía de usuario de Evolution"
 
-#: ../src/shell/e-shell-window-actions.c:834
+#: ../src/shell/e-shell-window-actions.c:859
 msgid "I_mport..."
 msgstr "I_mportar…"
 
-#: ../src/shell/e-shell-window-actions.c:836
+#: ../src/shell/e-shell-window-actions.c:861
 msgid "Import data from other programs"
 msgstr "Importa datos de otros programas"
 
-#: ../src/shell/e-shell-window-actions.c:843
+#: ../src/shell/e-shell-window-actions.c:868
 msgid "Create a new window displaying this view"
 msgstr "Crear una ventana nueva mostrando esta vista"
 
-#: ../src/shell/e-shell-window-actions.c:855
+#: ../src/shell/e-shell-window-actions.c:880
 msgid "Available Cate_gories"
 msgstr "Categorías _disponibles:"
 
-#: ../src/shell/e-shell-window-actions.c:857
+#: ../src/shell/e-shell-window-actions.c:882
 msgid "Manage available categories"
 msgstr "Gestionar las categorías disponibles"
 
-#: ../src/shell/e-shell-window-actions.c:869
+#: ../src/shell/e-shell-window-actions.c:894
 msgid "_Quick Reference"
 msgstr "_Referencia rápida"
 
-#: ../src/shell/e-shell-window-actions.c:871
+#: ../src/shell/e-shell-window-actions.c:896
 msgid "Show Evolution’s shortcut keys"
 msgstr "Mostrar los atajos del teclado de Evolution"
 
-#: ../src/shell/e-shell-window-actions.c:878
+#: ../src/shell/e-shell-window-actions.c:903
 msgid "Exit the program"
 msgstr "Sale del programa"
 
-#: ../src/shell/e-shell-window-actions.c:883
+#: ../src/shell/e-shell-window-actions.c:908
 msgid "_Advanced Search..."
 msgstr "Búsqueda _avanzada…"
 
-#: ../src/shell/e-shell-window-actions.c:885
+#: ../src/shell/e-shell-window-actions.c:910
 msgid "Construct a more advanced search"
 msgstr "Construir una búsqueda más avanzada"
 
-#: ../src/shell/e-shell-window-actions.c:892
+#: ../src/shell/e-shell-window-actions.c:917
 msgid "Clear the current search parameters"
 msgstr "Limpiar los parámetros de búsqueda actuales"
 
-#: ../src/shell/e-shell-window-actions.c:897
+#: ../src/shell/e-shell-window-actions.c:922
 msgid "_Edit Saved Searches..."
 msgstr "_Editar búsquedas guardadas…"
 
-#: ../src/shell/e-shell-window-actions.c:899
+#: ../src/shell/e-shell-window-actions.c:924
 msgid "Manage your saved searches"
 msgstr "Gestionar sus búsquedas guardadas"
 
-#: ../src/shell/e-shell-window-actions.c:906
+#: ../src/shell/e-shell-window-actions.c:931
 msgid "Click here to change the search type"
 msgstr "Pulse aquí para cambiar el tipo de búsqueda"
 
 # En conflicto con _Buscar del menu principal
-#: ../src/shell/e-shell-window-actions.c:911
+#: ../src/shell/e-shell-window-actions.c:936
 msgid "_Find Now"
 msgstr "B_uscar ahora"
 
-#: ../src/shell/e-shell-window-actions.c:913
+#: ../src/shell/e-shell-window-actions.c:938
 msgid "Execute the current search parameters"
 msgstr "Ejecutar los parámetros de búsqueda actuales"
 
-#: ../src/shell/e-shell-window-actions.c:918
+#: ../src/shell/e-shell-window-actions.c:943
 msgid "_Save Search..."
 msgstr "_Guardar búsqueda…"
 
-#: ../src/shell/e-shell-window-actions.c:920
+#: ../src/shell/e-shell-window-actions.c:945
 msgid "Save the current search parameters"
 msgstr "Guardar los parámetros de búsqueda actuales"
 
-#: ../src/shell/e-shell-window-actions.c:932
+#: ../src/shell/e-shell-window-actions.c:957
 msgid "Submit _Bug Report..."
 msgstr "Enviar informe de _fallo…"
 
-#: ../src/shell/e-shell-window-actions.c:934
+#: ../src/shell/e-shell-window-actions.c:959
 msgid "Submit a bug report using Bug Buddy"
 msgstr "Envía un informe de fallos usando Bug Buddy"
 
-#: ../src/shell/e-shell-window-actions.c:939
+#: ../src/shell/e-shell-window-actions.c:964
 msgid "_Work Offline"
 msgstr "_Trabajar desconectado"
 
-#: ../src/shell/e-shell-window-actions.c:941
+#: ../src/shell/e-shell-window-actions.c:966
 msgid "Put Evolution into offline mode"
 msgstr "Poner Evolution en modo desconectado"
 
-#: ../src/shell/e-shell-window-actions.c:946
+#: ../src/shell/e-shell-window-actions.c:971
 msgid "_Work Online"
 msgstr "_Trabajar conectado"
 
-#: ../src/shell/e-shell-window-actions.c:948
+#: ../src/shell/e-shell-window-actions.c:973
 msgid "Put Evolution into online mode"
 msgstr "Poner Evolution en modo conectado"
 
-#: ../src/shell/e-shell-window-actions.c:976
+#: ../src/shell/e-shell-window-actions.c:1001
 msgid "Lay_out"
 msgstr "_Distribución"
 
 #. Translators: This is a New menu item caption, under File->New
-#: ../src/shell/e-shell-window-actions.c:984
+#: ../src/shell/e-shell-window-actions.c:1009
 msgid "_New"
 msgstr "_Nuevo"
 
-#: ../src/shell/e-shell-window-actions.c:991
+#: ../src/shell/e-shell-window-actions.c:1016
 msgid "_Search"
 msgstr "_Buscar"
 
-#: ../src/shell/e-shell-window-actions.c:998
+#: ../src/shell/e-shell-window-actions.c:1023
 msgid "_Switcher Appearance"
 msgstr "Apariencia del _selector"
 
-#: ../src/shell/e-shell-window-actions.c:1012
+#: ../src/shell/e-shell-window-actions.c:1037
 msgid "_Window"
 msgstr "_Ventana"
 
-#: ../src/shell/e-shell-window-actions.c:1041
+#: ../src/shell/e-shell-window-actions.c:1066
 msgid "Show _Menu Bar"
 msgstr "Mostrar barra de _menú"
 
-#: ../src/shell/e-shell-window-actions.c:1043
+#: ../src/shell/e-shell-window-actions.c:1068
 msgid "Show the menu bar"
 msgstr "Mostrar la barra de menú"
 
-#: ../src/shell/e-shell-window-actions.c:1049
+#: ../src/shell/e-shell-window-actions.c:1074
 msgid "Show Side _Bar"
 msgstr "Mostrar barra _lateral"
 
-#: ../src/shell/e-shell-window-actions.c:1051
+#: ../src/shell/e-shell-window-actions.c:1076
 msgid "Show the side bar"
 msgstr "Mostrar la barra lateral"
 
-#: ../src/shell/e-shell-window-actions.c:1057
+#: ../src/shell/e-shell-window-actions.c:1082
 msgid "Show _Buttons"
 msgstr "Mostrar _botones"
 
-#: ../src/shell/e-shell-window-actions.c:1059
+#: ../src/shell/e-shell-window-actions.c:1084
 msgid "Show the switcher buttons"
 msgstr "Mostrar los botones del selector"
 
-#: ../src/shell/e-shell-window-actions.c:1065
+#: ../src/shell/e-shell-window-actions.c:1090
 msgid "Show _Status Bar"
 msgstr "Mostrar barra de _estado"
 
-#: ../src/shell/e-shell-window-actions.c:1067
+#: ../src/shell/e-shell-window-actions.c:1092
 msgid "Show the status bar"
 msgstr "Mostrar la barra de estado"
 
-#: ../src/shell/e-shell-window-actions.c:1073
+#: ../src/shell/e-shell-window-actions.c:1098
 msgid "Show _Tool Bar"
 msgstr "Mostrar barra de _herramientas"
 
-#: ../src/shell/e-shell-window-actions.c:1075
+#: ../src/shell/e-shell-window-actions.c:1100
 msgid "Show the tool bar"
 msgstr "Mostrar la barra de herramientas"
 
-#: ../src/shell/e-shell-window-actions.c:1097
+#: ../src/shell/e-shell-window-actions.c:1122
 msgid "_Icons Only"
 msgstr "Sólo _iconos"
 
-#: ../src/shell/e-shell-window-actions.c:1099
+#: ../src/shell/e-shell-window-actions.c:1124
 msgid "Display window buttons with icons only"
 msgstr "Mostrar los botones de la ventana sólo con iconos"
 
-#: ../src/shell/e-shell-window-actions.c:1104
+#: ../src/shell/e-shell-window-actions.c:1129
 msgid "_Text Only"
 msgstr "Sólo _texto"
 
-#: ../src/shell/e-shell-window-actions.c:1106
+#: ../src/shell/e-shell-window-actions.c:1131
 msgid "Display window buttons with text only"
 msgstr "Mostrar los botones de la ventana sólo con texto"
 
-#: ../src/shell/e-shell-window-actions.c:1111
+#: ../src/shell/e-shell-window-actions.c:1136
 msgid "Icons _and Text"
 msgstr "Iconos _y texto"
 
-#: ../src/shell/e-shell-window-actions.c:1113
+#: ../src/shell/e-shell-window-actions.c:1138
 msgid "Display window buttons with icons and text"
 msgstr "Mostrar los botones de la ventana con iconos y texto"
 
-#: ../src/shell/e-shell-window-actions.c:1118
+#: ../src/shell/e-shell-window-actions.c:1143
 msgid "Tool_bar Style"
 msgstr "Estilo de la _barra de herramientas"
 
-#: ../src/shell/e-shell-window-actions.c:1120
+#: ../src/shell/e-shell-window-actions.c:1145
 msgid "Display window buttons using the desktop toolbar setting"
 msgstr ""
 "Mostrar los botones de la ventana usando la configuración de la barra de "
 "herramientas del escritorio"
 
-#: ../src/shell/e-shell-window-actions.c:1128
+#: ../src/shell/e-shell-window-actions.c:1153
 msgid "Delete Current View"
 msgstr "Eliminar la vista actual"
 
-#: ../src/shell/e-shell-window-actions.c:1135
+#: ../src/shell/e-shell-window-actions.c:1160
 msgid "Save Custom View..."
 msgstr "Guardar vista personalizada…"
 
-#: ../src/shell/e-shell-window-actions.c:1137
+#: ../src/shell/e-shell-window-actions.c:1162
 msgid "Save current custom view"
 msgstr "Guardar la vista actual personalizada"
 
-#: ../src/shell/e-shell-window-actions.c:1144
+#: ../src/shell/e-shell-window-actions.c:1169
 msgid "C_urrent View"
 msgstr "Vista act_ual"
 
-#: ../src/shell/e-shell-window-actions.c:1154
+#: ../src/shell/e-shell-window-actions.c:1179
 msgid "Custom View"
 msgstr "Vista personalizada"
 
-#: ../src/shell/e-shell-window-actions.c:1156
+#: ../src/shell/e-shell-window-actions.c:1181
 msgid "Current view is a customized view"
 msgstr "La vista actual es una vista personalizada"
 
-#: ../src/shell/e-shell-window-actions.c:1164
+#: ../src/shell/e-shell-window-actions.c:1189
 msgid "Page Set_up..."
 msgstr "Config_uración de página…"
 
-#: ../src/shell/e-shell-window-actions.c:1166
+#: ../src/shell/e-shell-window-actions.c:1191
 msgid "Change the page settings for your current printer"
 msgstr "Cambiar la configuración de página para la impresora actual"
 
-#: ../src/shell/e-shell-window-actions.c:1535
+#: ../src/shell/e-shell-window-actions.c:1560
 #, c-format
 msgid "Switch to %s"
 msgstr "Cambiar a %s"
 
-#: ../src/shell/e-shell-window-actions.c:1658
+#: ../src/shell/e-shell-window-actions.c:1683
 #, c-format
 msgid "Select view: %s"
 msgstr "Seleccionar vista: %s"
 
-#: ../src/shell/e-shell-window-actions.c:1675
+#: ../src/shell/e-shell-window-actions.c:1700
 #, c-format
 msgid "Delete view: %s"
 msgstr "Eliminar vista: %s"
 
-#: ../src/shell/e-shell-window-actions.c:1776
+#: ../src/shell/e-shell-window-actions.c:1801
 msgid "Execute these search parameters"
 msgstr "Ejecutar estos parámetros de búsqueda"
 
@@ -26335,6 +26434,30 @@ msgstr "No se puede guardar el almacén en el disco, cod_err: %i"
 #: ../src/smime/lib/e-pkcs12.c:407
 msgid "Imported Certificate"
 msgstr "Certificado importado"
+
+#~ msgid "Delete address book “{0}”?"
+#~ msgstr "¿Quiere eliminar la libreta de direcciones «{0}»?"
+
+#~ msgid "Delete calendar “{0}”?"
+#~ msgstr "¿Quiere eliminar el calendario «{0}»?"
+
+#~ msgid "Delete task list “{0}”?"
+#~ msgstr "¿Quiere eliminar la lista de tareas «{0}»?"
+
+#~ msgid "Delete memo list “{0}”?"
+#~ msgstr "¿Quiere la lista de notas «{0}»?"
+
+#~ msgid "Delete remote calendar “{0}”?"
+#~ msgstr "¿Quiere eliminar el calendario remoto «{0}»?"
+
+#~ msgid "Delete remote task list “{0}”?"
+#~ msgstr "¿Quiere eliminar la lista de tareas remota «{0}»?"
+
+#~ msgid "Delete remote memo list “{0}”?"
+#~ msgstr "¿Quiere la lista de notas remota «{0}»?"
+
+#~ msgid "Are you sure you want to delete this account?"
+#~ msgstr "¿Seguro que quiere eliminar esta cuenta?"
 
 #~ msgid "Logfile to log filter actions."
 #~ msgstr "Archivo de registro para registrar las acciones de filtrado."
