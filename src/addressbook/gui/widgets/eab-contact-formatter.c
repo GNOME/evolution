@@ -123,16 +123,28 @@ render_address_link (GString *buffer,
 		gchar *escaped;
 
 		if (adr->street && *adr->street)
-			g_string_append_printf (link, "%s, ", adr->street);
+			g_string_append_printf (link, "%s", adr->street);
 
-		if (adr->locality && *adr->locality)
-			g_string_append_printf (link, "%s, ", adr->locality);
+		if (adr->locality && *adr->locality) {
+			if (link->len)
+				g_string_append (link, ", ");
 
-		if (adr->region && *adr->region)
-			g_string_append_printf (link, "%s, ", adr->region);
+			g_string_append_printf (link, "%s", adr->locality);
+		}
 
-		if (adr->country && *adr->country)
+		if (adr->region && *adr->region) {
+			if (link->len)
+				g_string_append (link, ", ");
+
+			g_string_append_printf (link, "%s", adr->region);
+		}
+
+		if (adr->country && *adr->country) {
+			if (link->len)
+				g_string_append (link, ", ");
+
 			g_string_append_printf (link, "%s", adr->country);
+		}
 
 		escaped = g_uri_escape_string (link->str, NULL, TRUE);
 		g_string_assign (link, escaped);
