@@ -786,32 +786,10 @@ html_editor_submit_alert (EAlertSink *alert_sink,
                           EAlert *alert)
 {
 	EHTMLEditorPrivate *priv;
-	EAlertBar *alert_bar;
-	GtkWidget *toplevel;
-	GtkWidget *widget;
-	GtkWindow *parent;
 
 	priv = E_HTML_EDITOR_GET_PRIVATE (alert_sink);
 
-	switch (e_alert_get_message_type (alert)) {
-		case GTK_MESSAGE_INFO:
-		case GTK_MESSAGE_WARNING:
-		case GTK_MESSAGE_ERROR:
-			alert_bar = E_ALERT_BAR (priv->alert_bar);
-			e_alert_bar_add_alert (alert_bar, alert);
-			break;
-
-		default:
-			widget = GTK_WIDGET (alert_sink);
-			toplevel = gtk_widget_get_toplevel (widget);
-			if (GTK_IS_WINDOW (toplevel))
-				parent = GTK_WINDOW (toplevel);
-			else
-				parent = NULL;
-			widget = e_alert_dialog_new (parent, alert);
-			gtk_dialog_run (GTK_DIALOG (widget));
-			gtk_widget_destroy (widget);
-	}
+	e_alert_bar_submit_alert (E_ALERT_BAR (priv->alert_bar), alert);
 }
 
 static void

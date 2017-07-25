@@ -94,29 +94,10 @@ mail_config_activity_page_submit_alert (EAlertSink *alert_sink,
                                         EAlert *alert)
 {
 	EMailConfigActivityPagePrivate *priv;
-	EAlertBar *alert_bar;
-	GtkWidget *dialog;
-	gpointer parent;
 
 	priv = E_MAIL_CONFIG_ACTIVITY_PAGE_GET_PRIVATE (alert_sink);
 
-	parent = gtk_widget_get_toplevel (GTK_WIDGET (alert_sink));
-	parent = gtk_widget_is_toplevel (parent) ? parent : NULL;
-
-	switch (e_alert_get_message_type (alert)) {
-		case GTK_MESSAGE_INFO:
-		case GTK_MESSAGE_WARNING:
-		case GTK_MESSAGE_ERROR:
-			alert_bar = E_ALERT_BAR (priv->alert_bar);
-			e_alert_bar_add_alert (alert_bar, alert);
-			break;
-
-		default:
-			dialog = e_alert_dialog_new (parent, alert);
-			gtk_dialog_run (GTK_DIALOG (dialog));
-			gtk_widget_destroy (dialog);
-			break;
-	}
+	e_alert_bar_submit_alert (E_ALERT_BAR (priv->alert_bar), alert);
 }
 
 static void

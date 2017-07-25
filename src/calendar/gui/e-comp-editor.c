@@ -1743,7 +1743,7 @@ e_comp_editor_submit_alert (EAlertSink *alert_sink,
 
 	comp_editor = E_COMP_EDITOR (alert_sink);
 
-	e_alert_bar_add_alert (comp_editor->priv->alert_bar, alert);
+	e_alert_bar_submit_alert (comp_editor->priv->alert_bar, alert);
 }
 
 static void

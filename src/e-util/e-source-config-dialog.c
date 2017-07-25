@@ -308,27 +308,10 @@ source_config_dialog_submit_alert (EAlertSink *alert_sink,
                                    EAlert *alert)
 {
 	ESourceConfigDialogPrivate *priv;
-	EAlertBar *alert_bar;
-	GtkWidget *dialog;
-	GtkWindow *parent;
 
 	priv = E_SOURCE_CONFIG_DIALOG_GET_PRIVATE (alert_sink);
 
-	switch (e_alert_get_message_type (alert)) {
-		case GTK_MESSAGE_INFO:
-		case GTK_MESSAGE_WARNING:
-		case GTK_MESSAGE_ERROR:
-			alert_bar = E_ALERT_BAR (priv->alert_bar);
-			e_alert_bar_add_alert (alert_bar, alert);
-			break;
-
-		default:
-			parent = GTK_WINDOW (alert_sink);
-			dialog = e_alert_dialog_new (parent, alert);
-			gtk_dialog_run (GTK_DIALOG (dialog));
-			gtk_widget_destroy (dialog);
-			break;
-	}
+	e_alert_bar_submit_alert (E_ALERT_BAR (priv->alert_bar), alert);
 }
 
 static void

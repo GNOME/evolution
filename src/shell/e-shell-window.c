@@ -841,7 +841,6 @@ shell_window_submit_alert (EAlertSink *alert_sink,
 {
 	EShellWindow *shell_window;
 	GtkWidget *alert_bar;
-	GtkWidget *dialog;
 
 	shell_window = E_SHELL_WINDOW (alert_sink);
 
@@ -854,21 +853,7 @@ shell_window_submit_alert (EAlertSink *alert_sink,
 
 	alert_bar = e_shell_window_get_alert_bar (shell_window);
 
-	switch (e_alert_get_message_type (alert)) {
-		case GTK_MESSAGE_INFO:
-		case GTK_MESSAGE_WARNING:
-		case GTK_MESSAGE_ERROR:
-			e_alert_bar_add_alert (
-				E_ALERT_BAR (alert_bar), alert);
-			break;
-
-		default:
-			dialog = e_alert_dialog_new (
-				GTK_WINDOW (shell_window), alert);
-			gtk_dialog_run (GTK_DIALOG (dialog));
-			gtk_widget_destroy (dialog);
-			break;
-	}
+	e_alert_bar_submit_alert (E_ALERT_BAR (alert_bar), alert);
 }
 
 static gboolean

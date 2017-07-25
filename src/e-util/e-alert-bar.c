@@ -20,6 +20,7 @@
 #include <glib/gi18n-lib.h>
 
 #include "e-dialog-widgets.h"
+#include "e-alert-dialog.h"
 #include "e-alert-bar.h"
 
 #define E_ALERT_BAR_GET_PRIVATE(obj) \
@@ -452,4 +453,46 @@ e_alert_bar_close_alert (EAlertBar *alert_bar)
 	}
 
 	return alert_closed;
+}
+
+/**
+ * e_alert_bar_submit_alert:
+ * @alert_bar: an #EAlertBar
+ * @alert: an #EAlert
+ *
+ * Depending on the @alert type either shows a dialog or adds
+ * the alert into the @alert_bar. This is meant to be used
+ * by #EAlertSink implementations which use the #EAlertBar.
+ *
+ * Since: 3.26
+ **/
+void
+e_alert_bar_submit_alert (EAlertBar *alert_bar,
+			  EAlert *alert)
+{
+	GtkWidget *toplevel;
+	GtkWidget *widget;
+	GtkWindow *parent;
+
+	g_return_if_fail (E_IS_ALERT_BAR (alert_bar));
+	g_return_if_fail (E_IS_ALERT (alert));
+
+	switch (e_alert_get_message_type (alert)) {
+		case GTK_MESSAGE_INFO:
+		case GTK_MESSAGE_WARNING:
+		case GTK_MESSAGE_QUESTION:
+		case GTK_MESSAGE_ERROR:
+			e_alert_bar_add_alert (alert_bar, alert);
+			break;
+
+		default:
+			toplevel = gtk_widget_get_toplevel (GTK_WIDGET (alert_bar));
+			if (GTK_IS_WINDOW (toplevel))
+				parent = GTK_WINDOW (toplevel);
+			else
+				parent = NULL;
+			widget = e_alert_dialog_new (parent, alert);
+			gtk_dialog_run (GTK_DIALOG (widget));
+			gtk_widget_destroy (widget);
+	}
 }

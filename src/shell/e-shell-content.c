@@ -394,32 +394,11 @@ static void
 shell_content_submit_alert (EAlertSink *alert_sink,
                             EAlert *alert)
 {
-	EShellView *shell_view;
-	EShellWindow *shell_window;
-	EShellContent *shell_content;
 	GtkWidget *alert_bar;
-	GtkWidget *dialog;
 
-	shell_content = E_SHELL_CONTENT (alert_sink);
-	shell_view = e_shell_content_get_shell_view (shell_content);
-	shell_window = e_shell_view_get_shell_window (shell_view);
-	alert_bar = e_shell_content_get_alert_bar (shell_content);
+	alert_bar = e_shell_content_get_alert_bar (E_SHELL_CONTENT (alert_sink));
 
-	switch (e_alert_get_message_type (alert)) {
-		case GTK_MESSAGE_INFO:
-		case GTK_MESSAGE_WARNING:
-		case GTK_MESSAGE_ERROR:
-			e_alert_bar_add_alert (
-				E_ALERT_BAR (alert_bar), alert);
-			break;
-
-		default:
-			dialog = e_alert_dialog_new (
-				GTK_WINDOW (shell_window), alert);
-			gtk_dialog_run (GTK_DIALOG (dialog));
-			gtk_widget_destroy (dialog);
-			break;
-	}
+	e_alert_bar_submit_alert (E_ALERT_BAR (alert_bar), alert);
 }
 
 static void
