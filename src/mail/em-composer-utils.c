@@ -2876,15 +2876,11 @@ static void
 add_source_to_recipient_hash (ESourceRegistry *registry,
 			      GHashTable *rcpt_hash,
 			      const gchar *address,
-			      ESource *default_source,
 			      ESource *source,
-			      gboolean source_is_default,
-			      gboolean source_is_enabled)
+			      gboolean source_is_default)
 {
 	ESource *cached_source;
 	gboolean insert_source;
-	gboolean cached_is_default;
-	gboolean cached_is_enabled;
 
 	g_return_if_fail (rcpt_hash != NULL);
 	g_return_if_fail (E_IS_SOURCE (source));
@@ -2894,25 +2890,7 @@ add_source_to_recipient_hash (ESourceRegistry *registry,
 
 	cached_source = g_hash_table_lookup (rcpt_hash, address);
 
-	if (cached_source != NULL) {
-		cached_is_default = e_source_equal (cached_source, default_source);
-		cached_is_enabled = e_source_registry_check_enabled (registry, cached_source);
-	} else {
-		cached_is_default = FALSE;
-		cached_is_enabled = FALSE;
-	}
-
-	/* Accounts with identical email addresses that are enabled
-	 * take precedence over disabled accounts.  If all accounts
-	 * with matching email addresses are disabled, the first
-	 * one in the list takes precedence.  The default account
-	 * always takes precedence no matter what. */
-	insert_source =
-		source_is_default ||
-		cached_source == NULL ||
-		(source_is_enabled &&
-		 !cached_is_enabled &&
-		 !cached_is_default);
+	insert_source = source_is_default || !cached_source;
 
 	if (insert_source)
 		g_hash_table_insert (rcpt_hash, g_strdup (address), g_object_ref (source));
@@ -2951,23 +2929,22 @@ generate_recipient_hash (ESourceRegistry *registry)
 		GHashTable *aliases;
 		const gchar *address;
 		gboolean source_is_default;
-		gboolean source_is_enabled;
 
 		/* No default mail identity implies there are no mail
 		 * identities at all and so we should never get here. */
 		g_warn_if_fail (default_source != NULL);
 
-		source_is_default =
-			e_source_equal (source, default_source);
-		source_is_enabled =
-			e_source_registry_check_enabled (registry, source);
+		if (!e_source_registry_check_enabled (registry, source))
+			continue;
+
+		source_is_default = e_source_equal (source, default_source);
 
 		extension_name = E_SOURCE_EXTENSION_MAIL_IDENTITY;
 		extension = e_source_get_extension (source, extension_name);
 
 		address = e_source_mail_identity_get_address (extension);
 
-		add_source_to_recipient_hash (registry, rcpt_hash, address, default_source, source, source_is_default, source_is_enabled);
+		add_source_to_recipient_hash (registry, rcpt_hash, address, source, source_is_default);
 
 		aliases = e_source_mail_identity_get_aliases_as_hash_table (extension);
 		if (aliases) {
@@ -2978,7 +2955,7 @@ generate_recipient_hash (ESourceRegistry *registry)
 			while (g_hash_table_iter_next (&iter, &key, NULL)) {
 				address = key;
 
-				add_source_to_recipient_hash (registry, rcpt_hash, address, default_source, source, source_is_default, source_is_enabled);
+				add_source_to_recipient_hash (registry, rcpt_hash, address, source, source_is_default);
 			}
 
 			g_hash_table_destroy (aliases);
