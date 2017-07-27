@@ -489,36 +489,73 @@ html_editor_spell_languages_changed (EHTMLEditor *editor)
 	g_strfreev (languages);
 }
 
+typedef struct _ContextMenuData {
+	GWeakRef *editor_weakref; /* EHTMLEditor * */
+	EContentEditorNodeFlags flags;
+	guint button;
+	guint32 time;
+} ContextMenuData;
+
+static void
+context_menu_data_free (gpointer ptr)
+{
+	ContextMenuData *cmd = ptr;
+
+	if (cmd) {
+		e_weak_ref_free (cmd->editor_weakref);
+		g_free (cmd);
+	}
+}
+
+static gboolean
+html_editor_show_context_menu_idle_cb (gpointer user_data)
+{
+	ContextMenuData *cmd = user_data;
+	EHTMLEditor *editor;
+
+	g_return_val_if_fail (cmd != NULL, FALSE);
+
+	editor = g_weak_ref_get (cmd->editor_weakref);
+	if (editor) {
+		GtkWidget *menu;
+
+		menu = e_html_editor_get_managed_widget (editor, "/context-menu");
+
+		g_signal_emit (editor, signals[UPDATE_ACTIONS], 0, cmd->flags);
+
+		if (!gtk_menu_get_attach_widget (GTK_MENU (menu)))
+			gtk_menu_attach_to_widget (GTK_MENU (menu), GTK_WIDGET (editor), NULL);
+
+		gtk_menu_popup (GTK_MENU (menu), NULL, NULL, NULL,
+			GTK_WIDGET (e_html_editor_get_content_editor (editor)), cmd->button, cmd->time);
+
+		g_object_unref (editor);
+	}
+
+	return FALSE;
+}
+
 static gboolean
 html_editor_context_menu_requested_cb (EContentEditor *cnt_editor,
                                        EContentEditorNodeFlags flags,
                                        GdkEvent *event,
                                        EHTMLEditor *editor)
 {
-	GtkWidget *menu;
+	ContextMenuData *cmd;
 
-	/* COUNT FLAGS */
-	menu = e_html_editor_get_managed_widget (editor, "/context-menu");
+	g_return_val_if_fail (E_IS_HTML_EDITOR (editor), FALSE);
 
-	g_signal_emit (editor, signals[UPDATE_ACTIONS], 0, flags);
+	cmd = g_new0 (ContextMenuData, 1);
+	cmd->editor_weakref = e_weak_ref_new (editor);
+	cmd->flags = flags;
 
-	if (!gtk_menu_get_attach_widget (GTK_MENU (menu)))
-		gtk_menu_attach_to_widget (GTK_MENU (menu),
-					   GTK_WIDGET (editor),
-					   NULL);
+	if (!event || !gdk_event_get_button (event, &cmd->button))
+		cmd->button = 0;
 
-	if (event)
-		gtk_menu_popup (
-			GTK_MENU (menu), NULL, NULL, NULL,
-			GTK_WIDGET (cnt_editor),
-			((GdkEventButton*) event)->button,
-			((GdkEventButton*) event)->time);
-	else
-		gtk_menu_popup (
-			GTK_MENU (menu), NULL, NULL, NULL,
-			GTK_WIDGET (cnt_editor),
-			0,
-			gtk_get_current_event_time ());
+	cmd->time = event ? gdk_event_get_time (event) : gtk_get_current_event_time ();
+
+	g_idle_add_full (G_PRIORITY_LOW, html_editor_show_context_menu_idle_cb,
+		cmd, context_menu_data_free);
 
 	return TRUE;
 }
