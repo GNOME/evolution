@@ -3608,6 +3608,17 @@ e_msg_composer_setup_with_message (EMsgComposer *composer,
 		g_strfreev (flags);
 	}
 
+	if (is_message_from_draft || (
+	    camel_medium_get_header (CAMEL_MEDIUM (message), "X-Evolution-Identity") &&
+	    camel_medium_get_header (CAMEL_MEDIUM (message), "X-Evolution-Transport"))) {
+		const gchar *reply_to;
+
+		reply_to = camel_medium_get_header (CAMEL_MEDIUM (message), "Reply-To");
+
+		if (reply_to)
+			e_composer_header_table_set_reply_to (table, reply_to);
+	}
+
 	/* Remove any other X-Evolution-* headers that may have been set */
 	camel_name_value_array_free (mail_tool_remove_xevolution_headers (message));
 
