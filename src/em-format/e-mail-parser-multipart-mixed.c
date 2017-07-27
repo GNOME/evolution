@@ -50,6 +50,7 @@ empe_mp_mixed_parse (EMailParserExtension *extension,
                      GQueue *out_mail_parts)
 {
 	CamelMultipart *mp;
+	CamelMimePart *pgp_encrypted = NULL, *pgp_octet_stream = NULL;
 	gint i, nparts, len;
 
 	mp = (CamelMultipart *) camel_medium_get_content ((CamelMedium *) part);
@@ -62,6 +63,41 @@ empe_mp_mixed_parse (EMailParserExtension *extension,
 
 	len = part_id->len;
 	nparts = camel_multipart_get_number (mp);
+
+	if ((nparts == 2 || nparts == 3) &&
+	    !g_str_has_suffix (part_id->str, ".mixed-as-pgp-encrypted")) {
+		for (i = 0; i < nparts; i++) {
+			CamelMimePart *subpart;
+			CamelContentType *ct;
+
+			subpart = camel_multipart_get_part (mp, i);
+			ct = camel_mime_part_get_content_type (subpart);
+
+			if (ct) {
+				if (camel_content_type_is (ct, "application", "pgp-encrypted")) {
+					if (pgp_encrypted) {
+						pgp_encrypted = NULL;
+						break;
+					}
+
+					pgp_encrypted = subpart;
+				} else if (camel_content_type_is (ct, "application", "octet-stream")) {
+					if (pgp_octet_stream) {
+						pgp_octet_stream = NULL;
+						break;
+					}
+
+					pgp_octet_stream = subpart;
+				}
+			}
+		}
+
+		if (!pgp_encrypted || !pgp_octet_stream) {
+			pgp_encrypted = NULL;
+			pgp_octet_stream = NULL;
+		}
+	}
+
 	for (i = 0; i < nparts; i++) {
 		GQueue work_queue = G_QUEUE_INIT;
 		EMailPart *mail_part;
@@ -70,6 +106,37 @@ empe_mp_mixed_parse (EMailParserExtension *extension,
 		gboolean handled;
 
 		subpart = camel_multipart_get_part (mp, i);
+
+		if (subpart == pgp_encrypted ||
+		    subpart == pgp_octet_stream) {
+			/* Garbled PGP enctryped message by an Exchange server; show it
+			   at the position, where the pgp-encrypted part is. */
+			if (subpart == pgp_encrypted &&
+			    pgp_encrypted && pgp_octet_stream) {
+				CamelMultipart *encrypted;
+				CamelMimePart *tmp_part;
+
+				encrypted = CAMEL_MULTIPART (camel_multipart_encrypted_new ());
+				camel_data_wrapper_set_mime_type (CAMEL_DATA_WRAPPER (encrypted), "multipart/encrypted; protocol=\"application/pgp-encrypted\"");
+				camel_multipart_add_part (encrypted, pgp_encrypted);
+				camel_multipart_add_part (encrypted, pgp_octet_stream);
+
+				tmp_part = camel_mime_part_new ();
+				camel_mime_part_set_content_type (tmp_part, "multipart/encrypted; protocol=\"application/pgp-encrypted\"");
+				camel_medium_set_content (CAMEL_MEDIUM (tmp_part), CAMEL_DATA_WRAPPER (encrypted));
+
+				g_string_append (part_id, ".mixed-as-pgp-encrypted");
+
+				e_mail_parser_parse_part_as (parser, tmp_part, part_id,
+					"multipart/encrypted", cancellable, out_mail_parts);
+
+				g_string_truncate (part_id, len);
+
+				g_object_unref (tmp_part);
+				g_object_unref (encrypted);
+			}
+			continue;
+		}
 
 		g_string_append_printf (part_id, ".mixed.%d", i);
 
