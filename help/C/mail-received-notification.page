@@ -7,7 +7,7 @@
     <link type="guide" xref="mail-send-and-receive" />
     <link type="seealso" xref="calendar-alarms-and-reminders" />
 
-    <revision pkgversion="3.0.2" version="0.5" date="2013-06-20" status="final"/>
+    <revision pkgversion="3.0.2" version="0.6" date="2017-07-28" status="final"/>
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
       <email its:translate="no">ak-47@gmx.net</email>
@@ -29,7 +29,7 @@
 <p>In order to also be notified of new messages in the GNOME Notification area at the bottom of the screen, make sure that <guiseq><gui>Edit</gui><gui>Plugins</gui><gui>Mail Notification</gui></guiseq> is enabled and that you have set your preferred options in the <gui>Configuration</gui> tab.</p>
 <!-- TODO: This screenshot might be outdated in 3.8 with the new notification section down there -->
 <media type="image" src="./figures/new-mail-notification.png" width="512">
-  <p>Switcher layout when a new message has arrived</p>
+  <p>GNOME notification area when a new message has arrived</p>
 </media>
 
 <!-- TODO: Quite short; plus recheck once https://bugzilla.gnome.org/show_bug.cgi?id=653699 is fixed -->
