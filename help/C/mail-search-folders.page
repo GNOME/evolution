@@ -6,7 +6,7 @@
 
     <link type="guide" xref="mail-organizing#advanced"/>
 
-    <revision pkgversion="3.24.0" version="0.4" date="2017-04-08" status="final"/>
+    <revision pkgversion="3.25.90" version="0.5" date="2017-07-28" status="final"/>
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
       <email its:translate="no">ak-47@gmx.net</email>
@@ -32,5 +32,7 @@
 <p>The <gui>Unmatched</gui> search folder is the opposite of other search folders: it displays all messages that do not appear in other search folders.</p>
 
 <p>If you use remote email storage like IMAP, and have created search folders to search through them, the <gui>Unmatched</gui> search folder also searches the remote folders. If you do not create any search folders that search remote mail stores, the <gui>Unmatched</gui> search folder does not search in them either.</p>
+
+<note style="tip"><p>If you need to find out which physical folder a message displayed in a Search Folder is located in, <link xref="mail-change-columns-in-message-list">add the <gui>Location</gui> column</link> to the message list.</p></note>
 
 </page>
