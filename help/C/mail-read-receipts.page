@@ -13,8 +13,10 @@
     <link type="guide" xref="mail-account-manage-unix-mbox-spool-directory#defaults"/>
     <link type="guide" xref="mail-account-manage-unix-mbox-spool-file#defaults"/>
     <link type="guide" xref="mail-account-manage-usenet-news#defaults"/>
+    <link type="guide" xref="mail-account-manage-microsoft-exchange-evo-mapi#defaults"/>
+    <link type="guide" xref="mail-account-manage-microsoft-exchange-evo-ews#defaults"/>
 
-    <revision pkgversion="3.13.90" version="0.3" date="2015-03-09" status="final"/>
+    <revision pkgversion="3.13.90" version="0.3" date="2017-07-28" status="final"/>
     <credit type="author">
       <name its:translate="no">April Gonzales</name>
       <email its:translate="no">loonycookie@gmail.com</email>
