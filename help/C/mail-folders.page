@@ -6,8 +6,9 @@
 
     <link type="guide" xref="mail-organizing"/>
     <link type="seealso" xref="mail-filters"/>
+    <link type="seealso" xref="mail-change-columns-in-message-list"/>
 
-    <revision pkgversion="3.0.2" version="0.2" date="2011-07-30" status="final"/>
+    <revision pkgversion="3.0.2" version="0.3" date="2017-07-28" status="final"/>
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
       <email its:translate="no">ak-47@gmx.net</email>
