@@ -55,7 +55,6 @@ set(HELP_FILES
 	calendar-using-several-calendars.page
 	calendar-weather.page
 	calendar-webdav.page
-	change-switcher-appearance.page
 	contacts-add-automatically.page
 	contacts-autocompletion.page
 	contacts-google.page

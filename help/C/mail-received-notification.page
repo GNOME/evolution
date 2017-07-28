@@ -20,7 +20,7 @@
 
 <title>Getting notified of new mail</title>
 
-<p><app>Evolution</app> always notifies you of new messages by adding a yellow star to the mailer icon in the window <link xref="change-switcher-appearance">switcher</link>.</p>
+<p><app>Evolution</app> always notifies you of new messages by adding a yellow star to the mailer icon in the window <link xref="intro-main-window">switcher</link>.</p>
 <!-- Translators: Please make sure that the screenshot does have the small yellow star in the Mail icon -->
 <media type="image" src="./figures/new-mail-switcher.png" width="256">
   <p>Switcher layout when a new message has arrived</p>
