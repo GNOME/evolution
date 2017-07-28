@@ -7,7 +7,7 @@
     <link type="guide" xref="mail-organizing"/>
     <link type="guide" xref="mail-layout-changing"/>
 
-    <revision pkgversion="3.3.91" version="0.7" date="2012-03-07" status="final"/>
+    <revision pkgversion="3.25.90" version="0.8" date="2012-07-28" status="final"/>
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
       <email its:translate="no">ak-47@gmx.net</email>
@@ -51,7 +51,7 @@
 <item><p>Select the <gui>Remove This Column</gui> or <gui>Add a Column</gui> option.</p></item>
 </list>
 
-<p><app>Evolution</app> allows you to sort your messages using these columns. Just click on the column label to sort the emails. The direction of the arrow next to the label indicates the direction of the sort.</p>
+<p><app>Evolution</app> allows you to sort your messages using these columns. Just click on the column label to sort the emails. The direction of the arrow next to the label indicates the direction of the sort.</p><p>You can apply a secondary sort criterion by clicking a column label while pressing <key>Ctrl</key>.</p>
 </section>
 
 <section id="sort-options">
