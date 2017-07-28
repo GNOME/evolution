@@ -70,6 +70,7 @@ set(HELP_FILES
 	contacts-using-contact-lists.page
 	contacts-using-several-addressbooks.page
 	credits.page
+	customize-ui-items.page
 	data-storage.page
 	default-browser.page
 	deleting-appointments.page

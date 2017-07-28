@@ -1,0 +1,36 @@
+<page xmlns="http://projectmallard.org/1.0/" xmlns:its="http://www.w3.org/2005/11/its"
+      type="topic" id="customize-ui-items">
+
+  <info>
+    <link type="guide" xref="index#common-other-problems" />
+    <link type="seealso" xref="mail-layout-changing"/>
+    <link type="seealso" xref="calendar-layout"/>
+
+    <revision pkgversion="3.25.90" version="0.1" date="2017-07-28" status="final"/>
+
+    <credit type="author">
+      <name its:translate="no">Andre Klapper</name>
+      <email its:translate="no">ak-47@gmx.net</email>
+    </credit>
+
+    <include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
+
+    <desc>Moving and changing tool bar buttons and entries in the main menu.</desc>
+  </info>
+
+  <title>Customizing tool bar and menu items</title>
+
+<note style="warning">
+<p>These steps are for tech savvy users. These steps are not suitable for average users.</p>
+</note>
+
+<p><app>Evolution</app> offers no graphical interface to customize its tool bars or items in menus.</p>
+
+<p>Advanced users can experiment by exploring and editing the corresponding system-wide file(s) under <file>$PREFIX/share/evolution/ui/</file>.</p>
+
+<p>Copy those files with the file ending <file>.ui</file> which you would like to modify to your personal configuration folder <file>$HOME/.config/evolution/ui/</file>.
+Modify the files in your personal configuration folder so the next <app>Evolution</app> software update will not overwrite your changes.</p>
+
+<p>The modified files will be used if the <code>evolution-ui-version</code> attribute of the root <code>ui</code> element matches the version of the default files provided by <app>Evolution</app>.</p>
+
+</page>
