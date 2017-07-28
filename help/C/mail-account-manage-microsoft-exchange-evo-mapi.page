@@ -45,6 +45,14 @@ via XInclude. See +http://blogs.gnome.org/shaunm/2011/07/21/understanding-xinclu
 <title>Defaults</title>
 </section>
 
+<section id="composing-messages">
+<info>
+  <title type="link">Composing Messages (Exchange MAPI accounts)</title>
+</info>
+<title>Composing Messages</title>
+</section>
+
+<!-- TODO: This might be outdated? -->
 <section id="exchange-settings">
 <title>Exchange Settings</title>
 <p>In this section you can view the size of all Exchange folders.</p>

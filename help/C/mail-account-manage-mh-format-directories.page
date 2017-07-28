@@ -52,6 +52,13 @@ via XInclude. See +http://blogs.gnome.org/shaunm/2011/07/21/understanding-xinclu
 <title>Defaults</title>
 </section>
 
+<section id="composing-messages">
+<info>
+  <title type="link">Composing Messages (MH Format Mail Directories accounts)</title>
+</info>
+<title>Composing Messages</title>
+</section>
+
 <section id="security">
 <info>
   <title type="link">Security (MH Format Mail Directories accounts)</title>
