@@ -15,7 +15,7 @@
     <link type="guide" xref="mail-account-manage-microsoft-exchange-evo-mapi#composing-messages"/>
     <link type="guide" xref="mail-account-manage-microsoft-exchange-evo-ews#composing-messages"/>
 
-    <revision pkgversion="3.25.90" version="0.3" date="2017-07-28" status="draft"/>
+    <revision pkgversion="3.25.90" version="0.4" date="2017-07-28" status="draft"/>
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
       <email its:translate="no">ak-47@gmx.net</email>
@@ -28,7 +28,7 @@
 
   <title>Default CC and BCC</title>
 
-<p>You can set email addresses that should always receive copies of your sent mail (either as CC visible for all recipients, or BCC not visible for other recipients) in the <gui>Defaults</gui> section of the mail account editor (<guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</gui><gui style="button">Edit</gui><gui>Composing Messages</gui></guiseq>).</p>
+<p>You can set email addresses that should always receive copies of your sent mail (either as CC visible for all recipients, or BCC not visible for other recipients) in the <gui>Composing Messages</gui> section of the mail account editor (<guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</gui><gui style="button">Edit</gui><gui>Composing Messages</gui></guiseq>).</p>
 
 
 </page>
