@@ -6,7 +6,7 @@
     
     <link type="guide" xref="index#mail-composing" />
 
-    <revision pkgversion="3.13.90" version="0.3" date="2015-03-09" status="final"/>
+    <revision pkgversion="3.25.90" version="0.4" date="2017-07-28" status="final"/>
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
       <email its:translate="no">ak-47@gmx.net</email>
@@ -20,8 +20,10 @@
 
 <title>Working with email signatures</title>
 
-<p>A signature consists of one or more lines of text (or even a picture) that will be added at the end of an email that you send. It can contain contact information or other things. A signature always begins with two dashes and a space (<code>-- </code>).</p>
+<p>A signature consists of one or more lines of text (or even a picture) that will be added at the end of an email that you send. It can contain contact information or other things.</p>
 <note style="tip"><p>The term "signature" is also differently used in terms of <link xref="mail-encryption">encryption</link>.</p></note>
+
+<note style="tip"><p>Per <link href="http://tools.ietf.org/html/rfc3676#section-4.3">long-standing convention</link>, signatures always start with two dashes and a space in a separate line. This allows many email clients to automatically strip signatures from quotes when replying.</p></note>
 </page>
 
 <!-- TODO: The two dashes and a space signature delimiter can be disabled via dconf in org.gnome.evolution.mail.composer-no-signature.delim but don't really want to advertise that -->
