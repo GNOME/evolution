@@ -6,7 +6,7 @@
 
   <link type="guide" xref="mail-account-manage-microsoft-exchange" group="#first"/>
 
-    <revision pkgversion="3.4" version="0.5" date="2013-06-22" status="candidate"/>
+    <revision pkgversion="3.24.4" version="0.6" date="2017-07-28" status="candidate"/>
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
       <email its:translate="no">ak-47@gmx.net</email>
@@ -52,14 +52,16 @@ via XInclude. See +http://blogs.gnome.org/shaunm/2011/07/21/understanding-xinclu
 <title>Security</title>
 </section>
 
-</section> <!-- end "account editor" section, now list any account settings stuff related to this account type outside of it -->
+<section id="out-of-office">
+<title>Out of Office</title>
+<p>Define the email reply to automatically send to internal or external persons in a certain time period.</p>
+</section>
 
-<!-- <section id="other-settings">
-<info>
-  <title type="link">Other settings (Exchange Web Services accounts)</title>
-</info>
-<title>Other settings</title>
-<p>Other account related settings that are not located in the <gui>Account Editor</gui>:</p>
-</section> -->
+<section id="delegates">
+<title>Delegates</title>
+<p>Define who can send emails and reply to meeting requests on your behalf.</p>
+</section>
+
+</section> <!-- end "account editor" section, now list any account settings stuff related to this account type outside of it -->
 
 </page>
