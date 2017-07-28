@@ -6,7 +6,7 @@
 
     <link type="guide" xref="index#data-migration-and-sync"/>
 
-    <revision pkgversion="3.10.4" version="0.7" date="2014-03-23" status="draft"/>
+    <revision pkgversion="3.10.4" version="0.7" date="2017-07-28" status="draft"/>
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
       <email its:translate="no">ak-47@gmx.net</email>
@@ -14,7 +14,6 @@
     
     <include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
     
-<!-- TODO:POST-3-8: Find out how to sync modern devices, e.g. Android, iPhone, Nokia N97 / N900, N9, N950, etc. Maybe Syn <app>Evolution</app> is the recommended (and external) way here? -->
   </info>
 
   <title>Synchronize <app>Evolution</app> with other devices</title>
