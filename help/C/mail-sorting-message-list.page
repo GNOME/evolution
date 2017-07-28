@@ -7,7 +7,7 @@
     <link type="guide" xref="mail-organizing"/>
     <link type="guide" xref="mail-layout-changing"/>
 
-    <revision pkgversion="3.25.90" version="0.8" date="2012-07-28" status="final"/>
+    <revision pkgversion="3.25.90" version="0.8" date="2017-07-28" status="final"/>
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
       <email its:translate="no">ak-47@gmx.net</email>
