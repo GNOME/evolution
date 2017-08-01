@@ -10,7 +10,7 @@
     <link type="seealso" xref="mail-composer-reply" />
     <link type="seealso" xref="mail-composer-forward" />
 
-    <revision pkgversion="3.13.90" version="0.5" date="2015-03-09" status="final"/>
+    <revision pkgversion="3.25.90" version="0.6" date="2017-08-01" status="final"/>
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
       <email its:translate="no">ak-47@gmx.net</email>
@@ -22,6 +22,15 @@
   </info>
 
 <title>Changing the "On date, person wrote:" string when replying</title>
+
+<note style="info package">
+  <p>You might need to install the <sys>dconf-editor</sys> package to perform these steps.</p>
+    <if:choose xmlns:if="http://projectmallard.org/if/1.0/">
+      <if:when test="action:install">
+      <p><link action="install:dconf-editor" href="http://ftp.gnome.org/pub/gnome/sources/dconf/" style="button">Install dconf-editor</link></p>
+    </if:when>
+  </if:choose>
+</note>
 
 <p>Advanced users can change this string.</p>
 
@@ -59,15 +68,6 @@
 <item><p><code its:translate="no">{Year}</code></p></item>
 <item><p><code its:translate="no">{TimeZone}</code></p></item>
 </list>
-
-<note style="info package">
-  <p>You might need to install the <sys>dconf-editor</sys> package to perform these steps.</p>
-    <if:choose xmlns:if="http://projectmallard.org/if/1.0/">
-      <if:when test="action:install">
-      <p><link action="install:dconf-editor" href="http://ftp.gnome.org/pub/gnome/sources/dconf/" style="button">Install dconf-editor</link></p>
-    </if:when>
-  </if:choose>
-</note>
 
 </page>
 
