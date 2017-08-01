@@ -1000,7 +1000,7 @@ static GtkActionEntry core_editor_entries[] = {
 	{ "paste-quote",
 	  NULL,
 	  N_("Paste _Quotation"),
-	  "<Shift><Control>v",
+	  "<Control><Alt>v",
 	  NULL,
 	  G_CALLBACK (action_paste_quote_cb) },
 
@@ -1283,7 +1283,7 @@ static GtkActionEntry html_entries[] = {
 	{ "paste-as-text",
 	  NULL,
 	  N_("Paste As _Text"),
-	  "<Control><Alt>v",
+	  "<Shift><Control>v",
 	  NULL,
 	  G_CALLBACK (action_paste_as_text_cb) },
 
