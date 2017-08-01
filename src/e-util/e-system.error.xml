@@ -1,5 +1,9 @@
 <?xml version="1.0"?>
 <error-list domain="system">
+  <error type="error" id="generic-error">
+    <primary>{0}</primary>
+    <secondary>{1}</secondary>
+  </error>
 
   <error id="simple-info" type="info">
     <secondary>{0}</secondary>
@@ -89,4 +93,12 @@
    <_primary>Something has gone wrong</_primary>
    <_secondary>A WebKitWebProcess crashed when displaying the content. You can try again by reopening the window. If the issue persists, please file a bug report in the GNOME bugzilla.</_secondary>
  </error>
+
+ <error id="prompt-delete-remote-collection" type="question" default="GTK_RESPONSE_CANCEL">
+   <_primary>Are you sure you want to delete remote collection “{0}”?</_primary>
+   <_secondary>This will permanently remove the collection “{0}” from the server. Are you sure you want to proceed?</_secondary>
+   <button _label="Do _Not Delete" response="GTK_RESPONSE_CANCEL"/>
+   <button _label="_Delete From Server" response="GTK_RESPONSE_YES"/>
+ </error>
+
 </error-list>

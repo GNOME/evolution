@@ -285,6 +285,7 @@ src/e-util/e-tree.c
 src/e-util/e-tree-selection-model.c
 src/e-util/e-url-entry.c
 src/e-util/evolution-source-viewer.c
+src/e-util/e-webdav-browser.c
 src/e-util/e-web-view.c
 src/e-util/e-widget-undo.c
 src/e-util/filter.error.xml
@@ -383,6 +384,7 @@ src/mail/message-list.etspec
 src/mail/searchtypes.xml.in
 src/mail/vfoldertypes.xml.in
 src/modules/accounts-window/e-accounts-window-editors.c
+src/modules/accounts-window/e-webdav-browser-page.c
 src/modules/addressbook/autocompletion-config.c
 src/modules/addressbook/eab-composer-util.c
 src/modules/addressbook/e-book-shell-backend.c

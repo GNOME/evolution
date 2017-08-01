@@ -15,26 +15,15 @@
  * along with this library. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "evolution-config.h"
+#ifndef E_WEBDAV_BROWSER_PAGE_H
+#define E_WEBDAV_BROWSER_PAGE_H
 
-#include <gmodule.h>
 #include <glib-object.h>
 
-#include "e-accounts-window-editors.h"
-#include "e-webdav-browser-page.h"
+G_BEGIN_DECLS
 
-/* Module Entry Points */
-void e_module_load (GTypeModule *type_module);
-void e_module_unload (GTypeModule *type_module);
+void e_webdav_browser_page_type_register (GTypeModule *type_module);
 
-G_MODULE_EXPORT void
-e_module_load (GTypeModule *type_module)
-{
-	e_accounts_window_editors_type_register (type_module);
-	e_webdav_browser_page_type_register (type_module);
-}
+G_END_DECLS
 
-G_MODULE_EXPORT void
-e_module_unload (GTypeModule *type_module)
-{
-}
+#endif /* E_WEBDAV_BROWSER_PAGE_H */
