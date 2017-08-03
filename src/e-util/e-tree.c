@@ -1053,6 +1053,7 @@ item_key_press (ETableItem *eti,
 		}
 		return_val = 1;
 		break;
+	case GDK_KEY_minus:
 	case GDK_KEY_underscore:
 	case GDK_KEY_KP_Subtract:
 	case GDK_KEY_Left:
