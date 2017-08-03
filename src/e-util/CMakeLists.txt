@@ -99,6 +99,9 @@ set(SOURCES
 	e-color-chooser-widget.c
 	e-color-combo.c
 	e-config.c
+	e-config-lookup.c
+	e-config-lookup-result.c
+	e-config-lookup-result-simple.c
 	e-conflict-search-selector.c
 	e-contact-store.c
 	e-content-editor.c
@@ -365,6 +368,9 @@ set(HEADERS
 	e-color-chooser-widget.h
 	e-color-combo.h
 	e-config.h
+	e-config-lookup.h
+	e-config-lookup-result.h
+	e-config-lookup-result-simple.h
 	e-conflict-search-selector.h
 	e-contact-store.h
 	e-content-editor.h

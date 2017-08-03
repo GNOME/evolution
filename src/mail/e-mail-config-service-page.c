@@ -31,11 +31,6 @@
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_MAIL_CONFIG_SERVICE_PAGE, EMailConfigServicePagePrivate))
 
-/* Used for autoconfiguration. */
-#define POP3_BACKEND_NAME "pop"
-#define IMAP_BACKEND_NAME "imapx"
-#define SMTP_BACKEND_NAME "smtp"
-
 typedef struct _Candidate Candidate;
 
 struct _EMailConfigServicePagePrivate {
@@ -897,50 +892,40 @@ e_mail_config_service_page_lookup_backend (EMailConfigServicePage *page,
 	return NULL;
 }
 
-void
+gboolean
 e_mail_config_service_page_auto_configure (EMailConfigServicePage *page,
-                                           EMailAutoconfig *autoconfig)
+                                           EConfigLookup *config_lookup)
 {
-	EMailConfigServiceBackend *pop3 = NULL;
-	EMailConfigServiceBackend *imap = NULL;
-	EMailConfigServiceBackend *smtp = NULL;
+	EMailConfigServiceBackend *select_backend = NULL;
+	gint selected_priority = G_MAXINT;
+	gboolean any_configured = FALSE;
 	guint ii;
 
-	g_return_if_fail (E_IS_MAIL_CONFIG_SERVICE_PAGE (page));
-	g_return_if_fail (E_IS_MAIL_AUTOCONFIG (autoconfig));
+	g_return_val_if_fail (E_IS_MAIL_CONFIG_SERVICE_PAGE (page), FALSE);
+	g_return_val_if_fail (E_IS_CONFIG_LOOKUP (config_lookup), FALSE);
 
 	for (ii = 0; ii < page->priv->candidates->len; ii++) {
-		EMailConfigServiceBackendClass *class;
 		EMailConfigServiceBackend *backend;
 		Candidate *candidate;
 		gboolean configured;
+		gint priority = G_MAXINT;
 
 		candidate = page->priv->candidates->pdata[ii];
-
 		backend = candidate->backend;
-		class = E_MAIL_CONFIG_SERVICE_BACKEND_GET_CLASS (backend);
 
-		configured = e_mail_config_service_backend_auto_configure (
-			backend, autoconfig);
+		configured = e_mail_config_service_backend_auto_configure (backend, config_lookup, &priority);
 
-		/* XXX There's a few specific backends to check for.
-		 *     It requires that we know about these backends,
-		 *     which violates the abstraction, but we need to
-		 *     break our own rule to be practical here. */
-		if (g_strcmp0 (class->backend_name, POP3_BACKEND_NAME) == 0)
-			pop3 = configured ? backend : NULL;
-		if (g_strcmp0 (class->backend_name, IMAP_BACKEND_NAME) == 0)
-			imap = configured ? backend : NULL;
-		if (g_strcmp0 (class->backend_name, SMTP_BACKEND_NAME) == 0)
-			smtp = configured ? backend : NULL;
+		if (configured && priority < selected_priority) {
+			selected_priority = priority;
+			select_backend = backend;
+		}
+
+		any_configured = any_configured || configured;
 	}
 
-	/* Select POP3 before IMAP.  If both are present we want IMAP. */
-	if (pop3 != NULL)
-		e_mail_config_service_page_set_active_backend (page, pop3);
-	if (imap != NULL)
-		e_mail_config_service_page_set_active_backend (page, imap);
-	if (smtp != NULL)
-		e_mail_config_service_page_set_active_backend (page, smtp);
+	if (select_backend)
+		e_mail_config_service_page_set_active_backend (page, select_backend);
+
+	return any_configured;
 }
 

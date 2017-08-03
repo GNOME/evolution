@@ -21,6 +21,7 @@
 
 #include <libebackend/libebackend.h>
 
+#include <e-util/e-util.h>
 #include <shell/e-shell.h>
 #include <shell/e-shell-window.h>
 #include <shell/e-shell-view.h>
@@ -46,7 +47,7 @@
 /* GtkAssistant's back button label. */
 #define BACK_BUTTON_LABEL N_("Go _Back")
 
-typedef struct _AutoconfigContext AutoconfigContext;
+typedef struct _ConfigLookupContext ConfigLookupContext;
 
 struct _EMailConfigAssistantPrivate {
 	EMailSession *session;
@@ -65,10 +66,12 @@ struct _EMailConfigAssistantPrivate {
 	GtkButton *back_button;  /* not referenced */
 };
 
-struct _AutoconfigContext {
+struct _ConfigLookupContext {
 	GtkAssistant *assistant;
 	GCancellable *cancellable;
 	GtkWidget *skip_button;  /* not referenced */
+	EConfigLookup *config_lookup;
+	gchar *email_address;
 };
 
 enum {
@@ -96,21 +99,25 @@ G_DEFINE_TYPE_WITH_CODE (
 		E_TYPE_EXTENSIBLE, NULL))
 
 static void
-autoconfig_skip_button_clicked_cb (GtkButton *button,
-                                   GCancellable *cancellable)
+config_lookup_skip_button_clicked_cb (GtkButton *button,
+				      GCancellable *cancellable)
 {
 	g_cancellable_cancel (cancellable);
 }
 
-static AutoconfigContext *
-autoconfig_context_new (GtkAssistant *assistant)
+static ConfigLookupContext *
+config_lookup_context_new (GtkAssistant *assistant,
+			   ESourceRegistry *registry,
+			   const gchar *email_address)
 {
-	AutoconfigContext *context;
+	ConfigLookupContext *context;
 	const gchar *text;
 
-	context = g_slice_new0 (AutoconfigContext);
+	context = g_slice_new0 (ConfigLookupContext);
 	context->assistant = g_object_ref (assistant);
 	context->cancellable = g_cancellable_new ();
+	context->config_lookup = e_config_lookup_new (registry);
+	context->email_address = g_strdup (email_address);
 
 	/* GtkAssistant sinks the floating button reference. */
 	text = _("_Skip Lookup");
@@ -121,22 +128,24 @@ autoconfig_context_new (GtkAssistant *assistant)
 
 	g_signal_connect_object (
 		context->skip_button, "clicked",
-		G_CALLBACK (autoconfig_skip_button_clicked_cb),
+		G_CALLBACK (config_lookup_skip_button_clicked_cb),
 		context->cancellable, 0);
 
 	return context;
 }
 
 static void
-autoconfig_context_free (AutoconfigContext *context)
+config_lookup_context_free (ConfigLookupContext *context)
 {
 	gtk_assistant_remove_action_widget (
 		context->assistant, context->skip_button);
 
 	g_object_unref (context->assistant);
 	g_object_unref (context->cancellable);
+	g_object_unref (context->config_lookup);
+	g_free (context->email_address);
 
-	g_slice_free (AutoconfigContext, context);
+	g_slice_free (ConfigLookupContext, context);
 }
 
 static gint
@@ -275,32 +284,39 @@ mail_config_assistant_page_changed (EMailConfigPage *page,
 }
 
 static void
-mail_config_assistant_autoconfigure_cb (GObject *source_object,
-                                        GAsyncResult *result,
-                                        gpointer user_data)
+mail_config_assistant_config_lookup_run_cb (GObject *source_object,
+					    GAsyncResult *result,
+					    gpointer user_data)
 {
 	EMailConfigAssistantPrivate *priv;
-	AutoconfigContext *context;
-	EMailAutoconfig *autoconfig;
-	const gchar *email_address;
+	ConfigLookupContext *context;
 	gint n_pages, ii;
-	GError *error = NULL;
+	gboolean any_configured = FALSE;
 
-	context = (AutoconfigContext *) user_data;
+	context = (ConfigLookupContext *) user_data;
+
 	priv = E_MAIL_CONFIG_ASSISTANT_GET_PRIVATE (context->assistant);
 
-	autoconfig = e_mail_autoconfig_finish (result, &error);
+	e_config_lookup_run_finish (E_CONFIG_LOOKUP (source_object), result);
 
-	/* We don't really care about errors, we only capture the GError
-	 * as a debugging aid.  If this doesn't work we simply proceed to
-	 * the Receiving Email page. */
-	if (error != NULL) {
-		gtk_assistant_next_page (context->assistant);
-		g_error_free (error);
-		goto exit;
+	if (e_mail_config_service_page_auto_configure (priv->receiving_page, context->config_lookup)) {
+		any_configured = TRUE;
+		/* Add the page to the visited pages hash table to
+		 * prevent calling e_mail_config_page_setup_defaults(). */
+		g_hash_table_add (priv->visited_pages, priv->receiving_page);
 	}
 
-	g_return_if_fail (E_IS_MAIL_AUTOCONFIG (autoconfig));
+	if (e_mail_config_service_page_auto_configure (priv->sending_page, context->config_lookup)) {
+		any_configured = TRUE;
+		/* Add the page to the visited pages hash table to
+		 * prevent calling e_mail_config_page_setup_defaults(). */
+		g_hash_table_add (priv->visited_pages, priv->sending_page);
+	}
+
+	if (!any_configured) {
+		gtk_assistant_next_page (context->assistant);
+		goto exit;
+	}
 
 	/* Autoconfiguration worked!  Feed the results to the
 	 * service pages and then skip to the Summary page. */
@@ -308,22 +324,9 @@ mail_config_assistant_autoconfigure_cb (GObject *source_object,
 	/* For the summary page... */
 	priv->auto_configured = TRUE;
 
-	e_mail_config_service_page_auto_configure (
-		priv->receiving_page, autoconfig);
-
-	e_mail_config_service_page_auto_configure (
-		priv->sending_page, autoconfig);
-
-	/* Add these pages to the visited pages hash table to
-	 * prevent calling e_mail_config_page_setup_defaults(). */
-
-	g_hash_table_add (priv->visited_pages, priv->receiving_page);
-	g_hash_table_add (priv->visited_pages, priv->sending_page);
-
 	/* Also set the initial display name to the email address
 	 * given so the user can just click past the Summary page. */
-	email_address = e_mail_autoconfig_get_email_address (autoconfig);
-	e_source_set_display_name (priv->identity_source, email_address);
+	e_source_set_display_name (priv->identity_source, context->email_address);
 
 	/* Go to the next page (Receiving Email) before skipping to the
 	 * Summary Page to get it into GtkAssistant visited page history.
@@ -348,7 +351,40 @@ exit:
 	/* Set the page invisible so we never revisit it. */
 	gtk_widget_set_visible (GTK_WIDGET (priv->lookup_page), FALSE);
 
-	autoconfig_context_free (context);
+	config_lookup_context_free (context);
+}
+
+static ESource *
+mail_config_assistant_get_source_cb (EConfigLookup *config_lookup,
+				     EConfigLookupSourceKind kind,
+				     gpointer user_data)
+{
+	EMailConfigAssistant *assistant = user_data;
+	EMailConfigServiceBackend *backend;
+	ESource *source = NULL;
+
+	g_return_val_if_fail (E_IS_CONFIG_LOOKUP (config_lookup), NULL);
+	g_return_val_if_fail (E_IS_MAIL_CONFIG_ASSISTANT (assistant), NULL);
+
+	switch (kind) {
+	case E_CONFIG_LOOKUP_SOURCE_UNKNOWN:
+		break;
+	case E_CONFIG_LOOKUP_SOURCE_COLLECTION:
+		backend = e_mail_config_assistant_get_account_backend (assistant);
+		source = e_mail_config_service_backend_get_collection (backend);
+		break;
+	case E_CONFIG_LOOKUP_SOURCE_MAIL_ACCOUNT:
+		source = e_mail_config_assistant_get_account_source (assistant);
+		break;
+	case E_CONFIG_LOOKUP_SOURCE_MAIL_IDENTITY:
+		source = e_mail_config_assistant_get_identity_source (assistant);
+		break;
+	case E_CONFIG_LOOKUP_SOURCE_MAIL_TRANSPORT:
+		source = e_mail_config_assistant_get_transport_source (assistant);
+		break;
+	}
+
+	return source;
 }
 
 static gboolean
@@ -977,10 +1013,11 @@ mail_config_assistant_prepare (GtkAssistant *assistant,
 	}
 
 	if (E_IS_MAIL_CONFIG_LOOKUP_PAGE (page)) {
-		AutoconfigContext *context;
+		ConfigLookupContext *context;
 		ESource *source;
 		ESourceRegistry *registry;
 		ESourceMailIdentity *extension;
+		ENamedParameters *params;
 		const gchar *email_address;
 		const gchar *extension_name;
 
@@ -991,15 +1028,21 @@ mail_config_assistant_prepare (GtkAssistant *assistant,
 		extension = e_source_get_extension (source, extension_name);
 		email_address = e_source_mail_identity_get_address (extension);
 
-		context = autoconfig_context_new (assistant);
+		context = config_lookup_context_new (assistant, registry, email_address);
 
-		e_mail_autoconfig_new (
-			registry,
-			email_address,
-			G_PRIORITY_DEFAULT,
+		g_signal_connect (context->config_lookup, "get-source",
+			G_CALLBACK (mail_config_assistant_get_source_cb), assistant);
+
+		params = e_named_parameters_new ();
+		e_named_parameters_set (params, E_CONFIG_LOOKUP_PARAM_EMAIL_ADDRESS, email_address);
+
+		e_config_lookup_run (context->config_lookup,
+			params,
 			context->cancellable,
-			mail_config_assistant_autoconfigure_cb,
+			mail_config_assistant_config_lookup_run_cb,
 			context);
+
+		e_named_parameters_free (params);
 	}
 
 	if (E_IS_MAIL_CONFIG_RECEIVING_PAGE (page) && first_visit) {

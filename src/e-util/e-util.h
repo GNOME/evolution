@@ -84,6 +84,9 @@
 #include <e-util/e-color-chooser-widget.h>
 #include <e-util/e-color-combo.h>
 #include <e-util/e-config.h>
+#include <e-util/e-config-lookup.h>
+#include <e-util/e-config-lookup-result.h>
+#include <e-util/e-config-lookup-result-simple.h>
 #include <e-util/e-conflict-search-selector.h>
 #include <e-util/e-contact-store.h>
 #include <e-util/e-content-editor.h>

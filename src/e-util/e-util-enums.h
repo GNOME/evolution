@@ -550,13 +550,13 @@ typedef enum {
 
 /**
  * EDnDTargetType:
- * DND_TARGET_TYPE_TEXT_URI_LIST: text/uri-list
- * DND_TARGET_TYPE_MOZILLA_URL: _NETSCAPE_URL
- * DND_TARGET_TYPE_TEXT_HTML: text/html
- * DND_TARGET_TYPE_UTF8_STRING: UTF8_STRING
- * DND_TARGET_TYPE_TEXT_PLAIN: text/plain
- * DND_TARGET_TYPE_STRING: STRING
- * DND_TARGET_TYPE_TEXT_PLAIN_UTF8: text/plain;charser=utf-8
+ * @DND_TARGET_TYPE_TEXT_URI_LIST: text/uri-list
+ * @DND_TARGET_TYPE_MOZILLA_URL: _NETSCAPE_URL
+ * @DND_TARGET_TYPE_TEXT_HTML: text/html
+ * @DND_TARGET_TYPE_UTF8_STRING: UTF8_STRING
+ * @DND_TARGET_TYPE_TEXT_PLAIN: text/plain
+ * @DND_TARGET_TYPE_STRING: STRING
+ * @DND_TARGET_TYPE_TEXT_PLAIN_UTF8: text/plain;charser=utf-8
  *
  * Drag and drop targets supported by EContentEditor.
  *
@@ -571,6 +571,53 @@ typedef enum {
 	E_DND_TARGET_TYPE_STRING,
 	E_DND_TARGET_TYPE_TEXT_PLAIN_UTF8
 } EDnDTargetType;
+
+/**
+ * EConfigLookupSourceKind:
+ * @E_CONFIG_LOOKUP_SOURCE_UNKNOWN: unknown source kind
+ * @E_CONFIG_LOOKUP_SOURCE_COLLECTION: collection source
+ * @E_CONFIG_LOOKUP_SOURCE_MAIL_ACCOUNT: mail account source
+ * @E_CONFIG_LOOKUP_SOURCE_MAIL_IDENTITY: mail identity source
+ * @E_CONFIG_LOOKUP_SOURCE_MAIL_TRANSPORT: mail transport source
+ *
+ * Defines what source kind to get in call of e_config_lookup_get_source().
+ *
+ * Since: 3.26
+ **/
+typedef enum {
+	E_CONFIG_LOOKUP_SOURCE_UNKNOWN,
+	E_CONFIG_LOOKUP_SOURCE_COLLECTION,
+	E_CONFIG_LOOKUP_SOURCE_MAIL_ACCOUNT,
+	E_CONFIG_LOOKUP_SOURCE_MAIL_IDENTITY,
+	E_CONFIG_LOOKUP_SOURCE_MAIL_TRANSPORT
+} EConfigLookupSourceKind;
+
+/**
+ * EConfigLookupResultKind:
+ * @E_CONFIG_LOOKUP_RESULT_UNKNOWN: unknown kind
+ * @E_CONFIG_LOOKUP_RESULT_COLLECTION: collection kind, which can serve one or more of the other kinds
+ * @E_CONFIG_LOOKUP_RESULT_MAIL_RECEIVE: configures mail receive
+ * @E_CONFIG_LOOKUP_RESULT_MAIL_SEND: configures mail send
+ * @E_CONFIG_LOOKUP_RESULT_ADDRESS_BOOK: configures address book
+ * @E_CONFIG_LOOKUP_RESULT_CALENDAR: configures calendar
+ * @E_CONFIG_LOOKUP_RESULT_MEMO_LIST: configures memo list
+ * @E_CONFIG_LOOKUP_RESULT_TASK_LIST: configures task list
+ *
+ * Defines config lookup result kind, which is used to distinguish
+ * which part the result configures.
+ *
+ * Since: 3.26
+ **/
+typedef enum {
+	E_CONFIG_LOOKUP_RESULT_UNKNOWN,
+	E_CONFIG_LOOKUP_RESULT_COLLECTION,
+	E_CONFIG_LOOKUP_RESULT_MAIL_RECEIVE,
+	E_CONFIG_LOOKUP_RESULT_MAIL_SEND,
+	E_CONFIG_LOOKUP_RESULT_ADDRESS_BOOK,
+	E_CONFIG_LOOKUP_RESULT_CALENDAR,
+	E_CONFIG_LOOKUP_RESULT_MEMO_LIST,
+	E_CONFIG_LOOKUP_RESULT_TASK_LIST
+} EConfigLookupResultKind;
 
 G_END_DECLS
 

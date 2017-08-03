@@ -19,6 +19,7 @@
 #define E_MAIL_AUTOCONFIG_H
 
 #include <libedataserver/libedataserver.h>
+#include <e-util/e-util.h>
 
 /* Standard GObject macros */
 #define E_TYPE_MAIL_AUTOCONFIG \
@@ -83,6 +84,9 @@ gboolean	e_mail_autoconfig_set_smtp_details
 						(EMailAutoconfig *autoconfig,
 						 ESource *smtp_source);
 void		e_mail_autoconfig_dump_results	(EMailAutoconfig *autoconfig);
+void		e_mail_autoconfig_copy_results_to_config_lookup
+						(EMailAutoconfig *mail_autoconfig,
+						 EConfigLookup *config_lookup);
 
 G_END_DECLS
 

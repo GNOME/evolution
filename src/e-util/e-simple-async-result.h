@@ -84,6 +84,9 @@ void		e_simple_async_result_set_op_pointer
 gpointer	e_simple_async_result_get_op_pointer
 						(ESimpleAsyncResult *result);
 void		e_simple_async_result_complete	(ESimpleAsyncResult *result);
+void		e_simple_async_result_complete_idle
+						(ESimpleAsyncResult *result);
+
 
 G_END_DECLS
 

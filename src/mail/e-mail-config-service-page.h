@@ -24,7 +24,7 @@
 
 #include <camel/camel.h>
 
-#include <mail/e-mail-autoconfig.h>
+#include <e-util/e-util.h>
 #include <mail/e-mail-config-activity-page.h>
 #include <mail/e-mail-config-service-backend.h>
 
@@ -91,9 +91,9 @@ EMailConfigServiceBackend *
 		e_mail_config_service_page_lookup_backend
 						(EMailConfigServicePage *page,
 						 const gchar *backend_name);
-void		e_mail_config_service_page_auto_configure
+gboolean	e_mail_config_service_page_auto_configure
 						(EMailConfigServicePage *page,
-						 EMailAutoconfig *autoconfig);
+						 EConfigLookup *config_lookup);
 
 G_END_DECLS
 

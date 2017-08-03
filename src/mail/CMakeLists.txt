@@ -274,6 +274,10 @@ add_executable(test-mail-autoconfig
 	test-mail-autoconfig.c
 )
 
+add_dependencies(test-mail-autoconfig
+	evolution-util
+)
+
 target_compile_definitions(test-mail-autoconfig PRIVATE
 	-DG_LOG_DOMAIN=\"test-mail-autoconfig\"
 )
@@ -293,6 +297,7 @@ target_include_directories(test-mail-autoconfig PUBLIC
 )
 
 target_link_libraries(test-mail-autoconfig
+	evolution-util
 	${EVOLUTION_DATA_SERVER_LDFLAGS}
 	${GNOME_PLATFORM_LDFLAGS}
 )

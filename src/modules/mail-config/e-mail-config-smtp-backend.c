@@ -385,16 +385,15 @@ mail_config_smtp_backend_insert_widgets (EMailConfigServiceBackend *backend,
 
 static gboolean
 mail_config_smtp_backend_auto_configure (EMailConfigServiceBackend *backend,
-                                         EMailAutoconfig *autoconfig)
+					 EConfigLookup *config_lookup,
+					 gint *out_priority)
 {
 	EMailConfigSmtpBackendPrivate *priv;
-	ESource *source;
 	CamelSettings *settings;
 	const gchar *mechanism;
 
-	source = e_mail_config_service_backend_get_source (backend);
-
-	if (!e_mail_autoconfig_set_smtp_details (autoconfig, source))
+	if (!e_mail_config_service_backend_auto_configure_for_kind (backend, config_lookup,
+		E_CONFIG_LOOKUP_RESULT_MAIL_SEND, NULL, NULL, out_priority))
 		return FALSE;
 
 	/* XXX Need to set the authentication widgets to match the

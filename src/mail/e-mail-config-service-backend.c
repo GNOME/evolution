@@ -186,7 +186,8 @@ mail_config_service_backend_setup_defaults (EMailConfigServiceBackend *backend)
 
 static gboolean
 mail_config_service_backend_auto_configure (EMailConfigServiceBackend *backend,
-                                            EMailAutoconfig *autoconfig)
+					    EConfigLookup *config_lookup,
+					    gint *out_priority)
 {
 	return FALSE;
 }
@@ -478,17 +479,18 @@ e_mail_config_service_backend_setup_defaults (EMailConfigServiceBackend *backend
 
 gboolean
 e_mail_config_service_backend_auto_configure (EMailConfigServiceBackend *backend,
-                                              EMailAutoconfig *autoconfig)
+					      EConfigLookup *config_lookup,
+					      gint *out_priority)
 {
 	EMailConfigServiceBackendClass *class;
 
 	g_return_val_if_fail (E_IS_MAIL_CONFIG_SERVICE_BACKEND (backend), FALSE);
-	g_return_val_if_fail (E_IS_MAIL_AUTOCONFIG (autoconfig), FALSE);
+	g_return_val_if_fail (E_IS_CONFIG_LOOKUP (config_lookup), FALSE);
 
 	class = E_MAIL_CONFIG_SERVICE_BACKEND_GET_CLASS (backend);
 	g_return_val_if_fail (class->auto_configure != NULL, FALSE);
 
-	return class->auto_configure (backend, autoconfig);
+	return class->auto_configure (backend, config_lookup, out_priority);
 }
 
 gboolean
@@ -517,3 +519,63 @@ e_mail_config_service_backend_commit_changes (EMailConfigServiceBackend *backend
 	class->commit_changes (backend);
 }
 
+/*
+ * e_mail_config_service_backend_auto_configure_for_kind:
+ * @backend: an #EMailConfigServiceBackend
+ * @config_lookup: an #EConfigLookup
+ * @kind: an #EConfigLookupResultKind
+ * @protocol: (nullable): optional protocol name, or %NULL
+ * @source: (nullable): optioanl #ESource to configure, or %NULL
+ * @out_priority: (out) (nullable): priority of the chosen lookup result
+ *
+ * Finds a config lookup result for the given @kind and @protocol and
+ * configures the @source with it. The @out_priority is set to the priority
+ * of that lookup result.
+ *
+ * If no @protocol is given, then the backend name of the @backend it used.
+ * If no @source is given, then gets it with e_mail_config_service_backend_get_source().
+ *
+ * Returns: whether applied any changes
+ *
+ * Since: 3.26
+ */
+gboolean
+e_mail_config_service_backend_auto_configure_for_kind (EMailConfigServiceBackend *backend,
+						       EConfigLookup *config_lookup,
+						       EConfigLookupResultKind kind,
+						       const gchar *protocol,
+						       ESource *source,
+						       gint *out_priority)
+{
+	EMailConfigServiceBackendClass *klass;
+	GSList *results;
+	gboolean changed = FALSE;
+
+	g_return_val_if_fail (E_IS_MAIL_CONFIG_SERVICE_BACKEND (backend), FALSE);
+	g_return_val_if_fail (E_IS_CONFIG_LOOKUP (config_lookup), FALSE);
+	g_return_val_if_fail (kind != E_CONFIG_LOOKUP_RESULT_UNKNOWN, FALSE);
+
+	klass = E_MAIL_CONFIG_SERVICE_BACKEND_GET_CLASS (backend);
+	g_return_val_if_fail (klass->backend_name != NULL, FALSE);
+
+	if (!source)
+		source = e_mail_config_service_backend_get_source (backend);
+	if (!protocol)
+		protocol = klass->backend_name;
+
+	results = e_config_lookup_get_results (config_lookup, kind, protocol);
+	results = g_slist_sort (results, e_config_lookup_result_compare);
+
+	if (results && results->data) {
+		EConfigLookupResult *lookup_result = results->data;
+
+		changed = e_config_lookup_result_configure_source (lookup_result, source);
+
+		if (changed && out_priority)
+			*out_priority = e_config_lookup_result_get_priority (lookup_result);
+	}
+
+	g_slist_free_full (results, g_object_unref);
+
+	return changed;
+}

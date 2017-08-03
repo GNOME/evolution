@@ -22,7 +22,7 @@
 #include <camel/camel.h>
 #include <libebackend/libebackend.h>
 
-#include <mail/e-mail-autoconfig.h>
+#include <e-util/e-util.h>
 
 /* Standard GObject macros */
 #define E_TYPE_MAIL_CONFIG_SERVICE_BACKEND \
@@ -72,7 +72,8 @@ struct _EMailConfigServiceBackendClass {
 					(EMailConfigServiceBackend *backend);
 	gboolean	(*auto_configure)
 					(EMailConfigServiceBackend *backend,
-					 EMailAutoconfig *autoconfig);
+					 EConfigLookup *config_lookup,
+					 gint *out_priority);
 	gboolean	(*check_complete)
 					(EMailConfigServiceBackend *backend);
 	void		(*commit_changes)
@@ -107,11 +108,19 @@ void		e_mail_config_service_backend_setup_defaults
 					(EMailConfigServiceBackend *backend);
 gboolean	e_mail_config_service_backend_auto_configure
 					(EMailConfigServiceBackend *backend,
-					 EMailAutoconfig *autoconfig);
+					 EConfigLookup *config_lookup,
+					 gint *out_priority);
 gboolean	e_mail_config_service_backend_check_complete
 					(EMailConfigServiceBackend *backend);
 void		e_mail_config_service_backend_commit_changes
 					(EMailConfigServiceBackend *backend);
+gboolean	e_mail_config_service_backend_auto_configure_for_kind
+					(EMailConfigServiceBackend *backend,
+					 EConfigLookup *config_lookup,
+					 EConfigLookupResultKind kind,
+					 const gchar *protocol,
+					 ESource *source,
+					 gint *out_priority);
 
 G_END_DECLS
 

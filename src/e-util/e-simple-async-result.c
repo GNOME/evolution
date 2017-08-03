@@ -217,3 +217,24 @@ e_simple_async_result_complete (ESimpleAsyncResult *result)
 
 	g_object_unref (result);
 }
+
+static gboolean
+result_complete_idle_cb (gpointer user_data)
+{
+	ESimpleAsyncResult *result = user_data;
+
+	g_return_val_if_fail (E_IS_SIMPLE_ASYNC_RESULT (result), FALSE);
+
+	e_simple_async_result_complete (result);
+	g_object_unref (result);
+
+	return FALSE;
+}
+
+void
+e_simple_async_result_complete_idle (ESimpleAsyncResult *result)
+{
+	g_return_if_fail (E_IS_SIMPLE_ASYNC_RESULT (result));
+
+	g_idle_add (result_complete_idle_cb, g_object_ref (result));
+}

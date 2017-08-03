@@ -453,8 +453,7 @@ exit:
 }
 
 static gboolean
-mail_autoconfig_set_details (EMailAutoconfig *autoconfig,
-                             EMailAutoconfigResult *result,
+mail_autoconfig_set_details (EMailAutoconfigResult *result,
                              ESource *source,
                              const gchar *extension_name)
 {
@@ -489,6 +488,169 @@ mail_autoconfig_set_details (EMailAutoconfig *autoconfig,
 		NULL);
 
 	return TRUE;
+}
+
+#define E_TYPE_MAIL_CONFIG_LOOKUP_RESULT \
+	(e_mail_config_lookup_result_get_type ())
+#define E_MAIL_CONFIG_LOOKUP_RESULT(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_MAIL_CONFIG_LOOKUP_RESULT, EMailConfigLookupResult))
+#define E_IS_MAIL_CONFIG_LOOKUP_RESULT(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_MAIL_CONFIG_LOOKUP_RESULT))
+
+typedef struct _EMailConfigLookupResult EMailConfigLookupResult;
+typedef struct _EMailConfigLookupResultClass EMailConfigLookupResultClass;
+
+struct _EMailConfigLookupResult {
+	/*< private >*/
+	EConfigLookupResultSimple parent;
+
+	EMailAutoconfigResult result;
+	gchar *extension_name;
+};
+
+struct _EMailConfigLookupResultClass {
+	/*< private >*/
+	EConfigLookupResultSimpleClass parent_class;
+};
+
+GType e_mail_config_lookup_result_get_type (void) G_GNUC_CONST;
+
+G_DEFINE_TYPE (EMailConfigLookupResult, e_mail_config_lookup_result, E_TYPE_CONFIG_LOOKUP_RESULT_SIMPLE)
+
+static gboolean
+mail_config_lookup_result_configure_source (EConfigLookupResult *lookup_result,
+					    ESource *source)
+{
+	EMailConfigLookupResult *mail_result;
+
+	g_return_val_if_fail (E_IS_MAIL_CONFIG_LOOKUP_RESULT (lookup_result), FALSE);
+
+	mail_result = E_MAIL_CONFIG_LOOKUP_RESULT (lookup_result);
+
+	/* No chain up to parent method, not needed here, because not used */
+	return mail_autoconfig_set_details (&mail_result->result, source, mail_result->extension_name);
+}
+
+static void
+mail_config_lookup_result_finalize (GObject *object)
+{
+	EMailConfigLookupResult *mail_result = E_MAIL_CONFIG_LOOKUP_RESULT (object);
+
+	g_free (mail_result->result.user);
+	g_free (mail_result->result.host);
+	g_free (mail_result->result.auth_mechanism);
+	g_free (mail_result->extension_name);
+
+	/* Chain up to parent's method. */
+	G_OBJECT_CLASS (e_mail_config_lookup_result_parent_class)->finalize (object);
+}
+
+static void
+e_mail_config_lookup_result_class_init (EMailConfigLookupResultClass *klass)
+{
+	EConfigLookupResultSimpleClass *simple_result_class;
+	GObjectClass *object_class;
+
+	object_class = G_OBJECT_CLASS (klass);
+	object_class->finalize = mail_config_lookup_result_finalize;
+
+	simple_result_class = E_CONFIG_LOOKUP_RESULT_SIMPLE_CLASS (klass);
+	simple_result_class->configure_source = mail_config_lookup_result_configure_source;
+}
+
+static void
+e_mail_config_lookup_result_init (EMailConfigLookupResult *mail_result)
+{
+}
+
+static EConfigLookupResult *
+e_mail_config_lookup_result_new (EConfigLookupResultKind kind,
+				 gint priority,
+				 const gchar *protocol,
+				 const gchar *display_name,
+				 const gchar *description,
+				 const EMailAutoconfigResult *result,
+				 const gchar *extension_name)
+{
+	EMailConfigLookupResult *mail_result;
+
+	g_return_val_if_fail (protocol != NULL, NULL);
+	g_return_val_if_fail (display_name != NULL, NULL);
+	g_return_val_if_fail (description != NULL, NULL);
+	g_return_val_if_fail (result != NULL, NULL);
+	g_return_val_if_fail (extension_name != NULL, NULL);
+
+	mail_result = g_object_new (E_TYPE_MAIL_CONFIG_LOOKUP_RESULT,
+		"kind", kind,
+		"priority", priority,
+		"protocol", protocol,
+		"display-name", display_name,
+		"description", description,
+		NULL);
+
+	mail_result->result.set = result->set;
+	mail_result->result.user = g_strdup (result->user);
+	mail_result->result.host = g_strdup (result->host);
+	mail_result->result.port = result->port;
+	mail_result->result.auth_mechanism = g_strdup (result->auth_mechanism);
+	mail_result->result.security_method = result->security_method;
+	mail_result->extension_name = g_strdup (extension_name);
+
+	return E_CONFIG_LOOKUP_RESULT (mail_result);
+}
+
+static void
+mail_autoconfig_result_to_config_lookup (EMailAutoconfig *mail_autoconfig,
+					 EConfigLookup *config_lookup,
+					 EMailAutoconfigResult *result,
+					 gint priority,
+					 const gchar *protocol,
+					 const gchar *display_name,
+					 const gchar *extension_name)
+{
+	EConfigLookupResult *lookup_result;
+	EConfigLookupResultKind kind;
+	GString *description;
+
+	g_return_if_fail (E_IS_MAIL_AUTOCONFIG (mail_autoconfig));
+	g_return_if_fail (E_IS_CONFIG_LOOKUP (config_lookup));
+	g_return_if_fail (result != NULL);
+	g_return_if_fail (protocol != NULL);
+	g_return_if_fail (display_name != NULL);
+	g_return_if_fail (extension_name != NULL);
+
+	if (!result->set)
+		return;
+
+	kind = E_CONFIG_LOOKUP_RESULT_MAIL_RECEIVE;
+	if (g_strcmp0 (extension_name, E_SOURCE_EXTENSION_MAIL_TRANSPORT) == 0)
+		kind = E_CONFIG_LOOKUP_RESULT_MAIL_SEND;
+
+	description = g_string_new ("");
+
+	g_string_append_printf (description, _("Host: %s:%d"), result->host, result->port);
+
+	if (result->user && *result->user) {
+		g_string_append_c (description, '\n');
+		g_string_append_printf (description, _("User: %s"), result->user);
+	}
+
+	g_string_append_c (description, '\n');
+	g_string_append_printf (description, _("Security method: %s"),
+		result->security_method == CAMEL_NETWORK_SECURITY_METHOD_SSL_ON_ALTERNATE_PORT ?  _("TLS") :
+		result->security_method == CAMEL_NETWORK_SECURITY_METHOD_STARTTLS_ON_STANDARD_PORT ? _("STARTTLS") : _("None"));
+
+	if (result->auth_mechanism && *result->auth_mechanism) {
+		g_string_append_c (description, '\n');
+		g_string_append_printf (description, _("Authentication mechanism: %s"), result->auth_mechanism);
+	}
+
+	lookup_result = e_mail_config_lookup_result_new (kind, priority, protocol, display_name, description->str, result, extension_name);
+	e_config_lookup_add_result (config_lookup, lookup_result);
+
+	g_string_free (description, TRUE);
 }
 
 static void
@@ -836,7 +998,7 @@ e_mail_autoconfig_set_imap_details (EMailAutoconfig *autoconfig,
 	g_return_val_if_fail (E_IS_SOURCE (imap_source), FALSE);
 
 	return mail_autoconfig_set_details (
-		autoconfig, &autoconfig->priv->imap_result,
+		&autoconfig->priv->imap_result,
 		imap_source, E_SOURCE_EXTENSION_MAIL_ACCOUNT);
 }
 
@@ -848,7 +1010,7 @@ e_mail_autoconfig_set_pop3_details (EMailAutoconfig *autoconfig,
 	g_return_val_if_fail (E_IS_SOURCE (pop3_source), FALSE);
 
 	return mail_autoconfig_set_details (
-		autoconfig, &autoconfig->priv->pop3_result,
+		&autoconfig->priv->pop3_result,
 		pop3_source, E_SOURCE_EXTENSION_MAIL_ACCOUNT);
 }
 
@@ -860,7 +1022,7 @@ e_mail_autoconfig_set_smtp_details (EMailAutoconfig *autoconfig,
 	g_return_val_if_fail (E_IS_SOURCE (smtp_source), FALSE);
 
 	return mail_autoconfig_set_details (
-		autoconfig, &autoconfig->priv->smtp_result,
+		&autoconfig->priv->smtp_result,
 		smtp_source, E_SOURCE_EXTENSION_MAIL_TRANSPORT);
 }
 
@@ -911,3 +1073,40 @@ e_mail_autoconfig_dump_results (EMailAutoconfig *autoconfig)
 	}
 }
 
+/**
+ * e_mail_autoconfig_copy_results_to_config_lookup:
+ * @mail_autoconfig: an #EMailAutoconfig
+ * @config_lookup: an #EConfigLookup
+ *
+ * Copies any valid result from @mail_autoconfig to @config_lookup.
+ *
+ * Since: 3.26
+ **/
+void
+e_mail_autoconfig_copy_results_to_config_lookup (EMailAutoconfig *mail_autoconfig,
+						 EConfigLookup *config_lookup)
+{
+	g_return_if_fail (E_IS_MAIL_AUTOCONFIG (mail_autoconfig));
+	g_return_if_fail (E_IS_CONFIG_LOOKUP (config_lookup));
+
+	mail_autoconfig_result_to_config_lookup (mail_autoconfig, config_lookup,
+		&mail_autoconfig->priv->imap_result,
+		E_CONFIG_LOOKUP_RESULT_PRIORITY_IMAP,
+		"imapx",
+		_("IMAP server"),
+		E_SOURCE_EXTENSION_MAIL_ACCOUNT);
+
+	mail_autoconfig_result_to_config_lookup (mail_autoconfig, config_lookup,
+		&mail_autoconfig->priv->pop3_result,
+		E_CONFIG_LOOKUP_RESULT_PRIORITY_POP3,
+		"pop",
+		_("POP3 server"),
+		E_SOURCE_EXTENSION_MAIL_ACCOUNT);
+
+	mail_autoconfig_result_to_config_lookup (mail_autoconfig, config_lookup,
+		&mail_autoconfig->priv->smtp_result,
+		E_CONFIG_LOOKUP_RESULT_PRIORITY_SMTP,
+		"smtp",
+		_("SMTP server"),
+		E_SOURCE_EXTENSION_MAIL_TRANSPORT);
+}
