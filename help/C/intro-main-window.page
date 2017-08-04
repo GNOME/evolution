@@ -8,7 +8,7 @@
     <link type="seealso" xref="calendar-layout"/>
     <link type="seealso" xref="mail-layout-changing"/>
 
-    <revision pkgversion="3.9.3" version="0.6" date="2013-05-29" status="final"/>
+    <revision pkgversion="3.25.90" version="0.7" date="2017-08-04" status="final"/>
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
       <email its:translate="no">ak-47@gmx.net</email>
@@ -41,24 +41,27 @@
 <p>Corresponding elements in the mail main window:</p>
 <table frame="all" rules="all">
   <tr>
-    <td colspan="2"><p><media type="image" mime="image/png" its:translate="no" src="./figures/color-c4a000.png" width="10"/> Menu bar</p></td>
+    <td colspan="3"><p><media type="image" mime="image/png" its:translate="no" src="./figures/color-c4a000.png" width="10"/> Menu bar</p></td>
   </tr>
   <tr>
-    <td colspan="2"><p><media type="image" mime="image/png" its:translate="no" src="./figures/color-ce5c00.png" width="10" /> Tool bar</p></td>
+    <td colspan="3"><p><media type="image" mime="image/png" its:translate="no" src="./figures/color-ce5c00.png" width="10" /> Tool bar</p></td>
   </tr>
   <tr>
-    <td rowspan="2"><p><media type="image" mime="image/png" its:translate="no" src="./figures/color-8f5902.png" width="10" /> Folder list</p></td>
-    <td><p><media type="image" mime="image/png" its:translate="no" src="./figures/color-4e9a06.png" width="10" /> Search bar</p></td>
+    <td rowspan="3"><p><media type="image" mime="image/png" its:translate="no" src="./figures/color-8f5902.png" width="10" /> Folder list</p></td>
+    <td colspan="2"><p><media type="image" mime="image/png" its:translate="no" src="./figures/color-4e9a06.png" width="10" /> Search bar</p></td>
   </tr>
   <tr>
     <td><p><media type="image" mime="image/png" its:translate="no" src="./figures/color-204a87.png" width="10" /> Message list</p></td>
+    <td rowspan="3"><p><media type="image" mime="image/png" its:translate="no" src="./figures/color-a40000.png" width="10" /> To Do bar</p></td>
+  </tr>
+  <tr>
+    <td rowspan="2"><p><media type="image" mime="image/png" its:translate="no" src="./figures/color-5c3566.png" width="10" /> Preview pane</p></td>
   </tr>
   <tr>
     <td><p><media type="image" mime="image/png" its:translate="no" src="./figures/color-a40000.png" width="10" /> Switcher</p></td>
-    <td><p><media type="image" mime="image/png" its:translate="no" src="./figures/color-5c3566.png" width="10" /> Preview pane</p></td>
   </tr>
   <tr>
-    <td colspan="2"><p><media type="image" mime="image/png" its:translate="no" src="./figures/color-2e3436.png" width="10" /> Status bar</p></td>
+    <td colspan="3"><p><media type="image" mime="image/png" its:translate="no" src="./figures/color-2e3436.png" width="10" /> Status bar</p></td>
   </tr>
 </table>
 
@@ -81,6 +84,11 @@
 <title>Preview Pane</title>
 <p>The preview pane displays the message that is currently chosen in the message list.</p>
 <note style="tip"><p>You can disable the preview pane by toggling <guiseq><gui>View</gui><gui>Preview</gui><gui>Show Message Preview</gui></guiseq>.</p></note>
+</item>
+<item>
+<title>To Do bar</title>
+<p>The to do bar displays calendar appointments and tasks with due dates within the next seven days.</p>
+<note style="tip"><p>You can disable the to do bar by toggling <guiseq><gui>View</gui><gui>Layout</gui><gui>Show To Do Bar</gui></guiseq>.</p></note>
 </item>
 </terms>
 </section>
