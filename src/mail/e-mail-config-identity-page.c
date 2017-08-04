@@ -808,6 +808,7 @@ mail_config_identity_page_constructed (GObject *object)
 	scrolledwindow = gtk_scrolled_window_new (NULL, NULL);
 	gtk_box_pack_start (GTK_BOX (container), scrolledwindow, TRUE, TRUE, 0);
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolledwindow), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrolledwindow), GTK_SHADOW_IN);
 	gtk_widget_show (scrolledwindow);
 
 	model = GTK_TREE_MODEL (gtk_list_store_new (1, G_TYPE_STRING));
