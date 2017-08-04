@@ -2323,7 +2323,7 @@ e_week_view_set_multi_week_view (EWeekView *week_view,
 
 		if (week_view->month_scroll_by_week) {
 			page_increment = 1;
-			page_size = 1;
+			page_size = 5;
 		} else {
 			page_increment = 4;
 			page_size = 5;
@@ -2402,7 +2402,7 @@ e_week_view_set_weeks_shown (EWeekView *week_view,
 	if (e_week_view_get_multi_week_view (week_view)) {
 		if (week_view->month_scroll_by_week) {
 			page_increment = 1;
-			page_size = 1;
+			page_size = 5;
 		} else {
 			page_increment = 4;
 			page_size = 5;
