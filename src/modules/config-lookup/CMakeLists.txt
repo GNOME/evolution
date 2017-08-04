@@ -6,6 +6,8 @@ set(sources
 	config-lookup.c
 	e-gnome-config-lookup.c
 	e-gnome-config-lookup.h
+	e-srv-config-lookup.c
+	e-srv-config-lookup.h
 )
 set(extra_defines)
 set(extra_cflags)

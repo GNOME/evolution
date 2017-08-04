@@ -76,6 +76,7 @@ GType		e_config_lookup_result_simple_get_type	(void) G_GNUC_CONST;
 EConfigLookupResult *
 		e_config_lookup_result_simple_new	(EConfigLookupResultKind kind,
 							 gint priority,
+							 gboolean is_complete,
 							 const gchar *protocol,
 							 const gchar *display_name,
 							 const gchar *description);

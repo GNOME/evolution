@@ -42,6 +42,7 @@ e_config_lookup_result_default_init (EConfigLookupResultInterface *iface)
 {
 	iface->get_kind = NULL;
 	iface->get_priority = NULL;
+	iface->get_is_complete = NULL;
 	iface->get_protocol = NULL;
 	iface->get_display_name = NULL;
 	iface->get_description = NULL;
@@ -90,6 +91,29 @@ e_config_lookup_result_get_priority (EConfigLookupResult *lookup_result)
 	g_return_val_if_fail (iface->get_priority != NULL, ~0);
 
 	return iface->get_priority (lookup_result);
+}
+
+/**
+ * e_config_lookup_result_get_is_complete:
+ * @lookup_result: an #EConfigLookupResult
+ *
+ * Returns: whether the result is complete, that is, whether it doesn't require
+ *    any further user interaction
+ *
+ * Since: 3.26
+ **/
+gboolean
+e_config_lookup_result_get_is_complete (EConfigLookupResult *lookup_result)
+{
+	EConfigLookupResultInterface *iface;
+
+	g_return_val_if_fail (E_IS_CONFIG_LOOKUP_RESULT (lookup_result), FALSE);
+
+	iface = E_CONFIG_LOOKUP_RESULT_GET_INTERFACE (lookup_result);
+	g_return_val_if_fail (iface != NULL, FALSE);
+	g_return_val_if_fail (iface->get_is_complete != NULL, FALSE);
+
+	return iface->get_is_complete (lookup_result);
 }
 
 /**
@@ -194,7 +218,8 @@ e_config_lookup_result_configure_source (EConfigLookupResult *lookup_result,
  * when @lookup_result_a is before @lookup_result_b, 0 when they are the same
  * and value greater than 0, when @lookup_result_a is after @lookup_result_b.
  *
- * The comparison is done on kind, priority and display name values, in this order.
+ * The comparison is done on kind, is-complete, priority and display name values,
+ * in this order.
  *
  * Returns: strcmp()-like value, what the position between @lookup_result_a and
  *    @lookup_result_b is.
@@ -215,6 +240,9 @@ e_config_lookup_result_compare (gconstpointer lookup_result_a,
 	lrb = E_CONFIG_LOOKUP_RESULT (lookup_result_b);
 
 	res = e_config_lookup_result_get_kind (lra) - e_config_lookup_result_get_kind (lrb);
+
+	if (!res)
+		res = (e_config_lookup_result_get_is_complete (lra) ? -1 : 0) - (e_config_lookup_result_get_is_complete (lrb) ? -1 : 0);
 
 	if (!res)
 		res = e_config_lookup_result_get_priority (lra) - e_config_lookup_result_get_priority (lrb);

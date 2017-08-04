@@ -439,6 +439,7 @@ src/modules/calendar/e-task-shell-view.c
 src/modules/calendar/e-task-shell-view-private.c
 src/modules/composer-to-meeting/e-composer-to-meeting.c
 src/modules/composer-to-meeting/e-meeting-to-composer.c
+src/modules/config-lookup/e-srv-config-lookup.c
 src/modules/itip-formatter/e-mail-formatter-itip.c
 src/modules/itip-formatter/itip-view.c
 src/modules/itip-formatter/org-gnome-itip-formatter.error.xml

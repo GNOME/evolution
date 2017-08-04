@@ -187,7 +187,8 @@ mail_config_service_backend_setup_defaults (EMailConfigServiceBackend *backend)
 static gboolean
 mail_config_service_backend_auto_configure (EMailConfigServiceBackend *backend,
 					    EConfigLookup *config_lookup,
-					    gint *out_priority)
+					    gint *out_priority,
+					    gboolean *out_is_complete)
 {
 	return FALSE;
 }
@@ -480,7 +481,8 @@ e_mail_config_service_backend_setup_defaults (EMailConfigServiceBackend *backend
 gboolean
 e_mail_config_service_backend_auto_configure (EMailConfigServiceBackend *backend,
 					      EConfigLookup *config_lookup,
-					      gint *out_priority)
+					      gint *out_priority,
+					      gboolean *out_is_complete)
 {
 	EMailConfigServiceBackendClass *class;
 
@@ -490,7 +492,7 @@ e_mail_config_service_backend_auto_configure (EMailConfigServiceBackend *backend
 	class = E_MAIL_CONFIG_SERVICE_BACKEND_GET_CLASS (backend);
 	g_return_val_if_fail (class->auto_configure != NULL, FALSE);
 
-	return class->auto_configure (backend, config_lookup, out_priority);
+	return class->auto_configure (backend, config_lookup, out_priority, out_is_complete);
 }
 
 gboolean
@@ -527,6 +529,7 @@ e_mail_config_service_backend_commit_changes (EMailConfigServiceBackend *backend
  * @protocol: (nullable): optional protocol name, or %NULL
  * @source: (nullable): optioanl #ESource to configure, or %NULL
  * @out_priority: (out) (nullable): priority of the chosen lookup result
+ * @out_is_complete: (out) (nullable): whether the config is complete
  *
  * Finds a config lookup result for the given @kind and @protocol and
  * configures the @source with it. The @out_priority is set to the priority
@@ -545,7 +548,8 @@ e_mail_config_service_backend_auto_configure_for_kind (EMailConfigServiceBackend
 						       EConfigLookupResultKind kind,
 						       const gchar *protocol,
 						       ESource *source,
-						       gint *out_priority)
+						       gint *out_priority,
+						       gboolean *out_is_complete)
 {
 	EMailConfigServiceBackendClass *klass;
 	GSList *results;
@@ -571,8 +575,13 @@ e_mail_config_service_backend_auto_configure_for_kind (EMailConfigServiceBackend
 
 		changed = e_config_lookup_result_configure_source (lookup_result, source);
 
-		if (changed && out_priority)
-			*out_priority = e_config_lookup_result_get_priority (lookup_result);
+		if (changed) {
+			if (out_priority)
+				*out_priority = e_config_lookup_result_get_priority (lookup_result);
+
+			if (out_is_complete)
+				*out_is_complete = e_config_lookup_result_get_is_complete (lookup_result);
+		}
 	}
 
 	g_slist_free_full (results, g_object_unref);

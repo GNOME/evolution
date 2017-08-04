@@ -290,8 +290,9 @@ mail_config_assistant_config_lookup_run_cb (GObject *source_object,
 {
 	EMailConfigAssistantPrivate *priv;
 	ConfigLookupContext *context;
-	gint n_pages, ii;
+	gint n_pages, ii, complete = 0;
 	gboolean any_configured = FALSE;
+	gboolean is_complete;
 
 	context = (ConfigLookupContext *) user_data;
 
@@ -299,21 +300,37 @@ mail_config_assistant_config_lookup_run_cb (GObject *source_object,
 
 	e_config_lookup_run_finish (E_CONFIG_LOOKUP (source_object), result);
 
-	if (e_mail_config_service_page_auto_configure (priv->receiving_page, context->config_lookup)) {
+	is_complete = FALSE;
+
+	if (e_mail_config_service_page_auto_configure (priv->receiving_page, context->config_lookup, &is_complete)) {
 		any_configured = TRUE;
 		/* Add the page to the visited pages hash table to
 		 * prevent calling e_mail_config_page_setup_defaults(). */
 		g_hash_table_add (priv->visited_pages, priv->receiving_page);
+
+		if (is_complete)
+			complete++;
 	}
 
-	if (e_mail_config_service_page_auto_configure (priv->sending_page, context->config_lookup)) {
+	is_complete = FALSE;
+
+	if (e_mail_config_service_page_auto_configure (priv->sending_page, context->config_lookup, &is_complete)) {
 		any_configured = TRUE;
 		/* Add the page to the visited pages hash table to
 		 * prevent calling e_mail_config_page_setup_defaults(). */
 		g_hash_table_add (priv->visited_pages, priv->sending_page);
+
+		if (is_complete)
+			complete++;
 	}
 
-	if (!any_configured) {
+	if (!any_configured || complete != 2) {
+		if (any_configured) {
+			/* Set the initial display name to the email address
+			 * given so the user can just click past the Summary page. */
+			e_source_set_display_name (priv->identity_source, context->email_address);
+		}
+
 		gtk_assistant_next_page (context->assistant);
 		goto exit;
 	}

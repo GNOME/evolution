@@ -15,26 +15,15 @@
  * along with this library. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "evolution-config.h"
+#ifndef E_SRV_CONFIG_LOOKUP_H
+#define E_SRV_CONFIG_LOOKUP_H
 
-#include <gmodule.h>
 #include <glib-object.h>
 
-#include "e-gnome-config-lookup.h"
-#include "e-srv-config-lookup.h"
+G_BEGIN_DECLS
 
-/* Module Entry Points */
-void e_module_load (GTypeModule *type_module);
-void e_module_unload (GTypeModule *type_module);
+void e_srv_config_lookup_type_register (GTypeModule *type_module);
 
-G_MODULE_EXPORT void
-e_module_load (GTypeModule *type_module)
-{
-	e_gnome_config_lookup_type_register (type_module);
-	e_srv_config_lookup_type_register (type_module);
-}
+G_END_DECLS
 
-G_MODULE_EXPORT void
-e_module_unload (GTypeModule *type_module)
-{
-}
+#endif /* E_SRV_CONFIG_LOOKUP_H */

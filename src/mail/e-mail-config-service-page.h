@@ -93,7 +93,8 @@ EMailConfigServiceBackend *
 						 const gchar *backend_name);
 gboolean	e_mail_config_service_page_auto_configure
 						(EMailConfigServicePage *page,
-						 EConfigLookup *config_lookup);
+						 EConfigLookup *config_lookup,
+						 gboolean *out_is_complete);
 
 G_END_DECLS
 

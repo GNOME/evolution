@@ -60,6 +60,7 @@ struct _EConfigLookupResultInterface {
 	EConfigLookupResultKind
 			(* get_kind)			(EConfigLookupResult *lookup_result);
 	gint		(* get_priority)		(EConfigLookupResult *lookup_result);
+	gboolean	(* get_is_complete)		(EConfigLookupResult *lookup_result);
 	const gchar *	(* get_protocol)		(EConfigLookupResult *lookup_result);
 	const gchar *	(* get_display_name)		(EConfigLookupResult *lookup_result);
 	const gchar *	(* get_description)		(EConfigLookupResult *lookup_result);
@@ -71,6 +72,7 @@ GType		e_config_lookup_result_get_type		(void);
 EConfigLookupResultKind
 		e_config_lookup_result_get_kind		(EConfigLookupResult *lookup_result);
 gint		e_config_lookup_result_get_priority	(EConfigLookupResult *lookup_result);
+gboolean	e_config_lookup_result_get_is_complete	(EConfigLookupResult *lookup_result);
 const gchar *	e_config_lookup_result_get_protocol	(EConfigLookupResult *lookup_result);
 const gchar *	e_config_lookup_result_get_display_name	(EConfigLookupResult *lookup_result);
 const gchar *	e_config_lookup_result_get_description	(EConfigLookupResult *lookup_result);

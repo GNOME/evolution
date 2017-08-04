@@ -42,6 +42,7 @@
 struct _EConfigLookupResultSimplePrivate {
 	EConfigLookupResultKind kind;
 	gint priority;
+	gboolean is_complete;
 	gchar *protocol;
 	gchar *display_name;
 	gchar *description;
@@ -52,6 +53,7 @@ enum {
 	PROP_0,
 	PROP_KIND,
 	PROP_PRIORITY,
+	PROP_IS_COMPLETE,
 	PROP_PROTOCOL,
 	PROP_DISPLAY_NAME,
 	PROP_DESCRIPTION
@@ -114,6 +116,14 @@ config_lookup_result_simple_get_priority (EConfigLookupResult *lookup_result)
 	return E_CONFIG_LOOKUP_RESULT_SIMPLE (lookup_result)->priv->priority;
 }
 
+static gboolean
+config_lookup_result_simple_get_is_complete (EConfigLookupResult *lookup_result)
+{
+	g_return_val_if_fail (E_IS_CONFIG_LOOKUP_RESULT_SIMPLE (lookup_result), FALSE);
+
+	return E_CONFIG_LOOKUP_RESULT_SIMPLE (lookup_result)->priv->is_complete;
+}
+
 static const gchar *
 config_lookup_result_simple_get_protocol (EConfigLookupResult *lookup_result)
 {
@@ -155,16 +165,26 @@ config_lookup_result_simple_configure_source (EConfigLookupResult *lookup_result
 
 	for (link = result_simple->priv->values; link; link = g_slist_next (link)) {
 		ValueData *vd = link->data;
-		gpointer extension;
+		gpointer object;
 
 		if (!vd)
 			return FALSE;
 
-		extension = e_source_get_extension (source, vd->extension_name);
-		g_warn_if_fail (extension != NULL);
+		if (vd->extension_name && *vd->extension_name) {
+			object = e_source_get_extension (source, vd->extension_name);
 
-		if (extension)
-			g_object_set_property (extension, vd->property_name, &vd->value);
+			/* Special-case the ESourceCamel extension, where the properties
+			   reference the CamelSettings object, not the extension itself. */
+			if (object && E_IS_SOURCE_CAMEL (object))
+				object = e_source_camel_get_settings (object);
+		} else {
+			object = source;
+		}
+
+		g_warn_if_fail (object != NULL);
+
+		if (object)
+			g_object_set_property (object, vd->property_name, &vd->value);
 	}
 
 	return TRUE;
@@ -206,6 +226,15 @@ config_lookup_result_simple_set_priority (EConfigLookupResultSimple *result_simp
 }
 
 static void
+config_lookup_result_simple_set_is_complete (EConfigLookupResultSimple *result_simple,
+					     gboolean is_complete)
+{
+	g_return_if_fail (E_IS_CONFIG_LOOKUP_RESULT_SIMPLE (result_simple));
+
+	result_simple->priv->is_complete = is_complete;
+}
+
+static void
 config_lookup_result_simple_set_string (EConfigLookupResultSimple *result_simple,
 					const gchar *value,
 					gchar **destination)
@@ -234,6 +263,11 @@ config_lookup_result_simple_set_property (GObject *object,
 		case PROP_PRIORITY:
 			config_lookup_result_simple_set_priority (
 				result_simple, g_value_get_int (value));
+			return;
+
+		case PROP_IS_COMPLETE:
+			config_lookup_result_simple_set_is_complete (
+				result_simple, g_value_get_boolean (value));
 			return;
 
 		case PROP_PROTOCOL:
@@ -276,6 +310,13 @@ config_lookup_result_simple_get_property (GObject *object,
 			g_value_set_int (
 				value,
 				config_lookup_result_simple_get_priority (
+				E_CONFIG_LOOKUP_RESULT (object)));
+			return;
+
+		case PROP_IS_COMPLETE:
+			g_value_set_boolean (
+				value,
+				config_lookup_result_simple_get_is_complete (
 				E_CONFIG_LOOKUP_RESULT (object)));
 			return;
 
@@ -372,6 +413,26 @@ e_config_lookup_result_simple_class_init (EConfigLookupResultSimpleClass *klass)
 			G_PARAM_STATIC_STRINGS));
 
 	/**
+	 * EConfigLookupResultSimple:is-complete:
+	 *
+	 * Whether the #EConfigLookupResult is complete, that is, whether it doesn't
+	 * require any further user interaction.
+	 *
+	 * Since: 3.26
+	 **/
+	g_object_class_install_property (
+		object_class,
+		PROP_IS_COMPLETE,
+		g_param_spec_boolean (
+			"is-complete",
+			"Is Complete",
+			NULL,
+			FALSE,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT_ONLY |
+			G_PARAM_STATIC_STRINGS));
+
+	/**
 	 * EConfigLookupResultSimple:protocol:
 	 *
 	 * The protocol name for the #EConfigLookupResult.
@@ -434,6 +495,7 @@ e_config_lookup_result_simple_result_init (EConfigLookupResultInterface *iface)
 {
 	iface->get_kind = config_lookup_result_simple_get_kind;
 	iface->get_priority = config_lookup_result_simple_get_priority;
+	iface->get_is_complete = config_lookup_result_simple_get_is_complete;
 	iface->get_protocol = config_lookup_result_simple_get_protocol;
 	iface->get_display_name = config_lookup_result_simple_get_display_name;
 	iface->get_description = config_lookup_result_simple_get_description;
@@ -450,6 +512,7 @@ e_config_lookup_result_simple_init (EConfigLookupResultSimple *result_simple)
  * e_config_lookup_result_simple_new:
  * @kind: a kind of the result, one of #EConfigLookupResultKind
  * @priority: a priority of the result
+ * @is_complete: whether the result is complete
  * @protocol: (nullable): protocol name of the result, or %NULL
  * @display_name: display name of the result
  * @description: description of the result
@@ -463,6 +526,7 @@ e_config_lookup_result_simple_init (EConfigLookupResultSimple *result_simple)
 EConfigLookupResult *
 e_config_lookup_result_simple_new (EConfigLookupResultKind kind,
 				   gint priority,
+				   gboolean is_complete,
 				   const gchar *protocol,
 				   const gchar *display_name,
 				   const gchar *description)
@@ -474,6 +538,7 @@ e_config_lookup_result_simple_new (EConfigLookupResultKind kind,
 	return g_object_new (E_TYPE_CONFIG_LOOKUP_RESULT_SIMPLE,
 		"kind", kind,
 		"priority", priority,
+		"is-complete", is_complete,
 		"protocol", protocol,
 		"display-name", display_name,
 		"description", description,
@@ -483,13 +548,13 @@ e_config_lookup_result_simple_new (EConfigLookupResultKind kind,
 /**
  * e_config_lookup_result_simple_add_value:
  * @lookup_result: an #EConfigLookupResultSimple
- * @extension_name: extension name
+ * @extension_name: (nullable): extension name, or %NULL, to change property of the #ESource itself
  * @property_name: property name within the extension
  * @value: value to be set
  *
  * Adds a value to be stored into an #ESource when e_config_lookup_result_configure_source().
  * is called. The @value is identified as a property named @property_name in an extension
- * named @extension_name.
+ * named @extension_name, or in the #ESource itself, when @extension_name is %NULL.
  *
  * In case multiple values are stored for the same extension and property,
  * then the first is saved.
@@ -505,7 +570,6 @@ e_config_lookup_result_simple_add_value (EConfigLookupResult *lookup_result,
 	EConfigLookupResultSimple *result_simple;
 
 	g_return_if_fail (E_IS_CONFIG_LOOKUP_RESULT_SIMPLE (lookup_result));
-	g_return_if_fail (extension_name != NULL);
 	g_return_if_fail (property_name != NULL);
 	g_return_if_fail (value != NULL);
 
@@ -518,7 +582,7 @@ e_config_lookup_result_simple_add_value (EConfigLookupResult *lookup_result,
 /**
  * e_config_lookup_result_simple_add_boolean:
  * @lookup_result: an #EConfigLookupResultSimple
- * @extension_name: extension name
+ * @extension_name: (nullable): extension name, or %NULL, to change property of the #ESource itself
  * @property_name: property name within the extension
  * @value: value to set
  *
@@ -536,7 +600,6 @@ e_config_lookup_result_simple_add_boolean (EConfigLookupResult *lookup_result,
 	GValue gvalue;
 
 	g_return_if_fail (E_IS_CONFIG_LOOKUP_RESULT_SIMPLE (lookup_result));
-	g_return_if_fail (extension_name != NULL);
 	g_return_if_fail (property_name != NULL);
 
 	memset (&gvalue, 0, sizeof (GValue));
@@ -551,7 +614,7 @@ e_config_lookup_result_simple_add_boolean (EConfigLookupResult *lookup_result,
 /**
  * e_config_lookup_result_simple_add_int:
  * @lookup_result: an #EConfigLookupResultSimple
- * @extension_name: extension name
+ * @extension_name: (nullable): extension name, or %NULL, to change property of the #ESource itself
  * @property_name: property name within the extension
  * @value: value to set
  *
@@ -569,7 +632,6 @@ e_config_lookup_result_simple_add_int (EConfigLookupResult *lookup_result,
 	GValue gvalue;
 
 	g_return_if_fail (E_IS_CONFIG_LOOKUP_RESULT_SIMPLE (lookup_result));
-	g_return_if_fail (extension_name != NULL);
 	g_return_if_fail (property_name != NULL);
 
 	memset (&gvalue, 0, sizeof (GValue));
@@ -584,7 +646,7 @@ e_config_lookup_result_simple_add_int (EConfigLookupResult *lookup_result,
 /**
  * e_config_lookup_result_simple_add_uint:
  * @lookup_result: an #EConfigLookupResultSimple
- * @extension_name: extension name
+ * @extension_name: (nullable): extension name, or %NULL, to change property of the #ESource itself
  * @property_name: property name within the extension
  * @value: value to set
  *
@@ -602,7 +664,6 @@ e_config_lookup_result_simple_add_uint (EConfigLookupResult *lookup_result,
 	GValue gvalue;
 
 	g_return_if_fail (E_IS_CONFIG_LOOKUP_RESULT_SIMPLE (lookup_result));
-	g_return_if_fail (extension_name != NULL);
 	g_return_if_fail (property_name != NULL);
 
 	memset (&gvalue, 0, sizeof (GValue));
@@ -617,7 +678,7 @@ e_config_lookup_result_simple_add_uint (EConfigLookupResult *lookup_result,
 /**
  * e_config_lookup_result_simple_add_int64:
  * @lookup_result: an #EConfigLookupResultSimple
- * @extension_name: extension name
+ * @extension_name: (nullable): extension name, or %NULL, to change property of the #ESource itself
  * @property_name: property name within the extension
  * @value: value to set
  *
@@ -635,7 +696,6 @@ e_config_lookup_result_simple_add_int64 (EConfigLookupResult *lookup_result,
 	GValue gvalue;
 
 	g_return_if_fail (E_IS_CONFIG_LOOKUP_RESULT_SIMPLE (lookup_result));
-	g_return_if_fail (extension_name != NULL);
 	g_return_if_fail (property_name != NULL);
 
 	memset (&gvalue, 0, sizeof (GValue));
@@ -650,7 +710,7 @@ e_config_lookup_result_simple_add_int64 (EConfigLookupResult *lookup_result,
 /**
  * e_config_lookup_result_simple_add_uint64:
  * @lookup_result: an #EConfigLookupResultSimple
- * @extension_name: extension name
+ * @extension_name: (nullable): extension name, or %NULL, to change property of the #ESource itself
  * @property_name: property name within the extension
  * @value: value to set
  *
@@ -668,7 +728,6 @@ e_config_lookup_result_simple_add_uint64 (EConfigLookupResult *lookup_result,
 	GValue gvalue;
 
 	g_return_if_fail (E_IS_CONFIG_LOOKUP_RESULT_SIMPLE (lookup_result));
-	g_return_if_fail (extension_name != NULL);
 	g_return_if_fail (property_name != NULL);
 
 	memset (&gvalue, 0, sizeof (GValue));
@@ -683,7 +742,7 @@ e_config_lookup_result_simple_add_uint64 (EConfigLookupResult *lookup_result,
 /**
  * e_config_lookup_result_simple_add_double:
  * @lookup_result: an #EConfigLookupResultSimple
- * @extension_name: extension name
+ * @extension_name: (nullable): extension name, or %NULL, to change property of the #ESource itself
  * @property_name: property name within the extension
  * @value: value to set
  *
@@ -701,7 +760,6 @@ e_config_lookup_result_simple_add_double (EConfigLookupResult *lookup_result,
 	GValue gvalue;
 
 	g_return_if_fail (E_IS_CONFIG_LOOKUP_RESULT_SIMPLE (lookup_result));
-	g_return_if_fail (extension_name != NULL);
 	g_return_if_fail (property_name != NULL);
 
 	memset (&gvalue, 0, sizeof (GValue));
@@ -716,7 +774,7 @@ e_config_lookup_result_simple_add_double (EConfigLookupResult *lookup_result,
 /**
  * e_config_lookup_result_simple_add_string:
  * @lookup_result: an #EConfigLookupResultSimple
- * @extension_name: extension name
+ * @extension_name: (nullable): extension name, or %NULL, to change property of the #ESource itself
  * @property_name: property name within the extension
  * @value: value to set
  *
@@ -734,7 +792,6 @@ e_config_lookup_result_simple_add_string (EConfigLookupResult *lookup_result,
 	GValue gvalue;
 
 	g_return_if_fail (E_IS_CONFIG_LOOKUP_RESULT_SIMPLE (lookup_result));
-	g_return_if_fail (extension_name != NULL);
 	g_return_if_fail (property_name != NULL);
 
 	memset (&gvalue, 0, sizeof (GValue));
@@ -749,7 +806,7 @@ e_config_lookup_result_simple_add_string (EConfigLookupResult *lookup_result,
 /**
  * e_config_lookup_result_simple_add_enum:
  * @lookup_result: an #EConfigLookupResultSimple
- * @extension_name: extension name
+ * @extension_name: (nullable): extension name, or %NULL, to change property of the #ESource itself
  * @property_name: property name within the extension
  * @enum_type: a #GType of the enum
  * @value: value to set
@@ -769,7 +826,6 @@ e_config_lookup_result_simple_add_enum (EConfigLookupResult *lookup_result,
 	GValue gvalue;
 
 	g_return_if_fail (E_IS_CONFIG_LOOKUP_RESULT_SIMPLE (lookup_result));
-	g_return_if_fail (extension_name != NULL);
 	g_return_if_fail (property_name != NULL);
 
 	memset (&gvalue, 0, sizeof (GValue));

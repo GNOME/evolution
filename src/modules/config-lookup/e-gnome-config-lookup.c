@@ -17,8 +17,6 @@
 
 #include "evolution-config.h"
 
-#include <glib/gi18n-lib.h>
-
 #include "mail/e-mail-autoconfig.h"
 #include "e-util/e-util.h"
 

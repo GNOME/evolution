@@ -73,7 +73,8 @@ struct _EMailConfigServiceBackendClass {
 	gboolean	(*auto_configure)
 					(EMailConfigServiceBackend *backend,
 					 EConfigLookup *config_lookup,
-					 gint *out_priority);
+					 gint *out_priority,
+					 gboolean *out_is_complete);
 	gboolean	(*check_complete)
 					(EMailConfigServiceBackend *backend);
 	void		(*commit_changes)
@@ -109,7 +110,8 @@ void		e_mail_config_service_backend_setup_defaults
 gboolean	e_mail_config_service_backend_auto_configure
 					(EMailConfigServiceBackend *backend,
 					 EConfigLookup *config_lookup,
-					 gint *out_priority);
+					 gint *out_priority,
+					 gboolean *out_is_complete);
 gboolean	e_mail_config_service_backend_check_complete
 					(EMailConfigServiceBackend *backend);
 void		e_mail_config_service_backend_commit_changes
@@ -120,7 +122,8 @@ gboolean	e_mail_config_service_backend_auto_configure_for_kind
 					 EConfigLookupResultKind kind,
 					 const gchar *protocol,
 					 ESource *source,
-					 gint *out_priority);
+					 gint *out_priority,
+					 gboolean *out_is_complete);
 
 G_END_DECLS
 

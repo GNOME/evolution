@@ -894,10 +894,12 @@ e_mail_config_service_page_lookup_backend (EMailConfigServicePage *page,
 
 gboolean
 e_mail_config_service_page_auto_configure (EMailConfigServicePage *page,
-                                           EConfigLookup *config_lookup)
+					   EConfigLookup *config_lookup,
+					   gboolean *out_is_complete)
 {
 	EMailConfigServiceBackend *select_backend = NULL;
 	gint selected_priority = G_MAXINT;
+	gboolean selected_is_complete = FALSE;
 	gboolean any_configured = FALSE;
 	guint ii;
 
@@ -909,14 +911,16 @@ e_mail_config_service_page_auto_configure (EMailConfigServicePage *page,
 		Candidate *candidate;
 		gboolean configured;
 		gint priority = G_MAXINT;
+		gboolean is_complete = FALSE;
 
 		candidate = page->priv->candidates->pdata[ii];
 		backend = candidate->backend;
 
-		configured = e_mail_config_service_backend_auto_configure (backend, config_lookup, &priority);
+		configured = e_mail_config_service_backend_auto_configure (backend, config_lookup, &priority, &is_complete);
 
 		if (configured && priority < selected_priority) {
 			selected_priority = priority;
+			selected_is_complete = is_complete;
 			select_backend = backend;
 		}
 
@@ -925,6 +929,9 @@ e_mail_config_service_page_auto_configure (EMailConfigServicePage *page,
 
 	if (select_backend)
 		e_mail_config_service_page_set_active_backend (page, select_backend);
+
+	if (out_is_complete)
+		*out_is_complete = selected_is_complete;
 
 	return any_configured;
 }

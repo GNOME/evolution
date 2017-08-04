@@ -487,10 +487,11 @@ e_mail_config_remote_backend_init (EMailConfigRemoteBackend *backend)
 static gboolean
 mail_config_pop_backend_auto_configure (EMailConfigServiceBackend *backend,
 					EConfigLookup *config_lookup,
-					gint *out_priority)
+					gint *out_priority,
+					gboolean *out_is_complete)
 {
 	return e_mail_config_service_backend_auto_configure_for_kind (backend, config_lookup,
-		E_CONFIG_LOOKUP_RESULT_MAIL_RECEIVE, NULL, NULL, out_priority);
+		E_CONFIG_LOOKUP_RESULT_MAIL_RECEIVE, NULL, NULL, out_priority, out_is_complete);
 }
 
 static void
@@ -535,10 +536,11 @@ e_mail_config_nntp_backend_init (EMailConfigRemoteBackend *backend)
 static gboolean
 mail_config_imapx_backend_auto_configure (EMailConfigServiceBackend *backend,
 					  EConfigLookup *config_lookup,
-					  gint *out_priority)
+					  gint *out_priority,
+					  gboolean *out_is_complete)
 {
 	return e_mail_config_service_backend_auto_configure_for_kind (backend, config_lookup,
-		E_CONFIG_LOOKUP_RESULT_MAIL_RECEIVE, NULL, NULL, out_priority);
+		E_CONFIG_LOOKUP_RESULT_MAIL_RECEIVE, NULL, NULL, out_priority, out_is_complete);
 }
 
 static void
