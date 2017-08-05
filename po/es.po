@@ -18,8 +18,8 @@ msgstr ""
 "Project-Id-Version: evolution.master\n"
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2017-07-22 05:19+0000\n"
-"PO-Revision-Date: 2017-07-24 12:33+0200\n"
+"POT-Creation-Date: 2017-08-02 16:53+0000\n"
+"PO-Revision-Date: 2017-08-03 09:56+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: es <gnome-es-list@gnome.org>\n"
 "Language: es\n"
@@ -97,8 +97,8 @@ msgid "Contacts"
 msgstr "Contactos"
 
 #: ../data/evolution.desktop.in.in.h:9
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:833
-#: ../src/e-util/e-send-options.c:544
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:845
+#: ../src/e-util/e-send-options.c:544 ../src/e-util/e-webdav-browser.c:469
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:197
 #: ../src/modules/calendar/e-cal-shell-view.c:582
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:21
@@ -115,6 +115,7 @@ msgid "Mail"
 msgstr "Correo"
 
 #: ../data/evolution.desktop.in.in.h:11 ../src/calendar/gui/e-memo-table.c:368
+#: ../src/e-util/e-webdav-browser.c:459
 #: ../src/modules/calendar/e-cal-shell-content.c:1719
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:194
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:209
@@ -126,6 +127,7 @@ msgstr "Notas"
 #: ../src/calendar/gui/print.c:2408
 #: ../src/calendar/importers/icalendar-importer.c:77
 #: ../src/calendar/importers/icalendar-importer.c:1114
+#: ../src/e-util/e-webdav-browser.c:460
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:65
 #: ../src/modules/calendar/e-cal-shell-content.c:1679
 #: ../src/modules/calendar/e-task-shell-view-actions.c:218
@@ -3309,11 +3311,11 @@ msgstr "Para la vista a_ncha"
 msgid "As Sent Folder for Wi_de View"
 msgstr "Como carpeta de enviados para la vista anc_ha"
 
-#: ../data/views/memos/galview.xml.h:1
+#: ../data/views/memos/galview.xml.h:1 ../src/e-util/e-webdav-browser.c:2439
 msgid "_Memos"
 msgstr "_Notas"
 
-#: ../data/views/tasks/galview.xml.h:1
+#: ../data/views/tasks/galview.xml.h:1 ../src/e-util/e-webdav-browser.c:2443
 #: ../src/plugins/pst-import/pst-importer.c:571
 msgid "_Tasks"
 msgstr "_Tareas"
@@ -3387,7 +3389,6 @@ msgid "Could not remove address book."
 msgstr "No se pudo eliminar la libreta de direcciones."
 
 #: ../src/addressbook/addressbook.error.xml.h:11
-#| msgid "Are you sure you want to delete the memo “{0}”?"
 msgid "Are you sure you want to delete address book “{0}”?"
 msgstr "¿Seguro que quiere eliminar la libreta de direcciones «{0}»?"
 
@@ -3396,7 +3397,8 @@ msgid "This address book will be removed permanently."
 msgstr "Esta libreta de direcciones se eliminará para siempre."
 
 #: ../src/addressbook/addressbook.error.xml.h:13
-#: ../src/calendar/calendar.error.xml.h:7 ../src/mail/mail.error.xml.h:69
+#: ../src/calendar/calendar.error.xml.h:7
+#: ../src/e-util/e-system.error.xml.h:27 ../src/mail/mail.error.xml.h:69
 msgid "Do _Not Delete"
 msgstr "_No eliminar"
 
@@ -3414,6 +3416,7 @@ msgstr ""
 
 #: ../src/addressbook/addressbook.error.xml.h:16
 #: ../src/calendar/calendar.error.xml.h:65
+#: ../src/e-util/e-system.error.xml.h:28
 msgid "_Delete From Server"
 msgstr "_Eliminar del servidor"
 
@@ -3693,7 +3696,7 @@ msgstr "Opciones"
 #: ../src/e-util/e-passwords.c:468 ../src/e-util/e-rule-context.c:813
 #: ../src/e-util/e-rule-editor.c:178 ../src/e-util/e-rule-editor.c:280
 #: ../src/e-util/e-rule-editor.c:789 ../src/e-util/e-send-options.ui.h:16
-#: ../src/e-util/e-source-config-dialog.c:377
+#: ../src/e-util/e-source-config-dialog.c:360
 #: ../src/e-util/e-source-selector-dialog.c:370
 #: ../src/e-util/e-table-config.c:548 ../src/e-util/e-table-config.ui.h:3
 #: ../src/e-util/e-timezone-dialog.ui.h:2
@@ -3713,7 +3716,7 @@ msgstr "Opciones"
 #: ../src/plugins/publish-calendar/publish-calendar.c:788
 #: ../src/plugins/publish-calendar/url-editor-dialog.c:419
 #: ../src/plugins/save-calendar/save-calendar.c:185
-#: ../src/shell/e-shell-content.c:660 ../src/shell/e-shell-content.c:767
+#: ../src/shell/e-shell-content.c:639 ../src/shell/e-shell-content.c:746
 #: ../src/shell/e-shell-utils.c:70 ../src/shell/e-shell-utils.c:139
 #: ../src/smime/gui/certificate-manager.c:665
 #: ../src/smime/gui/certificate-manager.c:742
@@ -3733,9 +3736,9 @@ msgstr "_Cancelar"
 #: ../src/composer/e-composer-actions.c:348
 #: ../src/e-util/e-attachment-store.c:833
 #: ../src/e-util/e-mail-signature-script-dialog.c:370
-#: ../src/e-util/e-web-view.c:4097
+#: ../src/e-util/e-webdav-browser.c:2467 ../src/e-util/e-web-view.c:4097
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:268
-#: ../src/shell/e-shell-content.c:661 ../src/shell/e-shell-utils.c:140
+#: ../src/shell/e-shell-content.c:640 ../src/shell/e-shell-utils.c:140
 #: ../src/smime/gui/certificate-manager.c:666
 #: ../src/smime/gui/certificate-manager.c:743
 msgid "_Save"
@@ -3777,8 +3780,8 @@ msgid "Full _Name..."
 msgstr "_Nombre completo…"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:23
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:750
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1169
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:762
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1181
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:6
 msgid "Email"
 msgstr "Correo-e"
@@ -3898,14 +3901,14 @@ msgid "_Anniversary:"
 msgstr "_Aniversario:"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:52
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:881
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:893
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:47
 #: ../src/calendar/gui/e-calendar-view.c:2045
 msgid "Anniversary"
 msgstr "Aniversario"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:53
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:880
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:892
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:46
 #: ../src/calendar/gui/e-calendar-view.c:2044
 msgid "Birthday"
@@ -3954,15 +3957,15 @@ msgstr "Domicilio"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:63
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:82
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:848
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:860
 #: ../src/addressbook/gui/widgets/e-contact-map.c:380
 msgid "Work"
 msgstr "Trabajo"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:64
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:84
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:513
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:915
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:525
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:927
 #: ../src/calendar/gui/e-cal-model.c:3825
 msgid "Other"
 msgstr "Otro"
@@ -4182,7 +4185,7 @@ msgstr "Contacto no válido."
 #: ../src/e-util/e-passwords.c:469 ../src/e-util/e-rule-context.c:814
 #: ../src/e-util/e-rule-editor.c:179 ../src/e-util/e-rule-editor.c:281
 #: ../src/e-util/e-rule-editor.c:790 ../src/e-util/e-send-options.ui.h:17
-#: ../src/e-util/e-source-config-dialog.c:378
+#: ../src/e-util/e-source-config-dialog.c:361
 #: ../src/e-util/e-source-selector-dialog.c:371
 #: ../src/e-util/e-table-config.c:549 ../src/e-util/e-table-config.ui.h:4
 #: ../src/e-util/e-timezone-dialog.ui.h:3
@@ -4193,7 +4196,7 @@ msgstr "Contacto no válido."
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:278
 #: ../src/plugins/email-custom-header/org-gnome-email-custom-header.ui.h:4
 #: ../src/plugins/publish-calendar/url-editor-dialog.c:420
-#: ../src/shell/e-shell-content.c:662 ../src/shell/e-shell-content.c:768
+#: ../src/shell/e-shell-content.c:641 ../src/shell/e-shell-content.c:747
 #: ../src/shell/main.c:180 ../src/smime/gui/certificate-manager.c:1349
 #: ../src/smime/gui/e-cert-selector.c:236 ../src/smime/gui/smime-ui.ui.h:18
 msgid "_OK"
@@ -4424,155 +4427,155 @@ msgstr "Pulse para enviar correo a %s"
 msgid "Click to open map for %s"
 msgstr "Pulse para abrir el mapa para %s"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:142
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:154
 msgid "Open map"
 msgstr "Abrir mapa"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:438
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:450
 msgid "SIP"
 msgstr "SIP"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:682
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:694
 msgid "List Members:"
 msgstr "Listar miembros:"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:754
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:766
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:5
 msgid "Nickname"
 msgstr "Apodo"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:755
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:767
 msgid "AIM"
 msgstr "AIM"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:756
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:768
 msgid "GroupWise"
 msgstr "GroupWise"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:757
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:769
 msgid "ICQ"
 msgstr "ICQ"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:758
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:770
 msgid "Jabber"
 msgstr "Jabber"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:759
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:771
 msgid "MSN"
 msgstr "MSN"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:760
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:772
 msgid "Yahoo"
 msgstr "Yahoo"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:761
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:773
 msgid "Gadu-Gadu"
 msgstr "Gadu-Gadu"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:762
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:774
 msgid "Skype"
 msgstr "Skype"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:763
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:775
 msgid "Twitter"
 msgstr "Twitter"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:825
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:837
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:34
 msgid "Company"
 msgstr "Empresa"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:826
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:838
 msgid "Department"
 msgstr "Departamento"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:827
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:839
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:36
 msgid "Office"
 msgstr "Oficina"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:828
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:840
 msgid "Profession"
 msgstr "Profesión"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:829
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:841
 msgid "Position"
 msgstr "Posición"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:830
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:842
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:39
 msgid "Manager"
 msgstr "Jefe"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:831
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:843
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:40
 msgid "Assistant"
 msgstr "Secretario"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:832
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:844
 msgid "Video Chat"
 msgstr "Charla por vídeo"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:834
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:846
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:2
 msgid "Free/Busy"
 msgstr "Disponibilidad"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:835
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:876
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:847
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:888
 msgid "Phone"
 msgstr "Teléfono"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:836
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:848
 msgid "Fax"
 msgstr "Fax"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:838
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:879
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:905
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:850
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:891
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:917
 msgid "Address"
 msgstr "Dirección"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:874
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:886
 msgid "Home Page"
 msgstr "Página personal"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:875
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:887
 msgid "Web Log"
 msgstr "Diario web"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:877
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:889
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:20
 msgid "Mobile Phone"
 msgstr "Teléfono móvil"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:882
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:894
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:44
 msgid "Spouse"
 msgstr "Cónyuge"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:892
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:904
 msgid "Personal"
 msgstr "Privado"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:937
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:949
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:45
 msgid "Note"
 msgstr "Nota"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1133
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1145
 msgid "List Members"
 msgstr "Listar miembros"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1154
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1166
 msgid "Job Title"
 msgstr "Puesto"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1195
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1207
 msgid "Home page"
 msgstr "Página personal"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1205
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1217
 msgid "Blog"
 msgstr "Diario web"
 
@@ -4822,6 +4825,7 @@ msgstr "¿Seguro que quiere eliminar este contacto (%s)?"
 #: ../src/calendar/gui/e-comp-editor.c:2005
 #: ../src/e-util/e-accounts-window.c:1727 ../src/e-util/e-focus-tracker.c:783
 #: ../src/e-util/evolution-source-viewer.c:806
+#: ../src/e-util/e-webdav-browser.c:2688
 #: ../src/mail/e-mail-account-manager.c:737
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1093
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1524
@@ -5323,7 +5327,8 @@ msgstr "_Posponer"
 #: ../src/calendar/gui/e-comp-editor.c:2070
 #: ../src/e-util/e-accounts-window.c:1719
 #: ../src/e-util/e-html-editor-actions.c:922
-#: ../src/e-util/e-mail-signature-manager.c:358 ../src/e-util/filter.ui.h:24
+#: ../src/e-util/e-mail-signature-manager.c:358
+#: ../src/e-util/e-webdav-browser.c:2681 ../src/e-util/filter.ui.h:24
 #: ../src/mail/e-mail-account-manager.c:728 ../src/mail/e-mail-browser.c:171
 #: ../src/mail/e-mail-label-manager.c:380
 #: ../src/mail/em-folder-properties.c:1034 ../src/mail/mail-config.ui.h:66
@@ -5768,7 +5773,6 @@ msgid "Editor could not be loaded."
 msgstr "No es posible cargar el editor."
 
 #: ../src/calendar/calendar.error.xml.h:57
-#| msgid "Are you sure you want to delete the memo “{0}”?"
 msgid "Are you sure you want to delete calendar “{0}”?"
 msgstr "¿Seguro que quiere eliminar el calendario «{0}»?"
 
@@ -5777,7 +5781,6 @@ msgid "This calendar will be removed permanently."
 msgstr "Este calendario se eliminará permanentemente."
 
 #: ../src/calendar/calendar.error.xml.h:59
-#| msgid "Are you sure you want to delete the memo “{0}”?"
 msgid "Are you sure you want to delete task list “{0}”?"
 msgstr "¿Seguro que quiere eliminar la lista de tareas «{0}»?"
 
@@ -5786,7 +5789,6 @@ msgid "This task list will be removed permanently."
 msgstr "Esta lista de tareas se eliminará permanentemente."
 
 #: ../src/calendar/calendar.error.xml.h:61
-#| msgid "Are you sure you want to delete the memo “{0}”?"
 msgid "Are you sure you want to delete memo list “{0}”?"
 msgstr "¿Seguro que quiere eliminar la lista de notas «{0}»?"
 
@@ -5795,7 +5797,6 @@ msgid "This memo list will be removed permanently."
 msgstr "Esta lista de notas se eliminará permanentemente."
 
 #: ../src/calendar/calendar.error.xml.h:63
-#| msgid "Are you sure you want to delete the memo “{0}”?"
 msgid "Are you sure you want to delete remote calendar “{0}”?"
 msgstr "¿Seguro que quiere eliminar el calendario remoto «{0}»?"
 
@@ -5808,7 +5809,6 @@ msgstr ""
 "seguro de querer continuar?"
 
 #: ../src/calendar/calendar.error.xml.h:66
-#| msgid "Are you sure you want to delete the memo “{0}”?"
 msgid "Are you sure you want to delete remote task list “{0}”?"
 msgstr "¿Seguro que quiere eliminar la lista de tareas remota «{0}»?"
 
@@ -5821,7 +5821,6 @@ msgstr ""
 "seguro de querer continuar?"
 
 #: ../src/calendar/calendar.error.xml.h:68
-#| msgid "Are you sure you want to delete the memo “{0}”?"
 msgid "Are you sure you want to delete remote memo list “{0}”?"
 msgstr "¿Seguro que quiere eliminar la lista de notas remota «{0}»?"
 
@@ -8580,6 +8579,7 @@ msgstr "Participante                          "
 #: ../src/calendar/gui/e-task-table.etspec.h:3
 #: ../src/e-util/e-accounts-window.c:1370
 #: ../src/e-util/e-attachment-tree-view.c:205
+#: ../src/e-util/e-webdav-browser.c:2381
 #: ../src/mail/e-mail-account-tree-view.c:158
 msgid "Type"
 msgstr "Tipo"
@@ -11216,6 +11216,7 @@ msgstr "Guardar borrador"
 
 #: ../src/composer/e-composer-from-header.c:108
 #: ../src/e-util/e-mail-signature-script-dialog.c:416
+#: ../src/e-util/e-webdav-browser.c:2408
 #: ../src/e-util/gal-view-instance-save-as-dialog.ui.h:2
 #: ../src/mail/e-mail-config-identity-page.c:550
 #: ../src/mail/e-mail-config-summary-page.c:332
@@ -11301,7 +11302,7 @@ msgstr ""
 msgid "Compose Message"
 msgstr "Redactar un mensaje"
 
-#: ../src/composer/e-msg-composer.c:4646
+#: ../src/composer/e-msg-composer.c:4657
 msgid "The composer contains a non-text message body, which cannot be edited."
 msgstr ""
 "El editor contiene un mensaje cuyo cuerpo no tiene texto, el cual no puede "
@@ -11615,6 +11616,7 @@ msgid "Format part as an RFC822 message"
 msgstr "Formatear parte como un mensaje RFC822"
 
 #: ../src/em-format/e-mail-formatter-print.c:51
+#: ../src/e-util/e-webdav-browser.c:2352
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:92
 #: ../src/mail/e-mail-label-tree-view.c:96
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:64
@@ -11985,7 +11987,6 @@ msgstr "Cuentas de correo"
 
 #: ../src/e-util/e-accounts-window.c:516 ../src/e-util/e-accounts-window.c:653
 #: ../src/e-util/e-accounts-window.c:841
-#| msgid "Address Book"
 msgid "Address Books"
 msgstr "Libretas de direcciones"
 
@@ -12022,33 +12023,26 @@ msgstr "Nombre de la cuenta"
 
 #. { "collection",	N_("Collection _Account"),	"evolution" },
 #: ../src/e-util/e-accounts-window.c:1463
-#| msgid "Mail Accounts"
 msgid "_Mail Account"
 msgstr "Cuenta de c_orreo"
 
 #: ../src/e-util/e-accounts-window.c:1464
-#| msgctxt "New"
-#| msgid "Address _Book"
 msgid "Address _Book"
 msgstr "Libreta de _direcciones"
 
 #: ../src/e-util/e-accounts-window.c:1465
-#| msgid "_Calendar:"
 msgid "_Calendar"
 msgstr "_Calendario"
 
 #: ../src/e-util/e-accounts-window.c:1466
-#| msgid "Memo Lists"
 msgid "M_emo List"
 msgstr "L_ista de notas"
 
 #: ../src/e-util/e-accounts-window.c:1467
-#| msgid "Task List"
 msgid "_Task List"
 msgstr "Lis_ta de tareas"
 
 #: ../src/e-util/e-accounts-window.c:1659
-#| msgid "Evolution Account Assistant"
 msgid "Evolution Accounts"
 msgstr "Cuentas de Evolution"
 
@@ -12097,7 +12091,7 @@ msgid "Cancel"
 msgstr "Cancelar"
 
 #. Translators: Escape is a keyboard binding.
-#: ../src/e-util/e-alert-bar.c:124
+#: ../src/e-util/e-alert-bar.c:125
 msgid "Close this message (Escape)"
 msgstr "Cerrar este mensaje (Escape)"
 
@@ -12167,6 +12161,7 @@ msgstr "Nombre del _archivo:"
 #: ../src/e-util/e-attachment-dialog.c:354
 #: ../src/e-util/e-html-editor-image-dialog.c:508
 #: ../src/e-util/e-html-editor-link-dialog.c:241
+#: ../src/e-util/e-webdav-browser.c:2447
 msgid "_Description:"
 msgstr "_Descripción:"
 
@@ -13688,19 +13683,19 @@ msgstr "_Regla"
 msgid "_Table"
 msgstr "_Tabla"
 
-#: ../src/e-util/e-html-editor.c:695
+#: ../src/e-util/e-html-editor.c:732
 msgid "Paragraph Style"
 msgstr "Estilo de párrafo"
 
-#: ../src/e-util/e-html-editor.c:709
+#: ../src/e-util/e-html-editor.c:746
 msgid "Editing Mode"
 msgstr "Modo de edición"
 
-#: ../src/e-util/e-html-editor.c:721
+#: ../src/e-util/e-html-editor.c:758
 msgid "Font Color"
 msgstr "Color de la tipografía"
 
-#: ../src/e-util/e-html-editor.c:731
+#: ../src/e-util/e-html-editor.c:768
 msgid "Font Size"
 msgstr "Tamaño de la tipografía"
 
@@ -14135,6 +14130,7 @@ msgstr "_Relleno:"
 
 #: ../src/e-util/e-html-editor-table-dialog.c:686
 #: ../src/e-util/e-html-editor-text-dialog.c:248
+#: ../src/e-util/e-webdav-browser.c:2418
 msgid "_Color:"
 msgstr "_Color:"
 
@@ -14788,7 +14784,7 @@ msgstr "Tipo:"
 msgid "Name:"
 msgstr "Nombre:"
 
-#: ../src/e-util/e-source-config.c:814
+#: ../src/e-util/e-source-config.c:814 ../src/e-util/e-webdav-browser.c:1748
 msgid "Name cannot be empty"
 msgstr "El nombre no puede estar vacío"
 
@@ -14998,6 +14994,22 @@ msgstr ""
 "Ha fallado un WebKitWebProcess al mostrar el contenido. Puede intentarlo de "
 "nuevo abriendo de nuevo la ventana. Si el problema persiste, envíe un "
 "informe de error al bugzilla de GNOME."
+
+#: ../src/e-util/e-system.error.xml.h:25
+#| msgid "Are you sure you want to delete remote calendar “{0}”?"
+msgid "Are you sure you want to delete remote collection “{0}”?"
+msgstr "¿Seguro que quiere eliminar la colección remota «{0}»?"
+
+#: ../src/e-util/e-system.error.xml.h:26
+#| msgid ""
+#| "This will permanently remove the calendar “{0}” from the server. Are you "
+#| "sure you want to proceed?"
+msgid ""
+"This will permanently remove the collection “{0}” from the server. Are you "
+"sure you want to proceed?"
+msgstr ""
+"Esto eliminará permanentemente la colección «{0}» del servidor. ¿Está seguro "
+"de querer continuar?"
 
 #: ../src/e-util/e-table-click-to-add.c:687
 #: ../src/e-util/gal-a11y-e-table-click-to-add.c:59
@@ -15278,6 +15290,172 @@ msgstr "Opciones"
 #: ../src/mail/e-mail-config-identity-page.c:1229
 msgid "Identity"
 msgstr "Identidad"
+
+#: ../src/e-util/e-webdav-browser.c:447
+#| msgid "Address Book"
+msgid "Address book"
+msgstr "Libreta de direcciones"
+
+#: ../src/e-util/e-webdav-browser.c:458
+#| msgctxt "iCalImp"
+#| msgid "Event"
+msgid "Events"
+msgstr "Eventos"
+
+#: ../src/e-util/e-webdav-browser.c:473
+#| msgid "Edit Collection"
+msgid "Collection"
+msgstr "Colección"
+
+#: ../src/e-util/e-webdav-browser.c:514
+#| msgid "Loading"
+msgid "Loading…"
+msgstr "Cargando…"
+
+#: ../src/e-util/e-webdav-browser.c:1383
+msgid "Searching collection children…"
+msgstr "Buscando colección hija…"
+
+#: ../src/e-util/e-webdav-browser.c:1385
+msgid "Failed to search for collection children"
+msgstr "Falló al buscar la colección hija"
+
+#: ../src/e-util/e-webdav-browser.c:1419
+msgid "Searching for user home, please wait…"
+msgstr "Buscando la carpeta personal del usuario, espere…"
+
+#: ../src/e-util/e-webdav-browser.c:1421
+#| msgid "Unable to perform search."
+msgid "Failed to search for user home"
+msgstr "Falló al buscar la carpeta personal del usuario"
+
+#: ../src/e-util/e-webdav-browser.c:1763
+msgid "At least one component type should be set"
+msgstr "Se debe indicar al menos un tipo de componente"
+
+#: ../src/e-util/e-webdav-browser.c:1781
+#| msgid "Failed to delete selected attendee"
+#| msgid_plural "Failed to delete selected attendees"
+msgid "Failed to get selected collection HREF"
+msgstr "Falló al obtener el HREF de la colección seleccionada"
+
+#: ../src/e-util/e-webdav-browser.c:1812
+#| msgid "Saving changes..."
+msgid "Saving changes…"
+msgstr "Guardando cambios…"
+
+#: ../src/e-util/e-webdav-browser.c:1813
+#| msgid "Failed to save attachments"
+msgid "Failed to save changes"
+msgstr "Falló al guardar los cambios"
+
+#: ../src/e-util/e-webdav-browser.c:1815
+#| msgid "Creating a memo"
+msgid "Creating new book…"
+msgstr "Creando libreta nueva…"
+
+#: ../src/e-util/e-webdav-browser.c:1816
+#| msgid "Failed to create a thread: "
+msgid "Failed to create new book"
+msgstr "Falló al crear la libreta nueva"
+
+#: ../src/e-util/e-webdav-browser.c:1818
+#| msgid "Cre_ate new calendar"
+msgid "Creating new calendar…"
+msgstr "Creando calendario nuevo…"
+
+#: ../src/e-util/e-webdav-browser.c:1819
+#| msgid "Cre_ate new calendar"
+msgid "Failed to create new calendar"
+msgstr "Falló al el calendario nuevo"
+
+#: ../src/e-util/e-webdav-browser.c:1821
+#| msgid "Create a new contact"
+msgid "Creating new collection…"
+msgstr "Creando colección nueva…"
+
+#: ../src/e-util/e-webdav-browser.c:1822
+#| msgid "Failed to create a thread: "
+msgid "Failed to create new collection"
+msgstr "Falló al crear la colección nueva"
+
+#: ../src/e-util/e-webdav-browser.c:1961
+msgid "It is not allowed to create book under another book or calendar"
+msgstr "No está permitido crear una libreta bajo otra libreta o calendario"
+
+#: ../src/e-util/e-webdav-browser.c:1963
+msgid "It is not allowed to create calendar under another book or calendar"
+msgstr "No está permitido crear un calendario bajo otra libreta o calendario"
+
+#: ../src/e-util/e-webdav-browser.c:2189
+#| msgid "Deleting a memo"
+#| msgid_plural "Deleting %d memos"
+msgid "Deleting book…"
+msgstr "Eliminando libreta…"
+
+#: ../src/e-util/e-webdav-browser.c:2190
+#| msgid "Failed to delete contact"
+msgid "Failed to delete book"
+msgstr "Falló al eliminar la libreta"
+
+#: ../src/e-util/e-webdav-browser.c:2193
+#| msgid "Opening calendar"
+msgid "Deleting calendar…"
+msgstr "Eliminando calendario…"
+
+#: ../src/e-util/e-webdav-browser.c:2194
+#| msgid "Failed to delete contact"
+msgid "Failed to delete calendar"
+msgstr "Falló al eliminar el calendario"
+
+#: ../src/e-util/e-webdav-browser.c:2197
+#| msgid "Delete the selection"
+msgid "Deleting collection…"
+msgstr "Eliminando colección…"
+
+#: ../src/e-util/e-webdav-browser.c:2198
+#| msgid "Failed to delete contact"
+msgid "Failed to delete collection"
+msgstr "Falló al eliminar la colección"
+
+#: ../src/e-util/e-webdav-browser.c:2429
+msgid "For Components:"
+msgstr "Para componentes:"
+
+#: ../src/e-util/e-webdav-browser.c:2435
+#| msgctxt "iCalImp"
+#| msgid "Event"
+msgid "_Events"
+msgstr "_Eventos"
+
+#: ../src/e-util/e-webdav-browser.c:2625
+msgid "WebDAV server:"
+msgstr "Servidor WebDAV:"
+
+#: ../src/e-util/e-webdav-browser.c:2660
+#| msgid "Create a Mem_o"
+msgid "Create _Book"
+msgstr "Crear una libreta"
+
+#: ../src/e-util/e-webdav-browser.c:2667
+#| msgid "Cre_ate new calendar"
+msgid "Create _Calendar"
+msgstr "Crear _calendario "
+
+#: ../src/e-util/e-webdav-browser.c:2674
+#| msgid "Edit Collection"
+msgid "Create Collectio_n"
+msgstr "Crear colecció_n"
+
+#. widget = gtk_button_new_with_mnemonic (_("_Permissions"));
+#. gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+#. webdav_browser->priv->permissions_button = widget;
+#: ../src/e-util/e-webdav-browser.c:2699
+#: ../src/mail/em-subscription-editor.c:1976
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1652
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1723
+msgid "_Refresh"
+msgstr "_Actualizar"
 
 #: ../src/e-util/e-web-view.c:346
 msgid "_Copy Link Location"
@@ -17599,16 +17777,16 @@ msgstr "-----Mensaje original-----"
 msgid "Re: %s"
 msgstr "Re: %s"
 
-#: ../src/mail/em-composer-utils.c:3126
+#: ../src/mail/em-composer-utils.c:3103
 msgid "an unknown sender"
 msgstr "un remitente desconocido"
 
 #. FIXME GTK_WINDOW (composer)
-#: ../src/mail/em-composer-utils.c:3604
+#: ../src/mail/em-composer-utils.c:3581
 msgid "Posting destination"
 msgstr "Destino de publicación"
 
-#: ../src/mail/em-composer-utils.c:3609
+#: ../src/mail/em-composer-utils.c:3586
 msgid "Choose folders to post the message to."
 msgstr "Elija las carpetas en las que publicar el mensaje."
 
@@ -17901,12 +18079,6 @@ msgstr "E_xpandir todas"
 #: ../src/mail/em-subscription-editor.c:1975
 msgid "Refresh the folder list"
 msgstr "Actualizar la lista de carpetas"
-
-#: ../src/mail/em-subscription-editor.c:1976
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1652
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1723
-msgid "_Refresh"
-msgstr "_Actualizar"
 
 #: ../src/mail/em-subscription-editor.c:1987
 msgid "Stop the current operation"
@@ -19348,7 +19520,6 @@ msgid "You may not create two accounts with the same name."
 msgstr "No puede crear dos cuentas con el mismo nombre."
 
 #: ../src/mail/mail.error.xml.h:89
-#| msgid "Are you sure you want to delete the memo “{0}”?"
 msgid "Are you sure you want to delete account “{0}”?"
 msgstr "¿Seguro que quiere eliminar la cuenta «{0}»?"
 
@@ -20113,12 +20284,10 @@ msgid "Free form expression"
 msgstr "Expresión libre de forma"
 
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:275
-#| msgid "Edit Location"
 msgid "Edit Collection"
 msgstr "Editar colección"
 
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:312
-#| msgid "Use for Folders"
 msgid "Use for"
 msgstr "Usar para"
 
@@ -20128,7 +20297,6 @@ msgid "_Mail"
 msgstr "Co_rreo"
 
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:327
-#| msgid "Calendar"
 msgid "C_alendar"
 msgstr "C_alendario"
 
@@ -20163,6 +20331,23 @@ msgstr "Propiedades de lista de notas"
 #: ../src/modules/calendar/e-task-shell-view-actions.c:274
 msgid "Task List Properties"
 msgstr "Propiedades de lista de tareas"
+
+#: ../src/modules/accounts-window/e-webdav-browser-page.c:174
+#| msgid "Back"
+msgid "_Back"
+msgstr "A_trás"
+
+#: ../src/modules/accounts-window/e-webdav-browser-page.c:195
+msgid "_Browse"
+msgstr "_Examinar"
+
+#: ../src/modules/accounts-window/e-webdav-browser-page.c:197
+msgid ""
+"Browse a WebDAV (CalDAV or CardDAV) server and create, edit or delete "
+"address books, calendars, memo lists or task lists there"
+msgstr ""
+"Examine un servidor a WebDAV (CalDAV o CardDAV) y crear, editar o eliminar "
+"libretas de direcciones, calendarios, listas de notas o tareas aquí"
 
 #. To Translators: 'Table column' is a label for configurable date/time format for table columns showing a date in message list
 #: ../src/modules/addressbook/autocompletion-config.c:124
@@ -20472,7 +20657,7 @@ msgstr "No coincidente"
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:775
 #: ../src/modules/calendar/e-task-shell-view-actions.c:976
 #: ../src/modules/mail/e-mail-shell-view-actions.c:2151
-#: ../src/shell/e-shell-content.c:658
+#: ../src/shell/e-shell-content.c:637
 msgid "Advanced Search"
 msgstr "Búsqueda avanzada"
 
@@ -20548,7 +20733,7 @@ msgstr "Elija un archivo de respaldo que restaurar"
 
 #. Keep the title identical to EMailConfigRestorePage
 #. * so it's only shown once in the assistant sidebar.
-#: ../src/modules/backup-restore/e-mail-config-restore-page.c:310
+#: ../src/modules/backup-restore/e-mail-config-restore-page.c:291
 #: ../src/modules/backup-restore/e-mail-config-restore-ready-page.c:57
 msgid "Restore from Backup"
 msgstr "Restaurar desde un respaldo"
@@ -25361,11 +25546,11 @@ msgstr "Acerca _de"
 msgid "_Quit"
 msgstr "_Salir"
 
-#: ../src/shell/e-shell-content.c:721 ../src/shell/e-shell-content.c:722
+#: ../src/shell/e-shell-content.c:700 ../src/shell/e-shell-content.c:701
 msgid "Searches"
 msgstr "Búsquedas"
 
-#: ../src/shell/e-shell-content.c:765
+#: ../src/shell/e-shell-content.c:744
 msgid "Save Search"
 msgstr "Guardar búsqueda"
 
@@ -25438,12 +25623,10 @@ msgid "Show information about Evolution"
 msgstr "Mostrar información acerca de Evolution"
 
 #: ../src/shell/e-shell-window-actions.c:803
-#| msgid "_Account:"
 msgid "_Accounts"
 msgstr "_Cuentas"
 
 #: ../src/shell/e-shell-window-actions.c:805
-#| msgid "Configure Evolution"
 msgid "Configure Evolution Accounts"
 msgstr "Configurar cuentas de Evolution"
 
