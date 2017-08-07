@@ -1959,7 +1959,7 @@ webdav_browser_create_clicked_cb (GtkWidget *button,
 
 		if (button == webdav_browser->priv->create_book_button)
 			msg = _("It is not allowed to create book under another book or calendar");
-		else if (button == webdav_browser->priv->create_calendar_button)
+		else /* if (button == webdav_browser->priv->create_calendar_button) */
 			msg = _("It is not allowed to create calendar under another book or calendar");
 
 		gtk_widget_hide (webdav_browser->priv->create_edit_hint_popover);
