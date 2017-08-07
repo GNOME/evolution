@@ -251,6 +251,7 @@
 
   <chapter>
     <title>(Unsorted Sections)</title>
+    <xi:include href="xml/e-accounts-window.xml"/>
     <xi:include href="xml/e-action-combo-box.xml"/>
     <xi:include href="xml/e-auth-combo-box.xml"/>
     <xi:include href="xml/e-bit-array.xml"/>
@@ -259,6 +260,9 @@
     <xi:include href="xml/e-calendar.xml"/>
     <xi:include href="xml/e-charset.xml"/>
     <xi:include href="xml/e-charset-combo-box.xml"/>
+    <xi:include href="xml/e-config-lookup.xml"/>
+    <xi:include href="xml/e-config-lookup-result.xml"/>
+    <xi:include href="xml/e-config-lookup-result-simple.xml"/>
     <xi:include href="xml/e-conflict-search-selector.xml"/>
     <xi:include href="xml/e-contact-store.xml"/>
     <xi:include href="xml/e-data-capture.xml"/>
@@ -310,12 +314,17 @@
     <xi:include href="xml/e-tree-view-frame.xml"/>
     <xi:include href="xml/e-url-entry.xml"/>
     <xi:include href="xml/e-util-enums.xml"/>
+    <xi:include href="xml/e-webdav-browser.xml"/>
     <xi:include href="xml/e-widget-undo.xml"/>
   </chapter>
 
   <index id="api-index-full">
     <title>Index</title>
     <xi:include href="xml/api-index-full.xml"><xi:fallback /></xi:include>
+  </index>
+  <index id="api-index-3.26" role="3.26">
+    <title>Index of new symbols in 3.26</title>
+    <xi:include href="xml/api-index-3.26.xml"><xi:fallback /></xi:include>
   </index>
   <index id="api-index-3.24" role="3.24">
     <title>Index of new symbols in 3.24</title>
