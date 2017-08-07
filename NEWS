@@ -1,3 +1,24 @@
+Evolution 3.24.5 2017-08-07
+---------------------------
+
+Bug Fixes:
+	Bug 785031 - Indefinite loop under e_editor_dom_merge_siblings_if_necessary() (Milan Crha)
+	Bug 785127 - Change in composer body doesn't trigger autosave timeout (Milan Crha)
+	Bug 785188 - Do not add LIB_INSTALL_DIR into RPATH (Milan Crha)
+	Bug 785233 - Do not add extra comma in Open Map query (Milan Crha)
+	Bug 785412 - Skip disabled accounts in Reply-all user address lookup (Milan Crha)
+	Bug 777086 - Composer sometimes hangs on right-click above a word in the body (Milan Crha)
+	Bug 785717 - Add plain minus key to collapse thread (Milan Crha)
+	Bug 785800 - Page Up/Down in monthly calendar view not skipping a month (Milan Crha)
+
+Miscellaneous:
+	Workaround broken GPG encrypted messages from Exchange and GroupWise servers (Milan Crha)
+	Reply-To header value lost on Draft message reopen (Milan Crha)
+	Set shadow for Aliases scrolled window in mail account Properties (Milan Crha)
+
+Translations:
+	Matej Urbančič (sl)
+
 Evolution 3.24.4 2017-07-17
 ---------------------------
 
