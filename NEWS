@@ -1,3 +1,59 @@
+Evolution 3.25.90 2017-08-07
+----------------------------
+
+Bug Fixes:
+	Bug 785031 - Indefinite loop under e_editor_dom_merge_siblings_if_necessary() (Milan Crha)
+	Bug 785127 - Change in composer body doesn't trigger autosave timeout (Milan Crha)
+	Bug 271481 - Provide generic Accounts editor (Milan Crha)
+	Bug 785188 - Do not add LIB_INSTALL_DIR into RPATH (Milan Crha)
+	Bug 785233 - Do not add extra comma in Open Map query (Milan Crha)
+	Bug 785412 - Skip disabled accounts in Reply-all user address lookup (Milan Crha)
+	Bug 777086 - Composer sometimes hangs on right-click above a word in the body (Milan Crha)
+	Bug 785650 - Switch Paste Quotation and Paste as Text shortcuts (Raniere Silva)
+	Bug 750564 - Make server settings lookup extensible (Milan Crha)
+	Bug 785717 - Add plain minus key to collapse thread (Milan Crha)
+	Bug 785800 - Page Up/Down in monthly calendar view not skipping a month (Milan Crha)
+	Bug 768260 - Document how to customize the UI via editing .ui files (Andre Klapper)
+	Bug 784214 - link 'mail folders' to changing list columns (Andre Klapper)
+	Bug 784214 - Explain how to find location of a message in a search folder (Andre Klapper)
+	Bug 784767 - Document shortcut for applying secondary sort criterion in message list (Andre Klapper)
+	Bug 784527 - Create 'Composing Messages' section on mail account pages (Andre Klapper)
+	Bug 784527 - Update docs regarding the split Defaults tab (Andre Klapper)
+	Bug 784527 - Update section name (Andre Klapper)
+	Bug 785644 - Move note box about dconf-editor (Raniere Silva)
+	Bug 783793 - Document To Do bar and update main window screenshot (Andre Klapper)
+
+Miscellaneous:
+	Provide e_alert_bar_submit_alert() to avoid code duplication (Milan Crha)
+	Workaround broken GPG encrypted messages from Exchange and GroupWise servers (Milan Crha)
+	Reply-To header value lost on Draft message reopen (Milan Crha)
+	Add a WebDAV browser into the Account Editor (Milan Crha)
+	Set shadow for Aliases scrolled window in mail account Properties (Milan Crha)
+	Use SRV records for configuration lookup (Milan Crha)
+	Remove change-switcher-appearance.page - too specific; not common topic (Andre Klapper)
+	Fix incorrect alt desc text for a screenshot (Andre Klapper)
+	Remove obsolete TODO comment (Andre Klapper)
+	Fix date in previous commit (Andre Klapper)
+	Read Receipts settings are also available in EWS/MAPI accounts (Andre Klapper)
+	Cover actual EWS account settings nowadays (Andre Klapper)
+	Use same string as in 'Manage signatures' page about '-- ' delimiter (Andre Klapper)
+	Provide actual links to the pages dedicated to these bullet points (Andre Klapper)
+	Grammar fixes in help (Anders Jonsson)
+	Remove image from French user docs which is not used anywhere. (Andre Klapper)
+
+Translations:
+	Fabio Tomat (fur)
+	Daniel Mustieles (es)
+	Matej Urbančič (sl)
+	Kukuh Syafaat (id)
+	Pawan Chitrakar (ne)
+	Aurimas Černius (lt)
+	Baurzhan Muftakhidinov (kk)
+	Mario Blättermann (de)
+	Kjartan Maraas (nb)
+	Gábor Kelemen (hu)
+	Dušan Kazik (sk)
+
 Evolution 3.25.4 2017-07-17
 ---------------------------
 
