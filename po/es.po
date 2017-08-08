@@ -18,8 +18,8 @@ msgstr ""
 "Project-Id-Version: evolution.master\n"
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2017-08-02 16:53+0000\n"
-"PO-Revision-Date: 2017-08-03 09:56+0200\n"
+"POT-Creation-Date: 2017-08-07 16:09+0000\n"
+"PO-Revision-Date: 2017-08-08 12:27+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: es <gnome-es-list@gnome.org>\n"
 "Language: es\n"
@@ -3995,7 +3995,7 @@ msgstr "Añadir _X.509"
 #: ../src/e-util/e-mail-signature-manager.c:368
 #: ../src/e-util/e-name-selector-dialog.c:1037
 #: ../src/e-util/filter.error.xml.h:18 ../src/e-util/filter.ui.h:25
-#: ../src/mail/e-mail-config-identity-page.c:870
+#: ../src/mail/e-mail-config-identity-page.c:871
 #: ../src/mail/e-mail-label-manager.c:389 ../src/mail/em-filter-rule.c:438
 #: ../src/mail/em-folder-properties.c:1037
 #: ../src/mail/em-vfolder-editor-rule.c:631 ../src/mail/mail-config.ui.h:62
@@ -6653,7 +6653,7 @@ msgid "Low"
 msgstr "Baja"
 
 #: ../src/calendar/gui/e-cal-component-preview.c:350
-#: ../src/mail/e-mail-config-service-page.c:536
+#: ../src/mail/e-mail-config-service-page.c:531
 msgid "Description:"
 msgstr "Descripción:"
 
@@ -7886,7 +7886,7 @@ msgstr "Excepciones"
 
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2231
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:1777
-#: ../src/mail/e-mail-config-identity-page.c:852
+#: ../src/mail/e-mail-config-identity-page.c:853
 #: ../src/mail/mail-config.ui.h:65
 msgid "A_dd"
 msgstr "Aña_dir"
@@ -13147,6 +13147,7 @@ msgstr "Buscar elementos que cumplen con estos criterios"
 #: ../src/e-util/e-mail-identity-combo-box.c:694
 #: ../src/e-util/e-mail-signature-combo-box.c:422
 #: ../src/libemail-engine/camel-null-store.c:29
+#: ../src/mail/e-mail-autoconfig.c:644
 #: ../src/mail/e-mail-config-summary-page.c:141
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:629
 msgid "None"
@@ -14996,14 +14997,10 @@ msgstr ""
 "informe de error al bugzilla de GNOME."
 
 #: ../src/e-util/e-system.error.xml.h:25
-#| msgid "Are you sure you want to delete remote calendar “{0}”?"
 msgid "Are you sure you want to delete remote collection “{0}”?"
 msgstr "¿Seguro que quiere eliminar la colección remota «{0}»?"
 
 #: ../src/e-util/e-system.error.xml.h:26
-#| msgid ""
-#| "This will permanently remove the calendar “{0}” from the server. Are you "
-#| "sure you want to proceed?"
 msgid ""
 "This will permanently remove the collection “{0}” from the server. Are you "
 "sure you want to proceed?"
@@ -15287,28 +15284,23 @@ msgid "Flags"
 msgstr "Opciones"
 
 #: ../src/e-util/evolution-source-viewer.c:729
-#: ../src/mail/e-mail-config-identity-page.c:1229
+#: ../src/mail/e-mail-config-identity-page.c:1230
 msgid "Identity"
 msgstr "Identidad"
 
 #: ../src/e-util/e-webdav-browser.c:447
-#| msgid "Address Book"
 msgid "Address book"
 msgstr "Libreta de direcciones"
 
 #: ../src/e-util/e-webdav-browser.c:458
-#| msgctxt "iCalImp"
-#| msgid "Event"
 msgid "Events"
 msgstr "Eventos"
 
 #: ../src/e-util/e-webdav-browser.c:473
-#| msgid "Edit Collection"
 msgid "Collection"
 msgstr "Colección"
 
 #: ../src/e-util/e-webdav-browser.c:514
-#| msgid "Loading"
 msgid "Loading…"
 msgstr "Cargando…"
 
@@ -15325,7 +15317,6 @@ msgid "Searching for user home, please wait…"
 msgstr "Buscando la carpeta personal del usuario, espere…"
 
 #: ../src/e-util/e-webdav-browser.c:1421
-#| msgid "Unable to perform search."
 msgid "Failed to search for user home"
 msgstr "Falló al buscar la carpeta personal del usuario"
 
@@ -15334,48 +15325,38 @@ msgid "At least one component type should be set"
 msgstr "Se debe indicar al menos un tipo de componente"
 
 #: ../src/e-util/e-webdav-browser.c:1781
-#| msgid "Failed to delete selected attendee"
-#| msgid_plural "Failed to delete selected attendees"
 msgid "Failed to get selected collection HREF"
 msgstr "Falló al obtener el HREF de la colección seleccionada"
 
 #: ../src/e-util/e-webdav-browser.c:1812
-#| msgid "Saving changes..."
 msgid "Saving changes…"
 msgstr "Guardando cambios…"
 
 #: ../src/e-util/e-webdav-browser.c:1813
-#| msgid "Failed to save attachments"
 msgid "Failed to save changes"
 msgstr "Falló al guardar los cambios"
 
 #: ../src/e-util/e-webdav-browser.c:1815
-#| msgid "Creating a memo"
 msgid "Creating new book…"
 msgstr "Creando libreta nueva…"
 
 #: ../src/e-util/e-webdav-browser.c:1816
-#| msgid "Failed to create a thread: "
 msgid "Failed to create new book"
 msgstr "Falló al crear la libreta nueva"
 
 #: ../src/e-util/e-webdav-browser.c:1818
-#| msgid "Cre_ate new calendar"
 msgid "Creating new calendar…"
 msgstr "Creando calendario nuevo…"
 
 #: ../src/e-util/e-webdav-browser.c:1819
-#| msgid "Cre_ate new calendar"
 msgid "Failed to create new calendar"
 msgstr "Falló al el calendario nuevo"
 
 #: ../src/e-util/e-webdav-browser.c:1821
-#| msgid "Create a new contact"
 msgid "Creating new collection…"
 msgstr "Creando colección nueva…"
 
 #: ../src/e-util/e-webdav-browser.c:1822
-#| msgid "Failed to create a thread: "
 msgid "Failed to create new collection"
 msgstr "Falló al crear la colección nueva"
 
@@ -15383,38 +15364,32 @@ msgstr "Falló al crear la colección nueva"
 msgid "It is not allowed to create book under another book or calendar"
 msgstr "No está permitido crear una libreta bajo otra libreta o calendario"
 
+#. if (button == webdav_browser->priv->create_calendar_button)
 #: ../src/e-util/e-webdav-browser.c:1963
 msgid "It is not allowed to create calendar under another book or calendar"
 msgstr "No está permitido crear un calendario bajo otra libreta o calendario"
 
 #: ../src/e-util/e-webdav-browser.c:2189
-#| msgid "Deleting a memo"
-#| msgid_plural "Deleting %d memos"
 msgid "Deleting book…"
 msgstr "Eliminando libreta…"
 
 #: ../src/e-util/e-webdav-browser.c:2190
-#| msgid "Failed to delete contact"
 msgid "Failed to delete book"
 msgstr "Falló al eliminar la libreta"
 
 #: ../src/e-util/e-webdav-browser.c:2193
-#| msgid "Opening calendar"
 msgid "Deleting calendar…"
 msgstr "Eliminando calendario…"
 
 #: ../src/e-util/e-webdav-browser.c:2194
-#| msgid "Failed to delete contact"
 msgid "Failed to delete calendar"
 msgstr "Falló al eliminar el calendario"
 
 #: ../src/e-util/e-webdav-browser.c:2197
-#| msgid "Delete the selection"
 msgid "Deleting collection…"
 msgstr "Eliminando colección…"
 
 #: ../src/e-util/e-webdav-browser.c:2198
-#| msgid "Failed to delete contact"
 msgid "Failed to delete collection"
 msgstr "Falló al eliminar la colección"
 
@@ -15423,8 +15398,6 @@ msgid "For Components:"
 msgstr "Para componentes:"
 
 #: ../src/e-util/e-webdav-browser.c:2435
-#| msgctxt "iCalImp"
-#| msgid "Event"
 msgid "_Events"
 msgstr "_Eventos"
 
@@ -15433,17 +15406,14 @@ msgid "WebDAV server:"
 msgstr "Servidor WebDAV:"
 
 #: ../src/e-util/e-webdav-browser.c:2660
-#| msgid "Create a Mem_o"
 msgid "Create _Book"
 msgstr "Crear una libreta"
 
 #: ../src/e-util/e-webdav-browser.c:2667
-#| msgid "Cre_ate new calendar"
 msgid "Create _Calendar"
 msgstr "Crear _calendario "
 
 #: ../src/e-util/e-webdav-browser.c:2674
-#| msgid "Edit Collection"
 msgid "Create Collectio_n"
 msgstr "Crear colecció_n"
 
@@ -16169,13 +16139,65 @@ msgstr "Puede arrastrar y soltar nombres de cuentas para reordenarlas."
 msgid "De_fault"
 msgstr "_Predeterminada"
 
-#: ../src/mail/e-mail-autoconfig.c:620
+#: ../src/mail/e-mail-autoconfig.c:634
+#, c-format
+msgid "Host: %s:%d"
+msgstr "Equipo: %s:%d"
+
+#: ../src/mail/e-mail-autoconfig.c:638
+#, c-format
+#| msgid "Re: %s"
+msgid "User: %s"
+msgstr "Usuario: %s"
+
+#: ../src/mail/e-mail-autoconfig.c:642
+#, c-format
+#| msgid "Security:"
+msgid "Security method: %s"
+msgstr "Método de seguridad: %s"
+
+#: ../src/mail/e-mail-autoconfig.c:643
+#: ../src/mail/e-mail-config-summary-page.c:144
+msgid "TLS"
+msgstr "TLS"
+
+#: ../src/mail/e-mail-autoconfig.c:644
+#: ../src/mail/e-mail-config-summary-page.c:147
+msgid "STARTTLS"
+msgstr "STARTTLS"
+
+#: ../src/mail/e-mail-autoconfig.c:648
+#, c-format
+#| msgid "Authentication"
+msgid "Authentication mechanism: %s"
+msgstr "Mecanismo de autenticación: %s"
+
+#: ../src/mail/e-mail-autoconfig.c:783
 msgid "No email address provided"
 msgstr "No se ha proporcionado ninguna dirección de correo-e"
 
-#: ../src/mail/e-mail-autoconfig.c:629
+#: ../src/mail/e-mail-autoconfig.c:792
 msgid "Missing domain in email address"
 msgstr "Falta el dominio en la dirección de correo-e"
+
+#: ../src/mail/e-mail-autoconfig.c:1097
+#: ../src/modules/config-lookup/e-srv-config-lookup.c:78
+#: ../src/modules/config-lookup/e-srv-config-lookup.c:79
+#| msgid "WebDAV server:"
+msgid "IMAP server"
+msgstr "Servidor IMAP"
+
+#: ../src/mail/e-mail-autoconfig.c:1104
+#: ../src/modules/config-lookup/e-srv-config-lookup.c:80
+#: ../src/modules/config-lookup/e-srv-config-lookup.c:81
+msgid "POP3 server"
+msgstr "Servidor POP3"
+
+#: ../src/mail/e-mail-autoconfig.c:1111
+#: ../src/modules/config-lookup/e-srv-config-lookup.c:82
+#| msgid "Server:"
+msgid "SMTP server"
+msgstr "Servidor SMTP"
 
 #: ../src/mail/e-mail-browser.c:129 ../src/shell/e-shell-window-actions.c:812
 #: ../src/shell/e-shell-window-actions.c:819
@@ -16188,20 +16210,20 @@ msgid "(No Subject)"
 msgstr "(Sin asunto)"
 
 #. GtkAssistant's back button label.
-#: ../src/mail/e-mail-config-assistant.c:47
+#: ../src/mail/e-mail-config-assistant.c:48
 msgid "Go _Back"
 msgstr "A_trás"
 
 #. GtkAssistant sinks the floating button reference.
-#: ../src/mail/e-mail-config-assistant.c:116
+#: ../src/mail/e-mail-config-assistant.c:123
 msgid "_Skip Lookup"
 msgstr "_Ignorar búsqueda"
 
-#: ../src/mail/e-mail-config-assistant.c:665
+#: ../src/mail/e-mail-config-assistant.c:718
 msgid "Evolution Account Assistant"
 msgstr "Asistente de cuentas de Evolution"
 
-#: ../src/mail/e-mail-config-assistant.c:972
+#: ../src/mail/e-mail-config-assistant.c:1025
 msgid "_Revise Details"
 msgstr "_Revisar los detalles"
 
@@ -16438,11 +16460,11 @@ msgstr "Añadir firma _nueva…"
 msgid "A_liases:"
 msgstr "A_lias:"
 
-#: ../src/mail/e-mail-config-identity-page.c:861
+#: ../src/mail/e-mail-config-identity-page.c:862
 msgid "Edi_t"
 msgstr "Edi_tar"
 
-#: ../src/mail/e-mail-config-identity-page.c:884
+#: ../src/mail/e-mail-config-identity-page.c:885
 msgid "_Look up mail server details based on the entered e-mail address"
 msgstr ""
 "_Buscar los detalles del servidor de correo basándose en la dirección de "
@@ -16450,23 +16472,23 @@ msgstr ""
 
 #. This is only a warning, not a blocker
 #. complete = complete && correct;
-#: ../src/mail/e-mail-config-identity-page.c:933
+#: ../src/mail/e-mail-config-identity-page.c:934
 msgid "Full Name should not be empty"
 msgstr "El nombre completo no puede estar vacío"
 
-#: ../src/mail/e-mail-config-identity-page.c:940
+#: ../src/mail/e-mail-config-identity-page.c:941
 msgid "Email Address cannot be empty"
 msgstr "La dirección de correo-e no puede estar vacía"
 
-#: ../src/mail/e-mail-config-identity-page.c:945
+#: ../src/mail/e-mail-config-identity-page.c:946
 msgid "Email Address is not a valid email"
 msgstr "La dirección de correo-e no es válida"
 
-#: ../src/mail/e-mail-config-identity-page.c:957
+#: ../src/mail/e-mail-config-identity-page.c:958
 msgid "Reply To is not a valid email"
 msgstr "El campo Responder a no es una dirección de correo-e válida"
 
-#: ../src/mail/e-mail-config-identity-page.c:968
+#: ../src/mail/e-mail-config-identity-page.c:969
 #: ../src/mail/e-mail-config-summary-page.c:638
 msgid "Account Name cannot be empty"
 msgstr "El nombre de la cuenta no puede estar vacío"
@@ -16614,17 +16636,9 @@ msgstr "Cifrarme siempre a mí mismo cuando envíe correo cifrado"
 msgid "Sending Email"
 msgstr "Envío de correo"
 
-#: ../src/mail/e-mail-config-service-page.c:504
+#: ../src/mail/e-mail-config-service-page.c:499
 msgid "Server _Type:"
 msgstr "_Tipo de servidor:"
-
-#: ../src/mail/e-mail-config-summary-page.c:144
-msgid "TLS"
-msgstr "TLS"
-
-#: ../src/mail/e-mail-config-summary-page.c:147
-msgid "STARTTLS"
-msgstr "STARTTLS"
 
 #: ../src/mail/e-mail-config-summary-page.c:306
 msgid ""
@@ -20333,7 +20347,6 @@ msgid "Task List Properties"
 msgstr "Propiedades de lista de tareas"
 
 #: ../src/modules/accounts-window/e-webdav-browser-page.c:174
-#| msgid "Back"
 msgid "_Back"
 msgstr "A_trás"
 
@@ -22428,6 +22441,24 @@ msgstr "Convertir en un _mensaje"
 #: ../src/modules/composer-to-meeting/e-meeting-to-composer.c:359
 msgid "Convert to the mail message"
 msgstr "Convertir al mensaje de correo"
+
+#: ../src/modules/config-lookup/e-srv-config-lookup.c:83
+#: ../src/modules/config-lookup/e-srv-config-lookup.c:84
+#| msgid "WebDAV server:"
+msgid "CalDAV server"
+msgstr "Servidor CalDAV"
+
+#: ../src/modules/config-lookup/e-srv-config-lookup.c:85
+#: ../src/modules/config-lookup/e-srv-config-lookup.c:86
+#| msgid "WebDAV server:"
+msgid "CardDAV server"
+msgstr "Servidor CardDAV"
+
+#: ../src/modules/config-lookup/e-srv-config-lookup.c:87
+#: ../src/modules/config-lookup/e-srv-config-lookup.c:88
+#| msgid "WebDAV server:"
+msgid "LDAP server"
+msgstr "Servidor LDAP"
 
 #: ../src/modules/itip-formatter/e-mail-formatter-itip.c:162
 msgid "ITIP"
