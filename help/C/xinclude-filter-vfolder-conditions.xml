@@ -50,10 +50,7 @@
 <p>Filters according to the status of a message. The status can be Replied To, Draft, Important, Read, or Junk.</p></item>
 
 <item><p>Follow Up:</p>
-<p>Checks whether the message is <link xref="mail-follow-up-flag">flagged for follow-up</link>.</p></item>
-
-<item><p>Completed On:</p></item>
-<!-- TODO: Explain usage of option "Completed On" once https://bugzilla.gnome.org/show_bug.cgi?id=698439 is fixed -->
+<p>Checks whether the message is <link xref="mail-follow-up-flag">flagged for follow-up</link> or completed (after a certain date).</p></item>
 
 <item><p>Attachments:</p>
 <p>Checks whether there is an attachment for the email.</p></item>
