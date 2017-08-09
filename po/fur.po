@@ -10,7 +10,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2017-08-04 16:59+0000\n"
-"PO-Revision-Date: 2017-08-06 18:14+0200\n"
+"PO-Revision-Date: 2017-08-09 16:27+0200\n"
 "Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
 "Language-Team: Friulian <f.t.public@gmail.com>\n"
 "Language: fur\n"
@@ -15229,32 +15229,27 @@ msgstr "Daûr a cjariâ…"
 
 #: ../src/e-util/e-webdav-browser.c:1383
 msgid "Searching collection children…"
-msgstr ""
+msgstr "Daûr a cirî i fîs de colezion…"
 
 #: ../src/e-util/e-webdav-browser.c:1385
 msgid "Failed to search for collection children"
-msgstr ""
+msgstr "No si è rivâts a cirî fîs de colezion"
 
 #: ../src/e-util/e-webdav-browser.c:1419
 msgid "Searching for user home, please wait…"
-msgstr ""
+msgstr "Daûr a cirî la cartele home dal utent, par plasê spiete…"
 
 #: ../src/e-util/e-webdav-browser.c:1421
-#, fuzzy
-#| msgid "Unable to perform search."
 msgid "Failed to search for user home"
-msgstr "Impussibil fâ la ricercje."
+msgstr "No si è rivâts a cirî la cartele home dal utent"
 
 #: ../src/e-util/e-webdav-browser.c:1763
 msgid "At least one component type should be set"
-msgstr ""
+msgstr "Si varès di indicâ almancul un gjenar di component"
 
 #: ../src/e-util/e-webdav-browser.c:1781
-#, fuzzy
-#| msgid "Failed to delete selected attendee"
-#| msgid_plural "Failed to delete selected attendees"
 msgid "Failed to get selected collection HREF"
-msgstr "No si è rivâts a eliminâ il partecipant selezionât"
+msgstr "No si è rivâts a otignî la colezion HREF"
 
 #: ../src/e-util/e-webdav-browser.c:1812
 msgid "Saving changes…"
@@ -15265,16 +15260,12 @@ msgid "Failed to save changes"
 msgstr "No si è rivâts a salvâ lis modifichis"
 
 #: ../src/e-util/e-webdav-browser.c:1815
-#, fuzzy
-#| msgid "Creating a memo"
 msgid "Creating new book…"
-msgstr "Daûr a creâ un memorandum"
+msgstr "Daûr a creâ il gnûf libri…"
 
 #: ../src/e-util/e-webdav-browser.c:1816
-#, fuzzy
-#| msgid "Failed to create a thread: "
 msgid "Failed to create new book"
-msgstr "No si è rivâts a creâ une discussion: "
+msgstr "No si è rivâts a creâ il gnûf libri"
 
 #: ../src/e-util/e-webdav-browser.c:1818
 msgid "Creating new calendar…"
@@ -15294,44 +15285,35 @@ msgstr "No si è rivâts a creâ une gnove colezion"
 
 #: ../src/e-util/e-webdav-browser.c:1961
 msgid "It is not allowed to create book under another book or calendar"
-msgstr ""
+msgstr "Nol è permetût di creâ un libri sot di un altri libri o calendari"
 
 #: ../src/e-util/e-webdav-browser.c:1963
 msgid "It is not allowed to create calendar under another book or calendar"
-msgstr ""
+msgstr "Nol è permetût di creâ un calendari sot di un altri libri o calendari"
 
 #: ../src/e-util/e-webdav-browser.c:2189
-#, fuzzy
-#| msgid "Deleting a memo"
-#| msgid_plural "Deleting %d memos"
 msgid "Deleting book…"
-msgstr "Daûr a eliminâ un memorandum"
+msgstr "Daûr a eliminâ il libri…"
 
 #: ../src/e-util/e-webdav-browser.c:2190
-#, fuzzy
-#| msgid "Failed to delete contact"
 msgid "Failed to delete book"
-msgstr "No si è rivâts a eliminâ il contat"
+msgstr "No si è rivâts a eliminâ il libri"
 
 #: ../src/e-util/e-webdav-browser.c:2193
 msgid "Deleting calendar…"
 msgstr "Daûr a eliminâ il calendari…"
 
 #: ../src/e-util/e-webdav-browser.c:2194
-#, fuzzy
-#| msgid "Failed to delete contact"
 msgid "Failed to delete calendar"
-msgstr "No si è rivâts a eliminâ il contat"
+msgstr "No si è rivâts a eliminâ il calendari"
 
 #: ../src/e-util/e-webdav-browser.c:2197
 msgid "Deleting collection…"
 msgstr "Daûr a eliminâ la colezion…"
 
 #: ../src/e-util/e-webdav-browser.c:2198
-#, fuzzy
-#| msgid "Failed to delete contact"
 msgid "Failed to delete collection"
-msgstr "No si è rivâts a eliminâ il contat"
+msgstr "No si è rivâts a eliminâ la colezion"
 
 #: ../src/e-util/e-webdav-browser.c:2429
 msgid "For Components:"
@@ -15346,10 +15328,8 @@ msgid "WebDAV server:"
 msgstr "Servidôr WebDAV:"
 
 #: ../src/e-util/e-webdav-browser.c:2660
-#, fuzzy
-#| msgid "Create a Mem_o"
 msgid "Create _Book"
-msgstr "Cree un promem_orie"
+msgstr "Cree un _libri"
 
 #: ../src/e-util/e-webdav-browser.c:2667
 msgid "Create _Calendar"
