@@ -772,7 +772,7 @@ msgstr "Upřednostňovaná položka tlačítka Nový"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:99
 msgid "Name of the preferred New toolbar button item"
-msgstr "Název upřednostňované položky tlačítka Nový v liště nástrojů"
+msgstr "Název upřednostňované položky tlačítka Nový v násrojové liště"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:100
 msgid "Primary calendar"
@@ -1280,7 +1280,7 @@ msgid ""
 "replying."
 msgstr ""
 "Na rozdíl od normálního „Odpovědět všem“, tato volba zajistí, že tlačítko "
-"„Skupinová odpověď“ na liště nástrojů zkusí odpovědět pouze do poštovní "
+"„Skupinová odpověď“ na nástrojové liště zkusí odpovědět pouze do poštovní "
 "konference, přes kterou jste obdrželi kopii zprávy, na kterou odpovídáte."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:25
@@ -2922,7 +2922,7 @@ msgid ""
 "toolbar setting."
 msgstr ""
 "Styl tlačítek okna. Může být „text“ (text), „icons“ (ikony), „both“ (oboje), "
-"„toolbar“ (panel nástrojů). Je-li nastaveno „toolbar“, styl tlačítek je "
+"„toolbar“ (nástrojová lišta). Je-li nastaveno „toolbar“, styl tlačítek je "
 "určen nastavením nástrojových lišt GNOME."
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:23
@@ -2955,7 +2955,7 @@ msgstr "Stavová lišta je viditelná"
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:30
 msgid "Whether the status bar should be visible."
-msgstr "Jestli má být stavový řádek viditelný."
+msgstr "Jestli má být stavová lišta viditelná."
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:31
 msgid "ID or alias of the component to be shown by default at start-up."
@@ -6029,7 +6029,7 @@ msgstr "Přílohy"
 #: ../src/mail/filtertypes.xml.in.h:48 ../src/mail/searchtypes.xml.in.h:50
 #: ../src/mail/vfoldertypes.xml.in.h:51
 msgid "Exist"
-msgstr "Existují"
+msgstr "existují"
 
 #: ../src/calendar/gui/caltypes.xml.in.h:18
 #: ../src/calendar/gui/memotypes.xml.in.h:16
@@ -6037,7 +6037,7 @@ msgstr "Existují"
 #: ../src/mail/filtertypes.xml.in.h:49 ../src/mail/searchtypes.xml.in.h:51
 #: ../src/mail/vfoldertypes.xml.in.h:52
 msgid "Do Not Exist"
-msgstr "Neexistují"
+msgstr "neexistují"
 
 #: ../src/calendar/gui/caltypes.xml.in.h:19
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2003
@@ -14151,7 +14151,7 @@ msgstr "Přidat pravidlo"
 
 #: ../src/e-util/e-rule-editor.c:284
 msgid "Edit Rule"
-msgstr "Upravit pravidlo"
+msgstr "Úprava pravidla"
 
 #: ../src/e-util/e-search-bar.c:82
 #, c-format
@@ -17581,7 +17581,7 @@ msgstr "nemá slova"
 #: ../src/mail/filtertypes.xml.in.h:19 ../src/mail/searchtypes.xml.in.h:20
 #: ../src/mail/vfoldertypes.xml.in.h:20
 msgid "Specific header"
-msgstr "Specifická hlavička"
+msgstr "Určená hlavička"
 
 #: ../src/mail/filtertypes.xml.in.h:20 ../src/mail/searchtypes.xml.in.h:21
 #: ../src/mail/vfoldertypes.xml.in.h:21
@@ -17702,7 +17702,7 @@ msgstr "Poštovní konference"
 #: ../src/mail/filtertypes.xml.in.h:52 ../src/mail/searchtypes.xml.in.h:54
 #: ../src/mail/vfoldertypes.xml.in.h:55
 msgid "Regex Match"
-msgstr "Odp. regexu"
+msgstr "Regulární výraz"
 
 #: ../src/mail/filtertypes.xml.in.h:53 ../src/mail/searchtypes.xml.in.h:55
 #: ../src/mail/vfoldertypes.xml.in.h:56
@@ -17739,11 +17739,11 @@ msgstr "Test na nevyžádané zprávy"
 
 #: ../src/mail/filtertypes.xml.in.h:61
 msgid "Message is Junk"
-msgstr "Zpráva je nevyžádaná"
+msgstr "zpráva je nevyžádaná"
 
 #: ../src/mail/filtertypes.xml.in.h:62
 msgid "Message is not Junk"
-msgstr "Zpráva není nevyžádaná"
+msgstr "zpráva není nevyžádaná"
 
 #: ../src/mail/filtertypes.xml.in.h:63 ../src/mail/vfoldertypes.xml.in.h:57
 msgid "Message Location"
@@ -25005,19 +25005,19 @@ msgstr "Zobrazovat tlačítka přepínače"
 
 #: ../src/shell/e-shell-window-actions.c:1060
 msgid "Show _Status Bar"
-msgstr "Zobrazovat _stavový řádek"
+msgstr "Zobrazovat _stavovou lištu"
 
 #: ../src/shell/e-shell-window-actions.c:1062
 msgid "Show the status bar"
-msgstr "Zobrazovat stavový řádek"
+msgstr "Zobrazovat stavovou lištu"
 
 #: ../src/shell/e-shell-window-actions.c:1068
 msgid "Show _Tool Bar"
-msgstr "Zobrazovat _lištu nástrojů"
+msgstr "Zobrazovat nás_trojovou lištu"
 
 #: ../src/shell/e-shell-window-actions.c:1070
 msgid "Show the tool bar"
-msgstr "Zobrazovat lištu nástrojů"
+msgstr "Zobrazovat nástrojovou lištu"
 
 #: ../src/shell/e-shell-window-actions.c:1092
 msgid "_Icons Only"
@@ -25045,7 +25045,7 @@ msgstr "Zobrazovat tlačítka okna s ikonami a textem"
 
 #: ../src/shell/e-shell-window-actions.c:1113
 msgid "Tool_bar Style"
-msgstr "St_yl lišty nástrojů"
+msgstr "St_yl nástrojové lišty"
 
 #: ../src/shell/e-shell-window-actions.c:1115
 msgid "Display window buttons using the desktop toolbar setting"
