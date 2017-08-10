@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution documentation\n"
-"POT-Creation-Date: 2017-08-05 14:29+0000\n"
+"POT-Creation-Date: 2017-08-10 17:54+0000\n"
 "PO-Revision-Date: 2017-08-10 19:52+0200\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: čeština <gnome-cs-list@gnome.org>\n"
@@ -4323,7 +4323,6 @@ msgstr "<_:media-1/> Seznam zpráv"
 
 #. (itstool) path: td/p
 #: C/intro-main-window.page:55
-#| msgid "<_:media-1/> Tool bar"
 msgid "<_:media-1/> To Do bar"
 msgstr "<_:media-1/> Panel k vyřízení"
 
@@ -4446,9 +4445,6 @@ msgstr ""
 
 #. (itstool) path: note/p
 #: C/intro-main-window.page:91
-#| msgid ""
-#| "You can disable the preview pane by toggling <guiseq><gui>View</"
-#| "gui><gui>Preview</gui><gui>Show Message Preview</gui></guiseq>."
 msgid ""
 "You can disable the to do bar by toggling <guiseq><gui>View</"
 "gui><gui>Layout</gui><gui>Show To Do Bar</gui></guiseq>."
@@ -10966,10 +10962,6 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/mail-search-folders.page:30
-#| msgid ""
-#| "You can get an updated view of the search folder either by switching to "
-#| "another folder and then back again, or by right-clicking on the search "
-#| "folder and choosing <gui>Refresh</gui>."
 msgid ""
 "<app>Evolution</app> automatically updates the search folder contents when "
 "new messages are received or messages are deleted. You can also manually "
@@ -13483,31 +13475,29 @@ msgstr "označená k vyřízení"
 
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:53
-msgid "Checks whether the message is <_:link-1/>."
-msgstr "Kontroluje, jestli je zpráva <_:link-1/>."
+msgid ""
+"Checks whether the message is <_:link-1/> or completed (after a certain "
+"date)."
+msgstr ""
+"Kontroluje, jestli je zpráva <_:link-1/> nebo dokončená (po určitém datu)."
 
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:55
-msgid "Completed On:"
-msgstr "Dokončeno:"
-
-#. (itstool) path: item/p
-#: C/xinclude-filter-vfolder-conditions.xml:58
 msgid "Attachments:"
 msgstr "Přílohy:"
 
 #. (itstool) path: item/p
-#: C/xinclude-filter-vfolder-conditions.xml:59
+#: C/xinclude-filter-vfolder-conditions.xml:56
 msgid "Checks whether there is an attachment for the email."
 msgstr "Kontroluje, jestli má zpráva nějakou přílohu."
 
 #. (itstool) path: item/p
-#: C/xinclude-filter-vfolder-conditions.xml:61
+#: C/xinclude-filter-vfolder-conditions.xml:58
 msgid "Mailing List:"
 msgstr "Poštovní konference:"
 
 #. (itstool) path: item/p
-#: C/xinclude-filter-vfolder-conditions.xml:62
+#: C/xinclude-filter-vfolder-conditions.xml:59
 msgid ""
 "Filters based on the mailing list the message came from. This filter might "
 "miss messages from some list servers, because it checks for the X-BeenThere "
@@ -13522,27 +13512,27 @@ msgstr ""
 "BeenThere správně, nebudou tímto filtrem zachyceny."
 
 #. (itstool) path: item/p
-#: C/xinclude-filter-vfolder-conditions.xml:64
+#: C/xinclude-filter-vfolder-conditions.xml:61
 msgid "Regex Match:"
 msgstr "Regulární výraz"
 
 #. (itstool) path: p/link
-#: C/xinclude-filter-vfolder-conditions.xml:65
+#: C/xinclude-filter-vfolder-conditions.xml:62
 msgid "regex"
 msgstr "regex"
 
 #. (itstool) path: link/cmd
-#: C/xinclude-filter-vfolder-conditions.xml:65
+#: C/xinclude-filter-vfolder-conditions.xml:62
 msgid "grep"
 msgstr "grep"
 
 #. (itstool) path: p/link
-#: C/xinclude-filter-vfolder-conditions.xml:65
+#: C/xinclude-filter-vfolder-conditions.xml:62
 msgid "the man page for the <_:cmd-1/>"
 msgstr "manuálové stránce pro „<_:cmd-1/>“"
 
 #. (itstool) path: item/p
-#: C/xinclude-filter-vfolder-conditions.xml:65
+#: C/xinclude-filter-vfolder-conditions.xml:62
 msgid ""
 "(For programmers only) If you know your way around a <_:link-1/>, or regular "
 "expression, this option allows you to search for complex patterns of "
@@ -13688,7 +13678,6 @@ msgstr "Uložit"
 
 #. (itstool) path: guiseq/gui
 #: C/xinclude-searching.xml:21
-#| msgid "Quick Search"
 msgid "Save Search"
 msgstr "Uložit hledání"
 
@@ -13744,3 +13733,6 @@ msgstr "V dialogovém okně upravte název nebo podmínky hledání."
 #: C/xinclude-searching.xml:30
 msgid "Click <_:gui-1/>."
 msgstr "Klikněte na <_:gui-1/>."
+
+#~ msgid "Completed On:"
+#~ msgstr "Dokončeno:"
