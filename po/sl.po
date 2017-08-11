@@ -12,7 +12,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2017-07-20 16:59+0200\n"
-"PO-Revision-Date: 2017-07-21 15:46+0200\n"
+"PO-Revision-Date: 2017-08-11 12:40+0200\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenščina <gnome-si@googlegroups.com>\n"
 "Language: sl\n"
@@ -2717,8 +2717,6 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:234
 #: ../src/mail/mail-config.ui.h:9
-#, fuzzy
-#| msgid "Inherit theme colors in HTML mode"
 msgid "Inherit theme colors in HTML format"
 msgstr "Prevzami barve teme v načinu HTML"
 
@@ -3635,10 +3633,6 @@ msgstr "Ni mogoče dodati novega stika"
 
 #. For Translators: {0} is the name of the address book source
 #: ../src/addressbook/addressbook.error.xml.h:45
-#, fuzzy
-#| msgid ""
-#| "'{0}' is a read-only address book and cannot be modified. Please select a "
-#| "different address book from the side bar in the Contacts view."
 msgid ""
 "“{0}” is a read-only address book and cannot be modified. Please select a "
 "different address book from the side bar in the Contacts view."
@@ -3652,10 +3646,6 @@ msgstr "Stika ni mogoče shraniti, saj imenik še vedno ni odprt"
 
 #. For Translators: {0} is the name of the address book source
 #: ../src/addressbook/addressbook.error.xml.h:48
-#, fuzzy
-#| msgid ""
-#| "Cannot save a contact to the address book '{0}', because it is still "
-#| "opening. Either wait till it's opened, or select a different address book."
 msgid ""
 "Cannot save a contact to the address book “{0}”, because it is still "
 "opening. Either wait till it’s opened, or select a different address book."
@@ -5638,16 +5628,12 @@ msgstr ""
 "Vsi podatki o tem opomniku bodo izbrisani in jih ne bo mogoče obnoviti."
 
 #: ../src/calendar/calendar.error.xml.h:15
-#, fuzzy
-#| msgid "Are you sure you want to delete the meeting titled '{0}'?"
 msgid "Are you sure you want to delete the meeting titled “{0}”?"
-msgstr "Ali ste prepričani, da želite izbrisati srečanje z nazivom »{0}«?"
+msgstr "Ali ste prepričani, da želite izbrisati srečanje z naslovom »{0}«?"
 
 #: ../src/calendar/calendar.error.xml.h:16
-#, fuzzy
-#| msgid "Are you sure you want to delete the appointment titled '{0}'?"
 msgid "Are you sure you want to delete the appointment titled “{0}”?"
-msgstr "Ali ste prepričani, da želite izbrisati sestanek z nazivom »{0}«?"
+msgstr "Ali ste prepričani, da želite izbrisati sestanek z naslovom »{0}«?"
 
 #: ../src/calendar/calendar.error.xml.h:17
 msgid ""
@@ -6195,9 +6181,8 @@ msgid "Failed to make an occurrence movable"
 msgstr "Spreminjanje nastavitve za premikanje je spodletelo."
 
 #: ../src/calendar/calendar.error.xml.h:173
-#, fuzzy
 msgid "Something has gone wrong when displaying the event"
-msgstr "Ustvari novo okno s prikazom tega pogleda"
+msgstr "Prišlo je do napake med prikazovanjem dogodka"
 
 #: ../src/calendar/calendar.error.xml.h:174
 msgid ""
@@ -6210,9 +6195,8 @@ msgstr ""
 "naprej pojavlja, vpišite poročilo o hrošču na Gnome Bugzilla."
 
 #: ../src/calendar/calendar.error.xml.h:175
-#, fuzzy
 msgid "Something has gone wrong when displaying the memo"
-msgstr "Ustvari novo okno s prikazom tega pogleda"
+msgstr "Prišlo je do napake med prikazovanjem opomnika"
 
 #: ../src/calendar/calendar.error.xml.h:176
 msgid ""
@@ -6225,9 +6209,8 @@ msgstr ""
 "naprej pojavlja, vpišite poročilo o hrošču na Gnome Bugzilla."
 
 #: ../src/calendar/calendar.error.xml.h:177
-#, fuzzy
 msgid "Something has gone wrong when displaying the task"
-msgstr "Način za prikaz elektronske pošte"
+msgstr "Prišlo je do napake med prikazovanjem naloge"
 
 #: ../src/calendar/calendar.error.xml.h:178
 msgid ""
@@ -6901,8 +6884,6 @@ msgid "Delete selected events"
 msgstr "Izbriši izbrane dogodke"
 
 #: ../src/calendar/gui/e-calendar-view.c:853
-#, fuzzy
-#| msgid "Pasted text doesn't contain valid iCalendar data"
 msgid "Pasted text doesn’t contain valid iCalendar data"
 msgstr ""
 "Prilepljeno besedilo ne vključuje veljavnih podatkov v zapisu iCalendar"
@@ -7262,40 +7243,34 @@ msgid "Updating a task"
 msgstr "Posodabljanje naloge"
 
 #: ../src/calendar/gui/e-cal-ops.c:966
-#, fuzzy, c-format
-#| msgid "Getting events to purge in the calendar '%s'"
+#, c-format
 msgid "Getting events to purge in the calendar “%s”"
-msgstr "Pridobivanje dogodkov za izbris v koledarju '%s'."
+msgstr "Pridobivanje dogodkov za izbris iz koledarja »%s«."
 
 #: ../src/calendar/gui/e-cal-ops.c:970
-#, fuzzy, c-format
-#| msgid "Getting memos to purge in the memo list '%s'"
+#, c-format
 msgid "Getting memos to purge in the memo list “%s”"
-msgstr "Pridobivanje opomnikov za izbris v koledarju '%s'."
+msgstr "Pridobivanje opomnikov za izbris iz seznama »%s«."
 
 #: ../src/calendar/gui/e-cal-ops.c:974
-#, fuzzy, c-format
-#| msgid "Getting tasks to purge in the task list '%s'"
+#, c-format
 msgid "Getting tasks to purge in the task list “%s”"
-msgstr "Pridobivanje nalog za izbris v koledarju '%s'."
+msgstr "Pridobivanje nalog za izbris iz seznama »%s«."
 
 #: ../src/calendar/gui/e-cal-ops.c:1000
-#, fuzzy, c-format
-#| msgid "Purging events in the calendar '%s'"
+#, c-format
 msgid "Purging events in the calendar “%s”"
-msgstr "Poteka čiščenje dogodkov v koledarju '%s'."
+msgstr "Poteka čiščenje dogodkov v koledarju »%s«."
 
 #: ../src/calendar/gui/e-cal-ops.c:1004
-#, fuzzy, c-format
-#| msgid "Purging memos in the memo list '%s'"
+#, c-format
 msgid "Purging memos in the memo list “%s”"
-msgstr "Poteka čiščenje opomnikov v seznamu opomnikov '%s'."
+msgstr "Poteka čiščenje opomnikov v seznamu »%s«."
 
 #: ../src/calendar/gui/e-cal-ops.c:1008
-#, fuzzy, c-format
-#| msgid "Purging tasks in the task list '%s'"
+#, c-format
 msgid "Purging tasks in the task list “%s”"
-msgstr "Poteka čiščenje nalog v seznamu nalog '%s'."
+msgstr "Poteka čiščenje nalog v seznamu »%s«."
 
 #: ../src/calendar/gui/e-cal-ops.c:1108
 msgid "Purging events"
@@ -8762,19 +8737,19 @@ msgstr ">_>"
 
 #: ../src/calendar/gui/e-meeting-time-sel.c:700
 msgid "_All people and resources"
-msgstr "Vsi ljudje in vs_a sredstva"
+msgstr "Vsi posamezniki in vs_a sredstva"
 
 #: ../src/calendar/gui/e-meeting-time-sel.c:711
 msgid "All _people and one resource"
-msgstr "Vsi _ljudje in eno sredstvo"
+msgstr "Vsi _posamezniki in eno sredstvo"
 
 #: ../src/calendar/gui/e-meeting-time-sel.c:722
 msgid "_Required people"
-msgstr "Za_htevani ljudje"
+msgstr "Za_htevani posamezniki"
 
 #: ../src/calendar/gui/e-meeting-time-sel.c:732
 msgid "Required people and _one resource"
-msgstr "Zahtevani ljudje in _eno sredstvo"
+msgstr "Zahtevani posamezniki in _eno sredstvo"
 
 #: ../src/calendar/gui/e-meeting-time-sel.c:771
 msgid "_Start time:"
@@ -11343,10 +11318,8 @@ msgstr ""
 "Sestavljalnik vsebuje ne-besedilno telo sporočila, ki ga ni mogoče urejati."
 
 #: ../src/composer/mail-composer.error.xml.h:1
-#, fuzzy
-#| msgid "You cannot attach the file &quot;{0}&quot; to this message."
 msgid "You cannot attach the file “{0}” to this message."
-msgstr "Sporočilu ni mogoče priložiti datoteke &quot;{0}&quot;."
+msgstr "Sporočilu ni mogoče priložiti datoteke »{0}«."
 
 #: ../src/composer/mail-composer.error.xml.h:2
 #, fuzzy
@@ -11445,10 +11418,8 @@ msgstr ""
 "Zaradi &quot;{0}&quot;, boste morda morali izbrati drugačne možnosti pošte."
 
 #: ../src/composer/mail-composer.error.xml.h:22
-#, fuzzy
-#| msgid "Could not read signature file &quot;{0}&quot;."
 msgid "Could not read signature file “{0}”."
-msgstr "Ni mogoče prebrati datoteke podpisa &quot;{0}&quot;."
+msgstr "Ni mogoče prebrati datoteke podpisa »{0}«.."
 
 #: ../src/composer/mail-composer.error.xml.h:23
 msgid "All accounts have been removed."
@@ -11463,26 +11434,17 @@ msgid "An error occurred while saving to your Outbox folder."
 msgstr "Prišlo je do napake med shranjevanjem v vašo mapo odhodne pošte."
 
 #: ../src/composer/mail-composer.error.xml.h:26
-#, fuzzy
-#| msgid ""
-#| "The reported error was &quot;{0}&quot;. The message has not been sent."
 msgid "The reported error was “{0}”. The message has not been sent."
-msgstr "Javljena napaka je &quot;{0}&quot;. Sporočilo ni bilo poslano."
+msgstr "Javljena napaka je »{0}«. Sporočilo ni bilo poslano."
 
 #: ../src/composer/mail-composer.error.xml.h:27
 msgid "An error occurred while saving to your Drafts folder."
 msgstr "Prišlo je do napake med shranjevanjem v mapo Osnutki"
 
 #: ../src/composer/mail-composer.error.xml.h:28
-#, fuzzy
-#| msgid ""
-#| "The reported error was &quot;{0}&quot;. The message has most likely not "
-#| "been saved."
 msgid ""
 "The reported error was “{0}”. The message has most likely not been saved."
-msgstr ""
-"Javljena napaka je &quot;{0}&quot;. Sporočilo najverjetneje ni bilo "
-"shranjeno."
+msgstr "Javljena napaka je »{0}«. Sporočilo najverjetneje ni bilo shranjeno."
 
 #: ../src/composer/mail-composer.error.xml.h:29
 msgid "An error occurred while sending. How do you want to proceed?"
@@ -11490,10 +11452,8 @@ msgstr "Prišlo je do napake med pošiljanje. Kako želite nadaljevati?"
 
 #: ../src/composer/mail-composer.error.xml.h:30
 #: ../src/mail/mail.error.xml.h:175
-#, fuzzy
-#| msgid "The reported error was &quot;{0}&quot;."
 msgid "The reported error was “{0}”."
-msgstr "Poročana napaka je bila &quot;{0}&quot;."
+msgstr "Javljena napaka je »{0}«."
 
 #: ../src/composer/mail-composer.error.xml.h:31
 msgid "_Save to Outbox"
@@ -11512,11 +11472,6 @@ msgid "Saving message to Outbox."
 msgstr "Shranjevanje sporočila v mapo odhodne pošte."
 
 #: ../src/composer/mail-composer.error.xml.h:35
-#, fuzzy
-#| msgid ""
-#| "The message will be saved to your local Outbox folder, because the "
-#| "destination service is currently unavailable. You can send the message by "
-#| "clicking the Send/Receive button in Evolution's toolbar."
 msgid ""
 "The message will be saved to your local Outbox folder, because the "
 "destination service is currently unavailable. You can send the message by "
@@ -11524,7 +11479,7 @@ msgid ""
 msgstr ""
 "Ker ni povezave v omrežje, bo sporočilo shranjeno v krajevni mapi odhodne "
 "pošte.  Ob povezavi bo sporočilo mogoče poslati s klikom na gumb Pošlji/"
-"Prejmni v orodni vrstici programa."
+"Prejmi v orodni vrstici programa."
 
 #: ../src/composer/mail-composer.error.xml.h:36
 msgid "Are you sure you want to send the message?"
@@ -11540,16 +11495,10 @@ msgstr ""
 "ali pa zares pošljite sporočilo."
 
 #: ../src/composer/mail-composer.error.xml.h:39
-#, fuzzy
-#| msgid "Are you sure you want to change the composer mode?"
 msgid "Are you sure you want to change the composer format?"
-msgstr "Ali res želite spremeniti način skladnje?"
+msgstr "Ali res želite spremeniti način sestavljalnika?"
 
 #: ../src/composer/mail-composer.error.xml.h:40
-#, fuzzy
-#| msgid ""
-#| "Turning HTML mode off will cause the text to lose all formatting. Do you "
-#| "want to continue?"
 msgid ""
 "Switching to Plain Text format will cause the text to lose all the HTML "
 "formatting. Do you want to continue?"
@@ -11558,8 +11507,6 @@ msgstr ""
 "Ali želite nadaljevati?"
 
 #: ../src/composer/mail-composer.error.xml.h:41
-#, fuzzy
-#| msgid "_Don't lose formatting"
 msgid "_Don’t lose formatting"
 msgstr "_Ne izgubi oblikovanja"
 
@@ -11572,10 +11519,8 @@ msgid "An error occurred while saving to your Templates folder."
 msgstr "Prišlo je do napake med shranjevanjem sporočila v mapo Osnutkov"
 
 #: ../src/composer/mail-composer.error.xml.h:44
-#, fuzzy
-#| msgid "Are you sure you want to discard the message you are composing?"
 msgid "Are you sure you want to convert the message into a meeting?"
-msgstr "Ali ste prepričani, da želite opustiti sporočilo, ki ga pripravljate?"
+msgstr "Ali ste prepričani, da želite pretvoriti sporočilo v dogodek?"
 
 #: ../src/composer/mail-composer.error.xml.h:45
 msgid ""
@@ -11586,16 +11531,12 @@ msgstr ""
 "spremembe pa zavržene."
 
 #: ../src/composer/mail-composer.error.xml.h:46
-#, fuzzy
-#| msgid "Create a _Meeting"
 msgid "Convert to _Meeting"
-msgstr "Ustvari  _srečanje"
+msgstr "Pretvori v _srečanje"
 
 #: ../src/composer/mail-composer.error.xml.h:47
-#, fuzzy
-#| msgid "Are you sure you want to send the message?"
 msgid "Are you sure you want to convert the event into a message?"
-msgstr "Ali ste prepričani, da želite poslati sporočilo?"
+msgstr "Ali ste prepričani, da želite pretvoriti dogodek v sporočilo?"
 
 #: ../src/composer/mail-composer.error.xml.h:48
 msgid ""
@@ -11606,16 +11547,12 @@ msgstr ""
 "zavržene."
 
 #: ../src/composer/mail-composer.error.xml.h:49
-#, fuzzy
-#| msgid "Important Messages"
 msgid "Convert to _Message"
-msgstr "Pomembna sporočila"
+msgstr "Pretvori v _sporočilo"
 
 #: ../src/composer/mail-composer.error.xml.h:50
-#, fuzzy
-#| msgid "Are you sure you want to save the memo without a summary?"
 msgid "Are you sure you want to convert the memo into a message?"
-msgstr "Ali ste prepričani, da želite shraniti opomnik brez povzetka?"
+msgstr "Ali ste prepričani, da želite pretvoriti opomnik v sporočilo?"
 
 #: ../src/composer/mail-composer.error.xml.h:51
 msgid ""
@@ -11626,10 +11563,8 @@ msgstr ""
 "zavržene."
 
 #: ../src/composer/mail-composer.error.xml.h:52
-#, fuzzy
-#| msgid "Are you sure you want to save the task without a summary?"
 msgid "Are you sure you want to convert the task into a message?"
-msgstr "Ali ste prepričani, da želite shraniti nalogo brez povzetka?"
+msgstr "Ali ste prepričani, da želite pretvoriti nalogo v sporočilo?"
 
 #: ../src/composer/mail-composer.error.xml.h:53
 msgid ""
@@ -11956,8 +11891,7 @@ msgid "Pointer to FTP site (%s)"
 msgstr "Kazalec na povezavo FTP (%s)"
 
 #: ../src/em-format/e-mail-parser-message-external.c:110
-#, fuzzy, c-format
-#| msgid "Pointer to local file (%s) valid at site \"%s\""
+#, c-format
 msgid "Pointer to local file (%s) valid at site “%s”"
 msgstr "Kazalec na krajevno datoteko (%s) veljaven na strežniku »%s«"
 
@@ -11972,8 +11906,7 @@ msgid "Pointer to remote data (%s)"
 msgstr "Kazalec na oddaljene podatke (%s)"
 
 #: ../src/em-format/e-mail-parser-message-external.c:149
-#, fuzzy, c-format
-#| msgid "Pointer to unknown external data (\"%s\" type)"
+#, c-format
 msgid "Pointer to unknown external data (“%s” type)"
 msgstr "Kazalec na neznane zunanje podatke (vrsta »%s«)"
 
@@ -12385,8 +12318,7 @@ msgid "Icon"
 msgstr "Ikona"
 
 #: ../src/e-util/e-category-completion.c:304
-#, fuzzy, c-format
-#| msgid "Create category \"%s\""
+#, c-format
 msgid "Create category “%s”"
 msgstr "Ustvari kategorijo »%s«"
 
@@ -12411,15 +12343,12 @@ msgid "Category Properties"
 msgstr "Lastnosti kategorije"
 
 #: ../src/e-util/e-category-editor.c:275
-#, fuzzy, c-format
-#| msgid ""
-#| "There is already a category '%s' in the configuration. Please use another "
-#| "name"
+#, c-format
 msgid ""
 "There is already a category “%s” in the configuration. Please use another "
 "name"
 msgstr ""
-"Kategorija z imenom '%s' med nastavitvami že obstaja. Uporabite drugo ime."
+"Kategorija z imenom »%s« med nastavitvami že obstaja. Uporabite drugo ime."
 
 #: ../src/e-util/e-cell-combo.c:183
 msgid "popup list"
@@ -12552,10 +12481,9 @@ msgid "Other..."
 msgstr "Drugo ..."
 
 #: ../src/e-util/e-client-cache.c:1149 ../src/e-util/e-client-cache.c:1280
-#, fuzzy, c-format
-#| msgid "Cannot create a client object from extension name '%s'"
+#, c-format
 msgid "Cannot create a client object from extension name “%s”"
-msgstr "Iz imena pripone '%s' ni mogoče ustvariti predmeta odjemalca"
+msgstr "Iz imena »%s« ni mogoče ustvariti predmeta odjemalca"
 
 #: ../src/e-util/e-color-chooser-widget.c:122
 msgid "Choose custom color"
@@ -13000,8 +12928,7 @@ msgstr "Zapisovanje »%s«"
 #. Translators: The first string value is the basename of a
 #. * remote file, the second string value is the hostname.
 #: ../src/e-util/e-file-utils.c:130
-#, fuzzy, c-format
-#| msgid "Writing \"%s\" to %s"
+#, c-format
 msgid "Writing “%s” to %s"
 msgstr "Zapisovanje »%s« v %s"
 
@@ -14223,11 +14150,6 @@ msgid "Please select the information that you would like to import:"
 msgstr "Izberite podatke, ki jih želite uvoziti:"
 
 #: ../src/e-util/e-import-assistant.c:536
-#, fuzzy
-#| msgid ""
-#| "Evolution checked for settings to import from the following applications: "
-#| "Pine, Netscape, Elm, iCalendar, KMail. No importable settings found. If "
-#| "you would like to try again, please click the \"Back\" button."
 msgid ""
 "Evolution checked for settings to import from the following applications: "
 "Pine, Netscape, Elm, iCalendar, KMail. No importable settings found. If you "
@@ -14295,10 +14217,8 @@ msgid "Select a File"
 msgstr "Izbor datoteke"
 
 #: ../src/e-util/e-import-assistant.c:1365
-#, fuzzy
-#| msgid "Click \"Apply\" to begin importing the file into Evolution."
 msgid "Click “Apply” to begin importing the file into Evolution."
-msgstr "Kliknite »Uvozi» za začetek uvoza datoteke v Evolution."
+msgstr "Kliknite »Uvozi» za začetek uvoza datoteke v program Evolution."
 
 #: ../src/e-util/e-mail-signature-combo-box.c:431
 msgid "Autogenerated"
@@ -15466,8 +15386,6 @@ msgid "One or more values cannot be empty."
 msgstr "Ena ali več vrednosti ne sme biti prazna vrednost."
 
 #: ../src/e-util/filter.error.xml.h:16
-#, fuzzy
-#| msgid "Are you sure you want to remove rule '{0}'?"
 msgid "Are you sure you want to remove rule “{0}”?"
 msgstr "Ali ste prepričani, da želite odstraniti pravilo »{0}«?"
 
@@ -15518,10 +15436,6 @@ msgid "Compare against"
 msgstr "Primerjaj z"
 
 #: ../src/e-util/filter.ui.h:15
-#, fuzzy
-#| msgid ""
-#| "The message's date will be compared against\n"
-#| "the current time when filtering occurs."
 msgid ""
 "The message’s date will be compared against\n"
 "the current time when filtering occurs."
@@ -15530,10 +15444,6 @@ msgstr ""
 "časom, ko se izvede filtriranje."
 
 #: ../src/e-util/filter.ui.h:17
-#, fuzzy
-#| msgid ""
-#| "The message's date will be compared against\n"
-#| "12:00am of the date specified."
 msgid ""
 "The message’s date will be compared against\n"
 "12:00am of the date specified."
@@ -15542,10 +15452,6 @@ msgstr ""
 "12:00 na navedeni datum."
 
 #: ../src/e-util/filter.ui.h:19
-#, fuzzy
-#| msgid ""
-#| "The message's date will be compared against\n"
-#| "a time relative to when filtering occurs."
 msgid ""
 "The message’s date will be compared against\n"
 "a time relative to when filtering occurs."
@@ -15948,16 +15854,14 @@ msgid "Could not create spool directory “%s”: %s"
 msgstr "Ni mogoče ustvariti vrstilne mape »%s«: %s"
 
 #: ../src/libemail-engine/mail-tools.c:108
-#, fuzzy, c-format
-#| msgid "Trying to movemail a non-mbox source '%s'"
+#, c-format
 msgid "Trying to movemail a non-mbox source “%s”"
-msgstr "Poskus premika pošte v vir non-mbox '%s'"
+msgstr ""
 
 #: ../src/libemail-engine/mail-tools.c:257
-#, fuzzy, c-format
-#| msgid "Forwarded message - %s"
+#, c-format
 msgid "Forwarded message — %s"
-msgstr "Posredovano sporočilo - %s"
+msgstr "Posredovano sporočilo – %s"
 
 #: ../src/libemail-engine/mail-tools.c:259
 msgid "Forwarded message"
@@ -15969,10 +15873,9 @@ msgid "Setting up Search Folder: %s"
 msgstr "Nastavljanje iskalne mape: %s"
 
 #: ../src/libemail-engine/mail-vfolder.c:302
-#, fuzzy, c-format
-#| msgid "Updating Search Folders for '%s' - %s"
+#, c-format
 msgid "Updating Search Folders for “%s : %s”"
-msgstr "Posodabljanje iskalne mape za '%s' - %s"
+msgstr "Posodabljanje iskalne mape za »%s : %s«"
 
 #. Translators: The first %s is name of the affected
 #. * search folder(s), the second %s is the URI of the
@@ -16091,13 +15994,6 @@ msgid "Check for Supported Types"
 msgstr "Preveri za podprte vrste"
 
 #: ../src/mail/e-mail-config-confirm-page.c:156
-#, fuzzy
-#| msgid ""
-#| "Congratulations, your mail configuration is complete.\n"
-#| "\n"
-#| "You are now ready to send and receive email using Evolution.\n"
-#| "\n"
-#| "Click \"Apply\" to save your settings."
 msgid ""
 "Congratulations, your mail configuration is complete.\n"
 "\n"
@@ -16105,9 +16001,9 @@ msgid ""
 "\n"
 "Click “Apply” to save your settings."
 msgstr ""
-"Nastavljanje vaše pošte je končano.\n"
+"Nastavljanje poštnega računa je končano.\n"
 "\n"
-"Sedaj je mogoče prejemati in pošiljati pošto s pomočjo programa Evolution.\n"
+"Sedaj lahko pošto prejemate tudi s programom Evolution.\n"
 "\n"
 "S klikom na gumb »Uveljavi» bodo spremembe shranjene."
 
@@ -16254,11 +16150,6 @@ msgid "Defaults"
 msgstr "Privzeto"
 
 #: ../src/mail/e-mail-config-identity-page.c:516
-#, fuzzy
-#| msgid ""
-#| "Please enter your name and email address below. The \"optional\" fields "
-#| "below do not need to be filled in, unless you wish to include this "
-#| "information in email you send."
 msgid ""
 "Please enter your name and email address below. The “optional” fields below "
 "do not need to be filled in, unless you wish to include this information in "
@@ -16275,10 +16166,6 @@ msgstr "Podrobnosti računa"
 
 #: ../src/mail/e-mail-config-identity-page.c:582
 #: ../src/mail/e-mail-config-summary-page.c:354
-#, fuzzy
-#| msgid ""
-#| "The above name will be used to identify this account.\n"
-#| "Use for example, \"Work\" or \"Personal\"."
 msgid ""
 "The above name will be used to identify this account.\n"
 "Use for example, “Work” or “Personal”."
@@ -16564,11 +16451,6 @@ msgid "Account Summary"
 msgstr "Povzetek računa"
 
 #: ../src/mail/e-mail-config-welcome-page.c:157
-#, fuzzy
-#| msgid ""
-#| "Welcome to the Evolution Mail Configuration Assistant.\n"
-#| "\n"
-#| "Click \"Next\" to begin."
 msgid ""
 "Welcome to the Evolution Mail Configuration Assistant.\n"
 "\n"
@@ -16576,7 +16458,7 @@ msgid ""
 msgstr ""
 "Dobrodošli v pomočniku za poštne nastavitve programa Evolution.\n"
 "\n"
-"Kliknite »Nadaljuj« za začetek."
+"Kliknite »Nadaljuj« za začetek nastavljanja."
 
 #: ../src/mail/e-mail-config-welcome-page.c:167
 #: ../src/modules/startup-wizard/e-startup-assistant.c:152
@@ -17594,10 +17476,9 @@ msgid "%s authentication failed"
 msgstr "Overitev %s je spodletela."
 
 #: ../src/mail/e-mail-ui-session.c:863
-#, fuzzy, c-format
-#| msgid "No data source found for UID '%s'"
+#, c-format
 msgid "No data source found for UID “%s”"
-msgstr "Vira podatkov za UID '%s' ni bilo mogoče najti."
+msgstr "Vira podatkov za UID »%s« ni mogoče najti."
 
 #. Translators: The %d is replaced with the actual count of recipients, which is always more than one.
 #: ../src/mail/em-composer-utils.c:388
@@ -18988,10 +18869,6 @@ msgid "Review"
 msgstr "Ocena"
 
 #: ../src/mail/mail-dialogs.ui.h:12
-#, fuzzy
-#| msgid ""
-#| "The messages you have selected for follow up are listed below.\n"
-#| "Please select a follow up action from the \"Flag\" menu."
 msgid ""
 "The messages you have selected for follow up are listed below.\n"
 "Please select a follow up action from the “Flag” menu."
@@ -19205,12 +19082,6 @@ msgid "Use default drafts folder?"
 msgstr "Ali naj bo uporabljena privzeta mapa osnutkov?"
 
 #: ../src/mail/mail.error.xml.h:34
-#, fuzzy
-#| msgid ""
-#| "Unable to open the drafts folder for this account. Use the system drafts "
-#| "folder instead?\n"
-#| "\n"
-#| "The reported error was &quot;{0}&quot;."
 msgid ""
 "Unable to open the drafts folder for this account. Use the system drafts "
 "folder instead?\n"
@@ -19220,7 +19091,7 @@ msgstr ""
 "Ni mogoče odpreti mape osnutkov za ta račun. Ali želite uporabiti sistemsko "
 "mapo osnutkov?\n"
 "\n"
-"Sporočena napaka je »{0}«."
+"Javljena napaka je »{0}«."
 
 #: ../src/mail/mail.error.xml.h:37
 msgid "Use _Default"
@@ -19347,35 +19218,22 @@ msgid "Cannot rename or move system folder “{0}”."
 msgstr "Ni mogoče preimenovati ali premakniti sistemske mape »{0}«."
 
 #: ../src/mail/mail.error.xml.h:67
-#, fuzzy
-#| msgid "Really delete folder \"{0}\" and all of its subfolders?"
 msgid "Really delete folder “{0}” and all of its subfolders?"
-msgstr "Ali želite izbrisati mapo »{0}« in vse njene podmape?"
+msgstr "Ali res želite izbrisati mapo »{0}« in vse njene podmape?"
 
 #: ../src/mail/mail.error.xml.h:68
-#, fuzzy
-#| msgid ""
-#| "If you delete the folder, all of its contents and its subfolders' "
-#| "contents will be deleted permanently."
 msgid ""
 "If you delete the folder, all of its contents and its subfolders’ contents "
 "will be deleted permanently."
 msgstr ""
-"V primeru, da mapo izbrišete, bo njena vsebina in vsebina njenih podmap "
-"trajno izbrisana."
+"Če mapo izbrišete, bo njena vsebina in vsebina njenih podmap trajno "
+"izbrisana."
 
 #: ../src/mail/mail.error.xml.h:70
-#, fuzzy
-#| msgid "Really unsubscribe folder \"{0}\"?"
 msgid "Really unsubscribe folder “{0}”?"
 msgstr "Ali res želite preklicati naročilo na mapo »{0}«?"
 
 #: ../src/mail/mail.error.xml.h:71
-#, fuzzy
-#| msgid ""
-#| "If you unsubscribe the folder, it might not be visible in the Evolution, "
-#| "while still being available on the server. You can re-subscribe in Folder-"
-#| ">Subscriptions... menu."
 msgid ""
 "If you unsubscribe the folder, it might not be visible in the Evolution, "
 "while still being available on the server. You can re-subscribe in "
@@ -19383,17 +19241,15 @@ msgid ""
 msgstr ""
 "Če se naročilo na mapo prekliče, ta morda ne bo vidna med mapami, čeprav bo "
 "na strežniku še vedno na voljo. Naročilo je seveda mogoče kadarkoli obnoviti "
-"v meniju Mapa > Naročila."
+"v meniju Mapa → Naročila."
 
 #: ../src/mail/mail.error.xml.h:72
 msgid "Do _Not Unsubscribe"
 msgstr "_Ne prekliči naročnine"
 
 #: ../src/mail/mail.error.xml.h:74
-#, fuzzy
-#| msgid "Really delete folder \"{0}\"?"
 msgid "Really delete folder “{0}”?"
-msgstr "Ali želite izbrisati mapo »{0}«?"
+msgstr "Ali res želite izbrisati mapo »{0}«?"
 
 #: ../src/mail/mail.error.xml.h:75
 msgid ""
@@ -19420,8 +19276,6 @@ msgid "Cannot rename “{0}” to “{1}”."
 msgstr "Ni mogoče preimenovati »{0}« v »{1}«."
 
 #: ../src/mail/mail.error.xml.h:79
-#, fuzzy
-#| msgid "A folder named \"{1}\" already exists. Please use a different name."
 msgid "A folder named “{1}” already exists. Please use a different name."
 msgstr "Mapa z imenom »{1}« že obstaja. Uporabite drugačno ime."
 
@@ -19442,8 +19296,6 @@ msgid "Cannot copy folder “{0}” to “{1}”."
 msgstr "Ni mogoče kopirati mape »{0}« v »{1}«."
 
 #: ../src/mail/mail.error.xml.h:84
-#, fuzzy
-#| msgid "Cannot create folder \"{0}\"."
 msgid "Cannot create folder “{0}”."
 msgstr "Ni mogoče ustvariti mape »{0}«."
 
@@ -19507,8 +19359,6 @@ msgid "_Disable"
 msgstr "O_nemogoči"
 
 #: ../src/mail/mail.error.xml.h:98
-#, fuzzy
-#| msgid "Cannot edit Search Folder \"{0}\" as it does not exist."
 msgid "Cannot edit Search Folder “{0}” as it does not exist."
 msgstr "Ni mogoče urejati iskalne mape »{0}«, saj mapa ne obstaja."
 
@@ -19521,14 +19371,10 @@ msgstr ""
 "Pojdite v urejevalnik map iskanja in jo dodajte izrecno."
 
 #: ../src/mail/mail.error.xml.h:101
-#, fuzzy
-#| msgid "Cannot add Search Folder \"{0}\"."
 msgid "Cannot add Search Folder “{0}”."
 msgstr "Ni mogoče dodati iskalne mape »{0}«."
 
 #: ../src/mail/mail.error.xml.h:102
-#, fuzzy
-#| msgid "A folder named \"{0}\" already exists. Please use a different name."
 msgid "A folder named “{0}” already exists. Please use a different name."
 msgstr "Mapa z imenom »{0}« že obstaja. Uporabite drugačno ime."
 
@@ -19567,18 +19413,10 @@ msgstr ""
 "oddaljene mape ali oboje."
 
 #: ../src/mail/mail.error.xml.h:112
-#, fuzzy
-#| msgid "Problem migrating old mail folder \"{0}\"."
 msgid "Problem migrating old mail folder “{0}”."
-msgstr "Napaka med seljenjem mape s staro pošto »{0}«."
+msgstr "Napaka med preseljevanjem mape s staro pošto »{0}«."
 
 #: ../src/mail/mail.error.xml.h:113
-#, fuzzy
-#| msgid ""
-#| "A non-empty folder at \"{1}\" already exists.\n"
-#| "\n"
-#| "You can choose to ignore this folder, overwrite or append its contents, "
-#| "or quit."
 msgid ""
 "A non-empty folder at “{1}” already exists.\n"
 "\n"
