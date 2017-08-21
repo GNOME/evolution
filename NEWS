@@ -1,3 +1,23 @@
+Evolution 3.25.91 2017-08-21
+----------------------------
+
+Miscellaneous:
+	Add new developer documentation files into evolution-util-docs.sgml.in (Milan Crha)
+	Update mail filter conditions (as per bug 698439) (Andre Klapper)
+
+Translations:
+	Daniel Mustieles (es)
+	Kukuh Syafaat (id)
+	Fabio Tomat (fur)
+	Marcos Lans (gl)
+	Marek Cernocky (cs)
+	Matej Urbančič (sl)
+	Aurimas Černius (lt)
+	Gábor Kelemen (hu)
+	Mario Blättermann (de)
+	Baurzhan Muftakhidinov (kk)
+	Anish Sheela (ml)
+
 Evolution 3.25.90 2017-08-07
 ----------------------------
 
