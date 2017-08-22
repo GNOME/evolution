@@ -162,16 +162,25 @@ main (gint argc,
 
 kill:
 #ifdef KILL_PROCESS_COMMAND
-	if (system (KILL_PROCESS_COMMAND " -TERM evolution 2> /dev/null") == -1)
+#ifdef KILL_PROCESS_COMMAND_ARGS
+#define KILL_CMD KILL_PROCESS_COMMAND " " KILL_PROCESS_COMMAND_ARGS
+#else
+#define KILL_CMD KILL_PROCESS_COMMAND
+#endif
+#ifndef KILL_PROCESS_COMMAND_ARG_EXACT
+#define KILL_PROCESS_COMMAND_ARG_EXACT ""
+#endif
+	if (system (KILL_CMD " " KILL_PROCESS_COMMAND_ARG_EXACT " -TERM evolution 2> /dev/null") == -1)
 		g_warning ("%s: Failed to execute: '%s'", G_STRFUNC, KILL_PROCESS_COMMAND);
-	if (system (KILL_PROCESS_COMMAND " -TERM evolution-alarm-notify 2> /dev/null") == -1)
+	if (system (KILL_CMD " -TERM evolution-alarm-notify 2> /dev/null") == -1)
 		g_warning ("%s: Failed to execute: '%s'", G_STRFUNC, KILL_PROCESS_COMMAND);
-	if (system (KILL_PROCESS_COMMAND " -TERM evolution-source-registry 2> /dev/null") == -1)
+	if (system (KILL_CMD " -TERM evolution-source-registry 2> /dev/null") == -1)
 		g_warning ("%s: Failed to execute: '%s'", G_STRFUNC, KILL_PROCESS_COMMAND);
-	if (system (KILL_PROCESS_COMMAND " -TERM evolution-addressbook-factory 2> /dev/null") == -1)
+	if (system (KILL_CMD " -TERM evolution-addressbook-factory 2> /dev/null") == -1)
 		g_warning ("%s: Failed to execute: '%s'", G_STRFUNC, KILL_PROCESS_COMMAND);
-	if (system (KILL_PROCESS_COMMAND " -TERM evolution-calendar-factory 2> /dev/null") == -1)
+	if (system (KILL_CMD " -TERM evolution-calendar-factory 2> /dev/null") == -1)
 		g_warning ("%s: Failed to execute: '%s'", G_STRFUNC, KILL_PROCESS_COMMAND);
+#undef KILL_CMD
 #else
 	g_printerr ("No \"kill\" command available.\n");
 #endif
