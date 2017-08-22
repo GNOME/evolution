@@ -195,6 +195,21 @@ mail_account_store_update_row (EMailAccountStore *store,
 	const gchar *display_name;
 	gchar *from_transport_backend_name = NULL;
 
+	if (!store->priv->default_service) {
+		EMailSession *mail_session;
+		ESourceRegistry *registry;
+		ESource *source;
+
+		mail_session = e_mail_account_store_get_session (store);
+		registry = e_mail_session_get_registry (mail_session);
+		source = e_source_registry_ref_default_mail_account (registry);
+
+		if (source) {
+			store->priv->default_service = camel_session_ref_service (CAMEL_SESSION (mail_session), e_source_get_uid (source));
+			g_object_unref (source);
+		}
+	}
+
 	is_default = (service == store->priv->default_service);
 	display_name = camel_service_get_display_name (service);
 
