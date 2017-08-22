@@ -589,6 +589,7 @@ create_children (EDateEdit *dedit)
 	priv->time_combo = gtk_combo_box_new_with_model_and_entry (
 		GTK_TREE_MODEL (time_store));
 	gtk_combo_box_set_entry_text_column (GTK_COMBO_BOX (priv->time_combo), 0);
+	gtk_combo_box_set_wrap_width (GTK_COMBO_BOX (priv->time_combo), 6);
 	g_object_unref (time_store);
 
 	css_provider = gtk_css_provider_new ();
@@ -1741,6 +1742,8 @@ rebuild_time_popup (EDateEdit *dedit)
 	gboolean use_24_hour_format;
 	struct tm tmp_tm = { 0 };
 	gint hour, min;
+	guint ii, index, step, offset, wrap_width;
+	GPtrArray *values;
 
 	priv = dedit->priv;
 
@@ -1756,6 +1759,8 @@ rebuild_time_popup (EDateEdit *dedit)
 	tmp_tm.tm_isdst = 0;
 
 	use_24_hour_format = date_edit_use_24_hour_format (priv->use_24_hour_format);
+
+	values = g_ptr_array_new_full ((priv->upper_hour - priv->lower_hour) * 2, g_free);
 
 	for (hour = priv->lower_hour; hour <= priv->upper_hour; hour++) {
 
@@ -1781,10 +1786,36 @@ rebuild_time_popup (EDateEdit *dedit)
 			if (use_24_hour_format && buffer[0] == '0')
 				buffer[0] = ' ';
 
-			gtk_list_store_append (list_store, &iter);
-			gtk_list_store_set (list_store, &iter, 0, buffer, -1);
+			g_ptr_array_add (values, g_strdup (buffer));
 		}
 	}
+
+	for (step = 6; step > 1; step--) {
+		if ((values->len % step) == 0 && values->len / step >= step - 1) {
+			gtk_combo_box_set_wrap_width (GTK_COMBO_BOX (priv->time_combo), step);
+			step = values->len / step;
+			break;
+		}
+	}
+
+	if (step == 1)
+		gtk_combo_box_set_wrap_width (GTK_COMBO_BOX (priv->time_combo), step);
+
+	wrap_width = gtk_combo_box_get_wrap_width (GTK_COMBO_BOX (priv->time_combo));
+	index = 0;
+	offset = 0;
+
+	for (ii = 0; ii < values->len; ii++) {
+		gtk_list_store_append (list_store, &iter);
+		gtk_list_store_set (list_store, &iter, 0, g_ptr_array_index (values, (index + offset) % values->len), -1);
+
+		index = (index + step) % values->len;
+
+		if (wrap_width > 1 && ((ii + 1) % wrap_width) == 0)
+			offset++;
+	}
+
+	g_ptr_array_free (values, TRUE);
 }
 
 static gboolean

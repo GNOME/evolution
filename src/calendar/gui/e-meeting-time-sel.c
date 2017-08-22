@@ -2581,7 +2581,7 @@ e_meeting_time_selector_update_date_popup_menus (EMeetingTimeSelector *mts)
 		}
 	} else {
 		low_hour = 0;
-		high_hour = 23;
+		high_hour = 24;
 	}
 
 	e_date_edit_set_time_popup_range (start_edit, low_hour, high_hour);
