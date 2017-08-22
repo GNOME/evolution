@@ -3151,13 +3151,35 @@ e_comp_editor_add_error (ECompEditor *comp_editor,
 
 
 static gboolean
-ece_check_start_before_end (struct icaltimetype *start_tt,
+ece_check_start_before_end (ECompEditor *comp_editor,
+			    struct icaltimetype *start_tt,
 			    struct icaltimetype *end_tt,
 			    gboolean adjust_end_time)
 {
 	struct icaltimetype end_tt_copy;
 	icaltimezone *start_zone, *end_zone;
+	gint duration = -1;
 	gint cmp;
+
+	if ((e_comp_editor_get_flags (comp_editor) & E_COMP_EDITOR_FLAG_IS_NEW) == 0) {
+		icalcomponent *icomp;
+
+		icomp = e_comp_editor_get_component (comp_editor);
+		if (icomp &&
+		    icalcomponent_get_first_property (icomp, ICAL_DTSTART_PROPERTY) &&
+		    (icalcomponent_get_first_property (icomp, ICAL_DTEND_PROPERTY) ||
+		     icalcomponent_get_first_property (icomp, ICAL_DUE_PROPERTY))) {
+			struct icaltimetype orig_start, orig_end;
+
+			orig_start = icalcomponent_get_dtstart (icomp);
+			orig_end = icalcomponent_get_dtend (icomp);
+
+			if (icaltime_is_valid_time (orig_start) &&
+			    icaltime_is_valid_time (orig_end)) {
+				duration = icaltime_as_timet (orig_end) - icaltime_as_timet (orig_start);
+			}
+		}
+	}
 
 	start_zone = (icaltimezone *) start_tt->zone;
 	end_zone = (icaltimezone *) end_tt->zone;
@@ -3182,10 +3204,18 @@ ece_check_start_before_end (struct icaltimetype *start_tt,
 			if (start_zone && end_zone && start_zone != end_zone)
 				icaltimezone_convert_time (&end_tt_copy, end_zone, start_zone);
 
+			if (duration > 0)
+				icaltime_adjust (&end_tt_copy, 0, 0, 0, -duration);
+
 			if (icaltime_compare (*start_tt, end_tt_copy) >= 0) {
-				/* Modify the end time, to be the start + 1 hour/day. */
 				*end_tt = *start_tt;
-				icaltime_adjust (end_tt, 0, start_tt->is_date ? 24 : 1, 0, 0);
+
+				if (duration >= 0) {
+					icaltime_adjust (end_tt, 0, 0, 0, duration);
+				} else {
+					/* Modify the end time, to be the start + 1 hour/day. */
+					icaltime_adjust (end_tt, 0, start_tt->is_date ? 24 : 1, 0, 0);
+				}
 
 				if (start_zone && end_zone && start_zone != end_zone)
 					icaltimezone_convert_time (end_tt, start_zone, end_zone);
@@ -3197,9 +3227,14 @@ ece_check_start_before_end (struct icaltimetype *start_tt,
 			start_tt->day = end_tt->day;
 
 			if (icaltime_compare (*start_tt, end_tt_copy) >= 0) {
-				/* Modify the start time, to be the end - 1 hour/day. */
 				*start_tt = *end_tt;
-				icaltime_adjust (start_tt, 0, start_tt->is_date ? -24 : -1, 0, 0);
+
+				if (duration >= 0) {
+					icaltime_adjust (start_tt, 0, 0, 0, -duration);
+				} else {
+					/* Modify the start time, to be the end - 1 hour/day. */
+					icaltime_adjust (start_tt, 0, start_tt->is_date ? -24 : -1, 0, 0);
+				}
 
 				if (start_zone && end_zone && start_zone != end_zone)
 					icaltimezone_convert_time (start_tt, end_zone, start_zone);
@@ -3258,7 +3293,7 @@ e_comp_editor_ensure_start_before_end (ECompEditor *comp_editor,
 			}
 		}
 	} else {
-		if (ece_check_start_before_end (&start_tt, &end_tt, change_end_datetime)) {
+		if (ece_check_start_before_end (comp_editor, &start_tt, &end_tt, change_end_datetime)) {
 			if (change_end_datetime)
 				set_dtend = TRUE;
 			else
