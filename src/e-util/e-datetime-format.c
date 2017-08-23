@@ -390,7 +390,7 @@ fill_combo_formats (GtkWidget *combo,
 	};
 
 	const gchar **items = NULL;
-	gint i, idx = 0;
+	gint i, idx = 0, max_len = 0;
 	const gchar *fmt;
 
 	g_return_if_fail (GTK_IS_COMBO_BOX (combo));
@@ -415,24 +415,43 @@ fill_combo_formats (GtkWidget *combo,
 	fmt = get_format_internal (key, kind);
 
 	for (i = 0; items[i]; i++) {
+		gint len;
+
 		if (i == 0) {
-			gtk_combo_box_text_append_text (
-				GTK_COMBO_BOX_TEXT (combo), _(items[i]));
+			gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (combo), _(items[i]));
+			len = g_utf8_strlen (_(items[i]), -1);
 		} else {
-			gtk_combo_box_text_append_text (
-				GTK_COMBO_BOX_TEXT (combo), items[i]);
+			gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (combo), items[i]);
+			len = g_utf8_strlen (items[i], -1);
+
 			if (!idx && fmt && g_str_equal (fmt, items[i]))
 				idx = i;
 		}
+
+		if (len > max_len)
+			max_len = len;
 	}
 
 	if (idx == 0 && fmt && !g_str_equal (fmt, get_default_format (kind, key))) {
-		gtk_combo_box_text_append_text (
-			GTK_COMBO_BOX_TEXT (combo), fmt);
+		gint len;
+
+		gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (combo), fmt);
 		idx = i;
+
+		len = g_utf8_strlen (fmt, -1);
+		if (len > max_len)
+			max_len = len;
 	}
 
 	gtk_combo_box_set_active ((GtkComboBox *) combo, idx);
+
+	if (max_len > 10) {
+		GtkWidget *widget;
+
+		widget = gtk_bin_get_child (GTK_BIN (combo));
+		if (GTK_IS_ENTRY (widget))
+			gtk_entry_set_width_chars (GTK_ENTRY (widget), max_len + 1);
+	}
 }
 
 static void
