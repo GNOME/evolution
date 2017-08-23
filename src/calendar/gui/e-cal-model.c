@@ -1943,32 +1943,6 @@ e_cal_model_get_component_index (ECalModel *model,
 	return -1;
 }
 
-/* We do this check since the calendar items are downloaded from the server
- * in the open_method, since the default timezone might not be set there. */
-static void
-ensure_dates_are_in_default_zone (ECalModel *model,
-                                  icalcomponent *icalcomp)
-{
-	icaltimetype dt;
-	icaltimezone *zone;
-
-	zone = e_cal_model_get_timezone (model);
-	if (!zone)
-		return;
-
-	dt = icalcomponent_get_dtstart (icalcomp);
-	if (dt.is_utc) {
-		dt = icaltime_convert_to_zone (dt, zone);
-		icalcomponent_set_dtstart (icalcomp, dt);
-	}
-
-	dt = icalcomponent_get_dtend (icalcomp);
-	if (dt.is_utc) {
-		dt = icaltime_convert_to_zone (dt, zone);
-		icalcomponent_set_dtend (icalcomp, dt);
-	}
-}
-
 static void
 cal_model_data_subscriber_component_added_or_modified (ECalDataModelSubscriber *subscriber,
 						       ECalClient *client,
@@ -1995,7 +1969,6 @@ cal_model_data_subscriber_component_added_or_modified (ECalDataModelSubscriber *
 
 	table_model = E_TABLE_MODEL (model);
 	icalcomp = icalcomponent_new_clone (e_cal_component_get_icalcomponent (comp));
-	ensure_dates_are_in_default_zone (model, icalcomp);
 
 	if (index < 0) {
 		e_table_model_pre_change (table_model);
