@@ -3997,6 +3997,30 @@ e_cal_model_date_value_to_string (ECalModel *model,
 	return g_strdup (buffer);
 }
 
+typedef struct _GenerateInstacesData {
+	ECalModelGenerateInstancesData mdata;
+	ECalRecurInstanceFn cb;
+	ECalClient *client;
+	icaltimezone *zone;
+} GenerateInstancesData;
+
+static gboolean
+ecm_generate_instances_cb (ECalComponent *comp,
+			   time_t instance_start,
+			   time_t instance_end,
+			   gpointer user_data)
+{
+	GenerateInstancesData *gid = user_data;
+
+	g_return_val_if_fail (gid != NULL, FALSE);
+	g_return_val_if_fail (gid->mdata.comp_data != NULL, FALSE);
+
+	cal_comp_get_instance_times (gid->mdata.comp_data->client, e_cal_component_get_icalcomponent (comp),
+		gid->zone, &instance_start, NULL, &instance_end, NULL, NULL);
+
+	return gid->cb (comp, instance_start, instance_end, &gid->mdata);
+}
+
 /**
  * e_cal_model_generate_instances_sync
  *
@@ -4009,18 +4033,25 @@ e_cal_model_generate_instances_sync (ECalModel *model,
                                      ECalRecurInstanceFn cb,
                                      gpointer cb_data)
 {
-	ECalModelGenerateInstancesData mdata;
+	GenerateInstancesData gid;
 	gint i, n;
+
+	g_return_if_fail (cb != NULL);
+
+	gid.mdata.cb_data = cb_data;
+	gid.cb = cb;
+	gid.zone = model->priv->zone;
 
 	n = e_table_model_row_count (E_TABLE_MODEL (model));
 	for (i = 0; i < n; i++) {
 		ECalModelComponent *comp_data = e_cal_model_get_component_at (model, i);
 
-		mdata.comp_data = comp_data;
-		mdata.cb_data = cb_data;
+		if (comp_data->instance_start < end && comp_data->instance_end > start) {
+			gid.mdata.comp_data = comp_data;
 
-		if (comp_data->instance_start < end && comp_data->instance_end > start)
-			e_cal_client_generate_instances_for_object_sync (comp_data->client, comp_data->icalcomp, start, end, cb, &mdata);
+			e_cal_client_generate_instances_for_object_sync (comp_data->client, comp_data->icalcomp, start, end,
+				ecm_generate_instances_cb, &gid);
+		}
 	}
 }
 
