@@ -1700,7 +1700,10 @@ e_shell_window_update_view_menu (EShellWindow *shell_window)
 				_("Delete view: %s"), title);
 		}
 
-		gtk_action_group_add_action (action_group, action);
+		if (item->built_in && item->accelerator)
+			gtk_action_group_add_action_with_accel (action_group, action, item->accelerator);
+		else
+			gtk_action_group_add_action (action_group, action);
 
 		gtk_ui_manager_add_ui (
 			ui_manager, merge_id,

@@ -82,6 +82,7 @@ gal_view_collection_item_free (GalViewCollectionItem *item)
 				item->view_changed_id);
 		g_object_unref (item->view);
 	}
+	g_free (item->accelerator);
 	g_free (item);
 }
 
@@ -220,6 +221,7 @@ load_single_file (GalViewCollection *collection,
 	item->type = e_xml_get_string_prop_by_name (node, (const guchar *)"type");
 	item->collection = collection;
 	item->view_changed_id = 0;
+	item->accelerator = e_xml_get_string_prop_by_name (node, (const guchar *)"accelerator");
 
 	if (item->filename) {
 		gchar *fullpath;
@@ -755,6 +757,7 @@ gal_view_collection_append_with_title (GalViewCollection *collection,
 	item->filename = g_strdup_printf ("%s.galview", item->id);
 	item->view = view;
 	item->collection = collection;
+	item->accelerator = NULL;
 	g_object_ref (view);
 
 	item->view_changed_id = g_signal_connect (

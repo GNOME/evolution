@@ -74,6 +74,7 @@ struct _GalViewCollectionItem {
 	gchar *type;
 	GalViewCollection *collection;
 	guint view_changed_id;
+	gchar *accelerator;
 };
 
 GType		gal_view_collection_get_type	(void) G_GNUC_CONST;
