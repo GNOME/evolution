@@ -4019,7 +4019,7 @@ e_day_view_update_scroll_regions (EDayView *day_view)
 	new_x2 = time_canvas_allocation.width - 1;
 	new_y2 = MAX (
 		day_view->rows * day_view->row_height,
-		main_canvas_allocation.height) - 1;
+		main_canvas_allocation.height - 1);
 	if (old_x2 != new_x2 || old_y2 != new_y2)
 		gnome_canvas_set_scroll_region (GNOME_CANVAS (day_view->time_canvas),
 						0, 0, new_x2, new_y2);
