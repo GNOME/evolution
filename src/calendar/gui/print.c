@@ -505,7 +505,8 @@ print_text_line (GtkPrintContext *context,
                  gdouble x2,
                  gdouble y1,
                  gdouble y2,
-                 gboolean shrink)
+                 gboolean shrink,
+		 const GdkRGBA *bg_rgba)
 {
 	PangoLayout *layout;
 	gint layout_width, layout_height;
@@ -537,7 +538,10 @@ print_text_line (GtkPrintContext *context,
 	cairo_clip (cr);
 
 	cairo_new_path (cr);
-	cairo_set_source_rgb (cr, 0, 0, 0);
+	if (!bg_rgba || (bg_rgba->red > 0.7) || (bg_rgba->green > 0.7) || (bg_rgba->blue > 0.7))
+		cairo_set_source_rgb (cr, 0.0, 0.0, 0.0);
+	else
+		cairo_set_source_rgb (cr, 1.0, 1.0, 1.0);
 
 	cairo_move_to (cr, x1, y1);
 	pango_cairo_show_layout (cr, layout);
@@ -567,7 +571,7 @@ print_text (GtkPrintContext *context,
 	return print_text_line (
 		context, desc,
 		text, alignment,
-		x1, x2, y1, y2, FALSE);
+		x1, x2, y1, y2, FALSE, NULL);
 }
 
 /* gets/frees the font for you, as a bold font */
@@ -605,7 +609,7 @@ print_text_abs_bold (GtkPrintContext *context,
 	gdouble w;
 
 	font = get_font_for_size (font_size, PANGO_WEIGHT_BOLD);
-	w = print_text_line (context, font, text, alignment, x1, x2, y1, y2, TRUE);
+	w = print_text_line (context, font, text, alignment, x1, x2, y1, y2, TRUE, NULL);
 	pango_font_description_free (font);
 
 	return w;
@@ -959,6 +963,7 @@ bound_text (GtkPrintContext *context,
             gdouble x2,
             gdouble y2,
             gboolean can_wrap,
+	    const GdkRGBA *bg_rgba,
             gdouble *last_page_start,
             gint *pages)
 {
@@ -997,6 +1002,11 @@ bound_text (GtkPrintContext *context,
 		cairo_rectangle (cr, x1, y1, x2 - x1, y2 - y1);
 		cairo_clip (cr);
 		cairo_new_path (cr);
+
+		if (!bg_rgba || (bg_rgba->red > 0.7) || (bg_rgba->green > 0.7) || (bg_rgba->blue > 0.7))
+			cairo_set_source_rgb (cr, 0.0, 0.0, 0.0);
+		else
+			cairo_set_source_rgb (cr, 1.0, 1.0, 1.0);
 
 		cairo_move_to (cr, x1, y1);
 		pango_cairo_show_layout (cr, layout);
@@ -1322,7 +1332,7 @@ print_attendees (GtkPrintContext *context,
 
 			top = bound_text (
 				context, font, text->str, -1, left + 40.0,
-				top, right, bottom, FALSE, NULL, pages);
+				top, right, bottom, FALSE, NULL, NULL, pages);
 
 			g_string_free (text, TRUE);
 		}
@@ -1420,7 +1430,7 @@ print_day_long_event (GtkPrintContext *context,
 				    buffer, sizeof (buffer));
 
 		x1 += 4;
-		x1 += print_text (context, font, buffer, PANGO_ALIGN_LEFT, x1, x2, y1, y2);
+		x1 += print_text_line (context, font, buffer, PANGO_ALIGN_LEFT, x1, x2, y1, y2, FALSE, &bg_rgba);
 	}
 
 	/* If the event ends before the end of the last day being printed,
@@ -1438,7 +1448,7 @@ print_day_long_event (GtkPrintContext *context,
 				    buffer, sizeof (buffer));
 
 		x2 -= 4;
-		x2 -= print_text (context, font, buffer, PANGO_ALIGN_RIGHT, x1, x2, y1, y2);
+		x2 -= print_text_line (context, font, buffer, PANGO_ALIGN_RIGHT, x1, x2, y1, y2, FALSE, &bg_rgba);
 	}
 
 	/* Print the text. */
@@ -1446,7 +1456,7 @@ print_day_long_event (GtkPrintContext *context,
 
 	x1 += 4;
 	x2 -= 4;
-	print_text_line (context, font, text, PANGO_ALIGN_CENTER, x1, x2, y1, y2, TRUE);
+	print_text_line (context, font, text, PANGO_ALIGN_CENTER, x1, x2, y1, y2, TRUE, &bg_rgba);
 
 	g_free (text);
 }
@@ -1541,7 +1551,7 @@ print_day_event (GtkPrintContext *context,
 		g_free (t);
 	}
 
-	bound_text (context, font, text, -1, x1 + 2, y1, x2 - 2, y2, FALSE, NULL, NULL);
+	bound_text (context, font, text, -1, x1 + 2, y1, x2 - 2, y2, FALSE, &bg_rgba, NULL, NULL);
 
 	g_free (text);
 }
@@ -1809,7 +1819,7 @@ print_week_long_event (GtkPrintContext *context,
 		x1 += 2;
 		x1 += print_text_line (
 			context, font, buffer, PANGO_ALIGN_LEFT,
-			x1, x2 - 2, y1, y1 + row_height, TRUE);
+			x1, x2 - 2, y1, y1 + row_height, TRUE, &bg_rgba);
 	}
 
 	/* If the event ends before the end of the last day being printed,
@@ -1829,12 +1839,12 @@ print_week_long_event (GtkPrintContext *context,
 		x2 -= 2;
 		x2 -= print_text_line (
 			context, font, buffer, PANGO_ALIGN_RIGHT,
-			x1 + 2, x2, y1, y1 + row_height, TRUE);
+			x1 + 2, x2, y1, y1 + row_height, TRUE, &bg_rgba);
 	}
 
 	x1 += 2;
 	x2 -= 2;
-	print_text_line (context, font, text, PANGO_ALIGN_CENTER, x1, x2, y1, y1 + row_height, TRUE);
+	print_text_line (context, font, text, PANGO_ALIGN_CENTER, x1, x2, y1, y1 + row_height, TRUE, &bg_rgba);
 }
 
 static void
@@ -1866,7 +1876,7 @@ print_week_day_event (GtkPrintContext *context,
 	print_rectangle (context, x1 + 1, y1, x2 - x1 - 2, row_height, bg_rgba);
 	x1 += print_text_line (
 		context, font, buffer, PANGO_ALIGN_LEFT,
-		x1 + 2, x2 - 3, y1, y1 + row_height, TRUE) + 4;
+		x1 + 2, x2 - 3, y1, y1 + row_height, TRUE, &bg_rgba) + 4;
 
 	if (psi->weeks_shown <= 2) {
 		date_tm.tm_hour = event->end_minute / 60;
@@ -1877,12 +1887,12 @@ print_week_day_event (GtkPrintContext *context,
 
 		x1 += print_text_line (
 			context, font, buffer, PANGO_ALIGN_LEFT,
-			x1, x2 - 3, y1, y1 + row_height, TRUE) + 4;
+			x1, x2 - 3, y1, y1 + row_height, TRUE, &bg_rgba) + 4;
 	}
 
 	print_text_line (
 		context, font, text, PANGO_ALIGN_LEFT,
-		x1, x2 - 3, y1, y1 + row_height, TRUE);
+		x1, x2 - 3, y1, y1 + row_height, TRUE, &bg_rgba);
 }
 
 static void
@@ -2098,7 +2108,7 @@ print_week_view_background (GtkPrintContext *context,
 
 		print_text_line (
 			context, font, buffer, PANGO_ALIGN_RIGHT,
-			x1, x2 - 4, y1 + 2, y1 + 2 + font_size, TRUE);
+			x1, x2 - 4, y1 + 2, y1 + 2 + font_size, TRUE, NULL);
 	}
 }
 
@@ -2360,7 +2370,7 @@ print_month_summary (GtkPrintContext *context,
 		x2 = x1 + cell_width;
 
 		print_border (context, x1, x2, y1, y2, 1.0, -1.0);
-		print_text_line (context, font, buffer, PANGO_ALIGN_CENTER, x1, x2, y1, y2, TRUE);
+		print_text_line (context, font, buffer, PANGO_ALIGN_CENTER, x1, x2, y1, y2, TRUE, NULL);
 
 		tm.tm_mday++;
 		tm.tm_wday = (tm.tm_wday + 1) % 7;
@@ -2459,7 +2469,7 @@ print_todo_details (GtkPrintContext *context,
 
 		y = bound_text (
 			context, font_summary, summary.value, -1,
-			x + 14, y + 4, xend, yend, FALSE, NULL, NULL);
+			x + 14, y + 4, xend, yend, FALSE, NULL, NULL, NULL);
 
 		y += get_font_size (font_summary) - 5;
 		cr = gtk_print_context_get_cairo_context (context);
@@ -3520,7 +3530,7 @@ print_comp_draw_real (GtkPrintOperation *operation,
 	summary_string = g_strdup_printf (_("Summary: %s"), text.value ? text.value : "");
 	top = bound_text (
 		context, font, summary_string, -1, 0.0, top, width,
-		height, FALSE, &page_start, &pages);
+		height, FALSE, NULL, &page_start, &pages);
 
 	g_free (summary_string);
 
@@ -3532,7 +3542,7 @@ print_comp_draw_real (GtkPrintOperation *operation,
 			location);
 		top = bound_text (
 			context, font, location_string, -1, 0.0,
-			top + 3, width, height, FALSE, &page_start, &pages);
+			top + 3, width, height, FALSE, NULL, &page_start, &pages);
 		g_free (location_string);
 	}
 
@@ -3548,7 +3558,7 @@ print_comp_draw_real (GtkPrintOperation *operation,
 	if ((page_nr == 0) && e_cal_component_has_attendees (comp)) {
 		top = bound_text (
 			context, font, _("Attendees: "), -1, 0.0,
-			top, width, height, FALSE, &page_start, &pages);
+			top, width, height, FALSE, NULL, &page_start, &pages);
 		pango_font_description_free (font);
 		font = get_font_for_size (12, PANGO_WEIGHT_NORMAL);
 		top = print_attendees (
@@ -3595,7 +3605,7 @@ print_comp_draw_real (GtkPrintOperation *operation,
 					status_string);
 				top = bound_text (
 					context, font, status_text, -1,
-					0.0, top, width, height, FALSE, &page_start, &pages);
+					0.0, top, width, height, FALSE, NULL, &page_start, &pages);
 				top += get_font_size (font) - 6;
 				g_free (status_text);
 			}
@@ -3611,7 +3621,7 @@ print_comp_draw_real (GtkPrintOperation *operation,
 				e_cal_util_priority_to_string (*priority));
 			top = bound_text (
 				context, font, pri_text, -1,
-				0.0, top, width, height, FALSE,
+				0.0, top, width, height, FALSE, NULL,
 				&page_start, &pages);
 			top += get_font_size (font) - 6;
 			g_free (pri_text);
@@ -3630,7 +3640,7 @@ print_comp_draw_real (GtkPrintOperation *operation,
 
 			top = bound_text (
 				context, font, percent_string, -1,
-				0.0, top, width, height, FALSE, &page_start, &pages);
+				0.0, top, width, height, FALSE, NULL, &page_start, &pages);
 			top += get_font_size (font) - 6;
 		}
 
@@ -3643,7 +3653,7 @@ print_comp_draw_real (GtkPrintOperation *operation,
 
 			top = bound_text (
 				context, font, url_string, -1,
-				0.0, top, width, height, TRUE, &page_start, &pages);
+				0.0, top, width, height, TRUE, NULL, &page_start, &pages);
 			top += get_font_size (font) - 6;
 			g_free (url_string);
 		}
@@ -3656,7 +3666,7 @@ print_comp_draw_real (GtkPrintOperation *operation,
 			_("Categories: %s"), categories);
 		top = bound_text (
 			context, font, categories_string, -1,
-			0.0, top, width, height, TRUE, &page_start, &pages);
+			0.0, top, width, height, TRUE, NULL, &page_start, &pages);
 		top += get_font_size (font) - 6;
 		g_free (categories_string);
 	}
@@ -3676,7 +3686,7 @@ print_comp_draw_real (GtkPrintOperation *operation,
 
 		top = bound_text (
 			context, font, contacts->str, -1,
-			0.0, top, width, height, TRUE, &page_start, &pages);
+			0.0, top, width, height, TRUE, NULL, &page_start, &pages);
 		top += get_font_size (font) - 6;
 		g_string_free (contacts, TRUE);
 	}
@@ -3694,7 +3704,7 @@ print_comp_draw_real (GtkPrintOperation *operation,
 			top = bound_text (
 				context, font, line,
 				next_line ? next_line - line : -1,
-				0.0, top + 3, width, height, TRUE,
+				0.0, top + 3, width, height, TRUE, NULL,
 				&page_start, &pages);
 
 			if (next_line) {
