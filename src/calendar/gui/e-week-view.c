@@ -2936,6 +2936,9 @@ e_week_view_on_button_press (GtkWidget *widget,
 			gtk_widget_queue_draw (week_view->main_canvas);
 		}
 	} else if (event_button == 3) {
+		GnomeCanvasItem *item;
+		gint event_num = -1, span_num = -1;
+
 		if (!gtk_widget_has_focus (GTK_WIDGET (week_view)))
 			gtk_widget_grab_focus (GTK_WIDGET (week_view));
 
@@ -2948,7 +2951,11 @@ e_week_view_on_button_press (GtkWidget *widget,
 			gtk_widget_queue_draw (week_view->main_canvas);
 		}
 
-		e_week_view_show_popup_menu (week_view, button_event, -1);
+		item = gnome_canvas_get_item_at (GNOME_CANVAS (widget), x, y);
+		if (!item || !e_week_view_find_event_from_item (week_view, item, &event_num, &span_num))
+			event_num = -1;
+
+		e_week_view_show_popup_menu (week_view, button_event, event_num);
 	}
 
 	return TRUE;
