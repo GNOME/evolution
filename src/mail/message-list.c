@@ -61,6 +61,7 @@
 
 #define d(x)
 #define t(x)
+#define dd(x) G_STMT_START { if (camel_debug ("message-list")) { x; } } G_STMT_END
 
 #define MESSAGE_LIST_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -5892,21 +5893,35 @@ message_list_regen_thread (GSimpleAsyncResult *simple,
 
 	if (expr->len == 0) {
 		uids = camel_folder_get_uids (folder);
+		dd (g_print ("%s: got %d uids in folder %p (%s : %s)\n", G_STRFUNC, uids ? uids->len : -1, folder,
+			camel_service_get_display_name (CAMEL_SERVICE (camel_folder_get_parent_store (folder))),
+			camel_folder_get_full_name (folder)));
 	} else {
 		uids = camel_folder_search_by_expression (
 			folder, expr->str, cancellable, &local_error);
+
+		dd (g_print ("%s: got %d uids in folder %p (%s : %s) for expression:---%s---\n", G_STRFUNC,
+			uids ? uids->len : -1, folder,
+			camel_service_get_display_name (CAMEL_SERVICE (camel_folder_get_parent_store (folder))),
+			camel_folder_get_full_name (folder), expr->str));
 
 		/* XXX This indicates we need to use a different
 		 *     "free UID" function for some dumb reason. */
 		searchuids = uids;
 
-		if (uids != NULL)
+		if (uids != NULL) {
 			message_list_regen_tweak_search_results (
 				message_list,
 				uids, folder,
 				regen_data->folder_changed,
 				!hide_deleted,
 				!hide_junk);
+
+			dd (g_print ("   %s: got %d uids in folder %p (%s : %s) after tweak, hide_deleted:%d, hide_junk:%d\n", G_STRFUNC,
+				uids ? uids->len : -1, folder,
+				camel_service_get_display_name (CAMEL_SERVICE (camel_folder_get_parent_store (folder))),
+				camel_folder_get_full_name (folder), hide_deleted, hide_junk));
+		}
 	}
 
 	g_string_free (expr, TRUE);
