@@ -2737,7 +2737,7 @@ msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“show-headers” instead."
 msgstr ""
-"Aquesta clau vaa quedar obsoleta a partir de la versió 3.10 i no l'hauríeu "
+"Aquesta clau va quedar obsoleta a partir de la versió 3.10 i no l'hauríeu "
 "d'emprar més. Utilitzeu «show-headers» en lloc seu."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:260
