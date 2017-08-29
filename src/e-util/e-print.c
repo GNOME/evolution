@@ -122,7 +122,10 @@ save_settings (GtkPrintSettings *settings,
 	gtk_print_settings_unset (settings, GTK_PRINT_SETTINGS_PAGE_SET);
 	gtk_print_settings_unset (settings, GTK_PRINT_SETTINGS_PRINT_PAGES);
 
-	gtk_print_settings_to_key_file (settings, key_file, NULL);
+	/* Remove old values first */
+	g_key_file_remove_group (key_file, PRINT_SETTINGS_GROUP_NAME, NULL);
+
+	gtk_print_settings_to_key_file (settings, key_file, PRINT_SETTINGS_GROUP_NAME);
 }
 
 static GtkPageSetup *
@@ -143,7 +146,10 @@ static void
 save_page_setup (GtkPageSetup *page_setup,
                  GKeyFile *key_file)
 {
-	gtk_page_setup_to_key_file (page_setup, key_file, NULL);
+	/* Remove old values first */
+	g_key_file_remove_group (key_file, PAGE_SETUP_GROUP_NAME, NULL);
+
+	gtk_page_setup_to_key_file (page_setup, key_file, PAGE_SETUP_GROUP_NAME);
 }
 
 static void
@@ -206,6 +212,8 @@ e_print_operation_new (void)
 	GKeyFile *key_file;
 
 	operation = gtk_print_operation_new ();
+
+	gtk_print_operation_set_embed_page_setup (operation, TRUE);
 
 	key_file = g_key_file_new ();
 	load_key_file (key_file);
