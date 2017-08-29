@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2017-08-24 12:50+0000\n"
+"POT-Creation-Date: 2017-08-28 02:40+0000\n"
 "PO-Revision-Date: 2017-08-20 16:53+0200\n"
 "Last-Translator: Марко М. Костић <marko.m.kostic@gmail.com>\n"
 "Language-Team: српски <gnome-sr@googlegroups.org>\n"
@@ -44,7 +44,7 @@ msgid ""
 "integrated mail, calendaring and address book functionality."
 msgstr ""
 "Еволуција је програм за управљање личним подацима који обезбеђује обједињену "
-"функционалност поште, календара и адресара."
+"функционалност поште, календара и именика."
 
 #: ../evolution.appdata.xml.in.h:4
 msgid ""
@@ -80,8 +80,9 @@ msgstr "Еволуција — пошта и календар"
 #: ../data/evolution.desktop.in.in.h:5
 msgid "email;calendar;contact;addressbook;task;"
 msgstr ""
-"е-пошта;пошта;календар;контакт;адресар;задатак;мејл;e-pošta;pošta;kalendar;"
-"kontakt;adresar;zadatak;mejl;email;calendar;contact;addressbook;task;"
+"е-пошта;пошта;календар;контакт;адресар;именик;задатак;мејл;e-pošta;pošta;"
+"kalendar;kontakt;adresar;imenik;zadatak;mejl;email;calendar;contact;"
+"addressbook;task;"
 
 #: ../data/evolution.desktop.in.in.h:6
 msgid "New Window"
@@ -231,14 +232,14 @@ msgstr "Да ли да прикаже карте у површи за прегл
 # note(slobo): spam , Ђубре --> Нежељена пошта
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:17
 msgid "Primary address book"
-msgstr "Примарни адресар"
+msgstr "Примарни именик"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:18
 msgid ""
 "The UID of the selected (or “primary”) address book in the sidebar of the "
 "“Contacts” view"
 msgstr ""
-"ЈИБ изабраног (или „примарног“) адресара у бочној површи у прегледу "
+"ЈИБ изабраног (или „примарног“) именика у бочној површи у прегледу "
 "„Контакти“"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:19
@@ -2071,9 +2072,7 @@ msgstr "Поставља упит кориснику када покуша да 
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:166
 msgid "Prompt the user when he or she tries to Empty a Junk folder."
-msgstr ""
-"Поставља упит кориснику када покуша да испразни фасциклу са "
-"смећем."
+msgstr "Поставља упит кориснику када покуша да испразни фасциклу са смећем."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:167
 msgid "Prompt before sending to recipients not entered as mail addresses"
@@ -2153,10 +2152,10 @@ msgid ""
 "folders in folder tree without asking, or “ask” — (or any other value) will "
 "ask user."
 msgstr ""
-"Могуће вредности су: „never“ — неће допустити копирање фасцикли "
-"превлачењем и убацивањем у стабло фасцикли; „always“ — допустиће копирање "
-"фасцикли превлачењем и убацивањем у стабло фасцикли без питања, или „ask“ — "
-"(или свака друга вредност) питаће корисника."
+"Могуће вредности су: „never“ — неће допустити копирање фасцикли превлачењем "
+"и убацивањем у стабло фасцикли; „always“ — допустиће копирање фасцикли "
+"превлачењем и убацивањем у стабло фасцикли без питања, или „ask“ — (или "
+"свака друга вредност) питаће корисника."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:181
 msgid "Asks whether to move a folder by drag &amp; drop in the folder tree"
@@ -2368,7 +2367,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:217
 msgid "Determines whether to lookup in address book for sender email"
-msgstr "Утврђује да ли у адресару да прегледа адресе пошиљаоца"
+msgstr "Утврђује да ли у именику прикаже преглед адресе пошиљаоца"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:218
 msgid ""
@@ -2377,9 +2376,9 @@ msgid ""
 "can be slow, if remote address books (like LDAP) are marked for "
 "autocompletion."
 msgstr ""
-"Утврђује да ли да претражи у адресару адресе пошиљаоца. Уколико је пронађе, "
-"не сврстава је у нежељену пошту. Тражи је у адресарима означеним за "
-"самодопуњавање. Може бити споро ако су адресари (рецимо ЛДАП) означени за "
+"Утврђује да ли да претражи у именику адресе пошиљаоца. Уколико је пронађе, "
+"не сврстава је у нежељену пошту. Тражи је у именицима означеним за "
+"самодопуњавање. Може бити споро ако су именику (рецимо ЛДАП) означени за "
 "самодопуњавање."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:219
@@ -2387,7 +2386,7 @@ msgid ""
 "Determines whether to look up addresses for junk filtering in local address "
 "book only"
 msgstr ""
-"Утврђује да ли само у адресару да прегледа адресе у потрази за нежељеном "
+"Утврђује да ли само у именику прикаже преглед адресе у потрази за нежељеном "
 "поштом"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:220
@@ -2397,7 +2396,7 @@ msgid ""
 "mail sent by known contacts from junk filtering."
 msgstr ""
 "Ова опција се односи на кључ „lookup_addressbook“ и користи се за одређивање "
-"да ли да се адреса тражи само у локалном адресару како би се издвојила пошта "
+"да ли да се адреса тражи само у локалном именику како би се издвојила пошта "
 "примљена од познатих пошиљалаца од оне нежељене."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:221
@@ -2666,12 +2665,12 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:1
 msgid "Address book source"
-msgstr "Извор адресара"
+msgstr "Извор именика"
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:2
 msgid "Address book to use for storing automatically synced contacts."
 msgstr ""
-"Адресар који ће бити коришћен за смештај самостално усаглашених контаката."
+"Именик који ће бити коришћен за смештај самостално усаглашених контаката."
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:3
 msgid "Auto sync Pidgin contacts"
@@ -2688,26 +2687,26 @@ msgstr "Укључује самоконтакте"
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:6
 msgid ""
 "Whether contacts should be automatically added to the user’s address book."
-msgstr "Да ли ће контакти бити самостално додати у кориснички адресар."
+msgstr "Да ли ће контакти бити самостално додати у кориснички именик."
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:7
 msgid "Pidgin address book source"
-msgstr "Извор Голупкових адресара"
+msgstr "Извор Пиџинових именика"
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:8
 msgid ""
 "Address book to use for storing automatically synced contacts from Pidgin."
 msgstr ""
-"Адресар који ће бити коришћен за смештај самостално усаглашене контакте са "
+"Именик који ће бити коришћен за смештај самостално усаглашене контакте са "
 "Голупка."
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:9
 msgid "Pidgin check interval"
-msgstr "Период провере Голупка"
+msgstr "Период провере Пиџина"
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:10
 msgid "Check interval for Pidgin syncing of contacts."
-msgstr "Период провере за Голупково усклађивање контаката."
+msgstr "Период провере за Пиџин усклађивање контаката."
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:11
 msgid "Pidgin last sync MD5"
@@ -2715,15 +2714,15 @@ msgstr "МД5 последњег усклађивања Голупка"
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:12
 msgid "Pidgin last sync MD5."
-msgstr "МД5 последњег усклађивања Голупка."
+msgstr "МД5 последњег усклађивања Пиџина."
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:13
 msgid "Pidgin last sync time"
-msgstr "Време последњег усклађивања Голупка"
+msgstr "Време последњег усклађивања Пиџина"
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:14
 msgid "Pidgin last sync time."
-msgstr "Време последњег усклађивања Голупка."
+msgstr "Време последњег усклађивања Пиџина."
 
 #: ../data/org.gnome.evolution.plugin.email-custom-header.gschema.xml.in.h:1
 msgid "List of Custom Headers"
@@ -2992,7 +2991,7 @@ msgid ""
 "Valid values are “mail”, “addressbook”, “calendar”, “tasks” and “memos”. "
 "Change of this requires restart of the application."
 msgstr ""
-"Исправне вредности су „mail“ (пошта), „addressbook“ (адресар), "
+"Исправне вредности су „mail“ (пошта), „addressbook“ (именик), "
 "„calendar“ (календар), „tasks“ (задаци) и „memos“ (белешке). Измена овога "
 "захтева поновно покретање програма."
 
@@ -3124,7 +3123,7 @@ msgstr ""
 
 #: ../data/views/addressbook/galview.xml.h:1
 msgid "_Address Cards"
-msgstr "_Карте адресара"
+msgstr "_Карте именика"
 
 #: ../data/views/addressbook/galview.xml.h:2
 #: ../data/views/calendar/galview.xml.h:5
@@ -3203,14 +3202,14 @@ msgstr "Са _стањем"
 # мало аориста ;-)
 #: ../src/addressbook/addressbook.error.xml.h:1
 msgid "This address book could not be opened."
-msgstr "Не могу да отворим овај адресар."
+msgstr "Не могу да отворим овај именик."
 
 #: ../src/addressbook/addressbook.error.xml.h:2
 msgid ""
 "This address book server might be unreachable or the server name may be "
 "misspelled or your network connection could be down."
 msgstr ""
-"Сервер овог адресара је или недоступан или је његово име погрешно унето или "
+"Сервер овог именика је или недоступан или је његово име погрешно унето или "
 "је мрежа недоступна."
 
 #: ../src/addressbook/addressbook.error.xml.h:3
@@ -3229,7 +3228,7 @@ msgstr ""
 
 #: ../src/addressbook/addressbook.error.xml.h:5
 msgid "This address book server does not have any suggested search bases."
-msgstr "Сервер овог адресара не садржи предложене основе за претрагу."
+msgstr "Сервер овог именика не садржи предложене основе за претрагу."
 
 #: ../src/addressbook/addressbook.error.xml.h:6
 msgid ""
@@ -3255,16 +3254,16 @@ msgstr "ЛДАП сервер није одговорио исправном ш�
 
 #: ../src/addressbook/addressbook.error.xml.h:10
 msgid "Could not remove address book."
-msgstr "Не могу да уклоним адресар."
+msgstr "Не могу да уклоним именик."
 
 #: ../src/addressbook/addressbook.error.xml.h:11
 msgid "Are you sure you want to delete address book “{0}”?"
-msgstr "Сигурно желите да обришете адресар „{0}“?"
+msgstr "Сигурно желите да обришете именик „{0}“?"
 
 # мало аориста ;-)
 #: ../src/addressbook/addressbook.error.xml.h:12
 msgid "This address book will be removed permanently."
-msgstr "Овај адресар ће бити трајно уклоњен."
+msgstr "Овај именик ће бити трајно уклоњен."
 
 #: ../src/addressbook/addressbook.error.xml.h:13
 #: ../src/calendar/calendar.error.xml.h:7 ../src/e-util/e-system.error.xml.h:27
@@ -3274,14 +3273,14 @@ msgstr "Не _бриши"
 
 #: ../src/addressbook/addressbook.error.xml.h:14
 msgid "Delete remote address book “{0}”?"
-msgstr "Да обришем удаљени адресар „{0}“?"
+msgstr "Да обришем удаљени именик „{0}“?"
 
 #: ../src/addressbook/addressbook.error.xml.h:15
 msgid ""
 "This will permanently remove the address book “{0}” from the server. Are you "
 "sure you want to proceed?"
 msgstr ""
-"Ово ће трајно уклонити адресар „{0}“ са сервера. Да ли сте сигурни да желите "
+"Ово ће трајно уклонити именик „{0}“ са сервера. Да ли сте сигурни да желите "
 "да наставите?"
 
 #: ../src/addressbook/addressbook.error.xml.h:16
@@ -3296,7 +3295,7 @@ msgstr "Уређивач категорија није доступан."
 
 #: ../src/addressbook/addressbook.error.xml.h:18
 msgid "Unable to open address book “{0}”"
-msgstr "Не могу да отворим адресар „{0}“"
+msgstr "Не могу да отворим именик „{0}“"
 
 #: ../src/addressbook/addressbook.error.xml.h:19
 msgid "Unable to perform search."
@@ -3304,7 +3303,7 @@ msgstr "Претрага није могућа."
 
 #: ../src/addressbook/addressbook.error.xml.h:20
 msgid "Failed to refresh address book “{0}”"
-msgstr "Не могу да освежим адресар „{0}“"
+msgstr "Не могу да освежим именик „{0}“"
 
 #: ../src/addressbook/addressbook.error.xml.h:21
 msgid "Would you like to save your changes?"
@@ -3329,7 +3328,7 @@ msgid ""
 "You are attempting to move a contact from one address book to another but it "
 "cannot be removed from the source. Do you want to save a copy instead?"
 msgstr ""
-"Покушавате да преместите контакт из једног адресара у други али се он не "
+"Покушавате да преместите контакт из једног именика у други али се он не "
 "може уклонити из извора. Желите ли да сачувате копију уместо тога?"
 
 #: ../src/addressbook/addressbook.error.xml.h:26
@@ -3430,7 +3429,7 @@ msgstr "Не могу да обришем контакт"
 
 #: ../src/addressbook/addressbook.error.xml.h:42
 msgid "You do not have permission to delete contacts in this address book."
-msgstr "Немате довољна овлашћења да бришете контакте из овог адресара."
+msgstr "Немате довољна овлашћења да бришете контакте из овог именика."
 
 #: ../src/addressbook/addressbook.error.xml.h:43
 msgid "Cannot add new contact"
@@ -3442,12 +3441,12 @@ msgid ""
 "“{0}” is a read-only address book and cannot be modified. Please select a "
 "different address book from the side bar in the Contacts view."
 msgstr ""
-"Адресар „{0}“ је само за читање и није подложан изменама. Изаберите други "
-"адресар са бочне траке у прегледу Контакти."
+"Именик „{0}“ је само за читање и није подложан изменама. Изаберите други "
+"именик са бочне траке у прегледу Контакти."
 
 #: ../src/addressbook/addressbook.error.xml.h:46
 msgid "Cannot save a contact, address book is still opening"
-msgstr "Не могу да сачувам контакт, адресар се још увек отвара"
+msgstr "Не могу да сачувам контакт, именик се још увек отвара"
 
 #. For Translators: {0} is the name of the address book source
 #: ../src/addressbook/addressbook.error.xml.h:48
@@ -3455,8 +3454,8 @@ msgid ""
 "Cannot save a contact to the address book “{0}”, because it is still "
 "opening. Either wait till it’s opened, or select a different address book."
 msgstr ""
-"Не могу да сачувам контакт у адресар „{0}“, јер се још увек отвара. Или "
-"сачекајте док се не отвори, или изаберите неки други адресар."
+"Не могу да сачувам контакт у именик „{0}“, јер се још увек отвара. Или "
+"сачекајте док се не отвори, или изаберите неки други именик."
 
 #: ../src/addressbook/addressbook.error.xml.h:49
 msgid "Something has gone wrong when displaying the contact"
@@ -4079,7 +4078,7 @@ msgstr "Е-_пошта"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:529
 msgid "_Select Address Book"
-msgstr "_Изабери адресар"
+msgstr "_Изабери именик"
 
 #: ../src/addressbook/gui/contact-editor/fullname.ui.h:1
 msgid "Mr."
@@ -4186,7 +4185,7 @@ msgstr "_Изабери..."
 
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:14
 msgid "Insert email addresses from Address Book"
-msgstr "Уметните адресе е-поште из адресара"
+msgstr "Уметните адресе е-поште из именика"
 
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:15
 #: ../src/e-util/filter.ui.h:26
@@ -4261,7 +4260,7 @@ msgstr "Поље које садржи"
 #: ../src/addressbook/gui/widgets/ea-addressbook-view.c:101
 #: ../src/addressbook/gui/widgets/ea-minicard-view.c:223
 msgid "evolution address book"
-msgstr "Адресар Еволуције"
+msgstr "Именик Еволуције"
 
 #: ../src/addressbook/gui/widgets/eab-contact-display.c:185
 msgid "Copy _Email Address"
@@ -4510,9 +4509,9 @@ msgid ""
 "marked for offline usage or not yet downloaded for offline usage. Please "
 "load the address book once in online mode to download its contents."
 msgstr ""
-"Не могу да отворим овај адресар. То значи да он или није означен за "
+"Не могу да отворим овај именик. То значи да он или није означен за "
 "коришћење ван мреже или да још није преузет за рад ван мреже. Учитајте "
-"адресар када се повежете ради преузимања његовог садржаја."
+"именик када се повежете ради преузимања његовог садржаја."
 
 #: ../src/addressbook/gui/widgets/eab-gui-util.c:138
 #, c-format
@@ -4520,7 +4519,7 @@ msgid ""
 "This address book cannot be opened.  Please check that the path %s exists "
 "and that permissions are set to access it."
 msgstr ""
-"Не могу да отворим овај адресар.  Проверите да ли постоји путања %s и да ли "
+"Не могу да отворим овај именик.  Проверите да ли постоји путања %s и да ли "
 "имате права приступа."
 
 #: ../src/addressbook/gui/widgets/eab-gui-util.c:151
@@ -4537,7 +4536,7 @@ msgid ""
 "This address book cannot be opened.  This either means that an incorrect URI "
 "was entered, or the server is unreachable."
 msgstr ""
-"Не могу да отворим овај адресар.  То значи да сте или унели погрешну адресу, "
+"Не могу да отворим овај именик.  То значи да сте или унели погрешну адресу, "
 "или је сервер недоступан."
 
 #: ../src/addressbook/gui/widgets/eab-gui-util.c:170
@@ -4554,7 +4553,7 @@ msgstr ""
 "Број карти које одговарају упиту је већи од броја на који је сервер \n"
 "подешен да одговори или који је Еволуција подешена да прикаже.\n"
 "Прецизније обликујте упит или повећајте ограничење\n"
-"броја резултата у поставкама адресара за сервер директоријума."
+"броја резултата у поставкама именика за сервер директоријума."
 
 #: ../src/addressbook/gui/widgets/eab-gui-util.c:216
 msgid ""
@@ -4564,21 +4563,21 @@ msgid ""
 "preferences for this address book."
 msgstr ""
 "Време за извршавање овог упита је преко ограничења сервера или\n"
-"ограничења које сте подесили за овај адресар. Прецизније обликујте\n"
+"ограничења које сте подесили за овај именик. Прецизније обликујте\n"
 "упит или повећајте временско ограничење у поставкама сервера\n"
-"директоријума за овај адресар."
+"директоријума за овај именик."
 
 #. Translators: %s is replaced with a detailed error message, or an empty string, if not provided
 #: ../src/addressbook/gui/widgets/eab-gui-util.c:224
 #, c-format
 msgid "The backend for this address book was unable to parse this query. %s"
-msgstr "Основни процес овог адресара није могао да обради упит. %s"
+msgstr "Основни процес овог именика није могао да обради упит. %s"
 
 #. Translators: %s is replaced with a detailed error message, or an empty string, if not provided
 #: ../src/addressbook/gui/widgets/eab-gui-util.c:229
 #, c-format
 msgid "The backend for this address book refused to perform this query. %s"
-msgstr "Основни процес овог адресара је одбио да обави овај упит. %s"
+msgstr "Основни процес овог именика је одбио да обави овај упит. %s"
 
 #. Translators: %s is replaced with a detailed error message, or an empty string, if not provided
 #: ../src/addressbook/gui/widgets/eab-gui-util.c:235
@@ -4594,7 +4593,7 @@ msgstr "card.vcf"
 
 #: ../src/addressbook/gui/widgets/eab-gui-util.c:314
 msgid "Select Address Book"
-msgstr "Изабери адресар"
+msgstr "Изабери именик"
 
 #: ../src/addressbook/gui/widgets/eab-gui-util.c:396
 msgid "list"
@@ -4890,10 +4889,10 @@ msgstr "Нова контакт листа"
 #, c-format
 msgid "current address book folder %s has %d card"
 msgid_plural "current address book folder %s has %d cards"
-msgstr[0] "тренутна фасцикла адресара %s има %d карту"
-msgstr[1] "тренутна фасцикла адресара %s има %d карте"
-msgstr[2] "тренутна фасцикла адресара %s има %d карти"
-msgstr[3] "тренутна фасцикла адресара %s има једну карту"
+msgstr[0] "тренутна фасцикла именика %s има %d карту"
+msgstr[1] "тренутна фасцикла именика %s има %d карте"
+msgstr[2] "тренутна фасцикла именика %s има %d карти"
+msgstr[3] "тренутна фасцикла именика %s има једну карту"
 
 #: ../src/addressbook/gui/widgets/e-contact-map-window.c:374
 msgid "Contacts Map"
@@ -11241,7 +11240,7 @@ msgstr "Потп_ис:"
 
 #: ../src/composer/e-composer-name-header.c:237
 msgid "Click here for the address book"
-msgstr "Кликните овде за адресар"
+msgstr "Кликните овде за именик"
 
 #: ../src/composer/e-composer-post-header.c:180
 msgid "Click here to select folders to post to"
@@ -11945,7 +11944,7 @@ msgstr "Поштански налози"
 #: ../src/e-util/e-accounts-window.c:516 ../src/e-util/e-accounts-window.c:653
 #: ../src/e-util/e-accounts-window.c:841
 msgid "Address Books"
-msgstr "Адресари"
+msgstr "Именици"
 
 #: ../src/e-util/e-accounts-window.c:522 ../src/e-util/e-accounts-window.c:654
 #: ../src/e-util/e-accounts-window.c:842
@@ -11986,7 +11985,7 @@ msgstr "Поштански налог"
 
 #: ../src/e-util/e-accounts-window.c:1464
 msgid "Address _Book"
-msgstr "_Адресар"
+msgstr "_Именик"
 
 #: ../src/e-util/e-accounts-window.c:1465
 msgid "_Calendar"
@@ -12239,11 +12238,11 @@ msgstr "Отвори овај прилог у „%s“"
 
 #: ../src/e-util/e-book-source-config.c:98
 msgid "Mark as default address book"
-msgstr "Означава као подразумеван адресар"
+msgstr "Означава као подразумеван именик"
 
 #: ../src/e-util/e-book-source-config.c:103
 msgid "Autocomplete with this address book"
-msgstr "Сам допуњава овим адресаром"
+msgstr "Сам допуњава овим имеником"
 
 #: ../src/e-util/e-book-source-config.c:277
 msgid "Copy book content locally for offline operation"
@@ -14356,7 +14355,7 @@ msgstr "Отварам списак задатака „%s“"
 #: ../src/e-util/e-misc-utils.c:2510
 #, c-format
 msgid "Opening address book “%s”"
-msgstr "Отварам адресар „%s“"
+msgstr "Отварам именик „%s“"
 
 #: ../src/e-util/e-misc-utils.c:3290
 #: ../src/modules/mailto-handler/evolution-mailto-handler.c:146
@@ -14369,7 +14368,7 @@ msgstr "Прикажи контакте"
 
 #: ../src/e-util/e-name-selector-dialog.c:306
 msgid "Address B_ook:"
-msgstr "_Адресар:"
+msgstr "_Именик:"
 
 #: ../src/e-util/e-name-selector-dialog.c:313
 msgid "Cat_egory:"
@@ -14400,11 +14399,11 @@ msgstr "Потражи"
 #: ../src/e-util/e-name-selector-dialog.c:445
 #: ../src/mail/importers/pine-importer.c:430
 msgid "Address Book"
-msgstr "Адресар"
+msgstr "Именик"
 
 #: ../src/e-util/e-name-selector-dialog.c:573
 msgid "Select Contacts from Address Book"
-msgstr "Изаберите контакте из адресара"
+msgstr "Изаберите контакте из именика"
 
 #. To Translators: This would be similiar to "Expand MyList Inline" where MyList is a Contact List
 #: ../src/e-util/e-name-selector-entry.c:3222
@@ -14917,7 +14916,7 @@ msgstr "Не могу да обришем ресурс „{0}“."
 
 #: ../src/e-util/e-system.error.xml.h:11
 msgid "The address book backend servicing “{0}” has quit unexpectedly."
-msgstr "Позадинац адресара који услужује „{0}“ је неочекивано престао да ради."
+msgstr "Позадинац именика који услужује „{0}“ је неочекивано престао да ради."
 
 #: ../src/e-util/e-system.error.xml.h:12
 msgid ""
@@ -14960,7 +14959,7 @@ msgstr ""
 
 #: ../src/e-util/e-system.error.xml.h:19
 msgid "The address book backend servicing “{0}” encountered an error."
-msgstr "Позадинац адресара који услужује „{0}“ је наишао на грешку."
+msgstr "Позадинац именика који услужује „{0}“ је наишао на грешку."
 
 #: ../src/e-util/e-system.error.xml.h:20
 msgid "The calendar backend servicing “{0}” encountered an error."
@@ -15284,7 +15283,7 @@ msgstr "Идентитет"
 
 #: ../src/e-util/e-webdav-browser.c:447
 msgid "Address book"
-msgstr "Адресар"
+msgstr "Именик"
 
 #: ../src/e-util/e-webdav-browser.c:458
 msgid "Events"
@@ -16709,7 +16708,7 @@ msgstr "Уређивач налога"
 
 #: ../src/mail/e-mail-display.c:128
 msgid "_Add to Address Book..."
-msgstr "_Додај у адресар..."
+msgstr "_Додај у именик..."
 
 #: ../src/mail/e-mail-display.c:135
 msgid "_To This Address"
@@ -16973,11 +16972,11 @@ msgstr "Преузимам поруку „%s“"
 
 #: ../src/mail/e-mail-reader.c:1995
 msgid "A_dd Sender to Address Book"
-msgstr "До_дај пошиљаоца у адресар"
+msgstr "До_дај пошиљаоца у именик"
 
 #: ../src/mail/e-mail-reader.c:1997
 msgid "Add sender to address book"
-msgstr "Додај пошиљаоца у адресар"
+msgstr "Додај пошиљаоца у именик"
 
 #: ../src/mail/e-mail-reader.c:2002
 msgid "_Archive..."
@@ -19059,11 +19058,11 @@ msgstr "Опције за тестирање ђубрета"
 
 #: ../src/mail/mail-config.ui.h:131
 msgid "Do not mar_k messages as junk if sender is in my address book"
-msgstr "Не означава_ј поруке као ђубре ако је пошиљалац у мом адресару"
+msgstr "Не означава_ј поруке као ђубре ако је пошиљалац у мом именику"
 
 #: ../src/mail/mail-config.ui.h:132
 msgid "_Lookup in local address book only"
-msgstr "_Потражи само у локалном адресару"
+msgstr "_Потражи само у локалном именику"
 
 #: ../src/mail/mail-config.ui.h:133
 msgid "Check cu_stom headers for junk"
@@ -20352,7 +20351,7 @@ msgstr "_Календар"
 #: ../src/modules/addressbook/e-book-shell-backend.c:262
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:137
 msgid "New Address Book"
-msgstr "Нови адресар"
+msgstr "Нови именик"
 
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:436
 #: ../src/modules/calendar/e-cal-base-shell-backend.c:185
@@ -20363,7 +20362,7 @@ msgstr "Нови списак белешке"
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:480
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:210
 msgid "Address Book Properties"
-msgstr "Поставке адресара"
+msgstr "Поставке именика"
 
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:484
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:283
@@ -20394,7 +20393,7 @@ msgid ""
 "address books, calendars, memo lists or task lists there"
 msgstr ""
 "Претражите WebDAV (CalDAV или CardDAV) сервер и направите, уредите или "
-"обришите адресаре, календаре, белешке или роковник."
+"обришите именике, календаре, белешке или роковник."
 
 #. To Translators: 'Table column' is a label for configurable date/time format for table columns showing a date in message list
 #: ../src/modules/addressbook/autocompletion-config.c:124
@@ -20475,12 +20474,12 @@ msgstr "Направите нови списак контакта"
 #: ../src/modules/addressbook/e-book-shell-backend.c:288
 msgctxt "New"
 msgid "Address _Book"
-msgstr "_Адресар"
+msgstr "_Именик"
 
 #: ../src/modules/addressbook/e-book-shell-backend.c:290
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:972
 msgid "Create a new address book"
-msgstr "Направите нови адресар"
+msgstr "Направите нови именик"
 
 #. Translators: This is a save dialog title
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:534
@@ -20494,19 +20493,19 @@ msgstr "Копирај _све контакте у..."
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:944
 msgid "Copy the contacts of the selected address book to another"
-msgstr "Копира контакте изабраног адресара у други"
+msgstr "Копира контакте изабраног именика у други"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:949
 msgid "D_elete Address Book"
-msgstr "О_бриши адресар"
+msgstr "О_бриши именик"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:951
 msgid "Delete the selected address book"
-msgstr "Брише изабрани адресар"
+msgstr "Брише изабрани именик"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:956
 msgid "_Manage Address Book groups..."
-msgstr "_Управљај групама адресара..."
+msgstr "_Управљај групама именика..."
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:958
 #: ../src/modules/calendar/e-task-shell-view-actions.c:719
@@ -20519,19 +20518,19 @@ msgstr "Премести _све контакте у..."
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:965
 msgid "Move the contacts of the selected address book to another"
-msgstr "Премешта контакте изабраног адресара у други"
+msgstr "Премешта контакте изабраног именика у други"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:970
 msgid "_New Address Book"
-msgstr "_Нови адресар"
+msgstr "_Нови именик"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:977
 msgid "Address _Book Properties"
-msgstr "Подешавања адреса_ра"
+msgstr "Подешавања _именика"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:979
 msgid "Show properties of the selected address book"
-msgstr "Приказује својства изабраног адресара"
+msgstr "Приказује својства изабраног именика"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:984
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1330
@@ -20542,15 +20541,15 @@ msgstr "О_свежи"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:986
 msgid "Refresh the selected address book"
-msgstr "Освежава изабрани адресар"
+msgstr "Освежава изабрани именик"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:991
 msgid "Address Book _Map"
-msgstr "_Карта адресара"
+msgstr "_Карта именика"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:993
 msgid "Show map with all contacts from selected address book"
-msgstr "Приказује карту са свим контактима из изабраних адресара"
+msgstr "Приказује карту са свим контактима из изабраних именика"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:998
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1337
@@ -20562,7 +20561,7 @@ msgstr "_Преименуј..."
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1000
 msgid "Rename the selected address book"
-msgstr "Преименује изабрани адресар"
+msgstr "Преименује изабрани именик"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1007
 msgid "Stop loading"
@@ -20574,7 +20573,7 @@ msgstr "_Копирај контакт у..."
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1014
 msgid "Copy selected contacts to another address book"
-msgstr "Копира изабране контакте у други адресар"
+msgstr "Копира изабране контакте у други именик"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1019
 msgid "_Delete Contact"
@@ -20602,7 +20601,7 @@ msgstr "_Премести контакт у..."
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1042
 msgid "Move selected contacts to another address book"
-msgstr "Премешта изабране контакте у други адресар"
+msgstr "Премешта изабране контакте у други именик"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1047
 msgid "_New Contact..."
@@ -20650,7 +20649,7 @@ msgstr "_Управљај групама..."
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1109
 msgid "Address Book Map"
-msgstr "Карта адресара"
+msgstr "Карта именика"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1141
 msgid "Contact _Preview"
@@ -20720,11 +20719,11 @@ msgstr "Штампа изабране контакте"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1266
 msgid "S_ave Address Book as vCard"
-msgstr "_Сачувај адресар као вКарту"
+msgstr "_Сачувај именик као вКарту"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1268
 msgid "Save the contacts of the selected address book as a vCard"
-msgstr "Чува контакте изабраног адресара као вКарту"
+msgstr "Чува контакте изабраног именика као вКарту"
 
 #. Translators: This is an action label
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1274
@@ -21164,7 +21163,7 @@ msgstr "Адреса сервера може бити празна"
 
 #: ../src/modules/book-config-webdav/evolution-book-config-webdav.c:93
 msgid "Choose an Address Book"
-msgstr "Изаберите адресар"
+msgstr "Изаберите именик"
 
 #: ../src/modules/book-config-webdav/evolution-book-config-webdav.c:241
 #: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:297
@@ -21174,7 +21173,7 @@ msgstr "Адреса:"
 
 #: ../src/modules/book-config-webdav/evolution-book-config-webdav.c:250
 msgid "Find Address Books"
-msgstr "Нађите адресар"
+msgstr "Нађите именик"
 
 #: ../src/modules/book-config-webdav/evolution-book-config-webdav.c:260
 msgid "Avoid IfMatch (needed on Apache < 2.2.8)"
@@ -21223,7 +21222,7 @@ msgstr "Сервер управља позивима на састанак"
 
 #: ../src/modules/cal-config-contacts/evolution-cal-config-contacts.c:71
 msgid "Choose which address books to use."
-msgstr "Изаберите адресаре који ћете користити."
+msgstr "Изаберите именике који ћете користити."
 
 #: ../src/modules/cal-config-contacts/evolution-cal-config-contacts.c:204
 msgid "Use in Birthdays & Anniversaries calendar"
@@ -24512,7 +24511,7 @@ msgstr "Прикажи _сажету вКарту"
 
 #: ../src/modules/vcard-inline/e-mail-formatter-vcard.c:163
 msgid "Save _To Addressbook"
-msgstr "Сачувај _у адресар"
+msgstr "Сачувај _у именик"
 
 #: ../src/modules/vcard-inline/e-mail-formatter-vcard.c:187
 msgid "There is one other contact."
@@ -24530,11 +24529,11 @@ msgstr[3] "Постоји још %d контакт."
 
 #: ../src/modules/vcard-inline/e-mail-formatter-vcard.c:218
 msgid "Addressbook Contact"
-msgstr "Контакт адресара"
+msgstr "Контакт именика"
 
 #: ../src/modules/vcard-inline/e-mail-formatter-vcard.c:219
 msgid "Display the part as an addressbook contact"
-msgstr "Прикажите делове као контакт адресара"
+msgstr "Прикажите делове као контакт именика"
 
 #: ../src/plugins/attachment-reminder/attachment-reminder.c:169
 msgid "_Do not show this message again."
@@ -24581,11 +24580,11 @@ msgstr "Аутоматски контакти"
 #. Enable BBDB checkbox
 #: ../src/plugins/bbdb/bbdb.c:750
 msgid "Create _address book entries when sending mails"
-msgstr "Направи уносе у _адресар при слању поште"
+msgstr "Направи уносе у _именик при слању поште"
 
 #: ../src/plugins/bbdb/bbdb.c:760
 msgid "Select Address book for Automatic Contacts"
-msgstr "Изабери адресар за Аутоматске контакте"
+msgstr "Изабери именик за Аутоматске контакте"
 
 #: ../src/plugins/bbdb/bbdb.c:780
 msgid "Instant Messaging Contacts"
@@ -24598,7 +24597,7 @@ msgstr "_Усклађује слике и податке контакта са �
 
 #: ../src/plugins/bbdb/bbdb.c:805
 msgid "Select Address book for Pidgin buddy list"
-msgstr "Бира адресар за листу пријатеља Пиџина"
+msgstr "Бира именик за листу пријатеља Пиџина"
 
 #. Synchronize now button.
 #: ../src/plugins/bbdb/bbdb.c:821
@@ -24617,9 +24616,9 @@ msgid ""
 "reply to messages.  Also fills in IM contact information from your buddy "
 "lists."
 msgstr ""
-"Ослобађа вас тешког рада у управљању адресаром.\n"
+"Ослобађа вас тешког рада у управљању имеником.\n"
 "\n"
-"Аутоматски попуњава адресар именима и адресама е-поште када одговарате на "
+"Аутоматски попуњава именик именима и адресама е-поште када одговарате на "
 "поруке.  Такође попуњава податке за контакт брзим гласником из списка "
 "другара."
 
@@ -25293,7 +25292,7 @@ msgstr "Одредишна фасцикла:"
 
 #: ../src/plugins/pst-import/pst-importer.c:561
 msgid "_Address Book"
-msgstr "_Адресар"
+msgstr "_Именик"
 
 #: ../src/plugins/pst-import/pst-importer.c:566
 msgid "A_ppointments"
@@ -26201,7 +26200,7 @@ msgstr "_Поново се повежи"
 
 #: ../src/shell/shell.error.xml.h:19
 msgid "Failed to connect address book “{0}”"
-msgstr "Не могу да се повежем на адресар „{0}“"
+msgstr "Не могу да се повежем на именик „{0}“"
 
 #: ../src/shell/shell.error.xml.h:20
 msgid "Failed to connect calendar “{0}”"
@@ -26237,7 +26236,7 @@ msgstr "Разлог: {1}"
 
 #: ../src/shell/shell.error.xml.h:29
 msgid "SSL certificate for address book “{0}” is not trusted."
-msgstr "ССЛ уверење за адресар „{0}“ није од поверења."
+msgstr "ССЛ уверење за именик „{0}“ није од поверења."
 
 #: ../src/shell/shell.error.xml.h:30
 msgid "SSL certificate for calendar “{0}” is not trusted."
@@ -26626,7 +26625,7 @@ msgstr "Веруј овом издаваоцу уверења за препоз�
 
 #: ../src/smime/gui/smime-ui.ui.h:20
 msgid "Trust this CA to identify _email users."
-msgstr "Веруј овом издаваоцу уверења за препознавање _ел. адреса."
+msgstr "Веруј овом издаваоцу уверења за препознавање _е-адреса."
 
 #: ../src/smime/gui/smime-ui.ui.h:21
 msgid "Trust this CA to identify _software developers."
@@ -26718,7 +26717,7 @@ msgstr "Увежено уверење"
 #~ msgstr "Дневник датотека за бележење радњи филтера."
 
 #~ msgid "Delete address book “{0}”?"
-#~ msgstr "Да обришем адресар „{0}“?"
+#~ msgstr "Да обришем именик „{0}“?"
 
 #~ msgid "Delete calendar “{0}”?"
 #~ msgstr "Да обришем календар „{0}“?"
@@ -26778,7 +26777,7 @@ msgstr "Увежено уверење"
 #~ msgstr "ИЗЛАЗНА-ДАТОТЕКА"
 
 #~ msgid "List local address book folders"
-#~ msgstr "Наводи фасцикле локалног адресара"
+#~ msgstr "Наводи фасцикле локалног именика"
 
 #~ msgid "Show cards as vcard or csv file"
 #~ msgstr "Приказује карте као вкарту или цсв датотеку"
@@ -27288,10 +27287,10 @@ msgstr "Увежено уверење"
 #~ msgstr "Уверење ССЛ сервера"
 
 #~ msgid "Email Signer Certificate"
-#~ msgstr "Уверење потписника ел. поруке"
+#~ msgstr "Уверење потписника е-поруке"
 
 #~ msgid "Email Recipient Certificate"
-#~ msgstr "Уверење примаоца ел. поруке"
+#~ msgstr "Уверење примаоца е-поруке"
 
 #~ msgid "Issued To"
 #~ msgstr "Коме је издато"
@@ -27396,7 +27395,7 @@ msgstr "Увежено уверење"
 #~ msgstr "Издавач ССЛ уверења"
 
 #~ msgid "Email Certificate Authority"
-#~ msgstr "Издавач уверења ел. поште"
+#~ msgstr "Издавач уверења е-поште"
 
 #~ msgid "Signing"
 #~ msgstr "Потписивање"
