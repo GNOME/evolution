@@ -2018,13 +2018,16 @@ e_calendar_item_key_press_event (ECalendarItem *calitem,
                                  GdkEvent *event)
 {
 	guint keyval = event->key.keyval;
-	gboolean multi_selection = FALSE;
+	gboolean is_rtl;
+	gboolean multi_selection;
 
 	if (event->key.state & GDK_CONTROL_MASK ||
 	    event->key.state & GDK_MOD1_MASK)
 		return FALSE;
 
+	is_rtl = gtk_widget_get_direction (GTK_WIDGET (GNOME_CANVAS_ITEM (calitem)->canvas)) == GTK_TEXT_DIR_RTL;
 	multi_selection = event->key.state & GDK_SHIFT_MASK;
+
 	switch (keyval) {
 	case GDK_KEY_Up:
 		e_calendar_item_selection_add_days (
@@ -2038,12 +2041,12 @@ e_calendar_item_key_press_event (ECalendarItem *calitem,
 		break;
 	case GDK_KEY_Left:
 		e_calendar_item_selection_add_days (
-			calitem, -1,
+			calitem, is_rtl ? 1 : -1,
 			multi_selection);
 		break;
 	case GDK_KEY_Right:
 		e_calendar_item_selection_add_days (
-			calitem, 1,
+			calitem, is_rtl ? -1 : 1,
 			multi_selection);
 		break;
 	case GDK_KEY_space:
