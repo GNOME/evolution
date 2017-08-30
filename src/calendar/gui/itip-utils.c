@@ -710,7 +710,7 @@ foreach_tzid_callback (icalparameter *param,
 
 static icalcomponent *
 comp_toplevel_with_zones (ECalComponentItipMethod method,
-                          ECalComponent *comp,
+                          const GSList *ecomps,
                           ECalClient *cal_client,
                           icalcomponent *zones)
 {
@@ -718,6 +718,7 @@ comp_toplevel_with_zones (ECalComponentItipMethod method,
 	icalproperty *prop;
 	icalvalue *value;
 	ItipUtilTZData tz_data;
+	GSList *link;
 
 	top_level = e_cal_util_new_top_level ();
 
@@ -726,17 +727,21 @@ comp_toplevel_with_zones (ECalComponentItipMethod method,
 	icalproperty_set_value (prop, value);
 	icalcomponent_add_property (top_level, prop);
 
-	icomp = e_cal_component_get_icalcomponent (comp);
-	icomp = icalcomponent_new_clone (icomp);
-
 	tz_data.tzids = g_hash_table_new (g_str_hash, g_str_equal);
 	tz_data.icomp = top_level;
 	tz_data.client = cal_client;
 	tz_data.zones = zones;
-	icalcomponent_foreach_tzid (icomp, foreach_tzid_callback, &tz_data);
-	g_hash_table_destroy (tz_data.tzids);
 
-	icalcomponent_add_component (top_level, icomp);
+	for (link = (GSList *) ecomps; link; link = g_slist_next (link)) {
+		icomp = e_cal_component_get_icalcomponent (link->data);
+		icomp = icalcomponent_new_clone (icomp);
+
+		icalcomponent_foreach_tzid (icomp, foreach_tzid_callback, &tz_data);
+
+		icalcomponent_add_component (top_level, icomp);
+	}
+
+	g_hash_table_destroy (tz_data.tzids);
 
 	return top_level;
 }
@@ -1273,7 +1278,7 @@ comp_description (ECalComponent *comp,
 
 static gboolean
 comp_server_send_sync (ECalComponentItipMethod method,
-		       ECalComponent *comp,
+		       const GSList *ecomps,
 		       ECalClient *cal_client,
 		       icalcomponent *zones,
 		       GSList **users,
@@ -1284,7 +1289,7 @@ comp_server_send_sync (ECalComponentItipMethod method,
 	gboolean retval = TRUE;
 	GError *local_error = NULL;
 
-	top_level = comp_toplevel_with_zones (method, comp, cal_client, zones);
+	top_level = comp_toplevel_with_zones (method, ecomps, cal_client, zones);
 	d (printf ("itip-utils.c: comp_server_send_sync: calling e_cal_send_objects... \n"));
 
 	e_cal_client_send_objects_sync (
@@ -1555,13 +1560,13 @@ strip_x_microsoft_props (ECalComponent *comp)
 }
 
 static ECalComponent *
-comp_compliant (ESourceRegistry *registry,
-                ECalComponentItipMethod method,
-                ECalComponent *comp,
-                ECalClient *client,
-                icalcomponent *zones,
-                icaltimezone *default_zone,
-                gboolean strip_alarms)
+comp_compliant_one (ESourceRegistry *registry,
+		    ECalComponentItipMethod method,
+		    ECalComponent *comp,
+		    ECalClient *client,
+		    icalcomponent *zones,
+		    icaltimezone *default_zone,
+		    gboolean strip_alarms)
 {
 	ECalComponent *clone, *temp_clone;
 	struct icaltimetype itt;
@@ -1689,6 +1694,40 @@ comp_compliant (ESourceRegistry *registry,
 	return clone;
 }
 
+static gboolean
+comp_compliant (ESourceRegistry *registry,
+		ECalComponentItipMethod method,
+		GSList *ecomps,
+		gboolean unref_orig_ecomp,
+		ECalClient *client,
+		icalcomponent *zones,
+		icaltimezone *default_zone,
+		gboolean strip_alarms)
+{
+	GSList *link;
+
+	if (!ecomps)
+		return FALSE;
+
+	for (link = ecomps; link; link = g_slist_next (link)) {
+		ECalComponent *original_comp = link->data, *new_comp;
+
+		new_comp = comp_compliant_one (registry, method, original_comp, client, zones, default_zone, strip_alarms);
+		if (new_comp) {
+			cal_comp_util_copy_new_attendees (new_comp, original_comp);
+
+			if (unref_orig_ecomp)
+				g_object_unref (original_comp);
+
+			link->data = new_comp;
+		} else {
+			return FALSE;
+		}
+	}
+
+	return TRUE;
+}
+
 void
 itip_cal_mime_attach_free (gpointer ptr)
 {
@@ -1706,8 +1745,7 @@ itip_cal_mime_attach_free (gpointer ptr)
 
 static void
 append_cal_attachments (EMsgComposer *composer,
-                        ECalComponent *comp,
-                        GSList *attach_list)
+			GSList *attach_list)
 {
 	struct CalMimeAttach *mime_attach;
 	GSList *l;
@@ -1847,10 +1885,33 @@ get_identity_uid_for_from (EShell *shell,
 	return identity_uid;
 }
 
+static gint
+master_first_cmp (gconstpointer ptr1,
+		  gconstpointer ptr2)
+{
+	ECalComponent *comp1 = (ECalComponent *) ptr1;
+	ECalComponent *comp2 = (ECalComponent *) ptr2;
+	icalcomponent *icomp1 = comp1 ? e_cal_component_get_icalcomponent (comp1) : NULL;
+	icalcomponent *icomp2 = comp2 ? e_cal_component_get_icalcomponent (comp2) : NULL;
+	gboolean has_rid1, has_rid2;
+
+	has_rid1 = (icomp1 && icalcomponent_get_first_property (icomp1, ICAL_RECURRENCEID_PROPERTY)) ? 1 : 0;
+	has_rid2 = (icomp2 && icalcomponent_get_first_property (icomp2, ICAL_RECURRENCEID_PROPERTY)) ? 1 : 0;
+
+	if (has_rid1 == has_rid2)
+		return g_strcmp0 (icomp1 ? icalcomponent_get_uid (icomp1) : NULL,
+				  icomp2 ? icalcomponent_get_uid (icomp2) : NULL);
+
+	if (has_rid1)
+		return 1;
+
+	return -1;
+}
+
 typedef struct {
 	ESourceRegistry *registry;
 	ECalComponentItipMethod method;
-	ECalComponent *send_comp;
+	GSList *send_comps; /* ECalComponent * */
 	ECalClient *cal_client;
 	icalcomponent *zones;
 	GSList *attachments_list;
@@ -1872,7 +1933,7 @@ itip_send_component_data_free (gpointer ptr)
 
 	if (isc) {
 		g_clear_object (&isc->registry);
-		g_clear_object (&isc->send_comp);
+		g_slist_free_full (isc->send_comps, g_object_unref);
 		g_clear_object (&isc->cal_client);
 		g_clear_error (&isc->async_error);
 		if (isc->zones)
@@ -1898,27 +1959,28 @@ itip_send_component_begin (ItipSendComponentData *isc,
 		return;
 	}
 
-	if (isc->ensure_master_object && e_cal_component_is_instance (isc->send_comp)) {
-		/* Ensure we send the master object, not the instance only */
-		icalcomponent *icalcomp = NULL;
+	if (isc->ensure_master_object && isc->send_comps) {
+		/* Ensure we send the master object with its detached instances, not the instance only */
+		GSList *ecalcomps = NULL;
 		const gchar *uid = NULL;
 
-		e_cal_component_get_uid (isc->send_comp, &uid);
-		if (e_cal_client_get_object_sync (isc->cal_client, uid, NULL, &icalcomp, cancellable, NULL) && icalcomp) {
-			ECalComponent *send_comp;
+		e_cal_component_get_uid (isc->send_comps->data, &uid);
 
-			send_comp = e_cal_component_new_from_icalcomponent (icalcomp);
-			if (send_comp) {
-				g_object_unref (isc->send_comp);
-				isc->send_comp = send_comp;
-			}
+		if (e_cal_client_get_objects_for_uid_sync (isc->cal_client, uid, &ecalcomps, cancellable, NULL) && ecalcomps) {
+			GSList *old_send_comps = isc->send_comps;
+
+			isc->send_comps = g_slist_sort (ecalcomps, master_first_cmp);
+
+			cal_comp_util_copy_new_attendees (isc->send_comps->data, old_send_comps->data);
+
+			g_slist_free_full (old_send_comps, g_object_unref);
 		}
 	}
 
 	/* Give the server a chance to manipulate the comp */
 	if (isc->method != E_CAL_COMPONENT_METHOD_PUBLISH) {
 		d (printf ("itip-utils.c: itip_send_component_begin: calling comp_server_send_sync... \n"));
-		if (!comp_server_send_sync (isc->method, isc->send_comp, isc->cal_client, isc->zones, &isc->users, cancellable, error)) {
+		if (!comp_server_send_sync (isc->method, isc->send_comps, isc->cal_client, isc->zones, &isc->users, cancellable, error)) {
 			isc->success = FALSE;
 			isc->completed = TRUE;
 			return;
@@ -1943,7 +2005,7 @@ typedef struct _CreateComposerData {
 	gchar *content_type;
 	gchar *event_body_text;
 	GSList *attachments_list;
-	ECalComponent *comp;
+	GSList *send_comps; /* ECalComponent * */
 	gboolean show_only;
 } CreateComposerData;
 
@@ -1980,7 +2042,7 @@ itip_send_component_composer_created_cb (GObject *source_object,
 	e_composer_header_table_set_subject (table, ccd->subject);
 	e_composer_header_table_set_destinations_to (table, ccd->destinations);
 
-	if (e_cal_component_get_vtype (ccd->comp) == E_CAL_COMPONENT_EVENT) {
+	if (e_cal_component_get_vtype (ccd->send_comps->data) == E_CAL_COMPONENT_EVENT) {
 		if (ccd->event_body_text)
 			e_msg_composer_set_body_text (composer, ccd->event_body_text, TRUE);
 		else
@@ -1991,8 +2053,8 @@ itip_send_component_composer_created_cb (GObject *source_object,
 		gchar *description;
 		gchar *body;
 
-		filename = comp_filename (ccd->comp);
-		description = comp_description (ccd->comp, use_24hour_format);
+		filename = comp_filename (ccd->send_comps->data);
+		description = comp_description (ccd->send_comps->data, use_24hour_format);
 
 		body = camel_text_to_html (description, CAMEL_MIME_FILTER_TOHTML_PRE, 0);
 		e_msg_composer_set_body_text (composer, body, TRUE);
@@ -2013,7 +2075,7 @@ itip_send_component_composer_created_cb (GObject *source_object,
 		g_free (description);
 	}
 
-	append_cal_attachments (composer, ccd->comp, ccd->attachments_list);
+	append_cal_attachments (composer, ccd->attachments_list);
 	ccd->attachments_list = NULL;
 
 	if (ccd->show_only)
@@ -2022,7 +2084,7 @@ itip_send_component_composer_created_cb (GObject *source_object,
 		e_msg_composer_send (composer);
 
 	e_destination_freev (ccd->destinations);
-	g_clear_object (&ccd->comp);
+	g_slist_free_full (ccd->send_comps, g_object_unref);
 	g_free (ccd->identity_uid);
 	g_free (ccd->identity_name);
 	g_free (ccd->identity_address);
@@ -2038,7 +2100,6 @@ itip_send_component_complete (ItipSendComponentData *isc)
 {
 	CreateComposerData *ccd;
 	EDestination **destinations;
-	ECalComponent *comp = NULL;
 	EShell *shell;
 	icalcomponent *top_level = NULL;
 	icaltimezone *default_zone;
@@ -2053,18 +2114,14 @@ itip_send_component_complete (ItipSendComponentData *isc)
 	default_zone = calendar_config_get_icaltimezone ();
 
 	/* Tidy up the comp */
-	comp = comp_compliant (
-		isc->registry, isc->method, isc->send_comp, isc->cal_client,
-		isc->zones, default_zone, isc->strip_alarms);
-
-	if (comp == NULL)
+	if (!comp_compliant (isc->registry, isc->method, isc->send_comps, TRUE, isc->cal_client, isc->zones, default_zone, isc->strip_alarms))
 		goto cleanup;
 
 	/* Recipients */
 	destinations = comp_to_list (
-		isc->registry, isc->method, comp, isc->users, FALSE,
+		isc->registry, isc->method, isc->send_comps->data, isc->users, FALSE,
 		isc->only_new_attendees ? g_object_get_data (
-		G_OBJECT (isc->send_comp), "new-attendees") : NULL);
+		G_OBJECT (isc->send_comps->data), "new-attendees") : NULL);
 	if (isc->method != E_CAL_COMPONENT_METHOD_PUBLISH) {
 		if (destinations == NULL) {
 			/* We sent them all via the server */
@@ -2074,28 +2131,27 @@ itip_send_component_complete (ItipSendComponentData *isc)
 	}
 
 	shell = e_shell_get_default ();
-	top_level = comp_toplevel_with_zones (isc->method, comp, isc->cal_client, isc->zones);
+	top_level = comp_toplevel_with_zones (isc->method, isc->send_comps, isc->cal_client, isc->zones);
 
 	ccd = g_new0 (CreateComposerData, 1);
-	ccd->identity_uid = get_identity_uid_for_from (shell, isc->method, isc->send_comp, isc->cal_client, &ccd->identity_name, &ccd->identity_address);
+	ccd->identity_uid = get_identity_uid_for_from (shell, isc->method, isc->send_comps->data, isc->cal_client, &ccd->identity_name, &ccd->identity_address);
 	ccd->destinations = destinations;
-	ccd->subject = comp_subject (isc->registry, isc->method, comp);
+	ccd->subject = comp_subject (isc->registry, isc->method, isc->send_comps->data);
 	ccd->ical_string = icalcomponent_as_ical_string_r (top_level);
-	ccd->content_type = comp_content_type (comp, isc->method);
+	ccd->content_type = comp_content_type (isc->send_comps->data, isc->method);
 	ccd->event_body_text = NULL;
 	ccd->attachments_list = isc->attachments_list;
-	ccd->comp = comp;
+	ccd->send_comps = isc->send_comps;
 	ccd->show_only = isc->method == E_CAL_COMPONENT_METHOD_PUBLISH && !isc->users;
 
 	isc->attachments_list = NULL;
-	comp = NULL;
+	isc->send_comps = NULL;
 
 	e_msg_composer_new (shell, itip_send_component_composer_created_cb, ccd);
 
 	isc->success = TRUE;
 
  cleanup:
-	g_clear_object (&comp);
 	if (top_level != NULL)
 		icalcomponent_free (top_level);
 }
@@ -2173,7 +2229,7 @@ itip_send_component_with_model (ECalModel *model,
 	isc = g_new0 (ItipSendComponentData, 1);
 	isc->registry = g_object_ref (registry);
 	isc->method = method;
-	isc->send_comp = g_object_ref (send_comp);
+	isc->send_comps = g_slist_prepend (NULL, g_object_ref (send_comp));
 	isc->cal_client = g_object_ref (cal_client);
 	if (zones) {
 		isc->zones = icalcomponent_new_clone (zones);
@@ -2221,7 +2277,7 @@ itip_send_comp_sync (ESourceRegistry *registry,
 
 	isc.registry = registry;
 	isc.method = method;
-	isc.send_comp = send_comp;
+	isc.send_comps = g_slist_prepend (NULL, g_object_ref (send_comp));
 	isc.cal_client = cal_client;
 	isc.zones = zones;
 	isc.attachments_list = attachments_list;
@@ -2235,6 +2291,7 @@ itip_send_comp_sync (ESourceRegistry *registry,
 	itip_send_component_begin (&isc, cancellable, error);
 	itip_send_component_complete (&isc);
 
+	g_slist_free_full (isc.send_comps, g_object_unref);
 	g_slist_free_full (isc.users, g_free);
 
 	return isc.success;
@@ -2274,7 +2331,7 @@ itip_send_component (ESourceRegistry *registry,
 	isc = g_new0 (ItipSendComponentData, 1);
 	isc->registry = g_object_ref (registry);
 	isc->method = method;
-	isc->send_comp = g_object_ref (send_comp);
+	isc->send_comps = g_slist_prepend (NULL, g_object_ref (send_comp));
 	isc->cal_client = g_object_ref (cal_client);
 	if (zones)
 		isc->zones = icalcomponent_new_clone (zones);
@@ -2332,10 +2389,10 @@ reply_to_calendar_comp (ESourceRegistry *registry,
                         GSList *attachments_list)
 {
 	EShell *shell;
-	ECalComponent *comp = NULL;
 	icalcomponent *top_level = NULL;
 	icaltimezone *default_zone;
 	gboolean retval = FALSE;
+	GSList *ecomps;
 	CreateComposerData *ccd;
 
 	g_return_val_if_fail (E_IS_SOURCE_REGISTRY (registry), FALSE);
@@ -2345,25 +2402,24 @@ reply_to_calendar_comp (ESourceRegistry *registry,
 
 	default_zone = calendar_config_get_icaltimezone ();
 
+	ecomps = g_slist_prepend (NULL, send_comp);
+
 	/* Tidy up the comp */
-	comp = comp_compliant (
-		registry, method, send_comp, cal_client,
-		zones, default_zone, TRUE);
-	if (comp == NULL)
+	if (!comp_compliant (registry, method, ecomps, FALSE, cal_client, zones, default_zone, TRUE))
 		goto cleanup;
 
-	top_level = comp_toplevel_with_zones (method, comp, cal_client, zones);
+	top_level = comp_toplevel_with_zones (method, ecomps, cal_client, zones);
 
 	ccd = g_new0 (CreateComposerData, 1);
 	ccd->identity_uid = get_identity_uid_for_from (shell, method, send_comp, cal_client, &ccd->identity_name, &ccd->identity_address);
-	ccd->destinations = comp_to_list (registry, method, comp, NULL, reply_all, NULL);
-	ccd->subject = comp_subject (registry, method, comp);
+	ccd->destinations = comp_to_list (registry, method, ecomps->data, NULL, reply_all, NULL);
+	ccd->subject = comp_subject (registry, method, ecomps->data);
 	ccd->ical_string = icalcomponent_as_ical_string_r (top_level);
-	ccd->comp = comp;
+	ccd->send_comps = ecomps;
 	ccd->show_only = TRUE;
 
-	if (e_cal_component_get_vtype (comp) == E_CAL_COMPONENT_EVENT) {
-
+	if (e_cal_component_get_vtype (ecomps->data) == E_CAL_COMPONENT_EVENT) {
+		ECalComponent *comp = ecomps->data;
 		GString *body;
 		gchar *orig_from = NULL;
 		const gchar *description = NULL;
@@ -2470,8 +2526,6 @@ reply_to_calendar_comp (ESourceRegistry *registry,
 
 		ccd->event_body_text = g_string_free (body, FALSE);
 	}
-
-	comp = NULL;
 
 	e_msg_composer_new (shell, itip_send_component_composer_created_cb, ccd);
 
