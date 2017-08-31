@@ -1585,7 +1585,10 @@ tray_icon_clicked_cb (GtkWidget *widget,
 		if (event_button == 1 && g_list_length (tray_icons_list) > 0) {
 			GList *tmp;
 			for (tmp = tray_icons_list; tmp; tmp = tmp->next) {
-				open_alarm_dialog (tmp->data);
+				TrayIconData *tray_data = tmp->data;
+
+				if (!tray_data->is_in_tree)
+					open_alarm_dialog (tmp->data);
 			}
 
 			return TRUE;
