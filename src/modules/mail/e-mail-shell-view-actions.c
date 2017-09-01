@@ -1779,7 +1779,7 @@ static GtkActionEntry mail_entries[] = {
 	  /* Translators: "None" is used in the message label context menu.
 	   *              It removes all labels from the selected messages. */
 	  N_("N_one"),
-	  NULL,
+	  "0",
 	  NULL,  /* XXX Add a tooltip! */
 	  G_CALLBACK (action_mail_label_none_cb) },
 
@@ -2560,7 +2560,17 @@ e_mail_shell_view_update_popup_labels (EMailShellView *mail_shell_view)
 
 		/* The action group takes ownership of the action. */
 		action = GTK_ACTION (label_action);
-		gtk_action_group_add_action (action_group, action);
+
+		if (ii + 1 < 10) {
+			gchar accel[5];
+
+			accel[0] = '1' + ii;
+			accel[1] = '\0';
+
+			gtk_action_group_add_action_with_accel (action_group, action, accel);
+		} else {
+			gtk_action_group_add_action (action_group, action);
+		}
 		g_object_unref (label_action);
 
 		gtk_ui_manager_add_ui (

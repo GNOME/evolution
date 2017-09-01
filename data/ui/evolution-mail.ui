@@ -105,7 +105,7 @@
     <menuitem action='mail-popup-account-empty-junk'/>
     <menuitem action='mail-popup-account-expunge'/>
   </popup>
-  <popup name='mail-message-popup'>
+  <popup name='mail-message-popup' accelerators='true'>
     <placeholder name='mail-message-popup-common-actions'/>
     <separator/>
     <menuitem action='mail-popup-delete'/>
