@@ -1,5 +1,5 @@
 add_eplug_file(pst-import org-gnome-pst-import.eplug)
-add_appdata_file(evolution-pst.metainfo.xml.in evolution-pst.metainfo.xml)
+add_appdata_file(org.gnome.Evolution-pst.metainfo.xml.in org.gnome.Evolution-pst.metainfo.xml)
 
 set(DEPENDENCIES
 	email-engine

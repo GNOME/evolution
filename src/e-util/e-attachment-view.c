@@ -769,7 +769,7 @@ attachment_view_update_actions (EAttachmentView *view)
 			continue;
 
 		/* Don't list 'Open With "Evolution"'. */
-		if (g_str_equal (app_id, "evolution.desktop"))
+		if (g_str_equal (app_id, "org.gnome.Evolution.desktop"))
 			continue;
 
 		action_name = g_strdup_printf ("open-with-%s", app_id);
