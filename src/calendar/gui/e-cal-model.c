@@ -2626,6 +2626,7 @@ e_cal_model_update_comp_time (ECalModel *model,
 	ECellDateEditValue *dv = (ECellDateEditValue *) time_value;
 	icalproperty *prop;
 	icalparameter *param;
+	icaltimezone *model_zone;
 	struct icaltimetype tt;
 
 	g_return_if_fail (model != NULL);
@@ -2650,8 +2651,9 @@ e_cal_model_update_comp_time (ECalModel *model,
 		return;
 	}
 
+	model_zone = e_cal_model_get_timezone (model);
 	tt = dv->tt;
-	datetime_to_zone (comp_data->client, &tt, e_cal_model_get_timezone (model), param ? icalparameter_get_tzid (param) : NULL);
+	datetime_to_zone (comp_data->client, &tt, model_zone, param ? icalparameter_get_tzid (param) : NULL);
 
 	if (prop) {
 		set_func (prop, tt);
@@ -2664,10 +2666,15 @@ e_cal_model_update_comp_time (ECalModel *model,
 		const gchar *tzid = icalparameter_get_tzid (param);
 
 		/* If the TZID is set to "UTC", we don't want to save the TZID. */
-		if (tzid && strcmp (tzid, "UTC")) {
-			icalparameter_set_tzid (param, (gchar *) tzid);
-		} else {
+		if (!tzid || !*tzid || !strcmp (tzid, "UTC")) {
 			icalproperty_remove_parameter_by_kind (prop, ICAL_TZID_PARAMETER);
+		}
+	} else if (model_zone) {
+		const gchar *tzid = icaltimezone_get_tzid (model_zone);
+
+		if (tzid && *tzid) {
+			param = icalparameter_new_tzid (tzid);
+			icalproperty_add_parameter (prop, param);
 		}
 	}
 }
