@@ -4,7 +4,7 @@ cmake_minimum_required(VERSION 3.1)
 cmake_policy(VERSION 3.1)
 
 project(evolution
-	VERSION 3.26.0
+	VERSION 3.25.92.2
 	LANGUAGES C)
 set(PROJECT_BUGREPORT "http://bugzilla.gnome.org/enter_bug.cgi?product=Evolution")
 set(PROJECT_URL "http://wiki.gnome.org/Apps/Evolution/")
@@ -70,7 +70,7 @@ add_definitions(-DGLIB_VERSION_MIN_REQUIRED=${glib_encoded_version})
 add_definitions(-DGDK_VERSION_MIN_REQUIRED=${gdk_encoded_version})
 add_definitions(-DSOUP_VERSION_MIN_REQUIRED=${soup_encoded_version})
 
-set(eds_minimum_version ${PROJECT_VERSION})
+set(eds_minimum_version ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH})
 set(enchant_minimum_version 1.1.7)
 set(gcr_minimum_version 3.4)
 set(gdk_pixbuf_minimum_version 2.24.0)
