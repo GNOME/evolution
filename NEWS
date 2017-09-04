@@ -1,3 +1,49 @@
+Evolution 3.25.92 2017-09-04
+----------------------------
+
+Bug Fixes:
+	Bug 785845 - pkill terminates also evolution-backup, not only evolution (Milan Crha)
+	Bug 786163 - [ECalModel] Do not convert UTC times to local time zone (Milan Crha)
+	Bug 786447 - Calculate width for Date/Time Format combo box (Milan Crha)
+	Bug 332296 - Cannot drag end time in the Day View when it's 12pm (Milan Crha)
+	Bug 336682 - Show keyboard shortcuts for Calendar views (Milan Crha)
+	Bug 347958 - Printed appointment text unreadable for dark calendar color (Milan Crha)
+	Bug 547463 - Week/Month view popup menu incorrect when editing inline (Milan Crha)
+	Bug 578496 - Date selection popup arrow usage is flipped in RTL (Milan Crha)
+	Bug 598024 - Forward as iCalendar doesn't contain all instances (Milan Crha)
+	Bug 620797 - Event reminder multiple times in alarm notification dialog (Milan Crha)
+	Bug 787002 - Add shortcuts for Labels (Milan Crha)
+	Bug 618125 - Due date time zone not set when using "Click to add task" (Milan Crha)
+
+Miscellaneous:
+	Default mail account not indicated after restart (Milan Crha)
+	Show EDateEdit time combo popup in columns (Milan Crha)
+	[ECompEditor] Preserve original duration when changing time (Milan Crha)
+	Correct timezone handling when printing calendars (Milan Crha)
+	Custom page setup not properly restored when printing (Milan Crha)
+	Rename evolution.desktop to org.gnome.Evolution.desktop (Milan Crha)
+	Add debugging console prints for message-list (Milan Crha)
+
+Translations:
+	Alexandre Franke (fr)
+	Marek Cernocky (cs)
+	Rafael Fontenelle (pt_BR)
+	Jordi Mas (ca)
+	Ask Hjorth Larsen (da)
+	Muhammet Kara (tr)
+	Милош Поповић (sr)
+	Милош Поповић (sr@latin)
+	Stas Solovey (ru)
+	Piotr Drąg (pl)
+	Wolfgang Stöggl (de)
+	Rūdolfs Mazurs (lv)
+	Jiri Grönroos (fi)
+	Yuras Shumovich (be)
+	Changwoo Ryu (ko)
+	Dušan Kazik (sk)
+	Gábor Kelemen (hu)
+	Daniel Mustieles (es)
+
 Evolution 3.25.91 2017-08-21
 ----------------------------
 
