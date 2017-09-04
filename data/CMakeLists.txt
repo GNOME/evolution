@@ -3,31 +3,29 @@ set(autostartdir ${SYSCONF_INSTALL_DIR}/xdg/autostart)
 set(desktopdir ${SHARE_INSTALL_PREFIX}/applications)
 set(themedir ${privdatadir}/theme)
 
-configure_file(org.gnome.Evolution.desktop.in.in
-	org.gnome.Evolution.desktop.in
+configure_file(evolution.desktop.in.in
+	evolution.desktop.in
 	@ONLY
 )
 
-intltool_merge(${CMAKE_CURRENT_BINARY_DIR}/org.gnome.Evolution.desktop.in org.gnome.Evolution.desktop --desktop-style --utf8)
+intltool_merge(${CMAKE_CURRENT_BINARY_DIR}/evolution.desktop.in evolution.desktop --desktop-style --utf8)
 
-list(APPEND filedeps ${CMAKE_CURRENT_BINARY_DIR}/org.gnome.Evolution.desktop)
+list(APPEND filedeps ${CMAKE_CURRENT_BINARY_DIR}/evolution.desktop)
 
-install(FILES ${CMAKE_CURRENT_BINARY_DIR}/org.gnome.Evolution.desktop
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/evolution.desktop
 	DESTINATION ${desktopdir}
 )
 
-add_appdata_file(org.gnome.Evolution.appdata.xml.in org.gnome.Evolution.appdata.xml)
-
-configure_file(org.gnome.Evolution-alarm-notify.desktop.in.in
-	org.gnome.Evolution-alarm-notify.desktop.in
+configure_file(evolution-alarm-notify.desktop.in.in
+	evolution-alarm-notify.desktop.in
 	@ONLY
 )
 
-intltool_merge(${CMAKE_CURRENT_BINARY_DIR}/org.gnome.Evolution-alarm-notify.desktop.in org.gnome.Evolution-alarm-notify.desktop --desktop-style --utf8)
+intltool_merge(${CMAKE_CURRENT_BINARY_DIR}/evolution-alarm-notify.desktop.in evolution-alarm-notify.desktop --desktop-style --utf8)
 
-list(APPEND filedeps ${CMAKE_CURRENT_BINARY_DIR}/org.gnome.Evolution-alarm-notify.desktop)
+list(APPEND filedeps ${CMAKE_CURRENT_BINARY_DIR}/evolution-alarm-notify.desktop)
 
-install(FILES ${CMAKE_CURRENT_BINARY_DIR}/org.gnome.Evolution-alarm-notify.desktop
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/evolution-alarm-notify.desktop
 	DESTINATION ${autostartdir}
 )
 

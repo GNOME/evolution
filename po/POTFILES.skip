@@ -1,6 +1,6 @@
 build/
 .build/
 _build/
-data/org.gnome.Evolution-alarm-notify.desktop.in
-data/org.gnome.Evolution.desktop.in
+data/evolution-alarm-notify.desktop.in
+data/evolution.desktop.in
 src/e-util/test-html-editor.c

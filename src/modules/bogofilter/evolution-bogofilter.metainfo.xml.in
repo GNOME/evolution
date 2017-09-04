@@ -2,7 +2,7 @@
 <!-- Copyright 2014 Evolution Team <evolution-hackers@gnome.org> -->
 <component type="addon">
 	<id>evolution-bogofilter</id>
-	<extends>org.gnome.Evolution.desktop</extends>
+	<extends>evolution.desktop</extends>
 	<_name>Bogofilter</_name>
 	<_summary>Junk filter using Bogofilter</_summary>
 	<url type="homepage">https://live.gnome.org/Apps/Evolution</url>

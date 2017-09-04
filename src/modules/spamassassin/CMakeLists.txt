@@ -1,4 +1,4 @@
-add_appdata_file(org.gnome.Evolution-spamassassin.metainfo.xml.in org.gnome.Evolution-spamassassin.metainfo.xml)
+add_appdata_file(evolution-spamassassin.metainfo.xml.in evolution-spamassassin.metainfo.xml)
 
 set(extra_deps
 	email-engine

@@ -1,4 +1,4 @@
-add_appdata_file(org.gnome.Evolution-bogofilter.metainfo.xml.in org.gnome.Evolution-bogofilter.metainfo.xml)
+add_appdata_file(evolution-bogofilter.metainfo.xml.in evolution-bogofilter.metainfo.xml)
 
 set(extra_deps
 	email-engine
