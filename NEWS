@@ -1,3 +1,9 @@
+Evolution 3.25.92.2 2017-09-04
+------------------------------
+
+Miscellaneous:
+	Do not use PROJECT_VERSION_TWEAK when searching for eds dependencies (Milan Crha)
+
 Evolution 3.25.92.1 2017-09-04
 ------------------------------
 
