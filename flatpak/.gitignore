@@ -1,0 +1,5 @@
+.flatpak-builder
+org.gnome.Evolution-master
+org.gnome.Evolution-stable
+repo-master
+repo-stable

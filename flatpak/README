@@ -1,0 +1,69 @@
+This directory contains files related to Flatpak build of Evolution. Apart
+of Evolution itself, it builds also evolution-data-server, and uses it,
+the same as evolution-ews for Exchange Web Services accounts.
+
+The build uses GNOME Flatpak SDK and runtime.
+
+To build it, one can follow the below commands, which expect flatpak and
+flatpak-builder installed. Refer to the Flatpak developer documentation
+and command man pages for the meaning of respective arguments.
+
+To prepare Flatpak, add GNOME repository and install the SDK and Platform:
+
+   $ flatpak remote-add --from gnome https://sdk.gnome.org/gnome.flatpakrepo
+   $ flatpak install gnome org.gnome.Platform//3.24
+   $ flatpak install gnome org.gnome.Sdk//3.24
+
+After this, Evolution can be built. While the below commands build the git master
+version of Evolution, it can be changed to the stable version, when all "-master"
+occurrences are replaced with "-stable":
+
+   $ flatpak-builder --force-clean org.gnome.Evolution-master org.gnome.Evolution-master.json
+
+The above command can be repeated multiple times, for cases when the build fails
+and any changes are required.
+
+Once it's built, Flatpak requires the built application to be added as a repository,
+which means to create, add and install it:
+
+   $ flatpak build-export repo-master org.gnome.Evolution-master
+   $ flatpak --user remote-add --no-gpg-verify --if-not-exists evolution-repo-master repo-master
+   $ flatpak --user install evolution-repo-master org.gnome.Evolution
+
+And it's basically it. The last thing is to run the flatpak version of Evolution:
+
+   $ flatpak run org.gnome.Evolution
+
+In some cases one might need to debug the build environment, which can be done
+with the following command. It opens a bash terminal where can be examined
+built data in the /app prefix:
+
+   $ flatpak run --devel --command=bash org.gnome.Evolution
+
+A short command to rebuild any changes, refresh the repository and update
+installed Evolution from this repository can look like:
+
+   $ flatpak-builder --force-clean org.gnome.Evolution-master org.gnome.Evolution-master.json && \
+     flatpak build-export repo-master org.gnome.Evolution-master && \
+     flatpak --user update org.gnome.Evolution
+
+Note the above commands install the Evolution as a user repository, not
+as a system repository, while the GNOME platform and SDK are installed
+into the system repository (which requires root password). Add --user
+argument to the first three commands at the top to avoid the root requirement.
+
+Finally, to clean up installed Flatpak data, check what is installed:
+
+   $ flatpak list
+
+and remove Evolution from there:
+
+   $ flatpak --user uninstall org.gnome.Evolution
+
+Then also check what repositories are installed:
+
+   $ flatpak remotes
+
+and remove the custom Evolution repository with:
+
+   $ flatpak --user remote-delete evolution-repo-master
